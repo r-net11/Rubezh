@@ -37,7 +37,7 @@ namespace GKModule.Models
 			ReadJournalCommand = new RelayCommand(OnReadJournal, CanReadJournal);
 			UpdateFirmwhareCommand = new RelayCommand(OnUpdateFirmwhare, CanUpdateFirmwhare);
 			AutoSearchCommand = new RelayCommand(OnAutoSearch, CanAutoSearch);
-			ActualizeUsersCommand = new RelayCommand(OnActualizeUsers, CanActualizeUsers);
+			GetUsersCommand = new RelayCommand(OnGetUsers, CanGetUsers);
 			RewriteUsersCommand = new RelayCommand(OnRewriteUsers, CanRewriteUsers);
 			RewriteAllSchedulesCommand = new RelayCommand(OnRewriteAllSchedules, CanRemoveAllSchedules);
 		}
@@ -409,32 +409,37 @@ namespace GKModule.Models
 			return (SelectedDevice != null && SelectedDevice.Driver.DriverType == GKDriverType.GK);
 		}
 
-		public RelayCommand ActualizeUsersCommand { get; private set; }
-		void OnActualizeUsers()
+		public RelayCommand GetUsersCommand { get; private set; }
+		void OnGetUsers()
 		{
 			var thread = new Thread(() =>
 			{
-				var result = FiresecManager.FiresecService.GKActualizeUsers(SelectedDevice.Device);
+				var result = FiresecManager.FiresecService.GKGetUsers(SelectedDevice.Device);
 
 				ApplicationService.Invoke(() =>
 				{
 					if (!result.HasError)
 					{
-						var gkUsersViewModel = new GKUsersViewModel(result.Result);
+						GKUsersViewModel gkUsersViewModel = null;
+						WaitHelper.Execute(() =>
+						{
+							gkUsersViewModel = new GKUsersViewModel(result.Result);
+						});
+						LoadingService.Close();
 						DialogService.ShowModalWindow(gkUsersViewModel);
 					}
 					else
 					{
 						LoadingService.Close();
-						MessageBoxService.ShowWarning(result.Error, "Ошибка при актулизации пользователей");
+						MessageBoxService.ShowWarning(result.Error, "Ошибка при получении пользователей");
 					}
 				});
 			});
-			thread.Name = "DeviceCommandsViewModel ActualizeUsers";
+			thread.Name = "DeviceCommandsViewModel GetUsers";
 			thread.Start();
 		}
 
-		bool CanActualizeUsers()
+		bool CanGetUsers()
 		{
 			return (SelectedDevice != null && SelectedDevice.Driver.DriverType == GKDriverType.GK);
 		}
@@ -448,10 +453,7 @@ namespace GKModule.Models
 
 				ApplicationService.Invoke(() =>
 				{
-					if (!result.HasError)
-					{
-					}
-					else
+					if (result.HasError)
 					{
 						LoadingService.Close();
 						MessageBoxService.ShowWarning(result.Error, "Ошибка при перезаписи пользователей");

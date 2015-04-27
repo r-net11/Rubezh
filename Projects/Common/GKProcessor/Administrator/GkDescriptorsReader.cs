@@ -1,6 +1,4 @@
-﻿//#define LOCALCONFIG
-//#define SETCONFIGTOFILE
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI;
@@ -14,8 +12,7 @@ namespace GKProcessor
 		Dictionary<ushort, GKDevice> ControllerDevices;
 		GKDevice GkDevice;
 		string IpAddress;
-		
-#if !LOCALCONFIG
+
 		override public bool ReadConfiguration(GKDevice gkControllerDevice)
 		{
 			var progressCallback = GKProcessorManager.StartProgress("Чтение конфигурации " + gkControllerDevice.PresentationName, "Проверка связи", 2, true, GKProgressClientType.Administrator);
@@ -53,9 +50,7 @@ namespace GKProcessor
 			}
 			progressCallback = GKProcessorManager.StartProgress("Чтение конфигурации " + gkControllerDevice.PresentationName, "", gkFileInfo.DescriptorsCount, true, GKProgressClientType.Administrator);
 			ushort descriptorNo = 0;
-#if SETCONFIGTOFILE
-			var allBytes = new List<List<byte>>();
-#endif
+
 			while (true)
 			{
 				if (progressCallback.IsCanceled)
@@ -66,12 +61,10 @@ namespace GKProcessor
 				descriptorNo++;
 				GKProcessorManager.DoProgress("Чтение базы данных объектов ГК " + descriptorNo, progressCallback);
 				const byte packNo = 1;
-				var data = new List<byte>(BitConverter.GetBytes(descriptorNo)) {packNo};
+				var data = new List<byte>(BitConverter.GetBytes(descriptorNo)) { packNo };
 				var sendResult = SendManager.Send(gkControllerDevice, 3, 19, ushort.MaxValue, data);
 				var bytes = sendResult.Bytes;
-#if SETCONFIGTOFILE
-				allBytes.Add(bytes);
-#endif
+
 				if (sendResult.HasError || bytes.Count < 5)
 				{
 					Error = "Возникла ошибка при чтении объекта " + descriptorNo;
@@ -80,78 +73,30 @@ namespace GKProcessor
 
 				if (bytes[3] == 0xff && bytes[4] == 0xff)
 					break;
-				
+
 				if (!Parse(bytes.Skip(3).ToList(), descriptorNo))
 					break;
 			}
-#if SETCONFIGTOFILE
-			/* Опция включения записи конфигурации в файл */
-			BytesHelper.BytesToFile("GKConfiguration.txt", allBytes);
-#endif
+
 			GKProcessorManager.DoProgress("Перевод ГК в рабочий режим", progressCallback);
 			if (!DeviceBytesHelper.GoToWorkingRegime(gkControllerDevice, progressCallback))
 			{
 				Error = "Не удалось перевести устройство в рабочий режим в заданное время";
 			}
 			GKProcessorManager.StopProgress(progressCallback);
-			if(Error != null)
-				return false;
-			DeviceConfiguration.Update();
-			return true;
-		}
-#endif
-#if LOCALCONFIG
-		#region Чтение конфигурации из байтового потока
-		override public bool ReadConfiguration(GKDevice device)
-		{
-			IpAddress = device.GetGKIpAddress();
-			var allbytes = BytesHelper.BytesFromFile("GKConfiguration.txt");
-			ControllerDevices = new Dictionary<ushort, GKDevice>();
-			DeviceConfiguration = new GKDeviceConfiguration();
-			var rootDriver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.System);
-			var rootDevice = new GKDevice()
-			{
-				Driver = rootDriver,
-				DriverUID = rootDriver.UID
-			};
-			DeviceConfiguration.RootDevice = rootDevice;
-			ushort descriptorNo = 0;
-			int count = 0;
-			GKProcessorManager.OnStartProgress("Чтение конфигурации " + device.PresentationName);
-			while (true)
-			{
-				descriptorNo++;
-				byte packNo = 1;
-				var descriptorNoBytes = new List<byte>(BitConverter.GetBytes(descriptorNo));
-				var data = new List<byte>(descriptorNoBytes);
-				data.Add(packNo);
-				var bytes = allbytes[count];
-				count++;
-				if (bytes.Count < 5)
-					break;
-				if (bytes[3] == 0xff && bytes[4] == 0xff)
-					break;
-				if (!Parse(bytes.Skip(3).ToList(), descriptorNo))
-					break;
-			}
-			GKProcessorManager.OnStopProgress();
 			if (Error != null)
-			{
 				return false;
-			}
 			DeviceConfiguration.Update();
-			GKManager.UpdateGKPredefinedName(GkDevice);
 			return true;
 		}
-		#endregion
-#endif
+
 		bool Parse(List<byte> bytes, int descriptorNo)
-		 {
+		{
 			var internalType = BytesHelper.SubstructShort(bytes, 0);
 			var controllerAdress = BytesHelper.SubstructShort(bytes, 2);
 			var adressOnController = BytesHelper.SubstructShort(bytes, 4);
 			var physicalAdress = BytesHelper.SubstructShort(bytes, 6);
-			if(internalType == 0)
+			if (internalType == 0)
 				return true;
 			var description = BytesHelper.BytesToStringDescription(bytes);
 			var driver = GKManager.Drivers.FirstOrDefault(x => x.DriverTypeNo == internalType);
@@ -186,7 +131,7 @@ namespace GKProcessor
 				};
 				if (driver.DriverType == GKDriverType.GK)
 				{
-					device.Properties.Add(new GKProperty{Name = "IPAddress",StringValue = IpAddress});
+					device.Properties.Add(new GKProperty { Name = "IPAddress", StringValue = IpAddress });
 					ControllerDevices.Add(controllerAdress, device);
 					DeviceConfiguration.RootDevice.Children.Add(device);
 					GkDevice = device;
@@ -216,7 +161,7 @@ namespace GKProcessor
 					var controllerDevice = ControllerDevices.FirstOrDefault(x => x.Key == controllerAdress);
 					if (controllerDevice.Value != null)
 					{
-						if(1 <= shleifNo && shleifNo <= 8 && physicalAdress != 0)
+						if (1 <= shleifNo && shleifNo <= 8 && physicalAdress != 0)
 						{
 							var shleif = controllerDevice.Value.Children.FirstOrDefault(x => (x.DriverType == GKDriverType.KAU_Shleif || x.DriverType == GKDriverType.RSR2_KAU_Shleif) && x.IntAddress == shleifNo);
 							shleif.Children.Add(device);
@@ -224,7 +169,7 @@ namespace GKProcessor
 						else
 						{
 							if (controllerDevice.Value.Driver.DriverType == GKDriverType.GK)
-								device.IntAddress = (byte) (controllerDevice.Value.Children.Where(x => !x.Driver.HasAddress).Count() + 2);
+								device.IntAddress = (byte)(controllerDevice.Value.Children.Where(x => !x.Driver.HasAddress).Count() + 2);
 							else
 								device.IntAddress = (byte)(controllerDevice.Value.Children.Where(x => !x.Driver.HasAddress).Count() + 1);
 							controllerDevice.Value.Children.Add(device);

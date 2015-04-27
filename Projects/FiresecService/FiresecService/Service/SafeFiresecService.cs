@@ -260,9 +260,9 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.GKSetSchedule(schedule); }, "GKSetSchedule");
 		}
 
-		public OperationResult<List<GKUser>> GKActualizeUsers(Guid gkDeviceUID)
+		public OperationResult<List<GKUser>> GKGetUsers(Guid gkDeviceUID)
 		{
-			return SafeOperationCall(() => { return FiresecService.GKActualizeUsers(gkDeviceUID); }, "GKActualizeUsers");
+			return SafeOperationCall(() => { return FiresecService.GKGetUsers(gkDeviceUID); }, "GKGetUsers");
 		}
 
 		public OperationResult<bool> GKRewriteUsers(Guid gkDeviceUID)

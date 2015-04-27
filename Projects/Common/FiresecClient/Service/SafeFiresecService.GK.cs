@@ -92,9 +92,9 @@ namespace FiresecClient
 			return SafeOperationCall(() => { return FiresecService.GKSetSchedule(schedule); }, "GKSetSchedule");
 		}
 
-		public OperationResult<List<GKUser>> GKActualizeUsers(GKDevice device)
+		public OperationResult<List<GKUser>> GKGetUsers(GKDevice device)
 		{
-			return SafeOperationCall(() => { return FiresecService.GKActualizeUsers(device.UID); }, "GKActualizeUsers");
+			return SafeOperationCall(() => { return FiresecService.GKGetUsers(device.UID); }, "GKGetUsers");
 		}
 
 		public OperationResult<bool> GKRewriteUsers(GKDevice device)

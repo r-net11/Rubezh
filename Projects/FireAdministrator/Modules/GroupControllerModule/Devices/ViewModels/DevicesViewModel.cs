@@ -467,7 +467,7 @@ namespace GKModule.ViewModels
 					new RibbonMenuItemViewModel("Журнал событий", DeviceCommandsViewModel.ReadJournalCommand, "BJournal"),
 					new RibbonMenuItemViewModel("Обновление ПО", DeviceCommandsViewModel.UpdateFirmwhareCommand, "BParametersSync"),
 					new RibbonMenuItemViewModel("Автопоиск устройств", DeviceCommandsViewModel.AutoSearchCommand, "BSearch"),
-					new RibbonMenuItemViewModel("Актуализация пользователей прибора", DeviceCommandsViewModel.ActualizeUsersCommand, "BSettings"),
+					new RibbonMenuItemViewModel("Считать пользователей прибора", DeviceCommandsViewModel.GetUsersCommand, "BSettings"),
 					new RibbonMenuItemViewModel("Параметры", new ObservableCollection<RibbonMenuItemViewModel>
 					{
 						new RibbonMenuItemViewModel("Считать параметры", "BParametersRead"),

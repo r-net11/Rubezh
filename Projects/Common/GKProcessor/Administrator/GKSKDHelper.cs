@@ -181,9 +181,11 @@ namespace GKProcessor
 			return new OperationResult<bool>() { Result = true };
 		}
 
-		public List<GKUser> ActualizeGKUsers(GKDevice device)
+		public OperationResult<List<GKUser>> GetUsers(GKDevice device)
 		{
+			var progressCallback = GKProcessorManager.StartProgress("Чтение пользователей прибора " + device.PresentationName, "", 65535, true, GKProgressClientType.Administrator);
 			var users = new List<GKUser>();
+
 			for (int i = 1; i <= 65535; i++)
 			{
 				var bytes = new List<byte>();
@@ -191,7 +193,11 @@ namespace GKProcessor
 				bytes.AddRange(BytesHelper.ShortToBytes((ushort)(i)));
 
 				var sendResult = SendManager.Send(device, (ushort)(bytes.Count), 24, 0, bytes);
-				if (sendResult.HasError || sendResult.Bytes.Count == 0)
+				if (sendResult.HasError)
+				{
+					return new OperationResult<List<GKUser>>("Во время выполнения операции возникла ошибка") { Result = users };
+				}
+				if (sendResult.Bytes.Count == 0)
 				{
 					break;
 				}
@@ -203,18 +209,21 @@ namespace GKProcessor
 				user.FIO = BytesHelper.BytesToStringDescription(sendResult.Bytes, 5);
 				user.Number = (uint)BytesHelper.SubstructInt(sendResult.Bytes, 37);
 				users.Add(user);
+				if (progressCallback.IsCanceled)
+				{
+					return new OperationResult<List<GKUser>>("Операция отменена") { Result = users };
+				}
+				GKProcessorManager.DoProgress("Пользователь " + i, progressCallback);
 			}
 
-			using (var skdDatabaseService = new SKDDatabaseService())
-			{
-				skdDatabaseService.GKCardTranslator.Actualize(device.GetGKIpAddress(), users);
-			}
-
-			return users;
+			GKProcessorManager.StopProgress(progressCallback);
+			return new OperationResult<List<GKUser>>() { Result = users };
 		}
 
-		public bool RemoveGKUsers(GKDevice device)
+		public bool RemoveAllUsers(GKDevice device)
 		{
+			var result = true;
+			var progressCallback = GKProcessorManager.StartProgress("Удаление пользователей прибора " + device.PresentationName, "", 65535, false, GKProgressClientType.Administrator);
 			for (int no = 1; no <= 65535; no++)
 			{
 				var bytes = new List<byte>();
@@ -222,7 +231,11 @@ namespace GKProcessor
 				bytes.AddRange(BytesHelper.ShortToBytes((ushort)(no)));
 
 				var sendResult = SendManager.Send(device, (ushort)(bytes.Count), 24, 0, bytes);
-				if (sendResult.HasError || sendResult.Bytes.Count == 0)
+				if (sendResult.HasError)
+				{
+					result = false;
+				}
+				if (sendResult.Bytes.Count == 0)
 				{
 					break;
 				}
@@ -237,20 +250,26 @@ namespace GKProcessor
 				bytes.AddRange(BytesHelper.IntToBytes(-1));
 				bytes.Add(0);
 				bytes.Add(0);
-
 				for (int i = 0; i < 256 - 42; i++)
 				{
 					bytes.Add(0);
 				}
 
 				sendResult = SendManager.Send(device, (ushort)(bytes.Count), 26, 0, bytes);
-				if (sendResult.HasError || sendResult.Bytes.Count == 256)
+				if (sendResult.HasError)
+				{
+					result = false;
+				}
+				if (sendResult.Bytes.Count == 256)
 				{
 					break;
 				}
-			}
 
-			return true;
+				GKProcessorManager.DoProgress("Пользователь " + no, progressCallback);
+			}
+			GKProcessorManager.StopProgress(progressCallback);
+
+			return result;
 		}
 
 		class GKCardSchedule

@@ -112,22 +112,17 @@ namespace SKDDriver
 			Context.SubmitChanges();
 		}
 
-		public void Actualize(string gkIPAddress, List<GKUser> users)
+		public void RemoveAll(string gkIPAddress)
 		{
-			var gkCards = Context.GKCards.Where(x => x.IPAddress == gkIPAddress);
-			Context.GKCards.DeleteAllOnSubmit(gkCards);
-			foreach (var user in users)
+			if (!string.IsNullOrEmpty(gkIPAddress))
 			{
-				var gkCard = new GKCard();
-				gkCard.UID = Guid.NewGuid();
-				gkCard.IPAddress = gkIPAddress;
-				gkCard.GKNo = user.GKNo;
-				gkCard.CardNo = (int)user.Number;
-				gkCard.FIO = user.FIO;
-				gkCard.IsActive = user.IsActive;
-				Context.GKCards.InsertOnSubmit(gkCard);
+				var gkCards = Context.GKCards.Where(x => x.IPAddress == gkIPAddress);
+				if (gkCards != null)
+				{
+					Context.GKCards.DeleteAllOnSubmit(gkCards);
+				}
+				Context.SubmitChanges();
 			}
-			Context.SubmitChanges();
 		}
 	}
 }

@@ -219,7 +219,7 @@ namespace FiresecService.Service
 			return new OperationResult<bool>("Не найден ГК в конфигурации");
 		}
 
-		public OperationResult<List<GKUser>> GKActualizeUsers(Guid gkDeviceUID)
+		public OperationResult<List<GKUser>> GKGetUsers(Guid gkDeviceUID)
 		{
 			var gkControllerDevice = GKManager.Devices.FirstOrDefault(x => x.UID == gkDeviceUID);
 			if (gkControllerDevice != null)
@@ -227,8 +227,7 @@ namespace FiresecService.Service
 				var gkSKDHelper = new GKSKDHelper();
 				try
 				{
-					var users = gkSKDHelper.ActualizeGKUsers(gkControllerDevice);
-					return new OperationResult<List<GKUser>>() { Result = users };
+					return gkSKDHelper.GetUsers(gkControllerDevice);
 				}
 				catch(Exception e)
 				{
@@ -246,14 +245,21 @@ namespace FiresecService.Service
 				try
 				{
 					var gkSKDHelper = new GKSKDHelper();
-					gkSKDHelper.RemoveGKUsers(gkControllerDevice);
-					//gkSKDHelper.ActualizeGKUsers(gkControllerDevice);
+					var removeResult = gkSKDHelper.RemoveAllUsers(gkControllerDevice);
+					if (removeResult)
+						return new OperationResult<bool>("Ошибка при удалении пользователя из ГК");
+
+					using (var skdDatabaseService = new SKDDatabaseService())
+					{
+						skdDatabaseService.GKCardTranslator.RemoveAll(gkControllerDevice.GetGKIpAddress());
+					}
 
 					using (var databaseService = new SKDDatabaseService())
 					{
 						var cardsResult = databaseService.CardTranslator.Get(new CardFilter());
 						if (!cardsResult.HasError)
 						{
+							var progressCallback = GKProcessorManager.StartProgress("Запись пользователей прибора " + gkControllerDevice.PresentationName, "", cardsResult.Result.Count(), false, GKProgressClientType.Administrator);
 							int gkCardNo = 1;
 							foreach (var card in cardsResult.Result)
 							{
@@ -268,7 +274,9 @@ namespace FiresecService.Service
 									gkSKDHelper.AddOneCard(gkControllerDevice, card, accessTemplate, employee.FIO, gkCardNo);
 									gkCardNo++;
 								}
+								GKProcessorManager.DoProgress("Пользователь " + gkCardNo, progressCallback);
 							}
+							GKProcessorManager.StopProgress(progressCallback);
 						}
 					}
 
