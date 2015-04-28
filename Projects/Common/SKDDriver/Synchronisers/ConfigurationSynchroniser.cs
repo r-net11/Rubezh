@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
 using FiresecAPI;
+using FiresecAPI.GK;
 using FiresecAPI.SKD;
+using FiresecClient;
 
 namespace SKDDriver
 {
@@ -16,12 +18,16 @@ namespace SKDDriver
 			var devicesResult = new OperationResult();
 			var doorsResult = new OperationResult();
 			var zonesResult = new OperationResult();
+			var gkZonesResult = new OperationResult();
 			if (filter.IsExportDevices)
 				devicesResult = Export<ExportDevice, SKDDevice>(SKDManager.Devices, "Devices.xml", filter.Path);
 			if(filter.IsExportDoors)
 				doorsResult = Export<ExportDoor, SKDDoor>(SKDManager.Doors, "Doors.xml", filter.Path);
 			if (filter.IsExportZones)
-				zonesResult = Export<ExportZone, SKDZone>(SKDManager.Zones, "Zones.xml", filter.Path);
+			{
+				zonesResult = Export<ExportZone, SKDZone>(SKDManager.Zones, "StrazhZones.xml", filter.Path);
+				gkZonesResult = Export<ExportZone, GKSKDZone>(GKManager.SKDZones, "GKZones.xml", filter.Path);
+			}
 			return TranslatiorHelper.ConcatOperationResults(devicesResult, doorsResult, zonesResult);					
 		}
 
@@ -52,7 +58,7 @@ namespace SKDDriver
 		}
 	}
 
-	public class ExportZone : IConfigExportItem<SKDZone>
+	public class ExportZone : IConfigExportItem<SKDZone>, IConfigExportItem<GKSKDZone>
 	{
 		public Guid UID { get; set; }
 		public string Name { get; set; }
@@ -60,6 +66,14 @@ namespace SKDDriver
 		public int Number { get; set; }
 		
 		public void Initialize(SKDZone configItem)
+		{
+			UID = configItem.UID;
+			Name = configItem.Name;
+			Description = configItem.Description;
+			Number = configItem.No;
+		}
+
+		public void Initialize(GKSKDZone configItem)
 		{
 			UID = configItem.UID;
 			Name = configItem.Name;
