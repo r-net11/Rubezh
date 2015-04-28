@@ -1376,8 +1376,8 @@ BEGIN
 	CREATE TABLE GKSchedule(
 		[UID] uniqueidentifier NOT NULL,
 		[No] int NOT NULL,
-		[Name] [nvarchar](50) NOT NULL,
-		[Description] [nvarchar](50) NOT NULL,
+		[Name] [nvarchar](50) NULL,
+		[Description] [nvarchar](50) NULL,
 		[Type] int NOT NULL,
 		[PeriodType] int NOT NULL,
 		[StartDateTime] datetime NOT NULL,
@@ -1404,8 +1404,8 @@ BEGIN
 	CREATE TABLE GKDaySchedule(
 		[UID] uniqueidentifier NOT NULL,
 		[No] int NOT NULL,
-		[Name] [nvarchar](50) NOT NULL,
-		[Description] [nvarchar](50) NOT NULL,
+		[Name] [nvarchar](50) NULL,
+		[Description] [nvarchar](50) NULL,
 	CONSTRAINT [PK_GKDaySchedule] PRIMARY KEY CLUSTERED 
 	(
 		[UID] ASC
@@ -1425,8 +1425,8 @@ BEGIN
 	CREATE TABLE GKDaySchedulePart(
 		[UID] uniqueidentifier NOT NULL,
 		[No] int NOT NULL,
-		[Name] [nvarchar](50) NOT NULL,
-		[Description] [nvarchar](50) NOT NULL,
+		[Name] [nvarchar](50) NULL,
+		[Description] [nvarchar](50) NULL,
 		StartMilliseconds float NOT NULL,
 		EndMilliseconds float NOT NULL,
 		[DayScheduleUID] uniqueidentifier NOT NULL,
@@ -1434,7 +1434,7 @@ BEGIN
 	(
 		[UID] ASC
 	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY]
+	) ON [PRIMARY]
 
 	CREATE INDEX GKDaySchedulePartIndex ON [dbo].GKDaySchedulePart([UID])
 	CREATE INDEX GKDayScheduleIndex ON [dbo].GKDaySchedule([UID])

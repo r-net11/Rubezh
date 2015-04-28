@@ -1,20 +1,19 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
-using Infrastructure;
+using FiresecAPI.GK;
+using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecAPI.GK;
-using System.Collections.ObjectModel;
-using System;
-using System.Collections.Generic;
-using Calendar = FiresecAPI.GK.Calendar;
 
 namespace GKModule.ViewModels
 {
 	public class CalendarViewModel : BaseViewModel
 	{
 		public ObservableCollection<MonthViewModel> Months { get; private set; }
-		Calendar Calendar { get; set; }
+		GKSchedule Schedule { get; set; }
 		public MonthViewModel JanuaryMonth { get; private set; }
 		public MonthViewModel FebruaryMonth { get; private set; }
 		public MonthViewModel MarchMonth { get; private set; }
@@ -28,22 +27,22 @@ namespace GKModule.ViewModels
 		public MonthViewModel NovemberMonth { get; private set; }
 		public MonthViewModel DecemberMonth { get; private set; }
 
-		public CalendarViewModel(Calendar calendar)
+		public CalendarViewModel(GKSchedule calendar)
 		{
-			Calendar = calendar;
+			Schedule = calendar;
 			Months = new ObservableCollection<MonthViewModel>();
-			Months.Add(JanuaryMonth = new MonthViewModel(MonthType.January, Calendar));
-			Months.Add(FebruaryMonth = new MonthViewModel(MonthType.February, Calendar));
-			Months.Add(MarchMonth = new MonthViewModel(MonthType.March, Calendar));
-			Months.Add(AprilMonth = new MonthViewModel(MonthType.April, Calendar));
-			Months.Add(MayMonth = new MonthViewModel(MonthType.May, Calendar));
-			Months.Add(JuneMonth = new MonthViewModel(MonthType.June, Calendar));
-			Months.Add(JulyMonth = new MonthViewModel(MonthType.July, Calendar));
-			Months.Add(AugustMonth = new MonthViewModel(MonthType.August, Calendar));
-			Months.Add(SeptemberMonth = new MonthViewModel(MonthType.September, Calendar));
-			Months.Add(OctoberMonth = new MonthViewModel(MonthType.October, Calendar));
-			Months.Add(NovemberMonth = new MonthViewModel(MonthType.November, Calendar));
-			Months.Add(DecemberMonth = new MonthViewModel(MonthType.December, Calendar));
+			Months.Add(JanuaryMonth = new MonthViewModel(MonthType.January, Schedule));
+			Months.Add(FebruaryMonth = new MonthViewModel(MonthType.February, Schedule));
+			Months.Add(MarchMonth = new MonthViewModel(MonthType.March, Schedule));
+			Months.Add(AprilMonth = new MonthViewModel(MonthType.April, Schedule));
+			Months.Add(MayMonth = new MonthViewModel(MonthType.May, Schedule));
+			Months.Add(JuneMonth = new MonthViewModel(MonthType.June, Schedule));
+			Months.Add(JulyMonth = new MonthViewModel(MonthType.July, Schedule));
+			Months.Add(AugustMonth = new MonthViewModel(MonthType.August, Schedule));
+			Months.Add(SeptemberMonth = new MonthViewModel(MonthType.September, Schedule));
+			Months.Add(OctoberMonth = new MonthViewModel(MonthType.October, Schedule));
+			Months.Add(NovemberMonth = new MonthViewModel(MonthType.November, Schedule));
+			Months.Add(DecemberMonth = new MonthViewModel(MonthType.December, Schedule));
 			PreviousYearCommand = new RelayCommand(OnPreviousYear);
 			NextYearCommand = new RelayCommand(OnNextYear);
 			UpdateMonths();
@@ -63,12 +62,15 @@ namespace GKModule.ViewModels
 
 		public int Year
 		{
-			get { return Calendar.Year; }
+			get { return Schedule.Calendar.Year; }
 			set
 			{
-				Calendar.Year = value;
-				UpdateMonths();
-				OnPropertyChanged(() => Year);
+				Schedule.Calendar.Year = value;
+				if (GKScheduleHelper.SaveSchedule(Schedule, false))
+				{
+					UpdateMonths();
+					OnPropertyChanged(() => Year);
+				}
 			}
 		}
 
@@ -78,7 +80,7 @@ namespace GKModule.ViewModels
 			{
 				month.Update(Year);
 			}
-			foreach (var selectedDay in Calendar.SelectedDays.FindAll(x => x.Year == Year))
+			foreach (var selectedDay in Schedule.Calendar.SelectedDays.FindAll(x => x.Year == Year))
 			{
 				var month = Months.FirstOrDefault(x => (int)x.MonthType == selectedDay.Month);
 				if (month != null)
@@ -96,13 +98,13 @@ namespace GKModule.ViewModels
 	{
 		public MonthType MonthType { get; private set; }
 		public List<DayViewModel> Days { get; private set; }
-		public Calendar Calendar { get; private set; }
+		public GKSchedule Schedule { get; private set; }
 
-		public MonthViewModel(MonthType monthType, Calendar calendar)
+		public MonthViewModel(MonthType monthType, GKSchedule calendar)
 		{
-			Calendar = calendar;
+			Schedule = calendar;
 			MonthType = monthType;
-			Update(Calendar.Year);
+			Update(Schedule.Calendar.Year);
 		}
 
 		public void Update(int year)
@@ -116,7 +118,7 @@ namespace GKModule.ViewModels
 					break;
 				if (MonthType == MonthType.February && year % 4 != 0 && i == 29)
 					break;
-				Days.Add(new DayViewModel(i, MonthType, Calendar));
+				Days.Add(new DayViewModel(i, MonthType, Schedule));
 			}
 			OnPropertyChanged(() => Days);
 		}
@@ -126,13 +128,13 @@ namespace GKModule.ViewModels
 	{
 		public int No { get; private set; }
 		public MonthType MonthType { get; private set; }
-		public Calendar Calendar { get; private set; }
+		public GKSchedule Schedule { get; private set; }
 		public DayOfWeek DayOfWeek { get; private set; }
 
-		public DayViewModel(int no, MonthType monthType, Calendar calendar)
+		public DayViewModel(int no, MonthType monthType, GKSchedule calendar)
 		{
-			Calendar = calendar;
-			var dateTime = new DateTime(Calendar.Year, (int)monthType, no);
+			Schedule = calendar;
+			var dateTime = new DateTime(Schedule.Calendar.Year, (int)monthType, no);
 			DayOfWeek = dateTime.DayOfWeek;
 			MonthType = monthType;
 			No = no;
@@ -143,11 +145,12 @@ namespace GKModule.ViewModels
 		void OnSelect()
 		{
 			IsSelected = !IsSelected;
-			var dateTime = new DateTime(Calendar.Year, (int)MonthType, No);
+			var dateTime = new DateTime(Schedule.Calendar.Year, (int)MonthType, No);
 			if (IsSelected)
-				Calendar.SelectedDays.Add(dateTime);
+				Schedule.Calendar.SelectedDays.Add(dateTime);
 			else
-				Calendar.SelectedDays.Remove(dateTime);
+				Schedule.Calendar.SelectedDays.Remove(dateTime);
+			GKScheduleHelper.SaveSchedule(Schedule, false);
 		}
 
 		public int X
@@ -159,7 +162,7 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				var dateTime = new DateTime(Calendar.Year, (int)MonthType, No);
+				var dateTime = new DateTime(Schedule.Calendar.Year, (int)MonthType, No);
 				return dateTime.GetWeekOfMonth();
 			}
 		}

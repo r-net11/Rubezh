@@ -418,12 +418,20 @@
       <Association Name="Employee_Card" Member="Employee" ThisKey="EmployeeUID" OtherKey="UID" Type="Employee" IsForeignKey="true" />
     </Type>
   </Table>
+  <Table Name="dbo.GKScheduleDay" Member="GKScheduleDays">
+    <Type Name="GKScheduleDay">
+      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ScheduleUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="DateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="GKSchedule_GKScheduleDay" Member="GKSchedule" ThisKey="ScheduleUID" OtherKey="UID" Type="GKSchedule" IsForeignKey="true" />
+    </Type>
+  </Table>
   <Table Name="dbo.GKDaySchedule" Member="GKDaySchedules">
     <Type Name="GKDaySchedule">
       <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="No" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="Description" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Association Name="GKDaySchedule_GKDaySchedulePart" Member="GKDayScheduleParts" ThisKey="UID" OtherKey="DayScheduleUID" Type="GKDaySchedulePart" />
       <Association Name="GKDaySchedule_ScheduleGKDaySchedule" Member="ScheduleGKDaySchedules" ThisKey="UID" OtherKey="DayScheduleUID" Type="ScheduleGKDaySchedule" />
     </Type>
@@ -432,37 +440,12 @@
     <Type Name="GKDaySchedulePart">
       <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="No" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="Description" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="StartMilliseconds" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
       <Column Name="EndMilliseconds" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
       <Column Name="DayScheduleUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
       <Association Name="GKDaySchedule_GKDaySchedulePart" Member="GKDaySchedule" ThisKey="DayScheduleUID" OtherKey="UID" Type="GKDaySchedule" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.GKSchedule" Member="GKSchedules">
-    <Type Name="GKSchedule">
-      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="No" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="Description" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="Type" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="PeriodType" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="StartDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="HoursPeriod" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="HolidayScheduleNo" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="WorkingHolidayScheduleNo" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Year" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Association Name="GKSchedule_GKScheduleDay" Member="GKScheduleDays" ThisKey="UID" OtherKey="ScheduleUID" Type="GKScheduleDay" />
-      <Association Name="GKSchedule_ScheduleGKDaySchedule" Member="ScheduleGKDaySchedules" ThisKey="UID" OtherKey="ScheduleUID" Type="ScheduleGKDaySchedule" />
-    </Type>
-  </Table>
-  <Table Name="dbo.GKScheduleDay" Member="GKScheduleDays">
-    <Type Name="GKScheduleDay">
-      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="ScheduleUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="DateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Association Name="GKSchedule_GKScheduleDay" Member="GKSchedule" ThisKey="ScheduleUID" OtherKey="UID" Type="GKSchedule" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.ScheduleGKDaySchedule" Member="ScheduleGKDaySchedules">
@@ -472,6 +455,23 @@
       <Column Name="DayScheduleUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
       <Association Name="GKDaySchedule_ScheduleGKDaySchedule" Member="GKDaySchedule" ThisKey="DayScheduleUID" OtherKey="UID" Type="GKDaySchedule" IsForeignKey="true" />
       <Association Name="GKSchedule_ScheduleGKDaySchedule" Member="GKSchedule" ThisKey="ScheduleUID" OtherKey="UID" Type="GKSchedule" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.GKSchedule" Member="GKSchedules">
+    <Type Name="GKSchedule">
+      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="No" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Type" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PeriodType" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="StartDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="HoursPeriod" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="HolidayScheduleNo" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="WorkingHolidayScheduleNo" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Year" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="GKSchedule_GKScheduleDay" Member="GKScheduleDays" ThisKey="UID" OtherKey="ScheduleUID" Type="GKScheduleDay" />
+      <Association Name="GKSchedule_ScheduleGKDaySchedule" Member="ScheduleGKDaySchedules" ThisKey="UID" OtherKey="ScheduleUID" Type="ScheduleGKDaySchedule" />
     </Type>
   </Table>
 </Database>

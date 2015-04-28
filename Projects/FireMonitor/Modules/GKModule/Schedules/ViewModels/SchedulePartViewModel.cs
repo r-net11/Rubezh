@@ -1,10 +1,9 @@
-﻿using System.Collections.ObjectModel;
-using Infrastructure;
-using Infrastructure.Common.Windows.ViewModels;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.GK;
-using FiresecClient;
-using System;
+using Infrastructure.Common.Windows.ViewModels;
+using FiresecClient.SKDHelpers;
 
 namespace GKModule.ViewModels
 {
@@ -18,7 +17,7 @@ namespace GKModule.ViewModels
 			Schedule = schedule;
 			Index = index;
 			AvailableDaySchedules = new ObservableCollection<GKDaySchedule>();
-			foreach (var dayInterval in GKManager.DeviceConfiguration.DaySchedules)
+			foreach (var dayInterval in GKModuleLoader.DaySchedulesViewModel.GetDaySchedules())
 			{
 				AvailableDaySchedules.Add(dayInterval);
 			}
@@ -45,6 +44,7 @@ namespace GKModule.ViewModels
 					OnPropertyChanged(() => SelectedDaySchedule);
 					Schedule.DayScheduleUIDs[Index] = SelectedDaySchedule.UID;
 				}
+				GKScheduleHelper.SaveSchedule(Schedule, false);
 			}
 		}
 

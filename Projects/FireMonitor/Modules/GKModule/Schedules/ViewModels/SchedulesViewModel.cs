@@ -3,7 +3,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 using FiresecAPI.GK;
-using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -90,7 +89,7 @@ namespace GKModule.ViewModels
 				{
 					for (int i = 0; i < 7; i++)
 					{
-						var daySchedule = GKManager.DeviceConfiguration.DaySchedules.FirstOrDefault();
+						var daySchedule = GKModuleLoader.DaySchedulesViewModel.GetDaySchedules().FirstOrDefault();
 						if (daySchedule != null)
 						{
 							schedule.DayScheduleUIDs.Add(daySchedule.UID);

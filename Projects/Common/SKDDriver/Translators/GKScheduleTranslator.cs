@@ -36,7 +36,7 @@ namespace SKDDriver
 			tableItem.UID = item.UID;
 			tableItem.No = item.No;
 			tableItem.Name = item.Name;
-			tableItem.Description = item.Name;
+			tableItem.Description = item.Description;
 		}
 
 		GKSchedule TranslateGKSchdule(DataAccess.GKSchedule tableItem, IEnumerable<DataAccess.GKScheduleDay> scheduleDays, IEnumerable<Guid> dayScheduleUIDs)
@@ -107,7 +107,7 @@ namespace SKDDriver
 					(scheduleWithDays, daySchedules) => new { scheduleWithDays, daySchedules });
 				foreach (var item in tableItems)
 				{
-					result.Add(TranslateGKSchdule(item.scheduleWithDays.schedule, item.scheduleWithDays.scheduleDays, item.daySchedules.Select(x => x.ScheduleUID)));
+					result.Add(TranslateGKSchdule(item.scheduleWithDays.schedule, item.scheduleWithDays.scheduleDays, item.daySchedules.Select(x => x.DayScheduleUID)));
 				}
 				return new OperationResult<List<GKSchedule>> { Result = result };
 			}
@@ -146,6 +146,7 @@ namespace SKDDriver
 						EndMilliseconds = daySchedulePart.EndMilliseconds 
 					};
 					TranslateModelBaseBack(daySchedulePart, tableDayScheduePart);
+					tableDayScheduleParts.Add(tableDayScheduePart);
 				}
 				Context.GKDayScheduleParts.InsertAllOnSubmit(tableDayScheduleParts);
 				Context.SubmitChanges();

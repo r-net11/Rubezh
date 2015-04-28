@@ -3,19 +3,12 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
-using FiresecAPI.Models;
 using FiresecAPI.GK;
-using Infrastructure;
+using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
-using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrustructure.Plans.Elements;
-using Infrustructure.Plans.Events;
-using GKModule.Events;
-using GKModule.Plans;
 using KeyboardKey = System.Windows.Input.Key;
-using FiresecClient;
 
 namespace GKModule.ViewModels
 {
@@ -32,7 +25,7 @@ namespace GKModule.ViewModels
 		public void Initialize()
 		{
 			DaySchedules = new ObservableCollection<DayScheduleViewModel>();
-			foreach (var dayInterval in GKManager.DeviceConfiguration.DaySchedules)
+			foreach (var dayInterval in GKScheduleHelper.GetDaySchedules())
 			{
 				var dayScheduleViewModel = new DayScheduleViewModel(dayInterval);
 				DaySchedules.Add(dayScheduleViewModel);
@@ -49,6 +42,11 @@ namespace GKModule.ViewModels
 				_daySchedules = value;
 				OnPropertyChanged(() => DaySchedules);
 			}
+		}
+
+		public List<GKDaySchedule> GetDaySchedules()
+		{
+			return DaySchedules.Select(x => x.DaySchedule).ToList();
 		}
 
 		DayScheduleViewModel _selectedDaySchedule;
@@ -82,10 +80,14 @@ namespace GKModule.ViewModels
 			var dayScheduleDetailsViewModel = new DayScheduleDetailsViewModel();
 			if (DialogService.ShowModalWindow(dayScheduleDetailsViewModel))
 			{
-				GKManager.DeviceConfiguration.DaySchedules.Add(dayScheduleDetailsViewModel.DaySchedule);
-				var dayScheduleViewModel = new DayScheduleViewModel(dayScheduleDetailsViewModel.DaySchedule);
-				DaySchedules.Add(dayScheduleViewModel);
-				SelectedDaySchedule = dayScheduleViewModel;
+				var daySchedule = dayScheduleDetailsViewModel.DaySchedule;
+				var saveResult = GKScheduleHelper.SaveDaySchedule(daySchedule, true);
+				if (saveResult)
+				{
+					var dayScheduleViewModel = new DayScheduleViewModel(dayScheduleDetailsViewModel.DaySchedule);
+					DaySchedules.Add(dayScheduleViewModel);
+					SelectedDaySchedule = dayScheduleViewModel;
+				}
 			}
 		}
 
@@ -95,11 +97,14 @@ namespace GKModule.ViewModels
 			if (SelectedDaySchedule.ConfirmDeactivation())
 			{
 				var index = DaySchedules.IndexOf(SelectedDaySchedule);
-				GKManager.DeviceConfiguration.DaySchedules.Remove(SelectedDaySchedule.DaySchedule);
-				DaySchedules.Remove(SelectedDaySchedule);
-				index = Math.Min(index, DaySchedules.Count - 1);
-				if (index > -1)
-					SelectedDaySchedule = DaySchedules[index];
+				var deleteScheduleResult = GKScheduleHelper.DeleteDaySchedule(SelectedDaySchedule.DaySchedule);
+				if (deleteScheduleResult)
+				{
+					DaySchedules.Remove(SelectedDaySchedule);
+					index = Math.Min(index, DaySchedules.Count - 1);
+					if (index > -1)
+						SelectedDaySchedule = DaySchedules[index];
+				}
 			}
 		}
 
@@ -109,7 +114,12 @@ namespace GKModule.ViewModels
 			var dayScheduleDetailsViewModel = new DayScheduleDetailsViewModel(SelectedDaySchedule.DaySchedule);
 			if (DialogService.ShowModalWindow(dayScheduleDetailsViewModel))
 			{
-				SelectedDaySchedule.Update(dayScheduleDetailsViewModel.DaySchedule);
+				var daySchedule = dayScheduleDetailsViewModel.DaySchedule;
+				var saveResult = GKScheduleHelper.SaveDaySchedule(daySchedule, false);
+				if (saveResult)
+				{
+					SelectedDaySchedule.Update(dayScheduleDetailsViewModel.DaySchedule);
+				}
 			}
 		}
 

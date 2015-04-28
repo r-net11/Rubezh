@@ -1,13 +1,14 @@
 ﻿using System;
-using System.Linq;
-using FiresecAPI.GK;
-using Infrastructure;
-using Infrastructure.Common;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common.Windows;
-using FiresecClient;
-using Common;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using Common;
+using FiresecAPI.GK;
+using FiresecClient;
+using FiresecClient.SKDHelpers;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace GKModule.ViewModels
 {
@@ -15,10 +16,11 @@ namespace GKModule.ViewModels
 	{
 		public GKSchedule Schedule { get; set; }
 		public CalendarViewModel Calendar { get; private set; }
+		List<GKDaySchedule> _DaySchedules { get{ return GKModuleLoader.DaySchedulesViewModel.GetDaySchedules(); }}
 
 		public ScheduleViewModel(GKSchedule schedule)
 		{
-			Calendar = new CalendarViewModel(schedule.Calendar);
+			Calendar = new CalendarViewModel(schedule);
 			WriteCommand = new RelayCommand(OnWrite);
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
@@ -63,7 +65,7 @@ namespace GKModule.ViewModels
 			for (int i = 0; i < Schedule.DayScheduleUIDs.Count; i++)
 			{
 				var dayScheduleUID = Schedule.DayScheduleUIDs[i];
-				var daySchedule = GKManager.DeviceConfiguration.DaySchedules.FirstOrDefault(x => x.UID == dayScheduleUID);
+				var daySchedule = _DaySchedules.FirstOrDefault(x => x.UID == dayScheduleUID);
 				var schedulePartViewModel = new SchedulePartViewModel(Schedule, dayScheduleUID, i);
 				Parts.Add(schedulePartViewModel);
 			}
@@ -112,12 +114,15 @@ namespace GKModule.ViewModels
 			}
 			for (int i = 0; i < daysCount; i++)
 			{
-				var daySchedule = GKManager.DeviceConfiguration.DaySchedules.FirstOrDefault();
+				var daySchedule = _DaySchedules.FirstOrDefault();
 				if (daySchedule != null)
 				{
 					Schedule.DayScheduleUIDs.Add(daySchedule.UID);
-					var schedulePartViewModel = new SchedulePartViewModel(Schedule, Guid.Empty, Schedule.DayScheduleUIDs.Count - 1);
-					Parts.Add(schedulePartViewModel);
+					if (UpdateSchedule())
+					{
+						var schedulePartViewModel = new SchedulePartViewModel(Schedule, Guid.Empty, Schedule.DayScheduleUIDs.Count - 1);
+						Parts.Add(schedulePartViewModel);
+					}
 				}
 			}
 			SelectedPart = Parts.LastOrDefault();
@@ -136,14 +141,20 @@ namespace GKModule.ViewModels
 				for (int i = 6; i >= 0; i--)
 				{
 					var index = weekNo * 7 + i;
-					Schedule.DayScheduleUIDs.RemoveAt(index);
+					if (UpdateSchedule())
+					{
+						Schedule.DayScheduleUIDs.RemoveAt(index);
+					}
 					Parts.RemoveAt(index);
 				}
 			}
 			else
 			{
 				Schedule.DayScheduleUIDs.Remove(SelectedPart.SelectedDaySchedule.UID);
-				Parts.Remove(SelectedPart);
+				if (UpdateSchedule())
+				{
+					Parts.Remove(SelectedPart);
+				}
 			}
 			Update();
 		}
@@ -154,6 +165,11 @@ namespace GKModule.ViewModels
 			if (Schedule.SchedulePeriodType == GKSchedulePeriodType.Dayly)
 				return Parts.Count > 1;
 			return Parts.Count > 7;
+		}
+
+		public bool UpdateSchedule()
+		{
+			return GKScheduleHelper.SaveSchedule(Schedule, false);
 		}
 	}
 }

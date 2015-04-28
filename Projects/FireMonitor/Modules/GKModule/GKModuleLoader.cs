@@ -9,7 +9,6 @@ using GKModule.Events;
 using GKModule.Plans;
 using GKModule.Reports;
 using GKModule.ViewModels;
-using GKProcessor;
 using Infrastructure;
 using Infrastructure.Client;
 using Infrastructure.Client.Layout;
@@ -37,8 +36,8 @@ namespace GKModule
 		static MPTsViewModel MPTsViewModel;
 		static DoorsViewModel DoorsViewModel;
 		static AlarmsViewModel AlarmsViewModel;
-		static DaySchedulesViewModel DaySchedulesViewModel;
-		static SchedulesViewModel SchedulesViewModel;
+		public static DaySchedulesViewModel DaySchedulesViewModel;
+		public static SchedulesViewModel SchedulesViewModel;
 		NavigationItem _zonesNavigationItem;
 		NavigationItem _guardZonesNavigationItem;
 		NavigationItem _skdZonesNavigationItem;

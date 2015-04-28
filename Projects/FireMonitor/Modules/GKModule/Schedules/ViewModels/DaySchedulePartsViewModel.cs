@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System.Collections.ObjectModel;
 using FiresecAPI.GK;
-using Infrastructure;
+using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
@@ -48,10 +46,13 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(daySchedulePartDetailsViewModel))
 			{
 				DaySchedule.DayScheduleParts.Add(daySchedulePartDetailsViewModel.DaySchedulePart);
-				var daySchedulePartViewModel = new DaySchedulePartViewModel(daySchedulePartDetailsViewModel.DaySchedulePart);
-				Parts.Add(daySchedulePartViewModel);
-				SelectedPart = daySchedulePartViewModel;
-				SelectedPart.Update();
+				if (UpdateDaySchedule())
+				{
+					var daySchedulePartViewModel = new DaySchedulePartViewModel(daySchedulePartDetailsViewModel.DaySchedulePart);
+					Parts.Add(daySchedulePartViewModel);
+					SelectedPart = daySchedulePartViewModel;
+					SelectedPart.Update();
+				}
 			}
 		}
 		bool CanAdd()
@@ -63,14 +64,17 @@ namespace GKModule.ViewModels
 		void OnRemove()
 		{
 			DaySchedule.DayScheduleParts.Remove(SelectedPart.DaySchedulePart);
-			Parts.Remove(SelectedPart);
+			if (UpdateDaySchedule())
+			{
+				Parts.Remove(SelectedPart);
+			}
 		}
 
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
 			var daySchedulePartDetailsViewModel = new DaySchedulePartDetailsViewModel(SelectedPart.DaySchedulePart);
-			if (DialogService.ShowModalWindow(daySchedulePartDetailsViewModel))
+			if (DialogService.ShowModalWindow(daySchedulePartDetailsViewModel) && UpdateDaySchedule())
 			{
 				SelectedPart.Update();
 			}
@@ -78,6 +82,11 @@ namespace GKModule.ViewModels
 		bool CanEdit()
 		{
 			return SelectedPart != null;
+		}
+
+		bool UpdateDaySchedule()
+		{
+			return GKScheduleHelper.SaveDaySchedule(DaySchedule, false);
 		}
 	}
 }
