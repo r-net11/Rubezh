@@ -48,7 +48,7 @@ namespace SKDDriver
 				isNew = false;
 				return gkCard.GKNo;
 			}
-			gkCard = Context.GKCards.FirstOrDefault(x => x.IPAddress == gkIPAddress && !x.IsActive);
+			gkCard = Context.GKCards.OrderBy(x => x.GKNo).FirstOrDefault(x => x.IPAddress == gkIPAddress && !x.IsActive);
 			if (gkCard != null)
 			{
 				isNew = false;
@@ -112,7 +112,7 @@ namespace SKDDriver
 			Context.SubmitChanges();
 		}
 
-		public void RemoveAll(string gkIPAddress)
+		public void RemoveAll(string gkIPAddress, int cardsCount)
 		{
 			if (!string.IsNullOrEmpty(gkIPAddress))
 			{
@@ -120,6 +120,19 @@ namespace SKDDriver
 				if (gkCards != null)
 				{
 					Context.GKCards.DeleteAllOnSubmit(gkCards);
+				}
+				for (int no = 1; no < cardsCount + 1; no++)
+				{
+					var gkCard = new GKCard()
+					{
+						UID = Guid.NewGuid(),
+						IPAddress = gkIPAddress,
+						GKNo = no,
+						CardNo = (int)0,
+						FIO = "",
+						IsActive = false
+					};
+					Context.GKCards.InsertOnSubmit(gkCard);
 				}
 				Context.SubmitChanges();
 			}

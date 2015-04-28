@@ -45,6 +45,7 @@ namespace GKProcessor
 
 		public static void DoProgress(string text, GKProgressCallback progressCallback)
 		{
+			progressCallback.CurrentStep++;
 			var gkProgressCallback = new GKProgressCallback
 			{
 				UID = progressCallback.UID,
@@ -53,6 +54,7 @@ namespace GKProcessor
 				Title = progressCallback.Title,
 				Text = text,
 				StepCount = progressCallback.StepCount,
+				CurrentStep = progressCallback.CurrentStep,
 				CanCancel = progressCallback.CanCancel,
 				GKProgressClientType = progressCallback.GKProgressClientType
 			};
@@ -542,12 +544,6 @@ namespace GKProcessor
 					Watcher.SendControlCommand(door, GKStateBit.TurnOff_InAutomatic, "Включить в автоматике");
 				}
 			}
-		}
-
-		public static bool GKAddUser(GKDevice device, string userName)
-		{
-			//AddGKMessage(JournalEventNameType.Синхронизация_времени, "", device, userName, true);
-			return DeviceBytesHelper.AddUser(device);
 		}
 
 		#endregion

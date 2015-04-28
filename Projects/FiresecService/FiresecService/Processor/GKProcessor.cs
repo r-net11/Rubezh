@@ -3,13 +3,11 @@ using System.Linq;
 using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecAPI.Journal;
+using FiresecAPI.SKD;
 using FiresecClient;
 using GKProcessor;
 using SKDDriver;
-using ChinaSKDDriver;
-using FiresecAPI.SKD;
 using SKDDriver.Translators;
-using System.Collections.Generic;
 
 namespace FiresecService
 {
@@ -138,32 +136,37 @@ namespace FiresecService
 								var getAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(card.AccessTemplateUID);
 								var employeeOperationResult = databaseService.EmployeeTranslator.GetSingle(card.HolderUID);
 								var employeeName = employeeOperationResult.Result != null ? employeeOperationResult.Result.FIO : "";
-								if ((PendingCardAction)pendingCard.Action == PendingCardAction.Add)
+
+								var controllerCardSchedules = gkSKDHelper.GetGKControllerCardSchedules(card, getAccessTemplateOperationResult.Result);
+								foreach (var controllerCardSchedule in controllerCardSchedules)
 								{
-									var addGKResult = gkSKDHelper.AddOneCard(deviceState.Device, card, getAccessTemplateOperationResult.Result, employeeName);
-									if (!addGKResult.HasError)
+									if ((PendingCardAction)pendingCard.Action == PendingCardAction.Add)
 									{
-										databaseService.CardTranslator.DeleteAllPendingCards(pendingCard.CardUID, deviceState.Device.UID);
-									}
-								}
-								if ((PendingCardAction)pendingCard.Action == PendingCardAction.Edit)
-								{
-									var editGKResult = gkSKDHelper.AddOneCard(deviceState.Device, card, getAccessTemplateOperationResult.Result, employeeName);
-									if (!editGKResult.HasError)
-									{
-										var removeGKCardResult = gkSKDHelper.RemoveOneCard(deviceState.Device, card);
-										if (!removeGKCardResult.HasError)
+										var addGKResult = gkSKDHelper.AddOreditCard(controllerCardSchedule, card, employeeName);
+										if (!addGKResult.HasError)
 										{
 											databaseService.CardTranslator.DeleteAllPendingCards(pendingCard.CardUID, deviceState.Device.UID);
 										}
 									}
-								}
-								if ((PendingCardAction)pendingCard.Action == PendingCardAction.Delete)
-								{
-									var removeGKCardResult = gkSKDHelper.RemoveOneCard(deviceState.Device, card);
-									if (!removeGKCardResult.HasError)
+									if ((PendingCardAction)pendingCard.Action == PendingCardAction.Edit)
 									{
-										databaseService.CardTranslator.DeleteAllPendingCards(pendingCard.CardUID, deviceState.Device.UID);
+										var editGKResult = gkSKDHelper.AddOreditCard(controllerCardSchedule, card, employeeName);
+										if (!editGKResult.HasError)
+										{
+											var removeGKCardResult = gkSKDHelper.RemoveCard(deviceState.Device, card);
+											if (!removeGKCardResult.HasError)
+											{
+												databaseService.CardTranslator.DeleteAllPendingCards(pendingCard.CardUID, deviceState.Device.UID);
+											}
+										}
+									}
+									if ((PendingCardAction)pendingCard.Action == PendingCardAction.Delete)
+									{
+										var removeGKCardResult = gkSKDHelper.RemoveCard(deviceState.Device, card);
+										if (!removeGKCardResult.HasError)
+										{
+											databaseService.CardTranslator.DeleteAllPendingCards(pendingCard.CardUID, deviceState.Device.UID);
+										}
 									}
 								}
 							}

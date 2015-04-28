@@ -55,7 +55,7 @@ namespace Infrastructure.Common.Windows
 			}
 		}
 
-		public static void DoStep(string text, string title, int stepCount, bool canCancel)
+		public static void DoStep(string text, string title, int stepCount, int currentStep, bool canCancel)
 		{
 			try
 			{
@@ -65,8 +65,10 @@ namespace Infrastructure.Common.Windows
 				}
 				if (_progressViewModel != null)
 				{
+					_progressViewModel.Text = text;
 					_progressViewModel.Title = title;
 					_progressViewModel.StepCount = stepCount;
+					_progressViewModel.CurrentStep = currentStep;
 					_progressViewModel.CanCancel = canCancel;
 					_progressViewModel.DoStep(text);
 				}

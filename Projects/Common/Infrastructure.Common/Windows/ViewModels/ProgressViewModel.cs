@@ -16,7 +16,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 		public bool IsCanceled { get; set; }
 
 		string _text;
-		public string Text 
+		public string Text
 		{
 			get { return _text; }
 			set
@@ -33,7 +33,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			set
 			{
 				_currentStep = value;
-				OnPropertyChanged("CurrentStep");
+				OnPropertyChanged(() => CurrentStep);
 			}
 		}
 		int _stepCount;
@@ -43,7 +43,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			set
 			{
 				_stepCount = value;
-				OnPropertyChanged("StepCount");
+				OnPropertyChanged(() => StepCount);
 				if (ApplicationService.IsApplicationThread())
 					ApplicationService.DoEvents();
 			}
@@ -60,7 +60,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 					CancelText = "Закрыть";
 
 				_canCancel = value;
-				OnPropertyChanged("CanCancel");
+				OnPropertyChanged(() => CanCancel);
 			}
 		}
 
@@ -71,7 +71,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			set
 			{
 				_cancelText = value;
-				OnPropertyChanged("CancelText");
+				OnPropertyChanged(() => CancelText);
 			}
 		}
 
@@ -79,6 +79,12 @@ namespace Infrastructure.Common.Windows.ViewModels
 		{
 			CurrentStep++;
 			Text = text;
+			if (ApplicationService.IsApplicationThread())
+				ApplicationService.DoEvents();
+		}
+
+		public void DoStep()
+		{
 			if (ApplicationService.IsApplicationThread())
 				ApplicationService.DoEvents();
 		}
