@@ -1,0 +1,28 @@
+﻿<message msgId="msg.195" msgTime="29-10-2010 13:28:16"
+xmlns="baseMessages">
+  <MHconfig all="true">
+    <device changeDate="29-10-2010 13:24:20" deviceId="7838" deviceName="АПИ SVB - 7" model="1.0" type="rubezh.api.version7">
+      <param param="IP адрес" value="172.16.6.103" />
+      <param param="порт" value="2002" />
+      <device changeDate="29-10-2010 13:24:35" deviceId="7839" deviceName="USB Рубеж SVB-7" model="1.0" parentId="7838" type="rubezh.usb.rubezh2am.version7">
+        <param param="Адрес" value="1" />
+        <device changeDate="29-10-2010 13:26:32" deviceId="7841" deviceName="ИП-212 1.2 (7 версия )" model="1.0" parentId="7839" type="rubezh.usb.rubezh2am.smokeSensor.version7">
+          <param param="Адрес" value="1" />
+          <param param="Номер шлейфа (АЛС)" value="1" />
+        </device>
+        <device changeDate="29-10-2010 13:26:52" deviceId="7840" deviceName="ИП-212 2.1 (7 версия)" model="1.0" parentId="7839" type="rubezh.usb.rubezh2am.smokeSensor.version7">
+          <param param="Адрес" value="2" />
+          <param param="Номер шлейфа (АЛС)" value="1" />
+        </device>
+        <device changeDate="29-10-2010 13:27:11" deviceId="7842" deviceName="ИП-29 1.1 (7 версия)" model="1.0" parentId="7839" type="rubezh.usb.rubezh2am.heatSensor.version7">
+          <param param="Адрес" value="1" />
+          <param param="Номер шлейфа (АЛС)" value="1" />
+        </device>
+        <device changeDate="29-10-2010 13:27:39" deviceId="7843" deviceName="РПИ-513 1.3 (7 версия)" model="1.0" parentId="7839" type="rubezh.usb.rubezh2am.handAlarm.version7">
+          <param param="Адрес" value="1" />
+          <param param="Номер шлейфа (АЛС)" value="1" />
+        </device>
+      </device>
+    </device>
+  </MHconfig>
+</message>

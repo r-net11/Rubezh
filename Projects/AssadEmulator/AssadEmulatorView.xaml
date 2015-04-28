@@ -1,0 +1,21 @@
+﻿<Window x:Class="AssadEmulator.AssadEmulatorView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="AssadEmulator" Height="600" Width="600">
+    <Grid>
+        <StackPanel>
+            <Button Command="{Binding ConnectCommand}">Connact</Button>
+            <ItemsControl ItemsSource="{Binding Messages}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Button Command="{Binding SendCommand}">Send</Button>
+                            <TextBox Text="{Binding Text}"></TextBox>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <TextBox Text="{Binding RecievedMessage}" />
+        </StackPanel>
+    </Grid>
+</Window>
