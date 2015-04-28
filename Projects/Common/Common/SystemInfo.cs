@@ -4,8 +4,15 @@ using System.Text;
 
 namespace Common
 {
+	/// <summary>
+	/// Представляет информацию по параметрам системного окружения для текущего процесса
+	/// </summary>
 	public static class SystemInfo
 	{
+		/// <summary>
+		/// Получает параметры системного окружения для текущего процесса
+		/// </summary>
+		/// <returns>Строка, содержащая значения параметов системного окружения для текущего процесса</returns>
 		public static string GetString()
 		{
 			var stringBuilder = new StringBuilder(string.Empty);
@@ -30,6 +37,11 @@ namespace Common
 			}
 			return stringBuilder.ToString();
 		}
+		/// <summary>
+		/// Определяет разрядность операционной системы
+		/// </summary>
+		/// <param name="is64">Текущая операционная система 64-х разрядная?</param>
+		/// <returns>Целое число, представляющее разрядность операционной системы</returns>
 		private static int GetBitCount(bool is64)
 		{
 			return is64 ? 64 : 86;
