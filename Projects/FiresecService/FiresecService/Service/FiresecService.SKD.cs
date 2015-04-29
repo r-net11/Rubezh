@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using ChinaSKDDriver;
@@ -81,6 +82,13 @@ namespace FiresecService.Service
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.TimeTrackTranslator.GetTimeTracks(filter, startDate, endDate);
+			}
+		}
+		public FileStream GetTimeTracksStream(EmployeeFilter filter, DateTime startDate, DateTime endDate)
+		{
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.TimeTrackTranslator.GetTimeTracksStream(filter, startDate, endDate);
 			}
 		}
 		public OperationResult SaveEmployeeDepartment(Guid uid, Guid departmentUid, string name)

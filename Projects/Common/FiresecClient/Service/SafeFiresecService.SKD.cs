@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using Common;
 using FiresecAPI;
 using FiresecAPI.GK;
@@ -31,6 +32,11 @@ namespace FiresecClient
 		public OperationResult<TimeTrackResult> GetTimeTracks(EmployeeFilter filter, DateTime startDate, DateTime endDate)
 		{
 			return SafeContext.Execute(() => FiresecService.GetTimeTracks(filter, startDate, endDate));
+		}
+		public FileStream GetTimeTracksStream(EmployeeFilter filter, DateTime startDate, DateTime endDate)
+		{
+			var result = SafeContext.Execute<FileStream>(() => FiresecService.GetTimeTracksStream(filter, startDate, endDate));
+			return result;
 		}
 		public OperationResult SaveEmployeeDepartment(Guid uid, Guid departmentUid, string name)
 		{

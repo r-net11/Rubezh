@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 using FiresecAPI;
 using FiresecAPI.SKD;
 
@@ -124,6 +126,18 @@ namespace SKDDriver.Translators
 			catch (Exception e)
 			{
 				return new OperationResult<TimeTrackResult>(e.Message);
+			}
+		}
+
+		public FileStream GetTimeTracksStream(EmployeeFilter filter, DateTime startDate, DateTime endDate)
+		{
+			var timeTracksResult = GetTimeTracks(filter, startDate, endDate).Result;
+			var serializer = new DataContractSerializer(typeof(TimeTrackResult));
+			using (var fileStream = File.Open("temp.xml", FileMode.Create))
+			//using (var fileStream = new MemoryStream())
+			{
+				serializer.WriteObject(fileStream, timeTracksResult);
+				return fileStream;
 			}
 		}
 
