@@ -70,9 +70,8 @@ namespace SKDModule.ViewModels
 					var schedules = ScheduleHelper.Get(new ScheduleFilter());
 					var hasLinkedSchedules = schedules.Any(x => x.OrganisationUID == Organisation.UID && x.Zones.Any(y => y.DoorUID == DoorUID));
 
-					var hasLinkedItems = linkedCards.Count > 0 || linkedAccessTemplates.Count > 0 || hasLinkedSchedules;
-					bool canRemove = false;
-					if (hasLinkedItems)
+					bool canRemove = true;
+					if (linkedCards.Count > 0 || linkedAccessTemplates.Count > 0 || hasLinkedSchedules)
 					{
 						if (MessageBoxService.ShowQuestion("Существуют карты, шаблоны доступа или графики, привязанные к данной точке доступа\nВы уверены, что хотите снять права с точки доступа?"))
 						{
@@ -87,12 +86,14 @@ namespace SKDModule.ViewModels
 								accessTemplate.CardDoors.RemoveAll(x => x.DoorUID == DoorUID);
 								AccessTemplateHelper.Save(accessTemplate, false);
 							}
-
-							canRemove = true;
+						}
+						else
+						{
+							canRemove = false;
 						}
 					}
 
-					if (!hasLinkedItems || canRemove)
+					if (canRemove)
 					{
 						if (Organisation.DoorUIDs.Contains(DoorUID))
 						{

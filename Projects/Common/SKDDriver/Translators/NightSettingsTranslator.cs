@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI;
 using FiresecAPI.SKD;
@@ -31,9 +32,14 @@ namespace SKDDriver
 
 		public OperationResult<NightSettings> GetByOrganisation(Guid uid)
 		{
+			return GetByOrganisation(uid, Table);
+		}
+
+		public OperationResult<NightSettings> GetByOrganisation(Guid uid, IEnumerable<DataAccess.NightSetting> tableItems)
+		{
 			try
 			{
-				var tableItem = Table.FirstOrDefault(x => x.OrganisationUID.Equals(uid));
+				var tableItem = tableItems.FirstOrDefault(x => x.OrganisationUID.Equals(uid));
 				if (tableItem == null)
 					return new OperationResult<NightSettings>("Настройки ночных и вечерних интервалов для данной организации не найдены");
 				return new OperationResult<NightSettings> { Result = Translate(tableItem) };

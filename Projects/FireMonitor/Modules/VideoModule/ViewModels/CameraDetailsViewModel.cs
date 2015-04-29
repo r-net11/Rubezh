@@ -80,7 +80,8 @@ namespace VideoModule.ViewModels
 		{
 			try
 			{
-				RviClient.RviClientHelper.SetPtzPreset(FiresecManager.SystemConfiguration, Camera, SelectedPreset - 1);
+				//RviClient.RviClientHelper.SetPtzPreset(FiresecManager.SystemConfiguration, Camera, SelectedPreset - 1);
+				RviClient.RviClientHelper.SetPtzPreset(FiresecManager.SystemConfiguration, Camera, SelectedPreset);
 
 				var journalItem = new JournalItem()
 				{

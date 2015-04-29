@@ -15,12 +15,10 @@ namespace JournalModule.ViewModels
 	public class VideoViewModel : DialogViewModel
 	{
 		readonly string DirectoryPath = AppDataFolderHelper.GetTempFolder();
-		string VideoPath { get; set; }
+		public string VideoPath { get; private set; }
 
 		public VideoViewModel(Guid eventUID, Guid cameraUID)
 		{
-			//if (!Directory.Exists(DirectoryPath))
-			//	Directory.CreateDirectory(DirectoryPath);
 			VideoPath = AppDataFolderHelper.GetTempFileName() + ".avi";
 			Title = "Видеофрагмент, связанный с событием";
 			RviClient.RviClientHelper.GetVideoFile(FiresecManager.SystemConfiguration, eventUID, cameraUID, VideoPath);

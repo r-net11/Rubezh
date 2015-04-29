@@ -48,7 +48,7 @@ namespace SKDDriver
 				isNew = false;
 				return gkCard.GKNo;
 			}
-			gkCard = Context.GKCards.FirstOrDefault(x => x.IPAddress == gkIPAddress && !x.IsActive);
+			gkCard = Context.GKCards.OrderBy(x => x.GKNo).FirstOrDefault(x => x.IPAddress == gkIPAddress && !x.IsActive);
 			if (gkCard != null)
 			{
 				isNew = false;
@@ -112,22 +112,30 @@ namespace SKDDriver
 			Context.SubmitChanges();
 		}
 
-		public void Actualize(string gkIPAddress, List<GKUser> users)
+		public void RemoveAll(string gkIPAddress, int cardsCount)
 		{
-			var gkCards = Context.GKCards.Where(x => x.IPAddress == gkIPAddress);
-			Context.GKCards.DeleteAllOnSubmit(gkCards);
-			foreach (var user in users)
+			if (!string.IsNullOrEmpty(gkIPAddress))
 			{
-				var gkCard = new GKCard();
-				gkCard.UID = Guid.NewGuid();
-				gkCard.IPAddress = gkIPAddress;
-				gkCard.GKNo = user.GKNo;
-				gkCard.CardNo = (int)user.Number;
-				gkCard.FIO = user.FIO;
-				gkCard.IsActive = user.IsActive;
-				Context.GKCards.InsertOnSubmit(gkCard);
+				var gkCards = Context.GKCards.Where(x => x.IPAddress == gkIPAddress);
+				if (gkCards != null)
+				{
+					Context.GKCards.DeleteAllOnSubmit(gkCards);
+				}
+				for (int no = 1; no < cardsCount + 1; no++)
+				{
+					var gkCard = new GKCard()
+					{
+						UID = Guid.NewGuid(),
+						IPAddress = gkIPAddress,
+						GKNo = no,
+						CardNo = (int)0,
+						FIO = "",
+						IsActive = false
+					};
+					Context.GKCards.InsertOnSubmit(gkCard);
+				}
+				Context.SubmitChanges();
 			}
-			Context.SubmitChanges();
 		}
 	}
 }

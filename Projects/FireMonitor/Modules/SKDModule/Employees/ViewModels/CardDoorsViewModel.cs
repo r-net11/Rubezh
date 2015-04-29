@@ -14,10 +14,12 @@ namespace SKDModule.ViewModels
 	public class CardDoorsViewModel : BaseViewModel
 	{
 		public List<CardDoor> CardDoors { get; private set; }
+		ICardDoorsParent _parent;
 
-		public CardDoorsViewModel(List<CardDoor> cardDoors)
+		public CardDoorsViewModel(List<CardDoor> cardDoors, ICardDoorsParent parent)
 		{
 			Update(cardDoors);
+			_parent = parent;
 			ServiceFactory.Events.GetEvent<UpdateOrganisationDoorsEvent>().Unsubscribe(OnOrganisationDoorsChanged);
 			ServiceFactory.Events.GetEvent<UpdateOrganisationDoorsEvent>().Subscribe(OnOrganisationDoorsChanged);
 		}
@@ -78,6 +80,12 @@ namespace SKDModule.ViewModels
 			var doorUIDs = OrganisationHelper.GetSingle(organisationUID).DoorUIDs;
 			var doorsToRemove = Doors.Where(x => !doorUIDs.Any(y => y == x.CardDoor.DoorUID)).ToList();
 			doorsToRemove.ForEach(x => Doors.Remove(x));
+			_parent.UpdateCardDoors(doorsToRemove.Select(x => x.CardDoor.DoorUID));
 		}
+	}
+
+	public interface ICardDoorsParent
+	{
+		void UpdateCardDoors(IEnumerable<Guid> doorUIDs);
 	}
 }

@@ -124,12 +124,9 @@ namespace FiresecService
 				var configurationEntry = zipFile[fileName];
 				if (configurationEntry != null)
 				{
-					var configurationMemoryStream = new MemoryStream();
-					configurationEntry.Extract(configurationMemoryStream);
-					configurationMemoryStream.Position = 0;
-
+					var stream = configurationEntry.OpenReader();
 					var xmlSerializer = new XmlSerializer(type);
-					var versionedConfiguration = (VersionedConfiguration)xmlSerializer.Deserialize(configurationMemoryStream);
+					var versionedConfiguration = (VersionedConfiguration)xmlSerializer.Deserialize(stream);
 					versionedConfiguration.ValidateVersion();
 					return versionedConfiguration;
 				}

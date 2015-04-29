@@ -66,11 +66,5 @@ namespace FiresecAPI.GK
 		/// </summary>
 		[DataMember]
 		public List<Guid> DayScheduleUIDs { get; set; }
-
-		/// <summary>
-		/// Список праздников
-		/// </summary>
-		[DataMember]
-		public List<DateTime> Holidays { get; set; }
 	}
 }

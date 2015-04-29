@@ -1,13 +1,12 @@
 using System.Collections.Generic;
+using DiagnosticsModule.Events;
 using DiagnosticsModule.ViewModels;
-using FiresecAPI;
 using Infrastructure.Client;
 using Infrastructure.Client.Layout;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Events;
-using DiagnosticsModule.Events;
 
 namespace DiagnosticsModule
 {
@@ -35,9 +34,9 @@ namespace DiagnosticsModule
 				new NavigationItem("Диагностика", "Bug",
 					new List<NavigationItem>()
 					{
-#if DEBUG
+//#if DEBUG
 						new NavigationItem<ShowDiagnosticsEvent, object>(DiagnosticsViewModel, "Диагностика", "Bug"),
-#endif
+//#endif
 						new NavigationItem<ShowServerEvent, object>(ServerViewModel, "Очередь операций", "Bug")
 					})
 				};

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
+using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
 using FiresecClient;
@@ -12,8 +14,6 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using SKDModule.Events;
-using FiresecAPI.GK;
-using System.Threading;
 
 namespace SKDModule.ViewModels
 {
@@ -24,13 +24,13 @@ namespace SKDModule.ViewModels
 		public AccessDoorsSelectationViewModel AccessDoorsSelectationViewModel { get; private set; }
 		public bool IsNewCard { get; private set; }
 		public bool HasGK { get; private set; }
-		public bool HasSKD { get; private set; }
+		public bool HasStrazh { get; private set; }
 		ShortEmployee _employee;
 		
 		public EmployeeCardDetailsViewModel(Organisation organisation, ShortEmployee employee, SKDCard card = null)
 		{
 			HasGK = GKManager.Devices.Count > 1;
-			HasSKD = SKDManager.Devices.Count > 1;
+			HasStrazh = SKDManager.Devices.Count > 1;
 			_employee = employee;
 
 			ChangeDeactivationControllerCommand = new RelayCommand(OnChangeDeactivationController);
@@ -83,21 +83,33 @@ namespace SKDModule.ViewModels
 			}
 
 			SelectedAccessTemplate = AvailableAccessTemplates.FirstOrDefault(x => x.UID == Card.AccessTemplateUID);
+			var cards = CardHelper.Get(new CardFilter());
+			Cards = cards != null ? new ObservableCollection<SKDCard>(cards) : new ObservableCollection<SKDCard>();
+
 			StopListCards = new ObservableCollection<SKDCard>();
-			var stopListCards = CardHelper.GetStopListCards();
-			if (stopListCards == null)
-				return;
-			foreach (var item in stopListCards)
+			foreach (var item in cards.Where(x => x.IsInStopList))
 				StopListCards.Add(item);
 			SelectedStopListCard = StopListCards.FirstOrDefault();
 
-			CardTypes = new ObservableCollection<CardType>(Enum.GetValues(typeof(CardType)).OfType<CardType>());
 			if (_employee.Type == PersonType.Guest)
 			{
-				CardTypes.Remove(CardType.Constant);
-				CardTypes.Remove(CardType.Duress);
+				CardTypes = new ObservableCollection<CardType>() { CardType.Temporary, CardType.OneTime, CardType.Blocked };
+			}
+			else
+			{
+				CardTypes = new ObservableCollection<CardType>(Enum.GetValues(typeof(CardType)).OfType<CardType>());
 			}
 			SelectedCardType = Card.CardType;
+
+			if (_employee.Type == PersonType.Guest)
+			{
+				GKCardTypes = new ObservableCollection<GKCardType>() { GKCardType.Employee };
+			}
+			else
+			{
+				GKCardTypes = new ObservableCollection<GKCardType>(Enum.GetValues(typeof(GKCardType)).OfType<GKCardType>());
+			}
+			SelectedGKCardType = Card.GKCardType;
 		}
 
 		uint _number;
@@ -122,16 +134,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		ObservableCollection<CardType> _cardTypes;
-		public ObservableCollection<CardType> CardTypes
-		{
-			get { return _cardTypes; }
-			set
-			{
-				_cardTypes = value;
-				OnPropertyChanged(() => CardTypes);
-			}
-		}
+		public ObservableCollection<CardType> CardTypes { get; private set; }
 
 		CardType _selectedCardType;
 		public CardType SelectedCardType
@@ -151,9 +154,22 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		public ObservableCollection<GKCardType> GKCardTypes { get; private set; }
+
+		GKCardType _selectedGKCardType;
+		public GKCardType SelectedGKCardType
+		{
+			get { return _selectedGKCardType; }
+			set
+			{
+				_selectedGKCardType = value;
+				OnPropertyChanged(() => SelectedGKCardType);
+			}
+		}
+
 		public bool CanSelectEndDate
 		{
-			get { return SelectedCardType == CardType.Temporary || SelectedCardType == CardType.Duress || !HasSKD; }
+			get { return SelectedCardType == CardType.Temporary || SelectedCardType == CardType.Duress || !HasStrazh; }
 		}
 
 		DateTime _startDate;
@@ -261,6 +277,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		public ObservableCollection<SKDCard> Cards { get; private set; }
 		public ObservableCollection<SKDCard> StopListCards { get; private set; }
 
 		SKDCard _selectedStopListCard;
@@ -461,50 +478,7 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
-			if (SelectedCardType == CardType.Temporary || SelectedCardType == CardType.Duress)
-			{
-				if (EndDate < DateTime.Now)
-				{
-					MessageBoxService.ShowWarning("Дата конца действия пропуска не может быть меньше теущей даты");
-					return false;
-				}
-			}
-
-			if (EndDate < StartDate)
-			{
-				MessageBoxService.ShowWarning("Дата конца действия пропуска не может быть раньше даты начала действия");
-				return false;
-			}
-
-			if(Number <= 0)
-			{
-				MessageBoxService.ShowWarning("Номер карты должен быть задан в пределах 1 ... 2147483647");
-				return false;
-			}
-
-			if (SelectedCardType == CardType.OneTime && DeactivationControllerUID != Guid.Empty && UserTime <= 0)
-			{
-				MessageBoxService.ShowWarning("Количество проходов для разого пропуска должно быть задано в пределах от 1 до " + Int16.MaxValue.ToString());
-				return false;
-			}
-
-			if (!string.IsNullOrEmpty(Password))
-			{
-				foreach (char c in Password)
-				{
-					if (!Char.IsDigit(c))
-					{
-						MessageBoxService.ShowWarning("Пароль может содержать только цифры");
-						return false;
-					}
-				}
-			}
-
-			if (GKLevel < 0 || GKLevel > 255)
-			{
-				MessageBoxService.ShowWarning("Уровень доступа должен быть в пределах от 0 до 255");
-				return false;
-			}
+			
 
 			Card.Number = Number;
 			var stopListCard = StopListCards.FirstOrDefault(x => x.Number == Card.Number);
@@ -530,6 +504,7 @@ namespace SKDModule.ViewModels
 			
 			Card.Password = Password;
 			Card.CardType = SelectedCardType;
+			Card.GKCardType = SelectedGKCardType;
 			Card.StartDate = StartDate;
 			Card.EndDate = EndDate;
 			Card.GKLevel = GKLevel;
@@ -571,38 +546,58 @@ namespace SKDModule.ViewModels
 				MessageBoxService.Show("Значение поля 'Пароль' не может быть длиннее 50 символов");
 				return false;
 			}
-			return true;
-		}
 
-		bool CheckChar(char c)
-		{
-			switch(c)
+			if (SelectedCardType == CardType.Temporary || SelectedCardType == CardType.Duress)
 			{
-				case '0':
-				case '1':
-				case '2':
-				case '3':
-				case '4':
-				case '5':
-				case '6':
-				case '7':
-				case '8':
-				case '9':
-				case 'a':
-				case 'A':
-				case 'b':
-				case 'B':
-				case 'c':
-				case 'C':
-				case 'd':
-				case 'D':
-				case 'e':
-				case 'E':
-				case 'f':
-				case 'F':
-					return true;
+				if (EndDate < DateTime.Now)
+				{
+					MessageBoxService.ShowWarning("Дата конца действия пропуска не может быть меньше теущей даты");
+					return false;
+				}
 			}
-			return false;
+
+			if (EndDate < StartDate)
+			{
+				MessageBoxService.ShowWarning("Дата конца действия пропуска не может быть раньше даты начала действия");
+				return false;
+			}
+
+			if (Number <= 0 || Number > Int32.MaxValue)
+			{
+				MessageBoxService.ShowWarning("Номер карты должен быть задан в пределах 1 ... 2147483647");
+				return false;
+			}
+
+			if(Cards.Any(x => x.Number == Card.Number && x.UID != Card.UID))
+			{
+				MessageBoxService.ShowWarning("Невозможно добавить карту с повторяющимся номером");
+				return false;
+			}
+
+			if (SelectedCardType == CardType.OneTime && DeactivationControllerUID != Guid.Empty && UserTime <= 0)
+			{
+				MessageBoxService.ShowWarning("Количество проходов для разого пропуска должно быть задано в пределах от 1 до " + Int16.MaxValue.ToString());
+				return false;
+			}
+
+			if (!string.IsNullOrEmpty(Password))
+			{
+				foreach (char c in Password)
+				{
+					if (!Char.IsDigit(c))
+					{
+						MessageBoxService.ShowWarning("Пароль может содержать только цифры");
+						return false;
+					}
+				}
+			}
+
+			if (GKLevel < 0 || GKLevel > 255)
+			{
+				MessageBoxService.ShowWarning("Уровень доступа должен быть в пределах от 0 до 255");
+				return false;
+			}
+			return true;
 		}
 	}
 }

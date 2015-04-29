@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using FiresecAPI;
+using FiresecAPI.GK;
 using FiresecAPI.SKD;
 using LinqKit;
 
@@ -42,11 +43,13 @@ namespace SKDDriver
 			result.IsInStopList = tableItem.IsInStopList;
 			result.StopReason = tableItem.StopReason;
 			result.PassCardTemplateUID = tableItem.PassCardTemplateUID;
-			result.DeactivationControllerUID = tableItem.DeactivationControllerUID != null ? tableItem.DeactivationControllerUID.Value : Guid.Empty ;
+			result.DeactivationControllerUID = tableItem.DeactivationControllerUID != null ? tableItem.DeactivationControllerUID.Value : Guid.Empty;
 			result.Password = tableItem.Password;
 			result.UserTime = tableItem.UserTime;
 			result.GKLevel = tableItem.GKLevel;
 			result.GKLevelSchedule = tableItem.GKLevelSchedule;
+			if (tableItem.GKCardType != -1)
+				result.GKCardType = (GKCardType)tableItem.GKCardType;
 			if (tableItem.EmployeeUID.HasValue)
 			{
 				result.EmployeeUID = tableItem.EmployeeUID.Value;
@@ -78,6 +81,7 @@ namespace SKDDriver
 			tableItem.UserTime = apiItem.UserTime;
 			tableItem.GKLevel = (byte)apiItem.GKLevel;
 			tableItem.GKLevelSchedule = (byte)apiItem.GKLevelSchedule;
+			tableItem.GKCardType = (int)apiItem.GKCardType;
 			if (tableItem.ExternalKey == null)
 				tableItem.ExternalKey = "-1";
 		}
@@ -121,19 +125,6 @@ namespace SKDDriver
 					break;
 			}
 
-			if (filter.EmployeeFilter != null)
-			{
-				var employees = DatabaseService.EmployeeTranslator.GetList(filter.EmployeeFilter);
-				if (employees != null && !employees.HasError)
-				{
-					var employeeUIDs = employees.Result.Select(x => x.UID).ToList();
-					if(filter.DeactivationType == LogicalDeletationType.All)
-						result = result.And(e => e.IsInStopList || (e.EmployeeUID != null && employeeUIDs.Contains(e.EmployeeUID.Value)));
-					else
-						result = result.And(e => e.EmployeeUID != null && employeeUIDs.Contains(e.EmployeeUID.Value));
-				}
-			}
-
 			if (filter.IsWithEndDate)
 			{
 				result = result.And(e => e.EndDate <= filter.EndDate);
@@ -147,6 +138,20 @@ namespace SKDDriver
 					result = result.And(e => e.CardType != null && filter.CardTypes.Contains((CardType)e.CardType.Value));
 			}
 
+			return result;
+		}
+
+		public override IEnumerable<DataAccess.Card> GetTableItems(CardFilter filter)
+		{
+			var result = base.GetTableItems(filter);
+			if(filter.EmployeeFilter != null)
+			{
+				var employeeUIDs = DatabaseService.EmployeeTranslator.GetTableItems(filter.EmployeeFilter).Select(x => x.UID);
+				if(filter.DeactivationType == LogicalDeletationType.All)
+					result = result.Where(e => e.IsInStopList || (e.EmployeeUID != null && employeeUIDs.Contains(e.EmployeeUID.Value)));
+			    else
+			        result = result.Where(e => e.EmployeeUID != null && employeeUIDs.Contains(e.EmployeeUID.Value));
+			}
 			return result;
 		}
 

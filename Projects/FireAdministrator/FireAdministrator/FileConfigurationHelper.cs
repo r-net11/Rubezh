@@ -130,7 +130,6 @@ namespace FireAdministrator
 				WaitHelper.Execute(() =>
 				{
 					ServiceFactory.Events.GetEvent<ConfigurationClosedEvent>().Publish(null);
-					ZipConfigActualizeHelper.Actualize(fileName, false);
 					var folderName = AppDataFolderHelper.GetLocalFolder("Administrator/Configuration");
 					var configFileName = Path.Combine(folderName, "Config.fscp");
 					if (Directory.Exists(folderName))

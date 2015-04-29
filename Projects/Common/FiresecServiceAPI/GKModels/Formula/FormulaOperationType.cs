@@ -37,6 +37,9 @@ namespace FiresecAPI.GK
 		[DescriptionAttribute("Умножить")]
 		MUL = 10,
 
+		[DescriptionAttribute("Задать местоположение")]
+		PUTP = 11,
+
 		[DescriptionAttribute("Или")]
 		OR = 12,
 
@@ -70,6 +73,9 @@ namespace FiresecAPI.GK
 		[DescriptionAttribute("Условие Меньше или равно")]
 		LE = 22,
 
+		[DescriptionAttribute("Проверка местоположения")]
+		TSTP = 23,
+
 		[DescriptionAttribute("Сравнение кода")]
 		CMPKOD = 24,
 
@@ -89,6 +95,15 @@ namespace FiresecAPI.GK
 		DUP = 30,
 
 		[DescriptionAttribute("Конец")]
-		END = 31
+		END = 31,
+
+		[DescriptionAttribute("Проверка уровня доступа")]
+		ACSP = 32,
+
+		[DescriptionAttribute("Сохранить местоположение в точку доступа")]
+		GETMEMB = 33,
+
+		[DescriptionAttribute("Считать местоположение из точки доступа")]
+		PUTMEMB = 34
 	}
 }

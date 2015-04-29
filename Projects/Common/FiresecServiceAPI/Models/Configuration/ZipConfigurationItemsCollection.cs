@@ -18,10 +18,10 @@ namespace FiresecAPI.Models
 		public List<ZipConfigurationItem> GetWellKnownZipConfigurationItems()
 		{
 			var zipConfigurationItems = new List<ZipConfigurationItem>();
-			foreach (var zipConfigurationItem in ZipConfigurationItems)
-			{
-				zipConfigurationItems.Add(new ZipConfigurationItem(zipConfigurationItem.Name, zipConfigurationItem.MajorVersion, zipConfigurationItem.MinorVersion));
-			}
+			//foreach (var zipConfigurationItem in ZipConfigurationItems)
+			//{
+			//    zipConfigurationItems.Add(new ZipConfigurationItem(zipConfigurationItem.Name, zipConfigurationItem.MajorVersion, zipConfigurationItem.MinorVersion));
+			//}
 			foreach (var name in GetWellKnownNames())
 			{
 				if (!zipConfigurationItems.Any(x => x.Name == name))

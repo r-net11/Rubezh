@@ -6,6 +6,7 @@ using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecClient;
 using FiresecAPI.Journal;
+using System.IO;
 
 namespace GKProcessor
 {
@@ -44,6 +45,7 @@ namespace GKProcessor
 
 		public static void DoProgress(string text, GKProgressCallback progressCallback)
 		{
+			progressCallback.CurrentStep++;
 			var gkProgressCallback = new GKProgressCallback
 			{
 				UID = progressCallback.UID,
@@ -52,6 +54,7 @@ namespace GKProcessor
 				Title = progressCallback.Title,
 				Text = text,
 				StepCount = progressCallback.StepCount,
+				CurrentStep = progressCallback.CurrentStep,
 				CanCancel = progressCallback.CanCancel,
 				GKProgressClientType = progressCallback.GKProgressClientType
 			};
@@ -209,14 +212,19 @@ namespace GKProcessor
 			return new OperationResult<GKDeviceConfiguration> { HasError = descriptorReader.Error != null, Error = descriptorReader.Error, Result = descriptorReader.DeviceConfiguration };
 		}
 
-		public static OperationResult<GKDeviceConfiguration> GKReadConfigurationFromGKFile(GKDevice device, string userName)
+		public static Stream GKReadConfigurationFromGKFile(GKDevice device, string userName)
 		{
 			AddGKMessage(JournalEventNameType.Чтение_конфигурации_из_прибора, JournalEventDescriptionType.NULL, "", device, userName);
 			SuspendMonitoring(device);
 			var gkFileReaderWriter = new GKFileReaderWriter();
-			var deviceConfiguration = gkFileReaderWriter.ReadConfigFileFromGK(device);
+			var filePath = gkFileReaderWriter.ReadConfigFileFromGK(device);
 			ResumeMonitoring(device);
-			return new OperationResult<GKDeviceConfiguration> { HasError = gkFileReaderWriter.Error != null, Error = gkFileReaderWriter.Error, Result = deviceConfiguration };
+			if (filePath != null)
+			{
+				return new FileStream(filePath, FileMode.Open, FileAccess.Read);
+			}
+			return Stream.Null;
+			//return new OperationResult<Stream> { HasError = gkFileReaderWriter.Error != null, Error = gkFileReaderWriter.Error, Result = new FileStream(filePath, FileMode.Open, FileAccess.Read) };
 		}
 
 		public static OperationResult<GKDeviceConfiguration> GKAutoSearch(GKDevice device, string userName)
@@ -536,12 +544,6 @@ namespace GKProcessor
 					Watcher.SendControlCommand(door, GKStateBit.TurnOff_InAutomatic, "Включить в автоматике");
 				}
 			}
-		}
-
-		public static bool GKAddUser(GKDevice device, string userName)
-		{
-			//AddGKMessage(JournalEventNameType.Синхронизация_времени, "", device, userName, true);
-			return DeviceBytesHelper.AddUser(device);
 		}
 
 		#endregion

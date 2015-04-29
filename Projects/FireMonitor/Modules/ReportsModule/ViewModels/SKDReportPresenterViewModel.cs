@@ -71,7 +71,10 @@ namespace ReportsModule.ViewModels
 					_selectedReport = value;
 					OnPropertyChanged(() => SelectedReport);
 					if (SelectedReport != null)
+					{
 						SelectedReport.Reset();
+						OnFitPageSize(ZoomFitMode.WholePage); // SKDDEV-409 пункт 1 - приведение масштаба каждого вновь открытого отчета к исходному размеру (100%)
+					}
 					BuildReport();
 				}
 				CommandManager.InvalidateRequerySuggested();
@@ -197,12 +200,14 @@ namespace ReportsModule.ViewModels
 		public RelayCommand<ZoomFitMode> FitPageSizeCommand { get; private set; }
 		private void OnFitPageSize(ZoomFitMode fitMode)
 		{
+			// SKDDEV-409 пункт 2 - приведение масштаба отчета к исходному размеру (100%)
 			if (fitMode == ZoomFitMode.WholePage)
 			{
 				Model.ZoomMode = null;
 				Model.SetZoom(100);
 				return;
 			}
+
 			Model.ZoomMode = new ZoomFitModeItem(fitMode);
 		}
 		private bool CanFitPageSize(ZoomFitMode fitMode)

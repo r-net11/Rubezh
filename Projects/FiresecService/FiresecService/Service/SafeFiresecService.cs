@@ -199,7 +199,7 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.GKReadConfiguration(deviceUID); }, "GKReadConfiguration");
 		}
 
-		public OperationResult<GKDeviceConfiguration> GKReadConfigurationFromGKFile(Guid deviceUID)
+		public Stream GKReadConfigurationFromGKFile(Guid deviceUID)
 		{
 			return SafeOperationCall(() => { return FiresecService.GKReadConfigurationFromGKFile(deviceUID); }, "GKReadConfigurationFromGKFile");
 		}
@@ -260,14 +260,9 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.GKSetSchedule(schedule); }, "GKSetSchedule");
 		}
 
-		public OperationResult<List<GKUser>> GKActualizeUsers(Guid gkDeviceUID)
+		public OperationResult<List<GKUser>> GKGetUsers(Guid gkDeviceUID)
 		{
-			return SafeOperationCall(() => { return FiresecService.GKActualizeUsers(gkDeviceUID); }, "GKActualizeUsers");
-		}
-
-		public OperationResult<bool> GKRemoveUsers(Guid gkDeviceUID)
-		{
-			return SafeOperationCall(() => { return FiresecService.GKRemoveUsers(gkDeviceUID); }, "GKRemoveUsers");
+			return SafeOperationCall(() => { return FiresecService.GKGetUsers(gkDeviceUID); }, "GKGetUsers");
 		}
 
 		public OperationResult<bool> GKRewriteUsers(Guid gkDeviceUID)

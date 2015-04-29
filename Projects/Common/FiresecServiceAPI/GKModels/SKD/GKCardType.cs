@@ -2,21 +2,24 @@
 
 namespace FiresecAPI.GK
 {
-	public enum GKUserType
+	/// <summary>
+	/// Тип пользователя ГК
+	/// </summary>
+	public enum GKCardType
 	{
 		[Description("Сотрудник")]
-		Employee,
+		Employee = 0,
 
 		[Description("Оператор")]
-		Operator,
+		Operator = 1,
 
 		[Description("Администратор")]
-		Administrator,
+		Administrator = 2,
 
 		[Description("Инсталлятор")]
-		Installator,
+		Installator = 3,
 
 		[Description("Изготовитель")]
-		Manufactor
+		Manufactor = 4,
 	}
 }

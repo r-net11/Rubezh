@@ -55,7 +55,7 @@
 			</tree:TreeList.View>
 		</tree:TreeList>
 		<GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeNS" />
-		<Views:DepartmentEmployeeListView Grid.Row="2" DataContext="{Binding SelectedItem.EmployeeListViewModel}" 
-			  Visibility="{Binding DataContext.SelectedItem.IsShowEmployeeList, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource BoolToVisibilityConverter}}" />
+		<Views:DepartmentEmployeeListView Grid.Row="2" DataContext="{Binding EmployeeListViewModel}" 
+			  Visibility="{Binding DataContext.IsShowEmployeeList, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource BoolToVisibilityConverter}}" />
 	</Grid>
 </UserControl>

@@ -7,6 +7,7 @@ using FiresecClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common.Windows;
 using SKDModule.Events;
+using System.Diagnostics;
 
 namespace SKDModule.ViewModels
 {
@@ -26,10 +27,14 @@ namespace SKDModule.ViewModels
 
 		public override void Initialize(EmployeeFilter filter)
 		{
+			var stopwatch = new Stopwatch();
+			stopwatch.Start();
 			base.Initialize(filter);
 			PersonType = filter.PersonType;
 			InitializeAdditionalColumns();
 			ServiceFactory.Events.GetEvent<ChangeEmployeeGuestEvent>().Publish(null);
+			stopwatch.Stop();
+			Trace.WriteLine("Client InitializeVM " + stopwatch.Elapsed);
 		}
 
 		protected override void OnOrganisationUsersChanged(Organisation newOrganisation)

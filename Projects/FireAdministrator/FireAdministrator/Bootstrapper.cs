@@ -56,7 +56,7 @@ namespace FireAdministrator
 					else if (Application.Current != null)
 					{
 						var shell = new AdministratorShellViewModel();
-						shell.LogoSource = "Logo";
+						shell.LogoSource = GlobalSettingsHelper.GlobalSettings.UseStrazhBrand ? "Logo" : "rubezhLogo";
 						ServiceFactory.MenuService = new MenuService((vm) => ((MenuViewModel)shell.Toolbar).ExtendedMenu = vm);
 						RunShell(shell);
 					}
@@ -109,7 +109,7 @@ namespace FireAdministrator
 					case GKProgressCallbackType.Progress:
 						if (gkProgressCallback.GKProgressClientType == GKProgressClientType.Administrator)
 						{
-							LoadingService.DoStep(gkProgressCallback.Text, gkProgressCallback.Title, gkProgressCallback.StepCount, gkProgressCallback.CanCancel);
+							LoadingService.DoStep(gkProgressCallback.Text, gkProgressCallback.Title, gkProgressCallback.StepCount, gkProgressCallback.CurrentStep, gkProgressCallback.CanCancel);
 							if (LoadingService.IsCanceled)
 							{
 								FiresecManager.FiresecService.CancelGKProgress(gkProgressCallback.UID, FiresecManager.CurrentUser.Name);

@@ -14,7 +14,7 @@ namespace GKModule.Validation
 
 			foreach (var direction in GKManager.Directions)
 			{
-				if (IsManyGK())
+				if (IsManyGK)
 					ValidateDifferentGK(direction);
 				ValidateEmpty(direction);
 			}

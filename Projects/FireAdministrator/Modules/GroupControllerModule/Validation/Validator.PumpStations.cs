@@ -16,7 +16,7 @@ namespace GKModule.Validation
 
 			foreach (var pumpStation in GKManager.PumpStations)
 			{
-				if (IsManyGK())
+				if (IsManyGK)
 					ValidateDifferentGK(pumpStation);
 				if (ValidateEmptyPumpStation(pumpStation))
 				{

@@ -5,6 +5,7 @@ using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using GKProcessor;
 using Infrastructure.Common;
+using System.IO;
 
 namespace FiresecClient
 {
@@ -25,7 +26,7 @@ namespace FiresecClient
 			return SafeOperationCall(() => FiresecService.GKReadConfiguration(device.UID), "GKReadConfiguration");
 		}
 
-		public OperationResult<GKDeviceConfiguration> GKReadConfigurationFromGKFile(GKDevice device)
+		public Stream GKReadConfigurationFromGKFile(GKDevice device)
 		{
 			return SafeOperationCall(() => FiresecService.GKReadConfigurationFromGKFile(device.UID), "GKReadConfigurationFromGKFile");
 		}
@@ -91,14 +92,9 @@ namespace FiresecClient
 			return SafeOperationCall(() => { return FiresecService.GKSetSchedule(schedule); }, "GKSetSchedule");
 		}
 
-		public OperationResult<List<GKUser>> GKActualizeUsers(GKDevice device)
+		public OperationResult<List<GKUser>> GKGetUsers(GKDevice device)
 		{
-			return SafeOperationCall(() => { return FiresecService.GKActualizeUsers(device.UID); }, "GKActualizeUsers");
-		}
-
-		public OperationResult<bool> GKRemoveUsers(GKDevice device)
-		{
-			return SafeOperationCall(() => { return FiresecService.GKRemoveUsers(device.UID); }, "GKRemoveUsers");
+			return SafeOperationCall(() => { return FiresecService.GKGetUsers(device.UID); }, "GKGetUsers");
 		}
 
 		public OperationResult<bool> GKRewriteUsers(GKDevice device)

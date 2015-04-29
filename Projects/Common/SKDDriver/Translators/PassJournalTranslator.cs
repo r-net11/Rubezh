@@ -12,7 +12,7 @@ namespace SKDDriver.Translators
 	public class PassJournalTranslator : IDisposable
 	{
 		public static string ConnectionString { get; set; }
-		DataAccess.PassJournalDataContext Context;
+		public DataAccess.PassJournalDataContext Context { get; private set; }
 
 		public PassJournalTranslator()
 		{
@@ -224,36 +224,38 @@ namespace SKDDriver.Translators
 
 		public DayTimeTrack GetRealTimeTrack(DataAccess.Employee employee, DataAccess.Schedule schedule, DataAccess.ScheduleScheme scheduleScheme, IEnumerable<DataAccess.ScheduleZone> scheduleZones, DateTime date)
 		{
+			return GetRealTimeTrack(employee, schedule, scheduleScheme, scheduleZones, date, Context.PassJournals);
+		}
+
+		public DayTimeTrack GetRealTimeTrack(DataAccess.Employee employee, DataAccess.Schedule schedule, DataAccess.ScheduleScheme scheduleScheme, IEnumerable<DataAccess.ScheduleZone> scheduleZones, DateTime date, IEnumerable<DataAccess.PassJournal> passJournals)
+		{
 			var dayTimeTrack = new DayTimeTrack();
 			dayTimeTrack.Date = date;
 
-			var passJournals = Context.PassJournals.Where(x => x.EmployeeUID == employee.UID && x.EnterTime != null && x.EnterTime.Date == date.Date).ToList();
-			if (passJournals != null)
+			foreach (var passJournal in passJournals.Where(x => x.EmployeeUID == employee.UID && x.EnterTime != null && x.EnterTime.Date == date.Date).ToList())
 			{
-				foreach (var passJournal in passJournals)
+				var scheduleZone = scheduleZones.FirstOrDefault(x => x.ZoneUID == passJournal.ZoneUID);
+				if (scheduleZone != null)
 				{
-					var scheduleZone = scheduleZones.FirstOrDefault(x => x.ZoneUID == passJournal.ZoneUID);
-					if (scheduleZone != null)
+					if (passJournal.ExitTime.HasValue)
 					{
-						if (passJournal.ExitTime.HasValue)
+						var timeTrackPart = new TimeTrackPart()
 						{
-							var timeTrackPart = new TimeTrackPart()
-							{
-								StartTime = passJournal.EnterTime.TimeOfDay,
-								EndTime = passJournal.ExitTime.Value.TimeOfDay,
-								ZoneUID = passJournal.ZoneUID,
-								PassJournalUID = passJournal.UID
-							};
-							dayTimeTrack.RealTimeTrackParts.Add(timeTrackPart);
-						}
+							StartTime = passJournal.EnterTime.TimeOfDay,
+							EndTime = passJournal.ExitTime.Value.TimeOfDay,
+							ZoneUID = passJournal.ZoneUID,
+							PassJournalUID = passJournal.UID
+						};
+						dayTimeTrack.RealTimeTrackParts.Add(timeTrackPart);
 					}
 				}
 			}
 			dayTimeTrack.RealTimeTrackParts = dayTimeTrack.RealTimeTrackParts.OrderBy(x => x.StartTime.Ticks).ToList();
-
+			
 			return dayTimeTrack;
 		}
 		
+
 		public OperationResult SaveEmployeeDays(List<EmployeeDay> employeeDays)
 		{
 			try

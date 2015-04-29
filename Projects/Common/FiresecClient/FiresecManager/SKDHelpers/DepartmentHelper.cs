@@ -71,5 +71,17 @@ namespace FiresecClient.SKDHelpers
 			var operationResult = FiresecManager.FiresecService.GetDepartmentList(filter);
 			return Common.ShowErrorIfExists(operationResult).FirstOrDefault();
 		}
+
+		public static IEnumerable<Guid> GetChildEmployeeUIDs(Guid uid)
+		{
+			var operationResult = FiresecManager.FiresecService.GetChildEmployeeUIDs(uid);
+			return Common.ShowErrorIfExists(operationResult);
+		}
+
+		public static IEnumerable<Guid> GetParentEmployeeUIDs(Guid uid)
+		{
+			var operationResult = FiresecManager.FiresecService.GetParentEmployeeUIDs(uid);
+			return Common.ShowErrorIfExists(operationResult);
+		}
 	}
 }

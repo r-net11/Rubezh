@@ -15,6 +15,9 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Microsoft.Win32;
+using System.IO;
+using Ionic.Zip;
+using System.Text;
 
 namespace GKModule.Models
 {
@@ -34,8 +37,7 @@ namespace GKModule.Models
 			ReadJournalCommand = new RelayCommand(OnReadJournal, CanReadJournal);
 			UpdateFirmwhareCommand = new RelayCommand(OnUpdateFirmwhare, CanUpdateFirmwhare);
 			AutoSearchCommand = new RelayCommand(OnAutoSearch, CanAutoSearch);
-			ActualizeUsersCommand = new RelayCommand(OnActualizeUsers, CanActualizeUsers);
-			RemoveUsersCommand = new RelayCommand(OnRemoveUsers, CanRemoveUsers);
+			GetUsersCommand = new RelayCommand(OnGetUsers, CanGetUsers);
 			RewriteUsersCommand = new RelayCommand(OnRewriteUsers, CanRewriteUsers);
 			RewriteAllSchedulesCommand = new RelayCommand(OnRewriteAllSchedules, CanRemoveAllSchedules);
 		}
@@ -211,19 +213,48 @@ namespace GKModule.Models
 		{
 			var thread = new Thread(() =>
 			{
-				var result = FiresecManager.FiresecService.GKReadConfigurationFromGKFile(SelectedDevice.Device);
+				var stream = FiresecManager.FiresecService.GKReadConfigurationFromGKFile(SelectedDevice.Device);
 
 				ApplicationService.Invoke(new Action(() =>
 				{
-					if (!result.HasError)
+					if (stream != Stream.Null)
 					{
+						var folderName = AppDataFolderHelper.GetLocalFolder("GKFile");
+						var configFileName = Path.Combine(folderName, "Config.fscp");
+						if (Directory.Exists(folderName))
+							Directory.Delete(folderName, true);
+						Directory.CreateDirectory(folderName);
+
+						var configFileStream = File.Create(configFileName);
+						FiresecManager.CopyStream(stream, configFileStream);
+						configFileStream.Close();
+
+						if (new FileInfo(configFileName).Length == 0)
+						{
+							MessageBoxService.ShowError("Ошибка при чтении конфигурации");
+							return;
+						}
+
+						var zipFile = ZipFile.Read(configFileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
+						var fileInfo = new FileInfo(configFileName);
+						var unzipFolderPath = Path.Combine(fileInfo.Directory.FullName, "Unzip");
+						zipFile.ExtractAll(unzipFolderPath);
+						zipFile.Dispose();
+						var configurationFileName = Path.Combine(unzipFolderPath, "GKDeviceConfiguration.xml");
+						if (!File.Exists(configurationFileName))
+						{
+							MessageBoxService.ShowError("Ошибка при распаковке файла");
+							return;
+						}
+						var deviceConfiguration = ZipSerializeHelper.DeSerialize<GKDeviceConfiguration>(configurationFileName, true);
+
 						ConfigurationCompareViewModel configurationCompareViewModel = null;
 						WaitHelper.Execute(() =>
 						{
 							DescriptorsManager.Create();
-							result.Result.UpdateConfiguration();
-							result.Result.PrepareDescriptors();
-							configurationCompareViewModel = new ConfigurationCompareViewModel(GKManager.DeviceConfiguration, result.Result, SelectedDevice.Device, true);
+							deviceConfiguration.UpdateConfiguration();
+							deviceConfiguration.PrepareDescriptors();
+							configurationCompareViewModel = new ConfigurationCompareViewModel(GKManager.DeviceConfiguration, deviceConfiguration, SelectedDevice.Device, true);
 						});
 						LoadingService.Close();
 						if (configurationCompareViewModel.Error != null)
@@ -237,7 +268,7 @@ namespace GKModule.Models
 					else
 					{
 						LoadingService.Close();
-						MessageBoxService.ShowWarning(result.Error, "Ошибка при чтении конфигурационного файла");
+						MessageBoxService.ShowWarning("Ошибка при чтении конфигурационного файла");
 					}
 				}));
 			});
@@ -378,60 +409,37 @@ namespace GKModule.Models
 			return (SelectedDevice != null && SelectedDevice.Driver.DriverType == GKDriverType.GK);
 		}
 
-		public RelayCommand ActualizeUsersCommand { get; private set; }
-		void OnActualizeUsers()
+		public RelayCommand GetUsersCommand { get; private set; }
+		void OnGetUsers()
 		{
 			var thread = new Thread(() =>
 			{
-				var result = FiresecManager.FiresecService.GKActualizeUsers(SelectedDevice.Device);
+				var result = FiresecManager.FiresecService.GKGetUsers(SelectedDevice.Device);
 
 				ApplicationService.Invoke(() =>
 				{
 					if (!result.HasError)
 					{
-						var gkUsersViewModel = new GKUsersViewModel(result.Result);
+						GKUsersViewModel gkUsersViewModel = null;
+						WaitHelper.Execute(() =>
+						{
+							gkUsersViewModel = new GKUsersViewModel(result.Result);
+						});
+						LoadingService.Close();
 						DialogService.ShowModalWindow(gkUsersViewModel);
 					}
 					else
 					{
 						LoadingService.Close();
-						MessageBoxService.ShowWarning(result.Error, "Ошибка при актулизации пользователей");
+						MessageBoxService.ShowWarning(result.Error, "Ошибка при получении пользователей");
 					}
 				});
 			});
-			thread.Name = "DeviceCommandsViewModel ActualizeUsers";
+			thread.Name = "DeviceCommandsViewModel GetUsers";
 			thread.Start();
 		}
 
-		bool CanActualizeUsers()
-		{
-			return (SelectedDevice != null && SelectedDevice.Driver.DriverType == GKDriverType.GK);
-		}
-
-		public RelayCommand RemoveUsersCommand { get; private set; }
-		void OnRemoveUsers()
-		{
-			var thread = new Thread(() =>
-			{
-				var result = FiresecManager.FiresecService.GKRemoveUsers(SelectedDevice.Device);
-
-				ApplicationService.Invoke(() =>
-				{
-					if (!result.HasError)
-					{
-					}
-					else
-					{
-						LoadingService.Close();
-						MessageBoxService.ShowWarning(result.Error, "Ошибка при удалении пользователей");
-					}
-				});
-			});
-			thread.Name = "DeviceCommandsViewModel RemoveUsers";
-			thread.Start();
-		}
-
-		bool CanRemoveUsers()
+		bool CanGetUsers()
 		{
 			return (SelectedDevice != null && SelectedDevice.Driver.DriverType == GKDriverType.GK);
 		}
@@ -445,10 +453,7 @@ namespace GKModule.Models
 
 				ApplicationService.Invoke(() =>
 				{
-					if (!result.HasError)
-					{
-					}
-					else
+					if (result.HasError)
 					{
 						LoadingService.Close();
 						MessageBoxService.ShowWarning(result.Error, "Ошибка при перезаписи пользователей");

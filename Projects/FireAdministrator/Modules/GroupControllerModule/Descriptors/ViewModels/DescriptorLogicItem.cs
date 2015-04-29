@@ -41,12 +41,29 @@ namespace GKModule.ViewModels
 				case FormulaOperationType.SUB:
 				case FormulaOperationType.XOR:
 				case FormulaOperationType.EXIT:
+				case FormulaOperationType.PUTP:
 					FirstOperand = "";
 					SecondOperand = "";
 					break;
 
 				case FormulaOperationType.CONST:
+				case FormulaOperationType.TSTP:
 					FirstOperand = "";
+					break;
+
+				case FormulaOperationType.PUTMEMB:
+				case FormulaOperationType.GETMEMB:
+					FirstOperand = "";
+					var descriptorViewModel = DescriptorsViewModel.Descriptors.FirstOrDefault(x => ((x.Descriptor.DatabaseType == GKProcessor.DatabaseType.Gk && x.Descriptor.GKBase.GKDescriptorNo == FormulaOperation.SecondOperand) || (x.Descriptor.DatabaseType == GKProcessor.DatabaseType.Kau && x.Descriptor.GKBase.KAUDescriptorNo == FormulaOperation.SecondOperand)));
+					if (descriptorViewModel != null)
+					{
+						DescriptorIcon = descriptorViewModel.ImageSource;
+						SecondOperand = descriptorViewModel.Descriptor.GKBase.PresentationName;
+					}
+					else
+					{
+						SecondOperand = "<Не найдено в конфигурации>";
+					}
 					break;
 
 				default:
@@ -58,7 +75,7 @@ namespace GKModule.ViewModels
 					var stateTypeToStringConverter = new EnumToDescriptionConverter();
 					FirstOperand = (string)stateTypeToStringConverter.Convert((GKStateBit)FormulaOperation.FirstOperand, null, null, null);
 
-					var descriptorViewModel = DescriptorsViewModel.Descriptors.FirstOrDefault(x => ((x.Descriptor.DatabaseType == GKProcessor.DatabaseType.Gk && x.Descriptor.GKBase.GKDescriptorNo == FormulaOperation.SecondOperand) || (x.Descriptor.DatabaseType == GKProcessor.DatabaseType.Kau && x.Descriptor.GKBase.KAUDescriptorNo == FormulaOperation.SecondOperand)));
+					descriptorViewModel = DescriptorsViewModel.Descriptors.FirstOrDefault(x => ((x.Descriptor.DatabaseType == GKProcessor.DatabaseType.Gk && x.Descriptor.GKBase.GKDescriptorNo == FormulaOperation.SecondOperand) || (x.Descriptor.DatabaseType == GKProcessor.DatabaseType.Kau && x.Descriptor.GKBase.KAUDescriptorNo == FormulaOperation.SecondOperand)));
 					if (descriptorViewModel != null)
 					{
 						DescriptorIcon = descriptorViewModel.ImageSource;
@@ -85,6 +102,10 @@ namespace GKModule.ViewModels
 					FirstOperand = "Если не равно";
 			}
 			if (FormulaOperation.FormulaOperationType == FormulaOperationType.ACS)
+			{
+				FirstOperand = FormulaOperation.FirstOperand.ToString();
+			}
+			if (FormulaOperation.FormulaOperationType == FormulaOperationType.ACSP)
 			{
 				FirstOperand = FormulaOperation.FirstOperand.ToString();
 			}
@@ -121,7 +142,12 @@ namespace GKModule.ViewModels
 					case FormulaOperationType.GETBIT:
 					case FormulaOperationType.GETBYTE:
 					case FormulaOperationType.GETWORD:
-						return "/Controls;component/Images/BArrowUp.png";
+					case FormulaOperationType.ACS:
+					case FormulaOperationType.TSTP:
+					case FormulaOperationType.KOD:
+					case FormulaOperationType.ACSP:
+					case FormulaOperationType.GETMEMB:
+						return "/Controls;component/Images/RedArrowUp.png";
 
 					case FormulaOperationType.ADD:
 					case FormulaOperationType.AND:
@@ -138,7 +164,11 @@ namespace GKModule.ViewModels
 					case FormulaOperationType.PUTWORD:
 					case FormulaOperationType.SUB:
 					case FormulaOperationType.XOR:
-						return "/Controls;component/Images/BArrowDown.png";
+					case FormulaOperationType.CMPKOD:
+					case FormulaOperationType.BR:
+					case FormulaOperationType.PUTP:
+					case FormulaOperationType.PUTMEMB:
+						return "/Controls;component/Images/GreenArrowDown.png";
 
 					case FormulaOperationType.COM:
 					case FormulaOperationType.END:

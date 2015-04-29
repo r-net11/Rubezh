@@ -87,7 +87,7 @@ namespace SKDModule.PassCardDesigner.ViewModels
 		{
 			_organisationUID = organisation.UID;
 			DesignerCanvas.Toolbox.RegisterInstruments(GetInstruments());
-			bool _isNew = model == null;
+			_isNew = model == null;
 			if (_isNew)
 			{
 				Title = "Создание шаблона пропусков";

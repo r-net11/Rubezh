@@ -115,7 +115,7 @@ namespace SKDDriver
 				return new OperationResult(e.Message);
 			}
 		}
- 
+
 		protected override Department Translate(DataAccess.Department tableItem)
 		{
 			var result = base.Translate(tableItem);
@@ -125,7 +125,6 @@ namespace SKDDriver
 			{
 				childDepartmentUIDs.Add(department.UID);
 			}
-			tableItem.Departments.ToList().ForEach(x => childDepartmentUIDs.Add(x.UID));
 			result.Name = tableItem.Name;
 			result.Description = tableItem.Description;
 			result.ParentDepartmentUID = tableItem.ParentDepartmentUID;
@@ -146,7 +145,7 @@ namespace SKDDriver
 			tableItem.ParentDepartmentUID = apiItem.ParentDepartmentUID;
 			tableItem.ContactEmployeeUID = apiItem.ContactEmployeeUID;
 			tableItem.AttendantUID = apiItem.AttendantEmployeeUID;
-			if(apiItem.Photo != null)
+			if (apiItem.Photo != null)
 				tableItem.PhotoUID = apiItem.Photo.UID;
 			tableItem.ChiefUID = apiItem.ChiefUID;
 			tableItem.Phone = apiItem.Phone;
@@ -163,12 +162,22 @@ namespace SKDDriver
 			result.Phone = tableItem.Phone;
 			result.ParentDepartmentUID = tableItem.ParentDepartmentUID;
 
-			foreach (var department in Context.Departments.Where(x => x.ParentDepartmentUID == tableItem.UID))
+			if (_allDepartments != null)
 			{
-				result.ChildDepartments.Add(department.UID, department.Name);
+				foreach (var department in _allDepartments.Where(x => x.ParentDepartmentUID == tableItem.UID))
+				{
+					result.ChildDepartments.Add(department.UID, department.Name);
+				}
 			}
-			
+
 			return result;
+		}
+
+		List<DataAccess.Department> _allDepartments;
+		protected override void BeforeGetList()
+		{
+			_allDepartments = Table.ToList();
+			base.BeforeGetList();
 		}
 
 		public string GetName(Guid? uid)
@@ -194,6 +203,61 @@ namespace SKDDriver
 				return new OperationResult(e.Message);
 			}
 			return new OperationResult();
+		}
+
+		public OperationResult<IEnumerable<Guid>> GetChildEmployeeUIDs(Guid uid)
+		{
+			try
+			{
+				var departmentUIDs = GetChildUIDs(uid);
+				var employees = Context.Employees.Where(x => x != null && departmentUIDs.Contains(x.DepartmentUID.Value)).Select(x => x.UID);
+				return new OperationResult<IEnumerable<Guid>> { Result = employees.ToList() };
+			}
+			catch (Exception e)
+			{
+				return new OperationResult<IEnumerable<Guid>>(e.Message);	
+			}
+		}
+
+		public OperationResult<IEnumerable<Guid>> GetParentEmployeeUIDs(Guid uid)
+		{
+			try
+			{
+				var departmentUIDs = GetParentUIDs(uid);
+				var employees = Context.Employees.Where(x => x != null && departmentUIDs.Contains(x.DepartmentUID.Value)).Select(x => x.UID);
+				return new OperationResult<IEnumerable<Guid>> { Result = employees.ToList() };
+			}
+			catch (Exception e)
+			{
+				return new OperationResult<IEnumerable<Guid>>(e.Message);
+			}
+		}
+
+		List<Guid> GetChildUIDs(Guid uid)
+		{
+			var result = new List<Guid>();
+			result.Add(uid);
+			var children = Context.Departments.Where(x => x.ParentDepartmentUID == uid);
+			if (children != null && children.Count() > 0)
+			{
+				foreach (var child in children)
+				{
+					result.AddRange(GetChildUIDs(child.UID));
+				}
+			}
+			return result;
+		}
+
+		List<Guid> GetParentUIDs(Guid uid)
+		{
+			var result = new List<Guid>();
+			result.Add(uid);
+			var parent = Context.Departments.FirstOrDefault(x => x.Departments.Any(y => y.UID == uid));
+			if (parent != null)
+			{
+				result.AddRange(GetParentUIDs(parent.UID));
+			}
+			return result;
 		}
 
 		public override OperationResult Save(Department apiItem)

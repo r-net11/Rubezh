@@ -23,8 +23,7 @@
 				<IconedMenuItem Command="{Binding UpdateFirmwhareCommand}" ImageSource="BParametersSync" Text="Обновление ПО" TotalHeight="24" />
 				<IconedMenuItem Command="{Binding AutoSearchCommand}" ImageSource="BSearch"  Text="Автопоиск устройств" TotalHeight="24" />
 				<Separator />
-				<IconedMenuItem Command="{Binding ActualizeUsersCommand}" ImageSource="BSettings" Text="Актуализация пользователей прибора" TotalHeight="24" />
-				<IconedMenuItem Command="{Binding RemoveUsersCommand}" ImageSource="BSettings" Text="Стереть пользователей прибора" TotalHeight="24" />
+				<IconedMenuItem Command="{Binding GetUsersCommand}" ImageSource="BSettings" Text="Считать пользователей прибора" TotalHeight="24" />
 				<IconedMenuItem Command="{Binding RewriteUsersCommand}" ImageSource="BSettings" Text="Перезаписать пользователей прибора" TotalHeight="24" />
 				<IconedMenuItem Command="{Binding RewriteAllSchedulesCommand}" ImageSource="BSettings" Text="Перезаписать все графики" TotalHeight="24" />
 			</MenuItem>

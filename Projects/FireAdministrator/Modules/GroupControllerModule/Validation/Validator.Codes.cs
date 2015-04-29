@@ -14,7 +14,7 @@ namespace GKModule.Validation
 
 			foreach (var code in GKManager.DeviceConfiguration.Codes)
 			{
-				if (IsManyGK())
+				if (IsManyGK)
 					ValidateCodeDifferentGK(code);
 			}
 		}

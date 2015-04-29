@@ -21,7 +21,7 @@
         <ComponentRef Id="Monitor.GK_MODULE" />
       </Feature>
       <Feature Id="SKD.Features" Title="Страж" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компопненты для работы оборудования Страж">
-        <Condition Level="0">INSTALL_STRAZH</Condition>
+        <Condition Level="1">INSTALL_STRAZH</Condition>
         <ComponentRef Id="Administrator.STRAZH_MODULE" />
         <ComponentRef Id="Monitor.STRAZH_MODULE" />
         <ComponentRef Id="Server.STRAZH_MODULE" />

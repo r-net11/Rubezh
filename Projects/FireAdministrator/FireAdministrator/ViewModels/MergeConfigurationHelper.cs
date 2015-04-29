@@ -33,7 +33,6 @@ namespace FireAdministrator.ViewModels
 			if (openDialog.ShowDialog().Value)
 			{
 				ServiceFactory.Events.GetEvent<ConfigurationClosedEvent>().Publish(null);
-				ZipConfigActualizeHelper.Actualize(openDialog.FileName, false);
 				var folderName = AppDataFolderHelper.GetLocalFolder("Administrator/MergeConfiguration");
 				var configFileName = Path.Combine(folderName, "Config.fscp");
 				if (Directory.Exists(folderName))

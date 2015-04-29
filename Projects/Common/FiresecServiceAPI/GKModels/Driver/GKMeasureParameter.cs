@@ -9,5 +9,6 @@
 		public bool IsLowByte { get; set; }
 		public string InternalName { get; set; }
 		public double? Multiplier { get; set; }
+		public bool HasNegativeValue { get; set; }
 	}
 }

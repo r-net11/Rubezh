@@ -20,7 +20,7 @@ namespace GKModule.Validation
 			{
 				if (device.IsNotUsed)
 					continue;
-				if (IsManyGK())
+				if (IsManyGK)
 					ValidateDifferentGK(device);
 				ValidateIPAddress(device);
 				if (GlobalSettingsHelper.GlobalSettings.IgnoredErrors.HasFlag(ValidationErrorType.DeviceNotConnected))

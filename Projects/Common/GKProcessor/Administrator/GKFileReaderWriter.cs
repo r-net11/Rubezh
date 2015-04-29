@@ -14,7 +14,7 @@ namespace GKProcessor
 	{
 		public string Error { get; private set; }
 
-		public GKDeviceConfiguration ReadConfigFileFromGK(GKDevice gkControllerDevice)
+		public string ReadConfigFileFromGK(GKDevice gkControllerDevice)
 		{
 			var progressCallback = GKProcessorManager.StartProgress("Чтение конфигурационного файла из " + gkControllerDevice.PresentationName, "Проверка связи", 1, true, GKProgressClientType.Administrator);
 			try
@@ -51,10 +51,16 @@ namespace GKProcessor
 				if (allbytes.Count == 0)
 				{ Error = "Конфигурационный файл отсутствует"; return null; }
 
-				var deviceConfiguration = ZipFileConfigurationHelper.UnZipFromStream(new MemoryStream(allbytes.ToArray()));
-				if (ZipFileConfigurationHelper.Error != null)
-				{ Error = ZipFileConfigurationHelper.Error; return null; }
-				return deviceConfiguration;
+				var folderName = AppDataFolderHelper.GetFolder("TempServer");
+				var configFileName = Path.Combine(folderName, "ConfigFromGK.fscp");
+				if (Directory.Exists(folderName))
+					Directory.Delete(folderName, true);
+				Directory.CreateDirectory(folderName);
+				var fileStream = new FileStream(configFileName, FileMode.CreateNew, FileAccess.ReadWrite);
+				fileStream.Write(allbytes.ToArray(), 0, allbytes.Count);
+				fileStream.Close();
+
+				return configFileName;
 			}
 			catch (Exception e)
 			{ Logger.Error(e, "GKDescriptorsWriter.WriteConfig"); Error = "Непредвиденная ошибка"; return null; }
@@ -79,8 +85,6 @@ namespace GKProcessor
 			var progressCallback = GKProcessorManager.StartProgress("Запись файла в " + gkControllerDevice.PresentationName, null, bytesList.Count / 256, false, GKProgressClientType.Administrator);
 			for (var i = 0; i < bytesList.Count; i += 256)
 			{
-				if (progressCallback.IsCanceled)
-				{ Error = "Операция отменена"; return; }
 				GKProcessorManager.DoProgress("Запись блока данных " + i + 1, progressCallback);
 				var bytesBlock = BitConverter.GetBytes((uint)(i / 256 + 1)).ToList();
 				bytesBlock.AddRange(bytesList.GetRange(i, Math.Min(256, bytesList.Count - i)));

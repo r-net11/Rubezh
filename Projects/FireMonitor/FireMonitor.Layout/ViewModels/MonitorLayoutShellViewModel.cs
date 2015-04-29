@@ -54,7 +54,7 @@ namespace FireMonitor.Layout.ViewModels
 					Content = RibbonContent,
 				};
 				ribbonViewModel.PopupOpened += (s, e) => UpdateRibbonItems();
-				ribbonViewModel.LogoSource = "Logo";
+				ribbonViewModel.LogoSource = GlobalSettingsHelper.GlobalSettings.UseStrazhBrand ? "Logo" : "rubezhLogo";
 				HeaderMenu = ribbonViewModel;
 				AddRibbonItem();
 				AllowLogoIcon = false;

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.SKD;
+using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common.Windows;
@@ -197,14 +198,10 @@ namespace SKDModule.ViewModels
 
 		protected override void Remove()
 		{
-			if (!SelectedItem.GetAllChildren().Any(x => x.EmployeeListViewModel.Employees != null && x.EmployeeListViewModel.Employees.Count > 0) ||
+			var employeeUIDs = DepartmentHelper.GetChildEmployeeUIDs(SelectedItem.UID);
+			if (employeeUIDs == null || employeeUIDs.Count() == 0 ||
 				MessageBoxService.ShowQuestion("Существуют привязанные к подразделению сотрудники. Продожить?"))
 			{
-				var employeeUIDs = new List<Guid>();
-				foreach (var item in SelectedItem.GetAllChildren().Select(x => x.EmployeeListViewModel.Employees.Select(y => y.Employee.UID)))
-				{
-					employeeUIDs.AddRange(item);
-				}
 				base.Remove();
 				if (IsWithDeleted)
 				{
@@ -229,11 +226,7 @@ namespace SKDModule.ViewModels
 				child.IsDeleted = false;
 				SelectedItem.RemovalDate = "";
 			}
-			var employeeUIDs = SelectedItem.EmployeeListViewModel.Employees.Select(y => y.Employee.UID).ToList();
-			foreach (var item in SelectedItem.GetAllParents().Where(x => !x.IsOrganisation).Select(x => x.EmployeeListViewModel.Employees.Select(y => y.Employee.UID)))
-			{
-				employeeUIDs.AddRange(item);
-			}
+			var employeeUIDs = DepartmentHelper.GetParentEmployeeUIDs(SelectedItem.UID);;
 			foreach (var uid in employeeUIDs)
 			{
 				ServiceFactory.Events.GetEvent<EditEmployeeEvent>().Publish(uid);
@@ -254,7 +247,24 @@ namespace SKDModule.ViewModels
 		protected override void SetIsDeletedByOrganisation(DepartmentViewModel organisationViewModel)
 		{
 			base.SetIsDeletedByOrganisation(organisationViewModel);
-			organisationViewModel.GetAllChildren().ForEach(x => x.InitializeEmployeeList());
+			UpdateSelected();
+		}
+
+		protected override void UpdateSelected()
+		{
+			base.UpdateSelected();
+			if (EmployeeListViewModel == null)
+				EmployeeListViewModel = new DepartmentEmployeeListViewModel(SelectedItem, IsWithDeleted);
+			else
+				EmployeeListViewModel.Initialize(SelectedItem, IsWithDeleted);
+			OnPropertyChanged(() => IsShowEmployeeList);
+		}
+
+		public DepartmentEmployeeListViewModel EmployeeListViewModel { get; private set; }
+
+		public bool IsShowEmployeeList
+		{
+			get { return !SelectedItem.IsOrganisation && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Employees_View); }
 		}
 	}
 }

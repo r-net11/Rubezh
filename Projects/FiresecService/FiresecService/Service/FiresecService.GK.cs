@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Threading;
 using FiresecAPI;
 using FiresecAPI.GK;
+using FiresecAPI.Journal;
+using FiresecAPI.SKD;
 using FiresecClient;
 using GKProcessor;
-using FiresecAPI.Journal;
 using SKDDriver;
-using FiresecAPI.SKD;
 
 namespace FiresecService.Service
 {
@@ -27,7 +27,7 @@ namespace FiresecService.Service
 		public void CancelGKProgress(Guid progressCallbackUID, string userName)
 		{
 			ChinaSKDDriver.Processor.CancelProgress(progressCallbackUID, userName);
-			//GKProcessorManager.CancelGKProgress(progressCallbackUID, userName);
+			GKProcessorManager.CancelGKProgress(progressCallbackUID, userName);
 		}
 
 		public OperationResult<bool> GKWriteConfiguration(Guid deviceUID)
@@ -51,7 +51,7 @@ namespace FiresecService.Service
 			return new OperationResult<GKDeviceConfiguration>("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
 		}
 
-		public OperationResult<GKDeviceConfiguration> GKReadConfigurationFromGKFile(Guid deviceUID)
+		public Stream GKReadConfigurationFromGKFile(Guid deviceUID)
 		{
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
@@ -59,7 +59,8 @@ namespace FiresecService.Service
 				DescriptorsManager.Create();
 				return GKProcessorManager.GKReadConfigurationFromGKFile(device, UserName);
 			}
-			return new OperationResult<GKDeviceConfiguration>("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
+			return Stream.Null;
+			//return new OperationResult<Stream("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
 		}
 
 		public OperationResult<GKDeviceConfiguration> GKAutoSearch(Guid deviceUID)
@@ -213,86 +214,6 @@ namespace FiresecService.Service
 			if (gkControllerDevice != null)
 			{
 				return GKScheduleHelper.GKSetSchedule(gkControllerDevice, schedule);
-			}
-			return new OperationResult<bool>("Не найден ГК в конфигурации");
-		}
-
-		public OperationResult<List<GKUser>> GKActualizeUsers(Guid gkDeviceUID)
-		{
-			var gkControllerDevice = GKManager.Devices.FirstOrDefault(x => x.UID == gkDeviceUID);
-			if (gkControllerDevice != null)
-			{
-				var gkSKDHelper = new GKSKDHelper();
-				try
-				{
-					var users = gkSKDHelper.ActualizeGKUsers(gkControllerDevice);
-					return new OperationResult<List<GKUser>>() { Result = users };
-				}
-				catch(Exception e)
-				{
-					return new OperationResult<List<GKUser>>(e.Message);
-				}
-			}
-			return new OperationResult<List<GKUser>>("Не найден ГК в конфигурации");
-		}
-
-		public OperationResult<bool> GKRemoveUsers(Guid gkDeviceUID)
-		{
-			var gkControllerDevice = GKManager.Devices.FirstOrDefault(x => x.UID == gkDeviceUID);
-			if (gkControllerDevice != null)
-			{
-				var gkSKDHelper = new GKSKDHelper();
-				try
-				{
-					var users = gkSKDHelper.RemoveGKUsers(gkControllerDevice);
-					return new OperationResult<bool>() { Result = users };
-				}
-				catch (Exception e)
-				{
-					return new OperationResult<bool>(e.Message);
-				}
-			}
-			return new OperationResult<bool>("Не найден ГК в конфигурации");
-		}
-
-		public OperationResult<bool> GKRewriteUsers(Guid gkDeviceUID)
-		{
-			var gkControllerDevice = GKManager.Devices.FirstOrDefault(x => x.UID == gkDeviceUID);
-			if (gkControllerDevice != null)
-			{
-				try
-				{
-					var gkSKDHelper = new GKSKDHelper();
-					gkSKDHelper.RemoveGKUsers(gkControllerDevice);
-					gkSKDHelper.ActualizeGKUsers(gkControllerDevice);
-
-					using (var databaseService = new SKDDatabaseService())
-					{
-						var cardsResult = databaseService.CardTranslator.Get(new CardFilter());
-						if (!cardsResult.HasError)
-						{
-							foreach (var card in cardsResult.Result)
-							{
-								var getAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(card.AccessTemplateUID);
-								var employeeOperationResult = databaseService.EmployeeTranslator.GetSingle(card.HolderUID);
-								var accessTemplate = getAccessTemplateOperationResult.Result != null ? getAccessTemplateOperationResult.Result : null;
-								var employee = employeeOperationResult.Result != null ? employeeOperationResult.Result : null;
-
-								if (employee != null)
-								{
-									gkSKDHelper = new GKSKDHelper();
-									gkSKDHelper.AddOneCard(gkControllerDevice, card, accessTemplate, employee.FIO);
-								}
-							}
-						}
-					}
-
-					return new OperationResult<bool>();
-				}
-				catch (Exception e)
-				{
-					return new OperationResult<bool>(e.Message);
-				}
 			}
 			return new OperationResult<bool>("Не найден ГК в конфигурации");
 		}
@@ -529,21 +450,81 @@ namespace FiresecService.Service
 		}
 
 		#region Users
-		public OperationResult<bool> GKAddUser(Guid deviceUID)
+		public OperationResult<List<GKUser>> GKGetUsers(Guid gkDeviceUID)
 		{
-			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			var gkControllerDevice = GKManager.Devices.FirstOrDefault(x => x.UID == gkDeviceUID);
+			if (gkControllerDevice != null)
+			{
+				var gkSKDHelper = new GKSKDHelper();
+				try
+				{
+					return gkSKDHelper.GetAllUsers(gkControllerDevice);
+				}
+				catch (Exception e)
+				{
+					return new OperationResult<List<GKUser>>(e.Message);
+				}
+			}
+			return new OperationResult<List<GKUser>>("Не найден ГК в конфигурации");
+		}
+
+		public OperationResult<bool> GKRewriteUsers(Guid gkDeviceUID)
+		{
+			var device = GKManager.Devices.FirstOrDefault(x => x.UID == gkDeviceUID);
 			if (device != null)
 			{
-				var result = GKProcessorManager.GKAddUser(device, UserName);
-				if (result)
-					return new OperationResult<bool>() { Result = true };
-				else
-					return new OperationResult<bool>("Устройство недоступно") { Result = false };
+				var progressCallback = GKProcessorManager.StartProgress("Удаление пользователей прибора " + device.PresentationName, "", 65535, false, GKProgressClientType.Administrator);
+				try
+				{
+					var gkSKDHelper = new GKSKDHelper();
+					var removeResult = gkSKDHelper.RemoveAllUsers(device, progressCallback);
+					if (!removeResult)
+					{
+						GKProcessorManager.StopProgress(progressCallback);
+						return new OperationResult<bool>("Ошибка при удалении пользователя из ГК");
+					}
+
+					using (var databaseService = new SKDDatabaseService())
+					{
+						var cardsResult = databaseService.CardTranslator.Get(new CardFilter());
+						if (!cardsResult.HasError)
+						{
+							progressCallback.StepCount = cardsResult.Result.Count();
+							progressCallback.CurrentStep = 0;
+							foreach (var card in cardsResult.Result)
+							{
+								var getAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(card.AccessTemplateUID);
+								var accessTemplate = getAccessTemplateOperationResult.Result != null ? getAccessTemplateOperationResult.Result : null;
+
+								gkSKDHelper = new GKSKDHelper();
+								var controllerCardSchedules = gkSKDHelper.GetGKControllerCardSchedules(card, accessTemplate);
+								var controllerCardSchedule = controllerCardSchedules.FirstOrDefault(x => x.ControllerDevice.UID == gkDeviceUID);
+								if (controllerCardSchedule != null)
+								{
+									var employeeOperationResult = databaseService.EmployeeTranslator.GetSingle(card.HolderUID);
+									var employee = employeeOperationResult.Result != null ? employeeOperationResult.Result : null;
+									if (employee != null)
+									{
+										gkSKDHelper.AddOreditCard(controllerCardSchedule, card, employee.FIO);
+									}
+								}
+								GKProcessorManager.DoProgress("Пользователь " + card.Number, progressCallback);
+							}
+						}
+					}
+
+					return new OperationResult<bool>();
+				}
+				catch (Exception e)
+				{
+					return new OperationResult<bool>(e.Message);
+				}
+				finally
+				{
+					GKProcessorManager.StopProgress(progressCallback);
+				}
 			}
-			else
-			{
-				return new OperationResult<bool>("Не найдено устройство в конфигурации");
-			}
+			return new OperationResult<bool>("Не найден ГК в конфигурации");
 		}
 		#endregion
 	}

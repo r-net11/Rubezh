@@ -22,10 +22,24 @@ namespace SKDModule.ViewModels
 		protected IOrganisationElementViewModel _parent;
 		protected bool _isWithDeleted;
 		protected bool _isOrganisationDeleted;
-		public ObservableCollection<TItem> Employees { get; private set; }
+		
 		public bool IsDeleted { get { return _parent.IsDeleted; } }
 		
 		public EmployeeListBaseViewModel(IOrganisationElementViewModel parent, bool isWithDeleted)
+		{
+			AddCommand = new RelayCommand(OnAdd, CanAdd);
+			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
+			EditCommand = new RelayCommand(OnEdit, CanEdit);
+			ServiceFactory.Events.GetEvent<EditEmployeePositionDepartmentEvent>().Unsubscribe(OnEditEmployeePositionDepartment);
+			ServiceFactory.Events.GetEvent<EditEmployeePositionDepartmentEvent>().Subscribe(OnEditEmployeePositionDepartment);
+			ServiceFactory.Events.GetEvent<EditEmployeeEvent>().Unsubscribe(OnEditEmployee);
+			ServiceFactory.Events.GetEvent<EditEmployeeEvent>().Subscribe(OnEditEmployee);
+			ServiceFactory.Events.GetEvent<EditEmployee2Event>().Unsubscribe(OnEditEmployee);
+			ServiceFactory.Events.GetEvent<EditEmployee2Event>().Subscribe(OnEditEmployee);
+			Initialize(parent, isWithDeleted);
+		}
+
+		public void Initialize(IOrganisationElementViewModel parent, bool isWithDeleted)
 		{
 			_parent = parent;
 			_isWithDeleted = isWithDeleted;
@@ -42,17 +56,19 @@ namespace SKDModule.ViewModels
 				Employees.Add(viewModel);
 			}
 			SelectedEmployee = Employees.FirstOrDefault();
-			AddCommand = new RelayCommand(OnAdd, CanAdd);
-			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
-			EditCommand = new RelayCommand(OnEdit, CanEdit);
-			ServiceFactory.Events.GetEvent<EditEmployeePositionDepartmentEvent>().Unsubscribe(OnEditEmployeePositionDepartment);
-			ServiceFactory.Events.GetEvent<EditEmployeePositionDepartmentEvent>().Subscribe(OnEditEmployeePositionDepartment);
-			ServiceFactory.Events.GetEvent<EditEmployeeEvent>().Unsubscribe(OnEditEmployee);
-			ServiceFactory.Events.GetEvent<EditEmployeeEvent>().Subscribe(OnEditEmployee);
-			ServiceFactory.Events.GetEvent<EditEmployee2Event>().Unsubscribe(OnEditEmployee);
-			ServiceFactory.Events.GetEvent<EditEmployee2Event>().Subscribe(OnEditEmployee);
 		}
 
+		ObservableCollection<TItem> _Employees;
+		public ObservableCollection<TItem> Employees 
+		{
+			get { return _Employees; }
+			private set
+			{
+				_Employees = value;
+				OnPropertyChanged(() => Employees);
+			}
+		}
+		
 		TItem _selectedEmployee;
 		public TItem SelectedEmployee
 		{

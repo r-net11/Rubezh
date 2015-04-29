@@ -59,6 +59,9 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Controls.Input.Toolkit, Version=3.5.40128.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\3rdParty\WPF Toolkit\v3.5.50211.1\System.Windows.Controls.Input.Toolkit.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -70,6 +73,9 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WPFToolkit, Version=3.5.40128.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\3rdParty\WPF Toolkit\v3.5.50211.1\WPFToolkit.dll</HintPath>
+    </Reference>
     <Reference Include="WPFToolkit.Extended, Version=1.4.0.2, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\3rdParty\WPF Toolkit\WPFToolkit.Extended.dll</HintPath>
     </Reference>
@@ -102,7 +108,9 @@
       <DependentUpon>DoorToolTipView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Events\ShowGKAlarmsEvent.cs" />
+    <Compile Include="Events\ShowGKDaySchedulesEvent.cs" />
     <Compile Include="Events\ShowGKDeviceParametersEvent.cs" />
+    <Compile Include="Events\ShowGKScheduleEvent.cs" />
     <Compile Include="GKModuleLoader.Subscribe.cs" />
     <Compile Include="Diagnostics\ViewModels\DiagnosticsViewModel.cs" />
     <Compile Include="Diagnostics\Views\DiagnosticsView.xaml.cs">
@@ -151,6 +159,50 @@
     <Compile Include="Devices\ViewModels\DevicePropertiesViewModel.cs" />
     <Compile Include="Plans\ViewModels\SKDZoneTooltipViewModel.cs" />
     <Compile Include="Plans\ViewModels\MPTTooltipViewModel.cs" />
+    <Compile Include="Schedules\ViewModels\CalendarViewModel.cs" />
+    <Compile Include="Schedules\ViewModels\DayScheduleDetailsViewModel.cs" />
+    <Compile Include="Schedules\ViewModels\DaySchedulePartDetailsViewModel.cs" />
+    <Compile Include="Schedules\ViewModels\DaySchedulePartsViewModel.cs" />
+    <Compile Include="Schedules\ViewModels\DaySchedulePartViewModel.cs" />
+    <Compile Include="Schedules\ViewModels\DaySchedulesMenuViewModel.cs" />
+    <Compile Include="Schedules\ViewModels\DaySchedulesViewModel.cs" />
+    <Compile Include="Schedules\ViewModels\DayScheduleViewModel.cs" />
+    <Compile Include="Schedules\ViewModels\ScheduleDetailsViewModel.cs" />
+    <Compile Include="Schedules\ViewModels\SchedulePartsViewModel.cs" />
+    <Compile Include="Schedules\ViewModels\SchedulePartViewModel.cs" />
+    <Compile Include="Schedules\ViewModels\SchedulesMenuViewModel.cs" />
+    <Compile Include="Schedules\ViewModels\SchedulesViewModel.cs" />
+    <Compile Include="Schedules\ViewModels\ScheduleViewModel.cs" />
+    <Compile Include="Schedules\Views\CalendarView.xaml.cs">
+      <DependentUpon>CalendarView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Schedules\Views\DayScheduleDetailsView.xaml.cs">
+      <DependentUpon>DayScheduleDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Schedules\Views\DaySchedulePartDetailsView.xaml.cs">
+      <DependentUpon>DaySchedulePartDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Schedules\Views\DaySchedulesMenuView.xaml.cs">
+      <DependentUpon>DaySchedulesMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Schedules\Views\DaySchedulesView.xaml.cs">
+      <DependentUpon>DaySchedulesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Schedules\Views\MonthView.xaml.cs">
+      <DependentUpon>MonthView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Schedules\Views\ScheduleDetailsView.xaml.cs">
+      <DependentUpon>ScheduleDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Schedules\Views\ScheduleIntervalPartDetailsView.xaml.cs">
+      <DependentUpon>ScheduleIntervalPartDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Schedules\Views\SchedulesMenuView.xaml.cs">
+      <DependentUpon>SchedulesMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Schedules\Views\SchedulesView.xaml.cs">
+      <DependentUpon>SchedulesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\PlanLinkViewModel.cs" />
     <Compile Include="Alarms\ViewModels\AlarmsViewModel.cs" />
     <Compile Include="Alarms\ViewModels\AlarmViewModel.cs" />
@@ -380,6 +432,46 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="PumpStations\Views\PumpStationsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Schedules\Views\CalendarView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Schedules\Views\DayScheduleDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Schedules\Views\DaySchedulePartDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Schedules\Views\DaySchedulesMenuView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Schedules\Views\DaySchedulesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Schedules\Views\MonthView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Schedules\Views\ScheduleDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Schedules\Views\ScheduleIntervalPartDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Schedules\Views\SchedulesMenuView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Schedules\Views\SchedulesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

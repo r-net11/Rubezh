@@ -16,7 +16,7 @@ namespace GKModule.Validation
 
 			foreach (var mpt in GKManager.DeviceConfiguration.MPTs)
 			{
-				if (IsManyGK())
+				if (IsManyGK)
 					ValidateMPTDifferentGK(mpt);
 				ValidateEmpty(mpt);
 				ValidateMPTHasNoDevices(mpt);

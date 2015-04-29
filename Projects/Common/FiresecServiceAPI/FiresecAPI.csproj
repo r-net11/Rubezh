@@ -151,6 +151,7 @@
     <Compile Include="AutomationCallback\PropertyCallBackData.cs" />
     <Compile Include="AutomationCallback\VisualPropertyCallbackData.cs" />
     <Compile Include="GKModels\Guard\GKDeviceGuardZone.cs" />
+    <Compile Include="GKModels\SKD\GKCardType.cs" />
     <Compile Include="GKModels\SKD\GKSKDZone.cs" />
     <Compile Include="GKModels\States\GKSKDZoneState.cs" />
     <Compile Include="GKModels\States\GKSKDZoneInternalState.cs" />
@@ -467,7 +468,6 @@
     <Compile Include="GKModels\Configuration\GKDeviceConfiguration.Update.cs" />
     <Compile Include="GKModels\Configuration\GKDeviceConfiguration.Descriptors.cs" />
     <Compile Include="GKModels\Configuration\GKDeviceLibraryConfiguration.cs" />
-    <Compile Include="GKModels\Configuration\GKHashConfiguration.cs" />
     <Compile Include="GKModels\Delay\DelayRegime.cs" />
     <Compile Include="GKModels\Delay\GKDelay.cs" />
     <Compile Include="GKModels\Device\GKDeviceParameterTemplate.cs" />
@@ -532,7 +532,6 @@
     <Compile Include="GKModels\SKD\GKSchedulePeriodType.cs" />
     <Compile Include="GKModels\SKD\GKScheduleType.cs" />
     <Compile Include="GKModels\SKD\GKUser.cs" />
-    <Compile Include="GKModels\SKD\GKUserType.cs" />
     <Compile Include="GKModels\States\GKDoorInternalState.cs" />
     <Compile Include="GKModels\States\GKStates.cs" />
     <Compile Include="GKModels\States\GKAdditionalState.cs" />

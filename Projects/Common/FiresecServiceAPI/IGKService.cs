@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ServiceModel;
 using FiresecAPI.GK;
 using FiresecAPI.Journal;
+using System.IO;
 
 namespace FiresecAPI
 {
@@ -19,7 +20,7 @@ namespace FiresecAPI
 		OperationResult<GKDeviceConfiguration> GKReadConfiguration(Guid deviceUID);
 
 		[OperationContract]
-		OperationResult<GKDeviceConfiguration> GKReadConfigurationFromGKFile(Guid deviceUID);
+		Stream GKReadConfigurationFromGKFile(Guid deviceUID);
 
 		[OperationContract]
 		OperationResult<GKDeviceConfiguration> GKAutoSearch(Guid deviceUID);
@@ -55,10 +56,7 @@ namespace FiresecAPI
 		OperationResult<bool> GKSetSchedule(GKSchedule schedule);
 
 		[OperationContract]
-		OperationResult<List<GKUser>> GKActualizeUsers(Guid gkDeviceUID);
-
-		[OperationContract]
-		OperationResult<bool> GKRemoveUsers(Guid gkDeviceUID);
+		OperationResult<List<GKUser>> GKGetUsers(Guid gkDeviceUID);
 
 		[OperationContract]
 		OperationResult<bool> GKRewriteUsers(Guid gkDeviceUID);

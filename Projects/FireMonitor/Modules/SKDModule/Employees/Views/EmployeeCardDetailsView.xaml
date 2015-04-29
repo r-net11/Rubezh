@@ -20,6 +20,7 @@
 					</Grid.ColumnDefinitions>
 					<Grid.RowDefinitions>
 						<RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
 						<RowDefinition Height="Auto" />
 						<RowDefinition Height="Auto" />
 						<RowDefinition Height="Auto" />
@@ -28,8 +29,8 @@
 						<RowDefinition Height="Auto" />
 					</Grid.RowDefinitions>
 
-					<TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Top" Foreground="White" Text="Тип пропуска" Visibility="{Binding HasSKD, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2 4" />
-					<StackPanel Grid.Row="0" Grid.Column="1" Visibility="{Binding HasSKD, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
+                    <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Top" Foreground="White" Text="Тип пропуска" Visibility="{Binding HasStrazh, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2 4" />
+                    <StackPanel Grid.Row="0" Grid.Column="1" Visibility="{Binding HasStrazh, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
 						<ComboBox ItemsSource="{Binding CardTypes}" SelectedItem="{Binding SelectedCardType}">
 							<ComboBox.ItemTemplate>
 								<DataTemplate>
@@ -40,11 +41,20 @@
 						<TextBlock Text="{Binding SelectedCardType, Converter={StaticResource CardTypeToLongStringConverter}}" TextWrapping="Wrap" Foreground="White" Margin="2" />
 					</StackPanel>
 
-					<TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Text="Пароль" Visibility="{Binding HasSKD, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
-					<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Password}" Visibility="{Binding HasSKD, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
+                    <TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Top" Foreground="White" Text="Тип пропуска" Visibility="{Binding HasGK, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2 4" />
+                    <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding GKCardTypes}" SelectedItem="{Binding SelectedGKCardType}" Visibility="{Binding HasGK, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
 
-					<StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
-						<StackPanel Visibility="{Binding HasSKD, Converter={StaticResource BoolToVisibilityConverter}}" Margin="0 0 10 0">
+                    <TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Text="Пароль" Visibility="{Binding HasStrazh, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
+                    <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Password}" Visibility="{Binding HasStrazh, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
+
+					<StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal">
+                        <StackPanel Visibility="{Binding HasStrazh, Converter={StaticResource BoolToVisibilityConverter}}" Margin="0 0 10 0">
 							<TextBlock Margin="2" HorizontalAlignment="Center" Foreground="White" Text="Начало действия" />
 							<Calendar Margin="2" VerticalAlignment="Top" BorderBrush="#66ff9829" BorderThickness="2" DisplayDate="{Binding StartDate}" IsTodayHighlighted="False" SelectedDate="{Binding StartDate}" SelectionMode="SingleDate" />
 						</StackPanel>
@@ -55,21 +65,21 @@
 						</StackPanel>
 					</StackPanel>
 
-					<TextBlock Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Text="Контроллер деактивации" Visibility="{Binding CanSetUserTime, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
-					<TextBlock Grid.Row="3" Grid.Column="1" Visibility="{Binding CanSetUserTime, Converter={StaticResource BoolToVisibilityConverter}}" TextWrapping="Wrap" Margin="2">
+					<TextBlock Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Text="Контроллер деактивации" Visibility="{Binding CanSetUserTime, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
+					<TextBlock Grid.Row="4" Grid.Column="1" Visibility="{Binding CanSetUserTime, Converter={StaticResource BoolToVisibilityConverter}}" TextWrapping="Wrap" Margin="2">
 						<Hyperlink Command="{Binding ChangeDeactivationControllerCommand}" Style="{StaticResource HyperlinkStyle}">
 							<TextBlock Text="{Binding DeactivationControllerName}" />
 						</Hyperlink>
 					</TextBlock>
 
-					<TextBlock Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Text="Количество проходов" Visibility="{Binding CanSetUserTime, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
-					<TextBox Grid.Row="4" Grid.Column="1" Text="{Binding UserTime}" Visibility="{Binding CanSetUserTime, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
+					<TextBlock Grid.Row="5" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Text="Количество проходов" Visibility="{Binding CanSetUserTime, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
+					<TextBox Grid.Row="5" Grid.Column="1" Text="{Binding UserTime}" Visibility="{Binding CanSetUserTime, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
 
-					<TextBlock Grid.Row="5" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Text="Уровень доступа" Visibility="{Binding HasGK, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
-					<TextBox Grid.Row="5" Grid.Column="1" Text="{Binding GKLevel}" Visibility="{Binding HasGK, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
+					<TextBlock Grid.Row="6" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Text="Уровень доступа" Visibility="{Binding HasGK, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
+					<TextBox Grid.Row="6" Grid.Column="1" Text="{Binding GKLevel}" Visibility="{Binding HasGK, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
 
-					<TextBlock Grid.Row="6" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Text="График доступа" Visibility="{Binding HasGK, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
-                    <ComboBox Grid.Row="6" Grid.Column="1" ItemsSource="{Binding GKSchedules}" SelectedItem="{Binding SelectedGKSchedule}" Visibility="{Binding HasGK, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
+					<TextBlock Grid.Row="7" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Text="График доступа" Visibility="{Binding HasGK, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
+                    <ComboBox Grid.Row="7" Grid.Column="1" ItemsSource="{Binding GKSchedules}" SelectedItem="{Binding SelectedGKSchedule}" Visibility="{Binding HasGK, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">

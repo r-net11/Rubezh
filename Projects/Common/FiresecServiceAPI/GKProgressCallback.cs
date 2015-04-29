@@ -28,6 +28,9 @@ namespace FiresecAPI
 		public int StepCount { get; set; }
 
 		[DataMember]
+		public int CurrentStep { get; set; }
+
+		[DataMember]
 		public bool CanCancel { get; set; }
 
 		[DataMember]

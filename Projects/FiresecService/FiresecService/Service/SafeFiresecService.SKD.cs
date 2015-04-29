@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Common;
 using FiresecAPI;
+using FiresecAPI.GK;
 using FiresecAPI.SKD;
 
 namespace FiresecService.Service
@@ -27,7 +28,8 @@ namespace FiresecService.Service
 		}
 		public OperationResult<TimeTrackResult> GetTimeTracks(EmployeeFilter filter, DateTime startDate, DateTime endDate)
 		{
-			return SafeContext.Execute<OperationResult<TimeTrackResult>>(() => FiresecService.GetTimeTracks(filter, startDate, endDate));
+			var result = SafeContext.Execute<OperationResult<TimeTrackResult>>(() => FiresecService.GetTimeTracks(filter, startDate, endDate));
+			return result;
 		}
 		public OperationResult SaveEmployeeDepartment(Guid uid, Guid departmentUid, string name)
 		{
@@ -67,6 +69,14 @@ namespace FiresecService.Service
 		public OperationResult RestoreDepartment(ShortDepartment department)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.RestoreDepartment(department));
+		}
+		public OperationResult<IEnumerable<Guid>> GetChildEmployeeUIDs(Guid uid)
+		{
+			return SafeContext.Execute<OperationResult<IEnumerable<Guid>>>(() => FiresecService.GetChildEmployeeUIDs(uid));
+		}
+		public OperationResult<IEnumerable<Guid>> GetParentEmployeeUIDs(Guid uid)
+		{
+			return SafeContext.Execute<OperationResult<IEnumerable<Guid>>>(() => FiresecService.GetParentEmployeeUIDs(uid));
 		}
 		#endregion
 
@@ -111,9 +121,9 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.DeleteCardFromEmployee(item, employeeName, reason));
 		}
-		public OperationResult DeletedCard(Guid uid)
+		public OperationResult DeletedCard(SKDCard card)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.DeletedCard(uid));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.DeletedCard(card));
 		}
 		public OperationResult SaveCardTemplate(SKDCard item)
 		{
@@ -392,6 +402,40 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveJournalCameraUID(journalItemUID, CameraUID));
 		}
+
+		#region GKSchedule
+		public OperationResult<List<GKSchedule>> GetGKSchedules()
+		{
+			return SafeContext.Execute<OperationResult<List<GKSchedule>>>(() => FiresecService.GetGKSchedules());
+		}
+
+		public OperationResult SaveGKSchedule(GKSchedule item, bool isNew)
+		{
+			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveGKSchedule(item, isNew));
+		}
+
+		public OperationResult DeleteGKSchedule(GKSchedule item)
+		{
+			return SafeContext.Execute<OperationResult>(() => FiresecService.DeleteGKSchedule(item));
+		}
+		#endregion
+
+		#region GKDaySchedule
+		public OperationResult<List<GKDaySchedule>> GetGKDaySchedules()
+		{
+			return SafeContext.Execute<OperationResult<List<GKDaySchedule>>>(() => FiresecService.GetGKDaySchedules());
+		}
+
+		public OperationResult SaveGKDaySchedule(GKDaySchedule item, bool isNew)
+		{
+			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveGKDaySchedule(item, isNew));
+		}
+
+		public OperationResult DeleteGKDaySchedule(GKDaySchedule item)
+		{
+			return SafeContext.Execute<OperationResult>(() => FiresecService.DeleteGKDaySchedule(item));
+		}
+		#endregion
 
 		#region Export
 		public OperationResult ExportOrganisation(ExportFilter filter)

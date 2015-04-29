@@ -31,7 +31,6 @@ namespace FiresecService.Service
 		public Stream GetConfig()
 		{
 			var filePath = AppDataFolderHelper.GetServerAppDataPath("Config.fscp");
-			ZipConfigActualizeHelper.Actualize(filePath);
 			return new FileStream(filePath, FileMode.Open, FileAccess.Read);
 		}
 
@@ -49,12 +48,6 @@ namespace FiresecService.Service
 			}
 			stream.Close();
 
-			using (var zipFile = ZipFile.Read(configFileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") }))
-			{
-				var fileInfo = new FileInfo(configFileName);
-				var unzipFolderPath = Path.Combine(fileInfo.Directory.FullName, "Unzip");
-				zipFile.ExtractAll(unzipFolderPath);
-			}
 			return configFileName;
 		}
 
@@ -63,15 +56,6 @@ namespace FiresecService.Service
 			var newFileName = CreateTempServer(stream);
 
 			var fileName = AppDataFolderHelper.GetServerAppDataPath("Config.fscp");
-			//var newFileName = AppDataFolderHelper.GetTempFileName();
-			//using (Stream newFile = File.OpenWrite(newFileName))
-			//{
-			//	CopyStream(stream, newFile);
-			//}
-			//var unZipFile = ZipFile.Read(newFileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
-			//var newFileInfo = new FileInfo(newFileName);
-			//var unzipFolderPath = Path.Combine(newFileInfo.Directory.FullName, "Unzip");
-			//unZipFile.ExtractAll(unzipFolderPath);
 
 			var zipFile = new ZipFile(fileName);
 			var newZipFile = ZipFile.Read(newFileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
@@ -82,15 +66,13 @@ namespace FiresecService.Service
 			foreach (var zipConfigurationItem in configurationList.GetWellKnownZipConfigurationItems())
 			{
 				var name = zipConfigurationItem.Name;
-				var memoryStream = new MemoryStream();
 				var entry = newZipFile[name];
 				if (entry != null)
 				{
-					entry.Extract(memoryStream);
-					memoryStream.Position = 0;
+					var zipStream = entry.OpenReader();
 					if (zipFile.Entries.Any(x => x.FileName == name))
 						zipFile.RemoveEntry(name);
-					zipFile.AddEntry(name, memoryStream);
+					zipFile.AddEntry(name, zipStream);
 
 					var newConfiguratino = newConfigurationList.ZipConfigurationItems.FirstOrDefault(x => x.Name == name);
 					if (newConfiguratino != null)
@@ -128,20 +110,18 @@ namespace FiresecService.Service
 
 		ZipConfigurationItemsCollection GetConfigurationList(ZipFile zipFile)
 		{
-			var infoMemoryStream = new MemoryStream();
 			var entry = zipFile["ZipConfigurationItemsCollection.xml"];
 			if (entry != null)
 			{
-				entry.Extract(infoMemoryStream);
-				infoMemoryStream.Position = 0;
-				return ZipSerializeHelper.DeSerialize<ZipConfigurationItemsCollection>(infoMemoryStream, true);
+				var zipStream = entry.OpenReader();
+				return ZipSerializeHelper.DeSerialize<ZipConfigurationItemsCollection>(zipStream);
 			}
 			return new ZipConfigurationItemsCollection();
 		}
 
 		static void AddConfigurationList(ZipFile zipFile, ZipConfigurationItemsCollection configurationsList)
 		{
-			var configurationStream = ZipSerializeHelper.Serialize(configurationsList, true);
+			var configurationStream = ZipSerializeHelper.Serialize(configurationsList);
 			if (zipFile.Entries.Any(x => x.FileName == "ZipConfigurationItemsCollection.xml"))
 				zipFile.RemoveEntry("ZipConfigurationItemsCollection.xml");
 			configurationStream.Position = 0;
