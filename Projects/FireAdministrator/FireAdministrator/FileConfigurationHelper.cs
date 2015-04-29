@@ -136,8 +136,7 @@ namespace FireAdministrator
 						Directory.Delete(folderName, true);
 					Directory.CreateDirectory(folderName);
 					File.Copy(fileName, configFileName);
-					bool isFullConfiguration;
-					FiresecManager.LoadFromZipFile(configFileName, out isFullConfiguration);
+					FiresecManager.LoadFromZipFile(configFileName);
 					ServiceFactory.ContentService.Invalidate();
 
 					FiresecManager.UpdateConfiguration();
@@ -150,18 +149,7 @@ namespace FireAdministrator
 					ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 					ConfigManager.ShowFirstDevice();
 
-					if (isFullConfiguration)
-					{
-						ServiceFactory.SaveService.Set();
-					}
-					else
-					{
-						ServiceFactory.SaveService.PlansChanged = true;
-						ServiceFactory.SaveService.GKChanged = true;
-						ServiceFactory.SaveService.SKDChanged = true;
-						ServiceFactory.SaveService.LayoutsChanged = true;
-						ServiceFactory.SaveService.AutomationChanged = true;
-					}
+					ServiceFactory.SaveService.Set();
 				});
 				return fileName;
 			}

@@ -71,6 +71,9 @@ namespace FiresecAPI
 
 		[OperationContract]
 		void SetConfig(Stream stream);
+
+		[OperationContract]
+		void SetLocalConfig();
 		#endregion
 	}
 }

@@ -34,98 +34,55 @@ namespace FiresecService.Service
 			return new FileStream(filePath, FileMode.Open, FileAccess.Read);
 		}
 
-		string CreateTempServer(Stream stream)
+		public void SetLocalConfig()
 		{
-			var folderName = AppDataFolderHelper.GetFolder("TempServer");
-			var configFileName = Path.Combine(folderName, "Config.fscp");
-			if (Directory.Exists(folderName))
-				Directory.Delete(folderName, true);
-			Directory.CreateDirectory(folderName);
+			var configFileName = AppDataFolderHelper.GetServerAppDataPath("Config.fscp");
+			var configDirectory = AppDataFolderHelper.GetServerAppDataPath("Config");
 
-			using (var configFileStream = File.Create(configFileName))
+			CreateZipConfigFromFiles(configFileName, configDirectory);
+			RestartWithNewConfig();
+		}
+
+		public void SetConfig(Stream stream)
+		{
+			var newConfigFileName = AppDataFolderHelper.GetServerAppDataPath("NewConfig.fscp");
+			var newConfigDirectory = AppDataFolderHelper.GetServerAppDataPath("NewConfig");
+			var configFileName = AppDataFolderHelper.GetServerAppDataPath("Config.fscp");
+			var configDirectory = AppDataFolderHelper.GetServerAppDataPath("Config");
+
+			using (var configFileStream = File.Create(newConfigFileName))
 			{
 				CopyStream(stream, configFileStream);
 			}
 			stream.Close();
 
-			return configFileName;
-		}
+			if (Directory.Exists(newConfigDirectory))
+				Directory.Delete(newConfigDirectory, true);
+			Directory.CreateDirectory(newConfigDirectory);
 
-		public void SetConfig(Stream stream)
-		{
-			var newFileName = CreateTempServer(stream);
-
-			var fileName = AppDataFolderHelper.GetServerAppDataPath("Config.fscp");
-
-			var zipFile = new ZipFile(fileName);
-			var newZipFile = ZipFile.Read(newFileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
-
-			var configurationList = GetConfigurationList(zipFile);
-			var newConfigurationList = GetConfigurationList(newZipFile);
-
-			foreach (var zipConfigurationItem in configurationList.GetWellKnownZipConfigurationItems())
-			{
-				var name = zipConfigurationItem.Name;
-				var entry = newZipFile[name];
-				if (entry != null)
-				{
-					var zipStream = entry.OpenReader();
-					if (zipFile.Entries.Any(x => x.FileName == name))
-						zipFile.RemoveEntry(name);
-					zipFile.AddEntry(name, zipStream);
-
-					var newConfiguratino = newConfigurationList.ZipConfigurationItems.FirstOrDefault(x => x.Name == name);
-					if (newConfiguratino != null)
-					{
-						configurationList.ZipConfigurationItems.RemoveAll(x => x.Name == name);
-						configurationList.ZipConfigurationItems.Add(newConfiguratino);
-					}
-				}
-			}
-			var imagesDirectory = Path.Combine(AppDataFolderHelper.GetFolder("TempServer"), "Unzip", "Content");
-
-			for (int x = zipFile.Count - 1; x >= 0; x--)
-			{
-				ZipEntry e = zipFile[x];
-				if (e.FileName.StartsWith("Content/"))
-					zipFile.RemoveEntry(e.FileName);
-			}
-			if (Directory.Exists(imagesDirectory))
-			{
-				zipFile.AddDirectory(imagesDirectory, "Content");
-			}
-			AddConfigurationList(zipFile, configurationList);
-			zipFile.Save();
-			zipFile.Dispose();
+			var newZipFile = new ZipFile(newConfigFileName);
+			newZipFile.ExtractAll(newConfigDirectory);
 			newZipFile.Dispose();
-			File.Delete(newFileName);
+			if (File.Exists(newConfigFileName))
+				File.Delete(newConfigFileName);
 
-			AddJournalMessage(JournalEventNameType.Применение_конфигурации, null);
-			ConfigurationCashHelper.Update();
-			GKProcessor.SetNewConfig();
-			SKDProcessor.SetNewConfig();
-			ScheduleRunner.SetNewConfig();
-			ProcedureRunner.SetNewConfig();
-		}
+			if (!Directory.Exists(configDirectory))
+				Directory.CreateDirectory(configDirectory);
 
-		ZipConfigurationItemsCollection GetConfigurationList(ZipFile zipFile)
-		{
-			var entry = zipFile["ZipConfigurationItemsCollection.xml"];
-			if (entry != null)
+			foreach (var fileName in Directory.GetFiles(newConfigDirectory))
 			{
-				var zipStream = entry.OpenReader();
-				return ZipSerializeHelper.DeSerialize<ZipConfigurationItemsCollection>(zipStream);
+				var file = Path.GetFileName(fileName);
+				File.Copy(fileName, Path.Combine(configDirectory, file), true);
 			}
-			return new ZipConfigurationItemsCollection();
-		}
+			foreach (var fileName in Directory.GetFiles(Path.Combine(newConfigDirectory, "Content")))
+			{
+				var file = Path.GetFileName(fileName);
+				File.Copy(fileName, Path.Combine(Path.Combine(configDirectory, "Content"), file), true);
+			}
+			Directory.Delete(newConfigDirectory, true);
 
-		static void AddConfigurationList(ZipFile zipFile, ZipConfigurationItemsCollection configurationsList)
-		{
-			var configurationStream = ZipSerializeHelper.Serialize(configurationsList);
-			if (zipFile.Entries.Any(x => x.FileName == "ZipConfigurationItemsCollection.xml"))
-				zipFile.RemoveEntry("ZipConfigurationItemsCollection.xml");
-			configurationStream.Position = 0;
-			zipFile.AddEntry("ZipConfigurationItemsCollection.xml", configurationStream);
+			CreateZipConfigFromFiles(configFileName, configDirectory);
+			RestartWithNewConfig();
 		}
 
 		public static void CopyStream(Stream input, Stream output)
@@ -137,6 +94,27 @@ namespace FiresecService.Service
 				output.Write(buffer, 0, length);
 			}
 			output.Close();
+		}
+
+		void RestartWithNewConfig()
+		{
+			AddJournalMessage(JournalEventNameType.Применение_конфигурации, null);
+			ConfigurationCashHelper.Update();
+			GKProcessor.SetNewConfig();
+			SKDProcessor.SetNewConfig();
+			ScheduleRunner.SetNewConfig();
+			ProcedureRunner.SetNewConfig();
+		}
+
+		static void CreateZipConfigFromFiles(string configFileName, string configDirectory)
+		{
+			if (File.Exists(configFileName))
+				File.Delete(configFileName);
+
+			var zipFile = new ZipFile(configFileName);
+			zipFile.AddDirectory(configDirectory);
+			zipFile.Save(configFileName);
+			zipFile.Dispose();
 		}
 	}
 }

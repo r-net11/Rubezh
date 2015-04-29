@@ -30,7 +30,7 @@ namespace FiresecAPI.Models
 			return zipConfigurationItems;
 		}
 
-		static List<string> GetWellKnownNames()
+		public static List<string> GetWellKnownNames()
 		{
 			var names = new List<string>();
 			names.Add("SecurityConfiguration.xml");
