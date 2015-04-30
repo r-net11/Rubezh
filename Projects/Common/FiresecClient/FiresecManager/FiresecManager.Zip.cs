@@ -11,37 +11,27 @@ namespace FiresecClient
 {
 	public partial class FiresecManager
 	{
-		public static void LoadFromZipFile(string fileName, out bool isFullConfiguration)
+		public static void LoadFromZipFile(string fileName)
 		{
-			isFullConfiguration = false;
 			var zipFile = ZipFile.Read(fileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
 			var fileInfo = new FileInfo(fileName);
 			var unzipFolderPath = Path.Combine(fileInfo.Directory.FullName, "Unzip");
 			zipFile.ExtractAll(unzipFolderPath);
+			zipFile.Dispose();
+			LoadConfigFromDirectory(unzipFolderPath);
+		}
 
-			var zipConfigurationItemsCollectionFileName = Path.Combine(unzipFolderPath, "ZipConfigurationItemsCollection.xml");
-			if (!File.Exists(zipConfigurationItemsCollectionFileName))
+		static void LoadConfigFromDirectory(string unzipFolderPath)
+		{
+			foreach (var zipConfigurationItem in ZipConfigurationItemsCollection.GetWellKnownNames())
 			{
-				Logger.Error("FiresecManager.LoadFromZipFile zipConfigurationItemsCollectionFileName file not found");
-				return;
-			}
-			var zipConfigurationItemsCollection = ZipSerializeHelper.DeSerialize<ZipConfigurationItemsCollection>(zipConfigurationItemsCollectionFileName, true);
-			if (zipConfigurationItemsCollection == null)
-			{
-				Logger.Error("FiresecManager.LoadFromZipFile zipConfigurationItemsCollection == null");
-				return;
-			}
-
-			foreach (var zipConfigurationItem in zipConfigurationItemsCollection.GetWellKnownZipConfigurationItems())
-			{
-				var configurationFileName = Path.Combine(unzipFolderPath, zipConfigurationItem.Name);
+				var configurationFileName = Path.Combine(unzipFolderPath, zipConfigurationItem);
 				if (File.Exists(configurationFileName))
 				{
-					switch (zipConfigurationItem.Name)
+					switch (zipConfigurationItem)
 					{
 						case "SecurityConfiguration.xml":
 							SecurityConfiguration = ZipSerializeHelper.DeSerialize<SecurityConfiguration>(configurationFileName, true);
-							isFullConfiguration = true;
 							break;
 						case "PlansConfiguration.xml":
 							PlansConfiguration = ZipSerializeHelper.DeSerialize<PlansConfiguration>(configurationFileName, true);
@@ -67,8 +57,6 @@ namespace FiresecClient
 					}
 				}
 			}
-
-			zipFile.Dispose();
 		}
 	}
 }

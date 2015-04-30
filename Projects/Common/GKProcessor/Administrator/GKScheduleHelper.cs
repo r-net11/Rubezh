@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using FiresecAPI;
 using FiresecAPI.GK;
-using FiresecClient;
+using SKDDriver;
 
 namespace GKProcessor
 {
@@ -16,7 +16,16 @@ namespace GKProcessor
 			var removeResult = GKRemoveAllSchedules(device);
 			if (removeResult.HasError)
 				return new OperationResult<bool>(removeResult.Error);
-			progressCallback = GKProcessorManager.StartProgress("Запись графиков в " + device.PresentationName, "", GKManager.DeviceConfiguration.Schedules.Count + 1, false, GKProgressClientType.Administrator);
+			var schedules = new List<GKSchedule>();
+			using (var databaseService = new SKDDatabaseService())
+			{
+				var schedulesResult = databaseService.GKScheduleTranslator.GetSchedules();
+				if(schedulesResult.HasError)
+					return new OperationResult<bool>(schedulesResult.Error);
+				schedules = schedulesResult.Result;
+			}
+			
+			progressCallback = GKProcessorManager.StartProgress("Запись графиков в " + device.PresentationName, "", schedules.Count + 1, false, GKProgressClientType.Administrator);
 			var emptySchedule = new GKSchedule();
 			emptySchedule.Name = "Никогда";
 			var setResult = GKSetSchedule(device, emptySchedule);
@@ -24,7 +33,7 @@ namespace GKProcessor
 				return new OperationResult<bool>(setResult.Error);
 			GKProcessorManager.DoProgress("Запись пустого графика ", progressCallback);
 			int i = 1;
-			foreach (var schedule in GKManager.DeviceConfiguration.Schedules)
+			foreach (var schedule in schedules)
 			{
 				setResult = GKSetSchedule(device, schedule);
 				if (setResult.HasError)
@@ -60,10 +69,18 @@ namespace GKProcessor
 		public static OperationResult<bool> GKSetSchedule(GKDevice device, GKSchedule schedule)
 		{
 			var count = 0;
+			var daySchedules = new List<GKDaySchedule>();
+			using (var databaseService = new SKDDatabaseService())
+			{
+				var schedulesResult = databaseService.GKScheduleTranslator.GetDaySchedules();
+				if (schedulesResult.HasError)
+					return new OperationResult<bool>(schedulesResult.Error);
+				daySchedules = schedulesResult.Result;
+			}
 			if (schedule.ScheduleType == GKScheduleType.Access)
 				foreach (var dayScheduleUID in schedule.DayScheduleUIDs)
 				{
-					var daySchedule = GKManager.DeviceConfiguration.DaySchedules.FirstOrDefault(x => x.UID == dayScheduleUID);
+					var daySchedule = daySchedules.FirstOrDefault(x => x.UID == dayScheduleUID);
 					if (daySchedule != null)
 					{
 						count += daySchedule.DayScheduleParts.Count;
@@ -120,7 +137,7 @@ namespace GKProcessor
 				for (int dayNo = 0; dayNo < schedule.DayScheduleUIDs.Count; dayNo++)
 				{
 					var dayScheduleUID = schedule.DayScheduleUIDs[dayNo];
-					var daySchedule = GKManager.DeviceConfiguration.DaySchedules.FirstOrDefault(x => x.UID == dayScheduleUID);
+					var daySchedule = daySchedules.FirstOrDefault(x => x.UID == dayScheduleUID);
 					if (daySchedule != null)
 					{
 						foreach (var daySchedulePart in daySchedule.DayScheduleParts)

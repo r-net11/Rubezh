@@ -45,12 +45,20 @@ namespace FireAdministrator
 					FiresecManager.FiresecService.GKAddMessage(JournalEventNameType.Применение_конфигурации, "");
 					LoadingService.Show("Применение конфигурации", "Применение конфигурации", 10);
 
-					var tempFileName = SaveAllConfigToFile();
-					using (var fileStream = new FileStream(tempFileName, FileMode.Open))
+					if (ConnectionSettingsManager.IsRemote)
 					{
-						FiresecManager.FiresecService.SetConfig(fileStream);
+						var tempFileName = SaveConfigToFile(false);
+						using (var fileStream = new FileStream(tempFileName, FileMode.Open))
+						{
+							FiresecManager.FiresecService.SetConfig(fileStream);
+						}
+						File.Delete(tempFileName);
 					}
-					File.Delete(tempFileName);
+					else
+					{
+					    SaveConfigToFile(true);
+					    FiresecManager.FiresecService.SetLocalConfig();
+					}
 
 					if (ServiceFactory.SaveService.HasChanges)
 						FiresecManager.FiresecService.NotifyClientsOnConfigurationChanged();
@@ -67,44 +75,52 @@ namespace FireAdministrator
 			}
 		}
 
-		public static string SaveAllConfigToFile(bool saveAnyway = false)
+		static string SaveConfigToFile(bool isLocal)
 		{
 			try
 			{
-				var tempFolderName = AppDataFolderHelper.GetTempFolder();
+				var tempFolderName = "";
+				if (isLocal)
+				{
+					tempFolderName = AppDataFolderHelper.GetServerAppDataPath("Config");
+				}
+				else
+				{
+					tempFolderName = AppDataFolderHelper.GetTempFolder();
+				}
+
 				if (!Directory.Exists(tempFolderName))
 					Directory.CreateDirectory(tempFolderName);
 
-				var tempFileName = AppDataFolderHelper.GetTempFileName();
-				if (File.Exists(tempFileName))
-					File.Delete(tempFileName);
-
 				TempZipConfigurationItemsCollection = new ZipConfigurationItemsCollection();
 
-				if (ServiceFactory.SaveService.PlansChanged || saveAnyway)
+				if (ServiceFactory.SaveService.PlansChanged)
 					AddConfiguration(tempFolderName, "PlansConfiguration.xml", FiresecManager.PlansConfiguration, 1, 1, true);
-				if (ServiceFactory.SaveService.SoundsChanged || ServiceFactory.SaveService.FilterChanged || ServiceFactory.SaveService.CamerasChanged || ServiceFactory.SaveService.EmailsChanged || ServiceFactory.SaveService.AutomationChanged || saveAnyway)
+				if (ServiceFactory.SaveService.SoundsChanged || ServiceFactory.SaveService.FilterChanged || ServiceFactory.SaveService.CamerasChanged || ServiceFactory.SaveService.EmailsChanged || ServiceFactory.SaveService.AutomationChanged)
 					AddConfiguration(tempFolderName, "SystemConfiguration.xml", FiresecManager.SystemConfiguration, 1, 1, true);
-				if (ServiceFactory.SaveService.GKChanged || ServiceFactory.SaveService.GKInstructionsChanged || saveAnyway)
+				if (ServiceFactory.SaveService.GKChanged || ServiceFactory.SaveService.GKInstructionsChanged)
 					AddConfiguration(tempFolderName, "GKDeviceConfiguration.xml", GKManager.DeviceConfiguration, 1, 1, true);
-				if (ServiceFactory.SaveService.SecurityChanged || saveAnyway)
+				if (ServiceFactory.SaveService.SecurityChanged)
 					AddConfiguration(tempFolderName, "SecurityConfiguration.xml", FiresecManager.SecurityConfiguration, 1, 1, true);
-				if (ServiceFactory.SaveService.GKLibraryChanged || saveAnyway)
+				if (ServiceFactory.SaveService.GKLibraryChanged)
 					AddConfiguration(tempFolderName, "GKDeviceLibraryConfiguration.xml", GKManager.DeviceLibraryConfiguration, 1, 1, true);
-				if (ServiceFactory.SaveService.SKDChanged || saveAnyway)
+				if (ServiceFactory.SaveService.SKDChanged)
 					AddConfiguration(tempFolderName, "SKDConfiguration.xml", SKDManager.SKDConfiguration, 1, 1, true);
-				if (ServiceFactory.SaveService.SKDLibraryChanged || saveAnyway)
+				if (ServiceFactory.SaveService.SKDLibraryChanged)
 					AddConfiguration(tempFolderName, "SKDLibraryConfiguration.xml", SKDManager.SKDLibraryConfiguration, 1, 1, true);
-				if (ServiceFactory.SaveService.LayoutsChanged || saveAnyway)
+				if (ServiceFactory.SaveService.LayoutsChanged)
 					AddConfiguration(tempFolderName, "LayoutsConfiguration.xml", FiresecManager.LayoutsConfiguration, 1, 1, false);
 
-				AddConfiguration(tempFolderName, "ZipConfigurationItemsCollection.xml", TempZipConfigurationItemsCollection, 1, 1, true);
+				if (!isLocal)
+				{
+					AddConfiguration(tempFolderName, "ZipConfigurationItemsCollection.xml", TempZipConfigurationItemsCollection, 1, 1, true);
+				}
 
 				var destinationImagesDirectory = AppDataFolderHelper.GetFolder(Path.Combine(tempFolderName, "Content"));
 				if (Directory.Exists(ServiceFactory.ContentService.ContentFolder))
 				{
 					if (Directory.Exists(destinationImagesDirectory))
-						Directory.Delete(destinationImagesDirectory);
+						Directory.Delete(destinationImagesDirectory, true);
 					if (!Directory.Exists(destinationImagesDirectory))
 						Directory.CreateDirectory(destinationImagesDirectory);
 					var sourceImagesDirectoryInfo = new DirectoryInfo(ServiceFactory.ContentService.ContentFolder);
@@ -114,14 +130,22 @@ namespace FireAdministrator
 					}
 				}
 
-				var zipFile = new ZipFile(tempFileName);
-				zipFile.AddDirectory(tempFolderName);
-				zipFile.Save(tempFileName);
-				zipFile.Dispose();
-				if (Directory.Exists(tempFolderName))
-					Directory.Delete(tempFolderName, true);
+				if (!isLocal)
+				{
+					var tempFileName = AppDataFolderHelper.GetTempFileName();
+					if (File.Exists(tempFileName))
+						File.Delete(tempFileName);
 
-				return tempFileName;
+					var zipFile = new ZipFile(tempFileName);
+					zipFile.AddDirectory(tempFolderName);
+					zipFile.Save(tempFileName);
+					zipFile.Dispose();
+					if (Directory.Exists(tempFolderName))
+						Directory.Delete(tempFolderName, true);
+
+					return tempFileName;
+				}
+				return null;
 			}
 			catch (Exception e)
 			{
@@ -136,8 +160,10 @@ namespace FireAdministrator
 		{
 			configuration.BeforeSave();
 			configuration.Version = new ConfigurationVersion() { MinorVersion = minorVersion, MajorVersion = majorVersion };
-			ZipSerializeHelper.Serialize(configuration, Path.Combine(folderName, name), useXml);
-
+			var filePath = Path.Combine(folderName, name);
+			if (File.Exists(filePath))
+				File.Delete(filePath);
+			ZipSerializeHelper.Serialize(configuration, filePath, useXml);
 			TempZipConfigurationItemsCollection.ZipConfigurationItems.Add(new ZipConfigurationItem(name, minorVersion, majorVersion));
 		}
 

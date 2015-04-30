@@ -80,7 +80,11 @@
 			<Directory Id="DesktopFolder" />
 			<Directory Id="CommonAppDataFolder" Name="CommonAppDataFolder">
 				<Directory Id="AppData.FiresecLocation" Name="Firesec2">
-					<Directory Id="AppData.ServerLocation" Name="Server" />
+          <Directory Id="AppData.ServerLocation" Name="Server">
+            <Directory Id="AppData.ServerLocation.Config" Name="Config">
+              <Directory Id="AppData.ServerLocation.Content" Name="Content" />
+            </Directory>
+          </Directory>
 					<Directory Id="AppData.EmptyLocation" Name="Empty" />
 				</Directory>
 			</Directory>

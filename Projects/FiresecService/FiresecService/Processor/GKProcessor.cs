@@ -48,7 +48,7 @@ namespace FiresecService
 
 		static void OnGKCallbackResultEvent(GKCallbackResult gkCallbackResult)
 		{
-			ChackPendingCards(gkCallbackResult);
+			CheckPendingCards(gkCallbackResult);
 
 			if (gkCallbackResult.JournalItems.Count > 0)
 			{
@@ -116,7 +116,7 @@ namespace FiresecService
 			}
 		}
 
-		static void ChackPendingCards(GKCallbackResult gkCallbackResult)
+		static void CheckPendingCards(GKCallbackResult gkCallbackResult)
 		{
 			foreach (var deviceState in gkCallbackResult.GKStates.DeviceStates)
 			{

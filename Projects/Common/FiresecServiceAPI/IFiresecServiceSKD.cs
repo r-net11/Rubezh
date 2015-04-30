@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.ServiceModel;
 using FiresecAPI.GK;
 using FiresecAPI.SKD;
@@ -24,6 +25,9 @@ namespace FiresecAPI
 
 		[OperationContract]
 		OperationResult<TimeTrackResult> GetTimeTracks(EmployeeFilter filter, DateTime startDate, DateTime endDate);
+
+		[OperationContract]
+		FileStream GetTimeTracksStream(EmployeeFilter filter, DateTime startDate, DateTime endDate);
 
 		[OperationContract]
 		OperationResult SaveEmployeeDepartment(Guid uid, Guid departmentUid, string name);

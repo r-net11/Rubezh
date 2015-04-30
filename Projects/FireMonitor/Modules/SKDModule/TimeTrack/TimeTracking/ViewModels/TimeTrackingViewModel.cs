@@ -39,6 +39,7 @@ namespace SKDModule.ViewModels
 			TimeTrackFilter.StartDate = DateTime.Today.AddDays(1 - DateTime.Today.Day);
 			TimeTrackFilter.EndDate = DateTime.Today;
 
+			
 			UpdateGrid();
 		}
 
@@ -165,6 +166,7 @@ namespace SKDModule.ViewModels
 
 				TimeTracks = new ObservableCollection<TimeTrackViewModel>();
 				var timeTrackResult = EmployeeHelper.GetTimeTracks(TimeTrackFilter.EmployeeFilter, TimeTrackFilter.StartDate, TimeTrackFilter.EndDate);
+				//var stream = FiresecManager.FiresecService.GetTimeTracksStream(TimeTrackFilter.EmployeeFilter, TimeTrackFilter.StartDate, TimeTrackFilter.EndDate);
 				if (timeTrackResult != null)
 				{
 					TimeTrackEmployeeResults = timeTrackResult.TimeTrackEmployeeResults;

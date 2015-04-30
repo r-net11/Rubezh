@@ -55,21 +55,41 @@ namespace FiresecClient
 		{
 			try
 			{
-				var stream = FiresecService.GetConfig();
-				FiresecConfiguration = new FiresecConfiguration();
+				var serverConfigDirectory = AppDataFolderHelper.GetServerAppDataPath("Config");
+				var configDirectory = AppDataFolderHelper.GetLocalFolder(configurationFolderName);
+				var contentDirectory = Path.Combine(configDirectory, "Content");
 
-				var folderName = AppDataFolderHelper.GetLocalFolder(configurationFolderName);
-				var configFileName = Path.Combine(folderName, "Config.fscp");
-				if (Directory.Exists(folderName))
-					Directory.Delete(folderName, true);
-				Directory.CreateDirectory(folderName);
+				if (Directory.Exists(configDirectory))
+					Directory.Delete(configDirectory, true);
+				Directory.CreateDirectory(configDirectory);
+				Directory.CreateDirectory(contentDirectory);
+
+				FiresecConfiguration = new FiresecConfiguration();
 				if (ServiceFactoryBase.ContentService != null)
 					ServiceFactoryBase.ContentService.Invalidate();
 
-				var configFileStream = File.Create(configFileName);
-				CopyStream(stream, configFileStream);
-				bool isFullConfiguration;
-				LoadFromZipFile(configFileName, out isFullConfiguration);
+				if (ConnectionSettingsManager.IsRemote)
+				{
+					var configFileName = Path.Combine(configDirectory, "Config.fscp");
+					var configFileStream = File.Create(configFileName);
+					var stream = FiresecService.GetConfig();
+					CopyStream(stream, configFileStream);
+					LoadFromZipFile(configFileName);
+				}
+				else
+				{
+					foreach (var fileName in Directory.GetFiles(serverConfigDirectory))
+					{
+						var file = Path.GetFileName(fileName);
+						File.Copy(fileName, Path.Combine(configDirectory, file), true);
+					}
+					foreach (var fileName in Directory.GetFiles(Path.Combine(serverConfigDirectory, "Content")))
+					{
+						var file = Path.GetFileName(fileName);
+						File.Copy(fileName, Path.Combine(contentDirectory, file), true);
+					}
+					LoadConfigFromDirectory(configDirectory);
+				}
 
 				UpdateConfiguration();
 			}

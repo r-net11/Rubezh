@@ -158,6 +158,11 @@ namespace FiresecService.Service
 			SafeOperationCall(() => { FiresecService.SetConfig(stream); }, "SetConfig");
 		}
 
+		public void SetLocalConfig()
+		{
+			SafeOperationCall(() => { FiresecService.SetLocalConfig(); }, "SetLocalConfig");
+		}
+
 		public string Test(string arg)
 		{
 			return SafeOperationCall(() => { return FiresecService.Test(arg); }, "Test");

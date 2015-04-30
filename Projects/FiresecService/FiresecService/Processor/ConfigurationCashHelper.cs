@@ -23,6 +23,8 @@ namespace FiresecService
 
 		public static void Update()
 		{
+			CheckConfigDirectory();
+
 			SecurityConfiguration = GetSecurityConfiguration();
 			SystemConfiguration = GetSystemConfiguration();
 			if (SystemConfiguration == null)
@@ -43,93 +45,80 @@ namespace FiresecService
 			SKDManager.UpdateConfiguration();
 		}
 
+		static void CheckConfigDirectory()
+		{
+			var configFileName = AppDataFolderHelper.GetServerAppDataPath("Config.fscp");
+			var configDirectory = AppDataFolderHelper.GetServerAppDataPath("Config");
+			var contetntDirectory = Path.Combine(configDirectory, "Content");
+			if (!Directory.Exists(configDirectory))
+			{
+				Directory.CreateDirectory(configDirectory);
+				var zipFile = new ZipFile(configFileName);
+				zipFile.ExtractAll(configDirectory);
+			}
+			if (!Directory.Exists(contetntDirectory))
+			{
+				Directory.CreateDirectory(contetntDirectory);
+			}
+		}
+
 		public static SecurityConfiguration GetSecurityConfiguration()
 		{
-			var fileName = Path.Combine(AppDataFolderHelper.GetServerAppDataPath(), "Config.fscp");
-			var zipFile = ZipFile.Read(fileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
-
-			var securityConfiguration = (SecurityConfiguration)GetConfigurationFomZip(zipFile, "SecurityConfiguration.xml", typeof(SecurityConfiguration));
+			var securityConfiguration = (SecurityConfiguration)GetConfigurationFomZip("SecurityConfiguration.xml", typeof(SecurityConfiguration));
 			securityConfiguration.AfterLoad();
-			zipFile.Dispose();
 			return securityConfiguration;
 		}
 
 		static SystemConfiguration GetSystemConfiguration()
 		{
-			var fileName = Path.Combine(AppDataFolderHelper.GetServerAppDataPath(), "Config.fscp");
-			var zipFile = ZipFile.Read(fileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
-
-			if (zipFile != null)
+			var systemConfiguration = (SystemConfiguration)GetConfigurationFomZip("SystemConfiguration.xml", typeof(SystemConfiguration));
+			if (systemConfiguration != null)
 			{
-				var systemConfiguration = (SystemConfiguration)GetConfigurationFomZip(zipFile, "SystemConfiguration.xml", typeof(SystemConfiguration));
-				if (systemConfiguration != null)
-				{
-					systemConfiguration.AfterLoad();
-				}
-				else
-				{
-					systemConfiguration = new SystemConfiguration();
-				}
-				if (systemConfiguration.AutomationConfiguration == null)
-					systemConfiguration.AutomationConfiguration = new AutomationConfiguration();
-				if (systemConfiguration.AutomationConfiguration.AutomationSchedules == null)
-				{
-					systemConfiguration.AutomationConfiguration.AutomationSchedules = new List<AutomationSchedule>();
-				}
-				zipFile.Dispose();
-				return systemConfiguration;
+				systemConfiguration.AfterLoad();
 			}
-			return new SystemConfiguration();
+			else
+			{
+				systemConfiguration = new SystemConfiguration();
+			}
+			return systemConfiguration;
 		}
 
 		static GKDeviceConfiguration GetDeviceConfiguration()
 		{
-			var fileName = Path.Combine(AppDataFolderHelper.GetServerAppDataPath(), "Config.fscp");
-			var zipFile = ZipFile.Read(fileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
-
-			var deviceConfiguration = (GKDeviceConfiguration)GetConfigurationFomZip(zipFile, "GKDeviceConfiguration.xml", typeof(GKDeviceConfiguration));
+			var deviceConfiguration = (GKDeviceConfiguration)GetConfigurationFomZip("GKDeviceConfiguration.xml", typeof(GKDeviceConfiguration));
 			if (deviceConfiguration == null)
 				deviceConfiguration = new GKDeviceConfiguration();
 			deviceConfiguration.AfterLoad();
-			zipFile.Dispose();
 			return deviceConfiguration;
 		}
 
 		static SKDConfiguration GetSKDConfiguration()
 		{
-			var fileName = Path.Combine(AppDataFolderHelper.GetServerAppDataPath(), "Config.fscp");
-			var zipFile = ZipFile.Read(fileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
-
-			if (zipFile != null)
+			var skdConfiguration = (SKDConfiguration)GetConfigurationFomZip("SKDConfiguration.xml", typeof(SKDConfiguration));
+			if (skdConfiguration != null)
 			{
-				var skdConfiguration = (SKDConfiguration)GetConfigurationFomZip(zipFile, "SKDConfiguration.xml", typeof(SKDConfiguration));
-				if (skdConfiguration != null)
-				{
-					skdConfiguration.AfterLoad();
-				}
-				else
-				{
-					skdConfiguration = new SKDConfiguration();
-				}
-				zipFile.Dispose();
-				return skdConfiguration;
+				skdConfiguration.AfterLoad();
 			}
-			return new SKDConfiguration();
+			else
+			{
+				skdConfiguration = new SKDConfiguration();
+			}
+			return skdConfiguration;
 		}
 
-		static VersionedConfiguration GetConfigurationFomZip(ZipFile zipFile, string fileName, Type type)
+		static VersionedConfiguration GetConfigurationFomZip(string fileName, Type type)
 		{
 			try
 			{
-				var configurationEntry = zipFile[fileName];
-				if (configurationEntry != null)
-				{
-					var stream = configurationEntry.OpenReader();
-					var xmlSerializer = new XmlSerializer(type);
-					var versionedConfiguration = (VersionedConfiguration)xmlSerializer.Deserialize(stream);
-					versionedConfiguration.ValidateVersion();
-					return versionedConfiguration;
-				}
+				var configDirectoryName = AppDataFolderHelper.GetServerAppDataPath("Config");
+				var filePath = Path.Combine(configDirectoryName, fileName);
+
+				var stream = new FileStream(filePath, FileMode.Open);
+				var xmlSerializer = new XmlSerializer(type);
+				var versionedConfiguration = (VersionedConfiguration)xmlSerializer.Deserialize(stream);
+				stream.Close();
+				versionedConfiguration.ValidateVersion();
+				return versionedConfiguration;
 			}
 			catch (Exception e)
 			{
