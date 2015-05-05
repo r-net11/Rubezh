@@ -63,7 +63,7 @@ namespace VideoModule
 					VlcContext.StartupOptions.AddOption("--rtsp-tcp");
 
 					//Initialize the VlcContext
-					VlcContext.Initialize();
+					//VlcContext.Initialize();
 				}
 			}
 			catch (Exception e)
