@@ -22,7 +22,6 @@
 		</Grid.ColumnDefinitions>
 		<DataGrid
 			CanUserSortColumns="True"
-			Sorting="DataGrid_Sorting"
 			ItemsSource="{Binding DayIntervals}" 
 			SelectedItem="{Binding SelectedDayInterval}">
 			<DataGrid.Columns>

@@ -233,7 +233,7 @@ namespace AutomationModule.ViewModels
 			ServiceFactory.SaveService.AutomationChanged = automationChanged;
 
 			if (Procedures != null)
-				Procedures = new ObservableCollection<ProcedureViewModel>(Procedures.OrderBy(x => x.Name)); 
+				Procedures = new SortableObservableCollection<ProcedureViewModel>(Procedures.OrderBy(x => x.Name)); 
 
 			base.OnShow();
 		}
