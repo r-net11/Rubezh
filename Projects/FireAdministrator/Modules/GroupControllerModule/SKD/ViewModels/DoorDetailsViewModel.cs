@@ -34,11 +34,9 @@ namespace GKModule.ViewModels
 				Door = door;
 			}
 
-			AvailableDoorTypes = new ObservableCollection<GKDoorType>();
-			AvailableDoorTypes.Add(GKDoorType.OneWay);
-			AvailableDoorTypes.Add(GKDoorType.TwoWay);
+			AvailableDoorTypes = new ObservableCollection<GKDoorType>(Enum.GetValues(typeof(GKDoorType)).Cast<GKDoorType>());
 			SelectedDoorType = Door.DoorType;
-			IsGate = Door.IsGate;
+			AntipassbackOn = Door.AntipassbackOn;
 
 			CopyProperties();
 
@@ -142,14 +140,14 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		bool _isGate;
-		public bool IsGate
+		bool _antipassbackOn;
+		public bool AntipassbackOn
 		{
-			get { return _isGate; }
+			get { return _antipassbackOn; }
 			set
 			{
-				_isGate = value;
-				OnPropertyChanged(() => IsGate);
+				_antipassbackOn = value;
+				OnPropertyChanged(() => AntipassbackOn);
 			}
 		}
 
@@ -176,7 +174,7 @@ namespace GKModule.ViewModels
 			Door.Hold = Hold;
 			Door.EnterLevel = EnterLevel;
 			Door.DoorType = SelectedDoorType;
-			Door.IsGate = IsGate;
+			Door.AntipassbackOn = AntipassbackOn;
 			return base.Save();
 		}
 	}

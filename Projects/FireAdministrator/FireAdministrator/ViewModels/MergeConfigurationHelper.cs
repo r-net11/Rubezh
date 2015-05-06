@@ -397,8 +397,12 @@ namespace FireAdministrator.ViewModels
 			{
 				door.EnterDeviceUID = ReplaceUID(door.EnterDeviceUID, GKDeviceUIDs);
 				door.ExitDeviceUID = ReplaceUID(door.ExitDeviceUID, GKDeviceUIDs);
+				door.EnterButtonUID = ReplaceUID(door.EnterButtonUID, GKDeviceUIDs);
+				door.ExitButtonUID = ReplaceUID(door.ExitButtonUID, GKDeviceUIDs);
 				door.LockDeviceUID = ReplaceUID(door.LockDeviceUID, GKDeviceUIDs);
+				door.LockDeviceExitUID = ReplaceUID(door.LockDeviceExitUID, GKDeviceUIDs);
 				door.LockControlDeviceUID = ReplaceUID(door.LockControlDeviceUID, GKDeviceUIDs);
+				door.LockControlDeviceExitUID = ReplaceUID(door.LockControlDeviceExitUID, GKDeviceUIDs);
 				ReplaceLogic(door.OpenRegimeLogic);
 			}
 

@@ -56,19 +56,16 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 				<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Разрешить удаленные соединения на сервере" />
 				<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Использовать HASP" />
 				<TextBlock Grid.Row="2" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Название экземпляра сервера БД" />
 				<TextBlock Grid.Row="3" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Создавать новую БД при переполнении" />
-				<TextBlock Grid.Row="4" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Активировать глобальный Antipassback" />
 
 				<CheckBox Grid.Row="0" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding Server_EnableRemoteConnections}" />
 				<CheckBox Grid.Row="1" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding UseHasp}" />
 				<TextBox Grid.Row="2" Grid.Column="1" Margin="2" Text="{Binding DBServerName, UpdateSourceTrigger=PropertyChanged}" />
 				<CheckBox Grid.Row="3" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding CreateNewDBOnOversize}" />
-				<CheckBox Grid.Row="4" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding AntipassbackOn}" />
 			</Grid>
 		</TabItem>
 		<TabItem Header="Автозапуск">

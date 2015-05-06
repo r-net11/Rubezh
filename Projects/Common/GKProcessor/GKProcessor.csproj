@@ -65,6 +65,7 @@
     <Compile Include="DescriptorsDatabase\DatabaseType.cs" />
     <Compile Include="DescriptorsDatabase\DescriptorsManager.cs" />
     <Compile Include="DescriptorsDatabase\CommonDatabase.cs" />
+    <Compile Include="DescriptorsDatabase\Descriptors\DoorPimDescriptor.cs" />
     <Compile Include="DescriptorsDatabase\Descriptors\PimDescriptor.cs" />
     <Compile Include="DescriptorsDatabase\Descriptors\PumpStationDescriptor.cs" />
     <Compile Include="DescriptorsDatabase\Descriptors\MPTDescriptor.cs" />

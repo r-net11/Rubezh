@@ -120,7 +120,9 @@ namespace GKModule.ViewModels
 			get
 			{
 				return GKManager.Doors.Any(x => x.EnterDeviceUID == Device.UID || x.ExitDeviceUID == Device.UID
-				   || x.LockDeviceUID == Device.UID || x.LockControlDeviceUID == Device.UID);
+					|| x.EnterButtonUID == Device.UID || x.ExitButtonUID == Device.UID
+					|| x.LockDeviceUID == Device.UID || x.LockDeviceExitUID == Device.UID
+					|| x.LockControlDeviceUID == Device.UID || x.LockControlDeviceExitUID == Device.UID);
 			}
 		}
 
@@ -691,7 +693,9 @@ namespace GKModule.ViewModels
 			get
 			{
 				var door = GKManager.Doors.FirstOrDefault(x => x.EnterDeviceUID == Device.UID || x.ExitDeviceUID == Device.UID
-					|| x.LockDeviceUID == Device.UID || x.LockControlDeviceUID == Device.UID);
+					|| x.EnterButtonUID == Device.UID || x.ExitButtonUID == Device.UID
+					|| x.LockDeviceUID == Device.UID || x.LockDeviceExitUID == Device.UID
+					|| x.LockControlDeviceUID == Device.UID || x.LockControlDeviceExitUID == Device.UID);
 				if (door != null)
 					return door.Name;
 				return null;
@@ -714,7 +718,9 @@ namespace GKModule.ViewModels
 		void OnShowDoor()
 		{
 			var door = GKManager.Doors.FirstOrDefault(x => x.EnterDeviceUID == Device.UID || x.ExitDeviceUID == Device.UID
-					|| x.LockDeviceUID == Device.UID || x.LockControlDeviceUID == Device.UID);
+					|| x.EnterButtonUID == Device.UID || x.ExitButtonUID == Device.UID
+					|| x.LockDeviceUID == Device.UID || x.LockDeviceExitUID == Device.UID
+					|| x.LockControlDeviceUID == Device.UID || x.LockControlDeviceExitUID == Device.UID);
 			if (door != null)
 				ServiceFactoryBase.Events.GetEvent<ShowGKDoorEvent>().Publish(door.UID);
 		}

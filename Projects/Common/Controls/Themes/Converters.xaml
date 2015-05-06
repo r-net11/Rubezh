@@ -46,7 +46,7 @@
 	<Converters:BoolToGridLengthConverter x:Key="BoolToGridLengthConverter" />
 	<Converters:EnumToDescriptionConverter x:Key="EnumToDescriptionConverter" />
 	<Converters:EnumToVisibilityConverter x:Key="EnumToVisibilityConverter" />
-	<Converters:EnumToVisibilityConverter x:Key="InversedEnumToVisibilityConverter" />
+	<Converters:InversedEnumToVisibilityConverter x:Key="InversedEnumToVisibilityConverter" />
 	<Converters:EnumToBoolConverter x:Key="EnumToBoolConverter" />
 	<Converters:GKGuardZoneDeviceActionTypeToIconConverter x:Key="GKGuardZoneDeviceActionTypeToIconConverter" />
 	<Converters:JournalSubsystemTypeToIconConverter x:Key="JournalSubsystemTypeToIconConverter" />
