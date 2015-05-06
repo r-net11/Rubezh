@@ -51,6 +51,7 @@ namespace SKDModule.ViewModels
 						var scheduleZoneViewModel = new ScheduleZoneViewModel(employeeScheduleZone);
 						ScheduleZones.Add(scheduleZoneViewModel);
 					}
+					ScheduleZones.Sort(x => x.No);
 					SelectedScheduleZone = ScheduleZones.FirstOrDefault();
 				}
 			}

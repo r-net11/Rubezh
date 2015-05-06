@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Windows.Controls.Primitives;
 
 namespace Controls
 {
@@ -44,6 +45,9 @@ namespace Controls
 		}
 		private void DataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
 		{
+			if (e.Device.Target is DataGridColumnHeader)
+				return;
+
 			if (IsDoubleClickOff)
 				return;
 			if (_previousDataGridCell != _currentDataGridCell)

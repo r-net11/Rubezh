@@ -2,12 +2,20 @@
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:Converters="clr-namespace:SKDModule.Converters"
-			 xmlns:local="clr-namespace:SKDModule.Views">
+			 xmlns:local="clr-namespace:SKDModule.Views"
+			 xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase">
 	
 	<UserControl.Resources>
 		<Converters:TimeTrackTypeToColorConverter x:Key="TimeTrackTypeToColorConverter" />
 		<Converters:TimeSpanToStringConverter x:Key="TimeSpanToStringConverter" />
 		<Converters:TimeSpanToColorConverter x:Key="TimeSpanToColorConverter" />
+		<CollectionViewSource x:Key="cvsTimeTracks" Source="{Binding TimeTracks}">
+			<CollectionViewSource.SortDescriptions>
+				<scm:SortDescription PropertyName="ShortEmployee.LastName" Direction="Ascending" />
+				<scm:SortDescription PropertyName="ShortEmployee.FirstName" Direction="Ascending" />
+				<scm:SortDescription PropertyName="ShortEmployee.SecondName" Direction="Ascending" />
+			</CollectionViewSource.SortDescriptions>
+		</CollectionViewSource>
 	</UserControl.Resources>
 
 	<Grid>
@@ -17,7 +25,7 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" MinHeight="200" />
 		</Grid.RowDefinitions>
-		<StackPanel Grid.Row="0" Orientation="Horizontal">
+		<StackPanel Orientation="Horizontal">
 			<ToolBarButton Command="{Binding ShowFilterCommand}" ImageSource="filter"  ToolTip="Задать фильтр" />
 			<ToolBarButton Command="{Binding RefreshCommand}" ImageSource="Refresh"  ToolTip="Обновить" />
 			<ToolBarButton Command="{Binding PrintCommand}" ImageSource="Print"  ToolTip="Печать" />
@@ -31,7 +39,15 @@
             </StackPanel>
 			<ToolBarButton Command="{Binding ShowDocumentTypesCommand}" ToolTip="Типы документов" ImageSource="Settings2" />
 		</StackPanel>
-		<DataGrid x:Name="grid" Grid.Row="1" ItemsSource="{Binding TimeTracks}" SelectedItem="{Binding SelectedTimeTrack}" FrozenColumnCount="3" RowHeight="{Binding RowHeight}" CanUserReorderColumns="False" Margin="0 4">
+		<DataGrid 
+			x:Name="grid"
+			Grid.Row="1" 
+			ItemsSource="{Binding Source={StaticResource cvsTimeTracks}}" 
+			SelectedItem="{Binding SelectedTimeTrack}"
+			FrozenColumnCount="3"
+			RowHeight="{Binding RowHeight}" 
+			CanUserReorderColumns="False" 
+			Margin="0 4">
 			<DataGrid.Columns>
 				<DataGridTemplateColumn Header="ФИО">
 					<DataGridTemplateColumn.CellTemplate>

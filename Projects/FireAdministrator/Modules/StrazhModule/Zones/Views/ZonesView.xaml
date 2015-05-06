@@ -37,7 +37,7 @@
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
 			<DataGridTextColumn Width="*" Binding="{Binding Zone.Name}" Header="Наименование" />
-			<DataGridTemplateColumn Header="Примечание" Width="*">
+			<DataGridTemplateColumn Header="Примечание" Width="*" SortMemberPath="Description">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
 						<Controls:EditorPresenter>

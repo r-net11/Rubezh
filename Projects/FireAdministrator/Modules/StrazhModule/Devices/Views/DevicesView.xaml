@@ -26,7 +26,11 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="180" MinHeight="150" MaxHeight="300" />
 		</Grid.RowDefinitions>
-		<tree:TreeList Grid.Row="0" Focusable="True" SelectedTreeNode="{Binding SelectedDevice}" Source="{Binding RootDevices}" tree:SortBehavior.CanUserSortColumns="False">
+		<tree:TreeList
+			Focusable="True"
+			SelectedTreeNode="{Binding SelectedDevice}" 
+			Source="{Binding RootDevices}" 
+			tree:SortBehavior.CanUserSortColumns="True">
 			<tree:TreeList.Resources>
 				<Style x:Key="{x:Type ComboBox}" BasedOn="{StaticResource {x:Type ComboBox}}" TargetType="ComboBox">
 					<Setter Property="MinWidth" Value="0" />
@@ -98,7 +102,7 @@
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
 
-					<GridViewColumn Width="300" Header="Ведет в зону" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelZoneComparer}">
+					<GridViewColumn Width="300" Header="Ведет в зону">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<Controls:EditorPresenter>

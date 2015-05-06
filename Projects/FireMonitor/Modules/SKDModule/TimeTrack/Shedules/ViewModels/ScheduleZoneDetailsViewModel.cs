@@ -5,6 +5,7 @@ using FiresecAPI.SKD;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI.GK;
+using Common;
 
 namespace SKDModule.ViewModels
 {
@@ -29,7 +30,7 @@ namespace SKDModule.ViewModels
 			ScheduleZone = sheduleZone;
 
 
-			Zones = new ObservableCollection<SelectationScheduleZoneViewModel>();
+			Zones = new SortableObservableCollection<SelectationScheduleZoneViewModel>();
 
 			var strazhDoors = FiresecAPI.SKD.SKDManager.Doors.Where(x => organisation.DoorUIDs.Any(y => y == x.UID));
 			foreach (var door in strazhDoors)
@@ -58,6 +59,7 @@ namespace SKDModule.ViewModels
 				}
 			}
 
+			Zones = new ObservableCollection<SelectationScheduleZoneViewModel>(Zones.OrderBy(x => x.No)); //TODO: 
 			SelectedZone = Zones.FirstOrDefault(x => x.ZoneUID == ScheduleZone.ZoneUID);
 		}
 
@@ -99,13 +101,16 @@ namespace SKDModule.ViewModels
 		public Guid DoorUID { get; private set; }
 		public Guid ZoneUID { get; private set; }
 		public string Name { get; private set; }
+		public int No { get; private set; }
 		public string Description { get; private set; }
 
 		public SelectationScheduleZoneViewModel(SKDZone zone, Guid doorUID)
 		{
 			DoorUID = doorUID;
 			ZoneUID = zone.UID;
-			Name = zone.PresentationName;
+		//	Name = zone.PresentationName;
+			Name = zone.Name;
+			No = zone.No;
 			Description = zone.Description;
 		}
 
@@ -113,7 +118,9 @@ namespace SKDModule.ViewModels
 		{
 			DoorUID = doorUID;
 			ZoneUID = zone.UID;
-			Name = zone.PresentationName;
+		//	Name = zone.PresentationName;
+			Name = zone.Name;
+			No = zone.No;
 			Description = zone.Description;
 		}
 	}

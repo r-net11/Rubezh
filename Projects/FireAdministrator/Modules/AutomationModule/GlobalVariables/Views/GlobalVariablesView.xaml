@@ -3,9 +3,16 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:automation="clr-namespace:FiresecAPI.Automation;assembly=FiresecAPI">
 
-	<XDataGrid CanUserSortColumns="True" ItemsSource="{Binding GlobalVariables}" SelectedItem="{Binding SelectedGlobalVariable}" IsReadOnly="False">
+	<XDataGrid
+		CanUserSortColumns="True"
+		ItemsSource="{Binding GlobalVariables}"
+		SelectedItem="{Binding SelectedGlobalVariable}"
+		IsReadOnly="False">
 		<DataGrid.Columns>
-			<DataGridTemplateColumn Header="Имя"  SortMemberPath="Variable.Name" Width="*">
+			<DataGridTemplateColumn 
+				Header="Имя"
+				SortMemberPath="Variable.Name"
+				Width="*">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
 						<StackPanel Orientation="Horizontal">

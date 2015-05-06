@@ -4,6 +4,7 @@ using System.Linq;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
 using Infrastructure;
+using Common;
 using Infrastructure.Common;
 using Infrastructure.Common.Ribbon;
 using Infrastructure.ViewModels;
@@ -23,7 +24,7 @@ namespace SoundsModule.ViewModels
 		{
 			IsNowPlaying = false;
 
-			Sounds = new ObservableCollection<SoundViewModel>();
+			Sounds = new SortableObservableCollection<SoundViewModel>();
 			var stateClasses = new List<XStateClass>();
 
 			if (!GlobalSettingsHelper.GlobalSettings.UseStrazhBrand)
@@ -53,14 +54,16 @@ namespace SoundsModule.ViewModels
 
 				Sounds.Add(new SoundViewModel(newSound));
 			}
+
+			Sounds.Sort(x => EnumHelper.GetEnumDescription(x.StateClass));
 			SelectedSound = Sounds.FirstOrDefault();
 
 			if (FiresecClient.FiresecManager.SystemConfiguration.Sounds.RemoveAll(x => !Sounds.Any(y => y.StateClass == x.StateClass)) > 0)
 				ServiceFactory.SaveService.SoundsChanged = true;
 		}
 
-		ObservableCollection<SoundViewModel> _sounds;
-		public ObservableCollection<SoundViewModel> Sounds
+		SortableObservableCollection<SoundViewModel> _sounds;
+		public SortableObservableCollection<SoundViewModel> Sounds
 		{
 			get { return _sounds; }
 			set

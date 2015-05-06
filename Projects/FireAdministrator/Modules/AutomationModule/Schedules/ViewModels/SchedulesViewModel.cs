@@ -8,6 +8,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
+using Common;
 
 namespace AutomationModule.ViewModels
 {
@@ -23,7 +24,7 @@ namespace AutomationModule.ViewModels
 
 		public void Initialize()
 		{
-			Schedules = new ObservableCollection<ScheduleViewModel>();
+			Schedules = new SortableObservableCollection<ScheduleViewModel>();
 			if (FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSchedules == null)
 				FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSchedules = new List<AutomationSchedule>();
 			foreach (var schedule in FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSchedules)
@@ -36,7 +37,7 @@ namespace AutomationModule.ViewModels
 		}
 
 
-		public ObservableCollection<ScheduleViewModel> Schedules { get; private set; }
+		public SortableObservableCollection<ScheduleViewModel> Schedules { get; private set; }
 
 		ScheduleViewModel _selectedSchedule;
 		public ScheduleViewModel SelectedSchedule
@@ -109,6 +110,10 @@ namespace AutomationModule.ViewModels
 		{
 			if (SelectedSchedule != null)
 				SelectedSchedule.UpdateContent();
+
+			if (Schedules != null)
+				Schedules.Sort(x => x.Name);
+
 			base.OnShow();
 		}
 	}

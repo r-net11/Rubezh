@@ -3,6 +3,9 @@
 	<Grid ScrollViewer.IsDeferredScrollingEnabled="True" VirtualizingStackPanel.VirtualizationMode="Recycling" Margin="2">
 		<DataGrid Focusable="True" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}">
 			<DataGrid.Columns>
+				<DataGridTextColumn
+					Binding="{Binding No}"
+					Header="№" />
 				<DataGridTemplateColumn Width="250" Header="Зона">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>

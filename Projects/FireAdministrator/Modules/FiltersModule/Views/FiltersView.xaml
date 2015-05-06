@@ -8,9 +8,16 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="150" />
 		</Grid.RowDefinitions>
-		<Controls:XDataGrid ItemsSource="{Binding Filters}" SelectedItem="{Binding SelectedFilter}" IsReadOnly="False">
+		<Controls:XDataGrid
+			CanUserSortColumns="True" 
+			ItemsSource="{Binding Filters}" 
+			SelectedItem="{Binding SelectedFilter}" 
+			IsReadOnly="False">
 			<DataGrid.Columns>
-				<DataGridTemplateColumn Header="Название" Width="*">
+				<DataGridTemplateColumn
+					Header="Название"
+					SortMemberPath="Filter.Name"
+					Width="*">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">

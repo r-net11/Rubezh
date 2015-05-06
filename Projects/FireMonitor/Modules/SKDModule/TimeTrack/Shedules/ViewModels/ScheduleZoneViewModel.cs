@@ -18,13 +18,31 @@ namespace SKDModule.ViewModels
 			{
 				var strazhZone = SKDManager.Zones.FirstOrDefault(x => x.UID == Model.ZoneUID);
 				if (strazhZone != null)
-					return strazhZone.PresentationName;
+					return strazhZone.Name;
+			//		return strazhZone.PresentationName;
 
 				var gkZone = GKManager.SKDZones.FirstOrDefault(x => x.UID == Model.ZoneUID);
 				if (gkZone != null)
-					return gkZone.PresentationName;
+					return gkZone.Name;
+			//		return gkZone.PresentationName;
 
 				return "<Нет в конфигурации>";
+			}
+		}
+
+		public int No
+		{
+			get 
+			{
+				var strazhZone = SKDManager.Zones.FirstOrDefault(x => x.UID == Model.ZoneUID);
+				if (strazhZone != null)
+					return strazhZone.No;
+
+				var gkZone = GKManager.SKDZones.FirstOrDefault(x => x.UID == Model.ZoneUID);
+				if (gkZone != null)
+					return gkZone.No;
+
+				return default(int);
 			}
 		}
 

@@ -13,9 +13,15 @@
 			<ColumnDefinition Width="*" />
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
-		<DataGrid Grid.Column="0" ItemsSource="{Binding Intervals}" SelectedItem="{Binding SelectedInterval}">
+		<DataGrid
+			CanUserSortColumns="True"
+			ItemsSource="{Binding Intervals}"
+			SelectedItem="{Binding SelectedInterval}">
 			<DataGrid.Columns>
-				<DataGridTemplateColumn Width="*" Header="Наименование">
+				<DataGridTemplateColumn
+					Width="*"
+					SortMemberPath="Name"
+					Header="Наименование">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
@@ -25,7 +31,10 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Width="*" Header="Описание">
+				<DataGridTemplateColumn
+					SortMemberPath="Description"
+					Width="*"
+					Header="Описание">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Style="{StaticResource ActiveStyle}" Text="{Binding Description}" />

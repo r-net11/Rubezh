@@ -28,7 +28,10 @@
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 				<DataGridTextColumn Width="*" Binding="{Binding Door.Name}" Header="Наименование" />
-				<DataGridTemplateColumn Width="*" Header="Устройство входа">
+				<DataGridTemplateColumn
+					Width="*"
+					Header="Устройство входа"
+					SortMemberPath="InDeviceName">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
@@ -54,7 +57,10 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Width="*" Header="Устройство выхода">
+				<DataGridTemplateColumn
+					Width="*"
+					Header="Устройство выхода"
+					SortMemberPath="OutDevice.NameWithParent">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">

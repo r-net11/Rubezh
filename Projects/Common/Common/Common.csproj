@@ -145,6 +145,7 @@
     <Compile Include="AssemblyHelper.cs" />
     <Compile Include="AssemblyInfoCommon.cs" />
     <Compile Include="ColorUtilities.cs" />
+    <Compile Include="EnumHelper.cs" />
     <Compile Include="EnvironmentParameters.cs" />
     <Compile Include="GuidHelper.cs" />
     <Compile Include="HashHelper.cs" />

@@ -36,19 +36,22 @@ namespace AutomationModule.ViewModels
 
 		public void Initialize()
 		{
-			Procedures = new ObservableCollection<ProcedureViewModel>();
+			Procedures = new SortableObservableCollection<ProcedureViewModel>();
 			if (FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures == null)
 				FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures = new List<Procedure>();
+
 			foreach (var procedure in FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures)
 			{
 				var procedureViewModel = new ProcedureViewModel(procedure);
 				Procedures.Add(procedureViewModel);
 			}
+
+			Procedures.Sort(x => x.Name);
 			SelectedProcedure = Procedures.FirstOrDefault();
 		}
 
-		ObservableCollection<ProcedureViewModel> _procedures;
-		public ObservableCollection<ProcedureViewModel> Procedures
+		SortableObservableCollection<ProcedureViewModel> _procedures;
+		public SortableObservableCollection<ProcedureViewModel> Procedures
 		{
 			get { return _procedures; }
 			set
@@ -223,9 +226,15 @@ namespace AutomationModule.ViewModels
 		public override void OnShow()
 		{
 			var automationChanged = ServiceFactory.SaveService.AutomationChanged;
+
 			if (SelectedProcedure != null)
 				SelectedProcedure.StepsViewModel.UpdateContent();
+
 			ServiceFactory.SaveService.AutomationChanged = automationChanged;
+
+			if (Procedures != null)
+				Procedures = new ObservableCollection<ProcedureViewModel>(Procedures.OrderBy(x => x.Name)); 
+
 			base.OnShow();
 		}
 
