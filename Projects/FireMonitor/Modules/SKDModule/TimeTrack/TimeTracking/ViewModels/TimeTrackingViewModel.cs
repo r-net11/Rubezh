@@ -2,14 +2,17 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 using FiresecAPI.SKD;
-using FiresecClient.SKDHelpers;
+using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
+using SKDModule.Events;
 using SKDModule.Model;
 
 namespace SKDModule.ViewModels
@@ -27,7 +30,12 @@ namespace SKDModule.ViewModels
 			ShowDocumentTypesCommand = new RelayCommand(OnShowDocumentTypes);
 			ServiceFactory.Events.GetEvent<UserChangedEvent>().Unsubscribe(OnUserChanged);
 			ServiceFactory.Events.GetEvent<UserChangedEvent>().Subscribe(OnUserChanged);
-
+			ServiceFactory.Events.GetEvent<EditDocumentEvent>().Unsubscribe(OnEditDocument);
+			ServiceFactory.Events.GetEvent<EditDocumentEvent>().Subscribe(OnEditDocument);
+			ServiceFactory.Events.GetEvent<RemoveDocumentEvent>().Unsubscribe(OnRemoveDocument);
+			ServiceFactory.Events.GetEvent<RemoveDocumentEvent>().Subscribe(OnRemoveDocument);
+			ServiceFactory.Events.GetEvent<EditTimeTrackPartEvent>().Unsubscribe(OnEditTimeTrackPart);
+			ServiceFactory.Events.GetEvent<EditTimeTrackPartEvent>().Subscribe(OnEditTimeTrackPart);
 
 			TimeTrackFilter = new TimeTrackFilter();
 			TimeTrackFilter.EmployeeFilter = new EmployeeFilter()
@@ -39,8 +47,12 @@ namespace SKDModule.ViewModels
 			TimeTrackFilter.StartDate = DateTime.Today.AddDays(1 - DateTime.Today.Day);
 			TimeTrackFilter.EndDate = DateTime.Today;
 
-			
+
+			var stopWatch = new Stopwatch();
+			stopWatch.Start();
 			UpdateGrid();
+			stopWatch.Stop();
+			Trace.WriteLine(string.Format("UpdateGrid(): {0}", stopWatch.Elapsed));
 		}
 
 		ObservableCollection<TimeTrackViewModel> _timeTracks;
@@ -165,8 +177,18 @@ namespace SKDModule.ViewModels
 				FirstDay = TimeTrackFilter.StartDate;
 
 				TimeTracks = new ObservableCollection<TimeTrackViewModel>();
-				var timeTrackResult = EmployeeHelper.GetTimeTracks(TimeTrackFilter.EmployeeFilter, TimeTrackFilter.StartDate, TimeTrackFilter.EndDate);
-				//var stream = FiresecManager.FiresecService.GetTimeTracksStream(TimeTrackFilter.EmployeeFilter, TimeTrackFilter.StartDate, TimeTrackFilter.EndDate);
+				//var timeTrackResult = EmployeeHelper.GetTimeTracks(TimeTrackFilter.EmployeeFilter, TimeTrackFilter.StartDate, TimeTrackFilter.EndDate);
+				var stream = FiresecManager.FiresecService.GetTimeTracksStream(TimeTrackFilter.EmployeeFilter, TimeTrackFilter.StartDate, TimeTrackFilter.EndDate);
+				var folderName = AppDataFolderHelper.GetFolder("TempServer");
+				var inputFileName = Path.Combine(folderName, "TimeTrackResult.xml");
+				var resultFileName = Path.Combine(folderName, "ClientTimeTrackResult.xml");
+				var resultFileStream = File.Create(resultFileName);
+				//CopyStream(stream, resultFileStream);
+				using (var inputStream = new FileStream(inputFileName, FileMode.Open, FileAccess.Read))
+				{
+					CopyStream(inputStream, resultFileStream);
+				}
+				var timeTrackResult = Deserialize(resultFileName);
 				if (timeTrackResult != null)
 				{
 					TimeTrackEmployeeResults = timeTrackResult.TimeTrackEmployeeResults;
@@ -184,6 +206,28 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		public static void CopyStream(Stream input, Stream output)
+		{
+			var buffer = new byte[8 * 1024];
+			int length;
+			while ((length = input.Read(buffer, 0, buffer.Length)) > 0)
+			{
+				output.Write(buffer, 0, length);
+			}
+			output.Close();
+		}
+
+		public static TimeTrackResult Deserialize(string fileName)
+		{
+			using (var fileStream = new FileStream(fileName, FileMode.Open, FileAccess.Read))
+			{
+				var dataContractSerializer = new DataContractSerializer(typeof(TimeTrackResult));
+				var result = (TimeTrackResult)dataContractSerializer.ReadObject(fileStream);
+				fileStream.Close();
+				return result;
+			}
+		}
+
 		public RelayCommand ShowDocumentTypesCommand { get; private set; }
 		void OnShowDocumentTypes()
 		{
@@ -196,5 +240,34 @@ namespace SKDModule.ViewModels
 			TimeTrackFilter.EmployeeFilter.UserUID = FiresecClient.FiresecManager.CurrentUser.UID;
 			UpdateGrid();
 		}
+
+		#region DocumentEvents
+		void OnEditDocument(TimeTrackDocument document)
+		{
+			var timeTrackViewModel = TimeTracks.FirstOrDefault(x => x.ShortEmployee.UID == document.EmployeeUID);
+			if (timeTrackViewModel != null)
+			{
+				timeTrackViewModel.DocumentsViewModel.OnEditDocument(document);
+			}
+		}
+
+		void OnRemoveDocument(TimeTrackDocument document)
+		{
+			var timeTrackViewModel = TimeTracks.FirstOrDefault(x => x.ShortEmployee.UID == document.EmployeeUID);
+			if (timeTrackViewModel != null)
+			{
+				timeTrackViewModel.DocumentsViewModel.OnRemoveDocument(document);
+			}
+		}
+
+		void OnEditTimeTrackPart(Guid uid)
+		{
+			var timeTrackViewModel = TimeTracks.FirstOrDefault(x => x.ShortEmployee.UID == uid);
+			if (timeTrackViewModel != null)
+			{
+				timeTrackViewModel.DocumentsViewModel.OnEditTimeTrackPart(uid);
+			}
+		}
+		#endregion
 	}
 }

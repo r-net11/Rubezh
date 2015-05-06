@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using FiresecAPI;
 using FiresecAPI.SKD;
+using Infrastructure.Common;
 
 namespace SKDDriver.Translators
 {
@@ -133,12 +134,13 @@ namespace SKDDriver.Translators
 		{
 			var timeTracksResult = GetTimeTracks(filter, startDate, endDate).Result;
 			var serializer = new DataContractSerializer(typeof(TimeTrackResult));
-			using (var fileStream = File.Open("temp.xml", FileMode.Create))
-			//using (var fileStream = new MemoryStream())
+			var folderName = AppDataFolderHelper.GetFolder("TempServer");
+			var fileName = Path.Combine(folderName, "TimeTrackResult.xml");
+			using (var fileStream = File.Open(fileName, FileMode.Create))
 			{
 				serializer.WriteObject(fileStream, timeTracksResult);
-				return fileStream;
 			}
+			return new FileStream(fileName, FileMode.Open, FileAccess.Read);
 		}
 
 		TimeTrackEmployeeResult GetEmployeeTimeTrack(ShortEmployee shortEmployee, DateTime startDate, DateTime endDate)

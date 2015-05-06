@@ -1,1 +1,0 @@
-﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?><message msgId="msg.1315" msgTime="13-10-2010 12:45:57" xmlns="baseMessages"><MHqueryConfiguredDev/></message>

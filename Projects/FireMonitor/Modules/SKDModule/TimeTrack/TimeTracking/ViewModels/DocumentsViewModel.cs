@@ -3,11 +3,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.SKD;
 using FiresecClient;
-using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using SKDModule.Events;
 
 namespace SKDModule.ViewModels
 {
@@ -38,12 +36,7 @@ namespace SKDModule.ViewModels
 			}
 			SelectedDocument = Documents.FirstOrDefault();
 			IsChanged = false;
-			ServiceFactory.Events.GetEvent<EditDocumentEvent>().Unsubscribe(OnEditDocument);
-			ServiceFactory.Events.GetEvent<EditDocumentEvent>().Subscribe(OnEditDocument);
-			ServiceFactory.Events.GetEvent<RemoveDocumentEvent>().Unsubscribe(OnRemoveDocument);
-			ServiceFactory.Events.GetEvent<RemoveDocumentEvent>().Subscribe(OnRemoveDocument);
-			ServiceFactory.Events.GetEvent<EditTimeTrackPartEvent>().Unsubscribe(OnEditTimeTrackPart);
-			ServiceFactory.Events.GetEvent<EditTimeTrackPartEvent>().Subscribe(OnEditTimeTrackPart);
+			
 		}
 
 		public ObservableCollection<DocumentViewModel> Documents { get; private set; }
@@ -130,42 +123,6 @@ namespace SKDModule.ViewModels
 			return SelectedDocument != null && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Documents_Edit);
 		}
 
-		void OnEditDocument(TimeTrackDocument document)
-		{
-			if (document.EmployeeUID == EmployeeUID)
-			{
-				var viewModel = Documents.FirstOrDefault(x => x.Document.UID == document.UID);
-				if (viewModel != null)
-				{
-					viewModel.Update(document);
-				}
-				else
-				{
-					Documents.Add(new DocumentViewModel(document));
-				}
-				IsChanged = true;
-			}
-		}
-
-		void OnRemoveDocument(TimeTrackDocument document)
-		{
-			var viewModel = Documents.FirstOrDefault(x => x.Document.UID == document.UID);
-			if (viewModel != null)
-			{
-				Documents.Remove(viewModel);
-				OnPropertyChanged(() => Documents);
-				IsChanged = true;
-			}
-		}
-
-		void OnEditTimeTrackPart(Guid uid)
-		{
-			if (EmployeeUID == uid)
-			{
-				IsChanged = true;
-			}
-		}
-
 		public RelayCommand AddFileCommand { get; private set; }
 		void OnAddFile()
 		{
@@ -206,5 +163,43 @@ namespace SKDModule.ViewModels
 				OnPropertyChanged(() => IsChanged);
 			}
 		}
+
+		#region ForEvent
+		public void OnEditDocument(TimeTrackDocument document)
+		{
+			if (document.EmployeeUID == EmployeeUID)
+			{
+				var viewModel = Documents.FirstOrDefault(x => x.Document.UID == document.UID);
+				if (viewModel != null)
+				{
+					viewModel.Update(document);
+				}
+				else
+				{
+					Documents.Add(new DocumentViewModel(document));
+				}
+				IsChanged = true;
+			}
+		}
+
+		public void OnRemoveDocument(TimeTrackDocument document)
+		{
+			var viewModel = Documents.FirstOrDefault(x => x.Document.UID == document.UID);
+			if (viewModel != null)
+			{
+				Documents.Remove(viewModel);
+				OnPropertyChanged(() => Documents);
+				IsChanged = true;
+			}
+		}
+
+		public void OnEditTimeTrackPart(Guid uid)
+		{
+			if (EmployeeUID == uid)
+			{
+				IsChanged = true;
+			}
+		}
+		#endregion
 	}
 }
