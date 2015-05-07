@@ -84,7 +84,7 @@ namespace FiresecService.Service
 				return databaseService.TimeTrackTranslator.GetTimeTracks(filter, startDate, endDate);
 			}
 		}
-		public FileStream GetTimeTracksStream(EmployeeFilter filter, DateTime startDate, DateTime endDate)
+		public Stream GetTimeTracksStream(EmployeeFilter filter, DateTime startDate, DateTime endDate)
 		{
 			using (var databaseService = new SKDDatabaseService())
 			{

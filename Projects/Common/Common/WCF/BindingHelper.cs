@@ -33,6 +33,7 @@ namespace Common
 			binding.ReaderQuotas.MaxDepth = Int32.MaxValue;
 			binding.ReaderQuotas.MaxNameTableCharCount = Int32.MaxValue;
 			binding.Security.Mode = NetNamedPipeSecurityMode.None;
+			binding.TransferMode = TransferMode.Streamed;
 			return binding;
 		}
 
@@ -50,6 +51,7 @@ namespace Common
 			binding.ReaderQuotas.MaxDepth = Int32.MaxValue;
 			binding.ReaderQuotas.MaxNameTableCharCount = Int32.MaxValue;
 			binding.Security.Mode = SecurityMode.None;
+			binding.TransferMode = TransferMode.Streamed;
 			return binding;
 		}
 

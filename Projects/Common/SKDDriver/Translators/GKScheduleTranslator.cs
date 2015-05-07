@@ -25,7 +25,7 @@ namespace SKDDriver
 				UID = tableItem.UID,
 				No = tableItem.No,
 				Name = tableItem.Name,
-				Description = tableItem.Name
+				Description = tableItem.Description
 			};
 		}
 

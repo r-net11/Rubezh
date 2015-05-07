@@ -27,7 +27,7 @@ namespace FiresecAPI
 		OperationResult<TimeTrackResult> GetTimeTracks(EmployeeFilter filter, DateTime startDate, DateTime endDate);
 
 		[OperationContract]
-		FileStream GetTimeTracksStream(EmployeeFilter filter, DateTime startDate, DateTime endDate);
+		Stream GetTimeTracksStream(EmployeeFilter filter, DateTime startDate, DateTime endDate);
 
 		[OperationContract]
 		OperationResult SaveEmployeeDepartment(Guid uid, Guid departmentUid, string name);

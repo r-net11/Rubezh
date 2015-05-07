@@ -47,12 +47,8 @@ namespace SKDModule.ViewModels
 			TimeTrackFilter.StartDate = DateTime.Today.AddDays(1 - DateTime.Today.Day);
 			TimeTrackFilter.EndDate = DateTime.Today;
 
-
-			var stopWatch = new Stopwatch();
-			stopWatch.Start();
-			UpdateGrid();
-			stopWatch.Stop();
-			Trace.WriteLine(string.Format("UpdateGrid(): {0}", stopWatch.Elapsed));
+			TimeTracks = new ObservableCollection<TimeTrackViewModel>();
+			//UpdateGrid();
 		}
 
 		ObservableCollection<TimeTrackViewModel> _timeTracks;
@@ -177,17 +173,11 @@ namespace SKDModule.ViewModels
 				FirstDay = TimeTrackFilter.StartDate;
 
 				TimeTracks = new ObservableCollection<TimeTrackViewModel>();
-				//var timeTrackResult = EmployeeHelper.GetTimeTracks(TimeTrackFilter.EmployeeFilter, TimeTrackFilter.StartDate, TimeTrackFilter.EndDate);
 				var stream = FiresecManager.FiresecService.GetTimeTracksStream(TimeTrackFilter.EmployeeFilter, TimeTrackFilter.StartDate, TimeTrackFilter.EndDate);
 				var folderName = AppDataFolderHelper.GetFolder("TempServer");
-				var inputFileName = Path.Combine(folderName, "TimeTrackResult.xml");
 				var resultFileName = Path.Combine(folderName, "ClientTimeTrackResult.xml");
 				var resultFileStream = File.Create(resultFileName);
-				//CopyStream(stream, resultFileStream);
-				using (var inputStream = new FileStream(inputFileName, FileMode.Open, FileAccess.Read))
-				{
-					CopyStream(inputStream, resultFileStream);
-				}
+				CopyStream(stream, resultFileStream);
 				var timeTrackResult = Deserialize(resultFileName);
 				if (timeTrackResult != null)
 				{

@@ -130,7 +130,7 @@ namespace SKDDriver.Translators
 			}
 		}
 
-		public FileStream GetTimeTracksStream(EmployeeFilter filter, DateTime startDate, DateTime endDate)
+		public Stream GetTimeTracksStream(EmployeeFilter filter, DateTime startDate, DateTime endDate)
 		{
 			var timeTracksResult = GetTimeTracks(filter, startDate, endDate).Result;
 			var serializer = new DataContractSerializer(typeof(TimeTrackResult));

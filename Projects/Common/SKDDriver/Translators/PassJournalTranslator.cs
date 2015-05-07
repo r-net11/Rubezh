@@ -333,7 +333,8 @@ namespace SKDDriver.Translators
 			try
 			{
 				var filter = PredicateBuilder.True<DataAccess.PassJournal>();
-				if (!employeeUIDs.IsEmpty())
+				var isManyEmployees = employeeUIDs.Count() >= 2100;
+				if (!employeeUIDs.IsEmpty() && !isManyEmployees)
 					filter = filter.And(e => employeeUIDs.Contains(e.EmployeeUID));
 				if (!zoneUIDs.IsEmpty())
 					filter = filter.And(e => zoneUIDs.Contains(e.ZoneUID));
@@ -341,7 +342,10 @@ namespace SKDDriver.Translators
 					filter = filter.And(e => e.EnterTime < dateTime && (!e.ExitTime.HasValue || e.ExitTime > dateTime));
 				else
 					filter = filter.And(e => !e.ExitTime.HasValue);
-				return Context.PassJournals.Where(filter).GroupBy(item => item.EmployeeUID).Select(gr => gr.OrderByDescending(item => item.EnterTime).First());
+				var result = Context.PassJournals.Where(filter).ToList();
+				if (isManyEmployees)
+					result = result.Where(x => employeeUIDs.Contains(x.EmployeeUID)).ToList();
+				return result.GroupBy(item => item.EmployeeUID).Select(gr => gr.OrderByDescending(item => item.EnterTime).First());
 			}
 			catch(Exception e)
 			{
@@ -353,12 +357,16 @@ namespace SKDDriver.Translators
 			try
 			{
 				var filter = PredicateBuilder.True<DataAccess.PassJournal>();
-				if (!employeeUIDs.IsEmpty())
+				var isManyEmployees = employeeUIDs.Count() >= 2100;
+				if (!employeeUIDs.IsEmpty() && !isManyEmployees)
 					filter = filter.And(e => employeeUIDs.Contains(e.EmployeeUID));
 				filter = filter.And(e => e.ExitTime.HasValue);
 				if (dateTime.HasValue)
 					filter = filter.And(e => e.ExitTime < dateTime);
-				return Context.PassJournals.Where(filter).GroupBy(item => item.EmployeeUID).Select(gr => gr.OrderByDescending(item => item.ExitTime).First());
+				var result = Context.PassJournals.Where(filter).ToList();
+				if (isManyEmployees)
+					result = result.Where(x => employeeUIDs.Contains(x.EmployeeUID)).ToList();
+				return result.GroupBy(item => item.EmployeeUID).Select(gr => gr.OrderByDescending(item => item.ExitTime).First());
 			}
 			catch(Exception e)
 			{
@@ -371,12 +379,16 @@ namespace SKDDriver.Translators
 			try
 			{
 				var filter = PredicateBuilder.True<DataAccess.PassJournal>();
-				if (!employeeUIDs.IsEmpty())
+				var isManyEmployees = employeeUIDs.Count() >= 2100;
+				if (!employeeUIDs.IsEmpty() && !isManyEmployees)
 					filter = filter.And(e => employeeUIDs.Contains(e.EmployeeUID));
 				if (!zoneUIDs.IsEmpty())
 					filter = filter.And(e => zoneUIDs.Contains(e.ZoneUID));
 				filter = filter.And(e => (e.EnterTime >= startDateTime && e.EnterTime <= endDateTime) || (e.ExitTime >= startDateTime && e.ExitTime <= endDateTime));
-				return Context.PassJournals.Where(filter);
+				var result = Context.PassJournals.Where(filter).ToList();
+				if(isManyEmployees)
+					result = result.Where(x => employeeUIDs.Contains(x.EmployeeUID)).ToList();
+				return result;
 			}
 			catch (Exception e)
 			{

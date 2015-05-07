@@ -32,9 +32,9 @@ namespace FiresecService.Service
 			var result = SafeContext.Execute<OperationResult<TimeTrackResult>>(() => FiresecService.GetTimeTracks(filter, startDate, endDate));
 			return result;
 		}
-		public FileStream GetTimeTracksStream(EmployeeFilter filter, DateTime startDate, DateTime endDate)
+		public Stream GetTimeTracksStream(EmployeeFilter filter, DateTime startDate, DateTime endDate)
 		{
-			var result = SafeContext.Execute<FileStream>(() => FiresecService.GetTimeTracksStream(filter, startDate, endDate));
+			var result = SafeContext.Execute<Stream>(() => FiresecService.GetTimeTracksStream(filter, startDate, endDate));
 			return result;
 		}
 		public OperationResult SaveEmployeeDepartment(Guid uid, Guid departmentUid, string name)

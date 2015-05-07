@@ -300,10 +300,12 @@ namespace SKDDriver
 					//    var empl = CreateEmpl("Сотрудник " + i + j + "0", org.UID, deptUIDs.FirstOrDefault(), posUIDs.FirstOrDefault());
 					//    Context.Employees.InsertOnSubmit(empl);
 					//}
-					for (int j = 0; j < 15535; j++)
+					for (int j = 0; j < 65535; j++)
 					{
-						var empl = CreateEmployee(i + j + "1", org.UID);
+						var empl = CreateEmployee(i + j + "", org.UID);
 						Context.Employees.InsertOnSubmit(empl);
+						var card = CreateCard(j, empl.UID);
+						Context.Cards.InsertOnSubmit(card);
 					}
 				}
 				Context.SubmitChanges();
@@ -317,7 +319,15 @@ namespace SKDDriver
 
 		DataAccess.Department CreateDepartment(string name, Guid orgUID, Guid? parentUID = null)
 		{
-			return new DataAccess.Department { Name = name, OrganisationUID = orgUID, UID = Guid.NewGuid(), ParentDepartmentUID = parentUID, RemovalDate = new DateTime(1900, 1, 1), ExternalKey = "-1" };
+			return new DataAccess.Department 
+			{ 
+				Name = name, 
+				OrganisationUID = orgUID, 
+				UID = Guid.NewGuid(), 
+				ParentDepartmentUID = parentUID, 
+				RemovalDate = _minDate, 
+				ExternalKey = "-1" 
+			};
 		}
 
 		DataAccess.Employee CreateEmployee(string no, Guid orgUID, Guid? deptUID = null, Guid? posUID = null)
@@ -331,15 +341,32 @@ namespace SKDDriver
 				PositionUID = posUID,
 				OrganisationUID = orgUID,
 				UID = Guid.NewGuid(),
-				RemovalDate = new DateTime(1900, 1, 1),
-				BirthDate = new DateTime(1900, 1, 1),
-				CredentialsStartDate = new DateTime(1900, 1, 1),
-				DocumentGivenDate = new DateTime(1900, 1, 1),
-				DocumentValidTo = new DateTime(1900, 1, 1),
-				LastEmployeeDayUpdate = new DateTime(1900, 1, 1),
-				ScheduleStartDate = new DateTime(1900, 1, 1),
+				RemovalDate = _minDate,
+				BirthDate = _minDate,
+				CredentialsStartDate = _minDate,
+				DocumentGivenDate = _minDate,
+				DocumentValidTo = _minDate,
+				LastEmployeeDayUpdate = _minDate,
+				ScheduleStartDate = _minDate,
 				ExternalKey = "-1",
 				Type = 0
+			};
+		}
+
+		static DateTime _minDate = new DateTime(1900, 1, 1);
+
+		DataAccess.Card CreateCard(int no, Guid emplUID)
+		{
+			return new DataAccess.Card 
+			{ 
+				UID = Guid.NewGuid(), 
+				Number = no, 
+				EmployeeUID = emplUID, 
+				CardType = 0, 
+				GKCardType = 0, 
+				StartDate = _minDate,
+				EndDate = _minDate,
+				ExternalKey = "-1" 
 			};
 		}
 

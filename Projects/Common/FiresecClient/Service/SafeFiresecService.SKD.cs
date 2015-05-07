@@ -14,8 +14,7 @@ namespace FiresecClient
 		#region Employee
 		public OperationResult<IEnumerable<ShortEmployee>> GetEmployeeList(EmployeeFilter filter)
 		{
-			var result = SafeContext.Execute<OperationResult<IEnumerable<ShortEmployee>>>(() => FiresecService.GetEmployeeList(filter));
-			return result;
+			return SafeContext.Execute<OperationResult<IEnumerable<ShortEmployee>>>(() => FiresecService.GetEmployeeList(filter));
 		}
 		public OperationResult<Employee> GetEmployeeDetails(Guid uid)
 		{
@@ -33,9 +32,9 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute(() => FiresecService.GetTimeTracks(filter, startDate, endDate));
 		}
-		public FileStream GetTimeTracksStream(EmployeeFilter filter, DateTime startDate, DateTime endDate)
+		public Stream GetTimeTracksStream(EmployeeFilter filter, DateTime startDate, DateTime endDate)
 		{
-			var result = SafeContext.Execute<FileStream>(() => FiresecService.GetTimeTracksStream(filter, startDate, endDate));
+			var result = SafeContext.Execute<Stream>(() => FiresecService.GetTimeTracksStream(filter, startDate, endDate));
 			return result;
 		}
 		public OperationResult SaveEmployeeDepartment(Guid uid, Guid departmentUid, string name)
