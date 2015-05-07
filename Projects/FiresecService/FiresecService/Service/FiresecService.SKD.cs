@@ -1491,19 +1491,29 @@ namespace FiresecService.Service
 				AddJournalMessage(JournalEventNameType.Добавление_нового_графика_ГК, item.Name, uid: item.UID);
 			else
 				AddJournalMessage(JournalEventNameType.Редактирование_графика_ГК, item.Name, JournalEventDescriptionType.Редактирование, uid: item.UID);
+			var result = new OperationResult();
 			using (var databaseService = new SKDDatabaseService())
 			{
-				return databaseService.GKScheduleTranslator.SaveSchedule(item);
+				result = databaseService.GKScheduleTranslator.SaveSchedule(item);
 			}
+			if (!result.HasError)
+				return GKScheduleHelper.AllGKSetSchedule(item);
+			else
+				return result;
 		}
 
 		public OperationResult DeleteGKSchedule(GKSchedule item)
 		{
 			AddJournalMessage(JournalEventNameType.Удаление_графика_ГК, item.Name, uid: item.UID);
+			var result = new OperationResult();
 			using (var databaseService = new SKDDatabaseService())
 			{
-				return databaseService.GKScheduleTranslator.DeleteSchedule(item);
+				result = databaseService.GKScheduleTranslator.DeleteSchedule(item);
 			}
+			if (!result.HasError)
+				return GKScheduleHelper.AllGKRemoveSchedule(item);
+			else
+				return result;
 		}
 		#endregion
 
@@ -1522,10 +1532,15 @@ namespace FiresecService.Service
 				AddJournalMessage(JournalEventNameType.Добавление_нового_дневного_графика_ГК, item.Name, uid: item.UID);
 			else
 				AddJournalMessage(JournalEventNameType.Редактирование_дневного_графика_ГК, item.Name, JournalEventDescriptionType.Редактирование, uid: item.UID);
+			var result = new OperationResult();
 			using (var databaseService = new SKDDatabaseService())
 			{
-				return databaseService.GKScheduleTranslator.SaveDaySchedule(item);
+				result = databaseService.GKScheduleTranslator.SaveDaySchedule(item);
 			}
+			if (!result.HasError)
+				return GKScheduleHelper.AllGKSetDaySchedule(item);
+			else
+				return result;
 		}
 
 		public OperationResult DeleteGKDaySchedule(GKDaySchedule item)

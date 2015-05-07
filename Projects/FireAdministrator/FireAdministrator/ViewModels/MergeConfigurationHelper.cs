@@ -6,6 +6,7 @@ using System.Text;
 using Common;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
+using FiresecAPI.SKD;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
@@ -13,7 +14,6 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Ionic.Zip;
 using Microsoft.Win32;
-using FiresecAPI.SKD;
 
 namespace FireAdministrator.ViewModels
 {
@@ -196,10 +196,10 @@ namespace FireAdministrator.ViewModels
 			{
 				GKManager.DeviceConfiguration.Codes.Add(code);
 			}
-			foreach (var schedules in GKDeviceConfiguration.Schedules)
-			{
-				GKManager.DeviceConfiguration.Schedules.Add(schedules);
-			}
+			//foreach (var schedules in GKDeviceConfiguration.Schedules)
+			//{
+			//    GKManager.DeviceConfiguration.Schedules.Add(schedules);
+			//}
 
 			ReorderNos(GKManager.Zones);
 			ReorderNos(GKManager.GuardZones);
@@ -209,7 +209,7 @@ namespace FireAdministrator.ViewModels
 			ReorderNos(GKManager.MPTs);
 			ReorderNos(GKManager.Doors);
 			ReorderNos(GKManager.DeviceConfiguration.Codes);
-			ReorderNos(GKManager.DeviceConfiguration.Schedules);
+			//ReorderNos(GKManager.DeviceConfiguration.Schedules);
 
 			foreach (var plan in PlansConfiguration.Plans)
 			{
@@ -316,12 +316,12 @@ namespace FireAdministrator.ViewModels
 				GKCodeUIDs.Add(code.UID, uid);
 				code.UID = uid;
 			}
-			foreach (var schedule in GKDeviceConfiguration.Schedules)
-			{
-				var uid = Guid.NewGuid();
-				GKScheduleUIDs.Add(schedule.UID, uid);
-				schedule.UID = uid;
-			}
+			//foreach (var schedule in GKDeviceConfiguration.Schedules)
+			//{
+			//    var uid = Guid.NewGuid();
+			//    GKScheduleUIDs.Add(schedule.UID, uid);
+			//    schedule.UID = uid;
+			//}
 
 			foreach (var device in GKDeviceConfiguration.Devices)
 			{

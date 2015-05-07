@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.GK;
-using FiresecClient;
+using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using System;
 
 namespace GKModule.ViewModels
 {
@@ -14,9 +14,12 @@ namespace GKModule.ViewModels
 		public SchedulePartsViewModel SchedulePartsViewModel { get; private set; }
 		public GKSchedule Schedule;
 		public bool IsNew { get; private set; }
-
+		List<GKSchedule> _schedules;
 		public ScheduleDetailsViewModel(GKSchedule schedule = null)
 		{
+			_schedules = GKScheduleHelper.GetSchedules();
+			if (_schedules == null)
+				_schedules = new List<GKSchedule>();
 			if (schedule == null)
 			{
 				Title = "Создание нового графика доступа";
@@ -27,8 +30,8 @@ namespace GKModule.ViewModels
 					Name = "Новый график доступа",
 					No = 1
 				};
-				if (GKManager.DeviceConfiguration.Schedules.Count != 0)
-					Schedule.No = (ushort)(GKManager.DeviceConfiguration.Schedules.Select(x => x.No).Max() + 1);
+				if (_schedules.Count != 0)
+					Schedule.No = (ushort)(_schedules.Select(x => x.No).Max() + 1);
 			}
 			else
 			{
@@ -43,7 +46,7 @@ namespace GKModule.ViewModels
 			SelectedSchedulePeriodType = Schedule.SchedulePeriodType;
 
 			Holidays = new ObservableCollection<GKSchedule>();
-			foreach (var holidaySchedule in GKManager.DeviceConfiguration.Schedules)
+			foreach (var holidaySchedule in _schedules)
 			{
 				if (holidaySchedule.ScheduleType == GKScheduleType.Holiday)
 				{
@@ -53,7 +56,7 @@ namespace GKModule.ViewModels
 			SelectedHoliday = Holidays.FirstOrDefault(x => x.No == Schedule.HolidayScheduleNo);
 
 			WorkHolidays = new ObservableCollection<GKSchedule>();
-			foreach (var workHolidaySchedule in GKManager.DeviceConfiguration.Schedules)
+			foreach (var workHolidaySchedule in _schedules)
 			{
 				if (workHolidaySchedule.ScheduleType == GKScheduleType.WorkHoliday)
 				{
@@ -66,7 +69,7 @@ namespace GKModule.ViewModels
 
 			var availableNames = new HashSet<string>();
 			var availableDescription = new HashSet<string>();
-			foreach (var existingSchedule in GKManager.DeviceConfiguration.Schedules)
+			foreach (var existingSchedule in _schedules)
 			{
 				availableNames.Add(existingSchedule.Name);
 				availableDescription.Add(existingSchedule.Description);
@@ -239,7 +242,7 @@ namespace GKModule.ViewModels
 				MessageBoxService.Show("Номер должен быть задан в диапазоне от 1 до 255");
 				return false;
 			}
-			if (Schedule.No != No && GKManager.DeviceConfiguration.Schedules.Any(x => x.No == No))
+			if (Schedule.No != No && _schedules.Any(x => x.No == No))
 			{
 				MessageBoxService.Show("График с таким номером уже существует");
 				return false;

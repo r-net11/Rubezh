@@ -35,8 +35,6 @@ namespace GKModule
 		GuardZonesViewModel GuardZonesViewModel;
 		DoorsViewModel DoorsViewModel;
 		SKDZonesViewModel SKDZonesViewModel;
-		DaySchedulesViewModel DaySchedulesViewModel;
-		SchedulesViewModel SchedulesViewModel;
 		LibraryViewModel DeviceLidraryViewModel;
 		InstructionsViewModel InstructionsViewModel;
 		OPCDevicesViewModel OPCDevicesViewModel;
@@ -72,8 +70,6 @@ namespace GKModule
 			GuardZonesViewModel = new GuardZonesViewModel();
 			DoorsViewModel = new DoorsViewModel();
 			SKDZonesViewModel = new SKDZonesViewModel();
-			DaySchedulesViewModel = new DaySchedulesViewModel();
-			SchedulesViewModel = new SchedulesViewModel();
 			DeviceLidraryViewModel = new LibraryViewModel();
 			InstructionsViewModel = new InstructionsViewModel();
 			OPCDevicesViewModel = new OPCDevicesViewModel();
@@ -97,8 +93,6 @@ namespace GKModule
 			GuardZonesViewModel.Initialize();
 			DoorsViewModel.Initialize();
 			SKDZonesViewModel.Initialize();
-			DaySchedulesViewModel.Initialize();
-			SchedulesViewModel.Initialize();
 			InstructionsViewModel.Initialize();
 			OPCDevicesViewModel.Initialize();
 			OPCZonesViewModel.Initialize();
@@ -133,8 +127,6 @@ namespace GKModule
 						{
 							new NavigationItemEx<ShowGKDoorEvent, Guid>(DoorsViewModel, "Точки доступа", "DoorW", null, null, Guid.Empty),
 							new NavigationItemEx<ShowGKSKDZoneEvent, Guid>(SKDZonesViewModel, "Зоны", "Zones", null, null, Guid.Empty),
-							new NavigationItem<ShowGKDaySchedulesEvent, Guid>(DaySchedulesViewModel, "Дневные графики", "ShedulesDaylyW", null, null, Guid.Empty),
-							new NavigationItem<ShowGKScheduleEvent, Guid>(SchedulesViewModel, "Графики", "ShedulesW", null, null, Guid.Empty),
 						}),
 
 					new NavigationItem<ShowGKInstructionsEvent, Guid>(InstructionsViewModel, "Инструкции", "information", null, null, Guid.Empty),

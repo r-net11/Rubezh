@@ -63,7 +63,10 @@ namespace SKDModule.ViewModels
 			DeactivationControllerUID = Card.DeactivationControllerUID;
 
 			GKSchedules = new ObservableCollection<GKSchedule>();
-			foreach(var schedule in GKManager.DeviceConfiguration.Schedules)
+			var scheduleModels = GKScheduleHelper.GetSchedules();
+			if(scheduleModels == null)
+				scheduleModels = new List<GKSchedule>();
+			foreach(var schedule in scheduleModels)
 			{
 				GKSchedules.Add(schedule);
 			}

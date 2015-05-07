@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.SKDReports;
-using FiresecAPI.SKD.ReportFilters;
-using SKDModule.ViewModels;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Infrastructure.Common;
+using System.Linq;
 using Common;
-using FiresecClient.SKDHelpers;
-using FiresecAPI.SKD;
 using FiresecAPI.GK;
-using FiresecClient;
+using FiresecAPI.SKD;
+using FiresecAPI.SKD.ReportFilters;
+using FiresecClient.SKDHelpers;
+using Infrastructure.Common;
+using Infrastructure.Common.SKDReports;
 
 namespace SKDModule.Reports.ViewModels
 {
@@ -34,7 +30,10 @@ namespace SKDModule.Reports.ViewModels
 			}
 			else
 			{
-				foreach (var schedule in GKManager.DeviceConfiguration.Schedules.OrderBy(x => x.No))
+				var schedules = GKScheduleHelper.GetSchedules();
+				if (schedules == null)
+					schedules = new List<GKSchedule>();
+				foreach (var schedule in schedules.OrderBy(x => x.No))
 				{
 					var scheduleViewModel = new CommonScheduleViewModel(schedule);
 					Schedules.Add(new CheckedItemViewModel<CommonScheduleViewModel>(scheduleViewModel));

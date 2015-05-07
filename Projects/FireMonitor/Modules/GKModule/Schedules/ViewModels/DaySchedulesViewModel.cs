@@ -25,7 +25,23 @@ namespace GKModule.ViewModels
 		public void Initialize()
 		{
 			DaySchedules = new ObservableCollection<DayScheduleViewModel>();
-			foreach (var dayInterval in GKScheduleHelper.GetDaySchedules())
+			var daySchedules = GKScheduleHelper.GetDaySchedules();
+			if(daySchedules == null)
+				daySchedules = new List<GKDaySchedule>();
+			if(daySchedules.Count == 0)
+			{
+				var neverDaySchedule = new GKDaySchedule();
+				neverDaySchedule.Name = "<Никогда>";
+				if(GKScheduleHelper.SaveDaySchedule(neverDaySchedule, true))
+					daySchedules.Add(neverDaySchedule);
+				
+				var alwaysDaySchedule = new GKDaySchedule();
+				alwaysDaySchedule.Name = "<Всегда>";
+				alwaysDaySchedule.DayScheduleParts.Add(new GKDaySchedulePart() { StartMilliseconds = 0, EndMilliseconds = new TimeSpan(23, 59, 59).TotalMilliseconds });
+				if(GKScheduleHelper.SaveDaySchedule(alwaysDaySchedule, true))
+					daySchedules.Add(alwaysDaySchedule);
+			}
+			foreach (var dayInterval in daySchedules)
 			{
 				var dayScheduleViewModel = new DayScheduleViewModel(dayInterval);
 				DaySchedules.Add(dayScheduleViewModel);

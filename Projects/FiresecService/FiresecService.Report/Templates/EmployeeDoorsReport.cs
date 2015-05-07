@@ -128,9 +128,13 @@ namespace FiresecService.Report.Templates
 				}
 				else
 				{
-					foreach (var interval in GKManager.DeviceConfiguration.Schedules)
+					var schedulesResult = dataProvider.DatabaseService.GKScheduleTranslator.GetSchedules();
+					if (!schedulesResult.HasError)
 					{
-						intervalMap.Add(interval.No, interval.Name);
+						foreach (var interval in schedulesResult.Result)
+						{
+							intervalMap.Add(interval.No, interval.Name);
+						}
 					}
 				}
 

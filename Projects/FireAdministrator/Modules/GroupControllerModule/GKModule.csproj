@@ -438,23 +438,10 @@
       <DependentUpon>DoorsSelectationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="SKD\ViewModels\CalendarViewModel.cs" />
-    <Compile Include="SKD\ViewModels\DayScheduleDetailsViewModel.cs" />
-    <Compile Include="SKD\ViewModels\DaySchedulePartDetailsViewModel.cs" />
-    <Compile Include="SKD\ViewModels\DaySchedulePartsViewModel.cs" />
-    <Compile Include="SKD\ViewModels\DaySchedulePartViewModel.cs" />
-    <Compile Include="SKD\ViewModels\DaySchedulesMenuViewModel.cs" />
-    <Compile Include="SKD\ViewModels\DaySchedulesViewModel.cs" />
-    <Compile Include="SKD\ViewModels\DayScheduleViewModel.cs" />
     <Compile Include="SKD\ViewModels\DoorDetailsViewModel.cs" />
     <Compile Include="SKD\ViewModels\DoorsMenuViewModel.cs" />
     <Compile Include="SKD\ViewModels\DoorsViewModel.cs" />
     <Compile Include="SKD\ViewModels\DoorViewModel.cs" />
-    <Compile Include="SKD\ViewModels\ScheduleDetailsViewModel.cs" />
-    <Compile Include="SKD\ViewModels\SchedulesMenuViewModel.cs" />
-    <Compile Include="SKD\ViewModels\SchedulesViewModel.cs" />
-    <Compile Include="SKD\ViewModels\ScheduleViewModel.cs" />
-    <Compile Include="SKD\ViewModels\SchedulePartViewModel.cs" />
-    <Compile Include="SKD\ViewModels\SchedulePartsViewModel.cs" />
     <Compile Include="SKD\ViewModels\SKDZoneDetailsViewModel.cs" />
     <Compile Include="SKD\ViewModels\SKDZonesMenuViewModel.cs" />
     <Compile Include="SKD\ViewModels\SKDZonesViewModel.cs" />
@@ -462,23 +449,8 @@
     <Compile Include="SKD\Views\CalendarView.xaml.cs">
       <DependentUpon>CalendarView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SKD\Views\DayScheduleDetailsView.xaml.cs">
-      <DependentUpon>DayScheduleDetailsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SKD\Views\DaySchedulePartDetailsView.xaml.cs">
-      <DependentUpon>DaySchedulePartDetailsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SKD\Views\DaySchedulesMenuView.xaml.cs">
-      <DependentUpon>DaySchedulesMenuView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SKD\Views\DaySchedulesView.xaml.cs">
-      <DependentUpon>DaySchedulesView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="SKD\Views\MonthView.xaml.cs">
       <DependentUpon>MonthView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SKD\Views\ScheduleIntervalPartDetailsView.xaml.cs">
-      <DependentUpon>ScheduleIntervalPartDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="SKD\Views\DoorDetailsView.xaml.cs">
       <DependentUpon>DoorDetailsView.xaml</DependentUpon>
@@ -488,15 +460,6 @@
     </Compile>
     <Compile Include="SKD\Views\DoorsView.xaml.cs">
       <DependentUpon>DoorsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SKD\Views\ScheduleDetailsView.xaml.cs">
-      <DependentUpon>ScheduleDetailsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SKD\Views\SchedulesMenuView.xaml.cs">
-      <DependentUpon>SchedulesMenuView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SKD\Views\SchedulesView.xaml.cs">
-      <DependentUpon>SchedulesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="SKD\Views\SKDZoneDetailsView.xaml.cs">
       <DependentUpon>SKDZoneDetailsView.xaml</DependentUpon>
@@ -943,27 +906,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SKD\Views\DayScheduleDetailsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SKD\Views\DaySchedulePartDetailsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SKD\Views\DaySchedulesMenuView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SKD\Views\DaySchedulesView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="SKD\Views\MonthView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="SKD\Views\ScheduleIntervalPartDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -976,18 +919,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="SKD\Views\DoorsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SKD\Views\ScheduleDetailsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SKD\Views\SchedulesMenuView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SKD\Views\SchedulesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

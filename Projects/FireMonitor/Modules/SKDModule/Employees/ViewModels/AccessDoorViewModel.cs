@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI;
-using FiresecAPI.SKD;
-using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI.GK;
-using FiresecClient;
+using FiresecAPI.SKD;
+using FiresecClient.SKDHelpers;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
@@ -44,15 +43,18 @@ namespace SKDModule.ViewModels
 
 			EnterSchedules = new ObservableCollection<CardScheduleItem>();
 			ExitSchedules = new ObservableCollection<CardScheduleItem>();
-			foreach (var schedule in GKManager.DeviceConfiguration.Schedules)
+			var schedules = GKScheduleHelper.GetSchedules();
+			if (schedules != null)
 			{
-				if (schedule.ScheduleType == GKScheduleType.Access)
+				foreach (var schedule in schedules)
 				{
-					EnterSchedules.Add(new CardScheduleItem(schedule.No, schedule.Name));
-					ExitSchedules.Add(new CardScheduleItem(schedule.No, schedule.Name));
+					if (schedule.ScheduleType == GKScheduleType.Access)
+					{
+						EnterSchedules.Add(new CardScheduleItem(schedule.No, schedule.Name));
+						ExitSchedules.Add(new CardScheduleItem(schedule.No, schedule.Name));
+					}
 				}
 			}
-
 			Initialize(cardDoors, onChecked);
 		}
 

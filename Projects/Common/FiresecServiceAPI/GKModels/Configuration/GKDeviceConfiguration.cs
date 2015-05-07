@@ -24,8 +24,8 @@ namespace FiresecAPI.GK
 			Codes = new List<GKCode>();
 			Doors = new List<GKDoor>();
 			SKDZones = new List<GKSKDZone>();
-			DaySchedules = new List<GKDaySchedule>();
-			Schedules = new List<GKSchedule>();
+			//DaySchedules = new List<GKDaySchedule>();
+			//Schedules = new List<GKSchedule>();
 			Holidays = new List<GKHoliday>();
 
 			Instructions = new List<GKInstruction>();
@@ -101,17 +101,17 @@ namespace FiresecAPI.GK
 		[DataMember]
 		public List<GKSKDZone> SKDZones { get; set; }
 
-		/// <summary>
-		/// Графики работ
-		/// </summary>
-		[DataMember]
-		public List<GKDaySchedule> DaySchedules { get; set; }
+		///// <summary>
+		///// Графики работ
+		///// </summary>
+		//[DataMember]
+		//public List<GKDaySchedule> DaySchedules { get; set; }
 
-		/// <summary>
-		/// Графики работ
-		/// </summary>
-		[DataMember]
-		public List<GKSchedule> Schedules { get; set; }
+		// ///<summary>
+		// ///Графики работ
+		// ///</summary>
+		//[DataMember]
+		//public List<GKSchedule> Schedules { get; set; }
 
 		/// <summary>
 		/// Праздники

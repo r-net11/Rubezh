@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using FiresecAPI.GK;
+using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Validation;
-using FiresecClient;
 
 namespace GKModule.Validation
 {
@@ -10,9 +10,13 @@ namespace GKModule.Validation
 	{
 		void ValidateDaySchedules()
 		{
-			ValidateDaySchedulesEquality();
+			var daySchedules = GKScheduleHelper.GetDaySchedules();
+			if(daySchedules == null)
+				return;
 
-			foreach (var daySchedule in GKManager.DeviceConfiguration.DaySchedules)
+			ValidateDaySchedulesEquality(daySchedules);
+
+			foreach (var daySchedule in daySchedules)
 			{
 				if (daySchedule.Name == "<Никогда>" || daySchedule.Name == "<Всегда>")
 				{
@@ -43,10 +47,10 @@ namespace GKModule.Validation
 			}
 		}
 
-		void ValidateDaySchedulesEquality()
+		void ValidateDaySchedulesEquality(List<GKDaySchedule> daySchedules)
 		{
 			var daySchedulelNames = new HashSet<string>();
-			foreach (var daySchedule in GKManager.DeviceConfiguration.DaySchedules)
+			foreach (var daySchedule in daySchedules)
 				if (!daySchedulelNames.Add(daySchedule.Name))
 					Errors.Add(new DayScheduleValidationError(daySchedule, "Дублируется название дневного графика", ValidationErrorLevel.CannotWrite));
 		}

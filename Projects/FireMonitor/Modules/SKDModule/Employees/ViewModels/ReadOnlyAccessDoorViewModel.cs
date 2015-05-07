@@ -2,7 +2,7 @@
 using System.Linq;
 using FiresecAPI.GK;
 using FiresecAPI.SKD;
-using FiresecClient;
+using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
@@ -41,17 +41,20 @@ namespace SKDModule.ViewModels
 			PresentationName = door.PresentationName;
 			CardDoor = cardDoor;
 
-			var enterSchedule = GKManager.DeviceConfiguration.Schedules.FirstOrDefault(x => x.No == cardDoor.EnterScheduleNo);
-			if (enterSchedule != null)
+			var schedules = GKScheduleHelper.GetSchedules();
+			if (schedules != null)
 			{
-				EnerScheduleName = enterSchedule.Name;
+				var enterSchedule = schedules.FirstOrDefault(x => x.No == cardDoor.EnterScheduleNo);
+				if (enterSchedule != null)
+				{
+					EnerScheduleName = enterSchedule.Name;
+				}
+				var exitSchedule = schedules.FirstOrDefault(x => x.No == cardDoor.ExitScheduleNo);
+				if (exitSchedule != null)
+				{
+					ExitScheduleName = exitSchedule.Name;
+				}
 			}
-			var exitSchedule = GKManager.DeviceConfiguration.Schedules.FirstOrDefault(x => x.No == cardDoor.ExitScheduleNo);
-			if (exitSchedule != null)
-			{
-				ExitScheduleName = exitSchedule.Name;
-			}
-
 			HasEnter = door.EnterDeviceUID != Guid.Empty;
 			HasExit = door.ExitDeviceUID != Guid.Empty && door.DoorType == GKDoorType.TwoWay;
 		}

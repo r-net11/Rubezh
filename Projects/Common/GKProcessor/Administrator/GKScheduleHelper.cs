@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using FiresecAPI;
 using FiresecAPI.GK;
+using FiresecClient;
 using SKDDriver;
 
 namespace GKProcessor
@@ -187,5 +188,61 @@ namespace GKProcessor
 
 			return new OperationResult<bool>() { Result = true };
 		}
+
+		public static OperationResult AllGKSetSchedule(GKSchedule schedule)
+		{
+			try
+			{
+				foreach (var gk in GKManager.Devices.Where(x => x.DriverType == GKDriverType.GK))
+				{
+					var result = GKSetSchedule(gk, schedule);
+					if (result.HasError)
+						return new OperationResult(result.Error);
+				}
+				return new OperationResult();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
+		}
+
+		public static OperationResult AllGKSetDaySchedule(GKDaySchedule daySchedule)
+		{
+			try
+			{
+				using (var databaseService = new SKDDatabaseService())
+				{
+					var schedulesResult = databaseService.GKScheduleTranslator.GetSchedules();
+					if (schedulesResult.HasError)
+						return new OperationResult(schedulesResult.Error);
+					var schedules = schedulesResult.Result.Where(x => x.DayScheduleUIDs.Any(y => y == daySchedule.UID));
+					foreach (var schedule in schedules)
+					{
+						var result = AllGKSetSchedule(schedule);
+						if (result.HasError)
+							return new OperationResult(result.Error);
+					}
+					return new OperationResult();
+				}
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
+		}
+
+		public static OperationResult AllGKRemoveSchedule(GKSchedule schedule)
+		{
+			try
+			{
+				return new OperationResult();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
+		}
+			
 	}
 }
