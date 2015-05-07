@@ -217,18 +217,24 @@ namespace StrazhModule.Plans
 			if (typeof(TItem) == typeof(SKDDevice))
 			{
 				var device = item as SKDDevice;
+
 				designerItem.Title = device == null ? "Неизвестное устройство" : device.Name;
+				designerItem.Index = device == null || device.No == default(int) 
+					? default(int?) 
+					: device.No;
 				designerItem.IconSource = device == null ? null : device.Driver.ImageSource;
 			}
 			else if (typeof(TItem) == typeof(SKDZone))
 			{
 				var zone = item as SKDZone;
-				designerItem.Title = zone == null ? "Несвязанная зона" : zone.PresentationName;
+				designerItem.Title = zone == null ? "Несвязанная зона" : zone.Name;
+				designerItem.Index = zone == null ? default(int?) : zone.No;
 			}
 			else if (typeof(TItem) == typeof(SKDDoor))
 			{
 				var door = item as SKDDoor;
-				designerItem.Title = door == null ? "Неизвестная точка доступа" : door.PresentationName;
+				designerItem.Title = door == null ? "Неизвестная точка доступа" : door.Name;
+				designerItem.Index = door == null ? default(int?) : door.No;
 			}
 			else
 				base.UpdateDesignerItemProperties<TItem>(designerItem, item);

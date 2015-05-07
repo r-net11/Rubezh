@@ -12,6 +12,11 @@ namespace Infrastructure.Designer.ViewModels
 		{
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
 			DesignerItem = designerItem;
+			DesignerItem.IndexPropertyChanged += (s, e) =>
+			{
+				OnPropertyChanged(() => Index);
+				OnPropertyChanged(() => ToolTip);
+			};
 			DesignerItem.TitleChanged += (s, e) => 
 			{
 				OnPropertyChanged(() => Name);
