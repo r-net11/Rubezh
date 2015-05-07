@@ -211,13 +211,12 @@ namespace GKProcessor
 				}
 
 				bytes = new List<byte>();
-				bytes.Add(0);
 				bytes.AddRange(BytesHelper.ShortToBytes((ushort)(no)));
 				bytes.Add(0);
 				bytes.Add(1);
 				var nameBytes = BytesHelper.StringDescriptionToBytes("-");
 				bytes.AddRange(nameBytes);
-				bytes.AddRange(BytesHelper.IntToBytes(-1));
+				bytes.AddRange(BytesHelper.IntToBytes(0));
 				bytes.Add(0);
 				bytes.Add(0);
 				for (int i = 0; i < 256 - 42; i++)

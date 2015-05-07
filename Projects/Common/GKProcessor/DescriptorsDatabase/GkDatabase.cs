@@ -171,10 +171,15 @@ namespace GKProcessor
 				door.GKDescriptorNo = NextDescriptorNo;
 				var doorDescriptor = new DoorDescriptor(door);
 				Descriptors.Add(doorDescriptor);
-				if (doorDescriptor.DoorPimDescriptor != null)
+				if (doorDescriptor.DoorPimDescriptorEnter != null)
 				{
-					AddPim(door.Pim);
-					Descriptors.Add(doorDescriptor.DoorPimDescriptor);
+					AddPim(door.PimEnter);
+					Descriptors.Add(doorDescriptor.DoorPimDescriptorEnter);
+				}
+				if (doorDescriptor.DoorPimDescriptorExit != null)
+				{
+					AddPim(door.PimExit);
+					Descriptors.Add(doorDescriptor.DoorPimDescriptorExit);
 				}
 			}
 

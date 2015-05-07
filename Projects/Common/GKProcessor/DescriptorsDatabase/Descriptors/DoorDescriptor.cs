@@ -9,14 +9,18 @@ namespace GKProcessor
 	public class DoorDescriptor : BaseDescriptor
 	{
 		GKDoor Door { get; set; }
-		public DoorPimDescriptor DoorPimDescriptor { get; private set; }
+		public DoorPimDescriptorEnter DoorPimDescriptorEnter { get; private set; }
+		public DoorPimDescriptorExit DoorPimDescriptorExit { get; private set; }
 
 		public DoorDescriptor(GKDoor door) : base(door, DatabaseType.Gk)
 		{
 			DescriptorType = DescriptorType.Door;
 			Door = door;
 			if (Door.DoorType == GKDoorType.AirlockBooth)
-				DoorPimDescriptor = new DoorPimDescriptor(Door, DatabaseType);
+			{
+				DoorPimDescriptorEnter = new DoorPimDescriptorEnter(Door, DatabaseType);
+				DoorPimDescriptorExit = new DoorPimDescriptorExit(Door, DatabaseType);
+			}
 		}
 
 		public override void Build()
@@ -148,7 +152,7 @@ namespace GKProcessor
 			var exitZone = GKManager.SKDZones.FirstOrDefault(x => x.UID == Door.ExitZoneUID);
 
 			Formula.AddGetBit(GKStateBit.Fire1, lockControlDevice, DatabaseType.Gk);
-			Formula.AddGetBit(GKStateBit.Fire1, Door.Pim, DatabaseType.Gk);
+			Formula.AddGetBit(GKStateBit.Fire1, Door.PimEnter, DatabaseType.Gk);
 			Formula.Add(FormulaOperationType.COM);
 			Formula.Add(FormulaOperationType.AND);
 			Formula.AddGetBit(GKStateBit.Fire1, Door, DatabaseType.Gk);
@@ -156,7 +160,7 @@ namespace GKProcessor
 			Formula.AddPutBit(GKStateBit.Fire1, Door, DatabaseType.Gk);
 
 			Formula.AddGetBit(GKStateBit.Fire1, lockControlDeviceExit, DatabaseType.Gk);
-			Formula.AddGetBit(GKStateBit.Fire2, Door.Pim, DatabaseType.Gk);
+			Formula.AddGetBit(GKStateBit.Fire2, Door.PimExit, DatabaseType.Gk);
 			Formula.Add(FormulaOperationType.COM);
 			Formula.Add(FormulaOperationType.AND);
 			Formula.AddGetBit(GKStateBit.Fire1, Door, DatabaseType.Gk);
@@ -200,7 +204,10 @@ namespace GKProcessor
 			Formula.AddGetBit(GKStateBit.Fire1, enterButton, DatabaseType.Gk);
 			Formula.AddGetBit(GKStateBit.Off, Door, DatabaseType.Gk);
 			Formula.Add(FormulaOperationType.AND);
+			Formula.Add(FormulaOperationType.BR, 1, 3);
+			Formula.Add(FormulaOperationType.CONST, 0, 1);
 			Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Door, DatabaseType.Gk);
+			Formula.Add(FormulaOperationType.EXIT);
 
 			Formula.AddGetBit(GKStateBit.Attention, exitDevice, DatabaseType.Gk);
 			Formula.AddGetBit(GKStateBit.Off, Door, DatabaseType.Gk);
@@ -221,9 +228,14 @@ namespace GKProcessor
 			Formula.Add(FormulaOperationType.AND);
 			Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Door, DatabaseType.Gk);
 
-			if (Door.Pim != null)
+			if (Door.PimEnter != null)
 			{
-				Door.LinkGKBases(Door.Pim);
+				Door.LinkGKBases(Door.PimEnter);
+			}
+
+			if (Door.PimExit != null)
+			{
+				Door.LinkGKBases(Door.PimExit);
 			}
 		}
 
@@ -240,6 +252,8 @@ namespace GKProcessor
 					operationCount += 2;
 				if (zone2 != null)
 					operationCount += 3;
+				if (!Door.AntipassbackOn)
+					operationCount = 3;
 				Formula.AddGetBit(GKStateBit.Attention, device, DatabaseType.Gk);
 				Formula.AddGetBit(GKStateBit.Off, Door, DatabaseType.Gk);
 				Formula.Add(FormulaOperationType.AND);
