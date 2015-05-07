@@ -39,7 +39,6 @@ namespace FiresecAPI
 
 			InitializeUseStrazhBrandProperty();
 			UseHasp = false;
-			AntipassbackOn = false;
 			DBServerName = "SQLEXPRESS";
 			CreateNewDBOnOversize = true;
 
@@ -78,9 +77,6 @@ namespace FiresecAPI
 
 		[DataMember]
 		public bool UseHasp { get; set; }
-
-		[DataMember]
-		public bool AntipassbackOn { get; set; }
 
 		[DataMember]
 		public bool DoNotAutoconnectAdm { get; set; }

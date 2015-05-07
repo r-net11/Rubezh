@@ -20,7 +20,14 @@ namespace GKModule.Validation
 				ValidateDoorHasWrongDevices(door);
 				//ValidateLockLogic(door);
 				ValidateLockProperties(door);
+				ValidateLockControlDevice(door);
 			}
+		}
+
+		void ValidateLockControlDevice(GKDoor door)
+		{
+			if (door.AntipassbackOn && door.LockControlDevice == null)
+				Errors.Add(new DoorValidationError(door, "При включенном Antipassback, отсутствует датчик контроля двери", ValidationErrorLevel.CannotWrite));
 		}
 
 		void ValidateDoorNoEquality()

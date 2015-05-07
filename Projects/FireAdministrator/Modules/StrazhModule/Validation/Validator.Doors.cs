@@ -30,19 +30,19 @@ namespace StrazhModule.Validation
 					Errors.Add(new DoorValidationError(door, "У точки доступа отсутствует выходное устройство", ValidationErrorLevel.CannotSave));
 
 				if (inDevice != null && inDevice.DriverType != SKDDriverType.Reader)
-					Errors.Add(new DoorValidationError(door, "У точки доступа отсутствует выходным устройством может быть только считыватель", ValidationErrorLevel.CannotWrite));
+					Errors.Add(new DoorValidationError(door, "У точки доступа выходным устройством может быть только считыватель", ValidationErrorLevel.CannotWrite));
 
 				if (inDevice != null && outDevice != null)
 				{
 					if (door.DoorType == DoorType.OneWay)
 					{
 						if (outDevice.DriverType != SKDDriverType.Button && outDevice.IntAddress != inDevice.IntAddress)
-							Errors.Add(new DoorValidationError(door, "У точки доступа отсутствует неверно указано выходное устройство", ValidationErrorLevel.CannotSave));
+							Errors.Add(new DoorValidationError(door, "У точки доступа неверно указано выходное устройство", ValidationErrorLevel.CannotSave));
 					}
-					if (door.DoorType == DoorType.TwoWay)
+					if (door.DoorType != DoorType.OneWay)
 					{
 						if (outDevice.DriverType != SKDDriverType.Reader && outDevice.IntAddress != inDevice.IntAddress + 1)
-							Errors.Add(new DoorValidationError(door, "У точки доступа отсутствует неверно указано выходное устройство", ValidationErrorLevel.CannotSave));
+							Errors.Add(new DoorValidationError(door, "У точки доступа неверно указано выходное устройство", ValidationErrorLevel.CannotSave));
 					}
 				}
 

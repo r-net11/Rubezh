@@ -11,6 +11,15 @@ namespace FiresecAPI.GK
 		OneWay,
 
 		[Description("Двухпроходная")]
-		TwoWay
+		TwoWay,
+
+		[Description("Турникет")]
+		Turnstile,
+
+		[Description("Шлагбаум")]
+		Barrier,
+
+		[Description("Шлюзовая кабина")]
+		AirlockBooth
 	}
 }

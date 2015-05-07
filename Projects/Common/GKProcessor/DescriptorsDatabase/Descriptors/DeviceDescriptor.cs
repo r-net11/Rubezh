@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.GK;
-using FiresecAPI.Models;
-using FiresecClient;
 
 namespace GKProcessor
 {
@@ -83,23 +81,63 @@ namespace GKProcessor
 				Formula.AddGetBit(GKStateBit.Off, Device.GuardZones.FirstOrDefault(), DatabaseType);
 				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device, DatabaseType);
 			}
-			if (Device.Door != null && Device.Door.LockDeviceUID == Device.UID)
+			if (Device.Door != null && Device.Door.DoorType == GKDoorType.Barrier)
 			{
-				Formula.AddGetBit(GKStateBit.On, Device.Door, DatabaseType);
-				Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device, DatabaseType);
+				if (Device.Door.LockDeviceUID == Device.UID)
+				{
+					Formula.AddGetBit(GKStateBit.On, Device.Door, DatabaseType);
+					Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device, DatabaseType);
+				}
 
-				Formula.AddGetBit(GKStateBit.TurningOff, Device.Door, DatabaseType);
-				Formula.AddGetBit(GKStateBit.Off, Device.Door, DatabaseType);
-				Formula.Add(FormulaOperationType.OR);
-				//if (Device.Door.LockControlDevice != null)
-				//{
-				//    Formula.AddGetBit(GKStateBit.On, Device.Door, DatabaseType);
-				//    Formula.Add(FormulaOperationType.COM);
-				//    Formula.AddGetBit(GKStateBit.Fire1, Device.Door.LockControlDevice, DatabaseType);
-				//    Formula.Add(FormulaOperationType.AND);
-				//    Formula.Add(FormulaOperationType.OR);
-				//}
-				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device, DatabaseType);
+				if (Device.Door.LockDeviceExitUID == Device.UID)
+				{
+					Formula.AddGetBit(GKStateBit.TurningOff, Device.Door, DatabaseType);
+					Formula.AddGetBit(GKStateBit.Off, Device.Door, DatabaseType);
+					Formula.Add(FormulaOperationType.OR);
+					Formula.AddPutBit(GKStateBit.On, Device, DatabaseType);
+				}
+			}
+			else
+			{
+				if (Device.Door != null && Device.Door.LockDeviceUID == Device.UID)
+				{
+					var exitDevice = Device.Door.ExitDevice;
+					var enterButton = Device.Door.EnterButton;
+					if (exitDevice != null && enterButton != null)
+					{
+						Formula.AddGetBit(GKStateBit.Attention, exitDevice, DatabaseType);
+						Formula.Add(FormulaOperationType.BR, 2, 8);
+						Formula.AddGetBit(GKStateBit.Fire1, enterButton, DatabaseType);
+						Formula.Add(FormulaOperationType.BR, 2, 6);
+					}
+
+					Formula.AddGetBit(GKStateBit.On, Device.Door, DatabaseType);
+					Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device, DatabaseType);
+					Formula.AddGetBit(GKStateBit.TurningOff, Device.Door, DatabaseType);
+					Formula.AddGetBit(GKStateBit.Off, Device.Door, DatabaseType);
+					Formula.Add(FormulaOperationType.OR);
+					Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device, DatabaseType);
+				}
+
+				if (Device.Door != null && Device.Door.LockDeviceExitUID == Device.UID)
+				{
+					var enterDevice = Device.Door.EnterDevice;
+					var exitButton = Device.Door.ExitButton;
+					if (enterDevice != null && exitButton != null)
+					{
+						Formula.AddGetBit(GKStateBit.Attention, enterDevice, DatabaseType);
+						Formula.Add(FormulaOperationType.BR, 2, 8);
+						Formula.AddGetBit(GKStateBit.Fire1, exitButton, DatabaseType);
+						Formula.Add(FormulaOperationType.BR, 2, 6);
+					}
+
+					Formula.AddGetBit(GKStateBit.On, Device.Door, DatabaseType);
+					Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device, DatabaseType);
+					Formula.AddGetBit(GKStateBit.TurningOff, Device.Door, DatabaseType);
+					Formula.AddGetBit(GKStateBit.Off, Device.Door, DatabaseType);
+					Formula.Add(FormulaOperationType.OR);
+					Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device, DatabaseType);
+				}
 			}
 			Formula.Add(FormulaOperationType.END);
 			FormulaBytes = Formula.GetBytes();

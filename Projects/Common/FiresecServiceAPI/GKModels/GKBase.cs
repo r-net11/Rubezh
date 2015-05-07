@@ -170,10 +170,18 @@ namespace FiresecAPI.GK
 					door.LinkGKBases(door.EnterDevice);
 				if (door.ExitDevice != null)
 					door.LinkGKBases(door.ExitDevice);
+				if (door.EnterButton != null)
+					door.LinkGKBases(door.EnterButton);
+				if (door.ExitButton != null)
+					door.LinkGKBases(door.ExitButton);
 				if (door.LockDevice != null)
 					door.LockDevice.LinkGKBases(door);
+				if (door.LockDeviceExit != null)
+					door.LockDeviceExit.LinkGKBases(door);
 				if (door.LockControlDevice != null)
 					door.LinkGKBases(door.LockControlDevice);
+				if (door.LockControlDeviceExit != null)
+					door.LinkGKBases(door.LockControlDeviceExit);
 				LinkLogic(door, door.OpenRegimeLogic.OnClausesGroup);
 				LinkLogic(door, door.NormRegimeLogic.OnClausesGroup);
 				LinkLogic(door, door.CloseRegimeLogic.OnClausesGroup);
