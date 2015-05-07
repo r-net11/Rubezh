@@ -24,7 +24,7 @@
 							HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
 					<Controls:ToolBarButton Command="{Binding FirstPageCommand}" ImageSource="LeftLeft"  ToolTip="Начальная страница" />
 					<Controls:ToolBarButton Command="{Binding PreviousPageCommand}" ImageSource="Left"  ToolTip="Предыдущая страница" />
-					<TextBox Text="{Binding CurrentPageNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="30" MinWidth="25" MinHeight="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Stretch" FontSize="20" />
+					<TextBox ContextMenu="{x:Null}" Text="{Binding CurrentPageNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="30" MinWidth="25" MinHeight="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Stretch" FontSize="20" />
 					<Label VerticalContentAlignment="Center" Content="/" FontSize="20" />
 					<Label VerticalContentAlignment="Center" Content="{Binding TotalPageNumber}" FontSize="20" />
 					<Controls:ToolBarButton Command="{Binding NextPageCommand}" ImageSource="Right"  ToolTip="Следующая страница" />

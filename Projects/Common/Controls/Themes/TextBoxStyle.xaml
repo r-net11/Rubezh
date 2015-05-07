@@ -15,9 +15,9 @@
 		<Setter Property="ContextMenu">
 			<Setter.Value>
 				<ContextMenu>
-					<loc:IconedMenuItem Command="ApplicationCommands.Copy" ImageSource="BCopy"  Text="Копировать" />
-					<loc:IconedMenuItem Command="ApplicationCommands.Cut" ImageSource="BCut"  Text="Вырезать" />
-					<loc:IconedMenuItem Command="ApplicationCommands.Paste" ImageSource="BPaste"  Text="Вставить" />
+					<loc:IconedMenuItem Command="ApplicationCommands.Copy" ImageSource="BCopy" Text="Копировать" FontSize="12" />
+					<loc:IconedMenuItem Command="ApplicationCommands.Cut" ImageSource="BCut" Text="Вырезать" FontSize="12" />
+					<loc:IconedMenuItem Command="ApplicationCommands.Paste" ImageSource="BPaste" Text="Вставить" FontSize="12" />
 				</ContextMenu>
 			</Setter.Value>
 		</Setter>
