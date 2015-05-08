@@ -14,11 +14,6 @@
 				<scm:SortDescription PropertyName="Organisation.Name"/>
 			</CollectionViewSource.SortDescriptions>
 		</CollectionViewSource>
-		<CollectionViewSource x:Key="cvsItems" Source="{Binding Items}">
-			<CollectionViewSource.SortDescriptions>
-				<scm:SortDescription PropertyName="User.Name" />
-			</CollectionViewSource.SortDescriptions>
-		</CollectionViewSource>
 	</UserControl.Resources>
 	<Grid>
 		<Grid.ColumnDefinitions>
@@ -41,6 +36,13 @@
 		<GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeWE" />
 		<TabControl Grid.Column="2" >
 			<TabItem Header="Пользователи" DataContext="{Binding OrganisationUsersViewModel}">
+				<TabItem.Resources>
+					<CollectionViewSource x:Key="cvsItems" Source="{Binding Items}">
+						<CollectionViewSource.SortDescriptions>
+							<scm:SortDescription PropertyName="User.Name" />
+						</CollectionViewSource.SortDescriptions>
+					</CollectionViewSource>
+				</TabItem.Resources>
 				<Grid>
 					<Grid.RowDefinitions>
 						<RowDefinition Height="*" />
