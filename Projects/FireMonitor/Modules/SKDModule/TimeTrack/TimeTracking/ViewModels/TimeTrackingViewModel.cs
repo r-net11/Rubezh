@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
+using Common;
 using FiresecAPI.SKD;
 using FiresecClient;
 using Infrastructure;
@@ -47,12 +48,12 @@ namespace SKDModule.ViewModels
 			TimeTrackFilter.StartDate = DateTime.Today.AddDays(1 - DateTime.Today.Day);
 			TimeTrackFilter.EndDate = DateTime.Today;
 
-			TimeTracks = new ObservableCollection<TimeTrackViewModel>();
+			TimeTracks = new SortableObservableCollection<TimeTrackViewModel>();
 			//UpdateGrid();
 		}
 
-		ObservableCollection<TimeTrackViewModel> _timeTracks;
-		public ObservableCollection<TimeTrackViewModel> TimeTracks
+		SortableObservableCollection<TimeTrackViewModel> _timeTracks;
+		public SortableObservableCollection<TimeTrackViewModel> TimeTracks
 		{
 			get { return _timeTracks; }
 			set
@@ -164,6 +165,7 @@ namespace SKDModule.ViewModels
 			using (new WaitWrapper())
 			{
 				var employeeUID = Guid.Empty;
+
 				if (SelectedTimeTrack != null)
 				{
 					employeeUID = SelectedTimeTrack.ShortEmployee.UID;
@@ -172,13 +174,14 @@ namespace SKDModule.ViewModels
 				TotalDays = (int)(TimeTrackFilter.EndDate - TimeTrackFilter.StartDate).TotalDays + 1;
 				FirstDay = TimeTrackFilter.StartDate;
 
-				TimeTracks = new ObservableCollection<TimeTrackViewModel>();
+				TimeTracks = new SortableObservableCollection<TimeTrackViewModel>();
 				var stream = FiresecManager.FiresecService.GetTimeTracksStream(TimeTrackFilter.EmployeeFilter, TimeTrackFilter.StartDate, TimeTrackFilter.EndDate);
 				var folderName = AppDataFolderHelper.GetFolder("TempServer");
 				var resultFileName = Path.Combine(folderName, "ClientTimeTrackResult.xml");
 				var resultFileStream = File.Create(resultFileName);
 				CopyStream(stream, resultFileStream);
 				var timeTrackResult = Deserialize(resultFileName);
+
 				if (timeTrackResult != null)
 				{
 					TimeTrackEmployeeResults = timeTrackResult.TimeTrackEmployeeResults;
@@ -188,11 +191,12 @@ namespace SKDModule.ViewModels
 						TimeTracks.Add(timeTrackViewModel);
 					}
 
+					TimeTracks.Sort(x => x.ShortEmployee.LastName);
 					RowHeight = 60 + 20 * TimeTrackFilter.TotalTimeTrackTypeFilters.Count;
 				}
-				SelectedTimeTrack = TimeTracks.FirstOrDefault(x => x.ShortEmployee.UID == employeeUID);
-				if (SelectedTimeTrack == null)
-					SelectedTimeTrack = TimeTracks.FirstOrDefault();
+
+				SelectedTimeTrack = TimeTracks.FirstOrDefault(x => x.ShortEmployee.UID == employeeUID) ??
+									TimeTracks.FirstOrDefault();
 			}
 		}
 
