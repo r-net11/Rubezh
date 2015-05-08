@@ -69,7 +69,7 @@ namespace GKModule.ViewModels
 
 			foreach (var device in AllDevices)
 			{
-				if (device.Device.Driver.DriverType == GKDriverType.KAU || device.Device.Driver.DriverType == GKDriverType.RSR2_KAU)
+				if (device.Device.Driver.DriverType == GKDriverType.RSR2_KAU)
 					device.ExpandToThis();
 			}
 
@@ -205,9 +205,9 @@ namespace GKModule.ViewModels
 							SelectedDevice = AllDevices.FirstOrDefault(x => x.Device.UID == device.UID);
 						}
 					}
-					if (SelectedDevice.Device.IsConnectedToKAURSR2OrIsKAURSR2)
+					if (SelectedDevice.Device.IsConnectedToKAU)
 					{
-						GKManager.RebuildRSR2Addresses(SelectedDevice.Device.KAURSR2Parent);
+						GKManager.RebuildRSR2Addresses(SelectedDevice.Device.KAUParent);
 						GKManager.UpdateConfiguration();
 					}
 				}
@@ -227,7 +227,7 @@ namespace GKModule.ViewModels
 				if (SelectedDevice.Device.DriverType == GKDriverType.RSR2_KAU || SelectedDevice.Device.DriverType == GKDriverType.KAUIndicator)
 					return false;
 
-				if (SelectedDevice.Device.IsConnectedToKAURSR2OrIsKAURSR2)
+				if (SelectedDevice.Device.IsConnectedToKAU)
 				{
 					if (SelectedDevice.Parent == null)
 						return false;
@@ -255,9 +255,9 @@ namespace GKModule.ViewModels
 		{
 			if (SelectedDevice.Device.DriverType == GKDriverType.RSR2_KAU || SelectedDevice.Device.DriverType == GKDriverType.KAUIndicator)
 				return null;
-			if (SelectedDevice.Device.IsConnectedToKAURSR2OrIsKAURSR2)
+			if (SelectedDevice.Device.IsConnectedToKAU)
 			{
-				var kauDeviceShleifdevice = SelectedDevice.Device.KAURSR2ShleifParent;
+				var kauDeviceShleifdevice = SelectedDevice.Device.KAUShleifParent;
 				int maxAddress = NewDeviceHelper.GetMinAddress(device.Driver, kauDeviceShleifdevice);
 				if (maxAddress >= 255)
 					return null;

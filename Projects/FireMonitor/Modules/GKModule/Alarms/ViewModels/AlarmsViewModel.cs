@@ -351,13 +351,6 @@ namespace GKModule.ViewModels
 					}
 					foreach (var device in GKManager.Devices)
 					{
-						if (device.DriverType == GKDriverType.AMP_1)
-						{
-							if (device.State.StateClasses.Contains(XStateClass.Fire1) || device.State.StateClasses.Contains(XStateClass.Fire2))
-							{
-								FiresecManager.FiresecService.GKReset(device);
-							}
-						}
 					}
 					foreach (var door in GKManager.Doors)
 					{
@@ -392,7 +385,7 @@ namespace GKModule.ViewModels
 			}
 			foreach (var device in GKManager.Devices)
 			{
-				if (device.DriverType == GKDriverType.AMP_1)
+				if (device.DriverType == GKDriverType.RSR2_MAP4)
 				{
 					if (device.State.StateClasses.Contains(XStateClass.Fire1) || device.State.StateClasses.Contains(XStateClass.Fire2))
 						result++;

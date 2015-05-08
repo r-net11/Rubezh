@@ -49,7 +49,7 @@ namespace GKProcessor
 			}
 			var data = new List<byte>();
 			var offset = 0;
-			if (device.Driver.IsKauOrRSR2Kau)
+			if (device.Driver.IsKau)
 				offset = 0x10000;
 			for (int i = 0; i < firmWareBytes.Count; i = i + 0x100)
 			{

@@ -7,12 +7,8 @@ namespace GKModule.ViewModels
 {
 	public static class NewDeviceHelper
 	{
-		public static byte GetMinAddress(GKDriver driver, GKDevice device)
+		public static byte GetMinAddress(GKDriver driver, GKDevice parentDevice)
 		{
-			GKDevice parentDevice = device;
-			if (parentDevice.DriverType == GKDriverType.MPT || parentDevice.DriverType == GKDriverType.MRO_2)
-				parentDevice = parentDevice.Parent;
-
 			byte maxAddress = 0;
 
 			if (driver.IsRangeEnabled)
@@ -46,15 +42,6 @@ namespace GKModule.ViewModels
 
 				if (child.IntAddress > maxAddress)
 					maxAddress = (byte)child.IntAddress;
-
-				if (child.DriverType == GKDriverType.MPT || child.DriverType == GKDriverType.MRO_2)
-				{
-					foreach (var child2 in child.Children)
-					{
-						if (child2.IntAddress > maxAddress)
-							maxAddress = (byte)child2.IntAddress;
-					}
-				}
 			}
 
 			if (driver.IsRangeEnabled)

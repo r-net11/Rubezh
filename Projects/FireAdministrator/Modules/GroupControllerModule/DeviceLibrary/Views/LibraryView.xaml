@@ -9,7 +9,7 @@
 		</Grid.ColumnDefinitions>
 		<DataGrid Grid.Column="0" CanUserSortColumns="True" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}">
 			<DataGrid.Columns>
-				<DataGridTemplateColumn Width="150" Header="Обозначение" SortMemberPath="Driver.ShortName">
+                <DataGridTemplateColumn Width="150" Header="Обозначение" SortMemberPath="Driver.ShortName">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Margin="5, 1, 0, 0" Orientation="Horizontal">

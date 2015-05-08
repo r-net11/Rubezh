@@ -204,10 +204,10 @@
     </Compile>
     <Compile Include="Converters\ClauseConditionConverter.cs" />
     <Compile Include="DeviceLibrary\ViewModels\DeviceDetailsViewModel.cs" />
-    <Compile Include="DeviceLibrary\ViewModels\XDeviceViewModel.cs" />
+    <Compile Include="DeviceLibrary\ViewModels\LibraryDeviceViewModel.cs" />
     <Compile Include="DeviceLibrary\ViewModels\LibraryViewModel.cs" />
     <Compile Include="DeviceLibrary\ViewModels\StateDetailsViewModel.cs" />
-    <Compile Include="DeviceLibrary\ViewModels\XStateViewModel.cs" />
+    <Compile Include="DeviceLibrary\ViewModels\StateViewModel.cs" />
     <Compile Include="DeviceLibrary\ViewModels\FrameViewModel.cs" />
     <Compile Include="DeviceLibrary\Views\DeviceDetailsView.xaml.cs">
       <DependentUpon>DeviceDetailsView.xaml</DependentUpon>

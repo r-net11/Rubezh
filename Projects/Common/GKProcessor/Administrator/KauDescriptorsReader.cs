@@ -20,7 +20,7 @@ namespace GKProcessor
 			for (int i = 0; i < 8; i++)
 			{
 				var shleif = new GKDevice();
-				shleif.Driver = KauDevice.DriverType == GKDriverType.KAU ? GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.KAU_Shleif) : GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_KAU_Shleif);
+				shleif.Driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_KAU_Shleif);
 				shleif.DriverUID = shleif.Driver.UID;
 				shleif.IntAddress = (byte)(i + 1);
 				KauDevice.Children.Add(shleif);
@@ -71,7 +71,7 @@ namespace GKProcessor
 			if ((1 <= shleifNo && shleifNo <= 8) && (address != 0))
 			{
 				device.DriverUID = device.Driver.UID;
-				var shleif = KauDevice.Children.FirstOrDefault(x => (x.DriverType == GKDriverType.KAU_Shleif || x.DriverType == GKDriverType.RSR2_KAU_Shleif) && x.IntAddress == shleifNo);
+				var shleif = KauDevice.Children.FirstOrDefault(x => (x.DriverType == GKDriverType.RSR2_KAU_Shleif) && x.IntAddress == shleifNo);
 				shleif.Children.Add(device);
 				device.IntAddress = (byte)(address % 256);
 				return true;

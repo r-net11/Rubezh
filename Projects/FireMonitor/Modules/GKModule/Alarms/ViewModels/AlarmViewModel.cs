@@ -349,7 +349,7 @@ namespace GKModule.ViewModels
 			}
 			if (Alarm.Device != null)
 			{
-				if (Alarm.Device.DriverType == GKDriverType.AMP_1 || Alarm.Device.DriverType == GKDriverType.RSR2_MAP4)
+				if (Alarm.Device.DriverType == GKDriverType.RSR2_MAP4)
 				{
 					return Alarm.Device.State.StateClasses.Contains(XStateClass.Fire2) || Alarm.Device.State.StateClasses.Contains(XStateClass.Fire1);
 				}

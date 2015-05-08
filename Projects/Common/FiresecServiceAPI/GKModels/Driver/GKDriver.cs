@@ -63,9 +63,9 @@ namespace FiresecAPI.GK
 		public byte GroupDeviceChildrenCount { get; set; }
 		public bool IsIgnored { get; set; }
 
-		public bool IsKauOrRSR2Kau
+		public bool IsKau
 		{
-			get { return DriverType == GKDriverType.KAU || DriverType == GKDriverType.RSR2_KAU; }
+			get { return DriverType == GKDriverType.RSR2_KAU; }
 		}
 
 		public bool IsAm

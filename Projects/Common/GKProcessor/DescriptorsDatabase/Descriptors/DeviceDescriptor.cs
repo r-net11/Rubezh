@@ -158,11 +158,6 @@ namespace GKProcessor
 				{
 					if (driverProperty.CanNotEdit)
 					{
-						if (Device.DriverType == GKDriverType.MPT)
-							property.Value = Device.IsChildMPTOrMRO() ? (ushort)(2 << 6) : (ushort)(1 << 6);
-						if (Device.DriverType == GKDriverType.MRO_2)
-							property.Value = Device.IsChildMPTOrMRO() ? (ushort)1 : (ushort)2;
-
 						if (Device.DriverType == GKDriverType.RSR2_MVP)
 						{
 							if (driverProperty.Name == "Число АУ на АЛС3 МВП")

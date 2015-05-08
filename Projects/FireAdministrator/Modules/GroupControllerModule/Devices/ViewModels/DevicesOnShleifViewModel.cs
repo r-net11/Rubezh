@@ -80,8 +80,8 @@ namespace GKModule.ViewModels
 			}
 			ShleifDevice.OnAUParametersChanged();
 
-			if (ShleifDevice.KAURSR2Parent != null)
-				GKManager.RebuildRSR2Addresses(ShleifDevice.KAURSR2Parent);
+			if (ShleifDevice.KAUParent != null)
+				GKManager.RebuildRSR2Addresses(ShleifDevice.KAUParent);
 
 			Devices = new ObservableCollection<DeviceOnShleifViewModel>(Devices.Where(x => !x.IsActive));
 			OnPropertyChanged(() => Devices);

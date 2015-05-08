@@ -207,7 +207,7 @@ namespace GKProcessor
 				ushort physicalAddress = device.IntAddress;
 				if (device.Driver.IsDeviceOnShleif)
 					physicalAddress = (ushort)((device.ShleifNo - 1) * 256 + device.IntAddress);
-				if (device.DriverType != GKDriverType.GK && device.DriverType != GKDriverType.KAU && device.DriverType != GKDriverType.RSR2_KAU
+				if (device.DriverType != GKDriverType.GK && device.DriverType != GKDriverType.RSR2_KAU
 					&& device.Driver.HasAddress && physicalAddress != descriptorStateHelper.PhysicalAddress)
 				{
 					isMissmatch = true;
@@ -348,7 +348,7 @@ namespace GKProcessor
 				}
 				foreach (var device in gkControllerDevice.AllChildrenAndSelf)
 				{
-					if (device.Driver.IsGroupDevice || device.DriverType == GKDriverType.KAU_Shleif || device.DriverType == GKDriverType.RSR2_KAU_Shleif)
+					if (device.Driver.IsGroupDevice || device.DriverType == GKDriverType.RSR2_KAU_Shleif)
 					{
 						OnObjectStateChanged(device);
 					}

@@ -40,8 +40,8 @@ namespace FiresecAPI.GK
 			var dataBaseParent = gkBase.GetDataBaseParent();
 			if (dataBaseParent == null)
 				return;
-			gkBase.IsLogicOnKau = dataBaseParent.Driver.IsKauOrRSR2Kau;
-			if (dataBaseParent.Driver.IsKauOrRSR2Kau)
+			gkBase.IsLogicOnKau = dataBaseParent.Driver.IsKau;
+			if (dataBaseParent.Driver.IsKau)
 			{
 				gkBase.KauDatabaseParent = dataBaseParent;
 				gkBase.GkDatabaseParent = dataBaseParent.GKParent;
@@ -68,7 +68,7 @@ namespace FiresecAPI.GK
 				var dataBaseParent = device.GetDataBaseParent();
 				if (dataBaseParent == null)
 					continue;
-				device.IsLogicOnKau = dataBaseParent.Driver.IsKauOrRSR2Kau && device.KAUParent == dataBaseParent;
+				device.IsLogicOnKau = dataBaseParent.Driver.IsKau && device.KAUParent == dataBaseParent;
 				if (device.Door != null && device.Door.LockDeviceUID == device.UID)
 				{
 					device.IsLogicOnKau = false;

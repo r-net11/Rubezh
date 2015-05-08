@@ -33,10 +33,8 @@ namespace GKModule.ViewModels
 				}
 				else
 				{
-					{
-						devicesToRemove.Add(libraryDevice);
-						Logger.Error("XLibraryViewModel.Initialize driver = null " + libraryDevice.DriverUID.ToString());
-					}
+					devicesToRemove.Add(libraryDevice);
+					Logger.Error("XLibraryViewModel.Initialize driver = null " + libraryDevice.DriverUID.ToString());
 				}
 			}
 			foreach (var libraryDevice in devicesToRemove)
@@ -46,10 +44,10 @@ namespace GKModule.ViewModels
 			if (devicesToRemove.Count > 0)
 				ServiceFactory.SaveService.GKLibraryChanged = true;
 			var devices = from GKLibraryDevice libraryDevice in GKManager.DeviceLibraryConfiguration.GKDevices.Where(x => x.Driver != null) orderby libraryDevice.Driver.DeviceClassName select libraryDevice;
-			Devices = new ObservableCollection<XDeviceViewModel>();
+			Devices = new ObservableCollection<LibraryDeviceViewModel>();
 			foreach (var device in devices)
 			{
-				var deviceViewModel = new XDeviceViewModel(device);
+				var deviceViewModel = new LibraryDeviceViewModel(device);
 				Devices.Add(deviceViewModel);
 			}
 			SelectedDevice = Devices.FirstOrDefault();
@@ -57,8 +55,8 @@ namespace GKModule.ViewModels
 
 		public static LibraryViewModel Current { get; private set; }
 
-		ObservableCollection<XDeviceViewModel> _devices;
-		public ObservableCollection<XDeviceViewModel> Devices
+		ObservableCollection<LibraryDeviceViewModel> _devices;
+		public ObservableCollection<LibraryDeviceViewModel> Devices
 		{
 			get { return _devices; }
 			set
@@ -68,8 +66,8 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		XDeviceViewModel _selectedDevice;
-		public XDeviceViewModel SelectedDevice
+		LibraryDeviceViewModel _selectedDevice;
+		public LibraryDeviceViewModel SelectedDevice
 		{
 			get { return _selectedDevice; }
 			set

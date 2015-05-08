@@ -92,7 +92,7 @@ namespace FiresecClient
 		public static ushort GetKauLine(GKDevice device)
 		{
 			ushort lineNo = 0;
-			if (device.Driver.IsKauOrRSR2Kau)
+			if (device.Driver.IsKau)
 			{
 				var modeProperty = device.Properties.FirstOrDefault(x => x.Name == "Mode");
 				if (modeProperty != null)
@@ -112,7 +112,6 @@ namespace FiresecClient
 					gkControllerDevice = device;
 					break;
 
-				case GKDriverType.KAU:
 				case GKDriverType.RSR2_KAU:
 					gkControllerDevice = device.Parent;
 					break;

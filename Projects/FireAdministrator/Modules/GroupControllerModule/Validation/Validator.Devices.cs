@@ -110,7 +110,7 @@ namespace GKModule.Validation
 			if (device.DriverType == GKDriverType.GKRele)
 				return;
 
-			if (device.Driver.HasLogic && !device.Driver.IgnoreHasLogic && !device.IsChildMPTOrMRO())
+			if (device.Driver.HasLogic && !device.Driver.IgnoreHasLogic)
 			{
 				if (device.Logic.OnClausesGroup.Clauses.Count == 0)
 					Errors.Add(new DeviceValidationError(device, "Отсутствует логика срабатывания исполнительного устройства", ValidationErrorLevel.Warning));
@@ -121,7 +121,7 @@ namespace GKModule.Validation
 		{
 			if (device.DriverType == GKDriverType.GK)
 			{
-				if (device.Children.Where(x=>x.Driver.IsKauOrRSR2Kau).Count() == 0)
+				if (device.Children.Where(x=>x.Driver.IsKau).Count() == 0)
 					Errors.Add(new DeviceValidationError(device, "ГК должен содержать подключенные КАУ", ValidationErrorLevel.CannotWrite));
 			}
 		}
@@ -203,10 +203,10 @@ namespace GKModule.Validation
 		{
 			if (device.DriverType == GKDriverType.GK)
 			{
-				var kauChildren1 = device.Children.Where(x => x.Driver.IsKauOrRSR2Kau && GKManager.GetKauLine(x) == 0).ToList();
+				var kauChildren1 = device.Children.Where(x => x.Driver.IsKau && GKManager.GetKauLine(x) == 0).ToList();
 				ValidateKAUAddressFollowingInOneLine(kauChildren1);
 
-				var kauChildren2 = device.Children.Where(x => x.Driver.IsKauOrRSR2Kau && GKManager.GetKauLine(x) == 1).ToList();
+				var kauChildren2 = device.Children.Where(x => x.Driver.IsKau && GKManager.GetKauLine(x) == 1).ToList();
 				ValidateKAUAddressFollowingInOneLine(kauChildren2);
 			}
 		}

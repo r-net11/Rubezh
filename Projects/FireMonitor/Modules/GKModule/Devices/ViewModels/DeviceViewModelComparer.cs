@@ -18,7 +18,7 @@ namespace GKModule.ViewModels
 		}
 		int GetSortingAddress(GKDevice device)
 		{
-			if (device.Driver.IsKauOrRSR2Kau)
+			if (device.Driver.IsKau)
 				return 256 + device.IntAddress;
 			return device.ShleifNo * 256 + device.IntAddress;
 		}

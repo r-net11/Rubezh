@@ -12,7 +12,8 @@ namespace AutomationModule.ViewModels
 		ControlGKDeviceArguments ControlGkDeviceArguments { get; set; }
 		public ArgumentViewModel GKDeviceArgument { get; private set; }
 
-		public ControlGKDeviceStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
+		public ControlGKDeviceStepViewModel(StepViewModel stepViewModel)
+			: base(stepViewModel)
 		{
 			ControlGkDeviceArguments = stepViewModel.Step.ControlGKDeviceArguments;
 			GKDeviceArgument = new ArgumentViewModel(ControlGkDeviceArguments.GKDeviceArgument, stepViewModel.Update, null);
@@ -61,29 +62,8 @@ namespace AutomationModule.ViewModels
 				Commands = new ObservableCollection<CommandType> { CommandType.SetRegime_Automatic, CommandType.SetRegime_Manual, CommandType.SetRegime_Off };
 				foreach (var availableCommand in device.Driver.AvailableCommandBits)
 				{
-					if (device.DriverType == GKDriverType.Valve)
-					{
-						switch (availableCommand)
-						{
-							case GKStateBit.TurnOn_InManual:
-								Commands.Add(CommandType.TurnOn_InManual2);
-								break;
-							case GKStateBit.TurnOnNow_InManual:
-								Commands.Add(CommandType.TurnOnNow_InManual2);
-								break;
-							case GKStateBit.TurnOff_InManual:
-								Commands.Add(CommandType.TurnOff_InManual2);
-								break;
-							case GKStateBit.Stop_InManual:
-								Commands.Add(CommandType.Stop_InManual);
-								break;
-						}
-					}
-					else
-						Commands.Add(XStateBitToCommandType(availableCommand));
+					Commands.Add(XStateBitToCommandType(availableCommand));
 				}
-				if (device.DriverType == GKDriverType.JockeyPump)
-					Commands.Add(CommandType.ForbidStart_InManual);
 			}
 			OnPropertyChanged(() => Commands);
 		}
@@ -100,13 +80,13 @@ namespace AutomationModule.ViewModels
 
 		public bool HasReset(GKDevice device)
 		{
-			return device.DriverType == GKDriverType.AMP_1 || device.DriverType == GKDriverType.RSR2_MAP4;
+			return device.DriverType == GKDriverType.RSR2_MAP4;
 		}
 
 
 		public override void UpdateContent()
 		{
-			GKDeviceArgument.Update(Procedure, ExplicitType.Object, objectType:ObjectType.Device, isList:false);
+			GKDeviceArgument.Update(Procedure, ExplicitType.Object, objectType: ObjectType.Device, isList: false);
 		}
 
 		public override string Description
@@ -131,15 +111,9 @@ namespace AutomationModule.ViewModels
 					return GKStateBit.SetRegime_Off;
 				case CommandType.TurnOn_InManual:
 					return GKStateBit.TurnOn_InManual;
-				case CommandType.TurnOn_InManual2:
-					return GKStateBit.TurnOn_InManual;
 				case CommandType.TurnOnNow_InManual:
 					return GKStateBit.TurnOnNow_InManual;
-				case CommandType.TurnOnNow_InManual2:
-					return GKStateBit.TurnOnNow_InManual;
 				case CommandType.TurnOff_InManual:
-					return GKStateBit.TurnOff_InManual;
-				case CommandType.TurnOff_InManual2:
 					return GKStateBit.TurnOff_InManual;
 				case CommandType.Stop_InManual:
 					return GKStateBit.Stop_InManual;
@@ -167,11 +141,11 @@ namespace AutomationModule.ViewModels
 					case GKStateBit.SetRegime_Off:
 						return CommandType.SetRegime_Off;
 					case GKStateBit.TurnOn_InManual:
-						return (GKDeviceArgument.ExplicitValue.Device.DriverType == GKDriverType.Valve) ? CommandType.TurnOn_InManual2 : CommandType.TurnOn_InManual;
+						return CommandType.TurnOn_InManual;
 					case GKStateBit.TurnOnNow_InManual:
-						return (GKDeviceArgument.ExplicitValue.Device.DriverType == GKDriverType.Valve) ? CommandType.TurnOnNow_InManual2 : CommandType.TurnOnNow_InManual;
+						return CommandType.TurnOnNow_InManual;
 					case GKStateBit.TurnOff_InManual:
-						return (GKDeviceArgument.ExplicitValue.Device.DriverType == GKDriverType.Valve) ? CommandType.TurnOff_InManual2 : CommandType.TurnOff_InManual;
+						return CommandType.TurnOff_InManual;
 					case GKStateBit.Stop_InManual:
 						return CommandType.Stop_InManual;
 					case GKStateBit.Reset:
@@ -229,20 +203,11 @@ namespace AutomationModule.ViewModels
 		[Description("Включить")]
 		TurnOn_InManual,
 
-		[Description("Открыть")]
-		TurnOn_InManual2,
-
 		[Description("Включить немедленно")]
 		TurnOnNow_InManual,
 
-		[Description("Открыть немедленно")]
-		TurnOnNow_InManual2,
-
 		[Description("Выключить")]
 		TurnOff_InManual,
-
-		[Description("Закрыть")]
-		TurnOff_InManual2,
 
 		[Description("Выключить немедленно")]
 		TurnOffNow_InManual,

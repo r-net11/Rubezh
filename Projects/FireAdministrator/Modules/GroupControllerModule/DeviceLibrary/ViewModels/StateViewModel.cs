@@ -31,23 +31,6 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				if (Driver != null && Driver.DriverType == GKDriverType.Valve)
-				{
-					switch (State.StateClass)
-					{
-						case XStateClass.On:
-							return "Открыто";
-
-						case XStateClass.Off:
-							return "Закрыто";
-
-						case XStateClass.TurningOn:
-							return "Открывается";
-
-						case XStateClass.TurningOff:
-							return "Закрывается";
-					}
-				}
 				if (State.StateClass == XStateClass.Fire1)
 				{
 					return "Сработка 1";
