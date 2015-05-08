@@ -38,12 +38,13 @@
 				<DataGridTextColumn Width="*" Binding="{Binding Door.Description}" Header="Примечание" />
 			</DataGrid.Columns>
 		</Controls:XDataGrid>
-		<Border Grid.Row="1" Margin="0 4 0 0" Background="White" CornerRadius="5">
-			<Grid Visibility="{Binding HasSelectedDoor, Converter={StaticResource BoolToVisibilityConverter}}">
-				<StackPanel Margin="2" DataContext="{Binding SelectedDoor}">
-					<StackPanel Orientation="Horizontal">
-						<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Устройство на вход" />
-						<TextBlock Margin="2" VerticalAlignment="Center">
+		<ScrollViewer Grid.Row="1" Margin="0 4 0 0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+			<Border Background="White" CornerRadius="5">
+				<Grid Visibility="{Binding HasSelectedDoor, Converter={StaticResource BoolToVisibilityConverter}}">
+					<StackPanel Margin="2" DataContext="{Binding SelectedDoor}">
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Устройство на вход" />
+							<TextBlock Margin="2" VerticalAlignment="Center">
 							<Hyperlink Command="{Binding ChangeEnterDeviceCommand}" Style="{StaticResource HyperlinkStyle2}">
 								<TextBlock Margin="2">
 									<TextBlock.Style>
@@ -59,10 +60,10 @@
 								</TextBlock>
 							</Hyperlink>
 						</TextBlock>
-					</StackPanel>
-					<StackPanel Orientation="Horizontal">
-						<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Устройство на выход" />
-						<TextBlock Margin="2" VerticalAlignment="Center">
+						</StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Устройство на выход" />
+							<TextBlock Margin="2" VerticalAlignment="Center">
 							<Hyperlink Command="{Binding ChangeExitDeviceCommand}" Style="{StaticResource HyperlinkStyle2}">
 								<TextBlock Margin="2">
 									<TextBlock.Style>
@@ -78,10 +79,10 @@
 								</TextBlock>
 							</Hyperlink>
 						</TextBlock>
-					</StackPanel>
-					<StackPanel Orientation="Horizontal" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.AirlockBooth}}">
-						<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Кнопка на вход" />
-						<TextBlock Margin="2" VerticalAlignment="Center">
+						</StackPanel>
+						<StackPanel Orientation="Horizontal" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.AirlockBooth}}">
+							<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Кнопка на вход" />
+							<TextBlock Margin="2" VerticalAlignment="Center">
 							<Hyperlink Command="{Binding ChangeEnterButtonCommand}" Style="{StaticResource HyperlinkStyle2}">
 								<TextBlock Margin="2">
 									<TextBlock.Style>
@@ -97,10 +98,10 @@
 								</TextBlock>
 							</Hyperlink>
 						</TextBlock>
-					</StackPanel>
-					<StackPanel Orientation="Horizontal" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.AirlockBooth}}">
-						<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Кнопка на выход" />
-						<TextBlock Margin="2" VerticalAlignment="Center">
+						</StackPanel>
+						<StackPanel Orientation="Horizontal" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.AirlockBooth}}">
+							<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Кнопка на выход" />
+							<TextBlock Margin="2" VerticalAlignment="Center">
 							<Hyperlink Command="{Binding ChangeExitButtonCommand}" Style="{StaticResource HyperlinkStyle2}">
 								<TextBlock Margin="2">
 									<TextBlock.Style>
@@ -116,14 +117,14 @@
 								</TextBlock>
 							</Hyperlink>
 						</TextBlock>
-					</StackPanel>
-					<StackPanel Orientation="Horizontal">
-						<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Замок" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.OneWay}}"/>
-						<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Замок" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.TwoWay}}"/>
-						<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Реле на вход" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.Turnstile}}"/>
-						<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Реле на открытие" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.Barrier}}"/>
-						<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Реле на вход" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.AirlockBooth}}"/>
-						<TextBlock Margin="2" VerticalAlignment="Center">
+						</StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Замок" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.OneWay}}"/>
+							<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Замок" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.TwoWay}}"/>
+							<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Реле на вход" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.Turnstile}}"/>
+							<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Реле на открытие" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.Barrier}}"/>
+							<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Реле на вход" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.AirlockBooth}}"/>
+							<TextBlock Margin="2" VerticalAlignment="Center">
 							<Hyperlink Command="{Binding ChangeLockDeviceCommand}" Style="{StaticResource HyperlinkStyle2}">
 								<TextBlock Margin="2">
 									<TextBlock.Style>
@@ -139,28 +140,28 @@
 								</TextBlock>
 							</Hyperlink>
 						</TextBlock>
-					</StackPanel>
-					<StackPanel Orientation="Horizontal">
-						<StackPanel.Style>
-							<Style>
-								<Setter Property="StackPanel.Visibility" Value="Collapsed" />
-								<Style.Triggers>
-									<DataTrigger Binding="{Binding Door.DoorType, UpdateSourceTrigger=PropertyChanged}" Value="{x:Static gk:GKDoorType.Turnstile}">
-										<Setter  Property="StackPanel.Visibility" Value="Visible" />
-									</DataTrigger>
-									<DataTrigger Binding="{Binding Door.DoorType, UpdateSourceTrigger=PropertyChanged}" Value="{x:Static gk:GKDoorType.Barrier}" >
-										<Setter  Property="StackPanel.Visibility" Value="Visible" />
-									</DataTrigger>
-									<DataTrigger Binding="{Binding Door.DoorType, UpdateSourceTrigger=PropertyChanged}" Value="{x:Static gk:GKDoorType.AirlockBooth}" >
-										<Setter  Property="StackPanel.Visibility" Value="Visible" />
-									</DataTrigger>
-								</Style.Triggers>
-							</Style>
-						</StackPanel.Style>
-						<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Реле на выход" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.Turnstile}}" />
-						<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Реле на закрытие" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.Barrier}}" />
-						<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Реле на выход" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.AirlockBooth}}" />
-						<TextBlock Margin="2" VerticalAlignment="Center">
+						</StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<StackPanel.Style>
+								<Style>
+									<Setter Property="StackPanel.Visibility" Value="Collapsed" />
+									<Style.Triggers>
+										<DataTrigger Binding="{Binding Door.DoorType, UpdateSourceTrigger=PropertyChanged}" Value="{x:Static gk:GKDoorType.Turnstile}">
+											<Setter  Property="StackPanel.Visibility" Value="Visible" />
+										</DataTrigger>
+										<DataTrigger Binding="{Binding Door.DoorType, UpdateSourceTrigger=PropertyChanged}" Value="{x:Static gk:GKDoorType.Barrier}" >
+											<Setter  Property="StackPanel.Visibility" Value="Visible" />
+										</DataTrigger>
+										<DataTrigger Binding="{Binding Door.DoorType, UpdateSourceTrigger=PropertyChanged}" Value="{x:Static gk:GKDoorType.AirlockBooth}" >
+											<Setter  Property="StackPanel.Visibility" Value="Visible" />
+										</DataTrigger>
+									</Style.Triggers>
+								</Style>
+							</StackPanel.Style>
+							<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Реле на выход" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.Turnstile}}" />
+							<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Реле на закрытие" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.Barrier}}" />
+							<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Реле на выход" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.AirlockBooth}}" />
+							<TextBlock Margin="2" VerticalAlignment="Center">
 							<Hyperlink Command="{Binding ChangeLockDeviceExitCommand}" Style="{StaticResource HyperlinkStyle2}">
 								<TextBlock Margin="2">
 									<TextBlock.Style>
@@ -176,11 +177,11 @@
 								</TextBlock>
 							</Hyperlink>
 						</TextBlock>
-					</StackPanel>
-					<StackPanel Orientation="Horizontal" Visibility="{Binding Door.DoorType, Converter={StaticResource InversedEnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.Barrier}}">
-						<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Датчик контроля двери" Visibility="{Binding Door.DoorType, Converter={StaticResource InversedEnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.Turnstile}}" />
-						<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Датчик проворота" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.Turnstile}}" />
-						<TextBlock Margin="2" VerticalAlignment="Center">
+						</StackPanel>
+						<StackPanel Orientation="Horizontal" Visibility="{Binding Door.DoorType, Converter={StaticResource InversedEnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.Barrier}}">
+							<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Датчик контроля двери" Visibility="{Binding Door.DoorType, Converter={StaticResource InversedEnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.Turnstile}}" />
+							<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Датчик проворота" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.Turnstile}}" />
+							<TextBlock Margin="2" VerticalAlignment="Center">
 							<Hyperlink Command="{Binding ChangeLockControlDeviceCommand}" Style="{StaticResource HyperlinkStyle2}">
 								<TextBlock Margin="2">
 									<TextBlock.Style>
@@ -196,10 +197,10 @@
 								</TextBlock>
 							</Hyperlink>
 						</TextBlock>
-					</StackPanel>
-					<StackPanel Orientation="Horizontal" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.AirlockBooth}}">
-						<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Датчик контроля двери на выход" />
-						<TextBlock Margin="2" VerticalAlignment="Center">
+						</StackPanel>
+						<StackPanel Orientation="Horizontal" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.AirlockBooth}}">
+							<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Датчик контроля двери на выход" />
+							<TextBlock Margin="2" VerticalAlignment="Center">
 							<Hyperlink Command="{Binding ChangeLockControlDeviceExitCommand}" Style="{StaticResource HyperlinkStyle2}">
 								<TextBlock Margin="2">
 									<TextBlock.Style>
@@ -215,10 +216,10 @@
 								</TextBlock>
 							</Hyperlink>
 						</TextBlock>
-					</StackPanel>
-					<StackPanel Orientation="Horizontal">
-						<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Зона входа" />
-						<TextBlock Margin="2" VerticalAlignment="Center">
+						</StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Зона входа" />
+							<TextBlock Margin="2" VerticalAlignment="Center">
 							<Hyperlink Command="{Binding ChangeEnterZoneCommand}" Style="{StaticResource HyperlinkStyle2}">
 								<TextBlock Margin="2">
 									<TextBlock.Style>
@@ -234,10 +235,10 @@
 								</TextBlock>
 							</Hyperlink>
 						</TextBlock>
-					</StackPanel>
-					<StackPanel Orientation="Horizontal" Visibility="{Binding Path=Door.DoorType, Converter={StaticResource InversedEnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.OneWay}}">
-						<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Зона выхода" />
-						<TextBlock Margin="2" VerticalAlignment="Center">
+						</StackPanel>
+						<StackPanel Orientation="Horizontal" Visibility="{Binding Path=Door.DoorType, Converter={StaticResource InversedEnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.OneWay}}">
+							<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Зона выхода" />
+							<TextBlock Margin="2" VerticalAlignment="Center">
 							<Hyperlink Command="{Binding ChangeExitZoneCommand}" Style="{StaticResource HyperlinkStyle2}">
 								<TextBlock Margin="2">
 									<TextBlock.Style>
@@ -253,10 +254,10 @@
 								</TextBlock>
 							</Hyperlink>
 						</TextBlock>
-					</StackPanel>
-					<StackPanel Orientation="Horizontal">
-						<TextBlock Text="Условие для перевода в режим всегда открыто" FontWeight="Bold" Width="300" Margin="5 2" />
-						<TextBlock VerticalAlignment="Center" Margin="2">
+						</StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="Условие для перевода в режим всегда открыто" FontWeight="Bold" Width="300" Margin="5 2" />
+							<TextBlock VerticalAlignment="Center" Margin="2">
 							<Hyperlink Command="{Binding ChangeOpenRegimeLogicCommand}" Style="{StaticResource HyperlinkStyle2}">
 								<TextBlock Margin="2">
 									<TextBlock.Style>
@@ -272,10 +273,10 @@
 								</TextBlock>
 							</Hyperlink>
 						</TextBlock>
-					</StackPanel>
-					<StackPanel Orientation="Horizontal">
-						<TextBlock Text="Условие для перевода в режим норма" FontWeight="Bold" Width="300" Margin="5 2" />
-						<TextBlock VerticalAlignment="Center" Margin="2">
+						</StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="Условие для перевода в режим норма" FontWeight="Bold" Width="300" Margin="5 2" />
+							<TextBlock VerticalAlignment="Center" Margin="2">
 							<Hyperlink Command="{Binding ChangeNormRegimeLogicCommand}" Style="{StaticResource HyperlinkStyle2}">
 								<TextBlock Margin="2">
 									<TextBlock.Style>
@@ -291,10 +292,10 @@
 								</TextBlock>
 							</Hyperlink>
 						</TextBlock>
-					</StackPanel>
-					<StackPanel Orientation="Horizontal">
-						<TextBlock Text="Условие для перевода в режим всегда закрыто" FontWeight="Bold" Width="300" Margin="5 2" />
-						<TextBlock VerticalAlignment="Center" Margin="2">
+						</StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="Условие для перевода в режим всегда закрыто" FontWeight="Bold" Width="300" Margin="5 2" />
+							<TextBlock VerticalAlignment="Center" Margin="2">
 							<Hyperlink Command="{Binding ChangeCloseRegimeLogicCommand}" Style="{StaticResource HyperlinkStyle2}">
 								<TextBlock Margin="2">
 									<TextBlock.Style>
@@ -310,9 +311,10 @@
 								</TextBlock>
 							</Hyperlink>
 						</TextBlock>
+						</StackPanel>
 					</StackPanel>
-				</StackPanel>
-			</Grid>
-		</Border>
+				</Grid>
+			</Border>
+		</ScrollViewer>
 	</Grid>
 </UserControl>

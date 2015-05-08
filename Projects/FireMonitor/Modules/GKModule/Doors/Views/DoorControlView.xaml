@@ -16,24 +16,26 @@
 			<TextBlock Text="Режим" HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" Margin="2"  Foreground="White"/>
 			<TextBlock Text="{Binding ControlRegime, Converter={StaticResource DeviceControlRegimeToStringConverter}}" FontSize="16" Margin="2" Foreground="White" FontWeight="Bold" />
 		</StackPanel>
-		<Grid Grid.Row="1" Background="White">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition />
-				<ColumnDefinition />
-			</Grid.ColumnDefinitions>
-			<StackPanel Grid.Column="0">
-				<Button Content="Автоматика" Command="{Binding SetAutomaticStateCommand}" Width="200" Height="50" Margin="2" />
-				<Button Content="Ручное" Command="{Binding SetManualStateCommand}" Width="200" Height="50" Margin="2" />
-				<Button Content="Отключение" Command="{Binding SetIgnoreStateCommand}" Width="200" Height="50" Margin="2" />
-			</StackPanel>
-			<StackPanel Grid.Column="1">
-				<StackPanel IsEnabled="{Binding IsControlRegime}">
-					<Button Content="Открыть" Command="{Binding TurnOnCommand}" Width="200" Height="50" Margin="2" />
-					<Button Content="Открыть немедленно" Command="{Binding TurnOnNowCommand}" Width="200" Height="50" Margin="2" />
-					<Button Content="Закрыть немедленно" Command="{Binding TurnOffCommand}" Width="200" Height="50" Margin="2" />
+		<Border Grid.Row="1" CornerRadius="5" Background="White">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition />
+					<ColumnDefinition />
+				</Grid.ColumnDefinitions>
+				<StackPanel Grid.Column="0">
+					<Button Content="Автоматика" Command="{Binding SetAutomaticStateCommand}" Width="200" Height="50" Margin="2" />
+					<Button Content="Ручное" Command="{Binding SetManualStateCommand}" Width="200" Height="50" Margin="2" />
+					<Button Content="Отключение" Command="{Binding SetIgnoreStateCommand}" Width="200" Height="50" Margin="2" />
 				</StackPanel>
-				<Button Content="Сброс" Command="{Binding ResetCommand}" Width="200" Height="50" Margin="2" />
-			</StackPanel>
-		</Grid>
+				<StackPanel Grid.Column="1">
+					<StackPanel IsEnabled="{Binding IsControlRegime}">
+						<Button Content="Открыть" Command="{Binding TurnOnCommand}" Width="200" Height="50" Margin="2" />
+						<Button Content="Открыть немедленно" Command="{Binding TurnOnNowCommand}" Width="200" Height="50" Margin="2" />
+						<Button Content="Закрыть немедленно" Command="{Binding TurnOffCommand}" Width="200" Height="50" Margin="2" />
+					</StackPanel>
+					<Button Content="Сброс" Command="{Binding ResetCommand}" Width="200" Height="50" Margin="2" />
+				</StackPanel>
+			</Grid>
+		</Border>
 	</Grid>
 </UserControl>
