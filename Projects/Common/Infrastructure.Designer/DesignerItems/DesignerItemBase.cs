@@ -241,8 +241,27 @@ namespace Infrastructure.Designer.DesignerItems
 		}
 		protected override object GetToolTip()
 		{
-			var tooltip = Painter == null ? null : Painter.GetToolTip(Title);
-			return tooltip == null ? new ImageTextTooltipViewModel() { Title = string.IsNullOrEmpty(ClassName) ? Title : string.Format("{0}{1}{2}", Title, Environment.NewLine, ClassName), ImageSource = IconSource } : tooltip;
+			if (Painter == null) return null;
+
+			var format = Index.HasValue
+				? string.Format("{0}. {1}", Index, Title) 
+				: string.Format("{0}", Title);
+
+			var formatClassName = Index.HasValue 
+				? string.Format("{0}. {1}{2}{3}", Index, Title, Environment.NewLine, ClassName) 
+				: string.Format("{0}{1}{2}", Title, Environment.NewLine, ClassName);
+
+			var tooltip = Painter.GetToolTip(format);
+
+			return tooltip 
+				?? new ImageTextTooltipViewModel
+				{
+					Title = string.IsNullOrEmpty(ClassName)
+						? string.Format(format)
+						: string.Format(formatClassName), 
+
+					ImageSource = IconSource 
+				};
 		}
 	}
 }

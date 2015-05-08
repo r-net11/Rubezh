@@ -459,37 +459,46 @@ namespace GKModule.Plans
 			{
 				var device = item as GKDevice;
 				designerItem.Title = device == null ? "Неизвестное устройство" : device.PresentationName;
+				designerItem.Index = device == null || device.No == default(int) 
+					? default(int?) 
+					: device.No;
 				designerItem.IconSource = device == null ? null : device.Driver.ImageSource;
 			}
 			else if (typeof(TItem) == typeof(GKZone))
 			{
 				var zone = item as GKZone;
-				designerItem.Title = zone == null ? "Несвязанная зона" : zone.PresentationName;
+				designerItem.Title = zone == null ? "Несвязанная зона" : zone.Name;
+				designerItem.Index = zone == null ? default(int?) : zone.No;
 			}
 			else if (typeof(TItem) == typeof(GKGuardZone))
 			{
 				var guardZone = item as GKGuardZone;
-				designerItem.Title = guardZone == null ? "Неизвестная охраная зона" : guardZone.PresentationName;
+				designerItem.Title = guardZone == null ? "Неизвестная охраная зона" : guardZone.Name;
+				designerItem.Index = guardZone == null ? default(int?) : guardZone.No;
 			}
 			else if (typeof(TItem) == typeof(GKSKDZone))
 			{
 				var skdZone = item as GKSKDZone;
-				designerItem.Title = skdZone == null ? "Неизвестная зона СКД" : skdZone.PresentationName;
+				designerItem.Title = skdZone == null ? "Неизвестная зона СКД" : skdZone.Name;
+				designerItem.Index = skdZone == null ? default(int?) : skdZone.No;
 			}
 			else if (typeof(TItem) == typeof(GKDirection))
 			{
 				var direction = item as GKDirection;
-				designerItem.Title = direction == null ? "Несвязанное направление" : direction.PresentationName;
+				designerItem.Title = direction == null ? "Несвязанное направление" : direction.Name;
+				designerItem.Index = direction == null ? default(int?) : direction.No;
 			}
 			else if (typeof(TItem) == typeof(GKMPT))
 			{
 				var mpt = item as GKMPT;
-				designerItem.Title = mpt == null ? "Несвязанный МПТ" : mpt.PresentationName;
+				designerItem.Title = mpt == null ? "Несвязанный МПТ" : mpt.Name;
+				designerItem.Index = mpt == null ? default(int?) : mpt.No;
 			}
 			else if (typeof(TItem) == typeof(GKDoor))
 			{
 				var door = item as GKDoor;
-				designerItem.Title = door == null ? "Неизвестная точка доступа" : door.PresentationName;
+				designerItem.Title = door == null ? "Неизвестная точка доступа" : door.Name;
+				designerItem.Index = door == null ? default(int?) : door.No;
 			}
 			else
 				base.UpdateDesignerItemProperties<TItem>(designerItem, item);

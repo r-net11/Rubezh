@@ -13,6 +13,7 @@ namespace Infrustructure.Plans.Designer
 		public const int DefaultPointSize = 30;
 
 		public event EventHandler ItemPropertyChanged;
+		public event EventHandler IndexPropertyChanged;
 		public event EventHandler TitleChanged;
 		public event EventHandler IconSourceChanged;
 
@@ -38,6 +39,20 @@ namespace Infrustructure.Plans.Designer
 					if (TitleChanged != null)
 						TitleChanged(this, EventArgs.Empty);
 				}
+			}
+		}
+
+		private int? _index;
+		public int? Index
+		{
+			get { return _index; }
+			set
+			{
+				if (_index == value) return;
+
+				_index = value;
+				if (IndexPropertyChanged != null)
+					IndexPropertyChanged(this, EventArgs.Empty);
 			}
 		}
 
@@ -187,8 +202,14 @@ namespace Infrustructure.Plans.Designer
 		}
 		protected virtual object GetToolTip()
 		{
-			var tooltip = Painter == null ? null : Painter.GetToolTip(Title);
-			return tooltip == null ? Title : tooltip;
+			if (Painter == null) return null;
+
+			string format = Index.HasValue
+				? string.Format("{0}. {1}", Index, Title)
+				: string.Format("{0}", Title);
+
+			var tooltip = Painter.GetToolTip(format);
+			return tooltip ?? format;
 		}
 		protected virtual ContextMenu ContextMenuOpening()
 		{
