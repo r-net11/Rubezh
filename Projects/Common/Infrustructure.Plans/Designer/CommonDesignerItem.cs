@@ -202,13 +202,11 @@ namespace Infrustructure.Plans.Designer
 		}
 		protected virtual object GetToolTip()
 		{
-			if (Painter == null) return null;
-
 			string format = Index.HasValue
 				? string.Format("{0}. {1}", Index, Title)
 				: string.Format("{0}", Title);
 
-			var tooltip = Painter.GetToolTip(format);
+			var tooltip = Painter == null ? null : Painter.GetToolTip(format);
 			return tooltip ?? format;
 		}
 		protected virtual ContextMenu ContextMenuOpening()

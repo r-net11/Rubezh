@@ -241,8 +241,6 @@ namespace Infrastructure.Designer.DesignerItems
 		}
 		protected override object GetToolTip()
 		{
-			if (Painter == null) return null;
-
 			var format = Index.HasValue
 				? string.Format("{0}. {1}", Index, Title) 
 				: string.Format("{0}", Title);
@@ -251,7 +249,7 @@ namespace Infrastructure.Designer.DesignerItems
 				? string.Format("{0}. {1}{2}{3}", Index, Title, Environment.NewLine, ClassName) 
 				: string.Format("{0}{1}{2}", Title, Environment.NewLine, ClassName);
 
-			var tooltip = Painter.GetToolTip(format);
+			var tooltip = Painter == null ? null : Painter.GetToolTip(format);
 
 			return tooltip 
 				?? new ImageTextTooltipViewModel
