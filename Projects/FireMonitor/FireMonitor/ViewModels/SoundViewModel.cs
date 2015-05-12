@@ -67,8 +67,6 @@ namespace FireMonitor.ViewModels
 						if (device.IsRealDevice)
 						{
 							var stateClass = device.State.StateClass;
-							if (device.DriverType == GKDriverType.AM1_T && stateClass == XStateClass.Fire2)
-								stateClass = XStateClass.Info;
 							if (sound.StateClass != XStateClass.Attention && sound.StateClass != XStateClass.Fire1 && sound.StateClass != XStateClass.Fire2)
 							{
 								if (stateClass == sound.StateClass)

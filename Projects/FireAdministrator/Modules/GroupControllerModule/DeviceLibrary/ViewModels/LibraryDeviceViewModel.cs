@@ -1,16 +1,18 @@
 ﻿using FiresecAPI.GK;
+using System.Linq;
 using Infrastructure.Common.TreeList;
 
 namespace GKModule.ViewModels
 {
-	public class XDeviceViewModel : TreeNodeViewModel<XDeviceViewModel>
+	public class LibraryDeviceViewModel : TreeNodeViewModel<LibraryDeviceViewModel>
 	{
 		public GKLibraryDevice LibraryDevice { get; private set; }
 		public GKDriver Driver
 		{
 			get { return LibraryDevice.Driver; }
 		}
-		public XDeviceViewModel(GKLibraryDevice gkLibraryDevice)
+
+		public LibraryDeviceViewModel(GKLibraryDevice gkLibraryDevice)
 		{
 			LibraryDevice = gkLibraryDevice;
 		}

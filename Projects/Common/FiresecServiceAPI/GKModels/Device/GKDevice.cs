@@ -134,6 +134,12 @@ namespace FiresecAPI.GK
 		[DataMember]
 		public bool AllowMultipleVizualization { get; set; }
 
+		/// <summary>
+		/// Отражение объекта ГК
+		/// </summary>
+		[DataMember]
+		public GKMirrorItem MirrorItem { get; set; }
+
 		[DataMember]
 		public bool IsOPCUsed { get; set; }
 
@@ -143,7 +149,7 @@ namespace FiresecAPI.GK
 			get
 			{
 				var allParents = AllParents;
-				var shleif = allParents.FirstOrDefault(x => x.DriverType == GKDriverType.KAU_Shleif || x.DriverType == GKDriverType.RSR2_KAU_Shleif);
+				var shleif = allParents.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_KAU_Shleif);
 				if (shleif != null)
 				{
 					return shleif.IntAddress;
@@ -165,7 +171,7 @@ namespace FiresecAPI.GK
 				if (!Driver.HasAddress)
 					return "";
 
-				if (DriverType == GKDriverType.KAU || DriverType == GKDriverType.RSR2_KAU)
+				if (DriverType == GKDriverType.RSR2_KAU)
 				{
 					ushort lineNo = FiresecClient.GKManager.GetKauLine(this);
 					if (lineNo > 0)
@@ -221,10 +227,7 @@ namespace FiresecAPI.GK
 					if (parentDevice.Driver.IsGroupDevice)
 						continue;
 
-					if (parentDevice.DriverType == GKDriverType.KAU_Shleif || parentDevice.DriverType == GKDriverType.RSR2_KAU_Shleif)
-						continue;
-
-					if (parentDevice.DriverType == GKDriverType.MPT || parentDevice.DriverType == GKDriverType.MRO_2)
+					if (parentDevice.DriverType == GKDriverType.RSR2_KAU_Shleif)
 						continue;
 
 					if (parentDevice.DriverType == GKDriverType.RSR2_MVP || parentDevice.DriverType == GKDriverType.RSR2_MVP_Part)
@@ -385,23 +388,12 @@ namespace FiresecAPI.GK
 			{
 				var allParents = AllParents;
 				allParents.Add(this);
-				return allParents.FirstOrDefault(x => x.DriverType == GKDriverType.KAU || x.DriverType == GKDriverType.RSR2_KAU);
-			}
-		}
-
-		[XmlIgnore]
-		public GKDevice KAURSR2Parent
-		{
-			get
-			{
-				var allParents = AllParents;
-				allParents.Add(this);
 				return allParents.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_KAU);
 			}
 		}
 
 		[XmlIgnore]
-		public GKDevice KAURSR2ShleifParent
+		public GKDevice KAUShleifParent
 		{
 			get
 			{
@@ -423,9 +415,9 @@ namespace FiresecAPI.GK
 		}
 
 		[XmlIgnore]
-		public bool IsConnectedToKAURSR2OrIsKAURSR2
+		public bool IsConnectedToKAU
 		{
-			get { return KAURSR2Parent != null; }
+			get { return KAUParent != null; }
 		}
 
 		public string GetGKIpAddress()
@@ -450,11 +442,6 @@ namespace FiresecAPI.GK
 					return false;
 				return Driver.IsReal;
 			}
-		}
-
-		public bool IsChildMPTOrMRO()
-		{
-			return Parent != null && (Parent.DriverType == GKDriverType.MPT || Parent.DriverType == GKDriverType.MRO_2);
 		}
 
 		public void InitializeDefaultProperties()

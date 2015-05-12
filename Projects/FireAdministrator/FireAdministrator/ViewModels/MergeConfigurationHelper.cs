@@ -141,9 +141,9 @@ namespace FireAdministrator.ViewModels
 					foreach (var device in gkControllerDevice.Children)
 					{
 						var driver = GKManager.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
-						if (driver.DriverType == GKDriverType.KAU || driver.DriverType == GKDriverType.RSR2_KAU)
+						if (driver.DriverType == GKDriverType.RSR2_KAU)
 						{
-							var existingKAUDevice = existingGKDevice.Children.FirstOrDefault(x => x.Driver != null && (x.DriverType == GKDriverType.KAU || x.DriverType == GKDriverType.RSR2_KAU) && x.IntAddress == device.IntAddress);
+							var existingKAUDevice = existingGKDevice.Children.FirstOrDefault(x => x.Driver != null && x.DriverType == GKDriverType.RSR2_KAU && x.IntAddress == device.IntAddress);
 							if (existingKAUDevice == null)
 							{
 								existingGKDevice.Children.Add(device);

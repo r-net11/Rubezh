@@ -18,7 +18,6 @@ namespace GKModule.Validation
 			{
 				ValidateDoorHasNoDevices(door);
 				ValidateDoorHasWrongDevices(door);
-				//ValidateLockLogic(door);
 				ValidateLockProperties(door);
 				ValidateLockControlDevice(door);
 			}
@@ -28,6 +27,8 @@ namespace GKModule.Validation
 		{
 			if (door.AntipassbackOn && door.LockControlDevice == null)
 				Errors.Add(new DoorValidationError(door, "При включенном Antipassback, отсутствует датчик контроля двери", ValidationErrorLevel.CannotWrite));
+			if (door.DoorType == GKDoorType.AirlockBooth && door.AntipassbackOn && door.LockControlDeviceExit == null)
+				Errors.Add(new DoorValidationError(door, "При включенном Antipassback, отсутствует датчик контроля двери на выход", ValidationErrorLevel.CannotWrite));
 		}
 
 		void ValidateDoorNoEquality()

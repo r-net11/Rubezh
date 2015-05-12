@@ -61,7 +61,7 @@ namespace GKModule.ViewModels
 
 		public void CheckShleif()
 		{
-			if (Device != null && (Device.Driver.DriverType == GKDriverType.KAU_Shleif || Device.Driver.DriverType == GKDriverType.RSR2_KAU_Shleif) && (Device.IntAddress % 2 == 0))
+			if (Device != null && Device.Driver.DriverType == GKDriverType.RSR2_KAU_Shleif && (Device.IntAddress % 2 == 0))
 			{
 				var kauDevice = Device.Parent;
 				if (kauDevice == null)
@@ -183,7 +183,7 @@ namespace GKModule.ViewModels
 		void OnAdd()
 		{
 			NewDeviceViewModelBase newDeviceViewModel;
-			if (Device.IsConnectedToKAURSR2OrIsKAURSR2)
+			if (Device.IsConnectedToKAU)
 				newDeviceViewModel = new RSR2NewDeviceViewModel(this);
 			else
 				newDeviceViewModel = new NewDeviceViewModel(this);
@@ -229,8 +229,6 @@ namespace GKModule.ViewModels
 			}
 			if (Driver.Children.Count > 0)
 				return true;
-			if ((Driver.DriverType == GKDriverType.MPT || Driver.DriverType == GKDriverType.MRO_2) && Parent != null && Parent.Device.DriverType != GKDriverType.MPT && Parent.Device.DriverType != GKDriverType.MRO_2)
-				return true;
 			return false;
 		}
 
@@ -250,8 +248,8 @@ namespace GKModule.ViewModels
 		void OnRemove()
 		{
 			Remove(true);
-			if (Device.KAURSR2Parent != null)
-				GKManager.RebuildRSR2Addresses(Device.KAURSR2Parent);
+			if (Device.KAUParent != null)
+				GKManager.RebuildRSR2Addresses(Device.KAUParent);
 		}
 		bool CanRemove()
 		{
@@ -300,7 +298,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanSelect()
 		{
-			return Driver.DriverType == GKDriverType.KAU_Shleif || Driver.DriverType == GKDriverType.RSR2_KAU_Shleif || Driver.DriverType == GKDriverType.RSR2_MVP_Part;
+			return Driver.DriverType == GKDriverType.RSR2_KAU_Shleif || Driver.DriverType == GKDriverType.RSR2_MVP_Part;
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }
@@ -445,7 +443,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanShowLogic()
 		{
-			return Driver.HasLogic && !Device.IsNotUsed && !Device.IsChildMPTOrMRO();
+			return Driver.HasLogic && !Device.IsNotUsed;
 		}
 
 		public RelayCommand ShowZonesCommand { get; private set; }
@@ -599,8 +597,8 @@ namespace GKModule.ViewModels
 					OnPropertyChanged(() => IsFireAndGuard);
 					PropertiesViewModel = new PropertiesViewModel(Device);
 					OnPropertyChanged(() => PropertiesViewModel);
-					if (Device.KAURSR2Parent != null)
-						GKManager.RebuildRSR2Addresses(Device.KAURSR2Parent);
+					if (Device.KAUParent != null)
+						GKManager.RebuildRSR2Addresses(Device.KAUParent);
 					GKManager.DeviceConfiguration.Update();
 					Update();
 					ServiceFactory.SaveService.GKChanged = true;
@@ -615,27 +613,13 @@ namespace GKModule.ViewModels
 			AvailvableDrivers.Clear();
 			if (CanChangeDriver)
 			{
-				switch (Device.Parent.DriverType)
+				foreach (var driverType in Device.Parent.Driver.Children)
 				{
-					case GKDriverType.AM_4:
-						AvailvableDrivers.Add(GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.AM_1));
-						AvailvableDrivers.Add(GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.AM1_T));
-						break;
-
-					case GKDriverType.AMP_4:
-						AvailvableDrivers.Add(GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.AMP_1));
-						break;
-
-					default:
-						foreach (var driverType in Device.Parent.Driver.Children)
-						{
-							var driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == driverType);
-							if (CanDriverBeChanged(driver))
-							{
-								AvailvableDrivers.Add(driver);
-							}
-						}
-						break;
+					var driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == driverType);
+					if (CanDriverBeChanged(driver))
+					{
+						AvailvableDrivers.Add(driver);
+					}
 				}
 			}
 		}
@@ -645,14 +629,8 @@ namespace GKModule.ViewModels
 			if (driver == null || Device.Parent == null)
 				return false;
 
-			if (Device.IsChildMPTOrMRO())
-				return false;
-
 			if (driver.DriverType == GKDriverType.RSR2_MVP_Part)
 				return false;
-
-			if (Device.Parent.Driver.DriverType == GKDriverType.AM_4)
-				return true;
 
 			if (driver.IsAutoCreate)
 				return false;

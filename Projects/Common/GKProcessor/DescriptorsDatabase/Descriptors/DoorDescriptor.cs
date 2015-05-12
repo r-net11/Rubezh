@@ -120,7 +120,7 @@ namespace GKProcessor
 				Formula.AddGetBit(GKStateBit.Fire1, Door, DatabaseType.Gk);
 				Formula.Add(FormulaOperationType.OR);
 				Formula.AddPutBit(GKStateBit.Fire1, Door, DatabaseType.Gk);
-				if (Door.AntipassbackOn)
+				if (Door.LockControlDevice != null)
 				{
 					Formula.AddGetBit(GKStateBit.On, Door, DatabaseType.Gk);
 					Formula.AddGetBit(GKStateBit.Fire1, Door.LockControlDevice, DatabaseType.Gk);
@@ -151,42 +151,57 @@ namespace GKProcessor
 			var enterZone = GKManager.SKDZones.FirstOrDefault(x => x.UID == Door.EnterZoneUID);
 			var exitZone = GKManager.SKDZones.FirstOrDefault(x => x.UID == Door.ExitZoneUID);
 
-			Formula.AddGetBit(GKStateBit.Fire1, lockControlDevice, DatabaseType.Gk);
-			Formula.AddGetBit(GKStateBit.Fire1, Door.PimEnter, DatabaseType.Gk);
-			Formula.Add(FormulaOperationType.COM);
-			Formula.Add(FormulaOperationType.AND);
-			Formula.AddGetBit(GKStateBit.Fire1, Door, DatabaseType.Gk);
-			Formula.Add(FormulaOperationType.OR);
-			Formula.AddPutBit(GKStateBit.Fire1, Door, DatabaseType.Gk);
+			if (lockControlDevice != null)
+			{
+				Formula.AddGetBit(GKStateBit.Fire1, lockControlDevice, DatabaseType.Gk);
+				Formula.AddGetBit(GKStateBit.Off, Door.PimEnter, DatabaseType.Gk);
+				Formula.Add(FormulaOperationType.AND);
+				Formula.AddGetBit(GKStateBit.Fire1, Door, DatabaseType.Gk);
+				Formula.Add(FormulaOperationType.OR);
+				Formula.Add(FormulaOperationType.BR, 1, 3);
+				Formula.Add(FormulaOperationType.CONST, 0, 1);
+				Formula.AddPutBit(GKStateBit.Fire1, Door, DatabaseType.Gk);
+				Formula.Add(FormulaOperationType.EXIT);
+			}
 
-			Formula.AddGetBit(GKStateBit.Fire1, lockControlDeviceExit, DatabaseType.Gk);
-			Formula.AddGetBit(GKStateBit.Fire2, Door.PimExit, DatabaseType.Gk);
-			Formula.Add(FormulaOperationType.COM);
-			Formula.Add(FormulaOperationType.AND);
-			Formula.AddGetBit(GKStateBit.Fire1, Door, DatabaseType.Gk);
-			Formula.Add(FormulaOperationType.OR);
-			Formula.AddPutBit(GKStateBit.Fire1, Door, DatabaseType.Gk);
+			if (lockControlDeviceExit != null)
+			{
+				Formula.AddGetBit(GKStateBit.Fire1, lockControlDeviceExit, DatabaseType.Gk);
+				Formula.AddGetBit(GKStateBit.Off, Door.PimExit, DatabaseType.Gk);
+				Formula.Add(FormulaOperationType.AND);
+				Formula.AddGetBit(GKStateBit.Fire1, Door, DatabaseType.Gk);
+				Formula.Add(FormulaOperationType.OR);
+				Formula.Add(FormulaOperationType.BR, 1, 3);
+				Formula.Add(FormulaOperationType.CONST, 0, 1);
+				Formula.AddPutBit(GKStateBit.Fire1, Door, DatabaseType.Gk);
+				Formula.Add(FormulaOperationType.EXIT);
+			}
 
-			Formula.AddGetBit(GKStateBit.Fire1, lockControlDevice, DatabaseType.Gk);
-			Formula.AddGetBit(GKStateBit.On, Door, DatabaseType.Gk);
-			Formula.Add(FormulaOperationType.AND);
-			Formula.Add(FormulaOperationType.BR, 1, 5);
-			Formula.Add(FormulaOperationType.GETMEMB, 0, (byte)Door.GKDescriptorNo);
-			Formula.Add(FormulaOperationType.BR, 1, 0);
-			Formula.Add(FormulaOperationType.CONST, 0, (byte)exitZone.No);
-			Formula.Add(FormulaOperationType.PUTP);
-			Formula.Add(FormulaOperationType.EXIT);
+			if (lockControlDevice != null)
+			{
+				Formula.AddGetBit(GKStateBit.Fire1, lockControlDevice, DatabaseType.Gk);
+				Formula.AddGetBit(GKStateBit.On, Door, DatabaseType.Gk);
+				Formula.Add(FormulaOperationType.AND);
+				Formula.Add(FormulaOperationType.BR, 1, 5);
+				Formula.Add(FormulaOperationType.GETMEMB, 0, (byte) Door.GKDescriptorNo);
+				Formula.Add(FormulaOperationType.BR, 1, 0);
+				Formula.Add(FormulaOperationType.CONST, 0, (byte) exitZone.No);
+				Formula.Add(FormulaOperationType.PUTP);
+				Formula.Add(FormulaOperationType.EXIT);
+			}
 
-			Formula.AddGetBit(GKStateBit.Fire1, lockControlDeviceExit, DatabaseType.Gk);
-			Formula.AddGetBit(GKStateBit.On, Door, DatabaseType.Gk);
-			Formula.Add(FormulaOperationType.AND);
-			Formula.Add(FormulaOperationType.BR, 1, 5);
-			Formula.Add(FormulaOperationType.GETMEMB, 0, (byte)Door.GKDescriptorNo);
-			Formula.Add(FormulaOperationType.BR, 1, 0);
-			Formula.Add(FormulaOperationType.CONST, 0, (byte)enterZone.No);
-			Formula.Add(FormulaOperationType.PUTP);
-			Formula.Add(FormulaOperationType.EXIT);
-
+			if (lockControlDeviceExit != null)
+			{
+				Formula.AddGetBit(GKStateBit.Fire1, lockControlDeviceExit, DatabaseType.Gk);
+				Formula.AddGetBit(GKStateBit.On, Door, DatabaseType.Gk);
+				Formula.Add(FormulaOperationType.AND);
+				Formula.Add(FormulaOperationType.BR, 1, 5);
+				Formula.Add(FormulaOperationType.GETMEMB, 0, (byte) Door.GKDescriptorNo);
+				Formula.Add(FormulaOperationType.BR, 1, 0);
+				Formula.Add(FormulaOperationType.CONST, 0, (byte) enterZone.No);
+				Formula.Add(FormulaOperationType.PUTP);
+				Formula.Add(FormulaOperationType.EXIT);
+			}
 			Formula.AddGetBit(GKStateBit.Attention, enterDevice, DatabaseType.Gk);
 			Formula.AddGetBit(GKStateBit.Off, Door, DatabaseType.Gk);
 			Formula.Add(FormulaOperationType.AND);

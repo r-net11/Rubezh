@@ -96,7 +96,7 @@ namespace GKProcessor
 							{
 								OnObjectStateChanged(device.Parent);
 							}
-							var shleifParent = device.AllParents.FirstOrDefault(x => x.Driver.DriverType == GKDriverType.KAU_Shleif || x.Driver.DriverType == GKDriverType.RSR2_KAU_Shleif);
+							var shleifParent = device.AllParents.FirstOrDefault(x => x.Driver.DriverType == GKDriverType.RSR2_KAU_Shleif);
 							if (shleifParent != null)
 							{
 								OnObjectStateChanged(shleifParent);

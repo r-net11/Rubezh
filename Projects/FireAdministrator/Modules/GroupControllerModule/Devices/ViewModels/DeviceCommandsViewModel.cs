@@ -66,7 +66,7 @@ namespace GKModule.Models
 
 		bool CanShowInfo()
 		{
-			return (SelectedDevice != null && (SelectedDevice.Device.Driver.IsKauOrRSR2Kau || SelectedDevice.Device.DriverType == GKDriverType.GK));
+			return (SelectedDevice != null && (SelectedDevice.Device.Driver.IsKau || SelectedDevice.Device.DriverType == GKDriverType.GK));
 		}
 
 		public RelayCommand SynchroniseTimeCommand { get; private set; }
@@ -278,7 +278,7 @@ namespace GKModule.Models
 
 		bool CanReadConfiguration()
 		{
-			return (SelectedDevice != null && (SelectedDevice.Device.Driver.IsKauOrRSR2Kau || SelectedDevice.Driver.DriverType == GKDriverType.GK));
+			return (SelectedDevice != null && (SelectedDevice.Device.Driver.IsKau || SelectedDevice.Driver.DriverType == GKDriverType.GK));
 		}
 
 		bool CanReadConfigFile()
@@ -298,7 +298,7 @@ namespace GKModule.Models
 				};
 				if (openDialog.ShowDialog().Value)
 				{
-					var gkKauKauRsr2Devices = GKManager.DeviceConfiguration.Devices.FindAll(x => (x.Driver.DriverType == GKDriverType.GK) || (x.Driver.IsKauOrRSR2Kau));
+					var gkKauKauRsr2Devices = GKManager.DeviceConfiguration.Devices.FindAll(x => (x.Driver.DriverType == GKDriverType.GK) || (x.Driver.IsKau));
 					var firmWareUpdateViewModel = new FirmWareUpdateViewModel(gkKauKauRsr2Devices);
 					if (DialogService.ShowModalWindow(firmWareUpdateViewModel))
 					{
@@ -354,7 +354,7 @@ namespace GKModule.Models
 
 		bool CanUpdateFirmwhare()
 		{
-			return (SelectedDevice != null && (SelectedDevice.Driver.IsKauOrRSR2Kau || SelectedDevice.Driver.DriverType == GKDriverType.GK || SelectedDevice.Driver.DriverType == GKDriverType.System) && FiresecManager.CheckPermission(PermissionType.Adm_ChangeDevicesSoft));
+			return (SelectedDevice != null && (SelectedDevice.Driver.IsKau || SelectedDevice.Driver.DriverType == GKDriverType.GK || SelectedDevice.Driver.DriverType == GKDriverType.System) && FiresecManager.CheckPermission(PermissionType.Adm_ChangeDevicesSoft));
 		}
 
 		bool ValidateConfiguration()

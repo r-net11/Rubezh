@@ -42,30 +42,6 @@ namespace DiagnosticsModule.ViewModels
 		public RelayCommand TurnOnOffRMCommand { get; private set; }
 		void OnTurnOnOffRM()
 		{
-			var rmDevice = GKManager.Devices.FirstOrDefault(x => x.DriverType == GKDriverType.RM_1 && x.ShleifNo == 3 && x.IntAddress == 1);
-			var flag = false;
-
-			var thread = new Thread(new ThreadStart(() =>
-			{
-				while (true)
-				{
-					if (IsThreadStoping)
-						return;
-					Thread.Sleep(TimeSpan.FromMilliseconds(3000));
-					flag = !flag;
-
-					ApplicationService.Invoke(() =>
-					{
-						if (flag)
-							Watcher.SendControlCommand(rmDevice, GKStateBit.TurnOn_InManual, "");
-						else
-							Watcher.SendControlCommand(rmDevice, GKStateBit.TurnOff_InManual, "");
-					});
-				}
-			}));
-			thread.Name = "Diagnostics";
-			thread.IsBackground = true;
-			thread.Start();
 		}
 
 		public RelayCommand CheckHaspCommand { get; private set; }

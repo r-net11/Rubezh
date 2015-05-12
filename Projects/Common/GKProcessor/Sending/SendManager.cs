@@ -32,7 +32,6 @@ namespace GKProcessor
 						whom = 2;
 						break;
 
-					case GKDriverType.KAU:
 					case GKDriverType.RSR2_KAU:
 						whom = 4;
 						var modeProperty = device.Properties.FirstOrDefault(x => x.Name == "Mode");

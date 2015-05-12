@@ -16,7 +16,7 @@ namespace GKProcessor
 		{
 			var result = new GKDeviceConfiguration();
 			result.RootDevice = GKManager.CopyDevice(gkControllerDevice, false);
-			result.RootDevice.Children.RemoveAll(x => x.Driver.IsKauOrRSR2Kau);
+			result.RootDevice.Children.RemoveAll(x => x.Driver.IsKau);
 
 			var progressCallback = GKProcessorManager.StartProgress("Автопоиск устройств на " + gkControllerDevice.PresentationName, "Проверка связи", 1, true, GKProgressClientType.Administrator);
 			var pingResult = DeviceBytesHelper.Ping(gkControllerDevice);

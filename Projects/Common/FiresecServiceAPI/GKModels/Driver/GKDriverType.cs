@@ -14,53 +14,53 @@ namespace FiresecAPI.GK
 		[Description("Реле ГК")]
 		GKRele,
 		[Description("КАУ")]
-		KAU,
+		Obsolete_KAU,
 		[Description("АЛС")]
-		KAU_Shleif,
+		Obsolete_KAU_Shleif,
 		[Description("Индикатор Неисправность КАУ")]
 		KAUIndicator,
 		[Description("ИП-64")]
-		SmokeDetector,
+		Obsolete_SmokeDetector,
 		[Description("ИП-29")]
-		HeatDetector,
+		Obsolete_HeatDetector,
 		[Description("ИП-212")]
-		CombinedDetector,
+		Obsolete_CombinedDetector,
 		[Description("ИПР")]
-		HandDetector,
+		Obsolete_HandDetector,
 		[Description("АМ-1")]
-		AM_1,
+		Obsolete_AM_1,
 		[Description("АМП")]
-		AMP_1,
+		Obsolete_AMP_1,
 		[Description("АМ1-Т")]
-		AM1_T,
+		Obsolete_AM1_T,
 		[Description("РМ-1")]
-		RM_1,
+		Obsolete_RM_1,
 		[Description("МРО-2М")]
-		MRO_2,
+		Obsolete_MRO_2,
 		[Description("МДУ-1")]
-		MDU,
+		Obsolete_MDU,
 		[Description("МПТ-1")]
-		MPT,
+		Obsolete_MPT,
 		[Description("ШУЗ")]
-		Valve,
+		Obsolete_Valve,
 		[Description("Пожарный насос")]
-		FirePump,
+		Obsolete_FirePump,
 		[Description("Жокей насос")]
-		JockeyPump,
+		Obsolete_JockeyPump,
 		[Description("Дренажный насос")]
-		DrainagePump,
+		Obsolete_DrainagePump,
 		[Description("РМ-2")]
-		RM_2,
+		Obsolete_RM_2,
 		[Description("РМ-3")]
-		RM_3,
+		Obsolete_RM_3,
 		[Description("РМ-4")]
-		RM_4,
+		Obsolete_RM_4,
 		[Description("РМ-5")]
-		RM_5,
+		Obsolete_RM_5,
 		[Description("АМ-4")]
-		AM_4,
+		Obsolete_AM_4,
 		[Description("АМП-4")]
-		AMP_4,
+		Obsolete_AMP_4,
 		[Description("КАУ RSR2")]
 		RSR2_KAU,
 		[Description("АЛС")]
@@ -112,11 +112,11 @@ namespace FiresecAPI.GK
 		[Description("БУЗ КВ-ДУ R2")]
 		RSR2_Valve_DU,
 		[Description ("ИВЭПР")]
-		Battery,
+		Obsolete_Battery,
 		[Description("ШУ")]
-		Shu,
+		Obsolete_Shu,
 		[Description("ШУВ")]
-		Shuv,
+		Obsolete_Shuv,
 		[Description("ОПК-R2")]
 		RSR2_OPK,
 		[Description("ОПС-R2")]
@@ -143,5 +143,9 @@ namespace FiresecAPI.GK
 		RSR2_Buz_KVDU,
 		[Description("ИО-ПЗ R2")]
 		RSR2_GuardDetectorSound,
+		[Description("Отражение ГК")]
+		RSR2_GKMirror,
+		[Description("Отражение")]
+		RSR2_GKMirrorItem,
 	}
 }

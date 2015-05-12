@@ -46,14 +46,6 @@ namespace GKModule.ViewModels
 			OnPropertyChanged(() => State);
 			OnPropertyChanged(() => IsStateImage);
 			OnPropertyChanged(() => DeviceStateViewModel);
-
-			if (Device.DriverType == GKDriverType.MPT)
-			{
-				if (State.StateClass == XStateClass.TurningOn)
-				{
-					DialogService.ShowWindow(new DeviceDetailsViewModel(Device));
-				}
-			}
 		}
 
 		public string PresentationZone
@@ -86,8 +78,6 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				if (Device.DriverType == GKDriverType.FirePump)
-					return GKManager.GetPresentationLogic(Device.NSLogic);
 				return GKManager.GetPresentationZoneOrLogic(Device);
 			}
 		}
@@ -146,7 +136,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanSetIgnore()
 		{
-			return Device.AllParents.Any(x => x.DriverType == GKDriverType.KAU_Shleif || x.DriverType == GKDriverType.RSR2_KAU_Shleif) && Device.IsRealDevice &&
+			return Device.AllParents.Any(x => x.DriverType == GKDriverType.RSR2_KAU_Shleif) && Device.IsRealDevice &&
 				!Device.State.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);
 		}
 
@@ -160,7 +150,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanResetIgnore()
 		{
-			return Device.AllParents.Any(x => x.DriverType == GKDriverType.KAU_Shleif || x.DriverType == GKDriverType.RSR2_KAU_Shleif) && Device.IsRealDevice &&
+			return Device.AllParents.Any(x => x.DriverType == GKDriverType.RSR2_KAU_Shleif) && Device.IsRealDevice &&
 				Device.State.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);
 		}
 		#endregion
@@ -182,7 +172,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanSetIgnoreAll()
 		{
-			if (Device.DriverType == GKDriverType.KAU_Shleif || Device.DriverType == GKDriverType.RSR2_KAU_Shleif)
+			if (Device.DriverType == GKDriverType.RSR2_KAU_Shleif)
 			{
 				if (!FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices))
 					return false;
@@ -211,7 +201,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanResetIgnoreAll()
 		{
-			if (Device.DriverType == GKDriverType.KAU_Shleif || Device.DriverType == GKDriverType.RSR2_KAU_Shleif)
+			if (Device.DriverType == GKDriverType.RSR2_KAU_Shleif)
 			{
 				if (!FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices))
 					return false;

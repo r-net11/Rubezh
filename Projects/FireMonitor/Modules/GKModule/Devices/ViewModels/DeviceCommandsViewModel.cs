@@ -37,11 +37,6 @@ namespace GKModule.ViewModels
 				var deviceExecutableCommandViewModel = new DeviceExecutableCommandViewModel(Device, availableCommand);
 				DeviceExecutableCommands.Add(deviceExecutableCommandViewModel);
 			}
-			if (Device.DriverType == GKDriverType.JockeyPump)
-			{
-				var deviceExecutableCommandViewModel = new DeviceExecutableCommandViewModel(Device, GKStateBit.ForbidStart_InManual);
-				DeviceExecutableCommands.Add(deviceExecutableCommandViewModel);
-			}
 			if (Device.DriverType == GKDriverType.RSR2_Valve_DU || Device.DriverType == GKDriverType.RSR2_Valve_KV || Device.DriverType == GKDriverType.RSR2_Valve_KVMV)
 			{
 				Device.State.MeasureParametersChanged += new Action(() => { OnPropertyChanged(() => IsControlRegime); });
@@ -138,7 +133,7 @@ namespace GKModule.ViewModels
 
 		public bool HasReset
 		{
-			get { return Device.DriverType == GKDriverType.AMP_1 || Device.DriverType == GKDriverType.RSR2_MAP4; }
+			get { return Device.DriverType == GKDriverType.RSR2_MAP4; }
 		}
 
 		public RelayCommand ResetCommand { get; private set; }

@@ -206,7 +206,7 @@ namespace GKProcessor
 			AddGKMessage(JournalEventNameType.Чтение_конфигурации_из_прибора, JournalEventDescriptionType.NULL, "", device, userName);
 			Stop();
 			DescriptorsManager.Create();
-			var descriptorReader = device.Driver.IsKauOrRSR2Kau ? (DescriptorReaderBase)new KauDescriptorsReaderBase() : new GkDescriptorsReaderBase();
+			var descriptorReader = device.Driver.IsKau ? (DescriptorReaderBase)new KauDescriptorsReaderBase() : new GkDescriptorsReaderBase();
 			descriptorReader.ReadConfiguration(device);
 			Start();
 			return new OperationResult<GKDeviceConfiguration> { HasError = descriptorReader.Error != null, Error = descriptorReader.Error, Result = descriptorReader.DeviceConfiguration };

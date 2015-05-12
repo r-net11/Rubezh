@@ -37,11 +37,7 @@ namespace GKProcessor
 			foreach (var measureDeviceInfo in MeasureDeviceInfos)
 			{
 				List<GKMeasureParameterValue> measureParameters = null;
-				if (measureDeviceInfo.Device.KauDatabaseParent != null && measureDeviceInfo.Device.KauDatabaseParent.DriverType == GKDriverType.KAU)
-				{
-					measureParameters = measureDeviceInfo.GetRSR1Measure();
-				}
-				else if (measureDeviceInfo.Device.KauDatabaseParent != null && measureDeviceInfo.Device.KauDatabaseParent.DriverType == GKDriverType.RSR2_KAU)
+				if (measureDeviceInfo.Device.KauDatabaseParent != null && measureDeviceInfo.Device.KauDatabaseParent.DriverType == GKDriverType.RSR2_KAU)
 				{
 					measureParameters = measureDeviceInfo.GetRSR2Measure();
 				}
@@ -86,95 +82,6 @@ namespace GKProcessor
 				};
 				MeasureParameters.Add(measureParameterValue);
 			}
-		}
-
-		public List<GKMeasureParameterValue> GetRSR1Measure()
-		{
-			var measureParameter = Device.Driver.MeasureParameters[ParameterIndex];
-			if (CanMoveToNextParameter)
-			{
-				CanMoveToNextParameter = false;
-
-				ParameterIndex++;
-				if (ParameterIndex == Device.Driver.MeasureParameters.Count)
-				{
-					ParameterIndex = 0;
-				}
-
-				StartTryDateTime = DateTime.Now;
-				GetParameterTryIndex = 0;
-			}
-
-			var bytes = new List<byte>();
-			bytes.Add((byte)Device.Driver.DriverTypeNo);
-			bytes.Add(Device.IntAddress);
-			bytes.Add((byte)(Device.ShleifNo - 1));
-			bytes.Add(measureParameter.No);
-			var result = SendManager.Send(Device.KauDatabaseParent, 4, 131, 2, bytes);
-
-			if (!result.HasError)
-			{
-				result = SendManager.Send(Device.GkDatabaseParent, 2, 12, 68, BytesHelper.ShortToBytes(Device.GKDescriptorNo));
-				if (!result.HasError && result.Bytes.Count > 0)
-				{
-					var resievedParameterNo = result.Bytes[63];
-					if (resievedParameterNo == measureParameter.No)
-					{
-						var parameterUshortValue = (short)BytesHelper.SubstructShort(result.Bytes, 64);
-						var measureParameterValue = ParceRSR1MeasureParameter(measureParameter, parameterUshortValue);
-						CanMoveToNextParameter = true;
-						return new List<GKMeasureParameterValue>() { measureParameterValue };
-					}
-				}
-			}
-
-			GetParameterTryIndex++;
-			if (GetParameterTryIndex > 10 && (DateTime.Now - StartTryDateTime).TotalSeconds > 60)
-			{
-				CanMoveToNextParameter = true;
-			}
-			return null;
-		}
-
-		GKMeasureParameterValue ParceRSR1MeasureParameter(GKMeasureParameter measureParameter, short parameterShortValue)
-		{
-			if (measureParameter.IsHighByte)
-			{
-				parameterShortValue = (short)(parameterShortValue / 256);
-			}
-			else if (measureParameter.IsLowByte)
-			{
-				parameterShortValue = (short)(parameterShortValue << 8);
-				parameterShortValue = (short)(parameterShortValue >> 8);
-			}
-			double parameterValue;
-			if (measureParameter.Multiplier != null)
-				parameterValue = (double)parameterShortValue / (double)measureParameter.Multiplier;
-			else
-				parameterValue = parameterShortValue;
-			var stringValue = parameterValue.ToString();
-			if ((Device.DriverType == GKDriverType.Valve || Device.Driver.IsPump) && measureParameter.Name == "Режим работы")
-			{
-				stringValue = "Неизвестно";
-				switch (parameterShortValue & 3)
-				{
-					case 0:
-						stringValue = "Автоматический";
-						break;
-
-					case 1:
-						stringValue = "Ручной";
-						break;
-
-					case 2:
-						stringValue = "Отключено";
-						break;
-				}
-			}
-
-			var measureParameterValue = MeasureParameters.FirstOrDefault(x => x.Name == measureParameter.Name);
-			measureParameterValue.StringValue = stringValue;
-			return measureParameterValue;
 		}
 
 		public List<GKMeasureParameterValue> GetRSR2Measure()

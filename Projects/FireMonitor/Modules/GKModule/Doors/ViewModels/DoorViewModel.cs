@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System.Linq;
 using FiresecAPI.GK;
 using FiresecClient;
 using Infrastructure;
@@ -8,19 +6,27 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
-using Microsoft.Practices.Prism;
 
 namespace GKModule.ViewModels
 {
 	public class DoorViewModel : BaseViewModel
 	{
+		public GKDevice EnterDevice { get; private set; }
+		public GKDevice ExitDevice { get; private set; }
+		public GKDevice EnterButton { get; private set; }
+		public GKDevice ExitButton { get; private set; }
+		public GKDevice LockDevice { get; private set; }
+		public GKDevice LockDeviceExit { get; private set; }
+		public GKDevice LockControlDevice { get; private set; }
+		public GKDevice LockControlDeviceExit { get; private set; }
+		public GKSKDZone EnterZone { get; private set; }
+		public GKSKDZone ExitZone { get; private set; }
 		public GKDoor Door { get; private set; }
 		public GKState State
 		{
 			get { return Door.State; }
 		}
 		public DoorDetailsViewModel DoorDetailsViewModel { get; private set; }
-		public ObservableCollection<DeviceViewModel> Devices { get; private set; }
 
 		public DoorViewModel(GKDoor door)
 		{
@@ -30,64 +36,29 @@ namespace GKModule.ViewModels
 			State.StateChanged += OnStateChanged;
 			OnStateChanged();
 
+			EnterDevice = GKManager.Devices.FirstOrDefault(x => x.UID == Door.EnterDeviceUID);
+			ExitDevice = GKManager.Devices.FirstOrDefault(x => x.UID == Door.ExitDeviceUID);
+			EnterButton = GKManager.Devices.FirstOrDefault(x => x.UID == Door.EnterButtonUID);
+			ExitButton = GKManager.Devices.FirstOrDefault(x => x.UID == Door.ExitButtonUID);
+			LockDevice = GKManager.Devices.FirstOrDefault(x => x.UID == Door.LockDeviceUID);
+			LockDeviceExit = GKManager.Devices.FirstOrDefault(x => x.UID == Door.LockDeviceExitUID);
+			LockControlDevice = GKManager.Devices.FirstOrDefault(x => x.UID == Door.LockControlDeviceUID);
+			LockControlDeviceExit = GKManager.Devices.FirstOrDefault(x => x.UID == Door.LockControlDeviceExitUID);
+			EnterZone = GKManager.SKDZones.FirstOrDefault(x => x.UID == Door.EnterZoneUID);
+			ExitZone = GKManager.SKDZones.FirstOrDefault(x => x.UID == Door.ExitZoneUID);
+
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
 			ShowOnPlanOrPropertiesCommand = new RelayCommand(OnShowOnPlanOrProperties);
-			ShowEnterDeviceCommand = new RelayCommand(OnShowEnterDevice, CanShowEnterDevice);
-			ShowExitDeviceCommand = new RelayCommand(OnShowExitDevice, CanShowExitDevice);
-
-			Devices = new ObservableCollection<DeviceViewModel>();
-			Devices.AddRange(DevicesViewModel.Current.AllDevices.FindAll(x => x.Device.UID == door.EnterDeviceUID
-				|| x.Device.UID == door.ExitDeviceUID || x.Device.UID == door.LockControlDeviceUID || x.Device.UID == door.LockDeviceUID));
-			EnterDevice = Door.EnterDevice;
-			ExitDevice = Door.ExitDevice;
+			ShowDeviceCommand = new RelayCommand<GKDevice>(OnShowDevice);
+			ShowZoneCommand = new RelayCommand<GKSKDZone>(OnShowZone);
 		}
 
 		void OnStateChanged()
 		{
 			OnPropertyChanged(() => State);
 			OnPropertyChanged(() => State.StateClasses);
-		}
-
-		public string PresentationName
-		{
-			get { return Door.PresentationName; }
-		}
-
-		public string PresentationDescription
-		{
-			get { return Door.Description; }
-		}
-
-		public GKDevice EnterDevice { get; private set; }
-		public bool HasEnterDevice
-		{
-			get { return EnterDevice != null; }
-		}
-		public RelayCommand ShowEnterDeviceCommand { get; private set; }
-		void OnShowEnterDevice()
-		{
-			ServiceFactory.Events.GetEvent<ShowGKDeviceEvent>().Publish(EnterDevice.UID);
-		}
-		bool CanShowEnterDevice()
-		{
-			return EnterDevice != null;
-		}
-
-		public GKDevice ExitDevice { get; private set; }
-		public bool HasExitDevice
-		{
-			get { return ExitDevice != null; }
-		}
-		public RelayCommand ShowExitDeviceCommand { get; private set; }
-		void OnShowExitDevice()
-		{
-			ServiceFactory.Events.GetEvent<ShowGKDeviceEvent>().Publish(ExitDevice.UID);
-		}
-		bool CanShowExitDevice()
-		{
-			return ExitDevice != null;
 		}
 
 		public RelayCommand ShowOnPlanOrPropertiesCommand { get; private set; }
@@ -123,6 +94,20 @@ namespace GKModule.ViewModels
 		private void OnShowProperties()
 		{
 			DialogService.ShowWindow(new DoorDetailsViewModel(Door));
+		}
+
+		public RelayCommand<GKDevice> ShowDeviceCommand { get; private set; }
+		private void OnShowDevice(GKDevice device)
+		{
+			if (device != null)
+				ServiceFactory.Events.GetEvent<ShowGKDeviceEvent>().Publish(device.UID);
+		}
+
+		public RelayCommand<GKSKDZone> ShowZoneCommand { get; private set; }
+		private void OnShowZone(GKSKDZone zone)
+		{
+			if (zone != null)
+				ServiceFactory.Events.GetEvent<ShowGKSKDZoneEvent>().Publish(zone.UID);
 		}
 
 		public string OpenRegimeLogicName

@@ -98,7 +98,7 @@ namespace GKModule.Validation
 
 		void ValidatePumpStationOutput(GKPumpStation pumpStation)
 		{
-			var pumpsCount = pumpStation.NSDevices.Count(x => x.Driver.DriverType == GKDriverType.FirePump || x.Driver.DriverType == GKDriverType.RSR2_Bush_Drenazh || x.Driver.DriverType == GKDriverType.RSR2_Bush_Jokey || x.Driver.DriverType == GKDriverType.RSR2_Bush_Fire || x.Driver.DriverType == GKDriverType.RSR2_Bush_Shuv);
+			var pumpsCount = pumpStation.NSDevices.Count(x => x.Driver.DriverType == GKDriverType.RSR2_Bush_Drenazh || x.Driver.DriverType == GKDriverType.RSR2_Bush_Jokey || x.Driver.DriverType == GKDriverType.RSR2_Bush_Fire || x.Driver.DriverType == GKDriverType.RSR2_Bush_Shuv);
 			if (pumpsCount == 0)
 			{
 				Errors.Add(new PumpStationValidationError(pumpStation, "В НС отсутствуют насосы", ValidationErrorLevel.CannotWrite));
@@ -107,22 +107,6 @@ namespace GKModule.Validation
 			{
 				if (pumpStation.NSPumpsCount > pumpsCount)
 					Errors.Add(new PumpStationValidationError(pumpStation, "В НС основных насосов меньше реально располагаемых", ValidationErrorLevel.CannotWrite));
-			}
-
-			var jnPumpsCount = pumpStation.NSDevices.Count(x => x.DriverType == GKDriverType.JockeyPump);
-			if (jnPumpsCount > 1)
-				Errors.Add(new PumpStationValidationError(pumpStation, "В НС количество подключенных ЖН больше 1", ValidationErrorLevel.CannotWrite));
-
-			if (jnPumpsCount == 1)
-			{
-				if (pumpStation.ClauseInputZones.Count > 0)
-					Errors.Add(new PumpStationValidationError(pumpStation, "В условии пуска НС c ЖН не могут участвовать зоны", ValidationErrorLevel.CannotWrite));
-
-				if (pumpStation.ClauseInputDirections.Count > 0)
-					Errors.Add(new PumpStationValidationError(pumpStation, "В условии пуска НС c ЖН не могут участвовать направления", ValidationErrorLevel.CannotWrite));
-
-				if (!pumpStation.ClauseInputDevices.All(x => x.DriverType == GKDriverType.AM_1))
-					Errors.Add(new PumpStationValidationError(pumpStation, "В НС c ЖН во входных устройствах могут участвовать только АМ1", ValidationErrorLevel.CannotWrite));
 			}
 		}
 

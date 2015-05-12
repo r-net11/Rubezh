@@ -100,20 +100,10 @@ namespace GKProcessor
 				return true;
 			var description = BytesHelper.BytesToStringDescription(bytes);
 			var driver = GKManager.Drivers.FirstOrDefault(x => x.DriverTypeNo == internalType);
-			if (internalType == 0x70)
-			{
-				if (description[0] == 'П')
-					driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.FirePump);
-				if (description[0] == 'Ж')
-					driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.JockeyPump);
-				if (description[0] == 'Д')
-					driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.DrainagePump);
-			}
 			if (driver != null)
 			{
 				if (driver.DriverType == GKDriverType.GK && descriptorNo > 1)
 				{
-					driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.KAU);
 					if (bytes[0x3a] == 1)
 					{
 						driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_KAU);
@@ -136,7 +126,7 @@ namespace GKProcessor
 					DeviceConfiguration.RootDevice.Children.Add(device);
 					GkDevice = device;
 				}
-				if (driver.IsKauOrRSR2Kau)
+				if (driver.IsKau)
 				{
 					device.IntAddress = (byte)(controllerAdress % 256);
 					var modeProperty = new GKProperty
@@ -150,20 +140,20 @@ namespace GKProcessor
 					for (int i = 0; i < 8; i++)
 					{
 						var shleif = new GKDevice();
-						shleif.Driver = driver.DriverType == GKDriverType.KAU ? GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.KAU_Shleif) : GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_KAU_Shleif);
+						shleif.Driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_KAU_Shleif);
 						shleif.DriverUID = shleif.Driver.UID;
 						shleif.IntAddress = (byte)(i + 1);
 						device.Children.Add(shleif);
 					}
 				}
-				if (driver.DriverType != GKDriverType.GK && !driver.IsKauOrRSR2Kau && driver.DriverType != GKDriverType.System)
+				if (driver.DriverType != GKDriverType.GK && !driver.IsKau && driver.DriverType != GKDriverType.System)
 				{
 					var controllerDevice = ControllerDevices.FirstOrDefault(x => x.Key == controllerAdress);
 					if (controllerDevice.Value != null)
 					{
 						if (1 <= shleifNo && shleifNo <= 8 && physicalAdress != 0)
 						{
-							var shleif = controllerDevice.Value.Children.FirstOrDefault(x => (x.DriverType == GKDriverType.KAU_Shleif || x.DriverType == GKDriverType.RSR2_KAU_Shleif) && x.IntAddress == shleifNo);
+							var shleif = controllerDevice.Value.Children.FirstOrDefault(x => (x.DriverType == GKDriverType.RSR2_KAU_Shleif) && x.IntAddress == shleifNo);
 							shleif.Children.Add(device);
 						}
 						else

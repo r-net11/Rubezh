@@ -331,7 +331,7 @@ namespace GKProcessor
 											var gkDevice = GKManager.Devices.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
 											if (gkDevice != null)
 											{
-												var kauCount = gkDevice.AllChildren.FindAll(x => x.Driver.IsKauOrRSR2Kau).Count;
+												var kauCount = gkDevice.AllChildren.FindAll(x => x.Driver.IsKau).Count;
 												if (firstAdditionalDescription == "0")
 													firstAdditionalDescription = "ГК";
 												else
@@ -402,7 +402,7 @@ namespace GKProcessor
 						case 8:
 							JournalItem.JournalEventNameType = JournalEventNameType.Информация;
 							JournalItem.JournalEventDescriptionType = JournalStringsHelper.ToInformation(bytes[32 + 15]);
-							if (Device != null && (Device.DriverType == GKDriverType.Valve || Device.DriverType == GKDriverType.RSR2_Valve_KV || Device.DriverType == GKDriverType.RSR2_Valve_KVMV || Device.DriverType == GKDriverType.RSR2_Valve_DU))
+							if (Device != null && (Device.DriverType == GKDriverType.RSR2_Valve_KV || Device.DriverType == GKDriverType.RSR2_Valve_KVMV || Device.DriverType == GKDriverType.RSR2_Valve_DU))
 							{
 								JournalItem.JournalEventDescriptionType = JournalStringsHelper.ToValveInformation(bytes[32 + 15]);
 							}
@@ -410,7 +410,7 @@ namespace GKProcessor
 
 						case 9:
 							JournalItem.JournalEventNameType = JournalStringsHelper.ToState(bytes[32 + 15]);
-							if (Device != null && (Device.DriverType == GKDriverType.Valve || Device.DriverType == GKDriverType.RSR2_Valve_KV || Device.DriverType == GKDriverType.RSR2_Valve_KVMV || Device.DriverType == GKDriverType.RSR2_Valve_DU))
+							if (Device != null && (Device.DriverType == GKDriverType.RSR2_Valve_KV || Device.DriverType == GKDriverType.RSR2_Valve_KVMV || Device.DriverType == GKDriverType.RSR2_Valve_DU))
 							{
 								JournalItem.JournalEventNameType = JournalStringsHelper.ToValveState(bytes[32 + 15]);
 							}
@@ -569,26 +569,6 @@ namespace GKProcessor
 				if (JournalItem.JournalEventNameType == JournalEventNameType.Сработка_2)
 				{
 					var property = Device.Properties.FirstOrDefault(x => x.Name == "Сообщение для сработки 2");
-					if (property != null)
-					{
-						JournalItem.DescriptionText = property.StringValue;
-					}
-				}
-			}
-
-			if (Device != null && Device.DriverType == GKDriverType.AM1_T)
-			{
-				if (JournalItem.JournalEventNameType == JournalEventNameType.Сработка_2)
-				{
-					var property = Device.Properties.FirstOrDefault(x => x.Name == "OnMessage");
-					if (property != null)
-					{
-						JournalItem.DescriptionText = property.StringValue;
-					}
-				}
-				if (JournalItem.JournalEventNameType == JournalEventNameType.Норма)
-				{
-					var property = Device.Properties.FirstOrDefault(x => x.Name == "NormMessage");
 					if (property != null)
 					{
 						JournalItem.DescriptionText = property.StringValue;

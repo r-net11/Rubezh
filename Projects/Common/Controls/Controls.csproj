@@ -1876,44 +1876,13 @@
     <Resource Include="Images\Line.png" />
     <Resource Include="Images\Cursor.png" />
     <Resource Include="Images\Pen.png" />
-    <Resource Include="GKIcons\AM1_O.png" />
-    <Resource Include="GKIcons\AM1_T.png" />
-    <Resource Include="GKIcons\AM_4.png" />
-    <Resource Include="GKIcons\AMP_4.png" />
-    <Resource Include="GKIcons\AMP_1.png" />
-    <Resource Include="GKIcons\AM_1.png" />
-    <Resource Include="GKIcons\AutomaticButton.png" />
-    <Resource Include="GKIcons\CombinedDetector.png" />
-    <Resource Include="GKIcons\CompensationPump.png" />
-    <Resource Include="GKIcons\Compressor.png" />
     <Resource Include="GKIcons\GK.png" />
     <Resource Include="GKIcons\GKIndicator.png" />
     <Resource Include="GKIcons\GKLine.png" />
     <Resource Include="GKIcons\GKRele.png" />
-    <Resource Include="GKIcons\HandDetector.png" />
-    <Resource Include="GKIcons\HeatDetector.png" />
     <Resource Include="GKIcons\KAU.png" />
     <Resource Include="GKIcons\KAUIndicator.png" />
-    <Resource Include="GKIcons\MDU.png" />
-    <Resource Include="GKIcons\MPT.png" />
-    <Resource Include="GKIcons\MRK_30.png" />
-    <Resource Include="GKIcons\MRO.png" />
-    <Resource Include="GKIcons\Pump.png" />
-    <Resource Include="GKIcons\RadioHandDetector.png" />
-    <Resource Include="GKIcons\RadioSmokeDetector.png" />
-    <Resource Include="GKIcons\RM_1.png" />
-    <Resource Include="GKIcons\RM_2.png" />
-    <Resource Include="GKIcons\RM_3.png" />
-    <Resource Include="GKIcons\RM_4.png" />
-    <Resource Include="GKIcons\RM_5.png" />
-    <Resource Include="GKIcons\ShuzOffButton.png" />
-    <Resource Include="GKIcons\ShuzOnButton.png" />
-    <Resource Include="GKIcons\ShuzUnblockButton.png" />
-    <Resource Include="GKIcons\SmokeDetector.png" />
-    <Resource Include="GKIcons\StartButton.png" />
-    <Resource Include="GKIcons\StopButton.png" />
     <Resource Include="GKIcons\System.png" />
-    <Resource Include="GKIcons\Valve.png" />
     <Resource Include="Images\Alarm_MPT.png" />
     <Resource Include="Images\Write.png" />
     <Resource Include="Images\Read.png" />
@@ -1943,7 +1912,6 @@
     <Resource Include="StateClassIcons\Unknown.png" />
     <Resource Include="StateClassIcons\No.png" />
     <Resource Include="StateClassIcons\TurningOn.png" />
-    <Resource Include="GKIcons\PumpStation.png" />
     <Resource Include="Images\Folder.png" />
     <Resource Include="Images\FolderOpen.png" />
     <Resource Include="GKIcons\RSR2_KAU.png" />
@@ -1954,7 +1922,6 @@
     <Resource Include="GKIcons\RSR2_AM_1.png" />
     <Resource Include="GKIcons\RSR2_AM_4.png" />
     <Resource Include="GKIcons\RSR2_MDU.png" />
-    <Resource Include="GKIcons\MRO_2.png" />
     <Resource Include="Images\Subplan.png" />
     <Resource Include="Images\SubPlanRectangle.png" />
     <Resource Include="Images\map4.png" />
@@ -2099,8 +2066,6 @@
     <Resource Include="GKIcons\KAU_Shleif.png" />
     <Resource Include="GKIcons\RSR2_KAU_Shleif.png" />
     <Resource Include="Images\BFolder.png" />
-    <Resource Include="GKIcons\Shu.png" />
-    <Resource Include="GKIcons\Shuv.png" />
     <Resource Include="Images\Bleft.png" />
     <Resource Include="Images\BleftLeft.png" />
     <Resource Include="Images\Layout\ContentPreview.png" />
@@ -2149,7 +2114,6 @@
     <Resource Include="Images\BBook.png" />
     <Resource Include="Images\BArchive.png" />
     <Resource Include="Images\Blank.png" />
-    <Resource Include="GKIcons\Battery.png" />
     <Resource Include="Images\NextDifference.png" />
     <Resource Include="Images\previousDifference.png" />
     <Resource Include="Images\Exit.png" />
@@ -2175,9 +2139,6 @@
     <Resource Include="Images\Reset.png" />
     <Resource Include="Images\ResetAlarm.png" />
     <Resource Include="Images\CFolder.png" />
-    <Resource Include="GKIcons\DrainagePump.png" />
-    <Resource Include="GKIcons\FirePump.png" />
-    <Resource Include="GKIcons\JockeyPump.png" />
     <Resource Include="SKDIcons\Reader.png" />
     <Resource Include="SKDIcons\System.png" />
     <Resource Include="SKDIcons\Controller.png" />
@@ -2583,6 +2544,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\GreenArrowDown.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RSR2_GKMirror.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RSR2_GKMirrorItem.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -65,8 +65,6 @@ namespace FiresecClient
 				if (device.IsRealDevice)
 				{
 					var stateClass = device.State.StateClass;
-					if (device.DriverType == GKDriverType.AM1_T && stateClass == XStateClass.Fire2)
-						stateClass = XStateClass.Info;
 					if (stateClass < minStateClass)
 						minStateClass = device.State.StateClass;
 				}

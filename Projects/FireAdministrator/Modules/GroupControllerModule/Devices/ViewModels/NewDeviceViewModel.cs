@@ -18,25 +18,10 @@ namespace GKModule.ViewModels
 			{
 				if (driver.IsIgnored)
 					continue;
-				if (driver.DriverType == GKDriverType.AMP_1)
-					continue;
 
 				if (ParentDevice.Driver.Children.Contains(driver.DriverType))
 					Drivers.Add(driver);
 			}
-
-			var driverType = deviceViewModel.Driver.DriverType;
-			if (driverType == GKDriverType.MPT || driverType == GKDriverType.MRO_2)
-			{
-				Drivers = new ObservableCollection<GKDriver>(
-					from GKDriver driver in sortedDrivers
-					where driver.DriverType == driverType
-					select driver);
-			}
-
-			var parentShleif = ParentDevice;
-			if (ParentDevice.DriverType == GKDriverType.MPT || ParentDevice.DriverType == GKDriverType.MRO_2)
-				parentShleif = ParentDevice.Parent;
 
 			SelectedDriver = Drivers.FirstOrDefault();
 		}

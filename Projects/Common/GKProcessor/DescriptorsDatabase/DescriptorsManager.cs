@@ -26,7 +26,7 @@ namespace GKProcessor
 
 					foreach (var kauDevice in device.Children)
 					{
-						if (kauDevice.Driver.IsKauOrRSR2Kau)
+						if (kauDevice.Driver.IsKau)
 						{
 							var kauDatabase = new KauDatabase(kauDevice);
 							gkDatabase.KauDatabases.Add(kauDatabase);
