@@ -7,10 +7,12 @@ using DevExpress.DocumentServices.ServiceModel.Client;
 using DevExpress.Xpf.Printing;
 using FiresecAPI.SKD.ReportFilters;
 using FiresecClient;
+using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.SKDReports;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Events;
 using DialogService = Infrastructure.Common.Windows.DialogService;
 
 namespace ReportsModule.ViewModels
@@ -21,6 +23,8 @@ namespace ReportsModule.ViewModels
 		private DispatcherTimer _timer;
 		public SKDReportPresenterViewModel()
 		{
+			ServiceFactory.Events.GetEvent<UserChangedEvent>().Unsubscribe(OnUserChanged);
+			ServiceFactory.Events.GetEvent<UserChangedEvent>().Subscribe(OnUserChanged);
 			ChangeFilterCommand = new RelayCommand(OnChangeFilter, CanChangeFilter);
 			RefreshReportCommand = new RelayCommand(OnRefreshReport, CanRefreshReport);
 			FitPageSizeCommand = new RelayCommand<ZoomFitMode>(OnFitPageSize, CanFitPageSize);
@@ -125,7 +129,7 @@ namespace ReportsModule.ViewModels
 
 		private void BuildReport()
 		{
-			_reportProvider = SelectedReport != null && SelectedReport is SKDReportViewModel ? ((SKDReportViewModel)SelectedReport).ReportProvider : null;
+			_reportProvider = SelectedReport is SKDReportViewModel ? ((SKDReportViewModel)SelectedReport).ReportProvider : null;
 			if (_reportProvider != null)
 				try
 				{
@@ -184,7 +188,7 @@ namespace ReportsModule.ViewModels
 		}
 		private bool CanChangeFilter()
 		{
-			return _reportProvider != null && _reportProvider is IFilteredSKDReportProvider;
+			return _reportProvider is IFilteredSKDReportProvider;
 		}
 
 		public RelayCommand RefreshReportCommand { get; private set; }
@@ -234,6 +238,13 @@ namespace ReportsModule.ViewModels
 			}
 			else
 				_timer.Stop();
+		}
+
+		public void OnUserChanged(UserChangedEventArgs args)
+		{
+			Model.Clear();
+			IsPeriodReport = false;
+			FilterName = null;
 		}
 	}
 }
