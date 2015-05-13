@@ -3,6 +3,7 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
 	xmlns:controls="clr-namespace:Controls;assembly=Controls"
+	xmlns:gk="clr-namespace:FiresecAPI.GK;assembly=FiresecAPI"
 	MinWidth="650" MinHeight="400">
 
 	<TabControl>
@@ -55,7 +56,8 @@
 				<Label Grid.Row="6" Grid.Column="0" Content="Минимальный уровень на проход" HorizontalAlignment="Right" />
 				<extToolkit:IntegerUpDown Grid.Row="6" Grid.Column="1" Value="{Binding EnterLevel}" Minimum="0" Maximum="255" Margin="2" />
 
-				<CheckBox Grid.Row="7" Grid.Column="1" IsChecked="{Binding AntipassbackOn}" Content="Режим запрета повторного прохода" Foreground="{DynamicResource ForegroundColorLight}" Margin="2" />
+				<CheckBox Grid.Row="7" Grid.Column="1" IsChecked="{Binding AntipassbackOn}" Content="Режим запрета повторного прохода" Foreground="{DynamicResource ForegroundColorLight}" Margin="2" 
+						  Visibility="{Binding SelectedDoorType, Converter={StaticResource InversedEnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.Barrier}}" />
 			</Grid>
 		</TabItem>
 	</TabControl>
