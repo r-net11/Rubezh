@@ -42,8 +42,8 @@ namespace Infrustructure.Plans.Designer
 			}
 		}
 
-		private int? _index;
-		public int? Index
+		private int _index;
+		public int Index
 		{
 			get { return _index; }
 			set
@@ -202,9 +202,10 @@ namespace Infrustructure.Plans.Designer
 		}
 		protected virtual object GetToolTip()
 		{
-			string format = Index.HasValue
-				? string.Format("{0}. {1}", Index, Title)
-				: string.Format("{0}", Title);
+			string format = 
+				Index == default(int) 
+				? string.Format("{0}", Title) 
+				: string.Format("{0}. {1}", Index, Title);
 
 			var tooltip = Painter == null ? null : Painter.GetToolTip(format);
 			return tooltip ?? format;

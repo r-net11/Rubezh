@@ -241,13 +241,15 @@ namespace Infrastructure.Designer.DesignerItems
 		}
 		protected override object GetToolTip()
 		{
-			var format = Index.HasValue
-				? string.Format("{0}. {1}", Index, Title) 
-				: string.Format("{0}", Title);
+			var format = 
+				Index == default(int)
+				? string.Format("{0}", Title)
+				: string.Format("{0}. {1}", Index, Title);
 
-			var formatClassName = Index.HasValue 
-				? string.Format("{0}. {1}{2}{3}", Index, Title, Environment.NewLine, ClassName) 
-				: string.Format("{0}{1}{2}", Title, Environment.NewLine, ClassName);
+			var formatClassName = 
+				Index == default(int) 
+				? string.Format("{0}{1}{2}", Title, Environment.NewLine, ClassName)
+				: string.Format("{0}. {1}{2}{3}", Index, Title, Environment.NewLine, ClassName);
 
 			var tooltip = Painter == null ? null : Painter.GetToolTip(format);
 
