@@ -140,33 +140,28 @@ namespace FiresecService
 								var controllerCardSchedules = gkSKDHelper.GetGKControllerCardSchedules(card, getAccessTemplateOperationResult.Result);
 								foreach (var controllerCardSchedule in controllerCardSchedules)
 								{
-									if ((PendingCardAction)pendingCard.Action == PendingCardAction.Add)
+									var result = new OperationResult<bool>();
+									switch ((PendingCardAction)pendingCard.Action)
 									{
-										var addGKResult = gkSKDHelper.AddOreditCard(controllerCardSchedule, card, employeeName);
-										if (!addGKResult.HasError)
-										{
-											databaseService.CardTranslator.DeleteAllPendingCards(pendingCard.CardUID, deviceState.Device.UID);
-										}
-									}
-									if ((PendingCardAction)pendingCard.Action == PendingCardAction.Edit)
-									{
-										var editGKResult = gkSKDHelper.AddOreditCard(controllerCardSchedule, card, employeeName);
-										if (!editGKResult.HasError)
-										{
-											var removeGKCardResult = gkSKDHelper.RemoveCard(deviceState.Device, card);
-											if (!removeGKCardResult.HasError)
+										case PendingCardAction.Add:
+											result = gkSKDHelper.AddOrEditCard(controllerCardSchedule, card, employeeName);
+											break;
+
+										case PendingCardAction.Edit:
+											result = gkSKDHelper.AddOrEditCard(controllerCardSchedule, card, employeeName);
+											if (!result.HasError)
 											{
-												databaseService.CardTranslator.DeleteAllPendingCards(pendingCard.CardUID, deviceState.Device.UID);
+												result = gkSKDHelper.RemoveCard(deviceState.Device, card);
 											}
-										}
+											break;
+
+										case PendingCardAction.Delete:
+											result = gkSKDHelper.RemoveCard(deviceState.Device, card);
+											break;
 									}
-									if ((PendingCardAction)pendingCard.Action == PendingCardAction.Delete)
+									if (!result.HasError)
 									{
-										var removeGKCardResult = gkSKDHelper.RemoveCard(deviceState.Device, card);
-										if (!removeGKCardResult.HasError)
-										{
-											databaseService.CardTranslator.DeleteAllPendingCards(pendingCard.CardUID, deviceState.Device.UID);
-										}
+										databaseService.CardTranslator.DeleteAllPendingCards(pendingCard.CardUID, deviceState.Device.UID);
 									}
 								}
 							}

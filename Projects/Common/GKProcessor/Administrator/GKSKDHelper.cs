@@ -11,7 +11,7 @@ namespace GKProcessor
 {
 	public class GKSKDHelper
 	{
-		public OperationResult<bool> AddOreditCard(GKControllerCardSchedule controllerCardSchedule, SKDCard card, string employeeName, int gkCardNo = 0)
+		public OperationResult<bool> AddOrEditCard(GKControllerCardSchedule controllerCardSchedule, SKDCard card, string employeeName, int gkCardNo = 0)
 		{
 			var isNew = true;
 			gkCardNo = 1;
@@ -211,6 +211,7 @@ namespace GKProcessor
 				}
 
 				bytes = new List<byte>();
+				bytes.Add(0);
 				bytes.AddRange(BytesHelper.ShortToBytes((ushort)(no)));
 				bytes.Add(0);
 				bytes.Add(1);

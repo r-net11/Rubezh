@@ -468,12 +468,18 @@ namespace FiresecService.Service
 			return new OperationResult<List<GKUser>>("Не найден ГК в конфигурации");
 		}
 
-		public OperationResult<bool> GKRewriteUsers(Guid gkDeviceUID)
+		public OperationResult<bool> GKRewriteUsers(Guid deviceUID)
 		{
-			var device = GKManager.Devices.FirstOrDefault(x => x.UID == gkDeviceUID);
+			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
 				var progressCallback = GKProcessorManager.StartProgress("Удаление пользователей прибора " + device.PresentationName, "", 65535, false, GKProgressClientType.Administrator);
+
+				using (var databaseService = new SKDDatabaseService())
+				{
+					databaseService.CardTranslator.DeleteAllPendingCards(device.UID);
+				}
+
 				try
 				{
 					var gkSKDHelper = new GKSKDHelper();
@@ -498,14 +504,21 @@ namespace FiresecService.Service
 
 								gkSKDHelper = new GKSKDHelper();
 								var controllerCardSchedules = gkSKDHelper.GetGKControllerCardSchedules(card, accessTemplate);
-								var controllerCardSchedule = controllerCardSchedules.FirstOrDefault(x => x.ControllerDevice.UID == gkDeviceUID);
+								var controllerCardSchedule = controllerCardSchedules.FirstOrDefault(x => x.ControllerDevice.UID == deviceUID);
+								if (controllerCardSchedule == null && card.GKCardType != GKCardType.Employee)
+								{
+									controllerCardSchedule = new GKControllerCardSchedule()
+									{
+										ControllerDevice = device
+									};
+								}
 								if (controllerCardSchedule != null)
 								{
 									var employeeOperationResult = databaseService.EmployeeTranslator.GetSingle(card.HolderUID);
 									var employee = employeeOperationResult.Result != null ? employeeOperationResult.Result : null;
 									if (employee != null)
 									{
-										gkSKDHelper.AddOreditCard(controllerCardSchedule, card, employee.FIO);
+										gkSKDHelper.AddOrEditCard(controllerCardSchedule, card, employee.FIO);
 									}
 								}
 								GKProcessorManager.DoProgress("Пользователь " + card.Number, progressCallback);

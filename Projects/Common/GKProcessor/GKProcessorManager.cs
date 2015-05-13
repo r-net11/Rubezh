@@ -176,17 +176,12 @@ namespace GKProcessor
 		public static OperationResult<bool> GKWriteConfiguration(GKDevice device, string userName)
 		{
 			AddGKMessage(JournalEventNameType.Запись_конфигурации_в_прибор, JournalEventDescriptionType.NULL, "", device, userName);
-			Stop();
-			
+
+			Stop();			
 			var gkDescriptorsWriter = new GkDescriptorsWriter();
 			gkDescriptorsWriter.WriteConfig(device);
-			var rewriteResult = new OperationResult<bool>();
-			if (gkDescriptorsWriter.Errors.Count == 0)
-			{
-				rewriteResult = GKScheduleHelper.GKRewriteAllSchedules(device);
-			}
-
 			Start();
+
 			if (gkDescriptorsWriter.Errors.Count > 0)
 			{
 				var errors = new StringBuilder();
@@ -194,8 +189,6 @@ namespace GKProcessor
 				{
 					errors.AppendLine(error);
 				}
-				if (rewriteResult.HasError)
-					errors.AppendLine(rewriteResult.Error);
 				return new OperationResult<bool>(errors.ToString()) { Result = false };
 			}
 			return new OperationResult<bool> { Result = true };
