@@ -217,9 +217,7 @@ namespace StrazhModule.Plans
 			if (typeof(TItem) == typeof(SKDDevice))
 			{
 				var device = item as SKDDevice;
-
 				designerItem.Title = device == null ? "Неизвестное устройство" : device.Name;
-				designerItem.Index = device == null ? default(int) : device.No;
 				designerItem.IconSource = device == null ? null : device.Driver.ImageSource;
 			}
 			else if (typeof(TItem) == typeof(SKDZone))

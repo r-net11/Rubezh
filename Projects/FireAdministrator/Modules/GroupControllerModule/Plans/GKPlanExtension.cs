@@ -459,7 +459,6 @@ namespace GKModule.Plans
 			{
 				var device = item as GKDevice;
 				designerItem.Title = device == null ? "Неизвестное устройство" : device.PresentationName;
-				designerItem.Index = device == null ? default(int) : device.No;
 				designerItem.IconSource = device == null ? null : device.Driver.ImageSource;
 			}
 			else if (typeof(TItem) == typeof(GKZone))
