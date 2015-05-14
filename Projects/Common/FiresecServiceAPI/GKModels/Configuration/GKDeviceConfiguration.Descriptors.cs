@@ -48,7 +48,7 @@ namespace FiresecAPI.GK
 			}
 			else
 				gkBase.GkDatabaseParent = dataBaseParent;
-			if (gkBase is GKGuardZone && (gkBase as GKGuardZone).GuardZoneEnterMethod != GKGuardZoneEnterMethod.GlobalOnly)
+			if (gkBase is GKGuardZone && !(gkBase as GKGuardZone).IsGlobalOnlyZone())
 			{
 				gkBase.IsLogicOnKau = false;
 				gkBase.KauDatabaseParent = null;

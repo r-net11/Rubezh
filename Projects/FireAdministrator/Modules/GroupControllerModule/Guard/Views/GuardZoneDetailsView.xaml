@@ -18,9 +18,6 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition />
@@ -51,23 +48,8 @@
 				<Label Grid.Row="5" Grid.Column="0" Content="Задержка на тревогу, с" HorizontalAlignment="Right" />
 				<extToolkit:IntegerUpDown Grid.Row="5" Grid.Column="1" Value="{Binding AlarmDelay}" Minimum="1" Maximum="65535" Margin="2" />
 
-				<Label Grid.Row="6" Grid.Column="0" Content="Метод ввода" HorizontalAlignment="Right" />
-				<ComboBox Grid.Row="6" Grid.Column="6" ItemsSource="{Binding AvailableGuardZoneEnterMethods}" SelectedItem="{Binding SelectedGuardZoneEnterMethod}" Margin="2">
-					<ComboBox.ItemTemplate>
-						<DataTemplate>
-							<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
-						</DataTemplate>
-					</ComboBox.ItemTemplate>
-				</ComboBox>
-				
-				<Label Grid.Row="7" Grid.Column="0" Content="Минимальный уровень на постановку" HorizontalAlignment="Right" />
-				<extToolkit:IntegerUpDown Grid.Row="7" Grid.Column="1" Value="{Binding SetGuardLevel}" Minimum="0" Maximum="255" Margin="2" />
-
-				<Label Grid.Row="8" Grid.Column="0" Content="Минимальный уровень на снятие" HorizontalAlignment="Right" />
-				<extToolkit:IntegerUpDown Grid.Row="8" Grid.Column="1" Value="{Binding ResetGuardLevel}" Minimum="0" Maximum="255" Margin="2" />
-
-				<CheckBox Grid.Row="9" Grid.Column="1" IsChecked="{Binding IsExtraProtected}" Content="Особо охраняемая" Foreground="{DynamicResource ForegroundColorLight}" Margin="2" />
-				<StackPanel Grid.Row="10" Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">
+				<CheckBox Grid.Row="6" Grid.Column="1" IsChecked="{Binding IsExtraProtected}" Content="Особо охраняемая" Foreground="{DynamicResource ForegroundColorLight}" Margin="2" />
+				<StackPanel Grid.Row="7" Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">
 					<ToolBarButton Width="36" Height="36" Margin="0 0 0 -8" Command="{Binding ReadPropertiesCommand}" ImageSource="Read" ToolTip="Считать параметры зоны" />
 					<ToolBarButton Width="36" Height="36" Margin="0 0 0 -8" Command="{Binding WritePropertiesCommand}" ImageSource="Write" ToolTip="Записать параметры зоны" />
 					<ToolBarButton Width="36" Height="36" Command="{Binding ResetPropertiesCommand}" ImageSource="Defconfig" ToolTip="Параметры по умолчанию" />

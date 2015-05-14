@@ -33,7 +33,7 @@ namespace GKProcessor
 				Zones.Add(zone);
 			}
 
-			foreach (var guardZone in GKManager.GuardZones.FindAll(x => x.KauDatabaseParent == RootDevice && x.GuardZoneEnterMethod == GKGuardZoneEnterMethod.GlobalOnly))
+			foreach (var guardZone in GKManager.GuardZones.FindAll(x => x.KauDatabaseParent == RootDevice && x.IsGlobalOnlyZone()))
 			{
 				guardZone.KauDatabaseParent = RootDevice;
 				GuardZones.Add(guardZone);
