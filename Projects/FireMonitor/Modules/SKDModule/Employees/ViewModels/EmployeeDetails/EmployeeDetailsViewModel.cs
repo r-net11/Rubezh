@@ -146,7 +146,6 @@ namespace SKDModule.ViewModels
 				var result = new ShortEmployee
 				{
 					UID = Employee.UID,
-					Cards = Employee.Cards,
 					FirstName = FirstName,
 					SecondName = SecondName,
 					LastName = LastName,

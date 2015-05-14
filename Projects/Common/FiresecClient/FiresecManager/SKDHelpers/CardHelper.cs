@@ -13,6 +13,12 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(result);
 		}
 
+		public static IEnumerable<SKDCard> GetByEmployee(Guid uid)
+		{
+			var result = FiresecManager.FiresecService.GetEmployeeCards(uid);
+			return Common.ShowErrorIfExists(result);
+		}
+
 		public static SKDCard GetSingle(Guid uid)
 		{
 			var result = FiresecManager.FiresecService.GetCards(new CardFilter { UIDs = new List<Guid> { uid }, LogicalDeletationType = LogicalDeletationType.All });

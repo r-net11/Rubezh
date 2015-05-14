@@ -90,6 +90,7 @@ namespace SecurityModule.ViewModels
 							new PermissionViewModel(PermissionType.Oper_ChangeView),
 							new PermissionViewModel(PermissionType.Oper_MayNotConfirmCommands),
 							new PermissionViewModel(PermissionType.Oper_ExtraGuardZone),
+							new PermissionViewModel(PermissionType.Oper_GKSchedules),
 							new PermissionViewModel("Журнал и архив событий", new List<PermissionViewModel>()
 								{
 									new PermissionViewModel(PermissionType.Oper_Journal_View),

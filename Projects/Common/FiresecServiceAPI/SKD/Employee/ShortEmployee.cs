@@ -35,9 +35,6 @@ namespace FiresecAPI.SKD
 		public bool IsPositionDeleted { get; set; }
 
 		[DataMember]
-		public List<SKDCard> Cards { get; set; }
-
-		[DataMember]
 		public PersonType Type { get; set; }
 
 		[DataMember]

@@ -63,7 +63,8 @@ namespace SKDDriver
 			try
 			{
 				var result = new List<ApiT>();
-				foreach (var tableItem in GetTableItems(filter))
+				var tableItems = GetTableItems(filter).ToList();
+				foreach (var tableItem in tableItems)
 					result.Add(Translate(tableItem));
 				var operationResult = new OperationResult<IEnumerable<ApiT>>();
 				operationResult.Result = result;

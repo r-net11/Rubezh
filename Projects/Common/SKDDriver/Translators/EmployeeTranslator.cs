@@ -17,6 +17,89 @@ namespace SKDDriver
 			Synchroniser = new EmployeeSynchroniser(Table, databaseService);
 		}
 
+		public override OperationResult<IEnumerable<ShortEmployee>> GetList(EmployeeFilter filter)
+		{
+			try
+			{
+				var result = new List<ShortEmployee>();
+				Context.CommandTimeout = 600;
+				var tableItems =
+					from employee in Context.Employees.Where(IsInFilter(filter))
+					join department in Context.Departments on employee.DepartmentUID equals department.UID into departments
+					from department in departments.DefaultIfEmpty()
+					join position in Context.Positions on employee.PositionUID equals position.UID into positions
+					from position in positions.DefaultIfEmpty()
+					join schedule in Context.Schedules on employee.ScheduleUID equals schedule.UID into schedules
+					from schedule in schedules.DefaultIfEmpty()
+					join organisation in Context.Organisations on employee.OrganisationUID equals organisation.UID into organisations
+					from organisation in organisations.DefaultIfEmpty()
+					join additionalColumn in Context.AdditionalColumns.Where(x => x.AdditionalColumnType.DataType == (int?)AdditionalColumnDataType.Text).DefaultIfEmpty()
+						on employee.UID equals additionalColumn.EmployeeUID into additionalColumns
+					select new 
+						{ 
+							Employee = employee,
+							Department = department,
+							Position = position,
+							Organisation = organisation,
+							Schedule = schedule, 
+							Cards = new List<CardWithDoors>(), 
+							AdditionalColumns = additionalColumns, 
+						};
+
+				foreach (var tableItem in tableItems)
+					result.Add(TranslateToShort(tableItem.Employee, tableItem.Department, tableItem.Position, tableItem.Organisation, tableItem.Schedule, tableItem.AdditionalColumns));
+				var operationResult = new OperationResult<IEnumerable<ShortEmployee>>();
+				operationResult.Result = result;
+				return operationResult;
+			}
+			catch (Exception e)
+			{
+				return new OperationResult<IEnumerable<ShortEmployee>>(e.Message);
+			}
+		}
+
+		public class CardWithDoors { public DataAccess.Card Card; public IEnumerable<DataAccess.CardDoor> CardDoors; }
+
+		protected ShortEmployee TranslateToShort(
+			DataAccess.Employee employee, 
+			DataAccess.Department department, 
+			DataAccess.Position position,
+			DataAccess.Organisation organisation,
+			DataAccess.Schedule schedule,
+			IEnumerable<DataAccess.AdditionalColumn> additionalColumns)
+		{
+			var result = base.TranslateToShort(employee);
+			result.FirstName = employee.FirstName;
+			result.SecondName = employee.SecondName;
+			result.LastName = employee.LastName;
+			result.Description = employee.Description;
+			var cards = new List<SKDCard>();
+			result.Type = (PersonType)employee.Type;
+			result.CredentialsStartDate = employee.CredentialsStartDate.ToString("d MMM yyyy");
+			result.TabelNo = employee.TabelNo;
+			var textColumns = new List<TextColumn>();
+			foreach (var additionalColumn in additionalColumns)
+			{
+				textColumns.Add(new TextColumn { ColumnTypeUID = additionalColumn.AdditionalColumnTypeUID != null ? additionalColumn.AdditionalColumnTypeUID.Value : Guid.Empty, Text = additionalColumn.TextData });
+			}
+			result.Phone = employee.Phone;
+			result.LastEmployeeDayUpdate = employee.LastEmployeeDayUpdate;
+			if (position != null)
+			{
+				result.PositionName = position.Name;
+				result.IsPositionDeleted = position.IsDeleted;
+			}
+			if (department != null)
+			{
+				result.DepartmentName = department.Name;
+				result.IsDepartmentDeleted = department.IsDeleted;
+			}
+			if (organisation != null)
+				result.OrganisationName = organisation.Name;
+			result.ScheduleUID = schedule != null ? schedule.UID : Guid.Empty;
+			return result;
+		}
+
 		protected override OperationResult CanSave(Employee employee)
 		{
 			var result = base.CanSave(employee);
@@ -67,40 +150,39 @@ namespace SKDDriver
 			return result;
 		}
 
-		protected override ShortEmployee TranslateToShort(DataAccess.Employee tableItem)
-		{
-			var result = base.TranslateToShort(tableItem);
-			result.FirstName = tableItem.FirstName;
-			result.SecondName = tableItem.SecondName;
-			result.LastName = tableItem.LastName;
-			result.Description = tableItem.Description;
-			result.Cards = new List<SKDCard>();
-			result.Cards = DatabaseService.CardTranslator.GetAllByEmployee<DataAccess.Card>(tableItem.UID, _cards);
-			result.Type = (PersonType)tableItem.Type;
-			result.CredentialsStartDate = tableItem.CredentialsStartDate.ToString("d MMM yyyy");
-			result.TabelNo = tableItem.TabelNo;
-			result.TextColumns = DatabaseService.AdditionalColumnTranslator.GetTextColumns(tableItem.UID, _additionalColumnTypeUIDs, _additionalColumns);
-			result.Phone = tableItem.Phone;
-			result.LastEmployeeDayUpdate = tableItem.LastEmployeeDayUpdate;
-			var position = _positions != null ? _positions.FirstOrDefault(x => x.UID == tableItem.PositionUID) : Context.Positions.FirstOrDefault(x => x.UID == tableItem.PositionUID);
-			if (position != null)
-			{
-				result.PositionName = position.Name;
-				result.IsPositionDeleted = position.IsDeleted;
-			}
-			var department = _departments != null ? _departments.FirstOrDefault(x => x.UID == tableItem.DepartmentUID) : Context.Departments.FirstOrDefault(x => x.UID == tableItem.DepartmentUID);
-			if (department != null)
-			{
-				result.DepartmentName = department.Name;
-				result.IsDepartmentDeleted = department.IsDeleted;
-			}
-			var organisation = _organisations != null ? _organisations.FirstOrDefault(x => x.UID == tableItem.OrganisationUID) : Context.Organisations.FirstOrDefault(x => x.UID == tableItem.OrganisationUID);
-			if (organisation != null)
-				result.OrganisationName = organisation.Name;
-			var schedule = _schedules != null ? _schedules.FirstOrDefault(x => x.UID == tableItem.ScheduleUID) : Context.Schedules.FirstOrDefault(x => x.UID == tableItem.ScheduleUID);
-			result.ScheduleUID = schedule != null ? schedule.UID : Guid.Empty;
-			return result;
-		}
+		//protected override ShortEmployee TranslateToShort(DataAccess.Employee tableItem)
+		//{
+		//    var result = base.TranslateToShort(tableItem);
+		//    result.FirstName = tableItem.FirstName;
+		//    result.SecondName = tableItem.SecondName;
+		//    result.LastName = tableItem.LastName;
+		//    result.Description = tableItem.Description;
+		//    result.Cards = DatabaseService.CardTranslator.GetAllByEmployee<DataAccess.Card>(tableItem.UID, _cards);
+		//    result.Type = (PersonType)tableItem.Type;
+		//    result.CredentialsStartDate = tableItem.CredentialsStartDate.ToString("d MMM yyyy");
+		//    result.TabelNo = tableItem.TabelNo;
+		//    result.TextColumns = DatabaseService.AdditionalColumnTranslator.GetTextColumns(tableItem.UID, _additionalColumnTypeUIDs, _additionalColumns);
+		//    result.Phone = tableItem.Phone;
+		//    result.LastEmployeeDayUpdate = tableItem.LastEmployeeDayUpdate;
+		//    var position = _positions != null ? _positions.FirstOrDefault(x => x.UID == tableItem.PositionUID) : Context.Positions.FirstOrDefault(x => x.UID == tableItem.PositionUID);
+		//    if (position != null)
+		//    {
+		//        result.PositionName = position.Name;
+		//        result.IsPositionDeleted = position.IsDeleted;
+		//    }
+		//    var department = _departments != null ? _departments.FirstOrDefault(x => x.UID == tableItem.DepartmentUID) : Context.Departments.FirstOrDefault(x => x.UID == tableItem.DepartmentUID);
+		//    if (department != null)
+		//    {
+		//        result.DepartmentName = department.Name;
+		//        result.IsDepartmentDeleted = department.IsDeleted;
+		//    }
+		//    var organisation = _organisations != null ? _organisations.FirstOrDefault(x => x.UID == tableItem.OrganisationUID) : Context.Organisations.FirstOrDefault(x => x.UID == tableItem.OrganisationUID);
+		//    if (organisation != null)
+		//        result.OrganisationName = organisation.Name;
+		//    var schedule = _schedules != null ? _schedules.FirstOrDefault(x => x.UID == tableItem.ScheduleUID) : Context.Schedules.FirstOrDefault(x => x.UID == tableItem.ScheduleUID);
+		//    result.ScheduleUID = schedule != null ? schedule.UID : Guid.Empty;
+		//    return result;
+		//}
 
 		List<DataAccess.Department> _departments;
 		List<DataAccess.Position> _positions;
