@@ -242,7 +242,8 @@ namespace ReportsModule.ViewModels
 
 		public void OnUserChanged(UserChangedEventArgs args)
 		{
-			Model.Clear();
+			if (Model != null) 
+				Model.Clear();
 			IsPeriodReport = false;
 			FilterName = null;
 		}
