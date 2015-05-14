@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common.Windows;
 using SKDModule.Events;
-using System.Diagnostics;
 
 namespace SKDModule.ViewModels
 {
@@ -125,7 +125,10 @@ namespace SKDModule.ViewModels
 		{
 			OnPropertyChanged(() => IsEmployeeSelected);
 			if (SelectedItem != null)
+			{
 				SelectedItem.UpdatePhoto();
+				SelectedItem.InitializeCards();
+			}
 		}
 
 		public ObservableCollection<string> AdditionalColumnNames { get; private set; }

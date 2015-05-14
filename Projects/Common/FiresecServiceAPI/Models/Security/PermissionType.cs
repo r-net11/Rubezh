@@ -58,6 +58,9 @@ namespace FiresecAPI.Models
 		[DescriptionAttribute("Управление особо охраняемыми охранными зонами")]
 		Oper_ExtraGuardZone,
 
+		[DescriptionAttribute("Управление графиками СКД")]
+		Oper_GKSchedules,
+
 		[DescriptionAttribute("Просмотр журнала")]
 		Oper_Journal_View,
 

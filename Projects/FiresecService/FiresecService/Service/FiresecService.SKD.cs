@@ -250,6 +250,13 @@ namespace FiresecService.Service
 				return databaseService.CardTranslator.Get(filter);
 			}
 		}
+		public OperationResult<IEnumerable<SKDCard>> GetEmployeeCards(Guid employeeUID)
+		{
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.CardTranslator.GetEmployeeCards(employeeUID);
+			}
+		}
 		public OperationResult<bool> AddCard(SKDCard card, string employeeName)
 		{
 			AddJournalMessage(JournalEventNameType.Добавление_карты, employeeName, uid: card.EmployeeUID);

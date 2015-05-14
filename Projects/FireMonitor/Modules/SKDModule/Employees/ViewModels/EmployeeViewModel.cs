@@ -96,16 +96,19 @@ namespace SKDModule.ViewModels
 			base.InitializeModel(organisation, model, parentViewModel);
 			AddCardCommand = new RelayCommand(OnAddCard, CanAddCard);
 			SelectEmployeeCommand = new RelayCommand(OnSelectEmployee);
-			InitializeCards();
+			Update();
 		}
 
-		private void InitializeCards()
+		public void  InitializeCards()
 		{
 			Cards = new ObservableCollection<EmployeeCardViewModel>();
-			foreach (var item in Model.Cards)
-				Cards.Add(new EmployeeCardViewModel(Organisation, this, item));
-			SelectedCard = Cards.FirstOrDefault();
-			Update();
+			if (!IsOrganisation)
+			{
+				var cards = CardHelper.GetByEmployee(Model.UID);
+				foreach (var item in cards)
+					Cards.Add(new EmployeeCardViewModel(Organisation, this, item));
+				SelectedCard = Cards.FirstOrDefault();
+			}
 		}
 		
 		public PhotoColumnViewModel Photo { get; private set; }

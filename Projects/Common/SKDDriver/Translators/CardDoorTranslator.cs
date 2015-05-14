@@ -16,6 +16,11 @@ namespace SKDDriver
 
 		}
 
+		public CardDoor TranslateCardDoor(DataAccess.CardDoor tableItem)
+		{
+			return Translate(tableItem);
+		}
+		
 		protected override CardDoor Translate(DataAccess.CardDoor tableItem)
 		{
 			var result = base.Translate(tableItem);

@@ -87,6 +87,9 @@ namespace FiresecAPI
 		OperationResult<IEnumerable<SKDCard>> GetCards(CardFilter filter);
 
 		[OperationContract]
+		OperationResult<IEnumerable<SKDCard>> GetEmployeeCards(Guid employeeUID);
+
+		[OperationContract]
 		OperationResult<bool> AddCard(SKDCard item, string employeeName);
 
 		[OperationContract]
