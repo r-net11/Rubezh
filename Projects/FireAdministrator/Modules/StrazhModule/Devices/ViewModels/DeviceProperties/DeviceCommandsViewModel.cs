@@ -24,7 +24,7 @@ namespace StrazhModule.ViewModels
 		{
 			DevicesViewModel = devicesViewModel;
 			ShowControllerConfigurationCommand = new RelayCommand(OnShowControllerConfiguration, CanShowController);
-			ShowControllerDoorTypeCommand = new RelayCommand(OnShowControllerDoorType);
+			ShowControllerDoorTypeCommand = new RelayCommand(OnShowControllerDoorType, CanShowControllerDoorType);
 			ShowControllerPasswordCommand = new RelayCommand(OnShowControllerPassword, CanShowController);
 			ShowControllerNetworkCommand = new RelayCommand(OnShowControllerNetwork, CanShowController);
 			ShowControllerTimeSettingsCommand = new RelayCommand(OnShowControllerTimeSettings, CanShowController);
@@ -86,6 +86,11 @@ namespace StrazhModule.ViewModels
 					deviceViewModel.Update();
 				}
 			}
+		}
+
+		bool CanShowControllerDoorType()
+		{
+			return SelectedDevice != null && SelectedDevice.Driver.IsController;
 		}
 
 		public RelayCommand ShowControllerPasswordCommand { get; private set; }
