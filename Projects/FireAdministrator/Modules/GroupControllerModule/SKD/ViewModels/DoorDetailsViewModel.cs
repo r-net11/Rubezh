@@ -11,7 +11,7 @@ namespace GKModule.ViewModels
 {
 	public class DoorDetailsViewModel : SaveCancelDialogViewModel
 	{
-		public GKDoor Door;
+		public GKDoor Door { get; private set; }
 
 		public DoorDetailsViewModel(GKDoor door = null)
 		{

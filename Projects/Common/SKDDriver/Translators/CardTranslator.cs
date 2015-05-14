@@ -319,6 +319,13 @@ namespace SKDDriver
 			Context.SubmitChanges();
 		}
 
+		public void DeleteAllPendingCards(Guid controllerUID)
+		{
+			var pendingCardsToRemove = Context.PendingCards.Where(x => x.ControllerUID == controllerUID);
+			Context.PendingCards.DeleteAllOnSubmit(pendingCardsToRemove);
+			Context.SubmitChanges();
+		}
+
 		void InsertPendingCard(Guid cardUID, Guid controllerUID, PendingCardAction action)
 		{
 			var pendingCard = new DataAccess.PendingCard

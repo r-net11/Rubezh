@@ -302,7 +302,7 @@ namespace FiresecService.Service
 				var controllerCardSchedules = gkSKDHelper.GetGKControllerCardSchedules(card, accessTemplate);
 				foreach (var controllerCardSchedule in controllerCardSchedules)
 				{
-					var addGKResult = gkSKDHelper.AddOreditCard(controllerCardSchedule, card, employeeOperationResult.Result.FIO);
+					var addGKResult = gkSKDHelper.AddOrEditCard(controllerCardSchedule, card, employeeOperationResult.Result.FIO);
 					if (addGKResult.HasError)
 					{
 						errors.Add("Не удалось добавить карту в устройство " + controllerCardSchedule.ControllerDevice.PresentationName);
@@ -397,7 +397,7 @@ namespace FiresecService.Service
 
 				foreach (var controllerCardSchedule in controllerCardSchedules_ToEdit)
 				{
-					var addGKResult = gkSKDHelper.AddOreditCard(controllerCardSchedule, card, employeeOperationResult.Result.FIO);
+					var addGKResult = gkSKDHelper.AddOrEditCard(controllerCardSchedule, card, employeeOperationResult.Result.FIO);
 					if (addGKResult.HasError)
 					{
 						errors.Add("Не удалось редактировать карту в устройстве " + controllerCardSchedule.ControllerDevice.PresentationName);

@@ -25,10 +25,21 @@ namespace GKModule.Validation
 
 		void ValidateLockControlDevice(GKDoor door)
 		{
-			if (door.AntipassbackOn && door.LockControlDevice == null)
-				Errors.Add(new DoorValidationError(door, "При включенном Antipassback, отсутствует датчик контроля двери", ValidationErrorLevel.CannotWrite));
-			if (door.DoorType == GKDoorType.AirlockBooth && door.AntipassbackOn && door.LockControlDeviceExit == null)
-				Errors.Add(new DoorValidationError(door, "При включенном Antipassback, отсутствует датчик контроля двери на выход", ValidationErrorLevel.CannotWrite));
+			if (door.AntipassbackOn && door.DoorType != GKDoorType.Barrier)
+			{
+				if (door.LockControlDevice == null)
+				{
+					if (door.DoorType == GKDoorType.Turnstile)
+						Errors.Add(new DoorValidationError(door, "При включенном Antipassback, отсутствует датчик проворота", ValidationErrorLevel.CannotWrite));
+					else
+						Errors.Add(new DoorValidationError(door, "При включенном Antipassback, отсутствует датчик контроля двери", ValidationErrorLevel.CannotWrite));
+				}
+				if (door.LockControlDeviceExit == null)
+				{
+					if (door.DoorType == GKDoorType.AirlockBooth)
+						Errors.Add(new DoorValidationError(door, "При включенном Antipassback, отсутствует датчик контроля двери на выход", ValidationErrorLevel.CannotWrite));
+				}
+			}
 		}
 
 		void ValidateDoorNoEquality()
@@ -89,7 +100,28 @@ namespace GKModule.Validation
 			}
 			if (door.LockDevice == null)
 			{
+				if (door.DoorType == GKDoorType.AirlockBooth || door.DoorType == GKDoorType.Turnstile)
+					Errors.Add(new DoorValidationError(door, "К точке доступа не подключено реле на вход", ValidationErrorLevel.CannotWrite));
+				if (door.DoorType == GKDoorType.Barrier)
+					Errors.Add(new DoorValidationError(door, "К точке доступа не подключено реле на открытие", ValidationErrorLevel.CannotWrite));
 				Errors.Add(new DoorValidationError(door, "К точке доступа не подключен замок", ValidationErrorLevel.CannotWrite));
+			}
+			if (door.LockDeviceExit == null)
+			{
+				if (door.DoorType == GKDoorType.AirlockBooth || door.DoorType == GKDoorType.Turnstile)
+					Errors.Add(new DoorValidationError(door, "К точке доступа не подключено реле на выход", ValidationErrorLevel.CannotWrite));
+				if (door.DoorType == GKDoorType.Barrier)
+					Errors.Add(new DoorValidationError(door, "К точке доступа не подключено реле на закрытие", ValidationErrorLevel.CannotWrite));
+			}
+			if (door.EnterButton == null)
+			{
+				if (door.DoorType == GKDoorType.AirlockBooth)
+					Errors.Add(new DoorValidationError(door, "К точке доступа не подключена кнопка на вход", ValidationErrorLevel.CannotWrite));
+			}
+			if (door.ExitButton == null)
+			{
+				if (door.DoorType == GKDoorType.AirlockBooth)
+					Errors.Add(new DoorValidationError(door, "К точке доступа не подключена кнопка на выход", ValidationErrorLevel.CannotWrite));
 			}
 		}
 

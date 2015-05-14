@@ -1464,3 +1464,105 @@ ALTER TABLE [dbo].ScheduleGKDaySchedule NOCHECK CONSTRAINT [FK_ScheduleGKSchedul
 
 	INSERT INTO Patches (Id) VALUES ('GKSchedule')
 END
+
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'GKSchedule2')
+BEGIN
+	
+	DROP TABLE GKScheduleDay
+	DROP TABLE ScheduleGKDaySchedule
+	DROP TABLE GKDaySchedulePart
+	DROP TABLE GKDaySchedule
+	DROP TABLE GKSchedule
+
+	CREATE TABLE GKSchedule(
+		[UID] uniqueidentifier NOT NULL,
+		[No] int NOT NULL,
+		[Name] [nvarchar](50) NULL,
+		[Description] [nvarchar](50) NULL,
+		[Type] int NOT NULL,
+		[PeriodType] int NOT NULL,
+		[StartDateTime] datetime NOT NULL,
+		[HoursPeriod] int NOT NULL, 
+		[HolidayScheduleNo] int NOT NULL,
+		[WorkingHolidayScheduleNo] int NOT NULL,
+		[Year] int NOT NULL	
+	CONSTRAINT [PK_GKSchedule] PRIMARY KEY CLUSTERED 
+	(
+		[UID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+
+	CREATE TABLE GKScheduleDay(
+		[UID] uniqueidentifier NOT NULL,
+		[ScheduleUID] uniqueidentifier NOT NULL,
+		[DateTime] datetime NOT NULL
+	CONSTRAINT [PK_GKScheduleDay] PRIMARY KEY CLUSTERED 
+	(
+		[UID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+
+	CREATE TABLE GKDaySchedule(
+		[UID] uniqueidentifier NOT NULL,
+		[No] int NOT NULL,
+		[Name] [nvarchar](50) NULL,
+		[Description] [nvarchar](50) NULL,
+	CONSTRAINT [PK_GKDaySchedule] PRIMARY KEY CLUSTERED 
+	(
+		[UID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+
+	CREATE TABLE ScheduleGKDaySchedule(
+		[UID] uniqueidentifier NOT NULL,
+		[ScheduleUID] uniqueidentifier NOT NULL,
+		[DayScheduleUID]  uniqueidentifier NOT NULL,
+	CONSTRAINT [PK_ScheduleGKDaySchedule] PRIMARY KEY CLUSTERED 
+	(
+		[UID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+
+	CREATE TABLE GKDaySchedulePart(
+		[UID] uniqueidentifier NOT NULL,
+		[No] int NOT NULL,
+		[Name] [nvarchar](50) NULL,
+		[Description] [nvarchar](50) NULL,
+		StartMilliseconds float NOT NULL,
+		EndMilliseconds float NOT NULL,
+		[DayScheduleUID] uniqueidentifier NOT NULL,
+	CONSTRAINT [PK_GKDaySchedulePart] PRIMARY KEY CLUSTERED 
+	(
+		[UID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+
+	CREATE INDEX GKDaySchedulePartIndex ON [dbo].GKDaySchedulePart([UID])
+	CREATE INDEX GKDayScheduleIndex ON [dbo].GKDaySchedule([UID])
+	CREATE INDEX GKScheduleIndex ON [dbo].GKSchedule([UID])
+	CREATE INDEX GKScheduleDayIndex ON [dbo].GKScheduleDay([UID])
+	CREATE INDEX ScheduleGKDayScheduleIndex ON [dbo].ScheduleGKDaySchedule([UID])
+	
+	ALTER TABLE [dbo].GKDaySchedulePart WITH NOCHECK ADD CONSTRAINT [FK_GKDaySchedulePart_GKDaySchedule] FOREIGN KEY(DayScheduleUID)
+	REFERENCES [dbo].[GKDaySchedule] ([Uid]) 
+	NOT FOR REPLICATION
+	ALTER TABLE [dbo].GKDaySchedulePart NOCHECK CONSTRAINT [FK_GKDaySchedulePart_GKDaySchedule]
+
+	ALTER TABLE [dbo].GKScheduleDay WITH NOCHECK ADD CONSTRAINT [FK_GKScheduleDay_GKSchedule] FOREIGN KEY(ScheduleUID)
+	REFERENCES [dbo].[GKSchedule] ([Uid]) 
+	NOT FOR REPLICATION
+	ALTER TABLE [dbo].GKScheduleDay NOCHECK CONSTRAINT [FK_GKScheduleDay_GKSchedule]
+
+	ALTER TABLE [dbo].ScheduleGKDaySchedule WITH NOCHECK ADD CONSTRAINT [FK_ScheduleGKSchedule_GKSchedule] FOREIGN KEY(ScheduleUID)
+	REFERENCES [dbo].[GKSchedule] ([Uid]) 
+	NOT FOR REPLICATION
+	ALTER TABLE [dbo].ScheduleGKDaySchedule NOCHECK CONSTRAINT [FK_ScheduleGKSchedule_GKSchedule]
+
+	ALTER TABLE [dbo].ScheduleGKDaySchedule WITH NOCHECK ADD CONSTRAINT [FK_ScheduleGKSchedule_GKDaySchedule] FOREIGN KEY(DayScheduleUID)
+	REFERENCES [dbo].[GKDaySchedule] ([Uid]) 
+	NOT FOR REPLICATION
+	ALTER TABLE [dbo].ScheduleGKDaySchedule NOCHECK CONSTRAINT [FK_ScheduleGKSchedule_GKDaySchedule]
+
+	INSERT INTO Patches (Id) VALUES ('GKSchedule2')
+END
