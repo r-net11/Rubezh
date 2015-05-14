@@ -137,6 +137,14 @@ namespace FiresecService
 								var employeeOperationResult = databaseService.EmployeeTranslator.GetSingle(card.HolderUID);
 								var employeeName = employeeOperationResult.Result != null ? employeeOperationResult.Result.FIO : "";
 
+								if ((PendingCardAction)pendingCard.Action == PendingCardAction.Delete)
+								{
+									var result = gkSKDHelper.RemoveCard(deviceState.Device, card);
+									if (!result.HasError)
+									{
+										databaseService.CardTranslator.DeleteAllPendingCards(pendingCard.CardUID, deviceState.Device.UID);
+									}
+								}
 								var controllerCardSchedules = gkSKDHelper.GetGKControllerCardSchedules(card, getAccessTemplateOperationResult.Result);
 								foreach (var controllerCardSchedule in controllerCardSchedules)
 								{
@@ -153,10 +161,6 @@ namespace FiresecService
 											{
 												result = gkSKDHelper.RemoveCard(deviceState.Device, card);
 											}
-											break;
-
-										case PendingCardAction.Delete:
-											result = gkSKDHelper.RemoveCard(deviceState.Device, card);
 											break;
 									}
 									if (!result.HasError)

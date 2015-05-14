@@ -22,131 +22,28 @@ namespace GKModule.ViewModels
 		public DiagnosticsViewModel()
 		{
 			TestCommand = new RelayCommand(OnTest);
-			GoToTechnologicalCommand = new RelayCommand(OnGoToTechnological);
-			GoToWorkRegimeCommand = new RelayCommand(OnGoToWorkRegime);
-			WriteConfigFileToGKCommand = new RelayCommand(OnWriteConfigFileToGK);
-			ReadConfigFileFromGKCommand = new RelayCommand(OnReadConfigFileFromGK);
-			CompareHashesCommand = new RelayCommand(OnCompareHashes, CanCompareHashes);
 		}
 
-		public DescriptorsViewModel DatabasesViewModel { get; private set; }
-
-		public RelayCommand CompareHashesCommand { get; private set; }
-		void OnCompareHashes()
-		{
-			var localHash1 = GKFileInfo.CreateHash1(GKManager.DeviceConfiguration, DevicesViewModel.Current.SelectedDevice.Device);
-			var gkFileReaderWriter = new GKFileReaderWriter();
-			var infoBlock = gkFileReaderWriter.ReadInfoBlock(DevicesViewModel.Current.SelectedDevice.Device);
-			if (gkFileReaderWriter.Error != null)
-				{ MessageBoxService.ShowError(gkFileReaderWriter.Error); return; }
-			var remoteHash1 = infoBlock.Hash1;
-
-			var message = new StringBuilder();
-			message.Append(localHash1.SequenceEqual(remoteHash1) ? "Хеш1 совпадает\n" : "Хеш1 НЕ совпадает\n");
-			MessageBoxService.ShowWarning(message.ToString(), "Сравнение хешей");
-		}
-
-		bool CanCompareHashes()
-		{
-			try
-			{
-				return 
-					DevicesViewModel.Current.SelectedDevice != null &&
-					DevicesViewModel.Current.SelectedDevice.Device.DriverType == GKDriverType.GK;
-			}
-			catch
-			{
-				return false;
-			}
-		}
 		public RelayCommand TestCommand { get; private set; }
 		void OnTest()
 		{
-			var gkDevice = GKManager.Devices.FirstOrDefault(x => x.DriverType == GKDriverType.GK);
-			if (gkDevice != null)
+			var shleifDevices = GKManager.Devices.Where(x => x.DriverType == GKDriverType.RSR2_KAU_Shleif);
+			foreach (var shleifDevice in shleifDevices)
 			{
-				var driver = GKManager.Drivers.FirstOrDefault(x=>x.DriverType == GKDriverType.GKIndicator);
-				var device = new GKDevice();
-				device.Driver = driver;
-				device.DriverUID = driver.UID;
-				for(int i = 0; i < 6; i++)
+				shleifDevice.Children = new List<GKDevice>();
+				for (int i = 1; i < 250; i++)
 				{
-					gkDevice.Children.Add(device);
+					var driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_SmokeDetector);
+					var device = new GKDevice();
+					device.DriverUID = driver.UID;
+					device.IntAddress = (byte)i;
+					shleifDevice.Children.Add(device);
 				}
 			}
-		}
 
-		public RelayCommand GoToTechnologicalCommand { get; private set; }
-		void OnGoToTechnological()
-		{
-			var device = GKManager.Devices.FirstOrDefault(x => x.DriverType == GKDriverType.GK);
-			var sendResult = SendManager.Send(device, 0, 14, 0, null, device.DriverType == GKDriverType.GK);
-		}
-
-		public RelayCommand GoToWorkRegimeCommand { get; private set; }
-		void OnGoToWorkRegime()
-		{
-			var device = GKManager.Devices.FirstOrDefault(x => x.DriverType == GKDriverType.GK);
-			SendManager.Send(device, 0, 11, 0, null, device.DriverType == GKDriverType.GK);
-		}
-
-		public RelayCommand WriteConfigFileToGKCommand { get; private set; }
-		void OnWriteConfigFileToGK()
-		{
-			var gkControllerDevice = GKManager.Devices.FirstOrDefault(y => y.DriverType == GKDriverType.GK);
-			DeviceBytesHelper.GoToTechnologicalRegime(gkControllerDevice, new GKProgressCallback());
-			var folderName = AppDataFolderHelper.GetLocalFolder("Administrator/Configuration");
-			var configFileName = Path.Combine(folderName, "Config.fscp");
-			if (!File.Exists(configFileName))
-				return;
-			var bytesList = File.ReadAllBytes(configFileName).ToList();
-			var tempBytes = new List<List<byte>>();
-			var sendResult = SendManager.Send(gkControllerDevice, 0, 21, 0);
-			for (int i = 0; i < bytesList.Count(); i += 256)
-			{
-				var bytesBlock = BitConverter.GetBytes((uint)(i / 256 + 1)).ToList();
-				bytesBlock.AddRange(bytesList.GetRange(i, Math.Min(256, bytesList.Count - i)));
-				tempBytes.Add(bytesBlock.GetRange(4, bytesBlock.Count - 4));
-				SendManager.Send(gkControllerDevice, (ushort)bytesBlock.Count(), 22, 0, bytesBlock);
-			}
-			var endBlock = BitConverter.GetBytes((uint)(bytesList.Count() / 256 + 1)).ToList();
-			SendManager.Send(gkControllerDevice, 0, 22, 0, endBlock);
-		}
-
-		public RelayCommand ReadConfigFileFromGKCommand { get; private set; }
-		void OnReadConfigFileFromGK()
-		{
-			var gkControllerDevice = GKManager.Devices.FirstOrDefault(y => y.DriverType == GKDriverType.GK);
-			var bytesList = new List<List<byte>>();
-			var allbytes = new List<byte>();
-			uint i = 1;
-			while (true)
-			{
-				var data = new List<byte>(BitConverter.GetBytes(i++));
-				var sendResult = SendManager.Send(gkControllerDevice, 4, 23, 256, data);
-				bytesList.Add(sendResult.Bytes);
-				allbytes.AddRange(sendResult.Bytes);
-				if (sendResult.HasError || sendResult.Bytes.Count() < 256)
-					break;
-			}
-			//BytesHelper.BytesToFile("input.txt", bytesList);
-			ByteArrayToFile("gkConfig.fscp", allbytes.ToArray());
-		}
-
-		public bool ByteArrayToFile(string fileName, byte[] byteArray)
-		{
-			try
-			{
-				var fileStream = new FileStream(fileName, FileMode.Create, FileAccess.Write);
-				fileStream.Write(byteArray, 0, byteArray.Length);
-				fileStream.Close();
-				return true;
-			}
-			catch (Exception exception)
-			{
-				Console.WriteLine("Exception caught in process: {0}",exception);
-			}
-			return false;
+			GKManager.UpdateConfiguration();
+			ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
+			ServiceFactory.SaveService.GKChanged = true;
 		}
 	}
 }
