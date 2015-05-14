@@ -305,12 +305,11 @@ namespace FiresecService.Service
 			var employeeOperationResult = databaseService.EmployeeTranslator.GetSingle(card.HolderUID);
 			if (!employeeOperationResult.HasError)
 			{
-				var gkSKDHelper = new GKSKDHelper();
-				var controllerCardSchedules = gkSKDHelper.GetGKControllerCardSchedules(card, accessTemplate);
+				var controllerCardSchedules = GKSKDHelper.GetGKControllerCardSchedules(card, accessTemplate);
 				foreach (var controllerCardSchedule in controllerCardSchedules)
 				{
-					var addGKResult = gkSKDHelper.AddOrEditCard(controllerCardSchedule, card, employeeOperationResult.Result.FIO);
-					if (addGKResult.HasError)
+					var addResult = GKSKDHelper.AddOrEditCard(controllerCardSchedule, card, employeeOperationResult.Result.FIO);
+					if (addResult.HasError)
 					{
 						errors.Add("Не удалось добавить карту в устройство " + controllerCardSchedule.ControllerDevice.PresentationName);
 						var pendingGkResult = databaseService.CardTranslator.AddPendingList(card.UID, new List<Guid>() { controllerCardSchedule.ControllerDevice.UID });
@@ -381,10 +380,8 @@ namespace FiresecService.Service
 			var employeeOperationResult = databaseService.EmployeeTranslator.GetSingle(card.HolderUID);
 			if (!employeeOperationResult.HasError)
 			{
-				var gkSKDHelper = new GKSKDHelper();
-
-				var controllerCardSchedules_ToDelete = gkSKDHelper.GetGKControllerCardSchedules(oldCard, oldAccessTemplate);
-				var controllerCardSchedules_ToEdit = gkSKDHelper.GetGKControllerCardSchedules(card, accessTemplate);
+				var controllerCardSchedules_ToDelete = GKSKDHelper.GetGKControllerCardSchedules(oldCard, oldAccessTemplate);
+				var controllerCardSchedules_ToEdit = GKSKDHelper.GetGKControllerCardSchedules(card, accessTemplate);
 				foreach (var controllerCardSchedule_ToEdit in controllerCardSchedules_ToEdit)
 				{
 					controllerCardSchedules_ToDelete.RemoveAll(x => x.ControllerDevice.UID == controllerCardSchedule_ToEdit.ControllerDevice.UID);
@@ -392,25 +389,25 @@ namespace FiresecService.Service
 
 				foreach (var controllerCardSchedule in controllerCardSchedules_ToDelete)
 				{
-					var removeGKCardResult = gkSKDHelper.RemoveCard(controllerCardSchedule.ControllerDevice, card);
-					if (removeGKCardResult.HasError)
+					var removeResult = GKSKDHelper.RemoveCard(controllerCardSchedule.ControllerDevice, card);
+					if (removeResult.HasError)
 					{
 						errors.Add("Не удалось удалить карту из устройства " + controllerCardSchedule.ControllerDevice.PresentationName);
-						var pendingGkResult = databaseService.CardTranslator.DeletePendingList(card.UID, new List<Guid>() { controllerCardSchedule.ControllerDevice.UID });
-						if (pendingGkResult.HasError)
-							errors.Add(pendingGkResult.Error);
+						var pendingResult = databaseService.CardTranslator.DeletePendingList(card.UID, new List<Guid>() { controllerCardSchedule.ControllerDevice.UID });
+						if (pendingResult.HasError)
+							errors.Add(pendingResult.Error);
 					}
 				}
 
 				foreach (var controllerCardSchedule in controllerCardSchedules_ToEdit)
 				{
-					var addGKResult = gkSKDHelper.AddOrEditCard(controllerCardSchedule, card, employeeOperationResult.Result.FIO);
-					if (addGKResult.HasError)
+					var addResult = GKSKDHelper.AddOrEditCard(controllerCardSchedule, card, employeeOperationResult.Result.FIO);
+					if (addResult.HasError)
 					{
 						errors.Add("Не удалось редактировать карту в устройстве " + controllerCardSchedule.ControllerDevice.PresentationName);
-						var pendingGkResult = databaseService.CardTranslator.AddPendingList(card.UID, new List<Guid>() { controllerCardSchedule.ControllerDevice.UID });
-						if (pendingGkResult.HasError)
-							errors.Add(pendingGkResult.Error);
+						var pendingResult = databaseService.CardTranslator.AddPendingList(card.UID, new List<Guid>() { controllerCardSchedule.ControllerDevice.UID });
+						if (pendingResult.HasError)
+							errors.Add(pendingResult.Error);
 					}
 				}
 			}
@@ -499,17 +496,16 @@ namespace FiresecService.Service
 		{
 			var errors = new List<string>();
 
-			var gkSKDHelper = new GKSKDHelper();
-			var controllerCardSchedules = gkSKDHelper.GetGKControllerCardSchedules(card, accessTemplate);
+			var controllerCardSchedules = GKSKDHelper.GetGKControllerCardSchedules(card, accessTemplate);
 			foreach (var controllerCardSchedule in controllerCardSchedules)
 			{
-				var removeGKCardResult = gkSKDHelper.RemoveCard(controllerCardSchedule.ControllerDevice, card);
-				if (removeGKCardResult.HasError)
+				var removeResult = GKSKDHelper.RemoveCard(controllerCardSchedule.ControllerDevice, card);
+				if (removeResult.HasError)
 				{
 					errors.Add("Не удалось удалить карту из устройства " + controllerCardSchedule.ControllerDevice.PresentationName);
-					var pendingGkResult = databaseService.CardTranslator.DeletePendingList(card.UID, new List<Guid>() { controllerCardSchedule.ControllerDevice.UID });
-					if (pendingGkResult.HasError)
-						errors.Add(pendingGkResult.Error);
+					var pendingResult = databaseService.CardTranslator.DeletePendingList(card.UID, new List<Guid>() { controllerCardSchedule.ControllerDevice.UID });
+					if (pendingResult.HasError)
+						errors.Add(pendingResult.Error);
 				}
 			}
 

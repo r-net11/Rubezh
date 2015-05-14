@@ -9,9 +9,9 @@ using SKDDriver;
 
 namespace GKProcessor
 {
-	public class GKSKDHelper
+	public static class GKSKDHelper
 	{
-		public OperationResult<bool> AddOrEditCard(GKControllerCardSchedule controllerCardSchedule, SKDCard card, string employeeName, int gkCardNo = 0)
+		public static OperationResult<bool> AddOrEditCard(GKControllerCardSchedule controllerCardSchedule, SKDCard card, string employeeName, int gkCardNo = 0)
 		{
 			var isNew = true;
 			gkCardNo = 1;
@@ -96,7 +96,7 @@ namespace GKProcessor
 			return new OperationResult<bool>() { Result = true };
 		}
 
-		public OperationResult<bool> RemoveCard(GKDevice device, SKDCard card)
+		public static OperationResult<bool> RemoveCard(GKDevice device, SKDCard card)
 		{
 			var no = 1;
 			using (var skdDatabaseService = new SKDDatabaseService())
@@ -138,7 +138,7 @@ namespace GKProcessor
 			return new OperationResult<bool>() { Result = true };
 		}
 
-		public OperationResult<bool> EditCard(SKDCard oldCard, AccessTemplate oldAccessTemplate, SKDCard newCard, AccessTemplate newAccessTemplate)
+		public static OperationResult<bool> EditCard(SKDCard oldCard, AccessTemplate oldAccessTemplate, SKDCard newCard, AccessTemplate newAccessTemplate)
 		{
 			var controllerCardSchedules_ToDelete = GetGKControllerCardSchedules(oldCard, oldAccessTemplate);
 			var controllerCardSchedules_ToEdit = GetGKControllerCardSchedules(newCard, newAccessTemplate);
@@ -150,7 +150,7 @@ namespace GKProcessor
 			return new OperationResult<bool>() { Result = true };
 		}
 
-		public OperationResult<List<GKUser>> GetAllUsers(GKDevice device)
+		public static OperationResult<List<GKUser>> GetAllUsers(GKDevice device)
 		{
 			var progressCallback = GKProcessorManager.StartProgress("Чтение пользователей прибора " + device.PresentationName, "", 65535, true, GKProgressClientType.Administrator);
 			var users = new List<GKUser>();
@@ -189,7 +189,7 @@ namespace GKProcessor
 			return new OperationResult<List<GKUser>>() { Result = users };
 		}
 
-		public bool RemoveAllUsers(GKDevice device, GKProgressCallback progressCallback)
+		public static bool RemoveAllUsers(GKDevice device, GKProgressCallback progressCallback)
 		{
 			var result = true;
 			int cardsCount = 0;
@@ -247,7 +247,7 @@ namespace GKProcessor
 			return result;
 		}
 
-		public List<GKControllerCardSchedule> GetGKControllerCardSchedules(SKDCard card, AccessTemplate accessTemplate)
+		public static List<GKControllerCardSchedule> GetGKControllerCardSchedules(SKDCard card, AccessTemplate accessTemplate)
 		{
 			var cardSchedules = new List<GKCardSchedule>();
 

@@ -455,10 +455,9 @@ namespace FiresecService.Service
 			var gkControllerDevice = GKManager.Devices.FirstOrDefault(x => x.UID == gkDeviceUID);
 			if (gkControllerDevice != null)
 			{
-				var gkSKDHelper = new GKSKDHelper();
 				try
 				{
-					return gkSKDHelper.GetAllUsers(gkControllerDevice);
+					return GKSKDHelper.GetAllUsers(gkControllerDevice);
 				}
 				catch (Exception e)
 				{
@@ -482,8 +481,7 @@ namespace FiresecService.Service
 
 				try
 				{
-					var gkSKDHelper = new GKSKDHelper();
-					var removeResult = gkSKDHelper.RemoveAllUsers(device, progressCallback);
+					var removeResult = GKSKDHelper.RemoveAllUsers(device, progressCallback);
 					if (!removeResult)
 					{
 						GKProcessorManager.StopProgress(progressCallback);
@@ -502,8 +500,7 @@ namespace FiresecService.Service
 								var getAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(card.AccessTemplateUID);
 								var accessTemplate = getAccessTemplateOperationResult.Result != null ? getAccessTemplateOperationResult.Result : null;
 
-								gkSKDHelper = new GKSKDHelper();
-								var controllerCardSchedules = gkSKDHelper.GetGKControllerCardSchedules(card, accessTemplate);
+								var controllerCardSchedules = GKSKDHelper.GetGKControllerCardSchedules(card, accessTemplate);
 								var controllerCardSchedule = controllerCardSchedules.FirstOrDefault(x => x.ControllerDevice.UID == deviceUID);
 								if (controllerCardSchedule == null && card.GKCardType != GKCardType.Employee)
 								{
@@ -518,7 +515,7 @@ namespace FiresecService.Service
 									var employee = employeeOperationResult.Result != null ? employeeOperationResult.Result : null;
 									if (employee != null)
 									{
-										gkSKDHelper.AddOrEditCard(controllerCardSchedule, card, employee.FIO);
+										GKSKDHelper.AddOrEditCard(controllerCardSchedule, card, employee.FIO);
 									}
 								}
 								GKProcessorManager.DoProgress("Пользователь " + card.Number, progressCallback);
