@@ -112,29 +112,34 @@ namespace FiresecAPI.GK
 			return codeUids;
 		}
 
-		public bool IsGlobalOnlyZone()
+		public bool HasAccessLevel
 		{
-			var codeDevices = GuardZoneDevices.FindAll(x => x.Device.DriverType == GKDriverType.RSR2_CodeReader || x.Device.DriverType == GKDriverType.RSR2_CardReader);
-			foreach (var codeDevice in codeDevices)
+			get
 			{
-				if (codeDevice.CodeReaderSettings.AlarmSettings.CodeUIDs.Count > 0 && codeDevice.CodeReaderSettings.AlarmSettings.AccessLevel > 0)
-					return true;
-				if (codeDevice.CodeReaderSettings.AutomaticOffSettings.CodeUIDs.Count > 0 && codeDevice.CodeReaderSettings.AutomaticOffSettings.AccessLevel > 0)
-					return true;
-				if (codeDevice.CodeReaderSettings.AutomaticOnSettings.CodeUIDs.Count > 0 && codeDevice.CodeReaderSettings.AutomaticOnSettings.AccessLevel > 0)
-					return true;
-				if (codeDevice.CodeReaderSettings.ChangeGuardSettings.CodeUIDs.Count > 0 && codeDevice.CodeReaderSettings.ChangeGuardSettings.AccessLevel > 0)
-					return true;
-				if (codeDevice.CodeReaderSettings.ResetGuardSettings.CodeUIDs.Count > 0 && codeDevice.CodeReaderSettings.ResetGuardSettings.AccessLevel > 0)
-					return true;
-				if (codeDevice.CodeReaderSettings.SetGuardSettings.CodeUIDs.Count > 0 && codeDevice.CodeReaderSettings.SetGuardSettings.AccessLevel > 0)
-					return true;
-				if (codeDevice.CodeReaderSettings.StartSettings.CodeUIDs.Count > 0 && codeDevice.CodeReaderSettings.StartSettings.AccessLevel > 0)
-					return true;
-				if (codeDevice.CodeReaderSettings.StopSettings.CodeUIDs.Count > 0 && codeDevice.CodeReaderSettings.StopSettings.AccessLevel > 0)
-					return true;
+				var codeDevices =
+					GuardZoneDevices.FindAll(
+						x => x.Device.DriverType == GKDriverType.RSR2_CodeReader || x.Device.DriverType == GKDriverType.RSR2_CardReader);
+				foreach (var codeDevice in codeDevices)
+				{
+					if (codeDevice.CodeReaderSettings.AlarmSettings.AccessLevel > 0)
+						return true;
+					if (codeDevice.CodeReaderSettings.AutomaticOffSettings.AccessLevel > 0)
+						return true;
+					if (codeDevice.CodeReaderSettings.AutomaticOnSettings.AccessLevel > 0)
+						return true;
+					if (codeDevice.CodeReaderSettings.ChangeGuardSettings.AccessLevel > 0)
+						return true;
+					if (codeDevice.CodeReaderSettings.ResetGuardSettings.AccessLevel > 0)
+						return true;
+					if (codeDevice.CodeReaderSettings.SetGuardSettings.AccessLevel > 0)
+						return true;
+					if (codeDevice.CodeReaderSettings.StartSettings.AccessLevel > 0)
+						return true;
+					if (codeDevice.CodeReaderSettings.StopSettings.AccessLevel > 0)
+						return true;
+				}
+				return false;
 			}
-			return false;
 		}
 	}
 }

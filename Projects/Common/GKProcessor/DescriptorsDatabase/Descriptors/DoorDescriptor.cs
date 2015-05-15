@@ -182,11 +182,18 @@ namespace GKProcessor
 				Formula.AddGetBit(GKStateBit.Fire1, lockControlDevice, DatabaseType.Gk);
 				Formula.AddGetBit(GKStateBit.On, Door, DatabaseType.Gk);
 				Formula.Add(FormulaOperationType.AND);
-				Formula.Add(FormulaOperationType.BR, 1, 5);
-				Formula.Add(FormulaOperationType.GETMEMB, 0, (byte) Door.GKDescriptorNo);
-				Formula.Add(FormulaOperationType.BR, 1, 0);
-				Formula.Add(FormulaOperationType.CONST, 0, (byte) exitZone.No);
-				Formula.Add(FormulaOperationType.PUTP);
+				if (Door.AntipassbackOn && exitZone != null)
+				{
+					Formula.Add(FormulaOperationType.BR, 1, 5);
+					Formula.Add(FormulaOperationType.GETMEMB, 0, (byte) Door.GKDescriptorNo);
+					Formula.Add(FormulaOperationType.BR, 1, 0);
+					Formula.Add(FormulaOperationType.CONST, 0, (byte) exitZone.No);
+					Formula.Add(FormulaOperationType.PUTP);
+				}
+				else
+				{
+					Formula.Add(FormulaOperationType.BR, 1, 1);
+				}
 				Formula.Add(FormulaOperationType.EXIT);
 			}
 
@@ -195,24 +202,36 @@ namespace GKProcessor
 				Formula.AddGetBit(GKStateBit.Fire1, lockControlDeviceExit, DatabaseType.Gk);
 				Formula.AddGetBit(GKStateBit.On, Door, DatabaseType.Gk);
 				Formula.Add(FormulaOperationType.AND);
-				Formula.Add(FormulaOperationType.BR, 1, 5);
-				Formula.Add(FormulaOperationType.GETMEMB, 0, (byte) Door.GKDescriptorNo);
-				Formula.Add(FormulaOperationType.BR, 1, 0);
-				Formula.Add(FormulaOperationType.CONST, 0, (byte) enterZone.No);
-				Formula.Add(FormulaOperationType.PUTP);
+				if (Door.AntipassbackOn && enterZone != null)
+				{
+					Formula.Add(FormulaOperationType.BR, 1, 5);
+					Formula.Add(FormulaOperationType.GETMEMB, 0, (byte) Door.GKDescriptorNo);
+					Formula.Add(FormulaOperationType.BR, 1, 0);
+					Formula.Add(FormulaOperationType.CONST, 0, (byte) enterZone.No);
+					Formula.Add(FormulaOperationType.PUTP);
+				}
+				else
+				{
+					Formula.Add(FormulaOperationType.BR, 1, 1);
+				}
 				Formula.Add(FormulaOperationType.EXIT);
 			}
 			Formula.AddGetBit(GKStateBit.Attention, enterDevice, DatabaseType.Gk);
 			Formula.AddGetBit(GKStateBit.Off, Door, DatabaseType.Gk);
 			Formula.Add(FormulaOperationType.AND);
 			Formula.Add(FormulaOperationType.BR, 1, 9);
-			Formula.Add(FormulaOperationType.ACSP, (byte)Door.EnterLevel, enterDevice.GKDescriptorNo);
-			Formula.Add(FormulaOperationType.BR, 1, 6);
-			Formula.Add(FormulaOperationType.TSTP, 0, (byte)exitZone.No);
-			Formula.Add(FormulaOperationType.BR, 1, 4);
-			Formula.Add(FormulaOperationType.CONST, 0, 0);
-			Formula.Add(FormulaOperationType.PUTMEMB, 0, (byte)Door.GKDescriptorNo);
-			Formula.Add(FormulaOperationType.CONST, 0, 1);
+			if (!Door.AntipassbackOn || exitZone == null)
+				Formula.Add(FormulaOperationType.ACS, (byte) Door.EnterLevel, enterDevice.GKDescriptorNo);
+			else
+			{
+				Formula.Add(FormulaOperationType.ACSP, (byte) Door.EnterLevel, enterDevice.GKDescriptorNo);
+				Formula.Add(FormulaOperationType.BR, 1, 6);
+				Formula.Add(FormulaOperationType.TSTP, 0, (byte) exitZone.No);
+				Formula.Add(FormulaOperationType.BR, 1, 4);
+				Formula.Add(FormulaOperationType.CONST, 0, 0);
+				Formula.Add(FormulaOperationType.PUTMEMB, 0, (byte) Door.GKDescriptorNo);
+				Formula.Add(FormulaOperationType.CONST, 0, 1);
+			}
 			Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Door, DatabaseType.Gk);
 			Formula.Add(FormulaOperationType.EXIT);
 
@@ -228,13 +247,18 @@ namespace GKProcessor
 			Formula.AddGetBit(GKStateBit.Off, Door, DatabaseType.Gk);
 			Formula.Add(FormulaOperationType.AND);
 			Formula.Add(FormulaOperationType.BR, 1, 9);
-			Formula.Add(FormulaOperationType.ACSP, (byte)Door.EnterLevel, exitDevice.GKDescriptorNo);
-			Formula.Add(FormulaOperationType.BR, 1, 6);
-			Formula.Add(FormulaOperationType.TSTP, 0, (byte)enterZone.No);
-			Formula.Add(FormulaOperationType.BR, 1, 4);
-			Formula.Add(FormulaOperationType.CONST, 0, 0);
-			Formula.Add(FormulaOperationType.PUTMEMB, 0, (byte)Door.GKDescriptorNo);
-			Formula.Add(FormulaOperationType.CONST, 0, 1);
+			if (!Door.AntipassbackOn || enterZone == null)
+				Formula.Add(FormulaOperationType.ACS, (byte) Door.EnterLevel, exitDevice.GKDescriptorNo);
+			else
+			{
+				Formula.Add(FormulaOperationType.ACSP, (byte) Door.EnterLevel, exitDevice.GKDescriptorNo);
+				Formula.Add(FormulaOperationType.BR, 1, 6);
+				Formula.Add(FormulaOperationType.TSTP, 0, (byte) enterZone.No);
+				Formula.Add(FormulaOperationType.BR, 1, 4);
+				Formula.Add(FormulaOperationType.CONST, 0, 0);
+				Formula.Add(FormulaOperationType.PUTMEMB, 0, (byte) Door.GKDescriptorNo);
+				Formula.Add(FormulaOperationType.CONST, 0, 1);
+			}
 			Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Door, DatabaseType.Gk);
 			Formula.Add(FormulaOperationType.EXIT);
 
