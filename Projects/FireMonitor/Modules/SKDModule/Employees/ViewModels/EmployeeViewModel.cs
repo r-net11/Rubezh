@@ -1,11 +1,15 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
+using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using SKDModule.Events;
 
 namespace SKDModule.ViewModels
 {
@@ -94,22 +98,17 @@ namespace SKDModule.ViewModels
 		public override void InitializeModel(Organisation organisation, ShortEmployee model, ViewPartViewModel parentViewModel)
 		{
 			base.InitializeModel(organisation, model, parentViewModel);
-			AddCardCommand = new RelayCommand(OnAddCard, CanAddCard);
-			SelectEmployeeCommand = new RelayCommand(OnSelectEmployee);
+			
 			Update();
 		}
 
-		public void  InitializeCards()
+		public void InitializeCards()
 		{
-			Cards = new ObservableCollection<EmployeeCardViewModel>();
-			if (!IsOrganisation)
-			{
-				var cards = CardHelper.GetByEmployee(Model.UID);
-				foreach (var item in cards)
-					Cards.Add(new EmployeeCardViewModel(Organisation, this, item));
-				SelectedCard = Cards.FirstOrDefault();
-			}
+			EmployeeCardsViewModel = new EmployeeCardsViewModel(this);
 		}
+
+		public EmployeeCardsViewModel EmployeeCardsViewModel { get; private set; }
+		
 		
 		public PhotoColumnViewModel Photo { get; private set; }
 
@@ -159,45 +158,9 @@ namespace SKDModule.ViewModels
 		public bool IsGuest { get { return !IsOrganisation && Model.Type == PersonType.Guest; } }
 
 		#region Cards
-		public ObservableCollection<EmployeeCardViewModel> Cards { get; private set; }
-
-		EmployeeCardViewModel _selectedCard;
-		public EmployeeCardViewModel SelectedCard
-		{
-			get { return _selectedCard; }
-			set
-			{
-				_selectedCard = value;
-				OnPropertyChanged(() => SelectedCard);
-			}
-		}
-
 		public PersonType PersonType
 		{
 			get { return (ParentViewModel as EmployeesViewModel).PersonType; }
-		}
-
-		public RelayCommand AddCardCommand { get; private set; }
-		void OnAddCard()
-		{
-			if (Cards.Count > 100)
-			{
-				MessageBoxService.ShowWarning("У сотрудника не может быть более 100 пропусков");
-				return;
-			}
-			var cardDetailsViewModel = new EmployeeCardDetailsViewModel(Organisation, Model);
-			if (DialogService.ShowModalWindow(cardDetailsViewModel))
-			{
-				var card = cardDetailsViewModel.Card;
-				var cardViewModel = new EmployeeCardViewModel(Organisation, this, card);
-				Cards.Add(cardViewModel);
-				SelectedCard = cardViewModel;
-				SelectCard(cardViewModel);
-			}
-		}
-		bool CanAddCard()
-		{
-			return FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Cards_Etit) && !IsDeleted;
 		}
 
 		bool _isEmployeeSelected = true;
@@ -222,11 +185,77 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		public IEnumerable<SKDCard> Cards { get { return EmployeeCardsViewModel != null ? EmployeeCardsViewModel.Cards.Select(x => x.Card) : new List<SKDCard>(); } }
+		#endregion
+	}
+
+	public class EmployeeCardsViewModel : BaseViewModel, ICardDoorsParentList<EmployeeCardViewModel>
+	{
+		EmployeeViewModel _employeeViewModel;
+
+		public ShortEmployee Employee { get { return _employeeViewModel.Model; } }
+		
+		public EmployeeCardsViewModel(EmployeeViewModel employeeViewModel)
+		{
+			_employeeViewModel = employeeViewModel;
+			AddCardCommand = new RelayCommand(OnAddCard, CanAddCard);
+			SelectEmployeeCommand = new RelayCommand(OnSelectEmployee);
+			ServiceFactory.Events.GetEvent<UpdateAccessTemplateEvent>().Unsubscribe(OnUpdateAccessTemplate);
+			ServiceFactory.Events.GetEvent<UpdateAccessTemplateEvent>().Subscribe(OnUpdateAccessTemplate);
+			Cards = new ObservableCollection<EmployeeCardViewModel>();
+			if (!_employeeViewModel.IsOrganisation)
+			{
+				var cards = CardHelper.GetByEmployee(_employeeViewModel.Model.UID);
+				foreach (var item in cards)
+					Cards.Add(new EmployeeCardViewModel(_employeeViewModel.Organisation, this, item));
+				SelectedCard = Cards.FirstOrDefault();
+			}
+			_updateOrganisationDoorsEventSubscriber = new UpdateOrganisationDoorsEventSubscriber<EmployeeCardViewModel>(this);
+		}
+
+		UpdateOrganisationDoorsEventSubscriber<EmployeeCardViewModel> _updateOrganisationDoorsEventSubscriber;
+
+		public ObservableCollection<EmployeeCardViewModel> Cards { get; private set; }
+
+		EmployeeCardViewModel _selectedCard;
+		public EmployeeCardViewModel SelectedCard
+		{
+			get { return _selectedCard; }
+			set
+			{
+				_selectedCard = value;
+				OnPropertyChanged(() => SelectedCard);
+			}
+		}
+
+		public RelayCommand AddCardCommand { get; private set; }
+		void OnAddCard()
+		{
+			if (Cards.Count > 100)
+			{
+				MessageBoxService.ShowWarning("У сотрудника не может быть более 100 пропусков");
+				return;
+			}
+			var cardDetailsViewModel = new EmployeeCardDetailsViewModel(_employeeViewModel.Organisation, _employeeViewModel.Model);
+			if (DialogService.ShowModalWindow(cardDetailsViewModel))
+			{
+				var card = cardDetailsViewModel.Card;
+				var cardViewModel = new EmployeeCardViewModel(_employeeViewModel.Organisation, this, card);
+				Cards.Add(cardViewModel);
+				SelectedCard = cardViewModel;
+				SelectCard(cardViewModel);
+			}
+		}
+		bool CanAddCard()
+		{
+			return FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Cards_Etit) && !_employeeViewModel.IsDeleted;
+		}
+
 		public RelayCommand SelectEmployeeCommand { get; private set; }
 		public void OnSelectEmployee()
 		{
-			IsEmployeeSelected = !IsOrganisation;
-			IsCardSelected = false;
+			_employeeViewModel.IsEmployeeSelected = !_employeeViewModel.IsOrganisation;
+			_employeeViewModel.IsCardSelected = false;
 			foreach (var card in Cards)
 			{
 				card.IsCardSelected = false;
@@ -235,8 +264,8 @@ namespace SKDModule.ViewModels
 
 		public void SelectCard(EmployeeCardViewModel employeeCardViewModel)
 		{
-			IsEmployeeSelected = false;
-			IsCardSelected = true;
+			_employeeViewModel.IsEmployeeSelected = false;
+			_employeeViewModel.IsCardSelected = true;
 			foreach (var card in Cards)
 			{
 				card.IsCardSelected = false;
@@ -244,6 +273,17 @@ namespace SKDModule.ViewModels
 			employeeCardViewModel.IsCardSelected = true;
 			SelectedCard = employeeCardViewModel;
 		}
-		#endregion
+
+		void OnUpdateAccessTemplate(Guid accessTemplateUID)
+		{
+			var cards = Cards.Where(x => x.Card.AccessTemplateUID != null && x.Card.AccessTemplateUID.Value == accessTemplateUID);
+			foreach (var card in cards)
+				card.UpdateCardDoors();
+		}
+
+		public List<EmployeeCardViewModel> CardDoorsParents
+		{
+			get { return Cards.ToList(); }
+		}
 	}
 }

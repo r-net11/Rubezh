@@ -1,15 +1,17 @@
 ﻿using System;
+using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Threading;
 using Common;
+using FiresecService.Report;
 using FiresecService.Service;
 using FiresecService.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Common.BalloonTrayTip;
 using Infrastructure.Common.Windows;
-using FiresecService.Report;
+using Microsoft.Practices.EnterpriseLibrary.Data.Sql;
 
 namespace FiresecService
 {
@@ -23,6 +25,7 @@ namespace FiresecService
 		{
 			try
 			{
+				//EntLibTest();
 				Environment.CurrentDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
 				Logger.Trace(SystemInfo.GetString());
 				var resourceService = new ResourceService();
@@ -98,6 +101,29 @@ namespace FiresecService
 			return;
 #endif
 			Process.GetCurrentProcess().Kill();
+		}
+
+		static void EntLibTest()
+		{
+			string myConnectionString = @"Database=PassJournal_1;Server=(local)\SQLEXPRESS;Integrated Security=True;Language='English'";
+			SqlDatabase sqlDatabase = new SqlDatabase(myConnectionString);
+			using (IDataReader reader = sqlDatabase.ExecuteReader(CommandType.Text,
+					"SELECT * FROM Patches"))
+			{
+				DisplayRowValues(reader);
+			}
+		}
+
+		static void DisplayRowValues(IDataReader reader)
+		{
+			while (reader.Read())
+			{
+				for (int i = 0; i < reader.FieldCount; i++)
+				{
+					Trace.WriteLine(string.Format("{0} = {1}", reader.GetName(i), reader[i].ToString()));
+				}
+				Trace.WriteLine("");
+			}
 		}
 	}
 }

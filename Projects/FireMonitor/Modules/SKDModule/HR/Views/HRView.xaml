@@ -15,9 +15,9 @@
 						<ToolBarButton ImageSource="Redo"  ToolTip="Восстановить" 
 									   Command="{Binding RestoreCommand}" Visibility="{Binding IsWithDeleted, Converter={StaticResource BoolToVisibilityConverter}}"/>
 					</StackPanel>
-					<ToolBarButton Command="{Binding SelectedItem.AddCardCommand}" ImageSource="Add"  ToolTip="Добавить пропуск" />
+                    <ToolBarButton Command="{Binding SelectedItem.EmployeeCardsViewModel.AddCardCommand}" ImageSource="Add"  ToolTip="Добавить пропуск" />
 					<StackPanel Orientation="Horizontal" Visibility="{Binding SelectedItem.IsCardSelected, Converter={StaticResource BoolToVisibilityConverter}}">
-						<StackPanel DataContext="{Binding SelectedItem}" Orientation="Horizontal">
+						<StackPanel DataContext="{Binding SelectedItem.EmployeeCardsViewModel}" Orientation="Horizontal">
 							<ToolBarButton Command="{Binding SelectedCard.RemoveCommand}" ImageSource="Delete"  ToolTip="Удалить пропуск" />
 							<ToolBarButton Command="{Binding SelectedCard.EditCommand}" ImageSource="Edit"  ToolTip="Редактировать пропуск" />
 							<ToolBarButton Command="{Binding SelectedCard.PrintCommand}" ImageSource="Print"  ToolTip="Печать удостоверения" />

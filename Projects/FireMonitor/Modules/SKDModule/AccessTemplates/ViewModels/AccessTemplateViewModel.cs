@@ -33,8 +33,13 @@ namespace SKDModule.ViewModels
 		{
 			if (!IsOrganisation)
 			{
-				Model.CardDoors.RemoveAll(x => doorUIDs.Any(y => y == x.DoorUID));
-				AccessTemplateHelper.Save(Model, false);
+				var doorsUIDsToRemove = Model.CardDoors.Where(x => !doorUIDs.Any(y => y == x.DoorUID)).ToList();
+				doorsUIDsToRemove.ForEach(x => Model.CardDoors.Remove(x));
+				var saveResult = AccessTemplateHelper.Save(Model, false);
+				if (saveResult)
+				{
+					CardDoorsViewModel.UpdateDoors(doorUIDs);
+				}
 			}
 		}
 	}

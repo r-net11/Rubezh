@@ -67,7 +67,7 @@
 				</Grid.ColumnDefinitions>
 				<StackPanel Grid.Column="0">
 					<TextBlock>
-						<Hyperlink Command="{Binding SelectEmployeeCommand}" Style="{StaticResource HyperlinkStyle2}">
+						<Hyperlink Command="{Binding EmployeeCardsViewModel.SelectEmployeeCommand}" Style="{StaticResource HyperlinkStyle2}">
 							<StackPanel Orientation="Horizontal">
 								<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/Employee.png" />
 								<TextBlock Margin="2" VerticalAlignment="Center" Text="Сотрудник">
@@ -92,7 +92,7 @@
 							</StackPanel>
 						</Hyperlink>
 					</TextBlock>
-					<ItemsControl ItemsSource="{Binding Cards}">
+					<ItemsControl ItemsSource="{Binding Cards}" DataContext="{Binding EmployeeCardsViewModel}">
 						<ItemsControl.ItemTemplate>
 							<DataTemplate>
 								<TextBlock>
@@ -174,7 +174,7 @@
 					</Grid>
 				</Border>
 				<Grid Grid.Column="2" Visibility="{Binding IsCardSelected, Converter={StaticResource BoolToVisibilityConverter}}">
-					<Grid DataContext="{Binding SelectedCard}">
+                    <Grid DataContext="{Binding EmployeeCardsViewModel.SelectedCard}">
 						<Views:CardDoorsView Grid.Row="1" DataContext="{Binding CardDoorsViewModel}" />
 					</Grid>
 				</Grid>
