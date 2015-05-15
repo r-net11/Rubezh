@@ -3,7 +3,9 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:API="clr-namespace:FiresecAPI.SKD.ReportFilters;assembly=FiresecAPI"
 			 xmlns:extToolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended"
+			 xmlns:default="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:loya="clr-namespace:Loya.Dameer;assembly=Loya.Dameer"
+			 xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
 			 xmlns:Converters="clr-namespace:ReportsModule.Converters"
 			 xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors">
 	<UserControl.Resources>
@@ -59,12 +61,45 @@
                       DisplayDate="{Binding DateTimeFrom, UpdateSourceTrigger=PropertyChanged}" SelectedDate="{Binding DateTimeFrom, UpdateSourceTrigger=PropertyChanged}" 
                       DisplayDateStart="{Binding MinDate, Mode=OneWay}" DisplayDateEnd="{Binding MaxDate, Mode=OneWay}" />
 -->
-			<dxe:DateEdit Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150"
+		<!--	<extToolkit:DateTimePicker
+				Grid.Row="1"
+				Grid.Column="1"/> -->
+
+			<!--<xctk:DateTimePicker 
+				AutoCloseCalendar="True"
+				Grid.Row="1"
+				Grid.Column="1"
+				IsEnabled="{Binding SelectedReportPeriod, Converter={StaticResource ReportPeriodTypeToBoolConverter}}"
+				Format="Custom"
+				AllowSpin="True"
+				Value="{Binding DateTimeFrom, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+				ShowButtonSpinner="False"
+				FormatString="dd.MM.yyyy"
+				VerticalAlignment="Center"
+				HorizontalAlignment="Left"
+				Margin="2"
+				Width="150"/> -->
+			<default:DatePicker
+				Grid.Row="1"
+				Grid.Column="1"
+				SelectedDateFormat="Short"
+				SelectedDate="{Binding DateTimeFrom, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+				DisplayDateStart="{Binding MinDate}"
+				VerticalContentAlignment="Center"
+				DisplayDateEnd="{Binding MaxDate}"
+				VerticalAlignment="Center"
+				HorizontalAlignment="Left"
+				Width="150"
+				Margin="2" />
+			
+			
+		<!--	<dxe:DateEdit Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150"
 						  IsEnabled="{Binding SelectedReportPeriod, Converter={StaticResource ReportPeriodTypeToBoolConverter}}"
 						  Mask="dd.MM.yyyy HH:mm:ss" MaskCulture="ru-RU" MaskUseAsDisplayFormat="True" AllowSpinOnMouseWheel="True"
 						  DateTime="{Binding DateTimeFrom, UpdateSourceTrigger=PropertyChanged}"
 						  MinValue="{Binding MinDate, Mode=OneWay}"
-						  MaxValue="{Binding MaxDate, Mode=OneWay}" Margin="2" Padding="4,3" ShowClearButton="False" />
+						  MaxValue="{Binding MaxDate, Mode=OneWay}" 
+			Margin="2" Padding="4,3" ShowClearButton="False" /> -->
 <!--
 			<Calendar Grid.Row="2" Grid.Column="1" SelectionMode="SingleDate" HorizontalAlignment="Left" 
                       DisplayDate="{Binding DateTimeTo, UpdateSourceTrigger=PropertyChanged}" SelectedDate="{Binding DateTimeTo, UpdateSourceTrigger=PropertyChanged}" 
