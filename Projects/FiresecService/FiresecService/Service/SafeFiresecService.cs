@@ -31,17 +31,6 @@ namespace FiresecService.Service
 		{
 		}
 
-		public OperationResult<T> CreateEmptyOperationResult<T>(string message)
-		{
-			var operationResult = new OperationResult<T>
-			{
-				Result = default(T),
-				HasError = true,
-				Error = "Ошибка при выполнении операции на сервере" + "\n\r" + message
-			};
-			return operationResult;
-		}
-
 		OperationResult<T> SafeOperationCall<T>(Func<OperationResult<T>> func, string operationName)
 		{
 			try
@@ -54,7 +43,7 @@ namespace FiresecService.Service
 			catch (Exception e)
 			{
 				Logger.Error(e, "Исключение при вызове SafeFiresecService.SafeOperationCall. operationName = " + operationName);
-				return CreateEmptyOperationResult<T>(e.Message + "\n" + e.StackTrace);
+				return OperationResult<T>.FromError("Ошибка при выполнении операции на сервере" + "\n\r" + e.Message + "\n" + e.StackTrace);
 			}
 		}
 

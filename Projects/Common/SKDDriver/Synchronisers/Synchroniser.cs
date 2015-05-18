@@ -45,11 +45,11 @@ namespace SKDDriver
 					result.Add(exportItem);
 					_Table.Context.SubmitChanges();
 				}
-				return new OperationResult<List<TExportItem>> { Result = result };
+				return new OperationResult<List<TExportItem>>(result);
 			}
 			catch (Exception e)
 			{
-				return new OperationResult<List<TExportItem>>(e.Message);
+				return OperationResult<List<TExportItem>>.FromError(e.Message);
 			}
 		}
 

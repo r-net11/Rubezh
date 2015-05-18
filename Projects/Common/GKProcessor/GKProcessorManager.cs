@@ -184,14 +184,14 @@ namespace GKProcessor
 
 			if (gkDescriptorsWriter.Errors.Count > 0)
 			{
-				var errors = new StringBuilder();
+				var errors = new List<string>();
 				foreach (var error in gkDescriptorsWriter.Errors)
 				{
-					errors.AppendLine(error);
+					errors.Add(error);
 				}
-				return new OperationResult<bool>(errors.ToString()) { Result = false };
+				return OperationResult<bool>.FromError(errors, false);
 			}
-			return new OperationResult<bool> { Result = true };
+			return new OperationResult<bool>(true);
 		}
 
 		public static OperationResult<GKDeviceConfiguration> GKReadConfiguration(GKDevice device, string userName)
@@ -202,7 +202,7 @@ namespace GKProcessor
 			var descriptorReader = device.Driver.IsKau ? (DescriptorReaderBase)new KauDescriptorsReaderBase() : new GkDescriptorsReaderBase();
 			descriptorReader.ReadConfiguration(device);
 			Start();
-			return new OperationResult<GKDeviceConfiguration> { HasError = descriptorReader.Error != null, Error = descriptorReader.Error, Result = descriptorReader.DeviceConfiguration };
+			return OperationResult<GKDeviceConfiguration>.FromError(descriptorReader.Error, descriptorReader.DeviceConfiguration);
 		}
 
 		public static Stream GKReadConfigurationFromGKFile(GKDevice device, string userName)
@@ -217,7 +217,7 @@ namespace GKProcessor
 				return new FileStream(filePath, FileMode.Open, FileAccess.Read);
 			}
 			return Stream.Null;
-			//return new OperationResult<Stream> { HasError = gkFileReaderWriter.Error != null, Error = gkFileReaderWriter.Error, Result = new FileStream(filePath, FileMode.Open, FileAccess.Read) };
+			//return OperationResult<Stream>.FromError { gkFileReaderWriter.Error, new FileStream(filePath, FileMode.Open, FileAccess.Read));
 		}
 
 		public static OperationResult<GKDeviceConfiguration> GKAutoSearch(GKDevice device, string userName)
@@ -227,7 +227,7 @@ namespace GKProcessor
 			var gkAutoSearchHelper = new GKAutoSearchHelper();
 			var deviceConfiguration = gkAutoSearchHelper.AutoSearch(device);
 			ResumeMonitoring(device);
-			return new OperationResult<GKDeviceConfiguration> { HasError = gkAutoSearchHelper.Error != null, Error = gkAutoSearchHelper.Error, Result = deviceConfiguration };
+			return OperationResult<GKDeviceConfiguration>.FromError(gkAutoSearchHelper.Error, deviceConfiguration);
 		}
 
 		public static OperationResult<bool> GKUpdateFirmware(GKDevice device, string fileName, string userName)
@@ -237,8 +237,8 @@ namespace GKProcessor
 			firmwareUpdateHelper.Update(device, fileName, userName);
 			Start();
 			if (firmwareUpdateHelper.ErrorList.Count > 0)
-				return new OperationResult<bool>(firmwareUpdateHelper.ErrorList.Aggregate((a, b) => a + "\n" + b)) { Result = false };
-			return new OperationResult<bool> { Result = true };
+				return OperationResult<bool>.FromError(firmwareUpdateHelper.ErrorList, false);
+			return new OperationResult<bool>(true);
 		}
 
 		public static OperationResult<bool> GKUpdateFirmwareFSCS(HexFileCollectionInfo hxcFileInfo, string userName, List<GKDevice> devices)
@@ -248,8 +248,8 @@ namespace GKProcessor
 			firmwareUpdateHelper.UpdateFSCS(hxcFileInfo, devices, userName);
 			Start();
 			if (firmwareUpdateHelper.ErrorList.Count > 0)
-				return new OperationResult<bool>(firmwareUpdateHelper.ErrorList.Aggregate((a, b) => a + "\n" + b)) { Result = false };
-			return new OperationResult<bool> { Result = true };
+				return OperationResult<bool>.FromError(firmwareUpdateHelper.ErrorList, false);
+			return new OperationResult<bool>(true);
 		}
 
 		public static bool GKSyncronyseTime(GKDevice device, string userName)
@@ -269,11 +269,10 @@ namespace GKProcessor
 			var sendResult = SendManager.Send(device, 0, 6, 64);
 			if (sendResult.HasError)
 			{
-				return new OperationResult<int>("Устройство недоступно");
+				return OperationResult<int>.FromError("Устройство недоступно");
 			}
 			var journalParser = new JournalParser(device, sendResult.Bytes);
-			var result = journalParser.GKJournalRecordNo;
-			return new OperationResult<int> { Result = result };
+			return new OperationResult<int>(journalParser.GKJournalRecordNo);
 		}
 
 		public static OperationResult<JournalItem> GKReadJournalItem(GKDevice device, int no)
@@ -282,20 +281,20 @@ namespace GKProcessor
 			var sendResult = SendManager.Send(device, 4, 7, 64, data);
 			if (sendResult.HasError)
 			{
-				return new OperationResult<JournalItem>("Устройство недоступно");
+				return OperationResult<JournalItem>.FromError("Устройство недоступно");
 			}
 			if (sendResult.Bytes.Count == 64)
 			{
 				var journalParser = new JournalParser(device, sendResult.Bytes);
-				return new OperationResult<JournalItem> { Result = journalParser.JournalItem };
+				return new OperationResult<JournalItem>(journalParser.JournalItem);
 			}
-			return new OperationResult<JournalItem>("Ошибка. Недостаточное количество байт в записи журнала");
+			return OperationResult<JournalItem>.FromError("Ошибка. Недостаточное количество байт в записи журнала");
 		}
 
 		public static OperationResult<bool> GKSetSingleParameter(GKBase gkBase, List<byte> parameterBytes)
 		{
 			var error = ParametersHelper.SetSingleParameter(gkBase, parameterBytes);
-			return new OperationResult<bool> { HasError = error != null, Error = error, Result = true };
+			return OperationResult<bool>.FromError(error, true);
 		}
 
 		public static OperationResult<List<GKProperty>> GKGetSingleParameter(GKBase gkBase)
@@ -308,8 +307,8 @@ namespace GKProcessor
 			var gkFileReaderWriter = new GKFileReaderWriter();
 			var readInfoBlock = gkFileReaderWriter.ReadInfoBlock(device);
 			if (gkFileReaderWriter.Error != null)
-				return new OperationResult<List<byte>>(gkFileReaderWriter.Error);
-			return new OperationResult<List<byte>> { Result = readInfoBlock.Hash1 };
+				return OperationResult<List<byte>>.FromError(gkFileReaderWriter.Error);
+			return new OperationResult<List<byte>>(readInfoBlock.Hash1);
 		}
 
 		public static GKStates GKGetStates()
@@ -507,11 +506,11 @@ namespace GKProcessor
 			if (!sendResult.HasError)
 			{
 				var code = BytesHelper.SubstructInt(sendResult.Bytes, 52);
-				return new OperationResult<uint>() { Result = (uint)code };
+				return new OperationResult<uint>((uint)code);
 			}
 			else
 			{
-				return new OperationResult<uint>(sendResult.Error);
+				return OperationResult<uint>.FromError(sendResult.Error);
 			}
 		}
 

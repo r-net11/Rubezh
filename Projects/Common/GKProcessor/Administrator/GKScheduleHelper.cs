@@ -16,13 +16,13 @@ namespace GKProcessor
 			var progressCallback = GKProcessorManager.StartProgress("Перезапись графиков в " + device.PresentationName, "Стирание графиков", 1, false, GKProgressClientType.Administrator);
 			var removeResult = GKRemoveAllSchedules(device);
 			if (removeResult.HasError)
-				return new OperationResult<bool>(removeResult.Error);
+				return OperationResult<bool>.FromError(removeResult.Errors);
 			var schedules = new List<GKSchedule>();
 			using (var databaseService = new SKDDatabaseService())
 			{
 				var schedulesResult = databaseService.GKScheduleTranslator.GetSchedules();
 				if(schedulesResult.HasError)
-					return new OperationResult<bool>(schedulesResult.Error);
+					return OperationResult<bool>.FromError(schedulesResult.Errors);
 				schedules = schedulesResult.Result;
 			}
 			
@@ -31,19 +31,19 @@ namespace GKProcessor
 			emptySchedule.Name = "Никогда";
 			var setResult = GKSetSchedule(device, emptySchedule);
 			if (setResult.HasError)
-				return new OperationResult<bool>(setResult.Error);
+				return OperationResult<bool>.FromError(setResult.Errors);
 			GKProcessorManager.DoProgress("Запись пустого графика ", progressCallback);
 			int i = 1;
 			foreach (var schedule in schedules)
 			{
 				setResult = GKSetSchedule(device, schedule);
 				if (setResult.HasError)
-					return new OperationResult<bool>(setResult.Error);
+					return OperationResult<bool>.FromError(setResult.Errors);
 				GKProcessorManager.DoProgress("Запись графика " + i, progressCallback);
 				i++;
 			}
 			GKProcessorManager.StopProgress(progressCallback);
-			return new OperationResult<bool>();
+			return new OperationResult<bool>(true);
 		}
 
 		public static OperationResult<bool> GKRemoveAllSchedules(GKDevice device)
@@ -62,9 +62,9 @@ namespace GKProcessor
 
 				var sendResult = SendManager.Send(device, (ushort)(bytes.Count), 28, 0, bytes);
 				if (sendResult.HasError)
-					return new OperationResult<bool> { Error = sendResult.Error, HasError = true };
+					return OperationResult<bool>.FromError(sendResult.Error, true);
 			}
-			return new OperationResult<bool>();
+			return new OperationResult<bool>(true);
 		}
 
 		public static OperationResult<bool> GKSetSchedule(GKDevice device, GKSchedule schedule)
@@ -75,7 +75,7 @@ namespace GKProcessor
 			{
 				var schedulesResult = databaseService.GKScheduleTranslator.GetDaySchedules();
 				if (schedulesResult.HasError)
-					return new OperationResult<bool>(schedulesResult.Error);
+					return OperationResult<bool>.FromError(schedulesResult.Errors);
 				daySchedules = schedulesResult.Result;
 			}
 			if (schedule.ScheduleType == GKScheduleType.Access)
@@ -182,11 +182,11 @@ namespace GKProcessor
 				var sendResult = SendManager.Send(device, (ushort)(pack.Count), 28, 0, pack);
 				if (sendResult.HasError)
 				{
-					return new OperationResult<bool>(sendResult.Error);
+					return OperationResult<bool>.FromError(sendResult.Error);
 				}
 			}
 
-			return new OperationResult<bool>() { Result = true };
+			return new OperationResult<bool>(true);
 		}
 
 		public static OperationResult AllGKSetSchedule(GKSchedule schedule)

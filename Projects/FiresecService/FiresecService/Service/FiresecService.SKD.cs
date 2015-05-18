@@ -47,7 +47,7 @@ namespace FiresecService.Service
 		public OperationResult MarkDeletedEmployee(Guid uid, string name)
 		{
 			AddJournalMessage(JournalEventNameType.Удаление_сотрудника, name, JournalEventDescriptionType.Удаление, uid: uid);
-			var stringBuilder = new StringBuilder();
+			var errors = new List<string>();
 			using (var databaseService = new SKDDatabaseService())
 			{
 				var getEmployeeOperationResult = databaseService.EmployeeTranslator.GetSingle(uid);
@@ -59,7 +59,7 @@ namespace FiresecService.Service
 						var operationResult = DeleteCardFromEmployee(card, "Сотрудник удален");
 						if (operationResult.HasError)
 						{
-							stringBuilder.AppendLine(operationResult.Error);
+							errors.AddRange(operationResult.Errors);
 						}
 					}
 				}
@@ -67,13 +67,12 @@ namespace FiresecService.Service
 				var markdDletedOperationResult = databaseService.EmployeeTranslator.MarkDeleted(uid);
 				if (markdDletedOperationResult.HasError)
 				{
-					stringBuilder.AppendLine("Ошибка БД:");
-					stringBuilder.AppendLine(markdDletedOperationResult.Error);
+					errors.Add("Ошибка БД: " + markdDletedOperationResult.Error);
 				}
 			}
 
-			if (stringBuilder.Length > 0)
-				return new OperationResult(stringBuilder.ToString());
+			if (errors.Count > 0)
+				return new OperationResult(errors);
 			else
 				return new OperationResult();
 		}
@@ -265,21 +264,18 @@ namespace FiresecService.Service
 			{
 				var saveResult = databaseService.CardTranslator.Save(card);
 				if (saveResult.HasError)
-					return new OperationResult<bool>(saveResult.Error) { Result = false };
+					return OperationResult<bool>.FromError(saveResult.Error, false);
 
 				var errors = new List<string>();
 
 				var getAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(card.AccessTemplateUID);
 				if (getAccessTemplateOperationResult.HasError)
-					errors.Add(getAccessTemplateOperationResult.Error);
+					errors.AddRange(getAccessTemplateOperationResult.Errors);
 
 				errors.AddRange(AddStrazhCard(card, getAccessTemplateOperationResult.Result, databaseService));
 				errors.AddRange(AddGKCard(card, getAccessTemplateOperationResult.Result, databaseService));
 
-				if (errors.Count > 0)
-					return new OperationResult<bool>(String.Join("\n", errors)) { Result = true };
-				else
-					return new OperationResult<bool>() { Result = true };
+				return OperationResult<bool>.FromError(errors, true);
 			}
 		}
 		IEnumerable<string> AddStrazhCard(SKDCard card, AccessTemplate accessTemplate, SKDDatabaseService databaseService)
@@ -322,13 +318,13 @@ namespace FiresecService.Service
 			{
 				var saveResult = databaseService.CardTranslator.Save(card);
 				if (saveResult.HasError)
-					return new OperationResult<bool>(saveResult.Error) { Result = false };
+					return OperationResult<bool>.FromError(saveResult.Error, false);
 
 				var errors = new List<string>();
 
 				var getAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(card.AccessTemplateUID);
 				if (getAccessTemplateOperationResult.HasError)
-					errors.Add(getAccessTemplateOperationResult.Error);
+					errors.AddRange(getAccessTemplateOperationResult.Errors);
 
 				var operationResult = databaseService.CardTranslator.GetSingle(card.UID);
 				if (!operationResult.HasError && operationResult.Result != null)
@@ -344,10 +340,7 @@ namespace FiresecService.Service
 					errors.Add("Не найдена предыдущая карта");
 				}
 
-				if (errors.Count > 0)
-					return new OperationResult<bool>(String.Join("\n", errors)) { Result = true };
-				else
-					return new OperationResult<bool>() { Result = true };
+				return OperationResult<bool>.FromError(errors, true);
 			}
 		}
 		IEnumerable<string> EditStrazhCard(SKDCard oldCard, AccessTemplate oldAccessTemplate, SKDCard card, AccessTemplate accessTemplate, SKDDatabaseService databaseService)
@@ -415,10 +408,10 @@ namespace FiresecService.Service
 					UserTime = 0,
 					DeactivationControllerUID = Guid.Empty,
 					CardDoors = new List<CardDoor>(),
-					PassCardTemplateUID  = null,
-					AccessTemplateUID  = null,
-					CardType  = card.CardType,
-					GKCardType  = card.GKCardType,
+					PassCardTemplateUID = null,
+					AccessTemplateUID = null,
+					CardType = card.CardType,
+					GKCardType = card.GKCardType,
 					Password = null,
 					IsInStopList = true,
 					StopReason = reason,
@@ -432,14 +425,14 @@ namespace FiresecService.Service
 				var saveResult = databaseService.CardTranslator.Save(cardToDelete);
 				if (saveResult.HasError)
 				{
-					return new OperationResult<bool>(saveResult.Error) { Result = false };
+					return OperationResult<bool>.FromError(saveResult.Error, false);
 				}
 
 				var errors = new List<string>();
 
 				var getAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(card.AccessTemplateUID);
 				if (getAccessTemplateOperationResult.HasError)
-					errors.Add(getAccessTemplateOperationResult.Error);
+					errors.AddRange(getAccessTemplateOperationResult.Errors);
 
 				var operationResult = databaseService.CardTranslator.GetSingle(card.UID);
 				if (!operationResult.HasError && operationResult.Result != null)
@@ -455,10 +448,7 @@ namespace FiresecService.Service
 					errors.Add("Не найдена предидущая карта");
 				}
 
-				if (errors.Count > 0)
-					return new OperationResult<bool>(String.Join("\n", errors)) { Result = true };
-				else
-					return new OperationResult<bool>() { Result = true };
+				return OperationResult<bool>.FromError(errors, true);
 			}
 		}
 		IEnumerable<string> DeleteStrazhCard(SKDCard card, AccessTemplate accessTemplate, SKDDatabaseService databaseService)
@@ -530,9 +520,9 @@ namespace FiresecService.Service
 				var oldGetAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(item.UID);
 				var saveResult = databaseService.AccessTemplateTranslator.Save(item);
 
-				var stringBuilder = new StringBuilder();
+				var errors = new List<string>();
 				if (saveResult.HasError)
-					stringBuilder.AppendLine(saveResult.Error);
+					errors.Add(saveResult.Error);
 
 				var operationResult = databaseService.CardTranslator.GetByAccessTemplateUID(item.UID);
 				if (operationResult.Result != null)
@@ -544,16 +534,13 @@ namespace FiresecService.Service
 						var pendingResult = databaseService.CardTranslator.EditPendingList(item.UID, GetFailedControllerUIDs(cardWriter));
 
 						if (!String.IsNullOrEmpty(cardWriterError))
-							stringBuilder.AppendLine(cardWriterError);
+							errors.Add(cardWriterError);
 						if (pendingResult.HasError)
-							stringBuilder.AppendLine(pendingResult.Error);
+							errors.Add(pendingResult.Error);
 					}
 				}
 
-				if (stringBuilder.Length > 0)
-					return new OperationResult<bool>(stringBuilder.ToString()) { Result = !saveResult.HasError };
-				else
-					return new OperationResult<bool>() { Result = !saveResult.HasError };
+				return OperationResult<bool>.FromError(errors, !saveResult.HasError);
 			}
 		}
 		public OperationResult MarkDeletedAccessTemplate(Guid uid, string name)
@@ -758,7 +745,7 @@ namespace FiresecService.Service
 		#region Devices
 		public OperationResult<SKDStates> SKDGetStates()
 		{
-			return new OperationResult<SKDStates>() { Result = SKDProcessor.SKDGetStates() };
+			return new OperationResult<SKDStates>(SKDProcessor.SKDGetStates());
 		}
 
 		public OperationResult<SKDDeviceInfo> SKDGetDeviceInfo(Guid deviceUID)
@@ -769,7 +756,7 @@ namespace FiresecService.Service
 				AddSKDJournalMessage(JournalEventNameType.Запрос_конфигурации_контроллера, device);
 				return ChinaSKDDriver.Processor.GetDeviceInfo(deviceUID);
 			}
-			return new OperationResult<SKDDeviceInfo>("Устройство не найдено в конфигурации");
+			return OperationResult<SKDDeviceInfo>.FromError("Устройство не найдено в конфигурации");
 		}
 
 		public OperationResult<bool> SKDSyncronyseTime(Guid deviceUID)
@@ -780,7 +767,7 @@ namespace FiresecService.Service
 				AddSKDJournalMessage(JournalEventNameType.Синхронизация_времени_контроллера, device);
 				return ChinaSKDDriver.Processor.SyncronyseTime(deviceUID);
 			}
-			return new OperationResult<bool>("Устройство не найдено в конфигурации");
+			return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
 		}
 
 		public OperationResult<bool> SKDResetController(Guid deviceUID)
@@ -791,7 +778,7 @@ namespace FiresecService.Service
 				AddSKDJournalMessage(JournalEventNameType.Сброс_Контроллера, device);
 				return ChinaSKDDriver.Processor.ResetController(deviceUID);
 			}
-			return new OperationResult<bool>("Устройство не найдено в конфигурации");
+			return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
 		}
 
 		public OperationResult<bool> SKDRebootController(Guid deviceUID)
@@ -802,7 +789,7 @@ namespace FiresecService.Service
 				AddSKDJournalMessage(JournalEventNameType.Перезагрузка_Контроллера, device);
 				return ChinaSKDDriver.Processor.RebootController(deviceUID);
 			}
-			return new OperationResult<bool>("Устройство не найдено в конфигурации");
+			return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
 		}
 
 		public OperationResult<bool> SKDWriteTimeSheduleConfiguration(Guid deviceUID)
@@ -813,12 +800,12 @@ namespace FiresecService.Service
 				AddSKDJournalMessage(JournalEventNameType.Запись_графиков_работы, device);
 				return ChinaSKDDriver.Processor.SKDWriteTimeSheduleConfiguration(deviceUID);
 			}
-			return new OperationResult<bool>("Устройство не найдено в конфигурации");
+			return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
 		}
 
 		public OperationResult<List<Guid>> SKDWriteAllTimeSheduleConfiguration()
 		{
-			var errors = "";
+			var errors = new List<string>();
 			var failedDeviceUIDs = new List<Guid>();
 			foreach (var device in SKDManager.Devices)
 			{
@@ -829,13 +816,11 @@ namespace FiresecService.Service
 					if (result.HasError)
 					{
 						failedDeviceUIDs.Add(device.UID);
-						errors += result.Error + "\n";
+						errors.AddRange(result.Errors);
 					}
 				}
 			}
-			if (string.IsNullOrEmpty(errors))
-				return new OperationResult<List<Guid>>() { Result = new List<Guid>() };
-			else return new OperationResult<List<Guid>>(errors) { Result = failedDeviceUIDs };
+			return OperationResult<List<Guid>>.FromError(errors, failedDeviceUIDs);
 		}
 
 		public OperationResult<bool> SKDRewriteAllCards(Guid deviceUID)
@@ -854,11 +839,11 @@ namespace FiresecService.Service
 					}
 					else
 					{
-						return new OperationResult<bool>("Ошибка при получении карт или шаблонов карт");
+						return OperationResult<bool>.FromError("Ошибка при получении карт или шаблонов карт");
 					}
 				}
 			}
-			return new OperationResult<bool>("Устройство не найдено в конфигурации");
+			return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
 		}
 
 		public OperationResult<bool> SKDUpdateFirmware(Guid deviceUID, string fileName)
@@ -867,9 +852,9 @@ namespace FiresecService.Service
 			if (device != null)
 			{
 				AddSKDJournalMessage(JournalEventNameType.Обновление_ПО_Контроллера, device);
-				return new OperationResult<bool>("Функция обновления ПО не доступна");
+				return OperationResult<bool>.FromError("Функция обновления ПО не доступна");
 			}
-			return new OperationResult<bool>("Устройство не найдено в конфигурации");
+			return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
 		}
 
 		public OperationResult<SKDDoorConfiguration> SKDGetDoorConfiguration(Guid deviceUID)
@@ -880,7 +865,7 @@ namespace FiresecService.Service
 				AddSKDJournalMessage(JournalEventNameType.Запрос_конфигурации_двери, device);
 				return ChinaSKDDriver.Processor.GetDoorConfiguration(deviceUID);
 			}
-			return new OperationResult<SKDDoorConfiguration>("Устройство не найдено в конфигурации");
+			return OperationResult<SKDDoorConfiguration>.FromError("Устройство не найдено в конфигурации");
 		}
 
 		public OperationResult<bool> SKDSetDoorConfiguration(Guid deviceUID, SKDDoorConfiguration doorConfiguration)
@@ -892,7 +877,7 @@ namespace FiresecService.Service
 				doorConfiguration.OpenAlwaysTimeIndex = 0;
 				return ChinaSKDDriver.Processor.SetDoorConfiguration(deviceUID, doorConfiguration);
 			}
-			return new OperationResult<bool>("Устройство не найдено в конфигурации");
+			return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
 		}
 
 		public OperationResult<DoorType> GetControllerDoorType(Guid deviceUID)
@@ -903,7 +888,7 @@ namespace FiresecService.Service
 				AddSKDJournalMessage(JournalEventNameType.Запрос_направления_контроллера, device);
 				return ChinaSKDDriver.Processor.GetControllerDoorType(deviceUID);
 			}
-			return new OperationResult<DoorType>("Устройство не найдено в конфигурации");
+			return OperationResult<DoorType>.FromError("Устройство не найдено в конфигурации");
 		}
 
 		public OperationResult<bool> SetControllerDoorType(Guid deviceUID, DoorType doorType)
@@ -914,7 +899,7 @@ namespace FiresecService.Service
 				AddSKDJournalMessage(JournalEventNameType.Запись_направления_контроллера, device);
 				return ChinaSKDDriver.Processor.SetControllerDoorType(deviceUID, doorType);
 			}
-			return new OperationResult<bool>("Устройство не найдено в конфигурации");
+			return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
 		}
 
 		public OperationResult<bool> SetControllerPassword(Guid deviceUID, string name, string oldPassword, string password)
@@ -925,7 +910,7 @@ namespace FiresecService.Service
 				AddSKDJournalMessage(JournalEventNameType.Запись_пароля_контроллера, device);
 				return ChinaSKDDriver.Processor.SetControllerPassword(deviceUID, name, oldPassword, password);
 			}
-			return new OperationResult<bool>("Устройство не найдено в конфигурации");
+			return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
 		}
 
 		public OperationResult<SKDControllerTimeSettings> GetControllerTimeSettings(Guid deviceUID)
@@ -936,7 +921,7 @@ namespace FiresecService.Service
 				AddSKDJournalMessage(JournalEventNameType.Запрос_временных_настроек_контроллера, device);
 				return ChinaSKDDriver.Processor.GetControllerTimeSettings(deviceUID);
 			}
-			return new OperationResult<SKDControllerTimeSettings>("Устройство не найдено в конфигурации");
+			return OperationResult<SKDControllerTimeSettings>.FromError("Устройство не найдено в конфигурации");
 		}
 
 		public OperationResult<bool> SetControllerTimeSettings(Guid deviceUID, SKDControllerTimeSettings controllerTimeSettings)
@@ -947,7 +932,7 @@ namespace FiresecService.Service
 				AddSKDJournalMessage(JournalEventNameType.Запись_временных_настроек_контроллера, device);
 				return ChinaSKDDriver.Processor.SetControllerTimeSettings(deviceUID, controllerTimeSettings);
 			}
-			return new OperationResult<bool>("Устройство не найдено в конфигурации");
+			return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
 		}
 
 		public OperationResult<SKDControllerNetworkSettings> GetControllerNetworkSettings(Guid deviceUID)
@@ -958,7 +943,7 @@ namespace FiresecService.Service
 				AddSKDJournalMessage(JournalEventNameType.Запрос_сетевых_настроек_контроллера, device);
 				return ChinaSKDDriver.Processor.GetControllerNetworkSettings(deviceUID);
 			}
-			return new OperationResult<SKDControllerNetworkSettings>("Устройство не найдено в конфигурации");
+			return OperationResult<SKDControllerNetworkSettings>.FromError("Устройство не найдено в конфигурации");
 		}
 
 		public OperationResult<bool> SetControllerNetworkSettings(Guid deviceUID, SKDControllerNetworkSettings controllerNetworkSettings)
@@ -969,7 +954,7 @@ namespace FiresecService.Service
 				AddSKDJournalMessage(JournalEventNameType.Запись_сетевых_настроек_контроллера, device);
 				return ChinaSKDDriver.Processor.SetControllerNetworkSettings(deviceUID, controllerNetworkSettings);
 			}
-			return new OperationResult<bool>("Устройство не найдено в конфигурации");
+			return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
 		}
 
 		public OperationResult<bool> SKDOpenDevice(Guid deviceUID)
@@ -982,7 +967,7 @@ namespace FiresecService.Service
 			}
 			else
 			{
-				return new OperationResult<bool>("Устройство не найдено в конфигурации");
+				return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
 			}
 		}
 
@@ -996,7 +981,7 @@ namespace FiresecService.Service
 			}
 			else
 			{
-				return new OperationResult<bool>("Устройство не найдено в конфигурации");
+				return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
 			}
 		}
 
@@ -1019,7 +1004,7 @@ namespace FiresecService.Service
 			}
 			else
 			{
-				return new OperationResult<bool>("Устройство не найдено в конфигурации");
+				return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
 			}
 		}
 
@@ -1042,7 +1027,7 @@ namespace FiresecService.Service
 			}
 			else
 			{
-				return new OperationResult<bool>("Устройство не найдено в конфигурации");
+				return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
 			}
 		}
 
@@ -1066,23 +1051,23 @@ namespace FiresecService.Service
 						var result = ChinaSKDDriver.Processor.OpenDoor(lockDevice);
 						if (result.HasError)
 						{
-							errors.Add(result.Error);
+							errors.AddRange(result.Errors);
 						}
 					}
 					else
 					{
-						return new OperationResult<bool>("Для зоны не найден замок");
+						return OperationResult<bool>.FromError("Для зоны не найден замок");
 					}
 				}
 				if (errors.Count > 0)
 				{
-					return new OperationResult<bool>(String.Join("\n", errors));
+					return OperationResult<bool>.FromError(errors);
 				}
-				return new OperationResult<bool>() { Result = true };
+				return new OperationResult<bool>(true);
 			}
 			else
 			{
-				return new OperationResult<bool>("Зона не найдена в конфигурации");
+				return OperationResult<bool>.FromError("Зона не найдена в конфигурации");
 			}
 		}
 		public OperationResult<bool> SKDCloseZone(Guid zoneUID)
@@ -1105,23 +1090,23 @@ namespace FiresecService.Service
 						var result = ChinaSKDDriver.Processor.CloseDoor(lockDevice);
 						if (result.HasError)
 						{
-							errors.Add(result.Error);
+							errors.AddRange(result.Errors);
 						}
 					}
 					else
 					{
-						return new OperationResult<bool>("Для зоны не найден замок");
+						return OperationResult<bool>.FromError("Для зоны не найден замок");
 					}
 				}
 				if (errors.Count > 0)
 				{
-					return new OperationResult<bool>(String.Join("\n", errors));
+					return OperationResult<bool>.FromError(errors);
 				}
-				return new OperationResult<bool>() { Result = true };
+				return new OperationResult<bool>(true);
 			}
 			else
 			{
-				return new OperationResult<bool>("Зона не найдена в конфигурации");
+				return OperationResult<bool>.FromError("Зона не найдена в конфигурации");
 			}
 		}
 
@@ -1146,7 +1131,7 @@ namespace FiresecService.Service
 						var result = ChinaSKDDriver.Processor.SetDoorConfiguration(lockDevice.UID, lockDevice.SKDDoorConfiguration);
 						if (result.HasError)
 						{
-							errors.Add(result.Error);
+							errors.AddRange(result.Errors);
 						}
 						else if (device.State != null)
 						{
@@ -1158,18 +1143,18 @@ namespace FiresecService.Service
 					}
 					else
 					{
-						return new OperationResult<bool>("Для зоны не найден замок");
+						return OperationResult<bool>.FromError("Для зоны не найден замок");
 					}
 				}
 				if (errors.Count > 0)
 				{
-					return new OperationResult<bool>(String.Join("\n", errors));
+					return OperationResult<bool>.FromError(errors);
 				}
-				return new OperationResult<bool>() { Result = true };
+				return new OperationResult<bool>(true);
 			}
 			else
 			{
-				return new OperationResult<bool>("Зона не найдена в конфигурации");
+				return OperationResult<bool>.FromError("Зона не найдена в конфигурации");
 			}
 		}
 		public OperationResult<bool> SKDCloseZoneForever(Guid zoneUID)
@@ -1193,7 +1178,7 @@ namespace FiresecService.Service
 						var result = ChinaSKDDriver.Processor.SetDoorConfiguration(lockDevice.UID, lockDevice.SKDDoorConfiguration);
 						if (result.HasError)
 						{
-							errors.Add(result.Error);
+							errors.AddRange(result.Errors);
 						}
 						else if (device.State != null)
 						{
@@ -1205,18 +1190,18 @@ namespace FiresecService.Service
 					}
 					else
 					{
-						return new OperationResult<bool>("Для зоны не найден замок");
+						return OperationResult<bool>.FromError("Для зоны не найден замок");
 					}
 				}
 				if (errors.Count > 0)
 				{
-					return new OperationResult<bool>(String.Join("\n", errors));
+					return OperationResult<bool>.FromError(errors);
 				}
-				return new OperationResult<bool>() { Result = true };
+				return new OperationResult<bool>(true);
 			}
 			else
 			{
-				return new OperationResult<bool>("Зона не найдена в конфигурации");
+				return OperationResult<bool>.FromError("Зона не найдена в конфигурации");
 			}
 		}
 
@@ -1240,17 +1225,17 @@ namespace FiresecService.Service
 					}
 					else
 					{
-						return new OperationResult<bool>("Для точки доступа не найден замок");
+						return OperationResult<bool>.FromError("Для точки доступа не найден замок");
 					}
 				}
 				else
 				{
-					return new OperationResult<bool>("У точки доступа не указано устройство входа");
+					return OperationResult<bool>.FromError("У точки доступа не указано устройство входа");
 				}
 			}
 			else
 			{
-				return new OperationResult<bool>("Точка доступа не найдена в конфигурации");
+				return OperationResult<bool>.FromError("Точка доступа не найдена в конфигурации");
 			}
 		}
 		public OperationResult<bool> SKDCloseDoor(Guid doorUID)
@@ -1273,17 +1258,17 @@ namespace FiresecService.Service
 					}
 					else
 					{
-						return new OperationResult<bool>("Для точки доступа не найден замок");
+						return OperationResult<bool>.FromError("Для точки доступа не найден замок");
 					}
 				}
 				else
 				{
-					return new OperationResult<bool>("У точки доступа не указано устройство входа");
+					return OperationResult<bool>.FromError("У точки доступа не указано устройство входа");
 				}
 			}
 			else
 			{
-				return new OperationResult<bool>("Точка доступа не найдена в конфигурации");
+				return OperationResult<bool>.FromError("Точка доступа не найдена в конфигурации");
 			}
 		}
 
@@ -1316,17 +1301,17 @@ namespace FiresecService.Service
 					}
 					else
 					{
-						return new OperationResult<bool>("Для точки доступа не найден замок");
+						return OperationResult<bool>.FromError("Для точки доступа не найден замок");
 					}
 				}
 				else
 				{
-					return new OperationResult<bool>("У точки доступа не указано устройство входа");
+					return OperationResult<bool>.FromError("У точки доступа не указано устройство входа");
 				}
 			}
 			else
 			{
-				return new OperationResult<bool>("Точка доступа не найдена в конфигурации");
+				return OperationResult<bool>.FromError("Точка доступа не найдена в конфигурации");
 			}
 		}
 		public OperationResult<bool> SKDCloseDoorForever(Guid doorUID)
@@ -1358,17 +1343,17 @@ namespace FiresecService.Service
 					}
 					else
 					{
-						return new OperationResult<bool>("Для точки доступа не найден замок");
+						return OperationResult<bool>.FromError("Для точки доступа не найден замок");
 					}
 				}
 				else
 				{
-					return new OperationResult<bool>("У точки доступа не указано устройство входа");
+					return OperationResult<bool>.FromError("У точки доступа не указано устройство входа");
 				}
 			}
 			else
 			{
-				return new OperationResult<bool>("Точка доступа не найдена в конфигурации");
+				return OperationResult<bool>.FromError("Точка доступа не найдена в конфигурации");
 			}
 		}
 		#endregion

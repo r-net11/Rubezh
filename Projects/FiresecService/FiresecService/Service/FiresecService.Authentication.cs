@@ -13,21 +13,15 @@ namespace FiresecService.Service
 	{
 		OperationResult<bool> Authenticate(ClientCredentials clientCredentials)
 		{
-			var operationResult = new OperationResult<bool>();
-
-			if (CheckLogin(clientCredentials) == false)
+			if (!CheckLogin(clientCredentials))
 			{
-				operationResult.HasError = true;
-				operationResult.Error = "Неверный логин или пароль";
-				return operationResult;
+				return OperationResult<bool>.FromError("Неверный логин или пароль", true);
 			}
-			if (CheckRemoteAccessPermissions(clientCredentials) == false)
+			if (!CheckRemoteAccessPermissions(clientCredentials))
 			{
-				operationResult.HasError = true;
-				operationResult.Error = "У пользователя " + clientCredentials.UserName + " нет прав на подкючение к удаленному серверу c хоста: " + clientCredentials.ClientIpAddressAndPort;
-				return operationResult;
+				return OperationResult<bool>.FromError("У пользователя " + clientCredentials.UserName + " нет прав на подкючение к удаленному серверу c хоста: " + clientCredentials.ClientIpAddressAndPort, true);
 			}
-			return operationResult;
+			return new OperationResult<bool>(true);
 		}
 
 		bool CheckRemoteAccessPermissions(ClientCredentials clientCredentials)

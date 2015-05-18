@@ -80,11 +80,11 @@ namespace GKProcessor
 				var sendResult = SendManager.Send(controllerCardSchedule.ControllerDevice, (ushort)(pack.Count), (byte)(isNew ? 25 : 26), 0, pack);
 				if (sendResult.HasError)
 				{
-					return new OperationResult<bool>(sendResult.Error);
+					return OperationResult<bool>.FromError(sendResult.Error);
 				}
 				if (sendResult.Bytes.Count > 0)
 				{
-					return new OperationResult<bool>("Неправильный формат при записи карты в прибор");
+					return OperationResult<bool>.FromError("Неправильный формат при записи карты в прибор");
 				}
 			}
 
@@ -93,7 +93,7 @@ namespace GKProcessor
 				skdDatabaseService.GKCardTranslator.AddOrEdit(controllerCardSchedule.ControllerDevice.GetGKIpAddress(), gkCardNo, card.Number, employeeName);
 			}
 
-			return new OperationResult<bool>() { Result = true };
+			return new OperationResult<bool>(true);
 		}
 
 		public static OperationResult<bool> RemoveCard(GKDevice device, SKDCard card)
@@ -105,7 +105,7 @@ namespace GKProcessor
 			}
 			if (no == -1)
 			{
-				return new OperationResult<bool>("По номеру карты не найдена порядковая запись");
+				return OperationResult<bool>.FromError("По номеру карты не найдена порядковая запись");
 			}
 
 			var bytes = new List<byte>();
@@ -127,7 +127,7 @@ namespace GKProcessor
 			var sendResult = SendManager.Send(device, (ushort)(bytes.Count), 26, 0, bytes);
 			if (sendResult.HasError)
 			{
-				return new OperationResult<bool>(sendResult.Error);
+				return OperationResult<bool>.FromError(sendResult.Error);
 			}
 
 			using (var skdDatabaseService = new SKDDatabaseService())
@@ -135,7 +135,7 @@ namespace GKProcessor
 				skdDatabaseService.GKCardTranslator.Remove(device.GetGKIpAddress(), no, card.Number);
 			}
 
-			return new OperationResult<bool>() { Result = true };
+			return new OperationResult<bool>(true);
 		}
 
 		public static OperationResult<bool> EditCard(SKDCard oldCard, AccessTemplate oldAccessTemplate, SKDCard newCard, AccessTemplate newAccessTemplate)
@@ -147,7 +147,7 @@ namespace GKProcessor
 				controllerCardSchedules_ToDelete.RemoveAll(x => x.ControllerDevice.UID == controllerCardSchedule_ToEdit.ControllerDevice.UID);
 			}
 
-			return new OperationResult<bool>() { Result = true };
+			return new OperationResult<bool>(true);
 		}
 
 		public static OperationResult<List<GKUser>> GetAllUsers(GKDevice device)
@@ -164,7 +164,7 @@ namespace GKProcessor
 				var sendResult = SendManager.Send(device, (ushort)(bytes.Count), 24, 0, bytes);
 				if (sendResult.HasError)
 				{
-					return new OperationResult<List<GKUser>>("Во время выполнения операции возникла ошибка") { Result = users };
+					return OperationResult<List<GKUser>>.FromError("Во время выполнения операции возникла ошибка", users);
 				}
 				if (sendResult.Bytes.Count == 0)
 				{
@@ -180,13 +180,13 @@ namespace GKProcessor
 				users.Add(user);
 				if (progressCallback.IsCanceled)
 				{
-					return new OperationResult<List<GKUser>>("Операция отменена") { Result = users };
+					return OperationResult<List<GKUser>>.FromError("Операция отменена", users);
 				}
 				GKProcessorManager.DoProgress("Пользователь " + i, progressCallback);
 			}
 
 			GKProcessorManager.StopProgress(progressCallback);
-			return new OperationResult<List<GKUser>>() { Result = users };
+			return new OperationResult<List<GKUser>>(users);
 		}
 
 		public static bool RemoveAllUsers(GKDevice device, GKProgressCallback progressCallback)

@@ -401,13 +401,13 @@ namespace SKDDriver.Translators
 			try
 			{
 				if(Context.PassJournals.IsEmpty())
-					return new OperationResult<DateTime> { Result = new DateTime() };
+					return new OperationResult<DateTime>(new DateTime());
 				var result = Context.PassJournals.Min(x => x.EnterTime);
-				return new OperationResult<DateTime> { Result = result };
+				return new OperationResult<DateTime>(result);
 			}
 			catch(Exception e)
 			{
-				return new OperationResult<DateTime>(e.Message);
+				return OperationResult<DateTime>.FromError(e.Message);
 			}
 		}
 	}

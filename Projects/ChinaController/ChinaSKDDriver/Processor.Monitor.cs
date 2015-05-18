@@ -18,16 +18,16 @@ namespace ChinaSKDDriver
 				if (deviceProcessor != null)
 				{
 					if (!deviceProcessor.IsConnected)
-						return new OperationResult<bool>("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
+						return OperationResult<bool>.FromError("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
 
 					var result = deviceProcessor.Wrapper.OpenDoor(device.IntAddress);
 					if (result)
-						return new OperationResult<bool>() { Result = true };
+						return new OperationResult<bool>(true);
 					else
-						return new OperationResult<bool>("Ошибка при выполнении операции в контроллере");
+						return OperationResult<bool>.FromError("Ошибка при выполнении операции в контроллере");
 				}
 			}
-			return new OperationResult<bool>("Не найден контроллер в конфигурации");
+			return OperationResult<bool>.FromError("Не найден контроллер в конфигурации");
 		}
 
 		public static OperationResult<bool> CloseDoor(SKDDevice device)
@@ -38,27 +38,27 @@ namespace ChinaSKDDriver
 				if (deviceProcessor != null)
 				{
 					if (!deviceProcessor.IsConnected)
-						return new OperationResult<bool>("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
+						return OperationResult<bool>.FromError("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
 
 					var result = deviceProcessor.Wrapper.CloseDoor(device.IntAddress);
 					if (result)
 					{
-						return new OperationResult<bool>() { Result = true };
+						return new OperationResult<bool>(true);
 					}
 					else
 					{
 						if (device.State != null && device.State.OpenAlwaysTimeIndex == 1)
 						{
-							return new OperationResult<bool>("Нельзя закрыть замок, находящийся в режиме ВСЕГДА ОТКРЫТО");
+							return OperationResult<bool>.FromError("Нельзя закрыть замок, находящийся в режиме ВСЕГДА ОТКРЫТО");
 						}
 						else
 						{
-							return new OperationResult<bool>("Ошибка при выполнении операции в контроллере");
+							return OperationResult<bool>.FromError("Ошибка при выполнении операции в контроллере");
 						}
 					}
 				}
 			}
-			return new OperationResult<bool>("Не найден контроллер в конфигурации");
+			return OperationResult<bool>.FromError("Не найден контроллер в конфигурации");
 		}
 
 		public static OperationResult<bool> SKDRewriteAllCards(SKDDevice device, IEnumerable<SKDCard> cards, IEnumerable<AccessTemplate> accessTemplates)
@@ -67,21 +67,21 @@ namespace ChinaSKDDriver
 			if (deviceProcessor != null)
 			{
 				if (!deviceProcessor.IsConnected)
-					return new OperationResult<bool>("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
+					return OperationResult<bool>.FromError("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
 
 				var result = deviceProcessor.Wrapper.RemoveAllCards();
 				if (!result)
-					return new OperationResult<bool>("Ошибка при удалении всех карт в контроллере");
+					return OperationResult<bool>.FromError("Ошибка при удалении всех карт в контроллере");
 
 				var cardWriter = new CardWriter();
 				var error = cardWriter.RewriteAllCards(device, cards, accessTemplates);
-				if (!string.IsNullOrEmpty(error))
+				if (error.Count > 0)
 				{
-					return new OperationResult<bool>(error);
+					return OperationResult<bool>.FromError(error);
 				}
-				return new OperationResult<bool>() { Result = true };
+				return new OperationResult<bool>(true);
 			}
-			return new OperationResult<bool>("Не найден контроллер в конфигурации");
+			return OperationResult<bool>.FromError("Не найден контроллер в конфигурации");
 		}
 
 		public static CardWriter AddCard(SKDCard skdCard, AccessTemplate accessTemplate)

@@ -10,37 +10,52 @@ namespace FiresecAPI
 	{
 		public OperationResult()
 		{
-			HasError = false;
+			Errors = new List<string>();
 		}
 
-		public OperationResult(string error)
+		public OperationResult(T result)
 		{
-			HasError = true;
-			Error = error;
+			Errors = new List<string>();
+			Result = result;
 		}
 
 		[DataMember]
 		public T Result { get; set; }
 
-		[DataMember]
-		public bool HasError { get; set; }
+		public bool HasError
+		{
+			get { return Errors.Count > 0; }
+		}
+
+		public string Error
+		{
+			get { return String.Join("\n", Errors); }
+		}
 
 		[DataMember]
-		public string Error { get; set; }
+		public List<string> Errors { get; set; }
 
-		public static OperationResult<T> FromError(string error)
+		public static OperationResult<T> FromError(string error, T result = default(T))
 		{
 			var operationResult = new OperationResult<T>();
-			operationResult.Error = error;
-			operationResult.HasError = true;
+			if (!string.IsNullOrEmpty(error))
+				operationResult.Errors.Add(error);
+			operationResult.Result = result;
 			return operationResult;
 		}
 
-		public static OperationResult<T> FromError(List<string> errors)
+		public static OperationResult<T> FromError(List<string> errors, T result = default(T))
 		{
 			var operationResult = new OperationResult<T>();
-			//operationResult.Error = error;
-			operationResult.HasError = true;
+			if (errors != null)
+			{
+				foreach (var error in errors)
+				{
+					if (!string.IsNullOrEmpty(error))
+						operationResult.Errors.Add(error);
+				}
+			}
+			operationResult.Result = result;
 			return operationResult;
 		}
 	}
@@ -58,6 +73,13 @@ namespace FiresecAPI
 		{
 			HasError = true;
 			Error = error;
+		}
+
+		public OperationResult(List<string> errors)
+		{
+			HasError = true;
+			if (errors != null && errors.Count > 0)
+				Error = String.Join("\n", errors);
 		}
 
 		[DataMember]

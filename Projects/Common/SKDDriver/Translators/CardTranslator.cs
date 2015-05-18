@@ -176,13 +176,11 @@ namespace SKDDriver
 					select new { Card = card, CardDoors = cardDoors, Employee = employee };
 				foreach (var tableItem in tableItems.Where(x => x.Employee != null || x.Card.IsInStopList))
 					result.Add(Translate(tableItem.Card, tableItem.Employee, tableItem.CardDoors));
-				var operationResult = new OperationResult<IEnumerable<SKDCard>>();
-				operationResult.Result = result;
-				return operationResult;
+				return new OperationResult<IEnumerable<SKDCard>>(result);
 			}
 			catch (Exception e)
 			{
-				return new OperationResult<IEnumerable<SKDCard>>(e.Message);
+				return OperationResult<IEnumerable<SKDCard>>.FromError(e.Message);
 			}
 		}
 
@@ -200,11 +198,11 @@ namespace SKDDriver
 						skdCards.Add(skdCard);
 					}
 				}
-				return new OperationResult<List<SKDCard>>() { Result = skdCards };
+				return new OperationResult<List<SKDCard>>(skdCards);
 			}
 			catch (Exception e)
 			{
-				return new OperationResult<List<SKDCard>>(e.Message);
+				return OperationResult<List<SKDCard>>.FromError(e.Message);
 			}
 		}
 
@@ -217,15 +215,15 @@ namespace SKDDriver
 				if (card != null)
 				{
 					if (card.EmployeeUID != null)
-						return new OperationResult<Guid>() { Result = card.EmployeeUID.Value };
+						return new OperationResult<Guid>(card.EmployeeUID.Value);
 				}
 				{
-					return new OperationResult<Guid>("Карта не найдена");
+					return OperationResult<Guid>.FromError("Карта не найдена");
 				}
 			}
 			catch (Exception e)
 			{
-				return new OperationResult<Guid>(e.Message);
+				return OperationResult<Guid>.FromError(e.Message);
 			}
 		}
 
@@ -234,11 +232,11 @@ namespace SKDDriver
 			try
 			{
 				var result = Table.Min(x => x.EndDate);
-				return new OperationResult<DateTime> { Result = result };
+				return new OperationResult<DateTime>(result);
 			}
 			catch (Exception e)
 			{
-				return new OperationResult<DateTime>(e.Message);
+				return OperationResult<DateTime>.FromError(e.Message);
 			}
 		}
 
@@ -256,13 +254,11 @@ namespace SKDDriver
 					select new { Card = card, CardDoors = cardDoors, Employee = employee };
 				foreach (var tableItem in tableItems.Where(x => x.Employee != null || x.Card.IsInStopList))
 					result.Add(Translate(tableItem.Card, tableItem.Employee, tableItem.CardDoors));
-				var operationResult = new OperationResult<IEnumerable<SKDCard>>();
-				operationResult.Result = result;
-				return operationResult;
+				return new OperationResult<IEnumerable<SKDCard>>(result);
 			}
 			catch (Exception e)
 			{
-				return new OperationResult<IEnumerable<SKDCard>>(e.Message);
+				return OperationResult<IEnumerable<SKDCard>>.FromError(e.Message);
 			}
 		}
 

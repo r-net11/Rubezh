@@ -41,12 +41,12 @@ namespace SKDDriver
 			{
 				var tableItem = tableItems.FirstOrDefault(x => x.OrganisationUID.Equals(uid));
 				if (tableItem == null)
-					return new OperationResult<NightSettings>("Настройки ночных и вечерних интервалов для данной организации не найдены");
-				return new OperationResult<NightSettings> { Result = Translate(tableItem) };
+					return OperationResult<NightSettings>.FromError("Настройки ночных и вечерних интервалов для данной организации не найдены");
+				return new OperationResult<NightSettings>(Translate(tableItem));
 			}
 			catch (Exception e)
 			{
-				return new OperationResult<NightSettings>(e.Message);
+				return OperationResult<NightSettings>.FromError(e.Message);
 			}
 		}
 	}

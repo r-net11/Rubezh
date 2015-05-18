@@ -68,7 +68,7 @@ namespace SKDDriver.Translators
 			{
 				var operationResult = DatabaseService.EmployeeTranslator.GetList(filter);
 				if (operationResult.HasError)
-					return new OperationResult<TimeTrackResult>(operationResult.Error);
+					return OperationResult<TimeTrackResult>.FromError(operationResult.Errors);
 
 				var timeTrackResult = new TimeTrackResult();
 				foreach (var shortEmployee in operationResult.Result)
@@ -122,11 +122,11 @@ namespace SKDDriver.Translators
 
 					timeTrackResult.TimeTrackEmployeeResults.Add(timeTrackEmployeeResult);
 				}
-				return new OperationResult<TimeTrackResult> { Result = timeTrackResult };
+				return new OperationResult<TimeTrackResult>(timeTrackResult);
 			}
 			catch (Exception e)
 			{
-				return new OperationResult<TimeTrackResult>(e.Message);
+				return OperationResult<TimeTrackResult>.FromError(e.Message);
 			}
 		}
 

@@ -29,14 +29,13 @@ namespace SKDDriver
 					var employeeListItem = TranslateToShort(tableItem);
 					result.Add(employeeListItem);
 				}
-				var operationResult = new OperationResult<IEnumerable<TShort>>();
-				operationResult.Result = result;
+				var operationResult = new OperationResult<IEnumerable<TShort>>(result);
 				AfterGetList();
 				return operationResult;
 			}
 			catch (Exception e)
 			{
-				return new OperationResult<IEnumerable<TShort>>(e.Message);
+				return OperationResult<IEnumerable<TShort>>.FromError(e.Message);
 			}
 		}
 		

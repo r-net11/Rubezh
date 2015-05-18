@@ -15,10 +15,10 @@ namespace SKDDriver
 			DatabaseService = databaseService;
 			Context = databaseService.Context;
 		}
-		
+
 		T TranslateModelBase<T, TTableItem>(TTableItem tableItem)
-			where T: ModelBase, new()
-			where TTableItem : DataAccess.IGKModelBase 
+			where T : ModelBase, new()
+			where TTableItem : DataAccess.IGKModelBase
 		{
 			return new T
 			{
@@ -59,7 +59,7 @@ namespace SKDDriver
 
 		GKDaySchedule TranslateGKDaySchedule(DataAccess.GKDaySchedule daySchedule, IEnumerable<DataAccess.GKDaySchedulePart> dayScheduleParts)
 		{
-			var result = TranslateModelBase<GKDaySchedule, DataAccess.GKDaySchedule>(daySchedule); 
+			var result = TranslateModelBase<GKDaySchedule, DataAccess.GKDaySchedule>(daySchedule);
 			result.DayScheduleParts = new List<GKDaySchedulePart>();
 			foreach (var tableDaySchedulePart in dayScheduleParts)
 			{
@@ -84,11 +84,11 @@ namespace SKDDriver
 				{
 					result.Add(TranslateGKDaySchedule(item.daySchedule, item.dayScheduleParts));
 				}
-				return new OperationResult<List<GKDaySchedule>> { Result = result };
+				return new OperationResult<List<GKDaySchedule>>(result);
 			}
 			catch (Exception e)
 			{
-				return new OperationResult<List<GKDaySchedule>>(e.Message);
+				return OperationResult<List<GKDaySchedule>>.FromError(e.Message);
 			}
 		}
 
@@ -109,11 +109,11 @@ namespace SKDDriver
 				{
 					result.Add(TranslateGKSchdule(item.scheduleWithDays.schedule, item.scheduleWithDays.scheduleDays, item.daySchedules.Select(x => x.DayScheduleUID)));
 				}
-				return new OperationResult<List<GKSchedule>> { Result = result };
+				return new OperationResult<List<GKSchedule>>(result);
 			}
 			catch (Exception e)
 			{
-				return new OperationResult<List<GKSchedule>>(e.Message);
+				return OperationResult<List<GKSchedule>>.FromError(e.Message);
 			}
 		}
 
@@ -138,12 +138,12 @@ namespace SKDDriver
 				var tableDayScheduleParts = new List<DataAccess.GKDaySchedulePart>();
 				foreach (var daySchedulePart in daySchedule.DayScheduleParts)
 				{
-					var tableDayScheduePart = new DataAccess.GKDaySchedulePart 
-					{ 
-						UID = daySchedulePart.UID, 
-						DayScheduleUID = tableDaySchedule.UID, 
-						StartMilliseconds = daySchedulePart.StartMilliseconds, 
-						EndMilliseconds = daySchedulePart.EndMilliseconds 
+					var tableDayScheduePart = new DataAccess.GKDaySchedulePart
+					{
+						UID = daySchedulePart.UID,
+						DayScheduleUID = tableDaySchedule.UID,
+						StartMilliseconds = daySchedulePart.StartMilliseconds,
+						EndMilliseconds = daySchedulePart.EndMilliseconds
 					};
 					TranslateModelBaseBack(daySchedulePart, tableDayScheduePart);
 					tableDayScheduleParts.Add(tableDayScheduePart);
@@ -250,6 +250,4 @@ namespace SKDDriver
 		}
 
 	}
-
-
 }

@@ -146,7 +146,7 @@ namespace FiresecService
 								var controllerCardSchedules = GKSKDHelper.GetGKControllerCardSchedules(card, getAccessTemplateOperationResult.Result);
 								foreach (var controllerCardSchedule in controllerCardSchedules)
 								{
-									var result = new OperationResult<bool>();
+									var result = new OperationResult<bool>(false);
 									switch ((PendingCardAction)pendingCard.Action)
 									{
 										case PendingCardAction.Add:

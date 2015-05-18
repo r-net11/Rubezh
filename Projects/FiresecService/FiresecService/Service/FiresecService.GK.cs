@@ -37,7 +37,7 @@ namespace FiresecService.Service
 			{
 				return GKProcessorManager.GKWriteConfiguration(device, UserName);
 			}
-			return new OperationResult<bool>("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
+			return OperationResult<bool>.FromError("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
 		}
 
 		public OperationResult<GKDeviceConfiguration> GKReadConfiguration(Guid deviceUID)
@@ -48,7 +48,7 @@ namespace FiresecService.Service
 				DescriptorsManager.Create();
 				return GKProcessorManager.GKReadConfiguration(device, UserName);
 			}
-			return new OperationResult<GKDeviceConfiguration>("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
+			return OperationResult<GKDeviceConfiguration>.FromError("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
 		}
 
 		public Stream GKReadConfigurationFromGKFile(Guid deviceUID)
@@ -71,7 +71,7 @@ namespace FiresecService.Service
 				DescriptorsManager.Create();
 				return GKProcessorManager.GKAutoSearch(device, UserName);
 			}
-			return new OperationResult<GKDeviceConfiguration>("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
+			return OperationResult<GKDeviceConfiguration>.FromError("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
 		}
 
 		public OperationResult<bool> GKUpdateFirmware(Guid deviceUID, string fileName)
@@ -81,7 +81,7 @@ namespace FiresecService.Service
 			{
 				return GKProcessorManager.GKUpdateFirmware(device, fileName, UserName);
 			}
-			return new OperationResult<bool>("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
+			return OperationResult<bool>.FromError("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
 		}
 
 		public OperationResult<bool> GKUpdateFirmwareFSCS(HexFileCollectionInfo hxcFileInfo, string userName, List<Guid> deviceUIDs)
@@ -92,7 +92,7 @@ namespace FiresecService.Service
 				var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 				if (device == null)
 				{
-					return new OperationResult<bool>("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
+					return OperationResult<bool>.FromError("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
 				}
 				devices.Add(device);
 			}
@@ -106,10 +106,10 @@ namespace FiresecService.Service
 			{
 				var result = GKProcessorManager.GKSyncronyseTime(device, UserName);
 				if (result)
-					return new OperationResult<bool> { Result = true };
-				return new OperationResult<bool>("Устройство недоступно") { Result = false };
+					return new OperationResult<bool>(true);
+				return OperationResult<bool>.FromError("Устройство недоступно", false);
 			}
-			return new OperationResult<bool>("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
+			return OperationResult<bool>.FromError("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
 		}
 
 		public OperationResult<string> GKGetDeviceInfo(Guid deviceUID)
@@ -117,9 +117,9 @@ namespace FiresecService.Service
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				return new OperationResult<string> { Result = GKProcessorManager.GKGetDeviceInfo(device, UserName) };
+				return new OperationResult<string>(GKProcessorManager.GKGetDeviceInfo(device, UserName));
 			}
-			return new OperationResult<string>("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
+			return OperationResult<string>.FromError("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
 		}
 
 		public OperationResult<int> GKGetJournalItemsCount(Guid deviceUID)
@@ -129,7 +129,7 @@ namespace FiresecService.Service
 			{
 				return GKProcessorManager.GKGetJournalItemsCount(device);
 			}
-			return new OperationResult<int>("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
+			return OperationResult<int>.FromError("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
 		}
 
 		public OperationResult<JournalItem> GKReadJournalItem(Guid deviceUID, int no)
@@ -139,7 +139,7 @@ namespace FiresecService.Service
 			{
 				return GKProcessorManager.GKReadJournalItem(device, no);
 			}
-			return new OperationResult<JournalItem>("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
+			return OperationResult<JournalItem>.FromError("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
 		}
 
 		public OperationResult<bool> GKSetSingleParameter(Guid objectUID, List<byte> parameterBytes)
@@ -167,7 +167,7 @@ namespace FiresecService.Service
 			{
 				return GKProcessorManager.GKSetSingleParameter(gkBase, parameterBytes);
 			}
-			return new OperationResult<bool>("Не найден компонент в конфигурации");
+			return OperationResult<bool>.FromError("Не найден компонент в конфигурации");
 		}
 
 		public OperationResult<List<GKProperty>> GKGetSingleParameter(Guid objectUID)
@@ -195,7 +195,7 @@ namespace FiresecService.Service
 			{
 				return GKProcessorManager.GKGetSingleParameter(gkBase);
 			}
-			return new OperationResult<List<GKProperty>>("Не найден компонент в конфигурации");
+			return OperationResult<List<GKProperty>>.FromError("Не найден компонент в конфигурации");
 		}
 
 		public OperationResult<bool> GKRewriteAllSchedules(Guid deviceUID)
@@ -205,7 +205,7 @@ namespace FiresecService.Service
 			{
 				return GKScheduleHelper.GKRewriteAllSchedules(gkControllerDevice);
 			}
-			return new OperationResult<bool>("Не найден ГК в конфигурации");
+			return OperationResult<bool>.FromError("Не найден ГК в конфигурации");
 		}
 
 		public OperationResult<bool> GKSetSchedule(GKSchedule schedule)
@@ -215,7 +215,7 @@ namespace FiresecService.Service
 			{
 				return GKScheduleHelper.GKSetSchedule(gkControllerDevice, schedule);
 			}
-			return new OperationResult<bool>("Не найден ГК в конфигурации");
+			return OperationResult<bool>.FromError("Не найден ГК в конфигурации");
 		}
 
 		public OperationResult<List<byte>> GKGKHash(Guid gkDeviceUID)
@@ -225,7 +225,7 @@ namespace FiresecService.Service
 			{
 				return GKProcessorManager.GKGKHash(device);
 			}
-			return new OperationResult<List<byte>>("Не найдено устройство в конфигурации");
+			return OperationResult<List<byte>>.FromError("Не найдено устройство в конфигурации");
 		}
 
 		public GKStates GKGetStates()
@@ -428,7 +428,7 @@ namespace FiresecService.Service
 			{
 				return GKProcessorManager.GKGetReaderCode(device);
 			}
-			return new OperationResult<uint>("Не найдено устройство в конфигурации");
+			return OperationResult<uint>.FromError("Не найдено устройство в конфигурации");
 		}
 
 		public void GKOpenSKDZone(Guid zoneUID)
@@ -461,10 +461,10 @@ namespace FiresecService.Service
 				}
 				catch (Exception e)
 				{
-					return new OperationResult<List<GKUser>>(e.Message);
+					return OperationResult<List<GKUser>>.FromError(e.Message);
 				}
 			}
-			return new OperationResult<List<GKUser>>("Не найден ГК в конфигурации");
+			return OperationResult<List<GKUser>>.FromError("Не найден ГК в конфигурации");
 		}
 
 		public OperationResult<bool> GKRewriteUsers(Guid deviceUID)
@@ -485,7 +485,7 @@ namespace FiresecService.Service
 					if (!removeResult)
 					{
 						GKProcessorManager.StopProgress(progressCallback);
-						return new OperationResult<bool>("Ошибка при удалении пользователя из ГК");
+						return OperationResult<bool>.FromError("Ошибка при удалении пользователя из ГК");
 					}
 
 					using (var databaseService = new SKDDatabaseService())
@@ -523,18 +523,18 @@ namespace FiresecService.Service
 						}
 					}
 
-					return new OperationResult<bool>();
+					return new OperationResult<bool>(true);
 				}
 				catch (Exception e)
 				{
-					return new OperationResult<bool>(e.Message);
+					return OperationResult<bool>.FromError(e.Message);
 				}
 				finally
 				{
 					GKProcessorManager.StopProgress(progressCallback);
 				}
 			}
-			return new OperationResult<bool>("Не найден ГК в конфигурации");
+			return OperationResult<bool>.FromError("Не найден ГК в конфигурации");
 		}
 		#endregion
 	}

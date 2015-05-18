@@ -84,12 +84,12 @@ namespace FiresecService
 					}
 				}
 				journalItems.Reverse();
-				return new OperationResult<List<JournalItem>> { Result = journalItems };
+				return new OperationResult<List<JournalItem>>(journalItems);
 			}
 			catch (Exception e)
 			{
 				Logger.Error(e, "FiresecService.GetTopLast");
-				return new OperationResult<List<JournalItem>>(e.Message);
+				return OperationResult<List<JournalItem>>.FromError(e.Message);
 			}
 		}
 

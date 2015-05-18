@@ -48,13 +48,11 @@ namespace SKDDriver
 
 				foreach (var tableItem in tableItems)
 					result.Add(TranslateToShort(tableItem.Employee, tableItem.Department, tableItem.Position, tableItem.Organisation, tableItem.Schedule, tableItem.AdditionalColumns));
-				var operationResult = new OperationResult<IEnumerable<ShortEmployee>>();
-				operationResult.Result = result;
-				return operationResult;
+				return new OperationResult<IEnumerable<ShortEmployee>>(result);
 			}
 			catch (Exception e)
 			{
-				return new OperationResult<IEnumerable<ShortEmployee>>(e.Message);
+				return OperationResult<IEnumerable<ShortEmployee>>.FromError(e.Message);
 			}
 		}
 

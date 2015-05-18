@@ -34,8 +34,8 @@ namespace FiresecClient.SKDHelpers
 			}
 			if (operationResult.HasError)
 			{
-				if (operationResult.Error.Contains("String or binary data would be truncated"))
-					operationResult.Error = "Превышен максимальный размер строки";
+				//if (operationResult.Error.Contains("String or binary data would be truncated"))
+				//    operationResult.Error = "Превышен максимальный размер строки";
 				if (!operationResult.Error.Contains("При установлении соединения с SQL Server произошла ошибка") &&
 					!operationResult.Error.Contains("Could not open a connection to SQL Server") &&
 					showError)
@@ -46,5 +46,5 @@ namespace FiresecClient.SKDHelpers
 			}
 			return operationResult.Result;
 		}
-}
+	}
 }
