@@ -21,7 +21,7 @@
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
 						<StackPanel Orientation="Horizontal">
-							<Image Width="16" Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/Zone.png" />
+							<Image Width="16" Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/SKDZone.png" />
 							<TextBlock Margin="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding No}" />
 						</StackPanel>
 					</DataTemplate>
