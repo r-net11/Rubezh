@@ -150,40 +150,6 @@ namespace SKDDriver
 			return result;
 		}
 
-		//protected override ShortEmployee TranslateToShort(DataAccess.Employee tableItem)
-		//{
-		//    var result = base.TranslateToShort(tableItem);
-		//    result.FirstName = tableItem.FirstName;
-		//    result.SecondName = tableItem.SecondName;
-		//    result.LastName = tableItem.LastName;
-		//    result.Description = tableItem.Description;
-		//    result.Cards = DatabaseService.CardTranslator.GetAllByEmployee<DataAccess.Card>(tableItem.UID, _cards);
-		//    result.Type = (PersonType)tableItem.Type;
-		//    result.CredentialsStartDate = tableItem.CredentialsStartDate.ToString("d MMM yyyy");
-		//    result.TabelNo = tableItem.TabelNo;
-		//    result.TextColumns = DatabaseService.AdditionalColumnTranslator.GetTextColumns(tableItem.UID, _additionalColumnTypeUIDs, _additionalColumns);
-		//    result.Phone = tableItem.Phone;
-		//    result.LastEmployeeDayUpdate = tableItem.LastEmployeeDayUpdate;
-		//    var position = _positions != null ? _positions.FirstOrDefault(x => x.UID == tableItem.PositionUID) : Context.Positions.FirstOrDefault(x => x.UID == tableItem.PositionUID);
-		//    if (position != null)
-		//    {
-		//        result.PositionName = position.Name;
-		//        result.IsPositionDeleted = position.IsDeleted;
-		//    }
-		//    var department = _departments != null ? _departments.FirstOrDefault(x => x.UID == tableItem.DepartmentUID) : Context.Departments.FirstOrDefault(x => x.UID == tableItem.DepartmentUID);
-		//    if (department != null)
-		//    {
-		//        result.DepartmentName = department.Name;
-		//        result.IsDepartmentDeleted = department.IsDeleted;
-		//    }
-		//    var organisation = _organisations != null ? _organisations.FirstOrDefault(x => x.UID == tableItem.OrganisationUID) : Context.Organisations.FirstOrDefault(x => x.UID == tableItem.OrganisationUID);
-		//    if (organisation != null)
-		//        result.OrganisationName = organisation.Name;
-		//    var schedule = _schedules != null ? _schedules.FirstOrDefault(x => x.UID == tableItem.ScheduleUID) : Context.Schedules.FirstOrDefault(x => x.UID == tableItem.ScheduleUID);
-		//    result.ScheduleUID = schedule != null ? schedule.UID : Guid.Empty;
-		//    return result;
-		//}
-
 		List<DataAccess.Department> _departments;
 		List<DataAccess.Position> _positions;
 		List<DataAccess.Organisation> _organisations;
@@ -383,12 +349,12 @@ namespace SKDDriver
 					//    var empl = CreateEmpl("Сотрудник " + i + j + "0", org.UID, deptUIDs.FirstOrDefault(), posUIDs.FirstOrDefault());
 					//    Context.Employees.InsertOnSubmit(empl);
 					//}
-					for (int j = 0; j < 65535; j++)
+					for (int j = 0; j < 10000; j++)
 					{
 						var empl = CreateEmployee(i + j + "", org.UID);
 						Context.Employees.InsertOnSubmit(empl);
-						var card = CreateCard(j, empl.UID);
-						Context.Cards.InsertOnSubmit(card);
+						//var card = CreateCard(j, empl.UID);
+						//Context.Cards.InsertOnSubmit(card);
 					}
 				}
 				Context.SubmitChanges();
@@ -510,6 +476,76 @@ namespace SKDDriver
 			catch (Exception e)
 			{
 				return new OperationResult(e.Message);
+			}
+		}
+
+		public void TestGet()
+		{
+			int i = 0;
+			string s;
+			foreach (var employee in Table)
+			{
+				i++;
+				s = string.Format("{0} {1}", employee.UID, i);
+				//Trace.Write(employee.FirstName);
+				//Trace.Write(" ");
+				//Trace.Write(employee.SecondName);
+				//Trace.Write(" ");
+				//Trace.Write(employee.LastName);
+				//Trace.Write(" ");
+				//Trace.Write(employee.PhotoUID);
+				//Trace.Write(" ");
+				//Trace.Write(employee.PositionUID);
+				//Trace.Write(" ");
+				//Trace.Write(employee.DepartmentUID);
+				//Trace.Write(" "); 
+				//Trace.Write(employee.ScheduleUID);
+				//Trace.Write(" ");
+				//Trace.Write(employee.ScheduleStartDate);
+				//Trace.Write(" ");
+				//Trace.Write(employee.Type);
+				//Trace.Write(" ");
+				//Trace.Write(employee.TabelNo);
+				//Trace.Write(" ");
+				//Trace.Write(employee.CredentialsStartDate);
+				//Trace.Write(" ");
+				//Trace.Write(employee.EscortUID);
+				//Trace.Write(" ");
+				//Trace.Write(employee.IsDeleted);
+				//Trace.Write(" ");
+				//Trace.Write(employee.RemovalDate);
+				//Trace.Write(" ");
+				//Trace.Write(employee.OrganisationUID);
+				//Trace.Write(" ");
+				//Trace.Write(employee.DocumentNumber);
+				//Trace.Write(" ");
+				//Trace.Write(employee.BirthDate);
+				//Trace.Write(" ");
+				//Trace.Write(employee.BirthPlace);
+				//Trace.Write(" ");
+				//Trace.Write(employee.DocumentGivenDate);
+				//Trace.Write(" ");
+				//Trace.Write(employee.DocumentGivenBy);
+				//Trace.Write(" ");
+				//Trace.Write(employee.DocumentValidTo);
+				//Trace.Write(" ");
+				//Trace.Write(employee.Gender);
+				//Trace.Write(" ");
+				//Trace.Write(employee.DocumentDepartmentCode);
+				//Trace.Write(" ");
+				//Trace.Write(employee.Citizenship);
+				//Trace.Write(" ");
+				//Trace.Write(employee.DocumentType);
+				//Trace.Write(" ");
+				//Trace.Write(employee.Phone);
+				//Trace.Write(" ");
+				//Trace.Write(employee.Description);
+				//Trace.Write(" ");
+				//Trace.Write(employee.LastEmployeeDayUpdate);
+				//Trace.Write(" ");
+				//Trace.Write(employee.ExternalKey);
+				//Trace.Write(" ");
+				
 			}
 		}
 		#endregion

@@ -3,13 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
-using Infrastructure;
-using SKDModule.Events;
 
 namespace SKDModule.ViewModels
 {
-	public class AccessTemplatesViewModel : OrganisationBaseViewModel<AccessTemplate, AccessTemplateFilter, AccessTemplateViewModel, AccessTemplateDetailsViewModel>, 
-		ICardDoorsParentList<AccessTemplateViewModel>
+	public class AccessTemplatesViewModel : OrganisationBaseViewModel<AccessTemplate, AccessTemplateFilter, AccessTemplateViewModel, AccessTemplateDetailsViewModel>, ICardDoorsParentList<AccessTemplateViewModel>
 	{
 		public override void Initialize(AccessTemplateFilter filter)
 		{
@@ -72,34 +69,9 @@ namespace SKDModule.ViewModels
 			get { return FiresecAPI.Models.PermissionType.Oper_SKD_AccessTemplates_Etit; }
 		}
 
-		public List<AccessTemplateViewModel> CardDoorsParents
+		public List<AccessTemplateViewModel> DoorsParents
 		{
 			get { return Organisations.SelectMany(x => x.Children).ToList(); }
 		}
 	}	
-
-	public interface ICardDoorsParentList<T>
-		where T: ICardDoorsParent
-	{
-		List<T> CardDoorsParents { get; }
-	}
-
-	public class UpdateOrganisationDoorsEventSubscriber<T>
-		where T: ICardDoorsParent
-	{
-		ICardDoorsParentList<T> _cardDoorsParentList;
-
-		public UpdateOrganisationDoorsEventSubscriber(ICardDoorsParentList<T> cardDoorsParentList)
-		{
-			_cardDoorsParentList = cardDoorsParentList;
-			ServiceFactory.Events.GetEvent<UpdateOrganisationDoorsEvent>().Unsubscribe(OnOrganisationDoorsChanged);
-			ServiceFactory.Events.GetEvent<UpdateOrganisationDoorsEvent>().Subscribe(OnOrganisationDoorsChanged);
-		}
-
-		void OnOrganisationDoorsChanged(Guid organisationUID)
-		{
-			var doorUIDs = OrganisationHelper.GetSingle(organisationUID).DoorUIDs;
-			_cardDoorsParentList.CardDoorsParents.ForEach(x => x.UpdateCardDoors(doorUIDs));
-		}
-	}
 }

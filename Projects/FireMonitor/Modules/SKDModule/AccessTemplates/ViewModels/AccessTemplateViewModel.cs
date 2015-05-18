@@ -7,7 +7,7 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class AccessTemplateViewModel : OrganisationElementViewModel<AccessTemplateViewModel, AccessTemplate>, ICardDoorsParent
+	public class AccessTemplateViewModel : OrganisationElementViewModel<AccessTemplateViewModel, AccessTemplate>, IDoorsParent
 	{
 		public CardDoorsViewModel CardDoorsViewModel { get; private set; }
 		

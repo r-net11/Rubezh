@@ -135,6 +135,8 @@ namespace SKDDriver.Translators
 			var timeTracksResult = GetTimeTracks(filter, startDate, endDate).Result;
 			var serializer = new DataContractSerializer(typeof(TimeTrackResult));
 			var folderName = AppDataFolderHelper.GetFolder("TempServer");
+			if (!Directory.Exists(folderName))
+				Directory.CreateDirectory(folderName);
 			var fileName = Path.Combine(folderName, "TimeTrackResult.xml");
 			using (var fileStream = File.Open(fileName, FileMode.Create))
 			{

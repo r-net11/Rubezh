@@ -13,7 +13,7 @@ using SKDModule.PassCard.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class EmployeeCardViewModel : BaseViewModel, ICardDoorsParent
+	public class EmployeeCardViewModel : BaseViewModel, IDoorsParent
 	{
 		public Organisation Organisation { get; private set; }
 		public SKDCard Card { get; private set; }
