@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using System.Collections.Generic;
 
 namespace FiresecAPI
 {
@@ -26,6 +27,22 @@ namespace FiresecAPI
 
 		[DataMember]
 		public string Error { get; set; }
+
+		public static OperationResult<T> FromError(string error)
+		{
+			var operationResult = new OperationResult<T>();
+			operationResult.Error = error;
+			operationResult.HasError = true;
+			return operationResult;
+		}
+
+		public static OperationResult<T> FromError(List<string> errors)
+		{
+			var operationResult = new OperationResult<T>();
+			//operationResult.Error = error;
+			operationResult.HasError = true;
+			return operationResult;
+		}
 	}
 
 	[DataContract]

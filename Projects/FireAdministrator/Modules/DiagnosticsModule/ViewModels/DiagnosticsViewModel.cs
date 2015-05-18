@@ -6,6 +6,7 @@ using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using System.ServiceModel;
+using FiresecAPI;
 
 namespace DiagnosticsModule.ViewModels
 {
@@ -13,11 +14,11 @@ namespace DiagnosticsModule.ViewModels
 	{
 		public DiagnosticsViewModel()
 		{
-			AddJournalCommand = new RelayCommand(OnAddJournal);
+			TestCommand = new RelayCommand(OnTest);
 		}
 
-		public RelayCommand AddJournalCommand { get; private set; }
-		void OnAddJournal()
+		public RelayCommand TestCommand { get; private set; }
+		void OnTest()
 		{
 		}
 	}
