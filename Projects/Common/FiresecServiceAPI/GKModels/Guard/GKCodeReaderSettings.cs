@@ -100,5 +100,11 @@ namespace FiresecAPI.GK
 		/// </summary>
 		[DataMember]
 		public List<Guid> CodeUIDs { get; set; }
+
+		/// <summary>
+		/// Минимальный уровень на проход
+		/// </summary>
+		[DataMember]
+		public int AccessLevel { get; set; }
 	}
 }

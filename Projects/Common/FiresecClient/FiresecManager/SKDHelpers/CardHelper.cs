@@ -47,6 +47,14 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(result);
 		}
 
+		public static IEnumerable<SKDCard> GetOrganisationCards(Guid organisationUID)
+		{
+			var filter = new CardFilter();
+			filter.EmployeeFilter = new EmployeeFilter { OrganisationUIDs = new List<Guid> { organisationUID }, IsAllPersonTypes = true };
+			var result = FiresecManager.FiresecService.GetCards(filter);
+			return Common.ShowErrorIfExists(result);
+		}
+
 		public static bool DeleteFromEmployee(SKDCard card, string employeeName, string reason)
 		{
 			var result = FiresecManager.FiresecService.DeleteCardFromEmployee(card, employeeName, reason);

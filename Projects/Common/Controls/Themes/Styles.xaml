@@ -7,8 +7,8 @@
 		<ResourceDictionary Source="BlueTheme.xaml" />
 		<ResourceDictionary Source="StrazhTheme.xaml" />
 		<ResourceDictionary Source="ScrollBarStyle.xaml" />
+		<ResourceDictionary Source="DatePickerCalendarStyle.xaml" />
 		<ResourceDictionary Source="DatePickerStyle.xaml" />
-		<ResourceDictionary Source="DateTimePicker.xaml" />
 		<ResourceDictionary Source="DataGridStyle.xaml" />
 		<ResourceDictionary Source="TreeExpanderStyle.xaml" />
 		<ResourceDictionary Source="OutlookTabControlStyle.xaml" />

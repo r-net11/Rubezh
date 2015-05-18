@@ -13,8 +13,15 @@
 		<CheckBox Grid.Row="0" Grid.Column="1" Margin="2" VerticalAlignment="Center" IsChecked="{Binding UseCurrentDate}" HorizontalAlignment="Left"/>
 		<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" IsEnabled="{Binding UseCurrentDate, Converter={StaticResource InverseBooleanConverter}}" Text="Дата и время" />
 		<!--<loya:Dameer Grid.Row="1" Grid.Column="1" Width="240" Margin="2,6,2,6" HorizontalAlignment="Left" CustomFormat="dd MMMM yyyy HH:mm:ss" Format="Custom" IsEnabled="{Binding UseCurrentDate, Converter={StaticResource InverseBooleanConverter}}" ShowCheckBox="False" Value="{Binding ReportDateTime}" />-->
-		<dxe:DateEdit Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" IsEnabled="{Binding UseCurrentDate, Converter={StaticResource InverseBooleanConverter}}"
-						  Mask="dd.MM.yyyy HH:mm:ss" MaskCulture="ru-RU" MaskUseAsDisplayFormat="True" ShowBorder="True" AllowSpinOnMouseWheel="True"
-						  DateTime="{Binding ReportDateTime}" Margin="2" Padding="4,3" ShowClearButton="False" />
+		<DatePicker
+			Grid.Row="1"
+			Grid.Column="1" 
+			HorizontalAlignment="Left"
+			VerticalAlignment="Top" 
+			Width="150" 
+			Focusable="False"
+			IsEnabled="{Binding UseCurrentDate, Converter={StaticResource InverseBooleanConverter}}"
+			SelectedDate="{Binding ReportDateTime}" 
+			Margin="2" />
 	</Grid>
 </UserControl>

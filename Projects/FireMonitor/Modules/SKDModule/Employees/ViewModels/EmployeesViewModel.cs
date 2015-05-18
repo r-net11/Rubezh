@@ -19,8 +19,6 @@ namespace SKDModule.ViewModels
 		{
 			ServiceFactory.Events.GetEvent<EditEmployeeEvent>().Unsubscribe(OnEditEmployee);
 			ServiceFactory.Events.GetEvent<EditEmployeeEvent>().Subscribe(OnEditEmployee);
-			ServiceFactory.Events.GetEvent<UpdateAccessTemplateEvent>().Unsubscribe(OnUpdateAccessTemplate);
-			ServiceFactory.Events.GetEvent<UpdateAccessTemplateEvent>().Subscribe(OnUpdateAccessTemplate);
 			ServiceFactory.Events.GetEvent<EditAdditionalColumnEvent>().Unsubscribe(OnUpdateIsInGrid);
 			ServiceFactory.Events.GetEvent<EditAdditionalColumnEvent>().Subscribe(OnUpdateIsInGrid);
 		}
@@ -59,9 +57,9 @@ namespace SKDModule.ViewModels
 
 		protected override void Remove()
 		{
-			if (SelectedItem.Cards.Count == 0 || MessageBoxService.ShowQuestion("Привязанные к сотруднику пропуска будут деактивированы. Продожить?"))
+			if (SelectedItem.Cards.Count() == 0 || MessageBoxService.ShowQuestion("Привязанные к сотруднику пропуска будут деактивированы. Продожить?"))
 			{
-				var cardUIDs = SelectedItem.Cards.Select(x => x.Card.UID);
+				var cardUIDs = SelectedItem.Cards.Select(x => x.UID);
 				base.Remove();
 				foreach (var uid in cardUIDs)
 				{
@@ -70,18 +68,18 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		protected override void SetIsDeletedByOrganisation(EmployeeViewModel organisationViewModel)
+		protected override void OnRemoveOrganisation(Guid organisationUID)
 		{
-			foreach (var child in organisationViewModel.GetAllChildren(false))
+			var cards = CardHelper.GetOrganisationCards(organisationUID);
+			if (cards != null)
 			{
-				var cardUIDs = child.Cards.Select(x => x.Card.UID);
-				foreach (var uid in cardUIDs)
+				foreach (var uid in cards.Select(x => x.UID))
 				{
 					ServiceFactory.Events.GetEvent<BlockCardEvent>().Publish(uid);
 				}
-				child.Cards.Clear();
 			}
-			base.SetIsDeletedByOrganisation(organisationViewModel);
+			base.OnRemoveOrganisation(organisationUID);
+			SelectedItem = Organisations.FirstOrDefault();
 		}
 
 		protected override IEnumerable<ShortEmployee> GetModels(EmployeeFilter filter)
@@ -202,17 +200,7 @@ namespace SKDModule.ViewModels
 			ServiceFactory.Events.GetEvent<EditEmployee2Event>().Publish(SelectedItem.Model.UID);
 		}
 
-		void OnUpdateAccessTemplate(Guid accessTemplateUID)
-		{
-			var cards = Organisations.SelectMany(x => x.Children).SelectMany(x => x.Cards).Where(x => x.Card.AccessTemplateUID != null && x.Card.AccessTemplateUID.Value == accessTemplateUID);;
-			if (cards != null)
-			{
-				foreach (var card in cards)
-				{
-					card.UpdateCardDoors();
-				}
-			}
-		}
+		
 
 		void OnUpdateIsInGrid(object obj)
 		{

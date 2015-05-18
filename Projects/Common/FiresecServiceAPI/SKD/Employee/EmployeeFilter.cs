@@ -43,11 +43,15 @@ namespace FiresecAPI.SKD
 		[DataMember]
 		public PersonType PersonType { get; set; }
 
+		[DataMember]
+		public bool IsAllPersonTypes { get; set; }
+
 		public bool IsNotEmpty
 		{
 			get
 			{
-				return (FirstName != null && FirstName != "") ||
+				return 
+					(FirstName != null && FirstName != "") ||
 					(LastName != null && LastName != "") ||
 					(SecondName != null && SecondName != "") ||
 					DepartmentUIDs.IsNotNullOrEmpty() ||

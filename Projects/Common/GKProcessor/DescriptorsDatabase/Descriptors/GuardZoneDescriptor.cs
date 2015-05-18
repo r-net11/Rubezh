@@ -59,7 +59,7 @@ namespace GKProcessor
 					case GKDriverType.RSR2_CardReader:
 						if (guardZoneDevice.CodeReaderSettings.SetGuardSettings.CodeReaderEnterType != GKCodeReaderEnterType.None)
 						{
-							if (guardZoneDevice.CodeReaderSettings.SetGuardSettings.CodeUIDs.Count > 0 || GuardZone.GuardZoneEnterMethod != GKGuardZoneEnterMethod.GlobalOnly)
+							if (guardZoneDevice.CodeReaderSettings.SetGuardSettings.CodeUIDs.Count > 0 || guardZoneDevice.CodeReaderSettings.SetGuardSettings.AccessLevel > 0)
 							{
 								SetGuardDevices.Add(guardZoneDevice);
 							}
@@ -67,7 +67,7 @@ namespace GKProcessor
 
 						if (guardZoneDevice.CodeReaderSettings.ResetGuardSettings.CodeReaderEnterType != GKCodeReaderEnterType.None)
 						{
-							if (guardZoneDevice.CodeReaderSettings.ResetGuardSettings.CodeUIDs.Count > 0 || GuardZone.GuardZoneEnterMethod != GKGuardZoneEnterMethod.GlobalOnly)
+							if (guardZoneDevice.CodeReaderSettings.ResetGuardSettings.CodeUIDs.Count > 0 || guardZoneDevice.CodeReaderSettings.ResetGuardSettings.AccessLevel > 0)
 							{
 								ResetGuardDevices.Add(guardZoneDevice);
 							}
@@ -75,7 +75,7 @@ namespace GKProcessor
 
 						if (guardZoneDevice.CodeReaderSettings.ChangeGuardSettings.CodeReaderEnterType != GKCodeReaderEnterType.None)
 						{
-							if (guardZoneDevice.CodeReaderSettings.ChangeGuardSettings.CodeUIDs.Count > 0)
+							if (guardZoneDevice.CodeReaderSettings.ChangeGuardSettings.CodeUIDs.Count > 0 || guardZoneDevice.CodeReaderSettings.ChangeGuardSettings.AccessLevel > 0)
 							{
 								ChangeGuardDevices.Add(guardZoneDevice);
 							}
@@ -83,7 +83,7 @@ namespace GKProcessor
 
 						if (guardZoneDevice.CodeReaderSettings.AlarmSettings.CodeReaderEnterType != GKCodeReaderEnterType.None)
 						{
-							if (guardZoneDevice.CodeReaderSettings.AlarmSettings.CodeUIDs.Count > 0 || GuardZone.GuardZoneEnterMethod != GKGuardZoneEnterMethod.GlobalOnly)
+							if (guardZoneDevice.CodeReaderSettings.AlarmSettings.CodeUIDs.Count > 0 || guardZoneDevice.CodeReaderSettings.AlarmSettings.AccessLevel > 0)
 							{
 								SetAlarmDevices.Add(guardZoneDevice);
 							}
@@ -133,7 +133,8 @@ namespace GKProcessor
 			var count = 0;
 			foreach (var guardDevice in guardZoneDevices)
 			{
-				if (guardDevice.Device.DriverType == GKDriverType.RSR2_CodeReader || guardDevice.Device.DriverType == GKDriverType.RSR2_CardReader)
+				if (guardDevice.Device.DriverType == GKDriverType.RSR2_CodeReader ||
+					guardDevice.Device.DriverType == GKDriverType.RSR2_CardReader)
 				{
 					GKCodeReaderSettingsPart settingsPart = null;
 					var level = 0;
@@ -160,52 +161,54 @@ namespace GKProcessor
 					var gotoFormulaOperation = Formula.Add(FormulaOperationType.BR, 1, 0);
 					var formulaNo = Formula.FormulaOperations.Count;
 
-					switch (GuardZone.GuardZoneEnterMethod)
+					if (settingsPart.CodeUIDs.Count > 0 && settingsPart.AccessLevel == 0)
 					{
-						case GKGuardZoneEnterMethod.GlobalOnly:
-							var codeIndex = 0;
-							foreach (var codeUID in settingsPart.CodeUIDs)
+						var codeIndex = 0;
+						foreach (var codeUID in settingsPart.CodeUIDs)
+						{
+							var code = GKManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == codeUID);
+							Formula.Add(FormulaOperationType.KOD, 0,
+								DatabaseType == DatabaseType.Gk ? guardDevice.Device.GKDescriptorNo : guardDevice.Device.KAUDescriptorNo);
+							Formula.Add(FormulaOperationType.CMPKOD, 1,
+								DatabaseType == DatabaseType.Gk ? code.GKDescriptorNo : code.KAUDescriptorNo);
+							if (codeIndex > 0)
 							{
-								var code = GKManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == codeUID);
-								Formula.Add(FormulaOperationType.KOD, 0, DatabaseType == DatabaseType.Gk ? guardDevice.Device.GKDescriptorNo : guardDevice.Device.KAUDescriptorNo);
-								Formula.Add(FormulaOperationType.CMPKOD, 1, DatabaseType == DatabaseType.Gk ? code.GKDescriptorNo : code.KAUDescriptorNo);
-								if (codeIndex > 0)
-								{
-									Formula.Add(FormulaOperationType.OR);
-								}
-								codeIndex++;
+								Formula.Add(FormulaOperationType.OR);
 							}
-							break;
+							codeIndex++;
+						}
+					}
 
-						case GKGuardZoneEnterMethod.UserOnly:
-							if (level >= 0)
-							{
-								Formula.Add(FormulaOperationType.ACS, (byte)level, guardDevice.Device.GKDescriptorNo);
-							}
-							break;
+					if (settingsPart.CodeUIDs.Count == 0 && settingsPart.AccessLevel > 0)
+					{
+						if (level >= 0)
+						{
+							Formula.Add(FormulaOperationType.ACS, (byte)level, DatabaseType == DatabaseType.Gk ? guardDevice.Device.GKDescriptorNo : guardDevice.Device.KAUDescriptorNo);
+						}
+					}
 
-						case GKGuardZoneEnterMethod.Both:
-							codeIndex = 0;
-							foreach (var codeUID in settingsPart.CodeUIDs)
+					if (settingsPart.CodeUIDs.Count > 0 && settingsPart.AccessLevel > 0)
+					{
+						var codeIndex = 0;
+						foreach (var codeUID in settingsPart.CodeUIDs)
+						{
+							var code = GKManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == codeUID);
+							Formula.Add(FormulaOperationType.KOD, 0, DatabaseType == DatabaseType.Gk ? guardDevice.Device.GKDescriptorNo : guardDevice.Device.KAUDescriptorNo);
+							Formula.Add(FormulaOperationType.CMPKOD, 1, DatabaseType == DatabaseType.Gk ? code.GKDescriptorNo : code.KAUDescriptorNo);
+							if (codeIndex > 0)
 							{
-								var code = GKManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == codeUID);
-								Formula.Add(FormulaOperationType.KOD, 0, guardDevice.Device.GKDescriptorNo);
-								Formula.Add(FormulaOperationType.CMPKOD, 1, DatabaseType == DatabaseType.Gk ? code.GKDescriptorNo : code.KAUDescriptorNo);
-								if (codeIndex > 0)
-								{
-									Formula.Add(FormulaOperationType.OR);
-								}
-								codeIndex++;
+								Formula.Add(FormulaOperationType.OR);
 							}
-							if (level >= 0)
+							codeIndex++;
+						}
+						if (level >= 0)
+						{
+							Formula.Add(FormulaOperationType.ACS, (byte)level, DatabaseType == DatabaseType.Gk ? guardDevice.Device.GKDescriptorNo : guardDevice.Device.KAUDescriptorNo);
+							if (codeIndex > 0)
 							{
-								Formula.Add(FormulaOperationType.ACS, (byte)level, guardDevice.Device.GKDescriptorNo);
-								if (codeIndex > 0)
-								{
-									Formula.Add(FormulaOperationType.OR);
-								}
+								Formula.Add(FormulaOperationType.OR);
 							}
-							break;
+						}
 					}
 
 					if (count > 0)
@@ -230,7 +233,7 @@ namespace GKProcessor
 				count++;
 			}
 
-			switch(commandStateBit)
+			switch (commandStateBit)
 			{
 				case GKStateBit.Fire1:
 					if (count > 0)

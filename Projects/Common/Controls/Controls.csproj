@@ -351,11 +351,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\DatePickerStyle.xaml">
+    <Page Include="Themes\DatePickerCalendarStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\DateTimePicker.xaml">
+    <Page Include="Themes\DatePickerStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

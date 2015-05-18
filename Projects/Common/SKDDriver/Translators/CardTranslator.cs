@@ -60,8 +60,6 @@ namespace SKDDriver
 			{
 				result.EmployeeUID = card.EmployeeUID.Value;
 			}
-
-			//var employee = Context.Employees.FirstOrDefault(x => x.UID == tableItem.EmployeeUID);
 			if (employee != null)
 			{
 				result.EmployeeName = employee.LastName + " " + employee.FirstName + " " + employee.SecondName;
@@ -72,7 +70,6 @@ namespace SKDDriver
 
 		protected override void TranslateBack(DataAccess.Card tableItem, SKDCard apiItem)
 		{
-			//base.TranslateBack(tableItem, apiItem);
 			tableItem.Number = (int)apiItem.Number;
 			tableItem.EmployeeUID = apiItem.HolderUID;
 			tableItem.CardType = (int)apiItem.CardType;
@@ -173,7 +170,8 @@ namespace SKDDriver
 				var tableItems =
 					from card in Context.Cards.Where(IsInFilter(filter))
 					join cardDoor in Context.CardDoors on card.UID equals cardDoor.CardUID into cardDoors
-					join employee in Context.Employees.Where(DatabaseService.EmployeeTranslator.GetFilterExpression((filter.EmployeeFilter))) on card.EmployeeUID equals employee.UID into employees
+					join employee in filter.EmployeeFilter != null ? Context.Employees.Where(DatabaseService.EmployeeTranslator.GetFilterExpression((filter.EmployeeFilter))) : Context.Employees 
+						on card.EmployeeUID equals employee.UID into employees
 					from employee in employees.DefaultIfEmpty()
 					select new { Card = card, CardDoors = cardDoors, Employee = employee };
 				foreach (var tableItem in tableItems.Where(x => x.Employee != null || x.Card.IsInStopList))

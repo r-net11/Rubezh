@@ -280,7 +280,7 @@ namespace FiresecAPI.GK
 			allDependentGuardZones.ForEach(x => allDependentDevices.AddRange(GetGuardZoneDependetnDevicesByCodes(x)));
 			var kauParents = allDependentDevices.Select(x => x.KAUParent).ToList();
 			kauParents = kauParents.Distinct().ToList();
-			if (this is GKDevice && allDependentGuardZones.Any(x => x.GuardZoneEnterMethod != GKGuardZoneEnterMethod.GlobalOnly))
+			if (this is GKDevice && allDependentGuardZones.Any(x => !x.HasAccessLevel))
 				return (this as GKDevice).GKParent;
 			if (kauParents.Count == 1 && kauParents.FirstOrDefault() != null)
 				return kauParents.FirstOrDefault();

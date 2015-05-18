@@ -268,7 +268,8 @@ namespace SKDDriver
 		protected override Expression<Func<DataAccess.Employee, bool>> IsInFilter(EmployeeFilter filter)
 		{
 			var result = base.IsInFilter(filter);
-			result = result.And(e => e.Type == (int?)filter.PersonType);
+			if(!filter.IsAllPersonTypes)
+				result = result.And(e => e.Type == (int?)filter.PersonType);
 
 			if (filter.DepartmentUIDs.IsNotNullOrEmpty())
 			{

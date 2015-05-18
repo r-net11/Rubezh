@@ -4,10 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.SKD;
 using FiresecClient;
-using FiresecClient.SKDHelpers;
-using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
-using SKDModule.Events;
 
 namespace SKDModule.ViewModels
 {
@@ -20,8 +17,6 @@ namespace SKDModule.ViewModels
 		{
 			Update(cardDoors);
 			_parent = parent;
-			ServiceFactory.Events.GetEvent<UpdateOrganisationDoorsEvent>().Unsubscribe(OnOrganisationDoorsChanged);
-			ServiceFactory.Events.GetEvent<UpdateOrganisationDoorsEvent>().Subscribe(OnOrganisationDoorsChanged);
 		}
 
 		public void Update(List<CardDoor> cardDoors)
@@ -75,12 +70,10 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		void OnOrganisationDoorsChanged(Guid organisationUID)
+		public void UpdateDoors(IEnumerable<Guid> doorUIDs)
 		{
-			var doorUIDs = OrganisationHelper.GetSingle(organisationUID).DoorUIDs;
 			var doorsToRemove = Doors.Where(x => !doorUIDs.Any(y => y == x.CardDoor.DoorUID)).ToList();
 			doorsToRemove.ForEach(x => Doors.Remove(x));
-			_parent.UpdateCardDoors(doorsToRemove.Select(x => x.CardDoor.DoorUID));
 		}
 	}
 

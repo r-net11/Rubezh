@@ -237,6 +237,9 @@ namespace ReportsModule.ViewModels
 				OnPropertyChanged(() => DateTimeTo);
 				if (_isLoaded)
 					SelectedReportPeriod = ReportPeriodType.Arbitrary;
+
+				if (DateTimeFrom > DateTimeTo)
+					DateTimeFrom = DateTimeTo;
 			}
 		}
 

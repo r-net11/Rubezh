@@ -332,7 +332,6 @@
     <Compile Include="SKD\SKDManager\ButtonHelper.cs" />
     <Compile Include="SKD\States\SKDDoorState.cs" />
     <Compile Include="SKD\TimeTrack\NightSettings.cs" />
-    <Compile Include="GKModels\Guard\GKGuardZoneEnterMethod.cs" />
     <Compile Include="GKModels\SKD\Calendar\Calendar.cs" />
     <Compile Include="GKModels\SKD\Calendar\Month.cs" />
     <Compile Include="GKModels\SKD\Calendar\MonthType.cs" />

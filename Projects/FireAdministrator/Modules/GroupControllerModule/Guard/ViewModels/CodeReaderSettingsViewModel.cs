@@ -18,7 +18,7 @@ namespace GKModule.ViewModels
 			CodeReaderSettingsPart = codeReaderSettingsPart;
 			EnterTypes = Enum.GetValues(typeof(GKCodeReaderEnterType)).Cast<GKCodeReaderEnterType>().ToList();
 			SelectedEnterType = EnterTypes.FirstOrDefault(x => x == codeReaderSettingsPart.CodeReaderEnterType);
-
+			AccessLevel = CodeReaderSettingsPart.AccessLevel;
 			Codes = new List<GKCode>();
 			foreach (var codeUID in codeReaderSettingsPart.CodeUIDs)
 			{
@@ -40,6 +40,17 @@ namespace GKModule.ViewModels
 			{
 				_selectedEnterType = value;
 				OnPropertyChanged(() => SelectedEnterType);
+			}
+		}
+
+		int _accessLevel;
+		public int AccessLevel
+		{
+			get { return _accessLevel; }
+			set
+			{
+				_accessLevel = value;
+				OnPropertyChanged(() => AccessLevel);
 			}
 		}
 
@@ -73,6 +84,7 @@ namespace GKModule.ViewModels
 		{
 			var codeReaderSettingsPart = new GKCodeReaderSettingsPart();
 			codeReaderSettingsPart.CodeReaderEnterType = SelectedEnterType;
+			codeReaderSettingsPart.AccessLevel = AccessLevel;
 			codeReaderSettingsPart.CodeUIDs = (from code in Codes select code.UID).ToList();
 			return codeReaderSettingsPart;
 		}
