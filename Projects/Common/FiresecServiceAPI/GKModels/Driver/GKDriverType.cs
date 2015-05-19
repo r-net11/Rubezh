@@ -147,5 +147,17 @@ namespace FiresecAPI.GK
 		RSR2_GKMirror,
 		[Description("Отражение")]
 		RSR2_GKMirrorItem,
+		[Description("Отражение НПЗ")]
+		RSR2_GKReflectionNPZ,
+		[Description("Отражение ЗПТ")]
+		RSR2_GKReflectionZPT,
+		[Description("Отражение ПЗ")]
+		RSR2_GKReflectionZone,
+		[Description("Отражение ОЗ")]
+		RSR2_GKReflectionGuardZone,
+		[Description("Отражение ИзУ")]
+		RSR2_GKReflectionDetector,
+		[Description("Отражение ИсУ")]
+		RSR2_GKReflectionControl,
 	}
 }
