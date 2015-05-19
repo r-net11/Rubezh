@@ -100,7 +100,7 @@ namespace SKDDriver
 			}
 			catch (Exception e)
 			{
-				return new OperationResult<IEnumerable<ShortEmployee>>(e.Message);
+				return OperationResult<IEnumerable<ShortEmployee>>.FromError(e.Message);
 			}
 		}
 
