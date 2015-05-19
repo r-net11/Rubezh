@@ -58,6 +58,8 @@ namespace FiresecService
 
 				UILogger.Log("Готово");
 				ProcedureRunner.RunOnServerRun();
+
+				
 			}
 			catch (Exception e)
 			{

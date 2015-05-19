@@ -43,6 +43,7 @@
     <Reference Include="System.Data.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -69,6 +70,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>SKD.dbml</DependentUpon>
+    </Compile>
+    <Compile Include="EFDataAccess\SKDModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SKDModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Synchronisers\CardSynchroniser.cs" />
     <Compile Include="Synchronisers\ConfigurationSynchroniser.cs" />
@@ -151,6 +157,10 @@
       <LastGenOutput>PassJournal.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </None>
+    <EntityDeploy Include="EFDataAccess\SKDModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>SKDModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
     <None Include="Properties\Settings.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
