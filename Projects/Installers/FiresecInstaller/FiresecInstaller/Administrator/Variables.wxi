@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Include>
-  <?define AdministratorName="Администратор Глобал" ?>
-  <?define AdministratorDescription="Запускает Администратор Глобал" ?>
+  <?define AdministratorName="Администратор Страж" ?>
+  <?define AdministratorDescription="Запускает Администратор Страж" ?>
   <?define AdministratorInstallLocation="FireAdministrator" ?>
   <?define Administrator.TargetDir="..\..\..\..\..\FireAdministrator\bin\Release\"?>
   <?define Administrator.TargetFileName="FireAdministrator.exe"?>

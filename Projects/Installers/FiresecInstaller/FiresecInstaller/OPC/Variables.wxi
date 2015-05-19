@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Include>
-  <?define OPCName="OPC-Сервер ГК Глобал" ?>
+  <?define OPCName="OPC-Сервер ГК Страж" ?>
   <?define OPC.TargetDir="..\..\..\..\..\GKOPCServer\GKOPCServer\bin\Release\"?>
   <?define OPC.TargetFileName="GKOPCServer.exe"?>
   <?define Common.TargetDir="..\..\..\..\..\FireAdministrator\bin\Release\"?>

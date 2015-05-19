@@ -71,10 +71,10 @@
         <File Id="Administrator.SettingsModule.dll" Name="SettingsModule.dll" Source="$(var.Administrator.TargetDir)" />
       </Component>
 
-      <Component Id="Administrator.GK_MODULE" Guid="B543D275-4600-49BD-A8A9-5E155E508B04">
+   <!--   <Component Id="Administrator.GK_MODULE" Guid="B543D275-4600-49BD-A8A9-5E155E508B04">
         <File Id="Administrator.GKModule.dll" Name="GKModule.dll" Source="$(var.Administrator.TargetDir)" KeyPath="yes" />
         <File Id="Administrator.PlansModule.Kursk.dll" Name="PlansModule.Kursk.dll" Source="$(var.Administrator.TargetDir)" />
-      </Component>
+      </Component> -->
 
       <Component Id="Administrator.STRAZH_MODULE" Guid="88B4570A-BB95-43de-9E24-6C31E0B68F78">
         <File Id="Administrator.StrazhModule.dll" Name="StrazhModule.dll" Source="$(var.Administrator.TargetDir)" KeyPath="yes" />
