@@ -263,41 +263,7 @@ namespace SKDDriver
 		}
 
 		#region Pending
-
-		public OperationResult AddPendingList(Guid cardUID, IEnumerable<Guid> controllerUIDs)
-		{
-			foreach (var controllerUID in controllerUIDs)
-			{
-				var result = AddPending(cardUID, controllerUID);
-				if (result.HasError)
-					return result;
-			}
-			return new OperationResult();
-		}
-
-		public OperationResult EditPendingList(Guid cardUID, IEnumerable<Guid> controllerUIDs)
-		{
-			foreach (var controllerUID in controllerUIDs)
-			{
-				var result = EditPending(cardUID, controllerUID);
-				if (result.HasError)
-					return result;
-			}
-			return new OperationResult();
-		}
-
-		public OperationResult DeletePendingList(Guid cardUID, IEnumerable<Guid> controllerUIDs)
-		{
-			foreach (var controllerUID in controllerUIDs)
-			{
-				var result = DeletePending(cardUID, controllerUID);
-				if (result.HasError)
-					return result;
-			}
-			return new OperationResult();
-		}
-
-		OperationResult AddPending(Guid cardUID, Guid controllerUID)
+		public OperationResult AddPending(Guid cardUID, Guid controllerUID)
 		{
 			try
 			{
@@ -311,7 +277,7 @@ namespace SKDDriver
 			}
 		}
 
-		OperationResult EditPending(Guid cardUID, Guid controllerUID)
+		public OperationResult EditPending(Guid cardUID, Guid controllerUID)
 		{
 			try
 			{
@@ -328,7 +294,7 @@ namespace SKDDriver
 			}
 		}
 
-		OperationResult DeletePending(Guid cardUID, Guid controllerUID)
+		public OperationResult DeletePending(Guid cardUID, Guid controllerUID)
 		{
 			try
 			{
@@ -338,16 +304,10 @@ namespace SKDDriver
 					InsertPendingCard(cardUID, controllerUID, PendingCardAction.Delete);
 					return new OperationResult();
 				}
-				switch ((PendingCardAction)pendingCard.Action)
+				DeleteAllPendingCards(cardUID, controllerUID);
+				if ((PendingCardAction)pendingCard.Action != PendingCardAction.Add)
 				{
-					case PendingCardAction.Add:
-						DeleteAllPendingCards(cardUID, controllerUID);
-						break;
-					case PendingCardAction.Delete:
-					case PendingCardAction.Edit:
-						DeleteAllPendingCards(cardUID, controllerUID);
-						InsertPendingCard(cardUID, controllerUID, PendingCardAction.Delete);
-						break;
+					InsertPendingCard(cardUID, controllerUID, PendingCardAction.Delete);
 				}
 				return new OperationResult();
 			}
@@ -359,8 +319,7 @@ namespace SKDDriver
 
 		public IEnumerable<SKDDriver.DataAccess.PendingCard> GetAllPendingCards(Guid controllerUID)
 		{
-			var pendingCards = Context.PendingCards.Where(x => x.ControllerUID == controllerUID);
-			return pendingCards;
+			return Context.PendingCards.Where(x => x.ControllerUID == controllerUID);
 		}
 
 		public void DeleteAllPendingCards(Guid cardUID, Guid controllerUID)

@@ -296,17 +296,14 @@ namespace ChinaSKDDriver
 			}
 		}
 
-		public string GetError()
+		public IEnumerable<string> GetErrors()
 		{
-			var stringBuilder = new StringBuilder();
-			foreach (var controllerCardItem in ControllerCardItems)
-			{
-				if (controllerCardItem.HasError)
-				{
-					stringBuilder.AppendLine(controllerCardItem.Error);
-				}
-			}
-			return stringBuilder.ToString();
+			return ControllerCardItems.Where(x => x.HasError).Select(x => x.Error);
+		}
+
+		public IEnumerable<Guid> GetFailedControllerUIDs()
+		{
+			return ControllerCardItems.Where(x => x.HasError).Select(x => x.ControllerDevice.UID);
 		}
 
 		public class ControllerCardItem

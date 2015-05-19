@@ -280,14 +280,15 @@ namespace FiresecService.Service
 		IEnumerable<string> AddStrazhCard(SKDCard card, AccessTemplate accessTemplate, SKDDatabaseService databaseService)
 		{
 			var cardWriter = ChinaSKDDriver.Processor.AddCard(card, accessTemplate);
-			var cardWriterError = cardWriter.GetError();
-			if (!String.IsNullOrEmpty(cardWriterError))
-				yield return cardWriterError;
+			foreach (var error in cardWriter.GetErrors())
+				yield return error;
 
-			var failedControllerUIDs = GetFailedControllerUIDs(cardWriter);
-			var pendingResult = databaseService.CardTranslator.AddPendingList(card.UID, failedControllerUIDs);
-			if (pendingResult.HasError)
-				yield return pendingResult.Error;
+			foreach (var failedControllerUID in cardWriter.GetFailedControllerUIDs())
+			{
+				var pendingResult = databaseService.CardTranslator.AddPending(card.UID, failedControllerUID);
+				if (pendingResult.HasError)
+					yield return pendingResult.Error;
+			}
 		}
 		IEnumerable<string> AddGKCard(SKDCard card, AccessTemplate accessTemplate, SKDDatabaseService databaseService)
 		{
@@ -301,7 +302,7 @@ namespace FiresecService.Service
 					if (addResult.HasError)
 					{
 						yield return "Не удалось добавить карту в устройство " + controllerCardSchedule.ControllerDevice.PresentationName;
-						var pendingResult = databaseService.CardTranslator.AddPendingList(card.UID, new List<Guid>() { controllerCardSchedule.ControllerDevice.UID });
+						var pendingResult = databaseService.CardTranslator.AddPending(card.UID, controllerCardSchedule.ControllerDevice.UID);
 						if (pendingResult.HasError)
 							yield return pendingResult.Error;
 					}
@@ -315,6 +316,8 @@ namespace FiresecService.Service
 
 			using (var databaseService = new SKDDatabaseService())
 			{
+				var oldCardOperationResult = databaseService.CardTranslator.GetSingle(card.UID);
+
 				var saveResult = databaseService.CardTranslator.Save(card);
 				if (saveResult.HasError)
 					return OperationResult<bool>.FromError(saveResult.Error, false);
@@ -325,10 +328,9 @@ namespace FiresecService.Service
 				if (getAccessTemplateOperationResult.HasError)
 					errors.AddRange(getAccessTemplateOperationResult.Errors);
 
-				var operationResult = databaseService.CardTranslator.GetSingle(card.UID);
-				if (!operationResult.HasError && operationResult.Result != null)
+				if (!oldCardOperationResult.HasError && oldCardOperationResult.Result != null)
 				{
-					var oldCard = operationResult.Result;
+					var oldCard = oldCardOperationResult.Result;
 					var oldGetAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(oldCard.AccessTemplateUID);
 
 					errors.AddRange(EditStrazhCard(oldCard, oldGetAccessTemplateOperationResult.Result, card, getAccessTemplateOperationResult.Result, databaseService));
@@ -345,45 +347,48 @@ namespace FiresecService.Service
 		IEnumerable<string> EditStrazhCard(SKDCard oldCard, AccessTemplate oldAccessTemplate, SKDCard card, AccessTemplate accessTemplate, SKDDatabaseService databaseService)
 		{
 			var cardWriter = ChinaSKDDriver.Processor.EditCard(oldCard, oldAccessTemplate, card, accessTemplate);
-			var cardWriterError = cardWriter.GetError();
-			if (!String.IsNullOrEmpty(cardWriterError))
-				yield return cardWriterError;
+			foreach (var error in cardWriter.GetErrors())
+				yield return error;
 
-			var pendingResult = databaseService.CardTranslator.EditPendingList(card.UID, GetFailedControllerUIDs(cardWriter));
-			if (pendingResult.HasError)
-				yield return pendingResult.Error;
+			foreach (var failedControllerUID in cardWriter.GetFailedControllerUIDs())
+			{
+				var pendingResult = databaseService.CardTranslator.EditPending(card.UID, failedControllerUID);
+				if (pendingResult.HasError)
+					yield return pendingResult.Error;
+			}
 		}
-		IEnumerable<string> EditGKCard(SKDCard oldCard, AccessTemplate oldAccessTemplate, SKDCard card, AccessTemplate accessTemplate, SKDDatabaseService databaseService)
+		IEnumerable<string> EditGKCard(SKDCard oldCard, AccessTemplate oldAccessTemplate, SKDCard newCard, AccessTemplate newAccessTemplate, SKDDatabaseService databaseService)
 		{
-			var employeeOperationResult = databaseService.EmployeeTranslator.GetSingle(card.HolderUID);
+			var employeeOperationResult = databaseService.EmployeeTranslator.GetSingle(newCard.HolderUID);
 			if (!employeeOperationResult.HasError)
 			{
-				var controllerCardSchedules_ToDelete = GKSKDHelper.GetGKControllerCardSchedules(oldCard, oldAccessTemplate);
-				var controllerCardSchedules_ToEdit = GKSKDHelper.GetGKControllerCardSchedules(card, accessTemplate);
-				foreach (var controllerCardSchedule_ToEdit in controllerCardSchedules_ToEdit)
-				{
-					controllerCardSchedules_ToDelete.RemoveAll(x => x.ControllerDevice.UID == controllerCardSchedule_ToEdit.ControllerDevice.UID);
-				}
+				var oldControllerCardSchedules = GKSKDHelper.GetGKControllerCardSchedules(oldCard, oldAccessTemplate);
+				var newControllerCardSchedules = GKSKDHelper.GetGKControllerCardSchedules(newCard, newAccessTemplate);
 
-				foreach (var controllerCardSchedule in controllerCardSchedules_ToDelete)
+				foreach (var controllerCardSchedule in oldControllerCardSchedules)
 				{
-					var removeResult = GKSKDHelper.RemoveCard(controllerCardSchedule.ControllerDevice, card);
-					if (removeResult.HasError)
+					if (!newControllerCardSchedules.Any(x => x.ControllerDevice.UID == controllerCardSchedule.ControllerDevice.UID))
 					{
-						yield return "Не удалось удалить карту из устройства " + controllerCardSchedule.ControllerDevice.PresentationName;
-						var pendingResult = databaseService.CardTranslator.DeletePendingList(card.UID, new List<Guid>() { controllerCardSchedule.ControllerDevice.UID });
-						if (pendingResult.HasError)
-							yield return pendingResult.Error;
+						var removeResult = GKSKDHelper.RemoveCard(controllerCardSchedule.ControllerDevice, newCard);
+						if (removeResult.HasError)
+						{
+							yield return "Не удалось удалить карту из устройства " + controllerCardSchedule.ControllerDevice.PresentationName;
+							var pendingResult = databaseService.CardTranslator.DeletePending(newCard.UID, controllerCardSchedule.ControllerDevice.UID);
+							if (pendingResult.HasError)
+								yield return pendingResult.Error;
+						}
 					}
 				}
 
-				foreach (var controllerCardSchedule in controllerCardSchedules_ToEdit)
+				foreach (var controllerCardSchedule in newControllerCardSchedules)
 				{
-					var addResult = GKSKDHelper.AddOrEditCard(controllerCardSchedule, card, employeeOperationResult.Result.FIO);
+					//if (oldControllerCardSchedules.Any(x => x.ControllerDevice.UID == controllerCardSchedule.ControllerDevice.UID))
+
+					var addResult = GKSKDHelper.AddOrEditCard(controllerCardSchedule, newCard, employeeOperationResult.Result.FIO);
 					if (addResult.HasError)
 					{
-						yield return "Не удалось редактировать карту в устройстве " + controllerCardSchedule.ControllerDevice.PresentationName;
-						var pendingResult = databaseService.CardTranslator.AddPendingList(card.UID, new List<Guid>() { controllerCardSchedule.ControllerDevice.UID });
+						yield return "Не удалось добавить или редактировать карту в устройстве " + controllerCardSchedule.ControllerDevice.PresentationName;
+						var pendingResult = databaseService.CardTranslator.AddPending(newCard.UID, controllerCardSchedule.ControllerDevice.UID);
 						if (pendingResult.HasError)
 							yield return pendingResult.Error;
 					}
@@ -453,13 +458,15 @@ namespace FiresecService.Service
 		IEnumerable<string> DeleteStrazhCard(SKDCard card, AccessTemplate accessTemplate, SKDDatabaseService databaseService)
 		{
 			var cardWriter = ChinaSKDDriver.Processor.DeleteCard(card, accessTemplate);
-			var cardWriterError = cardWriter.GetError();
-			if (!String.IsNullOrEmpty(cardWriterError))
-				yield return cardWriterError;
+			foreach (var error in cardWriter.GetErrors())
+				yield return error;
 
-			var pendingResult = databaseService.CardTranslator.DeletePendingList(card.UID, GetFailedControllerUIDs(cardWriter));
-			if (pendingResult.HasError)
-				yield return pendingResult.Error;
+			foreach (var failedControllerUID in cardWriter.GetFailedControllerUIDs())
+			{
+				var pendingResult = databaseService.CardTranslator.DeletePending(card.UID, failedControllerUID);
+				if (pendingResult.HasError)
+					yield return pendingResult.Error;
+			}
 		}
 		IEnumerable<string> DeleteGKCard(SKDCard card, AccessTemplate accessTemplate, SKDDatabaseService databaseService)
 		{
@@ -470,7 +477,7 @@ namespace FiresecService.Service
 				if (removeResult.HasError)
 				{
 					yield return "Не удалось удалить карту из устройства " + controllerCardSchedule.ControllerDevice.PresentationName;
-					var pendingResult = databaseService.CardTranslator.DeletePendingList(card.UID, new List<Guid>() { controllerCardSchedule.ControllerDevice.UID });
+					var pendingResult = databaseService.CardTranslator.DeletePending(card.UID, controllerCardSchedule.ControllerDevice.UID);
 					if (pendingResult.HasError)
 						yield return pendingResult.Error;
 				}
@@ -493,11 +500,6 @@ namespace FiresecService.Service
 			}
 		}
 
-		IEnumerable<Guid> GetFailedControllerUIDs(CardWriter cardWriter)
-		{
-			return cardWriter.ControllerCardItems.Where(x => x.HasError).Select(x => x.ControllerDevice.UID);
-		}
-
 		#endregion
 
 		#region AccessTemplate
@@ -508,34 +510,35 @@ namespace FiresecService.Service
 				return databaseService.AccessTemplateTranslator.Get(filter);
 			}
 		}
-		public OperationResult<bool> SaveAccessTemplate(AccessTemplate item, bool isNew)
+		public OperationResult<bool> SaveAccessTemplate(AccessTemplate accessTemplate, bool isNew)
 		{
 			using (var databaseService = new SKDDatabaseService())
 			{
 				if (isNew)
-					AddJournalMessage(JournalEventNameType.Добавление_нового_шаблона_доступа, item.Name, uid: item.UID);
+					AddJournalMessage(JournalEventNameType.Добавление_нового_шаблона_доступа, accessTemplate.Name, uid: accessTemplate.UID);
 				else
-					AddJournalMessage(JournalEventNameType.Редактирование_шаблона_доступа, item.Name, JournalEventDescriptionType.Редактирование, uid: item.UID);
-				var oldGetAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(item.UID);
-				var saveResult = databaseService.AccessTemplateTranslator.Save(item);
+					AddJournalMessage(JournalEventNameType.Редактирование_шаблона_доступа, accessTemplate.Name, JournalEventDescriptionType.Редактирование, uid: accessTemplate.UID);
+				var oldGetAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(accessTemplate.UID);
+				var saveResult = databaseService.AccessTemplateTranslator.Save(accessTemplate);
 
 				var errors = new List<string>();
 				if (saveResult.HasError)
 					errors.Add(saveResult.Error);
 
-				var operationResult = databaseService.CardTranslator.GetByAccessTemplateUID(item.UID);
+				var operationResult = databaseService.CardTranslator.GetByAccessTemplateUID(accessTemplate.UID);
 				if (operationResult.Result != null)
 				{
 					foreach (var card in operationResult.Result)
 					{
-						var cardWriter = ChinaSKDDriver.Processor.EditCard(card, oldGetAccessTemplateOperationResult.Result, card, item);
-						var cardWriterError = cardWriter.GetError();
-						var pendingResult = databaseService.CardTranslator.EditPendingList(item.UID, GetFailedControllerUIDs(cardWriter));
+						var cardWriter = ChinaSKDDriver.Processor.EditCard(card, oldGetAccessTemplateOperationResult.Result, card, accessTemplate);
+						errors.AddRange(cardWriter.GetErrors());
 
-						if (!String.IsNullOrEmpty(cardWriterError))
-							errors.Add(cardWriterError);
-						if (pendingResult.HasError)
-							errors.Add(pendingResult.Error);
+						foreach (var failedControllerUID in cardWriter.GetFailedControllerUIDs())
+						{
+							var pendingResult = databaseService.CardTranslator.EditPending(accessTemplate.UID, failedControllerUID);
+							if (pendingResult.HasError)
+								errors.Add(pendingResult.Error);
+						}
 					}
 				}
 
