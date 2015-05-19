@@ -211,11 +211,11 @@ namespace SKDDriver
 			{
 				var departmentUIDs = GetChildUIDs(uid);
 				var employees = Context.Employees.Where(x => x != null && departmentUIDs.Contains(x.DepartmentUID.Value)).Select(x => x.UID);
-				return new OperationResult<IEnumerable<Guid>> { Result = employees.ToList() };
+				return new OperationResult<IEnumerable<Guid>>(employees.ToList());
 			}
 			catch (Exception e)
 			{
-				return new OperationResult<IEnumerable<Guid>>(e.Message);	
+				return OperationResult<IEnumerable<Guid>>.FromError(e.Message);
 			}
 		}
 
@@ -225,11 +225,11 @@ namespace SKDDriver
 			{
 				var departmentUIDs = GetParentUIDs(uid);
 				var employees = Context.Employees.Where(x => x != null && departmentUIDs.Contains(x.DepartmentUID.Value)).Select(x => x.UID);
-				return new OperationResult<IEnumerable<Guid>> { Result = employees.ToList() };
+				return new OperationResult<IEnumerable<Guid>>(employees.ToList());
 			}
 			catch (Exception e)
 			{
-				return new OperationResult<IEnumerable<Guid>>(e.Message);
+				return OperationResult<IEnumerable<Guid>>.FromError(e.Message);
 			}
 		}
 

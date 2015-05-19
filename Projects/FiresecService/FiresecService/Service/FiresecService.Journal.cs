@@ -105,9 +105,9 @@ namespace FiresecService.Service
 			}
 			catch (Exception e)
 			{
-				return new OperationResult<bool>(e.Message);
+				return OperationResult<bool>.FromError(e.Message);
 			}
-			return new OperationResult<bool>() { Result = true };
+			return new OperationResult<bool>(true);
 		}
 		#endregion
 
@@ -131,12 +131,12 @@ namespace FiresecService.Service
 						}
 					}
 					dataContext.Close();
-					return new OperationResult<DateTime>() { Result = result };
+					return new OperationResult<DateTime>(result);
 				}
 			}
 			catch (Exception e)
 			{
-				return new OperationResult<DateTime>(e.Message);
+				return OperationResult<DateTime>.FromError(e.Message);
 			}
 		}
 

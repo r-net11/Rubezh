@@ -62,11 +62,11 @@ namespace SKDDriver.Translators
 			try
 			{
 				var result = Context.Journals.Min(x => x.SystemDate);
-				return new OperationResult<DateTime> { Result = result };
+				return new OperationResult<DateTime>(result);
 			}
 			catch (Exception e)
 			{
-				return new OperationResult<DateTime>(e.Message);
+				return OperationResult<DateTime>.FromError(e.Message);
 			}
 		}
 

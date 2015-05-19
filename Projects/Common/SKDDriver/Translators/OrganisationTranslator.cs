@@ -101,11 +101,11 @@ namespace SKDDriver
 					Context.Holidays.Any(x => !x.IsDeleted && x.OrganisationUID == organisationUID) ||
 					Context.Schedules.Any(x => !x.IsDeleted && x.OrganisationUID == organisationUID) ||
 					Context.ScheduleSchemes.Any(x => !x.IsDeleted && x.OrganisationUID == organisationUID);
-				return new OperationResult<bool> { Result = result };
+				return new OperationResult<bool>(result);
 			}
 			catch(Exception e)
 			{
-				return new OperationResult<bool>(e.Message);
+				return OperationResult<bool>.FromError(e.Message);
 			}
 		}
 
@@ -149,10 +149,9 @@ namespace SKDDriver
 		{
 			try
 			{
-				var result = new OperationResult<OrganisationDetails>();
 				var tableItem = Table.Where(x => x.UID.Equals(uid)).FirstOrDefault();
 				if (tableItem == null)
-					return result;
+					return new OperationResult<OrganisationDetails>(null);
 				var organisationDetails = new OrganisationDetails
 					{
 						Description = tableItem.Description,
@@ -169,16 +168,14 @@ namespace SKDDriver
 				var photoResult = DatabaseService.PhotoTranslator.GetSingle(tableItem.PhotoUID);
 				if (photoResult.HasError)
 				{
-					result.Error = photoResult.Error;
-					return result;
+					return OperationResult<OrganisationDetails>.FromError(photoResult.Errors);
 				}
 				organisationDetails.Photo = photoResult.Result;
-				result.Result = organisationDetails;
-				return result;
+				return new OperationResult<OrganisationDetails>(organisationDetails);
 			}
 			catch (Exception e)
 			{
-				return new OperationResult<OrganisationDetails>(e.Message);
+				return OperationResult<OrganisationDetails>.FromError(e.Message);
 			}
 		}
 

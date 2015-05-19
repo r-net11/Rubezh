@@ -162,7 +162,7 @@ namespace StrazhModule.Plans
 			if (designerItem.Element is ElementSKDDevice)
 				RegisterDesignerItem<SKDDevice>(designerItem, "SKD");
 			else if (designerItem.Element is ElementRectangleSKDZone || designerItem.Element is ElementPolygonSKDZone)
-				RegisterDesignerItem<SKDZone>(designerItem, "SKDZone", "/Controls;component/Images/Zone.png");
+				RegisterDesignerItem<SKDZone>(designerItem, "SKDZone", "/Controls;component/Images/SKDZone.png");
 			else if (designerItem.Element is ElementDoor)
 				RegisterDesignerItem<SKDDoor>(designerItem, "Doors", "/Controls;component/Images/Door.png");
 		}
@@ -203,8 +203,8 @@ namespace StrazhModule.Plans
 				FiresecManager.PlansConfiguration.AllPlans.ForEach(plan =>
 				{
 					errors.AddRange(FindUnbindedErrors<ElementSKDDevice, ShowSKDDeviceEvent, Guid>(plan.ElementSKDDevices, plan.UID, "Несвязанное СКД устройство", "/Controls;component/GKIcons/RM_1.png", Guid.Empty));
-					errors.AddRange(FindUnbindedErrors<ElementRectangleSKDZone, ShowSKDZoneEvent, ShowOnPlanArgs<Guid>>(plan.ElementRectangleSKDZones, plan.UID, "Несвязанная СКД зона", "/Controls;component/Images/Zone.png", Guid.Empty));
-					errors.AddRange(FindUnbindedErrors<ElementPolygonSKDZone, ShowSKDZoneEvent, ShowOnPlanArgs<Guid>>(plan.ElementPolygonSKDZones, plan.UID, "Несвязанная СКД зона", "/Controls;component/Images/Zone.png", Guid.Empty));
+					errors.AddRange(FindUnbindedErrors<ElementRectangleSKDZone, ShowSKDZoneEvent, ShowOnPlanArgs<Guid>>(plan.ElementRectangleSKDZones, plan.UID, "Несвязанная СКД зона", "/Controls;component/Images/SKDZone.png", Guid.Empty));
+					errors.AddRange(FindUnbindedErrors<ElementPolygonSKDZone, ShowSKDZoneEvent, ShowOnPlanArgs<Guid>>(plan.ElementPolygonSKDZones, plan.UID, "Несвязанная СКД зона", "/Controls;component/Images/SKDZone.png", Guid.Empty));
 					errors.AddRange(FindUnbindedErrors<ElementDoor, ShowSKDDoorEvent, ShowOnPlanArgs<Guid>>(plan.ElementDoors, plan.UID, "Несвязанное точка доступа", "/Controls;component/Images/Door.png", Guid.Empty));
 				});
 			return errors;

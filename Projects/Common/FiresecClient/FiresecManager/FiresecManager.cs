@@ -25,21 +25,21 @@ namespace FiresecClient
 					ClientUID = FiresecServiceFactory.UID
 				};
 
-				var operationResult = new OperationResult<bool>();
+				string error = null;
 				for (int i = 0; i < 3; i++)
 				{
 					FiresecService = new SafeFiresecService(serverAddress);
-					operationResult = FiresecService.Connect(FiresecServiceFactory.UID, ClientCredentials, true);
+					var operationResult = FiresecService.Connect(FiresecServiceFactory.UID, ClientCredentials, true);
 					if (!operationResult.HasError)
+					{
+						error = null;
 						break;
-				}
-				if (operationResult.HasError)
-				{
-					return operationResult.Error;
+					}
+					error = operationResult.Error;
 				}
 
 				_userLogin = login;
-				return null;
+				return error;
 			}
 			catch (Exception e)
 			{
@@ -144,7 +144,7 @@ namespace FiresecClient
 			catch (Exception e)
 			{
 				Logger.Error(e, "FiresecManager.SafeOperationCall." + methodName);
-				return new OperationResult<T>(e.Message);
+				return OperationResult<T>.FromError(e.Message);
 			}
 		}
 	}

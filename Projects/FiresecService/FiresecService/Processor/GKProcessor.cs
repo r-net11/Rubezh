@@ -122,8 +122,6 @@ namespace FiresecService
 			{
 				if (deviceState.Device.DriverType == GKDriverType.GK && !deviceState.StateClasses.Contains(XStateClass.Unknown) && !deviceState.StateClasses.Contains(XStateClass.ConnectionLost))
 				{
-					var gkSKDHelper = new GKSKDHelper();
-
 					using (var databaseService = new SKDDatabaseService())
 					{
 						var pendingCards = databaseService.CardTranslator.GetAllPendingCards(deviceState.Device.UID);
@@ -137,26 +135,30 @@ namespace FiresecService
 								var employeeOperationResult = databaseService.EmployeeTranslator.GetSingle(card.HolderUID);
 								var employeeName = employeeOperationResult.Result != null ? employeeOperationResult.Result.FIO : "";
 
-								var controllerCardSchedules = gkSKDHelper.GetGKControllerCardSchedules(card, getAccessTemplateOperationResult.Result);
+								if ((PendingCardAction)pendingCard.Action == PendingCardAction.Delete)
+								{
+									var result = GKSKDHelper.RemoveCard(deviceState.Device, card);
+									if (!result.HasError)
+									{
+										databaseService.CardTranslator.DeleteAllPendingCards(pendingCard.CardUID, deviceState.Device.UID);
+									}
+								}
+								var controllerCardSchedules = GKSKDHelper.GetGKControllerCardSchedules(card, getAccessTemplateOperationResult.Result);
 								foreach (var controllerCardSchedule in controllerCardSchedules)
 								{
-									var result = new OperationResult<bool>();
+									var result = new OperationResult<bool>(false);
 									switch ((PendingCardAction)pendingCard.Action)
 									{
 										case PendingCardAction.Add:
-											result = gkSKDHelper.AddOrEditCard(controllerCardSchedule, card, employeeName);
+											result = GKSKDHelper.AddOrEditCard(controllerCardSchedule, card, employeeName);
 											break;
 
 										case PendingCardAction.Edit:
-											result = gkSKDHelper.AddOrEditCard(controllerCardSchedule, card, employeeName);
+											result = GKSKDHelper.AddOrEditCard(controllerCardSchedule, card, employeeName);
 											if (!result.HasError)
 											{
-												result = gkSKDHelper.RemoveCard(deviceState.Device, card);
+												result = GKSKDHelper.RemoveCard(deviceState.Device, card);
 											}
-											break;
-
-										case PendingCardAction.Delete:
-											result = gkSKDHelper.RemoveCard(deviceState.Device, card);
 											break;
 									}
 									if (!result.HasError)

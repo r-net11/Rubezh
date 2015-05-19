@@ -66,13 +66,12 @@ namespace SKDDriver
 				var tableItems = GetTableItems(filter).ToList();
 				foreach (var tableItem in tableItems)
 					result.Add(Translate(tableItem));
-				var operationResult = new OperationResult<IEnumerable<ApiT>>();
-				operationResult.Result = result;
+				var operationResult = new OperationResult<IEnumerable<ApiT>>(result);
 				return operationResult;
 			}
 			catch (Exception e)
 			{
-				return new OperationResult<IEnumerable<ApiT>>(e.Message);
+				return OperationResult<IEnumerable<ApiT>>.FromError(e.Message);
 			}
 		}
 	}

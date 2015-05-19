@@ -6,15 +6,13 @@ using FiresecAPI;
 using FiresecAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
-using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using SKDModule.Events;
 
 namespace SKDModule.ViewModels
 {
-	public class ScheduleViewModel : OrganisationElementViewModel<ScheduleViewModel, Schedule>, IEditingViewModel
+	public class ScheduleViewModel : OrganisationElementViewModel<ScheduleViewModel, Schedule>, IEditingViewModel, IDoorsParent
 	{
 		private bool _isInitialized;
 		
@@ -33,8 +31,6 @@ namespace SKDModule.ViewModels
 			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
 			base.InitializeModel(organisation, model, parentViewModel);
 			_isInitialized = false;
-			ServiceFactory.Events.GetEvent<UpdateOrganisationDoorsEvent>().Unsubscribe(OnUpdateOrganisationDoors);
-			ServiceFactory.Events.GetEvent<UpdateOrganisationDoorsEvent>().Subscribe(OnUpdateOrganisationDoors);
 			Update();
 		}
 
@@ -148,13 +144,19 @@ namespace SKDModule.ViewModels
 			return SelectedScheduleZone != null && !IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Schedules_Edit);
 		}
 
-		public void OnUpdateOrganisationDoors(Guid organisationUID)
+		public void UpdateCardDoors(IEnumerable<Guid> doorUIDs)
 		{
 			if (ScheduleZones == null)
 				return;
-			Organisation = OrganisationHelper.GetSingle(organisationUID);
-			var zonesToRemove = ScheduleZones.Where(x => !Organisation.DoorUIDs.Any(y => y == x.Model.DoorUID)).ToList();
-			zonesToRemove.ForEach(x => ScheduleZones.Remove(x));
+			var zonesToRemove = ScheduleZones.Where(x => !doorUIDs.Any(y => y == x.Model.DoorUID)).ToList();
+			foreach (var item in zonesToRemove)
+			{
+				if (ScheduleZoneHelper.MarkDeleted(item.Model, Model.Name))
+				{
+					Model.Zones.Remove(item.Model);
+					ScheduleZones.Remove(item);
+				}	
+			}
 		}
 	}
 }

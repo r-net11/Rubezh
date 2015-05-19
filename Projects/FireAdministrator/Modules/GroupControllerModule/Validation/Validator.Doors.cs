@@ -39,6 +39,10 @@ namespace GKModule.Validation
 					if (door.DoorType == GKDoorType.AirlockBooth)
 						Errors.Add(new DoorValidationError(door, "При включенном Antipassback, отсутствует датчик контроля двери на выход", ValidationErrorLevel.CannotWrite));
 				}
+				if (door.EnterZoneUID == Guid.Empty)
+					Errors.Add(new DoorValidationError(door, "При включенном Antipassback, отсутствует зона на вход", ValidationErrorLevel.CannotWrite));
+				if (door.DoorType != GKDoorType.OneWay && door.ExitZoneUID == Guid.Empty)
+					Errors.Add(new DoorValidationError(door, "При включенном Antipassback, отсутствует зона на выход", ValidationErrorLevel.CannotWrite));
 			}
 		}
 

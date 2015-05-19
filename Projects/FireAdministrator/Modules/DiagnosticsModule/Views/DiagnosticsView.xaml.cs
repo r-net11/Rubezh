@@ -6,10 +6,5 @@
 		{
 			InitializeComponent();
 		}
-
-		private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
-		{
-			_mediaElement.Play();
-		}
 	}
 }

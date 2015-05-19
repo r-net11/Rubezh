@@ -49,7 +49,7 @@ namespace GKProcessor
 			{
 				Logger.Error(e, "ParametersHelper.GetSingleParameter");
 			}
-			return new OperationResult<List<GKProperty>>("Непредвиденная ошибка");
+			return OperationResult<List<GKProperty>>.FromError("Непредвиденная ошибка");
 		}
 
 		static OperationResult<List<GKProperty>> GetDeviceParameters(CommonDatabase commonDatabase, BaseDescriptor descriptor)
@@ -60,7 +60,7 @@ namespace GKProcessor
 			var sendResult = SendManager.Send(commonDatabase.RootDevice, 2, 9, ushort.MaxValue, BytesHelper.ShortToBytes(no));
 			if (sendResult.HasError)
 			{
-				return new OperationResult<List<GKProperty>>(sendResult.Error);
+				return OperationResult<List<GKProperty>>.FromError(sendResult.Error);
 			}
 
 			var binProperties = new List<BinProperty>();
@@ -123,7 +123,7 @@ namespace GKProcessor
 						}
 					}
 					else
-						return new OperationResult<List<GKProperty>>("Неизвестный номер параметра");
+						return OperationResult<List<GKProperty>>.FromError("Неизвестный номер параметра");
 				}
 			}
 			if (binProperties.Count >= 3)
@@ -141,7 +141,7 @@ namespace GKProcessor
 				properties.Add(new GKProperty() { Value = binProperties[0].Value });
 				properties.Add(new GKProperty() { Value = binProperties[1].Value });
 			}
-			return new OperationResult<List<GKProperty>>() { Result = properties };
+			return new OperationResult<List<GKProperty>>(properties);
 		}
 		static string SetDeviceParameters(CommonDatabase commonDatabase, BaseDescriptor descriptor, List<byte> parameterBytes)
 		{

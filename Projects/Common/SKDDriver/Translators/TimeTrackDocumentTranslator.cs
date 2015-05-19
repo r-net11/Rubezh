@@ -51,13 +51,13 @@ namespace SKDDriver.Translators
 						};
 						timeTrackDocuments.Add(timeTrackDocument);
 					}
-					return new OperationResult<List<TimeTrackDocument>>() { Result = timeTrackDocuments };
+					return new OperationResult<List<TimeTrackDocument>>(timeTrackDocuments);
 				}
-				return new OperationResult<List<TimeTrackDocument>>() { Result = new List<TimeTrackDocument>() };
+				return new OperationResult<List<TimeTrackDocument>>(new List<TimeTrackDocument>());
 			}
 			catch (Exception e)
 			{
-				return new OperationResult<List<TimeTrackDocument>>(e.Message);
+				return OperationResult<List<TimeTrackDocument>>.FromError(e.Message);
 			}
 		}
 

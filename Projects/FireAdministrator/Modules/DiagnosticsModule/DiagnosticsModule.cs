@@ -37,11 +37,6 @@ namespace DiagnosticsModule
 
 		public override void Dispose()
 		{
-			if (DiagnosticsViewModel != null)
-				DiagnosticsViewModel.StopThreads();
 		}
-
-		public static Stopwatch swd = new Stopwatch();
-		public static Stopwatch swz = new Stopwatch();
 	}
 }

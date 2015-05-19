@@ -11,9 +11,9 @@ namespace SKDModule.ViewModels
 	public class CardDoorsViewModel : BaseViewModel
 	{
 		public List<CardDoor> CardDoors { get; private set; }
-		ICardDoorsParent _parent;
+		IDoorsParent _parent;
 
-		public CardDoorsViewModel(List<CardDoor> cardDoors, ICardDoorsParent parent)
+		public CardDoorsViewModel(List<CardDoor> cardDoors, IDoorsParent parent)
 		{
 			Update(cardDoors);
 			_parent = parent;
@@ -75,10 +75,5 @@ namespace SKDModule.ViewModels
 			var doorsToRemove = Doors.Where(x => !doorUIDs.Any(y => y == x.CardDoor.DoorUID)).ToList();
 			doorsToRemove.ForEach(x => Doors.Remove(x));
 		}
-	}
-
-	public interface ICardDoorsParent
-	{
-		void UpdateCardDoors(IEnumerable<Guid> doorUIDs);
 	}
 }

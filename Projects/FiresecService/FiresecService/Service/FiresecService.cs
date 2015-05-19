@@ -60,7 +60,7 @@ namespace FiresecService.Service
 			var clientCredentials = ClientsManager.GetClientCredentials(uid);
 			if (clientCredentials == null)
 			{
-				return new OperationResult<bool>("Не найден пользователь");
+				return OperationResult<bool>.FromError("Не найден пользователь");
 			}
 			InitializeClientCredentials(clientCredentials);
 			var oldUserName = clientCredentials.FriendlyUserName;

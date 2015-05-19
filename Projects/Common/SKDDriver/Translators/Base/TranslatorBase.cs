@@ -145,18 +145,17 @@ namespace SKDDriver
 		{
 			try
 			{
-				var result = new OperationResult<ApiT>();
 				if (uid == null || uid == Guid.Empty)
-					return result;
+					return new OperationResult<ApiT>(null);
 				var tableItem = Table.Where(x => x.UID.Equals(uid.Value)).FirstOrDefault();
 				if (tableItem == null)
-					return result;
-				result.Result = Translate(tableItem);
-				return result;
+					return new OperationResult<ApiT>(null);
+				var result = Translate(tableItem);
+				return new OperationResult<ApiT>(result);
 			}
 			catch (Exception e)
 			{
-				return new OperationResult<ApiT>(e.Message);
+				return OperationResult<ApiT>.FromError(e.Message);
 			}
 		}
 

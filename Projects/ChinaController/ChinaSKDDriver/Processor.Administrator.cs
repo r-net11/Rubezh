@@ -15,7 +15,7 @@ namespace ChinaSKDDriver
 			if (deviceProcessor != null)
 			{
 				if (!deviceProcessor.IsConnected)
-					return new OperationResult<SKDDeviceInfo>("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
+					return OperationResult<SKDDeviceInfo>.FromError("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
 
 				SKDDeviceInfo deviceInfo = new SKDDeviceInfo();
 				var deviceSoftwareInfo = deviceProcessor.Wrapper.GetDeviceSoftwareInfo();
@@ -27,7 +27,7 @@ namespace ChinaSKDDriver
 				}
 				else
 				{
-					return new OperationResult<SKDDeviceInfo>("Ошибка при запросе информации о версии из контроллера");
+					return OperationResult<SKDDeviceInfo>.FromError("Ошибка при запросе информации о версии из контроллера");
 				}
 
 				var deviceNetInfo = deviceProcessor.Wrapper.GetDeviceNetInfo();
@@ -39,7 +39,7 @@ namespace ChinaSKDDriver
 				}
 				else
 				{
-					return new OperationResult<SKDDeviceInfo>("Ошибка при запросе сетевой информации из контроллера");
+					return OperationResult<SKDDeviceInfo>.FromError("Ошибка при запросе сетевой информации из контроллера");
 				}
 
 				var dateTime = deviceProcessor.Wrapper.GetDateTime();
@@ -49,12 +49,12 @@ namespace ChinaSKDDriver
 				}
 				else
 				{
-					return new OperationResult<SKDDeviceInfo>("Ошибка при запросе текущего времени из контроллера");
+					return OperationResult<SKDDeviceInfo>.FromError("Ошибка при запросе текущего времени из контроллера");
 				}
 
-				return new OperationResult<SKDDeviceInfo>() { Result = deviceInfo };
+				return new OperationResult<SKDDeviceInfo>(deviceInfo);
 			}
-			return new OperationResult<SKDDeviceInfo>("Не найден контроллер в конфигурации");
+			return OperationResult<SKDDeviceInfo>.FromError("Не найден контроллер в конфигурации");
 		}
 
 		public static OperationResult<bool> SyncronyseTime(Guid deviceUID)
@@ -63,15 +63,15 @@ namespace ChinaSKDDriver
 			if (deviceProcessor != null)
 			{
 				if (!deviceProcessor.IsConnected)
-					return new OperationResult<bool>("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
+					return OperationResult<bool>.FromError("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
 
 				var result = deviceProcessor.Wrapper.SetDateTime(DateTime.Now);
 				if (result)
-					return new OperationResult<bool>() { Result = true };
+					return new OperationResult<bool>(true);
 				else
-					return new OperationResult<bool>("Ошибка при выполнении операции в прибор");
+					return OperationResult<bool>.FromError("Ошибка при выполнении операции в прибор");
 			}
-			return new OperationResult<bool>("Не найден контроллер в конфигурации");
+			return OperationResult<bool>.FromError("Не найден контроллер в конфигурации");
 		}
 
 		public static OperationResult<bool> ResetController(Guid deviceUID)
@@ -80,15 +80,15 @@ namespace ChinaSKDDriver
 			if (deviceProcessor != null)
 			{
 				if (!deviceProcessor.IsConnected)
-					return new OperationResult<bool>("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
+					return OperationResult<bool>.FromError("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
 
 				var result = deviceProcessor.Wrapper.Reset();
 				if (result)
-					return new OperationResult<bool>() { Result = true };
+					return new OperationResult<bool>(true);
 				else
-					return new OperationResult<bool>("Ошибка при выполнении операции в приборе");
+					return OperationResult<bool>.FromError("Ошибка при выполнении операции в приборе");
 			}
-			return new OperationResult<bool>("Не найден контроллер в конфигурации");
+			return OperationResult<bool>.FromError("Не найден контроллер в конфигурации");
 		}
 
 		public static OperationResult<bool> RebootController(Guid deviceUID)
@@ -97,16 +97,16 @@ namespace ChinaSKDDriver
 			if (deviceProcessor != null)
 			{
 				if (!deviceProcessor.IsConnected)
-					return new OperationResult<bool>("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
+					return OperationResult<bool>.FromError("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
 
 				var result = deviceProcessor.Wrapper.Reboot();
 				deviceProcessor.Reconnect();
 				if (result)
-					return new OperationResult<bool>() { Result = true };
+					return new OperationResult<bool>(true);
 				else
-					return new OperationResult<bool>("Ошибка при выполнении операции в приборе");
+					return OperationResult<bool>.FromError("Ошибка при выполнении операции в приборе");
 			}
-			return new OperationResult<bool>("Не найден контроллер в конфигурации");
+			return OperationResult<bool>.FromError("Не найден контроллер в конфигурации");
 		}
 
 		public static OperationResult<bool> SKDWriteTimeSheduleConfiguration(Guid deviceUID)
@@ -115,7 +115,7 @@ namespace ChinaSKDDriver
 			if (deviceProcessor != null)
 			{
 				if (!deviceProcessor.IsConnected)
-					return new OperationResult<bool>("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
+					return OperationResult<bool>.FromError("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
 
 				var progressCallback = Processor.StartProgress("Запись графиков работ в прибор " + deviceProcessor.Device.Name, "", 128, true, GKProgressClientType.Administrator);
 
@@ -174,21 +174,21 @@ namespace ChinaSKDDriver
 					}
 
 					if (progressCallback.IsCanceled)
-						return new OperationResult<bool>("Операция записи графиков прибора " + deviceProcessor.Device.Name + " отменена");
+						return OperationResult<bool>.FromError("Операция записи графиков прибора " + deviceProcessor.Device.Name + " отменена");
 					Processor.DoProgress("Запись графика " + i, progressCallback);
 
 					var result = deviceProcessor.Wrapper.SetTimeShedules(i, timeShedules);
 					if (!result)
 					{
 						Processor.StopProgress(progressCallback);
-						return new OperationResult<bool>("Ошибка при выполнении операции в приборе");
+						return OperationResult<bool>.FromError("Ошибка при выполнении операции в приборе");
 					}
 				}
 
 				Processor.StopProgress(progressCallback);
-				return new OperationResult<bool>() { Result = true };
+				return new OperationResult<bool>(true);
 			}
-			return new OperationResult<bool>("Не найден контроллер в конфигурации");
+			return OperationResult<bool>.FromError("Не найден контроллер в конфигурации");
 		}
 
 		public static OperationResult<SKDDoorConfiguration> GetDoorConfiguration(Guid deviceUID)
@@ -204,11 +204,11 @@ namespace ChinaSKDDriver
 			if (deviceProcessor != null)
 			{
 				if (!deviceProcessor.IsConnected)
-					return new OperationResult<SKDDoorConfiguration>("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
+					return OperationResult<SKDDoorConfiguration>.FromError("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
 
 				var nativeDoorConfiguration = deviceProcessor.Wrapper.GetDoorConfiguration(readerDevice.IntAddress);
 				if (nativeDoorConfiguration == null)
-					return new OperationResult<SKDDoorConfiguration>("Ошибка при выполнении операции в приборе");
+					return OperationResult<SKDDoorConfiguration>.FromError("Ошибка при выполнении операции в приборе");
 
 				var doorConfiguration = new SKDDoorConfiguration();
 				doorConfiguration.DoorOpenMethod = (SKDDoorConfiguration_DoorOpenMethod)nativeDoorConfiguration.DoorOpenMethod;
@@ -223,25 +223,25 @@ namespace ChinaSKDDriver
 				doorConfiguration.IsDuressAlarmEnable = nativeDoorConfiguration.IsDuressAlarmEnable;
 				doorConfiguration.IsSensorEnable = nativeDoorConfiguration.IsSensorEnable;
 
-				return new OperationResult<SKDDoorConfiguration>() { Result = doorConfiguration };
+				return new OperationResult<SKDDoorConfiguration>(doorConfiguration);
 			}
-			return new OperationResult<SKDDoorConfiguration>("Не найден контроллер в конфигурации");
+			return OperationResult<SKDDoorConfiguration>.FromError("Не найден контроллер в конфигурации");
 		}
 
 		public static OperationResult<bool> SetDoorConfiguration(Guid deviceUID, SKDDoorConfiguration doorConfiguration)
 		{
 			var readerDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (readerDevice == null)
-				return new OperationResult<bool>("Не найден считыватель в конфигурации");
+				return OperationResult<bool>.FromError("Не найден считыватель в конфигурации");
 			var controllerDevice = readerDevice.Parent;
 			if (controllerDevice == null)
-				return new OperationResult<bool>("Не найден контроллер в конфигурации");
+				return OperationResult<bool>.FromError("Не найден контроллер в конфигурации");
 
 			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == controllerDevice.UID);
 			if (deviceProcessor != null)
 			{
 				if (!deviceProcessor.IsConnected)
-					return new OperationResult<bool>("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
+					return OperationResult<bool>.FromError("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
 
 				var nativeDoorConfiguration = new DoorConfiguration();
 				nativeDoorConfiguration.DoorOpenMethod = (DoorOpenMethod)doorConfiguration.DoorOpenMethod;
@@ -258,11 +258,11 @@ namespace ChinaSKDDriver
 
 				var result = deviceProcessor.Wrapper.SetDoorConfiguration(nativeDoorConfiguration, readerDevice.IntAddress);
 				if (result)
-					return new OperationResult<bool>() { Result = true };
+					return new OperationResult<bool>(true);
 				else
-					return new OperationResult<bool>("Ошибка при выполнении операции в приборе");
+					return OperationResult<bool>.FromError("Ошибка при выполнении операции в приборе");
 			}
-			return new OperationResult<bool>("Не найден контроллер в конфигурации");
+			return OperationResult<bool>.FromError("Не найден контроллер в конфигурации");
 		}
 
 		public static OperationResult<DoorType> GetControllerDoorType(Guid deviceUID)
@@ -271,12 +271,12 @@ namespace ChinaSKDDriver
 			if (deviceProcessor != null)
 			{
 				if (!deviceProcessor.IsConnected)
-					return new OperationResult<DoorType>("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
+					return OperationResult<DoorType>.FromError("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
 
 				var doorType = deviceProcessor.Wrapper.GetControllerDoorType();
-				return new OperationResult<DoorType>() { Result = doorType };
+				return new OperationResult<DoorType>(doorType);
 			}
-			return new OperationResult<DoorType>("Не найден контроллер в конфигурации");
+			return OperationResult<DoorType>.FromError("Не найден контроллер в конфигурации");
 		}
 
 		public static OperationResult<bool> SetControllerDoorType(Guid deviceUID, DoorType doorType)
@@ -285,16 +285,16 @@ namespace ChinaSKDDriver
 			if (deviceProcessor != null)
 			{
 				if (!deviceProcessor.IsConnected)
-					return new OperationResult<bool>("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
+					return OperationResult<bool>.FromError("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
 
 				var result = deviceProcessor.Wrapper.SetControllerDoorType(doorType);
 				//deviceProcessor.Reconnect();
 				if (result)
-					return new OperationResult<bool>() { Result = true };
+					return new OperationResult<bool>(true);
 				else
-					return new OperationResult<bool>("Ошибка при выполнении операции в приборе");
+					return OperationResult<bool>.FromError("Ошибка при выполнении операции в приборе");
 			}
-			return new OperationResult<bool>("Не найден контроллер в конфигурации");
+			return OperationResult<bool>.FromError("Не найден контроллер в конфигурации");
 		}
 
 		public static OperationResult<bool> SetControllerPassword(Guid deviceUID, string name, string oldPassword, string password)
@@ -303,15 +303,15 @@ namespace ChinaSKDDriver
 			if (deviceProcessor != null)
 			{
 				if (!deviceProcessor.IsConnected)
-					return new OperationResult<bool>("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
+					return OperationResult<bool>.FromError("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
 
 				var result = deviceProcessor.Wrapper.SetControllerPassword(name, oldPassword, password);
 				if (result)
-					return new OperationResult<bool>() { Result = true };
+					return new OperationResult<bool>(true);
 				else
-					return new OperationResult<bool>("Ошибка при выполнении операции в приборе");
+					return OperationResult<bool>.FromError("Ошибка при выполнении операции в приборе");
 			}
-			return new OperationResult<bool>("Не найден контроллер в конфигурации");
+			return OperationResult<bool>.FromError("Не найден контроллер в конфигурации");
 		}
 
 		public static OperationResult<SKDControllerTimeSettings> GetControllerTimeSettings(Guid deviceUID)
@@ -320,12 +320,12 @@ namespace ChinaSKDDriver
 			if (deviceProcessor != null)
 			{
 				if (!deviceProcessor.IsConnected)
-					return new OperationResult<SKDControllerTimeSettings>("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
+					return OperationResult<SKDControllerTimeSettings>.FromError("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
 
 				var doorType = deviceProcessor.Wrapper.GetControllerTimeSettings();
-				return new OperationResult<SKDControllerTimeSettings>() { Result = doorType };
+				return new OperationResult<SKDControllerTimeSettings>(doorType);
 			}
-			return new OperationResult<SKDControllerTimeSettings>("Не найден контроллер в конфигурации");
+			return OperationResult<SKDControllerTimeSettings>.FromError("Не найден контроллер в конфигурации");
 		}
 
 		public static OperationResult<bool> SetControllerTimeSettings(Guid deviceUID, SKDControllerTimeSettings controllerTimeSettings)
@@ -334,15 +334,15 @@ namespace ChinaSKDDriver
 			if (deviceProcessor != null)
 			{
 				if (!deviceProcessor.IsConnected)
-					return new OperationResult<bool>("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
+					return OperationResult<bool>.FromError("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
 
 				var result = deviceProcessor.Wrapper.SetControllerTimeSettings(controllerTimeSettings);
 				if (result)
-					return new OperationResult<bool>() { Result = true };
+					return new OperationResult<bool>(true);
 				else
-					return new OperationResult<bool>("Ошибка при выполнении операции в приборе");
+					return OperationResult<bool>.FromError("Ошибка при выполнении операции в приборе");
 			}
-			return new OperationResult<bool>("Не найден контроллер в конфигурации");
+			return OperationResult<bool>.FromError("Не найден контроллер в конфигурации");
 		}
 
 		public static OperationResult<SKDControllerNetworkSettings> GetControllerNetworkSettings(Guid deviceUID)
@@ -351,12 +351,12 @@ namespace ChinaSKDDriver
 			if (deviceProcessor != null)
 			{
 				if (!deviceProcessor.IsConnected)
-					return new OperationResult<SKDControllerNetworkSettings>("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
+					return OperationResult<SKDControllerNetworkSettings>.FromError("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
 
 				var controllerNetworkSettings = deviceProcessor.Wrapper.GetDeviceNetInfo();
-				return new OperationResult<SKDControllerNetworkSettings>() { Result = controllerNetworkSettings };
+				return new OperationResult<SKDControllerNetworkSettings>(controllerNetworkSettings);
 			}
-			return new OperationResult<SKDControllerNetworkSettings>("Не найден контроллер в конфигурации");
+			return OperationResult<SKDControllerNetworkSettings>.FromError("Не найден контроллер в конфигурации");
 		}
 
 		public static OperationResult<bool> SetControllerNetworkSettings(Guid deviceUID, SKDControllerNetworkSettings controllerNetworkSettings)
@@ -365,15 +365,15 @@ namespace ChinaSKDDriver
 			if (deviceProcessor != null)
 			{
 				if (!deviceProcessor.IsConnected)
-					return new OperationResult<bool>("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
+					return OperationResult<bool>.FromError("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
 
 				var result = deviceProcessor.Wrapper.SetDeviceNetInfo(controllerNetworkSettings);
 				if (result)
-					return new OperationResult<bool>() { Result = true };
+					return new OperationResult<bool>(true);
 				else
-					return new OperationResult<bool>("Ошибка при выполнении операции в приборе");
+					return OperationResult<bool>.FromError("Ошибка при выполнении операции в приборе");
 			}
-			return new OperationResult<bool>("Не найден контроллер в конфигурации");
+			return OperationResult<bool>.FromError("Не найден контроллер в конфигурации");
 		}
 	}
 }

@@ -12,7 +12,7 @@ using SKDModule.Events;
 
 namespace SKDModule.ViewModels
 {
-	public class SchedulesViewModel : OrganisationBaseViewModel<Schedule, ScheduleFilter, ScheduleViewModel, ScheduleDetailsViewModel>, ISelectable<Guid>, ITimeTrackItemsViewModel
+	public class SchedulesViewModel : OrganisationBaseViewModel<Schedule, ScheduleFilter, ScheduleViewModel, ScheduleDetailsViewModel>, ISelectable<Guid>, ITimeTrackItemsViewModel, ICardDoorsParentList<ScheduleViewModel>
 	{
 		bool _isInitialized;
 		ChangeIsDeletedSubscriber _changeIsDeletedSubscriber;
@@ -26,7 +26,10 @@ namespace SKDModule.ViewModels
 			ServiceFactory.Events.GetEvent<UpdateFilterEvent>().Unsubscribe(OnUpdateFilter);
 			ServiceFactory.Events.GetEvent<UpdateFilterEvent>().Subscribe(OnUpdateFilter);
 			ShowSettingsCommand = new RelayCommand(OnShowSettings, CanShowSettings);
+			_updateOrganisationDoorsEventSubscriber = new UpdateOrganisationDoorsEventSubscriber<ScheduleViewModel>(this);
 		}
+
+		UpdateOrganisationDoorsEventSubscriber<ScheduleViewModel> _updateOrganisationDoorsEventSubscriber;
 
 		public void Initialize()
 		{
@@ -162,6 +165,11 @@ namespace SKDModule.ViewModels
 		bool CanShowSettings()
 		{
 			return ParentOrganisation != null && !ParentOrganisation.IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Holidays_Edit);
+		}
+
+		public List<ScheduleViewModel> DoorsParents
+		{
+			get { return Organisations.SelectMany(x => x.Children).ToList(); }
 		}
 	}
 }

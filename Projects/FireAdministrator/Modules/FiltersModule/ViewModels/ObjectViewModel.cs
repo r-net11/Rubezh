@@ -74,7 +74,7 @@ namespace FiltersModule.ViewModels
 					break;
 
 				case JournalObjectType.SKDZone:
-					ImageSource = "/Controls;component/Images/Zone.png";
+					ImageSource = "/Controls;component/Images/SKDZone.png";
 					break;
 
 				case JournalObjectType.SKDDoor:
@@ -154,7 +154,7 @@ namespace FiltersModule.ViewModels
 		{
 			Name = zone.Name;
 			UID = zone.UID;
-			ImageSource = "/Controls;component/Images/Zone.png";
+			ImageSource = "/Controls;component/Images/SKDZone.png";
 		}
 
 		public ObjectViewModel(SKDDoor door)

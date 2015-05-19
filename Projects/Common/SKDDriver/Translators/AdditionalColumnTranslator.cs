@@ -54,13 +54,11 @@ namespace SKDDriver
 							});
 					}
 				}
-				var result = new OperationResult<IEnumerable<ShortEmployee>>();
-				result.Result = employees;
-				return result;
+				return new OperationResult<IEnumerable<ShortEmployee>>(employees);
 			}
 			catch (Exception e)
 			{
-				return new OperationResult<IEnumerable<ShortEmployee>>(e.Message);
+				return OperationResult<IEnumerable<ShortEmployee>>.FromError(e.Message);
 			}
 		}
 

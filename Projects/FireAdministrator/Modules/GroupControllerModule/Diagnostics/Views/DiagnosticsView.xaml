@@ -2,14 +2,9 @@
 	<TabControl>
 		<TabItem Header="Отладка">
 			<Border Background="White" CornerRadius="5">
-				<WrapPanel Margin="5">
-					<Button Width="300" Margin="2" Command="{Binding GoToTechnologicalCommand}" Content="Перевести в технологический режим" />
-					<Button Width="300" Margin="2" Command="{Binding GoToWorkRegimeCommand}" Content="Перевести в рабочий режим" />
-					<Button Width="150" Margin="2" Command="{Binding WriteConfigFileToGKCommand}" Content="Записать файл в ГК" />
-					<Button Width="150" Margin="2" Command="{Binding ReadConfigFileFromGKCommand}" Content="Считать файл из ГК" />
-					<Button Width="150" Margin="2" Command="{Binding CompareHashesCommand}" Content="Сравнить хеши" />
-					<Button Width="150" Margin="2" Command="{Binding TestCommand}" Content="Тест" />
-				</WrapPanel>
+				<StackPanel>
+					<Button Width="250" Margin="2" Command="{Binding TestCommand}" Content="Добавить устройства к существующим шлейфам" />
+                </StackPanel>
 			</Border>
 		</TabItem>
 	</TabControl>
