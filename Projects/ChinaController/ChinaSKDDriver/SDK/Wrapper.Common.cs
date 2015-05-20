@@ -249,33 +249,139 @@ namespace ChinaSKDDriver
 
 		public bool SetDoorConfiguration(DoorConfiguration doorConfiguration, int doorNo)
 		{
+			const byte TRUE = (byte)1;
+			const byte FALSE = (byte)0;
+
 			NativeWrapper.CFG_ACCESS_EVENT_INFO info = new NativeWrapper.CFG_ACCESS_EVENT_INFO();
 			info.szChannelName = doorConfiguration.ChannelName;
-			info.emState = NativeWrapper.CFG_ACCESS_STATE.ACCESS_STATE_NORMAL;
-			info.emMode = NativeWrapper.CFG_ACCESS_MODE.ACCESS_MODE_HANDPROTECTED;
-			info.nEnableMode = doorConfiguration.EnableMode;
-			info.bSnapshotEnable = doorConfiguration.IsSnapshotEnable ? (byte)0 : (byte)1;
-			info.abDoorOpenMethod = doorConfiguration.UseDoorOpenMethod ? (byte)0 : (byte)1;
-			info.abUnlockHoldInterval = doorConfiguration.UseUnlockHoldInterval ? (byte)0 : (byte)1;
-			info.abCloseTimeout = doorConfiguration.UseCloseTimeout ? (byte)0 : (byte)1;
-			info.abOpenAlwaysTimeIndex = doorConfiguration.UseOpenAlwaysTimeIndex ? (byte)0 : (byte)1;
-			info.abHolidayTimeIndex = doorConfiguration.UseHolidayTimeIndex ? (byte)0 : (byte)1;
-			info.abBreakInAlarmEnable = doorConfiguration.UseBreakInAlarmEnable ? (byte)0 : (byte)1;
-			info.abRepeatEnterAlarmEnable = doorConfiguration.UseRepeatEnterAlarmEnable ? (byte)0 : (byte)1;
-			info.abDoorNotClosedAlarmEnable = doorConfiguration.UseDoorNotClosedAlarmEnable ? (byte)0 : (byte)1;
-			info.abDuressAlarmEnable = doorConfiguration.UseDuressAlarmEnable ? (byte)0 : (byte)1;
-			info.abDoorTimeSection = doorConfiguration.UseDoorTimeSection ? (byte)0 : (byte)1;
-			info.abSensorEnable = doorConfiguration.UseSensorEnable ? (byte)0 : (byte)1;
+			//info.emState = NativeWrapper.CFG_ACCESS_STATE.ACCESS_STATE_NORMAL;
+			//info.emMode = NativeWrapper.CFG_ACCESS_MODE.ACCESS_MODE_HANDPROTECTED;
+			//info.nEnableMode = doorConfiguration.EnableMode;
+			//info.bSnapshotEnable = doorConfiguration.IsSnapshotEnable ? (byte)0 : (byte)1;
+			//info.abDoorOpenMethod = doorConfiguration.UseDoorOpenMethod ? (byte)0 : (byte)1;
+			//info.abUnlockHoldInterval = doorConfiguration.UseUnlockHoldInterval ? (byte)0 : (byte)1;
+			//info.abCloseTimeout = doorConfiguration.UseCloseTimeout ? (byte)0 : (byte)1;
+			//info.abOpenAlwaysTimeIndex = doorConfiguration.UseOpenAlwaysTimeIndex ? (byte)0 : (byte)1;
+			//info.abHolidayTimeIndex = doorConfiguration.UseHolidayTimeIndex ? (byte)0 : (byte)1;
+			//info.abBreakInAlarmEnable = doorConfiguration.UseBreakInAlarmEnable ? (byte)0 : (byte)1;
+			//info.abRepeatEnterAlarmEnable = doorConfiguration.UseRepeatEnterAlarmEnable ? (byte)0 : (byte)1;
+			//info.abDoorNotClosedAlarmEnable = doorConfiguration.UseDoorNotClosedAlarmEnable ? (byte)0 : (byte)1;
+			//info.abDuressAlarmEnable = doorConfiguration.UseDuressAlarmEnable ? (byte)0 : (byte)1;
+			//info.abDoorTimeSection = doorConfiguration.UseDoorTimeSection ? (byte)0 : (byte)1;
+			//info.abSensorEnable = doorConfiguration.UseSensorEnable ? (byte)0 : (byte)1;
+			//info.emDoorOpenMethod = (NativeWrapper.CFG_DOOR_OPEN_METHOD)doorConfiguration.DoorOpenMethod;
+			//info.nUnlockHoldInterval = doorConfiguration.UnlockHoldInterval;
+			//info.nCloseTimeout = doorConfiguration.CloseTimeout;
+			//info.nOpenAlwaysTimeIndex = doorConfiguration.OpenAlwaysTimeIndex;
+			//info.nHolidayTimeRecoNo = 255;
+			//info.bBreakInAlarmEnable = doorConfiguration.IsBreakInAlarmEnable;
+			//info.bRepeatEnterAlarm = doorConfiguration.IsRepeatEnterAlarmEnable;
+			//info.bDoorNotClosedAlarmEnable = doorConfiguration.IsDoorNotClosedAlarmEnable;
+			//info.bDuressAlarmEnable = doorConfiguration.IsDuressAlarmEnable;
+			//info.bSensorEnable = doorConfiguration.IsSensorEnable;
+
+			// door open method
 			info.emDoorOpenMethod = (NativeWrapper.CFG_DOOR_OPEN_METHOD)doorConfiguration.DoorOpenMethod;
-			info.nUnlockHoldInterval = doorConfiguration.UnlockHoldInterval;
+
+			// door unlock hold time
+			//info.nUnlockHoldInterval = doorConfiguration.UnlockHoldInterval;
+			info.nUnlockHoldInterval = 333;
+
+			// door close timeout
 			info.nCloseTimeout = doorConfiguration.CloseTimeout;
+
+			// open time index in config of AccessTimeSchedule, start from 0
 			info.nOpenAlwaysTimeIndex = doorConfiguration.OpenAlwaysTimeIndex;
+
+			// holiday record set recNo
 			info.nHolidayTimeRecoNo = 255;
+
+			// first enter status
+			//m_stuInfo.stuFirstEnterInfo.emStatus = static_cast<CFG_ACCESS_FIRSTENTER_STATUS>(m_cbFirstEnterStatus.GetCurSel());
+
+			// first enter time index
+			//m_stuInfo.stuFirstEnterInfo.nTimeIndex = GetDlgItemInt(IDC_ACCESSCONTROL_EDT_FIRSTENTER_TIMERINDEX);
+
+			// break in alarm enable
+			info.abBreakInAlarmEnable = TRUE;
 			info.bBreakInAlarmEnable = doorConfiguration.IsBreakInAlarmEnable;
-			info.bRepeatEnterAlarm = doorConfiguration.IsRepeatEnterAlarmEnable;
+
+			// repeat enter alarm enable
+			info.abRepeatEnterAlarmEnable = TRUE;
+			info.bRepeatEnterAlarm = doorConfiguration.IsBreakInAlarmEnable;
+
+			// door not close enable
+			info.abDoorNotClosedAlarmEnable = TRUE;
 			info.bDoorNotClosedAlarmEnable = doorConfiguration.IsDoorNotClosedAlarmEnable;
+
+			// duress alarm enable
+			info.abDuressAlarmEnable = TRUE;
 			info.bDuressAlarmEnable = doorConfiguration.IsDuressAlarmEnable;
+
+			// sensor alarm enable
+			info.abSensorEnable = TRUE;
 			info.bSensorEnable = doorConfiguration.IsSensorEnable;
+
+			// time section...
+
+			//// first enter enable
+			//info.abFirstEnterEnable = TRUE;
+			//info.stuFirstEnterInfo.bEnable = ;
+
+			//// remote check
+			//if (m_chkRemoteCheck.GetCheck())
+			//{
+			//    m_stuInfo.abRemoteCheck = true;
+			//    m_stuInfo.bRemoteCheck = TRUE;
+
+			//    m_stuInfo.stuRemoteDetail.nTimeOut = GetDlgItemInt(IDC_ACCESSCONTROL_EDT_FIRSTENTER_REMOTETIMEOUT);
+			//    int nSel = m_TimeOutDoorStatus.GetCurSel();
+			//    if (nSel == 0)
+			//        m_stuInfo.stuRemoteDetail.bTimeOutDoorStatus = TRUE;
+			//    else
+			//        m_stuInfo.stuRemoteDetail.bTimeOutDoorStatus = FALSE;
+
+			//}
+			//else
+			//{
+			//    m_stuInfo.bRemoteCheck = FALSE;
+			//}
+
+			//// handicapped
+			//int Handicappedunlockhold = GetDlgItemInt(IDC_ACCESSCONTROL_EDT_HANDICAPPEDUNLOCKHOLD);
+			////[250, 60000] 
+			//if (Handicappedunlockhold > 60000)
+			//    SetDlgItemInt(IDC_ACCESSCONTROL_EDT_HANDICAPPEDUNLOCKHOLD, 60000);
+			//if (Handicappedunlockhold < 250)
+			//    SetDlgItemInt(IDC_ACCESSCONTROL_EDT_HANDICAPPEDUNLOCKHOLD, 250);
+
+			//int Handicappedtimeout2 = GetDlgItemInt(IDC_ACCESSCONTROL_EDT_HANDICAPPEDTIMEOUT2);
+			////[0,9999] 
+			//if (Handicappedtimeout2 > 9999)
+			//    SetDlgItemInt(IDC_ACCESSCONTROL_EDT_HANDICAPPEDTIMEOUT2, 9999);
+			//if (Handicappedtimeout2 < 0)
+			//    SetDlgItemInt(IDC_ACCESSCONTROL_EDT_HANDICAPPEDTIMEOUT2, 0);
+			//if (m_chkHandicappedCheck.GetCheck())
+			//{
+			//    m_stuInfo.abHandicapTimeOut = true;
+			//    m_stuInfo.stuHandicapTimeOut.nUnlockHoldInterval = GetDlgItemInt(IDC_ACCESSCONTROL_EDT_HANDICAPPEDUNLOCKHOLD);
+			//    m_stuInfo.stuHandicapTimeOut.nCloseTimeout = GetDlgItemInt(IDC_ACCESSCONTROL_EDT_HANDICAPPEDTIMEOUT2); ;
+			//}
+			//else
+			//{
+			//    m_stuInfo.abHandicapTimeOut = false;
+			//    m_stuInfo.stuHandicapTimeOut.nUnlockHoldInterval = 10000;
+			//    m_stuInfo.stuHandicapTimeOut.nCloseTimeout = 0; ;
+			//}
+			//// bCloseCheckSensor
+			//if (m_chkCloseCheckSensor.GetCheck())
+			//{
+			//    m_stuInfo.bCloseCheckSensor = TRUE;
+			//}
+			//else
+			//{
+			//    m_stuInfo.bCloseCheckSensor = FALSE;
+			//}
 
 			var result = NativeWrapper.WRAP_SetDoorConfiguration(LoginID, doorNo, ref info);
 			return result;

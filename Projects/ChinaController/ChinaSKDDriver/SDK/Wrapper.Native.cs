@@ -20,6 +20,7 @@ namespace ChinaSKDDriver
 		const int DH_ALARM_OPENDOORGROUP = 0x318c;	 // Multi-people group unlock event
 		const int DH_ALARM_FINGER_PRINT = 0x318d;
 		const int DH_ALARM_ALARM_EX2 = 0x2175;		// local alarm event
+		const int DH_ALARM_ACCESS_LOCK_STATUS = 0x31a8; // Door status events
 
 		public static void Initialize()
 		{
@@ -196,6 +197,32 @@ namespace ChinaSKDDriver
 					journalItem.DeviceDateTime = NET_TIMEToDateTime(item10.stuTime);
 					journalItem.DoorNo = item10.nChannelID;
 					journalItem.nAction = item10.nAction;
+					break;
+
+				case DH_ALARM_ACCESS_LOCK_STATUS:
+					NativeWrapper.ALARM_ACCESS_LOCK_STATUS_INFO item11 = (NativeWrapper.ALARM_ACCESS_LOCK_STATUS_INFO)(Marshal.PtrToStructure(pBuf, typeof(NativeWrapper.ALARM_ACCESS_LOCK_STATUS_INFO)));
+					journalItem.DeviceDateTime = NET_TIMEToDateTime(item11.stuTime);
+					NativeWrapper.NET_ACCESS_CTL_STATUS_TYPE lockStatus = item11.emLockStatus;
+					switch (lockStatus)
+					{
+						case NativeWrapper.NET_ACCESS_CTL_STATUS_TYPE.NET_ACCESS_CTL_STATUS_TYPE_UNKNOWN:
+							journalItem.JournalEventNameType = JournalEventNameType.Неизвестный_статус_замка_двери;
+							break;
+
+						case NativeWrapper.NET_ACCESS_CTL_STATUS_TYPE.NET_ACCESS_CTL_STATUS_TYPE_OPEN:
+							journalItem.JournalEventNameType = JournalEventNameType.Открытие_замка_двери;
+							break;
+
+						case NativeWrapper.NET_ACCESS_CTL_STATUS_TYPE.NET_ACCESS_CTL_STATUS_TYPE_CLOSE:
+							journalItem.JournalEventNameType = JournalEventNameType.Закрытие_замка_двери;
+							break;
+
+						default:
+							journalItem.JournalEventNameType = JournalEventNameType.Неизвестный_статус_замка_двери;
+							break;
+					}
+
+					journalItem.DoorNo = item11.nChannel;
 					break;
 
 				default:

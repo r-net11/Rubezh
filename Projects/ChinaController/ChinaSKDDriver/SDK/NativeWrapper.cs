@@ -220,6 +220,35 @@ namespace ChinaSKDDriverNativeApi
 		[DllImport(@"CPPWrapper.dll")]
 		public static extern bool WRAP_SetControllerTimeConfiguration(int loginID, CFG_NTP_INFO cfg_NTP_INFO);
 
+		public enum CFG_ACCESS_FIRSTENTER_STATUS
+		{
+			ACCESS_FIRSTENTER_STATUS_UNKNOWN = 0,
+			ACCESS_FIRSTENTER_STATUS_KEEPOPEN = 1,
+			ACCESS_FIRSTENTER_STATUS_NORMAL = 2
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct CFG_ACCESS_FIRSTENTER_INFO
+		{
+			public bool bEnable;
+			public CFG_ACCESS_FIRSTENTER_STATUS emStatus;
+			public int nTimeIndex;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct CFG_REMOTE_DETAIL_INFO
+		{
+			public int nTimeOut;
+			public bool bTimeOutDoorStatus;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct CFG_HANDICAP_TIMEOUT_INFO
+		{
+			public int nUnlockHoldInterval;
+			public int nCloseTimeout;
+		}
+
 		[StructLayout(LayoutKind.Sequential)]
 		public struct CFG_ACCESS_EVENT_INFO
 		{
@@ -241,7 +270,11 @@ namespace ChinaSKDDriverNativeApi
 			public byte abDuressAlarmEnable;
 			public byte abDoorTimeSection;
 			public byte abSensorEnable;
-			public byte byReserved;
+			public byte abFirstEnterEnable;
+			public byte abRemoteCheck;
+			public byte abRemoteDetail;
+			public byte abHandicapTimeOut;
+			public byte abCheckCloseSensor;
 
 			public CFG_DOOR_OPEN_METHOD emDoorOpenMethod;
 			public int nUnlockHoldInterval;
@@ -255,6 +288,12 @@ namespace ChinaSKDDriverNativeApi
 			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 7 * 4)]
 			public CFG_DOOROPEN_TIMESECTION_INFO[] stuDoorTimeSection;
 			public bool bSensorEnable;
+
+			public CFG_ACCESS_FIRSTENTER_INFO stuFirstEnterInfo;
+			public bool bRemoteCheck;
+			public CFG_REMOTE_DETAIL_INFO stuRemoteDetail;
+			public CFG_HANDICAP_TIMEOUT_INFO stuHandicapTimeOut;
+			public bool bCloseCheckSensor;
 		}
 
 		[DllImport(@"CPPWrapper.dll")]
@@ -323,6 +362,15 @@ namespace ChinaSKDDriverNativeApi
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
+		public struct NET_ACCESSCTLCARD_FINGERPRINT_PACKET
+		{
+		    public uint dwSize;	
+			public int nLength;
+			public int nCount;
+			public string	pPacketData; // char*
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
 		public struct NET_RECORDSET_ACCESS_CTL_CARD
 		{
 			public Int32 dwSize;
@@ -346,6 +394,13 @@ namespace ChinaSKDDriverNativeApi
 			public NET_TIME stuValidStartTime;
 			public NET_TIME stuValidEndTime;
 			public bool bIsValid;
+			NET_ACCESSCTLCARD_FINGERPRINT_PACKET stuFingerPrintInfo;
+			public bool bFirstEnter;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
+			public string szCardName;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
+			public string szVTOPosition;
+			public bool bHandicap;
 		}
 
 		[DllImport(@"CPPWrapper.dll")]
@@ -671,6 +726,11 @@ namespace ChinaSKDDriverNativeApi
 			public string szPwd;
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
 			public string szReaderID;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
+			public string szUserID;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
+			public string szSnapURL;
+			public int nErrorCode;
 		};
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -794,6 +854,14 @@ namespace ChinaSKDDriverNativeApi
 			public NET_SENSE_METHOD emSenseType;
 		}
 
+		[StructLayout(LayoutKind.Sequential)]
+		public struct ALARM_ACCESS_LOCK_STATUS_INFO 
+		{
+			public uint dwSize;
+			public int nChannel;
+			public NET_TIME stuTime;
+			public NET_ACCESS_CTL_STATUS_TYPE emLockStatus; // typedef NET_ACCESS_CTL_STATUS_TYPE  NET_ACCESS_LOCK_STATUS_TYPE
+		}
 		#endregion
 	}
 }

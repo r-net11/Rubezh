@@ -92,6 +92,10 @@ BOOL CALL_METHOD WRAP_Get_Card_Info(int loginID, int recordNo, NET_RECORDSET_ACC
 	return bRet;
 }
 
+/// <summary>
+/// Инициализирует процедуру получения информации о записанных на контроллере картах
+/// </summary>
+/// <returns>TRUE при успешном завершении</returns>
 BOOL CALL_METHOD WRAP_BeginGetAll_Cards(int loginID, int& finderID)
 {
 	NET_IN_FIND_RECORD_PARAM stuIn = {sizeof(stuIn)};
@@ -148,6 +152,10 @@ int CALL_METHOD WRAP_GetAll_Cards(int finderID, CardsCollection* result)
 	return stuOut.nRetRecordNum;
 }
 
+/// <summary>
+/// Получает количество записанных на контроллере карт
+/// </summary>
+/// <returns>количество карт, -1 в случае неудачи</returns>
 int CALL_METHOD WRAP_GetAllCount(int finderID)
 {
     NET_IN_QUEYT_RECORD_COUNT_PARAM stuIn = {sizeof(stuIn)};
@@ -160,6 +168,10 @@ int CALL_METHOD WRAP_GetAllCount(int finderID)
 	return -1;
 }
 
+/// <summary>
+/// Финализирует процедуру получения информации о записанных на контроллере картах
+/// </summary>
+/// <returns>TRUE при успешном завершении</returns>
 BOOL CALL_METHOD WRAP_EndGetAll(int finderID)
 {
 	CLIENT_FindRecordClose(finderID);

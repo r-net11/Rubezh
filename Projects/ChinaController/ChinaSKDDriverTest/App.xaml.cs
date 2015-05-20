@@ -8,11 +8,11 @@ namespace ControllerSDK
 	{
 		protected override void OnStartup(StartupEventArgs e)
 		{
-			try
-			{
-				System.IO.File.Copy(@"..\..\..\CPPWrapper\Bin\CPPWrapper.dll", @"CPPWrapper.dll", true);
-			}
-			catch { }
+			//try
+			//{
+			//    System.IO.File.Copy(@"..\..\..\CPPWrapper\Bin\CPPWrapper.dll", @"CPPWrapper.dll", true);
+			//}
+			//catch { }
 
 			var connectionSettings = ConnectionSettingsHelper.Get();
 			ConnectionSettingsHelper.Set(connectionSettings);
