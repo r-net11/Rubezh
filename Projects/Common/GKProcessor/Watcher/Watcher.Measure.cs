@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.GK;
+using FiresecClient;
 
 namespace GKProcessor
 {
@@ -52,6 +53,27 @@ namespace GKProcessor
 						deviceMeasureParameters.MeasureParameterValues.Add(measureParameter);
 					}
 					OnMeasureParametersChanged(deviceMeasureParameters);
+				}
+			}
+		}
+
+		void CheckKAUMeasure()
+		{
+			foreach (var device in GKManager.Devices)
+			{
+				if (device.DriverType == GKDriverType.RSR2_KAU)
+				{
+					var measureDeviceInfo = new MeasureDeviceInfo(device);
+					var measureParameters = measureDeviceInfo.GetRSR2Measure();
+					if (measureParameters != null)
+					{
+						var deviceMeasureParameters = new GKDeviceMeasureParameters();
+						deviceMeasureParameters.DeviceUID = measureDeviceInfo.Device.UID;
+						foreach (var measureParameter in measureParameters)
+						{
+							deviceMeasureParameters.MeasureParameterValues.Add(measureParameter);
+						}
+					}
 				}
 			}
 		}

@@ -21,6 +21,7 @@ namespace GKProcessor
 		Thread RunThread;
 		public GkDatabase GkDatabase { get; private set; }
 		public DateTime LastUpdateTime { get; private set; }
+		public DateTime LastKAUMeasureTime { get; private set; }
 		DateTime LastMissmatchCheckTime;
 		GKCallbackResult GKCallbackResult { get; set; }
 		bool IsHashFailure { get; set; }
@@ -84,7 +85,7 @@ namespace GKProcessor
 			SetDescriptorsSuspending(false);
 		}
 
-		bool ReturnArterWait(int milliSeconds)
+		bool ReturnAfterWait(int milliSeconds)
 		{
 			if (StopEvent != null)
 			{
@@ -174,7 +175,7 @@ namespace GKProcessor
 						{
 							pollInterval = property.Value;
 						}
-						if (ReturnArterWait(pollInterval))
+						if (ReturnAfterWait(pollInterval))
 							break;
 					}
 
@@ -227,7 +228,7 @@ namespace GKProcessor
 
 				if (IsPingFailure)
 				{
-					if (ReturnArterWait(5000))
+					if (ReturnAfterWait(5000))
 						return false;
 					continue;
 				}
@@ -248,7 +249,7 @@ namespace GKProcessor
 
 				if (IsInTechnologicalRegime)
 				{
-					if (ReturnArterWait(5000))
+					if (ReturnAfterWait(5000))
 						return false;
 					continue;
 				}
@@ -277,7 +278,7 @@ namespace GKProcessor
 
 				if (IsHashFailure)
 				{
-					if (ReturnArterWait(5000))
+					if (ReturnAfterWait(5000))
 						return false;
 					continue;
 				}
@@ -302,7 +303,7 @@ namespace GKProcessor
 
 				if (IsGetStatesFailure)
 				{
-					if (ReturnArterWait(5000))
+					if (ReturnAfterWait(5000))
 						return false;
 					continue;
 				}
@@ -388,7 +389,7 @@ namespace GKProcessor
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "Watcher.OnRunThread CheckNPT");
+				Logger.Error(e, "Watcher.OnRunThread CheckDelays");
 			}
 
 			try
@@ -416,6 +417,19 @@ namespace GKProcessor
 			catch (Exception e)
 			{
 				Logger.Error(e, "Watcher.OnRunThread CheckMeasure");
+			}
+
+			try
+			{
+				if ((DateTime.Now - LastKAUMeasureTime) > TimeSpan.FromSeconds(10))
+				{
+					LastKAUMeasureTime = DateTime.Now;
+					//CheckKAUMeasure();
+				}
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "Watcher.OnRunThread CheckKAUMeasure");
 			}
 		}
 
@@ -453,7 +467,7 @@ namespace GKProcessor
 		{
 			if (gkBase.State != null)
 			{
-				gkBase.InternalState.CopyToXState(gkBase.State);
+				gkBase.InternalState.CopyToGKState(gkBase.State);
 				if (gkBase is GKDevice)
 				{
 					gkStates.DeviceStates.RemoveAll(x => x.UID == gkBase.UID);

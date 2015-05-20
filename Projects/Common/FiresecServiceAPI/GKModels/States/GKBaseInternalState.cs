@@ -115,7 +115,7 @@ namespace FiresecAPI.GK
 		public int HoldDelay { get; set; }
 		public int OffDelay { get; set; }
 
-		public void CopyToXState(GKState state)
+		public void CopyToGKState(GKState state)
 		{
 			state.StateClasses = StateClasses.ToList();
 			state.StateClass = StateClass;
