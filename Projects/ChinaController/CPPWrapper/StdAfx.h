@@ -36,4 +36,12 @@
 #define __min(a, b) (a <= b ? a : b)
 #endif
 
+#if !defined(SDK_CLIENT_API)
+#define SDK_CLIENT_API __declspec(dllexport)
+#endif
+
+#if !defined(SDK_CALL_METHOD)
+#define SDK_CALL_METHOD __stdcall
+#endif
+
 #endif // !defined(AFX_STDAFX_H__241F999A_AAEA_40B7_A273_893FB25B34CB__INCLUDED_)

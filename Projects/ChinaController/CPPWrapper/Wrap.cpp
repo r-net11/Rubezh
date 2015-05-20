@@ -207,7 +207,8 @@ BOOL CALL_METHOD WRAP_GetControllerDirectionType(int loginID, WRAP_ControllerDir
 
 BOOL CALL_METHOD WRAP_SetControllerDirectionType(int loginID, CFG_ACCESS_PROPERTY_TYPE emAccessProperty)
 {
-	CFG_ACCESS_GENERAL_INFO	m_stuInfo;
+	CFG_ACCESS_GENERAL_INFO	m_stuInfo = {0};
+	m_stuInfo.abAccessProperty = true;
 	m_stuInfo.emAccessProperty = emAccessProperty;
 	char szJsonBuf[1024 * 40] = {0};
 	BOOL bRet = CLIENT_PacketData(CFG_CMD_ACCESS_GENERAL, &m_stuInfo, sizeof(m_stuInfo), szJsonBuf, sizeof(szJsonBuf));
@@ -293,7 +294,7 @@ BOOL CALL_METHOD WRAP_GetDoorConfiguration(int loginID, int channelNo, CFG_ACCES
 	{
 		int nRetLen = 0;
 		CFG_ACCESS_EVENT_INFO stuGeneralInfo = {0};
-		bRet = CLIENT_ParseData(CFG_CMD_ACCESS_EVENT, szJsonBuf, &stuGeneralInfo, sizeof(stuGeneralInfo), &nRetLen);
+		bRet = CLIENT_ParseData(CFG_CMD_ACCESS_EVENT, szJsonBuf, (void*)&stuGeneralInfo, sizeof(stuGeneralInfo), &nRetLen);
 		memcpy(result, &stuGeneralInfo, sizeof(CFG_ACCESS_EVENT_INFO));
 		return bRet;
 	}
@@ -376,7 +377,7 @@ int CALL_METHOD WRAP_GetDoorStatus(int loginID, int channelNo)
 {
 	if (NULL == loginID)
 	{
-		return - 1;
+		return -1;
 	}
 	NET_DOOR_STATUS_INFO stuParam = {sizeof(stuParam)};
 	stuParam.nChannel = channelNo;

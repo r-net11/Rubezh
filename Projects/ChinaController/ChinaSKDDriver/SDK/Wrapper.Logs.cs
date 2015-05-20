@@ -47,23 +47,23 @@ namespace ChinaSKDDriver
 			logItem.LogType = nativeLogItem.szLogType;
 			logItem.LogMessage = nativeLogItem.szLogMessage;
 
-			var index1 = nativeLogItem.szLogMessage.IndexOf("\"CardId\" : ");
-			var index2 = nativeLogItem.szLogMessage.IndexOf(",");
-			var value = nativeLogItem.szLogMessage.Substring(index1 + 11, index2 - index1 - 11);
-			nativeLogItem.szLogMessage = nativeLogItem.szLogMessage.Remove(0, index2 + 2);
-			logItem.CardId = value;
+			//var index1 = nativeLogItem.szLogMessage.IndexOf("\"CardId\" : ");
+			//var index2 = nativeLogItem.szLogMessage.IndexOf(",");
+			//var value = nativeLogItem.szLogMessage.Substring(index1 + 11, index2 - index1 - 11);
+			//nativeLogItem.szLogMessage = nativeLogItem.szLogMessage.Remove(0, index2 + 2);
+			//logItem.CardId = value;
 
-			index1 = nativeLogItem.szLogMessage.IndexOf("\"DoorNo\" : ");
-			index2 = nativeLogItem.szLogMessage.IndexOf(",");
-			value = nativeLogItem.szLogMessage.Substring(index1 + 11, index2 - index1 - 11);
-			nativeLogItem.szLogMessage = nativeLogItem.szLogMessage.Remove(0, index2 + 2);
-			logItem.DoorNo = value;
+			//index1 = nativeLogItem.szLogMessage.IndexOf("\"DoorNo\" : ");
+			//index2 = nativeLogItem.szLogMessage.IndexOf(",");
+			//value = nativeLogItem.szLogMessage.Substring(index1 + 11, index2 - index1 - 11);
+			//nativeLogItem.szLogMessage = nativeLogItem.szLogMessage.Remove(0, index2 + 2);
+			//logItem.DoorNo = value;
 
-			index1 = nativeLogItem.szLogMessage.IndexOf("\"Type\" : ");
-			index2 = nativeLogItem.szLogMessage.IndexOf("\n");
-			value = nativeLogItem.szLogMessage.Substring(index1 + 9, index2 - index1 - 9);
-			nativeLogItem.szLogMessage = nativeLogItem.szLogMessage.Remove(0, index2 + 2);
-			logItem.Type = value;
+			//index1 = nativeLogItem.szLogMessage.IndexOf("\"Type\" : ");
+			//index2 = nativeLogItem.szLogMessage.IndexOf("\n");
+			//value = nativeLogItem.szLogMessage.Substring(index1 + 9, index2 - index1 - 9);
+			//nativeLogItem.szLogMessage = nativeLogItem.szLogMessage.Remove(0, index2 + 2);
+			//logItem.Type = value;
 
 			return logItem;
 		}

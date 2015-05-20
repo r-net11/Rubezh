@@ -3,13 +3,13 @@
 
 typedef void(__stdcall * WRAP_ProgressCallback)(int);
 
-extern "C" CLIENT_API void CALL_METHOD WRAP_Initialize();
+extern "C" SDK_CLIENT_API void SDK_CALL_METHOD WRAP_Initialize();
 
-extern "C" CLIENT_API void CALL_METHOD WRAP_Deinitialize();
+extern "C" SDK_CLIENT_API void SDK_CALL_METHOD WRAP_Deinitialize();
 
-extern "C" CLIENT_API int CALL_METHOD WRAP_Connect(char ipAddress[25], int port, char userName[25], char password[25], int* error);
+extern "C" SDK_CLIENT_API int SDK_CALL_METHOD WRAP_Connect(char ipAddress[25], int port, char userName[25], char password[25], int* error);
 
-extern "C" CLIENT_API BOOL CALL_METHOD WRAP_Disconnect(int loginID);
+extern "C" SDK_CLIENT_API BOOL SDK_CALL_METHOD WRAP_Disconnect(int loginID);
 
 typedef struct tag_WRAP_JournalItem
 {
@@ -41,8 +41,8 @@ typedef struct tag_WRAP_WatchInfo
 	BOOL NeedToRestartListening;
 } WRAP_WatchInfo;
 
-extern "C" CLIENT_API int CALL_METHOD WRAP_GetLastIndex();
+extern "C" SDK_CLIENT_API int SDK_CALL_METHOD WRAP_GetLastIndex();
 
-extern "C" CLIENT_API BOOL CALL_METHOD WRAP_GetJournalItem(int index, WRAP_JournalItem* result);
+extern "C" SDK_CLIENT_API BOOL SDK_CALL_METHOD WRAP_GetJournalItem(int index, WRAP_JournalItem* result);
 
 #endif // !defined(__WRAP_WATCH_H__)

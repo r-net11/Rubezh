@@ -192,7 +192,7 @@ int CALL_METHOD WRAP_GetLastIndex()
 	WatchInfoList::iterator i;
 	for (i =  watchInfoList.begin(); i != watchInfoList.end(); ++i)
 	{
-		if(i->NeedToRestartListening == true)
+		if(i->NeedToRestartListening == TRUE)
 		{
 			CLIENT_StopListen(i->LoginId);
 			BOOL bRet = CLIENT_StartListenEx(i->LoginId);

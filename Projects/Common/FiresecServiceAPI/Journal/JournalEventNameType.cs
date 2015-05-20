@@ -650,5 +650,13 @@ namespace FiresecAPI.Journal
 		[EventName(JournalSubsystemType.Video, "Перевод в предустановку", XStateClass.On)]
 		Перевод_в_предустановку,
 
+		[EventName(JournalSubsystemType.SKD, "Открытие замка двери", XStateClass.On)]
+		Открытие_замка_двери,
+
+		[EventName(JournalSubsystemType.SKD, "Закрытие замка двери", XStateClass.Off)]
+		Закрытие_замка_двери,
+
+		[EventName(JournalSubsystemType.SKD, "Неизвестный статус замка двери", XStateClass.Unknown)]
+		Неизвестный_статус_замка_двери
 	}
 }
