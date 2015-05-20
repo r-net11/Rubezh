@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using FiresecAPI.Models;
 using Infrastructure.Common.About.ViewModels;
 
 namespace Infrastructure.Common.Windows.ViewModels
@@ -80,7 +81,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 		public RelayCommand ApplicationHelpCommand { get; private set; }
 		protected virtual void ShowHelp()
 		{
-			ManualPdfHelper.Show();
+			ManualPdfHelper.Show(GlobalSettingsHelper.GlobalSettings.UseStrazhBrand ? GetManualName() : null);
 		}
 		public RelayCommand ApplicationAboutCommand { get; private set; }
 		protected virtual void ShowAbout()
@@ -129,6 +130,20 @@ namespace Infrastructure.Common.Windows.ViewModels
 
 		public virtual void Run()
 		{
+		}
+
+		private string GetManualName()
+		{
+			
+			switch (ApplicationService.Shell.ClientType)
+			{
+				case ClientType.Administrator:
+					return "manual_admin.pdf";
+				case ClientType.Monitor:
+					return "manual_user.pdf";
+				default:
+					return "Manual.pdf";
+			}
 		}
 	}
 }

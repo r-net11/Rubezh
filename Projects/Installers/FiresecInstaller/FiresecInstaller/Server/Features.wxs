@@ -15,6 +15,8 @@
 			<ComponentRef Id="Server.AutorunComponent" />
       <ComponentRef Id="AppData.ServerLocation.Sounds" />
       <ComponentRef Id="AppData.Manual.pdf" />
+			<ComponentRef Id="AppData.Manual_Admin.pdf" />
+			<ComponentRef Id="AppData.Manual_User.pdf" />
       <ComponentRef Id="AppData.FiresecLocation.Permissions" />
 
       <ComponentRef Id="Server.VIDEO_MODULE_DLL" />
