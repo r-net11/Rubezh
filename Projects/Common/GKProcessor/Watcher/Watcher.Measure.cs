@@ -63,20 +63,30 @@ namespace GKProcessor
 			{
 				if (device.DriverType == GKDriverType.RSR2_KAU)
 				{
-					var measureDeviceInfo = new MeasureDeviceInfo(device);
-					var measureParameters = measureDeviceInfo.GetRSR2Measure();
-					if (measureParameters != null)
+					var result = SendManager.Send(device.GkDatabaseParent, 2, 20, 16, BytesHelper.ShortToBytes(device.GKDescriptorNo));
+					if (!result.HasError && result.Bytes.Count == 16)
 					{
-						var deviceMeasureParameters = new GKDeviceMeasureParameters();
-						deviceMeasureParameters.DeviceUID = measureDeviceInfo.Device.UID;
-						foreach (var measureParameter in measureParameters)
+						var alsCurrents = new List<AlsCurrent>();
+						foreach (var alsDevice in device.Children.Where(x => x.DriverType == GKDriverType.RSR2_KAU_Shleif))
 						{
-							deviceMeasureParameters.MeasureParameterValues.Add(measureParameter);
+							double current = (double)BytesHelper.SubstructShort(result.Bytes, (alsDevice.IntAddress - 1)*2) * 300 / 4096;
+							var alsCurrent = new AlsCurrent();
+							alsCurrent.AlsUID = alsDevice.UID;
+							alsCurrent.Current = (int)current;
+							alsCurrent.DateTime = DateTime.Now;
+							alsCurrents.Add(alsCurrent);
 						}
 					}
 				}
 			}
 		}
+	}
+
+	class AlsCurrent
+	{
+		public Guid AlsUID { get; set; }
+		public int Current { get; set; }
+		public DateTime DateTime { get; set; }
 	}
 
 	class MeasureDeviceInfo

@@ -85,6 +85,8 @@ namespace GKModule.ViewModels
 					return true;
 				}
 
+				if (!SelectedDriver.HasAddress)
+					address = 0;
 				GKDevice device = GKManager.AddChild(ParentDevice, null, SelectedDriver, (byte)address);
 				var addedDevice = NewDeviceHelper.AddDevice(device, ParentDeviceViewModel);
 				AddedDevices.Add(addedDevice);

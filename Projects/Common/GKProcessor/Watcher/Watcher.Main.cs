@@ -421,10 +421,10 @@ namespace GKProcessor
 
 			try
 			{
-				if ((DateTime.Now - LastKAUMeasureTime) > TimeSpan.FromSeconds(10))
+				if ((DateTime.Now - LastKAUMeasureTime) > TimeSpan.FromSeconds(1))
 				{
 					LastKAUMeasureTime = DateTime.Now;
-					//CheckKAUMeasure();
+					CheckKAUMeasure();
 				}
 			}
 			catch (Exception e)
