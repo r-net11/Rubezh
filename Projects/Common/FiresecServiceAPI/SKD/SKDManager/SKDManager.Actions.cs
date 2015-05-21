@@ -84,6 +84,20 @@ namespace FiresecAPI.SKD
 			zone.OnChanged();
 		}
 
+		public static void RemoveDeviceDoor(SKDDevice device, SKDDoor door)
+		{
+			if (device.Children == null) return;
+
+			foreach (var child in device.Children)
+			{
+				var s = child.NameWithParent;
+				if(child.Door == null || child.Door.UID != door.UID) continue;
+
+					child.Door = null;
+					child.OnChanged();
+			}
+		}
+
 		public static void ChangeDoorDevice(SKDDoor door, SKDDevice device)
 		{
 			if (door.InDevice != null)
