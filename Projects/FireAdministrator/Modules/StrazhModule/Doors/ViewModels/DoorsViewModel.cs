@@ -118,7 +118,9 @@ namespace StrazhModule.ViewModels
 					}
 				}
 
-				SKDManager.RemoveDeviceDoor(SelectedDoor.InDevice.Parent, SelectedDoor.Door);
+				if (SelectedDoor.InDevice != null)
+					SKDManager.RemoveDeviceDoor(SelectedDoor.InDevice.Parent, SelectedDoor.Door);
+
 				Doors.Remove(SelectedDoor);
 
 				index = Math.Min(index, Doors.Count - 1);
