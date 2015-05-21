@@ -394,7 +394,7 @@ namespace ChinaSKDDriverNativeApi
 			public NET_TIME stuValidStartTime;
 			public NET_TIME stuValidEndTime;
 			public bool bIsValid;
-			NET_ACCESSCTLCARD_FINGERPRINT_PACKET stuFingerPrintInfo;
+			public NET_ACCESSCTLCARD_FINGERPRINT_PACKET stuFingerPrintInfo;
 			public bool bFirstEnter;
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
 			public string szCardName;

@@ -127,18 +127,31 @@ namespace ChinaSKDDriver
 		NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD CardToNativeCard(Card card)
 		{
 			NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD nativeCard = new NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD();
+			nativeCard.dwSize = System.Runtime.InteropServices.Marshal.SizeOf(typeof(NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD));
+			nativeCard.stuFingerPrintInfo = new NativeWrapper.NET_ACCESSCTLCARD_FINGERPRINT_PACKET();
+			nativeCard.stuFingerPrintInfo.dwSize = (uint)System.Runtime.InteropServices.Marshal.SizeOf(typeof(NativeWrapper.NET_ACCESSCTLCARD_FINGERPRINT_PACKET));
+
 			nativeCard.bIsValid = true;
+
+			// use time
 			nativeCard.nUserTime = card.UserTime;
+
+			// card type
 			nativeCard.emType = (NativeWrapper.NET_ACCESSCTLCARD_TYPE)card.CardType;
+
+			// card status
 			nativeCard.emStatus = (NativeWrapper.NET_ACCESSCTLCARD_STATE)card.CardStatus;
 
-			nativeCard.stuCreateTime.dwYear = DateTime.Now.Year;
-			nativeCard.stuCreateTime.dwMonth = DateTime.Now.Month;
-			nativeCard.stuCreateTime.dwDay = DateTime.Now.Day;
-			nativeCard.stuCreateTime.dwHour = DateTime.Now.Hour;
-			nativeCard.stuCreateTime.dwMinute = DateTime.Now.Minute;
-			nativeCard.stuCreateTime.dwSecond = DateTime.Now.Second;
+			// create time
+			var curDateTime = DateTime.Now;
+			nativeCard.stuCreateTime.dwYear = curDateTime.Year;
+			nativeCard.stuCreateTime.dwMonth = curDateTime.Month;
+			nativeCard.stuCreateTime.dwDay = curDateTime.Day;
+			nativeCard.stuCreateTime.dwHour = curDateTime.Hour;
+			nativeCard.stuCreateTime.dwMinute = curDateTime.Minute;
+			nativeCard.stuCreateTime.dwSecond = curDateTime.Second;
 
+			// valid time start
 			nativeCard.stuValidStartTime.dwYear = card.ValidStartDateTime.Year;
 			nativeCard.stuValidStartTime.dwMonth = card.ValidStartDateTime.Month;
 			nativeCard.stuValidStartTime.dwDay = card.ValidStartDateTime.Day;
@@ -146,6 +159,7 @@ namespace ChinaSKDDriver
 			nativeCard.stuValidStartTime.dwMinute = 0;
 			nativeCard.stuValidStartTime.dwSecond = 0;
 
+			// valid time end
 			nativeCard.stuValidEndTime.dwYear = card.ValidEndDateTime.Year;
 			nativeCard.stuValidEndTime.dwMonth = card.ValidEndDateTime.Month;
 			nativeCard.stuValidEndTime.dwDay = card.ValidEndDateTime.Day;
@@ -153,10 +167,16 @@ namespace ChinaSKDDriver
 			nativeCard.stuValidEndTime.dwMinute = 0;
 			nativeCard.stuValidEndTime.dwSecond = 0;
 
+			// card no
 			nativeCard.szCardNo = card.CardNo;
+
+			// password
 			nativeCard.szPsw = card.Password;
+
+			// user id
 			nativeCard.szUserID = "1";
 
+			// doors
 			nativeCard.nDoorNum = card.Doors.Count;
 			nativeCard.sznDoors = new int[32];
 			for (int i = 0; i < card.Doors.Count; i++)
@@ -164,12 +184,19 @@ namespace ChinaSKDDriver
 				nativeCard.sznDoors[i] = card.Doors[i];
 			}
 
+			// time sections
 			nativeCard.nTimeSectionNum = card.TimeSections.Count;
 			nativeCard.sznTimeSectionNo = new int[32];
 			for (int i = 0; i < card.TimeSections.Count; i++)
 			{
 				nativeCard.sznTimeSectionNo[i] = card.TimeSections[i];
 			}
+
+			//nativeCard.bFirstEnter = card.FirstEnter; // TODO определить card.FirstEnter
+			nativeCard.bFirstEnter = false;
+
+			//nativeCard.bHandicap = card.Handicap; // TODO определить card.Handicap
+			nativeCard.bHandicap = false;
 
 			return nativeCard;
 		}
