@@ -34,7 +34,6 @@ namespace GKProcessor
 			driver.AvailableCommandBits.Add(GKStateBit.TurnOffNow_InManual);
 
 			GKDriversHelper.AddIntProprety(driver, 0, "Задержка на включение, с", 0, 0, 65535);
-			//GKDriversHelper.AddIntProprety(driver, 1, "Удержание открытия, мин", 0, 0, 720);
 			GKDriversHelper.AddIntProprety(driver, 2, "Питание, 0.1 В", 80, 0, 100);
 			GKDriversHelper.AddIntProprety(driver, 3, "Порог 1, Ом", 340, 0, 65535);
 			GKDriversHelper.AddIntProprety(driver, 4, "Порог 2, Ом", 1000, 0, 65535);
@@ -135,24 +134,11 @@ namespace GKProcessor
 			GKDriversHelper.AddPropertyParameter(property96, "Контакт НЗ", 64);
 			driver.Properties.Add(property96);
 
-			//var property97 = new GKDriverProperty()
-			//{
-			//    No = 9,
-			//    Name = "ОГВ",
-			//    Caption = "ОГВ",
-			//    Default = 0,
-			//    IsLowByte = true,
-			//    Mask = 128
-			//};
-			//GKDriversHelper.AddPropertyParameter(property97, "Контакт НР", 0);
-			//GKDriversHelper.AddPropertyParameter(property97, "Контакт НЗ", 128);
-			//driver.Properties.Add(property97);
-
 			var property98 = new GKDriverProperty()
 			{
 				No = 9,
-				Name = "Наличие ДУ",
-				Caption = "Наличие ДУ",
+				Name = "ДУ",
+				Caption = "ДУ",
 				Default = 0,
 				IsHieghByte = true,
 				Mask = 0x01

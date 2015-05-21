@@ -13,9 +13,10 @@ namespace GKModule.Validation
 
 		public List<IValidationError> Validate()
 		{
-			IsManyGK = GKManager.Devices.Where(x => x.DriverType == GKDriverType.GK).Count() > 1;
+			IsManyGK = GKManager.Devices.Count(x => x.DriverType == GKDriverType.GK) > 1;
 			GKManager.UpdateConfiguration();
 			Errors = new List<IValidationError>();
+			ValidateGKObjectsCount();
 			ValidateDevices();
 			ValidateZones();
 			ValidateDirections();

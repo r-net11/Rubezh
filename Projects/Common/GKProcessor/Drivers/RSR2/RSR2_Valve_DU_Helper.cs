@@ -74,11 +74,11 @@ namespace GKProcessor
 			var property92 = new GKDriverProperty()
 			{
 				No = 9,
-				Name = "МВОткр",
-				Caption = "МВОткр",
+				Name = "ДНУ",
+				Caption = "ДНУ",
 				Default = 0,
 				IsLowByte = true,
-				Mask = 4
+				Mask = 0x04
 			};
 			GKDriversHelper.AddPropertyParameter(property92, "Контакт НР", 0);
 			GKDriversHelper.AddPropertyParameter(property92, "Контакт НЗ", 4);
@@ -87,11 +87,11 @@ namespace GKProcessor
 			var property93 = new GKDriverProperty()
 			{
 				No = 9,
-				Name = "МВЗакр",
-				Caption = "МВЗакр",
+				Name = "ДВУ",
+				Caption = "ДВУ",
 				Default = 0,
-				IsHieghByte = true,
-				Mask = 8
+				IsLowByte = true,
+				Mask = 0x08
 			};
 			GKDriversHelper.AddPropertyParameter(property93, "Контакт НР", 0);
 			GKDriversHelper.AddPropertyParameter(property93, "Контакт НЗ", 8);
@@ -135,20 +135,6 @@ namespace GKProcessor
 			GKDriversHelper.AddPropertyParameter(property96, "Контакт НР", 0);
 			GKDriversHelper.AddPropertyParameter(property96, "Контакт НЗ", 64);
 			driver.Properties.Add(property96);
-
-			var property97 = new GKDriverProperty()
-			{
-				No = 9,
-				Name = "ОГВ",
-				Caption = "ОГВ",
-				Default = 0,
-				IsHieghByte = true,
-				Mask = 128
-			};
-			GKDriversHelper.AddPropertyParameter(property97, "Нет", 0);
-			GKDriversHelper.AddPropertyParameter(property97, "Есть", 128);
-			driver.Properties.Add(property97);
-
 
 			var property98 = new GKDriverProperty()
 			{

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using FiresecAPI.GK;
 using FiresecClient;
+using GKProcessor;
 using Infrastructure.Common;
 using Infrastructure.Common.Validation;
 using FiresecAPI;
@@ -12,6 +13,22 @@ namespace GKModule.Validation
 {
 	public partial class Validator
 	{
+		void ValidateGKObjectsCount()
+		{
+			DescriptorsManager.Create();
+			var databases = new List<CommonDatabase>();
+			databases.AddRange(DescriptorsManager.GkDatabases);
+			databases.AddRange(DescriptorsManager.KauDatabases);
+
+			foreach (var database in databases)
+			{
+				if (database is GkDatabase && database.Descriptors.Count > 65535)
+					Errors.Add(new DeviceValidationError(database.RootDevice, "Количество объектов на ГК превышает 65535", ValidationErrorLevel.CannotWrite));
+				if (database is KauDatabase && database.Descriptors.Count > 2047)
+					Errors.Add(new DeviceValidationError(database.RootDevice, "Количество объектов на КАУ превышает 2047", ValidationErrorLevel.CannotWrite));
+			}
+		}
+
 		void ValidateDevices()
 		{
 			ValidateAddressEquality();
