@@ -1,8 +1,8 @@
 ﻿using System.Windows;
-using PowerCalculator.ViewModels;
-using PowerCalculator.Views;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
+using PowerCalculator.ViewModels;
+using PowerCalculator.Views;
 
 namespace PowerCalculator
 {

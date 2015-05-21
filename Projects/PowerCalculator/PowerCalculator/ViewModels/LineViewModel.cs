@@ -1,25 +1,23 @@
-﻿using System;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
-using Infrastructure.Common.Windows.ViewModels;
-using System.Collections.ObjectModel;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
 using PowerCalculator.Models;
 
 namespace PowerCalculator.ViewModels
 {
 	public class LineViewModel : BaseViewModel
 	{
-		public LineViewModel()
+		public LineViewModel(Line line)
 		{
-			Name = "Название АЛС";
+			Line = line;
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			Devices = new ObservableCollection<DeviceViewModel>();
 		}
 
-		public string Name { get; set; }
-
+		public Line Line { get; set; }
 		public ObservableCollection<DeviceViewModel> Devices { get; private set; }
 
 		DeviceViewModel _selectedDevice;
@@ -39,21 +37,23 @@ namespace PowerCalculator.ViewModels
 			var newDeviceViewModel = new NewDeviceViewModel();
 			if (DialogService.ShowModalWindow(newDeviceViewModel))
 			{
-				var alsDevice = new AlsDevice();
-				alsDevice.DeviceType = newDeviceViewModel.SelectedDeviceType.DeviceType;
-				var deviceViewModel = new DeviceViewModel(alsDevice);
+				var device = new Device();
+				device.DeviceType = newDeviceViewModel.SelectedDeviceType.DriverType;
+				Line.Devices.Add(device);
+				var deviceViewModel = new DeviceViewModel(device);
 				Devices.Add(deviceViewModel);
 				SelectedDevice = deviceViewModel;
 			}
 		}
 		bool CanAdd()
 		{
-			return true;
+			return Devices.Count < 255;
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
+			Line.Devices.Add(SelectedDevice.Device);
 			Devices.Remove(SelectedDevice);
 			SelectedDevice = Devices.FirstOrDefault();
 		}

@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
 using PowerCalculator.Models;
-using System.Collections.ObjectModel;
 
 namespace PowerCalculator.ViewModels
 {
@@ -12,17 +10,15 @@ namespace PowerCalculator.ViewModels
 	{
 		public NewDeviceViewModel()
 		{
-			Title = "Новое устройство";
-			DeviceTypes = new ObservableCollection<DeviceTypeViewModel>();
-			DeviceTypes.Add(new DeviceTypeViewModel(AlsDeviceType.SmokeDetector));
-			DeviceTypes.Add(new DeviceTypeViewModel(AlsDeviceType.HeatDetector));
-			SelectedDeviceType = DeviceTypes.LastOrDefault();
+			Title = "Добавление нового устройства";
+			DeviceTypes = new ObservableCollection<DriverTypeViewModel>(Enum.GetValues(typeof(DriverType)).Cast<DriverType>().Select(x => new DriverTypeViewModel(x)));
+			SelectedDeviceType = DeviceTypes.FirstOrDefault();
 		}
 
-		public ObservableCollection<DeviceTypeViewModel> DeviceTypes { get; private set; }
+		public ObservableCollection<DriverTypeViewModel> DeviceTypes { get; private set; }
 
-		DeviceTypeViewModel _selectedDeviceType;
-		public DeviceTypeViewModel SelectedDeviceType
+		DriverTypeViewModel _selectedDeviceType;
+		public DriverTypeViewModel SelectedDeviceType
 		{
 			get { return _selectedDeviceType; }
 			set
@@ -30,11 +26,6 @@ namespace PowerCalculator.ViewModels
 				_selectedDeviceType = value;
 				OnPropertyChanged(() => SelectedDeviceType);
 			}
-		}
-
-		protected override bool CanSave()
-		{
-			return true;
 		}
 	}
 }

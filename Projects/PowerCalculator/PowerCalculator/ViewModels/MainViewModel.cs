@@ -1,33 +1,45 @@
 ﻿using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using FiresecAPI.GK;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Microsoft.Win32;
-using Infrastructure.Common.Windows;
+using PowerCalculator.Models;
 
 namespace PowerCalculator.ViewModels
 {
 	public class MainViewModel : BaseViewModel
 	{
+		Configuration Configuration;
+
 		public MainViewModel()
 		{
 			CreateNewCommand = new RelayCommand(OnCreateNew);
-			SaveFileCommand = new RelayCommand(OnSaveFile, CanSaveFile);
-			LoadFileCommand = new RelayCommand(OnLoadFile);
-			AddLineCommand = new RelayCommand(OnAddLine, CanAddLine);
+			SaveToFileCommand = new RelayCommand(OnSaveToFile);
+			LoadFromFileCommand = new RelayCommand(OnLoadFromFile);
+			AddLineCommand = new RelayCommand(OnAddLine);
 			RemoveLineCommand = new RelayCommand(OnRemoveFile, CanRemoveLine);
-			Initialize(new HexFileCollectionInfo());
+			GenerateFromRepositoryCommand = new RelayCommand(OnGenerateFromRepository);
+			ShowRepositoryCommand = new RelayCommand(OnShowRepository);
+			CalculateCommand = new RelayCommand(OnCalculate);
+			OnCreateNew();
 		}
 
-		void Initialize(HexFileCollectionInfo hexFileCollectionInfo)
+		void Initialize()
 		{
 			Lines = new ObservableRangeCollection<LineViewModel>();
-			//foreach (var hexFileInfo in hexFileCollectionInfo.HexFileInfos)
-			//{
-			//    Lines.Add(new LineViewModel());
-			//}
+			foreach (var line in Configuration.Lines)
+			{
+				var lineViewModel = new LineViewModel(line);
+				foreach (var device in line.Devices)
+				{
+					var deviceViewModel = new DeviceViewModel(device);
+					lineViewModel.Devices.Add(deviceViewModel);
+				}
+				Lines.Add(lineViewModel);
+			}
+			SelectedLine = Lines.FirstOrDefault();
 		}
 
 		ObservableCollection<LineViewModel> _lines;
@@ -55,10 +67,13 @@ namespace PowerCalculator.ViewModels
 		public RelayCommand CreateNewCommand { get; private set; }
 		void OnCreateNew()
 		{
+			Configuration = new Configuration();
+			Configuration.Lines.Add(new Line());
+			Initialize();
 		}
 
-		public RelayCommand SaveFileCommand { get; private set; }
-		void OnSaveFile()
+		public RelayCommand SaveToFileCommand { get; private set; }
+		void OnSaveToFile()
 		{
 			var saveDialog = new SaveFileDialog()
 			{
@@ -71,13 +86,9 @@ namespace PowerCalculator.ViewModels
 					File.Delete(saveDialog.FileName);
 			}
 		}
-		bool CanSaveFile()
-		{
-			return true;
-		}
 
-		public RelayCommand LoadFileCommand { get; private set; }
-		void OnLoadFile()
+		public RelayCommand LoadFromFileCommand { get; private set; }
+		void OnLoadFromFile()
 		{
 			var openFileDialog = new OpenFileDialog()
 			{
@@ -86,29 +97,49 @@ namespace PowerCalculator.ViewModels
 			if (openFileDialog.ShowDialog() == true)
 			{
 			}
+
+			Initialize();
 		}
 
 		public RelayCommand AddLineCommand { get; private set; }
 		void OnAddLine()
 		{
-			var lineViewModel = new LineViewModel();
+			var line = new Line();
+			Configuration.Lines.Add(line);
+			var lineViewModel = new LineViewModel(line);
 			Lines.Add(lineViewModel);
 			SelectedLine = lineViewModel;
-		}
-		bool CanAddLine()
-		{
-			return true;
 		}
 
 		public RelayCommand RemoveLineCommand { get; private set; }
 		void OnRemoveFile()
 		{
+			Configuration.Lines.Remove(SelectedLine.Line);
 			Lines.Remove(SelectedLine);
 			SelectedLine = Lines.FirstOrDefault();
 		}
 		bool CanRemoveLine()
 		{
 			return SelectedLine != null;
-		}		
+		}
+
+		public RelayCommand GenerateFromRepositoryCommand { get; private set; }
+		void OnGenerateFromRepository()
+		{
+			Processor.Processor.GenerateFromRepository(Configuration);
+		}
+
+		public RelayCommand ShowRepositoryCommand { get; private set; }
+		void OnShowRepository()
+		{
+			var repositoryViewModel = new RepositoryViewModel(Configuration);
+			DialogService.ShowModalWindow(repositoryViewModel);
+		}
+
+		public RelayCommand CalculateCommand { get; private set; }
+		void OnCalculate()
+		{
+			Processor.Processor.Calculate(Configuration);
+		}
 	}
 }

@@ -78,12 +78,29 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Models\AlsDevice.cs" />
     <Compile Include="Models\AlsDeviceType.cs" />
-    <Compile Include="ViewModels\DeviceTypeViewModel.cs" />
+    <Compile Include="Models\CableType.cs" />
+    <Compile Include="Models\Device.cs" />
+    <Compile Include="Models\DeviceRepositoryItem.cs" />
+    <Compile Include="Models\DriverType.cs" />
+    <Compile Include="Models\Configuration.cs" />
+    <Compile Include="Models\Driver.cs" />
+    <Compile Include="Models\CableRepositoryItem.cs" />
+    <Compile Include="Processor\DriversHelper.cs" />
+    <Compile Include="Models\Line.cs" />
+    <Compile Include="Models\LineType.cs" />
+    <Compile Include="Processor\Processor.cs" />
+    <Compile Include="ViewModels\CableRepositoryItemViewModel.cs" />
+    <Compile Include="ViewModels\DeviceRepositoryItemViewModel.cs" />
+    <Compile Include="ViewModels\DriverTypeViewModel.cs" />
     <Compile Include="ViewModels\DeviceViewModel.cs" />
+    <Compile Include="ViewModels\RepositoryViewModel.cs" />
+    <Compile Include="ViewModels\CableTypeViewModel.cs" />
     <Compile Include="Views\NewDeviceView.xaml.cs">
       <DependentUpon>NewDeviceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RepositoryView.xaml.cs">
+      <DependentUpon>RepositoryView.xaml</DependentUpon>
     </Compile>
     <Page Include="DataTemplates\Dictionary.xaml">
       <SubType>Designer</SubType>
@@ -97,7 +114,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Converters\DriverTypeToStringConverter.cs" />
     <Compile Include="ViewModels\LineViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\NewDeviceViewModel.cs" />
@@ -106,6 +122,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\NewDeviceView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RepositoryView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -140,10 +160,6 @@
       <Project>{0F0ACE8E-E606-4FCA-B6B2-2F1FD86121DE}</Project>
       <Name>Controls</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Common\FiresecServiceAPI\FiresecAPI.csproj">
-      <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
-      <Name>FiresecAPI</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
       <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
       <Name>Infrastructure.Common</Name>
@@ -171,6 +187,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
