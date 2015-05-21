@@ -9,9 +9,19 @@ namespace FiresecAPI.SKD
 	{
 		public static void EditDevice(SKDDevice device)
 		{
-			if (device.Door != null)
+			if (device.Door == null)
+			{
+				if (device.Children == null) return;
+
+				foreach (var child in device.Children.Where(child => child.Door != null))
+				{
+					child.Door.OnChanged();
+				}
+			}
+			else
+			{
 				device.Door.OnChanged();
-			device.OnChanged();
+			}
 		}
 
 		public static void DeleteDevice(SKDDevice device)
@@ -22,6 +32,7 @@ namespace FiresecAPI.SKD
 			if (device.Parent != null)
 				device.Parent.Children.Remove(device);
 		}
+
 		private static void DeleteDeviceInternal(SKDDevice device)
 		{
 			if (device.Zone != null)
