@@ -24,12 +24,10 @@ namespace FiresecAPI.GK
 			Codes = new List<GKCode>();
 			Doors = new List<GKDoor>();
 			SKDZones = new List<GKSKDZone>();
-			//DaySchedules = new List<GKDaySchedule>();
-			//Schedules = new List<GKSchedule>();
-			Holidays = new List<GKHoliday>();
 
 			Instructions = new List<GKInstruction>();
 			ParameterTemplates = new List<GKParameterTemplate>();
+			GKNameGenerationType = GKNameGenerationType.DriverTypePlusAddressPlusDescription;
 		}
 
 		[XmlIgnore]
@@ -101,29 +99,17 @@ namespace FiresecAPI.GK
 		[DataMember]
 		public List<GKSKDZone> SKDZones { get; set; }
 
-		///// <summary>
-		///// Графики работ
-		///// </summary>
-		//[DataMember]
-		//public List<GKDaySchedule> DaySchedules { get; set; }
-
-		// ///<summary>
-		// ///Графики работ
-		// ///</summary>
-		//[DataMember]
-		//public List<GKSchedule> Schedules { get; set; }
-
-		/// <summary>
-		/// Праздники
-		/// </summary>
-		[DataMember]
-		public List<GKHoliday> Holidays { get; set; }
-
 		/// <summary>
 		/// Шаблоны параметров устройств
 		/// </summary>
 		[DataMember]
 		public List<GKParameterTemplate> ParameterTemplates { get; set; }
+
+		/// <summary>
+		/// Тип генерации названия компонентка в ГК
+		/// </summary>
+		[DataMember]
+		public GKNameGenerationType GKNameGenerationType { get; set; }
 
 		public void Update()
 		{

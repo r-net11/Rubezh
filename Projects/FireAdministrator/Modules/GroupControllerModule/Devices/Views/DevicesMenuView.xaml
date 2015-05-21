@@ -28,5 +28,6 @@
 				<IconedMenuItem Command="{Binding RewriteAllSchedulesCommand}" ImageSource="BSettings" Text="Перезаписать все графики" TotalHeight="24" />
 			</MenuItem>
 		</Menu>
-	</StackPanel>
+        <ToolBarButton Command="{Binding ShowSettingsCommand}" ToolTip="Настройки проекта" ImageSource="Settings2" />
+    </StackPanel>
 </UserControl>

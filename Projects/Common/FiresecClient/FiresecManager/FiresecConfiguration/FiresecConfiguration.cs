@@ -4,7 +4,7 @@ namespace FiresecClient
 {
 	public partial class FiresecConfiguration
 	{
-		public GKDriversConfiguration XDriversConfiguration
+		public GKDriversConfiguration DriversConfiguration
 		{
 			get { return GKConfigurationCash.GKDriversConfiguration; }
 			set { GKConfigurationCash.GKDriversConfiguration = value; }

@@ -38,7 +38,7 @@ namespace PowerCalculator.ViewModels
 			if (DialogService.ShowModalWindow(newDeviceViewModel))
 			{
 				var device = new Device();
-				device.DeviceType = newDeviceViewModel.SelectedDeviceType.DriverType;
+				device.DriverType = newDeviceViewModel.SelectedDeviceType.DriverType;
 				Line.Devices.Add(device);
 				var deviceViewModel = new DeviceViewModel(device);
 				Devices.Add(deviceViewModel);

@@ -1,5 +1,4 @@
-﻿
-namespace PowerCalculator.Models
+﻿namespace PowerCalculator.Models
 {
 	public class DeviceRepositoryItem
 	{

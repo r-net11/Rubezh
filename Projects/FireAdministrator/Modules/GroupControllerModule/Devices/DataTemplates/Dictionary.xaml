@@ -44,4 +44,8 @@
 		<Views:GKUsersView />
 	</DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:SettingsViewModel}">
+        <Views:SettingsView />
+    </DataTemplate>
+
 </ResourceDictionary>

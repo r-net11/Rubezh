@@ -150,6 +150,7 @@
     <Compile Include="AutomationCallback\ProcedureProperties.cs" />
     <Compile Include="AutomationCallback\PropertyCallBackData.cs" />
     <Compile Include="AutomationCallback\VisualPropertyCallbackData.cs" />
+    <Compile Include="GKModels\Configuration\GKNameGenerationType.cs" />
     <Compile Include="GKModels\CurrentConsumption\CurrentConsumption.cs" />
     <Compile Include="GKModels\Device\GKMirrorItem.cs" />
     <Compile Include="GKModels\Guard\GKDeviceGuardZone.cs" />

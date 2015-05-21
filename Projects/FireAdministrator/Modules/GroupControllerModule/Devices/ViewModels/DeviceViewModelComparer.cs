@@ -36,4 +36,14 @@ namespace GKModule.ViewModels
 			return result;
 		}
 	}
+	public class DeviceViewModelProjectAddressComparer : TreeNodeComparer<DeviceViewModel>
+	{
+		protected override int Compare(DeviceViewModel x, DeviceViewModel y)
+		{
+			int result = string.Compare(x.ProjectAddress, y.ProjectAddress);
+			if (result == 0)
+				result = string.Compare(x.Driver.ShortName, y.Driver.ShortName);
+			return result;
+		}
+	}
 }

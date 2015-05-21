@@ -103,6 +103,7 @@
     <Compile Include="Devices\ViewModels\Logic\StateTypeViewModel.cs" />
     <Compile Include="Devices\ViewModels\RSR2NewDeviceViewModel.cs" />
     <Compile Include="Devices\ViewModels\NewDeviceViewModelBase.cs" />
+    <Compile Include="Devices\ViewModels\SettingsViewModel.cs" />
     <Compile Include="Devices\ViewModels\UpdatedDeviceViewModel.cs" />
     <Compile Include="Devices\Views\AutoSearchDevicesView.xaml.cs">
       <DependentUpon>AutoSearchDevicesView.xaml</DependentUpon>
@@ -121,6 +122,9 @@
     </Compile>
     <Compile Include="Devices\Views\RSR2NewDeviceView.xaml.cs">
       <DependentUpon>RSR2NewDeviceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Devices\Views\SettingsView.xaml.cs">
+      <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Events\CreateGKDoorEvent.cs" />
     <Compile Include="Events\CreateGKSKDZoneEvent.cs" />
@@ -655,6 +659,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Devices\Views\DevicesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Devices\Views\SettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

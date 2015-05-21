@@ -39,6 +39,7 @@ namespace GKModule.ViewModels
 			CopyCommand = new RelayCommand(OnCopy, CanCutCopy);
 			CutCommand = new RelayCommand(OnCut, CanCutCopy);
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
+			ShowSettingsCommand = new RelayCommand(OnShowSettings);
 			DeviceCommandsViewModel = new DeviceCommandsViewModel(this);
 			ReadJournalFromFileCommand = new RelayCommand(OnReadJournalFromFile);
 			RegisterShortcuts();
@@ -290,6 +291,17 @@ namespace GKModule.ViewModels
 			}
 		}
 		#endregion
+
+		public RelayCommand ShowSettingsCommand { get; private set; }
+		void OnShowSettings()
+		{
+			var settingsViewModel = new SettingsViewModel();
+			if (DialogService.ShowModalWindow(settingsViewModel))
+			{
+				GKManager.DeviceConfiguration.GKNameGenerationType = settingsViewModel.SelectedNameGenerationType;
+				ServiceFactory.SaveService.GKChanged = true;
+			}
+		}
 
 		public RelayCommand ReadJournalFromFileCommand { get; private set; }
 		void OnReadJournalFromFile()

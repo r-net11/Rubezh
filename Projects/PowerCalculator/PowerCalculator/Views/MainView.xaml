@@ -32,15 +32,15 @@
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
                         <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="2">
-                            <ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить устройство" Background="{DynamicResource Add}" Margin="2" />
-                            <ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить устройство" Background="{DynamicResource Delete}" Margin="2" />
+                            <ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить устройство" ImageSource="Add" Margin="2" />
+                            <ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить устройство" ImageSource="Delete" Margin="2" />
                         </StackPanel>
                         <DataGrid Grid.Row="1" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" Margin="2">
                             <DataGrid.Columns>
                                 <DataGridTemplateColumn Header="Название" Width="*">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding Device.DeviceType, Converter={StaticResource EnumToDescriptionConverter}}" Margin="2" />
+                                            <TextBlock Text="{Binding Device.DriverType, Converter={StaticResource EnumToDescriptionConverter}}" Margin="2" />
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>

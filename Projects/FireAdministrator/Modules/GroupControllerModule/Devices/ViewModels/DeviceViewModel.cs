@@ -162,6 +162,17 @@ namespace GKModule.ViewModels
 			}
 		}
 
+		public string ProjectAddress
+		{
+			get { return Device.ProjectAddress; }
+			set
+			{
+				Device.ProjectAddress = value;
+				OnPropertyChanged(() => ProjectAddress);
+				ServiceFactory.SaveService.GKChanged = true;
+			}
+		}
+
 		public bool IsUsed
 		{
 			get { return !Device.IsNotUsed; }

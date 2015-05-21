@@ -135,6 +135,12 @@ namespace FiresecAPI.GK
 		public bool AllowMultipleVizualization { get; set; }
 
 		/// <summary>
+		/// Проектный адрес
+		/// </summary>
+		[DataMember]
+		public string ProjectAddress { get; set; }
+
+		/// <summary>
 		/// Отражение объекта ГК
 		/// </summary>
 		[DataMember]
