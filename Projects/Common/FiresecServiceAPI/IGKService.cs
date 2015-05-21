@@ -129,5 +129,8 @@ namespace FiresecAPI
 
 		[OperationContract]
 		void GKCloseSKDZone(Guid zoneUID);
+
+		[OperationContract]
+		Dictionary<DateTime, int> GetKauMesures(Guid kauUid, DateTime startDateTime, DateTime endDateTime);
 	}
 }

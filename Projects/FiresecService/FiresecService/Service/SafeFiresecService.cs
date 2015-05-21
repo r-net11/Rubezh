@@ -378,6 +378,11 @@ namespace FiresecService.Service
 			SafeOperationCall(() => { FiresecService.GKCloseSKDZone(zoneUID); }, "GKCloseSKDZone");
 		}
 
+		public Dictionary<DateTime, int> GetKauMesures(Guid kauUid, DateTime startDateTime, DateTime endDateTime)
+		{
+			return SafeOperationCall(() => FiresecService.GetKauMesures(kauUid, startDateTime, endDateTime), "GetKauMesures");
+		}
+
 		#endregion
 
 		#region Automation

@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using DeviceControls;
@@ -28,7 +30,8 @@ namespace GKModule.ViewModels
 		public DeviceCommandsViewModel DeviceCommandsViewModel { get; private set; }
 		public DevicePropertiesViewModel DevicePropertiesViewModel { get; private set; }
 		BackgroundWorker BackgroundWorker;
-		bool CancelBackgroundWorker = false;
+		bool CancelBackgroundWorker;
+		public ObservableCollection<MeasureViewModel> Measures { get; private set; }
 
 		public DeviceDetailsViewModel(GKDevice device)
 		{
@@ -37,6 +40,7 @@ namespace GKModule.ViewModels
 			ShowOnPlanCommand = new RelayCommand<Plan>(OnShowOnPlan);
 			ShowZoneCommand = new RelayCommand(OnShowZone);
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
+			GetKauMeasuresCommand = new RelayCommand<List<object>>(OnGetKauMesures);
 
 			Device = device;
 			DeviceStateViewModel = new DeviceStateViewModel(State, device.Driver.IsAm);
@@ -48,6 +52,22 @@ namespace GKModule.ViewModels
 
 			Title = Device.PresentationName;
 			StartMeasureParametersMonitoring();
+		}
+
+		public RelayCommand<List<object>> GetKauMeasuresCommand { get; private set; }
+		public void OnGetKauMesures(List<object> objects)
+		{
+			Measures = new ObservableCollection<MeasureViewModel>();
+			if (objects == null || objects.Count != 2)
+			    return;
+			var measures = FiresecManager.FiresecService.GetKauMesures(Device.UID, (DateTime)objects[0], (DateTime)objects[1]);
+			foreach (var measure in measures)
+			{
+			    var measureTime = measure.Key;
+			    var measureValue = measure.Value;
+			    Measures.Add(new MeasureViewModel(measureTime, measureValue));
+			}
+			OnPropertyChanged(() => Measures);
 		}
 
 		void OnStateChanged()

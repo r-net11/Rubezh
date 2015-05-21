@@ -538,6 +538,11 @@ namespace GKProcessor
 			}
 		}
 
+		public static Dictionary<DateTime, int> GetKauMesures(Guid kauUid, DateTime startDateTime, DateTime endDateTime)
+		{
+			return new Dictionary<DateTime, int>();
+		}
+
 		#endregion
 
 		#region JournalItem Callback
