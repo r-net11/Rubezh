@@ -1566,3 +1566,19 @@ BEGIN
 
 	INSERT INTO Patches (Id) VALUES ('GKSchedule2')
 END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'CurrentConsumption')
+BEGIN
+	CREATE TABLE CurrentConsumption(
+		[UID] uniqueidentifier NOT NULL,
+		[KauUID] uniqueidentifier NOT NULL,
+		[Current] int NOT NULL,
+		[DateTime] datetime NOT NULL,
+	CONSTRAINT [PK_CurrentConsumption] PRIMARY KEY CLUSTERED 
+	(
+		[UID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+	INSERT INTO Patches (Id) VALUES ('CurrentConsumption')
+END
+

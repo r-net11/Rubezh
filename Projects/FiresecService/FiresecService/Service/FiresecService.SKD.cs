@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using ChinaSKDDriver;
 using FiresecAPI;
 using FiresecAPI.GK;
@@ -1572,6 +1571,23 @@ namespace FiresecService.Service
 		public OperationResult ExportConfiguration(ConfigurationExportFilter filter)
 		{
 			return ConfigurationSynchroniser.Export(filter);
+		}
+		#endregion
+
+		#region CurrentConsumption
+		public OperationResult SaveCurrentConsumption(CurrentConsumption item)
+		{
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.CurrentConsumptionTranslator.Save(item);
+			}
+		}
+		public OperationResult<IEnumerable<CurrentConsumption>> GetCurrentConsumption(CurrentConsumptionFilter filter)
+		{
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.CurrentConsumptionTranslator.Get(filter);
+			}
 		}
 		#endregion
 	}

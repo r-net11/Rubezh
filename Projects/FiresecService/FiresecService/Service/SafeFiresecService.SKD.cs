@@ -473,5 +473,16 @@ namespace FiresecService.Service
 			return SafeContext.Execute<OperationResult>(() => FiresecService.ExportConfiguration(filter));
 		}
 		#endregion
+
+		#region CurrentConsumption
+		public OperationResult SaveCurrentConsumption(CurrentConsumption item)
+		{
+			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveCurrentConsumption(item));
+		}
+		public OperationResult<IEnumerable<CurrentConsumption>> GetCurrentConsumption(CurrentConsumptionFilter item)
+		{
+			return SafeContext.Execute<OperationResult<IEnumerable<CurrentConsumption>>>(() => FiresecService.GetCurrentConsumption(item));
+		}
+		#endregion
 	}
 }

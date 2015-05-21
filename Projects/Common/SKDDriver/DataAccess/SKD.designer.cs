@@ -132,6 +132,9 @@ namespace SKDDriver.DataAccess
     partial void InsertGKSchedule(GKSchedule instance);
     partial void UpdateGKSchedule(GKSchedule instance);
     partial void DeleteGKSchedule(GKSchedule instance);
+    partial void InsertCurrentConsumption(CurrentConsumption instance);
+    partial void UpdateCurrentConsumption(CurrentConsumption instance);
+    partial void DeleteCurrentConsumption(CurrentConsumption instance);
     #endregion
 		
 		public SKDDataContext() : 
@@ -442,6 +445,14 @@ namespace SKDDriver.DataAccess
 			get
 			{
 				return this.GetTable<GKSchedule>();
+			}
+		}
+		
+		public System.Data.Linq.Table<CurrentConsumption> CurrentConsumptions
+		{
+			get
+			{
+				return this.GetTable<CurrentConsumption>();
 			}
 		}
 	}
@@ -10720,6 +10731,140 @@ namespace SKDDriver.DataAccess
 		{
 			this.SendPropertyChanging();
 			entity.GKSchedule = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.CurrentConsumption")]
+	public partial class CurrentConsumption : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private System.Guid _UID;
+		
+		private System.Guid _KauUID;
+		
+		private int _Current;
+		
+		private System.DateTime _DateTime;
+		
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnUIDChanging(System.Guid value);
+    partial void OnUIDChanged();
+    partial void OnKauUIDChanging(System.Guid value);
+    partial void OnKauUIDChanged();
+    partial void OnCurrentChanging(int value);
+    partial void OnCurrentChanged();
+    partial void OnDateTimeChanging(System.DateTime value);
+    partial void OnDateTimeChanged();
+    #endregion
+		
+		public CurrentConsumption()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+		public System.Guid UID
+		{
+			get
+			{
+				return this._UID;
+			}
+			set
+			{
+				if ((this._UID != value))
+				{
+					this.OnUIDChanging(value);
+					this.SendPropertyChanging();
+					this._UID = value;
+					this.SendPropertyChanged("UID");
+					this.OnUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_KauUID", DbType="UniqueIdentifier NOT NULL")]
+		public System.Guid KauUID
+		{
+			get
+			{
+				return this._KauUID;
+			}
+			set
+			{
+				if ((this._KauUID != value))
+				{
+					this.OnKauUIDChanging(value);
+					this.SendPropertyChanging();
+					this._KauUID = value;
+					this.SendPropertyChanged("KauUID");
+					this.OnKauUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Current]", Storage="_Current", DbType="Int NOT NULL")]
+		public int Current
+		{
+			get
+			{
+				return this._Current;
+			}
+			set
+			{
+				if ((this._Current != value))
+				{
+					this.OnCurrentChanging(value);
+					this.SendPropertyChanging();
+					this._Current = value;
+					this.SendPropertyChanged("Current");
+					this.OnCurrentChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateTime", DbType="DateTime NOT NULL")]
+		public System.DateTime DateTime
+		{
+			get
+			{
+				return this._DateTime;
+			}
+			set
+			{
+				if ((this._DateTime != value))
+				{
+					this.OnDateTimeChanging(value);
+					this.SendPropertyChanging();
+					this._DateTime = value;
+					this.SendPropertyChanged("DateTime");
+					this.OnDateTimeChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 		}
 	}
 }

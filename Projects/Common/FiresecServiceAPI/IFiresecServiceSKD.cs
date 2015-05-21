@@ -345,5 +345,13 @@ namespace FiresecAPI
 		[OperationContract]
 		OperationResult ExportConfiguration(ConfigurationExportFilter filter);
 		#endregion
+
+		#region CurrentConsumption
+		[OperationContract]
+		OperationResult SaveCurrentConsumption(CurrentConsumption item);
+
+		[OperationContract]
+		OperationResult<IEnumerable<CurrentConsumption>> GetCurrentConsumption(CurrentConsumptionFilter filter);
+		#endregion
 	}
 }

@@ -48,6 +48,7 @@ namespace SKDDriver
 			GKMetadataTranslator = new GKMetadataTranslator(this);
 			GKCardTranslator = new GKCardTranslator(this);
 			GKScheduleTranslator = new GKScheduleTranslator(this);
+			CurrentConsumptionTranslator = new CurrentConsumptionTranslator(this);
 			if (PassJournalTranslator.ConnectionString != null)
 			{
 				PassJournalTranslator = new PassJournalTranslator();
@@ -81,7 +82,8 @@ namespace SKDDriver
 		public GKMetadataTranslator GKMetadataTranslator { get; private set; }
 		public GKCardTranslator GKCardTranslator { get; private set; }
 		public PassJournalTranslator PassJournalTranslator { get; private set; }
-		public GKScheduleTranslator GKScheduleTranslator { get; private set; } 
+		public GKScheduleTranslator GKScheduleTranslator { get; private set; }
+		public CurrentConsumptionTranslator CurrentConsumptionTranslator { get; private set; } 
 
 		public void Dispose()
 		{
