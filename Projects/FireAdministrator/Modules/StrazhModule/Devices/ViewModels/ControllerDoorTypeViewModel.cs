@@ -76,11 +76,6 @@ namespace StrazhModule.ViewModels
 			HasChanged = false;
 		}
 
-		protected override bool CanSave()
-		{
-			return HasChanged;
-		}
-
 		protected override bool Save()
 		{
 			if (!HasChanged)
