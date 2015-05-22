@@ -19,5 +19,8 @@ namespace FiresecAPI.GK
 
 		[Description("Описание")]
 		Description,
+
+		[Description("Проектный адрес")]
+		ProjectAddress,
 	}
 }

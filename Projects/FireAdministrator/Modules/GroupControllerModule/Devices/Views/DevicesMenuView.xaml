@@ -8,7 +8,8 @@
 		<ToolBarButton Command="{Binding CopyCommand}" ToolTip="Копировать (Ctrl+C)" ImageSource="Copy" />
 		<ToolBarButton Command="{Binding CutCommand}" ToolTip="Вырезать (Ctrl+Х)" ImageSource="Cut" />
 		<ToolBarButton Command="{Binding PasteCommand}" ToolTip="Вставить (Ctrl+V)" ImageSource="Paste" />
-		<Menu Background="Transparent" VerticalAlignment="Center" DataContext="{Binding DeviceCommandsViewModel}" FontSize="12">
+        <ToolBarButton Command="{Binding ShowSettingsCommand}" ToolTip="Настройки проекта" ImageSource="Settings2" />
+        <Menu Background="Transparent" VerticalAlignment="Center" DataContext="{Binding DeviceCommandsViewModel}" FontSize="12">
 			<MenuItem>
 				<MenuItem.Header>
 					<Grid Background="{DynamicResource ArrowUpDown}" Height="24" Width="24" ToolTip="Устройство" />
@@ -28,6 +29,5 @@
 				<IconedMenuItem Command="{Binding RewriteAllSchedulesCommand}" ImageSource="BSettings" Text="Перезаписать все графики" TotalHeight="24" />
 			</MenuItem>
 		</Menu>
-        <ToolBarButton Command="{Binding ShowSettingsCommand}" ToolTip="Настройки проекта" ImageSource="Settings2" />
     </StackPanel>
 </UserControl>

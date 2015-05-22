@@ -114,7 +114,33 @@ namespace GKProcessor
 			switch (DatabaseType)
 			{
 				case DatabaseType.Gk:
-					Description = BytesHelper.StringDescriptionToBytes(GKBase.PresentationName);
+					if (GKBase is GKDevice)
+					{
+						var device = GKBase as GKDevice;
+						var presentationName = device.ShortName + " " + device.DottedPresentationAddress;
+						switch(GKManager.DeviceConfiguration.GKNameGenerationType)
+						{
+							case GKNameGenerationType.DriverTypePlusAddressPlusDescription:
+								if(device.Description != null)
+									presentationName += "(" + device.Description + ")";
+								break;
+
+							case GKNameGenerationType.Description:
+								if (device.Description != null)
+									presentationName = device.Description;
+								break;
+
+							case GKNameGenerationType.ProjectAddress:
+								if (device.ProjectAddress != null)
+									presentationName = device.ProjectAddress;
+								break;
+						}
+						Description = BytesHelper.StringDescriptionToBytes(presentationName);
+					}
+					else
+					{
+						Description = BytesHelper.StringDescriptionToBytes(GKBase.PresentationName);
+					}
 					break;
 
 				case DatabaseType.Kau:

@@ -22,6 +22,7 @@ namespace GKModule.ViewModels
 		public DiagnosticsViewModel()
 		{
 			TestCommand = new RelayCommand(OnTest);
+			ShowPlotCommand = new RelayCommand(OnShowPlot);
 		}
 
 		public RelayCommand TestCommand { get; private set; }
@@ -44,6 +45,13 @@ namespace GKModule.ViewModels
 			GKManager.UpdateConfiguration();
 			ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 			ServiceFactory.SaveService.GKChanged = true;
+		}
+
+		public RelayCommand ShowPlotCommand { get; private set; }
+		void OnShowPlot()
+		{
+			var plotViewModel = new PlotViewModel();
+			DialogService.ShowModalWindow(plotViewModel);
 		}
 	}
 }

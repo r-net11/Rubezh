@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DynamicDataDisplay, Version=0.3.0.0, Culture=neutral, PublicKeyToken=5b7d744a7263923f, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\3rdParty\Plot\DynamicDataDisplay.dll</HintPath>
+    </Reference>
     <Reference Include="Ionic.Zip, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\3rdParty\DotNetZipLib-DevKit-v1.9\Ionic.Zip.dll</HintPath>
     </Reference>
@@ -125,6 +128,10 @@
     </Compile>
     <Compile Include="Devices\Views\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Diagnostics\ViewModels\PlotViewModel.cs" />
+    <Compile Include="Diagnostics\Views\PlotView.xaml.cs">
+      <DependentUpon>PlotView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Events\CreateGKDoorEvent.cs" />
     <Compile Include="Events\CreateGKSKDZoneEvent.cs" />
@@ -669,6 +676,10 @@
     <Page Include="Diagnostics\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Diagnostics\Views\PlotView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Directions\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
