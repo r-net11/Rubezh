@@ -94,8 +94,10 @@ extern "C" SDK_CLIENT_API int SDK_CALL_METHOD WRAP_QueryNext(WRAP_Dev_QueryLogLi
 
 extern "C" SDK_CLIENT_API BOOL SDK_CALL_METHOD WRAP_QueryStop();
 
-
-
 extern "C" SDK_CLIENT_API BOOL SDK_CALL_METHOD TestStruct(CFG_ACCESS_EVENT_INFO* result);
+
+extern "C" SDK_CLIENT_API int SDK_CALL_METHOD WRAP_GetAllCount(int finderID);
+
+extern "C" SDK_CLIENT_API BOOL SDK_CALL_METHOD WRAP_EndGetAll(int finderID);
 
 #endif // !defined(__WRAP_H__)

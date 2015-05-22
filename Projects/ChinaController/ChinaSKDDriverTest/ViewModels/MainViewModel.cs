@@ -18,6 +18,7 @@ namespace ControllerSDK.ViewModels
 		public CommonViewModel CommonViewModel { get; private set; }
 		public DoorConfigurationViewModel DoorConfigurationViewModel { get; private set; }
 		public LogItemsViewModel LogItemsViewModel { get; private set; }
+		public AccessesViewModel AccessesViewModel { get; private set; }
 
 		public MainViewModel()
 		{
@@ -33,6 +34,7 @@ namespace ControllerSDK.ViewModels
 			CommonViewModel = new CommonViewModel();
 			DoorConfigurationViewModel = new DoorConfigurationViewModel();
 			LogItemsViewModel = new LogItemsViewModel();
+			AccessesViewModel = new AccessesViewModel();
 
 			ConnectCommand = new RelayCommand(OnConnect);
 			DisconnectCommand = new RelayCommand(OnDisconnect);

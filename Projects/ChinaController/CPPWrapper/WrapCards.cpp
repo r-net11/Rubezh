@@ -151,30 +151,3 @@ int CALL_METHOD WRAP_GetAll_Cards(int finderID, CardsCollection* result)
 	memcpy(result, &cardsCollection, sizeof(CardsCollection));
 	return stuOut.nRetRecordNum;
 }
-
-/// <summary>
-/// ѕолучает количество записанных на контроллере карт
-/// </summary>
-/// <returns>количество карт, -1 в случае неудачи</returns>
-int CALL_METHOD WRAP_GetAllCount(int finderID)
-{
-    NET_IN_QUEYT_RECORD_COUNT_PARAM stuIn = {sizeof(stuIn)};
-    stuIn.lFindeHandle = finderID;
-    NET_OUT_QUEYT_RECORD_COUNT_PARAM stuOut = {sizeof(stuOut)};
-    if (CLIENT_QueryRecordCount(&stuIn, &stuOut, SDK_API_WAITTIME))
-    {
-		return stuOut.nRecordCount;
-    }
-	return -1;
-}
-
-/// <summary>
-/// ‘инализирует процедуру получени€ информации о записанных на контроллере картах
-/// </summary>
-/// <returns>TRUE при успешном завершении</returns>
-BOOL CALL_METHOD WRAP_EndGetAll(int finderID)
-{
-	CLIENT_FindRecordClose(finderID);
-    finderID = 0;
-	return TRUE;
-}

@@ -7,8 +7,8 @@
 		<Button Content="GetDeviceSoftwareInfo" Command="{Binding GetDeviceSoftwareInfoCommand}" Width="300" Margin="2" />
 		<Button Content="GetMacAddress" Command="{Binding GetMacAddressCommand}" Width="300" Margin="2" />
 		<Button Content="GetMaxPageSize" Command="{Binding GetMaxPageSizeCommand}" Width="300" Margin="2" />
-		<Button Content="DeleteCfgFile" Command="{Binding DeleteCfgFileCommand}" Width="300" Margin="2" />
-		<Button Content="ReBoot" Command="{Binding ReBootCommand}" Width="300" Margin="2" />
+		<Button Content="DeleteCfgFile" Command="{Binding DeleteCfgFileCommand}" Width="300" Margin="2" Background="Red" />
+		<Button Content="ReBoot" Command="{Binding ReBootCommand}" Width="300" Margin="2" Background="Red" />
 		<Button Content="UpdateFirmware" Command="{Binding UpdateFirmwareCommand}" Width="300" Margin="2" />
 
 		<StackPanel Orientation="Horizontal">

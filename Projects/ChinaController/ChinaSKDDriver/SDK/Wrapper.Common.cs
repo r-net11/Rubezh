@@ -255,7 +255,7 @@ namespace ChinaSKDDriver
 			NativeWrapper.CFG_ACCESS_EVENT_INFO info = new NativeWrapper.CFG_ACCESS_EVENT_INFO();
 			info.szChannelName = doorConfiguration.ChannelName;
 			//info.emState = NativeWrapper.CFG_ACCESS_STATE.ACCESS_STATE_NORMAL;
-			//info.emMode = NativeWrapper.CFG_ACCESS_MODE.ACCESS_MODE_HANDPROTECTED;
+			info.emMode = NativeWrapper.CFG_ACCESS_MODE.ACCESS_MODE_HANDPROTECTED;
 			//info.nEnableMode = doorConfiguration.EnableMode;
 			//info.bSnapshotEnable = doorConfiguration.IsSnapshotEnable ? (byte)0 : (byte)1;
 			//info.abDoorOpenMethod = doorConfiguration.UseDoorOpenMethod ? (byte)0 : (byte)1;
@@ -279,6 +279,8 @@ namespace ChinaSKDDriver
 			//info.bDoorNotClosedAlarmEnable = doorConfiguration.IsDoorNotClosedAlarmEnable;
 			//info.bDuressAlarmEnable = doorConfiguration.IsDuressAlarmEnable;
 			//info.bSensorEnable = doorConfiguration.IsSensorEnable;
+
+			info.emState = (NativeWrapper.CFG_ACCESS_STATE)doorConfiguration.AccessState;
 
 			// door open method
 			info.emDoorOpenMethod = (NativeWrapper.CFG_DOOR_OPEN_METHOD)doorConfiguration.DoorOpenMethod;
