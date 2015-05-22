@@ -81,45 +81,54 @@ namespace FiresecService.Report.Templates
 				var zoneMap = new Dictionary<Guid, Tuple<Tuple<Guid, string>, Tuple<Guid, string>>>();
 				SKDManager.Doors.ForEach(door =>
 				{
-					if (door != null && !zoneMap.ContainsKey(door.UID))
-					{
-						var zone1 = door.InDevice != null && door.InDevice.Zone != null && (filter.Zones.IsEmpty() || filter.Zones.Contains(door.InDevice.Zone.UID)) ? door.InDevice.Zone : null;
-						var zone2 = door.OutDevice != null && door.OutDevice.Zone != null && (filter.Zones.IsEmpty() || filter.Zones.Contains(door.OutDevice.Zone.UID)) ? door.OutDevice.Zone : null;
-						if (zone1 != null || zone2 != null)
-						{
-							var value = new Tuple<Tuple<Guid, string>, Tuple<Guid, string>>(new Tuple<Guid, string>(zone1.UID, zone1.PresentationName), new Tuple<Guid, string>(zone1.UID, zone1.PresentationName));
-							zoneMap.Add(door.UID, value);
-						}
-					}
+					if (door == null || zoneMap.ContainsKey(door.UID)) return;
+
+					var zone1 = door.InDevice != null && door.InDevice.Zone != null && (filter.Zones.IsEmpty() || filter.Zones.Contains(door.InDevice.Zone.UID)) 
+								? door.InDevice.Zone 
+								: null;
+					var zone2 = door.OutDevice != null && door.OutDevice.Zone != null && (filter.Zones.IsEmpty() || filter.Zones.Contains(door.OutDevice.Zone.UID)) 
+								? door.OutDevice.Zone 
+								: null;
+
+					if (zone1 == null && zone2 == null) return;
+
+					//Если на выходе из ТД подключена кнопка (у кнопки свойство zone == null), то присваивается значение зоны входа.
+					if (zone2 == null) zone2 = zone1;
+
+					var value =
+						new Tuple<Tuple<Guid, string>, Tuple<Guid, string>>(
+							new Tuple<Guid, string>(zone1.UID, zone1.Name),
+							new Tuple<Guid, string>(zone2.UID, zone2.Name));
+					zoneMap.Add(door.UID, value);
 				});
 				GKManager.Doors.ForEach(door =>
 				{
-					if (door != null && !zoneMap.ContainsKey(door.UID))
-					{
-						GKSKDZone enterZone = null;
-						if (filter.Zones.IsEmpty() || filter.Zones.Contains(door.EnterZoneUID))
-						{
-							enterZone = GKManager.SKDZones.FirstOrDefault(x => x.UID == door.EnterZoneUID);
-						}
-						GKSKDZone exitZone = null;
-						if (filter.Zones.IsEmpty() || filter.Zones.Contains(door.ExitZoneUID))
-						{
-							exitZone = GKManager.SKDZones.FirstOrDefault(x => x.UID == door.ExitZoneUID);
-						}
+					if (door == null || zoneMap.ContainsKey(door.UID)) return;
 
-						Tuple<Guid, string> enterZoneTuple = null;
-						if (enterZone != null)
-						{
-							enterZoneTuple = new Tuple<Guid, string>(enterZone.UID, enterZone.PresentationName);
-						}
-						Tuple<Guid, string> exitZoneTuple = null;
-						if (exitZone != null)
-						{
-							exitZoneTuple = new Tuple<Guid, string>(exitZone.UID, exitZone.PresentationName);
-						}
-						var value = new Tuple<Tuple<Guid, string>, Tuple<Guid, string>>(enterZoneTuple, exitZoneTuple);
-						zoneMap.Add(door.UID, value);
+					GKSKDZone enterZone = null;
+					if (filter.Zones.IsEmpty() || filter.Zones.Contains(door.EnterZoneUID))
+					{
+						enterZone = GKManager.SKDZones.FirstOrDefault(x => x.UID == door.EnterZoneUID);
 					}
+					GKSKDZone exitZone = null;
+					if (filter.Zones.IsEmpty() || filter.Zones.Contains(door.ExitZoneUID))
+					{
+						exitZone = GKManager.SKDZones.FirstOrDefault(x => x.UID == door.ExitZoneUID);
+					}
+
+					Tuple<Guid, string> enterZoneTuple = null;
+					if (enterZone != null)
+					{
+						enterZoneTuple = new Tuple<Guid, string>(enterZone.UID, enterZone.PresentationName);
+					}
+					Tuple<Guid, string> exitZoneTuple = null;
+					if (exitZone != null)
+					{
+						exitZoneTuple = new Tuple<Guid, string>(exitZone.UID, exitZone.PresentationName);
+					}
+
+					var value = new Tuple<Tuple<Guid, string>, Tuple<Guid, string>>(enterZoneTuple, exitZoneTuple);
+					zoneMap.Add(door.UID, value);
 				});
 
 				foreach (var card in cardsResult.Result)
@@ -132,7 +141,8 @@ namespace FiresecService.Report.Templates
 					{
 						var cardDoorUIDs = card.CardDoors.Select(item => item.DoorUID);
 						var accessTemplate = accessTemplates.Result.FirstOrDefault(item => item.UID == card.AccessTemplateUID.Value);
-						if (accessTemplates != null)
+
+						if (accessTemplate != null)
 							foreach (var door in accessTemplate.CardDoors.Where(item => !cardDoorUIDs.Contains(item.DoorUID)))
 								AddRow(dataSet, employee, card, door, accessTemplate, zoneMap, addedZones);
 					}
