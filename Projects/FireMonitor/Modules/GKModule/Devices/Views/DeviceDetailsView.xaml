@@ -212,21 +212,21 @@
 				</DataGrid>
 			</TabItem>
 			<TabItem Header="Измерения напряжений" Visibility="{Binding Device.Driver.IsKau, Converter={StaticResource BoolToVisibilityConverter}}">
-				<Grid>
+				<Grid Background="White">
 					<Grid.RowDefinitions>
 						<RowDefinition Height="Auto" />
 						<RowDefinition Height="*" />
 					</Grid.RowDefinitions>
 					<StackPanel Grid.Row="0">
 					<StackPanel Orientation="Horizontal">
-						<Label Content="От" />
+							<Label Content="От" Foreground="Black" />
 							<extToolkit:DateTimePicker Name="dateTimePicker1" Value="{x:Static sys:DateTime.Now}" Width="200" Margin="2" HorizontalAlignment="Right" />
 					</StackPanel>
 						<StackPanel Orientation="Horizontal">
-							<Label Content="До" />
+							<Label Content="До" Foreground="Black" />
 							<extToolkit:DateTimePicker Name="dateTimePicker2" Value="{x:Static sys:DateTime.Now}" Width="200" Margin="2" HorizontalAlignment="Right" />
 						</StackPanel>
-						<Button Content="Получить" Width="120" HorizontalAlignment="Left" Command="{Binding GetKauMeasuresCommand}">
+						<Button Content="Получить" Width="120" HorizontalAlignment="Right" Command="{Binding GetKauMeasuresCommand}">
 							<Button.CommandParameter>
 								<MultiBinding Converter="{StaticResource MultiParameterConverter}">
 									<MultiBinding.Bindings>
@@ -237,6 +237,12 @@
 							</Button.CommandParameter>
 						</Button>
 					</StackPanel>
+					<DataGrid Grid.Row="1" ItemsSource="{Binding Measures}">
+						<DataGrid.Columns>
+							<DataGridTextColumn Header="Дата" Binding="{Binding MeasureTime, StringFormat=dd\ MMMM\ yyyy\ HH:mm:ss}" MinWidth="130" />
+							<DataGridTextColumn Header="Значение" Binding="{Binding MeasureValue}" Width="*" />
+						</DataGrid.Columns>
+					</DataGrid>
 				</Grid>
 			</TabItem>
 			<TabItem Header="Измерения" Visibility="{Binding HasMeasureParameters, Converter={StaticResource BoolToVisibilityConverter}}">

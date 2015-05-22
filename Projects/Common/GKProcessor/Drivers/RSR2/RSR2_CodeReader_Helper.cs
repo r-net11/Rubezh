@@ -43,10 +43,10 @@ namespace GKProcessor
 			driver.AvailableCommandBits.Add(GKStateBit.TurnOff_InManual);
 			driver.AvailableCommandBits.Add(GKStateBit.TurnOffNow_InManual);
 
-			GKDriversHelper.AddIntProprety(driver, 0, "Задержка на включение 1, с", 0, 0, 65535);
-			GKDriversHelper.AddIntProprety(driver, 1, "Время удержания 1, с", 0, 0, 65535);
-			GKDriversHelper.AddIntProprety(driver, 2, "Задержка на включение 2, с", 0, 0, 65535);
-			GKDriversHelper.AddIntProprety(driver, 3, "Время удержания 2, с", 0, 0, 65535);
+			GKDriversHelper.AddIntProprety(driver, 0, "Задержка на включение, с", 0, 0, 65535);
+			GKDriversHelper.AddIntProprety(driver, 1, "Время удержания на включение, с", 0, 0, 65535);
+			GKDriversHelper.AddIntProprety(driver, 2, "Задержка на выключение, с", 0, 0, 65535);
+			GKDriversHelper.AddIntProprety(driver, 3, "Время удержания на выключение, с", 0, 0, 65535);
 
 
 			var property1 = new GKDriverProperty()
@@ -58,8 +58,8 @@ namespace GKProcessor
 				IsLowByte = true,
 				Mask = 0x01
 			};
-			GKDriversHelper.AddPropertyParameter(property1, "Выключается", 0);
-			GKDriversHelper.AddPropertyParameter(property1, "Остается включенным", 1);
+			GKDriversHelper.AddPropertyParameter(property1, "Выключено", 0);
+			GKDriversHelper.AddPropertyParameter(property1, "Включено", 1);
 			driver.Properties.Add(property1);
 
 			var property2 = new GKDriverProperty()

@@ -4,9 +4,11 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using DeviceControls;
+using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecClient;
@@ -66,6 +68,8 @@ namespace GKModule.ViewModels
 					StartDateTime = (DateTime)objects[0], 
 					EndDateTime = (DateTime)objects[1]
 				});
+			if (measuresResult == null)
+				return;
 			if (measuresResult.HasError)
 				MessageBoxService.Show(measuresResult.Error);
 			else

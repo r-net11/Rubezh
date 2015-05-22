@@ -41,7 +41,7 @@ namespace FiresecAPI.GK
 
 	public enum GKGuardZoneDeviceActionType
 	{
-		[Description("Поставка на охрану")]
+		[Description("Постановка на охрану")]
 		SetGuard,
 
 		[Description("Снятие с охраны")]

@@ -6,7 +6,7 @@
 	</UserControl.Resources>
 
 	<TabControl>
-		<TabItem DataContext="{Binding GlobalSettings}" Header="ОЗ" Visibility="{Binding UseStrazhBrand, Converter={StaticResource InversedBoolToVisibilityConverter}}">
+		<TabItem Header="ОЗ" Visibility="{Binding UseStrazhBrand, Converter={StaticResource InversedBoolToVisibilityConverter}}">
 			<Grid>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="Auto" />
@@ -45,7 +45,7 @@
 				-->
 			</Grid>
 		</TabItem>
-		<TabItem DataContext="{Binding GlobalSettings}" Header="Сервер">
+		<TabItem Header="Сервер">
 			<Grid Margin="2">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="Auto" />
@@ -86,7 +86,7 @@
 				</StackPanel>
 			</Border>
 		</TabItem>
-		<TabItem DataContext="{Binding GlobalSettings}" Header="Соединение">
+		<TabItem Header="Соединение">
 			<Grid Margin="2">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="Auto" />
@@ -148,7 +148,7 @@
 				</StackPanel>
 			</Border>
 		</TabItem>
-		<TabItem DataContext="{Binding GlobalSettings}" Header="Отладка" Visibility="{Binding IsDebug, Converter={StaticResource BoolToVisibilityConverter}}">
+		<TabItem Header="Отладка" Visibility="{Binding IsDebug, Converter={StaticResource BoolToVisibilityConverter}}">
 			<Grid Margin="2">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="Auto" />
