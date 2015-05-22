@@ -25,9 +25,7 @@ namespace StrazhModule.ViewModels
 			GetDoorTypeCommand = new RelayCommand(OnGetDoorType);
 			SetDoorTypeCommand = new RelayCommand(OnSetDoorType);
 
-			AvailableDoorTypes = new ObservableCollection<DoorType>();
-			AvailableDoorTypes.Add(DoorType.OneWay);
-			AvailableDoorTypes.Add(DoorType.TwoWay);
+			AvailableDoorTypes = new ObservableCollection<DoorType> {DoorType.OneWay, DoorType.TwoWay};
 			SelectedDoorType = DeviceViewModel.Device.DoorType;
 			HasChanged = false;
 		}
@@ -74,23 +72,30 @@ namespace StrazhModule.ViewModels
 				MessageBoxService.ShowWarning(result.Error);
 				return;
 			}
-			else
-			{
-				HasChanged = false;
-			}
+
+			HasChanged = false;
+		}
+
+		protected override bool CanSave()
+		{
+			return HasChanged;
 		}
 
 		protected override bool Save()
 		{
-			if (HasChanged)
+			if (!HasChanged)
 			{
 				DeviceViewModel.Device.DoorType = SelectedDoorType;
 				ServiceFactory.SaveService.SKDChanged = true;
-
-				if (!MessageBoxService.ShowConfirmation("Настройки не записаны в прибор. Вы уверены, что хотите закрыть окно без записи в контроллер?"))
-					return false;
+				return base.Save();
 			}
-			return base.Save();
+
+			if (!MessageBoxService.ShowConfirmation(
+				"Настройки не записаны в прибор. Вы уверены, что хотите закрыть окно без записи в контроллер?")) return false;
+			HasChanged = false;
+			Close(false);
+
+			return false;
 		}
 	}
 }
