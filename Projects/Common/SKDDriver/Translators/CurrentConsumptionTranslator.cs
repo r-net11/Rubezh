@@ -23,11 +23,35 @@ namespace SKDDriver
 				var tableItem = new DataAccess.CurrentConsumption 
 				{ 
 					UID = item.UID, 
-					KauUID = item.KauUID, 
+					KauUID = item.AlsUID, 
 					Current = item.Current, 
 					DateTime = item.DateTime
 				};
 				_Context.CurrentConsumptions.InsertOnSubmit(tableItem);
+				_Context.SubmitChanges();
+				return new OperationResult();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
+		}
+
+		public OperationResult SaveMany(IEnumerable<CurrentConsumption> items)
+		{
+			try
+			{
+				foreach (var item in items)
+				{
+					var tableItem = new DataAccess.CurrentConsumption
+					{
+						UID = item.UID,
+						KauUID = item.AlsUID,
+						Current = item.Current,
+						DateTime = item.DateTime
+					};
+					_Context.CurrentConsumptions.InsertOnSubmit(tableItem);	
+				}
 				_Context.SubmitChanges();
 				return new OperationResult();
 			}
@@ -42,11 +66,11 @@ namespace SKDDriver
 			try
 			{
 				var result = from tableItem in _Context.CurrentConsumptions
-							 where tableItem.KauUID == filter.KauUID && tableItem.DateTime >= filter.StartDateTime && tableItem.DateTime <= filter.EndDateTime
+							 where tableItem.KauUID == filter.AlsUID && tableItem.DateTime >= filter.StartDateTime && tableItem.DateTime <= filter.EndDateTime
 							 select new CurrentConsumption
 							 {
 								 UID = tableItem.UID,
-								 KauUID = tableItem.KauUID,
+								 AlsUID = tableItem.KauUID,
 								 Current = tableItem.Current,
 								 DateTime = tableItem.DateTime
 							 };

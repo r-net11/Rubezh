@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using DeviceControls;
@@ -13,6 +12,7 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrustructure.Plans.Elements;
@@ -60,12 +60,22 @@ namespace GKModule.ViewModels
 			Measures = new ObservableCollection<MeasureViewModel>();
 			if (objects == null || objects.Count != 2)
 			    return;
-			var measures = FiresecManager.FiresecService.GetKauMesures(Device.UID, (DateTime)objects[0], (DateTime)objects[1]);
-			foreach (var measure in measures)
+			var measuresResult = FiresecManager.FiresecService.GetCurrentConsumption(new CurrentConsumptionFilter
+				{ 
+					AlsUID = Device.UID, 
+					StartDateTime = (DateTime)objects[0], 
+					EndDateTime = (DateTime)objects[1]
+				});
+			if (measuresResult.HasError)
+				MessageBoxService.Show(measuresResult.Error);
+			else
 			{
-			    var measureTime = measure.Key;
-			    var measureValue = measure.Value;
-			    Measures.Add(new MeasureViewModel(measureTime, measureValue));
+				foreach (var measure in measuresResult.Result)
+				{
+					var measureTime = measure.DateTime;
+					var measureValue = measure.Current;
+					Measures.Add(new MeasureViewModel(measureTime, measureValue));
+				}
 			}
 			OnPropertyChanged(() => Measures);
 		}
