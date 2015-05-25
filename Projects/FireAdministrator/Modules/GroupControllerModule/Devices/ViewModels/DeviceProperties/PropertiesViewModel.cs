@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using FiresecAPI.GK;
 using Infrastructure.Common.Windows.ViewModels;
 
@@ -66,36 +67,40 @@ namespace GKModule.ViewModels
 
 		public void UpdateDeviceParameterMissmatchType()
 		{
-			if (StringProperties.Count + ShortProperties.Count + BoolProperties.Count + EnumProperties.Count > 0)
+			if (StringProperties.Any() || ShortProperties.Any() || BoolProperties.Any() || EnumProperties.Any())
 			{
-				DeviceParameterMissmatchType maxDeviceParameterMissmatchType = DeviceParameterMissmatchType.Equal;
+				var maxDeviceParameterMissmatchType = DeviceParameterMissmatchType.Equal;
 				foreach (var auProperty in StringProperties)
 				{
-					if (!auProperty.IsAUParameter)
-						continue;
-					if (auProperty.DeviceParameterMissmatchType > maxDeviceParameterMissmatchType)
-						maxDeviceParameterMissmatchType = auProperty.DeviceParameterMissmatchType;
+					if (auProperty.IsAUParameter)
+					{
+						if (auProperty.DeviceParameterMissmatchType > maxDeviceParameterMissmatchType)
+							maxDeviceParameterMissmatchType = auProperty.DeviceParameterMissmatchType;
+					}
 				}
 				foreach (var auProperty in ShortProperties)
 				{
-					if (!auProperty.IsAUParameter)
-						continue;
-					if (auProperty.DeviceParameterMissmatchType > maxDeviceParameterMissmatchType)
-						maxDeviceParameterMissmatchType = auProperty.DeviceParameterMissmatchType;
+					if (auProperty.IsAUParameter)
+					{
+						if (auProperty.DeviceParameterMissmatchType > maxDeviceParameterMissmatchType)
+							maxDeviceParameterMissmatchType = auProperty.DeviceParameterMissmatchType;
+					}
 				}
 				foreach (var auProperty in BoolProperties)
 				{
-					if (!auProperty.IsAUParameter)
-						continue;
-					if (auProperty.DeviceParameterMissmatchType > maxDeviceParameterMissmatchType)
-						maxDeviceParameterMissmatchType = auProperty.DeviceParameterMissmatchType;
+					if (auProperty.IsAUParameter)
+					{
+						if (auProperty.DeviceParameterMissmatchType > maxDeviceParameterMissmatchType)
+							maxDeviceParameterMissmatchType = auProperty.DeviceParameterMissmatchType;
+					}
 				}
 				foreach (var auProperty in EnumProperties)
 				{
-					if (!auProperty.IsAUParameter)
-						continue;
-					if (auProperty.DeviceParameterMissmatchType > maxDeviceParameterMissmatchType)
-						maxDeviceParameterMissmatchType = auProperty.DeviceParameterMissmatchType;
+					if (auProperty.IsAUParameter)
+					{
+						if (auProperty.DeviceParameterMissmatchType > maxDeviceParameterMissmatchType)
+							maxDeviceParameterMissmatchType = auProperty.DeviceParameterMissmatchType;
+					}
 				}
 				DeviceParameterMissmatchType = maxDeviceParameterMissmatchType;
 			}

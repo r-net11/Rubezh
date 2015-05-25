@@ -56,9 +56,7 @@ namespace GKModule.ViewModels
 		{
 			var deviceProperty = Device.DeviceProperties.FirstOrDefault(x => x.Name == DriverProperty.Name);
 			var systemProperty = Device.Properties.FirstOrDefault(x => x.Name == DriverProperty.Name);
-			if (systemProperty == null|| systemProperty.DriverProperty == null || !systemProperty.DriverProperty.IsAUParameter)
-				return;
-			if (!DriverProperty.IsReadOnly)
+			if (systemProperty != null && systemProperty.DriverProperty != null && systemProperty.DriverProperty.IsAUParameter && !DriverProperty.IsReadOnly)
 			{
 				if (deviceProperty == null)
 				{
@@ -78,7 +76,10 @@ namespace GKModule.ViewModels
 			set
 			{
 				_deviceParameterMissmatchType = value;
-				OnPropertyChanged(() => DeviceParameterMissmatchType);
+				if (_deviceParameterMissmatchType != value)
+				{
+					OnPropertyChanged(() => DeviceParameterMissmatchType);
+				}
 			}
 		}
 
