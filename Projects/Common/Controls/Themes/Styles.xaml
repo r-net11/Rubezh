@@ -9,7 +9,9 @@
 		<ResourceDictionary Source="ScrollBarStyle.xaml" />
 		<ResourceDictionary Source="DatePickerCalendarStyle.xaml" />
 		<ResourceDictionary Source="DatePickerStyle.xaml" />
+		<ResourceDictionary Source="DateTimePickerStyle.xaml" />
 		<ResourceDictionary Source="DataGridStyle.xaml" />
+		<ResourceDictionary Source="TimePickerStyle.xaml" />
 		<ResourceDictionary Source="TreeExpanderStyle.xaml" />
 		<ResourceDictionary Source="OutlookTabControlStyle.xaml" />
 		<ResourceDictionary Source="OutlookTreeViewStyle.xaml" />

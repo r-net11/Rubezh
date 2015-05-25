@@ -83,7 +83,7 @@
 														Duration="0:0:0.1" />
 														<ColorAnimation
 														Storyboard.TargetName="Background"
-														Storyboard.TargetProperty="(Border.Background).(GradientBrush.GradientStops)[0].(GradientStop.Color)"
+														Storyboard.TargetProperty="(Border.Background).(GradientBrush.GradientStops)[1].(GradientStop.Color)"
 														To="#C98226"
 														Duration="0:0:0.1" />
 													</Storyboard>
@@ -96,9 +96,9 @@
 											FlowDirection="LeftToRight" 
 											HorizontalAlignment="Center" 
 											Height="28" 
+											Width="20"
 											Margin="0"
-											VerticalAlignment="Center" 
-											Width="20">
+											VerticalAlignment="Center">
 											<Grid.ColumnDefinitions>
 												<ColumnDefinition Width="20*"/>
 												<ColumnDefinition Width="20*"/>
