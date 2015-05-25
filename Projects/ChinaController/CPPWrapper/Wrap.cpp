@@ -496,21 +496,38 @@ BOOL CALL_METHOD WRAP_QueryStop()
     return CLIENT_StopQueryLog(m_lLogID);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 BOOL CALL_METHOD TestStruct(CFG_ACCESS_EVENT_INFO* result)
 {
 	int size1 = sizeof(CFG_ACCESS_EVENT_INFO);
 	int closeTimeout = result->nCloseTimeout;
+	return TRUE;
+}
+
+/// <summary>
+/// Получает количество информационных записей из журнала контроллера
+/// (Карта, пароль, проход)
+/// </summary>
+/// <returns>количество информационных записей, -1 в случае неудачи</returns>
+int CALL_METHOD WRAP_GetAllCount(int finderID)
+{
+    NET_IN_QUEYT_RECORD_COUNT_PARAM stuIn = {sizeof(stuIn)};
+    stuIn.lFindeHandle = finderID;
+    NET_OUT_QUEYT_RECORD_COUNT_PARAM stuOut = {sizeof(stuOut)};
+    if (CLIENT_QueryRecordCount(&stuIn, &stuOut, SDK_API_WAITTIME))
+    {
+		return stuOut.nRecordCount;
+    }
+	return -1;
+}
+
+/// <summary>
+/// Финализирует процедуру получения информации о записанных в журнале контроллера данных
+/// (Карта, пароль, проход)
+/// </summary>
+/// <returns>TRUE при успешном завершении</returns>
+BOOL CALL_METHOD WRAP_EndGetAll(int finderID)
+{
+	CLIENT_FindRecordClose(finderID);
+    finderID = 0;
 	return TRUE;
 }

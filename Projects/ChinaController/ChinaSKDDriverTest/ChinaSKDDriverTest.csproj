@@ -77,6 +77,8 @@
     <Compile Include="ConnectionSettingsHelper.cs" />
     <Compile Include="ViewModels\CommonViewModel.cs" />
     <Compile Include="ViewModels\ControlViewModel.cs" />
+    <Compile Include="ViewModels\AccessesViewModel.cs" />
+    <Compile Include="ViewModels\AccessViewModel.cs" />
     <Compile Include="ViewModels\DoorConfigurationViewModel.cs" />
     <Compile Include="ViewModels\DoorItemViewModel.cs" />
     <Compile Include="ViewModels\JournalItemViewModel.cs" />
@@ -100,6 +102,9 @@
     </Compile>
     <Compile Include="Views\ControlView.xaml.cs">
       <DependentUpon>ControlView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AccessesView.xaml.cs">
+      <DependentUpon>AccessesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\DoorConfigurationView.xaml.cs">
       <DependentUpon>DoorConfigurationView.xaml</DependentUpon>
@@ -133,6 +138,10 @@
     <Page Include="Views\ControlView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AccessesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\DoorConfigurationView.xaml">
       <SubType>Designer</SubType>

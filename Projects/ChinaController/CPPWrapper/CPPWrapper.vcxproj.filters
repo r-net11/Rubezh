@@ -36,6 +36,9 @@
     <ClCompile Include="WrapWatch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="WrapAccesses.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Commons.h">
@@ -60,6 +63,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="WrapWatch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WrapAccesses.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

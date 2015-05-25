@@ -11,14 +11,21 @@
 			<RowDefinition Height="100" />
 		</Grid.RowDefinitions>
 		<TabControl Grid.Row="0">
-			<TabItem Header="Карты" DataContext="{Binding CardsViewModel}">
-				<Views:CardsView />
-			</TabItem>
-			<TabItem Header="Пароли" DataContext="{Binding PasswordsViewModel}">
-				<Views:PasswordsView />
-			</TabItem>
-			<TabItem Header="Праздники" DataContext="{Binding HolidaysViewModel}">
-				<Views:HolidaysView />
+			<TabItem Header="Записи">
+				<TabControl>
+					<TabItem Header="Карты" DataContext="{Binding CardsViewModel}">
+						<Views:CardsView />
+					</TabItem>
+					<TabItem Header="Пароли" DataContext="{Binding PasswordsViewModel}">
+						<Views:PasswordsView />
+					</TabItem>
+					<TabItem Header="Праздники" DataContext="{Binding HolidaysViewModel}">
+						<Views:HolidaysView />
+					</TabItem>
+					<TabItem Header="Проходы" DataContext="{Binding AccessesViewModel}">
+						<Views:AccessesView />
+					</TabItem>
+				</TabControl>
 			</TabItem>
 			<TabItem Header="Графики работ" DataContext="{Binding TimeShedulesViewModel}">
 				<Views:TimeShedulesView />

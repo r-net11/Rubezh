@@ -533,6 +533,42 @@ namespace ChinaSKDDriverNativeApi
 		public static extern bool WRAP_GetAll_Holidays(int loginID, IntPtr result);
 		#endregion
 
+		#region Acceses
+
+		[DllImport(@"CPPWrapper.dll")]
+		public static extern bool WRAP_BeginGetAll_Accesses(int loginID, ref int finderID);
+
+		[DllImport(@"CPPWrapper.dll")]
+		public static extern int WRAP_GetAll_Accesses(int finderID, IntPtr result);
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct NET_RECORDSET_ACCESS_CTL_CARDREC
+		{
+			public int dwSize;
+			public int nRecNo;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
+			public string szCardNo;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
+			public string szPwd;
+			public NET_TIME stuTime;
+			public bool bStatus;
+			public NET_ACCESS_DOOROPEN_METHOD emMethod;
+			public int nDoor;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
+			public string szUserID;
+			public int nReaderID;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct AccessesCollection
+		{
+			public int Count;
+			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 10)]
+			public NET_RECORDSET_ACCESS_CTL_CARDREC[] Accesses;
+		}
+
+		#endregion //Accesses
+
 		#region TimeShedules
 		[StructLayout(LayoutKind.Sequential)]
 		public struct CFG_TIME_SECTION
@@ -603,14 +639,14 @@ namespace ChinaSKDDriverNativeApi
 			NET_ACCESS_CTL_EVENT_ENTRY,
 
 			[DescriptionAttribute("Выход")]
-			NET_ACCESS_CTL_EVENT_EXIT,
+			NET_ACCESS_CTL_EVENT_EXIT
 		}
 
 		public enum NET_ACCESS_CTL_STATUS_TYPE
 		{
 			NET_ACCESS_CTL_STATUS_TYPE_UNKNOWN = 0,
 			NET_ACCESS_CTL_STATUS_TYPE_OPEN,
-			NET_ACCESS_CTL_STATUS_TYPE_CLOSE,
+			NET_ACCESS_CTL_STATUS_TYPE_CLOSE
 		}
 
 		public enum NET_ACCESS_DOOROPEN_METHOD
@@ -634,7 +670,7 @@ namespace ChinaSKDDriverNativeApi
 			NET_ACCESS_DOOROPEN_METHOD_REMOTE,
 
 			[DescriptionAttribute("Кнопка")]
-			NET_ACCESS_DOOROPEN_METHOD_BUTTON,
+			NET_ACCESS_DOOROPEN_METHOD_BUTTON
 		}
 
 		[StructLayout(LayoutKind.Sequential)]

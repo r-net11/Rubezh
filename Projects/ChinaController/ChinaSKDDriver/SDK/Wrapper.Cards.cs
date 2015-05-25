@@ -9,6 +9,11 @@ namespace ChinaSKDDriver
 {
 	public partial class Wrapper
 	{
+		/// <summary>
+		/// Записывает на контроллер данные по карте
+		/// </summary>
+		/// <param name="card">карта</param>
+		/// <returns>true - в случае удачи, false - в противном случае</returns>
 		public string AddCard(Card card)
 		{
 			var nativeCard = CardToNativeCard(card);
@@ -16,6 +21,11 @@ namespace ChinaSKDDriver
 			return result.ToString();
 		}
 
+		/// <summary>
+		/// Обновляет на контроллере данные для указанной карты
+		/// </summary>
+		/// <param name="card">номер карты</param>
+		/// <returns>true - в случае удачи, false - в противном случае</returns>
 		public bool EditCard(Card card)
 		{
 			var nativeCard = CardToNativeCard(card);
@@ -23,12 +33,21 @@ namespace ChinaSKDDriver
 			return result;
 		}
 
+		/// <summary>
+		/// Удаляет с контроллера данные для указанной карты
+		/// </summary>
+		/// <param name="index">номер карты</param>
+		/// <returns>true - в случае удачи, false - в противном случае</returns>
 		public bool RemoveCard(int index)
 		{
 			var result = NativeWrapper.WRAP_Remove_Card(LoginID, index);
 			return result;
 		}
 
+		/// <summary>
+		/// Удаляет с контроллера данные по всем картам
+		/// </summary>
+		/// <returns>true - в случае удачи, false - в противном случае</returns>
 		public bool RemoveAllCards()
 		{
 			var result = NativeWrapper.WRAP_RemoveAll_Cards(LoginID);
