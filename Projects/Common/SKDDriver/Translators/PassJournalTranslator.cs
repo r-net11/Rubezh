@@ -316,13 +316,9 @@ namespace SKDDriver.Translators
 			try
 			{
 				var lastPassJournal = Context.PassJournals.Where(x => x.EmployeeUID == employeeUID && zoneUIDs.Contains(x.ZoneUID) && x.EnterTime >= startDateTime && x.ExitTime <= endDateTime);
-				if (lastPassJournal != null)
-				{
-					return lastPassJournal;
-				}
-				return null;
+				return lastPassJournal;
 			}
-			catch (Exception e)
+			catch
 			{
 				return null;
 			}
@@ -333,21 +329,26 @@ namespace SKDDriver.Translators
 			try
 			{
 				var filter = PredicateBuilder.True<DataAccess.PassJournal>();
-				var isManyEmployees = employeeUIDs.Count() >= 2100;
+
+				var isManyEmployees = GetIsManyEmployees(employeeUIDs);
+
 				if (!employeeUIDs.IsEmpty() && !isManyEmployees)
 					filter = filter.And(e => employeeUIDs.Contains(e.EmployeeUID));
 				if (!zoneUIDs.IsEmpty())
 					filter = filter.And(e => zoneUIDs.Contains(e.ZoneUID));
 				if (dateTime.HasValue)
-					filter = filter.And(e => e.EnterTime < dateTime && (!e.ExitTime.HasValue || e.ExitTime > dateTime));
+					filter = filter.And(e => e.EnterTime.Day == dateTime.Value.Day && e.EnterTime.Hour >= dateTime.Value.Hour && e.EnterTime.Minute >= dateTime.Value.Minute); //&& (!e.ExitTime.HasValue || e.ExitTime > dateTime));
 				else
 					filter = filter.And(e => !e.ExitTime.HasValue);
+
 				var result = Context.PassJournals.Where(filter).ToList();
+
 				if (isManyEmployees)
 					result = result.Where(x => employeeUIDs.Contains(x.EmployeeUID)).ToList();
+
 				return result.GroupBy(item => item.EmployeeUID).Select(gr => gr.OrderByDescending(item => item.EnterTime).First());
 			}
-			catch(Exception e)
+			catch
 			{
 				return null;
 			}
@@ -357,18 +358,23 @@ namespace SKDDriver.Translators
 			try
 			{
 				var filter = PredicateBuilder.True<DataAccess.PassJournal>();
-				var isManyEmployees = employeeUIDs.Count() >= 2100;
+
+				var isManyEmployees = GetIsManyEmployees(employeeUIDs);
+
 				if (!employeeUIDs.IsEmpty() && !isManyEmployees)
 					filter = filter.And(e => employeeUIDs.Contains(e.EmployeeUID));
 				filter = filter.And(e => e.ExitTime.HasValue);
 				if (dateTime.HasValue)
 					filter = filter.And(e => e.ExitTime < dateTime);
+
 				var result = Context.PassJournals.Where(filter).ToList();
+
 				if (isManyEmployees)
 					result = result.Where(x => employeeUIDs.Contains(x.EmployeeUID)).ToList();
+
 				return result.GroupBy(item => item.EmployeeUID).Select(gr => gr.OrderByDescending(item => item.ExitTime).First());
 			}
-			catch(Exception e)
+			catch
 			{
 				return null;
 			}
@@ -379,21 +385,31 @@ namespace SKDDriver.Translators
 			try
 			{
 				var filter = PredicateBuilder.True<DataAccess.PassJournal>();
-				var isManyEmployees = employeeUIDs.Count() >= 2100;
+
+				var isManyEmployees = GetIsManyEmployees(employeeUIDs);
+
 				if (!employeeUIDs.IsEmpty() && !isManyEmployees)
 					filter = filter.And(e => employeeUIDs.Contains(e.EmployeeUID));
 				if (!zoneUIDs.IsEmpty())
 					filter = filter.And(e => zoneUIDs.Contains(e.ZoneUID));
 				filter = filter.And(e => (e.EnterTime >= startDateTime && e.EnterTime <= endDateTime) || (e.ExitTime >= startDateTime && e.ExitTime <= endDateTime));
+
 				var result = Context.PassJournals.Where(filter).ToList();
+
 				if(isManyEmployees)
 					result = result.Where(x => employeeUIDs.Contains(x.EmployeeUID)).ToList();
+
 				return result;
 			}
-			catch (Exception e)
+			catch
 			{
 				return null;
 			}
+		}
+
+		private bool GetIsManyEmployees(IEnumerable<Guid> employeeUIDs)
+		{
+			return employeeUIDs.Count() >= 2100;
 		}
 
 		public OperationResult<DateTime> GetMinDate()
