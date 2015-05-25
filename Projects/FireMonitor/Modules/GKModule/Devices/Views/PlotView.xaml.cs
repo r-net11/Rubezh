@@ -1,8 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Media;
+using GKModule.ViewModels;
 using Microsoft.Research.DynamicDataDisplay;
+using Microsoft.Research.DynamicDataDisplay.Common;
 using Microsoft.Research.DynamicDataDisplay.DataSources;
 using Microsoft.Research.DynamicDataDisplay.PointMarkers;
 using Microsoft.Research.DynamicDataDisplay.ViewportRestrictions;
@@ -19,22 +21,32 @@ namespace GKModule.Views
 
 		private void Window1_Loaded(object sender, RoutedEventArgs e)
 		{
+			var plotViewModel = DataContext as PlotViewModel;
+			if (plotViewModel == null)
+				return;
+			plotViewModel.PlotViewUpdateAction = Update;
+		}
+
+		void Update()
+		{
+			var plotViewModel = DataContext as PlotViewModel;
+			if (plotViewModel == null)
+				return;
 			var restr = new ViewportAxesRangeRestriction();
 			restr.YRange = new DisplayRange(-5, 105);
+
+			plotter.Children.RemoveAll(typeof(MarkerPointsGraph));
+			plotter.Children.RemoveAll(typeof(LineGraph));
+
 			plotter.Viewport.Restrictions.Add(restr);
 
-			var alsCurrents = new List<AlsCurrent>();
-			alsCurrents.Add(new AlsCurrent { DateTime = DateTime.Now.AddHours(-1), Current = 10 });
-			alsCurrents.Add(new AlsCurrent { DateTime = DateTime.Now.AddHours(-2), Current = 20 });
-			alsCurrents.Add(new AlsCurrent { DateTime = DateTime.Now.AddHours(-3), Current = 30 });
+			var dates = new DateTime[plotViewModel.CurrentConsumptions.Count];
+			var curents = new int[plotViewModel.CurrentConsumptions.Count];
 
-			var dates = new DateTime[alsCurrents.Count];
-			var curents = new int[alsCurrents.Count];
-
-			for (int i = 0; i < alsCurrents.Count; ++i)
+			for (int i = 0; i < plotViewModel.CurrentConsumptions.Count; ++i)
 			{
-				dates[i] = alsCurrents[i].DateTime;
-				curents[i] = alsCurrents[i].Current;
+				dates[i] = plotViewModel.CurrentConsumptions[i].DateTime;
+				curents[i] = plotViewModel.CurrentConsumptions[i].Current;
 			}
 
 			var datesDataSource = new EnumerableDataSource<DateTime>(dates);
@@ -52,12 +64,6 @@ namespace GKModule.Views
 
 			plotter.Viewport.FitToView();
 		}
-	}
-
-	public class AlsCurrent
-	{
-		public DateTime DateTime { get; set; }
-		public int Current { get; set; }
 	}
 
 	public class DisplayRange

@@ -4,11 +4,9 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using DeviceControls;
-using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecClient;
@@ -33,7 +31,6 @@ namespace GKModule.ViewModels
 		public DevicePropertiesViewModel DevicePropertiesViewModel { get; private set; }
 		BackgroundWorker BackgroundWorker;
 		bool CancelBackgroundWorker;
-		public ObservableCollection<MeasureViewModel> Measures { get; private set; }
 
 		public DeviceDetailsViewModel(GKDevice device)
 		{
@@ -42,8 +39,6 @@ namespace GKModule.ViewModels
 			ShowOnPlanCommand = new RelayCommand<Plan>(OnShowOnPlan);
 			ShowZoneCommand = new RelayCommand(OnShowZone);
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
-			GetKauMeasuresCommand = new RelayCommand<List<object>>(OnGetKauMesures);
-
 			Device = device;
 			DeviceStateViewModel = new DeviceStateViewModel(State, device.Driver.IsAm);
 			State.StateChanged += OnStateChanged;
@@ -54,34 +49,6 @@ namespace GKModule.ViewModels
 
 			Title = Device.PresentationName;
 			StartMeasureParametersMonitoring();
-		}
-
-		public RelayCommand<List<object>> GetKauMeasuresCommand { get; private set; }
-		public void OnGetKauMesures(List<object> objects)
-		{
-			Measures = new ObservableCollection<MeasureViewModel>();
-			if (objects == null || objects.Count != 2)
-			    return;
-			var measuresResult = FiresecManager.FiresecService.GetCurrentConsumption(new CurrentConsumptionFilter
-				{ 
-					AlsUID = Device.UID, 
-					StartDateTime = (DateTime)objects[0], 
-					EndDateTime = (DateTime)objects[1]
-				});
-			if (measuresResult == null)
-				return;
-			if (measuresResult.HasError)
-				MessageBoxService.Show(measuresResult.Error);
-			else
-			{
-				foreach (var measure in measuresResult.Result)
-				{
-					var measureTime = measure.DateTime;
-					var measureValue = measure.Current;
-					Measures.Add(new MeasureViewModel(measureTime, measureValue));
-				}
-			}
-			OnPropertyChanged(() => Measures);
 		}
 
 		void OnStateChanged()

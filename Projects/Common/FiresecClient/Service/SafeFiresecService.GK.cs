@@ -220,10 +220,5 @@ namespace FiresecClient
 		public void GKAddMessage(JournalEventNameType journalEventNameType, string description)
 		{
 		}
-
-		public Dictionary<DateTime, int> GetKauMesures(Guid kauUid, DateTime startDateTime, DateTime endDateTime)
-		{
-			return SafeOperationCall(() => FiresecService.GetKauMesures(kauUid, startDateTime, endDateTime), "GetKauMesures");
-		}
 	}
 }

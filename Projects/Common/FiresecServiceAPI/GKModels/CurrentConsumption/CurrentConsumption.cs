@@ -1,5 +1,5 @@
-﻿
-using System;
+﻿using System;
+
 namespace FiresecAPI.GK
 {
 	public class CurrentConsumption

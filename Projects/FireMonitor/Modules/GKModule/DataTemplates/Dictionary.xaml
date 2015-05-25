@@ -24,15 +24,15 @@
 		<Views:GuardZoneDetailsView />
 	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:SKDZonesViewModel}">
-        <Views:SKDZonesView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:SKDZonesViewModel}">
+		<Views:SKDZonesView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:SKDZoneDetailsViewModel}">
-        <Views:SKDZoneDetailsView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:SKDZoneDetailsViewModel}">
+		<Views:SKDZoneDetailsView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:DeviceDetailsViewModel}">
+	<DataTemplate DataType="{x:Type ViewModels:DeviceDetailsViewModel}">
 		<Views:DeviceDetailsView />
 	</DataTemplate>
 
@@ -104,11 +104,11 @@
 		<Views:DirectionToolTipView />
 	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:MPTTooltipViewModel}">
-        <Views:MPTToolTipView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:MPTTooltipViewModel}">
+		<Views:MPTToolTipView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:ZoneTooltipViewModel}">
+	<DataTemplate DataType="{x:Type ViewModels:ZoneTooltipViewModel}">
 		<Views:ZoneToolTipView />
 	</DataTemplate>
 
@@ -116,11 +116,11 @@
 		<Views:GuardZoneToolTipView />
 	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:SKDZoneTooltipViewModel}">
-        <Views:SKDZoneToolTipView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:SKDZoneTooltipViewModel}">
+		<Views:SKDZoneToolTipView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:DoorsViewModel}">
+	<DataTemplate DataType="{x:Type ViewModels:DoorsViewModel}">
 		<Views:DoorsView />
 	</DataTemplate>
 
@@ -133,32 +133,36 @@
 	</DataTemplate>
 
 
-    <DataTemplate DataType="{x:Type ViewModels:DaySchedulesViewModel}">
-        <Views:DaySchedulesView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:DaySchedulesViewModel}">
+		<Views:DaySchedulesView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:DaySchedulesMenuViewModel}">
-        <Views:DaySchedulesMenuView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:DaySchedulesMenuViewModel}">
+		<Views:DaySchedulesMenuView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:DayScheduleDetailsViewModel}">
-        <Views:DayScheduleDetailsView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:DayScheduleDetailsViewModel}">
+		<Views:DayScheduleDetailsView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:DaySchedulePartDetailsViewModel}">
-        <Views:DaySchedulePartDetailsView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:DaySchedulePartDetailsViewModel}">
+		<Views:DaySchedulePartDetailsView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:SchedulesViewModel}">
-        <Views:SchedulesView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:SchedulesViewModel}">
+		<Views:SchedulesView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:ScheduleDetailsViewModel}">
-        <Views:ScheduleDetailsView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:ScheduleDetailsViewModel}">
+		<Views:ScheduleDetailsView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:SchedulesMenuViewModel}">
-        <Views:SchedulesMenuView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:SchedulesMenuViewModel}">
+		<Views:SchedulesMenuView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:PlotViewModel}">
+		<Views:PlotView />
+	</DataTemplate>
 
 </ResourceDictionary>

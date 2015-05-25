@@ -38,6 +38,9 @@
     <Reference Include="CodeReason.Reports, Version=0.5.0.0, Culture=neutral, PublicKeyToken=74fc60a060db7911, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\3rdParty\codereason_reports_v0.5_alpha\Bin\CodeReason.Reports.dll</HintPath>
     </Reference>
+    <Reference Include="DynamicDataDisplay">
+      <HintPath>..\..\..\..\3rdParty\Plot\DynamicDataDisplay.dll</HintPath>
+    </Reference>
     <Reference Include="itextsharp">
       <HintPath>..\..\..\..\3rdParty\iTextSharp\itextsharp.dll</HintPath>
     </Reference>
@@ -92,7 +95,10 @@
     <Compile Include="Alarms\ViewModels\AlarmGroupsViewModel.cs" />
     <Compile Include="Alarms\ViewModels\AlarmGroupViewModel.cs" />
     <Compile Include="Converters\DeviceControlRegimeToIconConverter.cs" />
-    <Compile Include="Devices\ViewModels\MeasureViewModel.cs" />
+    <Compile Include="Devices\ViewModels\PlotViewModel.cs" />
+    <Compile Include="Devices\Views\PlotView.xaml.cs">
+      <DependentUpon>PlotView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Doors\ViewModels\DoorDetailsViewModel.cs" />
     <Compile Include="Doors\ViewModels\DoorsViewModel.cs" />
     <Compile Include="Doors\ViewModels\DoorViewModel.cs" />
@@ -160,6 +166,7 @@
     <Compile Include="Devices\ViewModels\DevicePropertiesViewModel.cs" />
     <Compile Include="Plans\ViewModels\SKDZoneTooltipViewModel.cs" />
     <Compile Include="Plans\ViewModels\MPTTooltipViewModel.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Schedules\ViewModels\CalendarViewModel.cs" />
     <Compile Include="Schedules\ViewModels\DayScheduleDetailsViewModel.cs" />
     <Compile Include="Schedules\ViewModels\DaySchedulePartDetailsViewModel.cs" />
@@ -365,6 +372,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Alarms\Views\InstructionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Devices\Views\PlotView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

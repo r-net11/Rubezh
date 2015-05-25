@@ -1,9 +1,7 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecClient;
-using GKModule.Events;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.TreeList;
@@ -88,7 +86,7 @@ namespace GKModule.ViewModels
 			if (CanShowOnPlan())
 				ShowOnPlanHelper.ShowDevice(Device);
 			else if (CanShowProperties())
-				DialogService.ShowWindow(new DeviceDetailsViewModel(Device));
+				OnShowProperties();
 		}
 
 		public RelayCommand ShowOnPlanCommand { get; private set; }
@@ -118,11 +116,14 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowPropertiesCommand { get; private set; }
 		void OnShowProperties()
 		{
-			DialogService.ShowWindow(new DeviceDetailsViewModel(Device));
+			if (Device != null && Device.Driver != null && Device.Driver.DriverType == GKDriverType.RSR2_KAU_Shleif)
+				DialogService.ShowModalWindow(new PlotViewModel(Device.UID));
+			else
+				DialogService.ShowWindow(new DeviceDetailsViewModel(Device));
 		}
 		public bool CanShowProperties()
 		{
-			return Device.IsRealDevice;
+			return Device.IsRealDevice || Device.DriverType == GKDriverType.RSR2_KAU_Shleif;
 		}
 
 		#region Ignore

@@ -537,10 +537,5 @@ namespace FiresecService.Service
 			return OperationResult<bool>.FromError("Не найден ГК в конфигурации");
 		}
 		#endregion
-
-		public Dictionary<DateTime, int> GetKauMesures(Guid kauUid, DateTime startDateTime, DateTime endDateTime)
-		{
-			return GKProcessorManager.GetKauMesures(kauUid, startDateTime, endDateTime);
-		}
 	}
 }

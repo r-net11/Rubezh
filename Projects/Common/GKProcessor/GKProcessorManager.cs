@@ -484,7 +484,9 @@ namespace GKProcessor
 
 		public static void GKStartMeasureMonitoring(GKDevice device)
 		{
-			var watcher = WatcherManager.Watchers.FirstOrDefault(x => x.GkDatabase.RootDevice.UID == device.GkDatabaseParent.UID);
+			if (device == null || device.Parent == null || device.Parent.GkDatabaseParent == null)
+				return;
+			var watcher = WatcherManager.Watchers.FirstOrDefault(x => x.GkDatabase.RootDevice.UID == device.Parent.GkDatabaseParent.UID);
 			if (watcher != null)
 			{
 				watcher.StartDeviceMeasure(device);
@@ -493,7 +495,9 @@ namespace GKProcessor
 
 		public static void GKStopMeasureMonitoring(GKDevice device)
 		{
-			var watcher = WatcherManager.Watchers.FirstOrDefault(x => x.GkDatabase.RootDevice.UID == device.GkDatabaseParent.UID);
+			if (device == null || device.Parent == null || device.Parent.GkDatabaseParent == null)
+				return;
+			var watcher = WatcherManager.Watchers.FirstOrDefault(x => x.GkDatabase.RootDevice.UID == device.Parent.GkDatabaseParent.UID);
 			if (watcher != null)
 			{
 				watcher.StopDeviceMeasure(device);
@@ -536,11 +540,6 @@ namespace GKProcessor
 					Watcher.SendControlCommand(door, GKStateBit.TurnOff_InAutomatic, "Включить в автоматике");
 				}
 			}
-		}
-
-		public static Dictionary<DateTime, int> GetKauMesures(Guid kauUid, DateTime startDateTime, DateTime endDateTime)
-		{
-			return new Dictionary<DateTime, int>();
 		}
 
 		#endregion
