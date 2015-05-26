@@ -17,18 +17,6 @@ namespace PowerCalculator.Processor
 		{
 			Drivers = new List<Driver>();
 
-			//Drivers.Add(new Driver()
-			//    {
-			//        DriverType = DriverType.Unknown,
-			//        Mult = 1,
-			//        R = 0.8,
-			//        I = 0.21,
-			//        U = 0,
-			//        DeviceType = AlsDeviceType.Consumer,
-			//        Umin = 12,
-			//        Imax = 250
-			//    });
-
 			Drivers.Add(new Driver()
 				{
 					DriverType = DriverType.KAU,

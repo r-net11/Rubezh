@@ -7,7 +7,7 @@
 			Lenght = 1;
 		}
 
-		public Cable CableType { get; set; }
-		public int Lenght { get; set; }
+		public double Resistivity { get; set; }
+		public double Lenght { get; set; }
 	}
 }

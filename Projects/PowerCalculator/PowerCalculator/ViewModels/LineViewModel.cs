@@ -37,12 +37,15 @@ namespace PowerCalculator.ViewModels
 			var newDeviceViewModel = new NewDeviceViewModel();
 			if (DialogService.ShowModalWindow(newDeviceViewModel))
 			{
-				var device = new Device();
-				device.DriverType = newDeviceViewModel.SelectedDeviceType.DriverType;
-				Line.Devices.Add(device);
-				var deviceViewModel = new DeviceViewModel(device);
-				Devices.Add(deviceViewModel);
-				SelectedDevice = deviceViewModel;
+				for (int i = 0; i < newDeviceViewModel.Count; i++)
+				{
+					var device = new Device();
+					device.DriverType = newDeviceViewModel.SelectedDeviceType.DriverType;
+					Line.Devices.Add(device);
+					var deviceViewModel = new DeviceViewModel(device);
+					Devices.Add(deviceViewModel);
+				}
+				SelectedDevice = Devices.LastOrDefault();
 			}
 		}
 		bool CanAdd()

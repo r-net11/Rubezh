@@ -96,7 +96,6 @@
     <Compile Include="ViewModels\DriverTypeViewModel.cs" />
     <Compile Include="ViewModels\DeviceViewModel.cs" />
     <Compile Include="ViewModels\RepositoryViewModel.cs" />
-    <Compile Include="ViewModels\CableTypeViewModel.cs" />
     <Compile Include="Views\NewDeviceView.xaml.cs">
       <DependentUpon>NewDeviceView.xaml</DependentUpon>
     </Compile>

@@ -56,21 +56,15 @@
         </StackPanel>
         <DataGrid Grid.Row="1" Grid.Column="1" ItemsSource="{Binding CableRepositoryItems}" SelectedItem="{Binding SelectedCableRepositoryItem}" IsReadOnly="False" Margin="2">
             <DataGrid.Columns>
-                <DataGridTemplateColumn Header="Кабель" Width="*">
+                <DataGridTemplateColumn Header="Сопротивление" Width="Auto">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding SelectedCableType.CableType, Converter={StaticResource EnumToDescriptionConverter}}" Margin="2" />
+                            <TextBlock Text="{Binding Resistivity}" Margin="2" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                     <DataGridTemplateColumn.CellEditingTemplate>
                         <DataTemplate>
-                            <ComboBox ItemsSource="{Binding CableTypes}" SelectedItem="{Binding SelectedCableType}" Margin="2">
-                                <ComboBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding CableType, Converter={StaticResource EnumToDescriptionConverter}}" Foreground="Black" />
-                                    </DataTemplate>
-                                </ComboBox.ItemTemplate>
-                            </ComboBox>
+                            <TextBox Text="{Binding Resistivity}" Foreground="Black" Margin="2" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellEditingTemplate>
                 </DataGridTemplateColumn>

@@ -139,7 +139,25 @@ namespace PowerCalculator.ViewModels
 		public RelayCommand CalculateCommand { get; private set; }
 		void OnCalculate()
 		{
-			Processor.Processor.Calculate(Configuration);
+			foreach (var lineViewModel in Lines)
+			{
+				var lineErors = Processor.Processor.CalculateLine(lineViewModel.Line);
+
+				foreach (var deviceViewModel in lineViewModel.Devices)
+				{
+					var lineError = lineErors.FirstOrDefault(x => x.Device == deviceViewModel.Device);
+					if (lineError != null)
+					{
+						deviceViewModel.ErrorType = lineError.ErrorType;
+						deviceViewModel.ErrorScale = lineError.ErrorScale;
+					}
+					else
+					{
+						deviceViewModel.ErrorType = ErrorType.None;
+						deviceViewModel.ErrorScale = 0;
+					}
+				}
+			}
 		}
 	}
 }

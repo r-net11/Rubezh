@@ -2,12 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.ComponentModel;
 
 namespace PowerCalculator.Models
 {
     public enum ErrorType
     {
+		[Description("")]
+		None,
+
+		[Description("Напряжение")]
         Voltage,
+
+		[Description("Ток")]
         Current
     }
 

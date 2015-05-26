@@ -13,6 +13,7 @@ namespace PowerCalculator.ViewModels
 			Title = "Добавление нового устройства";
 			DeviceTypes = new ObservableCollection<DriverTypeViewModel>(Enum.GetValues(typeof(DriverType)).Cast<DriverType>().Select(x => new DriverTypeViewModel(x)));
 			SelectedDeviceType = DeviceTypes.FirstOrDefault();
+			Count = 1;
 		}
 
 		public ObservableCollection<DriverTypeViewModel> DeviceTypes { get; private set; }
@@ -25,6 +26,17 @@ namespace PowerCalculator.ViewModels
 			{
 				_selectedDeviceType = value;
 				OnPropertyChanged(() => SelectedDeviceType);
+			}
+		}
+
+		int _count;
+		public int Count
+		{
+			get { return _count; }
+			set
+			{
+				_count = value;
+				OnPropertyChanged(() => Count);
 			}
 		}
 	}

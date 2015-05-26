@@ -10,29 +10,20 @@ namespace PowerCalculator.Processor
 
 		}
 
-		public static void Calculate(Configuration configuration)
-		{
-
-		}
-
-        public static List<LineError> CalculateLine(Line line)
+        public static IEnumerable<LineError> CalculateLine(Line line)
         {
-            List<LineError> lineErrors = new List<LineError>();
-
-            Algorithms.CalcPowerAlgorithm calcPower = new Algorithms.CalcPowerAlgorithm(line);
+            var calcPower = new Algorithms.CalcPowerAlgorithm(line);
             calcPower.Calculate();
             
             foreach (Device device in line.Devices)
             {
                 double scale = calcPower.Result[device].il - DriversHelper.GetDriver(device.DriverType).Imax;
                 if (scale > 0)
-                    lineErrors.Add(new LineError(device, ErrorType.Current, scale));
+                    yield return new LineError(device, ErrorType.Current, scale);
                 scale = DriversHelper.GetDriver(device.DriverType).Umin - calcPower.Result[device].ud;
                 if (scale > 0)
-                    lineErrors.Add(new LineError(device, ErrorType.Voltage, scale));
+                    yield return new LineError(device, ErrorType.Voltage, scale);
             }
-
-            return lineErrors;
         }
 	}
 }
