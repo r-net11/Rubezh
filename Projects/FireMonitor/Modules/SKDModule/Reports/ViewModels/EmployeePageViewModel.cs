@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using FiresecAPI.SKD;
 using FiresecAPI.SKD.ReportFilters;
 using Infrastructure.Common.SKDReports;
@@ -16,7 +17,9 @@ namespace SKDModule.Reports.ViewModels
 		}
 
 		public EmployeesFilterViewModel Filter { get; private set; }
+
 		private bool _allowVisitor;
+
 		public bool AllowVisitor
 		{
 			get { return _allowVisitor; }
@@ -26,7 +29,9 @@ namespace SKDModule.Reports.ViewModels
 				OnPropertyChanged(() => AllowVisitor);
 			}
 		}
+
 		private bool _isEmployee;
+
 		public bool IsEmployee
 		{
 			get { return _isEmployee; }
@@ -34,8 +39,10 @@ namespace SKDModule.Reports.ViewModels
 			{
 				_isEmployee = value;
 				OnPropertyChanged(() => IsEmployee);
+
 				if (AllowVisitor)
-					Filter.Initialize(new List<Guid>(), FiresecAPI.SKD.LogicalDeletationType.Active, IsEmployee ? PersonType.Employee : PersonType.Guest);
+					Filter.Initialize(new List<Guid>(), LogicalDeletationType.Active,
+						IsEmployee ? PersonType.Employee : PersonType.Guest);
 				Title = value ? "Сотрудники" : "Посетители";
 			}
 		}
@@ -45,39 +52,50 @@ namespace SKDModule.Reports.ViewModels
 			var employeeFilter = filter as IReportFilterEmployee;
 			if (employeeFilter == null)
 				return;
+
 			AllowVisitor = employeeFilter is IReportFilterEmployeeAndVisitor;
-			_isEmployee = AllowVisitor ? ((IReportFilterEmployeeAndVisitor)employeeFilter).IsEmployee : true;
+			_isEmployee = !AllowVisitor || ((IReportFilterEmployeeAndVisitor)employeeFilter).IsEmployee;
 			OnPropertyChanged(() => IsEmployee);
-			var ef = new EmployeeFilter()
+			Filter.Initialize(CreateEmployeeFilter(employeeFilter));
+		}
+
+		public EmployeeFilter CreateEmployeeFilter(IReportFilterEmployee employeeFilter)
+		{
+			return new EmployeeFilter
 			{
 				PersonType = IsEmployee ? PersonType.Employee : PersonType.Guest,
 				LogicalDeletationType = LogicalDeletationType.Active,
+				UIDs = employeeFilter.IsSearch ? SearchEmployees() : employeeFilter.Employees,
 			};
-			if (employeeFilter.IsSearch)
-			{
-				ef.LastName = employeeFilter.LastName;
-				ef.FirstName = employeeFilter.FirstName;
-				ef.SecondName = employeeFilter.SecondName;
-			}
-			else
-				ef.UIDs = employeeFilter.Employees;
-			Filter.Initialize(ef);
 		}
+
 		public override void UpdateFilter(SKDReportFilter filter)
 		{
 			var employeeFilter = filter as IReportFilterEmployee;
 			if (employeeFilter == null)
 				return;
-			employeeFilter.Employees = Filter.UIDs;
+
 			employeeFilter.IsSearch = Filter.IsSearch;
-			if (Filter.IsSearch)
-			{
-				employeeFilter.LastName = Filter.LastName;
-				employeeFilter.FirstName = Filter.FirstName;
-				employeeFilter.SecondName = Filter.SecondName;
-			}
+			employeeFilter.Employees = Filter.IsSearch ? SearchEmployees() : Filter.UIDs;
+
 			if (AllowVisitor)
 				((IReportFilterEmployeeAndVisitor)employeeFilter).IsEmployee = IsEmployee;
+		}
+
+		public List<Guid> SearchEmployees()
+		{
+			if (Filter.Organisations == null) return null;
+
+			return (
+				from item in Filter.Organisations.SelectMany(x => x.Children) 
+				where 
+				!string.IsNullOrEmpty(Filter.FirstName) && item.Model.FirstName.Contains(Filter.FirstName) 
+				|| 
+				!string.IsNullOrEmpty(Filter.SecondName) && item.Model.SecondName.Contains(Filter.SecondName) 
+				|| 
+				!string.IsNullOrEmpty(Filter.LastName) && item.Model.LastName.Contains(Filter.LastName) 
+				select item.UID
+				).ToList();
 		}
 	}
 }
