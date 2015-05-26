@@ -194,6 +194,11 @@ namespace ChinaSKDDriver
 			return result;
 		}
 
+		/// <summary>
+		/// Получает конфигурацию двери
+		/// </summary>
+		/// <param name="doorNo">номер двери</param>
+		/// <returns>объект типа DoorConfiguration</returns>
 		public DoorConfiguration GetDoorConfiguration(int doorNo)
 		{
 			int structSize = Marshal.SizeOf(typeof(NativeWrapper.CFG_ACCESS_EVENT_INFO));
@@ -209,21 +214,56 @@ namespace ChinaSKDDriver
 			if (result)
 			{
 				var doorConfiguration = new DoorConfiguration();
-				doorConfiguration.ChannelName = outResult.szChannelName;
-				doorConfiguration.AccessState = (AccessState)outResult.emState;
-				doorConfiguration.AccessMode = (AccessMode)outResult.emMode;
-				doorConfiguration.EnableMode = outResult.nEnableMode;
-				doorConfiguration.DoorOpenMethod = (DoorOpenMethod)outResult.emDoorOpenMethod;
-				doorConfiguration.UnlockHoldInterval = outResult.nUnlockHoldInterval;
-				doorConfiguration.CloseTimeout = outResult.nCloseTimeout;
-				doorConfiguration.OpenAlwaysTimeIndex = outResult.nOpenAlwaysTimeIndex;
-				doorConfiguration.HolidayTimeRecoNo = outResult.nHolidayTimeRecoNo;
-				doorConfiguration.IsBreakInAlarmEnable = outResult.bBreakInAlarmEnable;
-				doorConfiguration.IsRepeatEnterAlarmEnable = outResult.bRepeatEnterAlarm;
-				doorConfiguration.IsDoorNotClosedAlarmEnable = outResult.bDoorNotClosedAlarmEnable;
-				doorConfiguration.IsDuressAlarmEnable = outResult.bDuressAlarmEnable;
-				doorConfiguration.IsSensorEnable = outResult.bSensorEnable;
 
+				// Access chanel name
+				doorConfiguration.ChannelName = outResult.szChannelName;
+				// Access status
+				doorConfiguration.AccessState = (AccessState)outResult.emState;
+				// Access mode
+				doorConfiguration.AccessMode = (AccessMode)outResult.emMode;
+				// Access enable mode
+				doorConfiguration.EnableMode = outResult.nEnableMode;
+				// Event linkage capture enabled
+				doorConfiguration.IsSnapshotEnable = outResult.bSnapshotEnable;
+
+				// Ability
+				doorConfiguration.UseDoorOpenMethod = Convert.ToBoolean(outResult.abDoorOpenMethod);
+				doorConfiguration.UseUnlockHoldInterval = Convert.ToBoolean(outResult.abUnlockHoldInterval);
+				doorConfiguration.UseCloseTimeout = Convert.ToBoolean(outResult.abCloseTimeout);
+				doorConfiguration.UseOpenAlwaysTimeIndex = Convert.ToBoolean(outResult.abOpenAlwaysTimeIndex);
+				doorConfiguration.UseHolidayTimeIndex = Convert.ToBoolean(outResult.abHolidayTimeIndex);
+				doorConfiguration.UseBreakInAlarmEnable = Convert.ToBoolean(outResult.abBreakInAlarmEnable);
+				doorConfiguration.UseRepeatEnterAlarmEnable = Convert.ToBoolean(outResult.abRepeatEnterAlarmEnable);
+				doorConfiguration.UseDoorNotClosedAlarmEnable = Convert.ToBoolean(outResult.abDoorNotClosedAlarmEnable);
+				doorConfiguration.UseDuressAlarmEnable = Convert.ToBoolean(outResult.abDuressAlarmEnable);
+				doorConfiguration.UseDoorTimeSection = Convert.ToBoolean(outResult.abDoorTimeSection);
+				doorConfiguration.UseSensorEnable = Convert.ToBoolean(outResult.abSensorEnable);
+				doorConfiguration.UseFirstEnterEnable = Convert.ToBoolean(outResult.abFirstEnterEnable);
+				doorConfiguration.UseRemoteCheck = Convert.ToBoolean(outResult.abRemoteCheck);
+				doorConfiguration.UseRemoteDetail = Convert.ToBoolean(outResult.abRemoteDetail);
+				doorConfiguration.UseHandicapTimeOut = Convert.ToBoolean(outResult.abHandicapTimeOut);
+				doorConfiguration.UseCheckCloseSensor = Convert.ToBoolean(outResult.abCheckCloseSensor);
+
+				// Door open method
+				doorConfiguration.DoorOpenMethod = (DoorOpenMethod)outResult.emDoorOpenMethod;
+				// Lock hold time
+				doorConfiguration.UnlockHoldInterval = outResult.nUnlockHoldInterval;
+				// Close timeout
+				doorConfiguration.CloseTimeout = outResult.nCloseTimeout;
+				// Normally open period
+				doorConfiguration.OpenAlwaysTimeIndex = outResult.nOpenAlwaysTimeIndex;
+				// Time holiday segment
+				doorConfiguration.HolidayTimeRecoNo = outResult.nHolidayTimeRecoNo;
+				// Intrusion alarm enabled
+				doorConfiguration.IsBreakInAlarmEnable = outResult.bBreakInAlarmEnable;
+				// Repeat enter alarm enabled
+				doorConfiguration.IsRepeatEnterAlarmEnable = outResult.bRepeatEnterAlarm;
+				// Door not closed alarm enabled
+				doorConfiguration.IsDoorNotClosedAlarmEnable = outResult.bDoorNotClosedAlarmEnable;
+				// Duress alarm enabled
+				doorConfiguration.IsDuressAlarmEnable = outResult.bDuressAlarmEnable;
+
+				// Time sections
 				var doorDayIntervalsCollection = new DoorDayIntervalsCollection();
 				for (int i = 0; i < 7; i++)
 				{
@@ -242,148 +282,115 @@ namespace ChinaSKDDriver
 					doorDayIntervalsCollection.DoorDayIntervals.Add(doorDayInterval);
 				}
 				doorConfiguration.DoorDayIntervalsCollection = doorDayIntervalsCollection;
+
+				// Magnetic enabled
+				doorConfiguration.IsSensorEnable = outResult.bSensorEnable;
+
+				// First enter info
+				var firstEnterInfo = new DoorFirstEnterInfo();
+				firstEnterInfo.bEnable = outResult.stuFirstEnterInfo.bEnable;
+				firstEnterInfo.emStatus = (DoorFirstEnterStatus)outResult.stuFirstEnterInfo.emStatus;
+				firstEnterInfo.nTimeIndex = outResult.stuFirstEnterInfo.nTimeIndex;
+				doorConfiguration.FirstEnterInfo = firstEnterInfo;
+
+				// Remote check
+				doorConfiguration.IsRemoteCheck = outResult.bRemoteCheck;
+
+				// Remote detail
+				var remoteDetail = new RemoteDetailInfo();
+				remoteDetail.nTimeOut = outResult.stuRemoteDetail.nTimeOut;
+				remoteDetail.bTimeOutDoorStatus = outResult.stuRemoteDetail.bTimeOutDoorStatus;
+				doorConfiguration.RemoteDetail = remoteDetail;
+
+				// Handicap timeout
+				HandicapTimeoutInfo handicapTimeout = new HandicapTimeoutInfo();
+				handicapTimeout.nUnlockHoldInterval = outResult.stuHandicapTimeOut.nUnlockHoldInterval;
+				handicapTimeout.nCloseTimeout = outResult.stuHandicapTimeOut.nCloseTimeout;
+				doorConfiguration.HandicapTimeout = handicapTimeout;
+
 				return doorConfiguration;
 			}
 			return null;
 		}
 
+		/// <summary>
+		/// Устанавливает конфигурацию для двери
+		/// </summary>
+		/// <param name="doorConfiguration">конфигурация</param>
+		/// <param name="doorNo">номер двери, для которой устанавливается конфигурация</param>
+		/// <returns>true в случае успеха, false в противном случае</returns>
 		public bool SetDoorConfiguration(DoorConfiguration doorConfiguration, int doorNo)
 		{
-			const byte TRUE = (byte)1;
-			const byte FALSE = (byte)0;
-
 			NativeWrapper.CFG_ACCESS_EVENT_INFO info = new NativeWrapper.CFG_ACCESS_EVENT_INFO();
+
+			// Access chanel name
 			info.szChannelName = doorConfiguration.ChannelName;
-			//info.emState = NativeWrapper.CFG_ACCESS_STATE.ACCESS_STATE_NORMAL;
-			info.emMode = NativeWrapper.CFG_ACCESS_MODE.ACCESS_MODE_HANDPROTECTED;
-			//info.nEnableMode = doorConfiguration.EnableMode;
-			//info.bSnapshotEnable = doorConfiguration.IsSnapshotEnable ? (byte)0 : (byte)1;
-			//info.abDoorOpenMethod = doorConfiguration.UseDoorOpenMethod ? (byte)0 : (byte)1;
-			//info.abUnlockHoldInterval = doorConfiguration.UseUnlockHoldInterval ? (byte)0 : (byte)1;
-			//info.abCloseTimeout = doorConfiguration.UseCloseTimeout ? (byte)0 : (byte)1;
-			//info.abOpenAlwaysTimeIndex = doorConfiguration.UseOpenAlwaysTimeIndex ? (byte)0 : (byte)1;
-			//info.abHolidayTimeIndex = doorConfiguration.UseHolidayTimeIndex ? (byte)0 : (byte)1;
-			//info.abBreakInAlarmEnable = doorConfiguration.UseBreakInAlarmEnable ? (byte)0 : (byte)1;
-			//info.abRepeatEnterAlarmEnable = doorConfiguration.UseRepeatEnterAlarmEnable ? (byte)0 : (byte)1;
-			//info.abDoorNotClosedAlarmEnable = doorConfiguration.UseDoorNotClosedAlarmEnable ? (byte)0 : (byte)1;
-			//info.abDuressAlarmEnable = doorConfiguration.UseDuressAlarmEnable ? (byte)0 : (byte)1;
-			//info.abDoorTimeSection = doorConfiguration.UseDoorTimeSection ? (byte)0 : (byte)1;
-			//info.abSensorEnable = doorConfiguration.UseSensorEnable ? (byte)0 : (byte)1;
-			//info.emDoorOpenMethod = (NativeWrapper.CFG_DOOR_OPEN_METHOD)doorConfiguration.DoorOpenMethod;
-			//info.nUnlockHoldInterval = doorConfiguration.UnlockHoldInterval;
-			//info.nCloseTimeout = doorConfiguration.CloseTimeout;
-			//info.nOpenAlwaysTimeIndex = doorConfiguration.OpenAlwaysTimeIndex;
-			//info.nHolidayTimeRecoNo = 255;
-			//info.bBreakInAlarmEnable = doorConfiguration.IsBreakInAlarmEnable;
-			//info.bRepeatEnterAlarm = doorConfiguration.IsRepeatEnterAlarmEnable;
-			//info.bDoorNotClosedAlarmEnable = doorConfiguration.IsDoorNotClosedAlarmEnable;
-			//info.bDuressAlarmEnable = doorConfiguration.IsDuressAlarmEnable;
-			//info.bSensorEnable = doorConfiguration.IsSensorEnable;
-
+			// Access status
 			info.emState = (NativeWrapper.CFG_ACCESS_STATE)doorConfiguration.AccessState;
+			// Access mode
+			info.emMode = (NativeWrapper.CFG_ACCESS_MODE)doorConfiguration.AccessMode;
+			// Access enable mode
+			info.nEnableMode = doorConfiguration.EnableMode;
+			// Event linkage capture enabled
+			info.bSnapshotEnable = doorConfiguration.IsSnapshotEnable;
+			
+			// Ability
+			info.abDoorOpenMethod = Convert.ToByte(doorConfiguration.UseDoorOpenMethod);
+			info.abUnlockHoldInterval = Convert.ToByte(doorConfiguration.UseUnlockHoldInterval);
+			info.abCloseTimeout = Convert.ToByte(doorConfiguration.UseCloseTimeout);
+			info.abOpenAlwaysTimeIndex = Convert.ToByte(doorConfiguration.UseOpenAlwaysTimeIndex);
+			info.abHolidayTimeIndex = Convert.ToByte(doorConfiguration.UseHolidayTimeIndex);
+			info.abBreakInAlarmEnable = Convert.ToByte(doorConfiguration.UseBreakInAlarmEnable);
+			info.abRepeatEnterAlarmEnable = Convert.ToByte(doorConfiguration.UseRepeatEnterAlarmEnable);
+			info.abDoorNotClosedAlarmEnable = Convert.ToByte(doorConfiguration.UseDoorNotClosedAlarmEnable);
+			info.abDuressAlarmEnable = Convert.ToByte(doorConfiguration.UseDuressAlarmEnable);
+			info.abDoorTimeSection = Convert.ToByte(doorConfiguration.UseDoorTimeSection);
+			info.abSensorEnable = Convert.ToByte(doorConfiguration.UseSensorEnable);
+			info.abFirstEnterEnable = Convert.ToByte(doorConfiguration.UseFirstEnterEnable);
+			info.abRemoteCheck = Convert.ToByte(doorConfiguration.UseRemoteCheck);
+			info.abRemoteDetail = Convert.ToByte(doorConfiguration.UseRemoteDetail);
+			info.abHandicapTimeOut = Convert.ToByte(doorConfiguration.UseHandicapTimeOut);
+			info.abCheckCloseSensor = Convert.ToByte(doorConfiguration.UseCheckCloseSensor);
 
-			// door open method
+			// Door open method
 			info.emDoorOpenMethod = (NativeWrapper.CFG_DOOR_OPEN_METHOD)doorConfiguration.DoorOpenMethod;
-
-			// door unlock hold time
-			//info.nUnlockHoldInterval = doorConfiguration.UnlockHoldInterval;
-			info.nUnlockHoldInterval = 333;
-
-			// door close timeout
+			// Lock hold time
+			info.nUnlockHoldInterval = doorConfiguration.UnlockHoldInterval;
+			// Close timeout
 			info.nCloseTimeout = doorConfiguration.CloseTimeout;
-
-			// open time index in config of AccessTimeSchedule, start from 0
+			// Normally open period
 			info.nOpenAlwaysTimeIndex = doorConfiguration.OpenAlwaysTimeIndex;
-
-			// holiday record set recNo
+			// Time holiday segment
 			info.nHolidayTimeRecoNo = 255;
-
-			// first enter status
-			//m_stuInfo.stuFirstEnterInfo.emStatus = static_cast<CFG_ACCESS_FIRSTENTER_STATUS>(m_cbFirstEnterStatus.GetCurSel());
-
-			// first enter time index
-			//m_stuInfo.stuFirstEnterInfo.nTimeIndex = GetDlgItemInt(IDC_ACCESSCONTROL_EDT_FIRSTENTER_TIMERINDEX);
-
-			// break in alarm enable
-			info.abBreakInAlarmEnable = TRUE;
+			// Intrusion alarm enabled
 			info.bBreakInAlarmEnable = doorConfiguration.IsBreakInAlarmEnable;
-
-			// repeat enter alarm enable
-			info.abRepeatEnterAlarmEnable = TRUE;
-			info.bRepeatEnterAlarm = doorConfiguration.IsBreakInAlarmEnable;
-
-			// door not close enable
-			info.abDoorNotClosedAlarmEnable = TRUE;
+			// Repeat enter alarm enabled
+			info.bRepeatEnterAlarm = doorConfiguration.IsRepeatEnterAlarmEnable;
+			// Door not closed alarm enabled
 			info.bDoorNotClosedAlarmEnable = doorConfiguration.IsDoorNotClosedAlarmEnable;
-
-			// duress alarm enable
-			info.abDuressAlarmEnable = TRUE;
+			// Duress alarm enabled
 			info.bDuressAlarmEnable = doorConfiguration.IsDuressAlarmEnable;
 
-			// sensor alarm enable
-			info.abSensorEnable = TRUE;
+			// Time sections
+
+			// Magnetic enabled
 			info.bSensorEnable = doorConfiguration.IsSensorEnable;
 
-			// time section...
+			// First enter info
+			info.stuFirstEnterInfo.bEnable = doorConfiguration.FirstEnterInfo.bEnable;
+			info.stuFirstEnterInfo.emStatus = (NativeWrapper.CFG_ACCESS_FIRSTENTER_STATUS)doorConfiguration.FirstEnterInfo.emStatus;
+			info.stuFirstEnterInfo.nTimeIndex = doorConfiguration.FirstEnterInfo.nTimeIndex;
 
-			//// first enter enable
-			//info.abFirstEnterEnable = TRUE;
-			//info.stuFirstEnterInfo.bEnable = ;
+			// Remote check
+			info.bRemoteCheck = doorConfiguration.IsRemoteCheck;
 
-			//// remote check
-			//if (m_chkRemoteCheck.GetCheck())
-			//{
-			//    m_stuInfo.abRemoteCheck = true;
-			//    m_stuInfo.bRemoteCheck = TRUE;
+			// Remote detail
+			info.stuRemoteDetail.nTimeOut = doorConfiguration.RemoteDetail.nTimeOut;
+			info.stuRemoteDetail.bTimeOutDoorStatus = doorConfiguration.RemoteDetail.bTimeOutDoorStatus;
 
-			//    m_stuInfo.stuRemoteDetail.nTimeOut = GetDlgItemInt(IDC_ACCESSCONTROL_EDT_FIRSTENTER_REMOTETIMEOUT);
-			//    int nSel = m_TimeOutDoorStatus.GetCurSel();
-			//    if (nSel == 0)
-			//        m_stuInfo.stuRemoteDetail.bTimeOutDoorStatus = TRUE;
-			//    else
-			//        m_stuInfo.stuRemoteDetail.bTimeOutDoorStatus = FALSE;
-
-			//}
-			//else
-			//{
-			//    m_stuInfo.bRemoteCheck = FALSE;
-			//}
-
-			//// handicapped
-			//int Handicappedunlockhold = GetDlgItemInt(IDC_ACCESSCONTROL_EDT_HANDICAPPEDUNLOCKHOLD);
-			////[250, 60000] 
-			//if (Handicappedunlockhold > 60000)
-			//    SetDlgItemInt(IDC_ACCESSCONTROL_EDT_HANDICAPPEDUNLOCKHOLD, 60000);
-			//if (Handicappedunlockhold < 250)
-			//    SetDlgItemInt(IDC_ACCESSCONTROL_EDT_HANDICAPPEDUNLOCKHOLD, 250);
-
-			//int Handicappedtimeout2 = GetDlgItemInt(IDC_ACCESSCONTROL_EDT_HANDICAPPEDTIMEOUT2);
-			////[0,9999] 
-			//if (Handicappedtimeout2 > 9999)
-			//    SetDlgItemInt(IDC_ACCESSCONTROL_EDT_HANDICAPPEDTIMEOUT2, 9999);
-			//if (Handicappedtimeout2 < 0)
-			//    SetDlgItemInt(IDC_ACCESSCONTROL_EDT_HANDICAPPEDTIMEOUT2, 0);
-			//if (m_chkHandicappedCheck.GetCheck())
-			//{
-			//    m_stuInfo.abHandicapTimeOut = true;
-			//    m_stuInfo.stuHandicapTimeOut.nUnlockHoldInterval = GetDlgItemInt(IDC_ACCESSCONTROL_EDT_HANDICAPPEDUNLOCKHOLD);
-			//    m_stuInfo.stuHandicapTimeOut.nCloseTimeout = GetDlgItemInt(IDC_ACCESSCONTROL_EDT_HANDICAPPEDTIMEOUT2); ;
-			//}
-			//else
-			//{
-			//    m_stuInfo.abHandicapTimeOut = false;
-			//    m_stuInfo.stuHandicapTimeOut.nUnlockHoldInterval = 10000;
-			//    m_stuInfo.stuHandicapTimeOut.nCloseTimeout = 0; ;
-			//}
-			//// bCloseCheckSensor
-			//if (m_chkCloseCheckSensor.GetCheck())
-			//{
-			//    m_stuInfo.bCloseCheckSensor = TRUE;
-			//}
-			//else
-			//{
-			//    m_stuInfo.bCloseCheckSensor = FALSE;
-			//}
+			// Handicap timeout
+			info.stuHandicapTimeOut.nUnlockHoldInterval = doorConfiguration.HandicapTimeout.nUnlockHoldInterval;
+			info.stuHandicapTimeOut.nCloseTimeout = doorConfiguration.HandicapTimeout.nCloseTimeout;
 
 			var result = NativeWrapper.WRAP_SetDoorConfiguration(LoginID, doorNo, ref info);
 			return result;

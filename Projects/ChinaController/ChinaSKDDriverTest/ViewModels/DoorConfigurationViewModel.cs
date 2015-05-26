@@ -2,6 +2,7 @@
 using ChinaSKDDriverAPI;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Collections.ObjectModel;
 
 namespace ControllerSDK.ViewModels
 {
@@ -11,6 +12,10 @@ namespace ControllerSDK.ViewModels
 		{
 			GetDoorConfigurationCommand = new RelayCommand(OnGetDoorConfiguration);
 			SetDoorConfigurationCommand = new RelayCommand(OnSetDoorConfiguration);
+
+			InitAvailableAccessStates();
+			InitAvailableAccessModes();
+			InitAvailableDoorOpenMethods();
 		}
 
 		DoorConfiguration _doorConfiguration;
@@ -27,30 +32,74 @@ namespace ControllerSDK.ViewModels
 		public RelayCommand GetDoorConfigurationCommand { get; private set; }
 		void OnGetDoorConfiguration()
 		{
-			DoorConfiguration = MainViewModel.Wrapper.GetDoorConfiguration(0);
+			const string msg = "Получение конфигурации двери {0} - {1}";
+			DoorConfiguration = MainViewModel.Wrapper.GetDoorConfiguration(DoorNo);
 			if (DoorConfiguration != null)
 			{
-				MessageBox.Show("Success");
+				MessageBox.Show(string.Format(msg, DoorNo, "Успех"));
 			}
 			else
 			{
-				MessageBox.Show("Error");
+				MessageBox.Show(string.Format(msg, DoorNo, "Ошибка"));
 			}
 		}
 
 		public RelayCommand SetDoorConfigurationCommand { get; private set; }
 		void OnSetDoorConfiguration()
 		{
-			DoorConfiguration.ChannelName = "0";
-			var result = MainViewModel.Wrapper.SetDoorConfiguration(DoorConfiguration, 0);
+			const string msg = "Запись конфигурации двери {0} - {1}";
+			DoorConfiguration.ChannelName = DoorNo.ToString();
+			var result = MainViewModel.Wrapper.SetDoorConfiguration(DoorConfiguration, DoorNo);
 			if (result)
 			{
-				MessageBox.Show("Success");
+				MessageBox.Show(string.Format(msg, DoorNo, "Успех"));
 			}
 			else
 			{
-				MessageBox.Show("Error");
+				MessageBox.Show(string.Format(msg, DoorNo, "Ошибка"));
 			}
+		}
+
+		int _doorNo;
+		public int DoorNo
+		{
+			get { return _doorNo; }
+			set
+			{
+				_doorNo = value;
+				OnPropertyChanged(() => DoorNo);
+			}
+		}
+
+		public ObservableCollection<AccessState> AvailableAccessStates { get; private set; }
+		void InitAvailableAccessStates()
+		{
+			AvailableAccessStates = new ObservableCollection<AccessState>();
+			AvailableAccessStates.Add(AccessState.ACCESS_STATE_NORMAL);
+			AvailableAccessStates.Add(AccessState.ACCESS_STATE_CLOSEALWAYS);
+			AvailableAccessStates.Add(AccessState.ACCESS_STATE_OPENALWAYS);
+		}
+
+		public ObservableCollection<AccessMode> AvailableAccessModes { get; private set; }
+		void InitAvailableAccessModes()
+		{
+			AvailableAccessModes = new ObservableCollection<AccessMode>();
+			AvailableAccessModes.Add(AccessMode.ACCESS_MODE_HANDPROTECTED);
+			AvailableAccessModes.Add(AccessMode.ACCESS_MODE_SAFEROOM);
+			AvailableAccessModes.Add(AccessMode.ACCESS_MODE_OTHER);
+		}
+
+		public ObservableCollection<DoorOpenMethod> AvailableDoorOpenMethods { get; private set; }
+		void InitAvailableDoorOpenMethods()
+		{
+			AvailableDoorOpenMethods = new ObservableCollection<DoorOpenMethod>();
+			AvailableDoorOpenMethods.Add(DoorOpenMethod.CFG_DOOR_OPEN_METHOD_UNKNOWN);
+			AvailableDoorOpenMethods.Add(DoorOpenMethod.CFG_DOOR_OPEN_METHOD_PWD_ONLY);
+			AvailableDoorOpenMethods.Add(DoorOpenMethod.CFG_DOOR_OPEN_METHOD_CARD);
+			AvailableDoorOpenMethods.Add(DoorOpenMethod.CFG_DOOR_OPEN_METHOD_PWD_OR_CARD);
+			AvailableDoorOpenMethods.Add(DoorOpenMethod.CFG_DOOR_OPEN_METHOD_CARD_FIRST);
+			AvailableDoorOpenMethods.Add(DoorOpenMethod.CFG_DOOR_OPEN_METHOD_PWD_FIRST);
+			AvailableDoorOpenMethods.Add(DoorOpenMethod.CFG_DOOR_OPEN_METHOD_SECTION);
 		}
 	}
 }

@@ -4,85 +4,89 @@
 
 	<StackPanel>
 		<StackPanel Orientation="Horizontal">
+			<TextBlock Text="DoorNo" />
+			<TextBox Text="{Binding DoorNo}" Width="50" />
+		</StackPanel>
+		<StackPanel Orientation="Horizontal">
 			<Button Content="GetDoorConfiguration" Command="{Binding GetDoorConfigurationCommand}" Width="300" Margin="2" />
 			<Button Content="SetDoorConfiguration" Command="{Binding SetDoorConfigurationCommand}" Width="300" Margin="2" />
 		</StackPanel>
 
-		<StackPanel DataContext="{Binding DoorConfiguration}">
+		<StackPanel>
 			<StackPanel Orientation="Horizontal">
 				<TextBlock Text="ChannelName" Margin="2" />
-				<TextBox Text="{Binding ChannelName}" Margin="2" />
+				<TextBox Text="{Binding DoorConfiguration.ChannelName}" Width="50" Margin="2" />
 			</StackPanel>
 			<StackPanel Orientation="Horizontal">
-				<TextBlock Text="AceessState" Margin="2" />
-				<TextBlock Text="{Binding AceessState}" Margin="2" />
+				<TextBlock Text="AccessState" Margin="2" />
+				<ComboBox ItemsSource="{Binding AvailableAccessStates}" SelectedItem="{Binding DoorConfiguration.AccessState}" Width="250" Margin="2" />
 			</StackPanel>
 			<StackPanel Orientation="Horizontal">
-				<TextBlock Text="AceessMode" Margin="2" />
-				<TextBlock Text="{Binding AceessMode}" Margin="2" />
+				<TextBlock Text="AccessMode" Margin="2" />
+				<ComboBox ItemsSource="{Binding AvailableAccessModes}" SelectedItem="{Binding DoorConfiguration.AccessMode}" Width="250" Margin="2" />
 			</StackPanel>
 			<StackPanel Orientation="Horizontal">
 				<TextBlock Text="EnableMode" Margin="2" />
-				<TextBox Text="{Binding EnableMode}" Width="200" Margin="2" />
+				<TextBox Text="{Binding DoorConfiguration.EnableMode}" Width="200" Margin="2" />
 			</StackPanel>
 			<StackPanel Orientation="Horizontal">
 				<TextBlock Text="IsSnapshotEnable" Margin="2" />
-				<CheckBox IsChecked="{Binding IsSnapshotEnable}" Margin="2" />
+				<CheckBox IsChecked="{Binding DoorConfiguration.IsSnapshotEnable}" Margin="2" />
 			</StackPanel>
 
 			<StackPanel Orientation="Horizontal">
 				<TextBlock Text="DoorOpenMethod" Width="200" Margin="2" />
-				<CheckBox IsChecked="{Binding UseDoorOpenMethod}" Width="200" Margin="2" />
-				<TextBlock Text="{Binding DoorOpenMethod}" Width="200" Margin="2" />
+				<CheckBox IsChecked="{Binding DoorConfiguration.UseDoorOpenMethod}" Width="200" Margin="2" />
+				<ComboBox ItemsSource="{Binding AvailableDoorOpenMethods}" SelectedItem="{Binding DoorConfiguration.DoorOpenMethod}" Width="250" Margin="2" />
 			</StackPanel>
 			<StackPanel Orientation="Horizontal">
 				<TextBlock Text="UnlockHoldInterval" Width="200" Margin="2" />
-				<CheckBox IsChecked="{Binding UseUnlockHoldInterval}" Width="200" Margin="2" />
-				<TextBox Text="{Binding UnlockHoldInterval}" Width="200" Margin="2" />
+				<CheckBox IsChecked="{Binding DoorConfiguration.UseUnlockHoldInterval}" Width="200" Margin="2" />
+				<TextBox Text="{Binding DoorConfiguration.UnlockHoldInterval}" Width="200" Margin="2" />
 			</StackPanel>
 			<StackPanel Orientation="Horizontal">
 				<TextBlock Text="CloseTimeout" Width="200" Margin="2" />
-				<CheckBox IsChecked="{Binding UseCloseTimeout}" Width="200" Margin="2" />
-				<TextBox Text="{Binding CloseTimeout}" Width="200" Margin="2" />
+				<CheckBox IsChecked="{Binding DoorConfiguration.UseCloseTimeout}" Width="200" Margin="2" />
+				<TextBox Text="{Binding DoorConfiguration.CloseTimeout}" Width="200" Margin="2" />
 			</StackPanel>
 			<StackPanel Orientation="Horizontal">
 				<TextBlock Text="OpenAlwaysTimeIndex" Width="200" Margin="2" />
-				<CheckBox IsChecked="{Binding UseOpenAlwaysTimeIndex}" Width="200" Margin="2" />
-				<TextBox Text="{Binding OpenAlwaysTimeIndex}" Width="200" Margin="2" />
+				<CheckBox IsChecked="{Binding DoorConfiguration.UseOpenAlwaysTimeIndex}" Width="200" Margin="2" />
+				<TextBox Text="{Binding DoorConfiguration.OpenAlwaysTimeIndex}" Width="200" Margin="2" />
 			</StackPanel>
 			<StackPanel Orientation="Horizontal">
 				<TextBlock Text="HolidayTimeIndex" Width="200" Margin="2" />
-				<CheckBox IsChecked="{Binding UseHolidayTimeIndex}" Width="200" Margin="2" />
-				<TextBox Text="{Binding HolidayTimeRecoNo}" Width="200" Margin="2" />
+				<CheckBox IsChecked="{Binding DoorConfiguration.UseHolidayTimeIndex}" Width="200" Margin="2" />
+				<TextBox Text="{Binding DoorConfiguration.HolidayTimeRecoNo}" Width="200" Margin="2" />
 			</StackPanel>
 			<StackPanel Orientation="Horizontal">
 				<TextBlock Text="BreakInAlarmEnable" Width="200" Margin="2" />
-				<CheckBox IsChecked="{Binding UseBreakInAlarmEnable}" Width="200" Margin="2" />
-				<CheckBox IsChecked="{Binding IsBreakInAlarmEnable}" Width="200" Margin="2" />
+				<CheckBox IsChecked="{Binding DoorConfiguration.UseBreakInAlarmEnable}" Width="200" Margin="2" />
+				<CheckBox IsChecked="{Binding DoorConfiguration.IsBreakInAlarmEnable}" Width="200" Margin="2" />
 			</StackPanel>
 			<StackPanel Orientation="Horizontal">
 				<TextBlock Text="RepeatEnterAlarmEnable" Width="200" Margin="2" />
-				<CheckBox IsChecked="{Binding UseRepeatEnterAlarmEnable}" Width="200" Margin="2" />
-				<CheckBox IsChecked="{Binding IsRepeatEnterAlarmEnable}" Width="200" Margin="2" />
+				<CheckBox IsChecked="{Binding DoorConfiguration.UseRepeatEnterAlarmEnable}" Width="200" Margin="2" />
+				<CheckBox IsChecked="{Binding DoorConfiguration.IsRepeatEnterAlarmEnable}" Width="200" Margin="2" />
 			</StackPanel>
 			<StackPanel Orientation="Horizontal">
 				<TextBlock Text="DoorNotClosedAlarmEnable" Width="200" Margin="2" />
-				<CheckBox IsChecked="{Binding UseDoorNotClosedAlarmEnable}" Width="200" Margin="2" />
-				<CheckBox IsChecked="{Binding IsDoorNotClosedAlarmEnable}" Width="200" Margin="2" />
+				<CheckBox IsChecked="{Binding DoorConfiguration.UseDoorNotClosedAlarmEnable}" Width="200" Margin="2" />
+				<CheckBox IsChecked="{Binding DoorConfiguration.IsDoorNotClosedAlarmEnable}" Width="200" Margin="2" />
 			</StackPanel>
 			<StackPanel Orientation="Horizontal">
 				<TextBlock Text="DuressAlarmEnable" Width="200" Margin="2" />
-				<CheckBox IsChecked="{Binding UseDuressAlarmEnable}" Width="200" Margin="2" />
-				<CheckBox IsChecked="{Binding IsDuressAlarmEnable}" Width="200" Margin="2" />
+				<CheckBox IsChecked="{Binding DoorConfiguration.UseDuressAlarmEnable}" Width="200" Margin="2" />
+				<CheckBox IsChecked="{Binding DoorConfiguration.IsDuressAlarmEnable}" Width="200" Margin="2" />
 			</StackPanel>
 			<StackPanel Orientation="Horizontal">
 				<TextBlock Text="DoorTimeSection" Width="200" Margin="2" />
-				<CheckBox IsChecked="{Binding UseDoorTimeSection}" Width="200" Margin="2" />
+				<CheckBox IsChecked="{Binding DoorConfiguration.UseDoorTimeSection}" Width="200" Margin="2" />
 			</StackPanel>
 			<StackPanel Orientation="Horizontal">
 				<TextBlock Text="SensorEnable" Width="200" Margin="2" />
-				<CheckBox IsChecked="{Binding UseSensorEnable}" Width="200" Margin="2" />
-				<CheckBox IsChecked="{Binding IsSensorEnable}" Width="200" Margin="2" />
+				<CheckBox IsChecked="{Binding DoorConfiguration.UseSensorEnable}" Width="200" Margin="2" />
+				<CheckBox IsChecked="{Binding DoorConfiguration.IsSensorEnable}" Width="200" Margin="2" />
 			</StackPanel>
 		</StackPanel>
 	</StackPanel>

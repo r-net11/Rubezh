@@ -303,18 +303,18 @@ BOOL CALL_METHOD WRAP_GetDoorConfiguration(int loginID, int channelNo, CFG_ACCES
 
 BOOL CALL_METHOD WRAP_SetDoorConfiguration(int loginID, int channelNo, CFG_ACCESS_EVENT_INFO* stuGeneralInfo)
 {
-	stuGeneralInfo->bSnapshotEnable = true;
-	stuGeneralInfo->abDoorOpenMethod = true;
-	stuGeneralInfo->abUnlockHoldInterval = true;
-	stuGeneralInfo->abCloseTimeout = true;
-	stuGeneralInfo->abOpenAlwaysTimeIndex = true;
-	stuGeneralInfo->abHolidayTimeIndex = true;
-	stuGeneralInfo->abBreakInAlarmEnable = true;
-	stuGeneralInfo->abRepeatEnterAlarmEnable = true;
-	stuGeneralInfo->abDoorNotClosedAlarmEnable = true;
-	stuGeneralInfo->abDuressAlarmEnable = true;
-	stuGeneralInfo->abDoorTimeSection = true;
-	stuGeneralInfo->abSensorEnable = true;
+	//stuGeneralInfo->bSnapshotEnable = true;
+	//stuGeneralInfo->abDoorOpenMethod = true;
+	//stuGeneralInfo->abUnlockHoldInterval = true;
+	//stuGeneralInfo->abCloseTimeout = true;
+	//stuGeneralInfo->abOpenAlwaysTimeIndex = true;
+	//stuGeneralInfo->abHolidayTimeIndex = true;
+	//stuGeneralInfo->abBreakInAlarmEnable = true;
+	//stuGeneralInfo->abRepeatEnterAlarmEnable = true;
+	//stuGeneralInfo->abDoorNotClosedAlarmEnable = true;
+	//stuGeneralInfo->abDuressAlarmEnable = true;
+	//stuGeneralInfo->abDoorTimeSection = true;
+	//stuGeneralInfo->abSensorEnable = true;
 
 	char szJsonBufSet[1024 * 40] = {0};
 			
