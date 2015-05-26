@@ -41,6 +41,17 @@ namespace PowerCalculator.ViewModels
 			}
 		}
 
+		uint _address;
+		public uint Address
+		{
+			get { return _address; }
+			set
+			{
+				_address = value;
+				OnPropertyChanged(() => Address);
+			}
+		}
+
 		ErrorType _errorType;
 		public ErrorType ErrorType
 		{

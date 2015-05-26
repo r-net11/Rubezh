@@ -1,4 +1,6 @@
-﻿namespace PowerCalculator.Models
+﻿using PowerCalculator.Processor;
+using System.Xml.Serialization;
+namespace PowerCalculator.Models
 {
 	public class Device
 	{
@@ -9,5 +11,11 @@
 
 		public DriverType DriverType { get; set; }
         public Cable Cable { get; set; }
+
+		[XmlIgnore]
+		public Driver Driver
+		{
+			get { return DriversHelper.GetDriver(DriverType); }
+		}
 	}
 }

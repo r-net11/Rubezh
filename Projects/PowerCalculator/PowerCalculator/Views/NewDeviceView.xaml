@@ -7,7 +7,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <DataGrid Grid.Row="0" ItemsSource="{Binding DeviceTypes}" SelectedItem="{Binding SelectedDeviceType}" Margin="2">
+        <DataGrid Grid.Row="0" ItemsSource="{Binding Drivers}" SelectedItem="{Binding SelectedDriver}" Margin="2">
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="Тип устройства" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
@@ -18,9 +18,19 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <StackPanel Grid.Row="1" Orientation="Horizontal">
-            <TextBlock Text="Количество" Foreground="White" Width="100" Margin="2" />
-            <TextBox Text="{Binding Count}" Width="100" Margin="2" />
+        <StackPanel Grid.Row="1">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Сопротивление кабеля" Width="150" Foreground="White" Margin="2" />
+                <TextBox Text="{Binding CableResistivity}" Width="150" Margin="2" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Длина кабеля" Width="150" Foreground="White" Margin="2" />
+                <TextBox Text="{Binding CableLenght}" Width="150" Margin="2" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Количество" Foreground="White" Width="150" Margin="2" />
+                <TextBox Text="{Binding Count}" Width="150" Margin="2" />
+            </StackPanel>
         </StackPanel>
     </Grid>
 </UserControl>

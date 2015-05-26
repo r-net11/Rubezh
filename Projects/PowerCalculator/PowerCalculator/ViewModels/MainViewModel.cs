@@ -32,11 +32,6 @@ namespace PowerCalculator.ViewModels
 			foreach (var line in Configuration.Lines)
 			{
 				var lineViewModel = new LineViewModel(line);
-				foreach (var device in line.Devices)
-				{
-					var deviceViewModel = new DeviceViewModel(device);
-					lineViewModel.Devices.Add(deviceViewModel);
-				}
 				Lines.Add(lineViewModel);
 			}
 			SelectedLine = Lines.FirstOrDefault();
@@ -127,6 +122,7 @@ namespace PowerCalculator.ViewModels
 		void OnGenerateFromRepository()
 		{
 			Processor.Processor.GenerateFromRepository(Configuration);
+			Initialize();
 		}
 
 		public RelayCommand ShowRepositoryCommand { get; private set; }

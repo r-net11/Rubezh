@@ -20,6 +20,7 @@ namespace PowerCalculator.Processor
 			Drivers.Add(new Driver()
 				{
 					DriverType = DriverType.KAU,
+					CanAdd = false,
 					Mult = 1,
 					R = 0.8,
 					I = 0,

@@ -4,6 +4,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using PowerCalculator.Models;
+using PowerCalculator.Processor;
 
 namespace PowerCalculator.ViewModels
 {
@@ -15,6 +16,13 @@ namespace PowerCalculator.ViewModels
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			Devices = new ObservableCollection<DeviceViewModel>();
+			foreach (var device in line.Devices)
+			{
+				var deviceViewModel = new DeviceViewModel(device);
+				Devices.Add(deviceViewModel);
+			}
+			SelectedDevice = Devices.FirstOrDefault();
+			UpdateAddresses();
 		}
 
 		public Line Line { get; set; }
@@ -37,20 +45,39 @@ namespace PowerCalculator.ViewModels
 			var newDeviceViewModel = new NewDeviceViewModel();
 			if (DialogService.ShowModalWindow(newDeviceViewModel))
 			{
+				var maxAddress = GetMaxAddress();
+				var driver = DriversHelper.GetDriver(newDeviceViewModel.SelectedDriver.DriverType);
+				var newMaxAddress = maxAddress + driver.Mult * newDeviceViewModel.Count;
+				if (newMaxAddress > 255)
+				{
+					MessageBoxService.ShowWarning("Количество устройств на шлейфе не должно превышать 255");
+					return;
+				}
+
 				for (int i = 0; i < newDeviceViewModel.Count; i++)
 				{
 					var device = new Device();
-					device.DriverType = newDeviceViewModel.SelectedDeviceType.DriverType;
+					device.DriverType = newDeviceViewModel.SelectedDriver.DriverType;
+					device.Cable.Resistivity = newDeviceViewModel.CableResistivity;
+					device.Cable.Length = newDeviceViewModel.CableLenght;
 					Line.Devices.Add(device);
 					var deviceViewModel = new DeviceViewModel(device);
 					Devices.Add(deviceViewModel);
 				}
 				SelectedDevice = Devices.LastOrDefault();
+				UpdateAddresses();
 			}
 		}
 		bool CanAdd()
 		{
-			return Devices.Count < 255;
+			return GetMaxAddress() < 255;
+		}
+
+		uint GetMaxAddress()
+		{
+			if (!Devices.Any())
+				return 0;
+			return Devices.LastOrDefault().Address;
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
@@ -59,10 +86,21 @@ namespace PowerCalculator.ViewModels
 			Line.Devices.Add(SelectedDevice.Device);
 			Devices.Remove(SelectedDevice);
 			SelectedDevice = Devices.FirstOrDefault();
+			UpdateAddresses();
 		}
 		bool CanRemove()
 		{
 			return SelectedDevice != null;
+		}
+
+		void UpdateAddresses()
+		{
+			uint currentAddress = 1;
+			foreach (var deviceViewModel in Devices)
+			{
+				deviceViewModel.Address = currentAddress;
+				currentAddress += deviceViewModel.Device.Driver.Mult;
+			}
 		}
 	}
 }

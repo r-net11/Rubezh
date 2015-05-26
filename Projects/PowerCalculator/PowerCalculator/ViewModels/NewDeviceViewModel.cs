@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Infrastructure.Common.Windows.ViewModels;
 using PowerCalculator.Models;
+using PowerCalculator.Processor;
 
 namespace PowerCalculator.ViewModels
 {
@@ -11,21 +12,45 @@ namespace PowerCalculator.ViewModels
 		public NewDeviceViewModel()
 		{
 			Title = "Добавление нового устройства";
-			DeviceTypes = new ObservableCollection<DriverTypeViewModel>(Enum.GetValues(typeof(DriverType)).Cast<DriverType>().Select(x => new DriverTypeViewModel(x)));
-			SelectedDeviceType = DeviceTypes.FirstOrDefault();
+			Drivers = new ObservableCollection<Driver>(DriversHelper.Drivers.Where(x=>x.CanAdd));
+			SelectedDriver = Drivers.FirstOrDefault();
+			CableResistivity = 1;
+			CableLenght = 1;
 			Count = 1;
 		}
 
-		public ObservableCollection<DriverTypeViewModel> DeviceTypes { get; private set; }
+		public ObservableCollection<Driver> Drivers { get; private set; }
 
-		DriverTypeViewModel _selectedDeviceType;
-		public DriverTypeViewModel SelectedDeviceType
+		Driver _selectedDriver;
+		public Driver SelectedDriver
 		{
-			get { return _selectedDeviceType; }
+			get { return _selectedDriver; }
 			set
 			{
-				_selectedDeviceType = value;
-				OnPropertyChanged(() => SelectedDeviceType);
+				_selectedDriver = value;
+				OnPropertyChanged(() => SelectedDriver);
+			}
+		}
+
+		double _cableResistivity;
+		public double CableResistivity
+		{
+			get { return _cableResistivity; }
+			set
+			{
+				_cableResistivity = value;
+				OnPropertyChanged(() => CableResistivity);
+			}
+		}
+
+		double _cableLenght;
+		public double CableLenght
+		{
+			get { return _cableLenght; }
+			set
+			{
+				_cableLenght = value;
+				OnPropertyChanged(() => CableLenght);
 			}
 		}
 
