@@ -41,17 +41,18 @@ namespace SKDDriver
 		{
 			try
 			{
+				var tableItems = new List<DataAccess.CurrentConsumption>();
 				foreach (var item in items)
 				{
-					var tableItem = new DataAccess.CurrentConsumption
+					tableItems.Add(new DataAccess.CurrentConsumption
 					{
 						UID = item.UID,
 						KauUID = item.AlsUID,
 						Current = item.Current,
 						DateTime = item.DateTime
-					};
-					_Context.CurrentConsumptions.InsertOnSubmit(tableItem);	
+					});
 				}
+				_Context.CurrentConsumptions.InsertAllOnSubmit(tableItems);	
 				_Context.SubmitChanges();
 				return new OperationResult();
 			}
@@ -74,7 +75,7 @@ namespace SKDDriver
 								 Current = tableItem.Current,
 								 DateTime = tableItem.DateTime
 							 };
-				return new OperationResult<IEnumerable<CurrentConsumption>>(result);
+				return new OperationResult<IEnumerable<CurrentConsumption>>(result.ToList());
 			}
 			catch (Exception e)
 			{

@@ -120,7 +120,7 @@ namespace FiresecService
 
 				foreach (var artist in artists)
 				{
-					Trace.WriteLine(artist.Name);
+					Console.WriteLine(artist.Name);
 				}
 			}
 		}
