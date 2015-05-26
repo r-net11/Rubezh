@@ -299,7 +299,7 @@ namespace GKProcessor
 			}
 
 			var stringLength = Math.Min(gkBase.PresentationName.Length, 32);
-			var description = gkBase.PresentationName.Substring(0, stringLength);
+			var description = gkBase.GetGKDescription(GKManager.DeviceConfiguration.GKNameGenerationType);
 			if (description.TrimEnd(' ') != descriptorStateHelper.Description)
 			{
 				isMissmatch = true;

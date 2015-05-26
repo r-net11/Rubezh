@@ -300,6 +300,29 @@ namespace FiresecAPI.GK
 			}
 		}
 
+		public override string GetGKDescription(GKNameGenerationType gkNameGenerationType)
+		{
+			var presentationName = ShortName + " " + DottedPresentationAddress;
+			switch (gkNameGenerationType)
+			{
+				case GKNameGenerationType.DriverTypePlusAddressPlusDescription:
+					if (Description != null)
+						presentationName += "(" + Description + ")";
+					break;
+
+				case GKNameGenerationType.Description:
+					if (Description != null)
+						presentationName = Description;
+					break;
+
+				case GKNameGenerationType.ProjectAddress:
+					if (ProjectAddress != null)
+						presentationName = ProjectAddress;
+					break;
+			}
+			return presentationName;
+		}
+
 		public void SetAddress(string address)
 		{
 			try

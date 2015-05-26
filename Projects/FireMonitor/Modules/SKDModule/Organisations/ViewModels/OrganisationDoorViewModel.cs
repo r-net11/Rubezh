@@ -48,7 +48,10 @@ namespace SKDModule.ViewModels
 					{
 						_isChecked = value;
 						OnPropertyChanged(() => IsChecked);
-						ServiceFactory.Events.GetEvent<UpdateOrganisationDoorsEvent>().Publish(Organisation.UID);
+						if (!value)
+						{
+							ServiceFactory.Events.GetEvent<UpdateOrganisationDoorsEvent>().Publish(Organisation.UID);
+						}
 					}
 				}
 				else

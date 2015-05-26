@@ -69,6 +69,11 @@ namespace FiresecAPI.GK
 		[XmlIgnore]
 		public ushort KAUDescriptorNo { get; set; }
 
+		public virtual string GetGKDescription(GKNameGenerationType gkNameGenerationType)
+		{
+			return PresentationName;
+		}
+
 		public void PrepareInputOutputDependences()
 		{
 			var device = this as GKDevice;

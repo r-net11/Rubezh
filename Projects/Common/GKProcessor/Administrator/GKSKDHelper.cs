@@ -36,29 +36,50 @@ namespace GKProcessor
 			var secondsPeriod = (new DateTime(card.EndDate.Year, card.EndDate.Month, card.EndDate.Day) - new DateTime(2000, 1, 1)).TotalSeconds;
 			bytes.AddRange(BytesHelper.IntToBytes((int)secondsPeriod));
 
-			foreach (var cardSchedule in controllerCardSchedule.CardSchedules)
+			for (int packNo = 0; packNo < 65535; packNo++)
 			{
-				bytes.AddRange(BytesHelper.ShortToBytes(cardSchedule.Device.GKDescriptorNo));
-			}
-			for (int i = 0; i < 68 - controllerCardSchedule.CardSchedules.Count; i++)
-			{
-				bytes.Add(0);
-				bytes.Add(0);
-			}
-			foreach (var cardSchedule in controllerCardSchedule.CardSchedules)
-			{
-				bytes.Add((byte)cardSchedule.ScheduleNo);
-			}
-			for (int i = 0; i < 68 - controllerCardSchedule.CardSchedules.Count; i++)
-			{
-				bytes.Add(0);
-			}
+				var startCardScheduleNo = 0;
+				var cardScheduleCount = 68;
+				if (packNo > 0)
+				{
+					startCardScheduleNo = 68 + (packNo - 1) * 84;
+					cardScheduleCount = 84;
+				}
+				var cardSchedules = controllerCardSchedule.CardSchedules.Skip(startCardScheduleNo).Take(cardScheduleCount).ToList();
+				if (cardSchedules.Count == 0)
+					break;
 
-			bytes.Add(0);
-			bytes.Add(0);
+				foreach (var cardSchedule in cardSchedules)
+				{
+					bytes.AddRange(BytesHelper.ShortToBytes(cardSchedule.Device.GKDescriptorNo));
+				}
+				for (int i = 0; i < cardScheduleCount - cardSchedules.Count; i++)
+				{
+					bytes.Add(0);
+					bytes.Add(0);
+				}
+				foreach (var cardSchedule in cardSchedules)
+				{
+					bytes.Add((byte)cardSchedule.ScheduleNo);
+				}
+				for (int i = 0; i < cardScheduleCount - cardSchedules.Count; i++)
+				{
+					bytes.Add(0);
+				}
 
-			bytes.Add(0);
-			bytes.Add(0);
+				bytes.Add(0);
+				bytes.Add(0);
+
+				if (startCardScheduleNo + cardScheduleCount < controllerCardSchedule.CardSchedules.Count - 1)
+				{
+					bytes.AddRange(BytesHelper.ShortToBytes((ushort)(packNo + 1)));
+				}
+				else
+				{
+					bytes.Add(0);
+					bytes.Add(0);
+				}
+			}
 
 			var packs = new List<List<byte>>();
 			for (int packNo = 0; packNo <= bytes.Count / 256; packNo++)
