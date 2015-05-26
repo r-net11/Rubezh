@@ -357,23 +357,25 @@ namespace FiresecService.Report.Templates
 				filter.ReportDateTime = DateTime.Now;
 
 			var dataSet = new EmployeeZonesDataSet();
-			if (dataProvider.DatabaseService.PassJournalTranslator != null)
+
+			if (dataProvider.DatabaseService.PassJournalTranslator == null) return dataSet;
+
+			var employees = dataProvider.GetEmployees(filter);
+			var zoneMap = new Dictionary<Guid, string>();
+
+			foreach (var zone in SKDManager.Zones)
 			{
-				var employees = dataProvider.GetEmployees(filter);
-				var zoneMap = new Dictionary<Guid, string>();
-				foreach (var zone in SKDManager.Zones)
-				{
-					zoneMap.Add(zone.UID, zone.PresentationName);
-				}
-				foreach (var zone in GKManager.SKDZones)
-				{
-					zoneMap.Add(zone.UID, zone.PresentationName);
-				}
-				var enterJournal = dataProvider.DatabaseService.PassJournalTranslator.GetEmployeesLastEnterPassJournal(
-					employees.Select(item => item.UID), filter.Zones, filter.ReportDateTime);
-				foreach (var record in enterJournal)
-					AddRecord(dataProvider, dataSet, record, filter, true, zoneMap);
+				zoneMap.Add(zone.UID, zone.PresentationName);
 			}
+			foreach (var zone in GKManager.SKDZones)
+			{
+				zoneMap.Add(zone.UID, zone.PresentationName);
+			}
+
+			var enterJournal = dataProvider.DatabaseService.PassJournalTranslator.GetEmployeesLastEnterPassJournal(
+				employees.Select(item => item.UID), filter.Zones, filter.ReportDateTime);
+			foreach (var record in enterJournal)
+				AddRecord(dataProvider, dataSet, record, filter, true, zoneMap);
 			return dataSet;
 		}
 
@@ -387,6 +389,7 @@ namespace FiresecService.Report.Templates
 			dataRow.Position = employee.Position;
 			dataRow.Zone = zoneMap.ContainsKey(record.ZoneUID) ? zoneMap[record.ZoneUID] : "Зона не найдена";
 			dataRow.EnterDateTime = record.EnterTime;
+
 			if (record.ExitTime.HasValue)
 			{
 				dataRow.ExitDateTime = record.ExitTime.Value;
@@ -394,8 +397,7 @@ namespace FiresecService.Report.Templates
 			}
 			else
 			{
-				dataRow.ExitDateTime = filter.ReportDateTime;
-				dataRow.Period = filter.ReportDateTime - dataRow.EnterDateTime;
+				dataRow.Period = DateTime.Now - record.EnterTime; 
 			}
 
 			if (!filter.IsEmployee)
