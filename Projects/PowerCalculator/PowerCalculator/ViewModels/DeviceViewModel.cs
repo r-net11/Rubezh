@@ -11,16 +11,16 @@ namespace PowerCalculator.ViewModels
 		public DeviceViewModel(Device device)
 		{
 			Device = device;
-			CableTypes = new ObservableCollection<CableType>(Enum.GetValues(typeof(CableType)).Cast<CableType>());
+			CableTypes = new ObservableCollection<Cable>(Enum.GetValues(typeof(Cable)).Cast<Cable>());
 			_selectedCableType = Device.CableType;
 			_cableLenght = Device.CableLength;
 		}
 
 		public Device Device { get; private set; }
-		public ObservableCollection<CableType> CableTypes { get; private set; }
+		public ObservableCollection<Cable> CableTypes { get; private set; }
 
-		CableType _selectedCableType;
-		public CableType SelectedCableType
+		Cable _selectedCableType;
+		public Cable SelectedCableType
 		{
 			get { return _selectedCableType; }
 			set

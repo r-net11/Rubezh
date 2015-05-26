@@ -14,7 +14,7 @@ namespace PowerCalculator.ViewModels
 		{
 			CableRepositoryItem = cableRepositoryItem;
 
-			CableTypes = new ObservableCollection<CableTypeViewModel>(Enum.GetValues(typeof(CableType)).Cast<CableType>().Select(x => new CableTypeViewModel(x)));
+			CableTypes = new ObservableCollection<CableTypeViewModel>(Enum.GetValues(typeof(Cable)).Cast<Cable>().Select(x => new CableTypeViewModel(x)));
 			_selectedCableType = CableTypes.FirstOrDefault(x => x.CableType == cableRepositoryItem.CableType);
 			_lenght = cableRepositoryItem.Lenght;
 		}

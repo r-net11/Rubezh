@@ -7,6 +7,7 @@ namespace PowerCalculator.Views
 		public MainView()
 		{
 			InitializeComponent();
+
 		}
 	}
 }

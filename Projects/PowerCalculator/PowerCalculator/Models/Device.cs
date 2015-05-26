@@ -3,7 +3,6 @@
 	public class Device
 	{
 		public DriverType DriverType { get; set; }
-		public CableType CableType { get; set; }
-		public int CableLength { get; set; }
+        public Cable Cable { get; set; }
 	}
 }

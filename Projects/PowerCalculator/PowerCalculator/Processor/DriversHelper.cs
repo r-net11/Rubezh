@@ -1,11 +1,17 @@
 ﻿using System.Collections.Generic;
 using PowerCalculator.Models;
+using System.Linq;
 
 namespace PowerCalculator.Processor
 {
-	public class DriversHelper
+	public static class DriversHelper
 	{
 		public static List<Driver> Drivers { get; private set; }
+
+        public static Driver GetDriver(DriverType driverType)
+        {
+            return Drivers.Where(x => x.DriverType == driverType).FirstOrDefault();
+        }
 
 		static DriversHelper()
 		{
@@ -30,7 +36,7 @@ namespace PowerCalculator.Processor
 					R = 0.8,
 					I = 0,
 					U = 24,
-					DeviceType = AlsDeviceType.Supplier,
+					DeviceType = DeviceType.Supplier,
 					Umin = 0,
 					Imax = 250
 				});
@@ -42,7 +48,7 @@ namespace PowerCalculator.Processor
 					R = 0.8,
 					I = 0.21,
 					U = 0,
-					DeviceType = AlsDeviceType.Consumer,
+					DeviceType = DeviceType.Consumer,
 					Umin = 9,
 					Imax = 300
 				});
@@ -54,7 +60,7 @@ namespace PowerCalculator.Processor
 					R = 0.8,
 					I = 0.21,
 					U = 0,
-					DeviceType = AlsDeviceType.Consumer,
+					DeviceType = DeviceType.Consumer,
 					Umin = 9,
 					Imax = 300
 				});
@@ -66,7 +72,7 @@ namespace PowerCalculator.Processor
 					R = 0.8,
 					I = 0.21,
 					U = 0,
-					DeviceType = AlsDeviceType.Consumer,
+					DeviceType = DeviceType.Consumer,
 					Umin = 9,
 					Imax = 300
 				});
@@ -78,7 +84,7 @@ namespace PowerCalculator.Processor
 					R = 0.8,
 					I = 0.21,
 					U = 0,
-					DeviceType = AlsDeviceType.Consumer,
+					DeviceType = DeviceType.Consumer,
 					Umin = 9,
 					Imax = 300
 				});
@@ -90,7 +96,7 @@ namespace PowerCalculator.Processor
 					R = 0.8,
 					I = 0.21,
 					U = 0,
-					DeviceType = AlsDeviceType.Consumer,
+					DeviceType = DeviceType.Consumer,
 					Umin = 12,
 					Imax = 300
 				});
@@ -102,7 +108,7 @@ namespace PowerCalculator.Processor
 					R = 0.8,
 					I = 0.21,
 					U = 0,
-					DeviceType = AlsDeviceType.Consumer,
+					DeviceType = DeviceType.Consumer,
 					Umin = 12,
 					Imax = 300
 				});
@@ -114,7 +120,7 @@ namespace PowerCalculator.Processor
 					R = 0.8,
 					I = 0.21,
 					U = 0,
-					DeviceType = AlsDeviceType.Consumer,
+					DeviceType = DeviceType.Consumer,
 					Umin = 10,
 					Imax = 300
 				});
@@ -126,7 +132,7 @@ namespace PowerCalculator.Processor
 					R = 0.8,
 					I = 0.21,
 					U = 0,
-					DeviceType = AlsDeviceType.Consumer,
+					DeviceType = DeviceType.Consumer,
 					Umin = 12,
 					Imax = 300
 				});
@@ -138,7 +144,7 @@ namespace PowerCalculator.Processor
 					R = 0.8,
 					I = 0.21,
 					U = 0,
-					DeviceType = AlsDeviceType.Consumer,
+					DeviceType = DeviceType.Consumer,
 					Umin = 12,
 					Imax = 300
 				});
@@ -150,7 +156,7 @@ namespace PowerCalculator.Processor
 					R = 0.8,
 					I = 0.21,
 					U = 0,
-					DeviceType = AlsDeviceType.Consumer,
+					DeviceType = DeviceType.Consumer,
 					Umin = 10,
 					Imax = 300
 				});
@@ -162,7 +168,7 @@ namespace PowerCalculator.Processor
 					R = 0.8,
 					I = 0.21,
 					U = 24,
-					DeviceType = AlsDeviceType.Supplier,
+					DeviceType = DeviceType.Supplier,
 					Umin = 12,
 					Imax = 300
 				});
@@ -174,7 +180,7 @@ namespace PowerCalculator.Processor
 					R = 0.8,
 					I = 0.21,
 					U = 24,
-					DeviceType = AlsDeviceType.Supplier,
+					DeviceType = DeviceType.Supplier,
 					Umin = 12,
 					Imax = 300
 				});
@@ -186,7 +192,7 @@ namespace PowerCalculator.Processor
 					R = 0.8,
 					I = 5,
 					U = 0,
-					DeviceType = AlsDeviceType.Consumer,
+					DeviceType = DeviceType.Consumer,
 					Umin = 12,
 					Imax = 300
 				});
@@ -198,7 +204,7 @@ namespace PowerCalculator.Processor
 					R = 0.8,
 					I = 30,
 					U = 0,
-					DeviceType = AlsDeviceType.Consumer,
+					DeviceType = DeviceType.Consumer,
 					Umin = 15,
 					Imax = 300
 				});
@@ -210,7 +216,7 @@ namespace PowerCalculator.Processor
 					R = 0.8,
 					I = 35,
 					U = 0,
-					DeviceType = AlsDeviceType.Consumer,
+					DeviceType = DeviceType.Consumer,
 					Umin = 15,
 					Imax = 300
 				});

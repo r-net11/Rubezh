@@ -7,7 +7,7 @@
 			Lenght = 1;
 		}
 
-		public CableType CableType { get; set; }
+		public Cable CableType { get; set; }
 		public int Lenght { get; set; }
 	}
 }
