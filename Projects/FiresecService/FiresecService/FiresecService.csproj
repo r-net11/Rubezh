@@ -105,13 +105,17 @@
       <HintPath>C:\Program Files\Microsoft SQL Server\100\SDK\Assemblies\Microsoft.SqlServer.SqlEnum.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Npgsql, Version=2.2.3.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
-      <HintPath>..\..\..\3rdParty\Npgsql\Npgsql.dll</HintPath>
+    <Reference Include="Mono.Security, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <HintPath>..\packages\Npgsql.2.2.5\lib\net40\Mono.Security.dll</HintPath>
       <Private>True</Private>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
-    <Reference Include="Npgsql.EntityFramework">
-      <HintPath>..\..\..\3rdParty\Npgsql\Npgsql.EntityFramework.dll</HintPath>
+    <Reference Include="Npgsql, Version=2.2.5.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Npgsql.2.2.5\lib\net40\Npgsql.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Npgsql.EntityFramework, Version=2.2.5.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Npgsql.EntityFramework.2.2.5\lib\net40\Npgsql.EntityFramework.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Npgsql.EntityFrameworkLegacy">
       <HintPath>..\..\..\3rdParty\Npgsql\Npgsql.EntityFrameworkLegacy.dll</HintPath>
@@ -160,6 +164,7 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Automation\ScheduleRunner.cs" />
     <Compile Include="Automation\ProcedureRunner.cs" />
+    <Compile Include="EFTest\PassJournalTest.cs" />
     <Compile Include="PatchManager\PatchManager.SKD.cs" />
     <Compile Include="Processor\ConfigurationCashHelper.cs" />
     <Compile Include="Processor\GKProcessor.cs" />

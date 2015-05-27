@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Threading;
 using Common;
@@ -27,7 +23,8 @@ namespace FiresecService
 		{
 			try
 			{
-				//NpssqlTest();
+				//EFTest.EFTest.Test();
+			
 				Environment.CurrentDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
 				Logger.Trace(SystemInfo.GetString());
 				var resourceService = new ResourceService();
@@ -106,62 +103,6 @@ namespace FiresecService
 			return;
 #endif
 			Process.GetCurrentProcess().Kill();
-		}
-
-		static void NpssqlTest()
-		{
-			using (var db = new ChinookContext())
-			{
-				//db.Database.ExecuteSqlCommand(string.Format("select * from {0}", "Artist"));
-				var artists = from a in db.Artists
-							  where a.Name.StartsWith("A")
-							  orderby a.Name
-							  select a;
-
-				foreach (var artist in artists)
-				{
-					Console.WriteLine(artist.Name);
-				}
-			}
-		}
-
-		public class Artist
-		{
-			public Artist()
-			{
-				Albums = new List<Album>();
-			}
-
-			public int ArtistId { get; set; }
-			public string Name { get; set; }
-
-			public virtual ICollection<Album> Albums { get; set; }
-		}
-
-		public class Album
-		{
-			public int AlbumId { get; set; }
-			public string Title { get; set; }
-
-			public int ArtistId { get; set; }
-			public virtual Artist Artist { get; set; }
-		}
-
-		class ChinookContext : DbContext
-		{
-			public DbSet<Artist> Artists { get; set; }
-			public DbSet<Album> Albums { get; set; }
-
-			protected override void OnModelCreating(DbModelBuilder modelBuilder)
-			{
-				// Map to the correct Chinook Database tables
-				modelBuilder.Entity<Artist>().ToTable("Artist", "public");
-				modelBuilder.Entity<Album>().ToTable("Album", "public");
-
-				// Chinook Database for PostgreSQL doesn't auto-increment Ids
-				modelBuilder.Conventions
-					.Remove<StoreGeneratedIdentityKeyConvention>();
-			}
 		}
 	}
 }
