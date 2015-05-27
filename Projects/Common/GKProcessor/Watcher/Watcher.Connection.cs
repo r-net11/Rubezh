@@ -31,7 +31,8 @@ namespace GKProcessor
 					{
 						SystemDateTime = DateTime.Now,
 						DeviceDateTime = DateTime.Now,
-						JournalObjectType = JournalObjectType.None,
+						JournalObjectType = JournalObjectType.GKDevice,
+						ObjectUID = GkDatabase.RootDevice.UID,
 						JournalEventNameType = isConnected ? JournalEventNameType.Восстановление_связи_с_прибором : JournalEventNameType.Потеря_связи_с_прибором,
 					};
 					//var gkIpAddress = GKManager.GetIpAddress(GkDatabase.RootDevice);

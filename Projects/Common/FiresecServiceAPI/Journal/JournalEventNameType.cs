@@ -650,5 +650,7 @@ namespace FiresecAPI.Journal
 		[EventName(JournalSubsystemType.Video, "Перевод в предустановку", XStateClass.On)]
 		Перевод_в_предустановку,
 
+		[EventName(JournalSubsystemType.GK, "Начало мониторинга", XStateClass.Norm)]
+		Начало_мониторинга,
 	}
 }

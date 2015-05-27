@@ -142,6 +142,18 @@ namespace GKProcessor
 					Logger.Error(e, "JournalWatcher.InitializeMonitoring");
 				}
 
+				GKCallbackResult = new GKCallbackResult();
+				var journalItem = new JournalItem()
+					{
+						SystemDateTime = DateTime.Now,
+						DeviceDateTime = DateTime.Now,
+						JournalObjectType = JournalObjectType.GKDevice,
+						ObjectUID = GkDatabase.RootDevice.UID,
+						JournalEventNameType = JournalEventNameType.Начало_мониторинга,
+					};
+				AddJournalItem(journalItem);
+				OnGKCallbackResult(GKCallbackResult);
+
 				while (true)
 				{
 					if (IsStopping)

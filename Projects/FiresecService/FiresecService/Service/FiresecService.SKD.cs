@@ -382,8 +382,6 @@ namespace FiresecService.Service
 
 				foreach (var controllerCardSchedule in newControllerCardSchedules)
 				{
-					//if (oldControllerCardSchedules.Any(x => x.ControllerDevice.UID == controllerCardSchedule.ControllerDevice.UID))
-
 					var addResult = GKSKDHelper.AddOrEditCard(controllerCardSchedule, newCard, employeeOperationResult.Result.FIO);
 					if (addResult.HasError)
 					{
@@ -530,15 +528,8 @@ namespace FiresecService.Service
 				{
 					foreach (var card in operationResult.Result)
 					{
-						var cardWriter = ChinaSKDDriver.Processor.EditCard(card, oldGetAccessTemplateOperationResult.Result, card, accessTemplate);
-						errors.AddRange(cardWriter.GetErrors());
-
-						foreach (var failedControllerUID in cardWriter.GetFailedControllerUIDs())
-						{
-							var pendingResult = databaseService.CardTranslator.EditPending(accessTemplate.UID, failedControllerUID);
-							if (pendingResult.HasError)
-								errors.Add(pendingResult.Error);
-						}
+						errors.AddRange(EditStrazhCard(card, oldGetAccessTemplateOperationResult.Result, card, accessTemplate, databaseService));
+						errors.AddRange(EditGKCard(card, oldGetAccessTemplateOperationResult.Result, card, accessTemplate, databaseService));
 					}
 				}
 

@@ -11,10 +11,10 @@ namespace GKProcessor
 {
 	public static class GKSKDHelper
 	{
-		public static OperationResult<bool> AddOrEditCard(GKControllerCardSchedule controllerCardSchedule, SKDCard card, string employeeName, int gkCardNo = 0)
+		public static OperationResult<bool> AddOrEditCard(GKControllerCardSchedule controllerCardSchedule, SKDCard card, string employeeName)
 		{
 			var isNew = true;
-			gkCardNo = 1;
+			var gkCardNo = 1;
 			using (var skdDatabaseService = new SKDDatabaseService())
 			{
 				gkCardNo = skdDatabaseService.GKCardTranslator.GetFreeGKNo(controllerCardSchedule.ControllerDevice.GetGKIpAddress(), card.Number, out isNew);
@@ -70,7 +70,7 @@ namespace GKProcessor
 				bytes.Add(0);
 				bytes.Add(0);
 
-				if (startCardScheduleNo + cardScheduleCount < controllerCardSchedule.CardSchedules.Count - 1)
+				if (startCardScheduleNo + cardScheduleCount < controllerCardSchedule.CardSchedules.Count)
 				{
 					bytes.AddRange(BytesHelper.ShortToBytes((ushort)(packNo + 1)));
 				}

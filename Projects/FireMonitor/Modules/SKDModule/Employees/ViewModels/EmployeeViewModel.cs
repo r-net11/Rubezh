@@ -100,7 +100,7 @@ namespace SKDModule.ViewModels
 			EmployeeCardsViewModel = new EmployeeCardsViewModel(this);
 		}
 
-		public EmployeeCardsViewModel EmployeeCardsViewModel { get; private set; }
+		public EmployeeCardsViewModel EmployeeCardsViewModel { get; set; }
 		
 		
 		public PhotoColumnViewModel Photo { get; private set; }

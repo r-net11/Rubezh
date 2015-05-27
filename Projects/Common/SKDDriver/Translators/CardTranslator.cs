@@ -189,12 +189,18 @@ namespace SKDDriver
 			try
 			{
 				var skdCards = new List<SKDCard>();
-				var cards = Table.Where(x => x.AccessTemplateUID.HasValue && x.AccessTemplateUID == accessTemplateUID);
+				var cards =
+					from card in Context.Cards.Where(x => x.AccessTemplateUID.HasValue && x.AccessTemplateUID == accessTemplateUID)
+					join cardDoor in Context.CardDoors on card.UID equals cardDoor.CardUID into cardDoors
+					join employee in Context.Employees
+						on card.EmployeeUID equals employee.UID into employees
+					from employee in employees.DefaultIfEmpty()
+					select new { Card = card, CardDoors = cardDoors, Employee = employee };
 				if (cards != null)
 				{
 					foreach (var card in cards)
 					{
-						var skdCard = Translate(card);
+						var skdCard = Translate(card.Card, card.Employee, card.CardDoors);
 						skdCards.Add(skdCard);
 					}
 				}
