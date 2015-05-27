@@ -70,6 +70,7 @@
     <Compile Include="Events\ShowAutomationSoundsEvent.cs" />
     <Compile Include="Events\ShowGlobalVariablesEvent.cs" />
     <Compile Include="Events\ShowProceduresEvent.cs" />
+    <Compile Include="Events\ShowOPCServersEvent.cs" />
     <Compile Include="GlobalVariables\ViewModels\GlobalVariablesMenuViewModel.cs" />
     <Compile Include="GlobalVariables\ViewModels\GlobalVariablesViewModel.cs" />
     <Compile Include="GlobalVariables\Views\GlobalVariablesMenuView.xaml.cs">
@@ -459,6 +460,19 @@
     <Compile Include="Validation\Validator.Schedule.cs" />
     <Compile Include="Validation\Validator.Sound.cs" />
     <Compile Include="Validation\VariableValidationError.cs" />
+    <Compile Include="OPCServers\ViewModels\OPCServerDetailsViewModel.cs" />
+    <Compile Include="OPCServers\ViewModels\OPCServersMenuViewModel.cs" />
+    <Compile Include="OPCServers\ViewModels\OPCServersViewModel.cs" />
+    <Compile Include="OPCServers\ViewModels\OPCServerViewModel.cs" />
+    <Compile Include="OPCServers\Views\OPCServerDetailsView.xaml.cs">
+      <DependentUpon>OPCServerDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OPCServers\Views\OPCServersMenuView.xaml.cs">
+      <DependentUpon>OPCServersMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OPCServers\Views\OPCServersView.xaml.cs">
+      <DependentUpon>OPCServersView.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Common\Common\Common.csproj">
@@ -872,6 +886,22 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Steps\Views\RviAlarmStepView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="OPCServers\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="OPCServers\Views\OPCServerDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="OPCServers\Views\OPCServersMenuView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="OPCServers\Views\OPCServersView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

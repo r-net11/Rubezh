@@ -14,6 +14,7 @@ namespace FiresecAPI.Automation
 			Procedures = new List<Procedure>();
 			AutomationSchedules = new List<AutomationSchedule>();
 			AutomationSounds = new List<AutomationSound>();
+			OPCServers = new List<OPCServer>();
 			GlobalVariables = new List<Variable>();
 		}
 
@@ -25,6 +26,9 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public List<AutomationSound> AutomationSounds { get; set; }
+
+		[DataMember]
+		public List<OPCServer> OPCServers { get; set; }
 
 		[DataMember]
 		public List<Variable> GlobalVariables { get; set; }

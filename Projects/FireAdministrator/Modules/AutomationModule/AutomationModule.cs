@@ -22,6 +22,7 @@ namespace AutomationModule
 	public class AutomationModule : ModuleBase, IValidationModule, ILayoutDeclarationModule
 	{
 		private SoundsViewModel _soundsViewModel;
+		private OPCServersViewModel _opcServersViewModel;
 		private ProceduresViewModel _proceduresViewModel;
 		private SchedulesViewModel _schedulesViewModel;
 		private GlobalVariablesViewModel _globalVariablesViewModel;
@@ -29,8 +30,8 @@ namespace AutomationModule
 
 		public override void CreateViewModels()
 		{
-			//FiresecManager.SystemConfiguration.AutomationConfiguration = new AutomationConfiguration();
 			_soundsViewModel = new SoundsViewModel();
+			_opcServersViewModel = new OPCServersViewModel();
 			_proceduresViewModel = new ProceduresViewModel();
 			_schedulesViewModel = new SchedulesViewModel();
 			_globalVariablesViewModel = new GlobalVariablesViewModel();
@@ -42,6 +43,7 @@ namespace AutomationModule
 			ControlVisualStepViewModel.Initialize();
 			var automationChanged = ServiceFactory.SaveService.AutomationChanged;
 			_soundsViewModel.Initialize();
+			_opcServersViewModel.Initialize();
 			_proceduresViewModel.Initialize();
 			_schedulesViewModel.Initialize();
 			_globalVariablesViewModel.Initialize();
@@ -60,7 +62,8 @@ namespace AutomationModule
 							new NavigationItem<ShowProceduresEvent, Guid>(_proceduresViewModel, "Процедуры", "Procedure"),
 							new NavigationItem<ShowAutomationSchedulesEvents, Guid>(_schedulesViewModel, "Расписания", "Shedules"),
 							new NavigationItem<ShowGlobalVariablesEvent, Guid>(_globalVariablesViewModel, "Глобальные переменные", "GlobalVariables"),
-							new NavigationItem<ShowAutomationSoundsEvent, Guid>(_soundsViewModel, "Звуки", "Music")
+							new NavigationItem<ShowAutomationSoundsEvent, Guid>(_soundsViewModel, "Звуки", "Music"),
+							new NavigationItem<ShowOPCServersEvent, Guid>(_opcServersViewModel, "OPC Сервера", "Settings2")
 						}) {IsExpanded = true},
 				};
 		}
@@ -75,6 +78,7 @@ namespace AutomationModule
 			base.RegisterResource();
 			var resourceService = new ResourceService();
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Sounds/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "OPCServers/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Procedures/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Schedules/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "GlobalVariables/DataTemplates/Dictionary.xaml"));
