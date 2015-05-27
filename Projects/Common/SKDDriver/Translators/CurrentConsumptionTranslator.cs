@@ -22,8 +22,8 @@ namespace SKDDriver
 			{
 				var tableItem = new DataAccess.CurrentConsumption 
 				{ 
-					UID = item.UID, 
-					KauUID = item.AlsUID, 
+					UID = item.UID,
+					AlsUID = item.AlsUID, 
 					Current = item.Current, 
 					DateTime = item.DateTime
 				};
@@ -47,7 +47,7 @@ namespace SKDDriver
 					tableItems.Add(new DataAccess.CurrentConsumption
 					{
 						UID = item.UID,
-						KauUID = item.AlsUID,
+						AlsUID = item.AlsUID,
 						Current = item.Current,
 						DateTime = item.DateTime
 					});
@@ -67,11 +67,11 @@ namespace SKDDriver
 			try
 			{
 				var result = from tableItem in _Context.CurrentConsumptions
-							 where tableItem.KauUID == filter.AlsUID && tableItem.DateTime >= filter.StartDateTime && tableItem.DateTime <= filter.EndDateTime
+							 where tableItem.AlsUID == filter.AlsUID && tableItem.DateTime >= filter.StartDateTime && tableItem.DateTime <= filter.EndDateTime
 							 select new CurrentConsumption
 							 {
 								 UID = tableItem.UID,
-								 AlsUID = tableItem.KauUID,
+								 AlsUID = tableItem.AlsUID,
 								 Current = tableItem.Current,
 								 DateTime = tableItem.DateTime
 							 };

@@ -1581,4 +1581,10 @@ BEGIN
 	) ON [PRIMARY]
 	INSERT INTO Patches (Id) VALUES ('CurrentConsumption')
 END
-
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'CurrentConsumption_AlsUID')
+BEGIN
+	ALTER TABLE CurrentConsumption DROP COLUMN [KauUID]
+	ALTER TABLE CurrentConsumption ADD [AlsUID] uniqueidentifier NOT NULL DEFAULT '00000000-0000-0000-0000-000000000000'
+	INSERT INTO Patches (Id) VALUES ('CurrentConsumption_AlsUID')
+END

@@ -10742,11 +10742,11 @@ namespace SKDDriver.DataAccess
 		
 		private System.Guid _UID;
 		
-		private System.Guid _KauUID;
-		
 		private int _Current;
 		
 		private System.DateTime _DateTime;
+		
+		private System.Guid _AlsUID;
 		
     #region Определения метода расширяемости
     partial void OnLoaded();
@@ -10754,12 +10754,12 @@ namespace SKDDriver.DataAccess
     partial void OnCreated();
     partial void OnUIDChanging(System.Guid value);
     partial void OnUIDChanged();
-    partial void OnKauUIDChanging(System.Guid value);
-    partial void OnKauUIDChanged();
     partial void OnCurrentChanging(int value);
     partial void OnCurrentChanged();
     partial void OnDateTimeChanging(System.DateTime value);
     partial void OnDateTimeChanged();
+    partial void OnAlsUIDChanging(System.Guid value);
+    partial void OnAlsUIDChanged();
     #endregion
 		
 		public CurrentConsumption()
@@ -10783,26 +10783,6 @@ namespace SKDDriver.DataAccess
 					this._UID = value;
 					this.SendPropertyChanged("UID");
 					this.OnUIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_KauUID", DbType="UniqueIdentifier NOT NULL")]
-		public System.Guid KauUID
-		{
-			get
-			{
-				return this._KauUID;
-			}
-			set
-			{
-				if ((this._KauUID != value))
-				{
-					this.OnKauUIDChanging(value);
-					this.SendPropertyChanging();
-					this._KauUID = value;
-					this.SendPropertyChanged("KauUID");
-					this.OnKauUIDChanged();
 				}
 			}
 		}
@@ -10843,6 +10823,26 @@ namespace SKDDriver.DataAccess
 					this._DateTime = value;
 					this.SendPropertyChanged("DateTime");
 					this.OnDateTimeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AlsUID", DbType="UniqueIdentifier NOT NULL")]
+		public System.Guid AlsUID
+		{
+			get
+			{
+				return this._AlsUID;
+			}
+			set
+			{
+				if ((this._AlsUID != value))
+				{
+					this.OnAlsUIDChanging(value);
+					this.SendPropertyChanging();
+					this._AlsUID = value;
+					this.SendPropertyChanged("AlsUID");
+					this.OnAlsUIDChanged();
 				}
 			}
 		}
