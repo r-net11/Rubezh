@@ -257,7 +257,7 @@ namespace ChinaSKDDriverNativeApi
 			public CFG_ACCESS_STATE emState;
 			public CFG_ACCESS_MODE emMode;
 			public int nEnableMode;
-			public byte bSnapshotEnable;
+			public bool bSnapshotEnable;
 
 			public byte abDoorOpenMethod;
 			public byte abUnlockHoldInterval;
