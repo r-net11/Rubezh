@@ -30,13 +30,14 @@ namespace SKDDriver
 				return new OperationResult();
 		}
 
-		public SKDCard TranslateCard(DataAccess.Card card, DataAccess.Employee employee, IEnumerable<DataAccess.CardDoor> cardDoors)
-		{
-			return Translate(card, employee, cardDoors);
-		}
+		//public SKDCard TranslateCard(DataAccess.Card card, DataAccess.Employee employee, IEnumerable<DataAccess.CardDoor> cardDoors)
+		//{
+		//    return Translate(card, employee, cardDoors);
+		//}
 
-		SKDCard Translate(DataAccess.Card card, DataAccess.Employee employee, IEnumerable<DataAccess.CardDoor> cardDoors)
+		SKDCard Translate(TableCard tableCard)
 		{
+			var card = tableCard.Card;
 			var result = new SKDCard();
 			result.UID = card.UID;
 			result.HolderUID = card.EmployeeUID;
@@ -45,7 +46,7 @@ namespace SKDDriver
 			result.StartDate = card.StartDate;
 			result.EndDate = card.EndDate;
 			result.AccessTemplateUID = card.AccessTemplateUID;
-			result.CardDoors = cardDoors.Select(x => DatabaseService.CardDoorTranslator.TranslateCardDoor(x)).ToList();
+			result.CardDoors = tableCard.CardDoors.Select(x => DatabaseService.CardDoorTranslator.TranslateCardDoor(x)).ToList();
 			result.IsInStopList = card.IsInStopList;
 			result.StopReason = card.StopReason;
 			result.PassCardTemplateUID = card.PassCardTemplateUID;
@@ -60,6 +61,7 @@ namespace SKDDriver
 			{
 				result.EmployeeUID = card.EmployeeUID.Value;
 			}
+			var employee = tableCard.Employee;
 			if (employee != null)
 			{
 				result.EmployeeName = employee.LastName + " " + employee.FirstName + " " + employee.SecondName;
@@ -144,18 +146,18 @@ namespace SKDDriver
 			}
 
 			return result;
-		}		
+		}
 
 		public override IEnumerable<DataAccess.Card> GetTableItems(CardFilter filter)
 		{
 			var result = base.GetTableItems(filter);
-			if(filter.EmployeeFilter != null)
+			if (filter.EmployeeFilter != null)
 			{
 				var employeeUIDs = DatabaseService.EmployeeTranslator.GetTableItems(filter.EmployeeFilter).Select(x => x.UID);
-				if(filter.DeactivationType == LogicalDeletationType.All)
+				if (filter.DeactivationType == LogicalDeletationType.All)
 					result = result.Where(e => e.IsInStopList || (e.EmployeeUID != null && employeeUIDs.Contains(e.EmployeeUID.Value)));
-			    else
-			        result = result.Where(e => e.EmployeeUID != null && employeeUIDs.Contains(e.EmployeeUID.Value));
+				else
+					result = result.Where(e => e.EmployeeUID != null && employeeUIDs.Contains(e.EmployeeUID.Value));
 			}
 			return result;
 		}
@@ -164,18 +166,9 @@ namespace SKDDriver
 		{
 			try
 			{
-				var result = new List<SKDCard>();
-
 				Context.CommandTimeout = 600;
-				var tableItems =
-					from card in Context.Cards.Where(IsInFilter(filter))
-					join cardDoor in Context.CardDoors on card.UID equals cardDoor.CardUID into cardDoors
-					join employee in filter.EmployeeFilter != null ? Context.Employees.Where(DatabaseService.EmployeeTranslator.GetFilterExpression((filter.EmployeeFilter))) : Context.Employees 
-						on card.EmployeeUID equals employee.UID into employees
-					from employee in employees.DefaultIfEmpty()
-					select new { Card = card, CardDoors = cardDoors, Employee = employee };
-				foreach (var tableItem in tableItems.Where(x => x.Employee != null || x.Card.IsInStopList))
-					result.Add(Translate(tableItem.Card, tableItem.Employee, tableItem.CardDoors));
+				var tableItems = GetTableItems(IsInFilter(filter), DatabaseService.EmployeeTranslator.GetFilterExpression((filter.EmployeeFilter)));
+				var result = tableItems.Where(x => x.Employee != null || x.Card.IsInStopList).Select(x => Translate(x)).ToList();
 				return new OperationResult<IEnumerable<SKDCard>>(result);
 			}
 			catch (Exception e)
@@ -188,22 +181,10 @@ namespace SKDDriver
 		{
 			try
 			{
-				var skdCards = new List<SKDCard>();
-				var cards =
-					from card in Context.Cards.Where(x => x.AccessTemplateUID.HasValue && x.AccessTemplateUID == accessTemplateUID)
-					join cardDoor in Context.CardDoors on card.UID equals cardDoor.CardUID into cardDoors
-					join employee in Context.Employees
-						on card.EmployeeUID equals employee.UID into employees
-					from employee in employees.DefaultIfEmpty()
-					select new { Card = card, CardDoors = cardDoors, Employee = employee };
-				if (cards != null)
-				{
-					foreach (var card in cards)
-					{
-						var skdCard = Translate(card.Card, card.Employee, card.CardDoors);
-						skdCards.Add(skdCard);
-					}
-				}
+				var predicate = PredicateBuilder.True<DataAccess.Card>();
+				predicate.And(x => x.AccessTemplateUID.HasValue && x.AccessTemplateUID == accessTemplateUID);
+				var tableItems = GetTableItems(predicate);
+				var skdCards = tableItems.Select(x => Translate(x)).ToList();
 				return new OperationResult<List<SKDCard>>(skdCards);
 			}
 			catch (Exception e)
@@ -250,22 +231,51 @@ namespace SKDDriver
 		{
 			try
 			{
-				var result = new List<SKDCard>();
 				Context.CommandTimeout = 600;
-				var tableItems =
-					from card in Context.Cards.Where(x => x.EmployeeUID == employeeUID)
-					join cardDoor in Context.CardDoors on card.UID equals cardDoor.CardUID into cardDoors
-					join employee in Context.Employees on card.EmployeeUID equals employee.UID into employees
-					from employee in employees.DefaultIfEmpty()
-					select new { Card = card, CardDoors = cardDoors, Employee = employee };
-				foreach (var tableItem in tableItems.Where(x => x.Employee != null || x.Card.IsInStopList))
-					result.Add(Translate(tableItem.Card, tableItem.Employee, tableItem.CardDoors));
+				var predicate = PredicateBuilder.True<DataAccess.Card>();
+				predicate.And(x => x.EmployeeUID == employeeUID);
+				var tableItems = GetTableItems(predicate);
+				var result = tableItems.Where(x => x.Employee != null || x.Card.IsInStopList).Select(x => Translate(x)).ToList();
 				return new OperationResult<IEnumerable<SKDCard>>(result);
 			}
 			catch (Exception e)
 			{
 				return OperationResult<IEnumerable<SKDCard>>.FromError(e.Message);
 			}
+		}
+
+		public override OperationResult<SKDCard> GetSingle(Guid? uid)
+		{
+			try
+			{
+				Context.CommandTimeout = 600;
+				var predicate = PredicateBuilder.True<DataAccess.Card>();
+				predicate.And(x => x.UID == uid);
+				var tableItem = GetTableItems(predicate).FirstOrDefault();
+				var result = Translate(tableItem);
+				return new OperationResult<SKDCard>(result);
+			}
+			catch (Exception e)
+			{
+				return OperationResult<SKDCard>.FromError(e.Message);
+			}
+		}
+
+		IEnumerable<TableCard> GetTableItems(Expression<Func<DataAccess.Card, bool>> filterExpression, Expression<Func<DataAccess.Employee, bool>> employeeFilterExpression = null)
+		{
+			return	from card in Context.Cards.Where(filterExpression)
+					join cardDoor in Context.CardDoors on card.UID equals cardDoor.CardUID into cardDoors
+					join employee in employeeFilterExpression != null ? Context.Employees.Where(employeeFilterExpression) : Context.Employees
+						on card.EmployeeUID equals employee.UID into employees
+					from employee in employees.DefaultIfEmpty()
+					select new TableCard { Card = card, CardDoors = cardDoors, Employee = employee };
+		}
+
+		class TableCard
+		{
+			public DataAccess.Card Card;
+			public IEnumerable<DataAccess.CardDoor> CardDoors;
+			public DataAccess.Employee Employee;
 		}
 
 		#region Pending

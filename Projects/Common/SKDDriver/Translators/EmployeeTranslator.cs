@@ -237,6 +237,8 @@ namespace SKDDriver
 
 		public Expression<Func<DataAccess.Employee, bool>> GetFilterExpression(EmployeeFilter filter)
 		{
+			if (filter == null)
+				return null;
 			return IsInFilter(filter);
 		}
 
