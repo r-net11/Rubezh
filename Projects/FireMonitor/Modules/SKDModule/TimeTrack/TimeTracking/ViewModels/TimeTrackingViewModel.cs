@@ -8,6 +8,7 @@ using System.Runtime.Serialization;
 using Common;
 using FiresecAPI.SKD;
 using FiresecClient;
+using FiresecClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -38,18 +39,40 @@ namespace SKDModule.ViewModels
 			ServiceFactory.Events.GetEvent<EditTimeTrackPartEvent>().Unsubscribe(OnEditTimeTrackPart);
 			ServiceFactory.Events.GetEvent<EditTimeTrackPartEvent>().Subscribe(OnEditTimeTrackPart);
 
-			TimeTrackFilter = new TimeTrackFilter();
-			TimeTrackFilter.EmployeeFilter = new EmployeeFilter()
+			TimeTrackFilter = CreateTimeTrackFilter();
+			
+			UpdateGrid();
+		}
+
+		private TimeTrackFilter CreateTimeTrackFilter() //TODO:Implement to TimeTrackFilter class
+		{
+			return new TimeTrackFilter
 			{
-				UserUID = FiresecClient.FiresecManager.CurrentUser.UID,
+				EmployeeFilter = new EmployeeFilter
+				{
+					OrganisationUIDs = new List<Guid> {GetFirstOrganizationUID()},
+					UserUID = FiresecManager.CurrentUser.UID,
+				},
+				Period = TimeTrackingPeriod.CurrentMonth,
+				StartDate = GetFirstDayOfMonth(),
+				EndDate = DateTime.Today
 			};
+		}
 
-			TimeTrackFilter.Period = TimeTrackingPeriod.CurrentMonth;
-			TimeTrackFilter.StartDate = DateTime.Today.AddDays(1 - DateTime.Today.Day);
-			TimeTrackFilter.EndDate = DateTime.Today;
+		public static DateTime GetFirstDayOfMonth() //TODO: Implement to static extension class
+		{
+			return DateTime.Today.AddDays(1 - DateTime.Today.Day);
+		}
 
-			TimeTracks = new SortableObservableCollection<TimeTrackViewModel>();
-			//UpdateGrid();
+		public List<Holiday> HolydaysOfCurrentOrganisation 
+		{
+			get { return HolidayHelper.GetByOrganisation(TimeTrackFilter.EmployeeFilter.OrganisationUIDs.FirstOrDefault()).ToList(); }
+		}
+
+		private Guid GetFirstOrganizationUID()
+		{
+			var firstOrganizationElement = OrganisationHelper.GetByCurrentUser().FirstOrDefault();
+			return firstOrganizationElement != null ? firstOrganizationElement.UID : Guid.Empty;
 		}
 
 		SortableObservableCollection<TimeTrackViewModel> _timeTracks;
@@ -164,31 +187,27 @@ namespace SKDModule.ViewModels
 		{
 			using (new WaitWrapper())
 			{
-				var employeeUID = Guid.Empty;
-
-				if (SelectedTimeTrack != null)
-				{
-					employeeUID = SelectedTimeTrack.ShortEmployee.UID;
-				}
+				var employeeUID = SelectedTimeTrack != null ? SelectedTimeTrack.ShortEmployee.UID : Guid.Empty;
 
 				TotalDays = (int)(TimeTrackFilter.EndDate - TimeTrackFilter.StartDate).TotalDays + 1;
 				FirstDay = TimeTrackFilter.StartDate;
 
-				TimeTracks = new SortableObservableCollection<TimeTrackViewModel>();
+				
 				var stream = FiresecManager.FiresecService.GetTimeTracksStream(TimeTrackFilter.EmployeeFilter, TimeTrackFilter.StartDate, TimeTrackFilter.EndDate);
 				var folderName = AppDataFolderHelper.GetFolder("TempServer");
 				var resultFileName = Path.Combine(folderName, "ClientTimeTrackResult.xml");
 				var resultFileStream = File.Create(resultFileName);
-				CopyStream(stream, resultFileStream);
+				FiresecManager.CopyStream(stream, resultFileStream);
 				var timeTrackResult = Deserialize(resultFileName);
+
+				TimeTracks = new SortableObservableCollection<TimeTrackViewModel>();
 
 				if (timeTrackResult != null)
 				{
 					TimeTrackEmployeeResults = timeTrackResult.TimeTrackEmployeeResults;
 					foreach (var timeTrackEmployeeResult in TimeTrackEmployeeResults)
 					{
-						var timeTrackViewModel = new TimeTrackViewModel(TimeTrackFilter, timeTrackEmployeeResult);
-						TimeTracks.Add(timeTrackViewModel);
+						TimeTracks.Add(new TimeTrackViewModel(TimeTrackFilter, timeTrackEmployeeResult));
 					}
 
 					TimeTracks.Sort(x => x.ShortEmployee.LastName);
@@ -198,17 +217,6 @@ namespace SKDModule.ViewModels
 				SelectedTimeTrack = TimeTracks.FirstOrDefault(x => x.ShortEmployee.UID == employeeUID) ??
 									TimeTracks.FirstOrDefault();
 			}
-		}
-
-		public static void CopyStream(Stream input, Stream output)
-		{
-			var buffer = new byte[8 * 1024];
-			int length;
-			while ((length = input.Read(buffer, 0, buffer.Length)) > 0)
-			{
-				output.Write(buffer, 0, length);
-			}
-			output.Close();
 		}
 
 		public static TimeTrackResult Deserialize(string fileName)

@@ -44,7 +44,7 @@ namespace SKDModule.ViewModels
 		void InitializeYears()
 		{
 			AvailableYears = new ObservableCollection<int>();
-			for (int i = 2014; i <= 2020; i++)
+			for (int i = 2014; i <= 2020; i++) //TODO:
 				AvailableYears.Add(i);
 			SelectedYear = AvailableYears.FirstOrDefault(x => x == DateTime.Now.Year);
 		}

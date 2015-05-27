@@ -1,10 +1,13 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Globalization;
+using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
+using FiresecAPI.SKD;
 using SKDModule.ViewModels;
 
 namespace SKDModule.Views
@@ -23,6 +26,7 @@ namespace SKDModule.Views
 			if (dpd != null)
 				dpd.AddValueChanged(grid, ItemSourceChanged);
 		}
+
 		private void ItemSourceChanged(object sender, EventArgs e)
 		{
 			var viewModel = (TimeTrackingViewModel)DataContext;
@@ -31,56 +35,51 @@ namespace SKDModule.Views
 				grid.Columns.RemoveAt(i);
 			for (int i = 0; i < viewModel.TotalDays; i++)
 			{
-				var factory = new FrameworkElementFactory(typeof(TimeTrackingCellView));
-				factory.SetValue(TimeTrackingCellView.DataContextProperty, new Binding(string.Format("DayTracks[{0}]", i)));
+				var factory = new FrameworkElementFactory(typeof(TimeTrackingCellView)); //TODO: Remove obsolete realization
+				factory.SetValue(DataContextProperty, new Binding(string.Format("DayTracks[{0}]", i)));
 
-				var column = new DataGridTemplateColumn()
+				var column = new DataGridTemplateColumn
 				{
 					Width = 60,
 					CanUserResize = false,
 					CanUserSort = false,
-					CellTemplate = new DataTemplate()
-					{
+					CellTemplate = new DataTemplate
+					{	
 						VisualTree = factory,
 					},
 				};
 
-				var textBlock = new TextBlock();
-				textBlock.Text = date.ToString("dd MM");
-				textBlock.ToolTip = DayOfWeekToString(date.DayOfWeek);
-				if (date.DayOfWeek == DayOfWeek.Saturday || date.DayOfWeek == DayOfWeek.Sunday)
-				{
-					textBlock.Foreground = Brushes.DarkGray;
-				}
-				textBlock.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
-				textBlock.FontWeight = FontWeights.Bold;
-				column.Header = textBlock;
+				var holiday =
+					viewModel.HolydaysOfCurrentOrganisation.FirstOrDefault(x => x.Date.Day == date.Day && x.Date.Month == date.Month);
+
+				column.Header = CreateColumnHeader(date, holiday);
 
 				grid.Columns.Add(column);
 				date = date.AddDays(1);
 			}
 		}
 
-		string DayOfWeekToString(DayOfWeek dayOfWeek)
+		private TextBlock CreateColumnHeader(DateTime date, Holiday holiday)
 		{
-			switch (dayOfWeek)
+			return new TextBlock
 			{
-				case DayOfWeek.Sunday:
-					return "Воскресенье";
-				case DayOfWeek.Monday:
-					return "Понедельник";
-				case DayOfWeek.Tuesday:
-					return "Вторник";
-				case DayOfWeek.Wednesday:
-					return "Среда";
-				case DayOfWeek.Thursday:
-					return "Четверг";
-				case DayOfWeek.Friday:
-					return "Пятница";
-				case DayOfWeek.Saturday:
-					return "Суббота";
-			}
-			return "";
+				Text = date.ToString("dd MM"),
+				ToolTip = holiday != null ? holiday.Name : date.ToString("dddd", new CultureInfo("ru-RU")),
+				Foreground = GetForegroundBrush(holiday, date),
+				HorizontalAlignment = HorizontalAlignment.Center,
+				FontWeight = FontWeights.Bold
+			};
+		}
+
+		private Brush GetForegroundBrush(Holiday holiday, DateTime date)
+		{
+			if (holiday != null)
+				return Brushes.Khaki;
+
+			if (date.DayOfWeek == DayOfWeek.Saturday || date.DayOfWeek == DayOfWeek.Sunday)
+				return Brushes.DarkGray;
+
+			return Brushes.WhiteSmoke;
 		}
 	}
 

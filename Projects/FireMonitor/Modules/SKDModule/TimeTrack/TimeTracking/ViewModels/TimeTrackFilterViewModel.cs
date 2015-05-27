@@ -7,6 +7,7 @@ using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using SKDModule.Model;
+using SKDModule.Views;
 
 namespace SKDModule.ViewModels
 {
@@ -18,7 +19,7 @@ namespace SKDModule.ViewModels
 		public TimeTrackFilter TimeTrackFilter { get; private set; }
 
 		public TimeTrackFilterViewModel(TimeTrackFilter filter)
-			: base(filter)
+			: base(filter, false)
 		{
 			TimeTrackFilter = filter;
 			ResetCommand = new RelayCommand(OnReset);
@@ -39,19 +40,21 @@ namespace SKDModule.ViewModels
 			StartDate = timeTrackFilter.StartDate;
 			EndDate = timeTrackFilter.EndDate;
 
-			Totals = new ObservableCollection<TimeTrackTypeFilterItem>();
-			Totals.Add(new TimeTrackTypeFilterItem(TimeTrackType.Balance));
-			Totals.Add(new TimeTrackTypeFilterItem(TimeTrackType.Presence));
-			Totals.Add(new TimeTrackTypeFilterItem(TimeTrackType.Absence));
-			Totals.Add(new TimeTrackTypeFilterItem(TimeTrackType.AbsenceInsidePlan));
-			Totals.Add(new TimeTrackTypeFilterItem(TimeTrackType.PresenceInBrerak));
-			Totals.Add(new TimeTrackTypeFilterItem(TimeTrackType.Late));
-			Totals.Add(new TimeTrackTypeFilterItem(TimeTrackType.EarlyLeave));
-			Totals.Add(new TimeTrackTypeFilterItem(TimeTrackType.Overtime));
-			Totals.Add(new TimeTrackTypeFilterItem(TimeTrackType.Night));
-			Totals.Add(new TimeTrackTypeFilterItem(TimeTrackType.DocumentOvertime));
-			Totals.Add(new TimeTrackTypeFilterItem(TimeTrackType.DocumentPresence));
-			Totals.Add(new TimeTrackTypeFilterItem(TimeTrackType.DocumentAbsence));
+			Totals = new ObservableCollection<TimeTrackTypeFilterItem>
+			{
+				new TimeTrackTypeFilterItem(TimeTrackType.Balance),
+				new TimeTrackTypeFilterItem(TimeTrackType.Presence),
+				new TimeTrackTypeFilterItem(TimeTrackType.Absence),
+				new TimeTrackTypeFilterItem(TimeTrackType.AbsenceInsidePlan),
+				new TimeTrackTypeFilterItem(TimeTrackType.PresenceInBrerak),
+				new TimeTrackTypeFilterItem(TimeTrackType.Late),
+				new TimeTrackTypeFilterItem(TimeTrackType.EarlyLeave),
+				new TimeTrackTypeFilterItem(TimeTrackType.Overtime),
+				new TimeTrackTypeFilterItem(TimeTrackType.Night),
+				new TimeTrackTypeFilterItem(TimeTrackType.DocumentOvertime),
+				new TimeTrackTypeFilterItem(TimeTrackType.DocumentPresence),
+				new TimeTrackTypeFilterItem(TimeTrackType.DocumentAbsence)
+			};
 
 			foreach (var totalTimeTrackTypeFilter in timeTrackFilter.TotalTimeTrackTypeFilters)
 			{
@@ -140,7 +143,7 @@ namespace SKDModule.ViewModels
 			switch (Period)
 			{
 				case TimeTrackingPeriod.CurrentMonth:
-					TimeTrackFilter.StartDate = DateTime.Today.AddDays(1 - DateTime.Today.Day);
+					TimeTrackFilter.StartDate = TimeTrackingViewModel.GetFirstDayOfMonth();
 					TimeTrackFilter.EndDate = DateTime.Today;
 					break;
 				case TimeTrackingPeriod.CurrentWeek:
@@ -148,9 +151,8 @@ namespace SKDModule.ViewModels
 					TimeTrackFilter.EndDate = DateTime.Today;
 					break;
 				case TimeTrackingPeriod.PreviousMonth:
-					var firstMonthDay = DateTime.Today.AddDays(1 - DateTime.Today.Day);
-					TimeTrackFilter.StartDate = firstMonthDay.AddMonths(-1);
-					TimeTrackFilter.EndDate = firstMonthDay.AddDays(-1);
+					TimeTrackFilter.StartDate = TimeTrackingViewModel.GetFirstDayOfMonth().AddMonths(-1);
+					TimeTrackFilter.EndDate = TimeTrackingViewModel.GetFirstDayOfMonth().AddDays(-1);
 					break;
 				case TimeTrackingPeriod.PreviousWeek:
 					var firstWeekDay = DateTime.Today.AddDays(1 - ((int)DateTime.Today.DayOfWeek + 1) % 7);
