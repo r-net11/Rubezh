@@ -159,18 +159,6 @@ namespace GKProcessor
 			return new OperationResult<bool>(true);
 		}
 
-		public static OperationResult<bool> EditCard(SKDCard oldCard, AccessTemplate oldAccessTemplate, SKDCard newCard, AccessTemplate newAccessTemplate)
-		{
-			var controllerCardSchedules_ToDelete = GetGKControllerCardSchedules(oldCard, oldAccessTemplate);
-			var controllerCardSchedules_ToEdit = GetGKControllerCardSchedules(newCard, newAccessTemplate);
-			foreach (var controllerCardSchedule_ToEdit in controllerCardSchedules_ToEdit)
-			{
-				controllerCardSchedules_ToDelete.RemoveAll(x => x.ControllerDevice.UID == controllerCardSchedule_ToEdit.ControllerDevice.UID);
-			}
-
-			return new OperationResult<bool>(true);
-		}
-
 		public static OperationResult<List<GKUser>> GetAllUsers(GKDevice device)
 		{
 			var progressCallback = GKProcessorManager.StartProgress("Чтение пользователей прибора " + device.PresentationName, "", 65535, true, GKProgressClientType.Administrator);

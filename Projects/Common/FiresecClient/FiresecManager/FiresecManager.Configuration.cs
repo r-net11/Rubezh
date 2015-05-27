@@ -16,7 +16,6 @@ namespace FiresecClient
 {
 	public partial class FiresecManager
 	{
-		public static FiresecConfiguration FiresecConfiguration { get; set; }
 		public static PlansConfiguration PlansConfiguration
 		{
 			get { return ConfigurationCash.PlansConfiguration; }
@@ -64,7 +63,6 @@ namespace FiresecClient
 				Directory.CreateDirectory(configDirectory);
 				Directory.CreateDirectory(contentDirectory);
 
-				FiresecConfiguration = new FiresecConfiguration();
 				if (ServiceFactoryBase.ContentService != null)
 					ServiceFactoryBase.ContentService.Invalidate();
 

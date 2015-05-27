@@ -125,7 +125,22 @@
 				</Grid>
 			</StackPanel>
 		</TabItem>
-		<TabItem Header="Точки доступа">
+        <TabItem Header="Контроллеры" Visibility="{Binding CanSelectGKControllers, Converter={StaticResource BoolToVisibilityConverter}}">
+            <DataGrid ItemsSource="{Binding AvailableGKControllers}">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Width="*" Header="Контроллер">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Content="{Binding Device.PresentationName}" Margin="2" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </TabItem>
+        <TabItem Header="Точки доступа">
 			<Views:AccessDoorsSelectationView DataContext="{Binding AccessDoorsSelectationViewModel}" />
 		</TabItem>
 		<TabItem Header="Шаблон доступа">

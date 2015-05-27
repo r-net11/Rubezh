@@ -149,20 +149,16 @@ namespace FiresecService
 									var controllerCardSchedules = GKSKDHelper.GetGKControllerCardSchedules(card, getAccessTemplateOperationResult.Result);
 									foreach (var controllerCardSchedule in controllerCardSchedules)
 									{
-										var result = new OperationResult<bool>(false);
 										switch ((PendingCardAction)pendingCard.Action)
 										{
 											case PendingCardAction.Add:
-												result = GKSKDHelper.AddOrEditCard(controllerCardSchedule, card, employeeName);
-												break;
-
 											case PendingCardAction.Edit:
-												result = GKSKDHelper.AddOrEditCard(controllerCardSchedule, card, employeeName);
+												var result = GKSKDHelper.AddOrEditCard(controllerCardSchedule, card, employeeName);
+												if (!result.HasError)
+												{
+													databaseService.CardTranslator.DeleteAllPendingCards(pendingCard.CardUID, device.UID);
+												}
 												break;
-										}
-										if (!result.HasError)
-										{
-											databaseService.CardTranslator.DeleteAllPendingCards(pendingCard.CardUID, device.UID);
 										}
 									}
 								}

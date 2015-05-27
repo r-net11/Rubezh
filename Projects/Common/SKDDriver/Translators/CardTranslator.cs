@@ -333,11 +333,6 @@ namespace SKDDriver
 			}
 		}
 
-		public IEnumerable<SKDDriver.DataAccess.PendingCard> GetAllPendingCards(Guid controllerUID)
-		{
-			return Context.PendingCards.Where(x => x.ControllerUID == controllerUID);
-		}
-
 		public void DeleteAllPendingCards(Guid cardUID, Guid controllerUID)
 		{
 			var pendingCardsToRemove = Context.PendingCards.Where(x => x.CardUID == cardUID && x.ControllerUID == controllerUID);
@@ -363,6 +358,11 @@ namespace SKDDriver
 			};
 			Context.PendingCards.InsertOnSubmit(pendingCard);
 			Context.SubmitChanges();
+		}
+
+		public IEnumerable<SKDDriver.DataAccess.PendingCard> GetAllPendingCards(Guid controllerUID)
+		{
+			return Context.PendingCards.Where(x => x.ControllerUID == controllerUID);
 		}
 		#endregion
 	}

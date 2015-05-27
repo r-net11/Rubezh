@@ -153,6 +153,7 @@
     <Compile Include="Employees\ViewModels\CardNumberViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\DepartmentSelectionItemViewModel.cs" />
     <Compile Include="Employees\ViewModels\ControllerSelectationViewModel.cs" />
+    <Compile Include="Employees\ViewModels\GKControllerViewModel.cs" />
     <Compile Include="Employees\ViewModels\GKReaderSelectationViewModel.cs" />
     <Compile Include="Employees\Views\IsPositionDeletedTextBlock.xaml.cs">
       <DependentUpon>IsPositionDeletedTextBlock.xaml</DependentUpon>

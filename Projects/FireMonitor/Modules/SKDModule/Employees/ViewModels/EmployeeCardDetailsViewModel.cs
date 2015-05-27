@@ -26,7 +26,7 @@ namespace SKDModule.ViewModels
 		public bool HasGK { get; private set; }
 		public bool HasStrazh { get; private set; }
 		ShortEmployee _employee;
-		
+
 		public EmployeeCardDetailsViewModel(Organisation organisation, ShortEmployee employee, SKDCard card = null)
 		{
 			HasGK = GKManager.Devices.Count > 1;
@@ -64,9 +64,9 @@ namespace SKDModule.ViewModels
 
 			GKSchedules = new ObservableCollection<GKSchedule>();
 			var scheduleModels = GKScheduleHelper.GetSchedules();
-			if(scheduleModels == null)
+			if (scheduleModels == null)
 				scheduleModels = new List<GKSchedule>();
-			foreach(var schedule in scheduleModels)
+			foreach (var schedule in scheduleModels)
 			{
 				GKSchedules.Add(schedule);
 			}
@@ -113,6 +113,17 @@ namespace SKDModule.ViewModels
 				GKCardTypes = new ObservableCollection<GKCardType>(Enum.GetValues(typeof(GKCardType)).OfType<GKCardType>());
 			}
 			SelectedGKCardType = Card.GKCardType;
+
+			AvailableGKControllers = new ObservableCollection<GKControllerViewModel>();
+			foreach (var device in GKManager.Devices)
+			{
+				if (device.DriverType == GKDriverType.GK)
+				{
+					var controllerViewModel = new GKControllerViewModel(device);
+					controllerViewModel.IsChecked = IsNewCard || (card.GKControllerUIDs != null && card.GKControllerUIDs.Contains(device.UID));
+					AvailableGKControllers.Add(controllerViewModel);
+				}
+			}
 		}
 
 		uint _number;
@@ -167,6 +178,7 @@ namespace SKDModule.ViewModels
 			{
 				_selectedGKCardType = value;
 				OnPropertyChanged(() => SelectedGKCardType);
+				CanSelectGKControllers = value != GKCardType.Employee;
 			}
 		}
 
@@ -479,10 +491,25 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		#region GKControllers
+
+		public ObservableCollection<GKControllerViewModel> AvailableGKControllers { get; private set; }
+
+		bool _canSelectGKControllers;
+		public bool CanSelectGKControllers
+		{
+			get { return _canSelectGKControllers; }
+			set
+			{
+				_canSelectGKControllers = value;
+				OnPropertyChanged(() => CanSelectGKControllers);
+			}
+		}
+
+		#endregion
+
 		protected override bool Save()
 		{
-			
-
 			Card.Number = Number;
 			var stopListCard = StopListCards.FirstOrDefault(x => x.Number == Card.Number);
 			if (stopListCard != null)
@@ -508,6 +535,10 @@ namespace SKDModule.ViewModels
 			Card.Password = Password;
 			Card.CardType = SelectedCardType;
 			Card.GKCardType = SelectedGKCardType;
+			if (SelectedGKCardType != GKCardType.Employee)
+			{
+				Card.GKControllerUIDs = AvailableGKControllers.Where(x => x.IsChecked).Select(x => x.Device.UID).ToList();
+			}
 			Card.StartDate = StartDate;
 			Card.EndDate = EndDate;
 			Card.GKLevel = GKLevel;

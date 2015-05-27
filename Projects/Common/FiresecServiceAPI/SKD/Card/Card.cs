@@ -13,6 +13,7 @@ namespace FiresecAPI.SKD
 			CardDoors = new List<CardDoor>();
 			CardType = CardType.Constant;
 			GKCardType = GK.GKCardType.Employee;
+			GKControllerUIDs = new List<Guid>();
 		}
 
 		[DataMember]
@@ -71,5 +72,8 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public int GKLevelSchedule { get; set; }
+
+		[DataMember]
+		public List<Guid> GKControllerUIDs { get; set; }
 	}
 }
