@@ -161,9 +161,9 @@ namespace GKProcessor
 						if (Device.DriverType == GKDriverType.RSR2_MVP)
 						{
 							if (driverProperty.Name == "Число АУ на АЛС3 МВП")
-								property.Value = (ushort)Device.Children[0].AllChildren.Count(x => x.Driver.IsReal);
+								property.Value = (ushort)Device.Children[0].AllChildren.Count(x => x.Driver.IsReal && !x.Driver.IsGroupDevice);
 							if (driverProperty.Name == "Число АУ на АЛС4 МВП")
-								property.Value = (ushort)Device.Children[1].AllChildren.Count(x => x.Driver.IsReal);
+								property.Value = (ushort)Device.Children[1].AllChildren.Count(x => x.Driver.IsReal && !x.Driver.IsGroupDevice);
 						}
 					}
 

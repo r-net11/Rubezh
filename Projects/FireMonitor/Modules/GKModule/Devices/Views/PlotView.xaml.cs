@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Media;
+using Controls.TreeList;
 using GKModule.ViewModels;
 using Microsoft.Research.DynamicDataDisplay;
 using Microsoft.Research.DynamicDataDisplay.Common;
@@ -40,6 +42,7 @@ namespace GKModule.Views
 
 			plotter.Viewport.Restrictions.Add(restr);
 
+			plotViewModel.CurrentConsumptions = plotViewModel.CurrentConsumptions.OrderBy(x => x.DateTime).ToList();
 			var dates = new DateTime[plotViewModel.CurrentConsumptions.Count];
 			var curents = new int[plotViewModel.CurrentConsumptions.Count];
 
@@ -59,7 +62,7 @@ namespace GKModule.Views
 
 			plotter.AddLineGraph(compositeDataSource,
 					  new Pen(Brushes.Blue, 2),
-					  new CirclePointMarker { Size = 10.0, Fill = Brushes.Red },
+					  new CirclePointMarker { Size = 5.0, Fill = Brushes.Red },
 					  new PenDescription("Статистика токопотребления"));
 
 			plotter.Viewport.FitToView();

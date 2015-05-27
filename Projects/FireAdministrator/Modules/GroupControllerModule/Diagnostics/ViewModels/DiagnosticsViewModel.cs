@@ -4,7 +4,6 @@ using FiresecAPI.GK;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
-using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 
@@ -15,7 +14,6 @@ namespace GKModule.ViewModels
 		public DiagnosticsViewModel()
 		{
 			TestCommand = new RelayCommand(OnTest);
-			ShowPlotCommand = new RelayCommand(OnShowPlot);
 		}
 
 		public RelayCommand TestCommand { get; private set; }
@@ -64,13 +62,6 @@ namespace GKModule.ViewModels
 			GKManager.UpdateConfiguration();
 			ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 			ServiceFactory.SaveService.GKChanged = true;
-		}
-
-		public RelayCommand ShowPlotCommand { get; private set; }
-		void OnShowPlot()
-		{
-			var plotViewModel = new PlotViewModel();
-			DialogService.ShowModalWindow(plotViewModel);
 		}
 	}
 }

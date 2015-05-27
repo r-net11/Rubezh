@@ -653,7 +653,8 @@ namespace GKModule.Plans
 				if (!result)
 				{
 					_processChanges = false;
-					DesignerCanvas.RevertLastAction();
+					if (DesignerCanvas != null)
+						DesignerCanvas.RevertLastAction();
 					_processChanges = true;
 				}
 			}
@@ -667,7 +668,8 @@ namespace GKModule.Plans
 				UpdateProperties<GKDevice>(item);
 				item.Painter.Invalidate();
 			});
-			DesignerCanvas.Refresh();
+			if (DesignerCanvas != null)
+				DesignerCanvas.Refresh();
 		}
 
 		private Color GetGKDirectionColor(GKDirection direction)

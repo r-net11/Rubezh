@@ -4,8 +4,4 @@
 		<Views:DiagnosticsView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:PlotViewModel}">
-		<Views:PlotView />
-	</DataTemplate>
-
 </ResourceDictionary>

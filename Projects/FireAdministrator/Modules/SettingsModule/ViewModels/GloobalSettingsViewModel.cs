@@ -523,6 +523,7 @@ namespace SettingsModule.ViewModels
 			GlobalSettingsHelper.GlobalSettings.DoNotAutoconnectAdm = DoNotAutoconnectAdm;
 			GlobalSettingsHelper.GlobalSettings.RunRevisor = RunRevisor;
 			ModulesViewModel.Save();
+			GlobalSettingsHelper.Save();
 			return true;
 		}
 	}

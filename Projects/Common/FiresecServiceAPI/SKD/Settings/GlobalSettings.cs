@@ -98,20 +98,36 @@ namespace FiresecAPI
 
 		[DataMember]
 		public bool Monitor_F1_Enabled { get; set; }
+
 		[DataMember]
 		public bool Monitor_F2_Enabled { get; set; }
+
 		[DataMember]
 		public bool Monitor_F3_Enabled { get; set; }
+
 		[DataMember]
 		public bool Monitor_F4_Enabled { get; set; }
+
 		[DataMember]
 		public bool Monitor_IsControlMPT { get; set; }
+
 		[DataMember]
 		public bool Monitor_HaspInfo_Enabled { get; set; }
+
 		[DataMember]
 		public bool Monitor_HidePlansTree { get; set; }
+
 		[DataMember]
 		public ValidationErrorType IgnoredErrors { get; set; }
+
+		[DataMember]
+		public bool ShowOtherZonesDevices { get; set; }
+
+		[DataMember]
+		public bool ShowDoorsDevices { get; set; }
+
+		[DataMember]
+		public bool ShowMPTsDevices { get; set; }
 
 		public void SetDefaultModules()
 		{

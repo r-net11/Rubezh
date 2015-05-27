@@ -32,8 +32,6 @@ namespace GKModule.ViewModels
 
 			foreach (var device in GKManager.Devices)
 			{
-				if (device.IsInMPT)
-					continue;
 
 				if (device.Driver.HasLogic)
 				{
@@ -59,6 +57,10 @@ namespace GKModule.ViewModels
 					{
 						if (device.ZoneUIDs.Count == 0)
 						{
+							if ((device.IsInMPT && !GlobalSettingsHelper.GlobalSettings.ShowMPTsDevices)
+								|| (device.GuardZoneUIDs.Count > 0 && !GlobalSettingsHelper.GlobalSettings.ShowOtherZonesDevices)
+								|| (device.Door != null && !GlobalSettingsHelper.GlobalSettings.ShowDoorsDevices))
+								continue;
 							availableDevices.Add(device);
 						}
 					}

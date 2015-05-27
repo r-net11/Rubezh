@@ -6,8 +6,8 @@
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="Auto" />
 			<ColumnDefinition Width="Auto" />
-			<ColumnDefinition Width="Auto" />
 			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="Auto" />
 		</Grid.ColumnDefinitions>
 		<ComboBox Grid.Column="0" ItemsSource="{Binding EnterTypes}" SelectedItem="{Binding SelectedEnterType}" Margin="2">
 			<ComboBox.ItemTemplate>
@@ -24,7 +24,7 @@
 				</StackPanel>
 			</Hyperlink>
 		</TextBlock>
-		<Label Content="Уровень" Grid.Column="2" VerticalAlignment="Center" />
-		<extToolkit:IntegerUpDown Grid.Column="3" Value="{Binding AccessLevel}" HorizontalAlignment="Left" Minimum="0" Maximum="255" Width="100" Height="25" />
+		<Label Content="Уровень" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right" />
+		<extToolkit:IntegerUpDown Grid.Column="3" Value="{Binding AccessLevel}" HorizontalAlignment="Right" Minimum="0" Maximum="255" Width="100" Height="25" />
 	</Grid>
 </UserControl>

@@ -3,7 +3,6 @@ using System.Runtime.Serialization;
 using Entities.DeviceOriented;
 using FiresecAPI.Automation;
 using FiresecAPI.Journal;
-using System.Xml.Serialization;
 
 namespace FiresecAPI.Models
 {

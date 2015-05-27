@@ -28,12 +28,14 @@ namespace GKModule.ViewModels
 
 		public ZonesViewModel()
 		{
-			Menu = new ZonesMenuViewModel(this);
-			Current = this;
 			AddCommand = new RelayCommand(OnAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
 			DeleteAllEmptyCommand = new RelayCommand(OnDeleteAllEmpty, CanDeleteAllEmpty);
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
+			ShowSettingsCommand = new RelayCommand(OnShowSettings);
+
+			Current = this;
+			Menu = new ZonesMenuViewModel(this);
 			ZoneDevices = new ZoneDevicesViewModel();
 			RegisterShortcuts();
 			IsRightPanelEnabled = true;
@@ -145,6 +147,15 @@ namespace GKModule.ViewModels
 		bool CanDeleteAllEmpty()
 		{
 			return Zones.Any(x => x.Zone.Devices.Count == 0);
+		}
+
+		public RelayCommand ShowSettingsCommand { get; private set; }
+		void OnShowSettings()
+		{
+			var zonesSettingsViewModel = new ZonesSettingsViewModel();
+			DialogService.ShowModalWindow(zonesSettingsViewModel);
+			if (SelectedZone != null)
+				ZoneDevices.Initialize(SelectedZone.Zone);
 		}
 
 		public RelayCommand EditCommand { get; private set; }

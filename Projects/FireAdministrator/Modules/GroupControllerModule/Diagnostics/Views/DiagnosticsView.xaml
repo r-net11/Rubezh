@@ -3,9 +3,8 @@
 		<TabItem Header="Отладка">
 			<Border Background="White" CornerRadius="5">
 				<StackPanel>
-                    <Button Command="{Binding TestCommand}" Content="Добавить устройства к существующим шлейфам" Width="300" Margin="2" />
-                    <Button Command="{Binding ShowPlotCommand}" Content="Показать график" Width="300" Margin="2" />
-                </StackPanel>
+					<Button Command="{Binding TestCommand}" Content="Добавить устройства к существующим шлейфам" Width="300" Margin="2" />
+				</StackPanel>
 			</Border>
 		</TabItem>
 	</TabControl>
