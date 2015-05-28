@@ -26,19 +26,19 @@ namespace FiresecService.EFTest
 
 		static void PassJournalTest(PassJournalContext context)
 		{
-			var employee = new Employee 
-			{ 
-				FirstName = "TestEmpl5551 Name", 
-				SecondName = "TestEmpl5551 SecName", 
-				LastName = "TestEmpl5551 LstName" 
+			var employee = new Employee
+			{
+				FirstName = "TestEmpl5551 Name",
+				SecondName = "TestEmpl5551 SecName",
+				LastName = "TestEmpl5551 LstName"
 			};
 			for (int i = 0; i < 5; i++)
 			{
-				var passJournal = new PassJournal 
-				{ 
-					ZoneUID = Guid.Empty, 
-					EnterTime = new DateTime(3000, 1, 1), 
-					Employee = employee 
+				var passJournal = new PassJournal
+				{
+					ZoneUID = Guid.Empty,
+					EnterTime = new DateTime(3000, 1, 1),
+					Employee = employee
 				};
 				context.PassJournals.Add(passJournal);
 			}
@@ -48,6 +48,12 @@ namespace FiresecService.EFTest
 			foreach (var item in passJournals)
 			{
 				Trace.WriteLine(string.Format("{0} {1} {2}", item.UID, item.EmployeeUID, item.Employee != null ? item.Employee.FirstName : ""));
+			}
+
+			var employeepassjournals = from x in context.EmployeePassJournals select x;
+			foreach (var item in employeepassjournals)
+			{
+				Trace.WriteLine(string.Format("{0} {1}", item.UID, item.LastName));
 			}
 
 			context.SaveChanges();
@@ -104,6 +110,16 @@ namespace FiresecService.EFTest
 		public ICollection<PassJournal> PassJournals { get; set; }
 	}
 
+	class EmployeePassJournal
+	{
+		[Key]
+		[Column("uid")]
+		public Guid UID { get; set; }
+
+		[Column("lastname")]
+		public string LastName { get; set; }
+	}
+
 	class PassJournalContext : DbContext
 	{
 		ContextType _contextType;
@@ -131,10 +147,12 @@ namespace FiresecService.EFTest
 			}
 			modelBuilder.Entity<PassJournal>().ToTable("passjournal", schemaStr);
 			modelBuilder.Entity<Employee>().ToTable("employee", schemaStr);
+			modelBuilder.Entity<EmployeePassJournal>().ToTable("employeepassjournal", schemaStr);
 		}
 
 		public DbSet<PassJournal> PassJournals { get; set; }
 		public DbSet<Employee> Employees { get; set; }
+		public DbSet<EmployeePassJournal> EmployeePassJournals { get; set; }
 	}
 
 	enum ContextType
