@@ -179,15 +179,6 @@ namespace SKDDriver
 			}
 		}
 
-		//public OperationResult SaveDoors(Organisation apiItem)
-		//{
-		//    return SaveDoorsInternal(apiItem.UID, apiItem.DoorUIDs);
-		//}
-		//public OperationResult SaveDoors(OrganisationDetails apiItem)
-		//{
-		//    return SaveDoorsInternal(apiItem.UID, apiItem.DoorUIDs);
-		//}
-
 		OperationResult SaveDoorsInternal(Guid organisationUID, List<Guid> doorUIDs)
 		{
 			try
@@ -206,6 +197,7 @@ namespace SKDDriver
 				var scheduleZones = Context.ScheduleZones.Where(x => x.Schedule.OrganisationUID == organisationUID && !doorUIDs.Contains(x.DoorUID));
 				Context.ScheduleZones.DeleteAllOnSubmit(scheduleZones);
 				Context.SubmitChanges();
+				return new OperationResult();
 			}
 			catch (Exception e)
 			{
