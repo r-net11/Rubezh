@@ -48,5 +48,17 @@ namespace FiresecAPI.GK
 
 		[DescriptionAttribute("во всех ТД из")]
 		AllDoors,
+
+		[DescriptionAttribute("в любой НС из")]
+		AnyPumpStation,
+
+		[DescriptionAttribute("во всех НС из")]
+		AllPumpStations,
+
+		[DescriptionAttribute("в любом индикаторе из")]
+		AnyIndicator,
+
+		[DescriptionAttribute("во всех индикаторах из")]
+		AllIndicators
 	}
 }

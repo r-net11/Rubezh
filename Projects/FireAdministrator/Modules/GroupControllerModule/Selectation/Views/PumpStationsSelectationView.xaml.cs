@@ -7,9 +7,9 @@ using System.Windows.Media;
 
 namespace GKModule.Views
 {
-	public partial class DirectionsSelectationView
+	public partial class PumpStationsSelectationView
 	{
-		public DirectionsSelectationView()
+		public PumpStationsSelectationView()
 		{
 			InitializeComponent();
 		}

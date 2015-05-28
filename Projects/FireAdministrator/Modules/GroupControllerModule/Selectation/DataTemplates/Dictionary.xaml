@@ -44,4 +44,8 @@
 		<Views:AnyZonesSelectionView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:PumpStationsSelectationViewModel}">
+		<Views:PumpStationsSelectationView />
+	</DataTemplate>
+
 </ResourceDictionary>

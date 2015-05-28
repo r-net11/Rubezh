@@ -159,6 +159,18 @@ namespace GKModule.ViewModels
 						clause.Doors = clauseViewModel.Doors.ToList();
 						clause.DoorUIDs = clauseViewModel.Doors.Select(x => x.UID).ToList();
 						break;
+
+					case ClauseOperationType.AnyPumpStation:
+					case ClauseOperationType.AllPumpStations:
+						clause.PumpStations = clauseViewModel.PumpStations.ToList();
+						clause.PumpStationsUIDs = clauseViewModel.PumpStations.Select(x => x.UID).ToList();
+						break;
+
+					case ClauseOperationType.AnyIndicator:
+					case ClauseOperationType.AllIndicators:
+						clause.Indicators = clauseViewModel.Indicators.ToList();
+						clause.IndicatorsUIDs = clauseViewModel.Indicators.Select(x => x.UID).ToList();
+						break;
 				}
 				if (clause.HasObjects())
 					clauseGroup.Clauses.Add(clause);

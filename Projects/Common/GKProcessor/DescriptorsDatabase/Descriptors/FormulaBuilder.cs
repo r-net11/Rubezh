@@ -105,6 +105,14 @@ namespace GKProcessor
 				{
 					gkBases.Add(door);
 				}
+				foreach (var pumpStation in clause.PumpStations)
+				{
+					gkBases.Add(pumpStation);
+				}
+				foreach (var indicator in clause.Indicators)
+				{
+					gkBases.Add(indicator);
+				}
 
 				var objectIndex = 0;
 				foreach (var gkBase in gkBases)

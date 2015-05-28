@@ -113,6 +113,8 @@ namespace FiresecClient
 				stringBuilder.Append(GetCommaSeparatedObjects(new List<ModelBase>(clause.MPTs), new List<ModelBase>(MPTs)));
 				stringBuilder.Append(GetCommaSeparatedObjects(new List<ModelBase>(clause.Delays), new List<ModelBase>(Delays)));
 				stringBuilder.Append(GetCommaSeparatedObjects(new List<ModelBase>(clause.Doors), new List<ModelBase>(Doors)));
+				stringBuilder.Append(GetCommaSeparatedObjects(new List<ModelBase>(clause.PumpStations), new List<ModelBase>(PumpStations)));
+				stringBuilder.Append(GetCommaSeparatedObjects(new List<ModelBase>(clause.Indicators), new List<ModelBase>(Devices.FindAll(x => x.Driver.DriverType == GKDriverType.GKIndicator))));
 				index++;
 			}
 
