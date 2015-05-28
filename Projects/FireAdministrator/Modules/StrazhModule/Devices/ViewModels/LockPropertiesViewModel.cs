@@ -8,6 +8,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using FiresecClient;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace StrazhModule.ViewModels
 {
@@ -23,10 +24,8 @@ namespace StrazhModule.ViewModels
 			GetDoorConfigurationCommand = new RelayCommand(OnGetDoorConfiguration);
 			SetDoorConfigurationCommand = new RelayCommand(OnSetDoorConfiguration);
 
-			DoorOpenMethods = new ObservableCollection<SKDDoorConfiguration_DoorOpenMethod>();
-			DoorOpenMethods.Add(SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_CARD);
-			DoorOpenMethods.Add(SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_PWD_ONLY);
-			DoorOpenMethods.Add(SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_CARD_FIRST);
+			InitDoorOpenMethods();
+			InitRemoteTimeoutDoorStatuses();
 
 			SKDManager.InvalidateOneLockConfiguration(device);
 			Update(device.SKDDoorConfiguration);
@@ -35,31 +34,51 @@ namespace StrazhModule.ViewModels
 
 		void Update(SKDDoorConfiguration doorConfiguration)
 		{
-			SelectedDoorOpenMethod = doorConfiguration.DoorOpenMethod;
+			DoorOpenMethod = doorConfiguration.DoorOpenMethod;
 			UnlockHoldInterval = doorConfiguration.UnlockHoldInterval;
-			CloseTimeout = doorConfiguration.CloseTimeout;
+			HandicapUnlockHoldInterval = doorConfiguration.HandicapTimeout.nUnlockHoldInterval;
+			IsDuressAlarmEnable = doorConfiguration.IsDuressAlarmEnable;
+			IsRemoteCheck = doorConfiguration.IsRemoteCheck;
+			RemoteTimeout = doorConfiguration.RemoteDetail.TimeOut;
+			RemoteTimeoutDoorStatus = doorConfiguration.RemoteDetail.TimeOutDoorStatus ? RemoteTimeoutDoorStatus.Open : RemoteTimeoutDoorStatus.Close;
+			IsSensorEnable = doorConfiguration.IsSensorEnable;
 			IsBreakInAlarmEnable = doorConfiguration.IsBreakInAlarmEnable;
 			IsDoorNotClosedAlarmEnable = doorConfiguration.IsDoorNotClosedAlarmEnable;
-			IsSensorEnable = doorConfiguration.IsSensorEnable;
-			IsDuressAlarmEnable = doorConfiguration.IsDuressAlarmEnable;
-			IsRepeatEnterAlarmEnable = doorConfiguration.IsRepeatEnterAlarmEnable;
+			CloseTimeout = doorConfiguration.CloseTimeout;
+			HandicapCloseTimeout = doorConfiguration.HandicapTimeout.nCloseTimeout;
 		}
 
 		public ObservableCollection<SKDDoorConfiguration_DoorOpenMethod> DoorOpenMethods { get; private set; }
 
-		SKDDoorConfiguration_DoorOpenMethod _selectedDoorOpenMethod;
-		public SKDDoorConfiguration_DoorOpenMethod SelectedDoorOpenMethod
+		private void InitDoorOpenMethods()
 		{
-			get { return _selectedDoorOpenMethod; }
+			DoorOpenMethods = new ObservableCollection<SKDDoorConfiguration_DoorOpenMethod>
+			{
+				SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_CARD,
+				SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_PWD_ONLY,
+				SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_CARD_FIRST
+			};
+		}
+
+		SKDDoorConfiguration_DoorOpenMethod _doorOpenMethod;
+		/// <summary>
+		/// Метод открытия двери
+		/// </summary>
+		public SKDDoorConfiguration_DoorOpenMethod DoorOpenMethod
+		{
+			get { return _doorOpenMethod; }
 			set
 			{
-				_selectedDoorOpenMethod = value;
-				OnPropertyChanged(() => SelectedDoorOpenMethod);
+				_doorOpenMethod = value;
+				OnPropertyChanged(() => DoorOpenMethod);
 				HasChanged = true;
 			}
 		}
 
 		int _unlockHoldInterval;
+		/// <summary>
+		/// Время удержания
+		/// </summary>
 		public int UnlockHoldInterval
 		{
 			get { return _unlockHoldInterval; }
@@ -71,51 +90,96 @@ namespace StrazhModule.ViewModels
 			}
 		}
 
-		int _closeTimeout;
-		public int CloseTimeout
+		int _handicapUnlockHoldInterval;
+		/// <summary>
+		/// Альтернативное время удержания
+		/// </summary>
+		public int HandicapUnlockHoldInterval
 		{
-			get { return _closeTimeout; }
+			get { return _handicapUnlockHoldInterval; }
 			set
 			{
-				_closeTimeout = value;
-				OnPropertyChanged(() => CloseTimeout);
+				_handicapUnlockHoldInterval = value;
+				OnPropertyChanged(() => HandicapUnlockHoldInterval);
 				HasChanged = true;
 			}
 		}
 
-		bool _isBreakInAlarmEnable;
-		public bool IsBreakInAlarmEnable
+		bool _isDuressAlarmEnable;
+		/// <summary>
+		/// Тревога по принуждению
+		/// </summary>
+		public bool IsDuressAlarmEnable
 		{
-			get { return _isBreakInAlarmEnable; }
+			get { return _isDuressAlarmEnable; }
 			set
 			{
-				_isBreakInAlarmEnable = value;
-				OnPropertyChanged(() => IsBreakInAlarmEnable);
+				_isDuressAlarmEnable = value;
+				OnPropertyChanged(() => IsDuressAlarmEnable);
 				HasChanged = true;
-				if (value)
-				{
-					IsSensorEnable = true;
-				}
 			}
 		}
 
-		bool _isDoorNotClosedAlarmEnable;
-		public bool IsDoorNotClosedAlarmEnable
+		bool _isRemoteCheck;
+		/// <summary>
+		/// Проход с подтверждением
+		/// </summary>
+		public bool IsRemoteCheck
 		{
-			get { return _isDoorNotClosedAlarmEnable; }
+			get { return _isRemoteCheck; }
 			set
 			{
-				_isDoorNotClosedAlarmEnable = value;
-				OnPropertyChanged(() => IsDoorNotClosedAlarmEnable);
+				_isRemoteCheck = value;
+				OnPropertyChanged(() => IsRemoteCheck);
 				HasChanged = true;
-				if (value)
-				{
-					IsSensorEnable = true;
-				}
+			}
+		}
+
+		int _remoteTimeout;
+		/// <summary>
+		/// Время ожидания (проход с подтверждением)
+		/// </summary>
+		public int RemoteTimeout
+		{
+			get { return _remoteTimeout; }
+			set
+			{
+				_remoteTimeout = value;
+				OnPropertyChanged(() => RemoteTimeout);
+				HasChanged = true;
+			}
+		}
+
+		public ObservableCollection<RemoteTimeoutDoorStatus> RemoteTimeoutDoorStatuses { get; private set; }
+
+		private void InitRemoteTimeoutDoorStatuses()
+		{
+			RemoteTimeoutDoorStatuses = new ObservableCollection<RemoteTimeoutDoorStatus>
+			{
+				ViewModels.RemoteTimeoutDoorStatus.Close,
+				ViewModels.RemoteTimeoutDoorStatus.Open
+			};
+		}
+
+		RemoteTimeoutDoorStatus _remoteTimeoutDoorStatus;
+		/// <summary>
+		/// Состояние замка по истечению времени (проход с подтверждением)
+		/// </summary>
+		public RemoteTimeoutDoorStatus RemoteTimeoutDoorStatus
+		{
+			get { return _remoteTimeoutDoorStatus; }
+			set
+			{
+				_remoteTimeoutDoorStatus = value;
+				OnPropertyChanged(() => RemoteTimeoutDoorStatus);
+				HasChanged = true;
 			}
 		}
 
 		bool _isSensorEnable;
+		/// <summary>
+		/// Датчик контроля двери
+		/// </summary>
 		public bool IsSensorEnable
 		{
 			get { return _isSensorEnable; }
@@ -133,6 +197,74 @@ namespace StrazhModule.ViewModels
 			}
 		}
 
+		bool _isBreakInAlarmEnable;
+		/// <summary>
+		/// Тревога по взлому
+		/// </summary>
+		public bool IsBreakInAlarmEnable
+		{
+			get { return _isBreakInAlarmEnable; }
+			set
+			{
+				_isBreakInAlarmEnable = value;
+				OnPropertyChanged(() => IsBreakInAlarmEnable);
+				HasChanged = true;
+				if (value)
+				{
+					IsSensorEnable = true;
+				}
+			}
+		}
+
+		bool _isDoorNotClosedAlarmEnable;
+		/// <summary>
+		/// Тревога по незакрытию
+		/// </summary>
+		public bool IsDoorNotClosedAlarmEnable
+		{
+			get { return _isDoorNotClosedAlarmEnable; }
+			set
+			{
+				_isDoorNotClosedAlarmEnable = value;
+				OnPropertyChanged(() => IsDoorNotClosedAlarmEnable);
+				HasChanged = true;
+				if (value)
+				{
+					IsSensorEnable = true;
+				}
+			}
+		}
+
+		int _closeTimeout;
+		/// <summary>
+		/// Время закрытия
+		/// </summary>
+		public int CloseTimeout
+		{
+			get { return _closeTimeout; }
+			set
+			{
+				_closeTimeout = value;
+				OnPropertyChanged(() => CloseTimeout);
+				HasChanged = true;
+			}
+		}
+
+		int _handicapCloseTimeout;
+		/// <summary>
+		/// Альтернативное время закрытия
+		/// </summary>
+		public int HandicapCloseTimeout
+		{
+			get { return _handicapCloseTimeout; }
+			set
+			{
+				_handicapCloseTimeout = value;
+				OnPropertyChanged(() => HandicapCloseTimeout);
+				HasChanged = true;
+			}
+		}
+
 		bool _isRepeatEnterAlarmEnable;
 		public bool IsRepeatEnterAlarmEnable
 		{
@@ -141,18 +273,6 @@ namespace StrazhModule.ViewModels
 			{
 				_isRepeatEnterAlarmEnable = value;
 				OnPropertyChanged(() => IsRepeatEnterAlarmEnable);
-				HasChanged = true;
-			}
-		}
-
-		bool _isDuressAlarmEnable;
-		public bool IsDuressAlarmEnable
-		{
-			get { return _isDuressAlarmEnable; }
-			set
-			{
-				_isDuressAlarmEnable = value;
-				OnPropertyChanged(() => IsDuressAlarmEnable);
 				HasChanged = true;
 			}
 		}
@@ -196,16 +316,27 @@ namespace StrazhModule.ViewModels
 
 		SKDDoorConfiguration GetModel()
 		{
-			var doorConfiguration = new SKDDoorConfiguration();
-			doorConfiguration.DoorOpenMethod = SelectedDoorOpenMethod;
-			doorConfiguration.UnlockHoldInterval = UnlockHoldInterval;
-			doorConfiguration.CloseTimeout = CloseTimeout;
-			doorConfiguration.IsBreakInAlarmEnable = IsBreakInAlarmEnable;
-			doorConfiguration.IsDoorNotClosedAlarmEnable = IsDoorNotClosedAlarmEnable;
-			doorConfiguration.IsSensorEnable = IsSensorEnable;
-			doorConfiguration.IsRepeatEnterAlarmEnable = IsRepeatEnterAlarmEnable;
-			doorConfiguration.IsDuressAlarmEnable = IsDuressAlarmEnable;
-			return doorConfiguration;
+			return new SKDDoorConfiguration()
+			{
+				DoorOpenMethod = this.DoorOpenMethod,
+				UnlockHoldInterval = this.UnlockHoldInterval,
+				HandicapTimeout = new HandicapTimeout()
+				{
+					nUnlockHoldInterval = this.HandicapUnlockHoldInterval,
+					nCloseTimeout = this.HandicapCloseTimeout
+				},
+				IsDuressAlarmEnable = this.IsDuressAlarmEnable,
+				IsRemoteCheck = this.IsRemoteCheck,
+				RemoteDetail = new RemoteDetail()
+				{
+					TimeOut = this.RemoteTimeout,
+					TimeOutDoorStatus = (this.RemoteTimeoutDoorStatus == RemoteTimeoutDoorStatus.Open ? true : false)
+				},
+				IsSensorEnable = this.IsSensorEnable,
+				IsBreakInAlarmEnable = this.IsBreakInAlarmEnable,
+				IsDoorNotClosedAlarmEnable = this.IsDoorNotClosedAlarmEnable,
+				CloseTimeout = this.CloseTimeout
+			};
 		}
 
 		protected override bool Save()
@@ -218,5 +349,13 @@ namespace StrazhModule.ViewModels
 			Device.SKDDoorConfiguration = GetModel();
 			return base.Save();
 		}
+	}
+
+	public enum RemoteTimeoutDoorStatus
+	{
+		[Description("Закрыто")]
+		Close,
+		[Description("Открыто")]
+		Open
 	}
 }
