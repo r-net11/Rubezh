@@ -10,7 +10,7 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
-		<Grid Grid.Row="0" Background="White">
+		<Border Grid.Row="0" Background="White" CornerRadius="5, 5, 0, 0">
 			<StackPanel Orientation="Horizontal">
 				<Label Content="От" Foreground="Black" />
 				<extToolkit:DateTimePicker Name="dateTimePicker1" Value="{x:Static sys:DateTime.Now}" Width="200" Margin="2" HorizontalAlignment="Right" />
@@ -27,9 +27,9 @@
 					</Button.CommandParameter>
 				</Button>
 			</StackPanel>
-		</Grid>
-		<Grid Grid.Row="1">
-			<d3:ChartPlotter Name="plotter" Margin="10">
+		</Border>
+		<Border Grid.Row="1" CornerRadius="0, 0, 5, 5" Background="White">
+			<d3:ChartPlotter Name="plotter" Margin="0, 0, 0, 10">
 				<d3:ChartPlotter.HorizontalAxis>
 					<d3:HorizontalDateTimeAxis Name="dateAxis" />
 				</d3:ChartPlotter.HorizontalAxis>
@@ -41,6 +41,6 @@
 				<d3:VerticalAxisTitle FontFamily="Arial" Content="Ток" />
 				<d3:HorizontalAxisTitle FontFamily="Arial" Content="Дата" />
 			</d3:ChartPlotter>
-		</Grid>
+		</Border>
 	</Grid>
 </UserControl>
