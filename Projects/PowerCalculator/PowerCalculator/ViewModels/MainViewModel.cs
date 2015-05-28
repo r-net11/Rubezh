@@ -6,6 +6,10 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Microsoft.Win32;
 using PowerCalculator.Models;
+using System.Xml.Serialization;
+using System;
+
+
 
 namespace PowerCalculator.ViewModels
 {
@@ -20,7 +24,8 @@ namespace PowerCalculator.ViewModels
 			LoadFromFileCommand = new RelayCommand(OnLoadFromFile);
 			AddLineCommand = new RelayCommand(OnAddLine);
 			RemoveLineCommand = new RelayCommand(OnRemoveFile, CanRemoveLine);
-			GenerateFromRepositoryCommand = new RelayCommand(OnGenerateFromRepository);
+            CollectToRepositoryCommand = new RelayCommand(OnCollectToRepository);
+            GenerateFromRepositoryCommand = new RelayCommand(OnGenerateFromRepository);
 			ShowRepositoryCommand = new RelayCommand(OnShowRepository);
 			CalculateCommand = new RelayCommand(OnCalculate);
 			OnCreateNew();
@@ -63,7 +68,8 @@ namespace PowerCalculator.ViewModels
 		void OnCreateNew()
 		{
 			Configuration = new Configuration();
-			Configuration.Lines.Add(new Line());
+            
+            Configuration.Lines.Add(new Line().Init());
 			Initialize();
 		}
 
@@ -77,8 +83,18 @@ namespace PowerCalculator.ViewModels
 			};
 			if (saveDialog.ShowDialog().Value)
 			{
-				if (File.Exists(saveDialog.FileName))
-					File.Delete(saveDialog.FileName);
+                try
+                {
+                    XmlSerializer ser = new XmlSerializer(typeof(Configuration));
+                    TextWriter writer = new StreamWriter(saveDialog.FileName);
+                    ser.Serialize(writer, Configuration);
+                    writer.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBoxService.ShowError("Ошибка сохранения:\n" + ex.Message);
+                }
+                
 			}
 		}
 
@@ -89,8 +105,23 @@ namespace PowerCalculator.ViewModels
 			{
 				Filter = "Файл конфигурации АЛС (*.ALS)|*.ALS"
 			};
-			if (openFileDialog.ShowDialog() == true)
+			if (openFileDialog.ShowDialog().Value)
 			{
+                try
+                {
+                    SelectedLine = null;
+                    XmlSerializer ser = new XmlSerializer(typeof(Configuration));
+                    TextReader reader = new StreamReader(openFileDialog.FileName);
+                    Configuration conf = (Configuration)ser.Deserialize(reader);
+                    reader.Close();
+
+                    Configuration = conf;
+                                                            
+                }
+                catch (Exception ex)
+                {
+                    MessageBoxService.ShowError("Ошибка загрузки:\n" + ex.Message);
+                }
 			}
 
 			Initialize();
@@ -99,7 +130,8 @@ namespace PowerCalculator.ViewModels
 		public RelayCommand AddLineCommand { get; private set; }
 		void OnAddLine()
 		{
-			var line = new Line();
+			var line = new Line().Init();
+            
 			Configuration.Lines.Add(line);
 			var lineViewModel = new LineViewModel(line);
 			Lines.Add(lineViewModel);
@@ -118,11 +150,39 @@ namespace PowerCalculator.ViewModels
 			return SelectedLine != null;
 		}
 
+        public RelayCommand CollectToRepositoryCommand { get; private set; }
+        void OnCollectToRepository()
+        {
+            Processor.Processor.CollectToRepository(Configuration);
+            OnShowRepository();
+ 
+        }
+
 		public RelayCommand GenerateFromRepositoryCommand { get; private set; }
 		void OnGenerateFromRepository()
 		{
-			Processor.Processor.GenerateFromRepository(Configuration);
-			Initialize();
+            if (Configuration.DeviceRepositoryItems.Count == 0)
+            {
+                MessageBoxService.ShowError("Репозиторий устройств не содержит элементов!");
+                return;
+            }
+
+            if (Configuration.CableRepositoryItems.Count == 0)
+            {
+                MessageBoxService.ShowError("Репозиторий кабелей не содержит элементов!");
+                return;
+            }
+
+			var cableRemains = Processor.Processor.GenerateFromRepository(Configuration);
+            Initialize();
+            if (cableRemains.Count() > 0)
+            {
+                string msg = "Неиспользованный кабель:\n";
+                foreach (CableRepositoryItem cablePiece in cableRemains)
+                    msg += String.Format("Длина = {0} м, Сопротивление = {1} Ом;\n", cablePiece.Length, cablePiece.Resistivity);
+                MessageBoxService.Show(msg);
+            }
+			
 		}
 
 		public RelayCommand ShowRepositoryCommand { get; private set; }
@@ -137,7 +197,7 @@ namespace PowerCalculator.ViewModels
 		{
 			foreach (var lineViewModel in Lines)
 			{
-				var lineErors = Processor.Processor.CalculateLine(lineViewModel.Line);
+				var lineErors = Processor.Processor.CalculateLine(lineViewModel.Line).ToList();
 
 				foreach (var deviceViewModel in lineViewModel.Devices)
 				{

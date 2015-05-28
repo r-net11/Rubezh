@@ -83,14 +83,14 @@ namespace PowerCalculator.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
-			Line.Devices.Add(SelectedDevice.Device);
+			Line.Devices.Remove(SelectedDevice.Device);
 			Devices.Remove(SelectedDevice);
 			SelectedDevice = Devices.FirstOrDefault();
 			UpdateAddresses();
 		}
 		bool CanRemove()
 		{
-			return SelectedDevice != null;
+			return SelectedDevice != null && SelectedDevice.Device.DriverType != DriverType.KAU;
 		}
 
 		void UpdateAddresses()

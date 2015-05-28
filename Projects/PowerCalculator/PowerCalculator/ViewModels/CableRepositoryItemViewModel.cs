@@ -14,7 +14,7 @@ namespace PowerCalculator.ViewModels
 		{
 			CableRepositoryItem = cableRepositoryItem;
 			_resistivity = cableRepositoryItem.Resistivity;
-			_lenght = cableRepositoryItem.Lenght;
+			_lenght = cableRepositoryItem.Length;
 		}
 
 		double _resistivity;
@@ -37,7 +37,7 @@ namespace PowerCalculator.ViewModels
 			{
 				_lenght = value;
 				OnPropertyChanged(() => Lenght);
-				CableRepositoryItem.Lenght = value;
+				CableRepositoryItem.Length = value;
 			}
 		}
 	}

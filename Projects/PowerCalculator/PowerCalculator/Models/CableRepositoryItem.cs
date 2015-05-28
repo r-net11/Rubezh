@@ -5,16 +5,16 @@ namespace PowerCalculator.Models
 	{
 		public CableRepositoryItem()
 		{
-			Lenght = 1;
+			Length = 1;
 		}
 
 		public double Resistivity { get; set; }
-		public double Lenght { get; set; }
+		public double Length { get; set; }
 
-		[XmlIgnore]
+		/*[XmlIgnore]
 		public double PercentsOfTotalLenght { get; set; }
 
 		[XmlIgnore]
-		public int DevicesCount { get; set; }
+		public int DevicesCount { get; set; }*/
 	}
 }

@@ -96,6 +96,7 @@
             </TabControl.ContentTemplate>
         </TabControl>
         <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="2">
+            <Button Command="{Binding CollectToRepositoryCommand}" Content="Собрать в репозиторий" HorizontalAlignment="Right" Width="200" Margin="2" />
             <Button Command="{Binding GenerateFromRepositoryCommand}" Content="Сгенерировать из репозитория" HorizontalAlignment="Right" Width="200" Margin="2" />
             <Button Command="{Binding ShowRepositoryCommand}" Content="Редактировать репозиторий" HorizontalAlignment="Right" Width="200" Margin="2" />
             <Button Command="{Binding CalculateCommand}" Content="Расчитать" HorizontalAlignment="Right" Width="200" Margin="2" />

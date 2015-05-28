@@ -10,7 +10,13 @@ namespace PowerCalculator.Models
 			Devices = new List<Device>();
 		}
 
-		public string Name { get; private set; }
+        public Line Init()
+        {
+            Devices.Add((new Device() { DriverType = DriverType.KAU }));
+            return this;
+        }
+        
+		public string Name { get; set; }
 		public List<Device> Devices { get; private set; }
 	}
 }
