@@ -192,29 +192,20 @@ namespace SKDDriver
 		{
 			try
 			{
-				var doorUID = doorUIDs.FirstOrDefault();
-				var tableOrganisationDoor = new DataAccess.OrganisationDoor();
-				tableOrganisationDoor.UID = Guid.NewGuid();
-				tableOrganisationDoor.DoorUID = doorUID;
-				tableOrganisationDoor.OrganisationUID = organisationUID;
-				tableOrganisationDoor.DoorUID = doorUID;
-				Context.OrganisationDoors.InsertOnSubmit(tableOrganisationDoor);
+				var tableOrganisationDoors = Context.OrganisationDoors.Where(x => x.OrganisationUID == organisationUID);
+				Context.OrganisationDoors.DeleteAllOnSubmit(tableOrganisationDoors);
+				foreach (var doorUID in doorUIDs)
+				{
+					var tableOrganisationDoor = new DataAccess.OrganisationDoor();
+					tableOrganisationDoor.UID = Guid.NewGuid();
+					tableOrganisationDoor.DoorUID = doorUID;
+					tableOrganisationDoor.OrganisationUID = organisationUID;
+					tableOrganisationDoor.DoorUID = doorUID;
+					Context.OrganisationDoors.InsertOnSubmit(tableOrganisationDoor);
+				}
+				var scheduleZones = Context.ScheduleZones.Where(x => x.Schedule.OrganisationUID == organisationUID && !doorUIDs.Contains(x.DoorUID));
+				Context.ScheduleZones.DeleteAllOnSubmit(scheduleZones);
 				Context.SubmitChanges();
-				return new OperationResult();
-				//var tableOrganisationDoors = Context.OrganisationDoors.Where(x => x.OrganisationUID == organisationUID);
-				//Context.OrganisationDoors.DeleteAllOnSubmit(tableOrganisationDoors);
-				//foreach (var doorUID in doorUIDs)
-				//{
-				//    var tableOrganisationDoor = new DataAccess.OrganisationDoor();
-				//    tableOrganisationDoor.UID = Guid.NewGuid();
-				//    tableOrganisationDoor.DoorUID = doorUID;
-				//    tableOrganisationDoor.OrganisationUID = organisationUID;
-				//    tableOrganisationDoor.DoorUID = doorUID;
-				//    Context.OrganisationDoors.InsertOnSubmit(tableOrganisationDoor);
-				//}
-				//var scheduleZones = Context.ScheduleZones.Where(x => x.Schedule.OrganisationUID == organisationUID && !doorUIDs.Contains(x.DoorUID));
-				//Context.ScheduleZones.DeleteAllOnSubmit(scheduleZones);
-				//Context.SubmitChanges();
 			}
 			catch (Exception e)
 			{
