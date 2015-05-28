@@ -224,7 +224,7 @@
 								</Hyperlink>
 							</TextBlock>
 
-                            <TextBlock Visibility="{Binding CanSelectDoors, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2">
+							<TextBlock Visibility="{Binding CanSelectDoors, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2">
 								<Hyperlink Command="{Binding SelectDoorsCommand}" Style="{StaticResource HyperlinkStyle}">
 									<TextBlock Margin="2">
 										<TextBlock.Style>
@@ -241,6 +241,56 @@
 													<DataTrigger Binding="{Binding PresenrationDoors}" Value="">
 														<Setter Property="TextBlock.Text" Value="Нажмите для выбора точек доступа" />
 														<Setter Property="TextBlock.ToolTip" Value="Нажмите для выбора точек доступа" />
+													</DataTrigger>
+												</Style.Triggers>
+											</Style>
+										</TextBlock.Style>
+									</TextBlock>
+								</Hyperlink>
+							</TextBlock>
+							
+							<TextBlock Visibility="{Binding CanSelectPumpStations, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2">
+								<Hyperlink Command="{Binding SelectPumpStationsCommand}" Style="{StaticResource HyperlinkStyle}">
+									<TextBlock Margin="2">
+										<TextBlock.Style>
+											<Style>
+												<Setter Property="TextBlock.Text" Value="{Binding PresenrationPumpStations}" />
+												<Setter Property="TextBlock.ToolTip">
+													<Setter.Value>
+														<WrapPanel>
+															<TextBlock Text="{Binding PresenrationPumpStations}" TextWrapping="Wrap" />
+														</WrapPanel>
+													</Setter.Value>
+												</Setter>
+												<Style.Triggers>
+													<DataTrigger Binding="{Binding PresenrationPumpStations}" Value="">
+														<Setter Property="TextBlock.Text" Value="Нажмите для выбора насосных станций" />
+														<Setter Property="TextBlock.ToolTip" Value="Нажмите для выбора насосных станций" />
+													</DataTrigger>
+												</Style.Triggers>
+											</Style>
+										</TextBlock.Style>
+									</TextBlock>
+								</Hyperlink>
+							</TextBlock>
+							
+							<TextBlock Visibility="{Binding CanSelectIndicators, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2">
+								<Hyperlink Command="{Binding SelectIndicatorsCommand}" Style="{StaticResource HyperlinkStyle}">
+									<TextBlock Margin="2">
+										<TextBlock.Style>
+											<Style>
+												<Setter Property="TextBlock.Text" Value="{Binding PresenrationIndicators}" />
+												<Setter Property="TextBlock.ToolTip">
+													<Setter.Value>
+														<WrapPanel>
+															<TextBlock Text="{Binding PresenrationIndicators}" TextWrapping="Wrap" />
+														</WrapPanel>
+													</Setter.Value>
+												</Setter>
+												<Style.Triggers>
+													<DataTrigger Binding="{Binding PresenrationIndicators}" Value="">
+														<Setter Property="TextBlock.Text" Value="Нажмите для выбора индикаторов" />
+														<Setter Property="TextBlock.ToolTip" Value="Нажмите для выбора индикаторов" />
 													</DataTrigger>
 												</Style.Triggers>
 											</Style>

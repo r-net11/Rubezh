@@ -71,14 +71,16 @@ namespace FiresecAPI.GK
 			var result = new List<GKBase>();
 			foreach (var clause in Clauses)
 			{
-				clause.Devices.ForEach(x => result.Add(x));
-				clause.Zones.ForEach(x => result.Add(x));
-				clause.GuardZones.ForEach(x => result.Add(x));
-				clause.Directions.ForEach(x => result.Add(x));
-				clause.Delays.ForEach(x => result.Add(x));
-				clause.Doors.ForEach(x => result.Add(x));
-				clause.MPTs.ForEach(x => result.Add(x));
-				clause.Devices.ForEach(x => result.Add(x));
+				clause.Devices.ForEach(result.Add);
+				clause.Zones.ForEach(result.Add);
+				clause.GuardZones.ForEach(result.Add);
+				clause.Directions.ForEach(result.Add);
+				clause.Delays.ForEach(result.Add);
+				clause.Doors.ForEach(result.Add);
+				clause.MPTs.ForEach(result.Add);
+				clause.Devices.ForEach(result.Add);
+				clause.PumpStations.ForEach(result.Add);
+				clause.Indicators.ForEach(result.Add);
 			}
 			foreach (var clauseGroup in ClauseGroups)
 			{
