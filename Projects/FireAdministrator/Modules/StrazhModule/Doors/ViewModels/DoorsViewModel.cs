@@ -107,17 +107,6 @@ namespace StrazhModule.ViewModels
 				var index = Doors.IndexOf(SelectedDoor);
 				SKDManager.RemoveDoor(SelectedDoor.Door);
 				SelectedDoor.Door.OnChanged();
-
-				var organisations = OrganisationHelper.Get(new OrganisationFilter());
-				foreach (var organisation in organisations)
-				{
-					if (organisation.DoorUIDs.Contains(SelectedDoor.Door.UID))
-					{
-						organisation.DoorUIDs.Remove(SelectedDoor.Door.UID);
-						OrganisationHelper.SaveDoors(organisation);
-					}
-				}
-
 				Doors.Remove(SelectedDoor);
 				index = Math.Min(index, Doors.Count - 1);
 				if (index > -1)
