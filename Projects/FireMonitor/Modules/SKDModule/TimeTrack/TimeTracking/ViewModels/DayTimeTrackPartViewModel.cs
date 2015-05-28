@@ -55,7 +55,7 @@ namespace SKDModule.ViewModels
 
 		public void Update(TimeSpan enterTime, TimeSpan exitTime, string zoneName)
 		{
-			ZoneName = zoneName != null ? zoneName : "<Нет в конфигурации>";
+			ZoneName = zoneName ?? "<Нет в конфигурации>";
 			EnterTimeSpan = enterTime;
 			ExitTimeSpan = exitTime;
 		}

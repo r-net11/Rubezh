@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.SKD;
@@ -34,19 +36,33 @@ namespace SKDModule.ViewModels
 			DayTimeTrack = dayTimeTrack;
 			ShortEmployee = shortEmployee;
 
-			DayTimeTrackParts = new ObservableCollection<DayTimeTrackPartViewModel>();
-			foreach (var timeTrackPart in DayTimeTrack.RealTimeTrackParts)
+			DayTimeTrackParts = GetCollection(DayTimeTrack.RealTimeTrackParts);
+
+			Documents = GetCollection(DayTimeTrack.Documents);
+		}
+
+		private ObservableCollection<DocumentViewModel> GetCollection(IEnumerable<TimeTrackDocument> timeTrackDocuments)
+		{
+			var result = new ObservableCollection<DocumentViewModel>();
+
+			foreach (var document in timeTrackDocuments)
 			{
-				var employeeTimeTrackPartViewModel = new DayTimeTrackPartViewModel(timeTrackPart);
-				DayTimeTrackParts.Add(employeeTimeTrackPartViewModel);
+				result.Add(new DocumentViewModel(document));
 			}
 
-			Documents = new ObservableCollection<DocumentViewModel>();
-			foreach (var document in dayTimeTrack.Documents)
+			return result;
+		}
+
+		private ObservableCollection<DayTimeTrackPartViewModel> GetCollection(IEnumerable<TimeTrackPart> timeTrackParts)
+		{
+			var result = new ObservableCollection<DayTimeTrackPartViewModel>();
+
+			foreach (var timeTrackPart in timeTrackParts)
 			{
-				var documentViewModel = new DocumentViewModel(document);
-				Documents.Add(documentViewModel);
+				result.Add(new DayTimeTrackPartViewModel(timeTrackPart));
 			}
+
+			return result;
 		}
 
 
@@ -241,7 +257,7 @@ namespace SKDModule.ViewModels
 			return SelectedDocument != null && SelectedDocument.HasFile;
 		}
 
-		public bool IsIntersection(TimeTrackPartDetailsViewModel timeTrackPartDetailsViewModel)
+		public bool IsIntersection(TimeTrackPartDetailsViewModel timeTrackPartDetailsViewModel) //TODO: Replace to TimeTrackPartDetailsViewModel
 		{
 			var enterTime = timeTrackPartDetailsViewModel.EnterTime;
 			var exitTime = timeTrackPartDetailsViewModel.ExitTime;

@@ -43,6 +43,13 @@ namespace SKDModule.ViewModels
 		bool _IsNew;
 		TimeTrackDetailsViewModel _Parent;
 
+		public TimeTrackPartDetailsViewModel(TimeTrackDetailsViewModel parent, TimeSpan? enterTime = null, TimeSpan? exitTime = null)
+		{
+			EnterTime = enterTime.Value;
+			ExitTime = exitTime.Value;
+			_Parent = parent;
+		}
+
 		public TimeTrackPartDetailsViewModel(DayTimeTrack dayTimeTrack, ShortEmployee employee, TimeTrackDetailsViewModel parent, Guid? uid = null, TimeSpan? enterTime = null, TimeSpan? exitTime = null)
 		{
 			_DayTimeTrack = dayTimeTrack;
@@ -99,17 +106,16 @@ namespace SKDModule.ViewModels
 		{
 			if (!Validate())
 				return false;
-			if (_IsNew)
-				return PassJournalHelper.AddCustomPassJournal(UID, _Employee.UID, SelectedZone.UID, EnterDateTime, ExitDateTime);
-			else
-				return PassJournalHelper.EditPassJournal(UID, SelectedZone.UID, EnterDateTime, ExitDateTime);
+			return _IsNew 
+					? PassJournalHelper.AddCustomPassJournal(UID, _Employee.UID, SelectedZone.UID, EnterDateTime, ExitDateTime) 
+					: PassJournalHelper.EditPassJournal(UID, SelectedZone.UID, EnterDateTime, ExitDateTime);
 		}
 		protected override bool CanSave()
 		{
 			return base.CanSave() && SelectedZone != null;
 		}
 
-		bool Validate()
+		public bool Validate()
 		{
 			if (EnterTime > ExitTime)
 			{
@@ -121,7 +127,7 @@ namespace SKDModule.ViewModels
 				MessageBoxService.Show("Невозможно добавить нулевое пребывание в зоне");
 				return false;
 			}
-			if (_Parent.IsIntersection(this))
+			if (_Parent != null && _Parent.IsIntersection(this))
 			{
 				MessageBoxService.Show("Невозможно добавить пересекающийся интервал");
 				return false;
