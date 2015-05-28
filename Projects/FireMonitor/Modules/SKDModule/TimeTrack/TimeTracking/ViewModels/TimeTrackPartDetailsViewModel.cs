@@ -43,6 +43,7 @@ namespace SKDModule.ViewModels
 		bool _IsNew;
 		TimeTrackDetailsViewModel _Parent;
 
+		//Remove this
 		public TimeTrackPartDetailsViewModel(TimeTrackDetailsViewModel parent, TimeSpan? enterTime = null, TimeSpan? exitTime = null)
 		{
 			EnterTime = enterTime.Value;
@@ -70,23 +71,23 @@ namespace SKDModule.ViewModels
 			}
 
 			var schedule = ScheduleHelper.GetSingle(employee.ScheduleUID);
-			if (schedule != null)
-			{
-				Zones = new ObservableCollection<TimeTrackZone>();
 
-				var strazhZones = SKDManager.Zones.Where(x => schedule.Zones.Any(y => y.ZoneUID == x.UID));
-				foreach (var zone in strazhZones)
-				{
-					Zones.Add(new TimeTrackZone(zone));
-				}
-				var gkZones = GKManager.SKDZones.Where(x => schedule.Zones.Any(y => y.ZoneUID == x.UID));
-				foreach (var zone in gkZones)
-				{
-					Zones.Add(new TimeTrackZone(zone));
-				}
-				
-				SelectedZone = Zones.FirstOrDefault();
+			if (schedule == null) return;
+
+			Zones = new ObservableCollection<TimeTrackZone>();
+
+			var strazhZones = SKDManager.Zones.Where(x => schedule.Zones.Any(y => y.ZoneUID == x.UID));
+			foreach (var zone in strazhZones)
+			{
+				Zones.Add(new TimeTrackZone(zone));
 			}
+			var gkZones = GKManager.SKDZones.Where(x => schedule.Zones.Any(y => y.ZoneUID == x.UID));
+			foreach (var zone in gkZones)
+			{
+				Zones.Add(new TimeTrackZone(zone));
+			}
+				
+			SelectedZone = Zones.FirstOrDefault();
 		}
 
 		public ObservableCollection<TimeTrackZone> Zones { get; private set; }
