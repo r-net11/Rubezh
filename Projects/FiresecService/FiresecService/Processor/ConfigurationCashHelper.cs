@@ -64,14 +64,14 @@ namespace FiresecService
 
 		public static SecurityConfiguration GetSecurityConfiguration()
 		{
-			var securityConfiguration = (SecurityConfiguration)GetConfigurationFomZip("SecurityConfiguration.xml", typeof(SecurityConfiguration));
+			var securityConfiguration = (SecurityConfiguration)GetConfiguration("SecurityConfiguration.xml", typeof(SecurityConfiguration));
 			securityConfiguration.AfterLoad();
 			return securityConfiguration;
 		}
 
 		static SystemConfiguration GetSystemConfiguration()
 		{
-			var systemConfiguration = (SystemConfiguration)GetConfigurationFomZip("SystemConfiguration.xml", typeof(SystemConfiguration));
+			var systemConfiguration = (SystemConfiguration)GetConfiguration("SystemConfiguration.xml", typeof(SystemConfiguration));
 			if (systemConfiguration != null)
 			{
 				systemConfiguration.AfterLoad();
@@ -85,7 +85,7 @@ namespace FiresecService
 
 		static GKDeviceConfiguration GetDeviceConfiguration()
 		{
-			var deviceConfiguration = (GKDeviceConfiguration)GetConfigurationFomZip("GKDeviceConfiguration.xml", typeof(GKDeviceConfiguration));
+			var deviceConfiguration = (GKDeviceConfiguration)GetConfiguration("GKDeviceConfiguration.xml", typeof(GKDeviceConfiguration));
 			if (deviceConfiguration == null)
 				deviceConfiguration = new GKDeviceConfiguration();
 			deviceConfiguration.AfterLoad();
@@ -94,7 +94,7 @@ namespace FiresecService
 
 		static SKDConfiguration GetSKDConfiguration()
 		{
-			var skdConfiguration = (SKDConfiguration)GetConfigurationFomZip("SKDConfiguration.xml", typeof(SKDConfiguration));
+			var skdConfiguration = (SKDConfiguration)GetConfiguration("SKDConfiguration.xml", typeof(SKDConfiguration));
 			if (skdConfiguration != null)
 			{
 				skdConfiguration.AfterLoad();
@@ -106,7 +106,7 @@ namespace FiresecService
 			return skdConfiguration;
 		}
 
-		static VersionedConfiguration GetConfigurationFomZip(string fileName, Type type)
+		static VersionedConfiguration GetConfiguration(string fileName, Type type)
 		{
 			try
 			{
