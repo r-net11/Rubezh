@@ -5,9 +5,11 @@ namespace GKModule.ViewModels
 {
 	public class ZonesSettingsViewModel : SaveCancelDialogViewModel
 	{
-		public ZonesSettingsViewModel()
+		public string ShowOtherZonesDevicesLabelContent { get; private set; }
+		public ZonesSettingsViewModel(bool isGuardZones = false)
 		{
 			Title = "Настройки зон";
+			ShowOtherZonesDevicesLabelContent = isGuardZones ? "Отображать устройства из пожарных зон" : "Отображать устройства из охранных зон";
 			ShowOtherZonesDevices = GlobalSettingsHelper.GlobalSettings.ShowOtherZonesDevices;
 			ShowDoorsDevices = GlobalSettingsHelper.GlobalSettings.ShowDoorsDevices;
 			ShowMPTsDevices = GlobalSettingsHelper.GlobalSettings.ShowMPTsDevices;

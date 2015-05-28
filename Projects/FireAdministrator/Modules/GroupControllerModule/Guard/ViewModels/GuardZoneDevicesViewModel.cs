@@ -58,7 +58,11 @@ namespace GKModule.ViewModels
 					}
 					else
 					{
-						guardZoneDevice = new GKGuardZoneDevice()
+						if ((device.IsInMPT && !GlobalSettingsHelper.GlobalSettings.ShowMPTsDevices)
+							|| (device.ZoneUIDs.Count > 0 && !GlobalSettingsHelper.GlobalSettings.ShowOtherZonesDevices)
+							|| (device.Door != null && !GlobalSettingsHelper.GlobalSettings.ShowDoorsDevices))
+							continue;
+						guardZoneDevice = new GKGuardZoneDevice
 						{
 							DeviceUID = device.UID,
 							Device = device

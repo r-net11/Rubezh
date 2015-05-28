@@ -15,7 +15,7 @@
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 
-				<Label Grid.Row="0" Grid.Column="0" Content="Отображать устройства из охранных зон" HorizontalAlignment="Right" />
+				<Label Grid.Row="0" Grid.Column="0" Content="{Binding ShowOtherZonesDevicesLabelContent}" HorizontalAlignment="Right" />
 				<CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding ShowOtherZonesDevices, UpdateSourceTrigger=PropertyChanged}" Margin="2,5,0,0" />
 				<Label Grid.Row="1" Grid.Column="0" Content="Отображать устройства из точек доступа" HorizontalAlignment="Right" />
 				<CheckBox Grid.Row="1" Grid.Column="1" IsChecked="{Binding ShowDoorsDevices, UpdateSourceTrigger=PropertyChanged}" Margin="2,5,0,0" />
