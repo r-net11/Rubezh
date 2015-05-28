@@ -93,7 +93,7 @@
     <Compile Include="Processor\Processor.cs" />
     <Compile Include="ViewModels\CableRepositoryItemViewModel.cs" />
     <Compile Include="ViewModels\DeviceRepositoryItemViewModel.cs" />
-    <Compile Include="ViewModels\DriverTypeViewModel.cs" />
+    <Compile Include="ViewModels\DriverViewModel.cs" />
     <Compile Include="ViewModels\DeviceViewModel.cs" />
     <Compile Include="ViewModels\RepositoryViewModel.cs" />
     <Compile Include="Views\NewDeviceView.xaml.cs">

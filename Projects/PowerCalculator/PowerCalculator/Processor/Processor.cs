@@ -1,24 +1,20 @@
-﻿using PowerCalculator.Models;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using PowerCalculator.Models;
 
 namespace PowerCalculator.Processor
 {
 	public static class Processor
 	{
-
         public static void CollectToRepository(Configuration configuration)
         {
-            
-
             configuration.CableRepositoryItems = new List<CableRepositoryItem>();
             configuration.DeviceRepositoryItems = new List<DeviceRepositoryItem>();
 
             foreach (Line line in configuration.Lines)
                 foreach (Device device in line.Devices)
                 {
-                    if (device.DriverType == DriverType.KAU)
+					if (device.DriverType == DriverType.RSR2_KAU)
                         continue;
 
                     DeviceRepositoryItem existingDevice = configuration.DeviceRepositoryItems.Where(x => x.DriverType == device.DriverType).FirstOrDefault();
@@ -58,16 +54,14 @@ namespace PowerCalculator.Processor
 			var totalDevicesCount = configuration.DeviceRepositoryItems.Sum(x => x.Count * x.Driver.Mult);
             for (int i = 0; i <= totalDevicesCount / 255; i++)
             {
-                configuration.Lines.Add(new Line().Init());
+                configuration.Lines.Add(new Line().Initialize());
             }
-			
-			
+
             var expandedDeviceRepositoryItems = new List<DeviceRepositoryItem>();
             foreach (var deviceRepositoryItem in configuration.DeviceRepositoryItems)
                 for (int i = 0; i < deviceRepositoryItem.Count; i++)
                     expandedDeviceRepositoryItems.Add(new DeviceRepositoryItem() { DriverType = deviceRepositoryItem.DriverType, Count = 1 } );
 
-            
             var sortedDeviceRepositoryItems = expandedDeviceRepositoryItems.OrderByDescending(x=>x.Driver.DeviceType).ThenBy(x => x.Driver.I);
 
             bool needAnotherLine = false;
@@ -181,7 +175,6 @@ namespace PowerCalculator.Processor
                 }    
 
             }
-            
 
             return cableRemains;
 		}
@@ -200,8 +193,6 @@ namespace PowerCalculator.Processor
                 if (scale > 0)
                     yield return new LineError(device, ErrorType.Voltage, scale);
             }
-        }
-
-        
+        }       
     }
 }

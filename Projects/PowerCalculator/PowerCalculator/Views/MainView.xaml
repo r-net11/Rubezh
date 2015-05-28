@@ -29,41 +29,53 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
-                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
                         <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="2">
                             <ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить устройство" ImageSource="Add" Margin="2" />
                             <ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить устройство" ImageSource="Delete" Margin="2" />
                         </StackPanel>
-                        <DataGrid Grid.Row="1" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" Margin="2">
+                        <DataGrid Grid.Row="1" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" IsReadOnly="False" Margin="2">
                             <DataGrid.Columns>
                                 <DataGridTemplateColumn Header="Название" Width="*">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding Device.DriverType, Converter={StaticResource EnumToDescriptionConverter}}" Margin="2" />
+                                            <StackPanel Orientation="Horizontal">
+                                                <Image Width="16" Height="16" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Source="{Binding Device.Driver.ImageSource}" />
+                                                <TextBlock Text="{Binding Device.DriverType, Converter={StaticResource EnumToDescriptionConverter}}" Margin="2" />
+                                            </StackPanel>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
                                 <DataGridTemplateColumn Header="Адрес" Width="Auto">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding Address}" Margin="2" />
+                                            <TextBlock Text="{Binding PresentationAddress}" Margin="2" />
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
                                 <DataGridTemplateColumn Header="Сопротивление кабеля" Width="Auto">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding Device.Cable.Resistivity}" Margin="2" />
+                                            <TextBlock Text="{Binding CableResistivity}" Margin="2" />
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
+                                    <DataGridTemplateColumn.CellEditingTemplate>
+                                        <DataTemplate>
+                                            <TextBox Text="{Binding CableResistivity}" Foreground="Black" Margin="2" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellEditingTemplate>
                                 </DataGridTemplateColumn>
                                 <DataGridTemplateColumn Header="Длина кабеля" Width="Auto">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding Device.Cable.Length}" Margin="2" />
+                                            <TextBlock Text="{Binding CableLength}" Margin="2" />
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
+                                    <DataGridTemplateColumn.CellEditingTemplate>
+                                        <DataTemplate>
+                                            <TextBox Text="{Binding CableLength}" Foreground="Black" Margin="2" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellEditingTemplate>
                                 </DataGridTemplateColumn>
                                 <DataGridTemplateColumn Header="Ошибка" Width="Auto">
                                     <DataGridTemplateColumn.CellTemplate>
@@ -81,16 +93,6 @@
                                 </DataGridTemplateColumn>
                             </DataGrid.Columns>
                         </DataGrid>
-                        <StackPanel DataContext="{Binding SelectedDevice}" Grid.Row="2">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Сопротивление кабеля" Width="150" Foreground="White" Margin="2" />
-                                <TextBox Text="{Binding CableResistivity}" Width="150" Margin="2" />
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Длина кабеля" Width="150" Foreground="White" Margin="2" />
-                                <TextBox Text="{Binding CableLenght}" Width="150" Margin="2" />
-                            </StackPanel>
-                        </StackPanel>
                     </Grid>
                 </DataTemplate>
             </TabControl.ContentTemplate>

@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-
+﻿
 namespace PowerCalculator.Models
 {
 	public class Cable

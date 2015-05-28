@@ -5,51 +5,51 @@ namespace PowerCalculator.Models
 	public enum DriverType
 	{
 		[Description("Контроллер адресных устройств")]
-		KAU,
+		RSR2_KAU,
 
 		[Description("Извещатель пожарный дымовой")]
-		IPD,
+		RSR2_SmokeDetector,
 
 		[Description("Извещатель пожарный тепловой")]
-		IPT,
+		RSR2_HeatDetector,
 
 		[Description("Извещатель пожарный комбинорованный")]
-		IPK,
+		RSR2_CombinedDetector,
 
 		[Description("Извещатель пожарный ручной")]
-		IPR,
+		RSR2_HandDetector,
 
 		[Description("Модуль дымоудаления")]
-		MDU,
+		RSR2_MDU,
 
 		[Description("Метка адресная - 4")]
-		MA4,
+		RSR2_AM_4,
 
 		[Description("Метка адресная с питанием - 4")]
-		MAP4,
+		RSR2_MAP4,
 
 		[Description("Модуль релейный - 2")]
-		MR2,
+		RSR2_RM_2,
 
 		[Description("Модуль релейный - 4")]
-		MR4,
+		RSR2_RM_4,
 
 		[Description("Модуль выходов с контрлоем")]
-		MVK8,
+		RSR2_MVK8,
 
 		[Description("Модуль подпитки")]
-		MP,
+		RSR2_MP,
 
 		[Description("Модуль ветвления и подпитки")]
-		MVP,
+		RSR2_MVP,
 
 		[Description("Оповещатель световой")]
-		OPS,
+		RSR2_OPS,
 
 		[Description("Оповещатель звуковой")]
-		OPZ,
+		RSR2_OPZ,
 
 		[Description("Оповещатель комбинированный")]
-		OPK
+		RSR2_OPK
 	}
 }

@@ -90,7 +90,7 @@ namespace PowerCalculator.ViewModels
 		}
 		bool CanRemove()
 		{
-			return SelectedDevice != null && SelectedDevice.Device.DriverType != DriverType.KAU;
+			return SelectedDevice != null && SelectedDevice.Device.DriverType != DriverType.RSR2_KAU;
 		}
 
 		void UpdateAddresses()

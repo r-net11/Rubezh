@@ -1,8 +1,6 @@
-﻿using PowerCalculator.Models;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using PowerCalculator.Models;
 
 namespace PowerCalculator.Processor.Algorithms
 {
@@ -13,10 +11,9 @@ namespace PowerCalculator.Processor.Algorithms
 
 	public class CalcPowerAlgorithm
 	{
-		private const double I1MESS = 0.0024;
-		private Line Line;
+		const double I1MESS = 0.0024;
+		Line Line;
 		public Dictionary<Device, CalcPowerIndicators> Result { get; set; }
-
 
 		public CalcPowerAlgorithm(Line line)
 		{
@@ -25,7 +22,6 @@ namespace PowerCalculator.Processor.Algorithms
 
 			foreach (Device device in Line.Devices)
 				Result.Add(device, new CalcPowerIndicators() { id = Dr(device.DriverType).I, ud = Dr(device.DriverType).U, il = 0 });
-
 		}
 
 		public void Calculate()
@@ -34,7 +30,7 @@ namespace PowerCalculator.Processor.Algorithms
 		}
 
 		#region wrappers
-		private void produce()
+		void produce()
 		{
 			int be, en;
 			uint nu = (uint)Line.Devices.Sum(e => Dr(e.DriverType).Mult);
@@ -59,7 +55,7 @@ namespace PowerCalculator.Processor.Algorithms
 
 		}
 
-		private void calc(int b, int e, uint n)
+		void calc(int b, int e, uint n)
 		{
 			double il, rsum, rleft, iright, ileft;
 
@@ -106,22 +102,22 @@ namespace PowerCalculator.Processor.Algorithms
 
 		}
 
-		private Driver Dr(DriverType driverType)
+		Driver Dr(DriverType driverType)
 		{
 			return DriversHelper.GetDriver(driverType);
 		}
 
-		private Driver Dr(int index, bool reverse = false)
+		Driver Dr(int index, bool reverse = false)
 		{
 			return DriversHelper.GetDriver(De(index, reverse).DriverType);
 		}
 
-		private Device De(int index, bool reverse = false)
+		Device De(int index, bool reverse = false)
 		{
 			return Line.Devices[reverse ? Line.Devices.Count - 1 - index : index];
 		}
 
-		private CalcPowerIndicators Di(int index, bool reverse = false)
+		CalcPowerIndicators Di(int index, bool reverse = false)
 		{
 			return Result[De(index, reverse)];
 		}

@@ -6,7 +6,7 @@ using PowerCalculator.Models;
 
 namespace PowerCalculator.ViewModels
 {
-	public class RepositoryViewModel : DialogViewModel
+	public class RepositoryViewModel : SaveCancelDialogViewModel
 	{
 		Configuration Configuration;
 
@@ -52,7 +52,6 @@ namespace PowerCalculator.ViewModels
 		void OnAddDevice()
 		{
 			var deviceRepositoryItem = new DeviceRepositoryItem();
-			Configuration.DeviceRepositoryItems.Add(deviceRepositoryItem);
 			var deviceRepositoryItemViewModel = new DeviceRepositoryItemViewModel(deviceRepositoryItem);
 			DeviceRepositoryItems.Add(deviceRepositoryItemViewModel);
 		}
@@ -60,7 +59,6 @@ namespace PowerCalculator.ViewModels
 		public RelayCommand RemoveDeviceCommand { get; private set; }
 		void OnRemoveDevice()
 		{
-			Configuration.DeviceRepositoryItems.Remove(SelectedDeviceRepositoryItem.DeviceRepositoryItem);
 			DeviceRepositoryItems.Remove(SelectedDeviceRepositoryItem);
 		}
 		bool CanRemoveDevice()
@@ -72,7 +70,6 @@ namespace PowerCalculator.ViewModels
 		void OnAddCable()
 		{
 			var cableRepositoryItem = new CableRepositoryItem();
-			Configuration.CableRepositoryItems.Add(cableRepositoryItem);
 			var cableRepositoryItemViewModel = new CableRepositoryItemViewModel(cableRepositoryItem);
 			CableRepositoryItems.Add(cableRepositoryItemViewModel);
 		}
@@ -80,12 +77,18 @@ namespace PowerCalculator.ViewModels
 		public RelayCommand RemoveCableCommand { get; private set; }
 		void OnRemoveCable()
 		{
-			Configuration.CableRepositoryItems.Remove(SelectedCableRepositoryItem.CableRepositoryItem);
 			CableRepositoryItems.Remove(SelectedCableRepositoryItem);
 		}
 		bool CanRemoveCable()
 		{
 			return SelectedCableRepositoryItem != null;
+		}
+
+		protected override bool Save()
+		{
+			Configuration.DeviceRepositoryItems = DeviceRepositoryItems.Select(x => x.DeviceRepositoryItem).ToList();
+			Configuration.CableRepositoryItems = CableRepositoryItems.Select(x => x.CableRepositoryItem).ToList();
+			return base.Save();
 		}
 	}
 }

@@ -1,15 +1,13 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Xml.Serialization;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Microsoft.Win32;
 using PowerCalculator.Models;
-using System.Xml.Serialization;
-using System;
-
-
 
 namespace PowerCalculator.ViewModels
 {
@@ -69,7 +67,7 @@ namespace PowerCalculator.ViewModels
 		{
 			Configuration = new Configuration();
             
-            Configuration.Lines.Add(new Line().Init());
+            Configuration.Lines.Add(new Line().Initialize());
 			Initialize();
 		}
 
@@ -85,16 +83,16 @@ namespace PowerCalculator.ViewModels
 			{
                 try
                 {
-                    XmlSerializer ser = new XmlSerializer(typeof(Configuration));
-                    TextWriter writer = new StreamWriter(saveDialog.FileName);
-                    ser.Serialize(writer, Configuration);
-                    writer.Close();
+                    var xmlSerializer = new XmlSerializer(typeof(Configuration));
+					using (var streamWriter = new StreamWriter(saveDialog.FileName))
+					{
+						xmlSerializer.Serialize(streamWriter, Configuration);
+					}
                 }
                 catch (Exception ex)
                 {
                     MessageBoxService.ShowError("Ошибка сохранения:\n" + ex.Message);
                 }
-                
 			}
 		}
 
@@ -110,13 +108,12 @@ namespace PowerCalculator.ViewModels
                 try
                 {
                     SelectedLine = null;
-                    XmlSerializer ser = new XmlSerializer(typeof(Configuration));
-                    TextReader reader = new StreamReader(openFileDialog.FileName);
-                    Configuration conf = (Configuration)ser.Deserialize(reader);
-                    reader.Close();
-
-                    Configuration = conf;
-                                                            
+                    var xmlSerializer = new XmlSerializer(typeof(Configuration));
+					using (var streamReader = new StreamReader(openFileDialog.FileName))
+					{
+						var configuration = (Configuration)xmlSerializer.Deserialize(streamReader);
+						Configuration = configuration;
+					}       
                 }
                 catch (Exception ex)
                 {
@@ -130,8 +127,7 @@ namespace PowerCalculator.ViewModels
 		public RelayCommand AddLineCommand { get; private set; }
 		void OnAddLine()
 		{
-			var line = new Line().Init();
-            
+			var line = new Line().Initialize();
 			Configuration.Lines.Add(line);
 			var lineViewModel = new LineViewModel(line);
 			Lines.Add(lineViewModel);
@@ -155,7 +151,6 @@ namespace PowerCalculator.ViewModels
         {
             Processor.Processor.CollectToRepository(Configuration);
             OnShowRepository();
- 
         }
 
 		public RelayCommand GenerateFromRepositoryCommand { get; private set; }
@@ -182,7 +177,6 @@ namespace PowerCalculator.ViewModels
                     msg += String.Format("Длина = {0} м, Сопротивление = {1} Ом;\n", cablePiece.Length, cablePiece.Resistivity);
                 MessageBoxService.Show(msg);
             }
-			
 		}
 
 		public RelayCommand ShowRepositoryCommand { get; private set; }

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Linq;
-using Infrastructure.Common.Windows.ViewModels;
+﻿using Infrastructure.Common.Windows.ViewModels;
 using PowerCalculator.Models;
 
 namespace PowerCalculator.ViewModels
@@ -12,7 +9,7 @@ namespace PowerCalculator.ViewModels
 		{
 			Device = device;
 			_cableResistivity = Device.Cable.Resistivity;
-			_cableLenght = Device.Cable.Length;
+			_cableLength = Device.Cable.Length;
 		}
 
 		public Device Device { get; private set; }
@@ -29,14 +26,14 @@ namespace PowerCalculator.ViewModels
 			}
 		}
 
-		double _cableLenght;
-		public double CableLenght
+		double _cableLength;
+		public double CableLength
 		{
-			get { return _cableLenght; }
+			get { return _cableLength; }
 			set
 			{
-				_cableLenght = value;
-				OnPropertyChanged(() => CableLenght);
+				_cableLength = value;
+				OnPropertyChanged(() => CableLength);
 				Device.Cable.Length = value;
 			}
 		}
@@ -49,6 +46,22 @@ namespace PowerCalculator.ViewModels
 			{
 				_address = value;
 				OnPropertyChanged(() => Address);
+
+				if(Device.Driver.Mult > 1)
+					PresentationAddress = Address.ToString() + " - " + (Address + Device.Driver.Mult).ToString();
+				else
+					PresentationAddress = Address.ToString();
+			}
+		}
+
+		string _presentationAddress;
+		public string PresentationAddress
+		{
+			get { return _presentationAddress; }
+			set
+			{
+				_presentationAddress = value;
+				OnPropertyChanged(() => PresentationAddress);
 			}
 		}
 

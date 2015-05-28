@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using PowerCalculator.Models;
 using System.Linq;
+using PowerCalculator.Models;
 
 namespace PowerCalculator.Processor
 {
@@ -19,7 +19,7 @@ namespace PowerCalculator.Processor
 
 			Drivers.Add(new Driver()
 				{
-					DriverType = DriverType.KAU,
+					DriverType = DriverType.RSR2_KAU,
 					CanAdd = false,
 					Mult = 1,
 					R = 0.8,
@@ -32,7 +32,7 @@ namespace PowerCalculator.Processor
 
 			Drivers.Add(new Driver()
 				{
-					DriverType = DriverType.IPD,
+					DriverType = DriverType.RSR2_SmokeDetector,
 					Mult = 1,
 					R = 0.8,
 					I = 0.21,
@@ -44,7 +44,7 @@ namespace PowerCalculator.Processor
 
 			Drivers.Add(new Driver()
 				{
-					DriverType = DriverType.IPT,
+					DriverType = DriverType.RSR2_HeatDetector,
 					Mult = 1,
 					R = 0.8,
 					I = 0.21,
@@ -56,7 +56,7 @@ namespace PowerCalculator.Processor
 
 			Drivers.Add(new Driver()
 				{
-					DriverType = DriverType.IPK,
+					DriverType = DriverType.RSR2_CombinedDetector,
 					Mult = 1,
 					R = 0.8,
 					I = 0.21,
@@ -68,7 +68,7 @@ namespace PowerCalculator.Processor
 
 			Drivers.Add(new Driver()
 				{
-					DriverType = DriverType.IPR,
+					DriverType = DriverType.RSR2_HandDetector,
 					Mult = 1,
 					R = 0.8,
 					I = 0.21,
@@ -80,7 +80,7 @@ namespace PowerCalculator.Processor
 
 			Drivers.Add(new Driver()
 				{
-					DriverType = DriverType.MDU,
+					DriverType = DriverType.RSR2_MDU,
 					Mult = 1,
 					R = 0.8,
 					I = 0.21,
@@ -92,7 +92,7 @@ namespace PowerCalculator.Processor
 
 			Drivers.Add(new Driver()
 				{
-					DriverType = DriverType.MA4,
+					DriverType = DriverType.RSR2_AM_4,
 					Mult = 4,
 					R = 0.8,
 					I = 0.21,
@@ -104,7 +104,7 @@ namespace PowerCalculator.Processor
 
 			Drivers.Add(new Driver()
 				{
-					DriverType = DriverType.MAP4,
+					DriverType = DriverType.RSR2_MAP4,
 					Mult = 4,
 					R = 0.8,
 					I = 0.21,
@@ -116,7 +116,7 @@ namespace PowerCalculator.Processor
 
 			Drivers.Add(new Driver()
 				{
-					DriverType = DriverType.MR2,
+					DriverType = DriverType.RSR2_RM_2,
 					Mult = 2,
 					R = 0.8,
 					I = 0.21,
@@ -128,7 +128,7 @@ namespace PowerCalculator.Processor
 
 			Drivers.Add(new Driver()
 				{
-					DriverType = DriverType.MR4,
+					DriverType = DriverType.RSR2_RM_4,
 					Mult = 4,
 					R = 0.8,
 					I = 0.21,
@@ -140,7 +140,7 @@ namespace PowerCalculator.Processor
 
 			Drivers.Add(new Driver()
 				{
-					DriverType = DriverType.MVK8,
+					DriverType = DriverType.RSR2_MVK8,
 					Mult = 8,
 					R = 0.8,
 					I = 0.21,
@@ -152,7 +152,7 @@ namespace PowerCalculator.Processor
 
 			Drivers.Add(new Driver()
 				{
-					DriverType = DriverType.MP,
+					DriverType = DriverType.RSR2_MP,
 					Mult = 1,
 					R = 0.8,
 					I = 0.21,
@@ -164,7 +164,7 @@ namespace PowerCalculator.Processor
 
 			Drivers.Add(new Driver()
 				{
-					DriverType = DriverType.MVP,
+					DriverType = DriverType.RSR2_MVP,
 					Mult = 1,
 					R = 0.8,
 					I = 0.21,
@@ -176,7 +176,7 @@ namespace PowerCalculator.Processor
 
 			Drivers.Add(new Driver()
 				{
-					DriverType = DriverType.OPS,
+					DriverType = DriverType.RSR2_OPS,
 					Mult = 1,
 					R = 0.8,
 					I = 5,
@@ -188,7 +188,7 @@ namespace PowerCalculator.Processor
 
 			Drivers.Add(new Driver()
 				{
-					DriverType = DriverType.OPZ,
+					DriverType = DriverType.RSR2_OPZ,
 					Mult = 1,
 					R = 0.8,
 					I = 30,
@@ -200,7 +200,7 @@ namespace PowerCalculator.Processor
 
 			Drivers.Add(new Driver()
 				{
-					DriverType = DriverType.OPK,
+					DriverType = DriverType.RSR2_OPK,
 					Mult = 1,
 					R = 0.8,
 					I = 35,

@@ -1,5 +1,5 @@
-﻿using PowerCalculator.Processor;
-using System.Xml.Serialization;
+﻿using System.Xml.Serialization;
+using PowerCalculator.Processor;
 namespace PowerCalculator.Models
 {
 	public class Device

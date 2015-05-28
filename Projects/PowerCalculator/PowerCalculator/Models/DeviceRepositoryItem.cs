@@ -7,7 +7,7 @@ namespace PowerCalculator.Models
 	{
 		public DeviceRepositoryItem()
 		{
-			DriverType = DriverType.IPD;
+			DriverType = DriverType.RSR2_SmokeDetector;
 			Count = 1;
 		}
 

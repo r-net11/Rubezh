@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using Infrastructure.Common.Windows.ViewModels;
 using PowerCalculator.Models;
+using PowerCalculator.Processor;
 
 namespace PowerCalculator.ViewModels
 {
@@ -14,22 +14,22 @@ namespace PowerCalculator.ViewModels
 		{
 			DeviceRepositoryItem = deviceRepositoryItem;
 
-			DriverTypes = new ObservableCollection<DriverTypeViewModel>(Enum.GetValues(typeof(DriverType)).Cast<DriverType>().Select(x => new DriverTypeViewModel(x)));
-			_selectedDriverType = DriverTypes.FirstOrDefault(x => x.DriverType == deviceRepositoryItem.DriverType);
+			Drivers = new ObservableCollection<DriverViewModel>(DriversHelper.Drivers.Select(x => new DriverViewModel(x)));
+			_selectedDriver = Drivers.FirstOrDefault(x => x.Driver.DriverType == deviceRepositoryItem.DriverType);
 			_count = deviceRepositoryItem.Count;
 		}
 
-		public ObservableCollection<DriverTypeViewModel> DriverTypes { get; private set; }
+		public ObservableCollection<DriverViewModel> Drivers { get; private set; }
 
-		DriverTypeViewModel _selectedDriverType;
-		public DriverTypeViewModel SelectedDriverType
+		DriverViewModel _selectedDriver;
+		public DriverViewModel SelectedDriver
 		{
-			get { return _selectedDriverType; }
+			get { return _selectedDriver; }
 			set
 			{
-				_selectedDriverType = value;
-				OnPropertyChanged(() => SelectedDriverType);
-				DeviceRepositoryItem.DriverType = value.DriverType;
+				_selectedDriver = value;
+				OnPropertyChanged(() => SelectedDriver);
+				DeviceRepositoryItem.DriverType = value.Driver.DriverType;
 			}
 		}
 

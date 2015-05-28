@@ -16,5 +16,10 @@
 		public DeviceType DeviceType { get; set; }
 		public double Umin { get; set; }
 		public double Imax { get; set; }
+
+		public string ImageSource
+		{
+			get { return "/Controls;component/GKIcons/" + DriverType + ".png"; }
+		}
 	}
 }
