@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using ChinaSKDDriver;
 using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecAPI.Journal;
@@ -606,14 +605,21 @@ namespace FiresecService.Service
 				}
 			}
 		}
-		public OperationResult SaveOrganisationDoors(Organisation item)
+		public OperationResult AddOrganisationDoor(Organisation item, Guid doorUID)
 		{
 			AddJournalMessage(JournalEventNameType.Редактирование_организации, item.Name, JournalEventDescriptionType.Редактирование, uid: item.UID);
 			using (var databaseService = new SKDDatabaseService())
 			{
-				return databaseService.OrganisationTranslator.SaveDoors(item);
+				return databaseService.OrganisationTranslator.AddDoor(item.UID, doorUID);
 			}
-
+		}
+		public OperationResult RemoveOrganisationDoor(Organisation item, Guid doorUID)
+		{
+			AddJournalMessage(JournalEventNameType.Редактирование_организации, item.Name, JournalEventDescriptionType.Редактирование, uid: item.UID);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.OrganisationTranslator.RemoveDoor(item.UID, doorUID);
+			}
 		}
 		public OperationResult SaveOrganisationUsers(Organisation item)
 		{

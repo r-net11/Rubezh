@@ -1588,3 +1588,17 @@ BEGIN
 	ALTER TABLE CurrentConsumption ADD [AlsUID] uniqueidentifier NOT NULL DEFAULT '00000000-0000-0000-0000-000000000000'
 	INSERT INTO Patches (Id) VALUES ('CurrentConsumption_AlsUID')
 END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'CardGKControllerUID')
+BEGIN
+	CREATE TABLE CardGKControllerUID(
+		[UID] uniqueidentifier NOT NULL,
+		[CardUID] uniqueidentifier NOT NULL,
+		[GKControllerUID] uniqueidentifier NOT NULL,
+	CONSTRAINT [PK_CardGKControllerUID] PRIMARY KEY ( UID))
+	ALTER TABLE CardGKControllerUID WITH NOCHECK ADD CONSTRAINT [FK_CardGKControllerUID_Card] FOREIGN KEY([CardUID])
+	REFERENCES Card ([Uid]) 
+	NOT FOR REPLICATION
+	ALTER TABLE CardGKControllerUID NOCHECK CONSTRAINT [FK_CardGKControllerUID_Card]
+	INSERT INTO Patches (Id) VALUES ('CardGKControllerUID')
+END

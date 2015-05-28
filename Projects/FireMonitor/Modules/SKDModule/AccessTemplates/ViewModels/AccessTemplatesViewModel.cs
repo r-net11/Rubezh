@@ -71,7 +71,19 @@ namespace SKDModule.ViewModels
 
 		public List<AccessTemplateViewModel> DoorsParents
 		{
-			get { return Organisations.SelectMany(x => x.Children).ToList(); }
+			get { return Organisations.SelectMany(x => x.Children).Where(x => x.CardDoorsViewModel != null).ToList(); }
+		}
+
+		protected override void UpdateSelected()
+		{
+			foreach (var item in Organisations.SelectMany(x => x.GetAllChildren()))
+			{
+				item.CardDoorsViewModel = null;
+			}
+			if (SelectedItem != null)
+			{
+				SelectedItem.InitializeDoors();
+			}
 		}
 	}	
 }

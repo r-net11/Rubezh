@@ -4,9 +4,9 @@ using System.Linq;
 using FiresecAPI.GK;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
-using Infrastructure;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure;
 using SKDModule.Events;
 
 namespace SKDModule.ViewModels
@@ -43,15 +43,11 @@ namespace SKDModule.ViewModels
 				{
 					if (!Organisation.DoorUIDs.Contains(DoorUID))
 						Organisation.DoorUIDs.Add(DoorUID);
-					var saveResult = OrganisationHelper.SaveDoors(Organisation);
+					var saveResult = OrganisationHelper.AddDoor(Organisation, DoorUID);
 					if (saveResult)
 					{
 						_isChecked = value;
 						OnPropertyChanged(() => IsChecked);
-						if (!value)
-						{
-							ServiceFactory.Events.GetEvent<UpdateOrganisationDoorsEvent>().Publish(Organisation.UID);
-						}
 					}
 				}
 				else
@@ -102,7 +98,7 @@ namespace SKDModule.ViewModels
 						{
 							Organisation.DoorUIDs.Remove(DoorUID);
 						}
-						var saveResult = OrganisationHelper.SaveDoors(Organisation);
+						var saveResult = OrganisationHelper.RemoveDoor(Organisation, DoorUID);
 						if (saveResult)
 						{
 							_isChecked = value;

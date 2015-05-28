@@ -179,39 +179,83 @@ namespace SKDDriver
 			}
 		}
 
-		public OperationResult SaveDoors(Organisation apiItem)
-		{
-			return SaveDoorsInternal(apiItem.UID, apiItem.DoorUIDs);
-		}
-		public OperationResult SaveDoors(OrganisationDetails apiItem)
-		{
-			return SaveDoorsInternal(apiItem.UID, apiItem.DoorUIDs);
-		}
+		//public OperationResult SaveDoors(Organisation apiItem)
+		//{
+		//    return SaveDoorsInternal(apiItem.UID, apiItem.DoorUIDs);
+		//}
+		//public OperationResult SaveDoors(OrganisationDetails apiItem)
+		//{
+		//    return SaveDoorsInternal(apiItem.UID, apiItem.DoorUIDs);
+		//}
 
 		OperationResult SaveDoorsInternal(Guid organisationUID, List<Guid> doorUIDs)
 		{
 			try
 			{
-				var tableOrganisationDoors = Context.OrganisationDoors.Where(x => x.OrganisationUID == organisationUID);
-				Context.OrganisationDoors.DeleteAllOnSubmit(tableOrganisationDoors);
-				foreach (var doorUID in doorUIDs)
-				{
-					var tableOrganisationDoor = new DataAccess.OrganisationDoor();
-					tableOrganisationDoor.UID = Guid.NewGuid();
-					tableOrganisationDoor.DoorUID = doorUID;
-					tableOrganisationDoor.OrganisationUID = organisationUID;
-					tableOrganisationDoor.DoorUID = doorUID;
-					Context.OrganisationDoors.InsertOnSubmit(tableOrganisationDoor);
-				}
-				var scheduleZones = Context.ScheduleZones.Where(x => x.Schedule.OrganisationUID == organisationUID && !doorUIDs.Contains(x.DoorUID));
-				Context.ScheduleZones.DeleteAllOnSubmit(scheduleZones);
+				var doorUID = doorUIDs.FirstOrDefault();
+				var tableOrganisationDoor = new DataAccess.OrganisationDoor();
+				tableOrganisationDoor.UID = Guid.NewGuid();
+				tableOrganisationDoor.DoorUID = doorUID;
+				tableOrganisationDoor.OrganisationUID = organisationUID;
+				tableOrganisationDoor.DoorUID = doorUID;
+				Context.OrganisationDoors.InsertOnSubmit(tableOrganisationDoor);
 				Context.SubmitChanges();
+				return new OperationResult();
+				//var tableOrganisationDoors = Context.OrganisationDoors.Where(x => x.OrganisationUID == organisationUID);
+				//Context.OrganisationDoors.DeleteAllOnSubmit(tableOrganisationDoors);
+				//foreach (var doorUID in doorUIDs)
+				//{
+				//    var tableOrganisationDoor = new DataAccess.OrganisationDoor();
+				//    tableOrganisationDoor.UID = Guid.NewGuid();
+				//    tableOrganisationDoor.DoorUID = doorUID;
+				//    tableOrganisationDoor.OrganisationUID = organisationUID;
+				//    tableOrganisationDoor.DoorUID = doorUID;
+				//    Context.OrganisationDoors.InsertOnSubmit(tableOrganisationDoor);
+				//}
+				//var scheduleZones = Context.ScheduleZones.Where(x => x.Schedule.OrganisationUID == organisationUID && !doorUIDs.Contains(x.DoorUID));
+				//Context.ScheduleZones.DeleteAllOnSubmit(scheduleZones);
+				//Context.SubmitChanges();
 			}
 			catch (Exception e)
 			{
 				return new OperationResult(e.Message);
 			}
-			return new OperationResult();
+		}
+
+		public OperationResult AddDoor(Guid organisationUID, Guid doorUID)
+		{
+			try
+			{
+				var tableOrganisationDoor = new DataAccess.OrganisationDoor();
+				tableOrganisationDoor.UID = Guid.NewGuid();
+				tableOrganisationDoor.DoorUID = doorUID;
+				tableOrganisationDoor.OrganisationUID = organisationUID;
+				tableOrganisationDoor.DoorUID = doorUID;
+				Context.OrganisationDoors.InsertOnSubmit(tableOrganisationDoor);
+				Context.SubmitChanges();
+				return new OperationResult();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
+		}
+
+		public OperationResult RemoveDoor(Guid organisationUID, Guid doorUID)
+		{
+			try
+			{
+				var tableOrganisationDoor = Context.OrganisationDoors.FirstOrDefault(x => x.DoorUID == doorUID && x.OrganisationUID == organisationUID);
+				Context.OrganisationDoors.DeleteOnSubmit(tableOrganisationDoor);
+				var scheduleZones = Context.ScheduleZones.Where(x => x.Schedule.OrganisationUID == organisationUID && doorUID.Equals(x.DoorUID));
+				Context.ScheduleZones.DeleteAllOnSubmit(scheduleZones);
+				Context.SubmitChanges();
+				return new OperationResult();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
 		}
 
 		public OperationResult SaveUsers(Organisation apiItem)
@@ -279,7 +323,7 @@ namespace SKDDriver
 
 		public OperationResult Save(OrganisationDetails apiItem)
 		{
-			var saveDoorsResult = SaveDoors(apiItem);
+			var saveDoorsResult = SaveDoorsInternal(apiItem.UID, apiItem.DoorUIDs);
 			if (saveDoorsResult.HasError)
 				return saveDoorsResult;
 			var saveUsersResult = SaveUsers(apiItem);

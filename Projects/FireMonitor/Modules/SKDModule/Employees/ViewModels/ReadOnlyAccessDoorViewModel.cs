@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.GK;
 using FiresecAPI.SKD;
-using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
@@ -36,12 +36,11 @@ namespace SKDModule.ViewModels
 			ExitScheduleName = "";
 		}
 
-		public ReadOnlyAccessDoorViewModel(GKDoor door, CardDoor cardDoor)
+		public ReadOnlyAccessDoorViewModel(GKDoor door, CardDoor cardDoor, List<GKSchedule> schedules)
 		{
 			PresentationName = door.PresentationName;
 			CardDoor = cardDoor;
 
-			var schedules = GKScheduleHelper.GetSchedules();
 			if (schedules != null)
 			{
 				var enterSchedule = schedules.FirstOrDefault(x => x.No == cardDoor.EnterScheduleNo);

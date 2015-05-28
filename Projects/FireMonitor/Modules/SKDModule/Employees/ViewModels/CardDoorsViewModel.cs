@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.SKD;
 using FiresecClient;
+using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
@@ -27,25 +28,18 @@ namespace SKDModule.ViewModels
 
 		void InitializeDoors()
 		{
+			var schedules = GKScheduleHelper.GetSchedules();
 			Doors = new ObservableCollection<ReadOnlyAccessDoorViewModel>();
-			foreach (var cardDoor in CardDoors)
-			{
-				var skdDoor = SKDManager.SKDConfiguration.Doors.FirstOrDefault(x => x.UID == cardDoor.DoorUID);
-				if (skdDoor != null)
-				{
-					var doorViewModel = new ReadOnlyAccessDoorViewModel(skdDoor, cardDoor);
-					Doors.Add(doorViewModel);
-				}
-				else
-				{
-					var gkDoor = GKManager.DeviceConfiguration.Doors.FirstOrDefault(x => x.UID == cardDoor.DoorUID);
-					if (gkDoor != null)
-					{
-						var doorViewModel = new ReadOnlyAccessDoorViewModel(gkDoor, cardDoor);
-						Doors.Add(doorViewModel);
-					}
-				}
-			}
+			var gkDoors = from cardDoor in CardDoors
+				join gkDoor in  GKManager.DeviceConfiguration.Doors on cardDoor.DoorUID equals gkDoor.UID
+				select new { CardDoor = cardDoor, GKDoor = gkDoor};
+			foreach (var doorViewModel in gkDoors.Select(x => new ReadOnlyAccessDoorViewModel(x.GKDoor, x.CardDoor, schedules)))
+				Doors.Add(doorViewModel);
+			var skdDoors = from cardDoor in CardDoors
+				join skdDoor in SKDManager.SKDConfiguration.Doors on cardDoor.DoorUID equals skdDoor.UID
+				select new { CardDoor = cardDoor, SKDDoor = skdDoor };
+			foreach (var doorViewModel in skdDoors.Select(x => new ReadOnlyAccessDoorViewModel(x.SKDDoor, x.CardDoor)))
+				Doors.Add(doorViewModel);
 		}
 
 		ObservableCollection<ReadOnlyAccessDoorViewModel> _doors;

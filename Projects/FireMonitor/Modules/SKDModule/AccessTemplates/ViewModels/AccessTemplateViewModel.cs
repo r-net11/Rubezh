@@ -3,24 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
-using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
 	public class AccessTemplateViewModel : OrganisationElementViewModel<AccessTemplateViewModel, AccessTemplate>, IDoorsParent
 	{
-		public CardDoorsViewModel CardDoorsViewModel { get; private set; }
+		public CardDoorsViewModel CardDoorsViewModel { get; set; }
 		
-		public override void InitializeOrganisation(Organisation organisation, ViewPartViewModel parentViewModel)
+		public void InitializeDoors()
 		{
-			base.InitializeOrganisation(organisation, parentViewModel);
-			CardDoorsViewModel = new CardDoorsViewModel(new List<CardDoor>(), this);
-		}
-
-		public override void InitializeModel(Organisation organisation, AccessTemplate accessTemplate, ViewPartViewModel parentViewModel)
-		{
-			base.InitializeModel(organisation, accessTemplate, parentViewModel);
-			CardDoorsViewModel = new CardDoorsViewModel(accessTemplate.CardDoors, this);
+			if(!IsOrganisation)
+				CardDoorsViewModel = new CardDoorsViewModel(Model.CardDoors, this);
 		}
 
 		public override void Update(AccessTemplate accessTemplate)
