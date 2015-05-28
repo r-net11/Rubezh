@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using FiresecAPI.GK;
 using FiresecAPI.SKD;
-using Infrastructure.Common.Windows.ViewModels;
 using FiresecClient;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
@@ -12,7 +13,7 @@ namespace SKDModule.ViewModels
 		Organisation Organisation;
 		public List<CardDoor> CardDoors { get; private set; }
 
-		public AccessDoorsSelectationViewModel(Organisation organisation, List<CardDoor> cardDoors)
+		public AccessDoorsSelectationViewModel(Organisation organisation, List<CardDoor> cardDoors, IEnumerable<GKSchedule> schedules)
 		{
 			Organisation = organisation;
 			CardDoors = cardDoors;
@@ -32,7 +33,7 @@ namespace SKDModule.ViewModels
 			{
 				if (Organisation.DoorUIDs.Any(y => y == door.UID))
 				{
-					var accessDoorViewModel = new AccessDoorViewModel(door, CardDoors, x => { SelectedDoor = x; });
+					var accessDoorViewModel = new AccessDoorViewModel(door, CardDoors, x => { SelectedDoor = x; }, schedules);
 					Doors.Add(accessDoorViewModel);
 				}
 			}

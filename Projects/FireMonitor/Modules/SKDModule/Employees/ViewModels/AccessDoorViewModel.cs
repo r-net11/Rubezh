@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.GK;
 using FiresecAPI.SKD;
-using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
@@ -34,7 +33,7 @@ namespace SKDModule.ViewModels
 			Initialize(cardDoors, onChecked);
 		}
 
-		public AccessDoorViewModel(GKDoor door, List<CardDoor> cardDoors, Action<AccessDoorViewModel> onChecked)
+		public AccessDoorViewModel(GKDoor door, List<CardDoor> cardDoors, Action<AccessDoorViewModel> onChecked, IEnumerable<GKSchedule> schedules)
 		{
 			DoorUID = door.UID;
 			PresentationName = door.PresentationName;
@@ -43,17 +42,16 @@ namespace SKDModule.ViewModels
 
 			EnterSchedules = new ObservableCollection<CardScheduleItem>();
 			ExitSchedules = new ObservableCollection<CardScheduleItem>();
-			var schedules = GKScheduleHelper.GetSchedules();
 			if (schedules != null)
 			{
-				foreach (var schedule in schedules)
-				{
-					if (schedule.ScheduleType == GKScheduleType.Access)
-					{
-						EnterSchedules.Add(new CardScheduleItem(schedule.No, schedule.Name));
-						ExitSchedules.Add(new CardScheduleItem(schedule.No, schedule.Name));
-					}
-				}
+			    foreach (var schedule in schedules)
+			    {
+			        if (schedule.ScheduleType == GKScheduleType.Access)
+			        {
+			            EnterSchedules.Add(new CardScheduleItem(schedule.No, schedule.Name));
+			            ExitSchedules.Add(new CardScheduleItem(schedule.No, schedule.Name));
+			        }
+			    }
 			}
 			Initialize(cardDoors, onChecked);
 		}

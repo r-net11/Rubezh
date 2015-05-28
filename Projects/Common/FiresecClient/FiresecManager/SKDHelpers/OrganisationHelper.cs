@@ -43,9 +43,15 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(result);
 		}
 
-		public static bool SaveDoors(Organisation organisation)
+		public static bool AddDoor(Organisation organisation, Guid doorUID)
 		{
-			var result = FiresecManager.FiresecService.SaveOrganisationDoors(organisation);
+			var result = FiresecManager.FiresecService.AddOrganisationDoor(organisation, doorUID);
+			return Common.ShowErrorIfExists(result);
+		}
+
+		public static bool RemoveDoor(Organisation organisation, Guid doorUID)
+		{
+			var result = FiresecManager.FiresecService.RemoveOrganisationDoor(organisation, doorUID);
 			return Common.ShowErrorIfExists(result);
 		}
 

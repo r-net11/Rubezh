@@ -38,7 +38,6 @@ namespace SKDModule.ViewModels
 			ShowUSBCardReaderCommand = new RelayCommand(OnShowUSBCardReader);
 
 			Organisation = OrganisationHelper.GetSingle(organisation.UID);
-			Card = card;
 			if (card == null)
 			{
 				IsNewCard = true;
@@ -54,38 +53,11 @@ namespace SKDModule.ViewModels
 				Title = string.Format("Свойства пропуска: {0}", card.Number);
 			}
 			Card = card;
-			Number = Card.Number;
-			Password = Card.Password;
-			StartDate = Card.StartDate;
-			EndDate = Card.EndDate;
-			GKLevel = Card.GKLevel;
-			UserTime = Card.UserTime;
-			DeactivationControllerUID = Card.DeactivationControllerUID;
+			CopyProperties();
+			InitializeGKSchedules();
+			AccessDoorsSelectationViewModel = new AccessDoorsSelectationViewModel(Organisation, Card.CardDoors, GKSchedules);
+			InitializeAccessTemplates();
 
-			GKSchedules = new ObservableCollection<GKSchedule>();
-			var scheduleModels = GKScheduleHelper.GetSchedules();
-			if (scheduleModels == null)
-				scheduleModels = new List<GKSchedule>();
-			foreach (var schedule in scheduleModels)
-			{
-				GKSchedules.Add(schedule);
-			}
-			SelectedGKSchedule = GKSchedules.FirstOrDefault(x => x.No == Card.GKLevelSchedule);
-
-			AccessDoorsSelectationViewModel = new AccessDoorsSelectationViewModel(Organisation, Card.CardDoors);
-
-			AvailableAccessTemplates = new ObservableCollection<AccessTemplate>();
-			AvailableAccessTemplates.Add(new AccessTemplate() { Name = "<нет>" });
-			var accessTemplateFilter = new AccessTemplateFilter();
-			accessTemplateFilter.OrganisationUIDs.Add(Organisation.UID);
-			var accessTemplates = AccessTemplateHelper.Get(accessTemplateFilter);
-			if (accessTemplates != null)
-			{
-				foreach (var accessTemplate in accessTemplates)
-					AvailableAccessTemplates.Add(accessTemplate);
-			}
-
-			SelectedAccessTemplate = AvailableAccessTemplates.FirstOrDefault(x => x.UID == Card.AccessTemplateUID);
 			var cards = CardHelper.Get(new CardFilter());
 			Cards = cards != null ? new ObservableCollection<SKDCard>(cards) : new ObservableCollection<SKDCard>();
 
@@ -124,6 +96,45 @@ namespace SKDModule.ViewModels
 					AvailableGKControllers.Add(controllerViewModel);
 				}
 			}
+		}
+
+		private void CopyProperties()
+		{
+			Number = Card.Number;
+			Password = Card.Password;
+			StartDate = Card.StartDate;
+			EndDate = Card.EndDate;
+			GKLevel = Card.GKLevel;
+			UserTime = Card.UserTime;
+			DeactivationControllerUID = Card.DeactivationControllerUID;
+		}
+
+		private void InitializeAccessTemplates()
+		{
+			AvailableAccessTemplates = new ObservableCollection<AccessTemplate>();
+			AvailableAccessTemplates.Add(new AccessTemplate() { Name = "<нет>" });
+			var accessTemplateFilter = new AccessTemplateFilter();
+			accessTemplateFilter.OrganisationUIDs.Add(Organisation.UID);
+			var accessTemplates = AccessTemplateHelper.Get(accessTemplateFilter);
+			if (accessTemplates != null)
+			{
+				foreach (var accessTemplate in accessTemplates)
+					AvailableAccessTemplates.Add(accessTemplate);
+			}
+			SelectedAccessTemplate = AvailableAccessTemplates.FirstOrDefault(x => x.UID == Card.AccessTemplateUID);
+		}
+
+		private void InitializeGKSchedules()
+		{
+			GKSchedules = new ObservableCollection<GKSchedule>();
+			var scheduleModels = GKScheduleHelper.GetSchedules();
+			if (scheduleModels == null)
+				scheduleModels = new List<GKSchedule>();
+			foreach (var schedule in scheduleModels)
+			{
+				GKSchedules.Add(schedule);
+			}
+			SelectedGKSchedule = GKSchedules.FirstOrDefault(x => x.No == Card.GKLevelSchedule);
 		}
 
 		uint _number;

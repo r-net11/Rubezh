@@ -130,7 +130,10 @@ namespace FiresecAPI
 		OperationResult MarkDeletedOrganisation(Guid uid, string name);
 
 		[OperationContract]
-		OperationResult SaveOrganisationDoors(Organisation organisation);
+		OperationResult AddOrganisationDoor(Organisation organisation, Guid doorUID);
+
+		[OperationContract]
+		OperationResult RemoveOrganisationDoor(Organisation organisation, Guid doorUID);
 
 		[OperationContract]
 		OperationResult SaveOrganisationUsers(Organisation organisation);

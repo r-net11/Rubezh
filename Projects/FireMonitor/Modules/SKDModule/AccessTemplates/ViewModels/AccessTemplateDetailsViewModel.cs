@@ -33,7 +33,7 @@ namespace SKDModule.ViewModels
 			}
 			Model = accessTemplate;
 			CopyProperties();
-			AccessDoorsSelectationViewModel = new AccessDoorsSelectationViewModel(Organisation, Model.CardDoors);
+			AccessDoorsSelectationViewModel = new AccessDoorsSelectationViewModel(Organisation, Model.CardDoors, GKScheduleHelper.GetSchedules());
 			return true;
 		}
 

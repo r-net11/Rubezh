@@ -124,9 +124,9 @@ namespace SKDModule.ViewModels
 			OnPropertyChanged(() => IsEmployeeSelected);
 
 			foreach (var item in Organisations.SelectMany(x => x.GetAllChildren()))
-	{
-		item.EmployeeCardsViewModel = null;
-	}	
+			{
+				item.EmployeeCardsViewModel = null;
+			}	
 			if (SelectedItem != null)
 			{
 				SelectedItem.UpdatePhoto();
