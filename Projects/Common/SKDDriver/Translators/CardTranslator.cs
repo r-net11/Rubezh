@@ -272,7 +272,7 @@ namespace SKDDriver
 			{
 				Context.CommandTimeout = 600;
 				var predicate = PredicateBuilder.True<DataAccess.Card>();
-				predicate.And(x => x.UID == uid);
+				predicate = predicate.And(x => x.UID == uid);
 				var tableItem = GetTableItems(predicate).FirstOrDefault();
 				var result = Translate(tableItem);
 				return new OperationResult<SKDCard>(result);
