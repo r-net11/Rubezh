@@ -38,7 +38,7 @@ namespace UnitTestsProject.FireMonitorTests
 								&& !resultForEnterTimeEqualsExitTime;
 
 			//Assert
-			Assert.IsTrue(condition, "It is OK");
+			Assert.IsFalse(condition, "It is OK");
 		}
 	}
 }

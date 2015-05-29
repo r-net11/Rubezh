@@ -239,7 +239,7 @@ namespace SKDModule.ViewModels
 
 		void OnUserChanged(UserChangedEventArgs args)
 		{
-			TimeTrackFilter.EmployeeFilter.UserUID = FiresecClient.FiresecManager.CurrentUser.UID;
+			TimeTrackFilter.EmployeeFilter.UserUID = FiresecManager.CurrentUser.UID;
 			UpdateGrid();
 		}
 

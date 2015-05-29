@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Linq;
 using FiresecAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
@@ -6,7 +7,7 @@ using FiresecClient;
 
 namespace SKDModule.ViewModels
 {
-	public class DayTimeTrackPartViewModel : BaseViewModel
+	public class DayTimeTrackPartViewModel : BaseViewModel, IDataErrorInfo
 	{
 		public Guid UID { get; private set; }
 		public string EnterTime { get { return GetTimeString(EnterTimeSpan); } }
@@ -47,10 +48,10 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public DayTimeTrackPartViewModel(Guid uid, TimeSpan enterTime, TimeSpan exitTime, string zoneName)
+		public DayTimeTrackPartViewModel(TimeTrackPartDetailsViewModel timeTrackPartDetailsViewModel)
 		{
-			UID = uid;
-			Update(enterTime, exitTime, zoneName);
+			UID = timeTrackPartDetailsViewModel.UID;
+			Update(timeTrackPartDetailsViewModel.EnterTime, timeTrackPartDetailsViewModel.ExitTime, timeTrackPartDetailsViewModel.SelectedZone.Name);
 		}
 
 		public void Update(TimeSpan enterTime, TimeSpan exitTime, string zoneName)
@@ -77,6 +78,40 @@ namespace SKDModule.ViewModels
 		string GetTimeString(TimeSpan timeSpan)
 		{
 			return timeSpan.Hours.ToString("00") + ":" + timeSpan.Minutes.ToString("00") + ":" + timeSpan.Seconds.ToString("00");
+		}
+
+		public bool IsValid
+		{
+			get { return string.IsNullOrEmpty(Error); }
+		}
+
+		public string Error
+		{
+			get
+			{
+				return this[string.Empty];
+			} 
+		}
+
+		public string this[string propertyName]
+		{
+			get
+			{
+				var result = string.Empty;
+				propertyName = propertyName ?? string.Empty;
+				if (propertyName == string.Empty || propertyName == "EnterTime")
+				{
+					if (EnterTimeSpan > ExitTimeSpan)
+						result = "Время входа не может быть больше времени выхода";
+					
+				}
+				if (propertyName == string.Empty || propertyName == "ExitTime")
+				{
+					if (EnterTimeSpan == ExitTimeSpan)
+						result = "Невозможно добавить нулевое пребывание в зоне";
+				}
+				return result;
+			}
 		}
 	}
 }

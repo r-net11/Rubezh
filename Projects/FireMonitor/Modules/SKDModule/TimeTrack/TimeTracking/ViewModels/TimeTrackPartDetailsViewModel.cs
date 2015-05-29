@@ -39,11 +39,9 @@ namespace SKDModule.ViewModels
 
 		public Guid UID { get; private set; }
 		DayTimeTrack _DayTimeTrack;
-		ShortEmployee _Employee;
-		bool _IsNew;
-		TimeTrackDetailsViewModel _Parent;
+		private TimeTrackDetailsViewModel _Parent;
 
-		//Remove this
+		//TODO:Remove this
 		public TimeTrackPartDetailsViewModel(TimeTrackDetailsViewModel parent, TimeSpan? enterTime = null, TimeSpan? exitTime = null)
 		{
 			EnterTime = enterTime.Value;
@@ -54,7 +52,6 @@ namespace SKDModule.ViewModels
 		public TimeTrackPartDetailsViewModel(DayTimeTrack dayTimeTrack, ShortEmployee employee, TimeTrackDetailsViewModel parent, Guid? uid = null, TimeSpan? enterTime = null, TimeSpan? exitTime = null)
 		{
 			_DayTimeTrack = dayTimeTrack;
-			_Employee = employee;
 			_Parent = parent;
 			if (uid != null)
 			{
@@ -66,7 +63,6 @@ namespace SKDModule.ViewModels
 			else
 			{
 				UID = Guid.NewGuid();
-				_IsNew = true;
 				Title = "Добавить проход";
 			}
 
@@ -107,33 +103,24 @@ namespace SKDModule.ViewModels
 		{
 			if (!Validate())
 				return false;
-			return _IsNew 
-					? PassJournalHelper.AddCustomPassJournal(UID, _Employee.UID, SelectedZone.UID, EnterDateTime, ExitDateTime) 
-					: PassJournalHelper.EditPassJournal(UID, SelectedZone.UID, EnterDateTime, ExitDateTime);
+			return true;
 		}
 		protected override bool CanSave()
 		{
-			return base.CanSave() && SelectedZone != null;
+			return SelectedZone != null;
 		}
 
 		public bool Validate()
 		{
-			if (EnterTime > ExitTime)
-			{
-				MessageBoxService.Show("Время входа не может быть больше времени выхода");
-				return false;
-			}
-			if (EnterTime == ExitTime)
-			{
-				MessageBoxService.Show("Невозможно добавить нулевое пребывание в зоне");
-				return false;
-			}
-			if (_Parent != null && _Parent.IsIntersection(this))
-			{
-				MessageBoxService.Show("Невозможно добавить пересекающийся интервал");
-				return false;
-			}
-			return true;				 
+			if (_Parent == null || !IsIntersection(_Parent)) return true;
+			MessageBoxService.Show("Невозможно добавить пересекающийся интервал");
+			return false;
+		}
+
+		public bool IsIntersection(TimeTrackDetailsViewModel timeTrackDetailsViewModel)
+		{
+			return timeTrackDetailsViewModel.DayTimeTrackParts.Any(x => x.UID != UID &&
+																		(x.EnterTimeSpan < EnterTime && x.ExitTimeSpan > EnterTime || x.EnterTimeSpan < ExitTime && x.ExitTimeSpan > ExitTime));
 		}
 	}
 

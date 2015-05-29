@@ -215,6 +215,9 @@
 			</Setter.Value>
 		</Setter>
 		<Style.Triggers>
+			<Trigger Property="Validation.HasError" Value="true">
+				<Setter Property="ToolTip" Value="{Binding RelativeSource={x:Static RelativeSource.Self},Path=(Validation.Errors)[0].ErrorContent}"/>
+			</Trigger>
 			<Trigger Property="IsSelected" Value="True">
 				<Setter Property="Background" Value="{DynamicResource PressedBackgroundBrush}" />
 				<Setter Property="Foreground" Value="White" />

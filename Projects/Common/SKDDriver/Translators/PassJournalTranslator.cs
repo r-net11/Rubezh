@@ -90,7 +90,7 @@ namespace SKDDriver.Translators
 					passJournalItem.EnterTime = enterTime;
 					passJournalItem.ExitTime = exitTime;
 				}
-				if (IsIntersection(passJournalItem))
+				if (passJournalItem != null && IsIntersection(passJournalItem))
 				{
 					return new OperationResult("Невозможно добавить пересекающийся интервал");
 				}
