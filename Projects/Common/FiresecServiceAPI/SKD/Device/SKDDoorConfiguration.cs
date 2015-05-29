@@ -12,6 +12,7 @@ namespace FiresecAPI.SKD
 	{
 		public SKDDoorConfiguration()
 		{
+			AccessState = AccessState.Normal;
 			DoorOpenMethod = SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_CARD;
 			UnlockHoldInterval = 2000;
 			CloseTimeout = 0;
@@ -22,6 +23,9 @@ namespace FiresecAPI.SKD
 			// Включено всегда, отсутствует на интерфейсе пользователя
 			IsDuressAlarmEnable = true;
 		}
+
+		[DataMember]
+		public AccessState AccessState { get; set; }
 
 		/// <summary>
 		/// Метод открытия двери
@@ -88,6 +92,14 @@ namespace FiresecAPI.SKD
 		/// </summary>
 		[DataMember]
 		public HandicapTimeout HandicapTimeout { get; set; }
+	}
+
+
+	public enum AccessState
+	{
+		Normal,
+		CloseAlways,
+		OpenAlways
 	}
 
 	/// <summary>

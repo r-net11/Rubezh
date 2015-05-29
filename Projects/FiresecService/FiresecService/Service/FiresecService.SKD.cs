@@ -1031,6 +1031,41 @@ namespace FiresecService.Service
 			}
 		}
 
+		OperationResult<bool> SKDSetDeviceAccessState(Guid deviceUID, JournalEventNameType eventNameType, AccessState accessState)
+		{
+			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				AddSKDJournalMessage(eventNameType, device);
+				device.SKDDoorConfiguration.AccessState = accessState;
+				var result = ChinaSKDDriver.Processor.SetDoorConfiguration(deviceUID, device.SKDDoorConfiguration);
+				if (!result.HasError && device.State != null)
+				{
+					device.State.AccessState = accessState;
+					var skdStates = new SKDStates();
+					skdStates.DeviceStates.Add(device.State);
+					ChinaSKDDriver.Processor.OnStatesChanged(skdStates);
+				}
+				return result;
+			}
+			else
+			{
+				return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
+			}
+		}
+		public OperationResult<bool> SKDDeviceAccessStateNormal(Guid deviceUID)
+		{
+			return SKDSetDeviceAccessState(deviceUID, JournalEventNameType.Команда_на_перевод_двери_в_режим_Норма, AccessState.Normal);
+		}
+		public OperationResult<bool> SKDDeviceAccessStateCloseAlways(Guid deviceUID)
+		{
+			return SKDSetDeviceAccessState(deviceUID, JournalEventNameType.Команда_на_перевод_двери_в_режим_Закрыто, AccessState.CloseAlways);
+		}
+		public OperationResult<bool> SKDDeviceAccessStateOpenAlways(Guid deviceUID)
+		{
+			return SKDSetDeviceAccessState(deviceUID, JournalEventNameType.Команда_на_перевод_двери_в_режим_Открыто, AccessState.OpenAlways);
+		}
+
 		public OperationResult<bool> SKDOpenZone(Guid zoneUID)
 		{
 			var zone = SKDManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
@@ -1205,6 +1240,66 @@ namespace FiresecService.Service
 			}
 		}
 
+		OperationResult<bool> SKDSetZoneAccessState(Guid zoneUID, JournalEventNameType eventNameType, AccessState accessState)
+		{
+			var zone = SKDManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
+			if (zone != null)
+			{
+				AddSKDJournalMessage(eventNameType, zone);
+				var errors = new List<string>();
+				foreach (var device in zone.Devices)
+				{
+					var lockAddress = device.IntAddress;
+					if (device.Parent != null && device.Parent.DoorType == DoorType.TwoWay)
+					{
+						lockAddress = device.IntAddress / 2;
+					}
+					var lockDevice = device.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == lockAddress);
+					if (lockDevice != null)
+					{
+						lockDevice.SKDDoorConfiguration.AccessState = accessState;
+						var result = ChinaSKDDriver.Processor.SetDoorConfiguration(lockDevice.UID, lockDevice.SKDDoorConfiguration);
+						if (result.HasError)
+						{
+							errors.AddRange(result.Errors);
+						}
+						else if (device.State != null)
+						{
+							lockDevice.State.AccessState = accessState;
+							var skdStates = new SKDStates();
+							skdStates.DeviceStates.Add(lockDevice.State);
+							ChinaSKDDriver.Processor.OnStatesChanged(skdStates);
+						}
+					}
+					else
+					{
+						return OperationResult<bool>.FromError("Для зоны не найден замок");
+					}
+				}
+				if (errors.Count > 0)
+				{
+					return OperationResult<bool>.FromError(errors);
+				}
+				return new OperationResult<bool>(true);
+			}
+			else
+			{
+				return OperationResult<bool>.FromError("Зона не найдена в конфигурации");
+			}
+		}
+		public OperationResult<bool> SKDZoneAccessStateNormal(Guid zoneUID)
+		{
+			return SKDSetZoneAccessState(zoneUID, JournalEventNameType.Команда_на_перевод_зоны_в_режим_Норма, AccessState.Normal);
+		}
+		public OperationResult<bool> SKDZoneAccessStateCloseAlways(Guid zoneUID)
+		{
+			return SKDSetZoneAccessState(zoneUID, JournalEventNameType.Команда_на_перевод_зоны_в_режим_Закрыто, AccessState.CloseAlways);
+		}
+		public OperationResult<bool> SKDZoneAccessStateOpenAlways(Guid zoneUID)
+		{
+			return SKDSetZoneAccessState(zoneUID, JournalEventNameType.Команда_на_перевод_зоны_в_режим_Открыто, AccessState.OpenAlways);
+		}
+
 		public OperationResult<bool> SKDOpenDoor(Guid doorUID)
 		{
 			var door = SKDManager.Doors.FirstOrDefault(x => x.UID == doorUID);
@@ -1356,6 +1451,62 @@ namespace FiresecService.Service
 				return OperationResult<bool>.FromError("Точка доступа не найдена в конфигурации");
 			}
 		}
+
+		OperationResult<bool> SKDSetDoorAccessState(Guid doorUID, JournalEventNameType eventNameType, AccessState accessState)
+		{
+			var door = SKDManager.Doors.FirstOrDefault(x => x.UID == doorUID);
+			if (door != null)
+			{
+				AddSKDJournalMessage(eventNameType, door);
+				if (door.InDevice != null)
+				{
+					var lockAddress = door.InDevice.IntAddress;
+					if (door.DoorType == DoorType.TwoWay)
+					{
+						lockAddress = door.InDevice.IntAddress / 2;
+					}
+					var lockDevice = door.InDevice.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == lockAddress);
+					if (lockDevice != null)
+					{
+						lockDevice.SKDDoorConfiguration.AccessState = accessState;
+						var result = ChinaSKDDriver.Processor.SetDoorConfiguration(lockDevice.UID, lockDevice.SKDDoorConfiguration);
+						if (!result.HasError && lockDevice.State != null)
+						{
+							lockDevice.State.AccessState = accessState;
+							var skdStates = new SKDStates();
+							skdStates.DeviceStates.Add(lockDevice.State);
+							ChinaSKDDriver.Processor.OnStatesChanged(skdStates);
+						}
+						return result;
+					}
+					else
+					{
+						return OperationResult<bool>.FromError("Для точки доступа не найден замок");
+					}
+				}
+				else
+				{
+					return OperationResult<bool>.FromError("У точки доступа не указано устройство входа");
+				}
+			}
+			else
+			{
+				return OperationResult<bool>.FromError("Точка доступа не найдена в конфигурации");
+			}
+		}
+		public OperationResult<bool> SKDDoorAccessStateNormal(Guid doorUID)
+		{
+			return SKDSetDoorAccessState(doorUID, JournalEventNameType.Команда_на_перевод_точки_доступа_в_режим_Норма, AccessState.Normal);
+		}
+		public OperationResult<bool> SKDDoorAccessStateCloseAlways(Guid doorUID)
+		{
+			return SKDSetDoorAccessState(doorUID, JournalEventNameType.Команда_на_перевод_точки_доступа_в_режим_Закрыто, AccessState.CloseAlways);
+		}
+		public OperationResult<bool> SKDDoorAccessStateOpenAlways(Guid doorUID)
+		{
+			return SKDSetDoorAccessState(doorUID, JournalEventNameType.Команда_на_перевод_точки_доступа_в_режим_Открыто, AccessState.OpenAlways);
+		}
+
 		#endregion
 
 		#region PassCardTemplate

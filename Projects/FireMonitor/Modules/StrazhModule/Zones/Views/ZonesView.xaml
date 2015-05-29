@@ -35,8 +35,9 @@
 												<ContextMenu>
 													<IconedMenuItem ImageSource="BTurnOn" Text="Открыть все двери" Command="{Binding OpenCommand}" />
 													<IconedMenuItem ImageSource="BTurnOff" Text="Закрыть все двери" Command="{Binding CloseCommand}" />
-													<IconedMenuItem ImageSource="BTurnOn" Text="Установить режим ОТКРЫТО" Command="{Binding OpenForeverCommand}" />
-													<IconedMenuItem ImageSource="BTurnOff" Text="Установить режим НОРМА" Command="{Binding CloseForeverCommand}" />
+													<IconedMenuItem ImageSource="BTurnOn" Text="Установить режим ОТКРЫТО" Command="{Binding ZoneAccessStateOpenAlwaysCommand}" />
+													<IconedMenuItem ImageSource="BTurnOn" Text="Установить режим ЗАКРЫТО" Command="{Binding ZoneAccessStateCloseAlwaysCommand}" />
+													<IconedMenuItem ImageSource="BTurnOff" Text="Установить режим НОРМА" Command="{Binding ZoneAccessStateNormalCommand}" />
 													<IconedMenuItem ImageSource="BMap" Text="Показать на плане" Command="{Binding ShowOnPlanCommand}" />
 													<IconedMenuItem ImageSource="BJournal" Text="Показать связанные события" Command="{Binding ShowJournalCommand}" />
 													<IconedMenuItem ImageSource="BSettings"  Text="Свойства" Command="{Binding ShowPropertiesCommand}" />

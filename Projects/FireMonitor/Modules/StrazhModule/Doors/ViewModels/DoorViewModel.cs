@@ -33,6 +33,9 @@ namespace StrazhModule.ViewModels
 			CloseCommand = new RelayCommand(OnClose, CanClose);
 			OpenForeverCommand = new RelayCommand(OnOpenForever, CanOpenForever);
 			CloseForeverCommand = new RelayCommand(OnCloseForever, CanCloseForever);
+			DoorAccessStateNormalCommand = new RelayCommand(OnDoorAccessStateNormal, CanDoorAccessStateNormal);
+			DoorAccessStateCloseAlwaysCommand = new RelayCommand(OnDoorAccessStateCloseAlways, CanDoorAccessStateCloseAlways);
+			DoorAccessStateOpenAlwaysCommand = new RelayCommand(OnDoorAccessStateOpenAlways, CanDoorAccessStateOpenAlways);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
@@ -180,6 +183,58 @@ namespace StrazhModule.ViewModels
 		bool CanCloseForever()
 		{
 			return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Doors_Control) && State.StateClass != XStateClass.Off && State.StateClass != XStateClass.ConnectionLost;
+		}
+
+		public RelayCommand DoorAccessStateNormalCommand { get; private set; }
+		void OnDoorAccessStateNormal()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				var result = FiresecManager.FiresecService.SKDDoorAccessStateNormal(Door);
+				if (result.HasError)
+				{
+					MessageBoxService.ShowWarning(result.Error);
+				}
+			}
+		}
+		bool CanDoorAccessStateNormal()
+		{
+			//return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Doors_Control) && State.StateClass != XStateClass.Off && State.StateClass != XStateClass.ConnectionLost;
+			return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Doors_Control) && State.StateClass != XStateClass.ConnectionLost;
+		}
+
+		public RelayCommand DoorAccessStateCloseAlwaysCommand { get; private set; }
+		void OnDoorAccessStateCloseAlways()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				var result = FiresecManager.FiresecService.SKDDoorAccessStateCloseAlways(Door);
+				if (result.HasError)
+				{
+					MessageBoxService.ShowWarning(result.Error);
+				}
+			}
+		}
+		bool CanDoorAccessStateCloseAlways()
+		{
+			return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Doors_Control) && State.StateClass != XStateClass.Off && State.StateClass != XStateClass.ConnectionLost;
+		}
+
+		public RelayCommand DoorAccessStateOpenAlwaysCommand { get; private set; }
+		void OnDoorAccessStateOpenAlways()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				var result = FiresecManager.FiresecService.SKDDoorAccessStateOpenAlways(Door);
+				if (result.HasError)
+				{
+					MessageBoxService.ShowWarning(result.Error);
+				}
+			}
+		}
+		bool CanDoorAccessStateOpenAlways()
+		{
+			return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Doors_Control) && State.StateClass != XStateClass.On && State.StateClass != XStateClass.ConnectionLost;
 		}
 
 		public bool IsBold { get; set; }

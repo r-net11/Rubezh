@@ -211,6 +211,7 @@ namespace ChinaSKDDriver
 					return OperationResult<SKDDoorConfiguration>.FromError("Ошибка при выполнении операции в приборе");
 
 				var doorConfiguration = new SKDDoorConfiguration();
+				doorConfiguration.AccessState = (FiresecAPI.SKD.AccessState)nativeDoorConfiguration.AccessState;
 				doorConfiguration.DoorOpenMethod = (SKDDoorConfiguration_DoorOpenMethod)nativeDoorConfiguration.DoorOpenMethod;
 				doorConfiguration.UnlockHoldInterval = nativeDoorConfiguration.UnlockHoldInterval;
 				doorConfiguration.HandicapTimeout.nUnlockHoldInterval = nativeDoorConfiguration.HandicapTimeout.nUnlockHoldInterval;
@@ -249,6 +250,7 @@ namespace ChinaSKDDriver
 					return OperationResult<bool>.FromError("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
 
 				var nativeDoorConfiguration = new DoorConfiguration();
+				nativeDoorConfiguration.AccessState = (ChinaSKDDriverAPI.AccessState)doorConfiguration.AccessState;
 				nativeDoorConfiguration.DoorOpenMethod = (DoorOpenMethod)doorConfiguration.DoorOpenMethod;
 
 				nativeDoorConfiguration.UnlockHoldInterval = doorConfiguration.UnlockHoldInterval;

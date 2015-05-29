@@ -218,7 +218,7 @@ namespace ChinaSKDDriver
 				// Access chanel name
 				doorConfiguration.ChannelName = outResult.szChannelName;
 				// Access status
-				doorConfiguration.AccessState = (AccessState)outResult.emState;
+				doorConfiguration.AccessState = (ChinaSKDDriverAPI.AccessState)outResult.emState;
 				// Access mode
 				doorConfiguration.AccessMode = (AccessMode)outResult.emMode;
 				// Access enable mode

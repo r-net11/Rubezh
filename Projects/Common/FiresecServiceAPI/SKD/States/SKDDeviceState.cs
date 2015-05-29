@@ -31,8 +31,12 @@ namespace FiresecAPI.SKD
 		[DataMember]
 		public XStateClass StateClass { get; set; }
 
+		[Obsolete("OpenAlwaysTimeIndex is deprecated, use AccessState instead")]
 		[DataMember]
 		public int OpenAlwaysTimeIndex { get; set; }
+
+		[DataMember]
+		public AccessState AccessState { get; set; }
 
 		public SKDDevice Device { get; private set; }
 		public bool IsSuspending { get; set; }
