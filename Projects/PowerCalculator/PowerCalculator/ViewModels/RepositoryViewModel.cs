@@ -86,8 +86,14 @@ namespace PowerCalculator.ViewModels
 
 		protected override bool Save()
 		{
-			Configuration.DeviceRepositoryItems = DeviceRepositoryItems.Select(x => x.DeviceRepositoryItem).ToList();
-			Configuration.CableRepositoryItems = CableRepositoryItems.Select(x => x.CableRepositoryItem).ToList();
+            Configuration.DeviceRepositoryItems = (from d in DeviceRepositoryItems
+                                                    group d by d.DeviceRepositoryItem.DriverType into g
+                                                    select new DeviceRepositoryItem { DriverType = g.Key, Count  = g.Sum(x => x.DeviceRepositoryItem.Count) }).ToList();
+
+            Configuration.CableRepositoryItems = (from c in CableRepositoryItems
+                                                   group c by c.CableRepositoryItem.Resistivity into g
+                                                   select new CableRepositoryItem { Resistivity = g.Key, Length = g.Sum(x => x.CableRepositoryItem.Length) }).ToList();
+
 			return base.Save();
 		}
 	}

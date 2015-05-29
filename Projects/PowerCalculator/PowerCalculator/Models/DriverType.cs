@@ -2,54 +2,78 @@
 
 namespace PowerCalculator.Models
 {
-	public enum DriverType
-	{
-		[Description("Контроллер адресных устройств")]
-		RSR2_KAU,
+    public enum DriverType
+    {
+        [Description("Контроллер адресных устройств")]
+        RSR2_KAU,
 
-		[Description("Извещатель пожарный дымовой")]
-		RSR2_SmokeDetector,
+        [Description("Извещатель пожарный дымовой")]
+        RSR2_SmokeDetector,
 
-		[Description("Извещатель пожарный тепловой")]
-		RSR2_HeatDetector,
+        [Description("Извещатель пожарный тепловой")]
+        RSR2_HeatDetector,
 
-		[Description("Извещатель пожарный комбинорованный")]
-		RSR2_CombinedDetector,
+        [Description("Извещатель пожарный комбинорованный")]
+        RSR2_CombinedDetector,
 
-		[Description("Извещатель пожарный ручной")]
-		RSR2_HandDetector,
+        [Description("Извещатель пожарный ручной")]
+        RSR2_HandDetector,
 
-		[Description("Модуль дымоудаления")]
-		RSR2_MDU,
+        [Description("Модуль дымоудаления (220В)")]
+        RSR2_MDU,
 
-		[Description("Метка адресная - 4")]
-		RSR2_AM_4,
+        [Description("Модуль дымоудаления (24В)")]
+        RSR2_MDU24,
 
-		[Description("Метка адресная с питанием - 4")]
-		RSR2_MAP4,
+        [Description("Метка адресная - 1")]
+        RSR2_AM_1,
 
-		[Description("Модуль релейный - 2")]
-		RSR2_RM_2,
+        [Description("Метка адресная - 2")]
+        RSR2_AM_2,
 
-		[Description("Модуль релейный - 4")]
-		RSR2_RM_4,
+        [Description("Метка адресная - 4")]
+        RSR2_AM_4,
 
-		[Description("Модуль выходов с контрлоем")]
-		RSR2_MVK8,
+        [Description("Метка адресная с питанием - 4")]
+        RSR2_MAP4,
 
-		[Description("Модуль подпитки")]
-		RSR2_MP,
+        [Description("Модуль релейный - 2")]
+        RSR2_RM_2,
 
-		[Description("Модуль ветвления и подпитки")]
-		RSR2_MVP,
+        [Description("Модуль релейный - 4")]
+        RSR2_RM_4,
 
-		[Description("Оповещатель световой")]
-		RSR2_OPS,
+        [Description("Модуль выходов с контрлоем")]
+        RSR2_MVK8,
 
-		[Description("Оповещатель звуковой")]
-		RSR2_OPZ,
+        [Description("Модуль подпитки")]
+        RSR2_MP,
 
-		[Description("Оповещатель комбинированный")]
-		RSR2_OPK
-	}
+        [Description("Модуль ветвления и подпитки")]
+        RSR2_MVP,
+
+        [Description("Оповещатель световой")]
+        RSR2_OPS,
+
+        [Description("Оповещатель звуковой")]
+        RSR2_OPZ,
+
+        [Description("Оповещатель комбинированный")]
+        RSR2_OPK,
+
+        [Description("Контроллер виганд")]
+        RSR2_KW,
+
+        [Description("Шкаф управления насосом или вентилятором")]
+        RSR2_PPUN,
+
+        [Description("Шкаф управления задвижкой")]
+        RSR2_PPUZ,
+
+        [Description("Извещатель охранный инфракрасный (объемник)")]
+        RSR2_IOIK,
+
+        [Description("Извещатель охранный звуковой разбития")]
+        RSR2_IOPZ
+    }
 }

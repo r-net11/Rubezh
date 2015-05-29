@@ -44,7 +44,7 @@ namespace PowerCalculator.Processor
 
 			Drivers.Add(new Driver()
 				{
-					DriverType = DriverType.RSR2_HeatDetector,
+					DriverType = DriverType.RSR2_HeatDetector, 
 					Mult = 1,
 					R = 0.8,
 					I = 0.21,
@@ -89,6 +89,42 @@ namespace PowerCalculator.Processor
 					Umin = 12,
 					Imax = 300
 				});
+
+            Drivers.Add(new Driver()
+            {
+                DriverType = DriverType.RSR2_MDU24,
+                Mult = 1,
+                R = 0.8,
+                I = 0.21,
+                U = 0,
+                DeviceType = DeviceType.Consumer,
+                Umin = 12,
+                Imax = 300
+            });
+
+            Drivers.Add(new Driver()
+            {
+                DriverType = DriverType.RSR2_AM_1,
+                Mult = 1,
+                R = 0.8,
+                I = 0.21,
+                U = 0,
+                DeviceType = DeviceType.Consumer,
+                Umin = 12,
+                Imax = 300
+            });
+
+            Drivers.Add(new Driver()
+            {
+                DriverType = DriverType.RSR2_AM_2,
+                Mult = 4,
+                R = 0.8,
+                I = 0.21,
+                U = 0,
+                DeviceType = DeviceType.Consumer,
+                Umin = 12,
+                Imax = 300
+            });
 
 			Drivers.Add(new Driver()
 				{
@@ -206,9 +242,69 @@ namespace PowerCalculator.Processor
 					I = 35,
 					U = 0,
 					DeviceType = DeviceType.Consumer,
-					Umin = 15,
+					Umin = 15, 
 					Imax = 300
 				});
+
+            Drivers.Add(new Driver()
+            {
+                DriverType = DriverType.RSR2_KW,
+                Mult = 1,
+                R = 0.8,
+                I = 1,
+                U = 0,
+                DeviceType = DeviceType.Consumer,
+                Umin = 12,
+                Imax = 300
+            });
+
+            Drivers.Add(new Driver()
+            {
+                DriverType = DriverType.RSR2_PPUN,
+                Mult = 1,
+                R = 0.8,
+                I = 0.3,
+                U = 0,
+                DeviceType = DeviceType.Consumer,
+                Umin = 15,
+                Imax = 300
+            });
+
+            Drivers.Add(new Driver()
+            {
+                DriverType = DriverType.RSR2_PPUZ,
+                Mult = 1,
+                R = 0.8,
+                I = 0.3,
+                U = 0,
+                DeviceType = DeviceType.Consumer,
+                Umin = 15,
+                Imax = 300
+            });
+
+            Drivers.Add(new Driver()
+            {
+                DriverType = DriverType.RSR2_IOIK,
+                Mult = 1,
+                R = 0.8,
+                I = 0.5,
+                U = 0,
+                DeviceType = DeviceType.Consumer,
+                Umin = 15,
+                Imax = 300
+            });
+
+            Drivers.Add(new Driver()
+            {
+                DriverType = DriverType.RSR2_IOPZ,
+                Mult = 1,
+                R = 0.8,
+                I = 0.5,
+                U = 0,
+                DeviceType = DeviceType.Consumer,
+                Umin = 15,
+                Imax = 300
+            });
 		}
 	}
 }

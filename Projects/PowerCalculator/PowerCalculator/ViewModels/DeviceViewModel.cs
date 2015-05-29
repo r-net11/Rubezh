@@ -48,7 +48,7 @@ namespace PowerCalculator.ViewModels
 				OnPropertyChanged(() => Address);
 
 				if(Device.Driver.Mult > 1)
-					PresentationAddress = Address.ToString() + " - " + (Address + Device.Driver.Mult).ToString();
+					PresentationAddress = Address.ToString() + " - " + (Address + Device.Driver.Mult - 1).ToString();
 				else
 					PresentationAddress = Address.ToString();
 			}
