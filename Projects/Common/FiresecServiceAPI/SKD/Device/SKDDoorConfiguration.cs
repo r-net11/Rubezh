@@ -4,6 +4,9 @@ using System.Runtime.Serialization;
 
 namespace FiresecAPI.SKD
 {
+	/// <summary>
+	/// Описывает конфигурацию двери/замка
+	/// </summary>
 	[DataContract]
 	public class SKDDoorConfiguration
 	{
@@ -12,14 +15,29 @@ namespace FiresecAPI.SKD
 			DoorOpenMethod = SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_CARD;
 			UnlockHoldInterval = 2000;
 			CloseTimeout = 0;
+
+			RemoteDetail = new RemoteDetail();
+			HandicapTimeout = new HandicapTimeout();
+
+			// Включено всегда, отсутствует на интерфейсе пользователя
+			IsDuressAlarmEnable = true;
 		}
 
+		/// <summary>
+		/// Метод открытия двери
+		/// </summary>
 		[DataMember]
 		public SKDDoorConfiguration_DoorOpenMethod DoorOpenMethod { get; set; }
 
+		/// <summary>
+		/// Время удержания
+		/// </summary>
 		[DataMember]
 		public int UnlockHoldInterval { get; set; }
 
+		/// <summary>
+		/// Время закрытия
+		/// </summary>
 		[DataMember]
 		public int CloseTimeout { get; set; }
 
@@ -29,22 +47,52 @@ namespace FiresecAPI.SKD
 		[DataMember]
 		public int HolidayTimeRecoNo { get; set; }
 
+		/// <summary>
+		/// Тревога по взлому
+		/// </summary>
 		[DataMember]
 		public bool IsBreakInAlarmEnable { get; set; }
 
 		[DataMember]
 		public bool IsRepeatEnterAlarmEnable { get; set; }
 
+		/// <summary>
+		/// Тревога по незакрытию двери
+		/// </summary>
 		[DataMember]
 		public bool IsDoorNotClosedAlarmEnable { get; set; }
 
+		/// <summary>
+		/// Тревога по принуждению
+		/// </summary>
 		[DataMember]
 		public bool IsDuressAlarmEnable { get; set; }
 
 		[DataMember]
 		public bool IsSensorEnable { get; set; }
+
+		/// <summary>
+		/// Проход с подтверждением
+		/// </summary>
+		[DataMember]
+		public bool IsRemoteCheck { get; set; }
+
+		/// <summary>
+		/// Параметры режима "Проход с подтверждением"
+		/// </summary>
+		[DataMember]
+		public RemoteDetail RemoteDetail { get; set; }
+
+		/// <summary>
+		/// Параметры режима работы замка для людей с ограниченными возможностями
+		/// </summary>
+		[DataMember]
+		public HandicapTimeout HandicapTimeout { get; set; }
 	}
 
+	/// <summary>
+	/// Возможные методы открытия двери
+	/// </summary>
 	public enum SKDDoorConfiguration_DoorOpenMethod
 	{
 		[Description("Неизвестно")]
@@ -115,5 +163,43 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public SKDDoorConfiguration_DoorOpenMethod DoorOpenMethod { get; set; }
+	}
+
+	/// <summary>
+	/// Описывает параметры режима "Проход с подтверждением"
+	/// </summary>
+	[DataContract]
+	public class RemoteDetail
+	{
+		/// <summary>
+		/// Время ожидания
+		/// </summary>
+		[DataMember]
+		public int TimeOut { get; set; }
+
+		/// <summary>
+		/// Состояние замка по истечению времени ожидания
+		/// </summary>
+		[DataMember]
+		public bool TimeOutDoorStatus { get; set; }
+	}
+
+	/// <summary>
+	/// Описывает параметры режима работы замка для людей с ограниченными возможностями
+	/// </summary>
+	[DataContract]
+	public class HandicapTimeout
+	{
+		/// <summary>
+		/// Альтернативное время удержания
+		/// </summary>
+		[DataMember]
+		public int nUnlockHoldInterval;
+
+		/// <summary>
+		/// Альтернативное время закрытия
+		/// </summary>
+		[DataMember]
+		public int nCloseTimeout;
 	}
 }

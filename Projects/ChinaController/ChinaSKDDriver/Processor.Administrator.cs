@@ -212,16 +212,21 @@ namespace ChinaSKDDriver
 
 				var doorConfiguration = new SKDDoorConfiguration();
 				doorConfiguration.DoorOpenMethod = (SKDDoorConfiguration_DoorOpenMethod)nativeDoorConfiguration.DoorOpenMethod;
-
 				doorConfiguration.UnlockHoldInterval = nativeDoorConfiguration.UnlockHoldInterval;
+				doorConfiguration.HandicapTimeout.nUnlockHoldInterval = nativeDoorConfiguration.HandicapTimeout.nUnlockHoldInterval;
+				doorConfiguration.IsDuressAlarmEnable = nativeDoorConfiguration.IsDuressAlarmEnable;
+				doorConfiguration.IsRemoteCheck = nativeDoorConfiguration.IsRemoteCheck;
+				doorConfiguration.RemoteDetail.TimeOut = nativeDoorConfiguration.RemoteDetail.nTimeOut;
+				doorConfiguration.RemoteDetail.TimeOutDoorStatus = nativeDoorConfiguration.RemoteDetail.bTimeOutDoorStatus;
+				doorConfiguration.IsSensorEnable = nativeDoorConfiguration.IsSensorEnable;
+				doorConfiguration.IsBreakInAlarmEnable = nativeDoorConfiguration.IsBreakInAlarmEnable;
+				doorConfiguration.IsDoorNotClosedAlarmEnable = nativeDoorConfiguration.IsDoorNotClosedAlarmEnable;
 				doorConfiguration.CloseTimeout = nativeDoorConfiguration.CloseTimeout;
+				doorConfiguration.HandicapTimeout.nCloseTimeout = nativeDoorConfiguration.HandicapTimeout.nCloseTimeout;
+
 				doorConfiguration.OpenAlwaysTimeIndex = nativeDoorConfiguration.OpenAlwaysTimeIndex;
 				doorConfiguration.HolidayTimeRecoNo = nativeDoorConfiguration.HolidayTimeRecoNo;
-				doorConfiguration.IsBreakInAlarmEnable = nativeDoorConfiguration.IsBreakInAlarmEnable;
 				doorConfiguration.IsRepeatEnterAlarmEnable = nativeDoorConfiguration.IsRepeatEnterAlarmEnable;
-				doorConfiguration.IsDoorNotClosedAlarmEnable = nativeDoorConfiguration.IsDoorNotClosedAlarmEnable;
-				doorConfiguration.IsDuressAlarmEnable = nativeDoorConfiguration.IsDuressAlarmEnable;
-				doorConfiguration.IsSensorEnable = nativeDoorConfiguration.IsSensorEnable;
 
 				return new OperationResult<SKDDoorConfiguration>(doorConfiguration);
 			}
@@ -247,14 +252,26 @@ namespace ChinaSKDDriver
 				nativeDoorConfiguration.DoorOpenMethod = (DoorOpenMethod)doorConfiguration.DoorOpenMethod;
 
 				nativeDoorConfiguration.UnlockHoldInterval = doorConfiguration.UnlockHoldInterval;
+				nativeDoorConfiguration.HandicapTimeout = new HandicapTimeoutInfo
+				{
+					nUnlockHoldInterval = doorConfiguration.HandicapTimeout.nUnlockHoldInterval,
+					nCloseTimeout = doorConfiguration.HandicapTimeout.nCloseTimeout
+				};
+				nativeDoorConfiguration.IsDuressAlarmEnable = doorConfiguration.IsDuressAlarmEnable;
+				nativeDoorConfiguration.IsRemoteCheck = doorConfiguration.IsRemoteCheck;
+				nativeDoorConfiguration.RemoteDetail = new RemoteDetailInfo
+				{
+					nTimeOut = doorConfiguration.RemoteDetail.TimeOut,
+					bTimeOutDoorStatus = doorConfiguration.RemoteDetail.TimeOutDoorStatus
+				};
+				nativeDoorConfiguration.IsSensorEnable = doorConfiguration.IsSensorEnable;
+				nativeDoorConfiguration.IsBreakInAlarmEnable = doorConfiguration.IsBreakInAlarmEnable;
+				nativeDoorConfiguration.IsDoorNotClosedAlarmEnable = doorConfiguration.IsDoorNotClosedAlarmEnable;
 				nativeDoorConfiguration.CloseTimeout = doorConfiguration.CloseTimeout;
+
 				nativeDoorConfiguration.OpenAlwaysTimeIndex = doorConfiguration.OpenAlwaysTimeIndex;
 				nativeDoorConfiguration.HolidayTimeRecoNo = doorConfiguration.HolidayTimeRecoNo;
-				nativeDoorConfiguration.IsBreakInAlarmEnable = doorConfiguration.IsBreakInAlarmEnable;
 				nativeDoorConfiguration.IsRepeatEnterAlarmEnable = doorConfiguration.IsRepeatEnterAlarmEnable;
-				nativeDoorConfiguration.IsDoorNotClosedAlarmEnable = doorConfiguration.IsDoorNotClosedAlarmEnable;
-				nativeDoorConfiguration.IsDuressAlarmEnable = doorConfiguration.IsDuressAlarmEnable;
-				nativeDoorConfiguration.IsSensorEnable = doorConfiguration.IsSensorEnable;
 
 				var result = deviceProcessor.Wrapper.SetDoorConfiguration(nativeDoorConfiguration, readerDevice.IntAddress);
 				if (result)
