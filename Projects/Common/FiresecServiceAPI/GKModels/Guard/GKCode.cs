@@ -25,5 +25,11 @@ namespace FiresecAPI.GK
 		/// </summary>
 		[DataMember]
 		public int Password { get; set; }
+
+		[XmlIgnore]
+		public override string ImageSource
+		{
+			get { return "/Controls;component/Images/Code.png"; }
+		}
 	}
 }

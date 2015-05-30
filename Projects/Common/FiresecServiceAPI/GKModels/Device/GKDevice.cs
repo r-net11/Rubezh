@@ -300,6 +300,12 @@ namespace FiresecAPI.GK
 			}
 		}
 
+		[XmlIgnore]
+		public override string ImageSource
+		{
+			get { return Driver.ImageSource; }
+		}
+
 		public override string GetGKDescription(GKNameGenerationType gkNameGenerationType)
 		{
 			var presentationName = ShortName + " " + DottedPresentationAddress;

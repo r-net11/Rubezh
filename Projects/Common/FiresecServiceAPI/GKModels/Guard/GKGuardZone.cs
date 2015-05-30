@@ -99,6 +99,12 @@ namespace FiresecAPI.GK
 			}
 		}
 
+		[XmlIgnore]
+		public override string ImageSource
+		{
+			get { return "/Controls;component/Images/GuardZone.png"; }
+		}
+
 		public List<Guid> GetCodeUids()
 		{
 			var codeUids = new List<Guid>();

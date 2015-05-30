@@ -9,7 +9,9 @@ namespace GKImitator.Processor
 	{
 		public ImitatorJournalItem()
 		{
-
+			DateTime = DateTime.Now;
+			ObjectDeviceType = 0;
+			ObjectDeviceAddress = 0;
 		}
 
 		[DataMember]
@@ -25,7 +27,7 @@ namespace GKImitator.Processor
 		[DataMember]
 		public short UNUSED_KauAddress { get; set; }
 		[DataMember]
-		public byte Source { get; set; }
+		public byte Source { get; set; } // Controller = 0, Device = 1, Object = 2
 		[DataMember]
 		public byte Code { get; set; }
 

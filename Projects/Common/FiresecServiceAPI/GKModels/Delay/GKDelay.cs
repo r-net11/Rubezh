@@ -59,5 +59,11 @@ namespace FiresecAPI.GK
 		{
 			get { return Name; }
 		}
+
+		[XmlIgnore]
+		public override string ImageSource
+		{
+			get { return "/Controls;component/Images/Delay.png"; }
+		}
 	}
 }

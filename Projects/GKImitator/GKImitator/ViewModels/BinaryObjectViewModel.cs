@@ -7,6 +7,7 @@ using GKImitator.Processor;
 using GKProcessor;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using FiresecAPI.Journal;
 
 namespace GKImitator.ViewModels
 {
@@ -20,74 +21,96 @@ namespace GKImitator.ViewModels
 
 			BinaryObject = binaryObject;
 			Description = binaryObject.GKBase.PresentationName;
-			switch (binaryObject.DescriptorType)
-			{
-				case DescriptorType.Device:
-					ImageSource = (binaryObject.GKBase as GKDevice).Driver.ImageSource;
-					break;
-
-				case DescriptorType.Zone:
-				case DescriptorType.Direction:
-					ImageSource = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.System).ImageSource;
-					break;
-			}
-
-			//Formula = BinaryObject.Formula.GetStringFomula();
 
 			StateBits = new ObservableCollection<StateBitViewModel>();
 			StateBits.Add(new StateBitViewModel(this, GKStateBit.Norm, true));
+			StateBits.Add(new StateBitViewModel(this, GKStateBit.Ignore));
 			StateBits.Add(new StateBitViewModel(this, GKStateBit.Fire1));
 			StateBits.Add(new StateBitViewModel(this, GKStateBit.Fire2));
 			StateBits.Add(new StateBitViewModel(this, GKStateBit.On));
+
+			InitializeFailureItems();
 		}
 
 		public BaseDescriptor BinaryObject { get; set; }
-		public string ImageSource { get; set; }
 		public string Description { get; set; }
-		public string Formula { get; set; }
 
 		public ObservableCollection<StateBitViewModel> StateBits { get; private set; }
+
+		void InitializeFailureItems()
+		{
+			if (BinaryObject.GKBase is GKDevice)
+			{
+				Failures = new ObservableCollection<FailureViewModel>();
+				Failures.Add(new FailureViewModel(this, JournalEventDescriptionType.Потеря_связи, 255));
+			}
+			CanSetFailures = Failures.Any();
+		}
+
+		public ObservableCollection<FailureViewModel> Failures { get; private set; }
+		public bool CanSetFailures { get; private set; }
 
 		public RelayCommand SetAutomaticRegimeCommand { get; private set; }
 		void OnSetAutomaticRegime()
 		{
-
+			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Norm).IsActive = true;
+			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Ignore).IsActive = false;
+			var journalItem = new ImitatorJournalItem();
+			journalItem.Source = 2;
+			journalItem.Code = 10;
+			journalItem.EventDescription = 0;
+			journalItem.ObjectNo = 0;
+			AddJournalItem(journalItem);
 		}
 
 		public RelayCommand SetManualRegimeCommand { get; private set; }
 		void OnSetManualRegime()
 		{
-
+			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Norm).IsActive = false;
+			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Ignore).IsActive = false;
+			var journalItem = new ImitatorJournalItem();
+			journalItem.Source = 2;
+			journalItem.Code = 10;
+			journalItem.EventDescription = 1;
+			journalItem.ObjectNo = 0;
+			AddJournalItem(journalItem);
 		}
 
 		public RelayCommand SetIgnoreRegimeCommand { get; private set; }
 		void OnSetIgnoreRegime()
 		{
-			var imitatorJournalItem = new ImitatorJournalItem();
-			imitatorJournalItem.DateTime = DateTime.Now;
-			imitatorJournalItem.GkNo = JournalHelper.ImitatorJournalItemCollection.ImitatorJournalItems.Count + 1;
-			imitatorJournalItem.GkObjectNo = BinaryObject.GetDescriptorNo();
-			imitatorJournalItem.UNUSED_KauNo = 0;
-			imitatorJournalItem.UNUSED_KauAddress = 0;
-
-			imitatorJournalItem.Source = 2; // Controller = 0, Device = 1, Object = 2
-			imitatorJournalItem.Code = 10;
-			imitatorJournalItem.EventDescription = 2;
-			imitatorJournalItem.EventYesNo = 0;
-
-			imitatorJournalItem.ObjectNo = 0;
-			imitatorJournalItem.ObjectDeviceType = 0;
-			imitatorJournalItem.ObjectDeviceAddress = 0;
-			imitatorJournalItem.ObjectFactoryNo = 0;
-			imitatorJournalItem.ObjectState = 0;
-
-			if (BinaryObject.GKBase != null && BinaryObject.GKBase is GKDevice)
+			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Norm).IsActive = false;
+			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Ignore).IsActive = true;
+			var journalItem = new ImitatorJournalItem();
+			journalItem.Source = 2;
+			journalItem.Code = 10;
+			journalItem.EventDescription = 2;
+			journalItem.ObjectNo = 0;
+			AddJournalItem(journalItem);
+		}
+		public void AddJournalItem(ImitatorJournalItem journalItem)
+		{
+			var state = 0;
+			foreach (var stateBitViewModel in StateBits)
 			{
-				imitatorJournalItem.ObjectDeviceType = (short)(BinaryObject.GKBase as GKDevice).Driver.DriverTypeNo;
-				imitatorJournalItem.ObjectDeviceAddress = (short)(((BinaryObject.GKBase as GKDevice).ShleifNo - 1) * 256 + (BinaryObject.GKBase as GKDevice).IntAddress);
+				if (stateBitViewModel.IsActive)
+				{
+					state += (1 << (int)stateBitViewModel.StateBit);
+				}
 			}
 
-			JournalHelper.ImitatorJournalItemCollection.ImitatorJournalItems.Add(imitatorJournalItem);
+			journalItem.UNUSED_KauNo = 0;
+			journalItem.UNUSED_KauAddress = 0;
+			journalItem.GkNo = JournalHelper.ImitatorJournalItemCollection.ImitatorJournalItems.Count + 1;
+			journalItem.GkObjectNo = BinaryObject.GetDescriptorNo();
+			journalItem.ObjectFactoryNo = 0;
+			journalItem.ObjectState = state;
+			if (BinaryObject.GKBase is GKDevice)
+			{
+				journalItem.ObjectDeviceType = (short)(BinaryObject.GKBase as GKDevice).Driver.DriverTypeNo;
+				journalItem.ObjectDeviceAddress = (short)(((BinaryObject.GKBase as GKDevice).ShleifNo - 1) * 256 + (BinaryObject.GKBase as GKDevice).IntAddress);
+			}
+			JournalHelper.ImitatorJournalItemCollection.ImitatorJournalItems.Add(journalItem);
 			JournalHelper.Save();
 		}
 	}

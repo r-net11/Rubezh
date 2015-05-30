@@ -135,5 +135,11 @@ namespace FiresecAPI.GK
 				return presentationName; 
 			}
 		}
+
+		[XmlIgnore]
+		public override string ImageSource
+		{
+			get { return "/Controls;component/Images/PumpStation.png"; }
+		}
 	}
 }

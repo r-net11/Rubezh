@@ -31,5 +31,11 @@ namespace FiresecAPI.GK
 
 		[DataMember]
 		public bool AllowMultipleVizualization { get; set; }
+
+		[XmlIgnore]
+		public override string ImageSource
+		{
+			get { return "/Controls;component/Images/SKDZone.png"; }
+		}
 	}
 }

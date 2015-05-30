@@ -83,30 +83,26 @@ namespace GKImitator.ViewModels
 
 		void AddJournalItem(BaseDescriptor baseDescriptor, byte code, byte eventDescription, byte eventYesNo, int objectState)
 		{
-			var imitatorJournalItem = new ImitatorJournalItem();
-			imitatorJournalItem.DateTime = DateTime.Now;
-			imitatorJournalItem.GkNo = JournalHelper.ImitatorJournalItemCollection.ImitatorJournalItems.Count + 1;
-			imitatorJournalItem.GkObjectNo = baseDescriptor.GetDescriptorNo();
+			var journalItem = new ImitatorJournalItem();
 
-			imitatorJournalItem.Source = 2;
-			imitatorJournalItem.Code = code;
-			imitatorJournalItem.EventDescription = eventDescription;
-			imitatorJournalItem.EventYesNo = eventYesNo;
+			journalItem.Source = 2;
+			journalItem.Code = code;
+			journalItem.EventDescription = eventDescription;
+			journalItem.EventYesNo = eventYesNo;
 
-			imitatorJournalItem.ObjectNo = 0;
-			imitatorJournalItem.ObjectDeviceType = 0;
-			imitatorJournalItem.ObjectDeviceAddress = 0;
-			imitatorJournalItem.ObjectFactoryNo = 0;
-			imitatorJournalItem.ObjectState = objectState;
+			journalItem.ObjectNo = 0;
+			journalItem.ObjectDeviceType = 0;
+			journalItem.ObjectDeviceAddress = 0;
+			journalItem.ObjectFactoryNo = 0;
+			journalItem.ObjectState = objectState;
 
 			if (baseDescriptor.GKBase is GKDevice)
 			{
-				imitatorJournalItem.ObjectDeviceType = (short)(baseDescriptor.GKBase as GKDevice).Driver.DriverTypeNo;
-				imitatorJournalItem.ObjectDeviceAddress = (short)(((baseDescriptor.GKBase as GKDevice).ShleifNo - 1) * 256 + (baseDescriptor.GKBase as GKDevice).IntAddress);
+				journalItem.ObjectDeviceType = (short)(baseDescriptor.GKBase as GKDevice).Driver.DriverTypeNo;
+				journalItem.ObjectDeviceAddress = (short)(((baseDescriptor.GKBase as GKDevice).ShleifNo - 1) * 256 + (baseDescriptor.GKBase as GKDevice).IntAddress);
 			}
 
-			JournalHelper.ImitatorJournalItemCollection.ImitatorJournalItems.Add(imitatorJournalItem);
-			JournalHelper.Save();
+			BinaryObjectViewModel.AddJournalItem(journalItem);
 		}
 	}
 }

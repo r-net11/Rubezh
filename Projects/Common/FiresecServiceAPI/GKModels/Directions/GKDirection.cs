@@ -60,5 +60,11 @@ namespace FiresecAPI.GK
 
 		[DataMember]
 		public List<Guid> PlanElementUIDs { get; set; }
+
+		[XmlIgnore]
+		public override string ImageSource
+		{
+			get { return "/Controls;component/Images/BDirection.png"; }
+		}
 	}
 }

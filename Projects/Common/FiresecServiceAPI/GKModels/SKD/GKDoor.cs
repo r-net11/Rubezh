@@ -65,6 +65,11 @@ namespace FiresecAPI.GK
 			}
 		}
 		[XmlIgnore]
+		public override string ImageSource
+		{
+			get { return "/Controls;component/Images/Door.png"; }
+		}
+		[XmlIgnore]
 		public GKDevice EnterDevice { get; set; }
 		[XmlIgnore]
 		public GKDevice ExitDevice { get; set; }

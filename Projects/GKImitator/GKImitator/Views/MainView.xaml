@@ -1,12 +1,9 @@
 ﻿<Window x:Class="GKImitator.Views.MainView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:Converters="clr-namespace:GKImitator.Converters"
-             MinWidth="800" MinHeight="600">
+             Title="Имитатор ГК" MinWidth="800" MinHeight="600">
 
     <Window.Resources>
-        <Converters:BytesToStringConverter x:Key="BytesToStringConverter" />
-        <Converters:DescriptorNoToStringConverter x:Key="DescriptorNoToStringConverter" />
         <Style TargetType="TextBlock">
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="HorizontalAlignment" Value="Right" />
@@ -20,7 +17,7 @@
             <Grid Background="White" Margin="5">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
-                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <DataGrid Grid.Row="0" ItemsSource="{Binding BinaryObjects}" SelectedItem="{Binding SelectedBinaryObject}" Margin="2">
                     <DataGrid.Columns>
@@ -28,17 +25,13 @@
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="{Binding ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
-                                        <TextBlock Text="{Binding BinaryObject.XBase.PresentationName}" HorizontalAlignment="Stretch" Margin="5, 0, 5, 0" />
+                                        <Image Source="{Binding BinaryObject.GKBase.ImageSource}" Width="16" Height="16" Margin="5 0 5 0" />
+                                        <TextBlock Text="{Binding BinaryObject.GKBase.PresentationName}" Margin="5 0 5 0" />
                                     </StackPanel>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTextColumn Header="Дескриптор КАУ" Binding="{Binding BinaryObject.XBase.KAUDescriptorNo, Converter={StaticResource DescriptorNoToStringConverter}}" />
-                        <DataGridTextColumn Header="Дескриптор ГК" Binding="{Binding BinaryObject.XBase.GKDescriptorNo, Converter={StaticResource DescriptorNoToStringConverter}}" />
-                        <DataGridTextColumn Header="Адрес контроллера" Binding="{Binding BinaryObject.ControllerAdress, Converter={StaticResource DescriptorNoToStringConverter}}" />
-                        <DataGridTextColumn Header="Адрес на контроллере" Binding="{Binding BinaryObject.AdressOnController, Converter={StaticResource DescriptorNoToStringConverter}}" />
-                        <DataGridTextColumn Header="Физический адрес" Binding="{Binding BinaryObject.PhysicalAdress}" />
+                        <DataGridTextColumn Header="Дескриптор ГК" Binding="{Binding BinaryObject.GKBase.GKDescriptorNo}" />
                         <DataGridTextColumn Header="Описание" Binding="{Binding Description}" />
                     </DataGrid.Columns>
                 </DataGrid>
@@ -58,6 +51,15 @@
                         <Button Content="Автоматика" Command="{Binding SetAutomaticRegimeCommand}" Width="100" Margin="2" />
                         <Button Content="Ручной" Command="{Binding SetManualRegimeCommand}" Width="100" Margin="2" />
                         <Button Content="Отключение" Command="{Binding SetIgnoreRegimeCommand}" Width="100" Margin="2" />
+                        <ItemsControl ItemsSource="{Binding Failures}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding IsChecked}" Content="{Binding JournalEventDescriptionType, Converter={StaticResource EnumToDescriptionConverter}}" Margin="2" />
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <Button Content="Потерять связь" Command="{Binding SetConnectionLostCommand}" Width="100" Margin="2" />
+                        <Button Content="Востановить связь" Command="{Binding ResetConnectionLostCommand}" Width="100" Margin="2" />
                     </StackPanel>
                 </Grid>
             </Grid>

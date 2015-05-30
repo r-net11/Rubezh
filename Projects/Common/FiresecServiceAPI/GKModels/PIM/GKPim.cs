@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace FiresecAPI.GK
 {
@@ -44,6 +45,12 @@ namespace FiresecAPI.GK
 		public override string PresentationName
 		{
 			get { return Name; }
+		}
+
+		[XmlIgnore]
+		public override string ImageSource
+		{
+			get { return "/Controls;component/Images/Pim.png"; }
 		}
 	}
 }

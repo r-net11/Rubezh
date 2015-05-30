@@ -255,6 +255,9 @@ namespace FiresecAPI.GK
 		}
 
 		[XmlIgnore]
+		public abstract string ImageSource { get; }
+
+		[XmlIgnore]
 		public GKBaseInternalState InternalState { get; set; }
 		[XmlIgnore]
 		public GKState State { get; set; }

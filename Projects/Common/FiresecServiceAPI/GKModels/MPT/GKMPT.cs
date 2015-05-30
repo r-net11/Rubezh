@@ -85,6 +85,12 @@ namespace FiresecAPI.GK
 			get { return "MПТ" + "." + No + "." + Name; }
 		}
 
+		[XmlIgnore]
+		public override string ImageSource
+		{
+			get { return "/Controls;component/Images/Pim.png"; }
+		}
+
 		[DataMember]
 		public List<Guid> PlanElementUIDs { get; set; }
 
