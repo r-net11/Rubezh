@@ -9,13 +9,18 @@ namespace GKImitator.ViewModels
 	public class StateBitViewModel : BaseViewModel
 	{
 		public GKStateBit StateBit { get; private set; }
-		BinaryObjectViewModel BinaryObjectViewModel;
+		DescriptorViewModel DescriptorViewModel;
 
-		public StateBitViewModel(BinaryObjectViewModel binaryObjectViewModel, GKStateBit stateBit, bool isActive = false)
+		public StateBitViewModel(DescriptorViewModel descriptorViewModel, GKStateBit stateBit, bool isActive = false)
 		{
-			BinaryObjectViewModel = binaryObjectViewModel;
+			DescriptorViewModel = descriptorViewModel;
 			StateBit = stateBit;
 			_isActive = isActive;
+		}
+
+		public bool IsEnabled
+		{
+			get { return StateBit != GKStateBit.Norm && StateBit != GKStateBit.Ignore && StateBit != GKStateBit.Test; }
 		}
 
 		bool _isActive;
@@ -29,49 +34,55 @@ namespace GKImitator.ViewModels
 					_isActive = value;
 					OnPropertyChanged(() => IsActive);
 
-					var state = 0;
-					foreach (var stateBitViewModel in BinaryObjectViewModel.StateBits)
+					switch (StateBit)
 					{
-						if (stateBitViewModel.IsActive)
-						{
-							state += (1 << (int)stateBitViewModel.StateBit);
-						}
-					}
-
-					var binaryObject = BinaryObjectViewModel.BinaryObject;
-
-					switch ((BinaryObjectViewModel.BinaryObject.GKBase as GKDevice).Driver.DriverType)
-					{
-						case GKDriverType.RSR2_HandDetector:
-							switch (StateBit)
+						case GKStateBit.Fire1:
+							if (_isActive)
 							{
-								case GKStateBit.Fire2:
-									if (_isActive)
-									{
-										AddJournalItem(binaryObject, 3, 0, 0, state);
-										AddJournalItem(binaryObject, 3, 1, 0, state);
-									}
-									else
-									{
-										AddJournalItem(binaryObject, 14, 0, 0, state);
-									}
-									break;
+								AddJournalItem(2, 0, 0);
+							}
+							else
+							{
+								AddJournalItem(14, 0, 0);
 							}
 							break;
 
-						case GKDriverType.GKIndicator:
-							switch (StateBit)
+						case GKStateBit.Fire2:
+							if (_isActive)
 							{
-								case GKStateBit.On:
-									if (_isActive)
-									{
-										AddJournalItem(binaryObject, 9, 2, 0, state);
-									}
-									else
-									{
-										AddJournalItem(binaryObject, 9, 3, 0, state);
-									}
-									break;
+								AddJournalItem(3, 0, 0);
+							}
+							else
+							{
+								AddJournalItem(14, 0, 0);
+							}
+							break;
+
+						case GKStateBit.On:
+							if (_isActive)
+							{
+								AddJournalItem(9, 2, 0);
+							}
+							break;
+
+						case GKStateBit.Off:
+							if (_isActive)
+							{
+								AddJournalItem(9, 3, 0);
+							}
+							break;
+
+						case GKStateBit.TurningOn:
+							if (_isActive)
+							{
+								AddJournalItem(9, 4, 0);
+							}
+							break;
+
+						case GKStateBit.TurningOff:
+							if (_isActive)
+							{
+								AddJournalItem(9, 5, 0);
 							}
 							break;
 					}
@@ -81,28 +92,14 @@ namespace GKImitator.ViewModels
 			}
 		}
 
-		void AddJournalItem(BaseDescriptor baseDescriptor, byte code, byte eventDescription, byte eventYesNo, int objectState)
+		void AddJournalItem(byte nameCode, byte descriptionCode, byte yesNoCode)
 		{
 			var journalItem = new ImitatorJournalItem();
-
 			journalItem.Source = 2;
-			journalItem.Code = code;
-			journalItem.EventDescription = eventDescription;
-			journalItem.EventYesNo = eventYesNo;
-
-			journalItem.ObjectNo = 0;
-			journalItem.ObjectDeviceType = 0;
-			journalItem.ObjectDeviceAddress = 0;
-			journalItem.ObjectFactoryNo = 0;
-			journalItem.ObjectState = objectState;
-
-			if (baseDescriptor.GKBase is GKDevice)
-			{
-				journalItem.ObjectDeviceType = (short)(baseDescriptor.GKBase as GKDevice).Driver.DriverTypeNo;
-				journalItem.ObjectDeviceAddress = (short)(((baseDescriptor.GKBase as GKDevice).ShleifNo - 1) * 256 + (baseDescriptor.GKBase as GKDevice).IntAddress);
-			}
-
-			BinaryObjectViewModel.AddJournalItem(journalItem);
+			journalItem.NameCode = nameCode;
+			journalItem.DescriptionCode = descriptionCode;
+			journalItem.YesNoCode = yesNoCode;
+			DescriptorViewModel.AddJournalItem(journalItem);
 		}
 	}
 }

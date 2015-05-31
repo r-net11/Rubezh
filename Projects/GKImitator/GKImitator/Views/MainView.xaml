@@ -19,23 +19,23 @@
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <DataGrid Grid.Row="0" ItemsSource="{Binding BinaryObjects}" SelectedItem="{Binding SelectedBinaryObject}" Margin="2">
+                <DataGrid Grid.Row="0" ItemsSource="{Binding Descriptors}" SelectedItem="{Binding SelectedDescriptor}" Margin="2">
                     <DataGrid.Columns>
                         <DataGridTemplateColumn Header="Объект" MinWidth="150">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="{Binding BinaryObject.GKBase.ImageSource}" Width="16" Height="16" Margin="5 0 5 0" />
-                                        <TextBlock Text="{Binding BinaryObject.GKBase.PresentationName}" Margin="5 0 5 0" />
+                                        <Image Source="{Binding GKBase.ImageSource}" Width="16" Height="16" Margin="5 0 5 0" />
+                                        <TextBlock Text="{Binding GKBase.PresentationName}" Margin="5 0 5 0" />
                                     </StackPanel>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTextColumn Header="Дескриптор ГК" Binding="{Binding BinaryObject.GKBase.GKDescriptorNo}" />
-                        <DataGridTextColumn Header="Описание" Binding="{Binding Description}" />
+                        <DataGridTextColumn Header="Дескриптор ГК" Binding="{Binding GKBase.GKDescriptorNo}" />
+                        <DataGridTextColumn Header="Описание" Binding="{Binding BaseDescriptor.Description}" />
                     </DataGrid.Columns>
                 </DataGrid>
-                <Grid Grid.Row="1" DataContext="{Binding SelectedBinaryObject}">
+                <Grid Grid.Row="1" DataContext="{Binding SelectedDescriptor}" Margin="5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
@@ -43,7 +43,7 @@
                     <ItemsControl Grid.Column="0" ItemsSource="{Binding StateBits}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-								<CheckBox Content="{Binding StateBit, Converter={StaticResource EnumToDescriptionConverter}}" IsChecked="{Binding IsActive}" Margin="1" />
+								<CheckBox Content="{Binding StateBit, Converter={StaticResource EnumToDescriptionConverter}}" IsChecked="{Binding IsActive}" IsEnabled="{Binding IsEnabled}" Margin="1" />
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
@@ -51,6 +51,7 @@
                         <Button Content="Автоматика" Command="{Binding SetAutomaticRegimeCommand}" Width="100" Margin="2" />
                         <Button Content="Ручной" Command="{Binding SetManualRegimeCommand}" Width="100" Margin="2" />
                         <Button Content="Отключение" Command="{Binding SetIgnoreRegimeCommand}" Width="100" Margin="2" />
+                        
                         <ItemsControl ItemsSource="{Binding Failures}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
@@ -58,8 +59,25 @@
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
-                        <Button Content="Потерять связь" Command="{Binding SetConnectionLostCommand}" Width="100" Margin="2" />
-                        <Button Content="Востановить связь" Command="{Binding ResetConnectionLostCommand}" Width="100" Margin="2" />
+
+                        <StackPanel Visibility="{Binding HasResetTest, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" Orientation="Horizontal">
+                            <Button Content="Тест кнопка" Command="{Binding TestButtonCommand}" Visibility="{Binding HasTestButton, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" Width="100" Margin="2" />
+                            <Button Content="Тест лазер" Command="{Binding TestLaserCommand}" Visibility="{Binding HasTestLaser, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" Width="100" Margin="2" />
+                            <Button Content="Сбросить тест" Command="{Binding ResetTestCommand}" Visibility="{Binding HasResetTest, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" Width="100" Margin="2" />
+                        </StackPanel>
+                        <StackPanel Visibility="{Binding HasDustiness, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" Orientation="Horizontal">
+                            <Button Content="Предварительная запыленность" Command="{Binding SetPreDustinessCommand}" Width="200" Margin="2" />
+                            <Button Content="Критическая запыленность" Command="{Binding SetCriticalDustinessCommand}" Width="200" Margin="2" />
+                            <Button Content="Сбросить запыленность" Command="{Binding ResetDustinessCommand}" Width="200" Margin="2" />
+                        </StackPanel>
+                        <StackPanel Visibility="{Binding HasTechnoligicalCommands, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" Orientation="Horizontal">
+                            <Button Content="Перевести в технологический режим" Command="{Binding GoToTechnoligicalRegimeCommand}" Width="200" Margin="2" />
+                            <Button Content="Перевести в рабочий режим" Command="{Binding GoToWorkingRegimeCommand}" Width="200" Margin="2" />
+                        </StackPanel>
+                        <StackPanel Visibility="{Binding HasUserCommands, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" Orientation="Horizontal">
+                            <Button Content="Вход пользователя" Command="{Binding EnterUserCommand}" Width="200" Margin="2" />
+                            <Button Content="Выход пользователя" Command="{Binding ExitUserCommand}" Width="200" Margin="2" />
+                        </StackPanel>
                     </StackPanel>
                 </Grid>
             </Grid>

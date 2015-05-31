@@ -14,6 +14,14 @@ namespace GKImitator.Processor
 			ObjectDeviceAddress = 0;
 		}
 
+		public ImitatorJournalItem(byte source, byte nameCode, byte descriptionCode, byte yesNoCode)
+		{
+			Source = source;
+			NameCode = nameCode;
+			DescriptionCode = descriptionCode;
+			YesNoCode = yesNoCode;
+		}
+
 		[DataMember]
 		public int GkNo { get; set; }
 		[DataMember]
@@ -29,12 +37,12 @@ namespace GKImitator.Processor
 		[DataMember]
 		public byte Source { get; set; } // Controller = 0, Device = 1, Object = 2
 		[DataMember]
-		public byte Code { get; set; }
+		public byte NameCode { get; set; }
 
 		[DataMember]
-		public byte EventYesNo { get; set; }
+		public byte YesNoCode { get; set; }
 		[DataMember]
-		public byte EventDescription { get; set; }
+		public byte DescriptionCode { get; set; }
 
 		[DataMember]
 		public short ObjectNo { get; set; }
@@ -67,10 +75,10 @@ namespace GKImitator.Processor
 
 			result.AddRange(BitConverter.GetBytes(UNUSED_KauAddress));
 			result.Add(Source);
-			result.Add(Code);
+			result.Add(NameCode);
 
-			result.Add(EventYesNo);
-			result.Add(EventDescription);
+			result.Add(YesNoCode);
+			result.Add(DescriptionCode);
 
 			result.AddRange(BitConverter.GetBytes((short)0));
 			result.AddRange(BitConverter.GetBytes(ObjectNo));

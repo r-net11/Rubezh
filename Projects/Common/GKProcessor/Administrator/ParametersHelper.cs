@@ -181,7 +181,6 @@ namespace GKProcessor
 				var no = descriptor.GetDescriptorNo();
 				var bytes = new List<byte>();
 				bytes.AddRange(BytesHelper.ShortToBytes(no));
-				//bytes.AddRange(descriptor.Parameters);
 				bytes.AddRange(parameterBytes);
 				var sendResult = SendManager.Send(rootDevice, (ushort)bytes.Count, 10, 0, bytes);
 				if (sendResult.HasError)

@@ -75,10 +75,13 @@
     <Compile Include="Processor\ImitatorJournalItemCollection.cs" />
     <Compile Include="Processor\JournalHelper.cs" />
     <Compile Include="Processor\ConfigurationCashHelper.cs" />
-    <Compile Include="ViewModels\BinaryObjectViewModel.cs" />
+    <Compile Include="ViewModels\DescriptorViewModel.cs" />
     <Compile Include="ViewModels\FailureViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\StateBitViewModel.cs" />
+    <Compile Include="ViewModels\DescriptorViewModel.Test.cs" />
+    <Compile Include="ViewModels\DescriptorViewModel.Dustiness.cs" />
+    <Compile Include="ViewModels\DescriptorViewModel.Controller.cs" />
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>

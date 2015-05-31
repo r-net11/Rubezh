@@ -17,48 +17,48 @@ namespace GKImitator.ViewModels
 			Current = this;
 
 			ConfigurationCashHelper.Update();
-			InitializeBinaryObjects();
+			InitializeDescriptors();
 
 			GKProcessor = new GKImitator.Processor.GKProcessor();
 			GKProcessor.Start();
 		}
 
-		void InitializeBinaryObjects()
+		void InitializeDescriptors()
 		{
 			DescriptorsManager.Create();
 			var gkDatabase = DescriptorsManager.GkDatabases.FirstOrDefault();
 
-			BinaryObjects = new List<BinaryObjectViewModel>();
+			Descriptors = new List<DescriptorViewModel>();
 			if (gkDatabase != null)
 			{
 				foreach (var descriptors in gkDatabase.Descriptors)
 				{
-					var binObjectViewModel = new BinaryObjectViewModel(descriptors);
-					BinaryObjects.Add(binObjectViewModel);
+					var binObjectViewModel = new DescriptorViewModel(descriptors);
+					Descriptors.Add(binObjectViewModel);
 				}
 			}
-			SelectedBinaryObject = BinaryObjects.FirstOrDefault();
+			SelectedDescriptor = Descriptors.FirstOrDefault();
 		}
 
-		List<BinaryObjectViewModel> _binaryObjects;
-		public List<BinaryObjectViewModel> BinaryObjects
+		List<DescriptorViewModel> _descriptors;
+		public List<DescriptorViewModel> Descriptors
 		{
-			get { return _binaryObjects; }
+			get { return _descriptors; }
 			set
 			{
-				_binaryObjects = value;
-				OnPropertyChanged(() => BinaryObjects);
+				_descriptors = value;
+				OnPropertyChanged(() => Descriptors);
 			}
 		}
 
-		BinaryObjectViewModel _selectedBinaryObject;
-		public BinaryObjectViewModel SelectedBinaryObject
+		DescriptorViewModel _selectedDescriptor;
+		public DescriptorViewModel SelectedDescriptor
 		{
-			get { return _selectedBinaryObject; }
+			get { return _selectedDescriptor; }
 			set
 			{
-				_selectedBinaryObject = value;
-				OnPropertyChanged(() => SelectedBinaryObject);
+				_selectedDescriptor = value;
+				OnPropertyChanged(() => SelectedDescriptor);
 			}
 		}
 
@@ -74,20 +74,20 @@ namespace GKImitator.ViewModels
 			var hasFire2 = false;
 			var hasAutomaticOff = false;
 
-			foreach (var binaryObjectViewModel in BinaryObjects)
+			foreach (var descriptorViewModel in Descriptors)
 			{
-				hasAttention = hasAttention || binaryObjectViewModel.StateBits.Any(x => x.StateBit == GKStateBit.Attention && x.IsActive);
-				hasFire1 = hasFire1 || binaryObjectViewModel.StateBits.Any(x => x.StateBit == GKStateBit.Fire1 && x.IsActive);
-				hasFire2 = hasFire2 || binaryObjectViewModel.StateBits.Any(x => x.StateBit == GKStateBit.Fire2 && x.IsActive);
-				hasAutomaticOff = hasAutomaticOff || binaryObjectViewModel.StateBits.Any(x => x.StateBit == GKStateBit.Norm && !x.IsActive);
+				hasAttention = hasAttention || descriptorViewModel.StateBits.Any(x => x.StateBit == GKStateBit.Attention && x.IsActive);
+				hasFire1 = hasFire1 || descriptorViewModel.StateBits.Any(x => x.StateBit == GKStateBit.Fire1 && x.IsActive);
+				hasFire2 = hasFire2 || descriptorViewModel.StateBits.Any(x => x.StateBit == GKStateBit.Fire2 && x.IsActive);
+				hasAutomaticOff = hasAutomaticOff || descriptorViewModel.StateBits.Any(x => x.StateBit == GKStateBit.Norm && !x.IsActive);
 			}
 
 			if (HasFire2 != hasFire2)
 			{
-				var binaryObjectViewModel = BinaryObjects.FirstOrDefault(x => x.BinaryObject.GKBase is GKDevice && (x.BinaryObject.GKBase as GKDevice).ShortName == "Индикатор Пожар 2");
-				if (binaryObjectViewModel != null)
+				var descriptorViewModel = Descriptors.FirstOrDefault(x => x.BaseDescriptor.GKBase is GKDevice && (x.BaseDescriptor.GKBase as GKDevice).ShortName == "Индикатор Пожар 2");
+				if (descriptorViewModel != null)
 				{
-					var staeBitViewModel = binaryObjectViewModel.StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.On);
+					var staeBitViewModel = descriptorViewModel.StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.On);
 					if (staeBitViewModel != null)
 						staeBitViewModel.IsActive = hasFire2;
 				}

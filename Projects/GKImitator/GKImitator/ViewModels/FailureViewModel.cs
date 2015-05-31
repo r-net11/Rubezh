@@ -11,14 +11,14 @@ namespace GKImitator.ViewModels
 {
 	public class FailureViewModel : BaseViewModel
 	{
-		public FailureViewModel(BinaryObjectViewModel binaryObjectViewModel, JournalEventDescriptionType journalEventDescriptionType, byte no)
+		public FailureViewModel(DescriptorViewModel binaryObjectViewModel, JournalEventDescriptionType journalEventDescriptionType, byte no)
 		{
 			BinaryObjectViewModel = binaryObjectViewModel;
 			JournalEventDescriptionType = journalEventDescriptionType;
 			No = no;
 		}
 
-		BinaryObjectViewModel BinaryObjectViewModel;
+		DescriptorViewModel BinaryObjectViewModel;
 		public JournalEventDescriptionType JournalEventDescriptionType { get; private set; }
 		public byte No { get; private set; }
 
@@ -34,9 +34,9 @@ namespace GKImitator.ViewModels
 				var journalItem = new ImitatorJournalItem();
 
 				journalItem.Source = 2;
-				journalItem.Code = 5;
-				journalItem.EventDescription = No;
-				journalItem.EventYesNo = (byte)(value ? 1 : 0);
+				journalItem.NameCode = 5;
+				journalItem.DescriptionCode = No;
+				journalItem.YesNoCode = (byte)(value ? 1 : 0);
 
 				journalItem.ObjectNo = 0;
 				journalItem.ObjectDeviceType = 0;
@@ -44,8 +44,8 @@ namespace GKImitator.ViewModels
 				journalItem.ObjectFactoryNo = 0;
 				journalItem.ObjectState = 0;
 
-				journalItem.ObjectDeviceType = (short)(BinaryObjectViewModel.BinaryObject.GKBase as GKDevice).Driver.DriverTypeNo;
-				journalItem.ObjectDeviceAddress = (short)(((BinaryObjectViewModel.BinaryObject.GKBase as GKDevice).ShleifNo - 1) * 256 + (BinaryObjectViewModel.BinaryObject.GKBase as GKDevice).IntAddress);
+				journalItem.ObjectDeviceType = (short)(BinaryObjectViewModel.BaseDescriptor.GKBase as GKDevice).Driver.DriverTypeNo;
+				journalItem.ObjectDeviceAddress = (short)(((BinaryObjectViewModel.BaseDescriptor.GKBase as GKDevice).ShleifNo - 1) * 256 + (BinaryObjectViewModel.BaseDescriptor.GKBase as GKDevice).IntAddress);
 
 				BinaryObjectViewModel.AddJournalItem(journalItem);
 			}

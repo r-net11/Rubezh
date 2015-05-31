@@ -80,12 +80,30 @@ namespace GKImitator.Processor
 					return null;
 
 				case 7:
-					var no = BytesHelper.SubstructInt(byteData.ToList(), 5);
-					return GetJournalBytes(no);
+					var descriptorNo = BytesHelper.SubstructInt(byteData.ToList(), 5);
+					return GetJournalBytes(descriptorNo);
+
+				case 9: // Чтение параметра
+					descriptorNo = BytesHelper.SubstructInt(byteData.ToList(), 5);
+					var descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.DescriptorNo == descriptorNo);
+					if (descriptorViewModel != null)
+					{
+						descriptorViewModel.GetParameters();
+					}
+					return null;
+
+				case 10: // Установка параметра
+					descriptorNo = BytesHelper.SubstructShort(byteData.ToList(), 5);
+					descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.DescriptorNo == descriptorNo);
+					if (descriptorViewModel != null)
+					{
+						descriptorViewModel.SetParameters();
+					}
+					return null;
 
 				case 12: // Get State
-					no = BytesHelper.SubstructShort(byteData.ToList(), 5);
-					return GetObjectState(no);
+					descriptorNo = BytesHelper.SubstructShort(byteData.ToList(), 5);
+					return GetObjectState(descriptorNo);
 
 				case 23: // Infoormational Block
 					var blockNo = byteData[5];
@@ -110,45 +128,45 @@ namespace GKImitator.Processor
 
 		public List<byte> GetObjectState(int no)
 		{
-			var binaryObjectBase = GkDatabase.Descriptors.FirstOrDefault(x => x.GetDescriptorNo() == no);
-			if (binaryObjectBase == null)
+			var descriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.GetDescriptorNo() == no);
+			if (descriptor == null)
 				return new List<byte>();
 
 			var result = new List<byte>();
 
 			var typeNo = 0;
-			if (binaryObjectBase.GKBase is GKDevice)
-				typeNo = (binaryObjectBase.GKBase as GKDevice).Driver.DriverTypeNo;
-			if (binaryObjectBase.GKBase is GKZone)
+			if (descriptor.GKBase is GKDevice)
+				typeNo = (descriptor.GKBase as GKDevice).Driver.DriverTypeNo;
+			if (descriptor.GKBase is GKZone)
 				typeNo = 0x100;
-			if (binaryObjectBase.GKBase is GKDirection)
+			if (descriptor.GKBase is GKDirection)
 				typeNo = 0x106;
-			if (binaryObjectBase.GKBase is GKPumpStation)
+			if (descriptor.GKBase is GKPumpStation)
 				typeNo = 0x106;
-			if (binaryObjectBase.GKBase is GKMPT)
+			if (descriptor.GKBase is GKMPT)
 				typeNo = 0x106;
-			if (binaryObjectBase.GKBase is GKDelay)
+			if (descriptor.GKBase is GKDelay)
 				typeNo = 0x101;
-			if (binaryObjectBase.GKBase is GKPim)
+			if (descriptor.GKBase is GKPim)
 				typeNo = 0x107;
-			if (binaryObjectBase.GKBase is GKGuardZone)
+			if (descriptor.GKBase is GKGuardZone)
 				typeNo = 0x108;
-			if (binaryObjectBase.GKBase is GKCode)
+			if (descriptor.GKBase is GKCode)
 				typeNo = 0x109;
-			if (binaryObjectBase.GKBase is GKDoor)
+			if (descriptor.GKBase is GKDoor)
 				typeNo = 0x104;
 			result.AddRange(ToBytes((short)typeNo));
 
-			var controllerAddress = binaryObjectBase.ControllerAdress;
+			var controllerAddress = descriptor.ControllerAdress;
 			result.AddRange(ToBytes((short)controllerAddress));
 
-			var addressOnController = binaryObjectBase.AdressOnController;
+			var addressOnController = descriptor.AdressOnController;
 			result.AddRange(ToBytes((short)addressOnController));
 
-			var physicalAddress = binaryObjectBase.PhysicalAdress;
+			var physicalAddress = descriptor.PhysicalAdress;
 			result.AddRange(ToBytes((short)physicalAddress));
 
-			result.AddRange(binaryObjectBase.Description);
+			result.AddRange(descriptor.Description);
 
 			var serialNo = 0;
 			result.AddRange(IntToBytes((int)serialNo));
@@ -156,8 +174,8 @@ namespace GKImitator.Processor
 			var state = 0;
 			//var stateBits = new List<XStateBit>();
 			//stateBits.Add(XStateBit.Norm);
-			var binaryObjectViewModel = MainViewModel.Current.BinaryObjects.FirstOrDefault(x => x.BinaryObject.GetDescriptorNo() == binaryObjectBase.GetDescriptorNo());
-			foreach (var stateBitViewModel in binaryObjectViewModel.StateBits)
+			var descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.BaseDescriptor.GetDescriptorNo() == descriptor.GetDescriptorNo());
+			foreach (var stateBitViewModel in descriptorViewModel.StateBits)
 			{
 				if (stateBitViewModel.IsActive)
 				{
