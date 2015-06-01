@@ -219,8 +219,6 @@ namespace FiresecAPI.GK
 						gkBase.LinkGKBases(door);
 					foreach (var pumpStation in clause.PumpStations)
 						gkBase.LinkGKBases(pumpStation);
-					foreach (var indicator in clause.Indicators)
-						gkBase.LinkGKBases(indicator);
 				}
 			}
 			if (clauseGroup.ClauseGroups != null)

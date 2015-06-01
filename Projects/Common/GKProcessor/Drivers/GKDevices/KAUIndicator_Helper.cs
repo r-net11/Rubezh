@@ -26,6 +26,8 @@ namespace GKProcessor
 			driver.AvailableStateClasses.Add(XStateClass.Norm);
 			driver.AvailableStateClasses.Add(XStateClass.Unknown);
 			driver.AvailableStateClasses.Add(XStateClass.On);
+			driver.AvailableStateBits.Add(GKStateBit.On);
+			driver.AvailableStateBits.Add(GKStateBit.Off);
 
 			var modeProperty = new GKDriverProperty()
 			{

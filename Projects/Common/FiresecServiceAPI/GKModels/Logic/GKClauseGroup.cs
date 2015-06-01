@@ -80,7 +80,6 @@ namespace FiresecAPI.GK
 				clause.MPTs.ForEach(result.Add);
 				clause.Devices.ForEach(result.Add);
 				clause.PumpStations.ForEach(result.Add);
-				clause.Indicators.ForEach(result.Add);
 			}
 			foreach (var clauseGroup in ClauseGroups)
 			{

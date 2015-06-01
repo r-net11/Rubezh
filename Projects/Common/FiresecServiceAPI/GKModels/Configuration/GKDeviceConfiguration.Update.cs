@@ -287,7 +287,6 @@ namespace FiresecAPI.GK
 				clause.Delays = new List<GKDelay>();
 				clause.Doors = new List<GKDoor>();
 				clause.PumpStations = new List<GKPumpStation>();
-				clause.Indicators = new List<GKDevice>();
 
 				var deviceUIDs = new List<Guid>();
 				foreach (var deviceUID in clause.DeviceUIDs)
@@ -400,20 +399,6 @@ namespace FiresecAPI.GK
 					}
 				}
 				clause.PumpStationsUIDs = pumpStationsUIDs;
-
-				var indicatorsUIDs = new List<Guid>();
-				foreach (var indicatorUID in clause.IndicatorsUIDs)
-				{
-					var indicator = Devices.FirstOrDefault(x => x.UID == indicatorUID);
-					if (indicator != null)
-					{
-						indicatorsUIDs.Add(indicatorUID);
-						clause.Indicators.Add(indicator);
-						if (!gkBase.ClauseInputDevices.Contains(indicator))
-							gkBase.ClauseInputDevices.Add(indicator);
-					}
-				}
-				clause.IndicatorsUIDs = indicatorsUIDs;
 
 				if (clause.HasObjects())
 					result.Clauses.Add(clause);

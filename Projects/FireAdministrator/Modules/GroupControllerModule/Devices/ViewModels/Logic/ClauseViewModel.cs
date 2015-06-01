@@ -20,7 +20,6 @@ namespace GKModule.ViewModels
 		public List<GKDelay> Delays { get; set; }
 		public List<GKDoor> Doors { get; set; }
 		public List<GKPumpStation> PumpStations { get; set; }
-		public List<GKDevice> Indicators { get; set; }
 		GKDevice Device;
 
 		public ClauseViewModel(GKDevice device, GKClause clause)
@@ -34,7 +33,6 @@ namespace GKModule.ViewModels
 			SelectDelaysCommand = new RelayCommand(OnSelectDelays);
 			SelectDoorsCommand = new RelayCommand(OnSelectDoors);
 			SelectPumpStationsCommand = new RelayCommand(OnSelectPumpStations);
-			SelectIndicatorsCommand = new RelayCommand(OnSelectIndicators);
 
 			ClauseConditionTypes = Enum.GetValues(typeof(ClauseConditionType)).Cast<ClauseConditionType>().ToList();
 			ClauseOperationTypes = Enum.GetValues(typeof(ClauseOperationType)).Cast<ClauseOperationType>().ToList();
@@ -48,7 +46,6 @@ namespace GKModule.ViewModels
 			Delays = clause.Delays.ToList();
 			Doors = clause.Doors.ToList();
 			PumpStations = clause.PumpStations.ToList();
-			Indicators = clause.Indicators.ToList();
 
 			SelectedClauseConditionType = clause.ClauseConditionType;
 			SelectedStateType = StateTypes.FirstOrDefault(x => x.StateBit == clause.StateType);
@@ -157,14 +154,6 @@ namespace GKModule.ViewModels
 							new StateTypeViewModel(value, GKStateBit.Failure)
 						};
 						break;
-
-					case ClauseOperationType.AnyIndicator:
-					case ClauseOperationType.AllIndicators:
-						StateTypes = new ObservableCollection<StateTypeViewModel>()
-						{
-							new StateTypeViewModel(value, GKStateBit.On),
-						};
-						break;
 				}
 				if (StateTypes.Any(x => x.StateBit == oldSelectedStateType))
 				{
@@ -190,7 +179,6 @@ namespace GKModule.ViewModels
 				OnPropertyChanged(() => CanSelectDelays);
 				OnPropertyChanged(() => CanSelectDoors);
 				OnPropertyChanged(() => CanSelectPumpStations);
-				OnPropertyChanged(() => CanSelectIndicators);
 			}
 		}
 
@@ -264,15 +252,6 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public string PresenrationIndicators
-		{
-			get
-			{
-				var name = GKManager.GetCommaSeparatedObjects(new List<ModelBase>(Indicators), new List<ModelBase>(GKManager.Devices));
-				return name;
-			}
-		}
-
 		public bool CanSelectDevices
 		{
 			get { return (SelectedClauseOperationType == ClauseOperationType.AllDevices || SelectedClauseOperationType == ClauseOperationType.AnyDevice); }
@@ -313,11 +292,6 @@ namespace GKModule.ViewModels
 			get { return (SelectedClauseOperationType == ClauseOperationType.AllPumpStations || SelectedClauseOperationType == ClauseOperationType.AnyPumpStation); }
 		}
 
-		public bool CanSelectIndicators
-		{
-			get { return (SelectedClauseOperationType == ClauseOperationType.AllIndicators || SelectedClauseOperationType == ClauseOperationType.AnyIndicator); }
-		}
-
 		public RelayCommand SelectDevicesCommand { get; private set; }
 		void OnSelectDevices()
 		{
@@ -326,11 +300,6 @@ namespace GKModule.ViewModels
 			{
 				if (device.IsNotUsed)
 					continue;
-				if (Device != null && Device.DriverType != GKDriverType.GKRele)
-				{
-					if (!device.Driver.IsDeviceOnShleif && Device.Driver.IsDeviceOnShleif)
-						continue;
-				}
 				if (device.Driver.AvailableStateBits.Contains(SelectedStateType.StateBit))
 					sourceDevices.Add(device);
 			}
@@ -416,17 +385,6 @@ namespace GKModule.ViewModels
 			{
 				PumpStations = pumpStationsSelectationViewModel.PumpStations;
 				OnPropertyChanged(() => PresenrationPumpStations);
-			}
-		}
-
-		public RelayCommand SelectIndicatorsCommand { get; private set; }
-		void OnSelectIndicators()
-		{
-			var devicesSelectationViewModel = new DevicesSelectationViewModel(Indicators, GKManager.Devices.FindAll(x => x.DriverType == GKDriverType.GKIndicator));
-			if (DialogService.ShowModalWindow(devicesSelectationViewModel))
-			{
-				Indicators = devicesSelectationViewModel.DevicesList;
-				OnPropertyChanged(() => PresenrationIndicators);
 			}
 		}
 	}
