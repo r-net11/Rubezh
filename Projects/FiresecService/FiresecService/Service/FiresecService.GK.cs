@@ -502,13 +502,6 @@ namespace FiresecService.Service
 
 								var controllerCardSchedules = GKSKDHelper.GetGKControllerCardSchedules(card, accessTemplate);
 								var controllerCardSchedule = controllerCardSchedules.FirstOrDefault(x => x.ControllerDevice.UID == deviceUID);
-								if (controllerCardSchedule == null && card.GKCardType != GKCardType.Employee)
-								{
-									controllerCardSchedule = new GKControllerCardSchedule()
-									{
-										ControllerDevice = device
-									};
-								}
 								if (controllerCardSchedule != null)
 								{
 									var employeeOperationResult = databaseService.EmployeeTranslator.GetSingle(card.HolderUID);

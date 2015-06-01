@@ -34,9 +34,7 @@ namespace DiagnosticsModule
 				new NavigationItem("Диагностика", "Bug",
 					new List<NavigationItem>()
 					{
-//#if DEBUG
 						new NavigationItem<ShowDiagnosticsEvent, object>(DiagnosticsViewModel, "Диагностика", "Bug"),
-//#endif
 						new NavigationItem<ShowServerEvent, object>(ServerViewModel, "Очередь операций", "Bug")
 					})
 				};

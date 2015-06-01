@@ -15,7 +15,6 @@ namespace DiagnosticsModule.ViewModels
 	{
 		public DiagnosticsViewModel()
 		{
-			TurnOnOffRMCommand = new RelayCommand(OnTurnOnOffRM);
 			CheckHaspCommand = new RelayCommand(OnCheckHasp);
 			TestCommand = new RelayCommand(OnTest);
 			SKDDataCommand = new RelayCommand(OnSKDData);
@@ -39,11 +38,6 @@ namespace DiagnosticsModule.ViewModels
 			}
 		}
 
-		public RelayCommand TurnOnOffRMCommand { get; private set; }
-		void OnTurnOnOffRM()
-		{
-		}
-
 		public RelayCommand CheckHaspCommand { get; private set; }
 		void OnCheckHasp()
 		{
@@ -53,7 +47,6 @@ namespace DiagnosticsModule.ViewModels
 				{
 					ApplicationService.Invoke(() =>
 					{
-						var hasLicense = LicenseHelper.CheckLicense(false);
 					});
 					Thread.Sleep(TimeSpan.FromMilliseconds(3000));
 				}

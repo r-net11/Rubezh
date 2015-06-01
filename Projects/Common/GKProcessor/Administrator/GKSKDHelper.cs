@@ -315,6 +315,23 @@ namespace GKProcessor
 					controllerCardSchedule.CardSchedules.Add(cardSchedule);
 				}
 			}
+
+			foreach (var controllerUID in card.GKControllerUIDs)
+			{
+				var controllerDevice = GKManager.Devices.FirstOrDefault(x => x.UID == controllerUID);
+				if (controllerDevice != null)
+				{
+					var controllerCardSchedule = controllerCardSchedules.FirstOrDefault(x => x.ControllerDevice.UID == controllerUID);
+					if (controllerCardSchedule == null && card.GKCardType != GKCardType.Employee)
+					{
+						controllerCardSchedule = new GKControllerCardSchedule()
+						{
+							ControllerDevice = controllerDevice
+						};
+					}
+				}
+			}
+
 			return controllerCardSchedules;
 		}
 	}

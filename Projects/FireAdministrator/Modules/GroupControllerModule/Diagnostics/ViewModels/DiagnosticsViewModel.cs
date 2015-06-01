@@ -50,6 +50,7 @@ namespace GKModule.ViewModels
 					var door = new GKDoor();
 					door.No = doorNo;
 					door.Name = "ТД " + doorNo;
+					door.DoorType = GKDoorType.TwoWay;
 					door.EnterDeviceUID = enterDevice.UID;
 					door.ExitDeviceUID = exitDevice.UID;
 					door.LockDeviceUID = lockDevice.UID;
