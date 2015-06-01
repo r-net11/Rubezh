@@ -248,7 +248,7 @@ namespace PowerCalculator.Processor
 
             Drivers.Add(new Driver()
             {
-                DriverType = DriverType.RSR2_KW,
+                DriverType = DriverType.RSR2_Cardreader,
                 Mult = 1,
                 R = 0.8,
                 I = 1,
@@ -260,7 +260,7 @@ namespace PowerCalculator.Processor
 
             Drivers.Add(new Driver()
             {
-                DriverType = DriverType.RSR2_PPUN,
+				DriverType = DriverType.RSR2_Bush_Shuv,
                 Mult = 1,
                 R = 0.8,
                 I = 0.3,
@@ -272,7 +272,7 @@ namespace PowerCalculator.Processor
 
             Drivers.Add(new Driver()
             {
-                DriverType = DriverType.RSR2_PPUZ,
+				DriverType = DriverType.RSR2_Valve_DU,
                 Mult = 1,
                 R = 0.8,
                 I = 0.3,
@@ -284,7 +284,7 @@ namespace PowerCalculator.Processor
 
             Drivers.Add(new Driver()
             {
-                DriverType = DriverType.RSR2_IOIK,
+                DriverType = DriverType.RSR2_GuardDetector,
                 Mult = 1,
                 R = 0.8,
                 I = 0.5,
@@ -296,7 +296,7 @@ namespace PowerCalculator.Processor
 
             Drivers.Add(new Driver()
             {
-                DriverType = DriverType.RSR2_IOPZ,
+                DriverType = DriverType.RSR2_GuardDetectorSound,
                 Mult = 1,
                 R = 0.8,
                 I = 0.5,

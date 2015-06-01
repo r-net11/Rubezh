@@ -22,8 +22,6 @@ namespace PowerCalculator.ViewModels
 			LoadFromFileCommand = new RelayCommand(OnLoadFromFile);
 			AddLineCommand = new RelayCommand(OnAddLine);
 			RemoveLineCommand = new RelayCommand(OnRemoveFile, CanRemoveLine);
-            CollectToRepositoryCommand = new RelayCommand(OnCollectToRepository);
-            GenerateFromRepositoryCommand = new RelayCommand(OnGenerateFromRepository);
 			ShowRepositoryCommand = new RelayCommand(OnShowRepository);
 			CalculateCommand = new RelayCommand(OnCalculate);
 			OnCreateNew();
@@ -146,44 +144,14 @@ namespace PowerCalculator.ViewModels
 			return SelectedLine != null;
 		}
 
-        public RelayCommand CollectToRepositoryCommand { get; private set; }
-        void OnCollectToRepository()
-        {
-            Processor.Processor.CollectToRepository(Configuration);
-            OnShowRepository();
-        }
-
-		public RelayCommand GenerateFromRepositoryCommand { get; private set; }
-		void OnGenerateFromRepository()
-		{
-            if (Configuration.DeviceRepositoryItems.Count == 0)
-            {
-                MessageBoxService.ShowError("Репозиторий устройств не содержит элементов!");
-                return;
-            }
-
-            if (Configuration.CableRepositoryItems.Count == 0)
-            {
-                MessageBoxService.ShowError("Репозиторий кабелей не содержит элементов!");
-                return;
-            }
-
-			var cableRemains = Processor.Processor.GenerateFromRepository(Configuration);
-            Initialize();
-            if (cableRemains.Count() > 0)
-            {
-                string msg = "Неиспользованный кабель:\n";
-                foreach (CableRepositoryItem cablePiece in cableRemains)
-                    msg += String.Format("Длина = {0} м, Сопротивление = {1} Ом;\n", cablePiece.Length, cablePiece.Resistivity);
-                MessageBoxService.Show(msg);
-            }
-		}
-
 		public RelayCommand ShowRepositoryCommand { get; private set; }
 		void OnShowRepository()
 		{
 			var repositoryViewModel = new RepositoryViewModel(Configuration);
-			DialogService.ShowModalWindow(repositoryViewModel);
+			if (DialogService.ShowModalWindow(repositoryViewModel))
+			{
+				Initialize();
+			}
 		}
 
 		public RelayCommand CalculateCommand { get; private set; }

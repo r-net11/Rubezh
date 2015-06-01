@@ -5,6 +5,9 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using PowerCalculator.Models;
 using PowerCalculator.Processor;
+using System.Collections;
+using System.Collections.Generic;
+using System;
 
 namespace PowerCalculator.ViewModels
 {
@@ -14,7 +17,7 @@ namespace PowerCalculator.ViewModels
 		{
 			Line = line;
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
-			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
+			RemoveCommand = new RelayCommand<object>(OnRemove, CanRemove);
 			Devices = new ObservableCollection<DeviceViewModel>();
 			foreach (var device in line.Devices)
 			{
@@ -54,23 +57,24 @@ namespace PowerCalculator.ViewModels
 					return;
 				}
 
+				var selectedIndex = Devices.IndexOf(SelectedDevice) + 1;
 				for (int i = 0; i < newDeviceViewModel.Count; i++)
 				{
 					var device = new Device();
 					device.DriverType = newDeviceViewModel.SelectedDriver.DriverType;
 					device.Cable.Resistivity = newDeviceViewModel.CableResistivity;
 					device.Cable.Length = newDeviceViewModel.CableLenght;
-					Line.Devices.Add(device);
+					Line.Devices.Insert(selectedIndex, device);
 					var deviceViewModel = new DeviceViewModel(device);
-					Devices.Add(deviceViewModel);
+					Devices.Insert(selectedIndex, deviceViewModel);
+					SelectedDevice = deviceViewModel;
 				}
-				SelectedDevice = Devices.LastOrDefault();
 				UpdateAddresses();
 			}
 		}
 		bool CanAdd()
 		{
-			return GetMaxAddress() < 255;
+			return SelectedDevice != null && GetMaxAddress() < 255;
 		}
 
 		uint GetMaxAddress()
@@ -80,15 +84,35 @@ namespace PowerCalculator.ViewModels
 			return Devices.LastOrDefault().Address;
 		}
 
-		public RelayCommand RemoveCommand { get; private set; }
-		void OnRemove()
+		public RelayCommand<object> RemoveCommand { get; private set; }
+		void OnRemove(object parameter)
 		{
-			Line.Devices.Remove(SelectedDevice.Device);
-			Devices.Remove(SelectedDevice);
-			SelectedDevice = Devices.FirstOrDefault();
+			var devicesIndex = Devices.IndexOf(SelectedDevice);
+
+			IList selectedDevices = (IList)parameter;
+			var deviceViewModels = new List<DeviceViewModel>();
+			foreach (var device in selectedDevices)
+			{
+				var deviceViewModel = device as DeviceViewModel;
+				if (deviceViewModel != null)
+					deviceViewModels.Add(deviceViewModel);
+			}
+			foreach (var deviceViewModel in deviceViewModels)
+			{
+				if (deviceViewModel.Device.DriverType != DriverType.RSR2_KAU)
+				{
+					Line.Devices.Remove(deviceViewModel.Device);
+					Devices.Remove(deviceViewModel);
+				}
+			}
+
+			devicesIndex = Math.Min(devicesIndex, Devices.Count - 1);
+			if (devicesIndex > -1)
+				SelectedDevice = Devices[devicesIndex];
+
 			UpdateAddresses();
 		}
-		bool CanRemove()
+		bool CanRemove(object parameter)
 		{
 			return SelectedDevice != null && SelectedDevice.Device.DriverType != DriverType.RSR2_KAU;
 		}
@@ -100,6 +124,17 @@ namespace PowerCalculator.ViewModels
 			{
 				deviceViewModel.Address = currentAddress;
 				currentAddress += deviceViewModel.Device.Driver.Mult;
+			}
+		}
+
+		bool _hasError;
+		public bool HasError
+		{
+			get { return _hasError; }
+			set
+			{
+				_hasError = value;
+				OnPropertyChanged(() => HasError);
 			}
 		}
 	}

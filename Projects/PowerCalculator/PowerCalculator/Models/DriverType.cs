@@ -62,18 +62,18 @@ namespace PowerCalculator.Models
         RSR2_OPK,
 
         [Description("Контроллер виганд")]
-        RSR2_KW,
+        RSR2_Cardreader,
 
         [Description("Шкаф управления насосом или вентилятором")]
-        RSR2_PPUN,
+		RSR2_Bush_Shuv,
 
         [Description("Шкаф управления задвижкой")]
-        RSR2_PPUZ,
+		RSR2_Valve_DU,
 
         [Description("Извещатель охранный инфракрасный (объемник)")]
-        RSR2_IOIK,
+        RSR2_GuardDetector,
 
         [Description("Извещатель охранный звуковой разбития")]
-        RSR2_IOPZ
+        RSR2_GuardDetectorSound
     }
 }

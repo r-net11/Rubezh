@@ -86,5 +86,38 @@ namespace PowerCalculator.ViewModels
 				OnPropertyChanged(() => ErrorScale);
 			}
 		}
+
+		double _current;
+		public double Current
+		{
+			get { return _current; }
+			set
+			{
+				_current = value;
+				OnPropertyChanged(() => Current);
+			}
+		}
+
+		double _voltage;
+		public double Voltage
+		{
+			get { return _voltage; }
+			set
+			{
+				_voltage = value;
+				OnPropertyChanged(() => Voltage);
+			}
+		}
+
+		bool _hasError;
+		public bool HasError
+		{
+			get { return _hasError; }
+			set
+			{
+				_hasError = value;
+				OnPropertyChanged(() => HasError);
+			}
+		}
 	}
 }

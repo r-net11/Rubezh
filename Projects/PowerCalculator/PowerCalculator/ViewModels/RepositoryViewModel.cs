@@ -3,6 +3,8 @@ using System.Linq;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using PowerCalculator.Models;
+using Infrastructure.Common.Windows;
+using System;
 
 namespace PowerCalculator.ViewModels
 {
@@ -18,6 +20,9 @@ namespace PowerCalculator.ViewModels
 			RemoveDeviceCommand = new RelayCommand(OnRemoveDevice, CanRemoveDevice);
 			AddCableCommand = new RelayCommand(OnAddCable);
 			RemoveCableCommand = new RelayCommand(OnRemoveCable, CanRemoveCable);
+
+			CollectToRepositoryCommand = new RelayCommand(OnCollectToRepository);
+			GenerateFromRepositoryCommand = new RelayCommand(OnGenerateFromRepository);
 
 			DeviceRepositoryItems = new ObservableCollection<DeviceRepositoryItemViewModel>(Configuration.DeviceRepositoryItems.Select(x => new DeviceRepositoryItemViewModel(x)));
 			CableRepositoryItems = new ObservableCollection<CableRepositoryItemViewModel>(Configuration.CableRepositoryItems.Select(x => new CableRepositoryItemViewModel(x)));
@@ -82,6 +87,37 @@ namespace PowerCalculator.ViewModels
 		bool CanRemoveCable()
 		{
 			return SelectedCableRepositoryItem != null;
+		}
+
+		public RelayCommand CollectToRepositoryCommand { get; private set; }
+		void OnCollectToRepository()
+		{
+			Processor.Processor.CollectToRepository(Configuration);
+		}
+
+		public RelayCommand GenerateFromRepositoryCommand { get; private set; }
+		void OnGenerateFromRepository()
+		{
+			if (Configuration.DeviceRepositoryItems.Count == 0)
+			{
+				MessageBoxService.ShowError("Репозиторий устройств не содержит элементов!");
+				return;
+			}
+
+			if (Configuration.CableRepositoryItems.Count == 0)
+			{
+				MessageBoxService.ShowError("Репозиторий кабелей не содержит элементов!");
+				return;
+			}
+
+			var cableRemains = Processor.Processor.GenerateFromRepository(Configuration);
+			if (cableRemains.Count() > 0)
+			{
+				string msg = "Неиспользованный кабель:\n";
+				foreach (CableRepositoryItem cablePiece in cableRemains)
+					msg += String.Format("Длина = {0} м, Сопротивление = {1} Ом;\n", cablePiece.Length, cablePiece.Resistivity);
+				MessageBoxService.Show(msg);
+			}
 		}
 
 		protected override bool Save()
