@@ -109,10 +109,6 @@ namespace GKProcessor
 				{
 					gkBases.Add(pumpStation);
 				}
-				foreach (var indicator in clause.Indicators)
-				{
-					gkBases.Add(indicator);
-				}
 
 				var objectIndex = 0;
 				foreach (var gkBase in gkBases)

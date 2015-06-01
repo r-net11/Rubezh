@@ -22,7 +22,6 @@ namespace FiresecAPI.GK
 			DelayUIDs = new List<Guid>();
 			DoorUIDs = new List<Guid>();
 			PumpStationsUIDs = new List<Guid>();
-			IndicatorsUIDs = new List<Guid>();
 
 			Devices = new List<GKDevice>();
 			Zones = new List<GKZone>();
@@ -32,7 +31,6 @@ namespace FiresecAPI.GK
 			Doors = new List<GKDoor>();
 			MPTs = new List<GKMPT>();
 			PumpStations = new List<GKPumpStation>();
-			Indicators = new List<GKDevice>();
 		}
 
 		[XmlIgnore]
@@ -51,8 +49,6 @@ namespace FiresecAPI.GK
 		public List<GKMPT> MPTs { get; set; }
 		[XmlIgnore]
 		public List<GKPumpStation> PumpStations { get; set; }
-		[XmlIgnore]
-		public List<GKDevice> Indicators { get; set; }
 
 		/// <summary>
 		/// Тип условия
@@ -115,12 +111,6 @@ namespace FiresecAPI.GK
 		public List<Guid> PumpStationsUIDs { get; set; }
 
 		/// <summary>
-		/// Идентификаторы индикаторов
-		/// </summary>
-		[DataMember]
-		public List<Guid> IndicatorsUIDs { get; set; }
-
-		/// <summary>
 		/// Тип операции
 		/// </summary>
 		[DataMember]
@@ -128,7 +118,7 @@ namespace FiresecAPI.GK
 
 		public bool HasObjects()
 		{
-			return Devices.Count > 0 || Zones.Count > 0 || GuardZones.Count > 0 || Directions.Count > 0 || MPTs.Count > 0 || Delays.Count > 0 || Doors.Count > 0 || PumpStations.Count > 0 || Indicators.Count > 0;
+			return Devices.Count > 0 || Zones.Count > 0 || GuardZones.Count > 0 || Directions.Count > 0 || MPTs.Count > 0 || Delays.Count > 0 || Doors.Count > 0 || PumpStations.Count > 0;
 		}
 
 		public static string ClauseToString(ClauseOperationType clauseOperationType, GKStateBit stateBit)

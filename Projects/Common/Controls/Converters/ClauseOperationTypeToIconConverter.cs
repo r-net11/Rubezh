@@ -34,6 +34,18 @@ namespace Controls.Converters
 						case ClauseOperationType.AnyDelay:
 							return "/Controls;component/Images/Delay.png";
 
+						case ClauseOperationType.AllGuardZones:
+						case ClauseOperationType.AnyGuardZone:
+							return "/Controls;component/Images/GuardZone.png";
+
+						case ClauseOperationType.AllDoors:
+						case ClauseOperationType.AnyDoor:
+							return "/Controls;component/Images/Door.png";
+
+						case ClauseOperationType.AllPumpStations:
+						case ClauseOperationType.AnyPumpStation:
+							return "/Controls;component/Images/BPumpStation.png";
+
 						default:
 							return "/Controls;component/Images/Zone.png";
 					}
