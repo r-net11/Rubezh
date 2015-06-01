@@ -487,7 +487,7 @@ namespace SKDModule.ViewModels
 			var stopListCard = StopListCards.FirstOrDefault(x => x.Number == Card.Number);
 			if (stopListCard != null)
 			{
-				if (MessageBoxService.ShowQuestion("Карта с таким номеромнаходится в стоп-листе. Использовать её?"))
+				if (MessageBoxService.ShowQuestion("Карта с таким номером была ранее деактивирована. Использовать ее?"))
 				{
 					UseStopList = true;
 					SelectedStopListCard = stopListCard;
