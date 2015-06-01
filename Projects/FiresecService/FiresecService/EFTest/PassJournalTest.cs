@@ -13,52 +13,115 @@ namespace FiresecService.EFTest
 		public static void Test()
 		{
 			Trace.WriteLine("PostgreSQL");
-			using (var db = new PassJournalContext("PassJournalDbContext", ContextType.PostgreSQL))
+			using (var postgresEFTester = new EFTester("PassJournalDbContext", ContextType.PostgreSQL))
 			{
-				PassJournalTest(db);
-			}
-			Trace.WriteLine("MSSQL");
-			using (var db2 = new PassJournalContext("passjournalEntities", ContextType.MSSQL))
-			{
-				PassJournalTest(db2);
-			}
-		}
-
-		static void PassJournalTest(PassJournalContext context)
-		{
-			var employee = new Employee
-			{
-				FirstName = "TestEmpl5551 Name",
-				SecondName = "TestEmpl5551 SecName",
-				LastName = "TestEmpl5551 LstName"
-			};
-			for (int i = 0; i < 5; i++)
-			{
-				var passJournal = new PassJournal
-				{
-					ZoneUID = Guid.Empty,
-					EnterTime = new DateTime(3000, 1, 1),
-					Employee = employee
-				};
-				context.PassJournals.Add(passJournal);
-			}
-			context.SaveChanges();
-
-			var passJournals = from x in context.PassJournals.Include("Employee") where x.EmployeeUID != null orderby x.EmployeeUID select x;
-			foreach (var item in passJournals)
-			{
-				Trace.WriteLine(string.Format("{0} {1} {2}", item.UID, item.EmployeeUID, item.Employee != null ? item.Employee.FirstName : ""));
+				postgresEFTester.Test();
 			}
 
-			var employeepassjournals = from x in context.EmployeePassJournals select x;
-			foreach (var item in employeepassjournals)
-			{
-				Trace.WriteLine(string.Format("{0} {1}", item.UID, item.LastName));
-			}
-
-			context.SaveChanges();
+			//Trace.WriteLine("MSSQL");
+			//using (var msEFTester = new EFTester("passjournalEntities", ContextType.MSSQL))
+			//{
+			//    msEFTester.Test();
+			//}
 		}
 	}
+
+	class EFTester : IDisposable
+	{
+		ContextType _contextType;
+		public string _connectionString;
+		PassJournalContext _context;
+		public event Action<List<PassJournal>> PagingTestAction;
+
+		public EFTester(string connectionString, ContextType contextType)
+		{
+			_contextType = contextType;
+			_connectionString = connectionString;
+			_context = new PassJournalContext(_connectionString, _contextType);
+		}
+
+		public void Test()
+		{
+			//var employee = new Employee
+			//{
+			//    FirstName = "TestEmpl5551 Name",
+			//    SecondName = "TestEmpl5551 SecName",
+			//    LastName = "TestEmpl5551 LstName"
+			//};
+			//for (int i = 0; i < 5000; i++)
+			//{
+			//    var passJournal = new PassJournal
+			//    {
+			//        ZoneUID = Guid.Empty,
+			//        EnterTime = new DateTime(3000, 1, 1),
+			//        Employee = employee
+			//    };
+			//    _context.PassJournals.Add(passJournal);
+			//}
+			//_context.SaveChanges();
+
+			//var passJournals = from x in context.PassJournals.Include("Employee") where x.EmployeeUID != null orderby x.EmployeeUID select x;
+			//foreach (var item in passJournals)
+			//{
+			//    Trace.WriteLine(string.Format("{0} {1} {2}", item.UID, item.EmployeeUID, item.Employee != null ? item.Employee.FirstName : ""));
+			//}
+
+			//var employeepassjournals = from x in context.EmployeePassJournals select x;
+			//foreach (var item in employeepassjournals)
+			//{
+			//    Trace.WriteLine(string.Format("{0} {1}", item.UID, item.LastName));
+			//}
+
+			//var employees = _context.Employees.ToList();
+			//var passjournals = _context.PassJournals.ToList();
+			//var employeepassjournals2 = context.GetEmployeePassJournals();
+
+			PagingTestAction += passJournals => 
+			{
+				Trace.WriteLine("++++++NEXTPORTION++++++");
+				foreach (var passJournalItem in passJournals)
+				{
+					Trace.WriteLine(string.Format("{0} {1}", passJournalItem.UID, passJournalItem.EmployeeUID));
+				}
+			};
+			PagingTest();
+			_context.SaveChanges();
+		}
+
+		void PagingTest()
+		{
+			var stopWatch = new Stopwatch();
+			stopWatch.Start();
+			var passJournals = _context.PassJournals.OrderBy(x => x.EmployeeUID);
+			var journalItems = new List<PassJournal>();
+			var pageSize = 2511;
+			int page = 0;
+			bool isBreak = false;
+			while (!isBreak)
+			{
+				var query = passJournals.Skip(page * pageSize).Take(pageSize);
+				journalItems = query.ToList();
+				page++;
+				isBreak = journalItems.Count < pageSize;
+				Trace.WriteLine(stopWatch.Elapsed);
+				PublishNewItemsPortion(journalItems);
+			}
+			stopWatch.Stop();
+		}
+
+		void PublishNewItemsPortion(List<PassJournal> journalItems)
+		{
+			if (PagingTestAction != null)
+				PagingTestAction(journalItems.ToList());
+			journalItems.Clear();
+		}
+
+		public void Dispose()
+		{
+			_context.Dispose();
+		}
+	}
+
 
 	class PassJournal
 	{
@@ -113,11 +176,9 @@ namespace FiresecService.EFTest
 	class EmployeePassJournal
 	{
 		[Key]
-		[Column("uid")]
-		public Guid UID { get; set; }
+		public Guid passjournaluid { get; set; }
 
-		[Column("lastname")]
-		public string LastName { get; set; }
+		public string employeelastname { get; set; }
 	}
 
 	class PassJournalContext : DbContext
@@ -147,7 +208,13 @@ namespace FiresecService.EFTest
 			}
 			modelBuilder.Entity<PassJournal>().ToTable("passjournal", schemaStr);
 			modelBuilder.Entity<Employee>().ToTable("employee", schemaStr);
-			modelBuilder.Entity<EmployeePassJournal>().ToTable("employeepassjournal", schemaStr);
+			//modelBuilder.Entity<EmployeePassJournal>().ToTable("employeepassjournal", schemaStr);
+		}
+
+		public ICollection<EmployeePassJournal> GetEmployeePassJournals()
+		{
+			//return Database.SqlQuery<EmployeePassJournal>("EXEC getemployeepassjournals").ToList();
+			return Database.SqlQuery<EmployeePassJournal>("SELECT * from sum_n_product_with_tab ();").ToList();
 		}
 
 		public DbSet<PassJournal> PassJournals { get; set; }
