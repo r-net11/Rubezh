@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using FiresecAPI.Automation;
 using FiresecAPI.GK;
 using FiresecClient;
 using Infrastructure.Common;
@@ -18,20 +19,42 @@ namespace GKModule.ViewModels
 		{
 			DeviceUid = deviceUid;
 			CurrentConsumptions = new List<CurrentConsumption>();
-			GetKauMeasuresCommand = new RelayCommand<List<object>>(OnGetKauMesures);
+			GetKauMeasuresCommand = new RelayCommand(OnGetKauMesures);
+			StartTime = DateTime.Now;
+			EndTime = DateTime.Now;
 		}
 
-		public RelayCommand<List<object>> GetKauMeasuresCommand { get; private set; }
-		public void OnGetKauMesures(List<object> objects)
+		private DateTime _startTime;
+		public DateTime StartTime
+		{
+			get { return _startTime; }
+			set
+			{
+				_startTime = value;
+				OnPropertyChanged(() => StartTime);
+			}
+		}
+
+		private DateTime _endTime;
+		public DateTime EndTime
+		{
+			get { return _endTime; }
+			set
+			{
+				_endTime = value;
+				OnPropertyChanged(() => EndTime);
+			}
+		}
+
+		public RelayCommand GetKauMeasuresCommand { get; private set; }
+		public void OnGetKauMesures()
 		{
 			CurrentConsumptions = new List<CurrentConsumption>();
-			if (objects == null || objects.Count != 2)
-				return;
 			var measuresResult = FiresecManager.FiresecService.GetCurrentConsumption(new CurrentConsumptionFilter
 				{
 					AlsUID = DeviceUid,
-					StartDateTime = (DateTime)objects[0],
-					EndDateTime = (DateTime)objects[1]
+					StartDateTime = StartTime,
+					EndDateTime = EndTime
 				});
 			if (measuresResult == null)
 				return;

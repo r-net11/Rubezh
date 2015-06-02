@@ -14,6 +14,7 @@ namespace GKProcessor
 				UID = new Guid("42B3C448-2FDD-43D4-AEE0-F173CB8D6CF8"),
 				Name = "Метка адресная пожарная АМП-R2",
 				ShortName = "АМП-R2",
+				HasGuardZone = true,
 				HasZone = true,
 				IsPlaceable = true
 			};
@@ -54,11 +55,11 @@ namespace GKProcessor
 			driver.Properties.Add(property1);
 
 			GKDriversHelper.AddIntProprety(driver, 1, "Порог питания, 0.1 В", 80, 1, 1000);
-			GKDriversHelper.AddIntProprety(driver, 2, "Порог 1, 0.1 Ом", 250, 1, 10000);
-			GKDriversHelper.AddIntProprety(driver, 3, "Порог 2, 0.1 Ом", 750, 1, 10000);
-			GKDriversHelper.AddIntProprety(driver, 4, "Порог 3, 0.1 Ом", 1500, 1, 10000);
-			GKDriversHelper.AddIntProprety(driver, 5, "Порог 4, 0.1 Ом", 4500, 1, 10000);
-			GKDriversHelper.AddIntProprety(driver, 6, "Порог 5, 0.1 Ом", 6000, 1, 10000);
+			GKDriversHelper.AddIntProprety(driver, 2, "Порог 1", 250, 1, 10000);
+			GKDriversHelper.AddIntProprety(driver, 3, "Порог 2", 750, 1, 10000);
+			GKDriversHelper.AddIntProprety(driver, 4, "Порог 3", 1500, 1, 10000);
+			GKDriversHelper.AddIntProprety(driver, 5, "Порог 4", 4500, 1, 10000);
+			GKDriversHelper.AddIntProprety(driver, 6, "Порог 5", 6000, 1, 10000);
 
 			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 1, Name = "Сопротивление, Ом", InternalName = "Resistance" });
 			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 2, Name = "Питание, В" });
