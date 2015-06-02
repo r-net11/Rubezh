@@ -63,6 +63,7 @@ namespace GKImitator.Processor
 			{
 				case 1:
 					return new List<byte>() { 44 };
+
 				case 2:
 					int softwareNo = 33;
 					int hardwareNo = 55;
@@ -70,7 +71,14 @@ namespace GKImitator.Processor
 					result.AddRange(BitConverter.GetBytes(softwareNo));
 					result.AddRange(BitConverter.GetBytes(hardwareNo));
 					return result;
+
 				case 5: // DateTime Synchrinysation
+					var descriptorNo = BytesHelper.SubstructInt(byteData.ToList(), 5);
+					var descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.DescriptorNo == descriptorNo);
+					if (descriptorViewModel != null)
+					{
+						descriptorViewModel.SynchronyzeDateTime();
+					}
 					return new List<byte>();
 
 				case 6:
@@ -80,12 +88,12 @@ namespace GKImitator.Processor
 					return null;
 
 				case 7:
-					var descriptorNo = BytesHelper.SubstructInt(byteData.ToList(), 5);
+					descriptorNo = BytesHelper.SubstructInt(byteData.ToList(), 5);
 					return GetJournalBytes(descriptorNo);
 
 				case 9: // Чтение параметра
 					descriptorNo = BytesHelper.SubstructInt(byteData.ToList(), 5);
-					var descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.DescriptorNo == descriptorNo);
+					descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.DescriptorNo == descriptorNo);
 					if (descriptorViewModel != null)
 					{
 						descriptorViewModel.GetParameters();
@@ -101,9 +109,14 @@ namespace GKImitator.Processor
 					}
 					return null;
 
-				case 12: // Get State
+				case 12: // Запрос состояния
 					descriptorNo = BytesHelper.SubstructShort(byteData.ToList(), 5);
-					return GetObjectState(descriptorNo);
+					descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.DescriptorNo == descriptorNo);
+					if (descriptorViewModel != null)
+					{
+						return descriptorViewModel.GetStateBytes(descriptorNo);
+					}
+					return null;
 
 				case 23: // Infoormational Block
 					var blockNo = byteData[5];
@@ -124,72 +137,6 @@ namespace GKImitator.Processor
 					return infoBlock;
 			}
 			return new List<byte>();
-		}
-
-		public List<byte> GetObjectState(int no)
-		{
-			var descriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.GetDescriptorNo() == no);
-			if (descriptor == null)
-				return new List<byte>();
-
-			var result = new List<byte>();
-
-			var typeNo = 0;
-			if (descriptor.GKBase is GKDevice)
-				typeNo = (descriptor.GKBase as GKDevice).Driver.DriverTypeNo;
-			if (descriptor.GKBase is GKZone)
-				typeNo = 0x100;
-			if (descriptor.GKBase is GKDirection)
-				typeNo = 0x106;
-			if (descriptor.GKBase is GKPumpStation)
-				typeNo = 0x106;
-			if (descriptor.GKBase is GKMPT)
-				typeNo = 0x106;
-			if (descriptor.GKBase is GKDelay)
-				typeNo = 0x101;
-			if (descriptor.GKBase is GKPim)
-				typeNo = 0x107;
-			if (descriptor.GKBase is GKGuardZone)
-				typeNo = 0x108;
-			if (descriptor.GKBase is GKCode)
-				typeNo = 0x109;
-			if (descriptor.GKBase is GKDoor)
-				typeNo = 0x104;
-			result.AddRange(ToBytes((short)typeNo));
-
-			var controllerAddress = descriptor.ControllerAdress;
-			result.AddRange(ToBytes((short)controllerAddress));
-
-			var addressOnController = descriptor.AdressOnController;
-			result.AddRange(ToBytes((short)addressOnController));
-
-			var physicalAddress = descriptor.PhysicalAdress;
-			result.AddRange(ToBytes((short)physicalAddress));
-
-			result.AddRange(descriptor.Description);
-
-			var serialNo = 0;
-			result.AddRange(IntToBytes((int)serialNo));
-
-			var state = 0;
-			//var stateBits = new List<XStateBit>();
-			//stateBits.Add(XStateBit.Norm);
-			var descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.BaseDescriptor.GetDescriptorNo() == descriptor.GetDescriptorNo());
-			foreach (var stateBitViewModel in descriptorViewModel.StateBits)
-			{
-				if (stateBitViewModel.IsActive)
-				{
-					state += (1 << (int)stateBitViewModel.StateBit);
-				}
-			}
-			result.AddRange(IntToBytes((int)state));
-
-			for (int i = 0; i < 20; i++)
-			{
-				result.Add(0);
-			}
-
-			return result;
 		}
 
 		public static List<byte> GetJournalBytes(int no)

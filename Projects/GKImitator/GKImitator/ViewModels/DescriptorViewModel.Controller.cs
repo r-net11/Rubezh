@@ -43,50 +43,35 @@ namespace GKImitator.ViewModels
 		public RelayCommand GoToTechnoligicalRegimeCommand { get; private set; }
 		void OnGoToTechnoligicalRegime()
 		{
-			var journalItem = new ImitatorJournalItem();
-			journalItem.Source = 0;
-			journalItem.NameCode = 0;
-			journalItem.DescriptionCode = 0;
-			journalItem.YesNoCode = 0;
+			var journalItem = new ImitatorJournalItem(0, 0, 0, 0);
 			AddJournalItem(journalItem);
 		}
 
 		public RelayCommand GoToWorkingRegimeCommand { get; private set; }
 		void OnGoToWorkingRegime()
 		{
-			var journalItem = new ImitatorJournalItem();
-			journalItem.Source = 0;
-			journalItem.NameCode = 6;
-			journalItem.DescriptionCode = 0;
-			journalItem.YesNoCode = 0;
+			var journalItem = new ImitatorJournalItem(0, 6, 0, 0);
 			AddJournalItem(journalItem);
 		}
 
 		public RelayCommand EnterUserCommand { get; private set; }
 		void OnEnterUser()
 		{
-			var journalItem = new ImitatorJournalItem();
-			journalItem.Source = 0;
-			journalItem.NameCode = 7;
-			journalItem.DescriptionCode = 0;
-			journalItem.YesNoCode = 0;
+			var journalItem = new ImitatorJournalItem(0, 7, 0, 0);
 			AddJournalItem(journalItem);
 		}
 
 		public RelayCommand ExitUserCommand { get; private set; }
 		void OnExitUser()
 		{
-			var journalItem = new ImitatorJournalItem();
-			journalItem.Source = 0;
-			journalItem.NameCode = 8;
-			journalItem.DescriptionCode = 0;
-			journalItem.YesNoCode = 0;
+			var journalItem = new ImitatorJournalItem(0, 8, 0, 0);
 			AddJournalItem(journalItem);
 		}
 
 		public void SynchronyzeDateTime()
 		{
-
+			var journalItem = new ImitatorJournalItem(0, 2, 0, 0);
+			AddJournalItem(journalItem);
 		}
 	}
 }

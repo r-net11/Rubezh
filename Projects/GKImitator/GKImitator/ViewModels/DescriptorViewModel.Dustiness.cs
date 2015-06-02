@@ -38,33 +38,21 @@ namespace GKImitator.ViewModels
 		public RelayCommand SetPreDustinessCommand { get; private set; }
 		void OnSetPreDustiness()
 		{
-			var journalItem = new ImitatorJournalItem();
-			journalItem.Source = 2;
-			journalItem.NameCode = 7;
-			journalItem.DescriptionCode = 1;
-			journalItem.YesNoCode = 1;
+			var journalItem = new ImitatorJournalItem(2, 7, 1, 1);
 			AddJournalItem(journalItem);
 		}
 
 		public RelayCommand SetCriticalDustinessCommand { get; private set; }
 		void OnSetCriticalDustiness()
 		{
-			var journalItem = new ImitatorJournalItem();
-			journalItem.Source = 2;
-			journalItem.NameCode = 7;
-			journalItem.DescriptionCode = 2;
-			journalItem.YesNoCode = 1;
+			var journalItem = new ImitatorJournalItem(2, 7, 2, 1);
 			AddJournalItem(journalItem);
 		}
 
 		public RelayCommand ResetDustinessCommand { get; private set; }
 		void OnResetDustiness()
 		{
-			var journalItem = new ImitatorJournalItem();
-			journalItem.Source = 2;
-			journalItem.NameCode = 7;
-			journalItem.DescriptionCode = 0;
-			journalItem.YesNoCode = 0;
+			var journalItem = new ImitatorJournalItem(2, 7, 0, 0);
 			AddJournalItem(journalItem);
 		}
 	}

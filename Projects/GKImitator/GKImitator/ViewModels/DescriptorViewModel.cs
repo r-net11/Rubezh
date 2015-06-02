@@ -8,6 +8,7 @@ using GKProcessor;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI.Journal;
+using System.Collections.Generic;
 
 namespace GKImitator.ViewModels
 {
@@ -16,6 +17,7 @@ namespace GKImitator.ViewModels
 		public BaseDescriptor BaseDescriptor { get; private set; }
 		public GKBase GKBase { get { return BaseDescriptor.GKBase; } }
 		public int DescriptorNo { get; private set; }
+		public ushort TypeNo { get; private set; }
 
 		public DescriptorViewModel(BaseDescriptor descriptor)
 		{
@@ -31,6 +33,32 @@ namespace GKImitator.ViewModels
 			InitializeTest();
 			InitializeDustiness();
 			InitializeController();
+			InitializeTypeNo();
+		}
+
+		void InitializeTypeNo()
+		{
+			TypeNo = 0;
+			if (GKBase is GKDevice)
+				TypeNo = (GKBase as GKDevice).Driver.DriverTypeNo;
+			if (GKBase is GKZone)
+				TypeNo = 0x100;
+			if (GKBase is GKDirection)
+				TypeNo = 0x106;
+			if (GKBase is GKPumpStation)
+				TypeNo = 0x106;
+			if (GKBase is GKMPT)
+				TypeNo = 0x106;
+			if (GKBase is GKDelay)
+				TypeNo = 0x101;
+			if (GKBase is GKPim)
+				TypeNo = 0x107;
+			if (GKBase is GKGuardZone)
+				TypeNo = 0x108;
+			if (GKBase is GKCode)
+				TypeNo = 0x109;
+			if (GKBase is GKDoor)
+				TypeNo = 0x104;
 		}
 
 		public ObservableCollection<StateBitViewModel> StateBits { get; private set; }
@@ -127,11 +155,7 @@ namespace GKImitator.ViewModels
 		{
 			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Norm).IsActive = true;
 			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Ignore).IsActive = false;
-			var journalItem = new ImitatorJournalItem();
-			journalItem.Source = 2;
-			journalItem.NameCode = 10;
-			journalItem.DescriptionCode = 0;
-			journalItem.ObjectNo = 0;
+			var journalItem = new ImitatorJournalItem(2, 10, 0, 0);
 			AddJournalItem(journalItem);
 		}
 
@@ -140,11 +164,7 @@ namespace GKImitator.ViewModels
 		{
 			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Norm).IsActive = false;
 			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Ignore).IsActive = false;
-			var journalItem = new ImitatorJournalItem();
-			journalItem.Source = 2;
-			journalItem.NameCode = 10;
-			journalItem.DescriptionCode = 1;
-			journalItem.ObjectNo = 0;
+			var journalItem = new ImitatorJournalItem(2, 10, 1, 0);
 			AddJournalItem(journalItem);
 		}
 
@@ -153,25 +173,66 @@ namespace GKImitator.ViewModels
 		{
 			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Norm).IsActive = false;
 			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Ignore).IsActive = true;
-			var journalItem = new ImitatorJournalItem();
-			journalItem.Source = 2;
-			journalItem.NameCode = 10;
-			journalItem.DescriptionCode = 2;
-			journalItem.ObjectNo = 0;
+			var journalItem = new ImitatorJournalItem(2, 10, 2, 0);
 			AddJournalItem(journalItem);
 		}
 
 		public void SetParameters()
 		{
-			var journalItem = new ImitatorJournalItem();
-			journalItem.Source = 2;
-			journalItem.NameCode = 13;
-			journalItem.DescriptionCode = 0;
+			var journalItem = new ImitatorJournalItem(2, 13, 0, 0);
 			AddJournalItem(journalItem);
 		}
 
 		public void GetParameters()
 		{
+		}
+
+		public List<byte> GetStateBytes(int no)
+		{
+			var result = new List<byte>();
+
+			result.AddRange(ToBytes((short)TypeNo));
+
+			var controllerAddress = BaseDescriptor.ControllerAdress;
+			result.AddRange(ToBytes((short)controllerAddress));
+
+			var addressOnController = BaseDescriptor.AdressOnController;
+			result.AddRange(ToBytes((short)addressOnController));
+
+			var physicalAddress = BaseDescriptor.PhysicalAdress;
+			result.AddRange(ToBytes((short)physicalAddress));
+
+			result.AddRange(BaseDescriptor.Description);
+
+			var serialNo = 0;
+			result.AddRange(IntToBytes((int)serialNo));
+
+			var state = 0;
+			foreach (var stateBitViewModel in StateBits)
+			{
+				if (stateBitViewModel.IsActive)
+				{
+					state += (1 << (int)stateBitViewModel.StateBit);
+				}
+			}
+			result.AddRange(IntToBytes((int)state));
+
+			for (int i = 0; i < 20; i++)
+			{
+				result.Add(0);
+			}
+
+			return result;
+		}
+
+		List<byte> ToBytes(short shortValue)
+		{
+			return BitConverter.GetBytes(shortValue).ToList();
+		}
+
+		List<byte> IntToBytes(int intValue)
+		{
+			return BitConverter.GetBytes(intValue).ToList();
 		}
 
 		public void AddJournalItem(ImitatorJournalItem journalItem)

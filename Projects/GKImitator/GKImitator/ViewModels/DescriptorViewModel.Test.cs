@@ -44,11 +44,7 @@ namespace GKImitator.ViewModels
 		void OnTestButton()
 		{
 			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Test).IsActive = true;
-			var journalItem = new ImitatorJournalItem();
-			journalItem.Source = 2;
-			journalItem.NameCode = 6;
-			journalItem.DescriptionCode = 1;
-			journalItem.YesNoCode = 1;
+			var journalItem = new ImitatorJournalItem(2, 6, 1, 1);
 			AddJournalItem(journalItem);
 		}
 
@@ -56,11 +52,7 @@ namespace GKImitator.ViewModels
 		void OnTestLaser()
 		{
 			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Test).IsActive = true;
-			var journalItem = new ImitatorJournalItem();
-			journalItem.Source = 2;
-			journalItem.NameCode = 6;
-			journalItem.DescriptionCode = 2;
-			journalItem.YesNoCode = 1;
+			var journalItem = new ImitatorJournalItem(2, 6, 2, 1);
 			AddJournalItem(journalItem);
 		}
 
@@ -68,11 +60,7 @@ namespace GKImitator.ViewModels
 		void OnResetTest()
 		{
 			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Test).IsActive = false;
-			var journalItem = new ImitatorJournalItem();
-			journalItem.Source = 2;
-			journalItem.NameCode = 6;
-			journalItem.DescriptionCode = 0;
-			journalItem.YesNoCode = 0;
+			var journalItem = new ImitatorJournalItem(2, 6, 0, 0);
 			AddJournalItem(journalItem);
 		}
 	}
