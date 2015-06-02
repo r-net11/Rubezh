@@ -75,6 +75,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ConnectionSettingsHelper.cs" />
+    <Compile Include="ViewModels\AntiPassBackViewModel.cs" />
     <Compile Include="ViewModels\CommonViewModel.cs" />
     <Compile Include="ViewModels\ControlViewModel.cs" />
     <Compile Include="ViewModels\AccessesViewModel.cs" />
@@ -92,6 +93,9 @@
     <Compile Include="ViewModels\TimeShedulesViewModel.cs" />
     <Compile Include="ViewModels\TimeSheduleViewModel.cs" />
     <Compile Include="ViewModels\JournalViewModel.cs" />
+    <Compile Include="Views\AntiPassBackView.xaml.cs">
+      <DependentUpon>AntiPassBackView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CardsView.xaml.cs">
       <DependentUpon>CardsView.xaml</DependentUpon>
     </Compile>
@@ -127,6 +131,10 @@
     <Compile Include="Views\NativeJournalView.xaml.cs">
       <DependentUpon>NativeJournalView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\AntiPassBackView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\CardsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

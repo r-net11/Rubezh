@@ -297,6 +297,9 @@ namespace ChinaSKDDriverNativeApi
 		}
 
 		[DllImport(@"CPPWrapper.dll")]
+		public static extern bool WRAP_GetDoorsCount(ref int nCount);
+
+		[DllImport(@"CPPWrapper.dll")]
 		public static extern bool WRAP_GetDoorConfiguration(int loginID, int channelNo, IntPtr result);
 
 		[DllImport(@"CPPWrapper.dll")]
@@ -899,5 +902,40 @@ namespace ChinaSKDDriverNativeApi
 			public NET_ACCESS_CTL_STATUS_TYPE emLockStatus; // typedef NET_ACCESS_CTL_STATUS_TYPE  NET_ACCESS_LOCK_STATUS_TYPE
 		}
 		#endregion
+
+		#region Anti-path Back
+
+		public enum WRAP_AntiPassBackMode
+		{
+			R1R2 = 0,
+			R1R3R2R4 = 1,
+			R3R4 = 2
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct WRAP_AntiPassBackModeAvailability
+		{
+			public WRAP_AntiPassBackMode AntiPassBackMode; // Режим Anti-pass Back
+			public bool bIsAvailable; // Доступность режима Anti-pass Back
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct WRAP_AntiPassBackCfg
+		{
+			public int nDoorsCount; // Количество дверей на контроллере
+			public bool bCanActivate; // Возможность активации Anti-pass Back
+			public bool bIsActivated; // Anti-pass Back активирован?
+			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
+			public WRAP_AntiPassBackModeAvailability[] AvailableAntiPassBackModes; // Доступность режимов Anti-pass Back
+			public WRAP_AntiPassBackMode CurrentAntiPassBackMode; // Текущий режим Anti-pass Back
+		}
+
+		[DllImport(@"CPPWrapper.dll")]
+		public static extern bool WRAP_GetAntiPassBackCfg(int loginID, out WRAP_AntiPassBackCfg result);
+
+		[DllImport(@"CPPWrapper.dll")]
+		public static extern bool WRAP_SetAntiPassBackCfg(int loginID, ref WRAP_AntiPassBackCfg cfg);
+
+		#endregion // Anti-path Back
 	}
 }

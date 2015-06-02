@@ -17,6 +17,7 @@ namespace ControllerSDK.ViewModels
 		public NativeJournalViewModel NativeJournalViewModel { get; private set; }
 		public CommonViewModel CommonViewModel { get; private set; }
 		public DoorConfigurationViewModel DoorConfigurationViewModel { get; private set; }
+		public AntiPassBackViewModel AntiPassBackViewModel { get; private set; }
 		public LogItemsViewModel LogItemsViewModel { get; private set; }
 		public AccessesViewModel AccessesViewModel { get; private set; }
 
@@ -33,6 +34,7 @@ namespace ControllerSDK.ViewModels
 			NativeJournalViewModel = new NativeJournalViewModel();
 			CommonViewModel = new CommonViewModel();
 			DoorConfigurationViewModel = new DoorConfigurationViewModel();
+			AntiPassBackViewModel = new AntiPassBackViewModel();
 			LogItemsViewModel = new LogItemsViewModel();
 			AccessesViewModel = new AccessesViewModel();
 
