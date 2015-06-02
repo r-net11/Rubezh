@@ -264,6 +264,7 @@ namespace ChinaSKDDriver
 						if (doorConfiguration != null)
 						{
 							device.State.OpenAlwaysTimeIndex = doorConfiguration.OpenAlwaysTimeIndex;
+							device.State.AccessState = (FiresecAPI.SKD.AccessState)doorConfiguration.AccessState;
 						}
 					}
 					else

@@ -28,6 +28,9 @@ namespace StrazhModule.ViewModels
 			CloseCommand = new RelayCommand(OnClose, CanClose);
 			OpenForeverCommand = new RelayCommand(OnOpenForever, CanOpenForever);
 			CloseForeverCommand = new RelayCommand(OnCloseForever, CanCloseForever);
+			DeviceAccessStateNormalCommand = new RelayCommand(OnDeviceAccessStateNormal, CanDeviceAccessStateNormal);
+			DeviceAccessStateCloseAlwaysCommand = new RelayCommand(OnDeviceAccessStateCloseAlways, CanDeviceAccessStateCloseAlways);
+			DeviceAccessStateOpenAlwaysCommand = new RelayCommand(OnDeviceAccessStateOpenAlways, CanDeviceAccessStateOpenAlways);
 		}
 
 		public bool CanControl
@@ -101,6 +104,58 @@ namespace StrazhModule.ViewModels
 		bool CanCloseForever()
 		{
 			return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Devices_Control) && DeviceState.StateClass != XStateClass.Off && DeviceState.StateClass != XStateClass.ConnectionLost;
+		}
+
+		public RelayCommand DeviceAccessStateNormalCommand { get; private set; }
+		void OnDeviceAccessStateNormal()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				var result = FiresecManager.FiresecService.SKDDeviceAccessStateNormal(Device);
+				if (result.HasError)
+				{
+					MessageBoxService.ShowWarning(result.Error);
+				}
+			}
+		}
+		bool CanDeviceAccessStateNormal()
+		{
+			//return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Devices_Control) && DeviceState.StateClass != XStateClass.Off && DeviceState.StateClass != XStateClass.ConnectionLost;
+			return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Devices_Control) && DeviceState.StateClass != XStateClass.ConnectionLost;
+		}
+
+		public RelayCommand DeviceAccessStateCloseAlwaysCommand { get; private set; }
+		void OnDeviceAccessStateCloseAlways()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				var result = FiresecManager.FiresecService.SKDDeviceAccessStateCloseAlways(Device);
+				if (result.HasError)
+				{
+					MessageBoxService.ShowWarning(result.Error);
+				}
+			}
+		}
+		bool CanDeviceAccessStateCloseAlways()
+		{
+			return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Devices_Control) && DeviceState.StateClass != XStateClass.Off && DeviceState.StateClass != XStateClass.ConnectionLost;
+		}
+
+		public RelayCommand DeviceAccessStateOpenAlwaysCommand { get; private set; }
+		void OnDeviceAccessStateOpenAlways()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				var result = FiresecManager.FiresecService.SKDDeviceAccessStateOpenAlways(Device);
+				if (result.HasError)
+				{
+					MessageBoxService.ShowWarning(result.Error);
+				}
+			}
+		}
+		bool CanDeviceAccessStateOpenAlways()
+		{
+			return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Devices_Control) && DeviceState.StateClass != XStateClass.On && DeviceState.StateClass != XStateClass.ConnectionLost;
 		}
 
 		void OnStateChanged()

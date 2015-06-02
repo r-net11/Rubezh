@@ -142,8 +142,9 @@
 					<StackPanel Grid.Row="1" Background="White">
 						<Button Content="Открыть" Command="{Binding OpenCommand}" Width="200" Height="50" Margin="2" />
 						<Button Content="Закрыть" Command="{Binding CloseCommand}" Width="200" Height="50" Margin="2" />
-						<Button Content="Установить режим ОТКРЫТО" Command="{Binding OpenForeverCommand}" Width="200" Height="50" Margin="2" />
-						<Button Content="Установить режим НОРМА" Command="{Binding CloseForeverCommand}" Width="200" Height="50" Margin="2" />
+						<Button Content="Установить режим ОТКРЫТО" Command="{Binding DeviceAccessStateOpenAlwaysCommand}" Width="200" Height="50" Margin="2" />
+						<Button Content="Установить режим ЗАКРЫТО" Command="{Binding DeviceAccessStateCloseAlwaysCommand}" Width="200" Height="50" Margin="2" />
+						<Button Content="Установить режим НОРМА" Command="{Binding DeviceAccessStateNormalCommand}" Width="200" Height="50" Margin="2" />
 					</StackPanel>
 				</Grid>
 			</TabItem>

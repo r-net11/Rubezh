@@ -47,7 +47,8 @@ namespace ChinaSKDDriver
 					}
 					else
 					{
-						if (device.State != null && device.State.OpenAlwaysTimeIndex == 1)
+						//if (device.State != null && device.State.OpenAlwaysTimeIndex == 1)
+						if (device.State != null && ((device.State.AccessState == AccessState.OpenAlways) || (device.State.OpenAlwaysTimeIndex == 1)))
 						{
 							return OperationResult<bool>.FromError("Нельзя закрыть замок, находящийся в режиме ВСЕГДА ОТКРЫТО");
 						}

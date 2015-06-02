@@ -31,6 +31,9 @@ namespace StrazhModule.ViewModels
 			CloseCommand = new RelayCommand(OnClose, CanClose);
 			OpenForeverCommand = new RelayCommand(OnOpenForever, CanOpenForever);
 			CloseForeverCommand = new RelayCommand(OnCloseForever, CanCloseForever);
+			ZoneAccessStateNormalCommand = new RelayCommand(OnZoneAccessStateNormal, CanZoneAccessStateNormal);
+			ZoneAccessStateCloseAlwaysCommand = new RelayCommand(OnZoneAccessStateCloseAlways, CanZoneAccessStateCloseAlways);
+			ZoneAccessStateOpenAlwaysCommand = new RelayCommand(OnZoneAccessStateOpenAlways, CanZoneAccessStateOpenAlways);
 			DetectEmployeesCommand = new RelayCommand(OnDetectEmployees, CanDetectEmployees);
 
 			Zone = zone;
@@ -143,6 +146,58 @@ namespace StrazhModule.ViewModels
 		bool CanCloseForever()
 		{
 			return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Zones_Control) && State.StateClass != XStateClass.Off && State.StateClass != XStateClass.ConnectionLost;
+		}
+
+		public RelayCommand ZoneAccessStateNormalCommand { get; private set; }
+		void OnZoneAccessStateNormal()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				var result = FiresecManager.FiresecService.SKDZoneAccessStateNormal(Zone);
+				if (result.HasError)
+				{
+					MessageBoxService.ShowWarning(result.Error);
+				}
+			}
+		}
+		bool CanZoneAccessStateNormal()
+		{
+			//return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Zones_Control) && State.StateClass != XStateClass.Off && State.StateClass != XStateClass.ConnectionLost;
+			return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Zones_Control) && State.StateClass != XStateClass.ConnectionLost;
+		}
+
+		public RelayCommand ZoneAccessStateCloseAlwaysCommand { get; private set; }
+		void OnZoneAccessStateCloseAlways()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				var result = FiresecManager.FiresecService.SKDZoneAccessStateCloseAlways(Zone);
+				if (result.HasError)
+				{
+					MessageBoxService.ShowWarning(result.Error);
+				}
+			}
+		}
+		bool CanZoneAccessStateCloseAlways()
+		{
+			return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Zones_Control) && State.StateClass != XStateClass.Off && State.StateClass != XStateClass.ConnectionLost;
+		}
+
+		public RelayCommand ZoneAccessStateOpenAlwaysCommand { get; private set; }
+		void OnZoneAccessStateOpenAlways()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				var result = FiresecManager.FiresecService.SKDZoneAccessStateOpenAlways(Zone);
+				if (result.HasError)
+				{
+					MessageBoxService.ShowWarning(result.Error);
+				}
+			}
+		}
+		bool CanZoneAccessStateOpenAlways()
+		{
+			return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Zones_Control) && State.StateClass != XStateClass.On && State.StateClass != XStateClass.ConnectionLost;
 		}
 
 		public RelayCommand DetectEmployeesCommand { get; private set; }

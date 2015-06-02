@@ -377,6 +377,21 @@ namespace FiresecClient
 			return SafeOperationCall(() => { return FiresecService.SKDCloseDeviceForever(device.UID); }, "SKDCloseDeviceForever");
 		}
 
+		public OperationResult<bool> SKDDeviceAccessStateNormal(SKDDevice device)
+		{
+			return SafeOperationCall(() => { return FiresecService.SKDDeviceAccessStateNormal(device.UID); }, "SKDDeviceAccessStateNormal");
+		}
+
+		public OperationResult<bool> SKDDeviceAccessStateCloseAlways(SKDDevice device)
+		{
+			return SafeOperationCall(() => { return FiresecService.SKDDeviceAccessStateCloseAlways(device.UID); }, "SKDDeviceAccessStateCloseAlways");
+		}
+
+		public OperationResult<bool> SKDDeviceAccessStateOpenAlways(SKDDevice device)
+		{
+			return SafeOperationCall(() => { return FiresecService.SKDDeviceAccessStateOpenAlways(device.UID); }, "SKDDeviceAccessStateOpenAlways");
+		}
+
 		public OperationResult<bool> SKDOpenZone(SKDZone zone)
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDOpenZone(zone.UID); }, "SKDOpenZone");
@@ -397,6 +412,21 @@ namespace FiresecClient
 			return SafeOperationCall(() => { return FiresecService.SKDCloseZoneForever(zone.UID); }, "SKDCloseZoneForever");
 		}
 
+		public OperationResult<bool> SKDZoneAccessStateNormal(SKDZone zone)
+		{
+			return SafeOperationCall(() => { return FiresecService.SKDZoneAccessStateNormal(zone.UID); }, "SKDZoneAccessStateNormal");
+		}
+
+		public OperationResult<bool> SKDZoneAccessStateCloseAlways(SKDZone zone)
+		{
+			return SafeOperationCall(() => { return FiresecService.SKDZoneAccessStateCloseAlways(zone.UID); }, "SKDZoneAccessStateCloseAlways");
+		}
+
+		public OperationResult<bool> SKDZoneAccessStateOpenAlways(SKDZone zone)
+		{
+			return SafeOperationCall(() => { return FiresecService.SKDZoneAccessStateOpenAlways(zone.UID); }, "SKDZoneAccessStateOpenAlways");
+		}
+
 		public OperationResult<bool> SKDOpenDoor(SKDDoor door)
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDOpenDoor(door.UID); }, "SKDOpenDoor");
@@ -415,6 +445,21 @@ namespace FiresecClient
 		public OperationResult<bool> SKDCloseDoorForever(SKDDoor door)
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDCloseDoorForever(door.UID); }, "SKDCloseDoorForever");
+		}
+
+		public OperationResult<bool> SKDDoorAccessStateNormal(SKDDoor door)
+		{
+			return SafeOperationCall(() => { return FiresecService.SKDDoorAccessStateNormal(door.UID); }, "SKDDoorAccessStateNormal");
+		}
+
+		public OperationResult<bool> SKDDoorAccessStateCloseAlways(SKDDoor door)
+		{
+			return SafeOperationCall(() => { return FiresecService.SKDDoorAccessStateCloseAlways(door.UID); }, "SKDDoorAccessStateCloseAlways");
+		}
+
+		public OperationResult<bool> SKDDoorAccessStateOpenAlways(SKDDoor door)
+		{
+			return SafeOperationCall(() => { return FiresecService.SKDDoorAccessStateOpenAlways(door.UID); }, "SKDDoorAccessStateOpenAlways");
 		}
 		#endregion
 

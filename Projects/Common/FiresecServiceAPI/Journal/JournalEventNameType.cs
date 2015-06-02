@@ -657,6 +657,15 @@ namespace FiresecAPI.Journal
 		Закрытие_замка_двери,
 
 		[EventName(JournalSubsystemType.SKD, "Неизвестный статус замка двери", XStateClass.Unknown)]
-		Неизвестный_статус_замка_двери
+		Неизвестный_статус_замка_двери,
+
+		[EventName(JournalSubsystemType.SKD, "Команда на перевод точки доступа в режим Норма", XStateClass.Norm)]
+		Команда_на_перевод_точки_доступа_в_режим_Норма,
+
+		[EventName(JournalSubsystemType.SKD, "Команда на перевод зоны в режим Норма", XStateClass.Norm)]
+		Команда_на_перевод_зоны_в_режим_Норма,
+
+		[EventName(JournalSubsystemType.SKD, "Команда на перевод двери в режим Норма", XStateClass.Norm)]
+		Команда_на_перевод_двери_в_режим_Норма
 	}
 }
