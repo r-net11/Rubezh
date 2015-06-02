@@ -48,4 +48,8 @@
         <Views:SettingsView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:DevicesListViewModel}">
+        <Views:DevicesListView />
+    </DataTemplate>
+
 </ResourceDictionary>

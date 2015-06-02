@@ -92,6 +92,7 @@
       <DependentUpon>DescriptorsMenuView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\ViewModels\AutoSearchDevicesViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DevicesListViewModel.cs" />
     <Compile Include="Devices\ViewModels\DevicesOnShleifViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceViewModel.Parameters.cs" />
     <Compile Include="Devices\ViewModels\ConfigurationCompare\ObjectsListViewModel.cs" />
@@ -107,6 +108,9 @@
     <Compile Include="Devices\ViewModels\UpdatedDeviceViewModel.cs" />
     <Compile Include="Devices\Views\AutoSearchDevicesView.xaml.cs">
       <DependentUpon>AutoSearchDevicesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Devices\Views\DevicesListView.xaml.cs">
+      <DependentUpon>DevicesListView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\DevicesOnShleifView.xaml.cs">
       <DependentUpon>DevicesOnShleifView.xaml</DependentUpon>
@@ -627,6 +631,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Devices\Views\AutoSearchDevicesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Devices\Views\DevicesListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

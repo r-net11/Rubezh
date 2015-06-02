@@ -26,6 +26,7 @@
 			<Controls:IconedMenuItem Command="{Binding AddToParentCommand}" ImageSource="BAddChild" Text="Добавить к родительскому устройству (Ctrl+M)" />
 			<Controls:IconedMenuItem Command="{Binding RemoveCommand}" ImageSource="BDelete" Text="Удалить (Ctrl+Del)" />
 			<Controls:IconedMenuItem Command="{Binding SelectCommand}" ImageSource="BSelect" Text="Выбрать" />
+            <Controls:IconedMenuItem Command="{Binding ShowAsListCommand}" ImageSource="BSelect" Text="Показать списком" />
 			<Controls:IconedMenuItem Command="{Binding ShowLogicCommand}" ImageSource="BLogic" Text="Настройка логики исполнительного устройства" />
 			<Controls:IconedMenuItem Command="{Binding ShowPropertiesCommand}" ImageSource="BSettings" Text="Вставить (Ctrl+V)" />
 			<Separator Visibility="{Binding Driver.IsPlaceable, Converter={StaticResource BoolToVisibilityConverter}}" />
