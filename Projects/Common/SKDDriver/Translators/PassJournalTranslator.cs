@@ -337,7 +337,19 @@ namespace SKDDriver.Translators
 				if (!zoneUIDs.IsEmpty())
 					filter = filter.And(e => zoneUIDs.Contains(e.ZoneUID));
 				if (dateTime.HasValue)
-					filter = filter.And(e => e.EnterTime.Day == dateTime.Value.Day && e.EnterTime.Hour >= dateTime.Value.Hour && e.EnterTime.Minute >= dateTime.Value.Minute); //&& (!e.ExitTime.HasValue || e.ExitTime > dateTime));
+				{
+					filter =
+						filter.And(
+							e =>
+								e.EnterTime.Day == dateTime.Value.Day && e.EnterTime.Hour >= dateTime.Value.Hour &&
+								e.EnterTime.Minute >= dateTime.Value.Minute);
+			//		filter =
+			//			filter.And(
+			//				e =>
+			//					e.EnterTime.Day == dateTime.Value.Day && e.EnterTime.Hour >= dateTime.Value.Hour &&
+			//					e.EnterTime.Minute >= dateTime.Value.Minute && !e.ExitTime.HasValue);
+						// !e.ExitTime.HasValue || e.ExitTime > dateTime);
+				}
 				else
 					filter = filter.And(e => !e.ExitTime.HasValue);
 
@@ -392,8 +404,9 @@ namespace SKDDriver.Translators
 					filter = filter.And(e => employeeUIDs.Contains(e.EmployeeUID));
 				if (!zoneUIDs.IsEmpty())
 					filter = filter.And(e => zoneUIDs.Contains(e.ZoneUID));
-				filter = filter.And(e => (e.EnterTime >= startDateTime && e.EnterTime <= endDateTime) || (e.ExitTime >= startDateTime && e.ExitTime <= endDateTime));
-
+				filter = filter.And(e =>
+					(e.EnterTime >= startDateTime && e.EnterTime <= endDateTime)
+					|| (e.ExitTime >= startDateTime && e.ExitTime <= endDateTime || !e.ExitTime.HasValue));
 				var result = Context.PassJournals.Where(filter).ToList();
 
 				if(isManyEmployees)

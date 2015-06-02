@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using FiresecAPI.SKD;
 using FiresecAPI.SKD.ReportFilters;
 using FiresecClient;
 using FiresecService.Report.DataSources;
+using FiresecService.Report.Model;
+using SKDDriver.DataAccess;
 
 namespace FiresecService.Report.Templates
 {
@@ -382,21 +385,12 @@ namespace FiresecService.Report.Templates
 			var filter = GetFilter<EmployeeRootReportFilter>();
 			var ds = new EmployeeRootDataSet();
 			var employees = dataProvider.GetEmployees(filter);
-			var passJournal = dataProvider.DatabaseService.PassJournalTranslator != null ?
-				dataProvider.DatabaseService.PassJournalTranslator.GetEmployeesRoot(employees.Select(item => item.UID), filter.Zones, filter.DateTimeFrom, filter.DateTimeTo) : null;
+			var passJournal = 
+				dataProvider.DatabaseService.PassJournalTranslator != null 
+				? dataProvider.DatabaseService.PassJournalTranslator.GetEmployeesRoot(employees.Select(item => item.UID), filter.Zones, filter.DateTimeFrom, filter.DateTimeTo) 
+				: null;
 
-			var zoneMap = new Dictionary<Guid, string>();
-			if (passJournal != null)
-			{
-				foreach (var zone in SKDManager.Zones)
-				{
-					zoneMap.Add(zone.UID, zone.PresentationName);
-				}
-				foreach (var zone in GKManager.SKDZones)
-				{
-					zoneMap.Add(zone.UID, zone.PresentationName);
-				}
-			}
+			var zoneMap = ZoneMap(passJournal);
 
 			foreach (var employee in employees)
 			{
@@ -411,8 +405,8 @@ namespace FiresecService.Report.Templates
 				if (!filter.IsEmployee)
 				{
 					// Сопровождающий
-					var escortUID = employee.Item.EscortUID;
-					var escort = escortUID.HasValue ? dataProvider.GetEmployee(escortUID.Value) : null;
+					var escort = dataProvider.GetEmployee(employee.Item.EscortUID.GetValueOrDefault());
+
 					if (escort != null)
 					{
 						employeeRow.Escort = escort.Name;
@@ -422,35 +416,61 @@ namespace FiresecService.Report.Templates
 				}
 
 				ds.Employee.AddEmployeeRow(employeeRow);
-				if (passJournal != null)
+
+				if (passJournal == null) continue;
+
+				foreach (var pass in GetTimeTrackParts(GetDayPassJournals(passJournal, employee)))
 				{
-					var dayPassJournals = passJournal.Where(item => item.EmployeeUID == employee.UID).GroupBy(x => x.EnterTime.Date);
-					var timeTrackParts = new List<TimeTrackPart>();
-					foreach (var item in dayPassJournals)
+					var row = ds.Data.NewDataRow();
+					row.EmployeeRow = employeeRow;
+					if (zoneMap.ContainsKey(pass.ZoneUID))
+						row.Zone = zoneMap[pass.ZoneUID];
+					if (filter.DateTimeFrom.Ticks <= pass.StartTime.Ticks && pass.EndTime.Ticks <= filter.DateTimeTo.Ticks)
 					{
-						var timeTrackDayParts = new List<TimeTrackPart>();
-						foreach (var pass in item)
-						{
-							timeTrackDayParts.Add(new TimeTrackPart { StartTime = new TimeSpan(pass.EnterTime.Ticks), EndTime = new TimeSpan(pass.ExitTime.HasValue ? pass.ExitTime.Value.Ticks : 0), PassJournalUID = pass.UID, ZoneUID = pass.ZoneUID });
-						}
-						timeTrackDayParts = DayTimeTrack.NormalizeTimeTrackParts(timeTrackDayParts);
-						timeTrackParts.AddRange(timeTrackDayParts);
-					}
-					foreach (var pass in timeTrackParts)
-					{
-						var row = ds.Data.NewDataRow();
-						row.EmployeeRow = employeeRow;
-						if (zoneMap.ContainsKey(pass.ZoneUID))
-							row.Zone = zoneMap[pass.ZoneUID];
-						if (filter.DateTimeFrom.Ticks <= pass.StartTime.Ticks && pass.EndTime.Ticks <= filter.DateTimeTo.Ticks)
-						{
-							row.DateTime = new DateTime(pass.StartTime.Ticks);
-							ds.Data.AddDataRow(row);
-						}
+						row.DateTime = new DateTime(pass.StartTime.Ticks);
+						ds.Data.AddDataRow(row);
 					}
 				}
 			}
 			return ds;
+		}
+
+		public IEnumerable<IGrouping<DateTime, PassJournal>> GetDayPassJournals(IEnumerable<PassJournal> passJournal, EmployeeInfo employee)
+		{
+			return passJournal.Where(item => item.EmployeeUID == employee.UID).GroupBy(x => x.EnterTime.Date);
+		}
+
+		public List<TimeTrackPart> GetTimeTrackParts(IEnumerable<IGrouping<DateTime, PassJournal>> dayPassJournals)
+		{
+			var timeTrackParts = new List<TimeTrackPart>();
+			foreach (var item in dayPassJournals)
+			{
+				timeTrackParts.AddRange(item.Select(pass => new TimeTrackPart
+				{
+					StartTime = new TimeSpan(pass.EnterTime.Ticks),
+					EndTime = new TimeSpan(pass.ExitTime.HasValue ? pass.ExitTime.Value.Ticks : 0), 
+					PassJournalUID = pass.UID, 
+					ZoneUID = pass.ZoneUID
+				}));
+			}
+			return timeTrackParts;
+		}
+
+		private Dictionary<Guid, string> ZoneMap(IEnumerable<PassJournal> passJournal)
+		{
+			var zoneMap = new Dictionary<Guid, string>();
+			if (passJournal != null)
+			{
+				foreach (var zone in SKDManager.Zones)
+				{
+					zoneMap.Add(zone.UID, zone.Name);
+				}
+				foreach (var zone in GKManager.SKDZones)
+				{
+					zoneMap.Add(zone.UID, zone.Name);
+				}
+			}
+			return zoneMap;
 		}
 	}
 }

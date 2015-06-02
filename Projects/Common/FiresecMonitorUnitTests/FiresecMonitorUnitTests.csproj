@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{4420A1AA-1787-4FA1-8363-8FA5C07AC2A1}</ProjectGuid>
+    <ProjectGuid>{41498CE8-63D7-4EEA-970E-41B77995EE21}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>UnitTestsProject</RootNamespace>
-    <AssemblyName>UnitTestsProject</AssemblyName>
+    <RootNamespace>FiresecMonitorUnitTests</RootNamespace>
+    <AssemblyName>FiresecMonitorUnitTests</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -32,8 +32,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NSubstitute, Version=1.4.3.0, Culture=neutral, PublicKeyToken=92dd2e9066daa5ca, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="NSubstitute">
       <HintPath>..\..\..\3rdParty\NSubstitute\NSubstitute.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework, Version=2.6.3.13283, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
@@ -53,10 +52,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\FireMonitor\FireMonitor\FireMonitor.csproj">
-      <Project>{D1EA90C8-D176-442F-A5DD-8AB97B476821}</Project>
-      <Name>FireMonitor</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\FireMonitor\Modules\SKDModule\SKDModule.csproj">
       <Project>{8D427CFB-D784-41AC-B2B4-354B017AD556}</Project>
       <Name>SKDModule</Name>
@@ -73,9 +68,6 @@
       <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
       <Name>Infrastructure.Common</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="FiresecMonitorTests\TimeTrack\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
