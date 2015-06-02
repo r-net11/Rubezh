@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="PowerCalculator.Views.RepositoryView"
+﻿<UserControl x:Class="PowerCalculator.Views.SpecificationView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              MinWidth="800" MinHeight="600">
@@ -20,7 +20,7 @@
                 <ToolBarButton Command="{Binding AddDeviceCommand}" ToolTip="Добавить устройство" ImageSource="Add" Margin="2" />
                 <ToolBarButton Command="{Binding RemoveDeviceCommand}" ToolTip="Удалить устройство" ImageSource="Delete" Margin="2" />
             </StackPanel>
-            <DataGrid Grid.Row="1" Grid.Column="0" ItemsSource="{Binding DeviceRepositoryItems}" SelectedItem="{Binding SelectedDeviceRepositoryItem}" IsReadOnly="False" Margin="2">
+            <DataGrid Grid.Row="1" Grid.Column="0" ItemsSource="{Binding DeviceSpecificationItems}" SelectedItem="{Binding SelectedDeviceSpecificationItem}" IsReadOnly="False" Margin="2">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Header="Устройство" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
@@ -65,7 +65,7 @@
                 <ToolBarButton Command="{Binding AddCableCommand}" ToolTip="Добавить кабель" ImageSource="Add" Margin="2" />
                 <ToolBarButton Command="{Binding RemoveCableCommand}" ToolTip="Удалить кабель" ImageSource="Delete" Margin="2" />
             </StackPanel>
-            <DataGrid Grid.Row="1" Grid.Column="1" ItemsSource="{Binding CableRepositoryItems}" SelectedItem="{Binding SelectedCableRepositoryItem}" IsReadOnly="False" Margin="2">
+            <DataGrid Grid.Row="1" Grid.Column="1" ItemsSource="{Binding CableSpecificationItems}" SelectedItem="{Binding SelectedCableSpecificationItem}" IsReadOnly="False" Margin="2">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Header="Сопротивление кабеля" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
@@ -95,8 +95,8 @@
             </DataGrid>
         </Grid>
         <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="2">
-            <Button Command="{Binding CollectToRepositoryCommand}" Content="Собрать в репозиторий" HorizontalAlignment="Right" Width="200" Margin="2" />
-            <Button Command="{Binding GenerateFromRepositoryCommand}" Content="Сгенерировать из репозитория" HorizontalAlignment="Right" Width="200" Margin="2" />
+            <Button Command="{Binding CollectToSpecificationCommand}" Content="Собрать в спецификацию" HorizontalAlignment="Right" Width="200" Margin="2" />
+            <Button Command="{Binding GenerateFromSpecificationCommand}" Content="Сгенерировать из спецификации" HorizontalAlignment="Right" Width="200" Margin="2" />
         </StackPanel>
     </Grid>
 </UserControl>

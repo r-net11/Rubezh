@@ -22,7 +22,7 @@ namespace PowerCalculator.ViewModels
 			LoadFromFileCommand = new RelayCommand(OnLoadFromFile);
 			AddLineCommand = new RelayCommand(OnAddLine);
 			RemoveLineCommand = new RelayCommand(OnRemoveFile, CanRemoveLine);
-			ShowRepositoryCommand = new RelayCommand(OnShowRepository);
+			ShowSpecificationCommand = new RelayCommand(OnShowSpecification);
 			CalculateCommand = new RelayCommand(OnCalculate);
 			OnCreateNew();
 		}
@@ -144,11 +144,11 @@ namespace PowerCalculator.ViewModels
 			return SelectedLine != null;
 		}
 
-		public RelayCommand ShowRepositoryCommand { get; private set; }
-		void OnShowRepository()
+		public RelayCommand ShowSpecificationCommand { get; private set; }
+		void OnShowSpecification()
 		{
-			var repositoryViewModel = new RepositoryViewModel(Configuration);
-			if (DialogService.ShowModalWindow(repositoryViewModel))
+			var specificationViewModel = new SpecificationViewModel(Configuration);
+			if (DialogService.ShowModalWindow(specificationViewModel))
 			{
 				Initialize();
 			}

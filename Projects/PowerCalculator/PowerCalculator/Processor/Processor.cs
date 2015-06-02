@@ -6,10 +6,10 @@ namespace PowerCalculator.Processor
 {
 	public static class Processor
 	{
-        public static void CollectToRepository(Configuration configuration)
+        public static void CollectToSpecification(Configuration configuration)
         {
-            configuration.CableRepositoryItems = new List<CableRepositoryItem>();
-            configuration.DeviceRepositoryItems = new List<DeviceRepositoryItem>();
+            configuration.CableSpecificationItems = new List<CableSpecificationItem>();
+            configuration.DeviceSpecificationItems = new List<DeviceSpecificationItem>();
 
             foreach (Line line in configuration.Lines)
                 foreach (Device device in line.Devices)
@@ -17,59 +17,59 @@ namespace PowerCalculator.Processor
 					if (device.DriverType == DriverType.RSR2_KAU)
                         continue;
 
-                    DeviceRepositoryItem existingDevice = configuration.DeviceRepositoryItems.Where(x => x.DriverType == device.DriverType).FirstOrDefault();
+                    DeviceSpecificationItem existingDevice = configuration.DeviceSpecificationItems.Where(x => x.DriverType == device.DriverType).FirstOrDefault();
 
                     if (existingDevice == null)
                     {
-                        existingDevice = new DeviceRepositoryItem()
+                        existingDevice = new DeviceSpecificationItem()
                         {
                             DriverType = device.DriverType,
                             Count = 1
           
                         };
-                        configuration.DeviceRepositoryItems.Add(existingDevice);
+                        configuration.DeviceSpecificationItems.Add(existingDevice);
                     }
                     else
                         existingDevice.Count++;
 
-                    CableRepositoryItem existingCable = configuration.CableRepositoryItems.Where(x=>x.Resistivity == device.Cable.Resistivity).FirstOrDefault();
+                    CableSpecificationItem existingCable = configuration.CableSpecificationItems.Where(x=>x.Resistivity == device.Cable.Resistivity).FirstOrDefault();
 
                     if (existingCable == null)
                     {
-                        existingCable = new CableRepositoryItem()
+                        existingCable = new CableSpecificationItem()
                         {
                             Length = device.Cable.Length,
                             Resistivity = device.Cable.Resistivity
                         };
-                        configuration.CableRepositoryItems.Add(existingCable);
+                        configuration.CableSpecificationItems.Add(existingCable);
                     }
                     else
                         existingCable.Length += device.Cable.Length;
                 }
         }
 
-        public static IEnumerable<CableRepositoryItem> GenerateFromRepository(Configuration configuration)
+        public static IEnumerable<CableSpecificationItem> GenerateFromSpecification(Configuration configuration)
 		{
 			configuration.Lines = new List<Line>();
-			var totalDevicesCount = configuration.DeviceRepositoryItems.Sum(x => x.Count * x.Driver.Mult);
+			var totalDevicesCount = configuration.DeviceSpecificationItems.Sum(x => x.Count * x.Driver.Mult);
             for (int i = 0; i <= totalDevicesCount / 255; i++)
             {
                 configuration.Lines.Add(new Line().Initialize());
             }
 
-            var expandedDeviceRepositoryItems = new List<DeviceRepositoryItem>();
-            foreach (var deviceRepositoryItem in configuration.DeviceRepositoryItems)
-                for (int i = 0; i < deviceRepositoryItem.Count; i++)
-                    expandedDeviceRepositoryItems.Add(new DeviceRepositoryItem() { DriverType = deviceRepositoryItem.DriverType, Count = 1 } );
+            var expandedDeviceSpecificationItems = new List<DeviceSpecificationItem>();
+            foreach (var deviceSpecificationItem in configuration.DeviceSpecificationItems)
+                for (int i = 0; i < deviceSpecificationItem.Count; i++)
+                    expandedDeviceSpecificationItems.Add(new DeviceSpecificationItem() { DriverType = deviceSpecificationItem.DriverType, Count = 1 } );
 
-            var sortedDeviceRepositoryItems = expandedDeviceRepositoryItems.OrderByDescending(x=>x.Driver.DeviceType).ThenBy(x => x.Driver.I);
+            var sortedDeviceSpecificationItems = expandedDeviceSpecificationItems.OrderByDescending(x=>x.Driver.DeviceType).ThenBy(x => x.Driver.I);
 
             bool needAnotherLine = false;
             for (int i = 0; i < configuration.Lines.Count; i++)
 			{
                 uint sum = 0;
-                for (int j = i; j < expandedDeviceRepositoryItems.Count; j+=configuration.Lines.Count)
-                    sum += expandedDeviceRepositoryItems[j].Driver.Mult;
+                for (int j = i; j < expandedDeviceSpecificationItems.Count; j+=configuration.Lines.Count)
+                    sum += expandedDeviceSpecificationItems[j].Driver.Mult;
 
                 if (sum > 255)
                 {
@@ -82,7 +82,7 @@ namespace PowerCalculator.Processor
                 configuration.Lines.Add(new Line());
 
             var lineNo = 0;
-			foreach (var deviceRepositoryItem in sortedDeviceRepositoryItems)
+			foreach (var deviceSpecificationItem in sortedDeviceSpecificationItems)
 			{
 				var line = configuration.Lines[lineNo];
 				lineNo++;
@@ -90,7 +90,7 @@ namespace PowerCalculator.Processor
 					lineNo = 0;
                 
                 var device = new Device();
-				device.DriverType = deviceRepositoryItem.DriverType;
+				device.DriverType = deviceSpecificationItem.DriverType;
                 device.Cable.Length = 0;
                 device.Cable.Resistivity = 0;
 				line.Devices.Add(device);
@@ -98,16 +98,16 @@ namespace PowerCalculator.Processor
 			}
               
             //Cables
-            var cableRemains = configuration.CableRepositoryItems.OrderBy(x=>x.Resistivity).ToList();
-            var cablePieces = new List<CableRepositoryItem>();
+            var cableRemains = configuration.CableSpecificationItems.OrderBy(x=>x.Resistivity).ToList();
+            var cablePieces = new List<CableSpecificationItem>();
                         
             do
             {
                 bool goAgain = false;
                 var totalCableLength = cableRemains.Sum(x => x.Length);
-                var avarageCableLength = totalCableLength / (expandedDeviceRepositoryItems.Count - cablePieces.Count);
+                var avarageCableLength = totalCableLength / (expandedDeviceSpecificationItems.Count - cablePieces.Count);
 
-                for (int i = cableRemains.Count - 1; i >= 0 && cablePieces.Count < expandedDeviceRepositoryItems.Count; i--)
+                for (int i = cableRemains.Count - 1; i >= 0 && cablePieces.Count < expandedDeviceSpecificationItems.Count; i--)
                 {
                     if (cableRemains[i].Length < avarageCableLength)
                     {
@@ -119,7 +119,7 @@ namespace PowerCalculator.Processor
                     }
                 }
 
-                if (cablePieces.Count >= expandedDeviceRepositoryItems.Count)
+                if (cablePieces.Count >= expandedDeviceSpecificationItems.Count)
                     break;
 
                 if (goAgain)
@@ -132,7 +132,7 @@ namespace PowerCalculator.Processor
                 {
                     int pc;
                     if (cableRemains.Count == 1)
-                        pc = expandedDeviceRepositoryItems.Count - cablePieces.Count;
+                        pc = expandedDeviceSpecificationItems.Count - cablePieces.Count;
                     else 
                         pc = cableRemains[i].Length % avarageCableLength == 0 ? (int)(cableRemains[i].Length / avarageCableLength) : (int)(cableRemains[i].Length / avarageCableLength) + 1;
                     
@@ -147,10 +147,10 @@ namespace PowerCalculator.Processor
                 }
 
                 for (int i = 0; i < piecesCount; i++)
-                    cablePieces.Add(new CableRepositoryItem() { Length = maxPieceLength, Resistivity = cableRemains[selectedIndex].Resistivity });
+                    cablePieces.Add(new CableSpecificationItem() { Length = maxPieceLength, Resistivity = cableRemains[selectedIndex].Resistivity });
                 cableRemains.RemoveAt(selectedIndex);
                     
-            } while (cablePieces.Count < expandedDeviceRepositoryItems.Count);
+            } while (cablePieces.Count < expandedDeviceSpecificationItems.Count);
 
 
             var sortedCablePieces = cablePieces.OrderByDescending(x => x.Resistivity).ThenBy(x => x.Length).ToList();

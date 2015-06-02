@@ -7,12 +7,12 @@ namespace PowerCalculator.Models
 		public Configuration()
 		{
 			Lines = new List<Line>();
-			DeviceRepositoryItems = new List<DeviceRepositoryItem>();
-			CableRepositoryItems = new List<CableRepositoryItem>();
+			DeviceSpecificationItems = new List<DeviceSpecificationItem>();
+			CableSpecificationItems = new List<CableSpecificationItem>();
 		}
 
 		public List<Line> Lines { get; set; }
-		public List<DeviceRepositoryItem> DeviceRepositoryItems { get; set; }
-		public List<CableRepositoryItem> CableRepositoryItems { get; set; }
+		public List<DeviceSpecificationItem> DeviceSpecificationItems { get; set; }
+		public List<CableSpecificationItem> CableSpecificationItems { get; set; }
 	}
 }

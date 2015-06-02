@@ -82,25 +82,25 @@
     <Compile Include="Models\Cable.cs" />
     <Compile Include="Processor\Algorithms\CalcPowerAlgorithm.cs" />
     <Compile Include="Models\Device.cs" />
-    <Compile Include="Models\DeviceRepositoryItem.cs" />
+    <Compile Include="Models\DeviceSpecificationItem.cs" />
     <Compile Include="Models\DriverType.cs" />
     <Compile Include="Models\Configuration.cs" />
     <Compile Include="Models\Driver.cs" />
-    <Compile Include="Models\CableRepositoryItem.cs" />
+    <Compile Include="Models\CableSpecificationItem.cs" />
     <Compile Include="Models\LineError.cs" />
     <Compile Include="Processor\DriversHelper.cs" />
     <Compile Include="Models\Line.cs" />
     <Compile Include="Processor\Processor.cs" />
-    <Compile Include="ViewModels\CableRepositoryItemViewModel.cs" />
-    <Compile Include="ViewModels\DeviceRepositoryItemViewModel.cs" />
+    <Compile Include="ViewModels\CableSpecificationItemViewModel.cs" />
+    <Compile Include="ViewModels\DeviceSpecificationItemViewModel.cs" />
     <Compile Include="ViewModels\DriverViewModel.cs" />
     <Compile Include="ViewModels\DeviceViewModel.cs" />
-    <Compile Include="ViewModels\RepositoryViewModel.cs" />
+    <Compile Include="ViewModels\SpecificationViewModel.cs" />
     <Compile Include="Views\NewDeviceView.xaml.cs">
       <DependentUpon>NewDeviceView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\RepositoryView.xaml.cs">
-      <DependentUpon>RepositoryView.xaml</DependentUpon>
+    <Compile Include="Views\SpecificationView.xaml.cs">
+      <DependentUpon>SpecificationView.xaml</DependentUpon>
     </Compile>
     <Page Include="DataTemplates\Dictionary.xaml">
       <SubType>Designer</SubType>
@@ -125,7 +125,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\RepositoryView.xaml">
+    <Page Include="Views\SpecificationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

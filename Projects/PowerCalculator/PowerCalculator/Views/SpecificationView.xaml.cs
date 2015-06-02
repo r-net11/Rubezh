@@ -2,9 +2,9 @@
 
 namespace PowerCalculator.Views
 {
-	public partial class RepositoryView : UserControl
+	public partial class SpecificationView : UserControl
 	{
-		public RepositoryView()
+		public SpecificationView()
 		{
 			InitializeComponent();
 		}

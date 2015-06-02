@@ -3,9 +3,9 @@ using PowerCalculator.Processor;
 
 namespace PowerCalculator.Models
 {
-	public class DeviceRepositoryItem
+	public class DeviceSpecificationItem
 	{
-		public DeviceRepositoryItem()
+		public DeviceSpecificationItem()
 		{
 			DriverType = DriverType.RSR2_SmokeDetector;
 			Count = 1;

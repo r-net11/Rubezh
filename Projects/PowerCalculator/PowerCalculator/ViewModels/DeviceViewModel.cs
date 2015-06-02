@@ -119,5 +119,16 @@ namespace PowerCalculator.ViewModels
 				OnPropertyChanged(() => HasError);
 			}
 		}
+
+		string _errorName;
+		public string ErrorName
+		{
+			get { return _errorName; }
+			set
+			{
+				_errorName = value;
+				OnPropertyChanged(() => ErrorName);
+			}
+		}
 	}
 }

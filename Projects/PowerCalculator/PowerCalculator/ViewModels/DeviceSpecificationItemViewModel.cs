@@ -6,17 +6,17 @@ using PowerCalculator.Processor;
 
 namespace PowerCalculator.ViewModels
 {
-	public class DeviceRepositoryItemViewModel : BaseViewModel
+	public class DeviceSpecificationItemViewModel : BaseViewModel
 	{
-		public DeviceRepositoryItem DeviceRepositoryItem { get; private set; }
+		public DeviceSpecificationItem DeviceSpecificationItem { get; private set; }
 
-		public DeviceRepositoryItemViewModel(DeviceRepositoryItem deviceRepositoryItem)
+		public DeviceSpecificationItemViewModel(DeviceSpecificationItem deviceSpecificationItem)
 		{
-			DeviceRepositoryItem = deviceRepositoryItem;
+			DeviceSpecificationItem = deviceSpecificationItem;
 
 			Drivers = new ObservableCollection<DriverViewModel>(DriversHelper.Drivers.Select(x => new DriverViewModel(x)));
-			_selectedDriver = Drivers.FirstOrDefault(x => x.Driver.DriverType == deviceRepositoryItem.DriverType);
-			_count = deviceRepositoryItem.Count;
+			_selectedDriver = Drivers.FirstOrDefault(x => x.Driver.DriverType == deviceSpecificationItem.DriverType);
+			_count = deviceSpecificationItem.Count;
 		}
 
 		public ObservableCollection<DriverViewModel> Drivers { get; private set; }
@@ -29,7 +29,7 @@ namespace PowerCalculator.ViewModels
 			{
 				_selectedDriver = value;
 				OnPropertyChanged(() => SelectedDriver);
-				DeviceRepositoryItem.DriverType = value.Driver.DriverType;
+				DeviceSpecificationItem.DriverType = value.Driver.DriverType;
 			}
 		}
 
@@ -41,7 +41,7 @@ namespace PowerCalculator.ViewModels
 			{
 				_count = value;
 				OnPropertyChanged(() => Count);
-				DeviceRepositoryItem.Count = value;
+				DeviceSpecificationItem.Count = value;
 			}
 		}
 	}

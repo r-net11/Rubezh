@@ -1,9 +1,9 @@
 ﻿
 namespace PowerCalculator.Models
 {
-	public class CableRepositoryItem
+	public class CableSpecificationItem
 	{
-		public CableRepositoryItem()
+		public CableSpecificationItem()
 		{
 			Resistivity = 1;
 			Length = 1;

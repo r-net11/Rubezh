@@ -11,8 +11,8 @@
         <Views:NewDeviceView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:RepositoryViewModel}">
-        <Views:RepositoryView />
+    <DataTemplate DataType="{x:Type ViewModels:SpecificationViewModel}">
+        <Views:SpecificationView />
     </DataTemplate>
 
 </ResourceDictionary>
