@@ -82,6 +82,7 @@
     <Compile Include="ViewModels\DescriptorViewModel.Test.cs" />
     <Compile Include="ViewModels\DescriptorViewModel.Dustiness.cs" />
     <Compile Include="ViewModels\DescriptorViewModel.Controller.cs" />
+    <Compile Include="ViewModels\DescriptorViewModel.Fire.cs" />
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>

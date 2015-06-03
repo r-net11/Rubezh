@@ -20,7 +20,7 @@ namespace GKImitator.ViewModels
 
 		public bool IsEnabled
 		{
-			get { return StateBit != GKStateBit.Norm && StateBit != GKStateBit.Ignore && StateBit != GKStateBit.Test; }
+			get { return false; }
 		}
 
 		bool _isActive;

@@ -78,6 +78,13 @@
                             <Button Content="Вход пользователя" Command="{Binding EnterUserCommand}" Width="200" Margin="2" />
                             <Button Content="Выход пользователя" Command="{Binding ExitUserCommand}" Width="200" Margin="2" />
                         </StackPanel>
+                        <StackPanel Visibility="{Binding HasResetFire, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" Orientation="Horizontal">
+                            <Button Content="Сработка по дыму" Command="{Binding SetFireSmokeCommand}" Visibility="{Binding HasSetFireSmoke, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" Width="200" Margin="2" />
+                            <Button Content="Сработка по температуре" Command="{Binding SetFireTemperatureCommand}" Visibility="{Binding HasSetFireTemperature, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" Width="200" Margin="2" />
+                            <Button Content="Сработка по градиенту температуры" Command="{Binding SetFireTemperatureGradientCommand}" Visibility="{Binding HasSetFireTemperatureGradient, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" Width="200" Margin="2" />
+                            <Button Content="Ручник сорван" Command="{Binding SetFireHeandDetectorCommand}" Visibility="{Binding HasSetFireHeandDetector, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" Width="200" Margin="2" />
+                            <Button Content="Сброс" Command="{Binding ResetFireCommand}" Visibility="{Binding HasResetFire, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" Width="200" Margin="2" />
+                        </StackPanel>
                     </StackPanel>
                 </Grid>
             </Grid>

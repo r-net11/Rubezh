@@ -34,6 +34,7 @@ namespace GKImitator.ViewModels
 			InitializeDustiness();
 			InitializeController();
 			InitializeTypeNo();
+			InitializeFire();
 		}
 
 		void InitializeTypeNo()
