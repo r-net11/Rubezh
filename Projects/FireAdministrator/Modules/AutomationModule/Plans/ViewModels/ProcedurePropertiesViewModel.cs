@@ -37,9 +37,9 @@ namespace AutomationModule.Plans.ViewModels
 
 		protected override bool Save()
 		{
-			Guid procedureUID = _element.ProcedureUID;
+			_element.ProcedureUID = SelectedProcedure == null ? Guid.Empty : SelectedProcedure.Procedure.Uid;
 			AutomationPlanExtension.Instance.SetItem<Procedure>(_element, SelectedProcedure == null ? null : SelectedProcedure.Procedure);
-			UpdateProcedures(procedureUID);
+			UpdateProcedures(_element.ProcedureUID);
 			return base.Save();
 		}
 		private void UpdateProcedures(Guid procedureUID)
