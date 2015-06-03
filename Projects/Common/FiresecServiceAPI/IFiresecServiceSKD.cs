@@ -299,7 +299,7 @@ namespace FiresecAPI
 		OperationResult GenerateEmployeeDays();
 
 		[OperationContract]
-		OperationResult GenerateTestData();
+		OperationResult GenerateTestData(bool isAscending);
 
 		[OperationContract]
 		OperationResult SaveJournalVideoUID(Guid journaItemUID, Guid videoUID, Guid cameraUID);

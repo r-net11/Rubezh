@@ -402,9 +402,9 @@ namespace FiresecService.Service
 			return SafeContext.Execute<OperationResult>(() => FiresecService.GenerateEmployeeDays());
 		}
 
-		public OperationResult GenerateTestData()
+		public OperationResult GenerateTestData(bool isAscending)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.GenerateTestData());
+			return SafeContext.Execute<OperationResult>(() => FiresecService.GenerateTestData(isAscending));
 		}
 
 		public OperationResult SaveJournalVideoUID(Guid journalItemUID, Guid videoUID, Guid cameraUID)

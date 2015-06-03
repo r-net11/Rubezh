@@ -21,6 +21,7 @@ namespace SKDDriver
 		public SKDDatabaseService()
 		{
 			Context = new DataAccess.SKDDataContext(ConnectionString);
+			Context.CommandTimeout = 600;
 
 			CardDoorTranslator = new CardDoorTranslator(this);
 			CardTranslator = new CardTranslator(this);

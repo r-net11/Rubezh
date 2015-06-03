@@ -1414,12 +1414,28 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult GenerateTestData()
+		public OperationResult GenerateTestData(bool isAscending)
 		{
-			using (var databaseService = new SKDDatabaseService())
+			List<Guid> cardUIDs ;
+			using (var ds = new SKDDatabaseService())
 			{
-				return databaseService.EmployeeTranslator.GenerateTestData();
+				cardUIDs = ds.EmployeeTranslator.TestEmployeeCards();
 			}
+			bool isBreak = false;
+			int currentPage = 0;
+			int pageSize = 10000;
+			while (!isBreak)
+			{
+				var cardUIDsportion = cardUIDs.Skip(currentPage * pageSize).Take(pageSize).ToList();
+				using (var ds = new SKDDatabaseService())
+				{
+					ds.EmployeeTranslator.TestCardDoors(cardUIDsportion, isAscending);
+				}
+				isBreak = cardUIDsportion.Count < pageSize;
+				currentPage++;
+			}
+			
+			return new OperationResult();
 		}
 
 		public OperationResult SaveJournalVideoUID(Guid journalItemUID, Guid videoUID, Guid cameraUID)

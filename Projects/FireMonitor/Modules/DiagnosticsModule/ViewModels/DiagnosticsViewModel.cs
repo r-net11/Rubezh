@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Linq;
 using System.Threading;
-using FiresecAPI.GK;
 using FiresecClient;
-using GKProcessor;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
@@ -18,6 +15,7 @@ namespace DiagnosticsModule.ViewModels
 			CheckHaspCommand = new RelayCommand(OnCheckHasp);
 			TestCommand = new RelayCommand(OnTest);
 			SKDDataCommand = new RelayCommand(OnSKDData);
+			SKDDataAscCommand = new RelayCommand(OnSKDDataAsc);
 			GenerateEmployeeDaysCommand = new RelayCommand(OnGenerateEmployeeDays);
 		}
 
@@ -74,7 +72,13 @@ namespace DiagnosticsModule.ViewModels
 		public RelayCommand SKDDataCommand { get; private set; }
 		void OnSKDData()
 		{
-			FiresecManager.FiresecService.GenerateTestData();
+			FiresecManager.FiresecService.GenerateTestData(false);
+		}
+		
+		public RelayCommand SKDDataAscCommand { get; private set; }
+		void OnSKDDataAsc()
+		{
+			FiresecManager.FiresecService.GenerateTestData(true);
 		}
 
 		public RelayCommand GenerateEmployeeDaysCommand { get; private set; }
