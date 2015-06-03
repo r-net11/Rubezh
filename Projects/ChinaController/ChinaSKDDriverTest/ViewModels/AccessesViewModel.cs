@@ -98,10 +98,10 @@ namespace ControllerSDK.ViewModels
 			}
 		}
 
+		string _cardNo;
 		/// <summary>
 		/// Номер карты
 		/// </summary>
-		string _cardNo;
 		public string CardNo
 		{
 			get { return _cardNo; }
@@ -112,10 +112,10 @@ namespace ControllerSDK.ViewModels
 			}
 		}
 
+		string _password;
 		/// <summary>
 		/// Пароль
 		/// </summary>
-		string _password;
 		public string Password
 		{
 			get { return _password; }
@@ -126,10 +126,10 @@ namespace ControllerSDK.ViewModels
 			}
 		}
 
+		DateTime _time;
 		/// <summary>
 		/// Время
 		/// </summary>
-		DateTime _time;
 		public DateTime Time
 		{
 			get { return _time; }
@@ -140,10 +140,10 @@ namespace ControllerSDK.ViewModels
 			}
 		}
 
+		bool _status;
 		/// <summary>
 		/// Статус
 		/// </summary>
-		bool _status;
 		public bool Status
 		{
 			get { return _status; }
@@ -154,10 +154,10 @@ namespace ControllerSDK.ViewModels
 			}
 		}
 
+		AccessMethodType _methodType;
 		/// <summary>
 		/// Метод доступа
 		/// </summary>
-		AccessMethodType _methodType;
 		public AccessMethodType MethodType
 		{
 			get { return _methodType; }
