@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using FiresecAPI.Automation;
-using FiresecClient;
 using System.Collections.ObjectModel;
-using Infrastructure;
-using Infrastructure.Common.Windows;
+using System.Linq;
 using AutomationModule.ViewModels;
 using FiresecAPI;
-using System.Drawing;
-using Infrustructure.Plans.Elements;
+using FiresecAPI.Automation;
 using FiresecAPI.Models;
+using FiresecClient;
+using Infrastructure;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows;
+using Infrustructure.Plans.Elements;
 using Property = FiresecAPI.Automation.Property;
 
 namespace AutomationModule
@@ -287,6 +287,8 @@ namespace AutomationModule
 			}
 			foreach (var objectType in objectTypes)
 			{
+				if (GlobalSettingsHelper.GlobalSettings.UseStrazhBrand && CheckForGKTypes(objectType)) continue;
+
 				var explicitTypeViewModel = new ExplicitTypeViewModel(objectType);
 				var parent = ExplicitTypes.FirstOrDefault(x => x.ExplicitType == ExplicitType.Object);
 				if (parent != null)
@@ -295,6 +297,24 @@ namespace AutomationModule
 				}
 			}
 			return ExplicitTypes;
+		}
+
+		private static bool CheckForGKTypes(ObjectType objectType)
+		{
+			switch (objectType)
+			{
+				case ObjectType.Device:
+					return true;
+				case ObjectType.Zone:
+					return true;
+				case ObjectType.Direction:
+					return true;
+				case ObjectType.GuardZone:
+					return true;
+				case ObjectType.GKDoor:
+					return true;
+			}
+			return false;
 		}
 	}
 }

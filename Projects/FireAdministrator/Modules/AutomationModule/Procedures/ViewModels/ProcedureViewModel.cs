@@ -119,7 +119,10 @@ namespace AutomationModule.ViewModels
 
 		public void Update()
 		{
-			_visualizetionState = Procedure.PlanElementUIDs.Count == 0 ? VisualizationState.NotPresent : (Procedure.PlanElementUIDs.Count > 1 ? VisualizationState.Multiple : VisualizationState.Single);
+			_visualizetionState = 
+				Procedure.PlanElementUIDs.Count == 0 
+				? VisualizationState.NotPresent 
+				: (Procedure.PlanElementUIDs.Count > 1 ? VisualizationState.Multiple : VisualizationState.Single);
 			OnPropertyChanged(() => IsOnPlan);
 			OnPropertyChanged(() => VisualizationState);
 		}
