@@ -35,6 +35,9 @@
     <Reference Include="Accessibility">
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\..\..\..\3rdParty\OPC\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Practices.Prism, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\3rdParty\PRISM\Desktop\Microsoft.Practices.Prism.dll</HintPath>
     </Reference>
@@ -44,6 +47,18 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="PresentationUI, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <Reference Include="Softing.Opc.Ua.Sdk.Client">
+      <HintPath>..\..\..\..\3rdParty\OPC\Softing.Opc.Ua.Sdk.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Softing.Opc.Ua.Sdk.Configuration">
+      <HintPath>..\..\..\..\3rdParty\OPC\Softing.Opc.Ua.Sdk.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Softing.Opc.Ua.Sdk.Core">
+      <HintPath>..\..\..\..\3rdParty\OPC\Softing.Opc.Ua.Sdk.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Softing.Opc.Ua.Toolkit">
+      <HintPath>..\..\..\..\3rdParty\OPC\Softing.Opc.Ua.Toolkit.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -105,6 +120,8 @@
     <Compile Include="ObjectSelection\Views\OrganisatonSelectionView.xaml.cs">
       <DependentUpon>OrganisatonSelectionView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="OPCServers\ViewModels\Client.cs" />
+    <Compile Include="OPCServers\ViewModels\ConfigClass.cs" />
     <Compile Include="Plans\AutomationPlanExtension.cs" />
     <Compile Include="Plans\InstrumentAdorners\ProcedureRectangleAdorner.cs" />
     <Compile Include="Plans\ViewModels\ProcedurePropertiesViewModel.cs" />

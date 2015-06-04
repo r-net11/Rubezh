@@ -2,17 +2,62 @@
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-	<DataGrid ItemsSource="{Binding OPCServers}" SelectedItem="{Binding SelectedOPCServer}" CanUserSortColumns="True" IsReadOnly="False">
-		<DataGrid.Columns>
-			<DataGridTemplateColumn Header="OPC Сервер" SortMemberPath="Name" Width="*">
-				<DataGridTemplateColumn.CellTemplate>
-					<DataTemplate>
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="{Binding Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2 0" />
-						</StackPanel>
-					</DataTemplate>
-				</DataGridTemplateColumn.CellTemplate>
-			</DataGridTemplateColumn>
-		</DataGrid.Columns>
-	</DataGrid>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <DataGrid Grid.Row="0" ItemsSource="{Binding OPCServers}" SelectedItem="{Binding SelectedOPCServer}" CanUserSortColumns="True" IsReadOnly="False">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="OPC Сервер" SortMemberPath="Name" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2 0" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Grid Grid.Row="1" Margin="2">
+            <TextBox x:Name="tbConnectionString" HorizontalAlignment="Left" Height="23" Margin="505,44,0,0" TextWrapping="Wrap" Text="{Binding ConnectionString}" VerticalAlignment="Top" Width="289"/>
+            <Label Content="Строка подключения" HorizontalAlignment="Left" Margin="505,18,0,0" VerticalAlignment="Top"/>
+            <Button Content="GetEndpoints" HorizontalAlignment="Left" Margin="505,72,0,0" VerticalAlignment="Top" Width="221" Command="{Binding GetEndpontsCommand}" RenderTransformOrigin="-1.6,-2.273"/>
+            <TextBox HorizontalAlignment="Left" Height="401" Margin="10,10,0,0" TextWrapping="Wrap" Text="{Binding Text}" VerticalAlignment="Top" Width="490" RenderTransformOrigin="0.5,0.5">
+                <TextBox.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="-0.32"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </TextBox.RenderTransform>
+            </TextBox>
+            <Button Content="CreateOpcTcpSessionWithNoSecurity" HorizontalAlignment="Left" Margin="505,127,0,0" VerticalAlignment="Top" Width="221" Command="{Binding CreateOpcTcpSessionWithNoSecurityCommand}" />
+            <Button Content="DisconnectSession" HorizontalAlignment="Left" Margin="505,154,0,0" VerticalAlignment="Top" Width="221" Command="{Binding DisconnectSessionCommand}" />
+            <Button Content="Configuration" HorizontalAlignment="Left" Margin="663,18,0,0" VerticalAlignment="Top" Width="100" RenderTransformOrigin="0.5,0.5" Command="{Binding ConfigurationCommand}">
+                <Button.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="-0.093"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Button.RenderTransform>
+            </Button>
+            <TextBox Name="tbServerUrl"  HorizontalAlignment="Left" Height="23" Margin="505,99,0,0" TextWrapping="Wrap" Text="{Binding ServerUrl}" VerticalAlignment="Top" Width="289"/>
+            <Button Content="Browse Main" HorizontalAlignment="Left" Margin="505,181,0,0" VerticalAlignment="Top" Width="75" Command="{Binding BrowseMainCommand}" />
+            <Button Content="Browse All
+                " HorizontalAlignment="Left" Margin="594,181,0,0" VerticalAlignment="Top" Width="75" Command="{Binding BrowseAllCommand}" />
+            <TextBox Name="tbAddSubscription"  HorizontalAlignment="Left" Height="23" Margin="505,208,0,0" TextWrapping="Wrap" Text="{Binding AddSubscription}" VerticalAlignment="Top" Width="120"/>
+            <Button Content="AddSubscription
+                " HorizontalAlignment="Left" Margin="632,208,0,0" VerticalAlignment="Top" Width="129" Command="{Binding AddSubscriptionCommand}" />
+            <TextBox Name="tbDeleteSubscription" HorizontalAlignment="Left" Height="23" Margin="505,236,0,0" TextWrapping="Wrap" Text="DeleteSubscription" VerticalAlignment="Top" Width="120"/>
+            <Button Content="DeleteSubscription
+                " HorizontalAlignment="Left" Margin="632,236,0,0" VerticalAlignment="Top" Width="129" Command="{Binding DeleteSubscriptionCommand}" />
+            <Button Content="GetSubscriptionList" HorizontalAlignment="Left" Margin="505,264,0,0" VerticalAlignment="Top" Width="154" Command="{Binding GetSubscriptionListCommand}" />
+
+        </Grid>
+    </Grid>
 </UserControl>
