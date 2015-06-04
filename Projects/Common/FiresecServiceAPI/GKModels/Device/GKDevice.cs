@@ -306,27 +306,43 @@ namespace FiresecAPI.GK
 			get { return Driver.ImageSource; }
 		}
 
-		public override string GetGKDescription(GKNameGenerationType gkNameGenerationType)
+		public override string GetGKDescriptorName(GKNameGenerationType gkNameGenerationType)
 		{
-			var presentationName = ShortName + " " + DottedPresentationAddress;
+			var result = ShortName + " " + DottedPresentationAddress;
 			switch (gkNameGenerationType)
 			{
 				case GKNameGenerationType.DriverTypePlusAddressPlusDescription:
 					if (Description != null)
-						presentationName += "(" + Description + ")";
+						result += "(" + Description + ")";
 					break;
 
 				case GKNameGenerationType.Description:
 					if (Description != null)
-						presentationName = Description;
+						result = Description;
 					break;
 
 				case GKNameGenerationType.ProjectAddress:
 					if (ProjectAddress != null)
-						presentationName = ProjectAddress;
+						result = ProjectAddress;
+					break;
+
+				case GKNameGenerationType.DescriptionOrProjectAddress:
+					if (Description != null)
+						result = Description;
+					else if (ProjectAddress != null)
+						result = ProjectAddress;
+					break;
+
+				case GKNameGenerationType.ProjectAddressOrDescription:
+					if (ProjectAddress != null)
+						result = ProjectAddress;
+					else if (Description != null)
+						result = Description;
 					break;
 			}
-			return presentationName;
+			if (result.Length > 32)
+				result = result.Substring(0, 32);
+			return result.TrimEnd(' ');
 		}
 
 		public void SetAddress(string address)

@@ -14,13 +14,19 @@ namespace FiresecAPI.GK
 		[Description("Тип + адрес")]
 		DriverTypePlusAddress,
 
-		[Description("Тип + адрес + (описание)")]
+		[Description("Тип + адрес + (примечание)")]
 		DriverTypePlusAddressPlusDescription,
 
-		[Description("Описание")]
+		[Description("Примечание")]
 		Description,
 
 		[Description("Проектный адрес")]
 		ProjectAddress,
+
+		[Description("Примечание или проектный адрес")]
+		DescriptionOrProjectAddress,
+
+		[Description("Проектный адрес или примечание")]
+		ProjectAddressOrDescription,
 	}
 }

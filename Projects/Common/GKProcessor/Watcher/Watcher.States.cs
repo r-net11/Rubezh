@@ -298,9 +298,8 @@ namespace GKProcessor
 				}
 			}
 
-			var stringLength = Math.Min(gkBase.PresentationName.Length, 32);
-			var description = gkBase.GetGKDescription(GKManager.DeviceConfiguration.GKNameGenerationType).Substring(0, stringLength);
-			if (description.TrimEnd(' ') != descriptorStateHelper.Description)
+			var description = gkBase.GetGKDescriptorName(GKManager.DeviceConfiguration.GKNameGenerationType);
+			if (description != descriptorStateHelper.Description)
 			{
 				isMissmatch = true;
 				DBMissmatchDuringMonitoringReason = JournalEventDescriptionType.Не_совпадает_описание_компонента;

@@ -1,9 +1,106 @@
 ﻿<UserControl x:Class="GKModule.Views.DevicesListView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             MinWidth="800" MinHeight="800">
+             xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+             MinWidth="1000" MinHeight="600">
 
-    <DataGrid ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}">
-        
-    </DataGrid>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <DataGrid ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" CanUserSortColumns="True" Margin="2">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Устройство" SortMemberPath="Device.ShortName" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="16" Height="16" Margin="5 0" HorizontalAlignment="Left" Source="{Binding Driver.ImageSource}" />
+                                <TextBlock Width="200" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Device.ShortName}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Адрес" SortMemberPath="SortingAddress" Width="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Device.DottedPresentationAddress}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Зона или Логика" SortMemberPath="EditingPresentationZone" Width="300">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Controls:EditorPresenter>
+                                <Controls:EditorPresenter.ViewTemplate>
+                                    <ControlTemplate>
+                                        <TextBlock MinWidth="100" VerticalAlignment="Center" Cursor="Hand" Text="{Binding EditingPresentationZone}" TextWrapping="NoWrap" Visibility="{Binding IsZoneOrLogic, Converter={StaticResource BoolToVisibilityConverter}}">
+										<TextBlock.InputBindings>
+											<MouseBinding Command="{Binding ShowZoneOrLogicCommand}" MouseAction="LeftClick" />
+										</TextBlock.InputBindings>
+										<TextBlock.ToolTip>
+											<WrapPanel>
+												<TextBlock Text="{Binding EditingPresentationZone}" TextWrapping="Wrap" />
+											</WrapPanel>
+										</TextBlock.ToolTip>
+									</TextBlock>
+                                    </ControlTemplate>
+                                </Controls:EditorPresenter.ViewTemplate>
+                            </Controls:EditorPresenter>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Проектный адрес" SortMemberPath="ProjectAddress" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Controls:EditorPresenter>
+                                <Controls:EditorPresenter.ViewTemplate>
+                                    <ControlTemplate>
+                                        <TextBlock Text="{Binding ProjectAddress}" />
+                                    </ControlTemplate>
+                                </Controls:EditorPresenter.ViewTemplate>
+                                <Controls:EditorPresenter.EditTemplate>
+                                    <ControlTemplate>
+                                        <TextBox Name="projectAddressTextBox" HorizontalAlignment="Stretch" BorderThickness="0" Foreground="{DynamicResource ForegroundColorDark}" Text="{Binding ProjectAddress, UpdateSourceTrigger=PropertyChanged}" />
+                                        <ControlTemplate.Triggers>
+                                            <Trigger SourceName="projectAddressTextBox" Property="IsVisible" Value="True">
+                                                <Setter TargetName="projectAddressTextBox" Property="FocusManager.FocusedElement" Value="{Binding ElementName=projectAddressTextBox}" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Controls:EditorPresenter.EditTemplate>
+                            </Controls:EditorPresenter>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Примечание" SortMemberPath="Description" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Controls:EditorPresenter>
+                                <Controls:EditorPresenter.ViewTemplate>
+                                    <ControlTemplate>
+                                        <TextBlock Text="{Binding Description}" />
+                                    </ControlTemplate>
+                                </Controls:EditorPresenter.ViewTemplate>
+                                <Controls:EditorPresenter.EditTemplate>
+                                    <ControlTemplate>
+                                        <TextBox Name="descriptionTextBox" HorizontalAlignment="Stretch" BorderThickness="0" Foreground="{DynamicResource ForegroundColorDark}" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" />
+                                        <ControlTemplate.Triggers>
+                                            <Trigger SourceName="descriptionTextBox" Property="IsVisible" Value="True">
+                                                <Setter TargetName="descriptionTextBox" Property="FocusManager.FocusedElement" Value="{Binding ElementName=descriptionTextBox}" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Controls:EditorPresenter.EditTemplate>
+                            </Controls:EditorPresenter>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="2">
+            <TextBlock Text="Название дескриптора" Foreground="White" Margin="5 2" />
+            <TextBlock Text="{Binding SelectedDeviceDescriptorName}" Foreground="White" Margin="2" />
+        </StackPanel>
+    </Grid>
 </UserControl>

@@ -114,7 +114,7 @@ namespace GKProcessor
 			switch (DatabaseType)
 			{
 				case DatabaseType.Gk:
-					Description = BytesHelper.StringDescriptionToBytes(GKBase.GetGKDescription(GKManager.DeviceConfiguration.GKNameGenerationType));
+					Description = BytesHelper.StringDescriptionToBytes(GKBase.GetGKDescriptorName(GKManager.DeviceConfiguration.GKNameGenerationType));
 					break;
 
 				case DatabaseType.Kau:
@@ -166,46 +166,6 @@ namespace GKProcessor
 			AllBytes.AddRange(ParametersCount);
 			AllBytes.AddRange(Parameters);
 		}
-
-		//public GKBase GKBase
-		//{
-		//	get
-		//	{
-		//		switch (DescriptorType)
-		//		{
-		//			case DescriptorType.Device:
-		//				return Device;
-
-		//			case DescriptorType.Zone:
-		//				return Zone;
-
-		//			case DescriptorType.Direction:
-		//				return Direction;
-
-		//			case DescriptorType.PumpStation:
-		//				return PumpStation;
-
-		//			case DescriptorType.MPT:
-		//				return MPT;
-
-		//			case DescriptorType.Delay:
-		//				return Delay;
-
-		//			case DescriptorType.Pim:
-		//				return Pim;
-
-		//			case DescriptorType.GuardZone:
-		//				return GuardZone;
-
-		//			case DescriptorType.Code:
-		//				return Code;
-
-		//			case DescriptorType.Door:
-		//				return Door;
-		//		}
-		//		return null;
-		//	}
-		//}
 
 		public ushort GetDescriptorNo()
 		{

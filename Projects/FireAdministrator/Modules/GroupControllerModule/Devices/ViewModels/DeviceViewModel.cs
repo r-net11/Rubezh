@@ -152,6 +152,18 @@ namespace GKModule.ViewModels
 			get { return Device.PresentationAddress; }
 		}
 
+		public int SortingAddress
+		{
+			get
+			{
+				if (Device.Driver.IsKau)
+					return 256 * 256 * Device.IntAddress;
+				if (Device.KAUParent != null)
+					return 256 * 256 * Device.KAUParent.IntAddress + Device.ShleifNo * 256 + Device.IntAddress;
+				return Device.IntAddress;
+			}
+		}
+
 		public string Description
 		{
 			get { return Device.Description; }
