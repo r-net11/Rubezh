@@ -31,12 +31,12 @@ namespace AutomationModule.ViewModels
 			client = new OPCUAClient();
 			ConnectionString = "opc.tcp://localhost:51510/UA/DemoServer";
 			ServerUrl = "ServerUrl";
-			AddSubscription = "AddSubscription";
+			SubscriptionName = "SubscriptionName";
 
+			ConfigureCommand = new RelayCommand(OnConfigure);
 			GetEndpontsCommand = new RelayCommand(OnGetEndponts);
 			CreateOpcTcpSessionWithNoSecurityCommand = new RelayCommand(OnCreateOpcTcpSessionWithNoSecurity);
 			DisconnectSessionCommand = new RelayCommand(OnDisconnectSession);
-			ConfigurationCommand = new RelayCommand(OnConfiguration);
 			BrowseMainCommand = new RelayCommand(OnBrowseMain);
 			BrowseAllCommand = new RelayCommand(OnBrowseAll);
 			AddSubscriptionCommand = new RelayCommand(OnAddSubscription);
@@ -160,15 +160,24 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		string _addSubscription;
-		public string AddSubscription
+		string _subscriptionName;
+		public string SubscriptionName
 		{
-			get { return _addSubscription; }
+			get { return _subscriptionName; }
 			set
 			{
-				_addSubscription = value;
-				OnPropertyChanged(() => AddSubscription);
+				_subscriptionName = value;
+				OnPropertyChanged(() => SubscriptionName);
 			}
+		}
+
+		public RelayCommand ConfigureCommand { get; private set; }
+		void OnConfigure()
+		{
+			var configClass = new ConfigClass();
+			var result = configClass.LoadApplicationConfiguration();
+			if (result)
+				Text += "Configuratrion loaded\n";
 		}
 
 		public RelayCommand GetEndpontsCommand { get; private set; }
@@ -176,14 +185,14 @@ namespace AutomationModule.ViewModels
 		{
 			try
 			{
-				var l = client.GetEndpoints(ConnectionString);
-				if (l.Count == 0)
+				var endpoints = client.GetEndpoints(ConnectionString);
+				if (endpoints.Count == 0)
 				{
 					Text += "NO endpoints" + "\n";
 					return;
 				}
-				ServerUrl = l[0];
-				foreach (var name in l)
+				ServerUrl = endpoints[0];
+				foreach (var name in endpoints)
 				{
 					Text += name + "\n";
 				}
@@ -223,18 +232,10 @@ namespace AutomationModule.ViewModels
 			}
 			else
 			{
-				var s = client.m_session.Url;
+				var sessionURL = client.m_session.Url;
 				client.DisconnectSession();
-				Text += "Session disconnected " + s + "\n";
+				Text += "Session disconnected " + sessionURL + "\n";
 			}
-		}
-
-		public RelayCommand ConfigurationCommand { get; private set; }
-		void OnConfiguration()
-		{
-			var cc = new ConfigClass();
-			var t = cc.LoadApplicationConfiguration();
-			if (t) Text += "Configuratrion loaded\n";
 		}
 
 		public RelayCommand BrowseMainCommand { get; private set; }
@@ -242,14 +243,14 @@ namespace AutomationModule.ViewModels
 		{
 			try
 			{
-				var l = client.BrowseMain();
-				if (l.Count == 0)
+				var nodes = client.BrowseMain();
+				if (nodes.Count == 0)
 				{
 					Text += "NO nodes" + "\n";
 					return;
 				}
 				//ServerUrl = l[0];
-				foreach (var name in l)
+				foreach (var name in nodes)
 				{
 					Text += name + "\n";
 				}
@@ -265,14 +266,14 @@ namespace AutomationModule.ViewModels
 		{
 			try
 			{
-				var l = client.BrowseAll(null, "");
-				if (l.Count == 0)
+				var nodes = client.BrowseAll(null, "");
+				if (nodes.Count == 0)
 				{
 					Text += "NO nodes" + "\n";
 					return;
 				}
 				//ServerUrl = l[0];
-				foreach (var name in l)
+				foreach (var name in nodes)
 				{
 					Text += name + "\n";
 				}
@@ -288,7 +289,7 @@ namespace AutomationModule.ViewModels
 		{
 			try
 			{
-				client.CreateSubscription(AddSubscription);
+				client.CreateSubscription(SubscriptionName);
 			}
 			catch (Exception mes)
 			{
@@ -301,7 +302,7 @@ namespace AutomationModule.ViewModels
 		{
 			try
 			{
-				client.DeleteSubscription(AddSubscription);
+				client.DeleteSubscription(SubscriptionName);
 			}
 			catch (Exception mes)
 			{
@@ -314,14 +315,14 @@ namespace AutomationModule.ViewModels
 		{
 			try
 			{
-				var l = client.GetSubscriptionList();
-				if (l.Count == 0)
+				var subscriptionNames = client.GetSubscriptionList();
+				if (subscriptionNames.Count == 0)
 				{
 					Text += "NO subscriptions" + "\n";
 					return;
 				}
 				//ServerUrl = l[0];
-				foreach (var name in l)
+				foreach (var name in subscriptionNames)
 				{
 					Text += name + "\n";
 				}

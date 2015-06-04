@@ -21,43 +21,40 @@
             </DataGrid.Columns>
         </DataGrid>
         <Grid Grid.Row="1" Margin="2">
-            <TextBox x:Name="tbConnectionString" HorizontalAlignment="Left" Height="23" Margin="505,44,0,0" TextWrapping="Wrap" Text="{Binding ConnectionString}" VerticalAlignment="Top" Width="289"/>
-            <Label Content="Строка подключения" HorizontalAlignment="Left" Margin="505,18,0,0" VerticalAlignment="Top"/>
-            <Button Content="GetEndpoints" HorizontalAlignment="Left" Margin="505,72,0,0" VerticalAlignment="Top" Width="221" Command="{Binding GetEndpontsCommand}" RenderTransformOrigin="-1.6,-2.273"/>
-            <TextBox HorizontalAlignment="Left" Height="401" Margin="10,10,0,0" TextWrapping="Wrap" Text="{Binding Text}" VerticalAlignment="Top" Width="490" RenderTransformOrigin="0.5,0.5">
-                <TextBox.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform/>
-                        <SkewTransform/>
-                        <RotateTransform Angle="-0.32"/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </TextBox.RenderTransform>
-            </TextBox>
-            <Button Content="CreateOpcTcpSessionWithNoSecurity" HorizontalAlignment="Left" Margin="505,127,0,0" VerticalAlignment="Top" Width="221" Command="{Binding CreateOpcTcpSessionWithNoSecurityCommand}" />
-            <Button Content="DisconnectSession" HorizontalAlignment="Left" Margin="505,154,0,0" VerticalAlignment="Top" Width="221" Command="{Binding DisconnectSessionCommand}" />
-            <Button Content="Configuration" HorizontalAlignment="Left" Margin="663,18,0,0" VerticalAlignment="Top" Width="100" RenderTransformOrigin="0.5,0.5" Command="{Binding ConfigurationCommand}">
-                <Button.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform/>
-                        <SkewTransform/>
-                        <RotateTransform Angle="-0.093"/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </Button.RenderTransform>
-            </Button>
-            <TextBox Name="tbServerUrl"  HorizontalAlignment="Left" Height="23" Margin="505,99,0,0" TextWrapping="Wrap" Text="{Binding ServerUrl}" VerticalAlignment="Top" Width="289"/>
-            <Button Content="Browse Main" HorizontalAlignment="Left" Margin="505,181,0,0" VerticalAlignment="Top" Width="75" Command="{Binding BrowseMainCommand}" />
-            <Button Content="Browse All
-                " HorizontalAlignment="Left" Margin="594,181,0,0" VerticalAlignment="Top" Width="75" Command="{Binding BrowseAllCommand}" />
-            <TextBox Name="tbAddSubscription"  HorizontalAlignment="Left" Height="23" Margin="505,208,0,0" TextWrapping="Wrap" Text="{Binding AddSubscription}" VerticalAlignment="Top" Width="120"/>
-            <Button Content="AddSubscription
-                " HorizontalAlignment="Left" Margin="632,208,0,0" VerticalAlignment="Top" Width="129" Command="{Binding AddSubscriptionCommand}" />
-            <TextBox Name="tbDeleteSubscription" HorizontalAlignment="Left" Height="23" Margin="505,236,0,0" TextWrapping="Wrap" Text="DeleteSubscription" VerticalAlignment="Top" Width="120"/>
-            <Button Content="DeleteSubscription
-                " HorizontalAlignment="Left" Margin="632,236,0,0" VerticalAlignment="Top" Width="129" Command="{Binding DeleteSubscriptionCommand}" />
-            <Button Content="GetSubscriptionList" HorizontalAlignment="Left" Margin="505,264,0,0" VerticalAlignment="Top" Width="154" Command="{Binding GetSubscriptionListCommand}" />
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBox Grid.Column="0" Text="{Binding Text}" TextWrapping="Wrap" Margin="2" />
+            <StackPanel Grid.Column="1" HorizontalAlignment="Left">
+                <Button Content="Сконфигурировать" Command="{Binding ConfigureCommand}" HorizontalAlignment="Left" Width="200" Margin="2" />
 
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Строка подключения" Foreground="White" Width="150" Margin="2" />
+                    <TextBox Text="{Binding ConnectionString}" Width="300" Margin="2" />
+                    <Button Content="Получить конечные точки" Command="{Binding GetEndpontsCommand}" Width="200" Margin="2" />
+                </StackPanel>
+                
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="URL сервера" Foreground="White" Width="150" Margin="2" />
+                    <TextBox Text="{Binding ServerUrl}" Width="200" Margin="2" />
+                    <Button Content="Соединить" Command="{Binding CreateOpcTcpSessionWithNoSecurityCommand}" Width="200" Margin="2" />
+                    <Button Content="Разъединить" Command="{Binding DisconnectSessionCommand}" Width="200" Margin="2" />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="Просмотреть заглавные теги" Command="{Binding BrowseMainCommand}" Width="200" Margin="2" />
+                    <Button Content="Просмотреть все теги" Command="{Binding BrowseAllCommand}" Width="200" Margin="2" />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Название подписки" Foreground="White" Width="150" Margin="2" />
+                    <TextBox Text="{Binding SubscriptionName}" Width="200" Margin="2" />
+                    <Button Content="Добавить подписку" Command="{Binding AddSubscriptionCommand}" Width="150" Margin="2" />
+                    <Button Content="Удалить подписку" Command="{Binding DeleteSubscriptionCommand}" Width="150" Margin="2" />
+                    <Button Content="Получить список подписок" Command="{Binding GetSubscriptionListCommand}" Width="150" Margin="2" />
+                </StackPanel>
+            </StackPanel>
         </Grid>
     </Grid>
 </UserControl>

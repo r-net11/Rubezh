@@ -39,6 +39,12 @@
         <File Id="Administrator.NLog.dll" Name="NLog.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.Loya.Dameer.dll" Name="Loya.Dameer.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.RviClient.dll" Name="RviClient.dll" Source="$(var.Administrator.TargetDir)" />
+
+        <File Id="Administrator.log4net.dll" Name="log4net.dll" Source="..\..\..\..\..\..\3rdParty\OPC\" />
+        <File Id="Administrator.Softing.Opc.Ua.Sdk.Client.dll" Name="Softing.Opc.Ua.Sdk.Client.dll" Source="..\..\..\..\..\..\3rdParty\OPC\" />
+        <File Id="Administrator.Softing.Opc.Ua.Sdk.Configuration.dll" Name="Softing.Opc.Ua.Sdk.Configuration.dll" Source="..\..\..\..\..\..\3rdParty\OPC\" />
+        <File Id="Administrator.Softing.Opc.Ua.Sdk.Core.dll" Name="Softing.Opc.Ua.Sdk.Core.dll" Source="..\..\..\..\..\..\3rdParty\OPC\" />
+        <File Id="Administrator.Softing.Opc.Ua.Toolkit.dll" Name="Softing.Opc.Ua.Toolkit.dll" Source="..\..\..\..\..\..\3rdParty\OPC\" />
       </Component>
 
       <Component Id="Administrator.DB" Guid="5619BD45-25EA-4635-8BBA-4D8E81F06B2F">
