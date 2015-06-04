@@ -13,7 +13,7 @@ namespace PowerCalculator.ViewModels
 {
 	public class LineViewModel : BaseViewModel
 	{
-		public LineViewModel(Line line)
+        public LineViewModel(Line line)
 		{
 			Line = line;
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
@@ -21,15 +21,32 @@ namespace PowerCalculator.ViewModels
 			Devices = new ObservableCollection<DeviceViewModel>();
 			foreach (var device in line.Devices)
 			{
-				var deviceViewModel = new DeviceViewModel(device);
+				var deviceViewModel = new DeviceViewModel(device, this);
 				Devices.Add(deviceViewModel);
 			}
 			SelectedDevice = Devices.FirstOrDefault();
 			UpdateAddresses();
+            Calculate();
+            Devices.CollectionChanged += Devices_CollectionChanged;
 		}
+
+        void Devices_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            Calculate();
+        }
 
 		public Line Line { get; set; }
 		public ObservableCollection<DeviceViewModel> Devices { get; private set; }
+
+        public string Name
+        {
+            get { return Line.Name; }
+            set
+            {
+                Line.Name = value;
+                OnPropertyChanged(() => Name);
+            }
+        }
 
 		DeviceViewModel _selectedDevice;
 		public DeviceViewModel SelectedDevice
@@ -41,6 +58,30 @@ namespace PowerCalculator.ViewModels
 				OnPropertyChanged(() => SelectedDevice);
 			}
 		}
+
+        public void Calculate()
+        {
+            var deviceIndicators = Processor.Processor.CalculateLine(Line).ToList();
+
+            foreach (var deviceViewModel in Devices)
+            {
+                var deviceIndicator = deviceIndicators.FirstOrDefault(x => x.Device == deviceViewModel.Device);
+                if (deviceIndicator != null)
+                {
+                    deviceViewModel.Current = deviceIndicator.I;
+                    deviceViewModel.HasIError = deviceIndicator.HasIError;
+                    deviceViewModel.Voltage = deviceIndicator.U;
+                    deviceViewModel.HasUError = deviceIndicator.HasUError;
+                }
+                else
+                {
+                    deviceViewModel.Current = 0;
+                    deviceViewModel.HasIError = false;
+                    deviceViewModel.Voltage = 0;
+                    deviceViewModel.HasUError = false;
+                }
+            }
+        }
 
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
@@ -65,7 +106,7 @@ namespace PowerCalculator.ViewModels
 					device.Cable.Resistivity = newDeviceViewModel.CableResistivity;
 					device.Cable.Length = newDeviceViewModel.CableLenght;
 					Line.Devices.Insert(selectedIndex, device);
-					var deviceViewModel = new DeviceViewModel(device);
+					var deviceViewModel = new DeviceViewModel(device, this);
 					Devices.Insert(selectedIndex, deviceViewModel);
 					SelectedDevice = deviceViewModel;
 				}

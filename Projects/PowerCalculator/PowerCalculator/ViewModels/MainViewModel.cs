@@ -33,11 +33,13 @@ namespace PowerCalculator.ViewModels
 			foreach (var line in Configuration.Lines)
 			{
 				var lineViewModel = new LineViewModel(line);
+                //lineViewModel.Calculate();
 				Lines.Add(lineViewModel);
 			}
+            RenameLines();
 			SelectedLine = Lines.FirstOrDefault();
 		}
-
+        
 		ObservableCollection<LineViewModel> _lines;
 		public ObservableCollection<LineViewModel> Lines
 		{
@@ -122,21 +124,35 @@ namespace PowerCalculator.ViewModels
 			Initialize();
 		}
 
+        void RenameLines(int startIndex = 0)
+        {
+            for (int i = startIndex; i < Lines.Count; i++)
+            {
+                int index1 = i / 8 + 1;
+                int index2 = i % 8 + 1;
+                Lines[i].Name = "АЛС " + index1.ToString() + "." + index2.ToString();
+            }
+        }
+
 		public RelayCommand AddLineCommand { get; private set; }
 		void OnAddLine()
 		{
 			var line = new Line().Initialize();
+            
 			Configuration.Lines.Add(line);
 			var lineViewModel = new LineViewModel(line);
 			Lines.Add(lineViewModel);
+            RenameLines(Lines.Count - 1);
 			SelectedLine = lineViewModel;
 		}
 
 		public RelayCommand RemoveLineCommand { get; private set; }
 		void OnRemoveFile()
 		{
+            int index = Lines.IndexOf(SelectedLine);
 			Configuration.Lines.Remove(SelectedLine.Line);
 			Lines.Remove(SelectedLine);
+            RenameLines(index);
 			SelectedLine = Lines.FirstOrDefault();
 		}
 		bool CanRemoveLine()
@@ -157,25 +173,10 @@ namespace PowerCalculator.ViewModels
 		public RelayCommand CalculateCommand { get; private set; }
 		void OnCalculate()
 		{
-			foreach (var lineViewModel in Lines)
-			{
-				var lineErors = Processor.Processor.CalculateLine(lineViewModel.Line).ToList();
-
-				foreach (var deviceViewModel in lineViewModel.Devices)
-				{
-					var lineError = lineErors.FirstOrDefault(x => x.Device == deviceViewModel.Device);
-					if (lineError != null)
-					{
-						deviceViewModel.ErrorType = lineError.ErrorType;
-						deviceViewModel.ErrorScale = lineError.ErrorScale;
-					}
-					else
-					{
-						deviceViewModel.ErrorType = ErrorType.None;
-						deviceViewModel.ErrorScale = 0;
-					}
-				}
-			}
+            foreach (var lineViewModel in Lines)
+                lineViewModel.Calculate();
 		}
+
+        
 	}
 }

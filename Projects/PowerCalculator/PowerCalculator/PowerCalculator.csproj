@@ -78,6 +78,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\DeviceIndicator.cs" />
     <Compile Include="Models\DeviceType.cs" />
     <Compile Include="Models\Cable.cs" />
     <Compile Include="Processor\Algorithms\CalcPowerAlgorithm.cs" />
@@ -87,7 +88,6 @@
     <Compile Include="Models\Configuration.cs" />
     <Compile Include="Models\Driver.cs" />
     <Compile Include="Models\CableSpecificationItem.cs" />
-    <Compile Include="Models\LineError.cs" />
     <Compile Include="Processor\DriversHelper.cs" />
     <Compile Include="Models\Line.cs" />
     <Compile Include="Processor\Processor.cs" />

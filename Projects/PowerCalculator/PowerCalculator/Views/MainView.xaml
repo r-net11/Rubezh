@@ -24,7 +24,6 @@
                 </Trigger>
                 <DataTrigger Binding ="{Binding HasError}" Value="True">
                     <Setter Property="Background" Value="Red" />
-                    <Setter Property="ToolTip" Value="{Binding ErrorName}" />
                 </DataTrigger>
             </Style.Triggers>
         </Style>
@@ -58,7 +57,7 @@
                     <DataGridTemplateColumn Header="Название АЛС" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Line.Name}" Margin="2" />
+                                <TextBlock Text="{Binding Name}" Margin="2" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

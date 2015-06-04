@@ -179,20 +179,19 @@ namespace PowerCalculator.Processor
             return cableRemains;
 		}
 
-        public static IEnumerable<LineError> CalculateLine(Line line)
+        public static IEnumerable<DeviceIndicator> CalculateLine(Line line, bool suppliersNeeds = false)
         {
             var calcPower = new Algorithms.CalcPowerAlgorithm(line);
             calcPower.Calculate();
+
+            if (suppliersNeeds)
+            {
+
+            }
             
             foreach (Device device in line.Devices)
-            {
-                double scale = calcPower.Result[device].il - device.Driver.Imax;
-                if (scale > 0)
-                    yield return new LineError(device, ErrorType.Current, scale);
-                scale = device.Driver.Umin - calcPower.Result[device].ud;
-                if (scale > 0)
-                    yield return new LineError(device, ErrorType.Voltage, scale);
-            }
+                yield return new DeviceIndicator(device, calcPower.Result[device].il, calcPower.Result[device].ud);
+                        
         }       
     }
 }

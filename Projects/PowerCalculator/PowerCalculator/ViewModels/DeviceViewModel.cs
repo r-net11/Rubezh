@@ -5,14 +5,16 @@ namespace PowerCalculator.ViewModels
 {
 	public class DeviceViewModel : BaseViewModel
 	{
-		public DeviceViewModel(Device device)
+		public DeviceViewModel(Device device, LineViewModel owner)
 		{
 			Device = device;
+            Owner = owner;
 			_cableResistivity = Device.Cable.Resistivity;
 			_cableLength = Device.Cable.Length;
 		}
 
 		public Device Device { get; private set; }
+        public LineViewModel Owner { get; private set; }
 
 		double _cableResistivity;
 		public double CableResistivity
@@ -20,9 +22,17 @@ namespace PowerCalculator.ViewModels
 			get { return _cableResistivity; }
 			set
 			{
-				_cableResistivity = value;
+                if (value <= 0)
+                    _cableResistivity = 1;
+                else if (value > 10)
+                    _cableResistivity = 10;
+                else
+                    _cableResistivity = value;
+
 				OnPropertyChanged(() => CableResistivity);
-				Device.Cable.Resistivity = value;
+                Device.Cable.Resistivity = _cableResistivity;
+                if (Owner != null)
+                    Owner.Calculate();
 			}
 		}
 
@@ -32,9 +42,12 @@ namespace PowerCalculator.ViewModels
 			get { return _cableLength; }
 			set
 			{
-				_cableLength = value;
+                _cableLength = value > 0 ? value : 1;
+
 				OnPropertyChanged(() => CableLength);
-				Device.Cable.Length = value;
+                Device.Cable.Length = _cableLength;
+                if (Owner != null)
+                    Owner.Calculate();
 			}
 		}
 
@@ -64,29 +77,7 @@ namespace PowerCalculator.ViewModels
 				OnPropertyChanged(() => PresentationAddress);
 			}
 		}
-
-		ErrorType _errorType;
-		public ErrorType ErrorType
-		{
-			get { return _errorType; }
-			set
-			{
-				_errorType = value;
-				OnPropertyChanged(() => ErrorType);
-			}
-		}
-
-		double _errorScale;
-		public double ErrorScale
-		{
-			get { return _errorScale; }
-			set
-			{
-				_errorScale = value;
-				OnPropertyChanged(() => ErrorScale);
-			}
-		}
-
+        
 		double _current;
 		public double Current
 		{
@@ -109,26 +100,26 @@ namespace PowerCalculator.ViewModels
 			}
 		}
 
-		bool _hasError;
-		public bool HasError
+		bool _hasIError;
+		public bool HasIError
 		{
-			get { return _hasError; }
+			get { return _hasIError; }
 			set
 			{
-				_hasError = value;
-				OnPropertyChanged(() => HasError);
+				_hasIError = value;
+				OnPropertyChanged(() => HasIError);
 			}
 		}
 
-		string _errorName;
-		public string ErrorName
-		{
-			get { return _errorName; }
-			set
-			{
-				_errorName = value;
-				OnPropertyChanged(() => ErrorName);
-			}
-		}
+        bool _hasUError;
+        public bool HasUError
+        {
+            get { return _hasUError; }
+            set
+            {
+                _hasUError = value;
+                OnPropertyChanged(() => HasUError);
+            }
+        }
 	}
 }

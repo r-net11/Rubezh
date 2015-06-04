@@ -11,7 +11,7 @@ namespace PowerCalculator.ViewModels
 		{
 			CableSpecificationItem = cableSpecificationItem;
 			_resistivity = cableSpecificationItem.Resistivity;
-			_lenght = cableSpecificationItem.Length;
+			_length = cableSpecificationItem.Length;
 		}
 
 		double _resistivity;
@@ -20,21 +20,26 @@ namespace PowerCalculator.ViewModels
 			get { return _resistivity; }
 			set
 			{
-				_resistivity = value;
+                if (value <= 0)
+                    _resistivity = 1;
+                else if (value > 10)
+                    _resistivity = 10;
+                else
+                    _resistivity = value;
 				OnPropertyChanged(() => Resistivity);
-				CableSpecificationItem.Resistivity = value;
+				CableSpecificationItem.Resistivity = _resistivity;
 			}
 		}
 
-		double _lenght;
-		public double Lenght
+		double _length;
+		public double Length
 		{
-			get { return _lenght; }
+			get { return _length; }
 			set
 			{
-				_lenght = value;
-				OnPropertyChanged(() => Lenght);
-				CableSpecificationItem.Length = value;
+                _length = value > 0 ? value : 1;
+				OnPropertyChanged(() => Length);
+				CableSpecificationItem.Length = _length;
 			}
 		}
 	}

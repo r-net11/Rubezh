@@ -82,12 +82,12 @@
                     <DataGridTemplateColumn Header="Длина кабеля" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Lenght}" Margin="2" />
+                                <TextBlock Text="{Binding Length}" Margin="2" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                         <DataGridTemplateColumn.CellEditingTemplate>
                             <DataTemplate>
-                                <TextBox Text="{Binding Lenght}" Foreground="Black" Margin="2" />
+                                <TextBox Text="{Binding Length}" Foreground="Black" Margin="2" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellEditingTemplate>
                     </DataGridTemplateColumn>

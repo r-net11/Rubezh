@@ -39,9 +39,9 @@ namespace PowerCalculator.ViewModels
 			get { return _count; }
 			set
 			{
-				_count = value;
+				_count = value > 0 ? value : 1;
 				OnPropertyChanged(() => Count);
-				DeviceSpecificationItem.Count = value;
+				DeviceSpecificationItem.Count = _count;
 			}
 		}
 	}
