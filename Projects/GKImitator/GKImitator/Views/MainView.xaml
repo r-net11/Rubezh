@@ -25,14 +25,14 @@
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="{Binding GKBase.ImageSource}" Width="16" Height="16" Margin="5 0 5 0" />
-                                        <TextBlock Text="{Binding GKBase.PresentationName}" Margin="5 0 5 0" />
+                                        <Image Source="{Binding GKBase.ImageSource}" Width="16" Height="16" Margin="5 0" />
+                                        <TextBlock Text="{Binding GKBase.PresentationName}" Margin="5 0" />
                                     </StackPanel>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
                         <DataGridTextColumn Header="Дескриптор ГК" Binding="{Binding GKBase.GKDescriptorNo}" />
-                        <DataGridTextColumn Header="Описание" Binding="{Binding BaseDescriptor.Description}" />
+                        <DataGridTextColumn Header="Описание" Binding="{Binding GKBase.Description}" />
                     </DataGrid.Columns>
                 </DataGrid>
                 <Grid Grid.Row="1" DataContext="{Binding SelectedDescriptor}" Margin="5">
@@ -48,10 +48,35 @@
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
                     <StackPanel Grid.Column="1">
-                        <Button Content="Автоматика" Command="{Binding SetAutomaticRegimeCommand}" Width="100" Margin="2" />
-                        <Button Content="Ручной" Command="{Binding SetManualRegimeCommand}" Width="100" Margin="2" />
-                        <Button Content="Отключение" Command="{Binding SetIgnoreRegimeCommand}" Width="100" Margin="2" />
-                        
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel>
+                                <Button Content="Автоматика" Command="{Binding SetAutomaticRegimeCommand}" Width="100" Margin="2" />
+                                <Button Content="Ручной" Command="{Binding SetManualRegimeCommand}" Width="100" Margin="2" />
+                                <Button Content="Отключение" Command="{Binding SetIgnoreRegimeCommand}" Width="100" Margin="2" />
+                            </StackPanel>
+                            <StackPanel>
+                                <Button Content="Включить" Command="{Binding TurnOnCommand}" Visibility="{Binding HasTurnOn, Converter={StaticResource BoolToVisibilityConverter}}" Width="100" Margin="2" />
+                                <Button Content="Включить немедленно" Command="{Binding TurnOnNowCommand}" Visibility="{Binding HasTurnOnNow, Converter={StaticResource BoolToVisibilityConverter}}" Width="100" Margin="2" />
+                                <Button Content="Выключить" Command="{Binding TurnOffCommand}" Visibility="{Binding HasTurnOff, Converter={StaticResource BoolToVisibilityConverter}}" Width="100" Margin="2" />
+                                <Button Content="Выключить немедленно" Command="{Binding TurnOffNowCommand}" Visibility="{Binding HasTurnOffNow, Converter={StaticResource BoolToVisibilityConverter}}" Width="100" Margin="2" />
+                            </StackPanel>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Задержка на включение, с" Width="150" Foreground="Black" Margin="2" />
+                            <TextBlock Text="{Binding CurrentOnDelay}" Width="150" Foreground="Black" Margin="2" />
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Удеожание, с" Width="150" Foreground="Black" Margin="2" />
+                            <TextBlock Text="{Binding CurrentHoldDelay}" Width="150" Foreground="Black" Margin="2" />
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Задержка на выключение, с" Width="150" Foreground="Black" Margin="2" />
+                            <TextBlock Text="{Binding CurrentOffDelay}" Width="150" Foreground="Black" Margin="2" />
+                        </StackPanel>
+
                         <ItemsControl ItemsSource="{Binding Failures}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>

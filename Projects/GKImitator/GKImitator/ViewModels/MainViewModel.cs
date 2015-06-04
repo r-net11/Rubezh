@@ -3,6 +3,9 @@ using System.Linq;
 using FiresecAPI.GK;
 using GKProcessor;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Threading;
+using System;
+using System.Windows;
 
 namespace GKImitator.ViewModels
 {
@@ -21,6 +24,26 @@ namespace GKImitator.ViewModels
 
 			GKProcessor = new GKImitator.Processor.GKProcessor();
 			GKProcessor.Start();
+
+			DelayThread = new Thread(OnCheckDelays);
+			DelayThread.Start();
+		}
+
+		Thread DelayThread;
+		void OnCheckDelays()
+		{
+			while (true)
+			{
+				Thread.Sleep(TimeSpan.FromSeconds(1));
+				Application.Current.Dispatcher.Invoke((Action)(() =>
+					{
+						foreach (var descriptor in Descriptors)
+						{
+							descriptor.CheckDelays();
+						}
+					}
+					));
+			}
 		}
 
 		void InitializeDescriptors()

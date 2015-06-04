@@ -34,58 +34,58 @@ namespace GKImitator.ViewModels
 					_isActive = value;
 					OnPropertyChanged(() => IsActive);
 
-					switch (StateBit)
-					{
-						case GKStateBit.Fire1:
-							if (_isActive)
-							{
-								AddJournalItem(2, 0, 0);
-							}
-							else
-							{
-								AddJournalItem(14, 0, 0);
-							}
-							break;
+					//switch (StateBit)
+					//{
+					//    case GKStateBit.Fire1:
+					//        if (_isActive)
+					//        {
+					//            AddJournalItem(2, 0, 0);
+					//        }
+					//        else
+					//        {
+					//            AddJournalItem(14, 0, 0);
+					//        }
+					//        break;
 
-						case GKStateBit.Fire2:
-							if (_isActive)
-							{
-								AddJournalItem(3, 0, 0);
-							}
-							else
-							{
-								AddJournalItem(14, 0, 0);
-							}
-							break;
+					//    case GKStateBit.Fire2:
+					//        if (_isActive)
+					//        {
+					//            AddJournalItem(3, 0, 0);
+					//        }
+					//        else
+					//        {
+					//            AddJournalItem(14, 0, 0);
+					//        }
+					//        break;
 
-						case GKStateBit.On:
-							if (_isActive)
-							{
-								AddJournalItem(9, 2, 0);
-							}
-							break;
+					//    case GKStateBit.On:
+					//        if (_isActive)
+					//        {
+					//            AddJournalItem(9, 2, 0);
+					//        }
+					//        break;
 
-						case GKStateBit.Off:
-							if (_isActive)
-							{
-								AddJournalItem(9, 3, 0);
-							}
-							break;
+					//    case GKStateBit.Off:
+					//        if (_isActive)
+					//        {
+					//            AddJournalItem(9, 3, 0);
+					//        }
+					//        break;
 
-						case GKStateBit.TurningOn:
-							if (_isActive)
-							{
-								AddJournalItem(9, 4, 0);
-							}
-							break;
+					//    case GKStateBit.TurningOn:
+					//        if (_isActive)
+					//        {
+					//            AddJournalItem(9, 4, 0);
+					//        }
+					//        break;
 
-						case GKStateBit.TurningOff:
-							if (_isActive)
-							{
-								AddJournalItem(9, 5, 0);
-							}
-							break;
-					}
+					//    case GKStateBit.TurningOff:
+					//        if (_isActive)
+					//        {
+					//            AddJournalItem(9, 5, 0);
+					//        }
+					//        break;
+					//}
 
 					MainViewModel.Current.RebuildIndicators();
 				}

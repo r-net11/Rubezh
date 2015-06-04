@@ -18,6 +18,7 @@ namespace GKImitator.ViewModels
 		public GKBase GKBase { get { return BaseDescriptor.GKBase; } }
 		public int DescriptorNo { get; private set; }
 		public ushort TypeNo { get; private set; }
+		List<ushort> AdditionalShortParameters;
 
 		public DescriptorViewModel(BaseDescriptor descriptor)
 		{
@@ -35,6 +36,13 @@ namespace GKImitator.ViewModels
 			InitializeController();
 			InitializeTypeNo();
 			InitializeFire();
+			InitializeTurning();
+
+			AdditionalShortParameters = new List<ushort>();
+			for (int i = 0; i < 10; i++)
+			{
+				AdditionalShortParameters.Add(0);
+			}
 		}
 
 		void InitializeTypeNo()
@@ -83,13 +91,10 @@ namespace GKImitator.ViewModels
 					case GKDriverType.RSR2_SmokeDetector:
 					case GKDriverType.RSR2_CombinedDetector:
 					case GKDriverType.RSR2_HeatDetector:
-						StateBits.Add(new StateBitViewModel(this, GKStateBit.Fire1));
 						break;
 
 					case GKDriverType.RSR2_AM_1:
 					case GKDriverType.RSR2_MAP4:
-						StateBits.Add(new StateBitViewModel(this, GKStateBit.Fire1));
-						StateBits.Add(new StateBitViewModel(this, GKStateBit.Fire2));
 						break;
 
 					case GKDriverType.RSR2_RM_1:
@@ -109,10 +114,10 @@ namespace GKImitator.ViewModels
 					case GKDriverType.RSR2_Buz_KV:
 					case GKDriverType.RSR2_Buz_KVMV:
 					case GKDriverType.RSR2_Buz_KVDU:
-						StateBits.Add(new StateBitViewModel(this, GKStateBit.On));
-						StateBits.Add(new StateBitViewModel(this, GKStateBit.Off));
-						StateBits.Add(new StateBitViewModel(this, GKStateBit.TurningOn));
-						StateBits.Add(new StateBitViewModel(this, GKStateBit.TurningOff));
+						//StateBits.Add(new StateBitViewModel(this, GKStateBit.On));
+						//StateBits.Add(new StateBitViewModel(this, GKStateBit.Off));
+						//StateBits.Add(new StateBitViewModel(this, GKStateBit.TurningOn));
+						//StateBits.Add(new StateBitViewModel(this, GKStateBit.TurningOff));
 						break;
 
 					case GKDriverType.RSR2_MVP:
@@ -218,9 +223,9 @@ namespace GKImitator.ViewModels
 			}
 			result.AddRange(IntToBytes((int)state));
 
-			for (int i = 0; i < 20; i++)
+			foreach (var additionalShortParameter in AdditionalShortParameters)
 			{
-				result.Add(0);
+				result.AddRange(ShortToBytes(additionalShortParameter));
 			}
 
 			return result;
@@ -234,6 +239,11 @@ namespace GKImitator.ViewModels
 		List<byte> IntToBytes(int intValue)
 		{
 			return BitConverter.GetBytes(intValue).ToList();
+		}
+
+		List<byte> ShortToBytes(ushort shortValue)
+		{
+			return BitConverter.GetBytes(shortValue).ToList();
 		}
 
 		public void AddJournalItem(ImitatorJournalItem journalItem)
