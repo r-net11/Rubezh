@@ -340,9 +340,9 @@ namespace FireAdministrator.ViewModels
 
 			foreach (var mpt in GKDeviceConfiguration.MPTs)
 			{
-				ReplaceLogic(mpt.StartLogic);
-				ReplaceLogic(mpt.StopLogic);
-				ReplaceLogic(mpt.SuspendLogic);
+				ReplaceLogic(mpt.MptLogic.OnClausesGroup);
+				ReplaceLogic(mpt.MptLogic.OffClausesGroup);
+				ReplaceLogic(mpt.MptLogic.StopClausesGroup);
 			}
 
 			foreach (var guardZone in GKDeviceConfiguration.GuardZones)
@@ -382,9 +382,9 @@ namespace FireAdministrator.ViewModels
 				{
 					mptDevice.DeviceUID = ReplaceUID(mptDevice.DeviceUID, GKDeviceUIDs);
 				}
-				ReplaceLogic(mpt.StartLogic);
-				ReplaceLogic(mpt.StopLogic);
-				ReplaceLogic(mpt.StartLogic);
+				ReplaceLogic(mpt.MptLogic.OnClausesGroup);
+				ReplaceLogic(mpt.MptLogic.OffClausesGroup);
+				ReplaceLogic(mpt.MptLogic.StopClausesGroup);
 			}
 
 			foreach (var delay in GKDeviceConfiguration.Delays)
@@ -510,6 +510,43 @@ namespace FireAdministrator.ViewModels
 		void ReplaceLogic(GKLogic logic)
 		{
 			foreach (var clause in logic.OnClausesGroup.Clauses)
+			{
+				for (int i = 0; i < clause.ZoneUIDs.Count; i++)
+				{
+					var zoneUID = clause.ZoneUIDs[i];
+					clause.ZoneUIDs[i] = GKZoneUIDs[zoneUID];
+				}
+				for (int i = 0; i < clause.GuardZoneUIDs.Count; i++)
+				{
+					var guardZoneUID = clause.GuardZoneUIDs[i];
+					clause.GuardZoneUIDs[i] = GKGuardZoneUIDs[guardZoneUID];
+				}
+				for (int i = 0; i < clause.DeviceUIDs.Count; i++)
+				{
+					var deviceUID = clause.DeviceUIDs[i];
+					clause.DeviceUIDs[i] = GKDeviceUIDs[deviceUID];
+				}
+				for (int i = 0; i < clause.DirectionUIDs.Count; i++)
+				{
+					var directionUID = clause.DirectionUIDs[i];
+					clause.DirectionUIDs[i] = GKDirectionUIDs[directionUID];
+				}
+				for (int i = 0; i < clause.MPTUIDs.Count; i++)
+				{
+					var mptUID = clause.MPTUIDs[i];
+					clause.MPTUIDs[i] = GKMPTUIDs[mptUID];
+				}
+				for (int i = 0; i < clause.DoorUIDs.Count; i++)
+				{
+					var doorUID = clause.DoorUIDs[i];
+					clause.DoorUIDs[i] = GKDoorUIDs[doorUID];
+				}
+			}
+		}
+
+		void ReplaceLogic(GKClauseGroup gkClauseGroup)
+		{
+			foreach (var clause in gkClauseGroup.Clauses)
 			{
 				for (int i = 0; i < clause.ZoneUIDs.Count; i++)
 				{

@@ -498,14 +498,14 @@ namespace FiresecService.Service
 							foreach (var card in cardsResult.Result)
 							{
 								var getAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(card.AccessTemplateUID);
-								var accessTemplate = getAccessTemplateOperationResult.Result != null ? getAccessTemplateOperationResult.Result : null;
+								var accessTemplate = getAccessTemplateOperationResult.Result;
 
 								var controllerCardSchedules = GKSKDHelper.GetGKControllerCardSchedules(card, accessTemplate);
 								var controllerCardSchedule = controllerCardSchedules.FirstOrDefault(x => x.ControllerDevice.UID == deviceUID);
 								if (controllerCardSchedule != null)
 								{
 									var employeeOperationResult = databaseService.EmployeeTranslator.GetSingle(card.HolderUID);
-									var employee = employeeOperationResult.Result != null ? employeeOperationResult.Result : null;
+									var employee = employeeOperationResult.Result;
 									if (employee != null)
 									{
 										GKSKDHelper.AddOrEditCard(controllerCardSchedule, card, employee.FIO);

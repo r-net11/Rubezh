@@ -1,7 +1,11 @@
-﻿<UserControl x:Class="GKModule.Views.LogicView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:Converters="clr-namespace:GKModule.Converters" xmlns:Views="clr-namespace:GKModule.Views" MinWidth="800" MinHeight="500">
+﻿<UserControl x:Class="GKModule.Views.LogicView"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:Views="clr-namespace:GKModule.Views"
+			 MinWidth="800" MinHeight="500">
 
 	<TabControl>
-		<TabItem Header="Условие включения">
+		<TabItem Header="Условие включения" Visibility="{Binding HasOnClause, Converter={StaticResource BoolToVisibilityConverter}}">
 			<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
 				<StackPanel>
 					<Views:ClausesView DataContext="{Binding OnClausesGroup}" />
@@ -9,6 +13,24 @@
 			</ScrollViewer>
 		</TabItem>
 		<TabItem Header="Условие выключения" Visibility="{Binding HasOffClause, Converter={StaticResource BoolToVisibilityConverter}}">
+			<TabItem.Style>
+				<Style TargetType="TabItem" BasedOn="{StaticResource {x:Type TabItem}}">
+					<Style.Triggers>
+						<MultiDataTrigger>
+							<MultiDataTrigger.Conditions>
+								<Condition Binding="{Binding HasOnClause}" Value="False" />
+								<Condition Binding="{Binding HasOffClause}" Value="True" />
+								<Condition Binding="{Binding HasOnNowClause}" Value="False" />
+								<Condition Binding="{Binding HasOffNowClause}" Value="False" />
+								<Condition Binding="{Binding HasStopClause}" Value="False" />
+							</MultiDataTrigger.Conditions>
+							<MultiDataTrigger.Setters>
+								<Setter Property="IsSelected" Value="True" />
+							</MultiDataTrigger.Setters>
+						</MultiDataTrigger>
+					</Style.Triggers>
+				</Style>
+			</TabItem.Style>
 			<Grid>
 				<Grid.RowDefinitions>
 					<RowDefinition Height="*" />
@@ -39,6 +61,24 @@
 			</ScrollViewer>
 		</TabItem>
 		<TabItem Header="Условие остановки" Visibility="{Binding HasStopClause, Converter={StaticResource BoolToVisibilityConverter}}">
+			<TabItem.Style>
+				<Style TargetType="TabItem" BasedOn="{StaticResource {x:Type TabItem}}">
+					<Style.Triggers>
+						<MultiDataTrigger>
+							<MultiDataTrigger.Conditions>
+								<Condition Binding="{Binding HasOnClause}" Value="False" />
+								<Condition Binding="{Binding HasOffClause}" Value="False" />
+								<Condition Binding="{Binding HasOnNowClause}" Value="False" />
+								<Condition Binding="{Binding HasOffNowClause}" Value="False" />
+								<Condition Binding="{Binding HasStopClause}" Value="True" />
+							</MultiDataTrigger.Conditions>
+							<MultiDataTrigger.Setters>
+								<Setter Property="IsSelected" Value="True" />
+							</MultiDataTrigger.Setters>
+						</MultiDataTrigger>
+					</Style.Triggers>
+				</Style>
+			</TabItem.Style>
 			<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
 				<StackPanel>
 					<Views:ClausesView DataContext="{Binding StopClausesGroup}" />

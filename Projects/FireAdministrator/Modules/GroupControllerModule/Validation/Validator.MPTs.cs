@@ -73,7 +73,7 @@ namespace GKModule.Validation
 
 		void ValidateMPTHasNoLogic(GKMPT mpt)
 		{
-			if (mpt.StartLogic.GetObjects().Count == 0)
+			if (mpt.MptLogic.OnClausesGroup.GetObjects().Count == 0)
 				Errors.Add(new MPTValidationError(mpt, "Отсутствует логика включения", ValidationErrorLevel.CannotWrite));
 		}
 
@@ -90,9 +90,8 @@ namespace GKModule.Validation
 		void ValidateMPTSameDevicesAndLogic(GKMPT mpt)
 		{
 			var devicesInLogic = new List<GKBase>();
-			devicesInLogic.AddRange(mpt.StartLogic.GetObjects().Where(x => x.ObjectType == GKBaseObjectType.Deivce));
-			devicesInLogic.AddRange(mpt.StartLogic.GetObjects().Where(x => x.ObjectType == GKBaseObjectType.Deivce));
-			var devices = new HashSet<GKDevice>();
+			devicesInLogic.AddRange(mpt.MptLogic.OnClausesGroup.GetObjects().Where(x => x.ObjectType == GKBaseObjectType.Deivce));
+			devicesInLogic.AddRange(mpt.MptLogic.OnClausesGroup.GetObjects().Where(x => x.ObjectType == GKBaseObjectType.Deivce));
 			foreach (var device in GetAllMPTDevices(mpt))
 			{
 				if (devicesInLogic.Any(x => x.UID == device.UID))

@@ -324,17 +324,17 @@ namespace GKModule.ViewModels
 					mptsDifferences.Append(". ");
 				mptsDifferences.Append("Не совпадают устройства");
 			}
-			bool startDiff = GKManager.GetPresentationLogic(object1.MPT.StartLogic) != GKManager.GetPresentationLogic(object2.MPT.StartLogic);
+			bool startDiff = GKManager.GetPresentationLogic(object1.MPT.MptLogic.OnClausesGroup) != GKManager.GetPresentationLogic(object2.MPT.MptLogic.OnClausesGroup);
 			if (startDiff)
 			{
 				mptsDifferences.Append("Не совпадают условия включения");
 			}
-			bool stopDiff = GKManager.GetPresentationLogic(object1.MPT.StopLogic) != GKManager.GetPresentationLogic(object2.MPT.StopLogic);
+			bool stopDiff = GKManager.GetPresentationLogic(object1.MPT.MptLogic.OffClausesGroup) != GKManager.GetPresentationLogic(object2.MPT.MptLogic.OffClausesGroup);
 			if (stopDiff)
 			{
 				mptsDifferences.Append("Не совпадают условия выключения");
 			}
-			bool suspendDiff = GKManager.GetPresentationLogic(object1.MPT.SuspendLogic) != GKManager.GetPresentationLogic(object2.MPT.SuspendLogic);
+			bool suspendDiff = GKManager.GetPresentationLogic(object1.MPT.MptLogic.StopClausesGroup) != GKManager.GetPresentationLogic(object2.MPT.MptLogic.StopClausesGroup);
 			if (suspendDiff)
 			{
 				mptsDifferences.Append("Не совпадают условия приостановки");

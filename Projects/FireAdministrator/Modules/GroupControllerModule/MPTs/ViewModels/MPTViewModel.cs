@@ -172,10 +172,10 @@ namespace GKModule.ViewModels
 		public RelayCommand ChangeStartLogicCommand { get; private set; }
 		void OnChangeStartLogic()
 		{
-			var logicViewModel = new LogicViewModel(null, MPT.StartLogic);
+			var logicViewModel = new LogicViewModel(null, MPT.MptLogic);
 			if (DialogService.ShowModalWindow(logicViewModel))
 			{
-				MPT.StartLogic = logicViewModel.GetModel();
+				MPT.MptLogic = logicViewModel.GetModel();
 				OnPropertyChanged(() => StartPresentationName);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
@@ -183,16 +183,16 @@ namespace GKModule.ViewModels
 
 		public string StartPresentationName
 		{
-			get { return GKManager.GetPresentationLogic(MPT.StartLogic); }
+			get { return GKManager.GetPresentationLogic(MPT.MptLogic.OnClausesGroup); }
 		}
 
 		public RelayCommand ChangeStopLogicCommand { get; private set; }
 		void OnChangeStopLogic()
 		{
-			var logicViewModel = new LogicViewModel(null, MPT.StopLogic);
+			var logicViewModel = new LogicViewModel(null, MPT.MptLogic, true, hasOnClause:false);
 			if (DialogService.ShowModalWindow(logicViewModel))
 			{
-				MPT.StopLogic = logicViewModel.GetModel();
+				MPT.MptLogic = logicViewModel.GetModel();
 				OnPropertyChanged(() => StopPresentationName);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
@@ -200,16 +200,16 @@ namespace GKModule.ViewModels
 
 		public string StopPresentationName
 		{
-			get { return GKManager.GetPresentationLogic(MPT.StopLogic); }
+			get { return GKManager.GetPresentationLogic(MPT.MptLogic.OffClausesGroup); }
 		}
 
 		public RelayCommand ChangeSuspendLogicCommand { get; private set; }
 		void OnChangeSuspendLogic()
 		{
-			var logicViewModel = new LogicViewModel(null, MPT.SuspendLogic);
+			var logicViewModel = new LogicViewModel(null, MPT.MptLogic, hasStopClause:true, hasOnClause:false);
 			if (DialogService.ShowModalWindow(logicViewModel))
 			{
-				MPT.SuspendLogic = logicViewModel.GetModel();
+				MPT.MptLogic = logicViewModel.GetModel();
 				OnPropertyChanged(() => SuspendPresentationName);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
@@ -217,7 +217,7 @@ namespace GKModule.ViewModels
 
 		public string SuspendPresentationName
 		{
-			get { return GKManager.GetPresentationLogic(MPT.SuspendLogic); }
+			get { return GKManager.GetPresentationLogic(MPT.MptLogic.StopClausesGroup); }
 		}
 
 		public int Delay

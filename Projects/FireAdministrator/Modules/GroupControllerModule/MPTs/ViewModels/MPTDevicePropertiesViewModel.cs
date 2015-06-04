@@ -32,11 +32,7 @@ namespace GKModule.ViewModels
 				{
 					if (!showAll)
 					{
-						if (Device.DriverType == GKDriverType.RSR2_AM_1)
-							continue;
-						if (driverProperty.Name != "Время удержания, с" && driverProperty.Name != "Контроль")
-							continue;
-
+						continue;
 					}
 					switch (driverProperty.DriverPropertyType)
 					{

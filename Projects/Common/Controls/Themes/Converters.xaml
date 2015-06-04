@@ -60,6 +60,7 @@
 	<Converters:BoolToSelectionModeConverter x:Key="BoolToSelectionModeConverter" />
 	<Converters:DoorStateClassToStringConverter x:Key="DoorStateClassToStringConverter" />
 	<Converters:MultiParameterConverter x:Key="MultiParameterConverter" />
+	<Converters:MultiBooleanConverter x:Key="MultiBooleanConverter" />
 
 	<Converters:SwitchConverter x:Key="StretchToStringConverter" Else="{x:Null}">
 		<Converters:SwitchCase Then="Заполнить" When="Fill" />

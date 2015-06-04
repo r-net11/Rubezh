@@ -16,19 +16,20 @@ namespace GKModule.ViewModels
 		public ClauseGroupViewModel OnNowClausesGroup { get; private set; }
 		public ClauseGroupViewModel OffNowClausesGroup { get; private set; }
 		public ClauseGroupViewModel StopClausesGroup { get; private set; }
+		public bool HasOnClause { get; private set; }
 		public bool HasOffClause { get; private set; }
 		public bool HasStopClause { get; private set; }
 		public bool HasOnNowClause { get; private set; }
 		public bool HasOffNowClause { get; private set; }
 
-		public LogicViewModel(GKDevice device, GKLogic logic, bool hasOffClause = false, bool hasOnNowClause = false, bool hasOffNowClause = false, bool hasStopClause = false)
+		public LogicViewModel(GKDevice device, GKLogic logic, bool hasOffClause = false, bool hasOnNowClause = false, bool hasOffNowClause = false, bool hasStopClause = false, bool hasOnClause = true)
 		{
 			if (device != null)
 				Title = "Настройка логики устройства " + device.PresentationName;
 			else
 				Title = "Настройка логики";
 
-			if (logic.OnClausesGroup.Clauses.Count == 0 && logic.OnClausesGroup.ClauseGroups.Count == 0)
+			if (logic.OnClausesGroup.Clauses.Count == 0 && logic.OnClausesGroup.ClauseGroups.Count == 0 && hasOnClause)
 			{
 				logic.OnClausesGroup.Clauses.Add(new GKClause());
 			}
@@ -40,6 +41,7 @@ namespace GKModule.ViewModels
 			StopClausesGroup = new ClauseGroupViewModel(device, logic.StopClausesGroup);
 			UseOffCounterLogic = logic.UseOffCounterLogic;
 
+			HasOnClause = hasOnClause;
 			HasOffClause = hasOffClause;
 			HasOnNowClause = hasOnNowClause;
 			HasOffNowClause = hasOffNowClause;

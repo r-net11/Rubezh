@@ -93,7 +93,7 @@ namespace FiresecClient
 			return GetPresentationLogic(logic.OnClausesGroup);
 		}
 
-		static string GetPresentationLogic(GKClauseGroup clauseGroup)
+		public static string GetPresentationLogic(GKClauseGroup clauseGroup)
 		{
 			var stringBuilder = new StringBuilder();
 			var index = 0;

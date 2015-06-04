@@ -68,17 +68,17 @@ namespace GKModule.ViewModels
 
 		public string StartPresentationName
 		{
-			get { return GKManager.GetPresentationLogic(MPT.StartLogic); }
+			get { return GKManager.GetPresentationLogic(MPT.MptLogic.OnClausesGroup); }
 		}
 
 		public string StopPresentationName
 		{
-			get { return GKManager.GetPresentationLogic(MPT.StopLogic); }
+			get { return GKManager.GetPresentationLogic(MPT.MptLogic.OffClausesGroup); }
 		}
 
 		public string SuspendPresentationName
 		{
-			get { return GKManager.GetPresentationLogic(MPT.SuspendLogic); }
+			get { return GKManager.GetPresentationLogic(MPT.MptLogic.StopClausesGroup); }
 		}
 	}
 }

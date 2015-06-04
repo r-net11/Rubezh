@@ -15,9 +15,7 @@ namespace FiresecAPI.GK
 	{
 		public GKMPT()
 		{
-			StartLogic = new GKLogic();
-			StopLogic = new GKLogic();
-			SuspendLogic = new GKLogic();
+			MptLogic = new GKLogic();
 			MPTDevices = new List<GKMPTDevice>();
 			Delay = 60;
 			PlanElementUIDs = new List<Guid>();
@@ -53,22 +51,10 @@ namespace FiresecAPI.GK
 		public DelayRegime DelayRegime { get; set; }
 
 		/// <summary>
-		/// Логика включения
+		/// Логика МПТ
 		/// </summary>
 		[DataMember]
-		public GKLogic StartLogic { get; set; }
-
-		/// <summary>
-		/// Логика выключения
-		/// </summary>
-		[DataMember]
-		public GKLogic StopLogic { get; set; }
-
-		/// <summary>
-		/// Логика приостановки
-		/// </summary>
-		[DataMember]
-		public GKLogic SuspendLogic { get; set; }
+		public GKLogic MptLogic { get; set; }
 
 		/// <summary>
 		/// Устройства МПТ

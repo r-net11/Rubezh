@@ -100,9 +100,9 @@ namespace FiresecAPI.GK
 					var deviceMPTs = new List<GKMPT>(GKManager.MPTs.FindAll(x => x.MPTDevices.FindAll(y => y.MPTDeviceType == GKMPTDeviceType.Bomb).Any(z => z.Device == device)));
 					foreach (var deviceMPT in deviceMPTs)
 					{
-						if (deviceMPT.SuspendLogic.OnClausesGroup.GetObjects().Count > 0)
+						if (deviceMPT.MptLogic.StopClausesGroup.GetObjects().Count > 0)
 						{
-							LinkLogic(device, deviceMPT.SuspendLogic.OnClausesGroup);
+							LinkLogic(device, deviceMPT.MptLogic.StopClausesGroup);
 						}
 					}
 				}
@@ -140,9 +140,9 @@ namespace FiresecAPI.GK
 
 			if (mpt != null)
 			{
-				LinkLogic(mpt, mpt.StartLogic.OnClausesGroup);
-				LinkLogic(mpt, mpt.StopLogic.OnClausesGroup);
-				LinkLogic(mpt, mpt.SuspendLogic.OnClausesGroup);
+				LinkLogic(mpt, mpt.MptLogic.OnClausesGroup);
+				LinkLogic(mpt, mpt.MptLogic.OffClausesGroup);
+				LinkLogic(mpt, mpt.MptLogic.StopClausesGroup);
 				foreach (var mptDevice in mpt.MPTDevices.FindAll(x => x.MPTDeviceType == GKMPTDeviceType.HandStart || x.MPTDeviceType == GKMPTDeviceType.HandStop
 					|| x.MPTDeviceType == GKMPTDeviceType.HandAutomaticOn || x.MPTDeviceType == GKMPTDeviceType.HandAutomaticOff || x.MPTDeviceType == GKMPTDeviceType.Bomb))
 				{
