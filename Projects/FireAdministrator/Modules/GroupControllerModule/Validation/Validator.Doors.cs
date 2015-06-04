@@ -211,8 +211,8 @@ namespace GKModule.Validation
 
 					case GKDriverType.RSR2_CodeReader:
 					case GKDriverType.RSR2_CardReader:
-						if (door.LockDevice.Properties.FirstOrDefault(x => x.Name == "Задержка на включение 1, с").Value != 0)
-							Errors.Add(new DeviceValidationError(door.LockDevice, "Парамер 'Задержка на включение 1, с' устройства, участвующего в ТД, должен быть '0'", ValidationErrorLevel.CannotWrite));
+						if (door.LockDevice.Properties.FirstOrDefault(x => x.Name == "Задержка на включение, с").Value != 0)
+							Errors.Add(new DeviceValidationError(door.LockDevice, "Парамер 'Задержка на включение, с' устройства, участвующего в ТД, должен быть '0'", ValidationErrorLevel.CannotWrite));
 						break;
 				}
 

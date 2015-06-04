@@ -109,7 +109,10 @@ namespace GKModule.ViewModels
 					case ClauseOperationType.AnyDirection:
 						StateTypes = new ObservableCollection<StateTypeViewModel>()
 						{
-							new StateTypeViewModel(value, GKStateBit.On)
+							new StateTypeViewModel(value, GKStateBit.On),
+							new StateTypeViewModel(value, GKStateBit.Off),
+							new StateTypeViewModel(value, GKStateBit.TurningOn),
+							new StateTypeViewModel(value, GKStateBit.Norm)
 						};
 						break;
 

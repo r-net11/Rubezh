@@ -36,6 +36,8 @@ namespace FiresecAPI.GK
 				{
 					//MessageBoxService.Show("Ошибка при сопоставлении драйвера устройств ГК");
 				}
+				if (device.DriverType == GKDriverType.GK)
+					device.IntAddress = 0;
 			}
 			Reorder();
 

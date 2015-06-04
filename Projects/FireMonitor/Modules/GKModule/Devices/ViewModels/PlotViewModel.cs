@@ -20,8 +20,8 @@ namespace GKModule.ViewModels
 			DeviceUid = deviceUid;
 			CurrentConsumptions = new List<CurrentConsumption>();
 			GetKauMeasuresCommand = new RelayCommand(OnGetKauMesures);
-			StartTime = DateTime.Now;
-			EndTime = DateTime.Now;
+			StartTime = DateTime.Now.Date;
+			EndTime = DateTime.Now.Date;
 		}
 
 		private DateTime _startTime;
@@ -47,15 +47,26 @@ namespace GKModule.ViewModels
 		}
 
 		public RelayCommand GetKauMeasuresCommand { get; private set; }
-		public void OnGetKauMesures()
+		void OnGetKauMesures()
+		{
+			GetKauMesures(StartTime, EndTime);
+		}
+
+		public RelayCommand GetKauMeasuresOnlineCommand { get; private set; }
+		void OnGetKauMeasuresOnline()
+		{
+			
+		}
+
+		void GetKauMesures(DateTime startDateTime, DateTime endDateTime)
 		{
 			CurrentConsumptions = new List<CurrentConsumption>();
 			var measuresResult = FiresecManager.FiresecService.GetCurrentConsumption(new CurrentConsumptionFilter
-				{
-					AlsUID = DeviceUid,
-					StartDateTime = StartTime,
-					EndDateTime = EndTime
-				});
+			{
+				AlsUID = DeviceUid,
+				StartDateTime = startDateTime,
+				EndDateTime = endDateTime
+			});
 			if (measuresResult == null)
 				return;
 			if (measuresResult.HasError)

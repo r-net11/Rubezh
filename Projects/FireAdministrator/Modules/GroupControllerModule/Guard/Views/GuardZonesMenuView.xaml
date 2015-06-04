@@ -7,6 +7,6 @@
 		<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить (Ctrl+N)" ImageSource="Add" />
 		<ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать (Ctrl+E)" ImageSource="Edit" />
 		<ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить (Ctrl+Del)" ImageSource="Delete" />
-		<ToolBarButton Command="{Binding ShowSettingsCommand}" ToolTip="Настройки проекта" ImageSource="Settings2" />
+		<ToolBarButton Command="{Binding ShowSettingsCommand}" ToolTip="Настройки зон" ImageSource="Settings2" />
 	</StackPanel>
 </UserControl>

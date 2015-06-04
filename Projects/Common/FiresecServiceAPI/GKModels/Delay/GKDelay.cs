@@ -13,6 +13,7 @@ namespace FiresecAPI.GK
 		public GKDelay()
 		{
 			Logic = new GKLogic();
+			DelayRegime = DelayRegime.On;
 		}
 
 		/// <summary>

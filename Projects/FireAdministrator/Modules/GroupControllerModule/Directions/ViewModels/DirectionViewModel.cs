@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using FiresecAPI.GK;
+﻿using FiresecAPI.GK;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;

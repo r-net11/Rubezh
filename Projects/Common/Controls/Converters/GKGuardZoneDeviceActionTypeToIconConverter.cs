@@ -8,6 +8,8 @@ namespace Controls.Converters
 	{
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
+			if (!(value is GKGuardZoneDeviceActionType))
+				return null;
 			var actionType = (GKGuardZoneDeviceActionType)value;
 			switch(actionType)
 			{

@@ -33,7 +33,7 @@ namespace GKProcessor
 				return;
 			}
 
-			if (Direction.Logic.OnClausesGroup.Clauses.Count > 0)
+			if (Direction.Logic.OnClausesGroup.Clauses.Count + Direction.Logic.OnClausesGroup.ClauseGroups.Count > 0)
 			{
 				Formula.AddClauseFormula(Direction.Logic.OnClausesGroup, DatabaseType);
 				if (!Direction.Logic.UseOffCounterLogic)

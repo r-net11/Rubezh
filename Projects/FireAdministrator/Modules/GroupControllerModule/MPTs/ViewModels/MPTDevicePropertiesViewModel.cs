@@ -34,7 +34,7 @@ namespace GKModule.ViewModels
 					{
 						if (Device.DriverType == GKDriverType.RSR2_AM_1)
 							continue;
-						if (driverProperty.Name != "Задержка на включение, с" && driverProperty.Name != "Время удержания, с" && driverProperty.Name != "Контроль")
+						if (driverProperty.Name != "Время удержания, с" && driverProperty.Name != "Контроль")
 							continue;
 
 					}
@@ -42,22 +42,22 @@ namespace GKModule.ViewModels
 					{
 						case GKDriverPropertyTypeEnum.StringType:
 							var stringPropertyViewModel = new StringPropertyViewModel(driverProperty, Device);
-							stringPropertyViewModel.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(propertyViewModel_PropertyChanged);
+							stringPropertyViewModel.PropertyChanged += propertyViewModel_PropertyChanged;
 							StringProperties.Add(stringPropertyViewModel);
 							break;
 						case GKDriverPropertyTypeEnum.IntType:
 							var shortPropertyViewModel = new ShortPropertyViewModel(driverProperty, Device);
-							shortPropertyViewModel.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(propertyViewModel_PropertyChanged);
+							shortPropertyViewModel.PropertyChanged += propertyViewModel_PropertyChanged;
 							ShortProperties.Add(shortPropertyViewModel);
 							break;
 						case GKDriverPropertyTypeEnum.BoolType:
 							var boolPropertyViewModel = new BoolPropertyViewModel(driverProperty, Device);
-							boolPropertyViewModel.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(propertyViewModel_PropertyChanged);
+							boolPropertyViewModel.PropertyChanged += propertyViewModel_PropertyChanged;
 							BoolProperties.Add(boolPropertyViewModel);
 							break;
 						case GKDriverPropertyTypeEnum.EnumType:
 							var enumPropertyViewModel = new EnumPropertyViewModel(driverProperty, Device);
-							enumPropertyViewModel.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(propertyViewModel_PropertyChanged);
+							enumPropertyViewModel.PropertyChanged += propertyViewModel_PropertyChanged;
 							EnumProperties.Add(enumPropertyViewModel);
 							break;
 					}

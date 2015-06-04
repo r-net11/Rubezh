@@ -15,7 +15,7 @@ namespace FiresecAPI.GK
 	{
 		public GKDirection()
 		{
-			DelayRegime = DelayRegime.Off;
+			DelayRegime = DelayRegime.On;
 			Logic = new GKLogic();
 
 			InputDevices = new List<GKDevice>();
