@@ -6,19 +6,42 @@
 	<TabControl>
 		<TabItem Header="Основные">
 			<StackPanel>
-				<StackPanel Orientation="Horizontal">
-					<TextBlock Text="Тип точки доступа" VerticalAlignment="Center" Width="150" Foreground="{DynamicResource ForegroundColorLight}" Margin="2" />
-					<ComboBox ItemsSource="{Binding AvailableDoorTypes}" SelectedItem="{Binding SelectedDoorType}" Width="150" Margin="2">
-						<ComboBox.ItemTemplate>
+				<StackPanel>
+					<GroupBox Header="Тип точки доступа" Margin="2">
+						<GroupBox.HeaderTemplate>
 							<DataTemplate>
-								<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+								<TextBlock Text="{Binding}"  Foreground="{DynamicResource ForegroundColorLight}"/>
 							</DataTemplate>
-						</ComboBox.ItemTemplate>
-					</ComboBox>
+						</GroupBox.HeaderTemplate>
+						<StackPanel>
+							<ComboBox ItemsSource="{Binding AvailableDoorTypes}" SelectedItem="{Binding SelectedDoorType}" Width="150" HorizontalAlignment="Left" Margin="2">
+								<ComboBox.ItemTemplate>
+									<DataTemplate>
+										<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+									</DataTemplate>
+								</ComboBox.ItemTemplate>
+							</ComboBox>
+						</StackPanel>
+					</GroupBox>
 				</StackPanel>
 				<StackPanel Orientation="Horizontal">
-					<Button Content="Считать" Command="{Binding GetDoorTypeCommand}" Width="150" Margin="2" />
-					<Button Content="Записать" Command="{Binding SetDoorTypeCommand}" Width="150" Margin="2" />
+					<StackPanel>
+						<GroupBox Header="Запрет повторного прохода" Foreground="{DynamicResource ForegroundColorLight}" Margin="2">
+							<StackPanel>
+								<CheckBox Content="Активировать" IsChecked="{Binding IsAntiPassBackActivated}" Margin="2"/>
+								<RadioButton GroupName="AntipassBackGroup" Content="Считыватель 1-вход, 2-выход" IsChecked="{Binding SelectedAntiPassBackMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=R1In_R2Out}" IsEnabled="{Binding IsAntiPassBackModeR1InR2OutEnabled}" Margin="2"/>
+								<RadioButton GroupName="AntipassBackGroup" Content="Считыватель 3-вход, 4-выход" IsChecked="{Binding SelectedAntiPassBackMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=R3In_R4Out}" IsEnabled="{Binding IsAntiPassBackModeR3InR4OutEnabled}" Margin="2"/>
+								<RadioButton GroupName="AntipassBackGroup" Content="Считыватель 1 и 3-вход, 2 и 4-выход" IsChecked="{Binding SelectedAntiPassBackMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=R1R3In_R2R4Out}" IsEnabled="{Binding IsAntiPassBackModeR1R3InR2R4OutEnabled}" Margin="2"/>
+							</StackPanel>
+						</GroupBox>
+					</StackPanel>
+					<StackPanel>
+
+					</StackPanel>
+				</StackPanel>
+				<StackPanel Orientation="Horizontal">
+					<Button Content="Считать" Command="{Binding ReadFromControllerCommand}" Width="150" Margin="2" />
+					<Button Content="Записать" Command="{Binding WriteToControllerCommand}" Width="150" Margin="2" />
 				</StackPanel>
 			</StackPanel>
 		</TabItem>
