@@ -57,26 +57,32 @@ namespace GKModule.ViewModels
 			GetKauMesures(StartTime, EndTime);
 		}
 
+		Thread GetKayMeasureThread;
 		public RelayCommand GetKauMeasuresOnlineCommand { get; private set; }
 		void OnGetKauMeasuresOnline()
 		{
-			CurrentConsumptions = new List<CurrentConsumption>();
-			new Thread(() =>
+			if (GetKayMeasureThread == null || !GetKayMeasureThread.IsAlive)
 			{
-				while (true)
+				cancelBackgroundWorker = false;
+				CurrentConsumptions = new List<CurrentConsumption>();
+				GetKayMeasureThread = new Thread(() =>
 				{
-					if (cancelBackgroundWorker)
-						break;
-					var measuresResult = FiresecManager.FiresecService.GetAlsMeasure(DeviceUid);
-					if (measuresResult == null)
-						return;
-					if (measuresResult.HasError)
-						MessageBoxService.Show(measuresResult.Error);
-					CurrentConsumptions.Add(measuresResult.Result);
-					Thread.Sleep(TimeSpan.FromSeconds(1));
-					Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Send, new Action(Update));
-				}
-			}).Start();
+					while (true)
+					{
+						if (cancelBackgroundWorker)
+							break;
+						var measuresResult = FiresecManager.FiresecService.GetAlsMeasure(DeviceUid);
+						if (measuresResult == null)
+							return;
+						if (measuresResult.HasError)
+							MessageBoxService.Show(measuresResult.Error);
+						CurrentConsumptions.Add(measuresResult.Result);
+						Thread.Sleep(TimeSpan.FromSeconds(1));
+						Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Send, new Action(Update));
+					}
+				});
+				GetKayMeasureThread.Start();
+			}
 		}
 
 		void Update()
