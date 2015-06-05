@@ -25,9 +25,9 @@ namespace GKImitator.ViewModels
 			BaseDescriptor = descriptor;
 			DescriptorNo = descriptor.GetDescriptorNo();
 
-			SetAutomaticRegimeCommand = new RelayCommand(OnSetAutomaticRegime);
-			SetManualRegimeCommand = new RelayCommand(OnSetManualRegime);
-			SetIgnoreRegimeCommand = new RelayCommand(OnSetIgnoreRegime);
+			SetAutomaticRegimeCommand = new RelayCommand(OnSetAutomaticRegime, CanSetAutomaticRegime);
+			SetManualRegimeCommand = new RelayCommand(OnSetManualRegime, CanSetManualRegime);
+			SetIgnoreRegimeCommand = new RelayCommand(OnSetIgnoreRegime, CanSetIgnoreRegime);
 
 			InitializeStateBits();
 			InitializeFailureItems();
@@ -159,28 +159,66 @@ namespace GKImitator.ViewModels
 		public RelayCommand SetAutomaticRegimeCommand { get; private set; }
 		void OnSetAutomaticRegime()
 		{
+			Regime = Regime.Automatic;
 			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Norm).IsActive = true;
 			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Ignore).IsActive = false;
 			var journalItem = new ImitatorJournalItem(2, 10, 0, 0);
 			AddJournalItem(journalItem);
 		}
+		bool CanSetAutomaticRegime()
+		{
+			return Regime != Regime.Automatic;
+		}
 
 		public RelayCommand SetManualRegimeCommand { get; private set; }
 		void OnSetManualRegime()
 		{
+			Regime = Regime.Manual;
 			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Norm).IsActive = false;
 			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Ignore).IsActive = false;
 			var journalItem = new ImitatorJournalItem(2, 10, 1, 0);
 			AddJournalItem(journalItem);
 		}
+		bool CanSetManualRegime()
+		{
+			return Regime != Regime.Manual;
+		}
 
 		public RelayCommand SetIgnoreRegimeCommand { get; private set; }
 		void OnSetIgnoreRegime()
 		{
+			Regime = Regime.Ignore;
 			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Norm).IsActive = false;
 			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Ignore).IsActive = true;
 			var journalItem = new ImitatorJournalItem(2, 10, 2, 0);
 			AddJournalItem(journalItem);
+		}
+		bool CanSetIgnoreRegime()
+		{
+			return Regime != Regime.Ignore;
+		}
+
+		Regime _regime;
+		public Regime Regime
+		{
+			get { return _regime; }
+			set
+			{
+				_regime = value;
+				OnPropertyChanged(() => Regime);
+				CanControl = value == Regime.Manual;
+			}
+		}
+
+		bool _canControl;
+		public bool CanControl
+		{
+			get { return _canControl; }
+			set
+			{
+				_canControl = value;
+				OnPropertyChanged(() => CanControl);
+			}
 		}
 
 		public void SetParameters()

@@ -75,6 +75,7 @@
     <Compile Include="Processor\ImitatorJournalItemCollection.cs" />
     <Compile Include="Processor\JournalHelper.cs" />
     <Compile Include="Processor\ConfigurationCashHelper.cs" />
+    <Compile Include="Processor\Regime.cs" />
     <Compile Include="ViewModels\DescriptorViewModel.cs" />
     <Compile Include="ViewModels\FailureViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
