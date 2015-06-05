@@ -18,10 +18,10 @@ namespace GKModule.ViewModels
 		public Action PlotViewUpdateAction { get; set; }
 		bool cancelBackgroundWorker;
 
-		public PlotViewModel(Guid deviceUid)
+		public PlotViewModel(GKDevice device)
 		{
-			Title = "График токопотребления";
-			DeviceUid = deviceUid;
+			Title = "График токопотребления " + device.PresentationName;
+			DeviceUid = device.UID;
 			CurrentConsumptions = new List<CurrentConsumption>();
 			GetKauMeasuresCommand = new RelayCommand(OnGetKauMesures);
 			GetKauMeasuresOnlineCommand = new RelayCommand(OnGetKauMeasuresOnline);

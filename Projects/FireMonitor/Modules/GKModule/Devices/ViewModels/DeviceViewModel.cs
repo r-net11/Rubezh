@@ -117,7 +117,7 @@ namespace GKModule.ViewModels
 		void OnShowProperties()
 		{
 			if (Device != null && Device.Driver != null && Device.Driver.DriverType == GKDriverType.RSR2_KAU_Shleif)
-				DialogService.ShowModalWindow(new PlotViewModel(Device.UID));
+				DialogService.ShowModalWindow(new PlotViewModel(Device));
 			else
 				DialogService.ShowWindow(new DeviceDetailsViewModel(Device));
 		}
