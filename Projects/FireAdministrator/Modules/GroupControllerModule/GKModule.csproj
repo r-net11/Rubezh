@@ -1056,6 +1056,10 @@
       <Project>{DA2A8431-7328-4AE8-926F-E191700577A1}</Project>
       <Name>Infrustructure.Plans</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\FireAdministrator\FireAdministrator.csproj">
+      <Project>{51B2E1D6-9693-4448-B064-F24EA4532532}</Project>
+      <Name>FireAdministrator</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Infrastructure\Infrastructure.csproj">
       <Project>{7E982F7A-E8B8-4B63-A204-9FC7E5F97170}</Project>
       <Name>Infrastructure</Name>

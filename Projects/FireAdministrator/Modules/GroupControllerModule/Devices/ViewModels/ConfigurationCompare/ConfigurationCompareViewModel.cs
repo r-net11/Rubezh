@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using FireAdministrator;
 using FiresecAPI.GK;
 using FiresecClient;
 using Infrastructure;
@@ -16,16 +17,19 @@ namespace GKModule.ViewModels
 		GKDevice RemoteDevice { get; set; }
 		GKDeviceConfiguration LocalConfiguration { get; set; }
 		GKDeviceConfiguration RemoteConfiguration { get; set; }
+		string ConfigFileName { get; set; }
 		public ObjectsListViewModel LocalObjectsViewModel { get; set; }
 		public ObjectsListViewModel RemoteObjectsViewModel { get; set; }
 		internal static bool ConfigFromFile { get; private set; }
 		public string Error { get; private set; }
 
-		public ConfigurationCompareViewModel(GKDeviceConfiguration localConfiguration, GKDeviceConfiguration remoteConfiguration, GKDevice device, bool configFromFile)
+		public ConfigurationCompareViewModel(GKDeviceConfiguration localConfiguration, GKDeviceConfiguration remoteConfiguration, GKDevice device, bool configFromFile, string configFileName = "")
 		{
 			Title = "Сравнение конфигураций " + device.PresentationName;
 			ConfigFromFile = configFromFile;
 			ChangeCommand = new RelayCommand(OnChange, CanChange);
+			ReplaceCommand = new RelayCommand(OnReplaice, CanReplace);
+			ConfigFileName = configFileName;
 			NextDifferenceCommand = new RelayCommand(OnNextDifference, CanNextDifference);
 			PreviousDifferenceCommand = new RelayCommand(OnPreviousDifference, CanPreviousDifference);
 
@@ -111,8 +115,6 @@ namespace GKModule.ViewModels
 				LocalConfiguration.Codes.AddRange(RemoteConfiguration.Codes);
 				LocalConfiguration.Doors.RemoveAll(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == LocalDevice.Address);
 				LocalConfiguration.Doors.AddRange(RemoteConfiguration.Doors);
-				LocalConfiguration.SKDZones.Clear();
-				LocalConfiguration.SKDZones.AddRange(RemoteConfiguration.SKDZones);
 			}
 			ServiceFactory.SaveService.GKChanged = true;
 			GKManager.UpdateConfiguration();
@@ -122,6 +124,18 @@ namespace GKModule.ViewModels
 		bool CanChange()
 		{
 			return ConfigFromFile;
+		}
+
+		public RelayCommand ReplaceCommand { get; private set; }
+		void OnReplaice()
+		{
+			FileConfigurationHelper.LoadFromFile(ConfigFileName);
+			Close(true);
+		}
+
+		bool CanReplace()
+		{
+			return !String.IsNullOrEmpty(ConfigFileName);
 		}
 
 		public void CompareObjectLists()

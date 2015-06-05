@@ -254,7 +254,7 @@ namespace GKModule.Models
 							DescriptorsManager.Create();
 							deviceConfiguration.UpdateConfiguration();
 							deviceConfiguration.PrepareDescriptors();
-							configurationCompareViewModel = new ConfigurationCompareViewModel(GKManager.DeviceConfiguration, deviceConfiguration, SelectedDevice.Device, true);
+							configurationCompareViewModel = new ConfigurationCompareViewModel(GKManager.DeviceConfiguration, deviceConfiguration, SelectedDevice.Device, true, configFileName);
 						});
 						LoadingService.Close();
 						if (configurationCompareViewModel.Error != null)
