@@ -280,7 +280,7 @@ namespace SKDModule.ViewModels
 		}
 
 		public RelayCommand AddCommand { get; private set; }
-		protected void OnAdd()
+		protected virtual void OnAdd()
 		{
 			var model = ShowDetails(SelectedItem.Organisation);
 			if (model == null)

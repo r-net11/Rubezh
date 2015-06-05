@@ -36,6 +36,19 @@ namespace SKDModule.PassCardDesigner.ViewModels
 			return CanEdit();
 		}
 
+		protected override void OnAdd()
+		{
+			PassCardTemplateDetailsViewModel = new PassCardTemplateDetailsViewModel();
+			if (PassCardTemplateDetailsViewModel.ShowPassCardPropertiesDialog(SelectedItem.Organisation))
+			{
+				var itemViewModel = new PassCardTemplateViewModel();
+				itemViewModel.InitializeModel(SelectedItem.Organisation, PassCardTemplateDetailsViewModel.Model, this);
+				var parentViewModel = GetParentItem(PassCardTemplateDetailsViewModel.Model);
+				parentViewModel.AddChild(itemViewModel);
+				SelectedItem = itemViewModel;
+			}
+		}
+
 		#endregion
 
 		

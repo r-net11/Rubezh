@@ -15,45 +15,21 @@ namespace SKDModule.ViewModels
 
 		public string Name
 		{
-			get
-			{
-				if (IsOrganisation)
-					return Organisation.Name;
-				else
-					return Model.Name;
-			}
+			get { return IsOrganisation ? Organisation.Name : Model.Name; }
 		}
 		public string Description
 		{
-			get
-			{
-				if (IsOrganisation)
-					return Organisation.Description;
-				else
-					return Model.Description;
-			}
+			get { return IsOrganisation ? Organisation.Description : Model.Description; }
 		}
 
 		public Guid UID
 		{
-			get
-			{
-				if (IsOrganisation)
-					return Organisation.UID;
-				else
-					return Model.UID;
-			}
+			get { return IsOrganisation ? Organisation.UID : Model.UID; }
 		}
 
 		public Guid OrganisationUID
 		{
-			get
-			{
-				if (IsOrganisation)
-					return Organisation.UID;
-				else
-					return Model.OrganisationUID;
-			}
+			get { return IsOrganisation ? Organisation.UID : Model.OrganisationUID; }
 		}
 
 		bool _isDeleted;
@@ -100,7 +76,7 @@ namespace SKDModule.ViewModels
 			IsExpanded = true;
 			ParentViewModel = parentViewModel;
 			IsDeleted = organisation.IsDeleted;
-			RemovalDate = IsDeleted ? organisation.RemovalDate.ToString() : ""; 
+			RemovalDate = IsDeleted ? organisation.RemovalDate.ToString() : string.Empty;
 		}
 
 		public virtual void InitializeModel(Organisation organisation, ModelT model, ViewPartViewModel parentViewModel)
@@ -110,14 +86,14 @@ namespace SKDModule.ViewModels
 			IsOrganisation = false;
 			ParentViewModel = parentViewModel;
 			IsDeleted = model.IsDeleted;
-			RemovalDate = IsDeleted ? model.RemovalDate.ToString() : "";
+			RemovalDate = IsDeleted ? model.RemovalDate.ToString() : string.Empty;
 		}
 
 		public virtual void Update(ModelT model)
 		{
 			Model = model;
 			IsDeleted = model.IsDeleted;
-			RemovalDate = IsDeleted ? model.RemovalDate.ToString() : "";
+			RemovalDate = IsDeleted ? model.RemovalDate.ToString() : string.Empty;
 			Update();
 		}
 
@@ -126,7 +102,7 @@ namespace SKDModule.ViewModels
 			Organisation = organisation;
 			IsOrganisation = true;
 			IsDeleted = organisation.IsDeleted;
-			RemovalDate = IsDeleted ? organisation.RemovalDate.ToString() : ""; 
+			RemovalDate = IsDeleted ? organisation.RemovalDate.ToString() : string.Empty; 
 			Update();
 		}
 
