@@ -246,6 +246,9 @@
     <Compile Include="PassCardDesigner\ViewModels\PassCardTemplatesViewModel.cs" />
     <Compile Include="PassCardDesigner\ViewModels\PassCardTemplateViewModel.cs" />
     <Compile Include="PassCardDesigner\ViewModels\PassCardTextPropertyViewModel.cs" />
+    <Compile Include="PassCardDesigner\Views\PassCardDesignerMenuControl.xaml.cs">
+      <DependentUpon>PassCardDesignerMenuControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PassCardDesigner\Views\PassCardImagePropertyView.xaml.cs">
       <DependentUpon>PassCardImagePropertyView.xaml</DependentUpon>
     </Compile>
@@ -753,6 +756,10 @@
     <Page Include="PassCardDesigner\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PassCardDesigner\Views\PassCardDesignerMenuControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="PassCardDesigner\Views\PassCardImagePropertyView.xaml">
       <Generator>MSBuild:Compile</Generator>

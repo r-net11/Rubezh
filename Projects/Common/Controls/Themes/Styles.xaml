@@ -47,7 +47,6 @@
 		<ResourceDictionary Source="IconLabel.xaml" />
 		<ResourceDictionary Source="ButtonSpinner.xaml" />
 		<ResourceDictionary Source="IntegerUpDown.xaml" />
-		<ResourceDictionary Source="../Menu/DataTemplates/Dictionary.xaml" />
 		<ResourceDictionary Source="../Ribbon/DataTemplates/Dictionary.xaml" />
 
 		<ResourceDictionary Source="../XamlImages/Add.xaml" />
@@ -357,5 +356,6 @@
 		<ResourceDictionary Source="../XamlImages/ExportXPS.xaml" />
 		<ResourceDictionary Source="../XamlImages/RedDeleteCross.xaml" />
 		<ResourceDictionary Source="../XamlImages/Shield.xaml" />
+		<ResourceDictionary Source="../XamlImages/GraphicalDesigner.xaml" />
 	</ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

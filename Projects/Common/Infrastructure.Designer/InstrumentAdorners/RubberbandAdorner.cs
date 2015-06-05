@@ -44,8 +44,12 @@ namespace Infrastructure.Designer.InstrumentAdorners
 					CaptureMouse();
 
 				endPoint = e.GetPosition(this);
-				UpdateRubberband();
-				UpdateSelection();
+
+				if (StartPoint != null) 
+				{
+					UpdateRubberband();
+					UpdateSelection();
+				}
 				e.Handled = true;
 			}
 		}

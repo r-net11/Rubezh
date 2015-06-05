@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using Common;
-using Controls.Menu.ViewModels;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Client.Plans;
@@ -19,6 +17,9 @@ namespace SKDModule.PassCardDesigner.ViewModels
 {
 	public class PassCardTemplateDetailsViewModel : SaveCancelDialogViewModel, IDetailsViewModel<ShortPassCardTemplate>
 	{
+		private const string TitleString = "Создание шаблона пропусков";
+		private const string CaptionString = "Новый шаблон";
+
 		private Guid _organisationUID { get; set; }
 		bool _isNew;
 
@@ -29,43 +30,28 @@ namespace SKDModule.PassCardDesigner.ViewModels
 		{
 			get { return PassCardDesignerViewModel.DesignerCanvas; }
 		}
-		public MenuViewModel Menu { get; private set; }
 
 		public PassCardTemplateDetailsViewModel()
 		{
+			EditCommand = new RelayCommand(OnEdit);
+
 			LayerGroupService.Instance.RegisterGroup(PassCardDesignerViewModel.PassCardTextPropertiesGroup, "Текстовые свойства", 1);
 			LayerGroupService.Instance.RegisterGroup(PassCardDesignerViewModel.PassCardImagePropertiesGroup, "Графические свойства", 2);
 			PassCardDesignerViewModel = new PassCardDesignerViewModel();
-			OnPropertyChanged(() => PassCardDesignerViewModel);
+			OnPropertyChanged(() => PassCardDesignerViewModel); 
 			PassCardDesignerViewModel.DesignerCanvas.ZoomChanged();
-			EditCommand = new RelayCommand(OnEdit);
-			ElementsViewModel = new ElementsViewModel(PassCardDesignerViewModel.DesignerCanvas);
 
-			Menu = new MenuViewModel()
-			{
-				Items = new ObservableCollection<BaseViewModel>()
-				{
-					new MenuButtonViewModel(EditCommand, "Edit" , "Редактировать"),
-					//new MenuSeparatorViewModel(),
-					new MenuButtonViewModel(PassCardDesignerViewModel.CopyCommand, "Copy" , "Копировать"),
-					new MenuButtonViewModel(PassCardDesignerViewModel.CutCommand, "Cut" , "Вырезать"),
-					new MenuButtonViewModel(PassCardDesignerViewModel.PasteCommand, "Paste" , "Вставить"),
-					new MenuButtonViewModel(PassCardDesignerViewModel.UndoCommand, "Undo" , "Отменить"),
-					new MenuButtonViewModel(PassCardDesignerViewModel.RedoCommand, "Redo" , "Применить"),
-					//new MenuSeparatorViewModel(),
-					new MenuButtonViewModel(PassCardDesignerViewModel.MoveToFrontCommand, "MoveForward" , "Вверх"),
-					new MenuButtonViewModel(PassCardDesignerViewModel.SendToBackCommand, "MoveBackward" , "Вниз"),
-					new MenuButtonViewModel(PassCardDesignerViewModel.MoveForwardCommand, "MoveFront" , "Выше"),
-					new MenuButtonViewModel(PassCardDesignerViewModel.MoveBackwardCommand, "MoveBack" , "Ниже"),
-				}
-			};
-			Menu.Items.Add(new MenuButtonViewModel(PassCardDesignerViewModel.AlignHorizontalLeftCommand, "shapes-align-hori-left", "Выровнять по левому краю"));
-			Menu.Items.Add(new MenuButtonViewModel(PassCardDesignerViewModel.AlignHorizontalCenterCommand, "shapes-align-hori-center", "Выровнять по вертикали"));
-			Menu.Items.Add(new MenuButtonViewModel(PassCardDesignerViewModel.AlignHorizontalRightCommand, "shapes-align-hori-right", "Выровнять по правому краю"));
-			Menu.Items.Add(new MenuButtonViewModel(PassCardDesignerViewModel.AlignVerticalTopCommand, "shapes-align-verti-top", "Выровнять по верхнему краю"));
-			Menu.Items.Add(new MenuButtonViewModel(PassCardDesignerViewModel.AlignVerticalCenterCommand, "shapes-align-verti-middle", "Выровнять по горизонтали"));
-			Menu.Items.Add(new MenuButtonViewModel(PassCardDesignerViewModel.AlignVerticalBottomCommand, "shapes-align-verti-bottom", "Выровнять по нижнему краю"));
+			ElementsViewModel = new ElementsViewModel(DesignerCanvas);
 		}
+
+		#region Commands
+		public RelayCommand EditCommand { get; private set; }
+
+		private void OnEdit()
+		{
+			EditProperties();
+		}
+		#endregion
 
 		#region IDetailsViewModel<ShortPassCardTemplate> Members
 
@@ -83,17 +69,19 @@ namespace SKDModule.PassCardDesigner.ViewModels
 			}
 		}
 
-		public bool Initialize(Organisation organisation, ShortPassCardTemplate model, ViewPartViewModel parentViewModel)
+		public bool Initialize(Organisation organisation, ShortPassCardTemplate model)  //TODO: refactor it
 		{
 			_organisationUID = organisation.UID;
 			DesignerCanvas.Toolbox.RegisterInstruments(GetInstruments());
+
 			_isNew = model == null;
+
 			if (_isNew)
 			{
-				Title = "Создание шаблона пропусков";
+				Title = TitleString;
 				PassCardTemplate = new PassCardTemplate()
 				{
-					Caption = "Новый шаблон",
+					Caption = CaptionString,
 					OrganisationUID = _organisationUID
 				};
 				LoadDefaultProperties();
@@ -103,8 +91,10 @@ namespace SKDModule.PassCardDesigner.ViewModels
 			else
 			{
 				PassCardTemplate = PassCardTemplateHelper.GetDetails(model.UID);
+				
 				Update();
 			}
+
 			LoadPassCardDesigner();
 			return true;
 		}
@@ -168,12 +158,7 @@ namespace SKDModule.PassCardDesigner.ViewModels
 			RegistrySettingsHelper.SetDouble("Administrator.PassCardTemplate.DefaultBorder", PassCardTemplate.BorderThickness);
 			RegistrySettingsHelper.SetColor("Administrator.PassCardTemplate.DefaultBorderColor", PassCardTemplate.BorderColor);
 		}
-
-		public RelayCommand EditCommand { get; private set; }
-		private void OnEdit()
-		{
-			EditProperties();
-		}
+		
 		private bool EditProperties()
 		{
 			var dialog = new PassCardTemplatePropertiesViewModel(PassCardTemplate);
@@ -204,6 +189,12 @@ namespace SKDModule.PassCardDesigner.ViewModels
 		{
 			DesignerCanvas.Toolbox.AcceptKeyboard = false;
 			base.OnClosed();
+		}
+
+
+		public bool Initialize(Organisation organisation, ShortPassCardTemplate model, ViewPartViewModel parentViewModel) //TODO: fake method. Temprory implemented 
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

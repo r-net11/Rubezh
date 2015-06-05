@@ -2,17 +2,44 @@
 using System.Collections.Generic;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using SKDModule.ViewModels;
 
 namespace SKDModule.PassCardDesigner.ViewModels
 {
 	public class PassCardTemplatesViewModel : OrganisationBaseViewModel<ShortPassCardTemplate, PassCardTemplateFilter, PassCardTemplateViewModel, PassCardTemplateDetailsViewModel>
 	{
+		private PassCardTemplateDetailsViewModel PassCardTemplateDetailsViewModel;
+
 		public PassCardTemplatesViewModel():base()
 		{
+			OpenDesignerCommand = new RelayCommand(OnOpenDesignerCommand, CanOpenDesignerCommand);
+		}
+
+		#region Commands
+
+		public RelayCommand OpenDesignerCommand { get; private set; }
+
+		public void OnOpenDesignerCommand()
+		{
+			PassCardTemplateDetailsViewModel = new PassCardTemplateDetailsViewModel();
+			if (PassCardTemplateDetailsViewModel.Initialize(SelectedItem.Organisation, SelectedItem.Model) && DialogService.ShowModalWindow(PassCardTemplateDetailsViewModel))
+			{
+				SelectedItem.Update(SelectedItem.Model);
+			}
 
 		}
+
+		public bool CanOpenDesignerCommand()
+		{
+			return CanEdit();
+		}
+
+		#endregion
+
 		
+
 		protected override IEnumerable<ShortPassCardTemplate> GetModels(PassCardTemplateFilter filter)
 		{
 			return PassCardTemplateHelper.Get(filter);
@@ -48,5 +75,6 @@ namespace SKDModule.PassCardDesigner.ViewModels
 		{
 			get { return FiresecAPI.Models.PermissionType.Oper_SKD_PassCards_Etit; }
 		}
+
 	}
 }

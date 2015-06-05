@@ -401,7 +401,7 @@ namespace SKDModule.ViewModels
 				}
 			}
 		}
-		bool CanEdit()
+		protected virtual bool CanEdit()
 		{
 			return SelectedItem != null && !SelectedItem.IsDeleted && SelectedItem.Parent != null && !SelectedItem.IsOrganisation && IsEditAllowed;
 		}

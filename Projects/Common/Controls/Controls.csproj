@@ -203,15 +203,6 @@
     <Compile Include="Layout\RubezhTheme.cs" />
     <Compile Include="ListViewLayoutManager.cs" />
     <Compile Include="Masking.cs" />
-    <Compile Include="Menu\ViewModels\MenuButtonViewModel.cs" />
-    <Compile Include="Menu\ViewModels\MenuSeparatorViewModel.cs" />
-    <Compile Include="Menu\ViewModels\MenuViewModel.cs" />
-    <Compile Include="Menu\Views\MenuButtonView.xaml.cs">
-      <DependentUpon>MenuButtonView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Menu\Views\MenuView.xaml.cs">
-      <DependentUpon>MenuView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="PhotoSelectation.xaml.cs">
       <DependentUpon>PhotoSelectation.xaml</DependentUpon>
     </Compile>
@@ -287,10 +278,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Menu\DataTemplates\Dictionary.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="PhotoSelectation.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -300,14 +287,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Ribbon\Themes\RibbonMenuView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Menu\Views\MenuButtonView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Menu\Views\MenuView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1286,6 +1265,10 @@
     <Page Include="XamlImages\GlobalVariables.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\GraphicalDesigner.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="XamlImages\GridLineEdit.xaml">
       <Generator>MSBuild:Compile</Generator>
