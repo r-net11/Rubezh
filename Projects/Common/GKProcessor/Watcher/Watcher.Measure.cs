@@ -64,27 +64,31 @@ namespace GKProcessor
 			{
 				if (device.DriverType == GKDriverType.RSR2_KAU)
 				{
-					var result = SendManager.Send(device.GkDatabaseParent, 2, 20, 16, BytesHelper.ShortToBytes(device.GKDescriptorNo));
-					if (!result.HasError && result.Bytes.Count == 16)
+					using (var skdDatabaseService = new SKDDatabaseService())
 					{
-						var alsCurrents = new List<CurrentConsumption>();
-						foreach (var alsDevice in device.Children.Where(x => x.DriverType == GKDriverType.RSR2_KAU_Shleif))
-						{
-							double current = (double)BytesHelper.SubstructShort(result.Bytes, (alsDevice.IntAddress - 1)*2) * 300 / 4096;
-							var alsCurrent = new CurrentConsumption();
-							alsCurrent.AlsUID = alsDevice.UID;
-							alsCurrent.Current = (int)current;
-							alsCurrent.DateTime = DateTime.Now;
-							alsCurrents.Add(alsCurrent);
-							
-						}
-						using (var skdDatabaseService = new SKDDatabaseService())
-						{
-							skdDatabaseService.CurrentConsumptionTranslator.SaveMany(alsCurrents);
-						}
+						skdDatabaseService.CurrentConsumptionTranslator.SaveMany(GetKAUMeasure(device));
 					}
 				}
 			}
+		}
+
+		public static List<CurrentConsumption> GetKAUMeasure(GKDevice device, int? alsIntAddress = null)
+		{
+			var result = SendManager.Send(device.GkDatabaseParent, 2, 20, 16, BytesHelper.ShortToBytes(device.GKDescriptorNo));
+			var alsCurrents = new List<CurrentConsumption>();
+			if (!result.HasError && result.Bytes.Count == 16)
+			{
+				foreach (var alsDevice in device.Children.Where(x => x.DriverType == GKDriverType.RSR2_KAU_Shleif && (alsIntAddress == null || x.IntAddress == alsIntAddress)))
+				{
+					var current = (double)BytesHelper.SubstructShort(result.Bytes, (alsDevice.IntAddress - 1) * 2) * 300 / 4096;
+					var alsCurrent = new CurrentConsumption();
+					alsCurrent.AlsUID = alsDevice.UID;
+					alsCurrent.Current = (int)current;
+					alsCurrent.DateTime = DateTime.Now;
+					alsCurrents.Add(alsCurrent);
+				}
+			}
+			return alsCurrents;
 		}
 	}
 

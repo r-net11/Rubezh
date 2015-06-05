@@ -20,6 +20,7 @@ namespace GKModule.ViewModels
 
 		public PlotViewModel(Guid deviceUid)
 		{
+			Title = "График токопотребления";
 			DeviceUid = deviceUid;
 			CurrentConsumptions = new List<CurrentConsumption>();
 			GetKauMeasuresCommand = new RelayCommand(OnGetKauMesures);

@@ -433,7 +433,7 @@ namespace GKProcessor
 
 			try
 			{
-				if ((DateTime.Now - LastKAUMeasureTime) > TimeSpan.FromSeconds(1))
+				if ((DateTime.Now - LastKAUMeasureTime) > TimeSpan.FromHours(1))
 				{
 					LastKAUMeasureTime = DateTime.Now;
 					CheckKAUMeasure();

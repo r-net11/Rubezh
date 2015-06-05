@@ -550,16 +550,7 @@ namespace GKProcessor
 			var kauDevice = GKManager.Devices.FirstOrDefault(x => x.Children.Any(y => y.UID == alsDevice.UID));
 			if (kauDevice == null)
 				return null;
-			var result = SendManager.Send(kauDevice.GkDatabaseParent, 2, 20, 16, BytesHelper.ShortToBytes(kauDevice.GKDescriptorNo));
-			var alsCurrent = new CurrentConsumption();
-			if (!result.HasError && result.Bytes.Count == 16)
-			{
-				var current = (double)BytesHelper.SubstructShort(result.Bytes, (alsDevice.IntAddress - 1) * 2) * 300 / 4096;
-				alsCurrent.AlsUID = alsDevice.UID;
-				alsCurrent.Current = (int)current;
-				alsCurrent.DateTime = DateTime.Now;
-			}
-			return new OperationResult<CurrentConsumption>(alsCurrent);
+			return new OperationResult<CurrentConsumption>(Watcher.GetKAUMeasure(kauDevice, alsDevice.IntAddress).FirstOrDefault());
 		}
 
 		#endregion
