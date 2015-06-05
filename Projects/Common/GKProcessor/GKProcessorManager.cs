@@ -524,7 +524,7 @@ namespace GKProcessor
 			{
 				if (door.EnterZoneUID == zone.UID)
 				{
-					GKProcessorManager.AddGKMessage(JournalEventNameType.Открытие_зоны_СКД, JournalEventDescriptionType.NULL, "", zone, null);
+					AddGKMessage(JournalEventNameType.Открытие_зоны_СКД, JournalEventDescriptionType.NULL, "", zone, null);
 					Watcher.SendControlCommand(door, GKStateBit.TurnOn_InAutomatic, "Включить в автоматике");
 				}
 			}
@@ -536,10 +536,30 @@ namespace GKProcessor
 			{
 				if (door.EnterZoneUID == zone.UID)
 				{
-					GKProcessorManager.AddGKMessage(JournalEventNameType.Закрытие_зоны_СКД, JournalEventDescriptionType.NULL, "", zone, null);
+					AddGKMessage(JournalEventNameType.Закрытие_зоны_СКД, JournalEventDescriptionType.NULL, "", zone, null);
 					Watcher.SendControlCommand(door, GKStateBit.TurnOff_InAutomatic, "Включить в автоматике");
 				}
 			}
+		}
+
+		public static OperationResult<CurrentConsumption> GetAlsMeasure(Guid alsUid)
+		{
+			var alsDevice = GKManager.Devices.FirstOrDefault(x => x.UID == alsUid);
+			if (alsDevice == null)
+				return null;
+			var kauDevice = GKManager.Devices.FirstOrDefault(x => x.Children.Any(y => y.UID == alsDevice.UID));
+			if (kauDevice == null)
+				return null;
+			var result = SendManager.Send(kauDevice.GkDatabaseParent, 2, 20, 16, BytesHelper.ShortToBytes(kauDevice.GKDescriptorNo));
+			var alsCurrent = new CurrentConsumption();
+			if (!result.HasError && result.Bytes.Count == 16)
+			{
+				var current = (double)BytesHelper.SubstructShort(result.Bytes, (alsDevice.IntAddress - 1) * 2) * 300 / 4096;
+				alsCurrent.AlsUID = alsDevice.UID;
+				alsCurrent.Current = (int)current;
+				alsCurrent.DateTime = DateTime.Now;
+			}
+			return new OperationResult<CurrentConsumption>(alsCurrent);
 		}
 
 		#endregion

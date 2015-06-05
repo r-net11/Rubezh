@@ -217,6 +217,11 @@ namespace FiresecClient
 			SafeOperationCall(() => { FiresecService.GKCloseSKDZone(zone.UID); }, "GKCloseSKDZone");
 		}
 
+		public OperationResult<CurrentConsumption> GetAlsMeasure(Guid alsUid)
+		{
+			return SafeOperationCall(() => FiresecService.GetAlsMeasure(alsUid), "GetAlsMeasure");
+		}
+
 		public void GKAddMessage(JournalEventNameType journalEventNameType, string description)
 		{
 		}

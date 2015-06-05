@@ -378,6 +378,11 @@ namespace FiresecService.Service
 			SafeOperationCall(() => { FiresecService.GKCloseSKDZone(zoneUID); }, "GKCloseSKDZone");
 		}
 
+		public OperationResult<CurrentConsumption> GetAlsMeasure(Guid alsUid)
+		{
+			return SafeOperationCall(() => FiresecService.GetAlsMeasure(alsUid), "GetAlsMeasure");
+		}
+
 		#endregion
 
 		#region Automation

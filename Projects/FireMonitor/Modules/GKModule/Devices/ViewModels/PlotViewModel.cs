@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using FiresecAPI.Automation;
+using System.Threading;
+using System.Windows;
+using System.Windows.Threading;
 using FiresecAPI.GK;
 using FiresecClient;
 using Infrastructure.Common;
@@ -14,12 +16,14 @@ namespace GKModule.ViewModels
 		public List<CurrentConsumption> CurrentConsumptions { get; set; }
 		Guid DeviceUid { get; set; }
 		public Action PlotViewUpdateAction { get; set; }
+		bool cancelBackgroundWorker;
 
 		public PlotViewModel(Guid deviceUid)
 		{
 			DeviceUid = deviceUid;
 			CurrentConsumptions = new List<CurrentConsumption>();
 			GetKauMeasuresCommand = new RelayCommand(OnGetKauMesures);
+			GetKauMeasuresOnlineCommand = new RelayCommand(OnGetKauMeasuresOnline);
 			StartTime = DateTime.Now.Date;
 			EndTime = DateTime.Now.Date;
 		}
@@ -49,13 +53,36 @@ namespace GKModule.ViewModels
 		public RelayCommand GetKauMeasuresCommand { get; private set; }
 		void OnGetKauMesures()
 		{
+			cancelBackgroundWorker = true;
 			GetKauMesures(StartTime, EndTime);
 		}
 
 		public RelayCommand GetKauMeasuresOnlineCommand { get; private set; }
 		void OnGetKauMeasuresOnline()
 		{
-			
+			CurrentConsumptions = new List<CurrentConsumption>();
+			new Thread(() =>
+			{
+				while (true)
+				{
+					if (cancelBackgroundWorker)
+						break;
+					var measuresResult = FiresecManager.FiresecService.GetAlsMeasure(DeviceUid);
+					if (measuresResult == null)
+						return;
+					if (measuresResult.HasError)
+						MessageBoxService.Show(measuresResult.Error);
+					CurrentConsumptions.Add(measuresResult.Result);
+					Thread.Sleep(TimeSpan.FromSeconds(1));
+					Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Send, new Action(Update));
+				}
+			}).Start();
+		}
+
+		void Update()
+		{
+			if (PlotViewUpdateAction != null)
+				PlotViewUpdateAction();
 		}
 
 		void GetKauMesures(DateTime startDateTime, DateTime endDateTime)
@@ -82,6 +109,11 @@ namespace GKModule.ViewModels
 			}
 			if (PlotViewUpdateAction != null)
 				PlotViewUpdateAction();
+		}
+
+		public override void OnClosed()
+		{
+			cancelBackgroundWorker = true;
 		}
 	}
 }

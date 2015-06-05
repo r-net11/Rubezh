@@ -449,6 +449,18 @@ namespace FiresecService.Service
 			}
 		}
 
+		public OperationResult<CurrentConsumption> GetAlsMeasure(Guid alsUid)
+		{
+			try
+			{
+				return GKProcessorManager.GetAlsMeasure(alsUid);
+			}
+			catch (Exception e)
+			{
+				return OperationResult<CurrentConsumption>.FromError(e.Message);
+			}
+		}
+
 		#region Users
 		public OperationResult<List<GKUser>> GKGetUsers(Guid gkDeviceUID)
 		{

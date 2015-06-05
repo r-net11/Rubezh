@@ -129,5 +129,8 @@ namespace FiresecAPI
 
 		[OperationContract]
 		void GKCloseSKDZone(Guid zoneUID);
+
+		[OperationContract]
+		OperationResult<CurrentConsumption> GetAlsMeasure(Guid alsUid);
 	}
 }

@@ -19,6 +19,7 @@
 				<!--<extToolkit:DateTimePicker Value="{Binding EndTime, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="2" HorizontalAlignment="Right" />-->
 				<DatePicker SelectedDateFormat="Long" SelectedDate="{Binding EndTime, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="2" Width="150"/>
 				<Button Content="Получить" Width="120" HorizontalAlignment="Right" Command="{Binding GetKauMeasuresCommand}" />
+				<Button Content="Онлайн" Width="120" HorizontalAlignment="Right" Command="{Binding GetKauMeasuresOnlineCommand}" />
 			</StackPanel>
 		</Border>
 		<Border Grid.Row="1" CornerRadius="0, 0, 5, 5" Background="White">
