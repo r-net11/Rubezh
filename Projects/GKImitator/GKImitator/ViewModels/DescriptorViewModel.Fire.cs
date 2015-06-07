@@ -65,6 +65,7 @@ namespace GKImitator.ViewModels
 			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Fire1).IsActive = true;
 			var journalItem = new ImitatorJournalItem(2, 2, 2, 0);
 			AddJournalItem(journalItem);
+			RecalculateOutputLogic();
 		}
 
 		public RelayCommand SetFireTemperatureCommand { get; private set; }
@@ -73,6 +74,7 @@ namespace GKImitator.ViewModels
 			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Fire1).IsActive = true;
 			var journalItem = new ImitatorJournalItem(2, 2, 3, 0);
 			AddJournalItem(journalItem);
+			RecalculateOutputLogic();
 		}
 
 		public RelayCommand SetFireTemperatureGradientCommand { get; private set; }
@@ -81,6 +83,7 @@ namespace GKImitator.ViewModels
 			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Fire1).IsActive = true;
 			var journalItem = new ImitatorJournalItem(2, 2, 4, 0);
 			AddJournalItem(journalItem);
+			RecalculateOutputLogic();
 		}
 
 		public RelayCommand SetFireHeandDetectorCommand { get; private set; }
@@ -89,6 +92,7 @@ namespace GKImitator.ViewModels
 			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Fire2).IsActive = true;
 			var journalItem = new ImitatorJournalItem(2, 3, 1, 0);
 			AddJournalItem(journalItem);
+			RecalculateOutputLogic();
 		}
 
 		public RelayCommand ResetFireCommand { get; private set; }
@@ -98,6 +102,7 @@ namespace GKImitator.ViewModels
 			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Fire2).IsActive = false;
 			var journalItem = new ImitatorJournalItem(2, 14, 0, 0);
 			AddJournalItem(journalItem);
+			RecalculateOutputLogic();
 		}
 	}
 }

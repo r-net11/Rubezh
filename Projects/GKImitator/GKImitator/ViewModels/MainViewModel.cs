@@ -54,13 +54,25 @@ namespace GKImitator.ViewModels
 			Descriptors = new List<DescriptorViewModel>();
 			if (gkDatabase != null)
 			{
-				foreach (var descriptors in gkDatabase.Descriptors)
+				foreach (var descriptor in gkDatabase.Descriptors)
 				{
-					var binObjectViewModel = new DescriptorViewModel(descriptors);
+					var binObjectViewModel = new DescriptorViewModel(descriptor);
 					Descriptors.Add(binObjectViewModel);
 				}
 			}
 			SelectedDescriptor = Descriptors.FirstOrDefault();
+
+			foreach (var kauDatabase in DescriptorsManager.KauDatabases)
+			{
+				foreach (var descriptor in kauDatabase.Descriptors)
+				{
+					var descriptorViewModel = Descriptors.FirstOrDefault(x => x.GKBase.GKDescriptorNo == descriptor.GKBase.GKDescriptorNo);
+					if (descriptorViewModel != null)
+					{
+						descriptorViewModel.SetKauDescriptor(descriptor);
+					}
+				}
+			}
 		}
 
 		List<DescriptorViewModel> _descriptors;
