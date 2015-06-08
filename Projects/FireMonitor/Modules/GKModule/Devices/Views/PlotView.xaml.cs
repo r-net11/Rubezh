@@ -39,7 +39,14 @@ namespace GKModule.Views
 
 			plotter.Viewport.Restrictions.Add(restr);
 
-			plotViewModel.CurrentConsumptions = plotViewModel.CurrentConsumptions.OrderBy(x => x.DateTime).ToList();
+			try
+			{
+				plotViewModel.CurrentConsumptions = plotViewModel.CurrentConsumptions.OrderBy(x => x.DateTime).ToList();
+			}
+			catch
+			{
+				
+			}
 			var dates = new DateTime[plotViewModel.CurrentConsumptions.Count];
 			var curents = new int[plotViewModel.CurrentConsumptions.Count];
 

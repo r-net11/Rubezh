@@ -550,7 +550,10 @@ namespace GKProcessor
 			var kauDevice = GKManager.Devices.FirstOrDefault(x => x.Children.Any(y => y.UID == alsDevice.UID));
 			if (kauDevice == null)
 				return null;
-			return new OperationResult<CurrentConsumption>(Watcher.GetKAUMeasure(kauDevice, alsDevice.IntAddress).FirstOrDefault());
+			var alsMeasure = Watcher.GetKAUMeasure(kauDevice, alsDevice.IntAddress).FirstOrDefault();
+			if (alsMeasure == null)
+				return OperationResult<CurrentConsumption>.FromError("Не получены значения токопотреблений из базы");
+			return new OperationResult<CurrentConsumption>(alsMeasure);
 		}
 
 		#endregion

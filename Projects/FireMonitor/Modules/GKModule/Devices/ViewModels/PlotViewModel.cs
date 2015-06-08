@@ -76,7 +76,11 @@ namespace GKModule.ViewModels
 						if (measuresResult == null)
 							return;
 						if (measuresResult.HasError)
-							MessageBoxService.Show(measuresResult.Error);
+						{
+							Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Send, new Action(() => 
+								MessageBoxService.Show(measuresResult.Error)));
+							return;
+						}
 						CurrentConsumptions.Add(measuresResult.Result);
 						Thread.Sleep(TimeSpan.FromSeconds(1));
 						Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Send, new Action(Update));
