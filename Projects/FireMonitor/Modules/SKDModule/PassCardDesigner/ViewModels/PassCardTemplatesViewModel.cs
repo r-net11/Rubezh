@@ -10,7 +10,7 @@ namespace SKDModule.PassCardDesigner.ViewModels
 {
 	public class PassCardTemplatesViewModel : OrganisationBaseViewModel<ShortPassCardTemplate, PassCardTemplateFilter, PassCardTemplateViewModel, PassCardTemplateDetailsViewModel>
 	{
-		private PassCardTemplateDetailsViewModel PassCardTemplateDetailsViewModel;
+		private PassCardTemplateDetailsViewModel _passCardTemplateDetailsViewModel;
 
 		public PassCardTemplatesViewModel():base()
 		{
@@ -23,12 +23,13 @@ namespace SKDModule.PassCardDesigner.ViewModels
 
 		public void OnOpenDesignerCommand()
 		{
-			PassCardTemplateDetailsViewModel = new PassCardTemplateDetailsViewModel();
-			if (PassCardTemplateDetailsViewModel.Initialize(SelectedItem.Organisation, SelectedItem.Model) && DialogService.ShowModalWindow(PassCardTemplateDetailsViewModel))
+			_passCardTemplateDetailsViewModel = new PassCardTemplateDetailsViewModel();
+			_passCardTemplateDetailsViewModel.InitializeDesigner(SelectedItem.Organisation, SelectedItem.Model);
+
+			if (DialogService.ShowModalWindow(_passCardTemplateDetailsViewModel))
 			{
 				SelectedItem.Update(SelectedItem.Model);
 			}
-
 		}
 
 		public bool CanOpenDesignerCommand()
@@ -38,20 +39,30 @@ namespace SKDModule.PassCardDesigner.ViewModels
 
 		protected override void OnAdd()
 		{
-			PassCardTemplateDetailsViewModel = new PassCardTemplateDetailsViewModel();
-			if (PassCardTemplateDetailsViewModel.ShowPassCardPropertiesDialog(SelectedItem.Organisation))
+			_passCardTemplateDetailsViewModel = new PassCardTemplateDetailsViewModel();
+			if (_passCardTemplateDetailsViewModel.ShowPassCardPropertiesDialog(SelectedItem.Organisation))
 			{
 				var itemViewModel = new PassCardTemplateViewModel();
-				itemViewModel.InitializeModel(SelectedItem.Organisation, PassCardTemplateDetailsViewModel.Model, this);
-				var parentViewModel = GetParentItem(PassCardTemplateDetailsViewModel.Model);
+				itemViewModel.InitializeModel(SelectedItem.Organisation, _passCardTemplateDetailsViewModel.Model, this);
+				var parentViewModel = GetParentItem(_passCardTemplateDetailsViewModel.Model);
 				parentViewModel.AddChild(itemViewModel);
 				SelectedItem = itemViewModel;
 			}
 		}
 
-		#endregion
+		protected override void OnEdit()
+		{
+			_passCardTemplateDetailsViewModel = new PassCardTemplateDetailsViewModel();
 
-		
+			if (_passCardTemplateDetailsViewModel.ShowPassCardPropertiesDialog(SelectedItem.Organisation, SelectedItem.Model))
+			{
+				SelectedItem.Update(_passCardTemplateDetailsViewModel.Model);
+				UpdateSelected();
+				UpdateParent();
+			}
+		}
+
+		#endregion
 
 		protected override IEnumerable<ShortPassCardTemplate> GetModels(PassCardTemplateFilter filter)
 		{

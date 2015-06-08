@@ -32,27 +32,24 @@ namespace SKDModule.PassCardDesigner.ViewModels
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Subscribe(OnPainterFactoryEvent);
 			ServiceFactory.Events.GetEvent<ShowPropertiesEvent>().Unsubscribe(OnShowPropertiesEvent);
 			ServiceFactory.Events.GetEvent<ShowPropertiesEvent>().Subscribe(OnShowPropertiesEvent);
+
 			PassCardTemplate = passCardTemplate;
 			IsNotEmpty = PassCardTemplate != null;
-			using (new TimeCounter("\tPassCardDesignerViewModel.Initialize: {0}"))
-			using (new WaitWrapper())
+
+			((DesignerCanvas)DesignerCanvas).Initialize(PassCardTemplate);
+
+			if (IsNotEmpty)
 			{
-				using (new TimeCounter("\t\tDesignerCanvas.Initialize: {0}"))
-					((DesignerCanvas)DesignerCanvas).Initialize(PassCardTemplate);
-				if (PassCardTemplate != null)
-				{
-					using (new TimeCounter("\t\tDesignerItem.Create: {0}"))
-					{
-						foreach (var elementBase in EnumerateElements())
-							DesignerCanvas.Create(elementBase);
-						DesignerCanvas.UpdateZIndex();
-					}
-					using (new TimeCounter("\t\tPassCardDesignerViewModel.OnUpdated: {0}"))
-						Update();
-				}
+				foreach (var elementBase in EnumerateElements())
+					DesignerCanvas.Create(elementBase);
+
+				DesignerCanvas.UpdateZIndex();
+				Update();
 			}
+
 			ResetHistory();
 		}
+
 		private IEnumerable<ElementBase> EnumerateElements()
 		{
 			foreach (var elementTextProperty in PassCardTemplate.ElementTextProperties)
@@ -70,6 +67,7 @@ namespace SKDModule.PassCardDesigner.ViewModels
 			foreach (var elementPolyline in PassCardTemplate.ElementPolylines)
 				yield return elementPolyline;
 		}
+
 		public override void RegisterDesignerItem(DesignerItem designerItem)
 		{
 			base.RegisterDesignerItem(designerItem);
@@ -102,6 +100,7 @@ namespace SKDModule.PassCardDesigner.ViewModels
 				e.PropertyViewModel = new PassCardTextPropertyViewModel(elementPassCardTextProperty);
 			}
 		}
+
 		private void OnPainterFactoryEvent(PainterFactoryEventArgs args)
 		{
 			if (args.DesignerCanvas != DesignerCanvas)

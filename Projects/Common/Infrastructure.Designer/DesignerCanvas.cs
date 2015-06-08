@@ -53,6 +53,10 @@ namespace Infrastructure.Designer
 			ContextMenu.HasDropShadow = false;
 			ContextMenu.Items.Add(pasteItem);
 			_moveAdorner = new MoveAdorner(this);
+			Toolbox.SetDefault();
+			DeselectAll();
+			Toolbox.IsDialog = true;
+			Toolbox.AcceptKeyboard = true;
 		}
 
 		public override double Zoom
