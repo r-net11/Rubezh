@@ -394,5 +394,36 @@ namespace ChinaSKDDriver
 			}
 			return OperationResult<bool>.FromError("Не найден контроллер в конфигурации");
 		}
+
+		public static OperationResult<SKDAntiPassBackConfiguration> GetAntiPassBackConfiguration(Guid deviceUID)
+		{
+			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == deviceUID);
+			if (deviceProcessor != null)
+			{
+				if (!deviceProcessor.IsConnected)
+					return OperationResult<SKDAntiPassBackConfiguration>.FromError("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
+
+				var antiPassBackConfiguration = deviceProcessor.Wrapper.GetAntiPassBackConfiguration();
+				return new OperationResult<SKDAntiPassBackConfiguration>(new SKDAntiPassBackConfiguration() { IsActivated = antiPassBackConfiguration.IsActivated, CurrentAntiPassBackMode = (SKDAntiPassBackMode)antiPassBackConfiguration.CurrentAntiPassBackMode });
+			}
+			return OperationResult<SKDAntiPassBackConfiguration>.FromError("Не найден контроллер в конфигурации");
+		}
+
+		public static OperationResult<bool> SetAntiPassBackConfiguration(Guid deviceUID, SKDAntiPassBackConfiguration antiPassBackConfiguration)
+		{
+			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == deviceUID);
+			if (deviceProcessor != null)
+			{
+				if (!deviceProcessor.IsConnected)
+					return OperationResult<bool>.FromError("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
+
+				var result = deviceProcessor.Wrapper.SetAntiPassBackConfiguration(new AntiPassBackConfiguration() { IsActivated = antiPassBackConfiguration.IsActivated, CurrentAntiPassBackMode = (AntiPassBackMode)antiPassBackConfiguration.CurrentAntiPassBackMode });
+				if (result)
+					return new OperationResult<bool>(true);
+				else
+					return OperationResult<bool>.FromError("Ошибка при выполнении операции в приборе");
+			}
+			return OperationResult<bool>.FromError("Не найден контроллер в конфигурации");
+		}
 	}
 }

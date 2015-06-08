@@ -17,10 +17,10 @@ namespace ChinaSKDDriver
 			return NativeAntiPassBackCfgToAntiPassBackConfiguration(nativeCfg);
 		}
 
-		public void SetAntiPassBackConfiguration(AntiPassBackConfiguration cfg)
+		public bool SetAntiPassBackConfiguration(AntiPassBackConfiguration cfg)
 		{
 			NativeWrapper.WRAP_AntiPassBackCfg nativeCfg = AntiPassBackConfigurationToNativeAntiPathBackCfg(cfg);
-			NativeWrapper.WRAP_SetAntiPassBackCfg(LoginID, ref nativeCfg);
+			return NativeWrapper.WRAP_SetAntiPassBackCfg(LoginID, ref nativeCfg);
 		}
 
 		AntiPassBackConfiguration NativeAntiPassBackCfgToAntiPassBackConfiguration(NativeWrapper.WRAP_AntiPassBackCfg nativeCfg)
@@ -33,11 +33,11 @@ namespace ChinaSKDDriver
 			foreach (var mode in nativeCfg.AvailableAntiPassBackModes)
 			{
 				var modeAvailability = new AntiPassBackModeAvailability();
-				modeAvailability.AntiPassBackMode = (AntiPassBackModes)mode.AntiPassBackMode;
+				modeAvailability.AntiPassBackMode = (AntiPassBackMode)mode.AntiPassBackMode;
 				modeAvailability.IsAvailable = mode.bIsAvailable;
 				cfg.AvailableAntiPassBackModes.Add(modeAvailability);
 			}
-			cfg.CurrentAntiPassBackMode = (AntiPassBackModes)nativeCfg.CurrentAntiPassBackMode;
+			cfg.CurrentAntiPassBackMode = (AntiPassBackMode)nativeCfg.CurrentAntiPassBackMode;
 
 			return cfg;
 		}

@@ -38,41 +38,6 @@ BOOL GetDoorsCount(int loginID, int& nCount)
 /// Получает текущие настройки для канала контроллера
 /// <param name="loginID">залогированный в SDK клиент</param>
 /// <param name="nChn">номер канала</param>
-/// <param name="isRepeatEnterAlarmActivated">активирована ли на канале настройка RepeatEnterAlarm?</param>
-/// </summary>
-/// <returns>TRUE при успешном завершении, FALSE в случае неудачи</returns>
-BOOL GetConfigFromDevice(int loginID, int nChn, BOOL& isRepeatEnterAlarmActivated)
-{ 
-	if (nChn == -1)
-	{
-		return FALSE;
-	}
-	CFG_ACCESS_EVENT_INFO stuEventInfo = {0};
-	char szJsonBuf[1024 * 40] = {0};
-	int nerror = 0;
-	BOOL bRet = CLIENT_GetNewDevConfig((LLONG)loginID, CFG_CMD_ACCESS_EVENT, nChn, szJsonBuf, 1024*40, &nerror, 5000);
-
-	if (bRet)
-	{
-		DWORD dwRetLen = 0;
-		bRet = CLIENT_ParseData(CFG_CMD_ACCESS_EVENT, szJsonBuf, (void*)&stuEventInfo, sizeof(stuEventInfo), &dwRetLen);
-		if (!bRet)
-		{
-			return FALSE;
-		}
-		isRepeatEnterAlarmActivated = stuEventInfo.bRepeatEnterAlarm;
-	}
-	else
-	{			
-		return FALSE;
-	}
-	return TRUE;
-}
-
-/// <summary>
-/// Получает текущие настройки для канала контроллера
-/// <param name="loginID">залогированный в SDK клиент</param>
-/// <param name="nChn">номер канала</param>
 /// <param name="result">возвращаемая структура CFG_ACCESS_EVENT_INFO</param>
 /// </summary>
 /// <returns>TRUE при успешном завершении, FALSE в случае неудачи</returns>
@@ -95,7 +60,7 @@ BOOL GetConfigFromDevice(int loginID, int nChn, CFG_ACCESS_EVENT_INFO* result)
 		{
 			return FALSE;
 		}
-		memcpy((void*)&stuEventInfo, result, sizeof(stuEventInfo));
+		memcpy(result, &stuEventInfo, sizeof(stuEventInfo));
 	}
 	else
 	{			
@@ -104,23 +69,24 @@ BOOL GetConfigFromDevice(int loginID, int nChn, CFG_ACCESS_EVENT_INFO* result)
 	return TRUE;
 }
 
-BOOL GetNewDevConfig(int loginID, CFG_OPEN_DOOR_ROUTE_INFO* pstuInfo)
+BOOL GetNewDevConfig(int loginID, CFG_OPEN_DOOR_ROUTE_INFO* result)
 {
 	int nRetLen = 0;
 
 	char szJsonBuf[1024 * 40] = {0};	
 
-	memset(pstuInfo,0,sizeof(CFG_OPEN_DOOR_ROUTE_INFO));
-	memset(szJsonBuf,0,1024 * 40);
+	CFG_OPEN_DOOR_ROUTE_INFO stuInfo = {0};
+	memset(szJsonBuf, 0, 1024*40);
 
 	int nerror = 0;
-	BOOL bRet =  CLIENT_GetNewDevConfig((LLONG)loginID, CFG_CMD_OPEN_DOOR_ROUTE, -1, szJsonBuf, 1024*40, &nerror, 5000);
+	BOOL bRet = CLIENT_GetNewDevConfig((LLONG)loginID, CFG_CMD_OPEN_DOOR_ROUTE, -1, szJsonBuf, 1024*40, &nerror, 5000);
 	if (bRet)
 	{
 		DWORD dwRetLen = 0;
-		bRet = CLIENT_ParseData(CFG_CMD_OPEN_DOOR_ROUTE, szJsonBuf, (void*)pstuInfo, sizeof(CFG_OPEN_DOOR_ROUTE_INFO), &dwRetLen);
+		bRet = CLIENT_ParseData(CFG_CMD_OPEN_DOOR_ROUTE, szJsonBuf, (void*)&stuInfo, sizeof(CFG_OPEN_DOOR_ROUTE_INFO), &dwRetLen);
 		if (bRet)
 		{
+			memcpy(result, &stuInfo, sizeof(stuInfo));
 			return TRUE;
 		}
 	}
@@ -134,7 +100,7 @@ BOOL GetNewDevConfig(int loginID, CFG_OPEN_DOOR_ROUTE_INFO* pstuInfo)
 /// <param name="result">настроенная структура CFG_ACCESS_EVENT_INFO</param>
 /// </summary>
 /// <returns>TRUE при успешном завершении, FALSE в случае неудачи</returns>
-BOOL SetConfigToDevice(int loginID, int nChn, CFG_ACCESS_EVENT_INFO* pstuEventInfo)
+BOOL SetConfigToDevice(int loginID, int nChn, CFG_ACCESS_EVENT_INFO* param)
 {
 	if (nChn == -1)
 	{
@@ -142,7 +108,7 @@ BOOL SetConfigToDevice(int loginID, int nChn, CFG_ACCESS_EVENT_INFO* pstuEventIn
 	}
 
 	char szJsonBuf[1024 * 40] = {0};
-	BOOL bRet = CLIENT_PacketData(CFG_CMD_ACCESS_EVENT, pstuEventInfo, sizeof(*pstuEventInfo), szJsonBuf, sizeof(szJsonBuf));
+	BOOL bRet = CLIENT_PacketData(CFG_CMD_ACCESS_EVENT, param, sizeof(*param), szJsonBuf, sizeof(szJsonBuf));
 	if (!bRet)
 	{
 		return FALSE;
@@ -171,7 +137,7 @@ BOOL SDK_CALL_METHOD WRAP_GetAntiPassBackCfg(int loginID, WRAP_AntiPassBackCfg* 
 {
 	BOOL bRet;
 	int nDoorsCount;
-	BOOL isRepeatEnterAlarmActivated;
+	CFG_ACCESS_EVENT_INFO stuEventInfo;
 	CFG_OPEN_DOOR_ROUTE_INFO stuInfo;
 
 	if (loginID == NULL)
@@ -209,11 +175,11 @@ BOOL SDK_CALL_METHOD WRAP_GetAntiPassBackCfg(int loginID, WRAP_AntiPassBackCfg* 
 		cfg.AvailableAntiPassBackModes[ANTIPASSBACK_MODE_R3R4].bIsAvailable = TRUE;
 	}
 
-	if (GetConfigFromDevice(loginID, 0, isRepeatEnterAlarmActivated) && isRepeatEnterAlarmActivated)
+	if (GetConfigFromDevice(loginID, 0, &stuEventInfo) && stuEventInfo.bRepeatEnterAlarm)
 	{
 		cfg.bIsActivated = TRUE;
 	}
-	if (GetConfigFromDevice(loginID, 1, isRepeatEnterAlarmActivated) && isRepeatEnterAlarmActivated)
+	if (GetConfigFromDevice(loginID, 1, &stuEventInfo) && stuEventInfo.bRepeatEnterAlarm)
 	{
 		cfg.bIsActivated = TRUE;
 	}
@@ -292,7 +258,7 @@ BOOL SDK_CALL_METHOD WRAP_SetAntiPassBackCfg(int loginID, WRAP_AntiPassBackCfg* 
 		bDoor2Enable = false; 
 	}
 
-	if (cfg->bIsActivated)
+	if (!cfg->bIsActivated)
 	{
 		if (GetConfigFromDevice(loginID, 0, &stuEventInfo))
 		{

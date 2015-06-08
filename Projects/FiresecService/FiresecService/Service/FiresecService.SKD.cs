@@ -1507,6 +1507,28 @@ namespace FiresecService.Service
 			return SKDSetDoorAccessState(doorUID, JournalEventNameType.Команда_на_перевод_точки_доступа_в_режим_Открыто, AccessState.OpenAlways);
 		}
 
+		public OperationResult<SKDAntiPassBackConfiguration> SKDGetAntiPassBackConfiguration(Guid deviceUID)
+		{
+			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				AddSKDJournalMessage(JournalEventNameType.Запрос_antipassback_настройки_контроллера, device);
+				return ChinaSKDDriver.Processor.GetAntiPassBackConfiguration(deviceUID);
+			}
+			return OperationResult<SKDAntiPassBackConfiguration>.FromError("Устройство не найдено в конфигурации");
+		}
+
+		public OperationResult<bool> SKDSetAntiPassBackConfiguration(Guid deviceUID, SKDAntiPassBackConfiguration antiPassBackConfiguration)
+		{
+			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				AddSKDJournalMessage(JournalEventNameType.Запись_antipassback_настройки_контроллера, device);
+				return ChinaSKDDriver.Processor.SetAntiPassBackConfiguration(deviceUID, antiPassBackConfiguration);
+			}
+			return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
+		}
+
 		#endregion
 
 		#region PassCardTemplate

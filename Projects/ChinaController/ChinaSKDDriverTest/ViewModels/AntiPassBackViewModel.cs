@@ -15,7 +15,7 @@ namespace ControllerSDK.ViewModels
 		{
 			GetAntiPassBackConfigurationCommand = new RelayCommand(OnGetAntiPassBackConfiguration, CanGetAntiPassBackConfiguration);
 			SetAntiPassBackConfigurationCommand = new RelayCommand(OnSetAntiPassBackConfiguration, CanSetAntiPassBackConfiguration);
-			AvailableAntiPassBackModes = new ObservableCollection<AntiPassBackModes>();
+			AvailableAntiPassBackModes = new ObservableCollection<AntiPassBackMode>();
 		}
 
 		/// <summary>
@@ -80,7 +80,7 @@ namespace ControllerSDK.ViewModels
 			}
 		}
 
-		public ObservableCollection<AntiPassBackModes> AvailableAntiPassBackModes { get; private set; }
+		public ObservableCollection<AntiPassBackMode> AvailableAntiPassBackModes { get; private set; }
 		void InitAvailableAntiPassBackModes(IEnumerable<AntiPassBackModeAvailability> modes)
 		{
 			AvailableAntiPassBackModes.Clear();
@@ -94,8 +94,8 @@ namespace ControllerSDK.ViewModels
 			}
 		}
 
-		AntiPassBackModes _selectedAntiPassBackMode;
-		public AntiPassBackModes SelectedAntiPassBackMode
+		AntiPassBackMode _selectedAntiPassBackMode;
+		public AntiPassBackMode SelectedAntiPassBackMode
 		{
 			get { return _selectedAntiPassBackMode; }
 			set

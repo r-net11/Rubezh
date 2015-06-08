@@ -296,6 +296,12 @@ namespace FiresecAPI
 		[OperationContract]
 		OperationResult<bool> SKDDoorAccessStateOpenAlways(Guid doorUID);
 
+		[OperationContract]
+		OperationResult<SKDAntiPassBackConfiguration> SKDGetAntiPassBackConfiguration(Guid deviceUID);
+
+		[OperationContract]
+		OperationResult<bool> SKDSetAntiPassBackConfiguration(Guid deviceUID, SKDAntiPassBackConfiguration antiPassBackConfiguration);
+
 		#endregion
 
 		#region NightSettings
