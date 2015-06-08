@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using FireAdministrator;
 using FiresecAPI.GK;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Events;
 
 namespace GKModule.ViewModels
 {
@@ -129,7 +129,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ReplaceCommand { get; private set; }
 		void OnReplaice()
 		{
-			FileConfigurationHelper.LoadFromFile(ConfigFileName);
+			ServiceFactory.Events.GetEvent<LoadFromFileEvent>().Publish(ConfigFileName);
 			Close(true);
 		}
 

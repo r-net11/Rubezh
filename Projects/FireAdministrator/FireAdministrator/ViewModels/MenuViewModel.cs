@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Windows;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
@@ -28,6 +27,7 @@ namespace FireAdministrator.ViewModels
 			MergeConfigurationCommand = new RelayCommand(OnMergeConfiguration);
 			ServiceFactory.SaveService.Changed += new Action(SaveService_Changed);
 			ServiceFactory.Events.GetEvent<SetNewConfigurationEvent>().Subscribe(OnSetNewConfiguration);
+			ServiceFactory.Events.GetEvent<LoadFromFileEvent>().Subscribe(x => FileConfigurationHelper.LoadFromFile(x));
 			IsMainMenuVisible = RegistrySettingsHelper.GetBool("Administrato.Shell.IsMainMenuVisible", true);
 			IsMenuVisible = RegistrySettingsHelper.GetBool("Administrato.Shell.IsMenuVisible", true);
 		}

@@ -130,5 +130,17 @@ namespace FiresecClient
 		{
 			return DeviceConfiguration.Devices.Where(x => x.DriverType == GKDriverType.GK).Count() > 1;
 		}
+
+		public static GKLogic CopyLogic(GKLogic sourceLogic)
+		{
+			var targetLogic = new GKLogic();
+			targetLogic.OnClausesGroup = sourceLogic.OnClausesGroup.Clone();
+			targetLogic.OffClausesGroup = sourceLogic.OffClausesGroup.Clone();
+			targetLogic.StopClausesGroup = sourceLogic.StopClausesGroup.Clone();
+			targetLogic.OnNowClausesGroup = sourceLogic.OnNowClausesGroup.Clone();
+			targetLogic.OffNowClausesGroup = sourceLogic.OffNowClausesGroup.Clone();
+			targetLogic.UseOffCounterLogic = sourceLogic.UseOffCounterLogic;
+			return targetLogic;
+		}
 	}
 }

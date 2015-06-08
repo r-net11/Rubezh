@@ -33,15 +33,18 @@ namespace GKModule.ViewModels
 
 		public DevicesViewModel()
 		{
-			_lockSelection = false;
-			Menu = new DevicesMenuViewModel(this);
-			Current = this;
 			CopyCommand = new RelayCommand(OnCopy, CanCutCopy);
 			CutCommand = new RelayCommand(OnCut, CanCutCopy);
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
 			ShowSettingsCommand = new RelayCommand(OnShowSettings);
 			DeviceCommandsViewModel = new DeviceCommandsViewModel(this);
 			ReadJournalFromFileCommand = new RelayCommand(OnReadJournalFromFile);
+			CopyLogicCommand = new RelayCommand(OnCopyLogic, CanCopyLogic);
+			PasteLogicCommand = new RelayCommand(OnPasteLogic, CanPasteLogic);
+
+			_lockSelection = false;
+			Menu = new DevicesMenuViewModel(this);
+			Current = this;
 			RegisterShortcuts();
 			IsRightPanelEnabled = true;
 			SubscribeEvents();
@@ -291,6 +294,30 @@ namespace GKModule.ViewModels
 			}
 		}
 		#endregion
+
+		GKLogic logicToCopy;
+		public RelayCommand CopyLogicCommand { get; private set; }
+		void OnCopyLogic()
+		{
+			logicToCopy = GKManager.CopyLogic(SelectedDevice.Device.Logic);
+		}
+
+		bool CanCopyLogic()
+		{
+			return SelectedDevice != null && SelectedDevice.Device.Driver.HasLogic;
+		}
+
+		public RelayCommand PasteLogicCommand { get; private set; }
+		void OnPasteLogic()
+		{
+			SelectedDevice.Device.Logic = logicToCopy;
+			SelectedDevice.Device.OnChanged();
+		}
+
+		bool CanPasteLogic()
+		{
+			return SelectedDevice != null && SelectedDevice.Device.Driver.HasLogic && logicToCopy != null;
+		}
 
 		public RelayCommand ShowSettingsCommand { get; private set; }
 		void OnShowSettings()

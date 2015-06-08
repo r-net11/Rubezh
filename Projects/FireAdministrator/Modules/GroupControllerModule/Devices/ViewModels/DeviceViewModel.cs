@@ -741,6 +741,8 @@ namespace GKModule.ViewModels
 		public RelayCommand CopyCommand { get { return DevicesViewModel.Current.CopyCommand; } }
 		public RelayCommand CutCommand { get { return DevicesViewModel.Current.CutCommand; } }
 		public RelayCommand PasteCommand { get { return DevicesViewModel.Current.PasteCommand; } }
+		public RelayCommand CopyLogicCommand { get { return DevicesViewModel.Current.CopyLogicCommand; } }
+		public RelayCommand PasteLogicCommand { get { return DevicesViewModel.Current.PasteLogicCommand; } }
 
 		#region OPC
 		public bool CanOPCUsed
