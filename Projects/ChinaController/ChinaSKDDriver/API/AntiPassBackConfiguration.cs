@@ -36,13 +36,13 @@ namespace ChinaSKDDriverAPI
 		/// <summary>
 		/// Текущий режим Anti-pass Back
 		/// </summary>
-		public AntiPassBackModes CurrentAntiPassBackMode;
+		public AntiPassBackMode CurrentAntiPassBackMode;
 	}
 
 	/// <summary>
 	/// Режимы Anti-path Back
 	/// </summary>
-	public enum AntiPassBackModes
+	public enum AntiPassBackMode
 	{
 		[Description("Считыватель 1 - Вход, Считыватель 2 - Выход")]
 		R1In_R2Out = 0,
@@ -60,7 +60,7 @@ namespace ChinaSKDDriverAPI
 		/// <summary>
 		/// Режим Anti-pass Back
 		/// </summary>
-		public AntiPassBackModes AntiPassBackMode { get; set; }
+		public AntiPassBackMode AntiPassBackMode { get; set; }
 		
 		/// <summary>
 		/// Доступность режима Anti-pass Back

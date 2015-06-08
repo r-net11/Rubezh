@@ -461,6 +461,17 @@ namespace FiresecClient
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDDoorAccessStateOpenAlways(door.UID); }, "SKDDoorAccessStateOpenAlways");
 		}
+
+		public OperationResult<SKDAntiPassBackConfiguration> SKDGetAntiPassBackConfiguration(SKDDevice device)
+		{
+			return SafeOperationCall(() => { return FiresecService.SKDGetAntiPassBackConfiguration(device.UID); }, "SKDGetAntiPassBackConfiguration");
+		}
+
+		public OperationResult<bool> SKDSetAntiPassBackConfiguration(SKDDevice device, SKDAntiPassBackConfiguration antiPassBackConfiguration)
+		{
+			return SafeOperationCall(() => { return FiresecService.SKDSetAntiPassBackConfiguration(device.UID, antiPassBackConfiguration); }, "SKDSetAntiPassBackConfiguration");
+		}
+
 		#endregion
 
 		#region PassCardTemplate

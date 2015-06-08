@@ -666,6 +666,12 @@ namespace FiresecAPI.Journal
 		Команда_на_перевод_зоны_в_режим_Норма,
 
 		[EventName(JournalSubsystemType.SKD, "Команда на перевод двери в режим Норма", XStateClass.Norm)]
-		Команда_на_перевод_двери_в_режим_Норма
+		Команда_на_перевод_двери_в_режим_Норма,
+
+		[EventName(JournalSubsystemType.SKD, "Запрос antipassback настройки контроллера", XStateClass.TechnologicalRegime)]
+		Запрос_antipassback_настройки_контроллера,
+
+		[EventName(JournalSubsystemType.SKD, "Запись antipassback настройки контроллера", XStateClass.TechnologicalRegime)]
+		Запись_antipassback_настройки_контроллера
 	}
 }

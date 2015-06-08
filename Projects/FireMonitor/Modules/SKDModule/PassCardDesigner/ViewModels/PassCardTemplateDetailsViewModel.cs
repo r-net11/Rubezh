@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Common;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Client.Plans;
@@ -25,7 +24,7 @@ namespace SKDModule.PassCardDesigner.ViewModels
 		private const string GraphicPropertiesString = "Графические свойства";
 
 		private Guid _organisationUID { get; set; }
-		bool _isNew;
+		private bool _isNew;
 
 		#endregion
 
@@ -52,18 +51,20 @@ namespace SKDModule.PassCardDesigner.ViewModels
 			LayerGroupService.Instance.RegisterGroup(PassCardDesignerViewModel.PassCardTextPropertiesGroup, TextPropertiesString, 1);
 			LayerGroupService.Instance.RegisterGroup(PassCardDesignerViewModel.PassCardImagePropertiesGroup, GraphicPropertiesString, 2);
 			PassCardDesignerViewModel = new PassCardDesignerViewModel();
-			OnPropertyChanged(() => PassCardDesignerViewModel); 
+			OnPropertyChanged(() => PassCardDesignerViewModel);
 			PassCardDesignerViewModel.DesignerCanvas.ZoomChanged();
 			ElementsViewModel = new ElementsViewModel(DesignerCanvas);
 		}
 
 		#region Commands
+
 		public RelayCommand EditCommand { get; private set; }
 
 		private void OnEdit()
 		{
 			EditProperties();
 		}
+
 		#endregion
 
 		#region IDetailsViewModel<ShortPassCardTemplate> Members
@@ -82,34 +83,16 @@ namespace SKDModule.PassCardDesigner.ViewModels
 			}
 		}
 
-		public bool Initialize(Organisation organisation, ShortPassCardTemplate model)  //TODO: refactor it
+		public void InitializeDesigner(Organisation organisation, ShortPassCardTemplate model)
 		{
 			_organisationUID = organisation.UID;
 			DesignerCanvas.Toolbox.RegisterInstruments(GetInstruments());
 
-			_isNew = model == null;
+			PassCardTemplate = PassCardTemplateHelper.GetDetails(model.UID);
 
-			if (_isNew)
-			{
-		//		Title = TitleString;
-				PassCardTemplate = new PassCardTemplate()
-				{
-				//	Caption = CaptionString,
-					OrganisationUID = _organisationUID
-				};
-				LoadDefaultProperties();
-				if (!EditProperties())
-					return false;
-			}
-			else
-			{
-				PassCardTemplate = PassCardTemplateHelper.GetDetails(model.UID);
-
-				UpdateTitle();
-			}
+			UpdateTitle();
 
 			LoadPassCardDesigner();
-			return true;
 		}
 
 		#endregion
@@ -138,18 +121,10 @@ namespace SKDModule.PassCardDesigner.ViewModels
 
 		private void LoadPassCardDesigner()
 		{
-			using (new TimeCounter("PassCardTemplateDetailsViewModel.SelectedPlan: {0}", true, true))
-			{
-				OnPropertyChanged(() => PassCardTemplate);
-				DesignerCanvas.Toolbox.IsEnabled = PassCardTemplate != null;
-				PassCardDesignerViewModel.Initialize(PassCardTemplate);
-				using (new TimeCounter("\tPassCardsDesignerViewModel.UpdateElements: {0}"))
-					ElementsViewModel.Update();
-				DesignerCanvas.Toolbox.SetDefault();
-				DesignerCanvas.DeselectAll();
-				DesignerCanvas.Toolbox.IsDialog = true;
-				DesignerCanvas.Toolbox.AcceptKeyboard = true;
-			}
+			OnPropertyChanged(() => PassCardTemplate);
+			DesignerCanvas.Toolbox.IsEnabled = PassCardTemplate != null;
+			PassCardDesignerViewModel.Initialize(PassCardTemplate);
+			ElementsViewModel.Update();
 		}
 
 		private void LoadDefaultProperties()
@@ -176,8 +151,8 @@ namespace SKDModule.PassCardDesigner.ViewModels
 			RegistrySettingsHelper.SetDouble("Administrator.PassCardTemplate.DefaultBorder", PassCardTemplate.BorderThickness);
 			RegistrySettingsHelper.SetColor("Administrator.PassCardTemplate.DefaultBorderColor", PassCardTemplate.BorderColor);
 		}
-		
-		private bool EditProperties()
+
+		private void EditProperties()
 		{
 			var dialog = new PassCardTemplatePropertiesViewModel(PassCardTemplate);
 			if (DialogService.ShowModalWindow(dialog))
@@ -187,76 +162,68 @@ namespace SKDModule.PassCardDesigner.ViewModels
 				PassCardDesignerViewModel.Update();
 				DesignerCanvas.Refresh();
 				DesignerCanvas.DesignerChanged();
-				return true;
 			}
-			return false;
 		}
+
 		private void UpdateTitle()
 		{
+			if (PassCardTemplate == null) return;
+
 			Title = string.Format("Шаблон пропусков: {0}", PassCardTemplate.Caption);
 		}
 
-		protected override bool Save()
-		{
-			SaveDefaultProperties();
-			if (!DetailsValidateHelper.Validate(Model))
-				return false;
-			return PassCardTemplateHelper.Save(PassCardTemplate, _isNew);
-		}
 		public override void OnClosed()
 		{
 			DesignerCanvas.Toolbox.AcceptKeyboard = false;
 			base.OnClosed();
 		}
 
-
-		public bool ShowPassCardPropertiesDialog(Organisation organisation)
+		public bool ShowPassCardPropertiesDialog(Organisation organisation, ShortPassCardTemplate model = null)
 		{
 			_organisationUID = organisation.UID;
-
-			PassCardTemplate = new PassCardTemplate
-			{
-				Caption = CaptionString,
-				OrganisationUID = _organisationUID
-			};
-
-			LoadDefaultProperties();
-
-			return DialogService.ShowModalWindow(new PassCardTemplatePropertiesViewModel(PassCardTemplate));
-		}
-
-
-		public bool Initialize(Organisation organisation, ShortPassCardTemplate model, ViewPartViewModel parentViewModel)//TODO: Remove it
-		{
-			_organisationUID = organisation.UID;
-			DesignerCanvas.Toolbox.RegisterInstruments(GetInstruments());
-
 			_isNew = model == null;
 
-			if (_isNew)
-			{
-				Title = TitleString;
-				PassCardTemplate = new PassCardTemplate()
-				{
-			//		Caption = CaptionString,
-					OrganisationUID = _organisationUID
-				};
-				LoadDefaultProperties();
-				if (!EditProperties())
-					return false;
-			}
-			else
-			{
-				PassCardTemplate = PassCardTemplateHelper.GetDetails(model.UID);
+			PassCardTemplate = GetPassCardTemplate(_isNew, model);
+			InitializePassCardTemplate(_isNew);
 
-				UpdateTitle();
-			}
+			var dialogResult = DialogService.ShowModalWindow(new PassCardTemplatePropertiesViewModel(PassCardTemplate));
 
-			LoadPassCardDesigner();
-			return true;
-		//	throw new NotImplementedException();
+			if (!dialogResult) return false;
+
+			return Save();
 		}
-		
+
+		protected override bool Save()
+		{
+			SaveDefaultProperties();
+			PassCardTemplateHelper.Save(PassCardTemplate, _isNew);
+			return base.Save();
+		}
+
+		private void InitializePassCardTemplate(bool isNew)
+		{
+			if (isNew)
+				LoadDefaultProperties();
+			else
+				UpdateTitle();
+		}
+
+		private PassCardTemplate GetPassCardTemplate(bool isNew, ShortPassCardTemplate model)
+		{
+			return isNew
+				? new PassCardTemplate
+				{
+					Caption = CaptionString,
+					OrganisationUID = _organisationUID
+				}
+				: PassCardTemplateHelper.GetDetails(model.UID);
+		}
+
 		#endregion
+
+		public bool Initialize(Organisation organisation, ShortPassCardTemplate model, ViewPartViewModel parentViewModel)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }
