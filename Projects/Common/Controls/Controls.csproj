@@ -193,6 +193,15 @@
     <Compile Include="Converters\JournalSubsystemTypeToIconConverter.cs" />
     <Compile Include="EditorPresenter.cs" />
     <Compile Include="ExtendedBinding.cs" />
+    <Compile Include="Menu\ViewModels\MenuButtonViewModel.cs" />
+    <Compile Include="Menu\ViewModels\MenuSeparatorViewModel.cs" />
+    <Compile Include="Menu\ViewModels\MenuViewModel.cs" />
+    <Compile Include="Menu\Views\MenuButtonView.xaml.cs">
+      <DependentUpon>MenuButtonView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Menu\Views\MenuView.xaml.cs">
+      <DependentUpon>MenuView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UIBehavior.cs" />
     <Compile Include="GridSplitterFix.cs" />
     <Compile Include="HeaderedScrollViewer.cs" />
@@ -275,6 +284,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Layout\Theme.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Menu\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Menu\Views\MenuButtonView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Menu\Views\MenuView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
