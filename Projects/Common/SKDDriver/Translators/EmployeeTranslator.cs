@@ -65,8 +65,6 @@ namespace SKDDriver
 			}
 		}
 
-
-	
 		public class CardWithDoors { public DataAccess.Card Card; public IEnumerable<DataAccess.CardDoor> CardDoors; }
 
 		protected ShortEmployee TranslateToShort(
@@ -108,8 +106,6 @@ namespace SKDDriver
 			result.ScheduleUID = schedule != null ? schedule.UID : Guid.Empty;
 			return result;
 		}
-
-		
 
 		protected override OperationResult CanSave(Employee employee)
 		{
@@ -159,38 +155,6 @@ namespace SKDDriver
 			result.Phone = tableItem.Phone;
 			result.LastEmployeeDayUpdate = tableItem.LastEmployeeDayUpdate;
 			return result;
-		}
-
-		List<DataAccess.Department> _departments;
-		List<DataAccess.Position> _positions;
-		List<DataAccess.Organisation> _organisations;
-		List<DataAccess.Schedule> _schedules;
-		List<Guid> _additionalColumnTypeUIDs;
-		List<DataAccess.AdditionalColumn> _additionalColumns;
-		List<DataAccess.Card> _cards;
-
-		protected override void BeforeGetList()
-		{
-			base.BeforeGetList();
-			_departments = Context.Departments.ToList();
-			_positions = Context.Positions.ToList();
-			_organisations = Context.Organisations.ToList();
-			_schedules = Context.Schedules.ToList();
-			_additionalColumnTypeUIDs = DatabaseService.AdditionalColumnTypeTranslator.GetTextColumnTypes();
-			_additionalColumns = Context.AdditionalColumns.ToList();
-			_cards = Context.Cards.ToList();
-		}
-
-		protected override void AfterGetList()
-		{
-			base.AfterGetList();
-			_departments = null;
-			_positions = null;
-			_organisations = null;
-			_schedules = null;
-			_additionalColumns = null;
-			_additionalColumnTypeUIDs = null;
-			_cards = null;
 		}
 
 		protected override void TranslateBack(DataAccess.Employee tableItem, Employee apiItem)
@@ -286,6 +250,37 @@ namespace SKDDriver
 			return result;
 		}
 
+		public OperationResult SaveDepartment(Guid uid, Guid departmentUID)
+		{
+			try
+			{
+				var tableItem = Table.FirstOrDefault(x => x.UID == uid);
+				tableItem.DepartmentUID = departmentUID;
+				Table.Context.SubmitChanges();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
+			return new OperationResult();
+		}
+
+		public OperationResult SavePosition(Guid uid, Guid positionUID)
+		{
+			try
+			{
+				var tableItem = Table.FirstOrDefault(x => x.UID == uid);
+				tableItem.PositionUID = positionUID;
+				Table.Context.SubmitChanges();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
+			return new OperationResult();
+		}
+
+		#region EF
 		protected Expression<Func<EFDataAccess.Employee, bool>> EFIsInFilter(EmployeeFilter filter)
 		{
 			var result = PredicateBuilder.True<EFDataAccess.Employee>();
@@ -351,37 +346,6 @@ namespace SKDDriver
 			return result;
 		}
 
-		public OperationResult SaveDepartment(Guid uid, Guid departmentUID)
-		{
-			try
-			{
-				var tableItem = Table.FirstOrDefault(x => x.UID == uid);
-				tableItem.DepartmentUID = departmentUID;
-				Table.Context.SubmitChanges();
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
-			return new OperationResult();
-		}
-
-		public OperationResult SavePosition(Guid uid, Guid positionUID)
-		{
-			try
-			{
-				var tableItem = Table.FirstOrDefault(x => x.UID == uid);
-				tableItem.PositionUID = positionUID;
-				Table.Context.SubmitChanges();
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
-			return new OperationResult();
-		}
-
-		#region EF
 		public OperationResult<IEnumerable<ShortEmployee>> EFGetList(EmployeeFilter filter)
 		{
 			try
@@ -489,6 +453,26 @@ namespace SKDDriver
 			Trace.WriteLine("LinqToEntities " + new TimeSpan(stopWatch2.Elapsed.Ticks / iterationCount));
 		}
 		#endregion
+		
+		#region TestData
+		public OperationResult GenerateTestData(bool isAscending)
+		{
+			try
+			{
+				var cards = TestEmployeeCards();
+				TestCardDoors(cards, true);
+				return new OperationResult();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
+		}
+
+		public List<Guid> GetEmployeeCards()
+		{
+			return Context.Cards.Select(x => x.UID).ToList(); ;
+		}
 
 		//var posUIDs = new List<Guid>();
 		//for (int j = 0; j < 1000; j++)
@@ -527,26 +511,6 @@ namespace SKDDriver
 		//    var empl = CreateEmpl("Сотрудник " + i + j + "0", org.UID, deptUIDs.FirstOrDefault(), posUIDs.FirstOrDefault());
 		//    Context.Employees.InsertOnSubmit(empl);
 		//}
-		
-		#region TestData
-		public OperationResult GenerateTestData(bool isAscending)
-		{
-			try
-			{
-				var cards = TestEmployeeCards();
-				TestCardDoors(cards, true);
-				return new OperationResult();
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
-		}
-
-		public List<Guid> GetEmployeeCards()
-		{
-			return Context.Cards.Select(x => x.UID).ToList(); ;
-		}
 
 		public List<Guid> TestEmployeeCards()
 		{

@@ -54,10 +54,14 @@ namespace FiresecService.Service
 				{
 					foreach (var card in getEmployeeOperationResult.Result.Cards)
 					{
-						var operationResult = DeleteCardFromEmployee(card, "Сотрудник удален");
+						var operationResult = DeleteCardFromEmployee(card, name, "Сотрудник удален");
 						if (operationResult.HasError)
 						{
-							errors.AddRange(operationResult.Errors);
+							foreach (var item in operationResult.Errors)
+							{
+								errors.Add("Ошибка БД: " + item);	
+							}
+							
 						}
 					}
 				}
@@ -399,31 +403,7 @@ namespace FiresecService.Service
 			{
 				AddJournalMessage(JournalEventNameType.Удаление_карты, employeeName, uid: card.EmployeeUID);
 
-				var cardToDelete = new SKDCard()
-				{
-					UID = card.UID,
-					Number = card.Number,
-					HolderUID = null,
-					StartDate = DateTime.Now,
-					EndDate = DateTime.Now,
-					UserTime = 0,
-					DeactivationControllerUID = Guid.Empty,
-					CardDoors = new List<CardDoor>(),
-					PassCardTemplateUID = null,
-					AccessTemplateUID = null,
-					CardType = card.CardType,
-					GKCardType = card.GKCardType,
-					Password = null,
-					IsInStopList = true,
-					StopReason = reason,
-					EmployeeName = null,
-					EmployeeUID = Guid.Empty,
-					OrganisationUID = Guid.Empty,
-					GKLevel = 0,
-					GKLevelSchedule = 0
-				};
-
-				var saveResult = databaseService.CardTranslator.Save(cardToDelete);
+				var saveResult = databaseService.CardTranslator.ToStopList(card, employeeName, reason);
 				if (saveResult.HasError)
 				{
 					return OperationResult<bool>.FromError(saveResult.Error, false);
@@ -438,9 +418,6 @@ namespace FiresecService.Service
 				var operationResult = databaseService.CardTranslator.GetSingle(card.UID);
 				if (!operationResult.HasError && operationResult.Result != null)
 				{
-					var oldCard = operationResult.Result;
-					var oldGetAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(oldCard.AccessTemplateUID);
-
 					errors.AddRange(DeleteStrazhCard(card, getAccessTemplateOperationResult.Result, databaseService));
 					errors.AddRange(DeleteGKCard(card, getAccessTemplateOperationResult.Result, databaseService));
 				}
@@ -584,7 +561,7 @@ namespace FiresecService.Service
 				{
 					foreach (var card in cards.Result)
 					{
-						var cardResult = DeleteCardFromEmployee(card, name);
+						var cardResult = DeleteCardFromEmployee(card, name, "Огранизация удалена");
 						if (cardResult.HasError)
 							errors.Add(cardResult.Error);
 					}

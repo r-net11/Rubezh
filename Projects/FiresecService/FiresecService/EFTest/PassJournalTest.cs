@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
@@ -72,20 +71,20 @@ namespace FiresecService.EFTest
 			//    Trace.WriteLine(string.Format("{0} {1}", item.UID, item.LastName));
 			//}
 
-			//var employees = _context.Employees.ToList();
-			//var passjournals = _context.PassJournals.ToList();
+			var employees = _context.Employees.ToList();
+			var passjournals = _context.PassJournals.ToList();
 			//var employeepassjournals2 = context.GetEmployeePassJournals();
 
-			PagingTestAction += passJournals => 
-			{
-				Trace.WriteLine("++++++NEXTPORTION++++++");
-				foreach (var passJournalItem in passJournals)
-				{
-					Trace.WriteLine(string.Format("{0} {1}", passJournalItem.UID, passJournalItem.EmployeeUID));
-				}
-			};
-			PagingTest();
-			_context.SaveChanges();
+			//PagingTestAction += passJournals => 
+			//{
+			//    Trace.WriteLine("++++++NEXTPORTION++++++");
+			//    foreach (var passJournalItem in passJournals)
+			//    {
+			//        Trace.WriteLine(string.Format("{0} {1}", passJournalItem.UID, passJournalItem.EmployeeUID));
+			//    }
+			//};
+			//PagingTest();
+			//_context.SaveChanges();
 		}
 
 		void PagingTest()
@@ -131,19 +130,14 @@ namespace FiresecService.EFTest
 		}
 
 		[Key]
-		[Column("uid")]
 		public Guid UID { get; set; }
 
-		[Column("employeeuid")]
 		public Guid? EmployeeUID { get; set; }
 
-		[Column("zoneuid")]
 		public Guid? ZoneUID { get; set; }
 
-		[Column("entertime")]
 		public DateTime EnterTime { get; set; }
 
-		[Column("exittime")]
 		public DateTime? ExitTime { get; set; }
 
 		public Employee Employee { get; set; }
@@ -158,16 +152,12 @@ namespace FiresecService.EFTest
 		}
 
 		[Key]
-		[Column("uid")]
 		public Guid UID { get; set; }
 
-		[Column("firstname")]
 		public string FirstName { get; set; }
 
-		[Column("secondname")]
 		public string SecondName { get; set; }
 
-		[Column("lastname")]
 		public string LastName { get; set; }
 
 		public ICollection<PassJournal> PassJournals { get; set; }
@@ -206,8 +196,8 @@ namespace FiresecService.EFTest
 					schemaStr = "";
 					break;
 			}
-			modelBuilder.Entity<PassJournal>().ToTable("passjournal", schemaStr);
-			modelBuilder.Entity<Employee>().ToTable("employee", schemaStr);
+			modelBuilder.Entity<PassJournal>().ToTable("PassJournal", schemaStr);
+			modelBuilder.Entity<Employee>().ToTable("Employee", schemaStr);
 			//modelBuilder.Entity<EmployeePassJournal>().ToTable("employeepassjournal", schemaStr);
 		}
 

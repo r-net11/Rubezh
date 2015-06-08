@@ -294,6 +294,36 @@ namespace SKDDriver
 					select new TableCard { Card = card, CardDoors = cardDoors, Employee = employee, CardGKControllerUIDs = cardControllerUIDs };
 		}
 
+		public OperationResult<bool> ToStopList(SKDCard card, string employeeName, string reason = null)
+		{
+			try
+			{
+				card.HolderUID = null;
+				card.StartDate = DateTime.Now;
+				card.EndDate = DateTime.Now;
+				card.UserTime = 0;
+				card.DeactivationControllerUID = Guid.Empty;
+				card.CardDoors = new List<CardDoor>();
+				card.PassCardTemplateUID = null;
+				card.Password = null;
+				card.IsInStopList = true;
+				card.StopReason = reason;
+				card.EmployeeName = null;
+				card.EmployeeUID = Guid.Empty;
+				card.OrganisationUID = Guid.Empty;
+				card.GKLevel = 0;
+				card.GKLevelSchedule = 0;
+				card.GKLevelSchedule = 0;
+				var saveResult = Save(card);
+				return saveResult.HasError ? OperationResult<bool>.FromError(saveResult.Error) : new OperationResult<bool>();
+
+			}
+			catch (Exception e)
+			{
+				return OperationResult<bool>.FromError(e.Message);
+			}
+		}
+
 		class TableCard
 		{
 			public DataAccess.Card Card;
