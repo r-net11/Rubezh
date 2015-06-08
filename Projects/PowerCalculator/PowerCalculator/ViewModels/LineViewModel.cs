@@ -18,6 +18,10 @@ namespace PowerCalculator.ViewModels
 			Line = line;
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			RemoveCommand = new RelayCommand<object>(OnRemove, CanRemove);
+			CopyCommand = new RelayCommand<object>(OnCopy, CanCutCopy);
+			CutCommand = new RelayCommand<object>(OnCut, CanCutCopy);
+			PasteCommand = new RelayCommand(OnPaste, CanPaste);
+
 			Devices = new ObservableCollection<DeviceViewModel>();
 			foreach (var device in line.Devices)
 			{
@@ -167,6 +171,88 @@ namespace PowerCalculator.ViewModels
 				currentAddress += deviceViewModel.Device.Driver.Mult;
 			}
 		}
+
+		#region CopyPaste
+		static List<Device> DevicesToCopy = new List<Device>();
+
+		bool CanCutCopy(object parameter)
+		{
+			return SelectedDevice != null;
+		}
+
+		public RelayCommand<object> CopyCommand { get; private set; }
+		void OnCopy(object parameter)
+		{
+			DevicesToCopy = new List<Device>();
+
+			IList selectedDevices = (IList)parameter;
+			var deviceViewModels = new List<DeviceViewModel>();
+			foreach (var device in selectedDevices)
+			{
+				var deviceViewModel = device as DeviceViewModel;
+				if (deviceViewModel != null)
+					DevicesToCopy.Add(deviceViewModel.Device);
+			}
+		}
+
+		public RelayCommand<object> CutCommand { get; private set; }
+		void OnCut(object parameter)
+		{
+			DevicesToCopy = new List<Device>();
+
+			IList selectedDevices = (IList)parameter;
+			var deviceViewModels = new List<DeviceViewModel>();
+			foreach (var device in selectedDevices)
+			{
+				var deviceViewModel = device as DeviceViewModel;
+				if (deviceViewModel != null)
+				{
+					DevicesToCopy.Add(deviceViewModel.Device);
+					Line.Devices.Remove(deviceViewModel.Device);
+				}
+			}
+			foreach (var deviceToCopy in DevicesToCopy)
+			{
+				var deviceViewModel = Devices.FirstOrDefault(x=>x.Device == deviceToCopy);
+				if(deviceViewModel != null)
+				{
+					Devices.Remove(deviceViewModel);
+				}
+			}
+		}
+
+		public RelayCommand PasteCommand { get; private set; }
+		void OnPaste()
+		{
+			var maxAddress = GetMaxAddress();
+			var newMaxAddress = maxAddress + (from d in DevicesToCopy select d.Driver.Mult).Sum(x => x);
+			if (newMaxAddress > 255)
+			{
+				MessageBoxService.ShowWarning("Количество устройств на шлейфе не должно превышать 255");
+				return;
+			}
+
+			foreach (var deviceToCopy in DevicesToCopy)
+			{
+				var selectedIndex = Devices.IndexOf(SelectedDevice) + 1;
+
+				var device = new Device();
+				device.DriverType = deviceToCopy.DriverType;
+				device.Cable.Resistivity = deviceToCopy.Cable.Resistivity;
+				device.Cable.Length = deviceToCopy.Cable.Length;
+				Line.Devices.Insert(selectedIndex, device);
+				var deviceViewModel = new DeviceViewModel(device, this);
+				Devices.Insert(selectedIndex, deviceViewModel);
+				SelectedDevice = deviceViewModel;
+
+			}
+			UpdateAddresses();
+		}
+		bool CanPaste()
+		{
+			return DevicesToCopy.Count > 0 && SelectedDevice != null;
+		}
+		#endregion
 
 		bool _hasError;
 		public bool HasError

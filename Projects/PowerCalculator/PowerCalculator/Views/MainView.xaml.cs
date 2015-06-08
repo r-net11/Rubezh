@@ -1,5 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using PowerCalculator.ViewModels;
 
 namespace PowerCalculator.Views
 {
@@ -9,6 +11,15 @@ namespace PowerCalculator.Views
 		{
 			InitializeComponent();
 			DevicesDataGrid.SelectionChanged += new SelectionChangedEventHandler(DataGrid_SelectionChanged);
+			KeyUp += new System.Windows.Input.KeyEventHandler(MainView_KeyUp);
+		}
+
+		void MainView_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+		{
+			if (e.Key == System.Windows.Input.Key.C && Keyboard.IsKeyDown(Key.LeftCtrl))
+			{
+				(DataContext as MainViewModel).SelectedLine.CopyCommand.Execute(DevicesDataGrid.SelectedItems);
+			}
 		}
 
 		private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)

@@ -121,5 +121,16 @@ namespace PowerCalculator.ViewModels
                 OnPropertyChanged(() => HasUError);
             }
         }
+
+		bool _hasError;
+		public bool HasError
+		{
+			get { return _hasError; }
+			set
+			{
+				_hasError = value;
+				OnPropertyChanged(() => HasError);
+			}
+		}
 	}
 }

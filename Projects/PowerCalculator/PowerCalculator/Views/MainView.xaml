@@ -28,6 +28,14 @@
             </Style.Triggers>
         </Style>
     </Window.Resources>
+    
+    <Window.InputBindings>
+        <KeyBinding Modifiers="Control" Key="N" Command="{Binding SelectedLine.AddCommand}" />
+        <KeyBinding Modifiers="Control" Key="Del" Command="{Binding SelectedLine.RemoveCommand}" CommandParameter="{Binding ElementName=DevicesDataGrid, Path=SelectedItems}" />
+        <KeyBinding Modifiers="Control" Key="C" Command="{Binding SelectedLine.CopyCommand}" CommandParameter="{Binding ElementName=DevicesDataGrid, Path=SelectedItems}" />
+        <KeyBinding Modifiers="Control" Key="X" Command="{Binding SelectedLine.CutCommand}" CommandParameter="{Binding ElementName=DevicesDataGrid, Path=SelectedItems}" />
+        <KeyBinding Modifiers="Control" Key="V" Command="{Binding SelectedLine.PasteCommand}" CommandParameter="{Binding ElementName=DevicesDataGrid, Path=SelectedItems}" />
+    </Window.InputBindings>
 
     <Grid Background="{DynamicResource BaseWindowBackgroundBrush}">
         <Grid.RowDefinitions>
@@ -52,7 +60,7 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <DataGrid Grid.Row="0" Grid.Column="0" ItemsSource="{Binding Lines}" SelectedItem="{Binding SelectedLine}" IsReadOnly="False" CellStyle="{StaticResource DataGridCellStyle}" Margin="2">
+            <DataGrid Grid.Row="0" Grid.Column="0" ItemsSource="{Binding Lines}" SelectedItem="{Binding SelectedLine}" IsReadOnly="False" CellStyle="{StaticResource DataGridCellStyle}" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling" Margin="2">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Header="Название АЛС" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
@@ -133,6 +141,9 @@
             <StackPanel Grid.Row="1" Grid.Column="1" DataContext="{Binding SelectedLine}" Orientation="Horizontal" Margin="2">
                 <ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить устройство" ImageSource="Add" Margin="2" />
                 <ToolBarButton Command="{Binding RemoveCommand}" CommandParameter="{Binding ElementName=DevicesDataGrid, Path=SelectedItems}" ToolTip="Удалить устройство" ImageSource="Delete" Margin="2" />
+                <ToolBarButton Command="{Binding CopyCommand}" CommandParameter="{Binding ElementName=DevicesDataGrid, Path=SelectedItems}" ToolTip="Копировать (Ctrl+C)" ImageSource="Copy" />
+                <ToolBarButton Command="{Binding CutCommand}" CommandParameter="{Binding ElementName=DevicesDataGrid, Path=SelectedItems}" ToolTip="Вырезать (Ctrl+Х)" ImageSource="Cut" />
+                <ToolBarButton Command="{Binding PasteCommand}" ToolTip="Вставить (Ctrl+V)" ImageSource="Paste" />
             </StackPanel>
         </Grid>
     </Grid>

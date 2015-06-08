@@ -8,6 +8,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Microsoft.Win32;
 using PowerCalculator.Models;
+using System.Collections.Generic;
 
 namespace PowerCalculator.ViewModels
 {
@@ -33,7 +34,6 @@ namespace PowerCalculator.ViewModels
 			foreach (var line in Configuration.Lines)
 			{
 				var lineViewModel = new LineViewModel(line);
-                //lineViewModel.Calculate();
 				Lines.Add(lineViewModel);
 			}
             RenameLines();
@@ -175,8 +175,6 @@ namespace PowerCalculator.ViewModels
 		{
             foreach (var lineViewModel in Lines)
                 lineViewModel.Calculate();
-		}
-
-        
+		}       
 	}
 }
