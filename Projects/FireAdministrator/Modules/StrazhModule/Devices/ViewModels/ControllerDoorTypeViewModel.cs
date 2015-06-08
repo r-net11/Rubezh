@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure;
-using Infrastructure.Common.Windows;
-using System.Collections.ObjectModel;
-using Infrastructure.Common;
+﻿using System.Collections.ObjectModel;
 using FiresecAPI.SKD;
 using FiresecClient;
+using Infrastructure;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
+using StrazhModule.Properties;
 
 namespace StrazhModule.ViewModels
 {
@@ -267,18 +264,16 @@ namespace StrazhModule.ViewModels
 
 		protected override bool Save()
 		{
-			if (!HasChanged)
+			if (HasChanged)
 			{
-				DeviceViewModel.Device.DoorType = SelectedDoorType;
-				ServiceFactory.SaveService.SKDChanged = true;
-				return base.Save();
+				if (MessageBoxService.ShowConfirmation(Resources.SaveConfigurationControllerWarning))
+				{
+					DeviceViewModel.Device.DoorType = SelectedDoorType;
+					ServiceFactory.SaveService.SKDChanged = true;
+				}
 			}
 
-			if (!MessageBoxService.ShowConfirmation(
-				"Настройки не записаны в прибор. Вы уверены, что хотите закрыть окно без записи в контроллер?")) return false;
-			HasChanged = false;
 			Close(false);
-
 			return false;
 		}
 	}

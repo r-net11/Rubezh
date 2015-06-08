@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using FiresecAPI.SKD;
+using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
-using FiresecClient;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
+using Infrastructure.Common.Windows.ViewModels;
+using StrazhModule.Properties;
 
 namespace StrazhModule.ViewModels
 {
@@ -343,7 +340,7 @@ namespace StrazhModule.ViewModels
 		{
 			if (HasChanged)
 			{
-				if (!MessageBoxService.ShowConfirmation("Настройки не записаны в прибор. вы уверены, что хотите закрыть окно без записи в контроллер?"))
+				if (!MessageBoxService.ShowConfirmation(Resources.SaveConfigurationControllerWarning))
 					return false;
 			}
 			Device.SKDDoorConfiguration = GetModel();
