@@ -165,7 +165,6 @@
     <Compile Include="Events\EditGKSKDZoneEvent.cs" />
     <Compile Include="Events\CreateGKMPTEvent.cs" />
     <Compile Include="Events\EditGKMPTEvent.cs" />
-    <Compile Include="GKModuleHelper.cs" />
     <Compile Include="Guard\ViewModels\CodeReaderDetailsViewModel.cs" />
     <Compile Include="Guard\ViewModels\CodeReaderSettingsViewModel.cs" />
     <Compile Include="Guard\ViewModels\CodesMenuViewModel.cs" />
