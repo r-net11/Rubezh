@@ -13,7 +13,6 @@ namespace PowerCalculator.ViewModels
 		public DeviceSpecificationItemViewModel(DeviceSpecificationItem deviceSpecificationItem)
 		{
 			DeviceSpecificationItem = deviceSpecificationItem;
-
 			Drivers = new ObservableCollection<DriverViewModel>(DriversHelper.Drivers.Select(x => new DriverViewModel(x)));
 			_selectedDriver = Drivers.FirstOrDefault(x => x.Driver.DriverType == deviceSpecificationItem.DriverType);
 			_count = deviceSpecificationItem.Count;

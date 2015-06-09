@@ -1,20 +1,41 @@
 ﻿using Infrastructure.Common.Windows.ViewModels;
 using PowerCalculator.Models;
+using System.Collections.ObjectModel;
+using System.Linq;
+using PowerCalculator.Processor;
 
 namespace PowerCalculator.ViewModels
 {
 	public class DeviceViewModel : BaseViewModel
 	{
+		public Device Device { get; private set; }
+		public LineViewModel Owner { get; private set; }
+
 		public DeviceViewModel(Device device, LineViewModel owner)
 		{
 			Device = device;
             Owner = owner;
 			_cableResistivity = Device.Cable.Resistivity;
 			_cableLength = Device.Cable.Length;
+			Drivers = new ObservableCollection<DriverViewModel>(DriversHelper.Drivers.Select(x => new DriverViewModel(x)));
+			_selectedDriver = Drivers.FirstOrDefault(x => x.Driver.DriverType == device.DriverType);
 		}
 
-		public Device Device { get; private set; }
-        public LineViewModel Owner { get; private set; }
+		public ObservableCollection<DriverViewModel> Drivers { get; private set; }
+
+		DriverViewModel _selectedDriver;
+		public DriverViewModel SelectedDriver
+		{
+			get { return _selectedDriver; }
+			set
+			{
+				_selectedDriver = value;
+				OnPropertyChanged(() => SelectedDriver);
+				Device.DriverType = value.Driver.DriverType;
+				if (Owner != null)
+					Owner.Calculate();
+			}
+		}
 
 		double _cableResistivity;
 		public double CableResistivity
