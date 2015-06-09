@@ -1,10 +1,10 @@
-﻿<UserControl x:Class="ControllerSDK.Views.AntiPassBackView"
+﻿<UserControl x:Class="ControllerSDK.Views.InterlockView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 	<StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<Button Content="Считать" Command="{Binding GetAntiPassBackConfigurationCommand}" Width="200" Margin="2" />
-			<Button Content="Записать" Command="{Binding SetAntiPassBackConfigurationCommand}" Width="200" Margin="2" />
+			<Button Content="Считать" Command="{Binding GetInterlockConfigurationCommand}" Width="200" Margin="2" />
+			<Button Content="Записать" Command="{Binding SetInterlockConfigurationCommand}" Width="200" Margin="2" />
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
 			<TextBlock Text="Количество дверей" Margin="5 2"/>
@@ -23,7 +23,7 @@
 			<TextBlock Grid.Row="0" Grid.Column="1" Text="Активировать" Margin="5 2"/>
 			<StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left">
 				<TextBlock Text="Режим" Margin="5 2"/>
-				<ComboBox Width="200" Margin="2" ItemsSource="{Binding AvailableAntiPassBackModes}" SelectedItem="{Binding SelectedAntiPassBackMode}" IsEnabled="{Binding IsActivated}" />
+				<ComboBox Width="200" ItemsSource="{Binding AvailableInterlockModes}" SelectedItem="{Binding SelectedInterlockMode}" IsEnabled="{Binding IsActivated}"  Margin="2"/>
 			</StackPanel>
 		</Grid>
 	</StackPanel>

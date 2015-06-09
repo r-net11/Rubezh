@@ -937,5 +937,45 @@ namespace ChinaSKDDriverNativeApi
 		public static extern bool WRAP_SetAntiPassBackCfg(int loginID, ref WRAP_AntiPassBackCfg cfg);
 
 		#endregion // Anti-path Back
+
+		#region Interlock
+
+		public enum WRAP_InterlockMode
+		{
+			L1L2 = 0,
+			L1L2L3 = 1,
+			L1L2L3L4 = 2,
+			L2L3L4 = 3,
+			L1L3_L2L4 = 4,
+			L1L4_L2L3 = 5,
+			L3L4 = 6
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct WRAP_InterlockModeAvailability
+		{
+			public WRAP_InterlockMode InterlockMode; // Режим Interlock
+			public bool bIsAvailable; // Доступность режима Interlock
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct WRAP_InterlockCfg
+		{
+			public int nDoorsCount; // Количество дверей на контроллере
+			public bool bCanActivate; // Возможность активации Interlock
+			public bool bIsActivated; // Interlock активирован?
+			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 7)]
+			public WRAP_InterlockModeAvailability[] AvailableInterlockModes; // Доступность режимов Interlock
+			public WRAP_InterlockMode CurrentInterlockMode; // Текущий режим Interlock
+		}
+
+		[DllImport(@"CPPWrapper.dll")]
+		public static extern bool WRAP_GetInterlockCfg(int loginID, out WRAP_InterlockCfg result);
+
+		[DllImport(@"CPPWrapper.dll")]
+		public static extern bool WRAP_SetInterlockCfg(int loginID, ref WRAP_InterlockCfg cfg);
+
+		#endregion // Interlock
+
 	}
 }

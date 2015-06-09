@@ -22,15 +22,7 @@ namespace ControllerSDK.ViewModels
 		public RelayCommand GetLogsCountCommand { get; private set; }
 		void OnGetLogsCount()
 		{
-			var result = MainViewModel.Wrapper.GetLogsCount();
-			if (result > 0)
-			{
-				MessageBox.Show("LogsCount = " + result.ToString());
-			}
-			else
-			{
-				MessageBox.Show("Error");
-			}
+			MessageBox.Show("Всего тревог: " + MainViewModel.Wrapper.GetLogsCount());
 		}
 
 		ObservableCollection<LogItem> _logs;

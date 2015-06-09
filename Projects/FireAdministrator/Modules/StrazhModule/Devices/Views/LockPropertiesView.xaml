@@ -15,6 +15,11 @@
 			<TabItem Header="Замок">
 				<StackPanel>
 					<GroupBox Header="Основные" Margin="5" Padding="5">
+						<GroupBox.HeaderTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding}" Foreground="{DynamicResource ForegroundColorLight}"/>
+							</DataTemplate>
+						</GroupBox.HeaderTemplate>
 						<Grid>
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition Width="Auto" />
@@ -61,6 +66,11 @@
 						</Grid>
 					</GroupBox>
 					<GroupBox Header="Подтверждение прохода" Margin="5" Padding="5">
+						<GroupBox.HeaderTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding}" Foreground="{DynamicResource ForegroundColorLight}"/>
+							</DataTemplate>
+						</GroupBox.HeaderTemplate>
 						<Grid>
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition Width="Auto" />
@@ -82,10 +92,10 @@
 									<RowDefinition Height="Auto"/>
 								</Grid.RowDefinitions>
 
-								<TextBlock Grid.Row="0" Grid.Column="0" Text="Время ожидания" HorizontalAlignment="Right" Foreground="{DynamicResource ForegroundColorLight}" Margin="5 2" />
+								<TextBlock Grid.Row="0" Grid.Column="0" Text="Время ожидания" HorizontalAlignment="Right" Foreground="{DynamicResource ForegroundColorLight}" VerticalAlignment="Center" Margin="5 2" />
 								<extToolkit:IntegerUpDown Grid.Row="0" Grid.Column="1" Value="{Binding RemoteTimeout, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsRemoteCheck}" Margin="2"/>
 
-								<TextBlock Grid.Row="1" Grid.Column="0" Text="Состояние замка по истечению времени" HorizontalAlignment="Right" Foreground="{DynamicResource ForegroundColorLight}" Margin="5 2"/>
+								<TextBlock Grid.Row="1" Grid.Column="0" Text="Состояние замка по истечению времени" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorLight}" Margin="5 2"/>
 								<ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding RemoteTimeoutDoorStatuses}" SelectedItem="{Binding RemoteTimeoutDoorStatus}" IsEnabled="{Binding IsRemoteCheck}" Margin="2">
 									<ComboBox.ItemTemplate>
 										<DataTemplate>

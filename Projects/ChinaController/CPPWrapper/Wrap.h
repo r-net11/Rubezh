@@ -100,4 +100,6 @@ extern "C" SDK_CLIENT_API int SDK_CALL_METHOD WRAP_GetAllCount(int finderID);
 
 extern "C" SDK_CLIENT_API BOOL SDK_CALL_METHOD WRAP_EndGetAll(int finderID);
 
+BOOL GetDoorsCount(int loginID, int& nCount);
+
 #endif // !defined(__WRAP_H__)

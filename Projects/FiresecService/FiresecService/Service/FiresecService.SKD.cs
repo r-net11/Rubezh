@@ -1517,7 +1517,6 @@ namespace FiresecService.Service
 			}
 			return OperationResult<SKDAntiPassBackConfiguration>.FromError("Устройство не найдено в конфигурации");
 		}
-
 		public OperationResult<bool> SKDSetAntiPassBackConfiguration(Guid deviceUID, SKDAntiPassBackConfiguration antiPassBackConfiguration)
 		{
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
@@ -1525,6 +1524,27 @@ namespace FiresecService.Service
 			{
 				AddSKDJournalMessage(JournalEventNameType.Запись_antipassback_настройки_контроллера, device);
 				return ChinaSKDDriver.Processor.SetAntiPassBackConfiguration(deviceUID, antiPassBackConfiguration);
+			}
+			return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
+		}
+
+		public OperationResult<SKDInterlockConfiguration> SKDGetInterlockConfiguration(Guid deviceUID)
+		{
+			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				AddSKDJournalMessage(JournalEventNameType.Запрос_interlock_настройки_контроллера, device);
+				return ChinaSKDDriver.Processor.GetInterlockConfiguration(deviceUID);
+			}
+			return OperationResult<SKDInterlockConfiguration>.FromError("Устройство не найдено в конфигурации");
+		}
+		public OperationResult<bool> SKDSetInterlockConfiguration(Guid deviceUID, SKDInterlockConfiguration interlockConfiguration)
+		{
+			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				AddSKDJournalMessage(JournalEventNameType.Запись_interlock_настройки_контроллера, device);
+				return ChinaSKDDriver.Processor.SetInterlockConfiguration(deviceUID, interlockConfiguration);
 			}
 			return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
 		}

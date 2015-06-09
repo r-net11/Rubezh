@@ -2,10 +2,6 @@
 #include "StdAfx.h"
 #include "WrapAccesses.h"
 
-#include <iostream>
-#include <fstream>
-using namespace std;
-
 #define QUERY_COUNT	(3)
 
 BOOL CALL_METHOD WRAP_Get_Access_Info(int loginID, int recordNo, NET_RECORDSET_ACCESS_CTL_CARDREC* result)

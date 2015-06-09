@@ -1,7 +1,7 @@
 ﻿<UserControl x:Class="StrazhModule.Views.ControllerDoorTypeView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 MinWidth="400" MinHeight="300">
+			 MinWidth="385" MinHeight="300">
 
 	<TabControl>
 		<TabItem Header="Основные">
@@ -27,7 +27,7 @@
 				<StackPanel Orientation="Horizontal">
 					<StackPanel>
 						<GroupBox Header="Запрет повторного прохода" Foreground="{DynamicResource ForegroundColorLight}" Margin="2">
-							<StackPanel>
+							<StackPanel MinHeight="160">
 								<CheckBox Content="Активировать" IsChecked="{Binding IsAntiPassBackActivated}" Margin="2"/>
 								<RadioButton GroupName="AntipassBackGroup" Content="Считыватель 1-вход, 2-выход" IsChecked="{Binding SelectedAntiPassBackMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=R1In_R2Out}" IsEnabled="{Binding IsAntiPassBackModeR1InR2OutEnabled}" Margin="2"/>
 								<RadioButton GroupName="AntipassBackGroup" Content="Считыватель 3-вход, 4-выход" IsChecked="{Binding SelectedAntiPassBackMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=R3In_R4Out}" IsEnabled="{Binding IsAntiPassBackModeR3InR4OutEnabled}" Margin="2"/>
@@ -36,7 +36,18 @@
 						</GroupBox>
 					</StackPanel>
 					<StackPanel>
-
+						<GroupBox Header="Блокировка прохода" Foreground="{DynamicResource ForegroundColorLight}" Margin="2">
+							<StackPanel MinHeight="160">
+								<CheckBox Content="Активировать" IsChecked="{Binding IsInterlockActivated}" Margin="2"/>
+								<RadioButton GroupName="InterlockGroup" Content="Замок 1+2" IsChecked="{Binding SelectedInterlockMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=L1L2}" IsEnabled="{Binding IsInterlockModeL1L2Enabled}" Margin="2"/>
+								<RadioButton GroupName="InterlockGroup" Content="Замок 1+2+3" IsChecked="{Binding SelectedInterlockMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=L1L2L3}" IsEnabled="{Binding IsInterlockModeL1L2L3Enabled}" Margin="2"/>
+								<RadioButton GroupName="InterlockGroup" Content="Замок 1+2+3+4" IsChecked="{Binding SelectedInterlockMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=L1L2L3L4}" IsEnabled="{Binding IsInterlockModeL1L2L3L4Enabled}" Margin="2"/>
+								<RadioButton GroupName="InterlockGroup" Content="Замок 2+3+4" IsChecked="{Binding SelectedInterlockMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=L2L3L4}" IsEnabled="{Binding IsInterlockModeL2L3L4Enabled}" Margin="2"/>
+								<RadioButton GroupName="InterlockGroup" Content="Замок 1+3 и 2+4" IsChecked="{Binding SelectedInterlockMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=L1L3_L2L4}" IsEnabled="{Binding IsInterlockModeL1L3_L2L4Enabled}" Margin="2"/>
+								<RadioButton GroupName="InterlockGroup" Content="Замок 1+4 и 2+3" IsChecked="{Binding SelectedInterlockMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=L1L4_L2L3}" IsEnabled="{Binding IsInterlockModeL1L4_L2L3Enabled}" Margin="2"/>
+								<RadioButton GroupName="InterlockGroup" Content="Замок 3+4" IsChecked="{Binding SelectedInterlockMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=L3L4}" IsEnabled="{Binding IsInterlockModeL3L4Enabled}" Margin="2"/>
+							</StackPanel>
+						</GroupBox>
 					</StackPanel>
 				</StackPanel>
 				<StackPanel Orientation="Horizontal">

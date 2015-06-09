@@ -407,6 +407,14 @@ namespace FiresecService.Service
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDSetAntiPassBackConfiguration(deviceUID, antiPassBackConfiguration); }, "SKDSetAntiPassBackConfiguration");
 		}
+		public OperationResult<SKDInterlockConfiguration> SKDGetInterlockConfiguration(Guid deviceUID)
+		{
+			return SafeOperationCall(() => { return FiresecService.SKDGetInterlockConfiguration(deviceUID); }, "SKDGetInterlockConfiguration");
+		}
+		public OperationResult<bool> SKDSetInterlockConfiguration(Guid deviceUID, SKDInterlockConfiguration interlockConfiguration)
+		{
+			return SafeOperationCall(() => { return FiresecService.SKDSetInterlockConfiguration(deviceUID, interlockConfiguration); }, "SKDSetInterlockConfiguration");
+		}
 		#endregion
 
 		#region PassCardTemplate

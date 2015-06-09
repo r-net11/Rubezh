@@ -531,3 +531,36 @@ BOOL CALL_METHOD WRAP_EndGetAll(int finderID)
     finderID = 0;
 	return TRUE;
 }
+
+
+/// <summary>
+/// Получает количество дверей на контроллере
+/// <param name="loginID">залогированный в SDK клиент</param>
+/// <param name="nCount">возвращаемое количество дверей</param>
+/// </summary>
+/// <returns>TRUE при успешном завершении, FALSE в случае неудачи</returns>
+BOOL GetDoorsCount(int loginID, int& nCount)
+{
+	char szBuf[1024] = {0};
+	int nError = 0;
+	BOOL bRet = CLIENT_QueryNewSystemInfo(loginID, CFG_CAP_CMD_ACCESSCONTROLMANAGER, -1, szBuf, sizeof(szBuf), &nError, 3000);
+	if (bRet)
+	{
+		CFG_CAP_ACCESSCONTROL stuCap = {0};
+		DWORD dwRet = 0;
+		bRet = CLIENT_ParseData(CFG_CAP_CMD_ACCESSCONTROLMANAGER, szBuf, &stuCap, sizeof(stuCap), &dwRet);
+		if (bRet && dwRet == sizeof(CFG_CAP_ACCESSCONTROL))
+		{
+			nCount = stuCap.nAccessControlGroups;
+		}
+		else
+		{
+			return FALSE;
+		}
+	}
+	else
+	{
+		return FALSE;
+	}
+	return TRUE;
+}

@@ -14,8 +14,8 @@
 				<!--<Button Content="Remove" Command="{Binding RemoveCommand}" Width="100" Margin="2" />-->
 				<!--<Button Content="RemoveAll" Command="{Binding RemoveAllCommand}" Width="100" Margin="2" />-->
 				<!--<Button Content="GetInfo" Command="{Binding GetInfoCommand}" Width="100" Margin="2" />-->
-				<Button Content="GetCount" Command="{Binding GetCountCommand}" Width="100" Margin="2" />
-				<Button Content="GetAll" Command="{Binding GetAllCommand}" Width="100" Margin="2" />
+				<Button Content="Получить количество записей" Command="{Binding GetCountCommand}" Width="200" Margin="2" />
+				<Button Content="Считать все записи" Command="{Binding GetAllCommand}" Width="200" Margin="2" />
 				<!--<TextBlock Text="Index" Margin="2" />
 				<TextBox Text="{Binding Index}" Width="100" Margin="2" />
 				<Button Content="AddMany" Command="{Binding AddManyCommand}" Width="100" Margin="2" />-->

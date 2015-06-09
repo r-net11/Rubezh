@@ -1,38 +1,7 @@
 #include "StdAfx.h"
 #include <atlstr.h>
 #include "WrapAntiPassBack.h"
-
-/// <summary>
-/// ѕолучает количество дверей на контроллере
-/// <param name="loginID">залогированный в SDK клиент</param>
-/// <param name="nCount">возвращаемое количество дверей</param>
-/// </summary>
-/// <returns>TRUE при успешном завершении, FALSE в случае неудачи</returns>
-BOOL GetDoorsCount(int loginID, int& nCount)
-{
-	char szBuf[1024] = {0};
-	int nError = 0;
-	BOOL bRet = CLIENT_QueryNewSystemInfo(loginID, CFG_CAP_CMD_ACCESSCONTROLMANAGER, -1, szBuf, sizeof(szBuf), &nError, 3000);
-	if (bRet)
-	{
-		CFG_CAP_ACCESSCONTROL stuCap = {0};
-		DWORD dwRet = 0;
-		bRet = CLIENT_ParseData(CFG_CAP_CMD_ACCESSCONTROLMANAGER, szBuf, &stuCap, sizeof(stuCap), &dwRet);
-		if (bRet && dwRet == sizeof(CFG_CAP_ACCESSCONTROL))
-		{
-			nCount = stuCap.nAccessControlGroups;
-		}
-		else
-		{
-			return FALSE;
-		}
-	}
-	else
-	{
-		return FALSE;
-	}
-	return TRUE;
-}
+#include "Wrap.h"
 
 /// <summary>
 /// ѕолучает текущие настройки дл€ канала контроллера
@@ -135,24 +104,20 @@ BOOL SetConfigToDevice(int loginID, int nChn, CFG_ACCESS_EVENT_INFO* param)
 /// <returns>TRUE при успешном завершении, FALSE в случае неудачи</returns>
 BOOL SDK_CALL_METHOD WRAP_GetAntiPassBackCfg(int loginID, WRAP_AntiPassBackCfg* result)
 {
-	BOOL bRet;
-	int nDoorsCount;
-	CFG_ACCESS_EVENT_INFO stuEventInfo;
-	CFG_OPEN_DOOR_ROUTE_INFO stuInfo;
-
 	if (loginID == NULL)
 	{
 		return FALSE;
 	}
 
 	// ќпредел€ем количесво дверей на контроллере
-	bRet = GetDoorsCount(loginID, nDoorsCount);
+	int nDoorsCount;
+	BOOL bRet = GetDoorsCount(loginID, nDoorsCount);
 	if (!bRet)
 	{
 		return FALSE;
 	}
 
-	WRAP_AntiPassBackCfg cfg = {sizeof(WRAP_AntiPassBackCfg)};
+	WRAP_AntiPassBackCfg cfg = {0};
 
 	cfg.AvailableAntiPassBackModes[ANTIPASSBACK_MODE_R1R2].AntiPassBackMode = R1R2;
 	cfg.AvailableAntiPassBackModes[ANTIPASSBACK_MODE_R1R3R2R4].AntiPassBackMode = R1R3R2R4;
@@ -175,6 +140,7 @@ BOOL SDK_CALL_METHOD WRAP_GetAntiPassBackCfg(int loginID, WRAP_AntiPassBackCfg* 
 		cfg.AvailableAntiPassBackModes[ANTIPASSBACK_MODE_R3R4].bIsAvailable = TRUE;
 	}
 
+	CFG_ACCESS_EVENT_INFO stuEventInfo = {0};
 	if (GetConfigFromDevice(loginID, 0, &stuEventInfo) && stuEventInfo.bRepeatEnterAlarm)
 	{
 		cfg.bIsActivated = TRUE;
@@ -183,6 +149,7 @@ BOOL SDK_CALL_METHOD WRAP_GetAntiPassBackCfg(int loginID, WRAP_AntiPassBackCfg* 
 	{
 		cfg.bIsActivated = TRUE;
 	}
+	CFG_OPEN_DOOR_ROUTE_INFO stuInfo = {0};
 	if (GetNewDevConfig(loginID, &stuInfo))
 	{
 		CString csInfo; 

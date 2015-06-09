@@ -54,8 +54,7 @@ namespace ControllerSDK.ViewModels
 		public RelayCommand GetCountCommand { get; private set; }
 		void OnGetCount()
 		{
-			var accessesCount = MainViewModel.Wrapper.GetAccessesCount();
-			MessageBox.Show("accessesCount = " + accessesCount);
+			MessageBox.Show("Всего проходов: " + MainViewModel.Wrapper.GetAccessesCount());
 		}
 
 		public RelayCommand GetAllCommand { get; private set; }

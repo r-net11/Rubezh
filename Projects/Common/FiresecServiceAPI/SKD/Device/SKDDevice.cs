@@ -174,6 +174,9 @@ namespace FiresecAPI.SKD
 		[DataMember]
 		public SKDAntiPassBackConfiguration AntiPassBackConfiguration { get; set; }
 
+		[DataMember]
+		public SKDInterlockConfiguration InterlockConfiguration { get; set; }
+
 		#region IStateProvider Members
 
 		IDeviceState IStateProvider.StateClass

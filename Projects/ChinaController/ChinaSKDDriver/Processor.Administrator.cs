@@ -408,7 +408,6 @@ namespace ChinaSKDDriver
 			}
 			return OperationResult<SKDAntiPassBackConfiguration>.FromError("Не найден контроллер в конфигурации");
 		}
-
 		public static OperationResult<bool> SetAntiPassBackConfiguration(Guid deviceUID, SKDAntiPassBackConfiguration antiPassBackConfiguration)
 		{
 			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == deviceUID);
@@ -418,6 +417,36 @@ namespace ChinaSKDDriver
 					return OperationResult<bool>.FromError("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
 
 				var result = deviceProcessor.Wrapper.SetAntiPassBackConfiguration(new AntiPassBackConfiguration() { IsActivated = antiPassBackConfiguration.IsActivated, CurrentAntiPassBackMode = (AntiPassBackMode)antiPassBackConfiguration.CurrentAntiPassBackMode });
+				if (result)
+					return new OperationResult<bool>(true);
+				else
+					return OperationResult<bool>.FromError("Ошибка при выполнении операции в приборе");
+			}
+			return OperationResult<bool>.FromError("Не найден контроллер в конфигурации");
+		}
+
+		public static OperationResult<SKDInterlockConfiguration> GetInterlockConfiguration(Guid deviceUID)
+		{
+			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == deviceUID);
+			if (deviceProcessor != null)
+			{
+				if (!deviceProcessor.IsConnected)
+					return OperationResult<SKDInterlockConfiguration>.FromError("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
+
+				var interlockConfiguration = deviceProcessor.Wrapper.GetInterlockConfiguration();
+				return new OperationResult<SKDInterlockConfiguration>(new SKDInterlockConfiguration() { IsActivated = interlockConfiguration.IsActivated, CurrentInterlockMode = (SKDInterlockMode)interlockConfiguration.CurrentInterlockMode });
+			}
+			return OperationResult<SKDInterlockConfiguration>.FromError("Не найден контроллер в конфигурации");
+		}
+		public static OperationResult<bool> SetInterlockConfiguration(Guid deviceUID, SKDInterlockConfiguration interlockConfiguration)
+		{
+			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == deviceUID);
+			if (deviceProcessor != null)
+			{
+				if (!deviceProcessor.IsConnected)
+					return OperationResult<bool>.FromError("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
+
+				var result = deviceProcessor.Wrapper.SetInterlockConfiguration(new InterlockConfiguration() { IsActivated = interlockConfiguration.IsActivated, CurrentInterlockMode = (InterlockMode)interlockConfiguration.CurrentInterlockMode });
 				if (result)
 					return new OperationResult<bool>(true);
 				else

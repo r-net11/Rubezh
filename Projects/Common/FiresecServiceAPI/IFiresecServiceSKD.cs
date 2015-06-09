@@ -302,6 +302,12 @@ namespace FiresecAPI
 		[OperationContract]
 		OperationResult<bool> SKDSetAntiPassBackConfiguration(Guid deviceUID, SKDAntiPassBackConfiguration antiPassBackConfiguration);
 
+		[OperationContract]
+		OperationResult<SKDInterlockConfiguration> SKDGetInterlockConfiguration(Guid deviceUID);
+
+		[OperationContract]
+		OperationResult<bool> SKDSetInterlockConfiguration(Guid deviceUID, SKDInterlockConfiguration interlockConfiguration);
+
 		#endregion
 
 		#region NightSettings

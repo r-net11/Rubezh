@@ -8,8 +8,8 @@
 			<TextBox Text="{Binding DoorNo}" Width="50" />
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<Button Content="GetDoorConfiguration" Command="{Binding GetDoorConfigurationCommand}" Width="300" Margin="2" />
-			<Button Content="SetDoorConfiguration" Command="{Binding SetDoorConfigurationCommand}" Width="300" Margin="2" />
+			<Button Content="Считать" Command="{Binding GetDoorConfigurationCommand}" Width="200" Margin="2" />
+			<Button Content="Записать" Command="{Binding SetDoorConfigurationCommand}" Width="200" Margin="2" />
 		</StackPanel>
 
 		<StackPanel>

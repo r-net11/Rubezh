@@ -13,7 +13,7 @@
 		<TabControl Grid.Row="0">
 			<TabItem Header="Записи">
 				<TabControl>
-					<TabItem Header="Карты" DataContext="{Binding CardsViewModel}">
+					<TabItem Header="Пропуска" DataContext="{Binding CardsViewModel}">
 						<Views:CardsView />
 					</TabItem>
 					<TabItem Header="Пароли" DataContext="{Binding PasswordsViewModel}">
@@ -22,8 +22,15 @@
 					<TabItem Header="Праздники" DataContext="{Binding HolidaysViewModel}">
 						<Views:HolidaysView />
 					</TabItem>
+				</TabControl>
+			</TabItem>
+			<TabItem Header="Offline журнал">
+				<TabControl>
 					<TabItem Header="Проходы" DataContext="{Binding AccessesViewModel}">
 						<Views:AccessesView />
+					</TabItem>
+					<TabItem Header="Тревоги" DataContext="{Binding LogItemsViewModel}">
+						<Views:LogItemsView />
 					</TabItem>
 				</TabControl>
 			</TabItem>
@@ -33,7 +40,7 @@
 			<TabItem Header="Управление" DataContext="{Binding ControlViewModel}">
 				<Views:ControlView />
 			</TabItem>
-			<TabItem Header="Журнал" DataContext="{Binding JournalViewModel}">
+			<TabItem Header="Online журнал" DataContext="{Binding JournalViewModel}">
 				<Views:JournalView />
 			</TabItem>
 			<TabItem Header="Нативный журнал" DataContext="{Binding NativeJournalViewModel}">
@@ -51,11 +58,15 @@
 			<TabItem Header="Конфигурация двери" DataContext="{Binding DoorConfigurationViewModel}">
 				<Views:DoorConfigurationView />
 			</TabItem>
-			<TabItem Header="Анти-пассбек" DataContext="{Binding AntiPassBackViewModel}">
-				<Views:AntiPassBackView />
-			</TabItem>
-			<TabItem Header="Архив" DataContext="{Binding LogItemsViewModel}">
-				<Views:LogItemsView />
+			<TabItem Header="Параметры контроллера">
+				<TabControl>
+					<TabItem Header="Запрет повторного прохода" DataContext="{Binding AntiPassBackViewModel}">
+						<Views:AntiPassBackView />
+					</TabItem>
+					<TabItem Header="Блокировка прохода" DataContext="{Binding InterlockViewModel}">
+						<Views:InterlockView />
+					</TabItem>
+				</TabControl>
 			</TabItem>
 		</TabControl>
 

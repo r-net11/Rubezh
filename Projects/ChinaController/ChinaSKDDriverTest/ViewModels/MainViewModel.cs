@@ -18,6 +18,7 @@ namespace ControllerSDK.ViewModels
 		public CommonViewModel CommonViewModel { get; private set; }
 		public DoorConfigurationViewModel DoorConfigurationViewModel { get; private set; }
 		public AntiPassBackViewModel AntiPassBackViewModel { get; private set; }
+		public InterlockViewModel InterlockViewModel { get; private set; }
 		public LogItemsViewModel LogItemsViewModel { get; private set; }
 		public AccessesViewModel AccessesViewModel { get; private set; }
 
@@ -35,6 +36,7 @@ namespace ControllerSDK.ViewModels
 			CommonViewModel = new CommonViewModel();
 			DoorConfigurationViewModel = new DoorConfigurationViewModel();
 			AntiPassBackViewModel = new AntiPassBackViewModel();
+			InterlockViewModel = new InterlockViewModel();
 			LogItemsViewModel = new LogItemsViewModel();
 			AccessesViewModel = new AccessesViewModel();
 

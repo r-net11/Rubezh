@@ -30,6 +30,12 @@ namespace StrazhModule.ViewModels
 				SelectedAntiPassBackMode = DeviceViewModel.Device.AntiPassBackConfiguration.CurrentAntiPassBackMode;
 			}
 
+			if (DeviceViewModel.Device.InterlockConfiguration != null)
+			{
+				UpdateInterlockModesAvailability();
+				SelectedInterlockMode = DeviceViewModel.Device.InterlockConfiguration.CurrentInterlockMode;
+			}
+
 			HasChanged = false;
 		}
 
@@ -37,16 +43,18 @@ namespace StrazhModule.ViewModels
 
 		bool SelectedDoorTypeHasChanged { get; set; }
 		bool AntiPassBackHasChanged { get; set; }
+		bool InterlockHasChanged { get; set; }
 		bool HasChanged
 		{
 			get
 			{
-				return SelectedDoorTypeHasChanged || AntiPassBackHasChanged;
+				return SelectedDoorTypeHasChanged || AntiPassBackHasChanged || InterlockHasChanged;
 			}
 			set
 			{
 				SelectedDoorTypeHasChanged = value;
 				AntiPassBackHasChanged = value;
+				InterlockHasChanged = value;
 			}
 		}
 
@@ -65,6 +73,7 @@ namespace StrazhModule.ViewModels
 				_selectedDoorType = value;
 				OnPropertyChanged(() => SelectedDoorType);
 				IsAntiPassBackActivated = false;
+				IsInterlockActivated = false;
 				SelectedDoorTypeHasChanged = true;
 			}
 		}
@@ -175,6 +184,189 @@ namespace StrazhModule.ViewModels
 
 		#endregion // Запрет повторного прохода
 
+		#region Блокировка прохода
+
+		bool _isInterlockActivated;
+		public bool IsInterlockActivated
+		{
+			get { return _isInterlockActivated; }
+			set
+			{
+				if (!_isInterlockActivated.Equals(value))
+				{
+					_isInterlockActivated = value;
+					OnPropertyChanged(() => IsInterlockActivated);
+					UpdateInterlockModesAvailability();
+					InterlockHasChanged = true;
+				}
+			}
+		}
+
+		bool _isInterlockModeL1L2Enabled;
+		public bool IsInterlockModeL1L2Enabled
+		{
+			get { return IsInterlockActivated && _isInterlockModeL1L2Enabled; }
+			set
+			{
+				_isInterlockModeL1L2Enabled = value;
+				OnPropertyChanged(() => IsInterlockModeL1L2Enabled);
+			}
+		}
+
+		bool _isInterlockModeL1L2L3Enabled;
+		public bool IsInterlockModeL1L2L3Enabled
+		{
+			get { return IsInterlockActivated && _isInterlockModeL1L2L3Enabled; }
+			set
+			{
+				_isInterlockModeL1L2L3Enabled = value;
+				OnPropertyChanged(() => IsInterlockModeL1L2L3Enabled);
+			}
+		}
+
+		bool _isInterlockModeL1L2L3L4Enabled;
+		public bool IsInterlockModeL1L2L3L4Enabled
+		{
+			get { return IsInterlockActivated && _isInterlockModeL1L2L3L4Enabled; }
+			set
+			{
+				_isInterlockModeL1L2L3L4Enabled = value;
+				OnPropertyChanged(() => IsInterlockModeL1L2L3L4Enabled);
+			}
+		}
+
+		bool _isInterlockModeL2L3L4Enabled;
+		public bool IsInterlockModeL2L3L4Enabled
+		{
+			get { return IsInterlockActivated && _isInterlockModeL2L3L4Enabled; }
+			set
+			{
+				_isInterlockModeL2L3L4Enabled = value;
+				OnPropertyChanged(() => IsInterlockModeL2L3L4Enabled);
+			}
+		}
+
+		bool _isInterlockModeL1L3_L2L4Enabled;
+		public bool IsInterlockModeL1L3_L2L4Enabled
+		{
+			get { return IsInterlockActivated && _isInterlockModeL1L3_L2L4Enabled; }
+			set
+			{
+				_isInterlockModeL1L3_L2L4Enabled = value;
+				OnPropertyChanged(() => IsInterlockModeL1L3_L2L4Enabled);
+			}
+		}
+
+		bool _isInterlockModeL1L4_L2L3Enabled;
+		public bool IsInterlockModeL1L4_L2L3Enabled
+		{
+			get { return IsInterlockActivated && _isInterlockModeL1L4_L2L3Enabled; }
+			set
+			{
+				_isInterlockModeL1L4_L2L3Enabled = value;
+				OnPropertyChanged(() => IsInterlockModeL1L4_L2L3Enabled);
+			}
+		}
+
+		bool _isInterlockModeL3L4Enabled;
+		public bool IsInterlockModeL3L4Enabled
+		{
+			get { return IsInterlockActivated && _isInterlockModeL3L4Enabled; }
+			set
+			{
+				_isInterlockModeL3L4Enabled = value;
+				OnPropertyChanged(() => IsInterlockModeL3L4Enabled);
+			}
+		}
+
+		SKDInterlockMode _selectedInterlockMode;
+		public SKDInterlockMode SelectedInterlockMode
+		{
+			get { return _selectedInterlockMode; }
+			set
+			{
+				if (!_selectedInterlockMode.Equals(value))
+				{
+					_selectedInterlockMode = value;
+					OnPropertyChanged(() => SelectedInterlockMode);
+					InterlockHasChanged = true;
+				}
+			}
+		}
+
+		void UpdateInterlockModesAvailability()
+		{
+			switch (SelectedDoorType)
+			{
+				case DoorType.OneWay:
+					switch (DeviceViewModel.Device.DriverType)
+					{
+						// Однодверник
+						case SKDDriverType.ChinaController_1:
+						// Двухдверник
+						case SKDDriverType.ChinaController_2:
+							IsInterlockModeL1L2Enabled = false;
+							IsInterlockModeL1L2L3Enabled = false;
+							IsInterlockModeL1L2L3L4Enabled = false;
+							IsInterlockModeL2L3L4Enabled = false;
+							IsInterlockModeL1L3_L2L4Enabled = false;
+							IsInterlockModeL1L4_L2L3Enabled = false;
+							IsInterlockModeL3L4Enabled = false;
+							_isInterlockActivated = false;
+							break;
+						// Четырехдверник
+						case SKDDriverType.ChinaController_4:
+							IsInterlockModeL1L2Enabled = true;
+							IsInterlockModeL1L2L3Enabled = false;
+							IsInterlockModeL1L2L3L4Enabled = false;
+							IsInterlockModeL2L3L4Enabled = false;
+							IsInterlockModeL1L3_L2L4Enabled = false;
+							IsInterlockModeL1L4_L2L3Enabled = false;
+							IsInterlockModeL3L4Enabled = false;
+							break;
+					}
+					break;
+				case DoorType.TwoWay:
+					switch (DeviceViewModel.Device.DriverType)
+					{
+						// Однодверник
+						case SKDDriverType.ChinaController_1:
+							IsInterlockModeL1L2Enabled = false;
+							IsInterlockModeL1L2L3Enabled = false;
+							IsInterlockModeL1L2L3L4Enabled = false;
+							IsInterlockModeL2L3L4Enabled = false;
+							IsInterlockModeL1L3_L2L4Enabled = false;
+							IsInterlockModeL1L4_L2L3Enabled = false;
+							IsInterlockModeL3L4Enabled = false;
+							_isInterlockActivated = false;
+							break;
+						// Двухдверник
+						case SKDDriverType.ChinaController_2:
+							IsInterlockModeL1L2Enabled = true;
+							IsInterlockModeL1L2L3Enabled = false;
+							IsInterlockModeL1L2L3L4Enabled = false;
+							IsInterlockModeL2L3L4Enabled = false;
+							IsInterlockModeL1L3_L2L4Enabled = false;
+							IsInterlockModeL1L4_L2L3Enabled = false;
+							IsInterlockModeL3L4Enabled = false;
+							break;
+						// Четырехдверник
+						case SKDDriverType.ChinaController_4:
+							IsInterlockModeL1L2Enabled = true;
+							IsInterlockModeL1L2L3Enabled = true;
+							IsInterlockModeL1L2L3L4Enabled = true;
+							IsInterlockModeL2L3L4Enabled = false;
+							IsInterlockModeL1L3_L2L4Enabled = false;
+							IsInterlockModeL1L4_L2L3Enabled = false;
+							IsInterlockModeL3L4Enabled = false;
+							break;
+					}
+					break;
+			}
+		}
+
+		#endregion // Блокировка прохода
+
 		void GetDoorType()
 		{
 			var result = FiresecManager.FiresecService.GetControllerDoorType(DeviceViewModel.Device);
@@ -246,17 +438,58 @@ namespace StrazhModule.ViewModels
 			AntiPassBackHasChanged = false;
 		}
 
+		void GetInterlock()
+		{
+			var result = FiresecManager.FiresecService.SKDGetInterlockConfiguration(DeviceViewModel.Device);
+			if (result.HasError)
+			{
+				MessageBoxService.ShowWarning(result.Error);
+				return;
+			}
+			else
+			{
+				if (IsInterlockActivated != result.Result.IsActivated)
+				{
+					IsInterlockActivated = result.Result.IsActivated;
+					InterlockHasChanged = true;
+				}
+				if (SelectedInterlockMode != result.Result.CurrentInterlockMode)
+				{
+					SelectedInterlockMode = result.Result.CurrentInterlockMode;
+					InterlockHasChanged = true;
+				}
+			}
+		}
+		void SetInterlock()
+		{
+			if (!InterlockHasChanged)
+				return;
+
+			var result = FiresecManager.FiresecService.SKDSetInterlockConfiguration(
+				DeviceViewModel.Device,
+				new SKDInterlockConfiguration() { IsActivated = IsInterlockActivated, CurrentInterlockMode = SelectedInterlockMode });
+			if (result.HasError)
+			{
+				MessageBoxService.ShowWarning(result.Error);
+				return;
+			}
+
+			InterlockHasChanged = false;
+		}
+
 		public RelayCommand ReadFromControllerCommand { get; private set; }
 		void OnReadFromController()
 		{
 			GetDoorType();
 			GetAntiPassBack();
+			GetInterlock();
 		}
 		
 		public RelayCommand WriteToControllerCommand { get; private set; }
 		void OnWriteToController()
 		{
 			SetAntiPassBack();
+			SetInterlock();
 			
 			// Выполняется последней, т.к. при этой операции происходит перезагрузка контроллера
 			SetDoorType();

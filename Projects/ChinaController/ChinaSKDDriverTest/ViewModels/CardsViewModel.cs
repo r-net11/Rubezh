@@ -104,8 +104,7 @@ namespace ControllerSDK.ViewModels
 		public RelayCommand GetCountCommand { get; private set; }
 		void OnGetCount()
 		{
-			var cardsCount = MainViewModel.Wrapper.GetCardsCount();
-			MessageBox.Show("cardsCount = " + cardsCount);
+			MessageBox.Show("Всего пропусков: " + MainViewModel.Wrapper.GetCardsCount());
 		}
 
 		public RelayCommand GetAllCommand { get; private set; }

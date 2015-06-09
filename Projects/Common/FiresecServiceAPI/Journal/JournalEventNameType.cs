@@ -672,6 +672,12 @@ namespace FiresecAPI.Journal
 		Запрос_antipassback_настройки_контроллера,
 
 		[EventName(JournalSubsystemType.SKD, "Запись antipassback настройки контроллера", XStateClass.TechnologicalRegime)]
-		Запись_antipassback_настройки_контроллера
+		Запись_antipassback_настройки_контроллера,
+
+		[EventName(JournalSubsystemType.SKD, "Запрос interlock настройки контроллера", XStateClass.TechnologicalRegime)]
+		Запрос_interlock_настройки_контроллера,
+
+		[EventName(JournalSubsystemType.SKD, "Запись interlock настройки контроллера", XStateClass.TechnologicalRegime)]
+		Запись_interlock_настройки_контроллера
 	}
 }
