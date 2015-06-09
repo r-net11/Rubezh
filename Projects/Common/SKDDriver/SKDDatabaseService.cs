@@ -57,6 +57,11 @@ namespace SKDDriver
 			}
 		}
 
+		public static void Tst()
+		{
+			EFTest.EFTest.Test();
+		}
+		
 		public NightSettingsTranslator NightSettingsTranslator { get; private set; }
 		public PositionTranslator PositionTranslator { get; private set; }
 		public CardTranslator CardTranslator { get; private set; }

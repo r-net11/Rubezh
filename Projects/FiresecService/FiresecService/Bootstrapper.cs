@@ -23,6 +23,7 @@ namespace FiresecService
 		{
 			try
 			{
+				//SKDDatabaseService.Tst();
 				//EFTest.EFTest.Test();
 			
 				Environment.CurrentDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
