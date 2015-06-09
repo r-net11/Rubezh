@@ -13,9 +13,10 @@ namespace GKImitator.ViewModels
 {
 	public partial class DescriptorViewModel : BaseViewModel
 	{
-		bool IsTurningOn;
-		bool IsHolding;
-		bool IsTurningOff;
+		//bool IsTurningOn;
+		//bool IsHolding;
+		//bool IsTurningOff;
+		TurningState TurningState = TurningState.None;
 
 		ushort _currentOnDelay;
 		public ushort CurrentOnDelay
@@ -99,13 +100,13 @@ namespace GKImitator.ViewModels
 
 		public void CheckDelays()
 		{
-			if (IsTurningOn)
+			if (TurningState == TurningState.TurningOn)
 			{
 				CurrentOnDelay--;
 				AdditionalShortParameters[0] = CurrentOnDelay;
 				if (CurrentOnDelay == 0)
 				{
-					IsTurningOn = false;
+					TurningState = TurningState.None;
 					StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.On).IsActive = true;
 					StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.TurningOn).IsActive = false;
 					StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Off).IsActive = false;
@@ -120,48 +121,37 @@ namespace GKImitator.ViewModels
 						if (property != null)
 						{
 							CurrentHoldDelay = property.Value;
-							IsHolding = true;
+							TurningState = TurningState.Holding;
 						}
 					}
 				}
 			}
-			if (IsHolding)
+			if (TurningState == TurningState.Holding)
 			{
 				CurrentHoldDelay--;
 				AdditionalShortParameters[1] = CurrentHoldDelay;
 				if (CurrentHoldDelay == 0)
 				{
-					IsHolding = false;
+					TurningState = TurningState.None;
 
 					var device = GKBase as GKDevice;
 					var property = device.Properties.FirstOrDefault(x => x.Name == "Задержка на выключение, с");
 					if (property != null)
 					{
 						CurrentOffDelay = property.Value;
-						IsTurningOff = true;
-
-						StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.On).IsActive = false;
-						StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.TurningOn).IsActive = false;
-						StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Off).IsActive = false;
-						StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.TurningOff).IsActive = true;
-						var journalItem = new ImitatorJournalItem(2, 9, 5, 3);
-						AddJournalItem(journalItem);
+						TurningState = TurningState.TurningOff;
+						TurnOff();
 					}
 				}
 			}
-			if (IsTurningOff)
+			if (TurningState == TurningState.TurningOff)
 			{
 				CurrentOffDelay--;
 				AdditionalShortParameters[2] = CurrentOffDelay;
 				if (CurrentOffDelay == 0)
 				{
-					IsTurningOn = false;
-					StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.On).IsActive = false;
-					StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.TurningOn).IsActive = false;
-					StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Off).IsActive = true;
-					StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.TurningOff).IsActive = false;
-					var journalItem = new ImitatorJournalItem(2, 9, 3, 3);
-					AddJournalItem(journalItem);
+					TurningState = TurningState.None;
+					TurnOffNow();
 				}
 			}
 		}
@@ -176,26 +166,16 @@ namespace GKImitator.ViewModels
 				if (property != null)
 				{
 					CurrentOnDelay = property.Value;
-					IsTurningOn = true;
+					TurningState = TurningState.TurningOn;
 				}
 			}
-			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.On).IsActive = false;
-			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.TurningOn).IsActive = true;
-			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Off).IsActive = false;
-			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.TurningOff).IsActive = false;
-			var journalItem = new ImitatorJournalItem(2, 9, 4, 0);
-			AddJournalItem(journalItem);
+			TurnOn();
 		}
 
 		public RelayCommand TurnOnNowCommand { get; private set; }
 		void OnTurnOnNow()
 		{
-			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.On).IsActive = false;
-			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.TurningOn).IsActive = false;
-			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Off).IsActive = true;
-			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.TurningOff).IsActive = false;
-			var journalItem = new ImitatorJournalItem(2, 9, 3, 3);
-			AddJournalItem(journalItem);
+			TurnOnNow();
 		}
 
 		public RelayCommand TurnOffCommand { get; private set; }
@@ -208,9 +188,43 @@ namespace GKImitator.ViewModels
 				if (property != null)
 				{
 					CurrentOffDelay = property.Value;
-					IsTurningOff = true;
+					TurningState = TurningState.None;
 				}
 			}
+			TurnOff();
+		}
+
+		public RelayCommand TurnOffNowCommand { get; private set; }
+		void OnTurnOffNow()
+		{
+			TurnOffNow();
+		}
+
+		void TurnOn()
+		{
+			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.On).IsActive = false;
+			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.TurningOn).IsActive = true;
+			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Off).IsActive = false;
+			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.TurningOff).IsActive = false;
+			var journalItem = new ImitatorJournalItem(2, 9, 4, 0);
+			AddJournalItem(journalItem);
+		}
+
+		void TurnOnNow()
+		{
+			CurrentOnDelay = 0;
+			CurrentHoldDelay = 0;
+			CurrentOffDelay = 0;
+			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.On).IsActive = false;
+			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.TurningOn).IsActive = false;
+			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Off).IsActive = true;
+			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.TurningOff).IsActive = false;
+			var journalItem = new ImitatorJournalItem(2, 9, 3, 3);
+			AddJournalItem(journalItem);
+		}
+
+		void TurnOff()
+		{
 			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.On).IsActive = false;
 			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.TurningOn).IsActive = false;
 			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Off).IsActive = false;
@@ -219,9 +233,11 @@ namespace GKImitator.ViewModels
 			AddJournalItem(journalItem);
 		}
 
-		public RelayCommand TurnOffNowCommand { get; private set; }
-		void OnTurnOffNow()
+		void TurnOffNow()
 		{
+			CurrentOnDelay = 0;
+			CurrentHoldDelay = 0;
+			CurrentOffDelay = 0;
 			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.On).IsActive = false;
 			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.TurningOn).IsActive = false;
 			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Off).IsActive = true;

@@ -62,36 +62,182 @@ namespace GKImitator.ViewModels
 		void RecalculateLogic()
 		{
 			var stack = new List<int>();
+			var stateBitVales = new Dictionary<GKStateBit, bool>();
+
 			foreach (var formulaOperation in FormulaOperations)
 			{
-				if (formulaOperation.FormulaOperationType == FormulaOperationType.GETBIT)
+				var stateBit = (GKStateBit)formulaOperation.FirstOperand;
+				var descriptorNo = formulaOperation.SecondOperand;
+				DescriptorViewModel descriptorViewModel = null;
+				if (IsKauDecriptor)
+					descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.GKBase.KAUDescriptorNo == descriptorNo);
+				else
+					descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.DescriptorNo == descriptorNo);
+
+				switch (formulaOperation.FormulaOperationType)
 				{
-					var stateBit = (GKStateBit)formulaOperation.FirstOperand;
-					var descriptorNo = formulaOperation.SecondOperand;
-					DescriptorViewModel descriptorViewModel = null;
-					if(IsKauDecriptor)
-						descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.GKBase.KAUDescriptorNo == descriptorNo);
-					else
-						descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.DescriptorNo == descriptorNo);
-					if (descriptorViewModel != null)
-					{
-						var stateBitViewModel = descriptorViewModel.StateBits.FirstOrDefault(x => x.StateBit == stateBit);
-						if (stateBitViewModel != null)
+					case FormulaOperationType.GETBIT:
+						if (descriptorViewModel != null)
 						{
-							var bitValue = stateBitViewModel.IsActive ? 1 : 0;
-							stack.Add(bitValue);
+							var stateBitViewModel = descriptorViewModel.StateBits.FirstOrDefault(x => x.StateBit == stateBit);
+							if (stateBitViewModel != null)
+							{
+								var bitValue = stateBitViewModel.IsActive ? 1 : 0;
+								stack.Add(bitValue);
+							}
+						}
+						break;
+
+					case FormulaOperationType.PUTBIT:
+						if (stack.Any())
+						{
+							var currentStackValue = stack.LastOrDefault();
+							stack.RemoveAt(stack.Count - 1);
+							if (stateBitVales.ContainsKey(stateBit))
+								stateBitVales[stateBit] = currentStackValue != 0;
+							else
+								stateBitVales.Add(stateBit, currentStackValue != 0);
+						}
+						break;
+
+					case FormulaOperationType.DUP:
+						if (stack.Any())
+						{
+							var currentStackValue = stack.LastOrDefault();
+							stack.Add(currentStackValue);
+						}
+						break;
+
+					case FormulaOperationType.COM:
+						if (stack.Any())
+						{
+							var currentStackValue = stack.LastOrDefault();
+							currentStackValue = currentStackValue != 0 ? 0 : 1;
+							stack.RemoveAt(stack.Count - 1);
+							stack.Add(currentStackValue);
+						}
+						break;
+
+					case FormulaOperationType.CONST:
+						stack.Add(formulaOperation.FirstOperand);
+						break;
+
+					case FormulaOperationType.AND:
+						if (stack.Count > 1)
+						{
+							var currentStackValue1 = stack.LastOrDefault();
+							stack.RemoveAt(stack.Count - 1);
+
+							var currentStackValue2 = stack.LastOrDefault();
+							stack.RemoveAt(stack.Count - 1);
+
+							var newStackValue = (currentStackValue1 != 0 && currentStackValue2 != 0) ? 1 : 0;
+							stack.Add(newStackValue);
+						}
+						break;
+
+					case FormulaOperationType.OR:
+						if (stack.Count > 1)
+						{
+							var currentStackValue1 = stack.LastOrDefault();
+							stack.RemoveAt(stack.Count - 1);
+
+							var currentStackValue2 = stack.LastOrDefault();
+							stack.RemoveAt(stack.Count - 1);
+
+							var newStackValue = (currentStackValue1 != 0 || currentStackValue2 != 0) ? 1 : 0;
+							stack.Add(newStackValue);
+						}
+						break;
+
+					case FormulaOperationType.ADD:
+						if (stack.Count > 1)
+						{
+							var currentStackValue1 = stack.LastOrDefault();
+							stack.RemoveAt(stack.Count - 1);
+
+							var currentStackValue2 = stack.LastOrDefault();
+							stack.RemoveAt(stack.Count - 1);
+
+							var newStackValue = currentStackValue1 + currentStackValue2;
+							stack.Add(newStackValue);
+						}
+						break;
+
+					case FormulaOperationType.SUB:
+						if (stack.Count > 1)
+						{
+							var currentStackValue1 = stack.LastOrDefault();
+							stack.RemoveAt(stack.Count - 1);
+
+							var currentStackValue2 = stack.LastOrDefault();
+							stack.RemoveAt(stack.Count - 1);
+
+							var newStackValue = currentStackValue1 - currentStackValue2;
+							stack.Add(newStackValue);
+						}
+						break;
+
+					case FormulaOperationType.MUL:
+						if (stack.Count > 1)
+						{
+							var currentStackValue1 = stack.LastOrDefault();
+							stack.RemoveAt(stack.Count - 1);
+
+							var currentStackValue2 = stack.LastOrDefault();
+							stack.RemoveAt(stack.Count - 1);
+
+							var newStackValue = currentStackValue1 * currentStackValue2;
+							stack.Add(newStackValue);
+						}
+						break;
+
+					case FormulaOperationType.END:
+						break;
+
+					case FormulaOperationType.EXIT:
+						break;
+				}
+			}
+
+			foreach (var stateBitVale in stateBitVales)
+			{
+				//var stateBitViewModel = StateBits.FirstOrDefault(x => x.StateBit == stateBitVale.Key);
+				//if (stateBitViewModel != null)
+				{
+					//if (stateBitViewModel.IsActive != stateBitVale.Value)
+					if (stateBitVale.Value)
+					{
+						//stateBitViewModel.IsActive = stateBitVale.Value;
+						if (stateBitVale.Key == GKStateBit.TurnOn_InAutomatic)
+						{
+							if (Regime == Regime.Automatic)
+							{
+								OnTurnOn();
+							}
+						}
+						if (stateBitVale.Key == GKStateBit.TurnOnNow_InAutomatic)
+						{
+							if (Regime == Regime.Automatic)
+							{
+								OnTurnOnNow();
+							}
+						}
+						if (stateBitVale.Key == GKStateBit.TurnOff_InAutomatic)
+						{
+							if (Regime == Regime.Automatic)
+							{
+								OnTurnOff();
+							}
+						}
+						if (stateBitVale.Key == GKStateBit.TurnOffNow_InAutomatic)
+						{
+							if (Regime == Regime.Automatic)
+							{
+								OnTurnOffNow();
+							}
 						}
 					}
-				}
-
-				if (formulaOperation.FormulaOperationType == FormulaOperationType.PUTBIT)
-				{
-
-				}
-
-				if (formulaOperation.FormulaOperationType == FormulaOperationType.END)
-				{
-					break;
 				}
 			}
 		}

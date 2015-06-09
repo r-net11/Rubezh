@@ -98,8 +98,12 @@ namespace GKImitator.ViewModels
 		public RelayCommand ResetFireCommand { get; private set; }
 		void OnResetFire()
 		{
-			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Fire1).IsActive = false;
-			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Fire2).IsActive = false;
+			var fire1StateBit = StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Fire1);
+			if (fire1StateBit != null)
+				fire1StateBit.IsActive = false;
+			var fire2StateBit = StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Fire2);
+			if (fire2StateBit != null)
+				fire2StateBit.IsActive = false;
 			var journalItem = new ImitatorJournalItem(2, 14, 0, 0);
 			AddJournalItem(journalItem);
 			RecalculateOutputLogic();
