@@ -11,14 +11,16 @@ namespace GKOPCServer
 		private const string SignalId = "CF4257AB-ABFA-4E14-B46A-C1D5C754BE1B";
 		private const string WaitId = "5C0BDECC-2391-4996-82CC-8994912B3420";
 
-		private void OnStartup(object sender, StartupEventArgs e)
+		protected override void OnStartup(StartupEventArgs e)
 		{
 			try
 			{
+				base.OnStartup(e);
 				ThemeHelper.LoadThemeFromRegister();
-				AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
+
 				using (new DoubleLaunchLocker(SignalId, WaitId, true))
 				{
+					AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 					try
 					{
 						Bootstrapper.Run();
