@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI.GK;
 using Infrastructure.Common;
@@ -15,17 +12,17 @@ namespace GKModule.ViewModels
 	public class AutoSearchDevicesViewModel : DialogViewModel
 	{
 		GKDevice LocalDevice;
-		GKDeviceConfiguration RemoteDeviceConfiguration;
+		GKDevice RemoteDevice;
 
-		public AutoSearchDevicesViewModel(GKDeviceConfiguration deviceConfiguration, GKDevice localDevice)
+		public AutoSearchDevicesViewModel(GKDevice remoteDevice, GKDevice localDevice)
 		{
 			Title = "Устройства, найденные в результате автопоиска";
 			ChangeCommand = new RelayCommand(OnChange, CanChange);
-			RemoteDeviceConfiguration = deviceConfiguration;
-			LocalDevice = localDevice;
 
-			deviceConfiguration.UpdateConfiguration();
-			RootDevice = AddDeviceInternal(deviceConfiguration.RootDevice, null);
+			RemoteDevice = remoteDevice;
+			LocalDevice = localDevice;
+			new GKDeviceConfiguration { RootDevice = RemoteDevice }.UpdateConfiguration();
+			RootDevice = AddDeviceInternal(RemoteDevice, null);
 			if (SelectedDevice != null)
 				SelectedDevice.ExpandToThis();
 		}
@@ -83,35 +80,28 @@ namespace GKModule.ViewModels
 		public RelayCommand ChangeCommand { get; private set; }
 		void OnChange()
 		{
-			var RemoteDevice = RemoteDeviceConfiguration.Devices.FirstOrDefault(x => x.DriverType == GKDriverType.GK);
-			var LocalConfiguration = GKManager.DeviceConfiguration;
-
-			LocalDevice.Children.RemoveAll(x => x.DriverType == GKDriverType.RSR2_KAU);
-			foreach (var kauChild in RemoteDevice.Children)
+			if (LocalDevice.DriverType == GKDriverType.GK)
 			{
-				if (kauChild.DriverType == GKDriverType.RSR2_KAU)
+				LocalDevice.Children.RemoveAll(x => x.DriverType == GKDriverType.RSR2_KAU);
+				foreach (var kauChild in RemoteDevice.Children)
 				{
-					LocalDevice.Children.Add(kauChild);
+					if (kauChild.DriverType == GKDriverType.RSR2_KAU)
+					{
+						LocalDevice.Children.Add(kauChild);
+					}
 				}
 			}
-
-			LocalConfiguration.Zones.RemoveAll(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == LocalDevice.Address);
-			LocalConfiguration.Zones.AddRange(RemoteDeviceConfiguration.Zones);
-			LocalConfiguration.Directions.RemoveAll(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == LocalDevice.Address);
-			LocalConfiguration.Directions.AddRange(RemoteDeviceConfiguration.Directions);
-			LocalConfiguration.PumpStations.RemoveAll(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == LocalDevice.Address);
-			LocalConfiguration.PumpStations.AddRange(RemoteDeviceConfiguration.PumpStations);
-			LocalConfiguration.MPTs.RemoveAll(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == LocalDevice.Address);
-			LocalConfiguration.MPTs.AddRange(RemoteDeviceConfiguration.MPTs);
-			LocalConfiguration.Delays.RemoveAll(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == LocalDevice.Address);
-			LocalConfiguration.Delays.AddRange(RemoteDeviceConfiguration.Delays);
-			LocalConfiguration.GuardZones.RemoveAll(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == LocalDevice.Address);
-			LocalConfiguration.GuardZones.AddRange(RemoteDeviceConfiguration.GuardZones);
-			LocalConfiguration.Codes.RemoveAll(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == LocalDevice.Address);
-			LocalConfiguration.Codes.AddRange(RemoteDeviceConfiguration.Codes);
-			LocalConfiguration.Doors.RemoveAll(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == LocalDevice.Address);
-			LocalConfiguration.Doors.AddRange(RemoteDeviceConfiguration.Doors);
-
+			if (LocalDevice.DriverType == GKDriverType.RSR2_KAU)
+			{
+				LocalDevice.Children.RemoveAll(x => x.DriverType == GKDriverType.RSR2_KAU_Shleif);
+				foreach (var alsChild in RemoteDevice.Children)
+				{
+					if (alsChild.DriverType == GKDriverType.RSR2_KAU_Shleif)
+					{
+						LocalDevice.Children.Add(alsChild);
+					}
+				}
+			}
 			ServiceFactory.SaveService.GKChanged = true;
 			GKManager.UpdateConfiguration();
 			ServiceFactoryBase.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);

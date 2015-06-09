@@ -31,7 +31,7 @@ namespace FiresecClient
 			return SafeOperationCall(() => FiresecService.GKReadConfigurationFromGKFile(device.UID), "GKReadConfigurationFromGKFile");
 		}
 
-		public OperationResult<GKDeviceConfiguration> GKAutoSearch(GKDevice device)
+		public OperationResult<GKDevice> GKAutoSearch(GKDevice device)
 		{
 			return SafeOperationCall(() => FiresecService.GKAutoSearch(device.UID), "GKAutoSearch");
 		}

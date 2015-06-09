@@ -63,7 +63,7 @@ namespace FiresecService.Service
 			//return new OperationResult<Stream("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
 		}
 
-		public OperationResult<GKDeviceConfiguration> GKAutoSearch(Guid deviceUID)
+		public OperationResult<GKDevice> GKAutoSearch(Guid deviceUID)
 		{
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
@@ -71,7 +71,7 @@ namespace FiresecService.Service
 				DescriptorsManager.Create();
 				return GKProcessorManager.GKAutoSearch(device, UserName);
 			}
-			return OperationResult<GKDeviceConfiguration>.FromError("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
+			return OperationResult<GKDevice>.FromError("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
 		}
 
 		public OperationResult<bool> GKUpdateFirmware(Guid deviceUID, string fileName)

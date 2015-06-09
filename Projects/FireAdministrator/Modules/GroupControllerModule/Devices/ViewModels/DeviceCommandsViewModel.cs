@@ -388,10 +388,7 @@ namespace GKModule.Models
 							autoSearchDevicesViewModel = new AutoSearchDevicesViewModel(result.Result, SelectedDevice.Device);
 						});
 						LoadingService.Close();
-						if (DialogService.ShowModalWindow(autoSearchDevicesViewModel))
-						{
-							//	ServiceFactoryBase.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
-						}
+						DialogService.ShowModalWindow(autoSearchDevicesViewModel);
 					}
 					else
 					{
@@ -406,7 +403,7 @@ namespace GKModule.Models
 
 		bool CanAutoSearch()
 		{
-			return (SelectedDevice != null && SelectedDevice.Driver.DriverType == GKDriverType.GK);
+			return (SelectedDevice != null && (SelectedDevice.Driver.DriverType == GKDriverType.GK || SelectedDevice.Driver.DriverType == GKDriverType.RSR2_KAU));
 		}
 
 		public RelayCommand GetUsersCommand { get; private set; }

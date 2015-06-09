@@ -12,11 +12,50 @@ namespace GKProcessor
 	{
 		public string Error { get; private set; }
 
-		public GKDeviceConfiguration AutoSearch(GKDevice gkControllerDevice)
+		public GKDevice KauAutoSearch(GKDevice kauDevice)
 		{
-			var result = new GKDeviceConfiguration();
-			result.RootDevice = GKManager.CopyDevice(gkControllerDevice, false);
-			result.RootDevice.Children.RemoveAll(x => x.Driver.IsKau);
+			var newKauDevice = GKManager.CopyDevice(kauDevice, true);
+			newKauDevice.Parent = kauDevice.Parent;
+			var progressCallback = GKProcessorManager.StartProgress("Автопоиск устройств на " + newKauDevice.PresentationName, "Проверка связи", 1, true, GKProgressClientType.Administrator);
+			try
+			{
+				foreach (var child in newKauDevice.Children)
+				{
+					if (child.DriverType == GKDriverType.RSR2_KAU_Shleif)
+						child.Children = new List<GKDevice>();
+				}
+				
+				var pingResult = DeviceBytesHelper.Ping(newKauDevice.GKParent);
+				if (!pingResult)
+				{
+					if (progressCallback != null)
+						GKProcessorManager.StopProgress(progressCallback);
+					Error = "ГК с таким IP адресом не найден";
+					return null;
+				}
+				GKProcessorManager.DoProgress("Автопоиск устройств на " + newKauDevice.PresentationName, progressCallback);
+				if (!FindDevicesOnKau(newKauDevice, progressCallback))
+				    return null;
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "GKDescriptorsWriter.GKAutoSearchHelper");
+				Error = "Непредвиденная ошибка";
+				return null;
+			}
+			finally
+			{
+				if (progressCallback != null)
+					GKProcessorManager.StopProgress(progressCallback);
+			}
+
+			return newKauDevice;
+		}
+
+		public GKDevice AutoSearch(GKDevice gkControllerDevice)
+		{
+			var gkDevice = GKManager.CopyDevice(gkControllerDevice, false);
+			gkDevice.Children.RemoveAll(x => x.Driver.IsKau);
 
 			var progressCallback = GKProcessorManager.StartProgress("Автопоиск устройств на " + gkControllerDevice.PresentationName, "Проверка связи", 1, true, GKProgressClientType.Administrator);
 			var pingResult = DeviceBytesHelper.Ping(gkControllerDevice);
@@ -32,7 +71,8 @@ namespace GKProcessor
 			{
 				var kauDevices = new List<GKDevice>();
 
-				progressCallback = GKProcessorManager.StartProgress("Автопоиск КАУ на " + gkControllerDevice.PresentationName, "", (int)(128), true, GKProgressClientType.Administrator);
+				progressCallback = GKProcessorManager.StartProgress("Автопоиск КАУ на " + gkControllerDevice.PresentationName, "",
+					(int) (128), true, GKProgressClientType.Administrator);
 				for (byte i = 1; i < 128; i++)
 				{
 					if (progressCallback.IsCanceled)
@@ -46,7 +86,7 @@ namespace GKProcessor
 					kauDevice.DriverUID = kauDevice.Driver.UID;
 					kauDevice.Parent = gkControllerDevice;
 					kauDevice.IntAddress = i;
-					kauDevice.Properties.Add(new GKProperty() { Name = "Mode", Value = 0 });
+					kauDevice.Properties.Add(new GKProperty() {Name = "Mode", Value = 0});
 					GKManager.AddAutoCreateChildren(kauDevice);
 
 					var result1 = SendManager.Send(kauDevice, 0, 1, 1);
@@ -56,14 +96,14 @@ namespace GKProcessor
 						if (!sendResult.HasError && sendResult.Bytes.Count == 32)
 						{
 							var alsParameterByte = sendResult.Bytes[27];
-							kauDevice.Properties.Add(new GKProperty() { Name = "als12", Value = (ushort)(alsParameterByte & 0x03) });
-							kauDevice.Properties.Add(new GKProperty() { Name = "als34", Value = (ushort)(alsParameterByte & 0x0C) });
-							kauDevice.Properties.Add(new GKProperty() { Name = "als56", Value = (ushort)(alsParameterByte & 0x30) });
-							kauDevice.Properties.Add(new GKProperty() { Name = "als78", Value = (ushort)(alsParameterByte & 0xC0) });
+							kauDevice.Properties.Add(new GKProperty() {Name = "als12", Value = (ushort) (alsParameterByte & 0x03)});
+							kauDevice.Properties.Add(new GKProperty() {Name = "als34", Value = (ushort) (alsParameterByte & 0x0C)});
+							kauDevice.Properties.Add(new GKProperty() {Name = "als56", Value = (ushort) (alsParameterByte & 0x30)});
+							kauDevice.Properties.Add(new GKProperty() {Name = "als78", Value = (ushort) (alsParameterByte & 0xC0)});
 						}
 
 						kauDevices.Add(kauDevice);
-						result.RootDevice.Children.Add(kauDevice);
+						gkDevice.Children.Add(kauDevice);
 					}
 					else
 					{
@@ -73,19 +113,21 @@ namespace GKProcessor
 
 				foreach (var kauDevice in kauDevices)
 				{
-					if(!FindDevicesOnKau(kauDevice, progressCallback))
+					if (!FindDevicesOnKau(kauDevice, progressCallback))
 						return null;
 				}
 			}
 			catch (Exception e)
-			{ Logger.Error(e, "GKDescriptorsWriter.GKAutoSearchHelper"); Error = "Непредвиденная ошибка"; return null; }
+			{
+				Logger.Error(e, "GKDescriptorsWriter.GKAutoSearchHelper"); Error = "Непредвиденная ошибка"; return null;
+			}
 			finally
 			{
 				if (progressCallback != null)
 					GKProcessorManager.StopProgress(progressCallback);
 			}
 
-			return result;
+			return gkDevice;
 		}
 
 		bool FindDevicesOnKau(GKDevice kauDevice, GKProgressCallback progressCallback)

@@ -220,14 +220,14 @@ namespace GKProcessor
 			//return OperationResult<Stream>.FromError { gkFileReaderWriter.Error, new FileStream(filePath, FileMode.Open, FileAccess.Read));
 		}
 
-		public static OperationResult<GKDeviceConfiguration> GKAutoSearch(GKDevice device, string userName)
+		public static OperationResult<GKDevice> GKAutoSearch(GKDevice device, string userName)
 		{
 			AddGKMessage(JournalEventNameType.Автопоиск, JournalEventDescriptionType.NULL, "", device, userName);
 			SuspendMonitoring(device);
 			var gkAutoSearchHelper = new GKAutoSearchHelper();
-			var deviceConfiguration = gkAutoSearchHelper.AutoSearch(device);
+			var newDevice = device.DriverType == GKDriverType.GK ? gkAutoSearchHelper.AutoSearch(device) : gkAutoSearchHelper.KauAutoSearch(device);
 			ResumeMonitoring(device);
-			return OperationResult<GKDeviceConfiguration>.FromError(gkAutoSearchHelper.Error, deviceConfiguration);
+			return OperationResult<GKDevice>.FromError(gkAutoSearchHelper.Error, newDevice);
 		}
 
 		public static OperationResult<bool> GKUpdateFirmware(GKDevice device, string fileName, string userName)
@@ -484,9 +484,9 @@ namespace GKProcessor
 
 		public static void GKStartMeasureMonitoring(GKDevice device)
 		{
-			if (device == null || device.Parent == null || device.Parent.GkDatabaseParent == null)
+			if (device == null || device.KAUParent == null || device.KAUParent.GkDatabaseParent == null)
 				return;
-			var watcher = WatcherManager.Watchers.FirstOrDefault(x => x.GkDatabase.RootDevice.UID == device.Parent.GkDatabaseParent.UID);
+			var watcher = WatcherManager.Watchers.FirstOrDefault(x => x.GkDatabase.RootDevice.UID == device.KAUParent.GkDatabaseParent.UID);
 			if (watcher != null)
 			{
 				watcher.StartDeviceMeasure(device);

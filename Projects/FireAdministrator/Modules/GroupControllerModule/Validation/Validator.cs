@@ -30,7 +30,19 @@ namespace GKModule.Validation
 			ValidateDaySchedules();
 			ValidateSchedules();
 			ValidatePlans();
+			ValidateTypesCorrectness();
 			return Errors;
+		}
+
+		void ValidateTypesCorrectness()
+		{
+			foreach (var mpt in GKManager.MPTs)
+			{
+				foreach (var mptDevice in mpt.MPTDevices)
+				{
+					//mptDevice.MPTDeviceType == GKMPTDeviceType.AutomaticOffBoard
+				}
+			}
 		}
 
 		bool IsManyGK { get; set; }
