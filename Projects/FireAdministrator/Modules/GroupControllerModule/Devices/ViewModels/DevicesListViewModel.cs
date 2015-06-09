@@ -19,6 +19,8 @@ namespace GKModule.ViewModels
 				if (device.IsRealDevice)
 				{
 					var deviceViewModel = new DeviceViewModel(device);
+					deviceViewModel.CanUpdateDescriptorName = true;
+					deviceViewModel.UpdateDescriptorName();
 					Devices.Add(deviceViewModel);
 				}
 			}
@@ -35,18 +37,6 @@ namespace GKModule.ViewModels
 			{
 				_selectedDevice = value;
 				OnPropertyChanged(() => SelectedDevice);
-				SelectedDeviceDescriptorName = value.Device.GetGKDescriptorName(GKManager.DeviceConfiguration.GKNameGenerationType);
-			}
-		}
-
-		string _selectedDeviceDescriptorName;
-		public string SelectedDeviceDescriptorName
-		{
-			get { return _selectedDeviceDescriptorName; }
-			set
-			{
-				_selectedDeviceDescriptorName = value;
-				OnPropertyChanged(() => SelectedDeviceDescriptorName);
 			}
 		}
 	}

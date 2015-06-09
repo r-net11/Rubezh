@@ -171,6 +171,7 @@ namespace GKModule.ViewModels
 			{
 				Device.Description = value;
 				OnPropertyChanged(() => Description);
+				UpdateDescriptorName();
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -182,9 +183,31 @@ namespace GKModule.ViewModels
 			{
 				Device.ProjectAddress = value;
 				OnPropertyChanged(() => ProjectAddress);
+				UpdateDescriptorName();
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
+
+		string _descriptorName;
+		public string DescriptorName
+		{
+			get { return _descriptorName; }
+			set
+			{
+				_descriptorName = value;
+				OnPropertyChanged(() => DescriptorName);
+			}
+		}
+
+		public void UpdateDescriptorName()
+		{
+			if (CanUpdateDescriptorName)
+			{
+				DescriptorName = Device.GetGKDescriptorName(GKManager.DeviceConfiguration.GKNameGenerationType);
+			}
+		}
+
+		public bool CanUpdateDescriptorName { get; set; }
 
 		public bool IsUsed
 		{

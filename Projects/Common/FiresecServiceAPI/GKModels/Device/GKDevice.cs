@@ -312,31 +312,31 @@ namespace FiresecAPI.GK
 			switch (gkNameGenerationType)
 			{
 				case GKNameGenerationType.DriverTypePlusAddressPlusDescription:
-					if (Description != null)
+					if (!string.IsNullOrEmpty(Description))
 						result += "(" + Description + ")";
 					break;
 
 				case GKNameGenerationType.Description:
-					if (Description != null)
+					if (!string.IsNullOrEmpty(Description))
 						result = Description;
 					break;
 
 				case GKNameGenerationType.ProjectAddress:
-					if (ProjectAddress != null)
+					if (!string.IsNullOrEmpty(ProjectAddress))
 						result = ProjectAddress;
 					break;
 
 				case GKNameGenerationType.DescriptionOrProjectAddress:
-					if (Description != null)
+					if (!string.IsNullOrEmpty(Description))
 						result = Description;
-					else if (ProjectAddress != null)
+					else if (!string.IsNullOrEmpty(ProjectAddress))
 						result = ProjectAddress;
 					break;
 
 				case GKNameGenerationType.ProjectAddressOrDescription:
-					if (ProjectAddress != null)
+					if (!string.IsNullOrEmpty(ProjectAddress))
 						result = ProjectAddress;
-					else if (Description != null)
+					else if (!string.IsNullOrEmpty(Description))
 						result = Description;
 					break;
 			}
