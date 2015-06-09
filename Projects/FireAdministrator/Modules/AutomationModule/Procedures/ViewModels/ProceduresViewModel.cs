@@ -101,10 +101,6 @@ namespace AutomationModule.ViewModels
 		void OnPaste()
 		{
 			_procedureToCopy.Uid = Guid.NewGuid();
-			foreach (var variable in _procedureToCopy.Variables)
-				variable.Uid = Guid.NewGuid();
-			foreach (var argument in _procedureToCopy.Arguments)
-				argument.Uid = Guid.NewGuid();
 			var procedureViewModel = new ProcedureViewModel(Utils.Clone(_procedureToCopy));
 			FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures.Add(procedureViewModel.Procedure);
 			Procedures.Add(procedureViewModel);
