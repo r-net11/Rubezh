@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
+using AutomationModule.Plans;
 using Common;
 using FiresecAPI.Automation;
 using Infrastructure;
@@ -109,6 +110,7 @@ namespace AutomationModule.ViewModels
 			Procedures.Add(procedureViewModel);
 			SelectedProcedure = procedureViewModel;
 			ServiceFactory.SaveService.AutomationChanged = true;
+			AutomationPlanExtension.Instance.Cache.BuildSafe<Procedure>();
 		}
 
 		bool CanPaste()
@@ -127,6 +129,7 @@ namespace AutomationModule.ViewModels
 				Procedures.Add(procedureViewModel);
 				SelectedProcedure = procedureViewModel;
 				ServiceFactory.SaveService.AutomationChanged = true;
+				AutomationPlanExtension.Instance.Cache.BuildSafe<Procedure>();
 			}
 		}
 
