@@ -9,6 +9,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using Microsoft.Win32;
 using PowerCalculator.Models;
 using System.Collections.Generic;
+using PowerCalculator.Processor;
 
 namespace PowerCalculator.ViewModels
 {
@@ -23,9 +24,12 @@ namespace PowerCalculator.ViewModels
 			LoadFromFileCommand = new RelayCommand(OnLoadFromFile);
 			AddLineCommand = new RelayCommand(OnAddLine);
 			RemoveLineCommand = new RelayCommand(OnRemoveFile, CanRemoveLine);
+            EditCableTypesRepositoryCommand = new RelayCommand(OnEditCableTypesRepository);
 			ShowSpecificationCommand = new RelayCommand(OnShowSpecification);
 			CalculateCommand = new RelayCommand(OnCalculate);
 			OnCreateNew();
+
+            CableTypesRepository.LoadOrDefault(CableTypesPath);
 		}
 
 		void Initialize()
@@ -39,7 +43,9 @@ namespace PowerCalculator.ViewModels
             RenameLines();
 			SelectedLine = Lines.FirstOrDefault();
 		}
-        
+
+        string CableTypesPath { get { return AppDomain.CurrentDomain.BaseDirectory + "\\CableTypes.xml"; } }
+                       
 		ObservableCollection<LineViewModel> _lines;
 		public ObservableCollection<LineViewModel> Lines
 		{
@@ -61,13 +67,13 @@ namespace PowerCalculator.ViewModels
 				OnPropertyChanged(() => SelectedLine);
 			}
 		}
-
+        
 		public RelayCommand CreateNewCommand { get; private set; }
 		void OnCreateNew()
 		{
 			Configuration = new Configuration();
             
-            Configuration.Lines.Add(new Line().Initialize());
+            Configuration.Lines.Add(new Line());
 			Initialize();
 		}
 
@@ -137,7 +143,7 @@ namespace PowerCalculator.ViewModels
 		public RelayCommand AddLineCommand { get; private set; }
 		void OnAddLine()
 		{
-			var line = new Line().Initialize();
+			var line = new Line();
             
 			Configuration.Lines.Add(line);
 			var lineViewModel = new LineViewModel(line);
@@ -163,13 +169,20 @@ namespace PowerCalculator.ViewModels
 		public RelayCommand ShowSpecificationCommand { get; private set; }
 		void OnShowSpecification()
 		{
-			var specificationViewModel = new SpecificationViewModel(Configuration);
-			if (DialogService.ShowModalWindow(specificationViewModel))
-			{
-				Initialize();
-			}
+			var specificationViewModel = new SpecificationViewModel(Configuration, Initialize);
+            DialogService.ShowModalWindow(specificationViewModel);
 		}
 
+        public RelayCommand EditCableTypesRepositoryCommand { get; private set; }
+        void OnEditCableTypesRepository()
+		{
+            var cableTypesRepositoryViewModel = new CableTypesRepositoryViewModel();
+            if (DialogService.ShowModalWindow(cableTypesRepositoryViewModel))
+			{
+                CableTypesRepository.SaveToFile(CableTypesPath);
+			}
+		}
+        
 		public RelayCommand CalculateCommand { get; private set; }
 		void OnCalculate()
 		{

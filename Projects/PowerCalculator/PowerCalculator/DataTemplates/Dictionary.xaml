@@ -15,4 +15,8 @@
         <Views:SpecificationView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:CableTypesRepositoryViewModel}">
+        <Views:CableTypesRepositoryView />
+    </DataTemplate>
+
 </ResourceDictionary>

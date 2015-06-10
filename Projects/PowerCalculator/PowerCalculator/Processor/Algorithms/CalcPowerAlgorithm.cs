@@ -12,6 +12,7 @@ namespace PowerCalculator.Processor.Algorithms
 	public class CalcPowerAlgorithm
 	{
 		const double I1MESS = 0.0024;
+        readonly Device KAU = new Device() { DriverType = DriverType.RSR2_KAU};
 		Line Line;
 		public Dictionary<Device, CalcPowerIndicators> Result { get; set; }
 
@@ -20,6 +21,7 @@ namespace PowerCalculator.Processor.Algorithms
 			Line = line;
 			Result = new Dictionary<Device, CalcPowerIndicators>();
 
+            Result.Add(KAU, new CalcPowerIndicators() { id = KAU.Driver.I, ud = KAU.Driver.U, il = 0 });
 			foreach (Device device in Line.Devices)
 				Result.Add(device, new CalcPowerIndicators() { id = Dr(device.DriverType).I, ud = Dr(device.DriverType).U, il = 0 });
 		}
@@ -36,7 +38,7 @@ namespace PowerCalculator.Processor.Algorithms
 			uint nu = (uint)Line.Devices.Sum(e => Dr(e.DriverType).Mult);
 
 			be = 0;
-			for (int i = 1; i < Line.Devices.Count; i++)
+			for (int i = 1; i < Dc(); i++)
 			{
 				if (Dr(i).DeviceType == DeviceType.Supplier)
 				{
@@ -50,8 +52,8 @@ namespace PowerCalculator.Processor.Algorithms
 					nu -= Dr(i).Mult;
 				}
 			}
-			if (be != Line.Devices.Count - 1)
-				calc(be, Line.Devices.Count - 1, nu);
+			if (be != Dc() - 1)
+				calc(be, Dc() - 1, nu);
 
 		}
 
@@ -114,13 +116,21 @@ namespace PowerCalculator.Processor.Algorithms
 
 		Device De(int index, bool reverse = false)
 		{
-			return Line.Devices[reverse ? Line.Devices.Count - 1 - index : index];
+			return 
+                index == 0 ? 
+                KAU : 
+                Line.Devices[reverse ? Line.Devices.Count - index : index - 1];
 		}
 
 		CalcPowerIndicators Di(int index, bool reverse = false)
 		{
 			return Result[De(index, reverse)];
 		}
+
+        int Dc()
+        {
+            return Line.Devices.Count + 1;
+        }
 
 		#endregion
 	}

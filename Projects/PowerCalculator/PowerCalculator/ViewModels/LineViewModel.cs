@@ -63,6 +63,18 @@ namespace PowerCalculator.ViewModels
 			}
 		}
 
+        public void ChangeDriver(DeviceViewModel deviceViewModel, DriverType newDriverType)
+        {
+            int maxAdress = (int)GetMaxAddress();
+            if (maxAdress - deviceViewModel.Device.Driver.Mult + Processor.DriversHelper.GetDriver(newDriverType).Mult > 255)
+            {
+                MessageBoxService.ShowWarning("Количество устройств на шлейфе не должно превышать 255");
+                return;
+            }
+            deviceViewModel.Device.DriverType = newDriverType;
+            UpdateAddresses(deviceViewModel);
+        }
+
         public void Calculate()
         {
             var deviceIndicators = Processor.Processor.CalculateLine(Line).ToList();
@@ -103,29 +115,33 @@ namespace PowerCalculator.ViewModels
 				}
 
 				var selectedIndex = Devices.IndexOf(SelectedDevice) + 1;
+                Devices.CollectionChanged -= Devices_CollectionChanged;
 				for (int i = 0; i < newDeviceViewModel.Count; i++)
 				{
 					var device = new Device();
-					device.DriverType = newDeviceViewModel.SelectedDriver.DriverType;
-					device.Cable.Resistivity = newDeviceViewModel.CableResistivity;
-					device.Cable.Length = newDeviceViewModel.CableLenght;
+                    device.DriverType = newDeviceViewModel.SelectedDriver.DriverType;
+                    device.Cable.CableType = newDeviceViewModel.SelectedCableType;
+                    device.Cable.Resistivity = newDeviceViewModel.CableResistivity;
+					device.Cable.Length = newDeviceViewModel.CableLength;
 					Line.Devices.Insert(selectedIndex, device);
 					var deviceViewModel = new DeviceViewModel(device, this);
 					Devices.Insert(selectedIndex, deviceViewModel);
 					SelectedDevice = deviceViewModel;
 				}
-				UpdateAddresses();
+                Devices.CollectionChanged += Devices_CollectionChanged;
+                Calculate();
+                UpdateAddresses();
 			}
 		}
 		bool CanAdd()
 		{
-			return SelectedDevice != null && GetMaxAddress() < 255;
+			return GetMaxAddress() < 255;
 		}
 
 		uint GetMaxAddress()
 		{
 			if (!Devices.Any())
-				return 0;
+				return 1;
 			return Devices.LastOrDefault().Address;
 		}
 
@@ -155,21 +171,26 @@ namespace PowerCalculator.ViewModels
 			if (devicesIndex > -1)
 				SelectedDevice = Devices[devicesIndex];
 
-			UpdateAddresses();
+            UpdateAddresses(SelectedDevice);
 		}
 		bool CanRemove(object parameter)
 		{
 			return SelectedDevice != null && SelectedDevice.Device.DriverType != DriverType.RSR2_KAU;
 		}
 
-		void UpdateAddresses()
+		void UpdateAddresses(DeviceViewModel startDevice = null)
 		{
-			uint currentAddress = 1;
-			foreach (var deviceViewModel in Devices)
-			{
-				deviceViewModel.Address = currentAddress;
-				currentAddress += deviceViewModel.Device.Driver.Mult;
-			}
+            var startIndex = startDevice == null ? 0 : Devices.IndexOf(startDevice);
+            if (startIndex == -1)
+                return;
+
+            var currentAddress = startDevice == null ? 1 : startDevice.Address;
+            
+            for (int i = startIndex; i < Devices.Count; i++ )
+            {
+                Devices[i].Address = currentAddress;
+                currentAddress += Devices[i].Device.Driver.Mult;
+            }
 		}
 
 		#region CopyPaste

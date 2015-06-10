@@ -117,7 +117,7 @@ namespace PowerCalculator.Processor
             Drivers.Add(new Driver()
             {
                 DriverType = DriverType.RSR2_AM_2,
-                Mult = 4,
+                Mult = 2,
                 R = 0.8,
                 I = 0.21,
                 U = 0,

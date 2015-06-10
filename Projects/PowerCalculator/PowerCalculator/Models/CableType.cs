@@ -2,12 +2,14 @@
 
 namespace PowerCalculator.Models
 {
-	public enum CableType
+	public class CableType
 	{
-		[Description("Тип кабеля 1")]
-		CableType1,
+        public string Name { get; set; }
+        public double Resistivity { get; set; }
 
-		[Description("Тип кабеля 2")]
-		CableType2,
+        public override string ToString()
+        {
+            return Name;
+        }
 	}
 }

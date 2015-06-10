@@ -67,7 +67,19 @@
             </StackPanel>
             <DataGrid Grid.Row="1" Grid.Column="1" ItemsSource="{Binding CableSpecificationItems}" SelectedItem="{Binding SelectedCableSpecificationItem}" IsReadOnly="False" Margin="2">
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn Header="Сопротивление кабеля" Width="*">
+                    <DataGridTemplateColumn Header="Тип кабеля" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding CableType}" Margin="2" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                        <DataGridTemplateColumn.CellEditingTemplate>
+                            <DataTemplate>
+                                <ComboBox ItemsSource="{Binding CableTypes}" SelectedItem="{Binding CableType, UpdateSourceTrigger=PropertyChanged}" Foreground="Black" Margin="2" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellEditingTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Сопротивление, Ом/м" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Resistivity}" Margin="2" />
@@ -79,7 +91,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellEditingTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Длина кабеля" Width="*">
+                    <DataGridTemplateColumn Header="Длина кабеля, м" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Length}" Margin="2" />

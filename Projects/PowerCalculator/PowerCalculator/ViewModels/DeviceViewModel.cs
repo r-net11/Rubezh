@@ -1,41 +1,48 @@
 ﻿using Infrastructure.Common.Windows.ViewModels;
 using PowerCalculator.Models;
+using PowerCalculator.Processor;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using PowerCalculator.Processor;
 
 namespace PowerCalculator.ViewModels
 {
 	public class DeviceViewModel : BaseViewModel
 	{
-		public Device Device { get; private set; }
-		public LineViewModel Owner { get; private set; }
+        public Device Device { get; private set; }
+        public LineViewModel Owner { get; private set; }
 
-		public DeviceViewModel(Device device, LineViewModel owner)
+        public DeviceViewModel(Device device, LineViewModel owner)
 		{
 			Device = device;
             Owner = owner;
+            _cableType = Device.Cable.CableType;
 			_cableResistivity = Device.Cable.Resistivity;
 			_cableLength = Device.Cable.Length;
-			Drivers = new ObservableCollection<DriverViewModel>(DriversHelper.Drivers.Select(x => new DriverViewModel(x)));
-			_selectedDriver = Drivers.FirstOrDefault(x => x.Driver.DriverType == device.DriverType);
-		}
 
-		public ObservableCollection<DriverViewModel> Drivers { get; private set; }
-
-		DriverViewModel _selectedDriver;
-		public DriverViewModel SelectedDriver
-		{
-			get { return _selectedDriver; }
-			set
-			{
-				_selectedDriver = value;
-				OnPropertyChanged(() => SelectedDriver);
-				Device.DriverType = value.Driver.DriverType;
-				if (Owner != null)
-					Owner.Calculate();
-			}
+            Drivers = new ObservableCollection<DriverViewModel>(DriversHelper.Drivers.Select(x => new DriverViewModel(x)));
+            _selectedDriver = Drivers.FirstOrDefault(x => x.Driver.DriverType == Device.DriverType);
 		}
+        
+        public ObservableCollection<DriverViewModel> Drivers { get; private set; }
+
+        DriverViewModel _selectedDriver;
+        public DriverViewModel SelectedDriver
+        {
+            get { return _selectedDriver; }
+            set
+            {
+                _selectedDriver = value;
+                OnPropertyChanged(() => SelectedDriver);
+                if (Owner != null)
+                {
+                    Owner.ChangeDriver(this, value.Driver.DriverType);
+                    Owner.Calculate();
+                }
+                    
+            }
+        }
 
 		double _cableResistivity;
 		public double CableResistivity
@@ -48,14 +55,31 @@ namespace PowerCalculator.ViewModels
                 else if (value > 10)
                     _cableResistivity = 10;
                 else
-                    _cableResistivity = value;
+                    _cableResistivity = Math.Round(value, 5);
 
 				OnPropertyChanged(() => CableResistivity);
                 Device.Cable.Resistivity = _cableResistivity;
+                if (_cableType == null || _cableResistivity != _cableType.Resistivity)
+                    CableType = CableTypesRepository.CustomCableType;
                 if (Owner != null)
                     Owner.Calculate();
 			}
 		}
+
+        public List<CableType> CableTypes { get { return CableTypesRepository.CableTypes; } }
+        CableType _cableType;
+        public CableType CableType
+        {
+            get { return _cableType; }
+            set
+            {
+                _cableType = value;
+                OnPropertyChanged(() => CableType);
+                Device.Cable.CableType = _cableType;
+                if (_cableType != CableTypesRepository.CustomCableType)
+                    CableResistivity = _cableType.Resistivity;
+            }
+        }
 
 		double _cableLength;
 		public double CableLength
@@ -63,7 +87,7 @@ namespace PowerCalculator.ViewModels
 			get { return _cableLength; }
 			set
 			{
-                _cableLength = value > 0 ? value : 1;
+                _cableLength = value > 0 ? Math.Round(value, 2) : 1;
 
 				OnPropertyChanged(() => CableLength);
                 Device.Cable.Length = _cableLength;
@@ -102,7 +126,7 @@ namespace PowerCalculator.ViewModels
 		double _current;
 		public double Current
 		{
-			get { return _current; }
+			get { return Math.Round(_current, 2); }
 			set
 			{
 				_current = value;
@@ -113,7 +137,7 @@ namespace PowerCalculator.ViewModels
 		double _voltage;
 		public double Voltage
 		{
-			get { return _voltage; }
+			get { return Math.Round(_voltage, 2); }
 			set
 			{
 				_voltage = value;

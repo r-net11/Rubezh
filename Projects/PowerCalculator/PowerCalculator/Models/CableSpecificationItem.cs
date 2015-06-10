@@ -9,6 +9,7 @@ namespace PowerCalculator.Models
 			Length = 1;
 		}
 
+        public CableType CableType { get; set; }
 		public double Resistivity { get; set; }
 		public double Length { get; set; }
 	}

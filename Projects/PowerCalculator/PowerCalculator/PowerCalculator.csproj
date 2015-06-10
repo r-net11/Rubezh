@@ -78,6 +78,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\CableType.cs" />
     <Compile Include="Models\DeviceIndicator.cs" />
     <Compile Include="Models\DeviceType.cs" />
     <Compile Include="Models\Cable.cs" />
@@ -88,14 +89,20 @@
     <Compile Include="Models\Configuration.cs" />
     <Compile Include="Models\Driver.cs" />
     <Compile Include="Models\CableSpecificationItem.cs" />
+    <Compile Include="Processor\CableTypesRepository.cs" />
     <Compile Include="Processor\DriversHelper.cs" />
     <Compile Include="Models\Line.cs" />
     <Compile Include="Processor\Processor.cs" />
     <Compile Include="ViewModels\CableSpecificationItemViewModel.cs" />
+    <Compile Include="ViewModels\CableTypeViewModel.cs" />
     <Compile Include="ViewModels\DeviceSpecificationItemViewModel.cs" />
     <Compile Include="ViewModels\DriverViewModel.cs" />
     <Compile Include="ViewModels\DeviceViewModel.cs" />
+    <Compile Include="ViewModels\CableTypesRepositoryViewModel.cs" />
     <Compile Include="ViewModels\SpecificationViewModel.cs" />
+    <Compile Include="Views\CableTypesRepositoryView.xaml.cs">
+      <DependentUpon>CableTypesRepositoryView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\NewDeviceView.xaml.cs">
       <DependentUpon>NewDeviceView.xaml</DependentUpon>
     </Compile>
@@ -121,6 +128,10 @@
       <DependentUpon>MainView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\CableTypesRepositoryView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\NewDeviceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

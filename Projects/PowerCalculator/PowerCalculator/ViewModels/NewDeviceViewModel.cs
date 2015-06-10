@@ -3,6 +3,8 @@ using System.Linq;
 using Infrastructure.Common.Windows.ViewModels;
 using PowerCalculator.Models;
 using PowerCalculator.Processor;
+using System.Collections.Generic;
+using System;
 
 namespace PowerCalculator.ViewModels
 {
@@ -14,7 +16,7 @@ namespace PowerCalculator.ViewModels
 			Drivers = new ObservableCollection<Driver>(DriversHelper.Drivers.Where(x=>x.CanAdd));
 			SelectedDriver = Drivers.FirstOrDefault();
 			CableResistivity = 1;
-			CableLenght = 1;
+			CableLength = 1;
 			Count = 1;
 		}
 
@@ -31,25 +33,49 @@ namespace PowerCalculator.ViewModels
 			}
 		}
 
+        public List<CableType> CableTypes { get { return CableTypesRepository.CableTypes; } }
+
+        CableType _selectedCableType;
+        public CableType SelectedCableType
+        {
+            get { return _selectedCableType; }
+            set
+            {
+                _selectedCableType = value;
+                OnPropertyChanged(() => SelectedCableType);
+
+                if (_selectedCableType != CableTypesRepository.CustomCableType)
+                    CableResistivity = _selectedCableType.Resistivity;
+            }
+        }
+
 		double _cableResistivity;
 		public double CableResistivity
 		{
 			get { return _cableResistivity; }
 			set
 			{
-				_cableResistivity = value;
+                if (value <= 0)
+                    _cableResistivity = 1;
+                else if (value > 10)
+                    _cableResistivity = 10;
+                else
+                    _cableResistivity = Math.Round(value, 5);
+				
 				OnPropertyChanged(() => CableResistivity);
+                if (_selectedCableType == null || _cableResistivity != _selectedCableType.Resistivity)
+                    SelectedCableType = CableTypesRepository.CustomCableType;
 			}
 		}
 
-		double _cableLenght;
-		public double CableLenght
+		double _cableLength;
+		public double CableLength
 		{
-			get { return _cableLenght; }
+			get { return _cableLength; }
 			set
 			{
-				_cableLenght = value;
-				OnPropertyChanged(() => CableLenght);
+                _cableLength = value > 0 ? Math.Round(value, 2) : 1;
+				OnPropertyChanged(() => CableLength);
 			}
 		}
 

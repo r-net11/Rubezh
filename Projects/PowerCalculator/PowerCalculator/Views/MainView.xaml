@@ -48,11 +48,12 @@
             <ToolBarButton Command="{Binding SaveToFileCommand}" ToolTip="Сохранить файл" ImageSource="Save" Margin="2" />
             <ToolBarButton Command="{Binding LoadFromFileCommand}" ToolTip="Загрузить файл" ImageSource="Load" Margin="2" />
             <ToolBarButton Command="{Binding ShowSpecificationCommand}" ToolTip="Редактировать спецификацию" ImageSource="Settings2" Margin="2" />
+            <ToolBarButton Command="{Binding EditCableTypesRepositoryCommand}" ToolTip="Редактировать список кабелей" ImageSource="Direction" Margin="2" />
             <ToolBarButton Command="{Binding CalculateCommand}" ToolTip="Расчитать" ImageSource="Play" Margin="2" />
         </StackPanel>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" MinWidth="200" />
+                <ColumnDefinition Width="Auto" MinWidth="150" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
@@ -87,14 +88,14 @@
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Width="16" Height="16" Margin="5 0" HorizontalAlignment="Left" Source="{Binding SelectedDriver.Driver.ImageSource}" />
-                                        <TextBlock Text="{Binding SelectedDriver.Driver.DriverType, Converter={StaticResource EnumToDescriptionConverter}}" Margin="2" />
+                                        <Image Width="16" Height="16" Margin="5 0" HorizontalAlignment="Left" Source="{Binding Device.Driver.ImageSource}" />
+                                        <TextBlock Text="{Binding Device.DriverType, Converter={StaticResource EnumToDescriptionConverter}}" Margin="2" />        
                                     </StackPanel>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                             <DataGridTemplateColumn.CellEditingTemplate>
                                 <DataTemplate>
-                                    <ComboBox ItemsSource="{Binding Drivers}" SelectedItem="{Binding SelectedDriver}">
+                                    <ComboBox ItemsSource="{Binding Drivers}" SelectedItem="{Binding SelectedDriver, UpdateSourceTrigger=PropertyChanged}" Margin="2">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
                                                 <StackPanel Orientation="Horizontal">
@@ -114,7 +115,19 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Header="Сопротивление кабеля" Width="Auto">
+                        <DataGridTemplateColumn Header="Тип кабеля" Width="Auto">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding CableType}" Margin="2" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
+                                    <ComboBox ItemsSource="{Binding CableTypes}" SelectedItem="{Binding CableType, UpdateSourceTrigger=PropertyChanged}" Foreground="Black" Margin="2" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Сопротивление, Ом/м" Width="Auto">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding CableResistivity}" Margin="2" />
@@ -126,7 +139,7 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellEditingTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Header="Длина кабеля" Width="Auto">
+                        <DataGridTemplateColumn Header="Длина, м" Width="Auto">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding CableLength}" Margin="2" />
@@ -138,14 +151,14 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellEditingTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Header="Ток" Width="Auto">
+                        <DataGridTemplateColumn Header="Ток, А" Width="Auto">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Current}" Margin="2" />
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Header="Напряжение" Width="Auto">
+                        <DataGridTemplateColumn Header="Напряжение, В" Width="Auto">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Voltage}" Margin="2" />

@@ -11,11 +11,13 @@ namespace PowerCalculator.ViewModels
 	public class SpecificationViewModel : SaveCancelDialogViewModel
 	{
 		Configuration Configuration;
+        Action InitializeConfiguration;
 
-		public SpecificationViewModel(Configuration configuration)
+        public SpecificationViewModel(Configuration configuration, Action initializeConfiguration)
 		{
 			Title = "Спецификация устройств и кабелей";
 			Configuration = configuration;
+            InitializeConfiguration = initializeConfiguration;
 			AddDeviceCommand = new RelayCommand(OnAddDevice);
 			RemoveDeviceCommand = new RelayCommand(OnRemoveDevice, CanRemoveDevice);
 			AddCableCommand = new RelayCommand(OnAddCable);
@@ -24,10 +26,10 @@ namespace PowerCalculator.ViewModels
 			CollectToSpecificationCommand = new RelayCommand(OnCollectToSpecification);
 			GenerateFromSpecificationCommand = new RelayCommand(OnGenerateFromSpecification);
 
-			DeviceSpecificationItems = new ObservableCollection<DeviceSpecificationItemViewModel>(Configuration.DeviceSpecificationItems.Select(x => new DeviceSpecificationItemViewModel(x)));
-			CableSpecificationItems = new ObservableCollection<CableSpecificationItemViewModel>(Configuration.CableSpecificationItems.Select(x => new CableSpecificationItemViewModel(x)));
+            DeviceSpecificationItems = new ObservableCollection<DeviceSpecificationItemViewModel>(Configuration.DeviceSpecificationItems.Select(x => new DeviceSpecificationItemViewModel(x)));
+            CableSpecificationItems = new ObservableCollection<CableSpecificationItemViewModel>(Configuration.CableSpecificationItems.Select(x => new CableSpecificationItemViewModel(x)));
 		}
-
+        
 		public ObservableCollection<DeviceSpecificationItemViewModel> DeviceSpecificationItems { get; private set; }
 		public ObservableCollection<CableSpecificationItemViewModel> CableSpecificationItems { get; private set; }
 
@@ -74,7 +76,7 @@ namespace PowerCalculator.ViewModels
 		public RelayCommand AddCableCommand { get; private set; }
 		void OnAddCable()
 		{
-			var cableSpecificationItem = new CableSpecificationItem();
+            var cableSpecificationItem = new CableSpecificationItem() { CableType = Processor.CableTypesRepository.CustomCableType};
 			var cableSpecificationItemViewModel = new CableSpecificationItemViewModel(cableSpecificationItem);
 			CableSpecificationItems.Add(cableSpecificationItemViewModel);
 		}
@@ -93,31 +95,40 @@ namespace PowerCalculator.ViewModels
 		void OnCollectToSpecification()
 		{
 			Processor.Processor.CollectToSpecification(Configuration);
+
+            DeviceSpecificationItems.Clear();
+            foreach (var deviceSpecificationItem in Configuration.DeviceSpecificationItems)
+                DeviceSpecificationItems.Add(new DeviceSpecificationItemViewModel(deviceSpecificationItem));
+            CableSpecificationItems.Clear();
+            foreach (var cableSpecificationItem in Configuration.CableSpecificationItems)
+                CableSpecificationItems.Add(new CableSpecificationItemViewModel(cableSpecificationItem));
+
 		}
 
 		public RelayCommand GenerateFromSpecificationCommand { get; private set; }
 		void OnGenerateFromSpecification()
 		{
-			if (Configuration.DeviceSpecificationItems.Count == 0)
+			if (DeviceSpecificationItems.Count == 0)
 			{
 				MessageBoxService.ShowError("Спецификация устройств не содержит элементов!");
 				return;
 			}
 
-			if (Configuration.CableSpecificationItems.Count == 0)
+			if (CableSpecificationItems.Count == 0)
 			{
 				MessageBoxService.ShowError("Спецификация кабелей не содержит элементов!");
 				return;
 			}
 
-			var cableRemains = Processor.Processor.GenerateFromSpecification(Configuration);
+            var cableRemains = Processor.Processor.GenerateFromSpecification(Configuration, DeviceSpecificationItems.Select(x => x.DeviceSpecificationItem).ToList(), CableSpecificationItems.Select(x => x.CableSpecificationItem).ToList());
 			if (cableRemains.Count() > 0)
 			{
 				string msg = "Неиспользованный кабель:\n";
 				foreach (CableSpecificationItem cablePiece in cableRemains)
-					msg += String.Format("Длина = {0} м, Сопротивление = {1} Ом;\n", cablePiece.Length, cablePiece.Resistivity);
+					msg += String.Format("Тип: {0}, Длина = {1} м, Сопротивление = {2} Ом;\n", cablePiece.CableType.ToString(), cablePiece.Length, cablePiece.Resistivity);
 				MessageBoxService.Show(msg);
 			}
+            InitializeConfiguration();
 		}
 
 		protected override bool Save()

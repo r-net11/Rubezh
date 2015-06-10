@@ -30,26 +30,20 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="I" Width="0.2*">
+                <DataGridTemplateColumn Header="Ток, А" Width="0.2*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Margin="2">
-                                    <Run Text="{Binding I}"/>
-                                    <Run Text=" А"/>
-                                </TextBlock>
+                                <TextBlock Text="{Binding I}" Margin="2"/>
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="U" Width="0.2*">
+                <DataGridTemplateColumn Header="Напряжение, В" Width="0.3*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Margin="2">
-                                    <Run Text="{Binding U}"/>
-                                    <Run Text=" В"/>
-                                </TextBlock>
+                                <TextBlock Text="{Binding U}" Margin="2"/>
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -58,12 +52,16 @@
         </DataGrid>
         <StackPanel Grid.Row="1">
             <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Тип кабеля" Width="150" Foreground="White" Margin="2" />
+                <ComboBox ItemsSource="{Binding CableTypes}" SelectedItem="{Binding SelectedCableType, UpdateSourceTrigger=PropertyChanged}" Width="300" Margin="2" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Сопротивление кабеля" Width="150" Foreground="White" Margin="2" />
                 <TextBox Text="{Binding CableResistivity}" Width="150" Margin="2" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Длина кабеля" Width="150" Foreground="White" Margin="2" />
-                <TextBox Text="{Binding CableLenght}" Width="150" Margin="2" />
+                <TextBox Text="{Binding CableLength}" Width="150" Margin="2" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Количество" Foreground="White" Width="150" Margin="2" />
