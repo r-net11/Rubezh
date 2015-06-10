@@ -60,6 +60,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Data.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
@@ -83,6 +84,25 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>PassJournal.dbml</DependentUpon>
     </Compile>
+    <Compile Include="DataClasses\CardGKControllerUID.cs" />
+    <Compile Include="DataClasses\CurrentConsumption.cs" />
+    <Compile Include="DataClasses\EmployeeDay.cs" />
+    <Compile Include="DataClasses\GKCard.cs" />
+    <Compile Include="DataClasses\GKDaySchedule.cs" />
+    <Compile Include="DataClasses\GKDaySchedulePart.cs" />
+    <Compile Include="DataClasses\GKMetadata.cs" />
+    <Compile Include="DataClasses\GKSchedule.cs" />
+    <Compile Include="DataClasses\GKScheduleDay.cs" />
+    <Compile Include="DataClasses\IOrganisationItem.cs" />
+    <Compile Include="DataClasses\Journal.cs" />
+    <Compile Include="DataClasses\NightSetting.cs" />
+    <Compile Include="DataClasses\OrganisationDoor.cs" />
+    <Compile Include="DataClasses\OrganisationUser.cs" />
+    <Compile Include="DataClasses\PassCardTemplate.cs" />
+    <Compile Include="DataClasses\PassJournal.cs" />
+    <Compile Include="DataClasses\Patches.cs" />
+    <Compile Include="DataClasses\ScheduleGKDaySchedule.cs" />
+    <Compile Include="DataClasses\ScheduleZone.cs" />
     <Compile Include="DataAccess\SKD.cs">
       <DependentUpon>SKD.dbml</DependentUpon>
     </Compile>
@@ -91,6 +111,26 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SKD.dbml</DependentUpon>
     </Compile>
+    <Compile Include="DataClasses\AccessTemplate.cs" />
+    <Compile Include="DataClasses\AdditionalColumn.cs" />
+    <Compile Include="DataClasses\AdditionalColumnType.cs" />
+    <Compile Include="DataClasses\Card.cs" />
+    <Compile Include="DataClasses\CardDoor.cs" />
+    <Compile Include="DataClasses\DayInterval.cs" />
+    <Compile Include="DataClasses\DayIntervalPart.cs" />
+    <Compile Include="DataClasses\Department.cs" />
+    <Compile Include="DataClasses\Employee.cs" />
+    <Compile Include="DataClasses\Holiday.cs" />
+    <Compile Include="DataClasses\Organisation.cs" />
+    <Compile Include="DataClasses\PendingCard.cs" />
+    <Compile Include="DataClasses\Photo.cs" />
+    <Compile Include="DataClasses\Position.cs" />
+    <Compile Include="DataClasses\Schedule.cs" />
+    <Compile Include="DataClasses\ScheduleDay.cs" />
+    <Compile Include="DataClasses\ScheduleScheme.cs" />
+    <Compile Include="DataClasses\TimeTrackDocument.cs" />
+    <Compile Include="DataClasses\TimeTrackDocumnetType.cs" />
+    <Compile Include="DataClasses\TimeTrackException.cs" />
     <Compile Include="EFTest\EFTest.cs" />
     <Compile Include="Synchronisers\CardSynchroniser.cs" />
     <Compile Include="Synchronisers\ConfigurationSynchroniser.cs" />
@@ -111,6 +151,7 @@
     <Compile Include="Translators\CardDoorTranslator.cs" />
     <Compile Include="Translators\CurrentConsumptionTranslator.cs" />
     <Compile Include="Translators\GKScheduleTranslator.cs" />
+    <Compile Include="EFTest\GKScheduleTranslator.cs" />
     <Compile Include="Translators\JournalTranslator.cs" />
     <Compile Include="Translators\MetadataTranslator.cs" />
     <Compile Include="Translators\PassJournalTranslator.cs" />
@@ -235,9 +276,7 @@
       <DependentUpon>Journal.dbml</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="EFDataAccess\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

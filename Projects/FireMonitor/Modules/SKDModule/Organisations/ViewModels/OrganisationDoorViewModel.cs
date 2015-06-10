@@ -4,9 +4,9 @@ using System.Linq;
 using FiresecAPI.GK;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
+using Infrastructure;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure;
 using SKDModule.Events;
 
 namespace SKDModule.ViewModels
@@ -16,12 +16,14 @@ namespace SKDModule.ViewModels
 		Organisation Organisation;
 		Guid DoorUID;
 		public string PresentationName { get; private set; }
+		public int No { get; private set; }
 
 		public OrganisationDoorViewModel(Organisation organisation, SKDDoor door)
 		{
 			Organisation = organisation;
 			DoorUID = door.UID;
 			PresentationName = door.PresentationName;
+			No = door.No;
 			_isChecked = Organisation != null && Organisation.DoorUIDs.Contains(door.UID);
 		}
 
@@ -30,6 +32,7 @@ namespace SKDModule.ViewModels
 			Organisation = organisation;
 			DoorUID = door.UID;
 			PresentationName = door.PresentationName;
+			No = door.No;
 			_isChecked = Organisation != null && Organisation.DoorUIDs.Contains(door.UID);
 		}
 

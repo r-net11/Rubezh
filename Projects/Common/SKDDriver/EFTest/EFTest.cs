@@ -52,7 +52,7 @@ namespace SKDDriver.EFTest
 			}
 			_context.SaveChanges();
 
-			var passJournals = (from x in _context.PassJournals //.Include("Employee") where x.EmployeeUID != null 
+			var passJournals = (from x in _context.PassJournals//.Include("Employee") where x.EmployeeUID != null 
 							   orderby x.EmployeeUID select x).ToList();
 			foreach (var item in passJournals)
 			{
@@ -116,7 +116,7 @@ namespace SKDDriver.EFTest
 		}
 	}
 
-	class PassJournal
+	public class PassJournal
 	{
 		public PassJournal()
 		{
@@ -134,10 +134,10 @@ namespace SKDDriver.EFTest
 
 		public DateTime? ExitTime { get; set; }
 
-		public Employee Employee { get; set; }
+		public virtual Employee Employee { get; set; }
 	}
 
-	class Employee
+	public class Employee
 	{
 		public Employee()
 		{
@@ -155,7 +155,7 @@ namespace SKDDriver.EFTest
 
 		public string LastName { get; set; }
 
-		public ICollection<PassJournal> PassJournals { get; set; }
+		public virtual ICollection<PassJournal> PassJournals { get; set; }
 
 		public bool IsDeleted { get; set; }
 	}
