@@ -38,6 +38,7 @@ namespace GKImitator.ViewModels
 			InitializeFire();
 			InitializeTurning();
 			InitializeLogic();
+			InitializeDelays();
 
 			AdditionalShortParameters = new List<ushort>();
 			for (int i = 0; i < 10; i++)

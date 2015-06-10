@@ -13,9 +13,48 @@ namespace GKImitator.ViewModels
 {
 	public partial class DescriptorViewModel : BaseViewModel
 	{
-		//bool IsTurningOn;
-		//bool IsHolding;
-		//bool IsTurningOff;
+		ushort OnDelay { get; set; }
+		ushort HoldDelay { get; set; }
+		ushort OffDelay { get; set; }
+		DelayRegime? DelayRegime { get; set; }
+
+		void InitializeDelays()
+		{
+			var device = GKBase as GKDevice;
+			if (device != null)
+			{
+				var property = device.Properties.FirstOrDefault(x => x.Name == "Задержка на включение, с");
+				if (property != null)
+				{
+					OnDelay = property.Value;
+				}
+				property = device.Properties.FirstOrDefault(x => x.Name == "Время удержания, с");
+				if (property != null)
+				{
+					HoldDelay = property.Value;
+				}
+				property = device.Properties.FirstOrDefault(x => x.Name == "Задержка на выключение, с");
+				if (property != null)
+				{
+					OffDelay = property.Value;
+				}
+			}
+			var direction = GKBase as GKDirection;
+			if (direction != null)
+			{
+				OnDelay = direction.Delay;
+				HoldDelay = direction.Hold;
+				DelayRegime = direction.DelayRegime;
+			}
+			var delay = GKBase as GKDelay;
+			if (delay != null)
+			{
+				OnDelay = delay.DelayTime;
+				HoldDelay = delay.Hold;
+				DelayRegime = delay.DelayRegime;
+			}
+		}
+
 		TurningState TurningState = TurningState.None;
 
 		ushort _currentOnDelay;
@@ -58,10 +97,10 @@ namespace GKImitator.ViewModels
 			TurnOffCommand = new RelayCommand(OnTurnOff);
 			TurnOffNowCommand = new RelayCommand(OnTurnOffNow);
 
-			if (GKBase is GKDevice)
+			var device = GKBase as GKDevice;
+			if (device != null)
 			{
-				var device = GKBase as GKDevice;
-				switch(device.DriverType)
+				switch (device.DriverType)
 				{
 					case GKDriverType.RSR2_RM_1:
 					case GKDriverType.RSR2_MDU:
@@ -91,6 +130,27 @@ namespace GKImitator.ViewModels
 						break;
 				}
 			}
+
+			var direction = GKBase as GKDirection;
+			if (direction != null)
+			{
+				HasTurnOn = true;
+				HasTurnOnNow = true;
+				HasTurnOff = true;
+				StateBits.Add(new StateBitViewModel(this, GKStateBit.On));
+				StateBits.Add(new StateBitViewModel(this, GKStateBit.TurningOn));
+				StateBits.Add(new StateBitViewModel(this, GKStateBit.Off));
+			}
+			var delay = GKBase as GKDelay;
+			if (delay != null)
+			{
+				HasTurnOn = true;
+				HasTurnOnNow = true;
+				HasTurnOff = true;
+				StateBits.Add(new StateBitViewModel(this, GKStateBit.On));
+				StateBits.Add(new StateBitViewModel(this, GKStateBit.TurningOn));
+				StateBits.Add(new StateBitViewModel(this, GKStateBit.Off));
+			}
 		}
 
 		public bool HasTurnOn { get; private set; }
@@ -114,15 +174,10 @@ namespace GKImitator.ViewModels
 					var journalItem = new ImitatorJournalItem(2, 9, 2, 0);
 					AddJournalItem(journalItem);
 
-					if (GKBase is GKDevice)
+					if (HoldDelay > 0)
 					{
-						var device = GKBase as GKDevice;
-						var property = device.Properties.FirstOrDefault(x => x.Name == "Время удержания, с");
-						if (property != null)
-						{
-							CurrentHoldDelay = property.Value;
-							TurningState = TurningState.Holding;
-						}
+						CurrentHoldDelay = HoldDelay;
+						TurningState = TurningState.Holding;
 					}
 				}
 			}
@@ -133,14 +188,21 @@ namespace GKImitator.ViewModels
 				if (CurrentHoldDelay == 0)
 				{
 					TurningState = TurningState.None;
-
-					var device = GKBase as GKDevice;
-					var property = device.Properties.FirstOrDefault(x => x.Name == "Задержка на выключение, с");
-					if (property != null)
+					if (DelayRegime != null)
 					{
-						CurrentOffDelay = property.Value;
-						TurningState = TurningState.TurningOff;
-						TurnOff();
+						if (DelayRegime.Value == FiresecAPI.GK.DelayRegime.Off)
+						{
+							TurnOffNow();
+						}
+					}
+					else
+					{
+						if (OffDelay > 0)
+						{
+							CurrentOffDelay = OffDelay;
+							TurningState = TurningState.TurningOff;
+							TurnOff();
+						}
 					}
 				}
 			}
@@ -159,15 +221,10 @@ namespace GKImitator.ViewModels
 		public RelayCommand TurnOnCommand { get; private set; }
 		void OnTurnOn()
 		{
-			if (GKBase is GKDevice)
+			if (OnDelay > 0)
 			{
-				var device = GKBase as GKDevice;
-				var property = device.Properties.FirstOrDefault(x => x.Name == "Задержка на включение, с");
-				if (property != null)
-				{
-					CurrentOnDelay = property.Value;
-					TurningState = TurningState.TurningOn;
-				}
+				CurrentOnDelay = OnDelay;
+				TurningState = TurningState.TurningOn;
 			}
 			TurnOn();
 		}
@@ -181,15 +238,10 @@ namespace GKImitator.ViewModels
 		public RelayCommand TurnOffCommand { get; private set; }
 		void OnTurnOff()
 		{
-			if (GKBase is GKDevice)
+			if (OffDelay > 0)
 			{
-				var device = GKBase as GKDevice;
-				var property = device.Properties.FirstOrDefault(x => x.Name == "Задержка на выключение, с");
-				if (property != null)
-				{
-					CurrentOffDelay = property.Value;
-					TurningState = TurningState.None;
-				}
+				CurrentOffDelay = OffDelay;
+				TurningState = TurningState.None;
 			}
 			TurnOff();
 		}
