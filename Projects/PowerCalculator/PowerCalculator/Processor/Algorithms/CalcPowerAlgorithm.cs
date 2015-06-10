@@ -12,7 +12,6 @@ namespace PowerCalculator.Processor.Algorithms
 	public class CalcPowerAlgorithm
 	{
 		const double I1MESS = 0.0024;
-        readonly Device KAU = new Device() { DriverType = DriverType.RSR2_KAU};
 		Line Line;
 		public Dictionary<Device, CalcPowerIndicators> Result { get; set; }
 
@@ -21,7 +20,7 @@ namespace PowerCalculator.Processor.Algorithms
 			Line = line;
 			Result = new Dictionary<Device, CalcPowerIndicators>();
 
-            Result.Add(KAU, new CalcPowerIndicators() { id = KAU.Driver.I, ud = KAU.Driver.U, il = 0 });
+            Result.Add(Line.KAU, new CalcPowerIndicators() { id = Line.KAU.Driver.I, ud = Line.KAU.Driver.U, il = 0 });
 			foreach (Device device in Line.Devices)
 				Result.Add(device, new CalcPowerIndicators() { id = Dr(device.DriverType).I, ud = Dr(device.DriverType).U, il = 0 });
 		}
@@ -117,8 +116,8 @@ namespace PowerCalculator.Processor.Algorithms
 		Device De(int index, bool reverse = false)
 		{
 			return 
-                index == 0 ? 
-                KAU : 
+                index == 0 ?
+                Line.KAU : 
                 Line.Devices[reverse ? Line.Devices.Count - index : index - 1];
 		}
 
