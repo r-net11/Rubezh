@@ -39,7 +39,7 @@ namespace SKDDriver.DataClasses
 		public DbSet<Employee> Employees { get; set; }
 	}
 
-	enum ContextType
+	public enum ContextType
 	{
 		MSSQL,
 		PostgreSQL
