@@ -30,7 +30,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Ток, А" Width="0.2*">
+                <DataGridTemplateColumn Header="Ток, мА" Width="0.2*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -56,11 +56,11 @@
                 <ComboBox ItemsSource="{Binding CableTypes}" SelectedItem="{Binding SelectedCableType, UpdateSourceTrigger=PropertyChanged}" Width="300" Margin="2" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Сопротивление кабеля" Width="150" Foreground="White" Margin="2" />
+                <TextBlock Text="Сопротивление кабеля, мА" Width="150" Foreground="White" Margin="2" />
                 <TextBox Text="{Binding CableResistivity}" Width="150" Margin="2" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Длина кабеля" Width="150" Foreground="White" Margin="2" />
+                <TextBlock Text="Длина кабеля, м" Width="150" Foreground="White" Margin="2" />
                 <TextBox Text="{Binding CableLength}" Width="150" Margin="2" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">

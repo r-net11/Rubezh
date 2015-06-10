@@ -22,7 +22,7 @@
                         </DataGridTemplateColumn.CellTemplate>
                         <DataGridTemplateColumn.CellEditingTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Name}" Foreground="Black" Margin="2" />
+                                <TextBox Text="{Binding Name}" Foreground="Black" Margin="2" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellEditingTemplate>
                     </DataGridTemplateColumn>

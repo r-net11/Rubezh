@@ -97,6 +97,8 @@ namespace PowerCalculator.ViewModels
                     deviceViewModel.HasUError = false;
                 }
             }
+
+            HasError = Devices.Any(x => x.HasIError) || Devices.Any(x=>x.HasUError);
         }
 
 		public RelayCommand AddCommand { get; private set; }
