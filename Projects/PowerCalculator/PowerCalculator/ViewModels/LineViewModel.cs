@@ -105,6 +105,25 @@ namespace PowerCalculator.ViewModels
             HasError = Devices.Any(x => x.HasIError || x.HasUError);
         }
 
+        public IEnumerable<int> GetPatch()
+        {
+            return Processor.Processor.GetLinePatch(Line);
+        }
+
+        public void InstallPatch(IEnumerable<int> patch)
+        {
+            CalculationSuspended = true;
+            foreach(int index in patch)
+            {
+                var supplier = new Device() { DriverType = DriverType.RSR2_MP, Cable = new Cable() { CableType = CableTypesRepository.CustomCableType} };
+                Line.Devices.Insert(index, supplier);
+                Devices.Insert(index, new DeviceViewModel(supplier, this));
+            }
+            CalculationSuspended = false;
+            UpdateAddresses();
+            Calculate();
+        }
+
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
@@ -276,7 +295,7 @@ namespace PowerCalculator.ViewModels
 				Devices.Insert(selectedIndex, deviceViewModel);
 				SelectedDevice = deviceViewModel;
 			}
-			UpdateAddresses(firstIndex);
+			UpdateAddresses(firstIndex - 1);
 		}
 		bool CanPaste()
 		{

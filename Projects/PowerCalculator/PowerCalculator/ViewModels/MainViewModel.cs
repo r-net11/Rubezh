@@ -26,7 +26,7 @@ namespace PowerCalculator.ViewModels
 			RemoveLineCommand = new RelayCommand(OnRemoveFile, CanRemoveLine);
             EditCableTypesRepositoryCommand = new RelayCommand(OnEditCableTypesRepository);
 			ShowSpecificationCommand = new RelayCommand(OnShowSpecification);
-			CalculateCommand = new RelayCommand(OnCalculate);
+			PatchCommand = new RelayCommand(OnPatch);
 			OnCreateNew();
 
             CableTypesRepository.LoadOrDefault(CableTypesPath);
@@ -183,11 +183,24 @@ namespace PowerCalculator.ViewModels
 			}
 		}
         
-		public RelayCommand CalculateCommand { get; private set; }
-		void OnCalculate()
+		public RelayCommand PatchCommand { get; private set; }
+		void OnPatch()
 		{
+            string message = String.Empty;
             foreach (var lineViewModel in Lines)
-                lineViewModel.Calculate();
+            {
+                if (!lineViewModel.HasError)
+                    continue;
+                var patch = lineViewModel.GetPatch();
+                if (patch == null)
+                    message += lineViewModel.Name + ";\n";
+                else
+                    lineViewModel.InstallPatch(patch);
+            }
+
+            if (message != String.Empty)
+                MessageBoxService.ShowWarning("Следующие АЛС не удалось исправить из-за отсутствия необходимого количества мест для модулей подпитки:\n" + message);
+                
 		}       
 	}
 }
