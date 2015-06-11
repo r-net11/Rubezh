@@ -39,7 +39,9 @@ namespace SKDDriver
 			tableItem.Description = item.Description;
 		}
 
-		GKSchedule TranslateGKSchdule(DataAccess.GKSchedule tableItem, IEnumerable<DataAccess.GKScheduleDay> scheduleDays, IEnumerable<Guid> dayScheduleUIDs)
+		GKSchedule TranslateGKSchdule(DataAccess.GKSchedule tableItem, 
+			IEnumerable<DataAccess.GKScheduleDay> scheduleDays, 
+			IEnumerable<Guid> dayScheduleUIDs)
 		{
 			var result = TranslateModelBase<GKSchedule, DataAccess.GKSchedule>(tableItem);
 			result.Calendar = new Calendar
@@ -57,7 +59,8 @@ namespace SKDDriver
 			return result;
 		}
 
-		GKDaySchedule TranslateGKDaySchedule(DataAccess.GKDaySchedule daySchedule, IEnumerable<DataAccess.GKDaySchedulePart> dayScheduleParts)
+		GKDaySchedule TranslateGKDaySchedule(DataAccess.GKDaySchedule daySchedule, 
+			IEnumerable<DataAccess.GKDaySchedulePart> dayScheduleParts)
 		{
 			var result = TranslateModelBase<GKDaySchedule, DataAccess.GKDaySchedule>(daySchedule);
 			result.DayScheduleParts = new List<GKDaySchedulePart>();
@@ -107,7 +110,9 @@ namespace SKDDriver
 					(scheduleWithDays, daySchedules) => new { scheduleWithDays, daySchedules });
 				foreach (var item in tableItems)
 				{
-					result.Add(TranslateGKSchdule(item.scheduleWithDays.schedule, item.scheduleWithDays.scheduleDays, item.daySchedules.Select(x => x.DayScheduleUID)));
+					result.Add(TranslateGKSchdule(item.scheduleWithDays.schedule, 
+						item.scheduleWithDays.scheduleDays, 
+						item.daySchedules.Select(x => x.DayScheduleUID)));
 				}
 				return new OperationResult<List<GKSchedule>>(result);
 			}
@@ -188,13 +193,23 @@ namespace SKDDriver
 				var scheduleDays = new List<DataAccess.GKScheduleDay>();
 				foreach (var scheduleDayTime in item.Calendar.SelectedDays)
 				{
-					scheduleDays.Add(new DataAccess.GKScheduleDay { UID = Guid.NewGuid(), ScheduleUID = item.UID, DateTime = scheduleDayTime });
+					scheduleDays.Add(new DataAccess.GKScheduleDay 
+					{ 
+						UID = Guid.NewGuid(), 
+						ScheduleUID = item.UID, 
+						DateTime = scheduleDayTime 
+					});
 				}
 				Context.GKScheduleDays.InsertAllOnSubmit(scheduleDays);
 				var daySchedules = new List<DataAccess.ScheduleGKDaySchedule>();
 				foreach (var dayScheduleUID in item.DayScheduleUIDs)
 				{
-					daySchedules.Add(new DataAccess.ScheduleGKDaySchedule { UID = Guid.NewGuid(), ScheduleUID = item.UID, DayScheduleUID = dayScheduleUID });
+					daySchedules.Add(new DataAccess.ScheduleGKDaySchedule 
+					{ 
+						UID = Guid.NewGuid(), 
+						ScheduleUID = item.UID, 
+						DayScheduleUID = dayScheduleUID 
+					});
 				}
 				Context.ScheduleGKDaySchedules.InsertAllOnSubmit(daySchedules);
 				Context.SubmitChanges();
@@ -205,7 +220,6 @@ namespace SKDDriver
 				return new OperationResult(e.Message);
 			}
 		}
-
 
 		public OperationResult DeleteDaySchedule(GKDaySchedule daySchedule)
 		{
