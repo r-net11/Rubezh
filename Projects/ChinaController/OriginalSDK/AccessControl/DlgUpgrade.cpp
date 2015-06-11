@@ -147,19 +147,23 @@ void CDlgUpgrade::UpgradeState(LLONG lLoginID, LLONG lUpgradechannel, int nTotal
 		int nCount = m_lsInfo.GetCount();
 		CString csInfo;
 
+		CString csProgress = ConvertString("upgrade progress", DLG_UPGRADE);
+		CString csSucceed = ConvertString("upgrade succeed", DLG_UPGRADE);
+		CString csFailed = ConvertString("upgrade failed", DLG_UPGRADE);
+
 		if (nTotalSize == 0)
 		{
 			if (nSendSize == -1)
 			{
-				csInfo.Format("%02d:%02d:%02d.%03d upgrade progress: upgrade succeed",
-					st.wHour, st.wMinute, st.wSecond, st.wMilliseconds);
+				csInfo.Format("%02d:%02d:%02d.%03d %s: %s", 
+					st.wHour, st.wMinute, st.wSecond, st.wMilliseconds, csProgress, csSucceed);
 				m_lsInfo.InsertString(nCount, csInfo);
 				m_lsInfo.SetCurSel(nCount);
 			} 
 			else if (nSendSize == -2)
 			{
-				csInfo.Format("%02d:%02d:%02d.%03d upgrade progress: upgrade failed",
-					st.wHour, st.wMinute, st.wSecond, st.wMilliseconds);
+				csInfo.Format("%02d:%02d:%02d.%03d %s: %s", 
+					st.wHour, st.wMinute, st.wSecond, st.wMilliseconds, csProgress, csFailed);
 				m_lsInfo.InsertString(nCount, csInfo);
 				m_lsInfo.SetCurSel(nCount);
 			}
@@ -178,8 +182,8 @@ void CDlgUpgrade::UpgradeState(LLONG lLoginID, LLONG lUpgradechannel, int nTotal
 			}
 			m_ctrlProgress.SetPos(nProgress);
 			
-			csInfo.Format("%02d:%02d:%02d.%03d upgrade progress: %d %d/%d",
-				st.wHour, st.wMinute, st.wSecond, st.wMilliseconds,
+			csInfo.Format("%02d:%02d:%02d.%03d %s: %d %d/%d", 
+				st.wHour, st.wMinute, st.wSecond, st.wMilliseconds, csProgress,
 				nProgress, nSendSize, nTotalSize);
 			m_lsInfo.InsertString(nCount, csInfo);
 			m_lsInfo.SetCurSel(nCount);

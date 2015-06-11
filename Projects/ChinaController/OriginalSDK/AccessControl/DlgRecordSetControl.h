@@ -36,6 +36,8 @@ const DemoRecordSetCtlType stuDemoRecordSetCtlType[] =
 	{Em_Operate_Type_Update,	"Update"},
 	{Em_Operate_Type_Remove,	"Remove"},
 	{Em_Operate_Type_Clear,		"Clear"},
+	{Em_Operate_Type_InsertEX,	"InsertEX"},
+	{Em_Operate_Type_UpdateEX,	"UpdateEX"},
 };
 
 /////////////////////////////////////////////////////////////////////////////
@@ -114,6 +116,7 @@ private:
 private:
     LLONG		m_lLoginID;
     int         m_nAccessGroup;
+	Em_RecordSet_Operate_Type m_emOpType;
 };
 
 //{{AFX_INSERT_LOCATION}}

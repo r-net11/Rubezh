@@ -31,17 +31,24 @@ namespace ControllerSDK.ViewModels
 			ReaderID = -1;
 			DoorNo = -1;
 			
-			AvailableAccessMethodTypes = new ObservableCollection<AccessMethodType>();
-			AvailableAccessMethodTypes.Add(AccessMethodType.NET_ACCESS_DOOROPEN_METHOD_UNKNOWN);
-			AvailableAccessMethodTypes.Add(AccessMethodType.NET_ACCESS_DOOROPEN_METHOD_PWD_ONLY);
-			AvailableAccessMethodTypes.Add(AccessMethodType.NET_ACCESS_DOOROPEN_METHOD_CARD);
-			AvailableAccessMethodTypes.Add(AccessMethodType.NET_ACCESS_DOOROPEN_METHOD_CARD_FIRST);
-			AvailableAccessMethodTypes.Add(AccessMethodType.NET_ACCESS_DOOROPEN_METHOD_PWD_FIRST);
-			AvailableAccessMethodTypes.Add(AccessMethodType.NET_ACCESS_DOOROPEN_METHOD_REMOTE);
-			AvailableAccessMethodTypes.Add(AccessMethodType.NET_ACCESS_DOOROPEN_METHOD_BUTTON);
+			InitAvailableAccessMethodTypes();
 		}
 
-		public void Initialize(List<Access> accesses)
+	    private void InitAvailableAccessMethodTypes()
+	    {
+	        AvailableAccessMethodTypes = new ObservableCollection<AccessMethodType>
+	        {
+				AccessMethodType.NET_ACCESS_DOOROPEN_METHOD_UNKNOWN,
+				AccessMethodType.NET_ACCESS_DOOROPEN_METHOD_PWD_ONLY,
+				AccessMethodType.NET_ACCESS_DOOROPEN_METHOD_CARD,
+				AccessMethodType.NET_ACCESS_DOOROPEN_METHOD_CARD_FIRST,
+				AccessMethodType.NET_ACCESS_DOOROPEN_METHOD_PWD_FIRST,
+				AccessMethodType.NET_ACCESS_DOOROPEN_METHOD_REMOTE,
+				AccessMethodType.NET_ACCESS_DOOROPEN_METHOD_BUTTON
+	        };
+	    }
+
+	    public void Initialize(List<Access> accesses)
 		{
 			Accesses.Clear();
 			foreach (var access in accesses)
@@ -65,22 +72,22 @@ namespace ControllerSDK.ViewModels
 			Accesses.Clear();
 			foreach (var access in accesses)
 			{
-				var accessViewModel = new AccessViewModel(access);
-				Accesses.Add(accessViewModel);
+				Accesses.Add(new AccessViewModel(access));
 			}
 		}
 
 		Access GetModel()
 		{
-			var access = new Access();
-			
-			access.CardNo = CardNo;
-			access.Password = Password;
-			access.Time = Time;
-			access.Status = Status;
-			access.MethodType = MethodType;
-			access.ReaderID = ReaderID;
-			
+			var access = new Access
+			{
+				CardNo = CardNo,
+				Password = Password,
+				Time = Time,
+				Status = Status,
+				MethodType = MethodType,
+				ReaderID = ReaderID
+			};
+
 			return access;
 		}
 

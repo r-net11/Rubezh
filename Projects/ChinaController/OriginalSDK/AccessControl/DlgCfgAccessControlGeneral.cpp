@@ -30,7 +30,7 @@ void CDlgCfgAccessControlGeneral::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CDlgCfgAccessControlGeneral)
-		// NOTE: the ClassWizard will add DDX and DDV calls here
+	DDX_Control(pDX, IDC_ACCESSCONTROL_GENERAL_CMB_PROPERTY, m_cmbAccessProperty);
 	//}}AFX_DATA_MAP
 }
 
@@ -44,6 +44,17 @@ END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
 // CDlgCfgAccessControlGeneral private method
+
+void CDlgCfgAccessControlGeneral::InitDlg()
+{
+	
+    m_cmbAccessProperty.ResetContent();
+    for (int i = 0; i < sizeof(stuDemoAccessProperty)/sizeof(stuDemoAccessProperty[0]); i++)
+    {
+        m_cmbAccessProperty.InsertString(-1, ConvertString(stuDemoAccessProperty[i].szInfo, DLG_CFG_ACCESS_GENERAL));
+    }
+    m_cmbAccessProperty.SetCurSel(0);
+}
 
 BOOL CDlgCfgAccessControlGeneral::SetConfigToDevice()
 {	
@@ -104,13 +115,22 @@ BOOL CDlgCfgAccessControlGeneral::GetConfigFromDevice()
 
 void CDlgCfgAccessControlGeneral::DlgToStu()
 {
+	// project password
 	m_stuInfo.abProjectPassword = true;
 	GetDlgItemText(IDC_ACCESSCONTROL_GENERAL_EDT_PROJECTPWD, m_stuInfo.szProjectPassword, sizeof(m_stuInfo.szProjectPassword) - 1);
+
+	// access property
+	m_stuInfo.abAccessProperty = true;
+	m_stuInfo.emAccessProperty = (CFG_ACCESS_PROPERTY_TYPE)m_cmbAccessProperty.GetCurSel();
 }
 
 void CDlgCfgAccessControlGeneral::StuToDlg()
 {
+	// project password
 	SetDlgItemText(IDC_ACCESSCONTROL_GENERAL_EDT_PROJECTPWD, m_stuInfo.szProjectPassword);
+
+	// access property
+	m_cmbAccessProperty.SetCurSel((int)m_stuInfo.emAccessProperty);
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -134,9 +154,16 @@ void CDlgCfgAccessControlGeneral::OnAccesscontrolGeneralBtnSet()
 
 BOOL CDlgCfgAccessControlGeneral::OnInitDialog() 
 {
+	if (!m_lLoginID)
+	{
+		MessageBox(ConvertString(CString("we haven't login a device yet!"), DLG_VERSION), ConvertString("Prompt")); 
+		OnCancel();
+		return FALSE;
+	} 
 	CDialog::OnInitDialog();
 	g_SetWndStaticText(this, DLG_CFG_ACCESS_GENERAL);
 	// TODO: Add extra initialization here
+    InitDlg();
 	OnAccesscontrolGeneralBtnGet();
 	return TRUE;  // return TRUE unless you set the focus to a control
 	              // EXCEPTION: OCX Property Pages should return FALSE

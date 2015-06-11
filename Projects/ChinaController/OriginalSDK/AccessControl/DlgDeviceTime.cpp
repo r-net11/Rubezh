@@ -103,7 +103,7 @@ void CDlgDeviceTime::OnDevicetimeBtnGet()
 		return;
 	}
 
-	BOOL bRet = CLIENT_QueryDeviceTime(m_lLoginId, &m_stuTime, 3000);
+	BOOL bRet = CLIENT_QueryDeviceTime(m_lLoginId, &m_stuTime, SDK_API_WAIT);
 	if (!bRet)
 	{
 		CString csErr;

@@ -24,7 +24,7 @@ typedef struct tagDemoDataType
 const DemoDataType stuDemoDataType[] = 
 {
 	{DataType_Card, "Card"},
-	{DataType_Password, "Pwd"},
+	{DataType_Password, "Password"},
 	{DataType_Access, "Access"},
 // 	{DataType_Holiday, "Holiday"},  // do not support by BSC
 };

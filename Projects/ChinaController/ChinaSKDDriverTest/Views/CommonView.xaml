@@ -14,7 +14,13 @@
 		<StackPanel Orientation="Horizontal">
             <Button Content="GetControllerDirectionType" Command="{Binding GetControllerDirectionTypeCommand}" Width="300" Margin="2" />
             <Button Content="SetControllerDirectionType" Command="{Binding SetControllerDirectionTypeCommand}" Width="300" Margin="2" />
-            <ComboBox ItemsSource="{Binding AvailableControllerDirectionTypes}" SelectedItem="{Binding SelectedControllerDirectionType}" Margin="2" />
+            <ComboBox ItemsSource="{Binding AvailableControllerDirectionTypes}" SelectedItem="{Binding SelectedControllerDirectionType}" Margin="2" >
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Converter={StaticResource EnumToDescriptionConverter}}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
 			<Button Content="GetDoorConfiguration" Command="{Binding GetDoorConfigurationCommand}" Width="300" Margin="2" />

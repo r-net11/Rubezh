@@ -15,12 +15,12 @@ static char THIS_FILE[] = __FILE__;
 /////////////////////////////////////////////////////////////////////////////
 // CSubDlgInfoCard dialog
 
-
+#define MAX_FINGER_PRINT_PACKET_SIZE	(10*256)
 CSubDlgInfoCard::CSubDlgInfoCard(CWnd* pParent /* = NULL */, NET_RECORDSET_ACCESS_CTL_CARD* p /* = NULL */, int nAccessGroup /* = 1 */)
-	: CDialog(CSubDlgInfoCard::IDD, pParent)
+	: CDialog(CSubDlgInfoCard::IDD, pParent)/*, m_fingerPrintPacket(MAX_FINGER_PRINT_PACKET_SIZE)*/
 {
 	//{{AFX_DATA_INIT(CSubDlgInfoCard)
-		// NOTE: the ClassWizard will add member initialization here
+	m_strTestFingerPacketData = _T("");
 	//}}AFX_DATA_INIT
 	memset(&m_stuInfo, 0, sizeof(m_stuInfo));
 	if (p != NULL)
@@ -28,9 +28,11 @@ CSubDlgInfoCard::CSubDlgInfoCard(CWnd* pParent /* = NULL */, NET_RECORDSET_ACCES
 		memcpy(&m_stuInfo, p, sizeof(NET_RECORDSET_ACCESS_CTL_CARD));
 	}
 	m_stuInfo.dwSize = sizeof(m_stuInfo);
+	m_stuInfo.stuFingerPrintInfo.dwSize = sizeof(NET_ACCESSCTLCARD_FINGERPRINT_PACKET);
 
 	m_emOperateType = Em_Operate_Type_Show;
     m_nAccessGroup  = nAccessGroup;
+	m_bDirty = false;
 }
 
 
@@ -38,6 +40,7 @@ void CSubDlgInfoCard::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CSubDlgInfoCard)
+	DDX_Control(pDX, IDC_RECSET_CARD_CHK_FIRSTENTER, m_chkFirstEnter);
 	DDX_Control(pDX, IDC_RECSET_CARD_CMB_CARDTYPE, m_cmbCardType);
 	DDX_Control(pDX, IDC_RECSET_CARD_CMB_CARDSTATUS, m_cmbCardStatus);
 	DDX_Control(pDX, IDC_RECSET_CARD_DTP_VDSTART, m_dtpVDStart);
@@ -45,6 +48,7 @@ void CSubDlgInfoCard::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_RECSET_CARD_DTP_CT_TIME, m_dtpCreateTimeTime);
 	DDX_Control(pDX, IDC_RECSET_CARD_DTP_CT_DATE, m_dtpCreateTimeDate);
 	//}}AFX_DATA_MAP
+	DDX_Control(pDX, IDC_RECSET_CARD_CHK_HANDICAPPED, m_chkHandicapped);
 }
 
 
@@ -53,6 +57,7 @@ BEGIN_MESSAGE_MAP(CSubDlgInfoCard, CDialog)
 	ON_BN_CLICKED(IDC_RECSET_CARD_BTN_DOORS, OnRecsetCardBtnDoors)
 	ON_BN_CLICKED(IDC_RECSET_CARD_BTN_TM, OnRecsetCardBtnTm)
 	//}}AFX_MSG_MAP
+	ON_BN_CLICKED(IDOK, &CSubDlgInfoCard::OnBnClickedOk)
 END_MESSAGE_MAP()
 
 void CSubDlgInfoCard::InitDlg()
@@ -71,12 +76,13 @@ void CSubDlgInfoCard::InitDlg()
 		m_cmbCardType.InsertString(-1, ConvertString(stuDemoCardType[i].szName, SUBDLG_INFO_CARD));
 	}
 
+	// disable Finger Print edit box for default
 	if (Em_Operate_Type_Show == m_emOperateType)
 	{
 		GetDlgItem(IDC_RECSET_CARD_EDT_RECNO)->EnableWindow(FALSE);
 		StuToDlg();
 	}
-	else if (Em_Operate_Type_Insert == m_emOperateType)
+	else if (Em_Operate_Type_Insert == m_emOperateType || Em_Operate_Type_InsertEX == m_emOperateType)
 	{
 		GetDlgItem(IDC_RECSET_CARD_EDT_RECNO)->EnableWindow(FALSE);
 	}
@@ -93,8 +99,10 @@ void CSubDlgInfoCard::InitDlg()
 		GetDlgItem(IDC_RECSET_CARD_EDT_USETIME)->EnableWindow(FALSE);
 		m_dtpVDStart.EnableWindow(FALSE);
 		m_dtpVDEnd.EnableWindow(FALSE);
+        m_chkFirstEnter.EnableWindow(FALSE);
+		m_chkHandicapped.EnableWindow(FALSE);
 	}
-	else if (Em_Operate_Type_Update == m_emOperateType)
+	else if (Em_Operate_Type_Update == m_emOperateType || Em_Operate_Type_UpdateEX == m_emOperateType)
 	{
 		StuToDlg();
  		GetDlgItem(IDC_RECSET_CARD_EDT_RECNO)->EnableWindow(FALSE);
@@ -112,7 +120,9 @@ void CSubDlgInfoCard::InitDlg()
 		GetDlgItem(IDC_RECSET_CARD_EDT_PWD)->EnableWindow(FALSE);
 		GetDlgItem(IDC_RECSET_CARD_EDT_USETIME)->EnableWindow(FALSE);
 		m_dtpVDStart.EnableWindow(FALSE);
-		m_dtpVDEnd.EnableWindow(FALSE);
+        m_dtpVDEnd.EnableWindow(FALSE);
+		m_chkFirstEnter.EnableWindow(FALSE);
+		m_chkHandicapped.EnableWindow(FALSE);
 	}
 	else if (Em_Operate_Type_Clear == m_emOperateType)
 	{
@@ -165,12 +175,27 @@ void CSubDlgInfoCard::StuToDlg()
 	st.wMonth	= (WORD)m_stuInfo.stuValidEndTime.dwMonth;
 	st.wDay		= (WORD)m_stuInfo.stuValidEndTime.dwDay;
 	m_dtpVDEnd.SetTime(&st);
+
+    // first enter
+    if (m_stuInfo.bFirstEnter)
+    {
+        m_chkFirstEnter.SetCheck(BST_CHECKED);
+    }
+    else
+    {
+        m_chkFirstEnter.SetCheck(BST_UNCHECKED);
+    } 
+	//Handicapped
+	if (m_stuInfo.bHandicap)
+		m_chkHandicapped.SetCheck(BST_CHECKED);
+	else
+		m_chkHandicapped.SetCheck(BST_UNCHECKED);
 }
 
 void CSubDlgInfoCard::DlgToStu()
 {
 	// RecNo
-	m_stuInfo.nRecNo = GetDlgItemInt(IDC_RECSET_CARD_EDT_RECNO, NULL, TRUE);
+	m_stuInfo.nRecNo = GetDlgItemInt(IDC_RECSET_CARD_EDT_RECNO);
 	
 	// create time
 	SYSTEMTIME st = {0};
@@ -212,6 +237,71 @@ void CSubDlgInfoCard::DlgToStu()
 	m_stuInfo.stuValidEndTime.dwYear = st.wYear;
 	m_stuInfo.stuValidEndTime.dwMonth = st.wMonth;
 	m_stuInfo.stuValidEndTime.dwDay = st.wDay;
+
+	// test finger print packets(single) ²âÊÔÖ¸ÎÆÊý¾Ý£¬ÔÝÊ±²»É¾³ý
+// 	if (m_emOperateType == Em_Operate_Type_UpdateEX || m_emOperateType == Em_Operate_Type_InsertEX)
+// 	{
+//  		if (m_stuInfo.stuFingerPrintInfo.nLength != 256) // 256:Ò»ÌõÖ¸ÎÆÊý¾Ý°üµÄ¹Ì¶¨´óÐ¡
+//  		{
+//  			m_bDirty = true;
+//  			MessageBox(ConvertString("Finger Packets Length Wrong", SUBDLG_INFO_CARD));
+//  			return;
+//  		}
+// 		
+// 		// ÉèÖÃ²âÊÔÖ¸ÎÆÊý¾Ý°ü
+// 		static const char pTestFingerPrint[] = {0x46, 0x50, 0x4D, 0x0D, 0x88, 0x0D, 0x25, 0xC8, 0x58, 0x58, 0x94, 0x65, 0x26, 0xD5, 0x88, 0x68, 0x93, 0xA9, 0x26, 0x56,
+// 												0xA8,0x80 ,0x9A ,0xE9 ,0x25 ,0x4B ,0x58 ,0x58 ,0xA4 ,0x81 ,0x26 ,0x48 ,0x88 ,0x68 ,0xAC ,0xC1 ,0x15 ,0xC6 ,0x68 ,0x50 ,
+// 												0xB6 ,0x21 ,0x17 ,0x40 ,0xA8 ,0x92 ,0xBC ,0x51 ,0x17 ,0x1B ,0xA8 ,0x8A ,0xC4 ,0x31 ,0x17 ,0x25 ,0xE8 ,0x79 ,0xCB ,0x9D ,
+// 												0x17 ,0x91 ,0x88 ,0xA0 ,0xD1 ,0x09 ,0x17 ,0x23 ,0xB8 ,0x78 ,0xDD ,0xD1 ,0x15 ,0x38 ,0x48 ,0x80 ,0xFA ,0x3D ,0x17 ,0x16 ,
+// 												0xA8 ,0xB8 ,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+// 												0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+// 												0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+// 												0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+// 												0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+// 												0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+// 												0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+// 												0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+// 												0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+// 												0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+// 												0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+// 												0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+// 												0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+// 												0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+// 												0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+// 												0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+// 												0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00
+// 		};
+// 		
+// 		m_fingerPrintPacket.Clear();
+// 		for (int i=0; i<m_stuInfo.stuFingerPrintInfo.nCount; i++)
+// 		{
+// 			if (!m_fingerPrintPacket.AppendBuffer((char*)pTestFingerPrint, 256))
+// 			{
+// 				m_bDirty = true;
+// 				MessageBox(ConvertString("Finger Packets Length Wrong", SUBDLG_INFO_CARD));
+//  				return;
+// 			}
+// 		}
+// 		m_stuInfo.stuFingerPrintInfo.pPacketData = (char*)m_fingerPrintPacket.GetBuffer();
+// 	}
+
+    // first enter
+    if (m_chkFirstEnter.GetCheck())
+    {
+        m_stuInfo.bFirstEnter = TRUE;
+    }
+    else
+    {
+        m_stuInfo.bFirstEnter = FALSE;
+	}
+	if (m_chkHandicapped.GetCheck())
+	{
+		m_stuInfo.bHandicap = TRUE;
+	}
+	else
+	{
+		m_stuInfo.bHandicap = FALSE;
+	}
 }
 
 BOOL CSubDlgInfoCard::Get()
@@ -385,6 +475,7 @@ void CSubDlgInfoCard::OnOK()
 		}
 		break;
 	case Em_Operate_Type_Insert:
+	case Em_Operate_Type_InsertEX:
 		{
 			DlgToStu();
 		}
@@ -394,6 +485,7 @@ void CSubDlgInfoCard::OnOK()
 			DlgToStu();
 		}
 	case Em_Operate_Type_Update:
+	case Em_Operate_Type_UpdateEX:
 		{
 			DlgToStu();
 		}
@@ -426,7 +518,9 @@ void CSubDlgInfoCard::OnRecsetCardBtnDoors()
 	if (IDOK == dlg.DoModal())
 	{
 		if (Em_Operate_Type_Insert == m_emOperateType
-			|| Em_Operate_Type_Update == m_emOperateType)
+			|| Em_Operate_Type_Update == m_emOperateType
+			|| Em_Operate_Type_InsertEX == m_emOperateType
+			|| Em_Operate_Type_UpdateEX == m_emOperateType)
 		{
 			vecChn.clear();
 			vecChn = dlg.GetID();
@@ -455,7 +549,9 @@ void CSubDlgInfoCard::OnRecsetCardBtnTm()
 	if (IDOK == dlg.DoModal())
 	{
 		if (Em_Operate_Type_Insert == m_emOperateType
-			|| Em_Operate_Type_Update == m_emOperateType)
+			|| Em_Operate_Type_Update == m_emOperateType
+			|| Em_Operate_Type_InsertEX == m_emOperateType
+			|| Em_Operate_Type_UpdateEX == m_emOperateType)
 		{
 			vecChn.clear();
 			vecChn = dlg.GetID();
@@ -467,4 +563,10 @@ void CSubDlgInfoCard::OnRecsetCardBtnTm()
 			m_stuInfo.nTimeSectionNum = __min(vecChn.size(), DH_MAX_TIMESECTION_NUM);
 		}
 	}	
+}
+
+void CSubDlgInfoCard::OnBnClickedOk()
+{
+	// TODO: �ڴ����ӿؼ�֪ͨ�����������
+	OnOK();
 }

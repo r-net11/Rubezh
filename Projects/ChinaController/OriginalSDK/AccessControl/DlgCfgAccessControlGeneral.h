@@ -7,6 +7,18 @@
 // DlgCfgAccessControlGeneral.h : header file
 //
 
+typedef struct tagAccessPropertyType
+{
+    CFG_ACCESS_PROPERTY_TYPE    emType;
+    const char*                 szInfo;
+}AccessPropertyType;
+
+const AccessPropertyType stuDemoAccessProperty[] = {
+    {CFG_ACCESS_PROPERTY_UNKNOWN, "Unknown"},
+    {CFG_ACCESS_PROPERTY_BIDIRECT, "BiDirect"},
+    {CFG_ACCESS_PROPERTY_UNIDIRECT, "UniDirect"},
+};
+
 /////////////////////////////////////////////////////////////////////////////
 // CDlgCfgAccessControlGeneral dialog
 
@@ -19,7 +31,7 @@ public:
 // Dialog Data
 	//{{AFX_DATA(CDlgCfgAccessControlGeneral)
 	enum { IDD = IDD_DLG_CFG_ACCESS_CONTROL_GENERAL };
-		// NOTE: the ClassWizard will add data members here
+	CComboBox	m_cmbAccessProperty;
 	//}}AFX_DATA
 
 
@@ -42,6 +54,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 		
 private:
+    void InitDlg();
 	BOOL SetConfigToDevice();
 	BOOL GetConfigFromDevice();
 	void DlgToStu();

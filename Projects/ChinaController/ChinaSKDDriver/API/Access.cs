@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace ChinaSKDDriverAPI
 {
@@ -17,19 +18,19 @@ namespace ChinaSKDDriverAPI
 
 	public enum AccessMethodType
 	{
-		// Неизвестно
+		[Description("Неизвестно")]
 		NET_ACCESS_DOOROPEN_METHOD_UNKNOWN = 0,
-		// Пароль
+		[Description("Только пароль")]
 		NET_ACCESS_DOOROPEN_METHOD_PWD_ONLY,
-		// Карта
+		[Description("Карта")]
 		NET_ACCESS_DOOROPEN_METHOD_CARD,
-		// Сначала карта
+		[Description("Сначала карта")]
 		NET_ACCESS_DOOROPEN_METHOD_CARD_FIRST,
-		// Сначала пароль
+		[Description("Сначала пароль")]
 		NET_ACCESS_DOOROPEN_METHOD_PWD_FIRST,
-		// Удаленно
+		[Description("Удаленно")]
 		NET_ACCESS_DOOROPEN_METHOD_REMOTE,
-		// Кнопка
+		[Description("Кнопка")]
 		NET_ACCESS_DOOROPEN_METHOD_BUTTON
 	}
 }

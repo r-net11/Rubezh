@@ -20,6 +20,11 @@
 #include "DlgCfgAccessControlGeneral.h"
 #include "DlgCfgAccessControl.h"
 #include "DlgCfgTimeSchedule.h"
+#include "DlgCfgNTP.h"
+#include "DlgSearchDeivce.h"
+#include "DlgRWDevice.h"
+#include "DlgABDoor.h"
+#include "DlgAtiSet.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -124,7 +129,6 @@ END_MESSAGE_MAP()
 
 void CALLBACK DemoDisConnectCallBack(LLONG lLoginID, char *pchDVRIP, LONG nDVRPort, LDWORD dwUser)
 {
-	return;
 	if(0 != dwUser)
 	{
 		CAccessControlDlg *dlg = (CAccessControlDlg *)dwUser;
@@ -163,7 +167,7 @@ void CAccessControlDlg::InitDlg()
 		CString csIp = ConvertString("ip", DEVICE_PARAM);
 		if (csIp == CString("ip"))
 		{
-			m_DvrIPAddr.SetWindowText("172.16.6.55");
+			m_DvrIPAddr.SetWindowText("172.23.2.72");
 		} 
 		else
 		{
@@ -183,7 +187,7 @@ void CAccessControlDlg::InitDlg()
 		CString csName = ConvertString("username", DEVICE_PARAM);
 		if (csName == CString("username"))
 		{
-			GetDlgItem(IDC_EDT_NAME)->SetWindowText("t_SuperUser");
+			GetDlgItem(IDC_EDT_NAME)->SetWindowText("system");
 		} 
 		else
 		{
@@ -332,7 +336,7 @@ void CAccessControlDlg::CQofVersion()
 
 void CAccessControlDlg::CQofReboot()
 {
-	if (MessageBox(ConvertString("Are you sure to reboot?", NULL), ConvertString("Prompt"), MB_YESNO) == IDYES)
+	if (MessageBox(ConvertString("Are you sure to reboot?"), ConvertString("Prompt"), MB_YESNO) == IDYES)
 	{
 		BOOL bRet = CLIENT_ControlDevice(m_lLoginID, DH_CTRL_REBOOT, NULL, 3000);
 		if (!bRet)
@@ -346,7 +350,7 @@ void CAccessControlDlg::CQofReboot()
 
 void CAccessControlDlg::CQofRestoreAll()
 {
-	if (MessageBox(ConvertString("Are you sure to restore all?", NULL), ConvertString("Prompt"), MB_YESNO) == IDYES)
+	if (MessageBox(ConvertString("Are you sure to restore all?"), ConvertString("Prompt"), MB_YESNO) == IDYES)
 	{
 		BOOL bRet = CLIENT_ControlDevice(m_lLoginID, DH_CTRL_RESTOREDEFAULT, NULL, 3000);
 		if (!bRet)
@@ -433,13 +437,19 @@ void CAccessControlDlg::CFGofAccessTimeSechdule()
 	dlg.DoModal();
 }
 
+void CAccessControlDlg::CFGofNTP()
+{
+	CDlgCfgNTP dlg(this, m_lLoginID);
+	dlg.DoModal();
+}
+
 /////////////////////////////////////////////////////////////////////////////
 // CAccessControlDlg message handlers
 
 BOOL CAccessControlDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
-
+    g_SetWndStaticText(this, DLG_MAIN);
 	// Add "About..." menu item to system menu.
 
 	// IDM_ABOUTBOX must be in the system command range.
@@ -541,15 +551,8 @@ void CAccessControlDlg::OnDestroy()
 	CLIENT_Cleanup();
 }
 
-void CALLBACK HaveReConnectFunc(LLONG lLoginID, char *pchDVRIP, LONG nDVRPort, LDWORD dwUser)
-{
-    return;
-}
-
 void CAccessControlDlg::OnBtnLogin() 
 {
-	CLIENT_SetAutoReconnect(HaveReConnectFunc, 0);
-
 	// TODO: Add your control notification handler code here
 	CString csIp;
 	m_DvrIPAddr.GetWindowText(csIp);
@@ -614,7 +617,7 @@ void CAccessControlDlg::OnBtnCapability()
 void CAccessControlDlg::OnBtnSubscibe() 
 {
 	// TODO: Add your control notification handler code here
-	AlarmSubscribe dlg(this, m_lLoginID, m_nAlarmIn);
+	AlarmSubscribe dlg(this, m_lLoginID, m_nAlarmIn, m_nAccessGroup);
 	dlg.DoModal();
 }
 
@@ -665,6 +668,15 @@ void CAccessControlDlg::OnBtnControlQuery()
 	case EM_CONTROL_QUERY_MODIFY_PWD:
 		CQofModifyPwd();
 		break;
+	case EM_CONTROL_RW_DATA:
+		CFGofRWDeviceData();
+		break;
+	case EM_CONTROL_ATI_SET:
+		CFGofAtiSet();
+		break;
+	case EM_CONTROL_AB_DOOR:
+		CFGofABDoor();
+		break;
 	default:
 		break;
 	}
@@ -688,7 +700,81 @@ void CAccessControlDlg::OnBtnConfig()
 	case EM_CONFIG_ACCESS_TIMESECHDULE:
 		CFGofAccessTimeSechdule();
 		break;
+	case EM_CONFIG_NTP:
+		CFGofNTP();
+		break;
+	case EM_CONFIG_SEARCH:
+		CFGofSearchDevice();
+		break;
 	default:
 		break;
+	}
+}
+
+
+void CAccessControlDlg::CFGofSearchDevice()
+{
+	CDlgSearchDeivce dlg(this);
+	if (IDOK == dlg.DoModal())
+	{
+
+		CString csIp = dlg.csIp; 
+		if ("" != csIp)
+			m_DvrIPAddr.SetWindowText(csIp);
+
+		CString csPort = dlg.csPort; 
+		if ("" != csPort)
+			GetDlgItem(IDC_EDT_PORT)->SetWindowText(csPort); 
+
+		/*CString csName = ConvertString("username", DEVICE_PARAM);
+		if (csName == CString("username"))
+		{
+			GetDlgItem(IDC_EDT_NAME)->SetWindowText("system");
+		} 
+		else
+		{
+			GetDlgItem(IDC_EDT_NAME)->SetWindowText(csName);
+		}
+
+		CString csPsw = ConvertString("password", DEVICE_PARAM);
+		if (csPsw == CString("password"))
+		{
+			GetDlgItem(IDC_EDT_PWD)->SetWindowText("123456");
+		} 
+		else
+		{
+			GetDlgItem(IDC_EDT_PWD)->SetWindowText(csPsw);
+		}*/
+	}
+
+}
+
+
+void CAccessControlDlg::CFGofRWDeviceData()
+{
+	CDlgRWDevice dlg(this, m_lLoginID);
+	dlg.DoModal();
+}
+
+
+
+void CAccessControlDlg::CFGofAtiSet()
+{
+	if (m_nAccessGroup != 4)
+	{
+
+		CDlgAtiSet dlg(this, m_lLoginID,  m_nAccessGroup);
+		dlg.DoModal();
+	}
+}
+
+
+
+void CAccessControlDlg::CFGofABDoor()
+{
+	if (m_nAccessGroup != 1)
+	{
+		CDlgABDoor dlg(this, m_lLoginID,  m_nAccessGroup);
+		dlg.DoModal();
 	}
 }

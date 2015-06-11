@@ -12,9 +12,10 @@
 			<DataGrid.Columns>
 				<DataGridTextColumn Header="SystemDateTime" Binding="{Binding JournalItem.SystemDateTime}" Width="Auto" />
 				<DataGridTextColumn Header="DeviceDateTime" Binding="{Binding JournalItem.DeviceDateTime}" Width="Auto" />
-				<DataGridTextColumn Header="EventNameType" Binding="{Binding JournalItem.JournalEventNameType}" Width="*" />
+				<DataGridTextColumn Header="EventNameType" Binding="{Binding JournalItem.JournalEventNameType, Converter={StaticResource EnumToDescriptionConverter}}" Width="*" />
 				<DataGridTextColumn Header="Description" Binding="{Binding JournalItem.Description}" Width="*" />
-			</DataGrid.Columns>
+                <DataGridTextColumn Header="ErrorCode" Binding="{Binding JournalItem.ErrorCode, Converter={StaticResource EnumToDescriptionConverter}}" Width="*" />
+            </DataGrid.Columns>
 		</DataGrid>
 	</Grid>
 </UserControl>

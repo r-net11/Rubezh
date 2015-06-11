@@ -1,4 +1,5 @@
-﻿using FiresecAPI.SKD;
+﻿using System.ComponentModel;
+using FiresecAPI.SKD;
 
 namespace ChinaSKDDriverAPI
 {
@@ -137,34 +138,50 @@ namespace ChinaSKDDriverAPI
 
 	public enum AccessState
 	{
-		ACCESS_STATE_NORMAL,
-		ACCESS_STATE_CLOSEALWAYS,
-		ACCESS_STATE_OPENALWAYS
+        [Description("Нормальный")]
+        ACCESS_STATE_NORMAL,
+        [Description("Всегда закрыто")]
+        ACCESS_STATE_CLOSEALWAYS,
+        [Description("Всегда открыто")]
+        ACCESS_STATE_OPENALWAYS
 	}
 
 	public enum AccessMode
 	{
-		ACCESS_MODE_HANDPROTECTED,
-		ACCESS_MODE_SAFEROOM,
-		ACCESS_MODE_OTHER
+        [Description("Под защитой")]
+        ACCESS_MODE_HANDPROTECTED,
+        [Description("Безопасная комната")]
+        ACCESS_MODE_SAFEROOM,
+        [Description("Прочее")]
+        ACCESS_MODE_OTHER
 	}
 
 	public enum DoorOpenMethod
 	{
-		CFG_DOOR_OPEN_METHOD_UNKNOWN = 0,
-		CFG_DOOR_OPEN_METHOD_PWD_ONLY,
-		CFG_DOOR_OPEN_METHOD_CARD,
-		CFG_DOOR_OPEN_METHOD_PWD_OR_CARD,
-		CFG_DOOR_OPEN_METHOD_CARD_FIRST,
-		CFG_DOOR_OPEN_METHOD_PWD_FIRST,
-		CFG_DOOR_OPEN_METHOD_SECTION
+		[Description("Не известно")]
+        CFG_DOOR_OPEN_METHOD_UNKNOWN = 0,
+        [Description("Только пароль")]
+        CFG_DOOR_OPEN_METHOD_PWD_ONLY,
+        [Description("Пропуск")]
+        CFG_DOOR_OPEN_METHOD_CARD,
+        [Description("Пароль или пропуск")]
+        CFG_DOOR_OPEN_METHOD_PWD_OR_CARD,
+        [Description("Сначала карта")]
+        CFG_DOOR_OPEN_METHOD_CARD_FIRST,
+        [Description("Сначала пароль")]
+        CFG_DOOR_OPEN_METHOD_PWD_FIRST,
+        [Description("Секция")]
+        CFG_DOOR_OPEN_METHOD_SECTION
 	}
 
 	public enum DoorFirstEnterStatus
 	{
-		ACCESS_FIRSTENTER_STATUS_UNKNOWN = 0,
-		ACCESS_FIRSTENTER_STATUS_KEEPOPEN = 1,
-		ACCESS_FIRSTENTER_STATUS_NORMAL = 2
+		[Description("Не известно")]
+        ACCESS_FIRSTENTER_STATUS_UNKNOWN = 0,
+        [Description("Держать открытой")]
+        ACCESS_FIRSTENTER_STATUS_KEEPOPEN = 1,
+        [Description("Нормальный")]
+        ACCESS_FIRSTENTER_STATUS_NORMAL = 2
 	}
 
 	public struct DoorFirstEnterInfo

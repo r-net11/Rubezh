@@ -74,7 +74,7 @@
 				<DataGridTextColumn Header="Password" Binding="{Binding Access.Password}" />
 				<DataGridTextColumn Header="Time" Binding="{Binding Access.Time}" />
 				<DataGridTextColumn Header="Status" Binding="{Binding Access.Status}" />
-				<DataGridTextColumn Header="MethodType" Binding="{Binding Access.MethodType}" />
+				<DataGridTextColumn Header="MethodType" Binding="{Binding Access.MethodType, Converter={StaticResource EnumToDescriptionConverter}}" />
 				<DataGridTextColumn Header="ReaderID" Binding="{Binding Access.ReaderID}" />
 				<DataGridTextColumn Header="DoorNo" Binding="{Binding Access.DoorNo}" />
 			</DataGrid.Columns>

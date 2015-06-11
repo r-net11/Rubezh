@@ -43,6 +43,7 @@
     <Compile Include="API\AntiPassBackConfiguration.cs" />
     <Compile Include="API\Card.cs" />
     <Compile Include="API\Access.cs" />
+    <Compile Include="API\ErrorCode.cs" />
     <Compile Include="API\InterlockConfiguration.cs" />
     <Compile Include="API\DeviceJournalItem.cs" />
     <Compile Include="API\DeviceSoftwareInfo.cs" />

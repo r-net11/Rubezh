@@ -33,11 +33,10 @@ class AlarmSubscribe : public CDialog
 {
 // Construction
 public:
-	AlarmSubscribe(CWnd* pParent = NULL, LLONG hLoginID = NULL, UINT32 uiAlarmIn = 0);   // standard constructor
+	AlarmSubscribe(CWnd* pParent = NULL, LLONG hLoginID = NULL, UINT32 uiAlarmIn = 0, UINT32 uiAccessGroup = 0);   // standard constructor
 // Dialog Data
 	//{{AFX_DATA(AlarmSubscribe)
 	enum { IDD = IDD_DLG_SUBSCRIBE };
-	CComboBox	m_cbAlarmType;
 	CComboBox	m_cbChannel;
 	CListCtrl m_ctrAlarmRptList;
 	//}}AFX_DATA
@@ -58,10 +57,11 @@ protected:
 	virtual BOOL OnInitDialog();
 	afx_msg void OnButtonSub();
 	afx_msg void OnButtonStop();
-	afx_msg void OnBtnConfirm();
-	afx_msg void OnSelchangeSubscribeCmbType();
 	afx_msg void OnDestroy();
 	afx_msg LRESULT OnAlarmInfo(WPARAM wParam, LPARAM lParam);
+	afx_msg void OnSubscribeBtnCapture();
+	afx_msg void OnButton1();
+	afx_msg void OnCalarmBtn();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 
@@ -78,10 +78,23 @@ private:
 	void	InsertAccessCtlRepeatEnter(ALARM_ACCESS_CTL_REPEAT_ENTER_INFO* pInfo);
 	void	InsertAccessCtlStatus(ALARM_ACCESS_CTL_STATUS_INFO* pInfo);
 
+    void    InsertChassisintruded(ALARM_CHASSISINTRUDED_INFO* pInfo);
+    void    InsertOpenDoorGroup(ALARM_OPEN_DOOR_GROUP_INFO* pInfo);
+    void    InsertFingerPrint(ALARM_CAPTURE_FINGER_PRINT_INFO* pInfo);
+	
+	void	InsertAlarmEx2Event(ALARM_ALARM_INFO_EX2* pInfo);
+
+	void	InsertAccessLockStatus(ALARM_ACCESS_LOCK_STATUS_INFO* pInfo);
+
 private:
 	LLONG		m_hLogin;
 	int			m_nAlarmIndex;
 	UINT32		m_uiAlarmIn;
+    UINT32      m_uiAccessGroup;
+
+	void		OnDoorControl(int nOperType = 0,int nChanelID = -1,EM_NET_DOOR_STATUS_TYPE   emStateType = EM_NET_DOOR_STATUS_UNKNOWN) ;
+public:
+	afx_msg void OnBnClickedButton2();
 };
 
 //{{AFX_INSERT_LOCATION}}

@@ -42,11 +42,23 @@
 			</StackPanel>
 			<StackPanel Orientation="Horizontal">
 				<TextBlock Text="CardType" Width="200" Margin="2" />
-				<ComboBox ItemsSource="{Binding AvailableCardTypes}" SelectedItem="{Binding CardType}" Width="250" Margin="2" />
-			</StackPanel>
+                <ComboBox ItemsSource="{Binding AvailableCardTypes}" SelectedItem="{Binding CardType}" Width="250" Margin="2" >
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Converter={StaticResource EnumToDescriptionConverter}}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </StackPanel>
 			<StackPanel Orientation="Horizontal">
 				<TextBlock Text="CardStatus" Width="200" Margin="2" />
-				<ComboBox ItemsSource="{Binding AvailableCardStatuses}" SelectedItem="{Binding CardStatus}" Width="250" Margin="2" />
+				<ComboBox ItemsSource="{Binding AvailableCardStatuses}" SelectedItem="{Binding CardStatus}" Width="250" Margin="2" >
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Converter={StaticResource EnumToDescriptionConverter}}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
 			</StackPanel>
 			<StackPanel Orientation="Horizontal">
 				<TextBlock Text="Doors" Width="200" Margin="2" />
@@ -71,8 +83,8 @@
 			<DataGrid.Columns>
 				<DataGridTextColumn Header="RecordNo" Binding="{Binding Card.RecordNo}" />
 				<DataGridTextColumn Header="CardNo" Binding="{Binding Card.CardNo}" />
-				<DataGridTextColumn Header="CardType" Binding="{Binding Card.CardType}" />
-				<DataGridTextColumn Header="CardStatus" Binding="{Binding Card.CardStatus}" />
+				<DataGridTextColumn Header="CardType" Binding="{Binding Card.CardType, Converter={StaticResource EnumToDescriptionConverter}}" />
+                <DataGridTextColumn Header="CardStatus" Binding="{Binding Card.CardStatus, Converter={StaticResource EnumToDescriptionConverter}}" />
 				<DataGridTextColumn Header="Password" Binding="{Binding Card.Password}" />
 				<DataGridTextColumn Header="Doors" Binding="{Binding Doors}" />
 				<DataGridTextColumn Header="TimeSections" Binding="{Binding TimeSections}" />

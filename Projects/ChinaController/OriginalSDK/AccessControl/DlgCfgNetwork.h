@@ -42,7 +42,6 @@ protected:
 	virtual BOOL OnInitDialog();
 	afx_msg void OnBtnCancel();
 	afx_msg void OnBtnSet();
-	afx_msg LRESULT OnNetWorkInfo(WPARAM wParam, LPARAM lParam);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 

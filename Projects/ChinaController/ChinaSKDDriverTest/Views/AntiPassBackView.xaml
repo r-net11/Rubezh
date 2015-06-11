@@ -23,7 +23,13 @@
 			<TextBlock Grid.Row="0" Grid.Column="1" Text="Активировать" Margin="5 2"/>
 			<StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left">
 				<TextBlock Text="Режим" Margin="5 2"/>
-				<ComboBox Width="200" Margin="2" ItemsSource="{Binding AvailableAntiPassBackModes}" SelectedItem="{Binding SelectedAntiPassBackMode}" IsEnabled="{Binding IsActivated}" />
+				<ComboBox Width="350" Margin="2" ItemsSource="{Binding AvailableAntiPassBackModes}" SelectedItem="{Binding SelectedAntiPassBackMode}" IsEnabled="{Binding IsActivated}" >
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Converter={StaticResource EnumToDescriptionConverter}}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
 			</StackPanel>
 		</Grid>
 	</StackPanel>

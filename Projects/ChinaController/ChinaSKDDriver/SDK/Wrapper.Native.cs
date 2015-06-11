@@ -91,23 +91,26 @@ namespace ChinaSKDDriver
 			switch (lCommand)
 			{
 				case DH_ALARM_ACCESS_CTL_EVENT:
-					NativeWrapper.ALARM_ACCESS_CTL_EVENT_INFO item1 = (NativeWrapper.ALARM_ACCESS_CTL_EVENT_INFO)(Marshal.PtrToStructure(pBuf, typeof(NativeWrapper.ALARM_ACCESS_CTL_EVENT_INFO)));
-					journalItem.DeviceDateTime = NET_TIMEToDateTime(item1.stuTime);
+			    {
+                    var eventInfo = (NativeWrapper.ALARM_ACCESS_CTL_EVENT_INFO)(Marshal.PtrToStructure(pBuf, typeof(NativeWrapper.ALARM_ACCESS_CTL_EVENT_INFO)));
+                    journalItem.DeviceDateTime = NET_TIMEToDateTime(eventInfo.stuTime);
 
-					if (item1.bStatus)
-						journalItem.JournalEventNameType = JournalEventNameType.Проход_разрешен;
-					else
-						journalItem.JournalEventNameType = JournalEventNameType.Проход_запрещен;
+                    if (eventInfo.bStatus)
+                        journalItem.JournalEventNameType = JournalEventNameType.Проход_разрешен;
+                    else
+                        journalItem.JournalEventNameType = JournalEventNameType.Проход_запрещен;
 
-					journalItem.DoorNo = item1.nDoor;
-					journalItem.emEventType = item1.emEventType;
-					journalItem.bStatus = item1.bStatus;
-					journalItem.emCardType = item1.emCardType;
-					journalItem.emOpenMethod = item1.emOpenMethod;
-					journalItem.szPwd = item1.szPwd;
-					journalItem.szReaderID = item1.szReaderID;
-					journalItem.CardNo = item1.szCardNo;
-					break;
+                    journalItem.DoorNo = eventInfo.nDoor;
+                    journalItem.emEventType = eventInfo.emEventType;
+                    journalItem.bStatus = eventInfo.bStatus;
+                    journalItem.emCardType = eventInfo.emCardType;
+                    journalItem.emOpenMethod = eventInfo.emOpenMethod;
+                    journalItem.szPwd = eventInfo.szPwd;
+                    journalItem.szReaderID = eventInfo.szReaderID;
+                    journalItem.CardNo = eventInfo.szCardNo;
+			        journalItem.ErrorCode = (ErrorCode)eventInfo.nErrorCode;
+                    break;
+                }
 
 				case DH_ALARM_ACCESS_CTL_NOT_CLOSE:
 					journalItem.JournalEventNameType = JournalEventNameType.Дверь_не_закрыта;

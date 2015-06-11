@@ -14,6 +14,8 @@
 
 #include "resource.h"		// main symbols
 
+#define SDK_API_WAIT			(5000)				// delay time of sdk api in msec
+
 // after modification, demo need re-execute
 #define SDK_PARAM				"SDKParam"			// for setting AVNetSDK basic params 
 #define DEVICE_PARAM			"DeviceParam"		// for setting device basic params
@@ -28,6 +30,7 @@
 #define DLG_UPGRADE				"UpgradeDlg"		//
 #define DLG_DOOR_CONTROL		"DoorControl"		//
 #define	DLG_USER				"UserPasswordDlg"	//=control
+#define DLG_VERSION             "VersionDlg"
 #define DLG_RECORDSET_CONTROL	"RecordSetControl"	//
 #define DLG_RECORDSET_FINDER	"RecordSetFinder"
 #define SUBDLG_INFO_CARD		"InfoCard"
@@ -36,13 +39,20 @@
 #define SUBDLG_INFO_HOLIDAY		"InfoHoliday"
 
 #define DLG_CFG_NETWORK			"CfgNetwork"		//=add to cfg
-#define DLG_CFG_ACCESS_GENERAL	"AccessControlGeneral"
-#define DLG_CFG_ACCESS_CONTROL	"AccessControl"
-#define SUBDLG_CFG_DOOROPEN_TIMESECTION	"DoorOpenTimeSection"
-#define	DLG_CFG_TIME_SCHEDULE	"AccessTimeSchedule"
+#define DLG_CFG_ACCESS_GENERAL	"CfgAccessControlGeneral"
+#define DLG_CFG_ACCESS_CONTROL	"CfgAccessControl"
+#define SUBDLG_CFG_DOOROPEN_TIMESECTION	"CfgDoorOpenTimeSection"
+#define	DLG_CFG_TIME_SCHEDULE	"CfgAccessTimeSchedule"
+#define DLG_CFG_NTP				"CfgNTP"			//=add to cfg
 
 
-#define SDK_API_WAITTIME		5000 // 调用SDK接口超时时间
+#define DLG_SEARCHDEVICE			"SearchDevice"
+#define DLG_CFG_RWDATA			"ReadWriteDevice"
+#define DLG_CFG_ABDOOR			"ABDoorSet"
+#define DLG_CFG_AntiPassBack			"AntiPassBack"
+
+
+#define SDK_API_WAITTIME		5000                // 调用SDK接口超时时间
 
 //////////////////////////////////////////////////////////////////////////
 
@@ -114,6 +124,8 @@ typedef enum tagEm_RecordSet_Operate_Type
 	Em_Operate_Type_Update,			// 只有nRecNo字段只读，其他字段可写
 	Em_Operate_Type_Remove,			// 只有nRecNo字段可写
 	Em_Operate_Type_Clear,			// 无需参数
+	Em_Operate_Type_InsertEX,		// 除了nRecNo字段，其他字段都可写
+	Em_Operate_Type_UpdateEX,			// 只有nRecNo字段只读，其他字段可写
 }Em_RecordSet_Operate_Type;
 
 //////////////////////////////////////////////////////////////////////////
@@ -137,6 +149,9 @@ typedef enum tagEM_CONTROL_QUERY_TYPE
 // 	EM_CONTROL_QUERY_RECORDSET_FINDER,
 	EM_CONTROL_QUERY_UPGRADE,
 	EM_CONTROL_QUERY_MODIFY_PWD,
+	EM_CONTROL_RW_DATA,
+	EM_CONTROL_ATI_SET,
+	EM_CONTROL_AB_DOOR,
 }EM_CONTROL_QUERY_TYPE;
 
 typedef struct tagDemo_Em_Control_Query_Type 
@@ -156,6 +171,9 @@ const Demo_Em_Control_Query_Type stuDemoEmControlQueryType[] =
 	{EM_CONTROL_QUERY_TIME,			"Time"},//
 	{EM_CONTROL_QUERY_UPGRADE,		"Upgrade"},
 	{EM_CONTROL_QUERY_MODIFY_PWD,	"ModifyPwd"},
+	{EM_CONTROL_RW_DATA,	"Read/WriteData"},
+	{EM_CONTROL_ATI_SET,	"ATISET"},
+	{EM_CONTROL_AB_DOOR,	"ABDoor"},
 };
 
 //////////////////////////////////////////////////////////////////////////
@@ -166,6 +184,8 @@ typedef enum tagEM_CONFIG_TYPE
 	EM_CONFIG_ACCESSCONTROL_GENERAL,
 	EM_CONFIG_ACCESSCONTROL,
 	EM_CONFIG_ACCESS_TIMESECHDULE,
+	EM_CONFIG_NTP,
+	EM_CONFIG_SEARCH,
 }EM_CONFIG_TYPE;
 
 typedef struct tagDemo_Em_Config_Type
@@ -176,10 +196,12 @@ typedef struct tagDemo_Em_Config_Type
 
 const Demo_Em_Config_Type stuDemoEmConfigType[] =
 {
-	{EM_CONFIG_NETWORK,					"Network"},
-	{EM_CONFIG_ACCESSCONTROL_GENERAL,	"AccessControlGeneral"},
-	{EM_CONFIG_ACCESSCONTROL,			"AccessControl"},
-	{EM_CONFIG_ACCESS_TIMESECHDULE,		"AccessTimeSechdule"},
+	{EM_CONFIG_NETWORK,					"CfgNetwork"},
+	{EM_CONFIG_ACCESSCONTROL_GENERAL,	"CfgAccessControlGeneral"},
+	{EM_CONFIG_ACCESSCONTROL,			"CfgAccessControl"},
+	{EM_CONFIG_ACCESS_TIMESECHDULE,		"CfgAccessTimeSchedule"},
+	{EM_CONFIG_NTP,						"CfgNTP"},
+	{EM_CONFIG_NTP,						"CfgIPSearch"},
 };
 
 /////////////////////////////////////////////////////////////////////////////

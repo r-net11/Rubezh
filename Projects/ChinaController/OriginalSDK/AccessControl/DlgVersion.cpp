@@ -46,7 +46,7 @@ END_MESSAGE_MAP()
 BOOL CDlgVersion::OnInitDialog() 
 {
 	CDialog::OnInitDialog();
-	g_SetWndStaticText(this, "VersionDlg");
+	g_SetWndStaticText(this, DLG_VERSION);
 	
 	// TODO: Add extra initialization here
 	OnVersionUpdate();
@@ -60,21 +60,24 @@ void CDlgVersion::OnVersionUpdate()
 	// TODO: Add your control notification handler code here
 	if (!m_hLoginId)
 	{
-		AfxMessageBox(CString("we haven't login a device yet!"));
+		MessageBox(ConvertString(CString("we haven't login a device yet!"), DLG_VERSION), ConvertString("Prompt"));
 		return;
 	}
 
 	int nRet = 0;
 	DHDEV_VERSION_INFO stuInfo = {0};
-	BOOL bRet = CLIENT_QueryDevState(m_hLoginId, DH_DEVSTATE_SOFTWARE, (char*)&stuInfo, sizeof(stuInfo), &nRet, 3000);
+	BOOL bRet = CLIENT_QueryDevState(m_hLoginId, DH_DEVSTATE_SOFTWARE, (char*)&stuInfo, sizeof(stuInfo), &nRet, SDK_API_WAIT);
 	if (bRet)
 	{
 		CString csVer;
-		csVer.Format("Serial: %s\r\n\
-SoftwareVersion: %s\r\n\
-ReleaseTime: %04d-%02d-%02d\r\n",
+		csVer.Format("%s: %s\r\n\
+%s: %s\r\n\
+%s: %04d-%02d-%02d\r\n",
+ConvertString("Serial", DLG_VERSION),
 			stuInfo.szDevSerialNo,
+			ConvertString("SoftwareVersion", DLG_VERSION),
 			stuInfo.szSoftWareVersion,
+			ConvertString("ReleaseTime", DLG_VERSION),
 			((stuInfo.dwSoftwareBuildDate>>16) & 0xffff),
 			((stuInfo.dwSoftwareBuildDate>>8) & 0xff),
 			(stuInfo.dwSoftwareBuildDate & 0xff));
@@ -83,7 +86,7 @@ ReleaseTime: %04d-%02d-%02d\r\n",
 	else
 	{
 		CString csErr;
-		csErr.Format("get Version failed with code : %08x...", CLIENT_GetLastError());
-		AfxMessageBox(csErr);
+		csErr.Format("%s %08x...", ConvertString("get Version failed with code :", DLG_VERSION), CLIENT_GetLastError());
+		MessageBox(csErr, ConvertString("Prompt"));
 	}
 }

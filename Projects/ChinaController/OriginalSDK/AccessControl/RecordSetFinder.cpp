@@ -68,9 +68,11 @@ void CRecordSetFinder::InitDlg()
 
 	// data type
 	m_cmbDataType.ResetContent();
+    int nWidth = m_cmbDataType.GetDroppedWidth();
+    m_cmbDataType.SetDroppedWidth(nWidth * 2);
 	for (int i = 0; i < sizeof(stuDemoDataType)/sizeof(stuDemoDataType[0]); i++)
 	{
-		m_cmbDataType.InsertString(-1, ConvertString(stuDemoDataType[i].szName, DLG_RECORDSET_FINDER));
+		m_cmbDataType.InsertString(-1, ConvertString(stuDemoDataType[i].szName));
 	}
 	m_cmbDataType.SetCurSel(0);
 
@@ -186,6 +188,7 @@ int CRecordSetFinder::RecordSetFindNext_Card(LLONG lFinderId)
 	for (i = 0; i < nMaxNum; i++)
 	{
 		pstuCard[i].dwSize = sizeof(NET_RECORDSET_ACCESS_CTL_CARD);
+		pstuCard[i].stuFingerPrintInfo.dwSize = sizeof(NET_ACCESSCTLCARD_FINGERPRINT_PACKET);
 	}
 	stuOut.pRecordList = (void*)pstuCard;
 	
@@ -450,7 +453,7 @@ void CRecordSetFinder::ShowCardRec(NET_RECORDSET_ACCESS_CTL_CARDREC* pInfo)
 	{
 		return;
 	}
-	CDlgSubDlgInfoAccessRecord dlg(this);
+	CDlgSubDlgInfoAccessRecord dlg(this, pInfo);
 	dlg.DoModal();
 }
 /////////////////////////////////////////////////////////////////////////////

@@ -23,7 +23,13 @@
 			<TextBlock Grid.Row="0" Grid.Column="1" Text="Активировать" Margin="5 2"/>
 			<StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left">
 				<TextBlock Text="Режим" Margin="5 2"/>
-				<ComboBox Width="200" ItemsSource="{Binding AvailableInterlockModes}" SelectedItem="{Binding SelectedInterlockMode}" IsEnabled="{Binding IsActivated}"  Margin="2"/>
+				<ComboBox Width="350" ItemsSource="{Binding AvailableInterlockModes}" SelectedItem="{Binding SelectedInterlockMode}" IsEnabled="{Binding IsActivated}" Margin="2">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Converter={StaticResource EnumToDescriptionConverter}}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
 			</StackPanel>
 		</Grid>
 	</StackPanel>

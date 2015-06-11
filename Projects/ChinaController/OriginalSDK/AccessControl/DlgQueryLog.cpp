@@ -54,6 +54,7 @@ BEGIN_MESSAGE_MAP(CDlgQueryLog, CDialog)
 	ON_BN_CLICKED(IDC_QUERYLOG_BTN_QUERYSTART, OnBtnQueryStart)
 	ON_BN_CLICKED(IDC_QUERYLOG_BTN_QUERYNEXT, OnBtnQueryNext)
 	ON_WM_DESTROY()
+	ON_BN_CLICKED(IDC_QUERYLOG_BTN_TOTALCOUNT, OnQuerylogBtnTotalCount)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -145,8 +146,12 @@ int CDlgQueryLog::QueryNext()
                 szTime,
                 stuOut.pstuLogInfo[i].stuLogMsg.szLogMessage);
         }
+        delete []stuOut.pstuLogInfo;
+        stuOut.pstuLogInfo = NULL;
         return stuOut.nRetCount;
     }
+    delete []stuOut.pstuLogInfo;
+    stuOut.pstuLogInfo = NULL;
     return 0;
 }
 
@@ -166,6 +171,7 @@ BOOL CDlgQueryLog::OnInitDialog()
 	g_SetWndStaticText(this, DLG_QUERYLOG);
 
 	InitDlg();
+	OnQuerylogBtnTotalCount();
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 	              // EXCEPTION: OCX Property Pages should return FALSE
@@ -224,5 +230,22 @@ void CDlgQueryLog::OnDestroy()
 	if (m_lLogID != 0)
 	{
         CLIENT_StopQueryLog(m_lLogID);
+	}
+}
+
+void CDlgQueryLog::OnQuerylogBtnTotalCount() 
+{
+	// TODO: Add your control notification handler code here
+	NET_IN_GETCOUNT_LOG_PARAM stuIn = {sizeof(stuIn)};
+	NET_OUT_GETCOUNT_LOG_PARAM stuOut = {sizeof(stuOut)};
+	if (CLIENT_QueryDevLogCount(m_lLoginId, &stuIn, &stuOut, SDK_API_WAITTIME))
+	{
+		SetDlgItemInt(IDC_QUERYLOG_EDT_TOTALCOUNT, stuOut.nLogCount);
+	}
+	else
+	{
+		CString csOut;
+		csOut.Format("%s:0x%08x", ConvertString("Query log total count failed", DLG_QUERYLOG), CLIENT_GetLastError());
+		MessageBox(csOut, ConvertString("Prompt"));
 	}
 }

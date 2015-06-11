@@ -68,6 +68,7 @@ private:
     BOOL        GetAccessCount(int& nCount);
 
 private:
+	// 控制&查询类型
 	void		CQofVersion();
 	void		CQofReboot();
 	void		CQofRestoreAll();
@@ -79,10 +80,22 @@ private:
 	void		CQofModifyPwd();
 
 private:
+	// 配置类型
 	void		CFGofNetwork();
 	void		CFGofAccessControlGeneral();
 	void		CFGofAccessControl();
 	void		CFGofAccessTimeSechdule();
+	void		CFGofNTP();
+
+	//设备搜索 无需登录
+	void		CFGofSearchDevice();
+
+	//读写数据
+	void		CFGofRWDeviceData();
+	//反潜回设定
+	void		CFGofAtiSet();
+	//AB多门互锁设定
+	void		CFGofABDoor();
 
 private:
 	LLONG		m_lLoginID;

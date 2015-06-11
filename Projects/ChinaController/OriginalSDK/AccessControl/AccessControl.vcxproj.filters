@@ -2,19 +2,19 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Source Files">
-      <UniqueIdentifier>{e6f63074-b883-4d8a-ac83-8ab6f095af60}</UniqueIdentifier>
+      <UniqueIdentifier>{229588d7-e017-4be5-b868-a134d38d8c1b}</UniqueIdentifier>
       <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
     </Filter>
     <Filter Include="Header Files">
-      <UniqueIdentifier>{60d7e423-0682-440f-9e0d-0c5e13241178}</UniqueIdentifier>
+      <UniqueIdentifier>{ac71a3f6-6b18-4eb5-a71b-4236a335c1ca}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl</Extensions>
     </Filter>
     <Filter Include="Resource Files">
-      <UniqueIdentifier>{2064fe75-84a0-4e3c-974b-8c390657d3c2}</UniqueIdentifier>
+      <UniqueIdentifier>{0db62bd0-58af-4f3b-b846-21e57ce06512}</UniqueIdentifier>
       <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
     </Filter>
     <Filter Include="Config">
-      <UniqueIdentifier>{512e0de5-7cb6-4526-bfdd-b75fde4eaa7d}</UniqueIdentifier>
+      <UniqueIdentifier>{7113c82a-2574-4b84-83be-bd9a22d0477e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -25,6 +25,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="AlarmSubscribe.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgABDoor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgAtiSet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DlgCapability.cpp">
@@ -40,6 +46,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DlgRecordSetControl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgRWDevice.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgSearchDeivce.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DlgSubDlgInfoAccessRecord.cpp">
@@ -61,6 +73,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Include\mdump.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MyEdit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="RecordSetFinder.cpp">
@@ -87,6 +102,9 @@
     <ClCompile Include="DlgCfgNetwork.cpp">
       <Filter>Config</Filter>
     </ClCompile>
+    <ClCompile Include="DlgCfgNTP.cpp">
+      <Filter>Config</Filter>
+    </ClCompile>
     <ClCompile Include="DlgCfgTimeSchedule.cpp">
       <Filter>Config</Filter>
     </ClCompile>
@@ -106,6 +124,12 @@
     <ClInclude Include="AlarmSubscribe.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DlgABDoor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgAtiSet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="DlgCapability.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -119,6 +143,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DlgRecordSetControl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgRWDevice.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgSearchDeivce.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DlgSubDlgInfoAccessRecord.h">
@@ -140,6 +170,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Include\mdump.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MyEdit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="RecordSetFinder.h">
@@ -169,17 +202,20 @@
     <ClInclude Include="DlgCfgNetwork.h">
       <Filter>Config</Filter>
     </ClInclude>
+    <ClInclude Include="DlgCfgNTP.h">
+      <Filter>Config</Filter>
+    </ClInclude>
     <ClInclude Include="DlgCfgTimeSchedule.h">
       <Filter>Config</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="res\AccessControl.ico">
+    <None Include="res\AccessControl.ico">
       <Filter>Resource Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="res\AccessControl.rc2">
+    </None>
+    <None Include="res\AccessControl.rc2">
       <Filter>Resource Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="ReadMe.txt" />
+    </None>
+    <None Include="ReadMe.txt" />
   </ItemGroup>
 </Project>

@@ -46,6 +46,7 @@ protected:
 	afx_msg void OnBtnQueryStart();
 	afx_msg void OnBtnQueryNext();
 	afx_msg void OnDestroy();
+	afx_msg void OnQuerylogBtnTotalCount();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 

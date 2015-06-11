@@ -56,7 +56,7 @@
 #define DWORD       unsigned int
 #define LONG        int
 #define LPDWORD     DWORD*
-#ifdef __APPLE__
+#ifdef __OBJC__
 #include "objc/objc.h"
 #else
 #define BOOL        int
@@ -97,10 +97,9 @@ typedef struct  tagRECT
 #else    //内部编译
 
 #include "../Platform/osIndependent.h"
-#endif
+#endif // RELEASE_HEADER
 
-#endif
-#include "dhassistant.h"
+#endif // linux
 
 #ifndef LDWORD
 #if (defined(WIN32) || defined(WIN64))
@@ -163,7 +162,8 @@ extern "C" {
 #define DH_STORAGE_NAME_LEN               128              // 存储设备名称长度
 #define DH_MAX_CARPORTLIGHT_NUM           4                // 最大车位灯个数
 #define DH_STATION_NAME_LEN               32               // 车站站点名称长度   
-#define    PTZ_PRESET_NAME_LEN            64               // 云台预置点名称长度
+#define PTZ_PRESET_NAME_LEN               64               // 云台预置点名称长度
+#define DH_MAX_GUARD_DETECT_ID_COUNT	  64			   // 最大的岗亭检测ID个数
     
 #define DH_MAX_VERSION_STR                64               // 版本字符串最大长度
 
@@ -177,12 +177,15 @@ extern "C" {
 
 #define DH_MAX_ACCESS_NAME_LEN            64               // 门禁名称长度
 #define DH_MAX_EXALARMCHANNEL_NAME_LEN    128              // 扩展模块报警通道名称长度
-
+#define DH_MAX_ALARM_SUBSYSTEM_NUM        8                // 最大报警子系统个数
+#define DH_MAX_BELL_NUM                   4                // 最大警号个数
+#define DH_MAX_KEYBOARD_NUM               256              // 最大键盘数
+#define MAX_GOURP_NUM                     128              //人脸库最大个数
 // 远程配置结构体相关常量                 
 #define DH_MAX_MAIL_ADDR_LEN              128              // 邮件发(收)地址最大长度
 #define DH_MAX_MAIL_SUBJECT_LEN           64               // 邮件主题最大长度
 #define DH_MAX_IPADDR_LEN                 16               // IP地址字符串长度
-#define DH_MAX_IPADDR_LEN_EX              40               // 扩展IP地址字符串长度, 支持IPV6#define DH_MACADDR_LEN                    40               // MAC地址字符串长度
+#define DH_MAX_IPADDR_LEN_EX              40               // 扩展IP地址字符串长度, 支持IPV6
 #define DH_MACADDR_LEN                    40               // MAC地址字符串长度
 #define DH_MAX_URL_LEN                    128              // URL字符串长度
 #define DH_MAX_DEV_ID_LEN                 48               // 机器编号最大长度
@@ -264,6 +267,7 @@ extern "C" {
 #define DH_MAX_VIDEO_IN_NUM_EX            32               // 视频输入口个数上限扩展
 #define DH_MAX_ALARM_IN_NUM_EX            32               // 报警输入口个数上限
 #define DH_MAX_IPADDR_OR_DOMAIN_LEN       64               // IP地址字符串长度
+#define DH_MAX_CALLID                     32               // 呼叫ID
 #define DH_MAX_OBJECT_LIST                16               // 智能分析设备检测到的物体ID个数上限    
 #define DH_MAX_RULE_LIST                  16               // 智能分析设备规则个数上限
 #define DH_MAX_POLYGON_NUM                16               // 多边形最大顶点个数
@@ -315,6 +319,7 @@ extern "C" {
 #define DH_MAX_CONNECT_STATUS_LEN         260              // 连接状态字符串长度
 #define DH_MAX_MODE_LEN                   64               // 3G支持的网络模式长度
 #define DH_MAX_MODE_NUM                   64               // 3G支持的网络模式个数
+#define DH_MAX_COMPRESSION_TYPES_NUM      16               // 视频编码格式最多种类个数
 #define DH_MAX_CAPTURE_SIZE_NUM           64               // 视频分辨率个数
 #define DH_NODE_NAME_LEN                  64               // 组织结构节点名称长度
 #define MAX_CALIBPOINTS_NUM               256              // 支持最大标定点数
@@ -341,12 +346,24 @@ extern "C" {
 #define DH_MAX_MULTIPLAYBACK_SPLIT_NUM    32               // 最大多通道预览回放分割模式数
 #define DH_MAX_AUDIO_ENCODE_TYPE          64               // 最大语音编码类型个数
 #define MAX_LOG_PATH_LEN                  260              // 日志路径名最大长度
-
+#define MAX_CARD_RECORD_FIELD_NUM         16               // 卡号录像最大域数量
 #define DH_BATTERY_NUM_MAX                16               // 最大电池数量    
 #define DH_POWER_NUM_MAX                  16               // 最大电源数量        
 #define DH_MAX_AUDIO_PATH                 260              // 最大音频文件路长度
 #define DH_MAX_DOORNAME_LEN               128              // 最大门禁名称长度    
 #define DH_MAX_CARDPWD_LEN                64               // 最大门禁名称长度    
+#define NET_MAX_FISHEYE_MOUNTMODE_NUM     4                // 最大鱼眼安装模式个数
+#define NET_MAX_FISHEYE_CALIBRATEMODE_NUM 16               // 最大鱼眼矫正模式个数
+#define NET_MAX_FISHEYE_EPTZCMD_NUM       64               // 最大鱼眼电子云台操作个数   
+#define POINT_NUM_IN_PAIR                 2                // 标定点对中的点数量
+#define MAX_POINT_PAIR_NUM                128              // 标定点最大数量
+#define CHANNEL_NUM_IN_POINT_GROUP        2                // 标定点中的视频通道数
+#define MAX_POINT_GROUP_NUM               32               // 标定点组最大数量, 每两个通道进行拼接需要一组标定点
+#define MAX_LANE_INFO_NUM                 32               // 最大车道信息数
+#define MAX_LANE_DIRECTION_NUM            8                // 车道方向总数
+#define DH_MAX_MONITORWALL_NUM            32               // 电视墙最大数量
+#define DH_MAX_OPTIONAL_URL_NUM           8                // 备用url最大数量
+
 
 // 查询类型，对应CLIENT_QueryDevState接口
 #define DH_DEVSTATE_COMM_ALARM            0x0001           // 查询普通报警状态(包括外部报警，视频丢失，动态检测)
@@ -451,28 +468,347 @@ extern "C" {
 #define DH_DEVSTATE_DOOR_STATE            0x0159           // 查询门禁状态(对应NET_DOOR_STATUS_INFO)
 #define DH_DEVSTATE_ANALOGALARM_CHANNELS  0x1560           // 模拟量报警输入通道映射关系(对应NET_ANALOGALARM_CHANNELS)
 #define DH_DEVSTATE_GET_SENSORLIST        0x1561           // 获取设备支持的传感器列表(对应 NET_SENSOR_LIST)
-#define DH_DEVSTATE_ALARM_CHANNELS	0x1562		// 查询开关量报警模块通道映射关系(对应结构体 NET_ALARM_CHANNELS)
-												// 如果设备不支持查询扩展报警模块通道,可以用该功能查询扩展通道的逻辑通道号，并当做本地报警通道使用
+#define DH_DEVSTATE_ALARM_CHANNELS        0x1562           // 查询开关量报警模块通道映射关系(对应结构体 NET_ALARM_CHANNELS)
+                                                           // 如果设备不支持查询扩展报警模块通道,可以用该功能查询扩展通道的逻辑通道号，并当做本地报警通道使用
 #define DH_DEVSTATE_GET_ALARM_SUBSYSTEM_ACTIVATESTATUS	0x1563	// 获取当前子系统启用状态( 对应 NET_GET_ALARM_SUBSYSTEM_ACTIVATE_STATUES)
+#define DH_DEVSTATE_AIRCONDITION_STATE    0x1564           // 获取空调工作状态(对应 NET_GET_AIRCONDITION_STATE)
+#define DH_DEVSTATE_ALARMSUBSYSTEM_STATE  0x1565           // 获取子系统状态(对应NET_ALARM_SUBSYSTEM_STATE)
+#define DH_DEVSTATE_ALARM_FAULT_STATE     0x1566           // 获取故障状态(对应 NET_ALARM_FAULT_STATE_INFO)
+#define DH_DEVSTATE_DEFENCE_STATE         0x1567           // 获取防区状态(对应 NET_DEFENCE_STATE_INFO, 和旁路状态变化事件、本地报警事件、报警信号源事件的状态描述有区别，不能混用，仅个别设备使用)
+#define DH_DEVSTATE_CLUSTER_STATE         0x1568           // 获取集群状态(对应 NET_CLUSTER_STATE_INFO)
+#define DH_DEVSTATE_SCADA_POINT_LIST      0x1569           // 获取点位表路径信息(对应 NET_SCADA_POINT_LIST_INFO)
+#define DH_DEVSTATE_SCADA_INFO            0x156a           // 获取监测点位信息(对应 NET_SCADA_INFO)
+#define DH_DEVSTATE_SCADA_CAPS            0X156b           // 获取SCADA能力集(对应 NET_SCADA_CAPS)
+#define DH_DEVSTATE_GET_CODEID_COUNT      0x156c           // 获取对码成功的总条数(对应 NET_GET_CODEID_COUNT)
+#define DH_DEVSTATE_GET_CODEID_LIST       0x156d           // 查询对码信息(对应 NET_GET_CODEID_LIST)
+#define DH_DEVSTATE_ANALOGALARM_DATA      0x156e           // 查询模拟量通道数据(对应 NET_GET_ANALOGALARM_DATA)
+#define DH_DEVSTATE_VTP_CALLSTATE         0x156f           // 获取视频电话呼叫状态(对应 NET_GET_VTP_CALLSTATE)
 
+//////////////////////////////////////////////////////////////////////////
+
+// 监测控制和数据采集设备的设备类型
+typedef enum tagEM_NET_SCADA_DEV_TYPE
+{
+    EM_NET_SCADA_DEV_TYPE_UNKNOWN = 0,                         // 未知
+    EM_NET_SCADA_DEV_TYPE_ALL,                                 // 所有类型设备
+    EM_NET_SCADA_DEV_TYPE_UPS,                                 // UPS
+} EM_NET_SCADA_DEV_TYPE;
+
+// 监测控制和数据采集设备的点位表路径信息输入参数, 查询条件
+typedef struct tagNET_IN_SCADA_POINT_LIST_INFO 
+{
+    DWORD                           dwSize;
+    char                            szDevType[DH_COMMON_STRING_64]; // 设备类型
+}NET_IN_SCADA_POINT_LIST_INFO;
+
+#define MAX_SCADA_POINT_LIST_INDEX          8               // 最大SCADADev配置下标个数, 即最大通道
+
+// 点位表路径信息
+typedef struct tagNET_SCADA_POINT_LIST
+{
+    DWORD                           dwSize;
+    int                             nIndexValidNum;         // 有效的配置下标个数
+    int                             nIndex[MAX_SCADA_POINT_LIST_INDEX];// SCADADev配置下标值, 从0开始
+    char                            szPath[DH_COMMON_STRING_256];// 点表的完整路径
+}NET_SCADA_POINT_LIST;
+
+#define MAX_SCADA_POINT_LIST_INFO_NUM       256               // 最大点位表路径个数
+
+// 监测控制和数据采集设备的点位表路径信息输出参数, 查询结果
+typedef struct tagNET_OUT_SCADA_POINT_LIST_INFO 
+{
+    DWORD                           dwSize;
+    int                             nList;                  // 有效点位表路径信息个数
+    NET_SCADA_POINT_LIST            stuList[MAX_SCADA_POINT_LIST_INFO_NUM];// 点位表路径信息
+}NET_OUT_SCADA_POINT_LIST_INFO;
+
+// 监测控制和数据采集设备的点位表信息, (对应 DH_DEVSTATE_SCADA_POINT_LIST 命令)
+typedef struct tagNET_SCADA_POINT_LIST_INFO 
+{
+    DWORD                           dwSize;
+    NET_IN_SCADA_POINT_LIST_INFO    stuIn;                  // 查询条件
+    NET_OUT_SCADA_POINT_LIST_INFO   stuOut;                 // 查询结果
+}NET_SCADA_POINT_LIST_INFO;
+
+//////////////////////////////////////////////////////////////////////////
+
+// 点位类型
+typedef enum tagEM_NET_SCADA_POINT_TYPE
+{
+    EM_NET_SCADA_POINT_TYPE_UNKNOWN = 0,                       // 未知
+    EM_NET_SCADA_POINT_TYPE_ALL,                               // 所有类型
+    EM_NET_SCADA_POINT_TYPE_YC,                                // 遥测
+    EM_NET_SCADA_POINT_TYPE_YX,                                // 遥信
+} EM_NET_SCADA_POINT_TYPE;
+
+// SCADA监测点位查询条件
+typedef struct tagNET_IN_SCADA_INFO 
+{
+    DWORD                   dwSize;
+    EM_NET_SCADA_POINT_TYPE emPointType;                    // 待查询的点位类型
+}NET_IN_SCADA_INFO;
+
+#define MAX_SCADA_YX_NUM                128                 // 最大遥信个数
+#define MAX_SCADA_YC_NUM                128                 // 最大遥测个数
+#define MAX_SCADA_POINT_INFO_NUM        8                   // 最大点表个数
+
+// 点表信息
+typedef struct tagNET_SCADA_POINT_INFO 
+{
+    DWORD                   dwSize;
+    char                    szDevName[DH_COMMON_STRING_64];// 设备名称
+    int                     nYX;                            // 有效遥信个数
+    unsigned int            anYX[MAX_SCADA_YX_NUM];         // 遥信信息
+    int                     nYC;                            // 有效遥测个数
+    float                   afYC[MAX_SCADA_YC_NUM];         // 遥测信息
+}NET_SCADA_POINT_INFO;
+
+// SCADA监测点位查询结果
+typedef struct tagNET_OUT_SCADA_INFO 
+{
+    DWORD                   dwSize;
+    int                     nPointInfoNum;                  // 有效点表个数
+    NET_SCADA_POINT_INFO    stuPointInfo[MAX_SCADA_POINT_INFO_NUM];// 点表信息
+}NET_OUT_SCADA_INFO;
+
+// 监测控制和数据采集设备的监测点位信息(对应 DH_DEVSTATE_SCADA_INFO 命令)
+typedef struct tagNET_SCADA_INFO
+{
+    DWORD                   dwSize;
+    NET_IN_SCADA_INFO       stuIn;                          // 查询条件
+    NET_OUT_SCADA_INFO      stuOut;                         // 查询结果
+}NET_SCADA_INFO;
+
+// SCADA能力名称
+typedef enum tagEM_NET_SCADA_CAPS_TYPE
+{
+    EM_NET_SCADA_CAPS_TYPE_UNKNOWN,
+    EM_NET_SCADA_CAPS_TYPE_ALL,                                // 所有类型
+    EM_NET_SCADA_CAPS_TYPE_DEV,                                // DevInfo
+} EM_NET_SCADA_CAPS_TYPE;
+
+// 监测控制和数据采集设备能力信息查询条件
+typedef struct tagNET_IN_SCADA_CAPS
+{
+    DWORD                   dwSize;
+    EM_NET_SCADA_CAPS_TYPE  emType;                         // 查询类型
+} NET_IN_SCADA_CAPS;
+
+#define MAX_NET_SCADA_CAPS_TYPE (16)
+#define MAX_NET_SCADA_CAPS_NAME (16)
+
+// 监测控制和数据采集设备类型能力信息
+typedef struct tagNET_OUT_SCADA_CAPS_ITEM
+{
+    DWORD                   dwSize;
+    char                    szDevType[DH_COMMON_STRING_32];    // 设备类型
+    int                     nValidName;                         // 有效设备名称个数
+    char                    szDevName[MAX_NET_SCADA_CAPS_NAME][DH_COMMON_STRING_32];// 设备名称, 唯一标示设备
+} NET_OUT_SCADA_CAPS_ITEM;
+
+// 监测控制和数据采集设备能力信息查询结果
+typedef struct tagNET_OUT_SCADA_CAPS
+{
+    DWORD                   dwSize;
+    int                     nValidType;                         // 有效设备类型个数
+    NET_OUT_SCADA_CAPS_ITEM stuItems[MAX_NET_SCADA_CAPS_TYPE];  // 最多16个类型
+} NET_OUT_SCADA_CAPS;
+
+// 监测控制和数据采集设备能力信息(对应 DH_DEVSTATE_SCADA_CAPS 命令)
+typedef struct tagNET_SCADA_CAPS
+{
+    DWORD                   dwSize;
+    NET_IN_SCADA_CAPS       stuIn;                          // 查询条件
+    NET_OUT_SCADA_CAPS      stuOut;                         // 查询结果
+} NET_SCADA_CAPS;
+
+//////////////////////////////////////////////////////////////////////////
+
+// 空调工作模式
+typedef enum __EM_AIRCONDITION_MODE
+{
+    AIRCONDITION_MODE_UNKNOWN = 0,
+    AIRCONDITION_MODE_AUTO,             // 自动
+    AIRCONDITION_MODE_HOT,              // 制热
+    AIRCONDITION_MODE_COLD,             // 制冷
+    AIRCONDITION_MODE_WET,              // 除湿
+    AIRCONDITION_MODE_WIND,             // 通风
+} EM_AIRCONDITION_MODE;
+
+// 空调送风模式
+typedef enum __EM_AIRCONDITION_WINDMODE
+{
+    AIRCONDITION_WINDMODE_UNKNOWN = 0,
+    AIRCONDITION_WINDMODE_STOP,            // 停止
+    AIRCONDITION_WINDMODE_AUTO,            // 自动
+    AIRCONDITION_WINDMODE_HIGH,            // 高速
+    AIRCONDITION_WINDMODE_MIDDLE,          // 中速
+    AIRCONDITION_WINDMODE_LOW,             // 低速
+} EM_AIRCONDITION_WINDMODE;
+
+// 空调工作状态信息
+typedef struct tagNET_AIRCONDITION_STATE_INFO
+{
+    DWORD                       dwSize;
+    BOOL                        bIsOnline;                      // 是否在线
+    BOOL                        bIsON;                          // 是否开启
+    int                         nTemperature;                   // 空调设定温度
+    EM_AIRCONDITION_MODE        emAirconditionMode;             // 空调工作模式
+    EM_AIRCONDITION_WINDMODE    emAirconditionWindMode;         // 空调送风模式
+    float                       fActualTemperature;             // 环境实际温度
+}NET_AIRCONDITION_STATE_INFO;
+
+// 获取空调工作状态(对应DH_DEVSTATE_AIRCONDITION_STATE命令)
+typedef struct tagNET_GET_AIRCONDITION_STATE
+{
+    DWORD                       dwSize;
+    char                        szDeviceID[DH_MAX_DEV_ID_LEN];  // 设备惟一标识符
+    NET_AIRCONDITION_STATE_INFO stuAirConditionState;           // 空调工作状态信息
+}NET_GET_AIRCONDITION_STATE;
 
 // 开关量报警通道信息
 typedef struct tagNET_ALARM_CHANNEL_INFO 
 {
-	DWORD			dwSize;
-	int				nSlot;					// 根地址, 0表示本地通道, 1表示连接在第一个串口上的扩展通道, 2、3...以此类推
-	int				nChannel;				// 非本地报警通道在扩展模块上的通道号, 从0开始
-	char			szName[DH_COMMON_STRING_128];	// 通道名称
+    DWORD                       dwSize;
+    int                         nSlot;                          // 根地址, 0表示本地通道, 1表示连接在第一个串口上的扩展通道, 2、3...以此类推
+    int                         nChannel;                       // 非本地报警通道在扩展模块上的通道号, 从0开始
+    char                        szName[DH_COMMON_STRING_128];   // 通道名称
 }NET_ALARM_CHANNEL_INFO;
 
 // 本地(或远程)开关量报警通道和逻辑通道号映射关系
 typedef struct tagNET_ALARM_CHANNELS 
 {
-	DWORD			dwSize;
-	int				nMaxAlarmChannels;		// 最大通道数
-	int				nRetAlarmChannels;		// 返回的通道数
-	NET_ALARM_CHANNEL_INFO*	pstuChannelInfo;// 通道信息，用户分配内存
+    DWORD                       dwSize;
+    int                         nMaxAlarmChannels;              // 最大通道数
+    int                         nRetAlarmChannels;              // 返回的通道数
+    NET_ALARM_CHANNEL_INFO*     pstuChannelInfo;                // 通道信息，用户分配内存
 }NET_ALARM_CHANNELS;
+
+// 报警子系统状态类型
+typedef enum __EM_ALARM_SUBSYSTEM_STATE_TYPE
+{
+    ALARM_SUBSYSTEM_STATE_UNKNOWN = 0,
+	ALARM_SUBSYSTEM_STATE_ACTIVE,               // 已激活
+	ALARM_SUBSYSTEM_STATE_INACTIVE,             // 未激活
+	ALARM_SUBSYSTEM_STATE_UNDISTRIBUTED,        // 未分配
+}EM_ALARM_SUBSYSTEM_STATE_TYPE;
+
+// 报警子系统状态, CLIENT_QueryDevState对应命令DH_DEVSTATE_ALARMSUBSYSTEM_STATE
+typedef struct tagNET_ALARM_SUBSYSTEM_STATE
+{
+    DWORD          dwSize;
+	int            nMaxAlarmSubSystem;                                  // 有效子系统个数
+	EM_ALARM_SUBSYSTEM_STATE_TYPE  emState[DH_MAX_ALARM_SUBSYSTEM_NUM]; // 子系统状态信息
+}NET_ALARM_SUBSYSTEM_STATE;
+
+
+// 故障类型
+typedef enum __EM_ALARM_FAULT_STATE_TYPE
+{
+    EM_ALARM_FAULT_STATE_ALL = 0,                       // 所有类型
+    EM_ALARM_FAULT_STATE_CONNECTFAULT,                  // 连接故障
+    EM_ALARM_FAULT_STATE_BELLFAULT,                     // 警号故障
+    EM_ALARM_FAULT_STATE_KBFAULT,                       // 键盘故障
+    EM_ALARM_FAULT_STATE_KBTAMPER,                      // 键盘防拆
+    EM_ALARM_FAULT_STATE_SENSORSHORTOUT,                // 传感器短路
+    EM_ALARM_FAULT_STATE_SENSORTAMPER,                  // 传感器防拆
+}EM_ALARM_FAULT_STATE_TYPE;
+
+// 报警故障状态, 输入参数
+typedef struct tagNET_IN_ALARM_FAULT_STATE
+{
+    DWORD           dwSize;
+    EM_ALARM_FAULT_STATE_TYPE   emType;                 // 待查询的类型
+}NET_IN_ALARM_FAULT_STATE;
+
+// 报警故障状态, 输出参数
+typedef struct tagNET_OUT_ALARM_FAULT_STATE
+{
+    DWORD           dwSize;
+    int             nConnectFaultState;                 // 0: 未知, 1: 正常, 2:故障
+    int             nBell;                              // 警号有效个数 
+    int             anBellState[DH_MAX_BELL_NUM];       // 警号故障状态信息 0: 未知, 1: 正常, 2:故障
+    int             nFaultKeyboard;                     // 键盘故障有效个数
+    int             anFaultKeyboard[DH_MAX_KEYBOARD_NUM];// 键盘故障信息 0: 未知, 1: 正常, 2:故障
+    int             nTamperKeyboard;                    // 键盘有效防拆个数 
+    int             anTamperKeyboard[DH_MAX_KEYBOARD_NUM];// 键盘防拆信息 0: 未知, 1: 正常, 2:故障
+    int             nShortOutSensor;                    // 传感器有效短路个数
+    int             anShortOutSensor[DH_MAX_ALARMIN];   // 传感器短路信息 0: 未知, 1: 正常, 2:故障
+    int             nTamperSensor;                      // 传感器有效防拆个数
+    int             anTamperSensor[DH_MAX_ALARMIN];     // 传感器防拆信息 0: 未知, 1: 正常, 2:故障
+}NET_OUT_ALARM_FAULT_STATE;
+
+// 报警故障状态, CLIENT_QueryDevState对应命令DH_DEVSTATE_ALARM_FAULT_STATE
+typedef struct tagNET_ALARM_FAULT_STATE_INFO
+{
+    DWORD           dwSize;
+    NET_IN_ALARM_FAULT_STATE    stuIn;                  // 输入参数
+    NET_OUT_ALARM_FAULT_STATE   stuOut;                 // 输出参数
+}NET_ALARM_FAULT_STATE_INFO;
+
+// 防区状态类型
+typedef enum __EM_DEFENCE_STATE_TYPE
+{
+    EM_DEFENCE_STATE_UNKNOWN = 0,
+    EM_DEFENCE_STATE_BYPASS,                                // 旁路
+    EM_DEFENCE_STATE_OPEN,                                  // 打开, 指撤防情况下发生报警
+    EM_DEFENCE_STATE_CLOSE,                                 // 关闭
+    EM_DEFENCE_STATE_ALARMING,                              // 报警, 指布防情况下发生报警
+}EM_DEFENCE_STATE_TYPE;
+
+// 防区状态信息的输入参数
+typedef struct tagNET_IN_DEFENCE_STATE_INFO 
+{
+    DWORD           dwSize;
+    int             nDefenceNum;                            // 防区有效个数, -1表示查询所有防区
+    int             anDefence[DH_MAX_ALARMIN];              // 待查询的防区号
+}NET_IN_DEFENCE_STATE_INFO;
+
+// 防区状态信息的输出参数
+typedef struct tagNET_OUT_DEFENCE_STATE_INFO
+{
+    DWORD           dwSize;
+    int             nDefenceNum;                            // 防区有效个数
+    EM_DEFENCE_STATE_TYPE  anDefenceState[DH_MAX_ALARMIN];  // 防区状态信息
+}NET_OUT_DEFENCE_STATE_INFO;
+
+// 防区状态信息, CLIENT_QueryDevState对应命令DH_DEVSTATE_DEFENCE_STATE
+typedef struct tagNET_DEFENCE_STATE_INFO 
+{
+    DWORD           dwSize;
+    NET_IN_DEFENCE_STATE_INFO   stuIn;                      // 输入参数
+    NET_OUT_DEFENCE_STATE_INFO  stuOut;                     // 输出参数
+}NET_DEFENCE_STATE_INFO;
+
+// 视频电话呼叫类型
+typedef enum tagEM_NET_VTP_CALL_TYPE
+{
+    EM_NET_VTP_CALL_TYPE_SIP = 0,                           // SIP呼叫
+    EM_NET_VTP_CALL_TYPE_GSM,                               // GSM呼叫
+}EM_NET_VTP_CALL_TYPE;
+
+// 视频电话呼叫状态类型
+typedef enum tagEM_NET_VTP_CALL_STATE_TYPE
+{
+    EM_NET_VTP_CALL_STATE_UNKNOWN = 0,
+    EM_NET_VTP_CALL_STATE_IDLE,                                 // 初始状态
+    EM_NET_VTP_CALL_STATE_CALLING,                              // 主叫呼叫状态(对方未回应)
+    EM_NET_VTP_CALL_STATE_CALLED,                               // 被叫呼叫状态
+    EM_NET_VTP_CALL_STATE_RINGING,                              // 主叫回铃状态(对方回应, 但没有接听)
+    EM_NET_VTP_CALL_STATE_CONNECTING,                           // 通话中状态
+    EM_NET_VTP_CALL_STATE_CONNECTING2,                          // 通话中2状态(通话媒体变更后的通话中状态)
+    EM_NET_VTP_CALL_STATE_DISCONNECT,                           // 通话挂断状态
+}EM_NET_VTP_CALL_STATE_TYPE;
+
+// 获取视频电话呼叫状态 (对应 DH_DEVSTATE_VTP_CALLSTATE)
+typedef struct tagNET_GET_VTP_CALLSTATE 
+{
+    DWORD                       dwSize;
+    EM_NET_VTP_CALL_TYPE        emCallType;                     // 待查询的呼叫类型
+    char                        szCallID[DH_COMMON_STRING_128]; // 待查询的对讲唯一标识
+    EM_NET_VTP_CALL_STATE_TYPE  emCallState;                    // 呼叫状态
+}NET_GET_VTP_CALLSTATE;
+
 
 // 查询类型，对应CLIENT_QueryRemotDevState接口
 #define DH_DEVSTATE_ALARM_REMOTE          0x1000           // 获取远程设备外部报警(对应 ALARM_REMOTE_ALARM_INFO)
@@ -687,13 +1023,14 @@ typedef struct tagNET_ALARM_CHANNELS
 #define DH_ALARM_COMM_PORT                0x2177           // 串口事件(对应结构体ALARM_COMM_PORT_EVENT_INFO)
 #define DH_ALARM_AUDIO_ANOMALY            0x2178           // 音频异常事件(对应结构体ALARM_AUDIO_ANOMALY)
 #define DH_ALARM_AUDIO_MUTATION           0x2179           // 声强突变事件(对应结构体ALARM_AUDIO_MUTATION)
-#define DH_EVENT_TYREINFO                 0X2180           // 轮胎信息上报事件(对应结构体EVENT_TYRE_INFO)
+#define DH_EVENT_TYREINFO                 0x2180           // 轮胎信息上报事件(对应结构体EVENT_TYRE_INFO)
 #define DH_ALARM_POWER_ABNORMAL           0X2181           // 冗余电源异常报警(对应结构体ALARM_POWER_ABNORMAL_INFO)
 #define DH_EVENT_REGISTER_OFF             0x2182           // 车载设备主动下线事件(对应结构体 EVENT_REGISTER_OFF_INFO)
-#define DH_ALARM_NO_DISK                  0X2183           // 无硬盘报警(对应结构体ALARM_NO_DISK_INFO)
-#define DH_ALARM_FALLING                  0X2184           // 跌落事件报警(对应结构体ALARM_FALLING_INFO)
-#define DH_ALARM_PROTECTIVE_CAPSULE       0X2185           // 防护舱事件(对应结构体ALARM_PROTECTIVE_CAPSULE_INFO)
-
+#define DH_ALARM_NO_DISK                  0x2183           // 无硬盘报警(对应结构体ALARM_NO_DISK_INFO)
+#define DH_ALARM_FALLING                  0x2184           // 跌落事件报警(对应结构体ALARM_FALLING_INFO)
+#define DH_ALARM_PROTECTIVE_CAPSULE       0x2185           // 防护舱事件(对应结构体ALARM_PROTECTIVE_CAPSULE_INFO)
+#define DH_ALARM_NO_RESPONSE              0x2186           // 呼叫未应答警报(对应结构体ALARM_NO_RESPONSE_INFO)
+#define DH_ALARM_CONFIG_ENABLE_CHANGE     0X2187           // 配置使能改变上报事件(对应结构体 ALARM_CONFIG_ENABLE_CHANGE_INFO)
 
 #define DH_ALARM_STORAGE_NOT_EXIST        0x3167           // 存储组不存在事件(对应结构体ALARM_STORAGE_NOT_EXIST_INFO)
 #define DH_ALARM_NET_ABORT                0x3169           // 网络故障事件(对应结构体ALARM_NETABORT_INFO)
@@ -702,16 +1039,13 @@ typedef struct tagNET_ALARM_CHANNELS
 #define DH_ALARM_POWERFAULT               0x3172           // 电源故障事件(对应结构体ALARM_POWERFAULT_INFO)
 #define DH_ALARM_CHASSISINTRUDED          0x3173           // 机箱入侵(防拆)报警事件(对应结构体ALARM_CHASSISINTRUDED_INFO)
 #define DH_ALARM_ALARMEXTENDED            0x3174           // 本地扩展报警事件(对应结构体 ALARM_ALARMEXTENDED_INFO)
-
 #define DH_ALARM_ARMMODE_CHANGE_EVENT     0x3175           // 布撤防状态变化事件(对应结构体ALARM_ARMMODE_CHANGE_INFO)
 #define DH_ALARM_BYPASSMODE_CHANGE_EVENT  0x3176           // 旁路状态变化事件(对应结构体ALARM_BYPASSMODE_CHANGE_INFO)
-
 #define DH_ALARM_ACCESS_CTL_NOT_CLOSE     0x3177           // 门禁未关事件(对应结构体ALARM_ACCESS_CTL_NOT_CLOSE_INFO)
 #define DH_ALARM_ACCESS_CTL_BREAK_IN      0x3178           // 闯入事件(对应结构体ALARM_ACCESS_CTL_BREAK_IN_INFO)
 #define DH_ALARM_ACCESS_CTL_REPEAT_ENTER  0x3179           // 反复进入事件(对应结构体ALARM_ACCESS_CTL_REPEAT_ENTER_INFO)
 #define DH_ALARM_ACCESS_CTL_DURESS        0x3180           // 胁迫卡刷卡事件(对应结构体ALARM_ACCESS_CTL_DURESS_INFO)
 #define DH_ALARM_ACCESS_CTL_EVENT         0x3181           // 门禁事件(对应结构体ALARM_ACCESS_CTL_EVENT_INFO)
-
 #define DH_URGENCY_ALARM_EX2              0x3182           // 紧急报警EX2(对DH_URGENCY_ALARM_EX的升级,对应结构体ALARM_URGENCY_ALARM_EX2, 人为触发的紧急事件, 一般处理是联动外部通讯功能请求帮助
 #define DH_ALARM_INPUT_SOURCE_SIGNAL      0x3183           // 报警输入源信号事件(只要有输入就会产生该事件, 不论防区当前的模式，无法屏蔽, 对应ALARM_INPUT_SOURCE_SIGNAL_INFO)
 #define DH_ALARM_ANALOGALARM_EVENT        0x3184           // 模拟量报警输入通道事件(对应结构体ALARM_ANALOGALARM_EVENT_INFO)
@@ -719,6 +1053,42 @@ typedef struct tagNET_ALARM_CHANNELS
 #define DH_ALARM_ACCESS_SNAP              0x3186           // 门禁抓图事件(对应结构体ALARM_ACCESS_SNAP_INFO)
 #define DH_ALARM_ALARMCLEAR               0x3187           // 消警事件(对应结构体ALARM_ALARMCLEAR_INFO)
 #define DH_ALARM_CIDEVENT                 0x3188           // CID事件(对应结构体ALARM_CIDEVENT_INFO)
+#define DH_ALARM_TALKING_HANGUP           0x3189           // 设备主动挂断对讲事件(对应结构体ALARM_TALKING_HANGUP_INFO)
+#define DH_ALARM_BANKCARDINSERT           0x318a           // 银行卡插卡事件(对应结构体ALARM_BANKCARDINSERT_INFO)
+#define DH_ALARM_RCEMERGENCY_CALL         0x318b           // 紧急呼叫报警事件(对应结构体 ALARM_RCEMERGENCY_CALL_INFO)
+#define DH_ALARM_OPENDOORGROUP            0x318c           // 多人组合开门事件(对应结构体ALARM_OPEN_DOOR_GROUP_INFO)
+#define DH_ALARM_FINGER_PRINT             0x318d           // 获取指纹事件(对应结构体ALARM_CAPTURE_FINGER_PRINT_INFO)
+#define DH_ALARM_CARD_RECORD              0x318e           // 卡号录像事件(对应结构体 ALARM_CARD_RECORD_INFO)
+#define DH_ALARM_SUBSYSTEM_STATE_CHANGE   0x318f           // 子系统状态改变事件(对应结构体ALARM_SUBSYSTEM_STATE_CHANGE_INFO)
+#define DH_ALARM_BATTERYPOWER_EVENT       0x3190           // 电池电量定时通知事件(对应结构体ALARM_BATTERYPOWER_INFO)
+#define DH_ALARM_BELLSTATUS_EVENT         0x3191           // 警号状态事件(对应结构体ALARM_BELLSTATUS_INFO)
+#define DH_ALARM_DEFENCE_STATE_CHANGE_EVENT 0x3192         // 防区状态变化事件(对应结构体ALARM_DEFENCE_STATUS_CHANGE_INFO), 
+                                                           // 定制需求，和布防撤防变化事件、旁路状态变化事件中的状态定义不同，
+                                                           // 该状态通过CLIENT_QueryDevState()接口的DH_DEVSTATE_DEFENCE_STATE命令获取
+
+
+#define DH_ALARM_TICKET_STATISTIC         0x3193           // 车票统计信息事件(对应结构体 ALARM_TICKET_STATISTIC)
+#define DH_ALARM_LOGIN_FAILIUR            0x3194           // 登陆失败事件(对应结构体ALARM_LOGIN_FAILIUR_INFO)
+#define DH_ALARM_MODULE_LOST              0x3195           // 扩展模块掉线事件(对应结构体 ALARM_MODULE_LOST_INFO)
+#define DH_ALARM_PSTN_BREAK_LINE          0x3196           // PSTN掉线事件(对应结构体ALARM_PSTN_BREAK_LINE_INFO)
+#define DH_ALARM_ANALOG_PULSE             0x3197           // 模拟量报警事件(瞬时型事件), 特定传感器类型时才触发(对应结构体ALARM_ANALOGPULSE_INFO)
+#define DH_ALARM_MISSION_CONFIRM          0x3198           // 任务确认事件(对应结构体 ALARM_MISSION_CONFIRM_INFO)
+#define DH_ALARM_DEVICE_MSG_NOTIFY        0x3199           // 设备向平台发通知的事件(对应结构体 ALARM_DEVICE_MSG_NOTIFY_INFO)
+#define DH_ALARM_VEHICLE_STANDING_OVER_TIME 0x319A         // 停车超时报警(对应结构体 ALARM_VEHICLE_STANDING_OVER_TIME_INFO)
+#define DH_ALARM_ENCLOSURE_ALARM          0x319B           // 电子围栏事件(对应结构体 ALARM_ENCLOSURE_ALARM_INFO)
+#define DH_ALARM_GUARD_DETECT			  0x319C		   // 岗亭检测事件,此事件岗亭有第一个人时上报start事件，岗亭最后一个人离开时上报stop 事件(对应结构体ALARM_GUARD_DETECT_INFO)
+#define DH_ALARM_GUARD_INFO_UPDATE		  0x319D		   // 岗亭信息更新事件，只要岗亭有人员出入就上报(对应结构体ALARM_GUARD_UPDATE_INFO)  
+#define DH_ALARM_NODE_ACTIVE              0x319E           // 节点激活事件(对应结构体ALARM_NODE_ACTIVE_INFO)
+#define DH_ALARM_VIDEO_STATIC             0x319F           // 视频静态检测事件(对应结构体 ALARM_VIDEO_STATIC_INFO)
+#define DH_ALARM_REGISTER_REONLINE        0x31a0           // 主动注册设备重新登陆事件(对应结构体ALARM_REGISTER_REONLINE_INFO)
+#define DH_ALARM_ISCSI_STATUS             0x31a1           // ISCSI告警事件(对应结构体 ALARM_ISCSI_STATUS_INFO)
+#define DH_ALARM_SCADA_DEV_ALARM          0x31a2           // 检测采集设备报警事件(对应结构体 ALARM_SCADA_DEV_INFO)
+#define DH_ALARM_AUXILIARY_DEV_STATE      0x31a3           // 辅助设备状态(对应结构体ALARM_AUXILIARY_DEV_STATE)
+#define DH_ALARM_PARKING_CARD             0x31a4           // 停车刷卡事件(对应结构体ALARM_PARKING_CARD)
+#define DH_ALARM_PROFILE_ALARM_TRANSMIT   0x31a5           // 报警传输事件(对应结构体ALARM_PROFILE_ALARM_TRANSMIT_INFO)
+#define DH_ALARM_VEHICLE_ACC              0x31a6           // 车辆ACC报警事件(对应结构体 ALARM_VEHICLE_ACC_INFO)
+#define DH_ALARM_TRAFFIC_SUSPICIOUSCAR    0x31a7           // 嫌疑车辆上报事件(对应结构体 ALARM_TRAFFIC_SUSPICIOUSCAR_INFO)
+#define DH_ALARM_ACCESS_LOCK_STATUS       0x31a8           // 门锁状态事件(对应结构体 ALARM_ACCESS_LOCK_STATUS_INFO)
 
 // 事件类型
 #define DH_CONFIG_RESULT_EVENT_EX         0x3000           // 修改配置的返回码；返回结构见DEV_SET_RESULT
@@ -731,21 +1101,34 @@ typedef struct tagNET_ALARM_CHANNELS
 #define DH_REALPLAY_FAILD_EVENT           0x3007           // 监视失败事件,返回结构体DEV_PLAY_RESULT
 #define DH_PLAYBACK_FAILD_EVENT           0x3008           // 回放失败事件,返回结构体DEV_PLAY_RESULT   
 #define DH_IVS_TRAFFIC_REALFLOWINFO       0x3009           // 交通实时流量信息事件ALARM_IVS_TRAFFIC_REALFLOW_INFO
+#define DH_DEVICE_ABORT_EVENT             0x300a           // 客户端被踢出, 对应结构体 DEV_CLIENT_ABORT_INFO
+#define DH_TALK_FAILD_EVENT               0x300b           // 请求语音对讲失败, 对应结构体 DEV_TALK_RESULT
 
 // 报警上传功能的报警类型，对应CLIENT_StartService接口、NEW_ALARM_UPLOAD结构体.
-#define DH_UPLOAD_ALARM                   0x4000           // 外部报警            
-#define DH_UPLOAD_MOTION_ALARM            0x4001           // 动态检测报警
-#define DH_UPLOAD_VIDEOLOST_ALARM         0x4002           // 视频丢失报警
-#define DH_UPLOAD_SHELTER_ALARM           0x4003           // 视频遮挡报警
-#define DH_UPLOAD_SOUND_DETECT_ALARM      0x4004           // 音频检测报警
-#define DH_UPLOAD_DISKFULL_ALARM          0x4005           // 硬盘满报警
-#define DH_UPLOAD_DISKERROR_ALARM         0x4006           // 坏硬盘报警
-#define DH_UPLOAD_ENCODER_ALARM           0x4007           // 编码器报警
-#define DH_UPLOAD_DECODER_ALARM           0x400B           // 报警解码器报警
-#define DH_UPLOAD_EVENT                   0x400C           // 定时上传的
-#define DH_UPLOAD_IVS                     0x400D           // 智能报警, 对应结构体ALARM_UPLOAD_IVS_INFO
-#define DH_UPLOAD_SMOKESENSOR_ALARM       0x400E           // 烟感报警, 对应结构体ALARM_UPLOAD_SMOKESENSOR_INFO
-#define DH_UPLOAD_ALARM_EX                0x400F           // 外部报警扩展，对应结构体 ALARM_UPLOAD_ALARMEX_INFO 
+#define DH_UPLOAD_ALARM                     0x4000           // 外部报警            
+#define DH_UPLOAD_MOTION_ALARM              0x4001           // 动态检测报警
+#define DH_UPLOAD_VIDEOLOST_ALARM           0x4002           // 视频丢失报警
+#define DH_UPLOAD_SHELTER_ALARM             0x4003           // 视频遮挡报警
+#define DH_UPLOAD_SOUND_DETECT_ALARM        0x4004           // 音频检测报警
+#define DH_UPLOAD_DISKFULL_ALARM            0x4005           // 硬盘满报警
+#define DH_UPLOAD_DISKERROR_ALARM           0x4006           // 坏硬盘报警
+#define DH_UPLOAD_ENCODER_ALARM             0x4007           // 编码器报警
+#define DH_UPLOAD_DECODER_ALARM             0x400B           // 报警解码器报警
+#define DH_UPLOAD_EVENT                     0x400C           // 定时上传的
+#define DH_UPLOAD_IVS                       0x400D           // 智能报警, 对应结构体ALARM_UPLOAD_IVS_INFO
+#define DH_UPLOAD_SMOKESENSOR_ALARM         0x400E           // 烟感报警, 对应结构体ALARM_UPLOAD_SMOKESENSOR_INFO
+#define DH_UPLOAD_ALARM_EX                  0x400F           // 外部报警扩展，对应结构体 ALARM_UPLOAD_ALARMEX_INFO 
+#define DH_UPLOAD_REMOTE_LOGIN_FAILD_ALARM  0x4010           // 远程登录失败报警, 对应结构体 ALARM_UPLOAD_LOGIN_FAILED_INFO
+
+// 订阅Bus状态对应事件上报(CLIENT_AttachBusState)
+#define DH_ALARM_BUS_DRIVER_CHECK         0X0001           // 司机签到事件(对应结构体 ALARM_BUS_DRIVER_CHECK_INFO)
+#define DH_ALARM_BUS_IMPORT_SITE          0x0002           // 进站事件(对应结构体 ALARM_BUS_IMPORT_SITE_INFO)
+#define DH_ALARM_BUS_EXPORT_SITE          0x0003           // 离站事件(对应结构体 ALARM_BUS_EXPORT_SITE_INFO)
+#define DH_ALARM_BUS_ABNORMAL             0x0004           // 车辆异常事件(对应结构体 ALARM_BUS_ABNORMAL_INFO)
+#define DH_ALARM_BUS_DOOR_OPEN            0x0005           // 车门打开事件(对应结构体 ALARM_VEHICLE_DOOR_OPEN_INFO)
+#define DH_ALARM_BUS_CUR_MILEAGE          0x0006           // 当前里程事件(对应结构体 ALARM_BUS_CUR_MILEAGE_INFO)
+#define DH_ALARM_BUS_CUR_OIL              0x0007           // 当前油耗情况事件(对应结构体 ALARM_BUS_CUR_OIL_INFO)
+#define DH_ALARM_BUS_LOW_OIL              0x0008           // 低油量报警事件(对应结构体 ALARM_BUS_LOW_OIL_INFO)
 
 // 异步接口回调类型
 #define RESPONSE_DECODER_CTRL_TV          0x00000001       // 对应CLIENT_CtrlDecTVScreen接口
@@ -952,10 +1335,10 @@ typedef struct tagNET_ALARM_CHANNELS
 #define EVENT_IVS_TRAFFIC_VEHICLEINROUTE        0x0000011B        // 有车占道事件
 #define EVENT_ALARM_MOTIONDETECT                0x0000011C        // 视频移动侦测事件
 #define EVENT_ALARM_LOCALALARM                  0x0000011D        // 外部报警事件
-#define EVENT_IVS_PRISONERRISEDETECTION         0X0000011E        // 看守所囚犯起身事件
-#define EVENT_IVS_TRAFFIC_TOLLGATE              0X00000120        // 交通违章-卡口事件----新规则
+#define EVENT_IVS_PRISONERRISEDETECTION         0x0000011E        // 看守所囚犯起身事件
+#define EVENT_IVS_TRAFFIC_TOLLGATE              0x00000120        // 交通违章-卡口事件----新规则
 #define EVENT_IVS_DENSITYDETECTION              0x00000121        // 人员密集度检测
-#define EVENT_IVS_VIDEODIAGNOSIS                0X00000122        // 视频诊断结果事件
+#define EVENT_IVS_VIDEODIAGNOSIS                0x00000122        // 视频诊断结果事件
 #define EVENT_IVS_QUEUEDETECTION                0x00000123        // 排队检测报警事件
 #define EVENT_IVS_TRAFFIC_VEHICLEINBUSROUTE     0x00000124        // 占用公交车道事件
 #define EVENT_IVS_TRAFFIC_BACKING               0x00000125        // 违章倒车事件
@@ -976,8 +1359,19 @@ typedef struct tagNET_ALARM_CHANNELS
 #define EVENT_IVS_TRAFFIC_PARKINGSPACEOVERLINE  0x00000134        // 车位压线事件
 #define EVENT_IVS_MULTISCENESWITCH              0x00000135        // 多场景切换事件
 #define EVENT_IVS_TRAFFIC_RESTRICTED_PLATE      0X00000136        // 受限车牌事件
+#define EVENT_IVS_TRAFFIC_OVERSTOPLINE          0X00000137        // 压停止线事件
+#define EVENT_IVS_TRAFFIC_WITHOUT_SAFEBELT      0x00000138        // 交通未系安全带事件
+#define EVENT_IVS_TRAFFIC_DRIVER_SMOKING        0x00000139        // 驾驶员抽烟事件
+#define EVENT_IVS_TRAFFIC_DRIVER_CALLING        0x0000013A        // 驾驶员打电话事件
+#define EVENT_IVS_OBJECT_DETECTION              0x00000141        // 物体特征检测事件
 #define EVENT_ALARM_ANALOGALARM                 0x00000150        // 模拟量报警通道的报警事件(对应DEV_EVENT_ALARM_ANALOGALRM_INFO)
-
+#define EVENT_IVS_CROSSLINEDETECTION_EX			0x00000151		  // 警戒线扩展事件
+#define EVENT_ALARM_COMMON                      0x00000152        // 普通录像
+#define EVENT_ALARM_VIDEOBLIND                  0x00000153        // 视频遮挡事件
+#define EVENT_ALARM_VIDEOLOSS                   0x00000154        // 视频丢失事件
+#define EVENT_IVS_GETOUTBEDDETECTION			0x00000155		  // 看守所下床事件
+#define EVENT_IVS_PATROLDETECTION			    0x00000156		  // 巡逻检测事件
+#define EVENT_IVS_ONDUTYDETECTION			    0x00000157		  // 站岗检测事件
 
 #define EVENT_IVS_TRAFFIC_ALL                   0x000001FF        // 所有以traffic开头的事件，目前指的是
                                                                   // EVENT_IVS_TRAFFICCONTROL -> EVENT_TRAFFICSNAPSHOT
@@ -1048,6 +1442,7 @@ typedef struct tagNET_ALARM_CHANNELS
 #define NET_ERROR_GETCFG_VIDEOMTRX              _EC(49)           // 获取视频矩阵配置失败
 #define NET_ERROR_GETCFG_COVER                  _EC(50)           // 获取区域遮挡配置失败
 #define NET_ERROR_GETCFG_WATERMAKE              _EC(51)           // 获取图象水印配置失败
+#define NET_ERROR_GETCFG_MULTICAST              _EC(52)           // 获取配置失败位置：组播端口按通道配置
 #define NET_ERROR_SETCFG_GENERAL                _EC(55)           // 修改常规属性失败
 #define NET_ERROR_SETCFG_NETCFG                 _EC(56)           // 修改网络配置失败
 #define NET_ERROR_SETCFG_CHANNAME               _EC(57)           // 修改通道名称失败
@@ -1225,37 +1620,43 @@ typedef struct tagNET_ALARM_CHANNELS
 #define NET_RENDER_ENABLELARGEPICADJUSTMENT_ERROR _EC(414)        // Render库启用高清图像内部调整策略出错
 #define NET_ERROR_UPGRADE_FAILED                _EC(415)          // 设备升级失败
 #define NET_ERROR_NO_TARGET_DEVICE              _EC(416)          // 找不到目标设备
-#define NET_ERROR_NO_VERIFY_DEVICE              _EC(417)          // 找不到目标设备
+#define NET_ERROR_NO_VERIFY_DEVICE              _EC(417)          // 找不到验证设备
 #define NET_ERROR_CASCADE_RIGHTLESS             _EC(418)          // 无级联权限
 #define NET_ERROR_LOW_PRIORITY                  _EC(419)          // 低优先级
 #define NET_ERROR_REMOTE_REQUEST_TIMEOUT        _EC(420)          // 远程设备请求超时
 #define NET_ERROR_LIMITED_INPUT_SOURCE          _EC(421)          // 输入源超出最大路数限制
 #define NET_ERROR_SET_LOG_PRINT_INFO            _EC(422)          // 设置日志打印失败
-
-#define NET_ERROR_VISITE_FILE                   _EC(510)    // 访问文件失败
-#define NET_ERROR_DEVICE_STATUS_BUSY            _EC(511)    // 设备忙
+#define NET_ERROR_PARAM_DWSIZE_ERROR            _EC(423)          // 入参的dwsize字段出错
+#define NET_ERROR_LIMITED_MONITORWALL_COUNT     _EC(424)          // 电视墙数量超过上限
+#define NET_ERROR_PART_PROCESS_FAILED           _EC(425)          // 部分过程执行失败
+#define NET_ERROR_TARGET_NOT_SUPPORT            _EC(426)          // 该功能不支持转发
+#define NET_ERROR_VISITE_FILE                   _EC(510)          // 访问文件失败
+#define NET_ERROR_DEVICE_STATUS_BUSY            _EC(511)          // 设备忙
+#define NET_USER_PWD_NOT_AUTHORIZED             _EC(512)          // 修改密码无权限
+#define NET_USER_PWD_NOT_STRONG                 _EC(513)          // 密码强度不够
 
 /************************************************************************
  ** 枚举定义
  ***********************************************************************/
 //获取网卡信息类型 CLIENT_QueryNetStat  接口使用
-enum EM_NET_QUERY_TYPE {
+typedef enum tagEM_NET_QUERY_TYPE
+{
     NET_APP_DATA_STAT ,     // 获取协议栈统计数据,(输入结构体NET_IN_NETAPP_NET_DATA_STAT,输出结构体NET_OUT_NETAPP_NET_DATA_STAT)
     NET_APP_LINK_STAT ,     // 获取物理链路状态,(输入结构体NET_IN_NETAPP_LINK_STATUS,输出结构体NET_OUT_NETAPP_LINK_STATUS)
-};
+}EM_NET_QUERY_TYPE;
 
 // 抓图类型 CLIENT_CapturePictureEx 接口使用
-enum NET_CAPTURE_FORMATS
+typedef enum tagNET_CAPTURE_FORMATS
 {
     NET_CAPTURE_BMP,
     NET_CAPTURE_JPEG,       // 100%质量的JPEG
     NET_CAPTURE_JPEG_70,    // 70%质量的JPEG
     NET_CAPTURE_JPEG_50,
     NET_CAPTURE_JPEG_30,
-};
+}NET_CAPTURE_FORMATS;
 
 // 设备类型
-enum NET_DEVICE_TYPE 
+typedef enum tagNET_DEVICE_TYPE 
 {
     NET_PRODUCT_NONE = 0,
     NET_DVR_NONREALTIME_MACE,     // 非实时MACE
@@ -1315,7 +1716,9 @@ enum NET_DEVICE_TYPE
     NET_A_SERIAL,                 // 报警主机系列
     NET_BSC_SERIAL,               // 门禁系列产品
     NET_NVS_SERIAL,               // NVS系列产品
-};
+    NET_VTO_SERIAL,               // VTO系列产品
+    NET_VTNC_SERIAL,              // VTNC系列产品
+}NET_DEVICE_TYPE ;
 
 // 语言种类
 typedef enum __LANGUAGE_TYPE
@@ -1482,6 +1885,7 @@ typedef enum __EM_IPC_TYPE
     DH_IPC_AIRLIVE,                                 // Airlive    
     DH_IPC_NPE,                                     // NPE    
     DH_IPC_AXVIEW,                                  // AXVIEW
+    DH_IPC_DFWL,                                    // 东方网力
     DH_IPC_HYUNDAI = 56,                            // HYUNDAI DVR
     DH_IPC_APHD,                                    // 爱普华顿
     DH_IPC_WELLTRANS ,                              // 微创
@@ -1493,6 +1897,7 @@ typedef enum __EM_IPC_TYPE
     DH_IPC_CPUNP,                                   // CPPLUS 球机
     DH_IPC_HX = 65,                                 // 海信
     DH_IPC_TJGS,                                    // 天津高速
+    DH_IPC_MULTICAST,                               // 组播
 }EM_IPC_TYPE;
 
 // H264 编码级别
@@ -1517,26 +1922,53 @@ typedef enum __EM_DISK_TYPE
 // 码流加密算法工作模式
 typedef enum  __EM_ENCRYPT_ALOG_WORKMODE
 {
-    ENCRYPT_ALOG_WORKMODE_ECB,     // ECB模式
-    ENCRYPT_ALOG_WORKMODE_CBC,     // CBC模式
-    ENCRYPT_ALOG_WORKMODE_CFB,     // CFB模式
-    ENCRYPT_ALOG_WORKMODE_OFB,     // OFB模式
+    ENCRYPT_ALOG_WORKMODE_ECB,                  // ECB模式
+    ENCRYPT_ALOG_WORKMODE_CBC,                  // CBC模式
+    ENCRYPT_ALOG_WORKMODE_CFB,                  // CFB模式
+    ENCRYPT_ALOG_WORKMODE_OFB,                  // OFB模式
 }EM_ENCRYPT_ALOG_WORKMODE;
 
 typedef enum __EM_MOBILE_PPP_STATE
 {
-    MOBILE_PPP_UP = 0,             // 链接已经建立
-    MOBILE_PPP_DOWN,               // ppp连接断开        
-    MOBILE_PPP_CONNECTING,         // 正在创建链接        
-    MOBILE_PPP_CLOSEING,           // 正在关闭PPP链接
+    MOBILE_PPP_UP = 0,                          // 链接已经建立
+    MOBILE_PPP_DOWN,                            // ppp连接断开        
+    MOBILE_PPP_CONNECTING,                      // 正在创建链接        
+    MOBILE_PPP_CLOSEING,                        // 正在关闭PPP链接
 } EM_MOBILE_PPP_STATE;
 
 typedef enum __EM_3GMOBILE_STATE
 {
-    MOBILE_MODULE_OFF,             // 表示3g网卡模块关闭           
-    MOBILE_MODULE_STARTING,        // 表示3g网卡模块正在启动    
-    MOBILE_MODULE_WORKING,         // 表示3g网卡模块正在工作中
+    MOBILE_MODULE_OFF,                          // 表示3g网卡模块关闭           
+    MOBILE_MODULE_STARTING,                     // 表示3g网卡模块正在启动    
+    MOBILE_MODULE_WORKING,                      // 表示3g网卡模块正在工作中
 }EM_3GMOBILE_STATE;
+
+typedef enum tagEM_LOGIN_SPAC_CAP_TYPE
+{
+    EM_LOGIN_SPEC_CAP_TCP               = 0,    // TCP登陆, 默认方式
+    EM_LOGIN_SPEC_CAP_ANY               = 1,    // 无条件登陆
+    EM_LOGIN_SPEC_CAP_SERVER_CONN       = 2,    // 主动注册的登入
+    EM_LOGIN_SPEC_CAP_MULTICAST         = 3,    // 组播登陆, 默认方式
+    EM_LOGIN_SPEC_CAP_UDP               = 4,    // UDP方式下的登入
+    EM_LOGIN_SPEC_CAP_MAIN_CONN_ONLY    = 6,    // 只建主连接下的登入
+    EM_LOGIN_SPEC_CAP_SSL               = 7,    // SSL加密方式登陆
+    EM_LOGIN_SPEC_CAP_CD_JF             = 8,    // 成都佳发登陆
+    EM_LOGIN_SPEC_CAP_INTELLIGENT_BOX   = 9,    // 登录智能盒远程设备
+    EM_LOGIN_SPEC_CAP_NO_CONFIG         = 10,   // 登录设备后不做取配置操作
+    EM_LOGIN_SPEC_CAP_U_LOGIN           = 11,   // 用U盾设备的登入
+    EM_LOGIN_SPEC_CAP_LDAP              = 12,   // LDAP方式登录
+    EM_LOGIN_SPEC_CAP_AD                = 13,   // AD（ActiveDirectory）登录方式
+    EM_LOGIN_SPEC_CAP_RADIUS            = 14,   // Radius 登录方式 
+    EM_LOGIN_SPEC_CAP_SOCKET_5          = 15,   // Socks5登陆方式
+    EM_LOGIN_SPEC_CAP_CLOUD             = 16,   // 云登陆方式
+    EM_LOGIN_SPEC_CAP_AUTH_TWICE        = 17,   // 二次鉴权登陆方式
+    EM_LOGIN_SPEC_CAP_TS                = 18,   // TS码流客户端登陆方式
+    EM_LOGIN_SPEC_CAP_P2P               = 19,   // 为P2P登陆方式
+    EM_LOGIN_SPEC_CAP_MOBILE            = 20,   // 手机客户端登陆
+    EM_LOGIN_SPEC_CAP_INVALID                   // 无效的登陆方式
+
+
+}EM_LOGIN_SPAC_CAP_TYPE;
 
 /////////////////////////////////监视相关/////////////////////////////////
 
@@ -1556,6 +1988,8 @@ typedef enum _RealPlayType
     DH_RType_Multiplay_16,                      // 多画面预览－16画面
     DH_RType_Multiplay_6,                       // 多画面预览－6画面
     DH_RType_Multiplay_12,                      // 多画面预览－12画面
+    DH_RType_Multiplay_25,                      // 多画面预览－25画面
+    DH_RType_Multiplay_36,                      // 多画面预览－36画面
 } DH_RealPlayType;
 
 /////////////////////////////////云台相关/////////////////////////////////
@@ -1627,7 +2061,8 @@ typedef enum _EXTPTZ_ControlType
     DH_EXTPTZ_HORSECTORSCAN = 0x4B,             // 水平扇扫(param4对应PTZ_CONTROL_SECTORSCAN,param1、param2、param3无效)
     DH_EXTPTZ_VERSECTORSCAN = 0x4C,             // 垂直扇扫(param4对应PTZ_CONTROL_SECTORSCAN,param1、param2、param3无效)
     DH_EXTPTZ_SET_ABS_ZOOMFOCUS = 0x4D,         // 设定绝对焦距、聚焦值,param1为焦距,范围:[0,255],param2为聚焦,范围:[0,255],param3、param4无效
-    
+    DH_EXTPTZ_SET_FISHEYE_EPTZ = 0x4E,          // 控制鱼眼电子云台，param4对应结构 PTZ_CONTROL_SET_FISHEYE_EPTZ  
+
     DH_EXTPTZ_UP_TELE = 0x70,                   // 上 + TELE param1=速度(1-8)，下同
     DH_EXTPTZ_DOWN_TELE,                        // 下 + TELE
     DH_EXTPTZ_LEFT_TELE,                        // 左 + TELE
@@ -1647,6 +2082,56 @@ typedef enum _EXTPTZ_ControlType
     DH_EXTPTZ_TOTAL,                            // 最大命令值
 } DH_EXTPTZ_ControlType;
 
+// 鱼眼电子云台控制命令
+typedef enum tagNET_FISHEYE_EPTZ_CMD
+{
+    NET_FISHEYE_EPTZ_CMD_UNKOWN,                    // 未知类型
+    NET_FISHEYE_EPTZ_CMD_ZOOMIN,                    // 放大，dwParam1表示步长，范围1～8
+    NET_FISHEYE_EPTZ_CMD_ZOOMOUT,                   // 缩小，dwParam1表示步长，范围1～8
+    NET_FISHEYE_EPTZ_CMD_UP,                        // 向上移动，dwParam1表示步长，范围1～8
+    NET_FISHEYE_EPTZ_CMD_DOWN,                      // 向下移动，dwParam1表示步长，范围1～8
+    NET_FISHEYE_EPTZ_CMD_LEFT,                      // 向左移动，dwParam1表示步长，范围1～8
+    NET_FISHEYE_EPTZ_CMD_RIGHT,                     // 向右移动，dwParam1表示步长，范围1～8
+    NET_FISHEYE_EPTZ_CMD_ROTATECLOCK,               // 自动顺时针旋转，dwParam1表示步长，范围1～8
+    NET_FISHEYE_EPTZ_CMD_ROTATEANTICLOCK,           // 自动逆时针旋转，dwParam1表示步长，范围1～8
+    NET_FISHEYE_EPTZ_CMD_STOP,                      // 终止自动旋转操作
+    NET_FISHEYE_EPTZ_CMD_TAPVIEW,                   // 显示指定位置,即点即看，dwParam1表示eptz（电子云台）的焦点横坐标，即焦点在矫正后的图像中的横坐标，取值不超过矫正后输出图像的宽
+    // dwParam2表示eptz（电子云台）的焦点纵坐标，即焦点在矫正后的图像中的纵坐标，取值不超过矫正后输出图像的高
+    NET_FISHEYE_EPTZ_CMD_SHOEREGION,                // 框选放大，wParam1表示所选矩形中心点的横坐标，
+    // dwParam2表示所选矩形中心点的纵坐标，dwParam3表示所选矩形的宽
+    // dwParam4表示所选矩形的高
+}NET_FISHEYE_EPTZ_CMD;
+
+// 鱼眼矫正模式
+typedef enum tagNET_CALIBRATE_MODE
+{
+    NET_FISHEYE_CALIBRATE_MODE_UNKOWN,                      // 未知模式 
+    NET_FISHEYE_CALIBRATE_MODE_ORIGIAL,                     // 原始图像模式
+    NET_FISHEYE_CALIBRATE_MODE_CONFIG,                      // 配置模
+    NET_FISHEYE_CALIBRATE_MODE_PANORAMA,                    // 全景模式
+    NET_FISHEYE_CALIBRATE_MODE_DOUBLEPANORAMA,              // 双全景模式
+    NET_FISHEYE_CALIBRATE_MODE_ORIGIALPLUSTHREEEPTZREGION,  // 1+3模式（一个原始鱼眼图像加3个EPtz图像）
+    NET_FISHEYE_CALIBRATE_MODE_SINGLE,                      // 单画面EPtz模式（只有一个EPtz画面）
+    NET_FISHEYE_CALIBRATE_MODE_FOUREPTZREGION,              // 4画面模式（4个EPtz控制画面）
+    NET_FISHEYE_CALIBRATE_MODE_NORMAL,                      // 普通模式
+}NET_FISHEYE_CALIBRATE_MODE;
+
+typedef enum tagNET_FISHEYE_TYPE
+{
+    NET_FISHEYE_UNKOWN =0   ,               //未知
+    NET_FISHEYE_CHIP        ,               //仅支持设备端鱼眼矫正
+    NET_FISHEYE_PLUGIN      ,               //仅支持控件鱼眼矫正
+    NET_FISHEYE_CHIP_PLUGIN ,               //二者都支持
+}NET_FISHEYE_TYPE;
+
+// 鱼眼安装模式
+typedef enum tagNET_FISHEYE_MOUNT_MODE
+{
+    NET_FISHEYE_MOUNT_MODE_UNKOWN,                          // 未知模式                  
+    NET_FISHEYE_MOUNT_MODE_CEIL,                            // 顶装模式 
+    NET_FISHEYE_MOUNT_MODE_WALL,                            // 壁装模式  
+    NET_FISHEYE_MOUNT_MODE_FLOOR,                           // 地装模式  
+}NET_FISHEYE_MOUNT_MODE;
 /////////////////////////////////日志相关/////////////////////////////////
 
 // 日志查询类型
@@ -1776,6 +2261,21 @@ typedef enum _DH_LOG_TYPE
     DH_LOG_LOCKFILE,                            // 锁定录像
     DH_LOG_UNLOCKFILE,                          // 解锁录像
     DH_LOG_ATMPOS,                              // ATM卡号叠加添加日志
+	DH_PLAY_PAUSE,								// 暂停回放
+	DH_PLAY_START,								// 正放
+	LOG_PLAY_STOP,								// 停止回放
+	LOG_PLAY_BACK,								// 倒放
+	LOG_PLAY_FAST,								// 快放
+	LOG_PLAY_SLOW,								// 慢放
+	LOG_SMART_SEARCH,							// 智能检索
+	LOG_RECORD_SNAP,							// 录像抓图
+	LOG_ADD_TAG,								// 添加标签
+	LOG_DEL_TAG,								// 删除标签
+	LOG_USB_IN,									// 发现USB设备
+	LOG_USB_OUT,								// USB设备断开连接
+	LOG_BACKUP_FILE,							// 文件备份
+	LOG_BACKUP_LOG,								// 日志备份
+	LOG_BACKUP_CONFIG,							// 配置备份
 
     DH_LOG_TIME_UPDATE  = 0x0800,               // 时间同步
     DH_LOG_REMOTE_STATE = 0x0850,               // 远程日志 
@@ -1950,6 +2450,8 @@ typedef enum __EM_USEDEV_MODE
     DH_TALK_SPEAK_PARAM,                        // 设置语音对讲喊话参数，对应结构体 NET_SPEAK_PARAM
     DH_RECORD_TYPE,                             // 设置按时间录像回放及下载的录像文件类型(详见NET_RECORD_TYPE)
     DH_TALK_MODE3,                              // 设置三代设备的语音对讲参数, 对应结构体NET_TALK_EX
+    DH_PLAYBACK_REALTIME_MODE ,                 // 设置实时回放功能(0-关闭，1开启)
+    DH_TALK_TRANSFER_MODE,                      // 设置语音对讲是否为转发模式, 对应结构体 NET_TALK_TRANSFER_PARAM
 } EM_USEDEV_MODE;
 
 
@@ -1963,22 +2465,22 @@ typedef enum __EM_TALK_DATA_TYPE
 
 typedef struct tagNET_TALK_VIDEO_FORMAT
 {
-	DWORD				dwSize;
-	DWORD				dwCompression;			// 视频压缩格式
-	int					nFrequency;				// 视频采样频率
+    DWORD               dwSize;
+    DWORD               dwCompression;          // 视频压缩格式
+    int                 nFrequency;             // 视频采样频率
 }NET_TALK_VIDEO_FORMAT;
 // 三代设备的语音对讲参数，对应CLIENT_SetDeviceMode()的DH_TALK_MODE3命令
 typedef struct tagNET_TALK_EX
 {
     DWORD               dwSize;
-    int                 nChannel;               // 通道号
-    int                 nAudioPort;             // 音频传输侦听端口
-    int                 nWaitTime;              // 等待时间, 单位ms,为0则使用默认值
-    HWND				hVideoWnd;				// 可视对讲视频显示窗口
-	NET_TALK_VIDEO_FORMAT stuVideoFmt;			// 视频编码格式
-	char				szMulticastAddr[DH_MAX_IPADDR_LEN_EX]; // 组播地址
-	WORD				wMulticastLocalPort;	// 组播本地端口
-	WORD				wMulticastRemotePort;	// 组播远程端口
+    int                 nChannel;                               // 通道号
+    int                 nAudioPort;                             // 音频传输侦听端口
+    int                 nWaitTime;                              // 等待时间, 单位ms,为0则使用默认值
+    HWND                hVideoWnd;                              // 可视对讲视频显示窗口
+    NET_TALK_VIDEO_FORMAT stuVideoFmt;                          // 视频编码格式
+    char                szMulticastAddr[DH_MAX_IPADDR_LEN_EX];  // 组播地址
+    WORD                wMulticastLocalPort;                    // 组播本地端口
+    WORD                wMulticastRemotePort;                   // 组播远程端口
 }NET_TALK_EX;
 
 // AMR编码类型
@@ -2000,6 +2502,13 @@ typedef struct __NET_SPEAK_PARAM
     int             nMode;                      // 0：对讲（默认模式），1：喊话；从喊话切换到对讲要重新设置
     int             nSpeakerChannel;            // 扬声器通道号，喊话时有效
 } NET_SPEAK_PARAM;
+
+// 是否开启语音对讲的转发模式
+typedef struct tagNET_TALK_TRANSFER_PARAM
+{
+    DWORD           dwSize;
+    BOOL            bTransfer;                  // 是否开启语音对讲转发模式, TRUE: 开启转发, FALSE: 关闭转发
+}NET_TALK_TRANSFER_PARAM;
 
 /////////////////////////////////控制相关/////////////////////////////////
 
@@ -2049,6 +2558,11 @@ typedef enum _CtrlType
     DH_KEYBOARD_NEXT,
     DH_KEYBOARD_JMPDOWN,
     DH_KEYBOARD_JMPUP,
+    DH_KEYBOARD_10PLUS,
+    DH_KEYBOARD_SHIFT,
+    DH_KEYBOARD_BACK,               
+    DH_KEYBOARD_LOGIN ,                            // 新网络键盘功能
+    DH_KEYBOARD_CHNNEL ,                           // 切换视频通道
     DH_TRIGGER_ALARM_IN = 100,                     // 触发报警输入
     DH_TRIGGER_ALARM_OUT,                          // 触发报警输出
     DH_CTRL_MATRIX,                                // 矩阵控制
@@ -2123,10 +2637,109 @@ typedef enum _CtrlType
     DH_CTRL_RECORDSET_REMOVE,                      // 根据记录集编号删除某记录(对应NET_CTRL_RECORDSET_PARAM)
     DH_CTRL_RECORDSET_CLEAR,                       // 清除所有记录集信息(对应NET_CTRL_RECORDSET_PARAM)
     DH_CTRL_ACCESS_CLOSE,                          // 门禁控制-关门(对应结构体 NET_CTRL_ACCESS_CLOSE)
-	DH_CTRL_ALARM_SUBSYSTEM_ACTIVE_SET,			   // 报警子系统激活设置(对应结构体NET_CTRL_ALARM_SUBSYSTEM_SETACTIVE)
+    DH_CTRL_ALARM_SUBSYSTEM_ACTIVE_SET,            // 报警子系统激活设置(对应结构体NET_CTRL_ALARM_SUBSYSTEM_SETACTIVE)
     DH_CTRL_FORBID_OPEN_STROBE,                    // 禁止设备端开闸(对应结构体 NET_CTRL_FORBID_OPEN_STROBE)
     DH_CTRL_OPEN_STROBE,                           // 开启道闸(对应结构体 NET_CTRL_OPEN_STROBE)
+    DH_CTRL_TALKING_REFUSE,                        // 对讲拒绝接听(对应结构体 NET_CTRL_TALKING_REFUSE)
+    DH_CTRL_ARMED_EX,                              // 布撤防操作(对应结构体 CTRL_ARM_DISARM_PARAM_EX), 对CTRL_ARM_DISARM_PARAM 升级，建议用这个
+    DH_CTRL_NET_KEYBOARD = 400,                    // 网络键盘控制(对应结构体 DHCTRL_NET_KEYBOARD)
+    DH_CTRL_AIRCONDITION_OPEN,                     // 打开空调(对应结构体 NET_CTRL_OPEN_AIRCONDITION)
+    DH_CTRL_AIRCONDITION_CLOSE,                    // 关闭空调(对应结构体 NET_CTRL_CLOSE_AIRCONDITION)
+    DH_CTRL_AIRCONDITION_SET_TEMPERATURE,          // 设定空调温度(对应结构体 NET_CTRL_SET_TEMPERATURE)
+    DH_CTRL_AIRCONDITION_ADJUST_TEMPERATURE,       // 调节空调温度(对应结构体 NET_CTRL_ADJUST_TEMPERATURE)
+    DH_CTRL_AIRCONDITION_SETMODE,                  // 设置空调工作模式(对应结构体 NET_CTRL_ADJUST_TEMPERATURE)
+    DH_CTRL_AIRCONDITION_SETWINDMODE,              // 设置空调送风模式(对应结构体 NET_CTRL_AIRCONDITION_SETMODE)
+    DH_CTRL_RESTOREDEFAULT_EX ,                    // 恢复设备的默认设置新协议(对应结构体NET_CTRL_RESTORE_DEFAULT)
+                                                   // 恢复配置优先使用该枚举，如果接口失败，
+                                                   // 且CLIENT_GetLastError返回NET_UNSUPPORTED,再尝试使用DH_CTRL_RESTOREDEFAULT恢复配置
+    DH_CTRL_NOTIFY_EVENT,                          // 向设备发送事件(对应结构体 NET_NOTIFY_EVENT_DATA)
+    DH_CTRL_SILENT_ALARM_SET,                      // 无声报警设置
+	DH_CTRL_START_PLAYAUDIOEX,                     // 设备开始语音播报(对应结构体 NET_CTRL_START_PLAYAUDIOEX)
+    DH_CTRL_STOP_PLAYAUDIOEX,                      // 设备停止语音播报
+    DH_CTRL_CLOSE_STROBE,                          // 关闭道闸(对应结构体 NET_CTRL_CLOSE_STROBE)
+	DH_CTRL_SET_ORDER_STATE,                       // 设置车位预定状态(对应结构体 NET_CTRL_SET_ORDER_STATE)
+	DH_CTRL_RECORDSET_INSERTEX,                    // 添加记录，获得记录集编号(对应NET_CTRL_RECORDSET_INSERT_PARAM)
+    DH_CTRL_RECORDSET_UPDATEEX,                    // 更新某记录集编号的记录(对应NET_CTRL_RECORDSET_PARAM)
+    DH_CTRL_CAPTURE_FINGER_PRINT,                  // 指纹采集(对应结构体 NET_CTRL_CAPTURE_FINGER_PRINT)
+	DH_CTRL_ECK_LED_SET,                           // 停车场出入口控制器LED设置(对应结构体 NET_CTRL_ECK_LED_SET_PARAM)
+    DH_CTRL_ECK_IC_CARD_IMPORT,                    // 智能停车系统出入口机IC卡信息导入(对应结构体 NET_CTRL_ECK_IC_CARD_IMPORT_PARAM)
+    DH_CTRL_ECK_SYNC_IC_CARD,                      // 智能停车系统出入口机IC卡信息同步指令，收到此指令后，设备删除原有IC卡信息(对应结构体 NET_CTRL_ECK_SYNC_IC_CARD_PARAM)
+    DH_CTRL_LOWRATEWPAN_REMOVE,                    // 删除指定无线设备(对应结构体 NET_CTRL_LOWRATEWPAN_REMOVE)
+    DH_CTRL_LOWRATEWPAN_MODIFY,                    // 修改无线设备信息(对应结构体 NET_CTRL_LOWRATEWPAN_MODIFY)
+    DH_CTRL_ECK_SET_PARK_INFO,                     // 智能停车系统出入口机设置车位信息(对应结构体 NET_CTRL_ECK_SET_PARK_INFO_PARAM)
+    DH_CTRL_VTP_DISCONNECT,                        // 挂断视频电话(对应结构体 NET_CTRL_VTP_DISCONNECT)
+    DH_CTRL_UPDATE_FILES,                          // 远程投放多媒体文件更新(对应结构体 NET_CTRL_UPDATE_FILES)
+    DH_CTRL_MATRIX_SAVE_SWITCH,                    // 保存上下位矩阵输出关系(对应结构体 NET_CTRL_MATRIX_SAVE_SWITCH)
+    DH_CTRL_MATRIX_RESTORE_SWITCH,                 // 恢复上下位矩阵输出关系(对应结构体 NET_CTRL_MATRIX_RESTORE_SWITCH)
 } CtrlType;
+
+// 保存上下位矩阵输出关系参数(对应命令DH_CTRL_MATRIX_SAVE_SWITCH)
+typedef struct tagNET_CTRL_MATRIX_SAVE_SWITCH 
+{
+    DWORD           dwSize;
+    const char*     pszName;                        // 上下位矩阵输出关系名称
+} NET_CTRL_MATRIX_SAVE_SWITCH;
+
+// 恢复上下位矩阵输出关系参数(对应命令DH_CTRL_MATRIX_RESTORE_SWITCH)
+typedef struct tagNET_CTRL_MATRIX_RESTORE_SWITCH
+{
+    DWORD           dwSize;
+    const char*     pszName;                        // 上下位矩阵输出关系名称
+} NET_CTRL_MATRIX_RESTORE_SWITCH;
+
+// 恢复默认配置新协议输入参数
+typedef struct tagNET_CTRL_RESTORE_DEFAULT
+{
+    DWORD               dwSize;
+    const char*         szCfgNames;                     // 配置名称以'&&'为间隔,配置名参见dhconfigsdk.h的CLIENT_GetNewDevConfig和CLIENT_SetNewDevConfig接口的配置命令
+}NET_CTRL_RESTORE_DEFAULT;
+
+// 打开空调参数(对应命令DH_CTRL_AIRCONDITION_OPEN)
+typedef struct tagNET_CTRL_OPEN_AIRCONDITION
+{
+    DWORD               dwSize;
+    char                szDeviceID[DH_MAX_DEV_ID_LEN];  // 设备惟一标识符
+} NET_CTRL_OPEN_AIRCONDITION;
+
+// 关闭空调参数(对应命令DH_CTRL_AIRCONDITION_CLOSE)
+typedef struct tagNET_CTRL_CLOSE_AIRCONDITION
+{
+    DWORD               dwSize;
+    char                szDeviceID[DH_MAX_DEV_ID_LEN];  // 设备惟一标识符
+} NET_CTRL_CLOSE_AIRCONDITION;
+
+// 设置空调温度参数(对应命令DH_CTRL_AIRCONDITION_SET_TEMPERATURE)
+typedef struct tagNET_CTRL_SET_TEMPERATURE
+{
+    DWORD               dwSize;
+    char                szDeviceID[DH_MAX_DEV_ID_LEN];  // 设备惟一标识符
+    int                 nTemperature;                   // 温度值(单位：摄氏度)
+} NET_CTRL_SET_TEMPERATURE;
+
+// 调节空调温度参数(对应命令DH_CTRL_AIRCONDITION_ADJUST_TEMPERATURE)
+typedef struct tagNET_CTRL_ADJUST_TEMPERATURE
+{
+    DWORD               dwSize;
+    char                szDeviceID[DH_MAX_DEV_ID_LEN];  // 设备惟一标识符
+    int                 nTemperatureScale;              // 设置的值, 如-1表示温度下调一度(单位：摄氏度)
+} NET_CTRL_ADJUST_TEMPERATURE;
+
+// 设置空调工作模式参数(对应命令DH_CTRL_AIRCONDITION_SETMODE)
+typedef struct tagNET_CTRL_AIRCONDITION_SETMODE
+{
+    DWORD                   dwSize;
+    char                    szDeviceID[DH_MAX_DEV_ID_LEN];  // 设备惟一标识符
+    EM_AIRCONDITION_MODE    emAirconditionMode;             // 空调工作模式
+    int                     nTemperature;                   // 设置的值(单位：摄氏度)
+} NET_CTRL_AIRCONDITION_SETMODE;
+
+// 设置空调送风模式参数(对应命令DH_CTRL_AIRCONDITION_SETWINDMODE)
+typedef struct tagNET_CTRL_AIRCONDITION_SETWINDMODE
+{
+    DWORD                       dwSize;
+    char                        szDeviceID[DH_MAX_DEV_ID_LEN];  // 设备惟一标识符
+    EM_AIRCONDITION_WINDMODE    emAirconditionWindMode;         // 空调送风模式
+} NET_CTRL_AIRCONDITION_SETWINDMODE;
 
 // IO控制命令，对应CLIENT_QueryIOControlState接口
 typedef enum _IOTYPE
@@ -2396,13 +3009,40 @@ typedef enum _EM_NET_AUTHORITY_TYPE
 typedef enum _EM_NET_RECORD_TYPE
 {
     NET_RECORD_UNKNOWN,
+
     NET_RECORD_TRAFFICREDLIST,                          // 交通白名单账户记录
+                                                                // 查询条件对应 FIND_RECORD_TRAFFICREDLIST_CONDITION 结构体
+                                                                // 记录信息对应 NET_TRAFFIC_LIST_RECORD 结构体
     NET_RECORD_TRAFFICBLACKLIST,                        // 交通黑名单账号记录
+                                                                // 查询条件对应 FIND_RECORD_TRAFFICREDLIST_CONDITION 结构体
+                                                                // 记录信息对应 NET_TRAFFIC_LIST_RECORD 结构体
     NET_RECORD_BURN_CASE,                               // 刻录案件记录
-    NET_RECORD_ACCESSCTLCARD,                           // 门禁卡,对应NET_RECORDSET_ACCESS_CTL_CARD
-    NET_RECORD_ACCESSCTLPWD,                            // 门禁密码,对应NET_RECORDSET_ACCESS_CTL_PWD
-    NET_RECORD_ACCESSCTLCARDREC,                        // 门禁出入记录,对应NET_RECORDSET_ACCESS_CTL_CARDREC
-    NET_RECORD_ACCESSCTLHOLIDAY,                        // 假日记录集, 对应NET_RECORDSET_HOLIDAY
+                                                                // 查询条件对应 FIND_RECORD_BURN_CASE_CONDITION 结构体
+                                                                // 记录信息对应 NET_BURN_CASE_INFO 结构体
+    NET_RECORD_ACCESSCTLCARD,                           // 门禁卡
+                                                                // 查询条件对应 FIND_RECORD_ACCESSCTLCARD_CONDITION 结构体
+                                                                // 记录信息对应 NET_RECORDSET_ACCESS_CTL_CARD 结构体
+    NET_RECORD_ACCESSCTLPWD,                            // 门禁密码
+                                                                // 查询条件对应 FIND_RECORD_ACCESSCTLPWD_CONDITION 结构体
+                                                                // 记录信息对应 NET_RECORDSET_ACCESS_CTL_PWD
+    NET_RECORD_ACCESSCTLCARDREC,                        // 门禁出入记录
+                                                                // 查询条件对应 FIND_RECORD_ACCESSCTLCARDREC_CONDITION 结构体
+                                                                // 记录信息对应 
+    NET_RECORD_ACCESSCTLHOLIDAY,                        // 假日记录集
+                                                                // 查询条件对应 FIND_RECORD_ACCESSCTLHOLIDAY_CONDITION 结构体
+                                                                // 记录信息对应 
+    NET_RECORD_TRAFFICFLOW_STATE,                       // 查询交通流量记录
+                                                                // 查询条件对应 FIND_RECORD_TRAFFICFLOW_CONDITION 结构体
+                                                                // 记录信息对应 NET_RECORD_TRAFFIC_FLOW_STATE 结构体
+    NET_RECORD_VIDEOTALKLOG,                            // 通话记录
+                                                                // 查询条件对应 FIND_RECORD_VIDEO_TALK_LOG_CONDITION 结构体
+                                                                // 记录信息对应 NET_RECORD_VIDEO_TALK_LOG 结构体
+    NET_RECORD_REGISTERUSERSTATE,                       // 状态记录
+                                                                // 查询条件对应 FIND_RECORD_REGISTER_USER_STATE_CONDITION 结构体
+                                                                // 记录信息对应 NET_RECORD_REGISTER_USER_STATE 结构体
+    NET_RECORD_VIDEOTALKCONTACT,                        // 联系人记录
+                                                                // 查询条件对应 FIND_RECORD_VIDEO_TALK_CONTACT_CONDITION 结构体
+                                                                // 记录信息对应 NET_RECORD_VIDEO_TALK_CONTACT 结构体
 }EM_NET_RECORD_TYPE;
 
 // 时间类型
@@ -2632,6 +3272,27 @@ typedef struct _tagCBYUVDataParam
 } tagCBYUVDataParam;
 
 ///////////////////////////////回放相关定义///////////////////////////////
+// 录像查询类型
+typedef enum tagEmQueryRecordType
+{
+    EM_RECORD_TYPE_ALL              = 0,            // 所有录像
+    EM_RECORD_TYPE_ALARM            = 1,            // 外部报警录像
+    EM_RECORD_TYPE_MOTION_DETECT    = 2,            // 动态检测报警录像
+    EM_RECORD_TYPE_ALARM_ALL        = 3,            // 所有报警录像
+    EM_RECORD_TYPE_CARD             = 4,            // 卡号查询
+    EM_RECORD_TYPE_CONDITION        = 5,            // 按条件查询
+    EM_RECORD_TYPE_JOIN             = 6,            // 组合查询
+    EM_RECORD_TYPE_CARD_PICTURE     = 8,            // 按卡号查询图片，HB-U、NVS等使用
+    EM_RECORD_TYPE_PICTURE          = 9,            // 查询图片，HB-U、NVS等使用
+    EM_RECORD_TYPE_FIELD            = 10,           // 按字段查询
+    EM_RECORD_TYPE_NET_DATA         = 15,           // 查询网络数据，金桥网吧等使用
+    EM_RECORD_TYPE_TRANS_DATA       = 16,           // 查询透明串口数据录像
+    EM_RECORD_TYPE_IMPORTANT        = 17,           // 查询重要录像
+    EM_RECORD_TYPE_TALK_DATA        = 18,           // 查询录音文件
+    
+    EM_RECORD_TYPE_INVALID          = 256,          // 无效的查询类型
+    
+}EM_QUERY_RECORD_TYPE;
 
 // 录像文件信息
 typedef struct
@@ -2647,7 +3308,7 @@ typedef struct
     unsigned int        startcluster;               // 起始簇号
     BYTE                nRecordFileType;            // 录象文件类型  0：普通录象；1：报警录象；2：移动检测；3：卡号录象；4：图片, 5: 智能录像
     BYTE                bImportantRecID;            // 0:普通录像 1:重要录像
-    BYTE                bHint;                      // 文件定位索引
+    BYTE                bHint;                      // 文件定位索引(nRecordFileType==4<图片>时,bImportantRecID<<8 +bHint ,组成图片定位索引 )
     BYTE                bRecType;                   // 0-主码流录像 1-辅码1流录像 2-辅码流2 3-辅码流3录像
 } NET_RECORDFILE_INFO, *LPNET_RECORDFILE_INFO;
 
@@ -2868,25 +3529,32 @@ typedef struct
 // 报警IO控制
 typedef struct 
 {
-    unsigned short        index;                    // 端口序号
-    unsigned short        state;                    // 端口状态
+    unsigned short       index;                    // 端口序号
+    unsigned short       state;                    // 端口状态
 } ALARM_CONTROL;
 
 // 触发方式
 typedef struct
 {
-    unsigned short        index;                    // 端口序号
-    unsigned short        mode;                     // 触发方式(0关闭1手动2自动);不设置的通道，sdk默认将保持原来的设置。
-    BYTE                  bReserved[28];            
+    unsigned short       index;                    // 端口序号
+    unsigned short       mode;                     // 触发方式(0关闭1手动2自动);不设置的通道，sdk默认将保持原来的设置。
+    BYTE                 bReserved[28];            
 } TRIGGER_MODE_CONTROL;
 
 // 报警解码器控制
 typedef struct 
 {
-    int                     decoderNo;               // 报警解码器号，从0开始
-    unsigned short          alarmChn;                // 报警输出口，从0开始
-    unsigned short          alarmState;              // 报警输出状态；1：打开，0：关闭
+    int                 decoderNo;               // 报警解码器号，从0开始
+    unsigned short      alarmChn;                // 报警输出口，从0开始
+    unsigned short      alarmState;              // 报警输出状态；1：打开，0：关闭
 } DECODER_ALARM_CONTROL;
+
+// 呼叫无应答报警事件
+typedef struct __ALARM_NO_RESPONSE_INFO
+{
+    DWORD               dwSize;
+    char                szCallID[DH_MAX_CALLID];                             //Call ID
+}ALARM_NO_RESPONSE_INFO;
 
 // 报警上传功能的报警信息
 typedef struct  
@@ -2947,6 +3615,28 @@ typedef struct _ALARM_UPLOAD_ALARMEX_INFO
     char            szAreaName[DH_COMMON_STRING_128];           // 防区名称
     DWORD           dwChannelMask;                              // 抓图视频通道的掩码，15表示此次报警抓图的有1,2,3,4通道 
 }ALARM_UPLOAD_ALARMEX_INFO;
+
+typedef enum _EM_LOGIN_FAILED_TYPE
+{
+    LOGIN_FAILED_UNKNOW = 0 ,
+    LOGIN_FAILED_PASSWORD   ,           //密码不正确
+    LOGIN_FAILED_USER       ,           //帐号不存在
+    LOGIN_FAILED_TIMEOUT    ,           //等待登录返回超时
+    LOGIN_FAILED_RELOGGIN   ,           //帐号已经登录
+    LOGIN_FAILED_LOCKED     ,           //帐号已被锁定
+    LOGIN_FAILED_BLACKLIST  ,           //帐号被列入黑名单
+    LOGIN_FAILED_ERROR_BUSY ,           //资源不足，系统忙
+    LOGIN_FAILED_VERSION    ,           //版本不对，无法登陆 
+}EM_LOGIN_FAILED_TYPE;
+
+//远程登录失败报警信息
+typedef struct  __ALARM_UPLOAD_LOGIN_FAILED_INFO
+{
+    DWORD                   dwSize;
+    EM_LOGIN_FAILED_TYPE    emFailedType;                       //登陆失败类型
+    char                    szDeviceIP[DH_COMMON_STRING_64];    //登入设备IP
+    DWORD                   nDevicePort;                        //登入设备端口
+}ALARM_UPLOAD_LOGIN_FAILED_INFO;
 
 // 录像状态变化报警信息
 typedef struct
@@ -3363,7 +4053,8 @@ typedef struct __ALARM_GOODS_WEIGHT_UPLOAD_INFO
     DWORD        dwSelfWeight;                          // 自重(kg)
     DWORD        dwTotalWeight;                         // 总重(kg)
     DWORD        dwStandardWeight;                      // 核定货重(kg)
-    DWORD        dwWeightScale;                         // 货重比例    
+    DWORD        dwWeightScale;                         // 货重比例
+    char         szCardNO[DH_MAX_CARDINFO_LEN];         // 卡号
 } ALARM_GOODS_WEIGHT_UPLOAD_INFO;
 
 // GPS状态信息
@@ -3564,6 +4255,7 @@ typedef struct tagALARM_CHASSISINTRUDED_INFO
     int                 nAction;                // 0:开始 1:停止
     NET_TIME            stuTime;                // 报警事件发生的时间
     int                 nChannelID;             // 通道号
+	char				szReaderID[DH_COMMON_STRING_32];// 读卡器ID
 }ALARM_CHASSISINTRUDED_INFO;
 
 // 扩展模块报警事件
@@ -3591,6 +4283,78 @@ typedef struct tagALARM_TALKING_INVITE_INFO
     NET_TIME             stuTime;                 // 事件触发时间
 }ALARM_TALKING_INVITE_INFO;
 
+// 报警事件类型DH_ALARM_TALKING_HANGUP对应的数据描述信息
+typedef struct tagALARM_TALKING_HANGUP_INFO 
+{
+    DWORD               dwSize;
+    NET_TIME            stuTime;                // 事件触发时间
+}ALARM_TALKING_HANGUP_INFO;
+
+// 岗亭更新事件状态
+typedef enum tagEM_GUARD_EVENT_STATE
+{
+	EM_GUARD_EVENT_STATE_UNKNOWN = 0,	// 未知状态
+	EM_GUARD_EVNET_STATE_ONGUARD,		// 到岗
+	EM_GUARD_EVENT_STATE_OFFGUARD		// 离岗
+}EM_GUARD_EVENT_STATE;
+
+// 岗亭信息更新事件,DH_ALARM_GUARD_INFO_UNPDATE对用的数据描述信息
+typedef struct tagALARM_GUARD_UPDATE_INFO
+{
+	DWORD				 dwSize;
+	EM_GUARD_EVENT_STATE emEventState;							// 岗亭更新事件状态
+	int					 nIDCount;								// 触发检测事件的人员ID个数
+	int					 nIDArray[DH_MAX_GUARD_DETECT_ID_COUNT];// 人员ID数组
+	NET_TIME			 stuTime;								// 事件触发时间
+}ALARM_GUARD_UPDATE_INFO;
+
+// 岗亭检测事件,DH_ALARM_GUARD_DETECT对应的数据描述信息
+typedef struct tagALARM_GUARD_DETECT_INFO
+{
+	DWORD				dwSize;
+	int					nAction;								// 0:开始 1:停止
+	int					nIndex;									// 岗亭检测配置下标	
+	int					nIDCount;								// 触发检测事件的人员ID个数
+	int					nIDArray[DH_MAX_GUARD_DETECT_ID_COUNT];	// 人员ID数组
+	NET_TIME			stuTime;								// 事件触发时间
+}ALARM_GUARD_DETECT_INFO;
+
+//银行卡插卡事件DH_ALARM_BANKCARDINSERT对应的数据描述信息
+typedef struct tagALARM_BANKCARDINSERT_INFO 
+{
+    DWORD               dwSize;
+    int                 nAction;                // -1:未知 0:开始 1:停止
+}ALARM_BANKCARDINSERT_INFO;
+
+#define MAX_CARD_RECORD_FIELD_NUM 16            // 卡号录像最大域数量
+
+// 事件触发录像,stop时的保存策略
+typedef enum tagNET_RECORD_SAVEFLAG
+{
+    NET_RECORD_SAVEFLAG_UNKNOWN = 0,            //未知类型
+	NET_RECORD_SAVEFLAG_MARK,                   //保存录像、并加锁
+	NET_RECORD_SAVEFLAG_SAVE,                   //仅保存录像
+}NET_RECORD_SAVEFLAG;
+
+//卡号录像事件 DH_ALARM_CARD_RECORD 对应的数据描述信息
+typedef struct tagALARM_CARD_RECORD_INFO 
+{
+    DWORD               dwSize;
+    int                 nAction;                // -1:未知 0:开始 1:停止
+    int                 nChannelID;             // 通道号，从0开始
+    unsigned int        nFieldCount;            // 域数量
+    char                szFields[MAX_CARD_RECORD_FIELD_NUM][DH_COMMON_STRING_256]; // 域信息
+    NET_RECORD_SAVEFLAG emRecordSaveFlag;       // 事件触发录像，stop时的保存策略,详见枚举 NET_RECORD_SAVEFLAG
+}ALARM_CARD_RECORD_INFO;
+
+// CLIENT_ControlDevice接口的 DH_CTRL_NOTIFY_EVNENT 命令参数(向设备发送事件)
+typedef struct tagNET_NOTIFY_EVENT_DATA
+{
+    DWORD                       dwSize;
+    LONG                        lCommand;       // 事件类型
+    void*                       pEventData;     // 事件内容,与lCommand对应的结构体指针
+}NET_NOTIFY_EVENT_DATA;
+
 // 传感器感应方式枚举类型
 typedef enum tagNET_SENSE_METHOD
 {
@@ -3608,12 +4372,19 @@ typedef enum tagNET_SENSE_METHOD
     NET_SENSE_THREEMETHOD,       //三技术
     NET_SENSE_TEMP,              //温度
     NET_SENSE_HUMIDITY,          //湿度
-	NET_SENSE_WIND,              //风速
+    NET_SENSE_WIND,              //风速
     NET_SENSE_CALLBUTTON,        //呼叫按钮
     NET_SENSE_GASPRESSURE,       //气体压力
     NET_SENSE_GASCONCENTRATION,  //燃气浓度
     NET_SENSE_GASFLOW,           //气体流量
     NET_SENSE_OTHER,             //其他
+    NET_SENSE_OIL,               // 油量检测，汽油、柴油等车辆用油检测
+    NET_SENSE_MILEAGE,           // 里程数检测	
+    NET_SENSE_URGENCYBUTTON,     //紧急按钮
+    NET_SENSE_STEAL,             //盗窃
+    NET_SENSE_PERIMETER,         //周界
+    NET_SENSE_PREVENTREMOVE,     //防拆
+    NET_SENSE_DOORBELL,          //门铃
     NET_SENSE_NUM,               //枚举类型总数
 }NET_SENSE_METHOD;
 
@@ -3642,7 +4413,18 @@ typedef enum tagNET_SCENE_MODE
     NET_SCENE_MODE_UNKNOWN,             // 未知场景
     NET_SCENE_MODE_OUTDOOR,             // 外出模式
     NET_SCENE_MODE_INDOOR,              // 室内模式
+    NET_SCENE_MODE_WHOLE,               // 全局模式
+    NET_SCENE_MODE_RIGHTNOW,            // 立即模式
 }NET_SCENE_MODE;
+
+// 触发方式
+typedef enum tagNET_EM_TRIGGER_MODE
+{
+    NET_EM_TRIGGER_MODE_UNKNOWN = 0,
+    NET_EM_TRIGGER_MODE_NET,            // 网络用户(平台或Web)
+    NET_EM_TRIGGER_MODE_KEYBOARD,       // 键盘
+    NET_EM_TRIGGER_MODE_REMOTECONTROL,  // 遥控器
+}NET_EM_TRIGGER_MODE;
 
 // 布撤防状态变化事件的信息
 typedef struct tagALARM_ARMMODE_CHANGE_INFO
@@ -3651,6 +4433,8 @@ typedef struct tagALARM_ARMMODE_CHANGE_INFO
     NET_TIME            stuTime;        // 报警事件发生的时间
     NET_ALARM_MODE      bArm;           // 变化后的状态
     NET_SCENE_MODE      emSceneMode;    // 情景模式
+    DWORD               dwID;           // ID号, 遥控器编号或键盘地址, emTriggerMode为NET_EM_TRIGGER_MODE_NET类型时为0
+    NET_EM_TRIGGER_MODE emTriggerMode;  // 触发方式
 }ALARM_ARMMODE_CHANGE_INFO;
 
 // 防区类型
@@ -3677,7 +4461,9 @@ typedef struct tagALARM_BYPASSMODE_CHANGE_INFO
     NET_TIME                stuTime;                    // 报警事件发生的时间
     NET_DEFENCEAREA_TYPE    emDefenceType;              // 防区类型
     int                     nIsExtend;                  // 是否为扩展(通道)防区, 1:扩展通道, 0: 非扩展通道
-    NET_BYPASS_MODE         emMode;                     // 变化后的模式 
+    NET_BYPASS_MODE         emMode;                     // 变化后的模式
+    DWORD                   dwID;                       // ID号, 遥控器编号或键盘地址, emTriggerMode为NET_EM_TRIGGER_MODE_NET类型时为0
+    NET_EM_TRIGGER_MODE     emTriggerMode;              // 触发方式
 }ALARM_BYPASSMODE_CHANGE_INFO;
 
 
@@ -3713,24 +4499,25 @@ typedef struct tagALARM_ANALOGALARM_EVENT_INFO
                                                         // 6:低于阈值1,7:低于阈值2,8:低于阈值3,9:低于阈值4
     float           fValue;                             // 探测器数值
     NET_TIME        stuCollectTime;                     // 数据采集时间(UTC)
+    NET_GPS_STATUS_INFO stGPSStatus;                    // GPS信息 
 }ALARM_ANALOGALARM_EVENT_INFO;
 
 
 // 门禁状态类型
 typedef enum tagNET_ACCESS_CTL_STATUS_TYPE
 {
-	NET_ACCESS_CTL_STATUS_TYPE_UNKNOWN = 0,
-	NET_ACCESS_CTL_STATUS_TYPE_OPEN,		// 开门
-	NET_ACCESS_CTL_STATUS_TYPE_CLOSE,		// 关门
+    NET_ACCESS_CTL_STATUS_TYPE_UNKNOWN = 0,
+    NET_ACCESS_CTL_STATUS_TYPE_OPEN,                    // 开门
+    NET_ACCESS_CTL_STATUS_TYPE_CLOSE,                   // 关门
 }NET_ACCESS_CTL_STATUS_TYPE;
 
 // 门禁状态事件
 typedef struct tagALARM_ACCESS_CTL_STATUS_INFO 
 {
-	DWORD		dwSize;
-	int			nDoor;						// 门通道号
-	NET_TIME	stuTime;					// 事件发生的时间
-	NET_ACCESS_CTL_STATUS_TYPE	emStatus;	// 门禁状态
+    DWORD                       dwSize;
+    int                         nDoor;                  // 门通道号
+    NET_TIME                    stuTime;                // 事件发生的时间
+    NET_ACCESS_CTL_STATUS_TYPE  emStatus;               // 门禁状态
 }ALARM_ACCESS_CTL_STATUS_INFO;
 
 // 门禁抓图类型
@@ -3766,9 +4553,296 @@ typedef struct tagALARM_CIDEVENT_INFO
 {
     DWORD           dwSize;
     NET_TIME        stuTime;                            // 报警事件发生的时间
-    char			szCID[DH_COMMON_STRING_32];         // CID码，标准协议码 字符串长度为16，字符数值为0~F
+    char            szCID[DH_COMMON_STRING_32];         // CID码，标准协议码 字符串长度为16，字符数值为0~F
                                                         // 4位用户码 + 2位识别码 + 1位事件限定码 + 3位事件码 + 2位系统号 + 3位防区码 + 1位校验码
 }ALARM_CIDEVENT_INFO;
+
+// 紧急救助事件类型
+typedef enum tagEM_RCEMERGENCY_CALL_TYPE
+{
+    EM_RCEMERGENCY_CALL_UNKNOWN = 0,
+    EM_RCEMERGENCY_CALL_FIRE,                           // 火警
+    EM_RCEMERGENCY_CALL_DURESS,                         // 胁迫
+    EM_RCEMERGENCY_CALL_ROBBER,                         // 匪警
+    EM_RCEMERGENCY_CALL_MEDICAL,                        // 医疗
+    EM_RCEMERGENCY_CALL_EMERGENCY,                      // 紧急
+}EM_RCEMERGENCY_CALL_TYPE;
+
+// 报警方式
+typedef enum tagEM_RCEMERGENCY_MODE_TYPE
+{
+    EM_RCEMERGENCY_MODE_UNKNOWN = 0,
+    EM_RCEMERGENCY_MODE_KEYBOARD,                       // 键盘
+    EM_RCEMERGENCY_MODE_WIRELESS_CONTROL,               // 遥控器
+}EM_RCEMERGENCY_MODE_TYPE;
+
+// 紧急救助事件详情
+typedef struct tagALARM_RCEMERGENCY_CALL_INFO 
+{
+    DWORD                       dwSize;
+    int                         nAction;                // -1:未知 0:开始 1:停止
+    EM_RCEMERGENCY_CALL_TYPE    emType;                 // 紧急类型
+    NET_TIME                    stuTime;                // 事件发生时间
+    EM_RCEMERGENCY_MODE_TYPE    emMode;                 // 报警方式
+    DWORD                       dwID;                   // 用于标示不同的紧急事件(只有emMode是遥控器类型时有效, 表示遥控器的编号, 0表示无效ID)
+}ALARM_RCEMERGENCY_CALL_INFO;
+
+// 多人组合开门事件(对应DH_ALARM_OPENDOORGROUP类型)
+typedef struct tagALARM_OPEN_DOOR_GROUP_INFO
+{
+    DWORD           dwSize;
+    int             nChannelID;                         // 门通道号(从0开始)
+    NET_TIME        stuTime;                            // 事件时间
+}ALARM_OPEN_DOOR_GROUP_INFO;
+
+// 获取指纹事件(对应DH_ALARM_FINGER_PRINT类型)
+typedef struct tagALARM_CAPTURE_FINGER_PRINT_INFO 
+{
+    DWORD           dwSize;
+    int             nChannelID;                         // 门通道号(从0开始)
+    NET_TIME        stuTime;                            // 事件时间
+    char            szReaderID[DH_COMMON_STRING_32];    // 门读卡器ID
+    int             nPacketLen;                         // 单个指纹数据包长度
+    int             nPacketNum;                         // 指纹数据包个数
+    char*           szFingerPrintInfo;                  // 指纹数据(数据总长度即nPacketLen*nPacketNum)
+}ALARM_CAPTURE_FINGER_PRINT_INFO;
+
+// 子系统状态类型
+typedef enum __EM_SUBSYSTEM_STATE_TYPE
+{
+    EM_SUBSYSTEM_STATE_UNKNOWN = 0,                     // 未知
+    EM_SUBSYSTEM_STATE_ACTIVE,                          // 已激活
+    EM_SUBSYSTEM_STATE_INACTIVE,                        // 未激活
+}EM_SUBSYSTEM_STATE_TYPE;
+
+// 子系统状态改变事件
+typedef struct tagALARM_SUBSYSTEM_STATE_CHANGE_INFO 
+{
+    DWORD                   dwSize;
+    int                     nChannelID;                 // 子系统序号(从0开始)
+    NET_TIME                stuTime;                    // 事件发生的时间
+    EM_SUBSYSTEM_STATE_TYPE emState;                    // 变化后的状态
+}ALARM_SUBSYSTEM_STATE_CHANGE_INFO;
+
+// 电池电量定时通知事件
+typedef struct tagALARM_BATTERYPOWER_INFO
+{
+    DWORD       dwSize;
+    int         nChannel;                                  // 电池序号
+    NET_TIME    stuTime;                                   // 事件时间
+    int         nPercent;                                  // 电池电量百分比
+}ALARM_BATTERYPOWER_INFO;
+
+// 警号状态事件
+typedef struct tagALARM_BELLSTATUS_INFO 
+{
+    DWORD       dwSize;
+    int         nChannel;                                   // 警号通道号 
+    NET_TIME    stuTime;                                    // 事件时间
+    int         nAction;                                    // 0:开始 1:停止
+}ALARM_BELLSTATUS_INFO;
+
+// 防区状态变化事件, 对应事件类型DH_ALARM_DEFENCE_STATE_CHANGE_EVENT
+typedef struct tagALARM_DEFENCE_STATUS_CHANGE_INFO 
+{
+    DWORD                   dwSize;
+    int                     nChannelID;                     // 防区ID，即报警输入通道号(从0开始)
+    NET_TIME                stuTime;                        // 事件发生的时间
+    EM_DEFENCE_STATE_TYPE   emStatus;                       // 防区变化后的状态
+}ALARM_DEFENCE_STATUS_CHANGE_INFO;
+
+// 登陆失败事件
+typedef struct tagALARM_LOGIN_FAILIUR_INFO
+{
+    DWORD                   dwSize;
+    int                     nAction;                        // 0:开始 1:停止
+    unsigned int            nSequence;                      // 序号
+    char                    szName[DH_EVENT_NAME_LEN];      // 事件名，填用户名称
+    char                    szType[DH_COMMON_STRING_128];   // 登录类型
+    char                    szAddr[DH_MAX_IPADDR_EX_LEN];   // 来源IP地址
+    int                     nError;                         // 用户登陆失败错误码
+}ALARM_LOGIN_FAILIUR_INFO;
+
+// 车票统计信息事件 对应事件类型 DH_ALARM_TICKET_STATISTIC
+typedef struct tagALARM_TICKET_STATISTIC
+{
+    DWORD                   dwSize;
+    NET_GPS_STATUS_INFO     stuGPSStatusInfo;               // GPS信息
+    NET_TIME                stuTime;                        // 事件上报时间
+    int                     nNormalCount;                   // 普通票张数
+    int                     nDiscountCount;                 // 优惠票张数
+    int                     nSubsidyCount;                  // 老幼补贴票张数
+    int                     nDriverCount;                   // 司机票张数
+    int                     nNormalPrice;                   // 普通票价格
+    int                     nDiscountPrice;                 // 优惠票价格
+    int                     nSubsidyPrice;                  // 老幼补贴票价格
+}ALARM_TICKET_STATISTIC;
+
+#define MAX_ALARMEXT_MODULE_NUM        256                  // 最大扩展模块数目
+
+// 总线类型
+typedef enum tagNET_BUS_TYPE
+{
+    NET_BUS_TYPE_UNKNOWN = 0,
+    NET_BUS_TYPE_MBUS,                                      // M-BUS总线
+}NET_BUS_TYPE;
+
+// 扩展模块掉线事件 对应事件类型 DH_ALARM_MODULE_LOST
+typedef struct tagALARM_MODULE_LOST_INFO 
+{
+    DWORD                   dwSize;
+    NET_TIME                stuTime;                        // 事件上报时间
+    int                     nSequence;                      // 扩展模块接的总线的序号(从0开始)
+    NET_BUS_TYPE            emBusType;                      // 总线类型
+    int                     nAddr;                          // 掉线的扩展模块数目
+    int                     anAddr[MAX_ALARMEXT_MODULE_NUM];// 掉线的扩展模块的序号(从0开始)
+}ALARM_MODULE_LOST_INFO;
+
+// PSTN掉线事件
+typedef struct tagALARM_PSTN_BREAK_LINE_INFO
+{
+    DWORD                   dwSize;
+    int                     nChannelID;                 // 电话线序号(从0开始)
+    int                     nAction;                    // 0:开始 1:停止
+    NET_TIME                stuTime;                    // 事件发生的时间
+}ALARM_PSTN_BREAK_LINE_INFO;
+
+// 模拟量报警事件(瞬时型事件), 特定传感器类型时(如超速、里程、油量)才触发
+typedef struct tagALARM_ANALOGPULSE_INFO 
+{
+    DWORD                   dwSize;
+    int                     nChannelID;                     // 模拟量报警通道号
+    NET_TIME                stuEventTime;                   // 报警事件发生的时间
+    NET_SENSE_METHOD        emSense;                        // 传感器类型
+    char                    szName[DH_COMMON_STRING_128];   // 传感器名称
+    int                     nStatus;                        // 数据状态, -1:未知,0:正常,1:数据无效(超过量程),
+                                                            // 2:超过阈值1,3:超过阈值2,4:超过阈值3,5:超过阈值4,
+                                                            // 6:低于阈值1,7:低于阈值2,8:低于阈值3,9:低于阈值4
+    float                   fValue;                         // 传感器数值
+    NET_TIME                stuCollectTime;                 // 采集时间
+    NET_GPS_STATUS_INFO     stuGPSStatusInfo;               // GPS信息
+}ALARM_ANALOGPULSE_INFO;
+
+//调度信息确认动作类型
+typedef enum tagNET_MISSION_CONFIRM_TYPE
+{
+    NET_MISSION_CONFIRM_UNKNOWN = 0  ,  //未知
+    NET_MISSION_CONFIRM_YES ,           //同意并执行
+	NET_MISSION_CONFIRM_NO ,            //拒绝执行
+}NET_MISSION_CONFIRM_TYPE;
+
+// 任务确认事件(对应命令DH_ALARM_MISSION_CONFIRM)
+typedef struct tagALARM_MISSION_CONFIRM_INFO 
+{
+    DWORD                   dwSize;
+    char                    szTitle[DH_COMMON_STRING_256];   // 任务名称
+    char                    szMissionID[DH_COMMON_STRING_256];// 任务ID
+    char                    szComment[DH_COMMON_STRING_256]; // 回复内容
+    NET_GPS_STATUS_INFO     stuGPSStatusInfo;                // GPS信息
+    NET_MISSION_CONFIRM_TYPE emConfirmType;                  //调度信息确认动作类型
+}ALARM_MISSION_CONFIRM_INFO;
+
+// 集群节点分组类型
+typedef enum tagNET_CLUSTER_GROUP_TYPE
+{
+    NET_CLUSTER_GROUP_UNKNOWN,                          // 未知
+    NET_CLUSTER_GROUP_IDLE,                             // 单机
+    NET_CLUSTER_GROUP_MASTER,                           // 主用
+    NET_CLUSTER_GROUP_SLAVE,                            // 备用
+}NET_CLUSTER_GROUP_TYPE;
+
+// 节点激活事件, 对应事件类型 DH_ALARM_NODE_ACTIVE
+typedef struct tagALARM_NODE_ACTIVE_INFO 
+{
+    DWORD                   dwSize;
+    int                     nChannelID;                 // 集群中的节点号
+    NET_TIME                stuTime;                    // 事件发生事件
+    NET_CLUSTER_GROUP_TYPE  emGroup;                    // 当前节点所属组
+}ALARM_NODE_ACTIVE_INFO;
+
+// 集群节点状态
+typedef struct tagNET_CLUSTER_STATE_INFO 
+{
+    DWORD                   dwSize;
+    NET_CLUSTER_GROUP_TYPE  emGroup;                    // 当前节点所属组
+}NET_CLUSTER_STATE_INFO;
+
+// 设备报警的模式
+typedef enum tagEM_ALARM_VIDEO_STATIC_MODE
+{
+    EM_ALARM_VIDEO_STATIC_MODE_UNKNOWN,                 // 未知
+    EM_ALARM_VIDEO_STATIC_MODE_INDOOR,                  // 室内模式 "Indoor"
+    EM_ALARM_VIDEO_STATIC_MODE_OUTDOOR,                 // 室外模式 "Outdoor"
+}EM_ALARM_VIDEO_STATIC_MODE;
+
+// 视频静态检测事件, 对应事件类型 DH_ALARM_VIDEO_STATIC
+typedef struct tagALARM_VIDEO_STATIC_INFO 
+{
+    DWORD                       dwSize;
+    DWORD                       dwAction;                       // 事件动作, 0:Start, 1:Stop
+    EM_ALARM_VIDEO_STATIC_MODE  emMode;                         // 设备报警的模式
+    int                         nChannelID;                     // 视频静态检测报警通道号
+}ALARM_VIDEO_STATIC_INFO;
+
+// 主动注册设备重新登陆事件, 对应事件类型 DH_ALARM_REGISTER_REONLINE
+typedef struct tagALARM_REGISTER_REONLINE_INFO
+{
+    DWORD           dwSize;
+}ALARM_REGISTER_REONLINE_INFO;
+
+// 连接状态
+typedef enum tagEM_ALARM_ISCSI_STATUS
+{
+    EM_ALARM_ISCSI_STATUS_UNKNOWN,                  // 未知
+    EM_ALARM_ISCSI_STATUS_CONNECTED,                // 已连接
+    EM_ALARM_ISCSI_STATUS_NOT_CONNECTED,            // 未连接
+    EM_ALARM_ISCSI_STATUS_CONNECT_FAILED,           // 连接失败
+    EM_ALARM_ISCSI_STATUS_AUTHENTICATION_FAILED,    // 认证失败
+    EM_ALARM_ISCSI_STATUS_CONNECT_TIMEOUT,          // 连接超时
+    EM_ALARM_ISCSI_STATUS_NOT_EXIST,                // 设备不存在
+}EM_ALARM_ISCSI_STATUS;
+
+// ISCSI告警事件, 对应事件类型 DH_ALARM_ISCSI_STATUS
+typedef struct tagALARM_ISCSI_STATUS_INFO
+{
+    DWORD                   dwSize;
+    int                     nIndex;                             // 表示ISCSI设备索引号
+    char                    szAddress[DH_COMMON_STRING_32];     // 服务器地址
+    char                    szName[DH_COMMON_STRING_64];        // Target名称
+    char                    szUserName[DH_COMMON_STRING_64];    // 用户名
+    EM_ALARM_ISCSI_STATUS   emStatus;                           // 连接状态
+}ALARM_ISCSI_STATUS_INFO;
+
+// 检测采集设备报警事件, 对应事件类型 DH_ALARM_SCADA_DEV_ALARM
+typedef struct tagALARM_SCADA_DEV_INFO 
+{
+    DWORD                   dwSize;
+    int                     nChannel;                           // 通道号
+    NET_TIME                stuTime;                            // 事件发生的时间
+    char                    szDevName[DH_COMMON_STRING_64];     // 故障设备名称
+    char                    szDesc[DH_COMMON_STRING_256];       // 报警描述
+}ALARM_SCADA_DEV_INFO;
+
+// 车辆ACC报警事件, 对应事件类型 DH_ALARM_VEHICLE_ACC
+typedef struct tagALARM_VEHICLE_ACC_INFO 
+{
+    DWORD                   dwSize;
+    int                     nACCStatus;                         // ACC状态, 0:无效, 1:开启, 2:关闭 
+    int                     nAction;                            // 事件动作, 0:Start, 1:Stop
+    NET_GPS_STATUS_INFO     stuGPSStatusInfo;                   // GPS信息
+    int                     nConstantElectricStatus;            // 常电状态, 0:未知, 1:连接, 2:断开                            
+}ALARM_VEHICLE_ACC_INFO;
+
+typedef NET_ACCESS_CTL_STATUS_TYPE  NET_ACCESS_LOCK_STATUS_TYPE;
+
+// 门锁状态事件, 对应事件类型 DH_ALARM_ACCESS_LOCK_STATUS
+typedef struct tagALARM_ACCESS_LOCK_STATUS_INFO 
+{
+    DWORD                       dwSize;
+    int                         nChannel;                       // 门通道号(从0开始)
+    NET_TIME                    stuTime;                        // 事件发生的时间
+    NET_ACCESS_LOCK_STATUS_TYPE emLockStatus;                   // 门锁状态
+}ALARM_ACCESS_LOCK_STATUS_INFO;
 
 //////////////////////////////////////////////////////////////////////////
 
@@ -3831,8 +4905,18 @@ typedef enum tagNET_ACCESSCTLCARD_TYPE
 
 #define DH_MAX_DOOR_NUM               32                // 最大有权限门禁数目
 #define DH_MAX_TIMESECTION_NUM        32                // 最大有效时间段数目
+#define DH_MAX_CARDNAME_LEN           64                // 门禁卡命名最大长度
 #define DH_MAX_CARDNO_LEN             32                // 门禁卡号最大长度
 #define DH_MAX_USERID_LEN             32                // 门禁卡用户ID最大长度
+
+// 指纹数据
+typedef struct tagNET_ACCESSCTLCARD_FINGERPRINT_PACKET
+{
+    DWORD   dwSize;	
+	int		nLength;		// 单个数据包长度，单位字节
+	int		nCount;			// 包个数
+	char*	pPacketData;	// 所有指纹数据包的数据（总长度即为nLength*nCount）
+}NET_ACCESSCTLCARD_FINGERPRINT_PACKET;
 
 // 门禁卡记录集信息
 typedef struct tagNET_RECORDSET_ACCESS_CTL_CARD
@@ -3852,7 +4936,12 @@ typedef struct tagNET_RECORDSET_ACCESS_CTL_CARD
     int             nUserTime;                              // 使用次数，仅当来宾卡时有效
     NET_TIME        stuValidStartTime;                      // 开始有效期, 设备暂不支持时分秒
     NET_TIME        stuValidEndTime;                        // 结束有效期, 设备暂不支持时分秒
-    BOOL            bIsValid;                               // 是否有效,true有效;false无效
+    BOOL            bIsValid;                               // 是否有效,TRUE有效;FALSE无效
+	NET_ACCESSCTLCARD_FINGERPRINT_PACKET stuFingerPrintInfo;// 指纹数据信息 
+    BOOL            bFirstEnter;                            // 是否拥有首卡权限
+    char            szCardName[DH_MAX_CARDNAME_LEN];        // 卡命名
+    char            szVTOPosition[DH_COMMON_STRING_64];     // 门口机关联位置
+    BOOL            bHandicap;                              // 是否为残疾人卡
 }NET_RECORDSET_ACCESS_CTL_CARD;
 
 // 门禁密码记录集信息
@@ -3866,6 +4955,7 @@ typedef struct tagNET_RECORDSET_ACCESS_CTL_PWD
     char            szAlarmPwd[DH_MAX_CARDPWD_LEN];         // 报警密码
     int             nDoorNum;                               // 有效的的门数目
     int             sznDoors[DH_MAX_DOOR_NUM];              // 有权限的门序号，即CFG_CMD_ACCESS_EVENT配置CFG_ACCESS_EVENT_INFO的数组下标
+    char            szVTOPosition[DH_COMMON_STRING_64];     // 门口机关联位置
 }NET_RECORDSET_ACCESS_CTL_PWD;
 
 
@@ -3891,6 +4981,11 @@ typedef enum tagNET_ACCESS_DOOROPEN_METHOD
     NET_ACCESS_DOOROPEN_METHOD_PWD_FIRST,                   // 先密码后刷卡开锁
     NET_ACCESS_DOOROPEN_METHOD_REMOTE,                      // 远程开锁，如通过室内机或者平台对门口机开锁
     NET_ACCESS_DOOROPEN_METHOD_BUTTON,                      // 开锁按钮进行开锁
+    NET_ACCESS_DOOROPEN_METHOD_FINGERPRINT,                 // 指纹开锁
+    NET_ACCESS_DOOROPEN_METHOD_PWD_CARD_FINGERPRINT,        // 密码+刷卡+指纹组合开锁
+    NET_ACCESS_DOOROPEN_METHOD_PWD_FINGERPRINT = 10,        // 密码+指纹组合开锁
+    NET_ACCESS_DOOROPEN_METHOD_CARD_FINGERPRINT = 11,       // 刷卡+指纹组合开锁
+    NET_ACCESS_DOOROPEN_METHOD_PERSONS = 12,                // 多人开锁
 }NET_ACCESS_DOOROPEN_METHOD;
 
 // 门禁刷卡记录记录集信息
@@ -3904,6 +4999,8 @@ typedef struct tagNET_RECORDSET_ACCESS_CTL_CARDREC
     BOOL            bStatus;                                // 刷卡结果，TRUE表示成功，FALSE表示失败
     NET_ACCESS_DOOROPEN_METHOD    emMethod;                 // 开门方式
     int             nDoor;                                  // 门号，即CFG_CMD_ACCESS_EVENT配置CFG_ACCESS_EVENT_INFO的数组下标
+    char            szUserID[DH_MAX_USERID_LEN];            // 用户ID
+    int             nReaderID;                              // 读卡器ID
 }NET_RECORDSET_ACCESS_CTL_CARDREC;
 
 // 假日记录集信息
@@ -3916,8 +5013,142 @@ typedef struct tagNET_RECORDSET_HOLIDAY
     NET_TIME        stuStartTime;                           // 开始时间
     NET_TIME        stuEndTime;                             // 结束时间
     BOOL            bEnable;                                // 假期使能
-	char            szHolidayNo[DH_COMMON_STRING_32];       // 假期编号
+    char            szHolidayNo[DH_COMMON_STRING_32];       // 假期编号
 }NET_RECORDSET_HOLIDAY;
+
+// 呼叫类型
+typedef enum tagEM_VIDEO_TALK_LOG_CALLTYPE
+{
+    EM_VIDEO_TALK_LOG_CALLTYPE_UNKNOWN = 0,         // 未知
+    EM_VIDEO_TALK_LOG_CALLTYPE_INCOMING,            // 呼入
+    EM_VIDEO_TALK_LOG_CALLTYPE_OUTGOING,            // 呼出
+    EM_VIDEO_TALK_LOG_CALLTYPE_MAX,                 //
+}EM_VIDEO_TALK_LOG_CALLTYPE;
+
+// 最终状态
+typedef enum tagEM_VIDEO_TALK_LOG_ENDSTATE
+{
+    EM_VIDEO_TALK_LOG_ENDSTATE_UNKNOWN = 0,         // 未知
+    EM_VIDEO_TALK_LOG_ENDSTATE_MISSED,              // 未接
+    EM_VIDEO_TALK_LOG_ENDSTATE_RECEIVED,            // 已接
+    EM_VIDEO_TALK_LOG_ENDSTATE_MAX,                 //
+}EM_VIDEO_TALK_LOG_ENDSTATE;
+
+// 对方类型
+typedef enum tagEM_VIDEO_TALK_LOG_PEERTYPE
+{
+    EM_VIDEO_TALK_LOG_PEERTYPE_UNKNOWN = 0,         // 未知
+    EM_VIDEO_TALK_LOG_PEERTYPE_VTO,                 // 门口机
+    EM_VIDEO_TALK_LOG_PEERTYPE_VTH,                 // 室内机
+    EM_VIDEO_TALK_LOG_PEERTYPE_VTS,                 // 管理中心
+}EM_VIDEO_TALK_LOG_PEERTYPE;
+
+// 通话记录记录集信息
+typedef struct tagNET_RECORD_VIDEO_TALK_LOG
+{
+    DWORD                           dwSize;
+    int                             nRecNo;                             // 记录集编号，只读
+    NET_TIME                        stuCreateTime;                      // 开始时间
+    EM_VIDEO_TALK_LOG_CALLTYPE      emCallType;                         // 呼叫类型
+    EM_VIDEO_TALK_LOG_ENDSTATE      emEndState;                         // 最终状态
+    char                            szPeerNumber[DH_COMMON_STRING_64];  // 对方号码	可以是短号，中号或长号
+    EM_VIDEO_TALK_LOG_PEERTYPE      emPeerType;                         // 对方类型
+    char                            szLocalNumber[DH_COMMON_STRING_64]; // 本机号码	可以是短号，中号或长号
+    int                             nTalkTime;                          // 通话时间	单位秒
+    int                             nMessageTime;                       // 留言时间	单位秒
+    char                            szPicturePath[DH_COMMON_STRING_128];// 
+}NET_RECORD_VIDEO_TALK_LOG;
+
+// 语音对讲状态
+typedef enum tagEM_REGISTER_USER_STATE
+{
+    EM_REGISTER_USER_STATE_UNKNOWN = 0,         // 未知
+    EM_REGISTER_USER_STATE_IDLE,                // 初始状态
+    EM_REGISTER_USER_STATE_CALLING,             // 呼叫状态（对方未回应）
+    EM_REGISTER_USER_STATE_RINGING,             // 回铃状态（对方回应，但没有接听）
+    EM_REGISTER_USER_STATE_PREVIEWING,          // 正在预览
+    EM_REGISTER_USER_STATE_LEAVINGMESSAGE,      // 正在留言
+    EM_REGISTER_USER_STATE_TALKING,             // 通话中
+    EM_REGISTER_USER_STATE_MAX,                 //
+}EM_REGISTER_USER_STATE;
+
+// 设备类型
+typedef enum tagEM_REGISTER_USER_STATE_DEV_TYPE
+{
+    EM_REGISTER_USER_STATE_DEV_TYPE_UNKNOWN = 0,            // 未知
+    EM_REGISTER_USER_STATE_DEV_TYPE_DIGIT_VTH,              // 数字VTH
+    EM_REGISTER_USER_STATE_DEV_TYPE_ANALOG_VTH,             // 模拟VTH
+    EM_REGISTER_USER_STATE_DEV_TYPE_DIGIT_VTO,              // 数字VTO
+    EM_REGISTER_USER_STATE_DEV_TYPE_ANALOG_VTO,             // 模拟VTO
+    EM_REGISTER_USER_STATE_DEV_TYPE_MAX,                    //
+}EM_REGISTER_USER_STATE_DEV_TYPE;
+
+// 状态记录记录集信息
+typedef struct tagNET_RECORD_REGISTER_USER_STATE
+{
+    DWORD                           dwSize;
+    int                             nRecNo;                             // 记录集编号，只读
+    NET_TIME                        stuCreateTime;                      // 创建时间
+    char                            szUserID[DH_MAX_USERID_LEN];      // 用户ID
+    BOOL                            bOnline;                            // 是否在线
+    char                            szAddress[DH_MAX_IPADDR_OR_DOMAIN_LEN];     // 网络地址
+    int                             nPort;                              // 端口号
+    EM_REGISTER_USER_STATE          emVideoTalkState;                   // 语音对讲状态
+    NET_TIME                        stuOnlineTime;                      // 上线时间
+    NET_TIME                        stuOfflineTime;                     // 下线时间
+    EM_REGISTER_USER_STATE_DEV_TYPE emDevType;                          // 设备类型
+}NET_RECORD_REGISTER_USER_STATE;
+
+// 可视对讲模拟室内机接入时的模式
+typedef enum tagEM_VIDEO_TALK_CONTACT_VTSLAVEBINDMODE
+{
+    EM_VIDEO_TALK_CONTACT_VTSLAVEBINDMODE_UNKNOWN,              // 未知
+    EM_VIDEO_TALK_CONTACT_VTSLAVEBINDMODE_SLAVEADDRESS,         // 通过SlaveAddress
+    EM_VIDEO_TALK_CONTACT_VTSLAVEBINDMODE_SLAVEID_SLAVEPORT,    // 通过SlaveID+SlavePort
+}EM_VIDEO_TALK_CONTACT_VTSLAVEBINDMODE;
+
+// 用户类型
+typedef enum tagEM_VIDEO_TALK_CONTACT_TYPE
+{
+    EM_VIDEO_TALK_CONTACT_TYPE_UNKNOWN,             // 未知
+    EM_VIDEO_TALK_CONTACT_TYPE_VTH,                 // "VTH" 室内机
+    EM_VIDEO_TALK_CONTACT_TYPE_VTO,                 // "VTO" 门口机
+}EM_VIDEO_TALK_CONTACT_TYPE;
+
+// 注册方式
+typedef enum tagEM_VIDEO_TALK_CONTACT_REGISTER_TYPE
+{
+    EM_VIDEO_TALK_CONTACT_REGISTER_TYPE_UNKNOWN,                // 未知
+    EM_VIDEO_TALK_CONTACT_REGISTER_TYPE_PUBLIC,                 // "public"
+    EM_VIDEO_TALK_CONTACT_REGISTER_TYPE_LOCAL,                  // "local"
+}EM_VIDEO_TALK_CONTACT_REGISTER_TYPE;
+
+// 联系人记录记录集信息
+typedef struct tagNET_RECORD_VIDEO_TALK_CONTACT
+{
+    DWORD                                   dwSize;
+    int                                     nRecNo;                                 // 记录集编号，只读
+    NET_TIME                                stuCreateTime;                          // 创建时间
+    char                                    szFirstName[DH_COMMON_STRING_32];       // 名字
+    char                                    szFamilyName[DH_COMMON_STRING_32];      // 姓
+    char                                    szVTShortNumber[DH_COMMON_STRING_16];   // 可视对讲短号
+    char                                    szVTMiddleNumber[DH_COMMON_STRING_32];  // 可视对讲中号
+    char                                    szVTLongNumber[DH_COMMON_STRING_64];    // 可视对讲长号，或VTH模拟室内机的序列号
+    char                                    szVTNetAddress[DH_MAX_IPADDR_LEN_EX];   // 可视对讲网络地址
+    char                                    szVTOPosition[DH_COMMON_STRING_64];     // 室内机关联的门口机位置
+    EM_VIDEO_TALK_CONTACT_VTSLAVEBINDMODE   emVTSlaveBindMode;                      // 可视对讲模拟室内机接入时的模式
+    char                                    szVTSlaveId[DH_COMMON_STRING_32];       // 可视对讲模拟室内机接入时的分配器地址
+    char                                    szVTSlavePort[DH_COMMON_STRING_32];     // 可视对讲模拟室内机接入时的分配器端口
+    char                                    szVTSlaveAddress[DH_COMMON_STRING_64];  // 可视对讲模拟室内机的地址
+    char                                    szNickname[DH_COMMON_STRING_64];        // 昵称
+    char                                    szNotes[DH_COMMON_STRING_64];           // 备注
+    EM_VIDEO_TALK_CONTACT_TYPE              emType;                                 // 用户类型
+    EM_VIDEO_TALK_CONTACT_REGISTER_TYPE     emRegisterType;                         // 注册方式
+    char                                    szVTHPassword[DH_COMMON_STRING_64];     // 注册密码
+    char                                    szVTOBuilding[DH_COMMON_STRING_64];     // 所属幢号
+    char                                    szVTOUnit[DH_COMMON_STRING_64];         // 所属单元号
+    char                                    szGroupNumber[DH_COMMON_STRING_64];     // 所属群组
+}NET_RECORD_VIDEO_TALK_CONTACT;
 
 // 门禁未关事件详细信息
 typedef struct tagALARM_ACCESS_CTL_NOT_CLOSE_INFO 
@@ -3982,6 +5213,34 @@ typedef struct tagALARM_ACCESS_CTL_EVENT_INFO
     NET_ACCESS_DOOROPEN_METHOD  emOpenMethod;                       // 开门方式
     char                        szCardNo[DH_MAX_CARDNO_LEN];        // 卡号
     char                        szPwd[DH_MAX_CARDPWD_LEN];          // 密码
+    char                        szReaderID[DH_COMMON_STRING_32];    // 门读卡器ID
+    char                        szUserID[DH_COMMON_STRING_64];      // 开门用户
+    char                        szSnapURL[DH_COMMON_STRING_256];    // 抓拍照片存储地址
+    int                         nErrorCode;                         // 开门失败的原因,仅在bStatus为FALSE时有效
+                                                                    // 0x00 没有错误
+                                                                    // 0x10 未授权
+                                                                    // 0x11 卡挂失或注销
+                                                                    // 0x12 没有该门权限
+                                                                    // 0x13 开门模式错误
+                                                                    // 0x14 有效期错误
+                                                                    // 0x15 防反潜模式
+                                                                    // 0x16 胁迫报警未打开
+                                                                    // 0x17 门常闭状态
+                                                                    // 0x18 AB互锁状态
+                                                                    // 0x19 巡逻卡
+                                                                    // 0x1A 设备处于闯入报警状态
+                                                                    // 0x20 时间段错误
+                                                                    // 0x21 假期内开门时间段错误
+                                                                    // 0x30 需要先验证有首卡权限的卡片
+                                                                    // 0x40 卡片正确,输入密码错误
+                                                                    // 0x41 卡片正确,输入密码超时
+                                                                    // 0x42 卡片正确,输入指纹错误
+                                                                    // 0x43 卡片正确,输入指纹超时
+                                                                    // 0x44 指纹正确，输入密码错误
+                                                                    // 0x45 指纹正确，输入密码超时
+                                                                    // 0x50 组合开门顺序错误
+                                                                    // 0x51 组合开门需要继续验证
+                                                                    // 0x60 验证通过，控制台未授权
 }ALARM_ACCESS_CTL_EVENT_INFO;
 
 ///////////////////////// 智能交通报警事件[CLIENT_StartListenEx] /////////////////////////////////////
@@ -4056,6 +5315,7 @@ typedef struct tagALARM_VEHICEL_LARGE_ANGLE
     NET_GPS_STATUS_INFO stGPSStatusInfo;                // GPS信息
     BYTE                bEventAction;                   // 事件动作，0表示脉冲事件,1表示持续性事件开始,2表示持续性事件结束;
     BYTE                byRserved[3];                   // 对齐
+    unsigned int        nSequence;                      // 序号
 }ALARM_VEHICEL_LARGE_ANGLE;
 
 // 报警事件类型DH_ALARM_AUDIO_ANOMALY(音频异常事件)对应的数据描述信息
@@ -4441,7 +5701,7 @@ typedef struct _DH_BURNING_PROGRESS
     BYTE                bBurning;                   // 刻录机状态；0：可以刻录，1：刻录机类型不对，是一个非光盘设备，
                                                     // 2：未找到刻录机，3：有其它光盘在刻录，4：刻录机处于非空闲状态，即在备份、刻录或回放中
     BYTE                bRomType;                   // 盘片类型；0：私有文件系统，1：移动硬盘或U盘，2：光盘
-    BYTE                bOperateType;               // 操作类型；0：空闲，1：正在备份中，2：正在刻录中，3：正在进行光盘回放
+    BYTE                bOperateType;               // 操作类型；0：空闲，1：正在备份中，2：正在刻录中，3：正在进行光盘回放, 4: 无盘刻录
     BYTE                bType;                      // 备份或刻录过程状态；0-停止 1-开始 2-出错 3-满 4-结束 5-正在初始化 6-暂停 7-等待附件
     NET_TIME            stTimeStart;                // 开始时间　
     DWORD               dwTimeElapse;               // 已刻录时间(秒)
@@ -4558,6 +5818,15 @@ typedef struct __DEV_DISK_RECORD_TIME
 }DEV_DISK_RECORD_TIME;
 
 ///////////////////////////////控制相关定义///////////////////////////////
+//新网络键盘控制
+typedef struct _NKB_PARAM
+{
+    BYTE                bAddressCode;               // 为DVR等设备的物理地址号,0xFF为广播地址
+    BYTE                bKeyStatus;                 // 状态码 0/1 0表示按键按下 1表示按键放开
+    BYTE                bExtern1;                   // 扩展字节1
+    BYTE                bExtern2;                   // 扩展字节2
+    BYTE                bReserved[60];
+}NKB_PARAM;
 
 // 硬盘操作
 typedef struct _DISKCTRL_PARAM
@@ -4599,7 +5868,7 @@ typedef struct _BURNING_PARM
 {
     int                 channelMask;                // 通道掩码，按位表示要刻录的通道
     BYTE                devMask;                    // 刻录机掩码，根据查询到的刻录机列表，按位表示
-    BYTE                bySpicalChannel;            // 画中画通道(通道数+32)
+    BYTE                bySpicalChannel;            // 画中画通道(通道数+31,例如对于4通道设备,该值应为35)
     BYTE                byReserved[2];              // 保留字段
 } BURNNG_PARM;
 
@@ -4634,7 +5903,8 @@ typedef struct _DEVICE_LOCALPREVIEW_SLIPT_CAP
 }DEVICE_LOCALPREVIEW_SLIPT_CAP;
 
 // 路口信息
-typedef struct  _CROSSING_INFO{
+typedef struct  _CROSSING_INFO
+{
     char                szCrossingID[DH_MAX_CROSSING_ID];   // 路口序列号
     DWORD               dwLatitude;                         // 纬度(单位是百万分之度，范围0-180度)如北纬30（.）183382度表示为120183382)
     DWORD               dwLongitude;                        // 经度(单位是百万分之度，范围0-360度) 如东经120（.）178274度表示为300178274）
@@ -4643,7 +5913,8 @@ typedef struct  _CROSSING_INFO{
 }CROSSING_INFO;
 
 // 路线点位信息
-typedef struct  _ROUTE_CROSSING_INFO{
+typedef struct  _ROUTE_CROSSING_INFO
+{
     BYTE                byCrossingNum;                      // 路口有效数量范围1~DH_MAX_CROSSING_NUM
     BYTE                byReserved1;
     WORD                wCrossingRange;                     // 定位精度范围单位m
@@ -4694,6 +5965,35 @@ typedef struct __CTRL_ARM_DISARM_PARAM
     char                reserve1[16];
 } CTRL_ARM_DISARM_PARAM;
 
+// 报警布撤防控制扩展输入参数
+typedef struct tagCTRL_ARM_DISARM_PARAM_EX_IN
+{
+    DWORD               dwSize;
+    NET_ALARM_MODE      emState;                            // 布撤防状态
+    const char*         szDevPwd;                           // 用户密码
+    NET_SCENE_MODE      emSceneMode;                        // 情景模式
+    const char*         szDevID;                            // 转发目标设备ID,为NULL表示不转发
+} CTRL_ARM_DISARM_PARAM_EX_IN;
+
+#define ARM_DISARM_ZONE_MAX (256)                           // 防区最大个数
+
+// 报警布撤防控制扩展输出参数
+typedef struct tagCTRL_ARM_DISARM_PARAM_EX_OUT
+{
+    DWORD               dwSize;
+    DWORD               dwSourceNum;                        // 有报警源输入布防失败的防区个数
+    int                 nSource[ARM_DISARM_ZONE_MAX];       // 有报警源输入失败的防区号, 防区号从0开始
+    DWORD               dwLinkNum;                          // 有联动报警布防失败的防区个数
+    int                 nLink[ARM_DISARM_ZONE_MAX];         // 有联动报警失败的防区号, 防区号从0开始
+} CTRL_ARM_DISARM_PARAM_EX_OUT;
+
+// 报警布撤防控制扩展(对应DH_CTRL_ARMED_EX)
+typedef struct tagCTRL_ARM_DISARM_PARAM_EX
+{
+    DWORD                        dwSize;
+    CTRL_ARM_DISARM_PARAM_EX_IN  stuIn;                     // 报警布撤防控制输入
+    CTRL_ARM_DISARM_PARAM_EX_OUT stuOut;                    // 报警布撤防控制输出
+} CTRL_ARM_DISARM_PARAM_EX;
 
 typedef struct tagDHCTRL_CONNECT_WIFI_BYWPS_IN
 {
@@ -4734,6 +6034,42 @@ typedef struct tagNET_CTRL_START_PLAYAUDIO
     char                szAudioPath[DH_MAX_AUDIO_PATH];
 }NET_CTRL_START_PLAYAUDIO;
 
+// 播报单元类型
+typedef enum tagNET_PLAYAUDIO_TYPE
+{
+    NET_PLAYAUDIO_TYPE_UNKNOWN = 0,
+    NET_PLAYAUDIO_TYPE_PHRASE,                          // 短语类型，不进行解析，依次读每个字，有该字的语音文件支持
+    NET_PLAYAUDIO_TYPE_FILE,                            // 播放指定路径的语音文件(设备端完整路径)
+    NET_PLAYAUDIO_TYPE_PLATERNUM,                       // 播报车牌号码，按车牌号码格式读出
+    NET_PLAYAUDIO_TYPE_MONEY,                           // 播报金额，按金额形式读出
+    NET_PLAYAUDIO_TYPE_DATE,                            // 播报日期，按日期形式读出
+    NET_PLAYAUDIO_TYPE_TIME,                            // 播报时间，按时间形式读出
+    NET_PLAYAUDIO_TYPE_EMPTY,                           // 空类型，停顿一个字符时间
+}NET_PLAYAUDIO_TYPE;
+
+// 语音播报内容
+typedef struct tagNET_CTRL_PLAYAUDIO_INFO
+{
+    DWORD               dwSize;
+    NET_PLAYAUDIO_TYPE  emPlayAudioType;                // 播报单元类型,详见NET_PLAYAUDIO_TYPE
+    char                szDetail[DH_COMMON_STRING_128]; // 详细内容各类型详细内容：
+                                                        // Phrase类型:"欢迎"
+                                                        // File类型: "/home/停车.pcm"
+                                                        // PlateNumbe类型: "浙A12345"
+                                                        // Money类型: "80.12元"
+                                                        // Date类型: "2014年4月10日"
+                                                        // Time类型: "1天10小时20分5秒
+}NET_CTRL_PLAYAUDIO_INFO;
+
+#define DH_MAX_PLAYAUDIO_COUNT    16  // 最大播报内容数目
+// CLIENT_ControlDevice接口的 DH_CTRL_START_PLAYAUDIOEX 命令参数
+typedef struct tagNET_CTRL_START_PLAYAUDIOEX
+{
+    DWORD                       dwSize;
+    unsigned int                nAudioCount;                            // 播报内容数目               
+    NET_CTRL_PLAYAUDIO_INFO     stuAudioInfos[DH_MAX_PLAYAUDIO_COUNT];  // 语音播报内容
+}NET_CTRL_START_PLAYAUDIOEX;
+
 // CLIENT_ControlDevice接口的 DH_CTRL_START_ALARMBELL、DH_CTRL_STOP_ALARMBELL命令参数
 typedef struct tagNET_CTRL_ALARMBELL
 {
@@ -4755,21 +6091,25 @@ typedef struct tagNET_CTRL_ACCESS_CLOSE
     int                 nChannelID;             // 通道号(0开始)
 }NET_CTRL_ACCESS_CLOSE;
 
-typedef enum
+typedef enum tagNET_ALARM_TYPE
 {
-    NET_ALARM_LOCAL,                            //开关量防区的报警事件
-    NET_ALARM_ALARMEXTENDED,                    //扩展模块报警事件
-    NET_ALARM_TEMP,                             //温度报警事件
-    NET_ALARM_URGENCY,                          //紧急报警事件
+    NET_ALARM_LOCAL = 0,                        //开关量防区的报警事件(对应 DH_ALARM_ALARM_EX2 事件)
+    NET_ALARM_ALARMEXTENDED,                    //扩展模块报警事件(对应 DH_ALARM_ALARMEXTENDED 事件)
+    NET_ALARM_TEMP,                             //温度报警事件(对应 DH_ALARM_TEMPERATURE 事件)
+    NET_ALARM_URGENCY,                          //紧急报警事件(对应 DH_URGENCY_ALARM_EX 事件)
+    NET_ALARM_RCEMERGENCYCALL,                  //紧急呼叫报警事件(对应 DH_ALARM_RCEMERGENCY_CALL 事件)
 }NET_ALARM_TYPE;
 
 // CLIENT_ControlDevice接口的 DH_CTRL_CLEAR_ALARM 命令参数
 typedef struct tagNET_CTRL_CLEAR_ALARM
 {
     DWORD               dwSize;
-    int                 nChannelID;             //防区通道号
-    NET_ALARM_TYPE      emAlarmType;            //事件类型
-    const char*         szDevPwd;               //登陆设备的密码,如不使用加密消警,直接赋值为NULL
+    int                 nChannelID;             // 防区通道号
+    NET_ALARM_TYPE      emAlarmType;            // 事件类型(支持的类型较少，建议用nEventType字段)
+    const char*         szDevPwd;               // 登陆设备的密码,如不使用加密消警,直接赋值为NULL
+    BOOL                bEventType;             // 表示是否启用nEventType字段, TRUE:nEventType代替emAlarmType字段, FALSE:沿用emAlarmType字段,忽略nEventType字段
+    int                 nEventType;             // 事件类型, 对应fMessCallBack回调来上的lCommand字段, 即CLIENT_StartListenEx接口获得事件类型
+                                                // 比如DH_ALARM_ALARM_EX2表示本地报警事件
 }NET_CTRL_CLEAR_ALARM;
 
 // 电视墙显示信息控制参数
@@ -4903,7 +6243,9 @@ typedef struct
     int                 nChanNum;                           // DVR通道个数
     BYTE                byLimitLoginTime;                   // 在线超时时间，为0表示不限制登陆，非0表示限制的分钟数
     BYTE                byLeftLogTimes;                     // 当登陆失败原因为密码错误时，通过此参数通知用户，剩余登陆次数，为0时表示此参数无效
-    char                Reserved[30];                       // 保留
+    BYTE                bReserved[2];                       // 保留字节，字节对齐
+    int                 nLockLeftTime;                      // 当登陆失败，用户解锁剩余时间（秒数）, -1表示设备未设置该参数
+    char                Reserved[24];                       // 保留
 } NET_DEVICEINFO_Ex, *LPNET_DEVICEINFO_Ex;
 
 // 设备软件版本信息，高16位表示主版本号，低16位表示次版本号
@@ -5080,6 +6422,18 @@ typedef struct
 
 }DEV_PLAY_RESULT;
 
+// 请求语音对讲的错误返回信息
+typedef struct
+{
+    DWORD               dwResultCode;               // 错误返回码 CLIENT_GetLastError接口的返回值
+                                                    // NET_ERROR_TALK_REJECT _EC(375) // 拒绝对讲
+                                                    // NET_ERROR_TALK_RESOURCE_CONFLICIT _EC(377) // 资源冲突
+                                                    // NET_ERROR_TALK_UNSUPPORTED_ENCODE _EC(378) // 不支持的语音编码格式
+                                                    // NET_ERROR_TALK_RIGHTLESS _EC(379) // 无权限
+    LLONG               lTalkHandle;                // 相应句柄值
+    BYTE                byReserved[32];             // 保留字节                         
+}DEV_TALK_RESULT;
+
 //DST(夏令时)配置
 typedef struct  
 {
@@ -5172,7 +6526,7 @@ typedef struct tagDHDEV_NETINTERFACE_INFO
 // 时间段结构                                                                
 typedef struct 
 {
-    int            bEnable;                        // 当表示录像时间段时，按位表示四个使能，从低位到高位分别表示动检录象、报警录象、普通录象、动检和报警同时发生才录像
+    int             bEnable;                        // 当表示录像时间段时，按位表示四个使能，从低位到高位分别表示动检录象、报警录象、普通录象、动检和报警同时发生才录像
     int             iBeginHour;
     int             iBeginMin;
     int             iBeginSec;
@@ -5189,6 +6543,14 @@ typedef struct
    long             right;
    long             bottom;
 } DH_RECT, *LPDH_RECT;
+
+typedef struct tagNET_RECT
+{
+    int             nLeft;
+    int             nTop;
+    int             nRight;
+    int             nBottom;
+} NET_RECT;
 
 // 二维空间点
 typedef struct 
@@ -5586,7 +6948,9 @@ typedef struct
     BYTE                bDefaultEth;                        // 是否作为默认的网卡 1：默认 0：非默认
     char                byMACAddr[DH_MACADDR_LEN];          // MAC地址，只读
     BYTE                bMode;                              // 网卡所处模式, 0:绑定模式, 1:负载均衡模式, 2:多址模式, 3:容错模式
-    BYTE                bReserved[31];                      // 保留字节   
+    BYTE                bReserved1[3];                      // 字节对齐
+    char                szEthernetName[DH_MAX_NAME_LEN];    // 网卡名，只读
+    BYTE                bReserved[12];                      // 保留字节   
 } DH_ETHERNET_EX; 
 
 // 扩展网络配置结构体
@@ -5630,8 +6994,10 @@ typedef struct
     char                szAlias[DH_MAX_DDNS_ALIAS_LEN];                 // 服务器别名
     DWORD               dwAlivePeriod;                                  // DDNS 保活时间
     BYTE                ByMode;                                         // 域名模式:0-手动输入域名,szDomainName有效; 1-默认域名szDefaultDomainName有效。
-    char                szDefaultDomainName[DH_MAX_DEFAULT_DOMAIN_LEN]; //默认域名,只读
-    char                reserved[195];
+    char                szDefaultDomainName[DH_MAX_DEFAULT_DOMAIN_LEN]; // 默认域名,只读
+    BYTE                bReserved[3];                                   // 字节对齐
+    char                szEmailUserName[DH_MAX_MAIL_NAME_LEN];	        // 邮箱用户名
+    char                reserved[128];
 } DH_DDNS_SERVER_CFG;
 
 typedef struct
@@ -7301,11 +8667,11 @@ typedef struct __DHDEV_DECODER_URL_CFG
     char            szExtraStreamUrl[MAX_PATH];         // 辅码流url
 } DHDEV_DECODER_URL_CFG;
 
-enum DH_SPLIT_DISPLAY_TYPE
+typedef enum tagDH_SPLIT_DISPLAY_TYPE
 {
     DH_SPLIT_DISPLAY_TYPE_GENERAL=1,          // 普通显示类型
     DH_SPLIT_DISPLAY_TYPE_PIP=2,              // 画中画显示类型
-};
+} DH_SPLIT_DISPLAY_TYPE;
 
 // CLIENT_CtrlDecTVScreen 接口参数
 typedef struct tagDH_CTRL_DECTV_SCREEN
@@ -7470,12 +8836,27 @@ typedef struct
     DWORD           dwFileLenth;                    // 文件大小, 单位:字节
     WORD            wWidth;                         // 图片宽度, 单位:像素
     WORD            wHeight;                        // 图片高度, 单位:像素
-    BYTE            bReserved[16];                 
+    char*           pszFilePath;                    // 鉴于历史原因，该成员只在事件上报时有效
+                                                    // 文件路径
+                                                    // 用户使用该字段时需要自行申请空间进行拷贝保存
+    BYTE            bReserved[12];                  // 12<--16
 }DH_PIC_INFO;
 
+// 物体对应图片文件信息(包含图片路径)
+typedef struct tagDH_PIC_INFO_EXX
+{
+    DWORD           dwSize;
+    char            szFilePath[DH_COMMON_STRING_256];   // 鉴于历史原因，该成员在设置/获取时有效
+                                                        // 文件路径
+    DH_PIC_INFO     stuPicInfo;                         // 图片信息
+}DH_PIC_INFO_EX2;
+
+#if (defined(LINUX64) || defined(WIN64))
+#else
 // 扩展字段中加入了int64, 强制4字节对齐
 #pragma pack(push)
 #pragma pack(4)
+#endif
 // 视频分析物体信息结构体
 typedef struct 
 {
@@ -7516,6 +8897,96 @@ typedef struct
                                                             // "Naveco" 依维柯
                                                             // "SGMW" 五菱
                                                             // "Jinbei" 金杯
+                                                            
+                                                            // "JAC" 江淮
+                                                            // "Emgrand" 帝豪
+                                                            // "ChangAn" 长安
+                                                            // "Great Wall" 长城
+                                                            // "Skoda" 斯柯达
+                                                            // "BaoJun" 宝骏
+                                                            // "Subaru" 斯巴鲁
+                                                            // "LandWind" 陆风
+                                                            // "Luxgen" 纳智捷
+                                                            // "Renault" 雷诺
+                                                            // "Mitsubishi" 三菱
+                                                            // "Roewe" 荣威
+                                                            // "Cadillac" 凯迪拉克
+                                                            // "MG" 名爵
+                                                            // "Zotye" 众泰
+                                                            // "ZhongHua" 中华
+                                                            // "Foton" 福田
+                                                            // "SongHuaJiang" 松花江
+                                                            // "Opel" 欧宝
+                                                            // "HongQi" 一汽红旗
+                                                            // "Fiat" 菲亚特
+                                                            // "Jaguar" 捷豹
+                                                            // "Volvo" 沃尔沃
+                                                            // "Acura" 讴歌
+                                                            // "Porsche" 保时捷
+                                                            
+                                                            // "Jeep" 吉普
+                                                            // "Bentley" 宾利
+                                                            // "Bugatti" 布加迪
+                                                            // "ChuanQi" 传祺
+                                                            // "Daewoo" 大宇
+                                                            // "DongNan" 东南
+                                                            // "Ferrari" 法拉利
+                                                            // "Fudi" 福迪
+                                                            // "Huapu" 华普
+                                                            // "HawTai" 华泰
+                                                            // "JMC" 江铃
+                                                            // "JingLong" 金龙客车
+                                                            // "JoyLong" 九龙
+                                                            // "Karry" 开瑞
+                                                            // "Chrysler" 克莱斯勒
+                                                            // "Lamborghini" 兰博基尼
+                                                            // "RollsRoyce" 劳斯莱斯
+                                                            // "Linian" 理念
+                                                            // "LiFan" 力帆
+                                                            // "LieBao" 猎豹
+                                                            // "Lincoln" 林肯
+                                                            // "LandRover" 路虎
+                                                            // "Lotus" 路特斯
+                                                            // "Maserati" 玛莎拉蒂
+                                                            // "Maybach" 迈巴赫
+
+                                                            // "Mclaren" 迈凯轮
+                                                            // "Youngman" 青年客车
+                                                            // "Tesla" 特斯拉
+                                                            // "Rely" 威麟
+                                                            // "Lsuzu" 五十铃
+                                                            // "Yiqi" 一汽
+                                                            // "Infiniti" 英菲尼迪
+                                                            // "YuTong" 宇通客车
+                                                            // "AnKai" 安凯客车
+                                                            // "Canghe" 昌河
+                                                            // "HaiMa" 海马
+                                                            // "Crown" 丰田皇冠
+                                                            // "HuangHai" 黄海
+                                                            // "JinLv" 金旅客车
+                                                            // "JinNing" 精灵
+                                                            // "KuBo" 酷博
+                                                            // "Europestar" 莲花
+                                                            // "MINI" 迷你
+                                                            // "Gleagle" 全球鹰
+                                                            // "ShiDai" 时代
+                                                            // "ShuangHuan" 双环
+                                                            // "TianYe" 田野
+                                                            // "WeiZi" 威姿
+                                                            // "Englon" 英伦
+                                                            // "ZhongTong" 中通客车
+
+                                                            // "Changan" 长安轿车
+                                                            // "Yuejin" 跃进
+                                                            // "Taurus" 金牛星
+                                                            // "Alto" 奥拓
+                                                            // "Weiwang" 威旺
+                                                            // "Chenglong" 乘龙
+                                                            // "Haige" 海格
+                                                            // "Shaolin" 少林客车
+                                                            // "Beifang" 北方客车
+                                                            // "Beijing" 北京汽车
+                                                            // "Hafu" 哈弗
 
     char                szObjectSubType[64];                // 物体子类别，根据不同的物体类型，可以取以下子类型：
                                                             // Vehicle Category:"Unknown"  未知,"Motor" 机动车,"Non-Motor":非机动车,"Bus": 公交车,"Bicycle" 自行车,"Motorcycle":摩托车,"PassengerCar":客车,
@@ -7545,9 +9016,65 @@ typedef struct
     BYTE                byUpperBodyColorSimilar[NET_COLOR_TYPE_MAX]; // 上半身物体颜色相似度(物体类型为人时有效)
     BYTE                byLowerBodyColorSimilar[NET_COLOR_TYPE_MAX]; // 下半身物体颜色相似度(物体类型为人时有效)
     int                 nRelativeID;                        // 相关物体ID
-    BYTE                byReserved[24];
+	char				szSubText[20];						// "ObjectType"为"Vehicle"或者"Logo"时，表示车标下的某一车系，比如奥迪A6L，由于车系较多，SDK实现时透传此字段,设备如实填写。
+    BYTE                byReserved[2];
 } DH_MSG_OBJECT;
+
+// 入侵方向
+typedef enum tagEM_MSG_OBJ_PERSON_DIRECTION
+{
+	EM_MSG_OBJ_PERSON_DIRECTION_UNKOWN,			// 未知方向
+	EM_MSG_OBJ_PERSON_DIRECTION_LEFT_TO_RIGHT,	// 从左向右
+	EM_MSG_OBJ_PERSON_DIRECTION_RIGHT_TO_LEFT	// 从右向左
+}EM_MSG_OBJ_PERSON_DIRECTION;
+
+// 视频分析物体信息扩展结构体
+typedef struct tagDH_MSG_OBJECT_EX
+{
+	DWORD				dwSize;
+    int                 nObjectID;                          // 物体ID,每个ID表示一个唯一的物体
+    char                szObjectType[128];                  // 物体类型
+    int                 nConfidence;                        // 置信度(0~255)，值越大表示置信度越高
+    int                 nAction;                            // 物体动作:1:Appear 2:Move 3:Stay 4:Remove 5:Disappear 6:Split 7:Merge 8:Rename
+    DH_RECT             BoundingBox;                        // 包围盒
+    DH_POINT            Center;                             // 物体型心
+    int                 nPolygonNum;                        // 多边形顶点个数
+    DH_POINT            Contour[DH_MAX_POLYGON_NUM];        // 较精确的轮廓多边形
+    DWORD               rgbaMainColor;                      // 表示车牌、车身等物体主要颜色；按字节表示，分别为红、绿、蓝和透明度,例如:RGB值为(0,255,0),透明度为0时, 其值为0x00ff0000.
+    char                szText[128];                        // 同DH_MSG_OBJECT相应字段	
+    char                szObjectSubType[64];                // 物体子类别，根据不同的物体类型，可以取以下子类型：
+															// 同DH_MSG_OBJECT相应字段
+    BYTE                byReserved1[3];
+    bool                bPicEnble;                          // 是否有物体对应图片文件信息
+    DH_PIC_INFO         stPicInfo;                          // 物体对应图片信息
+    bool                bShotFrame;                         // 是否是抓拍张的识别结果
+    bool                bColor;                             // 物体颜色(rgbaMainColor)是否可用
+    BYTE                bLowerBodyColor;                    // 下半身颜色(rgbaLowerBodyColor)是否可用
+    BYTE                byTimeType;                         // 时间表示类型，详见EM_TIME_TYPE说明
+    NET_TIME_EX         stuCurrentTime;                     // 针对视频浓缩，当前时间戳（物体抓拍或识别时，会将此识别智能帧附在一个视频帧或jpeg图片中，此帧所在原始视频中的出现时间）
+    NET_TIME_EX         stuStartTime;                       // 开始时间戳（物体开始出现时）
+    NET_TIME_EX         stuEndTime;                         // 结束时间戳（物体最后出现时）
+    DH_RECT             stuOriginalBoundingBox;             // 包围盒(绝对坐标)
+    DH_RECT             stuSignBoundingBox;                 // 车标坐标包围盒
+    DWORD               dwCurrentSequence;                  // 当前帧序号（抓下这个物体时的帧）
+    DWORD               dwBeginSequence;                    // 开始帧序号（物体开始出现时的帧序号）
+    DWORD               dwEndSequence;                      // 结束帧序号（物体消逝时的帧序号）
+    INT64               nBeginFileOffset;                   // 开始时文件偏移, 单位: 字节（物体开始出现时，视频帧在原始视频文件中相对于文件起始处的偏移）
+    INT64               nEndFileOffset;                     // 结束时文件偏移, 单位: 字节（物体消逝时，视频帧在原始视频文件中相对于文件起始处的偏移）
+    BYTE                byColorSimilar[NET_COLOR_TYPE_MAX]; // 物体颜色相似度，取值范围：0-100，数组下标值代表某种颜色，详见EM_COLOR_TYPE
+    BYTE                byUpperBodyColorSimilar[NET_COLOR_TYPE_MAX]; // 上半身物体颜色相似度(物体类型为人时有效)
+    BYTE                byLowerBodyColorSimilar[NET_COLOR_TYPE_MAX]; // 下半身物体颜色相似度(物体类型为人时有效)
+    int                 nRelativeID;                        // 相关物体ID
+	char				szSubText[20];						// "ObjectType"为"Vehicle"或者"Logo"时，表示车标下的某一车系，比如奥迪A6L，由于车系较多，SDK实现时透传此字段,设备如实填写。
+
+	int					nPersonStature;						// 入侵人员身高，单位cm
+	EM_MSG_OBJ_PERSON_DIRECTION	emPersonDirection;			// 人员入侵方向
+    DWORD               rgbaLowerBodyColor;                 // 使用方法同rgbaMainColor,物体类型为人时有效	
+} DH_MSG_OBJECT_EX;
+#if (defined(LINUX64) || defined(WIN64))
+#else
 #pragma pack(pop)
+#endif
 
 // 抓拍信息
 typedef struct
@@ -7599,6 +9126,15 @@ typedef struct
     unsigned short   snWidth;    // 宽
     unsigned short   snHight;    // 高
 }DH_RESOLUTION_INFO;
+
+// 颜色RGBA
+typedef struct tagDH_COLOR_RGBA
+{
+    int                 nRed;                       // 红
+    int                 nGreen;                     // 绿
+    int                 nBlue;                      // 蓝
+    int                 nAlpha;                     // 透明
+} DH_COLOR_RGBA;
 
 // 人员信息
 typedef struct tagFACERECOGNITION_PERSON_INFO
@@ -7676,9 +9212,12 @@ typedef struct tagDEV_EVENT_TRAFFIC_TRAFFICCAR_INFO
     BYTE               byReserved[2];
     char*              szDetailedAddress;                   // 详细地址, 作为szDeviceAddress的补充
     char               szDefendCode[DH_COMMON_STRING_64];   // 图片防伪码  
-    BYTE               bReserved[784];                      // 保留字节,留待扩展.
+    int                nTrafficBlackListID;                 // 关联黑名单数据库记录默认主键ID, 0，无效；> 0，黑名单数据记录
+    DH_COLOR_RGBA      stuRGBA;                             // 车身颜色RGBA
+    NET_TIME           stSnapTime;                          // 抓拍时间
+    int                nRecNo;                              // 记录编号
+    BYTE               bReserved[736];                      // 保留字节,留待扩展.
 }DEV_EVENT_TRAFFIC_TRAFFICCAR_INFO;
-
 
 // 事件类型EVENT_IVS_CROSSLINEDETECTION(警戒线事件)对应的数据块描述信息
 typedef struct tagDEV_EVENT_CROSSLINE_INFO 
@@ -7702,9 +9241,38 @@ typedef struct tagDEV_EVENT_CROSSLINE_INFO
     DWORD               dwSnapFlagMask;                     // 抓图标志(按位)，具体见NET_RESERVED_COMMON
     int                 nSourceIndex;                       // 事件源设备上的index,-1表示数据无效,-1表示数据无效
     char                szSourceDevice[MAX_PATH];           // 事件源设备唯一标识,字段不存在或者为空表示本地设备
-    BYTE                bReserved[612];                     // 保留字节,留待扩展.
-
+    unsigned int        nOccurrenceCount;                   // 事件触发累计次数
+    BYTE                bReserved[608];                     // 保留字节,留待扩展.
 } DEV_EVENT_CROSSLINE_INFO;
+
+// 事件类型EVENT_IVS_CROSSLINEDETECTION_EX(警戒线事件)对应的数据块描述信息
+typedef struct tagDEV_EVENT_CROSSLINE_INFO_EX 
+{
+	DWORD				dwSize;
+    int                 nChannelID;                         // 通道号
+    char                szName[128];                        // 事件名称
+    char                bReserved1[4];                      // 字节对齐
+    float				PTS;                                // 时间戳(单位是毫秒)
+    NET_TIME_EX         UTC;                                // 事件发生的时间
+    int                 nEventID;                           // 事件ID
+    DH_MSG_OBJECT_EX    stuObject;                          // 检测到的物体
+    DH_EVENT_FILE_INFO  stuFileInfo;                        // 事件对应文件信息
+    DH_POINT            DetectLine[DH_MAX_DETECT_LINE_NUM]; // 规则检测线
+    int                 nDetectLineNum;                     // 规则检测线顶点数
+    DH_POINT            TrackLine[DH_MAX_TRACK_LINE_NUM];   // 物体运动轨迹
+    int                 nTrackLineNum;                      // 物体运动轨迹顶点数
+    BYTE                bEventAction;                       // 事件动作，0表示脉冲事件,1表示持续性事件开始,2表示持续性事件结束;
+    BYTE                bDirection;                         // 表示入侵方向, 0-由左至右, 1-由右至左
+    BYTE                byReserved[1];
+    BYTE                byImageIndex;                       // 图片的序号, 同一时间内(精确到秒)可能有多张图片, 从0开始
+    DWORD               dwSnapFlagMask;                     // 抓图标志(按位)，具体见NET_RESERVED_COMMON
+    int                 nSourceIndex;                       // 事件源设备上的index,-1表示数据无效,-1表示数据无效
+    char                szSourceDevice[MAX_PATH];           // 事件源设备唯一标识,字段不存在或者为空表示本地设备
+    unsigned int        nOccurrenceCount;                   // 事件触发累计次数
+
+	int					nMsgObjArrayCount;					// 检测到的物体信息个数
+	DH_MSG_OBJECT_EX*	pMsgObjArray;						// 检测到的物体信息数组指针
+} DEV_EVENT_CROSSLINE_INFO_EX;
 
 // 事件类型EVENT_IVS_CROSSREGIONDETECTION(警戒区事件)对应的数据块描述信息
 typedef struct tagDEV_EVENT_CROSSREGION_INFO 
@@ -7722,13 +9290,14 @@ typedef struct tagDEV_EVENT_CROSSREGION_INFO
     DH_POINT            TrackLine[DH_MAX_TRACK_LINE_NUM];   // 物体运动轨迹
     int                 nTrackLineNum;                      // 物体运动轨迹顶点数
     BYTE                bEventAction;                       // 事件动作，0表示脉冲事件,1表示持续性事件开始,2表示持续性事件结束;
-    BYTE                bDirection;                         // 表示入侵方向, 0-进入, 1-离开，2-出现，3-离开
+    BYTE                bDirection;                         // 表示入侵方向, 0-进入, 1-离开，2-出现，3-消失
     BYTE                bActionType;                        // 表示检测动作类型,0-出现 1-消失 2-在区域内 3-穿越区域
     BYTE                byImageIndex;                       // 图片的序号, 同一时间内(精确到秒)可能有多张图片, 从0开始
     DWORD               dwSnapFlagMask;                     // 抓图标志(按位)，具体见NET_RESERVED_COMMON    
     int                 nSourceIndex;                       // 事件源设备上的index,-1表示数据无效
     char                szSourceDevice[MAX_PATH];           // 事件源设备唯一标识,字段不存在或者为空表示本地设备
-    BYTE                bReserved[540];                     // 保留字节,留待扩展.
+    unsigned int        nOccurrenceCount;                   // 事件触发累计次数
+    BYTE                bReserved[536];                     // 保留字节,留待扩展.
     int                 nObjectNum;                         // 检测到的物体个数
     DH_MSG_OBJECT       stuObjectIDs[DH_MAX_OBJECT_LIST];   // 检测到的物体
     int                 nTrackNum;                          // 轨迹数(与检测到的物体个数对应)
@@ -7752,7 +9321,8 @@ typedef struct tagDEV_EVENT_PASTE_INFO
     BYTE                byReserved[2];
     BYTE                byImageIndex;                       // 图片的序号, 同一时间内(精确到秒)可能有多张图片, 从0开始
     DWORD               dwSnapFlagMask;                     // 抓图标志(按位)，具体见NET_RESERVED_COMMON    
-    BYTE                bReserved[888];                     // 保留字节,留待扩展.
+    unsigned int        nOccurrenceCount;                   // 事件触发累计次数
+    BYTE                bReserved[884];                     // 保留字节,留待扩展.
 
 } DEV_EVENT_PASTE_INFO;
 
@@ -7775,7 +9345,8 @@ typedef struct tagDEV_EVENT_LEFT_INFO
     DWORD               dwSnapFlagMask;                     // 抓图标志(按位)，具体见NET_RESERVED_COMMON    
     int                 nSourceIndex;                       // 事件源设备上的index,-1表示数据无效
     char                szSourceDevice[MAX_PATH];           // 事件源设备唯一标识,字段不存在或者为空表示本地设备
-    BYTE                bReserved[624];                     // 保留字节,留待扩展.
+    unsigned int        nOccurrenceCount;                   // 事件触发累计次数
+    BYTE                bReserved[620];                     // 保留字节,留待扩展.
 
 } DEV_EVENT_LEFT_INFO;
 
@@ -7798,7 +9369,8 @@ typedef struct tagDEV_EVENT_PRESERVATION_INFO
     DWORD               dwSnapFlagMask;                     // 抓图标志(按位)，具体见NET_RESERVED_COMMON    
     int                 nSourceIndex;                       // 事件源设备上的index,-1表示数据无效
     char                szSourceDevice[MAX_PATH];           // 事件源设备唯一标识,字段不存在或者为空表示本地设备
-    BYTE                bReserved[624];                     // 保留字节,留待扩展.
+    unsigned int        nOccurrenceCount;                   // 事件触发累计次数
+    BYTE                bReserved[620];                     // 保留字节,留待扩展.
 
 } DEV_EVENT_PRESERVATION_INFO;
 
@@ -7821,7 +9393,8 @@ typedef struct tagDEV_EVENT_STAY_INFO
     DWORD               dwSnapFlagMask;                     // 抓图标志(按位)，具体见NET_RESERVED_COMMON    
     int                 nSourceIndex;                       // 事件源设备上的index,-1表示数据无效
     char                szSourceDevice[MAX_PATH];           // 事件源设备唯一标识,字段不存在或者为空表示本地设备
-    BYTE                bReserved[624];                     // 保留字节,留待扩展.
+    unsigned int        nOccurrenceCount;                   // 事件触发累计次数
+    BYTE                bReserved[620];                     // 保留字节,留待扩展.
 
 } DEV_EVENT_STAY_INFO;
 
@@ -7847,7 +9420,8 @@ typedef struct tagDEV_EVENT_WANDER_INFO
     DWORD               dwSnapFlagMask;                     // 抓图标志(按位)，具体见NET_RESERVED_COMMON    
     int                 nSourceIndex;                       // 事件源设备上的index,-1表示数据无效
     char                szSourceDevice[MAX_PATH];           // 事件源设备唯一标识,字段不存在或者为空表示本地设备
-    BYTE                bReserved[760];                     // 保留字节,留待扩展.
+    unsigned int        nOccurrenceCount;                   // 事件触发累计次数
+    BYTE                bReserved[756];                     // 保留字节,留待扩展.
 
 } DEV_EVENT_WANDER_INFO;
 
@@ -7871,8 +9445,9 @@ typedef struct tagDEV_EVENT_MOVE_INFO
     int                 nSourceIndex;                       // 事件源设备上的index,-1表示数据无效
     char                szSourceDevice[MAX_PATH];           // 事件源设备唯一标识,字段不存在或者为空表示本地设备
     int                 nTrackLineNum;                      // 物体运动轨迹顶点数                 
-    DH_POINT            stuTrackLine[DH_MAX_TRACK_LINE_NUM];// 物体运动轨迹            
-    BYTE                bReserved[540];                     // 保留字节,留待扩展.
+    DH_POINT            stuTrackLine[DH_MAX_TRACK_LINE_NUM];// 物体运动轨迹      
+    unsigned int        nOccurrenceCount;                   // 事件触发累计次数
+    BYTE                bReserved[536];                     // 保留字节,留待扩展.
 } DEV_EVENT_MOVE_INFO;
 
 // 事件类型EVENT_IVS_TAILDETECTION(尾随事件)对应的数据块描述信息
@@ -7894,11 +9469,12 @@ typedef struct tagDEV_EVENT_TAIL_INFO
     DWORD               dwSnapFlagMask;                     // 抓图标志(按位)，具体见NET_RESERVED_COMMON    
     int                 nSourceIndex;                       // 事件源设备上的index,-1表示数据无效
     char                szSourceDevice[MAX_PATH];           // 事件源设备唯一标识,字段不存在或者为空表示本地设备
-    BYTE                bReserved[624];                     // 保留字节,留待扩展.
+    unsigned int        nOccurrenceCount;                   // 事件触发累计次数
+    BYTE                bReserved[620];                     // 保留字节,留待扩展.
 
 } DEV_EVENT_TAIL_INFO;
 
-// 事件类型EVENT_IVS_RIOTERDETECTION(聚众事件)对应的数据块描述信息
+// 事件类型EVENT_IVS_TAILDETECTION(聚众事件)对应的数据块描述信息
 typedef struct tagDEV_EVENT_RIOTER_INFO 
 {
     int                 nChannelID;                         // 通道号
@@ -7919,7 +9495,8 @@ typedef struct tagDEV_EVENT_RIOTER_INFO
     DWORD               dwSnapFlagMask;                     // 抓图标志(按位)，具体见NET_RESERVED_COMMON    
     int                 nSourceIndex;                       // 事件源设备上的index,-1表示数据无效
     char                szSourceDevice[MAX_PATH];           // 事件源设备唯一标识,字段不存在或者为空表示本地设备
-    BYTE                bReserved[628];                     // 保留字节,留待扩展.
+    unsigned int        nOccurrenceCount;                   // 事件触发累计次数
+    BYTE                bReserved[624];                     // 保留字节,留待扩展.
 
 } DEV_EVENT_RIOTERL_INFO;
 
@@ -7944,7 +9521,8 @@ typedef struct tagDEV_EVENT_FIGHT_INFO
     DWORD               dwSnapFlagMask;                     // 抓图标志(按位)，具体见NET_RESERVED_COMMON    
     int                 nSourceIndex;                       // 事件源设备上的index,-1表示数据无效
     char                szSourceDevice[MAX_PATH];           // 事件源设备唯一标识,字段不存在或者为空表示本地设备
-    BYTE                bReserved[628];                     // 保留字节,留待扩展.
+    unsigned int        nOccurrenceCount;                   // 事件触发累计次数
+    BYTE                bReserved[624];                     // 保留字节,留待扩展.
 
 } DEV_EVENT_FIGHT_INFO;
 
@@ -7965,12 +9543,82 @@ typedef struct tagDEV_EVENT_FIRE_INFO
     int                 nDetectRegionNum;                   // 规则检测区域顶点数
     DH_POINT            DetectRegion[DH_MAX_DETECT_REGION_NUM];    // 规则检测区域
     
-    DWORD               dwSnapFlagMask;                     // 抓图标志(按位)，具体见NET_RESERVED_COMMON    
+    DWORD               dwSnapFlagMask;                     // 抓图标志(按位)，具体见 NET_RESERVED_COMMON    
     int                 nSourceIndex;                       // 事件源设备上的index,-1表示数据无效
     char                szSourceDevice[MAX_PATH];           // 事件源设备唯一标识,字段不存在或者为空表示本地设备
-    BYTE                bReserved[624];                     // 保留字节,留待扩展.
+    unsigned int        nOccurrenceCount;                   // 事件触发累计次数
+    BYTE                bReserved[620];                     // 保留字节,留待扩展.
 
 } DEV_EVENT_FIRE_INFO;
+
+// 事件类型EVENT_IVS_GETOUTBEDDETECTION(看守所下床事件)对应的数据块描述信息
+typedef struct tagDEV_EVENT_GETOUTBED_INFO 
+{
+    // 公共字段
+    int                 nChannelID;                         // 通道号
+    char                szName[128];                        // 事件名称
+    char                bReserved1[4];                      // 字节对齐
+    double              PTS;                                // 时间戳(单位是毫秒)
+    NET_TIME_EX         UTC;                                // 事件发生的时间
+    int                 nEventID;                           // 事件ID
+    // 事件对应字段
+    DH_MSG_OBJECT       stuObject;                          // Object表示下床的物体信息
+    int                 nDetectRegionNum;                   // 规则检测区域顶点数
+    DH_POINT            DetectRegion[DH_MAX_DETECT_REGION_NUM]; // 规则检测区域
+    DH_EVENT_FILE_INFO  stuFileInfo;                        // 事件对应文件信息
+    BYTE                bEventAction;                       // 事件动作，0表示脉冲事件,1表示持续性事件开始,2表示持续性事件结束;
+
+    BYTE                byReserved[2];                      // 保留字节
+    BYTE                byImageIndex;                       // 图片的序号, 同一时间内(精确到秒)可能有多张图片, 从0开始
+    DWORD               dwSnapFlagMask;                     // 抓图标志(按位)，具体见NET_RESERVED_COMMON    
+    BYTE                bReserved[1024];                    // 保留字节,留待扩展. 
+} DEV_EVENT_GETOUTBED_INFO;
+
+// 事件类型EVENT_IVS_PATROLDETECTION(巡逻检测事件)对应的数据块描述信息
+typedef struct tagDEV_EVENT_PATROL_INFO 
+{
+    // 公共字段
+    int                 nChannelID;                         // 通道号
+    char                szName[128];                        // 事件名称
+    char                bReserved1[4];                      // 字节对齐
+    double              PTS;                                // 时间戳(单位是毫秒)
+    NET_TIME_EX         UTC;                                // 事件发生的时间
+    int                 nEventID;                           // 事件ID
+    // 事件对应字段
+    DH_MSG_OBJECT       stuObject;                          // Object表示巡逻的物体信息
+    int                 nDetectRegionNum;                   // 规则检测区域顶点数
+    DH_POINT            DetectRegion[DH_MAX_DETECT_REGION_NUM]; // 规则检测区域
+    DH_EVENT_FILE_INFO  stuFileInfo;                        // 事件对应文件信息
+    BYTE                bEventAction;                       // 事件动作，0表示脉冲事件,1表示持续性事件开始,2表示持续性事件结束;
+    
+    BYTE                byReserved[2];                      // 保留字节
+    BYTE                byImageIndex;                       // 图片的序号, 同一时间内(精确到秒)可能有多张图片, 从0开始
+    DWORD               dwSnapFlagMask;                     // 抓图标志(按位)，具体见NET_RESERVED_COMMON    
+    BYTE                bReserved[1024];                    // 保留字节,留待扩展. 
+} DEV_EVENT_PATROL_INFO;
+
+// 事件类型EVENT_IVS_ONDUTYDETECTION(站岗检测事件)对应的数据块描述信息
+typedef struct tagDEV_EVENT_ONDUTY_INFO
+{
+    // 公共字段
+    int                 nChannelID;                         // 通道号
+    char                szName[128];                        // 事件名称
+    char                bReserved1[4];                      // 字节对齐
+    double              PTS;                                // 时间戳(单位是毫秒)
+    NET_TIME_EX         UTC;                                // 事件发生的时间
+    int                 nEventID;                           // 事件ID
+    // 事件对应字段
+    DH_MSG_OBJECT       stuObject;                          // Object表示巡逻的物体信息
+    int                 nDetectRegionNum;                   // 规则检测区域顶点数
+    DH_POINT            DetectRegion[DH_MAX_DETECT_REGION_NUM]; // 规则检测区域
+    DH_EVENT_FILE_INFO  stuFileInfo;                        // 事件对应文件信息
+    BYTE                bEventAction;                       // 事件动作，0表示脉冲事件,1表示持续性事件开始,2表示持续性事件结束;
+    
+    BYTE                byReserved[2];                      // 保留字节
+    BYTE                byImageIndex;                       // 图片的序号, 同一时间内(精确到秒)可能有多张图片, 从0开始
+    DWORD               dwSnapFlagMask;                     // 抓图标志(按位)，具体见NET_RESERVED_COMMON    
+    BYTE                bReserved[1024];                    // 保留字节,留待扩展. 
+} DEV_EVENT_ONDUTY_INFO;
 
 // 事件类型 EVENT_IVS_FIREDETECTION(电火花事件)对应的数据块描述信息
 typedef struct tagDEV_EVENT_ELECTROSPARK_INFO 
@@ -8005,8 +9653,9 @@ typedef struct tagDEV_EVENT_SMOKE_INFO
     BYTE                bEventAction;                       // 事件动作，0表示脉冲事件,1表示持续性事件开始,2表示持续性事件结束;
     BYTE                byReserved[2];
     BYTE                byImageIndex;                       // 图片的序号, 同一时间内(精确到秒)可能有多张图片, 从0开始
-    DWORD               dwSnapFlagMask;                     // 抓图标志(按位)，具体见NET_RESERVED_COMMON    
-    BYTE                bReserved[972];                     // 保留字节,留待扩展.
+    DWORD               dwSnapFlagMask;                     // 抓图标志(按位)，具体见NET_RESERVED_COMMON   
+    unsigned int        nOccurrenceCount;                   // 事件触发累计次数
+    BYTE                bReserved[968];                     // 保留字节,留待扩展.
 
 } DEV_EVENT_SMOKE_INFO;
 
@@ -8026,8 +9675,9 @@ typedef struct tagDEV_EVENT_FLOWSTAT_INFO
     BYTE                bEventAction;                       // 事件动作，0表示脉冲事件,1表示持续性事件开始,2表示持续性事件结束;
     BYTE                byReserved[2];
     BYTE                byImageIndex;                       // 图片的序号, 同一时间内(精确到秒)可能有多张图片, 从0开始
-    DWORD               dwSnapFlagMask;                     // 抓图标志(按位)，具体见NET_RESERVED_COMMON    
-    BYTE                bReserved[976];                     // 保留字节,留待扩展.
+    DWORD               dwSnapFlagMask;                     // 抓图标志(按位)，具体见NET_RESERVED_COMMON  
+    unsigned int        nOccurrenceCount;                   // 事件触发累计次数
+    BYTE                bReserved[972];                     // 保留字节,留待扩展.
 
 } DEV_EVENT_FLOWSTAT_INFO;
 
@@ -8049,7 +9699,8 @@ typedef struct tagDEV_EVENT_NUMBERSTAT_INFO
     int                 nEnteredNumber;                     // 表示进入区域或者出入口的内物体的个数
     int                 nExitedNumber;                      // 表示出来区域或者出入口的内物体的个数
     DWORD               dwSnapFlagMask;                     // 抓图标志(按位)，具体见NET_RESERVED_COMMON    
-    BYTE                bReserved[964];                     // 保留字节,留待扩展.
+    unsigned int        nOccurrenceCount;                   // 事件触发累计次数
+    BYTE                bReserved[960];                     // 保留字节,留待扩展.
 
 } DEV_EVENT_NUMBERSTAT_INFO;
 
@@ -8077,8 +9728,8 @@ typedef struct tagDEV_EVENT_CROSSFENCEDETECTION_INFO
     DWORD               dwSnapFlagMask;                             // 抓图标志(按位)，具体见NET_RESERVED_COMMON    
     int                 nSourceIndex;                               // 事件源设备上的index,-1表示数据无效
     char                szSourceDevice[MAX_PATH];                   // 事件源设备唯一标识,字段不存在或者为空表示本地设备
-    BYTE                bReserved[752];                             // 保留字节,留待扩展.
-    
+    unsigned int        nOccurrenceCount;                           // 事件触发累计次数
+    BYTE                bReserved[748];                             // 保留字节,留待扩展.    
 } DEV_EVENT_CROSSFENCEDETECTION_INFO;
 
 // 事件类型EVENT_IVS_INREGIONDETECTION(区域内检测事件)对应的数据块描述信息
@@ -8124,7 +9775,8 @@ typedef struct tagDEV_EVENT_TAKENAWAYDETECTION_INFO
     DWORD               dwSnapFlagMask;                             // 抓图标志(按位)，具体见NET_RESERVED_COMMON    
     int                 nSourceIndex;                               // 事件源设备上的index,-1表示数据无效
     char                szSourceDevice[MAX_PATH];                   // 事件源设备唯一标识,字段不存在或者为空表示本地设备
-    BYTE                bReserved[752];                             // 保留字节,留待扩展.
+    unsigned int        nOccurrenceCount;                           // 事件触发累计次数
+    BYTE                bReserved[748];                             // 保留字节,留待扩展.
     
 } DEV_EVENT_TAKENAWAYDETECTION_INFO;
 
@@ -8145,7 +9797,8 @@ typedef struct tagDEV_EVENT_VIDEOABNORMALDETECTION_INFO
     DWORD               dwSnapFlagMask;                             // 抓图标志(按位)，具体见NET_RESERVED_COMMON    
     int                 nSourceIndex;                               // 事件源设备上的index,-1表示数据无效
     char                szSourceDevice[MAX_PATH];                   // 事件源设备唯一标识,字段不存在或者为空表示本地设备
-    BYTE                bReserved[756];                             // 保留字节,留待扩展.
+    unsigned int        nOccurrenceCount;                           // 事件触发累计次数
+    BYTE                bReserved[752];                             // 保留字节,留待扩展.
     
 } DEV_EVENT_VIDEOABNORMALDETECTION_INFO;
 
@@ -8168,7 +9821,8 @@ typedef struct tagDEV_EVENT_PARKINGDETECTION_INFO
     DWORD               dwSnapFlagMask;                             // 抓图标志(按位)，具体见NET_RESERVED_COMMON    
     int                 nSourceIndex;                               // 事件源设备上的index,-1表示数据无效
     char                szSourceDevice[MAX_PATH];                   // 事件源设备唯一标识,字段不存在或者为空表示本地设备
-    BYTE                bReserved[752];                             // 保留字节,留待扩展.
+    unsigned int        nOccurrenceCount;                           // 事件触发累计次数
+    BYTE                bReserved[748];                             // 保留字节,留待扩展.
     
 } DEV_EVENT_PARKINGDETECTION_INFO;
 
@@ -8196,7 +9850,8 @@ typedef struct tagDEV_EVENT_ABNORMALRUNDETECTION
     DWORD               dwSnapFlagMask;                             // 抓图标志(按位)，具体见NET_RESERVED_COMMON    
     int                 nSourceIndex;                               // 事件源设备上的index,-1表示数据无效
     char                szSourceDevice[MAX_PATH];                   // 事件源设备唯一标识,字段不存在或者为空表示本地设备
-    BYTE                bReserved[752];                             // 保留字节,留待扩展.
+    unsigned int        nOccurrenceCount;                           // 事件触发累计次数
+    BYTE                bReserved[748];                             // 保留字节,留待扩展.
     
 } DEV_EVENT_ABNORMALRUNDETECTION_INFO;
 
@@ -8223,7 +9878,8 @@ typedef struct tagDEV_EVENT_RETROGRADEDETECTION_INFO
     DWORD               dwSnapFlagMask;                             // 抓图标志(按位)，具体见NET_RESERVED_COMMON    
     int                 nSourceIndex;                               // 事件源设备上的index,-1表示数据无效
     char                szSourceDevice[MAX_PATH];                   // 事件源设备唯一标识,字段不存在或者为空表示本地设备
-    BYTE                bReserved[752];                             // 保留字节,留待扩展.
+    unsigned int        nOccurrenceCount;                           // 事件触发累计次数
+    BYTE                bReserved[748];                             // 保留字节,留待扩展.
     
 } DEV_EVENT_RETROGRADEDETECTION_INFO;
 
@@ -8242,7 +9898,9 @@ typedef struct tagDEV_EVENT_FACERECOGNITION_INFO
     BYTE                byReserved1[2];                             // 对齐
     BOOL                bGlobalScenePic;                            // 全景图是否存在
     DH_PIC_INFO         stuGlobalScenePicInfo;                      // 全景图片信息
-    BYTE                bReserved[988];                             // 保留字节,留待扩展.
+    char                szSnapDevAddress[MAX_PATH];                 // 抓拍当前人脸的设备地址，如：滨康路37号  
+    unsigned int        nOccurrenceCount;                           // 事件触发累计次数
+    BYTE                bReserved[724];                             // 保留字节,留待扩展.
 }DEV_EVENT_FACERECOGNITION_INFO;
 
 // 事件类型EVENT_IVS_DENSITYDETECTION(人员密度检测)对应数据块描述信息
@@ -8266,7 +9924,8 @@ typedef struct tagDEV_EVENT_DENSITYDETECTTION_INFO
     DWORD               dwSnapFlagMask;                             // 抓图标志(按位)，具体见NET_RESERVED_COMMON    
     int                 nSourceIndex;                               // 事件源设备上的index,-1表示数据无效
     char                szSourceDevice[MAX_PATH];                   // 事件源设备唯一标识,字段不存在或者为空表示本地设备
-    BYTE                bReserved[756];                             // 保留字节,留待扩展.
+    unsigned int        nOccurrenceCount;                           // 事件触发累计次数
+    BYTE                bReserved[752];                             // 保留字节,留待扩展.
 }DEV_EVENT_DENSITYDETECTION_INFO;
 
 // 事件类型 EVENT_IVS_QUEUEDETECTION(排队检测报警事件)对应数据块描述信息
@@ -8283,7 +9942,8 @@ typedef struct tagDEV_EVENT_QUEUEDETECTION_INFO
     BYTE                bReserved1[2];                              // 保留字节,留待扩展.
     BYTE                byImageIndex;                               // 图片的序号, 同一时间内(精确到秒)可能有多张图片, 从0开始
     DH_POINT            stuDetectLine[2];                           // 规则检测线
-    BYTE                bReserved[1016];                            // 保留字节,留待扩展.
+    unsigned int        nOccurrenceCount;                           // 事件触发累计次数
+    BYTE                bReserved[1012];                            // 保留字节,留待扩展.
 }DEV_EVENT_QUEUEDETECTION_INFO;
 
 // 事件类型EVENT_IVS_TRAFFICCONTROL(交通管制事件)对应的数据块描述信息
@@ -8351,6 +10011,23 @@ typedef enum tagEM_VEHICLE_DIRECTION
     NET_VEHICLE_DIRECTION_TAIL,                     // 车尾  
 }EM_VEHICLE_DIRECTION;
 
+//NTP校时状态
+typedef enum  tagEM_NTP_STATUS
+{
+    NET_NTP_STATUS_UNKNOWN = 0 ,
+    NET_NTP_STATUS_DISABLE , 
+    NET_NTP_STATUS_SUCCESSFUL , 
+    NET_NTP_STATUS_FAILED , 
+}EM_NTP_STATUS;
+
+typedef struct tagEVENT_COMM_INFO
+{
+    EM_NTP_STATUS       emNTPStatus;     //NTP校时状态
+    int                 nDriversNum;     //驾驶员信息数
+    DH_MSG_OBJECT_EX   *pstDriversInfo;  //驾驶员信息数据  
+    BYTE                bReserved[2036];
+}EVENT_COMM_INFO;
+
 // 事件类型EVENT_IVS_TRAFFICJUNCTION(交通路口老规则事件/视频电警上的交通卡口老规则事件)对应的数据块描述信息
 // 由于历史原因，如果要处理卡口事件，DEV_EVENT_TRAFFICJUNCTION_INFO和EVENT_IVS_TRAFFICGATE要一起处理，以防止有视频电警和线圈电警同时接入平台的情况发生
 // 另外EVENT_IVS_TRAFFIC_TOLLGATE只支持新卡口事件的配置
@@ -8358,7 +10035,8 @@ typedef struct tagDEV_EVENT_TRAFFICJUNCTION_INFO
 {
     int                 nChannelID;                                 // 通道号
     char                szName[128];                                // 事件名称
-    char                bReserved1[2];                              // 字节对齐
+    BYTE                byMainSeatBelt;                             // 主驾驶座，系安全带状态，1-系安全带，2-未系安全带
+    BYTE                bySlaveSeatBelt;                            // 副驾驶座，系安全带状态，1-系安全带，2-未系安全带
     BYTE                byVehicleDirection;                         // 当前被抓拍到的车辆是车头还是车尾，具体请见 EM_VEHICLE_DIRECTION
     BYTE                byOpenStrobeState;                          // 开闸状态，具体请见 EM_OPEN_STROBE_STATE 
     double              PTS;                                        // 时间戳(单位是毫秒)
@@ -8385,10 +10063,12 @@ typedef struct tagDEV_EVENT_TRAFFICJUNCTION_INFO
     DWORD               dwSnapFlagMask;                             // 抓图标志(按位)，具体见NET_RESERVED_COMMON    
     DH_RESOLUTION_INFO  stuResolution;                              // 对应图片的分辨率
     char                szRecordFile[DH_COMMON_STRING_128];         // 报警对应的原始录像文件信息
-    BYTE                bReserved[344];                             // 保留字节,留待扩展.
+    BYTE                bReserved[340];                             // 保留字节,留待扩展.
+    int                 nTriggerType;                               // TriggerType:触发类型，0车检器，1雷达，2视频
     DEV_EVENT_TRAFFIC_TRAFFICCAR_INFO stTrafficCar;                 // 交通车辆信息
     DWORD               dwRetCardNumber;                            // 卡片个数
-    EVENT_CARD_INFO     stuCardInfo[DH_EVENT_MAX_CARD_NUM];         // 卡片信息    
+    EVENT_CARD_INFO     stuCardInfo[DH_EVENT_MAX_CARD_NUM];         // 卡片信息   
+    EVENT_COMM_INFO     stCommInfo;                                 // 公共信息
 } DEV_EVENT_TRAFFICJUNCTION_INFO;
 
 // 事件类型EVENT_IVS_TRAFFICGATE(交通卡口老规则事件/线圈电警上的交通卡口老规则事件)对应的数据块描述信息
@@ -8455,7 +10135,9 @@ typedef struct tagDEV_EVENT_TRAFFICGATE_INFO
     BYTE                bRetCardNumber;                             // 卡片个数
     EVENT_CARD_INFO     stuCardInfo[DH_EVENT_MAX_CARD_NUM];         // 卡片信息
     char               szDefendCode[DH_COMMON_STRING_64];           // 图片防伪码
-    BYTE                bReserved[2504];                            // 保留字节,留待扩展.
+    int                nTrafficBlackListID;                         // 关联黑名单数据库记录默认主键ID, 0，无效；> 0，黑名单数据记录
+    EVENT_COMM_INFO     stCommInfo;                                 // 公共信息
+    BYTE                bReserved[452];                             // 保留字节,留待扩展.
 } DEV_EVENT_TRAFFICGATE_INFO;
 
 //事件类型EVENT_TRAFFICSNAPSHOT(交通抓拍事件)对应的数据块描述信息
@@ -8476,6 +10158,7 @@ typedef struct tagDEV_EVENT_TRAFFICSNAPSHOT_INFO
     BYTE                byImageIndex;                               // 图片的序号, 同一时间内(精确到秒)可能有多张图片, 从0开始
     DWORD               dwSnapFlagMask;                             // 抓图标志(按位)，具体见NET_RESERVED_COMMON    
     BYTE                bReserved[344];                             // 保留字节,留待扩展
+    EVENT_COMM_INFO     stCommInfo;                                 // 公共信息
 } DEV_EVENT_TRAFFICSNAPSHOT_INFO;
 
 //事件类型EVENT_IVS_TRAFFIC_RUNREDLIGHT(交通-闯红灯事件)对应的数据块描述信息
@@ -8503,6 +10186,7 @@ typedef struct tagDEV_EVENT_TRAFFIC_RUNREDLIGHT_INFO
     BYTE                byRedLightMargin;                           // 红灯容许间隔时间,单位：秒
     BYTE                bReserved[975];                             // 保留字节
     DEV_EVENT_TRAFFIC_TRAFFICCAR_INFO stTrafficCar;                 // 交通车辆信息
+    EVENT_COMM_INFO     stCommInfo;                                 // 公共信息
 } DEV_EVENT_TRAFFIC_RUNREDLIGHT_INFO;
 
 //事件类型EVENT_IVS_TRAFFIC_OVERLINE(交通-压线事件)对应的数据块描述信息
@@ -8527,6 +10211,7 @@ typedef struct tagDEV_EVENT_TRAFFIC_OVERLINE_INFO
     DH_RESOLUTION_INFO  stuResolution;                              // 对应图片的分辨率
     BYTE                bReserved[1008];                            // 保留字节
     DEV_EVENT_TRAFFIC_TRAFFICCAR_INFO stTrafficCar;                 // 交通车辆信息
+    EVENT_COMM_INFO     stCommInfo;                                 // 公共信息
 } DEV_EVENT_TRAFFIC_OVERLINE_INFO;
 
 
@@ -8557,7 +10242,7 @@ typedef struct tagDEV_EVENT_TRAFFIC_RETROGRADE_INFO
     DEV_EVENT_TRAFFIC_TRAFFICCAR_INFO stTrafficCar;                 // 交通车辆信息
     int                 nDetectNum;                                 // 规则检测区域顶点数
     DH_POINT            DetectRegion[DH_MAX_DETECT_REGION_NUM];     // 规则检测区域
-
+    EVENT_COMM_INFO     stCommInfo;                                 // 公共信息
 } DEV_EVENT_TRAFFIC_RETROGRADE_INFO;
 
 //事件类型EVENT_IVS_TRAFFIC_TURNLEFT(交通-违章左转)对应的数据块描述信息
@@ -8583,7 +10268,7 @@ typedef struct tagDEV_EVENT_TRAFFIC_TURNLEFT_INFO
 
     BYTE                bReserved[1008];                            // 保留字节
     DEV_EVENT_TRAFFIC_TRAFFICCAR_INFO stTrafficCar;                 // 交通车辆信息
-
+    EVENT_COMM_INFO     stCommInfo;                                 // 公共信息
 } DEV_EVENT_TRAFFIC_TURNLEFT_INFO;
 
 
@@ -8610,6 +10295,7 @@ typedef struct tagDEV_EVENT_TRAFFIC_TURNRIGHT_INFO
 
     BYTE                bReserved[1008];                            // 保留字节
     DEV_EVENT_TRAFFIC_TRAFFICCAR_INFO stTrafficCar;                 // 交通车辆信息
+    EVENT_COMM_INFO     stCommInfo;                                 // 公共信息
 } DEV_EVENT_TRAFFIC_TURNRIGHT_INFO;
 
 //事件类型EVENT_IVS_TRAFFIC_UTURN(违章调头事件)对应的数据块描述信息
@@ -8635,6 +10321,7 @@ typedef struct tagDEV_EVENT_TRAFFIC_UTURN_INFO
     
     BYTE                bReserved[1008];                            // 保留字节
     DEV_EVENT_TRAFFIC_TRAFFICCAR_INFO stTrafficCar;                 // 交通车辆信息
+    EVENT_COMM_INFO     stCommInfo;                                 // 公共信息
 }DEV_EVENT_TRAFFIC_UTURN_INFO;
 
 //事件类型EVENT_IVS_TRAFFIC_OVERSPEED(交通超速事件)对应的数据块描述信息
@@ -8659,8 +10346,10 @@ typedef struct tagDEV_EVENT_TRAFFIC_OVERSPEED_INFO
     BYTE                byImageIndex;                               // 图片的序号, 同一时间内(精确到秒)可能有多张图片, 从0开始
     DWORD               dwSnapFlagMask;                             // 抓图标志(按位)，具体见NET_RESERVED_COMMON    
     DH_RESOLUTION_INFO  stuResolution;                              // 对应图片的分辨率
-    BYTE                bReserved[1008];                            // 保留字节
+    char                szFilePath[MAX_PATH];                       // 文件路径
+    BYTE                bReserved[748];                             // 保留字节
     DEV_EVENT_TRAFFIC_TRAFFICCAR_INFO stTrafficCar;                 // 交通车辆信息
+    EVENT_COMM_INFO     stCommInfo;                                 // 公共信息
 }DEV_EVENT_TRAFFIC_OVERSPEED_INFO;
 
 //事件类型EVENT_IVS_TRAFFIC_UNDERSPEED(交通欠速事件)对应的数据块描述信息
@@ -8688,7 +10377,7 @@ typedef struct tagDEV_EVENT_TRAFFIC_UNDERSPEED_INFO
     DH_RESOLUTION_INFO  stuResolution;                              // 对应图片的分辨率
     BYTE                bReserved[1004];                            // 保留字节
     DEV_EVENT_TRAFFIC_TRAFFICCAR_INFO stTrafficCar;                 // 交通车辆信息
-
+    EVENT_COMM_INFO     stCommInfo;                                 // 公共信息
 }DEV_EVENT_TRAFFIC_UNDERSPEED_INFO;
 
 //事件类型EVENT_IVS_FACEDETECT(人脸检测事件)对应的数据块描述信息
@@ -8707,8 +10396,10 @@ typedef struct tagDEV_EVENT_FACEDETECT_INFO
     BYTE                byImageIndex;                               // 图片的序号, 同一时间内(精确到秒)可能有多张图片, 从0开始
     int                 nDetectRegionNum;                           // 规则检测区域顶点数
     DH_POINT            DetectRegion[DH_MAX_DETECT_REGION_NUM];     // 规则检测区域
-    DWORD               dwSnapFlagMask;                             // 抓图标志(按位)，具体见NET_RESERVED_COMMON    
-    BYTE                bReserved[936];                             // 保留字节,留待扩展
+    DWORD               dwSnapFlagMask;                             // 抓图标志(按位)，具体见NET_RESERVED_COMMON  
+    char                szSnapDevAddress[MAX_PATH];                 // 抓拍当前人脸的设备地址，如：滨康路37号
+    unsigned int        nOccurrenceCount;                           // 事件触发累计次数
+    BYTE                bReserved[672];                             // 保留字节,留待扩展
 } DEV_EVENT_FACEDETECT_INFO;
 
 // 事件类型EVENT_IVS_TRAFFICJAM(交通拥堵事件)对应的数据块描述信息
@@ -8731,8 +10422,10 @@ typedef struct tagDEV_EVENT_TRAFFICJAM_INFO
     int                 nAlarmIntervalTime;                         // 报警时间间隔，单位:秒。(此事件为连续性事件，在收到第一个此事件之后，若在超过间隔时间后未收到此事件的后续事件，则认为此事件异常结束了)
     DWORD               dwSnapFlagMask;                             // 抓图标志(按位)，具体见NET_RESERVED_COMMON    
     DH_RESOLUTION_INFO  stuResolution;                              // 对应图片的分辨率
-    BYTE                bReserved[1012];                            // 保留字节,留待扩展.
-    DEV_EVENT_TRAFFIC_TRAFFICCAR_INFO stTrafficCar;                 // 交通车辆信息    
+    int                 nJamRealLength;                             // 表实际的拥堵长度,单位米
+    BYTE                bReserved[1008];                            // 保留字节,留待扩展.
+    DEV_EVENT_TRAFFIC_TRAFFICCAR_INFO stTrafficCar;                 // 交通车辆信息  
+    EVENT_COMM_INFO     stCommInfo;                                 // 公共信息
 } DEV_EVENT_TRAFFICJAM_INFO;
 
 // 事件类型EVENT_IVS_TRAFFIC_PARKING(交通违章停车事件)对应的数据块描述信息
@@ -8765,7 +10458,7 @@ typedef struct tagDEV_EVENT_TRAFFIC_PARKING_INFO
     char                szFTPPath[DH_COMMON_STRING_256];            // FTP路径 
     BYTE                bReserved[404];                             // 保留字节,留待扩展.
     DEV_EVENT_TRAFFIC_TRAFFICCAR_INFO stTrafficCar;                 // 交通车辆信息
-    
+    EVENT_COMM_INFO     stCommInfo;                                 // 公共信息
 } DEV_EVENT_TRAFFIC_PARKING_INFO;
 
 //事件类型EVENT_IVS_TRAFFIC_WRONGROUTE(交通违章-不按车道行驶)对应的数据块描述信息
@@ -8789,7 +10482,7 @@ typedef struct tagDEV_EVENT_TRAFFIC_WRONGROUTE_INFO
     DH_RESOLUTION_INFO  stuResolution;                              // 对应图片的分辨率
     BYTE                bReserved[1012];                            // 保留字节,留待扩展.
     DEV_EVENT_TRAFFIC_TRAFFICCAR_INFO stTrafficCar;                 // 交通车辆信息
-
+    EVENT_COMM_INFO     stCommInfo;                                 // 公共信息
 } DEV_EVENT_TRAFFIC_WRONGROUTE_INFO;
 
 //事件类型EVENT_IVS_TRAFFIC_CROSSLANE(交通违章-违章变道)对应的数据块描述信息
@@ -8812,7 +10505,8 @@ typedef struct tagDEV_EVENT_TRAFFIC_CROSSLANE_INFO
     DWORD               dwSnapFlagMask;                             // 抓图标志(按位)，具体见NET_RESERVED_COMMON    
     DH_RESOLUTION_INFO  stuResolution;                              // 对应图片的分辨率
     BYTE                bReserved[1008];                            // 保留字节,留待扩展.留待扩展.
-    
+    DEV_EVENT_TRAFFIC_TRAFFICCAR_INFO stuTrafficCar;                 // 交通车辆信息
+    EVENT_COMM_INFO     stCommInfo;                                 // 公共信息
 } DEV_EVENT_TRAFFIC_CROSSLANE_INFO;
 
 //事件类型EVENT_IVS_TRAFFIC_OVERYELLOWLINE(交通违章-压黄线)对应的数据块描述信息
@@ -8842,6 +10536,8 @@ typedef struct tagDEV_EVENT_TRAFFIC_OVERYELLOWLINE_INFO
 
     int                 nDetectNum;                                 // 规则检测区域顶点数
     DH_POINT            DetectRegion[DH_MAX_DETECT_REGION_NUM];     // 规则检测区域    
+    EVENT_COMM_INFO     stCommInfo;                                 // 公共信息
+
 } DEV_EVENT_TRAFFIC_OVERYELLOWLINE_INFO;
 
 //事件类型EVENT_IVS_TRAFFIC_DRIVINGONSHOULDER(交通违章-路肩行驶事件)对应的数据块描述信息
@@ -8864,7 +10560,8 @@ typedef struct tagDEV_EVENT_TRAFFIC_DRIVINGONSHOULDER_INFO
     DWORD               dwSnapFlagMask;                             // 抓图标志(按位)，具体见NET_RESERVED_COMMON    
     DH_RESOLUTION_INFO  stuResolution;                              // 对应图片的分辨率
     BYTE                bReserved[1008];                            // 保留字节,留待扩展.
-    
+    EVENT_COMM_INFO     stCommInfo;                                 // 公共信息
+
 } DEV_EVENT_TRAFFIC_DRIVINGONSHOULDER_INFO;
 
 //事件类型EVENT_IVS_TRAFFIC_YELLOWPLATEINLANE(交通违章-黄牌车占道事件)对应的数据块描述信息
@@ -8888,7 +10585,8 @@ typedef struct tagDEV_EVENT_TRAFFIC_YELLOWPLATEINLANE_INFO
     DH_RESOLUTION_INFO  stuResolution;                              // 对应图片的分辨率
     BYTE                bReserved[1016];                            // 保留字节,留待扩展.
     DEV_EVENT_TRAFFIC_TRAFFICCAR_INFO stTrafficCar;                 // 交通车辆信息
-    
+    EVENT_COMM_INFO     stCommInfo;                                 // 公共信息
+
 } DEV_EVENT_TRAFFIC_YELLOWPLATEINLANE_INFO;
 
 //事件类型EVENT_IVS_TRAFFIC_NOPASSING(交通违章-禁止通行事件)对应的数据块描述信息
@@ -8916,6 +10614,8 @@ typedef struct tagDEV_EVENT_TRAFFIC_NOPASSING_INFO
     int                 nFrameSequence;                             // 视频分析帧序号
     int                 nSource;                                    // 视频分析的数据源地址   
     BYTE                byReserved[1024];                           // 保留字节
+    EVENT_COMM_INFO     stCommInfo;                                 // 公共信息
+
 }DEV_EVENT_TRAFFIC_NOPASSING_INFO;
 
 typedef struct tagDH_TRAFFICFLOWSTAT
@@ -8976,6 +10676,8 @@ typedef struct tagDEV_EVENT_TRAFFIC_MANUALSNAP_INFO
     DWORD               dwSnapFlagMask;                             // 抓图标志(按位)，具体见NET_RESERVED_COMMON    
     DH_RESOLUTION_INFO  stuResolution;                              // 对应图片的分辨率
     BYTE                bReserved[1016];                            // 保留字节,留待扩展.
+    EVENT_COMM_INFO     stCommInfo;                                 // 公共信息
+
 }DEV_EVENT_TRAFFIC_MANUALSNAP_INFO;
 
 //事件类型 EVENT_IVS_TRAFFIC_STAY(交通滞留事件)对应的数据块描述信息
@@ -8998,7 +10700,9 @@ typedef struct tagDEV_EVENT_TRAFFIC_STAY_INFO
     BYTE                byImageIndex;                               // 图片的序号, 同一时间内(精确到秒)可能有多张图片, 从0开始
     DWORD               dwSnapFlagMask;                             // 抓图标志(按位)，具体见NET_RESERVED_COMMON    
     DH_RESOLUTION_INFO  stuResolution;                              // 对应图片的分辨率
-    BYTE                byReserved[1012];           
+    BYTE                byReserved[1012];         
+    EVENT_COMM_INFO     stCommInfo;                                 // 公共信息
+
 }DEV_EVENT_TRAFFIC_STAY_INFO;
 
 //事件类型 EVENT_IVS_TRAFFIC_VEHICLEINROUTE(有车占道事件)对应的数据块描述信息
@@ -9023,6 +10727,8 @@ typedef struct tagDEV_EVENT_TRAFFIC_VEHICLEINROUTE_INFO
     DWORD               dwSnapFlagMask;                             // 抓图标志(按位)，具体见NET_RESERVED_COMMON    
     DH_RESOLUTION_INFO  stuResolution;                              // 对应图片的分辨率
     BYTE                byReserved[1016];           
+    EVENT_COMM_INFO     stCommInfo;                                 // 公共信息
+
 }DEV_EVENT_TRAFFIC_VEHICLEINROUTE_INFO;
 
 // 报警事件类型 EVENT_ALARM_LOCALALARM(外部报警)，EVENT_ALARM_MOTIONALARM(动检报警)报警)
@@ -9041,7 +10747,7 @@ typedef struct tagDEV_EVENT_ALARM_ANALOGALRM_INFO
 {
     int                 nChannelID;                                 // (视频)通道号
     char                szName[DH_COMMON_STRING_128];               // 模拟量报警通道名称
-    char                Reserved[4];                                // 保留字节对齐	
+    char                Reserved[4];                                // 保留字节对齐    
     double              PTS;                                        // 时间戳(单位是毫秒)
     NET_TIME_EX         UTC;                                        // 事件发生的时间
     int                 nEventID;                                   // 事件ID 
@@ -9114,7 +10820,8 @@ typedef struct tagDEV_EVENT_PRISONERRISEDETECTION_INFO
     DWORD               dwSnapFlagMask;                             // 抓图标志(按位)，具体见NET_RESERVED_COMMON    
     int                 nSourceIndex;                               // 事件源设备上的index,-1表示数据无效
     char                szSourceDevice[MAX_PATH];                   // 事件源设备唯一标识,字段不存在或者为空表示本地设备
-    BYTE                bReserved[752];                             // 保留字节,留待扩展.
+    unsigned int        nOccurrenceCount;                           // 事件触发累计次数
+    BYTE                bReserved[748];                             // 保留字节,留待扩展.
 }DEV_EVENT_PRISONERRISEDETECTION_INFO;
 
 //事件类型 EVENT_IVS_TRAFFIC_PEDESTRAINPRIORITY(斑马线行人优先事件)对应的数据块描述信息
@@ -9138,6 +10845,8 @@ typedef struct tagDEV_EVENT_TRAFFIC_PEDESTRAINPRIORITY_INFO
     DEV_EVENT_TRAFFIC_TRAFFICCAR_INFO stTrafficCar;                 // 表示交通车辆的数据库记录
     DH_RESOLUTION_INFO  stuResolution;                              // 对应图片的分辨率
     BYTE                bReserved[1024];                            // 保留字节,留待扩展.
+    EVENT_COMM_INFO     stCommInfo;                                 // 公共信息
+
 }DEV_EVENT_TRAFFIC_PEDESTRAINPRIORITY_INFO;
 
 //事件类型 EVENT_IVS_TRAFFIC_VEHICLEINBUSROUTE(占用公交车道事件)对应的数据块描述信息
@@ -9162,6 +10871,8 @@ typedef struct tagDEV_EVENT_TRAFFIC_VEHICLEINBUSROUTE_INFO
     DEV_EVENT_TRAFFIC_TRAFFICCAR_INFO stTrafficCar;                 // 表示交通车辆的数据库记录
     DH_RESOLUTION_INFO  stuResolution;                              // 对应图片的分辨率
     BYTE                bReserved[1020];                            // 保留字节,留待扩展.
+    EVENT_COMM_INFO     stCommInfo;                                 // 公共信息
+
 }DEV_EVENT_TRAFFIC_VEHICLEINBUSROUTE_INFO;
 
 //事件类型 EVENT_IVS_TRAFFIC_BACKING(违章倒车事件)对应的数据块描述信息
@@ -9186,6 +10897,8 @@ typedef struct tagDEV_EVENT_IVS_TRAFFIC_BACKING_INFO
     DEV_EVENT_TRAFFIC_TRAFFICCAR_INFO stTrafficCar;                 // 表示交通车辆的数据库记录
     DH_RESOLUTION_INFO  stuResolution;                              // 对应图片的分辨率
     BYTE                bReserved[1020];                            // 保留字节,留待扩展.
+    EVENT_COMM_INFO     stCommInfo;                                 // 公共信息
+
 }DEV_EVENT_IVS_TRAFFIC_BACKING_INFO;
 
 //事件类型EVENT_IVS_AUDIO_ABNORMALDETECTION(声音异常检测)对应数据块描述信息
@@ -9235,6 +10948,8 @@ typedef struct tagDEV_EVENT_TRAFFIC_RUNYELLOWLIGHT_INFO
     char                szSourceDevice[MAX_PATH];                   // 事件源设备唯一标识,字段不存在或者为空表示本地设备
     DEV_EVENT_TRAFFIC_TRAFFICCAR_INFO stTrafficCar;                 // 交通车辆信息
     BYTE                bReserved[1024];                            // 保留字节
+    EVENT_COMM_INFO     stCommInfo;                                 // 公共信息
+
 } DEV_EVENT_TRAFFIC_RUNYELLOWLIGHT_INFO;
 
 //事件类型 EVENT_IVS_LEAVEDETECTION(离岗检测事件)对应数据块描述信息
@@ -9272,7 +10987,8 @@ typedef struct tagDEV_EVENT_IVS_CLIMB_INFO
     DH_POINT            DetectLine[DH_MAX_DETECT_LINE_NUM];         // 规则检测线
     BYTE                bEventAction;                               // 事件动作，0表示脉冲事件,1表示持续性事件开始,2表示持续性事件结束;
     BYTE                byImageIndex;                               // 图片的序号, 同一时间内(精确到秒)可能有多张图片, 从0开始
-    BYTE                bReserved[1026];                            // 保留字节
+    unsigned int        nOccurrenceCount;                           // 事件触发累计次数
+    BYTE                bReserved[1022];                            // 保留字节
 }DEV_EVENT_IVS_CLIMB_INFO;
 
 //事件类型 EVENT_IVS_MULTISCENESWITCH(多场景切换事件)对应数据块描述信息
@@ -9313,6 +11029,7 @@ typedef struct tagDEV_EVENT_TRAFFIC_PARKINGONYELLOWBOX_INFO
     DH_RESOLUTION_INFO  stuResolution;                              // 对应图片的分辨率
     DEV_EVENT_TRAFFIC_TRAFFICCAR_INFO stTrafficCar;                 // 交通车辆信息
     BYTE                bReserved[1024];                            // 保留字节
+    EVENT_COMM_INFO     stCommInfo;                                 // 公共信息
 
 }DEV_EVENT_TRAFFIC_PARKINGONYELLOWBOX_INFO;
 
@@ -9338,7 +11055,8 @@ typedef struct tagDEV_EVENT_TRAFFIC_PARKINGSPACEPARKING_INFO
     DH_RESOLUTION_INFO  stuResolution;                              // 对应图片的分辨率
     DEV_EVENT_TRAFFIC_TRAFFICCAR_INFO stTrafficCar;                 // 交通车辆信息
     BYTE                bReserved[1024];                            // 保留字节
-    
+    EVENT_COMM_INFO     stCommInfo;                                 // 公共信息
+
 }DEV_EVENT_TRAFFIC_PARKINGSPACEPARKING_INFO;
 
 //事件类型 EVENT_IVS_TRAFFIC_PARKINGSPACENOPARKING(车位无车事件)对应的数据块描述信息
@@ -9363,7 +11081,8 @@ typedef struct tagDEV_EVENT_TRAFFIC_PARKINGSPACENOPARKING_INFO
     DH_RESOLUTION_INFO  stuResolution;                              // 对应图片的分辨率
     DEV_EVENT_TRAFFIC_TRAFFICCAR_INFO stTrafficCar;                 // 交通车辆信息
     BYTE                bReserved[1024];                            // 保留字节
-    
+    EVENT_COMM_INFO     stCommInfo;                                 // 公共信息
+
 }DEV_EVENT_TRAFFIC_PARKINGSPACENOPARKING_INFO;
 
 // 事件类型 EVENT_IVS_TRAFFIC_PARKINGSPACEOVERLINE (车位压线事件)对应的数据块描述信息
@@ -9387,6 +11106,8 @@ typedef struct tagDEV_EVENT_TRAFFIC_PARKINGSPACEOVERLINE_INFO
     DH_RESOLUTION_INFO  stuResolution;                              // 对应图片的分辨率
     DEV_EVENT_TRAFFIC_TRAFFICCAR_INFO stuTrafficCar;                // 交通车辆信息
     BYTE                byReserved[1024];                           // 保留字节
+    EVENT_COMM_INFO     stCommInfo;                                 // 公共信息
+
 }DEV_EVENT_TRAFFIC_PARKINGSPACEOVERLINE_INFO;
 
 //事件类型 EVENT_IVS_TRAFFIC_PEDESTRAIN(交通行人事件)对应数据块描述信息
@@ -9407,6 +11128,8 @@ typedef struct tagDEV_EVENT_TRAFFIC_PEDESTRAIN_INFO
     int                 nLane;                                      // 对应车道号
     DH_MSG_OBJECT       stuObject;                                  // 检测到的物体
     BYTE                bReserved[1024];                            // 保留字节
+    EVENT_COMM_INFO     stCommInfo;                                 // 公共信息
+
 }DEV_EVENT_TRAFFIC_PEDESTRAIN_INFO;
 
 //事件类型 EVENT_IVS_TRAFFIC_THROW(交通抛洒物品事件)对应数据块描述信息
@@ -9427,6 +11150,8 @@ typedef struct tagDEV_EVENT_TRAFFIC_THROW_INFO
     int                 nLane;                                      // 对应车道号
     DH_MSG_OBJECT       stuObject;                                  // 检测到的物体
     BYTE                bReserved[1024];                            // 保留字节
+    EVENT_COMM_INFO     stCommInfo;                                 // 公共信息
+
 }DEV_EVENT_TRAFFIC_THROW_INFO;
 
 //事件类型 EVENT_IVS_TRAFFIC_IDLE(交通空闲事件)对应数据块描述信息
@@ -9446,6 +11171,8 @@ typedef struct tagDEV_EVENT_TRAFFIC_IDLE_INFO
     BYTE                byImageIndex;                               // 图片的序号, 同一时间内(精确到秒)可能有多张图片, 从0开始
     int                 nLane;                                      // 对应车道号
     BYTE                bReserved[1024];                            // 保留字节
+    EVENT_COMM_INFO     stCommInfo;                                 // 公共信息
+
 }DEV_EVENT_TRAFFIC_IDLE_INFO;
 
 #define MAX_DRIVING_DIR_NUM          16                             //  车道行驶方向最大个数
@@ -9478,6 +11205,14 @@ typedef struct tagNET_TRAFFIC_FLOWSTAT_INFO_DIR
     BYTE                        reserved[32];                       //保留字节
     
 }NET_TRAFFIC_FLOWSTAT_INFO_DIR;
+
+//道路拥挤状况
+typedef enum tagNET_TRAFFIC_JAM_STATUS
+{
+    JAM_STATUS_UNKNOW   =0  ,   //未知
+    JAM_STATUS_CLEAR        ,   //通畅
+    JAM_STATUS_JAMMED       ,   //拥堵
+}NET_TRAFFIC_JAM_STATUS;
 
 typedef struct tagNET_TRAFFIC_FLOW_STATE 
 {
@@ -9513,7 +11248,9 @@ typedef struct tagNET_TRAFFIC_FLOW_STATE
     int                             nDelay;                         // 延误，单位：秒，驾驶员、乘客或行人花费的额外的行程时间
     BYTE                            byDirection[MAX_DRIVING_DIR_NUM]; // 车道方向，详见NET_ROAD_DIRECTION
     BYTE                            byDirectionNum;                 // 车道行驶方向个数
-    BYTE                            reserved[859];                  // 保留字节
+    BYTE                            reserved1[3];                    // 字节对齐
+    NET_TRAFFIC_JAM_STATUS          emJamState;                     // 道路拥挤状况
+    BYTE                            reserved[852];                  // 保留字节
 }NET_TRAFFIC_FLOW_STATE;
 
 //事件类型 EVENT_IVS_TRAFFIC_FLOWSTATE(交通流量事件)对应数据块描述信息
@@ -9559,8 +11296,36 @@ typedef enum _EM_RECORD_SNAP_FLAG_TYPE
     FLAG_TYPE_PRE_ORIGINAL_VIDEO ,      //已经预处理的原始视频
     FLAG_TYPE_BLACK_PLATE ,             //黑名单图片
     FLAG_TYPE_ORIGINAL_PIC ,            //原始图片
+    FLAG_TYPE_CARD,                     //卡号录像
     FLAG_TYPE_MAX = 128, 
 }EM_RECORD_SNAP_FLAG_TYPE;
+
+// ATM交易类型
+typedef enum
+{
+    ATM_TRADE_ALL,                      // 所有类型
+    ATM_TRADE_ENQUIRY,                  // 查询
+    ATM_TRADE_WITHDRAW,                 // 取款
+    ATM_TRADE_MODIFY_PASSWORD,          // 修改密码
+    ATM_TRADE_TRANSFER,                 // 转账
+    ATM_TRADE_DEPOSIT,                  // 存款
+    ATM_TRADE_CARDLESS_ENQUIRY,         // 无卡查询
+    ATM_TRADE_CARDLESS_DEPOSIT,         // 无卡存款
+    ATM_TRADE_OTHER,                    // 其他
+}EM_ATM_TRADE_TYPE;
+
+// 卡号录像信息
+typedef struct
+{
+    DWORD               dwSize;
+    int                 nType;          // 类型, 0-Card, 1-Field
+    char                szCardNo[DH_MAX_CARD_INFO_LEN]; // 卡号
+    EM_ATM_TRADE_TYPE   emTradeType;    // 交易类型
+    char                szAmount[DH_COMMON_STRING_64]; // 交易金额, 空字符串表示不限金额
+    int                 nError;         // 错误码, 0-所有错误, 1-吞钞, 2-吞卡
+    int                 nFieldCount;    // 域数量, 按域查询时有效
+    char                szFields[MAX_CARD_RECORD_FIELD_NUM][DH_COMMON_STRING_256];   // 域信息, 按域查询时有效
+}NET_RECORD_CARD_INFO;
 
 #define MAX_IVS_EVENT_NUM    256
 
@@ -9572,7 +11337,7 @@ typedef struct
     char*               szDirs;                 // 工作目录列表,一次可查询多个目录,为空表示查询所有目录。目录之间以分号分隔，如“/mnt/dvr/sda0;/mnt/dvr/sda1”,szDirs==null 或"" 表示查询所有
     int                 nMediaType;             // 文件类型，0:查询任意类型,1:查询jpg图片,2:查询dav
     int                 nChannelID;             // 通道号从0开始，-1表示查询所有通道
-    NET_TIME            stuStartTime;           // 开始时间	
+    NET_TIME            stuStartTime;           // 开始时间    
     NET_TIME            stuEndTime;             // 结束时间
     int                 nEventLists[MAX_IVS_EVENT_NUM]; // 事件类型列表,参见智能分析事件类型
     int                 nEventCount;            // 事件总数
@@ -9580,6 +11345,7 @@ typedef struct
     BYTE                bReserved[3];           // 字节对齐
     EM_RECORD_SNAP_FLAG_TYPE emFalgLists[FLAG_TYPE_MAX]; // 录像或抓图文件标志, 不设置标志表示查询所有文件
     int                 nFalgCount;             // 标志总数
+    NET_RECORD_CARD_INFO stuCardInfo;           // 卡号录像信息, emFalgLists包含卡号录像时有效
 }NET_IN_MEDIA_QUERY_FILE;
 
 // 录像信息对应 CLIENT_FindFileEx接口的 DH_FILE_QUERY_FILE 命令 查询结果
@@ -9684,7 +11450,8 @@ typedef struct
     BYTE                byCountInGroup;                     // 一个事件组内的抓拍张数
     BYTE                byIndexInGroup;                     // 一个事件组内的抓拍序号
     BYTE                byLane;                             // 车道,参见MEDIA_QUERY_TRAFFICCAR_PARAM
-    BYTE                bReserved1[45];                     // 保留
+    BYTE                bReserved1[21];                     // 保留
+    NET_TIME            stSnapTime;                          // 抓拍时间
     int                 nDirection;                         // 车道方向,参见MEDIA_QUERY_TRAFFICCAR_PARAM
     char                szMachineAddress[MAX_PATH];         // 机器部署地点
 } MEDIAFILE_TRAFFICCAR_INFO, *LPMEDIAFILE_TRAFFICCAR_INFO;
@@ -9730,6 +11497,11 @@ typedef struct __MEDIAFILE_FACERECOGNITION_PARAM
     NET_TIME            stEndTime;                      // 结束时间
     char                szMachineAddress[MAX_PATH];     // 地点，支持模糊匹配     
     int                 nAlarmType;                     // 待查询报警类型，详见 EM_FACERECOGNITION_ALARM_TYPE
+    BOOL                abPersonInfo;                   // 人员信息是否有效
+    FACERECOGNITION_PERSON_INFO stPersonInfo;           // 人员信息
+    int                 nChannelId;                     // 通道号  
+    int                 nGroupIdNum;                    // 人员组数   
+    char                szGroupId[MAX_GOURP_NUM][DH_COMMON_STRING_64]; // 人员组ID 
 }MEDIAFILE_FACERECOGNITION_PARAM;
 
 typedef struct  tagDH_PIC_INFO_EX
@@ -9759,6 +11531,7 @@ typedef struct __MEDIAFILE_FACERECOGNITION_INFO
     NET_CANDIDAT_PIC_PATHS  stuCandidatesPic[DH_MAX_CANDIDATE_NUM]; // 当前人脸匹配到的候选对象图片文件路径
     NET_TIME                stTime;                                 // 报警发生时间  
     char                    szAddress[MAX_PATH];                    // 报警发生地点
+    int                     nChannelId;                             // 通道号   
 }MEDIAFILE_FACERECOGNITION_INFO;
 
 typedef enum __EM_FACEPIC_TYPE
@@ -9791,7 +11564,6 @@ typedef struct __MEDIAFILE_FACE_DETECTION_PARAM
     EM_FACEPIC_TYPE     emPicType;                      // 图片类型，详见 EM_FACEPIC_TYPE
     BOOL                bDetailEnable;                  // 是否有详细信息
     MEDIAFILE_FACE_DETECTION_DETAIL_PARAM stuDetail;    // 参数详细信息
-
 }MEDIAFILE_FACE_DETECTION_PARAM;
 
 // DH_FILE_QUERY_FACE_DETECTION对应的人脸识别服务FINDNEXT查询返回参数
@@ -9817,6 +11589,8 @@ typedef struct __MEDIAFILE_FACE_DETECTION_INFO
     int                 nFrameSequenceNum;                          // 帧序号个数 
     NET_TIME_EX         stTimes[NET_MAX_TIMESTAMP_NUM];             // 发生时间，数组有2个元素时，第一个表示小图，第二个表示大图
     int                 nTimeStampNum;
+    int                 nPicIndex;                                  // 表示在簇中的图片序号
+                                                                    // 对于同一个簇中打包多张图片,提供索引方式定位图片
 }MEDIAFILE_FACE_DETECTION_INFO;
 
 // 视频浓缩相关文件查询参数
@@ -10027,6 +11801,10 @@ typedef struct __DH_NUMBERSTAT
     int      nExitedSubtotal;                      //出去人数小计
     int      nAvgInside;                           //平均保有人数(除去零值)
     int      nMaxInside;                           //最大保有人数
+    int      nEnteredWithHelmet;                   //戴安全帽进入人数小计
+    int      nEnteredWithoutHelmet;                //不戴安全帽进入人数小计
+    int      nExitedWithHelmet;                    //戴安全帽出去人数小计
+    int      nExitedWithoutHelmet;                 //不戴安全帽出去人数小计
 }DH_NUMBERSTAT;
 
 // 接口(CLIENT_DoFindNumberStat)输出参数
@@ -10090,6 +11868,58 @@ typedef struct tagNET_IN_ATTACH_PARKINGSPACE
     LDWORD               dwUser;                         // 用户自定义参数
 } NET_IN_ATTACH_PARKINGSPACE;
 
+
+//NET_CAR_PASS_INFOS 相关枚举类型
+typedef enum tagNET_CAR_SIZE
+{
+    CAR_SIZE_UNKNOWN  = 0 ,     //未知
+    CAR_SIZE_SAMLL        ,     //小车
+    CAR_SIZE_BIG          ,     //大车
+}NET_CAR_SIZE;
+
+typedef enum tagNET_CAR_ACTION
+{
+    CAR_ACTION_UNKNOWN = 0 , 
+    CAR_ACTION_ENTER       ,  //进入检测区域
+    CAR_ACTION_LEAVE       ,  //离开检测区域
+}NET_CAR_ACTION;
+
+
+//CLIENT_AttachCarPassInfo 回调函数返回的过车信息结构体
+typedef struct tagNET_CAR_PASS_INFO
+{
+     DWORD                dwSize; 
+       
+     DWORD                nID;                              // 车辆物体ID
+     DWORD                nLaneNumber;                      // 从0开始，比如现有3个车道，则车道号分别为0 1 2
+     DWORD                nRoadwayNumber;                   // 自定义车道号,用户配置的车道号，目前取值范围为1-16
+     DWORD                nSpeed;                           // 车速,单位(km/h)
+     NET_CAR_SIZE         emCarSize;                        // 车辆大小类型
+     NET_CAR_ACTION       emCarAction;                      // 车辆动作类型
+     NET_TIME_EX          stuTime;                          // 动作发生的时间,精确到毫秒
+}NET_CAR_PASS_INFO;
+
+// 接口 CLIENT_AttachCarPassInfo 回调函数
+// nInfoNum 过车信息数
+// pstuCarPassInfos 过车信息数组
+typedef int (CALLBACK *fNotifyCarPassInfo)(LLONG lCarPassHandle, NET_CAR_PASS_INFO* pstuCarPassInfos,  int nInfoNum ,   LDWORD dwUser);
+
+//接口 CLIENT_AttachCarPassInfo 的输入参数
+typedef struct tagNET_IN_ATTACH_CAR_PASS_INFO
+{
+    DWORD                dwSize;                         // 此结构体大小,必须赋值
+    int                  nChannelID;                     // 通道号
+
+    fNotifyCarPassInfo   cbNotifyCarPassInfo;            // 回调函数,有过车信息时,回调给上层
+    LDWORD               dwUser;                         // 用户自定义参数
+}NET_IN_ATTACH_CAR_PASS_INFO;
+
+//接口 CLIENT_AttachCarPassInfo 的输出参数
+typedef struct tagNET_OUT_ATTACH_CAR_PASS_INFO
+{
+    DWORD       dwSize;         //此结构体大小,必须赋值
+}NET_OUT_ATTACH_CAR_PASS_INFO;
+
 // 接口 CLIENT_AttachParkingSpaceData 的输出参数
 typedef struct tagNET_OUT_ATTACH_PARKINGSPACE
 {
@@ -10112,7 +11942,29 @@ typedef struct tagNET_OUT_DETACH_PARKINGSPACE
 // 文件批量下载
 
 // 下载进度回调函数原型， nError表示在下载过程出现的错误，1-缓存不足，2-对返回数据的校验出错，3-下载当前文件失败，4-创建对应保存文件失败
-typedef void (CALLBACK *fMultiFileDownLoadPosCB)(LLONG lDownLoadHandle, DWORD dwFileID, DWORD dwFileTotalSize, DWORD dwDownLoadSize, int nError, LDWORD dwUser, void* pReserved);
+// 按文件下载时,ID为用户设置的dwFileID,按条件下载时,ID为用户设置的dwConditionID                    
+typedef void (CALLBACK *fMultiFileDownLoadPosCB)(LLONG lDownLoadHandle, DWORD dwID, DWORD dwFileTotalSize, DWORD dwDownLoadSize, int nError, LDWORD dwUser, void* pReserved);
+
+//下载文件方式
+typedef enum tagEM_DOWNLOAD_FILE_TYPE
+{
+   EM_DOWNLOAD_BY_FILENAME = 0      ,       //按文件名下载
+   EM_DOWNLOAD_BY_CONDITION         ,       //按条件下载
+}EM_DOWNLOAD_FILE_TYPE;
+
+//下载时间类型
+typedef enum tagEM_DOWNLOAD_TIME_TYPE
+{
+    EM_DOWNLOAD_TIME_SNAP = 0       ,         //抓拍时间
+    EM_DOWNLOAD_TIME_STORAGE        ,         //存储时间
+}EM_DOWNLOAD_TIME_TYPE;
+
+//下载数据类型
+typedef enum tagEM_DOWNLOAD_DATA_TYPE
+{
+    EM_DOWNLOAD_DATA_RECORD = 0 ,               //录像
+    EM_DOWNLOAD_DATA_PICTURE ,                  //图片
+}EM_DOWNLOAD_DATA_TYPE;
 
 // CLIENT_DownLoadMultiFile 接口参数
 typedef struct tagNET_DOWNLOADFILE_INFO
@@ -10124,13 +11976,31 @@ typedef struct tagNET_DOWNLOADFILE_INFO
     char                szSavedFileName[MAX_PATH];      // 文件保存路径
 }NET_DOWNLOADFILE_INFO;
 
+typedef struct tagNET_DOWNLOAD_CONDITION_INFO
+{
+    DWORD                   dwSize;
+    DWORD                   dwConditionID;                       // 条件ID, 由用户自己分配
+    int                     nChannel;                       // 通道号
+    NET_TIME                stuStartTime;                   // 开始时间
+    NET_TIME                stuEndTime;                     // 结束时间
+    EM_DOWNLOAD_TIME_TYPE   emTimeType;                     // 时间类型
+    EM_DOWNLOAD_DATA_TYPE   emDataType;                     // 数据类型 
+    char                    szSavedFileName[MAX_PATH];      // 文件保存路径
+}NET_DOWNLOAD_CONDITION_INFO;
+
 typedef struct tagNET_IN_DOWNLOAD_MULTI_FILE
 {
     DWORD                   dwSize;
-    int                     nFileCount;                 // 待下载文件数
-    NET_DOWNLOADFILE_INFO*  pFileInfos;                 // 待下载文件信息
-    fMultiFileDownLoadPosCB cbPosCallBack;              // 进度回调函数
-    LDWORD                  dwUserData;                 // 用户数据
+    //按文件名下载
+    int                             nFileCount;                 // 待下载文件数,emDownloadType为EM_DOWNLOAD_BY_FILENAME有效
+    NET_DOWNLOADFILE_INFO*          pFileInfos;                 // 待下载文件信息,emDownloadType为EM_DOWNLOAD_BY_FILENAME有效
+    
+    fMultiFileDownLoadPosCB         cbPosCallBack;              // 进度回调函数
+    LDWORD                          dwUserData;                 // 用户数据
+    EM_DOWNLOAD_FILE_TYPE           emDownloadType;             // 下载方式
+    //按查询条件下载
+    int                             nConditionCount;             // 下载条件数,emDownloadType为EM_DOWNLOAD_BY_CONDITION有效
+    NET_DOWNLOAD_CONDITION_INFO*    pConditionInfos;             // 下载条件,emDownloadType为EM_DOWNLOAD_BY_CONDITION有效       
 }NET_IN_DOWNLOAD_MULTI_FILE;
 
 typedef struct tagNET_OUT_DOWNLOAD_MULTI_FILE
@@ -10180,15 +12050,15 @@ typedef struct __NET_OUT_ATTACH_VIDEOANALYSE_STATE
 #define NET_DIAGNOSIS_BLUR                      "VideoBlurDetection"                         // 视频模糊检测 对应结构体(NET_VIDEO_BLUR_DETECTIONRESULT)
 #define NET_DIAGNOSIS_SCENECHANGE               "VideoSceneChangeDetection"                  // 视频场景变化检测 对应结构体(NET_VIDEO_SCENECHANGE_DETECTIONRESULT)
 
-enum NET_STATE_TYPE
+typedef enum tagNET_STATE_TYPE
 {
     NET_EM_STATE_ERR,        // 其它
     NET_EM_STATE_NORMAL,     // "Normal" 正常 
     NET_EM_STATE_WARNING,    // "Warning" 警告
     NET_EM_STATE_ABNORMAL,   // "Abnormal" 异常
-};
+}NET_STATE_TYPE;
 // 视频码流类型
-enum NET_STREAM_TYPE
+typedef enum tagNET_STREAM_TYPE
 {
     NET_EM_STREAM_ERR,                      // 其它
     NET_EM_STREAM_MAIN,                     // "Main"-主码流
@@ -10200,16 +12070,16 @@ enum NET_STREAM_TYPE
     NET_EM_STREAM_AUTO,                     // "Auto"-自动选择合适码流
     NET_EM_STREAM_PREVIEW,                  // "Preview"-预览裸数据码流
     NET_EM_STREAM_NONE,                     // 无视频码流(纯音频)
-};
+}NET_STREAM_TYPE;
 // 视频诊断结果类型
-enum NET_VIDEODIAGNOSIS_RESULT_TYPE
+typedef enum tagNET_VIDEODIAGNOSIS_RESULT_TYPE
 {
     NET_EM_ROTATION,                        // "Rotation"    -视频轮巡分析结果
     NET_EM_REAL,                            // "Real" -实时视频分析结果
     NET_EM_NR_UNKNOW,                       // 未定义
-};
+}NET_VIDEODIAGNOSIS_RESULT_TYPE;
 //视频诊断错误原因
-enum NET_VIDEODIAGNOSIS_FAIL_TYPE
+typedef enum tagNET_VIDEODIAGNOSIS_FAIL_TYPE
 {
     NET_EM_NO_ERROR,                        // 诊断成功
     NET_EM_DISCONNECT,                      // "Disconnect" - 末能连接设备
@@ -10221,7 +12091,7 @@ enum NET_VIDEODIAGNOSIS_FAIL_TYPE
     NET_EM_PLATFROM_DISCONNECT,             // "PlatformDisconnect" - 平台断开连接
     NET_EM_GET_STREAM_OVER_TIME,            // "GetStreamOverTime" - 获取码流超时
     NET_EM_NF_UNKNOW,                       //  其他原因，详见结构体里的失败原因描述
-};
+}NET_VIDEODIAGNOSIS_FAIL_TYPE;
 
 // 通用变长字符串以‘\0’结束
 typedef struct tagNET_ARRAY
@@ -10234,20 +12104,24 @@ typedef struct tagNET_ARRAY
 // 视频诊断结果上报通用数据
 typedef struct tagNET_VIDEODIAGNOSIS_COMMON_INFO
 {
-    DWORD                           dwSize;                             // 此结构体大小
-    int                             nDiagnosisID;                       // 检测通道
-    NET_ARRAY                       stProject;                          // 计划名称
-    NET_ARRAY                       stTask;                             // 任务名称
-    NET_ARRAY                       stProfile;                          // 参数表名称
-    NET_ARRAY                       stDeviceID;                         // 设备唯一标志
-    NET_TIME                        stStartTime;                        // 开始时间
-    NET_TIME                        stEndTime;                          // 结束时间
-    int                             nVideoChannelID;                    // 视频通道号 前端设备比如DVR,IPC的通道
-    NET_STREAM_TYPE                 emVideoStream;                      // 视频码流
-    NET_VIDEODIAGNOSIS_RESULT_TYPE  emResultType;                       // 诊断结果类型 
-    BOOL                            bCollectivityState;                 // 诊断结果
-    NET_VIDEODIAGNOSIS_FAIL_TYPE    emFailedCause;                      // 失败原因
-    char                            szFailedCode[DH_COMMON_STRING_64];  // 失败原因描述
+    DWORD                           dwSize;                                 // 此结构体大小
+    int                             nDiagnosisID;                           // 检测通道
+    NET_ARRAY                       stProject;                              // 计划名称
+    NET_ARRAY                       stTask;                                 // 任务名称
+    NET_ARRAY                       stProfile;                              // 参数表名称
+    NET_ARRAY                       stDeviceID;                             // 设备唯一标志
+    NET_TIME                        stStartTime;                            // 开始时间
+    NET_TIME                        stEndTime;                              // 结束时间
+    int                             nVideoChannelID;                        // 视频通道号 前端设备比如DVR,IPC的通道
+    NET_STREAM_TYPE                 emVideoStream;                          // 视频码流
+    NET_VIDEODIAGNOSIS_RESULT_TYPE  emResultType;                           // 诊断结果类型 
+    BOOL                            bCollectivityState;                     // 诊断结果
+    NET_VIDEODIAGNOSIS_FAIL_TYPE    emFailedCause;                          // 失败原因
+    char                            szFailedCode[DH_COMMON_STRING_64];      // 失败原因描述
+    char                            szResultAddress[DH_COMMON_STRING_128];  // 诊断结果存放地址
+    int                             nFrameRate;                             // 码率	单位 kb/s, 每天上报一次
+    int                             nFrameWidth;                            // 宽	每天上报一次
+    int                             nFrameHeight;                           // 高	每天上报一次
 }NET_VIDEODIAGNOSIS_COMMON_INFO;
 
 // 对应检测类型(NET_DIAGNOSIS_DITHER) 视频抖动检测结果 -- 画面变化 风吹，晃动，转动包括云台转动
@@ -10688,11 +12562,11 @@ typedef struct __COMMDEV_OUT_GET_EXTERNDATA
 #define     NET_SET_PTZ_PRESET_STATUS                   "devVideoAnalyse.setPtzPresetStatus"                    // 获取预置点信息
 
 // 线段类型
-enum NET_EM_LINETYPE
+typedef enum tagNET_EM_LINETYPE
 {
     NET_EM_HORIZONTAL,
     NET_EM_VERTICAL,
-};
+}NET_EM_LINETYPE;
 
 //云台定位信息报警
 typedef struct
@@ -10812,11 +12686,11 @@ typedef struct __NET_OUT_RESETINTERNAL_OPTION
 }NET_OUT_RESETINTERNAL_OPTION;
 
 // NET_SET_MODULESTATE
-enum NET_EM_MODULESTATE
+typedef enum tagNET_EM_MODULESTATE
 {
     NET_EM_MODULESTATE_OK,
     NET_EM_MODULESTATE_PAUSE,
-};
+}NET_EM_MODULESTATE;
 typedef struct __NET_IN_SETMODULESTATE
 {
     DWORD               dwSize;                 // 此结构体大小
@@ -10833,7 +12707,7 @@ typedef struct __NET_OUT_SETMODULESTATE
  * CLIENT_DeleteDevConfig 输入输出参数
  */
 
-enum NET_EM_CONFIGOPTION
+typedef enum tagNET_EM_CONFIGOPTION
 {
     NET_EM_CONFIGOPTION_OK,
     NET_EM_CONFIGOPTION_NEEDRESTART,
@@ -10841,7 +12715,7 @@ enum NET_EM_CONFIGOPTION
     NET_EM_CONFIGOPTION_WRITEFILEERROR=4,
     NET_EM_CONFIGOPTION_CAPSNOTSUPPORT=8,
     NET_EM_CONFIGOPTION_VALIDATEFAILED=16,
-};
+}NET_EM_CONFIGOPTION;
 
 typedef struct tagNET_IN_DELETECFG
 {
@@ -10877,32 +12751,32 @@ typedef struct tagNET_OUT_MEMBERNAME
 
 ////////////////////////////////////视频浓缩相关结构体//////////////////////////////////////
 // 标尺类型
-enum NET_EM_STAFF_TYPE
+typedef enum tagNET_EM_STAFF_TYPE
 {
     NET_EM_STAFF_TYPE_ERR,
     NET_EM_STAFF_TYPE_HORIZONTAL,               // "Horizontal" 水平线段
     NET_EM_STAFF_TYPE_VERTICAL,                 // "Vertical" 垂直线段
     NET_EM_STAFF_TYPE_ANY,                      // "Any" 任意线段
     NET_EM_STAFF_TYPE_CROSS,                    // "Cross" 垂直面交线段
-};
+}NET_EM_STAFF_TYPE;
 
 // 区域类型
-enum NET_EM_CALIBRATEAREA_TYPE
+typedef enum tagNET_EM_CALIBRATEAREA_TYPE
 {
     NET_EM_CALIBRATEAREA_TYPE_ERR,
     NET_EM_CALIBRATEAREA_TYPE_GROUD,            // "Groud" : 地面，需要N条竖直线段+M条水平线段（（N=3，M=1）；（N=2，M=2）；今后扩展）。
     NET_EM_CALIBRATEAREA_TYPE_HORIZONTAL,       // "Horizontal"  : 水平面，需要水平面上一点到地面点的投影垂直线段。        
     NET_EM_CALIBRATEAREA_TYPE_VERTICAL,         // "Vertical" : 垂直面，需要垂直面与地面的交线。
     NET_EM_CALIBRATEAREA_TYPE_ANY,              // "Any" 任意平面，N条竖直线段，及每条长度（N=3，及今后扩展）。
-};
+}NET_EM_CALIBRATEAREA_TYPE;
 
 // 浓缩后的输出资料子类型
-enum NET_EM_OUTPUT_SUB_TYPE
+typedef enum tagNET_EM_OUTPUT_SUB_TYPE
 {
     NET_EM_OUTPUT_SUB_TYPE_ERR,
     NET_EM_OUTPUT_SUB_TYPE_NORMAL,              // 普通播放速度（父类型为浓缩视频时有效）
     NET_EM_OUTPUT_SUB_TYPE_SYNOPSIS,            // 按浓缩后的播放速度（父类型为浓缩视频时有效），在没有物体时快放，在物体出现时按正常速度播放
-};
+}NET_EM_OUTPUT_SUB_TYPE;
 
 // 标尺信息
 typedef struct tagNET_STAFF_INFO
@@ -11324,11 +13198,11 @@ typedef struct tagNET_OUT_QUERY_VIDEOSYNOPSIS
 
 // CLIENT_FindSynopsisFile接口参数定义 
 // 浓缩相关文件查询类型
-enum NET_EM_QUERY_SYNOPSIS_FILE
+typedef enum tagNET_EM_QUERY_SYNOPSIS_FILE
 {
     DH_FILE_QUERY_VIDEO,                                // 普通录像文件信息，对应查询结构体:NET_SYNOPSIS_QUERY_VIDEO_PARAM, 返回结果结构体:NET_SYNOPSISFILE_VIDEO_INFO
     DH_FILE_QUERY_SYNOPSISVIDEO,                        // 浓缩视频信息, 对应查询结构体:NET_QUERY_SYNOPSISVIDEO_PARAM,返回结果结构体:NET_QUERY_SYNOPSISVIDEO_INFO
-};
+}NET_EM_QUERY_SYNOPSIS_FILE;
 
 typedef struct __NET_SYNOPSIS_QUERY_VIDEO_PARAM
 {
@@ -11518,7 +13392,10 @@ typedef struct __NET_FACE_FILTER_CONDTION
     int                 nRangeNum;                     // 实际数据库个数     
     BYTE                szRange[MAX_FACE_DB_NUM];      // 待查询数据库类型，详见EM_FACE_DB_TYPE
     EM_FACERECOGNITION_FACE_TYPE emFaceType;           // 待查询人脸类型，详见 EM_FACERECOGNITION
+    int                 nGroupIdNum;                    // 人员组数   
+    char                szGroupId[MAX_GOURP_NUM][DH_COMMON_STRING_64]; // 人员组ID 
 }NET_FACE_FILTER_CONDTION;
+
 // CLIENT_StartFindFaceRecognition接口输入参数
 typedef struct __NET_IN_STARTFIND_FACERECONGNITION
 {
@@ -11531,6 +13408,8 @@ typedef struct __NET_IN_STARTFIND_FACERECONGNITION
     // 图片二进制数据
     char                *pBuffer;                      // 缓冲地址
     int                 nBufferLen;                    // 缓冲数据长度
+
+    int                 nChannelID;                    // 通道号         
 }NET_IN_STARTFIND_FACERECONGNITION;
 
 // CLIENT_StartFindFaceRecognition接口输出参数
@@ -11587,6 +13466,93 @@ typedef struct __NET_OUT_DETECT_FACE
     char                *pBuffer;                      // 缓冲地址,由用户申请空间，存放检测出的人脸图片数据
     int                 nBufferLen;                    // 缓冲数据长度
 }NET_OUT_DETECT_FACE;
+
+// 人员组操作枚举
+typedef enum tagEM_OPERATE_FACERECONGNITION_GROUP_TYPE
+{
+    NET_FACERECONGNITION_GROUP_UNKOWN,
+    NET_FACERECONGNITION_GROUP_ADD,                     // 添加人员组信息
+    NET_FACERECONGNITION_GROUP_MODIFY,                  // 修改人员组信息  
+    NET_FACERECONGNITION_GROUP_DELETE,                  // 删除人员组信息
+}EM_OPERATE_FACERECONGNITION_GROUP_TYPE;
+
+// 人员组信息
+typedef struct tagNET_FACERECONGNITION_GROUP_INFO
+{
+    DWORD               dwSize;
+    EM_FACE_DB_TYPE     emFaceDBType;                  // 人员组类型，详见 EM_FACE_DB_TYPE
+    char                szGroupId[DH_COMMON_STRING_64];// 人员组ID，唯一标识一组人员(不可修改,添加操作时无效)
+    char                szGroupName[DH_COMMON_STRING_128]; // 人员组名称 
+    char                szGroupRemarks[DH_COMMON_STRING_256]; // 人员组备注信息
+    int                 nGroupSize;                    // 当前组内人员数
+}NET_FACERECONGNITION_GROUP_INFO;
+
+// 添加人员组信息
+typedef struct tagNET_ADD_FACERECONGNITION_GROUP_INFO
+{
+    DWORD               dwSize;
+    NET_FACERECONGNITION_GROUP_INFO stuGroupInfo;      // 人员组信息 
+}NET_ADD_FACERECONGNITION_GROUP_INFO;
+
+// 删除人员组信息
+typedef struct tagNET_DELETE_FACERECONGNITION_GROUP_INFO
+{
+    DWORD               dwSize;
+    char                szGroupId[DH_COMMON_STRING_64];// 人员组ID，唯一标识一组人员
+}NET_DELETE_FACERECONGNITION_GROUP_INFO;
+
+// 修改人员组信息
+typedef struct tagNET_MODIFY_FACERECONGNITION_GROUP_INFO
+{
+    DWORD               dwSize;
+    NET_FACERECONGNITION_GROUP_INFO stuGroupInfo;      // 人员组信息 
+}NET_MODIFY_FACERECONGNITION_GROUP_INFO;
+
+// CLIENT_OperateFaceRecognitionGroup接口输入参数
+typedef struct tagNET_IN_OPERATE_FACERECONGNITION_GROUP
+{
+    DWORD               dwSize;
+    EM_OPERATE_FACERECONGNITION_GROUP_TYPE emOperateType; // 操作类型
+    void                *pOPerateInfo;                 // 相关操作信息
+}NET_IN_OPERATE_FACERECONGNITION_GROUP;   
+
+// CLIENT_OperateFaceRecognitionGroup接口输出参数
+typedef struct tagNET_OUT_OPERATE_FACERECONGNITION_GROUP
+{
+    DWORD               dwSize;
+    char                szGroupId[DH_COMMON_STRING_64]; // 新增记录的人员组ID，唯一标识一组人员
+}NET_OUT_OPERATE_FACERECONGNITION_GROUP;   
+
+// CLIENT_FindGroupInfo接口输入参数
+typedef struct tagNET_IN_FIND_GROUP_INFO   
+{
+    DWORD               dwSize;
+    char                szGroupId[DH_COMMON_STRING_64];// 人员组ID，唯一标识一组人员,为空表示查询全部人员组信息
+}NET_IN_FIND_GROUP_INFO;
+
+// CLIENT_FindGroupInfo接口输出参数
+typedef struct tagNET_OUT_FIND_GROUP_INFO   
+{
+    DWORD               dwSize;
+    NET_FACERECONGNITION_GROUP_INFO *pGroupInfos;      // 人员组信息，由用户申请空间
+    int                 nMaxGroupNum;                  // 当前申请的数组大小
+    int                 nRetGroupNum;                  // 设备返回的人员组个数
+}NET_OUT_FIND_GROUP_INFO;
+
+
+// CLIENT_SetGroupInfoForChannel接口输入参数
+typedef struct tagNET_IN_SET_GROUPINFO_FOR_CHANNEL
+{
+    DWORD               dwSize;
+    int                 nChannelID;                    // 通道号
+    int                 nGroupIdNum;                   // 人员组数   
+    char                szGroupId[MAX_GOURP_NUM][DH_COMMON_STRING_64]; // 人员组ID 
+}NET_IN_SET_GROUPINFO_FOR_CHANNEL;
+// CLIENT_SetGroupInfoForChannel接口输出参数
+typedef struct tagNET_OUT_SET_GROUPINFO_FOR_CHANNEL
+{
+    DWORD                dwSize;
+}NET_OUT_SET_GROUPINFO_FOR_CHANNEL;
 
 ///////////////////////////////// 刻录上传 /////////////////////////////////
 
@@ -12596,6 +14562,46 @@ typedef struct tagNET_OUT_CONTROL_INTELLITRACKER
     DWORD       dwSize;
 }NET_OUT_CONTROL_INTELLITRACKER;
 
+/////////////////////////////////视频分析接口参数/////////////////////////////////
+#define MAX_TEMPLATEIMAGE_NUM               32                      //有效图片个数上限
+
+//获取视频分析对象输入参数
+typedef struct tagNET_IN_VIDEOANALYSE_GETTEMPLATEIMAGE
+{
+    DWORD               dwSize;
+    int                 nChannelID;                                 // 通道ID
+    char                szRule[DH_COMMON_STRING_128];               // 模板图片对应的规则
+}NET_IN_VIDEOANALYSE_GETTEMPLATEIMAGE;
+
+//获取视频分析对象输出参数
+typedef struct tagNET_OUT_VIDEOANALYSE_GETTEMPLATEIMAGE
+{
+    DWORD               dwSize;
+    unsigned int        nImageNum;                                  // 有效图片个数
+    DH_PIC_INFO_EX2     stuImage[MAX_TEMPLATEIMAGE_NUM];            // 图片信息
+    char*               pBuffer;                                    // 图片缓冲区指针, 由用户自己申请
+    int                 nBufLen;                                    // 图片缓冲区大小, 由用户自己填写
+    int                 nRetLen;                                    // 获取的图片数据总长度, 无需用户填写, 可以根据此参数判断分配的缓存区大小是否足够
+}NET_OUT_VIDEOANALYSE_GETTEMPLATEIMAGE;
+
+//设置视频分析对象输入参数
+typedef struct tagNET_IN_VIDEOANALYSE_SETTEMPLATEIMAGE
+{
+    DWORD               dwSize;
+    int                 nChannelID;                                 // 通道ID
+    char                szRule[DH_COMMON_STRING_128];               // 模板图片对应的规则
+    unsigned int        nImageNum;                                  // 有效图片个数
+    DH_PIC_INFO_EX2     stuImage[MAX_TEMPLATEIMAGE_NUM];            // 图片信息
+    char*               pBuffer;                                    // 图片缓冲区指针
+    int                 nBufLen;                                    // 图片缓冲区大小
+}NET_IN_VIDEOANALYSE_SETTEMPLATEIMAGE;
+
+//设置视频分析对象输出参数
+typedef struct tagNET_OUT_VIDEOANALYSE_SETTEMPLATEIMAGE
+{
+    DWORD       dwSize;
+}NET_OUT_VIDEOANALYSE_SETTEMPLATEIMAGE;
+
 /////////////////////////////////淘汰类型/////////////////////////////////
 
 // 查询设备工作状态通道信息，相关接口已淘汰，请不要使用
@@ -12792,6 +14798,8 @@ typedef struct tagDH_SPLIT_CAPS
     DH_SPLIT_MODE       emPIPSplitMode[DH_MAX_SPLIT_MODE_NUM];  // 画中画支持的分割模式
     int                 nInputChannels[DH_SPLIT_INPUT_NUM];     // 支持的输入通道
     int                 nInputChannelCount;                     // 支持的输入通道个数, 0表示没有输入通道限制
+    int                 nBootModeCount;                         // 启动分割模式数量
+    DH_SPLIT_MODE       emBootMode[DH_MAX_SPLIT_MODE_NUM];      // 支持的启动默认画面分割模式
 } DH_SPLIT_CAPS;
 
 // 级联权限验证信息
@@ -12848,6 +14856,14 @@ typedef struct tagDH_SPLIT_SOURCE
     char                szExtraStreamUrl[MAX_PATH];             // 辅码流url地址, byManuFactory为DH_IPC_OTHER时有效
     int                 nUniqueChannel;                         // 设备内统一编号的唯一通道号, 只读
     DH_CASCADE_AUTHENTICATOR stuCascadeAuth;                    // 级联认证信息, 设备ID为"Local/Cascade/SerialNo"时有效, 其中SerialNo是设备序列号
+    int                 nHint;                                  // 0-普通视频源, 1-报警视频源
+    int                 nOptionalMainUrlCount;                  // 备用主码流地址数量
+    char                szOptionalMainUrls[DH_MAX_OPTIONAL_URL_NUM][MAX_PATH];  // 备用主码流地址列表
+    int                 nOptionalExtraUrlCount;                 // 备用辅码流地址数量
+    char                szOptionalExtraUrls[DH_MAX_OPTIONAL_URL_NUM][MAX_PATH]; // 备用辅码流地址列表
+    //--------------------------------------------------------------------------------------
+    //协议后续添加字段
+    int                 nInterval;                              // 轮巡时间间隔	单位：秒
 } DH_SPLIT_SOURCE;
 
 // 视频输出能力集
@@ -12859,16 +14875,11 @@ typedef struct tagDH_VIDEO_OUT_CAPS
     int                 nLayers;                                // 支持同时显示的图层数
     BOOL                bPowerMode;                             // 是否支持电源控制
     int                 bSplitMode;                             // 支持的画面分割模式, 0-单画面, 1-'#'字型模式(包括单画面), 2-任意模式
+    unsigned int        nBackground;                            // 支持的背景方式, 按位表示, 0-颜色, 1-图片
+    BOOL                bBindOutput;                            // 是否支持输出屏分辨率绑定设置
+    BOOL                bAudioSupport;                          // 是否支持音频输出
+    DWORD               dwAudioMode;                            // 支持的音频模式, 按位表示, bit0-主控输出, bit1-子卡输出
 } DH_VIDEO_OUT_CAPS;
-
-// 颜色RGBA
-typedef struct tagDH_COLOR_RGBA
-{
-    int                 nRed;                       // 红
-    int                 nGreen;                     // 绿
-    int                 nBlue;                      // 蓝
-    int                 nAlpha;                     // 透明
-} DH_COLOR_RGBA;
 
 // 颜色BCSH
 typedef struct tagDH_COLOR_BCSH 
@@ -12977,6 +14988,16 @@ typedef struct tagDH_PRODUCTION_DEFNITION
     int                 nBrushNumber;                           // 雨刷数量, 为0时表示不支持
     int                 nLowerMatrixInputChannels[DH_MAX_LOWER_MITRIX_NUM]; // 下位矩阵视频输入通道, 下标对应矩阵编号
     int                 nLowerMatrixOutputChannels[DH_MAX_LOWER_MITRIX_NUM];// 下位矩阵视频输出通道, 下标对应矩阵编号
+    BOOL                bSupportVideoAnalyse;                   // 是否支持智能分析
+    BOOL                bSupportIntelliTracker;                 // 是否支持智能跟踪
+
+    DWORD               nSupportBreaking;                       //设备支持的违章类型掩码(按位获取)
+                                                                //0-闯红灯 1-压线 2-逆行 3-欠速 4-超速 5-有车占道 6-黄牌占道 7-违章行驶（左转、右转、调头）
+                                                                //8-违章进入待行区 9-违章停车 10-交通拥堵 11-不按车道行驶 12-违章变道 13-压黄线 14-路肩行驶
+                                                                //15-手动抓拍 16-违章滞留 17-斑马线行人优先 18-流量过大 19-流量过小 20-违章占道 21-违章倒车
+                                                                //22-压停止线 23-闯黄灯 24-黄网格线停车 25-车位有车 26-车位无车 27-车位有车压线 28-受限车牌
+                                                                //29-禁行 30-不系安全带 31-驾驶员抽烟
+    DWORD               nSupportBreaking1;                      //0-驾驶员打电话
 } DH_PRODUCTION_DEFNITION;
 
 // 手动灯光控制模式
@@ -12994,6 +15015,7 @@ typedef struct tagDH_PRODUCTION_DEFNITION
 #define DH_MATRIX_CARD_CASCADE              0x00000010          // 级联卡
 #define DH_MATRIX_CARD_INTELLIGENT          0x00000020          // 智能卡
 #define DH_MATRIX_CARD_ALARM                0x00000040          // 报警卡
+#define DH_MATRIX_CARD_RAID                 0x00000080          // 硬Raid卡
 
 // 矩阵子卡信息
 typedef struct tagDH_MATRIX_CARD
@@ -13013,7 +15035,7 @@ typedef struct tagDH_MATRIX_CARD
     int                 nAudioEncChn;                           // 音频编码通道数
     int                 nVideoDecChn;                           // 视频解码通道数
     int                 nAudioDecChn;                           // 音频解码通道数
-    int                 nStauts;                                // 状态: -1-未知, 0-正常, 1-无响应, 2-网络掉线, 3-冲突, 4-正在升级, 5-链路状态异常, 6-子板背板未插好
+    int                 nStauts;                                // 状态: -1-未知, 0-正常, 1-无响应, 2-网络掉线, 3-冲突, 4-正在升级, 5-链路状态异常, 6-子板背板未插好, 7-程序版本出错
     int                 nCommPorts;                             // 串口数
     int                 nVideoInChnMin;                         // 视频输入通道号最小值
     int                 nVideoInChnMax;                         // 视频输入通道号最大值
@@ -13083,7 +15105,7 @@ typedef struct tagDH_ISCSI_TARGET
     char                szAddress[DH_MAX_IPADDR_OR_DOMAIN_LEN];     // 服务器地址
     char                szUser[DH_NEW_USER_NAME_LENGTH];            // 用户名
     int                 nPort;                                      // 端口
-    UINT                nStatus;                                    // 状态, 0-未知, 1-已连接, 2-未连接, 3-连接失败, 4-认证失败, 5-连接超时    
+    UINT                nStatus;                                    // 状态, 0-未知, 1-已连接, 2-未连接, 3-连接失败, 4-认证失败, 5-连接超时, 6-不存在    
 } DH_ISCSI_TARGET;
 
 // CLIENT_GetISCSITargets接口输出参数
@@ -13191,6 +15213,7 @@ typedef struct tagDH_STORAGE_TANK
     DWORD               dwSize;
     int                 nLevel;                                     // 级别, 主机是第0级，其它下属级别类推
     int                 nTankNo;                                    // 同一级扩展柜内的扩展口编号, 从0开始
+    int                 nSlot;                                      // 对应主柜上的板卡号, 从0开始编号
 } DH_STORAGE_TANK;
 
 // 存储设备状态
@@ -13251,6 +15274,8 @@ typedef struct tagNET_SPLIT_OSD
     BYTE                byType;                     // OSD类型, 0-文本, 1-图标
     BYTE                Reserved[3];                // 保留字节
     char                szContent[MAX_PATH];        // OSD内容, 若类型为图标, 内容为图标名称
+    float               fPitch;                     // 字符间距, 0.0 ~ 5.0
+    char                szFontType[DH_COMMON_STRING_64]; // 字体类型
 } NET_SPLIT_OSD;
 
 // CLIENT_GetSplitOSD 接口输入参数(获取解码窗口输出OSD信息)
@@ -13320,6 +15345,191 @@ typedef struct tagNET_OUT_SET_SPLIT_SOURCE
     int                     nRetCount;          // 返回的数量
 } NET_OUT_SET_SPLIT_SOURCE;
 
+//卷类型枚举
+typedef enum tagNET_VOLUME_TYPE
+{
+    VOLUME_TYPE_ALL = 0      ,      //所有卷
+    VOLUME_TYPE_PHYSICAL     ,      //物理卷
+    VOLUME_TYPE_RAID         ,      //Raid卷
+    VOLUME_TYPE_VOLUME_GROUP ,      //VG虚拟卷组
+    VOLUME_TYPE_ISCSI        ,      //iSCSI卷
+    VOLUME_TYPE_INVIDUAL_PHY ,      //独立物理卷（这个物理盘，没有加入到， RAID，虚拟卷组等等组中）
+    VOLUME_TYPE_GLOBAL_SPARE ,      //全局热备卷
+    VOLUME_TYPE_MAX          ,
+}NET_VOLUME_TYPE;
+
+
+#define    MAX_DEVICE_VOLUME_NUMS        128                //卷类型的最大上限
+
+//CLIENT_QueryDevInfo , NET_QUERY_DEV_STORAGE_NAMES类型接口输入参数
+typedef struct tagNET_IN_STORAGE_DEV_NAMES
+{
+    DWORD               dwSize;
+    NET_VOLUME_TYPE     emVolumeType;       //要获取的卷类型
+} NET_IN_STORAGE_DEV_NAMES;
+
+//CLIENT_QueryDevInfo , NET_QUERY_DEV_STORAGE_NAMES类型接口输出参数
+typedef struct tagNET_OUT_STORAGE_DEV_NAMES
+{
+    DWORD               dwSize;
+    int                 nDevNamesNum;                       //获取到设备的存储模块名数量
+    char                szStoregeDevNames[MAX_DEVICE_VOLUME_NUMS][DH_STORAGE_NAME_LEN]; //设备名列表
+}NET_OUT_STORAGE_DEV_NAMES;
+
+//CLIENT_QueryDevInfo , NET_QUERY_DEV_STORAGE_INFOS接口输入参数
+typedef struct tagNET_IN_STORAGE_DEV_INFOS
+{
+    DWORD               dwSize;
+    NET_VOLUME_TYPE     emVolumeType;       //要获取的卷类型
+} NET_IN_STORAGE_DEV_INFOS;
+
+//CLIENT_QueryDevInfo , NET_QUERY_DEV_STORAGE_INFOS接口输出参数
+typedef struct tagNET_OUT_STORAGE_DEV_INFOS
+{
+    DWORD               dwSize;
+    int                 nDevInfosNum;                      //获取到设备的存储模块信息列表
+    DH_STORAGE_DEVICE   stuStoregeDevInfos[MAX_DEVICE_VOLUME_NUMS]; //设备信息列表,DH_STORAGE_DEVICE的dwsize需赋值
+} NET_OUT_STORAGE_DEV_INFOS;
+
+typedef enum tagNET_RECENCY_CAR_INFO
+{
+    RECENCY_CAR_INFO_UNKNOW = 0 ,
+    RECENCY_CAR_INFOO_NEWEST    ,      //最新
+    RECENCY_CAR_INFO_ODLEST     ,      //最旧
+    RECENCY_CAR_INFO_MAX        ,
+}NET_RECENCY_CAR_INFO;
+
+//CLIENT_QueryDevInfo , NET_QUERY_RECENCY_JNNCTION_CAR_INFO接口输入参数
+typedef struct tagNET_IN_GET_RECENCY_JUNCTION_CAR_INFO
+{
+    DWORD                   dwSize;
+    int                     nChannel;       //抓拍通道号
+    NET_RECENCY_CAR_INFO    emRecencyType;  //获取车辆信息的类型，最新的还是最旧的
+    DWORD                   nIndex;         //第几个车辆信息,从1开始，如果为0也表示第1个
+}NET_IN_GET_RECENCY_JUNCTION_CAR_INFO;
+
+//CLIENT_QueryDevInfo , NET_QUERY_RECENCY_JNNCTION_CAR_INFO接口输出参数
+typedef struct tagNET_OUT_GET_RECENCY_JUNCTION_CAR_INFO
+{
+    DWORD           dwSize;
+    DEV_EVENT_TRAFFIC_TRAFFICCAR_INFO stTrafficCar;        // 交通车辆信息
+}NET_OUT_GET_RECENCY_JUNCTION_CAR_INFO;
+
+// 
+#define NET_MAX_FISHEYE_WINDOW_NUM               8         // 最大鱼眼窗口数
+
+// 窗口位置信息
+typedef struct tagNET_FISHEYE_WINDOW_INFO
+{
+    DWORD             dwSize;
+    DWORD             dwWindowID;                        // 窗口ID
+    int               nFocusX;                           // EPtz（电子云台）的焦点横坐标
+    int               nFocusY;                           // EPtz (电子云台）的焦点纵坐标   
+    int               nHorizontalAngle;                  // EPtz的水平角度
+    int               nVerticalAngle;                    // EPtz的垂直角度
+}NET_FISHEYE_WINDOW_INFO;
+
+// 对应CLIENT_QueryDevInfo接口，NET_QUERY_DEV_FISHEYE_WININFO查询鱼眼窗口信息输入参数
+typedef struct tagNET_IN_FISHEYE_WININFO
+{
+    DWORD               dwSize;
+    int                 nChannelId;                      // 通道号
+    int                 nWindowNum;                      // 待查询的窗口数
+    int                 nWindows[NET_MAX_FISHEYE_WINDOW_NUM]; // 窗口id，不可重复
+}NET_IN_FISHEYE_WININFO;
+
+// 对应CLIENT_QueryDevInfo接口，NET_QUERY_DEV_FISHEYE_WININFO查询鱼眼窗口信息输出参数
+typedef struct tagNET_OUT_FISHEYE_WININFO
+{
+    DWORD               dwSize;
+    int                 nWindowNum;                      //的窗口数
+    NET_FISHEYE_WINDOW_INFO stuWindows[NET_MAX_FISHEYE_WINDOW_NUM]; // 窗口具体信息
+}NET_OUT_FISHEYE_WININFO;
+
+//CLIENT_QueryDevInfo , NET_QUERY_LANES_STATE接口输入参数
+typedef struct tagNET_IN_GET_LANES_STATE
+{
+    DWORD                   dwSize;
+    int                     nLaneNumber; //-1代表查询所有车道,>=0时表示查询指定车道
+}NET_IN_GET_LANES_STATE;
+
+//信号灯指示状态
+typedef enum tagNET_TRAFFIC_LIGHT_STATUS
+{
+    LIGHT_STATUS_UNKNOWN  = 0   ,    //未知
+    LIGHT_STATUS_RED            ,    //红灯
+    LIGHT_STATUS_GREEN          ,    //绿灯
+    LIGHT_STATUS_YELLOW         ,    //黄灯
+}NET_TRAFFIC_LIGHT_STATUS;
+
+//信号灯指示信息
+typedef struct tatNET_TRAFFIC_LIGHT_INFO
+{
+    DWORD                       dwSize;
+    NET_TRAFFIC_LIGHT_STATUS    emStraightLightInfo;    //直行信号灯状态
+    NET_TRAFFIC_LIGHT_STATUS    emLeftLightInfo;        //左转信号灯状态
+    NET_TRAFFIC_LIGHT_STATUS    emRightLightInfo;       //右转信号灯状态
+    NET_TRAFFIC_LIGHT_STATUS    emUTurnLightInfo;       //调头信号灯状态
+}NET_TRAFFIC_LIGHT_INFO;
+
+//车道方向
+typedef enum tagNET_TRAFFIC_DIRECTION
+{
+    DIRECTION_UNKNOW    = 0 ,   //未知
+    DIRECTION_STRAIGHT      ,   //直行
+    DIRECTION_LEFT          ,   //左转
+    DIRECTION_RIGHT         ,   //右转
+    DIRECTION_UTURN         ,   //调头
+}NET_TRAFFIC_DIRECTION;
+
+//车道信息
+typedef struct tagNET_TRAFFIC_LANE_INFO
+{
+    DWORD                   dwSize;
+    UINT                    nLaneNumber;                                    //车道号,0开始
+    UINT                    nSupportDirectionNum;                           //车道可以行使的方向数
+    NET_TRAFFIC_DIRECTION   emTrafficDirections[MAX_LANE_DIRECTION_NUM];    //车道方向,表示此车道可以行使的所有方向
+    NET_TRAFFIC_JAM_STATUS  emJamState;                                     //道路拥挤状况
+    //流量信息
+    UINT                    nLargeVehicleNum;                               //大型车数量
+    UINT                    nMediumVehicleNum;                              //中型车数量
+    UINT                    nSmallVehicleNum;                               //小型车数量
+    UINT                    nMotoNum;                                       //摩托车数量
+}NET_TRAFFIC_LANE_INFO;
+
+//CLIENT_QueryDevInfo , NET_QUERY_LANES_STATE接口输出参数
+typedef struct tagNET_OUT_GET_LANES_STATE
+{
+    DWORD                   dwSize;
+    int                     nGetLaneInfoNum;                    //获取到的车道信息数
+    NET_TRAFFIC_LANE_INFO   stLaneInfos[MAX_LANE_INFO_NUM];     //获取到的车道信息
+    NET_TRAFFIC_LIGHT_INFO  stLightInfo;                        //信号灯指示状态
+}NET_OUT_GET_LANES_STATE;
+
+
+// 接口 CLIENT_AttachLanesState 的输入参数
+typedef NET_OUT_GET_LANES_STATE NET_CB_LANES_STATE;
+
+// 接口 CLIENT_AttachLanesState 回调函数
+typedef void (CALLBACK *fNotifyLanesState)(LLONG lLanesStateHandle, NET_CB_LANES_STATE* pLanesStateInfo, LDWORD dwUser, void *reserved);
+
+// 接口 CLIENT_AttachLanesState 的输入参数
+typedef struct tagNET_IN_ATTACH_LANES_STATE
+{
+    DWORD                dwSize;                         // 此结构体大小
+    int                  nChannelID;                     // 通道号
+    int                  nLaneNumber;                    // -1代表订阅所有车道，>=0时表示订阅指定车道
+    
+    fNotifyLanesState    cbNotifyLanesState;             // 回调函数
+    LDWORD               dwUser;                         // 用户自定义参数
+} NET_IN_ATTACH_LANES_STATE;
+
+// 接口 CLIENT_AttachLanesState 的输出参数
+typedef struct tagNET_OUT_ATTACH_LANES_STATE
+{
+    DWORD                dwSize;                         // 此结构体大小
+} NET_OUT_ATTACH_LANES_STATE;
+
 // CLIENT_MatrixSwitch 输入参数
 typedef struct tagNET_IN_MATRIX_SWITCH
 {
@@ -13365,6 +15575,16 @@ typedef enum tagNET_SPLIT_OPERATE_TYPE
     NET_SPLIT_OPERATE_GET_BACKGROUND,           // 获取背景图片, 对应 NET_IN_SPLIT_GET_BACKGROUND 和 NET_OUT_SPLIT_GET_BACKGROUND
     NET_SPLIT_OPERATE_SET_PREPULLSRC,           // 设置预拉流源, 对应 NET_IN_SPLIT_SET_PREPULLSRC 和 NET_OUT_SPLIT_SET_PREPULLSRC
     NET_SPLIT_OPERATE_SET_HIGHLIGHT,            // 设置源边框高亮使能开关, 对应 NET_IN_SPLIT_SET_HIGHLIGHT 和 NET_OUT_SPLIT_SET_HIGHLIGHT
+    NET_SPLIT_OPERATE_SET_ZORDER,               // 调整窗口Z序, 对应 NET_IN_SPLIT_SET_ZORDER 和 NET_OUT_SPLIT_SET_ZORDER
+    NET_SPLIT_OPERATE_SET_TOUR,                 // 窗口轮巡控制, 对应 NET_IN_SPLIT_SET_TOUR 和 NET_OUT_SPLIT_SET_TOUR
+    NET_SPLIT_OPERATE_GET_TOUR_STATUS,          // 获取窗口轮巡状态, 对应 NET_IN_SPLIT_GET_TOUR_STATUS 和 NET_OUT_SPLIT_GET_TOUR_STATUS
+    NET_SPLIT_OPERATE_GET_SCENE,                // 获取屏内窗口信息, 对应 NET_IN_SPLIT_GET_SCENE 和 NET_OUT_SPLIT_GET_SCENE
+    NET_SPLIT_OPERATE_OPEN_WINDOWS,             // 批量开窗, 对应 NET_IN_SPLIT_OPEN_WINDOWS 和 NET_OUT_SPLIT_OPEN_WINDOWS
+    NET_SPLIT_OPERATE_SET_WORK_MODE,            // 设置工作模式, 对应 NET_IN_SPLIT_SET_WORK_MODE 和 NET_OUT_SPLIT_SET_WORK_MODE
+    NET_SPLIT_OPERATE_GET_PLAYER,               // 获取播放器实例，对应 NET_IN_SPLIT_GET_PLAYER 和 NET_OUT_SPLIT_GET_PLAYER
+    NET_WM_OPERATE_SET_WORK_MODE,               // 设置窗口工作模式，对应 NET_IN_WM_SET_WORK_MODE 和 NET_OUT_WM_SET_WORK_MODE
+    NET_WM_OPERATE_GET_WORK_MODE,               // 获取窗口工作模式，对应 NET_IN_WM_GET_WORK_MODE 和 NET_OUT_WM_GET_WORK_MODE
+    NET_SPLIT_OPERATE_CLOSE_WINDOWS,            // 批量关窗, 对应 NET_IN_SPLIT_CLOSE_WINDOWS 和 NET_OUT_SPLIT_CLOSE_WINDOWS
 } NET_SPLIT_OPERATE_TYPE;
 
 // 设置源边框高亮使能开关输入参数
@@ -13435,9 +15655,245 @@ typedef struct tagNET_IN_SPLIT_GET_BACKGROUND
 typedef struct tagNET_OUT_SPLIT_GET_BACKGROUND 
 {
     DWORD            dwSize;
-    BOOL            bEnable;                            // 使能
-    char            szFileName[DH_COMMON_STRING_256];   // 背景图名称
+    BOOL             bEnable;                            // 使能
+    char             szFileName[DH_COMMON_STRING_256];   // 背景图名称
 } NET_OUT_SPLIT_GET_BACKGROUND;
+
+// 窗口Z次序
+typedef enum tagNET_WINDOW_ZORDER
+{
+    NET_WINDOW_ZORDER_TOP,                              // 顶层
+    NET_WINDOW_ZORDER_BOTTOM,                           // 底层
+    NET_WINDOW_ZORDER_UP,                               // 往上一层
+    NET_WINDOW_ZORDER_DOWN,                             // 往下一层
+} NET_WINDOW_ZORDER;
+
+// 窗口层叠次序
+typedef struct tagDH_WND_ZORDER
+{
+    DWORD               dwSize;
+    unsigned int        nWindowID;                      // 窗口序号
+    unsigned int        nZOrder;                        // Z次序
+} DH_WND_ZORDER;
+
+// 设置窗口Z序输入参数
+typedef struct tagNET_IN_SPLIT_SET_ZORDER 
+{
+    DWORD               dwSize;
+    int                 nChannel;                       // 输出通道号或融合屏虚拟通道号, pszCompositeID为NULL时有效
+    const char*         pszCompositeID;                 // 融合屏ID
+    int                 nWindow;                        // 窗口号
+    NET_WINDOW_ZORDER   emZOrder;                       // 调整的Z序
+} NET_IN_SPLIT_SET_ZORDER;
+
+// 设置窗口Z序输出参数, 调整一个窗口的Z序会影响所有窗口, 返回调整后所有窗口的Z序
+typedef struct tagNET_OUT_SPLIT_SET_ZORDER
+{
+    DWORD               dwSize;
+    DH_WND_ZORDER*      pZOders;                        // 窗口次序数组, 用户分配内存
+    int                 nMaxWndCount;                   // 窗口次序数组大小
+    int                 nWndCount;                      // 返回的窗口数量
+} NET_OUT_SPLIT_SET_ZORDER;
+
+// 窗口轮巡动作
+typedef enum tagEM_NET_WINDOW_TOUR_ACTION 
+{
+    EM_NET_WND_TOUR_ACTION_START,                       // 开始
+    EM_NET_WND_TOUR_ACTION_STOP,                        // 停止
+} EM_NET_WINDOW_TOUR_ACTION;
+
+// 窗口轮巡控制输入参数, 对应NET_SPLIT_OPERATE_SET_TOUR
+typedef struct tagNET_IN_SPLIT_SET_TOUR 
+{
+    DWORD               dwSize;
+    int                 nChannel;                       // 输出通道号或融合屏虚拟通道号, pszCompositeID为NULL时有效
+    const char*         pszCompositeID;                 // 融合屏ID
+    int                 nWindow;                        // 窗口号
+    EM_NET_WINDOW_TOUR_ACTION emAction;                 // 轮巡动作
+} NET_IN_SPLIT_SET_TOUR;
+
+// 窗口轮巡控制输出参数, 对应NET_SPLIT_OPERATE_SET_TOUR
+typedef struct tagNET_OUT_SPLIT_SET_TOUR 
+{
+    DWORD               dwSize;
+} NET_OUT_SPLIT_SET_TOUR;
+
+// 获取窗口轮巡状态输入参数, 对应NET_SPLIT_OPERATE_GET_TOUR_STATUS
+typedef struct tagNET_IN_SPLIT_GET_TOUR_STATUS
+{
+    DWORD               dwSize;
+    int                 nChannel;                       // 输出通道号或融合屏虚拟通道号, pszCompositeID为NULL时有效
+    const char*         pszCompositeID;                 // 融合屏ID
+    int                 nWindow;                        // 窗口号, -1表示所有窗口
+} NET_IN_SPLIT_GET_TOUR_STATUS;
+
+// 轮巡状态
+typedef enum tagNET_TOUR_STATUS
+{
+    NET_TOUR_UNKNOWN,                               // 未知
+    NET_TOUR_START,                                 // 轮巡中
+    NET_TOUR_STOP,                                  // 轮巡停止
+}NET_TOUR_STATUS;
+
+// 窗口轮巡状态信息
+typedef struct tagNET_WINDOW_TOUR_STATUS_INFO 
+{
+    DWORD               dwSize;
+    int                 nWindow;                        // 窗口号
+    NET_TOUR_STATUS     emStatus;                       // 状态
+} NET_WINDOW_TOUR_STATUS_INFO;
+
+// 获取窗口轮巡状态输出参数, 对应NET_SPLIT_OPERATE_GET_TOUR_STATUS
+typedef struct tagNET_OUT_SPLIT_GET_TOUR_STATUS
+{
+    DWORD               dwSize;
+    NET_WINDOW_TOUR_STATUS_INFO* pstuStatus;            // 状态信息指针,  用户分配内存. 查询窗口号为-1时表示多个窗口的信息数组.
+    int                 nMaxStatusCount;                // 状态信息最大数量, 用户输入
+    int                 nRetStatusCount;                // 状态信息实际数量, 查询得到
+} NET_OUT_SPLIT_GET_TOUR_STATUS;
+
+// 批量开窗输入参数, 对应NET_SPLIT_OPERATE_OPEN_WINDOWS
+typedef struct tagNET_IN_SPLIT_OPEN_WINDOWS 
+{
+    DWORD               dwSize;
+    int                 nChannel;                       // 输出通道号或融合屏虚拟通道号, pszCompositeID为NULL时有效
+    const char*         pszCompositeID;                 // 融合屏id
+    int                 nWindowNum;                     // 窗口数量
+    NET_RECT*           pstuWindowRects;                // 窗口区域数组
+    BOOL                bDirectable;                    // 满足直通条件
+} NET_IN_SPLIT_OPEN_WINDOWS;
+
+// 窗口信息
+typedef struct tagNET_SPLIT_WINDOW_INFO
+{
+    DWORD               dwSize;
+    int                 nWindowID;                      // 窗口号
+    int                 nZOrder;                        // Z次序
+    char                szControlID[DH_DEV_ID_LEN];     // 控制编号
+} NET_SPLIT_WINDOW_INFO;
+
+// 批量开窗输出参数, 对应NET_SPLIT_OPERATE_OPEN_WINDOWS
+typedef struct tagNET_OUT_SPLIT_OPEN_WINDOWS 
+{
+    DWORD               dwSize;
+    NET_SPLIT_WINDOW_INFO*  pstuWindows;                // 窗口信息, 用户分配内存
+    int                 nMaxWindowCount;                // 窗口信息最大数量, 用户输入
+    int                 nRetWindowCount;                // 开窗数量
+} NET_OUT_SPLIT_OPEN_WINDOWS;
+
+// 画面分割工作模式
+typedef enum tagNET_SPLIT_WORK_MODE
+{
+    NET_SPLIT_WORK_MODE_UNKNOWN,                        // 未知
+    NET_SPLIT_WORK_MODE_LOCAL,                          // 本地普通模式
+    NET_SPLIT_WORK_MODE_REPLAY,                         // 回放模式
+}NET_SPLIT_WORK_MODE;
+
+// 设置工作模式输入参数, 对应 NET_SPLIT_OPERATE_SET_WORK_MODE
+typedef struct tagNET_IN_SPLIT_SET_WORK_MODE 
+{
+    DWORD               dwSize;
+    int                 nChannel;                       // 输出通道号或融合屏虚拟通道号, pszCompositeID为NULL时有效
+    const char*         pszCompositeID;                 // 融合屏ID
+    NET_SPLIT_WORK_MODE emMode;                         // 工作模式
+}NET_IN_SPLIT_SET_WORK_MODE;
+
+// 设置工作模式输出参数, 对应 NET_SPLIT_OPERATE_SET_WORK_MODE
+typedef struct tagNET_OUT_SPLIT_SET_WORK_MODE 
+{
+    DWORD               dwSize;
+}NET_OUT_SPLIT_SET_WORK_MODE;
+
+// 播放器类型
+typedef enum tagNET_SPLIT_PLAYER_TYPE
+{
+    NET_SPLIT_PLAYER_TYPE_UNKNOWN,                       // 未知
+    NET_SPLIT_PLAYER_TYPE_FILE_LIST,                     // 文件列表播放器
+    NET_SPLIT_PLAYER_TYPE_FILE,                          // 文件播放器
+}NET_SPLIT_PLAYER_TYPE;
+
+// 获取播放器实例输入参数, 对应 NET_SPLIT_OPERATE_GET_PLAYER
+typedef struct tagNET_IN_SPLIT_GET_PLAYER
+{
+    DWORD                 dwSize;
+    int                   nChannel;                       // 输出通道号或融合屏虚拟通道号, pszCompositeID为NULL时有效
+    const char*           pszCompositeID;                 // 融合屏ID
+    NET_SPLIT_PLAYER_TYPE emType;                         // 播放器类型
+    int                   nWindow;                        // 播放器所在的窗口号
+}NET_IN_SPLIT_GET_PLAYER;
+
+// 获取播放器实例输出参数, 对应 NET_SPLIT_OPERATE_GET_PLAYER
+typedef struct tagNET_OUT_SPLIT_GET_PLAYER
+{
+    DWORD                 dwSize;
+    LLONG                 lPlayerID;                      // 播放器实例ID
+}NET_OUT_SPLIT_GET_PLAYER;
+
+// 窗口工作模式
+typedef enum tagNET_WM_WORK_MODE
+{
+    NET_WM_WORK_MODE_UNKNOWN,                             // 未知
+    NET_WM_WORK_MODE_DISPLAY,                             // 预览模式
+    NET_WM_WORK_MODE_REPLAY,                              // 回放模式  
+}NET_WM_WORK_MODE;
+
+// 设置窗口工作模式输入参数, 对应 NET_WM_OPERATE_SET_WORK_MODE
+typedef struct tagNET_IN_WM_SET_WORK_MODE
+{
+    DWORD                 dwSize;
+    int                   nChannel;                       // 输出通道号或融合屏虚拟通道号, pszCompositeID为NULL时有效
+    const char*           pszCompositeID;                 // 融合屏ID
+    int                   nWindow;                        // 窗口号
+    NET_WM_WORK_MODE      emMode;                         // 窗口工作模式
+}NET_IN_WM_SET_WORK_MODE;
+
+//设置窗口工作模式输出参数, 对应 NET_WM_OPERATE_SET_WORK_MODE
+typedef struct tagNET_OUT_WM_SET_WORK_MODE
+{
+    DWORD                 dwSize;
+}NET_OUT_WM_SET_WORK_MODE;
+
+// 获取窗口工作模式输入参数, 对应 NET_WM_OPERATE_GET_WORK_MODE
+typedef struct tagNET_IN_WM_GET_WORK_MODE
+{
+    DWORD                 dwSize;
+    int                   nChannel;                       // 输出通道号或融合屏虚拟通道号, pszCompositeID为NULL时有效
+    const char*           pszCompositeID;                 // 融合屏ID
+    int                   nWindow;                        // 窗口号
+}NET_IN_WM_GET_WORK_MODE;
+
+//获取窗口工作模式输出参数, 对应 NET_WM_OPERATE_GET_WORK_MODE
+typedef struct tagNET_OUT_WM_GET_WORK_MODE
+{
+    DWORD                 dwSize;
+    NET_WM_WORK_MODE      emMode;                         // 窗口工作模式
+}NET_OUT_WM_GET_WORK_MODE;
+
+// 批量关窗输入参数, 对应NET_SPLIT_OPERATE_CLOSE_WINDOWS
+typedef struct tagNET_IN_SPLIT_CLOSE_WINDOWS
+{
+    DWORD               dwSize;
+    int                 nChannel;                       // 输出通道号或融合屏虚拟通道号, pszCompositeID为NULL时有效
+    const char*         pszCompositeID;                 // 融合屏ID
+    int*                pnWindows;                      // 窗口号数组指针
+    int                 nWindowCount;                   // 窗口数量
+} NET_IN_SPLIT_CLOSE_WINDOWS;
+
+// 关窗操作结果
+typedef struct tagNET_SPLIT_CLOSE_WINDOW_RESULT 
+{
+    BOOL                bResult;                        // 结果
+    char                reserved[256];                  // 保留字节
+} NET_SPLIT_CLOSE_WINDOW_RESULT ;
+
+// 批量关窗输出参数, 对应NET_SPLIT_OPERATE_CLOSE_WINDOWS
+typedef struct tagNET_OUT_SPLIT_CLOSE_WINDOWS
+{
+    DWORD               dwSize;
+    NET_SPLIT_CLOSE_WINDOW_RESULT* pstuResults;         // 结果数组, 用户分配内存. 如果不需要返回结果, 可以为NULL
+    int                 nMaxResultCount;                // 结果数组最大数量, 用户填写.
+    int                 nRetResultCount;                // 返回的结果数量
+} NET_OUT_SPLIT_CLOSE_WINDOWS;
 
 ////////////////////////////////// 系统状态 ////////////////////////////////////////
 
@@ -13490,20 +15946,48 @@ typedef struct tagDH_FAN_STATUS
     DH_FAN_INFO         stuFans[DH_MAX_FAN_NUM];        // 风扇状态
 } DH_FAN_STATUS;
 
-// CLIENT_QueryDevState接口的 DH_DEVSTATE_POWER_STATE 命令参数
+// 电源电流状态类型
+typedef enum __EM_CURRENT_STATE_TYPE
+{
+    EM_CURRENT_STATE_UNKNOWN = 0,
+    EM_CURRENT_STATE_OVER_CURRENT,                      // 电流过载
+    EM_CURRENT_STATE_NORMAL,                            // 电流正常
+    EM_CURRENT_STATE_UNDER_CURRENT,                     // 电源欠流
+}EM_CURRENT_STATE_TYPE;
+
 // 电源信息
 typedef struct tagDH_POWER_INFO
 {
     DWORD               dwSize;
     BOOL                bPowerOn;                       // 电源状态, 0-关闭, 1-打开, 2-打开但有故障
+    EM_CURRENT_STATE_TYPE emCurrentState;               // 电源电流状态
 } DH_POWER_INFO;
 
-// 电池信息
+
+// 电池在位状态
+typedef enum __EM_BATTERY_EXIST_STATE
+{
+    EM_BATTERY_EXIST_STATE_UNKNOWN = 0,
+    EM_BATTERY_EXIST_STATE_EXIST,                       // 电池在位
+    EM_BATTERY_EXIST_STATE_MISSING,                     // 电池丢失
+}EM_BATTERY_EXIST_STATE;
+
+// 电池电量状态
+typedef enum __EM_BATTERY_STATE
+{
+	EM_BATTERY_STATE_UNKNOWN = 0,
+	EM_BATTERY_STATE_NORMAL,							// 电量正常
+	EM_BATTERY_STATE_LOW,								// 电量低
+}EM_BATTERY_STATE;
+
+// 电池信息, CLIENT_QueryDevState接口的 DH_DEVSTATE_POWER_STATE 命令参数
 typedef struct tagDH_BATTERY_INFO
 {
     DWORD               dwSize;
     int                 nPercent;                       // 电池容量百分比
     BOOL                bCharging;                      // 是否真正充电
+    EM_BATTERY_EXIST_STATE emExistState;                // 电池在位状态
+	EM_BATTERY_STATE	emState;						// 电池电量状态
 } DH_BATTERY_INFO;
 
 // 电源状态
@@ -13547,7 +16031,7 @@ typedef struct tagDH_SYSTEM_STATUS
 
 // 对应CLIENT_QueryDevState()接口的 DH_DEVSTATE_ALL_ALARM_CHANNELS_STATE命令参数
 // 获取报警通道状态
-enum NET_ALARM_CHANNEL_TYPE
+typedef enum tagNET_ALARM_CHANNEL_TYPE
 {
     NET_ALARM_CHANNEL_TYPE_ALL,                             // 所有通道（包含以下所有）
     NET_ALARM_CHANNEL_TYPE_ALARMIN,                         // 报警输入通道
@@ -13555,7 +16039,7 @@ enum NET_ALARM_CHANNEL_TYPE
     NET_ALARM_CHANNEL_TYPE_ALARMBELL,                       // 警号通道
     NET_ALARM_CHANNEL_TYPE_EXALARMIN,                       // 扩展模块报警输入通道
     NET_ALARM_CHANNEL_TYPE_EXALARMOUT,                      // 扩展模块报警输出通道
-};
+}NET_ALARM_CHANNEL_TYPE;
 
 typedef struct tagNET_CLIENT_ALARM_CHANNELS_STATE
 {
@@ -13610,8 +16094,9 @@ typedef struct tagDH_OUT_SPLIT_OPEN_WINDOW
 typedef struct tagDH_IN_SPLIT_CLOSE_WINDOW
 {
     DWORD               dwSize;
-    int                 nChannel;                   // 通道号(屏号)
+    int                 nChannel;                   // 输出通道号或融合屏虚拟通道号, pszCompositeID为NULL时有效
     UINT                nWindowID;                  // 窗口序号
+    const char*         pszCompositeID;             // 融合屏ID
 } DH_IN_SPLIT_CLOSE_WINDOW;
 
 // CLIENT_CloseSplitWindow接口输出参数(关窗)
@@ -13650,14 +16135,6 @@ typedef struct tagDH_OUT_SPLIT_GET_RECT
     DWORD               dwSize;    
     DH_RECT             stuRect;                   // 窗口位置, 0~8192
 } DH_OUT_SPLIT_GET_RECT;
-
-// 窗口层叠次序
-typedef struct tagDH_WND_ZORDER
-{
-    DWORD               dwSize;
-    unsigned int        nWindowID;                 // 窗口序号
-    unsigned int        nZOrder;                   // Z次序
-} DH_WND_ZORDER;
 
 // CLIENT_SetSplitWindowLevels接口输入参数(设置窗口次序)
 typedef struct tagDH_IN_SPLIT_SET_TOP_WINDOW
@@ -13805,7 +16282,50 @@ typedef struct tagDH_BLOCK_COLLECTION
     int                  nWndsCount;                    // 窗口数量
     char                 szName[DH_DEVICE_NAME_LEN];    // 收藏夹名称
     int                  nScreen;                       // 输出通道号, 包括拼接屏
+    char                 szCompositeID[DH_DEV_ID_LEN_EX]; // 拼接屏ID    
+    DH_WINDOW_COLLECTION* pstuWndsEx;                   // 窗口信息数组指针, 由用户分配内存. 当stuWnds数组大小不够用时可以使用
+    int                  nMaxWndsCountEx;               // 最大窗口数量, 用户填写. pstuWndsEx数组的元素个数
+    int                  nRetWndsCountEx;               // 返回窗口数量
 } DH_BLOCK_COLLECTION;
+
+// 电视墙显示单元
+typedef struct tagDH_MONITORWALL_OUTPUT 
+{
+    DWORD               dwSize;
+    char                szDeviceID[DH_DEV_ID_LEN];          // 设备ID, 本机时为""
+    int                 nChannel;                           // 通道号
+    char                szName[DH_DEV_NAME_LEN];            // 屏幕名称
+} DH_MONITORWALL_OUTPUT;
+
+// 电视墙显示区块
+typedef struct tagDH_MONITORWALL_BLOCK
+{
+    DWORD                   dwSize;
+    char                    szName[DH_DEV_NAME_LEN];        // 区块名称
+    char                    szCompositeID[DH_DEV_ID_LEN];   // 拼接屏ID
+    char                    szControlID[DH_DEV_ID_LEN];     // 控制ID
+    int                     nSingleOutputWidth;             // 单个显示单元所占的网格列数
+    int                     nSingleOutputHeight;            // 单个显示单元所占的网格行数
+    DH_RECT                 stuRect;                        // 区域坐标
+    DH_TSECT                stuPowerSchedule[DH_TSCHE_DAY_NUM][DH_TSCHE_SEC_NUM]; // 开机时间表, 第一维各元素表示周日~周六和节假日
+    DH_MONITORWALL_OUTPUT*  pstuOutputs;                    // 显示单元数组, 用户分配内存
+    int                     nMaxOutputCount;                // 显示单元数组大小, 用户填写
+    int                     nRetOutputCount;                // 返回的显示单元数量
+} DH_MONITORWALL_BLOCK;
+
+// 电视墙配置
+typedef struct tagDH_MONITORWALL 
+{
+    DWORD                   dwSize;
+    char                    szName[DH_DEV_NAME_LEN];        // 名称
+    int                     nGridLine;                      // 网格行数
+    int                     nGridColume;                    // 网格列数
+    DH_MONITORWALL_BLOCK*   pstuBlocks;                     // 显示区块数组, 用户分配内存
+    int                     nMaxBlockCount;                 // 显示区块数组大小, 用户填写
+    int                     nRetBlockCount;                 // 返回的显示区块数量
+    BOOL                    bDisable;                       // 是否禁用, 0-该电视墙有效, 1-该电视墙无效
+    char                    szDesc[DH_COMMON_STRING_256];   // 电视墙描述信息
+} DH_MONITORWALL;
 
 // 电视墙预案
 typedef struct tagDH_MONITORWALL_COLLECTION 
@@ -13815,6 +16335,7 @@ typedef struct tagDH_MONITORWALL_COLLECTION
     DH_BLOCK_COLLECTION  stuBlocks[DH_MAX_BLOCK_NUM];   // 区块数组
     int                  nBlocksCount;                  // 区块数量
     char                 szControlID[DH_DEV_ID_LEN_EX]; // 控制ID
+    DH_MONITORWALL       stuMonitorWall;                // 电视墙配置
 } DH_MONITORWALL_COLLECTION;
 
 // CLIENT_GetMonitorWallCollections接口输入参数(获取电视墙预案信息)
@@ -13973,9 +16494,12 @@ typedef struct tagDH_OUT_GET_DEC_POLICY
 // 音频输出模式
 typedef enum
 {
-    DH_AUDIO_AUTO,                              // 自动切换音频输出
+    DH_AUDIO_AUTO,                              // 自动切换音频输出, 只有一个音频窗口
     DH_AUDIO_DISABLE,                           // 禁止所有音频输出 
-    DH_AUDIO_FORCE,                             // 强制输出用户指定的某个窗口的音频
+    DH_AUDIO_FORCE,                             // 强制输出用户指定的某个窗口的音频, 只有一个音频窗口
+    DH_AUDIO_ENABLE_ONE,                        // 开启指定窗口音频, 可以有多路音频输出   
+    DH_AUDIO_DISABLE_ONE,                       // 关闭指定窗口音频, 可以有多路音频输出
+    DH_AUDIO_MULTI,                             // 多路音频输出, 查询时可用, 设置时该值无效
 } DH_AUDIO_OUTPUT_MODE;
 
 // CLIENT_SetSplitAudioOuput接口输入参数(设置音频输出模式)
@@ -13984,7 +16508,7 @@ typedef struct tagDH_IN_SET_AUDIO_OUTPUT
     DWORD                dwSize;
     int                  nChannel;              // 通道号
     DH_AUDIO_OUTPUT_MODE emMode;                // 音频输出模式
-    int                  nWindow;               // 输出窗口号, emMode为DH_AUDIO_FORCE时有效
+    int                  nWindow;               // 输出窗口号, emMode为DH_AUDIO_FORCE/DH_AUDIO_ENABLE_ONE/DH_AUDIO_DISABLE_ONE时有效, 指定输出音频的窗口号
 } DH_IN_SET_AUDIO_OUTPUT;
 
 // CLIENT_SetSplitAudioOuput接口输出参数(设置音频输出模式)
@@ -14006,6 +16530,9 @@ typedef struct tagDH_OUT_GET_AUDIO_OUTPUT
     DWORD                dwSize;
     DH_AUDIO_OUTPUT_MODE emMode;                // 音频输出模式
     int                  nWindow;               // 输出窗口号, emMode为DH_AUDIO_FORCE时有效
+    int*                 pMultiWindows;         // 输出窗口号列表, emMode为DH_AUDIO_MULTI时有效, 用户分配内存
+    int                  nMaxMultiWindowCount;  // 输出窗口号列表最大数量, 用户填写
+    int                  nRetMultiWindowCount;  // 输出窗口号数量, emMode为DH_AUDIO_MULTI时有效
 } DH_OUT_GET_AUDIO_OUTPUT;
 
 // CLIENT_GetEncodePlan 接口输入参数(获取刻录光盘时使用的编码参数)
@@ -14149,6 +16676,10 @@ typedef struct tagDH_VIDEO_INPUTS
     char                szControlID[DH_DEV_ID_LEN_EX];      // 控制ID
     char                szMainStreamUrl[MAX_PATH];          // 主码流url地址 
     char                szExtraStreamUrl[MAX_PATH];         // 辅码流url地址
+    int                 nOptionalMainUrlCount;              // 备用主码流地址数量
+    char                szOptionalMainUrls[DH_MAX_OPTIONAL_URL_NUM][MAX_PATH];  // 备用主码流地址列表
+    int                 nOptionalExtraUrlCount;             // 备用辅码流地址数量
+    char                szOptionalExtraUrls[DH_MAX_OPTIONAL_URL_NUM][MAX_PATH]; // 备用辅码流地址列表
 } DH_VIDEO_INPUTS;
 
 typedef struct tagDH_REMOTE_DEVICE 
@@ -14180,8 +16711,9 @@ typedef enum tagNET_LOGIC_CHANNEL_TYPE
     LOGIC_CHN_UNKNOWN,              // 未知
     LOGIC_CHN_LOCAL,                // 本地通道
     LOGIC_CHN_REMOTE,               // 远程通道
-    LOGIC_CHN_COMPOSE,              // 合成通道, 对于司法设备包含画中画通道和混音通道
-    LOGIC_CHN_MATRIX,               // 矩阵通道，包含模拟矩阵和数字矩阵
+    LOGIC_CHN_COMPOSE,              // 合成通道, 对于庭审设备包含画中画通道和混音通道
+    LOGIC_CHN_MATRIX,               // 模拟矩阵通道
+    LOGIC_CHN_CASCADE,              // 级联通道
 } NET_LOGIC_CHN_TYPE;
 
 // 可用的显示源信息
@@ -14214,6 +16746,26 @@ typedef struct tagDH_OUT_MATRIX_GET_CAMERAS
     int                     nRetCameraCount;                // 返回的显示源数量
 } DH_OUT_MATRIX_GET_CAMERAS;
 
+//CLIENT_QueryDevInfo , NET_QUERY_DEV_REMOTE_DEVICE_INFO 查询远程设备信息输入参数
+typedef struct tagNET_IN_GET_DEVICE_INFO
+{
+    DWORD                       dwSize;                                         // 用户使用该结构体时，dwSize 需赋值为 sizeof(NET_IN_GET_DEVICE_INFO)
+    char                        szDevice[DH_DEV_ID_LEN_EX];                 // 设备ID
+    // 设备属性，当 szDevice 字段为空时，以下字段生效
+    char                        szAttributeIP[DH_COMMON_STRING_32];             // 设备地址
+    int                         nAttributePort;                                 // 设备端口
+    char                        szAttributeUsername[DH_COMMON_STRING_128];      // 用户名
+    char                        szAttributePassword[DH_COMMON_STRING_128];      // 密码
+    char                        szAttributeManufacturer[DH_COMMON_STRING_128];  // 厂商协议
+}NET_IN_GET_DEVICE_INFO;
+
+//CLIENT_QueryDevInfo , NET_QUERY_DEV_REMOTE_DEVICE_INFO 查询远程设备信息输出参数
+typedef struct tagNET_OUT_GET_DEVICE_INFO
+{
+    DWORD                       dwSize;         // 用户使用该结构体时，dwSize 需赋值为 sizeof(NET_OUT_GET_DEVICE_INFO)
+    DH_REMOTE_DEVICE            stuInfo;        // 设备信息，该结构体内部成员 dwSize 需用户赋值
+}NET_OUT_GET_DEVICE_INFO;
+
 // CLIENT_MatrixSetCameras接口的输入参数
 typedef struct tagDH_IN_MATRIX_SET_CAMERAS 
 {
@@ -14227,43 +16779,6 @@ typedef struct tagDH_OUT_MATRIX_SET_CAMERAS
 {
     DWORD                   dwSize;
 } DH_OUT_MATRIX_SET_CAMERAS;
-
-// 电视墙显示单元
-typedef struct tagDH_MONITORWALL_OUTPUT 
-{
-    DWORD               dwSize;
-    char                szDeviceID[DH_DEV_ID_LEN];          // 设备ID, 本机时为""
-    int                 nChannel;                           // 通道号
-    char                szName[DH_DEV_NAME_LEN];            // 屏幕名称
-} DH_MONITORWALL_OUTPUT;
-
-// 电视墙显示区块
-typedef struct tagDH_MONITORWALL_BLOCK
-{
-    DWORD                   dwSize;
-    char                    szName[DH_DEV_NAME_LEN];        // 区块名称
-    char                    szCompositeID[DH_DEV_ID_LEN];   // 拼接屏ID
-    char                    szControlID[DH_DEV_ID_LEN];     // 控制ID
-    int                     nSingleOutputWidth;             // 单个显示单元所占的网格列数
-    int                     nSingleOutputHeight;            // 单个显示单元所占的网格行数
-    DH_RECT                 stuRect;                        // 区域坐标
-    DH_TSECT                stuPowerSchedule[DH_TSCHE_DAY_NUM][DH_TSCHE_SEC_NUM]; // 开机时间表, 第一维各元素表示周日~周六和节假日
-    DH_MONITORWALL_OUTPUT*  pstuOutputs;                    // 显示单元数组, 用户分配内存
-    int                     nMaxOutputCount;                // 显示单元数组大小, 用户填写
-    int                     nRetOutputCount;                // 返回的显示单元数量
-} DH_MONITORWALL_BLOCK;
-
-// 电视墙配置
-typedef struct tagDH_MONITORWALL 
-{
-    DWORD                   dwSize;
-    char                    szName[DH_DEV_NAME_LEN];        // 名称
-    int                     nGridLine;                      // 网格行数
-    int                     nGridColume;                    // 网格列数
-    DH_MONITORWALL_BLOCK*   pstuBlocks;                     // 显示区块数组, 用户分配内存
-    int                     nMaxBlockCount;                 // 显示区块数组大小, 用户填写
-    int                     nRetBlockCount;                 // 返回的显示区块数量
-} DH_MONITORWALL;
 
 // 窗口显示源信息
 typedef struct tagDH_SPLIT_WND_SOURCE 
@@ -14347,77 +16862,6 @@ typedef struct tagDH_OUT_MONITORWALL_SET_SCENE
     DWORD                   dwSize;
 } DH_OUT_MONITORWALL_SET_SCENE;
 
-
-// 电视墙操作类型
-typedef enum tagNET_MONITORWALL_OPERATE_TYPE
-{
-    NET_MONITORWALL_OPERATE_ADD,            // 添加电视墙, 对应 NET_IN_MONITORWALL_ADD 和 NET_OUT_MONITORWALL_ADD
-    NET_MONITORWALL_OPERATE_CTRL_TOUR,      // 预案轮巡控制, 对应 NET_IN_CTRL_COLLECTIONTOUR 和 NET_OUT_CTRL_COLLECTIONTOUR
-    NET_MONITORWALL_OPERATE_GET_STATUS,     // 获取矩阵当前状态, 对应 NET_IN_MONITORWALL_GET_STATUS 和 NET_OUT_MONITORWALL_GET_STATUS
-} NET_MONITORWALL_OPERATE_TYPE;
-
-// 添加电视墙输入参数
-typedef struct tagNET_IN_MONITORWALL_ADD
-{
-    DWORD dwSize;
-    DH_MONITORWALL stuMonitorWall; // 电视墙信息
-} NET_IN_MONITORWALL_ADD;
-
-// 添加电视墙输出参数
-typedef struct tagNET_OUT_MONITORWALL_ADD
-{
-    DWORD dwSize;
-    unsigned int nMonitorWallID; // 电视墙ID
-} NET_OUT_MONITORWALL_ADD;
-
-// CLIENT_OperateMonitorWall接口输入参数=>NET_MONITORWALL_OPERATE_CTRL_TOUR
-typedef struct tagNET_IN_CTRL_COLLECTIONTOUR 
-{
-    DWORD              dwSize;
-    int                nChannel;                       // 通道号
-    int                nAction;                        // 轮巡动作, 0:结束, 1:开始
-} NET_IN_CTRL_COLLECTIONTOUR;
-
-// CLIENT_OperateMonitorWall接口输出参数=>NET_MONITORWALL_OPERATE_CTRL_TOUR
-typedef struct tagNET_OUT_CTRL_COLLECTIONTOUR 
-{
-    DWORD                   dwSize;
-} NET_OUT_CTRL_COLLECTIONTOUR;
-
-// 矩阵运行状态
-typedef enum tagNET_MATRIX_STATUS
-{
-    MATRIX_STATUS_UNKNOWN,              // 未知
-    MATRIX_STATUS_TOUR,                 // 预案轮巡
-    MATRIX_STATUS_NORMAL,               // 普通预览
-} NET_MATRIX_STATUS;
-
-#define DH_MAX_COLLECTION_NUM   64      // 最大预案数
-// 矩阵状态信息
-typedef struct tagNET_MONITORWALL_STATUS_INFO
-{
-    DWORD       dwSize;
-    int         nInterval;                      // 轮巡时间间隔
-    int         nCollectionNum;                 // 预案轮巡数
-    char        szCollections[DH_MAX_COLLECTION_NUM][DH_DEVICE_NAME_LEN];         // 预案轮巡组内容
-    char        szName[DH_DEVICE_NAME_LEN];     // 当前显示的预案名称
-} NET_MONITORWALL_STATUS_INFO;
-
-// // CLIENT_OperateMonitorWall接口输入参数=>NET_MONITORWALL_OPERATE_GET_STATUS
-typedef struct tagNET_IN_MONITORWALL_GET_STATUS 
-{
-    DWORD              dwSize;
-    int                nChannel;                        // 通道号
-} NET_IN_MONITORWALL_GET_STATUS;
-
-// CLIENT_OperateMonitorWall接口输出参数=>NET_MONITORWALL_OPERATE_GET_STATUS
-typedef struct tagNET_OUT_MONITORWALL_GET_STATUS
-{
-    DWORD                           dwSize;
-    NET_MATRIX_STATUS               emMatrixStatus;     // 运行状态
-    NET_MONITORWALL_STATUS_INFO     stuStatusInfo;      // 状态信息
-} NET_OUT_MONITORWALL_GET_STATUS;
-
 //CLIENT_QueryNetStat接口,查询类型为NET_APP_DATA_STAT时的输入参数(获取协议栈统计数据)
 typedef struct tagNET_IN_NETAPP_NET_DATA_STAT
 {
@@ -14495,6 +16939,8 @@ typedef struct tagDH_VIDEO_IN_CAPS
     BOOL             bElectricFocus;                // 是否支持电动调焦
     BOOL             bSyncFocus;                    // 是否支持同步对焦
     BOOL             bSetColor;                     // 是否支持视频颜色设置
+    BOOL             bGain;                         // 是否支持增益控制
+    BOOL             bPhase;                        // 是否支持相位控制
 } DH_VIDEO_IN_CAPS;
 
 // CLIENT_GetVideoInCaps接口输入参数
@@ -14805,6 +17251,193 @@ typedef struct tagNET_OUT_MW_SET_BACKGROUD_COLOR
     DWORD           dwSize;
 } NET_OUT_MW_SET_BACKGROUD_COLOR;
 
+//////////////////////////////////////////////////////////////////////////
+// CLIENT_OperateMonitorWall接口参数
+//////////////////////////////////////////////////////////////////////////
+
+// 电视墙操作类型
+typedef enum tagNET_MONITORWALL_OPERATE_TYPE
+{
+    NET_MONITORWALL_OPERATE_ADD,            // 添加电视墙, 对应 NET_IN_MONITORWALL_ADD 和 NET_OUT_MONITORWALL_ADD
+    NET_MONITORWALL_OPERATE_CTRL_TOUR,      // 预案轮巡控制, 对应 NET_IN_CTRL_COLLECTIONTOUR 和 NET_OUT_CTRL_COLLECTIONTOUR
+    NET_MONITORWALL_OPERATE_GET_STATUS,     // 获取矩阵当前状态, 对应 NET_IN_MONITORWALL_GET_STATUS 和 NET_OUT_MONITORWALL_GET_STATUS
+    NET_MONITORWALL_OPERATE_SET_COLL_SCHD,  // 设置预案时间表, 对应 NET_IN_MONITORWALL_SET_COLL_SCHD 和 NET_OUT_MONITORWALL_SET_COLL_SCHD
+    NET_MONITORWALL_OPERATE_GET_COLL_SCHD,  // 获取预案时间表, 对应 NET_IN_MONITORWALL_GET_COLL_SCHD 和 NET_OUT_MONITORWALL_GET_COLL_SCHD
+    NET_MONITORWALL_OPERATE_REMOVE,         // 删除电视墙, 对应 NET_IN_MONITORWALL_REMOVE 和 NET_OUT_MONITORWALL_REMOVE
+    NET_MONITORWALL_OPERATE_SET_ENABLE,     // 设置使能, 对应 NET_IN_MONITORWALL_SET_ENABLE 和 NET_OUT_MONITORWALL_SET_ENABLE
+    NET_MONITORWALL_OPERATE_GET_ENABLE,     // 获取使能, 对应 NET_IN_MONITORWALL_GET_ENABLE 和 NET_OUT_MONITORWALL_GET_ENABLE
+    NET_MONITORWALL_OPERATE_NAME_EXIST,     // 电视墙是否存在, 对应 NET_IN_MONITORWALL_NAME_EXIST 和 NET_OUT_MONITORWALL_NAME_EXIST
+} NET_MONITORWALL_OPERATE_TYPE;
+
+// 添加电视墙输入参数
+typedef struct tagNET_IN_MONITORWALL_ADD
+{
+    DWORD dwSize;
+    DH_MONITORWALL stuMonitorWall; // 电视墙信息
+} NET_IN_MONITORWALL_ADD;
+
+// 添加电视墙输出参数
+typedef struct tagNET_OUT_MONITORWALL_ADD
+{
+    DWORD dwSize;
+    unsigned int nMonitorWallID; // 电视墙ID
+} NET_OUT_MONITORWALL_ADD;
+
+// CLIENT_OperateMonitorWall接口输入参数=>NET_MONITORWALL_OPERATE_CTRL_TOUR
+typedef struct tagNET_IN_CTRL_COLLECTIONTOUR 
+{
+    DWORD              dwSize;
+    int                nChannel;                       // 通道号
+    int                nAction;                        // 轮巡动作, 0:结束, 1:开始
+} NET_IN_CTRL_COLLECTIONTOUR;
+
+// CLIENT_OperateMonitorWall接口输出参数=>NET_MONITORWALL_OPERATE_CTRL_TOUR
+typedef struct tagNET_OUT_CTRL_COLLECTIONTOUR 
+{
+    DWORD                   dwSize;
+} NET_OUT_CTRL_COLLECTIONTOUR;
+
+// 矩阵运行状态
+typedef enum tagNET_MATRIX_STATUS
+{
+    MATRIX_STATUS_UNKNOWN,              // 未知
+    MATRIX_STATUS_TOUR,                 // 预案轮巡
+    MATRIX_STATUS_NORMAL,               // 普通预览
+} NET_MATRIX_STATUS;
+
+#define DH_MAX_COLLECTION_NUM   64      // 最大预案数
+// 矩阵状态信息
+typedef struct tagNET_MONITORWALL_STATUS_INFO
+{
+    DWORD       dwSize;
+    int         nInterval;                      // 轮巡时间间隔
+    int         nCollectionNum;                 // 预案轮巡数
+    char        szCollections[DH_MAX_COLLECTION_NUM][DH_DEVICE_NAME_LEN];         // 预案轮巡组内容
+    char        szName[DH_DEVICE_NAME_LEN];     // 当前显示的预案名称
+} NET_MONITORWALL_STATUS_INFO;
+
+// // CLIENT_OperateMonitorWall接口输入参数=>NET_MONITORWALL_OPERATE_GET_STATUS
+typedef struct tagNET_IN_MONITORWALL_GET_STATUS 
+{
+    DWORD              dwSize;
+    int                nChannel;                        // 通道号
+} NET_IN_MONITORWALL_GET_STATUS;
+
+// CLIENT_OperateMonitorWall接口输出参数=>NET_MONITORWALL_OPERATE_GET_STATUS
+typedef struct tagNET_OUT_MONITORWALL_GET_STATUS
+{
+    DWORD                           dwSize;
+    NET_MATRIX_STATUS               emMatrixStatus;     // 运行状态
+    NET_MONITORWALL_STATUS_INFO     stuStatusInfo;      // 状态信息
+} NET_OUT_MONITORWALL_GET_STATUS;
+
+// 电视墙预案时间表
+typedef struct tagMONITORWALL_COLLECTION_SCHEDULE
+{
+    DWORD               dwSize;
+    char                szName[DH_DEVICE_NAME_LEN];     // 预案名称
+    DH_TSECT            stuSchedule[DH_TSCHE_DAY_NUM][DH_TSCHE_SEC_NUM];   // 时间表, 第一维各元素表示周日~周六和节假日
+} MONITORWALL_COLLECTION_SCHEDULE;
+
+// CLIENT_OperateMonitorWall接口输入参数=>NET_MONITORWALL_OPERATE_SET_COLL_SCHD
+typedef struct tagNET_IN_MONITORWALL_SET_COLL_SCHD 
+{
+    DWORD               dwSize;
+    int                 nCollectionNum;                 // 预案数
+    MONITORWALL_COLLECTION_SCHEDULE stuCollShedule[DH_MAX_COLLECTION_NUM];  // 预案时间表
+    int                 nMonitorWallID;                 // 电视墙ID
+} NET_IN_MONITORWALL_SET_COLL_SCHD;
+
+// CLIENT_OperateMonitorWall接口输出参数=>NET_MONITORWALL_OPERATE_SET_COLL_SCHD
+typedef struct tagNET_OUT_MONITORWALL_SET_COLL_SCHD 
+{
+    DWORD               dwSize;
+} NET_OUT_MONITORWALL_SET_COLL_SCHD;
+
+// CLIENT_OperateMonitorWall接口输入参数=>NET_MONITORWALL_OPERATE_GET_COLL_SCHD
+typedef struct tagNET_IN_MONITORWALL_GET_COLL_SCHD 
+{
+    DWORD               dwSize;
+    BOOL                bAllCollections;                // TRUE-查询所有预案, 不需要指定预案名称. FALSE-查询名称所对应的预案
+    int                 nCollectionNum;                 // 预案数, bAllCollections为FALSE时有效
+    char                szCollections[DH_MAX_COLLECTION_NUM][DH_DEVICE_NAME_LEN];   // 预案名称
+    int                 nMonitorWallID;                 // 电视墙ID
+} NET_IN_MONITORWALL_GET_COLL_SCHD;
+
+// CLIENT_OperateMonitorWall接口输出参数=>NET_MONITORWALL_OPERATE_GET_COLL_SCHD
+typedef struct tagNET_OUT_MONITORWALL_GET_COLL_SCHD 
+{
+    DWORD               dwSize;
+    int                 nCollectionNum;                 // 预案数
+    MONITORWALL_COLLECTION_SCHEDULE stuCollShedule[DH_MAX_COLLECTION_NUM];  // 预案时间表
+} NET_OUT_MONITORWALL_GET_COLL_SCHD;
+
+// CLIENT_OperateMonitorWall接口输入参数=>NET_MONITORWALL_OPERATE_REMOVE
+typedef struct tagNET_IN_MONITORWALL_REMOVE 
+{
+    DWORD               dwSize;
+    int                 nMonitorWallNum;                // 要删除的电视墙数量
+    char                szNames[DH_MAX_MONITORWALL_NUM][DH_COMMON_STRING_128];  // 电视墙名称
+} NET_IN_MONITORWALL_REMOVE;
+
+// CLIENT_OperateMonitorWall接口输出参数=>NET_MONITORWALL_OPERATE_REMOVE
+typedef struct tagNET_OUT_MONITORWALL_REMOVE 
+{
+    DWORD               dwSize;
+} NET_OUT_MONITORWALL_REMOVE;
+
+// 电视墙使能信息
+typedef struct tagNET_MONITORWALL_ENABLE_INFO
+{
+    DWORD               dwSize;
+    BOOL                bEanble;                        // 使能
+    char                szName[DH_COMMON_STRING_128];   // 电视墙名称
+} NET_MONITORWALL_ENABLE_INFO;
+
+// CLIENT_OperateMonitorWall接口输入参数=>NET_MONITORWALL_OPERATE_SET_ENABLE
+typedef struct tagNET_IN_MONITORWALL_SET_ENABLE
+{
+    DWORD               dwSize;
+    int                 nMonitorWallNum;                // 要设置的电视墙数量
+    NET_MONITORWALL_ENABLE_INFO stuEnable[DH_MAX_MONITORWALL_NUM];  // 电视墙使能
+} NET_IN_MONITORWALL_SET_ENABLE;
+
+// CLIENT_OperateMonitorWall接口输出参数=>NET_MONITORWALL_OPERATE_SET_ENABLE
+typedef struct tagNET_OUT_MONITORWALL_SET_ENABLE
+{
+    DWORD               dwSize;
+} NET_OUT_MONITORWALL_SET_ENABLE;
+
+// CLIENT_OperateMonitorWall接口输入参数=>NET_MONITORWALL_OPERATE_GET_ENABLE
+typedef struct tagNET_IN_MONITORWALL_GET_ENABLE
+{
+    DWORD               dwSize;
+    int                 nMonitorWallNum;                // 要查询的电视墙数量, -1表示查询所有电视墙
+    char                szNames[DH_MAX_MONITORWALL_NUM][DH_COMMON_STRING_128];  // 电视墙名称, nMonitorWallNum>0时有效
+} NET_IN_MONITORWALL_GET_ENABLE;
+
+// CLIENT_OperateMonitorWall接口输出参数=>NET_MONITORWALL_OPERATE_SET_ENABLE
+typedef struct tagNET_OUT_MONITORWALL_GET_ENABLE
+{
+    DWORD               dwSize;
+    int                 nMonitorWallNum;                // 电视墙数量
+    NET_MONITORWALL_ENABLE_INFO stuEnable[DH_MAX_MONITORWALL_NUM];  // 电视墙使能
+} NET_OUT_MONITORWALL_GET_ENABLE;
+
+// CLIENT_OperateMonitorWall接口输入参数=>NET_MONITORWALL_OPERATE_NAME_EXIST
+typedef struct tagNET_IN_MONITORWALL_NAME_EXIST 
+{
+    DWORD               dwSize;
+    const char*         pszName;                        // 电视墙名称
+} NET_IN_MONITORWALL_NAME_EXIST;
+
+// CLIENT_OperateMonitorWall接口输出参数=>NET_MONITORWALL_OPERATE_NAME_EXIST
+typedef struct tagNET_OUT_MONITORWALL_NAME_EXIST 
+{
+    DWORD               dwSize;
+    BOOL                bExist;                        // 电视墙是否已存在
+} NET_OUT_MONITORWALL_NAME_EXIST;
+
 /************************************************************************/
 /*  							U盘抓包									*/
 /************************************************************************/
@@ -14931,6 +17564,31 @@ typedef struct tagDH_OUT_LIST_REMOTE_FILE
     int                     nRetFileCount;              // 返回的文件数量
 } DH_OUT_LIST_REMOTE_FILE;
 
+// 设置文件属性—属性名称
+typedef enum tagNET_SET_FILEATTR_ACTION
+{
+    EM_SET_FILEATTR_ACTION_UNKNOWN = 0,                 // 未知
+    EM_SET_FILEATTR_ACTION_MARK,                        // 文件加锁
+} NET_SET_FILEATTR_ACTION;
+
+// CLIENT_SetFileAttribute 接口输入参数
+typedef struct tagDH_IN_SET_FILEATTRIBUTE
+{
+    DWORD                   dwSize;
+    unsigned int            nDriveNo;                       // 磁盘号
+    unsigned int            nPartition;                     // 分区号
+    unsigned int            nCluster;                       // 簇号
+    NET_SET_FILEATTR_ACTION emAction;                       // 每种属性对应一种key,设置值由value决定
+                                                            // 设置key:Mark 文件加锁,对应value,延长加锁时间(单位:天)
+    char                    szValue[DH_COMMON_STRING_64];   // 属性值
+} DH_IN_SET_FILEATTRIBUTE;
+
+// CLIENT_SetFileAttribute 接口输出参数
+typedef struct tagDH_OUT_SET_FILEATTRIBUTE
+{
+    DWORD                   dwSize;
+} DH_OUT_SET_FILEATTRIBUTE;
+
 // 手动弹出存储设备
 typedef struct tagDH_EJECT_STORAGE_DEVICE
 {
@@ -14951,6 +17609,8 @@ typedef struct tagDH_IN_UPLOAD_REMOTE_FILE
     DWORD               dwSize;
     const char*         pszFileSrc;                     // 源文件路径
     const char*         pszFileDst;                     // 目标文件路径
+	const char*			pszFolderDst;					// 目标文件夹路径：可为NULL, NULL时设备使用默认路径
+    unsigned int        nPacketLen;                     // 文件分包大小(字节): 0表示不分包
 } DH_IN_UPLOAD_REMOTE_FILE;
 
 // CLIENT_UploadRemoteFile 接口输出参数(上传文件到设备)
@@ -15164,6 +17824,17 @@ typedef struct
     BOOL                     bRapidQuery;                                 // 是否快速查询, TRUE:为快速，快速查询时不等待所有增、删、改操作完成。默认为非快速查询
 }FIND_RECORD_TRAFFICREDLIST_CONDITION;
 
+// 嫌疑车辆上报事件, 对应事件类型 DH_ALARM_TRAFFIC_SUSPICIOUSCAR
+typedef struct tagALARM_TRAFFIC_SUSPICIOUSCAR_INFO
+{
+    DWORD                   dwSize;
+    int                     nAction;                        // 事件动作, -1:未知,0:Start, 1:Stop, 2:Pulse
+    DH_MSG_OBJECT           stuVehicle;                     // 车身信息
+    NET_TRAFFIC_LIST_RECORD stuCarInfo;                     // 车辆的黑名单信息
+    EVENT_COMM_INFO         stCommInfo;                     // 公共信息
+}ALARM_TRAFFIC_SUSPICIOUSCAR_INFO;
+
+
 // 刻录案件记录查询条件
 typedef struct
 {
@@ -15180,6 +17851,9 @@ typedef struct tagFIND_RECORD_ACCESSCTLCARD_CONDITION
     char                     szCardNo[DH_MAX_CARDNO_LEN];      // 卡号
     char                     szUserID[DH_MAX_USERID_LEN];      // 用户ID
     BOOL                     bIsValid;                         // 是否有效, TRUE:有效,FALSE:无效
+    BOOL                     abCardNo;                         // 卡号查询条件是否有效，针对成员 szCardNo
+    BOOL                     abUserID;                         // 用户ID查询条件是否有效，针对成员 szUserID
+    BOOL                     abIsValid;                        // IsValid查询条件是否有效，针对成员 bIsValid
 }FIND_RECORD_ACCESSCTLCARD_CONDITION;
 
 // 门禁密码记录查询条件
@@ -15203,6 +17877,74 @@ typedef struct tagFIND_RECORD_ACCESSCTLHOLIDAY_CONDITION
 {
     DWORD                     dwSize;
 }FIND_RECORD_ACCESSCTLHOLIDAY_CONDITION;
+
+// 交通流量记录查询条件
+typedef struct tagFIND_RECORD_TRAFFICFLOW_CONDITION
+{
+    DWORD                     dwSize;
+    BOOL                      abChannelId;                      // 通道号查询条件是否有效     
+    int                       nChannelId;                       // 通道号
+    BOOL                      abLane;                           // 车道号查询条件是否有效
+    int                       nLane;                            // 车道号
+    BOOL                      abStartTime;                      // 开始时间查询条件是否有效   
+    NET_TIME                  stStartTime;                      // 开始时间
+     BOOL                     abEndTime;                        // 结束时间查询条件是否有效
+    NET_TIME                  stEndTime;                        // 结束时间 
+}FIND_RECORD_TRAFFICFLOW_CONDITION;
+
+#define DH_MAX_CALLTYPE_LIST_NUM                16                  // 呼叫类型查询条件列表最大个数
+#define DH_MAX_ENDSTATE_LIST_NUM                16                  // 最终状态查询条件列表最大个数
+
+// 通话记录查询条件
+typedef struct tagFIND_RECORD_VIDEO_TALK_LOG_CONDITION
+{
+    DWORD                           dwSize;
+    BOOL                            bCallTypeEnable;                            // 呼叫类型查询条件是否有效
+    int                             nCallTypeListNum;                           // 对应 emCallTypeList 中有效枚举个数
+    EM_VIDEO_TALK_LOG_CALLTYPE      emCallTypeList[DH_MAX_CALLTYPE_LIST_NUM];   // 呼叫类型使能列表
+    BOOL                            bEndStateEnable;                            // 最终状态查询条件是否有效
+    int                             nEndStateListNum;                           // 对应 emEndStateList 中有效枚举个数
+    EM_VIDEO_TALK_LOG_ENDSTATE      emEndStateList[DH_MAX_ENDSTATE_LIST_NUM];   // 最终状态使能列表
+}FIND_RECORD_VIDEO_TALK_LOG_CONDITION;
+
+// 状态记录查询条件
+typedef struct tagFIND_RECORD_REGISTER_USER_STATE_CONDITION
+{
+    DWORD                           dwSize;
+    BOOL                            bUserIDEnable;                                  // 用户ID查询条件是否有效
+    char                            szUserID[DH_MAX_USERID_LEN];                    // 用户ID
+    BOOL                            bOnlineEnable;                                  // 是否在线查询条件是否有效
+    BOOL                            bOnline;                                        // 是否在线
+    BOOL                            bVideoTalkingEnable;                            // 语音对讲状态查询条件是否有效
+    EM_REGISTER_USER_STATE          emVideoTalking;                             // 语音对讲状态
+}FIND_RECORD_REGISTER_USER_STATE_CONDITION;
+
+// 联系人记录查询条件
+typedef struct tagFIND_RECORD_VIDEO_TALK_CONTACT_CONDITION
+{
+    DWORD                           dwSize;
+    BOOL                            bVTShortNumberEnable;                                   // 可视对讲短号查询条件是否有效
+    char                            szVTShortNumber[DH_COMMON_STRING_32];                   // 可视对讲短号
+}FIND_RECORD_VIDEO_TALK_CONTACT_CONDITION;
+
+// 交通流量记录
+typedef struct tagNET_RECORD_TRAFFIC_FLOW_STATE 
+{
+    DWORD                           dwSize;
+    int                             nRecordNum;                 // 记录编号
+    int                             nChannel;                   // 通道号   
+    int                             nLane;                      // 车道号
+    int                             nVehicles;                  // 通过车辆总数
+    float                           fAverageSpeed;              // 平均车速，单位km/h
+    float                           fTimeOccupyRatio;           // 时间占有率，即单位时间内通过断面的车辆所用时间的总和占单位时间的比例
+    float                           fSpaceOccupyRatio;          // 空间占有率，即按百分率计量的车辆长度总和除以时间间隔内车辆平均行驶距离
+    float                           fSpaceHeadway;              // 车头间距，相邻车辆之间的距离，单位米/辆
+    float                           fTimeHeadway;               // 车头时距，单位秒/辆
+    int                             nLargeVehicles;             // 大车交通量(9米<车长<12米)，辆/单位时间
+    int                             nMediumVehicles;            // 中型车交通量(6米<车长<9米)，辆/单位时间
+    int                             nSmallVehicles;             // 小车交通量(4米<车长<6米)，辆/单位时间，
+    float                           fBackOfQueue;               // 排队长度，单位：米, 从信号交叉口停车线到上游排队车辆末端之间的距离
+}NET_RECORD_TRAFFIC_FLOW_STATE;
 
 // CLIENT_FindRecord接口输入参数
 typedef struct _NET_IN_FIND_RECORD_PARAM
@@ -15300,7 +18042,7 @@ typedef struct tagPTZ_Control_Continuously
 //绝对控制云台对应结构
 typedef struct tagPTZ_Control_Absolutely
 {
-    PTZ_SPACE_UNIT         stuPosition;           //云台绝对速度
+    PTZ_SPACE_UNIT         stuPosition;           //云台绝对移动位置
     PTZ_SPEED_UNIT         stuSpeed;              //云台运行速度
     char                   szReserve[64];         //预留64字节
 }PTZ_CONTROL_ABSOLUTELY;
@@ -15348,6 +18090,61 @@ typedef struct tagNET_OUT_SET_TOUR_SOURCE
 {
     DWORD                   dwSize;
 } NET_OUT_SET_TOUR_SOURCE;
+
+// CLIENT_GetTourSource 接口输入参数
+typedef struct tagNET_IN_GET_TOUR_SOURCE 
+{
+    DWORD                   dwSize;
+    int                     nChannel;               // 输出通道号, pszCompsiteID为NULL时有效
+    const char*             pszCompositeID;         // 拼接屏ID
+    int                     nWindow;                // 窗口号, -1表示所有窗口
+} NET_IN_GET_TOUR_SOURCE;
+
+// 窗口轮巡显示源信息
+typedef struct tagNET_SPLIT_TOUR_SOURCE 
+{
+    DWORD                   dwSize;
+    DH_SPLIT_SOURCE*        pstuSrcs;               // 显示源数组, 用户分配内存
+    int                     nMaxSrcCount;           // 显示源最大数量
+    int                     nRetSrcCount;           // 返回的显示源数量
+} NET_SPLIT_TOUR_SOURCE;
+
+// CLIENT_GetTourSource 接口输出参数
+typedef struct tagNET_OUT_GET_TOUR_SOURCE
+{
+    DWORD                   dwSize;    
+    NET_SPLIT_TOUR_SOURCE*  pstuWndSrcs;            // 窗口轮巡信息数组, 用户分配内存
+    int                     nMaxWndCount;           // 窗口最大数组, 用户填写
+    int                     nRetWndCount;           // 返回的窗口数量
+} NET_OUT_GET_TOUR_SOURCE;
+
+// 分割轮巡状态信息
+typedef struct tagNET_SPLIT_TOUR_STATUS_INFO
+{
+    DWORD               dwSize;
+    int                 nWindow;                    // 窗口号
+    NET_TOUR_STATUS     emStatus;                   // 状态
+    DH_SPLIT_WND_SOURCE stuSource;                  // 当前显示源信息
+}NET_SPLIT_TOUR_STATUS_INFO;
+
+// 轮巡状态回调函数原形, lAttachHandle是CLIENT_AttachSplitTour的返回值
+typedef void (CALLBACK *fTourStatusCallBack)(LLONG lLoginID, LLONG lAttachHandle, NET_SPLIT_TOUR_STATUS_INFO* pstStatus, void* reserved, LDWORD dwUser);
+
+// CLIENT_AttachSplitTour接口输入参数
+typedef struct tagNET_IN_ATTACH_SPLIT_TOUR
+{
+    DWORD               dwSize;
+    int                 nChannel;                   // 输出通道号, pszCompsiteID为NULL时有效
+    const char*         pszCompositeID;             // 拼接屏ID
+    fTourStatusCallBack cbStatus;                   // 轮巡状态回调函数
+    LDWORD              dwUser;                     // 轮巡状态回调参数
+}NET_IN_ATTACH_SPLIT_TOUR;
+
+// CLIENT_AttachSplitTour接口输出参数
+typedef struct tagNET_OUT_ATTACH_SPLIT_TOUR 
+{
+    DWORD               dwSize;
+}NET_OUT_ATTACH_SPLIT_TOUR;
 
 // fAttachRecordInfoCB 参数, 上报的录像文件信息
 typedef struct tagNET_CB_RECORD_INFO
@@ -15408,6 +18205,7 @@ typedef struct tagDH_OUT_PTZ_VIEW_RANGE_STATUS
     double     dbDistance;                         // 可视距离, 单位:米
     int        nAngelH;                            // 水平可视角度, 0~1800, 单位:度
     int        nAzimuthH;                          // 水平方位角度, 0~3600, 单位:度
+    int        nInclinationH;                      // 水平倾斜角度, -900~900, 单位:度
 }DH_OUT_PTZ_VIEW_RANGE_STATUS;
 
 //订阅云台可视域回调函数原型
@@ -15548,6 +18346,18 @@ typedef struct tagPTZ_Control_SectorScan
     char            szReserve[64];                  //预留64字节
 }PTZ_CONTROL_SECTORSCAN;
 
+// 控制鱼眼电子云台信息
+typedef struct tagPTZ_CONTROL_SET_FISHEYE_EPTZ
+{
+    DWORD           dwSize;                         // 结构体大小
+    DWORD           dwWindowID;                     // 进行EPtz控制的窗口编号
+    DWORD           dwCommand;                      // 电子云台命令
+    DWORD           dwParam1;                       // 命令对应参数1
+    DWORD           dwParam2;                       // 命令对应参数2
+    DWORD           dwParam3;                       // 命令对应参数3
+    DWORD           dwParam4;                       // 命令对应参数4
+}PTZ_CONTROL_SET_FISHEYE_EPTZ;
+
 // CLIENT_TransmitInfoForWeb 接口扩展参数
 typedef struct tagNET_TRANSMIT_EXT_INFO
 {
@@ -15582,6 +18392,21 @@ typedef struct tagNET_OUT_ATTACH_CAN
 {
     DWORD          dwSize;
 }NET_OUT_ATTACH_CAN;
+
+// CLIENT_SendCAN()输入参数
+typedef struct tagNET_IN_SEND_CAN
+{
+    DWORD          dwSize;
+    int            nChannel;                       // CAN通道号
+	int            nSendDataLength;                // 发送数据长度
+    unsigned char* pSendData;                      // 发送数据内容
+}NET_IN_SEND_CAN;
+
+// CLIENT_SendCAN()输出参数
+typedef struct tagNET_OUT_SEND_CAN
+{
+    DWORD          dwSize;
+}NET_OUT_SEND_CAN;
 
 // 订阅透明串口数据回调fAttachDevCommCB 参数
 typedef struct tagNET_CB_DEVCOMMDATA
@@ -15674,7 +18499,156 @@ typedef struct tagDEV_EVENT_TRAFFIC_RESTRICTED_PLATE
     DH_RESOLUTION_INFO      stuResolution;                  // 对应图片的分辨率
     DEV_EVENT_TRAFFIC_TRAFFICCAR_INFO stuTrafficCar;        // 交通车辆信息
     BYTE                    byReserved[1024];               // 保留字节
+    EVENT_COMM_INFO         stCommInfo;                     // 公共信息
 }DEV_EVENT_TRAFFIC_RESTRICTED_PLATE;
+
+// 事件类型 EVENT_IVS_TRAFFIC_OVERSTOPLINE (压停车线事件)对应的数据块描述信息
+typedef struct tagDEV_EVENT_TRAFFIC_OVERSTOPLINE
+{
+    int                     nChannelID;                     // 通道号
+    char                    szName[DH_EVENT_NAME_LEN];      // 事件名称
+    int                     nTriggerType;                   // TriggerType:触发类型，0车检器，1雷达，2视频
+    DWORD                   PTS;                            // 时间戳(单位是毫秒)
+    NET_TIME_EX             UTC;                            // 事件发生的时间
+    int                     nEventID;                       // 事件ID
+    int                     nSequence;                      // 表示抓拍序号，如3,2,1,1表示抓拍结束,0表示异常结束
+    BYTE                    byEventAction;                  // 事件动作，0表示脉冲事件,1表示持续性事件开始,2表示持续性事件结束;
+    BYTE                    byImageIndex;                   // 图片的序号, 同一时间内(精确到秒)可能有多张图片, 从0开始
+    BYTE                    byReserved1[2];
+    int                     nLane;                          // 对应车道号
+    DH_MSG_OBJECT           stuObject;                      // 检测到的物体
+    DH_MSG_OBJECT           stuVehicle;                     // 车身信息
+    DH_EVENT_FILE_INFO      stuFileInfo;                    // 事件对应文件信息
+    int                     nMark;                          // 底层产生的触发抓拍帧标记
+    int                     nFrameSequence;                 // 视频分析帧序号
+    int                     nSource;                        // 视频分析的数据源地址
+    DWORD                   dwSnapFlagMask;                 // 抓图标志(按位)，具体见NET_RESERVED_COMMON    
+    DH_RESOLUTION_INFO      stuResolution;                  // 对应图片的分辨率
+    DEV_EVENT_TRAFFIC_TRAFFICCAR_INFO stuTrafficCar;        // 交通车辆信息
+    int                     nSpeed;                         // 车辆实际速度,Km/h
+    BYTE                    byReserved[1024];               // 保留字节
+    EVENT_COMM_INFO         stCommInfo;                     // 公共信息
+
+}DEV_EVENT_TRAFFIC_OVERSTOPLINE;
+
+
+typedef enum tagNET_SAFEBELT_STATE
+{
+    SS_NUKNOW   = 0 ,       //未知
+    SS_WITH_SAFE_BELT ,     //已系安全带  
+    SS_WITHOUT_SAFE_BELT ,  //未系安全带
+}NET_SAFEBELT_STATE;
+
+// 事件类型EVENT_IVS_TRAFFIC_WITHOUT_SAFEBELT(交通未系安全带事件事件)对应的数据块描述信息
+typedef struct  tagDEV_EVENT_TRAFFIC_WITHOUT_SAFEBELT
+{
+    int                     nChannelID;                     // 通道号
+    char                    szName[DH_EVENT_NAME_LEN];      // 事件名称
+    int                     nTriggerType;                   // TriggerType:触发类型，0车检器，1雷达，2视频
+    DWORD                   PTS;                            // 时间戳(单位是毫秒)
+    NET_TIME_EX             UTC;                            // 事件发生的时间
+    int                     nEventID;                       // 事件ID
+    int                     nSequence;                      // 表示抓拍序号，如3,2,1,1表示抓拍结束,0表示异常结束
+    BYTE                    byEventAction;                  // 事件动作，0表示脉冲事件,1表示持续性事件开始,2表示持续性事件结束;    BYTE                    byReserved1[2];
+    BYTE                    byImageIndex;                   // 图片的序号, 同一时间内(精确到秒)可能有多张图片, 从0开始
+    BYTE                    byReserved1[2];
+    DH_EVENT_FILE_INFO      stuFileInfo;                    // 事件对应文件信息
+    int                     nLane;                          // 对应车道号
+    int                     nMark;                          // 底层产生的触发抓拍帧标记
+    int                     nFrameSequence;                 // 视频分析帧序号
+    int                     nSource;                        // 视频分析的数据源地址
+    DH_MSG_OBJECT           stuObject;                      // 检测到的物体
+    DH_MSG_OBJECT           stuVehicle;                     // 车身信息
+    DEV_EVENT_TRAFFIC_TRAFFICCAR_INFO stuTrafficCar;        // 交通车辆信息
+    int                     nSpeed;                         // 车辆实际速度,Km/h
+    NET_SAFEBELT_STATE      emMainSeat;                     // 主驾驶座位安全带状态
+    NET_SAFEBELT_STATE      emSlaveSeat;                    // 副驾驶座位安全带状态
+    DWORD                   dwSnapFlagMask;                 // 抓图标志(按位)，具体见NET_RESERVED_COMMON    
+    DH_RESOLUTION_INFO      stuResolution;                  // 对应图片的分辨率
+    BYTE                    byReserved[1024];               // 保留字节
+    EVENT_COMM_INFO         stCommInfo;                     // 公共信息
+
+}DEV_EVENT_TRAFFIC_WITHOUT_SAFEBELT;
+
+// 事件类型EVENT_IVS_TRAFFIC_DRIVER_SMOKING (驾驶员抽烟事件)对应的数据块描述信息
+typedef struct  tagDEV_EVENT_TRAFFIC_DRIVER_SMOKING
+{
+    int                     nChannelID;                     // 通道号
+    char                    szName[DH_EVENT_NAME_LEN];      // 事件名称
+    int                     nTriggerType;                   // TriggerType:触发类型，0车检器，1雷达，2视频
+    DWORD                   PTS;                            // 时间戳(单位是毫秒)
+    NET_TIME_EX             UTC;                            // 事件发生的时间
+    int                     nEventID;                       // 事件ID
+    int                     nSequence;                      // 表示抓拍序号，如3,2,1,1表示抓拍结束,0表示异常结束
+    BYTE                    byEventAction;                  // 事件动作，0表示脉冲事件,1表示持续性事件开始,2表示持续性事件结束;    BYTE                    byReserved1[2];
+    BYTE                    byImageIndex;                   // 图片的序号, 同一时间内(精确到秒)可能有多张图片, 从0开始
+    BYTE                    byReserved1[2];
+    DH_EVENT_FILE_INFO      stuFileInfo;                    // 事件对应文件信息
+    int                     nLane;                          // 对应车道号
+    int                     nMark;                          // 底层产生的触发抓拍帧标记
+    int                     nFrameSequence;                 // 视频分析帧序号
+    int                     nSource;                        // 视频分析的数据源地址
+    DH_MSG_OBJECT           stuObject;                      // 检测到的物体
+    DH_MSG_OBJECT           stuVehicle;                     // 车身信息
+    DEV_EVENT_TRAFFIC_TRAFFICCAR_INFO stuTrafficCar;        // 交通车辆信息
+    int                     nSpeed;                         // 车辆实际速度,Km/h
+    DWORD                   dwSnapFlagMask;                 // 抓图标志(按位)，具体见NET_RESERVED_COMMON    
+    DH_RESOLUTION_INFO      stuResolution;                  // 对应图片的分辨率
+    EVENT_COMM_INFO         stCommInfo;                     // 公共信息
+    BYTE                    byReserved[1024];               // 保留字节
+}DEV_EVENT_TRAFFIC_DRIVER_SMOKING;
+
+// 事件类型EVENT_IVS_TRAFFIC_DRIVER_CALLING(驾驶员打电话事件)对应的数据块描述信息
+typedef struct  tagDEV_EVENT_TRAFFIC_DRIVER_CALLING
+{
+    int                     nChannelID;                     // 通道号
+    char                    szName[DH_EVENT_NAME_LEN];      // 事件名称
+    int                     nTriggerType;                   // TriggerType:触发类型，0车检器，1雷达，2视频
+    DWORD                   PTS;                            // 时间戳(单位是毫秒)
+    NET_TIME_EX             UTC;                            // 事件发生的时间
+    int                     nEventID;                       // 事件ID
+    int                     nSequence;                      // 表示抓拍序号，如3,2,1,1表示抓拍结束,0表示异常结束
+    BYTE                    byEventAction;                  // 事件动作，0表示脉冲事件,1表示持续性事件开始,2表示持续性事件结束;    BYTE                    byReserved1[2];
+    BYTE                    byImageIndex;                   // 图片的序号, 同一时间内(精确到秒)可能有多张图片, 从0开始
+    BYTE                    byReserved1[2];
+    DH_EVENT_FILE_INFO      stuFileInfo;                    // 事件对应文件信息
+    int                     nLane;                          // 对应车道号
+    int                     nMark;                          // 底层产生的触发抓拍帧标记
+    int                     nFrameSequence;                 // 视频分析帧序号
+    int                     nSource;                        // 视频分析的数据源地址
+    DH_MSG_OBJECT           stuObject;                      // 检测到的物体
+    DH_MSG_OBJECT           stuVehicle;                     // 车身信息
+    DEV_EVENT_TRAFFIC_TRAFFICCAR_INFO stuTrafficCar;        // 交通车辆信息
+    int                     nSpeed;                         // 车辆实际速度,Km/h
+    DWORD                   dwSnapFlagMask;                 // 抓图标志(按位)，具体见NET_RESERVED_COMMON    
+    DH_RESOLUTION_INFO      stuResolution;                  // 对应图片的分辨率
+    EVENT_COMM_INFO         stCommInfo;                     // 公共信息
+    BYTE                    byReserved[1024];               // 保留字节
+}DEV_EVENT_TRAFFIC_DRIVER_CALLING;
+
+
+// 事件类型EVENT_IVS_OBJECT_DETECTION(物体特征检测事件)对应的数据块描述信息
+typedef struct  tagDEV_EVENT_TRAFFIC_OBJECT_DETECTION
+{
+    int                 nChannelID;                         // 通道号
+    char                szName[128];                        // 事件名称
+    char                bReserved1[4];                      // 字节对齐
+    double              PTS;                                // 时间戳(单位是毫秒)
+    NET_TIME_EX         UTC;                                // 事件发生的时间
+    int                 nEventID;                           // 事件ID
+    DH_EVENT_FILE_INFO  stuFileInfo;                        // 事件对应文件信息
+    BYTE                bEventAction;                       // 事件动作，0表示脉冲事件,1表示持续性事件开始,2表示持续性事件结束;
+    BYTE                byReserved[2];                      // 保留字节
+    BYTE                byImageIndex;                       // 图片的序号, 同一时间内(精确到秒)可能有多张图片, 从0开始
+    DWORD               dwSnapFlagMask;                     // 抓图标志(按位)，具体见NET_RESERVED_COMMON    
+    int                 nSourceIndex;                       // 事件源设备上的index,-1表示数据无效
+    char                szSourceDevice[MAX_PATH];           // 事件源设备唯一标识,字段不存在或者为空表示本地设备
+    unsigned int        nOccurrenceCount;                   // 事件触发累计次数
+
+    int                 nObjectNum;          //物体信息数
+    DH_MSG_OBJECT_EX   *pstObjectInfo;       //物体信息数据  
+    BYTE                byReserved2[1024];   //保留字节
+}DEV_EVENT_TRAFFIC_OBJECT_DETECTION;
 
 // 冗余电源异常报警
 typedef struct tagALARM_POWER_ABNORMAL_INFO
@@ -15685,6 +18659,24 @@ typedef struct tagALARM_POWER_ABNORMAL_INFO
     DWORD                   dwAction;                       // 事件动作, 0:Start, 1:Stop
 }ALARM_POWER_ABNORMAL_INFO;
 
+// 三态使能
+typedef enum tagNET_THREE_STATE_ENABLE
+{
+    EM_STATE_ENABLE_INVALID = 0,            // 无效
+    EM_STATE_ENABLE_OFF,                    // 关
+    EM_STATE_ENABLE_ON,                     // 开
+} NET_THREE_STATE_ENABLE;
+
+// 配置使能改变上报事件
+typedef struct tagCONFIG_ENABLE_CHANGE_INFO
+{
+    DWORD                   dwSize;
+    int                     nChannelID;                     // 通道号, 从0开始
+    NET_THREE_STATE_ENABLE  emMotionDetect;                 // 动检使能,     0:无效, 1:使能关闭, 2:使能打开
+    NET_THREE_STATE_ENABLE  emLossDetect;                   // 视频丢失使能, 0:无效, 1:使能关闭, 2:使能打开
+    NET_THREE_STATE_ENABLE  emBlindDetect;                  // 视频遮挡使能, 0:无效, 1:使能关闭, 2:使能打开
+    NET_THREE_STATE_ENABLE  emAlarmLocal;                   // 外部报警使能, 0:无效, 1:使能关闭, 2:使能打开
+}ALARM_CONFIG_ENABLE_CHANGE_INFO;
 
 #define UPDATE_VERSION_LEN        64
 
@@ -15884,12 +18876,14 @@ typedef void (CALLBACK *fBurnFileCallBack) (LLONG lLoginID, LLONG lUploadHandle,
 typedef struct tagNET_IN_FILEBURNED_START
 {
     DWORD                   dwSize;
-    const char*             szMode;                        // 文件上传方式"append",追加模式,此时刻录文件名固定为" FILE.zip ",filename被忽略
-    const char*             szDeviceName;                  // 光盘名称，如“/dev/sda”
-    const char*             szFilename;                    // 本地文件名称
-    fBurnFileCallBack       cbBurnPos;                     // 刻录进度回调
-    LDWORD                  dwUser;                        // 用户数据
-    LLONG                   lBurnSession;                  // 刻录句柄, CLIENT_StartBurnSession的返回值. 该值为0时, szDeviceName有效, 此时按刻录设备订阅刻录状态
+    const char*             szMode;                         // 文件上传方式
+                                                            // "append", 追加模式,此时刻录文件名固定为" FILE.zip ",filename被忽略
+                                                            // "evidence", 证据等大附件, 要求单独刻录的光盘内
+    const char*             szDeviceName;                   // 光盘名称，如“/dev/sda”
+    const char*             szFilename;                     // 本地文件名称
+    fBurnFileCallBack       cbBurnPos;                      // 刻录进度回调
+    LDWORD                  dwUser;                         // 用户数据
+    LLONG                   lBurnSession;                   // 刻录句柄, CLIENT_StartBurnSession的返回值. 该值为0时, szDeviceName有效, 此时按刻录设备订阅刻录状态
 }NET_IN_FILEBURNED_START;
 
 // CLIENT_StartUploadFileBurned 输出参数
@@ -16020,6 +19014,7 @@ typedef enum tagNET_RAID_OPERATE_TYPE
     NET_RAID_OPERATE_REMOVE,                 // 删除RAID, 对应结构体 NET_IN_RAID_REMOVE 和 NET_OUT_RAID_REMOVE
     NET_RAID_OPERATE_GET_SUBDEVICE,          // 获取RAID子设备信息, 对应结构体 NET_IN_RAID_GET_SUBDEVICE 和 NET_OUT_RAID_GET_SUBDEVICE
     NET_RAID_OPERATE_GET_SUBSMART,           // 获取RAID子设备SMART信息, 对应结构体 NET_IN_RAID_GET_SUBSMART 和 NET_OUT_RAID_GET_SUBSMART
+    NET_RAID_OPERATE_MODIFY,                 // 修改RAID, 对应结构体 NET_IN_RAID_MODIFY 和 NET_OUT_RAID_MODIFY
 } NET_RAID_OPERATE_TYPE;
 
 // RAID信息
@@ -16045,7 +19040,7 @@ typedef struct tagNET_RAID_ADD_RESULT
 typedef struct tagNET_IN_RAID_ADD 
 {
     DWORD                dwSize;
-    int                    nRaidNun;                        // RAID数量
+    int                  nRaidNun;                          // RAID数量
     NET_RAID_INFO        stuRaids[DH_MAX_RAID_NUM];         // RAID信息
 } NET_IN_RAID_ADD;
 
@@ -16124,6 +19119,31 @@ typedef struct tagNET_OUT_RAID_GET_SUBSMART
     NET_RAID_SMART_INFO  stuSmartInfos[MAX_SMART_VALUE_NUM]; // SMART信息
 } NET_OUT_RAID_GET_SUBSMART;
 
+// 修改RAID的返回结果
+typedef struct tagNET_RAID_MODIFY_RESULT 
+{
+    DWORD                dwSize;
+    BOOL                 bResult;
+    DWORD                dwErrorCode;                       // 失败错误码
+} NET_RAID_MODIFY_RESULT;
+
+// 修改RAID输入参数
+typedef struct tagNET_IN_RAID_MODIFY
+{
+    DWORD                dwSize;
+    int                  nRaidNun;                          // RAID数量
+    NET_RAID_INFO        stuRaids[DH_MAX_RAID_NUM];         // RAID信息
+} NET_IN_RAID_MODIFY;
+
+// 修改RAID输出参数
+typedef struct tagNET_OUT_RAID_MODIFY 
+{
+    DWORD                dwSize;
+    int                  nResultNum;                        // 结果数
+    NET_RAID_MODIFY_RESULT stuResults[DH_MAX_RAID_NUM];     // RAID操作的结果
+} NET_OUT_RAID_MODIFY;
+
+
 //////////////////////////////// 外部设备 //////////////////////////////////////////
 
 // 外接设备类型
@@ -16191,9 +19211,25 @@ typedef struct tagALARM_PROTECTIVE_CAPSULE_INFO
     DWORD               nInfrared;      //0:闲置(无人),1:触发(有人);仅在emCapsuleState为CAPSULE_STATE_NORMAL时有效
 }ALARM_PROTECTIVE_CAPSULE_INFO;
 
-// 设备能力类型, 对应CLIENT_GetDevCaps接口
-#define NET_DEV_CAP_SEQPOWER            0x01                // 电源时序器能力, pInBuf=NET_IN_CAP_SEQPOWER*, pOutBuf=NET_OUT_CAP_SEQPOWER*
-#define NET_ENCODE_CFG_CAPS             0x02                // 设备编码配置对应能力, pInBuf=NET_IN_ENCODE_CFG_CAPS*, pOutBuf= NET_OUT_ENCODE_CFG_CAPS*
+// 获取鱼眼能力输入参数
+typedef struct tagNET_IN_VIDEOIN_FISHEYE_CAPS
+{
+    DWORD                dwSize; 
+    int                  nChannel;  //通道号
+}NET_IN_VIDEOIN_FISHEYE_CAPS;
+
+// 获取鱼眼能力输出参数
+typedef struct tagNET_OUT_VIDEOIN_FISHEYE_CAPS
+{
+    DWORD                       dwSize; 
+    int                         nMountModeNum;                     // 支持的安装模式个数         
+    NET_FISHEYE_MOUNT_MODE      emMountModes[NET_MAX_FISHEYE_MOUNTMODE_NUM]; // 支持的安装模式列表
+    int                         nCalibrateModeNum;                 // 支持的鱼眼矫正模式个数  
+    NET_FISHEYE_CALIBRATE_MODE  emCalibrateModes[NET_MAX_FISHEYE_CALIBRATEMODE_NUM]; // 支持的鱼眼矫正模式列表
+    int                         nEPtzCmdNum;                       // 支持的鱼眼电子云台操作个数 
+    NET_FISHEYE_EPTZ_CMD        emEPtzCmds[NET_MAX_FISHEYE_EPTZCMD_NUM]; // 支持的鱼眼电子云台操作列表
+    NET_FISHEYE_TYPE            emType;                                 //鱼眼类型
+}NET_OUT_VIDEOIN_FISHEYE_CAPS;
 
 // 获取电源时序器能力输入参数
 typedef struct tagNET_IN_CAP_SEQPOWER 
@@ -16215,6 +19251,7 @@ typedef struct tagNET_IN_ENCODE_CFG_CAPS
     DWORD               dwSize;           
     int                 nChannelId;                         // 通道号    
     int                 nStreamType;                        // 码流类型，0：主码流；1：辅码流1；2：辅码流2；3：辅码流3；4：抓图码流
+															// 此参数可以不填，不论指定什么类型，设备都返回主、辅、抓图码流的能力
     char*               pchEncodeJson;                      // Encode配置，通过调用dhconfigsdk.dll中接口CLIENT_PacketData封装得到
                                                             // 对应的封装命令为 CFG_CMD_ENCODE                 
 }NET_IN_ENCODE_CFG_CAPS;
@@ -16236,6 +19273,8 @@ typedef struct tagNET_STREAM_CFG_CAPS
     int                 nCifPFrameMaxSize;                          // 当分辨率为cif时最大p帧(Kbps)
     int                 nCifPFrameMinSize;                          // 当分辨率为cif时最小p帧(Kbps)
     int                 nFPSMax;                                    // 视频帧率最大值，为0时，以nResolutionFPSMax为准
+    DH_RESOLUTION_INFO  stuIndivResolutionTypes[DH_MAX_COMPRESSION_TYPES_NUM][DH_MAX_CAPTURE_SIZE_NUM];// 支持的视频分辨率
+	BOOL				abIndivResolution;							// 0: stuResolutionTypes 有效 1: stuIndivResolutionTypes 有效
 }NET_STREAM_CFG_CAPS;
 
 // 获取设备编码配置对应能力输出参数
@@ -16255,13 +19294,266 @@ typedef struct tagALARM_FALLING_INFO
     BYTE                byRserved[3];                               // 对齐                                                                                                                                                                                                                                                                        
 }ALARM_FALLING_INFO;
 
+//订阅Bus状态回调函数原型
+typedef void (CALLBACK *fBusStateCallBack)(LLONG lAttachHandle, LONG lCommand, char *pBuf, DWORD dwBufLen, LDWORD dwUser);
+
+// 刷卡类型
+typedef enum tagNET_DRIVER_CHECK_TYPE
+{
+    NET_DRIVER_CHECK_TYPE_UNKNOWN,                                  // 未知
+    NET_DRIVER_CHECK_TYPE_SIGNIN,                                   // 签到
+    NET_DRIVER_CHECK_TYPE_SIGNOUT,                                  // 签出
+} NET_DRIVER_CHECK_TYPE;
+
+// 刷卡方式
+typedef enum tagNET_DRIVER_CHECK_METHOD
+{
+    NET_DRIVER_CHECK_METHOD_UNKNOWN,                                // 未知
+    NET_DRIVER_CHECK_METHOD_POS,                                    // POS机
+    NET_DRIVER_CHECK_METHOD_HAND,                                   // 手动输入
+} NET_DRIVER_CHECK_METHOD;
+
+// 报警事件类型DH_ALARM_BUS_DRIVER_CHECK( 司机识别卡检测事件)对应的数据描述信息
+typedef struct tagALARM_BUS_DRIVER_CHECK_INFO
+{
+    DWORD                   dwSize;
+    char                    szCarNo[DH_MAX_PLATE_NUMBER_LEN];       // 车牌
+    char                    szDriverName[DH_COMMON_STRING_16];      // 司机姓名
+    char                    szDriverID[DH_MAX_PERSON_ID_LEN];       // 工号
+    char                    szOrganize[DH_COMMON_STRING_128];       // 驾驶证发证机构名称
+    NET_TIME_EX             stUsefulLife;                           // 证件有效期
+    NET_GPS_STATUS_INFO     stGPSStatusInfo;                        // GPS信息
+    NET_TIME_EX             stCheckTime;                            // 打卡时间
+    NET_DRIVER_CHECK_METHOD emCheckMethod;                          // 打卡方式
+    NET_DRIVER_CHECK_TYPE   emCheckType;                            // 打卡类型
+}ALARM_BUS_DRIVER_CHECK_INFO;
+
+// 报警事件类型DH_ALARM_DEVICE_MSG_NOTIFY(设备向平台发通知的事件)对应的数据描述信息
+typedef struct tagALARM_DEVICE_MSG_NOTIFY_INFO
+{
+    DWORD                   dwSize;
+    char                    szMsg[DH_COMMON_STRING_256];            // 消息内容
+    NET_GPS_STATUS_INFO     stuGPSStatusInfo;                       // GPS信息
+} ALARM_DEVICE_MSG_NOTIFY_INFO;
+
+// 报警事件类型DH_ALARM_VEHICLE_STANDING_OVER_TIME(停车超时报警)对应的数据描述信息
+typedef struct tagALARM_VEHICLE_STANDING_OVER_TIME_INFO
+{
+    DWORD                   dwSize;
+    NET_GPS_STATUS_INFO     stuGPSStatusInfo;                       // GPS信息
+    NET_TIME_EX             stuTime;                                // 第一次发生的时间
+} ALARM_VEHICLE_STANDING_OVER_TIME_INFO;
+
+// 线路方向
+typedef enum tagNET_LINE_DIRECTION
+{
+    NET_LINE_DIRECTION_UNKNOWN,                                     // 未知
+    NET_LINE_DIRECTION_POSTIVE,                                     // 正向
+    NET_LINE_DIRECTION_NEGATIVE,                                    // 反向
+    NET_LINE_DIRECTION_AROUND,                                      // 环线
+    NET_LINE_DIRECTION_DISPERSE,                                    // 离散
+} NET_LINE_DIRECTION;
+
+// 进站离站状态
+typedef enum tagNET_BUS_STATE
+{
+    NET_BUS_STATE_UNKNOWN,                                         // 未知
+    NET_BUS_STATE_ILLEGAL,                                         // 非法
+    NET_BUS_STATE_LEGAL,                                           // 合法
+} NET_BUS_STATE;
+
+// 报站方式
+typedef enum tagNET_PORT_TYPE
+{
+    NET_PORT_TYPE_UNKOWN,                                           // 未知
+    NET_PORT_TYPE_MANUAL,                                           // 手动报站
+    NET_PORT_TYPE_GPS,                                              // GPS报站
+} NET_PORT_TYPE;
+
+// 车载开门事件的数据类型
+typedef enum tagEM_VEHICLE_DATA_TYPE
+{
+    EM_VEHICLE_DOOR_OPEN_DATA_UNKNOWN = 0,
+    EM_VEHICLE_DOOR_OPEN_DATA_REALTIME,                             // 实时的数据
+    EM_VEHICLE_DOOR_OPEN_DATA_HISTORY,                              // 重发的数据
+}EM_VEHICLE_DATA_TYPE;
+
+// 报警事件类型DH_ALARM_BUS_IMPORT_SITE(进站事件)对应的数据描述信息
+typedef struct tagALARM_BUS_IMPORT_SITE_INFO
+{
+    DWORD                   dwSize;
+    char                    szSiteID[DH_COMMON_STRING_64];          // 站点标识
+    DWORD                   dwSiteNum;                              // 站序
+    NET_LINE_DIRECTION      emDirection;                            // 线路方向
+    char                    szLineID[DH_COMMON_STRING_64];          // 线路标识
+    NET_TIME_EX             stuTime;                                // 进站离站时间
+    int                     nTime;                                  // 用来确认事件用的时间, UTC制, 单位为秒
+    NET_BUS_STATE           emState;                                // 是否按规定时间进站
+    NET_PORT_TYPE           emType;                                 // 报站方式
+    NET_GPS_STATUS_INFO     stuGPSStatusInfo;                       // GPS信息
+    DWORD                   dwSiteCount;                            // 总站点数
+    char                    szSiteName[DH_COMMON_STRING_64];        // 站点名称
+    char                    szDesignation[DH_COMMON_STRING_64];     // 线路番号
+    EM_VEHICLE_DATA_TYPE    emDataType;                             // 事件数据的类型
+    BOOL                    bNeedConfirm;                           // 是否需要确认, 通过调用CLIENT_BusConfirmEvent接口确认
+} ALARM_BUS_IMPORT_SITE_INFO;
+
+// 报警事件类型DH_ALARM_BUS_EXPORT_SITE(离站事件)对应的数据描述信息
+typedef struct tagALARM_BUS_EXPORT_SITE_INFO
+{
+    DWORD                   dwSize;
+    char                    szSiteID[DH_COMMON_STRING_64];          // 站点标识
+    DWORD                   dwSiteNum;                              // 站序
+    NET_LINE_DIRECTION      emDirection;                            // 线路方向
+    char                    szLineID[DH_COMMON_STRING_64];          // 线路标识
+    NET_TIME_EX             stuTime;                                // 进站离站时间
+    int                     nTime;                                  // 用来确认事件用的时间, UTC制, 单位为秒
+    NET_BUS_STATE           emState;                                // 是否按规定时间离站
+    NET_PORT_TYPE           emType;                                 // 报站方式
+    NET_GPS_STATUS_INFO     stuGPSStatusInfo;                       // GPS信息
+    DWORD                   dwSiteCount;                            // 总站点数
+    char                    szSiteName[DH_COMMON_STRING_64];        // 站点名称
+    char                    szDesignation[DH_COMMON_STRING_64];     // 线路番号
+    EM_VEHICLE_DATA_TYPE    emDataType;                             // 事件数据的类型
+    BOOL                    bNeedConfirm;                           // 是否需要确认, 通过调用CLIENT_BusConfirmEvent接口确认
+} ALARM_BUS_EXPORT_SITE_INFO;
+
+// 异常事件类型
+typedef enum tagEM_ALARM_BUS_ABNORMAL_EVENT_TYPE
+{
+    EM_ALARM_BUS_ABNORMAL_EVENT_TYPE_UNKNOWN,           // 未知
+    EM_ALARM_BUS_ABNORMAL_EVENT_TYPE_RUNNING,           // 恢复营运，"Running"
+    EM_ALARM_BUS_ABNORMAL_EVENT_TYPE_MEAL,              // 吃饭，"Meal"
+    EM_ALARM_BUS_ABNORMAL_EVENT_TYPE_BLOCK,             // 路堵，"Block"
+    EM_ALARM_BUS_ABNORMAL_EVENT_TYPE_CALL,              // 通话，"Call"
+    EM_ALARM_BUS_ABNORMAL_EVENT_TYPE_BREAKDOWN,         // 车坏，"Breakdown"
+    EM_ALARM_BUS_ABNORMAL_EVENT_TYPE_DISCONTINUED,      // 停止营运，"Discontinued"
+    EM_ALARM_BUS_ABNORMAL_EVENT_TYPE_ROBING,            // 盗抢，"Robing"
+    EM_ALARM_BUS_ABNORMAL_EVENT_TYPE_OVERLOAD,          // 超载，"Overload"
+    EM_ALARM_BUS_ABNORMAL_EVENT_TYPE_DISPUTE,           // 纠纷，"Dispute"
+    EM_ALARM_BUS_ABNORMAL_EVENT_TYPE_ACCIDENT,          // 事故，"Accident"
+    EM_ALARM_BUS_ABNORMAL_EVENT_TYPE_OVERSPEED,         // 超速，"OverSpeed"
+    EM_ALARM_BUS_ABNORMAL_EVENT_TYPE_RENTAL,            // 包车，"Rental"
+    EM_ALARM_BUS_ABNORMAL_EVENT_TYPE_MAINTENANCE,       // 保养，"Maintenance"
+    EM_ALARM_BUS_ABNORMAL_EVENT_TYPE_CLOSURE,           // 脱保停运，"Closure"
+    EM_ALARM_BUS_ABNORMAL_EVENT_TYPE_PUBSECURITY,       // 治安事件, "PubSecurity"
+    EM_ALARM_BUS_ABNORMAL_EVENT_TYPE_ENTER_PARK,        // 进入停车场, "EnterPark"
+    EM_ALARM_BUS_ABNORMAL_EVENT_TYPE_LEAVE_PARK,        // 离开平车场, "LeavePark"
+    EM_ALARM_BUS_ABNORMAL_EVENT_TYPE_REFUEL,            // 加油, "Refuel"
+    EM_ALARM_BUS_ABNORMAL_EVENT_TYPE_FIRE,              // 火灾报警, "Fire"
+    EM_ALARM_BUS_ABNORMAL_EVENT_TYPE_HELP,              // 乘客救助, "Help"
+}EM_ALARM_BUS_ABNORMAL_EVENT_TYPE;
+
+// 报警事件类型DH_ALARM_BUS_ABNORMAL(车辆异常事件)对应的数据描述信息
+typedef struct tagALARM_BUS_ABNORMAL_INFO
+{
+    DWORD                                   dwSize;
+    EM_ALARM_BUS_ABNORMAL_EVENT_TYPE        emEventType;                            // 异常事件类型
+    char                                    szCarNo[DH_MAX_PLATE_NUMBER_LEN];       // 车牌
+    char                                    szLineID[DH_COMMON_STRING_64];          // 线路标识
+    NET_LINE_DIRECTION                      emLineDirection;                        // 线路方向
+    NET_TIME_EX                             stuTime;                                // 发生时间
+    NET_GPS_STATUS_INFO                     stuGPSStatusInfo;                       // GPS信息
+} ALARM_BUS_ABNORMAL_INFO;
+
+// 报警事件类型DH_ALARM_ENCLOSURE_ALARM(电子围栏事件)对应的数据描述信息
+typedef struct tagALARM_ENCLOSURE_ALARM_INFO
+{
+    DWORD                   dwSize;
+    DWORD                   dwAlarmType;                            // 报警类型, 按位分别表示，
+                                                                    // 0:LimitSpeed, 1:DriveAllow, 2:ForbidDrive, 3:LoadGoods, 4:UploadGoods
+    DWORD                   dwAlarmDetail;                          // 报警描述, 按位分别表示,
+                                                                    // 0:DriveIn, 1:DriveOut, 2:Overspeed, 3:SpeedClear
+    NET_BUS_STATE           emState;                                // 是否按规定时间触发事件
+    DWORD                   dwDriverNo;                             // 司机编号
+    DWORD                   dwEnclosureID;                          // 围栏ID
+    DWORD                   dwLimitSpeed;                           // 限速
+    DWORD                   dwCurrentSpeed;                         // 当前速度
+    NET_TIME_EX             stuTime;                                // 当前时间
+    NET_GPS_STATUS_INFO     stuGPSStatusInfo;                       // GPS信息
+} ALARM_ENCLOSURE_ALARM_INFO;
+
+// 车载的门的状态
+typedef NET_ACCESS_CTL_STATUS_TYPE NET_VEHICLE_DOOR_STATUS;
+
+// 车载开门事件, 对应事件类型 DH_VEHICLE_DOOR_OPEN
+typedef struct tagALARM_VEHICLE_DOOR_OPEN_INFO 
+{
+    DWORD                       dwSize;
+    NET_VEHICLE_DOOR_STATUS     emStatus;               // 门状态
+    int                         nDoor;                  // 门序号, 1:前门,2:中门,3:后门
+    NET_TIME                    stuTime;                // 事件时间, UTC制
+    int                         nTime;                  // 用来确认事件用的时间, UTC制, 单位为秒
+    NET_GPS_STATUS_INFO         stuGPSStatusInfo;       // GPS信息
+    EM_VEHICLE_DATA_TYPE        emDataType;             // 事件数据的类型
+    BOOL                        bNeedConfirm;           // 是否需要确认, 通过调用CLIENT_BusConfirmEvent接口确认
+}ALARM_VEHICLE_DOOR_OPEN_INFO;
+
+// 当前里程事件, 对应事件类型 DH_ALARM_BUS_CUR_MILEAGE
+typedef struct tagALARM_BUS_CUR_MILEAGE_INFO 
+{
+    DWORD                       dwSize;
+    BOOL                        bNeedConfirm;           // 是否需要确认, 通过调用CLIENT_BusConfirmEvent接口确认
+    int                         nTime;                  // 用来确认事件用的时间, UTC制, 单位为秒
+    EM_VEHICLE_DATA_TYPE        emDataType;             // 事件数据的类型
+    NET_TIME                    stuTime;                // 事件时间, UTC制
+    NET_GPS_STATUS_INFO         stuGPSStatusInfo;       // GPS信息, 只有经纬度、速度、方向角字段有效
+    NET_TIME                    stuStartTime;           // 当前时间段的开始时间, UTC制
+    NET_GPS_STATUS_INFO         stuStartGPSStatusInfo;  // 当前时间段的开始时间时的GPS信息, 只有经纬度、速度、方向角字段有效
+    unsigned int                nMileage;               // 当前时间段的里程数, 单位:0.1km
+}ALARM_BUS_CUR_MILEAGE_INFO;
+
+// 当前油耗情况事件, 对应事件类型 DH_ALARM_BUS_CUR_OIL
+typedef struct tagALARM_BUS_CUR_OIL_INFO 
+{
+    DWORD                       dwSize;
+    BOOL                        bNeedConfirm;           // 是否需要确认, 通过调用CLIENT_BusConfirmEvent接口确认
+    int                         nTime;                  // 用来确认事件用的时间, UTC制, 单位为秒
+    EM_VEHICLE_DATA_TYPE        emDataType;             // 事件数据的类型
+    NET_TIME                    stuTime;                // 事件时间, UTC制
+    NET_GPS_STATUS_INFO         stuGPSStatusInfo;       // GPS信息, 只有经纬度、速度、方向角字段有效
+    NET_TIME                    stuStartTime;           // 当前时间段的开始时间, UTC制
+    NET_GPS_STATUS_INFO         stuStartGPSStatusInfo;  // 当前时间段的开始时间时的GPS信息, 只有经纬度、速度、方向角字段有效
+    unsigned int                nCurOil;                // 当前油量, 单位: 0.1L
+    unsigned int                nOilTankage;            // 油箱容积, 单位: 0.1L
+    int                         nOilChange;             // 当前时间段内油量变化, 单位: 0.1L, 正数表示加油, 负数表示耗油
+}ALARM_BUS_CUR_OIL_INFO;
+
+// 低油量报警事件, 对应事件类型 DH_ALARM_BUS_LOW_OIL
+typedef struct tagALARM_BUS_LOW_OIL_INFO 
+{
+    DWORD                       dwSize;
+    BOOL                        bNeedConfirm;           // 是否需要确认, 通过调用CLIENT_BusConfirmEvent接口确认
+    int                         nTime;                  // 用来确认事件用的时间, UTC制, 单位为秒
+    EM_VEHICLE_DATA_TYPE        emDataType;             // 事件数据的类型
+    NET_TIME                    stuTime;                // 事件时间, UTC制
+    NET_GPS_STATUS_INFO         stuGPSStatusInfo;       // GPS信息, 只有经纬度、速度、方向角字段有效
+    unsigned int                nCurOil;                // 当前油量, 单位: 0.1L
+    unsigned int                nOilLine;               // 油量阈值, 单位: 0.1L
+    unsigned int                nOilTankage;            // 油箱容积, 单位: 0.1L
+}ALARM_BUS_LOW_OIL_INFO;
+
+// 订阅Bus状态输入参结构
+typedef struct tagNET_IN_BUS_ATTACH
+{
+    DWORD                   dwSize;
+    fBusStateCallBack       cbBusState;                             // 状态回调函数
+    LDWORD                  dwUser;                                 // 用户数据
+}NET_IN_BUS_ATTACH;
+
+// 订阅Bus状态输出参结构
+typedef struct tagNET_OUT_BUS_ATTACH
+{
+    DWORD                dwSize;
+}NET_OUT_BUS_ATTACH;
+
 // 扩展模块报警通道信息
 typedef struct tagNET_EXALARMCHANNELS_INFO
 {
-    DWORD               dwSize;
-    int                 nExAlarmBoxNum;                             // 扩展报警盒通道号
-    int                 nChannelNum;                                // 该通道在扩展报警盒上的通道号
-    char                szChannelName[DH_MAX_EXALARMCHANNEL_NAME_LEN];// 报警通道名称
+    DWORD           dwSize;
+    int             nExAlarmBoxNum;                                 // 扩展报警盒通道号
+    int             nChannelNum;                                    // 该通道在扩展报警盒上的通道号
+    char            szChannelName[DH_MAX_EXALARMCHANNEL_NAME_LEN];  // 报警通道名称
 } NET_EXALARMCHANNELS_INFO;
 
 // CLIENT_QueryDevState 接口输入参数
@@ -16301,8 +19593,9 @@ typedef struct tagNET_ACTIVATEDEFENCEAREA
 typedef enum tagEM_NET_DOOR_STATUS_TYPE
 {
     EM_NET_DOOR_STATUS_UNKNOWN,
-    EM_NET_DOOR_STATUS_OPEN,
-    EM_NET_DOOR_STATUS_CLOSE,
+    EM_NET_DOOR_STATUS_OPEN,                            // 门打开
+    EM_NET_DOOR_STATUS_CLOSE,                           // 门关闭
+    EM_NET_DOOR_STATUS_BREAK,                           // 门异常打开
 }EM_NET_DOOR_STATUS_TYPE;
 
 // 门禁状态信息(CLIENT_QueryDevState 接口输入参数)
@@ -16357,6 +19650,7 @@ typedef struct tagNET_ANALOGALARM_SENSE_INFO
     int                     nStatus;                        // 数据状态, -1:未知,0:正常,1:数据无效(超过量程),
                                                             // 2:超过阈值1,3:超过阈值2,4:超过阈值3,5:超过阈值4,
                                                             // 6:低于阈值1,7:低于阈值2,8:低于阈值3,9:低于阈值4
+    NET_GPS_STATUS_INFO     stuGpsSatus;                    // GPS状态 
 }NET_ANALOGALARM_SENSE_INFO;
 
 //订阅模拟量报警通道数据回调函数原型
@@ -16377,6 +19671,39 @@ typedef struct tagNET_OUT_ANALOGALARM_DATA
     DWORD    dwSize;
 }NET_OUT_ANALOGALARM_DATA;
 
+// 订阅记录变更接口相关定义
+#define DH_MAX_RECORD_INSERT_NUM                            128
+#define DH_MAX_RECORD_DELETE_NUM                            128
+#define DH_MAX_RECORD_UPDATE_NUM                            128
+
+typedef struct tagNET_RECORDUPDATER_INFO
+{
+    DWORD                       dwSize;
+    int                         nInsertNum;                                     // 记录信息中，插入的记录个数
+    int                         nInsertNumberList[DH_MAX_RECORD_INSERT_NUM];    // 表示新增的记录索引号            
+    int                         nDeleteNum;                                     // 记录信息中，删除的记录个数
+    int                         nDeleteNumberList[DH_MAX_RECORD_DELETE_NUM];    // 表示删除的记录索引号，-1表示删除所有记录         
+    int                         nUpdateNum;                                     // 记录信息中，更新的记录个数
+    int                         nUpdateNumberList[DH_MAX_RECORD_UPDATE_NUM];    // 表示更新的记录索引号          
+}NET_RECORDUPDATER_INFO;
+
+//订阅记录变更接口
+typedef void (CALLBACK *fRecordUpdaterCallBack)(LLONG lLoginID, LLONG lAttachHandle, NET_RECORDUPDATER_INFO* pInfo, int nBufLen, LDWORD dwUser);
+
+// CLIENT_AttachRecordUpdater()接口输入参数
+typedef struct tagNET_IN_RECORDUPDATER_DATA
+{
+    DWORD                       dwSize;
+    EM_NET_RECORD_TYPE          emType;                     // 记录集信息类型
+    fRecordUpdaterCallBack      cbRecordUpdater;                 // 记录更新回调函数
+    LDWORD                      dwUser;                     // 用户定义参数
+}NET_IN_RECORDUPDATER_DATA;
+
+// CLIENT_AttachRecordUpdater()接口输出参数
+typedef struct tagNET_OUT_RECORDUPDATER_DATA
+{
+    DWORD                       dwSize;
+}NET_OUT_RECORDUPDATER_DATA;
 
 // 查询设备支持的传感器设备类型 
 // CLIENT_QueryDevState接口的 DH_DEVSTATE_GET_SENSORLIST  命令参数
@@ -16418,39 +19745,291 @@ typedef struct tagLogSetPrintInfo
     unsigned int    nPrintStrategy;                         // 日志输出策略, 0:输出到文件(默认); 1:输出到窗口
 }LOG_SET_PRINT_INFO;
 
+//////////////////////////////////////////////////////////////////////////
+//       Low Rate Wireless Personal Area Network 低速无线私域网 begin
+//////////////////////////////////////////////////////////////////////////
+
+// 无线设备类型
+typedef enum tagNET_WIRELESS_DEVICE_TYPE
+{
+	NET_WIRELESS_DEVICE_TYPE_UNKNOWN = 0,				
+	NET_WIRELESS_DEVICE_TYPE_KEYBOARD,			// 无线键盘
+	NET_WIRELESS_DEVICE_TYPE_DEFENCE,			// 无线防区 
+	NET_WIRELESS_DEVICE_TYPE_REMOTECONTROL,		// 无线遥控 
+	NET_WIRELESS_DEVICE_TYPE_MAGNETOMER,		// 无线门磁 
+} NET_WIRELESS_DEVICE_TYPE;
+
+// 对码信息
+typedef struct tagNET_CODEID_INFO
+{
+	DWORD						dwSize;
+	unsigned int				nWirelessId;					// 无线ID号
+	NET_WIRELESS_DEVICE_TYPE	emType;							// 无线设备类型
+	char						szName[DH_USER_NAME_LENGTH];	// 用户名
+	BOOL						bEnable;						// 是否启用了此设备
+}NET_CODEID_INFO;
+
+// 对码错误类型
+typedef enum tagNET_CODEID_ERROR_TYPE
+{	
+	NET_CODEID_ERROR_TYPE_RIGHT = 0,			// 对码正确
+	NET_CODEID_ERROR_TYPE_ALREADYEXIST,			// 已经存在
+	NET_CODEID_ERROR_TYPE_OTHER,				// 其他错误
+} NET_CODEID_ERROR_TYPE;
+
+// 订阅无线对码信息回调函数原形，lAttachHandle是CLIENT_AttachLowRateWPAN返回值
+typedef void (CALLBACK *fAttachLowRateWPANCB) (LLONG lLoginID, LLONG lAttachHandle, NET_CODEID_INFO* stuBuf, NET_CODEID_ERROR_TYPE emError, LDWORD dwUser);
+
+// CLIENT_AttachLowRateWPAN()输入参数
+typedef struct tagNET_IN_ATTACH_LOWRATEWPAN
+{
+	DWORD					dwSize;
+	fAttachLowRateWPANCB	cbAttachLowRateWPANCB;         // 对码数据回调
+	LDWORD					dwUser;                        // 用户数据
+}NET_IN_ATTACH_LOWRATEWPAN;
+
+// CLIENT_AttachLowRateWPAN()输出参数
+typedef struct tagNET_OUT_ATTACH_LOWRATEWPAN
+{
+	DWORD		        dwSize;
+}NET_OUT_ATTACH_LOWRATEWPAN;
+
+// 删除指定无线设备
+// CLIENT_ControlDevice接口的 DH_CTRL_LOWRATEWPAN_REMOVE命令参数
+typedef struct tagNET_CTRL_LOWRATEWPAN_REMOVE
+{
+	DWORD					dwSize;
+	unsigned int			nWirelessId;				// 无线设备ID	
+}NET_CTRL_LOWRATEWPAN_REMOVE;
+
+// 删除全部无线设备
+// CLIENT_ControlDevice接口的 DH_CTRL_LOWRATEWPAN_REMOVEALL命令参数
+typedef struct tagNET_CTRL_LOWRATEWPAN_REMOVEALL
+{
+	DWORD					dwSize;
+}NET_CTRL_LOWRATEWPAN_REMOVEALL;
+
+// 修改无线设备信息
+// CLIENT_ControlDevice接口的 DH_CTRL_LOWRATEWPAN_MODIFY命令参数
+typedef struct tagNET_CTRL_LOWRATEWPAN_MODIFY
+{
+	DWORD					dwSize;
+	NET_CODEID_INFO			stuCodeIDInfo;			// 根据CodeIDInfo中的CodeID，修改其User和Enable信息，其他不能修改
+}NET_CTRL_LOWRATEWPAN_MODIFY;
+
+// 获取对码成功的总条数
+typedef struct tagNET_GET_CODEID_COUNT
+{
+	DWORD				dwSize;
+	int					nCodeIDCount;		// 对码成功的总条数
+}NET_GET_CODEID_COUNT;
+
+// 获取对码信息
+typedef struct tagNET_GET_CODEID_LIST
+{
+	DWORD				dwSize;
+	int					nStartIndex;			// 开始的索引号，开始第一次查询可设为0
+	int					nQueryNum;				// 本次获取的对码条数，此值小于等于能力集中nMaxPageSize字段的值
+	int					nRetCodeIDNum;			// 实际返回的对码条数
+	NET_CODEID_INFO*	pstuCodeIDInfo;			// 获取对码的内容，内存由用户分配，不能小于nQueryNum*sizeof(NET_CODEID_INFO)
+}NET_GET_CODEID_LIST;
+
+// 模拟量通道数据查询(对应 DH_DEVSTATE_ANALOGALARM_DATA 命令)
+typedef struct tagNET_GET_ANALOGALARM_DATA 
+{
+    DWORD                       dwSize;
+    int                         nChannelID;     // 待查询的模拟量通道号(从0开始)
+    NET_ANALOGALARM_SENSE_INFO  stuInfo;        // 获得的模拟量通道数据
+}NET_GET_ANALOGALARM_DATA;
+
+//////////////////////////////////////////////////////////////////////////
+//       Low Rate Wireless Personal Area Network 低速无线私域网 end
+//////////////////////////////////////////////////////////////////////////
 
 // 获取当前子系统启用状态(对应DH_DEVSTATE_GET_ALARM_SUBSYSTEM_ACTIVATESTATUS命令)
 typedef struct tagNET_GET_ALARM_SUBSYSTEM_ACTIVATE_STATUES
 {
-	DWORD				dwSize;
-	int					nChannelId;			// 子系统号
-	BOOL				bActive;			// 子系统启用状态, TRUE 表示启用,FALSE表示不启用
+    DWORD               dwSize;
+    int                 nChannelId;                         // 子系统号
+    BOOL                bActive;                            // 子系统启用状态, TRUE 表示启用,FALSE表示不启用
 }NET_GET_ALARM_SUBSYSTEM_ACTIVATE_STATUES;
 
 // 报警子系统激活设置参数(对应DH_CTRL_ALARM_SUBSYSTEM_ACTIVE_SET命令)
 typedef struct tagNET_CTRL_ALARM_SUBSYSTEM_SETACTIVE 
 {
-	DWORD				dwSize;
-	int					nChannelId;			// 子系统号
-	BOOL				bActive;			// 子系统启用状态,TRUE 表示启用,FALSE表示不启用
+    DWORD               dwSize;
+    int                 nChannelId;                         // 子系统号
+    BOOL                bActive;                            // 子系统启用状态,TRUE 表示启用,FALSE表示不启用
 }NET_CTRL_ALARM_SUBSYSTEM_SETACTIVE;
 
 // 禁止开闸参数(对应 DH_CTRL_FORBID_OPEN_STROBE)
 typedef struct tagNET_CTRL_FORBID_OPEN_STROBE
 {
     DWORD               dwSize;             
-    int                 nChannelID;        // 通道号    
-    int                 nTime;             // 禁止开闸的持续时间，单位:s，即在此操作之后的对应时间内不允许设备开闸 
+    int                 nChannelID;                         // 通道号    
+    int                 nTime;                              // 禁止开闸的持续时间，单位:s，即在此操作之后的对应时间内不允许设备开闸 
 }NET_CTRL_FORBID_OPEN_STROBE;
 
-#define MAX_PLATENUMBER_LEN    64           // 最大车牌号码长度
+#define MAX_PLATENUMBER_LEN    64                           // 最大车牌号码长度
 // 开启道闸参数(对应DH_CTRL_OPEN_STROBE命令)
 typedef struct tagNET_CTRL_OPEN_STROBE
 {
-	DWORD				dwSize;
-	int				nChannelId;			                // 通道号
-	char				szPlateNumber[MAX_PLATENUMBER_LEN];		// 车牌号码
+    DWORD               dwSize;
+    int                 nChannelId;                         // 通道号
+    char                szPlateNumber[MAX_PLATENUMBER_LEN]; // 车牌号码
 }NET_CTRL_OPEN_STROBE;
+
+// 关闭道闸参数(对应DH_CTRL_CLOSE_STROBE命令)
+typedef struct tagNET_CTRL_CLOSE_STROBE
+{
+    DWORD               dwSize;
+    int                 nChannelId;                         // 通道号
+}NET_CTRL_CLOSE_STROBE;
+
+// 回放拒绝接听参数(对应DH_CTRL_TALKING_REFUSE命令)
+typedef struct tagNET_CTRL_TALKING_REFUSE 
+{
+    DWORD           dwSize;
+    int             nChannelID;                             // 对讲通道号
+}NET_CTRL_TALKING_REFUSE;
+
+// 车位预定状态
+typedef enum tagEM_NET_ORDER_STATE
+{
+    EM_NET_ORDER_STATE_UNKNOWN,
+    EM_NET_ORDER_STATE_FREE,                            // 空闲Free
+    EM_NET_ORDER_STATE_ORDERED,                         // 预定Ordered
+}EM_NET_ORDER_STATE;
+
+// 车位预定状态信息
+typedef struct tagNET_ORDER_STATE_INFO
+{
+    DWORD               dwSize;
+    unsigned int        nLane;                          // 车位号
+    EM_NET_ORDER_STATE  emOrderState;                   // 预定情况
+}NET_ORDER_STATE_INFO;
+
+// 设置车位预定状态参数(对应DH_CTRL_SET_ORDER_STATE命令)
+typedef struct tagNET_CTRL_SET_ORDER_STATE
+{
+    DWORD                   dwSize;
+    NET_ORDER_STATE_INFO*   pOrderStateInfo;              // 车位预定信息,用户分配空间
+    unsigned int            nStateCount;                  // 有效预定个数
+}NET_CTRL_SET_ORDER_STATE;
+
+// 停车场出入口控制器LED滚动屏幕字幕滚动速度
+typedef enum tagNET_ECK_LED_SPEED_TYPE 
+{
+    NET_ECK_LED_SPEED_UNKNOWN = 0,
+    NET_ECK_LED_SPEED_LOW,                              // 慢
+    NET_ECK_LED_SPEED_NORMAL,                           // 正常
+    NET_ECK_LED_SPEED_HIGH,                             // 快
+}NET_ECK_LED_SPEED_TYPE;
+
+// 停车场出入口控制器LED设置 参数DH_CTRL_ECK_LED_SET
+typedef struct tagNET_CTRL_ECK_LED_SET_PARAM 
+{
+    DWORD                   dwSize;
+    NET_ECK_LED_SPEED_TYPE  emLEDSpeed;                 // 字幕滚动速度
+    int                     nCount;                     // 有效显示次数, 范围0-255, 0表示永久
+    char                    szCustomData[DH_COMMON_STRING_512];// LED滚动屏初始自定义字符, 0-256字节
+}NET_CTRL_ECK_LED_SET_PARAM;
+
+
+// 智能停车系统出入口机IC卡用户类型
+typedef enum tagNET_ECK_IC_CARD_USER_TYPE
+{
+    NET_ECK_IC_CARD_USER_TEMP = 0,                      // 临时用户
+    NET_ECK_IC_CARD_USER_LONG,                          // 长期用户
+}NET_ECK_IC_CARD_USER_TYPE;
+
+// 智能停车系统出入口机异常过车记录类型
+typedef enum tagNET_ECK_CAR_PASS_FLAG
+{
+    NET_ECK_CAR_PASS_FLAG_NORMAL = 0,                   // 正常
+    NET_ECK_CAR_PASS_FLAG_ABNORMAL = 1,                 // 异常
+    NET_ECK_CAR_PASS_FLAG_ALL,                          // 全部
+} NET_ECK_CAR_PASS_FLAG;
+
+// 智能停车系统出入口机IC卡信息
+typedef struct tagNET_ECK_IC_CARD 
+{
+    DWORD                   dwSize;
+    DWORD                   dwCard;                     // 卡号
+    NET_ECK_IC_CARD_USER_TYPE emUserType;               // 用户类型
+}NET_ECK_IC_CARD;
+
+#define NET_MAX_ECK_IC_CARD_IMPORT_NUM      50          // 智能停车系统出入口机最大可导入IC卡的数目
+
+// 智能停车系统出入口机IC卡信息导入 参数DH_CTRL_ECK_IC_CARD_IMPORT
+typedef struct tagNET_CTRL_ECK_IC_CARD_IMPORT_PARAM
+{
+    DWORD               dwSize;
+    int                 nCardNum;                       // IC卡数量
+    NET_ECK_IC_CARD     stuCardInfo[NET_MAX_ECK_IC_CARD_IMPORT_NUM];// IC卡信息
+}NET_CTRL_ECK_IC_CARD_IMPORT_PARAM;
+
+// 智能停车系统出入口机IC卡信息同步指令 参数 DH_CTRL_ECK_SYNC_IC_CARD
+typedef struct tagNET_CTRL_ECK_SYNC_IC_CARD_PARAM
+{
+    DWORD               dwSize;
+    int                 nCount;                         // 客户端IC卡信息的数量
+}NET_CTRL_ECK_SYNC_IC_CARD_PARAM;
+
+#define ECK_SCREEN_NUM_MAX (8)                         // 智能停车系统出入口机最大屏数量
+
+// 智能停车系统出入口机设置车位信息 参数 DH_CTRL_ECK_SET_PARK_INFO
+typedef struct tagNET_CTRL_ECK_SET_PARK_INFO_PARAM
+{
+    DWORD           dwSize;
+    int             nScreenNum;                             // 屏数量, 不超过 ECK_SCREEN_NUM_MAX
+    int             nScreenIndex[ECK_SCREEN_NUM_MAX];       // 屏号, 每个元素表示屏序号
+    int             nFreeParkNum[ECK_SCREEN_NUM_MAX];       // 对应屏管理下的空余车位数
+                                                            // 长度和下标与nScreenIndex一致，每个元素表示对应屏号下的空余车位
+}NET_CTRL_ECK_SET_PARK_INFO_PARAM;
+
+// 指纹采集(对应DH_CTRL_CAPTURE_FINGER_PRINT命令)
+typedef struct tagNET_CTRL_CAPTURE_FINGER_PRINT 
+{
+    DWORD           dwSize;
+    int             nChannelID;                             // 门禁序号(从0开始)
+    char            szReaderID[DH_COMMON_STRING_32];        // 读卡器ID
+}NET_CTRL_CAPTURE_FINGER_PRINT;
+
+// 挂断视频电话(对应 DH_CTRL_VTP_DISCONNECT 命令)
+typedef struct tagNET_CTRL_VTP_DISCONNECT 
+{
+    DWORD                   dwSize;
+    EM_NET_VTP_CALL_TYPE    emCallType;                     // 呼叫类型
+    char                    szCallID[DH_COMMON_STRING_128]; // 对讲唯一标识
+}NET_CTRL_VTP_DISCONNECT;
+
+// 远程多媒体文件操作方式
+typedef enum tagNET_EM_SPEAK_FILE_ACTION
+{
+    NET_EM_SPEAK_FILE_ACTION_UPDATE = 0,                    // 更新原有文件
+    NET_EM_SPEAK_FILE_ACTION_ADD,                           // 新增文件
+    NET_EM_SPEAK_FILE_ACTION_DEL,                           // 删除文件
+}NET_EM_SPEAK_FILE_ACTION;
+
+// 远程多媒体文件投放操作信息
+typedef struct tagNET_SPEAK_FILE_INFO
+{
+    DWORD                       dwSize;
+    char                        szFilePath[MAX_PATH];       // 文件路径, 即预先用CFG_CMD_NASEX配置好的地址
+    NET_EM_SPEAK_FILE_ACTION    emAction;                   // 操作类型, 即对szFilePath指定的文件的操作
+    BOOL                        bSave;                      // 设备本地是否更新保存该文件
+}NET_SPEAK_FILE_INFO;
+
+#define MAX_SPEAK_FILE_NUM      32                          // 远程投放的多媒体文件最大个数
+
+// 远程投放多媒体文件更新
+typedef struct tagNET_CTRL_UPDATE_FILES
+{
+    DWORD                   dwSize;
+    DWORD                   dwFileNum;                      // 有效的文件个数
+    NET_SPEAK_FILE_INFO     stuFileInfo[MAX_SPEAK_FILE_NUM];// 多媒体文件信息
+}NET_CTRL_UPDATE_FILES;
 
 ////////////////////////////////系统任务订阅//////////////////////////////////////////
 // 分区状态
@@ -16538,6 +20117,31 @@ typedef struct NET_OUT_ATTACH_MISSION_PARAM
     LLONG             lAttachHandle;           // 订阅句柄
 }NET_OUT_ATTACH_MISSION_PARAM;
 
+#define MAX_EVENT_TO_CONFIRM_NUM        8       // 最大待确认的事件的个数
+
+// 待确认的事件的信息
+typedef struct tagNET_EVENT_INFO_TO_CONFIRM 
+{
+    DWORD               dwSize;
+    DWORD               dwEventType;            // 事件类型, 对应CLIENT_AttachBusState接口的事件类型
+    NET_TIME            stuTime;                // 事件时间, UTC制
+    LONG                lTime;                  // 事件时间, UTC制, 单位秒
+}NET_EVENT_INFO_TO_CONFIRM;
+
+// 车辆紧急报警确认 输入参数
+typedef struct tagNET_IN_BUS_CONFIRM_EVENT 
+{
+    DWORD                       dwSize;
+    int                         nEvent;         // 待确认事件的有效数目
+    NET_EVENT_INFO_TO_CONFIRM   stuEventInfo[MAX_EVENT_TO_CONFIRM_NUM];// 待确认事件的信息
+}NET_IN_BUS_CONFIRM_EVENT;
+
+// 车辆紧急报警确认 输出参数
+typedef struct tagNET_OUT_BUS_CONFIRM_EVENT 
+{
+    DWORD                       dwSize;
+}NET_OUT_BUS_CONFIRM_EVENT;
+
 // CLIENT_StartQueryLog 输入参数
 typedef struct tagNET_IN_START_QUERYLOG
 {
@@ -16554,7 +20158,7 @@ typedef struct tagNET_OUT_START_QUERYLOG
 typedef struct tagNET_LOG_MESSAGE
 {
     DWORD               dwSize;
-    char				szLogMessage[DH_COMMON_STRING_1024];    // 日志内容
+    char                szLogMessage[DH_COMMON_STRING_1024];    // 日志内容
 } NET_LOG_MESSAGE;
 
 // 日志信息
@@ -16564,7 +20168,7 @@ typedef struct tagNET_LOG_INFO
     NET_TIME            stuTime;                        // 时间 
     char                szUserName[DH_COMMON_STRING_32];// 操作者
     char                szLogType[DH_COMMON_STRING_128];// 类型
-    NET_LOG_MESSAGE	    stuLogMsg;                      // 日志信息
+    NET_LOG_MESSAGE     stuLogMsg;                      // 日志信息
 } NET_LOG_INFO;
 
 // CLIENT_QueryNextLog 输入参数
@@ -16582,6 +20186,537 @@ typedef struct tagNET_OUT_QUERYNEXTLOG
     NET_LOG_INFO*       pstuLogInfo;    // 返回日志信息,缓存大小由用户指定,大小为nMaxCount*sizeof(NET_LOG_INFO)
     int                 nRetCount;      // 实际返回日志条数
 }NET_OUT_QUERYNEXTLOG;
+
+// 异步注册设备回调函数原形(当nError返回11时，保留字段reserved为int类型参数且用于调用CLIENT_StartLoginEx登陆时的端口号)
+typedef void (CALLBACK *fHaveLogin)(LLONG lLoginID, char *pchDVRIP, LONG nDVRPort, BOOL bOnline, NET_DEVICEINFO_Ex stuDeviceInfo, int nError, LDWORD dwUser, void *reserved);
+
+// CLIENT_StartLoginEx 输入参数
+typedef struct tagNET_IN_STARTLOGINEX 
+{
+    DWORD               dwSize;
+    const char*         szIp;           // 设备ip
+    DWORD               dwPort;         // 登陆端口
+    const char*         szName;         // 用户名
+    const char*         szPwd;          // 密码
+    fHaveLogin          cbLogin;        // 登陆结果回调
+    LDWORD              dwUser;         // 回调用户参数
+}NET_IN_STARTLOGINEX;
+
+// CLIENT_StartLoginEx 输出参数
+typedef struct tagNET_OUT_STARTLOGINEX 
+{
+    DWORD       dwSize;
+}NET_OUT_STARTLOGINEX;
+
+// 视频拼接操作类型
+typedef enum tagNET_VIDEOJOIN_OPERATE_TYPE
+{
+    NET_VIDEOJOIN_GET_STATUS,                   // 获取拼接状态, 对应 NET_IN_VIDEOJOIN_GET_STATUS 和 NET_OUT_VIDEOJOIN_GET_STATUS
+        NET_VIDEOJOIN_GET_CALIBRATE_POINTS,     // 获取表定点, 对应 tagNET_IN_VIDEOJOIN_GET_CALIBRATE_POINTS 和 tagNET_OUT_VIDEOJOIN_GET_CALIBRATE_POINTS
+        NET_VIDEOJOIN_CALIBRATE,                // 标定,  对应 NET_IN_VIDEOJOIN_CALIBRATE 和 NET_OUT_VIDEOJOIN_CALIBRATE
+}NET_VIDEOJOIN_OPERATE_TYPE;
+
+// 视频拼接状态
+typedef enum tagNET_VIDEOJOIN_STATUS
+{
+    NET_VIDEOJOIN_STATUS_UNKNOWN,               // 未知
+    NET_VIDEOJOIN_STATUS_NOTSTART,              // 未开始
+    NET_VIDEOJOIN_STATUS_DOING,                 // 进行中
+    NET_VIDEOJOIN_STATUS_FINISH,                // 完成
+}NET_VIDEOJOIN_STATUS;
+
+// 视频拼接标定模式
+typedef enum tagNET_VIDEOJOIN_MODE
+{
+    NET_VIDEOJOIN_MODE_UNKNOWN,                 // 未知
+    NET_VIDEOJOIN_MODE_AUTO,                    // 自动
+    NET_VIDEOJOIN_MODE_MANUAL,                  // 手动
+}NET_VIDEOJOIN_MODE;
+
+// CLIENT_OperateVideoJoin 输入参数, 对应NET_VIDEOJOIN_GET_STATUS
+typedef struct tagNET_IN_VIDEOJOIN_GET_STATUS
+{
+    DWORD           dwSize;
+}NET_IN_VIDEOJOIN_GET_STATUS;
+
+// CLIENT_OperateVideoJoin 输出参数, 对应NET_VIDEOJOIN_GET_STATUS
+typedef struct tagNET_OUT_VIDEOJOIN_GET_STATUS
+{
+    DWORD           dwSize;
+    NET_VIDEOJOIN_STATUS emStatus;              // 拼接状态
+}NET_OUT_VIDEOJOIN_GET_STATUS;
+
+// 相机标定点对, 表示一对坐标点
+typedef struct tagNET_POINT_PAIR 
+{
+    DH_POINT        stuPoints[POINT_NUM_IN_PAIR];           // 相机标定点
+}NET_POINT_PAIR;
+
+// 视频拼接标定点组, 每一组表示两个通道和多个标定点对
+typedef struct tagNET_VIDEOJOIN_POINT_GROUP
+{
+    DWORD           dwSize;
+    int             nPointPairNum;                          // 标定点数量
+    NET_POINT_PAIR  stuPointPairs[MAX_POINT_PAIR_NUM];      // 标定点
+    int             nChannels[CHANNEL_NUM_IN_POINT_GROUP];  // 视频通道号, 通过数据下标来对应，下标0通道对应NET_POINT_PAIR中下标0的点
+}NET_VIDEOJOIN_POINT_GROUP;
+
+// CLIENT_OperateVideoJoin 输入参数, 对应NET_VIDEOJOIN_GET_CALIBRATE_POINTS
+typedef struct tagNET_IN_VIDEOJOIN_GET_CALIBRATE_POINTS
+{
+    DWORD           dwSize;
+}NET_IN_VIDEOJOIN_GET_CALIBRATE_POINTS;
+
+// CLIENT_OperateVideoJoin 输出参数, 对应NET_VIDEOJOIN_GET_CALIBRATE_POINTS
+typedef struct tagNET_OUT_VIDEOJOIN_GET_CALIBRATE_POINTS
+{
+    DWORD               dwSize;
+    NET_VIDEOJOIN_MODE  emMode;                                 // 标定模式
+    int                 nPointGroupNum;                         // 标定点组数量
+    NET_VIDEOJOIN_POINT_GROUP stuPointGroups[MAX_POINT_GROUP_NUM]; // 标定点组, 手动模式下有效
+}NET_OUT_VIDEOJOIN_GET_CALIBRATE_POINTS;
+
+// CLIENT_OperateVideoJoin 输入参数, 对应NET_VIDEOJOIN_CALIBRATE
+typedef struct tagNET_IN_VIDEOJOIN_CALIBRATE
+{
+    DWORD               dwSize;
+    NET_VIDEOJOIN_MODE  emMode;                                 // 标定模式
+    int                 nPointGroupNum;                         // 标定点组数量
+    NET_VIDEOJOIN_POINT_GROUP stuPointGroups[MAX_POINT_GROUP_NUM]; // 标定点组, 手动模式有效
+}NET_IN_VIDEOJOIN_CALIBRATE;
+
+// CLIENT_OperateVideoJoin 输出参数, 对应NET_VIDEOJOIN_CALIBRATE
+typedef struct tagNET_OUT_VIDEOJOIN_CALIBRATE
+{
+    DWORD           dwSize;
+}NET_OUT_VIDEOJOIN_CALIBRATE;
+
+// 获取屏内窗口信息输入参数, 对应NET_SPLIT_OPERATE_GET_SCENE
+typedef struct tagNET_IN_SPLIT_GET_SCENE 
+{
+    DWORD               dwSize;
+    int                 nChannel;                       // 输出通道号或融合屏虚拟通道号, pszCompositeID为NULL时有效
+    const char*         pszCompositeID;                 // 融合屏ID
+}NET_IN_SPLIT_GET_SCENE;
+
+// 获取屏内窗口信息输出参数, 对应NET_SPLIT_OPERATE_GET_SCENE
+typedef struct tagNET_OUT_SPLIT_GET_SCENE 
+{
+    DWORD               dwSize;
+    DH_SPLIT_SCENE      stuScene;                       // 窗口信息
+}NET_OUT_SPLIT_GET_SCENE;
+
+// 电视墙轮巡状态
+typedef enum tagEM_NET_WM_TOUR_STATUS
+{
+    EM_NET_WM_TOUR_STATUS_UNKNOWN,              // 未知
+        EM_NET_WM_TOUR_STATUS_START,                // 轮巡中
+        EM_NET_WM_TOUR_STATUS_STOP,                 // 轮巡停止
+} EM_NET_WM_TOUR_STATUS;
+
+// 电视墙预案轮巡状态信息
+typedef struct tagNET_WM_TOUR_STATUS_INFO 
+{
+    DWORD                   dwSize;
+    EM_NET_WM_TOUR_STATUS   emStatus;           // 轮巡状态
+    DH_MONITORWALL_SCENE    stuScene;           // 预案信息
+} NET_WM_TOUR_STATUS_INFO;
+
+// 电视墙预案轮巡状态回调函数原形, lAttachHandle是CLIENT_MonitorWallAttachTour的返回值
+typedef void (CALLBACK *fMonitorWallTourStatusCallBack)(LLONG lLoginID, LLONG lAttachHandle, NET_WM_TOUR_STATUS_INFO* pstStatus, void* reserved, LDWORD dwUser);
+
+// CLIENT_MonitorWallAttachTour 接口输入参数
+typedef struct tagNET_IN_WM_ATTACH_TOUR 
+{
+    DWORD           dwSize;
+    int             nMonitorWallID;             // 电视墙ID
+    fMonitorWallTourStatusCallBack cbStatus;    // 轮巡状态回调函数
+    LDWORD          dwUser;                     // 轮巡状态回调参数
+} NET_IN_WM_ATTACH_TOUR;
+
+// CLIENT_MonitorWallAttachTour 接口输出参数
+typedef struct tagNET_OUT_WM_ATTACH_TOUR 
+{
+    DWORD           dwSize;
+} NET_OUT_WM_ATTACH_TOUR;
+
+// CLIENT_SnapManagerConfirmUpload 接口输入参数
+typedef struct tagNET_IN_SNAP_MANAGER_CONFIRM_UPLOAD
+{
+    DWORD           dwSize;
+    char            szFilePath[DH_COMMON_STRING_256];       // 文件路径，用于唯一标识是哪一个图片
+    BOOL            bResult;                                // 图片是否上传完成
+}NET_IN_SNAP_MANAGER_CONFIRM_UPLOAD;
+
+// CLIENT_SnapManagerConfirmUpload 接口输出参数
+typedef struct tagNET_OUT_SNAP_MANAGER_CONFIRM_UPLOAD
+{
+    DWORD           dwSize;
+}NET_OUT_SNAP_MANAGER_CONFIRM_UPLOAD;
+
+// 视频电话状态信息
+typedef struct tagNET_VTP_CALL_STATE_INFO 
+{
+    DWORD                       dwSize;
+    char                        szNumber[DH_COMMON_STRING_128]; // 呼叫号码
+    char                        szCallID[DH_COMMON_STRING_128]; // 对讲唯一标识
+    EM_NET_VTP_CALL_STATE_TYPE  emCallState;                    // 呼叫状态
+}NET_VTP_CALL_STATE_INFO;
+
+// 订阅视频电话状态信息回调函数原型
+typedef void (CALLBACK *fVTPCallStateCallBack)(LLONG lAttachHandle, NET_VTP_CALL_STATE_INFO *pInfo, int nBufLen, LDWORD dwUser);
+
+// 订阅视频电话状态信息 输入参数
+typedef struct tagNET_IN_VTP_CALL_STATE_ATTACH 
+{
+    DWORD                       dwSize;
+    EM_NET_VTP_CALL_TYPE        emCallType;                     // 待查询的呼叫类型
+    fVTPCallStateCallBack       cbCallState;                    // 状态回调函数
+    LDWORD                      dwUser;                         // 用户参数
+}NET_IN_VTP_CALL_STATE_ATTACH;
+
+// 订阅视频电话状态信息 输出参数
+typedef struct tagNET_OUT_VTP_CALL_STATE_ATTACH 
+{
+    DWORD                       dwSize;
+}NET_OUT_VTP_CALL_STATE_ATTACH;
+
+
+//////////////////////////////////////////////////////////////////////////
+// 公交业务相关接口参数
+//////////////////////////////////////////////////////////////////////////
+
+// 检查公交线路CLIENT_CheckBusLine()输入参数
+typedef struct tagNET_IN_CHECK_BUS_LINE 
+{
+    DWORD           dwSize;
+    char            szLineID[DH_COMMON_STRING_32];          // 线路标示
+    char            szDesignation[DH_COMMON_STRING_32];     // 线路番号
+    NET_LINE_DIRECTION  emDirection;                        // 线路方向
+    int             nSiteCount;                             // 线路总站数
+    char            szDirectionName[DH_COMMON_STRING_32];   // 线路方向名称
+    char            szVersion[DH_COMMON_STRING_32];         // 线路版本号
+}NET_IN_CHECK_BUS_LINE;
+
+
+// 公交线路是否需要更新状态类型
+typedef enum tagNET_BUS_LINE_UPDATE_TYPE
+{
+    NET_BUS_LINE_UPDATE_UNKNOWN = 0,
+    NET_BUS_LINE_UPDATE_UPDATED,                            // 需要更新
+    NET_BUS_LINE_UPDATE_NOT_UPDATED,                        // 不需要更新
+}NET_BUS_LINE_UPDATE_TYPE;
+
+// 检查公交线路CLIENT_CheckBusLine()输出参数
+typedef struct tagNET_OUT_CHECK_BUS_LINE
+{
+    DWORD           dwSize;
+    char            szDeviceID[DH_COMMON_STRING_32];        // 设备ID
+    char            szLineID[DH_COMMON_STRING_32];          // 线路标示
+    NET_BUS_LINE_UPDATE_TYPE emUpdate;                      // 是否需要更新状态指示
+}NET_OUT_CHECK_BUS_LINE;
+#define MAX_SITE_GPS_POINT_NUM                      64      // 描述一个公交站点最大GPS点个数
+
+// 公交站点区域形状类型
+typedef enum tagNET_SITE_AREA_TYPE
+{
+    NET_SITE_AREA_ENCLOSURE = 0,                            // 围栏型
+    NET_SITE_AREA_CIRCLE,                                   // 圆形
+}NET_SITE_AREA_TYPE;
+
+// 公交站点信息
+typedef struct tagNET_BUS_SITE_INFO
+{
+    DWORD           dwSize;
+    char            szLineID[DH_COMMON_STRING_32];          // 线路标示
+    int             nSiteCount;                             // 线路总站数
+    NET_LINE_DIRECTION  emDirection;                        // 线路方向
+    int             nStopSequence;                          // 站点序号
+    char            szSiteID[DH_COMMON_STRING_32];          // 站点ID
+    char            szSiteName[DH_COMMON_STRING_32];        // 站点名称
+    NET_SITE_AREA_TYPE emAreaType;                          // 站点区域类型
+    int             nGPSPointNum;                           // 有效GPS点数
+    GPS_POINT       stuPoint[MAX_SITE_GPS_POINT_NUM];       // 站点GPS信息
+    int             nRadius;                                // 站点半径, 单位: 米, 仅圆形站点有效
+    int             nSpeedLimit;                            // 站点限速, 单位: km/H
+    int             nDriveTime;                             // 上已站到本站时间, 单位:分钟
+    int             nTicketPrice;                           // 翻牌票价
+    DH_TSECT        stuPowerSchedule[DH_TSCHE_DAY_NUM][DH_TSCHE_SEC_NUM]; // 开机时间表, 第一维各元素表示周日~周六和节假日
+    char            szDesignation[DH_COMMON_STRING_64];     // 线路番号
+    char            szDirectionName[DH_COMMON_STRING_64];   // 线路方向名称
+    char            szVersion[DH_COMMON_STRING_32];
+}NET_BUS_SITE_INFO;
+
+#define MAX_BUS_STOP_NUM                            32      // 一条公交线路最大站点数目
+
+// 下发公交线路CLIENT_DispatchBusLineInfo()接口输入参数
+typedef struct tagNET_IN_DISPATCH_BUS_LINE_INFO 
+{
+    DWORD           dwSize;
+    int             nBusStopNum;                            // 公交线路站点个数
+    NET_BUS_SITE_INFO   stuStopInfo[MAX_BUS_STOP_NUM];      // 公交线路信息
+}NET_IN_DISPATCH_BUS_LINE_INFO;
+
+// 下发公交线路CLIENT_DispatchBusLineInfo()接口输出参数
+typedef struct tagNET_OUT_DISPATCH_BUS_LINE_INFO 
+{
+    DWORD           dwSize;
+}NET_OUT_DISPATCH_BUS_LINE_INFO;
+
+// 车辆运营调度CLIENT_BusSchedule()接口输入参数
+typedef struct tagNET_IN_BUS_SCHEDULE_INFO 
+{
+    DWORD               dwSize;
+    char                szLineID[DH_COMMON_STRING_64];      // 运营线路标识
+    NET_LINE_DIRECTION  emDirection;                        // 运营线路方向
+    NET_TIME_EX         stuStartTime;                       // 发车时间
+}NET_IN_BUS_SCHEDULE_INFO;
+
+// 车辆运营调度CLIENT_BusSchedule()接口输出参数
+typedef struct tagNET_OUT_BUS_SCHEDULE_INFO 
+{
+    DWORD           dwSize;
+}NET_OUT_BUS_SCHEDULE_INFO;
+
+// 车辆排班计划信息
+typedef struct tagNET_BUS_WORK_PLAN 
+{
+    DWORD               dwSize;
+    char                szID[DH_COMMON_STRING_32];          // 排班记录唯一标示, 最多16个字符
+    NET_TIME_EX         stuTime;                            // 发车时间
+    char                szDriverName[DH_COMMON_STRING_64];  // 司机名字
+    char                szStartSite[DH_COMMON_STRING_64];   // 始发站名字
+    char                szEndSite[DH_COMMON_STRING_64];     // 终点站名字
+    BOOL                bRunning;                           // 运营状态, TRUE:运营, FALSE:停运
+}NET_BUS_WORK_PLAN;
+
+// 下发车辆排班计划CLIENT_DispatchWorkPlan接口输入参数
+typedef struct tagNET_IN_BUS_DISPATCH_WORK_PLAN 
+{
+    DWORD               dwSize;
+    NET_BUS_WORK_PLAN   stuWorkPlan;                        // 车辆排班计划信息
+}NET_IN_BUS_DISPATCH_WORK_PLAN;
+
+// 下发车辆排班计划CLIENT_DispatchWorkPlan接口输出参数
+typedef struct tagNET_OUT_BUS_DISPATCH_WORK_PLAN 
+{
+    DWORD               dwSize;
+}NET_OUT_BUS_DISPATCH_WORK_PLAN;
+
+
+//////////////////////////////////////////////////////////////////////////
+// 能力信息
+//////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////////////
+//	查询类型
+typedef enum
+{
+	ABILITY_DYNAMIC_CONNECT = 1,        // 查询动态多连接能力
+	ABILITY_WATERMARK_CFG = 17,			// 水印配置能力
+	ABILITY_WIRELESS_CFG = 18,			// wireless配置能力
+	ABILITY_DEVALL_INFO = 26,			// 设备的能力列表
+	ABILITY_CARD_QUERY = 0x0100,		// 卡号查询能力
+	ABILITY_MULTIPLAY = 0x0101,			// 多画面预览能力
+	ABILITY_QUICK_QUERY_CFG = 0x0102,	// 快速查询配置能力
+	ABILITY_INFRARED = 0x0121,			// 无线报警能力
+	ABILITY_TRIGGER_MODE = 0x0131,		// 报警输出触发方式能力
+	ABILITY_DISK_SUBAREA = 0x0141,		// 网络硬盘分区能力
+	ABILITY_DSP_CFG = 0x0151,			// 查询DSP能力
+	ABILITY_STREAM_MEDIA = 0x0161,		// 查询SIP,RTSP能力
+	ABILITY_INTELLI_TRACKER = 0x0171,   // 查询智能跟踪能力
+} DH_SYS_ABILITY;
+
+//////////////////////////////////////////////////////////////////////////
+//	设备支持功能列表
+enum 
+{
+	EN_FTP = 0,							// FTP 按位，1：传送录像文件 2：传送抓图文件
+	EN_SMTP,							// SMTP 按位，1：报警传送文本邮件 2：报警传送图片 3:支持健康邮件功能
+	EN_NTP,								// NTP	按位：1：调整系统时间
+	EN_AUTO_MAINTAIN,					// 自动维护 按位：1：重启 2：关闭 3:删除文件
+	EN_VIDEO_COVER,						// 区域遮挡 按位：1：多区域遮挡
+	EN_AUTO_REGISTER,					// 主动注册	按位：1：注册后sdk主动登陆
+	EN_DHCP,							// DHCP	按位：1：DHCP
+	EN_UPNP,							// UPNP	按位：1：UPNP
+	EN_COMM_SNIFFER,					// 串口抓包 按位：1:CommATM
+	EN_NET_SNIFFER,						// 网络抓包 按位： 1：NetSniffer
+	EN_BURN,							// 刻录功能 按位：1：查询刻录状态
+	EN_VIDEO_MATRIX,					// 视频矩阵 按位：1：是否支持视频矩阵 2:是否支持SPOT视频矩阵 3:是否支持HDMI视频矩阵
+	EN_AUDIO_DETECT,					// 音频检测 按位：1：是否支持音频检测
+	EN_STORAGE_STATION,					// 存储位置 按位：1：Ftp服务器(Ips) 2：SMB 3：NFS 4：ISCSI 16：DISK 17：U盘
+	EN_IPSSEARCH,						// IPS存储查询 按位：1：IPS存储查询	
+	EN_SNAP,							// 抓图  按位：1：分辨率2：帧率3：抓图方式4：抓图文件格式5：图画质量
+	EN_DEFAULTNIC,						// 支持默认网卡查询 按位 1：支持
+	EN_SHOWQUALITY,						// CBR模式下显示画质配置项 按位 1:支持
+	EN_CONFIG_IMEXPORT,					// 配置导入导出功能能力 按位 1:支持
+	EN_LOG,								// 是否支持分页方式的日志查询 按位 1：支持
+	EN_SCHEDULE,						// 录像设置的一些能力 按位 1:冗余 2:预录 3:录像时间段
+	EN_NETWORK_TYPE,					// 网络类型按位表示 1:以态网 2:无线局域 3:CDMA/GPRS 4:CDMA/GPRS多网卡配置
+	EN_MARK_IMPORTANTRECORD,			// 标识重要录像 按位:1：设置重要录像标识
+	EN_ACFCONTROL,						// 活动帧率控制 按位：1：支持活动帧率控制, 2:支持定时报警类型活动帧率控制(不支持动检),该能力与ACF能力互斥
+	EN_MULTIASSIOPTION,					// 多路辅码流 按位：1：支持三路辅码流, 2:支持辅码流编码压缩格式独立设置
+	EN_DAVINCIMODULE,					// 组件化模块 按位：1，时间表分开处理 2:标准I帧间隔设置
+	EN_GPS,                             // GPS功能 按位：1：Gps定位功能
+	EN_MULTIETHERNET,					// 支持多网卡查询 按位 1：支持
+	EN_LOGIN_ATTRIBUTE,                 // Login属性 按位：1：支持Login属性查询
+	EN_RECORD_GENERAL,					// 录像相关 按位：1，普通录像；2：报警录像；3：动态检测录像；4：本地存储；5：远程存储；6：冗余存储；7：本地紧急存储；8：支持区分主辅码流的远程存储
+	EN_JSON_CONFIG,						// Json格式配置:按位：1支持Json格式, 2: 使用F6的NAS配置, 3: 使用F6的Raid配置, 4：使用F6的MotionDetect配置, 5：完整支持三代配置(V3)，通过F6命令访问
+	EN_HIDE_FUNCTION,					// 屏蔽功能：按位：1，屏蔽PTZ云台功能, 2: 屏蔽3G的保活时段功能
+	EN_DISK_DAMAGE,                     // 硬盘坏道信息支持能力: 按位：1，硬盘坏道信息查询支持能力
+	EN_PLAYBACK_SPEED_CTRL,				// 支持回放网传速度控制:按位:1，支持回放加速
+	EN_HOLIDAYSCHEDULE,					// 支持假期时间段配置:按位:1，支持假期时间段配置
+	EN_FETCH_MONEY_TIMEOUT,				// ATM取钱超时
+	EN_BACKUP_VIDEO_FORMAT,				// 备份支持的格式，按位：1:DAV, 2:ASF
+	EN_QUERY_DISK_TYPE,                 // 支持硬盘类型查询
+	EN_CONFIG_DISPLAY_OUTPUT,           // 支持设备显示输出（VGA等）配置,按位: 1:画面分割轮巡配置
+	EN_SUBBITRATE_RECORD_CTRL,          // 支持扩展码流录像控制设置, 按位：1-辅码流录像控制设置
+	EN_IPV6,                            // 支持IPV6设置, 按位：1-IPV6配置
+	EN_SNMP,                            // SNMP（简单网络管理协议）
+	EN_QUERY_URL,                       // 支持获取设备URL地址, 按位: 1-查询配置URL地址
+	EN_ISCSI,							// ISCSI（Internet小型计算机系统接口配置）
+	EN_RAID,							// 支持Raid功能
+	EN_HARDDISK_INFO,					// 支持磁盘信息F5查询
+	EN_PICINPIC,                        // 支持画中画功能 按位:1,画中画设置; 2,画中画预览、录像存储、查询、下载;3,支持画中画编码配置，同时支持画中画通道查询
+	EN_PLAYBACK_SPEED_CTRL_SUPPORT,     // 同 EN_PLAYBACK_SPEED_CTRL ，只为了兼容协议
+	EN_LF_XDEV,							// 支持24、32、64路LF-X系列，标注这类设备特殊的编码能力计算方式
+	EN_DSP_ENCODE_CAP,					// F5 DSP编码能力查询
+	EN_MULTICAST,                       // 组播能力查询
+	EM_NET_LIMIT,                       // 网络限制能力查询，按位，1-网络发送码流大小限                          
+	EM_COM422,                          // 串口422
+	EM_PROTOCAL_FRAMEWORK,				// 是否支持三代协议框架（需要实现listMethod(),listService()），通过F6命令访问
+	EM_WRITE_DISK_OSD,					// 刻录OSD叠加, 按位, 1-刻录OSD叠加配置
+	EM_DYNAMIC_MULTI_CONNECT,			// 动态多连接, 按位, 1-请求视频数据应答
+	EM_CLOUDSERVICE,                    // 云服务,按位，1-支持私有云服务
+	EM_RECORD_INFO,						// 录像信息上报, 按位, 1-录像信息主动上报, 2-支持录像帧数查询
+	EN_DYNAMIC_REG,                     // 主动注册能力，按位，1-支持动态主动注册
+	EM_MULTI_PLAYBACK,                  // 多通道预览回放，按为,1-支持多通道预览回放
+	EN_ENCODE_CHN,						// 编码通道, 按位, 1-支持纯音频通道
+    EN_SEARCH_RECORD,                   // 录像查询, 按位, 1-支持异步查询录像, 2-支持三代协议查询录像
+};
+
+typedef struct 
+{
+	DWORD IsFucEnable[512];				// 功能列表能力集,下标对应上述的枚举值,按位表示子功能
+} DH_DEV_ENABLE_INFO;
+
+//////////////////////////////////////////////////////////////////////////
+//	卡号查询能力结构体
+typedef struct 
+{
+	char		IsCardQueryEnable;
+	char		iRev[3];
+} DH_CARD_QUERY_EN;
+
+//////////////////////////////////////////////////////////////////////////
+//	wireless能力结构体
+typedef struct 
+{
+	char		IsWirelessEnable;
+	char		iRev[3];
+} DH_WIRELESS_EN;
+
+//////////////////////////////////////////////////////////////////////////
+//	图象水印能力结构体
+typedef struct 
+{
+	char		isSupportWM;			// 1 支持；0 不支持
+	char		supportWhat;			// 0：文字水印；1：图片水印；2：同时支持文字水印和图片水印
+	char		reserved[2];
+} DH_WATERMAKE_EN;
+
+//////////////////////////////////////////////////////////////////////////
+//	多画面预览能力结构体
+typedef struct  
+{
+	int			nEnable;				// 1 支持；0 不支持
+	DWORD		dwMultiPlayMask;		// 多画面预览掩码
+	char		reserved[4];			// 保留
+} DH_MULTIPLAY_EN;
+
+//////////////////////////////////////////////////////////////////////////
+//	无线报警能力结构体
+typedef struct  
+{
+	BOOL		bSupport;				// 是否支持
+	int			nAlarmInCount;			// 输入个数
+	int			nAlarmOutCount;			// 输出个数
+	int			nRemoteAddrCount;		// 遥控器个数
+	BYTE		reserved[32];
+} DH_WIRELESS_ALARM_INFO;
+
+//////////////////////////////////////////////////////////////////////////
+//	网络硬盘分区能力结构体
+typedef struct 
+{
+	BOOL		bSupported;				// 是否支持网络硬盘分区
+	int			nSupportNum;			// 支持分区的数目
+	BYTE		bReserved[32];			// 保留字节
+} DH_DISK_SUBAREA_EN;
+
+//	DSP能力查询，当DSP能力算法标识为2时使用。
+typedef struct  
+{
+	BYTE		bMainFrame[32];			// 以分辨率枚举值(CAPTURE_SIZE)为索引,主码流分辨率对应支持的最大帧率,如果不支持此分辨率,则值为0.
+	BYTE		bExtraFrame_1[32];		// 辅码流1,使用同bMainFrame
+	BYTE		bReserved[128];			// 预留给辅码流2和3.		
+} DH_DSP_CFG_ITEM;
+
+typedef struct  
+{
+	int			nItemNum;				// DH_DSP_CFG_ITEM的有效个数,等于通道数
+	DH_DSP_CFG_ITEM	stuDspCfgItem[32];	// 主码流的信息
+	BYTE		bReserved[128];			// 保留
+} DH_DSP_CFG; 
+
+//////////////////////////////////////////////////////////////////////////
+//	快速查询配置能力结构体
+typedef struct 
+{
+	char		IsQuickQueryEnable;		// 1是设备支持配置命令快速返回，请设置配置时间足够长以保证窄带下配置的正常读取。建议设置60S
+	char		iRev[3];
+} DH_QUICK_QUERY_CFG_EN;
+
+typedef struct  
+{
+	int			nStreamType;			// 0,无 1,SIP 2,RTSP
+	BYTE		bReserved[16];			// 保留
+} DH_STREAM_MEDIA_EN;
+
+//智能球跟踪能力查询
+typedef struct
+{
+	char		IsIntelliTrackerEnable;		// 大于0表示具有智能球跟踪能力
+	BYTE		bReserved[3];
+}DH_INTELLI_TRACKER_EN;
+
+#define NET_MAX_COMPOSITE_CHANNEL       256                 // 组合融合屏的通道最大数量
+
+// 获取融合能力集的输入参数, 对应NET_COMPOSITE_CAPS
+typedef struct tagNET_IN_COMPOSITE_CAPS 
+{
+    DWORD           dwSize;
+    int             nChannelCount;                          // 需要融合的窗口数量
+    int             nChannels[NET_MAX_COMPOSITE_CHANNEL];   // 需要融合的窗口号列表
+    int             nLayoutX;                               // 水平方向窗口数量
+    int             nLayoutY;                               // 垂直方向窗口数量
+} NET_IN_COMPOSITE_CAPS;
+
+// 获取融合能力集的输出参数, 对应NET_COMPOSITE_CAPS
+typedef struct tagNET_OUT_COMPOSITE_CAPS 
+{
+    DWORD           dwSize;
+    int             nSplitModeCount;                        // 支持的分割模式数量
+    DH_SPLIT_MODE   emSplitModes[DH_MAX_SPLIT_MODE_NUM];    // 支持的分割模式列表
+    int             nMaxFreeWindow;                         // 最大开窗数
+} NET_OUT_COMPOSITE_CAPS;
+
+//////////////////////////////////////////////////////////////////////////
+// RPC方法名
+//////////////////////////////////////////////////////////////////////////
+
+#define RPC_METHOD_MONITORWALL_ADD      "monitorWallManager.addMonitorWall"     // 添加电视墙
+
 
 /***********************************************************************
  ** 回调函数定义
@@ -16658,7 +20793,7 @@ typedef int  (CALLBACK *fAnalyzerDataCallBack)(LLONG lAnalyzerHandle, DWORD dwAl
 typedef void (CALLBACK *fSearchDevicesCB)(DEVICE_NET_INFO_EX *pDevNetInfo, void* pUserData);
 
 // 异步注册设备回调函数原形
-typedef void (CALLBACK *fHaveLogin)(LLONG lLoginID, char *pchDVRIP, LONG nDVRPort, BOOL bOnline, NET_DEVICEINFO_Ex stuDeviceInfo, int nError, LDWORD dwUser, void *reserved);
+// typedef void (CALLBACK *fHaveLogin)(LLONG lLoginID, char *pchDVRIP, LONG nDVRPort, BOOL bOnline, NET_DEVICEINFO_Ex stuDeviceInfo, int nError, LDWORD dwUser, void *reserved);
 
 // 回放YUV数据回调函数
 typedef void (CALLBACK *fYUVDataCallBack)(LLONG lPlaybackHandle, BYTE *pBuffer, DWORD dwBufSize, LONG param, LDWORD dwUser, void *reserved);
@@ -16707,17 +20842,25 @@ CLIENT_API LLONG CALL_METHOD CLIENT_Login(char *pchDVRIP, WORD wDVRPort, char *p
 //           nSpecCap = 14为Radius登录方式 
 //             nSpecCap = 15为Socks5登陆方式，这个时候void* pCapParam填入Socks5服务器的IP&&port&&ServerName&&ServerPassword字符串
 //             nSpecCap = 16为代理登陆方式，这个时候void* pCapParam填入SOCKET值
-//             nSpecCap = 19为web私网穿透登陆方式
+//             nSpecCap = 19为P2P登陆方式
 //             nSpecCap = 20为手机客户端登入
 CLIENT_API LLONG CALL_METHOD CLIENT_LoginEx(char *pchDVRIP, WORD wDVRPort, char *pchUserName, char *pchPassword, int nSpecCap, void* pCapParam, LPNET_DEVICEINFO lpDeviceInfo, int *error = 0);
 
+// 登入扩展接口
+CLIENT_API LLONG CALL_METHOD CLIENT_LoginEx2(char *pchDVRIP, WORD wDVRPort, char *pchUserName, char *pchPassword, EM_LOGIN_SPAC_CAP_TYPE emSpecCap, void* pCapParam, LPNET_DEVICEINFO_Ex lpDeviceInfo, int *error = 0);
+
 // 异步向设备注册 
 // nSpecCap = 0为TCP方式下的登入,nSpecCap = 6为只建主连接下的登入
-// nSpecCap = 19为私网穿透登录
+// nSpecCap = 19为P2P登录
 CLIENT_API LLONG CALL_METHOD CLIENT_StartLogin(char *pchDVRIP, WORD wDVRPort, char *pchUserName, char *pchPassword, int nSpecCap, void* pCapParam, fHaveLogin cbLogin, LDWORD dwUser);
+
+// 只有当CLIENT_StartLogin()的回调错误为11时才使用该接口继续异步登陆
+CLIENT_API LLONG CALL_METHOD CLIENT_StartLoginEx(NET_IN_STARTLOGINEX* pInParam, NET_OUT_STARTLOGINEX* pOutParam);
 
 // 停止向设备注册
 CLIENT_API BOOL CALL_METHOD CLIENT_StopLogin(LLONG lLoginID);
+
+CLIENT_API BOOL CALL_METHOD CLIENT_StopLoginEx(LLONG lLoginID);
 
 // 向设备注销
 CLIENT_API BOOL CALL_METHOD CLIENT_Logout(LLONG lLoginID);
@@ -16796,7 +20939,10 @@ CLIENT_API BOOL CALL_METHOD CLIENT_PTZControl(LLONG lLoginID, int nChannelID, DW
 CLIENT_API BOOL CALL_METHOD CLIENT_DHPTZControl(LLONG lLoginID, int nChannelID, DWORD dwPTZCommand, unsigned char param1, unsigned char param2, unsigned char param3, BOOL dwStop,void* param4=NULL);
 
 // 私有云台控制扩展接口，支持三维快速定位
-CLIENT_API BOOL CALL_METHOD CLIENT_DHPTZControlEx(LLONG lLoginID, int nChannelID, DWORD dwPTZCommand, LONG lParam1, LONG lParam2, LONG lParam3, BOOL dwStop);
+CLIENT_API BOOL CALL_METHOD CLIENT_DHPTZControlEx(LLONG lLoginID, int nChannelID, DWORD dwPTZCommand, LONG lParam1, LONG lParam2, LONG lParam3, BOOL dwStop );
+
+// 私有云台控制扩展接口，支持三维快速定位,鱼眼
+CLIENT_API BOOL CALL_METHOD CLIENT_DHPTZControlEx2(LLONG lLoginID, int nChannelID, DWORD dwPTZCommand, LONG lParam1, LONG lParam2, LONG lParam3, BOOL dwStop , void* param4 = NULL);
 
 //------------------------------------------------------------------------
 // 查询某月的各天是否存在录像文件
@@ -16890,6 +21036,7 @@ CLIENT_API BOOL CALL_METHOD CLIENT_SlowPlayBack(LLONG lPlayHandle);
 CLIENT_API BOOL CALL_METHOD CLIENT_StepPlayBack(LLONG lPlayHandle, BOOL bStop);
 
 // 控制播放方向--正放或者倒放
+// bBackward FLASE 倒放，TRUE 正放
 CLIENT_API BOOL CALL_METHOD CLIENT_PlayBackControlDirection(LLONG lPlayHandle, BOOL bBackward);
 
 // 设置回放帧速
@@ -16911,10 +21058,22 @@ CLIENT_API BOOL CALL_METHOD CLIENT_GetPlayBackOsdTime(LLONG lPlayHandle, LPNET_T
 CLIENT_API BOOL CALL_METHOD CLIENT_StopPlayBack(LLONG lPlayHandle);
 
 // 下载录像文件
-CLIENT_API LLONG CALL_METHOD CLIENT_DownloadByRecordFile(LLONG lLoginID,LPNET_RECORDFILE_INFO lpRecordFile, char *sSavedFileName, fDownLoadPosCallBack cbDownLoadPos, LDWORD dwUserData);
+CLIENT_API LLONG CALL_METHOD CLIENT_DownloadByRecordFile(LLONG lLoginID, LPNET_RECORDFILE_INFO lpRecordFile, char *sSavedFileName, fDownLoadPosCallBack cbDownLoadPos, LDWORD dwUserData);
+
+// 下载录像文件--扩展
+// sSavedFileName不为空, 录像数据写入到该路径对应的文件; fDownLoadDataCallBack不为空, 录像数据通过回调函数返回
+CLIENT_API LLONG CALL_METHOD CLIENT_DownloadByRecordFileEx(LLONG lLoginID, LPNET_RECORDFILE_INFO lpRecordFile, char *sSavedFileName, 
+                                                           fDownLoadPosCallBack cbDownLoadPos, LDWORD dwUserData, 
+                                                           fDataCallBack fDownLoadDataCallBack, LDWORD dwDataUser, void* pReserved = NULL);
 
 // 通过时间下载录像
 CLIENT_API LLONG CALL_METHOD CLIENT_DownloadByTime(LLONG lLoginID, int nChannelId, int nRecordFileType, LPNET_TIME tmStart, LPNET_TIME tmEnd, char *sSavedFileName, fTimeDownLoadPosCallBack cbTimeDownLoadPos, LDWORD dwUserData);
+
+// 通过时间下载录像--扩展
+// sSavedFileName不为空, 录像数据写入到该路径对应的文件; fDownLoadDataCallBack不为空, 录像数据通过回调函数返回
+CLIENT_API LLONG CALL_METHOD CLIENT_DownloadByTimeEx(LLONG lLoginID, int nChannelId, int nRecordFileType, LPNET_TIME tmStart, LPNET_TIME tmEnd, char *sSavedFileName, 
+                                                     fTimeDownLoadPosCallBack cbTimeDownLoadPos, LDWORD dwUserData, 
+                                                     fDataCallBack fDownLoadDataCallBack, LDWORD dwDataUser, void* pReserved = NULL);
 
 // 查询录像下载进度
 CLIENT_API BOOL CALL_METHOD CLIENT_GetDownloadPos(LLONG lFileHandle, int *nTotalSize, int *nDownLoadSize);
@@ -17055,9 +21214,25 @@ CLIENT_API LONG  CALL_METHOD CLIENT_GetStatiscFlux(LLONG lLoginID, LLONG  lPlayH
 // 获取云台信息
 CLIENT_API BOOL  CALL_METHOD CLIENT_GetPtzOptAttr(LLONG lLoginID,DWORD dwProtocolIndex,LPVOID lpOutBuffer,DWORD dwBufLen,DWORD *lpBytesReturned,int waittime=500);
 
+// 设备能力类型, 对应CLIENT_GetDevCaps接口
+#define NET_DEV_CAP_SEQPOWER            0x01                // 电源时序器能力, pInBuf=NET_IN_CAP_SEQPOWER*, pOutBuf=NET_OUT_CAP_SEQPOWER*
+#define NET_ENCODE_CFG_CAPS             0x02                // 设备编码配置对应能力, pInBuf=NET_IN_ENCODE_CFG_CAPS*, pOutBuf= NET_OUT_ENCODE_CFG_CAPS*
+#define NET_VIDEOIN_FISHEYE_CAPS        0x03                // 鱼眼能力, pInBuf=NET_IN_VIDEOIN_FISHEYE_CAPS*, pOutBuf=NET_OUT_VIDEOIN_FISHEYE_CAPS*
+#define NET_COMPOSITE_CAPS              0x04                // 根据指定的窗口号预先获取融合后的能力集, pInBuf=NET_IN_COMPOSITE_CAPS*, pOutBuf=NET_OUT_COMPOSITE_CAPS*
+
 // 获取设备能力
 CLIENT_API BOOL  CALL_METHOD CLIENT_GetDevCaps(LLONG lLoginID, int nType, void* pInBuf, void* pOutBuf, int nWaitTime);
 
+// 设备信息类型，对应CLIENT_QueryDevInfo接口
+#define NET_QUERY_DEV_STORAGE_NAMES            0x01                // 查询设备的存储模块名列表 , pInBuf=NET_IN_STORAGE_DEV_NAMES *, pOutBuf=NET_OUT_STORAGE_DEV_NAMES *
+#define NET_QUERY_DEV_STORAGE_INFOS            0x02                // 查询设备的存储模块信息列表, pInBuf=NET_IN_STORAGE_DEV_INFOS*, pOutBuf= NET_OUT_STORAGE_DEV_INFOS *
+#define NET_QUERY_RECENCY_JNNCTION_CAR_INFO    0x03                // 查询最近的卡口车辆信息接口, pInBuf=NET_IN_GET_RECENCY_JUNCTION_CAR_INFO*, pOutBuf=NET_OUT_GET_RECENCY_JUNCTION_CAR_INFO*
+#define NET_QUERY_LANES_STATE                  0x04                // 查询车道信息,pInBuf = NET_IN_GET_LANES_STATE , pOutBuf = NET_OUT_GET_LANES_STATE
+#define NET_QUERY_DEV_FISHEYE_WININFO          0x05                // 查询鱼眼窗口信息 , pInBuf= NET_IN_FISHEYE_WININFO*, pOutBuf=NET_OUT_FISHEYE_WININFO *
+#define NET_QUERY_DEV_REMOTE_DEVICE_INFO       0x06                // 查询远程设备信息 , pInBuf= NET_IN_GET_DEVICE_INFO*, pOutBuf= NET_OUT_GET_DEVICE_INFO *
+
+// 查询设备信息
+CLIENT_API BOOL  CALL_METHOD CLIENT_QueryDevInfo(LLONG lLoginID, int nQueryType, void* pInBuf, void* pOutBuf, void *pReserved = NULL , int nWaitTime = 1000);
 //------------------------------------------------------------------------
 
 // 重启设备
@@ -17260,6 +21435,8 @@ CLIENT_API BOOL CALL_METHOD CLIENT_AttachMission(LLONG lLoginID, NET_IN_ATTACH_M
 // 取消任务订阅
 CLIENT_API BOOL CALL_METHOD CLIENT_DetachMission(LLONG lAttachHandle);
 
+// 车辆紧急报警确认
+CLIENT_API BOOL CALL_METHOD CLIENT_BusConfirmEvent(LLONG lLoginID, const NET_IN_BUS_CONFIRM_EVENT* pInParam, NET_OUT_BUS_CONFIRM_EVENT* pOutParam, int nWaitTime = 3000);
 
 //////////////////////////////解码器设备接口//////////////////////////////
 
@@ -17345,6 +21522,10 @@ CLIENT_API LLONG CALL_METHOD CLIENT_RealLoadPictureEx(LLONG lLoginID, int nChann
 // 停止上传智能分析数据－图片
 CLIENT_API BOOL CALL_METHOD CLIENT_StopLoadPic(LLONG lAnalyzerHandle);
 
+// 确认上传图片是否已完成－图片
+// 该接口不宜与 CLIENT_RealLoadPictureEx/CLIENT_RealLoadPicture 的回调函数在同一线程，易造成阻塞，必须在另外的线程中调用
+CLIENT_API BOOL CALL_METHOD CLIENT_SnapManagerConfirmUpload(LLONG lLoginID, const NET_IN_SNAP_MANAGER_CONFIRM_UPLOAD* pstInParam, NET_OUT_SNAP_MANAGER_CONFIRM_UPLOAD* pstOutParam, int waittime=1000);
+
 // 按查询条件查询文件
 CLIENT_API LLONG    CALL_METHOD CLIENT_FindFileEx(LLONG lLoginID, EM_FILE_QUERY_TYPE emType, void* pQueryCondition, void *reserved, int waittime=1000);    
 
@@ -17413,6 +21594,12 @@ CLIENT_API BOOL CALL_METHOD CLIENT_StopFindNumberStat(LLONG lFindHandle);
 // 视频分析设备的方法调用
 CLIENT_API BOOL CALL_METHOD CLIENT_OperateVideoAnalyseDevice(LLONG lLoginID, int nChannelID, char* szCmd, void *pstInParam, void *pstOutParam, int waittime=1000);
 
+// 获取视频分析对象
+CLIENT_API BOOL CALL_METHOD CLIENT_VideoAnalyseGetTemplateImage(LLONG lLoginID, const NET_IN_VIDEOANALYSE_GETTEMPLATEIMAGE* pstInParam, NET_OUT_VIDEOANALYSE_GETTEMPLATEIMAGE* pstOutParam, int nWaitTime=1000);
+
+// 设置视频分析对象
+CLIENT_API BOOL CALL_METHOD CLIENT_VideoAnalyseSetTemplateImage(LLONG lLoginID, const NET_IN_VIDEOANALYSE_SETTEMPLATEIMAGE* pstInParam, NET_OUT_VIDEOANALYSE_SETTEMPLATEIMAGE* pstOutParam, int nWaitTime=1000);
+
 // 串口设备的方法调用
 CLIENT_API BOOL CALL_METHOD CLIENT_OperateCommDevice(LLONG lLoginID, int nChannelID, char* szCmd, void *pstInParam, void *pstOutParam, int waittime=1000);
 
@@ -17421,6 +21608,9 @@ CLIENT_API BOOL CALL_METHOD CLIENT_ControlIntelliTracker(LLONG lLoginID, NET_IN_
 
 // 主从式设备的方法调用,具体参数参见上面定义CLIENT_OperateMasterSlaveDevice接口参数定义
 CLIENT_API BOOL CALL_METHOD CLIENT_OperateMasterSlaveDevice(LLONG lLoginID, int nChannelID, char* szCmd, void *pstInParam, void *pstOutParam, int waittime=1000);
+
+// 视频拼接方法调用
+CLIENT_API BOOL CALL_METHOD CLIENT_OperateVideoJoin(LLONG lLoginID, NET_VIDEOJOIN_OPERATE_TYPE emType, void* pstInParam, void* pstOutParam, int nWaitTime);
 
 ////  视频诊断
 
@@ -17453,6 +21643,18 @@ CLIENT_API LLONG CALL_METHOD CLIENT_AttachParkingSpaceData(LLONG lLoginID, NET_I
 
 // 取消订阅指定的车位图片信息
 CLIENT_API BOOL CALL_METHOD CLIENT_DetachParkingSpaceData(NET_IN_DETACH_PARKINGSPACE* pstInParam, NET_OUT_DETACH_PARKINGSPACE* pstOutParam);
+
+// 订阅过车信息
+CLIENT_API LLONG CALL_METHOD CLIENT_AttachCarPassInfo(LLONG lLoginID, NET_IN_ATTACH_CAR_PASS_INFO* pstInParam, NET_OUT_ATTACH_CAR_PASS_INFO* pstOutParam , int nWaitTime);
+
+// 取消订阅过车信息 lCarPassInfoHandle 为 CLIENT_AttachCarPassInfo 返回的句柄
+CLIENT_API BOOL CALL_METHOD CLIENT_DetachCarPassInfo(LLONG lCarPassInfoHandle);
+
+// 订阅指定车道信息
+CLIENT_API LLONG CALL_METHOD CLIENT_AttachLanesState(LLONG lLoginID, NET_IN_ATTACH_LANES_STATE* pstInParam, NET_OUT_ATTACH_LANES_STATE* pstOutParam, int nWaitTime);
+
+// 取消订阅指定车道信息 lLanesStateHandle为CLIENT_AttachLanesState返回的句柄
+CLIENT_API BOOL CALL_METHOD CLIENT_DetachLanesState(LLONG lLanesStateHandle);
 
 // 获取车位灯状态
 CLIENT_API BOOL CALL_METHOD CLIENT_GetCarPortLightStatus(LLONG lLoginID, NET_IN_GET_CARPORTLIGHT_STATUS* pstInParam, NET_OUT_GET_CARPORTLIGHT_STATUS* pstOutParam, int waittime=1000);
@@ -17517,7 +21719,7 @@ CLIENT_API LLONG CALL_METHOD CLIENT_AttachAddFileState(LLONG lLoginID, const NET
 CLIENT_API LLONG CALL_METHOD CLIENT_DetachAddFileState(LLONG lAttachHandle);
 
 /////////////////////////////////人脸识别接口/////////////////////////////////////////
-// 人脸识别数据库信息操作（包括添加和删除）
+// 人脸识别数据库信息操作（包括添加,修改和删除）
 CLIENT_API BOOL CALL_METHOD CLIENT_OperateFaceRecognitionDB(LLONG lLoginID, const NET_IN_OPERATE_FACERECONGNITIONDB* pstInParam, NET_OUT_OPERATE_FACERECONGNITIONDB *pstOutParam, int nWaitTime = 1000);
 
 // 按条件查询人脸识别结果 
@@ -17531,6 +21733,15 @@ CLIENT_API BOOL CALL_METHOD CLIENT_StopFindFaceRecognition(LLONG lFindHandle);
 
 // 人脸检测(输入一张大图，输入大图中被检测出来的人脸图片)
 CLIENT_API BOOL CALL_METHOD CLIENT_DetectFace(LLONG lLoginID, const NET_IN_DETECT_FACE* pstInParam, NET_OUT_DETECT_FACE *pstOutParam, int nWaitTime = 1000);
+
+// 人脸识别人员组操作（包括添加，修改和删除）
+CLIENT_API BOOL CALL_METHOD CLIENT_OperateFaceRecognitionGroup(LLONG lLoginID, const NET_IN_OPERATE_FACERECONGNITION_GROUP* pstInParam, NET_OUT_OPERATE_FACERECONGNITION_GROUP *pstOutParam, int nWaitTime = 1000);
+
+// 查询人脸识别人员组信息
+CLIENT_API BOOL CALL_METHOD CLIENT_FindGroupInfo(LLONG lLoginID, const NET_IN_FIND_GROUP_INFO* pstInParam, NET_OUT_FIND_GROUP_INFO *pstOutParam, int nWaitTime = 1000);
+
+// 布控通道人员组信息
+CLIENT_API BOOL CALL_METHOD CLIENT_SetGroupInfoForChannel(LLONG lLoginID, const NET_IN_SET_GROUPINFO_FOR_CHANNEL* pstInParam, NET_OUT_SET_GROUPINFO_FOR_CHANNEL *pstOutParam, int nWaitTime = 1000);
 
 //////////////////////////////// 刻录上传接口 /////////////////////////////////
 
@@ -17685,6 +21896,11 @@ CLIENT_API BOOL CALL_METHOD CLIENT_SetSplitOSD(LLONG lLoginID, const DH_IN_SPLIT
 
 // 设置窗口轮巡显示源
 CLIENT_API BOOL CALL_METHOD CLIENT_SetTourSource(LLONG lLoginID, const NET_IN_SET_TOUR_SOURCE* pInParam, NET_OUT_SET_TOUR_SOURCE* pOutParam, int nWaitTime = 1000);
+CLIENT_API BOOL CALL_METHOD CLIENT_GetTourSource(LLONG lLoginID, const NET_IN_GET_TOUR_SOURCE* pInParam, NET_OUT_GET_TOUR_SOURCE* pOutParam, int nWaitTime);
+
+// 订阅轮巡状态
+CLIENT_API LLONG CALL_METHOD CLIENT_AttachSplitTour(LLONG lLoginID, const NET_IN_ATTACH_SPLIT_TOUR* pInParam, NET_OUT_ATTACH_SPLIT_TOUR* pOutParam, int nWaitTime);
+CLIENT_API BOOL CALL_METHOD CLIENT_DetachSplitTour(LLONG lAttachHandle);
 
 // 下位矩阵切换
 CLIENT_API BOOL CALL_METHOD CLIENT_MatrixSwitch(LLONG lLoginID, const NET_IN_MATRIX_SWITCH* pInParam, NET_OUT_MATRIX_SWITCH* pOutParam, int nWaitTime);
@@ -17695,6 +21911,292 @@ CLIENT_API BOOL CALL_METHOD CLIENT_SplitSetMultiSource(LLONG lLoginID, const NET
 // 视频分割操作
 CLIENT_API BOOL CALL_METHOD CLIENT_OperateSplit(LLONG lLoginID, NET_SPLIT_OPERATE_TYPE emType, void* pInParam, void* pOutParam, int nWaitTime);
 
+// 分割窗口播放操作类型
+typedef enum tagNET_PLAYER_OPERATE_TYPE
+{
+    NET_PLAYER_OPERATE_OPEN,                // 打开播放器
+    NET_PLAYER_OPERATE_CLOSE,               // 关闭播放器
+    NET_PLAYER_OPERATE_START,               // 开始播放
+    NET_PLAYER_OPERATE_STOP,                // 停止播放
+    NET_PLAYER_OPERATE_PAUSE,               // 暂停/恢复播放
+    NET_PLAYER_OPERATE_SEEK_TIME,           // 跳转到指定时间播放
+    NET_PLAYER_OPERATE_STEP_FRAME,          // 单帧回放, 需要暂停后使用
+    NET_PLAYER_OPERATE_GET_STATE,           // 取当前回放状态
+    NET_PLAYER_OPERATE_GET_TIME,            // 获取当前回放时间
+    NET_PLAYER_OPERATE_GET_SPEED,           // 获取播放速度
+    NET_PLAYER_OPERATE_SET_SPEED,           // 设置播放速度
+    NET_PLAYER_OPERATE_GET_VOLUME,          // 获取音量
+    NET_PLAYER_OPERATE_SET_VOLUME,          // 设置音量
+    NET_PLAYER_OPERATE_GET_PLAYLIST,        // 获取文件列表
+    NET_PLAYER_OPERATE_GET_PLAYLIST_TS,     // 获取当前文件列表全部时间段信息
+}NET_PLAYER_OPERATE_TYPE;
+
+// 播放条件
+typedef struct tagNET_PLAYER_OPEN_CONDITION 
+{
+    DWORD               dwSize;
+    char                szDevice[DH_DEV_ID_LEN];        // 指明远端的设备
+    int                 nChannel;                       // 通道号
+    NET_TIME            stuStartTime;                   // 起始时间
+    NET_TIME            stuEndTime;                     // 结束时间
+    NET_STREAM_TYPE     emStreamType;                   // 码流类型
+    int                 nEventNum;                      // 事件类型个数
+    int                 nEvent[MAX_IVS_EVENT_NUM];      // 事件类型
+}NET_PLAYER_OPEN_CONDITION;
+
+// 打开播放器输入参数, 对应 NET_PLAYER_OPERATE_OPEN
+typedef struct tagNET_IN_PLAYER_OPEN 
+{
+    DWORD               dwSize;
+    LLONG               lPlayerID;                      // 播放实例ID
+    const char*         pszDevice;                      // 指明从本地还是远端取录像, 为null代表从本地取录像，
+                                                        // 如果是从远端设备取，需要保持与NET_PLAYER_OPEN_CONDITION的szDevice一致
+    NET_PLAYER_OPEN_CONDITION stuCondition;             // 查询条件
+}NET_IN_PLAYER_OPEN;
+
+// 打开播放器输出参数, 对应 NET_PLAYER_OPERATE_OPEN
+typedef struct tagNET_OUT_PLAYER_OPEN 
+{
+    DWORD               dwSize;
+}NET_OUT_PLAYER_OPEN;
+
+// 关闭播放器输入参数, 对应 NET_PLAYER_OPERATE_CLOSE
+typedef struct tagNET_IN_PLAYER_CLOSE
+{
+    DWORD               dwSize;
+    LLONG               lPlayerID;                      // 播放实例ID
+}NET_IN_PLAYER_CLOSE;
+
+// 关闭播放器输出参数, 对应 NET_PLAYER_OPERATE_CLOSE
+typedef struct tagNET_OUT_PLAYER_CLOSE
+{
+    DWORD               dwSize;
+}NET_OUT_PLAYER_CLOSE;
+
+// 开始播放输入参数, 对应 NET_PLAYER_OPERATE_START
+typedef struct tagNET_IN_PLAYER_START
+{
+    DWORD               dwSize;
+    LLONG               lPlayerID;                      // 播放实例ID
+}NET_IN_PLAYER_START;
+
+// 开始播放输出参数, 对应 NET_PLAYER_OPERATE_START
+typedef struct tagNET_OUT_PLAYER_START
+{
+    DWORD               dwSize;
+}NET_OUT_PLAYER_START;
+
+// 停止播放输入参数, 对应 NET_PLAYER_OPERATE_STOP
+typedef struct tagNET_IN_PLAYER_STOP
+{
+    DWORD               dwSize;
+    LLONG               lPlayerID;                      // 播放实例ID
+}NET_IN_PLAYER_STOP;
+
+// 停止播放输出参数, 对应 NET_PLAYER_OPERATE_STOP
+typedef struct tagNET_OUT_PLAYER_STOP
+{
+    DWORD               dwSize;
+}NET_OUT_PLAYER_STOP;
+
+// 暂停/恢复播放输入参数, 对应 NET_PLAYER_OPERATE_PAUSE
+typedef struct tagNET_IN_PLAYER_PAUSE
+{
+    DWORD               dwSize;
+    LLONG               lPlayerID;                      // 播放实例ID
+    BOOL                bPause;                         // 是否暂停, TRUE-暂停播放, FALSE-恢复播放
+}NET_IN_PLAYER_PAUSE;
+
+// 暂停/恢复播放输出参数, 对应 NET_PLAYER_OPERATE_PAUSE
+typedef struct tagNET_OUT_PLAYER_PAUSE
+{
+    DWORD               dwSize;
+}NET_OUT_PLAYER_PAUSE;
+
+// 跳转到指定时间播放输入参数, 对应 NET_PLAYER_OPERATE_SEEK_TIME
+typedef struct tagNET_IN_PLAYER_SEEK_TIME
+{
+    DWORD               dwSize;
+    LLONG               lPlayerID;                      // 播放实例ID
+    NET_TIME            stuTime;                        // 跳转时间
+}NET_IN_PLAYER_SEEK_TIME;
+
+// 跳转到指定时间播放输出参数, 对应 NET_PLAYER_OPERATE_SEEK_TIME
+typedef struct tagNET_OUT_PLAYER_SEEK_TIME
+{
+    DWORD               dwSize;
+}NET_OUT_PLAYER_SEEK_TIME;
+
+// 单帧播放输入参数, 对应 NET_PLAYER_OPERATE_STEP_FRAME
+typedef struct tagNET_IN_PLAYER_STEP_FRAME
+{
+    DWORD               dwSize;
+    LLONG               lPlayerID;                      // 播放实例ID
+    BOOL                bForward;                       // 是否正向, TRUE-正向, FALSE-反向
+}NET_IN_PLAYER_STEP_FRAME;
+
+// 单帧播放输出参数, 对应 NET_PLAYER_OPERATE_STEP_FRAME
+typedef struct tagNET_OUT_PLAYER_STEP_FRAME
+{
+    DWORD               dwSize;
+}NET_OUT_PLAYER_STEP_FRAME;
+
+// 播放状态
+typedef enum tagNET_PLAYER_STATE 
+{
+    NET_PLAYER_STATE_UNKNOWN,               // 未知
+    NET_PLAYER_STATE_ERROR,                 // 有错误发生
+    NET_PLAYER_STATE_READING,               // 就绪, 可以开启回放
+    NET_PLAYER_STATE_STANDBY,               // 当前文件回放停止, 只能从头开始重新回放
+    NET_PLAYER_STATE_RUNNING,               // 运行中
+    NET_PLAYER_STATE_PAUSED,                // 已暂停, 可以从暂停点继续回放
+    NET_PLAYER_STATE_CLOSED,                // 已关闭, 无法播放, 必须重新open进入Reading状态后才能回放
+}NET_PLAYER_STATE;
+
+// 查询播放状态输入参数, 对应 NET_PLAYER_OPERATE_GET_STATE
+typedef struct tagNET_IN_PLAYER_GET_STATE
+{
+    DWORD               dwSize;
+    LLONG               lPlayerID;                      // 播放实例ID
+}NET_IN_PLAYER_GET_STATE;
+
+// 查询播放状态输出参数, 对应 NET_PLAYER_OPERATE_GET_STATE
+typedef struct tagNET_OUT_PLAYER_GET_STATE
+{
+    DWORD               dwSize;
+    NET_PLAYER_STATE    emState;                        // 状态
+}NET_OUT_PLAYER_GET_STATE;
+
+// 获取当前回放时间输入参数, 对应 NET_PLAYER_OPERATE_GET_TIME
+typedef struct tagNET_IN_PLAYER_GET_TIME
+{
+    DWORD               dwSize;
+    LLONG               lPlayerID;                      // 播放实例ID
+}NET_IN_PLAYER_GET_TIME;
+
+// 获取当前回放时间输出参数, 对应 NET_PLAYER_OPERATE_GET_TIME
+typedef struct tagNET_OUT_PLAYER_GET_TIME
+{
+    DWORD               dwSize;
+    NET_TIME            stuTime;                        // 当前播放时间
+}NET_OUT_PLAYER_GET_TIME;
+
+// 获取播放速度输入参数, 对应 NET_PLAYER_OPERATE_GET_SPEED
+typedef struct tagNET_IN_PLAYER_GET_SPEED
+{
+    DWORD               dwSize;
+    LLONG               lPlayerID;                      // 播放实例ID
+}NET_IN_PLAYER_GET_SPEED;
+
+// 获取播放速度输出参数, 对应 NET_PLAYER_OPERATE_GET_SPEED
+typedef struct tagNET_OUT_PLAYER_GET_SPEED
+{
+    DWORD               dwSize;
+    float               fSpeed;                         // 播放速度, >0正向播放, <0方向播放
+                                                        // 绝对值表示速度, =1正常速度, >1快放, <1慢放
+}NET_OUT_PLAYER_GET_SPEED;
+
+// 设置播放速度输入参数, 对应 NET_PLAYER_OPERATE_SET_SPEED
+typedef struct tagNET_IN_PLAYER_SET_SPEED
+{
+    DWORD               dwSize;
+    LLONG               lPlayerID;                      // 播放实例ID
+    float               fSpeed;                         // 播放速度, >0正向播放, <0方向播放
+                                                        // 绝对值表示速度, =1正常速度, >1快放, <1慢放
+}NET_IN_PLAYER_SET_SPEED;
+
+// 设置播放速度输出参数, 对应 NET_PLAYER_OPERATE_SET_SPEED
+typedef struct tagNET_OUT_PLAYER_SET_SPPED
+{
+    DWORD               dwSize;
+}NET_OUT_PLAYER_SET_SPEED;
+
+// 获取播放音量输入参数, 对应 NET_PLAYER_OPERATE_GET_VOLUME
+typedef struct tagNET_IN_PLAYER_GET_VOLUME
+{
+    DWORD               dwSize;
+    LLONG               lPlayerID;                      // 播放实例ID
+}NET_IN_PLAYER_GET_VOLUME;
+
+// 获取播放音量输出参数, 对应 NET_PLAYER_OPERATE_GET_VOLUME
+typedef struct tagNET_OUT_PLAYER_GET_VOLUME
+{
+    DWORD               dwSize;
+    int                 nVolume;                        // 播放音量, 0~100
+}NET_OUT_PLAYER_GET_VOLUME;
+
+// 设置播放音量输入参数, 对应 NET_PLAYER_OPERATE_SET_VOLUME
+typedef struct tagNET_IN_PLAYER_SET_VOLUME
+{
+    DWORD               dwSize;
+    LLONG               lPlayerID;                      // 播放实例ID
+    int                 nVolume;                        // 播放音量, 0~100
+}NET_IN_PLAYER_SET_VOLUME;
+
+// 设置播放音量输出参数, 对应 NET_PLAYER_OPERATE_SET_VOLUME
+typedef struct tagNET_OUT_PLAYER_SET_VOLUME
+{
+    DWORD               dwSize;
+}NET_OUT_PLAYER_SET_VOLUME;
+
+// 播放列表信息
+typedef struct tagNET_PLAYER_PLAYLIST
+{
+    DWORD               dwSize;
+    char                szFilePath[MAX_PATH];           // 文件路径, 与Url二者选一
+    char                szUrl[MAX_PATH];                // URL, 与FilePath二者选一
+    DH_DEVICE_PROTOCOL  emUrlProtocol;                  // URL协议类型
+    NET_TIME            stuStartTime;                   // 起始时间
+    NET_TIME            stuEndTime;                     // 结束时间
+}NET_PLAYER_PLAYLIST;
+
+// 获取当前播放列表输入参数, 对应 NET_PLAYER_OPERATE_GET_PLAYLIST
+typedef struct tagNET_IN_PLAYER_GET_PLAYLIST
+{
+    DWORD               dwSize;
+    LLONG               lPlayerID;                      // 播放实例ID
+    NET_TIME            stuStartTime;                   // 起始时间
+    NET_TIME            stuEndTime;                     // 结束时间
+    int                 nLimit;                         // 查询的文件数上限, 0表示无上限
+}NET_IN_PLAYER_GET_PLAYLIST;
+
+// 获取当前播放列表输出参数, 对应 NET_PLAYER_OPERATE_GET_PLAYLIST
+typedef struct tagNET_OUT_PLAYER_GET_PLAYLIST
+{
+    DWORD               dwSize;
+    NET_PLAYER_PLAYLIST* pstuPlayLists;                 // 播放列表, 用户分配内存
+    int                 nMaxPlayListCount;              // 最大播放列表数量, 用户填写
+    int                 nRetPlayListCount;              // 返回播放列表数量
+}NET_OUT_PLAYER_GET_PLAYLIST;
+
+// 获取当前文件列表全部时间段信息输入参数, 对应 NET_PLAYER_OPERATE_GET_PLAYLIST_TS
+typedef struct tagNET_IN_PLAYER_GET_PLAYLIST_TS
+{
+    DWORD               dwSize;
+    LLONG               lPlayerID;                      // 播放实例ID
+}NET_IN_PLAYER_GET_PLAYLIST_TS;
+
+typedef struct tagNET_PLAYLIST_TIMESECTION
+{
+    DWORD               dwSize;
+    int                 nEvent;                         // 录像事件类型, 目前有
+                                                        // EVENT_ALARM_COMMON, EVENT_ALARM_VIDEOBLIND, EVENT_ALARM_VIDEOLOSS, 
+                                                        // EVENT_ALARM_MOTIONDETECT, EVENT_ALARM_LOCALALARM
+    LPDH_TSECT          pstuTSs;                        // 时间段信息
+    DWORD               unMaxTS;                        // 时间段最大个数
+    DWORD               unRetTS;                        // 实际返回的时间段个数
+}NET_PLAYLIST_TIMESECTION;
+
+// 获取当前文件列表全部时间段信息输出参数, 对应 NET_PLAYER_OPERATE_GET_PLAYLIST_TS
+typedef struct tagNET_OUT_PLAYER_GET_PLAYLIST_TS
+{
+    DWORD                    dwSize;
+    DWORD                    dwEventNum;                // 录像类型数量
+    NET_PLAYLIST_TIMESECTION stuTS[MAX_IVS_EVENT_NUM];  // 当前回放列表的时间段信息
+}NET_OUT_PLAYER_GET_PLAYLIST_TS;
+
+// 分割窗口播放操作
+CLIENT_API BOOL CALL_METHOD CLIENT_OperateSplitPlayer(LLONG lLoginID, NET_PLAYER_OPERATE_TYPE emType, void* pInParam, void* pOutParam, int nWaitTime);
 
 //////////////////////////////////// 电视墙控制 //////////////////////////////////////
 
@@ -17706,14 +22208,14 @@ CLIENT_API BOOL CALL_METHOD CLIENT_SetDisplayMode(LLONG lLoginID, const DH_IN_WM
 CLIENT_API BOOL CALL_METHOD CLIENT_GetDisplayMode(LLONG lLoginID, const DH_IN_WM_GET_DISPLAY_MODE* pInParam, DH_OUT_WM_GET_DISPLAY_MODE* pOutParam, int nWaitTime = 1000);
 
 // 载入/保存预案
-CLIENT_API BOOL CALL_METHOD    CLIENT_LoadMonitorWallCollection(LLONG lLoginID, const DH_IN_WM_LOAD_COLLECTION* pInParam, DH_OUT_WM_LOAD_COLLECTION* pOutParam, int nWaitTime = 1000);
-CLIENT_API BOOL CALL_METHOD    CLIENT_SaveMonitorWallCollection(LLONG lLoginID, const DH_IN_WM_SAVE_COLLECTION* pInParam, DH_OUT_WM_SAVE_COLLECTION* pOutParam, int nWaitTime = 1000);
+CLIENT_API BOOL CALL_METHOD CLIENT_LoadMonitorWallCollection(LLONG lLoginID, const DH_IN_WM_LOAD_COLLECTION* pInParam, DH_OUT_WM_LOAD_COLLECTION* pOutParam, int nWaitTime = 1000);
+CLIENT_API BOOL CALL_METHOD CLIENT_SaveMonitorWallCollection(LLONG lLoginID, const DH_IN_WM_SAVE_COLLECTION* pInParam, DH_OUT_WM_SAVE_COLLECTION* pOutParam, int nWaitTime = 1000);
 
 // 获取电视墙预案
 CLIENT_API BOOL CALL_METHOD CLIENT_GetMonitorWallCollections(LLONG lLoginID, const DH_IN_WM_GET_COLLECTIONS* pInParam, DH_OUT_WM_GET_COLLECTIONS* pOutParam, int nWaitTime = 1000);
 
 // 电视墙预案重命名
-CLIENT_API BOOL    CALL_METHOD CLIENT_RenameMonitorWallCollection(LLONG lLoginID, const DH_IN_WM_RENAME_COLLECTION* pInParam, DH_OUT_WM_RENAME_COLLECTION* pOutParam, int nWaitTime = 1000);
+CLIENT_API BOOL CALL_METHOD CLIENT_RenameMonitorWallCollection(LLONG lLoginID, const DH_IN_WM_RENAME_COLLECTION* pInParam, DH_OUT_WM_RENAME_COLLECTION* pOutParam, int nWaitTime = 1000);
 
 // 获取/设置电视墙场景
 CLIENT_API BOOL CALL_METHOD CLIENT_MonitorWallGetScene(LLONG lLoginID, const DH_IN_MONITORWALL_GET_SCENE* pInParam, DH_OUT_MONITORWALL_GET_SCENE* pOutParam, int nWaitTime = 1000);
@@ -17742,6 +22244,10 @@ CLIENT_API BOOL CALL_METHOD CLIENT_MonitorWallSetScrnCtrlParam(LLONG lLoginID, c
 // 查询/设置屏幕和窗口背景颜色
 CLIENT_API BOOL CALL_METHOD CLIENT_MonitorWallGetBackgroudColor(LLONG lLoginID, const NET_IN_MW_GET_BACKGROUDND_COLOR* pInParam, NET_OUT_MW_GET_BACKGROUDND_COLOR* pOutParam, int nWaitTime);
 CLIENT_API BOOL CALL_METHOD CLIENT_MonitorWallSetBackgroudColor(LLONG lLoginID, const NET_IN_MW_SET_BACKGROUD_COLOR* pInParam, NET_OUT_MW_SET_BACKGROUD_COLOR* pOutParam, int nWaitTime);
+
+// 订阅预案轮巡状态
+CLIENT_API LLONG CALL_METHOD CLIENT_MonitorWallAttachTour(LLONG lLoginID, const NET_IN_WM_ATTACH_TOUR* pInParam, NET_OUT_WM_ATTACH_TOUR* pOutParam, int nWaitTime);
+CLIENT_API BOOL CALL_METHOD CLIENT_MonitorWallDetachTour(LLONG lAttachHandle);
 
 // 电视墙操作
 CLIENT_API BOOL CALL_METHOD CLIENT_OperateMonitorWall(LLONG lLoginID, NET_MONITORWALL_OPERATE_TYPE emType, void* pInParam, void* pOutParam, int nWaitTime);
@@ -17772,6 +22278,11 @@ CLIENT_API BOOL CALL_METHOD CLIENT_StopSniffer(LLONG lLoginID, LLONG lSnifferID)
 // 获取抓包状态
 CLIENT_API BOOL CALL_METHOD CLIENT_GetSnifferInfo(LLONG lLoginID, const DH_IN_GET_SNIFFER_INFO* pInParam, DH_OUT_GET_SNIFFER_INFO* pOutParam, int nWaitTime = 1000);
 
+//////////////////////////////// 播放库相关接口 /////////////////////////////////
+
+//抓取JPEG图像
+CLIENT_API BOOL CALL_METHOD  CLIENT_GetPicJPEG(LLONG lPlayHandle, BYTE* pJpegBuf, DWORD dwBufSize,DWORD *pJpegSize,int quality);
+
 
 //////////////////////////////// 远程文件管理 /////////////////////////////////
 
@@ -17795,6 +22306,9 @@ CLIENT_API BOOL CALL_METHOD CLIENT_PlayAudioFile(LLONG lLoginID, const NET_IN_PL
 
 // 文件下载, 只适用于小文件
 CLIENT_API BOOL CALL_METHOD CLIENT_DownloadRemoteFile(LLONG lLoginID, const DH_IN_DOWNLOAD_REMOTE_FILE* pInParam, DH_OUT_DOWNLOAD_REMOTE_FILE* pOutParam, int nWaitTime = 1000);
+
+// 设置指定文件的属性
+CLIENT_API BOOL CALL_METHOD CLIENT_SetFileAttribute(LLONG lLoginID, const DH_IN_SET_FILEATTRIBUTE* pInParam, DH_OUT_SET_FILEATTRIBUTE* pOutParam, int nWaitTime = 1000);
 
 ////////////////////////////////// 存储设备管理 ////////////////////////////////////////
 
@@ -17865,37 +22379,46 @@ CLIENT_API BOOL CALL_METHOD CLIENT_GetEncodePlan(LLONG lLoginID, const DH_IN_GET
 /*                           数据库记录相关操作                         */
 /************************************************************************/
 // 按查询条件查询记录
-CLIENT_API BOOL    CALL_METHOD CLIENT_FindRecord(LLONG lLoginID, NET_IN_FIND_RECORD_PARAM* pInParam, NET_OUT_FIND_RECORD_PARAM* pOutParam, int waittime=1000);    
+CLIENT_API BOOL CALL_METHOD CLIENT_FindRecord(LLONG lLoginID, NET_IN_FIND_RECORD_PARAM* pInParam, NET_OUT_FIND_RECORD_PARAM* pOutParam, int waittime=1000);    
 
 // 查找记录:nFilecount:需要查询的条数, 返回值为媒体文件条数 返回值<nFilecount则相应时间段内的文件查询完毕
-CLIENT_API int    CALL_METHOD CLIENT_FindNextRecord(NET_IN_FIND_NEXT_RECORD_PARAM* pInParam, NET_OUT_FIND_NEXT_RECORD_PARAM* pOutParam, int waittime=1000);
+CLIENT_API int CALL_METHOD CLIENT_FindNextRecord(NET_IN_FIND_NEXT_RECORD_PARAM* pInParam, NET_OUT_FIND_NEXT_RECORD_PARAM* pOutParam, int waittime=1000);
 
 // 查找记录条数
-CLIENT_API BOOL    CALL_METHOD CLIENT_QueryRecordCount(NET_IN_QUEYT_RECORD_COUNT_PARAM* pInParam, NET_OUT_QUEYT_RECORD_COUNT_PARAM* pOutParam, int waittime=1000);
+CLIENT_API BOOL CALL_METHOD CLIENT_QueryRecordCount(NET_IN_QUEYT_RECORD_COUNT_PARAM* pInParam, NET_OUT_QUEYT_RECORD_COUNT_PARAM* pOutParam, int waittime=1000);
 
 // 结束记录查找
 CLIENT_API BOOL CALL_METHOD CLIENT_FindRecordClose(LLONG lFindHandle);
 
 /************************************************************************/
-/*                            云台元数据接口订阅						*/
+/*                            云台元数据接口订阅						    */
 /************************************************************************/
 // 订阅云台元数据接口
 CLIENT_API LLONG CALL_METHOD CLIENT_AttachPTZStatusProc(LLONG lLoginID, NET_IN_PTZ_STATUS_PROC *pstuInPtzStatusProc,  NET_OUT_PTZ_STATUS_PROC *pstuOutPtzStatusProc, int nWaitTime = 3000);
 
 // 停止订阅云台元数据接口，lAttachHandle是CLIENT_AttachPTZStatusProc返回值
-CLIENT_API BOOL    CALL_METHOD    CLIENT_DetachPTZStatusProc(LLONG lAttachHandle);
+CLIENT_API BOOL CALL_METHOD CLIENT_DetachPTZStatusProc(LLONG lAttachHandle);
 
 /************************************************************************/
-/*                            云台可视域订阅							*/
+/*                            云台可视域订阅							    */
 /************************************************************************/
 // 订阅云台可视域
 CLIENT_API LLONG CALL_METHOD CLIENT_AttachViewRangeState(LLONG lLoginID, NET_IN_VIEW_RANGE_STATE *pstuInViewRange, NET_OUT_VIEW_RANGE_STATE *pstuOutViewRange, int nWaitTime = 3000);
 
 // 停止订阅云台可视域，lAttachHandle是CLIENT_AttachViewRangeState返回值
-CLIENT_API BOOL    CALL_METHOD    CLIENT_DetachViewRangeState(LLONG lAttachHandle);
+CLIENT_API BOOL CALL_METHOD CLIENT_DetachViewRangeState(LLONG lAttachHandle);
 
 /************************************************************************/
-/*                            模拟量报警通道数据订阅					*/
+/*                            BUS订阅                                   */
+/************************************************************************/
+// 订阅Bus状态
+CLIENT_API LLONG CALL_METHOD CLIENT_AttachBusState(LLONG lLoginID, NET_IN_BUS_ATTACH *pstuInBus, NET_OUT_BUS_ATTACH *pstuOutBus, int nWaitTime = 3000);
+
+// 停止订阅Bus状态，lAttachHandle是CLIENT_AttachBusState返回值
+CLIENT_API BOOL CALL_METHOD CLIENT_DetachBusState(LLONG lAttachHandle);
+
+/************************************************************************/
+/*                            模拟量报警通道数据订阅					    */
 /************************************************************************/
 
 // 订阅模拟量报警通道数据
@@ -17904,9 +22427,22 @@ CLIENT_API LLONG CALL_METHOD CLIENT_AttachAnalogAlarmData(LLONG lLoginID, const 
 // 停止订阅模拟量报警通道数据
 CLIENT_API BOOL CALL_METHOD CLIENT_DetachAnalogAlarmData(LLONG lAttachHandle);
 
+/************************************************************************/
+/*                            记录变更接口订阅                           */
+/************************************************************************/
+
+// 订阅记录变更接口
+CLIENT_API LLONG CALL_METHOD CLIENT_AttachRecordUpdater(LLONG lLoginID, const NET_IN_RECORDUPDATER_DATA* pInParam, NET_OUT_RECORDUPDATER_DATA* pOutParam, int nWaitTime);
+
+// 停止订阅记录变更接口
+CLIENT_API BOOL CALL_METHOD CLIENT_DetachRecordUpdater(LLONG lAttachHandle);
+
 ///////////////////////////////特殊版本接口///////////////////////////////
-// 设置日志打印信息
-CLIENT_API BOOL CALL_METHOD CLIENT_SetLogPrintInfo(LOG_SET_PRINT_INFO *pstLogPrintInfo);
+// 打开日志功能
+CLIENT_API BOOL CALL_METHOD CLIENT_LogOpen(LOG_SET_PRINT_INFO *pstLogPrintInfo);
+
+// 关闭日志功能
+CLIENT_API BOOL CALL_METHOD CLIENT_LogClose();
 
 // 查询设备日志--扩展
 CLIENT_API BOOL CALL_METHOD CLIENT_QueryLogEx(LLONG lLoginID, DH_LOG_QUERY_TYPE logType, char *pLogBuffer, int maxlen, int *nLogBufferlen, void* reserved, int waittime=3000);
@@ -17968,6 +22504,57 @@ CLIENT_API BOOL CALL_METHOD CLIENT_SetPlayMethod(LLONG lRealHandle, int nStartTi
 // 关闭设备主动注册上来的链接
 CLIENT_API BOOL CALL_METHOD CLIENT_CloseRegConnect(LLONG lHandle, char *pIp, WORD wPort, void *pParam);
 
+// 按文件回放输入参数-代理使用
+typedef struct tagNET_IN_PLAYBACK_BYFILE_PROXY 
+{
+    DWORD                   dwSize;
+    LPNET_RECORDFILE_INFO   lpRecordFile;                   // 录像文件信息
+    HWND                    hWnd;                           // 窗口句柄
+    fDownLoadPosCallBack    cbDownLoadPos;                  // 回放进度回调
+    LDWORD                  dwPosUser;                      // 进度回调用户数据
+    fDataCallBack           fDownLoadDataCallBack;          // 回放数据回调
+    LDWORD                  dwDataUser;                     // 数据回调用户数据
+    char                    szDstIP[DH_COMMON_STRING_128];  // 设备IP
+}NET_IN_PLAYBACK_BYFILE_PROXY;
+
+// 按文件回放输出参数-代理使用
+typedef struct tagNET_OUT_PLAYBACK_BYFILE_PROXY 
+{
+    DWORD                   dwSize;
+}NET_OUT_PLAYBACK_BYFILE_PROXY;
+
+// 按时间回放输入参数-代理使用
+typedef struct tagNET_IN_PLAYBACK_BYTIME_PROXY 
+{
+    DWORD                   dwSize;
+    int                     nChannelID;                     // 通道号
+    LPNET_TIME              lpStartTime;                    // 开始时间
+    LPNET_TIME              lpStopTime;                     // 结束时间
+    HWND                    hWnd;                           // 窗口句柄
+    fDownLoadPosCallBack    cbDownLoadPos;                  // 回放进度回调
+    LDWORD                  dwPosUser;                      // 进度回调用户数据
+    fDataCallBack           fDownLoadDataCallBack;          // 回放数据回调
+    LDWORD                  dwDataUser;                     // 数据回调用户数据
+    char                    szDstIP[DH_COMMON_STRING_128];  // 设备IP
+}NET_IN_PLAYBACK_BYTIME_PROXY;
+
+// 按时间回放输出参数-代理使用
+typedef struct tagNET_OUT_PLAYBACK_BYTIME_PROXY 
+{
+    DWORD                   dwSize;
+}NET_OUT_PLAYBACK_BYTIME_PROXY;
+
+// 按文件方式回放--附带设备IP,仅代理使用
+CLIENT_API LLONG CALL_METHOD CLIENT_PlayBackByRecordFileProxy(LLONG lLoginID, NET_IN_PLAYBACK_BYFILE_PROXY* pInParam, NET_OUT_PLAYBACK_BYFILE_PROXY* pOutParam);
+
+// 按时间方式回放--附带设备IP,仅代理使用
+CLIENT_API LLONG CALL_METHOD CLIENT_PlayBackByTimeProxy(LLONG lLoginID, NET_IN_PLAYBACK_BYTIME_PROXY* pInParam, NET_OUT_PLAYBACK_BYTIME_PROXY* pOutParam);
+
+// 导入配置文件(以JSON格式) pSendBuf: 待发送数据,用户分配内存, nSendBufLen: 待发送长度, reserved: 保留参数
+CLIENT_API BOOL CALL_METHOD CLIENT_ImportConfigFileJson(LLONG lLoginID, char *pSendBuf, int nSendBufLen, void* reserved=NULL, int nWaitTime=3000);
+// 导出配置文件(以JSON格式) pOutBuffer: 接收缓冲,用户分配内存, maxlen: 接收缓冲长度, nRetlen: 实际导出长度, reserved: 保留参数
+CLIENT_API BOOL CALL_METHOD CLIENT_ExportConfigFileJson(LLONG lLoginID, char *pOutBuffer, int maxlen, int *nRetlen, void* reserved=NULL, int nWaitTime=3000);
+
 //////上海BUS//////
 
 #ifdef SHANGHAIBUS
@@ -17980,6 +22567,9 @@ CLIENT_API LLONG CALL_METHOD CLIENT_AttachCAN(LLONG lLoginID, const NET_IN_ATTAC
 // 取消监听CAN总线数据，lAttachHandle是CLIENT_AttachCAN返回值
 CLIENT_API BOOL CALL_METHOD CLIENT_DetachCAN(LLONG lAttachHandle);
 
+// 发送CAN总线数据
+CLIENT_API BOOL CALL_METHOD CLIENT_SendCAN(LLONG lLoginID, const NET_IN_SEND_CAN* pstInParam, NET_OUT_SEND_CAN* pstOutParam, int nWaitTime = 3000);
+
 // 监听透明串口数据
 CLIENT_API LLONG CALL_METHOD CLIENT_AttachDevComm(LLONG lLoginID, const NET_IN_ATTACH_DEVCOMM* pstInParam, NET_OUT_ATTACH_DEVCOMM* pstOutParam, int nWaitTime = 3000);
 
@@ -17987,6 +22577,339 @@ CLIENT_API LLONG CALL_METHOD CLIENT_AttachDevComm(LLONG lLoginID, const NET_IN_A
 CLIENT_API BOOL CALL_METHOD CLIENT_DetachDevComm(LLONG lAttachHandle);
 
 #endif
+
+// RPC能力查询
+CLIENT_API BOOL CALL_METHOD CLIENT_QueryRpcMethod(LLONG lLoginID, const char* pszMethod, BOOL* pResult, int nWaitTime);
+
+//////////////////////////////////////////////////////////////////////////
+// 公交业务相关接口
+//////////////////////////////////////////////////////////////////////////
+
+// 检查公交线路
+CLIENT_API BOOL CALL_METHOD CLIENT_CheckBusLine(LLONG lLoginID, const NET_IN_CHECK_BUS_LINE* pstInParam, NET_OUT_CHECK_BUS_LINE* pstOutParam, int nWaitTime = 5000);
+
+// 下发公交线路信息
+CLIENT_API BOOL CALL_METHOD CLIENT_DispatchBusLineInfo(LLONG lLoginID, const NET_IN_DISPATCH_BUS_LINE_INFO* pstInParam, NET_OUT_DISPATCH_BUS_LINE_INFO* pstOutParam, int nWaitTime = 5000);
+
+// 车辆运营调度
+CLIENT_API BOOL CALL_METHOD CLIENT_BusSchedule(LLONG lLoginID, const NET_IN_BUS_SCHEDULE_INFO* pstInParam, NET_OUT_BUS_SCHEDULE_INFO* pstOutParam, int nWaitTime = 5000);
+
+// 下发车辆排班计划
+CLIENT_API BOOL CALL_METHOD CLIENT_DispatchWorkPlan(LLONG lLoginID, const NET_IN_BUS_DISPATCH_WORK_PLAN* pstInParam, NET_OUT_BUS_DISPATCH_WORK_PLAN* pstOutParam, int nWaitTime);
+
+//////////////////////////////////////////////////////////////////////////
+
+// 添加任务后的反馈类型
+typedef enum tagNET_MISSION_FEEDBACK_TYPE
+{
+    NET_MISSION_FEEDBACK_NO = 0,                        // 不需要反馈
+    NET_MISSION_FEEDBACK_YES,                           // 需要对方反馈， 对方应当回复DH_ALARM_MISSION_CONFIRM任务确认事件
+}NET_MISSION_FEEDBACK_TYPE;
+
+// 消息类型(车载)
+typedef enum tagNET_MISSION_MESSAGE_TYPE
+{
+    NET_MISSION_MESSAGE_TEXT = 0 ,      //文本消息 
+    NET_MISSION_MESSAGE_AD ,            //广告信息
+    NET_MISSION_MESSAGE_BROAD ,         //广播消息
+    NET_MISSION_MESSAGE_DRIVER ,        //司机消息
+    NET_MISSION_MESSAGE_DISPATCH ,      //调度指令
+    NET_MISSION_MESSAGE_TRANSPARENT ,   //透明数据      
+    NET_MISSION_MESSAGE_URGENT,         //紧急事件
+    NET_MISSION_MESSAGE_MAX  ,
+}NET_MISSION_MESSAGE_TYPE;
+
+// CLIENT_AddMission()接口输入参数
+typedef struct tagNET_IN_ADD_MISSION 
+{
+    DWORD           dwSize;
+    char            szTitle[DH_COMMON_STRING_256];      // 任务名称
+    char            szMissionID[DH_COMMON_STRING_256];  // 任务ID
+    char            szComment[DH_COMMON_STRING_256];    // 回复内容
+    NET_MISSION_FEEDBACK_TYPE   emFeedBack;             // 添加后反馈类型
+    NET_MISSION_MESSAGE_TYPE    emMessageType;          // 消息类型
+}NET_IN_ADD_MISSION;
+
+// CLIENT_AddMission()接口输出参数
+typedef struct tagNET_OUT_ADD_MISSION 
+{
+    DWORD           dwSize;
+}NET_OUT_ADD_MISSION;
+
+CLIENT_API BOOL CALL_METHOD CLIENT_AddMission(LLONG lLoginID, const NET_IN_ADD_MISSION* pstInParam, NET_OUT_ADD_MISSION* pstOutParam, int nWaitTime = 3000);
+
+// CLIENT_ParkingControlStartFind接口输入参数
+typedef struct tagNET_IN_PARKING_CONTROL_START_FIND_PARAM
+{
+    DWORD                     dwSize;          // 结构体大小
+    BOOL                      bSearchCount;    // 查询记录调试是否有效
+    DWORD                     dwSearchCount;   // 查询记录条数, 数值范围1~100
+    BOOL                      bBegin;          // 查询开始时间是否有效
+    NET_TIME                  stuBegin;        // 查询开始时间
+    BOOL                      bEnd;            // 查询结束时间是否有效
+    NET_TIME                  stuEnd;          // 查询结束时间
+    BOOL                      bCardType;       // 卡类型是否有效
+    NET_ECK_IC_CARD_USER_TYPE emCardType;      // 卡类型
+    BOOL                      bFlag;           // 过车标记是否有效
+    NET_ECK_CAR_PASS_FLAG     emFlag;          // 过车标记
+} NET_IN_PARKING_CONTROL_START_FIND_PARAM;
+
+// CLIENT_ParkingControlStartFind接口输出参数
+typedef struct tagNET_OUT_PARKING_CONTROL_START_FIND_PARAM
+{
+    DWORD                     dwSize;          // 结构体大小
+    DWORD                     dwTotalCount;    // 符合此次查询条件的结果总条数
+} NET_OUT_PARKING_CONTROL_START_FIND_PARAM;
+
+// CLIENT_ParkingControlDoFind接口输入参数
+typedef struct tagNET_IN_PARKING_CONTROL_DO_FIND_PARAM
+{
+    DWORD                     dwSize;          // 结构体大小
+    DWORD                     dwFileCount;     // 当前想查询的记录条数
+} NET_IN_PARKING_CONTROL_DO_FIND_PARAM;
+
+// 过车记录信息
+typedef struct tagNET_CAR_PASS_ITEM
+{
+    DWORD                      dwSize; 
+    NET_TIME                   stuTime;          // 过车时间
+    DWORD                      dwCardNo;         // 卡号
+    NET_ECK_IC_CARD_USER_TYPE  emCardType;       // 卡类型
+    NET_ECK_CAR_PASS_FLAG      emFlag;           // 过车记录类型
+} NET_CAR_PASS_ITEM;
+
+// CLIENT_ParkingControlDoFind接口输出参数
+typedef struct tagNET_OUT_PARKING_CONTROL_DO_FIND_PARAM
+{
+    DWORD                     dwSize;          // 结构体大小
+    NET_CAR_PASS_ITEM        *pstuRecordList;  // 记录列表，用户分配内存
+    int                       nMaxRecordNum;   // 列表记录数
+    int                       nRetRecordNum;   // 查询到的记录条数，当查询到的条数小于想查询的条数时，查询结束
+} NET_OUT_PARKING_CONTROL_DO_FIND_PARAM;
+
+// 开始过车记录查询
+CLIENT_API LLONG CALL_METHOD CLIENT_ParkingControlStartFind(LLONG lLoginID, NET_IN_PARKING_CONTROL_START_FIND_PARAM* pInParam, NET_OUT_PARKING_CONTROL_START_FIND_PARAM* pOutParam, int waittime);
+
+// 获取过车记录
+CLIENT_API BOOL CALL_METHOD CLIENT_ParkingControlDoFind(LLONG lFindeHandle, NET_IN_PARKING_CONTROL_DO_FIND_PARAM* pInParam, NET_OUT_PARKING_CONTROL_DO_FIND_PARAM* pOutParam, int waittime);
+
+// 结束过车记录查询
+CLIENT_API BOOL CALL_METHOD CLIENT_ParkingControlStopFind(LLONG lFindHandle);
+
+// 订阅过车记录数据回调函数原型
+typedef void (CALLBACK *fParkingControlRecordCallBack)(LLONG lLoginID, LLONG lAttachHandle, NET_CAR_PASS_ITEM *pInfo, int nBufLen, LDWORD dwUser);
+
+// CLIENT_ParkingControlAttachRecord()接口输入参数
+typedef struct tagNET_IN_PARKING_CONTROL_PARAM
+{
+    DWORD                           dwSize;
+    fParkingControlRecordCallBack   cbCallBack;                 // 数据回调函数
+    LDWORD                          dwUser;                     // 用户定义参数
+} NET_IN_PARKING_CONTROL_PARAM;
+
+// CLIENT_ParkingControlDetachRecord()接口输出参数
+typedef struct tagNET_OUT_PARKING_CONTROL_PARAM
+{
+    DWORD    dwSize;
+} NET_OUT_PARKING_CONTROL_PARAM;
+
+// 过车记录订阅
+CLIENT_API LLONG CALL_METHOD CLIENT_ParkingControlAttachRecord(LLONG lLoginID, const NET_IN_PARKING_CONTROL_PARAM* pInParam, NET_OUT_PARKING_CONTROL_PARAM* pOutParam, int nWaitTime);
+
+// 取消过车记录订阅
+CLIENT_API BOOL CALL_METHOD CLIENT_ParkingControlDetachRecord(LLONG lAttachHandle);
+
+// 车检器状态
+typedef enum tagNET_CAR_DETECTOR_STATE
+{
+    NET_CAR_DETECTOR_STATE_UNKNOWN = -1,
+    NET_CAR_DETECTOR_STATE_OFFLINE = 0,                   // 掉线
+    NET_CAR_DETECTOR_STATE_ONLINE,                        // 在线
+    NET_CAR_DETECTOR_STATE_LOOPOFFLINE,                   // 地感线圈掉线
+} NET_CAR_DETECTOR_STATE;
+
+// 辅助设备通用状态
+typedef enum tagNET_AUXILIARY_DEV_STATE
+{
+    NET_AUXILIARY_DEV_STATE_UNKNOWN = -1,
+    NET_AUXILIARY_DEV_STATE_OFFLINE = 0,                   // 掉线
+    NET_AUXILIARY_DEV_STATE_ONLINE,                        // 在线
+} NET_AUXILIARY_DEV_STATE;
+
+// 卡机IC卡的数量情况
+typedef enum tagNET_IC_CARD_STATUS
+{
+    NET_IC_CARD_STATUS_UNKNOWN = -1,
+    NET_IC_CARD_STATUS_NORMAL = 0,                         // 正常
+    NET_IC_CARD_STATUS_NOCARD,                             // 无卡
+    NET_IC_CARD_STATUS_LOWCARD,                            // 少卡
+    NET_IC_CARD_STATUS_FULLCARDS,                          // 回收卡满
+} NET_IC_CARD_STATUS;
+
+// 报警事件类型DH_ALARM_AUXILIARY_DEV_STATE(辅助设备状态事件)对应的数据描述信息
+typedef struct tagALARM_AUXILIARY_DEV_STATE
+{
+    DWORD                   dwSize;
+    NET_CAR_DETECTOR_STATE  emDetector;                   // 车检器状态
+    NET_AUXILIARY_DEV_STATE emLed;                        // LED状态点阵屏状态
+    NET_AUXILIARY_DEV_STATE emICDetectBoard;              // 面板刷卡板
+    NET_AUXILIARY_DEV_STATE emICSenderBoard;              // 发卡刷卡板
+    NET_IC_CARD_STATUS      emICCardStatus;               // 卡机IC卡的数量情况
+} ALARM_AUXILIARY_DEV_STATE;
+
+// 停车发卡刷卡类型
+typedef enum tagNET_PARKING_CARD_TYPE
+{
+    NET_PARKING_CARD_TYPE_UNKNOWN,
+    NET_PARKING_CARD_TYPE_SEND,                             // 发卡
+    NET_PARKING_CARD_TYPE_DETECT,                           // 刷卡
+} NET_PARKING_CARD_TYPE;
+
+// 报警事件类型DH_ALARM_PARKING_CARD(停车刷卡事件)对应的数据描述信息
+typedef struct tagALARM_PARKING_CARD
+{
+    DWORD                   dwSize;
+    NET_PARKING_CARD_TYPE   emType;                       // 类型
+    DWORD                   dwCardNo;                     // 卡号
+    char                    szPlate[DH_COMMON_STRING_16]; // 车牌
+} ALARM_PARKING_CARD;
+
+// 报警源设备的类型
+typedef enum tagEM_ALARM_TRANSMIT_DEV_SRC_TYPE
+{
+    EM_ALARM_TRANSMIT_DEV_SRC_TYPE_UNKNOWN,             // 未知
+    EM_ALARM_TRANSMIT_DEV_SRC_TYPE_DIGIT,               // Digit   数字
+    EM_ALARM_TRANSMIT_DEV_SRC_TYPE_ANALOG,              // Analog 模拟
+}EM_ALARM_TRANSMIT_DEV_SRC_TYPE;
+
+// 报警传输事件(对应结构体ALARM_PROFILE_ALARM_TRANSMIT_INFO)
+typedef struct tagALARM_PROFILE_ALARM_TRANSMIT_INFO
+{
+    DWORD                           dwSize;
+    int					            nChannelID;								// 通道号
+    int					            nAction;								// 0:开始 1:停止
+    NET_TIME                        stuTime;                                // 事件发生时间
+    NET_SENSE_METHOD                emSenseMethod;                          // 传感器类型
+    char                            szUserID[DH_COMMON_STRING_128];         // 报警用户，用于区分
+    EM_ALARM_TRANSMIT_DEV_SRC_TYPE  emDevSrcType;                           // 报警源设备的类型 
+}ALARM_PROFILE_ALARM_TRANSMIT_INFO;
+
+// 监测点位信息
+typedef struct tagNET_SCADA_NOTIFY_POINT_INFO
+{
+    DWORD                      dwSize; 
+    char                       szDevName[DH_COMMON_STRING_64];    // 设备名称，与getInfo获取的名称一致
+    EM_NET_SCADA_POINT_TYPE    emPointType;                       // 点位类型
+    char                       szPointName[DH_COMMON_STRING_64];  // 点位名，与点位表的取值一致
+    float                      fValue;                            // Type为YC时为浮点数
+    int                        nValue;                            // Type为YX时为整数
+} NET_SCADA_NOTIFY_POINT_INFO;
+
+// 监测点位信息列表
+typedef struct tagNET_SCADA_NOTIFY_POINT_INFO_LIST
+{
+    DWORD                           dwSize;
+    int                             nList;                        // 监测点位信息个数
+    NET_SCADA_NOTIFY_POINT_INFO     stuList[MAX_SCADA_POINT_LIST_INFO_NUM]; // 监测点位信息
+} NET_SCADA_NOTIFY_POINT_INFO_LIST;
+
+// 订阅监测点位信息回调函数原型
+typedef void (CALLBACK *fSCADAAttachInfoCallBack)(LLONG lLoginID, LLONG lAttachHandle, NET_SCADA_NOTIFY_POINT_INFO_LIST *pInfo, int nBufLen, LDWORD dwUser);
+
+// CLIENT_SCADAAttachInfo()接口输入参数
+typedef struct tagNET_IN_SCADA_ATTACH_INFO
+{
+    DWORD                           dwSize;
+    fSCADAAttachInfoCallBack        cbCallBack;                 // 数据回调函数
+    EM_NET_SCADA_POINT_TYPE         emPointType;                // 点位类型
+    LDWORD                          dwUser;                     // 用户定义参数
+} NET_IN_SCADA_ATTACH_INFO;
+
+// CLIENT_SCADAAttachInfo()接口输出参数
+typedef struct tagNET_OUT_SCADA_ATTACH_INFO
+{
+    DWORD    dwSize;
+} NET_OUT_SCADA_ATTACH_INFO;
+
+// 订阅监测点位信息
+CLIENT_API LLONG CALL_METHOD CLIENT_SCADAAttachInfo(LLONG lLoginID, const NET_IN_SCADA_ATTACH_INFO* pInParam, NET_OUT_SCADA_ATTACH_INFO* pOutParam, int nWaitTime);
+
+// 取消监测点位信息订阅
+CLIENT_API BOOL CALL_METHOD CLIENT_SCADADetachInfo(LLONG lAttachHandle);
+
+// 订阅无线对码信息接口
+CLIENT_API LLONG CALL_METHOD CLIENT_AttachLowRateWPAN(LLONG lLoginID, const NET_IN_ATTACH_LOWRATEWPAN* pstInParam, NET_OUT_ATTACH_LOWRATEWPAN* pstOutParam, int nWaitTime = 3000);
+
+// 取消订阅无线对码信息接口，lAttachHandle是CLIENT_AttachLowRateWPAN返回值
+CLIENT_API BOOL CALL_METHOD CLIENT_DetachLowRateWPAN(LLONG lAttachHandle);
+
+//获取预览时用来解码显示的播放库端口,对获取到的端口做关闭资源类型的操作,会影响正常功能的使用
+CLIENT_API LONG CALL_METHOD CLIENT_GetRealPlayPort(LLONG lRealPlayHandle);
+
+//获取回放时用来解码显示的播放库端口,,对获取到的端口做关闭资源类型的操作,会影响正常功能的使用
+CLIENT_API LONG CALL_METHOD  CLIENT_GetPlayBackPort(LLONG lPlayBackHandle);
+
+// 智能停车系统车位状态
+typedef enum tagNET_ECK_PARK_STATE
+{
+    NET_ECK_PARK_STATE_UNKOWN,
+    NET_ECK_PARK_STATE_PARK,                     // 车位有车
+    NET_ECK_PARK_STATE_NOPARK,                   // 车位无车
+} NET_ECK_PARK_STATE;
+
+// 车位信息
+typedef struct tagNET_PARK_INFO_ITEM
+{
+    DWORD                      dwSize; 
+    DWORD                      dwParkNo;         // 车位号
+    NET_ECK_PARK_STATE         emState;          // 车位状态
+} NET_PARK_INFO_ITEM;
+
+// 订阅车位信息回调函数原型
+typedef void (CALLBACK *fParkInfoCallBack)(LLONG lLoginID, LLONG lAttachHandle, NET_PARK_INFO_ITEM *pInfo, int nBufLen, LDWORD dwUser);
+
+// 车位检测器类型
+typedef enum tagNET_ECK_PARK_DETECTOR_TYPE
+{
+    NET_ECK_PARK_DETECTOR_TYPE_SONIC,                     // 超声波探测器
+    NET_ECK_PARK_DETECTOR_TYPE_CAMERA,                    // 相机检测器
+    NET_ECK_PARK_DETECTOR_TYPE_ALL,
+} NET_ECK_PARK_DETECTOR_TYPE;
+
+// 车位检测器信息查询条件
+typedef struct tagNET_PARK_INFO_FILTER
+{
+    DWORD                      dwSize; 
+    DWORD                      dwNum;                                  // 车位检测器类型数量
+    NET_ECK_PARK_DETECTOR_TYPE emType[NET_ECK_PARK_DETECTOR_TYPE_ALL]; // 车位检测器类型
+} NET_PARK_INFO_FILTER;
+
+// CLIENT_ParkingControlAttachParkInfo()接口输入参数
+typedef struct tagNET_IN_PARK_INFO_PARAM
+{
+    DWORD                           dwSize;
+    NET_PARK_INFO_FILTER            stuFilter;
+    fParkInfoCallBack               cbCallBack;                 // 数据回调函数
+    LDWORD                          dwUser;                     // 用户定义参数
+} NET_IN_PARK_INFO_PARAM;
+
+// CLIENT_ParkingControlAttachParkInfo()接口输出参数
+typedef struct tagNET_OUT_PARK_INFO_PARAM
+{
+    DWORD    dwSize;
+} NET_OUT_PARK_INFO_PARAM;
+
+// 车位状态订阅
+CLIENT_API LLONG CALL_METHOD CLIENT_ParkingControlAttachParkInfo(LLONG lLoginID, const NET_IN_PARK_INFO_PARAM* pInParam, NET_OUT_PARK_INFO_PARAM* pOutParam, int nWaitTime);
+
+// 取消车位状态订阅
+CLIENT_API BOOL CALL_METHOD CLIENT_ParkingControlDetachParkInfo(LLONG lAttachHandle);
+
+// 订阅视频电话状态信息
+CLIENT_API LLONG CALL_METHOD CLIENT_AttachVTPCallState(LLONG lLoginID, const NET_IN_VTP_CALL_STATE_ATTACH* pInParam, NET_OUT_VTP_CALL_STATE_ATTACH* pOutParam, int nWaitTime);
+
+// 取消订阅视频电话状态信息
+CLIENT_API BOOL CALL_METHOD CLIENT_DetachVTPCallState(LLONG lCallStateHandle);
 
 /////////////////////////////////淘汰接口/////////////////////////////////
 

@@ -27,6 +27,7 @@ CDlgRecordSetControl::CDlgRecordSetControl(CWnd* pParent /* = NULL */, LLONG lLo
 	//}}AFX_DATA_INIT
 	m_lLoginID      = lLoginID;
     m_nAccessGroup  = nAccess;
+	m_emOpType = Em_Operate_Type_Show;
 }
 
 
@@ -54,6 +55,8 @@ void CDlgRecordSetControl::InitDlg()
 	int n = 0;
 
 	m_cmbSetType.ResetContent();
+    int nWidth = m_cmbSetType.GetDroppedWidth();
+    m_cmbSetType.SetDroppedWidth(nWidth * 2);
 	for (n = 0; n < sizeof(stuDemoRecordSetType)/sizeof(stuDemoRecordSetType[0]); n++)
 	{
 		m_cmbSetType.InsertString(-1, ConvertString(stuDemoRecordSetType[n].szName));
@@ -63,7 +66,7 @@ void CDlgRecordSetControl::InitDlg()
 	m_cmbCtlType.ResetContent();
 	for (n = 0; n < sizeof(stuDemoRecordSetCtlType)/sizeof(stuDemoRecordSetCtlType[0]); n++)
 	{
-		m_cmbCtlType.InsertString(-1, ConvertString(stuDemoRecordSetCtlType[n].szName));
+		m_cmbCtlType.InsertString(-1, ConvertString(stuDemoRecordSetCtlType[n].szName, DLG_RECORDSET_CONTROL));
 	}
 	m_cmbCtlType.SetCurSel(0);
 }
@@ -73,31 +76,43 @@ void CDlgRecordSetControl::InitDlg()
 void CDlgRecordSetControl::CardInsert()
 {
 	CSubDlgInfoCard dlg(this, NULL, m_nAccessGroup);
-	dlg.SetOperateType(Em_Operate_Type_Insert);
+	dlg.SetOperateType(m_emOpType);
 	if (IDOK == dlg.DoModal())
 	{
-		const NET_RECORDSET_ACCESS_CTL_CARD& stuInfo = dlg.GetInfo();
-		
-		NET_CTRL_RECORDSET_INSERT_PARAM stuParam = {sizeof(stuParam)};
-		stuParam.stuCtrlRecordSetInfo.dwSize = sizeof(NET_CTRL_RECORDSET_INSERT_IN);
-		stuParam.stuCtrlRecordSetInfo.emType = NET_RECORD_ACCESSCTLCARD;
-		stuParam.stuCtrlRecordSetInfo.pBuf = (void*)&stuInfo;
-		stuParam.stuCtrlRecordSetInfo.nBufLen = sizeof(stuInfo);
-		
-		stuParam.stuCtrlRecordSetResult.dwSize = sizeof(NET_CTRL_RECORDSET_INSERT_OUT);
-		
-		BOOL bRet = CLIENT_ControlDevice(m_lLoginID, DH_CTRL_RECORDSET_INSERT, &stuParam, SDK_API_WAITTIME);
-		if (bRet)
+		if (!dlg.IsDirty())
 		{
-			CString csInfo;
-			csInfo.Format("%s:%d", ConvertString("Insert card ok with RecNo", DLG_RECORDSET_CONTROL), stuParam.stuCtrlRecordSetResult.nRecNo);
-			MessageBox(csInfo, ConvertString("Prompt"));
-		}
-		else
-		{
-			CString csInfo;
-			csInfo.Format("%s:0x%08x", ConvertString("Insert card failed", DLG_RECORDSET_CONTROL), CLIENT_GetLastError());
-			MessageBox(csInfo, ConvertString("Prompt"));
+			const NET_RECORDSET_ACCESS_CTL_CARD& stuInfo = dlg.GetInfo();
+			
+			NET_CTRL_RECORDSET_INSERT_PARAM stuParam = {sizeof(stuParam)};
+			stuParam.stuCtrlRecordSetInfo.dwSize = sizeof(NET_CTRL_RECORDSET_INSERT_IN);
+			stuParam.stuCtrlRecordSetInfo.emType = NET_RECORD_ACCESSCTLCARD;
+			stuParam.stuCtrlRecordSetInfo.pBuf = (void*)&stuInfo;
+			stuParam.stuCtrlRecordSetInfo.nBufLen = sizeof(stuInfo);
+			
+			stuParam.stuCtrlRecordSetResult.dwSize = sizeof(NET_CTRL_RECORDSET_INSERT_OUT);
+			
+			BOOL bRet = FALSE;
+			if (m_emOpType == Em_Operate_Type_Insert)
+			{
+				bRet = CLIENT_ControlDevice(m_lLoginID, DH_CTRL_RECORDSET_INSERT, &stuParam, SDK_API_WAITTIME);
+			}
+			else 
+			{
+				bRet = CLIENT_ControlDevice(m_lLoginID, DH_CTRL_RECORDSET_INSERTEX, &stuParam, SDK_API_WAITTIME);
+			}
+			
+			if (bRet)
+			{
+				CString csInfo;
+				csInfo.Format("%s:%d", ConvertString("Insert card ok with RecNo", DLG_RECORDSET_CONTROL), stuParam.stuCtrlRecordSetResult.nRecNo);
+				MessageBox(csInfo, ConvertString("Prompt"));
+			}
+			else
+			{
+				CString csInfo;
+				csInfo.Format("%s:0x%08x", ConvertString("Insert card failed", DLG_RECORDSET_CONTROL), CLIENT_GetLastError());
+				MessageBox(csInfo, ConvertString("Prompt"));
+			}
 		}
 	}
 }
@@ -109,21 +124,23 @@ void CDlgRecordSetControl::CardGet()
 	if (IDOK == dlg.DoModal())
 	{
 		// get info by RecNo
-		const NET_RECORDSET_ACCESS_CTL_CARD& stuInfo = dlg.GetInfo();
+		NET_RECORDSET_ACCESS_CTL_CARD stuInfo = dlg.GetInfo();
 
 		NET_CTRL_RECORDSET_PARAM stuParam = {sizeof(stuParam)};
 		stuParam.emType = NET_RECORD_ACCESSCTLCARD;
 
-		NET_RECORDSET_ACCESS_CTL_CARD stuCard = {sizeof(stuCard)};
-		stuCard.nRecNo = stuInfo.nRecNo;
-		stuParam.pBuf = &stuCard;
-		
+		//NET_RECORDSET_ACCESS_CTL_CARD stuCard = {sizeof(stuCard)};
+		//stuCard.nRecNo = stuInfo.nRecNo;
+		//stuParam.pBuf = &stuCard;
+
+		stuParam.pBuf = (void*)&stuInfo;
+		stuParam.nBufLen = sizeof(stuInfo);
 		int nRet = 0;
 		BOOL bRet = CLIENT_QueryDevState(m_lLoginID, DH_DEVSTATE_DEV_RECORDSET, (char*)&stuParam, 
 			sizeof(stuParam), &nRet, SDK_API_WAITTIME);
 		if (bRet)
 		{
-			dlg.SetInfo(&stuCard);
+			dlg.SetInfo(&stuInfo);
 			dlg.SetOperateType(Em_Operate_Type_Show);
 			dlg.DoModal();
 		} 
@@ -142,48 +159,60 @@ void CDlgRecordSetControl::CardUpdate()
 	dlg.SetOperateType(Em_Operate_Type_Get);
 	if (IDOK == dlg.DoModal())
 	{
-		// get full info by RecNo before update it
-		NET_RECORDSET_ACCESS_CTL_CARD stuInfo = dlg.GetInfo();
-		
-		NET_CTRL_RECORDSET_PARAM stuParam = {sizeof(stuParam)};
-		stuParam.emType = NET_RECORD_ACCESSCTLCARD;
-		stuParam.pBuf = (void*)&stuInfo;
-		stuParam.nBufLen = sizeof(stuInfo);
-
-		int nRet = 0;
-		BOOL bRet = CLIENT_QueryDevState(m_lLoginID, DH_DEVSTATE_DEV_RECORDSET, (char*)&stuParam,
-			sizeof(stuParam), &nRet, SDK_API_WAITTIME);
-		if (bRet)
+		if (!dlg.IsDirty())
 		{
-			dlg.SetInfo(&stuInfo);
-			dlg.SetOperateType(Em_Operate_Type_Update);
-			if (IDOK == dlg.DoModal())
+			// get full info by RecNo before update it
+			NET_RECORDSET_ACCESS_CTL_CARD stuInfo = dlg.GetInfo();
+			
+			NET_CTRL_RECORDSET_PARAM stuParam = {sizeof(stuParam)};
+			stuParam.emType = NET_RECORD_ACCESSCTLCARD;
+			stuParam.pBuf = (void*)&stuInfo;
+			stuParam.nBufLen = sizeof(stuInfo);
+			
+			int nRet = 0;
+			BOOL bRet = CLIENT_QueryDevState(m_lLoginID, DH_DEVSTATE_DEV_RECORDSET, (char*)&stuParam,
+				sizeof(stuParam), &nRet, SDK_API_WAITTIME);
+			if (bRet)
 			{
-				stuInfo = dlg.GetInfo();
-
-				stuParam.emType = NET_RECORD_ACCESSCTLCARD;
-				stuParam.pBuf = (void*)&stuInfo;
-				stuParam.nBufLen = sizeof(stuInfo);
-
-				// update info
-				BOOL bRet = CLIENT_ControlDevice(m_lLoginID, DH_CTRL_RECORDSET_UPDATE, &stuParam, SDK_API_WAITTIME);
-				if (bRet)
+				dlg.SetInfo(&stuInfo);
+				dlg.SetOperateType(m_emOpType);
+				if (IDOK == dlg.DoModal())
 				{
-					MessageBox(ConvertString("Update card ok", DLG_RECORDSET_CONTROL), ConvertString("Prompt"));
-				} 
-				else
-				{
-					CString csInfo;
-					csInfo.Format("%s:0x%08x", ConvertString("Update card failed", DLG_RECORDSET_CONTROL), CLIENT_GetLastError());
-					MessageBox(csInfo, ConvertString("Prompt"));
+					stuInfo = dlg.GetInfo();
+					
+					stuParam.emType = NET_RECORD_ACCESSCTLCARD;
+					stuParam.pBuf = (void*)&stuInfo;
+					stuParam.nBufLen = sizeof(stuInfo);
+					
+					// update info
+					BOOL bRet = FALSE;
+					if (m_emOpType == Em_Operate_Type_Update)
+					{
+						bRet = CLIENT_ControlDevice(m_lLoginID, DH_CTRL_RECORDSET_UPDATE, &stuParam, SDK_API_WAITTIME);
+					}
+					else
+					{
+						bRet = CLIENT_ControlDevice(m_lLoginID, DH_CTRL_RECORDSET_UPDATEEX, &stuParam, SDK_API_WAITTIME);
+					}
+					
+					if (bRet)
+					{
+						MessageBox(ConvertString("Update card ok", DLG_RECORDSET_CONTROL), ConvertString("Prompt"));
+					} 
+					else
+					{
+						CString csInfo;
+						csInfo.Format("%s:0x%08x", ConvertString("Update card failed", DLG_RECORDSET_CONTROL), CLIENT_GetLastError());
+						MessageBox(csInfo, ConvertString("Prompt"));
+					}
 				}
+			} 
+			else
+			{
+				CString csInfo;
+				csInfo.Format("%s:0x%08x", ConvertString("Get card failed", DLG_RECORDSET_CONTROL), CLIENT_GetLastError());
+				MessageBox(csInfo, ConvertString("Prompt"));
 			}
-		} 
-		else
-		{
-			CString csInfo;
-			csInfo.Format("%s:0x%08x", ConvertString("Get card failed", DLG_RECORDSET_CONTROL), CLIENT_GetLastError());
-			MessageBox(csInfo, ConvertString("Prompt"));
 		}
 	}
 }
@@ -559,12 +588,12 @@ void CDlgRecordSetControl::HolidayRemove()
 		BOOL bRet = CLIENT_ControlDevice(m_lLoginID, DH_CTRL_RECORDSET_REMOVE, &stuParam, SDK_API_WAITTIME);
 		if (bRet)
 		{
-			MessageBox(ConvertString("Remove card rec ok", DLG_RECORDSET_CONTROL), ConvertString("Prompt"));
+			MessageBox(ConvertString("Remove holiday rec ok", DLG_RECORDSET_CONTROL), ConvertString("Prompt"));
 		} 
 		else
 		{
 			CString csInfo;
-			csInfo.Format("%s:0x%08x", ConvertString("Remove card rec failed", DLG_RECORDSET_CONTROL), CLIENT_GetLastError());
+			csInfo.Format("%s:0x%08x", ConvertString("Remove holiday rec failed", DLG_RECORDSET_CONTROL), CLIENT_GetLastError());
 			MessageBox(csInfo, ConvertString("Prompt"));
 		}
 	}
@@ -611,16 +640,18 @@ void CDlgRecordSetControl::OnRecordsetCtlBtnExecute()
 
 	if (Em_RecordSet_Type_Card == nSetType)
 	{
-		if (Em_Operate_Type_Insert == nCtlType + 1)
+		if (Em_Operate_Type_Insert == nCtlType + 1 || Em_Operate_Type_InsertEX == nCtlType + 1)
 		{
+			m_emOpType = static_cast<Em_RecordSet_Operate_Type>(nCtlType+1);
 			CardInsert();
 		}
 		else if (Em_Operate_Type_Get == nCtlType + 1)
 		{
 			CardGet();
 		}
-		else if (Em_Operate_Type_Update == nCtlType + 1)
+		else if (Em_Operate_Type_Update == nCtlType + 1 || Em_Operate_Type_UpdateEX == nCtlType + 1)
 		{
+			m_emOpType = static_cast<Em_RecordSet_Operate_Type>(nCtlType+1);
 			CardUpdate();
 		}
 		else if (Em_Operate_Type_Remove == nCtlType + 1)

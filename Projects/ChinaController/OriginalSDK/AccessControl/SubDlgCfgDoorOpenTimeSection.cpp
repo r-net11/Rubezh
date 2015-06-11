@@ -75,7 +75,7 @@ void CSubDlgCfgDoorOpenTimeSection::InitDlg()
 	m_cmbWeekDay.ResetContent();
 	for (i = 0; i < sizeof(stuDemoWeekDay) / sizeof(stuDemoWeekDay[0]); i++)
 	{
-		m_cmbWeekDay.InsertString(-1, ConvertString(stuDemoWeekDay[i].pszName, SUBDLG_CFG_DOOROPEN_TIMESECTION));
+		m_cmbWeekDay.InsertString(-1, ConvertString(stuDemoWeekDay[i].pszName));
 	}
 	m_cmbWeekDay.SetCurSel(0);
 	
@@ -97,10 +97,10 @@ void CSubDlgCfgDoorOpenTimeSection::InitDlg()
 	m_cmbOpenMethod4.ResetContent();
 	for (i = 0; i < sizeof(stuDemoOpenMethod)/sizeof(stuDemoOpenMethod[0]); i++)
 	{
-		m_cmbOpenMethod1.InsertString(-1, ConvertString(stuDemoOpenMethod[i].szName, DLG_CFG_ACCESS_CONTROL));
-		m_cmbOpenMethod2.InsertString(-1, ConvertString(stuDemoOpenMethod[i].szName, DLG_CFG_ACCESS_CONTROL));
-		m_cmbOpenMethod3.InsertString(-1, ConvertString(stuDemoOpenMethod[i].szName, DLG_CFG_ACCESS_CONTROL));
-		m_cmbOpenMethod4.InsertString(-1, ConvertString(stuDemoOpenMethod[i].szName, DLG_CFG_ACCESS_CONTROL));
+		m_cmbOpenMethod1.InsertString(-1, ConvertString(stuDemoOpenMethod[i].szName));
+		m_cmbOpenMethod2.InsertString(-1, ConvertString(stuDemoOpenMethod[i].szName));
+		m_cmbOpenMethod3.InsertString(-1, ConvertString(stuDemoOpenMethod[i].szName));
+		m_cmbOpenMethod4.InsertString(-1, ConvertString(stuDemoOpenMethod[i].szName));
 	}
 	m_cmbOpenMethod1.SetCurSel(-1);
 	m_cmbOpenMethod2.SetCurSel(-1);
