@@ -18,7 +18,6 @@ namespace PowerCalculator.ViewModels
             SelectedCableType = CableTypes.FirstOrDefault();
             AddCommand = new RelayCommand(OnAdd);
             RemoveCommand = new RelayCommand(OnRemove, CanRemove);
-			
 		}
 
 		public ObservableCollection<CableTypeViewModel> CableTypes { get; private set; }
@@ -37,7 +36,7 @@ namespace PowerCalculator.ViewModels
         public RelayCommand AddCommand { get; private set; }
         void OnAdd()
         {
-            CableTypes.Add(new CableTypeViewModel(new CableType() { Name = "Название кабеля", Resistivity = 1 }));
+            CableTypes.Add(new CableTypeViewModel(new CableType() { Name = "Название кабеля", Resistivity = 0.05 }));
             SelectedCableType = CableTypes.LastOrDefault();
         }
 

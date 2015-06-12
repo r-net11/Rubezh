@@ -61,12 +61,17 @@ namespace PowerCalculator.ViewModels
 			var deviceSpecificationItem = new DeviceSpecificationItem();
 			var deviceSpecificationItemViewModel = new DeviceSpecificationItemViewModel(deviceSpecificationItem);
 			DeviceSpecificationItems.Add(deviceSpecificationItemViewModel);
+            SelectedDeviceSpecificationItem = DeviceSpecificationItems.LastOrDefault();
 		}
 
 		public RelayCommand RemoveDeviceCommand { get; private set; }
 		void OnRemoveDevice()
 		{
+            var index = DeviceSpecificationItems.IndexOf(SelectedDeviceSpecificationItem);
 			DeviceSpecificationItems.Remove(SelectedDeviceSpecificationItem);
+            index = Math.Min(index, DeviceSpecificationItems.Count - 1);
+            if (index > -1)
+                SelectedDeviceSpecificationItem = DeviceSpecificationItems[index];
 		}
 		bool CanRemoveDevice()
 		{
@@ -79,12 +84,17 @@ namespace PowerCalculator.ViewModels
             var cableSpecificationItem = new CableSpecificationItem() { CableType = Processor.CableTypesRepository.CustomCableType};
 			var cableSpecificationItemViewModel = new CableSpecificationItemViewModel(cableSpecificationItem);
 			CableSpecificationItems.Add(cableSpecificationItemViewModel);
+            SelectedCableSpecificationItem = CableSpecificationItems.LastOrDefault();
 		}
 
 		public RelayCommand RemoveCableCommand { get; private set; }
 		void OnRemoveCable()
 		{
-			CableSpecificationItems.Remove(SelectedCableSpecificationItem);
+            var index = CableSpecificationItems.IndexOf(SelectedCableSpecificationItem);
+            CableSpecificationItems.Remove(SelectedCableSpecificationItem);
+            index = Math.Min(index, CableSpecificationItems.Count - 1);
+            if (index > -1)
+                SelectedCableSpecificationItem = CableSpecificationItems[index];
 		}
 		bool CanRemoveCable()
 		{

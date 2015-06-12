@@ -10,6 +10,7 @@ using Microsoft.Win32;
 using PowerCalculator.Models;
 using System.Collections.Generic;
 using PowerCalculator.Processor;
+using System.Text;
 
 namespace PowerCalculator.ViewModels
 {
@@ -26,7 +27,7 @@ namespace PowerCalculator.ViewModels
 			RemoveLineCommand = new RelayCommand(OnRemoveFile, CanRemoveLine);
             EditCableTypesRepositoryCommand = new RelayCommand(OnEditCableTypesRepository);
 			ShowSpecificationCommand = new RelayCommand(OnShowSpecification);
-			PatchCommand = new RelayCommand(OnPatch);
+			PatchCommand = new RelayCommand(OnPatch, CanPatch);
 			OnCreateNew();
 
             CableTypesRepository.LoadOrDefault(CableTypesPath);
@@ -44,7 +45,7 @@ namespace PowerCalculator.ViewModels
 			SelectedLine = Lines.FirstOrDefault();
 		}
 
-        string CableTypesPath { get { return AppDomain.CurrentDomain.BaseDirectory + "\\CableTypes.xml"; } }
+        string CableTypesPath { get { return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "CableTypes.xml"); } }
                        
 		ObservableCollection<LineViewModel> _lines;
 		public ObservableCollection<LineViewModel> Lines
@@ -159,7 +160,9 @@ namespace PowerCalculator.ViewModels
 			Configuration.Lines.Remove(SelectedLine.Line);
 			Lines.Remove(SelectedLine);
             RenameLines(index);
-			SelectedLine = Lines.FirstOrDefault();
+            index = Math.Min(index, Lines.Count - 1);
+            if (index > -1)
+                SelectedLine = Lines[index];
 		}
 		bool CanRemoveLine()
 		{
@@ -186,21 +189,35 @@ namespace PowerCalculator.ViewModels
 		public RelayCommand PatchCommand { get; private set; }
 		void OnPatch()
 		{
-            string message = String.Empty;
+            Dictionary<LineViewModel, IEnumerable<int>> patches = new Dictionary<LineViewModel, IEnumerable<int>>();
             foreach (var lineViewModel in Lines)
             {
-                if (!lineViewModel.HasError)
-                    continue;
-                var patch = lineViewModel.GetPatch();
-                if (patch == null)
-                    message += lineViewModel.Name + ";\n";
-                else
-                    lineViewModel.InstallPatch(patch);
+                if (lineViewModel.HasError)
+                    patches.Add(lineViewModel, lineViewModel.GetPatch());
             }
 
-            if (message != String.Empty)
-                MessageBoxService.ShowWarning("Следующие АЛС не удалось исправить из-за отсутствия необходимого количества мест для модулей подпитки:\n" + message);
+            var question = new StringBuilder().AppendLine("Список адресов недостающих модулей подпитки:");
+            foreach (var patch in patches)
+            {
+                question.Append(patch.Key.Name).Append(": ");
                 
-		}       
+                if (patch.Value == null)
+                    question.Append("недостаточно мест;");
+                else
+                    for (int i = 0; i < patch.Value.Count(); i++)
+                        question.Append(patch.Key.Devices[((IList<int>)patch.Value)[i] - i].Address + i).Append(i == patch.Value.Count() - 1 ? "" : ", ");
+                
+                question.AppendLine();
+            }
+            if (MessageBoxService.ShowQuestion(question.ToString()))
+                foreach (var patch in patches)
+                    if (patch.Value != null)
+                        patch.Key.InstallPatch(patch.Value);
+        }    
+        
+        bool CanPatch()
+        {
+            return Lines.Any(x=>x.HasError);
+        }
 	}
 }

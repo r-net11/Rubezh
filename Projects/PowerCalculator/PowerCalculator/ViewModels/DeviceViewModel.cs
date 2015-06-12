@@ -36,11 +36,7 @@ namespace PowerCalculator.ViewModels
                 _selectedDriver = value;
                 OnPropertyChanged(() => SelectedDriver);
                 if (Owner != null)
-                {
-                    Owner.ChangeDriver(this, value.Driver.DriverType);
-                    Owner.Calculate();
-                }
-                    
+                    Owner.ChangeDriver(this, value.Driver.DriverType);   
             }
         }
 
@@ -84,10 +80,10 @@ namespace PowerCalculator.ViewModels
 		double _cableLength;
 		public double CableLength
 		{
-			get { return _cableLength; }
+			get { return Math.Round(_cableLength, 2); }
 			set
 			{
-                _cableLength = value > 0 ? Math.Round(value, 2) : 1;
+                _cableLength = value > 0 ? value : 1;
 
 				OnPropertyChanged(() => CableLength);
                 Device.Cable.Length = _cableLength;
@@ -166,16 +162,5 @@ namespace PowerCalculator.ViewModels
                 OnPropertyChanged(() => HasUError);
             }
         }
-
-		bool _hasError;
-		public bool HasError
-		{
-			get { return _hasError; }
-			set
-			{
-				_hasError = value;
-				OnPropertyChanged(() => HasError);
-			}
-		}
 	}
 }

@@ -108,7 +108,7 @@
         </Grid>
         <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="2">
             <Button Command="{Binding CollectToSpecificationCommand}" Content="Собрать в спецификацию" HorizontalAlignment="Right" Width="200" Margin="2" />
-            <Button Command="{Binding GenerateFromSpecificationCommand}" Content="Сгенерировать из спецификации" HorizontalAlignment="Right" Width="200" Margin="2" />
+            <Button Command="{Binding GenerateFromSpecificationCommand}" Content="Сгенерировать из спецификации" HorizontalAlignment="Right" Width="240" Margin="2" />
         </StackPanel>
     </Grid>
 </UserControl>

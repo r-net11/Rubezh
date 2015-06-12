@@ -5,7 +5,7 @@ namespace PowerCalculator.Models
 	{
 		public Cable()
 		{
-			Resistivity = 1;
+			Resistivity = 0.05;
 			Length = 1;
 		}
 

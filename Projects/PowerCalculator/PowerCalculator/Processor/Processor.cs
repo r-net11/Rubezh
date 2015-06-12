@@ -56,9 +56,10 @@ namespace PowerCalculator.Processor
         
         public static IEnumerable<CableSpecificationItem> GenerateFromSpecification(Configuration configuration, IList<DeviceSpecificationItem> deviceSpecificationItems, IList<CableSpecificationItem> cableSpecificationItems)
 		{
+            const int maxAdress = 240;
 			configuration.Lines = new List<Line>();
 			var totalDevicesCount = deviceSpecificationItems.Sum(x => x.Count * x.Driver.Mult);
-            for (int i = 0; i <= totalDevicesCount / 255; i++)
+            for (int i = 0; i <= totalDevicesCount / maxAdress; i++)
             {
                 configuration.Lines.Add(new Line());
             }
@@ -77,7 +78,7 @@ namespace PowerCalculator.Processor
                 for (int j = i; j < expandedDeviceSpecificationItems.Count; j+=configuration.Lines.Count)
                     sum += expandedDeviceSpecificationItems[j].Driver.Mult;
 
-                if (sum > 255)
+                if (sum > maxAdress)
                 {
                     needAnotherLine = true;
                     break;
@@ -201,7 +202,7 @@ namespace PowerCalculator.Processor
             var patch = new List<int>();
             
             Line testLine = new Line();
-            testLine.Devices.AddRange(line.Devices.ToArray());
+            testLine.Devices = line.Devices.ToList();
 
             int step = (int)(line.Devices.Count / 10);
             if (step == 0)
