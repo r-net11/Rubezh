@@ -227,7 +227,7 @@
 						</StackPanel>
 						<StackPanel Orientation="Horizontal">
 							<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Зона входа" />
-							<Image Width="16" Height="16" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Source="/Controls;component/Images/SKDZone.png" Visibility="{Binding EnterZone, Converter="{StaticResource NullToVisibilityConverter}}" />
+							<Image Width="16" Height="16" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Source="/Controls;component/Images/SKDZone.png" Visibility="{Binding EnterZone, Converter={StaticResource NullToVisibilityConverter}}" />
 							<TextBlock Margin="2" VerticalAlignment="Center">
 							<Hyperlink Command="{Binding ChangeEnterZoneCommand}" Style="{StaticResource HyperlinkStyle2}">
 								<TextBlock Margin="2">
