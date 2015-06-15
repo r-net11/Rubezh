@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 using FiresecClient;
+using GKModule.Events;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Ribbon;
@@ -71,6 +72,12 @@ namespace GKModule.ViewModels
 				SelectedCode = codeViewModel;
 				ServiceFactory.SaveService.GKChanged = true;
 			}
+		}
+
+		public void CreateCode(CreateGKCodeEventArg createGKCodeEventArg)
+		{
+			OnAdd();
+			createGKCodeEventArg.Code = SelectedCode.Code;
 		}
 
 		public RelayCommand DeleteCommand { get; private set; }

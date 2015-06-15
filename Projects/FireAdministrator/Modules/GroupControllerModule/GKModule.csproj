@@ -130,6 +130,7 @@
     <Compile Include="Devices\Views\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Events\CreateGKCodeEvent.cs" />
     <Compile Include="Events\CreateGKDoorEvent.cs" />
     <Compile Include="Events\CreateGKSKDZoneEvent.cs" />
     <Compile Include="Events\EditGKDoorEvent.cs" />

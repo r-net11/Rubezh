@@ -58,6 +58,7 @@ namespace GKModule
 			ServiceFactory.Events.GetEvent<EditGKMPTEvent>().Subscribe(OnEditGKMPT);
 			ServiceFactory.Events.GetEvent<CreateGKDoorEvent>().Subscribe(OnCreateGKDoor);
 			ServiceFactory.Events.GetEvent<EditGKDoorEvent>().Subscribe(OnEditGKDoor);
+			ServiceFactory.Events.GetEvent<CreateGKCodeEvent>().Subscribe(OnCreateGKCode);
 
 			DevicesViewModel = new DevicesViewModel();
 			ParameterTemplatesViewModel = new ParameterTemplatesViewModel();
@@ -231,6 +232,10 @@ namespace GKModule
 		private void OnEditSKDZone(Guid zoneUID)
 		{
 			SKDZonesViewModel.EditZone(zoneUID);
+		}
+		private void OnCreateGKCode(CreateGKCodeEventArg createGKCodeEventArg)
+		{
+			CodesViewModel.CreateCode(createGKCodeEventArg);
 		}
 
 		public override bool BeforeInitialize(bool firstTime)
