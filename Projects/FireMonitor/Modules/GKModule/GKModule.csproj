@@ -124,6 +124,7 @@
       <DependentUpon>DiagnosticsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="MPTs\ViewModels\MPTDetailsViewModel.cs" />
+    <Compile Include="MPTs\ViewModels\MPTDeviceViewModel.cs" />
     <Compile Include="MPTs\ViewModels\MPTsViewModel.cs" />
     <Compile Include="MPTs\ViewModels\MPTViewModel.cs" />
     <Compile Include="MPTs\Views\MPTControlView.xaml.cs">
