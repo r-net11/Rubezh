@@ -431,7 +431,7 @@ namespace GKModule.ViewModels
 				}
 				if (e.Key == System.Windows.Input.Key.F2 && GlobalSettingsHelper.GlobalSettings.Monitor_F2_Enabled)
 				{
-					if (FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices) && ServiceFactory.SecurityService.Validate())
+					if (FiresecManager.CheckPermission(PermissionType.Oper_CanControl) && ServiceFactory.SecurityService.Validate())
 					{
 						if (CanResetIgnoreAll())
 							OnResetIgnoreAll();
@@ -439,7 +439,7 @@ namespace GKModule.ViewModels
 				}
 				if (e.Key == System.Windows.Input.Key.F3 && GlobalSettingsHelper.GlobalSettings.Monitor_F3_Enabled)
 				{
-					if (FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices) && ServiceFactory.SecurityService.Validate())
+					if (FiresecManager.CheckPermission(PermissionType.Oper_CanControl) && ServiceFactory.SecurityService.Validate())
 					{
 						IgnoreAllZonesAndDevicesInFire();
 					}

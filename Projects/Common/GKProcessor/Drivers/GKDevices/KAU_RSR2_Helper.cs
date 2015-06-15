@@ -172,6 +172,8 @@ namespace GKProcessor
 			als78Property.Parameters.Add(new GKDriverPropertyParameter() { Name = "Одна кольцевая", Value = 0xC0 });
 			driver.Properties.Add(als78Property);
 
+			driver.MeasureParameters.Add(new GKMeasureParameter { No = 2, Name = "Питание 1, В", Multiplier = 1024 / 33 });
+			driver.MeasureParameters.Add(new GKMeasureParameter { No = 3, Name = "Питание 2, В", Multiplier = 1024 / 33 });
 			return driver;
 		}
 	}

@@ -44,7 +44,7 @@
 					<StackPanel Margin="2" DataContext="{Binding SelectedDoor}">
 						<StackPanel Orientation="Horizontal">
 							<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Устройство на вход" />
-							<Image Width="16" Height="16" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Source="{Binding EnterDevice.Driver.ImageSource}" />
+							<Image Width="16" Height="16" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Source="{Binding EnterDevice.Driver.ImageSource}" Visibility="{Binding EnterDevice, Converter={StaticResource NullToVisibilityConverter}}" />
 							<TextBlock Margin="2" VerticalAlignment="Center">
 							<Hyperlink Command="{Binding ChangeEnterDeviceCommand}" Style="{StaticResource HyperlinkStyle2}">
 								<TextBlock Margin="2">
@@ -64,7 +64,7 @@
 						</StackPanel>
 						<StackPanel Orientation="Horizontal">
 							<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Устройство на выход" />
-							<Image Width="16" Height="16" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Source="{Binding ExitDevice.Driver.ImageSource}" />
+							<Image Width="16" Height="16" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Source="{Binding ExitDevice.Driver.ImageSource}" Visibility="{Binding ExitDevice, Converter={StaticResource NullToVisibilityConverter}}" />
 							<TextBlock Margin="2" VerticalAlignment="Center">
 							<Hyperlink Command="{Binding ChangeExitDeviceCommand}" Style="{StaticResource HyperlinkStyle2}">
 								<TextBlock Margin="2">
@@ -84,7 +84,7 @@
 						</StackPanel>
 						<StackPanel Orientation="Horizontal" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.AirlockBooth}}">
 							<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Кнопка на вход" />
-							<Image Width="16" Height="16" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Source="{Binding EnterButton.Driver.ImageSource}" />
+							<Image Width="16" Height="16" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Source="{Binding EnterButton.Driver.ImageSource}" Visibility="{Binding EnterButton, Converter={StaticResource NullToVisibilityConverter}}" />
 							<TextBlock Margin="2" VerticalAlignment="Center">
 							<Hyperlink Command="{Binding ChangeEnterButtonCommand}" Style="{StaticResource HyperlinkStyle2}">
 								<TextBlock Margin="2">
@@ -104,7 +104,7 @@
 						</StackPanel>
 						<StackPanel Orientation="Horizontal" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.AirlockBooth}}">
 							<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Кнопка на выход" />
-							<Image Width="16" Height="16" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Source="{Binding ExitButton.Driver.ImageSource}" />
+							<Image Width="16" Height="16" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Source="{Binding ExitButton.Driver.ImageSource}" Visibility="{Binding ExitButton, Converter={StaticResource NullToVisibilityConverter}}" />
 							<TextBlock Margin="2" VerticalAlignment="Center">
 							<Hyperlink Command="{Binding ChangeExitButtonCommand}" Style="{StaticResource HyperlinkStyle2}">
 								<TextBlock Margin="2">
@@ -128,7 +128,7 @@
 							<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Реле на вход" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.Turnstile}}"/>
 							<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Реле на открытие" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.Barrier}}"/>
 							<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Реле на вход" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.AirlockBooth}}"/>
-							<Image Width="16" Height="16" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Source="{Binding LockDevice.Driver.ImageSource}" />
+							<Image Width="16" Height="16" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Source="{Binding LockDevice.Driver.ImageSource}" Visibility="{Binding LockDevice, Converter={StaticResource NullToVisibilityConverter}}" />
 							<TextBlock Margin="2" VerticalAlignment="Center">
 							<Hyperlink Command="{Binding ChangeLockDeviceCommand}" Style="{StaticResource HyperlinkStyle2}">
 								<TextBlock Margin="2">
@@ -166,7 +166,7 @@
 							<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Реле на выход" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.Turnstile}}" />
 							<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Реле на закрытие" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.Barrier}}" />
 							<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Реле на выход" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.AirlockBooth}}" />
-							<Image Width="16" Height="16" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Source="{Binding LockDeviceExit.Driver.ImageSource}" />
+							<Image Width="16" Height="16" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Source="{Binding LockDeviceExit.Driver.ImageSource}" Visibility="{Binding LockDeviceExit, Converter={StaticResource NullToVisibilityConverter}}" />
 							<TextBlock Margin="2" VerticalAlignment="Center">
 							<Hyperlink Command="{Binding ChangeLockDeviceExitCommand}" Style="{StaticResource HyperlinkStyle2}">
 								<TextBlock Margin="2">
@@ -187,7 +187,7 @@
 						<StackPanel Orientation="Horizontal" Visibility="{Binding Door.DoorType, Converter={StaticResource InversedEnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.Barrier}}">
 							<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Датчик контроля двери" Visibility="{Binding Door.DoorType, Converter={StaticResource InversedEnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.Turnstile}}" />
 							<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Датчик проворота" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.Turnstile}}" />
-							<Image Width="16" Height="16" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Source="{Binding LockControlDevice.Driver.ImageSource}" />
+							<Image Width="16" Height="16" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Source="{Binding LockControlDevice.Driver.ImageSource}" Visibility="{Binding LockControlDevice, Converter={StaticResource NullToVisibilityConverter}}" />
 							<TextBlock Margin="2" VerticalAlignment="Center">
 							<Hyperlink Command="{Binding ChangeLockControlDeviceCommand}" Style="{StaticResource HyperlinkStyle2}">
 								<TextBlock Margin="2">
@@ -207,7 +207,7 @@
 						</StackPanel>
 						<StackPanel Orientation="Horizontal" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.AirlockBooth}}">
 							<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Датчик контроля двери на выход" />
-							<Image Width="16" Height="16" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Source="{Binding LockControlDeviceExit.Driver.ImageSource}" />
+							<Image Width="16" Height="16" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Source="{Binding LockControlDeviceExit.Driver.ImageSource}" Visibility="{Binding LockControlDeviceExit, Converter={StaticResource NullToVisibilityConverter}}" />
 							<TextBlock Margin="2" VerticalAlignment="Center">
 							<Hyperlink Command="{Binding ChangeLockControlDeviceExitCommand}" Style="{StaticResource HyperlinkStyle2}">
 								<TextBlock Margin="2">

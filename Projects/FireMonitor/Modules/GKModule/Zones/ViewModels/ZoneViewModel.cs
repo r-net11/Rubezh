@@ -83,7 +83,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanSetIgnore()
 		{
-			return !State.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);
+			return !State.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_CanControl);
 		}
 
 		public RelayCommand ResetIgnoreCommand { get; private set; }
@@ -96,7 +96,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanResetIgnore()
 		{
-			return State.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);
+			return State.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_CanControl);
 		}
 		#endregion
 
@@ -117,7 +117,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanSetIgnoreAll()
 		{
-			if (!FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices))
+			if (!FiresecManager.CheckPermission(PermissionType.Oper_CanControl))
 				return false;
 			foreach (var device in Zone.Devices)
 			{
@@ -143,7 +143,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanResetIgnoreAll()
 		{
-			if (!FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices))
+			if (!FiresecManager.CheckPermission(PermissionType.Oper_CanControl))
 				return false;
 			foreach (var device in Zone.Devices)
 			{

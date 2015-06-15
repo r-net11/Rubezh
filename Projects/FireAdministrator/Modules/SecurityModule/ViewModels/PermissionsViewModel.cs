@@ -86,7 +86,7 @@ namespace SecurityModule.ViewModels
 							new PermissionViewModel(PermissionType.Oper_LogoutWithoutPassword),
 							new PermissionViewModel(PermissionType.Oper_NoAlarmConfirm),
 							new PermissionViewModel(PermissionType.Oper_SecurityZone),
-							new PermissionViewModel(PermissionType.Oper_ControlDevices),
+							new PermissionViewModel(PermissionType.Oper_CanControl),
 							new PermissionViewModel(PermissionType.Oper_ChangeView),
 							new PermissionViewModel(PermissionType.Oper_MayNotConfirmCommands),
 							new PermissionViewModel(PermissionType.Oper_ExtraGuardZone),
