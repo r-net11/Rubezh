@@ -137,6 +137,7 @@
     <ClCompile Include="WrapAccesses.cpp" />
     <ClCompile Include="WrapAntiPassBack.cpp" />
     <ClCompile Include="WrapCards.cpp" />
+    <ClCompile Include="WrapCustomData.cpp" />
     <ClCompile Include="WrapHolidays.cpp" />
     <ClCompile Include="WrapInterlock.cpp" />
     <ClCompile Include="WrapPasswords.cpp" />
@@ -150,6 +151,7 @@
     <ClInclude Include="WrapAccesses.h" />
     <ClInclude Include="WrapAntiPassBack.h" />
     <ClInclude Include="WrapCards.h" />
+    <ClInclude Include="WrapCustomData.h" />
     <ClInclude Include="WrapHolidays.h" />
     <ClInclude Include="WrapInterlock.h" />
     <ClInclude Include="WrapPasswords.h" />

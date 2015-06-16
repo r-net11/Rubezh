@@ -6,20 +6,17 @@ namespace ChinaSKDDriver
 	{
 		public bool OpenDoor(int channelNo)
 		{
-			var result = NativeWrapper.WRAP_OpenDoor(LoginID, channelNo);
-			return result;
+			return NativeWrapper.WRAP_OpenDoor(LoginID, channelNo);
 		}
 
 		public bool CloseDoor(int channelNo)
 		{
-			var result = NativeWrapper.WRAP_CloseDoor(LoginID, channelNo);
-			return result;
+			return NativeWrapper.WRAP_CloseDoor(LoginID, channelNo);
 		}
 
 		public int GetDoorStatus(int channelNo)
 		{
-			var result = NativeWrapper.WRAP_GetDoorStatus(LoginID, channelNo);
-			return result;
+			return NativeWrapper.WRAP_GetDoorStatus(LoginID, channelNo);
 		}
 	}
 }

@@ -977,5 +977,28 @@ namespace ChinaSKDDriverNativeApi
 
 		#endregion // Interlock
 
+		#region Custom Data
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct WRAP_CustomData
+		{
+			/// <summary>
+			/// Фактическая длина пользовательских данных
+			/// </summary>
+			public int CustomDataLength;
+			/// <summary>
+			/// Пользовательские данные
+			/// </summary>
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
+			public string CustomData;
+		}
+
+		[DllImport(@"CPPWrapper.dll")]
+		public static extern bool WRAP_GetCustomData(int loginID, out WRAP_CustomData customData);
+		[DllImport(@"CPPWrapper.dll")]
+		public static extern bool WRAP_SetCustomData(int loginID, ref WRAP_CustomData customData);
+
+		#endregion // Custom Data
+
 	}
 }

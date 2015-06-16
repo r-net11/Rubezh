@@ -21,6 +21,7 @@ namespace ControllerSDK.ViewModels
 		public InterlockViewModel InterlockViewModel { get; private set; }
 		public LogItemsViewModel LogItemsViewModel { get; private set; }
 		public AccessesViewModel AccessesViewModel { get; private set; }
+		public CustomDataViewModel CustomDataViewModel { get; private set; }
 
 		public MainViewModel()
 		{
@@ -39,6 +40,7 @@ namespace ControllerSDK.ViewModels
 			InterlockViewModel = new InterlockViewModel();
 			LogItemsViewModel = new LogItemsViewModel();
 			AccessesViewModel = new AccessesViewModel();
+			CustomDataViewModel = new CustomDataViewModel();
 
 			ConnectCommand = new RelayCommand(OnConnect);
 			DisconnectCommand = new RelayCommand(OnDisconnect);

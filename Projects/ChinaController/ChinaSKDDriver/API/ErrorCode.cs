@@ -10,18 +10,18 @@ namespace ChinaSKDDriverAPI
     {
         [Description("Нет ошибки")]
         NoError = 0,
-        [Description("Несанкционированный")]
-        Unauthorized = 16,
+        [Description("Нет авторизации")]
+        NotAuthorized = 16,
         [Description("Потеря карты или отмена")]
-        CardLossOrCancellation = 17,
-        [Description("Без разрешения ворота")]
-        WithoutTheGatePermission = 18,
-        [Description("Ошибка режима открытия")]
-        OpenModeError = 19,
-        [Description("Срок действия ошибки")]
-        ValidityOfTheError = 20,
+        CardLogOffOrReportLoss = 17,
+        [Description("Нет разрешения на эту дверь")]
+        NoRightToThisDoor = 18,
+        [Description("Ошибка режима открытия двери")]
+        DoorOpeningModeError = 19,
+        [Description("Ошибка даты валидации")]
+        ValidDateError = 20,
         [Description("")]
-        AntiSubmarineMode = 21,
+        AntiPassbackMode = 21,
         [Description("")]
         DuressAlarmIsNotTurnedOn = 22,
         [Description("Двери обычно закрыты")]
@@ -30,30 +30,30 @@ namespace ChinaSKDDriverAPI
         AbInterlockStatus = 24,
         [Description("Патрульные карты")]
         PatrolCards = 25,
-        [Description("Оборудование в состоянии тревоги вторжения")]
-        EquipmentInIntrusionAlarmState = 26,
-        [Description("Ошибка времени")]
+        [Description("Состояние тревоги из-за взлома")]
+        AlarmStateBecauseOfBreakIn  = 26,
+        [Description("Ошибочный временной диапазон")]
         TimeError = 32,
+		[Description("Ошибочный временной диапазон для нерабочего дня")]
+		TimeRangeErrorInHoliday = 33,
         [Description("")]
-        HolidaysMistakesWithinOpeningHours = 33,
-        [Description("")]
-        WeNeedToVerifyThatYouHaveTheFirstCardPrivilegesCard = 48,
-        [Description("Метод открытия \"Сначала карта, потом пароль\". Ошибка в пароле")]
-        CardFirstOpenMethodPasswordError = 64,
-        [Description("Метод открытия \"Сначала карта, потом пароль\". Вышло время ввода пароля")]
-        CardFirstOpenMethodPasswordTimeout = 65,
-        [Description("Метод открытия \"Сначала карта, потом отпечаток пальца\". Ошибка отпечатка пальца")]
-        CardFirstOpenMethodFingerprintError = 66,
-        [Description("Метод открытия \"Сначала карта, потом отпечаток пальца\". Вышло время ввода отпечатка пальца")]
-        CardFirstOpenMethodFingerprintTimeout = 67,
-        [Description("Метод открытия \"Сначала отпечаток пальца, потом пароль\". Ошибка в пароле")]
-        FingerprintFirstOpenMethodPasswordError = 68,
-        [Description("Метод открытия \"Сначала отпечаток пальца, потом пароль\". Вышло время ввода пароля")]
-        FingerprintFirstOpenMethodPasswordTimeout = 69,
-        [Description("Неправильный порядок в комбинации открытия двери")]
-        OpenDoorCombinationWrongOrder = 80,
-        [Description("Требуется проверка комбинации открытия двери")]
-        OpenDoorCombinationNeedsVerification = 81,
+        NeedToVerifyCardWhichHasFirstCardPrivilege = 48,
+        [Description("Карта верная, ошибка в пароле")]
+        CardRightPasswordError = 64,
+        [Description("Карта верная, вышло время ввода пароля")]
+        CardRightPasswordInputTimeout = 65,
+        [Description("Карта верная, ошибка отпечатка пальца")]
+        CardRightFingerprintError = 66,
+        [Description("Карта верная, вышло время ввода отпечатка пальца")]
+        CardRightFingerprintInputTimeout = 67,
+        [Description("Отпечаток пальца верный, ошибка в пароле")]
+        FingerprintRightPasswordError = 68,
+        [Description("Отпечаток пальца верный, вышло время ввода пароля")]
+        FingerprintRightPasswordInputTimeout = 69,
+        [Description("Ошибка при совместной попытке открыть дверь")]
+        CombinedOrderToOpenTheDoorError = 80,
+		[Description("Требуется проверка при совместной попытке открыть дверь")]
+        CombinedOrderToOpenTheDoorNeedVerified = 81,
         [Description("Проверено. Требуется аутентификация на удаленной консоли")]
         VerifiedRemoteConsoleIsNotAuthorized = 96
     }

@@ -19,7 +19,7 @@ namespace ControllerSDK.ViewModels
 		public NativeJournalViewModel()
 		{
 			JournalItems = new ObservableCollection<JournalItemViewModel>();
-			Wrapper.NewJournalItem +=new Action<SKDJournalItem>(AddJournalItem);
+			Wrapper.NewJournalItem += new Action<SKDJournalItem>(AddJournalItem);
 		}
 
 		void AddJournalItem(SKDJournalItem journalItem)

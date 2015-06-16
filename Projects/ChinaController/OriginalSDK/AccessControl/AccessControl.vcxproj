@@ -92,7 +92,7 @@
       <Culture>0x0804</Culture>
     </ResourceCompile>
     <Link>
-      <OutputFile>./Bin/AccessControl_d.exe</OutputFile>
+      <OutputFile>./Bin/AccessControl.exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>.\./Bin/AccessControl_d.pdb</ProgramDatabaseFile>

@@ -63,6 +63,11 @@ void CDlgRWDevice::InitDlg()
 }
 void CDlgRWDevice::OnBnClickedDlgRwBtnRead()
 {
+	ReadRefactored();
+}
+
+void CDlgRWDevice::ReadNative()
+{
 	// TODO: 在此添加控件通知处理程序代码
 	if (!m_hLoginID)
 	{
@@ -118,7 +123,70 @@ void CDlgRWDevice::OnBnClickedDlgRwBtnRead()
 	return  ;
 }
 
+void CDlgRWDevice::ReadRefactored()
+{
+
+	// TODO: 在此添加控件通知处理程序代码
+	if (!m_hLoginID)
+	{
+		MessageBox(ConvertString(CString("we haven't login a device yet!"), DLG_VERSION), ConvertString("Prompt"));
+		return;
+
+	}
+
+	memset(&m_stuInfo,0,sizeof(CFG_CLIENT_CUSTOM_INFO));  
+	CString csReadPos;
+	GetDlgItemText(IDC_DLG_RW_EDT_STARTPOS, csReadPos);
+
+	 
+	char szJsonBuf[1024 * 40] = {0};
+	int nerror = 0;
+	BOOL bRet = CLIENT_GetNewDevConfig(m_hLoginID, CFG_CMD_CLIENT_CUSTOM_DATA, -1, szJsonBuf, 1024 *40, &nerror, 5000);
+
+	if (bRet)
+	{
+		GetDlgItem(IDC_DLG_RW_BTN_WRITE)->EnableWindow(TRUE); 
+		DWORD dwRetLen = 0;
+		bRet = CLIENT_ParseData(CFG_CMD_CLIENT_CUSTOM_DATA, szJsonBuf, (void*)&m_stuInfo, sizeof(m_stuInfo), &dwRetLen);
+		if (!bRet)
+		{
+			MessageBox(ConvertString(CString("parse AccessControl error..."), DLG_CFG_ACCESS_CONTROL), ConvertString("Prompt"));
+			return  ;
+		}
+		else
+		{
+			if (m_stuInfo.abBinary)
+			{
+ 				CString csBinaryValue; 
+				for (int i = 0; i < m_stuInfo.nBinaryNum; i++)
+				{
+					CString cstValue;
+					cstValue = (char)m_stuInfo.dwBinary[i];
+					csBinaryValue += cstValue ;
+				}
+				SetDlgItemText(IDC_DLG_RW_EDT_DATA, csBinaryValue);  
+				//UpdateWindow();
+			}
+
+		}
+	}
+	else
+	{			
+		CString csErr;
+		csErr.Format("%s 0x%08x...\r\n\r\n%s", ConvertString("QueryConfig AccessControl error:", DLG_CFG_ACCESS_CONTROL),
+			CLIENT_GetLastError(), szJsonBuf);
+		MessageBox(csErr, ConvertString("Prompt"));
+		return  ;
+	}
+	return  ;
+}
+
 void CDlgRWDevice::OnBnClickedDlgRwBtnWrite()
+{
+	WriteRefactored();
+}
+
+void CDlgRWDevice::WriteNative()
 {
 	// TODO: 在此添加控件通知处理程序代码 
 	if (!m_hLoginID)
@@ -175,9 +243,54 @@ void CDlgRWDevice::OnBnClickedDlgRwBtnWrite()
 				MessageBox(ConvertString(CString("Set ClientCustomData Config ok!\n"), DLG_CFG_ACCESS_CONTROL), ConvertString("Prompt"));
 			}
 		} 
-
 }
 
+void CDlgRWDevice::WriteRefactored()
+{
+	if (!m_hLoginID)
+	{
+		MessageBox(ConvertString(CString("we haven't login a device yet!"), DLG_VERSION), ConvertString("Prompt"));
+
+	} 
+		int nerror = 0;
+		int nChannel = -1;
+
+		CString csBinaryValue; 
+		GetDlgItemText(IDC_DLG_RW_EDT_DATA, csBinaryValue); 
+		int strLength = csBinaryValue.GetLength();
+		memset(&m_stuInfo, 0, sizeof(m_stuInfo));
+		for (int i = 0; i < strLength; i++)
+		{ 
+			int asciiValue = csBinaryValue.GetAt(i);
+			m_stuInfo.dwBinary[i] = asciiValue;
+		}
+		m_stuInfo.abBinary = true;
+		m_stuInfo.nBinaryNum = strLength; 
+
+		char szJsonBufSet[1024 * 40] = {0};            
+
+		BOOL bRet = CLIENT_PacketData(CFG_CMD_CLIENT_CUSTOM_DATA, &m_stuInfo, sizeof(m_stuInfo), szJsonBufSet, sizeof(szJsonBufSet));
+		if (!bRet)
+		{
+			MessageBox(ConvertString(CString("Packet ClientCustomData Config failed!"), DLG_CFG_ACCESS_CONTROL), ConvertString("Prompt"));
+		} 
+		else
+		{ 
+			 
+			int nerror = 0;
+			int nrestart = 0;
+			bRet = CLIENT_SetNewDevConfig(m_hLoginID, CFG_CMD_CLIENT_CUSTOM_DATA, nChannel, szJsonBufSet, sizeof(szJsonBufSet), &nerror, &nrestart, SDK_API_WAITTIME);
+			if (!bRet)
+			{
+				//printf("Set ClientCustomData Config failed...0x%08x\n", CLIENT_GetLastError());
+				MessageBox(ConvertString(CString("Set ClientCustomData Config failed\n"), DLG_CFG_ACCESS_CONTROL), ConvertString("Prompt"));
+			}
+			else
+			{
+				MessageBox(ConvertString(CString("Set ClientCustomData Config ok!\n"), DLG_CFG_ACCESS_CONTROL), ConvertString("Prompt"));
+			}
+		} 
+}
 
 void CDlgRWDevice::OnDestroy() 
 {

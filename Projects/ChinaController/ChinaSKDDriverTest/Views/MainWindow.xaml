@@ -68,6 +68,9 @@
 					</TabItem>
 				</TabControl>
 			</TabItem>
+			<TabItem Header="Пользовательские данные" DataContext="{Binding CustomDataViewModel}">
+				<Views:CustomDataView />
+			</TabItem>
 		</TabControl>
 
 		<TextBox Grid.Row="1" Name="_textBox" TextWrapping="Wrap" />
