@@ -48,12 +48,7 @@ namespace PlansModule
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
-			return new List<NavigationItem>()
-			{
-#if PLAN_TAB
-				new NavigationItem<ShowPlansEvent>(PlansViewModel, "Планы","map"),
-#endif
-			};
+			return new List<NavigationItem>();
 		}
 		public override ModuleType ModuleType
 		{
@@ -61,14 +56,12 @@ namespace PlansModule
 		}
 		private void ShowRightContent()
 		{
-#if !PLAN_TAB
 			var viewModel = new RightContentViewModel()
 			{
 				Content = _plansViewModel,
 				Menu = _plansViewModel.Menu,
 			};
 			ServiceFactory.Layout.ShowRightContent(viewModel);
-#endif
 		}
 
 		private void OnRegisterPlanExtension(IPlanExtension<Plan> planExtension)
@@ -104,9 +97,4 @@ namespace PlansModule
 
 		#endregion
 	}
-#if PLAN_TAB
-	public class ShowPlansEvent : CompositePresentationEvent<object>
-	{
-	}
-#endif
 }

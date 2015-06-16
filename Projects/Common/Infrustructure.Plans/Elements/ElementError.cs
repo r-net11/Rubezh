@@ -13,6 +13,6 @@ namespace Infrustructure.Plans.Elements
 		public string Error { get; set; }
 		public string ImageSource { get; set; }
 		public bool IsCritical { get; set; }
-		public Action Navigate {get;set;}
+		public Action Navigate { get; set; }
 	}
 }
