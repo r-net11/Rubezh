@@ -24,6 +24,7 @@ namespace GKModule.ViewModels
 			OnPropertyChanged(() => Direction);
 			_visualizetionState = Direction.PlanElementUIDs.Count == 0 ? VisualizationState.NotPresent : (Direction.PlanElementUIDs.Count > 1 ? VisualizationState.Multiple : VisualizationState.Single);
 			OnPropertyChanged(() => VisualizationState);
+			OnPropertyChanged(() => PresentationLogic);
 		}
 
 		public string PresentationLogic

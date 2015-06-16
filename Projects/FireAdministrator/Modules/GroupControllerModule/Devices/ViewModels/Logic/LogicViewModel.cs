@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
+﻿using FiresecAPI.GK;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 
