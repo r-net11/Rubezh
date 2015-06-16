@@ -465,7 +465,7 @@
 			this.xrTableCell22.Name = "xrTableCell22";
 			this.xrTableCell22.StylePriority.UsePadding = false;
 			this.xrTableCell22.StylePriority.UseTextAlignment = false;
-			this.xrTableCell22.Text = "Всего отработано, ч";
+			this.xrTableCell22.Text = "Всего, ч";
 			this.xrTableCell22.Weight = 0.064096570127521138D;
 			// 
 			// xrTableCell23
