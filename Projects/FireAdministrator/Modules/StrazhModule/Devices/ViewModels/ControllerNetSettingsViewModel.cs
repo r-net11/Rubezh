@@ -107,6 +107,7 @@ namespace StrazhModule.ViewModels
 			}
 			else
 			{
+				RebootController();
 				HasChanged = true;
 			}
 		}
@@ -127,6 +128,19 @@ namespace StrazhModule.ViewModels
 				Mask = controllerNetworkSettings.Mask;
 				DefaultGateway = controllerNetworkSettings.DefaultGateway;
 				HasChanged = true;
+			}
+		}
+
+		void RebootController()
+		{
+			var result = FiresecManager.FiresecService.SKDRebootController(DeviceViewModel.Device);
+			if (result.Result)
+			{
+				MessageBoxService.Show("Выполняется перезагрузка контроллера. Контроллер будет доступен через несколько секунд");
+			}
+			else
+			{
+				MessageBoxService.ShowWarning("Ошибка во время операции", result.Error);
 			}
 		}
 
