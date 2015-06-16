@@ -36,6 +36,7 @@ namespace GKModule.ViewModels
 			TurnOnCommand = new RelayCommand(OnTurnOn);
 			TurnOnNowCommand = new RelayCommand(OnTurnOnNow);
 			TurnOffCommand = new RelayCommand(OnTurnOff);
+			ForbidStartCommand = new RelayCommand(OnForbidStart);
 		}
 
 		void OnStateChanged()
@@ -141,6 +142,15 @@ namespace GKModule.ViewModels
 			if (ServiceFactory.SecurityService.Validate())
 			{
 				FiresecManager.FiresecService.GKTurnOff(Delay);
+			}
+		}
+
+		public RelayCommand ForbidStartCommand { get; private set; }
+		void OnForbidStart()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				FiresecManager.FiresecService.GKStop(Delay);
 			}
 		}
 

@@ -41,7 +41,8 @@ namespace GKProcessor
 			if (MPT.MptLogic.StopClausesGroup.GetObjects().Count > 0)
 			{
 				Formula.AddClauseFormula(MPT.MptLogic.StopClausesGroup, DatabaseType);
-				Formula.Add(FormulaOperationType.DUP);
+				if (MPT.MptLogic.OnClausesGroup.GetObjects().Count > 0)
+					Formula.Add(FormulaOperationType.DUP);
 				Formula.AddPutBit(GKStateBit.Stop_InManual, MPT, DatabaseType);
 			}
 
