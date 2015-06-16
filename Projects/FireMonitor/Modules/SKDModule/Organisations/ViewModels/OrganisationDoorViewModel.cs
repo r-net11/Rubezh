@@ -15,13 +15,15 @@ namespace SKDModule.ViewModels
 	{
 		Organisation Organisation;
 		Guid DoorUID;
-		public string PresentationName { get; private set; }
+		public string Name { get; private set; }
+		public int No { get; private set; }
 
 		public OrganisationDoorViewModel(Organisation organisation, SKDDoor door)
 		{
 			Organisation = organisation;
 			DoorUID = door.UID;
-			PresentationName = door.PresentationName;
+			Name = door.Name;
+			No = door.No;
 			_isChecked = Organisation != null && Organisation.DoorUIDs.Contains(door.UID);
 		}
 
@@ -29,7 +31,8 @@ namespace SKDModule.ViewModels
 		{
 			Organisation = organisation;
 			DoorUID = door.UID;
-			PresentationName = door.PresentationName;
+			Name = door.Name;
+			No = door.No;
 			_isChecked = Organisation != null && Organisation.DoorUIDs.Contains(door.UID);
 		}
 
@@ -108,7 +111,6 @@ namespace SKDModule.ViewModels
 						}
 					}
 				}
-				
 			}
 		}
 	}

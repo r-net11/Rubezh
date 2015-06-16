@@ -13,7 +13,7 @@ namespace SKDModule.ViewModels
 			{
 				Items.Add(new OrganisationDoorViewModel(Organisation, door));
 			}
-			foreach (var door in GKManager.DeviceConfiguration.Doors)  
+			foreach (var door in GKManager.DeviceConfiguration.Doors)
 			{
 				Items.Add(new OrganisationDoorViewModel(Organisation, door));
 			}
