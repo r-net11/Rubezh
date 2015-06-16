@@ -59,19 +59,23 @@ namespace ChinaSKDDriver
 
 		static void OnDisConnectDelegate(Int32 lLoginID, string pchDVRIP, Int32 nDVRPort, UInt32 dwUser)
 		{
-			var journalItem = new SKDJournalItem();
-			journalItem.LoginID = lLoginID;
-			journalItem.SystemDateTime = DateTime.Now;
-			journalItem.JournalEventNameType = FiresecAPI.Journal.JournalEventNameType.Потеря_связи;
+			var journalItem = new SKDJournalItem
+			{
+				LoginID = lLoginID,
+				SystemDateTime = DateTime.Now,
+				JournalEventNameType = FiresecAPI.Journal.JournalEventNameType.Потеря_связи
+			};
 			AddJournalItem(journalItem);
 		}
 
 		static void OnfHaveReConnectDelegate(Int32 lLoginID, string pchDVRIP, Int32 nDVRPort, UInt32 dwUser)
 		{
-			var journalItem = new SKDJournalItem();
-			journalItem.LoginID = lLoginID;
-			journalItem.SystemDateTime = DateTime.Now;
-			journalItem.JournalEventNameType = FiresecAPI.Journal.JournalEventNameType.Восстановление_связи;
+			var journalItem = new SKDJournalItem
+			{
+				LoginID = lLoginID,
+				SystemDateTime = DateTime.Now,
+				JournalEventNameType = FiresecAPI.Journal.JournalEventNameType.Восстановление_связи
+			};
 			AddJournalItem(journalItem);
 
 			var thread = new Thread(() =>
@@ -84,9 +88,7 @@ namespace ChinaSKDDriver
 
 		static bool OnfMessCallBackDelegate(Int32 lCommand, Int32 lLoginID, IntPtr pBuf, UInt32 dwBufLen, string pchDVRIP, Int32 nDVRPort, UInt32 dwUser)
 		{
-			var journalItem = new SKDJournalItem();
-			journalItem.LoginID = lLoginID;
-			journalItem.SystemDateTime = DateTime.Now;
+			var journalItem = new SKDJournalItem {LoginID = lLoginID, SystemDateTime = DateTime.Now};
 
 			switch (lCommand)
 			{
@@ -113,42 +115,50 @@ namespace ChinaSKDDriver
                 }
 
 				case DH_ALARM_ACCESS_CTL_NOT_CLOSE:
+				{
 					journalItem.JournalEventNameType = JournalEventNameType.Дверь_не_закрыта;
-					NativeWrapper.ALARM_ACCESS_CTL_NOT_CLOSE_INFO item2 = (NativeWrapper.ALARM_ACCESS_CTL_NOT_CLOSE_INFO)(Marshal.PtrToStructure(pBuf, typeof(NativeWrapper.ALARM_ACCESS_CTL_NOT_CLOSE_INFO)));
-					journalItem.DeviceDateTime = NET_TIMEToDateTime(item2.stuTime);
-					journalItem.DoorNo = item2.nDoor;
-					journalItem.nAction = item2.nAction;
-					journalItem.szDoorName = item2.szDoorName;
+					var eventInfo = (NativeWrapper.ALARM_ACCESS_CTL_NOT_CLOSE_INFO)(Marshal.PtrToStructure(pBuf, typeof(NativeWrapper.ALARM_ACCESS_CTL_NOT_CLOSE_INFO)));
+					journalItem.DeviceDateTime = NET_TIMEToDateTime(eventInfo.stuTime);
+					journalItem.DoorNo = eventInfo.nDoor;
+					journalItem.nAction = eventInfo.nAction;
+					journalItem.szDoorName = eventInfo.szDoorName;
 					break;
+				}
 
 				case DH_ALARM_ACCESS_CTL_BREAK_IN:
+				{
 					journalItem.JournalEventNameType = JournalEventNameType.Взлом;
-					NativeWrapper.ALARM_ACCESS_CTL_BREAK_IN_INFO item3 = (NativeWrapper.ALARM_ACCESS_CTL_BREAK_IN_INFO)(Marshal.PtrToStructure(pBuf, typeof(NativeWrapper.ALARM_ACCESS_CTL_BREAK_IN_INFO)));
-					journalItem.DeviceDateTime = NET_TIMEToDateTime(item3.stuTime);
-					journalItem.DoorNo = item3.nDoor;
+					var eventInfo = (NativeWrapper.ALARM_ACCESS_CTL_BREAK_IN_INFO)(Marshal.PtrToStructure(pBuf, typeof(NativeWrapper.ALARM_ACCESS_CTL_BREAK_IN_INFO)));
+					journalItem.DeviceDateTime = NET_TIMEToDateTime(eventInfo.stuTime);
+					journalItem.DoorNo = eventInfo.nDoor;
 					break;
+				}
 
 				case DH_ALARM_ACCESS_CTL_REPEAT_ENTER:
+				{
 					journalItem.JournalEventNameType = JournalEventNameType.Повторный_проход;
-					NativeWrapper.ALARM_ACCESS_CTL_REPEAT_ENTER_INFO item4 = (NativeWrapper.ALARM_ACCESS_CTL_REPEAT_ENTER_INFO)(Marshal.PtrToStructure(pBuf, typeof(NativeWrapper.ALARM_ACCESS_CTL_REPEAT_ENTER_INFO)));
-					journalItem.DeviceDateTime = NET_TIMEToDateTime(item4.stuTime);
-					journalItem.DoorNo = item4.nDoor;
-					journalItem.szDoorName = item4.szDoorName;
+					var eventInfo = (NativeWrapper.ALARM_ACCESS_CTL_REPEAT_ENTER_INFO)(Marshal.PtrToStructure(pBuf, typeof(NativeWrapper.ALARM_ACCESS_CTL_REPEAT_ENTER_INFO)));
+					journalItem.DeviceDateTime = NET_TIMEToDateTime(eventInfo.stuTime);
+					journalItem.DoorNo = eventInfo.nDoor;
+					journalItem.szDoorName = eventInfo.szDoorName;
 					break;
+				}
 
 				case DH_ALARM_ACCESS_CTL_DURESS:
+				{
 					journalItem.JournalEventNameType = JournalEventNameType.Принуждение;
-					NativeWrapper.ALARM_ACCESS_CTL_DURESS_INFO item5 = (NativeWrapper.ALARM_ACCESS_CTL_DURESS_INFO)(Marshal.PtrToStructure(pBuf, typeof(NativeWrapper.ALARM_ACCESS_CTL_DURESS_INFO)));
-					journalItem.DeviceDateTime = NET_TIMEToDateTime(item5.stuTime);
-					journalItem.DoorNo = item5.nDoor;
-					journalItem.CardNo = item5.szCardNo;
+					var eventInfo = (NativeWrapper.ALARM_ACCESS_CTL_DURESS_INFO)(Marshal.PtrToStructure(pBuf, typeof(NativeWrapper.ALARM_ACCESS_CTL_DURESS_INFO)));
+					journalItem.DeviceDateTime = NET_TIMEToDateTime(eventInfo.stuTime);
+					journalItem.DoorNo = eventInfo.nDoor;
+					journalItem.CardNo = eventInfo.szCardNo;
 					break;
+				}
 
 				case DH_ALARM_ACCESS_CTL_STATUS:
-					NativeWrapper.ALARM_ACCESS_CTL_STATUS_INFO item6 = (NativeWrapper.ALARM_ACCESS_CTL_STATUS_INFO)(Marshal.PtrToStructure(pBuf, typeof(NativeWrapper.ALARM_ACCESS_CTL_STATUS_INFO)));
-					journalItem.DeviceDateTime = NET_TIMEToDateTime(item6.stuTime);
-					NativeWrapper.NET_ACCESS_CTL_STATUS_TYPE status = item6.emStatus;
-					switch (status)
+				{
+					var eventInfo = (NativeWrapper.ALARM_ACCESS_CTL_STATUS_INFO)(Marshal.PtrToStructure(pBuf, typeof(NativeWrapper.ALARM_ACCESS_CTL_STATUS_INFO)));
+					journalItem.DeviceDateTime = NET_TIMEToDateTime(eventInfo.stuTime);
+					switch (eventInfo.emStatus)
 					{
 						case NativeWrapper.NET_ACCESS_CTL_STATUS_TYPE.NET_ACCESS_CTL_STATUS_TYPE_UNKNOWN:
 							journalItem.JournalEventNameType = JournalEventNameType.Неизвестный_статус_двери;
@@ -167,46 +177,55 @@ namespace ChinaSKDDriver
 							break;
 					}
 
-					journalItem.DoorNo = item6.nDoor;
+					journalItem.DoorNo = eventInfo.nDoor;
 					break;
+				}
 
 				case DH_ALARM_CHASSISINTRUDED:
+				{
 					journalItem.JournalEventNameType = JournalEventNameType.Вскрытие_контроллера;
-					NativeWrapper.ALARM_CHASSISINTRUDED_INFO item7 = (NativeWrapper.ALARM_CHASSISINTRUDED_INFO)(Marshal.PtrToStructure(pBuf, typeof(NativeWrapper.ALARM_CHASSISINTRUDED_INFO)));
-					journalItem.DeviceDateTime = NET_TIMEToDateTime(item7.stuTime);
+					var eventInfo = (NativeWrapper.ALARM_CHASSISINTRUDED_INFO)(Marshal.PtrToStructure(pBuf, typeof(NativeWrapper.ALARM_CHASSISINTRUDED_INFO)));
+					journalItem.DeviceDateTime = NET_TIMEToDateTime(eventInfo.stuTime);
 					//journalItem.DoorNo = item7.nChannelID;
-					journalItem.nAction = item7.nAction;
-					journalItem.szReaderID = item7.szReaderID;
+					journalItem.nAction = eventInfo.nAction;
+					journalItem.szReaderID = eventInfo.szReaderID;
 					break;
+				}
 
 				case DH_ALARM_OPENDOORGROUP:
+				{
 					journalItem.JournalEventNameType = JournalEventNameType.Множественный_проход;
-					NativeWrapper.ALARM_OPEN_DOOR_GROUP_INFO item8 = (NativeWrapper.ALARM_OPEN_DOOR_GROUP_INFO)(Marshal.PtrToStructure(pBuf, typeof(NativeWrapper.ALARM_OPEN_DOOR_GROUP_INFO)));
-					journalItem.DeviceDateTime = NET_TIMEToDateTime(item8.stuTime);
-					journalItem.DoorNo = item8.nChannelID;
+					var eventInfo = (NativeWrapper.ALARM_OPEN_DOOR_GROUP_INFO)(Marshal.PtrToStructure(pBuf, typeof(NativeWrapper.ALARM_OPEN_DOOR_GROUP_INFO)));
+					journalItem.DeviceDateTime = NET_TIMEToDateTime(eventInfo.stuTime);
+					journalItem.DoorNo = eventInfo.nChannelID;
 					break;
+				}
 
 				case DH_ALARM_FINGER_PRINT:
+				{
 					journalItem.JournalEventNameType = JournalEventNameType.Проход_по_отпечатку_пальца;
-					NativeWrapper.ALARM_CAPTURE_FINGER_PRINT_INFO item9 = (NativeWrapper.ALARM_CAPTURE_FINGER_PRINT_INFO)(Marshal.PtrToStructure(pBuf, typeof(NativeWrapper.ALARM_CAPTURE_FINGER_PRINT_INFO)));
-					journalItem.DeviceDateTime = NET_TIMEToDateTime(item9.stuTime);
-					journalItem.DoorNo = item9.nChannelID;
-					journalItem.szReaderID = item9.szReaderID;
+					var eventInfo = (NativeWrapper.ALARM_CAPTURE_FINGER_PRINT_INFO)(Marshal.PtrToStructure(pBuf, typeof(NativeWrapper.ALARM_CAPTURE_FINGER_PRINT_INFO)));
+					journalItem.DeviceDateTime = NET_TIMEToDateTime(eventInfo.stuTime);
+					journalItem.DoorNo = eventInfo.nChannelID;
+					journalItem.szReaderID = eventInfo.szReaderID;
 					break;
+				}
 
 				case DH_ALARM_ALARM_EX2:
+				{
 					journalItem.JournalEventNameType = JournalEventNameType.Местная_тревога;
-					NativeWrapper.ALARM_ALARM_INFO_EX2 item10 = (NativeWrapper.ALARM_ALARM_INFO_EX2)(Marshal.PtrToStructure(pBuf, typeof(NativeWrapper.ALARM_ALARM_INFO_EX2)));
-					journalItem.DeviceDateTime = NET_TIMEToDateTime(item10.stuTime);
-					journalItem.DoorNo = item10.nChannelID;
-					journalItem.nAction = item10.nAction;
+					var eventInfo = (NativeWrapper.ALARM_ALARM_INFO_EX2)(Marshal.PtrToStructure(pBuf, typeof(NativeWrapper.ALARM_ALARM_INFO_EX2)));
+					journalItem.DeviceDateTime = NET_TIMEToDateTime(eventInfo.stuTime);
+					journalItem.DoorNo = eventInfo.nChannelID;
+					journalItem.nAction = eventInfo.nAction;
 					break;
+				}
 
 				case DH_ALARM_ACCESS_LOCK_STATUS:
-					NativeWrapper.ALARM_ACCESS_LOCK_STATUS_INFO item11 = (NativeWrapper.ALARM_ACCESS_LOCK_STATUS_INFO)(Marshal.PtrToStructure(pBuf, typeof(NativeWrapper.ALARM_ACCESS_LOCK_STATUS_INFO)));
-					journalItem.DeviceDateTime = NET_TIMEToDateTime(item11.stuTime);
-					NativeWrapper.NET_ACCESS_CTL_STATUS_TYPE lockStatus = item11.emLockStatus;
-					switch (lockStatus)
+				{
+					var eventInfo = (NativeWrapper.ALARM_ACCESS_LOCK_STATUS_INFO)(Marshal.PtrToStructure(pBuf, typeof(NativeWrapper.ALARM_ACCESS_LOCK_STATUS_INFO)));
+					journalItem.DeviceDateTime = NET_TIMEToDateTime(eventInfo.stuTime);
+					switch (eventInfo.emLockStatus)
 					{
 						case NativeWrapper.NET_ACCESS_CTL_STATUS_TYPE.NET_ACCESS_CTL_STATUS_TYPE_UNKNOWN:
 							journalItem.JournalEventNameType = JournalEventNameType.Неизвестный_статус_замка_двери;
@@ -225,8 +244,9 @@ namespace ChinaSKDDriver
 							break;
 					}
 
-					journalItem.DoorNo = item11.nChannel;
+					journalItem.DoorNo = eventInfo.nChannel;
 					break;
+				}
 
 				default:
 					journalItem.JournalEventNameType = JournalEventNameType.Неизвестное_событие;
