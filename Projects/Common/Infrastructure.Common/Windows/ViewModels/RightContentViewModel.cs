@@ -1,13 +1,8 @@
-﻿
-namespace Infrastructure.Common.Windows.ViewModels
+﻿namespace Infrastructure.Common.Windows.ViewModels
 {
 	public class RightContentViewModel : BaseViewModel
 	{
-		public RightContentViewModel()
-		{
-		}
-
-		private BaseViewModel _menu;
+		BaseViewModel _menu;
 		public BaseViewModel Menu
 		{
 			get { return _menu; }
@@ -17,7 +12,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 				OnPropertyChanged(() => Menu);
 			}
 		}
-		private ViewPartViewModel _content;
+		ViewPartViewModel _content;
 		public ViewPartViewModel Content
 		{
 			get { return _content; }
@@ -28,7 +23,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			}
 		}
 
-		private ShellViewModel _shell;
+		ShellViewModel _shell;
 		public ShellViewModel Shell
 		{
 			get { return _shell; }
