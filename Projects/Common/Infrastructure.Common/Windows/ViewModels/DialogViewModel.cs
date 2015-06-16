@@ -19,6 +19,5 @@
 				OnPropertyChanged(() => HeaderCommandViewModel);
 			}
 		}
-		
 	}
 }

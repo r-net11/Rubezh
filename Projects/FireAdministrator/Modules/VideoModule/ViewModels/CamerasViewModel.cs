@@ -1,26 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows.Input;
-using FiresecAPI.Models;
+﻿using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
-using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
-using KeyboardKey = System.Windows.Input.Key;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows.Input;
 using VideoModule.Plans;
+using KeyboardKey = System.Windows.Input.Key;
 
 namespace VideoModule.ViewModels
 {
-	public class CamerasViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
+	public class CamerasViewModel : MenuViewPartViewModel, ISelectable<Guid>, IEditingViewModel
 	{
-		bool _lockSelection = false;
-		public static CamerasViewModel Current { get; private set; }
+		bool _lockSelection;
 
 		public CamerasViewModel()
 		{
@@ -35,18 +33,11 @@ namespace VideoModule.ViewModels
 			Current = this;
 		}
 
-		public void Initialize()
-		{
-			Cameras = new ObservableCollection<CameraViewModel>();
-			foreach (var camera in FiresecManager.SystemConfiguration.Cameras)
-			{
-				var cameraViewModel = new CameraViewModel(this, camera);
-				Cameras.Add(cameraViewModel);
-			}
-			SelectedCamera = Cameras.FirstOrDefault();
-		}
+		#region Properties
 
-		ObservableCollection<CameraViewModel> _cameras;
+		public static CamerasViewModel Current { get; private set; }
+
+		private ObservableCollection<CameraViewModel> _cameras;
 		public ObservableCollection<CameraViewModel> Cameras
 		{
 			get { return _cameras; }
@@ -57,7 +48,7 @@ namespace VideoModule.ViewModels
 			}
 		}
 
-		CameraViewModel _selectedCamera;
+		private CameraViewModel _selectedCamera;
 		public CameraViewModel SelectedCamera
 		{
 			get { return _selectedCamera; }
@@ -68,11 +59,14 @@ namespace VideoModule.ViewModels
 			}
 		}
 
+		#endregion
+
+		#region Commands
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
 			var devicesViewModel = new DeviceSelectionViewModel();
-			if (DialogService.ShowModalWindow(devicesViewModel))
+			if (Infrastructure.Common.Windows.DialogService.ShowModalWindow(devicesViewModel))
 			{
 				foreach (var camera in devicesViewModel.GetCameras())
 				{
@@ -97,16 +91,9 @@ namespace VideoModule.ViewModels
 		}
 
 		public RelayCommand EditCommand { get; private set; }
-		void OnEdit()
+		private void OnEdit()
 		{
-			var cameraDetailsViewModel = new CameraDetailsViewModel(SelectedCamera.Camera);
-			if (DialogService.ShowModalWindow(cameraDetailsViewModel))
-			{
-				SelectedCamera.Camera = cameraDetailsViewModel.Camera;
-				SelectedCamera.Update();
-				SelectedCamera.Camera.OnChanged();
-				ServiceFactory.SaveService.CamerasChanged = true;
-			}
+			Infrastructure.Common.Windows.DialogService.ShowModalWindow(new CameraDetailsViewModel(SelectedCamera.Camera));
 		}
 
 		bool CanEditDelete()
@@ -118,11 +105,26 @@ namespace VideoModule.ViewModels
 		void OnSettings()
 		{
 			var settingsSelectionViewModel = new SettingsSelectionViewModel(FiresecManager.SystemConfiguration.RviSettings);
-			if (DialogService.ShowModalWindow(settingsSelectionViewModel))
+			if (Infrastructure.Common.Windows.DialogService.ShowModalWindow(settingsSelectionViewModel))
 			{
 				FiresecManager.SystemConfiguration.RviSettings = settingsSelectionViewModel.RviSettings;
 				ServiceFactory.SaveService.CamerasChanged = true;
 			}
+		}
+
+		#endregion
+
+		#region Methods
+
+		public void Initialize()
+		{
+			Cameras = new ObservableCollection<CameraViewModel>();
+			foreach (var camera in FiresecManager.SystemConfiguration.Cameras)
+			{
+				var cameraViewModel = new CameraViewModel(this, camera);
+				Cameras.Add(cameraViewModel);
+			}
+			SelectedCamera = Cameras.FirstOrDefault();
 		}
 
 		private void SubscribeEvents()
@@ -161,15 +163,15 @@ namespace VideoModule.ViewModels
 			});
 			_lockSelection = false;
 		}
+
 		private void OnElementSelected(ElementBase element)
 		{
 			var elementCamera = element as ElementCamera;
-			if (elementCamera != null)
-			{
-				_lockSelection = true;
-				Select(elementCamera.CameraUID);
-				_lockSelection = false;
-			}
+			if (elementCamera == null) return;
+
+			_lockSelection = true;
+			Select(elementCamera.CameraUID);
+			_lockSelection = false;
 		}
 
 		public void Select(Guid cameraUID)
@@ -186,5 +188,7 @@ namespace VideoModule.ViewModels
 			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
 			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
 		}
+
+		#endregion
 	}
 }

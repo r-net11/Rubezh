@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
@@ -17,99 +18,39 @@ namespace VideoModule.ViewModels
 {
 	class CameraDetailsViewModel : SaveCancelDialogViewModel
 	{
-		public Camera Camera { get; private set; }
-		public bool IsEditMode { get; private set; }
+		private bool _isPlaying;
 
 		public CameraDetailsViewModel(Camera camera = null)
 		{
-			if (camera != null)
-			{
-				Camera = camera;
-				Title = "Свойства камеры";
-				IsEditMode = true;
-				CopyProperties();
-			}
-			else
-			{
-				Title = "Создание нового видеоустройства";
-				Camera = new Camera();
-				Name = "Видеоустройство";
-				Address = "172.16.5.201";
-				ChannelsCount = 1;
-				ChannelNumber = 1;
-				IsEditMode = false;
-			}
+			Camera = camera ?? new Camera();
+
 			ShowCommand = new RelayCommand(OnShow, CanShow);
 		}
 
-		void CopyProperties()
-		{
-			Name = Camera.Name;
-			Address = Camera.Ip;
-			ChannelNumber = Camera.ChannelNumber + 1;
-		}
+		#region Properties
 
-		string _name;
-		public string Name
-		{
-			get { return _name; }
-			set
-			{
-				_name = value;
-				OnPropertyChanged(() => Name);
-			}
-		}
 
-		string _address;
-		public string Address
-		{
-			get { return _address; }
-			set
-			{
-				_address = value;
-				OnPropertyChanged(() => Address);
-			}
-		}
-
-		int _channelsCount;
-		public int ChannelsCount
-		{
-			get { return _channelsCount; }
-			set
-			{
-				_channelsCount = value;
-				OnPropertyChanged(() => ChannelsCount);
-			}
-		}
-
-		int _channelNumber;
-		public int ChannelNumber
-		{
-			get { return _channelNumber; }
-			set
-			{
-				_channelNumber = value;
-				OnPropertyChanged(() => ChannelNumber);
-			}
-		}
+		public Camera Camera { get; private set; }
 
 		VlcControl _vlcControl;
 		public ImageSource Image
 		{
 			get
 			{
-				if (_vlcControl == null)
-					return new BitmapImage();
-				return _vlcControl.VideoSource;
+				return _vlcControl == null ? new BitmapImage() : _vlcControl.VideoSource;
 			}
 		}
+		#endregion
+
+		#region Commands
 
 		public RelayCommand ShowCommand { get; private set; }
+
 		void OnShow()
 		{
 			try
 			{
-				if (IsPlaying)
+				if (_isPlaying)
 					return;
 
 				if (!VlcContext.IsInitialized)
@@ -129,7 +70,7 @@ namespace VideoModule.ViewModels
 					_vlcControl.Stop();
 				_vlcControl.Play();
 
-				IsPlaying = true;
+				_isPlaying = true;
 			}
 			catch (Exception e)
 			{
@@ -139,28 +80,17 @@ namespace VideoModule.ViewModels
 
 		bool CanShow()
 		{
-			return !IsPlaying;
+			return !_isPlaying;
 		}
 
-		bool IsPlaying = false;
+		#endregion
+
+		#region Methods
 
 		private void VlcControlOnPositionChanged(VlcControl sender, VlcEventArgs<float> vlcEventArgs)
 		{
 			OnPropertyChanged(() => Image);
 		}
-
-		public override bool OnClosing(bool isCanceled)
-		{
-			if (_vlcControl != null && _vlcControl.IsPlaying)
-				_vlcControl.Stop();
-			return base.OnClosing(isCanceled);
-		}
-
-		protected override bool Save()
-		{
-			Camera.Name = Name;
-			Camera.Ip = Address;
-			return base.Save();
-		}
+		#endregion
 	}
 }
