@@ -23,7 +23,7 @@ namespace Infrastructure
 				return _startupService;
 			}
 		}
-		
+
 		public static void Initialize(ILayoutService ILayoutService, IValidationService IValidationService)
 		{
 			SaveService = new SaveService();
