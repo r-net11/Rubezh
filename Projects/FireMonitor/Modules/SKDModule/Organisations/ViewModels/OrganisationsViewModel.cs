@@ -16,7 +16,7 @@ namespace SKDModule.ViewModels
 	{
 		LogicalDeletationType _logicalDeletationType;
 		public bool IsWithDeleted { get { return _logicalDeletationType == LogicalDeletationType.All; } }
-		
+
 		public OrganisationsViewModel()
 		{
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
@@ -166,7 +166,7 @@ namespace SKDModule.ViewModels
 				}
 			}
 		}
-		
+
 		public RelayCommand RestoreCommand { get; private set; }
 		void OnRestore()
 		{
@@ -208,9 +208,9 @@ namespace SKDModule.ViewModels
 		{
 			foreach (var organisation in Organisations.Select(x => x.Organisation))
 			{
-				ServiceFactory.Events.GetEvent<OrganisationUsersChangedEvent>().Publish(organisation);	
+				ServiceFactory.Events.GetEvent<OrganisationUsersChangedEvent>().Publish(organisation);
 			}
-			
+
 		}
 	}
 }
