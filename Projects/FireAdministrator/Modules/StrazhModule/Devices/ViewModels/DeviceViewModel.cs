@@ -214,7 +214,7 @@ namespace StrazhModule.ViewModels
 		}
 		bool CanShowProperties()
 		{
-			return Driver.IsController || Driver.DriverType == SKDDriverType.Lock;
+			return Driver.IsController || (Driver.DriverType == SKDDriverType.Lock && Device.IsEnabled);
 		}
 
 		#region Plan
