@@ -30,6 +30,11 @@ namespace FiresecAPI.GK
 			PimExit.UID = GuidHelper.CreateOn(UID, 1);
 		}
 
+		public override void Update(GKDevice device)
+		{
+
+		}
+
 		[XmlIgnore]
 		public GKPim PimEnter { get; private set; }
 

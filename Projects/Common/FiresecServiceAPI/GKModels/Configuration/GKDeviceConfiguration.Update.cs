@@ -80,6 +80,7 @@ namespace FiresecAPI.GK
 			InitializeCodes();
 			InitializeDoors();
 			UpdateGKChildrenDescription();
+			LinkObjects();
 		}
 
 		void ClearAllReferences()
@@ -141,6 +142,23 @@ namespace FiresecAPI.GK
 				}
 				device.ZoneUIDs = zoneUIDs;
 			}
+		}
+
+		void LinkObjects()
+		{
+			Devices.ForEach(device => device.Logic.GetAllClauses().ForEach(x =>
+			{
+				x.Delays.ForEach(device.LinkObject); x.Devices.ForEach(device.LinkObject); x.Directions.ForEach(device.LinkObject); x.Doors.ForEach(device.LinkObject);
+				x.GuardZones.ForEach(device.LinkObject); x.MPTs.ForEach(device.LinkObject); x.PumpStations.ForEach(device.LinkObject); x.Zones.ForEach(device.LinkObject);
+			}));
+
+			Delays.ForEach(delay => delay.Logic.GetAllClauses().ForEach(x =>
+			{
+				x.Delays.ForEach(delay.LinkObject); x.Devices.ForEach(delay.LinkObject); x.Directions.ForEach(delay.LinkObject); x.Doors.ForEach(delay.LinkObject);
+				x.GuardZones.ForEach(delay.LinkObject); x.MPTs.ForEach(delay.LinkObject); x.PumpStations.ForEach(delay.LinkObject); x.Zones.ForEach(delay.LinkObject);
+			}));
+
+			Zones.ForEach(zone => zone.Devices.ForEach(zone.LinkObject));
 		}
 
 		void InitializeLogic()

@@ -36,6 +36,11 @@ namespace FiresecAPI.GK
 			Pim.UID = GuidHelper.CreateOn(UID, 0);
 		}
 
+		public override void Update(GKDevice device)
+		{
+
+		}
+
 		bool _isLogicOnKau;
 		[XmlIgnore]
 		public override bool IsLogicOnKau

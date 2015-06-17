@@ -16,6 +16,11 @@ namespace FiresecAPI.GK
 			DelayRegime = DelayRegime.On;
 		}
 
+		public override void Update(GKDevice device)
+		{
+			
+		}
+
 		/// <summary>
 		/// Задержка на включение
 		/// </summary>

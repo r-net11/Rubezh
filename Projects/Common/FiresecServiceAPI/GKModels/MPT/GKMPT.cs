@@ -21,6 +21,11 @@ namespace FiresecAPI.GK
 			PlanElementUIDs = new List<Guid>();
 		}
 
+		public override void Update(GKDevice device)
+		{
+
+		}
+
 		bool _isLogicOnKau;
 		[XmlIgnore]
 		public override bool IsLogicOnKau

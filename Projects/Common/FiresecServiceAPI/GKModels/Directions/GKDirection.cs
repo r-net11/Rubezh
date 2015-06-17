@@ -24,6 +24,11 @@ namespace FiresecAPI.GK
 			PlanElementUIDs = new List<Guid>();
 		}
 
+		public override void Update(GKDevice device)
+		{
+
+		}
+
 		[XmlIgnore]
 		public override GKBaseObjectType ObjectType { get { return GKBaseObjectType.Direction; } }
 
