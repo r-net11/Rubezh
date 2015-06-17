@@ -26,7 +26,10 @@
 		ItemsSource="{Binding Source={StaticResource cvsDoors}}"
 		SelectedItem="{Binding SelectedDoor}">
 		<DataGrid.Columns>
-			<DataGridTemplateColumn Width="40" Header="№">
+			<DataGridTemplateColumn
+				Width="40"
+				Header="№"
+				SortMemberPath="No">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
 						<TextBlock Margin="4 0 0 0" Text="{Binding No}" />
