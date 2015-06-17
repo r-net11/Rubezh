@@ -10,7 +10,7 @@ namespace SKDModule.ViewModels
 	public class AccessTemplateViewModel : OrganisationElementViewModel<AccessTemplateViewModel, AccessTemplate>, IDoorsParent
 	{
 		public CardDoorsViewModel CardDoorsViewModel { get; private set; }
-		
+
 		public override void InitializeOrganisation(Organisation organisation, ViewPartViewModel parentViewModel)
 		{
 			base.InitializeOrganisation(organisation, parentViewModel);
@@ -31,15 +31,14 @@ namespace SKDModule.ViewModels
 
 		public void UpdateCardDoors(IEnumerable<Guid> doorUIDs)
 		{
-			if (!IsOrganisation)
+			if (IsOrganisation) return;
+
+			var doorsUIDsToRemove = Model.CardDoors.Where(x => !doorUIDs.Any(y => y == x.DoorUID)).ToList();
+			doorsUIDsToRemove.ForEach(x => Model.CardDoors.Remove(x));
+			var saveResult = AccessTemplateHelper.Save(Model, false);
+			if (saveResult)
 			{
-				var doorsUIDsToRemove = Model.CardDoors.Where(x => !doorUIDs.Any(y => y == x.DoorUID)).ToList();
-				doorsUIDsToRemove.ForEach(x => Model.CardDoors.Remove(x));
-				var saveResult = AccessTemplateHelper.Save(Model, false);
-				if (saveResult)
-				{
-					CardDoorsViewModel.UpdateDoors(doorUIDs);
-				}
+				CardDoorsViewModel.UpdateDoors(doorUIDs);
 			}
 		}
 	}

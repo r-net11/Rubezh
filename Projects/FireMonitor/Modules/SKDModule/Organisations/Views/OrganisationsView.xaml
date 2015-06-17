@@ -101,7 +101,7 @@
 					<Grid.Resources>
 						<CollectionViewSource x:Key="cvsOrganisationItems" Source="{Binding Items}">
 							<CollectionViewSource.SortDescriptions>
-								<scm:SortDescription PropertyName="Name" />
+								<scm:SortDescription PropertyName="No" />
 							</CollectionViewSource.SortDescriptions>
 						</CollectionViewSource>
 					</Grid.Resources>

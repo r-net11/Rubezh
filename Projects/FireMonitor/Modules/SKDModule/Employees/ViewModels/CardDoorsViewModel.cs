@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Common;
 using FiresecAPI.SKD;
 using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
@@ -27,7 +28,7 @@ namespace SKDModule.ViewModels
 
 		void InitializeDoors()
 		{
-			Doors = new ObservableCollection<ReadOnlyAccessDoorViewModel>();
+			Doors = new SortableObservableCollection<ReadOnlyAccessDoorViewModel>();
 			foreach (var cardDoor in CardDoors)
 			{
 				var skdDoor = SKDManager.SKDConfiguration.Doors.FirstOrDefault(x => x.UID == cardDoor.DoorUID);
@@ -48,8 +49,8 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		ObservableCollection<ReadOnlyAccessDoorViewModel> _doors;
-		public ObservableCollection<ReadOnlyAccessDoorViewModel> Doors
+		SortableObservableCollection<ReadOnlyAccessDoorViewModel> _doors;
+		public SortableObservableCollection<ReadOnlyAccessDoorViewModel> Doors
 		{
 			get { return _doors; }
 			set

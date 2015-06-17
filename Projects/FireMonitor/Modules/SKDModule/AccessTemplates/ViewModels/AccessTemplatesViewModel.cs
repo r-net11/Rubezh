@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
@@ -20,6 +21,13 @@ namespace SKDModule.ViewModels
 		{
 			return AccessTemplateHelper.Get(filter);
 		}
+
+		protected override void UpdateSelected()
+		{
+			if (SelectedItem != null && !SelectedItem.IsOrganisation && SelectedItem.CardDoorsViewModel != null && SelectedItem.CardDoorsViewModel.Doors != null)
+				SelectedItem.CardDoorsViewModel.Doors.Sort(x => x.No);
+		}
+
 		protected override IEnumerable<AccessTemplate> GetModelsByOrganisation(Guid organisationUID)
 		{
 			return AccessTemplateHelper.GetByOrganisation(organisationUID);
@@ -36,7 +44,6 @@ namespace SKDModule.ViewModels
 		{
 			return AccessTemplateHelper.Save(item, true);
 		}
-		
 		protected override AccessTemplate CopyModel(AccessTemplate source)
 		{
 			var copy = base.CopyModel(source);
@@ -73,5 +80,5 @@ namespace SKDModule.ViewModels
 		{
 			get { return Organisations.SelectMany(x => x.Children).ToList(); }
 		}
-	}	
+	}
 }

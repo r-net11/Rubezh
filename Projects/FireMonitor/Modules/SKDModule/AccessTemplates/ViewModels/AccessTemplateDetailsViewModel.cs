@@ -14,7 +14,6 @@ namespace SKDModule.ViewModels
 		public AccessDoorsSelectationViewModel AccessDoorsSelectationViewModel { get; private set; }
 		bool _isNew;
 		public AccessTemplateDetailsViewModel() {  }
-		
 		public bool Initialize(Organisation orgnaisation, AccessTemplate accessTemplate, ViewPartViewModel parentViewModel)
 		{
 			Organisation = OrganisationHelper.GetSingle(orgnaisation.UID); ;
