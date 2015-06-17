@@ -134,7 +134,7 @@ namespace StrazhModule.ViewModels
 		}
 		bool CanShowLockConfiguration()
 		{
-			return SelectedDevice != null && SelectedDevice.Device.Driver.DriverType == SKDDriverType.Lock;
+			return SelectedDevice != null && SelectedDevice.Device.Driver.DriverType == SKDDriverType.Lock && SelectedDevice.Device.IsEnabled;
 		}
 
 		public RelayCommand WriteTimeSheduleConfigurationCommand { get; private set; }

@@ -119,6 +119,9 @@ namespace Infrastructure.Common
 		}
 	}
 
+	/// <summary>
+	/// Состояние сервера приложений
+	/// </summary>
 	public enum FSServerState
 	{
 		Closed = 0,
