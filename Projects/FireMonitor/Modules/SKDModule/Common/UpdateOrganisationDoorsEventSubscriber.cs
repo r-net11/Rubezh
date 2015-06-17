@@ -16,7 +16,7 @@ namespace SKDModule
 	{
 		void UpdateCardDoors(IEnumerable<Guid> doorUIDs);
 	}
-	
+
 	public class UpdateOrganisationDoorsEventSubscriber<T>
 		where T : IDoorsParent
 	{

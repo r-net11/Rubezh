@@ -53,7 +53,7 @@ namespace SKDModule.ViewModels
 		protected abstract PermissionType Permission { get; }
 		bool IsEditAllowed { get { return FiresecManager.CheckPermission(Permission); } }
 		public TFilter Filter { get { return _filter; } }
-		
+
 		protected TModel ShowDetails(Organisation organisation, TModel model = null)
 		{
 			TModel result = null;
@@ -83,7 +83,7 @@ namespace SKDModule.ViewModels
 		}
 
 		bool _isWithDeleted;
-		public bool IsWithDeleted 
+		public bool IsWithDeleted
 		{
 			get { return _isWithDeleted; }
 			set
@@ -100,7 +100,7 @@ namespace SKDModule.ViewModels
 			if (organisations == null)
 				return false;
 			Organisations = new ObservableCollection<TViewModel>();
-			foreach (var organisation in organisations) 
+			foreach (var organisation in organisations)
 			{
 				var organisationViewModel = new TViewModel();
 				organisationViewModel.InitializeOrganisation(organisation, this);
@@ -177,7 +177,7 @@ namespace SKDModule.ViewModels
 		}
 		protected virtual void SetIsDeletedByOrganisation(TViewModel organisationViewModel)
 		{
-			organisationViewModel.GetAllChildren().ForEach(x => 
+			organisationViewModel.GetAllChildren().ForEach(x =>
 			{
 				x.IsDeleted = true;
 				x.IsOrganisationDeleted = true;
@@ -249,7 +249,7 @@ namespace SKDModule.ViewModels
 		}
 
 		public ObservableCollection<TViewModel> Organisations { get; private set; }
-		
+
 		TViewModel _selectedItem;
 		public TViewModel SelectedItem
 		{

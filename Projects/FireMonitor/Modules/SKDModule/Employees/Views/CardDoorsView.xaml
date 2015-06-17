@@ -1,34 +1,69 @@
-﻿<UserControl x:Class="SKDModule.Views.CardDoorsView"
-			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
-			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls">
-
-	<DataGrid ItemsSource="{Binding Doors}" SelectedItem="{Binding SelectedDoor}" Focusable="True">
+﻿<UserControl
+	x:Class="SKDModule.Views.CardDoorsView"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+	xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
+	xmlns:viewModels="clr-namespace:SKDModule.ViewModels"
+	d:DataContext="{d:DesignInstance viewModels:CardDoorsViewModel,
+                                              IsDesignTimeCreatable=True}"
+	d:DesignWidth="500"
+	mc:Ignorable="d">
+	<UserControl.Resources>
+		<CollectionViewSource x:Key="cvsDoors" Source="{Binding Doors}">
+			<CollectionViewSource.SortDescriptions>
+				<scm:SortDescription PropertyName="No" />
+			</CollectionViewSource.SortDescriptions>
+		</CollectionViewSource>
+	</UserControl.Resources>
+	<DataGrid
+		CanUserResizeRows="True"
+		CanUserSortColumns="True"
+		Focusable="True"
+		ItemsSource="{Binding Source={StaticResource cvsDoors}}"
+		SelectedItem="{Binding SelectedDoor}">
 		<DataGrid.Columns>
-			<DataGridTemplateColumn Width="250" Header="Точка доступа">
+			<DataGridTemplateColumn Width="40" Header="№">
+				<DataGridTemplateColumn.CellTemplate>
+					<DataTemplate>
+						<TextBlock Margin="4 0 0 0" Text="{Binding No}" />
+					</DataTemplate>
+				</DataGridTemplateColumn.CellTemplate>
+			</DataGridTemplateColumn>
+			<DataGridTemplateColumn
+				Width="250"
+				Header="Точка доступа"
+				SortMemberPath="Name">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
 						<StackPanel Orientation="Horizontal">
-							<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/Door.png" />
-							<TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding PresentationName}" Margin="2" />
+							<Image
+								Margin="4 0 0 0"
+								VerticalAlignment="Center"
+								Source="/Controls;component/Images/Door.png" />
+							<TextBlock
+								Margin="2 0 0 0"
+								HorizontalAlignment="Stretch"
+								VerticalAlignment="Center"
+								Text="{Binding Name}" />
 						</StackPanel>
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
-
-			<DataGridTemplateColumn Header="Вход" Width="*">
+			<DataGridTemplateColumn Width="*" Header="Вход">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
-						<TextBlock Text="{Binding EnerScheduleName}" Margin="2" />
+						<TextBlock Margin="4 0 0 0" Text="{Binding EnerScheduleName}" />
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
-
-			<DataGridTemplateColumn Header="Выход" Width="*">
+			<DataGridTemplateColumn Width="*" Header="Выход">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
-						<TextBlock Text="{Binding ExitScheduleName}" Margin="2" />
+						<TextBlock Margin="4 0 0 0" Text="{Binding ExitScheduleName}" />
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
