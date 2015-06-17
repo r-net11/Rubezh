@@ -221,45 +221,64 @@ namespace GKImitator.ViewModels
 		public RelayCommand TurnOnCommand { get; private set; }
 		void OnTurnOn()
 		{
-			if (OnDelay > 0)
+			if (HasTurnOn)
 			{
-				CurrentOnDelay = OnDelay;
-				TurningState = TurningState.TurningOn;
+				if (OnDelay > 0)
+				{
+					CurrentOnDelay = OnDelay;
+					TurningState = TurningState.TurningOn;
+				}
+				TurnOn();
 			}
-			TurnOn();
 		}
 
 		public RelayCommand TurnOnNowCommand { get; private set; }
 		void OnTurnOnNow()
 		{
-			TurnOnNow();
+			if (HasTurnOnNow)
+			{
+				TurnOnNow();
+			}
 		}
 
 		public RelayCommand TurnOffCommand { get; private set; }
 		void OnTurnOff()
 		{
-			if (OffDelay > 0)
+			if (HasTurnOff)
 			{
-				CurrentOffDelay = OffDelay;
-				TurningState = TurningState.None;
+				if (OffDelay > 0)
+				{
+					CurrentOffDelay = OffDelay;
+					TurningState = TurningState.None;
+				}
+				TurnOff();
 			}
-			TurnOff();
 		}
 
 		public RelayCommand TurnOffNowCommand { get; private set; }
 		void OnTurnOffNow()
 		{
-			TurnOffNow();
+			if (HasTurnOffNow)
+			{
+				TurnOffNow();
+			}
 		}
 
 		void TurnOn()
 		{
-			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.On).IsActive = false;
-			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.TurningOn).IsActive = true;
-			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Off).IsActive = false;
-			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.TurningOff).IsActive = false;
-			var journalItem = new ImitatorJournalItem(2, 9, 4, 0);
-			AddJournalItem(journalItem);
+			if (OnDelay == 0)
+			{
+				TurnOnNow();
+			}
+			else
+			{
+				StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.On).IsActive = false;
+				StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.TurningOn).IsActive = true;
+				StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Off).IsActive = false;
+				StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.TurningOff).IsActive = false;
+				var journalItem = new ImitatorJournalItem(2, 9, 4, 0);
+				AddJournalItem(journalItem);
+			}
 		}
 
 		void TurnOnNow()
@@ -267,9 +286,9 @@ namespace GKImitator.ViewModels
 			CurrentOnDelay = 0;
 			CurrentHoldDelay = 0;
 			CurrentOffDelay = 0;
-			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.On).IsActive = false;
+			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.On).IsActive = true;
 			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.TurningOn).IsActive = false;
-			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Off).IsActive = true;
+			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Off).IsActive = false;
 			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.TurningOff).IsActive = false;
 			var journalItem = new ImitatorJournalItem(2, 9, 3, 3);
 			AddJournalItem(journalItem);
@@ -277,12 +296,19 @@ namespace GKImitator.ViewModels
 
 		void TurnOff()
 		{
-			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.On).IsActive = false;
-			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.TurningOn).IsActive = false;
-			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Off).IsActive = false;
-			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.TurningOff).IsActive = true;
-			var journalItem = new ImitatorJournalItem(2, 9, 5, 3);
-			AddJournalItem(journalItem);
+			if (OffDelay == 0)
+			{
+				OnTurnOffNow();
+			}
+			else
+			{
+				StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.On).IsActive = false;
+				StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.TurningOn).IsActive = false;
+				StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Off).IsActive = false;
+				StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.TurningOff).IsActive = true;
+				var journalItem = new ImitatorJournalItem(2, 9, 5, 3);
+				AddJournalItem(journalItem);
+			}
 		}
 
 		void TurnOffNow()

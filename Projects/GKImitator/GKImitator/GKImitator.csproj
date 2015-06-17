@@ -69,14 +69,14 @@
     <Compile Include="Converters\BytesToStringConverter.cs" />
     <Compile Include="Converters\DescriptorNoToStringConverter.cs" />
     <Compile Include="Processor\BytesHelper.cs" />
-    <Compile Include="Processor\GKProcessor.cs" />
+    <Compile Include="Processor\NetProcessor.cs" />
     <Compile Include="Processor\HashHelper.cs" />
-    <Compile Include="Processor\ImitatorJournalItem.cs" />
+    <Compile Include="Models\ImitatorJournalItem.cs" />
     <Compile Include="Processor\ImitatorJournalItemCollection.cs" />
-    <Compile Include="Processor\JournalHelper.cs" />
+    <Compile Include="Processor\DBHelper.cs" />
     <Compile Include="Processor\ConfigurationCashHelper.cs" />
-    <Compile Include="Processor\Regime.cs" />
-    <Compile Include="Processor\TurningState.cs" />
+    <Compile Include="Models\Regime.cs" />
+    <Compile Include="Models\TurningState.cs" />
     <Compile Include="ViewModels\DescriptorViewModel.cs" />
     <Compile Include="ViewModels\FailureViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
@@ -87,6 +87,7 @@
     <Compile Include="ViewModels\DescriptorViewModel.Fire.cs" />
     <Compile Include="ViewModels\DescriptorViewModel.Turning.cs" />
     <Compile Include="ViewModels\DescriptorViewModel.Logic.cs" />
+    <Compile Include="ViewModels\DescriptorViewModel.Commands.cs" />
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>

@@ -6,12 +6,12 @@ using Infrastructure.Common;
 
 namespace GKImitator.Processor
 {
-	public static class JournalHelper
+	public static class DBHelper
 	{
 		static string FileName = AppDataFolderHelper.GetServerAppDataPath("GKImitatorJournal.xml");
 		public static ImitatorJournalItemCollection ImitatorJournalItemCollection { get; set; }
 
-		static JournalHelper()
+		static DBHelper()
 		{
 			Load();
 		}

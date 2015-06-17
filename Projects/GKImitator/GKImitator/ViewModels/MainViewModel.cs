@@ -11,7 +11,7 @@ namespace GKImitator.ViewModels
 {
 	public class MainViewModel : ApplicationViewModel
 	{
-		GKImitator.Processor.GKProcessor GKProcessor;
+		GKImitator.Processor.NetProcessor GKProcessor;
 		public static MainViewModel Current { get; private set; }
 
 		public MainViewModel()
@@ -22,27 +22,31 @@ namespace GKImitator.ViewModels
 			ConfigurationCashHelper.Update();
 			InitializeDescriptors();
 
-			GKProcessor = new GKImitator.Processor.GKProcessor();
+			GKProcessor = new GKImitator.Processor.NetProcessor();
 			GKProcessor.Start();
 
 			DelayThread = new Thread(OnCheckDelays);
 			DelayThread.Start();
 		}
 
+		bool IsApplicationClosing = false;
 		Thread DelayThread;
 		void OnCheckDelays()
 		{
-			while (true)
+			while (Application.Current != null)
 			{
 				Thread.Sleep(TimeSpan.FromSeconds(1));
-				Application.Current.Dispatcher.Invoke((Action)(() =>
-					{
-						foreach (var descriptor in Descriptors)
+				if (Application.Current != null)
+				{
+					Application.Current.Dispatcher.Invoke((Action)(() =>
 						{
-							descriptor.CheckDelays();
+							foreach (var descriptor in Descriptors)
+							{
+								descriptor.CheckDelays();
+							}
 						}
-					}
-					));
+						));
+				}
 			}
 		}
 

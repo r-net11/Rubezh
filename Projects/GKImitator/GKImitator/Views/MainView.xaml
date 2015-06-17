@@ -48,15 +48,15 @@
             <StackPanel Grid.Column="1">
                 <StackPanel Orientation="Horizontal">
                     <StackPanel>
-                        <Button Content="Автоматика" Command="{Binding SetAutomaticRegimeCommand}" Width="100" Margin="2" />
-                        <Button Content="Ручной" Command="{Binding SetManualRegimeCommand}" Width="100" Margin="2" />
-                        <Button Content="Отключение" Command="{Binding SetIgnoreRegimeCommand}" Width="100" Margin="2" />
+                        <Button Content="Автоматика" Command="{Binding SetAutomaticRegimeCommand}" IsEnabled="{Binding CanSetAutomaticRegime}" Width="100" Height="30" Margin="2" />
+                        <Button Content="Ручной" Command="{Binding SetManualRegimeCommand}" IsEnabled="{Binding CanSetManualRegime}" Width="100" Height="30" Margin="2" />
+                        <Button Content="Отключение" Command="{Binding SetIgnoreRegimeCommand}" IsEnabled="{Binding CanSetIgnoreRegime}" Width="100" Height="30" Margin="2" />
                     </StackPanel>
                     <StackPanel IsEnabled="{Binding CanControl}">
-                        <Button Content="Включить" Command="{Binding TurnOnCommand}" Visibility="{Binding HasTurnOn, Converter={StaticResource BoolToVisibilityConverter}}" Width="100" Margin="2" />
-                        <Button Content="Включить немедленно" Command="{Binding TurnOnNowCommand}" Visibility="{Binding HasTurnOnNow, Converter={StaticResource BoolToVisibilityConverter}}" Width="100" Margin="2" />
-                        <Button Content="Выключить" Command="{Binding TurnOffCommand}" Visibility="{Binding HasTurnOff, Converter={StaticResource BoolToVisibilityConverter}}" Width="100" Margin="2" />
-                        <Button Content="Выключить немедленно" Command="{Binding TurnOffNowCommand}" Visibility="{Binding HasTurnOffNow, Converter={StaticResource BoolToVisibilityConverter}}" Width="100" Margin="2" />
+                        <Button Content="Включить" Command="{Binding TurnOnCommand}" Visibility="{Binding HasTurnOn, Converter={StaticResource BoolToVisibilityConverter}}" Width="150" Height="30" Margin="2" />
+                        <Button Content="Включить немедленно" Command="{Binding TurnOnNowCommand}" Visibility="{Binding HasTurnOnNow, Converter={StaticResource BoolToVisibilityConverter}}" Width="150" Height="30" Margin="2" />
+                        <Button Content="Выключить" Command="{Binding TurnOffCommand}" Visibility="{Binding HasTurnOff, Converter={StaticResource BoolToVisibilityConverter}}" Width="150" Height="30" Margin="2" />
+                        <Button Content="Выключить немедленно" Command="{Binding TurnOffNowCommand}" Visibility="{Binding HasTurnOffNow, Converter={StaticResource BoolToVisibilityConverter}}" Width="150" Height="30" Margin="2" />
                     </StackPanel>
                 </StackPanel>
 
