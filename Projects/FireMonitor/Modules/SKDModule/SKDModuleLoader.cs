@@ -98,14 +98,6 @@ namespace SKDModule
 		}
 		#endregion
 
-		public override bool BeforeInitialize(bool firstTime)
-		{
-			return true;
-		}
-		public override void AfterInitialize()
-		{
-		}
-
 		#region ILayoutProviderModule Members
 		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
 		{
@@ -122,9 +114,9 @@ namespace SKDModule
 		#region ISKDReportProviderModule Members
 		public IEnumerable<ISKDReportProvider> GetSKDReportProviders()
 		{
+			yield return new EventsReportProvider();
 			if (GlobalSettingsHelper.GlobalSettings.UseStrazhBrand)
 			{
-				yield return new EventsReportProvider();
 				yield return new DoorsReportProvider();
 			}
 			yield return new EmployeeRootReportProvider();
