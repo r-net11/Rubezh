@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Linq;
+using DevExpress.XtraExport;
 using FiresecAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecClient;
@@ -12,6 +13,7 @@ namespace SKDModule.ViewModels
 		public Guid UID { get; private set; }
 		public string EnterTime { get { return GetTimeString(EnterTimeSpan); } }
 		public string ExitTime { get { return GetTimeString(ExitTimeSpan); } }
+		public int No { get; private set; }
 
 		TimeSpan _EnterTimeSpan;
 		public TimeSpan EnterTimeSpan
@@ -51,12 +53,13 @@ namespace SKDModule.ViewModels
 		public DayTimeTrackPartViewModel(TimeTrackPartDetailsViewModel timeTrackPartDetailsViewModel)
 		{
 			UID = timeTrackPartDetailsViewModel.UID;
-			Update(timeTrackPartDetailsViewModel.EnterTime, timeTrackPartDetailsViewModel.ExitTime, timeTrackPartDetailsViewModel.SelectedZone.Name);
+			Update(timeTrackPartDetailsViewModel.EnterTime, timeTrackPartDetailsViewModel.ExitTime, timeTrackPartDetailsViewModel.SelectedZone.Name, timeTrackPartDetailsViewModel.SelectedZone.No);
 		}
 
-		public void Update(TimeSpan enterTime, TimeSpan exitTime, string zoneName)
+		public void Update(TimeSpan enterTime, TimeSpan exitTime, string zoneName, int no)
 		{
 			ZoneName = zoneName ?? "<Нет в конфигурации>";
+			No = no;
 			EnterTimeSpan = enterTime;
 			ExitTimeSpan = exitTime;
 		}
@@ -64,15 +67,23 @@ namespace SKDModule.ViewModels
 		public DayTimeTrackPartViewModel(TimeTrackPart timeTrackPart)
 		{
 			string zoneName = null;
+			var num = default(int);
+
 			var strazhZone = SKDManager.Zones.FirstOrDefault(x => x.UID == timeTrackPart.ZoneUID);
 			if (strazhZone != null)
-				zoneName = strazhZone.PresentationName;
+			{
+				zoneName = strazhZone.Name;
+				num = strazhZone.No;
+			}
 			var gkZone = GKManager.SKDZones.FirstOrDefault(x => x.UID == timeTrackPart.ZoneUID);
 			if (gkZone != null)
-				zoneName = gkZone.PresentationName;
+			{
+				zoneName = gkZone.Name;
+				num = gkZone.No;
+			}
 
 			UID = timeTrackPart.PassJournalUID;
-			Update(timeTrackPart.StartTime, timeTrackPart.EndTime, zoneName);
+			Update(timeTrackPart.StartTime, timeTrackPart.EndTime, zoneName, num);
 		}
 
 		string GetTimeString(TimeSpan timeSpan)
@@ -90,7 +101,7 @@ namespace SKDModule.ViewModels
 			get
 			{
 				return this[string.Empty];
-			} 
+			}
 		}
 
 		public string this[string propertyName]
@@ -103,7 +114,6 @@ namespace SKDModule.ViewModels
 				{
 					if (EnterTimeSpan > ExitTimeSpan)
 						result = "Время входа не может быть больше времени выхода";
-					
 				}
 				if (propertyName == string.Empty || propertyName == "ExitTime")
 				{
