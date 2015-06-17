@@ -10,7 +10,7 @@ using FiresecClient;
 
 namespace GKImitator.Processor
 {
-	public class GKProcessor
+	public class NetProcessor
 	{
 		GkDatabase GkDatabase;
 		Socket serverSocket;
@@ -19,7 +19,11 @@ namespace GKImitator.Processor
 		public void Start()
 		{
 			GkDatabase = DescriptorsManager.GkDatabases.FirstOrDefault();
+			StartSocket();
+		}
 
+		void StartSocket()
+		{
 			serverSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
 			IPEndPoint ipEndPoint = new IPEndPoint(IPAddress.Any, 1025);
 			serverSocket.Bind(ipEndPoint);
@@ -32,24 +36,32 @@ namespace GKImitator.Processor
 
 		void OnReceive(IAsyncResult ar)
 		{
-			IPEndPoint ipeSender = new IPEndPoint(IPAddress.Any, 0);
-			EndPoint epSender = (EndPoint)ipeSender;
-			serverSocket.EndReceiveFrom(ar, ref epSender);
-
-			var bytes = CreateAnswer();
-			if (bytes != null)
+			try
 			{
-				var sendBytes = new List<byte>();
-				sendBytes.Add(byteData[0]);
-				sendBytes.Add(byteData[1]);
-				sendBytes.AddRange(ToBytes((short)bytes.Count));
-				sendBytes.Add(byteData[4]);
-				sendBytes.AddRange(bytes);
-				byte[] message = sendBytes.ToArray();
+				IPEndPoint ipeSender = new IPEndPoint(IPAddress.Any, 0);
+				EndPoint epSender = (EndPoint)ipeSender;
+				serverSocket.EndReceiveFrom(ar, ref epSender);
 
-				serverSocket.BeginSendTo(message, 0, message.Length, SocketFlags.None, epSender, new AsyncCallback(OnSend), epSender);
+				var bytes = CreateAnswer();
+				if (bytes != null)
+				{
+					var sendBytes = new List<byte>();
+					sendBytes.Add(byteData[0]);
+					sendBytes.Add(byteData[1]);
+					sendBytes.AddRange(ToBytes((short)bytes.Count));
+					sendBytes.Add(byteData[4]);
+					sendBytes.AddRange(bytes);
+					byte[] message = sendBytes.ToArray();
+
+					serverSocket.BeginSendTo(message, 0, message.Length, SocketFlags.None, epSender, new AsyncCallback(OnSend), epSender);
+				}
+				serverSocket.BeginReceiveFrom(byteData, 0, byteData.Length, SocketFlags.None, ref epSender, new AsyncCallback(OnReceive), epSender);
 			}
-			serverSocket.BeginReceiveFrom(byteData, 0, byteData.Length, SocketFlags.None, ref epSender, new AsyncCallback(OnReceive), epSender);
+			catch
+			{
+				serverSocket.Close();
+				StartSocket();
+			}
 		}
 
 		void OnSend(IAsyncResult ar)
@@ -82,7 +94,7 @@ namespace GKImitator.Processor
 					return new List<byte>();
 
 				case 6:
-					var count = JournalHelper.ImitatorJournalItemCollection.ImitatorJournalItems.Count;
+					var count = DBHelper.ImitatorJournalItemCollection.ImitatorJournalItems.Count;
 					if (count > 0)
 						return GetJournalBytes(count);
 					return null;
@@ -118,6 +130,17 @@ namespace GKImitator.Processor
 					}
 					return null;
 
+				case 13: // Команда управления
+					descriptorNo = BytesHelper.SubstructShort(byteData.ToList(), 5);
+					var commandCode = byteData[7] - 0x80;
+					var stateBit = (GKStateBit)commandCode;
+					descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.DescriptorNo == descriptorNo);
+					if (descriptorViewModel != null)
+					{
+						descriptorViewModel.ClientCommand(stateBit);
+					}
+					return new List<byte>();
+
 				case 23: // Infoormational Block
 					var blockNo = byteData[5];
 
@@ -141,7 +164,7 @@ namespace GKImitator.Processor
 
 		public static List<byte> GetJournalBytes(int no)
 		{
-			var imitatorJournalItems = JournalHelper.ImitatorJournalItemCollection.ImitatorJournalItems[no - 1];
+			var imitatorJournalItems = DBHelper.ImitatorJournalItemCollection.ImitatorJournalItems[no - 1];
 			return imitatorJournalItems.ToBytes();
 		}
 
