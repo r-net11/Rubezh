@@ -384,19 +384,20 @@ namespace StrazhModule.ViewModels
 				}
 			}
 		}
-		void SetDoorType()
+		bool SetDoorType()
 		{
 			if (!SelectedDoorTypeHasChanged)
-				return;
+				return false;
 
 			var result = FiresecManager.FiresecService.SetControllerDoorType(DeviceViewModel.Device, SelectedDoorType);
 			if (result.HasError)
 			{
 				MessageBoxService.ShowWarning(result.Error);
-				return;
+				return false;
 			}
 
 			SelectedDoorTypeHasChanged = false;
+			return true;
 		}
 
 		void GetAntiPassBack()
@@ -492,7 +493,8 @@ namespace StrazhModule.ViewModels
 			SetInterlock();
 			
 			// Выполняется последней, т.к. при этой операции происходит перезагрузка контроллера
-			SetDoorType();
+			if (SetDoorType())
+				MessageBoxService.Show("Выполняется перезагрузка контроллера. Контроллер будет доступен через несколько секунд");
 		}
 
 		protected override bool Save()
