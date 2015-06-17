@@ -103,12 +103,8 @@
 				</Component>
 			</Directory>
 
-			<Component Id="Server.Config.fscp" Guid="36BBFC25-874E-49DE-A34B-065120D2F9FF" Permanent='yes' NeverOverwrite='yes'>
-				<File Id="Server.Config.fscp" Name="Config.fscp" Source="..\..\..\..\..\Deploy\ConfigurationService\Config.fscp" KeyPath="yes" />
-			</Component>
-
 			<Directory Id="AppData.ServerConfigLocation" Name="Config">
-				<Component Id="AppData.ServerLocation.Config" Guid="4B2FABCC-4278-41ba-A803-D7D246204188">
+				<Component Id="AppData.ServerLocation.Config" Guid="F4D3C200-5934-467c-B3E6-35C9C9D01F29" Permanent='yes' NeverOverwrite='yes'>
 					<File Id="Server.GKDeviceConfiguration.xml" Name="GKDeviceConfiguration.xml" Source="..\..\..\..\..\Deploy\ConfigurationService\Config\GKDeviceConfiguration.xml" />
 					<File Id="Server.GKDeviceLibraryConfiguration.xml" Name="GKDeviceLibraryConfiguration.xml" Source="..\..\..\..\..\Deploy\ConfigurationService\Config\GKDeviceLibraryConfiguration.xml" />
 					<File Id="Server.LayoutsConfiguration.xml" Name="LayoutsConfiguration.xml" Source="..\..\..\..\..\Deploy\ConfigurationService\Config\LayoutsConfiguration.xml" />
