@@ -11,15 +11,14 @@ namespace SKDModule.ViewModels
 {
 	public class AccessDoorViewModel : BaseViewModel
 	{
-		public Guid DoorUID { get; private set; }
-		public string PresentationName { get; private set; }
-		public List<CardDoor> CardDoors { get; private set; }
-		Action<AccessDoorViewModel> OnChecked;
+		Action<AccessDoorViewModel> _onChecked;
 
+		#region Constructors
 		public AccessDoorViewModel(SKDDoor door, List<CardDoor> cardDoors, Action<AccessDoorViewModel> onChecked)
 		{
 			DoorUID = door.UID;
-			PresentationName = door.PresentationName;
+			No = door.No;
+			Name = door.Name;
 			HasEnter = door.InDeviceUID != Guid.Empty;
 			HasExit = false;
 
@@ -37,7 +36,8 @@ namespace SKDModule.ViewModels
 		public AccessDoorViewModel(GKDoor door, List<CardDoor> cardDoors, Action<AccessDoorViewModel> onChecked)
 		{
 			DoorUID = door.UID;
-			PresentationName = door.PresentationName;
+			No = door.No;
+			Name = door.Name;
 			HasEnter = door.EnterDeviceUID != Guid.Empty;
 			HasExit = door.ExitDeviceUID != Guid.Empty && door.DoorType == GKDoorType.TwoWay;
 
@@ -57,30 +57,13 @@ namespace SKDModule.ViewModels
 			}
 			Initialize(cardDoors, onChecked);
 		}
+		#endregion
 
-		void Initialize(List<CardDoor> cardDoors, Action<AccessDoorViewModel> onChecked)
-		{
-			CardDoors = cardDoors;
-			OnChecked = onChecked;
-
-			var cardDoor = CardDoors.FirstOrDefault(x => x.DoorUID == DoorUID);
-			if (cardDoor != null)
-			{
-				_isChecked = true;
-				SelectedEnterSchedule = EnterSchedules.FirstOrDefault(x => x.ScheduleNo == cardDoor.EnterScheduleNo);
-				if (SelectedEnterSchedule == null)
-					SelectedEnterSchedule = EnterSchedules.FirstOrDefault();
-				SelectedExitSchedule = ExitSchedules.FirstOrDefault(x => x.ScheduleNo == cardDoor.ExitScheduleNo);
-				if (SelectedExitSchedule == null)
-					SelectedExitSchedule = ExitSchedules.FirstOrDefault();
-			}
-			else
-			{
-				SelectedEnterSchedule = EnterSchedules.FirstOrDefault();
-				SelectedExitSchedule = ExitSchedules.FirstOrDefault();
-			}
-		}
-
+		#region Properties
+		public Guid DoorUID { get; private set; }
+		public int No { get; set; }
+		public string Name { get; private set; }
+		public List<CardDoor> CardDoors { get; private set; }
 		public bool HasEnter { get; private set; }
 		public bool HasExit { get; private set; }
 
@@ -92,8 +75,8 @@ namespace SKDModule.ViewModels
 			{
 				_isChecked = value;
 				OnPropertyChanged(() => IsChecked);
-				if (OnChecked != null)
-					OnChecked(this);
+				if (_onChecked != null)
+					_onChecked(this);
 			}
 		}
 
@@ -138,6 +121,30 @@ namespace SKDModule.ViewModels
 			{
 				_selectedExitSchedule = value;
 				OnPropertyChanged(() => SelectedExitSchedule);
+			}
+		}
+		#endregion
+
+		void Initialize(List<CardDoor> cardDoors, Action<AccessDoorViewModel> onChecked)
+		{
+			CardDoors = cardDoors;
+			_onChecked = onChecked;
+
+			var cardDoor = CardDoors.FirstOrDefault(x => x.DoorUID == DoorUID);
+			if (cardDoor != null)
+			{
+				_isChecked = true;
+				SelectedEnterSchedule = EnterSchedules.FirstOrDefault(x => x.ScheduleNo == cardDoor.EnterScheduleNo);
+				if (SelectedEnterSchedule == null)
+					SelectedEnterSchedule = EnterSchedules.FirstOrDefault();
+				SelectedExitSchedule = ExitSchedules.FirstOrDefault(x => x.ScheduleNo == cardDoor.ExitScheduleNo);
+				if (SelectedExitSchedule == null)
+					SelectedExitSchedule = ExitSchedules.FirstOrDefault();
+			}
+			else
+			{
+				SelectedEnterSchedule = EnterSchedules.FirstOrDefault();
+				SelectedExitSchedule = ExitSchedules.FirstOrDefault();
 			}
 		}
 	}
