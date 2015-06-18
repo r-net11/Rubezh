@@ -1,13 +1,12 @@
 ﻿using System;
-using Common;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using FiresecAPI.SKD.ReportFilters;
-using Infrastructure.Common.SKDReports;
 using System.Collections.ObjectModel;
+using System.Linq;
+using Common;
 using FiresecAPI.Journal;
+using FiresecAPI.SKD.ReportFilters;
 using Infrastructure.Common;
+using Infrastructure.Common.SKDReports;
 
 namespace SKDModule.Reports.ViewModels
 {
@@ -29,6 +28,7 @@ namespace SKDModule.Reports.ViewModels
 			RootFilters = new ObservableCollection<EventTypeViewModel>();
 			RootFilters.Add(new EventTypeViewModel(JournalSubsystemType.System));
 			RootFilters.Add(new EventTypeViewModel(JournalSubsystemType.SKD));
+			RootFilters.Add(new EventTypeViewModel(JournalSubsystemType.GK));
 			foreach (JournalEventNameType enumValue in Enum.GetValues(typeof(JournalEventNameType)))
 				if (enumValue != JournalEventNameType.NULL)
 				{
@@ -40,6 +40,9 @@ namespace SKDModule.Reports.ViewModels
 							break;
 						case JournalSubsystemType.SKD:
 							RootFilters[1].AddChild(eventTypeViewModel);
+							break;
+						case JournalSubsystemType.GK:
+							RootFilters[2].AddChild(eventTypeViewModel);
 							break;
 					}
 				}
