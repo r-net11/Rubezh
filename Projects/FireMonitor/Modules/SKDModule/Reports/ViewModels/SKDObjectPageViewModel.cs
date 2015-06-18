@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.SKDReports;
-using FiresecAPI.SKD.ReportFilters;
 using System.Collections.ObjectModel;
+using System.Linq;
+using Common;
+using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
-using FiresecAPI.GK;
-using Common;
+using FiresecAPI.SKD.ReportFilters;
+using FiresecClient;
 using Infrastructure.Common;
+using Infrastructure.Common.SKDReports;
 
 namespace SKDModule.Reports.ViewModels
 {
@@ -48,6 +48,25 @@ namespace SKDModule.Reports.ViewModels
 			skdViewModel.AddChild(skdDoorsViewModel);
 			foreach (var door in SKDManager.Doors)
 				skdDoorsViewModel.AddChild(new SKDObjectViewModel(door));
+
+			var gkViewModel = new SKDObjectViewModel(JournalSubsystemType.GK);
+			gkViewModel.IsExpanded = true;
+			RootFilters.Add(gkViewModel);
+
+			var gkDevicesViewModel = new SKDObjectViewModel(JournalObjectType.GKDevice);
+			gkViewModel.AddChild(gkDevicesViewModel);
+			foreach (var childDevice in GKManager.DeviceConfiguration.RootDevice.Children)
+				AddGKDeviceInternal(childDevice, gkDevicesViewModel);
+
+			var gkZonesViewModel = new SKDObjectViewModel(JournalObjectType.GKZone);
+			gkViewModel.AddChild(gkZonesViewModel);
+			foreach (var zone in GKManager.Zones)
+				gkZonesViewModel.AddChild(new SKDObjectViewModel(zone));
+
+			var gkDoorsViewModel = new SKDObjectViewModel(JournalObjectType.GKDoor);
+			gkViewModel.AddChild(gkDoorsViewModel);
+			foreach (var door in GKManager.Doors)
+				gkDoorsViewModel.AddChild(new SKDObjectViewModel(door));
 		}
 		private SKDObjectViewModel AddGKDeviceInternal(GKDevice device, SKDObjectViewModel parentDeviceViewModel)
 		{
