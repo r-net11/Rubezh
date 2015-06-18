@@ -13,7 +13,7 @@ namespace JournalModule.ViewModels
 		public FilterNameViewModel(JournalSubsystemType journalSubsystemType)
 		{
 			JournalSubsystemType = journalSubsystemType;
-			IsSubsystem = true;
+			//IsSubsystem = true;
 			Name = journalSubsystemType.ToDescription();
 			var converter = new JournalSubsystemTypeToIconConverter();
 			ImageSource = (string)converter.Convert(journalSubsystemType, typeof(JournalSubsystemType), null, null);
@@ -39,37 +39,34 @@ namespace JournalModule.ViewModels
 						ImageSource = "/Controls;component/StateClassIcons/" + StateClass.ToString() + ".png";
 				}
 			}
-			IsSubsystem = false;
+			//IsSubsystem = false;
 		}
 
-		public JournalEventNameType JournalEventNameType { get; private set; }
+	    public FilterNameViewModel (JournalEventDescriptionType journalEventDescriptionType, string name)
+	    {
+            JournalEventDescriptionType = journalEventDescriptionType;
+            Name = name;
+            ImageSource = "/Controls;component/Images/Blank.png";
+	    }
+
+	    public JournalEventNameType JournalEventNameType { get; private set; }
 		public string Name { get; private set; }
 		public string ImageSource { get; private set; }
 		public XStateClass StateClass { get; private set; }
 		public JournalSubsystemType JournalSubsystemType { get; private set; }
-		public bool IsSubsystem { get; private set; }
+		//public bool IsSubsystem { get; private set; }
+        public JournalEventDescriptionType JournalEventDescriptionType { get; private set; }
 
 		bool _isChecked;
 		public bool IsChecked
 		{
 			get { return _isChecked; }
+			
 			set
 			{
-				_isChecked = value;
-				OnPropertyChanged(() => IsChecked);
-
-				if (IsSubsystem)
-				{
-					foreach (var child in Children)
-					{
-						child.SetIsChecked(value);
-					}
-				}
-				else if (Parent != null)
-				{
-					var isAllChecked = Parent.Children.All(x => x.IsChecked == true);
-					Parent.SetIsChecked(isAllChecked);
-				}
+				SetIsChecked(value);
+				PropogateDown(value);
+				PropogateUp(value);
 			}
 		}
 
@@ -78,5 +75,23 @@ namespace JournalModule.ViewModels
 			_isChecked = value;
 			OnPropertyChanged(() => IsChecked);
 		}
+        void PropogateUp(bool value)
+        {
+            if (Parent != null)
+            {
+                var isAllChecked = Parent.Children.All(x => x.IsChecked == true);
+                Parent.SetIsChecked(isAllChecked);
+                Parent.PropogateUp(value);
+            }
+        }
+
+        void PropogateDown(bool value)
+        {
+            foreach (var child in Children)
+            {
+                child.SetIsChecked(value);
+                child.PropogateDown(value);
+            }
+        }
 	}
 }

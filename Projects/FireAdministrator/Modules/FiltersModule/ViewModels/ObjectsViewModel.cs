@@ -27,6 +27,7 @@ namespace FiltersModule.ViewModels
 				if (subsystemViewModel != null)
 				{
 					subsystemViewModel.IsChecked = true;
+                    subsystemViewModel.IsRealChecked = true;
 				}
 			}
 			foreach (var journalObjectType in filter.JournalObjectTypes)
@@ -35,6 +36,7 @@ namespace FiltersModule.ViewModels
 				if (objectTypeViewModel != null)
 				{
 					objectTypeViewModel.IsChecked = true;
+                    objectTypeViewModel.IsRealChecked = true;
 				}
 			}
 			foreach (var uid in filter.ObjectUIDs)
@@ -42,9 +44,13 @@ namespace FiltersModule.ViewModels
 				if (uid != Guid.Empty)
 				{
 					var objectUIDViewModel = AllObjects.FirstOrDefault(x => x.UID == uid);
-					if (objectUIDViewModel != null)
-						objectUIDViewModel.IsChecked = true;
-				}
+				    if (objectUIDViewModel != null)
+				    {
+				        objectUIDViewModel.IsChecked = true;
+				        objectUIDViewModel.IsRealChecked = true;
+				        objectUIDViewModel.ExpandToThis();
+				    }
+                }
 			}
 		}
 
