@@ -10,7 +10,7 @@ namespace FiresecClient
 	public partial class SafeFiresecService// : IFiresecService
 	{
 		FiresecServiceFactory FiresecServiceFactory;
-		public IFiresecService FiresecService { get; set; }
+        public IFiresecService FiresecService { get; set; }
 		string _serverAddress;
 		ClientCredentials _clientCredentials;
 		bool IsDisconnecting = false;

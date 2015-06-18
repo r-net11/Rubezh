@@ -13,7 +13,6 @@ namespace FiltersModule.ViewModels
 	public class ObjectViewModel : TreeNodeViewModel<ObjectViewModel>
 	{
 		public Guid UID { get; private set; }
-		public JournalEventNameType JournalEventNameType { get; private set; }
 		public string Name { get; private set; }
 		public string ImageSource { get; private set; }
 		public XStateClass StateClass { get; private set; }
@@ -21,6 +20,8 @@ namespace FiltersModule.ViewModels
 		public bool IsSubsystem { get; private set; }
 		public bool IsObjectGroup { get; private set; }
 		public JournalObjectType JournalObjectType { get; private set; }
+        public bool IsRealChecked { get; set; }
+
 
 		public ObjectViewModel(JournalSubsystemType journalSubsystemType)
 		{
@@ -39,7 +40,7 @@ namespace FiltersModule.ViewModels
 			switch (journalObjectType)
 			{
 				case JournalObjectType.GKDevice:
-					ImageSource = "/Controls;component/GKIcons/RM_1.png";
+					ImageSource = "/Controls;component/GKIcons/RSR2_RM_1.png";
 					break;
 
 				case JournalObjectType.GKZone:
@@ -67,6 +68,7 @@ namespace FiltersModule.ViewModels
 					break;
 
 				case JournalObjectType.GKDoor:
+                    ImageSource = "/Controls;component/Images/Door.png";
 					break;
 
 				case JournalObjectType.SKDDevice:
@@ -171,7 +173,7 @@ namespace FiltersModule.ViewModels
 			ImageSource = "/Controls;component/Images/Camera.png";
 		}
 
-		bool _isChecked;
+	    bool _isChecked;
 		public bool IsChecked
 		{
 			get { return _isChecked; }
