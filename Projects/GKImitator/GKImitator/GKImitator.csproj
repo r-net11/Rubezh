@@ -80,6 +80,12 @@
     <Compile Include="ViewModels\DescriptorViewModel.cs" />
     <Compile Include="ViewModels\FailureViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\ParametersViewModel.cs" />
+    <Compile Include="ViewModels\Properties\BasePropertyViewModel.cs" />
+    <Compile Include="ViewModels\Properties\BoolPropertyViewModel.cs" />
+    <Compile Include="ViewModels\Properties\EnumPropertyViewModel.cs" />
+    <Compile Include="ViewModels\Properties\PropertiesViewModel.cs" />
+    <Compile Include="ViewModels\Properties\ShortPropertyViewModel.cs" />
     <Compile Include="ViewModels\StateBitViewModel.cs" />
     <Compile Include="ViewModels\DescriptorViewModel.Test.cs" />
     <Compile Include="ViewModels\DescriptorViewModel.Dustiness.cs" />
@@ -88,8 +94,12 @@
     <Compile Include="ViewModels\DescriptorViewModel.Turning.cs" />
     <Compile Include="ViewModels\DescriptorViewModel.Logic.cs" />
     <Compile Include="ViewModels\DescriptorViewModel.Commands.cs" />
+    <Compile Include="ViewModels\DescriptorViewModel.Initialize.cs" />
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PropertiesView.xaml.cs">
+      <DependentUpon>PropertiesView.xaml</DependentUpon>
     </Compile>
     <Page Include="DataTemplates\Dictionary.xaml">
       <SubType>Designer</SubType>
@@ -100,6 +110,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\MainView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PropertiesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -158,6 +172,7 @@
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

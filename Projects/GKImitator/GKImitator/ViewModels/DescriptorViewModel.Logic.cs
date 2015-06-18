@@ -208,6 +208,17 @@ namespace GKImitator.ViewModels
 						break;
 
 					case FormulaOperationType.GT:
+						if (stack.Count > 1)
+						{
+							var currentStackValue1 = stack.LastOrDefault();
+							stack.RemoveAt(stack.Count - 1);
+
+							var currentStackValue2 = stack.LastOrDefault();
+							stack.RemoveAt(stack.Count - 1);
+
+							var newStackValue = (currentStackValue2 > currentStackValue1) ? 1 : 0;
+							stack.Add(newStackValue);
+						}
 						break;
 
 					case FormulaOperationType.GE:
@@ -225,9 +236,31 @@ namespace GKImitator.ViewModels
 						break;
 
 					case FormulaOperationType.LT:
+						if (stack.Count > 1)
+						{
+							var currentStackValue1 = stack.LastOrDefault();
+							stack.RemoveAt(stack.Count - 1);
+
+							var currentStackValue2 = stack.LastOrDefault();
+							stack.RemoveAt(stack.Count - 1);
+
+							var newStackValue = (currentStackValue2 < currentStackValue1) ? 1 : 0;
+							stack.Add(newStackValue);
+						}
 						break;
 
 					case FormulaOperationType.LE:
+						if (stack.Count > 1)
+						{
+							var currentStackValue1 = stack.LastOrDefault();
+							stack.RemoveAt(stack.Count - 1);
+
+							var currentStackValue2 = stack.LastOrDefault();
+							stack.RemoveAt(stack.Count - 1);
+
+							var newStackValue = (currentStackValue2 <= currentStackValue1) ? 1 : 0;
+							stack.Add(newStackValue);
+						}
 						break;
 
 					case FormulaOperationType.TSTP:

@@ -18,22 +18,6 @@ namespace GKImitator.ViewModels
 			TestButtonCommand = new RelayCommand(OnTestButton);
 			TestLaserCommand = new RelayCommand(OnTestLaser);
 			ResetTestCommand = new RelayCommand(OnResetTest);
-
-			if (GKBase is GKDevice)
-			{
-				var device = GKBase as GKDevice;
-				switch(device.DriverType)
-				{
-					case GKDriverType.RSR2_SmokeDetector:
-					case GKDriverType.RSR2_CombinedDetector:
-					case GKDriverType.RSR2_HeatDetector:
-						HasTestButton = true;
-						HasTestLaser = true;
-						HasResetTest = true;
-						StateBits.Add(new StateBitViewModel(this, GKStateBit.Test));
-						break;
-				}
-			}
 		}
 
 		public bool HasTestButton { get; private set; }

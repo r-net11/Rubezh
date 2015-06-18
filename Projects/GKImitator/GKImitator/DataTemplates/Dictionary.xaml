@@ -7,4 +7,8 @@
         <Views:MainView />
     </DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:PropertiesViewModel}">
+		<Views:PropertiesView />
+	</DataTemplate>
+	
 </ResourceDictionary>

@@ -13,6 +13,10 @@ namespace GKImitator.ViewModels
 {
 	public partial class DescriptorViewModel : BaseViewModel
 	{
+		public bool HasOnDelay { get; private set; }
+		public bool HasHoldDelay { get; private set; }
+		public bool HasOffDelay { get; private set; }
+
 		ushort OnDelay { get; set; }
 		ushort HoldDelay { get; set; }
 		ushort OffDelay { get; set; }
@@ -96,61 +100,6 @@ namespace GKImitator.ViewModels
 			TurnOnNowCommand = new RelayCommand(OnTurnOnNow);
 			TurnOffCommand = new RelayCommand(OnTurnOff);
 			TurnOffNowCommand = new RelayCommand(OnTurnOffNow);
-
-			var device = GKBase as GKDevice;
-			if (device != null)
-			{
-				switch (device.DriverType)
-				{
-					case GKDriverType.RSR2_RM_1:
-					case GKDriverType.RSR2_MDU:
-					case GKDriverType.RSR2_MDU24:
-					case GKDriverType.RSR2_MVK8:
-					case GKDriverType.RSR2_Bush_Drenazh:
-					case GKDriverType.RSR2_Bush_Jokey:
-					case GKDriverType.RSR2_Bush_Fire:
-					case GKDriverType.RSR2_Bush_Shuv:
-					case GKDriverType.RSR2_Valve_KV:
-					case GKDriverType.RSR2_Valve_KVMV:
-					case GKDriverType.RSR2_Valve_DU:
-					case GKDriverType.RSR2_OPK:
-					case GKDriverType.RSR2_OPS:
-					case GKDriverType.RSR2_OPZ:
-					case GKDriverType.RSR2_Buz_KV:
-					case GKDriverType.RSR2_Buz_KVMV:
-					case GKDriverType.RSR2_Buz_KVDU:
-						HasTurnOn = true;
-						HasTurnOnNow = true;
-						HasTurnOff = true;
-						HasTurnOffNow = true;
-						StateBits.Add(new StateBitViewModel(this, GKStateBit.On));
-						StateBits.Add(new StateBitViewModel(this, GKStateBit.TurningOn));
-						StateBits.Add(new StateBitViewModel(this, GKStateBit.Off));
-						StateBits.Add(new StateBitViewModel(this, GKStateBit.TurningOff));
-						break;
-				}
-			}
-
-			var direction = GKBase as GKDirection;
-			if (direction != null)
-			{
-				HasTurnOn = true;
-				HasTurnOnNow = true;
-				HasTurnOff = true;
-				StateBits.Add(new StateBitViewModel(this, GKStateBit.On));
-				StateBits.Add(new StateBitViewModel(this, GKStateBit.TurningOn));
-				StateBits.Add(new StateBitViewModel(this, GKStateBit.Off));
-			}
-			var delay = GKBase as GKDelay;
-			if (delay != null)
-			{
-				HasTurnOn = true;
-				HasTurnOnNow = true;
-				HasTurnOff = true;
-				StateBits.Add(new StateBitViewModel(this, GKStateBit.On));
-				StateBits.Add(new StateBitViewModel(this, GKStateBit.TurningOn));
-				StateBits.Add(new StateBitViewModel(this, GKStateBit.Off));
-			}
 		}
 
 		public bool HasTurnOn { get; private set; }

@@ -10,6 +10,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI.Journal;
 using System.Collections.Generic;
 using System.Windows.Input;
+using Infrastructure.Common.Windows;
 
 namespace GKImitator.ViewModels
 {
@@ -29,9 +30,8 @@ namespace GKImitator.ViewModels
 			SetAutomaticRegimeCommand = new RelayCommand(OnSetAutomaticRegime);
 			SetManualRegimeCommand = new RelayCommand(OnSetManualRegime);
 			SetIgnoreRegimeCommand = new RelayCommand(OnSetIgnoreRegime);
+			ShowParametersCommand = new RelayCommand(OnShowParameters);
 
-			InitializeStateBits();
-			InitializeFailureItems();
 			InitializeTest();
 			InitializeDustiness();
 			InitializeController();
@@ -40,6 +40,7 @@ namespace GKImitator.ViewModels
 			InitializeTurning();
 			InitializeLogic();
 			InitializeDelays();
+			InitializeAll();
 
 			AdditionalShortParameters = new List<ushort>();
 			for (int i = 0; i < 10; i++)
@@ -76,88 +77,9 @@ namespace GKImitator.ViewModels
 		public ObservableCollection<StateBitViewModel> StateBits { get; private set; }
 		public ObservableCollection<FailureViewModel> Failures { get; private set; }
 
-		void InitializeStateBits()
-		{
-			StateBits = new ObservableCollection<StateBitViewModel>();
-			StateBits.Add(new StateBitViewModel(this, GKStateBit.Norm, true));
-			StateBits.Add(new StateBitViewModel(this, GKStateBit.Ignore));
-
-			if (GKBase is GKDevice)
-			{
-				var device = GKBase as GKDevice;
-				switch (device.DriverType)
-				{
-					case GKDriverType.RSR2_HandDetector:
-						StateBits.Add(new StateBitViewModel(this, GKStateBit.Fire2));
-						break;
-
-					case GKDriverType.RSR2_SmokeDetector:
-					case GKDriverType.RSR2_CombinedDetector:
-					case GKDriverType.RSR2_HeatDetector:
-						break;
-
-					case GKDriverType.RSR2_AM_1:
-					case GKDriverType.RSR2_MAP4:
-						break;
-
-					case GKDriverType.RSR2_RM_1:
-					case GKDriverType.RSR2_MDU:
-					case GKDriverType.RSR2_MDU24:
-					case GKDriverType.RSR2_MVK8:
-					case GKDriverType.RSR2_Bush_Drenazh:
-					case GKDriverType.RSR2_Bush_Jokey:
-					case GKDriverType.RSR2_Bush_Fire:
-					case GKDriverType.RSR2_Bush_Shuv:
-					case GKDriverType.RSR2_Valve_KV:
-					case GKDriverType.RSR2_Valve_KVMV:
-					case GKDriverType.RSR2_Valve_DU:
-					case GKDriverType.RSR2_OPK:
-					case GKDriverType.RSR2_OPS:
-					case GKDriverType.RSR2_OPZ:
-					case GKDriverType.RSR2_Buz_KV:
-					case GKDriverType.RSR2_Buz_KVMV:
-					case GKDriverType.RSR2_Buz_KVDU:
-						//StateBits.Add(new StateBitViewModel(this, GKStateBit.On));
-						//StateBits.Add(new StateBitViewModel(this, GKStateBit.Off));
-						//StateBits.Add(new StateBitViewModel(this, GKStateBit.TurningOn));
-						//StateBits.Add(new StateBitViewModel(this, GKStateBit.TurningOff));
-						break;
-
-					case GKDriverType.RSR2_MVP:
-					case GKDriverType.RSR2_MVP_Part:
-					case GKDriverType.RSR2_CodeReader:
-					case GKDriverType.RSR2_GuardDetector:
-					case GKDriverType.RSR2_CardReader:
-					case GKDriverType.RSR2_GuardDetectorSound:
-						break;
-
-				}
-			}
-
-			if (GKBase is GKZone)
-			{
-				StateBits.Add(new StateBitViewModel(this, GKStateBit.Attention));
-				StateBits.Add(new StateBitViewModel(this, GKStateBit.Fire1));
-				StateBits.Add(new StateBitViewModel(this, GKStateBit.Fire2));
-			}
-
-			if (GKBase is GKDirection)
-			{
-				StateBits.Add(new StateBitViewModel(this, GKStateBit.On));
-				StateBits.Add(new StateBitViewModel(this, GKStateBit.Off));
-				StateBits.Add(new StateBitViewModel(this, GKStateBit.TurningOn));
-				StateBits.Add(new StateBitViewModel(this, GKStateBit.TurningOff));
-			}
-		}
-
-		void InitializeFailureItems()
-		{
-			if (BaseDescriptor.GKBase is GKDevice)
-			{
-				Failures = new ObservableCollection<FailureViewModel>();
-				Failures.Add(new FailureViewModel(this, JournalEventDescriptionType.Потеря_связи, 255));
-			}
-		}
+		public bool HasAutomaticRegime { get; private set; }
+		public bool HasManualRegime { get; private set; }
+		public bool HasIgnoreRegime { get; private set; }
 
 		public RelayCommand SetAutomaticRegimeCommand { get; private set; }
 		void OnSetAutomaticRegime()
@@ -227,6 +149,21 @@ namespace GKImitator.ViewModels
 			{
 				_canControl = value;
 				OnPropertyChanged(() => CanControl);
+			}
+		}
+
+		public bool HasParameters { get; private set; }
+
+		public RelayCommand ShowParametersCommand { get; private set; }
+		void OnShowParameters()
+		{
+			if (GKBase is GKDevice)
+			{
+				var propertiesViewModel = new PropertiesViewModel(GKBase as GKDevice);
+				if (DialogService.ShowModalWindow(propertiesViewModel))
+				{
+					SetParameters();
+				}
 			}
 		}
 
