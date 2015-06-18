@@ -15,6 +15,7 @@ namespace GKModule.ViewModels
 		{
 			ShowLogicCommand = new RelayCommand(OnShowLogic);
 			Delay = delay;
+			Delay.Changed += Update;
 			Update();
 		}
 

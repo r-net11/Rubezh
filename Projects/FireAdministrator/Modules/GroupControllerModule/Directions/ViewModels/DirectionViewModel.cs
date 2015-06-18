@@ -16,6 +16,7 @@ namespace GKModule.ViewModels
 		{
 			ShowLogicCommand = new RelayCommand(OnShowLogic);
 			Direction = direction;
+			Direction.Changed += Update;
 			Update();
 		}
 

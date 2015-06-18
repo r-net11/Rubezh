@@ -140,7 +140,7 @@ namespace GKModule.ViewModels
 				messageBoxResult = MessageBoxService.ShowConfirmation(result, "Копировать логику?");
 			if (messageBoxResult)
 			{
-				SelectedDirection.Direction.Logic = GKManager.LogicToCopy;
+				SelectedDirection.Direction.Logic = GKManager.PasteLogic(new GKAdvancedLogic(true, false, true, false, false));
 				SelectedDirection.Update();
 			}
 		}

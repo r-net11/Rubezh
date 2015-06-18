@@ -120,7 +120,7 @@ namespace GKModule.ViewModels
 				messageBoxResult = MessageBoxService.ShowConfirmation(result, "Копировать логику?");
 			if (messageBoxResult)
 			{
-				SelectedDelay.Delay.Logic = GKManager.LogicToCopy;
+				SelectedDelay.Delay.Logic = GKManager.PasteLogic(new GKAdvancedLogic(true, false, true, false, false));
 				SelectedDelay.Update();
 			}
 		}

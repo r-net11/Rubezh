@@ -38,6 +38,7 @@ namespace FiresecAPI.GK
 		{
 			Logic.GetAllClauses().FindAll(x => x.Devices.Contains(device)).ForEach(y => y.Devices.Remove(device));
 			UnLinkObject(device);
+			OnChanged();
 		}
 
 		[XmlIgnore]
