@@ -13,17 +13,11 @@ namespace GKModule.Converters
 				case GKAlarmType.NPTOn:
 					return "Red";
 
-				case GKAlarmType.GuardAlarm:
-					return "Red";
-
 				case GKAlarmType.Fire1:
 					return "Red";
 
 				case GKAlarmType.Fire2:
 					return "Red";
-
-				case GKAlarmType.Attention:
-					return "Orange";
 
 				case GKAlarmType.Failure:
 					return "Yellow";

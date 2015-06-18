@@ -48,21 +48,6 @@ namespace GKModule.ViewModels
 			OnPropertyChanged(() => DeviceStateViewModel);
 		}
 
-		public string PresentationZone
-		{
-			get { return GKManager.GetPresentationZoneOrLogic(Device); }
-		}
-
-		public string PresentationLogic
-		{
-			get
-			{
-				if (Device.Driver.HasLogic)
-					return GKManager.GetPresentationZoneOrLogic(Device);
-				return null;
-			}
-		}
-
 		public bool IsStateImage
 		{
 			get
@@ -71,14 +56,6 @@ namespace GKModule.ViewModels
 				       (Device.Driver.IsAm || Device.Children.Count > 0 &&
 				        !Device.AllChildren.Any(
 					        x => !x.Driver.IsAm && (x.State.StateClass == XStateClass.Fire1 || x.State.StateClass == XStateClass.Fire2)));
-			}
-		}
-
-		public string PresentationZoneWithNS
-		{
-			get
-			{
-				return GKManager.GetPresentationZoneOrLogic(Device);
 			}
 		}
 

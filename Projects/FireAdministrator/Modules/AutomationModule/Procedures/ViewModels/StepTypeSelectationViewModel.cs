@@ -128,8 +128,6 @@ namespace AutomationModule.ViewModels
 								new List<StepTypeViewModel>
 								{
 									new StepTypeViewModel(ProcedureStepType.ControlGKDevice),
-									new StepTypeViewModel(ProcedureStepType.ControlGKFireZone),
-									new StepTypeViewModel(ProcedureStepType.ControlGKGuardZone),
 									new StepTypeViewModel(ProcedureStepType.ControlDirection),
 									new StepTypeViewModel(ProcedureStepType.ControlDelay),
 									new StepTypeViewModel(ProcedureStepType.ControlGKDoor)
@@ -140,7 +138,6 @@ namespace AutomationModule.ViewModels
 									new StepTypeViewModel(ProcedureStepType.ControlSKDDevice),
 									new StepTypeViewModel(ProcedureStepType.ControlSKDZone),
 									new StepTypeViewModel(ProcedureStepType.ControlDoor),
-									
 								}),
 							new StepTypeViewModel("Управление Видео", "/Controls;component/StepIcons/Control.png",
 								new List<StepTypeViewModel>

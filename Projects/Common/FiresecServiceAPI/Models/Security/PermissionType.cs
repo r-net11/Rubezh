@@ -40,9 +40,6 @@ namespace FiresecAPI.Models
 		[DescriptionAttribute("Не требуется подтверждение тревог")]
 		Oper_NoAlarmConfirm,
 
-		[DescriptionAttribute("Постановка, снятие зон с охраны")]
-		Oper_SecurityZone,
-
 		[DescriptionAttribute("Управление устройствами, зонами и направлениями")]
 		Oper_ControlDevices,
 
@@ -54,9 +51,6 @@ namespace FiresecAPI.Models
 
 		[DescriptionAttribute("СКД")]
 		Oper_SKD,
-
-		[DescriptionAttribute("Управление особо охраняемыми охранными зонами")]
-		Oper_ExtraGuardZone,
 
 		[DescriptionAttribute("Управление графиками СКД")]
 		Oper_GKSchedules,

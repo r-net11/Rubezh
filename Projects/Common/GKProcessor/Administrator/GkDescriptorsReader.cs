@@ -195,17 +195,6 @@ namespace GKProcessor
 					return false;
 				}
 
-				if (internalType == 0x100)
-				{
-					var zone = new GKZone
-					{
-						Name = description,
-						No = no,
-						GkDatabaseParent = GkDevice
-					};
-					DeviceConfiguration.Zones.Add(zone);
-					return true;
-				}
 				if (internalType == 0x106)
 				{
 					if (isPumpStation)
@@ -237,28 +226,6 @@ namespace GKProcessor
 						};
 						DeviceConfiguration.Directions.Add(direction);
 					}
-					return true;
-				}
-				if (internalType == 0x108)
-				{
-					var guardZone = new GKGuardZone
-					{
-						Name = description,
-						No = no,
-						GkDatabaseParent = GkDevice
-					};
-					DeviceConfiguration.GuardZones.Add(guardZone);
-					return true;
-				}
-				if (internalType == 0x109)
-				{
-					var code = new GKCode
-					{
-						Name = description,
-						No = no,
-						GkDatabaseParent = GkDevice
-					};
-					DeviceConfiguration.Codes.Add(code);
 					return true;
 				}
 				if (internalType == 0x104)

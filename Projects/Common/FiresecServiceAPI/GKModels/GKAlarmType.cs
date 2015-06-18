@@ -10,9 +10,6 @@ namespace FiresecAPI.GK
 		[DescriptionAttribute("Пожаротушение")]
 		NPTOn = 0,
 
-		[DescriptionAttribute("Тревога")]
-		GuardAlarm = 1,
-
 		[DescriptionAttribute("Пожар 2")]
 		Fire2 = 2,
 

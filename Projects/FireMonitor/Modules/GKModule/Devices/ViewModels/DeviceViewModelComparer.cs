@@ -23,16 +23,6 @@ namespace GKModule.ViewModels
 			return device.ShleifNo * 256 + device.IntAddress;
 		}
 	}
-	public class DeviceViewModelZoneComparer : TreeNodeComparer<DeviceViewModel>
-	{
-		protected override int Compare(DeviceViewModel x, DeviceViewModel y)
-		{
-			int result = string.Compare(x.PresentationZone, y.PresentationZone);
-			if (result == 0)
-				result = string.Compare(x.Device.Driver.ShortName, y.Device.Driver.ShortName);
-			return result;
-		}
-	}
 	public class DeviceViewModelDescriptionComparer : TreeNodeComparer<DeviceViewModel>
 	{
 		protected override int Compare(DeviceViewModel x, DeviceViewModel y)

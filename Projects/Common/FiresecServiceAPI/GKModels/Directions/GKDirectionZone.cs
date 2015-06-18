@@ -15,9 +15,6 @@ namespace FiresecAPI.GK
 			StateBit = GKStateBit.Fire1;
 		}
 
-		[XmlIgnore]
-		public GKZone Zone { get; set; }
-
 		/// <summary>
 		/// Идентификатор зоны
 		/// </summary>

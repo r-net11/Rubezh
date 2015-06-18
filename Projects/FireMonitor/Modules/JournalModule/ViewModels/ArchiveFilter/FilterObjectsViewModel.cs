@@ -120,14 +120,6 @@ namespace JournalModule.ViewModels
 				AddGKDeviceInternal(childDevice, gkDevicesViewModel);
 			}
 
-			var gkZonesViewModel = new FilterObjectViewModel(JournalObjectType.GKZone);
-			AddChild(gkViewModel, gkZonesViewModel);
-			foreach (var zone in FiresecClient.GKManager.Zones)
-			{
-				var filterObjectViewModel = new FilterObjectViewModel(zone);
-				AddChild(gkZonesViewModel, filterObjectViewModel);
-			}
-
 			var gkDirectionsViewModel = new FilterObjectViewModel(JournalObjectType.GKDirection);
 			AddChild(gkViewModel, gkDirectionsViewModel);
 			foreach (var direction in FiresecClient.GKManager.Directions)
@@ -158,14 +150,6 @@ namespace JournalModule.ViewModels
 			{
 				var filterObjectViewModel = new FilterObjectViewModel(delay);
 				AddChild(gkDelaysViewModel, filterObjectViewModel);
-			}
-
-			var gkGuardZonesViewModel = new FilterObjectViewModel(JournalObjectType.GKGuardZone);
-			AddChild(gkViewModel, gkGuardZonesViewModel);
-			foreach (var guardZone in FiresecClient.GKManager.GuardZones)
-			{
-				var filterObjectViewModel = new FilterObjectViewModel(guardZone);
-				AddChild(gkGuardZonesViewModel, filterObjectViewModel);
 			}
 
 			var gkSKDZonesViewModel = new FilterObjectViewModel(JournalObjectType.GKSKDZone);

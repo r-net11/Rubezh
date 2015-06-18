@@ -19,12 +19,6 @@ namespace GKModule.ViewModels
 				if (parent != null && childDevice.IsRealDevice)
 					Objects.Add(objectViewModel);
 			}
-			if (deviceConfiguration.Zones != null)
-				foreach (var zone in deviceConfiguration.Zones.Where(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == device.Address))
-				{
-					var objectViewModel = new ObjectViewModel(zone);
-					Objects.Add(objectViewModel);
-				}
 			if (deviceConfiguration.Directions != null)
 				foreach (var direction in deviceConfiguration.Directions.Where(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == device.Address))
 				{
@@ -47,18 +41,6 @@ namespace GKModule.ViewModels
 				foreach (var delay in deviceConfiguration.Delays.Where(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == device.Address))
 				{
 					var objectViewModel = new ObjectViewModel(delay);
-					Objects.Add(objectViewModel);
-				}
-			if (deviceConfiguration.GuardZones != null)
-				foreach (var guardZone in deviceConfiguration.GuardZones.Where(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == device.Address))
-				{
-					var objectViewModel = new ObjectViewModel(guardZone);
-					Objects.Add(objectViewModel);
-				}
-			if (deviceConfiguration.Codes != null)
-				foreach (var code in deviceConfiguration.Codes.Where(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == device.Address))
-				{
-					var objectViewModel = new ObjectViewModel(code);
 					Objects.Add(objectViewModel);
 				}
 			if (deviceConfiguration.Doors != null)

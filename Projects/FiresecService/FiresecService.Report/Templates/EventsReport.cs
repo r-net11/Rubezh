@@ -104,14 +104,6 @@ namespace FiresecService.Report.Templates
 							}
 							break;
 
-						case JournalObjectType.GKZone:
-							var zone = GKManager.Zones.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
-							if (zone != null)
-							{
-								dataRow.Object = zone.PresentationName;
-							}
-							break;
-
 						case JournalObjectType.GKDirection:
 							var direction = GKManager.Directions.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
 							if (direction != null)
@@ -184,14 +176,6 @@ namespace FiresecService.Report.Templates
 										break;
 									}
 								}
-							}
-							break;
-
-						case JournalObjectType.GKGuardZone:
-							var guardZone = GKManager.GuardZones.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
-							if (guardZone != null)
-							{
-								dataRow.Object = guardZone.PresentationName;
 							}
 							break;
 

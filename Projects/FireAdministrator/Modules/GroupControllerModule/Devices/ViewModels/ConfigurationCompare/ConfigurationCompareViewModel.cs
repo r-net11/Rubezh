@@ -95,8 +95,6 @@ namespace GKModule.ViewModels
 			rootDevice.Children.Add(RemoteDevice);
 			if (LocalDevice.DriverType == GKDriverType.GK)
 			{
-				LocalConfiguration.Zones.RemoveAll(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == LocalDevice.Address);
-				LocalConfiguration.Zones.AddRange(RemoteConfiguration.Zones);
 				LocalConfiguration.Directions.RemoveAll(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == LocalDevice.Address);
 				LocalConfiguration.Directions.AddRange(RemoteConfiguration.Directions);
 				LocalConfiguration.PumpStations.RemoveAll(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == LocalDevice.Address);
@@ -105,10 +103,6 @@ namespace GKModule.ViewModels
 				LocalConfiguration.MPTs.AddRange(RemoteConfiguration.MPTs);
 				LocalConfiguration.Delays.RemoveAll(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == LocalDevice.Address);
 				LocalConfiguration.Delays.AddRange(RemoteConfiguration.Delays);
-				LocalConfiguration.GuardZones.RemoveAll(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == LocalDevice.Address);
-				LocalConfiguration.GuardZones.AddRange(RemoteConfiguration.GuardZones);
-				LocalConfiguration.Codes.RemoveAll(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == LocalDevice.Address);
-				LocalConfiguration.Codes.AddRange(RemoteConfiguration.Codes);
 				LocalConfiguration.Doors.RemoveAll(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == LocalDevice.Address);
 				LocalConfiguration.Doors.AddRange(RemoteConfiguration.Doors);
 				LocalConfiguration.SKDZones.Clear();
@@ -165,14 +159,6 @@ namespace GKModule.ViewModels
 					}
 					else
 					{
-						if (sameObject1.PresentationZone != sameObject2.PresentationZone)
-							newObject.DifferenceDiscription = sameObject1.Device.Driver.HasZone ? "Не совпадает зона" : "Не совпадает логика срабатывания";
-						newObject.PresentationZone = sameObject1.PresentationZone;
-						if (sameObject1.ObjectType == ObjectType.Zone)
-						{
-							newObject.DifferenceDiscription = GetZonesDifferences(sameObject1, sameObject2);
-							newObject.Name = sameObject1.Name;
-						}
 						if (sameObject1.ObjectType == ObjectType.Direction)
 						{
 							newObject.DifferenceDiscription = GetDirectionsDifferences(sameObject1, sameObject2);
@@ -193,16 +179,6 @@ namespace GKModule.ViewModels
 							newObject.DifferenceDiscription = GetDelaysDifferences(sameObject1, sameObject2);
 							newObject.Name = sameObject1.Name;
 						}
-						if (sameObject1.ObjectType == ObjectType.GuardZone)
-						{
-							newObject.DifferenceDiscription = GetGuardZonesDifferences(sameObject1, sameObject2);
-							newObject.Name = sameObject1.Name;
-						}
-						if (sameObject1.ObjectType == ObjectType.Code)
-						{
-							newObject.DifferenceDiscription = GetCodesDifferences(sameObject1, sameObject2);
-							newObject.Name = sameObject1.Name;
-						}
 						if (sameObject1.ObjectType == ObjectType.Door)
 						{
 							newObject.DifferenceDiscription = GetDoorsDifferences(sameObject1, sameObject2);
@@ -220,20 +196,6 @@ namespace GKModule.ViewModels
 			var zonesDifferences = new StringBuilder();
 			if (object1.Name != object2.Name)
 				zonesDifferences.Append("Не совпадает название");
-			var fire1CountDiff = object1.Zone.Fire1Count != object2.Zone.Fire1Count;
-			var fire2CountDiff = object1.Zone.Fire2Count != object2.Zone.Fire2Count;
-			if (fire1CountDiff || fire2CountDiff)
-			{
-				if (zonesDifferences.Length != 0)
-					zonesDifferences.Append(". ");
-				zonesDifferences.Append("Не совпадает число датчиков для формирования: ");
-				var fires = new List<string>();
-				if (fire1CountDiff)
-					fires.Add("Пожар1");
-				if (fire2CountDiff)
-					fires.Add("Пожар2");
-				zonesDifferences.Append(String.Join(", ", fires));
-			}
 			return zonesDifferences.ToString() == "" ? null : zonesDifferences.ToString();
 		}
 
@@ -371,35 +333,6 @@ namespace GKModule.ViewModels
 			}
 			return delaysDifferences.ToString() == "" ? null : delaysDifferences.ToString();
 		}
-
-		string GetGuardZonesDifferences(ObjectViewModel object1, ObjectViewModel object2)
-		{
-			var guardZonesDifferences = new StringBuilder();
-			if (object1.Name != object2.Name)
-				guardZonesDifferences.Append("Не совпадает название");
-			if (object1.GuardZone.SetDelay != object2.GuardZone.SetDelay)
-			{
-				if (guardZonesDifferences.Length != 0)
-					guardZonesDifferences.Append(". ");
-				guardZonesDifferences.Append("Не совпадает задержка");
-			}
-			return guardZonesDifferences.ToString() == "" ? null : guardZonesDifferences.ToString();
-		}
-
-		string GetCodesDifferences(ObjectViewModel object1, ObjectViewModel object2)
-		{
-			var differences = new StringBuilder();
-			if (object1.Name != object2.Name)
-				differences.Append("Не совпадает название");
-			if (object1.Code.Password != object2.Code.Password)
-			{
-				if (differences.Length != 0)
-					differences.Append(". ");
-				differences.Append("Не совпадает пароль");
-			}
-			return differences.ToString() == "" ? null : differences.ToString();
-		}
-
 
 		string GetDoorsDifferences(ObjectViewModel object1, ObjectViewModel object2)
 		{

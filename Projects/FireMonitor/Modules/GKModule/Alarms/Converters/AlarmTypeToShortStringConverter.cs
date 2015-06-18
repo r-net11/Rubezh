@@ -13,9 +13,6 @@ namespace GKModule.Converters
 				case GKAlarmType.NPTOn:
 					return "НП";
 
-				case GKAlarmType.GuardAlarm:
-					return "ОТ";
-
 				case GKAlarmType.Fire1:
 					return "П1";
 

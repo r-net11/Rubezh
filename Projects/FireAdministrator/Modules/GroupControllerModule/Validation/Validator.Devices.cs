@@ -32,7 +32,6 @@ namespace GKModule.Validation
 				ValidateNotUsedLogic(device);
 				ValidateRSR2AddressFollowing(device);
 				ValidateKAUAddressFollowing(device);
-				ValidateGuardDevice(device);
 			}
 		}
 
@@ -93,12 +92,6 @@ namespace GKModule.Validation
 			{
 				if (device.Properties.Any(x => x.Name == "Сообщение для нормы" || x.Name == "Сообщение для сработки 1" || x.Name == "Сообщение для сработки 2"))
 					return;
-			}
-
-			if (device.Driver.HasZone)
-			{
-				if (device.Zones.Count == 0)
-					Errors.Add(new DeviceValidationError(device, "Устройство не подключено к зоне", ValidationErrorLevel.Warning));
 			}
 		}
 
@@ -220,22 +213,6 @@ namespace GKModule.Validation
 				{
 					Errors.Add(new DeviceValidationError(kauDevice, string.Format("Последовательность адресов КАУ, подключенных к ГК, должна быть неразрывна начиная с 1"), ValidationErrorLevel.CannotWrite));
 					break;
-				}
-			}
-		}
-
-		void ValidateGuardDevice(GKDevice device)
-		{
-			if (device.Driver.IsAm && device.Zones.Count > 0)
-			{
-				if (device.GuardZones.Any(x => x.GuardZoneDevices.Any(y => y.ActionType == GKGuardZoneDeviceActionType.SetAlarm && y.DeviceUID == device.UID)))
-					Errors.Add(new DeviceValidationError(device,string.Format("Тревожный датчик участвует сразу в охранной и пожарной зоне"), ValidationErrorLevel.Warning));
-			}
-			if (device.DriverType == GKDriverType.RSR2_GuardDetector || device.DriverType == GKDriverType.RSR2_GuardDetectorSound)
-			{
-				if (device.GuardZones == null || device.GuardZones.Count == 0)
-				{
-					Errors.Add(new DeviceValidationError(device, string.Format("Охранное устройство не участвует в охранной зоне"), ValidationErrorLevel.Warning));
 				}
 			}
 		}

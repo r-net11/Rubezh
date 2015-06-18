@@ -26,10 +26,6 @@ namespace FiresecAPI.GK
 		[XmlIgnore]
 		public List<GKDevice> ClauseInputDevices { get; set; }
 		[XmlIgnore]
-		public List<GKZone> ClauseInputZones { get; set; }
-		[XmlIgnore]
-		public List<GKGuardZone> ClauseInputGuardZones { get; set; }
-		[XmlIgnore]
 		public List<GKDirection> ClauseInputDirections { get; set; }
 		[XmlIgnore]
 		public List<GKMPT> ClauseInputMPTs { get; set; }
@@ -43,8 +39,6 @@ namespace FiresecAPI.GK
 			InputGKBases = new List<GKBase>();
 			OutputGKBases = new List<GKBase>();
 			ClauseInputDevices = new List<GKDevice>();
-			ClauseInputZones = new List<GKZone>();
-			ClauseInputGuardZones = new List<GKGuardZone>();
 			ClauseInputDirections = new List<GKDirection>();
 			ClauseInputMPTs = new List<GKMPT>();
 			ClauseInputDelays = new List<GKDelay>();
@@ -72,12 +66,10 @@ namespace FiresecAPI.GK
 		public void PrepareInputOutputDependences()
 		{
 			var device = this as GKDevice;
-			var zone = this as GKZone;
 			var direction = this as GKDirection;
 			var pumpStation = this as GKPumpStation;
 			var mpt = this as GKMPT;
 			var delay = this as GKDelay;
-			var guardZone = this as GKGuardZone;
 			var door = this as GKDoor;
 
 			if (device != null)
@@ -98,23 +90,6 @@ namespace FiresecAPI.GK
 						}
 					}
 				}
-
-				if (!device.Driver.IsAm)
-				{
-					foreach (var deviceGuardZone in device.GuardZones)
-					{
-						device.LinkGKBases(deviceGuardZone);
-					}
-				}
-			}
-
-			if (zone != null)
-			{
-				foreach (var zoneDevice in zone.Devices)
-				{
-					zone.LinkGKBases(zoneDevice);
-				}
-				zone.LinkGKBases(zone);
 			}
 
 			if (direction != null)
@@ -146,22 +121,6 @@ namespace FiresecAPI.GK
 			{
 				LinkLogic(delay, delay.Logic.OnClausesGroup);
 				LinkLogic(delay, delay.Logic.OffClausesGroup);
-			}
-
-			if (guardZone != null)
-			{
-				foreach (var guardZoneDevice in guardZone.GuardZoneDevices)
-				{
-					if (guardZoneDevice.ActionType != GKGuardZoneDeviceActionType.ChangeGuard)
-					{
-						guardZone.LinkGKBases(guardZoneDevice.Device);
-						if (guardZoneDevice.Device.DriverType == GKDriverType.RSR2_GuardDetector || guardZoneDevice.Device.DriverType == GKDriverType.RSR2_CodeReader || guardZoneDevice.Device.DriverType == GKDriverType.RSR2_CardReader)
-						{
-							guardZoneDevice.Device.LinkGKBases(guardZone);
-						}
-					}
-				}
-				guardZone.LinkGKBases(guardZone);
 			}
 
 			if (door != null)
@@ -197,10 +156,6 @@ namespace FiresecAPI.GK
 				{
 					foreach (var clauseDevice in clause.Devices)
 						gkBase.LinkGKBases(clauseDevice);
-					foreach (var zone in clause.Zones)
-						gkBase.LinkGKBases(zone);
-					foreach (var guardZone in clause.GuardZones)
-						gkBase.LinkGKBases(guardZone);
 					foreach (var direction in clause.Directions)
 						gkBase.LinkGKBases(direction);
 					foreach (var mpt in clause.MPTs)
@@ -276,12 +231,8 @@ namespace FiresecAPI.GK
 			if (allDependentDoors.Count > 0)
 				return allDependentDoors.FirstOrDefault().GkDatabaseParent;
 			var allDependentDevices = allDependentObjects.Where(x => x is GKDevice).Cast<GKDevice>().ToList();
-			var allDependentGuardZones = allDependentObjects.Where(x => x is GKGuardZone).Cast<GKGuardZone>().ToList();
-			allDependentGuardZones.ForEach(x => allDependentDevices.AddRange(GetGuardZoneDependetnDevicesByCodes(x)));
 			var kauParents = allDependentDevices.Select(x => x.KAUParent).ToList();
 			kauParents = kauParents.Distinct().ToList();
-			if (this is GKDevice && allDependentGuardZones.Any(x => !x.HasAccessLevel))
-				return (this as GKDevice).GKParent;
 			if (kauParents.Count == 1 && kauParents.FirstOrDefault() != null)
 				return kauParents.FirstOrDefault();
 			if (this is GKDevice)
@@ -289,15 +240,6 @@ namespace FiresecAPI.GK
 			if (allDependentDevices != null && allDependentDevices.Count > 0)
 				return allDependentDevices.FirstOrDefault().GKParent;
 			return null;
-		}
-
-		List<GKDevice> GetGuardZoneDependetnDevicesByCodes(GKGuardZone currentZone)
-		{
-			var dependentZones = GKManager.GuardZones.FindAll(x => x.GetCodeUids().Intersect(currentZone.GetCodeUids()).Any());
-			var allDependentDevices = new List<GKDevice>();
-			dependentZones.ForEach(x => x.PrepareInputOutputDependences());
-			dependentZones.ForEach(x => allDependentDevices.AddRange(GetFullTree(x).Where(y => y is GKDevice).Cast<GKDevice>().ToList()));
-			return allDependentDevices.Select(x => x.KAUParent).Distinct().ToList();
 		}
 
 		List<GKBase> GetFullTree(GKBase gkBase)
@@ -317,15 +259,6 @@ namespace FiresecAPI.GK
 				else
 					continue;
 				result.AddRange(GetAllDependentObjects(inputObject, result).FindAll(x => !result.Contains(x)));
-			}
-			if (gkBase is GKGuardZone)
-			{
-				var guardZoneDevice = (gkBase as GKGuardZone).GuardZoneDevices.FirstOrDefault(x => x.ActionType == GKGuardZoneDeviceActionType.ChangeGuard);
-				if (guardZoneDevice != null)
-				{
-					if (result.All(x => x.UID != guardZoneDevice.Device.UID))
-						result.Add(guardZoneDevice.Device);
-				}
 			}
 			return result;
 		}

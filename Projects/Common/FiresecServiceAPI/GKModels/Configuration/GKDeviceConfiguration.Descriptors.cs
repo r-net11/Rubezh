@@ -13,7 +13,6 @@ namespace FiresecAPI.GK
 			Devices.ForEach(x => x.ClearDescriptor());
 			PrepareDevices();
 			PrepareObjects();
-			PrepareCodes();
 			PrepareDoors();
 		}
 
@@ -22,12 +21,10 @@ namespace FiresecAPI.GK
 			get
 			{
 				var gkBases = new List<GKBase>();
-				gkBases.AddRange(Zones);
 				gkBases.AddRange(Directions);
 				gkBases.AddRange(PumpStations);
 				gkBases.AddRange(MPTs);
 				gkBases.AddRange(Delays);
-				gkBases.AddRange(GuardZones);
 				return gkBases;
 			}
 		}
@@ -48,11 +45,6 @@ namespace FiresecAPI.GK
 			}
 			else
 				gkBase.GkDatabaseParent = dataBaseParent;
-			if (gkBase is GKGuardZone && !(gkBase as GKGuardZone).HasAccessLevel)
-			{
-				gkBase.IsLogicOnKau = false;
-				gkBase.KauDatabaseParent = null;
-			}
 		}
 
 		void PrepareObjects()
@@ -72,29 +64,6 @@ namespace FiresecAPI.GK
 				if (device.Door != null && device.Door.LockDeviceUID == device.UID)
 				{
 					device.IsLogicOnKau = false;
-				}
-			}
-		}
-
-		void PrepareCodes()
-		{
-			foreach (var code in Codes)
-			{
-				code.PrepareInputOutputDependences();
-				var codeGuardZones = GKManager.GuardZones.Where(x => x.GetCodeUids().Contains(code.UID)).ToList();
-				var codeMPTs = GKManager.MPTs.Where(x => x.GetCodeUids().Contains(code.UID)).ToList();
-				var allKauParents = codeGuardZones.Select(x => x.KauDatabaseParent).ToList();
-				allKauParents.AddRange(codeMPTs.Select(x => x.KauDatabaseParent).ToList());
-				var kauParents = allKauParents.Distinct().ToList();
-				code.KauDatabaseParent = kauParents.Count == 1 ? kauParents.FirstOrDefault() : null;
-				code.GkDatabaseParent = GKManager.Devices.FirstOrDefault(x => x.DriverType == GKDriverType.GK);
-				if (code.KauDatabaseParent == null)
-				{
-					codeMPTs.ForEach(x =>
-					{
-						x.KauDatabaseParent = code.KauDatabaseParent;
-						x.IsLogicOnKau = false;
-					});
 				}
 			}
 		}

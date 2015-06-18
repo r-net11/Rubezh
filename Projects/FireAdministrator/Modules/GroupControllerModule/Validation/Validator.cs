@@ -17,13 +17,10 @@ namespace GKModule.Validation
 			GKManager.UpdateConfiguration();
 			Errors = new List<IValidationError>();
 			ValidateDevices();
-			ValidateZones();
 			ValidateDirections();
 			ValidatePumpStations();
 			ValidateMPTs();
 			ValidateDelays();
-			ValidateCodes();
-			ValidateGuardZones();
 			ValidateDoors();
 			ValidateSKDZones();
 			ValidateDaySchedules();

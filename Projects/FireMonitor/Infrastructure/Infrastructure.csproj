@@ -105,7 +105,6 @@
     <Compile Include="Events\Reports\PrintReportEvent.cs" />
     <Compile Include="Events\GetFilteredArchiveCompletedEvent.cs" />
     <Compile Include="Events\ShowDetails\ShowGKDoorDetailsEvent.cs" />
-    <Compile Include="Events\ShowDetails\ShowGKGuardZoneDetailsEvent.cs" />
     <Compile Include="Events\ShowObject\ShowGKDoorEvent.cs" />
     <Compile Include="Events\ShowOnPlan\ShowGKDoorOnPlanEvent.cs" />
     <Compile Include="Events\ShowOnPlan\ShowProcedureOnPlanEvent.cs" />
@@ -136,8 +135,6 @@
     <Compile Include="Events\ShowOnPlan\ShowSKDZoneOnPlanEvent.cs" />
     <Compile Include="Events\ShowOnPlan\ShowGKDeviceOnPlanEvent.cs" />
     <Compile Include="Events\ShowOnPlan\ShowGKDirectionOnPlanEvent.cs" />
-    <Compile Include="Events\ShowOnPlan\ShowGKGuardZoneOnPlanEvent.cs" />
-    <Compile Include="Events\ShowOnPlan\ShowGKZoneOnPlanEvent.cs" />
     <Compile Include="Events\ShowDiagnosticsEvent.cs" />
     <Compile Include="Events\NewJournalItemsEvent.cs" />
     <Compile Include="Events\ShowArchiveEvent.cs" />
@@ -149,7 +146,6 @@
     <Compile Include="Events\SKDReportOrganisationChangedEvent.cs" />
     <Compile Include="Events\SKDReportUseArchiveChangedEvent.cs" />
     <Compile Include="Events\UserChangedEvent.cs" />
-    <Compile Include="Events\ShowGKGuardZoneEvent.cs" />
     <Compile Include="Events\SKDObjectsStateChangedEvent.cs" />
     <Compile Include="Models\ArchiveDefaultState.cs" />
     <Compile Include="Models\ArchiveDefaultStateType.cs" />

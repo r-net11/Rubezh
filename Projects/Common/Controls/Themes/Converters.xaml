@@ -22,11 +22,9 @@
 	<Converters:XStateClassToSKDStringConverter x:Key="XStateClassToSKDStringConverter" />
 	<Converters:XStateClassToColorConverter x:Key="XStateClassToColorConverter" />
 	<Converters:XStateClassToZoneColorConverter x:Key="XStateClassToZoneColorConverter" />
-	<Converters:XStateClassToGuardZoneColorConverter x:Key="XStateClassToGuardZoneColorConverter" />
 	<Converters:XStateClassToColorConverter2 x:Key="XStateClassToColorConverter2" />
 	<Converters:XStateClassToIconConverter x:Key="XStateClassToIconConverter" />
 	<Converters:XStateClassToIconConverter2 x:Key="XStateClassToIconConverter2" />
-	<Converters:XGuardZoneStateClassToStringConverter x:Key="XGuardZoneStateClassToStringConverter" />
 	<Converters:XAlarmTypeToStringConverter x:Key="XAlarmTypeToStringConverter" />
 	<Converters:MPTDeviceTypeToStringConverter x:Key="MPTDeviceTypeToStringConverter" />
 	<Converters:IntToEnumConverter x:Key="IntToEnumConverter" />
@@ -48,7 +46,6 @@
 	<Converters:EnumToVisibilityConverter x:Key="EnumToVisibilityConverter" />
 	<Converters:InversedEnumToVisibilityConverter x:Key="InversedEnumToVisibilityConverter" />
 	<Converters:EnumToBoolConverter x:Key="EnumToBoolConverter" />
-	<Converters:GKGuardZoneDeviceActionTypeToIconConverter x:Key="GKGuardZoneDeviceActionTypeToIconConverter" />
 	<Converters:JournalSubsystemTypeToIconConverter x:Key="JournalSubsystemTypeToIconConverter" />
 	<Converters:ObjectTypeToStringConverter x:Key="ObjectTypeToStringConverter" />
 	<Converters:StringToSingleLineString x:Key="StringToSingleLineString" />

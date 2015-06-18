@@ -238,20 +238,6 @@ namespace FiresecAPI.Automation
 					}
 					break;
 
-				case ProcedureStepType.ControlGKFireZone:
-					{
-						var controlGKFireZoneArguments = step.ControlGKFireZoneArguments;
-						InvalidateArgument(procedure, controlGKFireZoneArguments.GKFireZoneArgument);
-					}
-					break;
-
-				case ProcedureStepType.ControlGKGuardZone:
-					{
-						var controlGKGuardZoneArguments = step.ControlGKGuardZoneArguments;
-						InvalidateArgument(procedure, controlGKGuardZoneArguments.GKGuardZoneArgument);
-					}
-					break;
-
 				case ProcedureStepType.ControlDirection:
 					{
 						var controlDirectionArguments = step.ControlDirectionArguments;

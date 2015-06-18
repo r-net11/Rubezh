@@ -7,12 +7,6 @@ namespace FiresecAPI.GK
 	/// </summary>
 	public enum ClauseOperationType
 	{
-		[DescriptionAttribute("в любой зоне из")]
-		AnyZone,
-
-		[DescriptionAttribute("во всех зонах из")]
-		AllZones,
-
 		[DescriptionAttribute("в любом устройстве из")]
 		AnyDevice,
 
@@ -36,12 +30,6 @@ namespace FiresecAPI.GK
 
 		[DescriptionAttribute("во всех задержках из")]
 		AllDelays,
-
-		[DescriptionAttribute("в любой охранной зоне из")]
-		AnyGuardZone,
-
-		[DescriptionAttribute("во всех охранных зонах из")]
-		AllGuardZones,
 
 		[DescriptionAttribute("в любой ТД из")]
 		AnyDoor,

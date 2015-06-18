@@ -14,7 +14,6 @@ namespace GKProcessor
 				UID = new Guid("151881A2-0A39-4609-870F-4A84B2F8A4C8"),
 				Name = "Извещатель пожарный ручной электроконтактный адресный",
 				ShortName = "ИПР 513-12",
-				HasZone = true,
 				IsPlaceable = true
 			};
 

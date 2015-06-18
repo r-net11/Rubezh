@@ -30,13 +30,11 @@ namespace JournalModule.ViewModels
 		CompositePresentationEvent<Guid> ShowObjectDetailsEvent;
 
 		public GKDevice Device { get; set; }
-		GKZone Zone { get; set; }
 		GKDirection Direction { get; set; }
 		GKPumpStation PumpStation { get; set; }
 		GKMPT MPT { get; set; }
 		GKDelay Delay { get; set; }
 		GKPim Pim { get; set; }
-		GKGuardZone GuardZone { get; set; }
 		GKSKDZone GKSKDZone { get; set; }
 		GKDoor GKDoor { get; set; }
 		SKDDevice SKDDevice { get; set; }
@@ -85,17 +83,6 @@ namespace JournalModule.ViewModels
 						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowGKDeviceEvent>();
 						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKDeviceDetailsEvent>();
 					}
-					break;
-
-				case JournalObjectType.GKZone:
-					Zone = GKManager.Zones.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
-					if (Zone != null)
-					{
-						ObjectName = Zone.PresentationName;
-						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowGKZoneEvent>();
-						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKZoneDetailsEvent>();
-					}
-					ObjectImageSource = "/Controls;component/Images/Zone.png";
 					break;
 
 				case JournalObjectType.GKDirection:
@@ -197,17 +184,6 @@ namespace JournalModule.ViewModels
 							}
 						}
 					}
-					break;
-
-				case JournalObjectType.GKGuardZone:
-					GuardZone = GKManager.GuardZones.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
-					if (GuardZone != null)
-					{
-						ObjectName = GuardZone.PresentationName;
-						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowGKGuardZoneEvent>();
-						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKGuardZoneDetailsEvent>();
-					}
-					ObjectImageSource = "/Controls;component/Images/Zone.png";
 					break;
 
 				case JournalObjectType.GKSKDZone:
@@ -353,12 +329,6 @@ namespace JournalModule.ViewModels
 						ShowOnPlanHelper.ShowDevice(Device);
 					}
 					break;
-				case JournalObjectType.GKZone:
-					if (Zone != null)
-					{
-						ShowOnPlanHelper.ShowZone(Zone);
-					}
-					break;
 				case JournalObjectType.GKDirection:
 					if (Direction != null)
 					{
@@ -369,12 +339,6 @@ namespace JournalModule.ViewModels
 					if (MPT != null)
 					{
 						ShowOnPlanHelper.ShowMPT(MPT);
-					}
-					break;
-				case JournalObjectType.GKGuardZone:
-					if (GuardZone != null)
-					{
-						ShowOnPlanHelper.ShowGuardZone(GuardZone);
 					}
 					break;
 				case JournalObjectType.GKSKDZone:
@@ -422,12 +386,6 @@ namespace JournalModule.ViewModels
 						return ShowOnPlanHelper.CanShowDevice(Device);
 					}
 					break;
-				case JournalObjectType.GKZone:
-					if (Zone != null)
-					{
-						return ShowOnPlanHelper.CanShowZone(Zone);
-					}
-					break;
 				case JournalObjectType.GKDirection:
 					if (Direction != null)
 					{
@@ -438,12 +396,6 @@ namespace JournalModule.ViewModels
 					if (MPT != null)
 					{
 						return ShowOnPlanHelper.CanShowMPT(MPT);
-					}
-					break;
-				case JournalObjectType.GKGuardZone:
-					if (GuardZone != null)
-					{
-						return ShowOnPlanHelper.CanShowGuardZone(GuardZone);
 					}
 					break;
 				case JournalObjectType.GKSKDZone:

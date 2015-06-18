@@ -151,7 +151,6 @@
     <Compile Include="AutomationCallback\PropertyCallBackData.cs" />
     <Compile Include="AutomationCallback\VisualPropertyCallbackData.cs" />
     <Compile Include="GKModels\Device\GKMirrorItem.cs" />
-    <Compile Include="GKModels\Guard\GKDeviceGuardZone.cs" />
     <Compile Include="GKModels\SKD\GKCardType.cs" />
     <Compile Include="GKModels\SKD\GKSKDZone.cs" />
     <Compile Include="GKModels\States\GKSKDZoneState.cs" />
@@ -181,8 +180,6 @@
     <Compile Include="Models\Automation\StepArguments\ControlDirectionArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlDoorArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlGKDeviceArguments.cs" />
-    <Compile Include="Models\Automation\StepArguments\ControlGKFireZoneArguments.cs" />
-    <Compile Include="Models\Automation\StepArguments\ControlGKGuardZoneArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlSKDDeviceArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\IncrementValueArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ProcedureLayoutCollection.cs" />
@@ -236,8 +233,6 @@
     <Compile Include="Models\Layouts\LayoutPartReferenceProperties.cs" />
     <Compile Include="Models\Plans\ElementGKDoor.cs" />
     <Compile Include="Models\Plans\ElementProcedure.cs" />
-    <Compile Include="Models\Plans\ElementPolygonGKGuardZone.cs" />
-    <Compile Include="Models\Plans\ElementRectangleGKGuardZone.cs" />
     <Compile Include="Models\Plans\ElementDoor.cs" />
     <Compile Include="Models\Plans\ElementPolygonGKSKDZone.cs" />
     <Compile Include="Models\Plans\ElementRectangleGKSKDZone.cs" />
@@ -342,11 +337,7 @@
     <Compile Include="GKModels\SKD\GKDaySchedulePart.cs" />
     <Compile Include="GKModels\SKD\GKDaySchedule.cs" />
     <Compile Include="GKModels\SKD\GKDoor.cs" />
-    <Compile Include="GKModels\Guard\GKCodeReaderEnterType.cs" />
-    <Compile Include="GKModels\Guard\GKCodeReaderSettings.cs" />
-    <Compile Include="GKModels\Guard\GKGuardZoneDevice.cs" />
     <Compile Include="GKModels\IStateProvider.cs" />
-    <Compile Include="GKModels\Guard\GKGuardZone.cs" />
     <Compile Include="Models\ClientCredentials.cs" />
     <Compile Include="Models\ClientType.cs" />
     <Compile Include="Models\ConfigurationCash.cs" />
@@ -459,8 +450,6 @@
     <Compile Include="SKD\DeviceTimeIntervals\TimeIntervalsConfiguration.cs" />
     <Compile Include="SKD\Zone\SKDZone.cs" />
     <Compile Include="VersionedConfiguration.cs" />
-    <Compile Include="Models\Plans\ElementPolygonGKZone.cs" />
-    <Compile Include="Models\Plans\ElementRectangleGKZone.cs" />
     <Compile Include="GKManager\GKManager.Actions.cs" />
     <Compile Include="GKManager\GKManager.cs" />
     <Compile Include="GKManager\GKManager.Device.cs" />
@@ -510,7 +499,6 @@
     <Compile Include="GKModels\Firmware\HEXFileInfo.cs" />
     <Compile Include="GKModels\Formula\FormulaOperation.cs" />
     <Compile Include="GKModels\Formula\FormulaOperationType.cs" />
-    <Compile Include="GKModels\Guard\GKCode.cs" />
     <Compile Include="GKModels\Instructions\GKInstruction.cs" />
     <Compile Include="GKModels\Instructions\GKInstructionType.cs" />
     <Compile Include="Journal\JournalEventDescriptionType.cs" />
@@ -545,10 +533,7 @@
     <Compile Include="GKModels\States\GKPimInternalState.cs" />
     <Compile Include="GKModels\States\GKPumpStationInternalState.cs" />
     <Compile Include="GKModels\States\GKStateBit.cs" />
-    <Compile Include="GKModels\States\GKZoneInternalState.cs" />
     <Compile Include="GKModels\States\GKMPTInternalState.cs" />
-    <Compile Include="GKModels\States\GKGuardZoneInternalState.cs" />
-    <Compile Include="GKModels\States\GKCodeInternalState.cs" />
     <Compile Include="GKModels\GKAlarmType.cs" />
     <Compile Include="GKModels\GKBase.cs" />
     <Compile Include="GKModels\States\GKStatesHelper.cs" />
@@ -556,7 +541,6 @@
     <Compile Include="GKModels\GKDeviceMeasureParameters.cs" />
     <Compile Include="GKModels\GKMeasureParameterValue.cs" />
     <Compile Include="GKModels\GKState.cs" />
-    <Compile Include="GKModels\Zone\GKZone.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\Security\User.cs" />

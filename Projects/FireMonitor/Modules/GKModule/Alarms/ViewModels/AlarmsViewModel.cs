@@ -93,52 +93,6 @@ namespace GKModule.ViewModels
 				}
 			}
 
-			foreach (var zone in GKManager.Zones)
-			{
-				foreach (var stateClass in zone.State.StateClasses)
-				{
-					switch (stateClass)
-					{
-						case XStateClass.Fire2:
-							alarms.Add(new Alarm(GKAlarmType.Fire2, zone));
-							break;
-
-						case XStateClass.Fire1:
-							alarms.Add(new Alarm(GKAlarmType.Fire1, zone));
-							break;
-
-						case XStateClass.Attention:
-							alarms.Add(new Alarm(GKAlarmType.Attention, zone));
-							break;
-
-						case XStateClass.Ignore:
-							alarms.Add(new Alarm(GKAlarmType.Ignore, zone));
-							break;
-					}
-				}
-			}
-
-			foreach (var gGuardZone in GKManager.GuardZones)
-			{
-				foreach (var stateClass in gGuardZone.State.StateClasses)
-				{
-					switch (stateClass)
-					{
-						case XStateClass.Fire1:
-							alarms.Add(new Alarm(GKAlarmType.GuardAlarm, gGuardZone));
-							break;
-
-						case XStateClass.Ignore:
-							alarms.Add(new Alarm(GKAlarmType.Ignore, gGuardZone));
-							break;
-
-						case XStateClass.Attention:
-							alarms.Add(new Alarm(GKAlarmType.Attention, gGuardZone));
-							break;
-					}
-				}
-			}
-
 			foreach (var door in GKManager.Doors)
 			{
 				foreach (var stateClass in door.State.StateClasses)
@@ -147,14 +101,6 @@ namespace GKModule.ViewModels
 					{
 						case XStateClass.Fire2:
 							alarms.Add(new Alarm(GKAlarmType.Fire2, door));
-							break;
-
-						case XStateClass.Fire1:
-							alarms.Add(new Alarm(GKAlarmType.GuardAlarm, door));
-							break;
-
-						case XStateClass.Attention:
-							alarms.Add(new Alarm(GKAlarmType.Attention, door));
 							break;
 
 						case XStateClass.Ignore:
@@ -262,22 +208,6 @@ namespace GKModule.ViewModels
 					}
 				}
 
-				foreach (var zone in GKManager.Zones)
-				{
-					if (zone.State.StateClasses.Contains(XStateClass.Ignore))
-					{
-						FiresecManager.FiresecService.GKSetAutomaticRegime(zone);
-					}
-				}
-
-				foreach (var guardZones in GKManager.GuardZones)
-				{
-					if (guardZones.State.StateClasses.Contains(XStateClass.Ignore))
-					{
-						FiresecManager.FiresecService.GKSetAutomaticRegime(guardZones);
-					}
-				}
-
 				foreach (var direction in GKManager.Directions)
 				{
 					if (direction.State.StateClasses.Contains(XStateClass.Ignore))
@@ -300,18 +230,6 @@ namespace GKModule.ViewModels
 						return true;
 				}
 
-				foreach (var zone in GKManager.Zones)
-				{
-					if (zone.State.StateClasses.Contains(XStateClass.Ignore))
-						return true;
-				}
-
-				foreach (var guardZone in GKManager.GuardZones)
-				{
-					if (guardZone.State.StateClasses.Contains(XStateClass.Ignore))
-						return true;
-				}
-
 				foreach (var direction in GKManager.Directions)
 				{
 					if (direction.State.StateClasses.Contains(XStateClass.Ignore))
@@ -331,27 +249,6 @@ namespace GKModule.ViewModels
 			{
 				if (ServiceFactory.SecurityService.Validate())
 				{
-					foreach (var zone in GKManager.Zones)
-					{
-						if (zone.State.StateClasses.Contains(XStateClass.Fire1))
-						{
-							FiresecManager.FiresecService.GKResetFire1(zone);
-						}
-						if (zone.State.StateClasses.Contains(XStateClass.Fire2))
-						{
-							FiresecManager.FiresecService.GKResetFire2(zone);
-						}
-					}
-					foreach (var guardZone in GKManager.GuardZones)
-					{
-						if (guardZone.State.StateClasses.Contains(XStateClass.Fire1))
-						{
-							FiresecManager.FiresecService.GKReset(guardZone);
-						}
-					}
-					foreach (var device in GKManager.Devices)
-					{
-					}
 					foreach (var door in GKManager.Doors)
 					{
 						if (door.State.StateClasses.Contains(XStateClass.Fire1))
@@ -371,18 +268,6 @@ namespace GKModule.ViewModels
 		public int GetAlarmsToResetCount()
 		{
 			int result = 0;
-			foreach (var zone in GKManager.Zones)
-			{
-				if (zone.State.StateClasses.Contains(XStateClass.Fire1))
-					result++;
-				if (zone.State.StateClasses.Contains(XStateClass.Fire2))
-					result++;
-			}
-			foreach (var zone in GKManager.GuardZones)
-			{
-				if (zone.State.StateClasses.Contains(XStateClass.Fire1))
-					result++;
-			}
 			foreach (var device in GKManager.Devices)
 			{
 				if (device.DriverType == GKDriverType.RSR2_MAP4)
@@ -401,14 +286,6 @@ namespace GKModule.ViewModels
 
 		void IgnoreAllZonesAndDevicesInFire()
 		{
-			foreach (var zone in GKManager.Zones)
-			{
-				if (zone.State.StateClass == XStateClass.Fire1 || zone.State.StateClass == XStateClass.Fire2)
-				{
-					FiresecManager.FiresecService.GKSetIgnoreRegime(zone);
-				}
-			}
-
 			foreach (var device in GKManager.Devices)
 			{
 				if (device.State.StateClass == XStateClass.Fire1 || device.State.StateClass == XStateClass.Fire2)

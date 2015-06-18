@@ -65,14 +65,6 @@ namespace FiresecAPI.GK
 			BaseObjectType = GKBaseObjectType.Deivce;
 		}
 
-		public GKState(GKZone zone)
-			: this()
-		{
-			Zone = zone;
-			UID = zone.UID;
-			BaseObjectType = GKBaseObjectType.Zone;
-		}
-
 		public GKState(GKDirection direction)
 			: this()
 		{
@@ -113,22 +105,6 @@ namespace FiresecAPI.GK
 			BaseObjectType = GKBaseObjectType.Pim;
 		}
 
-		public GKState(GKGuardZone guardZone)
-			: this()
-		{
-			GuardZone = guardZone;
-			UID = guardZone.UID;
-			BaseObjectType = GKBaseObjectType.GuardZone;
-		}
-
-		public GKState(GKCode code)
-			: this()
-		{
-			Code = code;
-			UID = code.UID;
-			BaseObjectType = GKBaseObjectType.Code;
-		}
-
 		public GKState(GKDoor door)
 			: this()
 		{
@@ -146,14 +122,11 @@ namespace FiresecAPI.GK
 		}
 
 		public GKDevice Device { get; private set; }
-		public GKZone Zone { get; private set; }
 		public GKDirection Direction { get; private set; }
 		public GKPumpStation PumpStation { get; private set; }
 		public GKMPT MPT { get; private set; }
 		public GKDelay Delay { get; private set; }
 		public GKPim Pim { get; private set; }
-		public GKGuardZone GuardZone { get; private set; }
-		public GKCode Code { get; private set; }
 		public GKDoor Door { get; private set; }
 		public GKSKDZone SKDZone { get; private set; }
 		public GKBaseObjectType BaseObjectType { get; private set; }
@@ -186,14 +159,6 @@ namespace FiresecAPI.GK
 								return "Сработка 1";
 							case XStateClass.Fire2:
 								return "Сработка 2";
-						}
-						break;
-
-					case GKBaseObjectType.GuardZone:
-						switch (StateClass)
-						{
-							case XStateClass.Fire1:
-								return "Тревога";
 						}
 						break;
 

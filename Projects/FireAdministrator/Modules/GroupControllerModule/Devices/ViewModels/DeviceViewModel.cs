@@ -36,10 +36,7 @@ namespace GKModule.ViewModels
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
 			ShowLogicCommand = new RelayCommand(OnShowLogic, CanShowLogic);
 			ShowNSLogicCommand = new RelayCommand(OnShowNSLogic, CanShowNSLogic);
-			ShowZonesCommand = new RelayCommand(OnShowZones, CanShowZones);
 			ShowZoneOrLogicCommand = new RelayCommand(OnShowZoneOrLogic, CanShowZoneOrLogic);
-			ShowZoneCommand = new RelayCommand(OnShowZone, CanShowZone);
-			ShowGuardZoneCommand = new RelayCommand(OnShowGuardZone, CanShowGuardZone);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
 			ShowParentCommand = new RelayCommand(OnShowParent, CanShowParent);
 			ShowMPTCommand = new RelayCommand(OnShowMPT, CanShowMPT);
@@ -85,10 +82,6 @@ namespace GKModule.ViewModels
 		{
 			Children.ForEach(x => x.CheckShleif());
 			OnPropertyChanged(() => PresentationAddress);
-			OnPropertyChanged(() => PresentationZone);
-			OnPropertyChanged(() => EditingPresentationZone);
-			OnPropertyChanged(() => GuardPresentationZone);
-			OnPropertyChanged(() => IsFireAndGuard);
 			OnPropertyChanged(() => IsParamtersEnabled);
 			OnPropertyChanged(() => IsInDoor);
 			OnPropertyChanged(() => MPTName);
@@ -171,10 +164,6 @@ namespace GKModule.ViewModels
 				GKManager.ChangeLogic(Device, new GKLogic());
 				OnPropertyChanged(() => IsUsed);
 				OnPropertyChanged(() => ShowOnPlan);
-				OnPropertyChanged(() => PresentationZone);
-				OnPropertyChanged(() => EditingPresentationZone);
-				OnPropertyChanged(() => GuardPresentationZone);
-				OnPropertyChanged(() => IsFireAndGuard);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -258,10 +247,6 @@ namespace GKModule.ViewModels
 		public void Remove(bool updateParameters)
 		{
 			var allDevices = Device.AllChildrenAndSelf;
-			foreach (var device in allDevices)
-			{
-				GKManager.RemoveDevice(device);
-			}
 			allDevices.ForEach(device => device.OnChanged());
 			using (var cache = new ElementDeviceUpdater())
 				cache.ResetDevices(allDevices);
@@ -308,52 +293,6 @@ namespace GKModule.ViewModels
 		bool CanShowProperties()
 		{
 			return false;
-		}
-
-		public string PresentationZone
-		{
-			get
-			{
-				if (Device.IsNotUsed)
-					return null;
-				return GKManager.GetPresentationZoneOrLogic(Device);
-			}
-		}
-
-		public string GuardPresentationZone
-		{
-			get
-			{
-				if (Device.IsNotUsed)
-					return null;
-				if (!(Driver.HasZone && Driver.HasGuardZone))
-					return null;
-				return GKManager.GetPresentationGuardZone(Device);
-			}
-		}
-
-		public string EditingPresentationZone
-		{
-			get
-			{
-				if (Device.IsNotUsed)
-					return null;
-				var presentationZone = GKManager.GetPresentationZoneAndGuardZoneOrLogic(Device);
-				IsLogicGrayed = string.IsNullOrEmpty(presentationZone);
-				if (string.IsNullOrEmpty(presentationZone))
-				{
-					if (Driver.HasZone || Driver.HasGuardZone)
-						presentationZone = "Нажмите для выбора зон";
-					if (Driver.HasLogic)
-						presentationZone = "Нажмите для настройки логики";
-				}
-				return presentationZone;
-			}
-		}
-
-		public bool IsFireAndGuard 
-		{
-			get { return Driver.HasZone && Driver.HasGuardZone; }
 		}
 
 		bool _isLogicGrayed;
@@ -437,7 +376,6 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(logicViewModel))
 			{
 				GKManager.ChangeLogic(Device, logicViewModel.GetModel());
-				OnPropertyChanged(() => PresentationZone);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -446,94 +384,22 @@ namespace GKModule.ViewModels
 			return Driver.HasLogic && !Device.IsNotUsed;
 		}
 
-		public RelayCommand ShowZonesCommand { get; private set; }
-		void OnShowZones()
-		{
-			if (Driver.IsAm)
-			{
-				var anyZonesSelectionViewModel = new AnyZonesSelectionViewModel(Device);
-				DialogService.ShowModalWindow(anyZonesSelectionViewModel);
-			}
-			else
-			{
-				if (Driver.HasZone)
-				{
-					var zonesSelectationViewModel = new ZonesSelectationViewModel(Device.Zones, true);
-					if (DialogService.ShowModalWindow(zonesSelectationViewModel))
-					{
-						GKManager.ChangeDeviceZones(Device, zonesSelectationViewModel.Zones);
-					}
-				}
-				if (Driver.HasGuardZone)
-				{
-					var guardZonesSelectationViewModel = new GuardZonesWithFuncSelectationViewModel(Device, true);
-					if (DialogService.ShowModalWindow(guardZonesSelectationViewModel))
-					{
-						GKManager.ChangeDeviceGuardZones(Device, guardZonesSelectationViewModel.DeviceGuardZones.Select(x => x.DeviceGuardZone).ToList());
-					}
-				}
-			}
-			OnPropertyChanged(() => PresentationZone);
-			ServiceFactory.SaveService.GKChanged = true;
-		}
-		bool CanShowZones()
-		{
-			return (Driver.HasZone || Driver.HasGuardZone) && !Device.IsNotUsed;
-		}
-
 		public RelayCommand ShowZoneOrLogicCommand { get; private set; }
 		void OnShowZoneOrLogic()
 		{
 			IsSelected = true;
-
-			if (CanShowZones())
-				OnShowZones();
 
 			if (CanShowLogic())
 				OnShowLogic();
 		}
 		bool CanShowZoneOrLogic()
 		{
-			return !Device.IsInMPT && (CanShowZones() || CanShowLogic());
+			return !Device.IsInMPT && (CanShowLogic());
 		}
 
 		public bool IsZoneOrLogic
 		{
 			get { return CanShowZoneOrLogic(); }
-		}
-
-		public RelayCommand ShowZoneCommand { get; private set; }
-		void OnShowZone()
-		{
-			if (Driver.HasZone)
-			{
-				var zone = Device.Zones.FirstOrDefault();
-				if (zone != null)
-				{
-					ServiceFactoryBase.Events.GetEvent<ShowGKZoneEvent>().Publish(zone.UID);
-				}
-			}
-		}
-		bool CanShowZone()
-		{
-			return Driver.HasZone && Device.Zones.Count == 1;
-		}
-
-		public RelayCommand ShowGuardZoneCommand { get; private set; }
-		void OnShowGuardZone()
-		{
-			if (Driver.HasGuardZone)
-			{
-				var guardZone = Device.GuardZones.FirstOrDefault();
-				if (guardZone != null)
-				{
-					ServiceFactoryBase.Events.GetEvent<ShowGKGuardZoneEvent>().Publish(guardZone.UID);
-				}
-			}
-		}
-		bool CanShowGuardZone()
-		{
-			return Driver.HasGuardZone && Device.GuardZones.Count == 1;
 		}
 
 		public RelayCommand ShowNSLogicCommand { get; private set; }
@@ -592,9 +458,6 @@ namespace GKModule.ViewModels
 					OnPropertyChanged(() => Driver);
 					OnPropertyChanged(() => Device);
 					OnPropertyChanged(() => Children);
-					OnPropertyChanged(() => EditingPresentationZone);
-					OnPropertyChanged(() => GuardPresentationZone);
-					OnPropertyChanged(() => IsFireAndGuard);
 					PropertiesViewModel = new PropertiesViewModel(Device);
 					OnPropertyChanged(() => PropertiesViewModel);
 					if (Device.KAUParent != null)

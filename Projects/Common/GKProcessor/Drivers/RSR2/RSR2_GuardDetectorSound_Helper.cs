@@ -15,8 +15,6 @@ namespace GKProcessor
 				Name = "Извещатель охранный поверхностнозвуковой R2",
 				ShortName = "ИО-ПЗ R2",
 				IsControlDevice = true,
-				HasGuardZone = true,
-				HasZone = false,
 				IsPlaceable = true
 			};
 

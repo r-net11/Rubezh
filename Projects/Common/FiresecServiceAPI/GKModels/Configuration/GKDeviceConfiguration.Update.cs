@@ -68,14 +68,11 @@ namespace FiresecAPI.GK
 		void Invalidate()
 		{
 			ClearAllReferences();
-			InitializeDevicesInZone();
 			InitializeLogic();
 			InitializeDirections();
 			InitializePumpStations();
 			InitializeMPTs();
 			InitializeDelays();
-			InitializeGuardZones();
-			InitializeCodes();
 			InitializeDoors();
 			UpdateGKChildrenDescription();
 		}
@@ -85,22 +82,12 @@ namespace FiresecAPI.GK
 			foreach (var device in Devices)
 			{
 				device.ClearClauseDependencies();
-				device.Zones = new List<GKZone>();
-				device.GuardZones = new List<GKGuardZone>();
 				device.Directions = new List<GKDirection>();
 				device.Door = null;
-			}
-			foreach (var zone in Zones)
-			{
-				zone.ClearClauseDependencies();
-				zone.Devices = new List<GKDevice>();
-				zone.Directions = new List<GKDirection>();
-				zone.DevicesInLogic = new List<GKDevice>();
 			}
 			foreach (var direction in Directions)
 			{
 				direction.ClearClauseDependencies();
-				direction.InputZones = new List<GKZone>();
 				direction.InputDevices = new List<GKDevice>();
 				direction.OutputDevices = new List<GKDevice>();
 			}
@@ -119,28 +106,6 @@ namespace FiresecAPI.GK
 			}
 		}
 
-		void InitializeDevicesInZone()
-		{
-			foreach (var device in Devices)
-			{
-				var zoneUIDs = new List<Guid>();
-				if (device.Driver.HasZone)
-				{
-					foreach (var zoneUID in device.ZoneUIDs)
-					{
-						var zone = Zones.FirstOrDefault(x => x.UID == zoneUID);
-						if (zone != null)
-						{
-							zoneUIDs.Add(zoneUID);
-							device.Zones.Add(zone);
-							zone.Devices.Add(device);
-						}
-					}
-				}
-				device.ZoneUIDs = zoneUIDs;
-			}
-		}
-
 		void InitializeLogic()
 		{
 			foreach (var device in Devices)
@@ -156,10 +121,6 @@ namespace FiresecAPI.GK
 			InvalidateInputObjectsBaseLogic(device, logic);
 			foreach (var clause in logic.OnClausesGroup.Clauses)
 			{
-				foreach (var clauseZone in clause.Zones)
-				{
-					clauseZone.DevicesInLogic.Add(device);
-				}
 				foreach (var clauseDirection in clause.Directions)
 				{
 					clauseDirection.OutputDevices.Add(device);
@@ -168,10 +129,6 @@ namespace FiresecAPI.GK
 			}
 			foreach (var clause in device.Logic.OffClausesGroup.Clauses)
 			{
-				foreach (var clauseZone in clause.Zones)
-				{
-					clauseZone.DevicesInLogic.Add(device);
-				}
 				foreach (var clauseDirection in clause.Directions)
 				{
 					clauseDirection.OutputDevices.Add(device);
@@ -180,10 +137,6 @@ namespace FiresecAPI.GK
 			}
 			foreach (var clause in device.Logic.StopClausesGroup.Clauses)
 			{
-				foreach (var clauseZone in clause.Zones)
-				{
-					clauseZone.DevicesInLogic.Add(device);
-				}
 				foreach (var clauseDirection in clause.Directions)
 				{
 					clauseDirection.OutputDevices.Add(device);
@@ -280,8 +233,6 @@ namespace FiresecAPI.GK
 			foreach (var clause in clauseGroup.Clauses)
 			{
 				clause.Devices = new List<GKDevice>();
-				clause.Zones = new List<GKZone>();
-				clause.GuardZones = new List<GKGuardZone>();
 				clause.Directions = new List<GKDirection>();
 				clause.MPTs = new List<GKMPT>();
 				clause.Delays = new List<GKDelay>();
@@ -300,34 +251,6 @@ namespace FiresecAPI.GK
 					}
 				}
 				clause.DeviceUIDs = deviceUIDs;
-
-				var zoneUIDs = new List<Guid>();
-				foreach (var zoneUID in clause.ZoneUIDs)
-				{
-					var zone = Zones.FirstOrDefault(x => x.UID == zoneUID);
-					if (zone != null)
-					{
-						zoneUIDs.Add(zoneUID);
-						clause.Zones.Add(zone);
-						if (!gkBase.ClauseInputZones.Contains(zone))
-							gkBase.ClauseInputZones.Add(zone);
-					}
-				}
-				clause.ZoneUIDs = zoneUIDs;
-
-				var guardZoneUIDs = new List<Guid>();
-				foreach (var guardZoneUID in clause.GuardZoneUIDs)
-				{
-					var guardZone = GuardZones.FirstOrDefault(x => x.UID == guardZoneUID);
-					if (guardZone != null)
-					{
-						guardZoneUIDs.Add(guardZoneUID);
-						clause.GuardZones.Add(guardZone);
-						if (!gkBase.ClauseInputGuardZones.Contains(guardZone))
-							gkBase.ClauseInputGuardZones.Add(guardZone);
-					}
-				}
-				clause.GuardZoneUIDs = guardZoneUIDs;
 
 				var directionUIDs = new List<Guid>();
 				foreach (var directionUID in clause.DirectionUIDs)
@@ -389,56 +312,6 @@ namespace FiresecAPI.GK
 					result.Clauses.Add(clause);
 			}
 			return result;
-		}
-
-		void InitializeGuardZones()
-		{
-			foreach (var guardZone in GuardZones)
-			{
-				var guardZoneDevices = new List<GKGuardZoneDevice>();
-				foreach (var guardZoneDevice in guardZone.GuardZoneDevices)
-				{
-					var device = Devices.FirstOrDefault(x => x.UID == guardZoneDevice.DeviceUID);
-					if (device != null)
-					{
-						if (device.DriverType == GKDriverType.RSR2_GuardDetector || device.DriverType == GKDriverType.RSR2_GuardDetectorSound || device.DriverType == GKDriverType.RSR2_AM_1 || device.DriverType == GKDriverType.RSR2_MAP4 || device.DriverType == GKDriverType.RSR2_CodeReader || device.DriverType == GKDriverType.RSR2_CardReader)
-						{
-							guardZoneDevice.Device = device;
-							guardZoneDevices.Add(guardZoneDevice);
-							device.GuardZones.Add(guardZone);
-						}
-						if (device.DriverType == GKDriverType.RSR2_CodeReader || device.DriverType == GKDriverType.RSR2_CardReader)
-						{
-							InvalidateGKCodeReaderSettingsPart(guardZoneDevice.CodeReaderSettings.SetGuardSettings);
-							InvalidateGKCodeReaderSettingsPart(guardZoneDevice.CodeReaderSettings.ResetGuardSettings);
-							InvalidateGKCodeReaderSettingsPart(guardZoneDevice.CodeReaderSettings.ChangeGuardSettings);
-							InvalidateGKCodeReaderSettingsPart(guardZoneDevice.CodeReaderSettings.AlarmSettings);
-						}
-					}
-				}
-				guardZone.GuardZoneDevices = guardZoneDevices;
-			}
-		}
-
-		void InvalidateGKCodeReaderSettingsPart(GKCodeReaderSettingsPart codeReaderSettingsPart)
-		{
-			var codeUIDs = new List<Guid>();
-			foreach (var codeUID in codeReaderSettingsPart.CodeUIDs)
-			{
-				var code = Codes.FirstOrDefault(x => x.UID == codeUID);
-				if (code != null)
-				{
-					codeUIDs.Add(codeUID);
-				}
-			}
-			codeReaderSettingsPart.CodeUIDs = codeUIDs;
-		}
-
-		void InitializeCodes()
-		{
-			foreach (var code in Codes)
-			{
-			}
 		}
 
 		void InitializeDoors()
@@ -545,7 +418,6 @@ namespace FiresecAPI.GK
 				mptDevice.Device.IsInMPT = true;
 				GKManager.ChangeLogic(mptDevice.Device, new GKLogic());
 				mptDevice.Device.ZoneUIDs = new List<Guid>();
-				mptDevice.Device.Zones.Clear();
 			}
 		}
 

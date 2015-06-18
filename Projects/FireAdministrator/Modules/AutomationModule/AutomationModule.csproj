@@ -151,7 +151,6 @@
     <Compile Include="ObjectSelection\ViewModels\DoorViewModel.cs" />
     <Compile Include="Procedures\ViewModels\FilterSelectionViewModel.cs" />
     <Compile Include="Procedures\ViewModels\FilterViewModel.cs" />
-    <Compile Include="ObjectSelection\ViewModels\GuardZoneSelectionViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\SKDDeviceSelectionViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\SKDZoneSelectionViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\CameraSelectionViewModel.cs" />
@@ -161,11 +160,9 @@
     <Compile Include="Steps\ViewModels\ControlDoorStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ControlGKDeviceStepViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\DeviceSelectionViewModel.cs" />
-    <Compile Include="Steps\ViewModels\ControlGKFireZoneStepViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\DeviceViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ConditionsViewModel.cs" />
     <Compile Include="Steps\ViewModels\ArithmeticStepViewModel.cs" />
-    <Compile Include="Steps\ViewModels\ControlGKGuardZoneStepViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\DirectionViewModel.cs" />
     <Compile Include="Steps\ViewModels\ControlSKDDeviceStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ControlSKDZoneStepViewModel.cs" />
@@ -217,9 +214,6 @@
     <Compile Include="ObjectSelection\Views\DoorSelectionView.xaml.cs">
       <DependentUpon>DoorSelectionView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ObjectSelection\Views\GuardZoneSelectionView.xaml.cs">
-      <DependentUpon>GuardZoneSelectionView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ObjectSelection\Views\SKDDeviceSelectionView.xaml.cs">
       <DependentUpon>SKDDeviceSelectionView.xaml</DependentUpon>
     </Compile>
@@ -267,12 +261,6 @@
     </Compile>
     <Compile Include="Steps\Views\ControlGKDoorStepView.xaml.cs">
       <DependentUpon>ControlGKDoorStepView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Steps\Views\ControlGKFireZoneStepView.xaml.cs">
-      <DependentUpon>ControlGKFireZoneStepView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Steps\Views\ControlGKGuardZoneStepView.xaml.cs">
-      <DependentUpon>ControlGKGuardZoneStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Steps\Views\ControlPlanStepView.xaml.cs">
       <DependentUpon>ControlPlanStepView.xaml</DependentUpon>
@@ -667,10 +655,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ObjectSelection\Views\GuardZoneSelectionView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="ObjectSelection\Views\SKDDeviceSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -712,14 +696,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ObjectSelection\Views\DeviceSelectionView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Steps\Views\ControlGKFireZoneStepView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Steps\Views\ControlGKGuardZoneStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

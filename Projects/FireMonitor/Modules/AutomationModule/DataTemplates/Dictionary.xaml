@@ -32,14 +32,6 @@
 		<Views:SKDDeviceSelectionView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:ZoneSelectionViewModel}">
-		<Views:ZoneSelectionView />
-	</DataTemplate>
-
-	<DataTemplate DataType="{x:Type ViewModels:GuardZoneSelectionViewModel}">
-		<Views:GuardZoneSelectionView />
-	</DataTemplate>
-
 	<DataTemplate DataType="{x:Type ViewModels:SKDZoneSelectionViewModel}">
 		<Views:SKDZoneSelectionView />
 	</DataTemplate>

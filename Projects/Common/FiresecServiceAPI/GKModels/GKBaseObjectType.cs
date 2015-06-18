@@ -7,9 +7,6 @@ namespace FiresecAPI.GK
 		[DescriptionAttribute("Устройство")]
 		Deivce,
 
-		[DescriptionAttribute("Зона")]
-		Zone,
-
 		[DescriptionAttribute("Направление")]
 		Direction,
 
@@ -24,12 +21,6 @@ namespace FiresecAPI.GK
 
 		[DescriptionAttribute("ПИМ")]
 		Pim,
-
-		[DescriptionAttribute("Охранная Зона")]
-		GuardZone,
-
-		[DescriptionAttribute("Код")]
-		Code,
 
 		[DescriptionAttribute("Точка доступа")]
 		Door,

@@ -40,10 +40,6 @@ namespace FiresecAPI.Models
 			ElementPolylines = new List<ElementPolyline>();
 
 			ElementGKDevices = new List<ElementGKDevice>();
-			ElementRectangleGKZones = new List<ElementRectangleGKZone>();
-			ElementPolygonGKZones = new List<ElementPolygonGKZone>();
-			ElementRectangleGKGuardZones = new List<ElementRectangleGKGuardZone>();
-			ElementPolygonGKGuardZones = new List<ElementPolygonGKGuardZone>();
 			ElementRectangleGKSKDZones = new List<ElementRectangleGKSKDZone>();
 			ElementPolygonGKSKDZones = new List<ElementPolygonGKSKDZone>();
 			ElementRectangleGKDirections = new List<ElementRectangleGKDirection>();
@@ -85,7 +81,7 @@ namespace FiresecAPI.Models
 		public string BackgroundSourceName { get; set; }
 		[DataMember]
 		public ResourceType ImageType { get; set; }
-	
+
 		[DataMember]
 		public List<ElementRectangle> ElementRectangles { get; set; }
 		[DataMember]
@@ -100,14 +96,6 @@ namespace FiresecAPI.Models
 		public List<ElementSubPlan> ElementSubPlans { get; set; }
 		[DataMember]
 		public List<ElementGKDevice> ElementGKDevices { get; set; }
-		[DataMember]
-		public List<ElementRectangleGKZone> ElementRectangleGKZones { get; set; }
-		[DataMember]
-		public List<ElementPolygonGKZone> ElementPolygonGKZones { get; set; }
-		[DataMember]
-		public List<ElementRectangleGKGuardZone> ElementRectangleGKGuardZones { get; set; }
-		[DataMember]
-		public List<ElementPolygonGKGuardZone> ElementPolygonGKGuardZones { get; set; }
 		[DataMember]
 		public List<ElementRectangleGKDirection> ElementRectangleGKDirections { get; set; }
 		[DataMember]
@@ -148,13 +136,9 @@ namespace FiresecAPI.Models
 				union.AddRange(ElementPolygonSKDZones);
 				union.AddRange(ElementPolygonGKDirections);
 				union.AddRange(ElementPolygonGKMPTs);
-				union.AddRange(ElementPolygonGKGuardZones);
-				union.AddRange(ElementPolygonGKZones);
 				union.AddRange(ElementRectangleSKDZones);
 				union.AddRange(ElementRectangleGKDirections);
 				union.AddRange(ElementRectangleGKMPTs);
-				union.AddRange(ElementRectangleGKGuardZones);
-				union.AddRange(ElementRectangleGKZones);
 				union.AddRange(ElementSKDDevices);
 				union.AddRange(ElementSubPlans);
 				union.AddRange(ElementGKDevices);

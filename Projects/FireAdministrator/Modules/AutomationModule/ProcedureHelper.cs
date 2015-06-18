@@ -81,8 +81,6 @@ namespace AutomationModule
 		{
 			if (objectType == ObjectType.Device)
 				return new List<Property> { Property.Description, Property.ShleifNo, Property.IntAddress, Property.State, Property.Type, Property.Uid };
-			if (objectType == ObjectType.Zone)
-				return new List<Property> { Property.Description, Property.No, Property.Uid, Property.Name, Property.State };
 			if (objectType == ObjectType.Direction)
 				return new List<Property> { Property.Description, Property.No, Property.Delay, Property.CurrentDelay, Property.Hold, Property.CurrentHold, Property.DelayRegime, Property.Uid, Property.Name, Property.State };
 			if (objectType == ObjectType.Delay)
@@ -119,26 +117,6 @@ namespace AutomationModule
 				if (DialogService.ShowModalWindow(deviceSelectationViewModel))
 				{
 					currentExplicitValue.UidValue = deviceSelectationViewModel.SelectedDevice != null ? deviceSelectationViewModel.SelectedDevice.Device.UID : Guid.Empty;
-					return true;
-				}
-			}
-
-			if (objectType == ObjectType.Zone)
-			{
-				var zoneSelectationViewModel = new ZoneSelectionViewModel(currentExplicitValue.Zone);
-				if (DialogService.ShowModalWindow(zoneSelectationViewModel))
-				{
-					currentExplicitValue.UidValue = zoneSelectationViewModel.SelectedZone != null ? zoneSelectationViewModel.SelectedZone.Zone.UID : Guid.Empty;
-					return true;
-				}
-			}
-
-			if (objectType == ObjectType.GuardZone)
-			{
-				var guardZoneSelectationViewModel = new GuardZoneSelectionViewModel(currentExplicitValue.GuardZone);
-				if (DialogService.ShowModalWindow(guardZoneSelectationViewModel))
-				{
-					currentExplicitValue.UidValue = guardZoneSelectationViewModel.SelectedZone != null ? guardZoneSelectationViewModel.SelectedZone.GuardZone.UID : Guid.Empty;
 					return true;
 				}
 			}
@@ -305,11 +283,7 @@ namespace AutomationModule
 			{
 				case ObjectType.Device:
 					return true;
-				case ObjectType.Zone:
-					return true;
 				case ObjectType.Direction:
-					return true;
-				case ObjectType.GuardZone:
 					return true;
 				case ObjectType.GKDoor:
 					return true;

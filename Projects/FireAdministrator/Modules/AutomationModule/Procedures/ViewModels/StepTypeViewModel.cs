@@ -19,12 +19,11 @@ namespace AutomationModule.ViewModels
 			IsFolder = false;
 			if ((procedureStepType == ProcedureStepType.ControlDirection)
 				|| (procedureStepType == ProcedureStepType.ControlDoor) || (procedureStepType == ProcedureStepType.ControlGKDevice) || (procedureStepType == ProcedureStepType.ControlGKDoor)
-				|| (procedureStepType == ProcedureStepType.ControlGKFireZone) || (procedureStepType == ProcedureStepType.ControlGKGuardZone)
 				|| (procedureStepType == ProcedureStepType.ControlSKDDevice) || (procedureStepType == ProcedureStepType.ControlSKDZone)
 				|| (procedureStepType == ProcedureStepType.ControlDelay) || (procedureStepType == ProcedureStepType.Ptz)
 				|| (procedureStepType == ProcedureStepType.StartRecord) || (procedureStepType == ProcedureStepType.StopRecord) || (procedureStepType == ProcedureStepType.RviAlarm))
 				ImageSource = "/Controls;component/StepIcons/Control.png";
-			else if ((procedureStepType == ProcedureStepType.ExportJournal) || (procedureStepType == ProcedureStepType.ExportOrganisation) 
+			else if ((procedureStepType == ProcedureStepType.ExportJournal) || (procedureStepType == ProcedureStepType.ExportOrganisation)
 				|| (procedureStepType == ProcedureStepType.ExportConfiguration)	|| (procedureStepType == ProcedureStepType.ExportOrganisationList))
 				ImageSource = "/Controls;component/StepIcons/Export.png";
 			else if ((procedureStepType == ProcedureStepType.ImportOrganisation) || (procedureStepType == ProcedureStepType.ImportOrganisationList))

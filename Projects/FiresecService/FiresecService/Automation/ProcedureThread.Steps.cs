@@ -404,29 +404,6 @@ namespace FiresecService
 				itemUid = (item as GKDelay).UID;
 			}
 
-			if (item is GKZone)
-			{
-				switch (property)
-				{
-					case Property.No:
-						propertyValue = (item as GKZone).No;
-						break;
-					case Property.Type:
-						propertyValue = (item as GKZone).ObjectType;
-						break;
-					case Property.State:
-						propertyValue = (int)(item as GKZone).State.StateClass;
-						break;
-					case Property.Name:
-						propertyValue = (item as GKZone).Name.Trim();
-						break;
-					case Property.Uid:
-						propertyValue = (item as GKZone).UID.ToString();
-						break;
-				}
-				itemUid = (item as GKZone).UID;
-			}
-
 			if (item is GKDirection)
 			{
 				switch (property)
@@ -477,12 +454,6 @@ namespace FiresecService
 				foreach (var objectUid in new List<Guid>(GKManager.DeviceConfiguration.Devices.Select(x => x.UID)))
 					explicitValues.Add(new ExplicitValue { UidValue = objectUid });
 			}
-			if (result.ObjectType == ObjectType.Zone)
-			{
-				items = new List<GKZone>(GKManager.Zones);
-				foreach (var objectUid in new List<Guid>(GKManager.Zones.Select(x => x.UID)))
-					explicitValues.Add(new ExplicitValue { UidValue = objectUid });
-			}
 			if (result.ObjectType == ObjectType.Direction)
 			{
 				items = new List<GKDirection>(GKManager.Directions);
@@ -495,8 +466,6 @@ namespace FiresecService
 		object InitializeItem(Guid itemUid)
 		{
 			var device = GKManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == itemUid);
-			var zone = GKManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == itemUid);
-			var guardZone = GKManager.DeviceConfiguration.GuardZones.FirstOrDefault(x => x.UID == itemUid);
 			var sKDDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == itemUid);
 			var sKDZone = SKDManager.Zones.FirstOrDefault(x => x.UID == itemUid);
 			var camera = ConfigurationCashHelper.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == itemUid);
@@ -505,10 +474,6 @@ namespace FiresecService
 			var delay = GKManager.DeviceConfiguration.Delays.FirstOrDefault(x => x.UID == itemUid);
 			if (device != null)
 				return device;
-			if (zone != null)
-				return zone;
-			if (guardZone != null)
-				return guardZone;
 			if (sKDDevice != null)
 				return sKDDevice;
 			if (sKDZone != null)
@@ -704,48 +669,6 @@ namespace FiresecService
 			var rviAlarmArguments = procedureStep.RviAlarmArguments;
 			var name = GetValue<string>(rviAlarmArguments.NameArgument);
 			RviClient.RviClientHelper.AlarmRuleExecute(ConfigurationCashHelper.SystemConfiguration, name);
-		}
-
-		void ControlFireZone(ProcedureStep procedureStep)
-		{
-			var zoneUid = GetValue<Guid>(procedureStep.ControlGKFireZoneArguments.GKFireZoneArgument);
-			var zoneCommandType = procedureStep.ControlGKFireZoneArguments.ZoneCommandType;
-			if (zoneCommandType == ZoneCommandType.Ignore)
-				FiresecServiceManager.SafeFiresecService.GKSetIgnoreRegime(zoneUid, GKBaseObjectType.Zone);
-			if (zoneCommandType == ZoneCommandType.ResetIgnore)
-				FiresecServiceManager.SafeFiresecService.GKSetAutomaticRegime(zoneUid, GKBaseObjectType.Zone);
-			if (zoneCommandType == ZoneCommandType.Reset)
-				FiresecServiceManager.SafeFiresecService.GKReset(zoneUid, GKBaseObjectType.Zone);
-		}
-
-		void ControlGuardZone(ProcedureStep procedureStep)
-		{
-			var zoneUid = GetValue<Guid>(procedureStep.ControlGKGuardZoneArguments.GKGuardZoneArgument);
-			var guardZoneCommandType = procedureStep.ControlGKGuardZoneArguments.GuardZoneCommandType;
-			if (guardZoneCommandType == GuardZoneCommandType.Automatic)
-				FiresecServiceManager.SafeFiresecService.GKSetAutomaticRegime(zoneUid, GKBaseObjectType.GuardZone);
-			if (guardZoneCommandType == GuardZoneCommandType.Ignore)
-				FiresecServiceManager.SafeFiresecService.GKSetIgnoreRegime(zoneUid, GKBaseObjectType.GuardZone);
-			if (guardZoneCommandType == GuardZoneCommandType.Manual)
-				FiresecServiceManager.SafeFiresecService.GKSetManualRegime(zoneUid, GKBaseObjectType.GuardZone);
-			if (guardZoneCommandType == GuardZoneCommandType.Reset)
-				FiresecServiceManager.SafeFiresecService.GKReset(zoneUid, GKBaseObjectType.GuardZone);
-			if (guardZoneCommandType == GuardZoneCommandType.TurnOn)
-				FiresecServiceManager.SafeFiresecService.GKTurnOn(zoneUid, GKBaseObjectType.GuardZone);
-			if (guardZoneCommandType == GuardZoneCommandType.TurnOnNow)
-				FiresecServiceManager.SafeFiresecService.GKTurnOnNow(zoneUid, GKBaseObjectType.GuardZone);
-			if (guardZoneCommandType == GuardZoneCommandType.TurnOff)
-				FiresecServiceManager.SafeFiresecService.GKTurnOff(zoneUid, GKBaseObjectType.GuardZone);
-			if (guardZoneCommandType == GuardZoneCommandType.TurnOffNow)
-				FiresecServiceManager.SafeFiresecService.GKTurnOffNow(zoneUid, GKBaseObjectType.GuardZone);
-			if (guardZoneCommandType == GuardZoneCommandType.TurnOnInAutomatic)
-				FiresecServiceManager.SafeFiresecService.GKTurnOnInAutomatic(zoneUid, GKBaseObjectType.GuardZone);
-			if (guardZoneCommandType == GuardZoneCommandType.TurnOnNowInAutomatic)
-				FiresecServiceManager.SafeFiresecService.GKTurnOnNowInAutomatic(zoneUid, GKBaseObjectType.GuardZone);
-			if (guardZoneCommandType == GuardZoneCommandType.TurnOffInAutomatic)
-				FiresecServiceManager.SafeFiresecService.GKTurnOffInAutomatic(zoneUid, GKBaseObjectType.GuardZone);
-			if (guardZoneCommandType == GuardZoneCommandType.TurnOffNowInAutomatic)
-				FiresecServiceManager.SafeFiresecService.GKTurnOffNowInAutomatic(zoneUid, GKBaseObjectType.GuardZone);
 		}
 
 		void ControlDirection(ProcedureStep procedureStep)

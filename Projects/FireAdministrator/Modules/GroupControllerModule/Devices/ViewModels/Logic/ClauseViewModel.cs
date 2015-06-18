@@ -15,8 +15,6 @@ namespace GKModule.ViewModels
 	public class ClauseViewModel : BaseViewModel
 	{
 		public List<GKDevice> Devices { get; set; }
-		public List<GKZone> Zones { get; set; }
-		public List<GKGuardZone> GuardZones { get; set; }
 		public List<GKDirection> Directions { get; set; }
 		public List<GKMPT> MPTs { get; set; }
 		public List<GKDelay> Delays { get; set; }
@@ -27,8 +25,6 @@ namespace GKModule.ViewModels
 		{
 			Device = device;
 			SelectDevicesCommand = new RelayCommand(OnSelectDevices);
-			SelectZonesCommand = new RelayCommand(OnSelectZones);
-			SelectGuardZonesCommand = new RelayCommand(OnSelectGuardZones);
 			SelectDirectionCommand = new RelayCommand(OnSelectDirections);
 			SelectMPTsCommand = new RelayCommand(OnSelectMPTs);
 			SelectDelaysCommand = new RelayCommand(OnSelectDelays);
@@ -39,8 +35,6 @@ namespace GKModule.ViewModels
 			SelectedClauseOperationType = clause.ClauseOperationType;
 
 			Devices = clause.Devices.ToList();
-			Zones = clause.Zones.ToList();
-			GuardZones = clause.GuardZones.ToList();
 			Directions = clause.Directions.ToList();
 			MPTs = clause.MPTs.ToList();
 			Delays = clause.Delays.ToList();
@@ -86,22 +80,6 @@ namespace GKModule.ViewModels
 						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.TurningOn));
 						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.TurningOff));
 						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.Failure));
-						break;
-
-					case ClauseOperationType.AllZones:
-					case ClauseOperationType.AnyZone:
-						StateTypes = new ObservableCollection<StateTypeViewModel>();
-						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.Fire2));
-						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.Fire1));
-						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.Attention));
-						break;
-
-					case ClauseOperationType.AllGuardZones:
-					case ClauseOperationType.AnyGuardZone:
-						StateTypes = new ObservableCollection<StateTypeViewModel>();
-						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.On));
-						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.Off));
-						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.Fire1));
 						break;
 
 					case ClauseOperationType.AllDirections:
@@ -153,15 +131,11 @@ namespace GKModule.ViewModels
 				}
 				OnPropertyChanged(() => SelectedClauseOperationType);
 				OnPropertyChanged(() => PresenrationDevices);
-				OnPropertyChanged(() => PresenrationZones);
-				OnPropertyChanged(() => PresenrationGuardZones);
 				OnPropertyChanged(() => PresenrationDirections);
 				OnPropertyChanged(() => PresenrationMPTs);
 				OnPropertyChanged(() => PresenrationDelays);
 				OnPropertyChanged(() => PresenrationDoors);
 				OnPropertyChanged(() => CanSelectDevices);
-				OnPropertyChanged(() => CanSelectZones);
-				OnPropertyChanged(() => CanSelectGuardZones);
 				OnPropertyChanged(() => CanSelectDirections);
 				OnPropertyChanged(() => CanSelectMPTs);
 				OnPropertyChanged(() => CanSelectDelays);
@@ -196,16 +170,6 @@ namespace GKModule.ViewModels
 			get { return GKManager.GetCommaSeparatedDevices(Devices); }
 		}
 
-		public string PresenrationZones
-		{
-			get { return GKManager.GetCommaSeparatedObjects(new List<ModelBase>(Zones), new List<ModelBase>(GKManager.Zones)); }
-		}
-
-		public string PresenrationGuardZones
-		{
-			get { return GKManager.GetCommaSeparatedObjects(new List<ModelBase>(GuardZones), new List<ModelBase>(GKManager.GuardZones)); }
-		}
-
 		public string PresenrationDirections
 		{
 			get { return GKManager.GetCommaSeparatedObjects(new List<ModelBase>(Directions), new List<ModelBase>(GKManager.Directions)); }
@@ -233,16 +197,6 @@ namespace GKModule.ViewModels
 		public bool CanSelectDevices
 		{
 			get { return (SelectedClauseOperationType == ClauseOperationType.AllDevices || SelectedClauseOperationType == ClauseOperationType.AnyDevice); }
-		}
-
-		public bool CanSelectZones
-		{
-			get { return (SelectedClauseOperationType == ClauseOperationType.AllZones || SelectedClauseOperationType == ClauseOperationType.AnyZone); }
-		}
-
-		public bool CanSelectGuardZones
-		{
-			get { return (SelectedClauseOperationType == ClauseOperationType.AllGuardZones || SelectedClauseOperationType == ClauseOperationType.AnyGuardZone); }
 		}
 
 		public bool CanSelectDirections
@@ -286,28 +240,6 @@ namespace GKModule.ViewModels
 			{
 				Devices = devicesSelectationViewModel.DevicesList;
 				OnPropertyChanged(() => PresenrationDevices);
-			}
-		}
-
-		public RelayCommand SelectZonesCommand { get; private set; }
-		void OnSelectZones()
-		{
-			var zonesSelectationViewModel = new ZonesSelectationViewModel(Zones);
-			if (DialogService.ShowModalWindow(zonesSelectationViewModel))
-			{
-				Zones = zonesSelectationViewModel.Zones;
-				OnPropertyChanged(() => PresenrationZones);
-			}
-		}
-
-		public RelayCommand SelectGuardZonesCommand { get; private set; }
-		void OnSelectGuardZones()
-		{
-			var guardZonesSelectationViewModel = new GuardZonesSelectationViewModel(GuardZones);
-			if (DialogService.ShowModalWindow(guardZonesSelectationViewModel))
-			{
-				GuardZones = guardZonesSelectationViewModel.GuardZones;
-				OnPropertyChanged(() => PresenrationGuardZones);
 			}
 		}
 

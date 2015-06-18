@@ -456,7 +456,7 @@ namespace FiresecAPI.Journal
 
 		[EventName(JournalSubsystemType.SKD, "Редактирование подразделения", XStateClass.Info)]
 		Редактирование_отдела,
-		
+
 
 		[EventName(JournalSubsystemType.SKD, "Редактирование должности", XStateClass.Info)]
 		Редактирование_должности,
@@ -551,24 +551,12 @@ namespace FiresecAPI.Journal
 		[EventName(JournalSubsystemType.GK, "Проход пользователя разрешен", XStateClass.Info)]
 		Проход_пользователя_разрешен,
 
-		[EventName(JournalSubsystemType.GK, "На охране", XStateClass.On)]
-		На_охране,
-
-		[EventName(JournalSubsystemType.GK, "Не на охране", XStateClass.Off)]
-		Не_на_охране,
-
-		[EventName(JournalSubsystemType.GK, "Постановка на охрану", XStateClass.On)]
-		Постановка_на_охрану,
-
-		[EventName(JournalSubsystemType.GK, "Снятие с охраны", XStateClass.Off)]
-		Снятие_с_охраны,
-
 		[EventName(JournalSubsystemType.GK, "Рабочий график", XStateClass.TechnologicalRegime)]
 		Рабочий_график,
 
 		[EventName(JournalSubsystemType.SKD, "Удаление сотрудника", XStateClass.Info)]
 		Удаление_сотрудника,
-		
+
 		[EventName(JournalSubsystemType.SKD, "Удаление подразделения", XStateClass.Info)]
 		Удаление_отдела,
 

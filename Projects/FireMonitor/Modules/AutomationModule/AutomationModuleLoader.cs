@@ -123,12 +123,6 @@ namespace AutomationModule
 								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKDeviceDetailsEvent>();
 							break;
 
-						case ObjectType.Zone:
-							var zone = GKManager.Zones.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
-							if (zone != null)
-								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKZoneDetailsEvent>();
-							break;
-
 						case ObjectType.Direction:
 							var direction = GKManager.Directions.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
 							if (direction != null)
@@ -151,12 +145,6 @@ namespace AutomationModule
 							var skdZone = SKDManager.Zones.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
 							if (skdZone != null)
 								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowSKDZoneDetailsEvent>();
-							break;
-
-						case ObjectType.GuardZone:
-							var guardZone = GKManager.GuardZones.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
-							if (guardZone != null)
-								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKGuardZoneDetailsEvent>();
 							break;
 
 						case ObjectType.VideoDevice:

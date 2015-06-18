@@ -74,11 +74,9 @@ namespace GKProcessor
 				}
 			}
 
-			if ((Device.DriverType == GKDriverType.RSR2_CodeReader || Device.DriverType == GKDriverType.RSR2_CardReader || Device.DriverType == GKDriverType.RSR2_GuardDetector || Device.DriverType == GKDriverType.RSR2_GuardDetectorSound) && Device.GuardZones != null && Device.GuardZones.Count > 0)
+			if ((Device.DriverType == GKDriverType.RSR2_CodeReader || Device.DriverType == GKDriverType.RSR2_CardReader || Device.DriverType == GKDriverType.RSR2_GuardDetector || Device.DriverType == GKDriverType.RSR2_GuardDetectorSound))
 			{
-				Formula.AddGetBit(GKStateBit.On, Device.GuardZones.FirstOrDefault(), DatabaseType);
 				Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device, DatabaseType);
-				Formula.AddGetBit(GKStateBit.Off, Device.GuardZones.FirstOrDefault(), DatabaseType);
 				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device, DatabaseType);
 			}
 			if (Device.Door != null && Device.Door.DoorType == GKDoorType.Barrier)

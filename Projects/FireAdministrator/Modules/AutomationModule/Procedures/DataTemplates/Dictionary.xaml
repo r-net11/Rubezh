@@ -1,4 +1,8 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ViewModels="clr-namespace:AutomationModule.ViewModels" xmlns:Views="clr-namespace:AutomationModule.Views">
+﻿<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:ViewModels="clr-namespace:AutomationModule.ViewModels"
+	xmlns:Views="clr-namespace:AutomationModule.Views">
 
 	<DataTemplate DataType="{x:Type ViewModels:ProceduresViewModel}">
 		<Views:ProceduresView />
@@ -52,10 +56,6 @@
 		<Views:ZoneSelectionView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:GuardZoneSelectionViewModel}">
-		<Views:GuardZoneSelectionView />
-	</DataTemplate>
-
 	<DataTemplate DataType="{x:Type ViewModels:SKDZoneSelectionViewModel}">
 		<Views:SKDZoneSelectionView />
 	</DataTemplate>
@@ -67,7 +67,7 @@
 	<DataTemplate DataType="{x:Type ViewModels:DelaySelectionViewModel}">
 		<Views:DelaySelectionView />
 	</DataTemplate>
-	
+
 	<DataTemplate DataType="{x:Type ViewModels:DirectionSelectionViewModel}">
 		<Views:DirectionSelectionView />
 	</DataTemplate>
@@ -142,14 +142,6 @@
 
 	<DataTemplate x:Key="controlSKDDeviceTemplate">
 		<Views:ControlSKDDeviceStepView />
-	</DataTemplate>
-
-	<DataTemplate x:Key="controlGKFireZoneTemplate">
-		<Views:ControlGKFireZoneStepView />
-	</DataTemplate>
-
-	<DataTemplate x:Key="controlGKGuardZoneTemplate">
-		<Views:ControlGKGuardZoneStepView />
 	</DataTemplate>
 
 	<DataTemplate x:Key="controlSKDZoneTemplate">
@@ -243,7 +235,7 @@
 	<DataTemplate x:Key="showDialogStepView">
 		<Views:ShowDialogStepView />
 	</DataTemplate>
-	
+
 	<DataTemplate x:Key="showPropertyTemplate">
 		<Views:ShowPropertyStepView />
 	</DataTemplate>
@@ -272,52 +264,51 @@
 		<Views:RviAlarmStepView />
 	</DataTemplate>
 
-	<ViewModels:StepTypeTemplateSelector x:Key="stepTypeTemplateSelector"
-										 ArithmeticTemplate="{StaticResource arithmeticTemplate}"
-										 ChangeListTemplate="{StaticResource changeListTemplate}"
-										 CheckPermissionTemplate="{StaticResource checkPermissionTemplate}"
-										 ConditionTemplate="{StaticResource conditionTemplate}"
-										 ControlDirectionTemplate="{StaticResource controlDirectionTemplate}"
-										 ControlDoorTemplate="{StaticResource controlDoorTemplate}"
-										 ControlGKDoorTemplate="{StaticResource controlGKDoorTemplate}"
-										 ControlGKDeviceTemplate="{StaticResource controlGKDeviceTemplate}"
-										 ControlGKFireZoneTemplate="{StaticResource controlGKFireZoneTemplate}"
-										 ControlGKGuardZoneTemplate="{StaticResource controlGKGuardZoneTemplate}"
-										 ControlPlanTemplate="{StaticResource controlPlanTemplate}"
-										 ControlSKDDeviceTemplate="{StaticResource controlSKDDeviceTemplate}"
-										 ControlSKDZoneTemplate="{StaticResource controlSKDZoneTemplate}"
-										 ControlVisualTemplate="{StaticResource controlVisualTemplate}"
-										 ExitTemplate="{StaticResource exitTemplate}"
-										 FindObjectTemplate="{StaticResource findObjectTemplate}"
-										 ForeachTemplate="{StaticResource foreachTemplate}"
-										 ForTemplate="{StaticResource forTemplate}"
-										 GetJournalItemTemplate="{StaticResource getJournalItemTemplate}"
-										 GetListCountTemplate="{StaticResource getListCountTemplate}"
-										 GetListItemTemplate="{StaticResource getListItemTemplate}"
-										 GetObjectPropertyTemplate="{StaticResource getObjectPropertyTemplate}"
-										 IncrementValueTemplate="{StaticResource incrementGlobalValueTemplate}"
-										 JournalTemplate="{StaticResource journalTemplate}"
-										 PauseTemplate="{StaticResource pauseTemplate}"
-										 ProcedureSelectionTemplate="{StaticResource procedureSelectionTemplate}"
-										 RandomTemplate="{StaticResource randomTemplate}"
-										 RunProgramTemplate="{StaticResource RunProgramTemplate}"
-										 SendEmailTemplate="{StaticResource sendEmailTemplate}"
-										 SetValueTemplate="{StaticResource setValueTemplate}"
-										 ShowDialogTemplate="{StaticResource showDialogStepView}"
-										 ShowMessageTemplate="{StaticResource sendMessageTemplate}"
-										 SoundsTemplate="{StaticResource soundsTemplate}"
-										 ControlDelayTemplate="{StaticResource controlDelayTemplate}"
-										 ShowPropertyTemplate="{StaticResource showPropertyTemplate}" 
-										 ExportJournalTemplate="{StaticResource exportJournalTemplate}" 
-										 ExportOrganisationTemplate="{StaticResource exportOrganisationTemplate}" 
-										 GenerateGuidTemplate="{StaticResource generateGuidTemplate}"
-										 ExportConfigurationTemplate="{StaticResource exportConfigurationTemplate}" 
-										 ImportOrganisationTemplate="{StaticResource importOrganisationTemplate}" 
-										 ExportOrganisationListTemplate="{StaticResource exportOrganisationListTemplate}" 
-										 SetJournalItemTemplate="{StaticResource setJournalItemTemplate}"
-										 ImportOrganisationListTemplate="{StaticResource importOrganisationListTemplate}"
-										 PtzTemplate="{StaticResource ptzTemplate}"
-										 StartRecordTemplate="{StaticResource startRecordTemplate}"
-										 StopRecordTemplate="{StaticResource stopRecordTemplate}"
-										 RviAlarmTemplate="{StaticResource rviAlarmTemplate}" />
+	<ViewModels:StepTypeTemplateSelector
+		x:Key="stepTypeTemplateSelector"
+		ArithmeticTemplate="{StaticResource arithmeticTemplate}"
+		ChangeListTemplate="{StaticResource changeListTemplate}"
+		CheckPermissionTemplate="{StaticResource checkPermissionTemplate}"
+		ConditionTemplate="{StaticResource conditionTemplate}"
+		ControlDelayTemplate="{StaticResource controlDelayTemplate}"
+		ControlDirectionTemplate="{StaticResource controlDirectionTemplate}"
+		ControlDoorTemplate="{StaticResource controlDoorTemplate}"
+		ControlGKDeviceTemplate="{StaticResource controlGKDeviceTemplate}"
+		ControlGKDoorTemplate="{StaticResource controlGKDoorTemplate}"
+		ControlPlanTemplate="{StaticResource controlPlanTemplate}"
+		ControlSKDDeviceTemplate="{StaticResource controlSKDDeviceTemplate}"
+		ControlSKDZoneTemplate="{StaticResource controlSKDZoneTemplate}"
+		ControlVisualTemplate="{StaticResource controlVisualTemplate}"
+		ExitTemplate="{StaticResource exitTemplate}"
+		ExportConfigurationTemplate="{StaticResource exportConfigurationTemplate}"
+		ExportJournalTemplate="{StaticResource exportJournalTemplate}"
+		ExportOrganisationListTemplate="{StaticResource exportOrganisationListTemplate}"
+		ExportOrganisationTemplate="{StaticResource exportOrganisationTemplate}"
+		FindObjectTemplate="{StaticResource findObjectTemplate}"
+		ForTemplate="{StaticResource forTemplate}"
+		ForeachTemplate="{StaticResource foreachTemplate}"
+		GenerateGuidTemplate="{StaticResource generateGuidTemplate}"
+		GetJournalItemTemplate="{StaticResource getJournalItemTemplate}"
+		GetListCountTemplate="{StaticResource getListCountTemplate}"
+		GetListItemTemplate="{StaticResource getListItemTemplate}"
+		GetObjectPropertyTemplate="{StaticResource getObjectPropertyTemplate}"
+		ImportOrganisationListTemplate="{StaticResource importOrganisationListTemplate}"
+		ImportOrganisationTemplate="{StaticResource importOrganisationTemplate}"
+		IncrementValueTemplate="{StaticResource incrementGlobalValueTemplate}"
+		JournalTemplate="{StaticResource journalTemplate}"
+		PauseTemplate="{StaticResource pauseTemplate}"
+		ProcedureSelectionTemplate="{StaticResource procedureSelectionTemplate}"
+		PtzTemplate="{StaticResource ptzTemplate}"
+		RandomTemplate="{StaticResource randomTemplate}"
+		RunProgramTemplate="{StaticResource RunProgramTemplate}"
+		RviAlarmTemplate="{StaticResource rviAlarmTemplate}"
+		SendEmailTemplate="{StaticResource sendEmailTemplate}"
+		SetJournalItemTemplate="{StaticResource setJournalItemTemplate}"
+		SetValueTemplate="{StaticResource setValueTemplate}"
+		ShowDialogTemplate="{StaticResource showDialogStepView}"
+		ShowMessageTemplate="{StaticResource sendMessageTemplate}"
+		ShowPropertyTemplate="{StaticResource showPropertyTemplate}"
+		SoundsTemplate="{StaticResource soundsTemplate}"
+		StartRecordTemplate="{StaticResource startRecordTemplate}"
+		StopRecordTemplate="{StaticResource stopRecordTemplate}" />
 </ResourceDictionary>

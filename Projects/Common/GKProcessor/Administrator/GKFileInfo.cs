@@ -46,12 +46,6 @@ namespace GKProcessor
 				if (device.IsRealDevice && device.GKParent == gkControllerDevice)
 					stringBuilder.Append(device.PresentationName).Append("@");
 			}
-			stringBuilder.Append("zones:");
-			foreach (var zone in deviceConfiguration.Zones)
-			{
-				if (zone.GkDatabaseParent == gkControllerDevice)
-					stringBuilder.Append(zone.PresentationName).Append("@");
-			}
 			stringBuilder.Append("directions:");
 			foreach (var direction in deviceConfiguration.Directions)
 			{
@@ -99,18 +93,6 @@ namespace GKProcessor
 				{
 					stringBuilder.Append(delay.PresentationName).Append("@");
 				}
-			}
-			stringBuilder.Append("guardZones:");
-			foreach (var guardZone in deviceConfiguration.GuardZones)
-			{
-				if (guardZone.GkDatabaseParent == gkControllerDevice)
-					stringBuilder.Append(guardZone.PresentationName).Append("@");
-			}
-			stringBuilder.Append("codes:");
-			foreach (var code in deviceConfiguration.Codes)
-			{
-				if (code.GkDatabaseParent == gkControllerDevice)
-					stringBuilder.Append(code.PresentationName).Append("@");
 			}
 			stringBuilder.Append("door:");
 			foreach (var door in deviceConfiguration.Doors)

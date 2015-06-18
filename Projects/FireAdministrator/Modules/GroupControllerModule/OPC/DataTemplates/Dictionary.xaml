@@ -4,10 +4,6 @@
 		<Views:OPCDevicesView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:OPCZonesViewModel}">
-		<Views:OPCZonesView />
-	</DataTemplate>
-
 	<DataTemplate DataType="{x:Type ViewModels:OPCDirectionsViewModel}">
 		<Views:OPCDirectionsView />
 	</DataTemplate>

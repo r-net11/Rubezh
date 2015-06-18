@@ -127,10 +127,8 @@ namespace FiresecClient
 			try
 			{
 				GKManager.Devices.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
-				GKManager.Zones.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
 				GKManager.Directions.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
 				GKManager.MPTs.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
-				GKManager.DeviceConfiguration.GuardZones.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
 				GKManager.Doors.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
 
 				SKDManager.Devices.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
@@ -145,18 +143,6 @@ namespace FiresecClient
 				{
 					if (!gkDeviceMap.ContainsKey(device.UID))
 						gkDeviceMap.Add(device.UID, device);
-				}
-				var gkZoneMap = new Dictionary<Guid, GKZone>();
-				foreach (var zone in GKManager.Zones)
-				{
-					if (!gkZoneMap.ContainsKey(zone.UID))
-					gkZoneMap.Add(zone.UID, zone);
-				}
-				var gkGuardZoneMap = new Dictionary<Guid, GKGuardZone>();
-				foreach (var guardZone in GKManager.DeviceConfiguration.GuardZones)
-				{
-					if (!gkGuardZoneMap.ContainsKey(guardZone.UID))
-						gkGuardZoneMap.Add(guardZone.UID, guardZone);
 				}
 				var gkDirectionMap = new Dictionary<Guid, GKDirection>();
 				foreach (var direction in GKManager.Directions)
@@ -183,7 +169,7 @@ namespace FiresecClient
 					if (!doorMap.ContainsKey(door.UID))
 						doorMap.Add(door.UID, door);
 				}
-				var skdDeviceMap = new Dictionary<Guid, SKDDevice>();				
+				var skdDeviceMap = new Dictionary<Guid, SKDDevice>();
 				foreach (var skdDevice in SKDManager.Devices)
 				{
 					if (!skdDeviceMap.ContainsKey(skdDevice.UID))
@@ -220,30 +206,6 @@ namespace FiresecClient
 						elementGKDevice.UpdateZLayer();
 						if (gkDeviceMap.ContainsKey(elementGKDevice.DeviceUID))
 							gkDeviceMap[elementGKDevice.DeviceUID].PlanElementUIDs.Add(elementGKDevice.UID);
-					}
-					foreach (var zone in plan.ElementPolygonGKZones)
-					{
-						UpdateZoneType(zone, zone.ZoneUID != Guid.Empty && gkZoneMap.ContainsKey(zone.ZoneUID) ? gkZoneMap[zone.ZoneUID] : null);
-						if (gkZoneMap.ContainsKey(zone.ZoneUID))
-							gkZoneMap[zone.ZoneUID].PlanElementUIDs.Add(zone.UID);
-					}
-					foreach (var zone in plan.ElementRectangleGKZones)
-					{
-						UpdateZoneType(zone, zone.ZoneUID != Guid.Empty && gkZoneMap.ContainsKey(zone.ZoneUID) ? gkZoneMap[zone.ZoneUID] : null);
-						if (gkZoneMap.ContainsKey(zone.ZoneUID))
-							gkZoneMap[zone.ZoneUID].PlanElementUIDs.Add(zone.UID);
-					}
-					foreach (var guardZone in plan.ElementPolygonGKGuardZones)
-					{
-						UpdateZoneType(guardZone, guardZone.ZoneUID != Guid.Empty && gkGuardZoneMap.ContainsKey(guardZone.ZoneUID) ? gkGuardZoneMap[guardZone.ZoneUID] : null);
-						if (gkGuardZoneMap.ContainsKey(guardZone.ZoneUID))
-							gkGuardZoneMap[guardZone.ZoneUID].PlanElementUIDs.Add(guardZone.UID);
-					}
-					foreach (var guardZone in plan.ElementRectangleGKGuardZones)
-					{
-						UpdateZoneType(guardZone, guardZone.ZoneUID != Guid.Empty && gkGuardZoneMap.ContainsKey(guardZone.ZoneUID) ? gkGuardZoneMap[guardZone.ZoneUID] : null);
-						if (gkGuardZoneMap.ContainsKey(guardZone.ZoneUID))
-							gkGuardZoneMap[guardZone.ZoneUID].PlanElementUIDs.Add(guardZone.UID);
 					}
 					for (int i = plan.ElementRectangleGKSKDZones.Count(); i > 0; i--)
 					{
@@ -344,16 +306,6 @@ namespace FiresecClient
 			}
 		}
 
-		private static void UpdateZoneType(IElementZone elementZone, GKGuardZone zone)
-		{
-			elementZone.SetZLayer(zone == null ? 20 : 40);
-			elementZone.BackgroundColor = zone == null ? System.Windows.Media.Colors.Black : System.Windows.Media.Colors.Brown;
-		}
-		private static void UpdateZoneType(IElementZone elementZone, GKZone zone)
-		{
-			elementZone.SetZLayer(zone == null ? 50 : 60);
-			elementZone.BackgroundColor = zone == null ? System.Windows.Media.Colors.Black : System.Windows.Media.Colors.Green;
-		}
 		private static void UpdateSKDZoneType(IElementZone elementZone, SKDZone zone)
 		{
 			elementZone.SetZLayer(zone == null ? 50 : 60);

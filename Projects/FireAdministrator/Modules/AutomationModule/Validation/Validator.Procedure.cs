@@ -186,20 +186,6 @@ namespace AutomationModule.Validation
 					}
 					break;
 
-				case ProcedureStepType.ControlGKFireZone:
-					{
-						var controlGKFireZoneArguments = step.ControlGKFireZoneArguments;
-						ValidateArgument(step, controlGKFireZoneArguments.GKFireZoneArgument);
-					}
-					break;
-
-				case ProcedureStepType.ControlGKGuardZone:
-					{
-						var controlGKGuardZoneArguments = step.ControlGKGuardZoneArguments;
-						ValidateArgument(step, controlGKGuardZoneArguments.GKGuardZoneArgument);
-					}
-					break;
-
 				case ProcedureStepType.ControlDirection:
 					{
 						var controlDirectionArguments = step.ControlDirectionArguments;

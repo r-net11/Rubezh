@@ -2,7 +2,6 @@
 	<UserControl.Resources>
 		<viewModel:DeviceViewModelDeviceComparer x:Key="DeviceViewModelDeviceComparer" />
 		<viewModel:DeviceViewModelAddressComparer x:Key="DeviceViewModelAddressComparer" />
-		<viewModel:DeviceViewModelZoneComparer x:Key="DeviceViewModelZoneComparer" />
 		<viewModel:DeviceViewModelDescriptionComparer x:Key="DeviceViewModelDescriptionComparer" />
 	</UserControl.Resources>
 	<Grid>
@@ -23,26 +22,6 @@
 							</GridViewColumn.CellTemplate>
 						</GridViewColumn>
 						<GridViewColumn Width="75" DisplayMemberBinding="{Binding Device.PresentationAddress}" Header="Адрес" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelAddressComparer}" />
-						<GridViewColumn Width="300" Header="Зона или Логика" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelZoneComparer}">
-							<GridViewColumn.CellTemplate>
-								<DataTemplate>
-									<TextBlock HorizontalAlignment="Stretch" Text="{Binding PresentationZone}" ToolTip="{Binding PresentationZone}">
-										<TextBlock.Resources>
-											<Style TargetType="ToolTip">
-												<Style.Triggers>
-													<Trigger Property="Content" Value="{x:Static sys:String.Empty}">
-														<Setter Property="Visibility" Value="Collapsed" />
-													</Trigger>
-													<Trigger Property="Content" Value="{x:Null}">
-														<Setter Property="Visibility" Value="Collapsed" />
-													</Trigger>
-												</Style.Triggers>
-											</Style>
-										</TextBlock.Resources>
-									</TextBlock>
-								</DataTemplate>
-							</GridViewColumn.CellTemplate>
-						</GridViewColumn>
 						<GridViewColumn Width="100" DisplayMemberBinding="{Binding Device.Description}" Header="Примечание" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelDescriptionComparer}" />
 					</GridView>
 				</tree:TreeList.View>

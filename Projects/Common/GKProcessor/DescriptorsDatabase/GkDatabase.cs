@@ -38,20 +38,6 @@ namespace GKProcessor
 		public override void BuildObjects()
 		{
 			AddKauObjects();
-			foreach (var zone in GKManager.Zones)
-			{
-				if (zone.GkDatabaseParent == RootDevice)
-				{
-					Zones.Add(zone);
-				}
-			}
-			foreach (var guardZone in GKManager.GuardZones)
-			{
-				if (guardZone.GkDatabaseParent == RootDevice)
-				{					
-					GuardZones.Add(guardZone);
-				}
-			}
 			foreach (var direction in GKManager.Directions)
 			{
 				if (direction.GkDatabaseParent == RootDevice)
@@ -75,14 +61,6 @@ namespace GKProcessor
 				}
 			}
 
-			foreach (var code in GKManager.DeviceConfiguration.Codes)
-			{
-				if (code.GkDatabaseParent == RootDevice)
-				{
-					Codes.Add(code);
-				}
-			}
-
 			foreach (var door in GKManager.Doors)
 			{
 				if (door.GkDatabaseParent == RootDevice)
@@ -97,26 +75,6 @@ namespace GKProcessor
 				device.GKDescriptorNo = NextDescriptorNo;
 				var deviceDescriptor = new DeviceDescriptor(device, DatabaseType);
 				Descriptors.Add(deviceDescriptor);
-			}
-
-			foreach (var zone in Zones)
-			{
-				zone.GKDescriptorNo = NextDescriptorNo;
-				var zoneDescriptor = new ZoneDescriptor(zone, DatabaseType.Gk);
-				Descriptors.Add(zoneDescriptor);
-			}
-
-			foreach (var guardZone in GuardZones)
-			{
-				guardZone.GKDescriptorNo = NextDescriptorNo;
-				var guardZoneDescriptor = new GuardZoneDescriptor(guardZone, DatabaseType.Gk);
-				Descriptors.Add(guardZoneDescriptor);
-
-				if (guardZoneDescriptor.GuardZonePimDescriptor != null)
-				{
-					AddPim(guardZone.Pim);
-					Descriptors.Add(guardZoneDescriptor.GuardZonePimDescriptor);
-				}
 			}
 
 			foreach (var direction in Directions)
@@ -157,13 +115,6 @@ namespace GKProcessor
 
 				var mptCreator = new MPTCreator(this, mpt, DatabaseType.Gk);
 				mptCreator.Create();
-			}
-
-			foreach (var code in Codes)
-			{
-				code.GKDescriptorNo = NextDescriptorNo;
-				var codeDescriptor = new CodeDescriptor(code, DatabaseType.Gk);
-				Descriptors.Add(codeDescriptor);
 			}
 
 			foreach (var door in Doors)

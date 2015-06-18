@@ -18,7 +18,6 @@ namespace GKModule.ViewModels
 		public DeviceParameterViewModel(GKDevice device)
 		{
 			Device = device;
-			PresentationZone = GKManager.GetPresentationZoneOrLogic(Device);
 			Update();
 			device.AUParametersChanged += new Action(On_AUParametersChanged);
 		}

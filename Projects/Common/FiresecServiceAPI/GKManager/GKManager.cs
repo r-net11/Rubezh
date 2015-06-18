@@ -24,10 +24,6 @@ namespace FiresecClient
 		{
 			get { return DeviceConfiguration.Devices; }
 		}
-		public static List<GKZone> Zones
-		{
-			get { return DeviceConfiguration.Zones; }
-		}
 		public static List<GKDirection> Directions
 		{
 			get { return DeviceConfiguration.Directions; }
@@ -51,10 +47,6 @@ namespace FiresecClient
 		public static List<GKDelay> Delays
 		{
 			get { return DeviceConfiguration.Delays; }
-		}
-		public static List<GKGuardZone> GuardZones
-		{
-			get { return DeviceConfiguration.GuardZones; }
 		}
 		public static List<GKDoor> Doors
 		{

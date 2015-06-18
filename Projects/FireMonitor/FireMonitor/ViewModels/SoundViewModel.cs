@@ -76,12 +76,6 @@ namespace FireMonitor.ViewModels
 								}
 							}
 						}
-					foreach (var zone in GKManager.Zones)
-						if (zone.State != null && zone.State.StateClass == sound.StateClass)
-						{
-							hasStateClass = true;
-							break;
-						}
 					foreach (var direction in GKManager.Directions)
 						if (direction.State != null && direction.State.StateClass == sound.StateClass)
 						{

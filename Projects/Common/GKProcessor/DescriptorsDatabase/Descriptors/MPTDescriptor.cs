@@ -78,43 +78,8 @@ namespace GKProcessor
 			{
 				if (mptDevice.Device.DriverType == GKDriverType.RSR2_CodeReader || mptDevice.Device.DriverType == GKDriverType.RSR2_CardReader)
 				{
-					GKCodeReaderSettingsPart settingsPart = null;
-					switch (stateBit)
-					{
-						case GKStateBit.TurnOn_InManual:
-							settingsPart = mptDevice.CodeReaderSettings.StartSettings;
-							break;
-
-						case GKStateBit.TurnOff_InManual:
-							settingsPart = mptDevice.CodeReaderSettings.StopSettings;
-							break;
-
-						case GKStateBit.SetRegime_Automatic:
-							settingsPart = mptDevice.CodeReaderSettings.AutomaticOnSettings;
-							break;
-
-						case GKStateBit.SetRegime_Manual:
-							settingsPart = mptDevice.CodeReaderSettings.AutomaticOffSettings;
-							break;
-					}
-					var codeIndex = 0;
-					foreach (var codeUID in settingsPart.CodeUIDs)
-					{
-						var code = GKManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == codeUID);
-						Formula.Add(FormulaOperationType.KOD, 0,
-							DatabaseType == DatabaseType.Gk ? mptDevice.Device.GKDescriptorNo : mptDevice.Device.KAUDescriptorNo);
-						Formula.Add(FormulaOperationType.CMPKOD, 1,
-							DatabaseType == DatabaseType.Gk ? code.GKDescriptorNo : code.KAUDescriptorNo);
-						if (codeIndex > 0)
-						{
-							Formula.Add(FormulaOperationType.OR);
-						}
-						codeIndex++;
-					}
 					if (hasOR)
 						Formula.Add(FormulaOperationType.OR);
-					if (codeIndex > 0)
-						hasOR = true;
 				}
 				else
 				{

@@ -16,20 +16,12 @@ namespace GKModule.Converters
 					alarmName = "Alarm_MPT";
 					break;
 
-				case GKAlarmType.GuardAlarm:
-					alarmName = "Shield";
-					break;
-
 				case GKAlarmType.Fire1:
 					alarmName = "Alarm_Main_0_Fire1";
 					break;
 
 				case GKAlarmType.Fire2:
 					alarmName = "Alarm_Main_1_Fire2";
-					break;
-
-				case GKAlarmType.Attention:
-					alarmName = "Alarm_main_2_Attention";
 					break;
 
 				case GKAlarmType.Failure:

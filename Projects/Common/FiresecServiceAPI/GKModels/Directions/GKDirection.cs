@@ -19,7 +19,6 @@ namespace FiresecAPI.GK
 			Logic = new GKLogic();
 
 			InputDevices = new List<GKDevice>();
-			InputZones = new List<GKZone>();
 			OutputDevices = new List<GKDevice>();
 			PlanElementUIDs = new List<Guid>();
 		}
@@ -29,8 +28,6 @@ namespace FiresecAPI.GK
 
 		[XmlIgnore]
 		public List<GKDevice> InputDevices { get; set; }
-		[XmlIgnore]
-		public List<GKZone> InputZones { get; set; }
 		[XmlIgnore]
 		public List<GKDevice> OutputDevices { get; set; }
 

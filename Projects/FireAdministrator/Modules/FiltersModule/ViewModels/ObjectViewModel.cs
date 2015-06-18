@@ -42,10 +42,6 @@ namespace FiltersModule.ViewModels
 					ImageSource = "/Controls;component/GKIcons/RM_1.png";
 					break;
 
-				case JournalObjectType.GKZone:
-					ImageSource = "/Controls;component/Images/Zone.png";
-					break;
-
 				case JournalObjectType.GKDirection:
 					ImageSource = "/Controls;component/Images/BDirection.png";
 					break;
@@ -61,11 +57,6 @@ namespace FiltersModule.ViewModels
 				case JournalObjectType.GKDelay:
 					ImageSource = "/Controls;component/Images/Delay.png";
 					break;
-
-				case JournalObjectType.GKGuardZone:
-					ImageSource = "/Controls;component/Images/GuardZone.png";
-					break;
-
 				case JournalObjectType.GKDoor:
 					break;
 
@@ -93,14 +84,6 @@ namespace FiltersModule.ViewModels
 			UID = device.UID;
 			ImageSource = device.Driver.ImageSource;
 		}
-
-		public ObjectViewModel(GKZone zone)
-		{
-			Name = zone.PresentationName;
-			UID = zone.UID;
-			ImageSource = "/Controls;component/Images/Zone.png";
-		}
-
 		public ObjectViewModel(GKDirection direction)
 		{
 			Name = direction.PresentationName;
@@ -127,13 +110,6 @@ namespace FiltersModule.ViewModels
 			Name = delay.PresentationName;
 			UID = delay.UID;
 			ImageSource = "/Controls;component/Images/Delay.png";
-		}
-
-		public ObjectViewModel(GKGuardZone guardZone)
-		{
-			Name = guardZone.PresentationName;
-			UID = guardZone.UID;
-			ImageSource = "/Controls;component/Images/GuardZone.png";
 		}
 
 		public ObjectViewModel(GKDoor door)

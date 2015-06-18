@@ -60,11 +60,6 @@ namespace GKModule.ViewModels
 				return stateClasses;
 			}
 		}
-
-		public int InputZonesCount
-		{
-			get { return PumpStation.ClauseInputZones.Count; }
-		}
 		public int InputDevicesCount
 		{
 			get { return PumpStation.ClauseInputDevices.Count; }

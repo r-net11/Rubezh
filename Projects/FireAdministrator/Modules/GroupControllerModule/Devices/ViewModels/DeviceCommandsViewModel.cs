@@ -156,14 +156,6 @@ namespace GKModule.Models
 							var gkControllerDevice = result.Result.RootDevice.Children.FirstOrDefault();
 							if (gkControllerDevice != null)
 							{
-								foreach (var zone in result.Result.Zones)
-								{
-									zone.GkDatabaseParent = gkControllerDevice;
-								}
-								foreach (var guardZone in result.Result.GuardZones)
-								{
-									guardZone.GkDatabaseParent = gkControllerDevice;
-								}
 								foreach (var direction in result.Result.Directions)
 								{
 									direction.GkDatabaseParent = gkControllerDevice;
@@ -179,10 +171,6 @@ namespace GKModule.Models
 								foreach (var delay in result.Result.Delays)
 								{
 									delay.GkDatabaseParent = gkControllerDevice;
-								}
-								foreach (var code in result.Result.Codes)
-								{
-									code.GkDatabaseParent = gkControllerDevice;
 								}
 							}
 

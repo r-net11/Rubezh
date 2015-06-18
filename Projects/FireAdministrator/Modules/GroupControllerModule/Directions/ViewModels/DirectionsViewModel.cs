@@ -104,7 +104,6 @@ namespace GKModule.ViewModels
 			directionViewModel.Direction.Logic = logicViewModel.GetModel();
 			directionViewModel.Direction.No = (ushort)(GKManager.Directions.Select(x => x.No).Max() + 1);
 			directionViewModel.Direction.InputDevices = new List<GKDevice>();
-			directionViewModel.Direction.InputZones = new List<GKZone>();
 			directionViewModel.Direction.OutputDevices = new List<GKDevice>();
 			GKManager.Directions.Add(directionViewModel.Direction);
 			Directions.Add(directionViewModel);
@@ -149,7 +148,6 @@ namespace GKModule.ViewModels
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить направление " + SelectedDirection.Direction.PresentationName))
 			{
 				var index = Directions.IndexOf(SelectedDirection);
-				GKManager.RemoveDirection(SelectedDirection.Direction);
 				Directions.Remove(SelectedDirection);
 				index = Math.Min(index, Directions.Count - 1);
 				if (index > -1)
@@ -167,7 +165,6 @@ namespace GKModule.ViewModels
 				var emptyDirections = Directions.Where(x => x.Direction.InputDevices.Count + x.Direction.OutputDevices.Count == 0).ToList();
 				foreach (var emptyDirection in emptyDirections)
 				{
-					GKManager.RemoveDirection(emptyDirection.Direction);
 					Directions.Remove(emptyDirection);
 				}
 				SelectedDirection = Directions.FirstOrDefault();

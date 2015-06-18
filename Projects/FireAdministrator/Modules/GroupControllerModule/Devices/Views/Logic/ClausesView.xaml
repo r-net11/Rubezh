@@ -199,31 +199,6 @@
 								</Hyperlink>
 							</TextBlock>
 
-							<TextBlock Visibility="{Binding CanSelectGuardZones, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2">
-								<Hyperlink Command="{Binding SelectGuardZonesCommand}" Style="{StaticResource HyperlinkStyle}">
-									<TextBlock Margin="2">
-										<TextBlock.Style>
-											<Style>
-												<Setter Property="TextBlock.Text" Value="{Binding PresenrationGuardZones}" />
-												<Setter Property="TextBlock.ToolTip">
-													<Setter.Value>
-														<WrapPanel>
-															<TextBlock Text="{Binding PresenrationGuardZones}" TextWrapping="Wrap" />
-														</WrapPanel>
-													</Setter.Value>
-												</Setter>
-												<Style.Triggers>
-													<DataTrigger Binding="{Binding PresenrationGuardZones}" Value="">
-														<Setter Property="TextBlock.Text" Value="Нажмите для выбора охранных зон" />
-														<Setter Property="TextBlock.ToolTip" Value="Нажмите для выбора охранных зон" />
-													</DataTrigger>
-												</Style.Triggers>
-											</Style>
-										</TextBlock.Style>
-									</TextBlock>
-								</Hyperlink>
-							</TextBlock>
-
                             <TextBlock Visibility="{Binding CanSelectDoors, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2">
 								<Hyperlink Command="{Binding SelectDoorsCommand}" Style="{StaticResource HyperlinkStyle}">
 									<TextBlock Margin="2">

@@ -47,12 +47,8 @@ namespace FiresecAPI.GK
 					ClauseOperationType = clause.ClauseOperationType,
 					StateType = clause.StateType,
 					DeviceUIDs = clause.DeviceUIDs,
-					ZoneUIDs = clause.ZoneUIDs,
-					GuardZoneUIDs = clause.GuardZoneUIDs,
 					DirectionUIDs = clause.DirectionUIDs,
 					Devices = clause.Devices,
-					Zones = clause.Zones,
-					GuardZones = clause.GuardZones,
 					Directions = clause.Directions,
 				};
 				result.Clauses.Add(clonedClause);
@@ -72,8 +68,6 @@ namespace FiresecAPI.GK
 			foreach (var clause in Clauses)
 			{
 				clause.Devices.ForEach(x => result.Add(x));
-				clause.Zones.ForEach(x => result.Add(x));
-				clause.GuardZones.ForEach(x => result.Add(x));
 				clause.Directions.ForEach(x => result.Add(x));
 				clause.Delays.ForEach(x => result.Add(x));
 				clause.Doors.ForEach(x => result.Add(x));

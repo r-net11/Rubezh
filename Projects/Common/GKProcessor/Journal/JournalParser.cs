@@ -15,13 +15,11 @@ namespace GKProcessor
 		public JournalItem JournalItem { get; private set; }
 
 		public GKDevice Device { get; private set; }
-		public GKZone Zone { get; private set; }
 		public GKDirection Direction { get; private set; }
 		public GKPumpStation PumpStation { get; private set; }
 		public GKMPT MPT { get; private set; }
 		public GKDelay Delay { get; private set; }
 		public GKPim Pim { get; private set; }
-		public GKGuardZone GuardZone { get; private set; }
 		public GKDoor Door { get; private set; }
 		public int GKJournalRecordNo { get; private set; }
 		public ushort GKObjectNo { get; private set; }
@@ -288,7 +286,7 @@ namespace GKProcessor
 							{
 								JournalItem.JournalEventNameType = JournalEventNameType.Сработка_1;
 							}
-							if (JournalItem.JournalObjectType == JournalObjectType.GKGuardZone || JournalItem.JournalObjectType == JournalObjectType.GKDoor)
+							if (JournalItem.JournalObjectType == JournalObjectType.GKDoor)
 							{
 								JournalItem.JournalEventNameType = JournalEventNameType.Тревога;
 							}
@@ -414,10 +412,6 @@ namespace GKProcessor
 							{
 								JournalItem.JournalEventNameType = JournalStringsHelper.ToValveState(bytes[32 + 15]);
 							}
-							if (GuardZone != null)
-							{
-								JournalItem.JournalEventNameType = JournalStringsHelper.ToGuardZoneState(bytes[32 + 15]);
-							}
 							break;
 
 						case 10:
@@ -477,13 +471,6 @@ namespace GKProcessor
 					JournalItem.ObjectUID = Device.UID;
 					JournalItem.ObjectName = Device.DottedPresentationAddress + Device.ShortName;
 				}
-				Zone = GKManager.Zones.FirstOrDefault(x => x.GKDescriptorNo == GKObjectNo);
-				if (Zone != null)
-				{
-					JournalItem.JournalObjectType = JournalObjectType.GKZone;
-					JournalItem.ObjectUID = Zone.UID;
-					JournalItem.ObjectName = Zone.PresentationName;
-				}
 				Direction = GKManager.Directions.FirstOrDefault(x => x.GKDescriptorNo == GKObjectNo);
 				if (Direction != null)
 				{
@@ -528,13 +515,6 @@ namespace GKProcessor
 					JournalItem.JournalObjectType = JournalObjectType.GKPim;
 					JournalItem.ObjectUID = Pim.UID;
 					JournalItem.ObjectName = Pim.PresentationName;
-				}
-				GuardZone = GKManager.GuardZones.FirstOrDefault(x => x.GKDescriptorNo == GKObjectNo);
-				if (GuardZone != null)
-				{
-					JournalItem.JournalObjectType = JournalObjectType.GKGuardZone;
-					JournalItem.ObjectUID = GuardZone.UID;
-					JournalItem.ObjectName = GuardZone.PresentationName;
 				}
 				Door = GKManager.Doors.FirstOrDefault(x => x.GKDescriptorNo == GKObjectNo);
 				if (Door != null)

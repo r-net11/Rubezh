@@ -17,7 +17,6 @@ namespace GKProcessor
 				IsControlDevice = true,
 				HasLogic = true,
 				IgnoreHasLogic = true,
-				HasZone = false,
 				IsPlaceable = true
 			};
 

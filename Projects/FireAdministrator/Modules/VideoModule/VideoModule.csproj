@@ -121,7 +121,6 @@
     <Compile Include="ViewModels\LayoutPartPropertyCameraPageViewModel.cs" />
     <Compile Include="ViewModels\PreviewViewModel.cs" />
     <Compile Include="ViewModels\SettingsSelectionViewModel.cs" />
-    <Compile Include="ViewModels\ZonesSelectationViewModel.cs" />
     <Compile Include="Views\CamerasMenuView.xaml.cs">
       <DependentUpon>CamerasMenuView.xaml</DependentUpon>
     </Compile>

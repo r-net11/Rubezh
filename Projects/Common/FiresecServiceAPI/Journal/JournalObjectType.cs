@@ -10,9 +10,6 @@ namespace FiresecAPI.Journal
 		[DescriptionAttribute("Устройства ГК")]
 		GKDevice,
 
-		[DescriptionAttribute("Зоны ГК")]
-		GKZone,
-
 		[DescriptionAttribute("Направления ГК")]
 		GKDirection,
 
@@ -27,9 +24,6 @@ namespace FiresecAPI.Journal
 
 		[DescriptionAttribute("ПИМ ГК")]
 		GKPim,
-
-		[DescriptionAttribute("Охранные Зоны ГК")]
-		GKGuardZone,
 
 		[DescriptionAttribute("Точки доступа ГК")]
 		GKDoor,

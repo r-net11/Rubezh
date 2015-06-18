@@ -15,8 +15,6 @@ namespace GKProcessor
 				Name = "Извещатель охранный инфракрасный R2",
 				ShortName = "ИО-ИК R2",
 				IsControlDevice = true,
-				HasZone = false,
-				HasGuardZone = true,
 				IsPlaceable = true
 			};
 

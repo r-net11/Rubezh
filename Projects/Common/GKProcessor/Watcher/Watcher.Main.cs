@@ -459,10 +459,6 @@ namespace GKProcessor
 					gkStates.DeviceStates.RemoveAll(x => x.UID == gkBase.UID);
 					gkStates.DeviceStates.Add(gkBase.State);
 				}
-				if (gkBase is GKZone)
-				{
-					gkStates.ZoneStates.Add(gkBase.State);
-				}
 				if (gkBase is GKDirection)
 				{
 					gkStates.DirectionStates.Add(gkBase.State);
@@ -484,10 +480,6 @@ namespace GKProcessor
 				{
 					gkBase.State.PresentationName = gkBase.PresentationName;
 					gkStates.PimStates.Add(gkBase.State);
-				}
-				if (gkBase is GKGuardZone)
-				{
-					gkStates.GuardZoneStates.Add(gkBase.State);
 				}
 				if (gkBase is GKDoor)
 				{

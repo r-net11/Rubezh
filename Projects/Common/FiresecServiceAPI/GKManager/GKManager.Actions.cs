@@ -7,124 +7,9 @@ namespace FiresecClient
 {
 	public partial class GKManager
 	{
-		public static void ChangeDeviceZones(GKDevice device, List<GKZone> zones)
-		{
-			foreach (var zone in device.Zones)
-			{
-				zone.Devices.Remove(device);
-				zone.OnChanged();
-			}
-			device.Zones.Clear();
-			device.ZoneUIDs.Clear();
-			foreach (var zone in zones)
-			{
-				device.Zones.Add(zone);
-				device.ZoneUIDs.Add(zone.UID);
-				zone.Devices.Add(device);
-				zone.OnChanged();
-			}
-			device.OnChanged();
-		}
-
-		public static void ChangeDeviceGuardZones(GKDevice device, List<GKDeviceGuardZone> deviceGuardZones)
-		{
-			foreach (var guardZone in device.GuardZones)
-			{
-				guardZone.GuardZoneDevices.RemoveAll(x => x.Device == device);
-				guardZone.OnChanged();
-			}
-			device.GuardZones.Clear();
-			device.GuardZoneUIDs.Clear();
-			foreach (var deviceGuardZone in deviceGuardZones)
-			{
-				device.GuardZones.Add(deviceGuardZone.GuardZone);
-				device.GuardZoneUIDs.Add(deviceGuardZone.GuardZoneUID);
-
-				var gkGuardZoneDevice = new GKGuardZoneDevice();
-				gkGuardZoneDevice.Device = device;
-				gkGuardZoneDevice.DeviceUID = device.UID;
-				if (deviceGuardZone.ActionType != null)
-					gkGuardZoneDevice.ActionType = deviceGuardZone.ActionType.Value;
-				gkGuardZoneDevice.CodeReaderSettings = deviceGuardZone.CodeReaderSettings;
-				deviceGuardZone.GuardZone.GuardZoneDevices.Add(gkGuardZoneDevice);
-				deviceGuardZone.GuardZone.OnChanged();
-			}
-			device.OnChanged();
-		}
-
-		public static void AddDeviceToZone(GKDevice device, GKZone zone)
-		{
-			if (!device.Zones.Contains(zone))
-				device.Zones.Add(zone);
-			if (!device.ZoneUIDs.Contains(zone.UID))
-				device.ZoneUIDs.Add(zone.UID);
-			zone.Devices.Add(device);
-			zone.OnChanged();
-			device.OnChanged();
-		}
-
-		public static void AddDeviceToGuardZone(GKDevice device, GKGuardZone guardZone)
-		{
-			if (!device.GuardZones.Contains(guardZone))
-				device.GuardZones.Add(guardZone);
-			if (!device.GuardZoneUIDs.Contains(guardZone.UID))
-				device.GuardZoneUIDs.Add(guardZone.UID);
-			guardZone.OnChanged();
-			device.OnChanged();
-		}
-
-		public static void RemoveDeviceFromZone(GKDevice device, GKZone zone)
-		{
-			if (zone != null)
-			{
-				device.Zones.Remove(zone);
-				device.ZoneUIDs.Remove(zone.UID);
-				zone.Devices.Remove(device);
-				zone.OnChanged();
-				device.OnChanged();
-			}
-		}
-
-		public static void RemoveDeviceFromGuardZone(GKDevice device, GKGuardZone guardZone)
-		{
-			if (guardZone != null)
-			{
-				device.GuardZones.Remove(guardZone);
-				device.GuardZoneUIDs.Remove(guardZone.UID);
-				device.OnChanged();
-			}
-		}
-
 		public static void AddDevice(GKDevice device)
 		{
 			device.InitializeDefaultProperties();
-		}
-
-		public static void RemoveDevice(GKDevice device)
-		{
-			var parentDevice = device.Parent;
-			foreach (var zone in device.Zones)
-			{
-				zone.Devices.Remove(device);
-				zone.OnChanged();
-			}
-			foreach (var direction in device.Directions)
-			{
-				direction.InputDevices.Remove(device);
-				direction.OutputDevices.Remove(device);
-				direction.OnChanged();
-			}
-			var deviceMPTs = MPTs.FindAll(x => x.MPTDevices.Any(y => y.DeviceUID == device.UID));
-			foreach (var deviceMPT in deviceMPTs)
-			{
-				foreach (var mptDevice in deviceMPT.MPTDevices.FindAll(x => x.DeviceUID == device.UID))
-				{
-					mptDevice.Device = null;
-					mptDevice.DeviceUID = Guid.Empty;
-				}
-			}
-			parentDevice.Children.Remove(device);
-			Devices.Remove(device);
 		}
 
 		#region RebuildRSR2Addresses
@@ -161,81 +46,9 @@ namespace FiresecClient
 		}
 		#endregion
 
-		public static void AddZone(GKZone zone)
-		{
-			Zones.Add(zone);
-		}
-
-		public static void RemoveZone(GKZone zone)
-		{
-			foreach (var device in zone.Devices)
-			{
-				device.Zones.Remove(zone);
-				device.ZoneUIDs.Remove(zone.UID);
-				device.OnChanged();
-			}
-			foreach (var direction in zone.Directions)
-			{
-				direction.InputZones.Remove(zone);
-				direction.OnChanged();
-			}
-			Zones.Remove(zone);
-			zone.OnChanged();
-		}
-
-		public static void EditZone(GKZone zone)
-		{
-			foreach (var device in zone.Devices)
-			{
-				device.OnChanged();
-			}
-			foreach (var device in zone.DevicesInLogic)
-			{
-				device.OnChanged();
-			}
-			foreach (var direction in zone.Directions)
-			{
-				direction.OnChanged();
-			}
-			zone.OnChanged();
-		}
-
 		public static void AddDirection(GKDirection direction)
 		{
 			Directions.Add(direction);
-		}
-
-		public static void RemoveDirection(GKDirection direction)
-		{
-			foreach (var zone in direction.InputZones)
-			{
-				zone.Directions.Remove(direction);
-				zone.OnChanged();
-			}
-			Directions.Remove(direction);
-			direction.OnChanged();
-		}
-
-		public static void ChangeDirectionZones(GKDirection direction, List<GKZone> zones)
-		{
-			foreach (var zone in direction.InputZones)
-			{
-				zone.Directions.Remove(direction);
-				zone.OnChanged();
-			}
-			direction.InputZones.Clear();
-			foreach (var zone in zones)
-			{
-				direction.InputZones.Add(zone);
-				var directionZone = new GKDirectionZone()
-				{
-					ZoneUID = zone.UID,
-					Zone = zone
-				};
-				zone.Directions.Add(direction);
-				zone.OnChanged();
-			}
-			direction.OnChanged();
 		}
 
 		public static void ChangeDirectionDevices(GKDirection direction, List<GKDevice> devices)
@@ -290,7 +103,7 @@ namespace FiresecClient
 
 		public static void ChangeDriver(GKDevice device, GKDriver driver)
 		{
-			var changeZone = !(device.Driver.HasZone && driver.HasLogic);
+			var changeZone = !(driver.HasLogic);
 			device.Driver = driver;
 			device.DriverUID = driver.UID;
 			if (driver.IsRangeEnabled)
@@ -309,7 +122,6 @@ namespace FiresecClient
 
 			if (changeZone)
 			{
-				RemoveDeviceFromZone(device, null);
 				ChangeLogic(device, new GKLogic());
 			}
 			device.Properties = new List<GKProperty>();

@@ -160,14 +160,6 @@ namespace FireAdministrator.ViewModels
 					GKManager.DeviceConfiguration.RootDevice.Children.Add(gkControllerDevice);
 				}
 			}
-			foreach (var zone in GKDeviceConfiguration.Zones)
-			{
-				GKManager.Zones.Add(zone);
-			}
-			foreach (var guardZone in GKDeviceConfiguration.GuardZones)
-			{
-				GKManager.GuardZones.Add(guardZone);
-			}
 			foreach (var direction in GKDeviceConfiguration.Directions)
 			{
 				GKManager.Directions.Add(direction);
@@ -192,23 +184,14 @@ namespace FireAdministrator.ViewModels
 			{
 				GKManager.Doors.Add(door);
 			}
-			foreach (var code in GKDeviceConfiguration.Codes)
-			{
-				GKManager.DeviceConfiguration.Codes.Add(code);
-			}
 			//foreach (var schedules in GKDeviceConfiguration.Schedules)
 			//{
 			//    GKManager.DeviceConfiguration.Schedules.Add(schedules);
 			//}
-
-			ReorderNos(GKManager.Zones);
-			ReorderNos(GKManager.GuardZones);
-			ReorderNos(GKManager.GuardZones);
 			ReorderNos(GKManager.Delays);
 			ReorderNos(GKManager.PumpStations);
 			ReorderNos(GKManager.MPTs);
 			ReorderNos(GKManager.Doors);
-			ReorderNos(GKManager.DeviceConfiguration.Codes);
 			//ReorderNos(GKManager.DeviceConfiguration.Schedules);
 
 			foreach (var plan in PlansConfiguration.Plans)
@@ -262,18 +245,6 @@ namespace FireAdministrator.ViewModels
 				GKDeviceUIDs.Add(device.UID, uid);
 				device.UID = uid;
 			}
-			foreach (var zone in GKDeviceConfiguration.Zones)
-			{
-				var uid = Guid.NewGuid();
-				GKZoneUIDs.Add(zone.UID, uid);
-				zone.UID = uid;
-			}
-			foreach (var guardZone in GKDeviceConfiguration.GuardZones)
-			{
-				var uid = Guid.NewGuid();
-				GKGuardZoneUIDs.Add(guardZone.UID, uid);
-				guardZone.UID = uid;
-			}
 			foreach (var direction in GKDeviceConfiguration.Directions)
 			{
 				var uid = Guid.NewGuid();
@@ -310,12 +281,6 @@ namespace FireAdministrator.ViewModels
 				GKDoorUIDs.Add(door.UID, uid);
 				door.UID = uid;
 			}
-			foreach (var code in GKDeviceConfiguration.Codes)
-			{
-				var uid = Guid.NewGuid();
-				GKCodeUIDs.Add(code.UID, uid);
-				code.UID = uid;
-			}
 			//foreach (var schedule in GKDeviceConfiguration.Schedules)
 			//{
 			//    var uid = Guid.NewGuid();
@@ -343,26 +308,6 @@ namespace FireAdministrator.ViewModels
 				ReplaceLogic(mpt.StartLogic);
 				ReplaceLogic(mpt.StopLogic);
 				ReplaceLogic(mpt.SuspendLogic);
-			}
-
-			foreach (var guardZone in GKDeviceConfiguration.GuardZones)
-			{
-				foreach (var guardZoneDevice in guardZone.GuardZoneDevices)
-				{
-					guardZoneDevice.DeviceUID = ReplaceUID(guardZoneDevice.DeviceUID, GKDeviceUIDs);
-					for (int i = 0; i < guardZoneDevice.CodeReaderSettings.AlarmSettings.CodeUIDs.Count; i++)
-					{
-						guardZoneDevice.CodeReaderSettings.AlarmSettings.CodeUIDs[i] = ReplaceUID(guardZoneDevice.CodeReaderSettings.AlarmSettings.CodeUIDs[i], GKCodeUIDs);
-					}
-					for (int i = 0; i < guardZoneDevice.CodeReaderSettings.ResetGuardSettings.CodeUIDs.Count; i++)
-					{
-						guardZoneDevice.CodeReaderSettings.ResetGuardSettings.CodeUIDs[i] = ReplaceUID(guardZoneDevice.CodeReaderSettings.ResetGuardSettings.CodeUIDs[i], GKCodeUIDs);
-					}
-					for (int i = 0; i < guardZoneDevice.CodeReaderSettings.SetGuardSettings.CodeUIDs.Count; i++)
-					{
-						guardZoneDevice.CodeReaderSettings.SetGuardSettings.CodeUIDs[i] = ReplaceUID(guardZoneDevice.CodeReaderSettings.SetGuardSettings.CodeUIDs[i], GKCodeUIDs);
-					}
-				}
 			}
 
 			foreach (var pumpStation in GKDeviceConfiguration.PumpStations)
@@ -412,38 +357,6 @@ namespace FireAdministrator.ViewModels
 				{
 					if (element.DeviceUID != Guid.Empty)
 						element.DeviceUID = GKDeviceUIDs[element.DeviceUID];
-					var uid = Guid.NewGuid();
-					PlenElementUIDs.Add(element.UID, uid);
-					element.UID = uid;
-				}
-				foreach (var element in plan.ElementRectangleGKZones)
-				{
-					if (element.ZoneUID != Guid.Empty)
-						element.ZoneUID = GKZoneUIDs[element.ZoneUID];
-					var uid = Guid.NewGuid();
-					PlenElementUIDs.Add(element.UID, uid);
-					element.UID = uid;
-				}
-				foreach (var element in plan.ElementPolygonGKZones)
-				{
-					if (element.ZoneUID != Guid.Empty)
-						element.ZoneUID = GKZoneUIDs[element.ZoneUID];
-					var uid = Guid.NewGuid();
-					PlenElementUIDs.Add(element.UID, uid);
-					element.UID = uid;
-				}
-				foreach (var element in plan.ElementRectangleGKGuardZones)
-				{
-					if (element.ZoneUID != Guid.Empty)
-						element.ZoneUID = GKGuardZoneUIDs[element.ZoneUID];
-					var uid = Guid.NewGuid();
-					PlenElementUIDs.Add(element.UID, uid);
-					element.UID = uid;
-				}
-				foreach (var element in plan.ElementPolygonGKGuardZones)
-				{
-					if (element.ZoneUID != Guid.Empty)
-						element.ZoneUID = GKGuardZoneUIDs[element.ZoneUID];
 					var uid = Guid.NewGuid();
 					PlenElementUIDs.Add(element.UID, uid);
 					element.UID = uid;
@@ -511,16 +424,6 @@ namespace FireAdministrator.ViewModels
 		{
 			foreach (var clause in logic.OnClausesGroup.Clauses)
 			{
-				for (int i = 0; i < clause.ZoneUIDs.Count; i++)
-				{
-					var zoneUID = clause.ZoneUIDs[i];
-					clause.ZoneUIDs[i] = GKZoneUIDs[zoneUID];
-				}
-				for (int i = 0; i < clause.GuardZoneUIDs.Count; i++)
-				{
-					var guardZoneUID = clause.GuardZoneUIDs[i];
-					clause.GuardZoneUIDs[i] = GKGuardZoneUIDs[guardZoneUID];
-				}
 				for (int i = 0; i < clause.DeviceUIDs.Count; i++)
 				{
 					var deviceUID = clause.DeviceUIDs[i];
@@ -610,14 +513,11 @@ namespace FireAdministrator.ViewModels
 
 		Dictionary<Guid, Guid> GKDeviceUIDs = new Dictionary<Guid, Guid>();
 		Dictionary<Guid, Guid> GKZoneUIDs = new Dictionary<Guid, Guid>();
-		Dictionary<Guid, Guid> GKGuardZoneUIDs = new Dictionary<Guid, Guid>();
 		Dictionary<Guid, Guid> GKDirectionUIDs = new Dictionary<Guid, Guid>();
 		Dictionary<Guid, Guid> GKDelayUIDs = new Dictionary<Guid, Guid>();
 		Dictionary<Guid, Guid> GKPumpStationUIDs = new Dictionary<Guid, Guid>();
 		Dictionary<Guid, Guid> GKMPTUIDs = new Dictionary<Guid, Guid>();
 		Dictionary<Guid, Guid> GKDoorUIDs = new Dictionary<Guid, Guid>();
-		Dictionary<Guid, Guid> GKCodeUIDs = new Dictionary<Guid, Guid>();
-		Dictionary<Guid, Guid> GKScheduleUIDs = new Dictionary<Guid, Guid>();
 
 		Dictionary<Guid, Guid> SKDDeviceUIDs = new Dictionary<Guid, Guid>();
 		Dictionary<Guid, Guid> SKDZoneUIDs = new Dictionary<Guid, Guid>();

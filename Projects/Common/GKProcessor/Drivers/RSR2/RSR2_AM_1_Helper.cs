@@ -14,8 +14,6 @@ namespace GKProcessor
 				UID = new Guid("860F3F6A-9EE9-437B-8220-B66AFDDBD285"),
 				Name = "Метка адресная АМ-R2",
 				ShortName = "АМ-R2",
-				HasGuardZone = true,
-				HasZone = true,
 				IsPlaceable = true
 			};
 

@@ -1,23 +1,27 @@
-<UserControl x:Class="GKModule.Views.InstructionDetailsView"
-			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:Converters="clr-namespace:GKModule.Converters"
-			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
-			 MinWidth="600" MinHeight="400">
+<UserControl
+	x:Class="GKModule.Views.InstructionDetailsView"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+	xmlns:Converters="clr-namespace:GKModule.Converters"
+	MinWidth="600"
+	MinHeight="400">
 	<UserControl.Resources>
-		<Converters:ZonesToStringConverter x:Key="ZonesToStringConverter" />
 		<Converters:DevicesToStringConverter x:Key="DevicesToStringConverter" />
 		<Converters:DirectionsToStringConverter x:Key="DirectionsToStringConverter" />
 	</UserControl.Resources>
 
-	<Border CornerRadius="5" Padding="5" Background="{DynamicResource BackgroundBrush}">
+	<Border
+		Background="{DynamicResource BackgroundBrush}"
+		CornerRadius="5"
+		Padding="5">
 		<Grid>
 			<Grid.RowDefinitions>
 				<RowDefinition Height="*" />
 				<RowDefinition Height="Auto" MinHeight="50" />
 			</Grid.RowDefinitions>
 			<Grid Grid.Row="0">
-				<Grid TextBlock.FontSize="14" Margin="2" >
+				<Grid Margin="2" TextBlock.FontSize="14">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="150" />
 						<ColumnDefinition />
@@ -32,33 +36,74 @@
 						<RowDefinition Height="auto" />
 						<RowDefinition Height="auto" />
 					</Grid.RowDefinitions>
-					<Label Grid.Column="0" Grid.Row="0" Content="Название" HorizontalAlignment="Right" />
-					<Label Grid.Column="0" Grid.Row="1" Content="Состояние" HorizontalAlignment="Right" />
-					<Label Grid.Column="0" Grid.Row="2" Content="Тип инструкции" HorizontalAlignment="Right" />
-					<Label Grid.Column="0" Grid.Row="3" Content="Текст" HorizontalAlignment="Right" />
+					<Label
+						Grid.Row="0"
+						Grid.Column="0"
+						HorizontalAlignment="Right"
+						Content="Название" />
 					<!--<Label Grid.Column="0" Grid.Row="4" Content="Мультимедиа" HorizontalAlignment="Right" VerticalAlignment="Center" />-->
-					<TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Name}" Margin="2" />
-					<ComboBox Grid.Column="1" Grid.Row="1" Margin="2" ItemsSource="{Binding AvailableAlarmTypes}"
-						SelectedItem="{Binding AlarmType, UpdateSourceTrigger=PropertyChanged}"
+					<TextBox
+						Grid.Row="0"
+						Grid.Column="1"
+						Margin="2"
+						Text="{Binding Name}" />
+					<Label
+						Grid.Row="1"
+						Grid.Column="0"
+						HorizontalAlignment="Right"
+						Content="Состояние" />
+					<ComboBox
+						Grid.Row="1"
+						Grid.Column="1"
+						Margin="2"
+						ItemsSource="{Binding AvailableAlarmTypes}"
+						SelectedItem="{Binding AlarmType,
+					                                 UpdateSourceTrigger=PropertyChanged}"
 						Text="{Binding AlarmType}">
 						<ComboBox.ItemTemplate>
 							<DataTemplate>
 								<Controls:IconLabel
-									ImageSource="{Binding ., Converter={StaticResource AlarmTypeToBIconConverter}}" 
-									Text="{Binding ., Converter={StaticResource XAlarmTypeToStringConverter}}" 
-									Foreground="{DynamicResource ForegroundColorDark}"/>
+									Foreground="{DynamicResource ForegroundColorDark}"
+									ImageSource="{Binding .,
+								                                          Converter={StaticResource AlarmTypeToBIconConverter}}"
+									Text="{Binding .,
+								                                   Converter={StaticResource XAlarmTypeToStringConverter}}" />
 							</DataTemplate>
 						</ComboBox.ItemTemplate>
 					</ComboBox>
-					<ComboBox Grid.Column="1" Grid.Row="2" Margin="2" ItemsSource="{Binding AvailableInstructionsType}"
-					  SelectedItem="{Binding InstructionType, UpdateSourceTrigger=PropertyChanged}" Text="{Binding InstructionType}">
+					<Label
+						Grid.Row="2"
+						Grid.Column="0"
+						HorizontalAlignment="Right"
+						Content="Тип инструкции" />
+					<ComboBox
+						Grid.Row="2"
+						Grid.Column="1"
+						Margin="2"
+						ItemsSource="{Binding AvailableInstructionsType}"
+						SelectedItem="{Binding InstructionType,
+					                                 UpdateSourceTrigger=PropertyChanged}"
+						Text="{Binding InstructionType}">
 						<ComboBox.ItemTemplate>
 							<DataTemplate>
 								<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
 							</DataTemplate>
 						</ComboBox.ItemTemplate>
 					</ComboBox>
-					<TextBox Grid.Column="1" Grid.Row="3" Text="{Binding Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" AcceptsReturn="True" Margin="2" />
+					<Label
+						Grid.Row="3"
+						Grid.Column="0"
+						HorizontalAlignment="Right"
+						Content="Текст" />
+					<TextBox
+						Grid.Row="3"
+						Grid.Column="1"
+						Margin="2"
+						AcceptsReturn="True"
+						Text="{Binding Text,
+					                        Mode=TwoWay,
+					                        UpdateSourceTrigger=PropertyChanged}"
+						TextWrapping="Wrap" />
 					<!--<StackPanel Grid.Column="1" Grid.Row="4" Orientation="Horizontal" VerticalAlignment="Center">
 						<TextBlock VerticalAlignment="Center">
 							<Hyperlink Command="{Binding GetMediaCommand}" Style="{StaticResource HyperlinkStyle}">
@@ -80,9 +125,12 @@
 					</StackPanel>-->
 				</Grid>
 			</Grid>
-			<Grid Grid.Row="1" HorizontalAlignment="Stretch"
-					Visibility="{Binding IsDetails, Converter={StaticResource BoolToVisibilityConverter}}">
-				<Grid TextBlock.FontSize="14" Margin="2" >
+			<Grid
+				Grid.Row="1"
+				HorizontalAlignment="Stretch"
+				Visibility="{Binding IsDetails,
+			                           Converter={StaticResource BoolToVisibilityConverter}}">
+				<Grid Margin="2" TextBlock.FontSize="14">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="150" />
 						<ColumnDefinition />
@@ -93,13 +141,18 @@
 						<RowDefinition Height="auto" />
 						<RowDefinition Height="auto" />
 					</Grid.RowDefinitions>
-					<Label Grid.Column="0" Grid.Row="0" Content="Устройства" HorizontalAlignment="Right" />
-					<Label Grid.Column="0" Grid.Row="1" Content="Зоны" HorizontalAlignment="Right" />
-					<Label Grid.Column="0" Grid.Row="2" Content="Направления" HorizontalAlignment="Right" />
-					<TextBlock Grid.Column="1" Grid.Row="0" VerticalAlignment="Center">
+					<Label
+						Grid.Row="0"
+						Grid.Column="0"
+						HorizontalAlignment="Right"
+						Content="Устройства" />
+					<TextBlock
+						Grid.Row="0"
+						Grid.Column="1"
+						VerticalAlignment="Center">
 						<Hyperlink Command="{Binding SelectDeviceCommand}" Style="{StaticResource HyperlinkStyle}">
 							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="{Binding InstructionDevices, Converter={StaticResource DevicesToStringConverter}}" Margin="2">
+								<TextBlock Margin="2" Text="{Binding InstructionDevices, Converter={StaticResource DevicesToStringConverter}}">
 									<TextBlock.ToolTip>
 										<WrapPanel>
 											<TextBlock Text="{Binding InstructionDevices, Converter={StaticResource DevicesToStringConverter}}" TextWrapping="Wrap" />
@@ -121,16 +174,17 @@
 							</StackPanel>
 						</Hyperlink>
 					</TextBlock>
-					<TextBlock Grid.Column="1" Grid.Row="1" VerticalAlignment="Center">
+					<Label
+						Grid.Row="1"
+						Grid.Column="0"
+						HorizontalAlignment="Right"
+						Content="Зоны" />
+					<TextBlock
+						Grid.Row="1"
+						Grid.Column="1"
+						VerticalAlignment="Center">
 						<Hyperlink Command="{Binding SelectZoneCommand}" Style="{StaticResource HyperlinkStyle}">
 							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="{Binding InstructionZones, Converter={StaticResource ZonesToStringConverter}}" Margin="2" TextWrapping="WrapWithOverflow">
-									<TextBlock.ToolTip>
-										<WrapPanel>
-											<TextBlock Text="{Binding InstructionZones, Converter={StaticResource ZonesToStringConverter}}" TextWrapping="Wrap" />
-										</WrapPanel>
-									</TextBlock.ToolTip>
-								</TextBlock>
 								<TextBlock Margin="2">
 									<TextBlock.Style>
 										<Style>
@@ -146,10 +200,22 @@
 							</StackPanel>
 						</Hyperlink>
 					</TextBlock>
-					<TextBlock Grid.Column="1" Grid.Row="2" VerticalAlignment="Center">
+					<Label
+						Grid.Row="2"
+						Grid.Column="0"
+						HorizontalAlignment="Right"
+						Content="Направления" />
+					<TextBlock
+						Grid.Row="2"
+						Grid.Column="1"
+						VerticalAlignment="Center">
 						<Hyperlink Command="{Binding SelectDirectionCommand}" Style="{StaticResource HyperlinkStyle}">
 							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="{Binding InstructionDirections, Converter={StaticResource DirectionsToStringConverter}}" Margin="2" TextWrapping="WrapWithOverflow" >
+								<TextBlock
+									Margin="2"
+									Text="{Binding InstructionDirections,
+								                          Converter={StaticResource DirectionsToStringConverter}}"
+									TextWrapping="WrapWithOverflow">
 									<TextBlock.ToolTip>
 										<WrapPanel>
 											<TextBlock Text="{Binding InstructionDirections, Converter={StaticResource DirectionsToStringConverter}}" TextWrapping="Wrap" />
@@ -159,7 +225,7 @@
 								<TextBlock Margin="2">
 									<TextBlock.Style>
 										<Style>
-											 <Style.Triggers>
+											<Style.Triggers>
 												<DataTrigger Binding="{Binding InstructionDirections.Count}" Value="0">
 													<Setter Property="TextBlock.Text" Value="Нажмите для выбора направлений" />
 													<Setter Property="TextBlock.ToolTip" Value="Нажмите для выбора направлений" />

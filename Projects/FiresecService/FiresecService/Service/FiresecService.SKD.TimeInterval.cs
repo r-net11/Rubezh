@@ -339,8 +339,5 @@ namespace FiresecService.Service
 				return databaseService.CardTranslator.GetMinDate();
 			}
 		}
-		
-		
-		
 	}
 }

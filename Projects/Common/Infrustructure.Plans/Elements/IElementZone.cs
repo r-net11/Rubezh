@@ -21,9 +21,6 @@ namespace Infrustructure.Plans.Elements
 		[Description("Пожарная зона")]
 		GK,
 
-		[Description("Охранная зона")]
-		Guard,
-
 		[Description("СКД зона")]
 		SKD,
 	}

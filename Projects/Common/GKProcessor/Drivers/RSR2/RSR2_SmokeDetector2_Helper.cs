@@ -14,7 +14,6 @@ namespace GKProcessor
 				UID = new Guid("236F4856-5146-4B45-9047-03EAC91652E2"),
 				Name = "Пожарный дымовой извещатель ИП2Д RSR2",
 				ShortName = "ИП2Д RSR2",
-				HasZone = true,
 				IsPlaceable = true,
 				IsIgnored = true,
 			};

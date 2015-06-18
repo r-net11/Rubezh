@@ -128,8 +128,7 @@ namespace GKProcessor
 			}
 			if (binProperties.Count >= 3)
 			{
-				if (descriptor.DescriptorType == DescriptorType.Direction || descriptor.DescriptorType == DescriptorType.Delay
-				    || descriptor.DescriptorType == DescriptorType.GuardZone)
+				if (descriptor.DescriptorType == DescriptorType.Direction || descriptor.DescriptorType == DescriptorType.Delay)
 				{
 					properties.Add(new GKProperty() {Value = binProperties[0].Value});
 					properties.Add(new GKProperty() {Value = binProperties[1].Value});

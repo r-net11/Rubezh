@@ -33,8 +33,6 @@ namespace AutomationModule
 		{
 			if (objectType == ObjectType.Device)
 				return new List<Property> { Property.Description, Property.ShleifNo, Property.IntAddress, Property.State, Property.Type };
-			if (objectType == ObjectType.Zone)
-				return new List<Property> { Property.Description, Property.No, Property.Type, Property.State };
 			if (objectType == ObjectType.Direction)
 				return new List<Property> { Property.Description, Property.No, Property.Delay, Property.Hold, Property.DelayRegime };
 			return new List<Property>();
@@ -69,26 +67,6 @@ namespace AutomationModule
 				if (DialogService.ShowModalWindow(deviceSelectationViewModel))
 				{
 					currentExplicitValue.UidValue = deviceSelectationViewModel.SelectedDevice != null ? deviceSelectationViewModel.SelectedDevice.Device.UID : Guid.Empty;
-					return true;
-				}
-			}
-
-			if (objectType == ObjectType.Zone)
-			{
-				var zoneSelectationViewModel = new ZoneSelectionViewModel(currentExplicitValue.Zone != null ? currentExplicitValue.Zone : null);
-				if (DialogService.ShowModalWindow(zoneSelectationViewModel))
-				{
-					currentExplicitValue.UidValue = zoneSelectationViewModel.SelectedZone != null ? zoneSelectationViewModel.SelectedZone.Zone.UID : Guid.Empty;
-					return true;
-				}
-			}
-
-			if (objectType == ObjectType.GuardZone)
-			{
-				var guardZoneSelectationViewModel = new GuardZoneSelectionViewModel(currentExplicitValue.GuardZone != null ? currentExplicitValue.GuardZone : null);
-				if (DialogService.ShowModalWindow(guardZoneSelectationViewModel))
-				{
-					currentExplicitValue.UidValue = guardZoneSelectationViewModel.SelectedZone != null ? guardZoneSelectationViewModel.SelectedZone.GuardZone.UID : Guid.Empty;
 					return true;
 				}
 			}

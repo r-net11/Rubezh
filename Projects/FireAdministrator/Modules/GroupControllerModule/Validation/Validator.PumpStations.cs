@@ -66,10 +66,6 @@ namespace GKModule.Validation
 			var devices = new List<GKDevice>();
 			devices.AddRange(pumpStation.ClauseInputDevices);
 			devices.AddRange(pumpStation.NSDevices);
-			foreach (var zone in pumpStation.ClauseInputZones)
-			{
-				devices.AddRange(zone.Devices);
-			}
 			foreach (var direction in pumpStation.ClauseInputDirections)
 			{
 				devices.AddRange(direction.InputDevices);
@@ -81,7 +77,7 @@ namespace GKModule.Validation
 
 		bool ValidateEmptyPumpStation(GKPumpStation pumpStation)
 		{
-			var count = pumpStation.ClauseInputZones.Count + pumpStation.ClauseInputDevices.Count + pumpStation.ClauseInputDirections.Count + pumpStation.NSDevices.Count;
+			var count = pumpStation.ClauseInputDevices.Count + pumpStation.ClauseInputDirections.Count + pumpStation.NSDevices.Count;
 			if (count == 0)
 			{
 				Errors.Add(new PumpStationValidationError(pumpStation, "В НС отсутствуют входные или выходные объекты", ValidationErrorLevel.CannotWrite));
@@ -112,14 +108,6 @@ namespace GKModule.Validation
 
 		void ValidateEmptyObjectsInPumpStation(GKPumpStation pumpStation)
 		{
-			foreach (var zone in pumpStation.ClauseInputZones)
-			{
-				if (zone.GetDataBaseParent() == null)
-				{
-					Errors.Add(new PumpStationValidationError(pumpStation, "В НС входит пустая зона " + zone.PresentationName, ValidationErrorLevel.CannotWrite));
-				}
-			}
-
 			foreach (var direction in pumpStation.ClauseInputDirections)
 			{
 				if (direction.GetDataBaseParent() == null)

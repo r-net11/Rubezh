@@ -6,10 +6,7 @@ namespace GKProcessor
 	public abstract class CommonDatabase
 	{
 		ushort currentChildNo = 1;
-		protected List<GKCode> Codes { get; set; }
 		protected List<GKDevice> Devices { get; set; }
-		protected List<GKZone> Zones { get; set; }
-		protected List<GKGuardZone> GuardZones { get; set; }
 		protected List<GKDirection> Directions { get; set; }
 		protected List<GKPumpStation> PumpStations { get; set; }
 		protected List<GKMPT> MPTs { get; set; }
@@ -27,10 +24,7 @@ namespace GKProcessor
 
 		public CommonDatabase()
 		{
-			Codes = new List<GKCode>();
 			Devices = new List<GKDevice>();
-			Zones = new List<GKZone>();
-			GuardZones = new List<GKGuardZone>();
 			Directions = new List<GKDirection>();
 			PumpStations = new List<GKPumpStation>();
 			MPTs = new List<GKMPT>();

@@ -18,7 +18,6 @@ namespace GKModule.ViewModels
 			MPTDevice = mptDevice;
 			Device = mptDevice.Device;
 			MPTDevicePropertiesViewModel = new MPTDevicePropertiesViewModel(Device, false);
-			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
 		}
 
 		GKDevice _device;
@@ -52,29 +51,9 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public string PresentationZone
-		{
-			get
-			{
-				if (Device.IsNotUsed)
-					return null;
-				return GKManager.GetPresentationZoneOrLogic(Device);
-			}
-		}
-
 		public GKMPTDeviceType MPTDeviceType
 		{
 			get { return MPTDevice.MPTDeviceType; }
-		}
-
-		public RelayCommand ShowPropertiesCommand { get; private set; }
-		void OnShowProperties()
-		{
-			var mptCodeReaderDetailsViewModel = new MPTCodeReaderDetailsViewModel(MPTDevice.CodeReaderSettings, MPTDeviceType);
-			if (DialogService.ShowModalWindow(mptCodeReaderDetailsViewModel))
-			{
-				ServiceFactory.SaveService.GKChanged = true;
-			}
 		}
 
 		void OnChanged()

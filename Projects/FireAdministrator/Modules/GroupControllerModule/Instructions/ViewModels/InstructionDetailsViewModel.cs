@@ -20,7 +20,6 @@ namespace GKModule.ViewModels
 
 		public InstructionDetailsViewModel(GKInstruction instruction = null)
 		{
-			SelectZoneCommand = new RelayCommand(OnSelectZoneCommand, CanSelect);
 			SelectDeviceCommand = new RelayCommand(OnSelectDeviceCommand, CanSelect);
 			SelectDirectionCommand = new RelayCommand(OnSelectDirectionCommand, CanSelect);
 			GetMediaCommand = new RelayCommand(OnGetMedia);
@@ -159,25 +158,6 @@ namespace GKModule.ViewModels
 		{
 			return (InstructionType != GKInstructionType.General);
 		}
-
-		public RelayCommand SelectZoneCommand { get; private set; }
-		void OnSelectZoneCommand()
-		{
-			var zones = new List<GKZone>();
-			foreach (var uid in InstructionZones)
-			{
-				var zone = GKManager.Zones.FirstOrDefault(x => x.UID == uid);
-				if (zone != null)
-					zones.Add(zone);
-			}
-			var zonesSelectationViewModel = new ZonesSelectationViewModel(zones);
-			if (DialogService.ShowModalWindow(zonesSelectationViewModel))
-			{
-				var uids = zonesSelectationViewModel.Zones.Select(x => x.UID).ToList();
-				InstructionZones = new ObservableCollection<Guid>(uids);
-			}
-		}
-
 		public RelayCommand SelectDeviceCommand { get; private set; }
 		void OnSelectDeviceCommand()
 		{

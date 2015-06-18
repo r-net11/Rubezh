@@ -24,7 +24,6 @@ namespace FireAdministrator.ViewModels
 			CreateNewCommand = new RelayCommand(OnCreateNew);
 			ValidateCommand = new RelayCommand(OnValidate);
 			SetNewConfigCommand = new RelayCommand(OnSetNewConfig, CanSetNewConfig);
-			SetPnanNameToZoneDescriptionsCommand = new RelayCommand(OnSetPnanNameToZoneDescriptions);
 			MergeConfigurationCommand = new RelayCommand(OnMergeConfiguration);
 			ServiceFactory.SaveService.Changed += new Action(SaveService_Changed);
 			ServiceFactory.Events.GetEvent<SetNewConfigurationEvent>().Subscribe(OnSetNewConfiguration);
@@ -154,11 +153,6 @@ namespace FireAdministrator.ViewModels
 		public bool CanSetNewConfig()
 		{
 			return ServiceFactory.SaveService.HasChanges;
-		}
-
-		public RelayCommand SetPnanNameToZoneDescriptionsCommand { get; private set; }
-		void OnSetPnanNameToZoneDescriptions()
-		{
 		}
 
 		public RelayCommand MergeConfigurationCommand { get; private set; }

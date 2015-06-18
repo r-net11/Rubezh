@@ -14,7 +14,6 @@ namespace GKProcessor
 				UID = new Guid("A50FFA41-B53E-4B3B-ADDF-CDBBA631FEB2"),
 				Name = "Извещатель пожарный дымовой оптико-электронный адресно-аналоговый",
 				ShortName = "ИП 212-149",
-				HasZone = true,
 				IsPlaceable = true
 			};
 			GKDriversHelper.AddAvailableStateBits(driver, GKStateBit.Test);

@@ -24,8 +24,6 @@ namespace GKModule.Plans
 		public PlanPresenter()
 		{
 			Cache = new MapSource();
-			Cache.Add<GKZone>(() => GKManager.Zones);
-			Cache.Add<GKGuardZone>(() => GKManager.GuardZones);
 			Cache.Add<GKSKDZone>(() => GKManager.SKDZones);
 			Cache.Add<GKDevice>(() => GKManager.Devices);
 			Cache.Add<GKDirection>(() => GKManager.Directions);
@@ -33,8 +31,6 @@ namespace GKModule.Plans
 			Cache.Add<GKDoor>(() => GKManager.Doors);
 
 			ServiceFactory.Events.GetEvent<ShowGKDeviceOnPlanEvent>().Subscribe(OnShowGKDeviceOnPlan);
-			ServiceFactory.Events.GetEvent<ShowGKZoneOnPlanEvent>().Subscribe(OnShowGKZoneOnPlan);
-			ServiceFactory.Events.GetEvent<ShowGKGuardZoneOnPlanEvent>().Subscribe(OnShowGKGuardZoneOnPlan);
 			ServiceFactory.Events.GetEvent<ShowGKSKDZoneOnPlanEvent>().Subscribe(OnShowGKSKDZoneOnPlan);
 			ServiceFactory.Events.GetEvent<ShowGKDirectionOnPlanEvent>().Subscribe(OnShowGKDirectionOnPlan);
 			ServiceFactory.Events.GetEvent<ShowGKMPTOnPlanEvent>().Subscribe(OnShowGKMPTOnPlan);
@@ -64,14 +60,6 @@ namespace GKModule.Plans
 		{
 			foreach (var element in plan.ElementGKDevices.Where(x => x.DeviceUID != Guid.Empty))
 				yield return element;
-			foreach (var element in plan.ElementRectangleGKZones.Where(x => x.ZoneUID != Guid.Empty && !x.IsHiddenZone))
-				yield return element;
-			foreach (var element in plan.ElementPolygonGKZones.Where(x => x.ZoneUID != Guid.Empty && !x.IsHiddenZone))
-				yield return element;
-			foreach (var element in plan.ElementRectangleGKGuardZones.Where(x => x.ZoneUID != Guid.Empty && !x.IsHiddenZone))
-				yield return element;
-			foreach (var element in plan.ElementPolygonGKGuardZones.Where(x => x.ZoneUID != Guid.Empty && !x.IsHiddenZone))
-				yield return element;
 			foreach (var element in plan.ElementRectangleGKSKDZones.Where(x => x.ZoneUID != Guid.Empty && !x.IsHiddenZone))
 				yield return element;
 			foreach (var element in plan.ElementPolygonGKSKDZones.Where(x => x.ZoneUID != Guid.Empty && !x.IsHiddenZone))
@@ -92,10 +80,6 @@ namespace GKModule.Plans
 		{
 			if (presenterItem.Element is ElementGKDevice)
 				presenterItem.OverridePainter(new GKDevicePainter(presenterItem));
-			else if (presenterItem.Element is ElementPolygonGKZone || presenterItem.Element is ElementRectangleGKZone)
-				presenterItem.OverridePainter(new GKZonePainter(presenterItem));
-			else if (presenterItem.Element is ElementPolygonGKGuardZone || presenterItem.Element is ElementRectangleGKGuardZone)
-				presenterItem.OverridePainter(new GKGuardZonePainter(presenterItem));
 			else if (presenterItem.Element is ElementPolygonGKSKDZone || presenterItem.Element is ElementRectangleGKSKDZone)
 				presenterItem.OverridePainter(new GKSKDZonePainter(presenterItem));
 			else if (presenterItem.Element is ElementRectangleGKDirection || presenterItem.Element is ElementPolygonGKDirection)
@@ -136,42 +120,7 @@ namespace GKModule.Plans
 						return;
 					}
 		}
-		private void OnShowGKZoneOnPlan(GKZone zone)
-		{
-			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
-			{
-				foreach (var element in plan.ElementRectangleGKZones)
-					if (element.ZoneUID == zone.UID)
-					{
-						ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
-						return;
-					}
-				foreach (var element in plan.ElementPolygonGKZones)
-					if (element.ZoneUID == zone.UID)
-					{
-						ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
-						return;
-					}
-			}
-		}
-		private void OnShowGKGuardZoneOnPlan(GKGuardZone zone)
-		{
-			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
-			{
-				foreach (var element in plan.ElementRectangleGKGuardZones)
-					if (element.ZoneUID == zone.UID)
-					{
-						ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
-						return;
-					}
-				foreach (var element in plan.ElementPolygonGKGuardZones)
-					if (element.ZoneUID == zone.UID)
-					{
-						ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
-						return;
-					}
-			}
-		}
+
 		private void OnShowGKSKDZoneOnPlan(GKSKDZone zone)
 		{
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)

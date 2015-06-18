@@ -30,7 +30,7 @@ namespace FiresecAPI
 
 		[OperationContract]
 		OperationResult<bool> GKUpdateFirmwareFSCS(HexFileCollectionInfo hxcFileInfo, string userName, List<Guid> deviceUIDs);
-		
+
 		[OperationContract]
 		OperationResult<bool> GKSyncronyseTime(Guid deviceUID);
 
@@ -72,12 +72,6 @@ namespace FiresecAPI
 
 		[OperationContract]
 		void GKReset(Guid uid, GKBaseObjectType objectType);
-
-		[OperationContract]
-		void GKResetFire1(Guid zoneUID);
-
-		[OperationContract]
-		void GKResetFire2(Guid zoneUID);
 
 		[OperationContract]
 		void GKSetAutomaticRegime(Guid uid, GKBaseObjectType objectType);

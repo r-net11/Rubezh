@@ -35,7 +35,6 @@ namespace GKModule.ViewModels
 			ShowCommand = new RelayCommand(OnShow);
 			ShowParentCommand = new RelayCommand(OnShowParent, CanShowParent);
 			ShowOnPlanCommand = new RelayCommand<Plan>(OnShowOnPlan);
-			ShowZoneCommand = new RelayCommand(OnShowZone);
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
 
 			Device = device;
@@ -65,11 +64,6 @@ namespace GKModule.ViewModels
 		public Brush DevicePicture
 		{
 			get { return PictureCacheSource.GKDevicePicture.GetDynamicBrush(Device); }
-		}
-
-		public string PresentationZone
-		{
-			get { return GKManager.GetPresentationZoneOrLogic(Device); }
 		}
 
 		public bool HasOnDelay
@@ -205,16 +199,6 @@ namespace GKModule.ViewModels
 		void OnShowOnPlan(Plan plan)
 		{
 			ShowOnPlanHelper.ShowDevice(Device, plan);
-		}
-
-		public RelayCommand ShowZoneCommand { get; private set; }
-		void OnShowZone()
-		{
-			var zone = Device.Zones.FirstOrDefault();
-			if (zone != null)
-			{
-				ServiceFactory.Events.GetEvent<ShowGKZoneEvent>().Publish(zone.UID);
-			}
 		}
 
 		public RelayCommand ShowJournalCommand { get; private set; }

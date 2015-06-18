@@ -27,18 +27,6 @@ namespace GKProcessor
 				Delays.Add(delay);
 			}
 
-			foreach (var zone in GKManager.Zones.FindAll(x => x.KauDatabaseParent == RootDevice))
-			{
-				zone.KauDatabaseParent = RootDevice;
-				Zones.Add(zone);
-			}
-
-			foreach (var guardZone in GKManager.GuardZones.FindAll(x => x.KauDatabaseParent == RootDevice && x.HasAccessLevel))
-			{
-				guardZone.KauDatabaseParent = RootDevice;
-				GuardZones.Add(guardZone);
-			}
-
 			foreach (var direction in GKManager.Directions.FindAll(x => x.KauDatabaseParent == RootDevice))
 			{
 				direction.KauDatabaseParent = RootDevice;
@@ -55,14 +43,6 @@ namespace GKProcessor
 			{
 				mpt.KauDatabaseParent = RootDevice;
 				MPTs.Add(mpt);
-			}
-
-			foreach (var code in GKManager.DeviceConfiguration.Codes)
-			{
-				if (code.KauDatabaseParent == RootDevice)
-				{					
-					Codes.Add(code);
-				}
 			}
 		}
 
@@ -89,26 +69,6 @@ namespace GKProcessor
 				device.KAUDescriptorNo = NextDescriptorNo;
 				var deviceDescriptor = new DeviceDescriptor(device, DatabaseType);
 				Descriptors.Add(deviceDescriptor);
-			}
-
-			foreach (var zone in Zones)
-			{
-				zone.KAUDescriptorNo = NextDescriptorNo;
-				var zoneDescriptor = new ZoneDescriptor(zone, DatabaseType.Kau);
-				Descriptors.Add(zoneDescriptor);
-			}
-
-			foreach (var guardZone in GuardZones)
-			{
-				guardZone.KAUDescriptorNo = NextDescriptorNo;
-				var guardZoneDescriptor = new GuardZoneDescriptor(guardZone, DatabaseType.Kau);
-				Descriptors.Add(guardZoneDescriptor);
-
-				if (guardZoneDescriptor.GuardZonePimDescriptor != null)
-				{
-					AddPim(guardZone.Pim);
-					Descriptors.Add(guardZoneDescriptor.GuardZonePimDescriptor);
-				}
 			}
 
 			foreach (var direction in Directions)
@@ -143,13 +103,6 @@ namespace GKProcessor
 
 				var mptCreator = new MPTCreator(this, mpt, DatabaseType.Kau);
 				mptCreator.Create();
-			}
-
-			foreach (var code in Codes)
-			{
-				code.KAUDescriptorNo = NextDescriptorNo;
-				var codeDescriptor = new CodeDescriptor(code, DatabaseType.Kau);
-				Descriptors.Add(codeDescriptor);
 			}
 
 			foreach (var descriptor in Descriptors)

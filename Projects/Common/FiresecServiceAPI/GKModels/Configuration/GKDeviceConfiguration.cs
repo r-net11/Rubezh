@@ -15,13 +15,10 @@ namespace FiresecAPI.GK
 		public GKDeviceConfiguration()
 		{
 			Devices = new List<GKDevice>();
-			Zones = new List<GKZone>();
 			Directions = new List<GKDirection>();
 			PumpStations = new List<GKPumpStation>();
 			MPTs = new List<GKMPT>();
 			Delays = new List<GKDelay>();
-			GuardZones = new List<GKGuardZone>();
-			Codes = new List<GKCode>();
 			Doors = new List<GKDoor>();
 			SKDZones = new List<GKSKDZone>();
 			//DaySchedules = new List<GKDaySchedule>();
@@ -40,12 +37,6 @@ namespace FiresecAPI.GK
 		/// </summary>
 		[DataMember]
 		public GKDevice RootDevice { get; set; }
-
-		/// <summary>
-		/// Пожарные зоны
-		/// </summary>
-		[DataMember]
-		public List<GKZone> Zones { get; set; }
 
 		/// <summary>
 		/// Направления
@@ -76,18 +67,6 @@ namespace FiresecAPI.GK
 		/// </summary>
 		[DataMember]
 		public List<GKInstruction> Instructions { get; set; }
-
-		/// <summary>
-		/// Коды
-		/// </summary>
-		[DataMember]
-		public List<GKCode> Codes { get; set; }
-
-		/// <summary>
-		/// Охранные зоны
-		/// </summary>
-		[DataMember]
-		public List<GKGuardZone> GuardZones { get; set; }
 
 		/// <summary>
 		/// Точки доступа
@@ -143,18 +122,6 @@ namespace FiresecAPI.GK
 				device.Parent = parentDevice;
 				Devices.Add(device);
 				AddChild(device);
-			}
-		}
-
-		[XmlIgnore]
-		public List<GKZone> SortedZones
-		{
-			get
-			{
-				return (
-				from GKZone zone in Zones
-				orderby zone.No
-				select zone).ToList();
 			}
 		}
 

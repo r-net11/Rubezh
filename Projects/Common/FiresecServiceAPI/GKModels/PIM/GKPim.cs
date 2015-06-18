@@ -30,12 +30,6 @@ namespace FiresecAPI.GK
 		public Guid PumpStationUID { get; set; }
 
 		/// <summary>
-		/// Идентификатор Охранной зоны
-		/// </summary>
-		[DataMember]
-		public Guid GuardZoneUID { get; set; }
-
-		/// <summary>
 		/// Идентификатор Точки Доступа
 		/// </summary>
 		[DataMember]

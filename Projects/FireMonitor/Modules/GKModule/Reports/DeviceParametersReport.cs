@@ -29,19 +29,12 @@ namespace GKModule.Reports
 			{
 				string type = "";
 				string address = "";
-				string zonePresentationName = "";
 				string dustiness = "";
 				foreach (var device in GKManager.Devices)
 				{
 					type = device.Driver.ShortName;
 					address = device.DottedAddress;
-					zonePresentationName = "";
 					dustiness = "";
-
-					if (device.Driver.HasZone)
-					{
-						zonePresentationName = GKManager.GetPresentationZoneOrLogic(device);
-					}
 
 					var deviceState = device.State;
 					var parameter = deviceState.XMeasureParameterValues.FirstOrDefault(x => x.Name == "Dustiness");
@@ -49,7 +42,7 @@ namespace GKModule.Reports
 					{
 						dustiness = parameter.StringValue;
 					}
-					table.Rows.Add(type, address, zonePresentationName, dustiness);
+					table.Rows.Add(type, address, dustiness);
 				}
 			}
 			data.DataTables.Add(table);

@@ -6,8 +6,6 @@ namespace GKModule
 	{
 		public GKAlarmType AlarmType { get; set; }
 		public GKDevice Device { get; set; }
-		public GKZone Zone { get; set; }
-		public GKGuardZone GuardZone { get; set; }
 		public GKDirection Direction { get; set; }
 		public GKDoor Door { get; set; }
 		public GKMPT Mpt { get; set; }
@@ -16,18 +14,6 @@ namespace GKModule
 		{
 			AlarmType = alarmType;
 			Device = device;
-		}
-
-		public Alarm(GKAlarmType alarmType, GKZone zone)
-		{
-			AlarmType = alarmType;
-			Zone = zone;
-		}
-
-		public Alarm(GKAlarmType alarmType, GKGuardZone guardZone)
-		{
-			AlarmType = alarmType;
-			GuardZone = guardZone;
 		}
 
 		public Alarm(GKAlarmType alarmType, GKDirection direction)
@@ -51,7 +37,6 @@ namespace GKModule
 		public Alarm Clone()
 		{
 			var alarm = new Alarm(AlarmType, Device);
-			alarm.Zone = Zone;
 			alarm.Direction = Direction;
 			return alarm;
 		}
@@ -61,8 +46,6 @@ namespace GKModule
 			if (alarm.AlarmType != AlarmType)
 				return false;
 			if (alarm.Device != null && alarm.Device != Device)
-				return false;
-			if (alarm.Zone != null && alarm.Zone != Zone)
 				return false;
 			if (alarm.Direction != null && alarm.Direction != Direction)
 				return false;

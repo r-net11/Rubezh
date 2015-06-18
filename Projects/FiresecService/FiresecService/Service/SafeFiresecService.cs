@@ -283,16 +283,6 @@ namespace FiresecService.Service
 			SafeOperationCall(() => { FiresecService.GKReset(uid, objectType); }, "GKReset");
 		}
 
-		public void GKResetFire1(Guid zoneUID)
-		{
-			SafeOperationCall(() => { FiresecService.GKResetFire1(zoneUID); }, "GKResetFire1");
-		}
-
-		public void GKResetFire2(Guid zoneUID)
-		{
-			SafeOperationCall(() => { FiresecService.GKResetFire2(zoneUID); }, "GKResetFire2");
-		}
-
 		public void GKSetAutomaticRegime(Guid uid, GKBaseObjectType objectType)
 		{
 			SafeOperationCall(() => { FiresecService.GKSetAutomaticRegime(uid, objectType); }, "GKSetAutomaticRegime");

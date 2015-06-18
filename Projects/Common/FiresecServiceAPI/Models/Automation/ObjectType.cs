@@ -7,9 +7,6 @@ namespace FiresecAPI.Automation
 		[DescriptionAttribute("ГК-устройство")]
 		Device,
 
-		[DescriptionAttribute("ГК-зона")]
-		Zone,
-
 		[DescriptionAttribute("ГК-направление")]
 		Direction,
 
@@ -22,9 +19,6 @@ namespace FiresecAPI.Automation
 		[DescriptionAttribute("СКД-зона")]
 		SKDZone,
 
-		[DescriptionAttribute("Охранная зона")]
-		GuardZone,
-		
 		[DescriptionAttribute("Видеоустройство")]
 		VideoDevice,
 

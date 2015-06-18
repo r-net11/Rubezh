@@ -43,10 +43,6 @@ namespace GKModule.Validation
 			var devices = new List<GKDevice>();
 			devices.AddRange(direction.InputDevices);
 			devices.AddRange(direction.OutputDevices);
-			foreach (var zone in direction.InputZones)
-			{
-				devices.AddRange(zone.Devices);
-			}
 
 			if (AreDevicesInSameGK(devices))
 				Errors.Add(new DirectionValidationError(direction, "Направление содержит объекты устройства разных ГК", ValidationErrorLevel.CannotWrite));

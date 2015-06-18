@@ -246,14 +246,6 @@ namespace FiresecService
 					ControlGKDevice(procedureStep);
 					break;
 
-				case ProcedureStepType.ControlGKFireZone:
-					ControlFireZone(procedureStep);
-					break;
-
-				case ProcedureStepType.ControlGKGuardZone:
-					ControlGuardZone(procedureStep);
-					break;
-
 				case ProcedureStepType.ControlDirection:
 					ControlDirection(procedureStep);
 					break;

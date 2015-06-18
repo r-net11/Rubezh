@@ -86,8 +86,6 @@ namespace GKModule.ViewModels
 				}
 			}
 
-			LocalConfiguration.Zones.RemoveAll(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == LocalDevice.Address);
-			LocalConfiguration.Zones.AddRange(RemoteDeviceConfiguration.Zones);
 			LocalConfiguration.Directions.RemoveAll(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == LocalDevice.Address);
 			LocalConfiguration.Directions.AddRange(RemoteDeviceConfiguration.Directions);
 			LocalConfiguration.PumpStations.RemoveAll(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == LocalDevice.Address);
@@ -96,10 +94,6 @@ namespace GKModule.ViewModels
 			LocalConfiguration.MPTs.AddRange(RemoteDeviceConfiguration.MPTs);
 			LocalConfiguration.Delays.RemoveAll(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == LocalDevice.Address);
 			LocalConfiguration.Delays.AddRange(RemoteDeviceConfiguration.Delays);
-			LocalConfiguration.GuardZones.RemoveAll(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == LocalDevice.Address);
-			LocalConfiguration.GuardZones.AddRange(RemoteDeviceConfiguration.GuardZones);
-			LocalConfiguration.Codes.RemoveAll(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == LocalDevice.Address);
-			LocalConfiguration.Codes.AddRange(RemoteDeviceConfiguration.Codes);
 			LocalConfiguration.Doors.RemoveAll(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == LocalDevice.Address);
 			LocalConfiguration.Doors.AddRange(RemoteDeviceConfiguration.Doors);
 

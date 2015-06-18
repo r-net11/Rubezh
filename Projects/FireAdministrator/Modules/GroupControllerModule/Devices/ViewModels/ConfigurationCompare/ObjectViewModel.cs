@@ -5,7 +5,7 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace GKModule.ViewModels
 {
-	public class ObjectViewModel : BaseViewModel, IComparable  
+	public class ObjectViewModel : BaseViewModel, IComparable
 	{
 		public string Name { get; set; }
 		public string Address { get; set; }
@@ -32,13 +32,10 @@ namespace GKModule.ViewModels
 
 		public string DifferenceDiscription { get; set; }
 		public GKDevice Device;
-		public GKZone Zone;
 		public GKDirection Direction;
 		public GKPumpStation PumpStation;
 		public GKMPT MPT;
 		public GKDelay Delay;
-		public GKGuardZone GuardZone;
-		public GKCode Code;
 		public GKDoor Door;
 		public string ImageSource { get; private set; }
 		public ObjectType ObjectType { get; private set; }
@@ -52,19 +49,8 @@ namespace GKModule.ViewModels
 			Device = device;
 			Name = device.ShortName;
 			Address = device.DottedPresentationAddress;
-			PresentationZone = device.IsNotUsed ? "" : GKManager.GetPresentationZoneOrLogic(Device);
 			ImageSource = "/Controls;component/GKIcons/" + device.DriverType + ".png";
 			ObjectType = ObjectType.Device;
-		}
-
-		public ObjectViewModel(GKZone zone)
-		{
-			Zone = zone;
-			Name = zone.PresentationName;
-			ImageSource = "/Controls;component/Images/Zone.png";
-			Address = "";
-			PresentationZone = "";
-			ObjectType = ObjectType.Zone;
 		}
 
 		public ObjectViewModel(GKDirection direction)
@@ -105,26 +91,6 @@ namespace GKModule.ViewModels
 			Address = "";
 			PresentationZone = "";
 			ObjectType = ObjectType.Delay;
-		}
-
-		public ObjectViewModel(GKGuardZone guardZone)
-		{
-			GuardZone = guardZone;
-			Name = guardZone.PresentationName;
-			ImageSource = "/Controls;component/Images/GuardZone.png";
-			Address = "";
-			PresentationZone = "";
-			ObjectType = ObjectType.GuardZone;
-		}
-
-		public ObjectViewModel(GKCode code)
-		{
-			Code = code;
-			Name = code.PresentationName;
-			ImageSource = "/Controls;component/Images/Code.png";
-			Address = "";
-			PresentationZone = "";
-			ObjectType = ObjectType.Code;
 		}
 
 		public ObjectViewModel(GKDoor door)
@@ -170,15 +136,6 @@ namespace GKModule.ViewModels
 				return 0;
 			}
 
-			if (object1.ObjectType == ObjectType.Zone)
-			{
-				if (object1.Zone.No > object2.Zone.No)
-					return 1;
-				if (object1.Zone.No < object2.Zone.No)
-					return -1;
-				return 0;
-			}
-
 			if (object1.ObjectType == ObjectType.Direction)
 			{
 				if (object1.Direction.No > object2.Direction.No)
@@ -203,24 +160,6 @@ namespace GKModule.ViewModels
 				return string.Compare(object1.Delay.Name, object2.Delay.Name);
 			}
 
-			if (object1.ObjectType == ObjectType.GuardZone)
-			{
-				if (object1.GuardZone.No > object2.GuardZone.No)
-					return 1;
-				if (object1.GuardZone.No < object2.GuardZone.No)
-					return -1;
-				return 0;
-			}
-
-			if (object1.ObjectType == ObjectType.Code)
-			{
-				if (object1.Code.No > object2.Code.No)
-					return 1;
-				if (object1.Code.No < object2.Code.No)
-					return -1;
-				return 0;
-			}
-
 			if (object1.ObjectType == ObjectType.Door)
 			{
 				if (object1.Door.No > object2.Door.No)
@@ -236,13 +175,10 @@ namespace GKModule.ViewModels
 	public enum ObjectType
 	{
 		Device = 0,
-		Zone = 1,
 		Direction = 2,
 		PumpStation = 3,
 		MPT = 4,
 		Delay = 5,
-		GuardZone = 6,
-		Code = 7,
 		Door = 8,
 	}
 }

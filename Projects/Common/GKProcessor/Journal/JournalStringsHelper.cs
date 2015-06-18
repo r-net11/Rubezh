@@ -70,18 +70,6 @@ namespace GKProcessor
 			return ToState(b);
 		}
 
-		public static JournalEventNameType ToGuardZoneState(byte b)
-		{
-			switch (b)
-			{
-				case 2: return JournalEventNameType.На_охране;
-				case 3: return JournalEventNameType.Не_на_охране;
-				case 4: return JournalEventNameType.Постановка_на_охрану;
-				case 5: return JournalEventNameType.Снятие_с_охраны;
-			}
-			return ToState(b);
-		}
-
 		public static JournalEventDescriptionType ToFailure(byte b)
 		{
 			switch (b)
@@ -273,7 +261,7 @@ namespace GKProcessor
 		//		//case 11: return "Несовместимость сигналов"; //
 		//		//case 12: return "Обрыв цепи питания двигателя"; //
 		//		case 13: return "Обрыв Давление низкое"; //
-		//		case 14: return "КЗ Давление низкое"; // 
+		//		case 14: return "КЗ Давление низкое"; //
 		//		case 15: return "Таймаут по давлению"; //
 		//		//case 16: return "Обрыв Давление на выходе"; //
 		//		//case 17: return "КЗ Давление на выходе"; //

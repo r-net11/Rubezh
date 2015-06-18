@@ -12,10 +12,6 @@ namespace GKModule.Plans
 			: base(plan, callBack)
 		{
 			Plan.ElementGKDevices.ForEach(item => Initialize(item));
-			Plan.ElementRectangleGKZones.ForEach(item => Initialize(item));
-			Plan.ElementPolygonGKZones.ForEach(item => Initialize(item));
-			Plan.ElementRectangleGKGuardZones.ForEach(item => InitializeGuard(item));
-			Plan.ElementPolygonGKGuardZones.ForEach(item => InitializeGuard(item));
 			Plan.ElementRectangleGKSKDZones.ForEach(item => InitializeSKD(item));
 			Plan.ElementPolygonGKSKDZones.ForEach(item => InitializeSKD(item));
 			Plan.ElementRectangleGKDirections.ForEach(item => Initialize(item));
@@ -35,16 +31,6 @@ namespace GKModule.Plans
 		{
 			var door = PlanPresenter.Cache.Get<GKDoor>(element.DoorUID);
 			AddState(door);
-		}
-		private void Initialize(IElementZone element)
-		{
-			var zone = PlanPresenter.Cache.Get<GKZone>(element.ZoneUID);
-			AddState(zone);
-		}
-		private void InitializeGuard(IElementZone element)
-		{
-			var zone = PlanPresenter.Cache.Get<GKGuardZone>(element.ZoneUID);
-			AddState(zone);
 		}
 		private void InitializeSKD(IElementZone element)
 		{

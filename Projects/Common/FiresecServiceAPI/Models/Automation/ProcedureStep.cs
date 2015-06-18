@@ -25,8 +25,6 @@ namespace FiresecAPI.Automation
 			SetValueArguments = new SetValueArguments();
 			IncrementValueArguments = new IncrementValueArguments();
 			ControlGKDeviceArguments = new ControlGKDeviceArguments();
-			ControlGKFireZoneArguments = new ControlGKFireZoneArguments();
-			ControlGKGuardZoneArguments = new ControlGKGuardZoneArguments();
 			ControlSKDZoneArguments = new ControlSKDZoneArguments();
 			ControlDirectionArguments = new ControlDirectionArguments();
 			ControlDoorArguments = new ControlDoorArguments();
@@ -123,12 +121,6 @@ namespace FiresecAPI.Automation
 		public ControlGKDeviceArguments ControlGKDeviceArguments { get; set; }
 
 		[DataMember]
-		public ControlGKFireZoneArguments ControlGKFireZoneArguments { get; set; }
-
-		[DataMember]
-		public ControlGKGuardZoneArguments ControlGKGuardZoneArguments { get; set; }
-
-		[DataMember]
 		public ControlSKDZoneArguments ControlSKDZoneArguments { get; set; }
 
 		[DataMember]
@@ -180,7 +172,7 @@ namespace FiresecAPI.Automation
 		public ShowPropertyArguments ShowPropertyArguments { get; set; }
 
 		[DataMember]
-		public ExportJournalArguments ExportJournalArguments { get; set; } 
+		public ExportJournalArguments ExportJournalArguments { get; set; }
 
 		[DataMember]
 		public ExportOrganisationArguments ExportOrganisationArguments { get; set; }
@@ -189,7 +181,7 @@ namespace FiresecAPI.Automation
 		public ExportConfigurationArguments ExportConfigurationArguments { get; set; }
 
 		[DataMember]
-		public ImportOrganisationArguments ImportOrganisationArguments { get; set; } 
+		public ImportOrganisationArguments ImportOrganisationArguments { get; set; }
 
 		[DataMember]
 		public GenerateGuidArguments GenerateGuidArguments { get; set; }
@@ -202,13 +194,13 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public StartRecordArguments StartRecordArguments { get; set; }
-		
+
 		[DataMember]
 		public StopRecordArguments StopRecordArguments { get; set; }
 
 		[DataMember]
 		public RviAlarmArguments RviAlarmArguments { get; set; }
-		
+
 		[DataMember]
 		public ControlGKDoorArguments ControlGKDoorArguments { get; set; }
 	}

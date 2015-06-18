@@ -109,11 +109,6 @@ namespace GKModule.ViewModels
 			{
 				switch (descriptorType)
 				{
-					case 0x100:
-						TypeName = "Зона";
-						ImageSource = "/Controls;component/Images/Zone.png";
-						break;
-
 					case 0x101:
 						TypeName = "Задержка";
 						ImageSource = "/Controls;component/Images/Delay.png";
@@ -127,11 +122,6 @@ namespace GKModule.ViewModels
 					case 0x107:
 						TypeName = "ПИМ";
 						ImageSource = "/Controls;component/Images/Pim.png";
-						break;
-
-					case 0x108:
-						TypeName = "Охранная зона";
-						ImageSource = "/Controls;component/Images/GuardZone.png";
 						break;
 				}
 			}
@@ -148,22 +138,6 @@ namespace GKModule.ViewModels
 						if (device != null)
 						{
 							PresentationName = device.PresentationName;
-						}
-						break;
-
-					case JournalObjectType.GKZone:
-						var zone = GKManager.Zones.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
-						if (zone != null)
-						{
-							PresentationName = zone.PresentationName;
-						}
-						break;
-
-					case JournalObjectType.GKGuardZone:
-						var guardZone = GKManager.GuardZones.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
-						if (guardZone != null)
-						{
-							PresentationName = guardZone.PresentationName;
 						}
 						break;
 
@@ -235,20 +209,6 @@ namespace GKModule.ViewModels
 					}
 					break;
 
-				case JournalObjectType.GKZone:
-					if (GKManager.Zones.Any(x => x.UID == JournalItem.ObjectUID))
-					{
-						ServiceFactory.Events.GetEvent<ShowGKZoneEvent>().Publish(JournalItem.ObjectUID);
-					}
-					break;
-
-				case JournalObjectType.GKGuardZone:
-					if (GKManager.GuardZones.Any(x => x.UID == JournalItem.ObjectUID))
-					{
-						ServiceFactory.Events.GetEvent<ShowGKGuardZoneEvent>().Publish(JournalItem.ObjectUID);
-					}
-					break;
-
 				case JournalObjectType.GKDirection:
 					if (GKManager.Directions.Any(x => x.UID == JournalItem.ObjectUID))
 					{
@@ -269,8 +229,6 @@ namespace GKModule.ViewModels
 			switch (JournalItem.JournalObjectType)
 			{
 				case JournalObjectType.GKDevice:
-				case JournalObjectType.GKZone:
-				case JournalObjectType.GKGuardZone:
 				case JournalObjectType.GKDirection:
 				case JournalObjectType.GKPumpStation:
 					return true;

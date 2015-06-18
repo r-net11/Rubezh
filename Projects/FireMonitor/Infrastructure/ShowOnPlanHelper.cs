@@ -28,40 +28,6 @@ namespace Infrastructure
 			return false;
 		}
 
-		public static void ShowZone(GKZone zone)
-		{
-			ServiceFactory.Events.GetEvent<ShowGKZoneOnPlanEvent>().Publish(zone);
-		}
-		public static bool CanShowZone(GKZone zone)
-		{
-			if (zone != null)
-				foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
-				{
-					if (plan.ElementPolygonGKZones.Any(x => (x.ZoneUID != Guid.Empty) && (x.ZoneUID == zone.UID)))
-						return true;
-					if (plan.ElementRectangleGKZones.Any(x => (x.ZoneUID != Guid.Empty) && (x.ZoneUID == zone.UID)))
-						return true;
-				}
-			return false;
-		}
-
-		public static void ShowGuardZone(GKGuardZone zone)
-		{
-			ServiceFactory.Events.GetEvent<ShowGKGuardZoneOnPlanEvent>().Publish(zone);
-		}
-		public static bool CanShowGuardZone(GKGuardZone zone)
-		{
-			if (zone != null)
-				foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
-				{
-					if (plan.ElementPolygonGKGuardZones.Any(x => (x.ZoneUID != Guid.Empty) && (x.ZoneUID == zone.UID)))
-						return true;
-					if (plan.ElementRectangleGKGuardZones.Any(x => (x.ZoneUID != Guid.Empty) && (x.ZoneUID == zone.UID)))
-						return true;
-				}
-			return false;
-		}
-
 		public static void ShowGKSKDZone(GKSKDZone zone)
 		{
 			ServiceFactory.Events.GetEvent<ShowGKSKDZoneOnPlanEvent>().Publish(zone);

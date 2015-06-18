@@ -88,10 +88,6 @@ namespace GKProcessor
 			{
 				CheckDelay(delay);
 			}
-			foreach (var guardZone in GKManager.GuardZones)
-			{
-				CheckDelay(guardZone);
-			}
 		}
 
 		void CheckDelay(GKBase gkBase)
@@ -225,14 +221,6 @@ namespace GKProcessor
 					DBMissmatchDuringMonitoringReason = JournalEventDescriptionType.Не_совпадает_адрес_на_контроллере;
 				}
 			}
-			if (gkBase is GKZone)
-			{
-				if (descriptorStateHelper.TypeNo != 0x100)
-				{
-					isMissmatch = true;
-					DBMissmatchDuringMonitoringReason = JournalEventDescriptionType.Не_совпадает_тип_для_зоны;
-				}
-			}
 			if (gkBase is GKDirection)
 			{
 				if (descriptorStateHelper.TypeNo != 0x106)
@@ -271,22 +259,6 @@ namespace GKProcessor
 				{
 					isMissmatch = true;
 					DBMissmatchDuringMonitoringReason = JournalEventDescriptionType.Не_совпадает_тип_для_ПИМ;
-				}
-			}
-			if (gkBase is GKGuardZone)
-			{
-				if (descriptorStateHelper.TypeNo != 0x108)
-				{
-					isMissmatch = true;
-					DBMissmatchDuringMonitoringReason = JournalEventDescriptionType.Не_совпадает_тип_для_охранной_зоны;
-				}
-			}
-			if (gkBase is GKCode)
-			{
-				if (descriptorStateHelper.TypeNo != 0x109)
-				{
-					isMissmatch = true;
-					DBMissmatchDuringMonitoringReason = JournalEventDescriptionType.Не_совпадает_тип_для_кода;
 				}
 			}
 			if (gkBase is GKDoor)
@@ -353,13 +325,6 @@ namespace GKProcessor
 						OnObjectStateChanged(device);
 					}
 				}
-				foreach (var zone in GKManager.Zones)
-				{
-					if (zone.GkDatabaseParent == gkControllerDevice)
-					{
-						OnObjectStateChanged(zone);
-					}
-				}
 				foreach (var direction in GKManager.Directions)
 				{
 					if (direction.GkDatabaseParent == gkControllerDevice)
@@ -400,13 +365,6 @@ namespace GKProcessor
 					if (pim.GkDatabaseParent == gkControllerDevice)
 					{
 						OnObjectStateChanged(pim);
-					}
-				}
-				foreach (var guardZone in GKManager.GuardZones)
-				{
-					if (guardZone.GkDatabaseParent == gkControllerDevice)
-					{
-						OnObjectStateChanged(guardZone);
 					}
 				}
 				foreach (var door in GKManager.Doors)

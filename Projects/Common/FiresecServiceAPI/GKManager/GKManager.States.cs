@@ -11,11 +11,6 @@ namespace FiresecClient
 				device.InternalState = new GKDeviceInternalState(device);
 				device.State = new GKState(device);
 			}
-			foreach (var zone in Zones)
-			{
-				zone.InternalState = new GKZoneInternalState(zone);
-				zone.State = new GKState(zone);
-			}
 			foreach (var direction in Directions)
 			{
 				direction.InternalState = new GKDirectionInternalState(direction);
@@ -30,11 +25,6 @@ namespace FiresecClient
 			{
 				mpt.InternalState = new GKMPTInternalState(mpt);
 				mpt.State = new GKState(mpt);
-			}
-			foreach (var guardZone in GuardZones)
-			{
-				guardZone.InternalState = new GKGuardZoneInternalState(guardZone);
-				guardZone.State = new GKState(guardZone);
 			}
 			foreach (var delay in Delays)
 			{
@@ -51,11 +41,6 @@ namespace FiresecClient
 				skdZone.InternalState = new GKSKDZoneInternalState(skdZone);
 				skdZone.State = new GKState(skdZone);
 			}
-			foreach (var code in DeviceConfiguration.Codes)
-			{
-				code.InternalState = new GKCodeInternalState(code);
-				code.State = new GKState(code);
-			}
 		}
 
 		public static XStateClass GetMinStateClass()
@@ -68,9 +53,6 @@ namespace FiresecClient
 					if (stateClass < minStateClass)
 						minStateClass = device.State.StateClass;
 				}
-			foreach (var zone in Zones)
-				if (zone.State != null && zone.State.StateClass < minStateClass)
-					minStateClass = zone.State.StateClass;
 			foreach (var direction in Directions)
 				if (direction.State != null && direction.State.StateClass < minStateClass)
 					minStateClass = direction.State.StateClass;

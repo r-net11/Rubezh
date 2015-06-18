@@ -34,10 +34,6 @@ namespace SKDModule.Reports.ViewModels
 					ImageSource = "/Controls;component/GKIcons/RM_1.png";
 					break;
 
-				case JournalObjectType.GKZone:
-					ImageSource = "/Controls;component/Images/Zone.png";
-					break;
-
 				case JournalObjectType.GKDirection:
 					ImageSource = "/Controls;component/Images/BDirection.png";
 					break;
@@ -52,10 +48,6 @@ namespace SKDModule.Reports.ViewModels
 
 				case JournalObjectType.GKDelay:
 					ImageSource = "/Controls;component/Images/Delay.png";
-					break;
-
-				case JournalObjectType.GKGuardZone:
-					ImageSource = "/Controls;component/Images/GuardZone.png";
 					break;
 
 				case JournalObjectType.GKSKDZone:
@@ -89,12 +81,6 @@ namespace SKDModule.Reports.ViewModels
 			UID = device.UID;
 			ImageSource = device.Driver.ImageSource;
 		}
-		public SKDObjectViewModel(GKZone zone)
-		{
-			Name = zone.PresentationName;
-			UID = zone.UID;
-			ImageSource = "/Controls;component/Images/Zone.png";
-		}
 		public SKDObjectViewModel(GKDirection direction)
 		{
 			Name = direction.PresentationName;
@@ -118,12 +104,6 @@ namespace SKDModule.Reports.ViewModels
 			Name = delay.PresentationName;
 			UID = delay.UID;
 			ImageSource = "/Controls;component/Images/Delay.png";
-		}
-		public SKDObjectViewModel(GKGuardZone guardZone)
-		{
-			Name = guardZone.PresentationName;
-			UID = guardZone.UID;
-			ImageSource = "/Controls;component/Images/GuardZone.png";
 		}
 		public SKDObjectViewModel(GKDoor door)
 		{

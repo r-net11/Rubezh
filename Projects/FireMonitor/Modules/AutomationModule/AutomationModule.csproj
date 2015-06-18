@@ -77,9 +77,6 @@
     <Compile Include="ObjectSelection\Views\DoorSelectionView.xaml.cs">
       <DependentUpon>DoorSelectionView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ObjectSelection\Views\GuardZoneSelectionView.xaml.cs">
-      <DependentUpon>GuardZoneSelectionView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ObjectSelection\Views\SKDDeviceSelectionView.xaml.cs">
       <DependentUpon>SKDDeviceSelectionView.xaml</DependentUpon>
     </Compile>
@@ -118,7 +115,6 @@
     <Compile Include="ObjectSelection\ViewModels\DoorViewModel.cs" />
     <Compile Include="ViewModels\ExplicitValuesViewModel.cs" />
     <Compile Include="ViewModels\ExplicitValueViewModel.cs" />
-    <Compile Include="ObjectSelection\ViewModels\GuardZoneSelectionViewModel.cs" />
     <Compile Include="ViewModels\LayoutTextBlockPartViewModel.cs" />
     <Compile Include="ViewModels\LayoutTextBoxPartViewModel.cs" />
     <Compile Include="ViewModels\ProcedureArgumentsViewModel.cs" />
@@ -130,7 +126,6 @@
     <Compile Include="ObjectSelection\ViewModels\SKDDeviceSelectionViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\SKDZoneSelectionViewModel.cs" />
     <Compile Include="ViewModels\VariableViewModel.cs" />
-    <Compile Include="ObjectSelection\ViewModels\ZoneSelectionViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\ZoneViewModel.cs" />
     <Compile Include="Views\ArgumentDetailsView.xaml.cs">
       <DependentUpon>ArgumentDetailsView.xaml</DependentUpon>
@@ -197,10 +192,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="ObjectSelection\Views\DoorSelectionView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="ObjectSelection\Views\GuardZoneSelectionView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

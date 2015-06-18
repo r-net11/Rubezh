@@ -28,10 +28,6 @@ namespace GKModule.ViewModels
 					}
 					break;
 
-				case DescriptorType.Zone:
-					ImageSource = "/Controls;component/Images/Zone.png";
-					break;
-
 				case DescriptorType.Direction:
 					ImageSource = "/Controls;component/Images/Blue_Direction.png";
 					break;
@@ -50,10 +46,6 @@ namespace GKModule.ViewModels
 
 				case DescriptorType.Pim:
 					ImageSource = "/Controls;component/Images/Pim.png";
-					break;
-
-				case DescriptorType.GuardZone:
-					ImageSource = "/Controls;component/Images/GuardZone.png";
 					break;
 
 				case DescriptorType.Code:

@@ -59,11 +59,6 @@ namespace GKModule.ViewModels
 				return stateClasses;
 			}
 		}
-
-		public int InputZonesCount
-		{
-			get { return MPT.ClauseInputZones.Count; }
-		}
 		public int InputDevicesCount
 		{
 			get { return MPT.ClauseInputDevices.Count; }

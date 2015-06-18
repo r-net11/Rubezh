@@ -96,15 +96,6 @@ namespace GKModule
 					device.State.OnStateChanged();
 				}
 			}
-			foreach (var remoteZoneState in gkStates.ZoneStates)
-			{
-				var zone = GKManager.Zones.FirstOrDefault(x => x.UID == remoteZoneState.UID);
-				if (zone != null)
-				{
-					remoteZoneState.CopyTo(zone.State);
-					zone.State.OnStateChanged();
-				}
-			}
 			foreach (var remoteDirectionState in gkStates.DirectionStates)
 			{
 				var direction = GKManager.Directions.FirstOrDefault(x => x.UID == remoteDirectionState.UID);
@@ -161,15 +152,6 @@ namespace GKModule
 				{
 					remotePimState.CopyTo(pim.State);
 					pim.State.OnStateChanged();
-				}
-			}
-			foreach (var remoteGuardZoneState in gkStates.GuardZoneStates)
-			{
-				var guardZone = GKManager.GuardZones.FirstOrDefault(x => x.UID == remoteGuardZoneState.UID);
-				if (guardZone != null)
-				{
-					remoteGuardZoneState.CopyTo(guardZone.State);
-					guardZone.State.OnStateChanged();
 				}
 			}
 			foreach (var remoteDoorState in gkStates.DoorStates)
