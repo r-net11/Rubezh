@@ -36,8 +36,6 @@ namespace GKModule.ViewModels
 			{
 				if (instruction.InstructionType == GKInstructionType.Details)
 				{
-					if (instruction.ZoneUIDs == null)
-						instruction.ZoneUIDs = new List<Guid>();
 					instruction.Devices = new List<Guid>(instruction.Devices.Where(deviceGuid => GKManager.Devices.Any(x => x.UID == deviceGuid)));
 				}
 				Instructions.Add(new InstructionViewModel(instruction));

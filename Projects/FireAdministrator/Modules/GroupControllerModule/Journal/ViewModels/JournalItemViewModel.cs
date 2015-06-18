@@ -114,11 +114,6 @@ namespace GKModule.ViewModels
 						ImageSource = "/Controls;component/Images/Delay.png";
 						break;
 
-					case 0x106:
-						TypeName = "Направление";
-						ImageSource = "/Controls;component/Images/Blue_Direction.png";
-						break;
-
 					case 0x107:
 						TypeName = "ПИМ";
 						ImageSource = "/Controls;component/Images/Pim.png";
@@ -138,14 +133,6 @@ namespace GKModule.ViewModels
 						if (device != null)
 						{
 							PresentationName = device.PresentationName;
-						}
-						break;
-
-					case JournalObjectType.GKDirection:
-						var direction = GKManager.Directions.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
-						if (direction != null)
-						{
-							PresentationName = direction.PresentationName;
 						}
 						break;
 
@@ -209,13 +196,6 @@ namespace GKModule.ViewModels
 					}
 					break;
 
-				case JournalObjectType.GKDirection:
-					if (GKManager.Directions.Any(x => x.UID == JournalItem.ObjectUID))
-					{
-						ServiceFactory.Events.GetEvent<ShowGKDirectionEvent>().Publish(JournalItem.ObjectUID);
-					}
-					break;
-
 				case JournalObjectType.GKPumpStation:
 					if (GKManager.PumpStations.Any(x => x.UID == JournalItem.ObjectUID))
 					{
@@ -229,7 +209,6 @@ namespace GKModule.ViewModels
 			switch (JournalItem.JournalObjectType)
 			{
 				case JournalObjectType.GKDevice:
-				case JournalObjectType.GKDirection:
 				case JournalObjectType.GKPumpStation:
 					return true;
 			}

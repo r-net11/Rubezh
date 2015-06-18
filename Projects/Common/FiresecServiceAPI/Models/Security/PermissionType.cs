@@ -40,7 +40,7 @@ namespace FiresecAPI.Models
 		[DescriptionAttribute("Не требуется подтверждение тревог")]
 		Oper_NoAlarmConfirm,
 
-		[DescriptionAttribute("Управление устройствами, зонами и направлениями")]
+		[DescriptionAttribute("Управление устройствами, зонами")]
 		Oper_ControlDevices,
 
 		[DescriptionAttribute("Управление интерфейсом")]

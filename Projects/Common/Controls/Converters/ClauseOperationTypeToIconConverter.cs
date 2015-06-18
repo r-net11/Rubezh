@@ -18,10 +18,6 @@ namespace Controls.Converters
 						case ClauseOperationType.AnyDevice:
 							return "/Controls;component/GKIcons/RSR2_RM_1.png";
 
-						case ClauseOperationType.AllDirections:
-						case ClauseOperationType.AnyDirection:
-							return "/Controls;component/Images/Blue_Direction.png";
-
 						case ClauseOperationType.AllMPTs:
 						case ClauseOperationType.AnyMPT:
 							return "/Controls;component/Images/BMPT.png";

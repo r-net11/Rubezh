@@ -160,10 +160,6 @@ namespace FireAdministrator.ViewModels
 					GKManager.DeviceConfiguration.RootDevice.Children.Add(gkControllerDevice);
 				}
 			}
-			foreach (var direction in GKDeviceConfiguration.Directions)
-			{
-				GKManager.Directions.Add(direction);
-			}
 			foreach (var mpt in GKDeviceConfiguration.MPTs)
 			{
 				GKManager.MPTs.Add(mpt);
@@ -245,12 +241,6 @@ namespace FireAdministrator.ViewModels
 				GKDeviceUIDs.Add(device.UID, uid);
 				device.UID = uid;
 			}
-			foreach (var direction in GKDeviceConfiguration.Directions)
-			{
-				var uid = Guid.NewGuid();
-				GKDirectionUIDs.Add(direction.UID, uid);
-				direction.UID = uid;
-			}
 			foreach (var mpt in GKDeviceConfiguration.MPTs)
 			{
 				var uid = Guid.NewGuid();
@@ -290,17 +280,8 @@ namespace FireAdministrator.ViewModels
 
 			foreach (var device in GKDeviceConfiguration.Devices)
 			{
-				for (int i = 0; i < device.ZoneUIDs.Count; i++)
-				{
-					device.ZoneUIDs[i] = ReplaceUID(device.ZoneUIDs[i], GKZoneUIDs);
-				}
 				ReplaceLogic(device.Logic);
 				ReplaceLogic(device.NSLogic);
-			}
-
-			foreach (var direction in GKDeviceConfiguration.Directions)
-			{
-				ReplaceLogic(direction.Logic);
 			}
 
 			foreach (var mpt in GKDeviceConfiguration.MPTs)
@@ -361,22 +342,6 @@ namespace FireAdministrator.ViewModels
 					PlenElementUIDs.Add(element.UID, uid);
 					element.UID = uid;
 				}
-				foreach (var element in plan.ElementRectangleGKDirections)
-				{
-					if (element.DirectionUID != Guid.Empty)
-						element.DirectionUID = GKDirectionUIDs[element.DirectionUID];
-					var uid = Guid.NewGuid();
-					PlenElementUIDs.Add(element.UID, uid);
-					element.UID = uid;
-				}
-				foreach (var element in plan.ElementPolygonGKDirections)
-				{
-					if (element.DirectionUID != Guid.Empty)
-						element.DirectionUID = GKDirectionUIDs[element.DirectionUID];
-					var uid = Guid.NewGuid();
-					PlenElementUIDs.Add(element.UID, uid);
-					element.UID = uid;
-				}
 				foreach (var element in plan.ElementRectangleGKMPTs)
 				{
 					if (element.MPTUID != Guid.Empty)
@@ -428,11 +393,6 @@ namespace FireAdministrator.ViewModels
 				{
 					var deviceUID = clause.DeviceUIDs[i];
 					clause.DeviceUIDs[i] = GKDeviceUIDs[deviceUID];
-				}
-				for (int i = 0; i < clause.DirectionUIDs.Count; i++)
-				{
-					var directionUID = clause.DirectionUIDs[i];
-					clause.DirectionUIDs[i] = GKDirectionUIDs[directionUID];
 				}
 				for (int i = 0; i < clause.MPTUIDs.Count; i++)
 				{
@@ -512,8 +472,6 @@ namespace FireAdministrator.ViewModels
 		}
 
 		Dictionary<Guid, Guid> GKDeviceUIDs = new Dictionary<Guid, Guid>();
-		Dictionary<Guid, Guid> GKZoneUIDs = new Dictionary<Guid, Guid>();
-		Dictionary<Guid, Guid> GKDirectionUIDs = new Dictionary<Guid, Guid>();
 		Dictionary<Guid, Guid> GKDelayUIDs = new Dictionary<Guid, Guid>();
 		Dictionary<Guid, Guid> GKPumpStationUIDs = new Dictionary<Guid, Guid>();
 		Dictionary<Guid, Guid> GKMPTUIDs = new Dictionary<Guid, Guid>();

@@ -96,15 +96,6 @@ namespace GKModule
 					device.State.OnStateChanged();
 				}
 			}
-			foreach (var remoteDirectionState in gkStates.DirectionStates)
-			{
-				var direction = GKManager.Directions.FirstOrDefault(x => x.UID == remoteDirectionState.UID);
-				if (direction != null)
-				{
-					remoteDirectionState.CopyTo(direction.State);
-					direction.State.OnStateChanged();
-				}
-			}
 			foreach (var remotePumpStationState in gkStates.PumpStationStates)
 			{
 				var pumpStation = GKManager.PumpStations.FirstOrDefault(x => x.UID == remotePumpStationState.UID);

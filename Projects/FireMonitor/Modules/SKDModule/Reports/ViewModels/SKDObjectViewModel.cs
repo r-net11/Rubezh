@@ -34,10 +34,6 @@ namespace SKDModule.Reports.ViewModels
 					ImageSource = "/Controls;component/GKIcons/RM_1.png";
 					break;
 
-				case JournalObjectType.GKDirection:
-					ImageSource = "/Controls;component/Images/BDirection.png";
-					break;
-
 				case JournalObjectType.GKMPT:
 					ImageSource = "/Controls;component/Images/BMPT.png";
 					break;
@@ -80,12 +76,6 @@ namespace SKDModule.Reports.ViewModels
 			Name = device.PresentationName;
 			UID = device.UID;
 			ImageSource = device.Driver.ImageSource;
-		}
-		public SKDObjectViewModel(GKDirection direction)
-		{
-			Name = direction.PresentationName;
-			UID = direction.UID;
-			ImageSource = "/Controls;component/Images/BDirection.png";
 		}
 		public SKDObjectViewModel(GKMPT mpt)
 		{

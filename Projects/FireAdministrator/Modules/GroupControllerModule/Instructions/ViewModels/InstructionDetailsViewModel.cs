@@ -21,7 +21,6 @@ namespace GKModule.ViewModels
 		public InstructionDetailsViewModel(GKInstruction instruction = null)
 		{
 			SelectDeviceCommand = new RelayCommand(OnSelectDeviceCommand, CanSelect);
-			SelectDirectionCommand = new RelayCommand(OnSelectDirectionCommand, CanSelect);
 			GetMediaCommand = new RelayCommand(OnGetMedia);
 			RemoveMediaCommand = new RelayCommand(OnRemoveMedia);
 			if (instruction != null)
@@ -40,9 +39,7 @@ namespace GKModule.ViewModels
 
 		void CopyProperties()
 		{
-			InstructionZones = new ObservableCollection<Guid>();
 			InstructionDevices = new ObservableCollection<Guid>();
-			InstructionDirections = new ObservableCollection<Guid>();
 			Name = Instruction.Name;
 			Text = Instruction.Text;
 			AlarmType = Instruction.AlarmType;
@@ -50,14 +47,8 @@ namespace GKModule.ViewModels
 			switch (InstructionType)
 			{
 				case GKInstructionType.Details:
-					if (Instruction.ZoneUIDs.IsNotNullOrEmpty())
-						InstructionZones = new ObservableCollection<Guid>(Instruction.ZoneUIDs);
-					if (Instruction.Devices.IsNotNullOrEmpty())
 						InstructionDevices = new ObservableCollection<Guid>(Instruction.Devices);
-					if (Instruction.Directions.IsNotNullOrEmpty())
-						InstructionDirections = new ObservableCollection<Guid>(Instruction.Directions);
 					break;
-
 				case GKInstructionType.General:
 					break;
 			}
@@ -121,17 +112,6 @@ namespace GKModule.ViewModels
 			get { return new List<GKInstructionType>(Enum.GetValues(typeof(GKInstructionType)).OfType<GKInstructionType>()); }
 		}
 
-		ObservableCollection<Guid> _instructionZones;
-		public ObservableCollection<Guid> InstructionZones
-		{
-			get { return _instructionZones; }
-			set
-			{
-				_instructionZones = value;
-				OnPropertyChanged(() => InstructionZones);
-			}
-		}
-
 		ObservableCollection<Guid> _instructionDevices;
 		public ObservableCollection<Guid> InstructionDevices
 		{
@@ -142,18 +122,6 @@ namespace GKModule.ViewModels
 				OnPropertyChanged(() => InstructionDevices);
 			}
 		}
-
-		ObservableCollection<Guid> _instructionDirections;
-		public ObservableCollection<Guid> InstructionDirections
-		{
-			get { return _instructionDirections; }
-			set
-			{
-				_instructionDirections = value;
-				OnPropertyChanged("InstructionDirections");
-			}
-		}
-
 		bool CanSelect()
 		{
 			return (InstructionType != GKInstructionType.General);
@@ -179,24 +147,6 @@ namespace GKModule.ViewModels
 			{
 				var uids = devicesSelectationViewModel.Devices.Select(x => x.UID).ToList();
 				InstructionDevices = new ObservableCollection<Guid>(uids);
-			}
-		}
-
-		public RelayCommand SelectDirectionCommand { get; private set; }
-		void OnSelectDirectionCommand()
-		{
-			var directions = new List<GKDirection>();
-			foreach (var uid in InstructionDirections)
-			{
-				var direction = GKManager.Directions.FirstOrDefault(x => x.UID == uid);
-				if (direction != null)
-					directions.Add(direction);
-			}
-			var directionsSelectationViewModel = new DirectionsSelectationViewModel(directions);
-			if (DialogService.ShowModalWindow(directionsSelectationViewModel))
-			{
-				var uids = directionsSelectationViewModel.TargetDirections.Select(x => x.UID).ToList();
-				InstructionDirections = new ObservableCollection<Guid>(uids);
 			}
 		}
 
@@ -233,7 +183,7 @@ namespace GKModule.ViewModels
 			if (string.IsNullOrWhiteSpace(Text) && !Instruction.HasMedia)
 				return false;
 			else
-				return InstructionType == GKInstructionType.General ? true : (InstructionDevices.IsNotNullOrEmpty() || InstructionZones.IsNotNullOrEmpty() || InstructionDirections.IsNotNullOrEmpty());
+				return InstructionType == GKInstructionType.General || (InstructionDevices.IsNotNullOrEmpty());
 		}
 
 		protected override bool Save()
@@ -245,14 +195,10 @@ namespace GKModule.ViewModels
 			if (InstructionType == GKInstructionType.Details)
 			{
 				Instruction.Devices = InstructionDevices.ToList();
-				Instruction.ZoneUIDs = InstructionZones.ToList();
-				Instruction.Directions = InstructionDirections.ToList();
 			}
 			else
 			{
 				Instruction.Devices = new List<Guid>();
-				Instruction.ZoneUIDs = new List<Guid>();
-				Instruction.Directions = new List<Guid>();
 			}
 			return base.Save();
 		}

@@ -63,10 +63,6 @@ namespace GKModule.ViewModels
 		{
 			get { return MPT.ClauseInputDevices.Count; }
 		}
-		public int InputDirectionsCount
-		{
-			get { return MPT.ClauseInputDirections.Count(); }
-		}
 
 		public DeviceControlRegime ControlRegime
 		{

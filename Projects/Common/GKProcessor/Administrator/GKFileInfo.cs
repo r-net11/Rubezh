@@ -46,12 +46,6 @@ namespace GKProcessor
 				if (device.IsRealDevice && device.GKParent == gkControllerDevice)
 					stringBuilder.Append(device.PresentationName).Append("@");
 			}
-			stringBuilder.Append("directions:");
-			foreach (var direction in deviceConfiguration.Directions)
-			{
-				if (direction.GkDatabaseParent == gkControllerDevice)
-					stringBuilder.Append(direction.PresentationName).Append("@");
-			}
 			stringBuilder.Append("pumpStations:");
 			foreach (var pumpStation in deviceConfiguration.PumpStations)
 			{

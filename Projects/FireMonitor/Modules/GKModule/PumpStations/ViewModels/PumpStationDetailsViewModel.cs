@@ -64,10 +64,6 @@ namespace GKModule.ViewModels
 		{
 			get { return PumpStation.ClauseInputDevices.Count; }
 		}
-		public int InputDirectionsCount
-		{
-			get { return PumpStation.ClauseInputDirections.Count(); }
-		}
 
 		public DeviceControlRegime ControlRegime
 		{

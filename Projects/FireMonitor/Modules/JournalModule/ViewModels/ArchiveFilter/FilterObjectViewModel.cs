@@ -57,10 +57,6 @@ namespace JournalModule.ViewModels
 					ImageSource = "/Controls;component/GKIcons/RM_1.png";
 					break;
 
-				case JournalObjectType.GKDirection:
-					ImageSource = "/Controls;component/Images/BDirection.png";
-					break;
-
 				case JournalObjectType.GKMPT:
 					ImageSource = "/Controls;component/Images/BMPT.png";
 					break;
@@ -104,13 +100,6 @@ namespace JournalModule.ViewModels
 			Name = device.PresentationName;
 			UID = device.UID;
 			ImageSource = device.Driver.ImageSource;
-		}
-
-		public FilterObjectViewModel(GKDirection direction)
-		{
-			Name = direction.PresentationName;
-			UID = direction.UID;
-			ImageSource = "/Controls;component/Images/BDirection.png";
 		}
 
 		public FilterObjectViewModel(GKMPT mpt)

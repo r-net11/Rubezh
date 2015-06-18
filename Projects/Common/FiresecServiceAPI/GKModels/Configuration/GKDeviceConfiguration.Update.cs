@@ -69,7 +69,6 @@ namespace FiresecAPI.GK
 		{
 			ClearAllReferences();
 			InitializeLogic();
-			InitializeDirections();
 			InitializePumpStations();
 			InitializeMPTs();
 			InitializeDelays();
@@ -82,14 +81,7 @@ namespace FiresecAPI.GK
 			foreach (var device in Devices)
 			{
 				device.ClearClauseDependencies();
-				device.Directions = new List<GKDirection>();
 				device.Door = null;
-			}
-			foreach (var direction in Directions)
-			{
-				direction.ClearClauseDependencies();
-				direction.InputDevices = new List<GKDevice>();
-				direction.OutputDevices = new List<GKDevice>();
 			}
 			foreach (var pumpStation in PumpStations)
 			{
@@ -119,38 +111,6 @@ namespace FiresecAPI.GK
 		public void InvalidateOneLogic(GKDevice device, GKLogic logic)
 		{
 			InvalidateInputObjectsBaseLogic(device, logic);
-			foreach (var clause in logic.OnClausesGroup.Clauses)
-			{
-				foreach (var clauseDirection in clause.Directions)
-				{
-					clauseDirection.OutputDevices.Add(device);
-					device.Directions.Add(clauseDirection);
-				}
-			}
-			foreach (var clause in device.Logic.OffClausesGroup.Clauses)
-			{
-				foreach (var clauseDirection in clause.Directions)
-				{
-					clauseDirection.OutputDevices.Add(device);
-					device.Directions.Add(clauseDirection);
-				}
-			}
-			foreach (var clause in device.Logic.StopClausesGroup.Clauses)
-			{
-				foreach (var clauseDirection in clause.Directions)
-				{
-					clauseDirection.OutputDevices.Add(device);
-					device.Directions.Add(clauseDirection);
-				}
-			}
-		}
-
-		void InitializeDirections()
-		{
-			foreach (var direction in Directions)
-			{
-				InvalidateInputObjectsBaseLogic(direction, direction.Logic);
-			}
 		}
 
 		void InitializePumpStations()
@@ -233,7 +193,6 @@ namespace FiresecAPI.GK
 			foreach (var clause in clauseGroup.Clauses)
 			{
 				clause.Devices = new List<GKDevice>();
-				clause.Directions = new List<GKDirection>();
 				clause.MPTs = new List<GKMPT>();
 				clause.Delays = new List<GKDelay>();
 				clause.Doors = new List<GKDoor>();
@@ -251,20 +210,6 @@ namespace FiresecAPI.GK
 					}
 				}
 				clause.DeviceUIDs = deviceUIDs;
-
-				var directionUIDs = new List<Guid>();
-				foreach (var directionUID in clause.DirectionUIDs)
-				{
-					var direction = Directions.FirstOrDefault(x => x.UID == directionUID);
-					if (direction != null)
-					{
-						directionUIDs.Add(directionUID);
-						clause.Directions.Add(direction);
-						if (!gkBase.ClauseInputDirections.Contains(direction))
-							gkBase.ClauseInputDirections.Add(direction);
-					}
-				}
-				clause.DirectionUIDs = directionUIDs;
 
 				var mptUIDs = new List<Guid>();
 				foreach (var mptUID in clause.MPTUIDs)

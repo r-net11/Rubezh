@@ -7,7 +7,6 @@ namespace GKProcessor
 	{
 		ushort currentChildNo = 1;
 		protected List<GKDevice> Devices { get; set; }
-		protected List<GKDirection> Directions { get; set; }
 		protected List<GKPumpStation> PumpStations { get; set; }
 		protected List<GKMPT> MPTs { get; set; }
 		public List<GKDelay> Delays { get; private set; }
@@ -25,7 +24,6 @@ namespace GKProcessor
 		public CommonDatabase()
 		{
 			Devices = new List<GKDevice>();
-			Directions = new List<GKDirection>();
 			PumpStations = new List<GKPumpStation>();
 			MPTs = new List<GKMPT>();
 			Delays = new List<GKDelay>();

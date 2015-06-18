@@ -113,7 +113,6 @@
     <Compile Include="Events\GKObjectsStateChangedEvent.cs" />
     <Compile Include="Events\ShowDetails\ShowGKDeviceDetailsEvent.cs" />
     <Compile Include="Events\ShowDetails\ShowGKZoneDetailsEvent.cs" />
-    <Compile Include="Events\ShowDetails\ShowGKDirectionDetailsEvent.cs" />
     <Compile Include="Events\ShowDetails\ShowGKPumpStationDetailsEvent.cs" />
     <Compile Include="Events\ShowDetails\ShowGKMPTDetailsEvent.cs" />
     <Compile Include="Events\ShowDetails\ShowGKPIMDetailsEvent.cs" />
@@ -126,7 +125,6 @@
     <Compile Include="Events\ShowObject\ShowSKDDeviceEvent.cs" />
     <Compile Include="Events\ShowObject\ShowSKDZoneEvent.cs" />
     <Compile Include="Events\ShowObject\ShowGKDelayEvent.cs" />
-    <Compile Include="Events\ShowObject\ShowGKDirectionEvent.cs" />
     <Compile Include="Events\ShowObject\ShowGKMPTEvent.cs" />
     <Compile Include="Events\ShowObject\ShowGKPimEvent.cs" />
     <Compile Include="Events\ShowObject\ShowGKPumpStationEvent.cs" />
@@ -134,7 +132,6 @@
     <Compile Include="Events\ShowOnPlan\ShowSKDDeviceOnPlanEvent.cs" />
     <Compile Include="Events\ShowOnPlan\ShowSKDZoneOnPlanEvent.cs" />
     <Compile Include="Events\ShowOnPlan\ShowGKDeviceOnPlanEvent.cs" />
-    <Compile Include="Events\ShowOnPlan\ShowGKDirectionOnPlanEvent.cs" />
     <Compile Include="Events\ShowDiagnosticsEvent.cs" />
     <Compile Include="Events\NewJournalItemsEvent.cs" />
     <Compile Include="Events\ShowArchiveEvent.cs" />

@@ -68,10 +68,6 @@ namespace GKProcessor
 					CheckDelay(device);
 				}
 			}
-			foreach (var direction in GKManager.Directions)
-			{
-				CheckDelay(direction);
-			}
 			foreach (var pumpStation in GKManager.PumpStations)
 			{
 				CheckDelay(pumpStation);
@@ -221,14 +217,6 @@ namespace GKProcessor
 					DBMissmatchDuringMonitoringReason = JournalEventDescriptionType.Не_совпадает_адрес_на_контроллере;
 				}
 			}
-			if (gkBase is GKDirection)
-			{
-				if (descriptorStateHelper.TypeNo != 0x106)
-				{
-					isMissmatch = true;
-					DBMissmatchDuringMonitoringReason = JournalEventDescriptionType.Не_совпадает_тип_для_направления;
-				}
-			}
 			if (gkBase is GKPumpStation)
 			{
 				if (descriptorStateHelper.TypeNo != 0x106)
@@ -323,13 +311,6 @@ namespace GKProcessor
 					if (device.Driver.IsGroupDevice || device.DriverType == GKDriverType.RSR2_KAU_Shleif)
 					{
 						OnObjectStateChanged(device);
-					}
-				}
-				foreach (var direction in GKManager.Directions)
-				{
-					if (direction.GkDatabaseParent == gkControllerDevice)
-					{
-						OnObjectStateChanged(direction);
 					}
 				}
 				foreach (var pumpStation in GKManager.PumpStations)

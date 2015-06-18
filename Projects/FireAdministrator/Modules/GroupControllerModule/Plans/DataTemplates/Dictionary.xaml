@@ -4,15 +4,11 @@
 		<Views:DevicePropertiesView />
 	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:SKDZonePropertiesViewModel}">
-        <Views:SKDZonePropertiesView />
-    </DataTemplate>
-
-	<DataTemplate DataType="{x:Type ViewModels:DirectionPropertiesViewModel}">
-		<Views:DirectionPropertiesView />
+	<DataTemplate DataType="{x:Type ViewModels:SKDZonePropertiesViewModel}">
+		<Views:SKDZonePropertiesView />
 	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:MPTPropertiesViewModel}">
+	<DataTemplate DataType="{x:Type ViewModels:MPTPropertiesViewModel}">
         <Views:MPTPropertiesView />
     </DataTemplate>
 

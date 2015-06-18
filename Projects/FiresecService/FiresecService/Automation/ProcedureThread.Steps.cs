@@ -404,44 +404,6 @@ namespace FiresecService
 				itemUid = (item as GKDelay).UID;
 			}
 
-			if (item is GKDirection)
-			{
-				switch (property)
-				{
-					case Property.Name:
-						propertyValue = (item as GKDirection).Name.Trim();
-						break;
-					case Property.No:
-						propertyValue = (item as GKDirection).No;
-						break;
-					case Property.Delay:
-						propertyValue = (int)(item as GKDirection).Delay;
-						break;
-					case Property.CurrentDelay:
-						propertyValue = (int)(item as GKDirection).State.OnDelay;
-						break;
-					case Property.Hold:
-						propertyValue = (int)(item as GKDirection).Hold;
-						break;
-					case Property.CurrentHold:
-						propertyValue = (int)(item as GKDirection).State.HoldDelay;
-						break;
-					case Property.DelayRegime:
-						propertyValue = (int)(item as GKDirection).DelayRegime;
-						break;
-					case Property.Description:
-						propertyValue = (item as GKDirection).Description.Trim();
-						break;
-					case Property.Uid:
-						propertyValue = (item as GKDirection).UID.ToString();
-						break;
-					case Property.State:
-						propertyValue = (int)(item as GKDirection).State.StateClass;
-						break;
-				}
-				itemUid = (item as GKDirection).UID;
-			}
-
 			return propertyValue;
 		}
 
@@ -454,12 +416,6 @@ namespace FiresecService
 				foreach (var objectUid in new List<Guid>(GKManager.DeviceConfiguration.Devices.Select(x => x.UID)))
 					explicitValues.Add(new ExplicitValue { UidValue = objectUid });
 			}
-			if (result.ObjectType == ObjectType.Direction)
-			{
-				items = new List<GKDirection>(GKManager.Directions);
-				foreach (var objectUid in new List<Guid>(GKManager.Directions.Select(x => x.UID)))
-					explicitValues.Add(new ExplicitValue { UidValue = objectUid });
-			}
 			result.ExplicitValues = explicitValues;
 		}
 
@@ -470,7 +426,6 @@ namespace FiresecService
 			var sKDZone = SKDManager.Zones.FirstOrDefault(x => x.UID == itemUid);
 			var camera = ConfigurationCashHelper.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == itemUid);
 			var sKDDoor = SKDManager.Doors.FirstOrDefault(x => x.UID == itemUid);
-			var direction = GKManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == itemUid);
 			var delay = GKManager.DeviceConfiguration.Delays.FirstOrDefault(x => x.UID == itemUid);
 			if (device != null)
 				return device;
@@ -482,8 +437,6 @@ namespace FiresecService
 				return camera;
 			if (sKDDoor != null)
 				return sKDDoor;
-			if (direction != null)
-				return direction;
 			if (delay != null)
 				return delay;
 			return null;
@@ -669,26 +622,6 @@ namespace FiresecService
 			var rviAlarmArguments = procedureStep.RviAlarmArguments;
 			var name = GetValue<string>(rviAlarmArguments.NameArgument);
 			RviClient.RviClientHelper.AlarmRuleExecute(ConfigurationCashHelper.SystemConfiguration, name);
-		}
-
-		void ControlDirection(ProcedureStep procedureStep)
-		{
-			var directionUid = GetValue<Guid>(procedureStep.ControlDirectionArguments.DirectionArgument);
-			var directionCommandType = procedureStep.ControlDirectionArguments.DirectionCommandType;
-			if (directionCommandType == DirectionCommandType.Automatic)
-				FiresecServiceManager.SafeFiresecService.GKSetAutomaticRegime(directionUid, GKBaseObjectType.Direction);
-			if (directionCommandType == DirectionCommandType.ForbidStart)
-				FiresecServiceManager.SafeFiresecService.GKStop(directionUid, GKBaseObjectType.Direction);
-			if (directionCommandType == DirectionCommandType.Ignore)
-				FiresecServiceManager.SafeFiresecService.GKSetIgnoreRegime(directionUid, GKBaseObjectType.Direction);
-			if (directionCommandType == DirectionCommandType.Manual)
-				FiresecServiceManager.SafeFiresecService.GKSetManualRegime(directionUid, GKBaseObjectType.Direction);
-			if (directionCommandType == DirectionCommandType.TurnOff)
-				FiresecServiceManager.SafeFiresecService.GKTurnOff(directionUid, GKBaseObjectType.Direction);
-			if (directionCommandType == DirectionCommandType.TurnOn)
-				FiresecServiceManager.SafeFiresecService.GKTurnOn(directionUid, GKBaseObjectType.Direction);
-			if (directionCommandType == DirectionCommandType.TurnOnNow)
-				FiresecServiceManager.SafeFiresecService.GKTurnOnNow(directionUid, GKBaseObjectType.Direction);
 		}
 
 		void ControlDoor(ProcedureStep procedureStep)

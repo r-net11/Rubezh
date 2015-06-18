@@ -32,7 +32,6 @@ namespace GKModule.ViewModels
 
 		public string DifferenceDiscription { get; set; }
 		public GKDevice Device;
-		public GKDirection Direction;
 		public GKPumpStation PumpStation;
 		public GKMPT MPT;
 		public GKDelay Delay;
@@ -51,16 +50,6 @@ namespace GKModule.ViewModels
 			Address = device.DottedPresentationAddress;
 			ImageSource = "/Controls;component/GKIcons/" + device.DriverType + ".png";
 			ObjectType = ObjectType.Device;
-		}
-
-		public ObjectViewModel(GKDirection direction)
-		{
-			Direction = direction;
-			Name = direction.PresentationName;
-			ImageSource = "/Controls;component/Images/Blue_Direction.png";
-			Address = "";
-			PresentationZone = "";
-			ObjectType = ObjectType.Direction;
 		}
 
 		public ObjectViewModel(GKPumpStation pumpStation)
@@ -136,14 +125,6 @@ namespace GKModule.ViewModels
 				return 0;
 			}
 
-			if (object1.ObjectType == ObjectType.Direction)
-			{
-				if (object1.Direction.No > object2.Direction.No)
-					return 1;
-				if (object1.Direction.No < object2.Direction.No)
-					return -1;
-				return 0;
-			}
 			if (object1.ObjectType == ObjectType.PumpStation)
 			{
 				if (object1.PumpStation.No > object2.PumpStation.No)
@@ -175,7 +156,6 @@ namespace GKModule.ViewModels
 	public enum ObjectType
 	{
 		Device = 0,
-		Direction = 2,
 		PumpStation = 3,
 		MPT = 4,
 		Delay = 5,

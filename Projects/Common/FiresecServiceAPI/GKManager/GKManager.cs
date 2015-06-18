@@ -24,10 +24,6 @@ namespace FiresecClient
 		{
 			get { return DeviceConfiguration.Devices; }
 		}
-		public static List<GKDirection> Directions
-		{
-			get { return DeviceConfiguration.Directions; }
-		}
 		public static List<GKPumpStation> PumpStations
 		{
 			get { return DeviceConfiguration.PumpStations; }

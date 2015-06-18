@@ -95,8 +95,6 @@ namespace GKModule.ViewModels
 			rootDevice.Children.Add(RemoteDevice);
 			if (LocalDevice.DriverType == GKDriverType.GK)
 			{
-				LocalConfiguration.Directions.RemoveAll(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == LocalDevice.Address);
-				LocalConfiguration.Directions.AddRange(RemoteConfiguration.Directions);
 				LocalConfiguration.PumpStations.RemoveAll(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == LocalDevice.Address);
 				LocalConfiguration.PumpStations.AddRange(RemoteConfiguration.PumpStations);
 				LocalConfiguration.MPTs.RemoveAll(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == LocalDevice.Address);
@@ -159,11 +157,6 @@ namespace GKModule.ViewModels
 					}
 					else
 					{
-						if (sameObject1.ObjectType == ObjectType.Direction)
-						{
-							newObject.DifferenceDiscription = GetDirectionsDifferences(sameObject1, sameObject2);
-							newObject.Name = sameObject1.Name;
-						}
 						if (sameObject1.ObjectType == ObjectType.PumpStation)
 						{
 							newObject.DifferenceDiscription = GetPumpStationsDifferences(sameObject1, sameObject2, IsLocalConfig);
@@ -197,31 +190,6 @@ namespace GKModule.ViewModels
 			if (object1.Name != object2.Name)
 				zonesDifferences.Append("Не совпадает название");
 			return zonesDifferences.ToString() == "" ? null : zonesDifferences.ToString();
-		}
-
-		string GetDirectionsDifferences(ObjectViewModel object1, ObjectViewModel object2)
-		{
-			var directionsDifferences = new StringBuilder();
-			if (object1.Name != object2.Name)
-				directionsDifferences.Append("Не совпадает название");
-			bool delayDiff = object1.Direction.Delay != object2.Direction.Delay;
-			bool holdDiff = object1.Direction.Hold != object2.Direction.Hold;
-			bool regimeDiff = object1.Direction.DelayRegime != object2.Direction.DelayRegime;
-			if (delayDiff || holdDiff || regimeDiff)
-			{
-				if (directionsDifferences.Length != 0)
-					directionsDifferences.Append(". ");
-				directionsDifferences.Append("Не совпадают следующие параметры: ");
-				var parameters = new List<string>();
-				if(delayDiff)
-					parameters.Add("Задержка");
-				if (holdDiff)
-					parameters.Add("Удержание");
-				if (regimeDiff)
-					parameters.Add("Режим работы");
-				directionsDifferences.Append(String.Join(", ", parameters));
-			}
-			return directionsDifferences.ToString() == "" ? null : directionsDifferences.ToString();
 		}
 
 		string GetPumpStationsDifferences(ObjectViewModel object1, ObjectViewModel object2, bool isLocalConfig)

@@ -238,13 +238,6 @@ namespace FiresecAPI.Automation
 					}
 					break;
 
-				case ProcedureStepType.ControlDirection:
-					{
-						var controlDirectionArguments = step.ControlDirectionArguments;
-						InvalidateArgument(procedure, controlDirectionArguments.DirectionArgument);
-					}
-					break;
-
 				case ProcedureStepType.ControlDoor:
 					{
 						var controlDoorArguments = step.ControlDoorArguments;

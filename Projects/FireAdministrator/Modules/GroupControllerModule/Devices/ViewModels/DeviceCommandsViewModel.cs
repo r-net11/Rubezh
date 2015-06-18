@@ -156,10 +156,6 @@ namespace GKModule.Models
 							var gkControllerDevice = result.Result.RootDevice.Children.FirstOrDefault();
 							if (gkControllerDevice != null)
 							{
-								foreach (var direction in result.Result.Directions)
-								{
-									direction.GkDatabaseParent = gkControllerDevice;
-								}
 								foreach (var pumpStation in result.Result.PumpStations)
 								{
 									pumpStation.GkDatabaseParent = gkControllerDevice;

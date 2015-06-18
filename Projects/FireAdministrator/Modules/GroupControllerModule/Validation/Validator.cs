@@ -17,7 +17,6 @@ namespace GKModule.Validation
 			GKManager.UpdateConfiguration();
 			Errors = new List<IValidationError>();
 			ValidateDevices();
-			ValidateDirections();
 			ValidatePumpStations();
 			ValidateMPTs();
 			ValidateDelays();

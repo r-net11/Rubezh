@@ -45,23 +45,6 @@ namespace Infrastructure
 			return false;
 		}
 
-		public static void ShowDirection(GKDirection direction)
-		{
-			ServiceFactory.Events.GetEvent<ShowGKDirectionOnPlanEvent>().Publish(direction);
-		}
-		public static bool CanShowDirection(GKDirection direction)
-		{
-			if (direction != null)
-				foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
-				{
-					if (plan.ElementRectangleGKDirections.Any(x => x.DirectionUID == direction.UID))
-						return true;
-					if (plan.ElementPolygonGKDirections.Any(x => x.DirectionUID == direction.UID))
-						return true;
-				}
-			return false;
-		}
-
 		public static void ShowMPT(GKMPT mpt)
 		{
 			ServiceFactory.Events.GetEvent<ShowGKMPTOnPlanEvent>().Publish(mpt);

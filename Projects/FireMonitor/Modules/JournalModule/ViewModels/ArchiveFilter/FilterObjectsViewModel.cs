@@ -120,14 +120,6 @@ namespace JournalModule.ViewModels
 				AddGKDeviceInternal(childDevice, gkDevicesViewModel);
 			}
 
-			var gkDirectionsViewModel = new FilterObjectViewModel(JournalObjectType.GKDirection);
-			AddChild(gkViewModel, gkDirectionsViewModel);
-			foreach (var direction in FiresecClient.GKManager.Directions)
-			{
-				var filterObjectViewModel = new FilterObjectViewModel(direction);
-				AddChild(gkDirectionsViewModel, filterObjectViewModel);
-			}
-
 			var gkMPTsViewModel = new FilterObjectViewModel(JournalObjectType.GKMPT);
 			AddChild(gkViewModel, gkMPTsViewModel);
 			foreach (var mpt in FiresecClient.GKManager.MPTs)

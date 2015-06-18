@@ -123,12 +123,6 @@ namespace AutomationModule
 								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKDeviceDetailsEvent>();
 							break;
 
-						case ObjectType.Direction:
-							var direction = GKManager.Directions.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
-							if (direction != null)
-								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKDirectionDetailsEvent>();
-							break;
-
 						case ObjectType.Delay:
 							var delay = GKManager.Delays.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
 							if (delay != null)

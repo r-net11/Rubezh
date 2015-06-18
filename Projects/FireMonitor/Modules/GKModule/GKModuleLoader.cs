@@ -27,7 +27,6 @@ namespace GKModule
 		static DevicesViewModel DevicesViewModel;
 		static DeviceParametersViewModel DeviceParametersViewModel;
 		static SKDZonesViewModel SKDZonesViewModel;
-		static DirectionsViewModel DirectionsViewModel;
 		static DelaysViewModel DelaysViewModel;
 		static PimsViewModel PimsViewModel;
 		static PumpStationsViewModel PumpStationsViewModel;
@@ -37,7 +36,6 @@ namespace GKModule
 		public static DaySchedulesViewModel DaySchedulesViewModel;
 		public static SchedulesViewModel SchedulesViewModel;
 		NavigationItem _skdZonesNavigationItem;
-		NavigationItem _directionsNavigationItem;
 		NavigationItem _delaysNavigationItem;
 		NavigationItem _pimsNavigationItem;
 		NavigationItem _pumpStationsNavigationItem;
@@ -58,7 +56,6 @@ namespace GKModule
 			DevicesViewModel = new DevicesViewModel();
 			DeviceParametersViewModel = new DeviceParametersViewModel();
 			SKDZonesViewModel = new SKDZonesViewModel();
-			DirectionsViewModel = new DirectionsViewModel();
 			DelaysViewModel = new DelaysViewModel();
 			PimsViewModel = new PimsViewModel();
 			PumpStationsViewModel = new PumpStationsViewModel();
@@ -79,7 +76,6 @@ namespace GKModule
 		void SubscribeShowDelailsEvent()
 		{
 			ServiceFactory.Events.GetEvent<ShowGKDeviceDetailsEvent>().Unsubscribe(OnShowDeviceDetails);
-			ServiceFactory.Events.GetEvent<ShowGKDirectionDetailsEvent>().Unsubscribe(OnShowDirectionDetails);
 			ServiceFactory.Events.GetEvent<ShowGKMPTDetailsEvent>().Unsubscribe(OnShowMPTDetails);
 			ServiceFactory.Events.GetEvent<ShowGKPumpStationDetailsEvent>().Unsubscribe(OnShowPumpStationDetails);
 			ServiceFactory.Events.GetEvent<ShowGKDelayDetailsEvent>().Unsubscribe(OnShowDelayDetails);
@@ -87,7 +83,6 @@ namespace GKModule
 			ServiceFactory.Events.GetEvent<ShowGKSKDZoneDetailsEvent>().Unsubscribe(OnShowSKDZoneDetails);
 
 			ServiceFactory.Events.GetEvent<ShowGKDeviceDetailsEvent>().Subscribe(OnShowDeviceDetails);
-			ServiceFactory.Events.GetEvent<ShowGKDirectionDetailsEvent>().Subscribe(OnShowDirectionDetails);
 			ServiceFactory.Events.GetEvent<ShowGKMPTDetailsEvent>().Subscribe(OnShowMPTDetails);
 			ServiceFactory.Events.GetEvent<ShowGKPumpStationDetailsEvent>().Subscribe(OnShowPumpStationDetails);
 			ServiceFactory.Events.GetEvent<ShowGKDelayDetailsEvent>().Subscribe(OnShowDelayDetails);
@@ -101,15 +96,6 @@ namespace GKModule
 			if (device != null)
 			{
 				DialogService.ShowWindow(new DeviceDetailsViewModel(device));
-			}
-		}
-
-		void OnShowDirectionDetails(Guid directinUID)
-		{
-			var direction = GKManager.Directions.FirstOrDefault(x => x.UID == directinUID);
-			if (direction != null)
-			{
-				DialogService.ShowWindow(new DirectionDetailsViewModel(direction));
 			}
 		}
 
@@ -174,13 +160,11 @@ namespace GKModule
 			_planPresenter.Initialize();
 			ServiceFactory.Events.GetEvent<RegisterPlanPresenterEvent<Plan, XStateClass>>().Publish(_planPresenter);
 			_skdZonesNavigationItem.IsVisible = GKManager.DeviceConfiguration.SKDZones.Count > 0;
-			_directionsNavigationItem.IsVisible = GKManager.Directions.Count > 0;
 			_pumpStationsNavigationItem.IsVisible = GKManager.PumpStations.Count > 0;
 			_mptsNavigationItem.IsVisible = GKManager.MPTs.Count > 0;
 			DevicesViewModel.Initialize();
 			DeviceParametersViewModel.Initialize();
 			SKDZonesViewModel.Initialize();
-			DirectionsViewModel.Initialize();
 			PumpStationsViewModel.Initialize();
 			MPTsViewModel.Initialize();
 			DelaysViewModel.Initialize();
@@ -194,7 +178,6 @@ namespace GKModule
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
-			_directionsNavigationItem = new NavigationItem<ShowGKDirectionEvent, Guid>(DirectionsViewModel, "Направления", "Direction", null, null, Guid.Empty);
 			_delaysNavigationItem = new NavigationItem<ShowGKDelayEvent, Guid>(DelaysViewModel, "Задержки", "Watch", null, null, Guid.Empty);
 			_pimsNavigationItem = new NavigationItem<ShowGKPimEvent, Guid>(PimsViewModel, "ПИМ", "Pim_White", null, null, Guid.Empty);
 			_pumpStationsNavigationItem = new NavigationItem<ShowGKPumpStationEvent, Guid>(PumpStationsViewModel, "НС", "PumpStation", null, null, Guid.Empty);
@@ -210,7 +193,6 @@ namespace GKModule
 						new NavigationItem<ShowGKAlarmsEvent, GKAlarmType?>(AlarmsViewModel, "Состояния", "Alarm") { SupportMultipleSelect = true},
 						new NavigationItem<ShowGKDeviceEvent, Guid>(DevicesViewModel, "Устройства", "Tree", null, null, Guid.Empty),
 						new NavigationItem<ShowGKDeviceParametersEvent, Guid>(DeviceParametersViewModel, "Параметры", "Tree", null, null, Guid.Empty),
-						_directionsNavigationItem,
 						_delaysNavigationItem,
 						_pimsNavigationItem,
 						_pumpStationsNavigationItem,
@@ -264,7 +246,6 @@ namespace GKModule
 			yield return new LayoutPartPresenter(LayoutPartIdentities.Alarms, "Состояния", "Alarm.png", (p) => AlarmsViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.GDevices, "Устройства", "Tree.png", (p) => DevicesViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.GKSKDZones, "Зоны СКД", "Zones.png", (p) => SKDZonesViewModel);
-			yield return new LayoutPartPresenter(LayoutPartIdentities.Directions, "Направления", "Direction.png", (p) => DirectionsViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.PumpStations, "НС", "PumpStation.png", (p) => PumpStationsViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.MPTs, "МПТ", "BMPT.png", (p) => MPTsViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.Doors, "Точки доступа", "Tree.png", (p) => DoorsViewModel);

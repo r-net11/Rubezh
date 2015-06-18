@@ -65,14 +65,6 @@ namespace FiresecAPI.GK
 			BaseObjectType = GKBaseObjectType.Deivce;
 		}
 
-		public GKState(GKDirection direction)
-			: this()
-		{
-			Direction = direction;
-			UID = direction.UID;
-			BaseObjectType = GKBaseObjectType.Direction;
-		}
-
 		public GKState(GKPumpStation pumpStation)
 			: this()
 		{
@@ -122,7 +114,6 @@ namespace FiresecAPI.GK
 		}
 
 		public GKDevice Device { get; private set; }
-		public GKDirection Direction { get; private set; }
 		public GKPumpStation PumpStation { get; private set; }
 		public GKMPT MPT { get; private set; }
 		public GKDelay Delay { get; private set; }

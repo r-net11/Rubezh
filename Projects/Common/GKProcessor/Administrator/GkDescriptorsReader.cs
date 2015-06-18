@@ -216,16 +216,6 @@ namespace GKProcessor
 						};
 						DeviceConfiguration.MPTs.Add(mpt);
 					}
-					else
-					{
-						var direction = new GKDirection
-						{
-							Name = description,
-							No = no,
-							GkDatabaseParent = GkDevice
-						};
-						DeviceConfiguration.Directions.Add(direction);
-					}
 					return true;
 				}
 				if (internalType == 0x104)

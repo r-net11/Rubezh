@@ -7,9 +7,6 @@ namespace FiresecAPI.GK
 		[DescriptionAttribute("Устройство")]
 		Deivce,
 
-		[DescriptionAttribute("Направление")]
-		Direction,
-
 		[DescriptionAttribute("НС")]
 		PumpStation,
 

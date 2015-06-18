@@ -19,12 +19,6 @@ namespace GKModule.ViewModels
 				if (parent != null && childDevice.IsRealDevice)
 					Objects.Add(objectViewModel);
 			}
-			if (deviceConfiguration.Directions != null)
-				foreach (var direction in deviceConfiguration.Directions.Where(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == device.Address))
-				{
-					var objectViewModel = new ObjectViewModel(direction);
-					Objects.Add(objectViewModel);
-				}
 			if (deviceConfiguration.PumpStations != null)
 				foreach (var pumpStation in deviceConfiguration.PumpStations.Where(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == device.Address))
 				{

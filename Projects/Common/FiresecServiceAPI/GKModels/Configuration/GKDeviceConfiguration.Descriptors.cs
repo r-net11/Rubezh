@@ -21,7 +21,6 @@ namespace FiresecAPI.GK
 			get
 			{
 				var gkBases = new List<GKBase>();
-				gkBases.AddRange(Directions);
 				gkBases.AddRange(PumpStations);
 				gkBases.AddRange(MPTs);
 				gkBases.AddRange(Delays);

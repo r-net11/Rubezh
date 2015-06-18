@@ -125,21 +125,17 @@
     <Compile Include="Events\CreateGKDoorEvent.cs" />
     <Compile Include="Events\CreateGKSKDZoneEvent.cs" />
     <Compile Include="Events\EditGKDoorEvent.cs" />
-    <Compile Include="Events\CreateGKDirectionEvent.cs" />
     <Compile Include="Events\CreateGKZoneEvent.cs" />
-    <Compile Include="Events\EditGKDirectionEvent.cs" />
     <Compile Include="Events\EditGKZoneEvent.cs" />
     <Compile Include="Events\ShowGKDescriptorsEvent.cs" />
     <Compile Include="Events\ShowGKDeviceLidraryEvent.cs" />
     <Compile Include="Events\ShowGKDevicePropertiesEvent.cs" />
     <Compile Include="Events\ShowGKDiagnosticsEvent.cs" />
-    <Compile Include="Events\ShowGKDirectionEvent.cs" />
     <Compile Include="Events\ShowGKodeEvent.cs" />
     <Compile Include="Events\ShowGKInstructionsEvent.cs" />
     <Compile Include="Events\ShowGKJournalFilterEvent.cs" />
     <Compile Include="Events\ShowGKMPTEvent.cs" />
     <Compile Include="Events\ShowGKOPCDevicesEvent.cs" />
-    <Compile Include="Events\ShowGKOPCDirectionsEvent.cs" />
     <Compile Include="Events\ShowGKOPCZonesEvent.cs" />
     <Compile Include="Events\ShowGKParameterTemplatesEvent.cs" />
     <Compile Include="Events\ShowGKPumpStationEvent.cs" />
@@ -153,7 +149,6 @@
     <Compile Include="Events\EditGKSKDZoneEvent.cs" />
     <Compile Include="Events\CreateGKMPTEvent.cs" />
     <Compile Include="Events\EditGKMPTEvent.cs" />
-    <Compile Include="Instructions\Converters\DirectionsToStringConverter.cs" />
     <Compile Include="Journal\ViewModels\JournalFromFileViewModel.cs" />
     <Compile Include="Journal\Views\JournalFromFileView.xaml.cs">
       <DependentUpon>JournalFromFileView.xaml</DependentUpon>
@@ -208,7 +203,6 @@
     <Compile Include="Plans\Views\MPTPropertiesView.xaml.cs">
       <DependentUpon>MPTPropertiesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Selectation\ViewModels\DirectionsSelectationViewModel.cs" />
     <Compile Include="Devices\Views\ConfigurationCompareView.xaml.cs">
       <DependentUpon>ConfigurationCompareView.xaml</DependentUpon>
     </Compile>
@@ -217,9 +211,6 @@
     <Compile Include="Selectation\ViewModels\DelaysSelectationViewModel.cs" />
     <Compile Include="Selectation\ViewModels\SKDZoneSelectationViewModel.cs" />
     <Compile Include="Selectation\ViewModels\DoorsSelectationViewModel.cs" />
-    <Compile Include="Selectation\Views\DirectionsSelectationView.xaml.cs">
-      <DependentUpon>DirectionsSelectationView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Diagnostics\Views\DiagnosticsView.xaml.cs">
       <DependentUpon>DiagnosticsView.xaml</DependentUpon>
     </Compile>
@@ -256,12 +247,8 @@
       <DependentUpon>PumpStationsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="OPC\ViewModels\OPCDevicesViewModel.cs" />
-    <Compile Include="OPC\ViewModels\OPCDirectionsViewModel.cs" />
     <Compile Include="OPC\Views\OPCDevicesView.xaml.cs">
       <DependentUpon>OPCDevicesView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="OPC\Views\OPCDirectionsView.xaml.cs">
-      <DependentUpon>OPCDirectionsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="OPC\Views\OPCZonesView.xaml.cs">
       <DependentUpon>OPCZonesView.xaml</DependentUpon>
@@ -320,18 +307,12 @@
       <DependentUpon>JournalView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Plans\Designer\Painter.cs" />
-    <Compile Include="Plans\InstrumentAdorners\DirectionPolygonAdorner.cs" />
-    <Compile Include="Plans\InstrumentAdorners\DirectionRectangleAdorner.cs" />
-    <Compile Include="Plans\ViewModels\DirectionPropertiesViewModel.cs" />
     <Compile Include="Plans\ViewModels\DevicePropertiesViewModel.cs" />
     <Compile Include="Plans\Views\DevicePropertiesView.xaml.cs">
       <DependentUpon>DevicePropertiesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Plans\Views\DevicesInZoneView.xaml.cs">
       <DependentUpon>DevicesInZoneView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Plans\Views\DirectionPropertiesView.xaml.cs">
-      <DependentUpon>DirectionPropertiesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Plans\Views\ZonePropertiesView.xaml.cs">
       <DependentUpon>ZonePropertiesView.xaml</DependentUpon>
@@ -403,11 +384,9 @@
     <Compile Include="Validation\Validator.Plans.cs" />
     <Compile Include="Validation\DayScheduleValidationError.cs" />
     <Compile Include="Validation\DeviceValidationError.cs" />
-    <Compile Include="Validation\DirectionValidationError.cs" />
     <Compile Include="Validation\Validator.cs" />
     <Compile Include="Validation\Validator.DaySchedules.cs" />
     <Compile Include="Validation\Validator.Devices.cs" />
-    <Compile Include="Validation\Validator.Directions.cs" />
     <Compile Include="Validation\Validator.PumpStations.cs" />
     <Compile Include="Validation\PumpStationValidationError.cs" />
     <Compile Include="Validation\MPTValidationError.cs" />
@@ -431,19 +410,6 @@
     </Compile>
     <Compile Include="Devices\Views\NewDeviceView.xaml.cs">
       <DependentUpon>NewDeviceView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Directions\ViewModels\DirectionDetailsViewModel.cs" />
-    <Compile Include="Directions\ViewModels\DirectionsMenuViewModel.cs" />
-    <Compile Include="Directions\ViewModels\DirectionsViewModel.cs" />
-    <Compile Include="Directions\ViewModels\DirectionViewModel.cs" />
-    <Compile Include="Directions\Views\DirectionDetailsView.xaml.cs">
-      <DependentUpon>DirectionDetailsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Directions\Views\DirectionsMenuView.xaml.cs">
-      <DependentUpon>DirectionsMenuView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Directions\Views\DirectionsView.xaml.cs">
-      <DependentUpon>DirectionsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="MPTs\ViewModels\MPTDetailsViewModel.cs" />
     <Compile Include="MPTs\ViewModels\MPTsMenuViewModel.cs" />
@@ -571,10 +537,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Directions\DataTemplates\Dictionary.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Instructions\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -624,10 +586,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Selectation\Views\DevicesSelectationView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Selectation\Views\DirectionsSelectationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -691,10 +649,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="OPC\Views\OPCDirectionsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="OPC\Views\OPCZonesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -726,10 +680,6 @@
     <Page Include="Plans\Views\DevicesInZoneView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Plans\Views\DirectionPropertiesView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Plans\Views\ZonePropertiesView.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -784,18 +734,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="SKD\Views\SKDZonesView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Directions\Views\DirectionDetailsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Directions\Views\DirectionsMenuView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Directions\Views\DirectionsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

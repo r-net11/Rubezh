@@ -144,7 +144,6 @@ namespace ChinaSKDDriver
 			if (gkCallbackResult.JournalItems.Count +
 				gkCallbackResult.GKStates.DeviceStates.Count +
 				gkCallbackResult.GKStates.ZoneStates.Count +
-				gkCallbackResult.GKStates.DirectionStates.Count +
 				gkCallbackResult.GKStates.PumpStationStates.Count +
 				gkCallbackResult.GKStates.MPTStates.Count +
 				gkCallbackResult.GKStates.DelayStates.Count +

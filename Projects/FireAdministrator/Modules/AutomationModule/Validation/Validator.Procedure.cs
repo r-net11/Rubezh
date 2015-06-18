@@ -186,13 +186,6 @@ namespace AutomationModule.Validation
 					}
 					break;
 
-				case ProcedureStepType.ControlDirection:
-					{
-						var controlDirectionArguments = step.ControlDirectionArguments;
-						ValidateArgument(step, controlDirectionArguments.DirectionArgument);
-					}
-					break;
-
 				case ProcedureStepType.ControlDoor:
 					{
 						var controlDoorArguments = step.ControlDoorArguments;

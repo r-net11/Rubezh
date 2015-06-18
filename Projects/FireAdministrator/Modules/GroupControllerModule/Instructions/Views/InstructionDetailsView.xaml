@@ -8,7 +8,6 @@
 	MinHeight="400">
 	<UserControl.Resources>
 		<Converters:DevicesToStringConverter x:Key="DevicesToStringConverter" />
-		<Converters:DirectionsToStringConverter x:Key="DirectionsToStringConverter" />
 	</UserControl.Resources>
 
 	<Border
@@ -200,43 +199,10 @@
 							</StackPanel>
 						</Hyperlink>
 					</TextBlock>
-					<Label
-						Grid.Row="2"
-						Grid.Column="0"
-						HorizontalAlignment="Right"
-						Content="Направления" />
 					<TextBlock
 						Grid.Row="2"
 						Grid.Column="1"
-						VerticalAlignment="Center">
-						<Hyperlink Command="{Binding SelectDirectionCommand}" Style="{StaticResource HyperlinkStyle}">
-							<StackPanel Orientation="Horizontal">
-								<TextBlock
-									Margin="2"
-									Text="{Binding InstructionDirections,
-								                          Converter={StaticResource DirectionsToStringConverter}}"
-									TextWrapping="WrapWithOverflow">
-									<TextBlock.ToolTip>
-										<WrapPanel>
-											<TextBlock Text="{Binding InstructionDirections, Converter={StaticResource DirectionsToStringConverter}}" TextWrapping="Wrap" />
-										</WrapPanel>
-									</TextBlock.ToolTip>
-								</TextBlock>
-								<TextBlock Margin="2">
-									<TextBlock.Style>
-										<Style>
-											<Style.Triggers>
-												<DataTrigger Binding="{Binding InstructionDirections.Count}" Value="0">
-													<Setter Property="TextBlock.Text" Value="Нажмите для выбора направлений" />
-													<Setter Property="TextBlock.ToolTip" Value="Нажмите для выбора направлений" />
-												</DataTrigger>
-											</Style.Triggers>
-										</Style>
-									</TextBlock.Style>
-								</TextBlock>
-							</StackPanel>
-						</Hyperlink>
-					</TextBlock>
+						VerticalAlignment="Center" />
 				</Grid>
 			</Grid>
 		</Grid>

@@ -128,7 +128,6 @@ namespace AutomationModule.ViewModels
 								new List<StepTypeViewModel>
 								{
 									new StepTypeViewModel(ProcedureStepType.ControlGKDevice),
-									new StepTypeViewModel(ProcedureStepType.ControlDirection),
 									new StepTypeViewModel(ProcedureStepType.ControlDelay),
 									new StepTypeViewModel(ProcedureStepType.ControlGKDoor)
 								}),

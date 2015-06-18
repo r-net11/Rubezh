@@ -24,7 +24,6 @@ namespace AutomationModule.ViewModels
 		public Camera Camera { get; private set; }
 		public SKDDoor SKDDoor { get; private set; }
 		public GKDoor GKDoor { get; private set; }
-		public GKDirection Direction { get; private set; }
 		public Organisation Organisation { get; private set; }
 		public ExplicitValue ExplicitValue { get; private set; }
 		public Action UpdateDescriptionHandler { get; set; }
@@ -63,7 +62,6 @@ namespace AutomationModule.ViewModels
 			Camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == uidValue);
 			SKDDoor = SKDManager.Doors.FirstOrDefault(x => x.UID == uidValue);
 			GKDoor = GKManager.Doors.FirstOrDefault(x => x.UID == uidValue);
-			Direction = GKManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == uidValue);
 			Delay = GKManager.DeviceConfiguration.Delays.FirstOrDefault(x => x.UID == uidValue);
 			Organisation = OrganisationHelper.GetSingle(uidValue);
 			base.OnPropertyChanged(() => PresentationName);
@@ -85,8 +83,6 @@ namespace AutomationModule.ViewModels
 					return SKDDoor.PresentationName;
 				if (GKDoor != null)
 					return GKDoor.PresentationName;
-				if (Direction != null)
-					return Direction.PresentationName;
 				if (Delay != null)
 					return Delay.PresentationName;
 				if (Organisation != null)
@@ -251,12 +247,12 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				return ((Device == null) && (SKDDevice == null) && (SKDZone == null) && (Camera == null) && (Direction == null) && (SKDDoor == null) && (GKDoor == null) && (Delay == null) && (Organisation == null));
+				return ((Device == null) && (SKDDevice == null) && (SKDZone == null) && (Camera == null) && (SKDDoor == null) && (GKDoor == null) && (Delay == null) && (Organisation == null));
 			}
 			set
 			{
 				if (value)
-					Device = null; SKDDevice = null; SKDZone = null; Camera = null; Direction = null; SKDDoor = null; GKDoor = null; Delay = null; Organisation = null;
+					Device = null; SKDDevice = null; SKDZone = null; Camera = null; SKDDoor = null; GKDoor = null; Delay = null; Organisation = null;
 			}
 		}
 

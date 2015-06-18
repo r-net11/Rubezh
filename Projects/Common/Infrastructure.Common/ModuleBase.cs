@@ -62,7 +62,7 @@ namespace Infrastructure.Common
 		Administrator,
 		[DescriptionAttribute("Автоматизация")]
 		Automation,
-		[DescriptionAttribute("Устройства, Зоны, Направления")]
+		[DescriptionAttribute("Устройства, Зоны")]
 		Devices,
 		[DescriptionAttribute("Диагностика")]
 		Diagnostics,

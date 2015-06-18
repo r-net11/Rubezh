@@ -89,7 +89,6 @@ namespace GKProcessor
 			if (gkCallbackResult.JournalItems.Count +
 				gkCallbackResult.GKStates.DeviceStates.Count +
 				gkCallbackResult.GKStates.ZoneStates.Count +
-				gkCallbackResult.GKStates.DirectionStates.Count +
 				gkCallbackResult.GKStates.PumpStationStates.Count +
 				gkCallbackResult.GKStates.MPTStates.Count +
 				gkCallbackResult.GKStates.DelayStates.Count +
@@ -176,7 +175,7 @@ namespace GKProcessor
 		{
 			AddGKMessage(JournalEventNameType.Запись_конфигурации_в_прибор, JournalEventDescriptionType.NULL, "", device, userName);
 
-			Stop();			
+			Stop();
 			var gkDescriptorsWriter = new GkDescriptorsWriter();
 			gkDescriptorsWriter.WriteConfig(device);
 			Start();
@@ -316,10 +315,6 @@ namespace GKProcessor
 			foreach (var device in GKManager.Devices)
 			{
 				Watcher.AddObjectStateToGKStates(gkStates, device);
-			}
-			foreach (var direction in GKManager.Directions)
-			{
-				Watcher.AddObjectStateToGKStates(gkStates, direction);
 			}
 			foreach (var pumpStation in GKManager.PumpStations)
 			{
@@ -530,10 +525,6 @@ namespace GKProcessor
 				if (gkBase is GKDevice)
 				{
 					journalObjectType = JournalObjectType.GKDevice;
-				}
-				if (gkBase is GKDirection)
-				{
-					journalObjectType = JournalObjectType.GKDirection;
 				}
 				if (gkBase is GKDelay)
 				{

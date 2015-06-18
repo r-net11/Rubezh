@@ -124,12 +124,6 @@ namespace GKModule.ViewModels
 						clause.DeviceUIDs = clauseViewModel.Devices.Select(x => x.UID).ToList();
 						break;
 
-					case ClauseOperationType.AllDirections:
-					case ClauseOperationType.AnyDirection:
-						clause.Directions = clauseViewModel.Directions.ToList();
-						clause.DirectionUIDs = clauseViewModel.Directions.Select(x => x.UID).ToList();
-						break;
-
 					case ClauseOperationType.AllMPTs:
 					case ClauseOperationType.AnyMPT:
 						clause.MPTs = clauseViewModel.MPTs.ToList();

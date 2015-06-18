@@ -11,11 +11,6 @@ namespace FiresecClient
 				device.InternalState = new GKDeviceInternalState(device);
 				device.State = new GKState(device);
 			}
-			foreach (var direction in Directions)
-			{
-				direction.InternalState = new GKDirectionInternalState(direction);
-				direction.State = new GKState(direction);
-			}
 			foreach (var pumpStation in PumpStations)
 			{
 				pumpStation.InternalState = new GKPumpStationInternalState(pumpStation);
@@ -53,9 +48,6 @@ namespace FiresecClient
 					if (stateClass < minStateClass)
 						minStateClass = device.State.StateClass;
 				}
-			foreach (var direction in Directions)
-				if (direction.State != null && direction.State.StateClass < minStateClass)
-					minStateClass = direction.State.StateClass;
 			return minStateClass;
 		}
 	}

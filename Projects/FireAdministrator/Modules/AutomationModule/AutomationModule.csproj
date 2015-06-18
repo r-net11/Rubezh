@@ -146,7 +146,6 @@
     <Compile Include="Steps\ViewModels\ImportOrganisationStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\PtzStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\RandomStepViewModel.cs" />
-    <Compile Include="ObjectSelection\ViewModels\DirectionSelectionViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\DoorSelectionViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\DoorViewModel.cs" />
     <Compile Include="Procedures\ViewModels\FilterSelectionViewModel.cs" />
@@ -156,14 +155,12 @@
     <Compile Include="ObjectSelection\ViewModels\CameraSelectionViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\CameraViewModel.cs" />
     <Compile Include="Steps\ViewModels\ConditionStepViewModel.cs" />
-    <Compile Include="Steps\ViewModels\ControlDirectionStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ControlDoorStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ControlGKDeviceStepViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\DeviceSelectionViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\DeviceViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ConditionsViewModel.cs" />
     <Compile Include="Steps\ViewModels\ArithmeticStepViewModel.cs" />
-    <Compile Include="ObjectSelection\ViewModels\DirectionViewModel.cs" />
     <Compile Include="Steps\ViewModels\ControlSKDDeviceStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ControlSKDZoneStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ExitStepViewModel.cs" />
@@ -208,9 +205,6 @@
     <Compile Include="Procedures\Views\ConditionsView.xaml.cs">
       <DependentUpon>ConditionsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ObjectSelection\Views\DirectionSelectionView.xaml.cs">
-      <DependentUpon>DirectionSelectionView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ObjectSelection\Views\DoorSelectionView.xaml.cs">
       <DependentUpon>DoorSelectionView.xaml</DependentUpon>
     </Compile>
@@ -231,9 +225,6 @@
     </Compile>
     <Compile Include="Steps\Views\ControlDelayStepView.xaml.cs">
       <DependentUpon>ControlDelayStepView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Steps\Views\ControlDirectionStepView.xaml.cs">
-      <DependentUpon>ControlDirectionStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Steps\Views\ControlDoorStepView.xaml.cs">
       <DependentUpon>ControlDoorStepView.xaml</DependentUpon>
@@ -647,10 +638,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ObjectSelection\Views\DirectionSelectionView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="ObjectSelection\Views\DoorSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -660,10 +647,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ObjectSelection\Views\SKDZoneSelectionView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Steps\Views\ControlDirectionStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -26,13 +26,11 @@ namespace GKModule.Plans
 			Cache = new MapSource();
 			Cache.Add<GKSKDZone>(() => GKManager.SKDZones);
 			Cache.Add<GKDevice>(() => GKManager.Devices);
-			Cache.Add<GKDirection>(() => GKManager.Directions);
 			Cache.Add<GKMPT>(() => GKManager.MPTs);
 			Cache.Add<GKDoor>(() => GKManager.Doors);
 
 			ServiceFactory.Events.GetEvent<ShowGKDeviceOnPlanEvent>().Subscribe(OnShowGKDeviceOnPlan);
 			ServiceFactory.Events.GetEvent<ShowGKSKDZoneOnPlanEvent>().Subscribe(OnShowGKSKDZoneOnPlan);
-			ServiceFactory.Events.GetEvent<ShowGKDirectionOnPlanEvent>().Subscribe(OnShowGKDirectionOnPlan);
 			ServiceFactory.Events.GetEvent<ShowGKMPTOnPlanEvent>().Subscribe(OnShowGKMPTOnPlan);
 			ServiceFactory.Events.GetEvent<ShowGKDoorOnPlanEvent>().Subscribe(OnShowGKDoorOnPlan);
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
@@ -64,10 +62,6 @@ namespace GKModule.Plans
 				yield return element;
 			foreach (var element in plan.ElementPolygonGKSKDZones.Where(x => x.ZoneUID != Guid.Empty && !x.IsHiddenZone))
 				yield return element;
-			foreach (var element in plan.ElementRectangleGKDirections.Where(x => x.DirectionUID != Guid.Empty))
-				yield return element;
-			foreach (var element in plan.ElementPolygonGKDirections.Where(x => x.DirectionUID != Guid.Empty))
-				yield return element;
 			foreach (var element in plan.ElementRectangleGKMPTs.Where(x => x.MPTUID != Guid.Empty))
 				yield return element;
 			foreach (var element in plan.ElementPolygonGKMPTs.Where(x => x.MPTUID != Guid.Empty))
@@ -82,8 +76,6 @@ namespace GKModule.Plans
 				presenterItem.OverridePainter(new GKDevicePainter(presenterItem));
 			else if (presenterItem.Element is ElementPolygonGKSKDZone || presenterItem.Element is ElementRectangleGKSKDZone)
 				presenterItem.OverridePainter(new GKSKDZonePainter(presenterItem));
-			else if (presenterItem.Element is ElementRectangleGKDirection || presenterItem.Element is ElementPolygonGKDirection)
-				presenterItem.OverridePainter(new GKDirectionPainter(presenterItem));
 			else if (presenterItem.Element is ElementRectangleGKMPT || presenterItem.Element is ElementPolygonGKMPT)
 				presenterItem.OverridePainter(new GKMPTPainter(presenterItem));
 			else if (presenterItem.Element is ElementGKDoor)
@@ -133,24 +125,6 @@ namespace GKModule.Plans
 					}
 				foreach (var element in plan.ElementPolygonGKSKDZones)
 					if (element.ZoneUID == zone.UID)
-					{
-						ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
-						return;
-					}
-			}
-		}
-		private void OnShowGKDirectionOnPlan(GKDirection direction)
-		{
-			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
-			{
-				foreach (var element in plan.ElementRectangleGKDirections)
-					if (element.DirectionUID == direction.UID)
-					{
-						ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
-						return;
-					}
-				foreach (var element in plan.ElementPolygonGKDirections)
-					if (element.DirectionUID == direction.UID)
 					{
 						ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
 						return;

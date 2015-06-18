@@ -30,7 +30,6 @@ namespace JournalModule.ViewModels
 		CompositePresentationEvent<Guid> ShowObjectDetailsEvent;
 
 		public GKDevice Device { get; set; }
-		GKDirection Direction { get; set; }
 		GKPumpStation PumpStation { get; set; }
 		GKMPT MPT { get; set; }
 		GKDelay Delay { get; set; }
@@ -83,17 +82,6 @@ namespace JournalModule.ViewModels
 						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowGKDeviceEvent>();
 						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKDeviceDetailsEvent>();
 					}
-					break;
-
-				case JournalObjectType.GKDirection:
-					Direction = GKManager.Directions.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
-					if (Direction != null)
-					{
-						ObjectName = Direction.PresentationName;
-						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowGKDirectionEvent>();
-						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKDirectionDetailsEvent>();
-					}
-					ObjectImageSource = "/Controls;component/Images/Blue_Direction.png";
 					break;
 
 				case JournalObjectType.GKPumpStation:
@@ -329,12 +317,6 @@ namespace JournalModule.ViewModels
 						ShowOnPlanHelper.ShowDevice(Device);
 					}
 					break;
-				case JournalObjectType.GKDirection:
-					if (Direction != null)
-					{
-						ShowOnPlanHelper.ShowDirection(Direction);
-					}
-					break;
 				case JournalObjectType.GKMPT:
 					if (MPT != null)
 					{
@@ -384,12 +366,6 @@ namespace JournalModule.ViewModels
 					if (Device != null)
 					{
 						return ShowOnPlanHelper.CanShowDevice(Device);
-					}
-					break;
-				case JournalObjectType.GKDirection:
-					if (Direction != null)
-					{
-						return ShowOnPlanHelper.CanShowDirection(Direction);
 					}
 					break;
 				case JournalObjectType.GKMPT:

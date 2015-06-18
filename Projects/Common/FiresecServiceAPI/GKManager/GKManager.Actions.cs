@@ -46,56 +46,8 @@ namespace FiresecClient
 		}
 		#endregion
 
-		public static void AddDirection(GKDirection direction)
-		{
-			Directions.Add(direction);
-		}
-
-		public static void ChangeDirectionDevices(GKDirection direction, List<GKDevice> devices)
-		{
-			foreach (var device in direction.InputDevices)
-			{
-				device.Directions.Remove(direction);
-				device.OnChanged();
-			}
-			direction.InputDevices.Clear();
-			foreach (var device in devices)
-			{
-				var directionDevice = new GKDirectionDevice()
-				{
-					DeviceUID = device.UID,
-					Device = device
-				};
-				if(device.Driver.AvailableStateBits.Contains(GKStateBit.Fire1))
-				{
-					directionDevice.StateBit = GKStateBit.Fire1;
-				}
-				else if (device.Driver.AvailableStateBits.Contains(GKStateBit.Fire2))
-				{
-					directionDevice.StateBit = GKStateBit.Fire2;
-				}
-				else if (device.Driver.AvailableStateBits.Contains(GKStateBit.On))
-				{
-					directionDevice.StateBit = GKStateBit.On;
-				}
-				direction.InputDevices.Add(device);
-				device.Directions.Add(direction);
-				device.OnChanged();
-			}
-			direction.OnChanged();
-		}
-
 		public static void ChangeLogic(GKDevice device, GKLogic logic)
 		{
-			foreach (var clause in device.Logic.OnClausesGroup.Clauses)
-			{
-				foreach (var direction in clause.Directions)
-				{
-					direction.OutputDevices.Remove(device);
-					direction.OnChanged();
-					device.Directions.Remove(direction);
-				}
-			}
 			device.Logic = logic;
 			DeviceConfiguration.InvalidateOneLogic(device, device.Logic);
 			device.OnChanged();

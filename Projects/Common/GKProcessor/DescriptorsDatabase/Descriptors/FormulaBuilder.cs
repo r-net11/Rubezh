@@ -81,10 +81,6 @@ namespace GKProcessor
 				{
 					gkBases.Add(device);
 				}
-				foreach (var direction in clause.Directions)
-				{
-					gkBases.Add(direction);
-				}
 				foreach (var mpt in clause.MPTs)
 				{
 					gkBases.Add(mpt);
@@ -108,7 +104,6 @@ namespace GKProcessor
 						switch (clause.ClauseOperationType)
 						{
 							case ClauseOperationType.AllDevices:
-							case ClauseOperationType.AllDirections:
 							case ClauseOperationType.AllMPTs:
 							case ClauseOperationType.AllDelays:
 							case ClauseOperationType.AllDoors:
@@ -116,7 +111,6 @@ namespace GKProcessor
 								break;
 
 							case ClauseOperationType.AnyDevice:
-							case ClauseOperationType.AnyDirection:
 							case ClauseOperationType.AnyMPT:
 							case ClauseOperationType.AnyDelay:
 							case ClauseOperationType.AnyDoor:

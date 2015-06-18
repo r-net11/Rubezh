@@ -23,8 +23,6 @@ namespace GKModule.Validation
 					ValidateEmpty(pumpStation);
 					ValidatePumpStationInput(pumpStation);
 					ValidatePumpStationOutput(pumpStation);
-
-					ValidateEmptyObjectsInPumpStation(pumpStation);
 					ValidatePumpInNSInputLogic(pumpStation);
 				}
 			}
@@ -66,10 +64,6 @@ namespace GKModule.Validation
 			var devices = new List<GKDevice>();
 			devices.AddRange(pumpStation.ClauseInputDevices);
 			devices.AddRange(pumpStation.NSDevices);
-			foreach (var direction in pumpStation.ClauseInputDirections)
-			{
-				devices.AddRange(direction.InputDevices);
-			}
 
 			if (AreDevicesInSameGK(devices))
 				Errors.Add(new PumpStationValidationError(pumpStation, "НС содержит объекты устройства разных ГК", ValidationErrorLevel.CannotWrite));
@@ -77,7 +71,7 @@ namespace GKModule.Validation
 
 		bool ValidateEmptyPumpStation(GKPumpStation pumpStation)
 		{
-			var count = pumpStation.ClauseInputDevices.Count + pumpStation.ClauseInputDirections.Count + pumpStation.NSDevices.Count;
+			var count = pumpStation.ClauseInputDevices.Count + pumpStation.NSDevices.Count;
 			if (count == 0)
 			{
 				Errors.Add(new PumpStationValidationError(pumpStation, "В НС отсутствуют входные или выходные объекты", ValidationErrorLevel.CannotWrite));
@@ -103,17 +97,6 @@ namespace GKModule.Validation
 			{
 				if (pumpStation.NSPumpsCount > pumpsCount)
 					Errors.Add(new PumpStationValidationError(pumpStation, "В НС основных насосов меньше реально располагаемых", ValidationErrorLevel.CannotWrite));
-			}
-		}
-
-		void ValidateEmptyObjectsInPumpStation(GKPumpStation pumpStation)
-		{
-			foreach (var direction in pumpStation.ClauseInputDirections)
-			{
-				if (direction.GetDataBaseParent() == null)
-				{
-					Errors.Add(new PumpStationValidationError(pumpStation, "В НС входит пустое направление " + direction.PresentationName, ValidationErrorLevel.CannotWrite));
-				}
 			}
 		}
 

@@ -135,7 +135,6 @@
     <Compile Include="Plans\Designer\GKSKDZonePainter.cs" />
     <Compile Include="Plans\Designer\GKMPTPainter.cs" />
     <Compile Include="Plans\ViewModels\DeviceTooltipViewModel.cs" />
-    <Compile Include="Plans\ViewModels\DirectionTooltipViewModel.cs" />
     <Compile Include="Plans\ViewModels\GKDoorTooltipViewModel.cs" />
     <Compile Include="Devices\ViewModels\MeasureParameterViewModel.cs" />
     <Compile Include="PIMs\ViewModels\PimDetailsViewModel.cs" />
@@ -215,7 +214,6 @@
     </Compile>
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\DeviceControlRegimeToStringConverter.cs" />
-    <Compile Include="Plans\Designer\GKDirectionPainter.cs" />
     <Compile Include="Plans\Designer\GKDevicePainter.cs" />
     <Compile Include="Plans\PlanMonitor.cs" />
     <Compile Include="Plans\PlanPresenter.cs" />
@@ -231,9 +229,6 @@
     <Compile Include="Devices\ViewModels\DeviceParameterViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceStateViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceViewModelComparer.cs" />
-    <Compile Include="Directions\ViewModels\DirectionDetailsViewModel.cs" />
-    <Compile Include="Directions\ViewModels\DirectionsViewModel.cs" />
-    <Compile Include="Directions\ViewModels\DirectionViewModel.cs" />
     <Compile Include="ViewModels\GKConnectionIndicatorViewModel.cs" />
     <Compile Include="Delays\ViewModels\DelaysViewModel.cs" />
     <Compile Include="Delays\ViewModels\DelayViewModel.cs" />
@@ -250,20 +245,11 @@
     <Compile Include="Devices\Views\DeviceView.xaml.cs">
       <DependentUpon>DeviceView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Directions\Views\DirectionDetailsView.xaml.cs">
-      <DependentUpon>DirectionDetailsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Directions\Views\DirectionsView.xaml.cs">
-      <DependentUpon>DirectionsView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\GKConnectionIndicatorView.xaml.cs">
       <DependentUpon>GKConnectionIndicatorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Delays\Views\DelayToolTipView.xaml.cs">
       <DependentUpon>DelayToolTipView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Directions\Views\DirectionToolTipView.xaml.cs">
-      <DependentUpon>DirectionToolTipView.xaml</DependentUpon>
     </Compile>
     <Compile Include="PumpStations\Views\PumpStationToolTipView.xaml.cs">
       <DependentUpon>PumpStationToolTipView.xaml</DependentUpon>
@@ -497,23 +483,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Directions\Views\DirectionDetailsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Directions\Views\DirectionsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\GKConnectionIndicatorView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Delays\Views\DelayToolTipView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Directions\Views\DirectionToolTipView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

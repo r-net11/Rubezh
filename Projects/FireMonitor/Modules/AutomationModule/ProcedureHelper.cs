@@ -33,8 +33,6 @@ namespace AutomationModule
 		{
 			if (objectType == ObjectType.Device)
 				return new List<Property> { Property.Description, Property.ShleifNo, Property.IntAddress, Property.State, Property.Type };
-			if (objectType == ObjectType.Direction)
-				return new List<Property> { Property.Description, Property.No, Property.Delay, Property.Hold, Property.DelayRegime };
 			return new List<Property>();
 		}
 
@@ -97,16 +95,6 @@ namespace AutomationModule
 				if (DialogService.ShowModalWindow(doorSelectationViewModel))
 				{
 					currentExplicitValue.UidValue = doorSelectationViewModel.SelectedDoor != null ? doorSelectationViewModel.SelectedDoor.Door.UID : Guid.Empty;
-					return true;
-				}
-			}
-
-			if (objectType == ObjectType.Direction)
-			{
-				var directionSelectationViewModel = new DirectionSelectionViewModel(currentExplicitValue.Direction != null ? currentExplicitValue.Direction : null);
-				if (DialogService.ShowModalWindow(directionSelectationViewModel))
-				{
-					currentExplicitValue.UidValue = directionSelectationViewModel.SelectedDirection != null ? directionSelectationViewModel.SelectedDirection.Direction.UID : Guid.Empty;
 					return true;
 				}
 			}

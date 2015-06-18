@@ -41,11 +41,6 @@ namespace FireMonitor
 								if (ShowOnPlanHelper.CanShowDevice(device))
 									ShowOnPlanHelper.ShowDevice(device);
 								break;
-							case JournalObjectType.GKDirection:
-								var direction = GKManager.Directions.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
-								if (ShowOnPlanHelper.CanShowDirection(direction))
-									ShowOnPlanHelper.ShowDirection(direction);
-								break;
 							case JournalObjectType.SKDDevice:
 								var skdDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
 								if (ShowOnPlanHelper.CanShowSKDDevice(skdDevice))

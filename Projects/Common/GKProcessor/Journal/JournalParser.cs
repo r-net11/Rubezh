@@ -15,7 +15,6 @@ namespace GKProcessor
 		public JournalItem JournalItem { get; private set; }
 
 		public GKDevice Device { get; private set; }
-		public GKDirection Direction { get; private set; }
 		public GKPumpStation PumpStation { get; private set; }
 		public GKMPT MPT { get; private set; }
 		public GKDelay Delay { get; private set; }
@@ -470,13 +469,6 @@ namespace GKProcessor
 					JournalItem.JournalObjectType = JournalObjectType.GKDevice;
 					JournalItem.ObjectUID = Device.UID;
 					JournalItem.ObjectName = Device.DottedPresentationAddress + Device.ShortName;
-				}
-				Direction = GKManager.Directions.FirstOrDefault(x => x.GKDescriptorNo == GKObjectNo);
-				if (Direction != null)
-				{
-					JournalItem.JournalObjectType = JournalObjectType.GKDirection;
-					JournalItem.ObjectUID = Direction.UID;
-					JournalItem.ObjectName = Direction.PresentationName;
 				}
 				PumpStation = GKManager.PumpStations.FirstOrDefault(x => x.GKDescriptorNo == GKObjectNo);
 				if (PumpStation != null)

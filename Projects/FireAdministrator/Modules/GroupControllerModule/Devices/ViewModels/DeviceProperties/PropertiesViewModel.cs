@@ -7,7 +7,6 @@ namespace GKModule.ViewModels
 	public class PropertiesViewModel : BaseViewModel
 	{
 		public GKDevice Device { get; private set; }
-		public GKDirection GKDirection { get; private set; }
 		public List<StringPropertyViewModel> StringProperties { get; set; }
 		public List<ShortPropertyViewModel> ShortProperties { get; set; }
 		public List<BoolPropertyViewModel> BoolProperties { get; set; }

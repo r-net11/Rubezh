@@ -68,10 +68,6 @@
 		<Views:DelaySelectionView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:DirectionSelectionViewModel}">
-		<Views:DirectionSelectionView />
-	</DataTemplate>
-
 	<DataTemplate DataType="{x:Type ViewModels:DoorSelectionViewModel}">
 		<Views:DoorSelectionView />
 	</DataTemplate>
@@ -146,10 +142,6 @@
 
 	<DataTemplate x:Key="controlSKDZoneTemplate">
 		<Views:ControlSKDZoneStepView />
-	</DataTemplate>
-
-	<DataTemplate x:Key="controlDirectionTemplate">
-		<Views:ControlDirectionStepView />
 	</DataTemplate>
 
 	<DataTemplate x:Key="controlDoorTemplate">
@@ -271,7 +263,6 @@
 		CheckPermissionTemplate="{StaticResource checkPermissionTemplate}"
 		ConditionTemplate="{StaticResource conditionTemplate}"
 		ControlDelayTemplate="{StaticResource controlDelayTemplate}"
-		ControlDirectionTemplate="{StaticResource controlDirectionTemplate}"
 		ControlDoorTemplate="{StaticResource controlDoorTemplate}"
 		ControlGKDeviceTemplate="{StaticResource controlGKDeviceTemplate}"
 		ControlGKDoorTemplate="{StaticResource controlGKDoorTemplate}"

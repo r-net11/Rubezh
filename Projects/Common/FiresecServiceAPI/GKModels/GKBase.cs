@@ -26,8 +26,6 @@ namespace FiresecAPI.GK
 		[XmlIgnore]
 		public List<GKDevice> ClauseInputDevices { get; set; }
 		[XmlIgnore]
-		public List<GKDirection> ClauseInputDirections { get; set; }
-		[XmlIgnore]
 		public List<GKMPT> ClauseInputMPTs { get; set; }
 		[XmlIgnore]
 		public List<GKDelay> ClauseInputDelays { get; set; }
@@ -39,7 +37,6 @@ namespace FiresecAPI.GK
 			InputGKBases = new List<GKBase>();
 			OutputGKBases = new List<GKBase>();
 			ClauseInputDevices = new List<GKDevice>();
-			ClauseInputDirections = new List<GKDirection>();
 			ClauseInputMPTs = new List<GKMPT>();
 			ClauseInputDelays = new List<GKDelay>();
 			ClauseInputDoors = new List<GKDoor>();
@@ -66,7 +63,6 @@ namespace FiresecAPI.GK
 		public void PrepareInputOutputDependences()
 		{
 			var device = this as GKDevice;
-			var direction = this as GKDirection;
 			var pumpStation = this as GKPumpStation;
 			var mpt = this as GKMPT;
 			var delay = this as GKDelay;
@@ -91,13 +87,6 @@ namespace FiresecAPI.GK
 					}
 				}
 			}
-
-			if (direction != null)
-			{
-				LinkLogic(direction, direction.Logic.OnClausesGroup);
-				LinkLogic(direction, direction.Logic.OffClausesGroup);
-			}
-
 			if (pumpStation != null)
 			{
 				LinkLogic(pumpStation, pumpStation.StartLogic.OnClausesGroup);
@@ -156,8 +145,6 @@ namespace FiresecAPI.GK
 				{
 					foreach (var clauseDevice in clause.Devices)
 						gkBase.LinkGKBases(clauseDevice);
-					foreach (var direction in clause.Directions)
-						gkBase.LinkGKBases(direction);
 					foreach (var mpt in clause.MPTs)
 						gkBase.LinkGKBases(mpt);
 					foreach (var delay in clause.Delays)

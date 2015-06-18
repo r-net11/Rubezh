@@ -17,8 +17,7 @@ namespace AutomationModule.ViewModels
 			ProcedureStepType = procedureStepType;
 			Name = procedureStepType.ToDescription();
 			IsFolder = false;
-			if ((procedureStepType == ProcedureStepType.ControlDirection)
-				|| (procedureStepType == ProcedureStepType.ControlDoor) || (procedureStepType == ProcedureStepType.ControlGKDevice) || (procedureStepType == ProcedureStepType.ControlGKDoor)
+			if ((procedureStepType == ProcedureStepType.ControlDoor) || (procedureStepType == ProcedureStepType.ControlGKDevice) || (procedureStepType == ProcedureStepType.ControlGKDoor)
 				|| (procedureStepType == ProcedureStepType.ControlSKDDevice) || (procedureStepType == ProcedureStepType.ControlSKDZone)
 				|| (procedureStepType == ProcedureStepType.ControlDelay) || (procedureStepType == ProcedureStepType.Ptz)
 				|| (procedureStepType == ProcedureStepType.StartRecord) || (procedureStepType == ProcedureStepType.StopRecord) || (procedureStepType == ProcedureStepType.RviAlarm))

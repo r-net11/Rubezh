@@ -11,7 +11,6 @@ namespace Infrastructure.Events
 	public class ShowArchiveEventArgs
 	{
 		public GKDevice GKDevice { get; set; }
-		public GKDirection GKDirection { get; set; }
 		public GKPumpStation GKPumpStation { get; set; }
 		public GKMPT GKMPT { get; set; }
 		public GKDelay GKDelay { get; set; }

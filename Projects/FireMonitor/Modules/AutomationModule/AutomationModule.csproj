@@ -71,9 +71,6 @@
     <Compile Include="ObjectSelection\Views\DeviceSelectionView.xaml.cs">
       <DependentUpon>DeviceSelectionView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ObjectSelection\Views\DirectionSelectionView.xaml.cs">
-      <DependentUpon>DirectionSelectionView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ObjectSelection\Views\DoorSelectionView.xaml.cs">
       <DependentUpon>DoorSelectionView.xaml</DependentUpon>
     </Compile>
@@ -109,8 +106,6 @@
     <Compile Include="ObjectSelection\ViewModels\CameraViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\DeviceSelectionViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\DeviceViewModel.cs" />
-    <Compile Include="ObjectSelection\ViewModels\DirectionSelectionViewModel.cs" />
-    <Compile Include="ObjectSelection\ViewModels\DirectionViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\DoorSelectionViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\DoorViewModel.cs" />
     <Compile Include="ViewModels\ExplicitValuesViewModel.cs" />
@@ -184,10 +179,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="ObjectSelection\Views\DeviceSelectionView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="ObjectSelection\Views\DirectionSelectionView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -114,28 +114,6 @@ namespace GKModule.ViewModels
 				}
 			}
 
-			foreach (var direction in GKManager.Directions)
-			{
-				foreach (var stateClass in direction.State.StateClasses)
-				{
-					switch (stateClass)
-					{
-						case XStateClass.On:
-						case XStateClass.TurningOn:
-							alarms.Add(new Alarm(GKAlarmType.NPTOn, direction));
-							break;
-
-						case XStateClass.Ignore:
-							alarms.Add(new Alarm(GKAlarmType.Ignore, direction));
-							break;
-					}
-				}
-				if (direction.State.StateClasses.Contains(XStateClass.AutoOff))
-				{
-					alarms.Add(new Alarm(GKAlarmType.AutoOff, direction));
-				}
-			}
-
 			foreach (var mpt in GKManager.MPTs)
 			{
 				foreach (var stateClass in mpt.State.StateClasses)
@@ -207,14 +185,6 @@ namespace GKModule.ViewModels
 						FiresecManager.FiresecService.GKSetAutomaticRegime(device);
 					}
 				}
-
-				foreach (var direction in GKManager.Directions)
-				{
-					if (direction.State.StateClasses.Contains(XStateClass.Ignore))
-					{
-						FiresecManager.FiresecService.GKSetAutomaticRegime(direction);
-					}
-				}
 			}
 		}
 		bool CanResetIgnoreAll()
@@ -230,11 +200,6 @@ namespace GKModule.ViewModels
 						return true;
 				}
 
-				foreach (var direction in GKManager.Directions)
-				{
-					if (direction.State.StateClasses.Contains(XStateClass.Ignore))
-						return true;
-				}
 				return false;
 			}
 			catch

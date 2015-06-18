@@ -78,7 +78,6 @@
     <Compile Include="DescriptorsDatabase\Descriptors\DelayDescriptor.cs" />
     <Compile Include="DescriptorsDatabase\Descriptors\DescriptorType.cs" />
     <Compile Include="DescriptorsDatabase\Descriptors\DeviceDescriptor.cs" />
-    <Compile Include="DescriptorsDatabase\Descriptors\DirectionDescriptor.cs" />
     <Compile Include="DescriptorsDatabase\Descriptors\FormulaBuilder.cs" />
     <Compile Include="DescriptorsDatabase\PumpStationCreator.cs" />
     <Compile Include="DescriptorsDatabase\MPTCreator.cs" />

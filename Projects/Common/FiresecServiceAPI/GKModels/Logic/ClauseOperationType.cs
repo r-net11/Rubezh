@@ -13,12 +13,6 @@ namespace FiresecAPI.GK
 		[DescriptionAttribute("во всех устройствах из")]
 		AllDevices,
 
-		[DescriptionAttribute("в любом направлении из")]
-		AnyDirection,
-
-		[DescriptionAttribute("во всех направлениях из")]
-		AllDirections,
-
 		[DescriptionAttribute("в любом МПТ из")]
 		AnyMPT,
 

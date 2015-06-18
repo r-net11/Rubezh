@@ -26,8 +26,6 @@ namespace FiresecAPI.GK
 			PlanElementUIDs = new List<Guid>();
 			IsNotUsed = false;
 			AllowMultipleVizualization = false;
-
-			Directions = new List<GKDirection>();
 		}
 
 		[XmlIgnore]
@@ -43,8 +41,6 @@ namespace FiresecAPI.GK
 		}
 		[XmlIgnore]
 		public GKDevice Parent { get; set; }
-		[XmlIgnore]
-		public List<GKDirection> Directions { get; set; }
 		[XmlIgnore]
 		public GKDoor Door { get; set; }
 		[XmlIgnore]

@@ -24,14 +24,6 @@
 		<Views:DeviceDetailsView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:DirectionsViewModel}">
-		<Views:DirectionsView />
-	</DataTemplate>
-
-	<DataTemplate DataType="{x:Type ViewModels:DirectionDetailsViewModel}">
-		<Views:DirectionDetailsView />
-	</DataTemplate>
-
 	<DataTemplate DataType="{x:Type ViewModels:GKConnectionIndicatorViewModel}">
 		<Views:GKConnectionIndicatorView />
 	</DataTemplate>
@@ -86,10 +78,6 @@
 
 	<DataTemplate DataType="{x:Type ViewModels:DeviceTooltipViewModel}">
 		<Views:DeviceTooltipView />
-	</DataTemplate>
-
-	<DataTemplate DataType="{x:Type ViewModels:DirectionTooltipViewModel}">
-		<Views:DirectionToolTipView />
 	</DataTemplate>
 
 	<DataTemplate DataType="{x:Type ViewModels:MPTTooltipViewModel}">

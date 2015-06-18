@@ -3,7 +3,6 @@
 	public enum DescriptorType
 	{
 		Device,
-		Direction,
 		PumpStation,
 		MPT,
 		Delay,

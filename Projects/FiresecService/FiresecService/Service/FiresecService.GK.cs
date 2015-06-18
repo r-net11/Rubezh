@@ -148,10 +148,6 @@ namespace FiresecService.Service
 			gkBase = GKManager.Devices.FirstOrDefault(x => x.UID == objectUID);
 			if (gkBase == null)
 			{
-				gkBase = GKManager.Directions.FirstOrDefault(x => x.UID == objectUID);
-			}
-			if (gkBase == null)
-			{
 				gkBase = GKManager.Delays.FirstOrDefault(x => x.UID == objectUID);
 			}
 
@@ -166,10 +162,6 @@ namespace FiresecService.Service
 		{
 			GKBase gkBase = null;
 			gkBase = GKManager.Devices.FirstOrDefault(x => x.UID == objectUID);
-			if (gkBase == null)
-			{
-				gkBase = GKManager.Directions.FirstOrDefault(x => x.UID == objectUID);
-			}
 			if (gkBase == null)
 			{
 				gkBase = GKManager.Delays.FirstOrDefault(x => x.UID == objectUID);
@@ -349,8 +341,6 @@ namespace FiresecService.Service
 			{
 				case GKBaseObjectType.Deivce:
 					return GKManager.Devices.FirstOrDefault(x => x.UID == uid);
-				case GKBaseObjectType.Direction:
-					return GKManager.Directions.FirstOrDefault(x => x.UID == uid);
 				case GKBaseObjectType.PumpStation:
 					return GKManager.PumpStations.FirstOrDefault(x => x.UID == uid);
 				case GKBaseObjectType.MPT:

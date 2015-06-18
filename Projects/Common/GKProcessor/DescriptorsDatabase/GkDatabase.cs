@@ -38,13 +38,6 @@ namespace GKProcessor
 		public override void BuildObjects()
 		{
 			AddKauObjects();
-			foreach (var direction in GKManager.Directions)
-			{
-				if (direction.GkDatabaseParent == RootDevice)
-				{
-					Directions.Add(direction);
-				}
-			}
 			foreach (var pumpStation in GKManager.PumpStations)
 			{
 				if (pumpStation.GkDatabaseParent == RootDevice)
@@ -75,13 +68,6 @@ namespace GKProcessor
 				device.GKDescriptorNo = NextDescriptorNo;
 				var deviceDescriptor = new DeviceDescriptor(device, DatabaseType);
 				Descriptors.Add(deviceDescriptor);
-			}
-
-			foreach (var direction in Directions)
-			{
-				direction.GKDescriptorNo = NextDescriptorNo;
-				var directionDescriptor = new DirectionDescriptor(direction, DatabaseType.Gk);
-				Descriptors.Add(directionDescriptor);
 			}
 
 			foreach (var delay in GKManager.Delays)

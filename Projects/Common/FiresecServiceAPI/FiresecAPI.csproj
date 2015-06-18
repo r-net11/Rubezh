@@ -177,7 +177,6 @@
     <Compile Include="Models\Automation\StepArguments\GetListItemArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\GetObjectPropertyArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\JournalArguments.cs" />
-    <Compile Include="Models\Automation\StepArguments\ControlDirectionArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlDoorArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlGKDeviceArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlSKDDeviceArguments.cs" />
@@ -418,8 +417,6 @@
     <Compile Include="Models\Notification\EmailData.cs" />
     <Compile Include="Models\Notification\EmailSettings.cs" />
     <Compile Include="Models\Plans\ElementRectangleTank.cs" />
-    <Compile Include="Models\Plans\ElementPolygonGKDirection.cs" />
-    <Compile Include="Models\Plans\ElementRectangleGKDirection.cs" />
     <Compile Include="Models\Plans\PlanFolder.cs" />
     <Compile Include="Models\Plans\ElementSKDDevice.cs" />
     <Compile Include="Models\Plans\ElementPolygonSKDZone.cs" />
@@ -463,7 +460,6 @@
     <Compile Include="GKModels\Delay\GKDelay.cs" />
     <Compile Include="GKModels\Device\GKDeviceParameterTemplate.cs" />
     <Compile Include="GKModels\Device\GKParameterTemplate.cs" />
-    <Compile Include="GKModels\Directions\GKDirection.cs" />
     <Compile Include="Models\Plans\ElementGKDevice.cs" />
     <Compile Include="Models\Plans\ElementPolyline.cs" />
     <Compile Include="Models\Plans\ElementPolygon.cs" />
@@ -485,8 +481,6 @@
     <Compile Include="GKModels\Configuration\GKDriversConfiguration.cs" />
     <Compile Include="GKModels\Device\GKDevice.cs" />
     <Compile Include="GKModels\Device\GKProperty.cs" />
-    <Compile Include="GKModels\Directions\GKDirectionDevice.cs" />
-    <Compile Include="GKModels\Directions\GKDirectionZone.cs" />
     <Compile Include="GKModels\Driver\GKMeasureParameter.cs" />
     <Compile Include="GKModels\Driver\GKDriver.cs" />
     <Compile Include="GKModels\Driver\GKDriverDeviceParameter.cs" />
@@ -528,7 +522,6 @@
     <Compile Include="GKModels\States\GKBaseInternalState.cs" />
     <Compile Include="GKModels\States\GKDelayInternalState.cs" />
     <Compile Include="GKModels\States\GKDeviceInternalState.cs" />
-    <Compile Include="GKModels\States\GKDirectionInternalState.cs" />
     <Compile Include="GKModels\States\GKDriverState.cs" />
     <Compile Include="GKModels\States\GKPimInternalState.cs" />
     <Compile Include="GKModels\States\GKPumpStationInternalState.cs" />

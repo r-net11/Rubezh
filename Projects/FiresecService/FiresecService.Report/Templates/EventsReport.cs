@@ -104,14 +104,6 @@ namespace FiresecService.Report.Templates
 							}
 							break;
 
-						case JournalObjectType.GKDirection:
-							var direction = GKManager.Directions.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
-							if (direction != null)
-							{
-								dataRow.Object = direction.PresentationName;
-							}
-							break;
-
 						case JournalObjectType.GKPumpStation:
 							var pumpStation = GKManager.PumpStations.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
 							if (pumpStation != null)

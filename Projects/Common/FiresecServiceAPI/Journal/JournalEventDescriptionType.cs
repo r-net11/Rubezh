@@ -72,9 +72,6 @@ namespace FiresecAPI.Journal
 		[EventDescriptionAttribute("Не совпадает тип для зоны", JournalEventNameType.Ошибка_при_опросе_состояний_компонентов_ГК)]
 		Не_совпадает_тип_для_зоны,
 
-		[EventDescriptionAttribute("Не совпадает тип для направления", JournalEventNameType.Ошибка_при_опросе_состояний_компонентов_ГК)]
-		Не_совпадает_тип_для_направления,
-
 		[EventDescriptionAttribute("Не совпадает тип для НС", JournalEventNameType.Ошибка_при_опросе_состояний_компонентов_ГК)]
 		Не_совпадает_тип_для_НС,
 

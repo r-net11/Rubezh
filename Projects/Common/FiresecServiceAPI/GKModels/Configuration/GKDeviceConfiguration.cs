@@ -15,7 +15,6 @@ namespace FiresecAPI.GK
 		public GKDeviceConfiguration()
 		{
 			Devices = new List<GKDevice>();
-			Directions = new List<GKDirection>();
 			PumpStations = new List<GKPumpStation>();
 			MPTs = new List<GKMPT>();
 			Delays = new List<GKDelay>();
@@ -37,12 +36,6 @@ namespace FiresecAPI.GK
 		/// </summary>
 		[DataMember]
 		public GKDevice RootDevice { get; set; }
-
-		/// <summary>
-		/// Направления
-		/// </summary>
-		[DataMember]
-		public List<GKDirection> Directions { get; set; }
 
 		/// <summary>
 		/// Насосные станции
@@ -146,28 +139,6 @@ namespace FiresecAPI.GK
 			}
 
 			Update();
-
-			foreach (var delay in Delays)
-			{
-			}
-			foreach (var mpt in MPTs)
-			{
-				foreach (var mptDevice in mpt.MPTDevices)
-				{
-				}
-			}
-			foreach (var device in Devices)
-			{
-			}
-			foreach (var pumpStation in PumpStations)
-			{
-			}
-			foreach (var parameterTemplate in ParameterTemplates)
-			{
-				foreach (var deviceParameterTemplate in parameterTemplate.DeviceParameterTemplates)
-				{
-				}
-			}
 			return result;
 		}
 	}

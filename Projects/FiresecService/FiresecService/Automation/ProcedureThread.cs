@@ -246,10 +246,6 @@ namespace FiresecService
 					ControlGKDevice(procedureStep);
 					break;
 
-				case ProcedureStepType.ControlDirection:
-					ControlDirection(procedureStep);
-					break;
-
 				case ProcedureStepType.ControlDoor:
 					ControlDoor(procedureStep);
 					break;

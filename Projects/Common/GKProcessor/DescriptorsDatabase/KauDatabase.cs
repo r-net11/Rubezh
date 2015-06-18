@@ -27,12 +27,6 @@ namespace GKProcessor
 				Delays.Add(delay);
 			}
 
-			foreach (var direction in GKManager.Directions.FindAll(x => x.KauDatabaseParent == RootDevice))
-			{
-				direction.KauDatabaseParent = RootDevice;
-				Directions.Add(direction);
-			}
-
 			foreach (var pumpStation in GKManager.PumpStations.FindAll(x => x.KauDatabaseParent == RootDevice))
 			{
 				pumpStation.KauDatabaseParent = RootDevice;
@@ -69,13 +63,6 @@ namespace GKProcessor
 				device.KAUDescriptorNo = NextDescriptorNo;
 				var deviceDescriptor = new DeviceDescriptor(device, DatabaseType);
 				Descriptors.Add(deviceDescriptor);
-			}
-
-			foreach (var direction in Directions)
-			{
-				direction.KAUDescriptorNo = NextDescriptorNo;
-				var directionDescriptor = new DirectionDescriptor(direction, DatabaseType.Kau);
-				Descriptors.Add(directionDescriptor);
 			}
 
 			foreach (var delay in Delays)

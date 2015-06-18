@@ -7,9 +7,6 @@ namespace FiresecAPI.Automation
 		[DescriptionAttribute("ГК-устройство")]
 		Device,
 
-		[DescriptionAttribute("ГК-направление")]
-		Direction,
-
 		[DescriptionAttribute("Задержка")]
 		Delay,
 
