@@ -186,7 +186,10 @@ namespace FiresecClient
 			if (targetLogic.HasOnNowClause)
 				gkLogic.OnNowClausesGroup = LogicToCopy.OnNowClausesGroup;
 			if (targetLogic.HasOffClause)
+			{
 				gkLogic.OffClausesGroup = LogicToCopy.OffClausesGroup;
+				targetLogic.UseOffCounterLogic = LogicToCopy.UseOffCounterLogic;
+			}
 			if (targetLogic.HasOffNowClause)
 				gkLogic.OffNowClausesGroup = LogicToCopy.OffNowClausesGroup;
 			if (targetLogic.HasStopClause)

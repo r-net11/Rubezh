@@ -3,6 +3,16 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
 			 xmlns:Views="clr-namespace:GKModule.Views">
+	<UserControl.Resources>
+		<ContextMenu x:Key="MptContextMenu">
+			<IconedMenuItem Command="{Binding AddCommand}" ImageSource="BAdd"  Text="Добавить (Ctrl+N)" />
+			<IconedMenuItem Command="{Binding DeleteCommand}" ImageSource="BDelete"  Text="Удалить (Ctrl+Del)" />
+			<IconedMenuItem Command="{Binding EditCommand}" ImageSource="BEdit"  Text="Редактировать (Ctrl+E)" />
+			<Separator />
+			<IconedMenuItem Command="{Binding CopyLogicCommand}" ImageSource="BCopy" Text="Копировать логику" />
+			<IconedMenuItem Command="{Binding PasteLogicCommand}" ImageSource="BPaste" Text="Вставить логику" />
+		</ContextMenu>
+	</UserControl.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="2*" />
@@ -14,7 +24,7 @@
 				<ColumnDefinition Width="Auto" />
 				<ColumnDefinition Width="2*" MinWidth="200" />
 			</Grid.ColumnDefinitions>
-			<Controls:XDataGrid Grid.Column="0" ItemsSource="{Binding MPTs}" SelectedItem="{Binding SelectedMPT}" CanUserSortColumns="True">
+			<DataGrid Grid.Column="0" ContextMenu="{StaticResource MptContextMenu}" ItemsSource="{Binding MPTs}" SelectedItem="{Binding SelectedMPT}" CanUserSortColumns="True">
 				<DataGrid.Columns>
 					<DataGridTemplateColumn Header="№" SortMemberPath="MPT.No" Width="Auto" CanUserResize="False">
 						<DataGridTemplateColumn.CellTemplate>
@@ -37,7 +47,7 @@
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
 				</DataGrid.Columns>
-			</Controls:XDataGrid>
+			</DataGrid>
 
 			<GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeWE" />
 

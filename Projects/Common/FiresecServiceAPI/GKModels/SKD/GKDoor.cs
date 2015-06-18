@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 using Common;
+using FiresecClient;
 using Infrustructure.Plans.Interfaces;
 
 namespace FiresecAPI.GK
@@ -32,7 +34,21 @@ namespace FiresecAPI.GK
 
 		public override void Update(GKDevice device)
 		{
+			OpenRegimeLogic.GetAllClauses().FindAll(x => x.Devices.Contains(device)).ForEach(y => y.Devices.Remove(device));
+			NormRegimeLogic.GetAllClauses().FindAll(x => x.Devices.Contains(device)).ForEach(y => y.Devices.Remove(device));
+			CloseRegimeLogic.GetAllClauses().FindAll(x => x.Devices.Contains(device)).ForEach(y => y.Devices.Remove(device));
 
+			EnterDeviceUID = EnterDeviceUID == device.UID ? Guid.Empty : EnterDeviceUID;
+			ExitDeviceUID = ExitDeviceUID == device.UID ? Guid.Empty : ExitDeviceUID;
+			EnterButtonUID = EnterButtonUID == device.UID ? Guid.Empty : EnterButtonUID;
+			ExitButtonUID = ExitButtonUID == device.UID ? Guid.Empty : ExitButtonUID;
+			LockDeviceUID = LockDeviceUID == device.UID ? Guid.Empty : LockDeviceUID;
+			LockDeviceExitUID = LockDeviceExitUID == device.UID ? Guid.Empty : LockDeviceExitUID;
+			LockControlDeviceUID = LockControlDeviceUID == device.UID ? Guid.Empty : LockControlDeviceUID;
+			LockControlDeviceExitUID = LockControlDeviceExitUID == device.UID ? Guid.Empty : LockControlDeviceExitUID;
+
+			UnLinkObject(device);
+			OnChanged();
 		}
 
 		[XmlIgnore]

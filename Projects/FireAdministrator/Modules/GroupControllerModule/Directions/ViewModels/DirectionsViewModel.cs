@@ -89,7 +89,7 @@ namespace GKModule.ViewModels
 		void OnCopy()
 		{
 			_directionToCopy = Utils.Clone(SelectedDirection.Direction);
-			var logicViewModel = new LogicViewModel(null, SelectedDirection.Direction.Logic, true);
+			var logicViewModel = new LogicViewModel(SelectedDirection.Direction, SelectedDirection.Direction.Logic, true);
 			_directionToCopy.Logic = logicViewModel.GetModel();
 		}
 
@@ -103,7 +103,7 @@ namespace GKModule.ViewModels
 		{
 			_directionToCopy.UID = Guid.NewGuid();
 			var directionViewModel = new DirectionViewModel(Utils.Clone(_directionToCopy));
-			var logicViewModel = new LogicViewModel(null, _directionToCopy.Logic, true);
+			var logicViewModel = new LogicViewModel(SelectedDirection.Direction, _directionToCopy.Logic, true);
 			directionViewModel.Direction.Logic = logicViewModel.GetModel();
 			directionViewModel.Direction.No = (ushort)(GKManager.Directions.Select(x => x.No).Max() + 1);
 			directionViewModel.Direction.InputDevices = new List<GKDevice>();

@@ -17,10 +17,12 @@ namespace GKModule.ViewModels
 
 		public PumpStationViewModel(GKPumpStation pumpStation)
 		{
-			PumpStation = pumpStation;
 			ChangeStartLogicCommand = new RelayCommand(OnChangeStartLogic);
 			ChangeStopLogicCommand = new RelayCommand(OnChangeStopLogic);
 			ChangeAutomaticOffLogicCommand = new RelayCommand(OnChangeAutomaticOffLogic);
+
+			PumpStation = pumpStation;
+			PumpStation.Changed += Update;
 			Update();
 		}
 
@@ -39,6 +41,9 @@ namespace GKModule.ViewModels
 				}
 			}
 			OnPropertyChanged(() => PumpStation);
+			OnPropertyChanged(() => StartPresentationName);
+			OnPropertyChanged(() => StopPresentationName);
+			OnPropertyChanged(() => AutomaticOffPresentationName);
 		}
 
 		ObservableCollection<DeviceViewModel> _pumpDevices;
@@ -106,7 +111,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ChangeStartLogicCommand { get; private set; }
 		void OnChangeStartLogic()
 		{
-			var logicViewModel = new LogicViewModel(null, PumpStation.StartLogic);
+			var logicViewModel = new LogicViewModel(PumpStation, PumpStation.StartLogic);
 			if (DialogService.ShowModalWindow(logicViewModel))
 			{
 				PumpStation.StartLogic = logicViewModel.GetModel();
@@ -123,7 +128,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ChangeStopLogicCommand { get; private set; }
 		void OnChangeStopLogic()
 		{
-			var logicViewModel = new LogicViewModel(null, PumpStation.StopLogic);
+			var logicViewModel = new LogicViewModel(PumpStation, PumpStation.StopLogic);
 			if (DialogService.ShowModalWindow(logicViewModel))
 			{
 				PumpStation.StopLogic = logicViewModel.GetModel();
@@ -140,7 +145,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ChangeAutomaticOffLogicCommand { get; private set; }
 		void OnChangeAutomaticOffLogic()
 		{
-			var logicViewModel = new LogicViewModel(null, PumpStation.AutomaticOffLogic);
+			var logicViewModel = new LogicViewModel(PumpStation, PumpStation.AutomaticOffLogic);
 			if (DialogService.ShowModalWindow(logicViewModel))
 			{
 				PumpStation.AutomaticOffLogic = logicViewModel.GetModel();

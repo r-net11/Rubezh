@@ -82,6 +82,8 @@ namespace FiresecAPI.GK
 
 		public void LinkObject(GKBase gkBase)
 		{
+			if (gkBase == null)
+				return;
 			if (!InputObjects.Contains(gkBase))
 				InputObjects.Add(gkBase);
 			if (!gkBase.OutputObjects.Contains(this))
@@ -90,6 +92,8 @@ namespace FiresecAPI.GK
 
 		public void UnLinkObject(GKBase gkBase)
 		{
+			if (gkBase == null)
+				return;
 			if (InputObjects.Contains(gkBase))
 				InputObjects.Remove(gkBase);
 			if (gkBase.OutputObjects.Contains(this))

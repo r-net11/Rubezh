@@ -88,6 +88,17 @@ namespace GKModule.ViewModels
 			LockControlDeviceExit = GKManager.Devices.FirstOrDefault(x => x.UID == Door.LockControlDeviceExitUID);
 			EnterZone = GKManager.SKDZones.FirstOrDefault(x => x.UID == Door.EnterZoneUID);
 			ExitZone = GKManager.SKDZones.FirstOrDefault(x => x.UID == Door.ExitZoneUID);
+
+			Door.LinkObject(EnterDevice);
+			Door.LinkObject(ExitDevice);
+			Door.LinkObject(EnterButton);
+			Door.LinkObject(ExitButton);
+			Door.LinkObject(LockDevice);
+			Door.LinkObject(LockDeviceExit);
+			Door.LinkObject(LockControlDevice);
+			Door.LinkObject(LockControlDeviceExit);
+			Door.LinkObject(EnterZone);
+			Door.LinkObject(ExitZone);
 			UpdateDoorDevices();
 			if (ExitDevice != null)
 			{
@@ -115,6 +126,9 @@ namespace GKModule.ViewModels
 			OnPropertyChanged(() => ExitZone);
 			OnPropertyChanged(() => IsOnPlan);
 			OnPropertyChanged(() => VisualizationState);
+			OnPropertyChanged(() => OpenRegimeLogicPresentationName);
+			OnPropertyChanged(() => NormRegimeLogicPresentationName);
+			OnPropertyChanged(() => CloseRegimeLogicPresentationName);
 		}
 
 		void UpdateDoorDevices()
@@ -271,7 +285,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ChangeOpenRegimeLogicCommand { get; private set; }
 		void OnChangeOpenRegimeLogic()
 		{
-			var logicViewModel = new LogicViewModel(null, Door.OpenRegimeLogic);
+			var logicViewModel = new LogicViewModel(Door, Door.OpenRegimeLogic);
 			if (DialogService.ShowModalWindow(logicViewModel))
 			{
 				Door.OpenRegimeLogic = logicViewModel.GetModel();
@@ -288,7 +302,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ChangeNormRegimeLogicCommand { get; private set; }
 		void OnChangeNormRegimeLogic()
 		{
-			var logicViewModel = new LogicViewModel(null, Door.NormRegimeLogic);
+			var logicViewModel = new LogicViewModel(Door, Door.NormRegimeLogic);
 			if (DialogService.ShowModalWindow(logicViewModel))
 			{
 				Door.NormRegimeLogic = logicViewModel.GetModel();
@@ -305,7 +319,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ChangeCloseRegimeLogicCommand { get; private set; }
 		void OnChangeCloseRegimeLogic()
 		{
-			var logicViewModel = new LogicViewModel(null, Door.CloseRegimeLogic);
+			var logicViewModel = new LogicViewModel(Door, Door.CloseRegimeLogic);
 			if (DialogService.ShowModalWindow(logicViewModel))
 			{
 				Door.CloseRegimeLogic = logicViewModel.GetModel();

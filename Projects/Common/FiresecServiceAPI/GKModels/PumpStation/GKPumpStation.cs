@@ -38,7 +38,13 @@ namespace FiresecAPI.GK
 
 		public override void Update(GKDevice device)
 		{
-
+			StartLogic.GetAllClauses().FindAll(x => x.Devices.Contains(device)).ForEach(y => y.Devices.Remove(device));
+			StopLogic.GetAllClauses().FindAll(x => x.Devices.Contains(device)).ForEach(y => y.Devices.Remove(device));
+			AutomaticOffLogic.GetAllClauses().FindAll(x => x.Devices.Contains(device)).ForEach(y => y.Devices.Remove(device));
+			NSDevices.Remove(device);
+			NSDeviceUIDs.Remove(device.UID);
+			UnLinkObject(device);
+			OnChanged();
 		}
 
 		bool _isLogicOnKau;

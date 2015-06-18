@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
-using Common;
 using System;
 using Infrustructure.Plans.Interfaces;
 
@@ -23,7 +22,10 @@ namespace FiresecAPI.GK
 
 		public override void Update(GKDevice device)
 		{
-
+			MptLogic.GetAllClauses().FindAll(x => x.Devices.Contains(device)).ForEach(y => y.Devices.Remove(device));
+			MPTDevices.RemoveAll(x => x.Device == device);
+			UnLinkObject(device);
+			OnChanged();
 		}
 
 		bool _isLogicOnKau;

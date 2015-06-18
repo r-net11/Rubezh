@@ -158,6 +158,43 @@ namespace FiresecAPI.GK
 				x.GuardZones.ForEach(delay.LinkObject); x.MPTs.ForEach(delay.LinkObject); x.PumpStations.ForEach(delay.LinkObject); x.Zones.ForEach(delay.LinkObject);
 			}));
 
+			MPTs.ForEach(mpt => mpt.MptLogic.GetAllClauses().ForEach(x =>
+			{
+				x.Delays.ForEach(mpt.LinkObject); x.Devices.ForEach(mpt.LinkObject); x.Directions.ForEach(mpt.LinkObject); x.Doors.ForEach(mpt.LinkObject);
+				x.GuardZones.ForEach(mpt.LinkObject); x.MPTs.ForEach(mpt.LinkObject); x.PumpStations.ForEach(mpt.LinkObject); x.Zones.ForEach(mpt.LinkObject);
+			}));
+
+			MPTs.ForEach(mpt => mpt.MPTDevices.ForEach(x => mpt.LinkObject(x.Device)));
+
+			Doors.ForEach(door => door.OpenRegimeLogic.GetAllClauses().ForEach(x =>
+			{
+				x.Delays.ForEach(door.LinkObject); x.Devices.ForEach(door.LinkObject); x.Directions.ForEach(door.LinkObject); x.Doors.ForEach(door.LinkObject);
+				x.GuardZones.ForEach(door.LinkObject); x.MPTs.ForEach(door.LinkObject); x.PumpStations.ForEach(door.LinkObject); x.Zones.ForEach(door.LinkObject);
+			}));
+
+			Doors.ForEach(door => door.NormRegimeLogic.GetAllClauses().ForEach(x =>
+			{
+				x.Delays.ForEach(door.LinkObject); x.Devices.ForEach(door.LinkObject); x.Directions.ForEach(door.LinkObject); x.Doors.ForEach(door.LinkObject);
+				x.GuardZones.ForEach(door.LinkObject); x.MPTs.ForEach(door.LinkObject); x.PumpStations.ForEach(door.LinkObject); x.Zones.ForEach(door.LinkObject);
+			}));
+
+			Doors.ForEach(door => door.CloseRegimeLogic.GetAllClauses().ForEach(x =>
+			{
+				x.Delays.ForEach(door.LinkObject); x.Devices.ForEach(door.LinkObject); x.Directions.ForEach(door.LinkObject); x.Doors.ForEach(door.LinkObject);
+				x.GuardZones.ForEach(door.LinkObject); x.MPTs.ForEach(door.LinkObject); x.PumpStations.ForEach(door.LinkObject); x.Zones.ForEach(door.LinkObject);
+			}));
+
+			Doors.ForEach(door => door.LinkObject(door.EnterButton));
+			Doors.ForEach(door => door.LinkObject(door.EnterDevice));
+			Doors.ForEach(door => door.LinkObject(door.ExitButton));
+			Doors.ForEach(door => door.LinkObject(door.ExitDevice));
+			Doors.ForEach(door => door.LinkObject(door.LockControlDevice));
+			Doors.ForEach(door => door.LinkObject(door.LockControlDeviceExit));
+			Doors.ForEach(door => door.LinkObject(door.LockDevice));
+			Doors.ForEach(door => door.LinkObject(door.LockDeviceExit));
+
+			MPTs.ForEach(mpt => mpt.MPTDevices.ForEach(x => mpt.LinkObject(x.Device)));
+
 			Zones.ForEach(zone => zone.Devices.ForEach(zone.LinkObject));
 		}
 
