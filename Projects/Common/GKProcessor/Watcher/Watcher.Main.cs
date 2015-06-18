@@ -463,10 +463,6 @@ namespace GKProcessor
 				{
 					gkStates.PumpStationStates.Add(gkBase.State);
 				}
-				if (gkBase is GKMPT)
-				{
-					gkStates.MPTStates.Add(gkBase.State);
-				}
 				if (gkBase is GKPim)
 				{
 					gkBase.State.PresentationName = gkBase.PresentationName;

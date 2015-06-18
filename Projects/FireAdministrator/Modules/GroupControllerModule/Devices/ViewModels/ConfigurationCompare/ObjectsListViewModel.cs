@@ -25,12 +25,6 @@ namespace GKModule.ViewModels
 					var objectViewModel = new ObjectViewModel(pumpStation);
 					Objects.Add(objectViewModel);
 				}
-			if (deviceConfiguration.MPTs != null)
-				foreach (var mpt in deviceConfiguration.MPTs.Where(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == device.Address))
-				{
-					var objectViewModel = new ObjectViewModel(mpt);
-					Objects.Add(objectViewModel);
-				}
 			if (deviceConfiguration.Doors != null)
 				foreach (var door in deviceConfiguration.Doors.Where(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == device.Address))
 				{

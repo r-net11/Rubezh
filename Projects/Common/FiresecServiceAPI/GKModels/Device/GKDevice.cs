@@ -47,8 +47,6 @@ namespace FiresecAPI.GK
 		public bool HasDifferences { get; set; }
 		[XmlIgnore]
 		public bool HasMissingDifferences { get; set; }
-		[XmlIgnore]
-		public bool IsInMPT { get; set; }
 		public object Clone()
 		{
 			return this.MemberwiseClone();

@@ -14,8 +14,6 @@ namespace GKModule.Plans
 			Plan.ElementGKDevices.ForEach(item => Initialize(item));
 			Plan.ElementRectangleGKSKDZones.ForEach(item => InitializeSKD(item));
 			Plan.ElementPolygonGKSKDZones.ForEach(item => InitializeSKD(item));
-			Plan.ElementRectangleGKMPTs.ForEach(item => Initialize(item));
-			Plan.ElementPolygonGKMPTs.ForEach(item => Initialize(item));
 			Plan.ElementGKDoors.ForEach(item => Initialize(item));
 		}
 
@@ -34,11 +32,6 @@ namespace GKModule.Plans
 		{
 			var zone = PlanPresenter.Cache.Get<GKSKDZone>(element.ZoneUID);
 			AddState(zone);
-		}
-		private void Initialize(IElementMPT element)
-		{
-			var mpt = PlanPresenter.Cache.Get<GKMPT>(element.MPTUID);
-			AddState(mpt);
 		}
 	}
 }

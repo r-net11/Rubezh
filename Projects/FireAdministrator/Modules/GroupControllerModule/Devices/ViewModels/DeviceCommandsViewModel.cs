@@ -160,10 +160,6 @@ namespace GKModule.Models
 								{
 									pumpStation.GkDatabaseParent = gkControllerDevice;
 								}
-								foreach (var mpt in result.Result.MPTs)
-								{
-									mpt.GkDatabaseParent = gkControllerDevice;
-								}
 							}
 
 							configurationCompareViewModel = new ConfigurationCompareViewModel(GKManager.DeviceConfiguration, result.Result, SelectedDevice.Device, false);

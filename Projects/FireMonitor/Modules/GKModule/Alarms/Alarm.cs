@@ -7,7 +7,6 @@ namespace GKModule
 		public GKAlarmType AlarmType { get; set; }
 		public GKDevice Device { get; set; }
 		public GKDoor Door { get; set; }
-		public GKMPT Mpt { get; set; }
 
 		public Alarm(GKAlarmType alarmType, GKDevice device)
 		{
@@ -24,12 +23,6 @@ namespace GKModule
 		{
 			AlarmType = alarmType;
 			Door = door;
-		}
-
-		public Alarm(GKAlarmType alarmType, GKMPT mpt)
-		{
-			AlarmType = alarmType;
-			Mpt = mpt;
 		}
 
 		public Alarm Clone()

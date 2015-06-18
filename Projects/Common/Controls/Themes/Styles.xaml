@@ -137,7 +137,6 @@
 		<ResourceDictionary Source="../XamlImages/MoveBackward.xaml" />
 		<ResourceDictionary Source="../XamlImages/MoveForward.xaml" />
 		<ResourceDictionary Source="../XamlImages/MoveFront.xaml" />
-		<ResourceDictionary Source="../XamlImages/MPT.xaml" />
 		<ResourceDictionary Source="../XamlImages/music.xaml" />
 		<ResourceDictionary Source="../XamlImages/mute.xaml" />
 		<ResourceDictionary Source="../XamlImages/New.xaml" />

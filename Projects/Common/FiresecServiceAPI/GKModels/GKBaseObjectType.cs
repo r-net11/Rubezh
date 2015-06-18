@@ -10,9 +10,6 @@ namespace FiresecAPI.GK
 		[DescriptionAttribute("НС")]
 		PumpStation,
 
-		[DescriptionAttribute("МПТ")]
-		MPT,
-
 		[DescriptionAttribute("ПИМ")]
 		Pim,
 

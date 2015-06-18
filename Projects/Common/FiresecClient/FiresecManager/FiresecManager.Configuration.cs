@@ -127,7 +127,6 @@ namespace FiresecClient
 			try
 			{
 				GKManager.Devices.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
-				GKManager.MPTs.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
 				GKManager.Doors.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
 
 				SKDManager.Devices.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
@@ -142,12 +141,6 @@ namespace FiresecClient
 				{
 					if (!gkDeviceMap.ContainsKey(device.UID))
 						gkDeviceMap.Add(device.UID, device);
-				}
-				var gkMPTMap = new Dictionary<Guid, GKMPT>();
-				foreach (var mpt in GKManager.MPTs)
-				{
-					if (!gkMPTMap.ContainsKey(mpt.UID))
-						gkMPTMap.Add(mpt.UID, mpt);
 				}
 				var gkDoorMap = new Dictionary<Guid, GKDoor>();
 				foreach (var door in GKManager.Doors)
@@ -214,18 +207,6 @@ namespace FiresecClient
 						if (gkDoorMap.ContainsKey(elementPolygonGKSKDZone.ZoneUID))
 							gkDoorMap[elementPolygonGKSKDZone.ZoneUID].PlanElementUIDs.Add(elementPolygonGKSKDZone.UID);
 					}
-					foreach (var mpt in plan.ElementRectangleGKMPTs)
-					{
-						UpdateMPTType(mpt, mpt.MPTUID != Guid.Empty && gkMPTMap.ContainsKey(mpt.MPTUID) ? gkMPTMap[mpt.MPTUID] : null);
-						if (gkMPTMap.ContainsKey(mpt.MPTUID))
-							gkMPTMap[mpt.MPTUID].PlanElementUIDs.Add(mpt.UID);
-					}
-					foreach (var mpt in plan.ElementPolygonGKMPTs)
-					{
-						UpdateMPTType(mpt, mpt.MPTUID != Guid.Empty && gkMPTMap.ContainsKey(mpt.MPTUID) ? gkMPTMap[mpt.MPTUID] : null);
-						if (gkMPTMap.ContainsKey(mpt.MPTUID))
-							gkMPTMap[mpt.MPTUID].PlanElementUIDs.Add(mpt.UID);
-					}
 					for (int i = plan.ElementGKDoors.Count(); i > 0; i--)
 					{
 						var elementGKDoor = plan.ElementGKDoors[i - 1];
@@ -291,11 +272,6 @@ namespace FiresecClient
 		{
 			elementZone.SetZLayer(zone == null ? 50 : 60);
 			elementZone.BackgroundColor = zone == null ? System.Windows.Media.Colors.Black : System.Windows.Media.Colors.Green;
-		}
-		private static void UpdateMPTType(IElementMPT elementGKMPT, GKMPT gkMPT)
-		{
-			elementGKMPT.SetZLayer(gkMPT == null ? 10 : 11);
-			elementGKMPT.BackgroundColor = gkMPT == null ? System.Windows.Media.Colors.Black : System.Windows.Media.Colors.LightBlue;
 		}
 		private static void UpdateSubPlan(ElementSubPlan elementSubPlan, Plan plan)
 		{

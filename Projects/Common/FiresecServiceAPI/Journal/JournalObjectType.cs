@@ -10,9 +10,6 @@ namespace FiresecAPI.Journal
 		[DescriptionAttribute("Устройства ГК")]
 		GKDevice,
 
-		[DescriptionAttribute("МПТ ГК")]
-		GKMPT,
-
 		[DescriptionAttribute("Насосные станции ГК")]
 		GKPumpStation,
 

@@ -18,7 +18,6 @@ namespace GKModule.Validation
 			Errors = new List<IValidationError>();
 			ValidateDevices();
 			ValidatePumpStations();
-			ValidateMPTs();
 			ValidateDoors();
 			ValidateSKDZones();
 			ValidateDaySchedules();

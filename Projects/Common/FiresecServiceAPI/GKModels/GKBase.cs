@@ -26,8 +26,6 @@ namespace FiresecAPI.GK
 		[XmlIgnore]
 		public List<GKDevice> ClauseInputDevices { get; set; }
 		[XmlIgnore]
-		public List<GKMPT> ClauseInputMPTs { get; set; }
-		[XmlIgnore]
 		public List<GKDoor> ClauseInputDoors { get; set; }
 
 		public void ClearClauseDependencies()
@@ -35,7 +33,6 @@ namespace FiresecAPI.GK
 			InputGKBases = new List<GKBase>();
 			OutputGKBases = new List<GKBase>();
 			ClauseInputDevices = new List<GKDevice>();
-			ClauseInputMPTs = new List<GKMPT>();
 			ClauseInputDoors = new List<GKDoor>();
 		}
 
@@ -61,7 +58,6 @@ namespace FiresecAPI.GK
 		{
 			var device = this as GKDevice;
 			var pumpStation = this as GKPumpStation;
-			var mpt = this as GKMPT;
 			var door = this as GKDoor;
 
 			if (device != null)
@@ -71,35 +67,12 @@ namespace FiresecAPI.GK
 				LinkLogic(device, device.Logic.OnNowClausesGroup);
 				LinkLogic(device, device.Logic.OffNowClausesGroup);
 				LinkLogic(device, device.Logic.StopClausesGroup);
-				if (device.IsInMPT)
-				{
-					var deviceMPTs = new List<GKMPT>(GKManager.MPTs.FindAll(x => x.MPTDevices.FindAll(y => y.MPTDeviceType == GKMPTDeviceType.Bomb).Any(z => z.Device == device)));
-					foreach (var deviceMPT in deviceMPTs)
-					{
-						if (deviceMPT.SuspendLogic.OnClausesGroup.GetObjects().Count > 0)
-						{
-							LinkLogic(device, deviceMPT.SuspendLogic.OnClausesGroup);
-						}
-					}
-				}
 			}
 			if (pumpStation != null)
 			{
 				LinkLogic(pumpStation, pumpStation.StartLogic.OnClausesGroup);
 				LinkLogic(pumpStation, pumpStation.StopLogic.OnClausesGroup);
 				LinkLogic(pumpStation, pumpStation.AutomaticOffLogic.OnClausesGroup);
-			}
-
-			if (mpt != null)
-			{
-				LinkLogic(mpt, mpt.StartLogic.OnClausesGroup);
-				LinkLogic(mpt, mpt.StopLogic.OnClausesGroup);
-				LinkLogic(mpt, mpt.SuspendLogic.OnClausesGroup);
-				foreach (var mptDevice in mpt.MPTDevices.FindAll(x => x.MPTDeviceType == GKMPTDeviceType.HandStart || x.MPTDeviceType == GKMPTDeviceType.HandStop
-					|| x.MPTDeviceType == GKMPTDeviceType.HandAutomaticOn || x.MPTDeviceType == GKMPTDeviceType.HandAutomaticOff || x.MPTDeviceType == GKMPTDeviceType.Bomb))
-				{
-					mpt.LinkGKBases(mptDevice.Device);
-				}
 			}
 
 			if (door != null)
@@ -135,8 +108,6 @@ namespace FiresecAPI.GK
 				{
 					foreach (var clauseDevice in clause.Devices)
 						gkBase.LinkGKBases(clauseDevice);
-					foreach (var mpt in clause.MPTs)
-						gkBase.LinkGKBases(mpt);
 					foreach (var door in clause.Doors)
 						gkBase.LinkGKBases(door);
 				}

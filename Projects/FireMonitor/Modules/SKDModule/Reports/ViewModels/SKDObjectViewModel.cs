@@ -34,10 +34,6 @@ namespace SKDModule.Reports.ViewModels
 					ImageSource = "/Controls;component/GKIcons/RM_1.png";
 					break;
 
-				case JournalObjectType.GKMPT:
-					ImageSource = "/Controls;component/Images/BMPT.png";
-					break;
-
 				case JournalObjectType.GKPumpStation:
 					ImageSource = "/Controls;component/Images/BPumpStation.png";
 					break;
@@ -72,12 +68,6 @@ namespace SKDModule.Reports.ViewModels
 			Name = device.PresentationName;
 			UID = device.UID;
 			ImageSource = device.Driver.ImageSource;
-		}
-		public SKDObjectViewModel(GKMPT mpt)
-		{
-			Name = mpt.PresentationName;
-			UID = mpt.UID;
-			ImageSource = "/Controls;component/Images/BMPT.png";
 		}
 		public SKDObjectViewModel(GKPumpStation pumpStation)
 		{

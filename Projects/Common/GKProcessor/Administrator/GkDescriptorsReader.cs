@@ -171,22 +171,14 @@ namespace GKProcessor
 
 			if (internalType == 0x100 || internalType == 0x106 || internalType == 0x108 || internalType == 0x109 || internalType == 0x104)
 			{
-				var isMPT = false;
 				var isPumpStation = false;
 				ushort no = 0;
 
 				try
 				{
-					if (description.StartsWith("MПТ."))
-					{
-						isMPT = true;
-					}
-					else
-					{
-						if (description[0] == '0')
-							isPumpStation = true;
-						no = (ushort)Int32.Parse(description.Substring(0, description.IndexOf(".")));
-					}
+					if (description[0] == '0')
+						isPumpStation = true;
+					no = (ushort)Int32.Parse(description.Substring(0, description.IndexOf(".")));
 					description = description.Substring(description.IndexOf(".") + 1);
 				}
 				catch
@@ -206,15 +198,6 @@ namespace GKProcessor
 							GkDatabaseParent = GkDevice
 						};
 						DeviceConfiguration.PumpStations.Add(pumpStation);
-					}
-					else if (isMPT)
-					{
-						var mpt = new GKMPT()
-						{
-							Name = description,
-							GkDatabaseParent = GkDevice
-						};
-						DeviceConfiguration.MPTs.Add(mpt);
 					}
 					return true;
 				}

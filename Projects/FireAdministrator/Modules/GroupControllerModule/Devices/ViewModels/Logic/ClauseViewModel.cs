@@ -15,7 +15,6 @@ namespace GKModule.ViewModels
 	public class ClauseViewModel : BaseViewModel
 	{
 		public List<GKDevice> Devices { get; set; }
-		public List<GKMPT> MPTs { get; set; }
 		public List<GKDoor> Doors { get; set; }
 		GKDevice Device;
 
@@ -23,7 +22,6 @@ namespace GKModule.ViewModels
 		{
 			Device = device;
 			SelectDevicesCommand = new RelayCommand(OnSelectDevices);
-			SelectMPTsCommand = new RelayCommand(OnSelectMPTs);
 			SelectDoorsCommand = new RelayCommand(OnSelectDoors);
 
 			ClauseConditionTypes = Enum.GetValues(typeof(ClauseConditionType)).Cast<ClauseConditionType>().ToList();
@@ -31,7 +29,6 @@ namespace GKModule.ViewModels
 			SelectedClauseOperationType = clause.ClauseOperationType;
 
 			Devices = clause.Devices.ToList();
-			MPTs = clause.MPTs.ToList();
 			Doors = clause.Doors.ToList();
 
 			SelectedClauseConditionType = clause.ClauseConditionType;
@@ -76,17 +73,6 @@ namespace GKModule.ViewModels
 						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.Failure));
 						break;
 
-					case ClauseOperationType.AllMPTs:
-					case ClauseOperationType.AnyMPT:
-						StateTypes = new ObservableCollection<StateTypeViewModel>()
-						{
-							new StateTypeViewModel(value, GKStateBit.On),
-							new StateTypeViewModel(value, GKStateBit.Off),
-							new StateTypeViewModel(value, GKStateBit.TurningOn),
-							new StateTypeViewModel(value, GKStateBit.Norm)
-						};
-						break;
-
 					case ClauseOperationType.AnyDoor:
 					case ClauseOperationType.AllDoors:
 						StateTypes = new ObservableCollection<StateTypeViewModel>()
@@ -106,10 +92,8 @@ namespace GKModule.ViewModels
 				}
 				OnPropertyChanged(() => SelectedClauseOperationType);
 				OnPropertyChanged(() => PresenrationDevices);
-				OnPropertyChanged(() => PresenrationMPTs);
 				OnPropertyChanged(() => PresenrationDoors);
 				OnPropertyChanged(() => CanSelectDevices);
-				OnPropertyChanged(() => CanSelectMPTs);
 				OnPropertyChanged(() => CanSelectDoors);
 			}
 		}
@@ -141,11 +125,6 @@ namespace GKModule.ViewModels
 			get { return GKManager.GetCommaSeparatedDevices(Devices); }
 		}
 
-		public string PresenrationMPTs
-		{
-			get { return GKManager.GetCommaSeparatedObjects(new List<ModelBase>(MPTs), new List<ModelBase>(GKManager.MPTs)); }
-		}
-
 		public string PresenrationDoors
 		{
 			get
@@ -158,11 +137,6 @@ namespace GKModule.ViewModels
 		public bool CanSelectDevices
 		{
 			get { return (SelectedClauseOperationType == ClauseOperationType.AllDevices || SelectedClauseOperationType == ClauseOperationType.AnyDevice); }
-		}
-
-		public bool CanSelectMPTs
-		{
-			get { return (SelectedClauseOperationType == ClauseOperationType.AllMPTs || SelectedClauseOperationType == ClauseOperationType.AnyMPT); }
 		}
 		public bool CanSelectDoors
 		{
@@ -190,16 +164,6 @@ namespace GKModule.ViewModels
 			{
 				Devices = devicesSelectationViewModel.DevicesList;
 				OnPropertyChanged(() => PresenrationDevices);
-			}
-		}
-		public RelayCommand SelectMPTsCommand { get; private set; }
-		void OnSelectMPTs()
-		{
-			var mptsSelectationViewModel = new MPTsSelectationViewModel(MPTs);
-			if (DialogService.ShowModalWindow(mptsSelectationViewModel))
-			{
-				MPTs = mptsSelectationViewModel.MPTs;
-				OnPropertyChanged(() => PresenrationMPTs);
 			}
 		}
 

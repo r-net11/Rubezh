@@ -46,14 +46,6 @@ namespace GKProcessor
 				}
 			}
 
-			foreach (var mpt in GKManager.DeviceConfiguration.MPTs)
-			{
-				if (mpt.GkDatabaseParent == RootDevice)
-				{
-					MPTs.Add(mpt);
-				}
-			}
-
 			foreach (var door in GKManager.Doors)
 			{
 				if (door.GkDatabaseParent == RootDevice)
@@ -78,16 +70,6 @@ namespace GKProcessor
 
 				var pumpStationCreator = new PumpStationCreator(this, pumpStation, DatabaseType.Gk);
 				pumpStationCreator.Create();
-			}
-
-			foreach (var mpt in MPTs)
-			{
-				mpt.GKDescriptorNo = NextDescriptorNo;
-				var mptDescriptor = new MPTDescriptor(this, mpt, DatabaseType.Gk);
-				Descriptors.Add(mptDescriptor);
-
-				var mptCreator = new MPTCreator(this, mpt, DatabaseType.Gk);
-				mptCreator.Create();
 			}
 
 			foreach (var door in Doors)

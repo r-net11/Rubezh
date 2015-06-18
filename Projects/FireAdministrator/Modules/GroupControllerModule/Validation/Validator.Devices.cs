@@ -85,9 +85,6 @@ namespace GKModule.Validation
 
 		void ValidateDeviceZone(GKDevice device)
 		{
-			if (device.IsInMPT)
-				return;
-
 			if (device.DriverType == GKDriverType.RSR2_AM_1)
 			{
 				if (device.Properties.Any(x => x.Name == "Сообщение для нормы" || x.Name == "Сообщение для сработки 1" || x.Name == "Сообщение для сработки 2"))
@@ -97,9 +94,6 @@ namespace GKModule.Validation
 
 		void ValidateLogic(GKDevice device)
 		{
-			if(device.IsInMPT)
-				return;
-
 			if (device.DriverType == GKDriverType.GKRele)
 				return;
 
@@ -121,9 +115,6 @@ namespace GKModule.Validation
 
 		void ValidateParametersMinMax(GKDevice device)
 		{
-			if (device.IsInMPT)
-				return;
-
 			foreach (var property in device.Properties)
 			{
 				var driverProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);

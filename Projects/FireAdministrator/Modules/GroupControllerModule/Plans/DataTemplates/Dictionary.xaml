@@ -8,10 +8,6 @@
 		<Views:SKDZonePropertiesView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:MPTPropertiesViewModel}">
-        <Views:MPTPropertiesView />
-    </DataTemplate>
-
 	<DataTemplate DataType="{x:Type ViewModels:GKDoorPropertiesViewModel}">
 		<Views:GKDoorPropertiesView />
 	</DataTemplate>

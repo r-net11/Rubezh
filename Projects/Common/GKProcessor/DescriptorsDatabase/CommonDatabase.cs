@@ -8,7 +8,6 @@ namespace GKProcessor
 		ushort currentChildNo = 1;
 		protected List<GKDevice> Devices { get; set; }
 		protected List<GKPumpStation> PumpStations { get; set; }
-		protected List<GKMPT> MPTs { get; set; }
 		public List<GKPim> Pims { get; private set; }
 
 		protected ushort NextDescriptorNo
@@ -24,7 +23,6 @@ namespace GKProcessor
 		{
 			Devices = new List<GKDevice>();
 			PumpStations = new List<GKPumpStation>();
-			MPTs = new List<GKMPT>();
 			Pims = new List<GKPim>();
 			Descriptors = new List<BaseDescriptor>();
 		}

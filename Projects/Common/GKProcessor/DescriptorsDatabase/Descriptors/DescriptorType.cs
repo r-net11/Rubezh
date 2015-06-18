@@ -4,7 +4,6 @@
 	{
 		Device,
 		PumpStation,
-		MPT,
 		Pim,
 		Code,
 		Door,

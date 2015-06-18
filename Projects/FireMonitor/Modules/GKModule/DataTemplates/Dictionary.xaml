@@ -60,20 +60,8 @@
 		<Views:PumpStationDetailsView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:MPTsViewModel}">
-		<Views:MPTsView />
-	</DataTemplate>
-
-	<DataTemplate DataType="{x:Type ViewModels:MPTDetailsViewModel}">
-		<Views:MPTDetailsView />
-	</DataTemplate>
-
 	<DataTemplate DataType="{x:Type ViewModels:DeviceTooltipViewModel}">
 		<Views:DeviceTooltipView />
-	</DataTemplate>
-
-	<DataTemplate DataType="{x:Type ViewModels:MPTTooltipViewModel}">
-		<Views:MPTToolTipView />
 	</DataTemplate>
 
 	<DataTemplate DataType="{x:Type ViewModels:SKDZoneTooltipViewModel}">

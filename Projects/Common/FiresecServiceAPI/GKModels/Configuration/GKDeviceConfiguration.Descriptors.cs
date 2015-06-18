@@ -22,7 +22,6 @@ namespace FiresecAPI.GK
 			{
 				var gkBases = new List<GKBase>();
 				gkBases.AddRange(PumpStations);
-				gkBases.AddRange(MPTs);
 				return gkBases;
 			}
 		}

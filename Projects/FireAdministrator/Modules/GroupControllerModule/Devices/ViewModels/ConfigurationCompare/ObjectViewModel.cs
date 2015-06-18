@@ -33,7 +33,6 @@ namespace GKModule.ViewModels
 		public string DifferenceDiscription { get; set; }
 		public GKDevice Device;
 		public GKPumpStation PumpStation;
-		public GKMPT MPT;
 		public GKDoor Door;
 		public string ImageSource { get; private set; }
 		public ObjectType ObjectType { get; private set; }
@@ -59,16 +58,6 @@ namespace GKModule.ViewModels
 			Address = "";
 			PresentationZone = "";
 			ObjectType = ObjectType.PumpStation;
-		}
-
-		public ObjectViewModel(GKMPT mpt)
-		{
-			MPT = mpt;
-			Name = mpt.PresentationName;
-			ImageSource = "/Controls;component/Images/BMPT.png";
-			Address = "";
-			PresentationZone = "";
-			ObjectType = ObjectType.MPT;
 		}
 
 		public ObjectViewModel(GKDoor door)
@@ -121,10 +110,6 @@ namespace GKModule.ViewModels
 				if (object1.PumpStation.No < object2.PumpStation.No)
 					return -1;
 			}
-			if (object1.ObjectType == ObjectType.MPT)
-			{
-				return string.Compare(object1.MPT.Name, object2.MPT.Name);
-			}
 
 			if (object1.ObjectType == ObjectType.Door)
 			{
@@ -142,7 +127,6 @@ namespace GKModule.ViewModels
 	{
 		Device = 0,
 		PumpStation = 3,
-		MPT = 4,
 		Door = 8,
 	}
 }

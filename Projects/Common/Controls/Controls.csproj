@@ -186,7 +186,6 @@
     <Compile Include="Converters\XStateTypeToIconConverter.cs" />
     <Compile Include="Converters\XStateClassToColorConverter2.cs" />
     <Compile Include="Converters\XStateClassToZoneColorConverter.cs" />
-    <Compile Include="Converters\MPTDeviceTypeToStringConverter.cs" />
     <Compile Include="Converters\XStateClassToSKDStringConverter.cs" />
     <Compile Include="Converters\JournalSubsystemTypeToIconConverter.cs" />
     <Compile Include="EditorPresenter.cs" />

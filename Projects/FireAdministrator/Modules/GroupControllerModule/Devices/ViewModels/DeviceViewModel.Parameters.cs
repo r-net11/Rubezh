@@ -500,10 +500,5 @@ namespace GKModule.ViewModels
 			MessageBoxService.ShowError("Конфигурации различны. Операция запрещена");
 			return false;
 		}
-
-		public bool IsParamtersEnabled
-		{
-			get { return !Device.IsInMPT; }
-		}
 	}
 }

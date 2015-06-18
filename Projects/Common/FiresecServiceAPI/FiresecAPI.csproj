@@ -234,8 +234,6 @@
     <Compile Include="Models\Plans\ElementDoor.cs" />
     <Compile Include="Models\Plans\ElementPolygonGKSKDZone.cs" />
     <Compile Include="Models\Plans\ElementRectangleGKSKDZone.cs" />
-    <Compile Include="Models\Plans\ElementPolygonGKMPT.cs" />
-    <Compile Include="Models\Plans\ElementRectangleGKMPT.cs" />
     <Compile Include="Models\ServerTask\ServerTask.cs" />
     <Compile Include="AutomationCallback\AutomationCallbackData.cs" />
     <Compile Include="AutomationCallback\AutomationCallbackResult.cs" />
@@ -503,9 +501,6 @@
     <Compile Include="GKModels\Logic\GKClause.cs" />
     <Compile Include="GKModels\Logic\GKClauseGroup.cs" />
     <Compile Include="GKModels\Logic\GKLogic.cs" />
-    <Compile Include="GKModels\MPT\GKMPTDevice.cs" />
-    <Compile Include="GKModels\MPT\GKMPTDeviceType.cs" />
-    <Compile Include="GKModels\MPT\GKMPT.cs" />
     <Compile Include="GKModels\PIM\GKPim.cs" />
     <Compile Include="GKModels\PumpStation\GKPumpStation.cs" />
     <Compile Include="GKModels\SKD\GKDoorType.cs" />
@@ -522,7 +517,6 @@
     <Compile Include="GKModels\States\GKPimInternalState.cs" />
     <Compile Include="GKModels\States\GKPumpStationInternalState.cs" />
     <Compile Include="GKModels\States\GKStateBit.cs" />
-    <Compile Include="GKModels\States\GKMPTInternalState.cs" />
     <Compile Include="GKModels\GKAlarmType.cs" />
     <Compile Include="GKModels\GKBase.cs" />
     <Compile Include="GKModels\States\GKStatesHelper.cs" />

@@ -16,7 +16,6 @@ namespace FiresecAPI.GK
 		{
 			Devices = new List<GKDevice>();
 			PumpStations = new List<GKPumpStation>();
-			MPTs = new List<GKMPT>();
 			Doors = new List<GKDoor>();
 			SKDZones = new List<GKSKDZone>();
 			//DaySchedules = new List<GKDaySchedule>();
@@ -41,12 +40,6 @@ namespace FiresecAPI.GK
 		/// </summary>
 		[DataMember]
 		public List<GKPumpStation> PumpStations { get; set; }
-
-		/// <summary>
-		/// Модули пожаротушения
-		/// </summary>
-		[DataMember]
-		public List<GKMPT> MPTs { get; set; }
 
 		/// <summary>
 		/// Инструкции

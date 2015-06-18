@@ -114,28 +114,6 @@ namespace GKModule.ViewModels
 				}
 			}
 
-			foreach (var mpt in GKManager.MPTs)
-			{
-				foreach (var stateClass in mpt.State.StateClasses)
-				{
-					switch (stateClass)
-					{
-						case XStateClass.On:
-						case XStateClass.TurningOn:
-							alarms.Add(new Alarm(GKAlarmType.NPTOn, mpt));
-							break;
-
-						case XStateClass.Ignore:
-							alarms.Add(new Alarm(GKAlarmType.Ignore, mpt));
-							break;
-					}
-				}
-				if (mpt.State.StateClasses.Contains(XStateClass.AutoOff))
-				{
-					alarms.Add(new Alarm(GKAlarmType.AutoOff, mpt));
-				}
-			}
-
 			alarms = (from Alarm alarm in alarms orderby alarm.AlarmType select alarm).ToList();
 
 			UpdateAlarms();

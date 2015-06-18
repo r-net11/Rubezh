@@ -40,8 +40,6 @@ namespace GKModule.ViewModels
 					return Alarm.Device.PresentationName;
 				if (Alarm.Door != null)
 					return Alarm.Door.PresentationName;
-				if (Alarm.Mpt != null)
-					return Alarm.Mpt.PresentationName;
 				return null;
 			}
 		}
@@ -54,8 +52,6 @@ namespace GKModule.ViewModels
 					return Alarm.Device.Driver.ImageSource;
 				if (Alarm.Door != null)
 					return "/Controls;component/Images/Door.png";
-				if (Alarm.Mpt != null)
-					return "/Controls;component/Images/Mpt.png";
 				return null;
 			}
 		}
@@ -68,8 +64,6 @@ namespace GKModule.ViewModels
 					return Alarm.Device.State.StateClass;
 				if (Alarm.Door != null)
 					return Alarm.Door.State.StateClass;
-				if (Alarm.Mpt != null)
-					return Alarm.Mpt.State.StateClass;
 				return XStateClass.Norm;
 			}
 		}
@@ -90,25 +84,6 @@ namespace GKModule.ViewModels
 					{
 						var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
 						alarmPlanViewModel.Device = Alarm.Device;
-						Plans.Add(alarmPlanViewModel);
-					}
-				}
-				if (Alarm.Mpt != null)
-				{
-					elementBase = plan.ElementRectangleGKMPTs.FirstOrDefault(x => x.MPTUID == Alarm.Mpt.UID);
-					if (elementBase != null)
-					{
-						var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
-						alarmPlanViewModel.MPT = Alarm.Mpt;
-						Plans.Add(alarmPlanViewModel);
-						continue;
-					}
-
-					elementBase = plan.ElementPolygonGKMPTs.FirstOrDefault(x => x.MPTUID == Alarm.Mpt.UID);
-					if (elementBase != null)
-					{
-						var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
-						alarmPlanViewModel.MPT = Alarm.Mpt;
 						Plans.Add(alarmPlanViewModel);
 					}
 				}
@@ -141,10 +116,6 @@ namespace GKModule.ViewModels
 			{
 				ServiceFactory.Events.GetEvent<ShowGKDeviceEvent>().Publish(Alarm.Device.UID);
 			}
-			if (Alarm.Mpt != null)
-			{
-				ServiceFactory.Events.GetEvent<ShowGKMPTEvent>().Publish(Alarm.Mpt.UID);
-			}
 			if (Alarm.Door != null)
 			{
 				ServiceFactory.Events.GetEvent<ShowGKDoorEvent>().Publish(Alarm.Door.UID);
@@ -158,10 +129,6 @@ namespace GKModule.ViewModels
 			{
 				ShowOnPlanHelper.ShowDevice(Alarm.Device);
 			}
-			if (Alarm.Mpt != null)
-			{
-				ShowOnPlanHelper.ShowMPT(Alarm.Mpt);
-			}
 			if (Alarm.Door != null)
 			{
 				ShowOnPlanHelper.ShowDoor(Alarm.Door);
@@ -172,10 +139,6 @@ namespace GKModule.ViewModels
 			if (Alarm.Device != null)
 			{
 				return ShowOnPlanHelper.CanShowDevice(Alarm.Device);
-			}
-			if (Alarm.Mpt != null)
-			{
-				return ShowOnPlanHelper.CanShowMPT(Alarm.Mpt);
 			}
 			if (Alarm.Door != null)
 			{
@@ -224,14 +187,6 @@ namespace GKModule.ViewModels
 					}
 				}
 
-				if (Alarm.Mpt != null)
-				{
-					if (Alarm.Mpt.State.StateClasses.Contains(XStateClass.Ignore))
-					{
-						FiresecManager.FiresecService.GKSetAutomaticRegime(Alarm.Mpt);
-					}
-				}
-
 				if (Alarm.Door != null)
 				{
 					if (Alarm.Door.State.StateClasses.Contains(XStateClass.Ignore))
@@ -254,11 +209,6 @@ namespace GKModule.ViewModels
 				if (Alarm.Device.State.StateClasses.Contains(XStateClass.Ignore))
 					return true;
 			}
-			if (Alarm.Mpt != null)
-			{
-				if (Alarm.Mpt.State.StateClasses.Contains(XStateClass.Ignore))
-					return true;
-			}
 
 			return false;
 		}
@@ -279,13 +229,6 @@ namespace GKModule.ViewModels
 						FiresecManager.FiresecService.GKSetAutomaticRegime(Alarm.Device);
 					}
 				}
-				if (Alarm.Mpt != null)
-				{
-					if (Alarm.Mpt.State.StateClasses.Contains(XStateClass.AutoOff))
-					{
-						FiresecManager.FiresecService.GKSetAutomaticRegime(Alarm.Mpt);
-					}
-				}
 			}
 		}
 		bool CanTurnOnAutomatic()
@@ -295,10 +238,6 @@ namespace GKModule.ViewModels
 				if (Alarm.Device != null)
 				{
 					return Alarm.Device.Driver.IsControlDevice && Alarm.Device.State.StateClasses.Contains(XStateClass.AutoOff);
-				}
-				if (Alarm.Mpt != null)
-				{
-					return Alarm.Mpt.State.StateClasses.Contains(XStateClass.AutoOff);
 				}
 			}
 			return false;
@@ -314,7 +253,6 @@ namespace GKModule.ViewModels
 			var showArchiveEventArgs = new ShowArchiveEventArgs()
 			{
 				GKDevice = Alarm.Device,
-				GKMPT = Alarm.Mpt,
 				GKDoor = Alarm.Door,
 			};
 			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(showArchiveEventArgs);
@@ -327,10 +265,6 @@ namespace GKModule.ViewModels
 			{
 				DialogService.ShowWindow(new DeviceDetailsViewModel(Alarm.Device));
 			}
-			if (Alarm.Mpt != null)
-			{
-				DialogService.ShowWindow(new MPTDetailsViewModel(Alarm.Mpt));
-			}
 			if (Alarm.Door != null)
 			{
 				DialogService.ShowWindow(new DoorDetailsViewModel(Alarm.Door));
@@ -338,7 +272,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanShowProperties()
 		{
-			return Alarm.Device != null || Alarm.Mpt != null || Alarm.Door != null;
+			return Alarm.Device != null || Alarm.Door != null;
 		}
 		public bool CanShowPropertiesCommand
 		{

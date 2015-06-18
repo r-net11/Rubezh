@@ -116,24 +116,8 @@
     <Compile Include="Diagnostics\Views\DiagnosticsView.xaml.cs">
       <DependentUpon>DiagnosticsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MPTs\ViewModels\MPTDetailsViewModel.cs" />
-    <Compile Include="MPTs\ViewModels\MPTsViewModel.cs" />
-    <Compile Include="MPTs\ViewModels\MPTViewModel.cs" />
-    <Compile Include="MPTs\Views\MPTControlView.xaml.cs">
-      <DependentUpon>MPTControlView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="MPTs\Views\MPTDetailsView.xaml.cs">
-      <DependentUpon>MPTDetailsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="MPTs\Views\MPTsView.xaml.cs">
-      <DependentUpon>MPTsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="MPTs\Views\MPTToolTipView.xaml.cs">
-      <DependentUpon>MPTToolTipView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Plans\Designer\GKDoorPainter.cs" />
     <Compile Include="Plans\Designer\GKSKDZonePainter.cs" />
-    <Compile Include="Plans\Designer\GKMPTPainter.cs" />
     <Compile Include="Plans\ViewModels\DeviceTooltipViewModel.cs" />
     <Compile Include="Plans\ViewModels\GKDoorTooltipViewModel.cs" />
     <Compile Include="Devices\ViewModels\MeasureParameterViewModel.cs" />
@@ -154,7 +138,6 @@
     </Compile>
     <Compile Include="Devices\ViewModels\DevicePropertiesViewModel.cs" />
     <Compile Include="Plans\ViewModels\SKDZoneTooltipViewModel.cs" />
-    <Compile Include="Plans\ViewModels\MPTTooltipViewModel.cs" />
     <Compile Include="Schedules\ViewModels\CalendarViewModel.cs" />
     <Compile Include="Schedules\ViewModels\DayScheduleDetailsViewModel.cs" />
     <Compile Include="Schedules\ViewModels\DaySchedulePartDetailsViewModel.cs" />
@@ -338,22 +321,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Doors\Views\DoorToolTipView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="MPTs\Views\MPTControlView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="MPTs\Views\MPTDetailsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="MPTs\Views\MPTsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="MPTs\Views\MPTToolTipView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

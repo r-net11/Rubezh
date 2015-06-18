@@ -99,7 +99,6 @@
     <Compile Include="Events\ShowDetails\ShowGKSKDZoneDetailsEvent.cs" />
     <Compile Include="Events\ShowObject\ShowGKSKDZoneEvent.cs" />
     <Compile Include="Events\ShowOnPlan\ShowGKSKDZoneOnPlanEvent.cs" />
-    <Compile Include="Events\ShowOnPlan\ShowGKMPTOnPlanEvent.cs" />
     <Compile Include="Events\ShowSKDReportsEvent.cs" />
     <Compile Include="Events\Reports\PrintReportPreviewEvent.cs" />
     <Compile Include="Events\Reports\PrintReportEvent.cs" />
@@ -113,7 +112,6 @@
     <Compile Include="Events\GKObjectsStateChangedEvent.cs" />
     <Compile Include="Events\ShowDetails\ShowGKDeviceDetailsEvent.cs" />
     <Compile Include="Events\ShowDetails\ShowGKZoneDetailsEvent.cs" />
-    <Compile Include="Events\ShowDetails\ShowGKMPTDetailsEvent.cs" />
     <Compile Include="Events\ShowDetails\ShowGKPIMDetailsEvent.cs" />
     <Compile Include="Events\ShowDetails\ShowSKDDeviceDetailsEvent.cs" />
     <Compile Include="Events\ShowDetails\ShowSKDZoneDetailsEvent.cs" />
@@ -122,7 +120,6 @@
     <Compile Include="Events\ShowObject\ShowSKDDoorEvent.cs" />
     <Compile Include="Events\ShowObject\ShowSKDDeviceEvent.cs" />
     <Compile Include="Events\ShowObject\ShowSKDZoneEvent.cs" />
-    <Compile Include="Events\ShowObject\ShowGKMPTEvent.cs" />
     <Compile Include="Events\ShowObject\ShowGKPimEvent.cs" />
     <Compile Include="Events\ShowOnPlan\ShowSKDDoorOnPlanEvent.cs" />
     <Compile Include="Events\ShowOnPlan\ShowSKDDeviceOnPlanEvent.cs" />

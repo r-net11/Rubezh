@@ -92,8 +92,6 @@ namespace JournalModule.ViewModels
 				ArchiveFilter.ObjectUIDs.Add(showArchiveEventArgs.GKPim.UID);
 			if (showArchiveEventArgs.GKPumpStation != null)
 				ArchiveFilter.ObjectUIDs.Add(showArchiveEventArgs.GKPumpStation.UID);
-			if (showArchiveEventArgs.GKMPT != null)
-				ArchiveFilter.ObjectUIDs.Add(showArchiveEventArgs.GKMPT.UID);
 			if (showArchiveEventArgs.GKSKDZone != null)
 				ArchiveFilter.ObjectUIDs.Add(showArchiveEventArgs.GKSKDZone.UID);
 			if (showArchiveEventArgs.GKDoor != null)

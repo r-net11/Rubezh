@@ -39,7 +39,6 @@ namespace GKModule.ViewModels
 			ShowZoneOrLogicCommand = new RelayCommand(OnShowZoneOrLogic, CanShowZoneOrLogic);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
 			ShowParentCommand = new RelayCommand(OnShowParent, CanShowParent);
-			ShowMPTCommand = new RelayCommand(OnShowMPT, CanShowMPT);
 			ShowDoorCommand = new RelayCommand(OnShowDoor);
 
 			CreateDragObjectCommand = new RelayCommand<DataObject>(OnCreateDragObjectCommand, CanCreateDragObjectCommand);
@@ -82,17 +81,13 @@ namespace GKModule.ViewModels
 		{
 			Children.ForEach(x => x.CheckShleif());
 			OnPropertyChanged(() => PresentationAddress);
-			OnPropertyChanged(() => IsParamtersEnabled);
 			OnPropertyChanged(() => IsInDoor);
-			OnPropertyChanged(() => MPTName);
-			OnPropertyChanged(() => IsInMPT);
 		}
 
 		public void UpdateProperties()
 		{
 			PropertiesViewModel = new PropertiesViewModel(Device);
 			OnPropertyChanged(() => PropertiesViewModel);
-			OnPropertyChanged(() => IsParamtersEnabled);
 		}
 
 		public void Update()
@@ -101,11 +96,6 @@ namespace GKModule.ViewModels
 			OnPropertyChanged(() => IsOnPlan);
 			OnPropertyChanged(() => VisualizationState);
 			OnPropertyChanged(() => Description);
-		}
-
-		public bool IsInMPT
-		{
-			get { return Device != null && Device.IsInMPT; }
 		}
 
 		public bool IsInDoor
@@ -394,7 +384,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanShowZoneOrLogic()
 		{
-			return !Device.IsInMPT && (CanShowLogic());
+			return (CanShowLogic());
 		}
 
 		public bool IsZoneOrLogic
@@ -520,15 +510,6 @@ namespace GKModule.ViewModels
 
 		public bool IsBold { get; set; }
 
-		public string MPTName
-		{
-			get
-			{
-				var mpt = GKManager.MPTs.FirstOrDefault(x => x.MPTDevices.Any(y => y.DeviceUID == Device.UID));
-				return mpt != null ? mpt.Name : null;
-			}
-		}
-
 		public string DoorName
 		{
 			get
@@ -541,18 +522,6 @@ namespace GKModule.ViewModels
 					return door.Name;
 				return null;
 			}
-		}
-
-		public RelayCommand ShowMPTCommand { get; private set; }
-		void OnShowMPT()
-		{
-			var mpt = GKManager.MPTs.FirstOrDefault(x => x.MPTDevices.Any(y => y.DeviceUID == Device.UID));
-			if (mpt != null)
-				ServiceFactoryBase.Events.GetEvent<ShowGKMPTEvent>().Publish(mpt.UID);
-		}
-		bool CanShowMPT()
-		{
-			return true;
 		}
 
 		public RelayCommand ShowDoorCommand { get; private set; }

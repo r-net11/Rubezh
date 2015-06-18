@@ -41,7 +41,6 @@ namespace FiresecAPI.GK
 
 			InitializeProperties();
 			Invalidate();
-			CopyMPTProperties();
 		}
 
 		void InitializeProperties()
@@ -70,7 +69,6 @@ namespace FiresecAPI.GK
 			ClearAllReferences();
 			InitializeLogic();
 			InitializePumpStations();
-			InitializeMPTs();
 			InitializeDoors();
 			UpdateGKChildrenDescription();
 		}
@@ -86,10 +84,6 @@ namespace FiresecAPI.GK
 			{
 				pumpStation.ClearClauseDependencies();
 				pumpStation.NSDevices = new List<GKDevice>();
-			}
-			foreach (var mpt in MPTs)
-			{
-				mpt.ClearClauseDependencies();
 			}
 		}
 
@@ -132,29 +126,6 @@ namespace FiresecAPI.GK
 			}
 		}
 
-		void InitializeMPTs()
-		{
-			foreach (var mpt in MPTs)
-			{
-				InvalidateInputObjectsBaseLogic(mpt, mpt.StartLogic);
-				InvalidateInputObjectsBaseLogic(mpt, mpt.StopLogic);
-				InvalidateInputObjectsBaseLogic(mpt, mpt.SuspendLogic);
-
-				var mptDevices = new List<GKMPTDevice>();
-				foreach (var mptDevice in mpt.MPTDevices)
-				{
-					var device = Devices.FirstOrDefault(x => x.UID == mptDevice.DeviceUID);
-					if (device != null && GKMPTDevice.GetAvailableMPTDriverTypes(mptDevice.MPTDeviceType).Contains(device.DriverType))
-					{
-						mptDevice.Device = device;
-						mptDevices.Add(mptDevice);
-						device.IsInMPT = true;
-					}
-				}
-				mpt.MPTDevices = mptDevices;
-			}
-		}
-
 		public void InvalidateInputObjectsBaseLogic(GKBase gkBase, GKLogic logic)
 		{
 			logic.OnClausesGroup = InvalidateOneInputObjectsBaseLogic(gkBase, logic.OnClausesGroup);
@@ -180,7 +151,6 @@ namespace FiresecAPI.GK
 			foreach (var clause in clauseGroup.Clauses)
 			{
 				clause.Devices = new List<GKDevice>();
-				clause.MPTs = new List<GKMPT>();
 				clause.Doors = new List<GKDoor>();
 
 				var deviceUIDs = new List<Guid>();
@@ -196,20 +166,6 @@ namespace FiresecAPI.GK
 					}
 				}
 				clause.DeviceUIDs = deviceUIDs;
-
-				var mptUIDs = new List<Guid>();
-				foreach (var mptUID in clause.MPTUIDs)
-				{
-					var mpt = MPTs.FirstOrDefault(x => x.UID == mptUID);
-					if (mpt != null)
-					{
-						mptUIDs.Add(mptUID);
-						clause.MPTs.Add(mpt);
-						if (!gkBase.ClauseInputMPTs.Contains(mpt))
-							gkBase.ClauseInputMPTs.Add(mpt);
-					}
-				}
-				clause.MPTUIDs = mptUIDs;
 
 				var doorUIDs = new List<Guid>();
 				foreach (var doorUID in clause.DoorUIDs)
@@ -315,121 +271,6 @@ namespace FiresecAPI.GK
 
 				}
 			}
-		}
-
-		void CopyMPTProperties()
-		{
-			foreach (var mpt in MPTs)
-			{
-				foreach (var mptDevice in mpt.MPTDevices)
-				{
-					SetIsMPT(mptDevice);
-				}
-			}
-		}
-
-		public void SetIsMPT(GKMPTDevice mptDevice)
-		{
-			if (mptDevice.Device != null)
-			{
-				mptDevice.Device.IsInMPT = true;
-				GKManager.ChangeLogic(mptDevice.Device, new GKLogic());
-				mptDevice.Device.ZoneUIDs = new List<Guid>();
-			}
-		}
-
-		public void SetMPTDefaultProperty(GKDevice device, GKMPTDeviceType mptDeviceType)
-		{
-			if (device != null)
-			{
-				switch (device.DriverType)
-				{
-					case GKDriverType.RSR2_AM_1:
-						SetDeviceProperty(device, "Конфигурация", 1);
-						break;
-
-					case GKDriverType.RSR2_OPS:
-					case GKDriverType.RSR2_OPZ:
-					case GKDriverType.RSR2_OPK:
-						SetDeviceProperty(device, "Задержка на включение, с", 0);
-						SetDeviceProperty(device, "Время удержания, с", 0);
-						SetDeviceProperty(device, "Задержка на выключение, с", 0);
-						SetDeviceProperty(device, "Состояние для модуля Выключено", 0);
-						SetDeviceProperty(device, "Состояние для режима Удержания", 4);
-						if (mptDeviceType == GKMPTDeviceType.DoNotEnterBoard || mptDeviceType == GKMPTDeviceType.ExitBoard)
-						{
-							SetDeviceProperty(device, "Состояние для режима Включено", 32);
-						}
-						if (mptDeviceType == GKMPTDeviceType.Speaker || mptDeviceType == GKMPTDeviceType.AutomaticOffBoard)
-						{
-							SetDeviceProperty(device, "Состояние для режима Включено", 16);
-						}
-						break;
-
-					case GKDriverType.RSR2_MVK8:
-						SetDeviceProperty(device, "Задержка на включение, с", 0);
-						SetDeviceProperty(device, "Задержка на выключение, с", 0);
-						SetDeviceProperty(device, "Состояние контакта для режима Выключено", 0);
-						SetDeviceProperty(device, "Состояние контакта для режима Удержания", 4);
-						SetDeviceProperty(device, "Контроль", 3);
-						SetDeviceProperty(device, "Норма питания, 0.1В", 80);
-						if (mptDeviceType == GKMPTDeviceType.DoNotEnterBoard || mptDeviceType == GKMPTDeviceType.ExitBoard)
-						{
-							SetDeviceProperty(device, "Время удержания, с", 0);
-							SetDeviceProperty(device, "Состояние контакта для режима Включено", 32);
-						}
-
-						if (mptDeviceType == GKMPTDeviceType.Bomb)
-						{
-							SetDeviceProperty(device, "Время удержания, с", 2);
-							SetDeviceProperty(device, "Состояние контакта для режима Включено", 0);
-						}
-
-						if (mptDeviceType == GKMPTDeviceType.Speaker || mptDeviceType == GKMPTDeviceType.AutomaticOffBoard)
-						{
-							SetDeviceProperty(device, "Время удержания, с", 0);
-							SetDeviceProperty(device, "Состояние контакта для режима Включено", 16);
-						}
-						break;
-
-					case GKDriverType.RSR2_RM_1:
-						SetDeviceProperty(device, "Задержка на включение, с", 0);
-						SetDeviceProperty(device, "Задержка на выключение, с", 0);
-						SetDeviceProperty(device, "Состояние контакта для режима Выключено", 0);
-						SetDeviceProperty(device, "Состояние контакта для режима Удержания", 4);
-						if (mptDeviceType == GKMPTDeviceType.DoNotEnterBoard || mptDeviceType == GKMPTDeviceType.ExitBoard)
-						{
-							SetDeviceProperty(device, "Время удержания, с", 0);
-							SetDeviceProperty(device, "Состояние контакта для режима Включено", 32);
-						}
-						if (mptDeviceType == GKMPTDeviceType.Bomb)
-						{
-							SetDeviceProperty(device, "Время удержания, с", 2);
-							SetDeviceProperty(device, "Состояние контакта для режима Включено", 0);
-						}
-						if (mptDeviceType == GKMPTDeviceType.Speaker || mptDeviceType == GKMPTDeviceType.AutomaticOffBoard)
-						{
-							SetDeviceProperty(device, "Время удержания, с", 0);
-							SetDeviceProperty(device, "Состояние контакта для режима Включено", 16);
-						}
-						break;
-				}
-			}
-		}
-
-		void SetDeviceProperty(GKDevice device, string propertyName, int value)
-		{
-			var property = device.Properties.FirstOrDefault(x => x.Name == propertyName);
-			if (property == null)
-			{
-				property = new GKProperty()
-				{
-					Name = propertyName,
-					DriverProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == propertyName)
-				};
-				device.Properties.Add(property);
-			}
-			property.Value = (ushort)value;
 		}
 	}
 }

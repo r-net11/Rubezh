@@ -22,7 +22,6 @@ namespace GKModule.ViewModels
 		public Guid ElementUID { get; set; }
 		public GKDevice Device { get; set; }
 		public GKSKDZone SKDZone { get; set; }
-		public GKMPT MPT { get; set; }
 		public GKDoor Door { get; set; }
 
 		public string Name

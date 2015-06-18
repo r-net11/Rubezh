@@ -12,10 +12,6 @@
 		<Views:DeviceSelectationView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:MPTsSelectationViewModel}">
-		<Views:MPTsSelectationView />
-	</DataTemplate>
-
 	<DataTemplate DataType="{x:Type ViewModels:DoorsSelectationViewModel}">
 		<Views:DoorsSelectationView />
 	</DataTemplate>

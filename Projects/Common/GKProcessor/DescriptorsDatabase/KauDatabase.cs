@@ -26,12 +26,6 @@ namespace GKProcessor
 				pumpStation.KauDatabaseParent = RootDevice;
 				PumpStations.Add(pumpStation);
 			}
-
-			foreach (var mpt in GKManager.DeviceConfiguration.MPTs.FindAll(x => x.KauDatabaseParent == RootDevice))
-			{
-				mpt.KauDatabaseParent = RootDevice;
-				MPTs.Add(mpt);
-			}
 		}
 
 		List<GKDevice> AllDevices;
@@ -67,16 +61,6 @@ namespace GKProcessor
 
 				var pumpStationCreator = new PumpStationCreator(this, pumpStation, DatabaseType.Kau);
 				pumpStationCreator.Create();
-			}
-
-			foreach (var mpt in MPTs)
-			{
-				mpt.KAUDescriptorNo = NextDescriptorNo;
-				var mptDescriptor = new MPTDescriptor(this, mpt, DatabaseType.Kau);
-				Descriptors.Add(mptDescriptor);
-
-				var mptCreator = new MPTCreator(this, mpt, DatabaseType.Kau);
-				mptCreator.Create();
 			}
 
 			foreach (var descriptor in Descriptors)

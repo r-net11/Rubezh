@@ -27,7 +27,6 @@ namespace GKModule
 		DevicesViewModel DevicesViewModel;
 		ParameterTemplatesViewModel ParameterTemplatesViewModel;
 		PumpStationsViewModel PumpStationsViewModel;
-		MPTsViewModel MPTsViewModel;
 		DoorsViewModel DoorsViewModel;
 		SKDZonesViewModel SKDZonesViewModel;
 		LibraryViewModel DeviceLidraryViewModel;
@@ -41,15 +40,12 @@ namespace GKModule
 		{
 			ServiceFactory.Events.GetEvent<CreateGKSKDZoneEvent>().Subscribe(OnCreateSKDZone);
 			ServiceFactory.Events.GetEvent<EditGKSKDZoneEvent>().Subscribe(OnEditSKDZone);
-			ServiceFactory.Events.GetEvent<CreateGKMPTEvent>().Subscribe(OnCreateGKMPT);
-			ServiceFactory.Events.GetEvent<EditGKMPTEvent>().Subscribe(OnEditGKMPT);
 			ServiceFactory.Events.GetEvent<CreateGKDoorEvent>().Subscribe(OnCreateGKDoor);
 			ServiceFactory.Events.GetEvent<EditGKDoorEvent>().Subscribe(OnEditGKDoor);
 
 			DevicesViewModel = new DevicesViewModel();
 			ParameterTemplatesViewModel = new ParameterTemplatesViewModel();
 			PumpStationsViewModel = new PumpStationsViewModel();
-			MPTsViewModel = new MPTsViewModel();
 			DoorsViewModel = new DoorsViewModel();
 			SKDZonesViewModel = new SKDZonesViewModel();
 			DeviceLidraryViewModel = new LibraryViewModel();
@@ -57,7 +53,7 @@ namespace GKModule
 			OPCDevicesViewModel = new OPCDevicesViewModel();
 			DescriptorsViewModel = new DescriptorsViewModel();
 			DiagnosticsViewModel = new DiagnosticsViewModel();
-			_planExtension = new GKPlanExtension(DevicesViewModel, SKDZonesViewModel, MPTsViewModel, DoorsViewModel);
+			_planExtension = new GKPlanExtension(DevicesViewModel, SKDZonesViewModel, DoorsViewModel);
 		}
 
 		public override void Initialize()
@@ -65,7 +61,6 @@ namespace GKModule
 			DevicesViewModel.Initialize();
 			ParameterTemplatesViewModel.Initialize();
 			PumpStationsViewModel.Initialize();
-			MPTsViewModel.Initialize();
 			DoorsViewModel.Initialize();
 			SKDZonesViewModel.Initialize();
 			InstructionsViewModel.Initialize();
@@ -84,7 +79,6 @@ namespace GKModule
 					new NavigationItem<ShowGKDeviceEvent, Guid>(DevicesViewModel, "Устройства", "Tree", null, null, Guid.Empty),
 					new NavigationItem<ShowGKParameterTemplatesEvent, Guid>(ParameterTemplatesViewModel, "Шаблоны","Briefcase", null, null, Guid.Empty),
 					new NavigationItem<ShowGKPumpStationEvent, Guid>(PumpStationsViewModel, "НС", "PumpStation", null, null, Guid.Empty),
-					new NavigationItem<ShowGKMPTEvent, Guid>(MPTsViewModel, "МПТ", "MPT", null, null, Guid.Empty),
 
 					new NavigationItem<ShowGKInstructionsEvent, Guid>(InstructionsViewModel, "Инструкции", "information", null, null, Guid.Empty),
 					new NavigationItem<ShowGKDescriptorsEvent, object>(DescriptorsViewModel, "Дескрипторы", "Descriptors"),
@@ -114,7 +108,6 @@ namespace GKModule
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Diagnostics/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Instructions/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Journal/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "MPTs/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "OPC/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Parameters/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Plans/DataTemplates/Dictionary.xaml"));
@@ -131,15 +124,6 @@ namespace GKModule
 			return validator.Validate();
 		}
 		#endregion
-
-		private void OnCreateGKMPT(CreateGKMPTEventArg createMPTEventArg)
-		{
-			MPTsViewModel.CreateMPT(createMPTEventArg);
-		}
-		private void OnEditGKMPT(Guid mptUID)
-		{
-			MPTsViewModel.EditMPT(mptUID);
-		}
 
 		private void OnCreateGKDoor(CreateGKDoorEventArg createGKDoorEventArg)
 		{
@@ -175,7 +159,6 @@ namespace GKModule
 			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.Alarms, 112, "Состояния", "Панель состояний", "BAlarm.png");
 			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.GDevices, 113, "Устройства", "Панель с устройствами", "BTree.png");
 			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.PumpStations, 117, "НС", "Панель НС", "BPumpStation.png");
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.MPTs, 118, "МПТ", "Панель МПТ", "BMPT.png");
 			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.Doors, 119, "Точки доступа", "Панель точек досткпа", "BMPT.png");
 		}
 

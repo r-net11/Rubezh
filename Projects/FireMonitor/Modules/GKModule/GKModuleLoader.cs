@@ -29,14 +29,12 @@ namespace GKModule
 		static SKDZonesViewModel SKDZonesViewModel;
 		static PimsViewModel PimsViewModel;
 		static PumpStationsViewModel PumpStationsViewModel;
-		static MPTsViewModel MPTsViewModel;
 		static DoorsViewModel DoorsViewModel;
 		static AlarmsViewModel AlarmsViewModel;
 		public static DaySchedulesViewModel DaySchedulesViewModel;
 		public static SchedulesViewModel SchedulesViewModel;
 		NavigationItem _skdZonesNavigationItem;
 		NavigationItem _pimsNavigationItem;
-		NavigationItem _mptsNavigationItem;
 		NavigationItem _doorsNavigationItem;
 		private PlanPresenter _planPresenter;
 
@@ -55,7 +53,6 @@ namespace GKModule
 			SKDZonesViewModel = new SKDZonesViewModel();
 			PimsViewModel = new PimsViewModel();
 			PumpStationsViewModel = new PumpStationsViewModel();
-			MPTsViewModel = new MPTsViewModel();
 			DoorsViewModel = new DoorsViewModel();
 			AlarmsViewModel = new AlarmsViewModel();
 			DaySchedulesViewModel = new DaySchedulesViewModel();
@@ -72,12 +69,10 @@ namespace GKModule
 		void SubscribeShowDelailsEvent()
 		{
 			ServiceFactory.Events.GetEvent<ShowGKDeviceDetailsEvent>().Unsubscribe(OnShowDeviceDetails);
-			ServiceFactory.Events.GetEvent<ShowGKMPTDetailsEvent>().Unsubscribe(OnShowMPTDetails);
 			ServiceFactory.Events.GetEvent<ShowGKPIMDetailsEvent>().Unsubscribe(OnShowPIMDetails);
 			ServiceFactory.Events.GetEvent<ShowGKSKDZoneDetailsEvent>().Unsubscribe(OnShowSKDZoneDetails);
 
 			ServiceFactory.Events.GetEvent<ShowGKDeviceDetailsEvent>().Subscribe(OnShowDeviceDetails);
-			ServiceFactory.Events.GetEvent<ShowGKMPTDetailsEvent>().Subscribe(OnShowMPTDetails);
 			ServiceFactory.Events.GetEvent<ShowGKPIMDetailsEvent>().Subscribe(OnShowPIMDetails);
 			ServiceFactory.Events.GetEvent<ShowGKSKDZoneDetailsEvent>().Subscribe(OnShowSKDZoneDetails);
 		}
@@ -88,15 +83,6 @@ namespace GKModule
 			if (device != null)
 			{
 				DialogService.ShowWindow(new DeviceDetailsViewModel(device));
-			}
-		}
-
-		void OnShowMPTDetails(Guid mptUID)
-		{
-			var mpt = GKManager.MPTs.FirstOrDefault(x => x.UID == mptUID);
-			if (mpt != null)
-			{
-				DialogService.ShowWindow(new MPTDetailsViewModel(mpt));
 			}
 		}
 
@@ -143,12 +129,10 @@ namespace GKModule
 			_planPresenter.Initialize();
 			ServiceFactory.Events.GetEvent<RegisterPlanPresenterEvent<Plan, XStateClass>>().Publish(_planPresenter);
 			_skdZonesNavigationItem.IsVisible = GKManager.DeviceConfiguration.SKDZones.Count > 0;
-			_mptsNavigationItem.IsVisible = GKManager.MPTs.Count > 0;
 			DevicesViewModel.Initialize();
 			DeviceParametersViewModel.Initialize();
 			SKDZonesViewModel.Initialize();
 			PumpStationsViewModel.Initialize();
-			MPTsViewModel.Initialize();
 			PimsViewModel.Initialize();
 			_pimsNavigationItem.IsVisible = PimsViewModel.Pims.Count > 0;
 			DoorsViewModel.Initialize();
@@ -159,7 +143,6 @@ namespace GKModule
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
 			_pimsNavigationItem = new NavigationItem<ShowGKPimEvent, Guid>(PimsViewModel, "ПИМ", "Pim_White", null, null, Guid.Empty);
-			_mptsNavigationItem = new NavigationItem<ShowGKMPTEvent, Guid>(MPTsViewModel, "МПТ", "MPT", null, null, Guid.Empty);
 			_skdZonesNavigationItem = new NavigationItem<ShowGKSKDZoneEvent, Guid>(SKDZonesViewModel, "Зоны СКД", "Zones", null, null, Guid.Empty);
 			_doorsNavigationItem = new NavigationItem<ShowGKDoorEvent, Guid>(DoorsViewModel, "Точки доступа", "DoorW", null, null, Guid.Empty);
 
@@ -172,7 +155,6 @@ namespace GKModule
 						new NavigationItem<ShowGKDeviceEvent, Guid>(DevicesViewModel, "Устройства", "Tree", null, null, Guid.Empty),
 						new NavigationItem<ShowGKDeviceParametersEvent, Guid>(DeviceParametersViewModel, "Параметры", "Tree", null, null, Guid.Empty),
 						_pimsNavigationItem,
-						_mptsNavigationItem,
 						_skdZonesNavigationItem,
 						_doorsNavigationItem,
 						new NavigationItem("СКД", "tree",
@@ -223,7 +205,6 @@ namespace GKModule
 			yield return new LayoutPartPresenter(LayoutPartIdentities.GDevices, "Устройства", "Tree.png", (p) => DevicesViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.GKSKDZones, "Зоны СКД", "Zones.png", (p) => SKDZonesViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.PumpStations, "НС", "PumpStation.png", (p) => PumpStationsViewModel);
-			yield return new LayoutPartPresenter(LayoutPartIdentities.MPTs, "МПТ", "BMPT.png", (p) => MPTsViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.Doors, "Точки доступа", "Tree.png", (p) => DoorsViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.ConnectionIndicator, "Индикатор связи", "ConnectionIndicator.png", (p) => new GKConnectionIndicatorViewModel());
 		}

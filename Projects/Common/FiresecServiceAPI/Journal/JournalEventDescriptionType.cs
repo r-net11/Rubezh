@@ -75,9 +75,6 @@ namespace FiresecAPI.Journal
 		[EventDescriptionAttribute("Не совпадает тип для НС", JournalEventNameType.Ошибка_при_опросе_состояний_компонентов_ГК)]
 		Не_совпадает_тип_для_НС,
 
-		[EventDescriptionAttribute("Не совпадает тип для МПТ", JournalEventNameType.Ошибка_при_опросе_состояний_компонентов_ГК)]
-		Не_совпадает_тип_для_МПТ,
-
 		[EventDescriptionAttribute("Не совпадает тип для ПИМ", JournalEventNameType.Ошибка_при_опросе_состояний_компонентов_ГК)]
 		Не_совпадает_тип_для_ПИМ,
 

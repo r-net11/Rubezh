@@ -26,7 +26,6 @@
 	<Converters:XStateClassToIconConverter x:Key="XStateClassToIconConverter" />
 	<Converters:XStateClassToIconConverter2 x:Key="XStateClassToIconConverter2" />
 	<Converters:XAlarmTypeToStringConverter x:Key="XAlarmTypeToStringConverter" />
-	<Converters:MPTDeviceTypeToStringConverter x:Key="MPTDeviceTypeToStringConverter" />
 	<Converters:IntToEnumConverter x:Key="IntToEnumConverter" />
 	<Converters:BoolToFontStyleConverter x:Key="BoolToFontStyleConverter" />
 	<Converters:BoolToFontWeightConverter x:Key="BoolToFontWeightConverter" />

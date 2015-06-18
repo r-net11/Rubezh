@@ -57,10 +57,6 @@ namespace JournalModule.ViewModels
 					ImageSource = "/Controls;component/GKIcons/RM_1.png";
 					break;
 
-				case JournalObjectType.GKMPT:
-					ImageSource = "/Controls;component/Images/BMPT.png";
-					break;
-
 				case JournalObjectType.GKPumpStation:
 					ImageSource = "/Controls;component/Images/BPumpStation.png";
 					break;
@@ -96,13 +92,6 @@ namespace JournalModule.ViewModels
 			Name = device.PresentationName;
 			UID = device.UID;
 			ImageSource = device.Driver.ImageSource;
-		}
-
-		public FilterObjectViewModel(GKMPT mpt)
-		{
-			Name = mpt.PresentationName;
-			UID = mpt.UID;
-			ImageSource = "/Controls;component/Images/BMPT.png";
 		}
 
 		public FilterObjectViewModel(GKPumpStation pumpStation)

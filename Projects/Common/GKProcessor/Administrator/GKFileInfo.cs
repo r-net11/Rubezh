@@ -63,23 +63,6 @@ namespace GKProcessor
 					}
 				}
 			}
-			stringBuilder.Append("mpts:");
-			foreach (var mpt in deviceConfiguration.MPTs)
-			{
-				if (mpt.GkDatabaseParent == gkControllerDevice)
-				{
-					stringBuilder.Append(mpt.PresentationName).Append("@");
-					if (mpt.MPTDevices != null)
-					{
-						stringBuilder.Append("nsDevices:");
-						foreach (var mptDevice in mpt.MPTDevices)
-						{
-							if (mptDevice.Device.GKParent == gkControllerDevice)
-								stringBuilder.Append(mptDevice.Device.PresentationName).Append("@");
-						}
-					}
-				}
-			}
 			stringBuilder.Append("door:");
 			foreach (var door in deviceConfiguration.Doors)
 			{

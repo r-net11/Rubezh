@@ -114,14 +114,6 @@ namespace FiltersModule.ViewModels
 					AddGKDeviceInternal(childDevice, gkDevicesViewModel);
 				}
 
-				var gkMPTsViewModel = new ObjectViewModel(JournalObjectType.GKMPT);
-				AddChild(gkViewModel, gkMPTsViewModel);
-				foreach (var mpt in FiresecClient.GKManager.MPTs)
-				{
-					var objectViewModel = new ObjectViewModel(mpt);
-					AddChild(gkMPTsViewModel, objectViewModel);
-				}
-
 				var gkPumpStationsViewModel = new ObjectViewModel(JournalObjectType.GKPumpStation);
 				AddChild(gkViewModel, gkPumpStationsViewModel);
 				foreach (var pumpStation in FiresecClient.GKManager.PumpStations)

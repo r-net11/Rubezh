@@ -27,7 +27,6 @@ namespace FiresecClient
 				stringBuilder.Append(GKClause.ClauseToString(clause.ClauseOperationType, clause.StateType) + " ");
 				stringBuilder.Append(clause.ClauseOperationType.ToDescription() + " ");
 				stringBuilder.Append(GetCommaSeparatedDevices(clause.Devices));
-				stringBuilder.Append(GetCommaSeparatedObjects(new List<ModelBase>(clause.MPTs), new List<ModelBase>(MPTs)));
 				stringBuilder.Append(GetCommaSeparatedObjects(new List<ModelBase>(clause.Doors), new List<ModelBase>(Doors)));
 				index++;
 			}

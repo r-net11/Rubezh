@@ -27,10 +27,6 @@ namespace FiresecClient
 		{
 			get { return DeviceConfiguration.PumpStations; }
 		}
-		public static List<GKMPT> MPTs
-		{
-			get { return DeviceConfiguration.MPTs; }
-		}
 		public static List<GKDriver> Drivers
 		{
 			get { return DriversConfiguration.Drivers; }

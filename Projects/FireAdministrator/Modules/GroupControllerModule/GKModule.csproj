@@ -134,7 +134,6 @@
     <Compile Include="Events\ShowGKodeEvent.cs" />
     <Compile Include="Events\ShowGKInstructionsEvent.cs" />
     <Compile Include="Events\ShowGKJournalFilterEvent.cs" />
-    <Compile Include="Events\ShowGKMPTEvent.cs" />
     <Compile Include="Events\ShowGKOPCDevicesEvent.cs" />
     <Compile Include="Events\ShowGKOPCZonesEvent.cs" />
     <Compile Include="Events\ShowGKParameterTemplatesEvent.cs" />
@@ -146,7 +145,6 @@
     <Compile Include="Events\ShowGKDaySchedulesEvent.cs" />
     <Compile Include="Events\ShowGKSKDZoneEvent.cs" />
     <Compile Include="Events\EditGKSKDZoneEvent.cs" />
-    <Compile Include="Events\CreateGKMPTEvent.cs" />
     <Compile Include="Events\EditGKMPTEvent.cs" />
     <Compile Include="Journal\ViewModels\JournalFromFileViewModel.cs" />
     <Compile Include="Journal\Views\JournalFromFileView.xaml.cs">
@@ -169,44 +167,23 @@
       <DependentUpon>StateDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\ViewModels\ConfigurationCompare\ConfigurationCompareViewModel.cs" />
-    <Compile Include="MPTs\ViewModels\MPTCodeReaderDetailsViewModel.cs" />
-    <Compile Include="MPTs\ViewModels\MPTDevicePropertiesViewModel.cs" />
-    <Compile Include="MPTs\ViewModels\MPTDeviceTypeSelectationViewModel.cs" />
-    <Compile Include="MPTs\ViewModels\MPTDeviceTypeViewModel.cs" />
-    <Compile Include="MPTs\ViewModels\MPTDeviceViewModel.cs" />
-    <Compile Include="MPTs\Views\MPTCodeReaderDetailsView.xaml.cs">
-      <DependentUpon>MPTCodeReaderDetailsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="MPTs\Views\MPTDevicePropertiesView.xaml.cs">
-      <DependentUpon>MPTDevicePropertiesView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="MPTs\Views\MPTDeviceTypeSelectationView.xaml.cs">
-      <DependentUpon>MPTDeviceTypeSelectationView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Parameters\ViewModels\DeviceParameterViewModel.cs" />
     <Compile Include="Plans\Designer\GKDoorPainter.cs" />
     <Compile Include="Plans\Designer\ElementDeviceUpdater.cs" />
     <Compile Include="Plans\InstrumentAdorners\SKDZonePolygonAdorner.cs" />
     <Compile Include="Plans\InstrumentAdorners\SKDZoneRectangleAdorner.cs" />
-    <Compile Include="Plans\InstrumentAdorners\MPTPolygonAdorner.cs" />
-    <Compile Include="Plans\InstrumentAdorners\MPTRectangleAdorner.cs" />
     <Compile Include="Plans\ViewModels\GKDoorPropertiesViewModel.cs" />
     <Compile Include="Plans\ViewModels\SKDZonePropertiesViewModel.cs" />
-    <Compile Include="Plans\ViewModels\MPTPropertiesViewModel.cs" />
     <Compile Include="Plans\Views\GKDoorPropertiesView.xaml.cs">
       <DependentUpon>GKDoorPropertiesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Plans\Views\SKDZonePropertiesView.xaml.cs">
       <DependentUpon>SKDZonePropertiesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Plans\Views\MPTPropertiesView.xaml.cs">
-      <DependentUpon>MPTPropertiesView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Devices\Views\ConfigurationCompareView.xaml.cs">
       <DependentUpon>ConfigurationCompareView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Selectation\ViewModels\DeviceSelectationViewModel.cs" />
-    <Compile Include="Selectation\ViewModels\MPTsSelectationViewModel.cs" />
     <Compile Include="Selectation\ViewModels\SKDZoneSelectationViewModel.cs" />
     <Compile Include="Selectation\ViewModels\DoorsSelectationViewModel.cs" />
     <Compile Include="Diagnostics\Views\DiagnosticsView.xaml.cs">
@@ -337,9 +314,6 @@
     <Compile Include="Selectation\Views\DeviceSelectationView.xaml.cs">
       <DependentUpon>DeviceSelectationView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Selectation\Views\MPTsSelectationView.xaml.cs">
-      <DependentUpon>MPTsSelectationView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Selectation\Views\DoorsSelectationView.xaml.cs">
       <DependentUpon>DoorsSelectationView.xaml</DependentUpon>
     </Compile>
@@ -384,8 +358,6 @@
     <Compile Include="Validation\Validator.Devices.cs" />
     <Compile Include="Validation\Validator.PumpStations.cs" />
     <Compile Include="Validation\PumpStationValidationError.cs" />
-    <Compile Include="Validation\MPTValidationError.cs" />
-    <Compile Include="Validation\Validator.MPTs.cs" />
     <Compile Include="Validation\Validator.Doors.cs" />
     <Compile Include="Validation\DoorValidationError.cs" />
     <Compile Include="Validation\ScheduleValidationError.cs" />
@@ -403,19 +375,6 @@
     </Compile>
     <Compile Include="Devices\Views\NewDeviceView.xaml.cs">
       <DependentUpon>NewDeviceView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="MPTs\ViewModels\MPTDetailsViewModel.cs" />
-    <Compile Include="MPTs\ViewModels\MPTsMenuViewModel.cs" />
-    <Compile Include="MPTs\ViewModels\MPTsViewModel.cs" />
-    <Compile Include="MPTs\ViewModels\MPTViewModel.cs" />
-    <Compile Include="MPTs\Views\MPTDetailsView.xaml.cs">
-      <DependentUpon>MPTDetailsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="MPTs\Views\MPTsMenuView.xaml.cs">
-      <DependentUpon>MPTsMenuView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="MPTs\Views\MPTsView.xaml.cs">
-      <DependentUpon>MPTsView.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -521,22 +480,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="MPTs\DataTemplates\Dictionary.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="MPTs\Views\MPTCodeReaderDetailsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="MPTs\Views\MPTDevicePropertiesView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="MPTs\Views\MPTDeviceTypeSelectationView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="OPC\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -546,10 +489,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Plans\Views\SKDZonePropertiesView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Plans\Views\MPTPropertiesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -665,10 +604,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Selectation\Views\MPTsSelectationView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Selectation\Views\DoorsSelectationView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -706,18 +641,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="SKD\Views\SKDZonesView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="MPTs\Views\MPTDetailsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="MPTs\Views\MPTsMenuView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="MPTs\Views\MPTsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

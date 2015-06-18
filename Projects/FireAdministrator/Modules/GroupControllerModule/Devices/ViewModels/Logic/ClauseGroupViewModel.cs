@@ -124,12 +124,6 @@ namespace GKModule.ViewModels
 						clause.DeviceUIDs = clauseViewModel.Devices.Select(x => x.UID).ToList();
 						break;
 
-					case ClauseOperationType.AllMPTs:
-					case ClauseOperationType.AnyMPT:
-						clause.MPTs = clauseViewModel.MPTs.ToList();
-						clause.MPTUIDs = clauseViewModel.MPTs.Select(x => x.UID).ToList();
-						break;
-
 					case ClauseOperationType.AllDoors:
 					case ClauseOperationType.AnyDoor:
 						clause.Doors = clauseViewModel.Doors.ToList();

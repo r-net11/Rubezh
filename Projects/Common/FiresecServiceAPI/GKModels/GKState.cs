@@ -73,14 +73,6 @@ namespace FiresecAPI.GK
 			BaseObjectType = GKBaseObjectType.PumpStation;
 		}
 
-		public GKState(GKMPT mpt)
-			: this()
-		{
-			MPT = mpt;
-			UID = mpt.UID;
-			BaseObjectType = GKBaseObjectType.PumpStation;
-		}
-
 		public GKState(GKPim pim)
 			: this()
 		{
@@ -107,7 +99,6 @@ namespace FiresecAPI.GK
 
 		public GKDevice Device { get; private set; }
 		public GKPumpStation PumpStation { get; private set; }
-		public GKMPT MPT { get; private set; }
 		public GKPim Pim { get; private set; }
 		public GKDoor Door { get; private set; }
 		public GKSKDZone SKDZone { get; private set; }

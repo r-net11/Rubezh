@@ -46,7 +46,7 @@ namespace GKModule.ViewModels
 			CompareObjectLists();
 			InitializeMismatchedIndexes();
 		}
-		
+
 		List<int> mismatchedIndexes;
 		void InitializeMismatchedIndexes()
 		{
@@ -97,8 +97,6 @@ namespace GKModule.ViewModels
 			{
 				LocalConfiguration.PumpStations.RemoveAll(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == LocalDevice.Address);
 				LocalConfiguration.PumpStations.AddRange(RemoteConfiguration.PumpStations);
-				LocalConfiguration.MPTs.RemoveAll(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == LocalDevice.Address);
-				LocalConfiguration.MPTs.AddRange(RemoteConfiguration.MPTs);
 				LocalConfiguration.Doors.RemoveAll(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == LocalDevice.Address);
 				LocalConfiguration.Doors.AddRange(RemoteConfiguration.Doors);
 				LocalConfiguration.SKDZones.Clear();
@@ -158,11 +156,6 @@ namespace GKModule.ViewModels
 						if (sameObject1.ObjectType == ObjectType.PumpStation)
 						{
 							newObject.DifferenceDiscription = GetPumpStationsDifferences(sameObject1, sameObject2, IsLocalConfig);
-							newObject.Name = sameObject1.Name;
-						}
-						if (sameObject1.ObjectType == ObjectType.MPT)
-						{
-							newObject.DifferenceDiscription = GetMPTsDifferences(sameObject1, sameObject2, IsLocalConfig);
 							newObject.Name = sameObject1.Name;
 						}
 						if (sameObject1.ObjectType == ObjectType.Door)
@@ -234,40 +227,6 @@ namespace GKModule.ViewModels
 				pumpStationsDifferences.Append(String.Join(", ", parameters));
 			}
 			return pumpStationsDifferences.ToString() == "" ? null : pumpStationsDifferences.ToString();
-		}
-
-		string GetMPTsDifferences(ObjectViewModel object1, ObjectViewModel object2, bool isLocalConfig)
-		{
-			var mptsDifferences = new StringBuilder();
-			if (object1.Name != object2.Name)
-				mptsDifferences.Append("Не совпадает название");
-			if (object1.MPT.MPTDevices.Select(x => x.Device).Any(nsDevice => object2.MPT.MPTDevices.Select(x => x.Device).All(x => new ObjectViewModel(x).Compare(new ObjectViewModel(x), new ObjectViewModel(nsDevice)) != 0)))
-			{
-				if (mptsDifferences.Length != 0)
-					mptsDifferences.Append(". ");
-				mptsDifferences.Append("Не совпадают устройства");
-			}
-			bool startDiff = GKManager.GetPresentationLogic(object1.MPT.StartLogic) != GKManager.GetPresentationLogic(object2.MPT.StartLogic);
-			if (startDiff)
-			{
-				mptsDifferences.Append("Не совпадают условия включения");
-			}
-			bool stopDiff = GKManager.GetPresentationLogic(object1.MPT.StopLogic) != GKManager.GetPresentationLogic(object2.MPT.StopLogic);
-			if (stopDiff)
-			{
-				mptsDifferences.Append("Не совпадают условия выключения");
-			}
-			bool suspendDiff = GKManager.GetPresentationLogic(object1.MPT.SuspendLogic) != GKManager.GetPresentationLogic(object2.MPT.SuspendLogic);
-			if (suspendDiff)
-			{
-				mptsDifferences.Append("Не совпадают условия приостановки");
-			}
-			bool delayDiff = object1.MPT.Delay != object2.MPT.Delay;
-			if (delayDiff)
-			{
-				mptsDifferences.Append("Не совпадают задержки");
-			}
-			return mptsDifferences.ToString() == "" ? null : mptsDifferences.ToString();
 		}
 
 		string GetDoorsDifferences(ObjectViewModel object1, ObjectViewModel object2)

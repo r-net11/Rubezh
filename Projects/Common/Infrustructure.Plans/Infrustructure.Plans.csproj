@@ -69,7 +69,6 @@
     <Compile Include="Elements\IElementRectangle.cs" />
     <Compile Include="Elements\IElementBackground.cs" />
     <Compile Include="Elements\IElementZone.cs" />
-    <Compile Include="Elements\IElementMPT.cs" />
     <Compile Include="Events\PlansConfigurationChangedEvent.cs" />
     <Compile Include="Events\NavigateToPlanElementEvent.cs" />
     <Compile Include="Events\PlanStateChangedEvent.cs" />
