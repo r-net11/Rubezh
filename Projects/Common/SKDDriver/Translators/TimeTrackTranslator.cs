@@ -19,17 +19,18 @@ namespace SKDDriver.Translators
 		{
 			DatabaseService = databaseService;
 			Context = databaseService.Context;
-			
+			_dbService = new DataClasses.DbService();
 		}
 
-		PassJournalTranslator _PassJournalTranslator;
+		SKDDriver.DataClasses.DbService _dbService;
+		DataClasses.PassJournalTranslator _PassJournalTranslator;
 		List<DataAccess.Employee> _Employees;
 		List<DataAccess.Holiday> _Holidays;
 		List<DataAccess.Schedule> _Schedules;
 		List<DataAccess.ScheduleScheme> _ScheduleSchemes;
 		List<DataAccess.ScheduleDay> _ScheduleDays;
 		List<DataAccess.ScheduleZone> _ScheduleZones;
-		List<DataAccess.PassJournal> _PassJournals;
+		List<DataClasses.PassJournal> _PassJournals;
 		List<DataAccess.DayInterval> _DayIntervals;
 		List<DataAccess.DayIntervalPart> _DayIntervalParts;
 		List<DataAccess.TimeTrackDocument> _TimeTrackDocuments;
@@ -39,14 +40,14 @@ namespace SKDDriver.Translators
 
 		void InitializeData()
 		{
-			_PassJournalTranslator = DatabaseService.PassJournalTranslator;
+			_PassJournalTranslator = _dbService.PassJournalTranslator;
 			_Employees = Context.Employees.Where(x => !x.IsDeleted).ToList();
 			_Holidays = Context.Holidays.Where(x => !x.IsDeleted).ToList();
 			_Schedules = Context.Schedules.Where(x => !x.IsDeleted).ToList();
 			_ScheduleSchemes = Context.ScheduleSchemes.Where(x => !x.IsDeleted).ToList();
 			_ScheduleDays = Context.ScheduleDays.ToList();
 			_ScheduleZones = Context.ScheduleZones.ToList();
-			_PassJournals = _PassJournalTranslator.Context.PassJournals.ToList();
+			_PassJournals = _PassJournalTranslator.GetAllPassJournals();
 			_DayIntervals = Context.DayIntervals.ToList();
 			_DayIntervalParts = Context.DayIntervalParts.ToList();
 			_TimeTrackDocuments = Context.TimeTrackDocuments.ToList();
@@ -57,7 +58,7 @@ namespace SKDDriver.Translators
 		public OperationResult<TimeTrackResult> GetTimeTracks(EmployeeFilter filter, DateTime startDate, DateTime endDate)
 		{
 			InitializeData();
-			_PassJournalTranslator.InvalidatePassJournal();
+			//_PassJournalTranslator.InvalidatePassJournal();
 			
 			if (filter.OrganisationUIDs.IsNotNullOrEmpty())
 				Holidays = _Holidays.Where(x => x.Date >= startDate && x.Date <= endDate && filter.OrganisationUIDs.Contains(x.OrganisationUID.Value)).ToList();
@@ -177,7 +178,7 @@ namespace SKDDriver.Translators
 					continue;
 				}
 
-				var dayTimeTrack = _PassJournalTranslator.GetRealTimeTrack(employee, schedule, scheduleScheme, scheduleZones, date, _PassJournals);
+				var dayTimeTrack = _PassJournalTranslator.GetRealTimeTrack(employee.UID, scheduleZones.Select(x => x.UID), date, _PassJournals);
 				dayTimeTrack.NightSettings = nightSettings;
 				dayTimeTrack.IsIgnoreHoliday = schedule.IsIgnoreHoliday;
 				dayTimeTrack.IsOnlyFirstEnter = schedule.IsOnlyFirstEnter;

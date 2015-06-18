@@ -3,8 +3,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
-using Infrastructure.Common;
-using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Schedule = FiresecAPI.SKD.Schedule;
 
@@ -20,8 +18,8 @@ namespace SKDModule.ViewModels
 			Employee = employee;
 			StartDate = startDate;
 
-			Schedules = new ObservableCollection<ShortSchedule>();
-			var schedules = ScheduleHelper.GetShortByOrganisation(Employee.OrganisationUID);
+			Schedules = new ObservableCollection<Schedule>();
+			var schedules = ScheduleHelper.GetByOrganisation(Employee.OrganisationUID);
 			if (schedules != null)
 			{
 				foreach (var schedule in schedules)
@@ -46,10 +44,26 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public ObservableCollection<ShortSchedule> Schedules { get; set; }
+		public ShortSchedule ShortSchedule
+		{
+			get
+			{
+				return new ShortSchedule
+					{
+						UID = SelectedSchedule.UID,
+						Description = SelectedSchedule.Description,
+						IsDeleted = SelectedSchedule.IsDeleted,
+						Name = SelectedSchedule.Name,
+						OrganisationUID = SelectedSchedule.OrganisationUID,
+						RemovalDate = SelectedSchedule.RemovalDate
+					};
+			}
+		}
 
-		ShortSchedule _selectedSchedule;
-		public ShortSchedule SelectedSchedule
+		public ObservableCollection<Schedule> Schedules { get; set; }
+
+		Schedule _selectedSchedule;
+		public Schedule SelectedSchedule
 		{
 			get { return _selectedSchedule; }
 			set

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Threading;
 using FiresecAPI;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
+using SKDDriver.DataClasses;
 
 namespace FiresecService.Service
 {
@@ -90,7 +90,10 @@ namespace FiresecService.Service
 
 		public static void AddCommonJournalItem(JournalItem journalItem)
 		{
-			DBHelper.Add(journalItem);
+			using (var dbService = new SKDDriver.DataClasses.DbService())
+			{
+				dbService.JournalTranslator.Add(journalItem);
+			}
 			FiresecService.NotifyNewJournalItems(new List<JournalItem>() { journalItem });
 			ProcedureRunner.RunOnJournal(journalItem);
 		}
@@ -114,35 +117,18 @@ namespace FiresecService.Service
 		#region Get
 		public OperationResult<DateTime> GetMinJournalDateTime()
 		{
-			try
+			using (var dbService = new DbService())
 			{
-				using (var dataContext = new SqlConnection(PatchManager.JournalConnectionString))
-				{
-					var query = "SELECT MIN(SystemDate) FROM Journal";
-					var sqlCeCommand = new SqlCommand(query, dataContext);
-					dataContext.Open();
-					var reader = sqlCeCommand.ExecuteReader();
-					var result = DateTime.Now;
-					if (reader.Read())
-					{
-						if (!reader.IsDBNull(0))
-						{
-							result = reader.GetDateTime(0);
-						}
-					}
-					dataContext.Close();
-					return new OperationResult<DateTime>(result);
-				}
-			}
-			catch (Exception e)
-			{
-				return OperationResult<DateTime>.FromError(e.Message);
+				return dbService.JournalTranslator.GetMinDate();
 			}
 		}
 
 		public OperationResult<List<JournalItem>> GetFilteredJournalItems(JournalFilter filter)
 		{
-			return DBHelper.GetFilteredJournalItems(filter);
+			using (var dbService = new SKDDriver.DataClasses.DbService())
+			{
+				return dbService.JournalTranslator.GetFilteredJournalItems(filter);
+			}
 		}
 
 		public OperationResult BeginGetFilteredArchive(ArchiveFilter archiveFilter, Guid archivePortionUID)
@@ -151,17 +137,19 @@ namespace FiresecService.Service
 			{
 				if (CurrentThread != null)
 				{
-					DBHelper.IsAbort = true;
+					DbService.IsAbort = true;
 					CurrentThread.Join(TimeSpan.FromMinutes(1));
 					CurrentThread = null;
 				}
-				DBHelper.IsAbort = false;
+				DbService.IsAbort = false;
 				var thread = new Thread(new ThreadStart((new Action(() =>
 				{
-					DBHelper.ArchivePortionReady -= DatabaseHelper_ArchivePortionReady;
-					DBHelper.ArchivePortionReady += DatabaseHelper_ArchivePortionReady;
-					DBHelper.BeginGetFilteredArchive(archiveFilter, archivePortionUID);
-
+					using (var dbService = new SKDDriver.DataClasses.DbService())
+					{
+						dbService.JournalTranslator.ArchivePortionReady -= DatabaseHelper_ArchivePortionReady;
+						dbService.JournalTranslator.ArchivePortionReady += DatabaseHelper_ArchivePortionReady;
+						dbService.JournalTranslator.BeginGetFilteredArchive(archiveFilter, archivePortionUID);
+					}
 				}))));
 				thread.Name = "FiresecService.GetFilteredArchive";
 				thread.IsBackground = true;

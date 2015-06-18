@@ -97,7 +97,7 @@ namespace SKDModule.ViewModels
 		private void OnAdd()
 		{
 			var scheduleZoneDetailsViewModel = new ScheduleZoneDetailsViewModel(Model, Organisation);
-			if (DialogService.ShowModalWindow(scheduleZoneDetailsViewModel) && ScheduleZoneHelper.Save(scheduleZoneDetailsViewModel.ScheduleZone, Model.Name))
+			if (DialogService.ShowModalWindow(scheduleZoneDetailsViewModel) && AddSave(scheduleZoneDetailsViewModel.ScheduleZone))
 			{
 				var scheduleZone = scheduleZoneDetailsViewModel.ScheduleZone;
 				Model.Zones.Add(scheduleZone);
@@ -115,7 +115,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		private void OnDelete()
 		{
-			if (ScheduleZoneHelper.MarkDeleted(SelectedScheduleZone.Model, Model.Name))
+			if (DeleteSave(SelectedScheduleZone.Model))
 			{
 				Model.Zones.Remove(SelectedScheduleZone.Model);
 				ScheduleZones.Remove(SelectedScheduleZone);
@@ -130,9 +130,8 @@ namespace SKDModule.ViewModels
 		private void OnEdit()
 		{
 			var scheduleZoneDetailsViewModel = new ScheduleZoneDetailsViewModel(Model, Organisation, SelectedScheduleZone.Model);
-			if (DialogService.ShowModalWindow(scheduleZoneDetailsViewModel))
+			if (DialogService.ShowModalWindow(scheduleZoneDetailsViewModel) && EditSave(SelectedScheduleZone.Model))
 			{
-				ScheduleZoneHelper.Save(SelectedScheduleZone.Model, Model.Name);
 				var selectedScheduleZone = SelectedScheduleZone;
 				SelectedScheduleZone.Update();
 				Sort();
@@ -149,14 +148,39 @@ namespace SKDModule.ViewModels
 			if (ScheduleZones == null)
 				return;
 			var zonesToRemove = ScheduleZones.Where(x => !doorUIDs.Any(y => y == x.Model.DoorUID)).ToList();
-			foreach (var item in zonesToRemove)
+			if (DeleteManySave(zonesToRemove.Select(x => x.Model)))
 			{
-				if (ScheduleZoneHelper.MarkDeleted(item.Model, Model.Name))
+				foreach (var item in zonesToRemove)
 				{
-					Model.Zones.Remove(item.Model);
 					ScheduleZones.Remove(item);
-				}	
+				}
 			}
+			
+		}
+
+		public bool AddSave(ScheduleZone zone)
+		{
+			Model.Zones.Add(zone);
+			return ScheduleHelper.Save(Model, false);
+		}
+
+		public bool EditSave(ScheduleZone zone)
+		{
+			Model.Zones.RemoveAll(x => x.UID == zone.UID);
+			Model.Zones.Add(zone);
+			return ScheduleHelper.Save(Model, false);
+		}
+
+		public bool DeleteSave(ScheduleZone zone)
+		{
+			Model.Zones.RemoveAll(x => x.UID == zone.UID);
+			return ScheduleHelper.Save(Model, false);
+		}
+
+		public bool DeleteManySave(IEnumerable<ScheduleZone> zones)
+		{
+			Model.Zones.RemoveAll(x => zones.Any(y => y.UID == x.UID));
+			return ScheduleHelper.Save(Model, false);
 		}
 	}
 }

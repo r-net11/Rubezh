@@ -46,7 +46,7 @@ namespace SKDDriver.Translators
 			result.IsOnlyFirstEnter = tableItem.IsOnlyFirstEnter;
 			result.AllowedLate = TimeSpan.FromSeconds(tableItem.AllowedLate);
 			result.AllowedEarlyLeave = TimeSpan.FromSeconds(tableItem.AllowedEarlyLeave);
-			result.Zones = DatabaseService.ScheduleZoneTranslator.TranslateAll(tableItem.ScheduleZones);
+			//result.Zones = DatabaseService.ScheduleZoneTranslator.TranslateAll(tableItem.ScheduleZones);
 			return result;
 		}
 
@@ -75,9 +75,9 @@ namespace SKDDriver.Translators
 
 		public override OperationResult Save(Schedule apiItem)
 		{
-			var zonesSaveResult = DatabaseService.ScheduleZoneTranslator.Save(apiItem.Zones);
-			if (zonesSaveResult.HasError)
-				return zonesSaveResult;
+			//var zonesSaveResult = DatabaseService.ScheduleZoneTranslator.Save(apiItem.Zones);
+			//if (zonesSaveResult.HasError)
+			//    return zonesSaveResult;
 			return base.Save(apiItem);
 		}
 

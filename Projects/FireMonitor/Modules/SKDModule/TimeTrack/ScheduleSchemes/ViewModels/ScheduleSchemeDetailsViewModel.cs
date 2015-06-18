@@ -137,7 +137,7 @@ namespace SKDModule.ViewModels
 					{
 						Number = i,
 						ScheduleSchemeUID = Model.UID,
-						DayIntervalUID = CanSelectDayInterval && SelectedDayInterval != null && Model.DaysCount - i > 2 ? SelectedDayInterval.UID : Guid.Empty,
+						DayInterval = CanSelectDayInterval && Model.DaysCount - i > 2 ? SelectedDayInterval : null,
 					});
 				Model.Type = SelectedScheduleSchemeType;
 			}

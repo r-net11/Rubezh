@@ -8,7 +8,7 @@ using FiresecAPI.Journal;
 using FiresecAPI.SKD;
 using GKProcessor;
 using SKDDriver;
-using SKDDriver.Translators;
+
 
 namespace FiresecService.Service
 {
@@ -295,7 +295,7 @@ namespace FiresecService.Service
 		}
 		IEnumerable<string> AddGKCard(SKDCard card, AccessTemplate accessTemplate, SKDDatabaseService databaseService)
 		{
-			var employeeOperationResult = databaseService.EmployeeTranslator.GetSingle(card.HolderUID);
+			var employeeOperationResult = databaseService.EmployeeTranslator.GetSingle(card.EmployeeUID);
 			if (!employeeOperationResult.HasError)
 			{
 				var controllerCardSchedules = GKSKDHelper.GetGKControllerCardSchedules(card, accessTemplate);
@@ -362,7 +362,7 @@ namespace FiresecService.Service
 		}
 		IEnumerable<string> EditGKCard(SKDCard oldCard, AccessTemplate oldAccessTemplate, SKDCard newCard, AccessTemplate newAccessTemplate, SKDDatabaseService databaseService)
 		{
-			var employeeOperationResult = databaseService.EmployeeTranslator.GetSingle(newCard.HolderUID);
+			var employeeOperationResult = databaseService.EmployeeTranslator.GetSingle(newCard.EmployeeUID);
 			if (!employeeOperationResult.HasError)
 			{
 				var oldControllerCardSchedules = GKSKDHelper.GetGKControllerCardSchedules(oldCard, oldAccessTemplate);
@@ -1417,17 +1417,17 @@ namespace FiresecService.Service
 
 		public OperationResult SaveJournalVideoUID(Guid journalItemUID, Guid videoUID, Guid cameraUID)
 		{
-			using (var journalTranslator = new JounalTranslator())
+			using (var dbService = new SKDDriver.DataClasses.DbService())
 			{
-				return journalTranslator.SaveVideoUID(journalItemUID, videoUID, cameraUID);
+				return dbService.JournalTranslator.SaveVideoUID(journalItemUID, videoUID, cameraUID);
 			}
 		}
 
 		public OperationResult SaveJournalCameraUID(Guid journalItemUID, Guid CameraUID)
 		{
-			using (var journalTranslator = new JounalTranslator())
+			using (var dbService = new SKDDriver.DataClasses.DbService())
 			{
-				return journalTranslator.SaveCameraUID(journalItemUID, CameraUID);
+				return dbService.JournalTranslator.SaveCameraUID(journalItemUID, CameraUID);
 			}
 		}
 
@@ -1435,10 +1435,15 @@ namespace FiresecService.Service
 		#region GKSchedule
 		public OperationResult<List<GKSchedule>> GetGKSchedules()
 		{
-			using (var databaseService = new SKDDatabaseService())
+			//using (var databaseService = new SKDDatabaseService())
+			//{
+			//    return databaseService.GKScheduleTranslator.GetSchedules();
+			//}
+			using (var dbService = new SKDDriver.DataClasses.DbService())
 			{
-				return databaseService.GKScheduleTranslator.GetSchedules();
+			    return dbService.GKScheduleTranslator.Get();
 			}
+			
 		}
 			
 		public OperationResult SaveGKSchedule(GKSchedule item, bool isNew)
@@ -1448,13 +1453,17 @@ namespace FiresecService.Service
 			else
 				AddJournalMessage(JournalEventNameType.Редактирование_графика_ГК, item.Name, JournalEventDescriptionType.Редактирование, uid: item.UID);
 			var result = new OperationResult();
-			using (var databaseService = new SKDDatabaseService())
+			//using (var databaseService = new SKDDatabaseService())
+			//{
+			//    result = databaseService.GKScheduleTranslator.SaveSchedule(item);
+			//}
+			using (var dbService = new SKDDriver.DataClasses.DbService())
 			{
-				result = databaseService.GKScheduleTranslator.SaveSchedule(item);
+				result = dbService.GKScheduleTranslator.Save(item);
 			}
-			if (!result.HasError)
-				return GKScheduleHelper.AllGKSetSchedule(item);
-			else
+			//if (!result.HasError)
+			//    return GKScheduleHelper.AllGKSetSchedule(item);
+			//else
 				return result;
 		}
 
@@ -1462,9 +1471,13 @@ namespace FiresecService.Service
 		{
 			AddJournalMessage(JournalEventNameType.Удаление_графика_ГК, item.Name, uid: item.UID);
 			var result = new OperationResult();
-			using (var databaseService = new SKDDatabaseService())
+			//using (var databaseService = new SKDDatabaseService())
+			//{
+			//    result = databaseService.GKScheduleTranslator.DeleteSchedule(item);
+			//}
+			using (var dbService = new SKDDriver.DataClasses.DbService())
 			{
-				result = databaseService.GKScheduleTranslator.DeleteSchedule(item);
+				result = dbService.GKScheduleTranslator.Delete(item);
 			}
 			if (!result.HasError)
 				return GKScheduleHelper.AllGKRemoveSchedule(item);
@@ -1476,9 +1489,13 @@ namespace FiresecService.Service
 		#region GKDaySchedule
 		public OperationResult<List<GKDaySchedule>> GetGKDaySchedules()
 		{
-			using (var databaseService = new SKDDatabaseService())
+			//using (var databaseService = new SKDDatabaseService())
+			//{
+			//    return databaseService.GKScheduleTranslator.GetDaySchedules();
+			//}
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
-				return databaseService.GKScheduleTranslator.GetDaySchedules();
+				return databaseService.GKDayScheduleTranslator.Get();
 			}
 		}
 
@@ -1489,22 +1506,26 @@ namespace FiresecService.Service
 			else
 				AddJournalMessage(JournalEventNameType.Редактирование_дневного_графика_ГК, item.Name, JournalEventDescriptionType.Редактирование, uid: item.UID);
 			var result = new OperationResult();
-			using (var databaseService = new SKDDatabaseService())
+			//using (var databaseService = new SKDDatabaseService())
+			//{
+			//    result = databaseService.GKScheduleTranslator.SaveDaySchedule(item);
+			//}
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
-				result = databaseService.GKScheduleTranslator.SaveDaySchedule(item);
+				result = databaseService.GKDayScheduleTranslator.Save(item);
 			}
-			if (!result.HasError)
-				return GKScheduleHelper.AllGKSetDaySchedule(item);
-			else
+			//if (!result.HasError)
+			//    return GKScheduleHelper.AllGKSetDaySchedule(item);
+			//else
 				return result;
 		}
 
 		public OperationResult DeleteGKDaySchedule(GKDaySchedule item)
 		{
 			AddJournalMessage(JournalEventNameType.Удаление_дневного_графика_ГК, item.Name, uid: item.UID);
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
-				return databaseService.GKScheduleTranslator.DeleteDaySchedule(item);
+				return databaseService.GKDayScheduleTranslator.Delete(item);
 			}
 		}
 		#endregion
@@ -1553,7 +1574,11 @@ namespace FiresecService.Service
 			}
 			if (filter.IsExportPassJournal)
 			{
-				using (var databaseService = new SKDDatabaseService())
+				//using (var databaseService = new SKDDatabaseService())
+				//{
+				//    passJournalResult = databaseService.PassJournalTranslator.Synchroniser.Export(filter);
+				//}
+				using (var databaseService = new SKDDriver.DataClasses.DbService())
 				{
 					passJournalResult = databaseService.PassJournalTranslator.Synchroniser.Export(filter);
 				}

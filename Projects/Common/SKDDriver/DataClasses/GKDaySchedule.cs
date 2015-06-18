@@ -6,6 +6,12 @@ namespace SKDDriver.DataClasses
 {
 	public class GKDaySchedule
 	{
+		public GKDaySchedule()
+		{
+			ScheduleGKDaySchedules = new List<ScheduleGKDaySchedule>();
+			GKDayScheduleParts = new List<GKDaySchedulePart>();
+		}
+		
 		[Key]
 		public Guid UID { get; set; }
 

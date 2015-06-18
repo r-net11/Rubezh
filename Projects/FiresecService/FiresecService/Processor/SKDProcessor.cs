@@ -8,7 +8,6 @@ using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
 using SKDDriver;
-using SKDDriver.Translators;
 
 namespace FiresecService
 {
@@ -101,9 +100,13 @@ namespace FiresecService
 							if (readerdevice != null && readerdevice.Zone != null)
 							{
 								var zoneUID = readerdevice.Zone.UID;
-								using (var passJournalTranslator = new PassJournalTranslator())
+								//using (var passJournalTranslator = new PassJournalTranslator())
+								//{
+								//    passJournalTranslator.AddPassJournal(employeeUID, zoneUID);
+								//}
+								using (var dbService = new SKDDriver.DataClasses.DbService())
 								{
-									passJournalTranslator.AddPassJournal(employeeUID, zoneUID);
+									dbService.PassJournalTranslator.AddPassJournal(journalItem.EmployeeUID, zoneUID);
 								}
 							}
 						}

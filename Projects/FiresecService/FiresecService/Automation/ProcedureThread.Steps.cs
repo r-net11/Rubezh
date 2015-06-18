@@ -15,7 +15,7 @@ using FiresecAPI.SKD;
 using FiresecClient;
 using FiresecService.Automation;
 using FiresecService.Service;
-using SKDDriver.Translators;
+using SKDDriver.DataClasses;
 using Property = FiresecAPI.Automation.Property;
 
 namespace FiresecService
@@ -628,7 +628,7 @@ namespace FiresecService
 			var setJournalItemGuidArguments = procedureStep.SetJournalItemGuidArguments;
 			if (JournalItem != null)
 			{
-				using (var journalTranslator = new JounalTranslator())
+				using (var dbService = new DbService())
 				{
 					var eventUIDString = GetValue<String>(setJournalItemGuidArguments.ValueArgument);
 					Guid eventUID;
@@ -640,7 +640,7 @@ namespace FiresecService
 					{
 						return;
 					}
-					journalTranslator.SaveVideoUID(JournalItem.UID, eventUID, Guid.Empty);
+					dbService.JournalTranslator.SaveVideoUID(JournalItem.UID, eventUID, Guid.Empty);
 				}
 			}
 		}
@@ -664,9 +664,9 @@ namespace FiresecService
 			}
 			if (JournalItem != null)
 			{
-				using (var journalTranslator = new JounalTranslator())
+				using (var dbService = new DbService())
 				{
-					journalTranslator.SaveVideoUID(JournalItem.UID, eventUID, cameraUID);
+					dbService.JournalTranslator.SaveVideoUID(JournalItem.UID, eventUID, cameraUID);
 				}
 				JournalItem.VideoUID = eventUID;
 				JournalItem.CameraUID = cameraUID;

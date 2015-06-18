@@ -56,7 +56,7 @@ namespace FiresecService.Report.Templates
 				if (employee.Item.Schedule != null)
 				{
 					dataRow.Schedule = employee.Item.Schedule.Name;
-					var scheduleResult = dataProvider.DatabaseService.ScheduleTranslator.GetSingle(employee.Item.Schedule.UID);
+					var scheduleResult = dataProvider.DbService.ScheduleTranslator.GetSingle(employee.Item.Schedule.UID);
 					if (scheduleResult.Result != null)
 					{
 						dataRow.UseHoliday = !scheduleResult.Result.IsIgnoreHoliday;
@@ -64,7 +64,7 @@ namespace FiresecService.Report.Templates
 						dataRow.Delay = scheduleResult.Result.AllowedLate;
 						dataRow.LeaveBefore = scheduleResult.Result.AllowedLate;
 
-						var scheduleSchemeResult = dataProvider.DatabaseService.ScheduleSchemeTranslator.GetSingle(scheduleResult.Result.ScheduleSchemeUID);
+						var scheduleSchemeResult = dataProvider.DbService.ScheduleSchemeTranslator.GetSingle(scheduleResult.Result.ScheduleSchemeUID);
 						if (scheduleSchemeResult.Result != null)
 						{
 							dataRow.BaseSchedule = scheduleSchemeResult.Result.Name;

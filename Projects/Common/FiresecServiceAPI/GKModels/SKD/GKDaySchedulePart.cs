@@ -18,12 +18,12 @@ namespace FiresecAPI.GK
 		/// Время начала
 		/// </summary>
 		[DataMember]
-		public double StartMilliseconds { get; set; }
+		public int StartMilliseconds { get; set; }
 
 		/// <summary>
 		/// Время окончания
 		/// </summary>
 		[DataMember]
-		public double EndMilliseconds { get; set; }
+		public int EndMilliseconds { get; set; }
 	}
 }

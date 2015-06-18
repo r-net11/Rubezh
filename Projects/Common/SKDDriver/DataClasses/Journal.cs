@@ -21,8 +21,6 @@ namespace SKDDriver.DataClasses
 
 		public int Description { get; set; }
 
-		public string NameText { get; set; }
-
 		public string DescriptionText { get; set; }
 
 		public int ObjectType { get; set; }
@@ -36,5 +34,9 @@ namespace SKDDriver.DataClasses
 		public Guid? VideoUID { get; set; }
 
 		public Guid? CameraUID { get; set; }
+
+		public string ObjectName { get; set; }
+
+		public int CardNo { get; set; }
 	}
 }

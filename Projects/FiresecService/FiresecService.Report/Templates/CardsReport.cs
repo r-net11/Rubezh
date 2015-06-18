@@ -78,13 +78,13 @@ namespace FiresecService.Report.Templates
 			var dataSet = new CardsDataSet();
 			if (!cardsResult.HasError)
 			{
-				dataProvider.GetEmployees(cardsResult.Result.Select(item => item.EmployeeUID));
+				dataProvider.GetEmployees(cardsResult.Result.Select(item => item.EmployeeUID.GetValueOrDefault()));
 				foreach (var card in cardsResult.Result)
 				{
 					var dataRow = dataSet.Data.NewDataRow();
 					dataRow.Type = card.IsInStopList ? "Деактивированный" : card.CardType.ToDescription();
 					dataRow.Number = card.Number.ToString();
-					var employee = dataProvider.GetEmployee(card.EmployeeUID);
+					var employee = dataProvider.GetEmployee(card.EmployeeUID.GetValueOrDefault());
 					if (employee != null)
 					{
 						dataRow.Employee = employee.Name;

@@ -9,12 +9,12 @@ using OperationResult = FiresecAPI.OperationResult;
 
 namespace SKDDriver.Translators
 {
-	public class PassJournalTranslator : IDisposable
+	public class AAAPassJournalTranslatorAAA : IDisposable
 	{
 		public static string ConnectionString { get; set; }
 		public DataAccess.PassJournalDataContext Context { get; private set; }
 
-		public PassJournalTranslator()
+		public AAAPassJournalTranslatorAAA()
 		{
 			Context = new DataAccess.PassJournalDataContext(ConnectionString);
 			Synchroniser = new PassJounalSynchroniser(Context.PassJournals);

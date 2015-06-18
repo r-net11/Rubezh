@@ -71,7 +71,7 @@ namespace FiresecService.Report.Templates
 			var dataSet = new EmployeeAccessDataSet();
 			if (!cardsResult.HasError)
 			{
-				dataProvider.GetEmployees(cardsResult.Result.Select(item => item.EmployeeUID));
+				dataProvider.GetEmployees(cardsResult.Result.Select(item => item.EmployeeUID.GetValueOrDefault()));
 				var accessTemplateFilter = new AccessTemplateFilter()
 				{
 					UIDs = cardsResult.Result.Where(item => item.AccessTemplateUID.HasValue && item.AccessTemplateUID != Guid.Empty).Select(item => item.AccessTemplateUID.Value).ToList()
@@ -124,7 +124,7 @@ namespace FiresecService.Report.Templates
 
 				foreach (var card in cardsResult.Result)
 				{
-					var employee = dataProvider.GetEmployee(card.EmployeeUID);
+					var employee = dataProvider.GetEmployee(card.EmployeeUID.GetValueOrDefault());
 					var addedZones = new List<Guid>();
 					foreach (var door in card.CardDoors)
 						AddRow(dataSet, employee, card, door, null, zoneMap, addedZones);

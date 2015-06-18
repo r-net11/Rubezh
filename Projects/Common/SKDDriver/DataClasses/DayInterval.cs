@@ -6,6 +6,12 @@ namespace SKDDriver.DataClasses
 {
 	public class DayInterval : IOrganisationItem
 	{
+		public DayInterval()
+		{
+			ScheduleDays = new List<ScheduleDay>();
+			DayIntervalParts = new List<DayIntervalPart>();
+		}
+		
 		#region IOrganisationItemMembers
 		[Key]
 		public Guid UID { get; set; }

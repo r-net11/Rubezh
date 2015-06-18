@@ -10,7 +10,6 @@ using Infrastructure.Common.BalloonTrayTip;
 using Microsoft.SqlServer.Management.Common;
 using Microsoft.SqlServer.Management.Smo;
 using SKDDriver;
-using SKDDriver.Translators;
 
 namespace FiresecService
 {
@@ -127,9 +126,9 @@ namespace FiresecService
 						journalDBNo = 1;
 					Patch_Journal(journalDBNo);
 					skdDatabaseService.MetadataTranslator.AddJournalMetadata(journalDBNo, DateTime.Now, DateTime.Now);
-					JournalConnectionString = DBHelper.ConnectionString = @"Data Source=.\" + GlobalSettingsHelper.GlobalSettings.DBServerName + ";Initial Catalog=Journal_" + journalDBNo.ToString() + ";Integrated Security=True;Language='English'";
+					//JournalConnectionString = DBHelper.ConnectionString = @"Data Source=.\" + GlobalSettingsHelper.GlobalSettings.DBServerName + ";Initial Catalog=Journal_" + journalDBNo.ToString() + ";Integrated Security=True;Language='English'";
 					JounalSynchroniser.ConnectionString = JournalConnectionString;
-					JounalTranslator.ConnectionString = JournalConnectionString;
+					//JounalTranslator.ConnectionString = JournalConnectionString;
 				}
 
 				using (var skdDatabaseService = new SKDDatabaseService())
@@ -139,7 +138,7 @@ namespace FiresecService
 						passJournalDBNo++;
 					Patch_PassJournal(passJournalDBNo);
 					skdDatabaseService.MetadataTranslator.AddPassJournalMetadata(passJournalDBNo, DateTime.Now, DateTime.Now);
-					PassJournalTranslator.ConnectionString = @"Data Source=.\" + GlobalSettingsHelper.GlobalSettings.DBServerName + ";Initial Catalog=PassJournal_" + passJournalDBNo.ToString() + ";Integrated Security=True;Language='English'";
+					//PassJournalTranslator.ConnectionString = @"Data Source=.\" + GlobalSettingsHelper.GlobalSettings.DBServerName + ";Initial Catalog=PassJournal_" + passJournalDBNo.ToString() + ";Integrated Security=True;Language='English'";
 				}
 			}
 			catch (Exception e)

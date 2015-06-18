@@ -6,7 +6,6 @@ using FiresecAPI.SKD;
 using FiresecAPI.SKD.ReportFilters;
 using FiresecClient;
 using FiresecService.Report.DataSources;
-using SKDDriver.DataAccess;
 
 namespace FiresecService.Report.Templates
 {
@@ -357,7 +356,7 @@ namespace FiresecService.Report.Templates
 				filter.ReportDateTime = DateTime.Now;
 
 			var dataSet = new EmployeeZonesDataSet();
-			if (dataProvider.DatabaseService.PassJournalTranslator != null)
+			if (dataProvider.DbService.PassJournalTranslator != null)
 			{
 				var employees = dataProvider.GetEmployees(filter);
 				var zoneMap = new Dictionary<Guid, string>();
@@ -369,7 +368,7 @@ namespace FiresecService.Report.Templates
 				{
 					zoneMap.Add(zone.UID, zone.PresentationName);
 				}
-				var enterJournal = dataProvider.DatabaseService.PassJournalTranslator.GetEmployeesLastEnterPassJournal(
+				var enterJournal = dataProvider.DbService.PassJournalTranslator.GetEmployeesLastEnterPassJournal(
 					employees.Select(item => item.UID), filter.Zones, filter.ReportDateTime);
 				foreach (var record in enterJournal)
 					AddRecord(dataProvider, dataSet, record, filter, true, zoneMap);
@@ -377,10 +376,12 @@ namespace FiresecService.Report.Templates
 			return dataSet;
 		}
 
-		private void AddRecord(DataProvider dataProvider, EmployeeZonesDataSet ds, PassJournal record, EmployeeZonesReportFilter filter, bool isEnter, Dictionary<Guid, string> zoneMap)
+		private void AddRecord(DataProvider dataProvider, EmployeeZonesDataSet ds, SKDDriver.DataClasses.PassJournal record, EmployeeZonesReportFilter filter, bool isEnter, Dictionary<Guid, string> zoneMap)
 		{
+			if (record.EmployeeUID == null)
+				return;
 			var dataRow = ds.Data.NewDataRow();
-			var employee = dataProvider.GetEmployee(record.EmployeeUID);
+			var employee = dataProvider.GetEmployee(record.EmployeeUID.Value);
 			dataRow.Employee = employee.Name;
 			dataRow.Orgnisation = employee.Organisation;
 			dataRow.Department = employee.Department;

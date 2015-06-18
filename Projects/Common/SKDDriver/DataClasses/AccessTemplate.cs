@@ -6,6 +6,14 @@ namespace SKDDriver.DataClasses
 {
 	public class AccessTemplate : IOrganisationItem
 	{
+		public AccessTemplate()
+		{
+			Cards = new List<Card>();
+			PendingCards = new List<PendingCard>();
+			CardDoors = new List<CardDoor>();
+			CardGKControllerUIDs = new List<CardGKControllerUID>();
+		}
+		
 		#region IOrganisationItemMembers
 		[Key]
 		public Guid UID { get; set; }
@@ -31,3 +39,4 @@ namespace SKDDriver.DataClasses
 		public ICollection<CardGKControllerUID> CardGKControllerUIDs { get; set; }
 	}
 }
+

@@ -16,6 +16,6 @@ namespace SKDDriver.DataClasses
 
 		Guid? OrganisationUID { get; set; }
 
-		Organisation Organisation { get; set; }
+		//Organisation Organisation { get; set; }
 	}
 }

@@ -70,18 +70,18 @@ namespace SKDDriver
 			if (result.HasError)
 				return result;
 			result = DatabaseService.AdditionalColumnTypeTranslator.MarkDeletedByOrganisation(uid, removalDate);
-			if (result.HasError)
-				return result;
-			result = DatabaseService.DayIntervalTranslator.MarkDeletedByOrganisation(uid, removalDate);
+			//if (result.HasError)
+			//    return result;
+			//result = DatabaseService.DayIntervalTranslator.MarkDeletedByOrganisation(uid, removalDate);
 			if (result.HasError)
 				return result;
 			result = DatabaseService.HolidayTranslator.MarkDeletedByOrganisation(uid, removalDate);
-			if (result.HasError)
-				return result;
-			result = DatabaseService.ScheduleTranslator.MarkDeletedByOrganisation(uid, removalDate);
-			if (result.HasError)
-				return result;
-			result = DatabaseService.ScheduleSchemeTranslator.MarkDeletedByOrganisation(uid, removalDate);
+			//if (result.HasError)
+			//    return result;
+			//result = DatabaseService.ScheduleTranslator.MarkDeletedByOrganisation(uid, removalDate);
+			//if (result.HasError)
+			//    return result;
+			//result = DatabaseService.ScheduleSchemeTranslator.MarkDeletedByOrganisation(uid, removalDate);
 			if (result.HasError)
 				return result;
 			return result;
@@ -128,18 +128,18 @@ namespace SKDDriver
 			if (result.HasError)
 				return result;
 			result = DatabaseService.AdditionalColumnTypeTranslator.RestoreByOrganisation(uid, removalDate);
-			if (result.HasError)
-				return result;
-			result = DatabaseService.DayIntervalTranslator.RestoreByOrganisation(uid, removalDate);
+			//if (result.HasError)
+			//    return result;
+			//result = DatabaseService.DayIntervalTranslator.RestoreByOrganisation(uid, removalDate);
 			if (result.HasError)
 				return result;
 			result = DatabaseService.HolidayTranslator.RestoreByOrganisation(uid, removalDate);
-			if (result.HasError)
-				return result;
-			result = DatabaseService.ScheduleTranslator.RestoreByOrganisation(uid, removalDate);
-			if (result.HasError)
-				return result;
-			result = DatabaseService.ScheduleSchemeTranslator.RestoreByOrganisation(uid, removalDate);
+			//if (result.HasError)
+			//    return result;
+			//result = DatabaseService.ScheduleTranslator.RestoreByOrganisation(uid, removalDate);
+			//if (result.HasError)
+			//    return result;
+			//result = DatabaseService.ScheduleSchemeTranslator.RestoreByOrganisation(uid, removalDate);
 			if (result.HasError)
 				return result;
 			return result;

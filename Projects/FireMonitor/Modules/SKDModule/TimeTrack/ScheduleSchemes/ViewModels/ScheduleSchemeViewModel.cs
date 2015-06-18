@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using Common;
 using FiresecAPI;
@@ -83,16 +82,13 @@ namespace SKDModule.ViewModels
 			{
 				Number = Model.DayIntervals.Count,
 				ScheduleSchemeUID = Model.UID,
-				DayIntervalUID = Guid.Empty,
 			};
-			if (SheduleDayIntervalHelper.Save(dayInterval, Model.Name))
+			if (AddSave(dayInterval))
 			{
-				Model.DayIntervals.Add(dayInterval);
 				var viewModel = new SheduleDayIntervalViewModel(this, dayInterval);
 				SheduleDayIntervals.Add(viewModel);
 				Sort();
 				SelectedSheduleDayInterval = viewModel;
-				UpdateDaysCount();
 			}
 		}
 		bool CanAdd()
@@ -104,15 +100,13 @@ namespace SKDModule.ViewModels
 		void OnDelete()
 		{
 			var number = SelectedSheduleDayInterval.Model.Number;
-			if (SheduleDayIntervalHelper.Remove(SelectedSheduleDayInterval.Model, Model.Name))
+			if (DeleteSave(SelectedSheduleDayInterval.Model))
 			{
 				for (int i = number + 1; i < Model.DayIntervals.Count; i++)
 					Model.DayIntervals[i].Number--;
-				Model.DayIntervals.Remove(SelectedSheduleDayInterval.Model);
 				SheduleDayIntervals.Remove(SelectedSheduleDayInterval);
 				SheduleDayIntervals.ForEach(item => item.Update());
 				SelectedSheduleDayInterval = number < SheduleDayIntervals.Count ? SheduleDayIntervals[number] : SheduleDayIntervals.LastOrDefault();
-				UpdateDaysCount();
 			}
 		}
 		bool CanDelete()
@@ -123,6 +117,28 @@ namespace SKDModule.ViewModels
 		void Sort()
 		{
 			SheduleDayIntervals.Sort(item => item.Model.Number);
+		}
+
+		public bool AddSave(ScheduleDayInterval scheduleDay)
+		{
+			Model.DayIntervals.Add(scheduleDay);
+			UpdateDaysCount();
+			return ScheduleSchemeHelper.Save(Model, false);
+		}
+
+		public bool DeleteSave(ScheduleDayInterval scheduleDay)
+		{
+			Model.DayIntervals.Remove(scheduleDay);
+			UpdateDaysCount();
+			return ScheduleSchemeHelper.Save(Model, false);
+		}
+
+		public bool EditSave(ScheduleDayInterval scheduleDay)
+		{
+			Model.DayIntervals.RemoveAll(x => x.UID == scheduleDay.UID);
+			Model.DayIntervals.Add(scheduleDay);
+			UpdateDaysCount();
+			return ScheduleSchemeHelper.Save(Model, false);
 		}
 
 		void UpdateDaysCount()

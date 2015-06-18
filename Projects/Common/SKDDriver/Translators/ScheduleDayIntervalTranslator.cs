@@ -49,19 +49,19 @@ namespace SKDDriver.Translators
 		protected override ScheduleDayInterval Translate(DataAccess.ScheduleDay tableItem)
 		{
 			var apiItem = base.Translate(tableItem);
-			apiItem.DayIntervalUID = tableItem.DayIntervalUID.HasValue ? tableItem.DayIntervalUID.Value : Guid.Empty;
+			//apiItem.DayIntervalUID = tableItem.DayIntervalUID.HasValue ? tableItem.DayIntervalUID.Value : Guid.Empty;
 			apiItem.Number = tableItem.Number;
 			apiItem.ScheduleSchemeUID = tableItem.ScheduleSchemeUID;
 			return apiItem;
 		}
 		protected override void TranslateBack(DataAccess.ScheduleDay tableItem, ScheduleDayInterval apiItem)
 		{
-			var dayInterval = apiItem.DayIntervalUID == Guid.Empty ? null : Context.DayIntervals.FirstOrDefault(item => item.UID == apiItem.DayIntervalUID);
+			//var dayInterval = apiItem.DayIntervalUID == Guid.Empty ? null : Context.DayIntervals.FirstOrDefault(item => item.UID == apiItem.DayIntervalUID);
 			var scheduleScheme = Context.ScheduleSchemes.FirstOrDefault(item => item.UID == apiItem.ScheduleSchemeUID);
-			if (dayInterval == null && apiItem.DayIntervalUID != Guid.Empty)
-				tableItem.DayIntervalUID = apiItem.DayIntervalUID;
-			else
-				tableItem.DayInterval = dayInterval;
+			//if (dayInterval == null && apiItem.DayIntervalUID != Guid.Empty)
+			//	tableItem.DayIntervalUID = apiItem.DayIntervalUID;
+			//else
+			//	tableItem.DayInterval = dayInterval;
 			if (scheduleScheme == null)
 				tableItem.ScheduleSchemeUID = apiItem.ScheduleSchemeUID;
 			else

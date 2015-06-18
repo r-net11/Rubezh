@@ -58,8 +58,7 @@ namespace FiresecAPI.SKD
 					PositionUIDs.IsNotNullOrEmpty() ||
 					ScheduleUIDs.IsNotNullOrEmpty() ||
 					OrganisationUIDs.IsNotNullOrEmpty() ||
-					UIDs.IsNotNullOrEmpty() ||
-					ExceptUIDs.IsNotNullOrEmpty();
+					UIDs.IsNotNullOrEmpty();
 			}
 		}
 	}

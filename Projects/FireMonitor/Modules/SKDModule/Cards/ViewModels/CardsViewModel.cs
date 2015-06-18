@@ -109,7 +109,7 @@ namespace SKDModule.ViewModels
 
 		void OnEditEmployee(Guid employeeUID)
 		{
-			var card = RootItems.SelectMany(x => x.Children).FirstOrDefault(x => x.Card.HolderUID == employeeUID);
+			var card = RootItems.SelectMany(x => x.Children).FirstOrDefault(x => x.Card.EmployeeUID == employeeUID);
 			if (card != null)
 			{
 				var employee = EmployeeHelper.GetSingleShort(employeeUID);

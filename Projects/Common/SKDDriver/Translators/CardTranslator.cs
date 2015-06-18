@@ -35,7 +35,7 @@ namespace SKDDriver
 			var card = tableCard.Card;
 			var result = new SKDCard();
 			result.UID = card.UID;
-			result.HolderUID = card.EmployeeUID;
+			result.EmployeeUID = card.EmployeeUID;
 			result.Number = (uint)card.Number;
 			result.CardType = (CardType)card.CardType;
 			result.StartDate = card.StartDate;
@@ -69,7 +69,7 @@ namespace SKDDriver
 		protected override void TranslateBack(DataAccess.Card tableItem, SKDCard apiItem)
 		{
 			tableItem.Number = (int)apiItem.Number;
-			tableItem.EmployeeUID = apiItem.HolderUID;
+			tableItem.EmployeeUID = apiItem.EmployeeUID;
 			tableItem.CardType = (int)apiItem.CardType;
 			tableItem.StartDate = TranslatiorHelper.CheckDate(apiItem.StartDate);
 			tableItem.EndDate = TranslatiorHelper.CheckDate(apiItem.EndDate);
@@ -298,7 +298,7 @@ namespace SKDDriver
 		{
 			try
 			{
-				card.HolderUID = null;
+				card.EmployeeUID = null;
 				card.StartDate = DateTime.Now;
 				card.EndDate = DateTime.Now;
 				card.UserTime = 0;
@@ -316,7 +316,6 @@ namespace SKDDriver
 				card.GKLevelSchedule = 0;
 				var saveResult = Save(card);
 				return saveResult.HasError ? OperationResult<bool>.FromError(saveResult.Error) : new OperationResult<bool>();
-
 			}
 			catch (Exception e)
 			{

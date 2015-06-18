@@ -8,18 +8,20 @@ namespace SKDDriver.DataClasses
 {
 	public class GKScheduleTranslator
 	{
-		SKDDbContext _context;
-		
-		public GKScheduleTranslator(SKDDbContext context)
-		{
-			_context = context;
-		}
+		DbService DbService; 
+		SKDDbContext Context;
 
+		public GKScheduleTranslator(DbService context)
+		{
+			DbService = context;
+			Context = DbService.Context;
+		}
+		
 		public OperationResult<List<FiresecAPI.GK.GKSchedule>> Get()
 		{
 			try
 			{
-				var result = _context.GKSchedules.Include(x => x.ScheduleDays).Include(x => x.ScheduleGKDaySchedules)
+				var result = Context.GKSchedules.Include(x => x.ScheduleDays).Include(x => x.ScheduleGKDaySchedules).ToList()
 					.Select(x => Translate(x)).ToList();
 				return new OperationResult<List<FiresecAPI.GK.GKSchedule>>(result);
 			}
@@ -57,11 +59,16 @@ namespace SKDDriver.DataClasses
 			try
 			{
 				bool isNew = false;
-				var tableItem = _context.GKSchedules.Find(item.UID);
+				var tableItem = Context.GKSchedules.Include(x=>x.ScheduleDays).Include(x => x.ScheduleGKDaySchedules).FirstOrDefault(x => x.UID == item.UID);
 				if (tableItem == null)
 				{
 					isNew = true;
 					tableItem = new GKSchedule { UID = item.UID };
+				}
+				else
+				{
+					Context.GKScheduleDays.RemoveRange(tableItem.ScheduleDays);
+					Context.ScheduleGKDaySchedules.RemoveRange(tableItem.ScheduleGKDaySchedules);
 				}
 				tableItem.No = item.No;
 				tableItem.Name = item.Name;
@@ -86,8 +93,8 @@ namespace SKDDriver.DataClasses
 					DayScheduleUID = x
 				}).ToList();
 				if(isNew)
-					_context.GKSchedules.Add(tableItem);
-				_context.SaveChanges();
+					Context.GKSchedules.Add(tableItem);
+				Context.SaveChanges();
 				return new OperationResult();
 			}
 			catch (Exception e)
@@ -96,16 +103,16 @@ namespace SKDDriver.DataClasses
 			}
 		}
 
-		public OperationResult Delete(GKSchedule item)
+		public OperationResult Delete(FiresecAPI.GK.GKSchedule item)
 		{
 			try
 			{
-				var tableItem = _context.GKSchedules.FirstOrDefault(x => x.UID == item.UID);
+				var tableItem = Context.GKSchedules.FirstOrDefault(x => x.UID == item.UID);
 				if (tableItem != null)
 				{
-					_context.GKSchedules.Remove(tableItem);
+					Context.GKSchedules.Remove(tableItem);
 				}
-				_context.SaveChanges();
+				Context.SaveChanges();
 				return new OperationResult();
 			}
 			catch (Exception e)
@@ -113,50 +120,5 @@ namespace SKDDriver.DataClasses
 				return new OperationResult(e.Message);
 			}
 		}
-	}
-
-	public class SKDDbContext : DbContext
-	{
-		ContextType _contextType;
-
-		public SKDDbContext(string connectionStringName, ContextType contextType)
-			: base(connectionStringName)
-		{
-			_contextType = contextType;
-		}
-
-		protected override void OnModelCreating(DbModelBuilder modelBuilder)
-		{
-			string schemaStr;
-			switch (_contextType)
-			{
-				case ContextType.MSSQL:
-					schemaStr = "dbo";
-					break;
-				case ContextType.PostgreSQL:
-					schemaStr = "public";
-					break;
-				default:
-					schemaStr = "";
-					break;
-			}
-			modelBuilder.Entity<GKSchedule>().ToTable("GKSchedule", schemaStr);
-			modelBuilder.Entity<GKScheduleDay>().ToTable("GKScheduleDay", schemaStr);
-			modelBuilder.Entity<GKDaySchedule>().ToTable("GKDaySchedule", schemaStr);
-			modelBuilder.Entity<GKDaySchedulePart>().ToTable("GKDaySchedulePart", schemaStr);
-			modelBuilder.Entity<ScheduleGKDaySchedule>().ToTable("ScheduleGKDaySchedule", schemaStr);
-		}
-
-		public DbSet<GKSchedule> GKSchedules { get; set; }
-		public DbSet<GKScheduleDay> GKScheduleDays { get; set; }
-		public DbSet<GKDaySchedule> GKDaySchedules { get; set; }
-		public DbSet<GKDaySchedulePart> GKDayScheduleParts { get; set; }
-		public DbSet<ScheduleGKDaySchedule> ScheduleGKDaySchedules { get; set; }
-	}
-
-	public enum ContextType
-	{
-		MSSQL,
-		PostgreSQL
 	}
 }

@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.Linq;
 using FiresecAPI.SKD;
 using FiresecClient;
-using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
@@ -44,7 +43,14 @@ namespace SKDModule.ViewModels
 			{
 				Name = (Model.Number + 1).ToString();
 			}
-			_selectedDayInterval = DayIntervals.SingleOrDefault(item => item.UID == Model.DayIntervalUID) ?? DayIntervals[0];
+			_selectedDayInterval = DayIntervals[0];
+			if (Model.DayInterval != null)
+			{
+				var dayInterval = DayIntervals.SingleOrDefault(item => item.UID == Model.DayInterval.UID);
+				if(dayInterval != null)
+					_selectedDayInterval = dayInterval;
+			}
+				
 			OnPropertyChanged(() => Name);
 			OnPropertyChanged(() => DayIntervals);
 			OnPropertyChanged(() => SelectedDayInterval);
@@ -71,10 +77,10 @@ namespace SKDModule.ViewModels
 			if (SelectedDayInterval != dayInterval)
 			{
 				_selectedDayInterval = dayInterval ?? DayIntervals[0];
-				if (_initialized || Model.DayIntervalUID != _selectedDayInterval.UID)
+				if (_initialized || Model.DayInterval.UID != _selectedDayInterval.UID)
 				{
-					Model.DayIntervalUID = _selectedDayInterval.UID;
-					SheduleDayIntervalHelper.Save(Model, _scheduleScheme.Name);
+					Model.DayInterval = _selectedDayInterval;
+					_scheduleScheme.EditSave(Model);
 				}
 			}
 			OnPropertyChanged(() => SelectedDayInterval);

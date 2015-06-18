@@ -33,13 +33,13 @@ namespace SKDDriver
 			DepartmentTranslator = new DepartmentTranslator(this);
 			AdditionalColumnTypeTranslator = new AdditionalColumnTypeTranslator(this);
 			AdditionalColumnTranslator = new AdditionalColumnTranslator(this);
-			DayIntervalPartTranslator = new DayIntervalPartTranslator(this);
-			DayIntervalTranslator = new DayIntervalTranslator(this);
+			//DayIntervalPartTranslator = new DayIntervalPartTranslator(this);
+			//DayIntervalTranslator = new DayIntervalTranslator(this);
 			HolidayTranslator = new HolidayTranslator(this);
-			ScheduleDayIntervalTranslator = new ScheduleDayIntervalTranslator(this);
-			ScheduleSchemeTranslator = new ScheduleSchemeTranslator(this);
-			ScheduleZoneTranslator = new ScheduleZoneTranslator(this);
-			ScheduleTranslator = new ScheduleTranslator(this);
+			//ScheduleDayIntervalTranslator = new ScheduleDayIntervalTranslator(this);
+			//ScheduleSchemeTranslator = new ScheduleSchemeTranslator(this);
+			//ScheduleZoneTranslator = new ScheduleZoneTranslator(this);
+			//ScheduleTranslator = new ScheduleTranslator(this);
 			EmployeeTranslator = new EmployeeTranslator(this);
 			TimeTrackTranslator = new TimeTrackTranslator(this);
 			TimeTrackDocumentTranslator = new TimeTrackDocumentTranslator(this);
@@ -48,13 +48,13 @@ namespace SKDDriver
 			MetadataTranslator = new MetadataTranslator(this);
 			GKMetadataTranslator = new GKMetadataTranslator(this);
 			GKCardTranslator = new GKCardTranslator(this);
-			GKScheduleTranslator = new GKScheduleTranslator(this);
+			//GKScheduleTranslator = new GKScheduleTranslator(this);
 			CurrentConsumptionTranslator = new CurrentConsumptionTranslator(this);
-			if (PassJournalTranslator.ConnectionString != null)
-			{
-				PassJournalTranslator = new PassJournalTranslator();
+			//if (PassJournalTranslator.ConnectionString != null)
+			//{
+			//    PassJournalTranslator = new PassJournalTranslator();
 				
-			}
+			//}
 		}
 
 		public static void Tst()
@@ -73,13 +73,13 @@ namespace SKDDriver
 		public AdditionalColumnTypeTranslator AdditionalColumnTypeTranslator { get; private set; }
 		public AdditionalColumnTranslator AdditionalColumnTranslator { get; private set; }
 		public PhotoTranslator PhotoTranslator { get; private set; }
-		public DayIntervalTranslator DayIntervalTranslator { get; private set; }
-		public DayIntervalPartTranslator DayIntervalPartTranslator { get; private set; }
+		//public DayIntervalTranslator DayIntervalTranslator { get; private set; }
+		//public DayIntervalPartTranslator DayIntervalPartTranslator { get; private set; }
 		public HolidayTranslator HolidayTranslator { get; private set; }
-		public ScheduleSchemeTranslator ScheduleSchemeTranslator { get; private set; }
-		public ScheduleDayIntervalTranslator ScheduleDayIntervalTranslator { get; private set; }
-		public ScheduleZoneTranslator ScheduleZoneTranslator { get; private set; }
-		public ScheduleTranslator ScheduleTranslator { get; private set; }
+		//public ScheduleSchemeTranslator ScheduleSchemeTranslator { get; private set; }
+		//public ScheduleDayIntervalTranslator ScheduleDayIntervalTranslator { get; private set; }
+		//public ScheduleZoneTranslator ScheduleZoneTranslator { get; private set; }
+		//public ScheduleTranslator ScheduleTranslator { get; private set; }
 		public TimeTrackTranslator TimeTrackTranslator { get; private set; }
 		public TimeTrackDocumentTranslator TimeTrackDocumentTranslator { get; private set; }
 		public TimeTrackDocumentTypeTranslator TimeTrackDocumentTypeTranslator { get; private set; }
@@ -87,8 +87,8 @@ namespace SKDDriver
 		public MetadataTranslator MetadataTranslator { get; private set; }
 		public GKMetadataTranslator GKMetadataTranslator { get; private set; }
 		public GKCardTranslator GKCardTranslator { get; private set; }
-		public PassJournalTranslator PassJournalTranslator { get; private set; }
-		public GKScheduleTranslator GKScheduleTranslator { get; private set; }
+		//public PassJournalTranslator PassJournalTranslator { get; private set; }
+		//public GKScheduleTranslator GKScheduleTranslator { get; private set; }
 		public CurrentConsumptionTranslator CurrentConsumptionTranslator { get; private set; } 
 
 		public void Dispose()

@@ -113,7 +113,7 @@ namespace SKDModule.ViewModels
 			{
 				copy.DayIntervals.Add(new ScheduleDayInterval()
 				{
-					DayIntervalUID = day.DayIntervalUID,
+					//DayIntervalUID = day.DayIntervalUID,
 					Number = day.Number,
 					ScheduleSchemeUID = copy.UID,
 				});

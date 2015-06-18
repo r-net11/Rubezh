@@ -8,20 +8,20 @@ namespace FiresecAPI
 	public partial interface IFiresecServiceSKD
 	{
 		[OperationContract]
-		OperationResult<IEnumerable<DayInterval>> GetDayIntervals(DayIntervalFilter filter);
+		OperationResult<List<DayInterval>> GetDayIntervals(DayIntervalFilter filter);
 		[OperationContract]
-		OperationResult SaveDayInterval(DayInterval item, bool isNew);
+		OperationResult<bool> SaveDayInterval(DayInterval item, bool isNew);
 		[OperationContract]
 		OperationResult MarkDeletedDayInterval(Guid uid, string name);
 		[OperationContract]
 		OperationResult RestoreDayInterval(Guid uid, string name);
 
-		[OperationContract]
-		OperationResult<IEnumerable<DayIntervalPart>> GetDayIntervalParts(DayIntervalPartFilter filter);
-		[OperationContract]
-		OperationResult SaveDayIntervalPart(DayIntervalPart item, string name);
-		[OperationContract]
-		OperationResult RemoveDayIntervalPart(Guid uid, string name);
+		//[OperationContract]
+		//OperationResult<IEnumerable<DayIntervalPart>> GetDayIntervalParts(DayIntervalPartFilter filter);
+		//[OperationContract]
+		//OperationResult SaveDayIntervalPart(DayIntervalPart item, string name);
+		//[OperationContract]
+		//OperationResult RemoveDayIntervalPart(Guid uid, string name);
 		
 		[OperationContract]
 		OperationResult<IEnumerable<Holiday>> GetHolidays(HolidayFilter filter);
@@ -33,38 +33,36 @@ namespace FiresecAPI
 		OperationResult RestoreHoliday(Guid uid, string name);
 
 		[OperationContract]
-		OperationResult<IEnumerable<ScheduleScheme>> GetScheduleSchemes(ScheduleSchemeFilter filter);
+		OperationResult<List<ScheduleScheme>> GetScheduleSchemes(ScheduleSchemeFilter filter);
 		[OperationContract]
-		OperationResult SaveScheduleScheme(ScheduleScheme item, bool isNew);
+		OperationResult<bool> SaveScheduleScheme(ScheduleScheme item, bool isNew);
 		[OperationContract]
 		OperationResult MarkDeletedScheduleScheme(Guid uid, string name);
 		[OperationContract]
 		OperationResult RestoreScheduleScheme(Guid uid, string name);
 
-		[OperationContract]
-		OperationResult<IEnumerable<ScheduleDayInterval>> GetSheduleDayIntervals(ScheduleDayIntervalFilter filter);
-		[OperationContract]
-		OperationResult SaveSheduleDayInterval(ScheduleDayInterval item, string name);
-		[OperationContract]
-		OperationResult RemoveSheduleDayInterval(Guid uid, string name);
+		//[OperationContract]
+		//OperationResult<IEnumerable<ScheduleDayInterval>> GetSheduleDayIntervals(ScheduleDayIntervalFilter filter);
+		//[OperationContract]
+		//OperationResult SaveSheduleDayInterval(ScheduleDayInterval item, string name);
+		//[OperationContract]
+		//OperationResult RemoveSheduleDayInterval(Guid uid, string name);
 
 		[OperationContract]
-		OperationResult<IEnumerable<Schedule>> GetSchedules(ScheduleFilter filter);
+		OperationResult<List<Schedule>> GetSchedules(ScheduleFilter filter);
 		[OperationContract]
-		OperationResult SaveSchedule(Schedule item, bool isNew);
+		OperationResult<bool> SaveSchedule(Schedule item, bool isNew);
 		[OperationContract]
 		OperationResult MarkDeletedSchedule(Guid uid, string name);
 		[OperationContract]
-		OperationResult<IEnumerable<ShortSchedule>> GetScheduleShortList(ScheduleFilter filter);
-		[OperationContract]
 		OperationResult RestoreSchedule(Guid uid, string name);
 
-		[OperationContract]
-		OperationResult<IEnumerable<ScheduleZone>> GetScheduleZones(ScheduleZoneFilter filter);
-		[OperationContract]
-		OperationResult SaveScheduleZone(ScheduleZone item, string name);
-		[OperationContract]
-		OperationResult MarkDeletedScheduleZone(Guid uid, string name);
+		//[OperationContract]
+		//OperationResult<IEnumerable<ScheduleZone>> GetScheduleZones(ScheduleZoneFilter filter);
+		//[OperationContract]
+		//OperationResult SaveScheduleZone(ScheduleZone item, string name);
+		//[OperationContract]
+		//OperationResult MarkDeletedScheduleZone(Guid uid, string name);
 
 		[OperationContract]
 		OperationResult<List<TimeTrackDocument>> GetTimeTrackDocument(Guid employeeUID, DateTime startDateTime, DateTime endDateTime);

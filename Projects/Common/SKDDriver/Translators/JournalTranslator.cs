@@ -5,7 +5,7 @@ using FiresecAPI;
 
 namespace SKDDriver.Translators
 {
-	public class JounalTranslator : IDisposable
+	public class JounalTranslator1 : IDisposable
 	{
 		Table<DataAccess.Journal> _Table;
 		string Name { get { return "Journal"; } }
@@ -13,7 +13,7 @@ namespace SKDDriver.Translators
 		public static string ConnectionString { get; set; }
 		DataAccess.JournalDataContext Context;
 
-		public JounalTranslator()
+		public JounalTranslator1()
 		{
 			Context = new DataAccess.JournalDataContext(ConnectionString);
 			_Table = Context.Journals;

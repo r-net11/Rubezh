@@ -39,7 +39,7 @@ namespace SKDDriver.Translators
 			result.Name = tableItem.Name;
 			result.Description = tableItem.Description;
 			result.SlideTime = TimeSpan.FromSeconds(tableItem.SlideTime);
-			result.DayIntervalParts = DatabaseService.DayIntervalPartTranslator.TranslateAll(tableItem.DayIntervalParts.OrderBy(item => item.BeginTime));
+			//result.DayIntervalParts = DatabaseService.DayIntervalPartTranslator.TranslateAll(tableItem.DayIntervalParts.OrderBy(item => item.BeginTime));
 			return result;
 		}
 
@@ -49,7 +49,7 @@ namespace SKDDriver.Translators
 			tableItem.Name = apiItem.Name;
 			tableItem.Description = apiItem.Description;
 			tableItem.SlideTime = (int)apiItem.SlideTime.TotalSeconds;
-			DatabaseService.DayIntervalPartTranslator.Save(apiItem.DayIntervalParts);
+			//DatabaseService.DayIntervalPartTranslator.Save(apiItem.DayIntervalParts);
 		}
 	}
 }

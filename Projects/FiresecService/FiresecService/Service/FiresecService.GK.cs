@@ -516,7 +516,7 @@ namespace FiresecService.Service
 								var controllerCardSchedule = controllerCardSchedules.FirstOrDefault(x => x.ControllerDevice.UID == deviceUID);
 								if (controllerCardSchedule != null)
 								{
-									var employeeOperationResult = databaseService.EmployeeTranslator.GetSingle(card.HolderUID);
+									var employeeOperationResult = databaseService.EmployeeTranslator.GetSingle(card.EmployeeUID);
 									var employee = employeeOperationResult.Result;
 									if (employee != null)
 									{

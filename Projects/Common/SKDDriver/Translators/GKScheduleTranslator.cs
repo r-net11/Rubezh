@@ -67,8 +67,8 @@ namespace SKDDriver
 			foreach (var tableDaySchedulePart in dayScheduleParts)
 			{
 				var daySchedulePart = TranslateModelBase<GKDaySchedulePart, DataAccess.GKDaySchedulePart>(tableDaySchedulePart);
-				daySchedulePart.StartMilliseconds = tableDaySchedulePart.StartMilliseconds;
-				daySchedulePart.EndMilliseconds = tableDaySchedulePart.EndMilliseconds;
+				daySchedulePart.StartMilliseconds = (int)tableDaySchedulePart.StartMilliseconds;
+				daySchedulePart.EndMilliseconds = (int)tableDaySchedulePart.EndMilliseconds;
 				result.DayScheduleParts.Add(daySchedulePart);
 			}
 			return result;

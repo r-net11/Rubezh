@@ -59,7 +59,7 @@ namespace SKDModule.ViewModels
 		void OnAdd()
 		{
 			var dayIntervalPartDetailsViewModel = new DayIntervalPartDetailsViewModel(Model);
-			if (DialogService.ShowModalWindow(dayIntervalPartDetailsViewModel) && DayIntervalPartHelper.Save(dayIntervalPartDetailsViewModel.DayIntervalPart, Model.Name))
+			if (DialogService.ShowModalWindow(dayIntervalPartDetailsViewModel) && AddSave(dayIntervalPartDetailsViewModel.DayIntervalPart))
 			{
 				var dayIntervalPart = dayIntervalPartDetailsViewModel.DayIntervalPart;
 				Model.DayIntervalParts.Add(dayIntervalPart);
@@ -77,7 +77,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			if (DayIntervalPartHelper.Remove(SelectedDayIntervalPart.DayIntervalPart, Model.Name))
+			if (DeleteSave(SelectedDayIntervalPart.DayIntervalPart))
 			{
 				Model.DayIntervalParts.Remove(SelectedDayIntervalPart.DayIntervalPart);
 				DayIntervalParts.Remove(SelectedDayIntervalPart);
@@ -94,7 +94,7 @@ namespace SKDModule.ViewModels
 			var dayIntervalPartDetailsViewModel = new DayIntervalPartDetailsViewModel(Model, SelectedDayIntervalPart.DayIntervalPart);
 			if (DialogService.ShowModalWindow(dayIntervalPartDetailsViewModel))
 			{
-				DayIntervalPartHelper.Save(SelectedDayIntervalPart.DayIntervalPart, Model.Name);
+				EditSave(SelectedDayIntervalPart.DayIntervalPart);
 				SelectedDayIntervalPart.Update();
 				var selectedDayIntervalPart = SelectedDayIntervalPart;
 				DayIntervalParts.Sort(item => item.BeginTime);
@@ -104,6 +104,25 @@ namespace SKDModule.ViewModels
 		bool CanEdit()
 		{
 			return SelectedDayIntervalPart != null && !IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_DaySchedules_Edit);
+		}
+
+		bool AddSave(DayIntervalPart dayIntervalPart)
+		{
+			Model.DayIntervalParts.Add(dayIntervalPart);
+			return DayIntervalHelper.Save(Model, false);
+		}
+
+		bool EditSave(DayIntervalPart dayIntervalPart)
+		{
+			Model.DayIntervalParts.RemoveAll(x => x.UID == dayIntervalPart.UID);
+			Model.DayIntervalParts.Add(dayIntervalPart);
+			return DayIntervalHelper.Save(Model, false);
+		}
+
+		bool DeleteSave(DayIntervalPart dayIntervalPart)
+		{
+			Model.DayIntervalParts.RemoveAll(x => x.UID == dayIntervalPart.UID);
+			return DayIntervalHelper.Save(Model, false);
 		}
 
 		public override void Update()

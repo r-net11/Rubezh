@@ -48,8 +48,8 @@ namespace SKDDriver.Translators
 			var result = base.Translate(tableItem);
 			result.Name = tableItem.Name;
 			result.Description = tableItem.Description;
-			if (_withDays)
-				result.DayIntervals = DatabaseService.ScheduleDayIntervalTranslator.TranslateAll(tableItem.ScheduleDays.OrderBy(item => item.Number));
+			//if (_withDays)
+			//    result.DayIntervals = DatabaseService.ScheduleDayIntervalTranslator.TranslateAll(tableItem.ScheduleDays.OrderBy(item => item.Number));
 			result.Type = (ScheduleSchemeType)tableItem.Type;
 			result.DaysCount = tableItem.DaysCount;
 			return result;
@@ -62,7 +62,7 @@ namespace SKDDriver.Translators
 			tableItem.Description = apiItem.Description;
 			tableItem.Type = (int)apiItem.Type;
 			tableItem.DaysCount = apiItem.DaysCount;
-			DatabaseService.ScheduleDayIntervalTranslator.Save(apiItem.DayIntervals);
+			//DatabaseService.ScheduleDayIntervalTranslator.Save(apiItem.DayIntervals);
 		}
 	}
 }

@@ -6,6 +6,11 @@ namespace SKDDriver.DataClasses
 {
 	public class Schedule : IOrganisationItem
 	{
+		public Schedule()
+		{
+			ScheduleZones = new List<ScheduleZone>();
+		}
+		
 		#region IOrganisationItemMembers
 		[Key]
 		public Guid UID { get; set; }
