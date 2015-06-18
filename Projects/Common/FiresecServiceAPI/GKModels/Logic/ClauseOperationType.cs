@@ -19,12 +19,6 @@ namespace FiresecAPI.GK
 		[DescriptionAttribute("во всех МПТ из")]
 		AllMPTs,
 
-		[DescriptionAttribute("в любой задержке из")]
-		AnyDelay,
-
-		[DescriptionAttribute("во всех задержках из")]
-		AllDelays,
-
 		[DescriptionAttribute("в любой ТД из")]
 		AnyDoor,
 

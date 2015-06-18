@@ -14,7 +14,6 @@ namespace GKProcessor
 		{
 			DescriptorType = DescriptorType.PumpStation;
 			PumpStation = pumpStation;
-			database.AddDelay(pumpStation.MainDelay);
 		}
 
 		public override void Build()
@@ -83,11 +82,6 @@ namespace GKProcessor
 			{
 				No = 1,
 				Value = PumpStation.Hold
-			});
-			binProperties.Add(new BinProperty()
-			{
-				No = 2,
-				Value = (ushort)PumpStation.DelayRegime
 			});
 
 			foreach (var binProperty in binProperties)

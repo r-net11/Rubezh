@@ -5,7 +5,6 @@
 		Device,
 		PumpStation,
 		MPT,
-		Delay,
 		Pim,
 		Code,
 		Door,

@@ -130,14 +130,6 @@ namespace FiltersModule.ViewModels
 					AddChild(gkPumpStationsViewModel, objectViewModel);
 				}
 
-				var gkDelaysViewModel = new ObjectViewModel(JournalObjectType.GKDelay);
-				AddChild(gkViewModel, gkDelaysViewModel);
-				foreach (var delay in FiresecClient.GKManager.Delays)
-				{
-					var objectViewModel = new ObjectViewModel(delay);
-					AddChild(gkDelaysViewModel, objectViewModel);
-				}
-
 				var gkDoorsViewModel = new ObjectViewModel(JournalObjectType.GKDoor);
 				AddChild(gkViewModel, gkDoorsViewModel);
 				foreach (var door in FiresecClient.GKManager.Doors)

@@ -230,9 +230,6 @@
     <Compile Include="Devices\ViewModels\DeviceStateViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceViewModelComparer.cs" />
     <Compile Include="ViewModels\GKConnectionIndicatorViewModel.cs" />
-    <Compile Include="Delays\ViewModels\DelaysViewModel.cs" />
-    <Compile Include="Delays\ViewModels\DelayViewModel.cs" />
-    <Compile Include="Delays\ViewModels\DelayDetailsViewModel.cs" />
     <Compile Include="PumpStations\ViewModels\PumpStationDetailsViewModel.cs" />
     <Compile Include="PumpStations\ViewModels\PumpStationsViewModel.cs" />
     <Compile Include="PumpStations\ViewModels\PumpStationViewModel.cs" />
@@ -248,17 +245,8 @@
     <Compile Include="Views\GKConnectionIndicatorView.xaml.cs">
       <DependentUpon>GKConnectionIndicatorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Delays\Views\DelayToolTipView.xaml.cs">
-      <DependentUpon>DelayToolTipView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="PumpStations\Views\PumpStationToolTipView.xaml.cs">
       <DependentUpon>PumpStationToolTipView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Delays\Views\DelaysView.xaml.cs">
-      <DependentUpon>DelaysView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Delays\Views\DelayDetailsView.xaml.cs">
-      <DependentUpon>DelayDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="PumpStations\Views\PumpStationDetailsView.xaml.cs">
       <DependentUpon>PumpStationDetailsView.xaml</DependentUpon>
@@ -377,14 +365,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Delays\Views\DelaysView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Delays\Views\DelayDetailsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="PumpStations\Views\PumpStationDetailsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -486,10 +466,6 @@
     <Page Include="Views\GKConnectionIndicatorView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Delays\Views\DelayToolTipView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="PumpStations\Views\PumpStationToolTipView.xaml">
       <Generator>MSBuild:Compile</Generator>

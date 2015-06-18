@@ -35,7 +35,6 @@ namespace AutomationModule.ViewModels
 		public DataTemplate ControlVisualTemplate { get; set; }
 		public DataTemplate ControlPlanTemplate { get; set; }
 		public DataTemplate ShowDialogTemplate { get; set; }
-		public DataTemplate ControlDelayTemplate { get; set; }
 		public DataTemplate ShowPropertyTemplate { get; set; }
 		public DataTemplate ExportJournalTemplate { get; set;}
 		public DataTemplate GenerateGuidTemplate { get; set; }
@@ -88,8 +87,6 @@ namespace AutomationModule.ViewModels
 				return ControlDoorTemplate;
 			if (item is ControlGKDoorStepViewModel)
 				return ControlGKDoorTemplate;
-			if (item is ControlDelayStepViewModel)
-				return ControlDelayTemplate;
 			if (item is GetObjectPropertyStepViewModel)
 				return GetObjectPropertyTemplate;
 			if (item is SendEmailStepViewModel)

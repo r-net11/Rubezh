@@ -123,12 +123,6 @@ namespace AutomationModule
 								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKDeviceDetailsEvent>();
 							break;
 
-						case ObjectType.Delay:
-							var delay = GKManager.Delays.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
-							if (delay != null)
-								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKDelayDetailsEvent>();
-							break;
-
 						case ObjectType.SKDDevice:
 							var skdDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
 							if (skdDevice != null)

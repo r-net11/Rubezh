@@ -17,7 +17,6 @@ namespace FiresecAPI.GK
 			Devices = new List<GKDevice>();
 			PumpStations = new List<GKPumpStation>();
 			MPTs = new List<GKMPT>();
-			Delays = new List<GKDelay>();
 			Doors = new List<GKDoor>();
 			SKDZones = new List<GKSKDZone>();
 			//DaySchedules = new List<GKDaySchedule>();
@@ -48,12 +47,6 @@ namespace FiresecAPI.GK
 		/// </summary>
 		[DataMember]
 		public List<GKMPT> MPTs { get; set; }
-
-		/// <summary>
-		/// Задержки
-		/// </summary>
-		[DataMember]
-		public List<GKDelay> Delays { get; set; }
 
 		/// <summary>
 		/// Инструкции

@@ -109,11 +109,6 @@ namespace GKModule.ViewModels
 			{
 				switch (descriptorType)
 				{
-					case 0x101:
-						TypeName = "Задержка";
-						ImageSource = "/Controls;component/Images/Delay.png";
-						break;
-
 					case 0x107:
 						TypeName = "ПИМ";
 						ImageSource = "/Controls;component/Images/Pim.png";
@@ -142,14 +137,6 @@ namespace GKModule.ViewModels
 						{
 							PresentationName = pumpStation.PresentationName;
 							ImageSource = "/Controls;component/Images/BPumpStation.png";
-						}
-						break;
-
-					case JournalObjectType.GKDelay:
-						var delay = GKManager.Delays.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
-						if (delay != null)
-						{
-							PresentationName = delay.PresentationName;
 						}
 						break;
 

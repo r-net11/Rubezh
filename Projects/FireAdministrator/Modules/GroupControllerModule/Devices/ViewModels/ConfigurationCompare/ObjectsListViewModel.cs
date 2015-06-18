@@ -31,12 +31,6 @@ namespace GKModule.ViewModels
 					var objectViewModel = new ObjectViewModel(mpt);
 					Objects.Add(objectViewModel);
 				}
-			if (deviceConfiguration.Delays != null)
-				foreach (var delay in deviceConfiguration.Delays.Where(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == device.Address))
-				{
-					var objectViewModel = new ObjectViewModel(delay);
-					Objects.Add(objectViewModel);
-				}
 			if (deviceConfiguration.Doors != null)
 				foreach (var door in deviceConfiguration.Doors.Where(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == device.Address))
 				{

@@ -81,8 +81,6 @@ namespace AutomationModule
 		{
 			if (objectType == ObjectType.Device)
 				return new List<Property> { Property.Description, Property.ShleifNo, Property.IntAddress, Property.State, Property.Type, Property.Uid };
-			if (objectType == ObjectType.Delay)
-				return new List<Property> { Property.Description, Property.No, Property.Delay, Property.CurrentDelay, Property.Hold, Property.CurrentHold, Property.DelayRegime, Property.Uid, Property.Name, Property.State };
 			return new List<Property>();
 		}
 
@@ -165,16 +163,6 @@ namespace AutomationModule
 				if (DialogService.ShowModalWindow(cameraSelectionViewModel))
 				{
 					currentExplicitValue.UidValue = cameraSelectionViewModel.SelectedCamera != null ? cameraSelectionViewModel.SelectedCamera.Camera.UID : Guid.Empty;
-					return true;
-				}
-			}
-
-			if (objectType == ObjectType.Delay)
-			{
-				var delaySelectionViewModel = new DelaySelectionViewModel(currentExplicitValue.Delay);
-				if (DialogService.ShowModalWindow(delaySelectionViewModel))
-				{
-					currentExplicitValue.UidValue = delaySelectionViewModel.SelectedDelay != null ? delaySelectionViewModel.SelectedDelay.Delay.UID : Guid.Empty;
 					return true;
 				}
 			}

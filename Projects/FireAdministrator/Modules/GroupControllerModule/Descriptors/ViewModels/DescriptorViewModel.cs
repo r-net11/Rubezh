@@ -36,10 +36,6 @@ namespace GKModule.ViewModels
 					ImageSource = "/Controls;component/Images/BMPT.png";
 					break;
 
-				case DescriptorType.Delay:
-					ImageSource = "/Controls;component/Images/Delay.png";
-					break;
-
 				case DescriptorType.Pim:
 					ImageSource = "/Controls;component/Images/Pim.png";
 					break;

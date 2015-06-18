@@ -81,14 +81,6 @@ namespace FiresecAPI.GK
 			BaseObjectType = GKBaseObjectType.PumpStation;
 		}
 
-		public GKState(GKDelay delay)
-			: this()
-		{
-			Delay = delay;
-			UID = delay.UID;
-			BaseObjectType = GKBaseObjectType.Delay;
-		}
-
 		public GKState(GKPim pim)
 			: this()
 		{
@@ -116,7 +108,6 @@ namespace FiresecAPI.GK
 		public GKDevice Device { get; private set; }
 		public GKPumpStation PumpStation { get; private set; }
 		public GKMPT MPT { get; private set; }
-		public GKDelay Delay { get; private set; }
 		public GKPim Pim { get; private set; }
 		public GKDoor Door { get; private set; }
 		public GKSKDZone SKDZone { get; private set; }

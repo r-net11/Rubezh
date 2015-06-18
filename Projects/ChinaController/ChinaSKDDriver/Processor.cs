@@ -146,7 +146,6 @@ namespace ChinaSKDDriver
 				gkCallbackResult.GKStates.ZoneStates.Count +
 				gkCallbackResult.GKStates.PumpStationStates.Count +
 				gkCallbackResult.GKStates.MPTStates.Count +
-				gkCallbackResult.GKStates.DelayStates.Count +
 				gkCallbackResult.GKStates.PimStates.Count +
 				gkCallbackResult.GKStates.DeviceMeasureParameters.Count > 0)
 			{

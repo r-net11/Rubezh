@@ -41,7 +41,6 @@ namespace FiresecAPI.Automation
 			ControlVisualArguments = new ControlVisualArguments();
 			ControlPlanArguments = new ControlPlanArguments();
 			ShowDialogArguments = new ShowDialogArguments();
-			ControlDelayArguments = new ControlDelayArguments();
 			ShowPropertyArguments = new ShowPropertyArguments();
 			ExportJournalArguments = new ExportJournalArguments();
 			ExportOrganisationArguments = new ExportOrganisationArguments();
@@ -127,9 +126,6 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public ControlSKDDeviceArguments ControlSKDDeviceArguments { get; set; }
-
-		[DataMember]
-		public ControlDelayArguments ControlDelayArguments { get; set; }
 
 		[DataMember]
 		public JournalArguments JournalArguments { get; set; }

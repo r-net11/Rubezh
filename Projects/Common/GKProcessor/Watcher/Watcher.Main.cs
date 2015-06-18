@@ -467,11 +467,6 @@ namespace GKProcessor
 				{
 					gkStates.MPTStates.Add(gkBase.State);
 				}
-				if (gkBase is GKDelay)
-				{
-					gkBase.State.PresentationName = gkBase.PresentationName;
-					gkStates.DelayStates.Add(gkBase.State);
-				}
 				if (gkBase is GKPim)
 				{
 					gkBase.State.PresentationName = gkBase.PresentationName;

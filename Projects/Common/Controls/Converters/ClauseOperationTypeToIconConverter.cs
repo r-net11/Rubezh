@@ -22,10 +22,6 @@ namespace Controls.Converters
 						case ClauseOperationType.AnyMPT:
 							return "/Controls;component/Images/BMPT.png";
 
-						case ClauseOperationType.AllDelays:
-						case ClauseOperationType.AnyDelay:
-							return "/Controls;component/Images/Delay.png";
-
 						default:
 							return "/Controls;component/Images/Zone.png";
 					}

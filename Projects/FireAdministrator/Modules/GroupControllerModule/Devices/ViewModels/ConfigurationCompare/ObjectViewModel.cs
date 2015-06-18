@@ -34,7 +34,6 @@ namespace GKModule.ViewModels
 		public GKDevice Device;
 		public GKPumpStation PumpStation;
 		public GKMPT MPT;
-		public GKDelay Delay;
 		public GKDoor Door;
 		public string ImageSource { get; private set; }
 		public ObjectType ObjectType { get; private set; }
@@ -70,16 +69,6 @@ namespace GKModule.ViewModels
 			Address = "";
 			PresentationZone = "";
 			ObjectType = ObjectType.MPT;
-		}
-
-		public ObjectViewModel(GKDelay delay)
-		{
-			Delay = delay;
-			Name = delay.PresentationName;
-			ImageSource = "/Controls;component/Images/Delay.png";
-			Address = "";
-			PresentationZone = "";
-			ObjectType = ObjectType.Delay;
 		}
 
 		public ObjectViewModel(GKDoor door)
@@ -136,10 +125,6 @@ namespace GKModule.ViewModels
 			{
 				return string.Compare(object1.MPT.Name, object2.MPT.Name);
 			}
-			if (object1.ObjectType == ObjectType.Delay)
-			{
-				return string.Compare(object1.Delay.Name, object2.Delay.Name);
-			}
 
 			if (object1.ObjectType == ObjectType.Door)
 			{
@@ -158,7 +143,6 @@ namespace GKModule.ViewModels
 		Device = 0,
 		PumpStation = 3,
 		MPT = 4,
-		Delay = 5,
 		Door = 8,
 	}
 }

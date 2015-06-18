@@ -80,14 +80,6 @@ namespace GKProcessor
 					}
 				}
 			}
-			stringBuilder.Append("delays:");
-			foreach (var delay in deviceConfiguration.Delays)
-			{
-				if (delay.GkDatabaseParent == gkControllerDevice)
-				{
-					stringBuilder.Append(delay.PresentationName).Append("@");
-				}
-			}
 			stringBuilder.Append("door:");
 			foreach (var door in deviceConfiguration.Doors)
 			{

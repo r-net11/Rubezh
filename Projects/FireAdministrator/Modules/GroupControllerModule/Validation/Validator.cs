@@ -19,7 +19,6 @@ namespace GKModule.Validation
 			ValidateDevices();
 			ValidatePumpStations();
 			ValidateMPTs();
-			ValidateDelays();
 			ValidateDoors();
 			ValidateSKDZones();
 			ValidateDaySchedules();

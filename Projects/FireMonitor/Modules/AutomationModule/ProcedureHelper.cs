@@ -108,16 +108,6 @@ namespace AutomationModule
 					return true;
 				}
 			}
-
-			if (objectType == ObjectType.Delay)
-			{
-				var delaySelectionViewModel = new DelaySelectionViewModel(currentExplicitValue.Delay);
-				if (DialogService.ShowModalWindow(delaySelectionViewModel))
-				{
-					currentExplicitValue.UidValue = delaySelectionViewModel.SelectedDelay != null ? delaySelectionViewModel.SelectedDelay.Delay.UID : Guid.Empty;
-					return true;
-				}
-			}
 			return false;
 		}
 

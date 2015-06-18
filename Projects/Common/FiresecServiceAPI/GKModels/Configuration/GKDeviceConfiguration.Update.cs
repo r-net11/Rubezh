@@ -71,7 +71,6 @@ namespace FiresecAPI.GK
 			InitializeLogic();
 			InitializePumpStations();
 			InitializeMPTs();
-			InitializeDelays();
 			InitializeDoors();
 			UpdateGKChildrenDescription();
 		}
@@ -91,10 +90,6 @@ namespace FiresecAPI.GK
 			foreach (var mpt in MPTs)
 			{
 				mpt.ClearClauseDependencies();
-			}
-			foreach (var delay in Delays)
-			{
-				delay.ClearClauseDependencies();
 			}
 		}
 
@@ -160,14 +155,6 @@ namespace FiresecAPI.GK
 			}
 		}
 
-		void InitializeDelays()
-		{
-			foreach (var delay in Delays)
-			{
-				InvalidateInputObjectsBaseLogic(delay, delay.Logic);
-			}
-		}
-
 		public void InvalidateInputObjectsBaseLogic(GKBase gkBase, GKLogic logic)
 		{
 			logic.OnClausesGroup = InvalidateOneInputObjectsBaseLogic(gkBase, logic.OnClausesGroup);
@@ -194,7 +181,6 @@ namespace FiresecAPI.GK
 			{
 				clause.Devices = new List<GKDevice>();
 				clause.MPTs = new List<GKMPT>();
-				clause.Delays = new List<GKDelay>();
 				clause.Doors = new List<GKDoor>();
 
 				var deviceUIDs = new List<Guid>();
@@ -224,20 +210,6 @@ namespace FiresecAPI.GK
 					}
 				}
 				clause.MPTUIDs = mptUIDs;
-
-				var delayUIDs = new List<Guid>();
-				foreach (var delayUID in clause.DelayUIDs)
-				{
-					var delay = Delays.FirstOrDefault(x => x.UID == delayUID);
-					if (delay != null)
-					{
-						delayUIDs.Add(delayUID);
-						clause.Delays.Add(delay);
-						if (!gkBase.ClauseInputDelays.Contains(delay))
-							gkBase.ClauseInputDelays.Add(delay);
-					}
-				}
-				clause.DelayUIDs = delayUIDs;
 
 				var doorUIDs = new List<Guid>();
 				foreach (var doorUID in clause.DoorUIDs)

@@ -17,7 +17,6 @@ namespace GKProcessor
 			DescriptorType = DescriptorType.MPT;
 			MPT = mpt;
 			MPT.Hold = 10;
-			MPT.DelayRegime = DelayRegime.On;
 		}
 
 		public override void Build()
@@ -109,7 +108,6 @@ namespace GKProcessor
 			binProperties.Add(new BinProperty()
 			{
 				No = 2,
-				Value = (ushort)MPT.DelayRegime
 			});
 
 			foreach (var binProperty in binProperties)

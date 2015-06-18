@@ -28,7 +28,6 @@ namespace GKModule
 		ParameterTemplatesViewModel ParameterTemplatesViewModel;
 		PumpStationsViewModel PumpStationsViewModel;
 		MPTsViewModel MPTsViewModel;
-		DelaysViewModel DelaysViewModel;
 		DoorsViewModel DoorsViewModel;
 		SKDZonesViewModel SKDZonesViewModel;
 		LibraryViewModel DeviceLidraryViewModel;
@@ -51,7 +50,6 @@ namespace GKModule
 			ParameterTemplatesViewModel = new ParameterTemplatesViewModel();
 			PumpStationsViewModel = new PumpStationsViewModel();
 			MPTsViewModel = new MPTsViewModel();
-			DelaysViewModel = new DelaysViewModel();
 			DoorsViewModel = new DoorsViewModel();
 			SKDZonesViewModel = new SKDZonesViewModel();
 			DeviceLidraryViewModel = new LibraryViewModel();
@@ -68,7 +66,6 @@ namespace GKModule
 			ParameterTemplatesViewModel.Initialize();
 			PumpStationsViewModel.Initialize();
 			MPTsViewModel.Initialize();
-			DelaysViewModel.Initialize();
 			DoorsViewModel.Initialize();
 			SKDZonesViewModel.Initialize();
 			InstructionsViewModel.Initialize();
@@ -88,7 +85,6 @@ namespace GKModule
 					new NavigationItem<ShowGKParameterTemplatesEvent, Guid>(ParameterTemplatesViewModel, "Шаблоны","Briefcase", null, null, Guid.Empty),
 					new NavigationItem<ShowGKPumpStationEvent, Guid>(PumpStationsViewModel, "НС", "PumpStation", null, null, Guid.Empty),
 					new NavigationItem<ShowGKMPTEvent, Guid>(MPTsViewModel, "МПТ", "MPT", null, null, Guid.Empty),
-					new NavigationItem<ShowXDelayEvent, Guid>(DelaysViewModel, "Задержки", "Watch", null, null, Guid.Empty),
 
 					new NavigationItem<ShowGKInstructionsEvent, Guid>(InstructionsViewModel, "Инструкции", "information", null, null, Guid.Empty),
 					new NavigationItem<ShowGKDescriptorsEvent, object>(DescriptorsViewModel, "Дескрипторы", "Descriptors"),
@@ -112,7 +108,6 @@ namespace GKModule
 		{
 			base.RegisterResource();
 			var resourceService = new ResourceService();
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Delays/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Descriptors/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "DeviceLibrary/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Devices/DataTemplates/Dictionary.xaml"));

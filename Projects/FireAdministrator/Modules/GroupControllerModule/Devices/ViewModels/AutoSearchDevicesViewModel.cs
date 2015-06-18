@@ -90,8 +90,6 @@ namespace GKModule.ViewModels
 			LocalConfiguration.PumpStations.AddRange(RemoteDeviceConfiguration.PumpStations);
 			LocalConfiguration.MPTs.RemoveAll(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == LocalDevice.Address);
 			LocalConfiguration.MPTs.AddRange(RemoteDeviceConfiguration.MPTs);
-			LocalConfiguration.Delays.RemoveAll(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == LocalDevice.Address);
-			LocalConfiguration.Delays.AddRange(RemoteDeviceConfiguration.Delays);
 			LocalConfiguration.Doors.RemoveAll(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == LocalDevice.Address);
 			LocalConfiguration.Doors.AddRange(RemoteDeviceConfiguration.Doors);
 

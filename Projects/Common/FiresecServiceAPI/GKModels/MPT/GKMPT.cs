@@ -47,12 +47,6 @@ namespace FiresecAPI.GK
 		public int Hold { get; set; }
 
 		/// <summary>
-		/// Режим после окончания удержания
-		/// </summary>
-		[DataMember]
-		public DelayRegime DelayRegime { get; set; }
-
-		/// <summary>
 		/// Логика включения
 		/// </summary>
 		[DataMember]

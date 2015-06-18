@@ -16,19 +16,15 @@ namespace FiresecAPI.GK
 			StateType = GKStateBit.Fire1;
 			DeviceUIDs = new List<Guid>();
 			MPTUIDs = new List<Guid>();
-			DelayUIDs = new List<Guid>();
 			DoorUIDs = new List<Guid>();
 
 			Devices = new List<GKDevice>();
-			Delays = new List<GKDelay>();
 			Doors = new List<GKDoor>();
 			MPTs = new List<GKMPT>();
 		}
 
 		[XmlIgnore]
 		public List<GKDevice> Devices { get; set; }
-		[XmlIgnore]
-		public List<GKDelay> Delays { get; set; }
 		[XmlIgnore]
 		public List<GKDoor> Doors { get; set; }
 		[XmlIgnore]
@@ -53,12 +49,6 @@ namespace FiresecAPI.GK
 		public List<Guid> DeviceUIDs { get; set; }
 
 		/// <summary>
-		/// Идентификаторы задержек
-		/// </summary>
-		[DataMember]
-		public List<Guid> DelayUIDs { get; set; }
-
-		/// <summary>
 		/// Идентификаторы точек доступа
 		/// </summary>
 		[DataMember]
@@ -78,7 +68,7 @@ namespace FiresecAPI.GK
 
 		public bool HasObjects()
 		{
-			return Devices.Count > 0 || MPTs.Count > 0 || Delays.Count > 0 || Doors.Count > 0;
+			return Devices.Count > 0 || MPTs.Count > 0 || Doors.Count > 0;
 		}
 
 		public static string ClauseToString(ClauseOperationType clauseOperationType, GKStateBit stateBit)

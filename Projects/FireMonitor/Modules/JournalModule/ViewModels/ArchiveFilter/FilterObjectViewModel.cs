@@ -65,10 +65,6 @@ namespace JournalModule.ViewModels
 					ImageSource = "/Controls;component/Images/BPumpStation.png";
 					break;
 
-				case JournalObjectType.GKDelay:
-					ImageSource = "/Controls;component/Images/Delay.png";
-					break;
-
 				case JournalObjectType.GKSKDZone:
 					ImageSource = "/Controls;component/Images/Zone.png";
 					break;
@@ -114,13 +110,6 @@ namespace JournalModule.ViewModels
 			Name = pumpStation.PresentationName;
 			UID = pumpStation.UID;
 			ImageSource = "/Controls;component/Images/BPumpStation.png";
-		}
-
-		public FilterObjectViewModel(GKDelay delay)
-		{
-			Name = delay.PresentationName;
-			UID = delay.UID;
-			ImageSource = "/Controls;component/Images/Delay.png";
 		}
 		public FilterObjectViewModel(GKSKDZone skdZone)
 		{

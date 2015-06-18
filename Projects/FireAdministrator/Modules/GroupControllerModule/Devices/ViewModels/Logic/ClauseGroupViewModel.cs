@@ -130,12 +130,6 @@ namespace GKModule.ViewModels
 						clause.MPTUIDs = clauseViewModel.MPTs.Select(x => x.UID).ToList();
 						break;
 
-					case ClauseOperationType.AllDelays:
-					case ClauseOperationType.AnyDelay:
-						clause.Delays = clauseViewModel.Delays.ToList();
-						clause.DelayUIDs = clauseViewModel.Delays.Select(x => x.UID).ToList();
-						break;
-
 					case ClauseOperationType.AllDoors:
 					case ClauseOperationType.AnyDoor:
 						clause.Doors = clauseViewModel.Doors.ToList();

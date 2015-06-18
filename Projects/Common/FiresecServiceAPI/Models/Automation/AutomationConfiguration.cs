@@ -259,13 +259,6 @@ namespace FiresecAPI.Automation
 					}
 					break;
 
-				case ProcedureStepType.ControlDelay:
-					{
-						var controlDelayArguments = step.ControlDelayArguments;
-						InvalidateArgument(procedure, controlDelayArguments.DelayArgument);
-					}
-					break;
-
 				case ProcedureStepType.GetObjectProperty:
 					{
 						var getObjectPropertyArguments = step.GetObjectPropertyArguments;

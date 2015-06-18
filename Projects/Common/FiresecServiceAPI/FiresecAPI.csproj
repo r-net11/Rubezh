@@ -164,7 +164,6 @@
     <Compile Include="Models\Automation\PropertyCopy.cs" />
     <Compile Include="Models\Automation\StepArguments\ChangeListArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\CheckPermissionArguments.cs" />
-    <Compile Include="Models\Automation\StepArguments\ControlDelayArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlGKDoorArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlPlanArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlSKDZoneArguments.cs" />
@@ -456,8 +455,6 @@
     <Compile Include="GKModels\Configuration\GKDeviceConfiguration.Update.cs" />
     <Compile Include="GKModels\Configuration\GKDeviceConfiguration.Descriptors.cs" />
     <Compile Include="GKModels\Configuration\GKDeviceLibraryConfiguration.cs" />
-    <Compile Include="GKModels\Delay\DelayRegime.cs" />
-    <Compile Include="GKModels\Delay\GKDelay.cs" />
     <Compile Include="GKModels\Device\GKDeviceParameterTemplate.cs" />
     <Compile Include="GKModels\Device\GKParameterTemplate.cs" />
     <Compile Include="Models\Plans\ElementGKDevice.cs" />
@@ -520,7 +517,6 @@
     <Compile Include="GKModels\States\GKStates.cs" />
     <Compile Include="GKModels\States\GKAdditionalState.cs" />
     <Compile Include="GKModels\States\GKBaseInternalState.cs" />
-    <Compile Include="GKModels\States\GKDelayInternalState.cs" />
     <Compile Include="GKModels\States\GKDeviceInternalState.cs" />
     <Compile Include="GKModels\States\GKDriverState.cs" />
     <Compile Include="GKModels\States\GKPimInternalState.cs" />

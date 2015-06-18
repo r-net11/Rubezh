@@ -29,7 +29,6 @@ namespace GKModule.ViewModels
 			State.StateChanged += new Action(OnStateChanged);
 			InitializePlans();
 
-			ShowCommand = new RelayCommand(OnShow);
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			SetAutomaticStateCommand = new RelayCommand(OnSetAutomaticState, CanSetAutomaticState);
 			SetManualStateCommand = new RelayCommand(OnSetManualState, CanSetManualState);
@@ -166,12 +165,6 @@ namespace GKModule.ViewModels
 		public bool HasHoldDelay
 		{
 			get { return State.StateClasses.Contains(XStateClass.On) && State.HoldDelay > 0; }
-		}
-
-		public RelayCommand ShowCommand { get; private set; }
-		void OnShow()
-		{
-			ServiceFactory.Events.GetEvent<ShowGKPumpStationEvent>().Publish(PumpStation.UID);
 		}
 
 		public RelayCommand ShowJournalCommand { get; private set; }

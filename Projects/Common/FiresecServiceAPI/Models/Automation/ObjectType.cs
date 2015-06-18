@@ -7,9 +7,6 @@ namespace FiresecAPI.Automation
 		[DescriptionAttribute("ГК-устройство")]
 		Device,
 
-		[DescriptionAttribute("Задержка")]
-		Delay,
-
 		[DescriptionAttribute("СКД-устройство")]
 		SKDDevice,
 

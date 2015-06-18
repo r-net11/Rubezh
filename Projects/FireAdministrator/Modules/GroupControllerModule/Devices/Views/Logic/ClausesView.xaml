@@ -206,35 +206,6 @@
 							<TextBlock
 								Margin="2"
 								VerticalAlignment="Center"
-								Visibility="{Binding CanSelectDelays,
-							                                Converter={StaticResource BoolToVisibilityConverter}}">
-								<Hyperlink Command="{Binding SelectDelaysCommand}" Style="{StaticResource HyperlinkStyle}">
-									<TextBlock Margin="2">
-										<TextBlock.Style>
-											<Style>
-												<Setter Property="TextBlock.Text" Value="{Binding PresenrationDelays}" />
-												<Setter Property="TextBlock.ToolTip">
-													<Setter.Value>
-														<WrapPanel>
-															<TextBlock Text="{Binding PresenrationDelays}" TextWrapping="Wrap" />
-														</WrapPanel>
-													</Setter.Value>
-												</Setter>
-												<Style.Triggers>
-													<DataTrigger Binding="{Binding PresenrationDelays}" Value="">
-														<Setter Property="TextBlock.Text" Value="Нажмите для выбора задержек" />
-														<Setter Property="TextBlock.ToolTip" Value="Нажмите для выбора задержек" />
-													</DataTrigger>
-												</Style.Triggers>
-											</Style>
-										</TextBlock.Style>
-									</TextBlock>
-								</Hyperlink>
-							</TextBlock>
-
-							<TextBlock
-								Margin="2"
-								VerticalAlignment="Center"
 								Visibility="{Binding CanSelectDoors,
 							                                Converter={StaticResource BoolToVisibilityConverter}}">
 								<Hyperlink Command="{Binding SelectDoorsCommand}" Style="{StaticResource HyperlinkStyle}">

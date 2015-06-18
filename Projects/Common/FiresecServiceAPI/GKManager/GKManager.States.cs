@@ -21,11 +21,6 @@ namespace FiresecClient
 				mpt.InternalState = new GKMPTInternalState(mpt);
 				mpt.State = new GKState(mpt);
 			}
-			foreach (var delay in Delays)
-			{
-				delay.InternalState = new GKDelayInternalState(delay);
-				delay.State = new GKState(delay);
-			}
 			foreach (var door in Doors)
 			{
 				door.InternalState = new GKDoorInternalState(door);

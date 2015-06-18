@@ -78,9 +78,6 @@ namespace FiresecAPI.Journal
 		[EventDescriptionAttribute("Не совпадает тип для МПТ", JournalEventNameType.Ошибка_при_опросе_состояний_компонентов_ГК)]
 		Не_совпадает_тип_для_МПТ,
 
-		[EventDescriptionAttribute("Не совпадает тип для Задержки", JournalEventNameType.Ошибка_при_опросе_состояний_компонентов_ГК)]
-		Не_совпадает_тип_для_Задержки,
-
 		[EventDescriptionAttribute("Не совпадает тип для ПИМ", JournalEventNameType.Ошибка_при_опросе_состояний_компонентов_ГК)]
 		Не_совпадает_тип_для_ПИМ,
 

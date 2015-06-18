@@ -90,14 +90,9 @@
     <Compile Include="Layout\Views\LayoutPartPropertyProcedurePageView.xaml.cs">
       <DependentUpon>LayoutPartPropertyProcedurePageView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ObjectSelection\ViewModels\DelaySelectionViewModel.cs" />
-    <Compile Include="ObjectSelection\ViewModels\DelayViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\GKDoorSelectionViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\OrganisationSelectionViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\OrganisationViewModel.cs" />
-    <Compile Include="ObjectSelection\Views\DelaySelectionView.xaml.cs">
-      <DependentUpon>DelaySelectionView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ObjectSelection\Views\GKDoorSelectionView.xaml.cs">
       <DependentUpon>GKDoorSelectionView.xaml</DependentUpon>
     </Compile>
@@ -119,7 +114,6 @@
     <Compile Include="Procedures\ViewModels\LayoutPartPropertyViewModel.cs" />
     <Compile Include="Procedures\ViewModels\LayoutPartViewModel.cs" />
     <Compile Include="Procedures\ViewModels\PlanViewModel.cs" />
-    <Compile Include="Steps\ViewModels\ControlDelayStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ControlGKDoorStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ControlPlanStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ControlVisualStepViewModel.cs" />
@@ -222,9 +216,6 @@
     </Compile>
     <Compile Include="Steps\Views\CheckPermissionStepView.xaml.cs">
       <DependentUpon>CheckPermissionStepView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Steps\Views\ControlDelayStepView.xaml.cs">
-      <DependentUpon>ControlDelayStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Steps\Views\ControlDoorStepView.xaml.cs">
       <DependentUpon>ControlDoorStepView.xaml</DependentUpon>
@@ -514,10 +505,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ObjectSelection\Views\DelaySelectionView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="ObjectSelection\Views\GKDoorSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -551,10 +538,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Steps\Views\CheckPermissionStepView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Steps\Views\ControlDelayStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

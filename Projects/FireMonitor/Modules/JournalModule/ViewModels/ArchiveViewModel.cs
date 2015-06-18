@@ -88,16 +88,12 @@ namespace JournalModule.ViewModels
 
 			if (showArchiveEventArgs.GKDevice != null)
 				ArchiveFilter.ObjectUIDs.Add(showArchiveEventArgs.GKDevice.UID);
-			if (showArchiveEventArgs.GKDelay != null)
-				ArchiveFilter.ObjectUIDs.Add(showArchiveEventArgs.GKDelay.UID);
 			if (showArchiveEventArgs.GKPim != null)
 				ArchiveFilter.ObjectUIDs.Add(showArchiveEventArgs.GKPim.UID);
 			if (showArchiveEventArgs.GKPumpStation != null)
 				ArchiveFilter.ObjectUIDs.Add(showArchiveEventArgs.GKPumpStation.UID);
 			if (showArchiveEventArgs.GKMPT != null)
 				ArchiveFilter.ObjectUIDs.Add(showArchiveEventArgs.GKMPT.UID);
-			if (showArchiveEventArgs.GKDelay != null)
-				ArchiveFilter.ObjectUIDs.Add(showArchiveEventArgs.GKDelay.UID);
 			if (showArchiveEventArgs.GKSKDZone != null)
 				ArchiveFilter.ObjectUIDs.Add(showArchiveEventArgs.GKSKDZone.UID);
 			if (showArchiveEventArgs.GKDoor != null)

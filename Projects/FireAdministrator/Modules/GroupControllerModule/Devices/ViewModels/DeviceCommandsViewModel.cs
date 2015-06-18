@@ -164,10 +164,6 @@ namespace GKModule.Models
 								{
 									mpt.GkDatabaseParent = gkControllerDevice;
 								}
-								foreach (var delay in result.Result.Delays)
-								{
-									delay.GkDatabaseParent = gkControllerDevice;
-								}
 							}
 
 							configurationCompareViewModel = new ConfigurationCompareViewModel(GKManager.DeviceConfiguration, result.Result, SelectedDevice.Device, false);

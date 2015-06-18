@@ -9,7 +9,6 @@ namespace GKProcessor
 		protected List<GKDevice> Devices { get; set; }
 		protected List<GKPumpStation> PumpStations { get; set; }
 		protected List<GKMPT> MPTs { get; set; }
-		public List<GKDelay> Delays { get; private set; }
 		public List<GKPim> Pims { get; private set; }
 
 		protected ushort NextDescriptorNo
@@ -26,29 +25,8 @@ namespace GKProcessor
 			Devices = new List<GKDevice>();
 			PumpStations = new List<GKPumpStation>();
 			MPTs = new List<GKMPT>();
-			Delays = new List<GKDelay>();
 			Pims = new List<GKPim>();
 			Descriptors = new List<BaseDescriptor>();
-		}
-
-		public void AddDelay(GKDelay delay)
-		{
-			if (!Delays.Contains(delay))
-			{
-				if (DatabaseType == DatabaseType.Gk)
-				{
-					delay.GKDescriptorNo = NextDescriptorNo;
-					delay.GkDatabaseParent = RootDevice;
-				}
-				else
-				{
-					delay.KAUDescriptorNo = NextDescriptorNo;
-					delay.KauDatabaseParent = RootDevice;
-					delay.IsLogicOnKau = true;
-					delay.GkDatabaseParent = RootDevice.GKParent;
-				}
-				Delays.Add(delay);
-			}
 		}
 
 		public void AddPim(GKPim pim)

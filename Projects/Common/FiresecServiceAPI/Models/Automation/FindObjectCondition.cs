@@ -48,12 +48,6 @@ namespace FiresecAPI.Automation
 		[Description("Идентификатор")]
 		Uid,
 
-		[Description("Задержка")]
-		Delay,
-
-		[Description("Текущая задержка")]
-		CurrentDelay,
-
 		[Description("Удержание")]
 		Hold,
 

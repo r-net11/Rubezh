@@ -13,9 +13,6 @@ namespace FiresecAPI.GK
 		[DescriptionAttribute("МПТ")]
 		MPT,
 
-		[DescriptionAttribute("Задержка")]
-		Delay,
-
 		[DescriptionAttribute("ПИМ")]
 		Pim,
 

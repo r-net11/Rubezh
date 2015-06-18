@@ -85,10 +85,6 @@ namespace GKProcessor
 				{
 					gkBases.Add(mpt);
 				}
-				foreach (var delay in clause.Delays)
-				{
-					gkBases.Add(delay);
-				}
 				foreach (var door in clause.Doors)
 				{
 					gkBases.Add(door);
@@ -105,14 +101,12 @@ namespace GKProcessor
 						{
 							case ClauseOperationType.AllDevices:
 							case ClauseOperationType.AllMPTs:
-							case ClauseOperationType.AllDelays:
 							case ClauseOperationType.AllDoors:
 								Add(FormulaOperationType.AND, comment: "Объединение объектов по И");
 								break;
 
 							case ClauseOperationType.AnyDevice:
 							case ClauseOperationType.AnyMPT:
-							case ClauseOperationType.AnyDelay:
 							case ClauseOperationType.AnyDoor:
 								Add(FormulaOperationType.OR, comment: "Объединение объектов по Или");
 								break;

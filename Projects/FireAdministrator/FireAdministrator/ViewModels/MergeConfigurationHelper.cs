@@ -164,10 +164,6 @@ namespace FireAdministrator.ViewModels
 			{
 				GKManager.MPTs.Add(mpt);
 			}
-			foreach (var delay in GKDeviceConfiguration.Delays)
-			{
-				GKManager.DeviceConfiguration.Delays.Add(delay);
-			}
 			foreach (var pumpStation in GKDeviceConfiguration.PumpStations)
 			{
 				GKManager.DeviceConfiguration.PumpStations.Add(pumpStation);
@@ -184,7 +180,6 @@ namespace FireAdministrator.ViewModels
 			//{
 			//    GKManager.DeviceConfiguration.Schedules.Add(schedules);
 			//}
-			ReorderNos(GKManager.Delays);
 			ReorderNos(GKManager.PumpStations);
 			ReorderNos(GKManager.MPTs);
 			ReorderNos(GKManager.Doors);
@@ -247,12 +242,6 @@ namespace FireAdministrator.ViewModels
 				GKMPTUIDs.Add(mpt.UID, uid);
 				mpt.UID = uid;
 			}
-			foreach (var delay in GKDeviceConfiguration.Delays)
-			{
-				var uid = Guid.NewGuid();
-				GKDelayUIDs.Add(delay.UID, uid);
-				delay.UID = uid;
-			}
 			foreach (var pumpStation in GKDeviceConfiguration.PumpStations)
 			{
 				var uid = Guid.NewGuid();
@@ -311,12 +300,6 @@ namespace FireAdministrator.ViewModels
 				ReplaceLogic(mpt.StartLogic);
 				ReplaceLogic(mpt.StopLogic);
 				ReplaceLogic(mpt.StartLogic);
-			}
-
-			foreach (var delay in GKDeviceConfiguration.Delays)
-			{
-				delay.PumpStationUID = ReplaceUID(delay.PumpStationUID, GKPumpStationUIDs);
-				ReplaceLogic(delay.Logic);
 			}
 
 			foreach (var door in GKDeviceConfiguration.Doors)
@@ -472,7 +455,6 @@ namespace FireAdministrator.ViewModels
 		}
 
 		Dictionary<Guid, Guid> GKDeviceUIDs = new Dictionary<Guid, Guid>();
-		Dictionary<Guid, Guid> GKDelayUIDs = new Dictionary<Guid, Guid>();
 		Dictionary<Guid, Guid> GKPumpStationUIDs = new Dictionary<Guid, Guid>();
 		Dictionary<Guid, Guid> GKMPTUIDs = new Dictionary<Guid, Guid>();
 		Dictionary<Guid, Guid> GKDoorUIDs = new Dictionary<Guid, Guid>();

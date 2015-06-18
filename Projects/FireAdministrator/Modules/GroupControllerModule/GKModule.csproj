@@ -140,7 +140,6 @@
     <Compile Include="Events\ShowGKParameterTemplatesEvent.cs" />
     <Compile Include="Events\ShowGKPumpStationEvent.cs" />
     <Compile Include="Events\ShowGKZoneEvent.cs" />
-    <Compile Include="Events\ShowGKDelayStationEvent.cs" />
     <Compile Include="Events\ShowGKDoorEvent.cs" />
     <Compile Include="Events\ShowGKScheduleEvent.cs" />
     <Compile Include="Events\CreateGKScheduleEvent.cs" />
@@ -208,7 +207,6 @@
     </Compile>
     <Compile Include="Selectation\ViewModels\DeviceSelectationViewModel.cs" />
     <Compile Include="Selectation\ViewModels\MPTsSelectationViewModel.cs" />
-    <Compile Include="Selectation\ViewModels\DelaysSelectationViewModel.cs" />
     <Compile Include="Selectation\ViewModels\SKDZoneSelectationViewModel.cs" />
     <Compile Include="Selectation\ViewModels\DoorsSelectationViewModel.cs" />
     <Compile Include="Diagnostics\Views\DiagnosticsView.xaml.cs">
@@ -342,9 +340,6 @@
     <Compile Include="Selectation\Views\MPTsSelectationView.xaml.cs">
       <DependentUpon>MPTsSelectationView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Selectation\Views\DelaysSelectationView.xaml.cs">
-      <DependentUpon>DelaysSelectationView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Selectation\Views\DoorsSelectationView.xaml.cs">
       <DependentUpon>DoorsSelectationView.xaml</DependentUpon>
     </Compile>
@@ -391,8 +386,6 @@
     <Compile Include="Validation\PumpStationValidationError.cs" />
     <Compile Include="Validation\MPTValidationError.cs" />
     <Compile Include="Validation\Validator.MPTs.cs" />
-    <Compile Include="Validation\DelayValidationError.cs" />
-    <Compile Include="Validation\Validator.Delays.cs" />
     <Compile Include="Validation\Validator.Doors.cs" />
     <Compile Include="Validation\DoorValidationError.cs" />
     <Compile Include="Validation\ScheduleValidationError.cs" />
@@ -424,19 +417,6 @@
     <Compile Include="MPTs\Views\MPTsView.xaml.cs">
       <DependentUpon>MPTsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Delays\ViewModels\DelayDetailsViewModel.cs" />
-    <Compile Include="Delays\ViewModels\DelaysMenuViewModel.cs" />
-    <Compile Include="Delays\ViewModels\DelaysViewModel.cs" />
-    <Compile Include="Delays\ViewModels\DelayViewModel.cs" />
-    <Compile Include="Delays\Views\DelayDetailsView.xaml.cs">
-      <DependentUpon>DelayDetailsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Delays\Views\DelaysMenuView.xaml.cs">
-      <DependentUpon>DelaysMenuView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Delays\Views\DelaysView.xaml.cs">
-      <DependentUpon>DelaysView.xaml</DependentUpon>
-    </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -449,10 +429,6 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Page Include="Delays\DataTemplates\Dictionary.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Descriptors\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -693,10 +669,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Selectation\Views\DelaysSelectationView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Selectation\Views\DoorsSelectationView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -746,18 +718,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="MPTs\Views\MPTsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Delays\Views\DelayDetailsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Delays\Views\DelaysMenuView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Delays\Views\DelaysView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

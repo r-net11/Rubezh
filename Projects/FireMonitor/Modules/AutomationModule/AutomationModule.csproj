@@ -60,13 +60,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Events\ShowAutomationEvent.cs" />
-    <Compile Include="ObjectSelection\ViewModels\DelaySelectionViewModel.cs" />
-    <Compile Include="ObjectSelection\ViewModels\DelayViewModel.cs" />
     <Compile Include="ObjectSelection\Views\CameraSelectionView.xaml.cs">
       <DependentUpon>CameraSelectionView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ObjectSelection\Views\DelaySelectionView.xaml.cs">
-      <DependentUpon>DelaySelectionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ObjectSelection\Views\DeviceSelectionView.xaml.cs">
       <DependentUpon>DeviceSelectionView.xaml</DependentUpon>
@@ -171,10 +166,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="ObjectSelection\Views\CameraSelectionView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="ObjectSelection\Views\DelaySelectionView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

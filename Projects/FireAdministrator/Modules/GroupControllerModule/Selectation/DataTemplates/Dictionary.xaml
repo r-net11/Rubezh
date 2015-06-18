@@ -16,10 +16,6 @@
 		<Views:MPTsSelectationView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:DelaysSelectationViewModel}">
-		<Views:DelaysSelectationView />
-	</DataTemplate>
-
 	<DataTemplate DataType="{x:Type ViewModels:DoorsSelectationViewModel}">
 		<Views:DoorsSelectationView />
 	</DataTemplate>

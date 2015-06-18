@@ -16,9 +16,6 @@ namespace FiresecAPI.Journal
 		[DescriptionAttribute("Насосные станции ГК")]
 		GKPumpStation,
 
-		[DescriptionAttribute("Задержки ГК")]
-		GKDelay,
-
 		[DescriptionAttribute("ПИМ ГК")]
 		GKPim,
 

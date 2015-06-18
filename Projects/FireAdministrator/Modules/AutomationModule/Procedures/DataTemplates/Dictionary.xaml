@@ -64,10 +64,6 @@
 		<Views:CameraSelectionView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:DelaySelectionViewModel}">
-		<Views:DelaySelectionView />
-	</DataTemplate>
-
 	<DataTemplate DataType="{x:Type ViewModels:DoorSelectionViewModel}">
 		<Views:DoorSelectionView />
 	</DataTemplate>
@@ -150,10 +146,6 @@
 
 	<DataTemplate x:Key="controlGKDoorTemplate">
 		<Views:ControlGKDoorStepView />
-	</DataTemplate>
-
-	<DataTemplate x:Key="controlDelayTemplate">
-		<Views:ControlDelayStepView />
 	</DataTemplate>
 
 	<DataTemplate x:Key="getObjectPropertyTemplate">
@@ -262,7 +254,6 @@
 		ChangeListTemplate="{StaticResource changeListTemplate}"
 		CheckPermissionTemplate="{StaticResource checkPermissionTemplate}"
 		ConditionTemplate="{StaticResource conditionTemplate}"
-		ControlDelayTemplate="{StaticResource controlDelayTemplate}"
 		ControlDoorTemplate="{StaticResource controlDoorTemplate}"
 		ControlGKDeviceTemplate="{StaticResource controlGKDeviceTemplate}"
 		ControlGKDoorTemplate="{StaticResource controlGKDoorTemplate}"

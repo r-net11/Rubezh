@@ -19,7 +19,7 @@ namespace AutomationModule.ViewModels
 			var automationChanged = ServiceFactory.SaveService.AutomationChanged;
 			if ((step.ProcedureStepType == ProcedureStepType.ControlDoor) || (step.ProcedureStepType == ProcedureStepType.ControlGKDevice) || (step.ProcedureStepType == ProcedureStepType.ControlGKDoor)
 				|| (step.ProcedureStepType == ProcedureStepType.ControlSKDDevice) || (step.ProcedureStepType == ProcedureStepType.ControlSKDZone)
-				|| (step.ProcedureStepType == ProcedureStepType.ControlDelay) || (step.ProcedureStepType == ProcedureStepType.Ptz)
+				|| (step.ProcedureStepType == ProcedureStepType.Ptz)
 				|| (step.ProcedureStepType == ProcedureStepType.StartRecord) || (step.ProcedureStepType == ProcedureStepType.StopRecord) || (step.ProcedureStepType == ProcedureStepType.RviAlarm))
 				ImageSource = "/Controls;component/StepIcons/Control.png";
 			else
@@ -104,10 +104,6 @@ namespace AutomationModule.ViewModels
 
 				case ProcedureStepType.ControlSKDZone:
 					Content = new ControlSKDZoneStepViewModel(this);
-					break;
-
-				case ProcedureStepType.ControlDelay:
-					Content = new ControlDelayStepViewModel(this);
 					break;
 
 				case ProcedureStepType.GetObjectProperty:

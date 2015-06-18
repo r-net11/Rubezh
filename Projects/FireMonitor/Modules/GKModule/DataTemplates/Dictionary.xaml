@@ -44,14 +44,6 @@
 		<Views:DiagnosticsView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:DelaysViewModel}">
-		<Views:DelaysView />
-	</DataTemplate>
-
-	<DataTemplate DataType="{x:Type ViewModels:DelayDetailsViewModel}">
-		<Views:DelayDetailsView />
-	</DataTemplate>
-
 	<DataTemplate DataType="{x:Type ViewModels:PimsViewModel}">
 		<Views:PimsView />
 	</DataTemplate>
