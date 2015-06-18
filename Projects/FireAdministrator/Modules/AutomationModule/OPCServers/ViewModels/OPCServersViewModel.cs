@@ -84,6 +84,7 @@ namespace AutomationModule.ViewModels
 			if (DialogService.ShowModalWindow(opcServerDetailsViewModel))
 			{
 				var opcServerViewModel = new OPCServerViewModel(opcServerDetailsViewModel.OPCServer);
+				FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.OPCServers.Add(opcServerDetailsViewModel.OPCServer);
 				OPCServers.Add(opcServerViewModel);
 				SelectedOPCServer = OPCServers.FirstOrDefault();
 				ServiceFactory.SaveService.AutomationChanged = true;
