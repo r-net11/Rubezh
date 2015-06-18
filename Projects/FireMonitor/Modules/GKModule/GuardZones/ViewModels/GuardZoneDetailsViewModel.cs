@@ -224,7 +224,7 @@ namespace GKModule.ViewModels
 				{
 					return FiresecManager.CheckPermission(PermissionType.Oper_ExtraGuardZone);
 				}
-				return FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);
+				return FiresecManager.CheckPermission(PermissionType.Oper_CanControl);
 			}
 		}
 

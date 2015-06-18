@@ -43,7 +43,7 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 			set
 			{
 				_borderColor = value;
-				OnPropertyChanged("BorderColor");
+				OnPropertyChanged(() => BorderColor);
 			}
 		}
 
@@ -65,7 +65,7 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 			set
 			{
 				_strokeThickness = value;
-				OnPropertyChanged("StrokeThickness");
+				OnPropertyChanged(() => StrokeThickness);
 			}
 		}
 

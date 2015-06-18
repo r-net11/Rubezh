@@ -36,6 +36,7 @@ namespace GKModule.ViewModels
 			TurnOnCommand = new RelayCommand(OnTurnOn);
 			TurnOnNowCommand = new RelayCommand(OnTurnOnNow);
 			TurnOffCommand = new RelayCommand(OnTurnOff);
+			ForbidStartCommand = new RelayCommand(OnForbidStart);
 		}
 
 		void OnStateChanged()
@@ -144,6 +145,15 @@ namespace GKModule.ViewModels
 			}
 		}
 
+		public RelayCommand ForbidStartCommand { get; private set; }
+		void OnForbidStart()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				FiresecManager.FiresecService.GKStop(Delay);
+			}
+		}
+
 		public bool HasOnDelay
 		{
 			get { return State.StateClasses.Contains(XStateClass.TurningOn) && State.OnDelay > 0; }
@@ -177,7 +187,7 @@ namespace GKModule.ViewModels
 
 		public bool CanControl
 		{
-			get { return FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices); }
+			get { return FiresecManager.CheckPermission(PermissionType.Oper_CanControl); }
 		}
 
 		#region IWindowIdentity Members

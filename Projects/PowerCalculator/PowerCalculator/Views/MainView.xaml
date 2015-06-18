@@ -93,7 +93,7 @@
             <ToolBarButton Command="{Binding LoadFromFileCommand}" ToolTip="Загрузить файл" ImageSource="Load" Margin="2" />
             <ToolBarButton Command="{Binding ShowSpecificationCommand}" ToolTip="Редактировать спецификацию" ImageSource="Settings2" Margin="2" />
             <ToolBarButton Command="{Binding EditCableTypesRepositoryCommand}" ToolTip="Редактировать список кабелей" ImageSource="Direction" Margin="2" />
-            <ToolBarButton Command="{Binding CalculateCommand}" ToolTip="Расчитать" ImageSource="Play" Margin="2" />
+            <ToolBarButton Command="{Binding PatchCommand}" ToolTip="Исправить" ImageSource="Play" Margin="2" />
         </StackPanel>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>

@@ -132,6 +132,7 @@ namespace FiresecAPI.GK
 			{
 				LinkLogic(direction, direction.Logic.OnClausesGroup);
 				LinkLogic(direction, direction.Logic.OffClausesGroup);
+				LinkLogic(direction, direction.Logic.StopClausesGroup);
 			}
 
 			if (pumpStation != null)
@@ -157,6 +158,7 @@ namespace FiresecAPI.GK
 			{
 				LinkLogic(delay, delay.Logic.OnClausesGroup);
 				LinkLogic(delay, delay.Logic.OffClausesGroup);
+				LinkLogic(delay, delay.Logic.StopClausesGroup);
 			}
 
 			if (guardZone != null)

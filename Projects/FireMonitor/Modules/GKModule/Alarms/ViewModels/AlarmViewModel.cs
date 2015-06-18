@@ -424,7 +424,7 @@ namespace GKModule.ViewModels
 			if (Alarm.AlarmType != GKAlarmType.Ignore)
 				return false;
 
-			if (!FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices))
+			if (!FiresecManager.CheckPermission(PermissionType.Oper_CanControl))
 				return false;
 
 			if (Alarm.Device != null)

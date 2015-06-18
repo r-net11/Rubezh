@@ -1,5 +1,5 @@
-﻿
-using FiresecAPI.Models;
+﻿using FiresecAPI.Models;
+
 namespace Infrastructure.Common.SKDReports
 {
 	public interface ISKDReportProvider

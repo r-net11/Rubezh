@@ -132,6 +132,7 @@
     <Compile Include="DataClasses\TimeTrackDocumnetType.cs" />
     <Compile Include="DataClasses\TimeTrackException.cs" />
     <Compile Include="EFTest\EFTest.cs" />
+    <Compile Include="EFTest\GKDayScheduleTranslator.cs" />
     <Compile Include="Synchronisers\CardSynchroniser.cs" />
     <Compile Include="Synchronisers\ConfigurationSynchroniser.cs" />
     <Compile Include="Synchronisers\DepartmentSynchroniser.cs" />

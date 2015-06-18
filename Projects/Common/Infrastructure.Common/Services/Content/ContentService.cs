@@ -11,7 +11,7 @@ namespace Infrastructure.Common.Services.Content
 {
 	public class ContentService : IContentService
 	{
-		private const string ContentFolderRelativePath = @"Configuration\Unzip\Content";
+		private const string ContentFolderRelativePath = @"Configuration\Content";
 		public string ContentFolder { get; private set; }
 		private Dictionary<string, Stream> _streams;
 		private Dictionary<string, BitmapImage> _images;
@@ -57,7 +57,7 @@ namespace Infrastructure.Common.Services.Content
 			}
 			var fileName = GetContentFileName(guid);
 			if (!File.Exists(fileName))
-				return null;
+				throw new Exception("File " + fileName + " not found");
 			var stream = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read);
 			_streams.Add(guid, stream);
 			return stream;
@@ -88,32 +88,73 @@ namespace Infrastructure.Common.Services.Content
 		}
 		public T GetObject<T>(Guid guid)
 		{
-			return GetObject<T>(guid.ToString());
+			try
+			{
+				return GetObject<T>(guid.ToString());
+			}
+			catch (Exception ex)
+			{
+				throw ex;
+			}
 		}
 		public T GetObject<T>(string guid)
 		{
 			if (_objects.ContainsKey(guid))
 				return (T)_objects[guid];
-
-			var obj = XamlServices.Load(GetContentStream(guid));
-			_objects.Add(guid, obj);
-			return (T)obj;
+			try
+			{
+				var obj = XamlServices.Load(GetContentStream(guid));
+				_objects.Add(guid, obj);
+				return (T)obj;
+			}
+			catch (Exception ex)
+			{
+				throw ex;
+			}
 		}
 		public Visual GetVisual(Guid guid)
 		{
-			return GetObject<Visual>(guid);
+			try
+			{
+				return GetObject<Visual>(guid);
+			}
+			catch (Exception ex)
+			{
+				throw ex;
+			}
 		}
 		public Visual GetVisual(string guid)
 		{
-			return GetObject<Visual>(guid);
+			try
+			{
+				return GetObject<Visual>(guid);
+			}
+			catch (Exception ex)
+			{
+				throw ex;
+			}
 		}
 		public Drawing GetDrawing(Guid guid)
 		{
-			return GetObject<Drawing>(guid);
+			try
+			{
+				return GetObject<Drawing>(guid);
+			}
+			catch (Exception ex)
+			{
+				throw ex;
+			}
 		}
 		public Drawing GetDrawing(string guid)
 		{
-			return GetObject<Drawing>(guid);
+			try
+			{
+				return GetObject<Drawing>(guid);
+			}
+			catch (Exception ex)
+			{
+				throw ex;
+			}
 		}
 
 		public Guid AddContent(string fileName)

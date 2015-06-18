@@ -19,14 +19,14 @@ namespace GKModule.ViewModels
 		public List<GKCode> Codes { get; private set; }
 		public bool CanCreateNew { get; private set; }
 
-		public CodesSelectationViewModel(List<GKCode> codes, bool canCreateNew = false)
+		public CodesSelectationViewModel(List<GKCode> codes, bool canCreateNew = true)
 		{
 			Title = "Выбор кодов";
 			AddCommand = new RelayCommand<object>(OnAdd, CanAdd);
 			RemoveCommand = new RelayCommand<object>(OnRemove, CanRemove);
 			AddAllCommand = new RelayCommand(OnAddAll, CanAddAll);
 			RemoveAllCommand = new RelayCommand(OnRemoveAll, CanRemoveAll);
-			//CreateNewCommand = new RelayCommand(OnCreateNew);
+			CreateNewCommand = new RelayCommand(OnCreateNew);
 
 			Codes = codes;
 			CanCreateNew = canCreateNew;
@@ -147,20 +147,17 @@ namespace GKModule.ViewModels
 			SelectedSourceCode = SourceCodes.FirstOrDefault();
 		}
 
-		//public RelayCommand CreateNewCommand { get; private set; }
-		//void OnCreateNew()
-		//{
-		//	var createCodeEventArg = new CreateGKCodeEventArg();
-		//	ServiceFactory.Events.GetEvent<CreateGKCodeEvent>().Publish(createCodeEventArg);
-		//	if (createCodeEventArg.Code != null)
-		//	{
-		//		TargetCodes.Add(createCodeEventArg.Code);
-		//		if (TargetCodes.Count == 1)
-		//		{
-		//			SaveCommand.Execute();
-		//		}
-		//	}
-		//}
+		public RelayCommand CreateNewCommand { get; private set; }
+		void OnCreateNew()
+		{
+			var createCodeEventArg = new CreateGKCodeEventArg();
+			ServiceFactory.Events.GetEvent<CreateGKCodeEvent>().Publish(createCodeEventArg);
+			if (createCodeEventArg.Code != null)
+			{
+				TargetCodes.Add(createCodeEventArg.Code);
+				OnPropertyChanged(() => TargetCodes);
+			}
+		}
 
 		public bool CanAdd(object parameter)
 		{

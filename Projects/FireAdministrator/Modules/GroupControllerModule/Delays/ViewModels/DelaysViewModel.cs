@@ -29,6 +29,9 @@ namespace GKModule.ViewModels
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
 			CopyCommand = new RelayCommand(OnCopy, CanCopy);
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
+			CopyLogicCommand = new RelayCommand(OnCopyLogic, CanCopyLogic);
+			PasteLogicCommand = new RelayCommand(OnPasteLogic, CanPasteLogic);
+
 			RegisterShortcuts();
 			SetRibbonItems();
 		}
@@ -95,6 +98,36 @@ namespace GKModule.ViewModels
 		bool CanPaste()
 		{
 			return _delayToCopy != null;
+		}
+
+		public RelayCommand CopyLogicCommand { get; private set; }
+		void OnCopyLogic()
+		{
+			GKManager.CopyLogic(SelectedDelay.Delay.Logic, true, false, true);
+		}
+
+		bool CanCopyLogic()
+		{
+			return SelectedDelay != null;
+		}
+
+		public RelayCommand PasteLogicCommand { get; private set; }
+		void OnPasteLogic()
+		{
+			var result = GKManager.CompareLogic(new GKAdvancedLogic(true, false, true, false, false));
+			var messageBoxResult = true;
+			if (!String.IsNullOrEmpty(result))
+				messageBoxResult = MessageBoxService.ShowConfirmation(result, "Копировать логику?");
+			if (messageBoxResult)
+			{
+				SelectedDelay.Delay.Logic = GKManager.LogicToCopy;
+				SelectedDelay.Update();
+			}
+		}
+
+		bool CanPasteLogic()
+		{
+			return SelectedDelay != null && GKManager.LogicToCopy != null;
 		}
 
 		public bool HasSelectedDelay

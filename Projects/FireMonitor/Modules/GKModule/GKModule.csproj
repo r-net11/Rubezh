@@ -102,8 +102,8 @@
     <Compile Include="Doors\ViewModels\DoorDetailsViewModel.cs" />
     <Compile Include="Doors\ViewModels\DoorsViewModel.cs" />
     <Compile Include="Doors\ViewModels\DoorViewModel.cs" />
-    <Compile Include="Doors\Views\DoorControlView.xaml.cs">
-      <DependentUpon>DoorControlView.xaml</DependentUpon>
+    <Compile Include="Doors\Views\DoorSKDControlView.xaml.cs">
+      <DependentUpon>DoorSKDControlView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Doors\Views\DoorDetailsView.xaml.cs">
       <DependentUpon>DoorDetailsView.xaml</DependentUpon>
@@ -124,6 +124,7 @@
       <DependentUpon>DiagnosticsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="MPTs\ViewModels\MPTDetailsViewModel.cs" />
+    <Compile Include="MPTs\ViewModels\MPTDeviceViewModel.cs" />
     <Compile Include="MPTs\ViewModels\MPTsViewModel.cs" />
     <Compile Include="MPTs\ViewModels\MPTViewModel.cs" />
     <Compile Include="MPTs\Views\MPTControlView.xaml.cs">
@@ -391,7 +392,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Doors\Views\DoorControlView.xaml">
+    <Page Include="Doors\Views\DoorSKDControlView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

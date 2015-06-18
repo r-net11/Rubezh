@@ -9,6 +9,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI.Journal;
 using System.Collections.Generic;
+using System.Windows.Input;
 
 namespace GKImitator.ViewModels
 {
@@ -25,9 +26,9 @@ namespace GKImitator.ViewModels
 			BaseDescriptor = descriptor;
 			DescriptorNo = descriptor.GetDescriptorNo();
 
-			SetAutomaticRegimeCommand = new RelayCommand(OnSetAutomaticRegime, CanSetAutomaticRegime);
-			SetManualRegimeCommand = new RelayCommand(OnSetManualRegime, CanSetManualRegime);
-			SetIgnoreRegimeCommand = new RelayCommand(OnSetIgnoreRegime, CanSetIgnoreRegime);
+			SetAutomaticRegimeCommand = new RelayCommand(OnSetAutomaticRegime);
+			SetManualRegimeCommand = new RelayCommand(OnSetManualRegime);
+			SetIgnoreRegimeCommand = new RelayCommand(OnSetIgnoreRegime);
 
 			InitializeStateBits();
 			InitializeFailureItems();
@@ -167,9 +168,10 @@ namespace GKImitator.ViewModels
 			var journalItem = new ImitatorJournalItem(2, 10, 0, 0);
 			AddJournalItem(journalItem);
 		}
-		bool CanSetAutomaticRegime()
+
+		public bool CanSetAutomaticRegime
 		{
-			return Regime != Regime.Automatic;
+			get { return Regime != Regime.Automatic; }
 		}
 
 		public RelayCommand SetManualRegimeCommand { get; private set; }
@@ -181,9 +183,10 @@ namespace GKImitator.ViewModels
 			var journalItem = new ImitatorJournalItem(2, 10, 1, 0);
 			AddJournalItem(journalItem);
 		}
-		bool CanSetManualRegime()
+
+		public bool CanSetManualRegime
 		{
-			return Regime != Regime.Manual;
+			get { return Regime != Regime.Manual; }
 		}
 
 		public RelayCommand SetIgnoreRegimeCommand { get; private set; }
@@ -195,9 +198,10 @@ namespace GKImitator.ViewModels
 			var journalItem = new ImitatorJournalItem(2, 10, 2, 0);
 			AddJournalItem(journalItem);
 		}
-		bool CanSetIgnoreRegime()
+
+		public bool CanSetIgnoreRegime
 		{
-			return Regime != Regime.Ignore;
+			get { return Regime != Regime.Ignore; }
 		}
 
 		Regime _regime;
@@ -208,6 +212,9 @@ namespace GKImitator.ViewModels
 			{
 				_regime = value;
 				OnPropertyChanged(() => Regime);
+				OnPropertyChanged(() => CanSetAutomaticRegime);
+				OnPropertyChanged(() => CanSetManualRegime);
+				OnPropertyChanged(() => CanSetIgnoreRegime);
 				CanControl = value == Regime.Manual;
 			}
 		}
@@ -299,7 +306,7 @@ namespace GKImitator.ViewModels
 
 			journalItem.UNUSED_KauNo = 0;
 			journalItem.UNUSED_KauAddress = 0;
-			journalItem.GkNo = JournalHelper.ImitatorJournalItemCollection.ImitatorJournalItems.Count + 1;
+			journalItem.GkNo = DBHelper.ImitatorJournalItemCollection.ImitatorJournalItems.Count + 1;
 			journalItem.GkObjectNo = BaseDescriptor.GetDescriptorNo();
 			journalItem.ObjectFactoryNo = 0;
 			journalItem.ObjectState = state;
@@ -308,8 +315,8 @@ namespace GKImitator.ViewModels
 				journalItem.ObjectDeviceType = (short)(BaseDescriptor.GKBase as GKDevice).Driver.DriverTypeNo;
 				journalItem.ObjectDeviceAddress = (short)(((BaseDescriptor.GKBase as GKDevice).ShleifNo - 1) * 256 + (BaseDescriptor.GKBase as GKDevice).IntAddress);
 			}
-			JournalHelper.ImitatorJournalItemCollection.ImitatorJournalItems.Add(journalItem);
-			JournalHelper.Save();
+			DBHelper.ImitatorJournalItemCollection.ImitatorJournalItems.Add(journalItem);
+			DBHelper.Save();
 		}
 	}
 }

@@ -499,6 +499,7 @@ namespace FiresecService.Service
 						GKProcessorManager.StopProgress(progressCallback);
 						return OperationResult<bool>.FromError("Ошибка при удалении пользователя из ГК");
 					}
+					progressCallback.Title = "Добавление пользователей прибора " + device.PresentationName;
 
 					using (var databaseService = new SKDDatabaseService())
 					{
@@ -507,7 +508,7 @@ namespace FiresecService.Service
 						{
 							progressCallback.StepCount = cardsResult.Result.Count();
 							progressCallback.CurrentStep = 0;
-							foreach (var card in cardsResult.Result)
+							foreach (var card in cardsResult.Result.OrderBy(x => x.EmployeeName))
 							{
 								var getAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(card.AccessTemplateUID);
 								var accessTemplate = getAccessTemplateOperationResult.Result;

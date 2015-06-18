@@ -43,8 +43,8 @@ namespace FiresecAPI.Models
 		[DescriptionAttribute("Постановка, снятие зон с охраны")]
 		Oper_SecurityZone,
 
-		[DescriptionAttribute("Управление устройствами, зонами и направлениями")]
-		Oper_ControlDevices,
+		[DescriptionAttribute("Управление устройствами, зонами, направлениями, ТД, МПТ, НС")]
+		Oper_CanControl,
 
 		[DescriptionAttribute("Управление интерфейсом")]
 		Oper_ChangeView,

@@ -295,11 +295,15 @@ namespace GKModule.ViewModels
 		}
 		#endregion
 
-		GKLogic logicToCopy;
 		public RelayCommand CopyLogicCommand { get; private set; }
 		void OnCopyLogic()
 		{
-			logicToCopy = GKManager.CopyLogic(SelectedDevice.Device.Logic);
+			var hasOnClause = SelectedDevice.Device.Driver.AvailableCommandBits.Contains(GKStateBit.TurnOn_InManual);
+			var hasOnNowClause = SelectedDevice.Device.Driver.AvailableCommandBits.Contains(GKStateBit.TurnOnNow_InManual);
+			var hasOffClause = SelectedDevice.Device.Driver.AvailableCommandBits.Contains(GKStateBit.TurnOff_InManual);
+			var hasOffNowClause = SelectedDevice.Device.Driver.AvailableCommandBits.Contains(GKStateBit.TurnOffNow_InManual);
+			var hasStopClause = SelectedDevice.Device.DriverType == GKDriverType.RSR2_Valve_DU || SelectedDevice.Device.DriverType == GKDriverType.RSR2_Valve_KV || SelectedDevice.Device.DriverType == GKDriverType.RSR2_Valve_KVMV;
+			GKManager.CopyLogic(SelectedDevice.Device.Logic, hasOnClause, hasOnNowClause, hasOffClause, hasOffNowClause, hasStopClause);
 		}
 
 		bool CanCopyLogic()
@@ -310,13 +314,26 @@ namespace GKModule.ViewModels
 		public RelayCommand PasteLogicCommand { get; private set; }
 		void OnPasteLogic()
 		{
-			SelectedDevice.Device.Logic = logicToCopy;
-			SelectedDevice.Device.OnChanged();
+			var hasOnClause = SelectedDevice.Device.Driver.AvailableCommandBits.Contains(GKStateBit.TurnOn_InManual);
+			var hasOnNowClause = SelectedDevice.Device.Driver.AvailableCommandBits.Contains(GKStateBit.TurnOnNow_InManual);
+			var hasOffClause = SelectedDevice.Device.Driver.AvailableCommandBits.Contains(GKStateBit.TurnOff_InManual);
+			var hasOffNowClause = SelectedDevice.Device.Driver.AvailableCommandBits.Contains(GKStateBit.TurnOffNow_InManual);
+			var hasStopClause = SelectedDevice.Device.DriverType == GKDriverType.RSR2_Valve_DU || SelectedDevice.Device.DriverType == GKDriverType.RSR2_Valve_KV || SelectedDevice.Device.DriverType == GKDriverType.RSR2_Valve_KVMV;
+
+			var result = GKManager.CompareLogic(new GKAdvancedLogic(hasOnClause, hasOnNowClause, hasOffClause, hasOffNowClause, hasStopClause));
+			var messageBoxResult = true;
+			if (!String.IsNullOrEmpty(result))
+				messageBoxResult = MessageBoxService.ShowConfirmation(result, "Копировать логику?");
+			if (messageBoxResult)
+			{
+				SelectedDevice.Device.Logic = GKManager.LogicToCopy;
+				SelectedDevice.Device.OnChanged();
+			}
 		}
 
 		bool CanPasteLogic()
 		{
-			return SelectedDevice != null && SelectedDevice.Device.Driver.HasLogic && logicToCopy != null;
+			return SelectedDevice != null && SelectedDevice.Device.Driver.HasLogic && GKManager.LogicToCopy != null;
 		}
 
 		public RelayCommand ShowSettingsCommand { get; private set; }

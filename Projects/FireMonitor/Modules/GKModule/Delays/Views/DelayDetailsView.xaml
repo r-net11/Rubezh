@@ -75,6 +75,7 @@
 							<Button Content="Включить" Command="{Binding TurnOnCommand}" Width="200" Height="50" Margin="2" />
 							<Button Content="Включить немедленно" Command="{Binding TurnOnNowCommand}" Width="200" Height="50" Margin="2" />
 							<Button Content="Выключить" Command="{Binding TurnOffCommand}" Width="200" Height="50" Margin="2" />
+							<Button Content="Останов пуска" Command="{Binding ForbidStartCommand}" Width="200" Height="50" Margin="2" />
 						</StackPanel>
 					</Grid>
 				</Grid>

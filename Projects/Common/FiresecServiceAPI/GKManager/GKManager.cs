@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Common;
 using FiresecAPI.GK;
 
@@ -131,16 +132,50 @@ namespace FiresecClient
 			return DeviceConfiguration.Devices.Where(x => x.DriverType == GKDriverType.GK).Count() > 1;
 		}
 
-		public static GKLogic CopyLogic(GKLogic sourceLogic)
+		public static GKAdvancedLogic LogicToCopy { get; private set; }
+		public static void CopyLogic(GKLogic sourceLogic, bool hasOnClause = false, bool hasOnNowClause = false, bool hasOffClause = false, bool hasOffNowClause = false, bool hasStopClause = false)
 		{
-			var targetLogic = new GKLogic();
-			targetLogic.OnClausesGroup = sourceLogic.OnClausesGroup.Clone();
-			targetLogic.OffClausesGroup = sourceLogic.OffClausesGroup.Clone();
-			targetLogic.StopClausesGroup = sourceLogic.StopClausesGroup.Clone();
-			targetLogic.OnNowClausesGroup = sourceLogic.OnNowClausesGroup.Clone();
-			targetLogic.OffNowClausesGroup = sourceLogic.OffNowClausesGroup.Clone();
-			targetLogic.UseOffCounterLogic = sourceLogic.UseOffCounterLogic;
-			return targetLogic;
+			LogicToCopy = new GKAdvancedLogic(hasOnClause, hasOnNowClause, hasOffClause, hasOffNowClause, hasStopClause);
+			if (hasOnClause)
+				LogicToCopy.OnClausesGroup = sourceLogic.OnClausesGroup.Clone();
+			if (hasOnNowClause)
+				LogicToCopy.OnNowClausesGroup = sourceLogic.OnNowClausesGroup.Clone();
+			if (hasOffClause)
+			{
+				LogicToCopy.OffClausesGroup = sourceLogic.OffClausesGroup.Clone();
+				LogicToCopy.UseOffCounterLogic = sourceLogic.UseOffCounterLogic;
+			}
+			if (hasOffNowClause)
+				LogicToCopy.OffNowClausesGroup = sourceLogic.OffNowClausesGroup.Clone();
+			if (hasStopClause)
+				LogicToCopy.StopClausesGroup = sourceLogic.StopClausesGroup.Clone();
+		}
+
+		public static string CompareLogic(GKAdvancedLogic targetLogic)
+		{
+			var result ="";
+			if (LogicToCopy.HasOnClause && !targetLogic.HasOnClause)
+				result += "\nЦелевой объект не содержит \"Условие Включения\"";
+			if (LogicToCopy.HasOnNowClause && !targetLogic.HasOnNowClause)
+				result += "\nЦелевой объект не содержит \"Условие Включения Немедленно\"";
+			if (LogicToCopy.HasOffClause && !targetLogic.HasOffClause)
+				result += "\nЦелевой объект не содержит \"Условие Выключения\"";
+			if (LogicToCopy.HasOffNowClause && !targetLogic.HasOffNowClause)
+				result += "\nЦелевой объект не содержит \"Условие Выключения Немедленно\"";
+			if (LogicToCopy.HasStopClause && !targetLogic.HasStopClause)
+				result += "\nЦелевой объект не содержит \"Условие Останова\"";
+
+			if (!LogicToCopy.HasOnClause && targetLogic.HasOnClause)
+				result += "\nЦелевой объект дополнительно содержит \"Условие Включения\"";
+			if (!LogicToCopy.HasOnNowClause && targetLogic.HasOnNowClause)
+				result += "\nЦелевой объект дополнительно содержит \"Условие Включения Немедленно\"";
+			if (!LogicToCopy.HasOffClause && targetLogic.HasOffClause)
+				result += "\nЦелевой объект дополнительно содержит \"Условие Выключения\"";
+			if (!LogicToCopy.HasOffNowClause && targetLogic.HasOffNowClause)
+				result += "\nЦелевой объект дополнительно содержит \"Условие Выключения Немедленно\"";
+			if (!LogicToCopy.HasStopClause && targetLogic.HasStopClause)
+				result += "\nЦелевой объект дополнительно содержит \"Условие Останова\"";
+			return result;
 		}
 	}
 }

@@ -1,8 +1,8 @@
 ﻿namespace GKModule.Views
 {
-	public partial class DoorControlView
+	public partial class DoorSKDControlView
 	{
-		public DoorControlView()
+		public DoorSKDControlView()
 		{
 			InitializeComponent();
 		}

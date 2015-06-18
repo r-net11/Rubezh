@@ -48,15 +48,18 @@ namespace PowerCalculator.Processor
                         existingCable.Length += device.Cable.Length;
                 }
         }
+        
         public static IEnumerable<CableSpecificationItem> GenerateFromSpecification(Configuration configuration)
         {
             return GenerateFromSpecification(configuration, configuration.DeviceSpecificationItems, configuration.CableSpecificationItems);
         }
+        
         public static IEnumerable<CableSpecificationItem> GenerateFromSpecification(Configuration configuration, IList<DeviceSpecificationItem> deviceSpecificationItems, IList<CableSpecificationItem> cableSpecificationItems)
 		{
+            const int maxAdress = 240;
 			configuration.Lines = new List<Line>();
 			var totalDevicesCount = deviceSpecificationItems.Sum(x => x.Count * x.Driver.Mult);
-            for (int i = 0; i <= totalDevicesCount / 255; i++)
+            for (int i = 0; i <= totalDevicesCount / maxAdress; i++)
             {
                 configuration.Lines.Add(new Line());
             }
@@ -75,7 +78,7 @@ namespace PowerCalculator.Processor
                 for (int j = i; j < expandedDeviceSpecificationItems.Count; j+=configuration.Lines.Count)
                     sum += expandedDeviceSpecificationItems[j].Driver.Mult;
 
-                if (sum > 255)
+                if (sum > maxAdress)
                 {
                     needAnotherLine = true;
                     break;
@@ -184,19 +187,66 @@ namespace PowerCalculator.Processor
             return cableRemains;
 		}
 
-        public static IEnumerable<DeviceIndicator> CalculateLine(Line line, bool suppliersNeeds = false)
+        public static IEnumerable<DeviceIndicator> CalculateLine(Line line)
         {
             var calcPower = new Algorithms.CalcPowerAlgorithm(line);
             calcPower.Calculate();
 
-            if (suppliersNeeds)
-            {
-
-            }
-            
             foreach (Device device in line.Devices)
                 yield return new DeviceIndicator(device, calcPower.Result[device].il, calcPower.Result[device].ud);
                         
         }       
+
+        public static IEnumerable<int> GetLinePatch(Line line)
+        {
+            var patch = new List<int>();
+            
+            Line testLine = new Line();
+            testLine.Devices = line.Devices.ToList();
+
+            int step = (int)(line.Devices.Count / 10);
+            if (step == 0)
+                step = 1;
+            int index = 0;
+            while (true)
+            {
+                if (!CalculateLine(testLine).Any(x => x.HasIError || x.HasUError))
+                {
+                    return patch;
+                }
+
+                if (testLine.MaxAdress >= 255)
+                    return null;
+                
+                index += step;
+                if (index >= testLine.Devices.Count)
+                    index = testLine.Devices.Count - 1;
+                testLine.Devices.Insert(index, new Device() { DriverType = DriverType.RSR2_MP });
+                
+                if (CalculateLine(testLine).Any(x=>testLine.Devices.IndexOf(x.Device) < index && (x.HasIError || x.HasUError)))
+                {
+                    while (true)
+                    {
+                        testLine.Devices.RemoveAt(index);
+                        index--;
+                        testLine.Devices.Insert(index, new Device() { DriverType = DriverType.RSR2_MP });
+                        if (!CalculateLine(testLine).Any(x => testLine.Devices.IndexOf(x.Device) < index && (x.HasIError || x.HasUError)))
+                        {
+                            patch.Add(index);
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    if (!CalculateLine(testLine).Any(x => x.HasIError || x.HasUError))
+                    {
+                        patch.Add(index);
+                        return patch;
+                    }
+                    testLine.Devices.RemoveAt(index);
+                }
+            }
+        }
     }
 }

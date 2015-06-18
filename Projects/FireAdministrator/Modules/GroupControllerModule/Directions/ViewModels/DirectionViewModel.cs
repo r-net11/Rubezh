@@ -24,6 +24,7 @@ namespace GKModule.ViewModels
 			OnPropertyChanged(() => Direction);
 			_visualizetionState = Direction.PlanElementUIDs.Count == 0 ? VisualizationState.NotPresent : (Direction.PlanElementUIDs.Count > 1 ? VisualizationState.Multiple : VisualizationState.Single);
 			OnPropertyChanged(() => VisualizationState);
+			OnPropertyChanged(() => PresentationLogic);
 		}
 
 		public string PresentationLogic
@@ -55,7 +56,7 @@ namespace GKModule.ViewModels
 		void OnShowLogic()
 		{
 			DirectionsViewModel.Current.SelectedDirection = this;
-			var logicViewModel = new LogicViewModel(null, Direction.Logic, true);
+			var logicViewModel = new LogicViewModel(null, Direction.Logic, true, hasStopClause:true);
 			if (DialogService.ShowModalWindow(logicViewModel))
 			{
 				Direction.Logic = logicViewModel.GetModel();

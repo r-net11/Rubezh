@@ -36,6 +36,9 @@ namespace GKModule.ViewModels
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
 			CopyCommand = new RelayCommand(OnCopy, CanCopy);
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
+			CopyLogicCommand = new RelayCommand(OnCopyLogic, CanCopyLogic);
+			PasteLogicCommand = new RelayCommand(OnPasteLogic, CanPasteLogic);
+
 			RegisterShortcuts();
 			IsRightPanelEnabled = true;
 			SubscribeEvents();
@@ -109,12 +112,42 @@ namespace GKModule.ViewModels
 			GKManager.Directions.Add(directionViewModel.Direction);
 			Directions.Add(directionViewModel);
 			SelectedDirection = directionViewModel;
-			ServiceFactory.SaveService.AutomationChanged = true;
+			ServiceFactory.SaveService.GKChanged = true;
 		}
 
 		bool CanPaste()
 		{
 			return _directionToCopy != null;
+		}
+
+		public RelayCommand CopyLogicCommand { get; private set; }
+		void OnCopyLogic()
+		{
+			GKManager.CopyLogic(SelectedDirection.Direction.Logic, true, false, true);
+		}
+
+		bool CanCopyLogic()
+		{
+			return SelectedDirection != null;
+		}
+
+		public RelayCommand PasteLogicCommand { get; private set; }
+		void OnPasteLogic()
+		{
+			var result = GKManager.CompareLogic(new GKAdvancedLogic(true, false, true, false, false));
+			var messageBoxResult = true;
+			if (!String.IsNullOrEmpty(result))
+				messageBoxResult = MessageBoxService.ShowConfirmation(result, "Копировать логику?");
+			if (messageBoxResult)
+			{
+				SelectedDirection.Direction.Logic = GKManager.LogicToCopy;
+				SelectedDirection.Update();
+			}
+		}
+
+		bool CanPasteLogic()
+		{
+			return SelectedDirection != null && GKManager.LogicToCopy != null;
 		}
 
 		bool CanEditDelete()
