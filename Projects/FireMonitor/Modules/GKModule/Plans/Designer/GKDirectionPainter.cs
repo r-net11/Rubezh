@@ -21,16 +21,22 @@ namespace GKModule.Plans.Designer
 {
 	class GKDirectionPainter : BaseZonePainter<GKDirection, ShowGKDirectionEvent>
 	{
-		private GeometryDrawing _textDrawing;
-		private ScaleTransform _scaleTransform;
-		private bool _showText = false;
+		GeometryDrawing _textDrawing;
+		ScaleTransform _scaleTransform;
+		bool _showState = false;
+		bool _showDelay = false;
 
 		public GKDirectionPainter(PresenterItem presenterItem)
 			: base(presenterItem)
 		{
 			_textDrawing = null;
 			_scaleTransform = new ScaleTransform();
-			_showText = Item != null && presenterItem.Element is ElementRectangleGKDirection;
+			var elementRectangleGKDirection = presenterItem.Element as ElementRectangleGKDirection;
+			if (Item != null && elementRectangleGKDirection != null)
+			{
+				_showState = elementRectangleGKDirection.ShowState;
+				_showDelay = elementRectangleGKDirection.ShowDelay;
+			}
 		}
 
 		protected override GKDirection CreateItem(PresenterItem presenterItem)
@@ -64,7 +70,7 @@ namespace GKModule.Plans.Designer
 		}
 
 		public RelayCommand ShowJournalCommand { get; private set; }
-		private void OnShowJournal()
+		void OnShowJournal()
 		{
 			var showArchiveEventArgs = new ShowArchiveEventArgs()
 			{
@@ -81,30 +87,33 @@ namespace GKModule.Plans.Designer
 				return;
 
 			base.Transform();
-			if (_showText)
+
+			var text = "";
+			if (_showState)
+				text = Item.State.StateClass.ToDescription();
+			if (_showDelay)
 			{
-				var text = Item.State.StateClass.ToDescription();
 				if (Item.State.StateClasses.Contains(XStateClass.TurningOn) && Item.State.OnDelay > 0)
 					text += "\n" + string.Format("Задержка: {0} сек", Item.State.OnDelay);
 				else if (Item.State.StateClasses.Contains(XStateClass.On) && Item.State.HoldDelay > 0)
 					text += "\n" + string.Format("Удержание: {0} сек", Item.State.HoldDelay);
-				if (string.IsNullOrEmpty(text))
-					_textDrawing = null;
-				else
-				{
-					var typeface = new Typeface("Arial");
-					var formattedText = new FormattedText(text, CultureInfo.InvariantCulture, FlowDirection.LeftToRight, typeface, 10, PainterCache.BlackBrush);
-					Point point = Geometry.Bounds.TopLeft;
-					_scaleTransform.CenterX = point.X;
-					_scaleTransform.CenterY = point.Y;
-					_scaleTransform.ScaleX = Geometry.Bounds.Width / formattedText.Width;
-					_scaleTransform.ScaleY = Geometry.Bounds.Height / formattedText.Height;
-					_textDrawing = new GeometryDrawing(PainterCache.BlackBrush, null, null);
-					_textDrawing.Geometry = formattedText.BuildGeometry(point);
-				}
+			}
+			if (!string.IsNullOrEmpty(text))
+			{
+				var typeface = new Typeface("Arial");
+				var formattedText = new FormattedText(text, CultureInfo.InvariantCulture, FlowDirection.LeftToRight, typeface, 10, PainterCache.BlackBrush);
+				Point point = Geometry.Bounds.TopLeft;
+				_scaleTransform.CenterX = point.X;
+				_scaleTransform.CenterY = point.Y;
+				_scaleTransform.ScaleX = Geometry.Bounds.Width / formattedText.Width;
+				_scaleTransform.ScaleY = Geometry.Bounds.Height / formattedText.Height;
+				_textDrawing = new GeometryDrawing(PainterCache.BlackBrush, null, null);
+				_textDrawing.Geometry = formattedText.BuildGeometry(point);
 			}
 			else
+			{
 				_textDrawing = null;
+			}
 		}
 		protected override void InnerDraw(DrawingContext drawingContext)
 		{

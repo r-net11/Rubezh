@@ -9,5 +9,7 @@ namespace Infrustructure.Plans.Elements
 		Guid DirectionUID { get; set; }
 		Color BackgroundColor { get; set; }
 		void SetZLayer(int zlayer);
+		bool ShowState { get; set; }
+		bool ShowDelay { get; set; }
 	}
 }

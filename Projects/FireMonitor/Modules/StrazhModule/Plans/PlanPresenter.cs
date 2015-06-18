@@ -59,9 +59,9 @@ namespace StrazhModule.Plans
 				yield return element;
 			foreach (var element in plan.ElementDoors.Where(x => x.DoorUID != Guid.Empty))
 				yield return element;
-			foreach (var element in plan.ElementRectangleSKDZones.Where(x => x.ZoneUID != Guid.Empty && !x.IsHiddenZone))
+			foreach (var element in plan.ElementRectangleSKDZones.Where(x => x.ZoneUID != Guid.Empty))
 				yield return element;
-			foreach (var element in plan.ElementPolygonSKDZones.Where(x => x.ZoneUID != Guid.Empty && !x.IsHiddenZone))
+			foreach (var element in plan.ElementPolygonSKDZones.Where(x => x.ZoneUID != Guid.Empty))
 				yield return element;
 		}
 
