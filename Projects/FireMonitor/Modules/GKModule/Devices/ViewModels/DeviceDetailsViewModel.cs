@@ -63,7 +63,7 @@ namespace GKModule.ViewModels
 
 		public Brush DevicePicture
 		{
-			get { return PictureCacheSource.GKDevicePicture.GetDynamicBrush(Device); }
+			get { return new SolidColorBrush(Colors.Red); } //PictureCacheSource.GKDevicePicture.GetDynamicBrush(Device); }
 		}
 
 		public bool HasOnDelay

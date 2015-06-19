@@ -113,7 +113,6 @@
     <Compile Include="Events\EditGKDoorEvent.cs" />
     <Compile Include="Events\CreateGKZoneEvent.cs" />
     <Compile Include="Events\EditGKZoneEvent.cs" />
-    <Compile Include="Events\ShowGKDeviceLidraryEvent.cs" />
     <Compile Include="Events\ShowGKDevicePropertiesEvent.cs" />
     <Compile Include="Events\ShowGKDiagnosticsEvent.cs" />
     <Compile Include="Events\ShowGKodeEvent.cs" />
@@ -131,21 +130,6 @@
       <DependentUpon>JournalFromFileView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\ClauseConditionConverter.cs" />
-    <Compile Include="DeviceLibrary\ViewModels\DeviceDetailsViewModel.cs" />
-    <Compile Include="DeviceLibrary\ViewModels\LibraryDeviceViewModel.cs" />
-    <Compile Include="DeviceLibrary\ViewModels\LibraryViewModel.cs" />
-    <Compile Include="DeviceLibrary\ViewModels\StateDetailsViewModel.cs" />
-    <Compile Include="DeviceLibrary\ViewModels\StateViewModel.cs" />
-    <Compile Include="DeviceLibrary\ViewModels\FrameViewModel.cs" />
-    <Compile Include="DeviceLibrary\Views\DeviceDetailsView.xaml.cs">
-      <DependentUpon>DeviceDetailsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="DeviceLibrary\Views\LibraryView.xaml.cs">
-      <DependentUpon>LibraryView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="DeviceLibrary\Views\StateDetailsView.xaml.cs">
-      <DependentUpon>StateDetailsView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Devices\ViewModels\ConfigurationCompare\ConfigurationCompareViewModel.cs" />
     <Compile Include="Plans\Designer\GKDoorPainter.cs" />
     <Compile Include="Plans\Designer\ElementDeviceUpdater.cs" />
@@ -311,22 +295,6 @@
   <ItemGroup />
   <ItemGroup>
     <Page Include="DataTemplates\Dictionary.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="DeviceLibrary\DataTemplates\Dictionary.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="DeviceLibrary\Views\DeviceDetailsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="DeviceLibrary\Views\LibraryView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="DeviceLibrary\Views\StateDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

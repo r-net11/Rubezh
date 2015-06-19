@@ -23,7 +23,7 @@ namespace GKModule.Plans.Designer
 		{
 			var device = GKPlanExtension.Instance.GetItem<GKDevice>(_elementGKDevice);
 			_toolTip.ImageSource = device == null ? null : device.Driver.ImageSource;
-			return PictureCacheSource.GKDevicePicture.GetBrush(device);
+			return new SolidColorBrush(Colors.Red); //PictureCacheSource.GKDevicePicture.GetBrush(device); TODO: Remove it
 		}
 
 		public override object GetToolTip(string title)

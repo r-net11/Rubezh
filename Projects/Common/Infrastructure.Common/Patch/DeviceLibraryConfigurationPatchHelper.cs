@@ -14,11 +14,6 @@ namespace Infrastructure.Common
 {
 	public static class DeviceLibraryConfigurationPatchHelper
 	{
-		public static void Patch()
-		{
-			PatchLibrary("GKDeviceLibraryConfiguration.xml", typeof(GKDeviceLibraryConfiguration));
-		}
-
 		public static void PatchSKDLibrary()
 		{
 			PatchLibrary("SKDDeviceLibraryConfiguration.xml", typeof(SKDLibraryConfiguration));
@@ -37,7 +32,7 @@ namespace Infrastructure.Common
 				if (configuration != null)
 				{
 					var zipFile = ZipFile.Read(fileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
-					AddConfigurationToZip(zipFile, configuration, "GKDeviceLibraryConfiguration.xml");
+				//	AddConfigurationToZip(zipFile, configuration, "GKDeviceLibraryConfiguration.xml");
 					zipFile.Save(fileName);
 				}
 			}

@@ -26,7 +26,6 @@ namespace SettingsModule.ViewModels
 			RemoveLogsCommand = new RelayCommand(OnRemoveLogs);
 			ResetDatabaseCommand = new RelayCommand(OnResetDatabase);
 			ResetConfigurationCommand = new RelayCommand(OnResetConfiguration);
-			ResetGKLibaryCommand = new RelayCommand(OnResetGKLibary);
 			ResetSKDLibaryCommand = new RelayCommand(OnResetSKDLibary);
 			ResetSettingsCommand = new RelayCommand(OnResetSettings);
 			ModulesViewModel = new ModulesViewModel();
@@ -162,15 +161,6 @@ namespace SettingsModule.ViewModels
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите сбросить по конфигурацию?"))
 			{
 				File.Copy(AppDataFolderHelper.GetFileInFolder("Empty", "Config.fscp"), AppDataFolderHelper.GetFileInFolder("Server", "Config.fscp"), true);
-			}
-		}
-
-		public RelayCommand ResetGKLibaryCommand { get; private set; }
-		void OnResetGKLibary()
-		{
-			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите сбросить по умолчанию настройки библиотеки устройств?"))
-			{
-				DeviceLibraryConfigurationPatchHelper.Patch();
 			}
 		}
 

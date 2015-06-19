@@ -374,11 +374,6 @@
 					<Button
 						Width="300"
 						Margin="2"
-						Command="{Binding ResetGKLibaryCommand}"
-						Content="Сбросить библиотеку устройств" />
-					<Button
-						Width="300"
-						Margin="2"
 						Command="{Binding ResetSKDLibaryCommand}"
 						Content="Сбросить библиотеку СКД" />
 					<Button

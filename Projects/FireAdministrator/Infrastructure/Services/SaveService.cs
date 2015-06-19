@@ -19,17 +19,6 @@ namespace Infrastructure
 			}
 		}
 
-		bool _gkLibraryChanged;
-		public bool GKLibraryChanged
-		{
-			get { return _gkLibraryChanged; }
-			set
-			{
-				_gkLibraryChanged = value;
-				OnChanged();
-			}
-		}
-
 		bool _plansChanged;
 		public bool PlansChanged
 		{
@@ -151,7 +140,7 @@ namespace Infrastructure
 				OnChanged();
 			}
 		}
-		 
+
 		public event Action Changed;
 		void OnChanged()
 		{
@@ -163,7 +152,7 @@ namespace Infrastructure
 		{
 			get
 			{
-				return PlansChanged || FilterChanged || SecurityChanged || SoundsChanged ||  GKLibraryChanged || GKChanged || CamerasChanged || EmailsChanged || SKDChanged || SKDLibraryChanged || LayoutsChanged || AutomationChanged;
+				return PlansChanged || FilterChanged || SecurityChanged || SoundsChanged || GKChanged || CamerasChanged || EmailsChanged || SKDChanged || SKDLibraryChanged || LayoutsChanged || AutomationChanged;
 			}
 		}
 
@@ -181,7 +170,6 @@ namespace Infrastructure
 		{
 			GKChanged = value;
 			PlansChanged = value;
-			GKLibraryChanged = value;
 			FilterChanged = value;
 			SecurityChanged = value;
 			SoundsChanged = value;

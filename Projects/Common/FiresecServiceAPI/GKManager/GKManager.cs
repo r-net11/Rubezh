@@ -10,7 +10,6 @@ namespace FiresecClient
 	{
 		public static GKDeviceConfiguration DeviceConfiguration { get; set; }
 		public static GKDriversConfiguration DriversConfiguration { get; set; }
-		public static GKDeviceLibraryConfiguration DeviceLibraryConfiguration { get; set; }
 
 		static GKManager()
 		{

@@ -84,10 +84,6 @@ namespace GKModule.Plans
 		public void Initialize()
 		{
 			_monitors.Clear();
-			using (new TimeCounter("DevicePictureCache.LoadGKCache: {0}"))
-				PictureCacheSource.GKDevicePicture.LoadCache();
-			using (new TimeCounter("DevicePictureCache.LoadGKDynamicCache: {0}"))
-				PictureCacheSource.GKDevicePicture.LoadDynamicCache();
 		}
 
 		private void OnPainterFactoryEvent(PainterFactoryEventArgs args)

@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Media;
 using System.Windows.Shapes;
 using Common;
 using DeviceControls;
@@ -319,7 +320,7 @@ namespace GKModule.ViewModels
 		private UIElement OnCreateDragVisual(IDataObject dataObject)
 		{
 			ServiceFactory.Layout.SetRightPanelVisible(true);
-			var brush = PictureCacheSource.GKDevicePicture.GetBrush(Device);
+			var brush = new SolidColorBrush(Colors.Red); //PictureCacheSource.GKDevicePicture.GetBrush(Device); TODO: Remove it
 			return new Rectangle
 			{
 				Fill = brush,

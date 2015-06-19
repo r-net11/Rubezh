@@ -102,8 +102,6 @@ namespace FireAdministrator
 					AddConfiguration(tempFolderName, "GKDeviceConfiguration.xml", GKManager.DeviceConfiguration, 1, 1, true);
 				if (ServiceFactory.SaveService.SecurityChanged)
 					AddConfiguration(tempFolderName, "SecurityConfiguration.xml", FiresecManager.SecurityConfiguration, 1, 1, true);
-				if (ServiceFactory.SaveService.GKLibraryChanged)
-					AddConfiguration(tempFolderName, "GKDeviceLibraryConfiguration.xml", GKManager.DeviceLibraryConfiguration, 1, 1, true);
 				if (ServiceFactory.SaveService.SKDChanged)
 					AddConfiguration(tempFolderName, "SKDConfiguration.xml", SKDManager.SKDConfiguration, 1, 1, true);
 				if (ServiceFactory.SaveService.SKDLibraryChanged)

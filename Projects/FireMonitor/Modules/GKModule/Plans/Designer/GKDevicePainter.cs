@@ -52,7 +52,7 @@ namespace GKModule.Plans.Designer
 
 		protected override Brush GetBrush()
 		{
-			return PictureCacheSource.GKDevicePicture.GetDynamicBrush(Item);
+			return new SolidColorBrush(Colors.Red); //PictureCacheSource.GKDevicePicture.GetDynamicBrush(Item);
 		}
 
 		public RelayCommand ShowJournalCommand { get; private set; }
