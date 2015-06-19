@@ -25,7 +25,6 @@ namespace GKModule
 	public partial class GKModuleLoader : ModuleBase, IReportProviderModule, ILayoutProviderModule
 	{
 		static DevicesViewModel DevicesViewModel;
-		static DeviceParametersViewModel DeviceParametersViewModel;
 		static SKDZonesViewModel SKDZonesViewModel;
 		static DoorsViewModel DoorsViewModel;
 		public static DaySchedulesViewModel DaySchedulesViewModel;
@@ -44,7 +43,6 @@ namespace GKModule
 			ServiceFactory.Layout.AddToolbarItem(new GKConnectionIndicatorViewModel());
 
 			DevicesViewModel = new DevicesViewModel();
-			DeviceParametersViewModel = new DeviceParametersViewModel();
 			SKDZonesViewModel = new SKDZonesViewModel();
 			DoorsViewModel = new DoorsViewModel();
 			DaySchedulesViewModel = new DaySchedulesViewModel();
@@ -88,7 +86,6 @@ namespace GKModule
 			ServiceFactory.Events.GetEvent<RegisterPlanPresenterEvent<Plan, XStateClass>>().Publish(_planPresenter);
 			_skdZonesNavigationItem.IsVisible = GKManager.DeviceConfiguration.SKDZones.Count > 0;
 			DevicesViewModel.Initialize();
-			DeviceParametersViewModel.Initialize();
 			SKDZonesViewModel.Initialize();
 			DoorsViewModel.Initialize();
 			_doorsNavigationItem.IsVisible = GKManager.DeviceConfiguration.Doors.Count > 0;
@@ -106,7 +103,6 @@ namespace GKModule
 					new List<NavigationItem>()
 					{
 						new NavigationItem<ShowGKDeviceEvent, Guid>(DevicesViewModel, "Устройства", "Tree", null, null, Guid.Empty),
-						new NavigationItem<ShowGKDeviceParametersEvent, Guid>(DeviceParametersViewModel, "Параметры", "Tree", null, null, Guid.Empty),
 						_skdZonesNavigationItem,
 						_doorsNavigationItem,
 						new NavigationItem("СКД", "tree",

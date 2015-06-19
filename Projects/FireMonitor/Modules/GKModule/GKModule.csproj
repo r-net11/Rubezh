@@ -101,7 +101,6 @@
       <DependentUpon>DoorToolTipView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Events\ShowGKDaySchedulesEvent.cs" />
-    <Compile Include="Events\ShowGKDeviceParametersEvent.cs" />
     <Compile Include="Events\ShowGKScheduleEvent.cs" />
     <Compile Include="GKModuleLoader.Subscribe.cs" />
     <Compile Include="Plans\Designer\GKDoorPainter.cs" />
@@ -172,14 +171,9 @@
     <Compile Include="Reports\DriverCounterReportPdf.cs" />
     <Compile Include="Devices\ViewModels\DeviceControlRegime.cs" />
     <Compile Include="Devices\ViewModels\DeviceExecutableCommandViewModel.cs" />
-    <Compile Include="Devices\ViewModels\DeviceParametersViewModel.cs" />
-    <Compile Include="Devices\ViewModels\DeviceParameterViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceStateViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceViewModelComparer.cs" />
     <Compile Include="ViewModels\GKConnectionIndicatorViewModel.cs" />
-    <Compile Include="Devices\Views\DeviceParametersView.xaml.cs">
-      <DependentUpon>DeviceParametersView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Devices\Views\DeviceStateView.xaml.cs">
       <DependentUpon>DeviceStateView.xaml</DependentUpon>
     </Compile>
@@ -327,10 +321,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Devices\Views\DeviceDetailsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Devices\Views\DeviceParametersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
