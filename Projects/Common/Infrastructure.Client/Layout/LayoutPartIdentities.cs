@@ -20,7 +20,6 @@ namespace Infrastructure.Client.Layout
 		public static readonly Guid Automation = new Guid("{2F91D187-752A-4AF2-918F-7A3F1AD3C62D}");
 
 		public static readonly Guid Indicator = new Guid("{8B0BF10A-AD4C-48CC-B1D0-ADF39552B936}");
-		public static readonly Guid Alarms = new Guid("{A8C3AA98-2684-41E8-8248-BD27E206DB81}");
 		public static readonly Guid GDevices = new Guid("{C23D21B1-950D-40C8-A283-00FD0CF6AFB1}");
 		public static readonly Guid GKSKDZones = new Guid("5DAAAB60-DA31-4875-B7D4-52C066E84E39");
 		public static readonly Guid Doors = new Guid("{1944B6F5-779F-4fff-949E-A546AC3493EC}");

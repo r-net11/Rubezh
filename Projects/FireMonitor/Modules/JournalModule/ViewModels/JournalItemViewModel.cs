@@ -147,7 +147,6 @@ namespace JournalModule.ViewModels
 					break;
 
 				case JournalObjectType.None:
-				case JournalObjectType.GKUser:
 					ObjectName = JournalItem.ObjectName != null ? JournalItem.ObjectName : "";
 					break;
 			}

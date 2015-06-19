@@ -48,8 +48,6 @@ namespace FireAdministrator.ViewModels
 
 				ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 				ServiceFactory.Layout.Close();
-				if (ApplicationService.Modules.Any(x => x.Name == "Групповой контроллер"))
-					ServiceFactory.Events.GetEvent<ShowGKDeviceEvent>().Publish(Guid.Empty);
 
 				ServiceFactory.SaveService.PlansChanged = true;
 				ServiceFactory.SaveService.GKChanged = true;

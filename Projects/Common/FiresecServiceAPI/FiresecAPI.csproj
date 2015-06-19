@@ -495,7 +495,6 @@
     <Compile Include="GKModels\SKD\GKSchedule.cs" />
     <Compile Include="GKModels\SKD\GKSchedulePeriodType.cs" />
     <Compile Include="GKModels\SKD\GKScheduleType.cs" />
-    <Compile Include="GKModels\SKD\GKUser.cs" />
     <Compile Include="GKModels\States\GKDoorInternalState.cs" />
     <Compile Include="GKModels\States\GKStates.cs" />
     <Compile Include="GKModels\States\GKAdditionalState.cs" />

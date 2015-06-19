@@ -131,10 +131,6 @@ namespace GKModule.ViewModels
 						}
 						break;
 
-					case JournalObjectType.GKUser:
-						PresentationName = JournalItem.UserName;
-						break;
-
 					case JournalObjectType.None:
 						PresentationName = "";
 						break;

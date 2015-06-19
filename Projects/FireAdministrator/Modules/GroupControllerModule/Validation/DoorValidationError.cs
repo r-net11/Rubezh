@@ -15,7 +15,7 @@ namespace GKModule.Validation
 
 		public override ModuleType Module
 		{
-			get { return ModuleType.GK; }
+			get { return ModuleType.SKD; }
 		}
 		protected override Guid KeyValue
 		{

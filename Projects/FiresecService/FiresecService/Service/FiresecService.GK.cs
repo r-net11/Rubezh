@@ -346,22 +346,22 @@ namespace FiresecService.Service
 		}
 
 		#region Users
-		public OperationResult<List<GKUser>> GKGetUsers(Guid gkDeviceUID)
-		{
-			var gkControllerDevice = GKManager.Devices.FirstOrDefault(x => x.UID == gkDeviceUID);
-			if (gkControllerDevice != null)
-			{
-				try
-				{
-					return GKSKDHelper.GetAllUsers(gkControllerDevice);
-				}
-				catch (Exception e)
-				{
-					return OperationResult<List<GKUser>>.FromError(e.Message);
-				}
-			}
-			return OperationResult<List<GKUser>>.FromError("Не найден ГК в конфигурации");
-		}
+		//public OperationResult<List<GKUser>> GKGetUsers(Guid gkDeviceUID)
+		//{
+		//	var gkControllerDevice = GKManager.Devices.FirstOrDefault(x => x.UID == gkDeviceUID);
+		//	if (gkControllerDevice != null)
+		//	{
+		//		try
+		//		{
+		//			return GKSKDHelper.GetAllUsers(gkControllerDevice);
+		//		}
+		//		catch (Exception e)
+		//		{
+		//			return OperationResult<List<GKUser>>.FromError(e.Message);
+		//		}
+		//	}
+		//	return OperationResult<List<GKUser>>.FromError("Не найден ГК в конфигурации");
+		//}
 
 		public OperationResult<bool> GKRewriteUsers(Guid deviceUID)
 		{

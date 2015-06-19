@@ -192,9 +192,6 @@ namespace GKModule.ViewModels
 				if (SelectedAvailableDevice != null)
 				{
 					SelectedAvailableDevice.Description = value;
-					var device = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device == SelectedAvailableDevice);
-					if (device != null)
-						device.Update();
 				}
 				OnPropertyChanged(() => AvailableDeviceDescription);
 			}
@@ -211,9 +208,6 @@ namespace GKModule.ViewModels
 				if (SelectedDevice != null)
 				{
 					SelectedDevice.Description = value;
-					var device = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device == SelectedDevice);
-					if (device != null)
-						device.Update();
 				}
 				OnPropertyChanged(() => DeviceDescription);
 			}

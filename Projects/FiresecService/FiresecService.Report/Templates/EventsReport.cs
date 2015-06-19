@@ -145,7 +145,6 @@ namespace FiresecService.Report.Templates
 							break;
 
 						case JournalObjectType.None:
-						case JournalObjectType.GKUser:
 							dataRow.Object = journalItem.ObjectName != null ? journalItem.ObjectName : "";
 							break;
 					}

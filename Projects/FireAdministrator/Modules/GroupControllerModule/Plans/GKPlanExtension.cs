@@ -34,13 +34,12 @@ namespace GKModule.Plans
 		public static GKPlanExtension Instance { get; private set; }
 
 		private bool _processChanges;
-		private DevicesViewModel _devicesViewModel;
 		private SKDZonesViewModel _skdZonesViewModel;
 		private DoorsViewModel _doorsViewModel;
 		private IEnumerable<IInstrument> _instruments;
 		private List<DesignerItem> _designerItems;
 
-		public GKPlanExtension(DevicesViewModel devicesViewModel, SKDZonesViewModel skdZonesViewModel, DoorsViewModel doorsViewModel)
+		public GKPlanExtension(SKDZonesViewModel skdZonesViewModel, DoorsViewModel doorsViewModel)
 		{
 			Instance = this;
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
@@ -55,7 +54,6 @@ namespace GKModule.Plans
 			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(UpdateGKDeviceInGKZones);
 			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(UpdateGKDeviceInGKZones);
 
-			_devicesViewModel = devicesViewModel;
 			_skdZonesViewModel = skdZonesViewModel;
 			_doorsViewModel = doorsViewModel;
 			_instruments = null;
@@ -282,10 +280,7 @@ namespace GKModule.Plans
 		}
 		private void OnShowPropertiesEvent(ShowPropertiesEventArgs e)
 		{
-			ElementGKDevice element = e.Element as ElementGKDevice;
-			if (element != null)
-				e.PropertyViewModel = new DevicePropertiesViewModel(_devicesViewModel, element);
-			else if (e.Element is ElementRectangleGKSKDZone || e.Element is ElementPolygonGKSKDZone)
+			if (e.Element is ElementRectangleGKSKDZone || e.Element is ElementPolygonGKSKDZone)
 				e.PropertyViewModel = new SKDZonePropertiesViewModel((IElementZone)e.Element, _skdZonesViewModel);
 			else if (e.Element is ElementGKDoor)
 				e.PropertyViewModel = new GKDoorPropertiesViewModel(_doorsViewModel, (ElementGKDoor)e.Element);

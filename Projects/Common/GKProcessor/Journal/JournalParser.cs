@@ -73,7 +73,6 @@ namespace GKProcessor
 							var bytes2 = bytes.GetRange(48, 53 - 48 + 1);
 							bytes1.AddRange(bytes2);
 							JournalItem.UserName = Encoding.Default.GetString(bytes1.ToArray(), 0, bytes1.Count);
-							JournalItem.JournalObjectType = JournalObjectType.GKUser;
 							break;
 
 						case 8:
@@ -83,7 +82,6 @@ namespace GKProcessor
 							bytes2 = bytes.GetRange(48, 53 - 48 + 1);
 							bytes1.AddRange(bytes2);
 							JournalItem.UserName = Encoding.Default.GetString(bytes1.ToArray(), 0, bytes1.Count);
-							JournalItem.JournalObjectType = JournalObjectType.GKUser;
 							break;
 
 						case 9:
@@ -97,7 +95,6 @@ namespace GKProcessor
 							bytes2 = bytes.GetRange(48, 53 - 48 + 1);
 							bytes1.AddRange(bytes2);
 							JournalItem.UserName = Encoding.Default.GetString(bytes1.ToArray(), 0, bytes1.Count);
-							JournalItem.JournalObjectType = JournalObjectType.GKUser;
 							break;
 
 						case 11:
@@ -106,7 +103,6 @@ namespace GKProcessor
 							bytes2 = bytes.GetRange(48, 53 - 48 + 1);
 							bytes1.AddRange(bytes2);
 							JournalItem.UserName = Encoding.Default.GetString(bytes1.ToArray(), 0, bytes1.Count);
-							JournalItem.JournalObjectType = JournalObjectType.GKUser;
 							break;
 
 						case 12:

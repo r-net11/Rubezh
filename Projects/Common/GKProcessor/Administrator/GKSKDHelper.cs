@@ -14,7 +14,6 @@ namespace GKProcessor
 		public static OperationResult<bool> AddOrEditCard(GKControllerCardSchedule controllerCardSchedule, SKDCard card, string employeeName, int gkCardNo = 0)
 		{
 			var isNew = true;
-			gkCardNo = 1;
 			using (var skdDatabaseService = new SKDDatabaseService())
 			{
 				gkCardNo = skdDatabaseService.GKCardTranslator.GetFreeGKNo(controllerCardSchedule.ControllerDevice.GetGKIpAddress(), card.Number, out isNew);
@@ -98,7 +97,7 @@ namespace GKProcessor
 
 		public static OperationResult<bool> RemoveCard(GKDevice device, SKDCard card)
 		{
-			var no = 1;
+			int no;
 			using (var skdDatabaseService = new SKDDatabaseService())
 			{
 				no = skdDatabaseService.GKCardTranslator.GetGKNoByCardNo(device.GetGKIpAddress(), card.Number);
@@ -150,44 +149,44 @@ namespace GKProcessor
 			return new OperationResult<bool>(true);
 		}
 
-		public static OperationResult<List<GKUser>> GetAllUsers(GKDevice device)
-		{
-			var progressCallback = GKProcessorManager.StartProgress("Чтение пользователей прибора " + device.PresentationName, "", 65535, true, GKProgressClientType.Administrator);
-			var users = new List<GKUser>();
+		//public static OperationResult<List<GKUser>> GetAllUsers(GKDevice device)
+		//{
+		//	var progressCallback = GKProcessorManager.StartProgress("Чтение пользователей прибора " + device.PresentationName, "", 65535, true, GKProgressClientType.Administrator);
+		//	var users = new List<GKUser>();
 
-			for (int i = 1; i <= 65535; i++)
-			{
-				var bytes = new List<byte>();
-				bytes.Add(0);
-				bytes.AddRange(BytesHelper.ShortToBytes((ushort)(i)));
+		//	for (int i = 1; i <= 65535; i++)
+		//	{
+		//		var bytes = new List<byte>();
+		//		bytes.Add(0);
+		//		bytes.AddRange(BytesHelper.ShortToBytes((ushort)(i)));
 
-				var sendResult = SendManager.Send(device, (ushort)(bytes.Count), 24, 0, bytes);
-				if (sendResult.HasError)
-				{
-					return OperationResult<List<GKUser>>.FromError("Во время выполнения операции возникла ошибка", users);
-				}
-				if (sendResult.Bytes.Count == 0)
-				{
-					break;
-				}
+		//		var sendResult = SendManager.Send(device, (ushort)(bytes.Count), 24, 0, bytes);
+		//		if (sendResult.HasError)
+		//		{
+		//			return OperationResult<List<GKUser>>.FromError("Во время выполнения операции возникла ошибка", users);
+		//		}
+		//		if (sendResult.Bytes.Count == 0)
+		//		{
+		//			break;
+		//		}
 
-				var user = new GKUser();
-				user.GKNo = BytesHelper.SubstructShort(sendResult.Bytes, 1);
-				user.CardType = (GKCardType)sendResult.Bytes[3];
-				user.IsActive = sendResult.Bytes[4] == 0;
-				user.FIO = BytesHelper.BytesToStringDescription(sendResult.Bytes, 5);
-				user.Number = (uint)BytesHelper.SubstructInt(sendResult.Bytes, 37);
-				users.Add(user);
-				if (progressCallback.IsCanceled)
-				{
-					return OperationResult<List<GKUser>>.FromError("Операция отменена", users);
-				}
-				GKProcessorManager.DoProgress("Пользователь " + i, progressCallback);
-			}
+		//		var user = new GKUser();
+		//		user.GKNo = BytesHelper.SubstructShort(sendResult.Bytes, 1);
+		//		user.CardType = (GKCardType)sendResult.Bytes[3];
+		//		user.IsActive = sendResult.Bytes[4] == 0;
+		//		user.FIO = BytesHelper.BytesToStringDescription(sendResult.Bytes, 5);
+		//		user.Number = (uint)BytesHelper.SubstructInt(sendResult.Bytes, 37);
+		//		users.Add(user);
+		//		if (progressCallback.IsCanceled)
+		//		{
+		//			return OperationResult<List<GKUser>>.FromError("Операция отменена", users);
+		//		}
+		//		GKProcessorManager.DoProgress("Пользователь " + i, progressCallback);
+		//	}
 
-			GKProcessorManager.StopProgress(progressCallback);
-			return new OperationResult<List<GKUser>>(users);
-		}
+		//	GKProcessorManager.StopProgress(progressCallback);
+		//	return new OperationResult<List<GKUser>>(users);
+		//}
 
 		public static bool RemoveAllUsers(GKDevice device, GKProgressCallback progressCallback)
 		{

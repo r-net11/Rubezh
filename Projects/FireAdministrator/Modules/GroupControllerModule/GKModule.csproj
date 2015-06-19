@@ -78,35 +78,20 @@
     <Compile Include="Converters\LibraryXStateClassToIconConverter.cs" />
     <Compile Include="Converters\XStateClassToJournalColorConverter.cs" />
     <Compile Include="Devices\ViewModels\AutoSearchDevicesViewModel.cs" />
-    <Compile Include="Devices\ViewModels\DevicesOnShleifViewModel.cs" />
-    <Compile Include="Devices\ViewModels\DeviceViewModel.Parameters.cs" />
     <Compile Include="Devices\ViewModels\ConfigurationCompare\ObjectsListViewModel.cs" />
-    <Compile Include="Devices\ViewModels\DeviceViewModelComparer.cs" />
     <Compile Include="Devices\ViewModels\ConfigurationCompare\ObjectViewModel.cs" />
     <Compile Include="Devices\ViewModels\FirmWareUpdateViewModel.cs" />
-    <Compile Include="Devices\ViewModels\GKUsersViewModel.cs" />
     <Compile Include="Devices\ViewModels\Logic\ClauseGroupViewModel.cs" />
     <Compile Include="Devices\ViewModels\Logic\StateTypeViewModel.cs" />
-    <Compile Include="Devices\ViewModels\RSR2NewDeviceViewModel.cs" />
-    <Compile Include="Devices\ViewModels\NewDeviceViewModelBase.cs" />
     <Compile Include="Devices\ViewModels\UpdatedDeviceViewModel.cs" />
     <Compile Include="Devices\Views\AutoSearchDevicesView.xaml.cs">
       <DependentUpon>AutoSearchDevicesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Devices\Views\DevicesOnShleifView.xaml.cs">
-      <DependentUpon>DevicesOnShleifView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Devices\Views\FirmWareUpdateView.xaml.cs">
       <DependentUpon>FirmWareUpdateView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Devices\Views\GKUsersView.xaml.cs">
-      <DependentUpon>GKUsersView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Devices\Views\Logic\ClausesView.xaml.cs">
       <DependentUpon>ClausesView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Devices\Views\RSR2NewDeviceView.xaml.cs">
-      <DependentUpon>RSR2NewDeviceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Events\CreateGKDoorEvent.cs" />
     <Compile Include="Events\CreateGKSKDZoneEvent.cs" />
@@ -180,16 +165,11 @@
       <DependentUpon>PropertiesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="GroupControllerModule.cs" />
-    <Compile Include="Devices\ViewModels\DeviceCommandsViewModel.cs" />
     <Compile Include="Journal\ViewModels\JournalViewModel.cs" />
     <Compile Include="Journal\Views\JournalView.xaml.cs">
       <DependentUpon>JournalView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Plans\Designer\Painter.cs" />
-    <Compile Include="Plans\ViewModels\DevicePropertiesViewModel.cs" />
-    <Compile Include="Plans\Views\DevicePropertiesView.xaml.cs">
-      <DependentUpon>DevicePropertiesView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Plans\Views\DevicesInZoneView.xaml.cs">
       <DependentUpon>DevicesInZoneView.xaml</DependentUpon>
     </Compile>
@@ -210,11 +190,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Devices\ViewModels\Logic\LogicViewModel.cs" />
-    <Compile Include="Devices\ViewModels\DevicesMenuViewModel.cs" />
-    <Compile Include="Devices\ViewModels\DeviceViewModel.cs" />
-    <Compile Include="Devices\ViewModels\DevicesViewModel.cs" />
     <Compile Include="Devices\ViewModels\NewDeviceHelper.cs" />
-    <Compile Include="Devices\ViewModels\NewDeviceViewModel.cs" />
     <Compile Include="Selectation\Views\DeviceSelectationView.xaml.cs">
       <DependentUpon>DeviceSelectationView.xaml</DependentUpon>
     </Compile>
@@ -255,28 +231,15 @@
       <DependentUpon>SKDZonesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Validation\Validator.Plans.cs" />
-    <Compile Include="Validation\DayScheduleValidationError.cs" />
     <Compile Include="Validation\DeviceValidationError.cs" />
     <Compile Include="Validation\Validator.cs" />
-    <Compile Include="Validation\Validator.DaySchedules.cs" />
     <Compile Include="Validation\Validator.Devices.cs" />
     <Compile Include="Validation\Validator.Doors.cs" />
     <Compile Include="Validation\DoorValidationError.cs" />
-    <Compile Include="Validation\ScheduleValidationError.cs" />
-    <Compile Include="Validation\Validator.Schedules.cs" />
     <Compile Include="Validation\SKDZoneValidationError.cs" />
     <Compile Include="Validation\Validator.SKDZones.cs" />
     <Compile Include="Devices\Views\Logic\LogicView.xaml.cs">
       <DependentUpon>LogicView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Devices\Views\DevicesMenuView.xaml.cs">
-      <DependentUpon>DevicesMenuView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Devices\Views\DevicesView.xaml.cs">
-      <DependentUpon>DevicesView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Devices\Views\NewDeviceView.xaml.cs">
-      <DependentUpon>NewDeviceView.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -306,15 +269,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Devices\Views\DevicesOnShleifView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Devices\Views\FirmWareUpdateView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Devices\Views\GKUsersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -322,23 +277,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Devices\Views\RSR2NewDeviceView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Devices\Views\ConfigurationCompareView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Devices\Views\Logic\LogicView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Devices\Views\DevicesMenuView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Devices\Views\DevicesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -370,10 +313,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Devices\Views\NewDeviceView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Devices\Views\PropertiesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -393,10 +332,6 @@
     <Page Include="Plans\DataTemplates\Dictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Plans\Views\DevicePropertiesView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Plans\Views\DevicesInZoneView.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -25,9 +25,6 @@ namespace FiresecAPI.Journal
 		[DescriptionAttribute("Видеоустройства")]
 		VideoDevice,
 
-		[DescriptionAttribute("Пользователи ГК")]
-		GKUser,
-
 		[DescriptionAttribute("Зоны СКД ГК")]
 		GKSKDZone,
 	}

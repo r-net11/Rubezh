@@ -68,8 +68,6 @@ namespace Infrastructure.Common
 		Diagnostics,
 		[DescriptionAttribute("Фильтры журнала событий")]
 		Filters,
-		[DescriptionAttribute("Групповой контроллер")]
-		GK,
 		[DescriptionAttribute("Конфигуратор макетов ОЗ")]
 		Layout,
 		[DescriptionAttribute("Библиотека устройств")]

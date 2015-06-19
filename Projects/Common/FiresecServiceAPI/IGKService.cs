@@ -56,9 +56,6 @@ namespace FiresecAPI
 		OperationResult<bool> GKSetSchedule(GKSchedule schedule);
 
 		[OperationContract]
-		OperationResult<List<GKUser>> GKGetUsers(Guid gkDeviceUID);
-
-		[OperationContract]
 		OperationResult<bool> GKRewriteUsers(Guid gkDeviceUID);
 
 		[OperationContract]
