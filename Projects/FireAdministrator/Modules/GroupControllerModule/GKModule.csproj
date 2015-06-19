@@ -136,7 +136,6 @@
     <Compile Include="Events\ShowGKJournalFilterEvent.cs" />
     <Compile Include="Events\ShowGKOPCDevicesEvent.cs" />
     <Compile Include="Events\ShowGKOPCZonesEvent.cs" />
-    <Compile Include="Events\ShowGKParameterTemplatesEvent.cs" />
     <Compile Include="Events\ShowGKZoneEvent.cs" />
     <Compile Include="Events\ShowGKDoorEvent.cs" />
     <Compile Include="Events\ShowGKScheduleEvent.cs" />
@@ -166,7 +165,6 @@
       <DependentUpon>StateDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\ViewModels\ConfigurationCompare\ConfigurationCompareViewModel.cs" />
-    <Compile Include="Parameters\ViewModels\DeviceParameterViewModel.cs" />
     <Compile Include="Plans\Designer\GKDoorPainter.cs" />
     <Compile Include="Plans\Designer\ElementDeviceUpdater.cs" />
     <Compile Include="Plans\InstrumentAdorners\SKDZonePolygonAdorner.cs" />
@@ -213,27 +211,6 @@
     </Compile>
     <Compile Include="OPC\Views\OPCZonesView.xaml.cs">
       <DependentUpon>OPCZonesView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Parameters\Converters\DeviceParameterMissmatchTypeToColorConverter.cs" />
-    <Compile Include="Parameters\Converters\DeviceParameterMissmatchTypeToColorConverter2.cs" />
-    <Compile Include="Parameters\Converters\DeviceParameterMissmatchTypeToColorConverter3.cs" />
-    <Compile Include="Parameters\ViewModels\BaseAUPropertyViewModel.cs" />
-    <Compile Include="Parameters\ViewModels\DeviceParameterMissmatchType.cs" />
-    <Compile Include="Parameters\ViewModels\DeviceParameterTemplateViewModel.cs" />
-    <Compile Include="Parameters\ViewModels\EnumAUPropertyViewModel.cs" />
-    <Compile Include="Parameters\ViewModels\ParameterTemplateSelectationViewModel.cs" />
-    <Compile Include="Parameters\ViewModels\ParameterTemplatesMenuViewModel.cs" />
-    <Compile Include="Parameters\ViewModels\ParameterTemplatesViewModel.cs" />
-    <Compile Include="Parameters\ViewModels\ParameterTemplateViewModel.cs" />
-    <Compile Include="Parameters\ViewModels\StringAUPropertyViewModel.cs" />
-    <Compile Include="Parameters\Views\ParameterTemplateSelectationView.xaml.cs">
-      <DependentUpon>ParameterTemplateSelectationView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Parameters\Views\ParameterTemplatesMenuView.xaml.cs">
-      <DependentUpon>ParameterTemplatesMenuView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Parameters\Views\ParameterTemplatesView.xaml.cs">
-      <DependentUpon>ParameterTemplatesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Plans\GKPlanExtension.cs" />
     <Compile Include="Devices\ViewModels\Logic\ClauseViewModel.cs" />
@@ -533,22 +510,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="OPC\Views\OPCZonesView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Parameters\DataTemplates\Dictionary.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Parameters\Views\ParameterTemplateSelectationView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Parameters\Views\ParameterTemplatesMenuView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Parameters\Views\ParameterTemplatesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

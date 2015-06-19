@@ -25,7 +25,6 @@ namespace GKModule
 	public class GroupControllerModule : ModuleBase, IValidationModule, ILayoutDeclarationModule
 	{
 		DevicesViewModel DevicesViewModel;
-		ParameterTemplatesViewModel ParameterTemplatesViewModel;
 		DoorsViewModel DoorsViewModel;
 		SKDZonesViewModel SKDZonesViewModel;
 		LibraryViewModel DeviceLidraryViewModel;
@@ -43,7 +42,6 @@ namespace GKModule
 			ServiceFactory.Events.GetEvent<EditGKDoorEvent>().Subscribe(OnEditGKDoor);
 
 			DevicesViewModel = new DevicesViewModel();
-			ParameterTemplatesViewModel = new ParameterTemplatesViewModel();
 			DoorsViewModel = new DoorsViewModel();
 			SKDZonesViewModel = new SKDZonesViewModel();
 			DeviceLidraryViewModel = new LibraryViewModel();
@@ -57,7 +55,6 @@ namespace GKModule
 		public override void Initialize()
 		{
 			DevicesViewModel.Initialize();
-			ParameterTemplatesViewModel.Initialize();
 			DoorsViewModel.Initialize();
 			SKDZonesViewModel.Initialize();
 			InstructionsViewModel.Initialize();
@@ -74,7 +71,6 @@ namespace GKModule
 				new NavigationItem(ModuleType.ToDescription(), "Tree", new List<NavigationItem>()
 				{
 					new NavigationItem<ShowGKDeviceEvent, Guid>(DevicesViewModel, "Устройства", "Tree", null, null, Guid.Empty),
-					new NavigationItem<ShowGKParameterTemplatesEvent, Guid>(ParameterTemplatesViewModel, "Шаблоны","Briefcase", null, null, Guid.Empty),
 
 					new NavigationItem<ShowGKInstructionsEvent, Guid>(InstructionsViewModel, "Инструкции", "information", null, null, Guid.Empty),
 					new NavigationItem<ShowGKDescriptorsEvent, object>(DescriptorsViewModel, "Дескрипторы", "Descriptors"),

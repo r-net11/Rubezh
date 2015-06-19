@@ -47,9 +47,7 @@ namespace GKModule.ViewModels
 				};
 				Device.Properties.Add(newProperty);
 			}
-			UpdateDeviceParameterMissmatchType();
 			Device.OnChanged();
-			Device.OnAUParametersChanged();
 		}
 	}
 }

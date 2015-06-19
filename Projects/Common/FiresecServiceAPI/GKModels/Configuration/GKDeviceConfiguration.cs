@@ -17,12 +17,9 @@ namespace FiresecAPI.GK
 			Devices = new List<GKDevice>();
 			Doors = new List<GKDoor>();
 			SKDZones = new List<GKSKDZone>();
-			//DaySchedules = new List<GKDaySchedule>();
-			//Schedules = new List<GKSchedule>();
 			Holidays = new List<GKHoliday>();
 
 			Instructions = new List<GKInstruction>();
-			ParameterTemplates = new List<GKParameterTemplate>();
 		}
 
 		[XmlIgnore]
@@ -69,12 +66,6 @@ namespace FiresecAPI.GK
 		/// </summary>
 		[DataMember]
 		public List<GKHoliday> Holidays { get; set; }
-
-		/// <summary>
-		/// Шаблоны параметров устройств
-		/// </summary>
-		[DataMember]
-		public List<GKParameterTemplate> ParameterTemplates { get; set; }
 
 		public void Update()
 		{

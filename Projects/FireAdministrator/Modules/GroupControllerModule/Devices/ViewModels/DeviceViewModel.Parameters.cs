@@ -25,8 +25,6 @@ namespace GKModule.ViewModels
 			CopyParamCommand = new RelayCommand(OnCopy, CanCopy);
 			PasteParamCommand = new RelayCommand(OnPaste, CanPaste);
 			PasteAllParamCommand = new RelayCommand(OnPasteAll, CanPasteAll);
-			PasteTemplateCommand = new RelayCommand(OnPasteTemplate, CanPasteTemplate);
-			PasteAllTemplateCommand = new RelayCommand(OnPasteAllTemplate, CanPasteAllTemplate);
 			ResetAUPropertiesCommand = new RelayCommand(OnResetAUProperties);
 		}
 
@@ -70,7 +68,6 @@ namespace GKModule.ViewModels
 		{
 			CopyParametersFromBuffer(Device);
 			PropertiesViewModel.Update();
-			UpdateDeviceParameterMissmatch();
 		}
 		bool CanPaste()
 		{
@@ -90,7 +87,6 @@ namespace GKModule.ViewModels
 						deviceViewModel.PropertiesViewModel.Update();
 				}
 			}
-			UpdateDeviceParameterMissmatch();
 		}
 		bool CanPasteAll()
 		{
@@ -108,63 +104,6 @@ namespace GKModule.ViewModels
 				}
 			}
 			ServiceFactory.SaveService.GKChanged = true;
-		}
-		#endregion
-
-		#region Template
-		public RelayCommand PasteTemplateCommand { get; private set; }
-		void OnPasteTemplate()
-		{
-			var parameterTemplateSelectationViewModel = new ParameterTemplateSelectationViewModel();
-			if (DialogService.ShowModalWindow(parameterTemplateSelectationViewModel))
-			{
-				CopyParametersFromTemplate(parameterTemplateSelectationViewModel.SelectedParameterTemplate, Device);
-				PropertiesViewModel.Update();
-			}
-			UpdateDeviceParameterMissmatch();
-			ServiceFactory.SaveService.GKChanged = true;
-		}
-		bool CanPasteTemplate()
-		{
-			return HasAUProperties;
-		}
-
-		public RelayCommand PasteAllTemplateCommand { get; private set; }
-		void OnPasteAllTemplate()
-		{
-			var parameterTemplateSelectationViewModel = new ParameterTemplateSelectationViewModel();
-			if (DialogService.ShowModalWindow(parameterTemplateSelectationViewModel))
-			{
-				foreach (var device in Device.AllChildrenAndSelf)
-				{
-					CopyParametersFromTemplate(parameterTemplateSelectationViewModel.SelectedParameterTemplate, device);
-					var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device == device);
-					if (deviceViewModel != null)
-						deviceViewModel.PropertiesViewModel.Update();
-				}
-			}
-			UpdateDeviceParameterMissmatch();
-			ServiceFactory.SaveService.GKChanged = true;
-		}
-		bool CanPasteAllTemplate()
-		{
-			return Children.Count() > 0;
-		}
-
-		static void CopyParametersFromTemplate(GKParameterTemplate parameterTemplate, GKDevice device)
-		{
-			var deviceParameterTemplate = parameterTemplate.DeviceParameterTemplates.FirstOrDefault(x => x.GKDevice.DriverUID == device.Driver.UID);
-			if (deviceParameterTemplate != null)
-			{
-				foreach (var property in deviceParameterTemplate.GKDevice.Properties)
-				{
-					var deviceProperty = device.Properties.FirstOrDefault(x => x.Name == property.Name);
-					if (deviceProperty != null)
-					{
-						deviceProperty.Value = property.Value;
-					}
-				}
-			}
 		}
 		#endregion
 
@@ -232,7 +171,6 @@ namespace GKModule.ViewModels
 				if (deviceViewModel != null)
 					deviceViewModel.PropertiesViewModel.Update();
 			}
-			UpdateDeviceParameterMissmatch();
 		}
 
 		public RelayCommand SyncFromDeviceToSystemCommand { get; private set; }
@@ -241,7 +179,6 @@ namespace GKModule.ViewModels
 			CheckShleif();
 			CopyFromDeviceToSystem(Device);
 			PropertiesViewModel.Update();
-			UpdateDeviceParameterMissmatch();
 		}
 
 		public RelayCommand SyncFromAllDeviceToSystemCommand { get; private set; }
@@ -255,7 +192,6 @@ namespace GKModule.ViewModels
 				if (deviceViewModel != null)
 					deviceViewModel.PropertiesViewModel.Update();
 			}
-			UpdateDeviceParameterMissmatch();
 		}
 
 		bool CanSync()
@@ -396,7 +332,6 @@ namespace GKModule.ViewModels
 						deviceProperty.Value = property.Value;
 						deviceProperty.StringValue = property.StringValue;
 					}
-					device.OnAUParametersChanged();
 				}
 				else
 				{
@@ -456,28 +391,6 @@ namespace GKModule.ViewModels
 			}
 			PropertiesViewModel = new PropertiesViewModel(Device);
 			OnPropertyChanged(() => PropertiesViewModel);
-		}
-
-		void UpdateDeviceParameterMissmatch()
-		{
-			var allDevices = DevicesViewModel.Current.AllDevices;
-			allDevices.ForEach(x => x.PropertiesViewModel.DeviceParameterMissmatchType = DeviceParameterMissmatchType.Equal);
-			foreach (var deviceViewModel in allDevices)
-			{
-				deviceViewModel.PropertiesViewModel.UpdateDeviceParameterMissmatchType();
-				if (deviceViewModel.PropertiesViewModel.DeviceParameterMissmatchType == DeviceParameterMissmatchType.Unknown)
-				{
-					deviceViewModel.GetAllParents().ForEach(x => x.PropertiesViewModel.DeviceParameterMissmatchType = DeviceParameterMissmatchType.Unknown);
-				}
-			}
-			foreach (var deviceViewModel in allDevices)
-			{
-				deviceViewModel.PropertiesViewModel.UpdateDeviceParameterMissmatchType();
-				if (deviceViewModel.PropertiesViewModel.DeviceParameterMissmatchType == DeviceParameterMissmatchType.Unequal)
-				{
-					deviceViewModel.GetAllParents().ForEach(x => x.PropertiesViewModel.DeviceParameterMissmatchType = DeviceParameterMissmatchType.Unequal);
-				}
-			}
 		}
 
 		bool CompareLocalWithRemoteHashes()

@@ -27,10 +27,6 @@ namespace FiresecClient
 		{
 			get { return DriversConfiguration.Drivers; }
 		}
-		public static List<GKParameterTemplate> ParameterTemplates
-		{
-			get { return GKManager.DeviceConfiguration.ParameterTemplates; }
-		}
 		public static List<GKDoor> Doors
 		{
 			get { return DeviceConfiguration.Doors; }

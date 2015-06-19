@@ -78,7 +78,6 @@ namespace GKModule.ViewModels
 					}
 				}
 			}
-			ShleifDevice.OnAUParametersChanged();
 
 			if (ShleifDevice.KAUParent != null)
 				GKManager.RebuildRSR2Addresses(ShleifDevice.KAUParent);

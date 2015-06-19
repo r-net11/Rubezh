@@ -17,7 +17,6 @@ namespace GKModule.ViewModels
 		{
 			Device = device;
 			Update();
-			device.AUParametersChanged += On_AUParametersChanged;
 		}
 		public void Update()
 		{
@@ -60,55 +59,6 @@ namespace GKModule.ViewModels
 			OnPropertyChanged(() => ShortProperties);
 			OnPropertyChanged(() => BoolProperties);
 			OnPropertyChanged(() => EnumProperties);
-			UpdateDeviceParameterMissmatchType();
-		}
-
-		public void UpdateDeviceParameterMissmatchType()
-		{
-			if (StringProperties.Count + ShortProperties.Count + BoolProperties.Count + EnumProperties.Count > 0)
-			{
-				DeviceParameterMissmatchType maxDeviceParameterMissmatchType = DeviceParameterMissmatchType.Equal;
-				foreach (var auProperty in StringProperties)
-				{
-					if (!auProperty.IsAUParameter)
-						continue;
-					if (auProperty.DeviceParameterMissmatchType > maxDeviceParameterMissmatchType)
-						maxDeviceParameterMissmatchType = auProperty.DeviceParameterMissmatchType;
-				}
-				foreach (var auProperty in ShortProperties)
-				{
-					if (!auProperty.IsAUParameter)
-						continue;
-					if (auProperty.DeviceParameterMissmatchType > maxDeviceParameterMissmatchType)
-						maxDeviceParameterMissmatchType = auProperty.DeviceParameterMissmatchType;
-				}
-				foreach (var auProperty in BoolProperties)
-				{
-					if (!auProperty.IsAUParameter)
-						continue;
-					if (auProperty.DeviceParameterMissmatchType > maxDeviceParameterMissmatchType)
-						maxDeviceParameterMissmatchType = auProperty.DeviceParameterMissmatchType;
-				}
-				foreach (var auProperty in EnumProperties)
-				{
-					if (!auProperty.IsAUParameter)
-						continue;
-					if (auProperty.DeviceParameterMissmatchType > maxDeviceParameterMissmatchType)
-						maxDeviceParameterMissmatchType = auProperty.DeviceParameterMissmatchType;
-				}
-				DeviceParameterMissmatchType = maxDeviceParameterMissmatchType;
-			}
-		}
-
-		DeviceParameterMissmatchType _deviceParameterMissmatchType;
-		public DeviceParameterMissmatchType DeviceParameterMissmatchType
-		{
-			get{return _deviceParameterMissmatchType;}
-			set
-			{
-				_deviceParameterMissmatchType = value;
-				OnPropertyChanged(() => DeviceParameterMissmatchType);
-			}
 		}
 
 		public bool HasParameters
@@ -119,11 +69,6 @@ namespace GKModule.ViewModels
 					return false;
 				return Device.Properties.Count != 0;
 			}
-		}
-
-		void On_AUParametersChanged()
-		{
-			Update();
 		}
 	}
 }

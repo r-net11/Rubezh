@@ -11,7 +11,6 @@
 	xmlns:viewModel="clr-namespace:GKModule.ViewModels">
 
 	<UserControl.Resources>
-		<Converters:DeviceParameterMissmatchTypeToColorConverter3 x:Key="DeviceParameterMissmatchTypeToColorConverter3" />
 		<Conv:SwitchConverter x:Key="Tooltip" Else="{x:Null}">
 			<Conv:SwitchCase Then="Устройство может быть размещено на плане" When="Multiple" />
 			<Conv:SwitchCase Then="Устройство не размещено на плане" When="NotPresent" />
@@ -188,15 +187,6 @@
 														Text="{Binding Device.ShortName}"
 														Visibility="{Binding IsDisabled,
 													                                Converter={StaticResource BoolToVisibilityConverter}}" />
-													<TextBlock
-														Width="200"
-														HorizontalAlignment="Left"
-														VerticalAlignment="Center"
-														Foreground="{Binding PropertiesViewModel.DeviceParameterMissmatchType,
-													                                Converter={StaticResource DeviceParameterMissmatchTypeToColorConverter3}}"
-														Text="{Binding Device.ShortName}"
-														Visibility="{Binding IsDisabled,
-													                                Converter={StaticResource InversedBoolToVisibilityConverter}}" />
 												</StackPanel>
 											</ControlTemplate>
 										</Controls:EditorPresenter.ViewTemplate>

@@ -37,8 +37,6 @@ namespace GKModule.ViewModels
 			}
 			else
 				DeviceAUParameterValue = "Неизвестно";
-
-			UpdateDeviceParameterMissmatchType();
 		}
 
 		public bool IsAUParameter { get; set; }
@@ -50,36 +48,6 @@ namespace GKModule.ViewModels
 		public string ToolTip
 		{
 			get { return DriverProperty.ToolTip; }
-		}
-
-		protected void UpdateDeviceParameterMissmatchType()
-		{
-			var deviceProperty = Device.DeviceProperties.FirstOrDefault(x => x.Name == DriverProperty.Name);
-			var systemProperty = Device.Properties.FirstOrDefault(x => x.Name == DriverProperty.Name);
-			if (systemProperty == null|| systemProperty.DriverProperty == null || !systemProperty.DriverProperty.IsAUParameter)
-				return;
-			if (!DriverProperty.IsReadOnly)
-			{
-				if (deviceProperty == null)
-				{
-					DeviceParameterMissmatchType = DeviceParameterMissmatchType.Unknown;
-				}
-				else
-				{
-					DeviceParameterMissmatchType = deviceProperty.Value == systemProperty.Value ? DeviceParameterMissmatchType.Equal : DeviceParameterMissmatchType.Unequal;
-				}
-			}
-		}
-
-		DeviceParameterMissmatchType _deviceParameterMissmatchType;
-		public DeviceParameterMissmatchType DeviceParameterMissmatchType
-		{
-			get { return _deviceParameterMissmatchType; }
-			set
-			{
-				_deviceParameterMissmatchType = value;
-				OnPropertyChanged(() => DeviceParameterMissmatchType);
-			}
 		}
 
 		public virtual string DeviceAUParameterValue { get; protected set; }
@@ -111,9 +79,7 @@ namespace GKModule.ViewModels
 				};
 				Device.Properties.Add(newProperty);
 			}
-			UpdateDeviceParameterMissmatchType();
 			Device.OnChanged();
-			Device.OnAUParametersChanged();
 		}
 	}
 }

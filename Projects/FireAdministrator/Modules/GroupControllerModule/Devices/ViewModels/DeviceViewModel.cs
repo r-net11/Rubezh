@@ -51,7 +51,6 @@ namespace GKModule.ViewModels
 			UpdateDriver();
 			InitializeParamsCommands();
 			Device.Changed += OnChanged;
-			Device.AUParametersChanged += UpdateDeviceParameterMissmatch;
 		}
 
 		public void CheckShleif()
@@ -239,13 +238,6 @@ namespace GKModule.ViewModels
 			allDevices.ForEach(device => device.OnChanged());
 			using (var cache = new ElementDeviceUpdater())
 				cache.ResetDevices(allDevices);
-			if (updateParameters)
-			{
-				if (Parent != null)
-				{
-					Parent.Device.OnAUParametersChanged();
-				}
-			}
 
 			var parent = Parent;
 			if (parent != null)
