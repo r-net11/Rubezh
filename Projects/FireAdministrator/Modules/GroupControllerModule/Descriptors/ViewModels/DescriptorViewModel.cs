@@ -28,10 +28,6 @@ namespace GKModule.ViewModels
 					}
 					break;
 
-				case DescriptorType.PumpStation:
-					ImageSource = "/Controls;component/Images/BPumpStation.png";
-					break;
-
 				case DescriptorType.Pim:
 					ImageSource = "/Controls;component/Images/Pim.png";
 					break;

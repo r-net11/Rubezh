@@ -20,12 +20,6 @@ namespace GKProcessor
 				device.KauDatabaseParent = RootDevice;
 				Devices.Add(device);
 			}
-
-			foreach (var pumpStation in GKManager.PumpStations.FindAll(x => x.KauDatabaseParent == RootDevice))
-			{
-				pumpStation.KauDatabaseParent = RootDevice;
-				PumpStations.Add(pumpStation);
-			}
 		}
 
 		List<GKDevice> AllDevices;
@@ -51,16 +45,6 @@ namespace GKProcessor
 				device.KAUDescriptorNo = NextDescriptorNo;
 				var deviceDescriptor = new DeviceDescriptor(device, DatabaseType);
 				Descriptors.Add(deviceDescriptor);
-			}
-
-			foreach (var pumpStation in PumpStations)
-			{
-				pumpStation.KAUDescriptorNo = NextDescriptorNo;
-				var pumpStationDescriptor = new PumpStationDescriptor(this, pumpStation, DatabaseType.Kau);
-				Descriptors.Add(pumpStationDescriptor);
-
-				var pumpStationCreator = new PumpStationCreator(this, pumpStation, DatabaseType.Kau);
-				pumpStationCreator.Create();
 			}
 
 			foreach (var descriptor in Descriptors)

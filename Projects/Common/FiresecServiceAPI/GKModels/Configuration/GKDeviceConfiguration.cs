@@ -15,7 +15,6 @@ namespace FiresecAPI.GK
 		public GKDeviceConfiguration()
 		{
 			Devices = new List<GKDevice>();
-			PumpStations = new List<GKPumpStation>();
 			Doors = new List<GKDoor>();
 			SKDZones = new List<GKSKDZone>();
 			//DaySchedules = new List<GKDaySchedule>();
@@ -34,12 +33,6 @@ namespace FiresecAPI.GK
 		/// </summary>
 		[DataMember]
 		public GKDevice RootDevice { get; set; }
-
-		/// <summary>
-		/// Насосные станции
-		/// </summary>
-		[DataMember]
-		public List<GKPumpStation> PumpStations { get; set; }
 
 		/// <summary>
 		/// Инструкции

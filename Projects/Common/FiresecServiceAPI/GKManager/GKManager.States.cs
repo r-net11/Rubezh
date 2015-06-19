@@ -11,11 +11,6 @@ namespace FiresecClient
 				device.InternalState = new GKDeviceInternalState(device);
 				device.State = new GKState(device);
 			}
-			foreach (var pumpStation in PumpStations)
-			{
-				pumpStation.InternalState = new GKPumpStationInternalState(pumpStation);
-				pumpStation.State = new GKState(pumpStation);
-			}
 			foreach (var door in Doors)
 			{
 				door.InternalState = new GKDoorInternalState(door);

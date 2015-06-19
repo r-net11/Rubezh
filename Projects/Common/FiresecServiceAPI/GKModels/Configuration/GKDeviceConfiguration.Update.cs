@@ -68,7 +68,6 @@ namespace FiresecAPI.GK
 		{
 			ClearAllReferences();
 			InitializeLogic();
-			InitializePumpStations();
 			InitializeDoors();
 			UpdateGKChildrenDescription();
 		}
@@ -80,11 +79,6 @@ namespace FiresecAPI.GK
 				device.ClearClauseDependencies();
 				device.Door = null;
 			}
-			foreach (var pumpStation in PumpStations)
-			{
-				pumpStation.ClearClauseDependencies();
-				pumpStation.NSDevices = new List<GKDevice>();
-			}
 		}
 
 		void InitializeLogic()
@@ -92,8 +86,6 @@ namespace FiresecAPI.GK
 			foreach (var device in Devices)
 			{
 				InvalidateOneLogic(device, device.Logic);
-				if (device.NSLogic != null)
-					InvalidateOneLogic(device, device.NSLogic);
 			}
 		}
 
@@ -101,31 +93,6 @@ namespace FiresecAPI.GK
 		{
 			InvalidateInputObjectsBaseLogic(device, logic);
 		}
-
-		void InitializePumpStations()
-		{
-			foreach (var pumpStation in PumpStations)
-			{
-				var nsDeviceUIDs = new List<Guid>();
-				foreach (var nsDeviceUID in pumpStation.NSDeviceUIDs)
-				{
-					var device = Devices.FirstOrDefault(x => x.UID == nsDeviceUID);
-					if (device != null)
-					{
-						if (device.Driver.DriverType == GKDriverType.RSR2_Bush_Drenazh || device.Driver.DriverType == GKDriverType.RSR2_Bush_Jokey || device.Driver.DriverType == GKDriverType.RSR2_Bush_Fire || device.Driver.DriverType == GKDriverType.RSR2_Bush_Shuv)
-						{
-							nsDeviceUIDs.Add(device.UID);
-							pumpStation.NSDevices.Add(device);
-						}
-					}
-				}
-				pumpStation.NSDeviceUIDs = nsDeviceUIDs;
-				InvalidateInputObjectsBaseLogic(pumpStation, pumpStation.StartLogic);
-				InvalidateInputObjectsBaseLogic(pumpStation, pumpStation.StopLogic);
-				InvalidateInputObjectsBaseLogic(pumpStation, pumpStation.AutomaticOffLogic);
-			}
-		}
-
 		public void InvalidateInputObjectsBaseLogic(GKBase gkBase, GKLogic logic)
 		{
 			logic.OnClausesGroup = InvalidateOneInputObjectsBaseLogic(gkBase, logic.OnClausesGroup);

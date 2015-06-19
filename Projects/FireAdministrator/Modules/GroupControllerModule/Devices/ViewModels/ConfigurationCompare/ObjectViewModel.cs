@@ -32,7 +32,6 @@ namespace GKModule.ViewModels
 
 		public string DifferenceDiscription { get; set; }
 		public GKDevice Device;
-		public GKPumpStation PumpStation;
 		public GKDoor Door;
 		public string ImageSource { get; private set; }
 		public ObjectType ObjectType { get; private set; }
@@ -48,16 +47,6 @@ namespace GKModule.ViewModels
 			Address = device.DottedPresentationAddress;
 			ImageSource = "/Controls;component/GKIcons/" + device.DriverType + ".png";
 			ObjectType = ObjectType.Device;
-		}
-
-		public ObjectViewModel(GKPumpStation pumpStation)
-		{
-			PumpStation = pumpStation;
-			Name = pumpStation.PresentationName;
-			ImageSource = "/Controls;component/Images/BPumpStation.png";
-			Address = "";
-			PresentationZone = "";
-			ObjectType = ObjectType.PumpStation;
 		}
 
 		public ObjectViewModel(GKDoor door)
@@ -103,14 +92,6 @@ namespace GKModule.ViewModels
 				return 0;
 			}
 
-			if (object1.ObjectType == ObjectType.PumpStation)
-			{
-				if (object1.PumpStation.No > object2.PumpStation.No)
-					return 1;
-				if (object1.PumpStation.No < object2.PumpStation.No)
-					return -1;
-			}
-
 			if (object1.ObjectType == ObjectType.Door)
 			{
 				if (object1.Door.No > object2.Door.No)
@@ -126,7 +107,6 @@ namespace GKModule.ViewModels
 	public enum ObjectType
 	{
 		Device = 0,
-		PumpStation = 3,
 		Door = 8,
 	}
 }

@@ -171,13 +171,10 @@ namespace GKProcessor
 
 			if (internalType == 0x100 || internalType == 0x106 || internalType == 0x108 || internalType == 0x109 || internalType == 0x104)
 			{
-				var isPumpStation = false;
 				ushort no = 0;
 
 				try
 				{
-					if (description[0] == '0')
-						isPumpStation = true;
 					no = (ushort)Int32.Parse(description.Substring(0, description.IndexOf(".")));
 					description = description.Substring(description.IndexOf(".") + 1);
 				}
@@ -189,16 +186,6 @@ namespace GKProcessor
 
 				if (internalType == 0x106)
 				{
-					if (isPumpStation)
-					{
-						var pumpStation = new GKPumpStation()
-						{
-							Name = description,
-							No = no,
-							GkDatabaseParent = GkDevice
-						};
-						DeviceConfiguration.PumpStations.Add(pumpStation);
-					}
 					return true;
 				}
 				if (internalType == 0x104)

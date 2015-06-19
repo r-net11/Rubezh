@@ -28,7 +28,6 @@ namespace GKModule
 		static DeviceParametersViewModel DeviceParametersViewModel;
 		static SKDZonesViewModel SKDZonesViewModel;
 		static PimsViewModel PimsViewModel;
-		static PumpStationsViewModel PumpStationsViewModel;
 		static DoorsViewModel DoorsViewModel;
 		static AlarmsViewModel AlarmsViewModel;
 		public static DaySchedulesViewModel DaySchedulesViewModel;
@@ -52,7 +51,6 @@ namespace GKModule
 			DeviceParametersViewModel = new DeviceParametersViewModel();
 			SKDZonesViewModel = new SKDZonesViewModel();
 			PimsViewModel = new PimsViewModel();
-			PumpStationsViewModel = new PumpStationsViewModel();
 			DoorsViewModel = new DoorsViewModel();
 			AlarmsViewModel = new AlarmsViewModel();
 			DaySchedulesViewModel = new DaySchedulesViewModel();
@@ -83,15 +81,6 @@ namespace GKModule
 			if (device != null)
 			{
 				DialogService.ShowWindow(new DeviceDetailsViewModel(device));
-			}
-		}
-
-		void OnShowPumpStationDetails(Guid pumpStationUID)
-		{
-			var pumpStation = GKManager.PumpStations.FirstOrDefault(x => x.UID == pumpStationUID);
-			if (pumpStation != null)
-			{
-				DialogService.ShowWindow(new PumpStationDetailsViewModel(pumpStation));
 			}
 		}
 
@@ -132,7 +121,6 @@ namespace GKModule
 			DevicesViewModel.Initialize();
 			DeviceParametersViewModel.Initialize();
 			SKDZonesViewModel.Initialize();
-			PumpStationsViewModel.Initialize();
 			PimsViewModel.Initialize();
 			_pimsNavigationItem.IsVisible = PimsViewModel.Pims.Count > 0;
 			DoorsViewModel.Initialize();
@@ -204,7 +192,6 @@ namespace GKModule
 			yield return new LayoutPartPresenter(LayoutPartIdentities.Alarms, "Состояния", "Alarm.png", (p) => AlarmsViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.GDevices, "Устройства", "Tree.png", (p) => DevicesViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.GKSKDZones, "Зоны СКД", "Zones.png", (p) => SKDZonesViewModel);
-			yield return new LayoutPartPresenter(LayoutPartIdentities.PumpStations, "НС", "PumpStation.png", (p) => PumpStationsViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.Doors, "Точки доступа", "Tree.png", (p) => DoorsViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.ConnectionIndicator, "Индикатор связи", "ConnectionIndicator.png", (p) => new GKConnectionIndicatorViewModel());
 		}

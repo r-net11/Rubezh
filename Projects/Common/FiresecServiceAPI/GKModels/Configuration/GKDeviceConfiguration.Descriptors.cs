@@ -9,23 +9,10 @@ namespace FiresecAPI.GK
 	{
 		public void PrepareDescriptors()
 		{
-			GKBases.ForEach(x => x.ClearDescriptor());
 			Devices.ForEach(x => x.ClearDescriptor());
 			PrepareDevices();
-			PrepareObjects();
 			PrepareDoors();
 		}
-
-		List<GKBase> GKBases
-		{
-			get
-			{
-				var gkBases = new List<GKBase>();
-				gkBases.AddRange(PumpStations);
-				return gkBases;
-			}
-		}
-
 		void InitializeDataBaseParent(GKBase gkBase)
 		{
 			gkBase.KauDatabaseParent = null;
@@ -42,12 +29,6 @@ namespace FiresecAPI.GK
 			}
 			else
 				gkBase.GkDatabaseParent = dataBaseParent;
-		}
-
-		void PrepareObjects()
-		{
-			foreach (var gkBase in GKBases)
-				InitializeDataBaseParent(gkBase);
 		}
 
 		void PrepareDevices()

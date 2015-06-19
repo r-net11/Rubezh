@@ -160,10 +160,6 @@ namespace FireAdministrator.ViewModels
 					GKManager.DeviceConfiguration.RootDevice.Children.Add(gkControllerDevice);
 				}
 			}
-			foreach (var pumpStation in GKDeviceConfiguration.PumpStations)
-			{
-				GKManager.DeviceConfiguration.PumpStations.Add(pumpStation);
-			}
 			foreach (var door in GKDeviceConfiguration.Doors)
 			{
 				GKManager.Doors.Add(door);
@@ -172,7 +168,6 @@ namespace FireAdministrator.ViewModels
 			//{
 			//    GKManager.DeviceConfiguration.Schedules.Add(schedules);
 			//}
-			ReorderNos(GKManager.PumpStations);
 			ReorderNos(GKManager.Doors);
 			//ReorderNos(GKManager.DeviceConfiguration.Schedules);
 
@@ -227,12 +222,6 @@ namespace FireAdministrator.ViewModels
 				GKDeviceUIDs.Add(device.UID, uid);
 				device.UID = uid;
 			}
-			foreach (var pumpStation in GKDeviceConfiguration.PumpStations)
-			{
-				var uid = Guid.NewGuid();
-				GKPumpStationUIDs.Add(pumpStation.UID, uid);
-				pumpStation.UID = uid;
-			}
 			foreach (var door in GKDeviceConfiguration.Doors)
 			{
 				var uid = Guid.NewGuid();
@@ -249,18 +238,6 @@ namespace FireAdministrator.ViewModels
 			foreach (var device in GKDeviceConfiguration.Devices)
 			{
 				ReplaceLogic(device.Logic);
-				ReplaceLogic(device.NSLogic);
-			}
-
-			foreach (var pumpStation in GKDeviceConfiguration.PumpStations)
-			{
-				for (int i = 0; i < pumpStation.NSDeviceUIDs.Count; i++)
-				{
-					pumpStation.NSDeviceUIDs[i] = ReplaceUID(pumpStation.NSDeviceUIDs[i], GKDeviceUIDs);
-				}
-				ReplaceLogic(pumpStation.StartLogic);
-				ReplaceLogic(pumpStation.AutomaticOffLogic);
-				ReplaceLogic(pumpStation.StopLogic);
 			}
 
 			foreach (var door in GKDeviceConfiguration.Doors)
@@ -395,7 +372,6 @@ namespace FireAdministrator.ViewModels
 		}
 
 		Dictionary<Guid, Guid> GKDeviceUIDs = new Dictionary<Guid, Guid>();
-		Dictionary<Guid, Guid> GKPumpStationUIDs = new Dictionary<Guid, Guid>();
 		Dictionary<Guid, Guid> GKDoorUIDs = new Dictionary<Guid, Guid>();
 
 		Dictionary<Guid, Guid> SKDDeviceUIDs = new Dictionary<Guid, Guid>();

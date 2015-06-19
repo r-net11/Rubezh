@@ -10,7 +10,6 @@ namespace FiresecAPI.GK
 		{
 			DeviceStates = new List<GKState>();
 			ZoneStates = new List<GKState>();
-			PumpStationStates = new List<GKState>();
 			PimStates = new List<GKState>();
 			DoorStates = new List<GKState>();
 			SKDZoneStates = new List<GKState>();
@@ -22,9 +21,6 @@ namespace FiresecAPI.GK
 
 		[DataMember]
 		public List<GKState> ZoneStates { get; set; }
-
-		[DataMember]
-		public List<GKState> PumpStationStates { get; set; }
 
 		[DataMember]
 		public List<GKState> PimStates { get; set; }

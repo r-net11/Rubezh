@@ -40,8 +40,6 @@ namespace FiresecClient
 				});
 			}
 
-			deviceTo.ZoneUIDs = deviceFrom.ZoneUIDs.ToList();
-
 			deviceTo.Logic.OnClausesGroup = deviceFrom.Logic.OnClausesGroup.Clone();
 			deviceTo.Logic.OffClausesGroup = deviceFrom.Logic.OffClausesGroup.Clone();
 			deviceTo.Logic.StopClausesGroup = deviceFrom.Logic.StopClausesGroup.Clone();

@@ -43,12 +43,6 @@ namespace FiresecAPI.GK
 		Obsolete_MPT,
 		[Description("ШУЗ")]
 		Obsolete_Valve,
-		[Description("Пожарный насос")]
-		Obsolete_FirePump,
-		[Description("Жокей насос")]
-		Obsolete_JockeyPump,
-		[Description("Дренажный насос")]
-		Obsolete_DrainagePump,
 		[Description("РМ-2")]
 		Obsolete_RM_2,
 		[Description("РМ-3")]

@@ -35,7 +35,6 @@ namespace GKModule.ViewModels
 			SelectCommand = new RelayCommand(OnSelect, CanSelect);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
 			ShowLogicCommand = new RelayCommand(OnShowLogic, CanShowLogic);
-			ShowNSLogicCommand = new RelayCommand(OnShowNSLogic, CanShowNSLogic);
 			ShowZoneOrLogicCommand = new RelayCommand(OnShowZoneOrLogic, CanShowZoneOrLogic);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
 			ShowParentCommand = new RelayCommand(OnShowParent, CanShowParent);
@@ -391,43 +390,6 @@ namespace GKModule.ViewModels
 		{
 			get { return CanShowZoneOrLogic(); }
 		}
-
-		public RelayCommand ShowNSLogicCommand { get; private set; }
-		void OnShowNSLogic()
-		{
-			var logicViewModel = new LogicViewModel(Device, Device.NSLogic);
-			if (DialogService.ShowModalWindow(logicViewModel))
-			{
-				Device.NSLogic = logicViewModel.GetModel();
-				OnPropertyChanged("NSPresentationZone");
-				ServiceFactory.SaveService.GKChanged = true;
-			}
-		}
-		bool CanShowNSLogic()
-		{
-			return Driver.IsPump;
-		}
-
-		public bool IsNSLogic
-		{
-			get { return CanShowNSLogic(); }
-		}
-
-		public string NSPresentationZone
-		{
-			get
-			{
-				var presentationZone = GKManager.GetPresentationLogic(Device.NSLogic);
-				IsLogicGrayed = string.IsNullOrEmpty(presentationZone);
-				if (string.IsNullOrEmpty(presentationZone))
-				{
-					if (CanShowNSLogic())
-						presentationZone = "Нажмите для настройки логики насоса";
-				}
-				return presentationZone;
-			}
-		}
-
 		#endregion
 
 		#region Driver

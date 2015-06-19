@@ -23,10 +23,6 @@ namespace FiresecClient
 		{
 			get { return DeviceConfiguration.Devices; }
 		}
-		public static List<GKPumpStation> PumpStations
-		{
-			get { return DeviceConfiguration.PumpStations; }
-		}
 		public static List<GKDriver> Drivers
 		{
 			get { return DriversConfiguration.Drivers; }

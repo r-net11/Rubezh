@@ -459,10 +459,6 @@ namespace GKProcessor
 					gkStates.DeviceStates.RemoveAll(x => x.UID == gkBase.UID);
 					gkStates.DeviceStates.Add(gkBase.State);
 				}
-				if (gkBase is GKPumpStation)
-				{
-					gkStates.PumpStationStates.Add(gkBase.State);
-				}
 				if (gkBase is GKPim)
 				{
 					gkBase.State.PresentationName = gkBase.PresentationName;

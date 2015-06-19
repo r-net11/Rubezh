@@ -26,7 +26,6 @@ namespace GKModule
 	{
 		DevicesViewModel DevicesViewModel;
 		ParameterTemplatesViewModel ParameterTemplatesViewModel;
-		PumpStationsViewModel PumpStationsViewModel;
 		DoorsViewModel DoorsViewModel;
 		SKDZonesViewModel SKDZonesViewModel;
 		LibraryViewModel DeviceLidraryViewModel;
@@ -45,7 +44,6 @@ namespace GKModule
 
 			DevicesViewModel = new DevicesViewModel();
 			ParameterTemplatesViewModel = new ParameterTemplatesViewModel();
-			PumpStationsViewModel = new PumpStationsViewModel();
 			DoorsViewModel = new DoorsViewModel();
 			SKDZonesViewModel = new SKDZonesViewModel();
 			DeviceLidraryViewModel = new LibraryViewModel();
@@ -60,7 +58,6 @@ namespace GKModule
 		{
 			DevicesViewModel.Initialize();
 			ParameterTemplatesViewModel.Initialize();
-			PumpStationsViewModel.Initialize();
 			DoorsViewModel.Initialize();
 			SKDZonesViewModel.Initialize();
 			InstructionsViewModel.Initialize();
@@ -78,7 +75,6 @@ namespace GKModule
 				{
 					new NavigationItem<ShowGKDeviceEvent, Guid>(DevicesViewModel, "Устройства", "Tree", null, null, Guid.Empty),
 					new NavigationItem<ShowGKParameterTemplatesEvent, Guid>(ParameterTemplatesViewModel, "Шаблоны","Briefcase", null, null, Guid.Empty),
-					new NavigationItem<ShowGKPumpStationEvent, Guid>(PumpStationsViewModel, "НС", "PumpStation", null, null, Guid.Empty),
 
 					new NavigationItem<ShowGKInstructionsEvent, Guid>(InstructionsViewModel, "Инструкции", "information", null, null, Guid.Empty),
 					new NavigationItem<ShowGKDescriptorsEvent, object>(DescriptorsViewModel, "Дескрипторы", "Descriptors"),
@@ -111,7 +107,6 @@ namespace GKModule
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "OPC/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Parameters/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Plans/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "PumpStation/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Selectation/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "SKD/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Zones/DataTemplates/Dictionary.xaml"));
@@ -158,7 +153,6 @@ namespace GKModule
 			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.ConnectionIndicator, 111, "Индикатор связи", "Панель индикаторов связи", "BConnectionIndicator.png", true, new LayoutPartSize() { PreferedSize = new Size(50, 30) });
 			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.Alarms, 112, "Состояния", "Панель состояний", "BAlarm.png");
 			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.GDevices, 113, "Устройства", "Панель с устройствами", "BTree.png");
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.PumpStations, 117, "НС", "Панель НС", "BPumpStation.png");
 			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.Doors, 119, "Точки доступа", "Панель точек досткпа", "BMPT.png");
 		}
 

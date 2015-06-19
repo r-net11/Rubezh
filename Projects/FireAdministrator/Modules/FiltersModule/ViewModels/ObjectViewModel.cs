@@ -42,10 +42,6 @@ namespace FiltersModule.ViewModels
 					ImageSource = "/Controls;component/GKIcons/RM_1.png";
 					break;
 
-				case JournalObjectType.GKPumpStation:
-					ImageSource = "/Controls;component/Images/BPumpStation.png";
-					break;
-
 				case JournalObjectType.GKDoor:
 					break;
 
@@ -72,13 +68,6 @@ namespace FiltersModule.ViewModels
 			Name = device.PresentationName;
 			UID = device.UID;
 			ImageSource = device.Driver.ImageSource;
-		}
-
-		public ObjectViewModel(GKPumpStation pumpStation)
-		{
-			Name = pumpStation.PresentationName;
-			UID = pumpStation.UID;
-			ImageSource = "/Controls;component/Images/BPumpStation.png";
 		}
 
 		public ObjectViewModel(GKDoor door)

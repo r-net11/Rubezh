@@ -112,14 +112,6 @@ namespace PlansModule.Kursk
 			base.ExtensionAttached();
 		}
 
-		public override IEnumerable<ElementError> Validate()
-		{
-			List<ElementError> errors = new List<ElementError>();
-			FiresecManager.PlansConfiguration.AllPlans.ForEach(plan =>
-				errors.AddRange(FindUnbindedErrors<ElementRectangleTank, ShowGKDeviceEvent, Guid>(plan.ElementExtensions.OfType<ElementRectangleTank>(), plan.UID, "Несвязанный бак", "/Controls;component/Images/BPumpStation.png", Guid.Empty)));
-			return errors;
-		}
-
 		#endregion
 
 		private void OnPainterFactoryEvent(PainterFactoryEventArgs args)
@@ -139,6 +131,11 @@ namespace PlansModule.Kursk
 			Helper.SetGKDevice(elementRectangleTank, device);
 			elementRectangleTank.BackgroundColor = Helper.GetTankColor(device);
 			designerItem.Title = Helper.GetTankTitle(elementRectangleTank);
+		}
+
+		public override IEnumerable<ElementError> Validate()
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

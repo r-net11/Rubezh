@@ -7,9 +7,6 @@ namespace FiresecAPI.GK
 		[DescriptionAttribute("Устройство")]
 		Deivce,
 
-		[DescriptionAttribute("НС")]
-		PumpStation,
-
 		[DescriptionAttribute("ПИМ")]
 		Pim,
 

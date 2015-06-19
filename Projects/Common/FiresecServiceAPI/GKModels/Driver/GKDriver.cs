@@ -76,15 +76,6 @@ namespace FiresecAPI.GK
 			}
 		}
 
-		public bool IsPump
-		{
-			get
-			{
-				return (DriverType == GKDriverType.RSR2_Bush_Drenazh || DriverType == GKDriverType.RSR2_Bush_Jokey || DriverType == GKDriverType.RSR2_Bush_Fire || DriverType == GKDriverType.RSR2_Bush_Shuv);
-			}
-		}
-
-
 		public string ImageSource
 		{
 			get { return "/Controls;component/GKIcons/" + DriverType + ".png"; }

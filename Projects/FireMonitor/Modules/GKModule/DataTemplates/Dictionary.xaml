@@ -52,14 +52,6 @@
 		<Views:PimDetailsView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:PumpStationsViewModel}">
-		<Views:PumpStationsView />
-	</DataTemplate>
-
-	<DataTemplate DataType="{x:Type ViewModels:PumpStationDetailsViewModel}">
-		<Views:PumpStationDetailsView />
-	</DataTemplate>
-
 	<DataTemplate DataType="{x:Type ViewModels:DeviceTooltipViewModel}">
 		<Views:DeviceTooltipView />
 	</DataTemplate>

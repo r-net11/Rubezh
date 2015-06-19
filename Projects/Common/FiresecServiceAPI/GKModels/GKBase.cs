@@ -57,7 +57,6 @@ namespace FiresecAPI.GK
 		public void PrepareInputOutputDependences()
 		{
 			var device = this as GKDevice;
-			var pumpStation = this as GKPumpStation;
 			var door = this as GKDoor;
 
 			if (device != null)
@@ -67,12 +66,6 @@ namespace FiresecAPI.GK
 				LinkLogic(device, device.Logic.OnNowClausesGroup);
 				LinkLogic(device, device.Logic.OffNowClausesGroup);
 				LinkLogic(device, device.Logic.StopClausesGroup);
-			}
-			if (pumpStation != null)
-			{
-				LinkLogic(pumpStation, pumpStation.StartLogic.OnClausesGroup);
-				LinkLogic(pumpStation, pumpStation.StopLogic.OnClausesGroup);
-				LinkLogic(pumpStation, pumpStation.AutomaticOffLogic.OnClausesGroup);
 			}
 
 			if (door != null)

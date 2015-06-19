@@ -120,14 +120,6 @@ namespace JournalModule.ViewModels
 				AddGKDeviceInternal(childDevice, gkDevicesViewModel);
 			}
 
-			var gkPumpStationsViewModel = new FilterObjectViewModel(JournalObjectType.GKPumpStation);
-			AddChild(gkViewModel, gkPumpStationsViewModel);
-			foreach (var pumpStation in FiresecClient.GKManager.PumpStations)
-			{
-				var filterObjectViewModel = new FilterObjectViewModel(pumpStation);
-				AddChild(gkPumpStationsViewModel, filterObjectViewModel);
-			}
-
 			var gkSKDZonesViewModel = new FilterObjectViewModel(JournalObjectType.GKSKDZone);
 			AddChild(gkViewModel, gkSKDZonesViewModel);
 			foreach (var skdZone in FiresecClient.GKManager.SKDZones)

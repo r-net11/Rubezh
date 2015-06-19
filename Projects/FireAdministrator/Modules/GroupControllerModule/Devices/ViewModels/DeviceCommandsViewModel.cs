@@ -153,15 +153,6 @@ namespace GKModule.Models
 							result.Result.UpdateConfiguration();
 							result.Result.PrepareDescriptors();
 
-							var gkControllerDevice = result.Result.RootDevice.Children.FirstOrDefault();
-							if (gkControllerDevice != null)
-							{
-								foreach (var pumpStation in result.Result.PumpStations)
-								{
-									pumpStation.GkDatabaseParent = gkControllerDevice;
-								}
-							}
-
 							configurationCompareViewModel = new ConfigurationCompareViewModel(GKManager.DeviceConfiguration, result.Result, SelectedDevice.Device, false);
 						});
 						LoadingService.Close();

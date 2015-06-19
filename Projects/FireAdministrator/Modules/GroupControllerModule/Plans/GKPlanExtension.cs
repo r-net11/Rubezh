@@ -316,23 +316,6 @@ namespace GKModule.Plans
 							foreach (var pair in geometries)
 								if (pair.Key.Bounds.Contains(point) && pair.Key.FillContains(point))
 									zones.Add(pair.Value);
-							switch (device.ZoneUIDs.Count)
-							{
-								case 1:
-									var isInZone = zones.Any(x => x.ZoneUID == device.ZoneUIDs[0]);
-									if (!isInZone)
-									{
-										if (!deviceInZones.ContainsKey(device))
-											deviceInZones.Add(device, GetTopZoneUID(zones));
-									}
-									else
-									{
-										handledXDevices.Add(device);
-										if (deviceInZones.ContainsKey(device))
-											deviceInZones.Remove(device);
-									}
-									break;
-							}
 						}
 					}
 				}

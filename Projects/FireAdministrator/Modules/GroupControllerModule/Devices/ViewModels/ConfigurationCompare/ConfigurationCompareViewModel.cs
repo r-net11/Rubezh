@@ -95,8 +95,6 @@ namespace GKModule.ViewModels
 			rootDevice.Children.Add(RemoteDevice);
 			if (LocalDevice.DriverType == GKDriverType.GK)
 			{
-				LocalConfiguration.PumpStations.RemoveAll(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == LocalDevice.Address);
-				LocalConfiguration.PumpStations.AddRange(RemoteConfiguration.PumpStations);
 				LocalConfiguration.Doors.RemoveAll(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == LocalDevice.Address);
 				LocalConfiguration.Doors.AddRange(RemoteConfiguration.Doors);
 				LocalConfiguration.SKDZones.Clear();
@@ -153,11 +151,6 @@ namespace GKModule.ViewModels
 					}
 					else
 					{
-						if (sameObject1.ObjectType == ObjectType.PumpStation)
-						{
-							newObject.DifferenceDiscription = GetPumpStationsDifferences(sameObject1, sameObject2, IsLocalConfig);
-							newObject.Name = sameObject1.Name;
-						}
 						if (sameObject1.ObjectType == ObjectType.Door)
 						{
 							newObject.DifferenceDiscription = GetDoorsDifferences(sameObject1, sameObject2);
@@ -168,65 +161,6 @@ namespace GKModule.ViewModels
 				unionObjects1.Add(newObject);
 			}
 			return unionObjects1;
-		}
-
-		string GetZonesDifferences(ObjectViewModel object1, ObjectViewModel object2)
-		{
-			var zonesDifferences = new StringBuilder();
-			if (object1.Name != object2.Name)
-				zonesDifferences.Append("Не совпадает название");
-			return zonesDifferences.ToString() == "" ? null : zonesDifferences.ToString();
-		}
-
-		string GetPumpStationsDifferences(ObjectViewModel object1, ObjectViewModel object2, bool isLocalConfig)
-		{
-			var pumpStationsDifferences = new StringBuilder();
-			if (object1.Name != object2.Name)
-				pumpStationsDifferences.Append("Не совпадает название");
-			if (object1.PumpStation.NSDevices.Any(nsDevice => object2.PumpStation.NSDevices.All(x => new ObjectViewModel(x).Compare(new ObjectViewModel(x), new ObjectViewModel(nsDevice)) != 0)))
-			{
-				if (pumpStationsDifferences.Length != 0)
-					pumpStationsDifferences.Append(". ");
-				pumpStationsDifferences.Append("Не совпадает количество насосов");
-			}
-			bool startDiff = GKManager.GetPresentationLogic(object1.PumpStation.StartLogic) != GKManager.GetPresentationLogic(object2.PumpStation.StartLogic);
-			bool stopDiff = GKManager.GetPresentationLogic(object1.PumpStation.StopLogic) != GKManager.GetPresentationLogic(object2.PumpStation.StopLogic);
-			bool automaticDiff = GKManager.GetPresentationLogic(object1.PumpStation.AutomaticOffLogic) != GKManager.GetPresentationLogic(object2.PumpStation.AutomaticOffLogic);
-			if (startDiff || stopDiff || automaticDiff)
-			{
-				if (pumpStationsDifferences.Length != 0)
-					pumpStationsDifferences.Append(". ");
-				pumpStationsDifferences.Append("Не совпадают следующие условия: ");
-				var logics = new List<string>();
-				if(startDiff)
-					logics.Add("Запуска");
-				if(stopDiff)
-					logics.Add("Запрета пуска");
-				if(automaticDiff)
-					logics.Add("Отключения");
-				pumpStationsDifferences.Append(String.Join(", ", logics));
-			}
-			bool delayDiff = object1.PumpStation.Delay != object2.PumpStation.Delay;
-			bool holdDiff = object1.PumpStation.Hold != object2.PumpStation.Hold;
-			bool nsPumpsCountDiff = object1.PumpStation.NSPumpsCount != object2.PumpStation.NSPumpsCount;
-			bool nsDeltaTimeDiff = object1.PumpStation.NSDeltaTime != object2.PumpStation.NSDeltaTime;
-			if (delayDiff || holdDiff || nsPumpsCountDiff || nsDeltaTimeDiff)
-			{
-				if (pumpStationsDifferences.Length != 0)
-					pumpStationsDifferences.Append(". ");
-				pumpStationsDifferences.Append("Не совпадают следующие параметры: ");
-				var parameters = new List<string>();
-				if (delayDiff)
-					parameters.Add("Задержка");
-				if (holdDiff)
-					parameters.Add("Время тушения");
-				if (nsPumpsCountDiff)
-					parameters.Add("Количество основных насосов");
-				if (nsDeltaTimeDiff)
-					parameters.Add("Интервал разновременного пуска");
-				pumpStationsDifferences.Append(String.Join(", ", parameters));
-			}
-			return pumpStationsDifferences.ToString() == "" ? null : pumpStationsDifferences.ToString();
 		}
 
 		string GetDoorsDifferences(ObjectViewModel object1, ObjectViewModel object2)

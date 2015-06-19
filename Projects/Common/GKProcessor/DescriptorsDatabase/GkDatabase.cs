@@ -38,13 +38,6 @@ namespace GKProcessor
 		public override void BuildObjects()
 		{
 			AddKauObjects();
-			foreach (var pumpStation in GKManager.PumpStations)
-			{
-				if (pumpStation.GkDatabaseParent == RootDevice)
-				{
-					PumpStations.Add(pumpStation);
-				}
-			}
 
 			foreach (var door in GKManager.Doors)
 			{
@@ -60,16 +53,6 @@ namespace GKProcessor
 				device.GKDescriptorNo = NextDescriptorNo;
 				var deviceDescriptor = new DeviceDescriptor(device, DatabaseType);
 				Descriptors.Add(deviceDescriptor);
-			}
-
-			foreach (var pumpStation in PumpStations)
-			{
-				pumpStation.GKDescriptorNo = NextDescriptorNo;
-				var pumpStationDescriptor = new PumpStationDescriptor(this, pumpStation, DatabaseType.Gk);
-				Descriptors.Add(pumpStationDescriptor);
-
-				var pumpStationCreator = new PumpStationCreator(this, pumpStation, DatabaseType.Gk);
-				pumpStationCreator.Create();
 			}
 
 			foreach (var door in Doors)
