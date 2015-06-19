@@ -185,15 +185,11 @@
     <Compile Include="ViewModels\PlanLinkViewModel.cs" />
     <Compile Include="Alarms\ViewModels\AlarmsViewModel.cs" />
     <Compile Include="Alarms\ViewModels\AlarmViewModel.cs" />
-    <Compile Include="Alarms\ViewModels\InstructionViewModel.cs" />
     <Compile Include="Alarms\Views\AlarmGroupsView.xaml.cs">
       <DependentUpon>AlarmGroupsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Alarms\Views\AlarmsView.xaml.cs">
       <DependentUpon>AlarmsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Alarms\Views\InstructionView.xaml.cs">
-      <DependentUpon>InstructionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\DeviceControlRegimeToStringConverter.cs" />
@@ -277,10 +273,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Alarms\Views\AlarmsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Alarms\Views\InstructionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

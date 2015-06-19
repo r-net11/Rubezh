@@ -305,7 +305,6 @@ namespace GKModule.ViewModels
 		static void ReadDevices(IEnumerable<GKDevice> devices)
 		{
 			var errorLog = "";
-			DescriptorsManager.Create();
 			var i = 0;
 			LoadingService.AddCount(devices.Count());
 			foreach (var device in devices)
@@ -346,7 +345,6 @@ namespace GKModule.ViewModels
 		static bool WriteDevices(IEnumerable<GKDevice> devices)
 		{
 			var errorLog = "";
-			DescriptorsManager.Create();
 			var i = 0;
 			LoadingService.AddCount(devices.Count());
 			foreach (var device in devices)
@@ -355,17 +353,6 @@ namespace GKModule.ViewModels
 					break;
 				i++;
 				LoadingService.DoStep("Запись параметров объекта " + i);
-				var baseDescriptor = ParametersHelper.GetBaseDescriptor(device);
-				if (baseDescriptor != null)
-				{
-					var result = FiresecManager.FiresecService.GKSetSingleParameter(device, baseDescriptor.Parameters);
-					if (result.HasError)
-						errorLog += "\n" + device.PresentationName + ". " + result.Error;
-				}
-				else
-				{
-					errorLog += "\n" + device.PresentationName + ". Не найден дескриптор";
-				}
 				if (devices.Count() > 1 && i < devices.Count())
 					Thread.Sleep(100);
 			}

@@ -77,20 +77,6 @@
     <Compile Include="Converters\ClauseJoinOperatorToColorConverter.cs" />
     <Compile Include="Converters\LibraryXStateClassToIconConverter.cs" />
     <Compile Include="Converters\XStateClassToJournalColorConverter.cs" />
-    <Compile Include="Descriptors\Converters\BytesToStringConverter.cs" />
-    <Compile Include="Descriptors\Converters\DescriptorNoToStringConverter.cs" />
-    <Compile Include="Descriptors\Converters\NullImageConverter.cs" />
-    <Compile Include="Descriptors\ViewModels\DescriptorLogicItem.cs" />
-    <Compile Include="Descriptors\ViewModels\DescriptorsViewModel.cs" />
-    <Compile Include="Descriptors\ViewModels\DescriptorViewModel.cs" />
-    <Compile Include="Descriptors\ViewModels\DescriptorsMenuViewModel.cs" />
-    <Compile Include="Descriptors\ViewModels\StackDirection.cs" />
-    <Compile Include="Descriptors\Views\DescriptorsView.xaml.cs">
-      <DependentUpon>DescriptorsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Descriptors\Views\DescriptorsMenuView.xaml.cs">
-      <DependentUpon>DescriptorsMenuView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Devices\ViewModels\AutoSearchDevicesViewModel.cs" />
     <Compile Include="Devices\ViewModels\DevicesOnShleifViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceViewModel.Parameters.cs" />
@@ -127,7 +113,6 @@
     <Compile Include="Events\EditGKDoorEvent.cs" />
     <Compile Include="Events\CreateGKZoneEvent.cs" />
     <Compile Include="Events\EditGKZoneEvent.cs" />
-    <Compile Include="Events\ShowGKDescriptorsEvent.cs" />
     <Compile Include="Events\ShowGKDeviceLidraryEvent.cs" />
     <Compile Include="Events\ShowGKDevicePropertiesEvent.cs" />
     <Compile Include="Events\ShowGKDiagnosticsEvent.cs" />
@@ -334,21 +319,9 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Page Include="Descriptors\DataTemplates\Dictionary.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Descriptors\Views\DescriptorsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="DataTemplates\Dictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Descriptors\Views\DescriptorsMenuView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="DeviceLibrary\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>

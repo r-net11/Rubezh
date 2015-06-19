@@ -16,7 +16,6 @@ namespace FiresecAPI.GK
 	{
 		public GKBase()
 		{
-			ClearDescriptor();
 			ClearClauseDependencies();
 			State = new GKState();
 			InputGKBases = new List<GKBase>();
@@ -128,20 +127,8 @@ namespace FiresecAPI.GK
 				objects.Add(newObject);
 		}
 
-
-		public void ClearDescriptor()
-		{
-			InputGKBases = new List<GKBase>();
-			OutputGKBases = new List<GKBase>();
-		}
-
 		[XmlIgnore]
 		public abstract GKBaseObjectType ObjectType { get; }
-		[XmlIgnore]
-		public string DescriptorPresentationName
-		{
-			get { return ObjectType.ToDescription() + " " + PresentationName; }
-		}
 
 		[XmlIgnore]
 		public GKBaseInternalState InternalState { get; set; }

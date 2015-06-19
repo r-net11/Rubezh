@@ -39,18 +39,9 @@ namespace GKProcessor
 
 		public override void BuildObjects()
 		{
-			Descriptors = new List<BaseDescriptor>();
 			foreach (var device in Devices)
 			{
 				device.KAUDescriptorNo = NextDescriptorNo;
-				var deviceDescriptor = new DeviceDescriptor(device, DatabaseType);
-				Descriptors.Add(deviceDescriptor);
-			}
-
-			foreach (var descriptor in Descriptors)
-			{
-				descriptor.Build();
-				descriptor.InitializeAllBytes();
 			}
 		}
 	}

@@ -27,7 +27,6 @@ namespace GKModule.ViewModels
 			TurnOnAutomaticCommand = new RelayCommand(OnTurnOnAutomatic, CanTurnOnAutomatic);
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
-			ShowInstructionCommand = new RelayCommand(OnShowInstruction, CanShowInstruction);
 			Alarm = alarm;
 			InitializePlans();
 		}
@@ -277,30 +276,6 @@ namespace GKModule.ViewModels
 		public bool CanShowPropertiesCommand
 		{
 			get { return CanShowProperties(); }
-		}
-
-		public RelayCommand ShowInstructionCommand { get; private set; }
-		void OnShowInstruction()
-		{
-			var instructionViewModel = new InstructionViewModel(Alarm.Device, Alarm.AlarmType);
-			DialogService.ShowModalWindow(instructionViewModel);
-		}
-		bool CanShowInstruction()
-		{
-			var instructionViewModel = new InstructionViewModel(Alarm.Device, Alarm.AlarmType);
-			return instructionViewModel.HasContent;
-		}
-		public bool CanShowInstructionCommand
-		{
-			get { return CanShowInstruction(); }
-		}
-		public GKInstruction Instruction
-		{
-			get
-			{
-				var instructionViewModel = new InstructionViewModel(Alarm.Device, Alarm.AlarmType);
-				return instructionViewModel.Instruction;
-			}
 		}
 	}
 }

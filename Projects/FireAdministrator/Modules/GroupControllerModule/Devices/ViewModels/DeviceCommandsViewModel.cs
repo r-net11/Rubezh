@@ -140,7 +140,6 @@ namespace GKModule.Models
 		{
 			var thread = new Thread(() =>
 			{
-				DescriptorsManager.Create();
 				var result = FiresecManager.FiresecService.GKReadConfiguration(SelectedDevice.Device);
 
 				ApplicationService.Invoke(new Action(() =>
@@ -151,7 +150,6 @@ namespace GKModule.Models
 						WaitHelper.Execute(() =>
 						{
 							result.Result.UpdateConfiguration();
-							result.Result.PrepareDescriptors();
 
 							configurationCompareViewModel = new ConfigurationCompareViewModel(GKManager.DeviceConfiguration, result.Result, SelectedDevice.Device, false);
 						});
@@ -218,9 +216,7 @@ namespace GKModule.Models
 						ConfigurationCompareViewModel configurationCompareViewModel = null;
 						WaitHelper.Execute(() =>
 						{
-							DescriptorsManager.Create();
 							deviceConfiguration.UpdateConfiguration();
-							deviceConfiguration.PrepareDescriptors();
 							configurationCompareViewModel = new ConfigurationCompareViewModel(GKManager.DeviceConfiguration, deviceConfiguration, SelectedDevice.Device, true);
 						});
 						LoadingService.Close();

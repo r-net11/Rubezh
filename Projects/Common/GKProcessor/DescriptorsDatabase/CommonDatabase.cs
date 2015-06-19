@@ -16,13 +16,11 @@ namespace GKProcessor
 
 		public DatabaseType DatabaseType { get; protected set; }
 		public GKDevice RootDevice { get; protected set; }
-		public List<BaseDescriptor> Descriptors { get; set; }
 
 		public CommonDatabase()
 		{
 			Devices = new List<GKDevice>();
 			Pims = new List<GKPim>();
-			Descriptors = new List<BaseDescriptor>();
 		}
 
 		public void AddPim(GKPim pim)

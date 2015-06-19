@@ -9,14 +9,13 @@ namespace GKModule.ViewModels
 		public JournalFromFileViewModel(JournalItemsCollection journalItemsCollection)
 		{
 			Title = "Журнал событий ГК";
-			DescriptorsManager.Create();
 			JournalItemsCollection = journalItemsCollection;
 			JournalItems = new ObservableCollection<JournalItemViewModel>();
 			journalItemsCollection.JournalItems.ForEach(x => JournalItems.Add(new JournalItemViewModel(x)));
 		}
 
 		public JournalItemsCollection JournalItemsCollection { get; private set; }
-		
+
 		ObservableCollection<JournalItemViewModel> _journalItems;
 		public ObservableCollection<JournalItemViewModel> JournalItems
 		{

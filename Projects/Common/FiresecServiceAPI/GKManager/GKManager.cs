@@ -53,11 +53,6 @@ namespace FiresecClient
 			DeviceConfiguration.UpdateConfiguration();
 		}
 
-		public static void PrepareDescriptors()
-		{
-			DeviceConfiguration.PrepareDescriptors();
-		}
-
 		public static ushort GetKauLine(GKDevice device)
 		{
 			ushort lineNo = 0;

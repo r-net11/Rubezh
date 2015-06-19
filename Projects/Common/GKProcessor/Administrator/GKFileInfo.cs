@@ -24,13 +24,9 @@ namespace GKProcessor
 
 		public void Initialize(GKDeviceConfiguration deviceConfiguration, GKDevice gkControllerDevice)
 		{
-			DescriptorsManager.Create();
 			Date = DateTime.Now;
-			var gkDatabase = DescriptorsManager.GkDatabases.FirstOrDefault(x => x.RootDevice.UID == gkControllerDevice.UID);
 			MinorVersion = (byte)deviceConfiguration.Version.MinorVersion;
 			MajorVersion = (byte)deviceConfiguration.Version.MajorVersion;
-			if (gkDatabase != null)
-				DescriptorsCount = gkDatabase.Descriptors.Count();
 			Hash1 = CreateHash1(deviceConfiguration, gkControllerDevice);
 			InitializeFileBytes(deviceConfiguration);
 			InitializeInfoBlock();
@@ -38,7 +34,6 @@ namespace GKProcessor
 		public static List<byte> CreateHash1(GKDeviceConfiguration deviceConfiguration, GKDevice gkControllerDevice)
 		{
 			deviceConfiguration.UpdateConfiguration();
-			deviceConfiguration.PrepareDescriptors();
 			var stringBuilder = new StringBuilder();
 			stringBuilder.Append("devices:");
 			foreach (var device in deviceConfiguration.Devices)

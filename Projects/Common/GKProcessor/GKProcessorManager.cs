@@ -104,57 +104,6 @@ namespace GKProcessor
 		#region Main
 		public static bool MustMonitor = false;
 
-		public static void Start()
-		{
-			if (MustMonitor)
-			{
-				WatcherManager.IsConfigurationReloading = false;
-				WatcherManager.Start();
-			}
-		}
-
-		public static void Stop()
-		{
-			if (MustMonitor)
-			{
-				WatcherManager.Stop();
-			}
-		}
-
-		public static void Suspend()
-		{
-			WatcherManager.LastConfigurationReloadingTime = DateTime.Now;
-			WatcherManager.IsConfigurationReloading = true;
-		}
-
-		static void SuspendMonitoring(GKDevice gkControllerDevice)
-		{
-			if (MustMonitor)
-			{
-				gkControllerDevice = GetGKDevice(gkControllerDevice);
-				if (WatcherManager.Watchers != null && gkControllerDevice != null)
-				{
-					var watcher = WatcherManager.Watchers.FirstOrDefault(x => x.GkDatabase.RootDevice.UID == gkControllerDevice.UID);
-					if (watcher != null)
-						watcher.Suspend();
-				}
-			}
-		}
-
-		static void ResumeMonitoring(GKDevice gkControllerDevice)
-		{
-			if (MustMonitor)
-			{
-				gkControllerDevice = GetGKDevice(gkControllerDevice);
-				if (WatcherManager.Watchers != null && gkControllerDevice != null)
-				{
-					var watcher = WatcherManager.Watchers.FirstOrDefault(x => x.GkDatabase.RootDevice.UID == gkControllerDevice.UID);
-					if (watcher != null)
-						watcher.Resume();
-				}
-			}
-		}
-
 		static GKDevice GetGKDevice(GKDevice device)
 		{
 			if (device.DriverType == GKDriverType.GK)
@@ -172,41 +121,14 @@ namespace GKProcessor
 		{
 			AddGKMessage(JournalEventNameType.Запись_конфигурации_в_прибор, JournalEventDescriptionType.NULL, "", device, userName);
 
-			Stop();
-			var gkDescriptorsWriter = new GkDescriptorsWriter();
-			gkDescriptorsWriter.WriteConfig(device);
-			Start();
-
-			if (gkDescriptorsWriter.Errors.Count > 0)
-			{
-				var errors = new List<string>();
-				foreach (var error in gkDescriptorsWriter.Errors)
-				{
-					errors.Add(error);
-				}
-				return OperationResult<bool>.FromError(errors, false);
-			}
 			return new OperationResult<bool>(true);
-		}
-
-		public static OperationResult<GKDeviceConfiguration> GKReadConfiguration(GKDevice device, string userName)
-		{
-			AddGKMessage(JournalEventNameType.Чтение_конфигурации_из_прибора, JournalEventDescriptionType.NULL, "", device, userName);
-			Stop();
-			DescriptorsManager.Create();
-			var descriptorReader = device.Driver.IsKau ? (DescriptorReaderBase)new KauDescriptorsReaderBase() : new GkDescriptorsReaderBase();
-			descriptorReader.ReadConfiguration(device);
-			Start();
-			return OperationResult<GKDeviceConfiguration>.FromError(descriptorReader.Error, descriptorReader.DeviceConfiguration);
 		}
 
 		public static Stream GKReadConfigurationFromGKFile(GKDevice device, string userName)
 		{
 			AddGKMessage(JournalEventNameType.Чтение_конфигурации_из_прибора, JournalEventDescriptionType.NULL, "", device, userName);
-			SuspendMonitoring(device);
 			var gkFileReaderWriter = new GKFileReaderWriter();
 			var filePath = gkFileReaderWriter.ReadConfigFileFromGK(device);
-			ResumeMonitoring(device);
 			if (filePath != null)
 			{
 				return new FileStream(filePath, FileMode.Open, FileAccess.Read);
@@ -218,19 +140,15 @@ namespace GKProcessor
 		public static OperationResult<GKDeviceConfiguration> GKAutoSearch(GKDevice device, string userName)
 		{
 			AddGKMessage(JournalEventNameType.Автопоиск, JournalEventDescriptionType.NULL, "", device, userName);
-			SuspendMonitoring(device);
 			var gkAutoSearchHelper = new GKAutoSearchHelper();
 			var deviceConfiguration = gkAutoSearchHelper.AutoSearch(device);
-			ResumeMonitoring(device);
 			return OperationResult<GKDeviceConfiguration>.FromError(gkAutoSearchHelper.Error, deviceConfiguration);
 		}
 
 		public static OperationResult<bool> GKUpdateFirmware(GKDevice device, string fileName, string userName)
 		{
-			Stop();
 			var firmwareUpdateHelper = new FirmwareUpdateHelper();
 			firmwareUpdateHelper.Update(device, fileName, userName);
-			Start();
 			if (firmwareUpdateHelper.ErrorList.Count > 0)
 				return OperationResult<bool>.FromError(firmwareUpdateHelper.ErrorList, false);
 			return new OperationResult<bool>(true);
@@ -238,10 +156,8 @@ namespace GKProcessor
 
 		public static OperationResult<bool> GKUpdateFirmwareFSCS(HexFileCollectionInfo hxcFileInfo, string userName, List<GKDevice> devices)
 		{
-			Stop();
 			var firmwareUpdateHelper = new FirmwareUpdateHelper();
 			firmwareUpdateHelper.UpdateFSCS(hxcFileInfo, devices, userName);
-			Start();
 			if (firmwareUpdateHelper.ErrorList.Count > 0)
 				return OperationResult<bool>.FromError(firmwareUpdateHelper.ErrorList, false);
 			return new OperationResult<bool>(true);
@@ -286,17 +202,6 @@ namespace GKProcessor
 			return OperationResult<JournalItem>.FromError("Ошибка. Недостаточное количество байт в записи журнала");
 		}
 
-		public static OperationResult<bool> GKSetSingleParameter(GKBase gkBase, List<byte> parameterBytes)
-		{
-			var error = ParametersHelper.SetSingleParameter(gkBase, parameterBytes);
-			return OperationResult<bool>.FromError(error, true);
-		}
-
-		public static OperationResult<List<GKProperty>> GKGetSingleParameter(GKBase gkBase)
-		{
-			return ParametersHelper.GetSingleParameter(gkBase);
-		}
-
 		public static OperationResult<List<byte>> GKGKHash(GKDevice device)
 		{
 			var gkFileReaderWriter = new GKFileReaderWriter();
@@ -309,21 +214,9 @@ namespace GKProcessor
 		public static GKStates GKGetStates()
 		{
 			var gkStates = new GKStates();
-			foreach (var device in GKManager.Devices)
-			{
-				Watcher.AddObjectStateToGKStates(gkStates, device);
-			}
-			foreach (var pim in GKManager.AutoGeneratedPims)
-			{
-				Watcher.AddObjectStateToGKStates(gkStates, pim);
-			}
-			foreach (var door in GKManager.Doors)
-			{
-				Watcher.AddObjectStateToGKStates(gkStates, door);
-			}
+
 			foreach (var skdZone in GKManager.SKDZones)
 			{
-				Watcher.AddObjectStateToGKStates(gkStates, skdZone);
 				CalculateSKDZone(skdZone);
 				var zoneState = gkStates.SKDZoneStates.FirstOrDefault(x => x.UID == skdZone.UID);
 				if (zoneState != null)
@@ -355,104 +248,72 @@ namespace GKProcessor
 
 		public static void GKExecuteDeviceCommand(GKDevice device, GKStateBit stateBit, string userName)
 		{
-			Watcher.SendControlCommand(device, stateBit, stateBit.ToDescription());
 			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.NULL, stateBit.ToDescription(), device, userName);
 		}
 
 		public static void GKReset(GKBase gkBase, string userName)
 		{
-			Watcher.SendControlCommand(gkBase, GKStateBit.Reset, "Сброс");
 			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Сброс, "", gkBase, userName);
 		}
 
 		public static void GKSetAutomaticRegime(GKBase gkBase, string userName)
 		{
-			Watcher.SendControlCommand(gkBase, GKStateBit.SetRegime_Automatic, "Перевод в автоматический режим");
 			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Перевод_в_автоматический_режим, "", gkBase, userName);
 		}
 
 		public static void GKSetManualRegime(GKBase gkBase, string userName)
 		{
-			Watcher.SendControlCommand(gkBase, GKStateBit.SetRegime_Manual, "Перевод в ручной режим");
 			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Перевод_в_ручной_режим, "", gkBase, userName);
 		}
 
 		public static void GKSetIgnoreRegime(GKBase gkBase, string userName)
 		{
-			Watcher.SendControlCommand(gkBase, GKStateBit.SetRegime_Off, "Перевод в отключенный режим");
 			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Перевод_в_отключенный_режим, "", gkBase, userName);
 		}
 
 		public static void GKTurnOn(GKBase gkBase, string userName)
 		{
-			Watcher.SendControlCommand(gkBase, GKStateBit.TurnOn_InManual, "Включить");
 			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Включить, "", gkBase, userName);
 		}
 
 		public static void GKTurnOnNow(GKBase gkBase, string userName)
 		{
-			Watcher.SendControlCommand(gkBase, GKStateBit.TurnOnNow_InManual, "Включить немедленно");
 			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Включить_немедленно, "", gkBase, userName);
 		}
 
 		public static void GKTurnOnInAutomatic(GKBase gkBase, string userName)
 		{
-			Watcher.SendControlCommand(gkBase, GKStateBit.TurnOn_InAutomatic, "Включить в автоматике");
 			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Включить_в_автоматическом_режиме, "", gkBase, userName);
 		}
 
 		public static void GKTurnOnNowInAutomatic(GKBase gkBase, string userName)
 		{
-			Watcher.SendControlCommand(gkBase, GKStateBit.TurnOnNow_InAutomatic, "Включить немедленно в автоматике");
 			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Включить_немедленно_в_автоматическом_режиме, "", gkBase, userName);
 		}
 
 		public static void GKTurnOff(GKBase gkBase, string userName)
 		{
-			Watcher.SendControlCommand(gkBase, GKStateBit.TurnOff_InManual, "Выключить");
 			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Выключить, "", gkBase, userName);
 		}
 
 		public static void GKTurnOffNow(GKBase gkBase, string userName)
 		{
-			Watcher.SendControlCommand(gkBase, GKStateBit.TurnOffNow_InManual, "Выключить немедленно");
 			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Выключить_немедленно, "", gkBase, userName);
 		}
 
 		public static void GKTurnOffInAutomatic(GKBase gkBase, string userName)
 		{
-			Watcher.SendControlCommand(gkBase, GKStateBit.TurnOff_InAutomatic, "Выключить в автоматике");
 			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Выключить_в_автоматическом_режиме, "", gkBase, userName);
 		}
 
 		public static void GKTurnOffNowInAutomatic(GKBase gkBase, string userName)
 		{
-			Watcher.SendControlCommand(gkBase, GKStateBit.TurnOffNow_InAutomatic, "Выключить немедленно в автоматике");
 			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Выключить_немедленно_в_автоматическом_режиме, "", gkBase, userName);
 		}
 
 		public static void GKStop(GKBase gkBase, string userName)
 		{
-			Watcher.SendControlCommand(gkBase, GKStateBit.Stop_InManual, "Остановка пуска");
 			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Остановка_пуска, "", gkBase, userName);
-		}
-
-		public static void GKStartMeasureMonitoring(GKDevice device)
-		{
-			var watcher = WatcherManager.Watchers.FirstOrDefault(x => x.GkDatabase.RootDevice.UID == device.GkDatabaseParent.UID);
-			if (watcher != null)
-			{
-				watcher.StartDeviceMeasure(device);
-			}
-		}
-
-		public static void GKStopMeasureMonitoring(GKDevice device)
-		{
-			var watcher = WatcherManager.Watchers.FirstOrDefault(x => x.GkDatabase.RootDevice.UID == device.GkDatabaseParent.UID);
-			if (watcher != null)
-			{
-				watcher.StopDeviceMeasure(device);
-			}
 		}
 
 		public static OperationResult<uint> GKGetReaderCode(GKDevice device)
@@ -476,7 +337,6 @@ namespace GKProcessor
 				if (door.EnterZoneUID == zone.UID)
 				{
 					GKProcessorManager.AddGKMessage(JournalEventNameType.Открытие_зоны_СКД, JournalEventDescriptionType.NULL, "", zone, null);
-					Watcher.SendControlCommand(door, GKStateBit.TurnOn_InAutomatic, "Включить в автоматике");
 				}
 			}
 		}
@@ -488,7 +348,6 @@ namespace GKProcessor
 				if (door.EnterZoneUID == zone.UID)
 				{
 					GKProcessorManager.AddGKMessage(JournalEventNameType.Закрытие_зоны_СКД, JournalEventDescriptionType.NULL, "", zone, null);
-					Watcher.SendControlCommand(door, GKStateBit.TurnOff_InAutomatic, "Включить в автоматике");
 				}
 			}
 		}

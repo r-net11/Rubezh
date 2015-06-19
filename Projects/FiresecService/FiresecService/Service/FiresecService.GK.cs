@@ -42,12 +42,6 @@ namespace FiresecService.Service
 
 		public OperationResult<GKDeviceConfiguration> GKReadConfiguration(Guid deviceUID)
 		{
-			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			if (device != null)
-			{
-				DescriptorsManager.Create();
-				return GKProcessorManager.GKReadConfiguration(device, UserName);
-			}
 			return OperationResult<GKDeviceConfiguration>.FromError("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
 		}
 
@@ -56,7 +50,6 @@ namespace FiresecService.Service
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				DescriptorsManager.Create();
 				return GKProcessorManager.GKReadConfigurationFromGKFile(device, UserName);
 			}
 			return Stream.Null;
@@ -68,7 +61,6 @@ namespace FiresecService.Service
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				DescriptorsManager.Create();
 				return GKProcessorManager.GKAutoSearch(device, UserName);
 			}
 			return OperationResult<GKDeviceConfiguration>.FromError("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
@@ -144,25 +136,11 @@ namespace FiresecService.Service
 
 		public OperationResult<bool> GKSetSingleParameter(Guid objectUID, List<byte> parameterBytes)
 		{
-			GKBase gkBase = null;
-			gkBase = GKManager.Devices.FirstOrDefault(x => x.UID == objectUID);
-
-			if (gkBase != null)
-			{
-				return GKProcessorManager.GKSetSingleParameter(gkBase, parameterBytes);
-			}
 			return OperationResult<bool>.FromError("Не найден компонент в конфигурации");
 		}
 
 		public OperationResult<List<GKProperty>> GKGetSingleParameter(Guid objectUID)
 		{
-			GKBase gkBase = null;
-			gkBase = GKManager.Devices.FirstOrDefault(x => x.UID == objectUID);
-
-			if (gkBase != null)
-			{
-				return GKProcessorManager.GKGetSingleParameter(gkBase);
-			}
 			return OperationResult<List<GKProperty>>.FromError("Не найден компонент в конфигурации");
 		}
 
@@ -339,24 +317,6 @@ namespace FiresecService.Service
 					return GKManager.Doors.FirstOrDefault(x => x.UID == uid);
 			}
 			return null;
-		}
-
-		public void GKStartMeasureMonitoring(Guid deviceUID)
-		{
-			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			if (device != null)
-			{
-				GKProcessorManager.GKStartMeasureMonitoring(device);
-			}
-		}
-
-		public void GKStopMeasureMonitoring(Guid deviceUID)
-		{
-			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			if (device != null)
-			{
-				GKProcessorManager.GKStopMeasureMonitoring(device);
-			}
 		}
 
 		public OperationResult<uint> GKGetReaderCode(Guid deviceUID)

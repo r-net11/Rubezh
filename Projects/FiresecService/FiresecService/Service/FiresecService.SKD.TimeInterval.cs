@@ -339,5 +339,16 @@ namespace FiresecService.Service
 				return databaseService.CardTranslator.GetMinDate();
 			}
 		}
+
+
+		public void GKStartMeasureMonitoring(Guid deviceUID)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void GKStopMeasureMonitoring(Guid deviceUID)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

@@ -451,7 +451,6 @@
     <Compile Include="GKManager\GKManager.States.cs" />
     <Compile Include="GKModels\GKConfigurationCash.cs" />
     <Compile Include="GKModels\Configuration\GKDeviceConfiguration.Update.cs" />
-    <Compile Include="GKModels\Configuration\GKDeviceConfiguration.Descriptors.cs" />
     <Compile Include="GKModels\Configuration\GKDeviceLibraryConfiguration.cs" />
     <Compile Include="Models\Plans\ElementGKDevice.cs" />
     <Compile Include="Models\Plans\ElementPolyline.cs" />

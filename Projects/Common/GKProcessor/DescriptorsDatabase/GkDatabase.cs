@@ -37,8 +37,6 @@ namespace GKProcessor
 
 		public override void BuildObjects()
 		{
-			AddKauObjects();
-
 			foreach (var door in GKManager.Doors)
 			{
 				if (door.GkDatabaseParent == RootDevice)
@@ -47,52 +45,14 @@ namespace GKProcessor
 				}
 			}
 
-			Descriptors = new List<BaseDescriptor>();
 			foreach (var device in Devices)
 			{
 				device.GKDescriptorNo = NextDescriptorNo;
-				var deviceDescriptor = new DeviceDescriptor(device, DatabaseType);
-				Descriptors.Add(deviceDescriptor);
 			}
 
 			foreach (var door in Doors)
 			{
 				door.GKDescriptorNo = NextDescriptorNo;
-				var doorDescriptor = new DoorDescriptor(door);
-				Descriptors.Add(doorDescriptor);
-				if (doorDescriptor.DoorPimDescriptorEnter != null)
-				{
-					AddPim(door.PimEnter);
-					Descriptors.Add(doorDescriptor.DoorPimDescriptorEnter);
-				}
-				if (doorDescriptor.DoorPimDescriptorExit != null)
-				{
-					AddPim(door.PimExit);
-					Descriptors.Add(doorDescriptor.DoorPimDescriptorExit);
-				}
-			}
-
-			foreach (var descriptor in Descriptors)
-			{
-				descriptor.Build();
-				descriptor.InitializeAllBytes();
-			}
-		}
-
-		void AddKauObjects()
-		{
-			foreach (var kauDatabase in KauDatabases)
-			{
-				foreach (var descriptor in kauDatabase.Descriptors)
-				{
-					var gkBase = descriptor.GKBase;
-					gkBase.GkDatabaseParent = RootDevice;
-					if (gkBase is GKDevice)
-					{
-						GKDevice device = gkBase as GKDevice;
-						AddDevice(device);
-					}
-				}
 			}
 		}
 	}
