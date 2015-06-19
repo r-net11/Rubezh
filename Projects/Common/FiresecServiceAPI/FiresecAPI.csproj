@@ -504,7 +504,6 @@
     <Compile Include="GKModels\States\GKDeviceInternalState.cs" />
     <Compile Include="GKModels\States\GKDriverState.cs" />
     <Compile Include="GKModels\States\GKStateBit.cs" />
-    <Compile Include="GKModels\GKAlarmType.cs" />
     <Compile Include="GKModels\GKBase.cs" />
     <Compile Include="GKModels\States\GKStatesHelper.cs" />
     <Compile Include="GKModels\GKBaseObjectType.cs" />

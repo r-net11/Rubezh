@@ -27,14 +27,6 @@
 	<DataTemplate DataType="{x:Type ViewModels:GKConnectionIndicatorViewModel}">
 		<Views:GKConnectionIndicatorView />
 	</DataTemplate>
-
-	<DataTemplate DataType="{x:Type ViewModels:AlarmsViewModel}">
-		<Views:AlarmsView />
-	</DataTemplate>
-
-	<DataTemplate DataType="{x:Type ViewModels:AlarmGroupsViewModel}">
-		<Views:AlarmGroupsView />
-	</DataTemplate>
 	
 	<DataTemplate DataType="{x:Type ViewModels:DeviceTooltipViewModel}">
 		<Views:DeviceTooltipView />

@@ -84,13 +84,6 @@
     <Compile Include="..\..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
-    <Compile Include="Alarms\Alarm.cs" />
-    <Compile Include="Alarms\Converters\AlarmTypeToColorConverter.cs" />
-    <Compile Include="Alarms\Converters\AlarmTypeToIconPathConverter.cs" />
-    <Compile Include="Alarms\Converters\AlarmTypeToStringConverter.cs" />
-    <Compile Include="Alarms\Converters\AlarmTypeToShortStringConverter.cs" />
-    <Compile Include="Alarms\ViewModels\AlarmGroupsViewModel.cs" />
-    <Compile Include="Alarms\ViewModels\AlarmGroupViewModel.cs" />
     <Compile Include="Converters\DeviceControlRegimeToIconConverter.cs" />
     <Compile Include="Doors\ViewModels\DoorDetailsViewModel.cs" />
     <Compile Include="Doors\ViewModels\DoorsViewModel.cs" />
@@ -107,7 +100,6 @@
     <Compile Include="Doors\Views\DoorToolTipView.xaml.cs">
       <DependentUpon>DoorToolTipView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Events\ShowGKAlarmsEvent.cs" />
     <Compile Include="Events\ShowGKDaySchedulesEvent.cs" />
     <Compile Include="Events\ShowGKDeviceParametersEvent.cs" />
     <Compile Include="Events\ShowGKScheduleEvent.cs" />
@@ -167,14 +159,6 @@
       <DependentUpon>SchedulesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\PlanLinkViewModel.cs" />
-    <Compile Include="Alarms\ViewModels\AlarmsViewModel.cs" />
-    <Compile Include="Alarms\ViewModels\AlarmViewModel.cs" />
-    <Compile Include="Alarms\Views\AlarmGroupsView.xaml.cs">
-      <DependentUpon>AlarmGroupsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Alarms\Views\AlarmsView.xaml.cs">
-      <DependentUpon>AlarmsView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\DeviceControlRegimeToStringConverter.cs" />
     <Compile Include="Plans\Designer\GKDevicePainter.cs" />
@@ -252,14 +236,6 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Alarms\Views\AlarmGroupsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Alarms\Views\AlarmsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

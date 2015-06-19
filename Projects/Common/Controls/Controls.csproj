@@ -137,7 +137,6 @@
       <DependentUpon>IsDeletedTextBlock.xaml</DependentUpon>
     </Compile>
     <Compile Include="ColorsHelper.cs" />
-    <Compile Include="Converters\AlarmTypeToBIconConverter.cs" />
     <Compile Include="Converters\BeeperTypeToStringConverter.cs" />
     <Compile Include="Converters\BoolToMinimizeTooltipConverter.cs" />
     <Compile Include="Converters\BoolToStringColorConverter.cs" />
@@ -165,7 +164,6 @@
     <Compile Include="Converters\StringToImageConverter.cs" />
     <Compile Include="Converters\SwitchConverter.cs" />
     <Compile Include="Converters\VisualizationStateToImageSourceConverter.cs" />
-    <Compile Include="Converters\XAlarmTypeToStringConverter.cs" />
     <Compile Include="Converters\IntToEnumConverter.cs" />
     <Compile Include="Converters\CountToVisibilityConverter.cs" />
     <Compile Include="Converters\DateTimeToStringConverter.cs" />

@@ -28,11 +28,9 @@ namespace GKModule
 		static DeviceParametersViewModel DeviceParametersViewModel;
 		static SKDZonesViewModel SKDZonesViewModel;
 		static DoorsViewModel DoorsViewModel;
-		static AlarmsViewModel AlarmsViewModel;
 		public static DaySchedulesViewModel DaySchedulesViewModel;
 		public static SchedulesViewModel SchedulesViewModel;
 		NavigationItem _skdZonesNavigationItem;
-		NavigationItem _pimsNavigationItem;
 		NavigationItem _doorsNavigationItem;
 		private PlanPresenter _planPresenter;
 
@@ -43,18 +41,14 @@ namespace GKModule
 
 		public override void CreateViewModels()
 		{
-			ServiceFactory.Layout.AddAlarmGroups(new AlarmGroupsViewModel());
 			ServiceFactory.Layout.AddToolbarItem(new GKConnectionIndicatorViewModel());
 
 			DevicesViewModel = new DevicesViewModel();
 			DeviceParametersViewModel = new DeviceParametersViewModel();
 			SKDZonesViewModel = new SKDZonesViewModel();
 			DoorsViewModel = new DoorsViewModel();
-			AlarmsViewModel = new AlarmsViewModel();
 			DaySchedulesViewModel = new DaySchedulesViewModel();
 			SchedulesViewModel = new SchedulesViewModel();
-			ServiceFactory.Events.GetEvent<ShowGKAlarmsEvent>().Unsubscribe(OnShowAlarms);
-			ServiceFactory.Events.GetEvent<ShowGKAlarmsEvent>().Subscribe(OnShowAlarms);
 
 			SubscribeShowDelailsEvent();
 		}
@@ -88,11 +82,6 @@ namespace GKModule
 		}
 		#endregion
 
-		void OnShowAlarms(GKAlarmType? alarmType)
-		{
-			AlarmsViewModel.Sort(alarmType);
-		}
-
 		public override void Initialize()
 		{
 			_planPresenter.Initialize();
@@ -116,10 +105,8 @@ namespace GKModule
 				new NavigationItem(ModuleType.ToDescription(), "tree",
 					new List<NavigationItem>()
 					{
-						new NavigationItem<ShowGKAlarmsEvent, GKAlarmType?>(AlarmsViewModel, "Состояния", "Alarm") { SupportMultipleSelect = true},
 						new NavigationItem<ShowGKDeviceEvent, Guid>(DevicesViewModel, "Устройства", "Tree", null, null, Guid.Empty),
 						new NavigationItem<ShowGKDeviceParametersEvent, Guid>(DeviceParametersViewModel, "Параметры", "Tree", null, null, Guid.Empty),
-						_pimsNavigationItem,
 						_skdZonesNavigationItem,
 						_doorsNavigationItem,
 						new NavigationItem("СКД", "tree",
@@ -160,13 +147,11 @@ namespace GKModule
 		public override void AfterInitialize()
 		{
 			GKAfterInitialize();
-			AlarmsViewModel.SubscribeShortcuts();
 		}
 
 		#region ILayoutProviderModule Members
 		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
 		{
-			yield return new LayoutPartPresenter(LayoutPartIdentities.Alarms, "Состояния", "Alarm.png", (p) => AlarmsViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.GDevices, "Устройства", "Tree.png", (p) => DevicesViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.GKSKDZones, "Зоны СКД", "Zones.png", (p) => SKDZonesViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.Doors, "Точки доступа", "Tree.png", (p) => DoorsViewModel);
