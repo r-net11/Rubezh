@@ -33,7 +33,5 @@ namespace Infrastructure.Common.Services.Content
 
 		void Invalidate();
 		void Close();
-
-		void SetMulticlientFolder(string multiclientFolderName);
 	}
 }

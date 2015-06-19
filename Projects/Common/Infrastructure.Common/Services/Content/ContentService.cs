@@ -11,7 +11,7 @@ namespace Infrastructure.Common.Services.Content
 {
 	public class ContentService : IContentService
 	{
-		private const string ContentFolderRelativePath = @"Configuration\Content";
+		private const string ContentFolderRelativePath = @"Configuration\Unzip\Content";
 		public string ContentFolder { get; private set; }
 		private Dictionary<string, Stream> _streams;
 		private Dictionary<string, BitmapImage> _images;
@@ -20,12 +20,6 @@ namespace Infrastructure.Common.Services.Content
 		public ContentService(string applicationName)
 		{
 			ContentFolder = AppDataFolderHelper.GetLocalFolder(Path.Combine(applicationName, ContentFolderRelativePath));
-			Invalidate();
-		}
-
-		public void SetMulticlientFolder(string multiclientFolderName)
-		{
-			ContentFolder = AppDataFolderHelper.GetLocalFolder(Path.Combine(multiclientFolderName + @"\Unzip\Content"));
 			Invalidate();
 		}
 

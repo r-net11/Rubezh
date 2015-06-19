@@ -325,13 +325,20 @@ namespace AutomationModule.ViewModels
 
         public RelayCommand ConfigureCommand { get; private set; }
 
-        private void OnConfigure()
-        {
-            var configClass = new ConfigClass();
-            var result = configClass.LoadApplicationConfiguration();
-            if (result)
-                Text += "Configuratrion loaded\n";
-        }
+		private void OnConfigure()
+		{
+			try
+			{
+				var configClass = new ConfigClass();
+				var result = configClass.LoadApplicationConfiguration();
+				if (result)
+					Text += "Configuratrion loaded\n";
+			}
+			catch
+			{
+
+			}
+		}
 
         public RelayCommand GetEndpontsCommand { get; private set; }
 
