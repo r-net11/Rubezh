@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.GK;
@@ -7,15 +8,16 @@ using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Microsoft.Practices.Prism;
 
 namespace SKDModule.ViewModels
 {
 	public class TimeTrackPartDetailsViewModel: SaveCancelDialogViewModel
 	{
 		TimeSpan _EnterTime;
-		public TimeSpan EnterTime 
+		public TimeSpan EnterTime
 		{
-			get { return _EnterTime; } 
+			get { return _EnterTime; }
 			set
 			{
 				_EnterTime = value;
@@ -72,17 +74,16 @@ namespace SKDModule.ViewModels
 
 			Zones = new ObservableCollection<TimeTrackZone>();
 
-			var strazhZones = SKDManager.Zones.Where(x => schedule.Zones.Any(y => y.ZoneUID == x.UID));
-			foreach (var zone in strazhZones)
-			{
-				Zones.Add(new TimeTrackZone(zone));
-			}
-			var gkZones = GKManager.SKDZones.Where(x => schedule.Zones.Any(y => y.ZoneUID == x.UID));
-			foreach (var zone in gkZones)
-			{
-				Zones.Add(new TimeTrackZone(zone));
-			}
-				
+			var strazhZones = SKDManager.Zones.Where(x => schedule.Zones.Any(y => y.ZoneUID == x.UID)).ToList();
+			var gkZones = GKManager.SKDZones.Where(x => schedule.Zones.Any(y => y.ZoneUID == x.UID)).ToList();
+
+			Zones.AddRange(
+					strazhZones
+					.Select(strazhZone => new TimeTrackZone(strazhZone))
+					.Union(gkZones.Select(gkZone => new TimeTrackZone(gkZone)))
+					.ToList()
+				);
+
 			SelectedZone = Zones.FirstOrDefault();
 		}
 
@@ -129,6 +130,7 @@ namespace SKDModule.ViewModels
 		public SKDZone SKDZone { get; private set; }
 		public GKSKDZone GKSKDZone { get; private set; }
 		public Guid UID { get; private set; }
+		public int No { get; private set; }
 		public string Name { get; private set; }
 		public string Description { get; private set; }
 
@@ -136,7 +138,8 @@ namespace SKDModule.ViewModels
 		{
 			SKDZone = zone;
 			UID = zone.UID;
-			Name = zone.PresentationName;
+			No = zone.No;
+			Name = zone.Name;
 			Description = zone.Description;
 		}
 
@@ -144,7 +147,8 @@ namespace SKDModule.ViewModels
 		{
 			GKSKDZone = zone;
 			UID = zone.UID;
-			Name = zone.PresentationName;
+			No = zone.No;
+			Name = zone.Name;
 			Description = zone.Description;
 		}
 	}

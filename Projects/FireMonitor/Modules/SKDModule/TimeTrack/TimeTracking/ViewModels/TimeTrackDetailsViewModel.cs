@@ -73,12 +73,12 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_isChanged = value;
-				OnPropertyChanged(() => IsChanged);					
+				OnPropertyChanged(() => IsChanged);
 			}
 		}
-		 
+
 		public bool IsNew { get; set; }
-		
+
 		public ObservableCollection<DayTimeTrackPartViewModel> DayTimeTrackParts { get; private set; }
 
 		DayTimeTrackPartViewModel _selectedDayTimeTrackPart; //TODO: remove it and save all DayTimeTrackParts
@@ -163,7 +163,7 @@ namespace SKDModule.ViewModels
 			if (DialogService.ShowModalWindow(timeTrackPartDetailsViewModel))
 			{
 				SelectedTimeTrackPartDetailsViewModel = timeTrackPartDetailsViewModel;
-				SelectedDayTimeTrackPart.Update(timeTrackPartDetailsViewModel.EnterTime, timeTrackPartDetailsViewModel.ExitTime, timeTrackPartDetailsViewModel.SelectedZone.Name);
+				SelectedDayTimeTrackPart.Update(timeTrackPartDetailsViewModel.EnterTime, timeTrackPartDetailsViewModel.ExitTime, timeTrackPartDetailsViewModel.SelectedZone.Name, timeTrackPartDetailsViewModel.SelectedZone.No);
 				IsChanged = true;
 				IsNew = default(bool);
 				ServiceFactory.Events.GetEvent<EditTimeTrackPartEvent>().Publish(ShortEmployee.UID);
@@ -259,7 +259,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand OpenFileCommand { get; private set; }
 		void OnOpenFile()
 		{
-			SelectedDocument.OpenFile();	
+			SelectedDocument.OpenFile();
 		}
 		bool CanOpenFile()
 		{
@@ -296,7 +296,5 @@ namespace SKDModule.ViewModels
 
 			return base.Save();
 		}
-
-		
 	}
 }
