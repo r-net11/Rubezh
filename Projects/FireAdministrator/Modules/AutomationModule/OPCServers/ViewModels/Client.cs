@@ -1,20 +1,39 @@
-﻿using Softing.Opc.Ua.Toolkit;
+﻿using Softing.Opc.Ua.Sdk;
+using Softing.Opc.Ua.Toolkit;
 using Softing.Opc.Ua.Toolkit.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EndpointDescription = Softing.Opc.Ua.Toolkit.EndpointDescription;
+using MessageSecurityMode = Softing.Opc.Ua.Toolkit.MessageSecurityMode;
+using NodeId = Softing.Opc.Ua.Toolkit.NodeId;
+using ReferenceDescription = Softing.Opc.Ua.Toolkit.ReferenceDescription;
+using UserIdentity = Softing.Opc.Ua.Toolkit.UserIdentity;
 
 namespace AutomationModule.ViewModels
 {
 	public class OPCUAClient
 	{
+	    public List<Session> Sessions;
 		public Session m_session = null;
 		private const string m_monitoredItemNodeId = "ns=3;i=10846";
 		public MonitoredItem m_monitoredItem = null;
 
-		internal List<string> GetEndpoints(string serverUrl)
+	    internal string DefaultConnectionString(string serverUrl)
+	    {
+	        var result = "";
+	        var l = GetEndpoints(serverUrl);
+	        if (l.Count != 0)
+	        {
+	            result = l[0];
+	        }
+
+	        return result;
+	    }
+
+	    internal List<string> GetEndpoints(string serverUrl)
 		{
 			var result = new List<string>();
 
@@ -41,6 +60,19 @@ namespace AutomationModule.ViewModels
 			session.Connect(false, true);
 			return session;
 		}
+
+        internal Session AddOpcTcpSessionWithNoSecurity(string ServerUrl)
+        {
+            var s = CreateSession(
+                "UaBinaryNoSecuritySession",
+                ServerUrl,
+                MessageSecurityMode.None,
+                SecurityPolicy.None,
+                MessageEncoding.Binary,
+                new AnonymousUserIdentity());
+            Sessions.Add(s);
+            return s;
+        }
 
 		internal void CreateOpcTcpSessionWithNoSecurity(string ServerUrl)
 		{
@@ -137,17 +169,33 @@ namespace AutomationModule.ViewModels
 			return result;
 		}
 
-		internal void CreateSubscription(string subscriptionname)
+		internal Subscription CreateSubscription(string subscriptionname)
 		{
+            Subscription subscription = null;
 			if (m_session != null)
 			{
-				Subscription subscription = new Subscription(m_session, subscriptionname);
+				subscription = new Subscription(m_session, subscriptionname);
 			}
 			else
 			{
 				throw new Exception("Session is not created");
 			}
+		    return subscription;
 		}
+
+        internal Subscription AddSubscription(Session session, string subscriptionname)
+        {
+            Subscription subscription = null;
+            if (session != null)
+            {
+                subscription = new Subscription(session, subscriptionname);
+            }
+            else
+            {
+                throw new Exception("Session is not created");
+            }
+            return subscription;
+        }
 
 		internal void DeleteSubscription(string subscriptionname)
 		{

@@ -14,4 +14,8 @@
     <DataTemplate DataType="{x:Type ViewModels:OPCServerDetailsViewModel}">
         <Views:OPCServerDetailsView />
 	</DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:OPCSelectTagsViewModel}">
+        <Views:OPCSelectTagsView />
+    </DataTemplate>
 </ResourceDictionary>
