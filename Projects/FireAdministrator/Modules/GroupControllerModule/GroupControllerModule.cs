@@ -6,7 +6,6 @@ using FiresecAPI.Models;
 using FiresecClient;
 using GKModule.Events;
 using GKModule.Plans;
-using GKModule.Validation;
 using GKModule.ViewModels;
 using GKProcessor;
 using Infrastructure;
@@ -22,7 +21,7 @@ using Infrustructure.Plans.Events;
 
 namespace GKModule
 {
-	public class GroupControllerModule : ModuleBase, IValidationModule, ILayoutDeclarationModule
+	public class GroupControllerModule : ModuleBase, ILayoutDeclarationModule
 	{
 		DoorsViewModel DoorsViewModel;
 		SKDZonesViewModel SKDZonesViewModel;
@@ -77,14 +76,6 @@ namespace GKModule
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "SKD/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Zones/DataTemplates/Dictionary.xaml"));
 		}
-
-		#region IValidationModule Members
-		public IEnumerable<IValidationError> Validate()
-		{
-			var validator = new Validator();
-			return validator.Validate();
-		}
-		#endregion
 
 		private void OnCreateGKDoor(CreateGKDoorEventArg createGKDoorEventArg)
 		{

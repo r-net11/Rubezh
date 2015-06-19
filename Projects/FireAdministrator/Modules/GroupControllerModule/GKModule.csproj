@@ -230,14 +230,6 @@
     <Compile Include="SKD\Views\SKDZonesView.xaml.cs">
       <DependentUpon>SKDZonesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Validation\Validator.Plans.cs" />
-    <Compile Include="Validation\DeviceValidationError.cs" />
-    <Compile Include="Validation\Validator.cs" />
-    <Compile Include="Validation\Validator.Devices.cs" />
-    <Compile Include="Validation\Validator.Doors.cs" />
-    <Compile Include="Validation\DoorValidationError.cs" />
-    <Compile Include="Validation\SKDZoneValidationError.cs" />
-    <Compile Include="Validation\Validator.SKDZones.cs" />
     <Compile Include="Devices\Views\Logic\LogicView.xaml.cs">
       <DependentUpon>LogicView.xaml</DependentUpon>
     </Compile>
