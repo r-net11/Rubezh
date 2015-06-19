@@ -101,12 +101,6 @@ namespace FiresecAPI.GK
 		[DataMember]
 		public bool AllowMultipleVizualization { get; set; }
 
-		/// <summary>
-		/// Отражение объекта ГК
-		/// </summary>
-		[DataMember]
-		public GKMirrorItem MirrorItem { get; set; }
-
 		[XmlIgnore]
 		public byte ShleifNo
 		{

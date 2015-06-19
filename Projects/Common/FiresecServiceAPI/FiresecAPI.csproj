@@ -150,7 +150,7 @@
     <Compile Include="AutomationCallback\ProcedureProperties.cs" />
     <Compile Include="AutomationCallback\PropertyCallBackData.cs" />
     <Compile Include="AutomationCallback\VisualPropertyCallbackData.cs" />
-    <Compile Include="GKModels\Device\GKMirrorItem.cs" />
+    <Compile Include="GKModels\Device\GKProperty.cs" />
     <Compile Include="GKModels\SKD\GKCardType.cs" />
     <Compile Include="GKModels\SKD\GKSKDZone.cs" />
     <Compile Include="GKModels\States\GKSKDZoneState.cs" />
@@ -471,7 +471,6 @@
     <Compile Include="GKModels\Configuration\GKDeviceConfiguration.cs" />
     <Compile Include="GKModels\Configuration\GKDriversConfiguration.cs" />
     <Compile Include="GKModels\Device\GKDevice.cs" />
-    <Compile Include="GKModels\Device\GKProperty.cs" />
     <Compile Include="GKModels\Driver\GKMeasureParameter.cs" />
     <Compile Include="GKModels\Driver\GKDriver.cs" />
     <Compile Include="GKModels\Driver\GKDriverDeviceParameter.cs" />

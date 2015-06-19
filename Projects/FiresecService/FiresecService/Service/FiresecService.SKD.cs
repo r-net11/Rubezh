@@ -273,7 +273,7 @@ namespace FiresecService.Service
 					errors.AddRange(getAccessTemplateOperationResult.Errors);
 
 				errors.AddRange(AddStrazhCard(card, getAccessTemplateOperationResult.Result, databaseService));
-				errors.AddRange(AddGKCard(card, getAccessTemplateOperationResult.Result, databaseService));
+		//		errors.AddRange(AddGKCard(card, getAccessTemplateOperationResult.Result, databaseService));
 
 				return OperationResult<bool>.FromError(errors, true);
 			}
@@ -290,7 +290,7 @@ namespace FiresecService.Service
 			if (pendingResult.HasError)
 				yield return pendingResult.Error;
 		}
-		IEnumerable<string> AddGKCard(SKDCard card, AccessTemplate accessTemplate, SKDDatabaseService databaseService)
+	/*	IEnumerable<string> AddGKCard(SKDCard card, AccessTemplate accessTemplate, SKDDatabaseService databaseService)
 		{
 			var employeeOperationResult = databaseService.EmployeeTranslator.GetSingle(card.HolderUID);
 			if (!employeeOperationResult.HasError)
@@ -308,7 +308,7 @@ namespace FiresecService.Service
 					}
 				}
 			}
-		}
+		}*/
 
 		public OperationResult<bool> EditCard(SKDCard card, string employeeName)
 		{
@@ -333,7 +333,7 @@ namespace FiresecService.Service
 					var oldGetAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(oldCard.AccessTemplateUID);
 
 					errors.AddRange(EditStrazhCard(oldCard, oldGetAccessTemplateOperationResult.Result, card, getAccessTemplateOperationResult.Result, databaseService));
-					errors.AddRange(EditGKCard(oldCard, oldGetAccessTemplateOperationResult.Result, card, getAccessTemplateOperationResult.Result, databaseService));
+			//		errors.AddRange(EditGKCard(oldCard, oldGetAccessTemplateOperationResult.Result, card, getAccessTemplateOperationResult.Result, databaseService));
 				}
 				else
 				{
@@ -354,7 +354,7 @@ namespace FiresecService.Service
 			if (pendingResult.HasError)
 				yield return pendingResult.Error;
 		}
-		IEnumerable<string> EditGKCard(SKDCard oldCard, AccessTemplate oldAccessTemplate, SKDCard card, AccessTemplate accessTemplate, SKDDatabaseService databaseService)
+	/*	IEnumerable<string> EditGKCard(SKDCard oldCard, AccessTemplate oldAccessTemplate, SKDCard card, AccessTemplate accessTemplate, SKDDatabaseService databaseService)
 		{
 			var employeeOperationResult = databaseService.EmployeeTranslator.GetSingle(card.HolderUID);
 			if (!employeeOperationResult.HasError)
@@ -390,7 +390,7 @@ namespace FiresecService.Service
 					}
 				}
 			}
-		}
+		}*/
 
 		public OperationResult<bool> DeleteCardFromEmployee(SKDCard card, string employeeName, string reason = null)
 		{
