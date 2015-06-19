@@ -874,7 +874,7 @@ namespace FiresecService.Service
 			if (device != null)
 			{
 				AddSKDJournalMessage(JournalEventNameType.Запись_конфигурации_двери, device);
-				doorConfiguration.OpenAlwaysTimeIndex = 0;
+				doorConfiguration.OpenAlwaysTimeIndex = 255;
 				return ChinaSKDDriver.Processor.SetDoorConfiguration(deviceUID, doorConfiguration);
 			}
 			return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");

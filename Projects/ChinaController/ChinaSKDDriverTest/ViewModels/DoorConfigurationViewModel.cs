@@ -92,14 +92,20 @@ namespace ControllerSDK.ViewModels
 		public ObservableCollection<DoorOpenMethod> AvailableDoorOpenMethods { get; private set; }
 		void InitAvailableDoorOpenMethods()
 		{
-			AvailableDoorOpenMethods = new ObservableCollection<DoorOpenMethod>();
-			AvailableDoorOpenMethods.Add(DoorOpenMethod.CFG_DOOR_OPEN_METHOD_UNKNOWN);
-			AvailableDoorOpenMethods.Add(DoorOpenMethod.CFG_DOOR_OPEN_METHOD_PWD_ONLY);
-			AvailableDoorOpenMethods.Add(DoorOpenMethod.CFG_DOOR_OPEN_METHOD_CARD);
-			AvailableDoorOpenMethods.Add(DoorOpenMethod.CFG_DOOR_OPEN_METHOD_PWD_OR_CARD);
-			AvailableDoorOpenMethods.Add(DoorOpenMethod.CFG_DOOR_OPEN_METHOD_CARD_FIRST);
-			AvailableDoorOpenMethods.Add(DoorOpenMethod.CFG_DOOR_OPEN_METHOD_PWD_FIRST);
-			AvailableDoorOpenMethods.Add(DoorOpenMethod.CFG_DOOR_OPEN_METHOD_SECTION);
+			AvailableDoorOpenMethods = new ObservableCollection<DoorOpenMethod>
+			{
+				DoorOpenMethod.CFG_DOOR_OPEN_METHOD_UNKNOWN,
+				DoorOpenMethod.CFG_DOOR_OPEN_METHOD_PWD_ONLY,
+				DoorOpenMethod.CFG_DOOR_OPEN_METHOD_CARD,
+				DoorOpenMethod.CFG_DOOR_OPEN_METHOD_PWD_OR_CARD,
+				DoorOpenMethod.CFG_DOOR_OPEN_METHOD_CARD_FIRST,
+				DoorOpenMethod.CFG_DOOR_OPEN_METHOD_PWD_FIRST,
+				DoorOpenMethod.CFG_DOOR_OPEN_METHOD_SECTION,
+				DoorOpenMethod.CFG_DOOR_OPEN_METHOD_FINGERPRINTONLY,
+				DoorOpenMethod.CFG_DOOR_OPEN_METHOD_PWD_OR_CARD_OR_FINGERPRINT,
+				DoorOpenMethod.CFG_DOOR_OPEN_METHOD_CARD_AND_FINGERPRINT,
+				DoorOpenMethod.CFG_DOOR_OPEN_METHOD_MULTI_PERSON
+			};
 		}
 	}
 }

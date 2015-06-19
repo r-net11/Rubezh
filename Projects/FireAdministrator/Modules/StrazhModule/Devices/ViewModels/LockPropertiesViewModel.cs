@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using FiresecAPI.SKD;
 using FiresecClient;
 using Infrastructure.Common;
@@ -286,7 +287,7 @@ namespace StrazhModule.ViewModels
 			else
 			{
 				var doorConfiguration = result.Result;
-				if (doorConfiguration.DoorOpenMethod == SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_UNKNOWN)
+				if (!DoorOpenMethods.Any(doorOpenMethod => doorOpenMethod.Equals(doorConfiguration.DoorOpenMethod)))
 				{
 					MessageBoxService.ShowWarning("Для замка на контроллере не установлен метод открытия двери");
 				}
