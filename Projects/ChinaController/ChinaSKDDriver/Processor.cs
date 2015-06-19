@@ -144,7 +144,6 @@ namespace ChinaSKDDriver
 			if (gkCallbackResult.JournalItems.Count +
 				gkCallbackResult.GKStates.DeviceStates.Count +
 				gkCallbackResult.GKStates.ZoneStates.Count +
-				gkCallbackResult.GKStates.PimStates.Count +
 				gkCallbackResult.GKStates.DeviceMeasureParameters.Count > 0)
 			{
 				if (GKCallbackResultEvent != null)

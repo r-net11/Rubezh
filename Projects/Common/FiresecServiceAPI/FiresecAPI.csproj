@@ -492,7 +492,6 @@
     <Compile Include="GKModels\Logic\GKClause.cs" />
     <Compile Include="GKModels\Logic\GKClauseGroup.cs" />
     <Compile Include="GKModels\Logic\GKLogic.cs" />
-    <Compile Include="GKModels\PIM\GKPim.cs" />
     <Compile Include="GKModels\SKD\GKDoorType.cs" />
     <Compile Include="GKModels\SKD\GKSchedule.cs" />
     <Compile Include="GKModels\SKD\GKSchedulePeriodType.cs" />
@@ -504,7 +503,6 @@
     <Compile Include="GKModels\States\GKBaseInternalState.cs" />
     <Compile Include="GKModels\States\GKDeviceInternalState.cs" />
     <Compile Include="GKModels\States\GKDriverState.cs" />
-    <Compile Include="GKModels\States\GKPimInternalState.cs" />
     <Compile Include="GKModels\States\GKStateBit.cs" />
     <Compile Include="GKModels\GKAlarmType.cs" />
     <Compile Include="GKModels\GKBase.cs" />

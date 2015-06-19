@@ -35,15 +35,7 @@
 	<DataTemplate DataType="{x:Type ViewModels:AlarmGroupsViewModel}">
 		<Views:AlarmGroupsView />
 	</DataTemplate>
-
-	<DataTemplate DataType="{x:Type ViewModels:PimsViewModel}">
-		<Views:PimsView />
-	</DataTemplate>
-
-	<DataTemplate DataType="{x:Type ViewModels:PimDetailsViewModel}">
-		<Views:PimDetailsView />
-	</DataTemplate>
-
+	
 	<DataTemplate DataType="{x:Type ViewModels:DeviceTooltipViewModel}">
 		<Views:DeviceTooltipView />
 	</DataTemplate>

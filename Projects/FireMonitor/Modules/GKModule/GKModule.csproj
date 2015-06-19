@@ -117,18 +117,6 @@
     <Compile Include="Plans\ViewModels\DeviceTooltipViewModel.cs" />
     <Compile Include="Plans\ViewModels\GKDoorTooltipViewModel.cs" />
     <Compile Include="Devices\ViewModels\MeasureParameterViewModel.cs" />
-    <Compile Include="PIMs\ViewModels\PimDetailsViewModel.cs" />
-    <Compile Include="PIMs\ViewModels\PimsViewModel.cs" />
-    <Compile Include="PIMs\ViewModels\PimViewModel.cs" />
-    <Compile Include="PIMs\Views\PimDetailsView.xaml.cs">
-      <DependentUpon>PimDetailsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PIMs\Views\PimsView.xaml.cs">
-      <DependentUpon>PimsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PIMs\Views\PimToolTipView.xaml.cs">
-      <DependentUpon>PimToolTipView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Devices\Views\DeviceTooltipView.xaml.cs">
       <DependentUpon>DeviceTooltipView.xaml</DependentUpon>
     </Compile>
@@ -296,14 +284,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="PIMs\Views\PimDetailsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="PIMs\Views\PimsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Schedules\Views\CalendarView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -366,10 +346,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
-    <Page Include="PIMs\Views\PimToolTipView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Devices\Views\DeviceTooltipView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

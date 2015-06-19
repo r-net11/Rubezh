@@ -89,7 +89,6 @@ namespace GKProcessor
 			if (gkCallbackResult.JournalItems.Count +
 				gkCallbackResult.GKStates.DeviceStates.Count +
 				gkCallbackResult.GKStates.ZoneStates.Count +
-				gkCallbackResult.GKStates.PimStates.Count +
 				gkCallbackResult.GKStates.DoorStates.Count +
 				gkCallbackResult.GKStates.SKDZoneStates.Count +
 				gkCallbackResult.GKStates.DeviceMeasureParameters.Count > 0)
@@ -365,10 +364,6 @@ namespace GKProcessor
 				if (gkBase is GKDevice)
 				{
 					journalObjectType = JournalObjectType.GKDevice;
-				}
-				if (gkBase is GKPim)
-				{
-					journalObjectType = JournalObjectType.GKPim;
 				}
 				if (gkBase is GKSKDZone)
 				{

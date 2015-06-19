@@ -7,9 +7,6 @@ namespace FiresecAPI.GK
 		[DescriptionAttribute("Устройство")]
 		Deivce,
 
-		[DescriptionAttribute("ПИМ")]
-		Pim,
-
 		[DescriptionAttribute("Точка доступа")]
 		Door,
 

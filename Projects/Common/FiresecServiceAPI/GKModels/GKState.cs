@@ -65,14 +65,6 @@ namespace FiresecAPI.GK
 			BaseObjectType = GKBaseObjectType.Deivce;
 		}
 
-		public GKState(GKPim pim)
-			: this()
-		{
-			Pim = pim;
-			UID = pim.UID;
-			BaseObjectType = GKBaseObjectType.Pim;
-		}
-
 		public GKState(GKDoor door)
 			: this()
 		{
@@ -90,7 +82,6 @@ namespace FiresecAPI.GK
 		}
 
 		public GKDevice Device { get; private set; }
-		public GKPim Pim { get; private set; }
 		public GKDoor Door { get; private set; }
 		public GKSKDZone SKDZone { get; private set; }
 		public GKBaseObjectType BaseObjectType { get; private set; }
