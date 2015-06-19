@@ -118,8 +118,6 @@
     <Compile Include="Events\ShowGKDiagnosticsEvent.cs" />
     <Compile Include="Events\ShowGKodeEvent.cs" />
     <Compile Include="Events\ShowGKJournalFilterEvent.cs" />
-    <Compile Include="Events\ShowGKOPCDevicesEvent.cs" />
-    <Compile Include="Events\ShowGKOPCZonesEvent.cs" />
     <Compile Include="Events\ShowGKZoneEvent.cs" />
     <Compile Include="Events\ShowGKDoorEvent.cs" />
     <Compile Include="Events\ShowGKScheduleEvent.cs" />
@@ -174,13 +172,6 @@
     <Compile Include="Journal\ViewModels\JournalItemViewModel.cs" />
     <Compile Include="Journal\Views\JournalGridView.xaml.cs">
       <DependentUpon>JournalGridView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="OPC\ViewModels\OPCDevicesViewModel.cs" />
-    <Compile Include="OPC\Views\OPCDevicesView.xaml.cs">
-      <DependentUpon>OPCDevicesView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="OPC\Views\OPCZonesView.xaml.cs">
-      <DependentUpon>OPCZonesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Plans\GKPlanExtension.cs" />
     <Compile Include="Devices\ViewModels\Logic\ClauseViewModel.cs" />
@@ -395,10 +386,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="OPC\DataTemplates\Dictionary.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Plans\Views\GKDoorPropertiesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -444,14 +431,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Journal\Views\JournalView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="OPC\Views\OPCDevicesView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="OPC\Views\OPCZonesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

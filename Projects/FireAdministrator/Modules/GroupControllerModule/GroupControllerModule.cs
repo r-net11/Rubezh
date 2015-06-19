@@ -28,7 +28,6 @@ namespace GKModule
 		DoorsViewModel DoorsViewModel;
 		SKDZonesViewModel SKDZonesViewModel;
 		LibraryViewModel DeviceLidraryViewModel;
-		OPCDevicesViewModel OPCDevicesViewModel;
 		DiagnosticsViewModel DiagnosticsViewModel;
 		GKPlanExtension _planExtension;
 
@@ -43,7 +42,6 @@ namespace GKModule
 			DoorsViewModel = new DoorsViewModel();
 			SKDZonesViewModel = new SKDZonesViewModel();
 			DeviceLidraryViewModel = new LibraryViewModel();
-			OPCDevicesViewModel = new OPCDevicesViewModel();
 			DiagnosticsViewModel = new DiagnosticsViewModel();
 			_planExtension = new GKPlanExtension(DevicesViewModel, SKDZonesViewModel, DoorsViewModel);
 		}
@@ -53,7 +51,6 @@ namespace GKModule
 			DevicesViewModel.Initialize();
 			DoorsViewModel.Initialize();
 			SKDZonesViewModel.Initialize();
-			OPCDevicesViewModel.Initialize();
 
 			_planExtension.Initialize();
 			ServiceFactory.Events.GetEvent<RegisterPlanExtensionEvent<Plan>>().Publish(_planExtension);
@@ -67,11 +64,6 @@ namespace GKModule
 				{
 					new NavigationItem<ShowGKDeviceEvent, Guid>(DevicesViewModel, "Устройства", "Tree", null, null, Guid.Empty),
 #if DEBUG
-					new NavigationItem("OPC Сервер", "tree",
-						new List<NavigationItem>()
-						{
-							new NavigationItem<ShowGKOPCDevicesEvent, Guid>(OPCDevicesViewModel, "Устройства", "tree", null, null, Guid.Empty),
-						}),
 					new NavigationItem<ShowGKDeviceLidraryEvent, object>(DeviceLidraryViewModel, "Библиотека", "Book"),
 					new NavigationItem<ShowGKDiagnosticsEvent, object>(DiagnosticsViewModel, "Диагностика", "Bug"),
 #endif
@@ -90,7 +82,6 @@ namespace GKModule
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Devices/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Diagnostics/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Journal/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "OPC/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Plans/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Selectation/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "SKD/DataTemplates/Dictionary.xaml"));

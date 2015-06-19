@@ -76,8 +76,6 @@ namespace Infrastructure.Common
 		Library,
 		[DescriptionAttribute("Уведомления")]
 		Notification,
-		[DescriptionAttribute("OPC сервер")]
-		OPC,
 		[DescriptionAttribute("Графические планы")]
 		Plans,
 		[DescriptionAttribute("Графические планы - Курск")]

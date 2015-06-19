@@ -12,9 +12,6 @@ namespace FiresecAPI.Models
 		[Description("Itv")]
 		Itv,
 
-		[Description("OPC Сервер")]
-		OPC,
-
 		[Description("Ассад")]
 		Assad,
 

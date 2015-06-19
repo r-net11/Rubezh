@@ -17,7 +17,6 @@ namespace Infrastructure.Common
 				{
 					registryKey.DeleteValue("FiresecService");
 					registryKey.DeleteValue("FSAgentServer");
-					registryKey.DeleteValue("GKOPCServer");
 					registryKey.Close();
 				}
 			}

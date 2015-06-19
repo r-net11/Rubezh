@@ -107,9 +107,6 @@ namespace FiresecAPI.GK
 		[DataMember]
 		public GKMirrorItem MirrorItem { get; set; }
 
-		[DataMember]
-		public bool IsOPCUsed { get; set; }
-
 		[XmlIgnore]
 		public byte ShleifNo
 		{
