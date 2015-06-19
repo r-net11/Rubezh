@@ -18,8 +18,6 @@ namespace FiresecAPI.GK
 			Doors = new List<GKDoor>();
 			SKDZones = new List<GKSKDZone>();
 			Holidays = new List<GKHoliday>();
-
-			Instructions = new List<GKInstruction>();
 		}
 
 		[XmlIgnore]
@@ -30,12 +28,6 @@ namespace FiresecAPI.GK
 		/// </summary>
 		[DataMember]
 		public GKDevice RootDevice { get; set; }
-
-		/// <summary>
-		/// Инструкции
-		/// </summary>
-		[DataMember]
-		public List<GKInstruction> Instructions { get; set; }
 
 		/// <summary>
 		/// Точки доступа

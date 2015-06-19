@@ -132,7 +132,6 @@
     <Compile Include="Events\ShowGKDevicePropertiesEvent.cs" />
     <Compile Include="Events\ShowGKDiagnosticsEvent.cs" />
     <Compile Include="Events\ShowGKodeEvent.cs" />
-    <Compile Include="Events\ShowGKInstructionsEvent.cs" />
     <Compile Include="Events\ShowGKJournalFilterEvent.cs" />
     <Compile Include="Events\ShowGKOPCDevicesEvent.cs" />
     <Compile Include="Events\ShowGKOPCZonesEvent.cs" />
@@ -187,20 +186,6 @@
       <DependentUpon>DiagnosticsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Diagnostics\ViewModels\DiagnosticsViewModel.cs" />
-    <Compile Include="Instructions\Converters\DevicesToStringConverter.cs" />
-    <Compile Include="Instructions\ViewModels\InstructionDetailsViewModel.cs" />
-    <Compile Include="Instructions\ViewModels\InstructionsMenuViewModel.cs" />
-    <Compile Include="Instructions\ViewModels\InstructionsViewModel.cs" />
-    <Compile Include="Instructions\ViewModels\InstructionViewModel.cs" />
-    <Compile Include="Instructions\Views\InstructionDetailsView.xaml.cs">
-      <DependentUpon>InstructionDetailsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Instructions\Views\InstructionsMenuView.xaml.cs">
-      <DependentUpon>InstructionsMenuView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Instructions\Views\InstructionsView.xaml.cs">
-      <DependentUpon>InstructionsView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Journal\ViewModels\JournalItemViewModel.cs" />
     <Compile Include="Journal\Views\JournalGridView.xaml.cs">
       <DependentUpon>JournalGridView.xaml</DependentUpon>
@@ -433,10 +418,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Instructions\DataTemplates\Dictionary.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Journal\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -480,18 +461,6 @@
     <Page Include="Diagnostics\Views\DiagnosticsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Instructions\Views\InstructionDetailsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Instructions\Views\InstructionsMenuView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Instructions\Views\InstructionsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Journal\Views\JournalFromFileView.xaml">
       <SubType>Designer</SubType>

@@ -486,8 +486,6 @@
     <Compile Include="GKModels\Firmware\HEXFileInfo.cs" />
     <Compile Include="GKModels\Formula\FormulaOperation.cs" />
     <Compile Include="GKModels\Formula\FormulaOperationType.cs" />
-    <Compile Include="GKModels\Instructions\GKInstruction.cs" />
-    <Compile Include="GKModels\Instructions\GKInstructionType.cs" />
     <Compile Include="Journal\JournalEventDescriptionType.cs" />
     <Compile Include="Journal\JournalItem.cs" />
     <Compile Include="GKModels\Library\GKLibraryDevice.cs" />

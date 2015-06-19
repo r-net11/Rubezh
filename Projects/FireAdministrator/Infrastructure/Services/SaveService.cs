@@ -30,17 +30,6 @@ namespace Infrastructure
 			}
 		}
 
-		bool _gkInstructionsChanged;
-		public bool GKInstructionsChanged
-		{
-			get { return _gkInstructionsChanged; }
-			set
-			{
-				_gkInstructionsChanged = value;
-				OnChanged();
-			}
-		}
-
 		bool _plansChanged;
 		public bool PlansChanged
 		{
@@ -174,7 +163,7 @@ namespace Infrastructure
 		{
 			get
 			{
-				return PlansChanged || FilterChanged || SecurityChanged || SoundsChanged ||  GKLibraryChanged || GKInstructionsChanged || GKChanged || CamerasChanged || EmailsChanged || SKDChanged || SKDLibraryChanged || LayoutsChanged || AutomationChanged;
+				return PlansChanged || FilterChanged || SecurityChanged || SoundsChanged ||  GKLibraryChanged || GKChanged || CamerasChanged || EmailsChanged || SKDChanged || SKDLibraryChanged || LayoutsChanged || AutomationChanged;
 			}
 		}
 
@@ -193,7 +182,6 @@ namespace Infrastructure
 			GKChanged = value;
 			PlansChanged = value;
 			GKLibraryChanged = value;
-			GKInstructionsChanged = value;
 			FilterChanged = value;
 			SecurityChanged = value;
 			SoundsChanged = value;

@@ -70,8 +70,6 @@ namespace Infrastructure.Common
 		Filters,
 		[DescriptionAttribute("Групповой контроллер")]
 		GK,
-		[DescriptionAttribute("Инструкции")]
-		Instructions,
 		[DescriptionAttribute("Конфигуратор макетов ОЗ")]
 		Layout,
 		[DescriptionAttribute("Библиотека устройств")]
