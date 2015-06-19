@@ -27,13 +27,9 @@
 				<d3:ChartPlotter.HorizontalAxis>
 					<d3:HorizontalDateTimeAxis Name="dateAxis" />
 				</d3:ChartPlotter.HorizontalAxis>
-				<d3:ChartPlotter.VerticalAxis>
-					<d3:VerticalIntegerAxis Name="curentAxis" />
-				</d3:ChartPlotter.VerticalAxis>
-
-				<d3:Header FontFamily="Arial" Content="Статистика токопотребления" />
-				<d3:VerticalAxisTitle FontFamily="Arial" Content="Ток" />
-				<d3:HorizontalAxisTitle FontFamily="Arial" Content="Дата" />
+				<d3:Header FontFamily="Georgia" Content="Статистика токопотребления" />
+				<d3:VerticalAxisTitle FontFamily="Georgia" Content="Ток" />
+				<d3:HorizontalAxisTitle FontFamily="ArialGeorgia" Content="Дата" />
 			</d3:ChartPlotter>
 		</Border>
 	</Grid>
