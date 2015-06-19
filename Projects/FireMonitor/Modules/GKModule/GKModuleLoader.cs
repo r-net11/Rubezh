@@ -57,8 +57,6 @@ namespace GKModule
 			SchedulesViewModel = new SchedulesViewModel();
 			ServiceFactory.Events.GetEvent<ShowGKAlarmsEvent>().Unsubscribe(OnShowAlarms);
 			ServiceFactory.Events.GetEvent<ShowGKAlarmsEvent>().Subscribe(OnShowAlarms);
-			ServiceFactory.Events.GetEvent<ShowGKDebugEvent>().Unsubscribe(OnShowGKDebug);
-			ServiceFactory.Events.GetEvent<ShowGKDebugEvent>().Subscribe(OnShowGKDebug);
 
 			SubscribeShowDelailsEvent();
 		}
@@ -101,12 +99,6 @@ namespace GKModule
 			}
 		}
 		#endregion
-
-		void OnShowGKDebug(object obj)
-		{
-			var diagnosticsViewModel = new DiagnosticsViewModel();
-			DialogService.ShowWindow(diagnosticsViewModel);
-		}
 
 		void OnShowAlarms(GKAlarmType? alarmType)
 		{

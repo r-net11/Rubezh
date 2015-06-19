@@ -76,8 +76,6 @@ namespace GKProcessor
 							GKProcessorManager.AddGKMessage(JournalEventNameType.Лицензия_обнаружена, JournalEventDescriptionType.NULL, "", null, null);
 						else
 							GKProcessorManager.AddGKMessage(JournalEventNameType.Отсутствует_лицензия, JournalEventDescriptionType.NULL, "", null, null);
-
-						DiagnosticsManager.Add("hasLicense=" + CurrentHasLicense);
 					}
 				}
 				catch (Exception e)

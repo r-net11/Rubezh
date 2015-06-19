@@ -149,10 +149,6 @@
     <Compile Include="Selectation\ViewModels\DeviceSelectationViewModel.cs" />
     <Compile Include="Selectation\ViewModels\SKDZoneSelectationViewModel.cs" />
     <Compile Include="Selectation\ViewModels\DoorsSelectationViewModel.cs" />
-    <Compile Include="Diagnostics\Views\DiagnosticsView.xaml.cs">
-      <DependentUpon>DiagnosticsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Diagnostics\ViewModels\DiagnosticsViewModel.cs" />
     <Compile Include="Journal\ViewModels\JournalItemViewModel.cs" />
     <Compile Include="Journal\Views\JournalGridView.xaml.cs">
       <DependentUpon>JournalGridView.xaml</DependentUpon>
@@ -346,10 +342,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Diagnostics\DataTemplates\Dictionary.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Journal\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -383,10 +375,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Devices\Views\PropertiesView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Diagnostics\Views\DiagnosticsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

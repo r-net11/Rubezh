@@ -112,10 +112,6 @@
     <Compile Include="Events\ShowGKDeviceParametersEvent.cs" />
     <Compile Include="Events\ShowGKScheduleEvent.cs" />
     <Compile Include="GKModuleLoader.Subscribe.cs" />
-    <Compile Include="Diagnostics\ViewModels\DiagnosticsViewModel.cs" />
-    <Compile Include="Diagnostics\Views\DiagnosticsView.xaml.cs">
-      <DependentUpon>DiagnosticsView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Plans\Designer\GKDoorPainter.cs" />
     <Compile Include="Plans\Designer\GKSKDZonePainter.cs" />
     <Compile Include="Plans\ViewModels\DeviceTooltipViewModel.cs" />
@@ -275,10 +271,6 @@
     <Page Include="Alarms\Views\AlarmsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Diagnostics\Views\DiagnosticsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>

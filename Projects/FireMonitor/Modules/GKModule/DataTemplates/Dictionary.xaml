@@ -36,10 +36,6 @@
 		<Views:AlarmGroupsView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:DiagnosticsViewModel}">
-		<Views:DiagnosticsView />
-	</DataTemplate>
-
 	<DataTemplate DataType="{x:Type ViewModels:PimsViewModel}">
 		<Views:PimsView />
 	</DataTemplate>

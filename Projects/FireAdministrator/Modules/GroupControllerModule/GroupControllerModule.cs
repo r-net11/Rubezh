@@ -27,7 +27,6 @@ namespace GKModule
 		DevicesViewModel DevicesViewModel;
 		DoorsViewModel DoorsViewModel;
 		SKDZonesViewModel SKDZonesViewModel;
-		DiagnosticsViewModel DiagnosticsViewModel;
 		GKPlanExtension _planExtension;
 
 		public override void CreateViewModels()
@@ -40,7 +39,6 @@ namespace GKModule
 			DevicesViewModel = new DevicesViewModel();
 			DoorsViewModel = new DoorsViewModel();
 			SKDZonesViewModel = new SKDZonesViewModel();
-			DiagnosticsViewModel = new DiagnosticsViewModel();
 			_planExtension = new GKPlanExtension(DevicesViewModel, SKDZonesViewModel, DoorsViewModel);
 		}
 
@@ -61,9 +59,6 @@ namespace GKModule
 				new NavigationItem(ModuleType.ToDescription(), "Tree", new List<NavigationItem>()
 				{
 					new NavigationItem<ShowGKDeviceEvent, Guid>(DevicesViewModel, "Устройства", "Tree", null, null, Guid.Empty),
-#if DEBUG
-					new NavigationItem<ShowGKDiagnosticsEvent, object>(DiagnosticsViewModel, "Диагностика", "Bug"),
-#endif
 				}) {IsExpanded = true},
 			};
 		}
@@ -76,7 +71,6 @@ namespace GKModule
 			base.RegisterResource();
 			var resourceService = new ResourceService();
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Devices/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Diagnostics/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Journal/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Plans/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Selectation/DataTemplates/Dictionary.xaml"));
