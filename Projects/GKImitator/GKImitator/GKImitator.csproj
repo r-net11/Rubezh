@@ -68,7 +68,6 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Converters\BytesToStringConverter.cs" />
     <Compile Include="Converters\DescriptorNoToStringConverter.cs" />
-    <Compile Include="Processor\BytesHelper.cs" />
     <Compile Include="Processor\NetProcessor.cs" />
     <Compile Include="Processor\HashHelper.cs" />
     <Compile Include="Models\ImitatorJournalItem.cs" />
@@ -80,12 +79,13 @@
     <Compile Include="ViewModels\DescriptorViewModel.cs" />
     <Compile Include="ViewModels\FailureViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
-    <Compile Include="ViewModels\ParametersViewModel.cs" />
     <Compile Include="ViewModels\Properties\BasePropertyViewModel.cs" />
     <Compile Include="ViewModels\Properties\BoolPropertyViewModel.cs" />
+    <Compile Include="ViewModels\Properties\DirectionPropertiesViewModel.cs" />
     <Compile Include="ViewModels\Properties\EnumPropertyViewModel.cs" />
-    <Compile Include="ViewModels\Properties\PropertiesViewModel.cs" />
+    <Compile Include="ViewModels\Properties\DevicePropertiesViewModel.cs" />
     <Compile Include="ViewModels\Properties\ShortPropertyViewModel.cs" />
+    <Compile Include="ViewModels\Properties\DelayPropertiesViewModel.cs" />
     <Compile Include="ViewModels\StateBitViewModel.cs" />
     <Compile Include="ViewModels\DescriptorViewModel.Test.cs" />
     <Compile Include="ViewModels\DescriptorViewModel.Dustiness.cs" />
@@ -95,11 +95,18 @@
     <Compile Include="ViewModels\DescriptorViewModel.Logic.cs" />
     <Compile Include="ViewModels\DescriptorViewModel.Commands.cs" />
     <Compile Include="ViewModels\DescriptorViewModel.Initialize.cs" />
+    <Compile Include="ViewModels\DescriptorViewModel.Properties.cs" />
+    <Compile Include="Views\DirectionPropertiesView.xaml.cs">
+      <DependentUpon>DirectionPropertiesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\PropertiesView.xaml.cs">
-      <DependentUpon>PropertiesView.xaml</DependentUpon>
+    <Compile Include="Views\DevicePropertiesView.xaml.cs">
+      <DependentUpon>DevicePropertiesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DelayPropertiesView.xaml.cs">
+      <DependentUpon>DelayPropertiesView.xaml</DependentUpon>
     </Compile>
     <Page Include="DataTemplates\Dictionary.xaml">
       <SubType>Designer</SubType>
@@ -109,13 +116,21 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\DirectionPropertiesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\PropertiesView.xaml">
+    <Page Include="Views\DevicePropertiesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DelayPropertiesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>

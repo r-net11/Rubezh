@@ -16,15 +16,16 @@ namespace GKImitator.ViewModels
 {
 	public partial class DescriptorViewModel : BaseViewModel
 	{
-		public BaseDescriptor BaseDescriptor { get; private set; }
-		public GKBase GKBase { get { return BaseDescriptor.GKBase; } }
+		public BaseDescriptor GKBaseDescriptor { get; private set; }
+		public BaseDescriptor KauBaseDescriptor { get; private set; }
+		public GKBase GKBase { get { return GKBaseDescriptor.GKBase; } }
 		public int DescriptorNo { get; private set; }
 		public ushort TypeNo { get; private set; }
 		List<ushort> AdditionalShortParameters;
 
 		public DescriptorViewModel(BaseDescriptor descriptor)
 		{
-			BaseDescriptor = descriptor;
+			GKBaseDescriptor = descriptor;
 			DescriptorNo = descriptor.GetDescriptorNo();
 
 			SetAutomaticRegimeCommand = new RelayCommand(OnSetAutomaticRegime);
@@ -152,47 +153,22 @@ namespace GKImitator.ViewModels
 			}
 		}
 
-		public bool HasParameters { get; private set; }
-
-		public RelayCommand ShowParametersCommand { get; private set; }
-		void OnShowParameters()
-		{
-			if (GKBase is GKDevice)
-			{
-				var propertiesViewModel = new PropertiesViewModel(GKBase as GKDevice);
-				if (DialogService.ShowModalWindow(propertiesViewModel))
-				{
-					SetParameters();
-				}
-			}
-		}
-
-		public void SetParameters()
-		{
-			var journalItem = new ImitatorJournalItem(2, 13, 0, 0);
-			AddJournalItem(journalItem);
-		}
-
-		public void GetParameters()
-		{
-		}
-
 		public List<byte> GetStateBytes(int no)
 		{
 			var result = new List<byte>();
 
 			result.AddRange(ToBytes((short)TypeNo));
 
-			var controllerAddress = BaseDescriptor.ControllerAdress;
+			var controllerAddress = GKBaseDescriptor.ControllerAdress;
 			result.AddRange(ToBytes((short)controllerAddress));
 
-			var addressOnController = BaseDescriptor.AdressOnController;
+			var addressOnController = GKBaseDescriptor.AdressOnController;
 			result.AddRange(ToBytes((short)addressOnController));
 
-			var physicalAddress = BaseDescriptor.PhysicalAdress;
+			var physicalAddress = GKBaseDescriptor.PhysicalAdress;
 			result.AddRange(ToBytes((short)physicalAddress));
 
-			result.AddRange(BaseDescriptor.Description);
+			result.AddRange(GKBaseDescriptor.Description);
 
 			var serialNo = 0;
 			result.AddRange(IntToBytes((int)serialNo));
@@ -244,13 +220,13 @@ namespace GKImitator.ViewModels
 			journalItem.UNUSED_KauNo = 0;
 			journalItem.UNUSED_KauAddress = 0;
 			journalItem.GkNo = DBHelper.ImitatorJournalItemCollection.ImitatorJournalItems.Count + 1;
-			journalItem.GkObjectNo = BaseDescriptor.GetDescriptorNo();
+			journalItem.GkObjectNo = GKBaseDescriptor.GetDescriptorNo();
 			journalItem.ObjectFactoryNo = 0;
 			journalItem.ObjectState = state;
-			if (BaseDescriptor.GKBase is GKDevice)
+			if (GKBaseDescriptor.GKBase is GKDevice)
 			{
-				journalItem.ObjectDeviceType = (short)(BaseDescriptor.GKBase as GKDevice).Driver.DriverTypeNo;
-				journalItem.ObjectDeviceAddress = (short)(((BaseDescriptor.GKBase as GKDevice).ShleifNo - 1) * 256 + (BaseDescriptor.GKBase as GKDevice).IntAddress);
+				journalItem.ObjectDeviceType = (short)(GKBaseDescriptor.GKBase as GKDevice).Driver.DriverTypeNo;
+				journalItem.ObjectDeviceAddress = (short)(((GKBaseDescriptor.GKBase as GKDevice).ShleifNo - 1) * 256 + (GKBaseDescriptor.GKBase as GKDevice).IntAddress);
 			}
 			DBHelper.ImitatorJournalItemCollection.ImitatorJournalItems.Add(journalItem);
 			DBHelper.Save();

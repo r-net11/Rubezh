@@ -15,7 +15,6 @@ namespace GKImitator.ViewModels
 {
 	public partial class DescriptorViewModel : BaseViewModel
 	{
-		public BaseDescriptor KauBaseDescriptor { get; private set; }
 		public BaseDescriptor LogicDescriptor { get; private set; }
 		public List<FormulaOperation> FormulaOperations { get; protected set; }
 		bool IsKauDecriptor;
@@ -29,8 +28,8 @@ namespace GKImitator.ViewModels
 
 		public void InitializeLogic()
 		{
-			BaseDescriptor.Build();
-			LogicDescriptor = BaseDescriptor;
+			GKBaseDescriptor.Build();
+			LogicDescriptor = GKBaseDescriptor;
 
 			if (KauBaseDescriptor != null)
 			{

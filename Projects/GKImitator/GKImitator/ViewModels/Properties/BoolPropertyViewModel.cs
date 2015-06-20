@@ -10,9 +10,9 @@ namespace GKImitator.ViewModels
 		{
 			var property = device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
 			if (property != null)
-				_isChecked = property.Value > 0;
+				IsChecked = property.Value > 0;
 			else
-				_isChecked = (driverProperty.Default == (ushort)1) ? true : false;
+				IsChecked = (driverProperty.Default == (ushort)1) ? true : false;
 		}
 
 		bool _isChecked;
@@ -24,14 +24,6 @@ namespace GKImitator.ViewModels
 				_isChecked = value;
 				Save(value ? (ushort)1 : (ushort)0);
 				OnPropertyChanged(() => IsChecked);
-			}
-		}
-
-		public string DeviceAUParameterValue
-		{
-			get
-			{
-				return base.DeviceAUParameterValue == "0" ? "Нет" : (base.DeviceAUParameterValue == "1" ? "Да" : "Неизвестно");
 			}
 		}
 	}

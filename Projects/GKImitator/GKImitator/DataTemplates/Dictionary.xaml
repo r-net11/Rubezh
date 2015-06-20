@@ -7,8 +7,16 @@
         <Views:MainView />
     </DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:PropertiesViewModel}">
-		<Views:PropertiesView />
+	<DataTemplate DataType="{x:Type ViewModels:DevicePropertiesViewModel}">
+		<Views:DevicePropertiesView />
 	</DataTemplate>
-	
+
+	<DataTemplate DataType="{x:Type ViewModels:DirectionPropertiesViewModel}">
+		<Views:DirectionPropertiesView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:DelayPropertiesViewModel}">
+		<Views:DelayPropertiesView />
+	</DataTemplate>
+
 </ResourceDictionary>

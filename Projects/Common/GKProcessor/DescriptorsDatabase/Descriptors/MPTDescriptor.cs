@@ -138,6 +138,7 @@ namespace GKProcessor
 
 		void SetPropertiesBytes()
 		{
+			Parameters = new List<byte>();
 			var binProperties = new List<BinProperty>();
 			binProperties.Add(new BinProperty()
 			{

@@ -11,9 +11,9 @@ namespace GKImitator.ViewModels
 		{
 			var property = device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
 			if (property != null)
-				_text = property.Value;
+				Text = property.Value.ToString();
 			else
-				_text = driverProperty.Default;
+				Text = driverProperty.Default.ToString();
 		}
 
 		ushort _text;
