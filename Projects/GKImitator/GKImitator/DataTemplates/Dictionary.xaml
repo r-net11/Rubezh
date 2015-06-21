@@ -19,4 +19,16 @@
 		<Views:DelayPropertiesView />
 	</DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:GuardZonePropertiesViewModel}">
+        <Views:GuardZonePropertiesView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:DoorPropertiesViewModel}">
+        <Views:DoorPropertiesView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:CodePropertiesViewModel}">
+        <Views:CodePropertiesView />
+    </DataTemplate>
+
 </ResourceDictionary>

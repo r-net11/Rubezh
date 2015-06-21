@@ -56,6 +56,9 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WPFToolkit.Extended, Version=1.4.0.2, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\..\..\3rdParty\WPF Toolkit\WPFToolkit.Extended.dll</HintPath>
+    </Reference>
     <Reference Include="Xceed.Wpf.Toolkit">
       <HintPath>..\..\..\3rdParty\ExtendedWPFToolkit_Binaries\Xceed.Wpf.Toolkit.dll</HintPath>
     </Reference>
@@ -86,6 +89,9 @@
     <Compile Include="ViewModels\Properties\DevicePropertiesViewModel.cs" />
     <Compile Include="ViewModels\Properties\ShortPropertyViewModel.cs" />
     <Compile Include="ViewModels\Properties\DelayPropertiesViewModel.cs" />
+    <Compile Include="ViewModels\Properties\GuardZonePropertiesViewModel.cs" />
+    <Compile Include="ViewModels\Properties\CodePropertiesViewModel.cs" />
+    <Compile Include="ViewModels\Properties\DoorPropertiesViewModel.cs" />
     <Compile Include="ViewModels\StateBitViewModel.cs" />
     <Compile Include="ViewModels\DescriptorViewModel.Test.cs" />
     <Compile Include="ViewModels\DescriptorViewModel.Dustiness.cs" />
@@ -108,6 +114,15 @@
     <Compile Include="Views\DelayPropertiesView.xaml.cs">
       <DependentUpon>DelayPropertiesView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\GuardZonePropertiesView.xaml.cs">
+      <DependentUpon>GuardZonePropertiesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DoorPropertiesView.xaml.cs">
+      <DependentUpon>DoorPropertiesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CodePropertiesView.xaml.cs">
+      <DependentUpon>CodePropertiesView.xaml</DependentUpon>
+    </Compile>
     <Page Include="DataTemplates\Dictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -129,6 +144,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\DelayPropertiesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GuardZonePropertiesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\DoorPropertiesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\CodePropertiesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

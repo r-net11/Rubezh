@@ -34,6 +34,18 @@ namespace GKImitator.ViewModels
 			{
 				propertiesViewModel = new DelayPropertiesViewModel(GKBase as GKDelay);
 			}
+			if (GKBase is GKGuardZone)
+			{
+				propertiesViewModel = new GuardZonePropertiesViewModel(GKBase as GKGuardZone);
+			}
+			if (GKBase is GKDoor)
+			{
+				propertiesViewModel = new DoorPropertiesViewModel(GKBase as GKDoor);
+			}
+			if (GKBase is GKCode)
+			{
+				propertiesViewModel = new CodePropertiesViewModel(GKBase as GKCode);
+			}
 
 			if (propertiesViewModel != null && DialogService.ShowModalWindow(propertiesViewModel))
 			{
