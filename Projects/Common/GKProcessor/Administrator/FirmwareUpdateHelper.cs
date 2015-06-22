@@ -17,64 +17,10 @@ namespace GKProcessor
 		public void Update(GKDevice device, string fileName, string userName)
 		{
 			var firmWareBytes = HexFileToBytesList(fileName);
-			Update(device, firmWareBytes, userName);
+			//Update(device, firmWareBytes, userName);
 			GKProcessorManager.StopProgress(ProgressCallback);
 			if (Error != null)
 				ErrorList.Add(Error);
-		}
-
-		public void Update(GKDevice device, List<byte> firmWareBytes, string userName)
-		{
-		//	GKProcessorManager.AddGKMessage(JournalEventNameType.Обновление_ПО_прибора, JournalEventDescriptionType.NULL, "", device, userName);
-			ProgressCallback = GKProcessorManager.StartProgress("Обновление прошивки " + device.PresentationName, "", firmWareBytes.Count / 256, false, GKProgressClientType.Administrator);
-			GKProcessorManager.DoProgress("Проверка связи " + device.PresentationName, ProgressCallback);
-			if (!DeviceBytesHelper.Ping(device))
-			{
-				Error = "Устройство " + device.PresentationName + " недоступно";
-				return;
-			}
-			if (!DeviceBytesHelper.GoToTechnologicalRegime(device, ProgressCallback))
-			{
-				Error = "Не удалось перевести " + device.PresentationName + " в технологический режим\n" +
-						"Устройство не доступно, либо вашего " +
-						"IP адреса нет в списке разрешенного адреса ГК";
-				return;
-			}
-			DeviceBytesHelper.GetDeviceInfo(device);
-			GKProcessorManager.DoProgress("Удаление программы " + device.PresentationName, ProgressCallback);
-			if (!Clear(device))
-			{
-				Error = "Устройство " + device.PresentationName + " недоступно";
-				return;
-			}
-			var data = new List<byte>();
-			var offset = 0;
-			if (device.Driver.IsKau)
-				offset = 0x10000;
-			for (int i = 0; i < firmWareBytes.Count; i = i + 0x100)
-			{
-				GKProcessorManager.DoProgress("Запись блока данных " + i / 0x100 + 1, ProgressCallback);
-				data = new List<byte>(BitConverter.GetBytes(i + offset));
-				data.AddRange(firmWareBytes.GetRange(i, 0x100));
-				for (int j = 0; j < 10; j++)
-				{
-					var result = SendManager.Send(device, 260, 0x12, 0, data, true, false, 10000);
-					if (!result.HasError)
-						break;
-					if (j == 9)
-					{
-						Error = "В заданное времени не пришел ответ от устройства";
-						return;
-					}
-				}
-			}
-			if (!DeviceBytesHelper.GoToWorkingRegime(device, ProgressCallback))
-			{
-				Error = "Не удалось перевести " + device.PresentationName + " в рабочий режим\n" +
-						"Устройство не доступно, либо вашего " +
-						"IP адреса нет в списке разрешенного адреса ГК";
-				return;
-			}
 		}
 
 		public void UpdateFSCS(HexFileCollectionInfo hxcFileInfo, List<GKDevice> devices, string userName)
@@ -88,7 +34,7 @@ namespace GKProcessor
 					return;
 				}
 				var bytes = StringsToBytes(fileInfo.Lines);
-				Update(device, bytes, userName);
+			//	Update(device, bytes, userName);
 				GKProcessorManager.StopProgress(ProgressCallback);
 				if (Error != null)
 					ErrorList.Add(Error);

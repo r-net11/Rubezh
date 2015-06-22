@@ -38,14 +38,14 @@ namespace FiresecService
 
 				UILogger.Log("Загрузка конфигурации");
 				ConfigurationCashHelper.Update();
-				UILogger.Log("Создание конфигурации ГК");
-				GKProcessor.Create();
+			//	UILogger.Log("Создание конфигурации ГК");
+			//	GKProcessor.Create();
 				PatchManager.Patch();
 				UILogger.Log("Открытие хоста");
 				FiresecServiceManager.Open();
 				ServerLoadHelper.SetStatus(FSServerState.Opened);
-				UILogger.Log("Запуск ГК");
-				GKProcessor.Start();
+			//	UILogger.Log("Запуск ГК");
+			//	GKProcessor.Start();
 				UILogger.Log("Создание конфигурации СКД");
 				SKDProcessor.Start();
 

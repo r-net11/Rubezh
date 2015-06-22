@@ -30,15 +30,15 @@ namespace FiresecService
 			if (SystemConfiguration == null)
 				SystemConfiguration = new SystemConfiguration();
 
-			GKManager.DeviceConfiguration = GetDeviceConfiguration();
+		//	GKManager.DeviceConfiguration = GetDeviceConfiguration();
 			SKDManager.SKDConfiguration = GetSKDConfiguration();
 
 			SystemConfiguration.UpdateConfiguration();
 
-			GKDriversCreator.Create();
-			GKManager.UpdateConfiguration();
-			GKManager.CreateStates();
-			GKManager.UpdateConfiguration();
+		//	GKDriversCreator.Create();
+		//	GKManager.UpdateConfiguration();
+		//	GKManager.CreateStates();
+			//GKManager.UpdateConfiguration();
 
 			SKDManager.UpdateConfiguration();
 		}
