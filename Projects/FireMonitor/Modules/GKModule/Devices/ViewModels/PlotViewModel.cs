@@ -19,7 +19,6 @@ namespace GKModule.ViewModels
 
 		public Guid DeviceUid { get; private set; }
 		public Action UpdateFromDBAction { get; set; }
-		public Action UpdateOnlineAction { get; set; }
 		bool cancelBackgroundWorker;
 
 		public PlotViewModel(GKDevice device)
@@ -29,7 +28,6 @@ namespace GKModule.ViewModels
 			DeviceUid = device.UID;
 			CurrentConsumptions = new List<CurrentConsumption>();
 			GetKauMeasuresCommand = new RelayCommand(OnGetKauMesures);
-			GetKauMeasuresOnlineCommand = new RelayCommand(OnGetKauMeasuresOnline);
 			StartTime = DateTime.Now.Date;
 			EndTime = DateTime.Now.Date;
 		}
@@ -66,37 +64,6 @@ namespace GKModule.ViewModels
 		Thread GetKayMeasureThread;
 		DispatcherTimer updateCollectionTimer;
 
-		public RelayCommand GetKauMeasuresOnlineCommand { get; private set; }
-		void OnGetKauMeasuresOnline()
-		{
-			//if (GetKayMeasureThread == null || !GetKayMeasureThread.IsAlive)
-			//{
-			//    cancelBackgroundWorker = false;
-			//    CurrentConsumptions = new List<CurrentConsumption>();
-			//    GetKayMeasureThread = new Thread(() =>
-			//    {
-			//        while (true)
-			//        {
-			//            if (cancelBackgroundWorker)
-			//                break;
-			//            var measuresResult = FiresecManager.FiresecService.GetAlsMeasure(DeviceUid);
-			//            if (measuresResult == null)
-			//                return;
-			//            if (measuresResult.HasError)
-			//            {
-			//                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Send, new Action(() => 
-			//                    MessageBoxService.Show(measuresResult.Error)));
-			//                return;
-			//            }
-			//            CurrentConsumptions.Add(measuresResult.Result);
-			//            Thread.Sleep(TimeSpan.FromSeconds(1));
-			//            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Send, new Action(Update));
-			//        }
-			//    });
-			//    GetKayMeasureThread.Start();
-			//}
-		}
-
 		public void Update(object sender, EventArgs e)
 		{
 			var measuresResult = FiresecManager.FiresecService.GetAlsMeasure(DeviceUid);
@@ -104,17 +71,11 @@ namespace GKModule.ViewModels
 				return;
 			if (measuresResult.HasError)
 			{
-				Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Send, new Action(() =>
-					MessageBoxService.Show(measuresResult.Error)));
-				return;
+			//    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Send, new Action(() =>
+			//        MessageBoxService.Show(measuresResult.Error)));
+			    return;
 			}
 			CurrentConsumptions.Add(measuresResult.Result);
-		}
-
-		void Update()
-		{
-			if (UpdateOnlineAction != null)
-				UpdateOnlineAction();
 		}
 
 		void GetKauMesures(DateTime startDateTime, DateTime endDateTime)
@@ -151,7 +112,7 @@ namespace GKModule.ViewModels
 
 	public class RingCurrentConsumptions : RingArray<CurrentConsumption>
 	{
-		private const int TOTAL_POINTS = 20;
+		private const int TOTAL_POINTS = 60;
 
 		public RingCurrentConsumptions()
 			: base(TOTAL_POINTS)

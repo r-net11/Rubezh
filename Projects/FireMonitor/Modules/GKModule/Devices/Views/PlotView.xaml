@@ -19,11 +19,15 @@
 				<!--<extToolkit:DateTimePicker Value="{Binding EndTime, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="2" HorizontalAlignment="Right" />-->
 				<DatePicker SelectedDateFormat="Long" SelectedDate="{Binding EndTime, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="2" Width="150"/>
 				<Button Content="Получить" Width="120" HorizontalAlignment="Right" Command="{Binding GetKauMeasuresCommand}" />
-				<Button Content="Онлайн" Width="120" HorizontalAlignment="Right" Command="{Binding GetKauMeasuresOnlineCommand}" />
+				<Button Content="Онлайн" Width="120" HorizontalAlignment="Right" Click="ButtonOnline_OnClick" />
 			</StackPanel>
 		</Border>
 		<Border Grid.Row="1" CornerRadius="0, 0, 5, 5" Background="White">
 			<d3:ChartPlotter Name="plotter" Margin="0, 0, 0, 10">
+				<d3:ChartPlotter.ContextMenu>
+					<ContextMenu Visibility="Collapsed">
+					</ContextMenu>
+				</d3:ChartPlotter.ContextMenu>
 				<d3:ChartPlotter.HorizontalAxis>
 					<d3:HorizontalDateTimeAxis Name="dateAxis" />
 				</d3:ChartPlotter.HorizontalAxis>
