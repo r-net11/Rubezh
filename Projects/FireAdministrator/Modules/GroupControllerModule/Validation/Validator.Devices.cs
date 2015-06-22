@@ -41,7 +41,10 @@ namespace GKModule.Validation
 					ValidateDifferentGK(device);
 				ValidateIPAddress(device);
 				if (GlobalSettingsHelper.GlobalSettings.IgnoredErrors.HasFlag(ValidationErrorType.DeviceNotConnected))
+				{
 					ValidateDeviceZone(device);
+					ValidateGuardDeviceZone(device);
+				}
 				if (GlobalSettingsHelper.GlobalSettings.IgnoredErrors.HasFlag(ValidationErrorType.DeviceHaveNoLogic))
 					ValidateLogic(device);
 				ValidateGKNotEmptyChildren(device);
@@ -248,6 +251,10 @@ namespace GKModule.Validation
 				if (device.GuardZones.Any(x => x.GuardZoneDevices.Any(y => y.ActionType == GKGuardZoneDeviceActionType.SetAlarm && y.DeviceUID == device.UID)))
 					Errors.Add(new DeviceValidationError(device,string.Format("Тревожный датчик участвует сразу в охранной и пожарной зоне"), ValidationErrorLevel.Warning));
 			}
+		}
+
+		void ValidateGuardDeviceZone(GKDevice device)
+		{
 			if (device.DriverType == GKDriverType.RSR2_GuardDetector || device.DriverType == GKDriverType.RSR2_GuardDetectorSound)
 			{
 				if (device.GuardZones == null || device.GuardZones.Count == 0)
