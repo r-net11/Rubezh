@@ -11,7 +11,10 @@ namespace FiresecAPI.GK
 	public class GKPim : GKBase
 	{
 		public override GKBaseObjectType ObjectType { get { return GKBaseObjectType.Pim; } }
+		public override void Update(GKDevice device)
+		{
 
+		}
 		/// <summary>
 		/// Признак автогенерации
 		/// </summary>

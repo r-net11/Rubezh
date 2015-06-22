@@ -72,7 +72,7 @@ namespace GKModule.ViewModels
 		void OnCopy()
 		{
 			_delayToCopy = Utils.Clone(SelectedDelay.Delay);
-			var logicViewModel = new LogicViewModel(null, SelectedDelay.Delay.Logic, true);
+			var logicViewModel = new LogicViewModel(SelectedDelay.Delay, SelectedDelay.Delay.Logic, true);
 			_delayToCopy.Logic = logicViewModel.GetModel();
 		}
 
@@ -86,7 +86,7 @@ namespace GKModule.ViewModels
 		{
 			_delayToCopy.UID = Guid.NewGuid();
 			var delayViewModel = new DelayViewModel(Utils.Clone(_delayToCopy));
-			var logicViewModel = new LogicViewModel(null, _delayToCopy.Logic, true);
+			var logicViewModel = new LogicViewModel(SelectedDelay.Delay, _delayToCopy.Logic, true);
 			delayViewModel.Delay.Logic = logicViewModel.GetModel();
 			delayViewModel.Delay.No = (ushort)(GKManager.Delays.Select(x => x.No).Max() + 1);
 			GKManager.Delays.Add(delayViewModel.Delay);
@@ -120,7 +120,7 @@ namespace GKModule.ViewModels
 				messageBoxResult = MessageBoxService.ShowConfirmation(result, "Копировать логику?");
 			if (messageBoxResult)
 			{
-				SelectedDelay.Delay.Logic = GKManager.LogicToCopy;
+				SelectedDelay.Delay.Logic = GKManager.PasteLogic(new GKAdvancedLogic(true, false, true, false, false));
 				SelectedDelay.Update();
 			}
 		}

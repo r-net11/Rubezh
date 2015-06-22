@@ -20,11 +20,10 @@ namespace GKModule.ViewModels
 		public List<GKDelay> Delays { get; set; }
 		public List<GKDoor> Doors { get; set; }
 		public List<GKPumpStation> PumpStations { get; set; }
-		GKDevice Device;
+		GKBase GKBase { get; set; }
 
-		public ClauseViewModel(GKDevice device, GKClause clause)
+		public ClauseViewModel(GKBase gkBase, GKClause clause)
 		{
-			Device = device;
 			SelectDevicesCommand = new RelayCommand(OnSelectDevices);
 			SelectZonesCommand = new RelayCommand(OnSelectZones);
 			SelectGuardZonesCommand = new RelayCommand(OnSelectGuardZones);
@@ -34,6 +33,7 @@ namespace GKModule.ViewModels
 			SelectDoorsCommand = new RelayCommand(OnSelectDoors);
 			SelectPumpStationsCommand = new RelayCommand(OnSelectPumpStations);
 
+			GKBase = gkBase;
 			ClauseConditionTypes = Enum.GetValues(typeof(ClauseConditionType)).Cast<ClauseConditionType>().ToList();
 			ClauseOperationTypes = Enum.GetValues(typeof(ClauseOperationType)).Cast<ClauseOperationType>().ToList();
 			SelectedClauseOperationType = clause.ClauseOperationType;
@@ -310,6 +310,7 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(devicesSelectationViewModel))
 			{
 				Devices = devicesSelectationViewModel.DevicesList;
+				Devices.ForEach(x => GKBase.LinkObject(x));
 				OnPropertyChanged(() => PresenrationDevices);
 			}
 		}
@@ -321,6 +322,7 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(zonesSelectationViewModel))
 			{
 				Zones = zonesSelectationViewModel.Zones;
+				Zones.ForEach(x => GKBase.LinkObject(x));
 				OnPropertyChanged(() => PresenrationZones);
 			}
 		}
@@ -332,6 +334,7 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(guardZonesSelectationViewModel))
 			{
 				GuardZones = guardZonesSelectationViewModel.GuardZones;
+				GuardZones.ForEach(x => GKBase.LinkObject(x));
 				OnPropertyChanged(() => PresenrationGuardZones);
 			}
 		}
@@ -343,6 +346,7 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(directionsSelectationViewModel))
 			{
 				Directions = directionsSelectationViewModel.Directions;
+				Directions.ForEach(x => GKBase.LinkObject(x));
 				OnPropertyChanged(() => PresenrationDirections);
 			}
 		}
@@ -354,6 +358,7 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(mptsSelectationViewModel))
 			{
 				MPTs = mptsSelectationViewModel.MPTs;
+				MPTs.ForEach(x => GKBase.LinkObject(x));
 				OnPropertyChanged(() => PresenrationMPTs);
 			}
 		}
@@ -365,6 +370,7 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(delaysSelectationViewModel))
 			{
 				Delays = delaysSelectationViewModel.Delays;
+				Delays.ForEach(x => GKBase.LinkObject(x));
 				OnPropertyChanged(() => PresenrationDelays);
 			}
 		}
@@ -376,6 +382,7 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(doorsSelectationViewModel))
 			{
 				Doors = doorsSelectationViewModel.Doors;
+				Doors.ForEach(x => GKBase.LinkObject(x));
 				OnPropertyChanged(() => PresenrationDoors);
 			}
 		}
@@ -387,6 +394,7 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(pumpStationsSelectationViewModel))
 			{
 				PumpStations = pumpStationsSelectationViewModel.PumpStations;
+				PumpStations.ForEach(x => GKBase.LinkObject(x));
 				OnPropertyChanged(() => PresenrationPumpStations);
 			}
 		}
