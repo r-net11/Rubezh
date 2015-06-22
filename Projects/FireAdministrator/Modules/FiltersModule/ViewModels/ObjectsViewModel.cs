@@ -102,19 +102,6 @@ namespace FiltersModule.ViewModels
 			RootObjects = new ObservableCollection<ObjectViewModel>();
 			AllObjects = new List<ObjectViewModel>();
 
-			var gkViewModel = new ObjectViewModel(JournalSubsystemType.GK);
-			gkViewModel.IsExpanded = true;
-			if (!GlobalSettingsHelper.GlobalSettings.UseStrazhBrand)
-			{
-				RootObjects.Add(gkViewModel);
-				var gkDevicesViewModel = new ObjectViewModel(JournalObjectType.GKDevice);
-				AddChild(gkViewModel, gkDevicesViewModel);
-				foreach (var childDevice in FiresecClient.GKManager.DeviceConfiguration.RootDevice.Children)
-				{
-					AddGKDeviceInternal(childDevice, gkDevicesViewModel);
-				}
-			}
-
 			var skdViewModel = new ObjectViewModel(JournalSubsystemType.SKD);
 			skdViewModel.IsExpanded = true;
 			RootObjects.Add(skdViewModel);

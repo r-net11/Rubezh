@@ -96,14 +96,6 @@ namespace FiresecService.Report.Templates
 
 					switch (journalItem.JournalObjectType)
 					{
-						case JournalObjectType.GKDevice:
-							var device = GKManager.Devices.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
-							if (device != null)
-							{
-								dataRow.Object = device.PresentationName;
-							}
-							break;
-
 						case JournalObjectType.SKDDevice:
 							var skdDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
 							if (skdDevice != null)

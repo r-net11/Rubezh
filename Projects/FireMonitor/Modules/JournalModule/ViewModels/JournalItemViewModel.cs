@@ -68,17 +68,6 @@ namespace JournalModule.ViewModels
 
 			switch (JournalItem.JournalObjectType)
 			{
-				case JournalObjectType.GKDevice:
-					Device = GKManager.Devices.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
-					if (Device != null)
-					{
-						ObjectName = Device.PresentationName;
-						ObjectImageSource = Device.Driver.ImageSource;
-						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowGKDeviceEvent>();
-						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKDeviceDetailsEvent>();
-					}
-					break;
-
 				case JournalObjectType.GKSKDZone:
 					GKSKDZone = GKManager.SKDZones.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
 					if (GKSKDZone != null)
@@ -204,12 +193,6 @@ namespace JournalModule.ViewModels
 		{
 			switch (JournalItem.JournalObjectType)
 			{
-				case JournalObjectType.GKDevice:
-					if (Device != null)
-					{
-						ShowOnPlanHelper.ShowDevice(Device);
-					}
-					break;
 				case JournalObjectType.GKSKDZone:
 					if (GKSKDZone != null)
 					{
@@ -243,12 +226,6 @@ namespace JournalModule.ViewModels
 
 			switch (JournalItem.JournalObjectType)
 			{
-				case JournalObjectType.GKDevice:
-					if (Device != null)
-					{
-						return ShowOnPlanHelper.CanShowDevice(Device);
-					}
-					break;
 				case JournalObjectType.GKSKDZone:
 					if (GKSKDZone != null)
 					{

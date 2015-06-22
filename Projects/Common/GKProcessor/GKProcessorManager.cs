@@ -135,33 +135,6 @@ namespace GKProcessor
 			return new OperationResult<bool>(true);
 		}
 
-		public static OperationResult<int> GKGetJournalItemsCount(GKDevice device)
-		{
-			var sendResult = SendManager.Send(device, 0, 6, 64);
-			if (sendResult.HasError)
-			{
-				return OperationResult<int>.FromError("Устройство недоступно");
-			}
-			var journalParser = new JournalParser(device, sendResult.Bytes);
-			return new OperationResult<int>(journalParser.GKJournalRecordNo);
-		}
-
-		public static OperationResult<JournalItem> GKReadJournalItem(GKDevice device, int no)
-		{
-			var data = BitConverter.GetBytes(no).ToList();
-			var sendResult = SendManager.Send(device, 4, 7, 64, data);
-			if (sendResult.HasError)
-			{
-				return OperationResult<JournalItem>.FromError("Устройство недоступно");
-			}
-			if (sendResult.Bytes.Count == 64)
-			{
-				var journalParser = new JournalParser(device, sendResult.Bytes);
-				return new OperationResult<JournalItem>(journalParser.JournalItem);
-			}
-			return OperationResult<JournalItem>.FromError("Ошибка. Недостаточное количество байт в записи журнала");
-		}
-
 		public static OperationResult<List<byte>> GKGKHash(GKDevice device)
 		{
 			var gkFileReaderWriter = new GKFileReaderWriter();

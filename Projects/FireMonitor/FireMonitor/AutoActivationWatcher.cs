@@ -36,11 +36,6 @@ namespace FireMonitor
 					if (stateClass <= globalStateClass || (globalStateClass != XStateClass.Fire1 && globalStateClass != XStateClass.Fire2 && globalStateClass != XStateClass.Attention))
 						switch (journalItem.JournalObjectType)
 						{
-							case JournalObjectType.GKDevice:
-								var device = GKManager.Devices.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
-								if (ShowOnPlanHelper.CanShowDevice(device))
-									ShowOnPlanHelper.ShowDevice(device);
-								break;
 							case JournalObjectType.SKDDevice:
 								var skdDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
 								if (ShowOnPlanHelper.CanShowSKDDevice(skdDevice))

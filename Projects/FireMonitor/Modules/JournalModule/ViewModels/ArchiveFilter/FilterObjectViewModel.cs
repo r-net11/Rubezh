@@ -53,10 +53,6 @@ namespace JournalModule.ViewModels
 			IsObjectGroup = true;
 			switch(journalObjectType)
 			{
-				case JournalObjectType.GKDevice:
-					ImageSource = "/Controls;component/GKIcons/RM_1.png";
-					break;
-
 				case JournalObjectType.GKSKDZone:
 					ImageSource = "/Controls;component/Images/Zone.png";
 					break;

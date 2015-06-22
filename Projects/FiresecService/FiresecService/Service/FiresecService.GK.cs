@@ -60,26 +60,6 @@ namespace FiresecService.Service
 			return GKProcessorManager.GKUpdateFirmwareFSCS(hxcFileInfo, userName, devices);
 		}
 
-		public OperationResult<int> GKGetJournalItemsCount(Guid deviceUID)
-		{
-			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			if (device != null)
-			{
-				return GKProcessorManager.GKGetJournalItemsCount(device);
-			}
-			return OperationResult<int>.FromError("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
-		}
-
-		public OperationResult<JournalItem> GKReadJournalItem(Guid deviceUID, int no)
-		{
-			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			if (device != null)
-			{
-				return GKProcessorManager.GKReadJournalItem(device, no);
-			}
-			return OperationResult<JournalItem>.FromError("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
-		}
-
 		public OperationResult<bool> GKSetSingleParameter(Guid objectUID, List<byte> parameterBytes)
 		{
 			return OperationResult<bool>.FromError("Не найден компонент в конфигурации");

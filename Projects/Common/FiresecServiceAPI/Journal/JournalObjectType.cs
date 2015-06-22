@@ -7,9 +7,6 @@ namespace FiresecAPI.Journal
 		[DescriptionAttribute("Нет")]
 		None,
 
-		[DescriptionAttribute("Устройства ГК")]
-		GKDevice,
-
 		[DescriptionAttribute("Устройства Страж")]
 		SKDDevice,
 

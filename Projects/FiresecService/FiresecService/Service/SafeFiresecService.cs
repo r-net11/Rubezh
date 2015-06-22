@@ -194,17 +194,6 @@ namespace FiresecService.Service
 			return result;
 		}
 
-
-		public OperationResult<int> GKGetJournalItemsCount(Guid deviceUID)
-		{
-			return SafeOperationCall(() => { return FiresecService.GKGetJournalItemsCount(deviceUID); }, "GKGetJournalItemsCount");
-		}
-
-		public OperationResult<JournalItem> GKReadJournalItem(Guid deviceUID, int no)
-		{
-			return SafeOperationCall(() => { return FiresecService.GKReadJournalItem(deviceUID, no); }, "GKReadJournalItem");
-		}
-
 		public OperationResult<bool> GKSetSingleParameter(Guid objectUID, List<byte> parameterBytes)
 		{
 			return SafeOperationCall(() => { return FiresecService.GKSetSingleParameter(objectUID, parameterBytes); }, "GKSetSingleParameter");

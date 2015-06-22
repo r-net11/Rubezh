@@ -38,10 +38,6 @@ namespace FiltersModule.ViewModels
 			IsObjectGroup = true;
 			switch (journalObjectType)
 			{
-				case JournalObjectType.GKDevice:
-					ImageSource = "/Controls;component/GKIcons/RM_1.png";
-					break;
-
 				case JournalObjectType.SKDDevice:
 					ImageSource = "/Controls;component/SKDIcons/Controller.png";
 					break;
