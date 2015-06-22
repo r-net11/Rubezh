@@ -237,7 +237,7 @@ namespace GKModule.Models
 
 						var zipFile = ZipFile.Read(configFileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
 						var fileInfo = new FileInfo(configFileName);
-						var unzipFolderPath = Path.Combine(fileInfo.Directory.FullName, "Unzip");
+						var unzipFolderPath = fileInfo.Directory.FullName;
 						zipFile.ExtractAll(unzipFolderPath);
 						zipFile.Dispose();
 						var configurationFileName = Path.Combine(unzipFolderPath, "GKDeviceConfiguration.xml");
