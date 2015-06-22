@@ -15,7 +15,6 @@ namespace GKProcessor
 		public JournalItem JournalItem { get; private set; }
 
 		public GKDevice Device { get; private set; }
-		public GKDoor Door { get; private set; }
 		public int GKJournalRecordNo { get; private set; }
 		public ushort GKObjectNo { get; private set; }
 		public int ObjectState { get; private set; }
@@ -114,23 +113,6 @@ namespace GKProcessor
 							var gkCardNo = BytesHelper.SubstructInt(bytes, 32 + 24);
 							JournalItem.CardNo = gkCardNo;
 
-							var door = GKManager.Doors.FirstOrDefault(x => x.GKDescriptorNo == GKObjectNo);
-							if (door != null)
-							{
-								var readerDevice = GKManager.Devices.FirstOrDefault(x => x.GKDescriptorNo == kauObjectNo);
-								if (readerDevice != null)
-								{
-									if (door.EnterDeviceUID == readerDevice.UID)
-									{
-										JournalItem.JournalEventDescriptionType = JournalEventDescriptionType.Вход_Глобал;
-									}
-									else if (door.ExitDeviceUID == readerDevice.UID)
-									{
-										JournalItem.JournalEventDescriptionType = JournalEventDescriptionType.Выход_Глобал;
-									}
-								}
-							}
-
 							using (var databaseService = new SKDDatabaseService())
 							{
 								var cardNo = databaseService.GKCardTranslator.GetCardNoByGKNo(gkControllerDevice.GetGKIpAddress(), (int)gkCardNo);
@@ -168,23 +150,6 @@ namespace GKProcessor
 							JournalItem.JournalEventNameType = JournalEventNameType.Проход_пользователя_запрещен;
 							gkCardNo = BytesHelper.SubstructInt(bytes, 32 + 24);
 							JournalItem.CardNo = gkCardNo;
-
-							door = GKManager.Doors.FirstOrDefault(x => x.GKDescriptorNo == GKObjectNo);
-							if (door != null)
-							{
-								var readerDevice = GKManager.Devices.FirstOrDefault(x => x.GKDescriptorNo == kauObjectNo);
-								if (readerDevice != null)
-								{
-									if (door.EnterDeviceUID == readerDevice.UID)
-									{
-										JournalItem.JournalEventDescriptionType = JournalEventDescriptionType.Вход_Глобал;
-									}
-									else if (door.ExitDeviceUID == readerDevice.UID)
-									{
-										JournalItem.JournalEventDescriptionType = JournalEventDescriptionType.Выход_Глобал;
-									}
-								}
-							}
 
 							using (var databaseService = new SKDDatabaseService())
 							{
@@ -276,10 +241,6 @@ namespace GKProcessor
 							if (JournalItem.JournalObjectType == JournalObjectType.GKDevice)
 							{
 								JournalItem.JournalEventNameType = JournalEventNameType.Сработка_1;
-							}
-							if (JournalItem.JournalObjectType == JournalObjectType.GKDoor)
-							{
-								JournalItem.JournalEventNameType = JournalEventNameType.Тревога;
 							}
 							JournalItem.JournalEventDescriptionType = JournalStringsHelper.ToFire(bytes[32 + 15]);
 							break;
@@ -461,13 +422,6 @@ namespace GKProcessor
 					JournalItem.JournalObjectType = JournalObjectType.GKDevice;
 					JournalItem.ObjectUID = Device.UID;
 					JournalItem.ObjectName = Device.DottedPresentationAddress + Device.ShortName;
-				}
-				Door = GKManager.Doors.FirstOrDefault(x => x.GKDescriptorNo == GKObjectNo);
-				if (Door != null)
-				{
-					JournalItem.JournalObjectType = JournalObjectType.GKDoor;
-					JournalItem.ObjectUID = Door.UID;
-					JournalItem.ObjectName = Door.PresentationName;
 				}
 			}
 		}

@@ -104,14 +104,6 @@ namespace FiresecService.Report.Templates
 							}
 							break;
 
-						case JournalObjectType.GKDoor:
-							var gkDoor = GKManager.Doors.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
-							if (gkDoor != null)
-							{
-								dataRow.Object = gkDoor.PresentationName;
-							}
-							break;
-
 						case JournalObjectType.SKDDevice:
 							var skdDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
 							if (skdDevice != null)

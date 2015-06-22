@@ -19,9 +19,6 @@ namespace FiresecAPI.Automation
 		[DescriptionAttribute("Точка доступа")]
 		Door,
 
-		[DescriptionAttribute("Точка доступа ГК")]
-		GKDoor,
-
 		[DescriptionAttribute("Организация")]
 		Organisation
 	}

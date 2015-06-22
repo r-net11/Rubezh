@@ -104,19 +104,6 @@ namespace FiresecService.Report.Templates
 						doorMap.Add(door.UID, commonDoor);
 					}
 				}
-				foreach (var door in GKManager.Doors)
-				{
-					var commonDoor = new CommonDoor(door);
-					if (!filter.Zones.IsEmpty())
-					{
-						if ((filter.ZoneIn && filter.Zones.Contains(door.EnterZoneUID)) || (filter.ZoneOut && filter.Zones.Contains(door.ExitZoneUID)))
-							doorMap.Add(door.UID, commonDoor);
-					}
-					else
-					{
-						doorMap.Add(door.UID, commonDoor);
-					}
-				}
 
 				Dictionary<int, string> intervalMap = new Dictionary<int,string>();
 				if (GlobalSettingsHelper.GlobalSettings.UseStrazhBrand)
@@ -196,17 +183,6 @@ namespace FiresecService.Report.Templates
 				EnterZoneName = door.InDevice.Zone.PresentationName;
 			if (door.OutDevice != null && door.OutDevice.Zone != null)
 				ExitZoneName = door.OutDevice.Zone.PresentationName;
-		}
-
-		public CommonDoor(GKDoor door)
-		{
-			Name = door.PresentationName;
-			var enterZone = GKManager.SKDZones.FirstOrDefault(x => x.UID == door.EnterZoneUID);
-			if(enterZone != null)
-				EnterZoneName = enterZone.PresentationName;
-			var exitZone = GKManager.SKDZones.FirstOrDefault(x => x.UID == door.ExitZoneUID);
-			if (exitZone != null)
-				ExitZoneName = exitZone.PresentationName;
 		}
 	}
 }

@@ -65,14 +65,6 @@ namespace FiresecAPI.GK
 			BaseObjectType = GKBaseObjectType.Deivce;
 		}
 
-		public GKState(GKDoor door)
-			: this()
-		{
-			Door = door;
-			UID = door.UID;
-			BaseObjectType = GKBaseObjectType.Door;
-		}
-
 		public GKState(GKSKDZone zone)
 			: this()
 		{
@@ -82,7 +74,6 @@ namespace FiresecAPI.GK
 		}
 
 		public GKDevice Device { get; private set; }
-		public GKDoor Door { get; private set; }
 		public GKSKDZone SKDZone { get; private set; }
 		public GKBaseObjectType BaseObjectType { get; private set; }
 
@@ -114,14 +105,6 @@ namespace FiresecAPI.GK
 								return "Сработка 1";
 							case XStateClass.Fire2:
 								return "Сработка 2";
-						}
-						break;
-
-					case GKBaseObjectType.Door:
-						switch (StateClass)
-						{
-							case XStateClass.Fire1:
-								return "Тревога";
 						}
 						break;
 

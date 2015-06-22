@@ -101,35 +101,6 @@ namespace FiresecService.Report.Templates
 							new Tuple<Guid, string>(zone2.UID, zone2.Name));
 					zoneMap.Add(door.UID, value);
 				});
-				GKManager.Doors.ForEach(door =>
-				{
-					if (door == null || zoneMap.ContainsKey(door.UID)) return;
-
-					GKSKDZone enterZone = null;
-					if (filter.Zones.IsEmpty() || filter.Zones.Contains(door.EnterZoneUID))
-					{
-						enterZone = GKManager.SKDZones.FirstOrDefault(x => x.UID == door.EnterZoneUID);
-					}
-					GKSKDZone exitZone = null;
-					if (filter.Zones.IsEmpty() || filter.Zones.Contains(door.ExitZoneUID))
-					{
-						exitZone = GKManager.SKDZones.FirstOrDefault(x => x.UID == door.ExitZoneUID);
-					}
-
-					Tuple<Guid, string> enterZoneTuple = null;
-					if (enterZone != null)
-					{
-						enterZoneTuple = new Tuple<Guid, string>(enterZone.UID, enterZone.PresentationName);
-					}
-					Tuple<Guid, string> exitZoneTuple = null;
-					if (exitZone != null)
-					{
-						exitZoneTuple = new Tuple<Guid, string>(exitZone.UID, exitZone.PresentationName);
-					}
-
-					var value = new Tuple<Tuple<Guid, string>, Tuple<Guid, string>>(enterZoneTuple, exitZoneTuple);
-					zoneMap.Add(door.UID, value);
-				});
 
 				foreach (var card in cardsResult.Result)
 				{

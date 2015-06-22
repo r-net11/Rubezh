@@ -113,14 +113,6 @@ namespace FiltersModule.ViewModels
 				{
 					AddGKDeviceInternal(childDevice, gkDevicesViewModel);
 				}
-
-				var gkDoorsViewModel = new ObjectViewModel(JournalObjectType.GKDoor);
-				AddChild(gkViewModel, gkDoorsViewModel);
-				foreach (var door in FiresecClient.GKManager.Doors)
-				{
-					var doorViewModel = new ObjectViewModel(door);
-					AddChild(gkDoorsViewModel, doorViewModel);
-				}
 			}
 
 			var skdViewModel = new ObjectViewModel(JournalSubsystemType.SKD);

@@ -158,15 +158,10 @@ namespace FireAdministrator.ViewModels
 					GKManager.DeviceConfiguration.RootDevice.Children.Add(gkControllerDevice);
 				}
 			}
-			foreach (var door in GKDeviceConfiguration.Doors)
-			{
-				GKManager.Doors.Add(door);
-			}
 			//foreach (var schedules in GKDeviceConfiguration.Schedules)
 			//{
 			//    GKManager.DeviceConfiguration.Schedules.Add(schedules);
 			//}
-			ReorderNos(GKManager.Doors);
 			//ReorderNos(GKManager.DeviceConfiguration.Schedules);
 
 			foreach (var plan in PlansConfiguration.Plans)
@@ -220,12 +215,6 @@ namespace FireAdministrator.ViewModels
 				GKDeviceUIDs.Add(device.UID, uid);
 				device.UID = uid;
 			}
-			foreach (var door in GKDeviceConfiguration.Doors)
-			{
-				var uid = Guid.NewGuid();
-				GKDoorUIDs.Add(door.UID, uid);
-				door.UID = uid;
-			}
 			//foreach (var schedule in GKDeviceConfiguration.Schedules)
 			//{
 			//    var uid = Guid.NewGuid();
@@ -238,33 +227,12 @@ namespace FireAdministrator.ViewModels
 				ReplaceLogic(device.Logic);
 			}
 
-			foreach (var door in GKDeviceConfiguration.Doors)
-			{
-				door.EnterDeviceUID = ReplaceUID(door.EnterDeviceUID, GKDeviceUIDs);
-				door.ExitDeviceUID = ReplaceUID(door.ExitDeviceUID, GKDeviceUIDs);
-				door.EnterButtonUID = ReplaceUID(door.EnterButtonUID, GKDeviceUIDs);
-				door.ExitButtonUID = ReplaceUID(door.ExitButtonUID, GKDeviceUIDs);
-				door.LockDeviceUID = ReplaceUID(door.LockDeviceUID, GKDeviceUIDs);
-				door.LockDeviceExitUID = ReplaceUID(door.LockDeviceExitUID, GKDeviceUIDs);
-				door.LockControlDeviceUID = ReplaceUID(door.LockControlDeviceUID, GKDeviceUIDs);
-				door.LockControlDeviceExitUID = ReplaceUID(door.LockControlDeviceExitUID, GKDeviceUIDs);
-				ReplaceLogic(door.OpenRegimeLogic);
-			}
-
 			foreach (var plan in PlansConfiguration.AllPlans)
 			{
 				foreach (var element in plan.ElementGKDevices)
 				{
 					if (element.DeviceUID != Guid.Empty)
 						element.DeviceUID = GKDeviceUIDs[element.DeviceUID];
-					var uid = Guid.NewGuid();
-					PlenElementUIDs.Add(element.UID, uid);
-					element.UID = uid;
-				}
-				foreach (var element in plan.ElementGKDoors)
-				{
-					if (element.DoorUID != Guid.Empty)
-						element.DoorUID = GKDeviceUIDs[element.DoorUID];
 					var uid = Guid.NewGuid();
 					PlenElementUIDs.Add(element.UID, uid);
 					element.UID = uid;

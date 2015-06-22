@@ -257,36 +257,6 @@ namespace GKProcessor
 			}
 			cardDoors.AddRange(card.CardDoors.ToList());
 
-			foreach (var cardDoor in cardDoors)
-			{
-				var door = GKManager.Doors.FirstOrDefault(x => x.UID == cardDoor.DoorUID);
-				if (door != null)
-				{
-					if (door.EnterDevice != null)
-					{
-						var enterCardSchedule = cardSchedules.FirstOrDefault(x => x.Device.UID == door.EnterDevice.UID);
-						if (enterCardSchedule == null)
-						{
-							enterCardSchedule = new GKCardSchedule();
-							cardSchedules.Add(enterCardSchedule);
-						}
-						enterCardSchedule.Device = door.EnterDevice;
-						enterCardSchedule.ScheduleNo = cardDoor.EnterScheduleNo;
-					}
-					if (door.DoorType == GKDoorType.TwoWay && door.ExitDevice != null)
-					{
-						var exitCardSchedule = cardSchedules.FirstOrDefault(x => x.Device.UID == door.ExitDevice.UID);
-						if (exitCardSchedule == null)
-						{
-							exitCardSchedule = new GKCardSchedule();
-							cardSchedules.Add(exitCardSchedule);
-						}
-						exitCardSchedule.Device = door.ExitDevice;
-						exitCardSchedule.ScheduleNo = cardDoor.ExitScheduleNo;
-					}
-				}
-			}
-
 			cardSchedules = cardSchedules.OrderBy(x => x.Device.GKDescriptorNo).ToList();
 
 			var controllerCardSchedules = new List<GKControllerCardSchedule>();

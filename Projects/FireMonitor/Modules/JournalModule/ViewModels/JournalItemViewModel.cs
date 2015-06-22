@@ -31,7 +31,6 @@ namespace JournalModule.ViewModels
 
 		public GKDevice Device { get; set; }
 		GKSKDZone GKSKDZone { get; set; }
-		GKDoor GKDoor { get; set; }
 		SKDDevice SKDDevice { get; set; }
 		SKDZone SKDZone { get; set; }
 		SKDDoor SKDDoor { get; set; }
@@ -89,17 +88,6 @@ namespace JournalModule.ViewModels
 						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKSKDZoneDetailsEvent>();
 					}
 					ObjectImageSource = "/Controls;component/Images/Zone.png";
-					break;
-
-				case JournalObjectType.GKDoor:
-					GKDoor = GKManager.Doors.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
-					if (GKDoor != null)
-					{
-						ObjectName = GKDoor.PresentationName;
-						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowGKDoorEvent>();
-						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKDoorDetailsEvent>();
-					}
-					ObjectImageSource = "/Controls;component/Images/Door.png";
 					break;
 
 				case JournalObjectType.SKDDevice:
@@ -228,12 +216,6 @@ namespace JournalModule.ViewModels
 						ShowOnPlanHelper.ShowGKSKDZone(GKSKDZone);
 					}
 					break;
-				case JournalObjectType.GKDoor:
-					if (GKDoor != null)
-					{
-						ShowOnPlanHelper.ShowDoor(GKDoor);
-					}
-					break;
 				case JournalObjectType.SKDDevice:
 					if (SKDDevice != null)
 					{
@@ -271,12 +253,6 @@ namespace JournalModule.ViewModels
 					if (GKSKDZone != null)
 					{
 						return ShowOnPlanHelper.CanShowGKSKDZone(GKSKDZone);
-					}
-					break;
-				case JournalObjectType.GKDoor:
-					if (GKDoor != null)
-					{
-						return ShowOnPlanHelper.CanShowDoor(GKDoor);
 					}
 					break;
 				case JournalObjectType.SKDDevice:

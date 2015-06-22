@@ -100,9 +100,6 @@ namespace FiresecAPI.Automation
 		[DescriptionAttribute("Управление точкой доступа")]
 		ControlDoor,
 
-		[DescriptionAttribute("Управление точкой доступа ГК")]
-		ControlGKDoor,
-
 		[DescriptionAttribute("Чтение свойства визуального элемента")]
 		ControlVisualGet,
 

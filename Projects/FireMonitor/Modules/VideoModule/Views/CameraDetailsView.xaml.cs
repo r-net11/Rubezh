@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using FiresecAPI.Models;
 using VideoModule.ViewModels;
 using Vlc.DotNet.Core.Medias;
@@ -10,9 +11,16 @@ namespace VideoModule.Views
 		Camera Camera { get; set; }
 		public CameraDetailsView()
 		{
-			InitializeComponent();
-			Loaded += OnLoaded;
-			Unloaded += OnUnloaded;
+			try
+			{
+				InitializeComponent();
+				Loaded += OnLoaded;
+				Unloaded += OnUnloaded;
+			}
+			catch (Exception e)
+			{
+				MessageBox.Show(e.ToString());
+			}
 		}
 
 		private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)

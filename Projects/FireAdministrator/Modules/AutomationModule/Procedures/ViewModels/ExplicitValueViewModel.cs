@@ -22,7 +22,6 @@ namespace AutomationModule.ViewModels
 		public SKDZone SKDZone { get; private set; }
 		public Camera Camera { get; private set; }
 		public SKDDoor SKDDoor { get; private set; }
-		public GKDoor GKDoor { get; private set; }
 		public Organisation Organisation { get; private set; }
 		public ExplicitValue ExplicitValue { get; private set; }
 		public Action UpdateDescriptionHandler { get; set; }
@@ -60,7 +59,6 @@ namespace AutomationModule.ViewModels
 			SKDZone = SKDManager.Zones.FirstOrDefault(x => x.UID == uidValue);
 			Camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == uidValue);
 			SKDDoor = SKDManager.Doors.FirstOrDefault(x => x.UID == uidValue);
-			GKDoor = GKManager.Doors.FirstOrDefault(x => x.UID == uidValue);
 			Organisation = OrganisationHelper.GetSingle(uidValue);
 			base.OnPropertyChanged(() => PresentationName);
 		}
@@ -79,8 +77,6 @@ namespace AutomationModule.ViewModels
 					return Camera.PresentationName;
 				if (SKDDoor != null)
 					return SKDDoor.PresentationName;
-				if (GKDoor != null)
-					return GKDoor.PresentationName;
 				if (Organisation != null)
 					return Organisation.Name;
 				return "Null";
@@ -243,12 +239,12 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				return ((Device == null) && (SKDDevice == null) && (SKDZone == null) && (Camera == null) && (SKDDoor == null) && (GKDoor == null) && (Organisation == null));
+				return ((Device == null) && (SKDDevice == null) && (SKDZone == null) && (Camera == null) && (SKDDoor == null) && (Organisation == null));
 			}
 			set
 			{
 				if (value)
-					Device = null; SKDDevice = null; SKDZone = null; Camera = null; SKDDoor = null; GKDoor = null; Organisation = null;
+					Device = null; SKDDevice = null; SKDZone = null; Camera = null; SKDDoor = null; Organisation = null;
 			}
 		}
 

@@ -175,8 +175,7 @@ namespace GKModule.ViewModels
 				ElementBase elementBase = plan.ElementGKDevices.FirstOrDefault(x => x.DeviceUID == Device.UID);
 				if (elementBase != null)
 				{
-					var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
-					alarmPlanViewModel.Device = Device;
+					var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase) {Device = Device};
 					Plans.Add(alarmPlanViewModel);
 				}
 			}

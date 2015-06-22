@@ -147,16 +147,6 @@ namespace AutomationModule
 				}
 			}
 
-			if (objectType == ObjectType.GKDoor)
-			{
-				var doorSelectationViewModel = new GKDoorSelectionViewModel(currentExplicitValue.GKDoor);
-				if (DialogService.ShowModalWindow(doorSelectationViewModel))
-				{
-					currentExplicitValue.UidValue = doorSelectationViewModel.SelectedDoor != null ? doorSelectationViewModel.SelectedDoor.GKDoor.UID : Guid.Empty;
-					return true;
-				}
-			}
-
 			if (objectType == ObjectType.VideoDevice)
 			{
 				var cameraSelectionViewModel = new CameraSelectionViewModel(currentExplicitValue.Camera);
@@ -258,8 +248,6 @@ namespace AutomationModule
 			switch (objectType)
 			{
 				case ObjectType.Device:
-					return true;
-				case ObjectType.GKDoor:
 					return true;
 			}
 			return false;

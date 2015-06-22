@@ -311,8 +311,6 @@ namespace FiresecService.Service
 			{
 				case GKBaseObjectType.Deivce:
 					return GKManager.Devices.FirstOrDefault(x => x.UID == uid);
-				case GKBaseObjectType.Door:
-					return GKManager.Doors.FirstOrDefault(x => x.UID == uid);
 			}
 			return null;
 		}
@@ -327,23 +325,23 @@ namespace FiresecService.Service
 			return OperationResult<uint>.FromError("Не найдено устройство в конфигурации");
 		}
 
-		public void GKOpenSKDZone(Guid zoneUID)
-		{
-			var zone = GKManager.SKDZones.FirstOrDefault(x => x.UID == zoneUID);
-			if (zone != null)
-			{
-				GKProcessorManager.GKOpenSKDZone(zone);
-			}
-		}
+		//public void GKOpenSKDZone(Guid zoneUID) //TODO: Change to SKD
+		//{
+		//	var zone = GKManager.SKDZones.FirstOrDefault(x => x.UID == zoneUID);
+		//	if (zone != null)
+		//	{
+		//		GKProcessorManager.GKOpenSKDZone(zone);
+		//	}
+		//}
 
-		public void GKCloseSKDZone(Guid zoneUID)
-		{
-			var zone = GKManager.SKDZones.FirstOrDefault(x => x.UID == zoneUID);
-			if (zone != null)
-			{
-				GKProcessorManager.GKCloseSKDZone(zone);
-			}
-		}
+		//public void GKCloseSKDZone(Guid zoneUID)
+		//{
+		//	var zone = GKManager.SKDZones.FirstOrDefault(x => x.UID == zoneUID);
+		//	if (zone != null)
+		//	{
+		//		GKProcessorManager.GKCloseSKDZone(zone);
+		//	}
+		//}
 
 		#region Users
 		//public OperationResult<List<GKUser>> GKGetUsers(Guid gkDeviceUID)

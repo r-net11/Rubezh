@@ -128,7 +128,6 @@ namespace AutomationModule.ViewModels
 								new List<StepTypeViewModel>
 								{
 									new StepTypeViewModel(ProcedureStepType.ControlGKDevice),
-									new StepTypeViewModel(ProcedureStepType.ControlGKDoor)
 								}),
 							new StepTypeViewModel("Управление Страж", "/Controls;component/StepIcons/Control.png",
 								new List<StepTypeViewModel>

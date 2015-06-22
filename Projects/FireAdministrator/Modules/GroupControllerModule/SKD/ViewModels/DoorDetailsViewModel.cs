@@ -11,55 +11,6 @@ namespace GKModule.ViewModels
 {
 	public class DoorDetailsViewModel : SaveCancelDialogViewModel
 	{
-		public GKDoor Door { get; private set; }
-
-		public DoorDetailsViewModel(GKDoor door = null)
-		{
-			if (door == null)
-			{
-				Title = "Создание новой точки доступа";
-
-				Door = new GKDoor()
-				{
-					Name = "Новая точка доступа",
-					No = 1,
-					PlanElementUIDs = new List<Guid>(),
-				};
-				if (GKManager.DeviceConfiguration.Doors.Count != 0)
-					Door.No = (ushort)(GKManager.DeviceConfiguration.Doors.Select(x => x.No).Max() + 1);
-			}
-			else
-			{
-				Title = string.Format("Свойства точки доступа: {0}", door.PresentationName);
-				Door = door;
-			}
-
-			AvailableDoorTypes = new ObservableCollection<GKDoorType>(Enum.GetValues(typeof(GKDoorType)).Cast<GKDoorType>());
-			SelectedDoorType = Door.DoorType;
-			AntipassbackOn = Door.AntipassbackOn;
-
-			CopyProperties();
-
-			var availableNames = new HashSet<string>();
-			var availableDescription = new HashSet<string>();
-			foreach (var existingDoor in GKManager.DeviceConfiguration.Doors)
-			{
-				availableNames.Add(existingDoor.Name);
-				availableDescription.Add(existingDoor.Description);
-			}
-			AvailableNames = new ObservableCollection<string>(availableNames);
-			AvailableDescription = new ObservableCollection<string>(availableDescription);
-		}
-
-		void CopyProperties()
-		{
-			No = Door.No;
-			Name = Door.Name;
-			Description = Door.Description;
-			Delay = Door.Delay;
-			Hold = Door.Hold;
-			EnterLevel = Door.EnterLevel;
-		}
 
 		int _no;
 		public int No
@@ -94,19 +45,7 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public ObservableCollection<GKDoorType> AvailableDoorTypes { get; private set; }
-
-		GKDoorType _selectedDoorType;
-		public GKDoorType SelectedDoorType
-		{
-			get { return _selectedDoorType; }
-			set
-			{
-				_selectedDoorType = value;
-				OnPropertyChanged(() => SelectedDoorType);
-			}
-		}
-
+	
 		int _delay;
 		public int Delay
 		{
@@ -161,20 +100,7 @@ namespace GKModule.ViewModels
 				MessageBoxService.Show("Номер должен быть положительным числом");
 				return false;
 			}
-			if (Door.No != No && GKManager.DeviceConfiguration.Doors.Any(x => x.No == No))
-			{
-				MessageBoxService.Show("Зона с таким номером уже существует");
-				return false;
-			}
 
-			Door.No = No;
-			Door.Name = Name;
-			Door.Description = Description;
-			Door.Delay = Delay;
-			Door.Hold = Hold;
-			Door.EnterLevel = EnterLevel;
-			Door.DoorType = SelectedDoorType;
-			Door.AntipassbackOn = AntipassbackOn;
 			return base.Save();
 		}
 	}

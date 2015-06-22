@@ -93,38 +93,16 @@
     <Compile Include="Devices\Views\Logic\ClausesView.xaml.cs">
       <DependentUpon>ClausesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Events\CreateGKDoorEvent.cs" />
-    <Compile Include="Events\CreateGKSKDZoneEvent.cs" />
-    <Compile Include="Events\EditGKDoorEvent.cs" />
-    <Compile Include="Events\CreateGKZoneEvent.cs" />
-    <Compile Include="Events\EditGKZoneEvent.cs" />
-    <Compile Include="Events\ShowGKDevicePropertiesEvent.cs" />
-    <Compile Include="Events\ShowGKDiagnosticsEvent.cs" />
-    <Compile Include="Events\ShowGKodeEvent.cs" />
-    <Compile Include="Events\ShowGKJournalFilterEvent.cs" />
-    <Compile Include="Events\ShowGKZoneEvent.cs" />
-    <Compile Include="Events\ShowGKDoorEvent.cs" />
-    <Compile Include="Events\ShowGKScheduleEvent.cs" />
-    <Compile Include="Events\CreateGKScheduleEvent.cs" />
-    <Compile Include="Events\ShowGKDaySchedulesEvent.cs" />
-    <Compile Include="Events\ShowGKSKDZoneEvent.cs" />
-    <Compile Include="Events\EditGKSKDZoneEvent.cs" />
-    <Compile Include="Events\EditGKMPTEvent.cs" />
     <Compile Include="Journal\ViewModels\JournalFromFileViewModel.cs" />
     <Compile Include="Journal\Views\JournalFromFileView.xaml.cs">
       <DependentUpon>JournalFromFileView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\ClauseConditionConverter.cs" />
     <Compile Include="Devices\ViewModels\ConfigurationCompare\ConfigurationCompareViewModel.cs" />
-    <Compile Include="Plans\Designer\GKDoorPainter.cs" />
     <Compile Include="Plans\Designer\ElementDeviceUpdater.cs" />
     <Compile Include="Plans\InstrumentAdorners\SKDZonePolygonAdorner.cs" />
     <Compile Include="Plans\InstrumentAdorners\SKDZoneRectangleAdorner.cs" />
-    <Compile Include="Plans\ViewModels\GKDoorPropertiesViewModel.cs" />
     <Compile Include="Plans\ViewModels\SKDZonePropertiesViewModel.cs" />
-    <Compile Include="Plans\Views\GKDoorPropertiesView.xaml.cs">
-      <DependentUpon>GKDoorPropertiesView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Plans\Views\SKDZonePropertiesView.xaml.cs">
       <DependentUpon>SKDZonePropertiesView.xaml</DependentUpon>
     </Compile>
@@ -199,9 +177,6 @@
     </Compile>
     <Compile Include="SKD\ViewModels\CalendarViewModel.cs" />
     <Compile Include="SKD\ViewModels\DoorDetailsViewModel.cs" />
-    <Compile Include="SKD\ViewModels\DoorsMenuViewModel.cs" />
-    <Compile Include="SKD\ViewModels\DoorsViewModel.cs" />
-    <Compile Include="SKD\ViewModels\DoorViewModel.cs" />
     <Compile Include="SKD\ViewModels\SKDZoneDetailsViewModel.cs" />
     <Compile Include="SKD\ViewModels\SKDZonesMenuViewModel.cs" />
     <Compile Include="SKD\ViewModels\SKDZonesViewModel.cs" />
@@ -214,12 +189,6 @@
     </Compile>
     <Compile Include="SKD\Views\DoorDetailsView.xaml.cs">
       <DependentUpon>DoorDetailsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SKD\Views\DoorsMenuView.xaml.cs">
-      <DependentUpon>DoorsMenuView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SKD\Views\DoorsView.xaml.cs">
-      <DependentUpon>DoorsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="SKD\Views\SKDZoneDetailsView.xaml.cs">
       <DependentUpon>SKDZoneDetailsView.xaml</DependentUpon>
@@ -280,10 +249,6 @@
     <Page Include="Journal\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Plans\Views\GKDoorPropertiesView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Plans\Views\SKDZonePropertiesView.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -354,14 +319,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SKD\Views\DoorDetailsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SKD\Views\DoorsMenuView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SKD\Views\DoorsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

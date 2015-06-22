@@ -37,29 +37,5 @@ namespace SKDModule.ViewModels
 			HasExit = false;
 			ExitScheduleName = "";
 		}
-
-		public ReadOnlyAccessDoorViewModel(GKDoor door, CardDoor cardDoor)
-		{
-			No = door.No;
-			Name = door.Name;
-			CardDoor = cardDoor;
-
-			var schedules = GKScheduleHelper.GetSchedules();
-			if (schedules != null)
-			{
-				var enterSchedule = schedules.FirstOrDefault(x => x.No == cardDoor.EnterScheduleNo);
-				if (enterSchedule != null)
-				{
-					EnerScheduleName = enterSchedule.Name;
-				}
-				var exitSchedule = schedules.FirstOrDefault(x => x.No == cardDoor.ExitScheduleNo);
-				if (exitSchedule != null)
-				{
-					ExitScheduleName = exitSchedule.Name;
-				}
-			}
-			HasEnter = door.EnterDeviceUID != Guid.Empty;
-			HasExit = door.ExitDeviceUID != Guid.Empty && door.DoorType == GKDoorType.TwoWay;
-		}
 	}
 }

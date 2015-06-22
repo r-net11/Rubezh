@@ -15,7 +15,6 @@ namespace FiresecAPI.GK
 		public GKDeviceConfiguration()
 		{
 			Devices = new List<GKDevice>();
-			Doors = new List<GKDoor>();
 			SKDZones = new List<GKSKDZone>();
 			Holidays = new List<GKHoliday>();
 		}
@@ -28,12 +27,6 @@ namespace FiresecAPI.GK
 		/// </summary>
 		[DataMember]
 		public GKDevice RootDevice { get; set; }
-
-		/// <summary>
-		/// Точки доступа
-		/// </summary>
-		[DataMember]
-		public List<GKDoor> Doors { get; set; }
 
 		/// <summary>
 		/// Зоны СКД

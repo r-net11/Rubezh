@@ -32,31 +32,6 @@ namespace SKDModule.ViewModels
 
 			Initialize(cardDoors, onChecked);
 		}
-
-		public AccessDoorViewModel(GKDoor door, List<CardDoor> cardDoors, Action<AccessDoorViewModel> onChecked)
-		{
-			DoorUID = door.UID;
-			No = door.No;
-			Name = door.Name;
-			HasEnter = door.EnterDeviceUID != Guid.Empty;
-			HasExit = door.ExitDeviceUID != Guid.Empty && door.DoorType == GKDoorType.TwoWay;
-
-			EnterSchedules = new ObservableCollection<CardScheduleItem>();
-			ExitSchedules = new ObservableCollection<CardScheduleItem>();
-			var schedules = GKScheduleHelper.GetSchedules();
-			if (schedules != null)
-			{
-				foreach (var schedule in schedules)
-				{
-					if (schedule.ScheduleType == GKScheduleType.Access)
-					{
-						EnterSchedules.Add(new CardScheduleItem(schedule.No, schedule.Name));
-						ExitSchedules.Add(new CardScheduleItem(schedule.No, schedule.Name));
-					}
-				}
-			}
-			Initialize(cardDoors, onChecked);
-		}
 		#endregion
 
 		#region Properties

@@ -41,12 +41,6 @@ namespace GKProcessor
 				if (device.IsRealDevice && device.GKParent == gkControllerDevice)
 					stringBuilder.Append(device.PresentationName).Append("@");
 			}
-			stringBuilder.Append("door:");
-			foreach (var door in deviceConfiguration.Doors)
-			{
-				if (door.GkDatabaseParent == gkControllerDevice)
-					stringBuilder.Append(door.PresentationName).Append("@");
-			}
 			return SHA256.Create().ComputeHash(Encoding.GetEncoding(1251).GetBytes(stringBuilder.ToString())).ToList();
 		}
 		void InitializeFileBytes(GKDeviceConfiguration deviceConfiguration)

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using FiresecAPI;
 using FiresecAPI.GK;
+using FiresecAPI.SKD;
 using FiresecClient;
 using FiresecAPI.Journal;
 using System.IO;
@@ -153,6 +154,28 @@ namespace GKProcessor
 			return new OperationResult<bool>(true);
 		}
 
+		//public static void GKOpenSKDZone(GKSKDZone zone) TODO: Change to SKD
+		//{
+		//	foreach (var door in GKManager.Doors)
+		//	{
+		//		if (door.EnterZoneUID == zone.UID)
+		//		{
+		//			GKProcessorManager.AddGKMessage(JournalEventNameType.Открытие_зоны_СКД, JournalEventDescriptionType.NULL, "", zone, null);
+		//		}
+		//	}
+		//}
+
+		//public static void GKCloseSKDZone(GKSKDZone zone)
+		//{
+		//	foreach (var door in GKManager.Doors)
+		//	{
+		//		if (door.EnterZoneUID == zone.UID)
+		//		{
+		//			GKProcessorManager.AddGKMessage(JournalEventNameType.Закрытие_зоны_СКД, JournalEventDescriptionType.NULL, "", zone, null);
+		//		}
+		//	}
+		//}
+
 		public static OperationResult<bool> GKUpdateFirmwareFSCS(HexFileCollectionInfo hxcFileInfo, string userName, List<GKDevice> devices)
 		{
 			var firmwareUpdateHelper = new FirmwareUpdateHelper();
@@ -231,16 +254,6 @@ namespace GKProcessor
 		{
 			var stateClasses = new HashSet<XStateClass>();
 			zone.State = new GKState(zone);
-			foreach (var door in GKManager.Doors)
-			{
-				if (door.EnterZoneUID == zone.UID || door.ExitZoneUID == zone.UID)
-				{
-					foreach (var stateClass in door.State.StateClasses)
-					{
-						stateClasses.Add(stateClass);
-					}
-				}
-			}
 			zone.State.StateClasses = stateClasses.ToList();
 			zone.State.StateClass = GKStatesHelper.GetMinStateClass(zone.State.StateClasses);
 		}
@@ -329,28 +342,6 @@ namespace GKProcessor
 			}
 		}
 
-		public static void GKOpenSKDZone(GKSKDZone zone)
-		{
-			foreach (var door in GKManager.Doors)
-			{
-				if (door.EnterZoneUID == zone.UID)
-				{
-					GKProcessorManager.AddGKMessage(JournalEventNameType.Открытие_зоны_СКД, JournalEventDescriptionType.NULL, "", zone, null);
-				}
-			}
-		}
-
-		public static void GKCloseSKDZone(GKSKDZone zone)
-		{
-			foreach (var door in GKManager.Doors)
-			{
-				if (door.EnterZoneUID == zone.UID)
-				{
-					GKProcessorManager.AddGKMessage(JournalEventNameType.Закрытие_зоны_СКД, JournalEventDescriptionType.NULL, "", zone, null);
-				}
-			}
-		}
-
 		#endregion
 
 		#region JournalItem Callback
@@ -368,10 +359,6 @@ namespace GKProcessor
 				if (gkBase is GKSKDZone)
 				{
 					journalObjectType = JournalObjectType.GKSKDZone;
-				}
-				if (gkBase is GKDoor)
-				{
-					journalObjectType = JournalObjectType.GKDoor;
 				}
 			}
 

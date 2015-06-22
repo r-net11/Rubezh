@@ -95,8 +95,6 @@ namespace GKModule.ViewModels
 			rootDevice.Children.Add(RemoteDevice);
 			if (LocalDevice.DriverType == GKDriverType.GK)
 			{
-				LocalConfiguration.Doors.RemoveAll(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == LocalDevice.Address);
-				LocalConfiguration.Doors.AddRange(RemoteConfiguration.Doors);
 				LocalConfiguration.SKDZones.Clear();
 				LocalConfiguration.SKDZones.AddRange(RemoteConfiguration.SKDZones);
 			}
@@ -149,45 +147,10 @@ namespace GKModule.ViewModels
 						newObject.DifferenceDiscription = IsLocalConfig ? "Отсутствует в конфигурации прибора" : "Отсутствует в локальной конфигурации";
 						newObject.IsPresent = true;
 					}
-					else
-					{
-						if (sameObject1.ObjectType == ObjectType.Door)
-						{
-							newObject.DifferenceDiscription = GetDoorsDifferences(sameObject1, sameObject2);
-							newObject.Name = sameObject1.Name;
-						}
-					}
 				}
 				unionObjects1.Add(newObject);
 			}
 			return unionObjects1;
-		}
-
-		string GetDoorsDifferences(ObjectViewModel object1, ObjectViewModel object2)
-		{
-			var differences = new StringBuilder();
-			if (object1.Name != object2.Name)
-				differences.Append("Не совпадает название");
-			if (object1.Door.Delay != object2.Door.Delay)
-			{
-				if (differences.Length != 0)
-					differences.Append(". ");
-				differences.Append("Не совпадает задержка");
-			}
-			if (object1.Door.Hold != object2.Door.Hold)
-			{
-				if (differences.Length != 0)
-					differences.Append(". ");
-				differences.Append("Не совпадает удержание");
-			}
-
-			bool openLogicDiff = GKManager.GetPresentationLogic(object1.Door.OpenRegimeLogic) != GKManager.GetPresentationLogic(object2.Door.OpenRegimeLogic);
-			if (openLogicDiff)
-			{
-				differences.Append("Не совпадают условия перевода в режим Всегда Включено");
-			}
-
-			return differences.ToString() == "" ? null : differences.ToString();
 		}
 	}
 }

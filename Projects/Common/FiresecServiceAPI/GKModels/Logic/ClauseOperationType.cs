@@ -12,11 +12,5 @@ namespace FiresecAPI.GK
 
 		[DescriptionAttribute("во всех устройствах из")]
 		AllDevices,
-
-		[DescriptionAttribute("в любой ТД из")]
-		AnyDoor,
-
-		[DescriptionAttribute("во всех ТД из")]
-		AllDoors,
 	}
 }

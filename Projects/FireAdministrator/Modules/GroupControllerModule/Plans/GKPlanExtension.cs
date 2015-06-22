@@ -4,12 +4,10 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using Common;
-using DeviceControls;
 using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecClient;
-using GKModule.Events;
 using GKModule.Plans.Designer;
 using GKModule.Plans.InstrumentAdorners;
 using GKModule.Plans.ViewModels;
@@ -18,7 +16,6 @@ using Infrastructure;
 using Infrastructure.Client.Plans;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
-using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
@@ -35,11 +32,10 @@ namespace GKModule.Plans
 
 		private bool _processChanges;
 		private SKDZonesViewModel _skdZonesViewModel;
-		private DoorsViewModel _doorsViewModel;
 		private IEnumerable<IInstrument> _instruments;
 		private List<DesignerItem> _designerItems;
 
-		public GKPlanExtension(SKDZonesViewModel skdZonesViewModel, DoorsViewModel doorsViewModel)
+		public GKPlanExtension(SKDZonesViewModel skdZonesViewModel)
 		{
 			Instance = this;
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
@@ -55,12 +51,10 @@ namespace GKModule.Plans
 			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(UpdateGKDeviceInGKZones);
 
 			_skdZonesViewModel = skdZonesViewModel;
-			_doorsViewModel = doorsViewModel;
 			_instruments = null;
 			_processChanges = true;
 			Cache.Add<GKDevice>(() => GKManager.Devices);
 			Cache.Add<GKSKDZone>(() => GKManager.SKDZones);
-			Cache.Add<GKDoor>(() => GKManager.Doors);
 			_designerItems = new List<DesignerItem>();
 		}
 
@@ -119,13 +113,6 @@ namespace GKModule.Plans
 				SetItem<GKDevice>(elementGKDevice);
 				return true;
 			}
-			else if (element is ElementGKDoor)
-			{
-				var elementGKDoor = (ElementGKDoor)element;
-				plan.ElementGKDoors.Add(elementGKDoor);
-				SetItem<GKDoor>(elementGKDoor);
-				return true;
-			}
 			else if (element is IElementZone)
 			{
 				if (element is ElementRectangleGKSKDZone)
@@ -155,13 +142,6 @@ namespace GKModule.Plans
 				ResetItem<GKDevice>(elementDevice);
 				return true;
 			}
-			else if (element is ElementGKDoor)
-			{
-				var elementGKDoor = (ElementGKDoor)element;
-				plan.ElementGKDoors.Remove(elementGKDoor);
-				ResetItem<GKDoor>(elementGKDoor);
-				return true;
-			}
 			else if (element is IElementZone)
 			{
 				if (element is ElementRectangleGKSKDZone)
@@ -180,8 +160,6 @@ namespace GKModule.Plans
 		{
 			if (designerItem.Element is ElementRectangleGKSKDZone || designerItem.Element is ElementPolygonGKSKDZone)
 				RegisterDesignerItem<GKSKDZone>(designerItem, "GKSKDZone", "/Controls;component/Images/SKDZone.png");
-			else if (designerItem.Element is ElementGKDoor)
-				RegisterDesignerItem<GKDoor>(designerItem, "GKDoors", "/Controls;component/Images/Door.png");
 			else if (designerItem.Element is ElementGKDevice)
 			{
 				RegisterDesignerItem<GKDevice>(designerItem, "GK");
@@ -201,8 +179,6 @@ namespace GKModule.Plans
 			foreach (var element in plan.ElementRectangleGKSKDZones)
 				yield return element;
 			foreach (var element in plan.ElementPolygonGKSKDZones)
-				yield return element;
-			foreach (var element in plan.ElementGKDoors)
 				yield return element;
 		}
 
@@ -226,9 +202,6 @@ namespace GKModule.Plans
 				FiresecManager.PlansConfiguration.AllPlans.ForEach(plan =>
 				{
 					errors.AddRange(FindUnbindedErrors<ElementGKDevice, ShowGKDeviceEvent, Guid>(plan.ElementGKDevices, plan.UID, "Несвязанное устройство", "/Controls;component/GKIcons/RM_1.png", Guid.Empty));
-					errors.AddRange(FindUnbindedErrors<ElementRectangleGKSKDZone, ShowGKSKDZoneEvent, ShowOnPlanArgs<Guid>>(plan.ElementRectangleGKSKDZones, plan.UID, "Несвязанная зона СКД", "/Controls;component/Images/SKDZone.png", Guid.Empty));
-					errors.AddRange(FindUnbindedErrors<ElementPolygonGKSKDZone, ShowGKSKDZoneEvent, ShowOnPlanArgs<Guid>>(plan.ElementPolygonGKSKDZones, plan.UID, "Несвязанная зона СКД", "/Controls;component/Images/SKDZone.png", Guid.Empty));
-					errors.AddRange(FindUnbindedErrors<ElementGKDoor, ShowGKDoorEvent, ShowOnPlanArgs<Guid>>(plan.ElementGKDoors, plan.UID, "Несвязанное точка доступа", "/Controls;component/Images/Door.png", Guid.Empty));
 				});
 			return errors;
 		}
@@ -248,12 +221,6 @@ namespace GKModule.Plans
 				var skdZone = item as GKSKDZone;
 				designerItem.Title = skdZone == null ? "Неизвестная зона СКД" : skdZone.Name;
 				designerItem.Index = skdZone == null ? default(int) : skdZone.No;
-			}
-			else if (typeof(TItem) == typeof(GKDoor))
-			{
-				var door = item as GKDoor;
-				designerItem.Title = door == null ? "Неизвестная точка доступа" : door.Name;
-				designerItem.Index = door == null ? default(int) : door.No;
 			}
 			else
 				base.UpdateDesignerItemProperties<TItem>(designerItem, item);
@@ -275,15 +242,11 @@ namespace GKModule.Plans
 			var elementGKDevice = args.Element as ElementGKDevice;
 			if (elementGKDevice != null)
 				args.Painter = new Painter(DesignerCanvas, elementGKDevice);
-			else if (args.Element is ElementGKDoor)
-				args.Painter = new GKDoorPainter(DesignerCanvas, (ElementGKDoor)args.Element);
 		}
 		private void OnShowPropertiesEvent(ShowPropertiesEventArgs e)
 		{
 			if (e.Element is ElementRectangleGKSKDZone || e.Element is ElementPolygonGKSKDZone)
 				e.PropertyViewModel = new SKDZonePropertiesViewModel((IElementZone)e.Element, _skdZonesViewModel);
-			else if (e.Element is ElementGKDoor)
-				e.PropertyViewModel = new GKDoorPropertiesViewModel(_doorsViewModel, (ElementGKDoor)e.Element);
 		}
 
 		public void UpdateGKDeviceInGKZones(List<ElementBase> items)

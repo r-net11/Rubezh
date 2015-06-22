@@ -1,29 +1,17 @@
 using System;
 using System.Collections.Generic;
 using System.Windows;
-using FiresecAPI;
-using FiresecAPI.Models;
-using FiresecClient;
-using GKModule.Events;
 using GKModule.Plans;
 using GKModule.ViewModels;
-using GKProcessor;
-using Infrastructure;
-using Infrastructure.Client;
 using Infrastructure.Client.Layout;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Services.Layout;
-using Infrastructure.Common.Validation;
-using Infrastructure.Common.Windows;
-using Infrastructure.Events;
-using Infrustructure.Plans.Events;
 
 namespace GKModule
 {
 	public class GroupControllerModule : ModuleBase, ILayoutDeclarationModule
 	{
-		DoorsViewModel DoorsViewModel;
 		SKDZonesViewModel SKDZonesViewModel;
 		GKPlanExtension _planExtension;
 
@@ -75,23 +63,6 @@ namespace GKModule
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Selectation/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "SKD/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Zones/DataTemplates/Dictionary.xaml"));
-		}
-
-		private void OnCreateGKDoor(CreateGKDoorEventArg createGKDoorEventArg)
-		{
-			DoorsViewModel.CreateDoor(createGKDoorEventArg);
-		}
-		private void OnEditGKDoor(Guid doorUID)
-		{
-			DoorsViewModel.EditDoor(doorUID);
-		}
-		private void OnCreateSKDZone(CreateGKSKDZoneEventArg createZoneEventArg)
-		{
-			SKDZonesViewModel.CreateZone(createZoneEventArg);
-		}
-		private void OnEditSKDZone(Guid zoneUID)
-		{
-			SKDZonesViewModel.EditZone(zoneUID);
 		}
 
 		public override bool BeforeInitialize(bool firstTime)

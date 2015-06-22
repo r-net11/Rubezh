@@ -38,10 +38,6 @@ namespace SKDModule.Reports.ViewModels
 					ImageSource = "/Controls;component/Images/Zone.png";
 					break;
 
-				case JournalObjectType.GKDoor:
-					ImageSource = "/Controls;component/Images/Door.png";
-					break;
-
 				case JournalObjectType.SKDDevice:
 					ImageSource = "/Controls;component/SKDIcons/Controller.png";
 					break;
@@ -64,12 +60,6 @@ namespace SKDModule.Reports.ViewModels
 			Name = device.PresentationName;
 			UID = device.UID;
 			ImageSource = device.Driver.ImageSource;
-		}
-		public SKDObjectViewModel(GKDoor door)
-		{
-			Name = door.PresentationName;
-			UID = door.UID;
-			ImageSource = "/Controls;component/Images/Door.png";
 		}
 		public SKDObjectViewModel(SKDDevice device)
 		{

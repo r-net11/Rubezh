@@ -10,9 +10,6 @@ namespace FiresecAPI.Journal
 		[DescriptionAttribute("Устройства ГК")]
 		GKDevice,
 
-		[DescriptionAttribute("Точки доступа ГК")]
-		GKDoor,
-
 		[DescriptionAttribute("Устройства Страж")]
 		SKDDevice,
 

@@ -15,21 +15,18 @@ namespace GKModule.ViewModels
 	public class ClauseViewModel : BaseViewModel
 	{
 		public List<GKDevice> Devices { get; set; }
-		public List<GKDoor> Doors { get; set; }
 		GKDevice Device;
 
 		public ClauseViewModel(GKDevice device, GKClause clause)
 		{
 			Device = device;
 			SelectDevicesCommand = new RelayCommand(OnSelectDevices);
-			SelectDoorsCommand = new RelayCommand(OnSelectDoors);
 
 			ClauseConditionTypes = Enum.GetValues(typeof(ClauseConditionType)).Cast<ClauseConditionType>().ToList();
 			ClauseOperationTypes = Enum.GetValues(typeof(ClauseOperationType)).Cast<ClauseOperationType>().ToList();
 			SelectedClauseOperationType = clause.ClauseOperationType;
 
 			Devices = clause.Devices.ToList();
-			Doors = clause.Doors.ToList();
 
 			SelectedClauseConditionType = clause.ClauseConditionType;
 			SelectedStateType = StateTypes.FirstOrDefault(x => x.StateBit == clause.StateType);
@@ -72,15 +69,6 @@ namespace GKModule.ViewModels
 						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.TurningOff));
 						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.Failure));
 						break;
-
-					case ClauseOperationType.AnyDoor:
-					case ClauseOperationType.AllDoors:
-						StateTypes = new ObservableCollection<StateTypeViewModel>()
-						{
-							new StateTypeViewModel(value, GKStateBit.On),
-							new StateTypeViewModel(value, GKStateBit.Fire1)
-						};
-						break;
 				}
 				if (StateTypes.Any(x => x.StateBit == oldSelectedStateType))
 				{
@@ -92,9 +80,7 @@ namespace GKModule.ViewModels
 				}
 				OnPropertyChanged(() => SelectedClauseOperationType);
 				OnPropertyChanged(() => PresenrationDevices);
-				OnPropertyChanged(() => PresenrationDoors);
 				OnPropertyChanged(() => CanSelectDevices);
-				OnPropertyChanged(() => CanSelectDoors);
 			}
 		}
 
@@ -125,22 +111,9 @@ namespace GKModule.ViewModels
 			get { return GKManager.GetCommaSeparatedDevices(Devices); }
 		}
 
-		public string PresenrationDoors
-		{
-			get
-			{
-				var name = GKManager.GetCommaSeparatedObjects(new List<ModelBase>(Doors), new List<ModelBase>(GKManager.Doors));
-				return name;
-			}
-		}
-
 		public bool CanSelectDevices
 		{
 			get { return (SelectedClauseOperationType == ClauseOperationType.AllDevices || SelectedClauseOperationType == ClauseOperationType.AnyDevice); }
-		}
-		public bool CanSelectDoors
-		{
-			get { return (SelectedClauseOperationType == ClauseOperationType.AllDoors || SelectedClauseOperationType == ClauseOperationType.AnyDoor); }
 		}
 
 		public RelayCommand SelectDevicesCommand { get; private set; }
@@ -164,17 +137,6 @@ namespace GKModule.ViewModels
 			{
 				Devices = devicesSelectationViewModel.DevicesList;
 				OnPropertyChanged(() => PresenrationDevices);
-			}
-		}
-
-		public RelayCommand SelectDoorsCommand { get; private set; }
-		void OnSelectDoors()
-		{
-			var doorsSelectationViewModel = new DoorsSelectationViewModel(Doors);
-			if (DialogService.ShowModalWindow(doorsSelectationViewModel))
-			{
-				Doors = doorsSelectationViewModel.Doors;
-				OnPropertyChanged(() => PresenrationDoors);
 			}
 		}
 	}

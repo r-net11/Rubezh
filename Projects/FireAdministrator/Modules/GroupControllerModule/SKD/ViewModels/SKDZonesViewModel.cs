@@ -12,7 +12,6 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
-using GKModule.Events;
 using GKModule.Plans;
 using KeyboardKey = System.Windows.Input.Key;
 using FiresecClient;
@@ -257,22 +256,6 @@ namespace GKModule.ViewModels
 					new RibbonMenuItemViewModel("Удалить", "BDelete"),
 				}, "BEdit") { Order = 1 }
 			};
-		}
-
-		public void CreateZone(CreateGKSKDZoneEventArg createZoneEventArg)
-		{
-			SKDZoneDetailsViewModel result = OnAddResult();
-			if (result == null)
-			{
-				createZoneEventArg.Cancel = true;
-				createZoneEventArg.ZoneUID = Guid.Empty;
-			}
-			else
-			{
-				createZoneEventArg.Cancel = false;
-				createZoneEventArg.ZoneUID = result.Zone.UID;
-				createZoneEventArg.Zone = result.Zone;
-			}
 		}
 		public void EditZone(Guid zoneUID)
 		{

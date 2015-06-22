@@ -114,7 +114,6 @@
     <Compile Include="Procedures\ViewModels\LayoutPartPropertyViewModel.cs" />
     <Compile Include="Procedures\ViewModels\LayoutPartViewModel.cs" />
     <Compile Include="Procedures\ViewModels\PlanViewModel.cs" />
-    <Compile Include="Steps\ViewModels\ControlGKDoorStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ControlPlanStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ControlVisualStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ExplicitTypeViewModel.cs" />
@@ -240,9 +239,6 @@
     </Compile>
     <Compile Include="ObjectSelection\Views\DeviceSelectionView.xaml.cs">
       <DependentUpon>DeviceSelectionView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Steps\Views\ControlGKDoorStepView.xaml.cs">
-      <DependentUpon>ControlGKDoorStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Steps\Views\ControlPlanStepView.xaml.cs">
       <DependentUpon>ControlPlanStepView.xaml</DependentUpon>
@@ -538,10 +534,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Steps\Views\CheckPermissionStepView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Steps\Views\ControlGKDoorStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -144,10 +144,6 @@
 		<Views:ControlDoorStepView />
 	</DataTemplate>
 
-	<DataTemplate x:Key="controlGKDoorTemplate">
-		<Views:ControlGKDoorStepView />
-	</DataTemplate>
-
 	<DataTemplate x:Key="getObjectPropertyTemplate">
 		<Views:GetObjectPropertyStepView />
 	</DataTemplate>
@@ -256,7 +252,6 @@
 		ConditionTemplate="{StaticResource conditionTemplate}"
 		ControlDoorTemplate="{StaticResource controlDoorTemplate}"
 		ControlGKDeviceTemplate="{StaticResource controlGKDeviceTemplate}"
-		ControlGKDoorTemplate="{StaticResource controlGKDoorTemplate}"
 		ControlPlanTemplate="{StaticResource controlPlanTemplate}"
 		ControlSKDDeviceTemplate="{StaticResource controlSKDDeviceTemplate}"
 		ControlSKDZoneTemplate="{StaticResource controlSKDZoneTemplate}"

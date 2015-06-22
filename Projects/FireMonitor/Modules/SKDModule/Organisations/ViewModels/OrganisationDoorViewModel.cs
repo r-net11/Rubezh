@@ -27,15 +27,6 @@ namespace SKDModule.ViewModels
 			_isChecked = Organisation != null && Organisation.DoorUIDs.Contains(door.UID);
 		}
 
-		public OrganisationDoorViewModel(Organisation organisation, GKDoor door)
-		{
-			Organisation = organisation;
-			DoorUID = door.UID;
-			Name = door.Name;
-			No = door.No;
-			_isChecked = Organisation != null && Organisation.DoorUIDs.Contains(door.UID);
-		}
-
 		internal bool _isChecked;
 		public bool IsChecked
 		{

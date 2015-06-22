@@ -6,12 +6,10 @@ namespace GKProcessor
 {
 	public class GkDatabase : CommonDatabase
 	{
-		List<GKDoor> Doors { get; set; }
 		public List<KauDatabase> KauDatabases { get; set; }
 
 		public GkDatabase(GKDevice gkControllerDevice)
 		{
-			Doors = new List<GKDoor>();
 			KauDatabases = new List<KauDatabase>();
 			DatabaseType = DatabaseType.Gk;
 			RootDevice = gkControllerDevice;
@@ -37,22 +35,9 @@ namespace GKProcessor
 
 		public override void BuildObjects()
 		{
-			foreach (var door in GKManager.Doors)
-			{
-				if (door.GkDatabaseParent == RootDevice)
-				{
-					Doors.Add(door);
-				}
-			}
-
 			foreach (var device in Devices)
 			{
 				device.GKDescriptorNo = NextDescriptorNo;
-			}
-
-			foreach (var door in Doors)
-			{
-				door.GKDescriptorNo = NextDescriptorNo;
 			}
 		}
 	}

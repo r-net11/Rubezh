@@ -169,9 +169,6 @@ namespace FiresecAPI.Journal
 		[EventName(JournalSubsystemType.GK, "Сработка-1", XStateClass.Fire1)]
 		Сработка_1,
 
-		[EventName(JournalSubsystemType.GK, "Тревога", XStateClass.Fire1)]
-		Тревога,
-
 		[EventName(JournalSubsystemType.GK, "Пожар-2", XStateClass.Fire2)]
 		Пожар_2,
 
@@ -625,12 +622,6 @@ namespace FiresecAPI.Journal
 
 		[EventName(JournalSubsystemType.SKD, "Восстановление шаблона пропуска", XStateClass.Info)]
 		Восстановление_шаблона_пропуска,
-
-		[EventName(JournalSubsystemType.GK, "Открытие зоны СКД", XStateClass.On)]
-		Открытие_зоны_СКД,
-
-		[EventName(JournalSubsystemType.GK, "Закрытие зоны СКД", XStateClass.Off)]
-		Закрытие_зоны_СКД,
 
 		[EventName(JournalSubsystemType.GK, "Проход пользователя запрещен", XStateClass.Attention)]
 		Проход_пользователя_запрещен,

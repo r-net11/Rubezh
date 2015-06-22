@@ -245,13 +245,6 @@ namespace FiresecAPI.Automation
 					}
 					break;
 
-				case ProcedureStepType.ControlGKDoor:
-					{
-						var controlGKDoorArguments = step.ControlGKDoorArguments;
-						InvalidateArgument(procedure, controlGKDoorArguments.DoorArgument);
-					}
-					break;
-
 				case ProcedureStepType.ControlSKDZone:
 					{
 						var controlSKDZoneArguments = step.ControlSKDZoneArguments;

@@ -197,16 +197,6 @@ namespace FiresecClient
 			return SafeOperationCall(() => { return FiresecService.GKGetReaderCode(device.UID); }, "GKGetReaderCode");
 		}
 
-		public void GKOpenSKDZone(GKSKDZone zone)
-		{
-			SafeOperationCall(() => { FiresecService.GKOpenSKDZone(zone.UID); }, "GKOpenSKDZone");
-		}
-
-		public void GKCloseSKDZone(GKSKDZone zone)
-		{
-			SafeOperationCall(() => { FiresecService.GKCloseSKDZone(zone.UID); }, "GKCloseSKDZone");
-		}
-
 		public void GKAddMessage(JournalEventNameType journalEventNameType, string description)
 		{
 		}

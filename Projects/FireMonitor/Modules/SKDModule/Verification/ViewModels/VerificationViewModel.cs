@@ -32,21 +32,6 @@ namespace SKDModule.ViewModels
 				{
 					isForVerification = journalItem.ObjectUID == DeviceUID;
 				}
-				if (journalItem.JournalEventNameType == JournalEventNameType.Проход_пользователя_разрешен)
-				{
-					var door = GKManager.Doors.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
-					if (door != null)
-					{
-						if (journalItem.JournalEventDescriptionType == JournalEventDescriptionType.Вход_Глобал && door.EnterDeviceUID == DeviceUID)
-						{
-							isForVerification = true;
-						}
-						if (journalItem.JournalEventDescriptionType == JournalEventDescriptionType.Выход_Глобал && door.ExitDeviceUID == DeviceUID)
-						{
-							isForVerification = true;
-						}
-					}
-				}
 				if (isForVerification)
 				{
 					EventName = EventDescriptionAttributeHelper.ToName(journalItem.JournalEventNameType);

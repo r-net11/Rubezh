@@ -42,9 +42,6 @@ namespace GKModule.ViewModels
 				}
 			}
 
-			LocalConfiguration.Doors.RemoveAll(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == LocalDevice.Address);
-			LocalConfiguration.Doors.AddRange(RemoteDeviceConfiguration.Doors);
-
 			ServiceFactory.SaveService.GKChanged = true;
 			GKManager.UpdateConfiguration();
 			ServiceFactoryBase.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);

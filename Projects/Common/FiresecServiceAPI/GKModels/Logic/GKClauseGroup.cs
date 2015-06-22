@@ -66,7 +66,6 @@ namespace FiresecAPI.GK
 			foreach (var clause in Clauses)
 			{
 				clause.Devices.ForEach(x => result.Add(x));
-				clause.Doors.ForEach(x => result.Add(x));
 				clause.Devices.ForEach(x => result.Add(x));
 			}
 			foreach (var clauseGroup in ClauseGroups)

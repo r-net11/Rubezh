@@ -127,7 +127,6 @@ namespace FiresecClient
 			try
 			{
 				GKManager.Devices.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
-				GKManager.Doors.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
 
 				SKDManager.Devices.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
 				SKDManager.Zones.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
@@ -142,13 +141,6 @@ namespace FiresecClient
 					if (!gkDeviceMap.ContainsKey(device.UID))
 						gkDeviceMap.Add(device.UID, device);
 				}
-				var gkDoorMap = new Dictionary<Guid, GKDoor>();
-				foreach (var door in GKManager.Doors)
-				{
-					if (!gkDoorMap.ContainsKey(door.UID))
-						gkDoorMap.Add(door.UID, door);
-				}
-
 				var doorMap = new Dictionary<Guid, SKDDoor>();
 				foreach (var door in SKDManager.SKDConfiguration.Doors)
 				{
@@ -197,22 +189,11 @@ namespace FiresecClient
 					{
 						var elementRectangleGKSKDZone = plan.ElementRectangleGKSKDZones[i - 1];
 						elementRectangleGKSKDZone.UpdateZLayer();
-						if (gkDoorMap.ContainsKey(elementRectangleGKSKDZone.ZoneUID))
-							gkDoorMap[elementRectangleGKSKDZone.ZoneUID].PlanElementUIDs.Add(elementRectangleGKSKDZone.UID);
 					}
 					for (int i = plan.ElementPolygonGKSKDZones.Count(); i > 0; i--)
 					{
 						var elementPolygonGKSKDZone = plan.ElementPolygonGKSKDZones[i - 1];
 						elementPolygonGKSKDZone.UpdateZLayer();
-						if (gkDoorMap.ContainsKey(elementPolygonGKSKDZone.ZoneUID))
-							gkDoorMap[elementPolygonGKSKDZone.ZoneUID].PlanElementUIDs.Add(elementPolygonGKSKDZone.UID);
-					}
-					for (int i = plan.ElementGKDoors.Count(); i > 0; i--)
-					{
-						var elementGKDoor = plan.ElementGKDoors[i - 1];
-						elementGKDoor.UpdateZLayer();
-						if (gkDoorMap.ContainsKey(elementGKDoor.DoorUID))
-							gkDoorMap[elementGKDoor.DoorUID].PlanElementUIDs.Add(elementGKDoor.UID);
 					}
 
 					for (int i = plan.ElementSKDDevices.Count(); i > 0; i--)

@@ -1,15 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using FiresecAPI;
-using FiresecAPI.Models;
-using Infrastructure;
-using Infrastructure.Common;
+﻿using Infrastructure.Common;
 using Infrastructure.Common.Services;
-using Infrastructure.Common.TreeList;
-using Infrastructure.Common.Windows;
 using Infrustructure.Plans.Events;
-using GKModule.Events;
-using FiresecAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI.GK;
 

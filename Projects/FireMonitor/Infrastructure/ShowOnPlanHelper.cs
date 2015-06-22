@@ -45,19 +45,6 @@ namespace Infrastructure
 			return false;
 		}
 
-		public static void ShowDoor(GKDoor door)
-		{
-			ServiceFactory.Events.GetEvent<ShowGKDoorOnPlanEvent>().Publish(door);
-		}
-		public static bool CanShowDoor(GKDoor door)
-		{
-			if (door != null)
-				foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
-					if (plan.ElementGKDoors.Any(x => x.DoorUID != Guid.Empty && x.DoorUID == door.UID))
-						return true;
-			return false;
-		}
-
 		public static void ShowSKDDevice(SKDDevice device, Plan plan = null)
 		{
 			var element = plan == null ? null : plan.ElementSKDDevices.FirstOrDefault(item => item.DeviceUID == device.UID);

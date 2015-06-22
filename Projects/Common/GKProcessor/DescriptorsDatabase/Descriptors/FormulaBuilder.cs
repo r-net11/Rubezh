@@ -81,10 +81,6 @@ namespace GKProcessor
 				{
 					gkBases.Add(device);
 				}
-				foreach (var door in clause.Doors)
-				{
-					gkBases.Add(door);
-				}
 
 				var objectIndex = 0;
 				foreach (var gkBase in gkBases)
@@ -96,12 +92,10 @@ namespace GKProcessor
 						switch (clause.ClauseOperationType)
 						{
 							case ClauseOperationType.AllDevices:
-							case ClauseOperationType.AllDoors:
 								Add(FormulaOperationType.AND, comment: "Объединение объектов по И");
 								break;
 
 							case ClauseOperationType.AnyDevice:
-							case ClauseOperationType.AnyDoor:
 								Add(FormulaOperationType.OR, comment: "Объединение объектов по Или");
 								break;
 						}

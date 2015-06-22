@@ -18,13 +18,10 @@ namespace FiresecAPI.GK
 			DoorUIDs = new List<Guid>();
 
 			Devices = new List<GKDevice>();
-			Doors = new List<GKDoor>();
 		}
 
 		[XmlIgnore]
 		public List<GKDevice> Devices { get; set; }
-		[XmlIgnore]
-		public List<GKDoor> Doors { get; set; }
 
 		/// <summary>
 		/// Тип условия
@@ -58,23 +55,11 @@ namespace FiresecAPI.GK
 
 		public bool HasObjects()
 		{
-			return Devices.Count > 0 || Doors.Count > 0;
+			return Devices.Count > 0;
 		}
 
 		public static string ClauseToString(ClauseOperationType clauseOperationType, GKStateBit stateBit)
 		{
-			switch (clauseOperationType)
-			{
-				case ClauseOperationType.AllDoors:
-				case ClauseOperationType.AnyDoor:
-					switch (stateBit)
-					{
-						case GKStateBit.Fire1:
-							return "Тревога";
-					}
-					break;
-			}
-
 			return stateBit.ToDescription();
 		}
 	}

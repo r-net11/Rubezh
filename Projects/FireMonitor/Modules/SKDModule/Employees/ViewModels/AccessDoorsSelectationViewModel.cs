@@ -20,11 +20,9 @@ namespace SKDModule.ViewModels
 			Doors = new ObservableCollection<AccessDoorViewModel>();
 
 			var skdDoors = GetDoors(SKDManager.SKDConfiguration.Doors, organisation);
-			var gkDoors = GetDoors(GKManager.DeviceConfiguration.Doors, organisation);
 			var accessDoorViewModels =
 				skdDoors
 				.Select(skdDoor => new AccessDoorViewModel(skdDoor, CardDoors, x => { SelectedDoor = x; }))
-				.Union(gkDoors.Select(gkDoor => new AccessDoorViewModel(gkDoor, CardDoors, x => { SelectedDoor = x; })))
 				.ToList();
 
 			Doors.AddRange(accessDoorViewModels);
@@ -70,11 +68,6 @@ namespace SKDModule.ViewModels
 		private List<SKDDoor> GetDoors(List<SKDDoor> skdDoors, Organisation organisation)
 		{
 			return skdDoors.Where(door => organisation.DoorUIDs.Any(y => y == door.UID)).ToList();
-		}
-
-		private List<GKDoor> GetDoors(List<GKDoor> gkDoors, Organisation organisation)
-		{
-			return gkDoors.Where(door => organisation.DoorUIDs.Any(y => y == door.UID)).ToList();
 		}
 
 		public List<CardDoor> GetCardDoors()

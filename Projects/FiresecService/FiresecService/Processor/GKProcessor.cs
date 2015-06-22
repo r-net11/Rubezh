@@ -50,31 +50,6 @@ namespace FiresecService
 					FiresecService.Service.FiresecService.AddCommonJournalItem(journalItem);
 				}
 			}
-
-			foreach (var doorState in gkCallbackResult.GKStates.DoorStates)
-			{
-				if (doorState.Door != null)
-				{
-					var enterZone = GKManager.SKDZones.FirstOrDefault(x => x.UID == doorState.Door.EnterZoneUID);
-					if (enterZone != null)
-					{
-						GKProcessorManager.CalculateSKDZone(enterZone);
-						if (!gkCallbackResult.GKStates.SKDZoneStates.Any(x => x.UID == enterZone.UID))
-						{
-							gkCallbackResult.GKStates.SKDZoneStates.Add(enterZone.State);
-						}
-					}
-					var exitZone = GKManager.SKDZones.FirstOrDefault(x => x.UID == doorState.Door.ExitZoneUID);
-					if (exitZone != null)
-					{
-						GKProcessorManager.CalculateSKDZone(exitZone);
-						if (!gkCallbackResult.GKStates.SKDZoneStates.Any(x => x.UID == exitZone.UID))
-						{
-							gkCallbackResult.GKStates.SKDZoneStates.Add(exitZone.State);
-						}
-					}
-				}
-			}
 			FiresecService.Service.FiresecService.NotifyGKObjectStateChanged(gkCallbackResult);
 
 			ProcedureRunner.RunOnStateChanged();
@@ -85,18 +60,6 @@ namespace FiresecService
 			if (journalItem.JournalEventNameType == JournalEventNameType.Проход_пользователя_разрешен)
 			{
 				Guid? zoneUID = null;
-				var door = GKManager.Doors.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
-				if (door != null)
-				{
-					if (journalItem.JournalEventDescriptionType == JournalEventDescriptionType.Вход_Глобал)
-					{
-						zoneUID = door.EnterZoneUID;
-					}
-					else if (journalItem.JournalEventDescriptionType == JournalEventDescriptionType.Выход_Глобал)
-					{
-						zoneUID = door.ExitZoneUID;
-					}
-				}
 
 				if (zoneUID.HasValue)
 				{

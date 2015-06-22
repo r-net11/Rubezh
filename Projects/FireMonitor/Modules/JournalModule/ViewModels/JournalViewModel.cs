@@ -109,7 +109,7 @@ namespace JournalModule.ViewModels
 				if (FiresecManager.CheckPermission(PermissionType.Oper_NoAlarmConfirm) == false)
 				{
 					if (((journalItemViewModel.StateClass == XStateClass.Fire1 || journalItemViewModel.StateClass == XStateClass.Fire2 || journalItemViewModel.StateClass == XStateClass.Attention)) ||
-						((journalItem.JournalObjectType == JournalObjectType.GKDoor) && journalItemViewModel.StateClass == XStateClass.Fire1))
+						(journalItemViewModel.StateClass == XStateClass.Fire1))
 					{
 						var confirmationViewModel = new ConfirmationViewModel(journalItem);
 						DialogService.ShowWindow(confirmationViewModel);

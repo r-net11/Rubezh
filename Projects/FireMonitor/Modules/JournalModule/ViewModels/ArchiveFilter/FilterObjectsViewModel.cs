@@ -128,14 +128,6 @@ namespace JournalModule.ViewModels
 				AddChild(gkSKDZonesViewModel, filterObjectViewModel);
 			}
 
-			var gkDoorsViewModel = new FilterObjectViewModel(JournalObjectType.GKDoor);
-			AddChild(gkViewModel, gkDoorsViewModel);
-			foreach (var door in FiresecClient.GKManager.Doors)
-			{
-				var filterObjectViewModel = new FilterObjectViewModel(door);
-				AddChild(gkDoorsViewModel, filterObjectViewModel);
-			}
-
 			var skdViewModel = new FilterObjectViewModel(JournalSubsystemType.SKD);
 			skdViewModel.IsExpanded = true;
 			RootFilters.Add(skdViewModel);

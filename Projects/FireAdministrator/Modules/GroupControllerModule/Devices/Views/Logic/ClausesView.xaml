@@ -202,36 +202,6 @@
 									</TextBlock>
 								</Hyperlink>
 							</TextBlock>
-
-							<TextBlock
-								Margin="2"
-								VerticalAlignment="Center"
-								Visibility="{Binding CanSelectDoors,
-							                                Converter={StaticResource BoolToVisibilityConverter}}">
-								<Hyperlink Command="{Binding SelectDoorsCommand}" Style="{StaticResource HyperlinkStyle}">
-									<TextBlock Margin="2">
-										<TextBlock.Style>
-											<Style>
-												<Setter Property="TextBlock.Text" Value="{Binding PresenrationDoors}" />
-												<Setter Property="TextBlock.ToolTip">
-													<Setter.Value>
-														<WrapPanel>
-															<TextBlock Text="{Binding PresenrationDoors}" TextWrapping="Wrap" />
-														</WrapPanel>
-													</Setter.Value>
-												</Setter>
-												<Style.Triggers>
-													<DataTrigger Binding="{Binding PresenrationDoors}" Value="">
-														<Setter Property="TextBlock.Text" Value="Нажмите для выбора точек доступа" />
-														<Setter Property="TextBlock.ToolTip" Value="Нажмите для выбора точек доступа" />
-													</DataTrigger>
-												</Style.Triggers>
-											</Style>
-										</TextBlock.Style>
-									</TextBlock>
-								</Hyperlink>
-							</TextBlock>
-
 						</StackPanel>
 					</DataTemplate>
 				</ItemsControl.ItemTemplate>

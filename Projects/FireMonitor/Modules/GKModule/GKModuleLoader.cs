@@ -6,7 +6,6 @@ using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecClient;
 using GKModule.Events;
-using GKModule.Plans;
 using GKModule.Reports;
 using GKModule.ViewModels;
 using Infrastructure;
@@ -25,17 +24,13 @@ namespace GKModule
 	public partial class GKModuleLoader : ModuleBase, IReportProviderModule, ILayoutProviderModule
 	{
 		static DevicesViewModel DevicesViewModel;
-		static SKDZonesViewModel SKDZonesViewModel;
-		static DoorsViewModel DoorsViewModel;
 		public static DaySchedulesViewModel DaySchedulesViewModel;
 		public static SchedulesViewModel SchedulesViewModel;
 		NavigationItem _skdZonesNavigationItem;
 		NavigationItem _doorsNavigationItem;
-		private PlanPresenter _planPresenter;
 
 		public GKModuleLoader()
 		{
-			_planPresenter = new PlanPresenter();
 		}
 
 		public override void CreateViewModels()
@@ -55,10 +50,8 @@ namespace GKModule
 		void SubscribeShowDelailsEvent()
 		{
 			ServiceFactory.Events.GetEvent<ShowGKDeviceDetailsEvent>().Unsubscribe(OnShowDeviceDetails);
-			ServiceFactory.Events.GetEvent<ShowGKSKDZoneDetailsEvent>().Unsubscribe(OnShowSKDZoneDetails);
 
 			ServiceFactory.Events.GetEvent<ShowGKDeviceDetailsEvent>().Subscribe(OnShowDeviceDetails);
-			ServiceFactory.Events.GetEvent<ShowGKSKDZoneDetailsEvent>().Subscribe(OnShowSKDZoneDetails);
 		}
 
 		void OnShowDeviceDetails(Guid deviceUID)
@@ -67,15 +60,6 @@ namespace GKModule
 			if (device != null)
 			{
 				DialogService.ShowWindow(new DeviceDetailsViewModel(device));
-			}
-		}
-
-		void OnShowSKDZoneDetails(Guid skdZoneUID)
-		{
-			var skdZone = GKManager.SKDZones.FirstOrDefault(x => x.UID == skdZoneUID);
-			if (skdZone != null)
-			{
-				DialogService.ShowWindow(new SKDZoneDetailsViewModel(skdZone));
 			}
 		}
 		#endregion
@@ -150,8 +134,6 @@ namespace GKModule
 		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
 		{
 			yield return new LayoutPartPresenter(LayoutPartIdentities.GDevices, "Устройства", "Tree.png", (p) => DevicesViewModel);
-			yield return new LayoutPartPresenter(LayoutPartIdentities.GKSKDZones, "Зоны СКД", "Zones.png", (p) => SKDZonesViewModel);
-			yield return new LayoutPartPresenter(LayoutPartIdentities.Doors, "Точки доступа", "Tree.png", (p) => DoorsViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.ConnectionIndicator, "Индикатор связи", "ConnectionIndicator.png", (p) => new GKConnectionIndicatorViewModel());
 		}
 		#endregion

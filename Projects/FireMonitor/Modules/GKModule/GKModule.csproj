@@ -85,34 +85,11 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="Converters\DeviceControlRegimeToIconConverter.cs" />
-    <Compile Include="Doors\ViewModels\DoorDetailsViewModel.cs" />
-    <Compile Include="Doors\ViewModels\DoorsViewModel.cs" />
-    <Compile Include="Doors\ViewModels\DoorViewModel.cs" />
-    <Compile Include="Doors\Views\DoorControlView.xaml.cs">
-      <DependentUpon>DoorControlView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Doors\Views\DoorDetailsView.xaml.cs">
-      <DependentUpon>DoorDetailsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Doors\Views\DoorsView.xaml.cs">
-      <DependentUpon>DoorsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Doors\Views\DoorToolTipView.xaml.cs">
-      <DependentUpon>DoorToolTipView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Events\ShowGKDaySchedulesEvent.cs" />
     <Compile Include="Events\ShowGKScheduleEvent.cs" />
     <Compile Include="GKModuleLoader.Subscribe.cs" />
-    <Compile Include="Plans\Designer\GKDoorPainter.cs" />
-    <Compile Include="Plans\Designer\GKSKDZonePainter.cs" />
-    <Compile Include="Plans\ViewModels\DeviceTooltipViewModel.cs" />
-    <Compile Include="Plans\ViewModels\GKDoorTooltipViewModel.cs" />
     <Compile Include="Devices\ViewModels\MeasureParameterViewModel.cs" />
-    <Compile Include="Devices\Views\DeviceTooltipView.xaml.cs">
-      <DependentUpon>DeviceTooltipView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Devices\ViewModels\DevicePropertiesViewModel.cs" />
-    <Compile Include="Plans\ViewModels\SKDZoneTooltipViewModel.cs" />
     <Compile Include="Schedules\ViewModels\CalendarViewModel.cs" />
     <Compile Include="Schedules\ViewModels\DayScheduleDetailsViewModel.cs" />
     <Compile Include="Schedules\ViewModels\DaySchedulePartDetailsViewModel.cs" />
@@ -160,9 +137,6 @@
     <Compile Include="ViewModels\PlanLinkViewModel.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\DeviceControlRegimeToStringConverter.cs" />
-    <Compile Include="Plans\Designer\GKDevicePainter.cs" />
-    <Compile Include="Plans\PlanMonitor.cs" />
-    <Compile Include="Plans\PlanPresenter.cs" />
     <Compile Include="Reports\DeviceListReportPdf.cs" />
     <Compile Include="Reports\DeviceParametersReport.cs" />
     <Compile Include="Reports\DeviceListReport.cs" />
@@ -207,18 +181,6 @@
     <Compile Include="Devices\Views\DevicesView.xaml.cs">
       <DependentUpon>DevicesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SKDZones\ViewModels\SKDZoneDetailsViewModel.cs" />
-    <Compile Include="SKDZones\ViewModels\SKDZonesViewModel.cs" />
-    <Compile Include="SKDZones\ViewModels\SKDZoneViewModel.cs" />
-    <Compile Include="SKDZones\Views\SKDZoneDetailsView.xaml.cs">
-      <DependentUpon>SKDZoneDetailsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SKDZones\Views\SKDZonesView.xaml.cs">
-      <DependentUpon>SKDZonesView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SKDZones\Views\SKDZoneToolTipView.xaml.cs">
-      <DependentUpon>SKDZoneToolTipView.xaml</DependentUpon>
-    </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -231,26 +193,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="DataTemplates\Dictionary.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Doors\DataTemplates\Dictionary.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Doors\Views\DoorControlView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Doors\Views\DoorDetailsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Doors\Views\DoorsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Doors\Views\DoorToolTipView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -294,18 +236,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SKDZones\Views\SKDZoneDetailsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SKDZones\Views\SKDZonesView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SKDZones\Views\SKDZoneToolTipView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Resource Include="Reports\DriverCounterReport.xaml">
       <SubType>Designer</SubType>
     </Resource>
@@ -316,10 +246,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
-    <Page Include="Devices\Views\DeviceTooltipView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Devices\Views\DeviceDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

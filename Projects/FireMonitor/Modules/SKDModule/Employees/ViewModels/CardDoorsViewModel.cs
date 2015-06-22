@@ -37,15 +37,6 @@ namespace SKDModule.ViewModels
 					var doorViewModel = new ReadOnlyAccessDoorViewModel(skdDoor, cardDoor);
 					Doors.Add(doorViewModel);
 				}
-				else
-				{
-					var gkDoor = GKManager.DeviceConfiguration.Doors.FirstOrDefault(x => x.UID == cardDoor.DoorUID);
-					if (gkDoor != null)
-					{
-						var doorViewModel = new ReadOnlyAccessDoorViewModel(gkDoor, cardDoor);
-						Doors.Add(doorViewModel);
-					}
-				}
 			}
 		}
 

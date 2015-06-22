@@ -921,11 +921,5 @@ namespace FiresecAPI.Journal
 
 		[EventDescriptionAttribute("Не совпадает тип для точки доступа", JournalEventNameType.Ошибка_при_опросе_состояний_компонентов_ГК)]
 		Не_совпадает_тип_для_точки_доступа,
-
-		[EventDescriptionAttribute("Вход", JournalEventNameType.Проход_пользователя_разрешен)]
-		Вход_Глобал,
-
-		[EventDescriptionAttribute("Выход", JournalEventNameType.Проход_пользователя_разрешен)]
-		Выход_Глобал,
 	}
 }

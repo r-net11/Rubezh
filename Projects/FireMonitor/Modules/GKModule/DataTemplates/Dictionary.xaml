@@ -8,40 +8,12 @@
 		<Views:DevicesView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:SKDZonesViewModel}">
-		<Views:SKDZonesView />
-	</DataTemplate>
-
-	<DataTemplate DataType="{x:Type ViewModels:SKDZoneDetailsViewModel}">
-		<Views:SKDZoneDetailsView />
-	</DataTemplate>
-
 	<DataTemplate DataType="{x:Type ViewModels:DeviceDetailsViewModel}">
 		<Views:DeviceDetailsView />
 	</DataTemplate>
 
 	<DataTemplate DataType="{x:Type ViewModels:GKConnectionIndicatorViewModel}">
 		<Views:GKConnectionIndicatorView />
-	</DataTemplate>
-	
-	<DataTemplate DataType="{x:Type ViewModels:DeviceTooltipViewModel}">
-		<Views:DeviceTooltipView />
-	</DataTemplate>
-
-	<DataTemplate DataType="{x:Type ViewModels:SKDZoneTooltipViewModel}">
-		<Views:SKDZoneToolTipView />
-	</DataTemplate>
-
-	<DataTemplate DataType="{x:Type ViewModels:DoorsViewModel}">
-		<Views:DoorsView />
-	</DataTemplate>
-
-	<DataTemplate DataType="{x:Type ViewModels:DoorDetailsViewModel}">
-		<Views:DoorDetailsView />
-	</DataTemplate>
-
-	<DataTemplate DataType="{x:Type ViewModels:GKDoorTooltipViewModel}">
-		<Views:DoorToolTipView />
 	</DataTemplate>
 
 

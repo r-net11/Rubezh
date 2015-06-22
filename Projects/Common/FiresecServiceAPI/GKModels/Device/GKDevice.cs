@@ -40,8 +40,6 @@ namespace FiresecAPI.GK
 		[XmlIgnore]
 		public GKDevice Parent { get; set; }
 		[XmlIgnore]
-		public GKDoor Door { get; set; }
-		[XmlIgnore]
 		public bool HasDifferences { get; set; }
 		[XmlIgnore]
 		public bool HasMissingDifferences { get; set; }

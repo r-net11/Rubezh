@@ -25,10 +25,6 @@ namespace FiresecClient
 		{
 			get { return DriversConfiguration.Drivers; }
 		}
-		public static List<GKDoor> Doors
-		{
-			get { return DeviceConfiguration.Doors; }
-		}
 		public static List<GKSKDZone> SKDZones
 		{
 			get { return DeviceConfiguration.SKDZones; }

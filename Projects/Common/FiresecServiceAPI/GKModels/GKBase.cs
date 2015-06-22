@@ -24,15 +24,12 @@ namespace FiresecAPI.GK
 
 		[XmlIgnore]
 		public List<GKDevice> ClauseInputDevices { get; set; }
-		[XmlIgnore]
-		public List<GKDoor> ClauseInputDoors { get; set; }
 
 		public void ClearClauseDependencies()
 		{
 			InputGKBases = new List<GKBase>();
 			OutputGKBases = new List<GKBase>();
 			ClauseInputDevices = new List<GKDevice>();
-			ClauseInputDoors = new List<GKDoor>();
 		}
 
 		[XmlIgnore]
@@ -56,7 +53,6 @@ namespace FiresecAPI.GK
 		public void PrepareInputOutputDependences()
 		{
 			var device = this as GKDevice;
-			var door = this as GKDoor;
 
 			if (device != null)
 			{
@@ -65,30 +61,6 @@ namespace FiresecAPI.GK
 				LinkLogic(device, device.Logic.OnNowClausesGroup);
 				LinkLogic(device, device.Logic.OffNowClausesGroup);
 				LinkLogic(device, device.Logic.StopClausesGroup);
-			}
-
-			if (door != null)
-			{
-				if (door.EnterDevice != null)
-					door.LinkGKBases(door.EnterDevice);
-				if (door.ExitDevice != null)
-					door.LinkGKBases(door.ExitDevice);
-				if (door.EnterButton != null)
-					door.LinkGKBases(door.EnterButton);
-				if (door.ExitButton != null)
-					door.LinkGKBases(door.ExitButton);
-				if (door.LockDevice != null)
-					door.LockDevice.LinkGKBases(door);
-				if (door.LockDeviceExit != null)
-					door.LockDeviceExit.LinkGKBases(door);
-				if (door.LockControlDevice != null)
-					door.LinkGKBases(door.LockControlDevice);
-				if (door.LockControlDeviceExit != null)
-					door.LinkGKBases(door.LockControlDeviceExit);
-				LinkLogic(door, door.OpenRegimeLogic.OnClausesGroup);
-				LinkLogic(door, door.NormRegimeLogic.OnClausesGroup);
-				LinkLogic(door, door.CloseRegimeLogic.OnClausesGroup);
-				door.LinkGKBases(door);
 			}
 		}
 
@@ -100,8 +72,6 @@ namespace FiresecAPI.GK
 				{
 					foreach (var clauseDevice in clause.Devices)
 						gkBase.LinkGKBases(clauseDevice);
-					foreach (var door in clause.Doors)
-						gkBase.LinkGKBases(door);
 				}
 			}
 			if (clauseGroup.ClauseGroups != null)
@@ -153,9 +123,6 @@ namespace FiresecAPI.GK
 		{
 			PrepareInputOutputDependences();
 			var allDependentObjects = GetFullTree(this);
-			var allDependentDoors = allDependentObjects.Where(x => x is GKDoor).Cast<GKDoor>().ToList();
-			if (allDependentDoors.Count > 0)
-				return allDependentDoors.FirstOrDefault().GkDatabaseParent;
 			var allDependentDevices = allDependentObjects.Where(x => x is GKDevice).Cast<GKDevice>().ToList();
 			var kauParents = allDependentDevices.Select(x => x.KAUParent).ToList();
 			kauParents = kauParents.Distinct().ToList();

@@ -114,11 +114,5 @@ namespace FiresecAPI
 
 		[OperationContract]
 		OperationResult<uint> GKGetReaderCode(Guid deviceUID);
-
-		[OperationContract]
-		void GKOpenSKDZone(Guid zoneUID);
-
-		[OperationContract]
-		void GKCloseSKDZone(Guid zoneUID);
 	}
 }

@@ -94,15 +94,6 @@ namespace GKModule
 					device.State.OnStateChanged();
 				}
 			}
-			foreach (var remoteDoorState in gkStates.DoorStates)
-			{
-				var door = GKManager.Doors.FirstOrDefault(x => x.UID == remoteDoorState.UID);
-				if (door != null)
-				{
-					remoteDoorState.CopyTo(door.State);
-					door.State.OnStateChanged();
-				}
-			}
 			foreach (var remoteSKDZoneState in gkStates.SKDZoneStates)
 			{
 				var skdZone = GKManager.SKDZones.FirstOrDefault(x => x.UID == remoteSKDZoneState.UID);
