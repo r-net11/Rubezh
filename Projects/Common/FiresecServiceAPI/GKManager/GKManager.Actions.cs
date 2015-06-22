@@ -132,6 +132,7 @@ namespace FiresecClient
 				}
 			}
 			parentDevice.Children.Remove(device);
+			device.OnRemoved();
 			Devices.Remove(device);
 		}
 
