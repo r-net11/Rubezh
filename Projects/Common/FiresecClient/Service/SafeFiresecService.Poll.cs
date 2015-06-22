@@ -82,13 +82,13 @@ namespace FiresecClient
 			{
 				switch (callbackResult.CallbackResultType)
 				{
-					case CallbackResultType.GKProgress:
-						SafeOperationCall(() =>
-						{
-							if (GKProgressCallbackEvent != null)
-								GKProgressCallbackEvent(callbackResult.GKProgressCallback);
-						});
-						break;
+					//case CallbackResultType.GKProgress:
+					//	SafeOperationCall(() =>
+					//	{
+					//		if (GKProgressCallbackEvent != null)
+					//			GKProgressCallbackEvent(callbackResult.GKProgressCallback);
+					//	});
+					//	break;
 
 					case CallbackResultType.GKObjectStateChanged:
 						SafeOperationCall(() =>

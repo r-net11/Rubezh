@@ -231,7 +231,7 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute<OperationResult<IEnumerable<AdditionalColumnType>>>(() => FiresecService.GetAdditionalColumnTypes(filter));
 		}
-		
+
 		public OperationResult<AdditionalColumnType> GetAdditionalColumnTypeDetails(Guid uid)
 		{
 			return SafeContext.Execute<OperationResult<AdditionalColumnType>>(() => FiresecService.GetAdditionalColumnTypeDetails(uid));
@@ -262,11 +262,6 @@ namespace FiresecClient
 		#endregion
 
 		#region Devices
-
-		public void CancelSKDProgress(Guid progressCallbackUID, string userName)
-		{
-			SafeOperationCall(() => FiresecService.CancelGKProgress(progressCallbackUID, userName), "CancelSKDProgress");
-		}
 
 		public OperationResult<SKDStates> SKDGetStates()
 		{

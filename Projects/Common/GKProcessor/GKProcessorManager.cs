@@ -24,7 +24,7 @@ namespace GKProcessor
 				progressCallback.IsCanceled = true;
 				progressCallback.CancelizationDateTime = DateTime.Now;
 				StopProgress(progressCallback);
-				AddGKMessage(JournalEventNameType.Отмена_операции, JournalEventDescriptionType.NULL, progressCallback.Title, null, userName);
+	//			AddGKMessage(JournalEventNameType.Отмена_операции, JournalEventDescriptionType.NULL, progressCallback.Title, null, userName);
 			}
 		}
 
@@ -117,34 +117,6 @@ namespace GKProcessor
 		#endregion
 
 		#region Operations
-		public static OperationResult<bool> GKWriteConfiguration(GKDevice device, string userName)
-		{
-			AddGKMessage(JournalEventNameType.Запись_конфигурации_в_прибор, JournalEventDescriptionType.NULL, "", device, userName);
-
-			return new OperationResult<bool>(true);
-		}
-
-		public static Stream GKReadConfigurationFromGKFile(GKDevice device, string userName)
-		{
-			AddGKMessage(JournalEventNameType.Чтение_конфигурации_из_прибора, JournalEventDescriptionType.NULL, "", device, userName);
-			var gkFileReaderWriter = new GKFileReaderWriter();
-			var filePath = gkFileReaderWriter.ReadConfigFileFromGK(device);
-			if (filePath != null)
-			{
-				return new FileStream(filePath, FileMode.Open, FileAccess.Read);
-			}
-			return Stream.Null;
-			//return OperationResult<Stream>.FromError { gkFileReaderWriter.Error, new FileStream(filePath, FileMode.Open, FileAccess.Read));
-		}
-
-		public static OperationResult<GKDeviceConfiguration> GKAutoSearch(GKDevice device, string userName)
-		{
-			AddGKMessage(JournalEventNameType.Автопоиск, JournalEventDescriptionType.NULL, "", device, userName);
-			var gkAutoSearchHelper = new GKAutoSearchHelper();
-			var deviceConfiguration = gkAutoSearchHelper.AutoSearch(device);
-			return OperationResult<GKDeviceConfiguration>.FromError(gkAutoSearchHelper.Error, deviceConfiguration);
-		}
-
 		public static OperationResult<bool> GKUpdateFirmware(GKDevice device, string fileName, string userName)
 		{
 			var firmwareUpdateHelper = new FirmwareUpdateHelper();
@@ -154,28 +126,6 @@ namespace GKProcessor
 			return new OperationResult<bool>(true);
 		}
 
-		//public static void GKOpenSKDZone(GKSKDZone zone) TODO: Change to SKD
-		//{
-		//	foreach (var door in GKManager.Doors)
-		//	{
-		//		if (door.EnterZoneUID == zone.UID)
-		//		{
-		//			GKProcessorManager.AddGKMessage(JournalEventNameType.Открытие_зоны_СКД, JournalEventDescriptionType.NULL, "", zone, null);
-		//		}
-		//	}
-		//}
-
-		//public static void GKCloseSKDZone(GKSKDZone zone)
-		//{
-		//	foreach (var door in GKManager.Doors)
-		//	{
-		//		if (door.EnterZoneUID == zone.UID)
-		//		{
-		//			GKProcessorManager.AddGKMessage(JournalEventNameType.Закрытие_зоны_СКД, JournalEventDescriptionType.NULL, "", zone, null);
-		//		}
-		//	}
-		//}
-
 		public static OperationResult<bool> GKUpdateFirmwareFSCS(HexFileCollectionInfo hxcFileInfo, string userName, List<GKDevice> devices)
 		{
 			var firmwareUpdateHelper = new FirmwareUpdateHelper();
@@ -183,18 +133,6 @@ namespace GKProcessor
 			if (firmwareUpdateHelper.ErrorList.Count > 0)
 				return OperationResult<bool>.FromError(firmwareUpdateHelper.ErrorList, false);
 			return new OperationResult<bool>(true);
-		}
-
-		public static bool GKSyncronyseTime(GKDevice device, string userName)
-		{
-			AddGKMessage(JournalEventNameType.Синхронизация_времени, JournalEventDescriptionType.NULL, "", device, userName);
-			return DeviceBytesHelper.WriteDateTime(device);
-		}
-
-		public static string GKGetDeviceInfo(GKDevice device, string userName)
-		{
-			AddGKMessage(JournalEventNameType.Запрос_информации_об_устройстве, JournalEventDescriptionType.NULL, "", device, userName);
-			return DeviceBytesHelper.GetDeviceInfo(device) ?? "Устройство недоступно";
 		}
 
 		public static OperationResult<int> GKGetJournalItemsCount(GKDevice device)
@@ -233,99 +171,12 @@ namespace GKProcessor
 			return new OperationResult<List<byte>>(readInfoBlock.Hash1);
 		}
 
-		public static GKStates GKGetStates()
-		{
-			var gkStates = new GKStates();
-
-			foreach (var skdZone in GKManager.SKDZones)
-			{
-				CalculateSKDZone(skdZone);
-				var zoneState = gkStates.SKDZoneStates.FirstOrDefault(x => x.UID == skdZone.UID);
-				if (zoneState != null)
-				{
-					zoneState.StateClasses = skdZone.State.StateClasses;
-					zoneState.StateClass = GKStatesHelper.GetMinStateClass(skdZone.State.StateClasses);
-				}
-			}
-			return gkStates;
-		}
-
 		public static void CalculateSKDZone(GKSKDZone zone)
 		{
 			var stateClasses = new HashSet<XStateClass>();
 			zone.State = new GKState(zone);
 			zone.State.StateClasses = stateClasses.ToList();
 			zone.State.StateClass = GKStatesHelper.GetMinStateClass(zone.State.StateClasses);
-		}
-
-		public static void GKExecuteDeviceCommand(GKDevice device, GKStateBit stateBit, string userName)
-		{
-			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.NULL, stateBit.ToDescription(), device, userName);
-		}
-
-		public static void GKReset(GKBase gkBase, string userName)
-		{
-			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Сброс, "", gkBase, userName);
-		}
-
-		public static void GKSetAutomaticRegime(GKBase gkBase, string userName)
-		{
-			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Перевод_в_автоматический_режим, "", gkBase, userName);
-		}
-
-		public static void GKSetManualRegime(GKBase gkBase, string userName)
-		{
-			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Перевод_в_ручной_режим, "", gkBase, userName);
-		}
-
-		public static void GKSetIgnoreRegime(GKBase gkBase, string userName)
-		{
-			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Перевод_в_отключенный_режим, "", gkBase, userName);
-		}
-
-		public static void GKTurnOn(GKBase gkBase, string userName)
-		{
-			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Включить, "", gkBase, userName);
-		}
-
-		public static void GKTurnOnNow(GKBase gkBase, string userName)
-		{
-			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Включить_немедленно, "", gkBase, userName);
-		}
-
-		public static void GKTurnOnInAutomatic(GKBase gkBase, string userName)
-		{
-			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Включить_в_автоматическом_режиме, "", gkBase, userName);
-		}
-
-		public static void GKTurnOnNowInAutomatic(GKBase gkBase, string userName)
-		{
-			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Включить_немедленно_в_автоматическом_режиме, "", gkBase, userName);
-		}
-
-		public static void GKTurnOff(GKBase gkBase, string userName)
-		{
-			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Выключить, "", gkBase, userName);
-		}
-
-		public static void GKTurnOffNow(GKBase gkBase, string userName)
-		{
-			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Выключить_немедленно, "", gkBase, userName);
-		}
-
-		public static void GKTurnOffInAutomatic(GKBase gkBase, string userName)
-		{
-			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Выключить_в_автоматическом_режиме, "", gkBase, userName);
-		}
-
-		public static void GKTurnOffNowInAutomatic(GKBase gkBase, string userName)
-		{
-			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Выключить_немедленно_в_автоматическом_режиме, "", gkBase, userName);
-		}
-
-		public static void GKStop(GKBase gkBase, string userName)
-		{
-			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Остановка_пуска, "", gkBase, userName);
 		}
 
 		public static OperationResult<uint> GKGetReaderCode(GKDevice device)
@@ -342,50 +193,6 @@ namespace GKProcessor
 			}
 		}
 
-		#endregion
-
-		#region JournalItem Callback
-		public static void AddGKMessage(JournalEventNameType journalEventNameType, JournalEventDescriptionType journalEventDescriptionType, string description, GKBase gkBase, string userName)
-		{
-			Guid uid = Guid.Empty;
-			var journalObjectType = JournalObjectType.None;
-			if (gkBase != null)
-			{
-				uid = gkBase.UID;
-				if (gkBase is GKDevice)
-				{
-					journalObjectType = JournalObjectType.GKDevice;
-				}
-				if (gkBase is GKSKDZone)
-				{
-					journalObjectType = JournalObjectType.GKSKDZone;
-				}
-			}
-
-			var journalItem = new JournalItem
-			{
-				SystemDateTime = DateTime.Now,
-				DeviceDateTime = DateTime.Now,
-				JournalObjectType = journalObjectType,
-				JournalEventNameType = journalEventNameType,
-				JournalEventDescriptionType = journalEventDescriptionType,
-				DescriptionText = description,
-				ObjectUID = uid,
-				UserName = userName,
-				JournalSubsystemType = JournalSubsystemType.System
-			};
-			if (gkBase != null)
-			{
-				journalItem.ObjectName = gkBase.PresentationName;
-				var gkObjectNo = gkBase.GKDescriptorNo;
-				if (gkObjectNo > 0)
-					journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("Компонент ГК", gkObjectNo.ToString()));
-			}
-
-			var gkCallbackResult = new GKCallbackResult();
-			gkCallbackResult.JournalItems.Add(journalItem);
-			OnGKCallbackResult(gkCallbackResult);
-		}
 		#endregion
 	}
 }

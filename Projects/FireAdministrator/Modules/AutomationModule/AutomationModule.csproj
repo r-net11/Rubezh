@@ -149,7 +149,6 @@
     <Compile Include="ObjectSelection\ViewModels\CameraViewModel.cs" />
     <Compile Include="Steps\ViewModels\ConditionStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ControlDoorStepViewModel.cs" />
-    <Compile Include="Steps\ViewModels\ControlGKDeviceStepViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\DeviceSelectionViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\DeviceViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ConditionsViewModel.cs" />
@@ -218,9 +217,6 @@
     </Compile>
     <Compile Include="Steps\Views\ControlDoorStepView.xaml.cs">
       <DependentUpon>ControlDoorStepView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Steps\Views\ControlGKDeviceStepView.xaml.cs">
-      <DependentUpon>ControlGKDeviceStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Procedures\Views\ExplicitValuesView.xaml.cs">
       <DependentUpon>ExplicitValuesView.xaml</DependentUpon>
@@ -626,10 +622,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Steps\Views\ControlDoorStepView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Steps\Views\ControlGKDeviceStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

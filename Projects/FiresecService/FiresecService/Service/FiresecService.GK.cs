@@ -30,39 +30,8 @@ namespace FiresecService.Service
 			GKProcessorManager.CancelGKProgress(progressCallbackUID, userName);
 		}
 
-		public OperationResult<bool> GKWriteConfiguration(Guid deviceUID)
-		{
-			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			if (device != null)
-			{
-				return GKProcessorManager.GKWriteConfiguration(device, UserName);
-			}
-			return OperationResult<bool>.FromError("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
-		}
-
 		public OperationResult<GKDeviceConfiguration> GKReadConfiguration(Guid deviceUID)
 		{
-			return OperationResult<GKDeviceConfiguration>.FromError("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
-		}
-
-		public Stream GKReadConfigurationFromGKFile(Guid deviceUID)
-		{
-			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			if (device != null)
-			{
-				return GKProcessorManager.GKReadConfigurationFromGKFile(device, UserName);
-			}
-			return Stream.Null;
-			//return new OperationResult<Stream("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
-		}
-
-		public OperationResult<GKDeviceConfiguration> GKAutoSearch(Guid deviceUID)
-		{
-			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			if (device != null)
-			{
-				return GKProcessorManager.GKAutoSearch(device, UserName);
-			}
 			return OperationResult<GKDeviceConfiguration>.FromError("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
 		}
 
@@ -89,29 +58,6 @@ namespace FiresecService.Service
 				devices.Add(device);
 			}
 			return GKProcessorManager.GKUpdateFirmwareFSCS(hxcFileInfo, userName, devices);
-		}
-
-		public OperationResult<bool> GKSyncronyseTime(Guid deviceUID)
-		{
-			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			if (device != null)
-			{
-				var result = GKProcessorManager.GKSyncronyseTime(device, UserName);
-				if (result)
-					return new OperationResult<bool>(true);
-				return OperationResult<bool>.FromError("Устройство недоступно", false);
-			}
-			return OperationResult<bool>.FromError("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
-		}
-
-		public OperationResult<string> GKGetDeviceInfo(Guid deviceUID)
-		{
-			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			if (device != null)
-			{
-				return new OperationResult<string>(GKProcessorManager.GKGetDeviceInfo(device, UserName));
-			}
-			return OperationResult<string>.FromError("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
 		}
 
 		public OperationResult<int> GKGetJournalItemsCount(Guid deviceUID)
@@ -172,137 +118,6 @@ namespace FiresecService.Service
 				return GKProcessorManager.GKGKHash(device);
 			}
 			return OperationResult<List<byte>>.FromError("Не найдено устройство в конфигурации");
-		}
-
-		public GKStates GKGetStates()
-		{
-			return GKProcessorManager.GKGetStates();
-		}
-
-		public void GKExecuteDeviceCommand(Guid deviceUID, GKStateBit stateBit)
-		{
-			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			if (device != null)
-			{
-				GKProcessorManager.GKExecuteDeviceCommand(device, stateBit, UserName);
-			}
-		}
-
-		public void GKReset(Guid uid, GKBaseObjectType objectType)
-		{
-			var gkBase = GetGKBase(uid, objectType);
-			if (gkBase != null)
-			{
-				GKProcessorManager.GKReset(gkBase, UserName);
-			}
-		}
-
-		public void GKSetAutomaticRegime(Guid uid, GKBaseObjectType objectType)
-		{
-			var gkBase = GetGKBase(uid, objectType);
-			if (gkBase != null)
-			{
-				GKProcessorManager.GKSetAutomaticRegime(gkBase, UserName);
-			}
-		}
-
-		public void GKSetManualRegime(Guid uid, GKBaseObjectType objectType)
-		{
-			var gkBase = GetGKBase(uid, objectType);
-			if (gkBase != null)
-			{
-				GKProcessorManager.GKSetManualRegime(gkBase, UserName);
-			}
-		}
-
-		public void GKSetIgnoreRegime(Guid uid, GKBaseObjectType objectType)
-		{
-			var gkBase = GetGKBase(uid, objectType);
-			if (gkBase != null)
-			{
-				GKProcessorManager.GKSetIgnoreRegime(gkBase, UserName);
-			}
-		}
-
-		public void GKTurnOn(Guid uid, GKBaseObjectType objectType)
-		{
-			var gkBase = GetGKBase(uid, objectType);
-			if (gkBase != null)
-			{
-				GKProcessorManager.GKTurnOn(gkBase, UserName);
-			}
-		}
-
-		public void GKTurnOnNow(Guid uid, GKBaseObjectType objectType)
-		{
-			var xBase = GetGKBase(uid, objectType);
-			if (xBase != null)
-			{
-				GKProcessorManager.GKTurnOnNow(xBase, UserName);
-			}
-		}
-
-		public void GKTurnOnInAutomatic(Guid uid, GKBaseObjectType objectType)
-		{
-			var gkBase = GetGKBase(uid, objectType);
-			if (gkBase != null)
-			{
-				GKProcessorManager.GKTurnOnInAutomatic(gkBase, UserName);
-			}
-		}
-
-		public void GKTurnOnNowInAutomatic(Guid uid, GKBaseObjectType objectType)
-		{
-			var xBase = GetGKBase(uid, objectType);
-			if (xBase != null)
-			{
-				GKProcessorManager.GKTurnOnNowInAutomatic(xBase, UserName);
-			}
-		}
-
-		public void GKTurnOff(Guid uid, GKBaseObjectType objectType)
-		{
-			var gkBase = GetGKBase(uid, objectType);
-			if (gkBase != null)
-			{
-				GKProcessorManager.GKTurnOff(gkBase, UserName);
-			}
-		}
-
-		public void GKTurnOffNow(Guid uid, GKBaseObjectType objectType)
-		{
-			var gkBase = GetGKBase(uid, objectType);
-			if (gkBase != null)
-			{
-				GKProcessorManager.GKTurnOffNow(gkBase, UserName);
-			}
-		}
-
-		public void GKTurnOffInAutomatic(Guid uid, GKBaseObjectType objectType)
-		{
-			var gkBase = GetGKBase(uid, objectType);
-			if (gkBase != null)
-			{
-				GKProcessorManager.GKTurnOffInAutomatic(gkBase, UserName);
-			}
-		}
-
-		public void GKTurnOffNowInAutomatic(Guid uid, GKBaseObjectType objectType)
-		{
-			var gkBase = GetGKBase(uid, objectType);
-			if (gkBase != null)
-			{
-				GKProcessorManager.GKTurnOffNowInAutomatic(gkBase, UserName);
-			}
-		}
-
-		public void GKStop(Guid uid, GKBaseObjectType objectType)
-		{
-			var gkBase = GetGKBase(uid, objectType);
-			if (gkBase != null)
-			{
-				GKProcessorManager.GKStop(gkBase, UserName);
-			}
 		}
 
 		GKBase GetGKBase(Guid uid, GKBaseObjectType objectType)

@@ -128,10 +128,6 @@
 		<Views:IncrementValueStepView />
 	</DataTemplate>
 
-	<DataTemplate x:Key="controlGKDeviceTemplate">
-		<Views:ControlGKDeviceStepView />
-	</DataTemplate>
-
 	<DataTemplate x:Key="controlSKDDeviceTemplate">
 		<Views:ControlSKDDeviceStepView />
 	</DataTemplate>
@@ -251,7 +247,6 @@
 		CheckPermissionTemplate="{StaticResource checkPermissionTemplate}"
 		ConditionTemplate="{StaticResource conditionTemplate}"
 		ControlDoorTemplate="{StaticResource controlDoorTemplate}"
-		ControlGKDeviceTemplate="{StaticResource controlGKDeviceTemplate}"
 		ControlPlanTemplate="{StaticResource controlPlanTemplate}"
 		ControlSKDDeviceTemplate="{StaticResource controlSKDDeviceTemplate}"
 		ControlSKDZoneTemplate="{StaticResource controlSKDZoneTemplate}"

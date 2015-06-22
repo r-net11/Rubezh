@@ -24,7 +24,6 @@ namespace FiresecAPI.Automation
 			ExitArguments = new ExitArguments();
 			SetValueArguments = new SetValueArguments();
 			IncrementValueArguments = new IncrementValueArguments();
-			ControlGKDeviceArguments = new ControlGKDeviceArguments();
 			ControlSKDZoneArguments = new ControlSKDZoneArguments();
 			ControlDoorArguments = new ControlDoorArguments();
 			ControlSKDDeviceArguments = new ControlSKDDeviceArguments();
@@ -113,9 +112,6 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public IncrementValueArguments IncrementValueArguments { get; set; }
-
-		[DataMember]
-		public ControlGKDeviceArguments ControlGKDeviceArguments { get; set; }
 
 		[DataMember]
 		public ControlSKDZoneArguments ControlSKDZoneArguments { get; set; }

@@ -25,7 +25,6 @@ namespace FiresecService
 		{
 			// DeviceLibraryConfigurationPatchHelper.Patch();
 			GKProcessorManager.MustMonitor = true;
-			GKLicenseProcessor.Start();
 		}
 		public static void SetNewConfig()
 		{

@@ -65,7 +65,6 @@
     <Compile Include="DescriptorsDatabase\KauDatabase.cs" />
     <Compile Include="DescriptorsDatabase\Descriptors\BinProperty.cs" />
     <Compile Include="DescriptorsDatabase\Descriptors\FormulaBuilder.cs" />
-    <Compile Include="DescriptorStateHelper.cs" />
     <Compile Include="BytesHelper.cs" />
     <Compile Include="Drivers\GKDevices\GKIndicator_Helper.cs" />
     <Compile Include="Drivers\GKDevices\GKRele_Helper.cs" />
@@ -111,7 +110,6 @@
     <Compile Include="Drivers\RSR2\RSR2_Valve_DU_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_GuardDetectorSound_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_Buz_KV_Helper.cs" />
-    <Compile Include="GKLicenseProcessor.cs" />
     <Compile Include="GKProcessorManager.cs" />
     <Compile Include="Administrator\GKScheduleHelper.cs" />
     <Compile Include="Journal\JournalItemsCollection.cs" />

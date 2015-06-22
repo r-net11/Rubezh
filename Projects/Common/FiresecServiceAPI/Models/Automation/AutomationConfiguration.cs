@@ -224,13 +224,6 @@ namespace FiresecAPI.Automation
 					}
 					break;
 
-				case ProcedureStepType.ControlGKDevice:
-					{
-						var controlGKDeviceArguments = step.ControlGKDeviceArguments;
-						InvalidateArgument(procedure, controlGKDeviceArguments.GKDeviceArgument);
-					}
-					break;
-
 				case ProcedureStepType.ControlSKDDevice:
 					{
 						var controlSKDDeviceArguments = step.ControlSKDDeviceArguments;

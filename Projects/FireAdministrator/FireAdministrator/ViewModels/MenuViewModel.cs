@@ -140,15 +140,14 @@ namespace FireAdministrator.ViewModels
 		public RelayCommand SetNewConfigCommand { get; private set; }
 		void OnSetNewConfig()
 		{
-			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите перезаписать текущую конфигурацию?"))
+			if (!MessageBoxService.ShowQuestion("Вы уверены, что хотите перезаписать текущую конфигурацию?")) return;
+
+			if (!FiresecManager.CheckPermission(PermissionType.Adm_SetNewConfig))
 			{
-				if (!FiresecManager.CheckPermission(PermissionType.Adm_SetNewConfig))
-				{
-					MessageBoxService.Show("У вас нет прав на сохранение конфигурации");
-					return;
-				}
-				ConfigManager.SetNewConfig();
+				MessageBoxService.Show("У вас нет прав на сохранение конфигурации");
+				return;
 			}
+			ConfigManager.SetNewConfig();
 		}
 		public bool CanSetNewConfig()
 		{

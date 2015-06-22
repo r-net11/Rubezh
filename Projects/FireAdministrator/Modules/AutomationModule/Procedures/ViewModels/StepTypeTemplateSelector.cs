@@ -18,7 +18,6 @@ namespace AutomationModule.ViewModels
 		public DataTemplate ExitTemplate { get; set; }
 		public DataTemplate SetValueTemplate { get; set; }
 		public DataTemplate IncrementValueTemplate { get; set; }
-		public DataTemplate ControlGKDeviceTemplate { get; set; }
 		public DataTemplate ControlSKDDeviceTemplate { get; set; }
 		public DataTemplate ControlSKDZoneTemplate { get; set; }
 		public DataTemplate ControlDoorTemplate { get; set; }
@@ -76,8 +75,6 @@ namespace AutomationModule.ViewModels
 				return SetValueTemplate;
 			if (item is IncrementValueStepViewModel)
 				return IncrementValueTemplate;
-			if (item is ControlGKDeviceStepViewModel)
-				return ControlGKDeviceTemplate;
 			if (item is ControlSKDDeviceStepViewModel)
 				return ControlSKDDeviceTemplate;
 			if (item is ControlSKDZoneStepViewModel)

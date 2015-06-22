@@ -339,21 +339,21 @@ namespace SKDModule.ViewModels
 		{
 			StopPollThread();
 			IsThreadPolling = true;
-			PollReaderThread = new Thread(OnPollReader);
-			PollReaderThread.Start();
+			_pollReaderThread = new Thread(OnPollReader);
+			_pollReaderThread.Start();
 		}
 
 		void StopPollThread()
 		{
 			IsThreadPolling = false;
-			if (PollReaderThread != null)
+			if (_pollReaderThread != null)
 			{
-				PollReaderThread.Join(TimeSpan.FromSeconds(2));
+				_pollReaderThread.Join(TimeSpan.FromSeconds(2));
 			}
 		}
 
-		Thread PollReaderThread;
-		bool IsThreadPolling = false;
+		Thread _pollReaderThread;
+		bool IsThreadPolling;
 		void OnPollReader()
 		{
 			var readerDevice = GKManager.Devices.FirstOrDefault(x => x.UID == ClientSettings.SKDSettings.CardCreatorReaderUID);
@@ -361,12 +361,12 @@ namespace SKDModule.ViewModels
 			{
 				while (IsThreadPolling)
 				{
-					var operationResult = FiresecManager.FiresecService.GKGetReaderCode(readerDevice);
-					if (!operationResult.HasError && operationResult.Result > 0)
-					{
-						Number = operationResult.Result;
-					}
-					Thread.Sleep(TimeSpan.FromMilliseconds(500));
+					//var operationResult = FiresecManager.FiresecService.GKGetReaderCode(readerDevice);
+					//if (!operationResult.HasError && operationResult.Result > 0)
+					//{
+					//	Number = operationResult.Result;
+					//}
+					//Thread.Sleep(TimeSpan.FromMilliseconds(500));
 				}
 			}
 		}

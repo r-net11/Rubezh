@@ -176,7 +176,6 @@
     <Compile Include="Models\Automation\StepArguments\GetObjectPropertyArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\JournalArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlDoorArguments.cs" />
-    <Compile Include="Models\Automation\StepArguments\ControlGKDeviceArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlSKDDeviceArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\IncrementValueArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ProcedureLayoutCollection.cs" />
@@ -198,7 +197,6 @@
     <Compile Include="GKCallbackResult.cs" />
     <Compile Include="GKProgressCallback.cs" />
     <Compile Include="IFiresecServiceSKD.cs" />
-    <Compile Include="IGKService.cs" />
     <Compile Include="IFiresecService.cs" />
     <Compile Include="Models\Automation\Condition.cs" />
     <Compile Include="Models\Automation\FindObjectCondition.cs" />

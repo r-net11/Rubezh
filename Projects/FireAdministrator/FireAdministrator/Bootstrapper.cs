@@ -106,16 +106,16 @@ namespace FireAdministrator
 						}
 						return;
 
-					case GKProgressCallbackType.Progress:
-						if (gkProgressCallback.GKProgressClientType == GKProgressClientType.Administrator)
-						{
-							LoadingService.DoStep(gkProgressCallback.Text, gkProgressCallback.Title, gkProgressCallback.StepCount, gkProgressCallback.CurrentStep, gkProgressCallback.CanCancel);
-							if (LoadingService.IsCanceled)
-							{
-								FiresecManager.FiresecService.CancelGKProgress(gkProgressCallback.UID, FiresecManager.CurrentUser.Name);
-							}
-						}
-						return;
+					//case GKProgressCallbackType.Progress:
+					//	if (gkProgressCallback.GKProgressClientType == GKProgressClientType.Administrator)
+					//	{
+					//		LoadingService.DoStep(gkProgressCallback.Text, gkProgressCallback.Title, gkProgressCallback.StepCount, gkProgressCallback.CurrentStep, gkProgressCallback.CanCancel);
+					//		if (LoadingService.IsCanceled)
+					//		{
+					//			FiresecManager.FiresecService.CancelGKProgress(gkProgressCallback.UID, FiresecManager.CurrentUser.Name);
+					//		}
+					//	}
+					//	return;
 
 					case GKProgressCallbackType.Stop:
 						LoadingService.Close();

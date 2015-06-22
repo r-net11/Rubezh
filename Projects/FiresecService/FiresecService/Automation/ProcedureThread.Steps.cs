@@ -491,15 +491,6 @@ namespace FiresecService
 			return null;
 		}
 
-		void ControlGKDevice(ProcedureStep procedureStep)
-		{
-			var deviceUid = GetValue<Guid>(procedureStep.ControlGKDeviceArguments.GKDeviceArgument);
-			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUid);
-			if (device == null)
-				return;
-			FiresecServiceManager.SafeFiresecService.GKExecuteDeviceCommand(device.UID, procedureStep.ControlGKDeviceArguments.Command);
-		}
-
 		public void SetJournalItemGuid(ProcedureStep procedureStep)
 		{
 			var setJournalItemGuidArguments = procedureStep.SetJournalItemGuidArguments;

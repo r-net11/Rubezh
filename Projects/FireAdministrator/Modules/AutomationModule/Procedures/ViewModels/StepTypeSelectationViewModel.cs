@@ -124,11 +124,6 @@ namespace AutomationModule.ViewModels
 					new StepTypeViewModel("Управление аппаратурой", "/Controls;component/StepIcons/Control.png",
 						new List<StepTypeViewModel>
 						{
-							new StepTypeViewModel("Управление ГК", "/Controls;component/StepIcons/Control.png",
-								new List<StepTypeViewModel>
-								{
-									new StepTypeViewModel(ProcedureStepType.ControlGKDevice),
-								}),
 							new StepTypeViewModel("Управление Страж", "/Controls;component/StepIcons/Control.png",
 								new List<StepTypeViewModel>
 								{

@@ -242,10 +242,6 @@ namespace FiresecService
 					FindObjects(procedureStep);
 					break;
 
-				case ProcedureStepType.ControlGKDevice:
-					ControlGKDevice(procedureStep);
-					break;
-
 				case ProcedureStepType.ControlDoor:
 					ControlDoor(procedureStep);
 					break;

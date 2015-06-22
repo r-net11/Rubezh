@@ -88,9 +88,6 @@ namespace FiresecAPI.Automation
 		[DescriptionAttribute("Случайное значение")]
 		Random,
 
-		[DescriptionAttribute("Управление устройством ГК")]
-		ControlGKDevice,
-
 		[DescriptionAttribute("Управление устройством СКД")]
 		ControlSKDDevice,
 

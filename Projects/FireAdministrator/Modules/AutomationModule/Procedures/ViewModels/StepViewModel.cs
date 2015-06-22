@@ -17,7 +17,7 @@ namespace AutomationModule.ViewModels
 			StepsViewModel = stepsViewModel;
 			Step = step;
 			var automationChanged = ServiceFactory.SaveService.AutomationChanged;
-			if ((step.ProcedureStepType == ProcedureStepType.ControlDoor) || (step.ProcedureStepType == ProcedureStepType.ControlGKDevice) 
+			if ((step.ProcedureStepType == ProcedureStepType.ControlDoor)
 				|| (step.ProcedureStepType == ProcedureStepType.ControlSKDDevice) || (step.ProcedureStepType == ProcedureStepType.ControlSKDZone)
 				|| (step.ProcedureStepType == ProcedureStepType.Ptz)
 				|| (step.ProcedureStepType == ProcedureStepType.StartRecord) || (step.ProcedureStepType == ProcedureStepType.StopRecord) || (step.ProcedureStepType == ProcedureStepType.RviAlarm))
@@ -84,10 +84,6 @@ namespace AutomationModule.ViewModels
 
 				case ProcedureStepType.Random:
 					Content = new RandomStepViewModel(this);
-					break;
-
-				case ProcedureStepType.ControlGKDevice:
-					Content = new ControlGKDeviceStepViewModel(this);
 					break;
 
 				case ProcedureStepType.ControlSKDDevice:

@@ -42,7 +42,7 @@ namespace FireAdministrator
 
 				WaitHelper.Execute(() =>
 				{
-					FiresecManager.FiresecService.GKAddMessage(JournalEventNameType.Применение_конфигурации, "");
+				//	FiresecManager.FiresecService.GKAddMessage(JournalEventNameType.Применение_конфигурации, "");
 					LoadingService.Show("Применение конфигурации", "Применение конфигурации", 10);
 
 					if (ConnectionSettingsManager.IsRemote)

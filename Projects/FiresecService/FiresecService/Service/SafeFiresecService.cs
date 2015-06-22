@@ -183,26 +183,6 @@ namespace FiresecService.Service
 			SafeOperationCall(() => { FiresecService.CancelGKProgress(progressCallbackUID, userName); }, "CancelGKProgress");
 		}
 
-		public OperationResult<bool> GKWriteConfiguration(Guid deviceUID)
-		{
-			return SafeOperationCall(() => { return FiresecService.GKWriteConfiguration(deviceUID); }, "GKWriteConfiguration");
-		}
-
-		public OperationResult<GKDeviceConfiguration> GKReadConfiguration(Guid deviceUID)
-		{
-			return SafeOperationCall(() => { return FiresecService.GKReadConfiguration(deviceUID); }, "GKReadConfiguration");
-		}
-
-		public Stream GKReadConfigurationFromGKFile(Guid deviceUID)
-		{
-			return SafeOperationCall(() => { return FiresecService.GKReadConfigurationFromGKFile(deviceUID); }, "GKReadConfigurationFromGKFile");
-		}
-
-		public OperationResult<GKDeviceConfiguration> GKAutoSearch(Guid deviceUID)
-		{
-			return SafeOperationCall(() => { return FiresecService.GKAutoSearch(deviceUID); }, "GKAutoSearch");
-		}
-
 		public OperationResult<bool> GKUpdateFirmware(Guid deviceUID, string fileName)
 		{
 			return SafeOperationCall(() => { return FiresecService.GKUpdateFirmware(deviceUID, fileName); }, "GKUpdateFirmware");
@@ -214,15 +194,6 @@ namespace FiresecService.Service
 			return result;
 		}
 
-		public OperationResult<bool> GKSyncronyseTime(Guid deviceUID)
-		{
-			return SafeOperationCall(() => { return FiresecService.GKSyncronyseTime(deviceUID); }, "GKSyncronyseTime");
-		}
-
-		public OperationResult<string> GKGetDeviceInfo(Guid deviceUID)
-		{
-			return SafeOperationCall(() => { return FiresecService.GKGetDeviceInfo(deviceUID); }, "GKGetDeviceInfo");
-		}
 
 		public OperationResult<int> GKGetJournalItemsCount(Guid deviceUID)
 		{
@@ -267,80 +238,6 @@ namespace FiresecService.Service
 		public OperationResult<List<byte>> GKGKHash(Guid gkDeviceUID)
 		{
 			return SafeOperationCall(() => { return FiresecService.GKGKHash(gkDeviceUID); }, "GKGKHash");
-		}
-
-		public GKStates GKGetStates()
-		{
-			return SafeOperationCall(() => { return FiresecService.GKGetStates(); }, "GKGetStates");
-		}
-		public void GKExecuteDeviceCommand(Guid deviceUID, GKStateBit stateBit)
-		{
-			SafeOperationCall(() => { FiresecService.GKExecuteDeviceCommand(deviceUID, stateBit); }, "GKExecuteDeviceCommand");
-		}
-
-		public void GKReset(Guid uid, GKBaseObjectType objectType)
-		{
-			SafeOperationCall(() => { FiresecService.GKReset(uid, objectType); }, "GKReset");
-		}
-
-		public void GKSetAutomaticRegime(Guid uid, GKBaseObjectType objectType)
-		{
-			SafeOperationCall(() => { FiresecService.GKSetAutomaticRegime(uid, objectType); }, "GKSetAutomaticRegime");
-		}
-
-		public void GKSetManualRegime(Guid uid, GKBaseObjectType objectType)
-		{
-			SafeOperationCall(() => { FiresecService.GKSetManualRegime(uid, objectType); }, "GKSetManualRegime");
-		}
-
-		public void GKSetIgnoreRegime(Guid uid, GKBaseObjectType objectType)
-		{
-			SafeOperationCall(() => { FiresecService.GKSetIgnoreRegime(uid, objectType); }, "GKSetIgnoreRegime");
-		}
-
-		public void GKTurnOn(Guid uid, GKBaseObjectType objectType)
-		{
-			SafeOperationCall(() => { FiresecService.GKTurnOn(uid, objectType); }, "GKTurnOn");
-		}
-
-		public void GKTurnOnNow(Guid uid, GKBaseObjectType objectType)
-		{
-			SafeOperationCall(() => { FiresecService.GKTurnOnNow(uid, objectType); }, "GKTurnOnNow");
-		}
-
-		public void GKTurnOnInAutomatic(Guid uid, GKBaseObjectType objectType)
-		{
-			SafeOperationCall(() => { FiresecService.GKTurnOnInAutomatic(uid, objectType); }, "GKTurnOnInAutomatic");
-		}
-
-		public void GKTurnOnNowInAutomatic(Guid uid, GKBaseObjectType objectType)
-		{
-			SafeOperationCall(() => { FiresecService.GKTurnOnNowInAutomatic(uid, objectType); }, "GKTurnOnNowInAutomatic");
-		}
-
-		public void GKTurnOff(Guid uid, GKBaseObjectType objectType)
-		{
-			SafeOperationCall(() => { FiresecService.GKTurnOff(uid, objectType); }, "GKTurnOff");
-		}
-
-		public void GKTurnOffNow(Guid uid, GKBaseObjectType objectType)
-		{
-			SafeOperationCall(() => { FiresecService.GKTurnOffNow(uid, objectType); }, "GKTurnOffNow");
-		}
-
-		public void GKTurnOffInAutomatic(Guid uid, GKBaseObjectType objectType)
-		{
-			SafeOperationCall(() => { FiresecService.GKTurnOffInAutomatic(uid, objectType); }, "GKTurnOffInAutomatic");
-		}
-
-		public void GKTurnOffNowInAutomatic(Guid uid, GKBaseObjectType objectType)
-		{
-			SafeOperationCall(() => { FiresecService.GKTurnOffNowInAutomatic(uid, objectType); }, "GKTurnOffNowInAutomatic");
-		}
-
-		public void GKStop(Guid uid, GKBaseObjectType objectType)
-		{
-			SafeOperationCall(() => { FiresecService.GKStop(uid, objectType); }, "GKStop");
 		}
 
 		public void GKStartMeasureMonitoring(Guid deviceUID)
