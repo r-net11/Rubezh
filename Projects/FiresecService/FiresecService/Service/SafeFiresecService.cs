@@ -358,16 +358,6 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.GKGetReaderCode(deviceUID); }, "GKGetReaderCode");
 		}
 
-		//public void GKOpenSKDZone(Guid zoneUID)
-		//{
-		//	SafeOperationCall(() => { FiresecService.GKOpenSKDZone(zoneUID); }, "GKOpenSKDZone");
-		//}
-
-		//public void GKCloseSKDZone(Guid zoneUID)
-		//{
-		//	SafeOperationCall(() => { FiresecService.GKCloseSKDZone(zoneUID); }, "GKCloseSKDZone");
-		//}
-
 		#endregion
 
 		#region Automation

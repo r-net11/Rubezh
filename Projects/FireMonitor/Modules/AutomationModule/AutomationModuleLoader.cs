@@ -13,7 +13,6 @@ using FiresecAPI.Models;
 using FiresecAPI.Models.Layouts;
 using FiresecAPI.SKD;
 using FiresecClient;
-using GKModule.Events;
 using Infrastructure;
 using Infrastructure.Client;
 using Infrastructure.Client.Layout;
