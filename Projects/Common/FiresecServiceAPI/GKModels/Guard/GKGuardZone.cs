@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Common;
+using FiresecClient;
 using Infrustructure.Plans.Interfaces;
 using System.Xml.Serialization;
 
@@ -25,7 +26,8 @@ namespace FiresecAPI.GK
 
 		public override void Update(GKDevice device)
 		{
-
+			GKManager.RemoveDeviceFromGuardZone(device, this);
+			UnLinkObject(device);
 		}
 
 		bool _isLogicOnKau;

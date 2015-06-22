@@ -38,10 +38,11 @@ namespace FiresecAPI.GK
 
 		public override void Update(GKDevice device)
 		{
-			StartLogic.GetAllClauses().FindAll(x => x.Devices.Contains(device)).ForEach(y => y.Devices.Remove(device));
-			StopLogic.GetAllClauses().FindAll(x => x.Devices.Contains(device)).ForEach(y => y.Devices.Remove(device));
-			AutomaticOffLogic.GetAllClauses().FindAll(x => x.Devices.Contains(device)).ForEach(y => y.Devices.Remove(device));
+			StartLogic.GetAllClauses().FindAll(x => x.Devices.Contains(device)).ForEach(y => { y.Devices.Remove(device); y.DeviceUIDs.Remove(device.UID); });
+			StopLogic.GetAllClauses().FindAll(x => x.Devices.Contains(device)).ForEach(y => { y.Devices.Remove(device); y.DeviceUIDs.Remove(device.UID); });
+			AutomaticOffLogic.GetAllClauses().FindAll(x => x.Devices.Contains(device)).ForEach(y => { y.Devices.Remove(device); y.DeviceUIDs.Remove(device.UID); });
 			NSDevices.Remove(device);
+			NSDevices.ForEach(d => d.NSLogic.GetAllClauses().FindAll(x => { d.UnLinkObject(device); return x.Devices.Contains(device); }).ForEach(y =>{ y.Devices.Remove(device); y.DeviceUIDs.Remove(device.UID); }));
 			NSDeviceUIDs.Remove(device.UID);
 			UnLinkObject(device);
 			OnChanged();

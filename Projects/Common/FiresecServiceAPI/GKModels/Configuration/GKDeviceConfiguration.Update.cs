@@ -152,6 +152,12 @@ namespace FiresecAPI.GK
 				x.GuardZones.ForEach(device.LinkObject); x.MPTs.ForEach(device.LinkObject); x.PumpStations.ForEach(device.LinkObject); x.Zones.ForEach(device.LinkObject);
 			}));
 
+			Devices.ForEach(device => device.NSLogic.GetAllClauses().ForEach(x =>
+			{
+				x.Delays.ForEach(device.LinkObject); x.Devices.ForEach(device.LinkObject); x.Directions.ForEach(device.LinkObject); x.Doors.ForEach(device.LinkObject);
+				x.GuardZones.ForEach(device.LinkObject); x.MPTs.ForEach(device.LinkObject); x.PumpStations.ForEach(device.LinkObject); x.Zones.ForEach(device.LinkObject);
+			}));
+
 			Delays.ForEach(delay => delay.Logic.GetAllClauses().ForEach(x =>
 			{
 				x.Delays.ForEach(delay.LinkObject); x.Devices.ForEach(delay.LinkObject); x.Directions.ForEach(delay.LinkObject); x.Doors.ForEach(delay.LinkObject);
@@ -193,7 +199,25 @@ namespace FiresecAPI.GK
 			Doors.ForEach(door => door.LinkObject(door.LockDevice));
 			Doors.ForEach(door => door.LinkObject(door.LockDeviceExit));
 
-			MPTs.ForEach(mpt => mpt.MPTDevices.ForEach(x => mpt.LinkObject(x.Device)));
+			PumpStations.ForEach(mpt => mpt.NSDevices.ForEach(mpt.LinkObject));
+
+			PumpStations.ForEach(pumpStation => pumpStation.StartLogic.GetAllClauses().ForEach(x =>
+			{
+				x.Delays.ForEach(pumpStation.LinkObject); x.Devices.ForEach(pumpStation.LinkObject); x.Directions.ForEach(pumpStation.LinkObject); x.Doors.ForEach(pumpStation.LinkObject);
+				x.GuardZones.ForEach(pumpStation.LinkObject); x.MPTs.ForEach(pumpStation.LinkObject); x.PumpStations.ForEach(pumpStation.LinkObject); x.Zones.ForEach(pumpStation.LinkObject);
+			}));
+
+			PumpStations.ForEach(pumpStation => pumpStation.StopLogic.GetAllClauses().ForEach(x =>
+			{
+				x.Delays.ForEach(pumpStation.LinkObject); x.Devices.ForEach(pumpStation.LinkObject); x.Directions.ForEach(pumpStation.LinkObject); x.Doors.ForEach(pumpStation.LinkObject);
+				x.GuardZones.ForEach(pumpStation.LinkObject); x.MPTs.ForEach(pumpStation.LinkObject); x.PumpStations.ForEach(pumpStation.LinkObject); x.Zones.ForEach(pumpStation.LinkObject);
+			}));
+
+			PumpStations.ForEach(pumpStation => pumpStation.AutomaticOffLogic.GetAllClauses().ForEach(x =>
+			{
+				x.Delays.ForEach(pumpStation.LinkObject); x.Devices.ForEach(pumpStation.LinkObject); x.Directions.ForEach(pumpStation.LinkObject); x.Doors.ForEach(pumpStation.LinkObject);
+				x.GuardZones.ForEach(pumpStation.LinkObject); x.MPTs.ForEach(pumpStation.LinkObject); x.PumpStations.ForEach(pumpStation.LinkObject); x.Zones.ForEach(pumpStation.LinkObject);
+			}));
 
 			Zones.ForEach(zone => zone.Devices.ForEach(zone.LinkObject));
 		}

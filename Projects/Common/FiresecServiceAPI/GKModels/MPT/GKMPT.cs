@@ -22,7 +22,7 @@ namespace FiresecAPI.GK
 
 		public override void Update(GKDevice device)
 		{
-			MptLogic.GetAllClauses().FindAll(x => x.Devices.Contains(device)).ForEach(y => y.Devices.Remove(device));
+			MptLogic.GetAllClauses().FindAll(x => x.Devices.Contains(device)).ForEach(y => { y.Devices.Remove(device); y.DeviceUIDs.Remove(device.UID); });
 			MPTDevices.RemoveAll(x => x.Device == device);
 			UnLinkObject(device);
 			OnChanged();
