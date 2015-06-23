@@ -84,21 +84,6 @@ namespace FiresecClient
 
 			if (driver.DriverType == GKDriverType.GK)
 			{
-				var indicatorDriver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.GKIndicator);
-				var releDriver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.GKRele);
-
-				for (byte i = 2; i <= 11; i++)
-				{
-					AddChild(device, null, indicatorDriver, i);
-				}
-				for (byte i = 12; i <= 16; i++)
-				{
-					AddChild(device, null, releDriver, i);
-				}
-				for (byte i = 17; i <= 22; i++)
-				{
-					AddChild(device, null, indicatorDriver, i);
-				}
 				DeviceConfiguration.UpdateGKPredefinedName(device);
 			}
 			else

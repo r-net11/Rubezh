@@ -26,14 +26,6 @@ namespace SKDModule.ViewModels
 					Devices.Add(deviceViewModel);
 				}
 			}
-			foreach (var device in GKManager.Devices)
-			{
-				if (device.DriverType == GKDriverType.RSR2_CodeReader || device.DriverType == GKDriverType.RSR2_CardReader)
-				{
-					var deviceViewModel = new DeviceViewModel(device);
-					Devices.Add(deviceViewModel);
-				}
-			}
 		}
 
 		public override string Header

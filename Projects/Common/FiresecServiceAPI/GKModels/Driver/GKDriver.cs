@@ -61,21 +61,6 @@ namespace FiresecAPI.GK
 		public byte GroupDeviceChildrenCount { get; set; }
 		public bool IsIgnored { get; set; }
 
-		public bool IsKau
-		{
-			get { return DriverType == GKDriverType.RSR2_KAU; }
-		}
-
-		public bool IsAm
-		{
-			get
-			{
-				return DriverType == GKDriverType.RSR2_AM_1 || DriverType == GKDriverType.RSR2_AM_2 || DriverType == GKDriverType.RSR2_AM_4
-				|| DriverType == GKDriverType.RSR2_CardReader || DriverType == GKDriverType.RSR2_CodeReader
-				|| DriverType == GKDriverType.RSR2_MAP4_Group || DriverType == GKDriverType.RSR2_MAP4;
-			}
-		}
-
 		public string ImageSource
 		{
 			get { return "/Controls;component/GKIcons/" + DriverType + ".png"; }

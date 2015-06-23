@@ -11,11 +11,6 @@ namespace FiresecClient
 				device.InternalState = new GKDeviceInternalState(device);
 				device.State = new GKState(device);
 			}
-			foreach (var skdZone in SKDZones)
-			{
-				skdZone.InternalState = new GKSKDZoneInternalState(skdZone);
-				skdZone.State = new GKState(skdZone);
-			}
 		}
 
 		public static XStateClass GetMinStateClass()

@@ -21,7 +21,6 @@ namespace Infrastructure.Client.Layout
 
 		public static readonly Guid Indicator = new Guid("{8B0BF10A-AD4C-48CC-B1D0-ADF39552B936}");
 		public static readonly Guid GDevices = new Guid("{C23D21B1-950D-40C8-A283-00FD0CF6AFB1}");
-		public static readonly Guid GKSKDZones = new Guid("5DAAAB60-DA31-4875-B7D4-52C066E84E39");
 		public static readonly Guid Doors = new Guid("{1944B6F5-779F-4fff-949E-A546AC3493EC}");
 		public static readonly Guid ConnectionIndicator = new Guid("{203F1AD9-212D-4B92-AE61-C4B340D52DD6}");
 

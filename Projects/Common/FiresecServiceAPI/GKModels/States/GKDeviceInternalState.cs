@@ -50,7 +50,7 @@ namespace FiresecAPI.GK
 					if (!stateClasses.Contains(XStateClass.Service))
 						stateClasses.Add(XStateClass.Service);
 				}
-				if (Device.Driver.IsGroupDevice || Device.DriverType == GKDriverType.RSR2_KAU_Shleif)
+				if (Device.Driver.IsGroupDevice)
 				{
 					stateClasses.Clear();
 					if (Device.Children.Count > 0)

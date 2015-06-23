@@ -124,10 +124,6 @@ namespace FiresecAPI.GK
 			PrepareInputOutputDependences();
 			var allDependentObjects = GetFullTree(this);
 			var allDependentDevices = allDependentObjects.Where(x => x is GKDevice).Cast<GKDevice>().ToList();
-			var kauParents = allDependentDevices.Select(x => x.KAUParent).ToList();
-			kauParents = kauParents.Distinct().ToList();
-			if (kauParents.Count == 1 && kauParents.FirstOrDefault() != null)
-				return kauParents.FirstOrDefault();
 			if (this is GKDevice)
 				return (this as GKDevice).GKParent;
 			if (allDependentDevices != null && allDependentDevices.Count > 0)

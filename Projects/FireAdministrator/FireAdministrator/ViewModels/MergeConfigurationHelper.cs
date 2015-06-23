@@ -133,30 +133,8 @@ namespace FireAdministrator.ViewModels
 				{
 					ipAddress = ipProperty.StringValue;
 				}
-				var existingGKDevice = GKManager.DeviceConfiguration.RootDevice.Children.FirstOrDefault(x => x.Address == ipAddress);
-				if (existingGKDevice != null)
-				{
-					foreach (var device in gkControllerDevice.Children)
-					{
-						var driver = GKManager.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
-						if (driver.DriverType == GKDriverType.RSR2_KAU)
-						{
-							var existingKAUDevice = existingGKDevice.Children.FirstOrDefault(x => x.Driver != null && x.DriverType == GKDriverType.RSR2_KAU && x.IntAddress == device.IntAddress);
-							if (existingKAUDevice == null)
-							{
-								existingGKDevice.Children.Add(device);
-							}
-							else
-							{
-								errors.AppendLine("Устройство " + existingKAUDevice.PresentationName + " не было добавленно в конфигурацию из за совпадения адресов");
-							}
-						}
-					}
-				}
-				else
-				{
-					GKManager.DeviceConfiguration.RootDevice.Children.Add(gkControllerDevice);
-				}
+
+				GKManager.DeviceConfiguration.RootDevice.Children.Add(gkControllerDevice);
 			}
 			//foreach (var schedules in GKDeviceConfiguration.Schedules)
 			//{

@@ -88,8 +88,6 @@ namespace JournalModule.ViewModels
 
 			if (showArchiveEventArgs.GKDevice != null)
 				ArchiveFilter.ObjectUIDs.Add(showArchiveEventArgs.GKDevice.UID);
-			if (showArchiveEventArgs.GKSKDZone != null)
-				ArchiveFilter.ObjectUIDs.Add(showArchiveEventArgs.GKSKDZone.UID);
 			if (showArchiveEventArgs.SKDDevice != null)
 				ArchiveFilter.ObjectUIDs.Add(showArchiveEventArgs.SKDDevice.UID);
 			if (showArchiveEventArgs.SKDZone != null)

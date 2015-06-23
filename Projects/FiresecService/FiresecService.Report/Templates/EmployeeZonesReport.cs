@@ -367,10 +367,6 @@ namespace FiresecService.Report.Templates
 			{
 				zoneMap.Add(zone.UID, zone.PresentationName);
 			}
-			foreach (var zone in GKManager.SKDZones)
-			{
-				zoneMap.Add(zone.UID, zone.PresentationName);
-			}
 
 			var enterJournal = dataProvider.DatabaseService.PassJournalTranslator.GetEmployeesLastEnterPassJournal(
 				employees.Select(item => item.UID), filter.Zones, filter.ReportDateTime);

@@ -25,11 +25,7 @@ namespace SKDModule.Reports.ViewModels
 				var zoneViewModel = new CommonZoneViewModel(zone);
 				Zones.Add(new CheckedItemViewModel<CommonZoneViewModel>(zoneViewModel));
 			}
-			foreach (var zone in GKManager.SKDZones)
-			{
-				var zoneViewModel = new CommonZoneViewModel(zone);
-				Zones.Add(new CheckedItemViewModel<CommonZoneViewModel>(zoneViewModel));
-			}
+
 			SelectAllCommand = new RelayCommand(() => Zones.ForEach(item => item.IsChecked = true));
 			SelectNoneCommand = new RelayCommand(() => Zones.ForEach(item => item.IsChecked = false));
 		}
@@ -110,13 +106,6 @@ namespace SKDModule.Reports.ViewModels
 			UID = strazhZone.UID;
 			Name = strazhZone.Name;
 			Description = strazhZone.Description;
-		}
-
-		public CommonZoneViewModel(GKSKDZone gkZone)
-		{
-			UID = gkZone.UID;
-			Name = gkZone.Name;
-			Description = gkZone.Description;
 		}
 	}
 }

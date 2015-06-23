@@ -26,9 +26,8 @@ namespace SKDDriver
 			if (filter.IsExportZones)
 			{
 				zonesResult = Export<ExportZone, SKDZone>(SKDManager.Zones, "StrazhZones.xml", filter.Path);
-				gkZonesResult = Export<ExportZone, GKSKDZone>(GKManager.SKDZones, "GKZones.xml", filter.Path);
 			}
-			return TranslatiorHelper.ConcatOperationResults(devicesResult, doorsResult, zonesResult);					
+			return TranslatiorHelper.ConcatOperationResults(devicesResult, doorsResult, zonesResult);
 		}
 
 		static OperationResult Export<TExportItem, TConfigItem>(List<TConfigItem> configItems, string fileName, string path)
@@ -58,22 +57,14 @@ namespace SKDDriver
 		}
 	}
 
-	public class ExportZone : IConfigExportItem<SKDZone>, IConfigExportItem<GKSKDZone>
+	public class ExportZone : IConfigExportItem<SKDZone>
 	{
 		public Guid UID { get; set; }
 		public string Name { get; set; }
 		public string Description { get; set; }
 		public int Number { get; set; }
-		
-		public void Initialize(SKDZone configItem)
-		{
-			UID = configItem.UID;
-			Name = configItem.Name;
-			Description = configItem.Description;
-			Number = configItem.No;
-		}
 
-		public void Initialize(GKSKDZone configItem)
+		public void Initialize(SKDZone configItem)
 		{
 			UID = configItem.UID;
 			Name = configItem.Name;

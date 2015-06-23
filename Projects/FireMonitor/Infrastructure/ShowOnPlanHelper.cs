@@ -28,23 +28,6 @@ namespace Infrastructure
 			return false;
 		}
 
-		public static void ShowGKSKDZone(GKSKDZone zone)
-		{
-			ServiceFactory.Events.GetEvent<ShowGKSKDZoneOnPlanEvent>().Publish(zone);
-		}
-		public static bool CanShowGKSKDZone(GKSKDZone zone)
-		{
-			if (zone != null)
-				foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
-				{
-					if (plan.ElementPolygonGKSKDZones.Any(x => (x.ZoneUID != Guid.Empty) && (x.ZoneUID == zone.UID)))
-						return true;
-					if (plan.ElementRectangleGKSKDZones.Any(x => (x.ZoneUID != Guid.Empty) && (x.ZoneUID == zone.UID)))
-						return true;
-				}
-			return false;
-		}
-
 		public static void ShowSKDDevice(SKDDevice device, Plan plan = null)
 		{
 			var element = plan == null ? null : plan.ElementSKDDevices.FirstOrDefault(item => item.DeviceUID == device.UID);

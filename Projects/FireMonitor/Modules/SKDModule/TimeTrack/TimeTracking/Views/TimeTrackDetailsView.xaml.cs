@@ -76,11 +76,7 @@ namespace SKDModule.Views
 					{
 						zoneName = strazhZone.Name;
 					}
-					var gkZone = GKManager.SKDZones.FirstOrDefault(x => x.UID == timeTrackPart.ZoneUID);
-					if (gkZone != null)
-					{
-						zoneName = gkZone.Name;
-					}
+
 					timeTrackPart.Tooltip = TimePartDateToString(timeTrackPart.StartTime) + " - " + TimePartDateToString(timeTrackPart.EndTime) + "\n" + zoneName;
 					timeTrackPart.TimeTrackPartType = TimeTrackType.Presence;
 				}

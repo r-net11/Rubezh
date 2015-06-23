@@ -19,10 +19,6 @@ namespace GKProcessor
 				HasAddress = false,
 				IsPlaceable = true
 			};
-			driver.AutoCreateChildren.Add(GKDriverType.GKIndicator);
-			driver.AutoCreateChildren.Add(GKDriverType.GKRele);
-			driver.Children.Add(GKDriverType.RSR2_KAU);
-			driver.Children.Add(GKDriverType.RSR2_GKMirror);
 
 			driver.AvailableStateClasses.Add(XStateClass.Norm);
 			driver.AvailableStateClasses.Add(XStateClass.Unknown);

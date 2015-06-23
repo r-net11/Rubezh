@@ -17,9 +17,6 @@ namespace FiresecAPI.Journal
 		SKDDoor,
 
 		[DescriptionAttribute("Видеоустройства")]
-		VideoDevice,
-
-		[DescriptionAttribute("Зоны СКД ГК")]
-		GKSKDZone,
+		VideoDevice
 	}
 }

@@ -11,7 +11,7 @@ namespace AutomationModule.ViewModels
 		{
 			Title = "Выбор устройства";
 			RootDevice = AddDeviceInternal(GKManager.DeviceConfiguration.RootDevice, null);
-			RootDevice.GetAllChildren().FindAll(x => x.Device.DriverType == GKDriverType.RSR2_KAU_Shleif).ForEach(y => y.ExpandToThis());
+		//	RootDevice.GetAllChildren().FindAll(x => x.Device.DriverType == GKDriverType.RSR2_KAU_Shleif).ForEach(y => y.ExpandToThis());
 			if (device != null)
 				SelectedDevice = RootDevice.GetAllChildren().FirstOrDefault(x => x.Device.UID == device.UID);
 			if (SelectedDevice == null)

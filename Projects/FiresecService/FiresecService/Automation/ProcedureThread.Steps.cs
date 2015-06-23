@@ -344,9 +344,6 @@ namespace FiresecService
 			{
 				switch (property)
 				{
-					case Property.ShleifNo:
-						propertyValue = (item as GKDevice).ShleifNo;
-						break;
 					case Property.IntAddress:
 						propertyValue = (item as GKDevice).IntAddress;
 						break;

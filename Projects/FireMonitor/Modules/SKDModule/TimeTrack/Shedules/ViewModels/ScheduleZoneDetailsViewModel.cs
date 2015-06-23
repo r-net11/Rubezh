@@ -99,15 +99,5 @@ namespace SKDModule.ViewModels
 			No = zone.No;
 			Description = zone.Description;
 		}
-
-		public SelectationScheduleZoneViewModel(GKSKDZone zone, Guid doorUID)
-		{
-			DoorUID = doorUID;
-			ZoneUID = zone.UID;
-		//	Name = zone.PresentationName;
-			Name = zone.Name;
-			No = zone.No;
-			Description = zone.Description;
-		}
 	}
 }

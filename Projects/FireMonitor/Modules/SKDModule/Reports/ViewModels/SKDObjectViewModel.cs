@@ -30,10 +30,6 @@ namespace SKDModule.Reports.ViewModels
 			IsObjectGroup = true;
 			switch(journalObjectType)
 			{
-				case JournalObjectType.GKSKDZone:
-					ImageSource = "/Controls;component/Images/Zone.png";
-					break;
-
 				case JournalObjectType.SKDDevice:
 					ImageSource = "/Controls;component/SKDIcons/Controller.png";
 					break;

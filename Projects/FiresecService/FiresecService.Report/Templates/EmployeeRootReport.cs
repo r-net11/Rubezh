@@ -465,10 +465,6 @@ namespace FiresecService.Report.Templates
 				{
 					zoneMap.Add(zone.UID, zone.Name);
 				}
-				foreach (var zone in GKManager.SKDZones)
-				{
-					zoneMap.Add(zone.UID, zone.Name);
-				}
 			}
 			return zoneMap;
 		}

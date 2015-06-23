@@ -144,14 +144,6 @@ namespace GKProcessor
 			return new OperationResult<List<byte>>(readInfoBlock.Hash1);
 		}
 
-		public static void CalculateSKDZone(GKSKDZone zone)
-		{
-			var stateClasses = new HashSet<XStateClass>();
-			zone.State = new GKState(zone);
-			zone.State.StateClasses = stateClasses.ToList();
-			zone.State.StateClass = GKStatesHelper.GetMinStateClass(zone.State.StateClasses);
-		}
-
 		public static OperationResult<uint> GKGetReaderCode(GKDevice device)
 		{
 			var sendResult = SendManager.Send(device.GkDatabaseParent, 2, 12, 68, BytesHelper.ShortToBytes(device.GKDescriptorNo));

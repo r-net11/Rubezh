@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.SKD;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI.GK;
-using FiresecClient;
 
 namespace SKDModule.ViewModels
 {
@@ -15,11 +13,6 @@ namespace SKDModule.ViewModels
 		{
 			Title = "Выбор считывателя";
 			Devices = new ObservableCollection<GKDevice>();
-			foreach (var device in GKManager.Devices)
-			{
-				if (device.DriverType == GKDriverType.RSR2_CardReader)
-					Devices.Add(device);
-			}
 			SelectedDevice = Devices.FirstOrDefault(x => x.UID == deviceUID);
 		}
 

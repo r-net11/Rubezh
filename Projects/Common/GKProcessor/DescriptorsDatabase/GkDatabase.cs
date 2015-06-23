@@ -15,13 +15,6 @@ namespace GKProcessor
 			RootDevice = gkControllerDevice;
 
 			AddDevice(gkControllerDevice);
-			foreach (var device in gkControllerDevice.Children)
-			{
-				if (device.DriverType == GKDriverType.GKIndicator || device.DriverType == GKDriverType.GKRele)
-				{
-					AddDevice(device);
-				}
-			}
 			Devices.ForEach(x => x.GkDatabaseParent = RootDevice);
 		}
 

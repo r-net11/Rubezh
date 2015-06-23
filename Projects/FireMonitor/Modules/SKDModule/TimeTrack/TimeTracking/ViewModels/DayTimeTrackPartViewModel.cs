@@ -75,12 +75,6 @@ namespace SKDModule.ViewModels
 				zoneName = strazhZone.Name;
 				num = strazhZone.No;
 			}
-			var gkZone = GKManager.SKDZones.FirstOrDefault(x => x.UID == timeTrackPart.ZoneUID);
-			if (gkZone != null)
-			{
-				zoneName = gkZone.Name;
-				num = gkZone.No;
-			}
 
 			UID = timeTrackPart.PassJournalUID;
 			Update(timeTrackPart.StartTime, timeTrackPart.EndTime, zoneName, num);

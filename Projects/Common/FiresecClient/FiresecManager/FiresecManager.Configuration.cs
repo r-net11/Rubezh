@@ -185,17 +185,6 @@ namespace FiresecClient
 						if (gkDeviceMap.ContainsKey(elementGKDevice.DeviceUID))
 							gkDeviceMap[elementGKDevice.DeviceUID].PlanElementUIDs.Add(elementGKDevice.UID);
 					}
-					for (int i = plan.ElementRectangleGKSKDZones.Count(); i > 0; i--)
-					{
-						var elementRectangleGKSKDZone = plan.ElementRectangleGKSKDZones[i - 1];
-						elementRectangleGKSKDZone.UpdateZLayer();
-					}
-					for (int i = plan.ElementPolygonGKSKDZones.Count(); i > 0; i--)
-					{
-						var elementPolygonGKSKDZone = plan.ElementPolygonGKSKDZones[i - 1];
-						elementPolygonGKSKDZone.UpdateZLayer();
-					}
-
 					for (int i = plan.ElementSKDDevices.Count(); i > 0; i--)
 					{
 						var elementSKDDevice = plan.ElementSKDDevices[i - 1];

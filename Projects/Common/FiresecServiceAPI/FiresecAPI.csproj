@@ -152,9 +152,6 @@
     <Compile Include="AutomationCallback\VisualPropertyCallbackData.cs" />
     <Compile Include="GKModels\Device\GKProperty.cs" />
     <Compile Include="GKModels\SKD\GKCardType.cs" />
-    <Compile Include="GKModels\SKD\GKSKDZone.cs" />
-    <Compile Include="GKModels\States\GKSKDZoneState.cs" />
-    <Compile Include="GKModels\States\GKSKDZoneInternalState.cs" />
     <Compile Include="Journal\EventDescriptionAttribute.cs" />
     <Compile Include="Journal\JournalDetalisationItem.cs" />
     <Compile Include="ModelBase.cs" />
@@ -228,8 +225,6 @@
     <Compile Include="Models\Layouts\LayoutPartReferenceProperties.cs" />
     <Compile Include="Models\Plans\ElementProcedure.cs" />
     <Compile Include="Models\Plans\ElementDoor.cs" />
-    <Compile Include="Models\Plans\ElementPolygonGKSKDZone.cs" />
-    <Compile Include="Models\Plans\ElementRectangleGKSKDZone.cs" />
     <Compile Include="Models\ServerTask\ServerTask.cs" />
     <Compile Include="AutomationCallback\AutomationCallbackData.cs" />
     <Compile Include="AutomationCallback\AutomationCallbackResult.cs" />

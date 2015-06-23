@@ -6,8 +6,5 @@ namespace FiresecAPI.GK
 	{
 		[DescriptionAttribute("Устройство")]
 		Deivce,
-
-		[DescriptionAttribute("Зона СКД")]
-		SKDZone,
 	}
 }

@@ -40,8 +40,6 @@ namespace FiresecAPI.Models
 			ElementPolylines = new List<ElementPolyline>();
 
 			ElementGKDevices = new List<ElementGKDevice>();
-			ElementRectangleGKSKDZones = new List<ElementRectangleGKSKDZone>();
-			ElementPolygonGKSKDZones = new List<ElementPolygonGKSKDZone>();
 
 			ElementSKDDevices = new List<ElementSKDDevice>();
 			ElementRectangleSKDZones = new List<ElementRectangleSKDZone>();
@@ -92,10 +90,6 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public List<ElementGKDevice> ElementGKDevices { get; set; }
 		[DataMember]
-		public List<ElementRectangleGKSKDZone> ElementRectangleGKSKDZones { get; set; }
-		[DataMember]
-		public List<ElementPolygonGKSKDZone> ElementPolygonGKSKDZones { get; set; }
-		[DataMember]
 		public List<ElementSKDDevice> ElementSKDDevices { get; set; }
 		[DataMember]
 		public List<ElementRectangleSKDZone> ElementRectangleSKDZones { get; set; }
@@ -114,8 +108,6 @@ namespace FiresecAPI.Models
 			{
 				var union = new List<ElementBase>();
 				union.AddRange(ElementDoors);
-				union.AddRange(ElementRectangleGKSKDZones);
-				union.AddRange(ElementPolygonGKSKDZones);
 				union.AddRange(ElementExtensions);
 				union.AddRange(ElementPolygonSKDZones);
 				union.AddRange(ElementRectangleSKDZones);

@@ -53,10 +53,6 @@ namespace JournalModule.ViewModels
 			IsObjectGroup = true;
 			switch(journalObjectType)
 			{
-				case JournalObjectType.GKSKDZone:
-					ImageSource = "/Controls;component/Images/Zone.png";
-					break;
-
 				case JournalObjectType.SKDDevice:
 					ImageSource = "/Controls;component/SKDIcons/Controller.png";
 					break;
@@ -80,13 +76,6 @@ namespace JournalModule.ViewModels
 			Name = device.PresentationName;
 			UID = device.UID;
 			ImageSource = device.Driver.ImageSource;
-		}
-
-		public FilterObjectViewModel(GKSKDZone skdZone)
-		{
-			Name = skdZone.PresentationName;
-			UID = skdZone.UID;
-			ImageSource = "/Controls;component/Images/Zone.png";
 		}
 
 		public FilterObjectViewModel(SKDDevice device)

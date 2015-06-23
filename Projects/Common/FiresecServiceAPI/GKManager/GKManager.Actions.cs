@@ -36,9 +36,6 @@ namespace FiresecClient
 		static List<GKDevice> RebuildRSR2Addresses_Children;
 		static void RebuildRSR2Addresses_AddChild(GKDevice device)
 		{
-			if (device.DriverType != GKDriverType.RSR2_MVP_Part && device.DriverType != GKDriverType.RSR2_KAU_Shleif)
-				RebuildRSR2Addresses_Children.Add(device);
-
 			foreach (var child in device.Children)
 			{
 				RebuildRSR2Addresses_AddChild(child);
@@ -77,17 +74,6 @@ namespace FiresecClient
 				ChangeLogic(device, new GKLogic());
 			}
 			device.Properties = new List<GKProperty>();
-		}
-
-		public static void RemoveSKDZone(GKSKDZone zone)
-		{
-			SKDZones.Remove(zone);
-			zone.OnChanged();
-		}
-
-		public static void EditSKDZone(GKSKDZone zone)
-		{
-			zone.OnChanged();
 		}
 	}
 }

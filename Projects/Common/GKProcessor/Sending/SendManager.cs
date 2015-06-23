@@ -32,27 +32,6 @@ namespace GKProcessor
 						whom = 2;
 						break;
 
-					case GKDriverType.RSR2_KAU:
-						whom = 4;
-						var modeProperty = device.Properties.FirstOrDefault(x => x.Name == "Mode");
-						if (modeProperty != null)
-						{
-							switch (modeProperty.Value)
-							{
-								case 0:
-									whom = 4;
-									break;
-
-								case 1:
-									whom = 5;
-									break;
-
-								default:
-									throw new Exception("Неизвестный тип линии");
-							}
-						}
-						break;
-
 					default:
 						throw new Exception("Команду можно отправлять только в ГК или в КАУ");
 				}

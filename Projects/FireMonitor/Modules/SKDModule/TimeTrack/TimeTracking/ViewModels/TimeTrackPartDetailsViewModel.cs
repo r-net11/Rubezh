@@ -75,12 +75,10 @@ namespace SKDModule.ViewModels
 			Zones = new ObservableCollection<TimeTrackZone>();
 
 			var strazhZones = SKDManager.Zones.Where(x => schedule.Zones.Any(y => y.ZoneUID == x.UID)).ToList();
-			var gkZones = GKManager.SKDZones.Where(x => schedule.Zones.Any(y => y.ZoneUID == x.UID)).ToList();
 
 			Zones.AddRange(
 					strazhZones
 					.Select(strazhZone => new TimeTrackZone(strazhZone))
-					.Union(gkZones.Select(gkZone => new TimeTrackZone(gkZone)))
 					.ToList()
 				);
 
@@ -128,7 +126,6 @@ namespace SKDModule.ViewModels
 	public class TimeTrackZone
 	{
 		public SKDZone SKDZone { get; private set; }
-		public GKSKDZone GKSKDZone { get; private set; }
 		public Guid UID { get; private set; }
 		public int No { get; private set; }
 		public string Name { get; private set; }
@@ -137,15 +134,6 @@ namespace SKDModule.ViewModels
 		public TimeTrackZone(SKDZone zone)
 		{
 			SKDZone = zone;
-			UID = zone.UID;
-			No = zone.No;
-			Name = zone.Name;
-			Description = zone.Description;
-		}
-
-		public TimeTrackZone(GKSKDZone zone)
-		{
-			GKSKDZone = zone;
 			UID = zone.UID;
 			No = zone.No;
 			Name = zone.Name;

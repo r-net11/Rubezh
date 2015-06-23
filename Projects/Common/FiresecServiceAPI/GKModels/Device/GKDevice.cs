@@ -100,21 +100,6 @@ namespace FiresecAPI.GK
 		public bool AllowMultipleVizualization { get; set; }
 
 		[XmlIgnore]
-		public byte ShleifNo
-		{
-			get
-			{
-				var allParents = AllParents;
-				var shleif = allParents.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_KAU_Shleif);
-				if (shleif != null)
-				{
-					return shleif.IntAddress;
-				}
-				return 0;
-			}
-		}
-
-		[XmlIgnore]
 		public string Address
 		{
 			get
@@ -127,20 +112,9 @@ namespace FiresecAPI.GK
 				if (!Driver.HasAddress)
 					return "";
 
-				if (DriverType == GKDriverType.RSR2_KAU)
-				{
-					ushort lineNo = FiresecClient.GKManager.GetKauLine(this);
-					if (lineNo > 0)
-						return "РЛС " + IntAddress.ToString();
-					return IntAddress.ToString();
-				}
-
 				if (!Driver.IsDeviceOnShleif)
 					return IntAddress.ToString();
 
-				var shleifNo = ShleifNo;
-				if (shleifNo != 0)
-					return shleifNo.ToString() + "." + IntAddress.ToString();
 				return IntAddress.ToString();
 			}
 		}
@@ -181,12 +155,6 @@ namespace FiresecAPI.GK
 				foreach (var parentDevice in allParents.Where(x => x.Driver.HasAddress))
 				{
 					if (parentDevice.Driver.IsGroupDevice)
-						continue;
-
-					if (parentDevice.DriverType == GKDriverType.RSR2_KAU_Shleif)
-						continue;
-
-					if (parentDevice.DriverType == GKDriverType.RSR2_MVP || parentDevice.DriverType == GKDriverType.RSR2_MVP_Part)
 						continue;
 
 					address.Append(parentDevice.Address);
@@ -284,8 +252,7 @@ namespace FiresecAPI.GK
 			{
 				if (Parent != null && Parent.Driver.IsGroupDevice)
 					return false;
-				if (AllParents.Any(x => x.DriverType == GKDriverType.RSR2_KAU))
-					return false;
+
 				return (Driver.HasAddress && Driver.CanEditAddress);
 			}
 		}
@@ -335,45 +302,6 @@ namespace FiresecAPI.GK
 		public GKDevice GKParent
 		{
 			get { return AllParents.FirstOrDefault(x => x.DriverType == GKDriverType.GK); }
-		}
-
-		[XmlIgnore]
-		public GKDevice KAUParent
-		{
-			get
-			{
-				var allParents = AllParents;
-				allParents.Add(this);
-				return allParents.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_KAU);
-			}
-		}
-
-		[XmlIgnore]
-		public GKDevice KAUShleifParent
-		{
-			get
-			{
-				var allParents = AllParents;
-				allParents.Add(this);
-				return allParents.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_KAU_Shleif);
-			}
-		}
-
-		[XmlIgnore]
-		public GKDevice MVPPartParent
-		{
-			get
-			{
-				var allParents = AllParents;
-				allParents.Add(this);
-				return allParents.LastOrDefault(x => x.DriverType == GKDriverType.RSR2_MVP_Part);
-			}
-		}
-
-		[XmlIgnore]
-		public bool IsConnectedToKAU
-		{
-			get { return KAUParent != null; }
 		}
 
 		public string GetGKIpAddress()

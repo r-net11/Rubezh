@@ -25,10 +25,6 @@ namespace FiresecClient
 		{
 			get { return DriversConfiguration.Drivers; }
 		}
-		public static List<GKSKDZone> SKDZones
-		{
-			get { return DeviceConfiguration.SKDZones; }
-		}
 
 		public static void SetEmptyConfiguration()
 		{
@@ -46,20 +42,6 @@ namespace FiresecClient
 			DeviceConfiguration.UpdateConfiguration();
 		}
 
-		public static ushort GetKauLine(GKDevice device)
-		{
-			ushort lineNo = 0;
-			if (device.Driver.IsKau)
-			{
-				var modeProperty = device.Properties.FirstOrDefault(x => x.Name == "Mode");
-				if (modeProperty != null)
-				{
-					return modeProperty.Value;
-				}
-			}
-			return lineNo;
-		}
-
 		public static string GetIpAddress(GKDevice device)
 		{
 			GKDevice gkControllerDevice = null;
@@ -67,10 +49,6 @@ namespace FiresecClient
 			{
 				case GKDriverType.GK:
 					gkControllerDevice = device;
-					break;
-
-				case GKDriverType.RSR2_KAU:
-					gkControllerDevice = device.Parent;
 					break;
 
 				default:

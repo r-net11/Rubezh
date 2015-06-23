@@ -65,16 +65,7 @@ namespace FiresecAPI.GK
 			BaseObjectType = GKBaseObjectType.Deivce;
 		}
 
-		public GKState(GKSKDZone zone)
-			: this()
-		{
-			SKDZone = zone;
-			UID = zone.UID;
-			BaseObjectType = GKBaseObjectType.SKDZone;
-		}
-
 		public GKDevice Device { get; private set; }
-		public GKSKDZone SKDZone { get; private set; }
 		public GKBaseObjectType BaseObjectType { get; private set; }
 
 		public void CopyTo(GKState state)
