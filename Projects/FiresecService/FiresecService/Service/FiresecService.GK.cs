@@ -80,16 +80,6 @@ namespace FiresecService.Service
 			return OperationResult<bool>.FromError("Не найден ГК в конфигурации");
 		}
 
-		public OperationResult<bool> GKSetSchedule(GKSchedule schedule)
-		{
-			var gkControllerDevice = GKManager.Devices.FirstOrDefault(x => x.DriverType == GKDriverType.GK);
-			if (gkControllerDevice != null)
-			{
-				return GKScheduleHelper.GKSetSchedule(gkControllerDevice, schedule);
-			}
-			return OperationResult<bool>.FromError("Не найден ГК в конфигурации");
-		}
-
 		public OperationResult<List<byte>> GKGKHash(Guid gkDeviceUID)
 		{
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == gkDeviceUID);
@@ -108,16 +98,6 @@ namespace FiresecService.Service
 					return GKManager.Devices.FirstOrDefault(x => x.UID == uid);
 			}
 			return null;
-		}
-
-		public OperationResult<uint> GKGetReaderCode(Guid deviceUID)
-		{
-			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			if (device != null)
-			{
-				return GKProcessorManager.GKGetReaderCode(device);
-			}
-			return OperationResult<uint>.FromError("Не найдено устройство в конфигурации");
 		}
 
 		//public void GKOpenSKDZone(Guid zoneUID) //TODO: Change to SKD
@@ -186,27 +166,6 @@ namespace FiresecService.Service
 							progressCallback.CurrentStep = 0;
 							foreach (var card in cardsResult.Result)
 							{
-								var getAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(card.AccessTemplateUID);
-								var accessTemplate = getAccessTemplateOperationResult.Result != null ? getAccessTemplateOperationResult.Result : null;
-
-								var controllerCardSchedules = GKSKDHelper.GetGKControllerCardSchedules(card, accessTemplate);
-								var controllerCardSchedule = controllerCardSchedules.FirstOrDefault(x => x.ControllerDevice.UID == deviceUID);
-								if (controllerCardSchedule == null && card.GKCardType != GKCardType.Employee)
-								{
-									controllerCardSchedule = new GKControllerCardSchedule()
-									{
-										ControllerDevice = device
-									};
-								}
-								if (controllerCardSchedule != null)
-								{
-									var employeeOperationResult = databaseService.EmployeeTranslator.GetSingle(card.HolderUID);
-									var employee = employeeOperationResult.Result != null ? employeeOperationResult.Result : null;
-									if (employee != null)
-									{
-										GKSKDHelper.AddOrEditCard(controllerCardSchedule, card, employee.FIO);
-									}
-								}
 								GKProcessorManager.DoProgress("Пользователь " + card.Number, progressCallback);
 							}
 						}

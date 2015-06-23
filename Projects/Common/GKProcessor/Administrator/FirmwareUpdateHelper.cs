@@ -23,25 +23,6 @@ namespace GKProcessor
 				ErrorList.Add(Error);
 		}
 
-		public void UpdateFSCS(HexFileCollectionInfo hxcFileInfo, List<GKDevice> devices, string userName)
-		{
-			foreach (var device in devices)
-			{
-				var fileInfo = hxcFileInfo.HexFileInfos.FirstOrDefault(x => x.DriverType == device.DriverType);
-				if (fileInfo == null)
-				{
-					Error = "Не найден файл прошивки для устройства типа " + device.DriverType;
-					return;
-				}
-				var bytes = StringsToBytes(fileInfo.Lines);
-			//	Update(device, bytes, userName);
-				GKProcessorManager.StopProgress(ProgressCallback);
-				if (Error != null)
-					ErrorList.Add(Error);
-				Error = null;
-			}
-		}
-
 		List<byte> HexFileToBytesList(string filePath)
 		{
 			var strings = File.ReadAllLines(filePath).ToList();
@@ -64,14 +45,6 @@ namespace GKProcessor
 				}
 			}
 			return bytes;
-		}
-
-		bool Clear(GKDevice device)
-		{
-			var sendResult = SendManager.Send(device, 0, 16, 0, null, true, false, 4000);
-			if (sendResult.HasError)
-				return false;
-			return true;
 		}
 	}
 }

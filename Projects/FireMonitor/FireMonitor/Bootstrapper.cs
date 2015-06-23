@@ -55,7 +55,6 @@ namespace FireMonitor
 					ServiceFactory.StartupService.DoStep("Загрузка конфигурации с сервера");
 					FiresecManager.GetConfiguration("Monitor/Configuration");
 
-					GKDriversCreator.Create();
 					BeforeInitialize(true);
 
 					ServiceFactory.StartupService.DoStep("Старт полинга сервера");

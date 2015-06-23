@@ -43,7 +43,6 @@ namespace FireAdministrator.ViewModels
 				ServiceFactory.ContentService.Invalidate();
 
 				FiresecManager.UpdateConfiguration();
-				GKManager.UpdateConfiguration();
 				SKDManager.UpdateConfiguration();
 
 				ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
@@ -147,7 +146,6 @@ namespace FireAdministrator.ViewModels
 				FiresecManager.PlansConfiguration.Plans.Add(plan);
 			}
 
-			GKManager.UpdateConfiguration();
 			FiresecManager.UpdateConfiguration();
 			SKDManager.UpdateConfiguration();
 

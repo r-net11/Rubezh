@@ -15,7 +15,7 @@ namespace FiresecAPI.Automation
 
 		[DescriptionAttribute("Название события")]
 		JournalEventNameType,
-		
+
 		[DescriptionAttribute("Уточнение события")]
 		JournalEventDescriptionType,
 

@@ -25,7 +25,5 @@ namespace FiresecAPI.GK
 		/// </summary>
 		[DataMember]
 		public string StringValue { get; set; }
-
-		public GKDriverProperty DriverProperty { get; set; }
 	}
 }

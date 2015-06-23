@@ -439,7 +439,6 @@
     <Compile Include="GKManager\GKManager.Device.cs" />
     <Compile Include="GKManager\GKManager.PresentationZone.cs" />
     <Compile Include="GKManager\GKManager.States.cs" />
-    <Compile Include="GKModels\GKConfigurationCash.cs" />
     <Compile Include="GKModels\Configuration\GKDeviceConfiguration.Update.cs" />
     <Compile Include="Models\Plans\ElementGKDevice.cs" />
     <Compile Include="Models\Plans\ElementPolyline.cs" />
@@ -459,16 +458,7 @@
     <Compile Include="Models\Configuration\SystemConfiguration.cs" />
     <Compile Include="OperationResult.cs" />
     <Compile Include="GKModels\Configuration\GKDeviceConfiguration.cs" />
-    <Compile Include="GKModels\Configuration\GKDriversConfiguration.cs" />
     <Compile Include="GKModels\Device\GKDevice.cs" />
-    <Compile Include="GKModels\Driver\GKMeasureParameter.cs" />
-    <Compile Include="GKModels\Driver\GKDriver.cs" />
-    <Compile Include="GKModels\Driver\GKDriverDeviceParameter.cs" />
-    <Compile Include="GKModels\Driver\GKDriverDeviceParameterType.cs" />
-    <Compile Include="GKModels\Driver\GKDriverProperty.cs" />
-    <Compile Include="GKModels\Driver\GKDriverPropertyParameter.cs" />
-    <Compile Include="GKModels\Driver\GKDriverPropertyTypeEnum.cs" />
-    <Compile Include="GKModels\Driver\GKDriverType.cs" />
     <Compile Include="GKModels\Firmware\HexFileCollectionInfo.cs" />
     <Compile Include="GKModels\Firmware\HEXFileInfo.cs" />
     <Compile Include="GKModels\Formula\FormulaOperation.cs" />

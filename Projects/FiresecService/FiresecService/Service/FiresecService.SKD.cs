@@ -146,10 +146,10 @@ namespace FiresecService.Service
 		}
 		public OperationResult MarkDeletedDepartment(ShortDepartment department)
 		{
-			AddJournalMessage(JournalEventNameType.Удаление_отдела, department.Name, uid: department.UID);	
+			AddJournalMessage(JournalEventNameType.Удаление_отдела, department.Name, uid: department.UID);
 			foreach (var childDepartment in department.ChildDepartments)
 			{
-				AddJournalMessage(JournalEventNameType.Удаление_отдела, childDepartment.Value, uid: childDepartment.Key);	
+				AddJournalMessage(JournalEventNameType.Удаление_отдела, childDepartment.Value, uid: childDepartment.Key);
 			}
 			using (var databaseService = new SKDDatabaseService())
 			{
@@ -441,7 +441,6 @@ namespace FiresecService.Service
 					var oldGetAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(oldCard.AccessTemplateUID);
 
 					errors.AddRange(DeleteStrazhCard(card, getAccessTemplateOperationResult.Result, databaseService));
-					errors.AddRange(DeleteGKCard(card, getAccessTemplateOperationResult.Result, databaseService));
 				}
 				else
 				{
@@ -461,21 +460,6 @@ namespace FiresecService.Service
 			var pendingResult = databaseService.CardTranslator.DeletePendingList(card.UID, GetFailedControllerUIDs(cardWriter));
 			if (pendingResult.HasError)
 				yield return pendingResult.Error;
-		}
-		IEnumerable<string> DeleteGKCard(SKDCard card, AccessTemplate accessTemplate, SKDDatabaseService databaseService)
-		{
-			var controllerCardSchedules = GKSKDHelper.GetGKControllerCardSchedules(card, accessTemplate);
-			foreach (var controllerCardSchedule in controllerCardSchedules)
-			{
-				var removeResult = GKSKDHelper.RemoveCard(controllerCardSchedule.ControllerDevice, card);
-				if (removeResult.HasError)
-				{
-					yield return "Не удалось удалить карту из устройства " + controllerCardSchedule.ControllerDevice.PresentationName;
-					var pendingResult = databaseService.CardTranslator.DeletePendingList(card.UID, new List<Guid>() { controllerCardSchedule.ControllerDevice.UID });
-					if (pendingResult.HasError)
-						yield return pendingResult.Error;
-				}
-			}
 		}
 
 		public OperationResult DeletedCard(SKDCard card)
@@ -1634,14 +1618,7 @@ namespace FiresecService.Service
 
 
 		#region GKSchedule
-		public OperationResult<List<GKSchedule>> GetGKSchedules()
-		{
-			using (var databaseService = new SKDDatabaseService())
-			{
-				return databaseService.GKScheduleTranslator.GetSchedules();
-			}
-		}
-			
+
 		public OperationResult SaveGKSchedule(GKSchedule item, bool isNew)
 		{
 			if (isNew)
@@ -1694,10 +1671,8 @@ namespace FiresecService.Service
 			{
 				result = databaseService.GKScheduleTranslator.SaveDaySchedule(item);
 			}
-			if (!result.HasError)
-				return GKScheduleHelper.AllGKSetDaySchedule(item);
-			else
-				return result;
+
+			return result;
 		}
 
 		public OperationResult DeleteGKDaySchedule(GKDaySchedule item)

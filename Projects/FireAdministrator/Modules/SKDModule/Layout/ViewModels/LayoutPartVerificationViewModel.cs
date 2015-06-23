@@ -24,12 +24,6 @@ namespace SKDModule.ViewModels
 			{
 				deviceViewModel = new DeviceViewModel(skdDevice);
 			}
-			var gkDevice = GKManager.Devices.FirstOrDefault(x => x.UID == _properties.ReferenceUID);
-			if (gkDevice != null)
-			{
-				deviceViewModel = new DeviceViewModel(gkDevice);
-			}
-
 			if (deviceViewModel != null)
 			{
 				UpdateLayoutPart(deviceViewModel.NameAndAddress);

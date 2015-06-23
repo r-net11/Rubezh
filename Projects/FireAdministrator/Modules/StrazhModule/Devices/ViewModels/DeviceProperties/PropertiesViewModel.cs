@@ -43,16 +43,16 @@ namespace StrazhModule.ViewModels
 
 					switch (driverProperty.DriverPropertyType)
 					{
-						case GKDriverPropertyTypeEnum.StringType:
+						case SKDDriverType.StringType:
 							StringProperties.Add(new StringPropertyViewModel(driverProperty, Device));
 							break;
-						case GKDriverPropertyTypeEnum.IntType:
+						case SKDDriverType.IntType:
 							ShortProperties.Add(new ShortPropertyViewModel(driverProperty, Device));
 							break;
-						case GKDriverPropertyTypeEnum.BoolType:
+						case SKDDriverType.BoolType:
 							BoolProperties.Add(new BoolPropertyViewModel(driverProperty, Device));
 							break;
-						case GKDriverPropertyTypeEnum.EnumType:
+						case SKDDriverType.EnumType:
 							EnumProperties.Add(new EnumPropertyViewModel(driverProperty, Device));
 							break;
 					}

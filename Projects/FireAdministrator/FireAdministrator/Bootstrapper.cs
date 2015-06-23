@@ -41,7 +41,6 @@ namespace FireAdministrator
 					ServiceFactory.StartupService.DoStep("Загрузка конфигурации с сервера");
 					FiresecManager.GetConfiguration("Administrator/Configuration");
 
-					GKDriversCreator.Create();
 					BeforeInitialize(true);
 
 					ServiceFactory.StartupService.DoStep("Загрузка клиентских настроек");

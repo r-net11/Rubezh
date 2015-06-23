@@ -47,12 +47,6 @@ namespace SKDModule.Reports.ViewModels
 					break;
 			}
 		}
-		public SKDObjectViewModel(GKDevice device)
-		{
-			Name = device.PresentationName;
-			UID = device.UID;
-			ImageSource = device.Driver.ImageSource;
-		}
 		public SKDObjectViewModel(SKDDevice device)
 		{
 			Name = device.Name;

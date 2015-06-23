@@ -15,15 +15,7 @@ namespace FiresecClient
 
 		public static XStateClass GetMinStateClass()
 		{
-			var minStateClass = XStateClass.No;
-			foreach (var device in Devices)
-				if (device.IsRealDevice)
-				{
-					var stateClass = device.State.StateClass;
-					if (stateClass < minStateClass)
-						minStateClass = device.State.StateClass;
-				}
-			return minStateClass;
+			return XStateClass.No;
 		}
 	}
 }

@@ -28,14 +28,12 @@ namespace AutomationModule.ViewModels
 		{
 			ExplicitValue = new ExplicitValue();
 			StateTypeValues = ProcedureHelper.GetEnumObs<XStateClass>();
-			DriverTypeValues = ProcedureHelper.GetEnumObs<GKDriverType>();
 		}
 
 		public ExplicitValueViewModel(ExplicitValue explicitValue)
 		{
 			ExplicitValue = explicitValue;
 			StateTypeValues = ProcedureHelper.GetEnumObs<XStateClass>();
-			DriverTypeValues = ProcedureHelper.GetEnumObs<GKDriverType>();
 			Initialize(ExplicitValue.UidValue);
 		}
 
@@ -129,18 +127,6 @@ namespace AutomationModule.ViewModels
 				OnPropertyChanged(() => StateTypeValue);
 			}
 		}
-
-		public ObservableCollection<GKDriverType> DriverTypeValues { get; private set; }
-		public GKDriverType DriverTypeValue
-		{
-			get { return ExplicitValue.DriverTypeValue; }
-			set
-			{
-				ExplicitValue.DriverTypeValue = value;
-				OnPropertyChanged(() => DriverTypeValue);
-			}
-		}
-
 		public bool IsEmpty
 		{
 			get

@@ -15,9 +15,6 @@ namespace FiresecAPI.GK
 		}
 
 		[DataMember]
-		public GKDriverType DriverType { get; set; }
-
-		[DataMember]
 		public string FileName { get; set; }
 
 		[DataMember]

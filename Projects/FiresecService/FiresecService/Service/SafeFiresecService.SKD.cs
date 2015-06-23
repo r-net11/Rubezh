@@ -466,10 +466,6 @@ namespace FiresecService.Service
 		}
 
 		#region GKSchedule
-		public OperationResult<List<GKSchedule>> GetGKSchedules()
-		{
-			return SafeContext.Execute<OperationResult<List<GKSchedule>>>(() => FiresecService.GetGKSchedules());
-		}
 
 		public OperationResult SaveGKSchedule(GKSchedule item, bool isNew)
 		{

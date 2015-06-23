@@ -62,10 +62,6 @@
     <Compile Include="DescriptorsDatabase\Descriptors\BinProperty.cs" />
     <Compile Include="DescriptorsDatabase\Descriptors\FormulaBuilder.cs" />
     <Compile Include="BytesHelper.cs" />
-    <Compile Include="Drivers\GKDevices\GKSystem_Helper.cs" />
-    <Compile Include="Drivers\GKDevices\GK_Helper.cs" />
-    <Compile Include="Drivers\GKDriversCreator.cs" />
-    <Compile Include="Drivers\GKDriversHelper.cs" />
     <Compile Include="GKProcessorManager.cs" />
     <Compile Include="Administrator\GKScheduleHelper.cs" />
     <Compile Include="Journal\JournalItemsCollection.cs" />
@@ -77,8 +73,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Sending\SendManager.cs" />
-    <Compile Include="Sending\SendResult.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">

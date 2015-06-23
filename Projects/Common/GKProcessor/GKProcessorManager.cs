@@ -104,16 +104,6 @@ namespace GKProcessor
 		#region Main
 		public static bool MustMonitor = false;
 
-		static GKDevice GetGKDevice(GKDevice device)
-		{
-			if (device.DriverType == GKDriverType.GK)
-				return device;
-			var gkControllerDevice = device.GkDatabaseParent;
-			if (gkControllerDevice.DriverType == GKDriverType.GK)
-				return gkControllerDevice;
-			return null;
-		}
-
 		#endregion
 
 		#region Operations
@@ -129,7 +119,6 @@ namespace GKProcessor
 		public static OperationResult<bool> GKUpdateFirmwareFSCS(HexFileCollectionInfo hxcFileInfo, string userName, List<GKDevice> devices)
 		{
 			var firmwareUpdateHelper = new FirmwareUpdateHelper();
-			firmwareUpdateHelper.UpdateFSCS(hxcFileInfo, devices, userName);
 			if (firmwareUpdateHelper.ErrorList.Count > 0)
 				return OperationResult<bool>.FromError(firmwareUpdateHelper.ErrorList, false);
 			return new OperationResult<bool>(true);
@@ -142,20 +131,6 @@ namespace GKProcessor
 			if (gkFileReaderWriter.Error != null)
 				return OperationResult<List<byte>>.FromError(gkFileReaderWriter.Error);
 			return new OperationResult<List<byte>>(readInfoBlock.Hash1);
-		}
-
-		public static OperationResult<uint> GKGetReaderCode(GKDevice device)
-		{
-			var sendResult = SendManager.Send(device.GkDatabaseParent, 2, 12, 68, BytesHelper.ShortToBytes(device.GKDescriptorNo));
-			if (!sendResult.HasError)
-			{
-				var code = BytesHelper.SubstructInt(sendResult.Bytes, 52);
-				return new OperationResult<uint>((uint)code);
-			}
-			else
-			{
-				return OperationResult<uint>.FromError(sendResult.Error);
-			}
 		}
 
 		#endregion

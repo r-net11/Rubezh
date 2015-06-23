@@ -209,11 +209,6 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.GKRewriteAllSchedules(gkDeviceUID); }, "GKRewriteAllSchedules");
 		}
 
-		public OperationResult<bool> GKSetSchedule(GKSchedule schedule)
-		{
-			return SafeOperationCall(() => { return FiresecService.GKSetSchedule(schedule); }, "GKSetSchedule");
-		}
-
 		//public OperationResult<List<GKUser>> GKGetUsers(Guid gkDeviceUID)
 		//{
 		//	return SafeOperationCall(() => { return FiresecService.GKGetUsers(gkDeviceUID); }, "GKGetUsers");
@@ -238,12 +233,6 @@ namespace FiresecService.Service
 		{
 			SafeOperationCall(() => { FiresecService.GKStopMeasureMonitoring(deviceUID); }, "GKStopMeasureMonitoring");
 		}
-
-		public OperationResult<uint> GKGetReaderCode(Guid deviceUID)
-		{
-			return SafeOperationCall(() => { return FiresecService.GKGetReaderCode(deviceUID); }, "GKGetReaderCode");
-		}
-
 		#endregion
 
 		#region Automation

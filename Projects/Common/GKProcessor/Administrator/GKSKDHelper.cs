@@ -14,10 +14,6 @@ namespace GKProcessor
 		public static OperationResult<bool> AddOrEditCard(GKControllerCardSchedule controllerCardSchedule, SKDCard card, string employeeName, int gkCardNo = 0)
 		{
 			var isNew = true;
-			using (var skdDatabaseService = new SKDDatabaseService())
-			{
-				gkCardNo = skdDatabaseService.GKCardTranslator.GetFreeGKNo(controllerCardSchedule.ControllerDevice.GetGKIpAddress(), card.Number, out isNew);
-			}
 
 			var bytes = new List<byte>();
 			bytes.AddRange(BytesHelper.ShortToBytes((ushort)(gkCardNo)));
@@ -74,78 +70,6 @@ namespace GKProcessor
 				}
 			}
 
-			foreach (var pack in packs)
-			{
-				var sendResult = SendManager.Send(controllerCardSchedule.ControllerDevice, (ushort)(pack.Count), (byte)(isNew ? 25 : 26), 0, pack);
-				if (sendResult.HasError)
-				{
-					return OperationResult<bool>.FromError(sendResult.Error);
-				}
-				if (sendResult.Bytes.Count > 0)
-				{
-					return OperationResult<bool>.FromError("Неправильный формат при записи карты в прибор");
-				}
-			}
-
-			using (var skdDatabaseService = new SKDDatabaseService())
-			{
-				skdDatabaseService.GKCardTranslator.AddOrEdit(controllerCardSchedule.ControllerDevice.GetGKIpAddress(), gkCardNo, card.Number, employeeName);
-			}
-
-			return new OperationResult<bool>(true);
-		}
-
-		public static OperationResult<bool> RemoveCard(GKDevice device, SKDCard card)
-		{
-			int no;
-			using (var skdDatabaseService = new SKDDatabaseService())
-			{
-				no = skdDatabaseService.GKCardTranslator.GetGKNoByCardNo(device.GetGKIpAddress(), card.Number);
-			}
-			if (no == -1)
-			{
-				return OperationResult<bool>.FromError("По номеру карты не найдена порядковая запись");
-			}
-
-			var bytes = new List<byte>();
-			bytes.Add(0);
-			bytes.AddRange(BytesHelper.ShortToBytes((ushort)(no)));
-			bytes.Add(0);
-			bytes.Add(1);
-			var nameBytes = BytesHelper.StringDescriptionToBytes("-");
-			bytes.AddRange(nameBytes);
-			bytes.AddRange(BytesHelper.IntToBytes(-1));
-			bytes.Add(0);
-			bytes.Add(0);
-
-			for (int i = 0; i < 256 - 42; i++)
-			{
-				bytes.Add(0);
-			}
-
-			var sendResult = SendManager.Send(device, (ushort)(bytes.Count), 26, 0, bytes);
-			if (sendResult.HasError)
-			{
-				return OperationResult<bool>.FromError(sendResult.Error);
-			}
-
-			using (var skdDatabaseService = new SKDDatabaseService())
-			{
-				skdDatabaseService.GKCardTranslator.Remove(device.GetGKIpAddress(), no, card.Number);
-			}
-
-			return new OperationResult<bool>(true);
-		}
-
-		public static OperationResult<bool> EditCard(SKDCard oldCard, AccessTemplate oldAccessTemplate, SKDCard newCard, AccessTemplate newAccessTemplate)
-		{
-			var controllerCardSchedules_ToDelete = GetGKControllerCardSchedules(oldCard, oldAccessTemplate);
-			var controllerCardSchedules_ToEdit = GetGKControllerCardSchedules(newCard, newAccessTemplate);
-			foreach (var controllerCardSchedule_ToEdit in controllerCardSchedules_ToEdit)
-			{
-				controllerCardSchedules_ToDelete.RemoveAll(x => x.ControllerDevice.UID == controllerCardSchedule_ToEdit.ControllerDevice.UID);
-			}
-
 			return new OperationResult<bool>(true);
 		}
 
@@ -198,17 +122,6 @@ namespace GKProcessor
 				bytes.Add(0);
 				bytes.AddRange(BytesHelper.ShortToBytes((ushort)(no)));
 
-				var sendResult = SendManager.Send(device, (ushort)(bytes.Count), 24, 0, bytes);
-				if (sendResult.HasError)
-				{
-					result = false;
-					break;
-				}
-				if (sendResult.Bytes.Count == 0)
-				{
-					break;
-				}
-
 				bytes = new List<byte>();
 				bytes.Add(0);
 				bytes.AddRange(BytesHelper.ShortToBytes((ushort)(no)));
@@ -224,58 +137,14 @@ namespace GKProcessor
 					bytes.Add(0);
 				}
 
-				sendResult = SendManager.Send(device, (ushort)(bytes.Count), 26, 0, bytes);
-				if (sendResult.HasError)
-				{
-					result = false;
-					break;
-				}
-				if (sendResult.Bytes.Count == 256)
-				{
-					break;
-				}
-
 				cardsCount++;
 				GKProcessorManager.DoProgress("Пользователь " + no, progressCallback);
 			}
 			using (var skdDatabaseService = new SKDDatabaseService())
 			{
 				GKProcessorManager.DoProgress("Удаление пользователей прибора из БД", progressCallback);
-				skdDatabaseService.GKCardTranslator.RemoveAll(device.GetGKIpAddress(), cardsCount);
 			}
 			return result;
-		}
-
-		public static List<GKControllerCardSchedule> GetGKControllerCardSchedules(SKDCard card, AccessTemplate accessTemplate)
-		{
-			var cardSchedules = new List<GKCardSchedule>();
-
-			var cardDoors = new List<CardDoor>();
-			if (accessTemplate != null)
-			{
-				cardDoors = accessTemplate.CardDoors.ToList();
-			}
-			cardDoors.AddRange(card.CardDoors.ToList());
-
-			cardSchedules = cardSchedules.OrderBy(x => x.Device.GKDescriptorNo).ToList();
-
-			var controllerCardSchedules = new List<GKControllerCardSchedule>();
-			foreach (var cardSchedule in cardSchedules)
-			{
-				var gkParent = cardSchedule.Device.GKParent;
-				if(gkParent != null)
-				{
-					var controllerCardSchedule = controllerCardSchedules.FirstOrDefault(x => x.ControllerDevice.UID == gkParent.UID);
-					if(controllerCardSchedule == null)
-					{
-						controllerCardSchedule = new GKControllerCardSchedule();
-						controllerCardSchedule.ControllerDevice = gkParent;
-						controllerCardSchedules.Add(controllerCardSchedule);
-					}
-					controllerCardSchedule.CardSchedules.Add(cardSchedule);
-				}
-			}
-			return controllerCardSchedules;
 		}
 	}
 

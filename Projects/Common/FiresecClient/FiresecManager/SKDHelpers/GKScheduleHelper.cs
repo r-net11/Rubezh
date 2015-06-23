@@ -17,12 +17,6 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
-		public static List<GKSchedule> GetSchedules()
-		{
-			var operationResult = FiresecManager.FiresecService.GetGKSchedules();
-			return Common.ShowErrorIfExists(operationResult);
-		}
-
 		public static bool SaveDaySchedule(GKDaySchedule item, bool isNew)
 		{
 			var operationResult = FiresecManager.FiresecService.SaveGKDaySchedule(item, isNew);

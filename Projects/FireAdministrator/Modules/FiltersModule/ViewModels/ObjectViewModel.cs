@@ -56,13 +56,6 @@ namespace FiltersModule.ViewModels
 			}
 		}
 
-		public ObjectViewModel(GKDevice device)
-		{
-			Name = device.PresentationName;
-			UID = device.UID;
-			ImageSource = device.Driver.ImageSource;
-		}
-
 		public ObjectViewModel(SKDDevice device)
 		{
 			Name = device.Name;

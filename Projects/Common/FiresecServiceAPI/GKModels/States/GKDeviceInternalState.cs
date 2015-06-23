@@ -11,9 +11,6 @@ namespace FiresecAPI.GK
 		public GKDeviceInternalState(GKDevice device)
 		{
 			Device = device;
-
-			if (device.DriverType == GKDriverType.System)
-				IsInitialState = false;
 		}
 
 		List<GKStateBit> _stateBitss = new List<GKStateBit>();
@@ -23,9 +20,6 @@ namespace FiresecAPI.GK
 			{
 				if (IsConnectionLost)
 					return new List<GKStateBit>();
-
-				if (!Device.IsRealDevice)
-					return new List<GKStateBit>() { GKStateBit.Norm };
 
 				if (_stateBitss == null)
 					_stateBitss = new List<GKStateBit>();
@@ -50,20 +44,7 @@ namespace FiresecAPI.GK
 					if (!stateClasses.Contains(XStateClass.Service))
 						stateClasses.Add(XStateClass.Service);
 				}
-				if (Device.Driver.IsGroupDevice)
-				{
-					stateClasses.Clear();
-					if (Device.Children.Count > 0)
-					{
-						foreach (var child in Device.Children)
-						{
-							if (!stateClasses.Contains(child.InternalState.StateClass))
-								stateClasses.Add(child.InternalState.StateClass);
-						}
-						if (stateClasses.Count > 1 && stateClasses.Contains(XStateClass.Norm))
-							stateClasses.Remove(XStateClass.Norm);
-					}
-				}
+
 				stateClasses.OrderBy(x => x);
 				return stateClasses;
 			}

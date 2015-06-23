@@ -30,15 +30,10 @@ namespace GKProcessor
 					if (progressCallback.IsCanceled)
 					{ Error = "Операция отменена"; return null; }
 					GKProcessorManager.DoProgress("Чтение блока данных " + i, progressCallback);
-					var data = new List<byte>(BitConverter.GetBytes(i++));
+
 					var sendResultBytesCount = 256;
 					for (int j = 0; j < 10; j++)
 					{
-						var sendResult = SendManager.Send(gkControllerDevice, 4, 23, 256, data);
-						allbytes.AddRange(sendResult.Bytes);
-						sendResultBytesCount = sendResult.Bytes.Count();
-						if (!sendResult.HasError)
-							break;
 						if (j == 9)
 						{
 							Error = "Невозможно прочитать блок данных " + i;
@@ -78,9 +73,6 @@ namespace GKProcessor
 
 			var bytesList = new List<byte>();
 			bytesList.AddRange(gkFileInfo.InfoBlock);
-			var sendResult = SendManager.Send(gkControllerDevice, 0, 21, 0);
-			if (sendResult.HasError)
-			{ Error = "Невозможно начать процедуру записи "; return; }
 			bytesList.AddRange(gkFileInfo.FileBytes);
 			var progressCallback = GKProcessorManager.StartProgress("Запись файла в " + gkControllerDevice.PresentationName, null, bytesList.Count / 256, false, GKProgressClientType.Administrator);
 			for (var i = 0; i < bytesList.Count; i += 256)
@@ -90,9 +82,6 @@ namespace GKProcessor
 				bytesBlock.AddRange(bytesList.GetRange(i, Math.Min(256, bytesList.Count - i)));
 				for (int j = 0; j < 10; j++)
 				{
-					sendResult = SendManager.Send(gkControllerDevice, (ushort)bytesBlock.Count(), 22, 0, bytesBlock);
-					if (!sendResult.HasError)
-						break;
 					if (j == 9)
 					{
 						Error = "Невозможно записать блок данных " + i;
@@ -101,27 +90,16 @@ namespace GKProcessor
 				}
 			}
 			var endBlock = BitConverter.GetBytes((uint)(bytesList.Count() / 256 + 1)).ToList();
-			sendResult = SendManager.Send(gkControllerDevice, 0, 22, 0, endBlock);
-			if (sendResult.HasError)
-			{ Error = "Невозможно завершить запись файла "; }
 		}
 
 		public GKFileInfo ReadInfoBlock(GKDevice gkControllerDevice)
 		{
 			try
 			{
-				var data = new List<byte>(BitConverter.GetBytes(1));
-				var sendResult = SendManager.Send(gkControllerDevice, 4, 23, 256, data);
-				if (sendResult.HasError)
-				{ Error = "Устройство недоступно"; return null; }
-				if (sendResult.Bytes.Count == 0)
-				{ Error = "Информационный блок отсутствует"; return null; }
-				if (sendResult.Bytes.Count < 256)
-				{ Error = "Информационный блок поврежден"; return null; }
-				var infoBlock = GKFileInfo.BytesToGKFileInfo(sendResult.Bytes);
 				if (GKFileInfo.Error != null)
 				{ Error = GKFileInfo.Error; return null; }
-				return infoBlock;
+
+				return new GKFileInfo();
 			}
 			catch (Exception e)
 			{ Logger.Error(e, "GKDescriptorsWriter.WriteConfig"); return null; }

@@ -30,13 +30,7 @@ namespace FiresecAPI.GK
 		public bool IsDisabled{ get; set; }
 		[XmlIgnore]
 		public override GKBaseObjectType ObjectType { get { return GKBaseObjectType.Deivce; } }
-		[XmlIgnore]
-		public GKDriver Driver { get; set; }
-		[XmlIgnore]
-		public GKDriverType DriverType
-		{
-			get { return Driver.DriverType; }
-		}
+
 		[XmlIgnore]
 		public GKDevice Parent { get; set; }
 		[XmlIgnore]
@@ -104,17 +98,6 @@ namespace FiresecAPI.GK
 		{
 			get
 			{
-				if (DriverType == GKDriverType.GK)
-				{
-					var ipAddress = GetGKIpAddress();
-					return ipAddress != null ? ipAddress : "";
-				}
-				if (!Driver.HasAddress)
-					return "";
-
-				if (!Driver.IsDeviceOnShleif)
-					return IntAddress.ToString();
-
 				return IntAddress.ToString();
 			}
 		}
@@ -124,17 +107,7 @@ namespace FiresecAPI.GK
 		{
 			get
 			{
-				var address = Address;
-				if (Driver.IsGroupDevice)
-				{
-					var firstDevice = Children.FirstOrDefault();
-					var lastDevice = Children.LastOrDefault();
-					if (firstDevice != null && lastDevice != null)
-					{
-						address = firstDevice.Address + " - " + lastDevice.Address;
-					}
-				}
-				return address;
+				return Address;
 			}
 		}
 
@@ -143,36 +116,10 @@ namespace FiresecAPI.GK
 		{
 			get
 			{
-				if (DriverType == GKDriverType.GK)
-				{
-					return Address;
-				}
-
 				var address = new StringBuilder();
-				var allParents = AllParents;
-				var rootDevice = allParents.FirstOrDefault();
-
-				foreach (var parentDevice in allParents.Where(x => x.Driver.HasAddress))
-				{
-					if (parentDevice.Driver.IsGroupDevice)
-						continue;
-
-					address.Append(parentDevice.Address);
-					address.Append(".");
-				}
-				if (Driver.HasAddress)
-				{
-					address.Append(Address);
-					address.Append(".");
-				}
 
 				if (address.Length > 0 && address[address.Length - 1] == '.')
 					address.Remove(address.Length - 1, 1);
-
-				if (rootDevice != null && rootDevice.Children.Count > 1 && rootDevice.Driver.DriverType == GKDriverType.System)
-				{
-					address.Append("(" + allParents[1].Address + ")");
-				}
 
 				return address.ToString();
 			}
@@ -183,25 +130,14 @@ namespace FiresecAPI.GK
 		{
 			get
 			{
-				var address = DottedAddress;
-				if (Driver.IsGroupDevice)
-				{
-					if (Children.Count > 0)
-						return Children.FirstOrDefault().DottedAddress + " - " + Children.LastOrDefault().DottedAddress;
-				}
-				return address;
+				return DottedAddress;
 			}
 		}
 
 		[XmlIgnore]
 		public string ShortName
 		{
-			get
-			{
-				if (!string.IsNullOrEmpty(PredefinedName))
-					return PredefinedName;
-				return Driver.ShortName;
-			}
+			get { return !string.IsNullOrEmpty(PredefinedName) ? PredefinedName : string.Empty; }
 		}
 
 		[XmlIgnore]
@@ -222,25 +158,8 @@ namespace FiresecAPI.GK
 		{
 			try
 			{
-				if (Driver.HasAddress == false)
-					return;
-
-				if (Driver.IsDeviceOnShleif == false)
-				{
-					IntAddress = byte.Parse(address);
-					return;
-				}
-
 				byte intAddress = byte.Parse(address);
 				IntAddress = intAddress;
-
-				if (Driver.IsGroupDevice)
-				{
-					for (int i = 0; i < Children.Count; i++)
-					{
-						Children[i].IntAddress = (byte)(IntAddress + i);
-					}
-				}
 			}
 			catch { }
 		}
@@ -250,10 +169,7 @@ namespace FiresecAPI.GK
 		{
 			get
 			{
-				if (Parent != null && Parent.Driver.IsGroupDevice)
-					return false;
-
-				return (Driver.HasAddress && Driver.CanEditAddress);
+				return Parent == null;
 			}
 		}
 
@@ -299,76 +215,9 @@ namespace FiresecAPI.GK
 		}
 
 		[XmlIgnore]
-		public GKDevice GKParent
-		{
-			get { return AllParents.FirstOrDefault(x => x.DriverType == GKDriverType.GK); }
-		}
-
-		public string GetGKIpAddress()
-		{
-			if (DriverType == GKDriverType.GK)
-			{
-				var ipProperty = this.Properties.FirstOrDefault(x => x.Name == "IPAddress");
-				if (ipProperty != null)
-				{
-					return ipProperty.StringValue;
-				}
-			}
-			return null;
-		}
-
-		[XmlIgnore]
-		public bool IsRealDevice
-		{
-			get
-			{
-				if (Driver == null || Driver.IsGroupDevice)
-					return false;
-				return Driver.IsReal;
-			}
-		}
-
-		public void InitializeDefaultProperties()
-		{
-			if (Driver != null)
-				foreach (var driverProperty in Driver.Properties)
-				{
-					if (Properties.Any(x => x.Name == driverProperty.Name) == false)
-					{
-						var property = new GKProperty()
-						{
-							DriverProperty = driverProperty,
-							Name = driverProperty.Name,
-							Value = driverProperty.Default
-						};
-						Properties.Add(property);
-					}
-				}
-		}
-
-		[XmlIgnore]
-		int SortingAddress
-		{
-			get
-			{
-				if (!Driver.HasAddress)
-					return 0;
-				return IntAddress;
-			}
-		}
-
-		public void SynchronizeChildern()
-		{
-			if (Children.Count > 0)
-			{
-				Children = new List<GKDevice>(Children.OrderBy(x => { return x.SortingAddress; }));
-			}
-		}
-
-		[XmlIgnore]
 		public bool CanBeNotUsed
 		{
-			get { return (Parent != null && Parent.Driver.IsGroupDevice); }
+			get { return (Parent != null); }
 		}
 
 		public void OnChanged()

@@ -190,8 +190,6 @@ namespace AutomationModule
 					{
 						if (enumType == EnumType.StateType)
 							result = explicitValue.StateTypeValue.ToDescription();
-						if (enumType == EnumType.DriverType)
-							result = explicitValue.DriverTypeValue.ToDescription();
 						if (enumType == EnumType.PermissionType)
 							result = explicitValue.PermissionTypeValue.ToDescription();
 						if (enumType == EnumType.JournalEventDescriptionType)

@@ -36,11 +36,6 @@ namespace GKProcessor
 			deviceConfiguration.UpdateConfiguration();
 			var stringBuilder = new StringBuilder();
 			stringBuilder.Append("devices:");
-			foreach (var device in deviceConfiguration.Devices)
-			{
-				if (device.IsRealDevice && device.GKParent == gkControllerDevice)
-					stringBuilder.Append(device.PresentationName).Append("@");
-			}
 			return SHA256.Create().ComputeHash(Encoding.GetEncoding(1251).GetBytes(stringBuilder.ToString())).ToList();
 		}
 		void InitializeFileBytes(GKDeviceConfiguration deviceConfiguration)

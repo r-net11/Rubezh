@@ -122,12 +122,6 @@ namespace FiresecAPI.GK
 		public GKDevice GetDataBaseParent()
 		{
 			PrepareInputOutputDependences();
-			var allDependentObjects = GetFullTree(this);
-			var allDependentDevices = allDependentObjects.Where(x => x is GKDevice).Cast<GKDevice>().ToList();
-			if (this is GKDevice)
-				return (this as GKDevice).GKParent;
-			if (allDependentDevices != null && allDependentDevices.Count > 0)
-				return allDependentDevices.FirstOrDefault().GKParent;
 			return null;
 		}
 

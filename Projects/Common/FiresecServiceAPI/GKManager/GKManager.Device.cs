@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Xml;
 using FiresecAPI.GK;
 
 namespace FiresecClient
@@ -24,7 +25,6 @@ namespace FiresecClient
 		public static GKDevice CopyDevice(GKDevice deviceFrom, GKDevice deviceTo)
 		{
 			deviceTo.DriverUID = deviceFrom.DriverUID;
-			deviceTo.Driver = deviceFrom.Driver;
 			deviceTo.IntAddress = deviceFrom.IntAddress;
 			deviceTo.Description = deviceFrom.Description;
 			deviceTo.PredefinedName = deviceFrom.PredefinedName;
@@ -36,7 +36,6 @@ namespace FiresecClient
 				{
 					Name = property.Name,
 					Value = property.Value,
-					DriverProperty = property.DriverProperty
 				});
 			}
 
@@ -61,16 +60,14 @@ namespace FiresecClient
 			return deviceTo;
 		}
 
-		public static GKDevice AddChild(GKDevice parentDevice, GKDevice previousDevice, GKDriver driver, byte intAddress)
+		public static GKDevice AddChild(GKDevice parentDevice, GKDevice previousDevice, byte intAddress)
 		{
 			var device = new GKDevice()
 			{
-				DriverUID = driver.UID,
-				Driver = driver,
+				DriverUID = Guid.NewGuid(),
 				IntAddress = intAddress,
 				Parent = parentDevice
 			};
-			device.InitializeDefaultProperties();
 
 			if (previousDevice == null || parentDevice == previousDevice)
 			{
@@ -81,42 +78,7 @@ namespace FiresecClient
 				var index = parentDevice.Children.IndexOf(previousDevice);
 				parentDevice.Children.Insert(index + 1, device);
 			}
-
-			if (driver.DriverType == GKDriverType.GK)
-			{
-				DeviceConfiguration.UpdateGKPredefinedName(device);
-			}
-			else
-			{
-				AddAutoCreateChildren(device);
-			}
 			return device;
-		}
-
-		public static void AddAutoCreateChildren(GKDevice device)
-		{
-			foreach (var autoCreateDriverType in device.Driver.AutoCreateChildren)
-			{
-				var autoCreateDriver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == autoCreateDriverType);
-				for (byte i = autoCreateDriver.MinAddress; i <= autoCreateDriver.MaxAddress; i++)
-				{
-					AddChild(device, null, autoCreateDriver, i);
-				}
-			}
-		}
-
-		public static bool IsValidIpAddress(GKDevice device)
-		{
-			if (device.DriverType == GKDriverType.GK)
-			{
-				const string pattern = @"^([01]\d\d?|[01]?[1-9]\d?|2[0-4]\d|25[0-3])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])$";
-				var address = device.GetGKIpAddress();
-				if (string.IsNullOrEmpty(address) || !Regex.IsMatch(address, pattern))
-				{
-					return false;
-				}
-			}
-			return true;
 		}
 	}
 }

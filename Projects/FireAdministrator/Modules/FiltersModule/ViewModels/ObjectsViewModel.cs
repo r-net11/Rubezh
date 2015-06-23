@@ -142,22 +142,6 @@ namespace FiltersModule.ViewModels
 			}
 		}
 
-		ObjectViewModel AddGKDeviceInternal(GKDevice device, ObjectViewModel parentDeviceViewModel)
-		{
-			var deviceViewModel = new ObjectViewModel(device);
-			if (parentDeviceViewModel != null)
-				AddChild(parentDeviceViewModel, deviceViewModel);
-
-			foreach (var childDevice in device.Children)
-			{
-				if (!childDevice.IsNotUsed)
-				{
-					AddGKDeviceInternal(childDevice, deviceViewModel);
-				}
-			}
-			return deviceViewModel;
-		}
-
 		ObjectViewModel AddSKDDeviceInternal(SKDDevice device, ObjectViewModel parentDeviceViewModel)
 		{
 			var deviceViewModel = new ObjectViewModel(device);

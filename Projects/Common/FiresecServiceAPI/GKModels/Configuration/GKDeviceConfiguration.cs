@@ -59,14 +59,6 @@ namespace FiresecAPI.GK
 			}
 		}
 
-		public void Reorder()
-		{
-			foreach (var device in Devices)
-			{
-				device.SynchronizeChildern();
-			}
-		}
-
 		public override bool ValidateVersion()
 		{
 			bool result = true;

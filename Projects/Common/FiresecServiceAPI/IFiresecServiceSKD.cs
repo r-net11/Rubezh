@@ -351,8 +351,6 @@ namespace FiresecAPI
 		OperationResult SaveJournalCameraUID(Guid journaItemUID, Guid CameraUID);
 
 		#region GKSchedule
-		[OperationContract]
-		OperationResult<List<GKSchedule>> GetGKSchedules();
 
 		[OperationContract]
 		OperationResult SaveGKSchedule(GKSchedule item, bool isNew);

@@ -10,34 +10,9 @@ namespace FiresecAPI.GK
 	{
 		public void UpdateConfiguration()
 		{
-			if (RootDevice == null)
-			{
-				var systemDriver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.System);
-				if (systemDriver != null)
-				{
-					RootDevice = new GKDevice()
-					{
-						DriverUID = systemDriver.UID,
-						Driver = systemDriver
-					};
-				}
-				else
-				{
-					Logger.Error("GKManager.SetEmptyConfiguration systemDriver = null");
-				}
-			}
 			ValidateVersion();
 
 			Update();
-			foreach (var device in Devices)
-			{
-				device.Driver = GKManager.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
-				if (device.Driver == null)
-				{
-					//MessageBoxService.Show("Ошибка при сопоставлении драйвера устройств ГК");
-				}
-			}
-			Reorder();
 
 			InitializeProperties();
 			Invalidate();
@@ -49,18 +24,6 @@ namespace FiresecAPI.GK
 			{
 				if (device.Properties == null)
 					device.Properties = new List<GKProperty>();
-				foreach (var property in device.Properties)
-				{
-					property.DriverProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
-				}
-				device.Properties.RemoveAll(x => x.DriverProperty == null);
-
-				foreach (var property in device.DeviceProperties)
-				{
-					property.DriverProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
-				}
-				device.DeviceProperties.RemoveAll(x => x.DriverProperty == null);
-				device.InitializeDefaultProperties();
 			}
 		}
 
@@ -68,7 +31,6 @@ namespace FiresecAPI.GK
 		{
 			ClearAllReferences();
 			InitializeLogic();
-			UpdateGKChildrenDescription();
 		}
 
 		void ClearAllReferences()
@@ -135,46 +97,6 @@ namespace FiresecAPI.GK
 					result.Clauses.Add(clause);
 			}
 			return result;
-		}
-
-		void UpdateGKChildrenDescription()
-		{
-			foreach (var gkControllerDevice in RootDevice.Children)
-			{
-				UpdateGKPredefinedName(gkControllerDevice);
-			}
-		}
-
-		public void UpdateGKPredefinedName(GKDevice device)
-		{
-			if (device.DriverType == GKDriverType.GK && device.Children.Count >= 15)
-			{
-				if (device.Children.Count >= 21)
-				{
-					device.Children[0].PredefinedName = "Неисправность";
-					device.Children[1].PredefinedName = "Пожар 1";
-					device.Children[2].PredefinedName = "Пожар 2";
-					device.Children[3].PredefinedName = "Внимание";
-					device.Children[4].PredefinedName = "Включение ПУСК";
-					device.Children[5].PredefinedName = "Тест";
-					device.Children[6].PredefinedName = "Отключение";
-					device.Children[7].PredefinedName = "Автоматика отключена";
-					device.Children[8].PredefinedName = "Звук отключен";
-					device.Children[9].PredefinedName = "Останов пуска";
-					device.Children[10].PredefinedName = "Реле 1";
-					device.Children[11].PredefinedName = "Реле 2";
-					device.Children[12].PredefinedName = "Реле 3";
-					device.Children[13].PredefinedName = "Реле 4";
-					device.Children[14].PredefinedName = "Реле 5";
-					device.Children[15].PredefinedName = "Тревога";
-					device.Children[16].PredefinedName = "Резерв 1";
-					device.Children[17].PredefinedName = "Резерв 2";
-					device.Children[18].PredefinedName = "Резерв 3";
-					device.Children[19].PredefinedName = "Резерв 4";
-					device.Children[20].PredefinedName = "Резерв 5";
-
-				}
-			}
 		}
 	}
 }

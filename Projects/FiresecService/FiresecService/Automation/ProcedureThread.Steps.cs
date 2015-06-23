@@ -350,9 +350,6 @@ namespace FiresecService
 					case Property.State:
 						propertyValue = (int)(item as GKDevice).State.StateClass;
 						break;
-					case Property.Type:
-						propertyValue = (item as GKDevice).Driver.DriverType;
-						break;
 					case Property.Description:
 						propertyValue = (item as GKDevice).Description.Trim();
 						break;
@@ -749,8 +746,6 @@ namespace FiresecService
 				return explicitValue1.DateTimeValue == explicitValue2.DateTimeValue;
 			if (explicitType == ExplicitType.Enum)
 			{
-				if (enumType == EnumType.DriverType)
-					return explicitValue1.DriverTypeValue == explicitValue2.DriverTypeValue;
 				if (enumType == EnumType.StateType)
 					return explicitValue1.StateTypeValue == explicitValue2.StateTypeValue;
 				if (enumType == EnumType.PermissionType)
@@ -909,8 +904,6 @@ namespace FiresecService
 				target.ExplicitValue.DateTimeValue = Convert.ToDateTime(propertyValue);
 			if (target.ExplicitType == ExplicitType.Enum)
 			{
-				if (target.EnumType == EnumType.DriverType)
-					target.ExplicitValue.DriverTypeValue = (GKDriverType)propertyValue;
 				if (target.EnumType == EnumType.StateType)
 					target.ExplicitValue.StateTypeValue = (XStateClass)propertyValue;
 				if (target.EnumType == EnumType.PermissionType)
@@ -969,8 +962,6 @@ namespace FiresecService
 				result = explicitValue.UidValue;
 			if (explicitType == ExplicitType.Enum)
 			{
-				if (enumType == EnumType.DriverType)
-					result = explicitValue.DriverTypeValue;
 				if (enumType == EnumType.StateType)
 					result = explicitValue.StateTypeValue;
 				if (enumType == EnumType.PermissionType)

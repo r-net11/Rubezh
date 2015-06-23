@@ -94,15 +94,5 @@ namespace SKDModule.ViewModels
 			Address = skdDevice.Parent != null ? skdDevice.Parent.Address : "";
 			Name = skdDevice.Name;
 		}
-
-		public DeviceViewModel(GKDevice gkDevice)
-		{
-			GKDevice = gkDevice;
-			UID = gkDevice.UID;
-			Name = gkDevice.Driver.ShortName;
-			if (!string.IsNullOrEmpty(gkDevice.Description))
-				Name += " (" + gkDevice.Description + ")";
-			Address = gkDevice.DottedAddress;
-		}
 	}
 }

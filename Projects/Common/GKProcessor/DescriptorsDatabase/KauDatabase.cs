@@ -28,8 +28,7 @@ namespace GKProcessor
 			if (device.IsNotUsed)
 				return;
 
-			if (device.IsRealDevice)
-				AllDevices.Add(device);
+			AllDevices.Add(device);
 
 			foreach (var child in device.Children)
 			{

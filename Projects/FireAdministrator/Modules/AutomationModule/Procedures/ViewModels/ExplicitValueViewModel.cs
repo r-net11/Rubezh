@@ -43,7 +43,6 @@ namespace AutomationModule.ViewModels
 		void InitializeEnums()
 		{
 			StateTypeValues = ProcedureHelper.GetEnumObs<XStateClass>();
-			DriverTypeValues = ProcedureHelper.GetEnumObs<GKDriverType>();
 			PermissionTypeValues = ProcedureHelper.GetEnumObs<PermissionType>();
 			JournalEventNameTypeValues = ProcedureHelper.GetEnumObs<JournalEventNameType>();
 			JournalEventDescriptionTypeValues = ProcedureHelper.GetEnumObs<JournalEventDescriptionType>();
@@ -167,17 +166,6 @@ namespace AutomationModule.ViewModels
 			{
 				ExplicitValue.StateTypeValue = value;
 				OnPropertyChanged(() => StateTypeValue);
-			}
-		}
-
-		public ObservableCollection<GKDriverType> DriverTypeValues { get; private set; }
-		public GKDriverType DriverTypeValue
-		{
-			get { return ExplicitValue.DriverTypeValue; }
-			set
-			{
-				ExplicitValue.DriverTypeValue = value;
-				OnPropertyChanged(() => DriverTypeValue);
 			}
 		}
 

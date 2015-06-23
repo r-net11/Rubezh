@@ -26,7 +26,7 @@ namespace SKDModule.ViewModels
 		public bool HasGK { get; private set; }
 		public bool HasStrazh { get; private set; }
 		ShortEmployee _employee;
-		
+
 		public EmployeeCardDetailsViewModel(Organisation organisation, ShortEmployee employee, SKDCard card = null)
 		{
 			HasGK = GKManager.Devices.Count > 1;
@@ -63,13 +63,7 @@ namespace SKDModule.ViewModels
 			DeactivationControllerUID = Card.DeactivationControllerUID;
 
 			GKSchedules = new ObservableCollection<GKSchedule>();
-			var scheduleModels = GKScheduleHelper.GetSchedules();
-			if(scheduleModels == null)
-				scheduleModels = new List<GKSchedule>();
-			foreach(var schedule in scheduleModels)
-			{
-				GKSchedules.Add(schedule);
-			}
+
 			SelectedGKSchedule = GKSchedules.FirstOrDefault(x => x.No == Card.GKLevelSchedule);
 
 			AccessDoorsSelectationViewModel = new AccessDoorsSelectationViewModel(Organisation, Card.CardDoors);
@@ -481,7 +475,7 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
-			
+
 
 			Card.Number = Number;
 			var stopListCard = StopListCards.FirstOrDefault(x => x.Number == Card.Number);
@@ -497,14 +491,14 @@ namespace SKDModule.ViewModels
 					return false;
 				}
 			}
-	
+
 			if (UseStopList && SelectedStopListCard != null)
 			{
 				Card.UID = SelectedStopListCard.UID;
 				Card.IsInStopList = false;
 				Card.StopReason = null;
 			}
-			
+
 			Card.Password = Password;
 			Card.CardType = SelectedCardType;
 			Card.GKCardType = SelectedGKCardType;

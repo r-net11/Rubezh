@@ -25,7 +25,7 @@ namespace GKProcessor
 					return OperationResult<bool>.FromError(schedulesResult.Errors);
 				schedules = schedulesResult.Result;
 			}
-			
+
 			progressCallback = GKProcessorManager.StartProgress("Запись графиков в " + device.PresentationName, "", schedules.Count + 1, false, GKProgressClientType.Administrator);
 			var emptySchedule = new GKSchedule();
 			emptySchedule.Name = "Никогда";
@@ -59,10 +59,6 @@ namespace GKProcessor
 				{
 					bytes.Add(0);
 				}
-
-				var sendResult = SendManager.Send(device, (ushort)(bytes.Count), 28, 0, bytes);
-				if (sendResult.HasError)
-					return OperationResult<bool>.FromError(sendResult.Error, true);
 			}
 			return new OperationResult<bool>(true);
 		}
@@ -177,15 +173,6 @@ namespace GKProcessor
 				}
 			}
 
-			foreach (var pack in packs)
-			{
-				var sendResult = SendManager.Send(device, (ushort)(pack.Count), 28, 0, pack);
-				if (sendResult.HasError)
-				{
-					return OperationResult<bool>.FromError(sendResult.Error);
-				}
-			}
-
 			return new OperationResult<bool>(true);
 		}
 
@@ -193,38 +180,7 @@ namespace GKProcessor
 		{
 			try
 			{
-				foreach (var gk in GKManager.Devices.Where(x => x.DriverType == GKDriverType.GK))
-				{
-					var result = GKSetSchedule(gk, schedule);
-					if (result.HasError)
-						return new OperationResult(result.Error);
-				}
 				return new OperationResult();
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
-		}
-
-		public static OperationResult AllGKSetDaySchedule(GKDaySchedule daySchedule)
-		{
-			try
-			{
-				using (var databaseService = new SKDDatabaseService())
-				{
-					var schedulesResult = databaseService.GKScheduleTranslator.GetSchedules();
-					if (schedulesResult.HasError)
-						return new OperationResult(schedulesResult.Error);
-					var schedules = schedulesResult.Result.Where(x => x.DayScheduleUIDs.Any(y => y == daySchedule.UID));
-					foreach (var schedule in schedules)
-					{
-						var result = AllGKSetSchedule(schedule);
-						if (result.HasError)
-							return new OperationResult(result.Error);
-					}
-					return new OperationResult();
-				}
 			}
 			catch (Exception e)
 			{
@@ -242,6 +198,6 @@ namespace GKProcessor
 			{
 				return new OperationResult(e.Message);
 			}
-		}			
+		}
 	}
 }

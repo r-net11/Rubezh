@@ -49,16 +49,6 @@ namespace SKDModule.Reports.ViewModels
 			foreach (var door in SKDManager.Doors)
 				skdDoorsViewModel.AddChild(new SKDObjectViewModel(door));
 		}
-		private SKDObjectViewModel AddGKDeviceInternal(GKDevice device, SKDObjectViewModel parentDeviceViewModel)
-		{
-			var deviceViewModel = new SKDObjectViewModel(device);
-			if (parentDeviceViewModel != null)
-				parentDeviceViewModel.AddChild(deviceViewModel);
-			foreach (var childDevice in device.Children)
-				if (!childDevice.IsNotUsed)
-					AddGKDeviceInternal(childDevice, deviceViewModel);
-			return deviceViewModel;
-		}
 		private SKDObjectViewModel AddSKDDeviceInternal(SKDDevice device, SKDObjectViewModel parentDeviceViewModel)
 		{
 			var deviceViewModel = new SKDObjectViewModel(device);

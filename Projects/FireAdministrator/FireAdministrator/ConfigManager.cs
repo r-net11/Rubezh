@@ -168,7 +168,6 @@ namespace FireAdministrator
 				if (MessageBoxService.ShowQuestion("Вы уверены, что хотите создать новую конфигурацию"))
 				{
 					ServiceFactory.Events.GetEvent<ConfigurationClosedEvent>().Publish(null);
-					GKManager.SetEmptyConfiguration();
 					FiresecManager.PlansConfiguration = new PlansConfiguration();
 					FiresecManager.SystemConfiguration.Cameras = new List<Camera>();
 					FiresecManager.SystemConfiguration.AutomationConfiguration = new AutomationConfiguration();

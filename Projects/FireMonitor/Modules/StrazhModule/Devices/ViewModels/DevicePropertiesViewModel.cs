@@ -24,22 +24,22 @@ namespace StrazhModule.ViewModels
 				{
 					switch (driverProperty.DriverPropertyType)
 					{
-						case GKDriverPropertyTypeEnum.EnumType:
+						case SKDDriverType.EnumType:
 							var parameter = driverProperty.Parameters.FirstOrDefault(x => x.Value == property.Value);
 							if (parameter != null)
 								deviceProperty.Value = parameter.Name;
 							break;
 
-						case GKDriverPropertyTypeEnum.IntType:
+						case SKDDriverType.IntType:
 							deviceProperty.Value = property.Value.ToString();
 							break;
 
-						case GKDriverPropertyTypeEnum.BoolType:
+						case SKDDriverType.BoolType:
 							var isTrue = property.Value > 0;
 							deviceProperty.Value = isTrue ? "Есть" : "Нет";
 							break;
 
-						case GKDriverPropertyTypeEnum.StringType:
+						case SKDDriverType.StringType:
 							deviceProperty.Value = property.StringValue;
 							break;
 					}

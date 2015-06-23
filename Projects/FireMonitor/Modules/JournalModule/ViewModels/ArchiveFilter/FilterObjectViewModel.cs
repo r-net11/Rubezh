@@ -71,13 +71,6 @@ namespace JournalModule.ViewModels
 			}
 		}
 
-		public FilterObjectViewModel(GKDevice device)
-		{
-			Name = device.PresentationName;
-			UID = device.UID;
-			ImageSource = device.Driver.ImageSource;
-		}
-
 		public FilterObjectViewModel(SKDDevice device)
 		{
 			Name = device.Name;

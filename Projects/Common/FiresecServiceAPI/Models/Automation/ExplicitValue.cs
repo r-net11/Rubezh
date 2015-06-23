@@ -38,14 +38,11 @@ namespace FiresecAPI.Automation
 		public XStateClass StateTypeValue { get; set; }
 
 		[DataMember]
-		public GKDriverType DriverTypeValue { get; set; }
-
-		[DataMember]
 		public PermissionType PermissionTypeValue { get; set; }
 
 		[DataMember]
 		public JournalEventNameType JournalEventNameTypeValue { get; set; }
-		
+
 		[DataMember]
 		public JournalEventDescriptionType JournalEventDescriptionTypeValue { get; set; }
 

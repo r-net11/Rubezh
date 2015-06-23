@@ -35,10 +35,5 @@ namespace JournalModule.ViewModels
 		}
 
 		public ICheckBoxItemList ItemsList { get; set; }
-
-		public bool CanCheck
-		{
-			get { return Device.IsRealDevice; }
-		}
 	}
 }

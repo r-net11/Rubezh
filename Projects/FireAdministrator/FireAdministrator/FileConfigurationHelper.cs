@@ -135,7 +135,6 @@ namespace FireAdministrator
 				ServiceFactory.ContentService.Invalidate();
 
 				FiresecManager.UpdateConfiguration();
-				GKManager.UpdateConfiguration();
 				SKDManager.UpdateConfiguration();
 
 				if (LoadingErrorManager.HasError)

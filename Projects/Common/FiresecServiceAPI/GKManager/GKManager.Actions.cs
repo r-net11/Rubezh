@@ -7,11 +7,6 @@ namespace FiresecClient
 {
 	public partial class GKManager
 	{
-		public static void AddDevice(GKDevice device)
-		{
-			device.InitializeDefaultProperties();
-		}
-
 		#region RebuildRSR2Addresses
 		public static void RebuildRSR2Addresses(GKDevice parentDevice)
 		{
@@ -24,10 +19,6 @@ namespace FiresecClient
 				foreach (var device in RebuildRSR2Addresses_Children)
 				{
 					device.IntAddress = currentAddress;
-					if (!device.Driver.IsGroupDevice)
-					{
-						currentAddress++;
-					}
 					device.OnChanged();
 				}
 			}
@@ -48,32 +39,6 @@ namespace FiresecClient
 			device.Logic = logic;
 			DeviceConfiguration.InvalidateOneLogic(device, device.Logic);
 			device.OnChanged();
-		}
-
-		public static void ChangeDriver(GKDevice device, GKDriver driver)
-		{
-			var changeZone = !(driver.HasLogic);
-			device.Driver = driver;
-			device.DriverUID = driver.UID;
-			if (driver.IsRangeEnabled)
-				device.IntAddress = driver.MinAddress;
-
-			device.Children.Clear();
-			if (driver.IsGroupDevice)
-			{
-				var groupDriver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == device.Driver.GroupDeviceChildType);
-
-				for (byte i = 0; i < device.Driver.GroupDeviceChildrenCount; i++)
-				{
-					var autoDevice = GKManager.AddChild(device, null, groupDriver, (byte)(device.IntAddress + i));
-				}
-			}
-
-			if (changeZone)
-			{
-				ChangeLogic(device, new GKLogic());
-			}
-			device.Properties = new List<GKProperty>();
 		}
 	}
 }
