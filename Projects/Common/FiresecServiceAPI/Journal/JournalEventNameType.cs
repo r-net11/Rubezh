@@ -10,9 +10,6 @@ namespace FiresecAPI.Journal
 		[EventName(JournalSubsystemType.System, "Неизвестное событие", XStateClass.No)]
 		Неизвестное_событие,
 
-		[EventName(JournalSubsystemType.GK, "Подтверждение тревоги", XStateClass.Fire1)]
-		Подтверждение_тревоги,
-
 		[EventName(JournalSubsystemType.System, "Вход пользователя в систему", XStateClass.Info)]
 		Вход_пользователя_в_систему,
 
@@ -25,17 +22,11 @@ namespace FiresecAPI.Journal
 		[EventName(JournalSubsystemType.System, "Дежурство принял", XStateClass.Info)]
 		Дежурство_принял,
 
-		[EventName(JournalSubsystemType.GK, "Зависание процесса опроса", XStateClass.Unknown)]
-		Зависание_процесса_отпроса,
-
 		[EventName(JournalSubsystemType.System, "Отсутствует лицензия", XStateClass.HasNoLicense)]
 		Отсутствует_лицензия,
 
 		[EventName(JournalSubsystemType.System, "Лицензия обнаружена", XStateClass.HasNoLicense)]
 		Лицензия_обнаружена,
-
-		[EventName(JournalSubsystemType.GK, "Ошибка инициализации мониторинга", XStateClass.Unknown)]
-		Ошибка_инициализации_мониторинга,
 
 		[EventName(JournalSubsystemType.System, "Отмена операции", XStateClass.TechnologicalRegime)]
 		Отмена_операции,
@@ -43,272 +34,8 @@ namespace FiresecAPI.Journal
 		[EventName(JournalSubsystemType.System, "Сообщение автоматизации", XStateClass.Info)]
 		Сообщение_автоматизации,
 
-		[EventName(JournalSubsystemType.GK, "Обновление ПО прибора", XStateClass.Info)]
-		Обновление_ПО_прибора,
-
-		[EventName(JournalSubsystemType.GK, "Запись конфигурации в прибор", XStateClass.Info)]
-		Запись_конфигурации_в_прибор,
-
-		[EventName(JournalSubsystemType.GK, "Чтение конфигурации из прибора", XStateClass.Info)]
-		Чтение_конфигурации_из_прибора,
-
-		[EventName(JournalSubsystemType.GK, "Запрос информации об устройстве", XStateClass.TechnologicalRegime)]
-		Запрос_информации_об_устройстве,
-
-		[EventName(JournalSubsystemType.GK, "Синхронизация времени", XStateClass.Info)]
-		Синхронизация_времени,
-
-		[EventName(JournalSubsystemType.GK, "Команда оператора", XStateClass.Info)]
-		Команда_оператора,
-
-		[EventName(JournalSubsystemType.GK, "Ошибка при выполнении команды", XStateClass.Failure)]
-		Ошибка_при_выполнении_команды,
-
-		[EventName(JournalSubsystemType.GK, "Ошибка при выполнении команды над устройством", XStateClass.Failure)]
-		Ошибка_при_выполнении_команды_над_устройством,
-
-		[EventName(JournalSubsystemType.GK, "Нет связи с ГК", XStateClass.ConnectionLost)]
-		Нет_связи_с_ГК,
-
-		[EventName(JournalSubsystemType.GK, "Связь с ГК восстановлена", XStateClass.ConnectionLost)]
-		Связь_с_ГК_восстановлена,
-
-		[EventName(JournalSubsystemType.GK, "Конфигурация прибора не соответствует конфигурации ПК", XStateClass.Unknown)]
-		Конфигурация_прибора_не_соответствует_конфигурации_ПК,
-
-		[EventName(JournalSubsystemType.GK, "Конфигурация прибора соответствует конфигурации ПК", XStateClass.Unknown)]
-		Конфигурация_прибора_соответствует_конфигурации_ПК,
-
-		[EventName(JournalSubsystemType.GK, "Ошибка при синхронизации журнала", XStateClass.Unknown)]
-		Ошибка_при_синхронизации_журнала,
-
-		[EventName(JournalSubsystemType.GK, "Ошибка при опросе состояний компонентов ГК", XStateClass.Unknown)]
-		Ошибка_при_опросе_состояний_компонентов_ГК,
-
-		[EventName(JournalSubsystemType.GK, "Устранена ошибка при опросе состояний компонентов ГК", XStateClass.Unknown)]
-		Устранена_ошибка_при_опросе_состояний_компонентов_ГК,
-
-		[EventName(JournalSubsystemType.GK, "Восстановление связи с прибором", XStateClass.ConnectionLost)]
-		Восстановление_связи_с_прибором,
-
-		[EventName(JournalSubsystemType.GK, "Потеря связи с прибором", XStateClass.ConnectionLost)]
-		Потеря_связи_с_прибором,
-
-		[EventName(JournalSubsystemType.GK, "База данных прибора не соответствует базе данных ПК", XStateClass.Unknown)]
-		База_данных_прибора_не_соответствует_базе_данных_ПК,
-
-		[EventName(JournalSubsystemType.GK, "База данных прибора соответствует базе данных ПК", XStateClass.Unknown)]
-		База_данных_прибора_соответствует_базе_данных_ПК,
-
 		[EventName(JournalSubsystemType.System, "Применение конфигурации", XStateClass.Info)]
 		Применение_конфигурации,
-
-		[EventName(JournalSubsystemType.GK, "ГК в технологическом режиме", XStateClass.TechnologicalRegime)]
-		ГК_в_технологическом_режиме,
-
-		[EventName(JournalSubsystemType.GK, "ГК в рабочем режиме", XStateClass.Info)]
-		ГК_в_рабочем_режиме,
-
-		[EventName(JournalSubsystemType.GK, "Запись всех идентификаторов", XStateClass.Info)]
-		Запись_всех_идентификаторов,
-
-		[EventName(JournalSubsystemType.GK, "Перевод в технологический режим", XStateClass.TechnologicalRegime)]
-		Перевод_в_технологический_режим,
-
-		[EventName(JournalSubsystemType.GK, "Синхронизация времени прибора с временем ПК", XStateClass.Info)]
-		Синхронизация_времени_прибора_с_временем_ПК,
-
-		[EventName(JournalSubsystemType.GK, "Смена ПО", XStateClass.TechnologicalRegime)]
-		Смена_ПО,
-
-		[EventName(JournalSubsystemType.GK, "Смена БД", XStateClass.TechnologicalRegime)]
-		Смена_БД,
-
-		[EventName(JournalSubsystemType.GK, "Перевод в рабочий режим", XStateClass.Info)]
-		Перевод_в_рабочий_режим,
-
-		[EventName(JournalSubsystemType.GK, "Вход пользователя в прибор", XStateClass.Info)]
-		Вход_пользователя_в_прибор,
-
-		[EventName(JournalSubsystemType.GK, "Выход пользователя из прибора", XStateClass.Info)]
-		Выход_пользователя_из_прибора,
-
-		[EventName(JournalSubsystemType.GK, "Ошибка управления", XStateClass.Failure)]
-		Ошибка_управления,
-
-		[EventName(JournalSubsystemType.GK, "Введен новый пользователь", XStateClass.Info)]
-		Введен_новый_пользователь,
-
-		[EventName(JournalSubsystemType.GK, "Изменена учетная информация пользователя", XStateClass.Info)]
-		Изменена_учетная_информация_пользователя,
-
-		[EventName(JournalSubsystemType.GK, "Произведена настройка сети", XStateClass.Info)]
-		Произведена_настройка_сети,
-
-		[EventName(JournalSubsystemType.GK, "Неизвестный код события контроллекра", XStateClass.Unknown)]
-		Неизвестный_код_события_контроллекра,
-
-		[EventName(JournalSubsystemType.GK, "Неизвестный тип", XStateClass.Unknown)]
-		Неизвестный_тип,
-
-		[EventName(JournalSubsystemType.GK, "Устройство с таким адресом не описано при конфигурации", XStateClass.Unknown)]
-		Устройство_с_таким_адресом_не_описано_при_конфигурации,
-
-		[EventName(JournalSubsystemType.GK, "Неизвестный код события устройства", XStateClass.Unknown)]
-		Неизвестный_код_события_устройства,
-
-		[EventName(JournalSubsystemType.GK, "При конфигурации описан другой тип", XStateClass.Unknown)]
-		При_конфигурации_описан_другой_тип,
-
-		[EventName(JournalSubsystemType.GK, "Изменился заводской номер", XStateClass.Info)]
-		Изменился_заводской_номер,
-
-		[EventName(JournalSubsystemType.GK, "Пожар-1", XStateClass.Fire1)]
-		Пожар_1,
-
-		[EventName(JournalSubsystemType.GK, "Сработка-1", XStateClass.Fire1)]
-		Сработка_1,
-
-		[EventName(JournalSubsystemType.GK, "Пожар-2", XStateClass.Fire2)]
-		Пожар_2,
-
-		[EventName(JournalSubsystemType.GK, "Сработка-2", XStateClass.Fire2)]
-		Сработка_2,
-
-		[EventName(JournalSubsystemType.GK, "Внимание", XStateClass.Attention)]
-		Внимание,
-
-		[EventName(JournalSubsystemType.GK, "Неисправность", XStateClass.Failure)]
-		Неисправность,
-
-		[EventName(JournalSubsystemType.GK, "Неисправность устранена", XStateClass.Norm)]
-		Неисправность_устранена,
-
-		[EventName(JournalSubsystemType.GK, "Тест", XStateClass.Test)]
-		Тест,
-
-		[EventName(JournalSubsystemType.GK, "Тест устранен", XStateClass.Test)]
-		Тест_устранен,
-
-		[EventName(JournalSubsystemType.GK, "Запыленность", XStateClass.Service)]
-		Запыленность,
-
-		[EventName(JournalSubsystemType.GK, "Запыленность устранена", XStateClass.Service)]
-		Запыленность_устранена,
-
-		[EventName(JournalSubsystemType.GK, "Информация", XStateClass.Info)]
-		Информация,
-
-		[EventName(JournalSubsystemType.GK, "Отсчет задержки", XStateClass.Info)]
-		Отсчет_задержки,
-
-		[EventName(JournalSubsystemType.GK, "Включено", XStateClass.On)]
-		Включено,
-
-		[EventName(JournalSubsystemType.GK, "Выключено", XStateClass.Off)]
-		Выключено,
-
-		[EventName(JournalSubsystemType.GK, "Включается", XStateClass.TurningOn)]
-		Включается,
-
-		[EventName(JournalSubsystemType.GK, "Выключается", XStateClass.TurningOff)]
-		Выключается,
-
-		[EventName(JournalSubsystemType.GK, "Кнопка", XStateClass.Info)]
-		Кнопка,
-
-		[EventName(JournalSubsystemType.GK, "Изменение автоматики по неисправности", XStateClass.AutoOff)]
-		Изменение_автоматики_по_неисправности,
-
-		[EventName(JournalSubsystemType.GK, "Изменение автоматики по кнопке СТОП", XStateClass.AutoOff)]
-		Изменение_автоматики_по_кнопке_СТОП,
-
-		[EventName(JournalSubsystemType.GK, "Изменение автоматики по датчику ДВЕРИ-ОКНА", XStateClass.AutoOff)]
-		Изменение_автоматики_по_датчику_ДВЕРИ_ОКНА,
-
-		[EventName(JournalSubsystemType.GK, "Изменение автоматики по ТМ", XStateClass.AutoOff)]
-		Изменение_автоматики_по_ТМ,
-
-		[EventName(JournalSubsystemType.GK, "Автоматика включена", XStateClass.AutoOff)]
-		Автоматика_включена,
-
-		[EventName(JournalSubsystemType.GK, "Ручной пуск АУП от ИПР", XStateClass.On)]
-		Ручной_пуск_АУП_от_ИПР,
-
-		[EventName(JournalSubsystemType.GK, "Отложенный пуск АУП по датчику ДВЕРИ-ОКНА", XStateClass.On)]
-		Отложенный_пуск_АУП_по_датчику_ДВЕРИ_ОКНА,
-
-		[EventName(JournalSubsystemType.GK, "Пуск АУП завершен", XStateClass.On)]
-		Пуск_АУП_завершен,
-
-		[EventName(JournalSubsystemType.GK, "Останов тушения по кнопке СТОП", XStateClass.Off)]
-		Останов_тушения_по_кнопке_СТОП,
-
-		[EventName(JournalSubsystemType.GK, "Программирование мастер-ключа", XStateClass.Info)]
-		Программирование_мастер_ключа,
-
-		[EventName(JournalSubsystemType.GK, "Отсчет удержания", XStateClass.Info)]
-		Отсчет_удержания,
-
-		[EventName(JournalSubsystemType.GK, "Уровень высокий", XStateClass.Info)]
-		Уровень_высокий,
-
-		[EventName(JournalSubsystemType.GK, "Уровень низкий", XStateClass.Info)]
-		Уровень_низкий,
-
-		[EventName(JournalSubsystemType.GK, "Ход по команде с УЗЗ", XStateClass.On)]
-		Ход_по_команде_с_УЗЗ,
-
-		[EventName(JournalSubsystemType.GK, "У ДУ сообщение ПУСК НЕВОЗМОЖЕН", XStateClass.Failure)]
-		У_ДУ_сообщение_ПУСК_НЕВОЗМОЖЕН,
-
-		[EventName(JournalSubsystemType.GK, "Авария пневмоемкости", XStateClass.Failure)]
-		Авария_пневмоемкости,
-
-		[EventName(JournalSubsystemType.GK, "Уровень аварийный", XStateClass.Failure)]
-		Уровень_аварийный,
-
-		[EventName(JournalSubsystemType.GK, "Запрет пуска НС", XStateClass.Off)]
-		Запрет_пуска_НС,
-
-		[EventName(JournalSubsystemType.GK, "Запрет пуска компрессора", XStateClass.Off)]
-		Запрет_пуска_компрессора,
-
-		[EventName(JournalSubsystemType.GK, "Команда с УЗН", XStateClass.Info)]
-		Команда_с_УЗН,
-
-		[EventName(JournalSubsystemType.GK, "Перевод в режим ручного управления", XStateClass.AutoOff)]
-		Перевод_в_режим_ручного_управления,
-
-		[EventName(JournalSubsystemType.GK, "Состояние не определено", XStateClass.Unknown)]
-		Состояние_не_определено,
-
-		[EventName(JournalSubsystemType.GK, "Остановлено", XStateClass.Off)]
-		Остановлено,
-
-		[EventName(JournalSubsystemType.GK, "Состояние Неизвестно", XStateClass.Unknown)]
-		Состояние_Неизвестно,
-
-		[EventName(JournalSubsystemType.GK, "Перевод в автоматический режим", XStateClass.Norm)]
-		Перевод_в_автоматический_режим,
-
-		[EventName(JournalSubsystemType.GK, "Перевод в ручной режим", XStateClass.AutoOff)]
-		Перевод_в_ручной_режим,
-
-		[EventName(JournalSubsystemType.GK, "Перевод в отключенный режим", XStateClass.Ignore)]
-		Перевод_в_отключенный_режим,
-
-		[EventName(JournalSubsystemType.GK, "Перевод в неопределенный режим", XStateClass.Unknown)]
-		Перевод_в_неопределенный_режим,
-
-		[EventName(JournalSubsystemType.GK, "Запись параметра", XStateClass.Info)]
-		Запись_параметра,
-
-		[EventName(JournalSubsystemType.GK, "Норма", XStateClass.Norm)]
-		Норма,
-
-		[EventName(JournalSubsystemType.GK, "Неизвестный код события объекта", XStateClass.Unknown)]
-		Неизвестный_код_события_объекта,
 
 		[EventName(JournalSubsystemType.SKD, "Потеря связи", XStateClass.ConnectionLost)]
 		Потеря_связи,
@@ -482,12 +209,6 @@ namespace FiresecAPI.Journal
 		[EventName(JournalSubsystemType.SKD, "Редактирование шаблона пропуска", XStateClass.Info)]
 		Редактирование_шаблона_пропуска,
 
-		[EventName(JournalSubsystemType.GK, "Редактирование графика ГК", XStateClass.Info)]
-		Редактирование_графика_ГК,
-
-		[EventName(JournalSubsystemType.GK, "Редактирование дневного графика ГК", XStateClass.Info)]
-		Редактирование_дневного_графика_ГК,
-
 		[EventName(JournalSubsystemType.SKD, "Добавление нового сотрудника", XStateClass.Info)]
 		Добавление_нового_сотрудника,
 
@@ -524,33 +245,6 @@ namespace FiresecAPI.Journal
 		[EventName(JournalSubsystemType.SKD, "Внесение оправдательного документа", XStateClass.Info)]
 		Внесение_оправдательного_документа,
 
-		[EventName(JournalSubsystemType.GK, "Добавление нового графика ГК", XStateClass.Info)]
-		Добавление_нового_графика_ГК,
-
-		[EventName(JournalSubsystemType.GK, "Добавление нового дневного графика ГК", XStateClass.Info)]
-		Добавление_нового_дневного_графика_ГК,
-
-		[EventName(JournalSubsystemType.GK, "Открыто", XStateClass.On)]
-		Открыто,
-
-		[EventName(JournalSubsystemType.GK, "Закрыто", XStateClass.Off)]
-		Закрыто,
-
-		[EventName(JournalSubsystemType.GK, "Открытие", XStateClass.On)]
-		Открытие,
-
-		[EventName(JournalSubsystemType.GK, "Закрытие", XStateClass.Off)]
-		Закрытие,
-
-		[EventName(JournalSubsystemType.GK, "Автопоиск", XStateClass.Info)]
-		Автопоиск,
-
-		[EventName(JournalSubsystemType.GK, "Проход пользователя разрешен", XStateClass.Info)]
-		Проход_пользователя_разрешен,
-
-		[EventName(JournalSubsystemType.GK, "Рабочий график", XStateClass.TechnologicalRegime)]
-		Рабочий_график,
-
 		[EventName(JournalSubsystemType.SKD, "Удаление сотрудника", XStateClass.Info)]
 		Удаление_сотрудника,
 
@@ -583,12 +277,6 @@ namespace FiresecAPI.Journal
 
 		[EventName(JournalSubsystemType.SKD, "Удаление шаблона пропуска", XStateClass.Info)]
 		Удаление_шаблона_пропуска,
-
-		[EventName(JournalSubsystemType.GK, "Удаление графика ГК", XStateClass.Info)]
-		Удаление_графика_ГК,
-
-		[EventName(JournalSubsystemType.GK, "Удаление дневного графика ГК", XStateClass.Info)]
-		Удаление_дневного_графика_ГК,
 
 		[EventName(JournalSubsystemType.SKD, "Восстановление сотрудника", XStateClass.Info)]
 		Восстановление_сотрудника,
@@ -623,9 +311,6 @@ namespace FiresecAPI.Journal
 		[EventName(JournalSubsystemType.SKD, "Восстановление шаблона пропуска", XStateClass.Info)]
 		Восстановление_шаблона_пропуска,
 
-		[EventName(JournalSubsystemType.GK, "Проход пользователя запрещен", XStateClass.Attention)]
-		Проход_пользователя_запрещен,
-
 		[EventName(JournalSubsystemType.Video, "Перевод в предустановку", XStateClass.On)]
 		Перевод_в_предустановку,
 
@@ -657,6 +342,9 @@ namespace FiresecAPI.Journal
 		Запрос_interlock_настройки_контроллера,
 
 		[EventName(JournalSubsystemType.SKD, "Запись interlock настройки контроллера", XStateClass.TechnologicalRegime)]
-		Запись_interlock_настройки_контроллера
+		Запись_interlock_настройки_контроллера,
+
+		[EventName(JournalSubsystemType.SKD, "Подтверждение тревоги", XStateClass.Fire1)]
+		Подтверждение_тревоги,
 	}
 }

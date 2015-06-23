@@ -100,7 +100,6 @@ namespace FiresecService.Service
 		{
 			AddJournalMessage(JournalEventNameType.Применение_конфигурации, null);
 			ConfigurationCashHelper.Update();
-			//GKProcessor.SetNewConfig();
 			SKDProcessor.SetNewConfig();
 			ScheduleRunner.SetNewConfig();
 			ProcedureRunner.SetNewConfig();

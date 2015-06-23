@@ -54,7 +54,7 @@ namespace FiresecAPI
 
 		[OperationContract]
 		OperationResult SaveDepartmentChief(Guid uid, Guid chiefUID, string name);
-		
+
 		[OperationContract]
 		OperationResult RestoreDepartment(ShortDepartment department);
 
@@ -349,26 +349,6 @@ namespace FiresecAPI
 
 		[OperationContract]
 		OperationResult SaveJournalCameraUID(Guid journaItemUID, Guid CameraUID);
-
-		#region GKSchedule
-
-		[OperationContract]
-		OperationResult SaveGKSchedule(GKSchedule item, bool isNew);
-
-		[OperationContract]
-		OperationResult DeleteGKSchedule(GKSchedule item);
-		#endregion
-
-		#region GKDaySchedule
-		[OperationContract]
-		OperationResult<List<GKDaySchedule>> GetGKDaySchedules();
-
-		[OperationContract]
-		OperationResult SaveGKDaySchedule(GKDaySchedule item, bool isNew);
-
-		[OperationContract]
-		OperationResult DeleteGKDaySchedule(GKDaySchedule item);
-		#endregion
 
 		#region Export
 		[OperationContract]
