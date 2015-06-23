@@ -25,6 +25,11 @@ namespace FiresecAPI.GK
 
 		}
 
+		public override void Update(GKDirection direction)
+		{
+
+		}
+
 		[XmlIgnore]
 		public List<GKDevice> Devices { get; set; }
 

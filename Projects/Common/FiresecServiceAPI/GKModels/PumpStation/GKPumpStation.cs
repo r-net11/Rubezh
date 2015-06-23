@@ -48,6 +48,15 @@ namespace FiresecAPI.GK
 			OnChanged();
 		}
 
+		public override void Update(GKDirection direction)
+		{
+			StartLogic.GetAllClauses().FindAll(x => x.Directions.Contains(direction)).ForEach(y => { y.Directions.Remove(direction); y.DirectionUIDs.Remove(direction.UID); });
+			StopLogic.GetAllClauses().FindAll(x => x.Directions.Contains(direction)).ForEach(y => { y.Directions.Remove(direction); y.DirectionUIDs.Remove(direction.UID); });
+			AutomaticOffLogic.GetAllClauses().FindAll(x => x.Directions.Contains(direction)).ForEach(y => { y.Directions.Remove(direction); y.DirectionUIDs.Remove(direction.UID); });
+			UnLinkObject(direction);
+			OnChanged();
+		}
+
 		bool _isLogicOnKau;
 		[XmlIgnore]
 		public override bool IsLogicOnKau

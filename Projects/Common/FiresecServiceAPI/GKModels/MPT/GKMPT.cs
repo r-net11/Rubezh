@@ -28,6 +28,13 @@ namespace FiresecAPI.GK
 			OnChanged();
 		}
 
+		public override void Update(GKDirection direction)
+		{
+			MptLogic.GetAllClauses().FindAll(x => x.Directions.Contains(direction)).ForEach(y => { y.Directions.Remove(direction); y.DirectionUIDs.Remove(direction.UID); });
+			UnLinkObject(direction);
+			OnChanged();
+		}
+
 		bool _isLogicOnKau;
 		[XmlIgnore]
 		public override bool IsLogicOnKau

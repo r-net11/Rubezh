@@ -51,6 +51,15 @@ namespace FiresecAPI.GK
 			OnChanged();
 		}
 
+		public override void Update(GKDirection direction)
+		{
+			OpenRegimeLogic.GetAllClauses().FindAll(x => x.Directions.Contains(direction)).ForEach(y => { y.Directions.Remove(direction); y.DirectionUIDs.Remove(direction.UID); });
+			NormRegimeLogic.GetAllClauses().FindAll(x => x.Directions.Contains(direction)).ForEach(y => { y.Directions.Remove(direction); y.DirectionUIDs.Remove(direction.UID); });
+			CloseRegimeLogic.GetAllClauses().FindAll(x => x.Directions.Contains(direction)).ForEach(y => { y.Directions.Remove(direction); y.DirectionUIDs.Remove(direction.UID); });
+			UnLinkObject(direction);
+			OnChanged();
+		}
+
 		[XmlIgnore]
 		public GKPim PimEnter { get; private set; }
 

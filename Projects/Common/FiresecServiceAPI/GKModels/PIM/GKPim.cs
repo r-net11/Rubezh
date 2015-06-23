@@ -15,6 +15,11 @@ namespace FiresecAPI.GK
 		{
 
 		}
+
+		public override void Update(GKDirection direction)
+		{
+
+		}
 		/// <summary>
 		/// Признак автогенерации
 		/// </summary>

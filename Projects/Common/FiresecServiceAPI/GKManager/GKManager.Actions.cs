@@ -223,6 +223,7 @@ namespace FiresecClient
 			}
 			Directions.Remove(direction);
 			direction.OnChanged();
+			direction.OnRemoved();
 		}
 
 		public static void ChangeDirectionZones(GKDirection direction, List<GKZone> zones)

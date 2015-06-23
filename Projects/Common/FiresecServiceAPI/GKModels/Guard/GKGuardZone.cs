@@ -30,6 +30,11 @@ namespace FiresecAPI.GK
 			UnLinkObject(device);
 		}
 
+		public override void Update(GKDirection direction)
+		{
+
+		}
+
 		bool _isLogicOnKau;
 		[XmlIgnore]
 		public override bool IsLogicOnKau
