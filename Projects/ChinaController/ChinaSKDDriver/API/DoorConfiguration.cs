@@ -162,16 +162,24 @@ namespace ChinaSKDDriverAPI
         CFG_DOOR_OPEN_METHOD_UNKNOWN = 0,
         [Description("Только пароль")]
         CFG_DOOR_OPEN_METHOD_PWD_ONLY,
-        [Description("Пропуск")]
+        [Description("Карта")]
         CFG_DOOR_OPEN_METHOD_CARD,
-        [Description("Пароль или пропуск")]
+        [Description("Пароль или карта")]
         CFG_DOOR_OPEN_METHOD_PWD_OR_CARD,
         [Description("Сначала карта")]
         CFG_DOOR_OPEN_METHOD_CARD_FIRST,
         [Description("Сначала пароль")]
         CFG_DOOR_OPEN_METHOD_PWD_FIRST,
         [Description("Секция")]
-        CFG_DOOR_OPEN_METHOD_SECTION
+        CFG_DOOR_OPEN_METHOD_SECTION,
+		[Description("Только отпечаток пальца")]
+		CFG_DOOR_OPEN_METHOD_FINGERPRINTONLY = 7,
+		[Description("Пароль или карта или отпечаток пальца")]
+		CFG_DOOR_OPEN_METHOD_PWD_OR_CARD_OR_FINGERPRINT = 8,
+		[Description("Карта и отпечаток пальца")]
+		CFG_DOOR_OPEN_METHOD_CARD_AND_FINGERPRINT = 11,
+		[Description("Multiplayer Unlock")]
+		CFG_DOOR_OPEN_METHOD_MULTI_PERSON = 12
 	}
 
 	public enum DoorFirstEnterStatus

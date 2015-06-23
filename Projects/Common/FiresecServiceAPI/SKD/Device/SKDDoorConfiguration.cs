@@ -109,24 +109,26 @@ namespace FiresecAPI.SKD
 	{
 		[Description("Неизвестно")]
 		CFG_DOOR_OPEN_METHOD_UNKNOWN = 0,
-
 		[Description("Только пароль")]
 		CFG_DOOR_OPEN_METHOD_PWD_ONLY,
-
 		[Description("Карта")]
 		CFG_DOOR_OPEN_METHOD_CARD,
-
 		[Description("Пароль или карта")]
 		CFG_DOOR_OPEN_METHOD_PWD_OR_CARD,
-
 		[Description("Сначала карта")]
 		CFG_DOOR_OPEN_METHOD_CARD_FIRST,
-
 		[Description("Сначала пароль")]
 		CFG_DOOR_OPEN_METHOD_PWD_FIRST,
-
 		[Description("Недельный график")]
 		CFG_DOOR_OPEN_METHOD_SECTION,
+		[Description("Только отпечаток пальца")]
+		CFG_DOOR_OPEN_METHOD_FINGERPRINTONLY = 7,
+		[Description("Пароль или карта или отпечаток пальца")]
+		CFG_DOOR_OPEN_METHOD_PWD_OR_CARD_OR_FINGERPRINT = 8,
+		[Description("Карта и отпечаток пальца")]
+		CFG_DOOR_OPEN_METHOD_CARD_AND_FINGERPRINT = 11,
+		[Description("Multiplayer Unlock")]
+		CFG_DOOR_OPEN_METHOD_MULTI_PERSON = 12
 	}
 
 	[DataContract]
@@ -174,7 +176,7 @@ namespace FiresecAPI.SKD
 		public int EndMinute { get; set; }
 
 		[DataMember]
-		public SKDDoorConfiguration_DoorOpenMethod DoorOpenMethod { get; set; }
+		public SKDDoorConfiguration_DoorOpenMethod? DoorOpenMethod { get; set; }
 	}
 
 	/// <summary>

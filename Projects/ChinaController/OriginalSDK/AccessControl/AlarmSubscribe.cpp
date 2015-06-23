@@ -968,7 +968,7 @@ void AlarmSubscribe::OnCalarmBtn()
 void AlarmSubscribe::OnDoorControl(int nOperType ,int nChanelID,EM_NET_DOOR_STATUS_TYPE   emStateType) 
 {
 	// TODO: Add your control notification handler code here
-	CDlgDoorControl dlg(this, m_hLogin,  nOperType, nChanelID, emStateType);
+	CDlgDoorControl dlg(this, m_hLogin,  0/*nOperType*/, nChanelID, emStateType);
 	dlg.DoModal();
 
 }
