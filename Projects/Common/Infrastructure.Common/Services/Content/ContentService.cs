@@ -11,7 +11,7 @@ namespace Infrastructure.Common.Services.Content
 {
 	public class ContentService : IContentService
 	{
-		private const string ContentFolderRelativePath = @"Configuration\Unzip\Content";
+		private const string ContentFolderRelativePath = @"Configuration\Content";
 		public string ContentFolder { get; private set; }
 		private Dictionary<string, Stream> _streams;
 		private Dictionary<string, BitmapImage> _images;
