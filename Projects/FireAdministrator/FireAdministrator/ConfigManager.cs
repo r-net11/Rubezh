@@ -39,30 +39,26 @@ namespace FireAdministrator
 					if (!MessageBoxService.ShowQuestion("Конфигурация содержит ошибки. Продолжить?"))
 						return false;
 				}
-
-				WaitHelper.Execute(() =>
-				{
 				//	FiresecManager.FiresecService.GKAddMessage(JournalEventNameType.Применение_конфигурации, "");
-					LoadingService.Show("Применение конфигурации", "Применение конфигурации", 10);
+				LoadingService.Show("Применение конфигурации", "Применение конфигурации", 10);
 
-					if (ConnectionSettingsManager.IsRemote)
+				if (ConnectionSettingsManager.IsRemote)
+				{
+					var tempFileName = SaveConfigToFile(false);
+					using (var fileStream = new FileStream(tempFileName, FileMode.Open))
 					{
-						var tempFileName = SaveConfigToFile(false);
-						using (var fileStream = new FileStream(tempFileName, FileMode.Open))
-						{
-							FiresecManager.FiresecService.SetConfig(fileStream);
-						}
-						File.Delete(tempFileName);
+						FiresecManager.FiresecService.SetConfig(fileStream);
 					}
-					else
-					{
-					    SaveConfigToFile(true);
-					    FiresecManager.FiresecService.SetLocalConfig();
-					}
+					File.Delete(tempFileName);
+				}
+				else
+				{
+					SaveConfigToFile(true);
+					FiresecManager.FiresecService.SetLocalConfig();
+				}
 
-					if (ServiceFactory.SaveService.HasChanges)
-						FiresecManager.FiresecService.NotifyClientsOnConfigurationChanged();
-				});
+				if (ServiceFactory.SaveService.HasChanges)
+					FiresecManager.FiresecService.NotifyClientsOnConfigurationChanged();
 				LoadingService.Close();
 				ServiceFactory.SaveService.Reset();
 				return true;

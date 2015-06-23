@@ -139,8 +139,7 @@ namespace LayoutModule.ViewModels
 		public RelayCommand LayoutCopyCommand { get; private set; }
 		private void OnLayoutCopy()
 		{
-			using (new WaitWrapper())
-				_layoutBuffer = Utils.Clone(SelectedLayout.Layout);
+			_layoutBuffer = Utils.Clone(SelectedLayout.Layout);
 		}
 		public RelayCommand LayoutCutCommand { get; private set; }
 		private void OnLayoutCut()
@@ -163,35 +162,29 @@ namespace LayoutModule.ViewModels
 		}
 		private void OnLayoutPaste(Layout layout, bool clone = false)
 		{
-			using (new WaitWrapper())
+			if (clone)
 			{
-				if (clone)
-				{
-					layout = Utils.Clone(layout);
-					RenewLayout(layout);
-				}
-				var viewModel = new LayoutViewModel(layout);
-				FiresecManager.LayoutsConfiguration.Layouts.Add(layout);
-				Layouts.Add(viewModel);
-				SelectedLayout = viewModel;
-				FiresecManager.LayoutsConfiguration.Update();
-				ServiceFactory.SaveService.LayoutsChanged = true;
+				layout = Utils.Clone(layout);
+				RenewLayout(layout);
 			}
+			var viewModel = new LayoutViewModel(layout);
+			FiresecManager.LayoutsConfiguration.Layouts.Add(layout);
+			Layouts.Add(viewModel);
+			SelectedLayout = viewModel;
+			FiresecManager.LayoutsConfiguration.Update();
+			ServiceFactory.SaveService.LayoutsChanged = true;
 		}
 		private void OnLayoutRemove()
 		{
-			using (new WaitWrapper())
-			{
-				var collection = (ListCollectionView)CollectionViewSource.GetDefaultView(Layouts);
-				var selectedLayout = SelectedLayout;
-				var index = collection.IndexOf(SelectedLayout);
-				Layouts.Remove(selectedLayout);
-				FiresecManager.LayoutsConfiguration.Layouts.Remove(selectedLayout.Layout);
-				FiresecManager.LayoutsConfiguration.Update();
-				ServiceFactory.SaveService.LayoutsChanged = true;
-				if (collection.Count > 0)
-					SelectedLayout = (LayoutViewModel)collection.GetItemAt(index >= collection.Count ? collection.Count - 1 : index);
-			}
+			var collection = (ListCollectionView)CollectionViewSource.GetDefaultView(Layouts);
+			var selectedLayout = SelectedLayout;
+			var index = collection.IndexOf(SelectedLayout);
+			Layouts.Remove(selectedLayout);
+			FiresecManager.LayoutsConfiguration.Layouts.Remove(selectedLayout.Layout);
+			FiresecManager.LayoutsConfiguration.Update();
+			ServiceFactory.SaveService.LayoutsChanged = true;
+			if (collection.Count > 0)
+				SelectedLayout = (LayoutViewModel)collection.GetItemAt(index >= collection.Count ? collection.Count - 1 : index);
 		}
 		private void RenewLayout(Layout layout)
 		{

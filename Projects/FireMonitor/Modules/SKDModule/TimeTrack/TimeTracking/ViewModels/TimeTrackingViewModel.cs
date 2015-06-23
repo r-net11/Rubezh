@@ -40,7 +40,7 @@ namespace SKDModule.ViewModels
 			ServiceFactory.Events.GetEvent<EditTimeTrackPartEvent>().Subscribe(OnEditTimeTrackPart);
 
 			TimeTrackFilter = CreateTimeTrackFilter();
-			
+
 			UpdateGrid();
 		}
 
@@ -64,7 +64,7 @@ namespace SKDModule.ViewModels
 			return DateTime.Today.AddDays(1 - DateTime.Today.Day);
 		}
 
-		public List<Holiday> HolydaysOfCurrentOrganisation 
+		public List<Holiday> HolydaysOfCurrentOrganisation
 		{
 			get { return HolidayHelper.GetByOrganisation(TimeTrackFilter.EmployeeFilter.OrganisationUIDs.FirstOrDefault()).ToList(); }
 		}
@@ -185,38 +185,35 @@ namespace SKDModule.ViewModels
 
 		void UpdateGrid()
 		{
-			using (new WaitWrapper())
+			var employeeUID = SelectedTimeTrack != null ? SelectedTimeTrack.ShortEmployee.UID : Guid.Empty;
+
+			TotalDays = (int)(TimeTrackFilter.EndDate - TimeTrackFilter.StartDate).TotalDays + 1;
+			FirstDay = TimeTrackFilter.StartDate;
+
+
+			var stream = FiresecManager.FiresecService.GetTimeTracksStream(TimeTrackFilter.EmployeeFilter, TimeTrackFilter.StartDate, TimeTrackFilter.EndDate);
+			var folderName = AppDataFolderHelper.GetFolder("TempServer");
+			var resultFileName = Path.Combine(folderName, "ClientTimeTrackResult.xml");
+			var resultFileStream = File.Create(resultFileName);
+			FiresecManager.CopyStream(stream, resultFileStream);
+			var timeTrackResult = Deserialize(resultFileName);
+
+			TimeTracks = new SortableObservableCollection<TimeTrackViewModel>();
+
+			if (timeTrackResult != null)
 			{
-				var employeeUID = SelectedTimeTrack != null ? SelectedTimeTrack.ShortEmployee.UID : Guid.Empty;
-
-				TotalDays = (int)(TimeTrackFilter.EndDate - TimeTrackFilter.StartDate).TotalDays + 1;
-				FirstDay = TimeTrackFilter.StartDate;
-
-				
-				var stream = FiresecManager.FiresecService.GetTimeTracksStream(TimeTrackFilter.EmployeeFilter, TimeTrackFilter.StartDate, TimeTrackFilter.EndDate);
-				var folderName = AppDataFolderHelper.GetFolder("TempServer");
-				var resultFileName = Path.Combine(folderName, "ClientTimeTrackResult.xml");
-				var resultFileStream = File.Create(resultFileName);
-				FiresecManager.CopyStream(stream, resultFileStream);
-				var timeTrackResult = Deserialize(resultFileName);
-
-				TimeTracks = new SortableObservableCollection<TimeTrackViewModel>();
-
-				if (timeTrackResult != null)
+				TimeTrackEmployeeResults = timeTrackResult.TimeTrackEmployeeResults;
+				foreach (var timeTrackEmployeeResult in TimeTrackEmployeeResults)
 				{
-					TimeTrackEmployeeResults = timeTrackResult.TimeTrackEmployeeResults;
-					foreach (var timeTrackEmployeeResult in TimeTrackEmployeeResults)
-					{
-						TimeTracks.Add(new TimeTrackViewModel(TimeTrackFilter, timeTrackEmployeeResult));
-					}
-
-					TimeTracks.Sort(x => x.ShortEmployee.LastName);
-					RowHeight = 60 + 20 * TimeTrackFilter.TotalTimeTrackTypeFilters.Count;
+					TimeTracks.Add(new TimeTrackViewModel(TimeTrackFilter, timeTrackEmployeeResult));
 				}
 
-				SelectedTimeTrack = TimeTracks.FirstOrDefault(x => x.ShortEmployee.UID == employeeUID) ??
-									TimeTracks.FirstOrDefault();
+				TimeTracks.Sort(x => x.ShortEmployee.LastName);
+				RowHeight = 60 + 20 * TimeTrackFilter.TotalTimeTrackTypeFilters.Count;
 			}
+
+			SelectedTimeTrack = TimeTracks.FirstOrDefault(x => x.ShortEmployee.UID == employeeUID) ??
+								TimeTracks.FirstOrDefault();
 		}
 
 		public static TimeTrackResult Deserialize(string fileName)

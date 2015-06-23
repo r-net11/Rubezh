@@ -29,27 +29,20 @@ namespace Infrastructure.Designer.ViewModels
 		public RelayCommand CopyCommand { get; private set; }
 		private void OnCopy()
 		{
-			using (new WaitWrapper())
+			NormalizeZIndex();
+			_buffer = new List<ElementBase>();
+			foreach (var designerItem in DesignerCanvas.SelectedItems)
 			{
-				NormalizeZIndex();
-				_buffer = new List<ElementBase>();
-				foreach (var designerItem in DesignerCanvas.SelectedItems)
-				{
-					designerItem.UpdateElementProperties();
-					_buffer.Add(designerItem.Element.Clone());
-				}
+				designerItem.UpdateElementProperties();
+				_buffer.Add(designerItem.Element.Clone());
 			}
 		}
 		public RelayCommand CutCommand { get; private set; }
 		private void OnCut()
 		{
-			using (new WaitWrapper())
-			{
-				OnCopy();
-				DesignerCanvas.RemoveAllSelected();
-				DesignerCanvas.DesignerChanged();
-
-			}
+			OnCopy();
+			DesignerCanvas.RemoveAllSelected();
+			DesignerCanvas.DesignerChanged();
 		}
 		private bool CanCopyCut(object obj)
 		{
@@ -59,7 +52,6 @@ namespace Infrastructure.Designer.ViewModels
 		public RelayCommand<IInputElement> PasteCommand { get; private set; }
 		private void OnPaste(IInputElement container)
 		{
-			using (new WaitWrapper())
 			using (new TimeCounter("Command.Paste: {0}"))
 				if (NormalizeBuffer(container))
 				{

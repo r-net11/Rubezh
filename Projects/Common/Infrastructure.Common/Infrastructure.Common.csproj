@@ -314,8 +314,6 @@
     <Compile Include="RelayCommand\RelayCommand.cs" />
     <Compile Include="SingleLaunchHelper.cs" />
     <Compile Include="TreeList\TreeBaseViewModel.cs" />
-    <Compile Include="Wait\WaitHelper.cs" />
-    <Compile Include="Wait\WaitWrapper.cs" />
     <Compile Include="Windows\SaveSizeAttribute.cs" />
     <Compile Include="Windows\ViewModels\IWindowIdentity.cs" />
     <Compile Include="Windows\ApplicationService.cs" />

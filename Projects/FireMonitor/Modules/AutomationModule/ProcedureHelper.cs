@@ -149,16 +149,14 @@ namespace AutomationModule
 		{
 			if (args == null)
 				args = new List<Argument>();
-			using (new WaitWrapper())
+
+			var thread = new Thread(() => FiresecManager.FiresecService.RunProcedure(procedure.Uid, args))
 			{
-				var thread = new Thread(() => FiresecManager.FiresecService.RunProcedure(procedure.Uid, args))
-				{
-					Name = "Run Procedure",
-				};
-				thread.Start();
-				while (!thread.Join(50))
-					ApplicationService.DoEvents();
-			}
+				Name = "Run Procedure",
+			};
+			thread.Start();
+			while (!thread.Join(50))
+				ApplicationService.DoEvents();
 		}
 	}
 }

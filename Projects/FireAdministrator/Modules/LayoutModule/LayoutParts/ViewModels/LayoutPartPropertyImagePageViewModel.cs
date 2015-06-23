@@ -64,36 +64,34 @@ namespace LayoutModule.LayoutParts.ViewModels
 		{
 			var openFileDialog = new OpenFileDialog();
 			openFileDialog.Filter = ImageExtensions.GraphicFilter;
-			if (openFileDialog.ShowDialog().Value)
-				using (new WaitWrapper())
+			if (!openFileDialog.ShowDialog().Value) return;
+
+			_sourceName = openFileDialog.FileName;
+			if (ImageExtensions.IsSVGGraphics(_sourceName))
+			{
+				_drawing = SVGConverters.ReadDrawing(_sourceName);
+				_wmf = null;
+				ImageBrush = new DrawingBrush(_drawing);
+			}
+			else if (ImageExtensions.IsWMFGraphics(_sourceName))
+			{
+				_wmf = WMFConverter.ReadWMF(_sourceName);
+				_drawing = _wmf == null ? null : _wmf.ToDrawing();
+				if (_drawing == null)
+					ImageBrush = new VisualBrush(_wmf.Canvas);
+				else
 				{
-					_sourceName = openFileDialog.FileName;
-					if (ImageExtensions.IsSVGGraphics(_sourceName))
-					{
-						_drawing = SVGConverters.ReadDrawing(_sourceName);
-						_wmf = null;
-						ImageBrush = new DrawingBrush(_drawing);
-					}
-					else if (ImageExtensions.IsWMFGraphics(_sourceName))
-					{
-						_wmf = WMFConverter.ReadWMF(_sourceName);
-						_drawing = _wmf == null ? null : _wmf.ToDrawing();
-						if (_drawing == null)
-							ImageBrush = new VisualBrush(_wmf.Canvas);
-						else
-						{
-							_wmf = null;
-							ImageBrush = new DrawingBrush(_drawing);
-						}
-					}
-					else
-					{
-						_drawing = null;
-						_wmf = null;
-						ImageBrush = new ImageBrush(new BitmapImage(new Uri(_sourceName)));
-					}
-					_imageChanged = true;
+					_wmf = null;
+					ImageBrush = new DrawingBrush(_drawing);
 				}
+			}
+			else
+			{
+				_drawing = null;
+				_wmf = null;
+				ImageBrush = new ImageBrush(new BitmapImage(new Uri(_sourceName)));
+			}
+			_imageChanged = true;
 		}
 
 		public RelayCommand RemovePictureCommand { get; private set; }
@@ -133,31 +131,30 @@ namespace LayoutModule.LayoutParts.ViewModels
 			if (properties.Stretch != Stretch || _imageChanged)
 			{
 				if (_imageChanged)
-					using (new WaitWrapper())
+				{
+					if (properties.ReferenceUID != Guid.Empty)
+						ServiceFactoryBase.ContentService.RemoveContent(properties.ReferenceUID);
+					if (!string.IsNullOrEmpty(_sourceName))
 					{
-						if (properties.ReferenceUID != Guid.Empty)
-							ServiceFactoryBase.ContentService.RemoveContent(properties.ReferenceUID);
-						if (!string.IsNullOrEmpty(_sourceName))
+						if (_drawing != null)
 						{
-							if (_drawing != null)
-							{
-								properties.ReferenceUID = ServiceFactoryBase.ContentService.AddContent(_drawing);
-								properties.ImageType = ResourceType.Drawing;
-							}
-							else if (_wmf != null)
-							{
-								properties.ReferenceUID = ServiceFactoryBase.ContentService.AddContent(_wmf.Canvas);
-								properties.ImageType = ResourceType.Visual;
-							}
-							else
-							{
-								properties.ReferenceUID = ServiceFactoryBase.ContentService.AddContent(_sourceName);
-								properties.ImageType = ResourceType.Image;
-							}
+							properties.ReferenceUID = ServiceFactoryBase.ContentService.AddContent(_drawing);
+							properties.ImageType = ResourceType.Drawing;
+						}
+						else if (_wmf != null)
+						{
+							properties.ReferenceUID = ServiceFactoryBase.ContentService.AddContent(_wmf.Canvas);
+							properties.ImageType = ResourceType.Visual;
 						}
 						else
-							properties.ReferenceUID = Guid.Empty;
+						{
+							properties.ReferenceUID = ServiceFactoryBase.ContentService.AddContent(_sourceName);
+							properties.ImageType = ResourceType.Image;
+						}
 					}
+					else
+						properties.ReferenceUID = Guid.Empty;
+				}
 				properties.Stretch = Stretch;
 				_layoutPartImageViewModel.ImageBrush = ImageBrush;
 				return true;

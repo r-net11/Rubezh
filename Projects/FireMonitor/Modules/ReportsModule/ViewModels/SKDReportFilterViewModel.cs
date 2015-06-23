@@ -44,14 +44,11 @@ namespace ReportsModule.ViewModels
 		}
 		void LoadFilter(SKDReportFilter filter)
 		{
-			using (new WaitWrapper())
-			{
-				if (_model.MainViewModel != null)
-					_model.MainViewModel.LoadFilter(filter);
-				if (_model.CommandsViewModel != null)
-					_model.CommandsViewModel.LoadFilter(filter);
-				Pages.ForEach(page => page.LoadFilter(filter));
-			}
+			if (_model.MainViewModel != null)
+				_model.MainViewModel.LoadFilter(filter);
+			if (_model.CommandsViewModel != null)
+				_model.CommandsViewModel.LoadFilter(filter);
+			Pages.ForEach(page => page.LoadFilter(filter));
 		}
 		void UpdateFilter(SKDReportFilter filter)
 		{

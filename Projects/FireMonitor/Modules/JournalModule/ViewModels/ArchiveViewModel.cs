@@ -125,20 +125,12 @@ namespace JournalModule.ViewModels
 		public RelayCommand ShowFilterCommand { get; private set; }
 		void OnShowFilter()
 		{
-			ArchiveFilterViewModel archiveFilterViewModel = null;
+			var archiveFilterViewModel = new ArchiveFilterViewModel(ArchiveFilter);
 
-			var result = WaitHelper.Execute(() =>
+			if (DialogService.ShowModalWindow(archiveFilterViewModel))
 			{
-				archiveFilterViewModel = new ArchiveFilterViewModel(ArchiveFilter);
-			});
-
-			if (result)
-			{
-				if (DialogService.ShowModalWindow(archiveFilterViewModel))
-				{
-					ArchiveFilter = archiveFilterViewModel.GetModel();
-					Update();
-				}
+				ArchiveFilter = archiveFilterViewModel.GetModel();
+				Update();
 			}
 		}
 

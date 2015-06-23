@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Common;
+﻿using Common;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
-using Infrustructure.Plans.Elements;
+using Infrastructure.Common.Services;
 using Infrustructure.Plans.Events;
 using PlansModule.Designer;
-using Infrastructure.Common.Services;
+using System;
+using System.Linq;
 
 namespace PlansModule.ViewModels
 {
@@ -28,17 +26,13 @@ namespace PlansModule.ViewModels
 		public RelayCommand PlanCopyCommand { get; private set; }
 		private void OnPlanCopy()
 		{
-			using (new WaitWrapper())
-				_planBuffer = Utils.Clone(SelectedPlan.Plan);
+			_planBuffer = Utils.Clone(SelectedPlan.Plan);
 		}
 		public RelayCommand PlanCutCommand { get; private set; }
 		private void OnPlanCut()
 		{
-			using (new WaitWrapper())
-			{
-				_planBuffer = SelectedPlan.Plan;
-				OnPlanRemove(true);
-			}
+			_planBuffer = SelectedPlan.Plan;
+			OnPlanRemove(true);
 		}
 		private bool CanPlanCopyCut()
 		{
@@ -59,27 +53,22 @@ namespace PlansModule.ViewModels
 
 		private void OnPlanPaste(Plan plan, bool isRoot)
 		{
-			using (new WaitWrapper())
+			var planViewModel = AddPlan(plan, isRoot ? null : SelectedPlan);
+			if (isRoot)
+				FiresecManager.PlansConfiguration.Plans.Add(plan);
+			else
 			{
-				var planViewModel = AddPlan(plan, isRoot ? null : SelectedPlan);
-				if (isRoot)
-					FiresecManager.PlansConfiguration.Plans.Add(plan);
-				else
-				{
-					SelectedPlan.Plan.Children.Add(plan);
-					SelectedPlan.Update();
-				}
-				planViewModel.ExpandChildren();
-				SelectedPlan = planViewModel;
-				FiresecManager.PlansConfiguration.Update();
-				ServiceFactory.SaveService.PlansChanged = true;
-				ServiceFactoryBase.Events.GetEvent<PlansConfigurationChangedEvent>().Publish(null);
+				SelectedPlan.Plan.Children.Add(plan);
+				SelectedPlan.Update();
 			}
+			planViewModel.ExpandChildren();
+			SelectedPlan = planViewModel;
+			FiresecManager.PlansConfiguration.Update();
+			ServiceFactory.SaveService.PlansChanged = true;
+			ServiceFactoryBase.Events.GetEvent<PlansConfigurationChangedEvent>().Publish(null);
 		}
 		private void OnPlanRemove(bool withChild)
 		{
-			using (new WaitWrapper())
-			{
 				var selectedPlan = SelectedPlan;
 				var parent = selectedPlan.Parent;
 				var plan = SelectedPlan.Plan;
@@ -116,8 +105,7 @@ namespace PlansModule.ViewModels
 				ServiceFactoryBase.Events.GetEvent<PlansConfigurationChangedEvent>().Publish(null);
 				ClearReferences(plan);
 				DesignerCanvas.IsLocked = false;
-				SelectedPlan = parent == null ? Plans.FirstOrDefault() : parent;
-			}
+				SelectedPlan = parent ?? Plans.FirstOrDefault();
 		}
 		private void RenewPlan(Plan plan)
 		{

@@ -101,11 +101,8 @@ namespace AutomationModule.ViewModels
 			if (openFileDialog.ShowDialog().Value)
 			{
 				var sound = new AutomationSound();
-				using (new WaitWrapper())
-				{
-					sound.Name = Path.GetFileNameWithoutExtension(openFileDialog.SafeFileName);
-					sound.Uid = ServiceFactoryBase.ContentService.AddContent(openFileDialog.FileName);
-				}
+				sound.Name = Path.GetFileNameWithoutExtension(openFileDialog.SafeFileName);
+				sound.Uid = ServiceFactoryBase.ContentService.AddContent(openFileDialog.FileName);
 				FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSounds.Add(sound);
 				ServiceFactory.SaveService.AutomationChanged = true;
 				var soundViewModel = new SoundViewModel(sound);

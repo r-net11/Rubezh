@@ -43,44 +43,42 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 		{
 			var openFileDialog = new OpenFileDialog();
 			openFileDialog.Filter = ImageExtensions.GraphicFilter;
-			if (openFileDialog.ShowDialog().Value)
-				using (new WaitWrapper())
-				{
-					_newImage = true;
-					_sourceName = openFileDialog.FileName;
-					if (ImageExtensions.IsSVGGraphics(_sourceName))
-					{
-						_drawing = SVGConverters.ReadDrawing(_sourceName);
-						_wmf = null;
-						ImageBrush = new DrawingBrush(_drawing);
-						_imageType = ResourceType.Drawing;
-					}
-					else if (ImageExtensions.IsWMFGraphics(_sourceName))
-					{
-						_wmf = WMFConverter.ReadWMF(_sourceName);
-						_drawing = _wmf == null ? null : _wmf.ToDrawing();
-						if (_drawing == null)
-						{
-							ImageBrush = new VisualBrush(_wmf.Canvas);
-							_imageType = ResourceType.Visual;
-						}
-						else
-						{
-							_wmf = null;
-							ImageBrush = new DrawingBrush(_drawing);
-							_imageType = ResourceType.Drawing;
-						}
-					}
-					else
-					{
-						_drawing = null;
-						_wmf = null;
-						ImageBrush = new ImageBrush(new BitmapImage(new Uri(_sourceName)));
-						_imageType = ResourceType.Image;
-					}
-					OnPropertyChanged(() => ImageBrush);
-				}
 
+			if (!openFileDialog.ShowDialog().Value) return;
+
+			_newImage = true;
+			_sourceName = openFileDialog.FileName;
+			if (ImageExtensions.IsSVGGraphics(_sourceName))
+			{
+				_drawing = SVGConverters.ReadDrawing(_sourceName);
+				_wmf = null;
+				ImageBrush = new DrawingBrush(_drawing);
+				_imageType = ResourceType.Drawing;
+			}
+			else if (ImageExtensions.IsWMFGraphics(_sourceName))
+			{
+				_wmf = WMFConverter.ReadWMF(_sourceName);
+				_drawing = _wmf == null ? null : _wmf.ToDrawing();
+				if (_drawing == null)
+				{
+					ImageBrush = new VisualBrush(_wmf.Canvas);
+					_imageType = ResourceType.Visual;
+				}
+				else
+				{
+					_wmf = null;
+					ImageBrush = new DrawingBrush(_drawing);
+					_imageType = ResourceType.Drawing;
+				}
+			}
+			else
+			{
+				_drawing = null;
+				_wmf = null;
+				ImageBrush = new ImageBrush(new BitmapImage(new Uri(_sourceName)));
+				_imageType = ResourceType.Image;
+			}
+			OnPropertyChanged(() => ImageBrush);
 		}
 
 		public RelayCommand RemovePictureCommand { get; private set; }
@@ -103,23 +101,22 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 		public void Save()
 		{
 			if (_newImage)
-				using (new WaitWrapper())
+			{
+				if (_imageSource.HasValue && _imageSource.Value != Guid.Empty)
+					ServiceFactoryBase.ContentService.RemoveContent(_imageSource.Value);
+				switch (_imageType)
 				{
-					if (_imageSource.HasValue && _imageSource.Value != Guid.Empty)
-						ServiceFactoryBase.ContentService.RemoveContent(_imageSource.Value);
-					switch (_imageType)
-					{
-						case ResourceType.Drawing:
-							_imageSource = ServiceFactoryBase.ContentService.AddContent(_drawing);
-							break;
-						case ResourceType.Image:
-							_imageSource = ServiceFactoryBase.ContentService.AddContent(_sourceName);
-							break;
-						case ResourceType.Visual:
-							_imageSource = ServiceFactoryBase.ContentService.AddContent(_wmf.Canvas);
-							break;
-					}
+					case ResourceType.Drawing:
+						_imageSource = ServiceFactoryBase.ContentService.AddContent(_drawing);
+						break;
+					case ResourceType.Image:
+						_imageSource = ServiceFactoryBase.ContentService.AddContent(_sourceName);
+						break;
+					case ResourceType.Visual:
+						_imageSource = ServiceFactoryBase.ContentService.AddContent(_wmf.Canvas);
+						break;
 				}
+			}
 			_element.BackgroundImageSource = _imageSource;
 			_element.BackgroundSourceName = _sourceName;
 			_element.ImageType = _imageType;

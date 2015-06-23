@@ -133,19 +133,16 @@ namespace ReportsModule.ViewModels
 			if (_reportProvider != null)
 				try
 				{
-					using (new WaitWrapper())
-					{
-						Model.ReportName = _reportProvider.GetType().Name;
-						var filter = _reportProvider is IFilteredSKDReportProvider ? ((IFilteredSKDReportProvider)_reportProvider).GetFilter() : null;
-						FilterName = filter == null ? null : filter.Name;
-						if (filter != null)
-							filter.UserUID = FiresecManager.CurrentUser.UID;
-						var filterPeriod = filter as IReportFilterPeriod;
-						IsPeriodReport = filterPeriod != null;
-						if (IsPeriodReport)
-							PeriodType = filterPeriod.PeriodType;
-						Model.Build(filter);
-					}
+					Model.ReportName = _reportProvider.GetType().Name;
+					var filter = _reportProvider is IFilteredSKDReportProvider ? ((IFilteredSKDReportProvider)_reportProvider).GetFilter() : null;
+					FilterName = filter == null ? null : filter.Name;
+					if (filter != null)
+						filter.UserUID = FiresecManager.CurrentUser.UID;
+					var filterPeriod = filter as IReportFilterPeriod;
+					IsPeriodReport = filterPeriod != null;
+					if (IsPeriodReport)
+						PeriodType = filterPeriod.PeriodType;
+					Model.Build(filter);
 				}
 				catch (Exception ex)
 				{

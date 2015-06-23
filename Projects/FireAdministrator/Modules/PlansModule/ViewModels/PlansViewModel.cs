@@ -1,23 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows;
-using Common;
+﻿using Common;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Client.Plans;
 using Infrastructure.Common;
+using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Designer.ViewModels;
+using Infrastructure.Events;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Services;
 using PlansModule.Designer;
 using PlansModule.Designer.DesignerItems;
-using Infrastructure.Events;
-using Infrastructure.Common.Navigation;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows;
 
 namespace PlansModule.ViewModels
 {
@@ -276,7 +276,6 @@ namespace PlansModule.ViewModels
 
 		public override void OnShow()
 		{
-			using (new WaitWrapper())
 			using (new TimeCounter("PlansViewModel.OnShow: {0}"))
 			{
 				base.OnShow();

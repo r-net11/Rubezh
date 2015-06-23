@@ -102,10 +102,7 @@ namespace FireAdministrator.ViewModels
 			}
 			else
 			{
-				WaitHelper.Execute(() =>
-				{
-					FileConfigurationHelper.SaveToZipFile(FileName);
-				});
+				FileConfigurationHelper.SaveToZipFile(FileName);
 			}
 		}
 		bool CanSave()
@@ -117,12 +114,9 @@ namespace FireAdministrator.ViewModels
 		void OnSaveAs()
 		{
 			ServiceFactory.Events.GetEvent<BeforeConfigurationSerializeEvent>().Publish(null);
-			WaitHelper.Execute(() =>
-			{
-				var fileName = FileConfigurationHelper.SaveToFile();
-				if (!string.IsNullOrEmpty(fileName))
-					FileName = fileName;
-			});
+			var fileName = FileConfigurationHelper.SaveToFile();
+			if (!string.IsNullOrEmpty(fileName))
+				FileName = fileName;
 		}
 
 		public RelayCommand CreateNewCommand { get; private set; }

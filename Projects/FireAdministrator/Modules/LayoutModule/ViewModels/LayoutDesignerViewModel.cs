@@ -95,34 +95,31 @@ namespace LayoutModule.ViewModels
 
 		public void Update(Layout layout)
 		{
-			using (new WaitWrapper())
-			{
-				if (_layout != null)
-					SaveLayout();
-				_layout = layout;
-				_currentLayoutChanged = false;
-				if (_layout != null && Manager != null)
-				{
-					var layoutParts = new ObservableCollection<LayoutPartViewModel>();
-					foreach (var layoutPart in _layout.Parts)
-						layoutParts.Add(new LayoutPartViewModel(layoutPart));
-					LayoutParts = layoutParts;
-					_loading = true;
-					Manager.GridSplitterWidth = _layout.SplitterSize;
-					Manager.GridSplitterHeight = _layout.SplitterSize;
-					Manager.GridSplitterBackground = new SolidColorBrush(_layout.SplitterColor);
-					Manager.BorderBrush = new SolidColorBrush(_layout.BorderColor);
-					Manager.BorderThickness = new Thickness(_layout.BorderThickness);
-					Manager.Background = new SolidColorBrush(_layout.BackgroundColor);
-					Manager.Padding = new Thickness(_layout.Padding);
-					Manager.Layout = new LayoutRoot();
-					if (!string.IsNullOrEmpty(_layout.Content))
-						using (var tr = new StringReader(_layout.Content))
-							_serializer.Deserialize(tr);
-					_loading = false;
-					ActiveLayoutPart = LayoutParts.FirstOrDefault();
-				}
-			}
+			if (_layout != null)
+				SaveLayout();
+			_layout = layout;
+			_currentLayoutChanged = false;
+
+			if (_layout == null || Manager == null) return;
+
+			var layoutParts = new ObservableCollection<LayoutPartViewModel>();
+			foreach (var layoutPart in _layout.Parts)
+				layoutParts.Add(new LayoutPartViewModel(layoutPart));
+			LayoutParts = layoutParts;
+			_loading = true;
+			Manager.GridSplitterWidth = _layout.SplitterSize;
+			Manager.GridSplitterHeight = _layout.SplitterSize;
+			Manager.GridSplitterBackground = new SolidColorBrush(_layout.SplitterColor);
+			Manager.BorderBrush = new SolidColorBrush(_layout.BorderColor);
+			Manager.BorderThickness = new Thickness(_layout.BorderThickness);
+			Manager.Background = new SolidColorBrush(_layout.BackgroundColor);
+			Manager.Padding = new Thickness(_layout.Padding);
+			Manager.Layout = new LayoutRoot();
+			if (!string.IsNullOrEmpty(_layout.Content))
+				using (var tr = new StringReader(_layout.Content))
+					_serializer.Deserialize(tr);
+			_loading = false;
+			ActiveLayoutPart = LayoutParts.FirstOrDefault();
 		}
 		public void Update()
 		{

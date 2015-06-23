@@ -120,11 +120,7 @@ namespace SettingsModule.ViewModels
 			streamWriter.Flush();
 			memoryStream.Position = 0;
 			zipFile.AddEntry("systeminfo.txt", memoryStream);
-
-			WaitHelper.Execute(() =>
-			{
-				zipFile.Save();
-			});
+			zipFile.Save();
 		}
 
 		static int GetBitCount(bool is64)

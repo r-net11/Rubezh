@@ -151,16 +151,13 @@ namespace FireMonitor
 		}
 		private void Restart()
 		{
-			using (new WaitWrapper())
-			{
-				ApplicationService.ApplicationWindow.IsEnabled = false;
-				ServiceFactory.ContentService.Invalidate();
-				FiresecManager.FiresecService.StopPoll();
-				LoadingErrorManager.Clear();
-				ApplicationService.CloseAllWindows();
-				ServiceFactory.Layout.Close();
-				ApplicationService.ShutDown();
-			}
+			ApplicationService.ApplicationWindow.IsEnabled = false;
+			ServiceFactory.ContentService.Invalidate();
+			FiresecManager.FiresecService.StopPoll();
+			LoadingErrorManager.Clear();
+			ApplicationService.CloseAllWindows();
+			ServiceFactory.Layout.Close();
+			ApplicationService.ShutDown();
 			RestartApplication();
 		}
 

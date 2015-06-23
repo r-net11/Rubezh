@@ -35,10 +35,7 @@ namespace FireAdministrator
 
 				if (saveDialog.ShowDialog().Value)
 				{
-					WaitHelper.Execute(() =>
-					{
-						SaveToZipFile(saveDialog.FileName);
-					});
+					SaveToZipFile(saveDialog.FileName);
 					return saveDialog.FileName;
 				}
 			}
@@ -127,30 +124,27 @@ namespace FireAdministrator
 		{
 			try
 			{
-				WaitHelper.Execute(() =>
-				{
-					ServiceFactory.Events.GetEvent<ConfigurationClosedEvent>().Publish(null);
-					var folderName = AppDataFolderHelper.GetLocalFolder("Administrator/Configuration");
-					var configFileName = Path.Combine(folderName, "Config.fscp");
-					if (Directory.Exists(folderName))
-						Directory.Delete(folderName, true);
-					Directory.CreateDirectory(folderName);
-					File.Copy(fileName, configFileName);
-					FiresecManager.LoadFromZipFile(configFileName);
-					ServiceFactory.ContentService.Invalidate();
+				ServiceFactory.Events.GetEvent<ConfigurationClosedEvent>().Publish(null);
+				var folderName = AppDataFolderHelper.GetLocalFolder("Administrator/Configuration");
+				var configFileName = Path.Combine(folderName, "Config.fscp");
+				if (Directory.Exists(folderName))
+					Directory.Delete(folderName, true);
+				Directory.CreateDirectory(folderName);
+				File.Copy(fileName, configFileName);
+				FiresecManager.LoadFromZipFile(configFileName);
+				ServiceFactory.ContentService.Invalidate();
 
-					FiresecManager.UpdateConfiguration();
-					GKManager.UpdateConfiguration();
-					SKDManager.UpdateConfiguration();
+				FiresecManager.UpdateConfiguration();
+				GKManager.UpdateConfiguration();
+				SKDManager.UpdateConfiguration();
 
-					if (LoadingErrorManager.HasError)
-						MessageBoxService.ShowWarning(LoadingErrorManager.ToString(), "Ошибки при загрузке конфигурации");
+				if (LoadingErrorManager.HasError)
+					MessageBoxService.ShowWarning(LoadingErrorManager.ToString(), "Ошибки при загрузке конфигурации");
 
-					ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
-					ConfigManager.ShowFirstDevice();
+				ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
+				ConfigManager.ShowFirstDevice();
 
-					ServiceFactory.SaveService.Set();
-				});
+				ServiceFactory.SaveService.Set();
 				return fileName;
 			}
 			catch (Exception e)

@@ -45,12 +45,10 @@ namespace PlansModule.Validation
 
 		public override void Navigate()
 		{
-			using (new WaitWrapper())
-			{
-				if (_elementError.Navigate != null)
-					_elementError.Navigate();
-				ApplicationService.Shell.RightPanelVisible = true;
-			}
+			if (_elementError.Navigate != null)
+				_elementError.Navigate();
+			ApplicationService.Shell.RightPanelVisible = true;
+
 			base.Navigate();
 		}
 	}

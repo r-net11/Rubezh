@@ -96,7 +96,6 @@ namespace ReportsModule.ViewModels
 		private void GenerateReport()
 		{
 			using (new TimeCounter("Build report: {0}"))
-			using (new WaitWrapper())
 			{
 				var reportDocument = new ReportDocument();
 				using (new TimeCounter("\tGet template: {0}"))
@@ -154,20 +153,19 @@ namespace ReportsModule.ViewModels
 		{
 			var fileName = PDFHelper.ShowSavePdfDialog();
 			if (!string.IsNullOrEmpty(fileName))
-				WaitHelper.Execute(() =>
+			{
+				using (var fs = new FileStream(fileName, FileMode.Create))
+				using (var pdf = new PDFDocument(fs, _reportProvider.PdfProvider.PageFormat))
 				{
-					using (var fs = new FileStream(fileName, FileMode.Create))
-					using (var pdf = new PDFDocument(fs, _reportProvider.PdfProvider.PageFormat))
-					{
-						pdf.Document.AddAuthor("Рубеж / Оперативные задачи");
-						pdf.Document.AddTitle(_reportProvider.Title);
-						pdf.Document.AddCreator("ОЗ");
-						_reportProvider.PdfProvider.Print(pdf.Document);
+					pdf.Document.AddAuthor("Рубеж / Оперативные задачи");
+					pdf.Document.AddTitle(_reportProvider.Title);
+					pdf.Document.AddCreator("ОЗ");
+					_reportProvider.PdfProvider.Print(pdf.Document);
 #if DEBUG
-						Process.Start(fileName);
+					Process.Start(fileName);
 #endif
-					}
-				});
+				}
+			}
 		}
 		private bool CanPdfPrint()
 		{

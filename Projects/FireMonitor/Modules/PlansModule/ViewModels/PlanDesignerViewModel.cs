@@ -42,17 +42,16 @@ namespace PlansModule.ViewModels
 				Plan = PlanViewModel == null || PlanViewModel.PlanFolder != null ? null : planViewModel.Plan;
 				OnPropertyChanged(() => Plan);
 				OnPropertyChanged(() => IsNotEmpty);
-				using (new WaitWrapper())
-					if (Plan != null)
-					{
-						using (new TimeCounter("\t\tDesignerCanvas.Initialize: {0}"))
-							DesignerCanvas.Initialize(Plan);
-						using (new TimeCounter("\t\tDesignerItem.Create: {0}"))
-							CreatePresenters();
-						using (new TimeCounter("\t\tPlanDesignerViewModel.OnUpdated: {0}"))
-							Update();
-						DesignerCanvas.LoadingFinished();
-					}
+				if (Plan != null)
+				{
+					using (new TimeCounter("\t\tDesignerCanvas.Initialize: {0}"))
+						DesignerCanvas.Initialize(Plan);
+					using (new TimeCounter("\t\tDesignerItem.Create: {0}"))
+						CreatePresenters();
+					using (new TimeCounter("\t\tPlanDesignerViewModel.OnUpdated: {0}"))
+						Update();
+					DesignerCanvas.LoadingFinished();
+				}
 			}
 		}
 

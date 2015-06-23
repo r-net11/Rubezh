@@ -161,21 +161,20 @@ namespace ReportsModule.Views
 			{
 				if (value < 0)
 					throw new ApplicationException();
-				else if (value > DocumentPaginator.PageCount)
+				if (value > DocumentPaginator.PageCount)
 				{
 					if (PageView.PageNumber == DocumentPaginator.PageCount - 1)
 						throw new ApplicationException();
-					else
-						value = DocumentPaginator.PageCount;
+
+					value = DocumentPaginator.PageCount;
 				}
-				using (new WaitWrapper())
-					if (PageView.PageNumber != value - 1)
-					{
-						PageView.PageNumber = value - 1;
-						CommandManager.InvalidateRequerySuggested();
-						ResetScroll();
-						PageView.UpdateLayout();
-					}
+				if (PageView.PageNumber != value - 1)
+				{
+					PageView.PageNumber = value - 1;
+					CommandManager.InvalidateRequerySuggested();
+					ResetScroll();
+					PageView.UpdateLayout();
+				}
 				OnPropertyChanged("CurrentPageNumber");
 				OnPropertyChanged("TotalPageNumber");
 			}

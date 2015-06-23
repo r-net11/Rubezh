@@ -22,7 +22,7 @@ namespace FiresecAPI.Models
 
 		[DataMember]
 		public List<Sound> Sounds { get; set; }
-	
+
 		[DataMember]
 		public List<JournalFilter> JournalFilters { get; set; }
 

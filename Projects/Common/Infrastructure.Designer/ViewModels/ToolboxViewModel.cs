@@ -71,7 +71,6 @@ namespace Infrastructure.Designer.ViewModels
 		{
 			DesignerCanvas.DeselectAll();
 			if (ActiveInstrument.Adorner != null)
-				using (new WaitWrapper())
 				using (new TimeCounter("\t\tInstrumentAdorner.Show: {0}"))
 					ActiveInstrument.Adorner.Show(point);
 			else if (ActiveInstrument.Command != null)
@@ -237,13 +236,11 @@ namespace Infrastructure.Designer.ViewModels
 							break;
 						case Key.A:
 							if (DesignerCanvas != null)
-								using (new WaitWrapper())
 								using (new TimeCounter("DesignerCanvas.SelectAll: {0}"))
 									DesignerCanvas.SelectAll();
 							break;
 						case Key.D:
 							if (DesignerCanvas != null)
-								using (new WaitWrapper())
 								using (new TimeCounter("DesignerCanvas.DeselectAll: {0}"))
 									DesignerCanvas.DeselectAll();
 							break;

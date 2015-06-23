@@ -106,7 +106,6 @@ namespace ReportsModule.ViewModels
 				ApplicationService.BeginInvoke((Action)(() =>
 					{
 						using (new TimeCounter("Total: {0}", true, true))
-						using (new WaitWrapper())
 							try
 							{
 								LoadingService.Show("Идет построение отчета", "Идет построение отчета", 0);

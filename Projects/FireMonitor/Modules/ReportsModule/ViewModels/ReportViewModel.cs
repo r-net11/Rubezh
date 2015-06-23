@@ -85,18 +85,17 @@ namespace ReportsModule.ViewModels
 		{
 			var fileName = PDFHelper.ShowSavePdfDialog();
 			if (!string.IsNullOrEmpty(fileName))
-				WaitHelper.Execute(() =>
+			{
+				using (var fs = new FileStream(fileName, FileMode.Create))
+				using (var pdf = new PDFDocument(fs, _reportProvider.PdfProvider.PageFormat))
 				{
-					using (var fs = new FileStream(fileName, FileMode.Create))
-					using (var pdf = new PDFDocument(fs, _reportProvider.PdfProvider.PageFormat))
-					{
-						AddReportHeader(pdf.Document);
-						_reportProvider.PdfProvider.Print(pdf.Document);
+					AddReportHeader(pdf.Document);
+					_reportProvider.PdfProvider.Print(pdf.Document);
 #if DEBUG
-						Process.Start(fileName);
+					Process.Start(fileName);
 #endif
-					}
-				});
+				}
+			}
 		}
 		private void AddReportHeader(iTextSharp.text.Document document)
 		{
