@@ -122,11 +122,8 @@ namespace SKDModule
 		#region ISKDReportProviderModule Members
 		public IEnumerable<ISKDReportProvider> GetSKDReportProviders()
 		{
-			if (GlobalSettingsHelper.GlobalSettings.UseStrazhBrand)
-			{
-				yield return new EventsReportProvider();
-				yield return new DoorsReportProvider();
-			}
+			yield return new EventsReportProvider();
+			yield return new DoorsReportProvider();
 			yield return new EmployeeRootReportProvider();
 			yield return new CardsReportProvider();
 			yield return new EmployeeAccessReportProvider();

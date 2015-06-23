@@ -231,7 +231,7 @@ namespace AutomationModule
 			}
 			foreach (var objectType in objectTypes)
 			{
-				if (GlobalSettingsHelper.GlobalSettings.UseStrazhBrand && CheckForGKTypes(objectType)) continue;
+				if (CheckForGKTypes(objectType)) continue;
 
 				var explicitTypeViewModel = new ExplicitTypeViewModel(objectType);
 				var parent = ExplicitTypes.FirstOrDefault(x => x.ExplicitType == ExplicitType.Object);

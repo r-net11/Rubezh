@@ -14,10 +14,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			NoCommand = new RelayCommand(OnNo);
 			CopyCommand = new RelayCommand(OnCopy);
 
-			if(GlobalSettingsHelper.GlobalSettings.UseStrazhBrand)
 			Title = title ?? "СТРАЖ";
-			else
-				Title = title ?? "Глобал";
 
 			if (title == null && isException)
 				Title = "Во время работы программы произошла ошибка";

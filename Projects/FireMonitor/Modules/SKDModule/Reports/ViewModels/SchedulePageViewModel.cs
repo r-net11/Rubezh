@@ -20,24 +20,10 @@ namespace SKDModule.Reports.ViewModels
 			SelectNoneCommand = new RelayCommand(() => Schedules.ForEach(item => item.IsChecked = false));
 
 			Schedules = new ObservableCollection<CheckedItemViewModel<CommonScheduleViewModel>>();
-			if (GlobalSettingsHelper.GlobalSettings.UseStrazhBrand)
+			foreach (var weeklyInterval in SKDManager.TimeIntervalsConfiguration.WeeklyIntervals)
 			{
-				foreach (var weeklyInterval in SKDManager.TimeIntervalsConfiguration.WeeklyIntervals)
-				{
-					var scheduleViewModel = new CommonScheduleViewModel(weeklyInterval);
-					Schedules.Add(new CheckedItemViewModel<CommonScheduleViewModel>(scheduleViewModel));
-				}
-			}
-			else
-			{
-				var schedules = GKScheduleHelper.GetSchedules();
-				if (schedules == null)
-					schedules = new List<GKSchedule>();
-				foreach (var schedule in schedules.OrderBy(x => x.No))
-				{
-					var scheduleViewModel = new CommonScheduleViewModel(schedule);
-					Schedules.Add(new CheckedItemViewModel<CommonScheduleViewModel>(scheduleViewModel));
-				}
+				var scheduleViewModel = new CommonScheduleViewModel(weeklyInterval);
+				Schedules.Add(new CheckedItemViewModel<CommonScheduleViewModel>(scheduleViewModel));
 			}
 		}
 

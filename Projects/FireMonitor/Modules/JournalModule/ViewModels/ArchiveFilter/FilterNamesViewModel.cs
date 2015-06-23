@@ -84,13 +84,6 @@ namespace JournalModule.ViewModels
 			systemViewModel.IsExpanded = true;
 			RootFilters.Add(systemViewModel);
 
-			var gkViewModel = new FilterNameViewModel(JournalSubsystemType.GK);
-			gkViewModel.IsExpanded = true;
-			if (!GlobalSettingsHelper.GlobalSettings.UseStrazhBrand)
-			{
-				RootFilters.Add(gkViewModel);
-			}
-
 			var skdViewModel = new FilterNameViewModel(JournalSubsystemType.SKD);
 			skdViewModel.IsExpanded = true;
 			RootFilters.Add(skdViewModel);
@@ -111,10 +104,6 @@ namespace JournalModule.ViewModels
 				{
 					case JournalSubsystemType.System:
 						systemViewModel.AddChild(filterNameViewModel);
-						break;
-
-					case JournalSubsystemType.GK:
-						gkViewModel.AddChild(filterNameViewModel);
 						break;
 
 					case JournalSubsystemType.SKD:

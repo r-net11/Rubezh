@@ -92,7 +92,7 @@ namespace FiresecService.Report.Templates
 						dataRow.Department = employee.Department;
 						dataRow.Position = employee.Position;
 					}
-					if (!card.IsInStopList && (card.CardType == CardType.Duress || card.CardType == CardType.Temporary || !GlobalSettingsHelper.GlobalSettings.UseStrazhBrand))
+					if (!card.IsInStopList && (card.CardType == CardType.Duress || card.CardType == CardType.Temporary))
 						dataRow.Period = card.EndDate;
 					dataSet.Data.Rows.Add(dataRow);
 				}

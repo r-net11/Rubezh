@@ -11,11 +11,6 @@ namespace SKDModule.Reports.ViewModels
 			Title = "Типы пропусков";
 		}
 
-		public bool CanSelectActiveTypes
-		{
-			get { return GlobalSettingsHelper.GlobalSettings.UseStrazhBrand; }
-		}
-
 		bool _passCardActive;
 		public bool PassCardActive
 		{

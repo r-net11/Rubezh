@@ -18,8 +18,8 @@ namespace SKDModule.Reports.Providers
 		{
 			return new FilterModel()
 			{
-				Columns = new Dictionary<string, string> 
-				{ 
+				Columns = new Dictionary<string, string>
+				{
 					{ "Zone", "Зона" },
 					{ "Type", "Тип пропуска" },
 					{ "Number", "Номер пропуска" },
@@ -31,7 +31,7 @@ namespace SKDModule.Reports.Providers
 				},
 				Pages = new List<FilterContainerViewModel>()
 				{
-					new PassCardTypePageViewModel() { IsActive = GlobalSettingsHelper.GlobalSettings.UseStrazhBrand },
+					new PassCardTypePageViewModel() { IsActive = true },
 					new ZonePageViewModel(),
 					new OrganizationPageViewModel(true),
 					new DepartmentPageViewModel(),

@@ -8,7 +8,7 @@
 	<Grid Margin="20">
         <StackPanel>
 		<CheckBox Content="Активные пропуска" IsChecked="{Binding PassCardActive}" />
-            <StackPanel IsEnabled="{Binding PassCardActive, Converter={StaticResource InverseBooleanConverter}}" Visibility="{Binding CanSelectActiveTypes, Converter={StaticResource BoolToVisibilityConverter}}" Margin="30 0 0 0">
+            <StackPanel IsEnabled="{Binding PassCardActive, Converter={StaticResource InverseBooleanConverter}}" Margin="30 0 0 0">
                 <CheckBox Content="Постоянный" IsChecked="{Binding PassCardPermanent}" />
                 <CheckBox Content="Временный" IsChecked="{Binding PassCardTemprorary}" />
                 <CheckBox Content="Разовый" IsChecked="{Binding PassCardOnceOnly}" />

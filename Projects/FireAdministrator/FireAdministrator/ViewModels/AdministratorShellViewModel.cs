@@ -20,7 +20,7 @@ namespace FireAdministrator.ViewModels
 		public AdministratorShellViewModel()
 			: base(ClientType.Administrator)
 		{
-			Title = GlobalSettingsHelper.GlobalSettings.UseStrazhBrand ? "Администратор" : "Администратор Глобал";
+			Title = "Администратор";
 			Height = 700;
 			Width = 1000;
 			MinWidth = 1000;
@@ -28,7 +28,7 @@ namespace FireAdministrator.ViewModels
 			ShowToolbarCommand = new RelayCommand(OnShowToolbar, CanShowMenu);
 			ShowMenuCommand = new RelayCommand(OnShowMenu, CanShowMenu);
 			_menu = new MenuViewModel();
-			_menu.LogoSource = GlobalSettingsHelper.GlobalSettings.UseStrazhBrand ? "Logo" : "rubezhLogo";
+			_menu.LogoSource = "Logo";
 			Toolbar = _menu;
 			RibbonContent = new RibbonMenuViewModel();
 			AddRibbonItem();

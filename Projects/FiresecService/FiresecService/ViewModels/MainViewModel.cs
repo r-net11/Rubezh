@@ -17,7 +17,7 @@ namespace FiresecService.ViewModels
 		public MainViewModel()
 		{
 			Current = this;
-			Title = GlobalSettingsHelper.GlobalSettings.UseStrazhBrand ? "Сервер приложений" : "Сервер приложений Глобал";
+			Title = "Сервер приложений";
 			_dispatcher = Dispatcher.CurrentDispatcher;
 			Clients = new ObservableCollection<ClientViewModel>();
 			MessageBoxService.SetMessageBoxHandler(MessageBoxHandler);
@@ -35,7 +35,7 @@ namespace FiresecService.ViewModels
 				viewModel.Result = startupMessageBoxViewModel.Result;
 			}));
 		}
-		
+
 		private string _status;
 		string Status
 		{

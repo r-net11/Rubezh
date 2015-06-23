@@ -5,10 +5,12 @@ namespace Infrastructure.Common
 {
 	public static class ManualPdfHelper
 	{
-		public static void Show(string manualName = null)
+		public static void Show(string manualName)
 		{
-			var fileName = AppDataFolderHelper.GetFile(manualName ?? "Manual.pdf");
-			
+			if (string.IsNullOrEmpty(manualName)) return;
+
+			var fileName = AppDataFolderHelper.GetFile(manualName);
+
 			if (File.Exists(fileName))
 			{
 				try

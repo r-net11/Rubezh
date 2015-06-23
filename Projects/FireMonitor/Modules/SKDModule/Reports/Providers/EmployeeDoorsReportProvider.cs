@@ -16,10 +16,10 @@ namespace SKDModule.Reports.Providers
 
 		public override FilterModel GetFilterModel()
 		{
-			return new FilterModel()
+			return new FilterModel
 			{
-				Columns = new Dictionary<string, string> 
-				{ 
+				Columns = new Dictionary<string, string>
+				{
 					{ "AccessPoint", "Название" },
 					{ "ZoneOut", "Из зоны" },
 					{ "ZoneIn", "В зону" },
@@ -29,11 +29,11 @@ namespace SKDModule.Reports.Providers
 					{ "Employee", "Сотрудник (Посетитель)" },
 					{ "Organisation", "Организация" },
 					{ "Department", "Подразделение" },
-					{ "Position", "Должность (Сопровождающий)" },				
+					{ "Position", "Должность (Сопровождающий)" },
 				},
-				Pages = new List<FilterContainerViewModel>()
+				Pages = new List<FilterContainerViewModel>
 				{
-					new PassCardTypePageViewModel() { IsActive = GlobalSettingsHelper.GlobalSettings.UseStrazhBrand },
+					new PassCardTypePageViewModel() { IsActive = true },
 					new ZonePageViewModel(),
 					new SchedulePageViewModel(),
 					new OrganizationPageViewModel(true),

@@ -106,23 +106,9 @@ namespace FiresecService.Report.Templates
 				}
 
 				Dictionary<int, string> intervalMap = new Dictionary<int,string>();
-				if (GlobalSettingsHelper.GlobalSettings.UseStrazhBrand)
+				foreach (var interval in SKDManager.SKDConfiguration.TimeIntervalsConfiguration.WeeklyIntervals)
 				{
-					foreach (var interval in SKDManager.SKDConfiguration.TimeIntervalsConfiguration.WeeklyIntervals)
-					{
-						intervalMap.Add(interval.ID, interval.Name);
-					}
-				}
-				else
-				{
-					var schedulesResult = dataProvider.DatabaseService.GKScheduleTranslator.GetSchedules();
-					if (!schedulesResult.HasError)
-					{
-						foreach (var interval in schedulesResult.Result)
-						{
-							intervalMap.Add(interval.No, interval.Name);
-						}
-					}
+					intervalMap.Add(interval.ID, interval.Name);
 				}
 
 				foreach (var card in cardsResult.Result)
