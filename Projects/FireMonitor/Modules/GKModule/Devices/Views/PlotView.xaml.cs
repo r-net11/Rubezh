@@ -50,7 +50,7 @@ namespace GKModule.Views
 			updateCollectionTimer.Start();
 
 			restr = new ViewportAxesRangeRestriction();
-			restr.YRange = new DisplayRange(-5, 105);
+			restr.YRange = new DisplayRange(-5, 250);
 			plotter.Viewport.Restrictions.Add(restr);
 		}
 

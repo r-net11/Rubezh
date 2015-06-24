@@ -147,5 +147,9 @@ namespace FiresecAPI.GK
 		RSR2_GKMirror,
 		[Description("Отражение")]
 		RSR2_GKMirrorItem,
+		[Description("Группа индикаторов")]
+		GKIndicatorsGroup,
+		[Description("Группа реле")]
+		GKRelaysGroup
 	}
 }
