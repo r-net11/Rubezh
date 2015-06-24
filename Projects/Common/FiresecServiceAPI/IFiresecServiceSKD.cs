@@ -12,13 +12,13 @@ namespace FiresecAPI
 	{
 		#region Employee
 		[OperationContract]
-		OperationResult<IEnumerable<ShortEmployee>> GetEmployeeList(EmployeeFilter filter);
+		OperationResult<List<ShortEmployee>> GetEmployeeList(EmployeeFilter filter);
 
 		[OperationContract]
 		OperationResult<Employee> GetEmployeeDetails(Guid uid);
 
 		[OperationContract]
-		OperationResult SaveEmployee(Employee item, bool isNew);
+		OperationResult<bool> SaveEmployee(Employee item, bool isNew);
 
 		[OperationContract]
 		OperationResult MarkDeletedEmployee(Guid uid, string name);
@@ -41,13 +41,13 @@ namespace FiresecAPI
 
 		#region Department
 		[OperationContract]
-		OperationResult<IEnumerable<ShortDepartment>> GetDepartmentList(DepartmentFilter filter);
+		OperationResult<List<ShortDepartment>> GetDepartmentList(DepartmentFilter filter);
 
 		[OperationContract]
 		OperationResult<Department> GetDepartmentDetails(Guid uid);
 
 		[OperationContract]
-		OperationResult SaveDepartment(Department item, bool isNew);
+		OperationResult<bool> SaveDepartment(Department item, bool isNew);
 
 		[OperationContract]
 		OperationResult MarkDeletedDepartment(ShortDepartment department);
@@ -59,21 +59,21 @@ namespace FiresecAPI
 		OperationResult RestoreDepartment(ShortDepartment department);
 
 		[OperationContract]
-		OperationResult<IEnumerable<Guid>> GetChildEmployeeUIDs(Guid uid);
+		OperationResult<List<Guid>> GetChildEmployeeUIDs(Guid uid);
 
 		[OperationContract]
-		OperationResult<IEnumerable<Guid>> GetParentEmployeeUIDs(Guid uid);
+		OperationResult<List<Guid>> GetParentEmployeeUIDs(Guid uid);
 		#endregion
 
 		#region Position
 		[OperationContract]
-		OperationResult<IEnumerable<ShortPosition>> GetPositionList(PositionFilter filter);
+		OperationResult<List<ShortPosition>> GetPositionList(PositionFilter filter);
 
 		[OperationContract]
 		OperationResult<Position> GetPositionDetails(Guid uid);
 
 		[OperationContract]
-		OperationResult SavePosition(Position item, bool isNew);
+		OperationResult<bool> SavePosition(Position item, bool isNew);
 
 		[OperationContract]
 		OperationResult MarkDeletedPosition(Guid uid, string name);
@@ -107,7 +107,7 @@ namespace FiresecAPI
 
 		#region AccessTemplate
 		[OperationContract]
-		OperationResult<IEnumerable<AccessTemplate>> GetAccessTemplates(AccessTemplateFilter filter);
+		OperationResult<List<AccessTemplate>> GetAccessTemplates(AccessTemplateFilter filter);
 
 		[OperationContract]
 		OperationResult<bool> SaveAccessTemplate(AccessTemplate item, bool isNew);
@@ -121,10 +121,10 @@ namespace FiresecAPI
 
 		#region Organisation
 		[OperationContract]
-		OperationResult<IEnumerable<Organisation>> GetOrganisations(OrganisationFilter filter);
+		OperationResult<List<Organisation>> GetOrganisations(OrganisationFilter filter);
 
 		[OperationContract]
-		OperationResult SaveOrganisation(OrganisationDetails Organisation, bool isNew);
+		OperationResult<bool> SaveOrganisation(OrganisationDetails Organisation, bool isNew);
 
 		[OperationContract]
 		OperationResult MarkDeletedOrganisation(Guid uid, string name);
@@ -157,16 +157,10 @@ namespace FiresecAPI
 
 		#region AdditionalColumnType
 		[OperationContract]
-		OperationResult<IEnumerable<ShortAdditionalColumnType>> GetAdditionalColumnTypeList(AdditionalColumnTypeFilter filter);
+		OperationResult<List<AdditionalColumnType>> GetAdditionalColumnTypes(AdditionalColumnTypeFilter filter);
 
 		[OperationContract]
-		OperationResult<IEnumerable<AdditionalColumnType>> GetAdditionalColumnTypes(AdditionalColumnTypeFilter filter);
-
-		[OperationContract]
-		OperationResult<AdditionalColumnType> GetAdditionalColumnTypeDetails(Guid uid);
-
-		[OperationContract]
-		OperationResult SaveAdditionalColumnType(AdditionalColumnType item, bool isNew);
+		OperationResult<bool> SaveAdditionalColumnType(AdditionalColumnType item, bool isNew);
 
 		[OperationContract]
 		OperationResult MarkDeletedAdditionalColumnType(Guid uid, string name);
@@ -277,13 +271,13 @@ namespace FiresecAPI
 
 		#region PassCardTemplate
 		[OperationContract]
-		OperationResult<IEnumerable<ShortPassCardTemplate>> GetPassCardTemplateList(PassCardTemplateFilter filter);
+		OperationResult<List<ShortPassCardTemplate>> GetPassCardTemplateList(PassCardTemplateFilter filter);
 
 		[OperationContract]
 		OperationResult<PassCardTemplate> GetPassCardTemplateDetails(Guid uid);
 
 		[OperationContract]
-		OperationResult SavePassCardTemplate(PassCardTemplate item, bool isNew);
+		OperationResult<bool> SavePassCardTemplate(PassCardTemplate item, bool isNew);
 
 		[OperationContract]
 		OperationResult MarkDeletedPassCardTemplate(Guid uid, string name);

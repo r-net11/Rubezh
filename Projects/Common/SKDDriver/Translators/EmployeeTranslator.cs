@@ -7,6 +7,7 @@ using FiresecAPI.SKD;
 using FiresecClient;
 using LinqKit;
 
+
 namespace SKDDriver
 {
 	public class EmployeeTranslator : WithShortTranslator<DataAccess.Employee, Employee, EmployeeFilter, ShortEmployee>
@@ -216,7 +217,8 @@ namespace SKDDriver
 			{
 				if (filter.WithDeletedDepartments)
 				{
-					result = result.And(e => filter.DepartmentUIDs.Contains(e.DepartmentUID.Value) || Context.Departments.Any(x => x.IsDeleted && x.UID == e.DepartmentUID));
+					result = result.And(e => filter.DepartmentUIDs.Contains(e.DepartmentUID.Value) || 
+						Context.Departments.Any(x => x.IsDeleted && x.UID == e.DepartmentUID));
 				}
 				else
 				{

@@ -12,20 +12,19 @@ namespace SKDDriver.DataClasses
 		where TApiItem : API.IOrganisationElement, new()
 		where TFilter : API.OrganisationFilterBase
 	{
-		protected DbService DbService; 
-		protected SKDDbContext Context;
+		public DbService DbService { get; private set; }
+		public SKDDbContext Context { get { return DbService.Context; } } 
 
 		public OrganisationItemTranslatorBase(DbService context)
 		{
 			DbService = context;
-			Context = DbService.Context;
 		}
 
 		public OperationResult<List<TApiItem>> Get(TFilter filter)
 		{
 			try
 			{
-				var tableItems = GetFilteredTableItems(filter).ToList();
+				var tableItems = GetFilteredTableItems(filter, GetTableItems()).ToList();
 				var result = tableItems.Select(x => Translate(x)).ToList();
 				return new OperationResult<List<TApiItem>>(result);
 			}
@@ -89,6 +88,7 @@ namespace SKDDriver.DataClasses
 				{
 					tableItem.IsDeleted = true;
 					tableItem.RemovalDate = DateTime.Now;
+					AfterDelete(tableItem);
 					Context.SaveChanges();
 				}
 				return new OperationResult();
@@ -99,6 +99,8 @@ namespace SKDDriver.DataClasses
 			}
 		}
 
+		protected virtual void AfterDelete(TTableItem tableItem) { }
+
 		public OperationResult Restore(Guid uid)
 		{
 			try
@@ -106,6 +108,7 @@ namespace SKDDriver.DataClasses
 				var tableItem = Table.FirstOrDefault(x => x.UID == uid);
 				if (tableItem != null)
 				{
+					BeforeRestore(tableItem);
 					tableItem.IsDeleted = false;
 					tableItem.RemovalDate = null;
 					Context.SaveChanges();
@@ -117,6 +120,8 @@ namespace SKDDriver.DataClasses
 				return new OperationResult(e.Message);
 			}
 		}
+
+		protected virtual void BeforeRestore(TTableItem tableItem) { }
 
 		protected virtual OperationResult<bool> CanSave(TApiItem item)
 		{
@@ -160,24 +165,71 @@ namespace SKDDriver.DataClasses
 			tableItem.RemovalDate = apiItem.RemovalDate;
 			tableItem.OrganisationUID = apiItem.OrganisationUID;
 		}
-		protected abstract DbSet<TTableItem> Table { get; }
+		public abstract DbSet<TTableItem> Table { get; }
 		protected virtual IQueryable<TTableItem> GetTableItems()
 		{
-			return Table;//.Include(x => x.Organisation.OrganisationUsers);
+			return Table.Include(x => x.Organisation.Users);
 		}
 		protected virtual void ClearDependentData(TTableItem tableItem) { }
-		protected virtual IQueryable<TTableItem> GetFilteredTableItems(TFilter filter)
+		public virtual IQueryable<TTableItem> GetFilteredTableItems(TFilter filter, IQueryable<TTableItem> tableItems)
 		{
-			return GetTableItems().Where(x =>
+			return tableItems.Where(x =>
 				(filter.UIDs.Count() == 0 || filter.UIDs.Contains(x.UID)) &&
 				(filter.ExceptUIDs.Count() == 0 || !filter.ExceptUIDs.Contains(x.UID)) &&
 				(filter.LogicalDeletationType != API.LogicalDeletationType.Active || !x.IsDeleted) &&
-				(filter.LogicalDeletationType != API.LogicalDeletationType.Deleted || x.IsDeleted) //&&
-				//(filter.OrganisationUIDs.Count() == 0 ||
-				//    (x.OrganisationUID != null && filter.OrganisationUIDs.Contains(x.OrganisationUID.Value))) &&
-				//(filter.UserUID != Guid.Empty ||
-				//    x.Organisation != null && x.Organisation.OrganisationUsers.Any(organisationUser => organisationUser.UserUID == filter.UserUID)) 
+				(filter.OrganisationUIDs.Count() == 0 ||
+					(x.OrganisationUID != null && filter.OrganisationUIDs.Contains(x.OrganisationUID.Value))) &&
+				(filter.UserUID == Guid.Empty ||
+					x.Organisation != null && x.Organisation.Users.Any(organisationUser => organisationUser.UserUID == filter.UserUID)) 
 			);
+		}
+	}
+
+	public abstract class ShortTranslatorBase<TTableItem, TShort, TApiItem, TFilter>
+		where TTableItem : class, IOrganisationItem, new()
+		where TApiItem : API.IOrganisationElement, new()
+		where TShort : API.IOrganisationElement, new()
+		where TFilter : API.OrganisationFilterBase
+	{
+		OrganisationItemTranslatorBase<TTableItem, TApiItem, TFilter> OrganisationItemTranslatorBase;
+		DbService DbService { get { return OrganisationItemTranslatorBase.DbService; } }
+		SKDDbContext Context { get { return DbService.Context; } }
+
+		public ShortTranslatorBase(OrganisationItemTranslatorBase<TTableItem, TApiItem, TFilter> organisationItemTranslatorBase)
+		{
+			OrganisationItemTranslatorBase = organisationItemTranslatorBase;
+		}
+
+		public virtual TShort TranslateToShort(TTableItem tableItem)
+		{
+			return new TShort
+			{
+				UID = tableItem.UID,
+				Name = tableItem.Name,
+				Description = tableItem.Description,
+				IsDeleted = tableItem.IsDeleted,
+				RemovalDate = tableItem.RemovalDate.GetValueOrDefault(),
+				OrganisationUID = tableItem.OrganisationUID.GetValueOrDefault()
+			};		
+		}
+
+		public virtual IQueryable<TTableItem> GetTableItems()
+		{
+			return OrganisationItemTranslatorBase.Table.Include(x => x.Organisation.Users);
+		}
+
+		public OperationResult<List<TShort>> Get(TFilter filter)
+		{
+			try
+			{
+				var tableItems = OrganisationItemTranslatorBase.GetFilteredTableItems(filter, GetTableItems()).ToList();
+				var result = tableItems.Select(x => TranslateToShort(x)).ToList();
+				return new OperationResult<List<TShort>>(result);
+			}
+			catch (System.Exception e)
+			{
+				return OperationResult<List<TShort>>.FromError(e.Message);
+			}
 		}
 	}
 }

@@ -1,7 +1,7 @@
 ﻿
 namespace SKDDriver.DataClasses
 {
-	public enum ContextType
+	public enum DbContextType
 	{
 		MSSQL,
 		PostgreSQL

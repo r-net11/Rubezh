@@ -175,7 +175,7 @@ namespace SKDDriver
 			var result = base.GetTableItems(filter);
 			if (filter.EmployeeFilter != null)
 			{
-				var employeeUIDs = DatabaseService.EmployeeTranslator.GetTableItems(filter.EmployeeFilter).Select(x => x.UID);
+				var employeeUIDs = DatabaseService.EmployeeTranslator1.GetTableItems(filter.EmployeeFilter).Select(x => x.UID);
 				if (filter.DeactivationType == LogicalDeletationType.All)
 					result = result.Where(e => e.IsInStopList || (e.EmployeeUID != null && employeeUIDs.Contains(e.EmployeeUID.Value)));
 				else
@@ -189,7 +189,7 @@ namespace SKDDriver
 			try
 			{
 				Context.CommandTimeout = 600;
-				var tableItems = GetTableItems(IsInFilter(filter), DatabaseService.EmployeeTranslator.GetFilterExpression((filter.EmployeeFilter)));
+				var tableItems = GetTableItems(IsInFilter(filter), DatabaseService.EmployeeTranslator1.GetFilterExpression((filter.EmployeeFilter)));
 				var result = tableItems.Where(x => x.Employee != null || x.Card.IsInStopList).Select(x => Translate(x)).ToList();
 				return new OperationResult<IEnumerable<SKDCard>>(result);
 			}

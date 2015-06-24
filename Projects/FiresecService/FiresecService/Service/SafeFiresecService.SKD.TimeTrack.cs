@@ -38,13 +38,13 @@ namespace FiresecService.Service
 		//    return SafeContext.Execute<OperationResult>(() => FiresecService.RemoveDayIntervalPart(uid, name));
 		//}
 
-		public OperationResult<IEnumerable<Holiday>> GetHolidays(HolidayFilter filter)
+		public OperationResult<List<Holiday>> GetHolidays(HolidayFilter filter)
 		{
-			return SafeContext.Execute<OperationResult<IEnumerable<Holiday>>>(() => FiresecService.GetHolidays(filter));
+			return SafeContext.Execute<OperationResult<List<Holiday>>>(() => FiresecService.GetHolidays(filter));
 		}
-		public OperationResult SaveHoliday(Holiday item, bool isNew)
+		public OperationResult<bool> SaveHoliday(Holiday item, bool isNew)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveHoliday(item, isNew));
+			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.SaveHoliday(item, isNew));
 		}
 		public OperationResult MarkDeletedHoliday(Guid uid, string name)
 		{

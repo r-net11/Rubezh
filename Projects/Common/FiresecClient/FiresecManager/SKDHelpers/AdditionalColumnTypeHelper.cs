@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using FiresecAPI.SKD;
 
 namespace FiresecClient.SKDHelpers
@@ -12,12 +13,12 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
-		public static bool MarkDeleted(ShortAdditionalColumnType item)
+		public static bool MarkDeleted(AdditionalColumnType item)
 		{
 			return MarkDeleted(item.UID, item.Name);
 		}
 
-		public static bool Restore(ShortAdditionalColumnType item)
+		public static bool Restore(AdditionalColumnType item)
 		{
 			return Restore(item.UID, item.Name);
 		}
@@ -38,37 +39,34 @@ namespace FiresecClient.SKDHelpers
 		{
 			if (uid == null)
 				return null;
-			var operationResult = FiresecManager.FiresecService.GetAdditionalColumnTypeDetails(uid.Value);
-			return Common.ShowErrorIfExists(operationResult);
+			var operationResult = FiresecManager.FiresecService.GetAdditionalColumnTypes(new AdditionalColumnTypeFilter
+			{
+				UIDs = new List<System.Guid> { uid.Value }, LogicalDeletationType = LogicalDeletationType.All
+			});
+			var result = Common.ShowErrorIfExists(operationResult);
+			if (result != null && result.Count > 0)
+				return result.FirstOrDefault();
+			return null;
 		}
 
-		public static IEnumerable<ShortAdditionalColumnType> Get(AdditionalColumnTypeFilter filter)
+		public static IEnumerable<AdditionalColumnType> Get(AdditionalColumnTypeFilter filter)
 		{
-			var operationResult = FiresecManager.FiresecService.GetAdditionalColumnTypeList(filter);
+			var operationResult = FiresecManager.FiresecService.GetAdditionalColumnTypes(filter);
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
-		public static IEnumerable<ShortAdditionalColumnType> GetByCurrentUser()
+		public static IEnumerable<AdditionalColumnType> GetByCurrentUser()
 		{
 			return Get(new AdditionalColumnTypeFilter() { UserUID = FiresecManager.CurrentUser.UID });
-		}
-
-		public static IEnumerable<ShortAdditionalColumnType> GetShortByOrganisation(Guid organisationUID)
-		{
-			var result = FiresecManager.FiresecService.GetAdditionalColumnTypeList(new AdditionalColumnTypeFilter
-				{
-					OrganisationUIDs = new List<System.Guid> { organisationUID }
-				});
-			return Common.ShowErrorIfExists(result);
 		}
 
 		public static IEnumerable<AdditionalColumnType> GetByOrganisation(Guid organisationUID)
 		{
 			var result = FiresecManager.FiresecService.GetAdditionalColumnTypes(new AdditionalColumnTypeFilter
-			{
-				OrganisationUIDs = new List<System.Guid> { organisationUID }
-			});
+				{
+					OrganisationUIDs = new List<System.Guid> { organisationUID }
+				});
 			return Common.ShowErrorIfExists(result);
 		}
-	}
+}
 }

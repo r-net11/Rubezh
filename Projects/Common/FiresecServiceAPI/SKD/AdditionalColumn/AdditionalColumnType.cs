@@ -3,7 +3,7 @@
 namespace FiresecAPI.SKD
 {
 	[DataContract]
-	public class AdditionalColumnType : OrganisationElementBase
+	public class AdditionalColumnType : OrganisationElementBase, IOrganisationElement
 	{
 		[DataMember]
 		public string Name { get; set; }

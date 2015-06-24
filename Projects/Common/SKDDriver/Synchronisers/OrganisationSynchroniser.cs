@@ -36,7 +36,7 @@ namespace SKDDriver
 			return base.IsInFilter(filter).And(x => x.UID == filter.OrganisationUID);
 		}
 
-		EmployeeSynchroniser EmployeeSynchroniser { get { return _DatabaseService.EmployeeTranslator.Synchroniser; } }
+		EmployeeSynchroniser EmployeeSynchroniser { get { return _DatabaseService.EmployeeTranslator1.Synchroniser; } }
 		PositionSynchroniser PositionSynchroniser { get { return _DatabaseService.PositionTranslator.Synchroniser; } }
 		DepartmentSynchroniser DepartmentSynchroniser { get { return _DatabaseService.DepartmentTranslator.Synchroniser; } }
 		public OrgansiationListSynchroniser ListSynchroniser;
@@ -48,7 +48,7 @@ namespace SKDDriver
 				var organisationResult = base.Export(filter);
 				if (organisationResult.HasError)
 					return organisationResult;
-				var employeeResult = _DatabaseService.EmployeeTranslator.Synchroniser.Export(filter);
+				var employeeResult = _DatabaseService.EmployeeTranslator1.Synchroniser.Export(filter);
 				if (employeeResult.HasError)
 					return employeeResult;
 				var PositionResult = _DatabaseService.PositionTranslator.Synchroniser.Export(filter);

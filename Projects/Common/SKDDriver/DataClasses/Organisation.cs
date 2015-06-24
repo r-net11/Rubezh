@@ -7,6 +7,24 @@ namespace SKDDriver.DataClasses
 {
 	public class Organisation
 	{
+		public Organisation()
+		{
+			Doors = new List<OrganisationDoor>();
+			Users = new List<OrganisationUser>();
+			NightSettings = new List<NightSetting>();
+			Employees = new List<Employee>();
+			AdditionalColumnTypes = new List<AdditionalColumnType>();
+			DayIntervals = new List<DayInterval>();
+			Schedules = new List<Schedule>();
+			ScheduleSchemes = new List<ScheduleScheme>();
+			Positions = new List<Position>();
+			Departments = new List<Department>();
+			Holidays = new List<Holiday>();
+			AccessTemplates = new List<AccessTemplate>();
+			PassCardTemplates = new List<PassCardTemplate>();
+			TimeTrackDocumnetTypes = new List<TimeTrackDocumnetType>();
+		}
+		
 		[Key]
 		public Guid UID { get; set; }
 
@@ -26,9 +44,12 @@ namespace SKDDriver.DataClasses
 		[ForeignKey("HRChiefUID")]
 		public Employee HRChief { get; set; }
 
-		public ICollection<OrganisationDoor> OrganisationDoors { get; set; }
+		public Guid? PhotoUID { get; set; }
+		public Photo Photo { get; set; }
 
-		public ICollection<OrganisationUser> OrganisationUsers { get; set; }
+		public ICollection<OrganisationDoor> Doors { get; set; }
+
+		public ICollection<OrganisationUser> Users { get; set; }
 
 		public ICollection<NightSetting> NightSettings { get; set; }
 
@@ -53,8 +74,6 @@ namespace SKDDriver.DataClasses
 		public ICollection<PassCardTemplate> PassCardTemplates { get; set; }
 
 		public ICollection<TimeTrackDocumnetType> TimeTrackDocumnetTypes { get; set; }
-
-		public Guid? PhotoUID { get; set; }
 
 		public string Phone { get; set; }
 

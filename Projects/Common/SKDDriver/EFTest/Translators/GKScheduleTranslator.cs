@@ -111,8 +111,8 @@ namespace SKDDriver.DataClasses
 				if (tableItem != null)
 				{
 					Context.GKSchedules.Remove(tableItem);
+					Context.SaveChanges();
 				}
-				Context.SaveChanges();
 				return new OperationResult();
 			}
 			catch (Exception e)

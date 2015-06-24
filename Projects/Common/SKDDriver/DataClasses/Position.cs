@@ -6,6 +6,11 @@ namespace SKDDriver.DataClasses
 {
 	public class Position : IOrganisationItem
 	{
+		public Position()
+		{
+			Employees = new List<Employee>();
+		}
+		
 		#region IOrganisationItemMembers
 		[Key]
 		public Guid UID { get; set; }

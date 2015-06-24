@@ -83,15 +83,15 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
-		public static bool SaveChief(Organisation organisation, Guid chiefUID, string name)
-		{
-			return SaveChief(organisation.UID, chiefUID, organisation.Name);
-		}
+		//public static bool SaveChief(Organisation organisation, Guid chiefUID, string name)
+		//{
+		//    return SaveChief(organisation.UID, chiefUID, organisation.Name);
+		//}
 
-		public static bool SaveHRChief(Organisation organisation, Guid chiefUID, string name)
-		{
-			return SaveHRChief(organisation.UID, chiefUID, organisation.Name);
-		}
+		//public static bool SaveHRChief(Organisation organisation, Guid chiefUID, string name)
+		//{
+		//    return SaveHRChief(organisation.UID, chiefUID, organisation.Name);
+		//}
 
 		public static bool SaveChief(Guid uid, Guid chiefUID, string name)
 		{

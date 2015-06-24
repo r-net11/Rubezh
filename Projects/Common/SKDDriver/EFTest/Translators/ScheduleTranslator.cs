@@ -9,7 +9,7 @@ namespace SKDDriver.DataClasses
 	{
 		public ScheduleTranslator(DbService context) : base(context) { }
 		
-		protected override DbSet<Schedule> Table
+		public override DbSet<Schedule> Table
 		{
 			get { return Context.Schedules; }
 		}
@@ -44,7 +44,7 @@ namespace SKDDriver.DataClasses
 			tableItem.IsOnlyFirstEnter = apiItem.IsOnlyFirstEnter;
 			tableItem.AllowedLate = (int)apiItem.AllowedLate.TotalSeconds;
 			tableItem.AllowedEarlyLeave = (int)apiItem.AllowedEarlyLeave.TotalSeconds;
-			tableItem.ScheduleSchemeUID = apiItem.ScheduleSchemeUID;
+			tableItem.ScheduleSchemeUID = apiItem.ScheduleSchemeUID != Guid.Empty ? (Guid?)apiItem.ScheduleSchemeUID : null;
 			tableItem.ScheduleZones = apiItem.Zones.Select(x => new ScheduleZone
 			{
 				DoorUID = x.DoorUID,

@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.SKD
 {
 	[DataContract]
-	public class Department : OrganisationElementBase
+	public class Department : OrganisationElementBase, IOrganisationElement
 	{
 		public Department()
 			:base()
@@ -24,12 +24,6 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public List<Guid> ChildDepartmentUIDs { get; set; }
-
-		[DataMember]
-		public Guid? ContactEmployeeUID { get; set; }
-
-		[DataMember]
-		public Guid? AttendantEmployeeUID { get; set; }
 
 		[DataMember]
 		public Photo Photo { get; set; }

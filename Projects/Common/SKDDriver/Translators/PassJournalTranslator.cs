@@ -178,7 +178,7 @@ namespace SKDDriver.Translators
 			IEnumerable<ShortEmployee> employees = null;
 			using (var skdDatabaseService = new SKDDatabaseService())
 			{
-				employees = skdDatabaseService.EmployeeTranslator.GetList(new EmployeeFilter()).Result;
+				employees = skdDatabaseService.EmployeeTranslator1.GetList(new EmployeeFilter()).Result;
 			}
 			var zoneUID = SKDManager.Zones.FirstOrDefault().UID;
 

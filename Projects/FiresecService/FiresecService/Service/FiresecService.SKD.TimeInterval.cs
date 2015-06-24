@@ -68,20 +68,20 @@ namespace FiresecService.Service
 		//    }
 		//}
 
-		public OperationResult<IEnumerable<Holiday>> GetHolidays(HolidayFilter filter)
+		public OperationResult<List<Holiday>> GetHolidays(HolidayFilter filter)
 		{
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.HolidayTranslator.Get(filter);
 			}
 		}
-		public OperationResult SaveHoliday(Holiday item, bool isNew)
+		public OperationResult<bool> SaveHoliday(Holiday item, bool isNew)
 		{
 			if (isNew)
 				AddJournalMessage(JournalEventNameType.Добавление_нового_праздничного_дня, item.Name, uid: item.UID);
 			else
 				AddJournalMessage(JournalEventNameType.Редактирование_праздничного_дня, item.Name, JournalEventDescriptionType.Редактирование, uid: item.UID);
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.HolidayTranslator.Save(item);
 			}
@@ -89,7 +89,7 @@ namespace FiresecService.Service
 		public OperationResult MarkDeletedHoliday(Guid uid, string name)
 		{
 			AddJournalMessage(JournalEventNameType.Удаление_праздничного_дня, name, uid: uid);
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.HolidayTranslator.MarkDeleted(uid);
 			}
@@ -97,7 +97,7 @@ namespace FiresecService.Service
 		public OperationResult RestoreHoliday(Guid uid, string name)
 		{
 			AddJournalMessage(JournalEventNameType.Восстановление_праздничного_дня, name, uid: uid);
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.HolidayTranslator.Restore(uid);
 			}

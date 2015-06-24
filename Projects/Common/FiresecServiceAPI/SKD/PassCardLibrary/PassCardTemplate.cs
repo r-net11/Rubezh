@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Windows.Media;
+using Common;
 using FiresecAPI.Models;
 using Infrustructure.Plans.Elements;
-using Common;
 
 namespace FiresecAPI.SKD
 {
 	[DataContract]
-	public class PassCardTemplate : OrganisationElementBase, IElementBackground, IElementRectangle, IElementBorder
+	public class PassCardTemplate : OrganisationElementBase, IElementBackground, IElementRectangle, IElementBorder, IOrganisationElement
 	{
 		public PassCardTemplate()
 		{
@@ -77,6 +77,13 @@ namespace FiresecAPI.SKD
 		public bool AllowTransparent
 		{
 			get { return true; }
+		}
+
+
+		public string Name
+		{
+			get { return Caption; }
+			set { Caption = value; }
 		}
 	}
 }

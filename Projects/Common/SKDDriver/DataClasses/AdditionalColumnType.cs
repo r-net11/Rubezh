@@ -6,6 +6,11 @@ namespace SKDDriver.DataClasses
 {
 	public class AdditionalColumnType : IOrganisationItem
 	{
+		public AdditionalColumnType()
+		{
+			AdditionalColumns = new List<AdditionalColumn>();
+		}
+		
 		#region IOrganisationItemMembers
 		[Key]
 		public Guid UID { get; set; }

@@ -34,23 +34,23 @@ namespace SKDDriver.DataClasses
 
 		public DbService()
 		{
-			Context = new SKDDbContext("SKDDbContext", ContextType.PostgreSQL);
+			Context = new SKDDbContext("SKDDbContext", DbContextType.PostgreSQL);
 			GKScheduleTranslator = new GKScheduleTranslator(this);
 			GKDayScheduleTranslator = new GKDayScheduleTranslator(this);
 			PassJournalTranslator = new PassJournalTranslator(this);
 			JournalTranslator = new JournalTranslator(this);
 			AccessTemplateTranslator = new AccessTemplateTranslator(this);
-			//AdditionalColumnTypeTranslator = new AdditionalColumnTypeTranslator(this);
+			AdditionalColumnTypeTranslator = new AdditionalColumnTypeTranslator(this);
 			CardTranslator = new CardTranslator(this);
 			//CurrentConsumptionTranslator = new CurrentConsumptionTranslator(this);
 			DayIntervalTranslator = new DayIntervalTranslator(this);
-			//DepartmentTranslator = new DepartmentTranslator(this);
-			//EmployeeTranslator = new EmployeeTranslator(this);
-			//HolidayTranslator = new HolidayTranslator(this);
+			DepartmentTranslator = new DepartmentTranslator(this);
+			EmployeeTranslator = new EmployeeTranslator(this);
+			HolidayTranslator = new HolidayTranslator(this);
 			//NightSettingTranslator = new NightSettingTranslator(this);
-			//OrganisationTranslator = new OrganisationTranslator(this);
-			//PassCardTemplateTranslator = new PassCardTemplateTranslator(this);
-			//PositionTranslator = new PositionTranslator(this);
+			OrganisationTranslator = new OrganisationTranslator(this);
+			PassCardTemplateTranslator = new PassCardTemplateTranslator(this);
+			PositionTranslator = new PositionTranslator(this);
 			ScheduleTranslator = new ScheduleTranslator(this);
 			ScheduleSchemeTranslator = new ScheduleSchemeTranslator(this);
 			//TimeTrackingTranslator = new TimeTrackingTranslator(this);
@@ -62,15 +62,8 @@ namespace SKDDriver.DataClasses
 		}
 	}
 
-	public class AdditionalColumnTypeTranslator { }
 	public class CurrentConsumptionTranslator { }
-	public class DepartmentTranslator { }
-	public class EmployeeTranslator { }
-	public class HolidayTranslator { }
 	public class NightSettingTranslator { }
-	public class OrganisationTranslator { }
-	public class PassCardTemplateTranslator { }
-	public class PositionTranslator { }
 	public class TimeTrackingTranslator { }
 
 }

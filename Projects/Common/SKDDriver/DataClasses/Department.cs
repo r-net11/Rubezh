@@ -1,11 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SKDDriver.DataClasses
 {
 	public class Department : IOrganisationItem
 	{
+		public Department()
+		{
+			ChildDepartments = new List<Department>();
+			Employees = new List<Employee>();
+		}
+		
 		#region IOrganisationItemMembers
 		[Key]
 		public Guid UID { get; set; }
@@ -26,7 +33,9 @@ namespace SKDDriver.DataClasses
 		public Photo Photo { get; set; }
 
 		public Guid? ParentDepartmentUID { get; set; }
+		[ForeignKey("ParentDepartmentUID")]
 		public Department ParentDepartment { get; set; }
+		[InverseProperty("ParentDepartment")]
 		public ICollection<Department> ChildDepartments { get; set; }
 
 		public ICollection<Employee> Employees { get; set; }
@@ -35,5 +44,7 @@ namespace SKDDriver.DataClasses
 		public Employee Chief { get; set; }
 
 		public string ExternalKey { get; set; }
+
+		public string Phone { get; set; }
 	}
 }

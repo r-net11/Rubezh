@@ -70,7 +70,7 @@ namespace FiresecService.Report
 		{
 			if (!_employees.ContainsKey(uid))
 			{
-				var result = DatabaseService.EmployeeTranslator.GetSingle(uid);
+				var result = DbService.EmployeeTranslator.GetSingle(uid);
 				_employees.Add(uid, result == null ? null : ConvertEmployee(result.Result));
 			}
 			return _employees[uid];
@@ -104,7 +104,7 @@ namespace FiresecService.Report
 				UIDs = uids.ToList(),
 				LogicalDeletationType = LogicalDeletationType.All,
 			};
-			var employeesResult = DatabaseService.EmployeeTranslator.Get(employeeFilter);
+			var employeesResult = DbService.EmployeeTranslator.Get(employeeFilter);
 			if (employeesResult == null || employeesResult.Result == null)
 				return new List<EmployeeInfo>();
 			var employees = employeesResult.Result.Select(ConvertEmployee).ToList();
@@ -127,7 +127,7 @@ namespace FiresecService.Report
         {
 			LoadCache();
 			CheckIfNoOrgansations(employeeFilter, isDefault);
-            var employeesResult = DatabaseService.EmployeeTranslator.Get(employeeFilter);
+            var employeesResult = DbService.EmployeeTranslator.Get(employeeFilter);
 			if (employeesResult == null || employeesResult.Result == null)
 				return new List<EmployeeInfo>();
 			var employees = employeesResult.Result.Select(ConvertEmployee).ToList();

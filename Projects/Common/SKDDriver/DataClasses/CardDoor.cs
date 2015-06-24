@@ -5,6 +5,8 @@ namespace SKDDriver.DataClasses
 {
 	public class CardDoor
 	{
+		public CardDoor() { }
+		
 		public CardDoor(FiresecAPI.SKD.CardDoor apiItem)
 		{
 			UID = apiItem.UID;

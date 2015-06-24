@@ -13,7 +13,7 @@ namespace SKDModule.ViewModels
 {
 	public class EmployeesViewModel : OrganisationBaseViewModel<ShortEmployee, EmployeeFilter, EmployeeViewModel, EmployeeDetailsViewModel>
 	{
-		public List<ShortAdditionalColumnType> AdditionalColumnTypes { get; private set; }
+		public List<AdditionalColumnType> AdditionalColumnTypes { get; private set; }
 		
 		public EmployeesViewModel():base()
 		{

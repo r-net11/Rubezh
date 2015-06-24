@@ -40,7 +40,7 @@ namespace SKDDriver
 			//ScheduleSchemeTranslator = new ScheduleSchemeTranslator(this);
 			//ScheduleZoneTranslator = new ScheduleZoneTranslator(this);
 			//ScheduleTranslator = new ScheduleTranslator(this);
-			EmployeeTranslator = new EmployeeTranslator(this);
+			EmployeeTranslator1 = new EmployeeTranslator(this);
 			TimeTrackTranslator = new TimeTrackTranslator(this);
 			TimeTrackDocumentTranslator = new TimeTrackDocumentTranslator(this);
 			TimeTrackDocumentTypeTranslator = new TimeTrackDocumentTypeTranslator(this);
@@ -68,7 +68,7 @@ namespace SKDDriver
 		public CardDoorTranslator CardDoorTranslator { get; private set; }
 		public AccessTemplateTranslator AccessTemplateTranslator { get; private set; }
 		public OrganisationTranslator OrganisationTranslator { get; private set; }
-		public EmployeeTranslator EmployeeTranslator { get; private set; }
+		public EmployeeTranslator EmployeeTranslator1 { get; private set; }
 		public DepartmentTranslator DepartmentTranslator { get; private set; }
 		public AdditionalColumnTypeTranslator AdditionalColumnTypeTranslator { get; private set; }
 		public AdditionalColumnTranslator AdditionalColumnTranslator { get; private set; }

@@ -138,7 +138,7 @@ namespace FiresecService
 								{
 									var card = operationResult.Result;
 									var getAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(card.AccessTemplateUID);
-									var employeeOperationResult = databaseService.EmployeeTranslator.GetSingle(card.EmployeeUID);
+									var employeeOperationResult = databaseService.EmployeeTranslator1.GetSingle(card.EmployeeUID);
 									var employeeName = employeeOperationResult.Result != null ? employeeOperationResult.Result.FIO : "";
 
 									if ((PendingCardAction)pendingCard.Action == PendingCardAction.Delete)

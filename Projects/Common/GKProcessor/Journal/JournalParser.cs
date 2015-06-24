@@ -6,7 +6,6 @@ using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using FiresecClient;
 using SKDDriver;
-using SKDDriver.Translators;
 
 namespace GKProcessor
 {
@@ -152,7 +151,7 @@ namespace GKProcessor
 									JournalItem.EmployeeUID = employeeUID;
 									if (employeeUID != Guid.Empty)
 									{
-										var employee = databaseService.EmployeeTranslator.GetSingle(employeeUID);
+										var employee = databaseService.EmployeeTranslator1.GetSingle(employeeUID);
 										if (employee != null)
 										{
 											JournalItem.UserName = employee.Result.Name;
@@ -207,7 +206,7 @@ namespace GKProcessor
 									JournalItem.EmployeeUID = employeeUID;
 									if (employeeUID != Guid.Empty)
 									{
-										var employee = databaseService.EmployeeTranslator.GetSingle(employeeUID);
+										var employee = databaseService.EmployeeTranslator1.GetSingle(employeeUID);
 										if (employee != null)
 										{
 											JournalItem.UserName = employee.Result.Name;

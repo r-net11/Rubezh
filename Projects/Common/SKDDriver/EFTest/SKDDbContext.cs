@@ -4,9 +4,9 @@ namespace SKDDriver.DataClasses
 {
 	public class SKDDbContext : DbContext
 	{
-		public ContextType ContextType {get; private set;}
+		public DbContextType ContextType {get; private set;}
 
-		public SKDDbContext(string connectionStringName, ContextType contextType)
+		public SKDDbContext(string connectionStringName, DbContextType contextType)
 			: base(connectionStringName)
 		{
 			ContextType = contextType;
@@ -17,10 +17,10 @@ namespace SKDDriver.DataClasses
 			string schemaStr;
 			switch (ContextType)
 			{
-				case ContextType.MSSQL:
+				case DbContextType.MSSQL:
 					schemaStr = "dbo";
 					break;
-				case ContextType.PostgreSQL:
+				case DbContextType.PostgreSQL:
 					schemaStr = "public";
 					break;
 				default:
@@ -41,6 +41,19 @@ namespace SKDDriver.DataClasses
 			modelBuilder.Entity<ScheduleScheme>().ToTable("ScheduleScheme", schemaStr);
 			modelBuilder.Entity<ScheduleDay>().ToTable("ScheduleDay", schemaStr);
 			modelBuilder.Entity<ScheduleZone>().ToTable("ScheduleZone", schemaStr);
+			modelBuilder.Entity<Organisation>().ToTable("Organisation", schemaStr);
+			modelBuilder.Entity<OrganisationUser>().ToTable("OrganisationUser", schemaStr);
+			modelBuilder.Entity<OrganisationDoor>().ToTable("OrganisationDoor", schemaStr);
+			modelBuilder.Entity<Photo>().ToTable("Photo", schemaStr);
+			modelBuilder.Entity<Holiday>().ToTable("Holiday", schemaStr);
+			modelBuilder.Entity<Employee>().ToTable("Employee", schemaStr);
+			modelBuilder.Entity<AdditionalColumn>().ToTable("AdditionalColumn", schemaStr);
+			modelBuilder.Entity<AdditionalColumnType>().ToTable("AdditionalColumnType", schemaStr);
+			modelBuilder.Entity<Position>().ToTable("Position", schemaStr);
+			modelBuilder.Entity<Department>().ToTable("Department", schemaStr);
+			modelBuilder.Entity<AccessTemplate>().ToTable("AccessTemplate", schemaStr);
+			modelBuilder.Entity<CardDoor>().ToTable("CardDoor", schemaStr);
+			modelBuilder.Entity<PassCardTemplate>().ToTable("PassCardTemplate", schemaStr);
 		}
 
 		public DbSet<GKSchedule> GKSchedules { get; set; }

@@ -24,9 +24,9 @@ namespace FiresecAPI
 		//OperationResult RemoveDayIntervalPart(Guid uid, string name);
 		
 		[OperationContract]
-		OperationResult<IEnumerable<Holiday>> GetHolidays(HolidayFilter filter);
+		OperationResult<List<Holiday>> GetHolidays(HolidayFilter filter);
 		[OperationContract]
-		OperationResult SaveHoliday(Holiday item, bool isNew);
+		OperationResult<bool> SaveHoliday(Holiday item, bool isNew);
 		[OperationContract]
 		OperationResult MarkDeletedHoliday(Guid uid, string name);
 		[OperationContract]

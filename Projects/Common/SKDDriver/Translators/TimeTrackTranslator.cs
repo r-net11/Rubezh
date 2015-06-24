@@ -67,7 +67,7 @@ namespace SKDDriver.Translators
 
 			try
 			{
-				var operationResult = DatabaseService.EmployeeTranslator.GetList(filter);
+				var operationResult = DatabaseService.EmployeeTranslator1.GetList(filter);
 				if (operationResult.HasError)
 					return OperationResult<TimeTrackResult>.FromError(operationResult.Errors);
 

@@ -36,25 +36,25 @@ CREATE TABLE "Employee"(
 	"FirstName" character varying(50),
 	"SecondName" character varying(50),
 	"LastName" character varying(50),
-	"ScheduleStartDate" timestamp,
-	"Type" int NOT NULL,
+	"ScheduleStartDate" timestamp NOT NULL,
+	"Type" character varying(50) NOT NULL,
 	"TabelNo" character varying(40),
-	"CredentialsStartDate" timestamp,
+	"CredentialsStartDate" timestamp NOT NULL,
 	"IsDeleted" boolean NOT NULL,
 	"RemovalDate" timestamp,
 	"DocumentNumber" character varying(50),
-	"BirthDate" timestamp,
+	"BirthDate" timestamp NOT NULL,
 	"BirthPlace" character varying(4000),
-	"DocumentGivenDate" timestamp,
+	"DocumentGivenDate" timestamp NOT NULL,
 	"DocumentGivenBy" character varying(4000),
-	"DocumentValidTo" timestamp,
+	"DocumentValidTo" timestamp NOT NULL,
 	"Gender" int NOT NULL,
 	"DocumentDepartmentCode" character varying(50),
 	"Citizenship" character varying(4000),
 	"DocumentType" int NOT NULL,
 	"Phone" character varying(50),
 	"Description" character varying(4000),
-	"LastEmployeeDayUpdate" timestamp,
+	"LastEmployeeDayUpdate" timestamp NOT NULL,
 	"ExternalKey" character varying(40)
  );
 CREATE INDEX "EmployeeUIDIndex" ON "Employee"("UID");
@@ -196,7 +196,7 @@ CREATE TABLE "Card"(
 	"Number" int NOT NULL,
 	"CardType" int NOT NULL,
 	"StartDate" timestamp NOT NULL,
-	"EndDate" timestamp,
+	"EndDate" timestamp NOT NULL,
 	"IsInStopList" boolean NOT NULL,
 	"StopReason" character varying(4000),
 	"Password" character varying(50),
@@ -462,7 +462,7 @@ ALTER TABLE "Organisation" ADD CONSTRAINT "FK_Organisation_HRChiefUID" FOREIGN K
 ALTER TABLE "Employee" ADD CONSTRAINT "FK_Employee_OrganisationUID" FOREIGN KEY ("OrganisationUID") REFERENCES "Organisation" ("UID") ON DELETE SET NULL;
 ALTER TABLE "Employee" ADD CONSTRAINT "FK_Employee_PhotoUID" FOREIGN KEY ("PhotoUID") REFERENCES "Photo" ("UID") ON DELETE SET NULL;
 ALTER TABLE "Employee" ADD CONSTRAINT "FK_Employee_EscortUID" FOREIGN KEY ("EscortUID") REFERENCES "Employee" ("UID") ON DELETE SET NULL;
---ALTER TABLE "Employee" ADD CONSTRAINT "FK_Employee_ScheduleUID" FOREIGN KEY ("ScheduleUID") REFERENCES "Schedule" ("UID");
+ALTER TABLE "Employee" ADD CONSTRAINT "FK_Employee_ScheduleUID" FOREIGN KEY ("ScheduleUID") REFERENCES "Schedule" ("UID");
 ALTER TABLE "Employee" ADD CONSTRAINT "FK_Employee_PositionUID" FOREIGN KEY ("PositionUID") REFERENCES "Position" ("UID") ON DELETE SET NULL;
 ALTER TABLE "Employee" ADD CONSTRAINT "FK_Employee_DepartmentUID" FOREIGN KEY ("DepartmentUID") REFERENCES "Department" ("UID") ON DELETE SET NULL;
 
@@ -476,19 +476,20 @@ ALTER TABLE "ScheduleDay" ADD CONSTRAINT "FK_ScheduleDay_DayIntervalUID" FOREIGN
 ALTER TABLE "ScheduleDay" ADD CONSTRAINT "FK_ScheduleDay_ScheduleSchemeUID" FOREIGN KEY ("ScheduleSchemeUID") REFERENCES "ScheduleScheme" ("UID") ON DELETE CASCADE;
 
 ALTER TABLE "DayIntervalPart" ADD CONSTRAINT "FK_DayIntervalPart_DayIntervalUID" FOREIGN KEY ("DayIntervalUID") REFERENCES "DayInterval" ("UID") ON DELETE CASCADE;
---ALTER TABLE "DayInterval" ADD CONSTRAINT "FK_DayInterval_OrganisationUID" FOREIGN KEY ("OrganisationUID") REFERENCES "Organisation" ("UID");
+ALTER TABLE "DayInterval" ADD CONSTRAINT "FK_DayInterval_OrganisationUID" FOREIGN KEY ("OrganisationUID") REFERENCES "Organisation" ("UID") ON DELETE SET NULL;
 
---ALTER TABLE "ScheduleScheme" ADD CONSTRAINT "FK_ScheduleScheme_OrganisationUID" FOREIGN KEY ("OrganisationUID") REFERENCES "Organisation" ("UID");
+ALTER TABLE "ScheduleScheme" ADD CONSTRAINT "FK_ScheduleScheme_OrganisationUID" FOREIGN KEY ("OrganisationUID") REFERENCES "Organisation" ("UID") ON DELETE SET NULL;
 
---ALTER TABLE "Schedule" ADD CONSTRAINT "FK_Schedule_OrganisationUID" FOREIGN KEY ("OrganisationUID") REFERENCES "Organisation" ("UID");
+ALTER TABLE "Schedule" ADD CONSTRAINT "FK_Schedule_OrganisationUID" FOREIGN KEY ("OrganisationUID") REFERENCES "Organisation" ("UID") ON DELETE SET NULL;
 ALTER TABLE "Schedule" ADD CONSTRAINT "FK_Schedule_ScheduleSchemeUID" FOREIGN KEY ("ScheduleSchemeUID") REFERENCES "ScheduleScheme" ("UID") ON DELETE SET NULL;
 
 ALTER TABLE "Position" ADD CONSTRAINT "FK_Position_OrganisationUID" FOREIGN KEY ("OrganisationUID") REFERENCES "Organisation" ("UID") ON DELETE SET NULL;
+ALTER TABLE "Position" ADD CONSTRAINT "FK_Position_PhotoUID" FOREIGN KEY ("PhotoUID") REFERENCES "Photo" ("UID") ON DELETE SET NULL;
 
 ALTER TABLE "Department" ADD CONSTRAINT "FK_Department_OrganisationUID" FOREIGN KEY ("OrganisationUID") REFERENCES "Organisation" ("UID") ON DELETE SET NULL;
 ALTER TABLE "Department" ADD CONSTRAINT "FK_Department_PhotoUID" FOREIGN KEY ("PhotoUID") REFERENCES "Photo" ("UID") ON DELETE SET NULL;
 ALTER TABLE "Department" ADD CONSTRAINT "FK_Department_ParentDepartmentUID" FOREIGN KEY ("ParentDepartmentUID") REFERENCES "Department" ("UID") ON DELETE SET NULL;
-ALTER TABLE "Department" ADD CONSTRAINT "FK_Department_ChiefUID" FOREIGN KEY ("ChiefUID") REFERENCES "Employee" ("UID") ON DELETE SET NULL;
+--ALTER TABLE "Department" ADD CONSTRAINT "FK_Department_ChiefUID" FOREIGN KEY ("ChiefUID") REFERENCES "Employee" ("UID") ON DELETE SET NULL;
 
 ALTER TABLE "Holiday" ADD CONSTRAINT "FK_Holiday_OrganisationUID" FOREIGN KEY ("OrganisationUID") REFERENCES "Organisation" ("UID") ON DELETE SET NULL;
 

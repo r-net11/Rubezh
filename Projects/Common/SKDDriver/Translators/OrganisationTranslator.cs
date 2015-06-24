@@ -35,7 +35,6 @@ namespace SKDDriver
 			result.UserUIDs = Context.OrganisationUsers.Where(x => x.OrganisationUID == result.UID).Select(x => x.UserUID).ToList();
 			result.ChiefUID = tableItem.ChiefUID;
 			result.HRChiefUID = tableItem.HRChiefUID;
-			result.Phone = tableItem.Phone;
 			return result;
 		}
 
@@ -46,7 +45,6 @@ namespace SKDDriver
 			tableItem.Description = apiItem.Description;
 			tableItem.ChiefUID = apiItem.ChiefUID;
 			tableItem.HRChiefUID = apiItem.HRChiefUID;
-			tableItem.Phone = apiItem.Phone;
 			if (tableItem.ExternalKey == null)
 				tableItem.ExternalKey = "-1";
 		}
@@ -54,7 +52,7 @@ namespace SKDDriver
 		protected override OperationResult BeforeDelete(Guid uid, DateTime removalDate)
 		{
 			var result = new OperationResult();
-			result = DatabaseService.EmployeeTranslator.MarkDeletedByOrganisation(uid, removalDate);
+			result = DatabaseService.EmployeeTranslator1.MarkDeletedByOrganisation(uid, removalDate);
 			if (result.HasError)
 				return result;
 			result = DatabaseService.DepartmentTranslator.MarkDeletedByOrganisation(uid, removalDate);
@@ -112,7 +110,7 @@ namespace SKDDriver
 		protected override OperationResult BeforeRestore(Guid uid, DateTime removalDate)
 		{
 			var result = new OperationResult();
-			result = DatabaseService.EmployeeTranslator.RestoreByOrganisation(uid, removalDate);
+			result = DatabaseService.EmployeeTranslator1.RestoreByOrganisation(uid, removalDate);
 			if (result.HasError)
 				return result;
 			result = DatabaseService.DepartmentTranslator.RestoreByOrganisation(uid, removalDate);
@@ -153,18 +151,18 @@ namespace SKDDriver
 				if (tableItem == null)
 					return new OperationResult<OrganisationDetails>(null);
 				var organisationDetails = new OrganisationDetails
-					{
-						Description = tableItem.Description,
-						IsDeleted = tableItem.IsDeleted,
-						Name = tableItem.Name,
-						RemovalDate = tableItem.RemovalDate,
-						UID = tableItem.UID,
-						DoorUIDs = (from x in Context.OrganisationDoors.Where(x => x.OrganisationUID == tableItem.UID) select x.DoorUID).ToList(),
-						UserUIDs = (from x in Context.OrganisationUsers.Where(x => x.OrganisationUID == tableItem.UID) select x.UserUID).ToList(),
-						ChiefUID = tableItem.ChiefUID,
-						HRChiefUID = tableItem.HRChiefUID,
-						Phone = tableItem.Phone
-					};
+				{
+					Description = tableItem.Description,
+					IsDeleted = tableItem.IsDeleted,
+					Name = tableItem.Name,
+					RemovalDate = tableItem.RemovalDate,
+					UID = tableItem.UID,
+					DoorUIDs = (from x in Context.OrganisationDoors.Where(x => x.OrganisationUID == tableItem.UID) select x.DoorUID).ToList(),
+					UserUIDs = (from x in Context.OrganisationUsers.Where(x => x.OrganisationUID == tableItem.UID) select x.UserUID).ToList(),
+					ChiefUID = tableItem.ChiefUID,
+					HRChiefUID = tableItem.HRChiefUID,
+					Phone = tableItem.Phone
+				};
 				var photoResult = DatabaseService.PhotoTranslator.GetSingle(tableItem.PhotoUID);
 				if (photoResult.HasError)
 				{
@@ -191,7 +189,6 @@ namespace SKDDriver
 					tableOrganisationDoor.UID = Guid.NewGuid();
 					tableOrganisationDoor.DoorUID = doorUID;
 					tableOrganisationDoor.OrganisationUID = organisationUID;
-					tableOrganisationDoor.DoorUID = doorUID;
 					Context.OrganisationDoors.InsertOnSubmit(tableOrganisationDoor);
 				}
 				var scheduleZones = Context.ScheduleZones.Where(x => x.Schedule.OrganisationUID == organisationUID && !doorUIDs.Contains(x.DoorUID));

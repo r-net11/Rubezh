@@ -87,7 +87,7 @@ namespace FiresecService
 						journalItem.EmployeeUID = employeeUID;
 						if (employeeUID != Guid.Empty)
 						{
-							var employee = databaseService.EmployeeTranslator.GetSingle(employeeUID);
+							var employee = databaseService.EmployeeTranslator1.GetSingle(employeeUID);
 							if (employee != null)
 							{
 								journalItem.UserName = employee.Result.Name;

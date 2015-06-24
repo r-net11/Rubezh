@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.SKD
 {
 	[DataContract]
-	public class Employee : OrganisationElementBase
+	public class Employee : OrganisationElementBase, IOrganisationElement
 	{
 		public Employee()
 			: base()
@@ -99,7 +99,7 @@ namespace FiresecAPI.SKD
 		[DataMember]
 		public string Phone { get; set; }
 
-		public string Name { get { return LastName + " " + FirstName + " " + SecondName; } }
+		public string Name { get { return LastName + " " + FirstName + " " + SecondName; } set { return; } }
 		public string FIO { get { return LastName + " " + FirstName + (SecondName != null ? " " + SecondName : ""); } }
 	}
 

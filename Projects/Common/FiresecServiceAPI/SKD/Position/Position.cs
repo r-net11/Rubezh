@@ -3,7 +3,7 @@
 namespace FiresecAPI.SKD
 {
 	[DataContract]
-	public class Position : OrganisationElementBase
+	public class Position : OrganisationElementBase, IOrganisationElement
 	{
 		[DataMember]
 		public string Name { get; set; }

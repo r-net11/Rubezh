@@ -10,11 +10,11 @@ namespace SKDDriver.DataClasses
 	{
 		public AccessTemplateTranslator(DbService context) : base(context) { }
 
-		protected override DbSet<AccessTemplate> Table
+		public override DbSet<AccessTemplate> Table
 		{
 			get { return Context.AccessTemplates; }
 		}
-		
+
 		protected override IQueryable<AccessTemplate> GetTableItems()
 		{
 			return base.GetTableItems().Include(x => x.CardDoors);

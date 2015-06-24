@@ -12,7 +12,7 @@ namespace SKDDriver.DataClasses
 
 		public DayIntervalTranslator(DbService context) : base(context) { }
 		
-		protected override DbSet<DayInterval> Table
+		public override DbSet<DayInterval> Table
 		{
 			get { return Context.DayIntervals; }
 		}

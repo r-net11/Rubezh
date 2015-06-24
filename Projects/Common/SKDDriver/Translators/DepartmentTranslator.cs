@@ -129,8 +129,6 @@ namespace SKDDriver
 			result.Description = tableItem.Description;
 			result.ParentDepartmentUID = tableItem.ParentDepartmentUID;
 			result.ChildDepartmentUIDs = childDepartmentUIDs;
-			result.ContactEmployeeUID = tableItem.ContactEmployeeUID;
-			result.AttendantEmployeeUID = tableItem.AttendantUID;
 			result.Photo = GetResult(DatabaseService.PhotoTranslator.GetSingle(tableItem.PhotoUID));
 			result.ChiefUID = tableItem.ChiefUID;
 			result.Phone = tableItem.Phone;
@@ -143,8 +141,6 @@ namespace SKDDriver
 			tableItem.Name = apiItem.Name;
 			tableItem.Description = apiItem.Description;
 			tableItem.ParentDepartmentUID = apiItem.ParentDepartmentUID;
-			tableItem.ContactEmployeeUID = apiItem.ContactEmployeeUID;
-			tableItem.AttendantUID = apiItem.AttendantEmployeeUID;
 			if (apiItem.Photo != null)
 				tableItem.PhotoUID = apiItem.Photo.UID;
 			tableItem.ChiefUID = apiItem.ChiefUID;

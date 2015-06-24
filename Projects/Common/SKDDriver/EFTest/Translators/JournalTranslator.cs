@@ -199,7 +199,7 @@ namespace SKDDriver.DataClasses
 		{
 			var lastItemsCount = journalFilter.LastItemsCount.ToString();
 			string query;
-			if(Context.ContextType == ContextType.MSSQL)
+			if(Context.ContextType == DbContextType.MSSQL)
 				query = string.Format("SELECT TOP ({0}) * FROM {1}", lastItemsCount, IntoBrackets("Journal"));
 			else
 				query = string.Format("SELECT * FROM {0}", IntoBrackets("Journal"));
@@ -315,7 +315,7 @@ namespace SKDDriver.DataClasses
 			}
 
 			query += string.Format("\n ORDER BY {0} DESC", IntoBrackets("SystemDate"));
-			if (Context.ContextType == ContextType.PostgreSQL)
+			if (Context.ContextType == DbContextType.PostgreSQL)
 				query += string.Format("\n LIMIT {0}", lastItemsCount);
 			return query;
 		}
@@ -402,11 +402,11 @@ namespace SKDDriver.DataClasses
 			string closingBracket = "";
 			switch (Context.ContextType)
 			{
-				case ContextType.MSSQL:
+				case DbContextType.MSSQL:
 					openingBracket = "[";
 					closingBracket = "]";
 					break;
-				case ContextType.PostgreSQL:
+				case DbContextType.PostgreSQL:
 					openingBracket = "\"";
 					closingBracket = "\"";
 					break;

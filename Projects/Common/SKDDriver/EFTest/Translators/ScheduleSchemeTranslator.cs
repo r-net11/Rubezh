@@ -9,7 +9,7 @@ namespace SKDDriver.DataClasses
 	{
 		public ScheduleSchemeTranslator(DbService context) : base(context) { }
 
-		protected override DbSet<ScheduleScheme> Table
+		public override DbSet<ScheduleScheme> Table
 		{
 			get { return Context.ScheduleSchemes; }
 		}
