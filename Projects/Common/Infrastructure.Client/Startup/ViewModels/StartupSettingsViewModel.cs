@@ -17,6 +17,7 @@ namespace Infrastructure.Client.Startup.ViewModels
 			RemoteAddress = GlobalSettingsHelper.GlobalSettings.RemoteAddress;
 			Login = GlobalSettingsHelper.GlobalSettings.Login;
 			Password = GlobalSettingsHelper.GlobalSettings.Password;
+
 		}
 
 		public override void OnLoad()
@@ -93,7 +94,8 @@ namespace Infrastructure.Client.Startup.ViewModels
 
 		protected override bool Save()
 		{
-			GlobalSettingsHelper.GlobalSettings.AutoConnect = AutoConnect;
+			GlobalSettingsHelper.GlobalSettings.CurrentClient = StartupService.Instance.ClientType;
+			GlobalSettingsHelper.GlobalSettings.SetAutoConnect(AutoConnect);
 			GlobalSettingsHelper.GlobalSettings.ReportRemotePort = ReportRemotePort;
 			GlobalSettingsHelper.GlobalSettings.RemotePort = RemotePort;
 			GlobalSettingsHelper.GlobalSettings.RemoteAddress = RemoteAddress;

@@ -87,7 +87,7 @@
                         </DataGridTemplateColumn.CellTemplate>
                         <DataGridTemplateColumn.CellEditingTemplate>
                             <DataTemplate>
-                                <TextBox Text="{Binding Resistivity}" Foreground="Black" Margin="2" />
+                                <TextBox Text="{Binding Resistivity, UpdateSourceTrigger=PropertyChanged}" Foreground="Black" Margin="2" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellEditingTemplate>
                     </DataGridTemplateColumn>

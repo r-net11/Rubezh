@@ -24,6 +24,9 @@ namespace Infrastructure.Client.Startup
 		public bool IsActive { get; private set; }
 		public string Login { get; private set; }
 		public string Password { get; private set; }
+		public string ClientType { get {
+			return _clientType.ToString();
+		}}
 
 		public StartupService(ClientType clientType)
 		{

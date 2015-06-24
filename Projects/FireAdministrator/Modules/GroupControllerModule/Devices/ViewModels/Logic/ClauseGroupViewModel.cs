@@ -8,12 +8,11 @@ namespace GKModule.ViewModels
 {
 	public class ClauseGroupViewModel : BaseViewModel
 	{
-		GKDevice Device;
 		ClauseGroupViewModel Parent;
+		GKBase GKBase;
 
-		public ClauseGroupViewModel(GKDevice device, GKClauseGroup clauseGroup)
+		public ClauseGroupViewModel(GKBase gkBase, GKClauseGroup clauseGroup)
 		{
-			Device = device;
 			AddCommand = new RelayCommand(OnAdd);
 			AddGroupCommand = new RelayCommand(OnAddGroup);
 			RemoveCommand = new RelayCommand<ClauseViewModel>(OnRemove);
@@ -21,17 +20,18 @@ namespace GKModule.ViewModels
 			RemoveGroupCommand = new RelayCommand<ClauseGroupViewModel>(OnRemoveGroup);
 			ChangeJoinOperatorCommand = new RelayCommand(OnChangeJoinOperator);
 
+			GKBase = gkBase;
 			Clauses = new ObservableCollection<ClauseViewModel>();
 			foreach (var clause in clauseGroup.Clauses)
 			{
-				var clauseViewModel = new ClauseViewModel(device, clause);
+				var clauseViewModel = new ClauseViewModel(gkBase, clause);
 				Clauses.Add(clauseViewModel);
 			}
 
 			ClauseGroups = new ObservableCollection<ClauseGroupViewModel>();
 			foreach (var clause in clauseGroup.ClauseGroups)
 			{
-				var clauseGroupViewModel = new ClauseGroupViewModel(device, clause);
+				var clauseGroupViewModel = new ClauseGroupViewModel(gkBase, clause);
 				clauseGroupViewModel.Parent = this;
 				ClauseGroups.Add(clauseGroupViewModel);
 			}
@@ -45,14 +45,14 @@ namespace GKModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var clauseViewModel = new ClauseViewModel(Device, new GKClause());
+			var clauseViewModel = new ClauseViewModel(GKBase, new GKClause());
 			Clauses.Add(clauseViewModel);
 		}
 
 		public RelayCommand AddGroupCommand { get; private set; }
 		void OnAddGroup()
 		{
-			var clauseGroupViewModel = new ClauseGroupViewModel(Device, new GKClauseGroup());
+			var clauseGroupViewModel = new ClauseGroupViewModel(GKBase, new GKClauseGroup());
 			clauseGroupViewModel.Parent = this;
 			ClauseGroups.Add(clauseGroupViewModel);
 		}

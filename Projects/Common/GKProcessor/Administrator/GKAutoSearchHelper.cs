@@ -135,19 +135,23 @@ namespace GKProcessor
 			var shleifNos = new List<int>();
 
 			shleifNos.Add(0);
-			if (kauDevice.Properties.FirstOrDefault(x => x.Name == "als12").Value == 0)
+			var als12Property = kauDevice.Properties.FirstOrDefault(x => x.Name == "als12");
+			if (als12Property != null && als12Property.Value == 0)
 				shleifNos.Add(1);
 
 			shleifNos.Add(2);
-			if (kauDevice.Properties.FirstOrDefault(x => x.Name == "als34").Value == 0)
+			var als34Property = kauDevice.Properties.FirstOrDefault(x => x.Name == "als34");
+			if (als34Property != null && als34Property.Value == 0)
 				shleifNos.Add(3);
 
 			shleifNos.Add(4);
-			if (kauDevice.Properties.FirstOrDefault(x => x.Name == "als56").Value == 0)
+			var als56Property = kauDevice.Properties.FirstOrDefault(x => x.Name == "als56");
+			if (als56Property != null && als56Property.Value == 0)
 				shleifNos.Add(5);
 
 			shleifNos.Add(6);
-			if (kauDevice.Properties.FirstOrDefault(x => x.Name == "als78").Value == 0)
+			var als78Property = kauDevice.Properties.FirstOrDefault(x => x.Name == "als78");
+			if (als78Property != null && als78Property.Value == 0)
 				shleifNos.Add(7);
 
 			foreach (var shleifNo in shleifNos)

@@ -641,6 +641,7 @@ namespace GKModule.ViewModels
 				if (Device.DriverType != value.DriverType)
 				{
 					GKManager.ChangeDriver(Device, value);
+					Device.OnRemoved();
 					Nodes.Clear();
 					foreach (var childDevice in Device.Children)
 					{

@@ -155,6 +155,7 @@ namespace Infrastructure.Client.Startup.ViewModels
 
 		private void Login(string login, string password)
 		{
+			GlobalSettingsHelper.GlobalSettings.CurrentClient = _clientType.ToString();
 			bool isAutoconnect = GlobalSettingsHelper.GlobalSettings.AutoConnect;
 			if (login != null && password != null)
 			{

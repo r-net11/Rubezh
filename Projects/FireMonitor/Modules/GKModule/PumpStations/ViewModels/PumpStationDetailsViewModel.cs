@@ -206,7 +206,7 @@ namespace GKModule.ViewModels
 
 		public bool CanControl
 		{
-			get { return FiresecManager.CheckPermission(PermissionType.Oper_CanControl); }
+			get { return FiresecManager.CheckPermission(PermissionType.Oper_NS_Control); }
 		}
 
 		#region IWindowIdentity Members

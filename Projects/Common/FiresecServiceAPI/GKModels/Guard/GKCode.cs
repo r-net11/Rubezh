@@ -16,6 +16,15 @@ namespace FiresecAPI.GK
 		{
 			Name = "Новый код";
 		}
+		public override void Update(GKDevice device)
+		{
+
+		}
+
+		public override void Update(GKDirection direction)
+		{
+
+		}
 
 		[XmlIgnore]
 		public override GKBaseObjectType ObjectType { get { return GKBaseObjectType.Code; } }

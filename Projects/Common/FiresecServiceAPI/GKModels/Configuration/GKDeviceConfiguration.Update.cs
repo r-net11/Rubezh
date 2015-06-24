@@ -80,6 +80,7 @@ namespace FiresecAPI.GK
 			InitializeCodes();
 			InitializeDoors();
 			UpdateGKChildrenDescription();
+			LinkObjects();
 		}
 
 		void ClearAllReferences()
@@ -141,6 +142,84 @@ namespace FiresecAPI.GK
 				}
 				device.ZoneUIDs = zoneUIDs;
 			}
+		}
+
+		void LinkObjects()
+		{
+			Devices.ForEach(device => device.Logic.GetAllClauses().ForEach(x =>
+			{
+				x.Delays.ForEach(device.LinkObject); x.Devices.ForEach(device.LinkObject); x.Directions.ForEach(device.LinkObject); x.Doors.ForEach(device.LinkObject);
+				x.GuardZones.ForEach(device.LinkObject); x.MPTs.ForEach(device.LinkObject); x.PumpStations.ForEach(device.LinkObject); x.Zones.ForEach(device.LinkObject);
+			}));
+
+			Devices.ForEach(device => device.NSLogic.GetAllClauses().ForEach(x =>
+			{
+				x.Delays.ForEach(device.LinkObject); x.Devices.ForEach(device.LinkObject); x.Directions.ForEach(device.LinkObject); x.Doors.ForEach(device.LinkObject);
+				x.GuardZones.ForEach(device.LinkObject); x.MPTs.ForEach(device.LinkObject); x.PumpStations.ForEach(device.LinkObject); x.Zones.ForEach(device.LinkObject);
+			}));
+
+			Delays.ForEach(delay => delay.Logic.GetAllClauses().ForEach(x =>
+			{
+				x.Delays.ForEach(delay.LinkObject); x.Devices.ForEach(delay.LinkObject); x.Directions.ForEach(delay.LinkObject); x.Doors.ForEach(delay.LinkObject);
+				x.GuardZones.ForEach(delay.LinkObject); x.MPTs.ForEach(delay.LinkObject); x.PumpStations.ForEach(delay.LinkObject); x.Zones.ForEach(delay.LinkObject);
+			}));
+
+			MPTs.ForEach(mpt => mpt.MptLogic.GetAllClauses().ForEach(x =>
+			{
+				x.Delays.ForEach(mpt.LinkObject); x.Devices.ForEach(mpt.LinkObject); x.Directions.ForEach(mpt.LinkObject); x.Doors.ForEach(mpt.LinkObject);
+				x.GuardZones.ForEach(mpt.LinkObject); x.MPTs.ForEach(mpt.LinkObject); x.PumpStations.ForEach(mpt.LinkObject); x.Zones.ForEach(mpt.LinkObject);
+			}));
+
+			MPTs.ForEach(mpt => mpt.MPTDevices.ForEach(x => mpt.LinkObject(x.Device)));
+
+			Doors.ForEach(door => door.OpenRegimeLogic.GetAllClauses().ForEach(x =>
+			{
+				x.Delays.ForEach(door.LinkObject); x.Devices.ForEach(door.LinkObject); x.Directions.ForEach(door.LinkObject); x.Doors.ForEach(door.LinkObject);
+				x.GuardZones.ForEach(door.LinkObject); x.MPTs.ForEach(door.LinkObject); x.PumpStations.ForEach(door.LinkObject); x.Zones.ForEach(door.LinkObject);
+			}));
+
+			Doors.ForEach(door => door.NormRegimeLogic.GetAllClauses().ForEach(x =>
+			{
+				x.Delays.ForEach(door.LinkObject); x.Devices.ForEach(door.LinkObject); x.Directions.ForEach(door.LinkObject); x.Doors.ForEach(door.LinkObject);
+				x.GuardZones.ForEach(door.LinkObject); x.MPTs.ForEach(door.LinkObject); x.PumpStations.ForEach(door.LinkObject); x.Zones.ForEach(door.LinkObject);
+			}));
+
+			Doors.ForEach(door => door.CloseRegimeLogic.GetAllClauses().ForEach(x =>
+			{
+				x.Delays.ForEach(door.LinkObject); x.Devices.ForEach(door.LinkObject); x.Directions.ForEach(door.LinkObject); x.Doors.ForEach(door.LinkObject);
+				x.GuardZones.ForEach(door.LinkObject); x.MPTs.ForEach(door.LinkObject); x.PumpStations.ForEach(door.LinkObject); x.Zones.ForEach(door.LinkObject);
+			}));
+
+			Doors.ForEach(door => door.LinkObject(door.EnterButton));
+			Doors.ForEach(door => door.LinkObject(door.EnterDevice));
+			Doors.ForEach(door => door.LinkObject(door.ExitButton));
+			Doors.ForEach(door => door.LinkObject(door.ExitDevice));
+			Doors.ForEach(door => door.LinkObject(door.LockControlDevice));
+			Doors.ForEach(door => door.LinkObject(door.LockControlDeviceExit));
+			Doors.ForEach(door => door.LinkObject(door.LockDevice));
+			Doors.ForEach(door => door.LinkObject(door.LockDeviceExit));
+
+			PumpStations.ForEach(mpt => mpt.NSDevices.ForEach(mpt.LinkObject));
+
+			PumpStations.ForEach(pumpStation => pumpStation.StartLogic.GetAllClauses().ForEach(x =>
+			{
+				x.Delays.ForEach(pumpStation.LinkObject); x.Devices.ForEach(pumpStation.LinkObject); x.Directions.ForEach(pumpStation.LinkObject); x.Doors.ForEach(pumpStation.LinkObject);
+				x.GuardZones.ForEach(pumpStation.LinkObject); x.MPTs.ForEach(pumpStation.LinkObject); x.PumpStations.ForEach(pumpStation.LinkObject); x.Zones.ForEach(pumpStation.LinkObject);
+			}));
+
+			PumpStations.ForEach(pumpStation => pumpStation.StopLogic.GetAllClauses().ForEach(x =>
+			{
+				x.Delays.ForEach(pumpStation.LinkObject); x.Devices.ForEach(pumpStation.LinkObject); x.Directions.ForEach(pumpStation.LinkObject); x.Doors.ForEach(pumpStation.LinkObject);
+				x.GuardZones.ForEach(pumpStation.LinkObject); x.MPTs.ForEach(pumpStation.LinkObject); x.PumpStations.ForEach(pumpStation.LinkObject); x.Zones.ForEach(pumpStation.LinkObject);
+			}));
+
+			PumpStations.ForEach(pumpStation => pumpStation.AutomaticOffLogic.GetAllClauses().ForEach(x =>
+			{
+				x.Delays.ForEach(pumpStation.LinkObject); x.Devices.ForEach(pumpStation.LinkObject); x.Directions.ForEach(pumpStation.LinkObject); x.Doors.ForEach(pumpStation.LinkObject);
+				x.GuardZones.ForEach(pumpStation.LinkObject); x.MPTs.ForEach(pumpStation.LinkObject); x.PumpStations.ForEach(pumpStation.LinkObject); x.Zones.ForEach(pumpStation.LinkObject);
+			}));
+
+			Zones.ForEach(zone => zone.Devices.ForEach(zone.LinkObject));
 		}
 
 		void InitializeLogic()

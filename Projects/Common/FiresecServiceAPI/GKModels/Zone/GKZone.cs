@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Common;
+using FiresecClient;
 using Infrustructure.Plans.Interfaces;
 using System.Xml.Serialization;
 
@@ -21,6 +22,17 @@ namespace FiresecAPI.GK
 			Devices = new List<GKDevice>();
 			Directions = new List<GKDirection>();
 			DevicesInLogic = new List<GKDevice>();
+		}
+
+		public override void Update(GKDevice device)
+		{
+			GKManager.RemoveDeviceFromZone(device, this);
+			UnLinkObject(device);
+		}
+
+		public override void Update(GKDirection direction)
+		{
+
 		}
 
 		[XmlIgnore]
