@@ -34,7 +34,6 @@ namespace FiresecAPI
 			ReportRemotePort = 8800;
 			Login = "adm";
 			Password = "";
-			AutoConnect = false;
 			Server_EnableRemoteConnections = false;
 
 			InitializeUseStrazhBrandProperty();
@@ -51,8 +50,34 @@ namespace FiresecAPI
 			Monitor_IsControlMPT = false;
 			Monitor_HaspInfo_Enabled = false;
 			IgnoredErrors = 0;
-		}
 
+
+			CurrentClient = "";
+			ClientTypeAutoAuthentication = new List<string>();
+		}
+		
+        [DataMember]
+		public List<string> ClientTypeAutoAuthentication { get; set; }
+
+        public void SetAutoConnect(bool isAutoConnect)
+        {
+			if (isAutoConnect)
+            {
+				if (ClientTypeAutoAuthentication.IndexOf(CurrentClient) < 0)
+				{
+					ClientTypeAutoAuthentication.Add(CurrentClient);
+				}
+            }
+            else
+            {
+				ClientTypeAutoAuthentication.Remove(CurrentClient);
+            }
+        }
+		[XmlIgnore]
+		public string CurrentClient { get; set; }
+		
+		public bool AutoConnect { get { return ClientTypeAutoAuthentication.IndexOf(CurrentClient) >= 0; } }
+		
 		[DataMember]
 		public string RemoteAddress { get; set; }
 
@@ -67,9 +92,6 @@ namespace FiresecAPI
 
 		[DataMember]
 		public string Password { get; set; }
-
-		[DataMember]
-		public bool AutoConnect { get; set; }
 
 		[DataMember]
 		[XmlIgnore]
@@ -160,5 +182,6 @@ namespace FiresecAPI
 				return false;
 			}
 		}
-	}
+       
+    }
 }
