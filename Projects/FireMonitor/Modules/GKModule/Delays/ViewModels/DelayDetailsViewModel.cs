@@ -187,8 +187,10 @@ namespace GKModule.ViewModels
 
 		public bool CanControl
 		{
-			get { return FiresecManager.CheckPermission(PermissionType.Oper_CanControl); }
+			get { return FiresecManager.CheckPermission(PermissionType.Oper_Delay_Control); }
+			
 		}
+		
 
 		#region IWindowIdentity Members
 		public string Guid

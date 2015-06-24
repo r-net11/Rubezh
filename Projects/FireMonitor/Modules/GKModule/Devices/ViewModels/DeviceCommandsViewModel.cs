@@ -45,12 +45,12 @@ namespace GKModule.ViewModels
 
 		public bool IsTriStateControl
 		{
-			get { return Device.Driver.IsControlDevice && FiresecManager.CheckPermission(PermissionType.Oper_CanControl); }
+			get { return Device.Driver.IsControlDevice && FiresecManager.CheckPermission(PermissionType.Oper_Device_Control); }
 		}
 
 		public bool IsBiStateControl
 		{
-			get { return Device.Driver.IsDeviceOnShleif && !Device.Driver.IsControlDevice && FiresecManager.CheckPermission(PermissionType.Oper_CanControl); }
+			get { return Device.Driver.IsDeviceOnShleif && !Device.Driver.IsControlDevice && FiresecManager.CheckPermission(PermissionType.Oper_Device_Control); }
 		}
 
 		public DeviceControlRegime ControlRegime

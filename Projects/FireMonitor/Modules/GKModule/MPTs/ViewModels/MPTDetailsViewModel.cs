@@ -201,7 +201,7 @@ namespace GKModule.ViewModels
 
 		public bool CanControl
 		{
-			get { return GlobalSettingsHelper.GlobalSettings.Monitor_IsControlMPT && FiresecManager.CheckPermission(PermissionType.Oper_CanControl); }
+			get { return GlobalSettingsHelper.GlobalSettings.Monitor_IsControlMPT && FiresecManager.CheckPermission(PermissionType.Oper_MPT_Control); }
 		}
 
 		#region IWindowIdentity Members

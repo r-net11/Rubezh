@@ -13,7 +13,7 @@ namespace GKModule.ViewModels
 	public class CodeDetailsViewModel : SaveCancelDialogViewModel
 	{
 		public GKCode Code { get; private set; }
-
+		public bool IsEdit { get; private set; }
 		public CodeDetailsViewModel(GKCode code = null)
 		{
 			ReadPropertiesCommand = new RelayCommand(OnReadProperties);
@@ -21,6 +21,7 @@ namespace GKModule.ViewModels
 
 			if (code == null)
 			{
+				IsEdit = false;
 				Title = "Создать код";
 				Code = new GKCode()
 				{
@@ -32,6 +33,7 @@ namespace GKModule.ViewModels
 			}
 			else
 			{
+				IsEdit = true;
 				Title = "Редактировать код";
 				Code = code;
 			}

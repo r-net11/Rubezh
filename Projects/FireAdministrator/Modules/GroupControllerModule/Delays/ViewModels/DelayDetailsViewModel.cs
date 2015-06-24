@@ -15,6 +15,7 @@ namespace GKModule.ViewModels
 	public class DelayDetailsViewModel : SaveCancelDialogViewModel
 	{
 		public GKDelay Delay { get; private set; }
+		public bool IsEdit { get; private set; }
 
 		public DelayDetailsViewModel(GKDelay delay = null)
 		{
@@ -26,7 +27,7 @@ namespace GKModule.ViewModels
 			if (delay == null)
 			{
 				Title = "Создание новой задержки";
-
+				IsEdit = false;
 				Delay = new GKDelay()
 				{
 					Name = "Задержка",
@@ -37,6 +38,7 @@ namespace GKModule.ViewModels
 			}
 			else
 			{
+				IsEdit = true;
 				Title = string.Format("Свойства задержки: {0}", delay.PresentationName);
 				Delay = delay;
 			}
