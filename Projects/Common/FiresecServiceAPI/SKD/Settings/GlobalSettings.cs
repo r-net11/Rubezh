@@ -51,7 +51,6 @@ namespace FiresecAPI
 			Monitor_HaspInfo_Enabled = false;
 			IgnoredErrors = 0;
 
-
 			CurrentClient = "";
 			ClientTypeAutoAuthentication = new List<string>();
 		}
@@ -73,6 +72,7 @@ namespace FiresecAPI
 				ClientTypeAutoAuthentication.Remove(CurrentClient);
             }
         }
+
 		[XmlIgnore]
 		public string CurrentClient { get; set; }
 		

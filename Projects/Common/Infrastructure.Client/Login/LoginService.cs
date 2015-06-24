@@ -37,6 +37,7 @@ namespace Infrastructure.Client.Login
 		{
 			Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 			var loginViewModel = new LoginViewModel(_clientType, passwordViewType) { Title = _title };
+			GlobalSettingsHelper.GlobalSettings.CurrentClient = _clientType.ToString();
 			bool isAutoconnect = GlobalSettingsHelper.GlobalSettings.AutoConnect && passwordViewType == LoginViewModel.PasswordViewType.Connect;
 			var saveCredential = !isAutoconnect;
 			if (isAutoconnect)
