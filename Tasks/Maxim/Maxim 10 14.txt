@@ -1,2 +1,0 @@
-- EnumToImageConverter
-- Окно выбора с радиобаттоном везде

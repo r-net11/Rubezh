@@ -97,7 +97,7 @@ namespace FiresecAPI.Models
 		[DescriptionAttribute("Список точек доступа")]
 		Oper_Reports_Doors,
 
-		[DescriptionAttribute("Отчет по событиям системы контроля доступа")]
+		[DescriptionAttribute("Отчет по событиям")]
 		Oper_Reports_Events,
 
 		[DescriptionAttribute("Маршрут сотрудника/посетителя")]
