@@ -1,5 +1,8 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
+using System.Text;
 using GKProcessor;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -40,6 +43,28 @@ namespace GKModule.ViewModels
 						MessageBoxService.ShowError("Ошибка глубины стека дескриптора " + descriptor.GKBase.GKDescriptorNo + " " + descriptor.GKBase.PresentationName);
 						return;
 					}
+
+					//#region Test
+
+					//using (var s = new StreamWriter(@"C:\1.txt", true, Encoding.GetEncoding("Windows-1251")))
+					//{
+					//    if (descriptor.GKBase.InputGKBases.Count > 0)
+					//    {
+					//        foreach (var inputGKBase in descriptor.GKBase.InputGKBases)
+					//        {
+					//            foreach (var inputGKBase2 in inputGKBase.InputGKBases)
+					//            {
+					//                if (inputGKBase2 == descriptor.GKBase)
+					//                {
+					//                    string dataasstring = inputGKBase.PresentationName + " " + inputGKBase2.PresentationName;
+					//                    s.WriteLine(dataasstring);
+					//                }
+					//            }
+					//        }
+					//    }
+					//}
+
+					//#endregion
 				}
 			}
 		}
