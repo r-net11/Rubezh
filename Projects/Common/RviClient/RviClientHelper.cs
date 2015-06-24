@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
-using RviClient.RVIServiceReference;
 using System.ServiceModel;
 using FiresecAPI.Models;
+using RviClient.RVIServiceReference;
 using RviClient.RVIStreamingServiceReference;
-using System.IO;
 
 namespace RviClient
 {

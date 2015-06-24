@@ -1,8 +1,5 @@
 ﻿using System.Runtime.Serialization;
 using System.Windows.Media;
-using Common;
-using System.Windows;
-using System.Windows.Controls;
 
 namespace FiresecAPI.Models.Layouts
 {

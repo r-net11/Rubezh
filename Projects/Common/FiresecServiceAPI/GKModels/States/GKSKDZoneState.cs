@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Common;
-using FiresecAPI.GK;
 
 namespace FiresecAPI.GK
 {

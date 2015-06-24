@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 using System.ComponentModel;
+using System.Runtime.InteropServices;
 using FiresecAPI.SKD;
 
 namespace ChinaSKDDriverNativeApi

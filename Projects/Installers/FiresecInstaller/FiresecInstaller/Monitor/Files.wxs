@@ -89,10 +89,6 @@
 				<File Id="Monitor.DynamicDataDisplay.dll" Name="DynamicDataDisplay.dll" Source="..\..\..\..\..\..\3rdParty\Plot\" />
 			</Component>
 
-			<Component Id="Monitor.STRAZH_MODULE" Guid="99EC1F25-69FD-4081-A254-37AEAD590798">
-				<File Id="Monitor.StrazhModule.dll" Name="StrazhModule.dll" Source="$(var.Monitor.TargetDir)" KeyPath="yes" />
-			</Component>
-
 			<Component Id="Monitor.VIDEO_MODULE" Guid="FC8B6B53-86FD-4864-9739-AC6082B90C8B">
 				<File Id="Monitor.VideoModule.dll" Name="VideoModule.dll" Source="$(var.Monitor.TargetDir)" KeyPath="yes" />
 				<File Id="Monitor.Vlc.DotNet.Core.dll" Name="Vlc.DotNet.Core.dll" Source="$(var.Monitor.TargetDir)" />
@@ -106,13 +102,6 @@
 				<File Id="Monitor.Revisor.exe.manifest" Name="Revisor.exe.manifest" Source="$(var.Monitor.TargetDir)" />
 			</Component>
 
-		</DirectoryRef>
-
-		<DirectoryRef Id="MONITORLOCATION">
-			<Component Id="Monitor.VIDEO_MODULE_DLL" Guid="C67E5794-0C00-4341-8D89-D953A96C7CCD">
-				<File Id="Monitor.Dll.Entities.dll" Name="Entities.dll" Source="$(var.VSSDll.TargetDir)" />
-				<File Id="Monitor.Dll.SdkWrapper.dll" Name="SdkWrapper.dll" Source="$(var.VSSDll.TargetDir)" />
-			</Component>
 		</DirectoryRef>
 		
 		<DirectoryRef Id="Monitor.ru">
