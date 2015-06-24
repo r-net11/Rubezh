@@ -216,6 +216,15 @@ namespace Infrastructure.Common.Services.Content
 			if (!Directory.Exists(ContentFolder))
 				Directory.CreateDirectory(ContentFolder);
 		}
+
+        public void Clear()
+        {
+            Invalidate();
+            if (Directory.Exists(ContentFolder))
+                Directory.Delete(ContentFolder, true);
+            Directory.CreateDirectory(ContentFolder);
+        }
+
 		public void Close()
 		{
 			if (_streams != null)
