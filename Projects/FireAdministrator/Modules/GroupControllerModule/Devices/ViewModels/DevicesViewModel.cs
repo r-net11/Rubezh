@@ -326,7 +326,7 @@ namespace GKModule.ViewModels
 				messageBoxResult = MessageBoxService.ShowConfirmation(result, "Копировать логику?");
 			if (messageBoxResult)
 			{
-				SelectedDevice.Device.Logic = GKManager.LogicToCopy;
+				SelectedDevice.Device.Logic = GKManager.PasteLogic(new GKAdvancedLogic(hasOnClause, hasOnNowClause, hasOffClause, hasOffNowClause, hasStopClause));
 				SelectedDevice.Device.OnChanged();
 			}
 		}

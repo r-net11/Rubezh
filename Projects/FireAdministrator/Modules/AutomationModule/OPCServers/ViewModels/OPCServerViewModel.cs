@@ -25,10 +25,22 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
+        public string Address
+        {
+            get { return OPCServer.Address; }
+            set
+            {
+                OPCServer.Address = value;
+                OnPropertyChanged(() => Address);
+                ServiceFactory.SaveService.AutomationChanged = true;
+            }
+        }
+
 		public void Update()
 		{
 			OnPropertyChanged(() => OPCServer);
 			OnPropertyChanged(() => Name);
+		    OnPropertyChanged(() => Address);
 		}
 	}
 }

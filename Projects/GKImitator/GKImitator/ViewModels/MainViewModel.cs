@@ -123,7 +123,7 @@ namespace GKImitator.ViewModels
 
 			if (HasFire2 != hasFire2)
 			{
-				var descriptorViewModel = Descriptors.FirstOrDefault(x => x.BaseDescriptor.GKBase is GKDevice && (x.BaseDescriptor.GKBase as GKDevice).ShortName == "Индикатор Пожар 2");
+				var descriptorViewModel = Descriptors.FirstOrDefault(x => x.GKBaseDescriptor.GKBase is GKDevice && (x.GKBaseDescriptor.GKBase as GKDevice).ShortName == "Индикатор Пожар 2");
 				if (descriptorViewModel != null)
 				{
 					var staeBitViewModel = descriptorViewModel.StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.On);

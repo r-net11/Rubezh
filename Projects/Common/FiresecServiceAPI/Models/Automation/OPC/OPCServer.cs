@@ -13,6 +13,7 @@ namespace FiresecAPI.Automation
 		{
 			Uid = Guid.NewGuid();
 			Name = "Название OPC Сервера";
+            Address = "opc.tcp://localhost:51510/UA/DemoServer";
 		}
 
 		[DataMember]

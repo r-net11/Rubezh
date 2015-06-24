@@ -30,9 +30,6 @@ namespace GKModule.ViewModels
 				_device = value;
 				if (_device != null)
 				{
-					Device.Changed -= OnChanged;
-					Device.OnChanged();
-					Device.Changed += OnChanged;
 					IsCodeReader = _device.DriverType == GKDriverType.RSR2_CodeReader || _device.DriverType == GKDriverType.RSR2_CardReader;
 				}
 				OnPropertyChanged(() => IsCodeReader);
@@ -75,12 +72,6 @@ namespace GKModule.ViewModels
 			{
 				ServiceFactory.SaveService.GKChanged = true;
 			}
-		}
-
-		void OnChanged()
-		{
-			Device = MPTDevice.Device;
-			OnPropertyChanged(() => Device);
 		}
 
 		public string Description

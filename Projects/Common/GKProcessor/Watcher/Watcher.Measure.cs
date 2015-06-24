@@ -144,7 +144,7 @@ namespace GKProcessor
 						}
 						if (measureParameter.Multiplier != null)
 						{
-							var doubleValue = Math.Round( (parameterValue / (double)measureParameter.Multiplier), 1);
+							var doubleValue = Math.Round( (parameterValue / (double)measureParameter.Multiplier), 3);
 							stringValue = doubleValue.ToString();
 						}
 						var measureParameterValue = MeasureParameters.FirstOrDefault(x => x.Name == measureParameter.Name);

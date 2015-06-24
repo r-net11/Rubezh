@@ -71,6 +71,11 @@ namespace GKImitator.Processor
 
 		List<byte> CreateAnswer()
 		{
+			DatabaseType databaseType = DatabaseType.Gk;
+			if (byteData[0] == 2) databaseType = DatabaseType.Gk;
+			if(byteData[0] == 4) databaseType = DatabaseType.Kau;
+			var kauAddress = byteData[1];
+
 			switch (byteData[4])
 			{
 				case 1:
@@ -84,7 +89,7 @@ namespace GKImitator.Processor
 					result.AddRange(BitConverter.GetBytes(hardwareNo));
 					return result;
 
-				case 5: // DateTime Synchrinysation
+				case 5: // Синхронизация времени
 					var descriptorNo = BytesHelper.SubstructInt(byteData.ToList(), 5);
 					var descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.DescriptorNo == descriptorNo);
 					if (descriptorViewModel != null)
@@ -105,19 +110,31 @@ namespace GKImitator.Processor
 
 				case 9: // Чтение параметра
 					descriptorNo = BytesHelper.SubstructInt(byteData.ToList(), 5);
-					descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.DescriptorNo == descriptorNo);
-					if (descriptorViewModel != null)
+					if (databaseType == DatabaseType.Gk)
 					{
-						descriptorViewModel.GetParameters();
+						descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.GKBase.GKDescriptorNo == descriptorNo);
+						return descriptorViewModel.GetParameters(databaseType);
+					}
+					if (databaseType == DatabaseType.Kau)
+					{
+						descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.GKBase.KAUDescriptorNo == descriptorNo);
+						return descriptorViewModel.GetParameters(databaseType);
 					}
 					return null;
 
 				case 10: // Установка параметра
 					descriptorNo = BytesHelper.SubstructShort(byteData.ToList(), 5);
-					descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.DescriptorNo == descriptorNo);
-					if (descriptorViewModel != null)
+					if (databaseType == DatabaseType.Gk)
 					{
-						descriptorViewModel.SetParameters();
+						descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.GKBase.GKDescriptorNo == descriptorNo);
+						descriptorViewModel.SetParameters(byteData.Skip(7).ToList());
+						return new List<byte>();
+					}
+					if (databaseType == DatabaseType.Kau)
+					{
+						descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.GKBase.KAUDescriptorNo == descriptorNo);
+						descriptorViewModel.SetParameters(byteData.Skip(7).ToList());
+						return new List<byte>();
 					}
 					return null;
 

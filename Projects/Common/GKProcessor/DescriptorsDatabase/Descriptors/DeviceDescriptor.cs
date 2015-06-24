@@ -145,6 +145,7 @@ namespace GKProcessor
 
 		void SetPropertiesBytes()
 		{
+			Parameters = new List<byte>();
 			var binProperties = new List<BinProperty>();
 
 			if (DatabaseType == DatabaseType.Gk && Device.Driver.IsDeviceOnShleif)

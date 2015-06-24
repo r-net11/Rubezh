@@ -1,15 +1,15 @@
-﻿using FiresecAPI.SKD.ReportFilters;
-using Infrastructure.Common.SKDReports;
-using System.Collections.Generic;
-using SKDModule.Reports.ViewModels;
+﻿using System.Collections.Generic;
 using FiresecAPI.Models;
+using FiresecAPI.SKD.ReportFilters;
+using Infrastructure.Common.SKDReports;
+using SKDModule.Reports.ViewModels;
 
 namespace SKDModule.Reports.Providers
 {
 	public class EventsReportProvider : FilteredSKDReportProvider<EventsReportFilter>
 	{
 		public EventsReportProvider()
-			: base("Отчет по событиям системы контроля доступа", 401, SKDReportGroup.Events, PermissionType.Oper_Reports_Events)
+			: base("Отчет по событиям", 401, SKDReportGroup.Events, PermissionType.Oper_Reports_Events)
 		{
 		}
 

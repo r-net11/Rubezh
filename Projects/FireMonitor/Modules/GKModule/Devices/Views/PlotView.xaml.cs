@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
+using System.Windows.Threading;
+using FiresecAPI.GK;
+using FiresecClient;
 using GKModule.ViewModels;
 using Microsoft.Research.DynamicDataDisplay;
 using Microsoft.Research.DynamicDataDisplay.DataSources;
@@ -12,48 +16,97 @@ namespace GKModule.Views
 {
 	public partial class PlotView
 	{
+		ViewportAxesRangeRestriction restr;
+		DispatcherTimer updateCollectionTimer;
+
 		public PlotView()
 		{
 			InitializeComponent();
 			Loaded += Window1_Loaded;
+			Unloaded += Window1_UnLoaded;
+		}
+
+		private void Window1_UnLoaded(object sender, RoutedEventArgs routedEventArgs)
+		{
+			if (updateCollectionTimer != null)
+			{
+				updateCollectionTimer.Tick -= Update;
+				updateCollectionTimer.Stop();
+			}
 		}
 
 		private void Window1_Loaded(object sender, RoutedEventArgs e)
 		{
+			RingCurrentConsumptions = new RingCurrentConsumptions();
 			var plotViewModel = DataContext as PlotViewModel;
 			if (plotViewModel == null)
 				return;
-			plotViewModel.PlotViewUpdateAction = Update;
+
+			plotViewModel.UpdateFromDBAction = UpdateFromDB;
+
+			updateCollectionTimer = new DispatcherTimer();
+			updateCollectionTimer.Interval = TimeSpan.FromMilliseconds(1000);
+			updateCollectionTimer.Tick += Update;
+			updateCollectionTimer.Start();
+
+			restr = new ViewportAxesRangeRestriction();
+			restr.YRange = new DisplayRange(-5, 105);
+			plotter.Viewport.Restrictions.Add(restr);
 		}
 
-		void Update()
+		public RingCurrentConsumptions RingCurrentConsumptions { get; set; }
+		public void Update(object sender, EventArgs e)
 		{
 			var plotViewModel = DataContext as PlotViewModel;
 			if (plotViewModel == null)
 				return;
-			var restr = new ViewportAxesRangeRestriction();
-			restr.YRange = new DisplayRange(-5, 105);
 
+			var measuresResult = FiresecManager.FiresecService.GetAlsMeasure(plotViewModel.DeviceUid);
+			if (measuresResult == null)
+				return;
+			if (measuresResult.HasError)
+			{
+				if (updateCollectionTimer != null)
+				{
+					updateCollectionTimer.Tick -= Update;
+					updateCollectionTimer.Stop();
+				}
+			    return;
+			}
+			RingCurrentConsumptions.Add(measuresResult.Result);
+			plotter.Viewport.FitToView();
+		}
+
+		void UpdateFromDB()
+		{
+			var plotViewModel = DataContext as PlotViewModel;
+			if (plotViewModel == null)
+				return;
+
+			if (updateCollectionTimer != null)
+			{
+				updateCollectionTimer.Tick -= Update;
+				updateCollectionTimer.Stop();
+			}
 			plotter.Children.RemoveAll(typeof(MarkerPointsGraph));
 			plotter.Children.RemoveAll(typeof(LineGraph));
 
-			plotter.Viewport.Restrictions.Add(restr);
-
+			var orderedCurrentConsumptions = new List<CurrentConsumption>();
 			try
 			{
-				plotViewModel.CurrentConsumptions = plotViewModel.CurrentConsumptions.OrderBy(x => x.DateTime).ToList();
+				orderedCurrentConsumptions = plotViewModel.CurrentConsumptions.OrderBy(x => x.DateTime).ToList();
 			}
 			catch
 			{
 				
 			}
-			var dates = new DateTime[plotViewModel.CurrentConsumptions.Count];
-			var curents = new int[plotViewModel.CurrentConsumptions.Count];
+			var dates = new DateTime[orderedCurrentConsumptions.Count];
+			var curents = new int[orderedCurrentConsumptions.Count];
 
-			for (int i = 0; i < plotViewModel.CurrentConsumptions.Count; ++i)
+			for (int i = 0; i < orderedCurrentConsumptions.Count; ++i)
 			{
-				dates[i] = plotViewModel.CurrentConsumptions[i].DateTime;
-				curents[i] = plotViewModel.CurrentConsumptions[i].Current;
+				dates[i] = orderedCurrentConsumptions[i].DateTime;
+				curents[i] = orderedCurrentConsumptions[i].Current;
 			}
 
 			var datesDataSource = new EnumerableDataSource<DateTime>(dates);
@@ -65,11 +118,34 @@ namespace GKModule.Views
 			CompositeDataSource compositeDataSource = new CompositeDataSource(datesDataSource, currentsDataSource);
 
 			plotter.AddLineGraph(compositeDataSource,
-					  new Pen(Brushes.Blue, 2),
+					  new Pen(Brushes.Green, 2),
 					  new CirclePointMarker { Size = 5.0, Fill = Brushes.Red },
 					  new PenDescription("Статистика токопотребления"));
 
 			plotter.Viewport.FitToView();
+		}
+
+		private void ButtonOnline_OnClick(object sender, RoutedEventArgs e)
+		{
+			RingCurrentConsumptions = new RingCurrentConsumptions();
+			if (updateCollectionTimer != null)
+			{
+				updateCollectionTimer.Tick -= Update;
+				updateCollectionTimer.Stop();
+			}
+
+			plotter.Children.RemoveAll(typeof(MarkerPointsGraph));
+			plotter.Children.RemoveAll(typeof(LineGraph));
+
+			updateCollectionTimer = new DispatcherTimer();
+			updateCollectionTimer.Interval = TimeSpan.FromMilliseconds(1000);
+			updateCollectionTimer.Tick += Update;
+			updateCollectionTimer.Start();
+
+			var ds = new EnumerableDataSource<CurrentConsumption>(RingCurrentConsumptions);
+			ds.SetXMapping(x => dateAxis.ConvertToDouble(x.DateTime));
+			ds.SetYMapping(y => y.Current);
+			plotter.AddLineGraph(ds, new Pen(Brushes.Green, 2), new CirclePointMarker { Size = 5.0, Fill = Brushes.Red }, new PenDescription("Статистика токопотребления"));
 		}
 	}
 

@@ -177,5 +177,24 @@ namespace FiresecClient
 				result += "\nЦелевой объект дополнительно содержит \"Условие Останова\"";
 			return result;
 		}
+
+		public static GKLogic PasteLogic(GKAdvancedLogic targetLogic)
+		{
+			var gkLogic = new GKLogic();
+			if (targetLogic.HasOnClause)
+				gkLogic.OnClausesGroup = LogicToCopy.OnClausesGroup;
+			if (targetLogic.HasOnNowClause)
+				gkLogic.OnNowClausesGroup = LogicToCopy.OnNowClausesGroup;
+			if (targetLogic.HasOffClause)
+			{
+				gkLogic.OffClausesGroup = LogicToCopy.OffClausesGroup;
+				targetLogic.UseOffCounterLogic = LogicToCopy.UseOffCounterLogic;
+			}
+			if (targetLogic.HasOffNowClause)
+				gkLogic.OffNowClausesGroup = LogicToCopy.OffNowClausesGroup;
+			if (targetLogic.HasStopClause)
+				gkLogic.StopClausesGroup = LogicToCopy.StopClausesGroup;
+			return gkLogic;
+		}
 	}
 }

@@ -197,11 +197,12 @@ namespace PowerCalculator.Processor
                         
         }       
 
-        public static IEnumerable<int> GetLinePatch(Line line)
+        public static List<int> GetLinePatch(Line line)
         {
             var patch = new List<int>();
             
             Line testLine = new Line();
+            testLine.IsCircular = line.IsCircular;
             testLine.Devices = line.Devices.ToList();
 
             int step = (int)(line.Devices.Count / 10);
@@ -221,7 +222,7 @@ namespace PowerCalculator.Processor
                 index += step;
                 if (index >= testLine.Devices.Count)
                     index = testLine.Devices.Count - 1;
-                testLine.Devices.Insert(index, new Device() { DriverType = DriverType.RSR2_MP });
+                InsertSupplier(testLine, index);
                 
                 if (CalculateLine(testLine).Any(x=>testLine.Devices.IndexOf(x.Device) < index && (x.HasIError || x.HasUError)))
                 {
@@ -229,7 +230,7 @@ namespace PowerCalculator.Processor
                     {
                         testLine.Devices.RemoveAt(index);
                         index--;
-                        testLine.Devices.Insert(index, new Device() { DriverType = DriverType.RSR2_MP });
+                        InsertSupplier(testLine, index);
                         if (!CalculateLine(testLine).Any(x => testLine.Devices.IndexOf(x.Device) < index && (x.HasIError || x.HasUError)))
                         {
                             patch.Add(index);
@@ -247,6 +248,16 @@ namespace PowerCalculator.Processor
                     testLine.Devices.RemoveAt(index);
                 }
             }
+        }
+
+        static void InsertSupplier(Line line, int index)
+        {
+            var supplier = new Device();
+            supplier.DriverType = DriverType.RSR2_MP;
+            supplier.Cable.CableType = line.Devices[index].Cable.CableType;
+            supplier.Cable.Length = line.Devices[index].Cable.Length;
+            supplier.Cable.Resistivity = line.Devices[index].Cable.Resistivity;
+            line.Devices.Insert(index, supplier);
         }
     }
 }

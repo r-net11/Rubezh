@@ -18,20 +18,38 @@ namespace PowerCalculator.Processor.Algorithms
 		public CalcPowerAlgorithm(Line line)
 		{
 			Line = line;
-			Result = new Dictionary<Device, CalcPowerIndicators>();
-
-            Result.Add(Line.KAU, new CalcPowerIndicators() { id = Line.KAU.Driver.I, ud = Line.KAU.Driver.U, il = 0 });
-			foreach (Device device in Line.Devices)
-				Result.Add(device, new CalcPowerIndicators() { id = Dr(device.DriverType).I, ud = Dr(device.DriverType).U, il = 0 });
 		}
+
+        void InitializeResult()
+        {
+            Result = new Dictionary<Device, CalcPowerIndicators>();
+            Result.Add(Line.KAU, new CalcPowerIndicators() { id = Line.KAU.Driver.I, ud = Line.KAU.Driver.U, il = 0 });
+            foreach (Device device in Line.Devices)
+                Result.Add(device, new CalcPowerIndicators() { id = Dr(device.DriverType).I, ud = Dr(device.DriverType).U, il = 0 });
+        }
 
 		public void Calculate()
 		{
+            InitializeResult();
 			produce();
+
+            if (Line.IsCircular)
+            {
+                var intermediateResult = Result;
+                InitializeResult();
+                produce(true);
+
+                foreach (Device device in Line.Devices)
+                {
+                    Result[device].id += intermediateResult[device].id;
+                    //Result[device].ud += intermediateResult[device].ud;
+                    Result[device].il += intermediateResult[device].il;
+                }
+            }
 		}
 
 		#region wrappers
-		void produce()
+		void produce(bool reverse = false)
 		{
 			int be, en;
 			uint nu = (uint)Line.Devices.Sum(e => Dr(e.DriverType).Mult);
@@ -39,66 +57,66 @@ namespace PowerCalculator.Processor.Algorithms
 			be = 0;
 			for (int i = 1; i < Dc(); i++)
 			{
-				if (Dr(i).DeviceType == DeviceType.Supplier)
+				if (Dr(i, reverse).DeviceType == DeviceType.Supplier)
 				{
 					en = i;
 					nu -= Dr(i).Mult;
-					calc(be, en, nu);
+					calc(be, en, nu, reverse);
 					be = en;
 				}
 				else
 				{
-					nu -= Dr(i).Mult;
+					nu -= Dr(i, reverse).Mult;
 				}
 			}
 			if (be != Dc() - 1)
-				calc(be, Dc() - 1, nu);
+                calc(be, Dc() - 1, nu, reverse);
 
 		}
 
-		void calc(int b, int e, uint n)
+		void calc(int b, int e, uint n, bool reverse = false)
 		{
 			double il, rsum, rleft, iright, ileft;
 
-			n -= Dr(e).Mult;
+            n -= Dr(e, reverse).Mult;
 			rsum = 0;
-			if (Dr(e).DeviceType == DeviceType.Supplier)
+            if (Dr(e, reverse).DeviceType == DeviceType.Supplier)
 			{
 				for (int i = e; i > b; i--)
 				{
-					n += Dr(i).Mult;
-					Di(i).id += n * I1MESS;
-					rsum += Dr(i).R + De(i).Cable.Resistance;
+                    n += Dr(i, reverse).Mult;
+                    Di(i, reverse).id += n * I1MESS;
+                    rsum += Dr(i, reverse).R + De(i, reverse).Cable.Resistance;
 				}
 
-				il = 1000 * (Dr(b).U - Dr(e).U) / rsum;
+                il = 1000 * (Dr(b, reverse).U - Dr(e, reverse).U) / rsum;
 				rleft = 0;
 				iright = 0;
 				ileft = 0;
 				for (int i = b + 1; i <= e; i++)
 				{
-					rleft += De(i).Cable.Resistance + Dr(i).R;
-					ileft = Di(i).id * (rsum - rleft) / rsum;
-					Di(i).il = il + iright;
-					iright -= Di(i).id - ileft;
+                    rleft += De(i, reverse).Cable.Resistance + Dr(i, reverse).R;
+                    ileft = Di(i, reverse).id * (rsum - rleft) / rsum;
+                    Di(i, reverse).il += il + iright;
+                    iright -= Di(i, reverse).id - ileft;
 					for (int j = b + 1; j <= i; j++)
-						Di(j).il += ileft;
+                        Di(j, reverse).il += ileft;
 				}
 				for (int i = b + 1; i < e; i++)
-					Di(i).ud = Di(i - 1).ud - Di(i).il * (Dr(i).R + De(i).Cable.Resistance) * 0.001;
+                    Di(i, reverse).ud = Di(i - 1, reverse).ud - Di(i, reverse).il * (Dr(i, reverse).R + De(i, reverse).Cable.Resistance) * 0.001;
 			}
 			else
 			{
 				il = 0;
 				for (int i = e; i > b; i--)
 				{
-					n += Dr(i).Mult;
-					Di(i).id += n * I1MESS;
-					il += Di(i).id;
-					Di(i).il = il;
+                    n += Dr(i, reverse).Mult;
+                    Di(i, reverse).id += n * I1MESS;
+                    il += Di(i, reverse).id;
+                    Di(i, reverse).il = il;
 				}
 				for (int i = b + 1; i <= e; i++)
-					Di(i).ud = Di(i - 1).ud - Di(i).il * (Dr(i).R + De(i).Cable.Resistance) * 0.001;
+                    Di(i, reverse).ud = Di(i - 1, reverse).ud - Di(i, reverse).il * (Dr(i, reverse).R + De(i, reverse).Cable.Resistance) * 0.001;
 			}
 
 		}

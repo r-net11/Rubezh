@@ -519,7 +519,7 @@ namespace SettingsModule.ViewModels
 			GlobalSettingsHelper.GlobalSettings.ReportRemotePort = ReportRemotePort;
 			GlobalSettingsHelper.GlobalSettings.Login = Login;
 			GlobalSettingsHelper.GlobalSettings.Password = Password;
-			GlobalSettingsHelper.GlobalSettings.AutoConnect = AutoConnect;
+			//GlobalSettingsHelper.GlobalSettings.AutoConnect = AutoConnect;
 			GlobalSettingsHelper.GlobalSettings.DoNotAutoconnectAdm = DoNotAutoconnectAdm;
 			GlobalSettingsHelper.GlobalSettings.RunRevisor = RunRevisor;
 			ModulesViewModel.Save();

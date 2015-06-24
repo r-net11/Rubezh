@@ -18,19 +18,6 @@ namespace GKImitator.ViewModels
 			SetPreDustinessCommand = new RelayCommand(OnSetPreDustiness);
 			SetCriticalDustinessCommand = new RelayCommand(OnSetCriticalDustiness);
 			ResetDustinessCommand = new RelayCommand(OnResetDustiness);
-
-			if (GKBase is GKDevice)
-			{
-				var device = GKBase as GKDevice;
-				switch(device.DriverType)
-				{
-					case GKDriverType.RSR2_SmokeDetector:
-					case GKDriverType.RSR2_CombinedDetector:
-					case GKDriverType.RSR2_HeatDetector:
-						HasDustiness = true;
-						break;
-				}
-			}
 		}
 
 		public bool HasDustiness { get; private set; }

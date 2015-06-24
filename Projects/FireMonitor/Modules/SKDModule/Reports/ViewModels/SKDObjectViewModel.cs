@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Linq;
-using System.Reflection;
 using Controls.Converters;
 using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecAPI.Journal;
+using FiresecAPI.Models;
 using FiresecAPI.SKD;
 using Infrastructure.Common.TreeList;
-using FiresecAPI.Models;
 
 namespace SKDModule.Reports.ViewModels
 {
@@ -31,7 +30,7 @@ namespace SKDModule.Reports.ViewModels
 			switch(journalObjectType)
 			{
 				case JournalObjectType.GKDevice:
-					ImageSource = "/Controls;component/GKIcons/RM_1.png";
+					ImageSource = "/Controls;component/GKIcons/RSR2_RM_1.png";
 					break;
 
 				case JournalObjectType.GKZone:
