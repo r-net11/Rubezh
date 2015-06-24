@@ -80,6 +80,8 @@ namespace FiresecAPI.GK
 
 		public abstract void Update(GKDevice device);
 
+		public abstract void Update(GKDirection direction);
+
 		public void LinkObject(GKBase gkBase)
 		{
 			if (gkBase == null)

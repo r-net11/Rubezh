@@ -24,7 +24,8 @@ namespace PowerCalculator.ViewModels
 			SaveToFileCommand = new RelayCommand(OnSaveToFile);
 			LoadFromFileCommand = new RelayCommand(OnLoadFromFile);
 			AddLineCommand = new RelayCommand(OnAddLine);
-			RemoveLineCommand = new RelayCommand(OnRemoveFile, CanRemoveLine);
+			RemoveLineCommand = new RelayCommand(OnRemoveLine, CanRemoveLine);
+            PatchLineCommand = new RelayCommand(OnPatchLine, CanPatchLine);
             EditCableTypesRepositoryCommand = new RelayCommand(OnEditCableTypesRepository);
 			ShowSpecificationCommand = new RelayCommand(OnShowSpecification);
 			PatchCommand = new RelayCommand(OnPatch, CanPatch);
@@ -154,7 +155,7 @@ namespace PowerCalculator.ViewModels
 		}
 
 		public RelayCommand RemoveLineCommand { get; private set; }
-		void OnRemoveFile()
+		void OnRemoveLine()
 		{
             int index = Lines.IndexOf(SelectedLine);
 			Configuration.Lines.Remove(SelectedLine.Line);
@@ -168,6 +169,32 @@ namespace PowerCalculator.ViewModels
 		{
 			return SelectedLine != null;
 		}
+
+        public RelayCommand PatchLineCommand { get; private set; }
+        void OnPatchLine()
+        {
+            var patch = SelectedLine.GetPatch();
+
+            if (patch == null)
+            {
+                MessageBoxService.Show("Для исправления АЛС недостаточно свободных мест!");
+            }
+            else
+            {
+                var question = new StringBuilder().AppendLine("Список адресов недостающих модулей подпитки:");
+                for (int i = 0; i < patch.Count(); i++)
+                    question.Append(SelectedLine.Devices[patch[i] - i].Address + i).Append(i == patch.Count() - 1 ? "" : ", ");
+                question.AppendLine();
+
+                if (MessageBoxService.ShowQuestion(question.ToString()))
+                    SelectedLine.InstallPatch(patch);
+            }
+        }
+
+        bool CanPatchLine()
+        {
+            return SelectedLine != null && SelectedLine.HasError;
+        }
 
 		public RelayCommand ShowSpecificationCommand { get; private set; }
 		void OnShowSpecification()
@@ -189,7 +216,7 @@ namespace PowerCalculator.ViewModels
 		public RelayCommand PatchCommand { get; private set; }
 		void OnPatch()
 		{
-            Dictionary<LineViewModel, IEnumerable<int>> patches = new Dictionary<LineViewModel, IEnumerable<int>>();
+            Dictionary<LineViewModel, List<int>> patches = new Dictionary<LineViewModel, List<int>>();
             foreach (var lineViewModel in Lines)
             {
                 if (lineViewModel.HasError)
@@ -205,7 +232,7 @@ namespace PowerCalculator.ViewModels
                     question.Append("недостаточно мест;");
                 else
                     for (int i = 0; i < patch.Value.Count(); i++)
-                        question.Append(patch.Key.Devices[((IList<int>)patch.Value)[i] - i].Address + i).Append(i == patch.Value.Count() - 1 ? "" : ", ");
+                        question.Append(patch.Key.Devices[patch.Value[i] - i].Address + i).Append(i == patch.Value.Count() - 1 ? "" : ", ");
                 
                 question.AppendLine();
             }

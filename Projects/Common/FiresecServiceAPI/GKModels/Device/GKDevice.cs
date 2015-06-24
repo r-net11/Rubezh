@@ -41,6 +41,13 @@ namespace FiresecAPI.GK
 			OnChanged();
 		}
 
+		public override void Update(GKDirection direction)
+		{
+			Logic.GetAllClauses().FindAll(x => x.Directions.Contains(direction)).ForEach(y => { y.Directions.Remove(direction); y.DirectionUIDs.Remove(direction.UID); });
+			UnLinkObject(direction);
+			OnChanged();
+		}
+
 		[XmlIgnore]
 		public bool IsDisabled{ get; set; }
 		[XmlIgnore]
