@@ -53,6 +53,17 @@ namespace PowerCalculator.ViewModels
             }
         }
 
+        public bool IsCircular
+        {
+            get { return Line.IsCircular; }
+            set 
+            {
+                Line.IsCircular = value;
+                OnPropertyChanged(() => IsCircular);
+                Calculate();
+            }
+        }
+
 		DeviceViewModel _selectedDevice;
 		public DeviceViewModel SelectedDevice
 		{
@@ -103,7 +114,7 @@ namespace PowerCalculator.ViewModels
             HasError = Devices.Any(x => x.HasIError || x.HasUError);
         }
 
-        public IEnumerable<int> GetPatch()
+        public List<int> GetPatch()
         {
             return Processor.Processor.GetLinePatch(Line);
         }
@@ -112,7 +123,12 @@ namespace PowerCalculator.ViewModels
         {
             foreach(int index in patch)
             {
-                var supplier = new Device() { DriverType = DriverType.RSR2_MP, Cable = new Cable() { CableType = Devices[index].CableType, Resistivity = Devices[index].CableType.Resistivity } };
+                var supplier = new Device();
+                supplier.DriverType = DriverType.RSR2_MP; 
+                supplier.Cable.CableType = Devices[index].CableType;
+                supplier.Cable.Resistivity = Devices[index].CableResistivity;
+                supplier.Cable.Length = Devices[index].CableLength;
+
                 Line.Devices.Insert(index, supplier);
                 Devices.Insert(index, new DeviceViewModel(supplier, this));
             }

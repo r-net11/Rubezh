@@ -10,6 +10,7 @@ namespace PowerCalculator.Models
 		{
 			Name = "Название АЛС";
 			Devices = new List<Device>();
+            IsCircular = false;
             KAU = new Device() { DriverType = DriverType.RSR2_KAU };
 		}
 
@@ -17,6 +18,7 @@ namespace PowerCalculator.Models
         public Device KAU { get; private set; } 
 		public string Name { get; set; }
 		public List<Device> Devices { get; set; }
+        public bool IsCircular { get; set; }
 
         public uint MaxAdress
         {
