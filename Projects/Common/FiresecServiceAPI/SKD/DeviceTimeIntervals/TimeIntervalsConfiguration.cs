@@ -14,6 +14,8 @@ namespace FiresecAPI.SKD
 			SlideDayIntervals = new List<SKDSlideDayInterval>();
 			SlideWeeklyIntervals = new List<SKDSlideWeeklyInterval>();
 			Holidays = new List<SKDHoliday>();
+			DoorDayIntervals = new List<SKDDoorDayInterval>();
+			DoorWeeklyIntervals = new List<SKDDoorWeeklyInterval>();
 		}
 
 		[DataMember]
@@ -30,6 +32,12 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public List<SKDHoliday> Holidays { get; set; }
+
+		[DataMember]
+		public List<SKDDoorDayInterval> DoorDayIntervals { get; set; }
+
+		[DataMember]
+		public List<SKDDoorWeeklyInterval> DoorWeeklyIntervals { get; set; }
 
 		public bool ValidateIntervals()
 		{
