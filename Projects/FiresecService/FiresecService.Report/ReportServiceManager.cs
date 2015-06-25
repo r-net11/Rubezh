@@ -1,17 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.ServiceModel;
 using Common;
-using DevExpress.XtraReports.Service;
-using DevExpress.DocumentServices.ServiceModel.Client;
-using System.Xml;
 using DevExpress.Xpf.Printing;
-using FiresecAPI.Models;
-using Infrastructure.Common.SKDReports;
-using Infrastructure.Common;
+using DevExpress.XtraReports.Service;
 using FiresecAPI;
+using Infrastructure.Common;
 
 namespace FiresecService.Report
 {

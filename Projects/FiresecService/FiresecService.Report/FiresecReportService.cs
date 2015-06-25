@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using DevExpress.DocumentServices.ServiceModel.DataContracts;
 using DevExpress.XtraReports.Service;
-using DevExpress.DocumentServices.ServiceModel.DataContracts;
 using DevExpress.XtraReports.UI;
 
 namespace FiresecService.Report

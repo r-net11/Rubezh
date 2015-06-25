@@ -16,7 +16,6 @@ namespace SettingsModule.ViewModels
 			Modules.Add(new ModuleViewModel("SecurityModule.dll", "Пользователи"));
 			Modules.Add(new ModuleViewModel("GKModule.dll", "ГК"));
 			Modules.Add(new ModuleViewModel("SKDModule.dll", "СКД"));
-			Modules.Add(new ModuleViewModel("StrazhModule.dll", "Страж"));
 			Modules.Add(new ModuleViewModel("VideoModule.dll", "Видео"));
 			Modules.Add(new ModuleViewModel("AutomationModule.dll", "Автоматизация"));
 			Modules.Add(new ModuleViewModel("LayoutModule.dll", "Макеты"));

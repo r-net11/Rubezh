@@ -2,10 +2,10 @@
 using System.Collections.ObjectModel;
 using System.Windows;
 using Common;
+using FiresecAPI.Models;
 using FiresecAPI.Models.Layouts;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Ribbon;
-using FiresecAPI.Models;
 
 namespace Infrastructure.Common.Windows.ViewModels
 {

@@ -419,7 +419,7 @@ namespace GKModule.ViewModels
 				}
 			}
 		}
-		bool CanResetIgnore()  //*****
+		bool CanResetIgnore()  
 		{
 			if (Alarm.AlarmType != GKAlarmType.Ignore)
 				return false;
@@ -450,7 +450,7 @@ namespace GKModule.ViewModels
 
 			if (Alarm.Direction != null)
 			{
-				if (Alarm.Direction.State.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_Destinations_Control))
+				if (Alarm.Direction.State.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_Directions_Control))
 					return true;
 			}
 
@@ -462,7 +462,7 @@ namespace GKModule.ViewModels
 		}
 
 		public RelayCommand TurnOnAutomaticCommand { get; private set; }
-		void OnTurnOnAutomatic()  // ***
+		void OnTurnOnAutomatic()  
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
@@ -475,7 +475,7 @@ namespace GKModule.ViewModels
 				}
 				if (Alarm.Direction != null)
 				{
-					if (Alarm.Direction.State.StateClasses.Contains(XStateClass.AutoOff) && FiresecManager.CheckPermission(PermissionType.Oper_Destinations_Control))
+					if (Alarm.Direction.State.StateClasses.Contains(XStateClass.AutoOff) && FiresecManager.CheckPermission(PermissionType.Oper_Directions_Control))
 					{
 						FiresecManager.FiresecService.GKSetAutomaticRegime(Alarm.Direction);
 					}

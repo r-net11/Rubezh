@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Linq;
+using FiresecAPI.Models;
 using FiresecAPI.SKD.ReportFilters;
 using Infrastructure.Common.Windows;
-using FiresecAPI.Models;
 
 namespace Infrastructure.Common.SKDReports
 {

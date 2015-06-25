@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 using Common;
 using FiresecAPI;
-using System.Xml.Serialization;
 
 namespace Infrastructure.Common
 {

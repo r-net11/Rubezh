@@ -91,11 +91,13 @@
     <Compile Include="Diagnostics\DiagnosticsItem.cs" />
     <Compile Include="Diagnostics\DiagnosticsManager.cs" />
     <Compile Include="Drivers\GKDevices\GKIndicator_Helper.cs" />
+    <Compile Include="Drivers\GKDevices\GKRelaysGroup_Helper.cs" />
     <Compile Include="Drivers\GKDevices\GKRele_Helper.cs" />
     <Compile Include="Drivers\GKDevices\GKSystem_Helper.cs" />
     <Compile Include="Drivers\GKDevices\GK_Helper.cs" />
     <Compile Include="Drivers\GKDevices\KAUIndicator_Helper.cs" />
     <Compile Include="Drivers\GKDevices\KAU_RSR2_Helper.cs" />
+    <Compile Include="Drivers\GKDevices\GKIndicatorsGroup_Helper.cs" />
     <Compile Include="Drivers\GKDevices\RSR2_KAU_ShleifHelper.cs" />
     <Compile Include="Drivers\GKDevices\KAU_Mirror_Helper.cs" />
     <Compile Include="Drivers\GKDevices\KAU_MirrorItem_Helper.cs" />

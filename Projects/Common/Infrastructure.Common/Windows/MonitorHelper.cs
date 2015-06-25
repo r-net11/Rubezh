@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Windows;
 using System.Linq;
+using System.Windows;
 using Monitor = System.Windows.Forms.Screen;
 
 namespace Infrastructure.Common.Windows
