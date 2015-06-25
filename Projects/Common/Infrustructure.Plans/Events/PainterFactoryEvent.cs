@@ -1,7 +1,7 @@
-﻿using Infrustructure.Plans.Elements;
+﻿using Infrustructure.Plans.Designer;
+using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Painters;
 using Microsoft.Practices.Prism.Events;
-using Infrustructure.Plans.Designer;
 
 namespace Infrustructure.Plans.Events
 {

@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 using Common;
 using FiresecAPI.GK;
 using Infrustructure.Plans.Interfaces;
-using System.Xml.Serialization;
 
 namespace FiresecAPI.SKD
 {

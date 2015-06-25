@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using FiresecAPI.AutomationCallback;
 using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
-using FiresecAPI.AutomationCallback;
 
 namespace FiresecAPI
 {

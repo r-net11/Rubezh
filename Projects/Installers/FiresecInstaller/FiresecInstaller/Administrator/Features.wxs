@@ -11,8 +11,6 @@
       <ComponentRef Id="Administrator.ProgramsMenuShortcut" />
       <ComponentRef Id="Administrator.DesktopShortcut" />
       <ComponentRef Id="Administrator.Firmwhare.Files" />
-
-      <ComponentRef Id="Administrator.VIDEO_MODULE_DLL" />
     </Feature>
   </Fragment>
 </Wix>

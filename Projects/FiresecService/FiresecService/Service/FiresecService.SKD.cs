@@ -274,23 +274,9 @@ namespace FiresecService.Service
 				if (getAccessTemplateOperationResult.HasError)
 					errors.AddRange(getAccessTemplateOperationResult.Errors);
 
-				errors.AddRange(AddStrazhCard(card, getAccessTemplateOperationResult.Result, databaseService));
 				errors.AddRange(AddGKCard(card, getAccessTemplateOperationResult.Result, databaseService));
 
 				return OperationResult<bool>.FromError(errors, true);
-			}
-		}
-		IEnumerable<string> AddStrazhCard(SKDCard card, AccessTemplate accessTemplate, SKDDatabaseService databaseService)
-		{
-			var cardWriter = ChinaSKDDriver.Processor.AddCard(card, accessTemplate);
-			foreach (var error in cardWriter.GetErrors())
-				yield return error;
-
-			foreach (var failedControllerUID in cardWriter.GetFailedControllerUIDs())
-			{
-				var pendingResult = databaseService.CardTranslator.AddPending(card.UID, failedControllerUID);
-				if (pendingResult.HasError)
-					yield return pendingResult.Error;
 			}
 		}
 		IEnumerable<string> AddGKCard(SKDCard card, AccessTemplate accessTemplate, SKDDatabaseService databaseService)
@@ -336,7 +322,6 @@ namespace FiresecService.Service
 					var oldCard = oldCardOperationResult.Result;
 					var oldGetAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(oldCard.AccessTemplateUID);
 
-					errors.AddRange(EditStrazhCard(oldCard, oldGetAccessTemplateOperationResult.Result, card, getAccessTemplateOperationResult.Result, databaseService));
 					errors.AddRange(EditGKCard(oldCard, oldGetAccessTemplateOperationResult.Result, card, getAccessTemplateOperationResult.Result, databaseService));
 				}
 				else
@@ -345,19 +330,6 @@ namespace FiresecService.Service
 				}
 
 				return OperationResult<bool>.FromError(errors, true);
-			}
-		}
-		IEnumerable<string> EditStrazhCard(SKDCard oldCard, AccessTemplate oldAccessTemplate, SKDCard card, AccessTemplate accessTemplate, SKDDatabaseService databaseService)
-		{
-			var cardWriter = ChinaSKDDriver.Processor.EditCard(oldCard, oldAccessTemplate, card, accessTemplate);
-			foreach (var error in cardWriter.GetErrors())
-				yield return error;
-
-			foreach (var failedControllerUID in cardWriter.GetFailedControllerUIDs())
-			{
-				var pendingResult = databaseService.CardTranslator.EditPending(card.UID, failedControllerUID);
-				if (pendingResult.HasError)
-					yield return pendingResult.Error;
 			}
 		}
 		IEnumerable<string> EditGKCard(SKDCard oldCard, AccessTemplate oldAccessTemplate, SKDCard newCard, AccessTemplate newAccessTemplate, SKDDatabaseService databaseService)
@@ -418,7 +390,6 @@ namespace FiresecService.Service
 				var operationResult = databaseService.CardTranslator.GetSingle(card.UID);
 				if (!operationResult.HasError && operationResult.Result != null)
 				{
-					errors.AddRange(DeleteStrazhCard(card, getAccessTemplateOperationResult.Result, databaseService));
 					errors.AddRange(DeleteGKCard(card, getAccessTemplateOperationResult.Result, databaseService));
 				}
 				else
@@ -427,19 +398,6 @@ namespace FiresecService.Service
 				}
 
 				return OperationResult<bool>.FromError(errors, true);
-			}
-		}
-		IEnumerable<string> DeleteStrazhCard(SKDCard card, AccessTemplate accessTemplate, SKDDatabaseService databaseService)
-		{
-			var cardWriter = ChinaSKDDriver.Processor.DeleteCard(card, accessTemplate);
-			foreach (var error in cardWriter.GetErrors())
-				yield return error;
-
-			foreach (var failedControllerUID in cardWriter.GetFailedControllerUIDs())
-			{
-				var pendingResult = databaseService.CardTranslator.DeletePending(card.UID, failedControllerUID);
-				if (pendingResult.HasError)
-					yield return pendingResult.Error;
 			}
 		}
 		IEnumerable<string> DeleteGKCard(SKDCard card, AccessTemplate accessTemplate, SKDDatabaseService databaseService)
@@ -504,7 +462,6 @@ namespace FiresecService.Service
 				{
 					foreach (var card in operationResult.Result)
 					{
-						errors.AddRange(EditStrazhCard(card, oldGetAccessTemplateOperationResult.Result, card, accessTemplate, databaseService));
 						errors.AddRange(EditGKCard(card, oldGetAccessTemplateOperationResult.Result, card, accessTemplate, databaseService));
 					}
 				}

@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
 using FiresecAPI;
 using FiresecAPI.GK;
-using FiresecClient;
 using FiresecAPI.Journal;
-using System.IO;
+using FiresecClient;
 
 namespace GKProcessor
 {

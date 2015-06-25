@@ -1,7 +1,6 @@
 ﻿using System.IO;
-using System.Runtime.Serialization;
-using FiresecAPI.GK;
 using System.Xml.Serialization;
+using FiresecAPI.GK;
 
 namespace Infrastructure.Common
 {

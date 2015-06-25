@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Runtime.Serialization;
 using System.ComponentModel;
+using System.Runtime.Serialization;
 
 namespace FiresecAPI.Automation
 {

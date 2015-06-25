@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Media;
 using FiresecAPI.Automation;
 using FiresecAPI.Models.Layouts;
-using System.Windows.Media;
 
 namespace Infrastructure.Common.Services.Layout
 {

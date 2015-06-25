@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
-using Infrustructure.Plans.Interfaces;
 
 namespace Infrustructure.Plans
 {

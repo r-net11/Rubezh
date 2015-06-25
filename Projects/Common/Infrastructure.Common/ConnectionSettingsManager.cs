@@ -1,7 +1,7 @@
 ﻿using System;
-using Common;
-using System.Net;
 using System.Linq;
+using System.Net;
+using Common;
 
 namespace Infrastructure.Common
 {
