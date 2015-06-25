@@ -81,24 +81,8 @@ namespace GKOPCServer
 				if (TagsCount >= 100)
 					break;
 
-				if (!device.IsOPCUsed)
-					continue;
-
 				var tagName = new StringBuilder();
-				foreach (var parentDevice in device.AllParents)
-				{
-					if (parentDevice.Driver.DriverType != GKDriverType.System)
-					{
-						if (parentDevice.Driver.HasAddress)
-							tagName.Append(parentDevice.ShortName + " - " + parentDevice.PresentationAddress + "/");
-						else
-							tagName.Append(parentDevice.ShortName + "/");
-					}
-				}
-				if (device.Driver.HasAddress)
-					tagName.Append(device.ShortName + " - " + device.PresentationAddress + "/");
-				else
-					tagName.Append(device.ShortName + "/");
+				tagName.Append(device.ShortName + "/");
 
 				var name = tagName.ToString();
 				var tagId = OPCDAServer.CreateTag(
@@ -109,43 +93,6 @@ namespace GKOPCServer
 
 				var tagDevice = new TagDevice(tagId, device.State);
 				TagDevices.Add(tagDevice);
-				TagsCount++;
-			}
-			foreach (var zone in (from GKZone zone in GKManager.Zones orderby zone.No select zone))
-			{
-				if (TagsCount >= 100)
-					break;
-
-				if (!zone.IsOPCUsed)
-					continue;
-
-				var tagId = OPCDAServer.CreateTag(
-					TagsCount,
-					"Zones/" + zone.PresentationName,
-					AccessRights.readable,
-					(double)0);
-
-				var tagZone = new TagZone(tagId, zone.State);
-				TagZones.Add(tagZone);
-				TagsCount++;
-			}
-
-			foreach (var direction in (from GKDirection direction in GKManager.Directions orderby direction.No select direction))
-			{
-				if (TagsCount >= 100)
-					break;
-
-				if (!direction.IsOPCUsed)
-					continue;
-
-				var tagId = OPCDAServer.CreateTag(
-					TagsCount,
-					"Directions/" + direction.PresentationName,
-					AccessRights.readable,
-					(double)0);
-
-				var tagDirection = new TagDirection(tagId, direction.State);
-				TagDirections.Add(tagDirection);
 				TagsCount++;
 			}
 
