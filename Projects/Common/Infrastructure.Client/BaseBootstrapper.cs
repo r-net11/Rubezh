@@ -194,11 +194,17 @@ namespace Infrastructure.Client
 							continue;
 						string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, moduleElement.AssemblyFile);
 						if (File.Exists(path))
-						{
+                        {
 							Assembly assembly = GetAssemblyByFileName(path);
 							if (assembly != null)
 								InvestigateAssembly(assembly);
 						}
+                        else
+                        {
+                            var message = string.Format("Не найден файл модуля {0}", moduleElement.AssemblyFile);
+                            Logger.Error(message);
+                            MessageBoxService.ShowError(message);
+                        }
 					}
 					catch (StartupCancellationException)
 					{
