@@ -50,7 +50,7 @@ namespace FiresecAPI.Models
 		Oper_Zone_Control,
 
 		[DescriptionAttribute("Управление направлениями")]
-		Oper_Destinations_Control,
+		Oper_Directions_Control,
 
 		[DescriptionAttribute("Управление ТД")]
 		Oper_Door_Control,
@@ -61,7 +61,7 @@ namespace FiresecAPI.Models
 		[DescriptionAttribute("Управление НС")]
 		Oper_NS_Control,
 
-		[DescriptionAttribute("Управление  охранных зон")]
+		[DescriptionAttribute("Управление  охранными зонами")]
 		Oper_GuardZone_Control,
 
 		[DescriptionAttribute("Управление  задержкой")]

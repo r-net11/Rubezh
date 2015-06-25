@@ -247,7 +247,7 @@ namespace GKModule.ViewModels
 		}
 
 		public RelayCommand ResetIgnoreAllCommand { get; private set; }
-		void OnResetIgnoreAll() //88
+		void OnResetIgnoreAll() 
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
@@ -280,7 +280,7 @@ namespace GKModule.ViewModels
 
 				foreach (var direction in GKManager.Directions )
 				{
-					if (direction.State.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_Destinations_Control))
+					if (direction.State.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_Directions_Control))
 					{
 						FiresecManager.FiresecService.GKSetAutomaticRegime(direction);
 					}
@@ -403,7 +403,7 @@ namespace GKModule.ViewModels
 		{
 			foreach (var zone in GKManager.Zones)
 			{
-				if (zone.State.StateClass == XStateClass.Fire1 || zone.State.StateClass == XStateClass.Fire2)
+				if ((zone.State.StateClass == XStateClass.Fire1 || zone.State.StateClass == XStateClass.Fire2)&&FiresecManager.CheckPermission(PermissionType.Oper_Zone_Control))
 				{
 					FiresecManager.FiresecService.GKSetIgnoreRegime(zone);
 				}
@@ -411,7 +411,7 @@ namespace GKModule.ViewModels
 
 			foreach (var device in GKManager.Devices)
 			{
-				if (device.State.StateClass == XStateClass.Fire1 || device.State.StateClass == XStateClass.Fire2)
+				if ((device.State.StateClass == XStateClass.Fire1 || device.State.StateClass == XStateClass.Fire2)&& FiresecManager.CheckPermission(PermissionType.Oper_Device_Control))
 				{
 					if (device.IsRealDevice)
 					{
@@ -431,7 +431,7 @@ namespace GKModule.ViewModels
 				}
 				if (e.Key == System.Windows.Input.Key.F2 && GlobalSettingsHelper.GlobalSettings.Monitor_F2_Enabled)
 				{
-					if (ServiceFactory.SecurityService.Validate()) //OnResetIgnoreAll(); FiresecManager.CheckPermission(PermissionType.Oper_CanControl)
+					if (ServiceFactory.SecurityService.Validate()) 
 					{
 						if (CanResetIgnoreAll())
 							OnResetIgnoreAll();
@@ -439,7 +439,7 @@ namespace GKModule.ViewModels
 				}
 				if (e.Key == System.Windows.Input.Key.F3 && GlobalSettingsHelper.GlobalSettings.Monitor_F3_Enabled)
 				{
-					if (ServiceFactory.SecurityService.Validate()) //FiresecManager.CheckPermission(PermissionType.Oper_CanControl)
+					if (ServiceFactory.SecurityService.Validate()) 
 					{
 						IgnoreAllZonesAndDevicesInFire();
 					}

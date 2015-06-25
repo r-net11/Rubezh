@@ -97,7 +97,7 @@ namespace SecurityModule.ViewModels
 									new PermissionViewModel(PermissionType.Oper_GuardZone_Control),
 									new PermissionViewModel(PermissionType.Oper_ExtraGuardZone),
 								}),
-								new PermissionViewModel(PermissionType.Oper_Destinations_Control),
+								new PermissionViewModel(PermissionType.Oper_Directions_Control),
 								new PermissionViewModel(PermissionType.Oper_Door_Control),
 								new PermissionViewModel(PermissionType.Oper_MPT_Control),
 								new PermissionViewModel(PermissionType.Oper_PIM_Control),
