@@ -348,7 +348,7 @@ namespace FiresecAPI
 		OperationResult SaveCurrentConsumption(CurrentConsumption item);
 
 		[OperationContract]
-		OperationResult<IEnumerable<CurrentConsumption>> GetCurrentConsumption(CurrentConsumptionFilter filter);
+		OperationResult<List<CurrentConsumption>> GetCurrentConsumption(CurrentConsumptionFilter filter);
 		#endregion
 	}
 }

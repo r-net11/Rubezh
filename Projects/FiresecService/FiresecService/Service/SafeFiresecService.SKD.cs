@@ -475,7 +475,7 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute(() => FiresecService.SaveCurrentConsumption(item));
 		}
-		public OperationResult<IEnumerable<CurrentConsumption>> GetCurrentConsumption(CurrentConsumptionFilter item)
+		public OperationResult<List<CurrentConsumption>> GetCurrentConsumption(CurrentConsumptionFilter item)
 		{
 			return SafeContext.Execute(() => FiresecService.GetCurrentConsumption(item));
 		}

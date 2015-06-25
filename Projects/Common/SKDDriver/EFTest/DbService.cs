@@ -4,7 +4,7 @@ namespace SKDDriver.DataClasses
 {
 	public class DbService : IDisposable
 	{
-		public SKDDbContext Context;
+		public DatabaseContext Context;
 
 		public GKScheduleTranslator GKScheduleTranslator { get; private set; }
 		public GKDayScheduleTranslator GKDayScheduleTranslator { get; private set; }
@@ -34,7 +34,7 @@ namespace SKDDriver.DataClasses
 
 		public DbService()
 		{
-			Context = new SKDDbContext("SKDDbContext", DbContextType.PostgreSQL);
+			Context = new DatabaseContext("SKDDbContext", DbContextType.PostgreSQL);
 			GKScheduleTranslator = new GKScheduleTranslator(this);
 			GKDayScheduleTranslator = new GKDayScheduleTranslator(this);
 			PassJournalTranslator = new PassJournalTranslator(this);
@@ -42,12 +42,12 @@ namespace SKDDriver.DataClasses
 			AccessTemplateTranslator = new AccessTemplateTranslator(this);
 			AdditionalColumnTypeTranslator = new AdditionalColumnTypeTranslator(this);
 			CardTranslator = new CardTranslator(this);
-			//CurrentConsumptionTranslator = new CurrentConsumptionTranslator(this);
+			CurrentConsumptionTranslator = new CurrentConsumptionTranslator(this);
 			DayIntervalTranslator = new DayIntervalTranslator(this);
 			DepartmentTranslator = new DepartmentTranslator(this);
 			EmployeeTranslator = new EmployeeTranslator(this);
 			HolidayTranslator = new HolidayTranslator(this);
-			//NightSettingTranslator = new NightSettingTranslator(this);
+			NightSettingTranslator = new NightSettingTranslator(this);
 			OrganisationTranslator = new OrganisationTranslator(this);
 			PassCardTemplateTranslator = new PassCardTemplateTranslator(this);
 			PositionTranslator = new PositionTranslator(this);
@@ -62,8 +62,6 @@ namespace SKDDriver.DataClasses
 		}
 	}
 
-	public class CurrentConsumptionTranslator { }
-	public class NightSettingTranslator { }
-	public class TimeTrackingTranslator { }
+    public class TimeTrackingTranslator { }
 
 }

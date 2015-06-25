@@ -53,6 +53,7 @@ namespace SKDDriver.DataClasses
 
 		public ICollection<NightSetting> NightSettings { get; set; }
 
+        [InverseProperty("Organisation")]
 		public ICollection<Employee> Employees { get; set; }
 
 		public ICollection<AdditionalColumnType> AdditionalColumnTypes { get; set; }

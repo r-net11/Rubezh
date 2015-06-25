@@ -10,7 +10,7 @@ namespace SKDDriver.DataClasses
 	public class JournalTranslator
 	{
 		DbService DbService; 
-		SKDDbContext Context;
+		DatabaseContext Context;
 		public PassJounalSynchroniser Synchroniser { get; private set; }
 
 		public JournalTranslator(DbService context)
@@ -188,7 +188,7 @@ namespace SKDDriver.DataClasses
 				ObjectName = apiItem.ObjectName,
 				UserName = apiItem.UserName,
 				CardNo = apiItem.CardNo,
-				EmployeeUID = apiItem.EmployeeUID,
+				EmployeeUID = apiItem.EmployeeUID.EmptyToNull(),
 				VideoUID = apiItem.VideoUID,
 				CameraUID = apiItem.CameraUID,
 				Detalisation = JournalDetalisationItem.ListToString(apiItem.JournalDetalisationItems),

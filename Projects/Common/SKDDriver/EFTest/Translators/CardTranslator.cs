@@ -9,7 +9,7 @@ namespace SKDDriver.DataClasses
 {
 	public class CardTranslator
 	{
-		SKDDbContext Context;
+		DatabaseContext Context;
 		DbService DbService;
 
 		public CardTranslator(DbService dbService)

@@ -165,7 +165,7 @@ namespace SKDDriver.Translators
 
 			var days = _ScheduleDays.Where(x => x.ScheduleSchemeUID == scheduleScheme.UID).ToList();
 			var scheduleZones = _ScheduleZones.Where(x => x.ScheduleUID == schedule.UID).ToList();
-			var nightSettings = DatabaseService.NightSettingsTranslator.GetByOrganisation(employee.OrganisationUID.Value, _NightSettings).Result;
+            NightSettings nightSettings = new NightSettings();// DatabaseService.NightSettingsTranslator.GetByOrganisation(employee.OrganisationUID.Value, _NightSettings).Result;
 
 			var timeTrackEmployeeResult = new TimeTrackEmployeeResult();
 			timeTrackEmployeeResult.ScheduleName = schedule.Name;

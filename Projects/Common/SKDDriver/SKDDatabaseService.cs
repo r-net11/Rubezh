@@ -29,7 +29,6 @@ namespace SKDDriver
 			PhotoTranslator = new PhotoTranslator(this);
 			OrganisationTranslator = new OrganisationTranslator(this);
 			PositionTranslator = new PositionTranslator(this);
-			NightSettingsTranslator = new NightSettingsTranslator(this);
 			DepartmentTranslator = new DepartmentTranslator(this);
 			AdditionalColumnTypeTranslator = new AdditionalColumnTypeTranslator(this);
 			AdditionalColumnTranslator = new AdditionalColumnTranslator(this);
@@ -49,7 +48,6 @@ namespace SKDDriver
 			GKMetadataTranslator = new GKMetadataTranslator(this);
 			GKCardTranslator = new GKCardTranslator(this);
 			//GKScheduleTranslator = new GKScheduleTranslator(this);
-			CurrentConsumptionTranslator = new CurrentConsumptionTranslator(this);
 			//if (PassJournalTranslator.ConnectionString != null)
 			//{
 			//    PassJournalTranslator = new PassJournalTranslator();
@@ -62,7 +60,6 @@ namespace SKDDriver
 			EFTest.EFTest.Test();
 		}
 		
-		public NightSettingsTranslator NightSettingsTranslator { get; private set; }
 		public PositionTranslator PositionTranslator { get; private set; }
 		public CardTranslator CardTranslator { get; private set; }
 		public CardDoorTranslator CardDoorTranslator { get; private set; }
@@ -89,8 +86,7 @@ namespace SKDDriver
 		public GKCardTranslator GKCardTranslator { get; private set; }
 		//public PassJournalTranslator PassJournalTranslator { get; private set; }
 		//public GKScheduleTranslator GKScheduleTranslator { get; private set; }
-		public CurrentConsumptionTranslator CurrentConsumptionTranslator { get; private set; } 
-
+		
 		public void Dispose()
 		{
 			Context.Dispose();

@@ -12,7 +12,7 @@ namespace SKDDriver.DataClasses
 	public class PassJournalTranslator
 	{
 		DbService DbService; 
-		SKDDbContext Context;
+		DatabaseContext Context;
 		public PassJounalSynchroniser Synchroniser { get; private set; } 
 
 		public PassJournalTranslator(DbService context)
@@ -57,7 +57,7 @@ namespace SKDDriver.DataClasses
 			{
 				var passJournalItem = new PassJournal();
 				passJournalItem.UID = uid;
-				passJournalItem.EmployeeUID = employeeUID;
+				passJournalItem.EmployeeUID = employeeUID.EmptyToNull();
 				passJournalItem.ZoneUID = zoneUID;
 				passJournalItem.EnterTime = enterTime;
 				passJournalItem.ExitTime = exitTime;
@@ -401,11 +401,11 @@ namespace SKDDriver.DataClasses
 
 	public class PassJounalSynchroniser
 	{
-		SKDDbContext _context;
+		DatabaseContext _context;
 		string Name { get { return "PassJournal"; } }
 		public string NameXml { get { return Name + ".xml"; } }
 
-		public PassJounalSynchroniser(SKDDbContext context)
+		public PassJounalSynchroniser(DatabaseContext context)
 		{
 			_context = context;
 		}

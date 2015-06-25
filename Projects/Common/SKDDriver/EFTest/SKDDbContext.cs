@@ -2,11 +2,11 @@
 
 namespace SKDDriver.DataClasses
 {
-	public class SKDDbContext : DbContext
+	public class DatabaseContext : DbContext
 	{
 		public DbContextType ContextType {get; private set;}
 
-		public SKDDbContext(string connectionStringName, DbContextType contextType)
+		public DatabaseContext(string connectionStringName, DbContextType contextType)
 			: base(connectionStringName)
 		{
 			ContextType = contextType;
@@ -54,6 +54,8 @@ namespace SKDDriver.DataClasses
 			modelBuilder.Entity<AccessTemplate>().ToTable("AccessTemplate", schemaStr);
 			modelBuilder.Entity<CardDoor>().ToTable("CardDoor", schemaStr);
 			modelBuilder.Entity<PassCardTemplate>().ToTable("PassCardTemplate", schemaStr);
+            modelBuilder.Entity<CurrentConsumption>().ToTable("CurrentConsumption", schemaStr);
+            modelBuilder.Entity<NightSetting>().ToTable("NightSetting", schemaStr);
 		}
 
 		public DbSet<GKSchedule> GKSchedules { get; set; }

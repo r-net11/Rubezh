@@ -9,7 +9,7 @@ namespace SKDDriver.DataClasses
 	public class GKDayScheduleTranslator
 	{
 		DbService DbService; 
-		SKDDbContext Context;
+		DatabaseContext Context;
 
 		public GKDayScheduleTranslator(DbService context)
 		{

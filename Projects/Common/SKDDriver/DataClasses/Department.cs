@@ -38,6 +38,7 @@ namespace SKDDriver.DataClasses
 		[InverseProperty("ParentDepartment")]
 		public ICollection<Department> ChildDepartments { get; set; }
 
+        [InverseProperty("Department")]
 		public ICollection<Employee> Employees { get; set; }
 
 		public Guid? ChiefUID { get; set; }

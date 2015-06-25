@@ -13,7 +13,7 @@ namespace SKDDriver.DataClasses
 		where TFilter : API.OrganisationFilterBase
 	{
 		public DbService DbService { get; private set; }
-		public SKDDbContext Context { get { return DbService.Context; } } 
+		public DatabaseContext Context { get { return DbService.Context; } } 
 
 		public OrganisationItemTranslatorBase(DbService context)
 		{
@@ -193,7 +193,7 @@ namespace SKDDriver.DataClasses
 	{
 		OrganisationItemTranslatorBase<TTableItem, TApiItem, TFilter> OrganisationItemTranslatorBase;
 		DbService DbService { get { return OrganisationItemTranslatorBase.DbService; } }
-		SKDDbContext Context { get { return DbService.Context; } }
+		DatabaseContext Context { get { return DbService.Context; } }
 
 		public ShortTranslatorBase(OrganisationItemTranslatorBase<TTableItem, TApiItem, TFilter> organisationItemTranslatorBase)
 		{

@@ -28,9 +28,9 @@ CREATE INDEX "OrganisationUIDIndex" ON "Organisation"("UID");
 CREATE TABLE "Employee"(
 	"UID" uuid CONSTRAINT "PK_Employee" PRIMARY KEY,
 	"PositionUID" uuid,
-	"DepartmentUID" uuid,
-	"ScheduleUID" uuid,
-	"PhotoUID" uuid, 
+ 	"DepartmentUID" uuid,
+ 	"ScheduleUID" uuid,
+ 	"PhotoUID" uuid, 
 	"OrganisationUID" uuid,
 	"EscortUID" uuid,
 	"FirstName" character varying(50),
@@ -489,7 +489,7 @@ ALTER TABLE "Position" ADD CONSTRAINT "FK_Position_PhotoUID" FOREIGN KEY ("Photo
 ALTER TABLE "Department" ADD CONSTRAINT "FK_Department_OrganisationUID" FOREIGN KEY ("OrganisationUID") REFERENCES "Organisation" ("UID") ON DELETE SET NULL;
 ALTER TABLE "Department" ADD CONSTRAINT "FK_Department_PhotoUID" FOREIGN KEY ("PhotoUID") REFERENCES "Photo" ("UID") ON DELETE SET NULL;
 ALTER TABLE "Department" ADD CONSTRAINT "FK_Department_ParentDepartmentUID" FOREIGN KEY ("ParentDepartmentUID") REFERENCES "Department" ("UID") ON DELETE SET NULL;
---ALTER TABLE "Department" ADD CONSTRAINT "FK_Department_ChiefUID" FOREIGN KEY ("ChiefUID") REFERENCES "Employee" ("UID") ON DELETE SET NULL;
+ALTER TABLE "Department" ADD CONSTRAINT "FK_Department_ChiefUID" FOREIGN KEY ("ChiefUID") REFERENCES "Employee" ("UID") ON DELETE SET NULL;
 
 ALTER TABLE "Holiday" ADD CONSTRAINT "FK_Holiday_OrganisationUID" FOREIGN KEY ("OrganisationUID") REFERENCES "Organisation" ("UID") ON DELETE SET NULL;
 
@@ -519,8 +519,8 @@ ALTER TABLE "ScheduleGKDaySchedule" ADD CONSTRAINT "FK_ScheduleGKDaySchedule_Day
 ALTER TABLE "GKDaySchedulePart" ADD CONSTRAINT "FK_GKDaySchedulePart_DayScheduleUID" FOREIGN KEY ("DayScheduleUID") REFERENCES "GKDaySchedule" ("UID") ON DELETE CASCADE;
 ALTER TABLE "CardGKControllerUID" ADD CONSTRAINT "FK_CardGKControllerUID_CardUID" FOREIGN KEY ("CardUID") REFERENCES "Card" ("UID") ON DELETE CASCADE;
 
---ALTER TABLE "Journal" ADD CONSTRAINT "FK_Journal_EmployeeUID" FOREIGN KEY ("EmployeeUID") REFERENCES "Employee" ("UID") ON DELETE SET NULL;
---ALTER TABLE "PassJournal" ADD CONSTRAINT "FK_PassJournal_EmployeeUID" FOREIGN KEY ("EmployeeUID") REFERENCES "Employee" ("UID") ON DELETE SET NULL;
+ALTER TABLE "Journal" ADD CONSTRAINT "FK_Journal_EmployeeUID" FOREIGN KEY ("EmployeeUID") REFERENCES "Employee" ("UID") ON DELETE SET NULL;
+ALTER TABLE "PassJournal" ADD CONSTRAINT "FK_PassJournal_EmployeeUID" FOREIGN KEY ("EmployeeUID") REFERENCES "Employee" ("UID") ON DELETE SET NULL;
 
 CREATE EXTENSION "uuid-ossp";
 CREATE FUNCTION CreateOrganisation() RETURNS void AS $$

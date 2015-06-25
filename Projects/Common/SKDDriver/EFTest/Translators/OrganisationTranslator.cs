@@ -10,7 +10,7 @@ namespace SKDDriver.DataClasses
 	public class OrganisationTranslator
 	{
 		DbService DbService; 
-		SKDDbContext Context;
+		DatabaseContext Context;
 
 		public OrganisationTranslator(DbService context)
 		{

@@ -64,7 +64,7 @@ namespace GKProcessor
 			{
 				if (device.DriverType == GKDriverType.RSR2_KAU)
 				{
-					using (var skdDatabaseService = new SKDDatabaseService())
+					using (var skdDatabaseService = new SKDDriver.DataClasses.DbService())
 					{
 						skdDatabaseService.CurrentConsumptionTranslator.SaveMany(GetKAUMeasure(device));
 					}

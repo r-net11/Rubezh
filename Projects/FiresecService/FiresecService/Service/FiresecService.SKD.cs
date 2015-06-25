@@ -699,17 +699,17 @@ namespace FiresecService.Service
 		#region NightSettings
 		public OperationResult<NightSettings> GetNightSettingsByOrganisation(Guid organisationUID)
 		{
-			using (var databaseService = new SKDDatabaseService())
+            using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
-				return databaseService.NightSettingsTranslator.GetByOrganisation(organisationUID);
+				return databaseService.NightSettingTranslator.GetByOrganisation(organisationUID);
 			}
 		}
 
 		public OperationResult SaveNightSettings(NightSettings nightSettings)
 		{
-			using (var databaseService = new SKDDatabaseService())
+            using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
-				return databaseService.NightSettingsTranslator.Save(nightSettings);
+				return databaseService.NightSettingTranslator.Save(nightSettings);
 			}
 		}
 		#endregion
@@ -1591,14 +1591,14 @@ namespace FiresecService.Service
 		#region CurrentConsumption
 		public OperationResult SaveCurrentConsumption(CurrentConsumption item)
 		{
-			using (var databaseService = new SKDDatabaseService())
+            using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.CurrentConsumptionTranslator.Save(item);
 			}
 		}
-		public OperationResult<IEnumerable<CurrentConsumption>> GetCurrentConsumption(CurrentConsumptionFilter filter)
+		public OperationResult<List<CurrentConsumption>> GetCurrentConsumption(CurrentConsumptionFilter filter)
 		{
-			using (var databaseService = new SKDDatabaseService())
+            using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.CurrentConsumptionTranslator.Get(filter);
 			}

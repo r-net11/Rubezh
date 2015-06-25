@@ -90,7 +90,7 @@ namespace SKDDriver.DataClasses
 		{
 			try
 			{
-				return new OperationResult<List<API.ShortEmployee>>(new List<API.ShortEmployee>());
+				//return new OperationResult<List<API.ShortEmployee>>(new List<API.ShortEmployee>());
 				var tableItems = Table.ToList();// GetFilteredTableItems(filter).ToList();
 				var result = tableItems.Select(x => TranslateToShort(x)).ToList();
 				return new OperationResult<List<API.ShortEmployee>>(result);
@@ -112,20 +112,20 @@ namespace SKDDriver.DataClasses
 			//result.Schedule = 
 			//result.ScheduleName = tableItem.Schedule != null ? tableItem.Schedule.Name : "";
 			result.ScheduleStartDate = tableItem.ScheduleStartDate;
-			//result.Photo = tableItem.Photo != null ? tableItem.Photo.Translate() : null;
-			//result.AdditionalColumns = tableItem.AdditionalColumns.Select(x => new API.AdditionalColumn
-			//{
-			//    UID = x.UID,
-			//    EmployeeUID = x.EmployeeUID,
-			//    //AdditionalColumnType = new API.AdditionalColumnType(),// x.AdditionalColumnType,
-			//    Photo = x.Photo != null ? x.Photo.Translate() : null,
-			//    TextData = x.TextData
-			//}).ToList();
-			//result.Cards = tableItem.Cards.Select(x => DbService.CardTranslator.Translate(x)).ToList();
+            //result.Photo = tableItem.Photo != null ? tableItem.Photo.Translate() : null;
+            //result.AdditionalColumns = tableItem.AdditionalColumns.Select(x => new API.AdditionalColumn
+            //{
+            //    UID = x.UID,
+            //    EmployeeUID = x.EmployeeUID,
+            //    //AdditionalColumnType = new API.AdditionalColumnType(),// x.AdditionalColumnType,
+            //    Photo = x.Photo != null ? x.Photo.Translate() : null,
+            //    TextData = x.TextData
+            //}).ToList();
+            //result.Cards = tableItem.Cards.Select(x => DbService.CardTranslator.Translate(x)).ToList();
 			result.Type = (API.PersonType)tableItem.Type;
 			result.TabelNo = tableItem.TabelNo;
 			result.CredentialsStartDate = tableItem.CredentialsStartDate;
-			//result.EscortUID = tableItem.EscortUID;
+            //result.EscortUID = tableItem.EscortUID;
 			result.DocumentNumber = tableItem.DocumentNumber;
 			result.BirthDate = tableItem.BirthDate;
 			result.BirthPlace = tableItem.BirthPlace;
@@ -150,16 +150,16 @@ namespace SKDDriver.DataClasses
 			//result.Department = 
 			//result.Schedule = 
 			tableItem.ScheduleStartDate = apiItem.ScheduleStartDate;
-			//tableItem.Photo = Photo.Create(apiItem.Photo);
-			//tableItem.AdditionalColumns = apiItem.AdditionalColumns.Select(x => new AdditionalColumn
-			//{
-			//    UID = x.UID,
-			//    EmployeeUID = x.EmployeeUID,
-			//    //AdditionalColumnType = x.AdditionalColumnType,
-			//    Photo = Photo.Create(x.Photo),
-			//    TextData = x.TextData
-			//}).ToList();
-			//tableItem.Cards = apiItem.Cards.Select(x => DbService.CardTranslator.CreateCard(x)).ToList();
+            //tableItem.Photo = Photo.Create(apiItem.Photo);
+            //tableItem.AdditionalColumns = apiItem.AdditionalColumns.Select(x => new AdditionalColumn
+            //{
+            //    UID = x.UID,
+            //    EmployeeUID = x.EmployeeUID,
+            //    //AdditionalColumnType = x.AdditionalColumnType,
+            //    Photo = Photo.Create(x.Photo),
+            //    TextData = x.TextData
+            //}).ToList();
+            //tableItem.Cards = apiItem.Cards.Select(x => DbService.CardTranslator.CreateCard(x)).ToList();
 			tableItem.Type = (int)apiItem.Type;
 			tableItem.TabelNo = apiItem.TabelNo;
 			tableItem.CredentialsStartDate = apiItem.CredentialsStartDate;

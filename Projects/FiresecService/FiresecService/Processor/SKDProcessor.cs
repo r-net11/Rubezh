@@ -15,6 +15,7 @@ namespace FiresecService
 	{
 		static SKDProcessor()
 		{
+            return;
 #if DEBUG
 			try
 			{
@@ -29,7 +30,8 @@ namespace FiresecService
 		{
 			try
 			{
-				if (SKDManager.SKDConfiguration != null)
+                return;
+                if (SKDManager.SKDConfiguration != null)
 				{
 					SKDManager.CreateDrivers();
 					SKDManager.UpdateConfiguration();
@@ -62,7 +64,8 @@ namespace FiresecService
 
 		public static void Stop()
 		{
-			ChinaSKDDriver.Processor.Stop();
+            return;
+            ChinaSKDDriver.Processor.Stop();
 		}
 
 		static void OnNewJournalItem(JournalItem journalItem)
@@ -221,22 +224,22 @@ namespace FiresecService
 		public static SKDStates SKDGetStates()
 		{
 			var skdStates = new SKDStates();
-			foreach (var device in SKDManager.Devices)
-			{
-				skdStates.DeviceStates.Add(device.State);
-			}
-			foreach (var zone in SKDManager.Zones)
-			{
-				zone.State.StateClasses = GetZoneStateClasses(zone);
-				zone.State.StateClass = zone.State.StateClasses.Min();
-				skdStates.ZoneStates.Add(zone.State);
-			}
-			foreach (var door in SKDManager.Doors)
-			{
-				door.State.StateClasses = GetDoorStateClasses(door);
-				door.State.StateClass = door.State.StateClasses.Min();
-				skdStates.DoorStates.Add(door.State);
-			}
+            //foreach (var device in SKDManager.Devices)
+            //{
+            //    skdStates.DeviceStates.Add(device.State);
+            //}
+            //foreach (var zone in SKDManager.Zones)
+            //{
+            //    zone.State.StateClasses = GetZoneStateClasses(zone);
+            //    zone.State.StateClass = zone.State.StateClasses.Min();
+            //    skdStates.ZoneStates.Add(zone.State);
+            //}
+            //foreach (var door in SKDManager.Doors)
+            //{
+            //    door.State.StateClasses = GetDoorStateClasses(door);
+            //    door.State.StateClass = door.State.StateClasses.Min();
+            //    skdStates.DoorStates.Add(door.State);
+            //}
 			return skdStates;
 		}
 

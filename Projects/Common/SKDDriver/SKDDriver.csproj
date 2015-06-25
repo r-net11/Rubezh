@@ -134,6 +134,7 @@
     <Compile Include="EFTest\Translators\AccessTemplateTranslator.cs" />
     <Compile Include="EFTest\Translators\AdditionalColumnTypeTranslator.cs" />
     <Compile Include="EFTest\Translators\CardTranslator.cs" />
+    <Compile Include="EFTest\Translators\CurrentConsumptionTranslator.cs" />
     <Compile Include="EFTest\Translators\DayIntervalTranslator.cs" />
     <Compile Include="EFTest\DbService.cs" />
     <Compile Include="EFTest\DbServiceHelper.cs" />
@@ -144,10 +145,11 @@
     <Compile Include="EFTest\ContextType.cs" />
     <Compile Include="EFTest\Translators\HolidayTranslator.cs" />
     <Compile Include="EFTest\Translators\JournalTranslator.cs" />
+    <Compile Include="EFTest\Translators\NightSettingTranslator.cs" />
     <Compile Include="EFTest\Translators\OrganisationItem.cs" />
     <Compile Include="EFTest\Translators\OrganisationItemTranslatorBase.cs" />
     <Compile Include="EFTest\Translators\OrganisationTranslator.cs" />
-    <Compile Include="EFTest\PassJournalTranslator.cs" />
+    <Compile Include="EFTest\Translators\PassJournalTranslator.cs" />
     <Compile Include="EFTest\SKDDbContext.cs" />
     <Compile Include="EFTest\Translators\PassCardTemplateTranslator.cs" />
     <Compile Include="EFTest\Translators\PositionTranslator.cs" />
@@ -170,7 +172,6 @@
     <Compile Include="Translators\Base\WithShortTranslator.cs" />
     <Compile Include="Translators\CardTranslator.cs" />
     <Compile Include="Translators\CardDoorTranslator.cs" />
-    <Compile Include="Translators\CurrentConsumptionTranslator.cs" />
     <Compile Include="Translators\GKScheduleTranslator.cs" />
     <Compile Include="EFTest\Translators\GKScheduleTranslator.cs" />
     <Compile Include="Translators\JournalTranslator.cs" />
@@ -178,7 +179,6 @@
     <Compile Include="Translators\PassJournalTranslator.cs" />
     <Compile Include="Translators\PassCardTemplateTranslator.cs" />
     <Compile Include="Translators\TimeTrackDocumentTypeTranslator.cs" />
-    <Compile Include="Translators\NightSettingsTranslator.cs" />
     <Compile Include="Translators\ScheduleZoneTranslator.cs" />
     <Compile Include="Translators\ScheduleTranslator.cs" />
     <Compile Include="Translators\ScheduleDayIntervalTranslator.cs" />

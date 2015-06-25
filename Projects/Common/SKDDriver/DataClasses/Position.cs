@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SKDDriver.DataClasses
 {
@@ -30,6 +31,7 @@ namespace SKDDriver.DataClasses
 		public Guid? PhotoUID { get; set; }
 		public Photo Photo { get; set; }
 
+        [InverseProperty("Position")]
 		public ICollection<Employee> Employees { get; set; }
 
 		public string ExternalKey { get; set; }
