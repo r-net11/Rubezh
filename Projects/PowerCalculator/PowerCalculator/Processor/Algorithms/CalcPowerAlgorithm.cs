@@ -32,20 +32,6 @@ namespace PowerCalculator.Processor.Algorithms
 		{
             InitializeResult();
 			produce();
-
-            if (Line.IsCircular)
-            {
-                var intermediateResult = Result;
-                InitializeResult();
-                produce(true);
-
-                foreach (Device device in Line.Devices)
-                {
-                    Result[device].id += intermediateResult[device].id;
-                    //Result[device].ud += intermediateResult[device].ud;
-                    Result[device].il += intermediateResult[device].il;
-                }
-            }
 		}
 
 		#region wrappers
@@ -133,8 +119,8 @@ namespace PowerCalculator.Processor.Algorithms
 
 		Device De(int index, bool reverse = false)
 		{
-			return 
-                index == 0 ?
+			return
+                index == 0 || index == Line.Devices.Count + 1 && Line.IsCircular ?
                 Line.KAU : 
                 Line.Devices[reverse ? Line.Devices.Count - index : index - 1];
 		}
@@ -146,7 +132,7 @@ namespace PowerCalculator.Processor.Algorithms
 
         int Dc()
         {
-            return Line.Devices.Count + 1;
+            return Line.Devices.Count + (Line.IsCircular ? 2 : 1);
         }
 
 		#endregion

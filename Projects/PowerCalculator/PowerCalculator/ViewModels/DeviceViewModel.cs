@@ -21,7 +21,7 @@ namespace PowerCalculator.ViewModels
 			_cableResistivity = Device.Cable.Resistivity;
 			_cableLength = Device.Cable.Length;
 
-            Drivers = new ObservableCollection<DriverViewModel>(DriversHelper.Drivers.Select(x => new DriverViewModel(x)));
+            Drivers = new ObservableCollection<DriverViewModel>(DriversHelper.Drivers.Where(x => x.CanAdd).Select(x => new DriverViewModel(x)));
             _selectedDriver = Drivers.FirstOrDefault(x => x.Driver.DriverType == Device.DriverType);
 		}
         
