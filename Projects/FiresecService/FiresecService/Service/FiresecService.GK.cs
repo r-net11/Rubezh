@@ -26,7 +26,6 @@ namespace FiresecService.Service
 
 		public void CancelGKProgress(Guid progressCallbackUID, string userName)
 		{
-			ChinaSKDDriver.Processor.CancelProgress(progressCallbackUID, userName);
 			GKProcessorManager.CancelGKProgress(progressCallbackUID, userName);
 		}
 
