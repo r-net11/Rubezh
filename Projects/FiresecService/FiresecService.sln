@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiresecService", "FiresecService\FiresecService.csproj", "{903CA80D-886E-43AF-A631-BEB260F8F93D}"
 EndProject
@@ -24,6 +24,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiresecService.Report", "FiresecService.Report\FiresecService.Report.csproj", "{5D7E0293-7CA6-4123-85B6-5EB38CC4CE8C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RviClient", "..\Common\RviClient\RviClient.csproj", "{112658EB-3244-4922-AEF7-6376E688B7A7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Defender", "..\Common\Defender\Defender\Defender.csproj", "{E6D24912-812B-42B4-B6B0-97CA33C0F4AF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -192,6 +194,20 @@ Global
 		{112658EB-3244-4922-AEF7-6376E688B7A7}.Release|Win32.ActiveCfg = Release|Any CPU
 		{112658EB-3244-4922-AEF7-6376E688B7A7}.Release|x64.ActiveCfg = Release|Any CPU
 		{112658EB-3244-4922-AEF7-6376E688B7A7}.Release|x86.ActiveCfg = Release|Any CPU
+		{E6D24912-812B-42B4-B6B0-97CA33C0F4AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6D24912-812B-42B4-B6B0-97CA33C0F4AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6D24912-812B-42B4-B6B0-97CA33C0F4AF}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{E6D24912-812B-42B4-B6B0-97CA33C0F4AF}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{E6D24912-812B-42B4-B6B0-97CA33C0F4AF}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{E6D24912-812B-42B4-B6B0-97CA33C0F4AF}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E6D24912-812B-42B4-B6B0-97CA33C0F4AF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E6D24912-812B-42B4-B6B0-97CA33C0F4AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6D24912-812B-42B4-B6B0-97CA33C0F4AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6D24912-812B-42B4-B6B0-97CA33C0F4AF}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{E6D24912-812B-42B4-B6B0-97CA33C0F4AF}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{E6D24912-812B-42B4-B6B0-97CA33C0F4AF}.Release|Win32.ActiveCfg = Release|Any CPU
+		{E6D24912-812B-42B4-B6B0-97CA33C0F4AF}.Release|x64.ActiveCfg = Release|Any CPU
+		{E6D24912-812B-42B4-B6B0-97CA33C0F4AF}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -205,5 +221,6 @@ Global
 		{62564D14-0234-4947-8218-2C7D74721023} = {55FE10AF-A462-4908-B710-8824101701E1}
 		{E1D3CDA0-1DE6-47D3-8D2F-C56B297E8007} = {55FE10AF-A462-4908-B710-8824101701E1}
 		{112658EB-3244-4922-AEF7-6376E688B7A7} = {55FE10AF-A462-4908-B710-8824101701E1}
+		{E6D24912-812B-42B4-B6B0-97CA33C0F4AF} = {55FE10AF-A462-4908-B710-8824101701E1}
 	EndGlobalSection
 EndGlobal

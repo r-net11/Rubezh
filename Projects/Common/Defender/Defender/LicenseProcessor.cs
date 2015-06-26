@@ -11,10 +11,20 @@ namespace Defender
     {
         public static List<Exception> Exceptions = new List<Exception>();
 
+        public static License ProcessLoad(string fileName, InitialKey key)
+        {
+            return ProcessLoad(fileName, key.BinaryValue);
+        }
+
         public static License ProcessLoad(string fileName, byte[] key)
         {
             Exceptions.Clear();
             return Deserialize(Decrypt(LoadFromFile(fileName), key));
+        }
+
+        public static bool ProcessSave(string fileName, License license, InitialKey key)
+        {
+            return ProcessSave(fileName, license, key.BinaryValue);
         }
 
         public static bool ProcessSave(string fileName, License license, byte[] key)
