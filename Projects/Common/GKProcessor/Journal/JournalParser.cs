@@ -6,7 +6,6 @@ using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using FiresecClient;
 using SKDDriver;
-using SKDDriver.Translators;
 
 namespace GKProcessor
 {

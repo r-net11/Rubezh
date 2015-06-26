@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Linq;
-using FiresecAPI.SKD.ReportFilters;
-using DevExpress.XtraReports.UI;
-using System.Text;
-using System.Drawing;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
 using System.Drawing.Printing;
+using System.Linq;
+using System.Text;
+using DevExpress.XtraReports.UI;
+using FiresecAPI.SKD.ReportFilters;
 
 namespace FiresecService.Report.Templates
 {

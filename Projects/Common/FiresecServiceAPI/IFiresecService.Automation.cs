@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ServiceModel;
-using FiresecAPI.Automation;
 using System.Windows.Media;
+using FiresecAPI.Automation;
 using FiresecAPI.AutomationCallback;
 
 namespace FiresecAPI

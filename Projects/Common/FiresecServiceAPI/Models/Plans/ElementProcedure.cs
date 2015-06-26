@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Runtime.Serialization;
-using Infrustructure.Plans.Elements;
-using Infrustructure.Plans.Interfaces;
 using System.Windows.Media;
 using System.Xml.Serialization;
+using Infrustructure.Plans.Elements;
+using Infrustructure.Plans.Interfaces;
 
 namespace FiresecAPI.Models
 {

@@ -419,41 +419,38 @@ namespace GKModule.ViewModels
 				}
 			}
 		}
-		bool CanResetIgnore()
+		bool CanResetIgnore()  
 		{
 			if (Alarm.AlarmType != GKAlarmType.Ignore)
 				return false;
-
-			if (!FiresecManager.CheckPermission(PermissionType.Oper_CanControl))
-				return false;
-
+			
 			if (Alarm.Device != null)
 			{
-				if (Alarm.Device.State.StateClasses.Contains(XStateClass.Ignore))
+				if (Alarm.Device.State.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_Device_Control))
 					return true;
 			}
 
 			if (Alarm.Zone != null)
 			{
-				if (Alarm.Zone.State.StateClasses.Contains(XStateClass.Ignore))
+				if (Alarm.Zone.State.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_Zone_Control))
 					return true;
 			}
 
 			if (Alarm.GuardZone != null)
 			{
-				if (Alarm.GuardZone.State.StateClasses.Contains(XStateClass.Ignore))
+				if (Alarm.GuardZone.State.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_GuardZone_Control))
 					return true;
 			}
 
 			if (Alarm.Mpt != null)
 			{
-				if (Alarm.Mpt.State.StateClasses.Contains(XStateClass.Ignore))
+				if (Alarm.Mpt.State.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_MPT_Control))
 					return true;
 			}
 
 			if (Alarm.Direction != null)
 			{
-				if (Alarm.Direction.State.StateClasses.Contains(XStateClass.Ignore))
+				if (Alarm.Direction.State.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_Directions_Control))
 					return true;
 			}
 
@@ -465,27 +462,27 @@ namespace GKModule.ViewModels
 		}
 
 		public RelayCommand TurnOnAutomaticCommand { get; private set; }
-		void OnTurnOnAutomatic()
+		void OnTurnOnAutomatic()  
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
 				if (Alarm.Device != null)
 				{
-					if (Alarm.Device.State.StateClasses.Contains(XStateClass.AutoOff))
+					if (Alarm.Device.State.StateClasses.Contains(XStateClass.AutoOff) && FiresecManager.CheckPermission(PermissionType.Oper_Device_Control))
 					{
 						FiresecManager.FiresecService.GKSetAutomaticRegime(Alarm.Device);
 					}
 				}
 				if (Alarm.Direction != null)
 				{
-					if (Alarm.Direction.State.StateClasses.Contains(XStateClass.AutoOff))
+					if (Alarm.Direction.State.StateClasses.Contains(XStateClass.AutoOff) && FiresecManager.CheckPermission(PermissionType.Oper_Directions_Control))
 					{
 						FiresecManager.FiresecService.GKSetAutomaticRegime(Alarm.Direction);
 					}
 				}
 				if (Alarm.Mpt != null)
 				{
-					if (Alarm.Mpt.State.StateClasses.Contains(XStateClass.AutoOff))
+					if (Alarm.Mpt.State.StateClasses.Contains(XStateClass.AutoOff) && FiresecManager.CheckPermission(PermissionType.Oper_MPT_Control))
 					{
 						FiresecManager.FiresecService.GKSetAutomaticRegime(Alarm.Mpt);
 					}

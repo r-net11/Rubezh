@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.ComponentModel.Composition;
 using DevExpress.XtraReports.Service.Extensions;
-using System.ComponentModel.Composition;
 using DevExpress.XtraReports.UI;
 
 namespace FiresecService.Report

@@ -54,7 +54,7 @@ namespace JournalModule.ViewModels
 			switch(journalObjectType)
 			{
 				case JournalObjectType.GKDevice:
-					ImageSource = "/Controls;component/GKIcons/RM_1.png";
+					ImageSource = "/Controls;component/GKIcons/RSR2_RM_1.png";
 					break;
 
 				case JournalObjectType.GKZone:

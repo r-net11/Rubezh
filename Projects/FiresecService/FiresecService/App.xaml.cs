@@ -6,7 +6,6 @@ using FiresecService;
 using Infrastructure.Common;
 using Infrastructure.Common.BalloonTrayTip;
 using Infrastructure.Common.Theme;
-using System.Reflection;
 
 namespace FiresecServiceRunner
 {

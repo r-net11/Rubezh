@@ -4,9 +4,9 @@ using System.Net.Mail;
 using System.Text;
 using Common;
 using FiresecAPI;
+using FiresecAPI.GK;
 using FiresecAPI.Models;
 using Infrastructure.Common.Windows;
-using FiresecAPI.GK;
 
 namespace Infrastructure.Common.Mail
 {

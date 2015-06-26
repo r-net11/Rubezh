@@ -198,11 +198,43 @@ namespace GKProcessor
 			return new OperationResult<List<GKUser>>(users);
 		}
 
+        public static int GetUsersCount(GKDevice device)
+        {
+            int minNo = 1;
+            int maxNo = 65535;
+            int currentNo = 65535 / 2;
+            int delta = currentNo / 2;
+            while (maxNo - minNo > 1)
+            {
+                var bytes = new List<byte>();
+                bytes.Add(0);
+                bytes.AddRange(BytesHelper.ShortToBytes((ushort)(currentNo)));
+
+                var sendResult = SendManager.Send(device, (ushort)(bytes.Count), 24, 0, bytes);
+                if (sendResult.HasError || sendResult.Bytes.Count == 0)
+                {
+                    maxNo = currentNo;
+                    currentNo = currentNo - delta;
+                }
+                else
+                {
+                    minNo = currentNo;
+                    currentNo = currentNo + delta;
+                }
+                delta = delta / 2;
+                if (delta == 0)
+                    delta = 1;
+            }
+            return minNo;
+        }
+
 		public static bool RemoveAllUsers(GKDevice device, GKProgressCallback progressCallback)
 		{
+            var count = GKSKDHelper.GetUsersCount(device);
+
 			var result = true;
 			int cardsCount = 0;
-			for (int no = 1; no <= 65535; no++)
+            for (int no = 1; no <= count; no++)
 			{
 				var bytes = new List<byte>();
 				bytes.Add(0);

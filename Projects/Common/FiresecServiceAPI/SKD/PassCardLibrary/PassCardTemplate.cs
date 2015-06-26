@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Windows.Media;
+using Common;
 using FiresecAPI.Models;
 using Infrustructure.Plans.Elements;
-using Common;
 
 namespace FiresecAPI.SKD
 {

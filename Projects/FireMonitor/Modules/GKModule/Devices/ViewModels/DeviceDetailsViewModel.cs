@@ -230,7 +230,7 @@ namespace GKModule.ViewModels
 
 		public bool CanNotControl
 		{
-			get { return !(Device.Driver.IsControlDevice || (Device.Driver.IsDeviceOnShleif && !Device.Driver.IsControlDevice)) || !FiresecManager.CheckPermission(PermissionType.Oper_CanControl); }
+			get { return !(Device.Driver.IsControlDevice || (Device.Driver.IsDeviceOnShleif && !Device.Driver.IsControlDevice)) || !FiresecManager.CheckPermission(PermissionType.Oper_Device_Control); }
 		}
 
 		#region IWindowIdentity Members

@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.Remoting.Messaging;
+using System.Security;
 using FiresecAPI.GK;
 using FiresecClient;
 using GKProcessor;
@@ -16,7 +17,7 @@ namespace GKModule.ViewModels
 	public class GuardZoneDetailsViewModel : SaveCancelDialogViewModel
 	{
 		public GKGuardZone Zone;
-
+		public bool IsEdit { get; private set; }		
 		public GuardZoneDetailsViewModel(GKGuardZone zone = null)
 		{
 			ReadPropertiesCommand = new RelayCommand(OnReadProperties);
@@ -24,6 +25,7 @@ namespace GKModule.ViewModels
 			ResetPropertiesCommand = new RelayCommand(OnResetProperties);
 			if (zone == null)
 			{
+				IsEdit = false;
 				Title = "Создание новой зоны";
 
 				Zone = new GKGuardZone()
@@ -36,6 +38,7 @@ namespace GKModule.ViewModels
 			}
 			else
 			{
+				IsEdit = true;
 				Title = string.Format("Свойства зоны: {0}", zone.PresentationName);
 				Zone = zone;
 			}

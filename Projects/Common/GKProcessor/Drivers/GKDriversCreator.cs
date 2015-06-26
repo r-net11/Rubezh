@@ -19,6 +19,8 @@ namespace GKProcessor
 			GKManager.DriversConfiguration.Drivers.Add(RSR2_KAU_Shleif_Helper.Create());
 			GKManager.DriversConfiguration.Drivers.Add(KAU_Mirror_Helper.Create());
 			GKManager.DriversConfiguration.Drivers.Add(KAU_MirrorItem_Helper.Create());
+			GKManager.DriversConfiguration.Drivers.Add(GKIndicatorsGroup_Helper.Create());
+			GKManager.DriversConfiguration.Drivers.Add(GKRelaysGroup_Helper.Create());
 
 			AddDriverToKau(RSR2_RM_1_Helper.Create());
 			AddDriverToKau(RSR2_AM_1_Helper.Create());

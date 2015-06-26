@@ -1,5 +1,4 @@
-﻿using FiresecAPI.GK;
-using FiresecAPI.Journal;
+﻿using FiresecAPI.Journal;
 
 namespace GKProcessor
 {

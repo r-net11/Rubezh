@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using Common;
+using System.Xml.Serialization;
 using FiresecClient;
 using Infrustructure.Plans.Interfaces;
-using System.Xml.Serialization;
 
 namespace FiresecAPI.GK
 {

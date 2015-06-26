@@ -39,7 +39,6 @@ namespace JournalModule.ViewModels
 						ImageSource = "/Controls;component/StateClassIcons/" + StateClass.ToString() + ".png";
 				}
 			}
-			//IsSubsystem = false;
 		}
 
 	    public FilterNameViewModel (JournalEventDescriptionType journalEventDescriptionType, string name)
@@ -54,14 +53,12 @@ namespace JournalModule.ViewModels
 		public string ImageSource { get; private set; }
 		public XStateClass StateClass { get; private set; }
 		public JournalSubsystemType JournalSubsystemType { get; private set; }
-		//public bool IsSubsystem { get; private set; }
-        public JournalEventDescriptionType JournalEventDescriptionType { get; private set; }
-
+		public JournalEventDescriptionType JournalEventDescriptionType { get; private set; }
 		bool _isChecked;
+
 		public bool IsChecked
 		{
 			get { return _isChecked; }
-			
 			set
 			{
 				SetIsChecked(value);
@@ -75,6 +72,7 @@ namespace JournalModule.ViewModels
 			_isChecked = value;
 			OnPropertyChanged(() => IsChecked);
 		}
+
         void PropogateUp(bool value)
         {
             if (Parent != null)

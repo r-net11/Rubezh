@@ -40,7 +40,6 @@
 		<Property Id="INSTALL_HASP" Value="0" Secure="yes" />
 		<Property Id="INSTALL_OPC" Value="0" Secure="yes" />
 		<Property Id="INSTALL_GK" Value="0" Secure="yes" />
-		<Property Id="INSTALL_STRAZH" Value="1" Secure="yes" />
 		<Property Id="INSTALL_VIDEO" Value="0" Secure="yes" />
 
 		<Directory Id="TARGETDIR" Name="SourceDir">

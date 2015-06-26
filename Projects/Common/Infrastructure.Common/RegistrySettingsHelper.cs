@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.Serialization;
 using System.Windows.Media;
-using Common;
 using System.Xml.Serialization;
+using Common;
 
 namespace Infrastructure.Common
 {

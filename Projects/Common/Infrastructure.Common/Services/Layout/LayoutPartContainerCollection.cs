@@ -1,10 +1,7 @@
 ﻿using System;
-using Common;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using Common;
 using FiresecAPI.Models.Layouts;
 
 namespace Infrastructure.Common.Services.Layout

@@ -61,7 +61,7 @@ namespace SecurityModule.ViewModels
 
 		public PermissionViewModel[] RootPermissions
 		{
-			get { return new PermissionViewModel[] { RootPermission }; }
+			get { return new[] { RootPermission }; }
 		}
 
 		void BuildPermissionTree()
@@ -77,7 +77,9 @@ namespace SecurityModule.ViewModels
 							new PermissionViewModel(PermissionType.Adm_WriteDeviceConfig),
 							new PermissionViewModel(PermissionType.Adm_ChangeDevicesSoft),
 							new PermissionViewModel(PermissionType.Adm_Security),
-						}),
+
+							}),
+
 					new PermissionViewModel("ОЗ",
 						new List<PermissionViewModel>()
 						{
@@ -85,11 +87,25 @@ namespace SecurityModule.ViewModels
 							new PermissionViewModel(PermissionType.Oper_Logout),
 							new PermissionViewModel(PermissionType.Oper_LogoutWithoutPassword),
 							new PermissionViewModel(PermissionType.Oper_NoAlarmConfirm),
-							new PermissionViewModel(PermissionType.Oper_SecurityZone),
-							new PermissionViewModel(PermissionType.Oper_CanControl),
+							new PermissionViewModel("Управления ГК", new List<PermissionViewModel>()
+							{
+
+							    new PermissionViewModel(PermissionType.Oper_Device_Control),
+								new PermissionViewModel(PermissionType.Oper_Zone_Control),
+								new PermissionViewModel("Охранные зоны", new List<PermissionViewModel>()
+								{
+									new PermissionViewModel(PermissionType.Oper_GuardZone_Control),
+									new PermissionViewModel(PermissionType.Oper_ExtraGuardZone),
+								}),
+								new PermissionViewModel(PermissionType.Oper_Directions_Control),
+								new PermissionViewModel(PermissionType.Oper_Door_Control),
+								new PermissionViewModel(PermissionType.Oper_MPT_Control),
+								new PermissionViewModel(PermissionType.Oper_PIM_Control),
+								new PermissionViewModel(PermissionType.Oper_Delay_Control),
+								new PermissionViewModel(PermissionType.Oper_NS_Control),
+								}),
 							new PermissionViewModel(PermissionType.Oper_ChangeView),
 							new PermissionViewModel(PermissionType.Oper_MayNotConfirmCommands),
-							new PermissionViewModel(PermissionType.Oper_ExtraGuardZone),
 							new PermissionViewModel(PermissionType.Oper_GKSchedules),
 							new PermissionViewModel("Журнал и архив событий", new List<PermissionViewModel>()
 								{

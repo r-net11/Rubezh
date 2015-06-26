@@ -6,7 +6,6 @@ using Common;
 using FiresecAPI.Automation;
 using FiresecAPI.Journal;
 using FiresecAPI.Models;
-using SKDDriver.Translators;
 
 namespace FiresecService
 {

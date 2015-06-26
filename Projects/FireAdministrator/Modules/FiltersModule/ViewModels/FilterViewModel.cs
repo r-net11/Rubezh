@@ -18,12 +18,11 @@ namespace FiltersModule.ViewModels
         public JournalFilter Filter { get; private set; }
         public ObservableCollection<NameViewModel> Names { get; private set; }
         public ObservableCollection<ObjectViewModel> Objects { get; private set; }
-        private ObjectsViewModel _objectsViewModel;
+       
 
         public FilterViewModel(JournalFilter filter)
 		{
 			Filter = filter;
-            _objectsViewModel = new ObjectsViewModel(filter);
             Names= new ObservableCollection<NameViewModel>();
             Objects= new ObservableCollection<ObjectViewModel>();
             SetFilterMenu();      
@@ -32,8 +31,7 @@ namespace FiltersModule.ViewModels
         public void Update(JournalFilter filter)
 		{
 			Filter = filter;
-            _objectsViewModel = new ObjectsViewModel(filter);
-			OnPropertyChanged(() => Filter);
+            OnPropertyChanged(() => Filter);
             Names.Clear();
             Objects.Clear();
             SetFilterMenu();
@@ -41,10 +39,12 @@ namespace FiltersModule.ViewModels
 
         private void SetFilterMenu( )
         {
+
+			ObjectsViewModel _objectsViewModel = new ObjectsViewModel(Filter);
+
             foreach (var count in Filter.JournalSubsystemTypes)
                 {
-                   //if (string.Compare(count.ToDescription(),"Видео",false, new CultureInfo("Ru-ru")) != 0)
-                   Names.Add(new NameViewModel(count));
+                  Names.Add(new NameViewModel(count));
                 }
            
             foreach (var count in Filter.JournalEventNameTypes)
@@ -57,23 +57,8 @@ namespace FiltersModule.ViewModels
                    Names.Add(new NameViewModel(count,count.ToDescription()));
                 }
            
-            //foreach (var item in _objectsViewModel.RootObjects)
-            //{
-            //    if (item.IsRealChecked)
-            //    {
-            //        ObjectJournalObjectType.Add(item);
-            //    }
-            //}
-
-            //foreach (var item in _objectsViewModel.AllObjects)
-            //{
-            //    if (item.IsRealChecked)
-            //    {
-            //        ObjectJournalObjectType.Add(item);
-            //    }
-            //}
-            Objects = new ObservableCollection<ObjectViewModel>(_objectsViewModel.AllObjects.Where(c => c.IsRealChecked));
-                //.AddRange(_objectsViewModel.RootObjects.Where(c => c.IsRealChecked));
+           Objects = new ObservableCollection<ObjectViewModel>(_objectsViewModel.AllObjects.Where(c => c.IsRealChecked));
+                
             OnPropertyChanged(() => Objects);
         }
     }

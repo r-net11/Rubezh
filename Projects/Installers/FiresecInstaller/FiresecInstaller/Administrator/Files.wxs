@@ -82,10 +82,6 @@
         <File Id="Administrator.PlansModule.Kursk.dll" Name="PlansModule.Kursk.dll" Source="$(var.Administrator.TargetDir)" />
       </Component>
 
-      <Component Id="Administrator.STRAZH_MODULE" Guid="88B4570A-BB95-43de-9E24-6C31E0B68F78">
-        <File Id="Administrator.StrazhModule.dll" Name="StrazhModule.dll" Source="$(var.Administrator.TargetDir)" KeyPath="yes" />
-      </Component>
-
       <Component Id="Administrator.VIDEO_MODULE" Guid="06A0E756-7AFF-4E90-8B9C-52C71F0ADF06">
         <File Id="Administrator.VideoModule.dll" Name="VideoModule.dll" Source="$(var.Administrator.TargetDir)" KeyPath="yes" />
         <File Id="Administrator.Vlc.DotNet.Core.dll" Name="Vlc.DotNet.Core.dll" Source="$(var.Administrator.TargetDir)" />
@@ -113,13 +109,6 @@
         <File Id="Administrator.propertiesMODIF.xsl" Source="$(var.Administrator.Deploy.TargetDir)XslFiles\xaml2svg\properties-MODIF.xsl" />
         <File Id="Administrator.shapes.xsl" Source="$(var.Administrator.Deploy.TargetDir)XslFiles\xaml2svg\shapes.xsl" />
         <File Id="Administrator.transform.xsl" Source="$(var.Administrator.Deploy.TargetDir)XslFiles\xaml2svg\transform.xsl" />
-      </Component>
-    </DirectoryRef>
-
-    <DirectoryRef Id="ADMINISTRATORLOCATION">
-      <Component Id="Administrator.VIDEO_MODULE_DLL" Guid="EAF56630-CCD5-4c21-8DCF-C01CC0361D1B">
-        <File Id="Administrator.Dll.Entities.dll" Name="Entities.dll" Source="$(var.VSSDll.TargetDir)" />
-        <File Id="Administrator.Dll.SdkWrapper.dll" Name="SdkWrapper.dll" Source="$(var.VSSDll.TargetDir)" />
       </Component>
     </DirectoryRef>
 

@@ -36,9 +36,9 @@
 					</ComboBox.ItemTemplate>
 				</ComboBox>
 				<StackPanel Grid.Row="6" Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">
-					<ToolBarButton Width="36" Height="36" Margin="0 0 0 -8" Command="{Binding ReadPropertiesCommand}" ImageSource="read"  ToolTip="Считать параметры направления" />
-					<ToolBarButton Width="36" Height="36" Margin="0 0 0 -8" Command="{Binding WritePropertiesCommand}" ImageSource="write"  ToolTip="Записать параметры направления" />
-					<ToolBarButton Width="36" Height="36" Command="{Binding ResetPropertiesCommand}" ImageSource="defconfig"  ToolTip="Параметры по умолчанию" />
+					<ToolBarButton Width="36" Height="36" Margin="0 0 0 -8" Command="{Binding ReadPropertiesCommand}" ImageSource="read" ToolTip="Считать параметры направления" IsEnabled="{Binding IsEdit}" />
+					<ToolBarButton Width="36" Height="36" Margin="0 0 0 -8" Command="{Binding WritePropertiesCommand}" ImageSource="write" ToolTip="Записать параметры направления" IsEnabled="{Binding IsEdit}" />
+					<ToolBarButton Width="36" Height="36" Command="{Binding ResetPropertiesCommand}" ImageSource="defconfig" ToolTip="Параметры по умолчанию" IsEnabled="{Binding IsEdit}" />
 				</StackPanel>
 			</Grid>
 		</TabItem>
