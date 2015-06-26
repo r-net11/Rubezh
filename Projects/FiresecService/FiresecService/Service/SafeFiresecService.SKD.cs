@@ -111,13 +111,13 @@ namespace FiresecService.Service
 		#endregion
 
 		#region Card
-		public OperationResult<IEnumerable<SKDCard>> GetCards(CardFilter filter)
+		public OperationResult<List<SKDCard>> GetCards(CardFilter filter)
 		{
-			return SafeContext.Execute<OperationResult<IEnumerable<SKDCard>>>(() => FiresecService.GetCards(filter));
+            return SafeContext.Execute<OperationResult<List<SKDCard>>>(() => FiresecService.GetCards(filter));
 		}
-		public OperationResult<IEnumerable<SKDCard>> GetEmployeeCards(Guid employeeUID)
+        public OperationResult<List<SKDCard>> GetEmployeeCards(Guid employeeUID)
 		{
-			return SafeContext.Execute<OperationResult<IEnumerable<SKDCard>>>(() => FiresecService.GetEmployeeCards(employeeUID));
+            return SafeContext.Execute<OperationResult<List<SKDCard>>>(() => FiresecService.GetEmployeeCards(employeeUID));
 		}
 		public OperationResult<bool> AddCard(SKDCard item, string employeeName)
 		{

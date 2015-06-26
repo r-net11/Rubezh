@@ -17,5 +17,7 @@ namespace SKDDriver.DataClasses
 		public bool IsActive { get; set; }
 
 		public int UserType { get; set; }
+
+        public string FIO { get; set; }
 	}
 }

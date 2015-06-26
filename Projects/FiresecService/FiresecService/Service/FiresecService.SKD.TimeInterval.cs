@@ -325,7 +325,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult<DateTime> GetCardsMinDate()
 		{
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.CardTranslator.GetMinDate();
 			}

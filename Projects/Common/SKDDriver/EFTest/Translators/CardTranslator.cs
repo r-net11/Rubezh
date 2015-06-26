@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -17,12 +18,30 @@ namespace SKDDriver.DataClasses
 			Context = dbService.Context;
 			DbService = dbService;
 		}
+        OperationResult<bool> CanSave(API.SKDCard item)
+        {
+            if (item == null)
+                return OperationResult<bool>.FromError("Попытка сохранить пустую запись");
+            bool isSameNumber = Context.Cards.Any(x =>
+                x.Number == item.Number &&
+                x.UID != item.UID);
+            if (isSameNumber)
+                return OperationResult<bool>.FromError("Попытка добавить карту с повторяющимся номером");
+            else
+                return new OperationResult<bool>();
+        }
 
-		public OperationResult<List<API.SKDCard>> Get(API.CardFilter filter)
+		public IQueryable<Card> GetTableItems()
+        {
+            return Context.Cards.Include(x => x.CardDoors).Include(x => x.Employee).Include(x => x.AccessTemplate).Include(x => x.GKControllerUIDs);
+        }
+
+        
+        public OperationResult<List<API.SKDCard>> Get(API.CardFilter filter)
 		{
 			try
 			{
-				var tableItems = Context.Cards.Include(x => x.CardDoors).Include(x => x.Employee).Include(x => x.AccessTemplate).Include(x => x.GKControllerUIDs).ToList();
+                var tableItems = GetTableItems().ToList();
 				var result = tableItems.Select(x => Translate(x)).ToList();
 				return new OperationResult<List<API.SKDCard>>(result);
 			}
@@ -36,8 +55,7 @@ namespace SKDDriver.DataClasses
 		{
 			try
 			{
-				var tableItems = Context.Cards.Include(x => x.CardDoors).Include(x => x.Employee).Include(x => x.AccessTemplate).Include(x => x.GKControllerUIDs)
-					.Where(x => x.EmployeeUID == employeeUID).ToList();
+                var tableItems = GetTableItems().Where(x => x.EmployeeUID == employeeUID).ToList();
 				var result = tableItems.Select(x => Translate(x)).ToList();
 				return new OperationResult<List<API.SKDCard>>(result);
 			}
@@ -47,11 +65,28 @@ namespace SKDDriver.DataClasses
 			}
 		}
 
+        public OperationResult<List<API.SKDCard>> GetByAccessTemplateUID(Guid accessTemplateUID)
+        {
+            try
+            {
+                var tableItems = GetTableItems().Where(x => x.AccessTemplateUID == accessTemplateUID).ToList();
+                var result = tableItems.Select(x => Translate(x)).ToList();
+                return new OperationResult<List<API.SKDCard>>(result);
+            }
+            catch (System.Exception e)
+            {
+                return OperationResult<List<API.SKDCard>>.FromError(e.Message);
+            }
+        }
+
 		public OperationResult<bool> Save(API.SKDCard item)
 		{
 			try
 			{
-				var tableItem = Context.Cards.FirstOrDefault(x => x.UID == item.UID);
+                var canSave = CanSave(item);
+                if (canSave.HasError)
+                    return canSave;
+                var tableItem = GetTableItems().FirstOrDefault(x => x.UID == item.UID);
 				if (tableItem == null)
 				{
 					tableItem = new Card { UID = item.UID };
@@ -88,7 +123,7 @@ namespace SKDDriver.DataClasses
 					card.Password = null;
 					card.IsInStopList = true;
 					card.StopReason = reason;
-					card.EmployeeUID = Guid.Empty;
+					card.EmployeeUID = null;
 					card.GKLevel = 0;
 					card.GKLevelSchedule = 0;
 					card.GKLevelSchedule = 0;
@@ -120,11 +155,13 @@ namespace SKDDriver.DataClasses
 			}
 		}
 
-		public OperationResult<API.SKDCard> GetSingle(Guid uid)
+		public OperationResult<API.SKDCard> GetSingle(Guid? uid)
 		{
 			try
 			{
-				var tableItems = Context.Cards.Include(x => x.CardDoors).Include(x => x.Employee).Include(x => x.AccessTemplate).Include(x => x.GKControllerUIDs)
+                if (uid == null)
+                    return new OperationResult<API.SKDCard>(null);
+                var tableItems = GetTableItems()
 					.FirstOrDefault(x => x.UID == uid);
 				var result = Translate(tableItems);
 				return new OperationResult<API.SKDCard>(result);
@@ -210,6 +247,39 @@ namespace SKDDriver.DataClasses
 			return tableItem;
 		}
 
+        public OperationResult<Guid> GetEmployeeByCardNo(int cardNo)
+        {
+            try
+            {
+                var card = Context.Cards.FirstOrDefault(x => x.Number == cardNo && x.EmployeeUID != null);
+                if (card != null)
+                {
+                    return new OperationResult<Guid>(card.EmployeeUID.Value);
+                }
+                else
+                {
+                    return OperationResult<Guid>.FromError("Карта не найдена");
+                }
+            }
+            catch (Exception e)
+            {
+                return OperationResult<Guid>.FromError(e.Message);
+            }
+        }
+
+        public OperationResult<DateTime> GetMinDate()
+        {
+            try
+            {
+                var result = Context.Cards.Min(x => x.EndDate);
+                return new OperationResult<DateTime>(result);
+            }
+            catch (Exception e)
+            {
+                return OperationResult<DateTime>.FromError(e.Message);
+            }
+        }
+
 		#region Pending
 		public OperationResult AddPending(Guid cardUID, Guid controllerUID)
 		{
@@ -265,7 +335,7 @@ namespace SKDDriver.DataClasses
 			}
 		}
 
-		public void DeleteAllPendingCards(Guid cardUID, Guid controllerUID)
+		public void DeleteAllPendingCards(Guid? cardUID, Guid controllerUID)
 		{
 			var pendingCardsToRemove = Context.PendingCards.Where(x => x.CardUID == cardUID && x.ControllerUID == controllerUID);
 			Context.PendingCards.RemoveRange(pendingCardsToRemove);
@@ -279,7 +349,7 @@ namespace SKDDriver.DataClasses
 			Context.SaveChanges();
 		}
 
-		void InsertPendingCard(Guid cardUID, Guid controllerUID, API.PendingCardAction action)
+		void InsertPendingCard(Guid? cardUID, Guid controllerUID, API.PendingCardAction action)
 		{
 			var pendingCard = new DataClasses.PendingCard
 			{
@@ -296,6 +366,8 @@ namespace SKDDriver.DataClasses
 		{
 			return Context.PendingCards.Where(x => x.ControllerUID == controllerUID);
 		}
-		#endregion
+        #endregion
+
+        
 	}
 }

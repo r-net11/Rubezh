@@ -25,6 +25,7 @@ namespace SKDDriver.DataClasses
 		public ScheduleTranslator ScheduleTranslator { get; private set; }
 		public ScheduleSchemeTranslator ScheduleSchemeTranslator { get; private set; }
 		public TimeTrackingTranslator TimeTrackingTranslator { get; private set; }
+        public GKCardTranslator GKCardTranslator { get; private set; }
 
 		public static bool IsAbort
 		{
@@ -53,6 +54,7 @@ namespace SKDDriver.DataClasses
 			PositionTranslator = new PositionTranslator(this);
 			ScheduleTranslator = new ScheduleTranslator(this);
 			ScheduleSchemeTranslator = new ScheduleSchemeTranslator(this);
+            GKCardTranslator = new GKCardTranslator(this);
 			//TimeTrackingTranslator = new TimeTrackingTranslator(this);
 		}
 

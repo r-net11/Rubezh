@@ -34,11 +34,13 @@ namespace SKDDriver.DataClasses
 			}
 		}
 
-		public OperationResult<TApiItem> GetSingle(Guid uid)
+		public OperationResult<TApiItem> GetSingle(Guid? uid)
 		{
 			try
 			{
-				var tableItems = GetTableItems().FirstOrDefault(x => x.UID == uid);
+                if (uid == null)
+                    return new OperationResult<TApiItem>(null);
+                var tableItems = GetTableItems().FirstOrDefault(x => x.UID == uid);
 				var result = Translate(tableItems);
 				return new OperationResult<TApiItem>(result);
 			}

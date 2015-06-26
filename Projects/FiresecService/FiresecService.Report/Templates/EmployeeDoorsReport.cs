@@ -77,7 +77,7 @@ namespace FiresecService.Report.Templates
 				cardFilter.CardTypes.Add(CardType.Temporary);
 			cardFilter.DeactivationType = LogicalDeletationType.Active;
 			cardFilter.LogicalDeletationType = LogicalDeletationType.Active;
-			var cardsResult = dataProvider.DatabaseService.CardTranslator.Get(cardFilter);
+            var cardsResult = dataProvider.DbService.CardTranslator.Get(cardFilter);
 
 			var dataSet = new EmployeeDoorsDataSet();
 			if (!cardsResult.HasError)
@@ -87,7 +87,7 @@ namespace FiresecService.Report.Templates
 				{
 					UIDs = cardsResult.Result.Where(item => item.AccessTemplateUID.HasValue && item.AccessTemplateUID != Guid.Empty).Select(item => item.AccessTemplateUID.Value).ToList()
 				};
-				var accessTemplates = dataProvider.DatabaseService.AccessTemplateTranslator.Get(accessTemplateFilter);
+                var accessTemplates = dataProvider.DbService.AccessTemplateTranslator.Get(accessTemplateFilter);
 
 
 				var doorMap = new Dictionary<Guid, CommonDoor>();

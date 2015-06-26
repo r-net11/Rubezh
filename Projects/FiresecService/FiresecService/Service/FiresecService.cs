@@ -154,7 +154,7 @@ namespace FiresecService.Service
 			try
 			{
 				var result = new List<ServerTask>();
-				using (var databaseService = new SKDDatabaseService())
+                using (var databaseService = new SKDDriver.DataClasses.DbService())
 				{
 					foreach (var device in SKDManager.Devices)
 					{

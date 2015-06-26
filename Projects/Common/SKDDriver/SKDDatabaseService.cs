@@ -23,9 +23,6 @@ namespace SKDDriver
 			Context = new DataAccess.SKDDataContext(ConnectionString);
 			Context.CommandTimeout = 600;
 
-			CardDoorTranslator = new CardDoorTranslator(this);
-			CardTranslator = new CardTranslator(this);
-			AccessTemplateTranslator = new AccessTemplateTranslator(this);
 			PhotoTranslator = new PhotoTranslator(this);
 			OrganisationTranslator = new OrganisationTranslator(this);
 			PositionTranslator = new PositionTranslator(this);
@@ -61,9 +58,6 @@ namespace SKDDriver
 		}
 		
 		public PositionTranslator PositionTranslator { get; private set; }
-		public CardTranslator CardTranslator { get; private set; }
-		public CardDoorTranslator CardDoorTranslator { get; private set; }
-		public AccessTemplateTranslator AccessTemplateTranslator { get; private set; }
 		public OrganisationTranslator OrganisationTranslator { get; private set; }
 		public EmployeeTranslator EmployeeTranslator1 { get; private set; }
 		public DepartmentTranslator DepartmentTranslator { get; private set; }

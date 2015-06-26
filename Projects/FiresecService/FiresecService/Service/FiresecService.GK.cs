@@ -486,7 +486,7 @@ namespace FiresecService.Service
 			{
 				var progressCallback = GKProcessorManager.StartProgress("Удаление пользователей прибора " + device.PresentationName, "", 65535, false, GKProgressClientType.Administrator);
 
-				using (var databaseService = new SKDDatabaseService())
+                using (var databaseService = new SKDDriver.DataClasses.DbService())
 				{
 					databaseService.CardTranslator.DeleteAllPendingCards(device.UID);
 				}
@@ -500,7 +500,7 @@ namespace FiresecService.Service
 						return OperationResult<bool>.FromError("Ошибка при удалении пользователя из ГК");
 					}
 
-					using (var databaseService = new SKDDatabaseService())
+                    using (var databaseService = new SKDDriver.DataClasses.DbService())
 					{
 						var cardsResult = databaseService.CardTranslator.Get(new CardFilter());
 						if (!cardsResult.HasError)
@@ -509,14 +509,17 @@ namespace FiresecService.Service
 							progressCallback.CurrentStep = 0;
 							foreach (var card in cardsResult.Result)
 							{
-								var getAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(card.AccessTemplateUID);
-								var accessTemplate = getAccessTemplateOperationResult.Result;
-
+                                AccessTemplate accessTemplate = null;
+                                if (card.AccessTemplateUID != null)
+                                {
+                                    var getAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(card.AccessTemplateUID.Value);
+                                    accessTemplate = getAccessTemplateOperationResult.Result;
+                                }
 								var controllerCardSchedules = GKSKDHelper.GetGKControllerCardSchedules(card, accessTemplate);
 								var controllerCardSchedule = controllerCardSchedules.FirstOrDefault(x => x.ControllerDevice.UID == deviceUID);
-								if (controllerCardSchedule != null)
+								if (controllerCardSchedule != null && card.EmployeeUID != null)
 								{
-									var employeeOperationResult = databaseService.EmployeeTranslator1.GetSingle(card.EmployeeUID);
+									var employeeOperationResult = databaseService.EmployeeTranslator.GetSingle(card.EmployeeUID.Value);
 									var employee = employeeOperationResult.Result;
 									if (employee != null)
 									{

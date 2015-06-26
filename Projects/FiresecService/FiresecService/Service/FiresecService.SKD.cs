@@ -241,16 +241,16 @@ namespace FiresecService.Service
 		#endregion
 
 		#region Card
-		public OperationResult<IEnumerable<SKDCard>> GetCards(CardFilter filter)
+		public OperationResult<List<SKDCard>> GetCards(CardFilter filter)
 		{
-			using (var databaseService = new SKDDatabaseService())
+            using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.CardTranslator.Get(filter);
 			}
 		}
-		public OperationResult<IEnumerable<SKDCard>> GetEmployeeCards(Guid employeeUID)
+		public OperationResult<List<SKDCard>> GetEmployeeCards(Guid employeeUID)
 		{
-			using (var databaseService = new SKDDatabaseService())
+            using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.CardTranslator.GetEmployeeCards(employeeUID);
 			}
@@ -259,7 +259,7 @@ namespace FiresecService.Service
 		{
 			AddJournalMessage(JournalEventNameType.Добавление_карты, employeeName, uid: card.EmployeeUID);
 
-			using (var databaseService = new SKDDatabaseService())
+            using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				var saveResult = databaseService.CardTranslator.Save(card);
 				if (saveResult.HasError)
@@ -267,17 +267,16 @@ namespace FiresecService.Service
 
 				var errors = new List<string>();
 
-				var getAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(card.AccessTemplateUID);
-				if (getAccessTemplateOperationResult.HasError)
-					errors.AddRange(getAccessTemplateOperationResult.Errors);
+                var getAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(card.AccessTemplateUID);
+                if (getAccessTemplateOperationResult.HasError)
+                    errors.AddRange(getAccessTemplateOperationResult.Errors);
 
-				errors.AddRange(AddStrazhCard(card, getAccessTemplateOperationResult.Result, databaseService));
-				errors.AddRange(AddGKCard(card, getAccessTemplateOperationResult.Result, databaseService));
-
-				return OperationResult<bool>.FromError(errors, true);
+                errors.AddRange(AddStrazhCard(card, getAccessTemplateOperationResult.Result, databaseService));
+                errors.AddRange(AddGKCard(card, getAccessTemplateOperationResult.Result, databaseService));
+                return OperationResult<bool>.FromError(errors, true);
 			}
 		}
-		IEnumerable<string> AddStrazhCard(SKDCard card, AccessTemplate accessTemplate, SKDDatabaseService databaseService)
+        IEnumerable<string> AddStrazhCard(SKDCard card, AccessTemplate accessTemplate, SKDDriver.DataClasses.DbService databaseService)
 		{
 			var cardWriter = ChinaSKDDriver.Processor.AddCard(card, accessTemplate);
 			foreach (var error in cardWriter.GetErrors())
@@ -290,31 +289,34 @@ namespace FiresecService.Service
 					yield return pendingResult.Error;
 			}
 		}
-		IEnumerable<string> AddGKCard(SKDCard card, AccessTemplate accessTemplate, SKDDatabaseService databaseService)
+        IEnumerable<string> AddGKCard(SKDCard card, AccessTemplate accessTemplate, SKDDriver.DataClasses.DbService databaseService)
 		{
-			var employeeOperationResult = databaseService.EmployeeTranslator1.GetSingle(card.EmployeeUID);
-			if (!employeeOperationResult.HasError)
-			{
-				var controllerCardSchedules = GKSKDHelper.GetGKControllerCardSchedules(card, accessTemplate);
-				foreach (var controllerCardSchedule in controllerCardSchedules)
-				{
-					var addResult = GKSKDHelper.AddOrEditCard(controllerCardSchedule, card, employeeOperationResult.Result.FIO);
-					if (addResult.HasError)
-					{
-						yield return "Не удалось добавить карту в устройство " + controllerCardSchedule.ControllerDevice.PresentationName;
-						var pendingResult = databaseService.CardTranslator.AddPending(card.UID, controllerCardSchedule.ControllerDevice.UID);
-						if (pendingResult.HasError)
-							yield return pendingResult.Error;
-					}
-				}
-			}
+            if (card.EmployeeUID != null)
+            {
+                var employeeOperationResult = databaseService.EmployeeTranslator.GetSingle(card.EmployeeUID.Value);
+                if (!employeeOperationResult.HasError)
+                {
+                    var controllerCardSchedules = GKSKDHelper.GetGKControllerCardSchedules(card, accessTemplate);
+                    foreach (var controllerCardSchedule in controllerCardSchedules)
+                    {
+                        var addResult = GKSKDHelper.AddOrEditCard(controllerCardSchedule, card, employeeOperationResult.Result.FIO);
+                        if (addResult.HasError)
+                        {
+                            yield return "Не удалось добавить карту в устройство " + controllerCardSchedule.ControllerDevice.PresentationName;
+                            var pendingResult = databaseService.CardTranslator.AddPending(card.UID, controllerCardSchedule.ControllerDevice.UID);
+                            if (pendingResult.HasError)
+                                yield return pendingResult.Error;
+                        }
+                    }
+                }
+            }
 		}
 
 		public OperationResult<bool> EditCard(SKDCard card, string employeeName)
 		{
 			AddJournalMessage(JournalEventNameType.Редактирование_карты, employeeName, uid: card.EmployeeUID);
 
-			using (var databaseService = new SKDDatabaseService())
+            using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				var oldCardOperationResult = databaseService.CardTranslator.GetSingle(card.UID);
 
@@ -324,27 +326,27 @@ namespace FiresecService.Service
 
 				var errors = new List<string>();
 
-				var getAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(card.AccessTemplateUID);
-				if (getAccessTemplateOperationResult.HasError)
-					errors.AddRange(getAccessTemplateOperationResult.Errors);
+                var getAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(card.AccessTemplateUID);
+                if (getAccessTemplateOperationResult.HasError)
+                    errors.AddRange(getAccessTemplateOperationResult.Errors);
 
-				if (!oldCardOperationResult.HasError && oldCardOperationResult.Result != null)
-				{
-					var oldCard = oldCardOperationResult.Result;
-					var oldGetAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(oldCard.AccessTemplateUID);
+                if (!oldCardOperationResult.HasError && oldCardOperationResult.Result != null)
+                {
+                    var oldCard = oldCardOperationResult.Result;
+                    var oldGetAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(oldCard.AccessTemplateUID);
 
-					errors.AddRange(EditStrazhCard(oldCard, oldGetAccessTemplateOperationResult.Result, card, getAccessTemplateOperationResult.Result, databaseService));
-					errors.AddRange(EditGKCard(oldCard, oldGetAccessTemplateOperationResult.Result, card, getAccessTemplateOperationResult.Result, databaseService));
-				}
-				else
-				{
-					errors.Add("Не найдена предыдущая карта");
-				}
+                    errors.AddRange(EditStrazhCard(oldCard, oldGetAccessTemplateOperationResult.Result, card, getAccessTemplateOperationResult.Result, databaseService));
+                    errors.AddRange(EditGKCard(oldCard, oldGetAccessTemplateOperationResult.Result, card, getAccessTemplateOperationResult.Result, databaseService));
+                }
+                else
+                {
+                    errors.Add("Не найдена предыдущая карта");
+                }
 
 				return OperationResult<bool>.FromError(errors, true);
 			}
 		}
-		IEnumerable<string> EditStrazhCard(SKDCard oldCard, AccessTemplate oldAccessTemplate, SKDCard card, AccessTemplate accessTemplate, SKDDatabaseService databaseService)
+		IEnumerable<string> EditStrazhCard(SKDCard oldCard, AccessTemplate oldAccessTemplate, SKDCard card, AccessTemplate accessTemplate, SKDDriver.DataClasses.DbService databaseService)
 		{
 			var cardWriter = ChinaSKDDriver.Processor.EditCard(oldCard, oldAccessTemplate, card, accessTemplate);
 			foreach (var error in cardWriter.GetErrors())
@@ -357,50 +359,53 @@ namespace FiresecService.Service
 					yield return pendingResult.Error;
 			}
 		}
-		IEnumerable<string> EditGKCard(SKDCard oldCard, AccessTemplate oldAccessTemplate, SKDCard newCard, AccessTemplate newAccessTemplate, SKDDatabaseService databaseService)
+        IEnumerable<string> EditGKCard(SKDCard oldCard, AccessTemplate oldAccessTemplate, SKDCard newCard, AccessTemplate newAccessTemplate, SKDDriver.DataClasses.DbService databaseService)
 		{
-			var employeeOperationResult = databaseService.EmployeeTranslator1.GetSingle(newCard.EmployeeUID);
-			if (!employeeOperationResult.HasError)
-			{
-				var oldControllerCardSchedules = GKSKDHelper.GetGKControllerCardSchedules(oldCard, oldAccessTemplate);
-				var newControllerCardSchedules = GKSKDHelper.GetGKControllerCardSchedules(newCard, newAccessTemplate);
+            if (newCard.EmployeeUID != null)
+            {
+                var employeeOperationResult = databaseService.EmployeeTranslator.GetSingle(newCard.EmployeeUID.Value);
+                if (!employeeOperationResult.HasError)
+                {
+                    var oldControllerCardSchedules = GKSKDHelper.GetGKControllerCardSchedules(oldCard, oldAccessTemplate);
+                    var newControllerCardSchedules = GKSKDHelper.GetGKControllerCardSchedules(newCard, newAccessTemplate);
 
-				foreach (var controllerCardSchedule in oldControllerCardSchedules)
-				{
-					if (!newControllerCardSchedules.Any(x => x.ControllerDevice.UID == controllerCardSchedule.ControllerDevice.UID))
-					{
-						var removeResult = GKSKDHelper.RemoveCard(controllerCardSchedule.ControllerDevice, newCard);
-						if (removeResult.HasError)
-						{
-							yield return "Не удалось удалить карту из устройства " + controllerCardSchedule.ControllerDevice.PresentationName;
-							var pendingResult = databaseService.CardTranslator.DeletePending(newCard.UID, controllerCardSchedule.ControllerDevice.UID);
-							if (pendingResult.HasError)
-								yield return pendingResult.Error;
-						}
-					}
-				}
+                    foreach (var controllerCardSchedule in oldControllerCardSchedules)
+                    {
+                        if (!newControllerCardSchedules.Any(x => x.ControllerDevice.UID == controllerCardSchedule.ControllerDevice.UID))
+                        {
+                            var removeResult = GKSKDHelper.RemoveCard(controllerCardSchedule.ControllerDevice, newCard);
+                            if (removeResult.HasError)
+                            {
+                                yield return "Не удалось удалить карту из устройства " + controllerCardSchedule.ControllerDevice.PresentationName;
+                                var pendingResult = databaseService.CardTranslator.DeletePending(newCard.UID, controllerCardSchedule.ControllerDevice.UID);
+                                if (pendingResult.HasError)
+                                    yield return pendingResult.Error;
+                            }
+                        }
+                    }
 
-				foreach (var controllerCardSchedule in newControllerCardSchedules)
-				{
-					var addResult = GKSKDHelper.AddOrEditCard(controllerCardSchedule, newCard, employeeOperationResult.Result.FIO);
-					if (addResult.HasError)
-					{
-						yield return "Не удалось добавить или редактировать карту в устройстве " + controllerCardSchedule.ControllerDevice.PresentationName;
-						var pendingResult = databaseService.CardTranslator.AddPending(newCard.UID, controllerCardSchedule.ControllerDevice.UID);
-						if (pendingResult.HasError)
-							yield return pendingResult.Error;
-					}
-				}
-			}
-		}
+                    foreach (var controllerCardSchedule in newControllerCardSchedules)
+                    {
+                        var addResult = GKSKDHelper.AddOrEditCard(controllerCardSchedule, newCard, employeeOperationResult.Result.FIO);
+                        if (addResult.HasError)
+                        {
+                            yield return "Не удалось добавить или редактировать карту в устройстве " + controllerCardSchedule.ControllerDevice.PresentationName;
+                            var pendingResult = databaseService.CardTranslator.AddPending(newCard.UID, controllerCardSchedule.ControllerDevice.UID);
+                            if (pendingResult.HasError)
+                                yield return pendingResult.Error;
+                        }
+                    }
+                }
+            }
+        }
 
 		public OperationResult<bool> DeleteCardFromEmployee(SKDCard card, string employeeName, string reason = null)
 		{
-			using (var databaseService = new SKDDatabaseService())
+            using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				AddJournalMessage(JournalEventNameType.Удаление_карты, employeeName, uid: card.EmployeeUID);
 
-				var saveResult = databaseService.CardTranslator.ToStopList(card, employeeName, reason);
+				var saveResult = databaseService.CardTranslator.ToStopList(card, reason);
 				if (saveResult.HasError)
 				{
 					return OperationResult<bool>.FromError(saveResult.Error, false);
@@ -415,18 +420,18 @@ namespace FiresecService.Service
 				var operationResult = databaseService.CardTranslator.GetSingle(card.UID);
 				if (!operationResult.HasError && operationResult.Result != null)
 				{
-					errors.AddRange(DeleteStrazhCard(card, getAccessTemplateOperationResult.Result, databaseService));
-					errors.AddRange(DeleteGKCard(card, getAccessTemplateOperationResult.Result, databaseService));
+				    errors.AddRange(DeleteStrazhCard(card, getAccessTemplateOperationResult.Result, databaseService));
+				    errors.AddRange(DeleteGKCard(card, getAccessTemplateOperationResult.Result, databaseService));
 				}
-				else
+                else
 				{
-					errors.Add("Не найдена предидущая карта");
+					errors.Add("Не найдена предыдущая карта");
 				}
 
 				return OperationResult<bool>.FromError(errors, true);
 			}
 		}
-		IEnumerable<string> DeleteStrazhCard(SKDCard card, AccessTemplate accessTemplate, SKDDatabaseService databaseService)
+        IEnumerable<string> DeleteStrazhCard(SKDCard card, AccessTemplate accessTemplate, SKDDriver.DataClasses.DbService databaseService)
 		{
 			var cardWriter = ChinaSKDDriver.Processor.DeleteCard(card, accessTemplate);
 			foreach (var error in cardWriter.GetErrors())
@@ -439,7 +444,7 @@ namespace FiresecService.Service
 					yield return pendingResult.Error;
 			}
 		}
-		IEnumerable<string> DeleteGKCard(SKDCard card, AccessTemplate accessTemplate, SKDDatabaseService databaseService)
+		IEnumerable<string> DeleteGKCard(SKDCard card, AccessTemplate accessTemplate, SKDDriver.DataClasses.DbService databaseService)
 		{
 			var controllerCardSchedules = GKSKDHelper.GetGKControllerCardSchedules(card, accessTemplate);
 			foreach (var controllerCardSchedule in controllerCardSchedules)
@@ -458,14 +463,14 @@ namespace FiresecService.Service
 		public OperationResult DeletedCard(SKDCard card)
 		{
 			AddJournalMessage(JournalEventNameType.Редактирование_карты, card.Number.ToString(), uid: card.UID);
-			using (var databaseService = new SKDDatabaseService())
+            using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
-				return databaseService.CardTranslator.Delete(card.UID);
+				return databaseService.CardTranslator.Delete(card);
 			}
 		}
 		public OperationResult SaveCardTemplate(SKDCard card)
 		{
-			using (var databaseService = new SKDDatabaseService())
+            using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.CardTranslator.SavePassTemplate(card);
 			}
@@ -501,17 +506,13 @@ namespace FiresecService.Service
 
 				if (!isNew && !oldGetAccessTemplateOperationResult.HasError)
 				{
-					using (var skdDatabaseService = new SKDDatabaseService())
+					var operationResult = databaseService.CardTranslator.GetByAccessTemplateUID(accessTemplate.UID);
+                    if (operationResult.Result != null)
 					{
-						var operationResult = skdDatabaseService.CardTranslator.GetByAccessTemplateUID(accessTemplate.UID);
-
-						if (operationResult.Result != null)
+						foreach (var card in operationResult.Result)
 						{
-							foreach (var card in operationResult.Result)
-							{
-								errors.AddRange(EditStrazhCard(card, oldGetAccessTemplateOperationResult.Result, card, accessTemplate, skdDatabaseService));
-								errors.AddRange(EditGKCard(card, oldGetAccessTemplateOperationResult.Result, card, accessTemplate, skdDatabaseService));
-							}
+                            errors.AddRange(EditStrazhCard(card, oldGetAccessTemplateOperationResult.Result, card, accessTemplate, databaseService));
+                            errors.AddRange(EditGKCard(card, oldGetAccessTemplateOperationResult.Result, card, accessTemplate, databaseService));
 						}
 					}
 				}
@@ -562,11 +563,8 @@ namespace FiresecService.Service
 			using (var dbService = new SKDDriver.DataClasses.DbService())
 			{
 				var errors = new List<string>();
-				OperationResult<IEnumerable<SKDCard>> cards;
-				using (var databaseService = new SKDDriver.SKDDatabaseService())
-				{
-					cards = databaseService.CardTranslator.Get(new CardFilter { EmployeeFilter = new EmployeeFilter { OrganisationUIDs = new List<Guid> { uid } }, DeactivationType = LogicalDeletationType.Active });
-				}
+                var cards = dbService.CardTranslator.Get(
+                    new CardFilter { EmployeeFilter = new EmployeeFilter { OrganisationUIDs = new List<Guid> { uid } }, DeactivationType = LogicalDeletationType.Active });
 				if (!cards.HasError)
 				{
 					foreach (var card in cards.Result)
@@ -800,7 +798,7 @@ namespace FiresecService.Service
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				using (var databaseService = new SKDDatabaseService())
+				using (var databaseService = new SKDDriver.DataClasses.DbService())
 				{
 					AddSKDJournalMessage(JournalEventNameType.Перезапись_всех_карт, device);
 					var cardsResult = databaseService.CardTranslator.Get(new CardFilter());

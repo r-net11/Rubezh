@@ -73,7 +73,7 @@ namespace FiresecService.Report.Templates
 						cardFilter.EndDate = filter.ExpirationDate;
 						break;
 				}
-			var cardsResult = dataProvider.DatabaseService.CardTranslator.Get(cardFilter);
+			var cardsResult = dataProvider.DbService.CardTranslator.Get(cardFilter);
 
 			var dataSet = new CardsDataSet();
 			if (!cardsResult.HasError)

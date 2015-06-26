@@ -81,7 +81,7 @@ namespace FiresecService
 
 			if (cardNo > 0)
 			{
-				using (var databaseService = new SKDDatabaseService())
+                using (var databaseService = new SKDDriver.DataClasses.DbService())
 				{
 					var operationResult = databaseService.CardTranslator.GetEmployeeByCardNo(cardNo);
 					if (!operationResult.HasError)
@@ -90,7 +90,7 @@ namespace FiresecService
 						journalItem.EmployeeUID = employeeUID;
 						if (employeeUID != Guid.Empty)
 						{
-							var employee = databaseService.EmployeeTranslator1.GetSingle(employeeUID);
+							var employee = databaseService.EmployeeTranslator.GetSingle(employeeUID);
 							if (employee != null)
 							{
 								journalItem.UserName = employee.Result.Name;
@@ -250,7 +250,7 @@ namespace FiresecService
 
 		static void OnConnectionAppeared(DeviceProcessor deviceProcessor)
 		{
-			using (var databaseService = new SKDDatabaseService())
+            using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				var pendingCards = databaseService.CardTranslator.GetAllPendingCards(deviceProcessor.Device.UID);
 				foreach (var pendingCard in pendingCards)

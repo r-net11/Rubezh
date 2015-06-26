@@ -84,10 +84,10 @@ namespace FiresecAPI
 
 		#region Card
 		[OperationContract]
-		OperationResult<IEnumerable<SKDCard>> GetCards(CardFilter filter);
+		OperationResult<List<SKDCard>> GetCards(CardFilter filter);
 
 		[OperationContract]
-		OperationResult<IEnumerable<SKDCard>> GetEmployeeCards(Guid employeeUID);
+		OperationResult<List<SKDCard>> GetEmployeeCards(Guid employeeUID);
 
 		[OperationContract]
 		OperationResult<bool> AddCard(SKDCard item, string employeeName);

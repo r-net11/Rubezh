@@ -141,6 +141,7 @@
     <Compile Include="EFTest\Translators\DepartmentTranslator.cs" />
     <Compile Include="EFTest\Translators\EFTest.cs" />
     <Compile Include="EFTest\Translators\EmployeeTranslator.cs" />
+    <Compile Include="EFTest\Translators\GKCardTranslator.cs" />
     <Compile Include="EFTest\Translators\GKDayScheduleTranslator.cs" />
     <Compile Include="EFTest\ContextType.cs" />
     <Compile Include="EFTest\Translators\HolidayTranslator.cs" />
@@ -170,8 +171,6 @@
     <Compile Include="Synchronisers\Synchroniser.cs" />
     <Compile Include="Translators\Base\WithFilterTranslator.cs" />
     <Compile Include="Translators\Base\WithShortTranslator.cs" />
-    <Compile Include="Translators\CardTranslator.cs" />
-    <Compile Include="Translators\CardDoorTranslator.cs" />
     <Compile Include="Translators\GKScheduleTranslator.cs" />
     <Compile Include="EFTest\Translators\GKScheduleTranslator.cs" />
     <Compile Include="Translators\JournalTranslator.cs" />
@@ -189,7 +188,6 @@
     <Compile Include="SKDDatabaseService.cs" />
     <Compile Include="Translators\Base\OrganisationElementTranslator.cs" />
     <Compile Include="Translators\EmployeeTranslator.cs" />
-    <Compile Include="Translators\AccessTemplateTranslator.cs" />
     <Compile Include="Translators\DayIntervalTranslator.cs" />
     <Compile Include="Translators\OrganisationTranslator.cs" />
     <Compile Include="Translators\PhotoTranslator.cs" />

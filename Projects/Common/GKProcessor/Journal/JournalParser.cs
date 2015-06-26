@@ -141,7 +141,7 @@ namespace GKProcessor
 								}
 							}
 
-							using (var databaseService = new SKDDatabaseService())
+							using (var databaseService = new SKDDriver.DataClasses.DbService())
 							{
 								var cardNo = databaseService.GKCardTranslator.GetCardNoByGKNo(gkControllerDevice.GetGKIpAddress(), (int)gkCardNo);
 								var operationResult = databaseService.CardTranslator.GetEmployeeByCardNo(cardNo);
@@ -151,7 +151,7 @@ namespace GKProcessor
 									JournalItem.EmployeeUID = employeeUID;
 									if (employeeUID != Guid.Empty)
 									{
-										var employee = databaseService.EmployeeTranslator1.GetSingle(employeeUID);
+										var employee = databaseService.EmployeeTranslator.GetSingle(employeeUID);
 										if (employee != null)
 										{
 											JournalItem.UserName = employee.Result.Name;
@@ -196,7 +196,7 @@ namespace GKProcessor
 								}
 							}
 
-							using (var databaseService = new SKDDatabaseService())
+                            using (var databaseService = new SKDDriver.DataClasses.DbService())
 							{
 								var cardNo = databaseService.GKCardTranslator.GetCardNoByGKNo(gkControllerDevice.GetGKIpAddress(), (int)gkCardNo);
 								var operationResult = databaseService.CardTranslator.GetEmployeeByCardNo(cardNo);
@@ -206,7 +206,7 @@ namespace GKProcessor
 									JournalItem.EmployeeUID = employeeUID;
 									if (employeeUID != Guid.Empty)
 									{
-										var employee = databaseService.EmployeeTranslator1.GetSingle(employeeUID);
+										var employee = databaseService.EmployeeTranslator.GetSingle(employeeUID);
 										if (employee != null)
 										{
 											JournalItem.UserName = employee.Result.Name;

@@ -61,9 +61,6 @@ namespace SKDDriver
 			result = DatabaseService.PositionTranslator.MarkDeletedByOrganisation(uid, removalDate);
 			if (result.HasError)
 				return result;
-			result = DatabaseService.AccessTemplateTranslator.MarkDeletedByOrganisation(uid, removalDate);
-			if (result.HasError)
-				return result;
 			result = DatabaseService.PassCardTemplateTranslator.MarkDeletedByOrganisation(uid, removalDate);
 			if (result.HasError)
 				return result;
@@ -117,9 +114,6 @@ namespace SKDDriver
 			if (result.HasError)
 				return result;
 			result = DatabaseService.PositionTranslator.RestoreByOrganisation(uid, removalDate);
-			if (result.HasError)
-				return result;
-			result = DatabaseService.AccessTemplateTranslator.RestoreByOrganisation(uid, removalDate);
 			if (result.HasError)
 				return result;
 			result = DatabaseService.PassCardTemplateTranslator.RestoreByOrganisation(uid, removalDate);

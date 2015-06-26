@@ -187,7 +187,7 @@ namespace SKDDriver.DataClasses
     {
         public ShortEmployeeTranslator(EmployeeTranslator translator) : base(translator) { }
 
-        protected IQueryable<Employee> GetTableItems()
+        public override IQueryable<Employee> GetTableItems()
         {
             return base.GetTableItems()
                 .Include(x => x.Position)
@@ -195,7 +195,7 @@ namespace SKDDriver.DataClasses
                 .Include(x => x.AdditionalColumns.Select(additionalColumn => additionalColumn.AdditionalColumnType));
         }
 
-        public API.ShortEmployee TranslateToShort(Employee employee)
+        public override API.ShortEmployee TranslateToShort(Employee employee)
         {
             return new API.ShortEmployee
             {
