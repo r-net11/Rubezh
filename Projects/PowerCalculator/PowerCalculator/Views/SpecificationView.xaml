@@ -27,7 +27,7 @@
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
                                     <Image Width="16" Height="16" Margin="5 0" HorizontalAlignment="Left" Source="{Binding SelectedDriver.Driver.ImageSource}" />
-                                    <TextBlock Text="{Binding SelectedDriver.Driver.DriverType, Converter={StaticResource EnumToDescriptionConverter}}" Margin="2" />
+                                    <TextBlock Text="{Binding SelectedDriver.Driver.DriverType, Converter={StaticResource EnumToDescriptionConverter}}"  Margin="2" />
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
@@ -106,9 +106,6 @@
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>
-        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="2">
-            <Button Command="{Binding CollectToSpecificationCommand}" Content="Собрать в спецификацию" HorizontalAlignment="Right" Width="200" Margin="2" />
-            <Button Command="{Binding GenerateFromSpecificationCommand}" Content="Сгенерировать из спецификации" HorizontalAlignment="Right" Width="240" Margin="2" />
-        </StackPanel>
+        <Button Grid.Row="1" Command="{Binding GenerateFromSpecificationCommand}" Content="Сгенерировать из спецификации" HorizontalAlignment="Left" Width="240" Margin="2" />
     </Grid>
 </UserControl>

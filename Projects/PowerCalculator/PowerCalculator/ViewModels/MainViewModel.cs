@@ -27,7 +27,8 @@ namespace PowerCalculator.ViewModels
 			RemoveLineCommand = new RelayCommand(OnRemoveLine, CanRemoveLine);
             PatchLineCommand = new RelayCommand(OnPatchLine, CanPatchLine);
             EditCableTypesRepositoryCommand = new RelayCommand(OnEditCableTypesRepository);
-			ShowSpecificationCommand = new RelayCommand(OnShowSpecification);
+            ShowSpecificationCommand = new RelayCommand(OnShowSpecification);
+            CollectToSpecificationCommand = new RelayCommand(OnCollectToSpecification, CanCollectToSpecification);
 			PatchCommand = new RelayCommand(OnPatch, CanPatch);
 			OnCreateNew();
 
@@ -202,6 +203,20 @@ namespace PowerCalculator.ViewModels
 			var specificationViewModel = new SpecificationViewModel(Configuration, Initialize);
             DialogService.ShowModalWindow(specificationViewModel);
 		}
+
+        public RelayCommand CollectToSpecificationCommand { get; private set; }
+        void OnCollectToSpecification()
+        {
+            var specificationViewModel = 
+                new SpecificationViewModel(Configuration, Initialize, 
+                    Processor.Processor.CollectDevices(Configuration.Lines), 
+                    Processor.Processor.CollectCables(Configuration.Lines));
+            DialogService.ShowModalWindow(specificationViewModel);
+        }
+        bool CanCollectToSpecification()
+        {
+            return Lines.Sum(x=>x.Devices.Count) > 0;
+        }
 
         public RelayCommand EditCableTypesRepositoryCommand { get; private set; }
         void OnEditCableTypesRepository()

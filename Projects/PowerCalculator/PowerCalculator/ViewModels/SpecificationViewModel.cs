@@ -5,6 +5,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using PowerCalculator.Models;
 using Infrastructure.Common.Windows;
 using System;
+using System.Collections.Generic;
 
 namespace PowerCalculator.ViewModels
 {
@@ -13,7 +14,9 @@ namespace PowerCalculator.ViewModels
 		Configuration Configuration;
         Action InitializeConfiguration;
 
-        public SpecificationViewModel(Configuration configuration, Action initializeConfiguration)
+        public SpecificationViewModel(Configuration configuration, Action initializeConfiguration, 
+            List<DeviceSpecificationItem> deviceSpecificationItems = null,
+            List<CableSpecificationItem> cableSpecificationItems = null)
 		{
 			Title = "Спецификация устройств и кабелей";
 			Configuration = configuration;
@@ -23,11 +26,15 @@ namespace PowerCalculator.ViewModels
 			AddCableCommand = new RelayCommand(OnAddCable);
 			RemoveCableCommand = new RelayCommand(OnRemoveCable, CanRemoveCable);
 
-			CollectToSpecificationCommand = new RelayCommand(OnCollectToSpecification);
 			GenerateFromSpecificationCommand = new RelayCommand(OnGenerateFromSpecification);
 
-            DeviceSpecificationItems = new ObservableCollection<DeviceSpecificationItemViewModel>(Configuration.DeviceSpecificationItems.Select(x => new DeviceSpecificationItemViewModel(x)));
-            CableSpecificationItems = new ObservableCollection<CableSpecificationItemViewModel>(Configuration.CableSpecificationItems.Select(x => new CableSpecificationItemViewModel(x)));
+            DeviceSpecificationItems =
+                new ObservableCollection<DeviceSpecificationItemViewModel>(
+                    (deviceSpecificationItems == null ? Configuration.DeviceSpecificationItems : deviceSpecificationItems).Select(x => new DeviceSpecificationItemViewModel(x)));
+
+            CableSpecificationItems =
+                new ObservableCollection<CableSpecificationItemViewModel>(
+                    (cableSpecificationItems == null ? Configuration.CableSpecificationItems : cableSpecificationItems).Select(x => new CableSpecificationItemViewModel(x)));
 		}
         
 		public ObservableCollection<DeviceSpecificationItemViewModel> DeviceSpecificationItems { get; private set; }
@@ -99,20 +106,6 @@ namespace PowerCalculator.ViewModels
 		bool CanRemoveCable()
 		{
 			return SelectedCableSpecificationItem != null;
-		}
-
-		public RelayCommand CollectToSpecificationCommand { get; private set; }
-		void OnCollectToSpecification()
-		{
-			Processor.Processor.CollectToSpecification(Configuration);
-
-            DeviceSpecificationItems.Clear();
-            foreach (var deviceSpecificationItem in Configuration.DeviceSpecificationItems)
-                DeviceSpecificationItems.Add(new DeviceSpecificationItemViewModel(deviceSpecificationItem));
-            CableSpecificationItems.Clear();
-            foreach (var cableSpecificationItem in Configuration.CableSpecificationItems)
-                CableSpecificationItems.Add(new CableSpecificationItemViewModel(cableSpecificationItem));
-
 		}
 
 		public RelayCommand GenerateFromSpecificationCommand { get; private set; }

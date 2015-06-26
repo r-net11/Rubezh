@@ -6,18 +6,17 @@ namespace PowerCalculator.Processor
 {
 	public static class Processor
 	{
-        public static void CollectToSpecification(Configuration configuration)
+        public static List<DeviceSpecificationItem> CollectDevices(List<Line> lines)
         {
-            configuration.CableSpecificationItems = new List<CableSpecificationItem>();
-            configuration.DeviceSpecificationItems = new List<DeviceSpecificationItem>();
+            var deviceSpecificationItems = new List<DeviceSpecificationItem>();
 
-            foreach (Line line in configuration.Lines)
+            foreach (Line line in lines)
                 foreach (Device device in line.Devices)
                 {
-					if (device.DriverType == DriverType.RSR2_KAU)
+                    if (device.DriverType == DriverType.RSR2_KAU)
                         continue;
 
-                    DeviceSpecificationItem existingDevice = configuration.DeviceSpecificationItems.Where(x => x.DriverType == device.DriverType).FirstOrDefault();
+                    DeviceSpecificationItem existingDevice = deviceSpecificationItems.Where(x => x.DriverType == device.DriverType).FirstOrDefault();
 
                     if (existingDevice == null)
                     {
@@ -25,14 +24,28 @@ namespace PowerCalculator.Processor
                         {
                             DriverType = device.DriverType,
                             Count = 1
-          
+
                         };
-                        configuration.DeviceSpecificationItems.Add(existingDevice);
+                        deviceSpecificationItems.Add(existingDevice);
                     }
                     else
                         existingDevice.Count++;
+                }
 
-                    CableSpecificationItem existingCable = configuration.CableSpecificationItems.Where(x => x.Resistivity == device.Cable.Resistivity && x.CableType == device.Cable.CableType).FirstOrDefault();
+            return deviceSpecificationItems;
+        }
+
+        public static List<CableSpecificationItem> CollectCables(List<Line> lines)
+        {
+            var cableSpecificationItems = new List<CableSpecificationItem>();
+
+            foreach (Line line in lines)
+                foreach (Device device in line.Devices)
+                {
+                    if (device.DriverType == DriverType.RSR2_KAU)
+                        continue;
+
+                    CableSpecificationItem existingCable = cableSpecificationItems.Where(x => x.Resistivity == device.Cable.Resistivity && x.CableType == device.Cable.CableType).FirstOrDefault();
 
                     if (existingCable == null)
                     {
@@ -42,13 +55,15 @@ namespace PowerCalculator.Processor
                             Resistivity = device.Cable.Resistivity,
                             CableType = device.Cable.CableType
                         };
-                        configuration.CableSpecificationItems.Add(existingCable);
+                        cableSpecificationItems.Add(existingCable);
                     }
                     else
                         existingCable.Length += device.Cable.Length;
                 }
+
+            return cableSpecificationItems;
         }
-        
+
         public static IEnumerable<CableSpecificationItem> GenerateFromSpecification(Configuration configuration)
         {
             return GenerateFromSpecification(configuration, configuration.DeviceSpecificationItems, configuration.CableSpecificationItems);
