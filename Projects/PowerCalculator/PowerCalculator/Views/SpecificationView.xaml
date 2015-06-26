@@ -33,7 +33,7 @@
                         </DataGridTemplateColumn.CellTemplate>
                         <DataGridTemplateColumn.CellEditingTemplate>
                             <DataTemplate>
-                                <ComboBox ItemsSource="{Binding Drivers}" SelectedItem="{Binding SelectedDriver}">
+                                <ComboBox ItemsSource="{Binding Drivers}" SelectedItem="{Binding SelectedDriver, UpdateSourceTrigger=PropertyChanged}">
                                     <ComboBox.ItemTemplate>
                                         <DataTemplate>
                                             <StackPanel Orientation="Horizontal">
