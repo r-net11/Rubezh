@@ -2,23 +2,37 @@
 using System.Windows;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
+using FiresecAPI.Models;
 
 namespace Infrastructure.Client.Startup.ViewModels
 {
 	public class StartupSettingsViewModel : SaveCancelDialogViewModel
 	{
-		public StartupSettingsViewModel()
+		public StartupSettingsViewModel(ClientType clientType)
 		{
 			Title = "Настройки подключения";
 			TopMost = true;
-			AutoConnect = GlobalSettingsHelper.GlobalSettings.AutoConnect;
+			ClientType = clientType;
 			RemotePort = GlobalSettingsHelper.GlobalSettings.RemotePort;
 			ReportRemotePort = GlobalSettingsHelper.GlobalSettings.ReportRemotePort;
 			RemoteAddress = GlobalSettingsHelper.GlobalSettings.RemoteAddress;
-			Login = GlobalSettingsHelper.GlobalSettings.Login;
-			Password = GlobalSettingsHelper.GlobalSettings.Password;
+			switch (clientType)
+			{
+				case ClientType.Administrator:
+					AutoConnect = GlobalSettingsHelper.GlobalSettings.AdminAutoConnect;
+					Login = GlobalSettingsHelper.GlobalSettings.AdminLogin;
+					Password = GlobalSettingsHelper.GlobalSettings.AdminPassword;
+					break;
+				case ClientType.Monitor:
+					AutoConnect = GlobalSettingsHelper.GlobalSettings.MonitorAutoConnect;
+					Login = GlobalSettingsHelper.GlobalSettings.MonitorLogin;
+					Password = GlobalSettingsHelper.GlobalSettings.MonitorPassword;
+					break;
+			}
 
 		}
+
+		public ClientType ClientType { get; set; }
 
 		public override void OnLoad()
 		{
@@ -94,13 +108,24 @@ namespace Infrastructure.Client.Startup.ViewModels
 
 		protected override bool Save()
 		{
-			GlobalSettingsHelper.GlobalSettings.CurrentClient = StartupService.Instance.ClientType;
-			GlobalSettingsHelper.GlobalSettings.SetAutoConnect(AutoConnect);
 			GlobalSettingsHelper.GlobalSettings.ReportRemotePort = ReportRemotePort;
 			GlobalSettingsHelper.GlobalSettings.RemotePort = RemotePort;
 			GlobalSettingsHelper.GlobalSettings.RemoteAddress = RemoteAddress;
-			GlobalSettingsHelper.GlobalSettings.Login = Login;
-			GlobalSettingsHelper.GlobalSettings.Password = Password;
+			
+			switch (ClientType)
+			{
+				case ClientType.Administrator:
+					GlobalSettingsHelper.GlobalSettings.AdminAutoConnect	=	AutoConnect;
+					GlobalSettingsHelper.GlobalSettings.AdminLogin			=	Login;
+					GlobalSettingsHelper.GlobalSettings.AdminPassword		=	Password;
+					break;
+				case ClientType.Monitor:
+					GlobalSettingsHelper.GlobalSettings.MonitorAutoConnect	=	AutoConnect;
+					GlobalSettingsHelper.GlobalSettings.MonitorLogin		=	Login;
+					GlobalSettingsHelper.GlobalSettings.MonitorPassword		=	Password;
+					break;
+			}
+			
 			GlobalSettingsHelper.Save();
 			return base.Save();
 		}

@@ -37,13 +37,45 @@ namespace Infrastructure.Client.Login
 		{
 			Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 			var loginViewModel = new LoginViewModel(_clientType, passwordViewType) { Title = _title };
-			GlobalSettingsHelper.GlobalSettings.CurrentClient = _clientType.ToString();
-			bool isAutoconnect = GlobalSettingsHelper.GlobalSettings.AutoConnect && passwordViewType == LoginViewModel.PasswordViewType.Connect;
+			bool isClientAutoconnect;
+			bool isAutoconnect;
+			
+			switch (_clientType)
+			{
+				case ClientType.Administrator:
+					isClientAutoconnect = GlobalSettingsHelper.GlobalSettings.AdminAutoConnect;
+					break;
+				case ClientType.Monitor:
+					isClientAutoconnect = GlobalSettingsHelper.GlobalSettings.MonitorAutoConnect;
+					break;
+				default:
+					isClientAutoconnect = false;
+					break;
+			}
+			if (isClientAutoconnect && passwordViewType == LoginViewModel.PasswordViewType.Connect)
+			{
+				isAutoconnect = true;
+			}
+			else 
+			{ 
+				isAutoconnect = false; 
+			}
+			
 			var saveCredential = !isAutoconnect;
 			if (isAutoconnect)
 			{
-				loginViewModel.UserName = GlobalSettingsHelper.GlobalSettings.Login;
-				loginViewModel.Password = GlobalSettingsHelper.GlobalSettings.Password;
+				switch (_clientType)
+				{
+					case ClientType.Administrator:
+						loginViewModel.UserName = GlobalSettingsHelper.GlobalSettings.AdminLogin;
+						loginViewModel.Password = GlobalSettingsHelper.GlobalSettings.AdminPassword;
+						break;
+					case ClientType.Monitor:
+						loginViewModel.UserName = GlobalSettingsHelper.GlobalSettings.MonitorLogin;
+						loginViewModel.Password = GlobalSettingsHelper.GlobalSettings.MonitorPassword;
+						break;
+				}
+				
 			}
 			else
 			{
