@@ -1,10 +1,10 @@
 ﻿namespace GKModule.Views
 {
-	public partial class AnyZonesSelectionView
-	{
-		public AnyZonesSelectionView()
-		{
-			InitializeComponent();
-		}
-	}
+    public partial class AnyZonesSelectionView
+    {
+        public AnyZonesSelectionView()
+        {
+            InitializeComponent();
+        }
+    }
 }

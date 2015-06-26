@@ -16,10 +16,6 @@ namespace Infrastructure.Common
 		public static string GetLocalFolder(string folderName)
 		{
 			return GetFolder(Environment.UserName + "_" + folderName);
-			
-			var localAppDataFolderName = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-			localAppDataFolderName = Path.Combine(localAppDataFolderName, "Firesec2");
-			return Path.Combine(localAppDataFolderName, folderName);
 		}
 
 		public static string GetFolder(string folderName)

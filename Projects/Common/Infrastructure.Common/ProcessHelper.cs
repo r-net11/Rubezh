@@ -93,7 +93,7 @@ namespace Infrastructure.Common
 				}
 				return ret;
 			}
-			catch (Exception err)
+			catch (Exception)
 			{
 				return false;
 			}
@@ -118,7 +118,7 @@ namespace Infrastructure.Common
 				}
 				return ret;
 			}
-			catch (Exception err)
+			catch (Exception)
 			{
 				return false;
 			}

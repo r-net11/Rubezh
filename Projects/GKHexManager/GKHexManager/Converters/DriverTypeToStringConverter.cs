@@ -10,16 +10,13 @@ namespace HexManager.Converters
 		{
 			if (value.ToString() == "")
 				return "";
-			XDriverType driverType = (XDriverType)value;
+			GKDriverType driverType = (GKDriverType)value;
             switch (driverType)
             {
-                case XDriverType.GK:
+				case GKDriverType.GK:
                     return "ГК";
 
-                case XDriverType.KAU:
-                    return "КАУ";
-
-                case XDriverType.RSR2_KAU:
+				case GKDriverType.RSR2_KAU:
                     return "КАУ RSR2";
             }
 			return "";

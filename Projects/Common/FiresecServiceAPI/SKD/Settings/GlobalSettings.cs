@@ -75,7 +75,7 @@ namespace FiresecAPI
 
 		[DataMember]
 		public bool MonitorAutoConnect { get; set; }
-		
+
 
 		[DataMember]
 		public string RemoteAddress { get; set; }
@@ -171,10 +171,10 @@ namespace FiresecAPI
 			{
 #if DEBUG
 				return true;
+#else
+                return false;
 #endif
-				return false;
 			}
 		}
-       
-    }
+	}
 }

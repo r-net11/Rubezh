@@ -36,7 +36,7 @@ namespace Infrastructure.Common
 				_isBeepThreadStopping = false;
 				_beepThread = null;
 			}
-			catch (Exception e)
+			catch (Exception)
 			{
 				return;
 			}
