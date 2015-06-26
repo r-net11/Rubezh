@@ -226,8 +226,8 @@ namespace SKDModule.ViewModels
 			get { return SelectedPosition != null && !SelectedPosition.IsDeleted; }
 		}
 
-		ShortSchedule _selectedSchedule;
-		public ShortSchedule SelectedSchedule
+		Schedule _selectedSchedule;
+		public Schedule SelectedSchedule
 		{
 			get { return _selectedSchedule; }
 			private set
@@ -610,7 +610,7 @@ namespace SKDModule.ViewModels
 			var scheduleSelectionViewModel = new ScheduleSelectionViewModel(Employee, SelectedSchedule, ScheduleStartDate);
 			if (DialogService.ShowModalWindow(scheduleSelectionViewModel))
 			{
-				SelectedSchedule = scheduleSelectionViewModel.ShortSchedule;
+				SelectedSchedule = scheduleSelectionViewModel.SelectedSchedule;
 				if (SelectedSchedule != null)
 				{
 					ScheduleStartDate = scheduleSelectionViewModel.StartDate;

@@ -159,6 +159,14 @@ namespace FiresecService.Report
 			return employeeFilter;
 		}
 
+        public List<SKDCard> GetCards(CardFilter filter)
+        {
+            var result = DbService.CardTranslator.Get(filter);
+            if (result.HasError)
+                return new List<SKDCard>();
+            return result.Result;
+        }
+
 		public EmployeeFilter GetEmployeeFilter(SKDReportFilter filter)
 		{
 			var employeeFilter = new EmployeeFilter();

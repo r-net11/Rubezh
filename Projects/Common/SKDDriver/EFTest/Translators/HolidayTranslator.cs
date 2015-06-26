@@ -18,6 +18,8 @@ namespace SKDDriver.DataClasses
 		public override API.Holiday Translate(Holiday tableItem)
 		{
 			var result = base.Translate(tableItem);
+            if (result == null)
+                return null;
 			result.Date = tableItem.Date;
 			result.TransferDate = tableItem.TransferDate;
 			result.Type = (API.HolidayType)tableItem.Type;

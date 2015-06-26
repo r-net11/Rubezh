@@ -22,6 +22,8 @@ namespace SKDDriver.DataClasses
 		public override API.ScheduleScheme Translate(ScheduleScheme tableItem)
 		{
 			var result = base.Translate(tableItem);
+            if (result == null)
+                return null;
 			result.DayIntervals = tableItem.ScheduleDays.OrderBy(item => item.Number).Select(x => new API.ScheduleDayInterval
 			{ 
 				DayInterval = x.DayInterval != null ? DbService.DayIntervalTranslator.Translate(x.DayInterval) : null,

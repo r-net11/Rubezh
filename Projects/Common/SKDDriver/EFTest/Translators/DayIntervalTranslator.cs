@@ -25,6 +25,8 @@ namespace SKDDriver.DataClasses
 		public override API.DayInterval Translate(DayInterval tableItem)
 		{
 			var result = base.Translate(tableItem);
+            if (result == null)
+                return null;
 			result.SlideTime = TimeSpan.FromTicks(tableItem.SlideTime);
 			result.DayIntervalParts = tableItem.DayIntervalParts.Select(x => TranslatePart(x)).ToList();
 			return result;

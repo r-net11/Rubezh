@@ -30,6 +30,8 @@ namespace SKDDriver.DataClasses
 		public override API.AccessTemplate Translate(AccessTemplate tableItem)
 		{
 			var result = base.Translate(tableItem);
+            if (result == null)
+                return null;
 			result.CardDoors = tableItem.CardDoors.Select(x => x.Translate()).ToList();
 			return result;
 		}

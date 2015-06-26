@@ -12,7 +12,7 @@ namespace SKDModule.ViewModels
 	{
 		public Employee Employee { get; private set; }
 
-		public ScheduleSelectionViewModel(Employee employee, ShortSchedule shortSchedule, DateTime startDate)
+		public ScheduleSelectionViewModel(Employee employee, Schedule shortSchedule, DateTime startDate)
 		{
 			Title = "Выбор графика работы";
 			Employee = employee;
@@ -41,22 +41,6 @@ namespace SKDModule.ViewModels
 			{
 				_startDate = value;
 				OnPropertyChanged(() => StartDate);
-			}
-		}
-
-		public ShortSchedule ShortSchedule
-		{
-			get
-			{
-				return new ShortSchedule
-					{
-						UID = SelectedSchedule.UID,
-						Description = SelectedSchedule.Description,
-						IsDeleted = SelectedSchedule.IsDeleted,
-						Name = SelectedSchedule.Name,
-						OrganisationUID = SelectedSchedule.OrganisationUID,
-						RemovalDate = SelectedSchedule.RemovalDate
-					};
 			}
 		}
 

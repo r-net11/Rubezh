@@ -56,6 +56,9 @@ namespace SKDDriver.DataClasses
 			modelBuilder.Entity<PassCardTemplate>().ToTable("PassCardTemplate", schemaStr);
             modelBuilder.Entity<CurrentConsumption>().ToTable("CurrentConsumption", schemaStr);
             modelBuilder.Entity<NightSetting>().ToTable("NightSetting", schemaStr);
+            modelBuilder.Entity<Card>().ToTable("Card", schemaStr);
+            modelBuilder.Entity<CardGKControllerUID>().ToTable("CardGKControllerUID", schemaStr);
+            
 		}
 
 		public DbSet<GKSchedule> GKSchedules { get; set; }

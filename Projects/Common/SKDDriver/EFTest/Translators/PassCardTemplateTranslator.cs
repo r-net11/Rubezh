@@ -25,7 +25,9 @@ namespace SKDDriver.DataClasses
 		
 		public override API.PassCardTemplate Translate(PassCardTemplate tableItem)
 		{
-			using (var ms = new MemoryStream(tableItem.Data.ToArray()))
+            if (tableItem == null)
+                return null;
+            using (var ms = new MemoryStream(tableItem.Data.ToArray()))
 			{
 				var result = (API.PassCardTemplate)_serializer.ReadObject(ms);
 				return result;

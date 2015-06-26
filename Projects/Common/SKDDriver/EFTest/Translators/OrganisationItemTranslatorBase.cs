@@ -9,7 +9,7 @@ namespace SKDDriver.DataClasses
 {
 	public abstract class OrganisationItemTranslatorBase<TTableItem, TApiItem, TFilter>
 		where TTableItem : class, IOrganisationItem, new()
-		where TApiItem : API.IOrganisationElement, new()
+		where TApiItem : class, API.IOrganisationElement, new()
 		where TFilter : API.OrganisationFilterBase
 	{
 		public DbService DbService { get; private set; }
@@ -65,7 +65,7 @@ namespace SKDDriver.DataClasses
 				else
 				{
 					ClearDependentData(tableItem);
-					TranslateBack(item, tableItem);
+                    TranslateBack(item, tableItem);
 				}
 				Context.SaveChanges();
 				return new OperationResult<bool>(true);
@@ -146,7 +146,9 @@ namespace SKDDriver.DataClasses
 
 		public virtual TApiItem Translate(TTableItem tableItem)
 		{
-			return new TApiItem
+            if (tableItem == null)
+                return null;
+            return new TApiItem
 			{
 				UID = tableItem.UID,
 				Name = tableItem.Name,
@@ -187,8 +189,8 @@ namespace SKDDriver.DataClasses
 
 	public abstract class ShortTranslatorBase<TTableItem, TShort, TApiItem, TFilter>
 		where TTableItem : class, IOrganisationItem, new()
-		where TApiItem : API.IOrganisationElement, new()
-		where TShort : API.IOrganisationElement, new()
+		where TApiItem :class, API.IOrganisationElement, new()
+		where TShort : class, API.IOrganisationElement, new()
 		where TFilter : API.OrganisationFilterBase
 	{
 		OrganisationItemTranslatorBase<TTableItem, TApiItem, TFilter> OrganisationItemTranslatorBase;
@@ -202,7 +204,9 @@ namespace SKDDriver.DataClasses
 
 		public virtual TShort TranslateToShort(TTableItem tableItem)
 		{
-			return new TShort
+            if (tableItem == null)
+                return null;
+            return new TShort
 			{
 				UID = tableItem.UID,
 				Name = tableItem.Name,

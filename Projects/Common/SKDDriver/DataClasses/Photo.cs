@@ -11,7 +11,7 @@ namespace SKDDriver.DataClasses
 		{ 
 			if (photo == null) 
 				return null; 
-			return new Photo { UID = photo.UID, Data = photo.Data }; 
+			return new Photo { UID = Guid.NewGuid(), Data = photo.Data }; 
 		}
 		
 		public FiresecAPI.SKD.Photo Translate() { return new FiresecAPI.SKD.Photo { UID = UID, Data = Data }; }

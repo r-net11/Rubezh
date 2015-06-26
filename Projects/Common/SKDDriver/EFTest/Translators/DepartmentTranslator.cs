@@ -33,6 +33,8 @@ namespace SKDDriver.DataClasses
 		public override API.Department Translate(Department tableItem)
 		{
 			var result = base.Translate(tableItem);
+            if (result == null)
+                return null;
 			result.Photo = result.Photo = tableItem.Photo != null ? tableItem.Photo.Translate() : null;
 			result.ParentDepartmentUID = tableItem.ParentDepartmentUID;
 			result.ChildDepartmentUIDs = tableItem.ChildDepartments.Select(x => x.UID).ToList();
@@ -145,9 +147,9 @@ namespace SKDDriver.DataClasses
 			try
 			{
 				var result = new List<Guid>();
-				//var tableItem = Table.Include(x => x.ChildDepartments.Select(y => y.Employees)).FirstOrDefault(x => x.UID == uid);
-				//result.AddRange(tableItem.Employees.Select(x => x.UID));
-				//result.AddRange(tableItem.ChildDepartments.SelectMany(x => x.Employees.Select(y => y.UID)));
+                var tableItem = Table.Include(x => x.ChildDepartments.Select(y => y.Employees)).FirstOrDefault(x => x.UID == uid);
+                result.AddRange(tableItem.Employees.Select(x => x.UID));
+                result.AddRange(tableItem.ChildDepartments.SelectMany(x => x.Employees.Select(y => y.UID)));
 				return new OperationResult<List<Guid>>(result);
 			}
 			catch (Exception e)
@@ -161,14 +163,14 @@ namespace SKDDriver.DataClasses
 			try
 			{
 				var result = new List<Guid>();
-				//var parentItem = Table.Include(x => x.ChildDepartments.Select(y => y.Employees)).FirstOrDefault(x => x.UID == uid);
-				//bool isRoot = true;
-				//while(isRoot)
-				//{
-				//    isRoot = parentItem.ParentDepartment != null;
-				//    result.AddRange(parentItem.Employees.Select(x => x.UID));
-				//    parentItem = parentItem.ParentDepartment;
-				//}
+                var parentItem = Table.Include(x => x.ChildDepartments.Select(y => y.Employees)).FirstOrDefault(x => x.UID == uid);
+                bool isRoot = true;
+                while (isRoot)
+                {
+                    isRoot = parentItem.ParentDepartment != null;
+                    result.AddRange(parentItem.Employees.Select(x => x.UID));
+                    parentItem = parentItem.ParentDepartment;
+                }
 				return new OperationResult<List<Guid>>(result);
 			}
 			catch (Exception e)
@@ -190,6 +192,8 @@ namespace SKDDriver.DataClasses
 		public override API.ShortDepartment TranslateToShort(Department tableItem)
 		{
 			var result = base.TranslateToShort(tableItem);
+            if (result == null)
+                return null;
 			result.ChiefUID = tableItem.ChiefUID.GetValueOrDefault();
 			result.Phone = tableItem.Phone;
 			result.ParentDepartmentUID = tableItem.ParentDepartmentUID;

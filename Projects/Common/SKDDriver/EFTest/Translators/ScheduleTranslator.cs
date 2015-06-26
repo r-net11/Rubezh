@@ -22,6 +22,8 @@ namespace SKDDriver.DataClasses
 		public override API.Schedule Translate(Schedule tableItem)
 		{
 			var result = base.Translate(tableItem);
+            if (result == null)
+                return null;
 			result.ScheduleSchemeUID = tableItem.ScheduleSchemeUID.HasValue ? tableItem.ScheduleSchemeUID.Value : Guid.Empty;
 			result.IsIgnoreHoliday = tableItem.IsIgnoreHoliday;
 			result.IsOnlyFirstEnter = tableItem.IsOnlyFirstEnter;

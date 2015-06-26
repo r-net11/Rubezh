@@ -23,6 +23,8 @@ namespace SKDDriver.DataClasses
 		public override API.AdditionalColumnType Translate(AdditionalColumnType tableItem)
 		{
 			var result = base.Translate(tableItem);
+            if (result == null)
+                return null;
 			result.DataType = (API.AdditionalColumnDataType)tableItem.DataType;
 			result.PersonType = (API.PersonType)tableItem.PersonType;
 			result.IsInGrid = tableItem.IsInGrid;

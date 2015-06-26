@@ -18,7 +18,7 @@ namespace FiresecService.Service
 		{
 			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
-				return databaseService.EmployeeTranslator.GetList(filter);
+				return databaseService.EmployeeTranslator.ShortTranslator.Get(filter);
 			}
 		}
 		public OperationResult<Employee> GetEmployeeDetails(Guid uid)
@@ -45,11 +45,11 @@ namespace FiresecService.Service
 			var errors = new List<string>();
 			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
-				var getEmployeeOperationResult = databaseService.EmployeeTranslator.GetSingle(uid);
+				var getEmployeeOperationResult = databaseService.CardTranslator.GetEmployeeCards(uid);
 
 				if (!getEmployeeOperationResult.HasError)
 				{
-					foreach (var card in getEmployeeOperationResult.Result.Cards)
+					foreach (var card in getEmployeeOperationResult.Result)
 					{
 						var operationResult = DeleteCardFromEmployee(card, name, "Сотрудник удален");
 						if (operationResult.HasError)
