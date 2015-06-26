@@ -61,7 +61,7 @@ namespace FiresecAPI.Models
 		[DescriptionAttribute("Управление НС")]
 		Oper_NS_Control,
 
-		[DescriptionAttribute("Управление  охранными зонами")]
+		[DescriptionAttribute("Управление охранными зонами")]
 		Oper_GuardZone_Control,
 
 		[DescriptionAttribute("Управление  задержкой")]

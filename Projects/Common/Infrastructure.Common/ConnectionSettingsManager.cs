@@ -7,35 +7,18 @@ namespace Infrastructure.Common
 {
 	public static class ConnectionSettingsManager
 	{
-		static string _remoteAddress;
+		
 		public static string RemoteAddress
 		{
-			get { return _remoteAddress; }
-			set
+			get
 			{
-				_remoteAddress = value;
-				if (_remoteAddress == "localhost")
-					_remoteAddress = "127.0.0.1";
+				if (GlobalSettingsHelper.GlobalSettings.RemoteAddress == "localhost")
+					return "127.0.0.1";
+				return GlobalSettingsHelper.GlobalSettings.RemoteAddress;
 			}
+
 		}
-
-		public static int RemotePort { get; set; }
-		public static int ReportRemotePort { get; set; }
-
-		static ConnectionSettingsManager()
-		{
-			try
-			{
-				RemoteAddress = GlobalSettingsHelper.GlobalSettings.RemoteAddress;
-				RemotePort = GlobalSettingsHelper.GlobalSettings.RemotePort;
-				ReportRemotePort = GlobalSettingsHelper.GlobalSettings.ReportRemotePort;
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "AppSettingsManager.AppSettingsManager");
-			}
-		}
-
+		
 		public static string ServerAddress
 		{
 			get
@@ -43,7 +26,7 @@ namespace Infrastructure.Common
 				var serviceAddress = "net.pipe://127.0.0.1/FiresecService/";
 				if (IsRemote)
 				{
-					serviceAddress = "net.tcp://" + RemoteAddress + ":" + RemotePort.ToString() + "/FiresecService/";
+					serviceAddress = "net.tcp://" + RemoteAddress + ":" + GlobalSettingsHelper.GlobalSettings.RemotePort + "/FiresecService/";
 				}
 				return serviceAddress;
 			}
@@ -53,7 +36,7 @@ namespace Infrastructure.Common
 		{
 			get
 			{
-				var serviceAddress = "net.tcp://" + GetIPAddress() + ":" + ReportRemotePort.ToString() + "/ReportFiresecService/";
+				var serviceAddress = "net.tcp://" + GetIPAddress() + ":" + GlobalSettingsHelper.GlobalSettings.ReportRemotePort + "/ReportFiresecService/";
 				return serviceAddress;
 			}
 		}
