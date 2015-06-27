@@ -56,6 +56,9 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WPFToolkit.Extended, Version=1.4.0.2, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\..\..\3rdParty\WPF Toolkit\WPFToolkit.Extended.dll</HintPath>
+    </Reference>
     <Reference Include="Xceed.Wpf.Toolkit">
       <HintPath>..\..\..\3rdParty\ExtendedWPFToolkit_Binaries\Xceed.Wpf.Toolkit.dll</HintPath>
     </Reference>
@@ -68,7 +71,6 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Converters\BytesToStringConverter.cs" />
     <Compile Include="Converters\DescriptorNoToStringConverter.cs" />
-    <Compile Include="Processor\BytesHelper.cs" />
     <Compile Include="Processor\NetProcessor.cs" />
     <Compile Include="Processor\HashHelper.cs" />
     <Compile Include="Models\ImitatorJournalItem.cs" />
@@ -77,9 +79,20 @@
     <Compile Include="Processor\ConfigurationCashHelper.cs" />
     <Compile Include="Models\Regime.cs" />
     <Compile Include="Models\TurningState.cs" />
+    <Compile Include="ViewModels\DescriptorViewModel.States.cs" />
     <Compile Include="ViewModels\DescriptorViewModel.cs" />
     <Compile Include="ViewModels\FailureViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\Properties\BasePropertyViewModel.cs" />
+    <Compile Include="ViewModels\Properties\BoolPropertyViewModel.cs" />
+    <Compile Include="ViewModels\Properties\DirectionPropertiesViewModel.cs" />
+    <Compile Include="ViewModels\Properties\EnumPropertyViewModel.cs" />
+    <Compile Include="ViewModels\Properties\DevicePropertiesViewModel.cs" />
+    <Compile Include="ViewModels\Properties\ShortPropertyViewModel.cs" />
+    <Compile Include="ViewModels\Properties\DelayPropertiesViewModel.cs" />
+    <Compile Include="ViewModels\Properties\GuardZonePropertiesViewModel.cs" />
+    <Compile Include="ViewModels\Properties\CodePropertiesViewModel.cs" />
+    <Compile Include="ViewModels\Properties\DoorPropertiesViewModel.cs" />
     <Compile Include="ViewModels\StateBitViewModel.cs" />
     <Compile Include="ViewModels\DescriptorViewModel.Test.cs" />
     <Compile Include="ViewModels\DescriptorViewModel.Dustiness.cs" />
@@ -88,8 +101,28 @@
     <Compile Include="ViewModels\DescriptorViewModel.Turning.cs" />
     <Compile Include="ViewModels\DescriptorViewModel.Logic.cs" />
     <Compile Include="ViewModels\DescriptorViewModel.Commands.cs" />
+    <Compile Include="ViewModels\DescriptorViewModel.Initialize.cs" />
+    <Compile Include="ViewModels\DescriptorViewModel.Properties.cs" />
+    <Compile Include="Views\DirectionPropertiesView.xaml.cs">
+      <DependentUpon>DirectionPropertiesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DevicePropertiesView.xaml.cs">
+      <DependentUpon>DevicePropertiesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DelayPropertiesView.xaml.cs">
+      <DependentUpon>DelayPropertiesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GuardZonePropertiesView.xaml.cs">
+      <DependentUpon>GuardZonePropertiesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DoorPropertiesView.xaml.cs">
+      <DependentUpon>DoorPropertiesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CodePropertiesView.xaml.cs">
+      <DependentUpon>CodePropertiesView.xaml</DependentUpon>
     </Compile>
     <Page Include="DataTemplates\Dictionary.xaml">
       <SubType>Designer</SubType>
@@ -99,9 +132,33 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\DirectionPropertiesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DevicePropertiesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DelayPropertiesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GuardZonePropertiesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\DoorPropertiesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\CodePropertiesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
@@ -158,6 +215,7 @@
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

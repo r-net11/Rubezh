@@ -50,6 +50,20 @@ namespace GKImitator.ViewModels
 				HoldDelay = direction.Hold;
 				DelayRegime = direction.DelayRegime;
 			}
+			var mpt = GKBase as GKMPT;
+			if (mpt != null)
+			{
+				OnDelay = (ushort)mpt.Delay;
+				HoldDelay = (ushort)mpt.Hold;
+				DelayRegime = mpt.DelayRegime;
+			}
+			var pumpStation = GKBase as GKPumpStation;
+			if (pumpStation != null)
+			{
+				OnDelay = (ushort)pumpStation.Delay;
+				HoldDelay = (ushort)pumpStation.Hold;
+				DelayRegime = pumpStation.DelayRegime;
+			}
 			var delay = GKBase as GKDelay;
 			if (delay != null)
 			{
@@ -100,19 +114,19 @@ namespace GKImitator.ViewModels
 			TurnOnNowCommand = new RelayCommand(OnTurnOnNow);
 			TurnOffCommand = new RelayCommand(OnTurnOff);
 			TurnOffNowCommand = new RelayCommand(OnTurnOffNow);
+			PauseTurnOnCommand = new RelayCommand(OnPauseTurnOn);
 		}
 
 		public bool HasTurnOn { get; private set; }
 		public bool HasTurnOnNow { get; private set; }
 		public bool HasTurnOff { get; private set; }
 		public bool HasTurnOffNow { get; private set; }
+		public bool HasPauseTurnOn { get; private set; }
 
 		public void CheckDelays()
 		{
 			if (TurningState == TurningState.TurningOn)
 			{
-				CurrentOnDelay--;
-				AdditionalShortParameters[0] = CurrentOnDelay;
 				if (CurrentOnDelay == 0)
 				{
 					TurningState = TurningState.None;
@@ -129,11 +143,14 @@ namespace GKImitator.ViewModels
 						TurningState = TurningState.Holding;
 					}
 				}
+				else
+				{
+					CurrentOnDelay--;
+					AdditionalShortParameters[0] = CurrentOnDelay;
+				}
 			}
 			if (TurningState == TurningState.Holding)
 			{
-				CurrentHoldDelay--;
-				AdditionalShortParameters[1] = CurrentHoldDelay;
 				if (CurrentHoldDelay == 0)
 				{
 					TurningState = TurningState.None;
@@ -154,15 +171,23 @@ namespace GKImitator.ViewModels
 						}
 					}
 				}
+				else
+				{
+					CurrentHoldDelay--;
+					AdditionalShortParameters[1] = CurrentHoldDelay;
+				}
 			}
 			if (TurningState == TurningState.TurningOff)
 			{
-				CurrentOffDelay--;
-				AdditionalShortParameters[2] = CurrentOffDelay;
 				if (CurrentOffDelay == 0)
 				{
 					TurningState = TurningState.None;
 					TurnOffNow();
+				}
+				else
+				{
+					CurrentOffDelay--;
+					AdditionalShortParameters[2] = CurrentOffDelay;
 				}
 			}
 		}
@@ -174,7 +199,10 @@ namespace GKImitator.ViewModels
 			{
 				if (OnDelay > 0)
 				{
-					CurrentOnDelay = OnDelay;
+					if (TurningState != TurningState.Paused)
+					{
+						CurrentOnDelay = OnDelay;
+					}
 					TurningState = TurningState.TurningOn;
 				}
 				TurnOn();
@@ -198,8 +226,8 @@ namespace GKImitator.ViewModels
 				if (OffDelay > 0)
 				{
 					CurrentOffDelay = OffDelay;
-					TurningState = TurningState.None;
 				}
+				TurningState = TurningState.None;
 				TurnOff();
 			}
 		}
@@ -210,6 +238,18 @@ namespace GKImitator.ViewModels
 			if (HasTurnOffNow)
 			{
 				TurnOffNow();
+			}
+		}
+
+		public RelayCommand PauseTurnOnCommand { get; private set; }
+		void OnPauseTurnOn()
+		{
+			if (HasPauseTurnOn)
+			{
+				if(TurningState == TurningState.TurningOn)
+				{
+					TurningState = TurningState.Paused;
+				}
 			}
 		}
 
@@ -247,7 +287,7 @@ namespace GKImitator.ViewModels
 		{
 			if (OffDelay == 0)
 			{
-				OnTurnOffNow();
+				TurnOffNow();
 			}
 			else
 			{

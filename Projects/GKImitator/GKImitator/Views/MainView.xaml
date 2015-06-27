@@ -48,29 +48,31 @@
             <StackPanel Grid.Column="1">
                 <StackPanel Orientation="Horizontal">
                     <StackPanel>
-                        <Button Content="Автоматика" Command="{Binding SetAutomaticRegimeCommand}" IsEnabled="{Binding CanSetAutomaticRegime}" Width="100" Height="30" Margin="2" />
-                        <Button Content="Ручной" Command="{Binding SetManualRegimeCommand}" IsEnabled="{Binding CanSetManualRegime}" Width="100" Height="30" Margin="2" />
-                        <Button Content="Отключение" Command="{Binding SetIgnoreRegimeCommand}" IsEnabled="{Binding CanSetIgnoreRegime}" Width="100" Height="30" Margin="2" />
+						<Button Content="Автоматика" Command="{Binding SetAutomaticRegimeCommand}" Visibility="{Binding HasAutomaticRegime, Converter={StaticResource BoolToVisibilityConverter}}" IsEnabled="{Binding CanSetAutomaticRegime}" Width="100" Height="30" Margin="2" />
+						<Button Content="Ручной" Command="{Binding SetManualRegimeCommand}" Visibility="{Binding HasManualRegime, Converter={StaticResource BoolToVisibilityConverter}}" IsEnabled="{Binding CanSetManualRegime}" Width="100" Height="30" Margin="2" />
+						<Button Content="Отключение" Command="{Binding SetIgnoreRegimeCommand}" Visibility="{Binding HasIgnoreRegime, Converter={StaticResource BoolToVisibilityConverter}}" IsEnabled="{Binding CanSetIgnoreRegime}" Width="100" Height="30" Margin="2" />
+						<Button Content="Сброс" Command="{Binding ResetFireCommand}" Visibility="{Binding HasReset, Converter={StaticResource BoolToVisibilityConverter}}" Width="100" Height="30" Margin="2" />
                     </StackPanel>
                     <StackPanel IsEnabled="{Binding CanControl}">
                         <Button Content="Включить" Command="{Binding TurnOnCommand}" Visibility="{Binding HasTurnOn, Converter={StaticResource BoolToVisibilityConverter}}" Width="150" Height="30" Margin="2" />
                         <Button Content="Включить немедленно" Command="{Binding TurnOnNowCommand}" Visibility="{Binding HasTurnOnNow, Converter={StaticResource BoolToVisibilityConverter}}" Width="150" Height="30" Margin="2" />
                         <Button Content="Выключить" Command="{Binding TurnOffCommand}" Visibility="{Binding HasTurnOff, Converter={StaticResource BoolToVisibilityConverter}}" Width="150" Height="30" Margin="2" />
                         <Button Content="Выключить немедленно" Command="{Binding TurnOffNowCommand}" Visibility="{Binding HasTurnOffNow, Converter={StaticResource BoolToVisibilityConverter}}" Width="150" Height="30" Margin="2" />
+						<Button Content="Остановить" Command="{Binding PauseTurnOnCommand}" Visibility="{Binding HasPauseTurnOn, Converter={StaticResource BoolToVisibilityConverter}}" Width="150" Height="30" Margin="2" />
                     </StackPanel>
                 </StackPanel>
 
-                <StackPanel Orientation="Horizontal">
+				<StackPanel Orientation="Horizontal" Visibility="{Binding HasOnDelay, Converter={StaticResource BoolToVisibilityConverter}}">
                     <TextBlock Text="Задержка на включение, с" Width="150" Foreground="Black" Margin="2" />
                     <TextBlock Text="{Binding CurrentOnDelay}" Width="150" Foreground="Black" Margin="2" />
                 </StackPanel>
 
-                <StackPanel Orientation="Horizontal">
+				<StackPanel Orientation="Horizontal" Visibility="{Binding HasHoldDelay, Converter={StaticResource BoolToVisibilityConverter}}">
                     <TextBlock Text="Удержание, с" Width="150" Foreground="Black" Margin="2" />
                     <TextBlock Text="{Binding CurrentHoldDelay}" Width="150" Foreground="Black" Margin="2" />
                 </StackPanel>
 
-                <StackPanel Orientation="Horizontal">
+				<StackPanel Orientation="Horizontal" Visibility="{Binding HasOffDelay, Converter={StaticResource BoolToVisibilityConverter}}">
                     <TextBlock Text="Задержка на выключение, с" Width="150" Foreground="Black" Margin="2" />
                     <TextBlock Text="{Binding CurrentOffDelay}" Width="150" Foreground="Black" Margin="2" />
                 </StackPanel>
@@ -108,6 +110,9 @@
                     <Button Content="Ручник сорван" Command="{Binding SetFireHeandDetectorCommand}" Visibility="{Binding HasSetFireHeandDetector, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" Width="200" Margin="2" />
                     <Button Content="Сброс" Command="{Binding ResetFireCommand}" Visibility="{Binding HasResetFire, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" Width="200" Margin="2" />
                 </StackPanel>
+
+				<Button Command="{Binding ShowParametersCommand}" Content="Параметры" Visibility="{Binding HasParameters, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" Width="100" Margin="2" />
+				
             </StackPanel>
         </Grid>
     </Grid>

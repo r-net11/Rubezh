@@ -9,6 +9,7 @@ namespace GKImitator.Processor
 	{
 		None,
 		TurningOn,
+		Paused,
 		Holding,
 		TurningOff
 	}
