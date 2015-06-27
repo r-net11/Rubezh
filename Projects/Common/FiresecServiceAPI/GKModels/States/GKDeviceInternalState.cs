@@ -11,7 +11,7 @@ namespace FiresecAPI.GK
 		{
 			Device = device;
 
-			if (device.DriverType == GKDriverType.System)
+			if (device.DriverType == GKDriverType.System || device.DriverType == GKDriverType.RSR2_MVP_Part)
 				IsInitialState = false;
 		}
 

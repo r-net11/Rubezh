@@ -148,20 +148,6 @@ namespace GKProcessor
 			GKDriversHelper.AddPropertyParameter(property98, "Нет", 0);
 			GKDriversHelper.AddPropertyParameter(property98, "Есть", 0x01);
 			driver.Properties.Add(property98);
-
-			var property99 = new GKDriverProperty()
-			{
-				No = 9,
-				Name = "Режим после удержания",
-				Caption = "Режим после удержания",
-				Default = 0,
-				IsHieghByte = true,
-				Mask = 0x02
-			};
-			GKDriversHelper.AddPropertyParameter(property99, "Закрыто", 0);
-			GKDriversHelper.AddPropertyParameter(property99, "Открыто", 0x02);
-			driver.Properties.Add(property99);
-
 			return driver;
 		}
 	}
