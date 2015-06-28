@@ -15,9 +15,6 @@
     <msbuild project="..\..\Projects\FireAdministrator\FireAdministrator.sln">
       <property name="Configuration" value="Release" overwrite="True" />
     </msbuild>
-    <msbuild project="..\..\Projects\GKOPCServer\GKOPCServer.sln">
-      <property name="Configuration" value="Release" overwrite="True" />
-    </msbuild>
     <msbuild project="..\..\Projects\Installers\FiresecInstaller\FiresecInstaller.sln">
       <property name="Configuration" value="Release" overwrite="True" />
     </msbuild>

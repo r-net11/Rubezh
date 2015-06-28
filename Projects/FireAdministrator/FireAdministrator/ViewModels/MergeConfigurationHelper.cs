@@ -20,7 +20,6 @@ namespace FireAdministrator.ViewModels
 	public class MergeConfigurationHelper
 	{
 		public PlansConfiguration PlansConfiguration;
-		public GKDeviceConfiguration GKDeviceConfiguration;
 		public SKDConfiguration SKDConfiguration;
 
 		public void Merge()
@@ -86,10 +85,6 @@ namespace FireAdministrator.ViewModels
 							PlansConfiguration = ZipSerializeHelper.DeSerialize<PlansConfiguration>(configurationFileName, true);
 							break;
 
-						case "GKDeviceConfiguration.xml":
-							GKDeviceConfiguration = ZipSerializeHelper.DeSerialize<GKDeviceConfiguration>(configurationFileName, true);
-							break;
-
 						case "SKDConfiguration.xml":
 							SKDConfiguration = ZipSerializeHelper.DeSerialize<SKDConfiguration>(configurationFileName, true);
 							break;
@@ -112,34 +107,13 @@ namespace FireAdministrator.ViewModels
 
 		void MergeGKDeviceConfiguration()
 		{
-			GKDeviceConfiguration.Update();
 			PlansConfiguration.Update();
 			CreateNewGKUIDs();
-			GKDeviceConfiguration.Update();
 			PlansConfiguration.Update();
 			var errors = new StringBuilder();
 
-			if (GKDeviceConfiguration == null)
-				GKDeviceConfiguration = new GKDeviceConfiguration();
 			if (PlansConfiguration == null)
 				PlansConfiguration = new PlansConfiguration();
-
-			foreach (var gkControllerDevice in GKDeviceConfiguration.RootDevice.Children)
-			{
-				var ipAddress = "";
-				var ipProperty = gkControllerDevice.Properties.FirstOrDefault(x => x.Name == "IPAddress");
-				if (ipProperty != null)
-				{
-					ipAddress = ipProperty.StringValue;
-				}
-
-				GKManager.DeviceConfiguration.RootDevice.Children.Add(gkControllerDevice);
-			}
-			//foreach (var schedules in GKDeviceConfiguration.Schedules)
-			//{
-			//    GKManager.DeviceConfiguration.Schedules.Add(schedules);
-			//}
-			//ReorderNos(GKManager.DeviceConfiguration.Schedules);
 
 			foreach (var plan in PlansConfiguration.Plans)
 			{
@@ -185,24 +159,6 @@ namespace FireAdministrator.ViewModels
 
 		void CreateNewGKUIDs()
 		{
-			foreach (var device in GKDeviceConfiguration.Devices)
-			{
-				var uid = Guid.NewGuid();
-				GKDeviceUIDs.Add(device.UID, uid);
-				device.UID = uid;
-			}
-			//foreach (var schedule in GKDeviceConfiguration.Schedules)
-			//{
-			//    var uid = Guid.NewGuid();
-			//    GKScheduleUIDs.Add(schedule.UID, uid);
-			//    schedule.UID = uid;
-			//}
-
-			foreach (var device in GKDeviceConfiguration.Devices)
-			{
-				ReplaceLogic(device.Logic);
-			}
-
 			foreach (var plan in PlansConfiguration.AllPlans)
 			{
 				foreach (var element in plan.ElementGKDevices)
@@ -213,17 +169,6 @@ namespace FireAdministrator.ViewModels
 					PlenElementUIDs.Add(element.UID, uid);
 					element.UID = uid;
 				}
-			}
-
-			foreach (var device in GKDeviceConfiguration.Devices)
-			{
-				var uids = new List<Guid>();
-				if (device.PlanElementUIDs != null)
-				foreach (var planElementUID in device.PlanElementUIDs)
-				{
-					uids.Add(PlenElementUIDs[planElementUID]);
-				}
-				device.PlanElementUIDs = uids;
 			}
 
 			foreach (var plan in PlansConfiguration.AllPlans)

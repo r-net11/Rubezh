@@ -63,18 +63,6 @@ namespace FireMonitor.ViewModels
 				if (!string.IsNullOrEmpty(sound.SoundName))
 				{
 					var hasStateClass = false;
-					foreach (var device in GKManager.Devices)
-					{
-						var stateClass = device.State.StateClass;
-						if (sound.StateClass != XStateClass.Attention && sound.StateClass != XStateClass.Fire1 && sound.StateClass != XStateClass.Fire2)
-						{
-							if (stateClass == sound.StateClass)
-							{
-								hasStateClass = true;
-								break;
-							}
-						}
-					}
 
 					foreach (var device in SKDManager.Devices)
 					{

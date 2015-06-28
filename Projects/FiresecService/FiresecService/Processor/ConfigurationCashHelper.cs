@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Windows;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Automation;
@@ -9,6 +10,7 @@ using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecAPI.SKD;
 using FiresecClient;
+using FiresecService.Properties;
 using GKProcessor;
 using Infrastructure.Common;
 using Ionic.Zip;
@@ -30,15 +32,9 @@ namespace FiresecService
 			if (SystemConfiguration == null)
 				SystemConfiguration = new SystemConfiguration();
 
-		//	GKManager.DeviceConfiguration = GetDeviceConfiguration();
 			SKDManager.SKDConfiguration = GetSKDConfiguration();
 
 			SystemConfiguration.UpdateConfiguration();
-
-		//	GKDriversCreator.Create();
-		//	GKManager.UpdateConfiguration();
-		//	GKManager.CreateStates();
-			//GKManager.UpdateConfiguration();
 
 			SKDManager.UpdateConfiguration();
 		}
@@ -62,8 +58,16 @@ namespace FiresecService
 
 		public static SecurityConfiguration GetSecurityConfiguration()
 		{
-			var securityConfiguration = (SecurityConfiguration)GetConfigurationFomZip("SecurityConfiguration.xml", typeof(SecurityConfiguration));
+			var securityConfiguration = GetConfigurationFomZip("SecurityConfiguration.xml", typeof(SecurityConfiguration)) as SecurityConfiguration;
+
+			if (securityConfiguration == null)
+			{
+				MessageBox.Show(Resources.FileNotExistError);
+				Application.Current.MainWindow.Close();
+			}
+
 			securityConfiguration.AfterLoad();
+
 			return securityConfiguration;
 		}
 
@@ -79,15 +83,6 @@ namespace FiresecService
 				systemConfiguration = new SystemConfiguration();
 			}
 			return systemConfiguration;
-		}
-
-		static GKDeviceConfiguration GetDeviceConfiguration()
-		{
-			var deviceConfiguration = (GKDeviceConfiguration)GetConfigurationFomZip("GKDeviceConfiguration.xml", typeof(GKDeviceConfiguration));
-			if (deviceConfiguration == null)
-				deviceConfiguration = new GKDeviceConfiguration();
-			deviceConfiguration.AfterLoad();
-			return deviceConfiguration;
 		}
 
 		static SKDConfiguration GetSKDConfiguration()
@@ -111,10 +106,18 @@ namespace FiresecService
 				var configDirectoryName = AppDataFolderHelper.GetServerAppDataPath("Config");
 				var filePath = Path.Combine(configDirectoryName, fileName);
 
-				var stream = new FileStream(filePath, FileMode.Open);
-				var xmlSerializer = new XmlSerializer(type);
-				var versionedConfiguration = (VersionedConfiguration)xmlSerializer.Deserialize(stream);
-				stream.Close();
+				VersionedConfiguration versionedConfiguration;
+
+				if (!File.Exists(filePath))
+					return new VersionedConfiguration();
+
+				using (Stream stream = new FileStream(filePath, FileMode.Open))
+				{
+					var xmlSerializer = new XmlSerializer(type);
+					versionedConfiguration = (VersionedConfiguration)xmlSerializer.Deserialize(stream);
+
+				}
+
 				versionedConfiguration.ValidateVersion();
 				return versionedConfiguration;
 			}

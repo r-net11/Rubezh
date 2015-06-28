@@ -37,7 +37,6 @@ namespace FiresecClient
 		public static void ChangeLogic(GKDevice device, GKLogic logic)
 		{
 			device.Logic = logic;
-			DeviceConfiguration.InvalidateOneLogic(device, device.Logic);
 			device.OnChanged();
 		}
 	}

@@ -23,7 +23,6 @@ namespace FiresecClient
 							elementSubPlans.Add(elementSubPlan);
 					Plan.ElementSubPlans = elementSubPlans;
 
-					keys = GKManager.Devices.Select(item => item.UID).ToList();
 					var elementGKDevices = new List<ElementGKDevice>();
 					foreach (var elementGKDevice in Plan.ElementGKDevices.Where(x => x.DeviceUID != Guid.Empty))
 						if (keys.Contains(elementGKDevice.DeviceUID))
@@ -57,7 +56,6 @@ namespace FiresecClient
 							elementDoors.Add(elementDoor);
 					Plan.ElementDoors = elementDoors;
 
-					keys = GKManager.Devices.Select(item => item.UID).ToList();
 					var cameraKeys = SystemConfiguration.Cameras.Select(item => item.UID).ToList();
 					var procedureKeys = SystemConfiguration.AutomationConfiguration.Procedures.Select(item => item.Uid).ToList();
 					var elementExtensions = new List<ElementBase>();

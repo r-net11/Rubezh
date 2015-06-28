@@ -107,7 +107,6 @@ namespace FiresecClient
 				LayoutsConfiguration.Update();
 				PlansConfiguration.Update();
 				SystemConfiguration.UpdateConfiguration();
-				GKManager.CreateStates();
 				SKDManager.UpdateConfiguration();
 				UpdatePlansConfiguration();
 			}
@@ -122,8 +121,6 @@ namespace FiresecClient
 		{
 			try
 			{
-				GKManager.Devices.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
-
 				SKDManager.Devices.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
 				SKDManager.Zones.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
 				SKDManager.Doors.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
@@ -131,12 +128,6 @@ namespace FiresecClient
 				SystemConfiguration.Cameras.ForEach(x => x.PlanElementUIDs = new List<Guid>());
 				SystemConfiguration.AutomationConfiguration.Procedures.ForEach(x => x.PlanElementUIDs = new List<Guid>());
 
-				var gkDeviceMap = new Dictionary<Guid, GKDevice>();
-				foreach (var device in GKManager.Devices)
-				{
-					if (!gkDeviceMap.ContainsKey(device.UID))
-						gkDeviceMap.Add(device.UID, device);
-				}
 				var doorMap = new Dictionary<Guid, SKDDoor>();
 				foreach (var door in SKDManager.SKDConfiguration.Doors)
 				{
@@ -174,13 +165,6 @@ namespace FiresecClient
 				PlansConfiguration.AllPlans.ForEach(plan => planMap.Add(plan.UID, plan));
 				foreach (var plan in PlansConfiguration.AllPlans)
 				{
-					for (int i = plan.ElementGKDevices.Count(); i > 0; i--)
-					{
-						var elementGKDevice = plan.ElementGKDevices[i - 1];
-						elementGKDevice.UpdateZLayer();
-						if (gkDeviceMap.ContainsKey(elementGKDevice.DeviceUID))
-							gkDeviceMap[elementGKDevice.DeviceUID].PlanElementUIDs.Add(elementGKDevice.UID);
-					}
 					for (int i = plan.ElementSKDDevices.Count(); i > 0; i--)
 					{
 						var elementSKDDevice = plan.ElementSKDDevices[i - 1];

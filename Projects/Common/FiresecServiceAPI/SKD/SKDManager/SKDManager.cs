@@ -80,7 +80,7 @@ namespace FiresecAPI.SKD
 		{
 			foreach (var device in Devices)
 			{
-				
+
 				device.State = new SKDDeviceState(device);
 				device.State.UID = device.UID;
 				device.State.StateClass = XStateClass.Unknown;

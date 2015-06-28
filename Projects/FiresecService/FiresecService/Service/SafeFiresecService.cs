@@ -183,17 +183,6 @@ namespace FiresecService.Service
 			SafeOperationCall(() => { FiresecService.CancelGKProgress(progressCallbackUID, userName); }, "CancelGKProgress");
 		}
 
-		public OperationResult<bool> GKUpdateFirmware(Guid deviceUID, string fileName)
-		{
-			return SafeOperationCall(() => { return FiresecService.GKUpdateFirmware(deviceUID, fileName); }, "GKUpdateFirmware");
-		}
-
-		public OperationResult<bool> GKUpdateFirmwareFSCS(HexFileCollectionInfo hxcFileInfo, string userName, List<Guid> deviceUIDs)
-		{
-			var result = SafeOperationCall(() => { return FiresecService.GKUpdateFirmwareFSCS(hxcFileInfo, userName, deviceUIDs); }, "GKUpdateFirmwareFSCS");
-			return result;
-		}
-
 		public OperationResult<bool> GKSetSingleParameter(Guid objectUID, List<byte> parameterBytes)
 		{
 			return SafeOperationCall(() => { return FiresecService.GKSetSingleParameter(objectUID, parameterBytes); }, "GKSetSingleParameter");
@@ -204,25 +193,10 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.GKGetSingleParameter(objectUID); }, "GKGetSingleParameter");
 		}
 
-		public OperationResult<bool> GKRewriteAllSchedules(Guid gkDeviceUID)
-		{
-			return SafeOperationCall(() => { return FiresecService.GKRewriteAllSchedules(gkDeviceUID); }, "GKRewriteAllSchedules");
-		}
-
 		//public OperationResult<List<GKUser>> GKGetUsers(Guid gkDeviceUID)
 		//{
 		//	return SafeOperationCall(() => { return FiresecService.GKGetUsers(gkDeviceUID); }, "GKGetUsers");
 		//}
-
-		public OperationResult<bool> GKRewriteUsers(Guid gkDeviceUID)
-		{
-			return SafeOperationCall(() => { return FiresecService.GKRewriteUsers(gkDeviceUID); }, "GKRewriteUsers");
-		}
-
-		public OperationResult<List<byte>> GKGKHash(Guid gkDeviceUID)
-		{
-			return SafeOperationCall(() => { return FiresecService.GKGKHash(gkDeviceUID); }, "GKGKHash");
-		}
 
 		public void GKStartMeasureMonitoring(Guid deviceUID)
 		{

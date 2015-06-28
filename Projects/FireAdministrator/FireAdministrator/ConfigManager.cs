@@ -94,8 +94,6 @@ namespace FireAdministrator
 					AddConfiguration(tempFolderName, "PlansConfiguration.xml", FiresecManager.PlansConfiguration, 1, 1, true);
 				if (ServiceFactory.SaveService.SoundsChanged || ServiceFactory.SaveService.FilterChanged || ServiceFactory.SaveService.CamerasChanged || ServiceFactory.SaveService.EmailsChanged || ServiceFactory.SaveService.AutomationChanged)
 					AddConfiguration(tempFolderName, "SystemConfiguration.xml", FiresecManager.SystemConfiguration, 1, 1, true);
-				if (ServiceFactory.SaveService.GKChanged)
-					AddConfiguration(tempFolderName, "GKDeviceConfiguration.xml", GKManager.DeviceConfiguration, 1, 1, true);
 				if (ServiceFactory.SaveService.SecurityChanged)
 					AddConfiguration(tempFolderName, "SecurityConfiguration.xml", FiresecManager.SecurityConfiguration, 1, 1, true);
 				if (ServiceFactory.SaveService.SKDChanged)
@@ -179,7 +177,6 @@ namespace FireAdministrator
 
 					ServiceFactory.SaveService.PlansChanged = true;
 					ServiceFactory.SaveService.CamerasChanged = true;
-					ServiceFactory.SaveService.GKChanged = true;
 					ServiceFactory.SaveService.SKDChanged = true;
 					ServiceFactory.SaveService.LayoutsChanged = true;
 
@@ -197,14 +194,14 @@ namespace FireAdministrator
 		{
 			ServiceFactory.Layout.Close();
 			ServiceFactory.Layout.ShowFooter(null);
-			if (ApplicationService.Modules.Any(x => x.Name == "Групповой контроллер"))
-			{
-				var deviceUID = Guid.Empty;
-				var firstDevice = GKManager.Devices.FirstOrDefault();
-				if (firstDevice != null)
-					deviceUID = firstDevice.UID;
-				ServiceFactory.Events.GetEvent<ShowGKDeviceEvent>().Publish(deviceUID);
-			}
+			//if (ApplicationService.Modules.Any(x => x.Name == "Групповой контроллер"))
+			//{
+			//	var deviceUID = Guid.Empty;
+			//	var firstDevice = GKManager.Devices.FirstOrDefault();
+			//	if (firstDevice != null)
+			//		deviceUID = firstDevice.UID;
+			//	ServiceFactory.Events.GetEvent<ShowGKDeviceEvent>().Publish(deviceUID);
+			//}
 		}
 	}
 }

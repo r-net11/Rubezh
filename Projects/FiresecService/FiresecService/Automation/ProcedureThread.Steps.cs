@@ -368,22 +368,22 @@ namespace FiresecService
 			var explicitValues = new List<ExplicitValue>();
 			if (result.ObjectType == ObjectType.Device)
 			{
-				items = new List<GKDevice>(GKManager.DeviceConfiguration.Devices);
-				foreach (var objectUid in new List<Guid>(GKManager.DeviceConfiguration.Devices.Select(x => x.UID)))
-					explicitValues.Add(new ExplicitValue { UidValue = objectUid });
+			//	items = new List<GKDevice>(GKManager.DeviceConfiguration.Devices);
+			//	foreach (var objectUid in new List<Guid>(GKManager.DeviceConfiguration.Devices.Select(x => x.UID)))
+			//		explicitValues.Add(new ExplicitValue { UidValue = objectUid });
 			}
 			result.ExplicitValues = explicitValues;
 		}
 
 		object InitializeItem(Guid itemUid)
 		{
-			var device = GKManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == itemUid);
+	//		var device = GKManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == itemUid);
 			var sKDDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == itemUid);
 			var sKDZone = SKDManager.Zones.FirstOrDefault(x => x.UID == itemUid);
 			var camera = ConfigurationCashHelper.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == itemUid);
 			var sKDDoor = SKDManager.Doors.FirstOrDefault(x => x.UID == itemUid);
-			if (device != null)
-				return device;
+			//if (device != null)
+			//	return device;
 			if (sKDDevice != null)
 				return sKDDevice;
 			if (sKDZone != null)

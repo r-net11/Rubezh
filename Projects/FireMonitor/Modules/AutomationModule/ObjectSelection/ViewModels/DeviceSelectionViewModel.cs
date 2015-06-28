@@ -10,7 +10,7 @@ namespace AutomationModule.ViewModels
 		public DeviceSelectionViewModel(GKDevice device)
 		{
 			Title = "Выбор устройства";
-			RootDevice = AddDeviceInternal(GKManager.DeviceConfiguration.RootDevice, null);
+			//RootDevice = AddDeviceInternal(GKManager.DeviceConfiguration.RootDevice, null);
 			if (device != null)
 				SelectedDevice = RootDevice.GetAllChildren().FirstOrDefault(x => x.Device.UID == device.UID);
 			if (SelectedDevice == null)

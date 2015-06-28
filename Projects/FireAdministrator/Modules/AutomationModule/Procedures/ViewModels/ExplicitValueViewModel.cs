@@ -53,7 +53,6 @@ namespace AutomationModule.ViewModels
 
 		public void Initialize(Guid uidValue)
 		{
-			Device = GKManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == uidValue);
 			SKDDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == uidValue);
 			SKDZone = SKDManager.Zones.FirstOrDefault(x => x.UID == uidValue);
 			Camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == uidValue);

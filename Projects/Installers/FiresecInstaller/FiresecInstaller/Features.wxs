@@ -8,18 +8,11 @@
       <FeatureRef Id="Server.Features" />
       <FeatureRef Id="Administrator.Features" />
       <FeatureRef Id="Monitor.Features" />
-      <FeatureRef Id="OPC.Features" />
 
       <Feature Id="Firesec.HASP" Title="Драйвер HASP" Description="Программа установит компопненты необходимые для работы криптопроцессора HASP"
         Display="expand" AllowAdvertise="no" Absent='allow' InstallDefault="local">
         <Condition Level="0">INSTALL_HASP</Condition>
       </Feature>
-
-  <!--    <Feature Id="GK.Features" Title="ГК" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компопненты для работы борудования Рубеж Глобал">
-        <Condition Level="1">INSTALL_GK</Condition>
-        <ComponentRef Id="Administrator.GK_MODULE" />
-        <ComponentRef Id="Monitor.GK_MODULE" />
-      </Feature> -->
       <Feature Id="SKD.Features" Title="Страж" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компопненты для работы оборудования Страж">
         <Condition Level="1">INSTALL_STRAZH</Condition>
         <ComponentRef Id="Administrator.STRAZH_MODULE" />

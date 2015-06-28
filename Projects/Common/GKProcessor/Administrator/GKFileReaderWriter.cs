@@ -66,32 +66,6 @@ namespace GKProcessor
 			}
 		}
 
-		public void WriteFileToGK(GKDevice gkControllerDevice)
-		{
-			var gkFileInfo = new GKFileInfo();
-			gkFileInfo.Initialize(GKManager.DeviceConfiguration, gkControllerDevice);
-
-			var bytesList = new List<byte>();
-			bytesList.AddRange(gkFileInfo.InfoBlock);
-			bytesList.AddRange(gkFileInfo.FileBytes);
-			var progressCallback = GKProcessorManager.StartProgress("Запись файла в " + gkControllerDevice.PresentationName, null, bytesList.Count / 256, false, GKProgressClientType.Administrator);
-			for (var i = 0; i < bytesList.Count; i += 256)
-			{
-				GKProcessorManager.DoProgress("Запись блока данных " + i + 1, progressCallback);
-				var bytesBlock = BitConverter.GetBytes((uint)(i / 256 + 1)).ToList();
-				bytesBlock.AddRange(bytesList.GetRange(i, Math.Min(256, bytesList.Count - i)));
-				for (int j = 0; j < 10; j++)
-				{
-					if (j == 9)
-					{
-						Error = "Невозможно записать блок данных " + i;
-						return;
-					}
-				}
-			}
-			var endBlock = BitConverter.GetBytes((uint)(bytesList.Count() / 256 + 1)).ToList();
-		}
-
 		public GKFileInfo ReadInfoBlock(GKDevice gkControllerDevice)
 		{
 			try

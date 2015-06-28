@@ -22,29 +22,6 @@ namespace GKProcessor
 		public List<byte> FileBytes { get; private set; }
 		public List<byte> InfoBlock { get; private set; }
 
-		public void Initialize(GKDeviceConfiguration deviceConfiguration, GKDevice gkControllerDevice)
-		{
-			Date = DateTime.Now;
-			MinorVersion = (byte)deviceConfiguration.Version.MinorVersion;
-			MajorVersion = (byte)deviceConfiguration.Version.MajorVersion;
-			Hash1 = CreateHash1(deviceConfiguration, gkControllerDevice);
-			InitializeFileBytes(deviceConfiguration);
-			InitializeInfoBlock();
-		}
-		public static List<byte> CreateHash1(GKDeviceConfiguration deviceConfiguration, GKDevice gkControllerDevice)
-		{
-			deviceConfiguration.UpdateConfiguration();
-			var stringBuilder = new StringBuilder();
-			stringBuilder.Append("devices:");
-			return SHA256.Create().ComputeHash(Encoding.GetEncoding(1251).GetBytes(stringBuilder.ToString())).ToList();
-		}
-		void InitializeFileBytes(GKDeviceConfiguration deviceConfiguration)
-		{
-			var fileStream = File.OpenRead(Path.Combine(AppDataFolderHelper.GetServerAppDataPath(), "Config.fscp"));
-			FileSize = fileStream.Length;
-			FileBytes = File.ReadAllBytes(fileStream.Name).ToList();
-			fileStream.Close();
-		}
 		void InitializeInfoBlock()
 		{
 			InfoBlock = new List<byte>(256) { MinorVersion, MajorVersion };
