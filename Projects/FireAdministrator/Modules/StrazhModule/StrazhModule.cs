@@ -31,6 +31,8 @@ namespace StrazhModule
 		HolidaysViewModel HolidaysViewModel;
 		LibraryViewModel LibraryViewModel;
 		SKDPlanExtension _planExtension;
+		DoorDayIntervalsViewModel DoorDayIntervalsViewModel;
+		DoorWeeklyIntervalsViewModel DoorWeeklyIntervalsViewModel;
 
 		public override void CreateViewModels()
 		{
@@ -49,6 +51,8 @@ namespace StrazhModule
 			HolidaysViewModel = new HolidaysViewModel();
 			LibraryViewModel = new LibraryViewModel();
 			_planExtension = new SKDPlanExtension(DevicesViewModel, ZonesViewModel, DoorsViewModel);
+			DoorDayIntervalsViewModel = new DoorDayIntervalsViewModel();
+			DoorWeeklyIntervalsViewModel = new DoorWeeklyIntervalsViewModel();
 		}
 
 		public override void Initialize()
@@ -66,6 +70,8 @@ namespace StrazhModule
 			_planExtension.Initialize();
 			ServiceFactory.Events.GetEvent<RegisterPlanExtensionEvent<Plan>>().Publish(_planExtension);
 			_planExtension.Cache.BuildAllSafe();
+			DoorDayIntervalsViewModel.Initialize();
+			DoorWeeklyIntervalsViewModel.Initialize();
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
@@ -76,10 +82,15 @@ namespace StrazhModule
 					new NavigationItem<ShowSKDDeviceEvent, Guid>(DevicesViewModel, "Устройства", "Tree", null, null, Guid.Empty),
 					new NavigationItemEx<ShowSKDZoneEvent, Guid>(ZonesViewModel, "Зоны", "Zones", null, null, Guid.Empty),
 					new NavigationItemEx<ShowSKDDoorEvent, Guid>(DoorsViewModel, "Точки доступа", "DoorW", null, null, Guid.Empty),
-					new NavigationItem("Графики", "ShedulesW", new List<NavigationItem>()
+					new NavigationItem("Графики замков", "ShedulesW", new List<NavigationItem>
 					{
-						new NavigationItem<ShowSKDDayIntervalsEvent, Guid>(DayIntervalsViewModel, "Дневные графики", "ShedulesDaylyW", null, null, Guid.Empty),
-						new NavigationItem<ShowSKDWeeklyIntervalsEvent, int>(WeeklyIntervalsViewModel, "Недельные графики", "SheduleWeeklyW", null, null, -1),
+						new NavigationItem<ShowSKDDoorDayIntervalsEvent, Guid>(DoorDayIntervalsViewModel, "Дневные графики замков", "ShedulesDaylyW", null, null, Guid.Empty),
+						new NavigationItem<ShowSKDDoorWeeklyIntervalsEvent, int>(DoorWeeklyIntervalsViewModel, "Недельные графики замков", "SheduleWeeklyW", null, null, -1),
+					}),
+					new NavigationItem("Графики доступа", "ShedulesW", new List<NavigationItem>()
+					{
+						new NavigationItem<ShowSKDDayIntervalsEvent, Guid>(DayIntervalsViewModel, "Дневные графики доступа", "ShedulesDaylyW", null, null, Guid.Empty),
+						new NavigationItem<ShowSKDWeeklyIntervalsEvent, int>(WeeklyIntervalsViewModel, "Недельные графики доступа", "SheduleWeeklyW", null, null, -1),
 						//new NavigationItem<ShowSKDSlideDayIntervalsEvent, int>(SlideDayIntervalsViewModel, "Скользящие посуточные графики", "SheduleSlideDaylyW", null, null, -1),
 						//new NavigationItem<ShowSKDSlideWeekIntervalsEvent, int>(SlideWeekIntervalsViewModel, "Скользящие понедельные графики", "SheduleSlideWeeklyW", null, null, -1),
 						//new NavigationItem<ShowSKDHolidaysEvent, Guid>(HolidaysViewModel, "Праздничные дни", "HolidaysW", null, null, Guid.Empty),

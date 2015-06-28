@@ -1,6 +1,9 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows.Documents;
 using FiresecAPI.SKD;
 using FiresecClient;
 using Infrastructure.Common;
@@ -23,6 +26,7 @@ namespace StrazhModule.ViewModels
 			SetDoorConfigurationCommand = new RelayCommand(OnSetDoorConfiguration);
 
 			InitDoorOpenMethods();
+			InitAvailableWeeklyIntervals();
 			InitRemoteTimeoutDoorStatuses();
 
 			SKDManager.InvalidateOneLockConfiguration(device);
@@ -44,6 +48,8 @@ namespace StrazhModule.ViewModels
 			IsDoorNotClosedAlarmEnable = doorConfiguration.IsDoorNotClosedAlarmEnable;
 			CloseTimeout = doorConfiguration.CloseTimeout;
 			HandicapCloseTimeout = doorConfiguration.HandicapTimeout.nCloseTimeout;
+			if (doorConfiguration.WeeklyIntervalID >= 0)
+				WeeklyInterval = CanSetTimeIntervals ? AvailableWeeklyIntervals.FirstOrDefault(x => x.ID == doorConfiguration.WeeklyIntervalID) : null;
 		}
 
 		public ObservableCollection<SKDDoorConfiguration_DoorOpenMethod> DoorOpenMethods { get; private set; }
@@ -54,7 +60,8 @@ namespace StrazhModule.ViewModels
 			{
 				SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_CARD,
 				SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_PWD_ONLY,
-				SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_CARD_FIRST
+				SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_CARD_FIRST,
+				SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_SECTION
 			};
 		}
 
@@ -69,6 +76,39 @@ namespace StrazhModule.ViewModels
 			{
 				_doorOpenMethod = value;
 				OnPropertyChanged(() => DoorOpenMethod);
+				HasChanged = true;
+				CanSetTimeIntervals = (value == SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_SECTION);
+			}
+		}
+
+		public ObservableCollection<SKDDoorWeeklyInterval> AvailableWeeklyIntervals { get; private set; }
+
+		private void InitAvailableWeeklyIntervals()
+		{
+			AvailableWeeklyIntervals = new ObservableCollection<SKDDoorWeeklyInterval>(
+				SKDManager.SKDConfiguration.TimeIntervalsConfiguration.DoorWeeklyIntervals
+			);
+		}
+
+		SKDDoorWeeklyInterval _weeklyInterval;
+		public SKDDoorWeeklyInterval WeeklyInterval
+		{
+			get { return _weeklyInterval; }
+			set
+			{
+				_weeklyInterval = value;
+				OnPropertyChanged(() => WeeklyInterval);
+			}
+		}
+
+		bool _canSetTimeIntervals;
+		public bool CanSetTimeIntervals
+		{
+			get { return _canSetTimeIntervals; }
+			set
+			{
+				_canSetTimeIntervals = value;
+				OnPropertyChanged(() => CanSetTimeIntervals);
 				HasChanged = true;
 			}
 		}
@@ -333,8 +373,61 @@ namespace StrazhModule.ViewModels
 				IsSensorEnable = this.IsSensorEnable,
 				IsBreakInAlarmEnable = this.IsBreakInAlarmEnable,
 				IsDoorNotClosedAlarmEnable = this.IsDoorNotClosedAlarmEnable,
-				CloseTimeout = this.CloseTimeout
+				CloseTimeout = this.CloseTimeout,
+				
+				WeeklyIntervalID = this.CanSetTimeIntervals ? this.WeeklyInterval.ID : -1,
+				DoorDayIntervalsCollection = GetDayIntervalsCollectionFromConfig()
 			};
+		}
+
+		private DoorDayIntervalsCollection GetDayIntervalsCollectionFromConfig()
+		{
+			const int daysPerWeek = 7;
+			const int sectionsPerDay = 4;
+
+			var doorDayIntervals = new List<DoorDayInterval>();
+			for (var i = 0; i < daysPerWeek; i++)
+			{
+				var doorDayInterval = new DoorDayInterval();
+				for (var j = 0; j < sectionsPerDay; j++)
+				{
+					doorDayInterval.DoorDayIntervalParts.Add(new DoorDayIntervalPart());
+				}
+				doorDayIntervals.Add(doorDayInterval);
+			}
+			var result = new DoorDayIntervalsCollection()
+			{
+				DoorDayIntervals = doorDayIntervals
+			};
+
+			if (!CanSetTimeIntervals || WeeklyInterval == null)
+				return result;
+
+			foreach (var weeklyIntervalPart in WeeklyInterval.WeeklyIntervalParts)
+			{
+				var doorDayInterval = doorDayIntervals[(int) weeklyIntervalPart.DayOfWeek - 1];
+				var dayInterval = SKDManager.SKDConfiguration.TimeIntervalsConfiguration.DoorDayIntervals.FirstOrDefault(x => x.UID == weeklyIntervalPart.DayIntervalUID);
+				if (dayInterval != null)
+				{
+					
+					for (var i = 0; i < dayInterval.DayIntervalParts.Count; i++)
+					{
+						var dayIntervalPart = dayInterval.DayIntervalParts[i];
+						var doorDayIntervalPart = doorDayInterval.DoorDayIntervalParts[i];
+
+						var startTime = TimeSpan.FromMilliseconds(dayIntervalPart.StartMilliseconds);
+						doorDayIntervalPart.StartHour = startTime.Hours;
+						doorDayIntervalPart.StartMinute = startTime.Minutes;
+		
+						var endTime = TimeSpan.FromMilliseconds(dayIntervalPart.EndMilliseconds);
+						doorDayIntervalPart.EndHour = endTime.Hours;
+						doorDayIntervalPart.EndMinute = endTime.Minutes;
+
+						doorDayIntervalPart.DoorOpenMethod = dayIntervalPart.DoorOpenMethod;
+					}
+				}
+			}
+			return result;
 		}
 
 		protected override bool Save()

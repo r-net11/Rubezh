@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.Serialization;
 
@@ -19,9 +20,12 @@ namespace FiresecAPI.SKD
 
 			RemoteDetail = new RemoteDetail();
 			HandicapTimeout = new HandicapTimeout();
+			DoorDayIntervalsCollection = new DoorDayIntervalsCollection();
 
 			// Включено всегда, отсутствует на интерфейсе пользователя
 			IsDuressAlarmEnable = true;
+
+			WeeklyIntervalID = -1;
 		}
 
 		[DataMember]
@@ -92,8 +96,16 @@ namespace FiresecAPI.SKD
 		/// </summary>
 		[DataMember]
 		public HandicapTimeout HandicapTimeout { get; set; }
-	}
 
+		[DataMember]
+		public int WeeklyIntervalID { get; set; }
+
+		/// <summary>
+		/// График работы замка
+		/// </summary>
+		[DataMember]
+		public DoorDayIntervalsCollection DoorDayIntervalsCollection { get; set; }
+	}
 
 	public enum AccessState
 	{
@@ -176,7 +188,7 @@ namespace FiresecAPI.SKD
 		public int EndMinute { get; set; }
 
 		[DataMember]
-		public SKDDoorConfiguration_DoorOpenMethod? DoorOpenMethod { get; set; }
+		public SKDDoorConfiguration_DoorOpenMethod DoorOpenMethod { get; set; }
 	}
 
 	/// <summary>

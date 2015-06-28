@@ -92,7 +92,9 @@
     </Compile>
     <Compile Include="Events\EditDoorEvent.cs" />
     <Compile Include="Events\CreateDoorEvent.cs" />
+    <Compile Include="Events\ShowSKDDoorDayIntervalsEvent.cs" />
     <Compile Include="Events\ShowSKDDoorEvent.cs" />
+    <Compile Include="Events\ShowSKDDoorWeeklyIntervalsEvent.cs" />
     <Compile Include="Plans\ViewModels\DeviceTooltipViewModel.cs" />
     <Compile Include="Plans\Views\DeviceTooltipView.xaml.cs">
       <DependentUpon>DeviceTooltipView.xaml</DependentUpon>
@@ -202,6 +204,36 @@
     <Compile Include="TimeIntervals\DayIntervals\ViewModels\DayIntervalViewModel.cs" />
     <Compile Include="TimeIntervals\DayIntervals\Views\DayIntervalsMenuView.xaml.cs">
       <DependentUpon>DayIntervalsMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TimeIntervals\DoorDayIntervals\ViewModels\DoorDayIntervalDetailsViewModel.cs" />
+    <Compile Include="TimeIntervals\DoorDayIntervals\ViewModels\DoorDayIntervalPartDetailsViewModel.cs" />
+    <Compile Include="TimeIntervals\DoorDayIntervals\ViewModels\DoorDayIntervalPartsViewModel.cs" />
+    <Compile Include="TimeIntervals\DoorDayIntervals\ViewModels\DoorDayIntervalPartViewModel.cs" />
+    <Compile Include="TimeIntervals\DoorDayIntervals\ViewModels\DoorDayIntervalsMenuViewModel.cs" />
+    <Compile Include="TimeIntervals\DoorDayIntervals\ViewModels\DoorDayIntervalsViewModel.cs" />
+    <Compile Include="TimeIntervals\DoorDayIntervals\ViewModels\DoorDayIntervalViewModel.cs" />
+    <Compile Include="TimeIntervals\DoorDayIntervals\Views\DoorDayIntervalDetailsView.xaml.cs">
+      <DependentUpon>DoorDayIntervalDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TimeIntervals\DoorDayIntervals\Views\DoorDayIntervalPartDetailsView.xaml.cs">
+      <DependentUpon>DoorDayIntervalPartDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TimeIntervals\DoorDayIntervals\Views\DoorDayIntervalsMenuView.xaml.cs">
+      <DependentUpon>DoorDayIntervalsMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TimeIntervals\DoorDayIntervals\Views\DoorDayIntervalsView.xaml.cs">
+      <DependentUpon>DoorDayIntervalsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TimeIntervals\DoorWeeklyIntervals\ViewModels\SelectableDoorDayInterval.cs" />
+    <Compile Include="TimeIntervals\DoorWeeklyIntervals\ViewModels\DoorWeeklyIntervalDetailsViewModel.cs" />
+    <Compile Include="TimeIntervals\DoorWeeklyIntervals\ViewModels\DoorWeeklyIntervalPartViewModel.cs" />
+    <Compile Include="TimeIntervals\DoorWeeklyIntervals\ViewModels\DoorWeeklyIntervalsViewModel.cs" />
+    <Compile Include="TimeIntervals\DoorWeeklyIntervals\ViewModels\DoorWeeklyIntervalViewModel.cs" />
+    <Compile Include="TimeIntervals\DoorWeeklyIntervals\Views\DoorWeeklyDetailsView.xaml.cs">
+      <DependentUpon>DoorWeeklyDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TimeIntervals\DoorWeeklyIntervals\Views\DoorWeeklyIntervalsView.xaml.cs">
+      <DependentUpon>DoorWeeklyIntervalsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TimeIntervals\Holidays\ViewModels\HolidayDetailsViewModel.cs" />
     <Compile Include="TimeIntervals\Holidays\ViewModels\HolidaysMenuViewModel.cs" />
@@ -459,6 +491,30 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="TimeIntervals\DayIntervals\Views\DayIntervalsMenuView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TimeIntervals\DoorDayIntervals\Views\DoorDayIntervalDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TimeIntervals\DoorDayIntervals\Views\DoorDayIntervalPartDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TimeIntervals\DoorDayIntervals\Views\DoorDayIntervalsMenuView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TimeIntervals\DoorDayIntervals\Views\DoorDayIntervalsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TimeIntervals\DoorWeeklyIntervals\Views\DoorWeeklyDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TimeIntervals\DoorWeeklyIntervals\Views\DoorWeeklyIntervalsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

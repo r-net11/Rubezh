@@ -56,4 +56,28 @@
 	<DataTemplate DataType="{x:Type ViewModels:HolidayDetailsViewModel}">
 		<Views:HolidayDetailsView />
 	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:DoorDayIntervalsViewModel}">
+		<Views:DoorDayIntervalsView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:DoorDayIntervalsMenuViewModel}">
+		<Views:DoorDayIntervalsMenuView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:DoorDayIntervalDetailsViewModel}">
+		<Views:DoorDayIntervalDetailsView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:DoorDayIntervalPartDetailsViewModel}">
+		<Views:DoorDayIntervalPartDetailsView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:DoorWeeklyIntervalsViewModel}">
+		<Views:DoorWeeklyIntervalsView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:DoorWeeklyIntervalDetailsViewModel}">
+		<Views:DoorWeeklyIntervalDetailsView />
+	</DataTemplate>
 </ResourceDictionary>
