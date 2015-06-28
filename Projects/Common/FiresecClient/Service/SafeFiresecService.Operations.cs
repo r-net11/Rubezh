@@ -12,7 +12,7 @@ namespace FiresecClient
 		{
 			return SafeOperationCall(() => { return FiresecService.Reconnect(uid, userName, password); }, "Reconnect");
 		}
-		 
+
 		public void Disconnect(Guid uid)
 		{
 			SafeOperationCall(() => { FiresecService.Disconnect(uid); }, "Disconnect");
@@ -31,6 +31,11 @@ namespace FiresecClient
 		public SecurityConfiguration GetSecurityConfiguration()
 		{
 			return SafeOperationCall(() => { return FiresecService.GetSecurityConfiguration(); }, "GetSecurityConfiguration");
+		}
+
+		public void CancelGKProgress(Guid progressCallbackUID, string userName)
+		{
+			SafeOperationCall(() => FiresecService.CancelGKProgress(progressCallbackUID, userName), "CancelGKProgress");
 		}
 
 		public T GetConfiguration<T>(string filename)

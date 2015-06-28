@@ -11,6 +11,10 @@ namespace FiresecAPI
 	public interface IFiresecService : IFiresecServiceSKD
 	{
 		#region Service
+
+		[OperationContract]
+		void CancelGKProgress(Guid progressCallbackUID, string userName);
+
 		[OperationContract]
 		OperationResult<bool> Connect(Guid uid, ClientCredentials clientCredentials, bool isNew);
 
