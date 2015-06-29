@@ -30,7 +30,6 @@ namespace FiresecAPI.GK
 			Zones = new List<GKZone>();
 			GuardZones = new List<GKGuardZone>();
 			Directions = new List<GKDirection>();
-            DescriptorName = this.GetGKDescriptorName(FiresecClient.GKManager.DeviceConfiguration.GKNameGenerationType);
         }
 
 		public override void Update(GKDevice device)
@@ -46,8 +45,6 @@ namespace FiresecAPI.GK
 			UnLinkObject(direction);
 			OnChanged();
 		}
-
-        public string DescriptorName { get; set; }
 
         [XmlIgnore]
 		public bool IsDisabled{ get; set; }

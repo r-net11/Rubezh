@@ -522,14 +522,14 @@ namespace SKDDriver
 				Context.Organisations.InsertOnSubmit(org);
 				var user = new DataAccess.OrganisationUser { UID = Guid.NewGuid(), UserUID = new Guid("10e591fb-e017-442d-b176-f05756d984bb"), OrganisationUID = org.UID };
 				Context.OrganisationUsers.InsertOnSubmit(user);
-				for (int j = 1; j < 65535; j++)
+				for (int j = 1; j < 1000; j++)
 				{
 					var empl = CreateEmployee(j.ToString(), org.UID);
 					Context.Employees.InsertOnSubmit(empl);
 					var card = CreateCard(j, empl.UID);
-					if(i == 1)
+					if(j == 1)
 					{
-						card.CardType = (int)GKCardType.Manufactor;
+						card.CardType = (int?)GKCardType.Manufactor;
 						card.CardGKControllerUIDs = new System.Data.Linq.EntitySet<DataAccess.CardGKControllerUID>();
 						card.CardGKControllerUIDs.Add(new DataAccess.CardGKControllerUID() { UID = Guid.NewGuid(), Card = card, GKControllerUID = GKManager.Devices.FirstOrDefault(x => x.DriverType == GKDriverType.GK).UID });
 					}

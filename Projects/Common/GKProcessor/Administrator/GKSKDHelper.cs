@@ -6,18 +6,26 @@ using FiresecAPI.GK;
 using FiresecAPI.SKD;
 using FiresecClient;
 using SKDDriver;
+using System.Diagnostics;
 
 namespace GKProcessor
 {
 	public static class GKSKDHelper
 	{
-		public static OperationResult<bool> AddOrEditCard(GKControllerCardSchedule controllerCardSchedule, SKDCard card, string employeeName)
+		static long totalMilliseconds = 0;
+		public static OperationResult<bool> AddOrEditCard(GKControllerCardSchedule controllerCardSchedule, SKDCard card, string employeeName, int gkCardNo = 0, bool isNew = true)
 		{
-			var isNew = true;
-			var gkCardNo = 1;
-			using (var skdDatabaseService = new SKDDatabaseService())
+			if (gkCardNo == 0)
 			{
-				gkCardNo = skdDatabaseService.GKCardTranslator.GetFreeGKNo(controllerCardSchedule.ControllerDevice.GetGKIpAddress(), card.Number, out isNew);
+				var stopWatch = new Stopwatch();
+				stopWatch.Start();
+				using (var skdDatabaseService = new SKDDatabaseService())
+				{
+					gkCardNo = skdDatabaseService.GKCardTranslator.GetFreeGKNo(controllerCardSchedule.ControllerDevice.GetGKIpAddress(), card.Number, out isNew);
+				}
+				stopWatch.Stop();
+				totalMilliseconds += stopWatch.ElapsedMilliseconds;
+				Trace.WriteLine("TotalMilliseconds = " + totalMilliseconds);
 			}
 
 			var bytes = new List<byte>();
@@ -109,10 +117,15 @@ namespace GKProcessor
 				}
 			}
 
+			var stopWatch2 = new Stopwatch();
+			stopWatch2.Start();
 			using (var skdDatabaseService = new SKDDatabaseService())
 			{
 				skdDatabaseService.GKCardTranslator.AddOrEdit(controllerCardSchedule.ControllerDevice.GetGKIpAddress(), gkCardNo, card.Number, employeeName);
 			}
+			stopWatch2.Stop();
+			totalMilliseconds += stopWatch2.ElapsedMilliseconds;
+			Trace.WriteLine("TotalMilliseconds For GKCardTranslator Update = " + totalMilliseconds);
 
 			return new OperationResult<bool>(true);
 		}
@@ -228,13 +241,11 @@ namespace GKProcessor
             return minNo;
         }
 
-		public static bool RemoveAllUsers(GKDevice device, GKProgressCallback progressCallback)
+		public static bool RemoveAllUsers(GKDevice device, int usersCount, GKProgressCallback progressCallback)
 		{
-            var count = GKSKDHelper.GetUsersCount(device);
-
 			var result = true;
 			int cardsCount = 0;
-            for (int no = 1; no <= count; no++)
+			for (int no = 1; no <= usersCount; no++)
 			{
 				var bytes = new List<byte>();
 				bytes.Add(0);

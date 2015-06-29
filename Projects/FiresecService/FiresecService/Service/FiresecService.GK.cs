@@ -9,6 +9,7 @@ using FiresecAPI.SKD;
 using FiresecClient;
 using GKProcessor;
 using SKDDriver;
+using System.Diagnostics;
 
 namespace FiresecService.Service
 {
@@ -492,7 +493,8 @@ namespace FiresecService.Service
 
 				try
 				{
-					var removeResult = GKSKDHelper.RemoveAllUsers(device, progressCallback);
+					var usersCount = GKSKDHelper.GetUsersCount(device);
+					var removeResult = GKSKDHelper.RemoveAllUsers(device, usersCount, progressCallback);
 					if (!removeResult)
 					{
 						GKProcessorManager.StopProgress(progressCallback);
@@ -500,6 +502,10 @@ namespace FiresecService.Service
 					}
 					progressCallback.Title = "Добавление пользователей прибора " + device.PresentationName;
 
+					int currentUserNo = 1;
+
+					var stopWatch = new Stopwatch();
+					stopWatch.Start();
 					using (var databaseService = new SKDDatabaseService())
 					{
 						var cardsResult = databaseService.CardTranslator.Get(new CardFilter());
@@ -520,13 +526,16 @@ namespace FiresecService.Service
 									var employee = employeeOperationResult.Result;
 									if (employee != null)
 									{
-										GKSKDHelper.AddOrEditCard(controllerCardSchedule, card, employee.FIO);
+										GKSKDHelper.AddOrEditCard(controllerCardSchedule, card, employee.FIO, currentUserNo, currentUserNo > usersCount);
+										currentUserNo++;
 									}
 								}
 								GKProcessorManager.DoProgress("Пользователь " + card.Number, progressCallback);
 							}
 						}
 					}
+					stopWatch.Stop();
+					Trace.WriteLine("Total GK Write milliseconds = " + stopWatch.ElapsedMilliseconds);
 
 					return new OperationResult<bool>(true);
 				}

@@ -23,14 +23,10 @@ namespace SKDModule.ViewModels
 		public SKDCard Card { get; private set; }
 		public AccessDoorsSelectationViewModel AccessDoorsSelectationViewModel { get; private set; }
 		public bool IsNewCard { get; private set; }
-		public bool HasGK { get; private set; }
-		public bool HasStrazh { get; private set; }
 		ShortEmployee _employee;
 
 		public EmployeeCardDetailsViewModel(Organisation organisation, ShortEmployee employee, SKDCard card = null)
 		{
-			HasGK = GKManager.Devices.Count > 1;
-			HasStrazh = SKDManager.Devices.Count > 1;
 			_employee = employee;
 
 			ChangeDeactivationControllerCommand = new RelayCommand(OnChangeDeactivationController);
@@ -58,8 +54,7 @@ namespace SKDModule.ViewModels
 			AccessDoorsSelectationViewModel = new AccessDoorsSelectationViewModel(Organisation, Card.CardDoors, GKSchedules);
 			InitializeAccessTemplates();
 
-			var cards = CardHelper.Get(new CardFilter());
-			Cards = cards != null ? new ObservableCollection<SKDCard>(cards) : new ObservableCollection<SKDCard>();
+			var cards = CardHelper.Get(new CardFilter() { DeactivationType = LogicalDeletationType.Deleted });
 
 			StopListCards = new ObservableCollection<SKDCard>();
 			foreach (var item in cards.Where(x => x.IsInStopList))
@@ -169,13 +164,7 @@ namespace SKDModule.ViewModels
 			{
 				_selectedCardType = value;
 				OnPropertyChanged(() => SelectedCardType);
-				OnPropertyChanged(() => CanSelectEndDate);
 				OnPropertyChanged(() => CanSetUserTime);
-
-				if (!CanSelectEndDate)
-				{
-					EndDate = StartDate;
-				}
 			}
 		}
 
@@ -191,11 +180,6 @@ namespace SKDModule.ViewModels
 				OnPropertyChanged(() => SelectedGKCardType);
 				CanSelectGKControllers = value != GKCardType.Employee;
 			}
-		}
-
-		public bool CanSelectEndDate
-		{
-			get { return SelectedCardType == CardType.Temporary || SelectedCardType == CardType.Duress || !HasStrazh; }
 		}
 
 		DateTime _startDate;
@@ -303,7 +287,6 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public ObservableCollection<SKDCard> Cards { get; private set; }
 		public ObservableCollection<SKDCard> StopListCards { get; private set; }
 
 		SKDCard _selectedStopListCard;
@@ -334,26 +317,23 @@ namespace SKDModule.ViewModels
 			{
 				_useReader = value;
 				OnPropertyChanged(() => UseReader);
-				if (HasGK)
+
+				if (value)
 				{
-					if (value)
-					{
-						StartPollThread();
-					}
-					else
-					{
-						StopPollThread();
-					}
+					StartPollThread();
 				}
+				else
 				{
-					if (value)
-					{
-						ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Subscribe(OnNewJournal);
-					}
-					else
-					{
-						ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Unsubscribe(OnNewJournal);
-					}
+					StopPollThread();
+				}
+
+				if (value)
+				{
+					ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Subscribe(OnNewJournal);
+				}
+				else
+				{
+					ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Unsubscribe(OnNewJournal);
 				}
 			}
 		}
@@ -415,22 +395,11 @@ namespace SKDModule.ViewModels
 		public RelayCommand ChangeReaderCommand { get; private set; }
 		void OnChangeReader()
 		{
-			if (HasGK)
+			var readerSelectationViewModel = new GKReaderSelectationViewModel(ClientSettings.SKDSettings.CardCreatorReaderUID);
+			if (DialogService.ShowModalWindow(readerSelectationViewModel))
 			{
-				var readerSelectationViewModel = new GKReaderSelectationViewModel(ClientSettings.SKDSettings.CardCreatorReaderUID);
-				if (DialogService.ShowModalWindow(readerSelectationViewModel))
-				{
-					OnPropertyChanged(() => ReaderName);
-					UseReader = UseReader;
-				}
-			}
-			else
-			{
-				var readerSelectationViewModel = new ReaderSelectationViewModel(ClientSettings.SKDSettings.CardCreatorReaderUID);
-				if (DialogService.ShowModalWindow(readerSelectationViewModel))
-				{
-					OnPropertyChanged(() => ReaderName);
-				}
+				OnPropertyChanged(() => ReaderName);
+				UseReader = UseReader;
 			}
 		}
 
@@ -438,29 +407,14 @@ namespace SKDModule.ViewModels
 		{
 			get
 			{
-				if (HasGK)
+				var readerDevice = GKManager.Devices.FirstOrDefault(x => x.UID == ClientSettings.SKDSettings.CardCreatorReaderUID);
+				if (readerDevice != null)
 				{
-					var readerDevice = GKManager.Devices.FirstOrDefault(x => x.UID == ClientSettings.SKDSettings.CardCreatorReaderUID);
-					if (readerDevice != null)
-					{
-						return readerDevice.PresentationName;
-					}
-					else
-					{
-						return "Нажмите для выбора считывателя";
-					}
+					return readerDevice.PresentationName;
 				}
 				else
 				{
-					var readerDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == ClientSettings.SKDSettings.CardCreatorReaderUID);
-					if (readerDevice != null)
-					{
-						return readerDevice.Name;
-					}
-					else
-					{
-						return "Нажмите для выбора считывателя";
-					}
+					return "Нажмите для выбора считывателя";
 				}
 			}
 		}
@@ -610,12 +564,6 @@ namespace SKDModule.ViewModels
 			if (Number <= 0 || Number > Int32.MaxValue)
 			{
 				MessageBoxService.ShowWarning("Номер карты должен быть задан в пределах 1 ... 2147483647");
-				return false;
-			}
-
-			if(Cards.Any(x => x.Number == Card.Number && x.UID != Card.UID))
-			{
-				MessageBoxService.ShowWarning("Невозможно добавить карту с повторяющимся номером");
 				return false;
 			}
 
