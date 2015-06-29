@@ -65,7 +65,7 @@ namespace Defender
 
         byte[] GetBinaryFromString(string value)
         {
-            if (value == null || value.Length % 2 != 0 || !value.All(x => String.Copy("0123456789ABCDEFabcdef").Contains(x)))
+            if (value == null || value.Length == 0 || value.Length % 2 != 0 || !value.All(x => String.Copy("0123456789ABCDEFabcdef").Contains(x)))
                 return null;
 
             return Enumerable.Range(0, value.Length).Where(x => x % 2 == 0).Select(x => Convert.ToByte(value.Substring(x, 2), 16)).ToArray();
