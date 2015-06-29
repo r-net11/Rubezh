@@ -39,7 +39,7 @@ namespace GKProcessor
 				return;
 			}
 
-			SetGuardZoneChangeLogic(PimGuardZone, GuardZoneDevices, Formula, DatabaseType);
+			SetGuardZoneChangeLogic(PimGuardZone, GuardZoneDevices, Formula, DatabaseType, true);
 
 			Formula.Add(FormulaOperationType.DUP);
 			Formula.AddGetBit(GKStateBit.On, Pim, DatabaseType);
@@ -52,7 +52,7 @@ namespace GKProcessor
 			FormulaBytes = Formula.GetBytes();
 		}
 
-		public static void SetGuardZoneChangeLogic(GKGuardZone pimGuardZone, List<GKGuardZoneDevice> guardZoneDevices, FormulaBuilder formula, DatabaseType databaseType)
+		public static void SetGuardZoneChangeLogic(GKGuardZone pimGuardZone, List<GKGuardZoneDevice> guardZoneDevices, FormulaBuilder formula, DatabaseType databaseType, bool isPim = false)
 		{
 			var count = 0;
 			foreach (var guardDevice in guardZoneDevices)
@@ -111,7 +111,7 @@ namespace GKProcessor
 					{
 						formula.Add(FormulaOperationType.OR);
 					}
-					gotoFormulaOperation.SecondOperand = (ushort)(formula.FormulaOperations.Count - formulaNo);
+					gotoFormulaOperation.SecondOperand = (ushort)(formula.FormulaOperations.Count - formulaNo + (isPim ? 4 : 0));
 				}
 				else
 				{

@@ -13,7 +13,7 @@ namespace GKModule.ViewModels
 		public AlarmGroupsViewModel()
 		{
 			Current = this;
-			ResetCommand = new RelayCommand(OnReset);
+			ResetCommand = new RelayCommand(OnReset, CanReset);
 			AlarmGroups = new List<AlarmGroupViewModel>();
 			foreach (GKAlarmType alarmType in Enum.GetValues(typeof(GKAlarmType)))
 			{
@@ -40,7 +40,7 @@ namespace GKModule.ViewModels
 				alarmGroup.Alarms = alarmViewModels;
 				alarmGroup.Update();
 			}
-			OnPropertyChanged(() => CanReset);
+			OnPropertyChanged(() => IsCanReset);
 			OnPropertyChanged(() => Count);
 		}
 
@@ -50,12 +50,17 @@ namespace GKModule.ViewModels
 			AlarmsViewModel.Current.ResetAll();
 		}
 
-		public bool CanReset
+		public bool IsCanReset
 		{
 			get
 			{
 				return Count > 0;
 			}
+		}
+
+		bool CanReset()
+		{
+			return IsCanReset;
 		}
 
 		public int Count

@@ -409,7 +409,8 @@ namespace GKProcessor
 
 						case 9:
 							JournalItem.JournalEventNameType = JournalStringsHelper.ToState(bytes[32 + 15]);
-							if (Device != null && (Device.DriverType == GKDriverType.RSR2_Valve_KV || Device.DriverType == GKDriverType.RSR2_Valve_KVMV || Device.DriverType == GKDriverType.RSR2_Valve_DU))
+							if (Device != null && (Device.DriverType == GKDriverType.RSR2_Valve_KV || Device.DriverType == GKDriverType.RSR2_Valve_KVMV || Device.DriverType == GKDriverType.RSR2_Valve_DU
+								|| Device.DriverType == GKDriverType.RSR2_Buz_KV || Device.DriverType == GKDriverType.RSR2_Buz_KVMV || Device.DriverType == GKDriverType.RSR2_Buz_KVDU))
 							{
 								JournalItem.JournalEventNameType = JournalStringsHelper.ToValveState(bytes[32 + 15]);
 							}
