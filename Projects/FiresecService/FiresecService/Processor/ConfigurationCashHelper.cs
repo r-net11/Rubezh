@@ -23,48 +23,69 @@ namespace FiresecService
 		public static SecurityConfiguration SecurityConfiguration { get; private set; }
 		public static SystemConfiguration SystemConfiguration { get; private set; }
 
+		private static readonly string ConfigFileName = AppDataFolderHelper.GetServerAppDataPath("Config.fscp");
+		private static readonly string ConfigDirectory = AppDataFolderHelper.GetServerAppDataPath("Config");
+		private static readonly string ContentDirectory = Path.Combine(ConfigDirectory, "Content");
+
 		public static void Update()
 		{
-			CheckConfigDirectory();
+			CreateConfigDirectory();
+			if (!IsValidConfigFiles())
+			{
+				ExtractAllConfigFiles();
+			}
 
-			SecurityConfiguration = GetSecurityConfiguration();
-			SystemConfiguration = GetSystemConfiguration();
-			if (SystemConfiguration == null)
-				SystemConfiguration = new SystemConfiguration();
-
-			SKDManager.SKDConfiguration = GetSKDConfiguration();
+			SecurityConfiguration = GetSecurityConfiguration() ?? new SecurityConfiguration();
+			SystemConfiguration = GetSystemConfiguration() ?? new SystemConfiguration();
+			SKDManager.SKDConfiguration = GetSKDConfiguration() ?? new SKDConfiguration();
 
 			SystemConfiguration.UpdateConfiguration();
-
 			SKDManager.UpdateConfiguration();
 		}
 
-		static void CheckConfigDirectory()
+		private static void ExtractAllConfigFiles()
 		{
-			var configFileName = AppDataFolderHelper.GetServerAppDataPath("Config.fscp");
-			var configDirectory = AppDataFolderHelper.GetServerAppDataPath("Config");
-			var contetntDirectory = Path.Combine(configDirectory, "Content");
-			if (!Directory.Exists(configDirectory))
+			if (File.Exists(ConfigFileName))
 			{
-				Directory.CreateDirectory(configDirectory);
-				var zipFile = new ZipFile(configFileName);
-				zipFile.ExtractAll(configDirectory);
+				new ZipFile(ConfigFileName).ExtractAll(ConfigDirectory, ExtractExistingFileAction.DoNotOverwrite);
 			}
-			if (!Directory.Exists(contetntDirectory))
+			else
 			{
-				Directory.CreateDirectory(contetntDirectory);
+				MessageBox.Show(Resources.ConfigFileNotExist, Resources.ErrorCaption, MessageBoxButton.OK, MessageBoxImage.Error);
+				Application.Current.MainWindow.Close();
 			}
 		}
+
+		public static bool IsValidConfigFiles()
+		{
+			return File.Exists(Path.Combine(ConfigDirectory, "LayoutsConfiguration.xml"))
+				   && File.Exists(Path.Combine(ConfigDirectory, "PlansConfiguration.xml"))
+				   && File.Exists(Path.Combine(ConfigDirectory, "SecurityConfiguration.xml"))
+				   && File.Exists(Path.Combine(ConfigDirectory, "SKDConfiguration.xml"))
+				   && File.Exists(Path.Combine(ConfigDirectory, "SKDLibraryConfiguration.xml"))
+				   && File.Exists(Path.Combine(ConfigDirectory, "SystemConfiguration.xml"))
+				   && File.Exists(Path.Combine(ConfigDirectory, "ZipConfigurationItemsCollection.xml"));
+		}
+
+		private static void CreateConfigDirectory()
+		{
+			if (!Directory.Exists(ConfigDirectory))
+			{
+				Directory.CreateDirectory(ConfigDirectory);
+			}
+
+			if (!Directory.Exists(ContentDirectory))
+			{
+				Directory.CreateDirectory(ContentDirectory);
+			}
+		}
+
 
 		public static SecurityConfiguration GetSecurityConfiguration()
 		{
 			var securityConfiguration = GetConfigurationFomZip("SecurityConfiguration.xml", typeof(SecurityConfiguration)) as SecurityConfiguration;
 
-			if (securityConfiguration == null)
-			{
-				MessageBox.Show(Resources.FileNotExistError);
-				Application.Current.MainWindow.Close();
-			}
+			if (securityConfiguration == null) return null;
 
 			securityConfiguration.AfterLoad();
 
@@ -74,28 +95,20 @@ namespace FiresecService
 		static SystemConfiguration GetSystemConfiguration()
 		{
 			var systemConfiguration = (SystemConfiguration)GetConfigurationFomZip("SystemConfiguration.xml", typeof(SystemConfiguration));
-			if (systemConfiguration != null)
-			{
-				systemConfiguration.AfterLoad();
-			}
-			else
-			{
-				systemConfiguration = new SystemConfiguration();
-			}
+
+			if (systemConfiguration == null) return null;
+
+			systemConfiguration.AfterLoad();
 			return systemConfiguration;
 		}
 
 		static SKDConfiguration GetSKDConfiguration()
 		{
 			var skdConfiguration = (SKDConfiguration)GetConfigurationFomZip("SKDConfiguration.xml", typeof(SKDConfiguration));
-			if (skdConfiguration != null)
-			{
-				skdConfiguration.AfterLoad();
-			}
-			else
-			{
-				skdConfiguration = new SKDConfiguration();
-			}
+
+			if (skdConfiguration == null) return null;
+
+			skdConfiguration.AfterLoad();
 			return skdConfiguration;
 		}
 

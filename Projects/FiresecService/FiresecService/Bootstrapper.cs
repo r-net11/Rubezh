@@ -1,15 +1,16 @@
-﻿using System;
-using System.Diagnostics;
-using System.IO;
-using System.Reflection;
-using System.Threading;
-using Common;
+﻿using Common;
 using FiresecService.Report;
 using FiresecService.Service;
 using FiresecService.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Common.BalloonTrayTip;
 using Infrastructure.Common.Windows;
+using System;
+using System.Diagnostics;
+using System.IO;
+using System.Reflection;
+using System.Threading;
+using System.Windows;
 
 namespace FiresecService
 {
@@ -37,13 +38,43 @@ namespace FiresecService
 				MainViewStartedEvent.WaitOne();
 
 				UILogger.Log("Загрузка конфигурации");
+
 				ConfigurationCashHelper.Update();
-				PatchManager.Patch();
+
+				try
+				{
+					PatchManager.Patch();
+				}
+				catch (Exception)
+				{
+
+					MessageBox.Show("Не удалось подключиться к базе данных");
+					Application.Current.MainWindow.Close();
+				}
+
 				UILogger.Log("Открытие хоста");
-				FiresecServiceManager.Open();
+				try
+				{
+					FiresecServiceManager.Open();
+				}
+				catch (Exception)
+				{
+
+					MessageBox.Show("При открытии хоста обнаружена ошибка");
+					Application.Current.MainWindow.Close();
+				}
+
 				ServerLoadHelper.SetStatus(FSServerState.Opened);
 				UILogger.Log("Создание конфигурации СКД");
-				SKDProcessor.Start();
+				try
+				{
+					SKDProcessor.Start();
+				}
+				catch (Exception)
+				{
+					MessageBox.Show("В конфигурационном файле SKD содержиться ошибка или он отсутствует");
+					Application.Current.MainWindow.Close();
+				}
 
 				UILogger.Log("Запуск сервиса отчетов");
 				ReportServiceManager.Run();

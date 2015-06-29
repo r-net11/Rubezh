@@ -61,6 +61,24 @@ namespace FiresecService.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Отсутствует файл конфигурации. Пожалуйста, переустановите программу..
+        /// </summary>
+        internal static string ConfigFileNotExist {
+            get {
+                return ResourceManager.GetString("ConfigFileNotExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string ErrorCaption {
+            get {
+                return ResourceManager.GetString("ErrorCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Один из конфигурационных файлов поврежден. Пожалуйста, переустановите программу..
         /// </summary>
         internal static string FileNotExistError {
