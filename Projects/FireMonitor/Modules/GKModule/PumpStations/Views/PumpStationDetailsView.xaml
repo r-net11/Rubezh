@@ -84,8 +84,8 @@
 				<ScrollViewer VerticalScrollBarVisibility="Auto">
 					<ItemsControl Background="White" Padding="2">
 						<ItemsControl.Items>
-							<WrapPanel>
-								<TextBlock>
+                            <WrapPanel>
+                                <TextBlock>
 									<Hyperlink Command="{Binding ShowCommand}" Style="{StaticResource HyperlinkStyle2}">
 										<StackPanel Orientation="Horizontal">
 											<Grid Width="16" Background="{DynamicResource BPumpStation}" Margin="2 0" />
@@ -93,13 +93,8 @@
 										</StackPanel>
 									</Hyperlink>
 								</TextBlock>
-							</WrapPanel>
+                            </WrapPanel>
 
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Название в ГК:" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" FontWeight="Bold" />
-                                <TextBlock Text="{Binding PumpStation.DescriptorName}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" FontWeight="Bold" />
-                            </StackPanel>
-                            
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="Номер дескриптора ГК:" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" FontWeight="Bold" />
                                 <TextBlock Text="{Binding PumpStation.GKDescriptorNo}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" FontWeight="Bold" />

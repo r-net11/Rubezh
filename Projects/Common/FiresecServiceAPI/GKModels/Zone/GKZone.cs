@@ -21,7 +21,6 @@ namespace FiresecAPI.GK
 			Devices = new List<GKDevice>();
 			Directions = new List<GKDirection>();
 			DevicesInLogic = new List<GKDevice>();
-            DescriptorName = this.GetGKDescriptorName(FiresecClient.GKManager.DeviceConfiguration.GKNameGenerationType);
 		}
 
 		public override void Update(GKDevice device)
@@ -34,8 +33,6 @@ namespace FiresecAPI.GK
 		{
 
 		}
-
-        public string DescriptorName { get; set; }
 
 		[XmlIgnore]
 		public override GKBaseObjectType ObjectType { get { return GKBaseObjectType.Zone; } }
