@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SKDDriver.DataClasses
 {
-	public class TimeTrackDocumnetType
+	public class TimeTrackDocumentType
 	{
 		[Key]
 		public Guid UID { get; set; }

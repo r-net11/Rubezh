@@ -8,23 +8,26 @@ using System.Xml.Serialization;
 using FiresecAPI;
 using FiresecAPI.SKD;
 using LinqKit;
+using System.Data.Entity;
 
-namespace SKDDriver
+namespace SKDDriver.DataClasses
 {
 	public abstract class Synchroniser<TExportItem, TTableItem>
-		where TTableItem : class, DataAccess.IExternalKey, new()
+		where TTableItem : class, IExternalKey, new()
 		where TExportItem : IExportItem
 	{
-		protected Table<TTableItem> _Table;
-		protected SKDDatabaseService _DatabaseService;
+		protected DbSet<TTableItem> _Table;
+		protected DbService _DatabaseService;
+        protected DatabaseContext Context;
 		protected abstract string Name { get; }
 		protected abstract string XmlHeaderName { get; }
-		public string NameXml { get { return Name +  ".xml"; } } 
+		public string NameXml { get { return Name +  ".xml"; } }
 
-		public Synchroniser(Table<TTableItem> table, SKDDatabaseService databaseService)
+        public Synchroniser(DbSet<TTableItem> table, DbService databaseService)
 		{
 			_Table = table;
 			_DatabaseService = databaseService;
+            Context = databaseService.Context;
 		}
 
 		public OperationResult<List<TExportItem>> Get(ExportFilter filter)
@@ -41,9 +44,9 @@ namespace SKDDriver
 						item.ExternalKey = item.UID.ToString("N");
 					exportItem.ExternalKey = item.ExternalKey;
 					exportItem.IsDeleted = item.IsDeleted;
-					exportItem.RemovalDate = item.RemovalDate;
+					exportItem.RemovalDate = item.RemovalDate.GetValueOrDefault();
 					result.Add(exportItem);
-					_Table.Context.SubmitChanges();
+					Context.SaveChanges();
 				}
 				return new OperationResult<List<TExportItem>>(result);
 			}
@@ -97,12 +100,12 @@ namespace SKDDriver
 					else
 						newTableItem.UID = Guid.NewGuid();
 					newTableItem.ExternalKey = exportItem.ExternalKey;
-					newTableItem.RemovalDate = TranslatiorHelper.CheckDate(exportItem.RemovalDate);
+					newTableItem.RemovalDate = DbServiceHelper.CheckDate(exportItem.RemovalDate);
 					newTableItem.IsDeleted = exportItem.IsDeleted;
 					TranslateBack(exportItem, newTableItem);
-					_Table.InsertOnSubmit(newTableItem);
+					_Table.Add(newTableItem);
 				}
-				_Table.Context.SubmitChanges();
+				Context.SaveChanges();
 			}
 		}
 
@@ -116,7 +119,7 @@ namespace SKDDriver
 				{
 					UpdateForignKeys(exportItem, tableItem);
 				}
-				_Table.Context.SubmitChanges();
+                Context.SaveChanges();
 			}
 		}
 
@@ -187,7 +190,7 @@ namespace SKDDriver
 			return uid != null ? uid.Value : Guid.Empty;
 		}
 
-		protected string GetExternalKey(Guid? uid, DataAccess.IExternalKey exportItem)
+		protected string GetExternalKey(Guid? uid, IExternalKey exportItem)
 		{
 			if (exportItem == null)
 				return "-1";
@@ -196,8 +199,8 @@ namespace SKDDriver
 			return exportItem.ExternalKey;
 		}
 
-		protected Guid GetUIDbyExternalKey<T>(string externalKey, Table<T> table)
-			where T : class, DataAccess.IExternalKey
+		protected Guid GetUIDbyExternalKey<T>(string externalKey, DbSet<T> table)
+			where T : class, IExternalKey
 		{
 			var organisation = table.FirstOrDefault(x => x.ExternalKey.Equals(externalKey));
 			return organisation != null ? organisation.UID : Guid.Empty;

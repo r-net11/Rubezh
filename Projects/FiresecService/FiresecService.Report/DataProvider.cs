@@ -14,12 +14,10 @@ namespace FiresecService.Report
 	{
 		public DataProvider()
 		{
-			DatabaseService = new SKDDatabaseService();
 			DbService = new SKDDriver.DataClasses.DbService();
 			IsCacheLoaded = false;
 		}
 
-		public SKDDatabaseService DatabaseService { get; private set; }
 		public SKDDriver.DataClasses.DbService DbService { get; private set; }
 		public bool IsCacheLoaded { get; private set; }
 
@@ -216,7 +214,6 @@ namespace FiresecService.Report
 
 		public void Dispose()
 		{
-			DatabaseService.Dispose();
 			DbService.Dispose();
 		}
 

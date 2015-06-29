@@ -7,35 +7,33 @@ using FiresecAPI;
 using FiresecAPI.SKD;
 using Infrastructure.Common;
 
-namespace SKDDriver.Translators
+namespace SKDDriver.DataClasses
 {
 	public class TimeTrackTranslator
 	{
-		SKDDatabaseService DatabaseService;
-		DataAccess.SKDDataContext Context;
-		IEnumerable<DataAccess.Holiday> Holidays { get; set; }
+		SKDDriver.DataClasses.DatabaseContext Context;
+        IEnumerable<SKDDriver.DataClasses.Holiday> Holidays { get; set; }
 
-		public TimeTrackTranslator(SKDDatabaseService databaseService)
+        public TimeTrackTranslator(SKDDriver.DataClasses.DbService databaseService)
 		{
-			DatabaseService = databaseService;
 			Context = databaseService.Context;
-			_dbService = new DataClasses.DbService();
+            _dbService = databaseService;
 		}
 
 		SKDDriver.DataClasses.DbService _dbService;
 		DataClasses.PassJournalTranslator _PassJournalTranslator;
-		List<DataAccess.Employee> _Employees;
-		List<DataAccess.Holiday> _Holidays;
-		List<DataAccess.Schedule> _Schedules;
-		List<DataAccess.ScheduleScheme> _ScheduleSchemes;
-		List<DataAccess.ScheduleDay> _ScheduleDays;
-		List<DataAccess.ScheduleZone> _ScheduleZones;
-		List<DataClasses.PassJournal> _PassJournals;
-		List<DataAccess.DayInterval> _DayIntervals;
-		List<DataAccess.DayIntervalPart> _DayIntervalParts;
-		List<DataAccess.TimeTrackDocument> _TimeTrackDocuments;
-		List<DataAccess.TimeTrackDocumentType> _TimeTrackDocumentTypes;
-		List<DataAccess.NightSetting> _NightSettings;
+        List<SKDDriver.DataClasses.Employee> _Employees;
+        List<SKDDriver.DataClasses.Holiday> _Holidays;
+        List<SKDDriver.DataClasses.Schedule> _Schedules;
+        List<SKDDriver.DataClasses.ScheduleScheme> _ScheduleSchemes;
+        List<SKDDriver.DataClasses.ScheduleDay> _ScheduleDays;
+        List<SKDDriver.DataClasses.ScheduleZone> _ScheduleZones;
+        List<SKDDriver.DataClasses.PassJournal> _PassJournals;
+        List<SKDDriver.DataClasses.DayInterval> _DayIntervals;
+        List<SKDDriver.DataClasses.DayIntervalPart> _DayIntervalParts;
+        List<SKDDriver.DataClasses.TimeTrackDocument> _TimeTrackDocuments;
+        List<SKDDriver.DataClasses.TimeTrackDocumentType> _TimeTrackDocumentTypes;
+        List<SKDDriver.DataClasses.NightSetting> _NightSettings;
 
 
 		void InitializeData()
@@ -87,7 +85,7 @@ namespace SKDDriver.Translators
 						}
 					}
 
-					var documentsOperationResult = DatabaseService.TimeTrackDocumentTranslator.Get(shortEmployee.UID, startDate, endDate, _TimeTrackDocuments);
+					var documentsOperationResult = _dbService.TimeTrackDocumentTranslator.Get(shortEmployee.UID, startDate, endDate, _TimeTrackDocuments);
 					if (!documentsOperationResult.HasError)
 					{
 						var documents = documentsOperationResult.Result;
@@ -96,7 +94,7 @@ namespace SKDDriver.Translators
 							document.TimeTrackDocumentType = TimeTrackDocumentTypesCollection.TimeTrackDocumentTypes.FirstOrDefault(x => x.Code == document.DocumentCode);
 							if (document.TimeTrackDocumentType == null)
 							{
-								var documentTypesResult = DatabaseService.TimeTrackDocumentTypeTranslator.Get(shortEmployee.OrganisationUID, _TimeTrackDocumentTypes);
+                                var documentTypesResult = _dbService.TimeTrackDocumentTypeTranslator.Get(shortEmployee.OrganisationUID, _TimeTrackDocumentTypes);
 								if (documentTypesResult.Result != null)
 								{
 									document.TimeTrackDocumentType = documentTypesResult.Result.FirstOrDefault(x => x.Code == document.DocumentCode);
@@ -209,7 +207,10 @@ namespace SKDDriver.Translators
 			return timeTrackEmployeeResult;
 		}
 
-		PlannedTimeTrackPart GetPlannedTimeTrackPart(DataAccess.Employee employee, DataAccess.Schedule schedule, DataAccess.ScheduleScheme scheduleScheme, IEnumerable<DataAccess.ScheduleDay> days, DateTime date, bool ignoreHolidays)
+        PlannedTimeTrackPart GetPlannedTimeTrackPart(SKDDriver.DataClasses.Employee employee, 
+            SKDDriver.DataClasses.Schedule schedule,
+            SKDDriver.DataClasses.ScheduleScheme scheduleScheme,
+            IEnumerable<SKDDriver.DataClasses.ScheduleDay> days, DateTime date, bool ignoreHolidays)
 		{
 			var scheduleSchemeType = (ScheduleSchemeType)scheduleScheme.Type;
 
@@ -235,8 +236,8 @@ namespace SKDDriver.Translators
 			if (day == null)
 				return new PlannedTimeTrackPart("Не найден день");
 
-			var intervals = new List<DataAccess.DayIntervalPart>();
-			DataAccess.DayInterval dayInterval = null;
+            var intervals = new List<SKDDriver.DataClasses.DayIntervalPart>();
+            SKDDriver.DataClasses.DayInterval dayInterval = null;
 			if (day.DayIntervalUID != null)
 			{
 				dayInterval = _DayIntervals.FirstOrDefault(x => x.UID == day.DayIntervalUID && !x.IsDeleted);
@@ -247,7 +248,7 @@ namespace SKDDriver.Translators
 
 			TimeTrackPart nightTimeTrackPart = null;
 			{
-				SKDDriver.DataAccess.ScheduleDay previousDay = null;
+                SKDDriver.DataClasses.ScheduleDay previousDay = null;
 				if (dayNo > 0)
 					previousDay = days.FirstOrDefault(x => x.Number == dayNo - 1);
 				else

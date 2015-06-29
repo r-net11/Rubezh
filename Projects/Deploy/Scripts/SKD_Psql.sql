@@ -253,8 +253,8 @@ CREATE INDEX "ScheduleZoneScheduleUIDIndex" ON "ScheduleZone"("ScheduleUID");
 CREATE TABLE "TimeTrackDocument"(
 	"UID" uuid CONSTRAINT "PK_TimeTrackDocument" PRIMARY KEY,
 	"EmployeeUID" uuid,
-	"StartDateTime" timestamp,
-	"EndDateTime" timestamp,
+	"StartDateTime" timestamp NOT NULL,
+	"EndDateTime" timestamp NOT NULL,
 	"DocumentCode" int NOT NULL,
 	"Comment" character varying(100),
 	"FileName" character varying(100),

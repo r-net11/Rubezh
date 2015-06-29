@@ -24,11 +24,13 @@ namespace SKDDriver.DataClasses
 		public PositionTranslator PositionTranslator { get; private set; }
 		public ScheduleTranslator ScheduleTranslator { get; private set; }
 		public ScheduleSchemeTranslator ScheduleSchemeTranslator { get; private set; }
-		public TimeTrackingTranslator TimeTrackingTranslator { get; private set; }
+		public TimeTrackTranslator TimeTrackTranslator { get; private set; }
         public GKCardTranslator GKCardTranslator { get; private set; }
         public GKMetadataTranslator GKMetadataTranslator { get; private set; }
-
-		public static bool IsAbort
+        public TimeTrackDocumentTypeTranslator TimeTrackDocumentTypeTranslator { get; private set; }
+        public TimeTrackDocumentTranslator TimeTrackDocumentTranslator { get; private set; }
+        public TestDataGenerator TestDataGenerator { get; private set; }
+        public static bool IsAbort
 		{
 			get { return JournalTranslator.IsAbort; }
 			set { JournalTranslator.IsAbort = value; }
@@ -57,7 +59,10 @@ namespace SKDDriver.DataClasses
 			ScheduleSchemeTranslator = new ScheduleSchemeTranslator(this);
             GKCardTranslator = new GKCardTranslator(this);
             GKMetadataTranslator = new GKMetadataTranslator(this);
-			//TimeTrackingTranslator = new TimeTrackingTranslator(this);
+			TimeTrackTranslator = new TimeTrackTranslator(this);
+            TimeTrackDocumentTypeTranslator = new TimeTrackDocumentTypeTranslator(this);
+            TimeTrackDocumentTranslator = new TimeTrackDocumentTranslator(this);
+            TestDataGenerator = new TestDataGenerator(this);
 		}
 
 		public void Dispose()
@@ -65,7 +70,4 @@ namespace SKDDriver.DataClasses
 			Context.Dispose();
 		}
 	}
-
-    public class TimeTrackingTranslator { }
-
 }

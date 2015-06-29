@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SKDDriver.DataClasses
 {
-	public class Employee : IOrganisationItem
+    public class Employee : IOrganisationItem, IExternalKey
 	{
 		public Employee()
 		{

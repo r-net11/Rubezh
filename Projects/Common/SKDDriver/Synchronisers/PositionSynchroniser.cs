@@ -3,14 +3,15 @@ using System.Data.Linq;
 using System.Linq.Expressions;
 using FiresecAPI.SKD;
 using LinqKit;
+using System.Data.Entity;
 
-namespace SKDDriver
+namespace SKDDriver.DataClasses
 {
-	public class PositionSynchroniser : Synchroniser<ExportPosition, DataAccess.Position>
+	public class PositionSynchroniser : Synchroniser<ExportPosition, Position>
 	{
-		public PositionSynchroniser(Table<DataAccess.Position> table, SKDDatabaseService databaseService) : base(table, databaseService) { }
+		public PositionSynchroniser(DbSet<Position> table, DbService databaseService) : base(table, databaseService) { }
 
-		public override ExportPosition Translate(DataAccess.Position item)
+		public override ExportPosition Translate(Position item)
 		{
 			return new ExportPosition 
 			{ 
@@ -22,10 +23,10 @@ namespace SKDDriver
 			};
 		}
 
-		protected override Expression<Func<DataAccess.Position, bool>> IsInFilter(ExportFilter filter)
-		{
-			return base.IsInFilter(filter).And(x => x.OrganisationUID == filter.OrganisationUID);
-		}
+        //protected override Expression<Func<DataAccess.Position, bool>> IsInFilter(ExportFilter filter)
+        //{
+        //    return base.IsInFilter(filter).And(x => x.OrganisationUID == filter.OrganisationUID);
+        //}
 
 		protected override string Name
 		{
@@ -37,13 +38,12 @@ namespace SKDDriver
 			get { return "ArrayOfExportPosition"; }
 		}
 
-		public override void TranslateBack(ExportPosition exportItem, DataAccess.Position tableItem)
+		public override void TranslateBack(ExportPosition exportItem, Position tableItem)
 		{
 			tableItem.Name  = exportItem.Name;
 			tableItem.Description = exportItem.Description;
 
 			tableItem.OrganisationUID = GetUIDbyExternalKey(exportItem.OrganisationExternalKey, _DatabaseService.Context.Organisations);
 		}
-
-	}
+    }
 }

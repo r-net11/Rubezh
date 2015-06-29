@@ -222,7 +222,7 @@ namespace FiresecService.Service
 
 		public OperationResult<List<TimeTrackDocument>> GetTimeTrackDocument(Guid employeeUID, DateTime startDateTime, DateTime endDateTime)
 		{
-			using (var databaseService = new SKDDatabaseService())
+            using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.TimeTrackDocumentTranslator.Get(employeeUID, startDateTime, endDateTime);
 			}
@@ -230,7 +230,7 @@ namespace FiresecService.Service
 		public OperationResult AddTimeTrackDocument(TimeTrackDocument item)
 		{
 			AddJournalMessage(JournalEventNameType.Внесение_оправдательного_документа, item.DocumentNumber.ToString(), JournalEventDescriptionType.Редактирование, uid: item.UID);
-			using (var databaseService = new SKDDatabaseService())
+            using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.TimeTrackDocumentTranslator.AddTimeTrackDocument(item);
 			}
@@ -238,14 +238,14 @@ namespace FiresecService.Service
 		public OperationResult EditTimeTrackDocument(TimeTrackDocument item)
 		{
 			AddJournalMessage(JournalEventNameType.Внесение_оправдательного_документа, item.DocumentNumber.ToString(), JournalEventDescriptionType.Редактирование, uid: item.UID);
-			using (var databaseService = new SKDDatabaseService())
+            using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.TimeTrackDocumentTranslator.EditTimeTrackDocument(item);
 			}
 		}
 		public OperationResult RemoveTimeTrackDocument(Guid timeTrackDocumentUID)
 		{
-			using (var databaseService = new SKDDatabaseService())
+            using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.TimeTrackDocumentTranslator.RemoveTimeTrackDocument(timeTrackDocumentUID);
 			}
@@ -253,28 +253,28 @@ namespace FiresecService.Service
 
 		public OperationResult<List<TimeTrackDocumentType>> GetTimeTrackDocumentTypes(Guid organisationUID)
 		{
-			using (var databaseService = new SKDDatabaseService())
+            using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.TimeTrackDocumentTypeTranslator.Get(organisationUID);
 			}
 		}
 		public OperationResult AddTimeTrackDocumentType(TimeTrackDocumentType timeTrackDocumentType)
 		{
-			using (var databaseService = new SKDDatabaseService())
+            using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.TimeTrackDocumentTypeTranslator.AddTimeTrackDocumentType(timeTrackDocumentType);
 			}
 		}
 		public OperationResult EditTimeTrackDocumentType(TimeTrackDocumentType timeTrackDocumentType)
 		{
-			using (var databaseService = new SKDDatabaseService())
+            using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.TimeTrackDocumentTypeTranslator.EditTimeTrackDocumentType(timeTrackDocumentType);
 			}
 		}
 		public OperationResult RemoveTimeTrackDocumentType(Guid timeTrackDocumentTypeUID)
 		{
-			using (var databaseService = new SKDDatabaseService())
+            using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.TimeTrackDocumentTypeTranslator.RemoveTimeTrackDocumentType(timeTrackDocumentTypeUID);
 			}

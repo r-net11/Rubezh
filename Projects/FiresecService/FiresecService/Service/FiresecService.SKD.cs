@@ -77,14 +77,14 @@ namespace FiresecService.Service
 		}
 		public OperationResult<TimeTrackResult> GetTimeTracks(EmployeeFilter filter, DateTime startDate, DateTime endDate)
 		{
-			using (var databaseService = new SKDDatabaseService())
+            using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.TimeTrackTranslator.GetTimeTracks(filter, startDate, endDate);
 			}
 		}
 		public Stream GetTimeTracksStream(EmployeeFilter filter, DateTime startDate, DateTime endDate)
 		{
-			using (var databaseService = new SKDDatabaseService())
+            using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.TimeTrackTranslator.GetTimeTracksStream(filter, startDate, endDate);
 			}
@@ -1379,18 +1379,18 @@ namespace FiresecService.Service
 
 		public OperationResult GenerateEmployeeDays()
 		{
-			using (var databaseService = new SKDDatabaseService())
+            using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
-                return new OperationResult();// databaseService.EmployeeTranslator1.GenerateEmployeeDays();
+                return databaseService.TestDataGenerator.GenerateEmployeeDays();
 			}
 		}
 
 		public OperationResult GenerateTestData(bool isAscending)
 		{
 			List<Guid> cardUIDs ;
-			using (var ds = new SKDDatabaseService())
+            using (var ds = new SKDDriver.DataClasses.DbService())
 			{
-                cardUIDs = new List<Guid>(); //ds.EmployeeTranslator1.TestEmployeeCards();
+                cardUIDs = ds.TestDataGenerator.TestEmployeeCards();
 			}
 			bool isBreak = false;
 			int currentPage = 0;
@@ -1398,9 +1398,9 @@ namespace FiresecService.Service
 			while (!isBreak)
 			{
 				var cardUIDsportion = cardUIDs.Skip(currentPage * pageSize).Take(pageSize).ToList();
-				using (var ds = new SKDDatabaseService())
+                using (var ds = new SKDDriver.DataClasses.DbService())
 				{
-					//ds.EmployeeTranslator1.TestCardDoors(cardUIDsportion, isAscending);
+                    ds.TestDataGenerator.TestCardDoors(cardUIDsportion, isAscending);
 				}
 				isBreak = cardUIDsportion.Count < pageSize;
 				currentPage++;
@@ -1527,14 +1527,14 @@ namespace FiresecService.Service
 		#region Export
 		public OperationResult ExportOrganisation(ExportFilter filter)
 		{
-			using (var databaseService = new SKDDatabaseService())
+            using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
                 return new OperationResult();// databaseService.OrganisationTranslator.Synchroniser.Export(filter);
 			}
 		}
 		public OperationResult ImportOrganisation(ImportFilter filter)
 		{
-			using (var databaseService = new SKDDatabaseService())
+            using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
                 return new OperationResult();// databaseService.OrganisationTranslator.Synchroniser.Import(filter);
 			}
@@ -1542,14 +1542,14 @@ namespace FiresecService.Service
 
 		public OperationResult ExportOrganisationList(ExportFilter filter)
 		{
-			using (var databaseService = new SKDDatabaseService())
+            using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
                 return new OperationResult();// databaseService.OrganisationTranslator.Synchroniser.ListSynchroniser.Export(filter);
 			}
 		}
 		public OperationResult ImportOrganisationList(ImportFilter filter)
 		{
-			using (var databaseService = new SKDDatabaseService())
+            using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
                 return new OperationResult();// databaseService.OrganisationTranslator.Synchroniser.ListSynchroniser.Import(filter);
 			}
@@ -1561,23 +1561,19 @@ namespace FiresecService.Service
 			var passJournalResult = new OperationResult();
 			if (filter.IsExportJournal)
 			{
-				using (var journalSynchroniser = new JounalSynchroniser())
+                using (var databaseService = new SKDDriver.DataClasses.DbService())
 				{
-					journalResult = journalSynchroniser.Export(filter);
+                    journalResult = databaseService.JournalTranslator.JournalSynchroniser.Export(filter);
 				}
 			}
 			if (filter.IsExportPassJournal)
 			{
-				//using (var databaseService = new SKDDatabaseService())
-				//{
-				//    passJournalResult = databaseService.PassJournalTranslator.Synchroniser.Export(filter);
-				//}
 				using (var databaseService = new SKDDriver.DataClasses.DbService())
 				{
 					passJournalResult = databaseService.PassJournalTranslator.Synchroniser.Export(filter);
 				}
 			}
-			return TranslatiorHelper.ConcatOperationResults(journalResult, passJournalResult);
+			return SKDDriver.DataClasses.DbServiceHelper.ConcatOperationResults(journalResult, passJournalResult);
 		}
 
 		public OperationResult ExportConfiguration(ConfigurationExportFilter filter)

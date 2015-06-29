@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SKDDriver.DataClasses
 {
-	public class Organisation
+    public class Organisation : IExternalKey
 	{
 		public Organisation()
 		{
@@ -22,7 +22,7 @@ namespace SKDDriver.DataClasses
 			Holidays = new List<Holiday>();
 			AccessTemplates = new List<AccessTemplate>();
 			PassCardTemplates = new List<PassCardTemplate>();
-			TimeTrackDocumnetTypes = new List<TimeTrackDocumnetType>();
+			TimeTrackDocumnetTypes = new List<TimeTrackDocumentType>();
 		}
 		
 		[Key]
@@ -74,7 +74,7 @@ namespace SKDDriver.DataClasses
 
 		public ICollection<PassCardTemplate> PassCardTemplates { get; set; }
 
-		public ICollection<TimeTrackDocumnetType> TimeTrackDocumnetTypes { get; set; }
+		public ICollection<TimeTrackDocumentType> TimeTrackDocumnetTypes { get; set; }
 
 		public string Phone { get; set; }
 

@@ -4,6 +4,7 @@ using System.Linq;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Journal;
+using System.Diagnostics;
 
 namespace SKDDriver.DataClasses
 {
@@ -11,12 +12,15 @@ namespace SKDDriver.DataClasses
 	{
 		DbService DbService; 
 		DatabaseContext Context;
-		public PassJounalSynchroniser Synchroniser { get; private set; }
+		public PassJounalSynchroniser PassJournalSynchroniser { get; private set; }
+        public JounalSynchroniser JournalSynchroniser { get; private set; }
 
-		public JournalTranslator(DbService context)
+		public JournalTranslator(DbService dbService)
 		{
-			DbService = context;
+			DbService = dbService;
 			Context = DbService.Context;
+            JournalSynchroniser = new JounalSynchroniser(dbService);
+            PassJournalSynchroniser = new PassJounalSynchroniser(dbService);
 		}
 		
 		public event Action<List<JournalItem>, Guid> ArchivePortionReady;
@@ -113,7 +117,7 @@ namespace SKDDriver.DataClasses
 				var pageSize = archiveFilter.PageSize;
 				int page = 0;
 				bool isEnd = false;
-				while (!isEnd && !IsAbort)
+                while (!isEnd && !IsAbort)
 				{
 					var journalItems = Context.Journals.SqlQuery(BuildArchiveFilterQuery(archiveFilter)).Skip(page * pageSize).Take(pageSize).ToList().Select(x => Translate(x)).ToList();
 					page++;

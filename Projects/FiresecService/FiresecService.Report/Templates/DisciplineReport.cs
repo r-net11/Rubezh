@@ -30,7 +30,7 @@ namespace FiresecService.Report.Templates
 			var filter = GetFilter<DisciplineReportFilter>();
 			var employeeFilter = dataProvider.GetEmployeeFilter(filter);
 			var employees = dataProvider.GetEmployees(employeeFilter, filter.IsDefault);
-			var timeTrackResult = dataProvider.DatabaseService.TimeTrackTranslator.GetTimeTracks(employeeFilter, filter.DateTimeFrom, filter.DateTimeTo);
+            var timeTrackResult = dataProvider.DbService.TimeTrackTranslator.GetTimeTracks(employeeFilter, filter.DateTimeFrom, filter.DateTimeTo);
 
 			var dataSet = new DisciplineDataSet();
 			foreach (var employee in employees)

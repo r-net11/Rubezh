@@ -11,9 +11,9 @@ namespace SKDDriver.DataClasses
 		public Guid? EmployeeUID { get; set; }
 		public Employee Employee { get; set; }
 
-		public DateTime? StartDateTime { get; set; }
+		public DateTime StartDateTime { get; set; }
 
-		public DateTime? EndDateTime { get; set; }
+		public DateTime EndDateTime { get; set; }
 
 		public int DocumentCode { get; set; }
 

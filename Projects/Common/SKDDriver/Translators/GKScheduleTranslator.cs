@@ -76,7 +76,7 @@ namespace SKDDriver.DataClasses
 				tableItem.Year = item.Calendar.Year;
 				tableItem.Type = (int)item.ScheduleType;
 				tableItem.PeriodType = (int)item.SchedulePeriodType;
-				tableItem.StartDateTime = TranslatiorHelper.CheckDate(item.StartDateTime);
+				tableItem.StartDateTime = DbServiceHelper.CheckDate(item.StartDateTime);
 				tableItem.HoursPeriod = item.HoursPeriod;
 				tableItem.HolidayScheduleNo = item.HolidayScheduleNo;
 				tableItem.WorkingHolidayScheduleNo = item.WorkHolidayScheduleNo;

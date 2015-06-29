@@ -15,9 +15,9 @@ namespace SKDDriver.DataClasses
 		DatabaseContext Context;
 		public PassJounalSynchroniser Synchroniser { get; private set; } 
 
-		public PassJournalTranslator(DbService context)
+		public PassJournalTranslator(DbService dbService)
 		{
-			DbService = context;
+			DbService = dbService;
 			Context = DbService.Context;
 		}
 		
@@ -402,9 +402,9 @@ namespace SKDDriver.DataClasses
 		string Name { get { return "PassJournal"; } }
 		public string NameXml { get { return Name + ".xml"; } }
 
-		public PassJounalSynchroniser(DatabaseContext context)
+		public PassJounalSynchroniser(DbService dbService)
 		{
-			_context = context;
+			_context = dbService.Context;
 		}
 
 		public OperationResult Export(JournalExportFilter filter)
@@ -413,7 +413,7 @@ namespace SKDDriver.DataClasses
 			{
 				if (!Directory.Exists(filter.Path))
 					return new OperationResult("Папка не существует");
-				var tableItems = _context.PassJournals.Where(x => x.EnterTime >= TranslatiorHelper.CheckDate(filter.MinDate) & x.EnterTime <= TranslatiorHelper.CheckDate(filter.MaxDate));
+                var tableItems = _context.PassJournals.Where(x => x.EnterTime >= DbServiceHelper.CheckDate(filter.MinDate) & x.EnterTime <= DbServiceHelper.CheckDate(filter.MaxDate));
 				var items = tableItems.Select(x => Translate(x)).ToList();
 				var serializer = new XmlSerializer(typeof(List<ExportPassJournalItem>));
 				using (var fileStream = File.Open(NameXml, FileMode.Create))

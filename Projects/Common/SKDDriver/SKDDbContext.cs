@@ -58,8 +58,9 @@ namespace SKDDriver.DataClasses
             modelBuilder.Entity<NightSetting>().ToTable("NightSetting", schemaStr);
             modelBuilder.Entity<Card>().ToTable("Card", schemaStr);
             modelBuilder.Entity<CardGKControllerUID>().ToTable("CardGKControllerUID", schemaStr);
-            
-		}
+            modelBuilder.Entity<TimeTrackDocument>().ToTable("TimeTrackDocument", schemaStr);
+            modelBuilder.Entity<TimeTrackDocumentType>().ToTable("TimeTrackDocumentType", schemaStr);
+        }
 
 		public DbSet<GKSchedule> GKSchedules { get; set; }
 		public DbSet<GKScheduleDay> GKScheduleDays { get; set; }
@@ -69,8 +70,7 @@ namespace SKDDriver.DataClasses
 		public DbSet<PassJournal> PassJournals { get; set; }
 		public DbSet<Journal> Journals { get; set; }
 		public DbSet<EmployeeDay> EmployeeDays { get; set; }
-
-		public DbSet<AccessTemplate> AccessTemplates { get; set; }
+        public DbSet<AccessTemplate> AccessTemplates { get; set; }
 		public DbSet<AdditionalColumn> AdditionalColumns { get; set; }
 		public DbSet<AdditionalColumnType> AdditionalColumnTypes { get; set; }
 		public DbSet<Card> Cards { get; set; }
@@ -98,7 +98,7 @@ namespace SKDDriver.DataClasses
 		public DbSet<ScheduleScheme> ScheduleSchemes { get; set; }
 		public DbSet<ScheduleZone> ScheduleZones { get; set; }
 		public DbSet<TimeTrackDocument> TimeTrackDocuments { get; set; }
-		public DbSet<TimeTrackDocumnetType> TimeTrackDocumnetTypes { get; set; }
+		public DbSet<TimeTrackDocumentType> TimeTrackDocumentTypes { get; set; }
 		public DbSet<TimeTrackException> TimeTrackExceptions { get; set; }
 	}
 }

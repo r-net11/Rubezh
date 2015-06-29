@@ -32,7 +32,7 @@ namespace FiresecService.Report.Templates
 		protected override DataSet CreateDataSet(DataProvider dataProvider)
 		{
 			var filter = GetFilter<PositionsReportFilter>();
-			var databaseService = new SKDDatabaseService();
+            var databaseService = new SKDDriver.DataClasses.DbService();
 			dataProvider.LoadCache();
 			Guid organisationUID = Guid.Empty;
 			var organisations = dataProvider.Organisations.Where(org => org.Value.Item.UserUIDs.Any(y => y == filter.UserUID));

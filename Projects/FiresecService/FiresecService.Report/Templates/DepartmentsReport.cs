@@ -36,7 +36,7 @@ namespace FiresecService.Report.Templates
 		protected override DataSet CreateDataSet(DataProvider dataProvider)
 		{
 			var filter = GetFilter<DepartmentsReportFilter>();
-			var databaseService = new SKDDatabaseService();
+            var databaseService = new SKDDriver.DataClasses.DbService();
 			dataProvider.LoadCache();
 			var departments = GetDepartments(dataProvider, filter);
 			var uids = departments.Select(item => item.UID).ToList();

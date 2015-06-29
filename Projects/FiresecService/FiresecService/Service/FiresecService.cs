@@ -111,10 +111,6 @@ namespace FiresecService.Service
 
 		public string Test(string arg)
 		{
-			//using (var passJournalTranslator = new PassJournalTranslator())
-			//{
-			//    passJournalTranslator.InsertPassJournalTestData();
-			//}
 			using (var dbService = new SKDDriver.DataClasses.DbService())
 			{
 				dbService.PassJournalTranslator.InsertPassJournalTestData();
