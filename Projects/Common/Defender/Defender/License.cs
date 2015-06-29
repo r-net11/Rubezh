@@ -5,19 +5,29 @@ namespace Defender
 {
     public class License
     {
-        public byte[] Key { get; set; }
-        public string HexKey { get { return Key == null || Key.Length == 0 ? "-" : "0x" + BitConverter.ToString(Key).Replace("-", String.Empty); } }
+        public InitialKey InitialKey { get; set; }
+        
         public List<LicenseParameter> Parameters { get; set; }
 
         public License()
         {
+            this.InitialKey = new InitialKey();
             this.Parameters = new List<LicenseParameter>();
         }
 
-        public License(byte[] key)
+        public static License Create(InitialKey initialKey)
         {
-            this.Key = key;
-            this.Parameters = new List<LicenseParameter>();
+            return new License() { InitialKey = initialKey };
+        }
+
+        public static License Create(byte[] binaryValue)
+        {
+            return new License() { InitialKey = InitialKey.FromBinary(binaryValue) };
+        }
+
+        public static License Create(string hexStringValue)
+        {
+            return new License() { InitialKey = InitialKey.FromHexString(hexStringValue) };
         }
     }
 }

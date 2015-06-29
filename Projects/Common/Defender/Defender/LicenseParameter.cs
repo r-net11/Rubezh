@@ -4,6 +4,7 @@ namespace Defender
 {
     public class LicenseParameter
     {
+        public string Id { get; set; }
         public string Name { get; set; }
         
         public LicenseParameterType Type
@@ -52,6 +53,14 @@ namespace Defender
 
         public LicenseParameter(string name, object value)
         {
+            this.Id = name;
+            this.Name = name;
+            this.Value = value;
+        }
+
+        public LicenseParameter(string id, string name, object value)
+        {
+            this.Id = id;
             this.Name = name;
             this.Value = value;
         }

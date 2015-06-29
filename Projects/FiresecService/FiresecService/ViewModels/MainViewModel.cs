@@ -6,6 +6,9 @@ using FiresecAPI.Models;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Defender;
+using System.IO;
+using Microsoft.Win32;
 
 namespace FiresecService.ViewModels
 {
@@ -21,6 +24,11 @@ namespace FiresecService.ViewModels
 			_dispatcher = Dispatcher.CurrentDispatcher;
 			Clients = new ObservableCollection<ClientViewModel>();
 			MessageBoxService.SetMessageBoxHandler(MessageBoxHandler);
+
+            _initialKey = InitialKey.Generate();
+            InitialKeyString = _initialKey.ToString();
+            LoadLicenseCommand = new RelayCommand(OnLoadLicenseCommand);
+            TryLoadLicense();
 		}
 
 		void MessageBoxHandler(MessageBoxViewModel viewModel, bool isModal)
@@ -127,6 +135,65 @@ namespace FiresecService.ViewModels
 		{
 			ApplicationMinimizeCommand.ForceExecute();
 			return true;
-		}
-	}
+        }
+
+        #region Licensing
+
+        InitialKey _initialKey;
+
+        string _initialKeyString;
+        public string InitialKeyString
+        {
+            get { return _initialKeyString; }
+            set
+            {
+                _initialKeyString = value;
+                OnPropertyChanged(()=>InitialKeyString);
+            }
+        }
+
+        LicenseViewModel _license;
+        public LicenseViewModel License
+        {
+            get { return _license; }
+            set
+            {
+                _license = value;
+                OnPropertyChanged(() => License);
+            }
+        }
+
+        string GetLicensePath()
+        {
+            return AppDataFolderHelper.GetFile("FiresecService.license");
+        }
+
+        bool TryLoadLicense()
+        {
+            License = new LicenseViewModel(LicenseProcessor.ProcessLoad(GetLicensePath(), _initialKey));
+            return License != null;
+        }
+
+        public RelayCommand LoadLicenseCommand { get; private set; }
+        void OnLoadLicenseCommand()
+        {
+            var openFileDialog = new OpenFileDialog()
+            {
+                Filter = "Файл лицензии (*.license)|*.license"
+            };
+            if (openFileDialog.ShowDialog().Value)
+            {
+                try
+                {
+                    File.Copy(openFileDialog.FileName, GetLicensePath(), true);
+                }
+                catch(Exception ex)
+                {
+                    MessageBoxService.ShowError("Ошибка копирования файла лицензии.\n" + ex.Message);
+                }
+                TryLoadLicense();
+            }
+        }
+        #endregion
+    }
 }

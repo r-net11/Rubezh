@@ -5,7 +5,7 @@ using System.Xml.Serialization;
 namespace FiresecAPI.GK
 {
 	/// <summary>
-	/// Прошраммно имитируемый модуль ГК
+	/// Программно имитируемый модуль ГК
 	/// </summary>
 	[DataContract]
 	public class GKPim : GKBase
