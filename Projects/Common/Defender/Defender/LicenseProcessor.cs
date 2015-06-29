@@ -22,6 +22,12 @@ namespace Defender
             return Deserialize(Decrypt(LoadFromFile(fileName), key));
         }
 
+        public static License ProcessLoad(string fileName, string key)
+        {
+            Exceptions.Clear();
+            return Deserialize(Decrypt(LoadFromFile(fileName), InitialKey.FromHexString(key).BinaryValue));
+        }
+
         public static bool ProcessSave(string fileName, License license, InitialKey key)
         {
             return ProcessSave(fileName, license, key.BinaryValue);
@@ -31,6 +37,12 @@ namespace Defender
         {
             Exceptions.Clear();
             return SaveToFile(Encrypt(Serialize(license), key), fileName);
+        }
+
+        public static bool ProcessSave(string fileName, License license, string key)
+        {
+            Exceptions.Clear();
+            return SaveToFile(Encrypt(Serialize(license), InitialKey.FromHexString(key).BinaryValue), fileName);
         }
 
         static string Serialize(License license)
