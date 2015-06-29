@@ -27,6 +27,7 @@ namespace ChinaSKDDriver
 			fDisConnectDelegate = new NativeWrapper.fDisConnectDelegate(OnDisConnectDelegate);
 			fHaveReConnectDelegate = new NativeWrapper.fHaveReConnectDelegate(OnfHaveReConnectDelegate);
 			fMessCallBackDelegate = new NativeWrapper.fMessCallBackDelegate(OnfMessCallBackDelegate);
+			fSearchDevicesCbDelegate = new NativeWrapper.fSearchDevicesCBDelegate(OnSearchDevicesDelegate); // Автопоиск устройств
 
 			var result = NativeWrapper.CLIENT_Init(fDisConnectDelegate, 0);
 			NativeWrapper.CLIENT_SetAutoReconnect(fHaveReConnectDelegate, 0);

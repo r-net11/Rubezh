@@ -43,6 +43,7 @@
     <Compile Include="API\AntiPassBackConfiguration.cs" />
     <Compile Include="API\Card.cs" />
     <Compile Include="API\Access.cs" />
+    <Compile Include="API\DeviceSearchInfo.cs" />
     <Compile Include="API\ErrorCode.cs" />
     <Compile Include="API\InterlockConfiguration.cs" />
     <Compile Include="API\DeviceJournalItem.cs" />
@@ -51,6 +52,7 @@
     <Compile Include="API\Holiday.cs" />
     <Compile Include="API\LogItem.cs" />
     <Compile Include="API\Password.cs" />
+    <Compile Include="API\SearchDevicesEventArgs.cs" />
     <Compile Include="API\SKDJournalItem.cs" />
     <Compile Include="API\TimeInterval.cs" />
     <Compile Include="API\TimeShedule.cs" />
@@ -61,6 +63,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SDK\Wrapper.CustomData.cs" />
     <Compile Include="SDK\Wrapper.Interlock.cs" />
+    <Compile Include="SDK\Wrapper.SearchDevices.cs" />
     <Compile Include="SDK\Wrapper.AntiPassBack.cs" />
     <Compile Include="SDK\Wrapper.Accesses.cs" />
     <Compile Include="SDK\Wrapper.Cards.cs" />

@@ -907,7 +907,7 @@ namespace ChinaSKDDriverNativeApi
 		}
 		#endregion
 
-		#region Anti-path Back
+		#region <Anti-path Back>
 
 		public enum WRAP_AntiPassBackMode
 		{
@@ -940,9 +940,9 @@ namespace ChinaSKDDriverNativeApi
 		[DllImport(@"CPPWrapper.dll")]
 		public static extern bool WRAP_SetAntiPassBackCfg(int loginID, ref WRAP_AntiPassBackCfg cfg);
 
-		#endregion // Anti-path Back
+		#endregion </Anti-path Back>
 
-		#region Interlock
+		#region <Interlock>
 
 		public enum WRAP_InterlockMode
 		{
@@ -979,9 +979,9 @@ namespace ChinaSKDDriverNativeApi
 		[DllImport(@"CPPWrapper.dll")]
 		public static extern bool WRAP_SetInterlockCfg(int loginID, ref WRAP_InterlockCfg cfg);
 
-		#endregion // Interlock
+		#endregion </Interlock>
 
-		#region Custom Data
+		#region <Custom Data>
 
 		[StructLayout(LayoutKind.Sequential)]
 		public struct WRAP_CustomData
@@ -1002,7 +1002,62 @@ namespace ChinaSKDDriverNativeApi
 		[DllImport(@"CPPWrapper.dll")]
 		public static extern bool WRAP_SetCustomData(int loginID, ref WRAP_CustomData customData);
 
-		#endregion // Custom Data
+		#endregion  </Custom Data>
 
+		#region <Поиск устройств>
+
+		public struct DEVICE_NET_INFO_EX
+		{
+			public int iIPVersion;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
+			public string szIP;
+			public int nPort;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
+			public string szSubmask;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
+			public string szGateway;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 40)]
+			public string szMac;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
+			public string szDeviceType;
+			public byte byManuFactory;
+			public byte byDefinition;
+			public byte bDhcpEn;
+			public byte byReserved1;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 88)]
+			public string verifyData;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 48)]
+			public string szSerialNo;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
+			public string szDevSoftVersion;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
+			public string szDetailType;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
+			public string szVendor;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
+			public string szDevName;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 16)]
+			public string szUserName;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 16)]
+			public string szPassWord;
+			public ushort nHttpPort;
+			public byte wVideoInputCh;
+			public byte wRemoteVideoInputCh;
+			public byte wVideoOutputCh;
+			public byte wAlarmInputCh;
+			public byte wAlarmOutputCh;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 244)]
+			public string cReserved;
+		}
+
+		public delegate void fSearchDevicesCBDelegate(ref DEVICE_NET_INFO_EX pDevNetInfo, IntPtr pUserData);
+
+		[DllImport(@"dhnetsdk.dll")]
+		public static extern Int32 CLIENT_StartSearchDevices(fSearchDevicesCBDelegate cbSearchDevices, IntPtr pUserData, string szLocalIp = null);
+
+		[DllImport(@"dhnetsdk.dll")]
+		public static extern bool CLIENT_StopSearchDevices(Int32 lSearchHandle);
+
+		#endregion </Поиск устройств>
 	}
 }

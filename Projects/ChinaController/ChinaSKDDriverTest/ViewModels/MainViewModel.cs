@@ -22,6 +22,7 @@ namespace ControllerSDK.ViewModels
 		public LogItemsViewModel LogItemsViewModel { get; private set; }
 		public AccessesViewModel AccessesViewModel { get; private set; }
 		public CustomDataViewModel CustomDataViewModel { get; private set; }
+		public SearchDevicesViewModel SearchDevicesViewModel { get; private set; }
 
 		public MainViewModel()
 		{
@@ -41,6 +42,7 @@ namespace ControllerSDK.ViewModels
 			LogItemsViewModel = new LogItemsViewModel();
 			AccessesViewModel = new AccessesViewModel();
 			CustomDataViewModel = new CustomDataViewModel();
+			SearchDevicesViewModel = new SearchDevicesViewModel();
 
 			ConnectCommand = new RelayCommand(OnConnect);
 			DisconnectCommand = new RelayCommand(OnDisconnect);

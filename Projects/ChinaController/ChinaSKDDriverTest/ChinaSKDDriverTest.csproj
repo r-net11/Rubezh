@@ -80,6 +80,8 @@
     <Compile Include="ViewModels\ControlViewModel.cs" />
     <Compile Include="ViewModels\AccessesViewModel.cs" />
     <Compile Include="ViewModels\AccessViewModel.cs" />
+    <Compile Include="ViewModels\SearchDeviceViewModel.cs" />
+    <Compile Include="ViewModels\SearchDevicesViewModel.cs" />
     <Compile Include="ViewModels\CustomDataViewModel.cs" />
     <Compile Include="ViewModels\InterlockViewModel.cs" />
     <Compile Include="ViewModels\DoorConfigurationViewModel.cs" />
@@ -117,6 +119,9 @@
     </Compile>
     <Compile Include="Views\DoorConfigurationView.xaml.cs">
       <DependentUpon>DoorConfigurationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SearchDevicesView.xaml.cs">
+      <DependentUpon>SearchDevicesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\InterlockView.xaml.cs">
       <DependentUpon>InterlockView.xaml</DependentUpon>
@@ -166,6 +171,10 @@
     <Page Include="Views\DoorConfigurationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SearchDevicesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\InterlockView.xaml">
       <SubType>Designer</SubType>
