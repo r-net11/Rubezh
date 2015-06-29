@@ -80,7 +80,7 @@ namespace PowerCalculator.ViewModels
 		double _cableLength;
 		public double CableLength
 		{
-			get { return Math.Round(_cableLength, 2); }
+            get { return Math.Round(_cableLength, 2); }
 			set
 			{
                 _cableLength = value > 0 ? value : 1;
@@ -122,7 +122,7 @@ namespace PowerCalculator.ViewModels
 		double _current;
 		public double Current
 		{
-			get { return Math.Round(_current, 2); }
+            get { return Math.Round(_current, 2); }
 			set
 			{
 				_current = value;
@@ -133,7 +133,7 @@ namespace PowerCalculator.ViewModels
 		double _voltage;
 		public double Voltage
 		{
-			get { return Math.Round(_voltage, 2); }
+            get { return Math.Round(_voltage, 2); }
 			set
 			{
 				_voltage = value;
