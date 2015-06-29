@@ -26,8 +26,8 @@
 			<TabItem Header="Свойства" IsSelected="{Binding CanControl, Mode=OneWay, Converter={StaticResource InverseBooleanConverter}}">
 				<ItemsControl Background="White">
 					<ItemsControl.Items>
-						<WrapPanel Margin="2">
-							<TextBlock>
+                        <WrapPanel Margin="2">
+                            <TextBlock>
 								<Hyperlink Command="{Binding ShowCommand}" Style="{StaticResource HyperlinkStyle2}">
 									<StackPanel Orientation="Horizontal">
 										<Image Width="16" Source="/Controls;component/Images/Zone.png" Margin="0 0 0 2" />
@@ -35,12 +35,7 @@
 									</StackPanel>
 								</Hyperlink>
 							</TextBlock>
-						</WrapPanel>
-
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Название в ГК:" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" FontWeight="Bold" />
-                            <TextBlock Text="{Binding Zone.DescriptorName}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" FontWeight="Bold" />
-                        </StackPanel>
+                        </WrapPanel>
 
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="Номер дескриптора ГК:" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" FontWeight="Bold" />
