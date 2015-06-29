@@ -47,7 +47,7 @@ namespace FireAdministrator
 					ClientSettings.LoadSettings();
 
 					ServiceFactory.StartupService.DoStep("Проверка прав пользователя");
-					if (FiresecManager.CheckPermission(PermissionType.Adm_ViewConfig) == false)
+					if (FiresecManager.CheckPermission(PermissionType.Adm_ViewConfig) == false) //TODO: Переместить конструкцию выше. Допускается использование сервера до проверки прав пользователя
 					{
 						MessageBoxService.Show("Нет прав на работу с программой");
 						FiresecManager.Disconnect();

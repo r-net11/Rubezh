@@ -8,7 +8,7 @@
       <ComponentRef Id="Server.DB.Common" />
       <ComponentRef Id="Server.ChinaSKD" />
       <ComponentRef Id="Server.Config.fscp" />
-      <ComponentRef Id="AppData.ServerLocation.Config" />
+      <!--<ComponentRef Id="AppData.ServerLocation.Config" />-->
       <ComponentRef Id="Server.AppData.EmptyLocation" />
       <ComponentRef Id="Server.SKD_MODULE" />
 			<ComponentRef Id="Server.ProgramsMenuShortcut" />

@@ -44,7 +44,7 @@ namespace SKDModule.Views
 					CanUserResize = false,
 					CanUserSort = false,
 					CellTemplate = new DataTemplate
-					{	
+					{
 						VisualTree = factory,
 					},
 				};
