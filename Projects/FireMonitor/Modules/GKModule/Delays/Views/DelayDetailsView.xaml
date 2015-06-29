@@ -96,6 +96,11 @@
 							</WrapPanel>
 
                             <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Название в ГК:" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" FontWeight="Bold" />
+                                <TextBlock Text="{Binding Delay.DescriptorName}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" FontWeight="Bold" />
+                            </StackPanel>
+                            
+                            <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="Номер дескриптора ГК:" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" FontWeight="Bold" />
                                 <TextBlock Text="{Binding Delay.GKDescriptorNo}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" FontWeight="Bold" />
                             </StackPanel>

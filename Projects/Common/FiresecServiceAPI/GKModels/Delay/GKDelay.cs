@@ -14,6 +14,7 @@ namespace FiresecAPI.GK
 		{
 			Logic = new GKLogic();
 			DelayRegime = DelayRegime.On;
+            DescriptorName = this.GetGKDescriptorName(FiresecClient.GKManager.DeviceConfiguration.GKNameGenerationType);
 		}
 
 		public override void Update(GKDevice device)
@@ -80,5 +81,6 @@ namespace FiresecAPI.GK
 		{
 			get { return "/Controls;component/Images/Delay.png"; }
 		}
+        public string DescriptorName { get; set; }
 	}
 }

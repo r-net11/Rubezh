@@ -18,6 +18,7 @@ namespace FiresecAPI.GK
 			MPTDevices = new List<GKMPTDevice>();
 			Delay = 60;
 			PlanElementUIDs = new List<Guid>();
+            DescriptorName = this.GetGKDescriptorName(FiresecClient.GKManager.DeviceConfiguration.GKNameGenerationType);
 		}
 
 		public override void Update(GKDevice device)
@@ -90,6 +91,8 @@ namespace FiresecAPI.GK
 		{
 			get { return "/Controls;component/Images/Pim.png"; }
 		}
+
+        public string DescriptorName { get; set; }
 
 		[DataMember]
 		public List<Guid> PlanElementUIDs { get; set; }

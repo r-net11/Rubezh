@@ -21,6 +21,7 @@ namespace FiresecAPI.GK
 			InputZones = new List<GKZone>();
 			OutputDevices = new List<GKDevice>();
 			PlanElementUIDs = new List<Guid>();
+            DescriptorName = this.GetGKDescriptorName(FiresecClient.GKManager.DeviceConfiguration.GKNameGenerationType);
 		}
 
 		public void OnRemoved()
@@ -45,6 +46,8 @@ namespace FiresecAPI.GK
 			UnLinkObject(direction);
 			OnChanged();
 		}
+
+        public string DescriptorName { get; set; }
 
 		[XmlIgnore]
 		public override GKBaseObjectType ObjectType { get { return GKBaseObjectType.Direction; } }

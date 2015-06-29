@@ -62,6 +62,11 @@
 							</WrapPanel>
 
                             <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Название в ГК:" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" FontWeight="Bold" />
+                                <TextBlock Text="{Binding MPT.DescriptorName}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" FontWeight="Bold" />
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="Номер дескриптора ГК:" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" FontWeight="Bold" />
                                 <TextBlock Text="{Binding MPT.GKDescriptorNo}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" FontWeight="Bold" />
                             </StackPanel>
