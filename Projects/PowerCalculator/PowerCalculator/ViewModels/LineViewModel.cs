@@ -31,15 +31,8 @@ namespace PowerCalculator.ViewModels
 			SelectedDevice = Devices.FirstOrDefault();
 			UpdateAddresses();
             Calculate();
-            Devices.CollectionChanged += Devices_CollectionChanged;
 		}
 
-        void Devices_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            Calculate();
-        }
-
-        //public bool CalculationSuspended { get; set; }
 		public Line Line { get; set; }
 		public ObservableCollection<DeviceViewModel> Devices { get; private set; }
 
