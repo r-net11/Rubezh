@@ -64,7 +64,7 @@ namespace FiresecClient
 				Directory.CreateDirectory(contentDirectory);
 
 				if (ServiceFactoryBase.ContentService != null)
-					ServiceFactoryBase.ContentService.Invalidate();
+					ServiceFactoryBase.ContentService.Clear();
 
 				if (ConnectionSettingsManager.IsRemote)
 				{

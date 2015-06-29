@@ -131,7 +131,7 @@ namespace FireAdministrator
 				Directory.CreateDirectory(folderName);
 				File.Copy(fileName, configFileName);
 				FiresecManager.LoadFromZipFile(configFileName);
-				ServiceFactory.ContentService.Invalidate();
+				ServiceFactory.ContentService.Clear();
 
 				FiresecManager.UpdateConfiguration();
 				SKDManager.UpdateConfiguration();

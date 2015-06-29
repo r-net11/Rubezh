@@ -31,7 +31,7 @@ namespace Infrastructure.Common.Services.Content
 		void RemoveContent(Guid guid);
 		void RemoveContent(string guid);
 
-		void Invalidate();
+		void Clear();
 		void Close();
 
 		void SetMulticlientFolder(string multiclientFolderName);

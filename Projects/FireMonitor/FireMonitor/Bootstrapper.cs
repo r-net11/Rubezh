@@ -151,7 +151,7 @@ namespace FireMonitor
 		private void Restart()
 		{
 			ApplicationService.ApplicationWindow.IsEnabled = false;
-			ServiceFactory.ContentService.Invalidate();
+			ServiceFactory.ContentService.Clear();
 			FiresecManager.FiresecService.StopPoll();
 			LoadingErrorManager.Clear();
 			ApplicationService.CloseAllWindows();

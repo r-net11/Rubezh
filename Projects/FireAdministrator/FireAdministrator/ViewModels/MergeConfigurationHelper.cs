@@ -39,7 +39,7 @@ namespace FireAdministrator.ViewModels
 				Directory.CreateDirectory(folderName);
 				File.Copy(openDialog.FileName, configFileName);
 				LoadFromZipFile(configFileName);
-				ServiceFactory.ContentService.Invalidate();
+				ServiceFactory.ContentService.Clear();
 
 				FiresecManager.UpdateConfiguration();
 				SKDManager.UpdateConfiguration();

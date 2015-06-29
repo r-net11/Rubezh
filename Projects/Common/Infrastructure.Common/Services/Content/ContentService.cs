@@ -20,13 +20,13 @@ namespace Infrastructure.Common.Services.Content
 		public ContentService(string applicationName)
 		{
 			ContentFolder = AppDataFolderHelper.GetLocalFolder(Path.Combine(applicationName, ContentFolderRelativePath));
-			Invalidate();
+			Clear();
 		}
 
 		public void SetMulticlientFolder(string multiclientFolderName)
 		{
 			ContentFolder = AppDataFolderHelper.GetLocalFolder(Path.Combine(multiclientFolderName + @"\Unzip\Content"));
-			Invalidate();
+			Clear();
 		}
 
 		#region IContentService Members
@@ -172,7 +172,7 @@ namespace Infrastructure.Common.Services.Content
 				File.Delete(contentFile);
 		}
 
-		public void Invalidate()
+		public void Clear()
 		{
 			Close();
 			_streams = new Dictionary<string, Stream>();
