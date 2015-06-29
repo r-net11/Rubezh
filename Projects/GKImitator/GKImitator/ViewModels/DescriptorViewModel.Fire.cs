@@ -67,6 +67,9 @@ namespace GKImitator.ViewModels
 		public RelayCommand ResetFireCommand { get; private set; }
 		void OnResetFire()
 		{
+			var attentionStateBit = StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Attention);
+			if (attentionStateBit != null)
+				attentionStateBit.IsActive = false;
 			var fire1StateBit = StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Fire1);
 			if (fire1StateBit != null)
 				fire1StateBit.IsActive = false;
@@ -77,5 +80,7 @@ namespace GKImitator.ViewModels
 			AddJournalItem(journalItem);
 			RecalculateOutputLogic();
 		}
+
+		public bool HasReset { get; private set; }
 	}
 }

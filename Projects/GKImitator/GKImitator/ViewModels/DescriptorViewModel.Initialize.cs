@@ -28,7 +28,7 @@ namespace GKImitator.ViewModels
 			{
 				var device = GKBase as GKDevice;
 				Failures.Add(new FailureViewModel(this, JournalEventDescriptionType.Потеря_связи, 255));
-				HasParameters = device.Properties.Where(x=>x.DriverProperty.IsAUParameter).Any();
+				HasParameters = device.Properties.Where(x => x.DriverProperty.IsAUParameter).Any();
 
 				switch (device.DriverType)
 				{
@@ -76,9 +76,9 @@ namespace GKImitator.ViewModels
 						HasManualRegime = true;
 						HasIgnoreRegime = true;
 						StateBits.Add(new StateBitViewModel(this, GKStateBit.Fire2));
+						HasStateFire2 = true;
 						HasSetFireHeandDetector = true;
 						HasResetFire = true;
-						StateBits.Add(new StateBitViewModel(this, GKStateBit.Fire2));
 						break;
 
 					case GKDriverType.RSR2_SmokeDetector:
@@ -89,9 +89,11 @@ namespace GKImitator.ViewModels
 						HasTestLaser = true;
 						HasResetTest = true;
 						StateBits.Add(new StateBitViewModel(this, GKStateBit.Test));
+						HasStateTest = true;
 						HasSetFireSmoke = true;
 						HasResetFire = true;
 						StateBits.Add(new StateBitViewModel(this, GKStateBit.Fire1));
+						HasStateFire1 = true;
 						HasDustiness = true;
 						break;
 
@@ -103,9 +105,11 @@ namespace GKImitator.ViewModels
 						HasTestLaser = true;
 						HasResetTest = true;
 						StateBits.Add(new StateBitViewModel(this, GKStateBit.Test));
+						HasStateTest = true;
 						HasSetFireTemperatureGradient = true;
 						HasResetFire = true;
 						StateBits.Add(new StateBitViewModel(this, GKStateBit.Fire1));
+						HasStateFire1 = true;
 						HasDustiness = true;
 						break;
 
@@ -117,9 +121,11 @@ namespace GKImitator.ViewModels
 						HasTestLaser = true;
 						HasResetTest = true;
 						StateBits.Add(new StateBitViewModel(this, GKStateBit.Test));
+						HasStateTest = true;
 						HasSetFireTemperature = true;
 						HasResetFire = true;
 						StateBits.Add(new StateBitViewModel(this, GKStateBit.Fire1));
+						HasStateFire1 = true;
 						HasDustiness = true;
 						break;
 
@@ -133,6 +139,7 @@ namespace GKImitator.ViewModels
 						HasAutomaticRegime = true;
 						HasManualRegime = false;
 						HasIgnoreRegime = true;
+						HasReset = true;
 						break;
 
 					case GKDriverType.RSR2_RM_1:
@@ -147,6 +154,10 @@ namespace GKImitator.ViewModels
 						StateBits.Add(new StateBitViewModel(this, GKStateBit.TurningOn));
 						StateBits.Add(new StateBitViewModel(this, GKStateBit.Off));
 						StateBits.Add(new StateBitViewModel(this, GKStateBit.TurningOff));
+						HasStateOn = true;
+						HasStateOff = true;
+						HasStateTurningOn = true;
+						HasStateTurningOff = true;
 						HasOnDelay = true;
 						HasHoldDelay = true;
 						HasOffDelay = true;
@@ -164,6 +175,10 @@ namespace GKImitator.ViewModels
 						StateBits.Add(new StateBitViewModel(this, GKStateBit.TurningOn));
 						StateBits.Add(new StateBitViewModel(this, GKStateBit.Off));
 						StateBits.Add(new StateBitViewModel(this, GKStateBit.TurningOff));
+						HasStateOn = true;
+						HasStateOff = true;
+						HasStateTurningOn = true;
+						HasStateTurningOff = true;
 						HasOnDelay = true;
 						HasHoldDelay = true;
 						HasOffDelay = true;
@@ -181,6 +196,10 @@ namespace GKImitator.ViewModels
 						StateBits.Add(new StateBitViewModel(this, GKStateBit.TurningOn));
 						StateBits.Add(new StateBitViewModel(this, GKStateBit.Off));
 						StateBits.Add(new StateBitViewModel(this, GKStateBit.TurningOff));
+						HasStateOn = true;
+						HasStateOff = true;
+						HasStateTurningOn = true;
+						HasStateTurningOff = true;
 						HasOnDelay = true;
 						HasHoldDelay = true;
 						HasOffDelay = true;
@@ -198,6 +217,10 @@ namespace GKImitator.ViewModels
 						StateBits.Add(new StateBitViewModel(this, GKStateBit.TurningOn));
 						StateBits.Add(new StateBitViewModel(this, GKStateBit.Off));
 						StateBits.Add(new StateBitViewModel(this, GKStateBit.TurningOff));
+						HasStateOn = true;
+						HasStateOff = true;
+						HasStateTurningOn = true;
+						HasStateTurningOff = true;
 						HasOnDelay = true;
 						HasHoldDelay = true;
 						HasOffDelay = true;
@@ -215,6 +238,10 @@ namespace GKImitator.ViewModels
 						StateBits.Add(new StateBitViewModel(this, GKStateBit.TurningOn));
 						StateBits.Add(new StateBitViewModel(this, GKStateBit.Off));
 						StateBits.Add(new StateBitViewModel(this, GKStateBit.TurningOff));
+						HasStateOn = true;
+						HasStateOff = true;
+						HasStateTurningOn = true;
+						HasStateTurningOff = true;
 						HasOnDelay = true;
 						HasHoldDelay = true;
 						HasOffDelay = true;
@@ -232,6 +259,10 @@ namespace GKImitator.ViewModels
 						StateBits.Add(new StateBitViewModel(this, GKStateBit.TurningOn));
 						StateBits.Add(new StateBitViewModel(this, GKStateBit.Off));
 						StateBits.Add(new StateBitViewModel(this, GKStateBit.TurningOff));
+						HasStateOn = true;
+						HasStateOff = true;
+						HasStateTurningOn = true;
+						HasStateTurningOff = true;
 						HasOnDelay = true;
 						HasHoldDelay = true;
 						HasOffDelay = true;
@@ -249,6 +280,10 @@ namespace GKImitator.ViewModels
 						StateBits.Add(new StateBitViewModel(this, GKStateBit.TurningOn));
 						StateBits.Add(new StateBitViewModel(this, GKStateBit.Off));
 						StateBits.Add(new StateBitViewModel(this, GKStateBit.TurningOff));
+						HasStateOn = true;
+						HasStateOff = true;
+						HasStateTurningOn = true;
+						HasStateTurningOff = true;
 						HasOnDelay = true;
 						HasHoldDelay = true;
 						HasOffDelay = true;
@@ -266,6 +301,10 @@ namespace GKImitator.ViewModels
 						StateBits.Add(new StateBitViewModel(this, GKStateBit.TurningOn));
 						StateBits.Add(new StateBitViewModel(this, GKStateBit.Off));
 						StateBits.Add(new StateBitViewModel(this, GKStateBit.TurningOff));
+						HasStateOn = true;
+						HasStateOff = true;
+						HasStateTurningOn = true;
+						HasStateTurningOff = true;
 						HasOnDelay = true;
 						HasHoldDelay = true;
 						HasOffDelay = true;
@@ -283,6 +322,10 @@ namespace GKImitator.ViewModels
 						StateBits.Add(new StateBitViewModel(this, GKStateBit.TurningOn));
 						StateBits.Add(new StateBitViewModel(this, GKStateBit.Off));
 						StateBits.Add(new StateBitViewModel(this, GKStateBit.TurningOff));
+						HasStateOn = true;
+						HasStateOff = true;
+						HasStateTurningOn = true;
+						HasStateTurningOff = true;
 						HasOnDelay = true;
 						HasHoldDelay = true;
 						HasOffDelay = true;
@@ -300,6 +343,10 @@ namespace GKImitator.ViewModels
 						StateBits.Add(new StateBitViewModel(this, GKStateBit.TurningOn));
 						StateBits.Add(new StateBitViewModel(this, GKStateBit.Off));
 						StateBits.Add(new StateBitViewModel(this, GKStateBit.TurningOff));
+						HasStateOn = true;
+						HasStateOff = true;
+						HasStateTurningOn = true;
+						HasStateTurningOff = true;
 						HasOnDelay = true;
 						HasHoldDelay = true;
 						HasOffDelay = true;
@@ -317,6 +364,10 @@ namespace GKImitator.ViewModels
 						StateBits.Add(new StateBitViewModel(this, GKStateBit.TurningOn));
 						StateBits.Add(new StateBitViewModel(this, GKStateBit.Off));
 						StateBits.Add(new StateBitViewModel(this, GKStateBit.TurningOff));
+						HasStateOn = true;
+						HasStateOff = true;
+						HasStateTurningOn = true;
+						HasStateTurningOff = true;
 						HasOnDelay = true;
 						HasHoldDelay = true;
 						HasOffDelay = true;
@@ -334,6 +385,10 @@ namespace GKImitator.ViewModels
 						StateBits.Add(new StateBitViewModel(this, GKStateBit.TurningOn));
 						StateBits.Add(new StateBitViewModel(this, GKStateBit.Off));
 						StateBits.Add(new StateBitViewModel(this, GKStateBit.TurningOff));
+						HasStateOn = true;
+						HasStateOff = true;
+						HasStateTurningOn = true;
+						HasStateTurningOff = true;
 						HasOnDelay = true;
 						HasHoldDelay = true;
 						HasOffDelay = true;
@@ -351,6 +406,10 @@ namespace GKImitator.ViewModels
 						StateBits.Add(new StateBitViewModel(this, GKStateBit.TurningOn));
 						StateBits.Add(new StateBitViewModel(this, GKStateBit.Off));
 						StateBits.Add(new StateBitViewModel(this, GKStateBit.TurningOff));
+						HasStateOn = true;
+						HasStateOff = true;
+						HasStateTurningOn = true;
+						HasStateTurningOff = true;
 						HasOnDelay = true;
 						HasHoldDelay = true;
 						HasOffDelay = true;
@@ -368,6 +427,10 @@ namespace GKImitator.ViewModels
 						StateBits.Add(new StateBitViewModel(this, GKStateBit.TurningOn));
 						StateBits.Add(new StateBitViewModel(this, GKStateBit.Off));
 						StateBits.Add(new StateBitViewModel(this, GKStateBit.TurningOff));
+						HasStateOn = true;
+						HasStateOff = true;
+						HasStateTurningOn = true;
+						HasStateTurningOff = true;
 						HasOnDelay = true;
 						HasHoldDelay = true;
 						HasOffDelay = true;
@@ -385,6 +448,10 @@ namespace GKImitator.ViewModels
 						StateBits.Add(new StateBitViewModel(this, GKStateBit.TurningOn));
 						StateBits.Add(new StateBitViewModel(this, GKStateBit.Off));
 						StateBits.Add(new StateBitViewModel(this, GKStateBit.TurningOff));
+						HasStateOn = true;
+						HasStateOff = true;
+						HasStateTurningOn = true;
+						HasStateTurningOff = true;
 						HasOnDelay = true;
 						HasHoldDelay = true;
 						HasOffDelay = true;
@@ -402,6 +469,10 @@ namespace GKImitator.ViewModels
 						StateBits.Add(new StateBitViewModel(this, GKStateBit.TurningOn));
 						StateBits.Add(new StateBitViewModel(this, GKStateBit.Off));
 						StateBits.Add(new StateBitViewModel(this, GKStateBit.TurningOff));
+						HasStateOn = true;
+						HasStateOff = true;
+						HasStateTurningOn = true;
+						HasStateTurningOff = true;
 						HasOnDelay = true;
 						HasHoldDelay = true;
 						HasOffDelay = true;
@@ -419,6 +490,10 @@ namespace GKImitator.ViewModels
 						StateBits.Add(new StateBitViewModel(this, GKStateBit.TurningOn));
 						StateBits.Add(new StateBitViewModel(this, GKStateBit.Off));
 						StateBits.Add(new StateBitViewModel(this, GKStateBit.TurningOff));
+						HasStateOn = true;
+						HasStateOff = true;
+						HasStateTurningOn = true;
+						HasStateTurningOff = true;
 						HasOnDelay = true;
 						HasHoldDelay = true;
 						HasOffDelay = true;
@@ -460,11 +535,15 @@ namespace GKImitator.ViewModels
 			if (GKBase is GKZone)
 			{
 				HasAutomaticRegime = true;
-				HasManualRegime = true;
+				HasManualRegime = false;
 				HasIgnoreRegime = true;
+				HasReset = true;
 				StateBits.Add(new StateBitViewModel(this, GKStateBit.Attention));
 				StateBits.Add(new StateBitViewModel(this, GKStateBit.Fire1));
 				StateBits.Add(new StateBitViewModel(this, GKStateBit.Fire2));
+				HasStateAttention = true;
+				HasStateFire1 = true;
+				HasStateFire2 = true;
 			}
 
 			if (GKBase is GKDirection || GKBase is GKMPT || GKBase is GKPumpStation)
@@ -475,13 +554,18 @@ namespace GKImitator.ViewModels
 				HasTurnOn = true;
 				HasTurnOnNow = true;
 				HasTurnOff = true;
+				HasPauseTurnOn = true;
 				StateBits.Add(new StateBitViewModel(this, GKStateBit.On));
 				StateBits.Add(new StateBitViewModel(this, GKStateBit.Off));
 				StateBits.Add(new StateBitViewModel(this, GKStateBit.TurningOn));
 				StateBits.Add(new StateBitViewModel(this, GKStateBit.TurningOff));
+				HasStateOn = true;
+				HasStateOff = true;
+				HasStateTurningOn = true;
+				HasStateTurningOff = true;
 				HasOnDelay = true;
 				HasHoldDelay = true;
-				HasOffDelay = true;
+				HasOffDelay = false;
 			}
 
 			if (GKBase is GKDelay)
@@ -496,9 +580,13 @@ namespace GKImitator.ViewModels
 				StateBits.Add(new StateBitViewModel(this, GKStateBit.Off));
 				StateBits.Add(new StateBitViewModel(this, GKStateBit.TurningOn));
 				StateBits.Add(new StateBitViewModel(this, GKStateBit.TurningOff));
+				HasStateOn = true;
+				HasStateOff = true;
+				HasStateTurningOn = true;
+				HasStateTurningOff = true;
 				HasOnDelay = true;
 				HasHoldDelay = true;
-				HasOffDelay = true;
+				HasOffDelay = false;
 			}
 
 			if (GKBase is GKPim)
@@ -513,6 +601,10 @@ namespace GKImitator.ViewModels
 				StateBits.Add(new StateBitViewModel(this, GKStateBit.Off));
 				StateBits.Add(new StateBitViewModel(this, GKStateBit.TurningOn));
 				StateBits.Add(new StateBitViewModel(this, GKStateBit.TurningOff));
+				HasStateOn = true;
+				HasStateOff = true;
+				HasStateTurningOn = true;
+				HasStateTurningOff = true;
 				HasOnDelay = true;
 				HasHoldDelay = true;
 				HasOffDelay = true;

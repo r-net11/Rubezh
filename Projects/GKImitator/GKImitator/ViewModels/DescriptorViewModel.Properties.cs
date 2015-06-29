@@ -52,6 +52,8 @@ namespace GKImitator.ViewModels
 				var journalItem = new ImitatorJournalItem(2, 13, 0, 0);
 				AddJournalItem(journalItem);
 			}
+
+			InitializeDelays();
 		}
 
 		public List<byte> GetParameters(DatabaseType databaseType)

@@ -405,7 +405,7 @@ namespace GKProcessor
 
 		public static void GKResetFire2(GKZone zone, string userName)
 		{
-			Watcher.SendControlCommand(zone, 0x03, "Сброс Пожар-1");
+			Watcher.SendControlCommand(zone, 0x03, "Сброс Пожар-2");
 			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Сброс, "", zone, userName);
 		}
 

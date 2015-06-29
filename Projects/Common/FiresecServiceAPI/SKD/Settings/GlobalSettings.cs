@@ -10,23 +10,6 @@ namespace FiresecAPI
 	[DataContract]
 	public class GlobalSettings
 	{
-		/// <summary>
-		/// Инициализация свойства UseStrazhBrand
-		/// Если в каталоге данных есть файл-флаг "StrazhSettings.xml", то UI подстраивается под бренд СТРАЖ
-		/// </summary>
-		private void InitializeUseStrazhBrandProperty()
-		{
-			try
-			{
-				var appDataFolderName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "Firesec2");
-				UseStrazhBrand = File.Exists(Path.Combine(appDataFolderName, "StrazhSettings.xml"));
-			}
-			catch (Exception)
-			{
-				UseStrazhBrand = false;
-			}
-		}
-
 		public GlobalSettings()
 		{
 			RemoteAddress = "localhost";
@@ -41,7 +24,6 @@ namespace FiresecAPI
 
 			Server_EnableRemoteConnections = false;
 
-			InitializeUseStrazhBrandProperty();
 			UseHasp = false;
 			DBServerName = "SQLEXPRESS";
 			CreateNewDBOnOversize = true;
@@ -55,6 +37,8 @@ namespace FiresecAPI
 			Monitor_IsControlMPT = false;
 			Monitor_HaspInfo_Enabled = false;
 			IgnoredErrors = 0;
+
+			UseStrazhBrand = false;
 		}
 
 
