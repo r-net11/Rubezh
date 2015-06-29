@@ -90,8 +90,6 @@ namespace Infrastructure.Common
 		Settings,
 		[DescriptionAttribute("СКД")]
 		SKD,
-		[DescriptionAttribute("Страж")]
-		Strazh,
 		[DescriptionAttribute("Звуки")]
 		Sounds,
 		[DescriptionAttribute("Видео")]

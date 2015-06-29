@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using GKProcessor;
 using Infrastructure.Common.Windows.ViewModels;
+using FiresecAPI.Journal;
 
 namespace GKModule.ViewModels
 {
