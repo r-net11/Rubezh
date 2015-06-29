@@ -89,7 +89,7 @@ namespace FiresecService.Service
 				return databaseService.TimeTrackTranslator.GetTimeTracksStream(filter, startDate, endDate);
 			}
 		}
-		public OperationResult SaveEmployeeDepartment(Guid uid, Guid departmentUid, string name)
+		public OperationResult SaveEmployeeDepartment(Guid uid, Guid? departmentUid, string name)
 		{
 			AddJournalMessage(JournalEventNameType.Редактирование_сотрудника, name, JournalEventDescriptionType.Редактирование, uid: uid);
 			using (var databaseService = new SKDDriver.DataClasses.DbService())
@@ -97,7 +97,7 @@ namespace FiresecService.Service
 				return databaseService.EmployeeTranslator.SaveDepartment(uid, departmentUid);
 			}
 		}
-		public OperationResult SaveEmployeePosition(Guid uid, Guid PositionUid, string name)
+		public OperationResult SaveEmployeePosition(Guid uid, Guid? PositionUid, string name)
 		{
 			AddJournalMessage(JournalEventNameType.Редактирование_сотрудника, name, JournalEventDescriptionType.Редактирование, uid: uid);
 			using (var databaseService = new SKDDriver.DataClasses.DbService())
@@ -155,7 +155,7 @@ namespace FiresecService.Service
 				return databaseService.DepartmentTranslator.MarkDeleted(department.UID);
 			}
 		}
-		public OperationResult SaveDepartmentChief(Guid uid, Guid chiefUID, string name)
+		public OperationResult SaveDepartmentChief(Guid uid, Guid? chiefUID, string name)
 		{
 			AddJournalMessage(JournalEventNameType.Редактирование_отдела, name, JournalEventDescriptionType.Редактирование, uid: uid);
 			using (var databaseService = new SKDDriver.DataClasses.DbService())
@@ -621,7 +621,7 @@ namespace FiresecService.Service
 				return databaseService.OrganisationTranslator.GetDetails(uid);
 			}
 		}
-		public OperationResult SaveOrganisationChief(Guid uid, Guid chiefUID, string name)
+		public OperationResult SaveOrganisationChief(Guid uid, Guid? chiefUID, string name)
 		{
 			AddJournalMessage(JournalEventNameType.Редактирование_организации, name, JournalEventDescriptionType.Редактирование, uid: uid);
 			using (var databaseService = new SKDDriver.DataClasses.DbService())
@@ -630,7 +630,7 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult SaveOrganisationHRChief(Guid uid, Guid chiefUID, string name)
+		public OperationResult SaveOrganisationHRChief(Guid uid, Guid? chiefUID, string name)
 		{
 			AddJournalMessage(JournalEventNameType.Редактирование_организации, name, JournalEventDescriptionType.Редактирование, uid: uid);
 			using (var databaseService = new SKDDriver.DataClasses.DbService())
@@ -1381,7 +1381,7 @@ namespace FiresecService.Service
 		{
 			using (var databaseService = new SKDDatabaseService())
 			{
-				return databaseService.EmployeeTranslator1.GenerateEmployeeDays();
+                return new OperationResult();// databaseService.EmployeeTranslator1.GenerateEmployeeDays();
 			}
 		}
 
@@ -1390,7 +1390,7 @@ namespace FiresecService.Service
 			List<Guid> cardUIDs ;
 			using (var ds = new SKDDatabaseService())
 			{
-				cardUIDs = ds.EmployeeTranslator1.TestEmployeeCards();
+                cardUIDs = new List<Guid>(); //ds.EmployeeTranslator1.TestEmployeeCards();
 			}
 			bool isBreak = false;
 			int currentPage = 0;
@@ -1400,7 +1400,7 @@ namespace FiresecService.Service
 				var cardUIDsportion = cardUIDs.Skip(currentPage * pageSize).Take(pageSize).ToList();
 				using (var ds = new SKDDatabaseService())
 				{
-					ds.EmployeeTranslator1.TestCardDoors(cardUIDsportion, isAscending);
+					//ds.EmployeeTranslator1.TestCardDoors(cardUIDsportion, isAscending);
 				}
 				isBreak = cardUIDsportion.Count < pageSize;
 				currentPage++;
@@ -1529,14 +1529,14 @@ namespace FiresecService.Service
 		{
 			using (var databaseService = new SKDDatabaseService())
 			{
-				return databaseService.OrganisationTranslator.Synchroniser.Export(filter);
+                return new OperationResult();// databaseService.OrganisationTranslator.Synchroniser.Export(filter);
 			}
 		}
 		public OperationResult ImportOrganisation(ImportFilter filter)
 		{
 			using (var databaseService = new SKDDatabaseService())
 			{
-				return databaseService.OrganisationTranslator.Synchroniser.Import(filter);
+                return new OperationResult();// databaseService.OrganisationTranslator.Synchroniser.Import(filter);
 			}
 		}
 
@@ -1544,14 +1544,14 @@ namespace FiresecService.Service
 		{
 			using (var databaseService = new SKDDatabaseService())
 			{
-				return databaseService.OrganisationTranslator.Synchroniser.ListSynchroniser.Export(filter);
+                return new OperationResult();// databaseService.OrganisationTranslator.Synchroniser.ListSynchroniser.Export(filter);
 			}
 		}
 		public OperationResult ImportOrganisationList(ImportFilter filter)
 		{
 			using (var databaseService = new SKDDatabaseService())
 			{
-				return databaseService.OrganisationTranslator.Synchroniser.ListSynchroniser.Import(filter);
+                return new OperationResult();// databaseService.OrganisationTranslator.Synchroniser.ListSynchroniser.Import(filter);
 			}
 		}
 

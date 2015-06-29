@@ -37,11 +37,11 @@ namespace FiresecService.Service
 			var result = SafeContext.Execute<Stream>(() => FiresecService.GetTimeTracksStream(filter, startDate, endDate));
 			return result;
 		}
-		public OperationResult SaveEmployeeDepartment(Guid uid, Guid departmentUid, string name)
+		public OperationResult SaveEmployeeDepartment(Guid uid, Guid? departmentUid, string name)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveEmployeeDepartment(uid, departmentUid, name));
 		}
-		public OperationResult SaveEmployeePosition(Guid uid, Guid positionUid, string name)
+		public OperationResult SaveEmployeePosition(Guid uid, Guid? positionUid, string name)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveEmployeePosition(uid, positionUid, name));
 		}
@@ -68,7 +68,7 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedDepartment(department));
 		}
-		public OperationResult SaveDepartmentChief(Guid uid, Guid chiefUID, string name)
+		public OperationResult SaveDepartmentChief(Guid uid, Guid? chiefUID, string name)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveDepartmentChief(uid, chiefUID, name));
 		}
@@ -190,11 +190,11 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult<OrganisationDetails>>(() => FiresecService.GetOrganisationDetails(uid));
 		}
-		public OperationResult SaveOrganisationChief(Guid uid, Guid chiefUID, string name)
+		public OperationResult SaveOrganisationChief(Guid uid, Guid? chiefUID, string name)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveOrganisationChief(uid, chiefUID, name));
 		}
-		public OperationResult SaveOrganisationHRChief(Guid uid, Guid chiefUID, string name)
+		public OperationResult SaveOrganisationHRChief(Guid uid, Guid? chiefUID, string name)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveOrganisationHRChief(uid, chiefUID, name));
 		}

@@ -37,8 +37,12 @@ namespace SKDDriver.DataClasses
 			return base.GetFilteredTableItems(filter, tableItems).Where(x =>
                 (filter.DepartmentUIDs.Count() == 0 ||
                     (x.DepartmentUID != null && filter.DepartmentUIDs.Contains(x.DepartmentUID.Value))) &&
+                (!filter.IsEmptyDepartment ||
+                    x.DepartmentUID == null || x.Department.IsDeleted) &&
                 (filter.PositionUIDs.Count() == 0 ||
                     (x.PositionUID != null && filter.PositionUIDs.Contains(x.PositionUID.Value))) &&
+                (!filter.IsEmptyPosition ||
+                    x.PositionUID == null || x.Position.IsDeleted) &&
                 (filter.ScheduleUIDs.Count() == 0 ||
                     (x.ScheduleUID != null && filter.ScheduleUIDs.Contains(x.ScheduleUID.Value))) &&
 				(string.IsNullOrEmpty(filter.FirstName) ||
@@ -49,7 +53,7 @@ namespace SKDDriver.DataClasses
 					(x.LastName.Contains(filter.LastName)))
 				);
 		}
-        
+
         public override API.Employee Translate(Employee tableItem)
 		{
 			var result = base.Translate(tableItem);
@@ -133,12 +137,14 @@ namespace SKDDriver.DataClasses
                 Context.Photos.Remove(tableItem.Photo);
 		}
 
-		public OperationResult SaveDepartment(Guid uid, Guid departmentUID)
+		public OperationResult SaveDepartment(Guid uid, Guid? departmentUID)
 		{
 			try
 			{
 				var tableItem = Table.FirstOrDefault(x => x.UID == uid);
-				tableItem.DepartmentUID = departmentUID;
+                if (tableItem == null)
+                    return new OperationResult("Запись не найдена");
+                tableItem.DepartmentUID = departmentUID != null ? departmentUID.Value.EmptyToNull() : null;
 				Context.SaveChanges();
 			}
 			catch (Exception e)
@@ -148,12 +154,14 @@ namespace SKDDriver.DataClasses
 			return new OperationResult();
 		}
 
-		public OperationResult SavePosition(Guid uid, Guid PositionUID)
+		public OperationResult SavePosition(Guid uid, Guid? positionUID)
 		{
 			try
 			{
 				var tableItem = Table.FirstOrDefault(x => x.UID == uid);
-				tableItem.PositionUID = PositionUID;
+                if (tableItem == null)
+                    return new OperationResult("Запись не найдена");
+                tableItem.PositionUID = positionUID != null ? positionUID.Value.EmptyToNull() : null;
 				Context.SaveChanges();
 			}
 			catch (Exception e)
@@ -193,6 +201,11 @@ namespace SKDDriver.DataClasses
                 .Include(x => x.Position)
                 .Include(x => x.Department)
                 .Include(x => x.AdditionalColumns.Select(additionalColumn => additionalColumn.AdditionalColumnType));
+        }
+
+        public IQueryable<Employee> GetTableFilteredItems(API.EmployeeFilter filter)
+        {
+            return OrganisationItemTranslatorBase.GetFilteredTableItems(filter, GetTableItems());
         }
 
         public override API.ShortEmployee TranslateToShort(Employee employee)

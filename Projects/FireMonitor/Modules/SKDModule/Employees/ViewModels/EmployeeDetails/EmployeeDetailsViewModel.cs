@@ -739,11 +739,11 @@ namespace SKDModule.ViewModels
 				if (IsOrganisationChief && _organisation.ChiefUID != Employee.UID)
 					OrganisationHelper.SaveChief(_organisation.UID, Employee.UID, _organisation.Name);
 				else if (_organisation.ChiefUID == Employee.UID && !IsOrganisationChief)
-					OrganisationHelper.SaveChief(_organisation.UID, Guid.Empty, _organisation.Name);
+					OrganisationHelper.SaveChief(_organisation.UID, null, _organisation.Name);
 				if (IsOrganisationHRChief && _organisation.HRChiefUID != Employee.UID)
 					OrganisationHelper.SaveHRChief(_organisation.UID, Employee.UID, _organisation.Name);
 				else if (_organisation.HRChiefUID == Employee.UID && !IsOrganisationHRChief)
-					OrganisationHelper.SaveHRChief(_organisation.UID, Guid.Empty, _organisation.Name);
+					OrganisationHelper.SaveHRChief(_organisation.UID, null, _organisation.Name);
 			}
 			else
 			{

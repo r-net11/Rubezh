@@ -195,7 +195,7 @@ namespace SKDDriver.DataClasses
 		where TShort : class, API.IOrganisationElement, new()
 		where TFilter : API.OrganisationFilterBase
 	{
-		OrganisationItemTranslatorBase<TTableItem, TApiItem, TFilter> OrganisationItemTranslatorBase;
+		protected OrganisationItemTranslatorBase<TTableItem, TApiItem, TFilter> OrganisationItemTranslatorBase;
 		DbService DbService { get { return OrganisationItemTranslatorBase.DbService; } }
 		DatabaseContext Context { get { return DbService.Context; } }
 

@@ -47,7 +47,7 @@ namespace FiresecService.Report.Templates
 					(filter.ZoneIn && item.InDevice != null && filter.Zones.Contains(item.InDevice.ZoneUID)) ||
 					(filter.ZoneOut && item.OutDevice != null && filter.Zones.Contains(item.OutDevice.ZoneUID)));
 
-			var organisationsResult = dataProvider.DatabaseService.OrganisationTranslator.Get(new OrganisationFilter() { UIDs = filter.Organisations ?? new List<Guid>() });
+			var organisationsResult = dataProvider.DbService.OrganisationTranslator.Get(new OrganisationFilter() { UIDs = filter.Organisations ?? new List<Guid>() });
 			if (organisationsResult.Result != null)
 				organisationsResult.Result.ForEach(organisation =>
 					doors.Where(item => organisation.DoorUIDs.Contains(item.UID)).ForEach(door =>

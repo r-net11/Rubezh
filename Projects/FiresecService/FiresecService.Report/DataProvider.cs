@@ -35,7 +35,7 @@ namespace FiresecService.Report
 
 			_employees = new Dictionary<Guid, EmployeeInfo>();
 
-			var organisationResult = DatabaseService.OrganisationTranslator.Get(new OrganisationFilter() { LogicalDeletationType = LogicalDeletationType.All });
+			var organisationResult = DbService.OrganisationTranslator.Get(new OrganisationFilter() { LogicalDeletationType = LogicalDeletationType.All });
 			Organisations = CreateDictionary(organisationResult, organisation => new DeletableObjectInfo<Organisation>()
 			{
 				IsDeleted = organisation.IsDeleted,
@@ -44,7 +44,7 @@ namespace FiresecService.Report
 				Item = organisation,
 			});
 
-			var departmentResult = DatabaseService.DepartmentTranslator.Get(new DepartmentFilter() { LogicalDeletationType = LogicalDeletationType.All });
+			var departmentResult = DbService.DepartmentTranslator.Get(new DepartmentFilter() { LogicalDeletationType = LogicalDeletationType.All });
 			Departments = CreateDictionary(departmentResult, department => new OrganisationBaseObjectInfo<Department>()
 			{
 				IsDeleted = department.IsDeleted,
@@ -55,7 +55,7 @@ namespace FiresecService.Report
 				Item = department,
 			});
 
-			var positionResult = DatabaseService.PositionTranslator.Get(new PositionFilter() { LogicalDeletationType = LogicalDeletationType.All });
+			var positionResult = DbService.PositionTranslator.Get(new PositionFilter() { LogicalDeletationType = LogicalDeletationType.All });
 			Positions = CreateDictionary(positionResult, position => new OrganisationBaseObjectInfo<Position>()
 			{
 				IsDeleted = position.IsDeleted,
@@ -172,8 +172,8 @@ namespace FiresecService.Report
 			var employeeFilter = new EmployeeFilter();
 			var withDeleted = filter is IReportFilterArchive ? ((IReportFilterArchive)filter).UseArchive : false;
 			employeeFilter.LogicalDeletationType = withDeleted ? LogicalDeletationType.All : LogicalDeletationType.Active;
-			employeeFilter.WithDeletedDepartments = withDeleted;
-			employeeFilter.WithDeletedPositions = withDeleted;
+			employeeFilter.IsEmptyDepartment = withDeleted;
+			employeeFilter.IsEmptyPosition = withDeleted;
 			employeeFilter.UserUID = filter.UserUID;
 			if (filter is IReportFilterOrganisation)
 			{
@@ -248,5 +248,14 @@ namespace FiresecService.Report
 				return new Dictionary<Guid, T>();
 			return result.Result.ToDictionary(item => item.UID, item => converter(item));
 		}
+
+        private Dictionary<Guid, T> CreateDictionary<ApiT, T>(OperationResult<List<ApiT>> result, Converter<ApiT, T> converter)
+            where T : ObjectInfo
+            where ApiT : SKDModelBase
+        {
+            if (result == null || result.Result == null)
+                return new Dictionary<Guid, T>();
+            return result.Result.ToDictionary(item => item.UID, item => converter(item));
+        }
 	}
 }

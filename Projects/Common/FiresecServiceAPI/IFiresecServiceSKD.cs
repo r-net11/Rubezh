@@ -12,16 +12,16 @@ namespace FiresecAPI
 	{
 		#region Employee
 		[OperationContract]
-		OperationResult<List<ShortEmployee>> GetEmployeeList(EmployeeFilter filter);
+		OperationResult<List<ShortEmployee>> GetEmployeeList(EmployeeFilter filter);//
 
 		[OperationContract]
-		OperationResult<Employee> GetEmployeeDetails(Guid uid);
+		OperationResult<Employee> GetEmployeeDetails(Guid uid);//
 
 		[OperationContract]
-		OperationResult<bool> SaveEmployee(Employee item, bool isNew);
+		OperationResult<bool> SaveEmployee(Employee item, bool isNew);//
 
 		[OperationContract]
-		OperationResult MarkDeletedEmployee(Guid uid, string name);
+		OperationResult MarkDeletedEmployee(Guid uid, string name);//
 
 		[OperationContract]
 		OperationResult<TimeTrackResult> GetTimeTracks(EmployeeFilter filter, DateTime startDate, DateTime endDate);
@@ -30,39 +30,39 @@ namespace FiresecAPI
 		Stream GetTimeTracksStream(EmployeeFilter filter, DateTime startDate, DateTime endDate);
 
 		[OperationContract]
-		OperationResult SaveEmployeeDepartment(Guid uid, Guid departmentUid, string name);
+		OperationResult SaveEmployeeDepartment(Guid uid, Guid? departmentUid, string name);//
 
 		[OperationContract]
-		OperationResult SaveEmployeePosition(Guid uid, Guid positionUid, string name);
+		OperationResult SaveEmployeePosition(Guid uid, Guid? positionUid, string name);//
 
 		[OperationContract]
-		OperationResult RestoreEmployee(Guid uid, string name);
+		OperationResult RestoreEmployee(Guid uid, string name);//
 		#endregion
 
 		#region Department
 		[OperationContract]
-		OperationResult<List<ShortDepartment>> GetDepartmentList(DepartmentFilter filter);
+		OperationResult<List<ShortDepartment>> GetDepartmentList(DepartmentFilter filter);//
 
 		[OperationContract]
-		OperationResult<Department> GetDepartmentDetails(Guid uid);
+		OperationResult<Department> GetDepartmentDetails(Guid uid);//
 
 		[OperationContract]
-		OperationResult<bool> SaveDepartment(Department item, bool isNew);
+		OperationResult<bool> SaveDepartment(Department item, bool isNew);//
 
 		[OperationContract]
-		OperationResult MarkDeletedDepartment(ShortDepartment department);
+		OperationResult MarkDeletedDepartment(ShortDepartment department);//
 
 		[OperationContract]
-		OperationResult SaveDepartmentChief(Guid uid, Guid chiefUID, string name);
+		OperationResult SaveDepartmentChief(Guid uid, Guid? chiefUID, string name);//
 		
 		[OperationContract]
-		OperationResult RestoreDepartment(ShortDepartment department);
+		OperationResult RestoreDepartment(ShortDepartment department);//
 
 		[OperationContract]
-		OperationResult<List<Guid>> GetChildEmployeeUIDs(Guid uid);
+		OperationResult<List<Guid>> GetChildEmployeeUIDs(Guid uid);//
 
 		[OperationContract]
-		OperationResult<List<Guid>> GetParentEmployeeUIDs(Guid uid);
+		OperationResult<List<Guid>> GetParentEmployeeUIDs(Guid uid);//
 		#endregion
 
 		#region Position
@@ -142,10 +142,10 @@ namespace FiresecAPI
 		OperationResult<OrganisationDetails> GetOrganisationDetails(Guid uid);
 
 		[OperationContract]
-		OperationResult SaveOrganisationChief(Guid uid, Guid chiefUID, string name);
+		OperationResult SaveOrganisationChief(Guid uid, Guid? chiefUID, string name);
 
 		[OperationContract]
-		OperationResult SaveOrganisationHRChief(Guid uid, Guid chiefUID, string name);
+		OperationResult SaveOrganisationHRChief(Guid uid, Guid? chiefUID, string name);
 
 		[OperationContract]
 		OperationResult RestoreOrganisation(Guid uid, string name);

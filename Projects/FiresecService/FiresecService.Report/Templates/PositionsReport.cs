@@ -57,7 +57,7 @@ namespace FiresecService.Report.Templates
 
 			};
 
-			var positions = dataProvider.DatabaseService.PositionTranslator.Get(positionFilter);
+			var positions = dataProvider.DbService.PositionTranslator.Get(positionFilter);
 			var ds = new PositionsDataSet();
 			if (positions.Result != null)
 				positions.Result.ForEach(position =>

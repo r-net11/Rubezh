@@ -127,13 +127,15 @@ namespace SKDDriver.DataClasses
 			}
 		}
 
-		public OperationResult SaveChief(Guid uid, Guid chiefUID)
+		public OperationResult SaveChief(Guid uid, Guid? chiefUID)
 		{
 			try
 			{
 				var tableItem = Table.FirstOrDefault(x => x.UID == uid);
-				tableItem.ChiefUID = chiefUID;
-				Context.SaveChanges();
+                if (tableItem == null)
+                    return new OperationResult("Запись не найдена");
+                tableItem.ChiefUID = chiefUID != null ? chiefUID.Value.EmptyToNull() : null;
+                Context.SaveChanges();
 				return new OperationResult();
 			}
 			catch (Exception e)

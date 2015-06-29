@@ -37,11 +37,11 @@ namespace FiresecClient
 			var result = SafeContext.Execute<Stream>(() => FiresecService.GetTimeTracksStream(filter, startDate, endDate));
 			return result;
 		}
-		public OperationResult SaveEmployeeDepartment(Guid uid, Guid departmentUid, string name)
+		public OperationResult SaveEmployeeDepartment(Guid uid, Guid? departmentUid, string name)
 		{
 			return SafeContext.Execute(() => FiresecService.SaveEmployeeDepartment(uid, departmentUid, name));
 		}
-		public OperationResult SaveEmployeePosition(Guid uid, Guid positionUid, string name)
+		public OperationResult SaveEmployeePosition(Guid uid, Guid? positionUid, string name)
 		{
 			return SafeContext.Execute(() => FiresecService.SaveEmployeePosition(uid, positionUid, name));
 		}
@@ -68,7 +68,7 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedDepartment(item));
 		}
-		public OperationResult SaveDepartmentChief(Guid uid, Guid chiefUID, string name)
+		public OperationResult SaveDepartmentChief(Guid uid, Guid? chiefUID, string name)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveDepartmentChief(uid, chiefUID, name));
 		}
@@ -207,11 +207,11 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute<OperationResult<OrganisationDetails>>(() => FiresecService.GetOrganisationDetails(uid));
 		}
-		public OperationResult SaveOrganisationChief(Guid uid, Guid chiefUID, string name)
+		public OperationResult SaveOrganisationChief(Guid uid, Guid? chiefUID, string name)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveOrganisationChief(uid, chiefUID, name));
 		}
-		public OperationResult SaveOrganisationHRChief(Guid uid, Guid chiefUID, string name)
+		public OperationResult SaveOrganisationHRChief(Guid uid, Guid? chiefUID, string name)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveOrganisationHRChief(uid, chiefUID, name));
 		}

@@ -23,7 +23,7 @@ namespace GKProcessor
 			{
 				ReadAndPublish(LastId, newLastId);
 				LastId = newLastId;
-				using (var skdDatabaseService = new SKDDatabaseService())
+                using (var skdDatabaseService = new SKDDriver.DataClasses.DbService())
 				{
 					var gkIpAddress = GKManager.GetIpAddress(GkDatabase.RootDevice);
 					skdDatabaseService.GKMetadataTranslator.SetLastJournalNo(gkIpAddress, LastId);

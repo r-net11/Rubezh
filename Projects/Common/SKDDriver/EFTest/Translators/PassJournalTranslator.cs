@@ -144,10 +144,7 @@ namespace SKDDriver.DataClasses
 		public void InsertPassJournalTestData()
 		{
 			IEnumerable<ShortEmployee> employees = null;
-			using (var skdDatabaseService = new SKDDatabaseService())
-			{
-				employees = skdDatabaseService.EmployeeTranslator1.GetList(new EmployeeFilter()).Result;
-			}
+			employees = DbService.EmployeeTranslator.ShortTranslator.Get(new EmployeeFilter()).Result;
 			var zoneUID = SKDManager.Zones.FirstOrDefault().UID;
 
 			Context.PassJournals.RemoveRange(Context.PassJournals);

@@ -93,13 +93,13 @@ namespace FiresecClient.SKDHelpers
 		//    return SaveHRChief(organisation.UID, chiefUID, organisation.Name);
 		//}
 
-		public static bool SaveChief(Guid uid, Guid chiefUID, string name)
+		public static bool SaveChief(Guid uid, Guid? chiefUID, string name)
 		{
 			var result = FiresecManager.FiresecService.SaveOrganisationChief(uid, chiefUID, name);
 			return Common.ShowErrorIfExists(result);
 		}
 
-		public static bool SaveHRChief(Guid uid, Guid chiefUID, string name)
+		public static bool SaveHRChief(Guid uid, Guid? chiefUID, string name)
 		{
 			var result = FiresecManager.FiresecService.SaveOrganisationHRChief(uid, chiefUID, name);
 			return Common.ShowErrorIfExists(result);

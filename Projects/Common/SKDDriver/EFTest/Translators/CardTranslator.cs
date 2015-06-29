@@ -36,12 +36,27 @@ namespace SKDDriver.DataClasses
             return Context.Cards.Include(x => x.CardDoors).Include(x => x.Employee).Include(x => x.AccessTemplate).Include(x => x.GKControllerUIDs);
         }
 
-        
+        public IQueryable<Card> GetFilteredTableItems(API.CardFilter filter)
+        {
+            var tableItems = GetTableItems();
+            List<Guid> employeeUIDs = new List<Guid>();
+            if(filter.EmployeeFilter != null)
+            {
+                employeeUIDs = DbService.EmployeeTranslator.ShortTranslator.GetTableFilteredItems(filter.EmployeeFilter).Select(x => x.UID).ToList();
+                tableItems = tableItems.Where(x => x.EmployeeUID == null || employeeUIDs.Contains(x.EmployeeUID.Value));
+            }
+            return tableItems.Where(x => 
+                (filter.DeactivationType != API.LogicalDeletationType.Deleted || x.IsInStopList) &&
+                (filter.DeactivationType != API.LogicalDeletationType.Active || !x.IsInStopList) &&
+                (!filter.IsWithEndDate || x.EndDate < filter.EndDate) &&
+                (filter.CardTypes.Count == 0 || (filter.CardTypes.Contains((API.CardType)x.CardType) || (filter.IsWithInactive && x.IsInStopList))));
+        }
+
         public OperationResult<List<API.SKDCard>> Get(API.CardFilter filter)
 		{
 			try
 			{
-                var tableItems = GetTableItems().ToList();
+                var tableItems = GetFilteredTableItems(filter).ToList();
 				var result = tableItems.Select(x => Translate(x)).ToList();
 				return new OperationResult<List<API.SKDCard>>(result);
 			}

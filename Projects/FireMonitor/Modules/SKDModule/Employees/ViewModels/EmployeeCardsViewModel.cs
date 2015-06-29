@@ -72,7 +72,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanAddCard()
 		{
-			return FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Cards_Etit) && !_employeeViewModel.IsDeleted;
+			return FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Cards_Etit) && !_employeeViewModel.IsOrganisation && !_employeeViewModel.IsDeleted;
 		}
 
 		public RelayCommand SelectEmployeeCommand { get; private set; }

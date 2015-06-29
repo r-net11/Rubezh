@@ -36,27 +36,27 @@ namespace SKDDriver
 			return base.IsInFilter(filter).And(x => x.UID == filter.OrganisationUID);
 		}
 
-		EmployeeSynchroniser EmployeeSynchroniser { get { return _DatabaseService.EmployeeTranslator1.Synchroniser; } }
-		PositionSynchroniser PositionSynchroniser { get { return _DatabaseService.PositionTranslator.Synchroniser; } }
-		DepartmentSynchroniser DepartmentSynchroniser { get { return _DatabaseService.DepartmentTranslator.Synchroniser; } }
+		//EmployeeSynchroniser EmployeeSynchroniser { get { return _DatabaseService.EmployeeTranslator1.Synchroniser; } }
+		//PositionSynchroniser PositionSynchroniser { get { return _DatabaseService.PositionTranslator.Synchroniser; } }
+		//DepartmentSynchroniser DepartmentSynchroniser { get { return _DatabaseService.DepartmentTranslator.Synchroniser; } }
 		public OrgansiationListSynchroniser ListSynchroniser;
 
 		public override OperationResult Export(ExportFilter filter)
 		{
 			try
 			{
-				var organisationResult = base.Export(filter);
-				if (organisationResult.HasError)
-					return organisationResult;
-				var employeeResult = _DatabaseService.EmployeeTranslator1.Synchroniser.Export(filter);
-				if (employeeResult.HasError)
-					return employeeResult;
-				var PositionResult = _DatabaseService.PositionTranslator.Synchroniser.Export(filter);
-				if (PositionResult.HasError)
-					return PositionResult;
-				var DepartmentResult = _DatabaseService.DepartmentTranslator.Synchroniser.Export(filter);
-				if (DepartmentResult.HasError)
-					return DepartmentResult;
+                //var organisationResult = base.Export(filter);
+                //if (organisationResult.HasError)
+                //    return organisationResult;
+                //var employeeResult = _DatabaseService.EmployeeTranslator1.Synchroniser.Export(filter);
+                //if (employeeResult.HasError)
+                //    return employeeResult;
+                //var PositionResult = _DatabaseService.PositionTranslator.Synchroniser.Export(filter);
+                //if (PositionResult.HasError)
+                //    return PositionResult;
+                //var DepartmentResult = _DatabaseService.DepartmentTranslator.Synchroniser.Export(filter);
+                //if (DepartmentResult.HasError)
+                //    return DepartmentResult;
 				return new OperationResult();
 			}
 			catch (Exception e)
@@ -70,12 +70,12 @@ namespace SKDDriver
 			try
 			{
 				base.Import(filter);
-				PositionSynchroniser.Import(filter);
-				DepartmentSynchroniser.Import(filter);
-				EmployeeSynchroniser.Import(filter);
+				//PositionSynchroniser.Import(filter);
+				//DepartmentSynchroniser.Import(filter);
+				//EmployeeSynchroniser.Import(filter);
 				ImportForignKeys();
-				DepartmentSynchroniser.ImportForignKeys();
-				EmployeeSynchroniser.ImportForignKeys();
+				//DepartmentSynchroniser.ImportForignKeys();
+				//EmployeeSynchroniser.ImportForignKeys();
 				return new OperationResult();
 			}
 			catch (Exception e)
