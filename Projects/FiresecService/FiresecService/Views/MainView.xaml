@@ -39,14 +39,35 @@
                             <DataGridTemplateColumn Header="Значение" Width="*">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <ContentControl  x:Name="ValueColumnTemplate">
-                                            <TextBlock Text="{Binding Value}"/>
+                                        <ContentControl x:Name="ValueColumnTemplate">
+                                            <CheckBox IsEnabled="False" IsChecked="{Binding Value}"/>
                                         </ContentControl>
                                         <DataTemplate.Triggers>
-                                            <DataTrigger Binding="{Binding Type}" Value="Boolean">
+                                            <DataTrigger Binding="{Binding Type}" Value="Integer">
                                                 <Setter Property="Content" TargetName="ValueColumnTemplate">
                                                     <Setter.Value>
-                                                        <CheckBox IsEnabled="False" IsChecked="{Binding Value}"/>
+                                                        <TextBlock Text="{Binding Value}"/>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Type}" Value="String">
+                                                <Setter Property="Content" TargetName="ValueColumnTemplate">
+                                                    <Setter.Value>
+                                                        <TextBlock Text="{Binding Value}"/>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Type}" Value="Float">
+                                                <Setter Property="Content" TargetName="ValueColumnTemplate">
+                                                    <Setter.Value>
+                                                        <TextBlock Text="{Binding Value}"/>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Type}" Value="DateTime">
+                                                <Setter Property="Content" TargetName="ValueColumnTemplate">
+                                                    <Setter.Value>
+                                                        <TextBlock Text="{Binding Value}"/>
                                                     </Setter.Value>
                                                 </Setter>
                                             </DataTrigger>

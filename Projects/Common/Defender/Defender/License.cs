@@ -5,32 +5,29 @@ namespace Defender
 {
     public class License
     {
-        InitialKey _initialKey;
-        public InitialKey InitialKey 
-        {
-            get { return _initialKey; }
-        }
-
+        public InitialKey InitialKey { get; set; }
+        
         public List<LicenseParameter> Parameters { get; set; }
 
         public License()
         {
+            this.InitialKey = new InitialKey();
             this.Parameters = new List<LicenseParameter>();
         }
 
         public static License Create(InitialKey initialKey)
         {
-            return new License() { _initialKey = initialKey };
+            return new License() { InitialKey = initialKey };
         }
 
         public static License Create(byte[] binaryValue)
         {
-            return new License() { _initialKey = InitialKey.FromBinary(binaryValue) };
+            return new License() { InitialKey = InitialKey.FromBinary(binaryValue) };
         }
 
         public static License Create(string hexStringValue)
         {
-            return new License() { _initialKey = InitialKey.FromHexString(hexStringValue) };
+            return new License() { InitialKey = InitialKey.FromHexString(hexStringValue) };
         }
     }
 }

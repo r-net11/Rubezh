@@ -11,7 +11,7 @@ namespace Defender
         public byte[] BinaryValue 
         {
             get { return _binaryValue; }
-            private set
+            set
             {
                 _binaryValue = value;
                 _stringValue = GetStringFromBinary(value);
@@ -22,7 +22,7 @@ namespace Defender
         public string StringValue 
         {
             get { return _stringValue; }
-            private set
+            set
             {
                 _binaryValue = GetBinaryFromString(value);
                 _stringValue = _binaryValue == null ? null : value;
