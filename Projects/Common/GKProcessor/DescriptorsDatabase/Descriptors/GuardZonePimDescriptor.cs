@@ -111,7 +111,7 @@ namespace GKProcessor
 					{
 						formula.Add(FormulaOperationType.OR);
 					}
-					gotoFormulaOperation.SecondOperand = (ushort)(formula.FormulaOperations.Count - formulaNo + (isPim ? 4 : 0));
+					gotoFormulaOperation.SecondOperand = (ushort)(formula.FormulaOperations.Count - formulaNo + (isPim ? 4 : 3));
 				}
 				else
 				{
