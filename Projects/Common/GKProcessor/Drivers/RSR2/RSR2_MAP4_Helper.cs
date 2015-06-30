@@ -26,6 +26,7 @@ namespace GKProcessor
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Fire1);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Fire2);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Off);
+            GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Test);
 
 			var property1 = new GKDriverProperty()
 			{
