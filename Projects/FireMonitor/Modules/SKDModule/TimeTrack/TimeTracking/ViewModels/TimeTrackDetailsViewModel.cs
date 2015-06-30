@@ -21,7 +21,8 @@ namespace SKDModule.ViewModels
 
 		public TimeTrackDetailsViewModel(DayTimeTrack dayTimeTrack, ShortEmployee shortEmployee)
 		{
-			dayTimeTrack.Calculate();
+			if(string.IsNullOrEmpty(dayTimeTrack.Error))
+				dayTimeTrack.Calculate();
 
 			Title = "Время сотрудника " + shortEmployee.FIO + " в течение дня " + dayTimeTrack.Date.Date.ToString("yyyy-MM-dd");
 			AddCommand = new RelayCommand(OnAdd, CanAdd);

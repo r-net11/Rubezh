@@ -11,7 +11,7 @@
 						<DataTemplate>
 							<StackPanel VerticalAlignment="Center" Orientation="Horizontal" Background="{Binding NamedStateClass.StateClass, Converter={StaticResource XStateClassToPlanColorConverter}}">
 								<Image Width="16" Height="16" VerticalAlignment="Center" Source="{Binding NamedStateClass.StateClass, Converter={StaticResource XStateClassToIconConverter}}" Margin="2" />
-								<Image Name="Image" Width="16" Height="16" VerticalAlignment="Center" Source="/Controls;component/Images/CMap.png" Margin="2" />
+								<Image x:Name="Image" Width="16" Height="16" VerticalAlignment="Center" Source="/Controls;component/Images/CMap.png" Margin="2" />
 								<TextBlock VerticalAlignment="Center" Text="{Binding Plan.Caption}" ToolTip="{Binding NamedStateClass.Name}" />
 							</StackPanel>
 							<DataTemplate.Triggers>

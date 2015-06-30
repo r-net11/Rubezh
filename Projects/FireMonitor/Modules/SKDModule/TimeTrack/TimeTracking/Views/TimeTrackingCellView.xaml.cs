@@ -20,6 +20,8 @@ namespace SKDModule.Views
 				var timeTrackDetailsViewModel = new TimeTrackDetailsViewModel(dayTrackViewModel.DayTimeTrack, dayTrackViewModel.ShortEmployee);
 				if (DialogService.ShowModalWindow(timeTrackDetailsViewModel))
 				{
+					if (!string.IsNullOrEmpty(dayTrackViewModel.DayTimeTrack.Error)) return;
+
 					dayTrackViewModel.DayTimeTrack.Calculate();
 					dayTrackViewModel.Update();
 				}

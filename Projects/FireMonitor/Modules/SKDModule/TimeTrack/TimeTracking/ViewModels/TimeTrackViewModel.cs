@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using FiresecAPI;
 using FiresecAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Model;
@@ -26,7 +27,14 @@ namespace SKDModule.ViewModels
 			DayTracks = new ObservableCollection<DayTrackViewModel>();
 			foreach (var dayTimeTrack in timeTrackEmployeeResult.DayTimeTracks)
 			{
-				dayTimeTrack.Calculate();
+				if(string.IsNullOrEmpty(dayTimeTrack.Error))
+					dayTimeTrack.Calculate();
+				else
+				{
+					dayTimeTrack.TimeTrackType = TimeTrackType.None;
+					dayTimeTrack.Tooltip = TimeTrackType.None.ToDescription();
+				}
+
 				var dayTrackViewModel = new DayTrackViewModel(dayTimeTrack, timeTrackFilter, timeTrackEmployeeResult.ShortEmployee);
 				DayTracks.Add(dayTrackViewModel);
 			}
@@ -39,6 +47,8 @@ namespace SKDModule.ViewModels
 
 			foreach (var dayTimeTrack in timeTrackEmployeeResult.DayTimeTracks)
 			{
+				if(dayTimeTrack == null || dayTimeTrack.Totals == null) continue;
+
 				foreach (var timeTrackTotal in dayTimeTrack.Totals)
 				{
 					var total = Totals.FirstOrDefault(x => x.TimeTrackType == timeTrackTotal.TimeTrackType);
