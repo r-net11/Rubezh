@@ -15,6 +15,7 @@ namespace FiresecClient
 	{
 		public static event Action<GKProgressCallback> GKProgressCallbackEvent;
 		public static event Action<GKCallbackResult> GKCallbackResultEvent;
+		public static event Action<GKPropertyChangedCallback> GKPropertyChangedEvent;
 		public static event Action<SKDStates> SKDStatesEvent;
 		public static event Action<AutomationCallbackResult> AutomationEvent;
 		public static event Action ConfigurationChangedEvent;
@@ -95,6 +96,14 @@ namespace FiresecClient
 						{
 							if (GKCallbackResultEvent != null)
 								GKCallbackResultEvent(callbackResult.GKCallbackResult);
+						});
+						break;
+
+					case CallbackResultType.GKPropertyChanged:
+						SafeOperationCall(() =>
+						{
+							if (GKPropertyChangedEvent != null)
+								GKPropertyChangedEvent(callbackResult.GKPropertyChangedCallback);
 						});
 						break;
 

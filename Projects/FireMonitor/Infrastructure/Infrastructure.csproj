@@ -96,6 +96,7 @@
     <Compile Include="AppSettings.cs" />
     <Compile Include="ClientSettings.cs" />
     <Compile Include="Events\ChangePlanPropertiesEvent.cs" />
+    <Compile Include="Events\GKObjectsPropertyChangedEvent.cs" />
     <Compile Include="Events\ShowDetails\ShowGKSKDZoneDetailsEvent.cs" />
     <Compile Include="Events\ShowObject\ShowGKSKDZoneEvent.cs" />
     <Compile Include="Events\ShowOnPlan\ShowGKSKDZoneOnPlanEvent.cs" />

@@ -128,7 +128,7 @@ namespace FireAdministrator
 		{
 			LoadingErrorManager.Clear();
 			ServiceFactory.Events.GetEvent<ConfigurationClosedEvent>().Publish(null);
-			ServiceFactory.ContentService.Clear();
+			ServiceFactory.ContentService.Invalidate();
 			InitializeModules();
 			LoadingService.Close();
 		}

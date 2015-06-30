@@ -49,6 +49,9 @@ namespace GKModule.ViewModels
 
 			Title = Device.PresentationName;
 			StartMeasureParametersMonitoring();
+
+			ServiceFactory.Events.GetEvent<GKObjectsPropertyChangedEvent>().Unsubscribe(OnGKObjectsPropertyChanged);
+			ServiceFactory.Events.GetEvent<GKObjectsPropertyChangedEvent>().Subscribe(OnGKObjectsPropertyChanged);
 		}
 
 		void OnStateChanged()
@@ -231,6 +234,12 @@ namespace GKModule.ViewModels
 		public bool CanNotControl
 		{
 			get { return !(Device.Driver.IsControlDevice || (Device.Driver.IsDeviceOnShleif && !Device.Driver.IsControlDevice)) || !FiresecManager.CheckPermission(PermissionType.Oper_Device_Control); }
+		}
+
+		void OnGKObjectsPropertyChanged(GKPropertyChangedCallback gkPropertyChangedCallback)
+		{
+			DevicePropertiesViewModel = new DevicePropertiesViewModel(Device);
+			OnPropertyChanged(() => DevicePropertiesViewModel);
 		}
 
 		#region IWindowIdentity Members

@@ -142,7 +142,7 @@ namespace FiresecService.Service
 			return OperationResult<JournalItem>.FromError("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
 		}
 
-		public OperationResult<bool> GKSetSingleParameter(Guid objectUID, List<byte> parameterBytes)
+		public OperationResult<bool> GKSetSingleParameter(Guid objectUID, List<byte> parameterBytes, List<GKProperty> deviceProperties)
 		{
 			GKBase gkBase = null;
 			gkBase = GKManager.Devices.FirstOrDefault(x => x.UID == objectUID);
@@ -165,7 +165,12 @@ namespace FiresecService.Service
 
 			if (gkBase != null)
 			{
-				return GKProcessorManager.GKSetSingleParameter(gkBase, parameterBytes);
+				var result = GKProcessorManager.GKSetSingleParameter(gkBase, parameterBytes);
+				if (deviceProperties != null)
+				{
+					FiresecService.NotifyGKParameterChanged(objectUID, deviceProperties);
+				}
+				return result;
 			}
 			return OperationResult<bool>.FromError("Не найден компонент в конфигурации");
 		}

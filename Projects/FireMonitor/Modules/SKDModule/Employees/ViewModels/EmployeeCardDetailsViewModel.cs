@@ -29,7 +29,6 @@ namespace SKDModule.ViewModels
 		{
 			_employee = employee;
 
-			ChangeDeactivationControllerCommand = new RelayCommand(OnChangeDeactivationController);
 			ChangeReaderCommand = new RelayCommand(OnChangeReader);
 			ShowUSBCardReaderCommand = new RelayCommand(OnShowUSBCardReader);
 
@@ -101,7 +100,6 @@ namespace SKDModule.ViewModels
 			EndDate = Card.EndDate;
 			GKLevel = Card.GKLevel;
 			UserTime = Card.UserTime;
-			DeactivationControllerUID = Card.DeactivationControllerUID;
 		}
 
 		private void InitializeAccessTemplates()
@@ -249,8 +247,6 @@ namespace SKDModule.ViewModels
 			//get { return HasSKD && SelectedCardType == CardType.OneTime; }
 			get { return false; }
 		}
-
-		Guid DeactivationControllerUID;
 
 		ObservableCollection<AccessTemplate> _availableAccessTemplates;
 		public ObservableCollection<AccessTemplate> AvailableAccessTemplates
@@ -419,33 +415,6 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public RelayCommand ChangeDeactivationControllerCommand { get; private set; }
-		void OnChangeDeactivationController()
-		{
-			var controllerSelectationViewModel = new ControllerSelectationViewModel(DeactivationControllerUID);
-			if (DialogService.ShowModalWindow(controllerSelectationViewModel))
-			{
-				DeactivationControllerUID = controllerSelectationViewModel.SelectedDevice.UID;
-				OnPropertyChanged(() => DeactivationControllerName);
-			}
-		}
-
-		public string DeactivationControllerName
-		{
-			get
-			{
-				var controllerDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == DeactivationControllerUID);
-				if (controllerDevice != null)
-				{
-					return controllerDevice.Name;
-				}
-				else
-				{
-					return "Нажмите для выбора контроллера";
-				}
-			}
-		}
-
 		public RelayCommand ShowUSBCardReaderCommand { get; private set; }
 		void OnShowUSBCardReader()
 		{
@@ -512,7 +481,6 @@ namespace SKDModule.ViewModels
 				Card.GKLevelSchedule = SelectedGKSchedule.No;
 			}
 			Card.UserTime = UserTime;
-			Card.DeactivationControllerUID = DeactivationControllerUID;
 			Card.CardDoors = AccessDoorsSelectationViewModel.GetCardDoors();
 			Card.CardDoors.ForEach(x => x.CardUID = Card.UID);
 			Card.OrganisationUID = Organisation.UID;
@@ -564,12 +532,6 @@ namespace SKDModule.ViewModels
 			if (Number <= 0 || Number > Int32.MaxValue)
 			{
 				MessageBoxService.ShowWarning("Номер карты должен быть задан в пределах 1 ... 2147483647");
-				return false;
-			}
-
-			if (SelectedCardType == CardType.OneTime && DeactivationControllerUID != Guid.Empty && UserTime <= 0)
-			{
-				MessageBoxService.ShowWarning("Количество проходов для разого пропуска должно быть задано в пределах от 1 до " + Int16.MaxValue.ToString());
 				return false;
 			}
 
