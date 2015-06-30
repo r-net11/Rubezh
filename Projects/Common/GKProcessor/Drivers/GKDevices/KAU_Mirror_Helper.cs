@@ -22,7 +22,12 @@ namespace GKProcessor
 				MaxAddress = 127,
 				IsPlaceable = true
 			};
-			driver.Children.Add(GKDriverType.RSR2_GKMirrorItem);
+			driver.Children.Add(GKDriverType.RSR2_GKMirrorDetectorsDevice);
+			driver.Children.Add(GKDriverType.RSR2_GKMirrorFireZone);
+			driver.Children.Add(GKDriverType.RSR2_GKMirrorPerformersDevice);
+			driver.Children.Add(GKDriverType.RSR2_GKMirrorGuardZone);
+			driver.Children.Add(GKDriverType.RSR2_GKMirrorFightFireZone);
+			driver.Children.Add(GKDriverType.RSR2_GKMirrorDirection);
 
 			driver.AvailableStateClasses.Add(XStateClass.Norm);
 			driver.AvailableStateClasses.Add(XStateClass.Unknown);

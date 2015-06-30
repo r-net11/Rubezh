@@ -187,5 +187,6 @@ namespace GKModule.ViewModels
 			Zones = new List<GKZone>(TargetZones);
 			return base.Save();
 		}
+		
 	}
 }

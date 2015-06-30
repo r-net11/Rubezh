@@ -145,8 +145,18 @@ namespace FiresecAPI.GK
 		RSR2_GuardDetectorSound,
 		[Description("Отражение ГК")]
 		RSR2_GKMirror,
-		[Description("Отражение")]
-		RSR2_GKMirrorItem,
+		[Description("Извещательные устройства")]
+		RSR2_GKMirrorDetectorsDevice,
+		[Description("Пожаоные зоны")]
+		RSR2_GKMirrorFireZone,
+		[Description("Исполнительные устройства")]
+		RSR2_GKMirrorPerformersDevice,
+		[Description("Охранные зоны")]
+		RSR2_GKMirrorFightFireZone,
+		[Description("Охранные зоны")]
+		RSR2_GKMirrorGuardZone,
+		[Description("Направления")]
+		RSR2_GKMirrorDirection,
 		[Description("Группа индикаторов")]
 		GKIndicatorsGroup,
 		[Description("Группа реле")]
