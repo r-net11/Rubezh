@@ -32,6 +32,9 @@ namespace GKModule
 			SafeFiresecService.GKCallbackResultEvent -= new Action<GKCallbackResult>(OnGKCallbackResult);
 			SafeFiresecService.GKCallbackResultEvent += new Action<GKCallbackResult>(OnGKCallbackResult);
 
+			SafeFiresecService.GKPropertyChangedEvent -= new Action<GKPropertyChangedCallback>(OnGKPropertyChanged);
+			SafeFiresecService.GKPropertyChangedEvent += new Action<GKPropertyChangedCallback>(OnGKPropertyChanged);
+
 			GKProcessorManager.GKProgressCallbackEvent -= new Action<GKProgressCallback>(OnGKProgressCallbackEvent);
 			GKProcessorManager.GKProgressCallbackEvent += new Action<GKProgressCallback>(OnGKProgressCallbackEvent);
 
@@ -83,6 +86,22 @@ namespace GKModule
 				CopyGKStates(gkCallbackResult.GKStates);
 				ServiceFactoryBase.Events.GetEvent<GKObjectsStateChangedEvent>().Publish(null);
 			});
+		}
+
+		void OnGKPropertyChanged(GKPropertyChangedCallback gkPropertyChangedCallback)
+		{
+			if (gkPropertyChangedCallback != null)
+			{
+				ApplicationService.Invoke(() =>
+				{
+					var device = GKManager.Devices.FirstOrDefault(x => x.UID == gkPropertyChangedCallback.ObjectUID);
+					if (device != null)
+					{
+						device.Properties = gkPropertyChangedCallback.DeviceProperties;
+						ServiceFactoryBase.Events.GetEvent<GKObjectsPropertyChangedEvent>().Publish(null);
+					}
+				});
+			}
 		}
 
 		void CopyGKStates(GKStates gkStates)

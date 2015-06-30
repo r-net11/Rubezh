@@ -157,13 +157,15 @@ namespace Defender
         {
             try
             {
-                byte[] loadedBytes;
-                using (var file = File.OpenRead(fileName))
-                {
-                    loadedBytes = new byte[file.Length];
-                    file.Read(loadedBytes, 0, loadedBytes.Length);
-                }
-                
+				byte[] loadedBytes = null;
+				if (File.Exists(fileName))
+				{
+					using (var file = File.OpenRead(fileName))
+					{
+						loadedBytes = new byte[file.Length];
+						file.Read(loadedBytes, 0, loadedBytes.Length);
+					}
+				}
                 return loadedBytes;
             }
             catch (Exception ex)

@@ -100,5 +100,19 @@ namespace FiresecService.Service
 			};
 			CallbackManager.Add(callbackResult);
 		}
+
+		public static void NotifyGKParameterChanged(Guid objectUID, List<GKProperty> deviceProperties)
+		{
+			var callbackResult = new CallbackResult()
+			{
+				CallbackResultType = CallbackResultType.GKPropertyChanged,
+				GKPropertyChangedCallback = new GKPropertyChangedCallback()
+				{
+					ObjectUID = objectUID,
+					DeviceProperties = deviceProperties
+				}
+			};
+			CallbackManager.Add(callbackResult);
+		}
 	}
 }
