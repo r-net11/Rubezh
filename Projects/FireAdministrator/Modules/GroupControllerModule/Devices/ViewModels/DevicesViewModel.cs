@@ -289,7 +289,7 @@ namespace GKModule.ViewModels
 				if (maxAddress >= 255)
 					return null;
 
-				if (SelectedDevice.Device.DriverType == GKDriverType.RSR2_KAU_Shleif)
+				if (SelectedDevice.Device.DriverType == GKDriverType.RSR2_KAU_Shleif || SelectedDevice.Device.DriverType == GKDriverType.RSR2_MVP_Part)
 				{
 					var addedDevice = GKManager.AddChild(SelectedDevice.Device, null, device.Driver, (byte)(maxAddress));
 					GKManager.CopyDevice(device, addedDevice);

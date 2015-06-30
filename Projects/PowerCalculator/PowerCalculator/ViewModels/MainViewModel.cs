@@ -11,6 +11,7 @@ using PowerCalculator.Models;
 using System.Collections.Generic;
 using PowerCalculator.Processor;
 using System.Text;
+using System.Diagnostics;
 
 namespace PowerCalculator.ViewModels
 {
@@ -30,6 +31,7 @@ namespace PowerCalculator.ViewModels
             ShowSpecificationCommand = new RelayCommand(OnShowSpecification);
             CollectToSpecificationCommand = new RelayCommand(OnCollectToSpecification, CanCollectToSpecification);
 			PatchCommand = new RelayCommand(OnPatch, CanPatch);
+            AboutCommand = new RelayCommand(OnAbout);
 			OnCreateNew();
 
             CableTypesRepository.LoadOrDefault(CableTypesPath);
@@ -261,5 +263,17 @@ namespace PowerCalculator.ViewModels
         {
             return Lines.Any(x=>x.HasError);
         }
+
+        public RelayCommand AboutCommand { get; private set; }
+        void OnAbout()
+        {
+            try
+            {
+                Process.Start(Path.Combine(Environment.CurrentDirectory, "PowerCalulatorManual.pdf"));
+            }
+            catch
+            { 
+            }
+        }   
 	}
 }

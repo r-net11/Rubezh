@@ -11,7 +11,7 @@ namespace PowerCalculator.Processor.Algorithms
 
 	public class CalcPowerAlgorithm
 	{
-		const double I1MESS = 0.0024;
+        const double I1MESS = 0.0024;
 		Line Line;
 		public Dictionary<Device, CalcPowerIndicators> Result { get; set; }
 
@@ -38,71 +38,71 @@ namespace PowerCalculator.Processor.Algorithms
 		void produce(bool reverse = false)
 		{
 			int be, en;
-			uint nu = (uint)Line.Devices.Sum(e => Dr(e.DriverType).Mult);
+            uint nu = (uint)Line.Devices.Sum(e => Dr(e.DriverType).Mult) + Line.KAU.Driver.Mult * (uint)(Line.IsCircular ? 2 : 1);
 
 			be = 0;
-			for (int i = 1; i < Dc(); i++)
+			for (int i = 1; i <= Dc(); i++)
 			{
-				if (Dr(i, reverse).DeviceType == DeviceType.Supplier)
+				if (Dr(i).DeviceType == DeviceType.Supplier)
 				{
 					en = i;
 					nu -= Dr(i).Mult;
-					calc(be, en, nu, reverse);
+					calc(be, en, nu);
 					be = en;
 				}
 				else
 				{
-					nu -= Dr(i, reverse).Mult;
+					nu -= Dr(i).Mult;
 				}
 			}
-			if (be != Dc() - 1)
-                calc(be, Dc() - 1, nu, reverse);
+			if (be != Dc())
+                calc(be, Dc(), nu);
 
 		}
 
-		void calc(int b, int e, uint n, bool reverse = false)
+		void calc(int b, int e, uint n)
 		{
 			double il, rsum, rleft, iright, ileft;
 
-            n -= Dr(e, reverse).Mult;
+            n -= Dr(e).Mult;
 			rsum = 0;
-            if (Dr(e, reverse).DeviceType == DeviceType.Supplier)
+            if (Dr(e).DeviceType == DeviceType.Supplier)
 			{
 				for (int i = e; i > b; i--)
 				{
-                    n += Dr(i, reverse).Mult;
-                    Di(i, reverse).id += n * I1MESS;
-                    rsum += Dr(i, reverse).R + De(i, reverse).Cable.Resistance;
+                    n += Dr(i).Mult;
+                    Di(i).id += n * I1MESS;
+                    rsum += Dr(i).R + De(i).Cable.Resistance;
 				}
 
-                il = 1000 * (Dr(b, reverse).U - Dr(e, reverse).U) / rsum;
+                il = 1000 * (Dr(b).U - Dr(e).U) / rsum;
 				rleft = 0;
 				iright = 0;
 				ileft = 0;
 				for (int i = b + 1; i <= e; i++)
 				{
-                    rleft += De(i, reverse).Cable.Resistance + Dr(i, reverse).R;
-                    ileft = Di(i, reverse).id * (rsum - rleft) / rsum;
-                    Di(i, reverse).il += il + iright;
-                    iright -= Di(i, reverse).id - ileft;
+                    rleft += De(i).Cable.Resistance + Dr(i).R;
+                    ileft = Di(i).id * (rsum - rleft) / rsum;
+                    Di(i).il = il + iright;
+                    iright -= Di(i).id - ileft;
 					for (int j = b + 1; j <= i; j++)
-                        Di(j, reverse).il += ileft;
+                        Di(j).il += ileft;
 				}
 				for (int i = b + 1; i < e; i++)
-                    Di(i, reverse).ud = Di(i - 1, reverse).ud - Di(i, reverse).il * (Dr(i, reverse).R + De(i, reverse).Cable.Resistance) * 0.001;
+                    Di(i).ud = Di(i - 1).ud - Di(i).il * (Dr(i).R + De(i).Cable.Resistance) * 0.001f;
 			}
 			else
 			{
 				il = 0;
 				for (int i = e; i > b; i--)
 				{
-                    n += Dr(i, reverse).Mult;
-                    Di(i, reverse).id += n * I1MESS;
-                    il += Di(i, reverse).id;
-                    Di(i, reverse).il = il;
+                    n += Dr(i).Mult;
+                    Di(i).id += n * I1MESS;
+                    il += Di(i).id;
+                    Di(i).il = il;
 				}
 				for (int i = b + 1; i <= e; i++)
-                    Di(i, reverse).ud = Di(i - 1, reverse).ud - Di(i, reverse).il * (Dr(i, reverse).R + De(i, reverse).Cable.Resistance) * 0.001;
+                    Di(i).ud = Di(i - 1).ud - Di(i).il * (Dr(i).R + De(i).Cable.Resistance) * 0.001f;
 			}
 
 		}
@@ -112,27 +112,28 @@ namespace PowerCalculator.Processor.Algorithms
 			return DriversHelper.GetDriver(driverType);
 		}
 
-		Driver Dr(int index, bool reverse = false)
+		Driver Dr(int index)
 		{
-			return DriversHelper.GetDriver(De(index, reverse).DriverType);
+			return DriversHelper.GetDriver(De(index).DriverType);
 		}
 
-		Device De(int index, bool reverse = false)
+		Device De(int index)
 		{
+            //if (index)
 			return
                 index == 0 || index == Line.Devices.Count + 1 && Line.IsCircular ?
                 Line.KAU : 
-                Line.Devices[reverse ? Line.Devices.Count - index : index - 1];
+                index > Line.Devices.Count ? new Device() : Line.Devices[index - 1];
 		}
 
-		CalcPowerIndicators Di(int index, bool reverse = false)
+		CalcPowerIndicators Di(int index)
 		{
-			return Result[De(index, reverse)];
+            return index > Line.Devices.Count ? Result[Line.KAU] : Result[De(index)];
 		}
 
         int Dc()
         {
-            return Line.Devices.Count + (Line.IsCircular ? 2 : 1);
+            return Line.Devices.Count + (Line.IsCircular ? 1 : 0);
         }
 
 		#endregion
