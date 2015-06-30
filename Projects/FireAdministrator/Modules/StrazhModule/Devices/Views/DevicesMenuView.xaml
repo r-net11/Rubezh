@@ -12,7 +12,7 @@
 					<Grid Background="{DynamicResource ArrowUpDown}" Height="24" Width="24" ToolTip="Устройство" />
 				</MenuItem.Header>
 				<IconedMenuItem Command="{Binding ShowControllerConfigurationCommand}" ImageSource="BRuleController" Text="Управление контроллером" TotalHeight="24" />
-				<IconedMenuItem Command="{Binding ShowControllerDoorTypeCommand}" ImageSource="BTypeController" Text="Тип контроллера" TotalHeight="24" />
+				<IconedMenuItem Command="{Binding ShowControllerDoorTypeCommand}" ImageSource="BTypeController" Text="Основные настройки контроллера" TotalHeight="24" />
 				<IconedMenuItem Command="{Binding ShowControllerPasswordCommand}" ImageSource="BPassController" Text="Пароль контроллера" TotalHeight="24" />
 				<IconedMenuItem Command="{Binding ShowControllerNetworkCommand}" ImageSource="BNetController" Text="Сетевые настройки контроллера" TotalHeight="24" />
 				<IconedMenuItem Command="{Binding ShowControllerTimeSettingsCommand}" ImageSource="BTimeController" Text="Временные настройки контроллера" TotalHeight="24" />

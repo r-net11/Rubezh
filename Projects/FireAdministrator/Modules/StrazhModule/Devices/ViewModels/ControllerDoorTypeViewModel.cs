@@ -15,7 +15,7 @@ namespace StrazhModule.ViewModels
 
 		public ControllerDoorTypeViewModel(DeviceViewModel deviceViewModel)
 		{
-			Title = "Задание типа контроллера";
+			Title = "Основные настройки контроллера";
 			DeviceViewModel = deviceViewModel;
 
 			ReadFromControllerCommand = new RelayCommand(OnReadFromController);
@@ -27,19 +27,22 @@ namespace StrazhModule.ViewModels
 			if (DeviceViewModel.Device.AntiPassBackConfiguration != null)
 			{
 				UpdateAntiPassBackModesAvailability();
+				IsAntiPassBackActivated = DeviceViewModel.Device.AntiPassBackConfiguration.IsActivated;
 				SelectedAntiPassBackMode = DeviceViewModel.Device.AntiPassBackConfiguration.CurrentAntiPassBackMode;
 			}
 
 			if (DeviceViewModel.Device.InterlockConfiguration != null)
 			{
 				UpdateInterlockModesAvailability();
+				IsInterlockActivated = DeviceViewModel.Device.InterlockConfiguration.IsActivated;
 				SelectedInterlockMode = DeviceViewModel.Device.InterlockConfiguration.CurrentInterlockMode;
 			}
 
 			HasChanged = false;
+			NeedSaveChangesToController = false;
 		}
 
-		#region Флаги изменения настроек контроллера
+		#region <Флаги изменения настроек контроллера>
 
 		bool SelectedDoorTypeHasChanged { get; set; }
 		bool AntiPassBackHasChanged { get; set; }
@@ -58,9 +61,11 @@ namespace StrazhModule.ViewModels
 			}
 		}
 
-		#endregion // Флаги изменения настроек контроллера
+		bool NeedSaveChangesToController { get; set; }
+
+		#endregion </Флаги изменения настроек контроллера>
 		
-		#region Тип точки доступа
+		#region <Тип точки доступа>
 
 		public ObservableCollection<DoorType> AvailableDoorTypes { get; private set; }
 
@@ -70,31 +75,36 @@ namespace StrazhModule.ViewModels
 			get { return _selectedDoorType; }
 			set
 			{
+				if (_selectedDoorType.Equals(value))
+					return;
 				_selectedDoorType = value;
 				OnPropertyChanged(() => SelectedDoorType);
+				
 				IsAntiPassBackActivated = false;
 				IsInterlockActivated = false;
+
+				UpdateAntiPassBackModesAvailability();
+				UpdateInterlockModesAvailability();
+				
 				SelectedDoorTypeHasChanged = true;
+				NeedSaveChangesToController = true;
 			}
 		}
 
-		#endregion // Тип точки доступа
+		#endregion </Тип точки доступа>
 
-		#region Запрет повторного прохода
-		
-		bool _isAntiPassBackActivated;
-		public bool IsAntiPassBackActivated
+		#region <Запрет повторного прохода>
+
+		bool _isAntiPassBackEnabled;
+		public bool IsAntiPassBackEnabled
 		{
-			get { return _isAntiPassBackActivated && !SelectedDoorType.Equals(DoorType.OneWay); }
+			get { return _isAntiPassBackEnabled; }
 			set
 			{
-				if (!_isAntiPassBackActivated.Equals(value))
-				{
-					_isAntiPassBackActivated = value;
-					OnPropertyChanged(() => IsAntiPassBackActivated);
-					UpdateAntiPassBackModesAvailability();
-					AntiPassBackHasChanged = true;
-				}
+				if (_isAntiPassBackEnabled.Equals(value))
+					return;
+				_isAntiPassBackEnabled = value;
+				OnPropertyChanged(() => IsAntiPassBackEnabled);
 			}
 		}
 
@@ -131,18 +141,33 @@ namespace StrazhModule.ViewModels
 			}
 		}
 
+		bool _isAntiPassBackActivated;
+		public bool IsAntiPassBackActivated
+		{
+			get { return _isAntiPassBackActivated && !SelectedDoorType.Equals(DoorType.OneWay); }
+			set
+			{
+				if (_isAntiPassBackActivated.Equals(value))
+					return;
+				_isAntiPassBackActivated = value;
+				OnPropertyChanged(() => IsAntiPassBackActivated);
+				UpdateAntiPassBackModesAvailability();
+				AntiPassBackHasChanged = true;
+				NeedSaveChangesToController = true;
+			}
+		}
+
 		SKDAntiPassBackMode _selectedAntiPassBackMode;
 		public SKDAntiPassBackMode SelectedAntiPassBackMode
 		{
 			get { return _selectedAntiPassBackMode; }
 			set
 			{
-				if (!_selectedAntiPassBackMode.Equals(value))
-				{
-					_selectedAntiPassBackMode = value;
-					OnPropertyChanged(() => SelectedAntiPassBackMode);
-					AntiPassBackHasChanged = true;
-				}
+				if (_selectedAntiPassBackMode.Equals(value)) return;
+				_selectedAntiPassBackMode = value;
+				OnPropertyChanged(() => SelectedAntiPassBackMode);
+				AntiPassBackHasChanged = true;
+				NeedSaveChangesToController = true;
 			}
 		}
 
@@ -180,25 +205,25 @@ namespace StrazhModule.ViewModels
 				IsAntiPassBackModeR3InR4OutEnabled = false;
 				IsAntiPassBackModeR1R3InR2R4OutEnabled = false;
 			}
+			IsAntiPassBackEnabled = _isAntiPassBackModeR1InR2OutEnabled
+				|| _isAntiPassBackModeR3InR4OutEnabled
+				|| _isAntiPassBackModeR1R3InR2R4OutEnabled;
+
 		}
 
-		#endregion // Запрет повторного прохода
+		#endregion </Запрет повторного прохода>
 
-		#region Блокировка прохода
+		#region <Блокировка прохода>
 
-		bool _isInterlockActivated;
-		public bool IsInterlockActivated
+		bool _isInterlockEnabled;
+		public bool IsInterlockEnabled
 		{
-			get { return _isInterlockActivated; }
+			get { return _isInterlockEnabled; }
 			set
 			{
-				if (!_isInterlockActivated.Equals(value))
-				{
-					_isInterlockActivated = value;
-					OnPropertyChanged(() => IsInterlockActivated);
-					UpdateInterlockModesAvailability();
-					InterlockHasChanged = true;
-				}
+				if (_isInterlockEnabled.Equals(value)) return;
+				_isInterlockEnabled = value;
+				OnPropertyChanged(() => IsInterlockEnabled);
 			}
 		}
 
@@ -279,18 +304,32 @@ namespace StrazhModule.ViewModels
 			}
 		}
 
+		bool _isInterlockActivated;
+		public bool IsInterlockActivated
+		{
+			get { return _isInterlockActivated; }
+			set
+			{
+				if (_isInterlockActivated.Equals(value)) return;
+				_isInterlockActivated = value;
+				OnPropertyChanged(() => IsInterlockActivated);
+				UpdateInterlockModesAvailability();
+				InterlockHasChanged = true;
+				NeedSaveChangesToController = true;
+			}
+		}
+
 		SKDInterlockMode _selectedInterlockMode;
 		public SKDInterlockMode SelectedInterlockMode
 		{
 			get { return _selectedInterlockMode; }
 			set
 			{
-				if (!_selectedInterlockMode.Equals(value))
-				{
-					_selectedInterlockMode = value;
-					OnPropertyChanged(() => SelectedInterlockMode);
-					InterlockHasChanged = true;
-				}
+				if (_selectedInterlockMode.Equals(value)) return;
+				_selectedInterlockMode = value;
+				OnPropertyChanged(() => SelectedInterlockMode);
+				InterlockHasChanged = true;
+				NeedSaveChangesToController = true;
 			}
 		}
 
@@ -363,9 +402,17 @@ namespace StrazhModule.ViewModels
 					}
 					break;
 			}
+			IsInterlockEnabled = _isInterlockModeL1L2Enabled
+				|| _isInterlockModeL1L2L3Enabled
+				|| _isInterlockModeL1L2L3L4Enabled
+				|| _isInterlockModeL2L3L4Enabled
+				|| _isInterlockModeL1L3_L2L4Enabled
+				|| _isInterlockModeL1L4_L2L3Enabled
+				|| _isInterlockModeL3L4Enabled;
+
 		}
 
-		#endregion // Блокировка прохода
+		#endregion </Блокировка прохода>
 
 		void GetDoorType()
 		{
@@ -380,7 +427,7 @@ namespace StrazhModule.ViewModels
 				if (SelectedDoorType != result.Result)
 				{
 					SelectedDoorType = result.Result;
-					SelectedDoorTypeHasChanged = true;
+					//SelectedDoorTypeHasChanged = true;
 				}
 			}
 		}
@@ -396,7 +443,6 @@ namespace StrazhModule.ViewModels
 				return false;
 			}
 
-			SelectedDoorTypeHasChanged = false;
 			return true;
 		}
 
@@ -410,16 +456,8 @@ namespace StrazhModule.ViewModels
 			}
 			else
 			{
-				if (IsAntiPassBackActivated != result.Result.IsActivated)
-				{
-					IsAntiPassBackActivated = result.Result.IsActivated;
-					AntiPassBackHasChanged = true;
-				}
-				if (SelectedAntiPassBackMode != result.Result.CurrentAntiPassBackMode)
-				{
-					SelectedAntiPassBackMode = result.Result.CurrentAntiPassBackMode;
-					AntiPassBackHasChanged = true;
-				}
+				IsAntiPassBackActivated = result.Result.IsActivated;
+				SelectedAntiPassBackMode = result.Result.CurrentAntiPassBackMode;
 			}
 		}
 		void SetAntiPassBack()
@@ -435,8 +473,6 @@ namespace StrazhModule.ViewModels
 				MessageBoxService.ShowWarning(result.Error);
 				return;
 			}
-
-			AntiPassBackHasChanged = false;
 		}
 
 		void GetInterlock()
@@ -449,16 +485,8 @@ namespace StrazhModule.ViewModels
 			}
 			else
 			{
-				if (IsInterlockActivated != result.Result.IsActivated)
-				{
-					IsInterlockActivated = result.Result.IsActivated;
-					InterlockHasChanged = true;
-				}
-				if (SelectedInterlockMode != result.Result.CurrentInterlockMode)
-				{
-					SelectedInterlockMode = result.Result.CurrentInterlockMode;
-					InterlockHasChanged = true;
-				}
+				IsInterlockActivated = result.Result.IsActivated;
+				SelectedInterlockMode = result.Result.CurrentInterlockMode;
 			}
 		}
 		void SetInterlock()
@@ -474,8 +502,6 @@ namespace StrazhModule.ViewModels
 				MessageBoxService.ShowWarning(result.Error);
 				return;
 			}
-
-			InterlockHasChanged = false;
 		}
 
 		public RelayCommand ReadFromControllerCommand { get; private set; }
@@ -484,6 +510,7 @@ namespace StrazhModule.ViewModels
 			GetDoorType();
 			GetAntiPassBack();
 			GetInterlock();
+			NeedSaveChangesToController = false;
 		}
 		
 		public RelayCommand WriteToControllerCommand { get; private set; }
@@ -495,21 +522,24 @@ namespace StrazhModule.ViewModels
 			// Выполняется последней, т.к. при этой операции происходит перезагрузка контроллера
 			if (SetDoorType())
 				MessageBoxService.Show("Выполняется перезагрузка контроллера. Контроллер будет доступен через несколько секунд");
+
+			NeedSaveChangesToController = false;
 		}
 
 		protected override bool Save()
 		{
 			if (HasChanged)
 			{
-				if (MessageBoxService.ShowConfirmation(Resources.SaveConfigurationControllerWarning))
-				{
-					DeviceViewModel.Device.DoorType = SelectedDoorType;
-					ServiceFactory.SaveService.SKDChanged = true;
-				}
+				DeviceViewModel.Device.DoorType = SelectedDoorType;
+				DeviceViewModel.Device.AntiPassBackConfiguration = new SKDAntiPassBackConfiguration { IsActivated = IsAntiPassBackActivated, CurrentAntiPassBackMode = SelectedAntiPassBackMode };
+				DeviceViewModel.Device.InterlockConfiguration = new SKDInterlockConfiguration { IsActivated = IsInterlockActivated, CurrentInterlockMode = SelectedInterlockMode };
+				ServiceFactory.SaveService.SKDChanged = true;
 			}
-
-			Close(false);
-			return false;
+			if (NeedSaveChangesToController && !MessageBoxService.ShowConfirmation(Resources.SaveConfigurationControllerWarning))
+			{
+				return false;
+			}
+			return base.Save();
 		}
 	}
 }
