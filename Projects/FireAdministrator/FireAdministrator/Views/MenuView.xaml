@@ -1,0 +1,27 @@
+<UserControl x:Class="FireAdministrator.Views.MenuView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<StackPanel Height="40" Margin="5,0,0,0" Orientation="Horizontal">
+
+		<Menu Name="mainMenu" Height="30" VerticalAlignment="Center" Background="Transparent" Visibility="{Binding CanShowMainMenu, Converter={StaticResource BoolToVisibilityConverter}}">
+			<MenuItem>
+				<MenuItem.Header>
+					<Grid Height="24" Width="24" Background="{Binding LogoSource, Converter={StaticResource StringToResourceConverter}}" ToolTip="Меню" />
+				</MenuItem.Header>
+				<MenuItem Margin="1" Command="{Binding LoadFromFileCommand}" Header="Открыть конфигурацию из файла" />
+				<MenuItem Margin="1" Command="{Binding SaveAsCommand}" Header="Сохранить как" />
+				<MenuItem Margin="1" Command="{Binding CreateNewCommand}" Header="Создать новую конфигурацию" />
+				<MenuItem Margin="1" Command="{Binding ValidateCommand}" Header="Проверить конфигурацию" />
+				<MenuItem Margin="1" Command="{Binding SetNewConfigCommand}" Header="Применить конфигурацию" />
+			</MenuItem>
+		</Menu>
+		<StackPanel Orientation="Horizontal" Visibility="{Binding IsMainMenuVisible, Converter={StaticResource BoolToVisibilityConverter}}">
+			<ToolBarButton Command="{Binding CreateNewCommand}" ImageSource="New" ToolTip="Создать новую конфигурацию" />
+			<ToolBarButton Command="{Binding LoadFromFileCommand}" ImageSource="Load" ToolTip="Открыть конфигурацию из файла" />
+			<ToolBarButton Command="{Binding SaveAsCommand}" ImageSource="Save" ToolTip="Сохранить конфигурацию в файл" />
+			<ToolBarButton Command="{Binding ValidateCommand}" ImageSource="Check" ToolTip="Проверить конфигурацию" />
+			<ToolBarButton Command="{Binding SetNewConfigCommand}" ImageSource="Download" ToolTip="Применить конфигурацию" />
+		</StackPanel>
+		<Grid Visibility="{Binding IsMenuVisible, Converter={StaticResource BoolToVisibilityConverter}}">
+			<ContentPresenter MinWidth="400" Content="{Binding ExtendedMenu}" />
+		</Grid>
+	</StackPanel>
+</UserControl>

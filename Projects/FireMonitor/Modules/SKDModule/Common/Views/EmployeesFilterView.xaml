@@ -1,0 +1,57 @@
+<UserControl x:Class="SKDModule.Views.EmployeesFilterView"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+		<tree:TreeList Grid.Row="0" Name="_treeList" Focusable="True" tree:SortBehavior.CanUserSortColumns="True" Source="{Binding Organisations, Mode=OneWay}" IsEnabled="{Binding IsSelection}" >
+			<tree:TreeList.View>
+				<GridView>
+					<GridViewColumn Header="ФИО" ListViewLayoutManager.StarWidth="1">
+						<GridViewColumn.CellTemplate>
+							<DataTemplate>
+								<StackPanel Orientation="Horizontal">
+									<CheckBox Margin="2" IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+									<Image Width="16" Source="/Controls;component/Images/Organisation.png" VerticalAlignment="Center" Margin="1 0" 
+													   Visibility="{Binding IsOrganisation, Converter={StaticResource BoolToVisibilityConverter}}" />
+									<Image Width="16" Source="/Controls;component/Images/Employee.png" VerticalAlignment="Center" Margin="1 0" 
+													   Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+									<TextBlock Text="{Binding Name}" Style="{StaticResource IsDeletedStyle}" />
+								</StackPanel>
+							</DataTemplate>
+						</GridViewColumn.CellTemplate>
+					</GridViewColumn>
+				</GridView>
+			</tree:TreeList.View>
+		</tree:TreeList>
+		<StackPanel Grid.Row="1" Orientation="Horizontal" IsEnabled="{Binding IsSelection}" >
+			<ToolBarButton Command="{Binding SelectAllCommand}" ToolTip="Выделить всё" ImageSource="SelectAll"  />
+			<ToolBarButton Command="{Binding SelectNoneCommand}" ToolTip="Снять все выделения" ImageSource="SelectNone"  />
+		</StackPanel>
+		<CheckBox Grid.Row="2" Margin="5" Content="Поиск" Foreground="White" IsChecked="{Binding IsSearch, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+		<Grid Grid.Row="3" IsEnabled="{Binding IsSearch}" >
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
+			<TextBlock Grid.Row="0" Grid.Column="0" Text="Фамилия" HorizontalAlignment="Right" Foreground="White" Margin="2" />
+			<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+
+			<TextBlock Grid.Row="1" Grid.Column="0" Text="Имя" HorizontalAlignment="Right" Foreground="White" Margin="2" />
+			<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+
+			<TextBlock Grid.Row="2" Grid.Column="0" Text="Отчество" HorizontalAlignment="Right" Foreground="White" Margin="2" />
+			<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding SecondName, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+		</Grid>
+	</Grid>
+</UserControl>

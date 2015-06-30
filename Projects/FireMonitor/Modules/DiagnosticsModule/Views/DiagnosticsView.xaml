@@ -1,0 +1,24 @@
+﻿<UserControl x:Class="DiagnosticsModule.Views.DiagnosticsView"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+	<Grid Margin="2">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+		<TabControl Grid.Row="0">
+			<TabItem Header="Отладка">
+				<WrapPanel>
+					<Button Content="Проверить HASP" Command="{Binding CheckHaspCommand}" Width="200" Margin="2" />
+					<Button Content="Сгенерировать графика  сотрудников" Command="{Binding TestCommand}" Width="200" Margin="2" />
+					<Button Content="Сгенерировать сотрудников" Command="{Binding SKDDataCommand}" Width="300" Margin="2" />
+                    <Button Content="GenerateEmployeeDays" Command="{Binding GenerateEmployeeDaysCommand}" Width="200" Margin="2" />
+				</WrapPanel>
+			</TabItem>
+		</TabControl>
+		<ScrollViewer Grid.Row="1" Margin="2">
+			<TextBox Text="{Binding Text}" Margin="2" />
+		</ScrollViewer>
+	</Grid>
+</UserControl>

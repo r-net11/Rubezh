@@ -1,0 +1,138 @@
+<UserControl x:Class="SKDModule.Views.HRView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls" xmlns:Views="clr-namespace:SKDModule.Views">
+
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+		<StackPanel Grid.Row="0" Orientation="Horizontal">
+			<StackPanel Orientation="Horizontal" Visibility="{Binding IsEmployeesSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+				<StackPanel DataContext="{Binding EmployeesViewModel}" Orientation="Horizontal">
+					<StackPanel Orientation="Horizontal" Visibility="{Binding SelectedItem.IsEmployeeSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+						<ToolBarButton Command="{Binding AddCommand}" ImageSource="Add"  ToolTip="{Binding AddCommandToolTip}" />
+						<ToolBarButton Command="{Binding RemoveCommand}" ImageSource="Delete"  ToolTip="{Binding RemoveCommandToolTip}" />
+						<ToolBarButton Command="{Binding EditCommand}" ImageSource="Edit"  ToolTip="{Binding EditCommandToolTip}" />
+						<ToolBarButton ImageSource="Redo"  ToolTip="Восстановить" 
+									   Command="{Binding RestoreCommand}" Visibility="{Binding IsWithDeleted, Converter={StaticResource BoolToVisibilityConverter}}"/>
+					</StackPanel>
+                    <ToolBarButton Command="{Binding SelectedItem.EmployeeCardsViewModel.AddCardCommand}" ImageSource="Add"  ToolTip="Добавить пропуск" />
+					<StackPanel Orientation="Horizontal" Visibility="{Binding SelectedItem.IsCardSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+						<StackPanel DataContext="{Binding SelectedItem.EmployeeCardsViewModel}" Orientation="Horizontal">
+							<ToolBarButton Command="{Binding SelectedCard.RemoveCommand}" ImageSource="Delete"  ToolTip="Удалить пропуск" />
+							<ToolBarButton Command="{Binding SelectedCard.EditCommand}" ImageSource="Edit"  ToolTip="Редактировать пропуск" />
+							<ToolBarButton Command="{Binding SelectedCard.PrintCommand}" ImageSource="Print"  ToolTip="Печать удостоверения" />
+						</StackPanel>
+					</StackPanel>
+				</StackPanel>
+			</StackPanel>
+			<Grid Visibility="{Binding IsDepartmentsSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+				<StackPanel DataContext="{Binding DepartmentsViewModel}" Orientation="Horizontal">
+					<ToolBarButton Command="{Binding AddCommand}" ImageSource="Add"  ToolTip="Добавить" />
+					<ToolBarButton Command="{Binding RemoveCommand}" ImageSource="Delete"  ToolTip="Удалить" />
+					<ToolBarButton Command="{Binding EditCommand}" ImageSource="Edit"  ToolTip="Редактировать" />
+					<ToolBarButton Command="{Binding CopyCommand}" ImageSource="Copy"  ToolTip="Копировать" />
+					<ToolBarButton Command="{Binding PasteCommand}" ImageSource="Paste"  ToolTip="Вставить" />
+					<ToolBarButton Command="{Binding RestoreCommand}" ImageSource="Redo"  ToolTip="Восстановить" Visibility="{Binding IsWithDeleted, Converter={StaticResource BoolToVisibilityConverter}}"/>
+				</StackPanel>
+			</Grid>
+			<Grid Visibility="{Binding IsPositionsSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+				<StackPanel DataContext="{Binding PositionsViewModel}" Orientation="Horizontal">
+					<ToolBarButton Command="{Binding AddCommand}" ImageSource="Add"  ToolTip="Добавить" />
+					<ToolBarButton Command="{Binding RemoveCommand}" ImageSource="Delete"  ToolTip="Удалить" />
+					<ToolBarButton Command="{Binding EditCommand}" ImageSource="Edit"  ToolTip="Редактировать" />
+					<ToolBarButton Command="{Binding CopyCommand}" ImageSource="Copy"  ToolTip="Копировать" />
+					<ToolBarButton Command="{Binding PasteCommand}" ImageSource="Paste"  ToolTip="Вставить" />
+					<ToolBarButton Command="{Binding RestoreCommand}" ImageSource="Redo"  ToolTip="Восстановить"  Visibility="{Binding IsWithDeleted, Converter={StaticResource BoolToVisibilityConverter}}"/>
+				</StackPanel>
+			</Grid>
+			<Grid Visibility="{Binding IsAdditionalColumnTypesSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+				<StackPanel DataContext="{Binding AdditionalColumnTypesViewModel}" Orientation="Horizontal">
+					<ToolBarButton Command="{Binding AddCommand}" ImageSource="Add"  ToolTip="Добавить" />
+					<ToolBarButton Command="{Binding RemoveCommand}" ImageSource="Delete"  ToolTip="Удалить" />
+					<ToolBarButton Command="{Binding EditCommand}" ImageSource="Edit"  ToolTip="Редактировать" />
+					<ToolBarButton Command="{Binding CopyCommand}" ImageSource="Copy"  ToolTip="Копировать" />
+					<ToolBarButton Command="{Binding PasteCommand}" ImageSource="Paste"  ToolTip="Вставить" />
+					<ToolBarButton Command="{Binding RestoreCommand}" ImageSource="Redo"  ToolTip="Восстановить"  Visibility="{Binding IsWithDeleted, Converter={StaticResource BoolToVisibilityConverter}}"/>
+				</StackPanel>
+			</Grid>
+			<Grid Visibility="{Binding IsCardsSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+				<StackPanel DataContext="{Binding CardsViewModel}" Orientation="Horizontal">
+					<ToolBarButton Command="{Binding RemoveCommand}" ImageSource="Delete"  ToolTip="Удалить" />
+				</StackPanel>
+			</Grid>
+			<Grid Visibility="{Binding IsAccessTemplatesSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+				<StackPanel DataContext="{Binding AccessTemplatesViewModel}" Orientation="Horizontal">
+					<ToolBarButton Command="{Binding AddCommand}" ImageSource="Add"  ToolTip="Добавить" />
+					<ToolBarButton Command="{Binding RemoveCommand}" ImageSource="Delete"  ToolTip="Удалить" />
+					<ToolBarButton Command="{Binding EditCommand}" ImageSource="Edit"  ToolTip="Редактировать" />
+					<ToolBarButton Command="{Binding CopyCommand}" ImageSource="Copy"  ToolTip="Копировать" />
+					<ToolBarButton Command="{Binding PasteCommand}" ImageSource="Paste"  ToolTip="Вставить" />
+					<ToolBarButton Command="{Binding RestoreCommand}" ImageSource="Redo"  ToolTip="Восстановить"  Visibility="{Binding IsWithDeleted, Converter={StaticResource BoolToVisibilityConverter}}"/>
+				</StackPanel>
+			</Grid>
+			<Grid Visibility="{Binding IsPassCardTemplatesSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+				<StackPanel DataContext="{Binding PassCardTemplatesViewModel}" Orientation="Horizontal">
+					<ToolBarButton Command="{Binding AddCommand}" ImageSource="Add"  ToolTip="Добавить" />
+					<ToolBarButton Command="{Binding RemoveCommand}" ImageSource="Delete"  ToolTip="Удалить" />
+					<ToolBarButton Command="{Binding EditCommand}" ImageSource="Edit"  ToolTip="Редактировать" />
+					<ToolBarButton Command="{Binding CopyCommand}" ImageSource="Copy"  ToolTip="Копировать" />
+					<ToolBarButton Command="{Binding PasteCommand}" ImageSource="Paste"  ToolTip="Вставить" />
+					<ToolBarButton Command="{Binding RestoreCommand}" ImageSource="Redo"  ToolTip="Восстановить"  Visibility="{Binding IsWithDeleted, Converter={StaticResource BoolToVisibilityConverter}}"/>
+				</StackPanel>
+			</Grid>
+			<Grid Visibility="{Binding IsOrganisationsSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel DataContext="{Binding OrganisationsViewModel}" Orientation="Horizontal">
+                        <ToolBarButton Command="{Binding AddCommand}" ImageSource="Add"  ToolTip="Добавить" />
+                        <ToolBarButton Command="{Binding RemoveCommand}" ImageSource="Delete"  ToolTip="Удалить" />
+                        <ToolBarButton Command="{Binding EditCommand}" ImageSource="Edit"  ToolTip="Редактировать" />
+                        <ToolBarButton Command="{Binding RestoreCommand}" ImageSource="Redo"  ToolTip="Восстановить"  Visibility="{Binding IsWithDeleted, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                    </StackPanel>
+                    <ToolBarButton ImageSource="Add" ToolTip="Отображать архивные сведения" Command="{Binding ChangeIsDeletedCommand}" Visibility="{Binding IsWithDeleted, Converter={StaticResource BoolToVisibilityConverter}}" />
+                    <ToolBarButton ImageSource="Delete" ToolTip="Отображать архивные сведения" Command="{Binding ChangeIsDeletedCommand}" Visibility="{Binding IsWithDeleted, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+                </StackPanel>
+            </Grid>
+
+            <ToolBarButton ImageSource="{Binding FilterImageSource}" ToolTip="Фильтр" 
+						   Command="{Binding EditFilterCommand}" Visibility="{Binding IsOrganisationsSelected, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+			<StackPanel Orientation="Horizontal" Visibility="{Binding IsEmployeesSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+				<Grid Visibility="{Binding CanSelectPersonType, Converter={StaticResource BoolToVisibilityConverter}}">
+					<ComboBox Width="100" ItemsSource="{Binding PersonTypes}" SelectedItem="{Binding SelectedPersonType}">
+						<ComboBox.ItemTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+							</DataTemplate>
+						</ComboBox.ItemTemplate>
+					</ComboBox>
+				</Grid>
+			</StackPanel>
+		</StackPanel>
+
+		<TabControl Grid.Row="1">
+			<TabItem Header="{Binding EmployeesViewModel.TabItemHeader}" IsSelected="{Binding IsEmployeesSelected}" Visibility="{Binding CanSelectEmployees, Converter={StaticResource BoolToVisibilityConverter}}">
+				<Views:EmployeesView DataContext="{Binding EmployeesViewModel}" />
+			</TabItem>
+			<TabItem Header="Подразделения" IsSelected="{Binding IsDepartmentsSelected}" Visibility="{Binding CanSelectDepartments, Converter={StaticResource BoolToVisibilityConverter}}">
+				<Views:DepartmentsView DataContext="{Binding DepartmentsViewModel}" />
+			</TabItem>
+			<TabItem Header="Должности" IsSelected="{Binding IsPositionsSelected}" Visibility="{Binding CanSelectPositions, Converter={StaticResource BoolToVisibilityConverter}}">
+				<Views:PositionsView DataContext="{Binding PositionsViewModel}" />
+			</TabItem>
+			<TabItem Header="Дополнительные колонки" IsSelected="{Binding IsAdditionalColumnTypesSelected}" Visibility="{Binding CanSelectAdditionalColumns, Converter={StaticResource BoolToVisibilityConverter}}">
+				<Views:AdditionalColumnTypesView DataContext="{Binding AdditionalColumnTypesViewModel}" />
+			</TabItem>
+			<TabItem Header="Пропуска" IsSelected="{Binding IsCardsSelected}" Visibility="{Binding CanSelectCards, Converter={StaticResource BoolToVisibilityConverter}}">
+				<Views:CardsView DataContext="{Binding CardsViewModel}" />
+			</TabItem>
+			<TabItem Header="Шаблоны доступа" IsSelected="{Binding IsAccessTemplatesSelected}" Visibility="{Binding CanSelectAccessTemplates, Converter={StaticResource BoolToVisibilityConverter}}">
+				<Views:AccessTemplatesView DataContext="{Binding AccessTemplatesViewModel}" />
+			</TabItem>
+			<TabItem Header="Шаблоны пропусков" IsSelected="{Binding IsPassCardTemplatesSelected}" Visibility="{Binding CanSelectPassCardTemplates, Converter={StaticResource BoolToVisibilityConverter}}">
+				<ContentPresenter Content="{Binding PassCardTemplatesViewModel}" />
+			</TabItem>
+			<TabItem Header="Организации" IsSelected="{Binding IsOrganisationsSelected}" Visibility="{Binding CanSelectOrganisations, Converter={StaticResource BoolToVisibilityConverter}}">
+				<Views:OrganisationsView DataContext="{Binding OrganisationsViewModel}" />
+			</TabItem>
+		</TabControl>
+	</Grid>
+</UserControl>

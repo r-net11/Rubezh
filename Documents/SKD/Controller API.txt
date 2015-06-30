@@ -1,0 +1,32 @@
+Требования к API контроллера СКД
+Набор функций
+
+int Connect(char* ipAddress, short port, char* login, char* password, int timeout)
+Установление соединения с контроллером
+Возвращает положительные идентификатор соединения или отрацательное значение - код ошибки
+-1 не верный адрес
+-2 не верный порт
+-3 не верный логин
+-4 не верный пароль
+В дальнейшем этот идентификатор будет использоваться для передаси практически во все функции, связанные с контроллером
+
+int Disconnect(seccionID)
+Завершение соединения с контроллером
+Результат - код ошибки (0 в слечае успеха)
+-1 - не верный идентификатор
+Необходимость этой функции под вопросом
+
+bool DisconnectAll()
+Завершение соединения со всеми контроллерами
+
+int Reboot(seccionID)
+
+int ResetSoft(seccionID)
+
+int ResetHard(seccionID)
+
+int GetMacAddress(seccionID, char* result)
+
+int GetSoftwareVersion(seccionID, char* result)
+
+int GetHardwareVersion(seccionID, char* result)

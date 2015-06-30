@@ -1,0 +1,72 @@
+﻿<UserControl x:Class="PowerCalculator.Views.NewDeviceView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+             MinWidth="500" MinHeight="500">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <DataGrid Grid.Row="0" ItemsSource="{Binding Drivers}" SelectedItem="{Binding SelectedDriver}" Margin="2">
+            <DataGrid.Resources>
+                <InputBindingCollection x:Key="inputCollection" x:Shared="False">
+                    <MouseBinding Command="{Binding DataContext.SaveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" />
+                </InputBindingCollection>
+            </DataGrid.Resources>
+            <DataGrid.ItemContainerStyle>
+                <Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="{x:Type DataGridRow}">
+                    <Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
+                </Style>
+            </DataGrid.ItemContainerStyle>
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Тип устройства" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="16" Height="16" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Source="{Binding ImageSource}" />
+                                <TextBlock Text="{Binding DriverType, Converter={StaticResource EnumToDescriptionConverter}}" Margin="2" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Ток, мА" Width="0.2*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding I}" Margin="2"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Напряжение, В" Width="0.3*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding U}" Margin="2"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <StackPanel Grid.Row="1">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Тип кабеля" Width="150" Foreground="White" Margin="2" />
+                <ComboBox ItemsSource="{Binding CableTypes}" SelectedItem="{Binding SelectedCableType, UpdateSourceTrigger=PropertyChanged}" Width="300" Margin="2" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Сопротивление кабеля, мА" Width="150" Foreground="White" Margin="2" />
+                <TextBox Text="{Binding CableResistivity}" Width="150" Margin="2" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Длина кабеля, м" Width="150" Foreground="White" Margin="2" />
+                <TextBox Text="{Binding CableLength}" Width="150" Margin="2" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Количество" Foreground="White" Width="150" Margin="2" />
+                <TextBox Text="{Binding Count}" Width="150" Margin="2" />
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

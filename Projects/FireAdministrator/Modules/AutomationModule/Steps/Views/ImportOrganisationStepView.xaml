@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="AutomationModule.Views.ImportOrganisationStepView"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:Views="clr-namespace:AutomationModule.Views">
+	<UserControl.Resources>
+		<ResourceDictionary Source="ProcedureResources.xaml" />
+	</UserControl.Resources>
+	<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+		<Grid>
+			<StackPanel>
+				<StackPanel Orientation="Horizontal">
+					<Label Content="С удалёнными" />
+					<Views:ArgumentView DataContext="{Binding IsWithDeleted}" />
+				</StackPanel>
+				<StackPanel Orientation="Horizontal">
+					<Label Content="Путь к файлам" />
+					<Views:ArgumentView DataContext="{Binding PathArgument}" />
+				</StackPanel>
+			</StackPanel>
+		</Grid>
+	</ScrollViewer>
+</UserControl>

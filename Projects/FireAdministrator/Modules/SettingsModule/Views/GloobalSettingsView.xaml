@@ -1,0 +1,163 @@
+﻿<UserControl x:Class="SettingsModule.Views.GloobalSettingsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MinWidth="800" MinHeight="500">
+	<UserControl.Resources>
+		<Style TargetType="TextBlock">
+			<Setter Property="Foreground" Value="White" />
+		</Style>
+	</UserControl.Resources>
+
+	<TabControl>
+		<TabItem Header="ОЗ" Visibility="{Binding UseStrazhBrand, Converter={StaticResource InversedBoolToVisibilityConverter}}">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
+				<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Скрывать дерево планов в ОЗ" />
+				<CheckBox Grid.Row="0" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding Monitor_HidePlansTree}" />
+
+				<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="F1 - показать справку" />
+				<CheckBox Grid.Row="1" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding Monitor_F1_Enabled}" />
+
+				<TextBlock Grid.Row="2" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="F2 - снять все отключения" />
+				<CheckBox Grid.Row="2" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding Monitor_F2_Enabled}" />
+
+				<TextBlock Grid.Row="3" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="F3 - отключить все устройства и зоны в состоянии П1 или П2" />
+				<CheckBox Grid.Row="3" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding Monitor_F3_Enabled}" />
+
+				<TextBlock Grid.Row="4" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="F4 - сбросить все" />
+				<CheckBox Grid.Row="4" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding Monitor_F4_Enabled}" />
+
+				<TextBlock Grid.Row="5" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Разрешить управление МПТ" />
+				<CheckBox Grid.Row="5" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding Monitor_IsControlMPT}" />
+
+				<!--
+					<TextBlock Grid.Row="5" Grid.Column="0" Text="F12 - показать информацию о HASP ключе" HorizontalAlignment="Right" Margin="2" />
+					<CheckBox Grid.Row="5" Grid.Column="1" IsChecked="{Binding Monitor_HaspInfo_Enabled}" HorizontalAlignment="Left" Margin="2" />
+				-->
+			</Grid>
+		</TabItem>
+		<TabItem Header="Сервер">
+			<Grid Margin="2">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
+				<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Разрешить удаленные соединения на сервере" />
+				<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Использовать HASP" />
+				<TextBlock Grid.Row="2" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Название экземпляра сервера БД" />
+				<TextBlock Grid.Row="3" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Создавать новую БД при переполнении" />
+
+				<CheckBox Grid.Row="0" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding Server_EnableRemoteConnections}" />
+				<CheckBox Grid.Row="1" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding UseHasp}" />
+				<TextBox Grid.Row="2" Grid.Column="1" Margin="2" Text="{Binding DBServerName, UpdateSourceTrigger=PropertyChanged}" />
+				<CheckBox Grid.Row="3" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding CreateNewDBOnOversize}" />
+			</Grid>
+		</TabItem>
+		<TabItem Header="Автозапуск">
+			<StackPanel Margin="2">
+				<TextBlock Margin="2" FontSize="12" Foreground="{DynamicResource ForegroundColorLight}" Text="Следующие приложения будут автоматически запускаться при старте системы:" TextWrapping="Wrap" />
+				<CheckBox Content="{Binding ServerAutoLabel}" FontSize="12" Foreground="{DynamicResource ForegroundColorLight}" IsChecked="{Binding IsServerAuto}" Margin="5 5 5 1" />
+				<CheckBox Content="OPC Сервер ГК Глобал" FontSize="12" Foreground="{DynamicResource ForegroundColorLight}" IsChecked="{Binding IsGKOpcServerAuto}" Margin="5 1" Visibility="{Binding UseStrazhBrand, Converter={StaticResource InversedBoolToVisibilityConverter}}"/>
+			</StackPanel>
+		</TabItem>
+		<TabItem Header="Логи">
+			<Border Margin="2" Background="White" CornerRadius="5">
+				<StackPanel Margin="2">
+					<TextBox Margin="2" Background="LightGray" Text="{Binding LogsFolderPath, Mode=OneWay}" />
+					<StackPanel Orientation="Horizontal">
+						<Button Width="150" Margin="2" Command="{Binding SaveLogsCommand}" Content="Сохранить логи" FontSize="13" />
+						<Button Width="150" Margin="2" Command="{Binding RemoveLogsCommand}" Content="Удалить логи" FontSize="13" />
+					</StackPanel>
+				</StackPanel>
+			</Border>
+		</TabItem>
+		<TabItem Header="Соединение">
+			<Grid Margin="2">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
+				<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Адрес сервера" />
+				<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Порт сервера" />
+				<TextBlock Grid.Row="2" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Порт сервиса отчетов" />
+				<TextBlock Grid.Row="3" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Логин" />
+				<TextBlock Grid.Row="4" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Пароль" />
+				<TextBlock Grid.Row="5" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Автоконнект" />
+				<TextBlock Grid.Row="6" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Запретить администратору автоконнект" />
+				<TextBlock Grid.Row="7" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Перезапускать ОЗ в случае аварийного завершения" />
+
+				<TextBox Grid.Row="0" Grid.Column="1" Margin="2" Text="{Binding RemoteAddress, UpdateSourceTrigger=PropertyChanged}" />
+				<TextBox Grid.Row="1" Grid.Column="1" Margin="2" Text="{Binding RemotePort, UpdateSourceTrigger=PropertyChanged}" />
+				<TextBox Grid.Row="2" Grid.Column="1" Margin="2" Text="{Binding ReportRemotePort, UpdateSourceTrigger=PropertyChanged}" />
+				<TextBox Grid.Row="3" Grid.Column="1" Margin="2" Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}" />
+				<TextBox Grid.Row="4" Grid.Column="1" Margin="2" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" />
+				<CheckBox Grid.Row="5" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding AutoConnect}" />
+				<CheckBox Grid.Row="6" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding DoNotAutoconnectAdm}" />
+				<CheckBox Grid.Row="7" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding RunRevisor}" />
+			</Grid>
+		</TabItem>
+		<TabItem DataContext="{Binding ModulesViewModel}" Header="Модули">
+			<DataGrid Margin="2" IsReadOnly="False" ItemsSource="{Binding Modules}">
+				<DataGrid.Columns>
+					<DataGridTemplateColumn Width="1*" Header="Наименование">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<StackPanel IsEnabled="{Binding CanChange}" Orientation="Horizontal">
+									<CheckBox Margin="5 2" IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+									<TextBlock Margin="2 0" Text="{Binding Description}" />
+								</StackPanel>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+				</DataGrid.Columns>
+			</DataGrid>
+		</TabItem>
+		<TabItem Header="Сброс" Visibility="{Binding IsDebug, Converter={StaticResource BoolToVisibilityConverter}}">
+			<Border Margin="2" Background="White" CornerRadius="5">
+				<StackPanel Margin="2">
+					<Button Width="300" Margin="2" Command="{Binding ResetDatabaseCommand}" Content="Сбросить базу данных" />
+					<Button Width="300" Margin="2" Command="{Binding ResetConfigurationCommand}" Content="Сбросить конфигурацию" />
+					<Button Width="300" Margin="2" Command="{Binding ResetGKLibaryCommand}" Content="Сбросить библиотеку устройств" />
+					<Button Width="300" Margin="2" Command="{Binding ResetSKDLibaryCommand}" Content="Сбросить библиотеку СКД" />
+					<Button Width="300" Margin="2" Command="{Binding ResetSettingsCommand}" Content="Сбросить настройки" />
+				</StackPanel>
+			</Border>
+		</TabItem>
+		<TabItem Header="Отладка" Visibility="{Binding IsDebug, Converter={StaticResource BoolToVisibilityConverter}}">
+			<Grid Margin="2">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
+			</Grid>
+		</TabItem>
+	</TabControl>
+</UserControl>

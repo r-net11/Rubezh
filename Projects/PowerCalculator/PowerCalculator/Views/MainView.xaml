@@ -1,0 +1,236 @@
+<Window x:Class="PowerCalculator.Views.MainView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+        Title="Рубеж глобал. Калькулятор МВП" Height="800" Width="1000">
+
+    <Window.Resources>
+        <Style x:Key="DataGridLinesCellStyle" TargetType="{x:Type DataGridCell}">
+            <Style.Setters>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type DataGridCell}">
+                            <Border Background="{TemplateBinding Background}" BorderThickness="0">
+                                <ContentPresenter VerticalAlignment="Center" />
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style.Setters>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource PressedBackgroundBrush}" />
+                    <Setter Property="Foreground" Value="White" />
+                </Trigger>
+                <DataTrigger Binding ="{Binding HasError}" Value="True">
+                    <Setter Property="Background" Value="Red" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="DataGridICellStyle" TargetType="{x:Type DataGridCell}">
+            <Style.Setters>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type DataGridCell}">
+                            <Border Background="{TemplateBinding Background}" BorderThickness="0">
+                                <ContentPresenter VerticalAlignment="Center" />
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style.Setters>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource PressedBackgroundBrush}" />
+                    <Setter Property="Foreground" Value="White" />
+                </Trigger>
+                <DataTrigger Binding ="{Binding HasIError}" Value="True">
+                    <Setter Property="Background" Value="Red" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="DataGridUCellStyle" TargetType="{x:Type DataGridCell}">
+            <Style.Setters>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type DataGridCell}">
+                            <Border Background="{TemplateBinding Background}" BorderThickness="0">
+                                <ContentPresenter VerticalAlignment="Center" />
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style.Setters>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource PressedBackgroundBrush}" />
+                    <Setter Property="Foreground" Value="White" />
+                </Trigger>
+                <DataTrigger Binding ="{Binding HasUError}" Value="True">
+                    <Setter Property="Background" Value="Red" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    
+    <Window.InputBindings>
+        <KeyBinding Modifiers="Control" Key="N" Command="{Binding SelectedLine.AddCommand}" />
+        <KeyBinding Modifiers="Control" Key="Del" Command="{Binding SelectedLine.RemoveCommand}" CommandParameter="{Binding ElementName=DevicesDataGrid, Path=SelectedItems}" />
+        <KeyBinding Modifiers="Control" Key="C" Command="{Binding SelectedLine.CopyCommand}" CommandParameter="{Binding ElementName=DevicesDataGrid, Path=SelectedItems}" />
+        <KeyBinding Modifiers="Control" Key="X" Command="{Binding SelectedLine.CutCommand}" CommandParameter="{Binding ElementName=DevicesDataGrid, Path=SelectedItems}" />
+        <KeyBinding Modifiers="Control" Key="V" Command="{Binding SelectedLine.PasteCommand}" CommandParameter="{Binding ElementName=DevicesDataGrid, Path=SelectedItems}" />
+    </Window.InputBindings>
+
+    <Grid Background="{DynamicResource BaseWindowBackgroundBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0" LastChildFill="False">
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Left" Margin="2" >
+                <ToolBarButton Command="{Binding CreateNewCommand}" ToolTip="Создать новый" ImageSource="New" Margin="2" />
+                <ToolBarButton Command="{Binding SaveToFileCommand}" ToolTip="Сохранить файл" ImageSource="Save" Margin="2" />
+                <ToolBarButton Command="{Binding LoadFromFileCommand}" ToolTip="Загрузить файл" ImageSource="Load" Margin="2" />
+                <ToolBarButton Command="{Binding ShowSpecificationCommand}" ToolTip="Редактировать спецификацию" ImageSource="Settings2" Margin="2" />
+                <ToolBarButton Command="{Binding CollectToSpecificationCommand}" ToolTip="Собрать в спецификацию" ImageSource="arrowInto" Margin="2" />
+                <ToolBarButton Command="{Binding EditCableTypesRepositoryCommand}" ToolTip="Редактировать список кабелей" ImageSource="Direction" Margin="2" />
+                <ToolBarButton Command="{Binding PatchCommand}" ToolTip="Исправить" ImageSource="Play" Margin="2" />
+            </StackPanel>
+            <ToolBarButton Command="{Binding AboutCommand}" ToolTip="О программе..." ImageSource="Information" DockPanel.Dock="Right" Margin="5 2"/>
+        </DockPanel>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" MinWidth="200" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <DataGrid Grid.Row="0" Grid.Column="0" ItemsSource="{Binding Lines}" SelectedItem="{Binding SelectedLine}" IsReadOnly="False" CellStyle="{StaticResource DataGridLinesCellStyle}" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling" Margin="2">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="Название АЛС" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Width="16" Height="16" Margin="5 0" HorizontalAlignment="Left" Source="/Controls;component/GKIcons/RSR2_KAU_Shleif.png" />
+                                    <TextBlock Text="{Binding Name}" Margin="2" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Кольцевая" Width="Auto">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding IsCircular, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" Margin="2">
+                <ToolBarButton Command="{Binding AddLineCommand}" ToolTip="Добавить АЛС" ImageSource="Add" Margin="2" />
+                <ToolBarButton Command="{Binding RemoveLineCommand}" ToolTip="Удалить АЛС" ImageSource="Delete" Margin="2" />
+                <ToolBarButton Command="{Binding PatchLineCommand}" ToolTip="Исправить АЛС" ImageSource="Play" Margin="2" />
+            </StackPanel>
+
+            <Grid Grid.Row="0" Grid.Column="1" DataContext="{Binding SelectedLine}">
+                <DataGrid Name="DevicesDataGrid" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" SelectionMode="Extended" IsReadOnly="False" Margin="2">
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Header="Устройство" Width="*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Width="16" Height="16" Margin="5 0" HorizontalAlignment="Left" Source="{Binding Device.Driver.ImageSource}" />
+                                        <TextBlock Text="{Binding Device.DriverType, Converter={StaticResource EnumToDescriptionConverter}}" Margin="2" />        
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
+                                    <ComboBox ItemsSource="{Binding Drivers}" SelectedItem="{Binding SelectedDriver, UpdateSourceTrigger=PropertyChanged}" Margin="2">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Image Width="16" Height="16" Margin="5 0" HorizontalAlignment="Left" Source="{Binding Driver.ImageSource}" />
+                                                    <TextBlock Text="{Binding Driver.DriverType, Converter={StaticResource EnumToDescriptionConverter}}" Foreground="Black" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Адрес" Width="Auto">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding PresentationAddress}" Margin="2" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Тип кабеля" Width="Auto">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding CableType}" Margin="2" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
+                                    <ComboBox ItemsSource="{Binding CableTypes}" SelectedItem="{Binding CableType, UpdateSourceTrigger=PropertyChanged}" Foreground="Black" Margin="2" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Сопротивление, Ом/м" Width="Auto">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding CableResistivity}" Margin="2" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
+                                    <TextBox Text="{Binding CableResistivity}" Foreground="Black" Margin="2" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Длина, м" Width="Auto">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding CableLength}" Margin="2" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
+                                    <TextBox Text="{Binding CableLength}" Foreground="Black" Margin="2" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Ток, мА" Width="Auto" CellStyle="{StaticResource DataGridICellStyle}">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Current}" Margin="2" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Напряжение, В" Width="Auto" CellStyle="{StaticResource DataGridUCellStyle}">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Voltage}" Margin="2" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+            <StackPanel Grid.Row="1" Grid.Column="1" DataContext="{Binding SelectedLine}" Orientation="Horizontal" Margin="2">
+                <ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить устройство" ImageSource="Add" Margin="2" />
+                <ToolBarButton Command="{Binding RemoveCommand}" CommandParameter="{Binding ElementName=DevicesDataGrid, Path=SelectedItems}" ToolTip="Удалить устройство" ImageSource="Delete" Margin="2" />
+                <ToolBarButton Command="{Binding CopyCommand}" CommandParameter="{Binding ElementName=DevicesDataGrid, Path=SelectedItems}" ToolTip="Копировать (Ctrl+C)" ImageSource="Copy" />
+                <ToolBarButton Command="{Binding CutCommand}" CommandParameter="{Binding ElementName=DevicesDataGrid, Path=SelectedItems}" ToolTip="Вырезать (Ctrl+Х)" ImageSource="Cut" />
+                <ToolBarButton Command="{Binding PasteCommand}" ToolTip="Вставить (Ctrl+V)" ImageSource="Paste" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

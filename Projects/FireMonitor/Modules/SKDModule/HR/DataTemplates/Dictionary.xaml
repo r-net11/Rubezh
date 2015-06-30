@@ -1,0 +1,26 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:Views="clr-namespace:SKDModule.Views"
+					xmlns:ViewModels="clr-namespace:SKDModule.ViewModels">
+
+	<DataTemplate DataType="{x:Type ViewModels:HRViewModel}">
+		<Views:HRView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:HRFilterViewModel}">
+		<Views:HRFilterView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:DepartmentsFilterViewModel}">
+		<Views:DepartmentsFilterView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:EmployeesFilterViewModel}">
+		<Views:EmployeesFilterView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:PositionsFilterViewModel}">
+		<Views:PositionsFilterView />
+	</DataTemplate>
+
+</ResourceDictionary>

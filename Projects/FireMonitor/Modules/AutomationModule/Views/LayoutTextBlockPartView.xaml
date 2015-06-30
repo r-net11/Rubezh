@@ -1,0 +1,15 @@
+﻿<UserControl x:Class="AutomationModule.Views.LayoutTextBlockPartView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<TextBlock 
+		HorizontalAlignment="{Binding HorizontalAlignment, Mode=OneTime}" 
+		VerticalAlignment="{Binding VerticalAlignment, Mode=OneTime}" 
+		Background="{Binding BackgroundBrush, Mode=OneTime}" 
+		Foreground="{Binding ForegroundBrush, Mode=OneTime}" 
+		FontFamily="{Binding FontFamily, Mode=OneTime}" 
+		FontSize="{Binding FontSize, Mode=OneTime}" 
+		FontStyle="{Binding FontStyle, Mode=OneTime}" 
+		FontWeight="{Binding FontWeight, Mode=OneTime}" 
+		TextAlignment="{Binding TextAlignment, Mode=OneTime}" 
+		TextWrapping="{Binding TextWrapping, Mode=OneTime}" 
+		TextTrimming="{Binding TextTrimming, Mode=OneTime}" 
+		Text="{Binding Text}" />
+</UserControl>

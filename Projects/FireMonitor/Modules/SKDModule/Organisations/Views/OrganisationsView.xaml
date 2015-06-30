@@ -1,0 +1,111 @@
+<UserControl
+	x:Class="SKDModule.Views.OrganisationsView"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+	xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+	mc:Ignorable="d" 
+	d:DesignHeight="250"
+	d:DesignWidth="400">
+	<UserControl.Resources>
+		<CollectionViewSource x:Key="cvsOrganisations" Source="{Binding Organisations}">
+			<CollectionViewSource.SortDescriptions>
+				<scm:SortDescription PropertyName="Organisation.Name"/>
+			</CollectionViewSource.SortDescriptions>
+		</CollectionViewSource>
+	</UserControl.Resources>
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition MinWidth="150" MaxWidth="500" Width="Auto" />
+			<ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+		</Grid.ColumnDefinitions>
+		<ListBox
+			ItemsSource="{Binding Source={StaticResource cvsOrganisations}}"
+			SelectedItem="{Binding SelectedOrganisation}">
+			<ListBox.ItemTemplate>
+				<DataTemplate>
+					<StackPanel Orientation="Horizontal">
+						<Image Width="16" Source="/Controls;component/Images/Organisation.png" VerticalAlignment="Center" Margin="1 0 0 0" />
+						<TextBlock Text="{Binding Organisation.Name}" Style="{StaticResource IsDeletedStyle}"  />
+					</StackPanel>
+				</DataTemplate>
+			</ListBox.ItemTemplate>
+		</ListBox>
+		<GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeWE" />
+		<TabControl Grid.Column="2" >
+			<TabItem Header="Пользователи" DataContext="{Binding OrganisationUsersViewModel}">
+				<TabItem.Resources>
+					<CollectionViewSource x:Key="cvsItems" Source="{Binding Items}">
+						<CollectionViewSource.SortDescriptions>
+							<scm:SortDescription PropertyName="User.Name" />
+						</CollectionViewSource.SortDescriptions>
+					</CollectionViewSource>
+				</TabItem.Resources>
+				<Grid>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="*" />
+						<RowDefinition Height="Auto" />
+					</Grid.RowDefinitions>
+					<ListBox 
+						ItemsSource="{Binding Source={StaticResource cvsItems}}"
+						IsEnabled="{Binding CanSelect}">
+						<ListBox.ItemContainerStyle>
+							<Style TargetType="{x:Type ListBoxItem}">
+								<Setter Property="Focusable" Value="False"/>
+							</Style>
+						</ListBox.ItemContainerStyle>
+						<ListBox.ItemTemplate>
+							<DataTemplate>
+								<StackPanel Orientation="Horizontal">
+									<Image Source="/Controls;component/Images/SKDUser.png" VerticalAlignment="Center" Margin="1 0" />
+									<CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Content="{Binding User.Name}" Margin="2" />
+								</StackPanel>
+							</DataTemplate>
+						</ListBox.ItemTemplate>
+					</ListBox>
+					<StackPanel Grid.Row="1" Orientation="Horizontal">
+						<ToolBarButton Command="{Binding SelectAllCommand}" ToolTip="Выделить всё" ImageSource="SelectAll"  />
+						<ToolBarButton Command="{Binding SelectNoneCommand}" ToolTip="Снять все выделения" ImageSource="SelectNone"  />
+					</StackPanel>
+				</Grid>
+			</TabItem>
+			<TabItem Header="Точки доступа" Visibility="{Binding HasOrganisationDoors, Converter={StaticResource BoolToVisibilityConverter}}">
+				<Grid DataContext="{Binding OrganisationDoorsViewModel}">
+					<Grid.Resources>
+						<CollectionViewSource x:Key="cvsOrganisationItems" Source="{Binding Items}">
+							<CollectionViewSource.SortDescriptions>
+								<scm:SortDescription PropertyName="No" />
+							</CollectionViewSource.SortDescriptions>
+						</CollectionViewSource>
+					</Grid.Resources>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="*" />
+						<RowDefinition Height="Auto" />
+					</Grid.RowDefinitions>
+					<ListBox ItemsSource="{Binding Source={StaticResource cvsOrganisationItems}}" IsEnabled="{Binding CanSelect}">
+						<ListBox.ItemContainerStyle>
+							<Style TargetType="{x:Type ListBoxItem}">
+								<Setter Property="Focusable" Value="False"/>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+						<ListBox.ItemTemplate>
+							<DataTemplate>
+								<StackPanel Orientation="Horizontal">
+									<Image Source="/Controls;component/Images/Door.png" VerticalAlignment="Center" Margin="1 0" Width="16" />
+									<CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+                                    <TextBlock Text="{Binding PresentationName}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2" />
+                                </StackPanel>
+							</DataTemplate>
+						</ListBox.ItemTemplate>
+					</ListBox>
+					<StackPanel Grid.Row="1" Orientation="Horizontal">
+						<ToolBarButton Command="{Binding SelectAllCommand}" ToolTip="Выделить всё" ImageSource="SelectAll"  />
+						<ToolBarButton Command="{Binding SelectNoneCommand}" ToolTip="Снять все выделения" ImageSource="SelectNone"  />
+					</StackPanel>
+				</Grid>
+			</TabItem>
+		</TabControl>
+	</Grid>
+</UserControl>

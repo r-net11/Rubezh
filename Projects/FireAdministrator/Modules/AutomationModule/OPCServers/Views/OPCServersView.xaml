@@ -1,0 +1,110 @@
+<UserControl x:Class="AutomationModule.Views.OPCServersView"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="0" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <DataGrid Grid.Row="0" ItemsSource="{Binding OPCServers}" SelectedItem="{Binding SelectedOPCServer}" CanUserSortColumns="True" IsReadOnly="False">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="OPC Сервер" SortMemberPath="Name" Width="150" MinWidth="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2 0"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Url" SortMemberPath="Address" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Address}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2 0"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+              </DataGrid.Columns>
+        </DataGrid>
+        <Grid Grid.Row="1" Margin="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBox Grid.Column="0" Text="{Binding Text}" TextWrapping="Wrap" Margin="2" />
+            <StackPanel Grid.Column="2" HorizontalAlignment="Left">
+                <Button Content="Сконфигурировать" Command="{Binding ConfigureCommand}" HorizontalAlignment="Left" Width="200" Margin="2" />
+
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Строка подключения" Foreground="White" Width="150" Margin="2" />
+                    <TextBox Text="{Binding ConnectionString}" Width="300" Margin="2" />
+                    <Button Content="Получить конечные точки" Command="{Binding GetEndpontsCommand}" Width="200" Margin="2" />
+                </StackPanel>
+                
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="URL сервера" Foreground="White" Width="150" Margin="2" />
+                    <TextBox Text="{Binding ServerUrl}" Width="200" Margin="2" />
+                    <Button Content="Соединить" Command="{Binding CreateOpcTcpSessionWithNoSecurityCommand}" Width="200" Margin="2" />
+                    <Button Content="Разъединить" Command="{Binding DisconnectSessionCommand}" Width="200" Margin="2" />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="Просмотреть заглавные теги" Command="{Binding BrowseMainCommand}" Width="200" Margin="2" />
+                    <Button Content="Просмотреть все теги" Command="{Binding BrowseAllCommand}" Width="200" Margin="2" />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Название подписки" Foreground="White" Width="150" Margin="2" />
+                    <TextBox Text="{Binding SubscriptionName}" Width="200" Margin="2" />
+                    <Button Content="Добавить подписку" Command="{Binding AddSubscriptionCommand}" Width="150" Margin="2" />
+                    <Button Content="Удалить подписку" Command="{Binding DeleteSubscriptionCommand}" Width="150" Margin="2" />
+                    <Button Content="Получить список подписок" Command="{Binding GetSubscriptionListCommand}" Width="150" Margin="2" />
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+        <DataGrid Grid.Row="2" ItemsSource="{Binding OPCTags}" CanUserSortColumns="True" IsReadOnly="False">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Мониторинг Тегов" SortMemberPath="Name" Width="150" MinWidth="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2 0"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Адрес тега" SortMemberPath="NodeNum" Width="150" MinWidth="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding NodeNum}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2 0"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Подключение" SortMemberPath="OPCTag.SessionUrl" Width="150" MinWidth="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding OPCTag.SessionUrl}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2 0"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Значение" SortMemberPath="Value" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Value}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2 0"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

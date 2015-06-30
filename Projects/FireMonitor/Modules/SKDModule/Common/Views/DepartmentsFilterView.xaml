@@ -1,0 +1,46 @@
+<UserControl x:Class="SKDModule.Views.DepartmentsFilterView"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+		<tree:TreeList Grid.Row="0" Name="_treeList" Focusable="True" tree:SortBehavior.CanUserSortColumns="True" Source="{Binding Organisations, Mode=OneWay}" >
+			<tree:TreeList.View>
+				<GridView>
+                    <GridViewColumn Header="Название" ListViewLayoutManager.StarWidth="1">
+						<GridViewColumn.CellTemplate>
+							<DataTemplate>
+								<StackPanel Orientation="Horizontal">
+									<CheckBox Margin="2" IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+									<Image Width="16" Source="/Controls;component/Images/Organisation.png" VerticalAlignment="Center" Margin="1 0" 
+													   Visibility="{Binding IsOrganisation, Converter={StaticResource BoolToVisibilityConverter}}" />
+									<Image Width="16" Source="/Controls;component/Images/Department.png" VerticalAlignment="Center" Margin="1 0" 
+													   Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+									<TextBlock Text="{Binding Name}" Style="{StaticResource IsDeletedStyle}" />
+								</StackPanel>
+							</DataTemplate>
+						</GridViewColumn.CellTemplate>
+					</GridViewColumn>
+                    <GridViewColumn Header="Примечание" ListViewLayoutManager.StarWidth="1">
+						<GridViewColumn.CellTemplate>
+							<DataTemplate>
+								<StackPanel Orientation="Horizontal">
+									<TextBlock Text="{Binding Description}" Style="{StaticResource IsDeletedStyle}" />
+								</StackPanel>
+							</DataTemplate>
+						</GridViewColumn.CellTemplate>
+					</GridViewColumn>
+				</GridView>
+			</tree:TreeList.View>
+		</tree:TreeList>
+		<StackPanel Grid.Row="1" Orientation="Horizontal" >
+			<ToolBarButton Command="{Binding SelectAllCommand}" ToolTip="Выделить всё" ImageSource="SelectAll"  />
+			<ToolBarButton Command="{Binding SelectNoneCommand}" ToolTip="Снять все выделения" ImageSource="SelectNone"  />
+		</StackPanel>
+	</Grid>
+</UserControl>

@@ -1,0 +1,51 @@
+﻿<UserControl x:Class="SKDModule.Views.AccessTemplatesView"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:Views="clr-namespace:SKDModule.Views"
+			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
+			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+			 xmlns:viewModel="clr-namespace:SKDModule.ViewModels">
+	<UserControl.Resources>
+		<viewModel:AccessTemplateViewModelNameComparer x:Key="AccessTemplateViewModelNameComparer" />
+		<viewModel:AccessTemplateViewModelDescriptionComparer x:Key="AccessTemplateViewModelDescriptionComparer" />
+	</UserControl.Resources>
+
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*" MinHeight="200" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" MinHeight="200" />
+		</Grid.RowDefinitions>
+		<tree:TreeList Name="_treeList" Grid.Row="0" Source="{Binding Organisations}" SelectedTreeNode="{Binding SelectedItem}" ItemActivatedCommand="{Binding EditCommand}" Focusable="True" tree:SortBehavior.CanUserSortColumns="True">
+			<tree:TreeList.View>
+				<GridView>
+					<GridViewColumn Header="Название" ListViewLayoutManager.StarWidth="1"  tree:SortBehavior.SortComparer="{StaticResource AccessTemplateViewModelNameComparer}">
+						<GridViewColumn.CellTemplate>
+							<DataTemplate>
+								<StackPanel Orientation="Horizontal">
+									<Image Width="16" Source="/Controls;component/Images/Organisation.png" Visibility="{Binding IsOrganisation, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="1 0" />
+									<Image Width="16" Source="/Controls;component/Images/AccessTemplate.png" Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="1 0" />
+									<TextBlock Text="{Binding Name}" Style="{StaticResource IsDeletedStyle}" />
+								</StackPanel>
+							</DataTemplate>
+						</GridViewColumn.CellTemplate>
+					</GridViewColumn>
+					<GridViewColumn Header="Примечание" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource AccessTemplateViewModelDescriptionComparer}">
+						<GridViewColumn.CellTemplate>
+							<DataTemplate>
+								<StackPanel Orientation="Horizontal">
+									<TextBlock Text="{Binding Description}" Style="{StaticResource IsDeletedStyle}" />
+								</StackPanel>
+							</DataTemplate>
+						</GridViewColumn.CellTemplate>
+					</GridViewColumn>
+				</GridView>
+			</tree:TreeList.View>
+		</tree:TreeList>
+
+		<GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeNS" />
+		<Grid Grid.Row="2" DataContext="{Binding SelectedItem}">
+			<Views:CardDoorsView Grid.Row="1" DataContext="{Binding CardDoorsViewModel}" />
+		</Grid>
+	</Grid>
+</UserControl>

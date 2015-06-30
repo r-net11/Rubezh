@@ -1,0 +1,722 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using FiresecAPI;
+using FiresecAPI.SKD;
+using FiresecClient;
+using LinqKit;
+using SKDDriver.Translators;
+using FiresecAPI.GK;
+
+namespace SKDDriver
+{
+	public class EmployeeTranslator : WithShortTranslator<DataAccess.Employee, Employee, EmployeeFilter, ShortEmployee>
+	{
+		//EFDataAccess.SKDEntities EFContext;
+ 		
+		public EmployeeTranslator(SKDDatabaseService databaseService)
+			: base(databaseService)
+		{
+			Synchroniser = new EmployeeSynchroniser(Table, databaseService);
+//            EFContext = new EFDataAccess.SKDEntities(@"metadata=res://*/EFDataAccess.SKDModel.csdl|res://*/EFDataAccess.SKDModel.ssdl|res://*/EFDataAccess.SKDModel.msl;
+//				provider=System.Data.SqlClient;provider connection string='data source=02-KBP-NIO-0524\SQLEXPRESS;
+//				initial catalog=SKD;integrated security=True;
+//				multipleactiveresultsets=True'");
+			
+		}
+
+		public override OperationResult<IEnumerable<ShortEmployee>> GetList(EmployeeFilter filter)
+		{
+			try
+			{
+				var result = new List<ShortEmployee>();
+				Context.CommandTimeout = 600;
+				var tableItems =
+					from employee in Context.Employees.Where(IsInFilter(filter))
+					join department in Context.Departments on employee.DepartmentUID equals department.UID into departments
+					from department in departments.DefaultIfEmpty()
+					join position in Context.Positions on employee.PositionUID equals position.UID into positions
+					from position in positions.DefaultIfEmpty()
+					join schedule in Context.Schedules on employee.ScheduleUID equals schedule.UID into schedules
+					from schedule in schedules.DefaultIfEmpty()
+					join organisation in Context.Organisations on employee.OrganisationUID equals organisation.UID into organisations
+					from organisation in organisations.DefaultIfEmpty()
+					join additionalColumn in Context.AdditionalColumns.Where(x => x.AdditionalColumnType.DataType == (int?)AdditionalColumnDataType.Text).DefaultIfEmpty()
+						on employee.UID equals additionalColumn.EmployeeUID into additionalColumns
+					select new 
+						{ 
+							Employee = employee,
+							Department = department,
+							Position = position,
+							Organisation = organisation,
+							Schedule = schedule, 
+							Cards = new List<CardWithDoors>(), 
+							AdditionalColumns = additionalColumns, 
+						};
+
+				foreach (var tableItem in tableItems)
+					result.Add(TranslateToShort(tableItem.Employee, tableItem.Department, tableItem.Position, tableItem.Organisation, tableItem.Schedule, tableItem.AdditionalColumns));
+				return new OperationResult<IEnumerable<ShortEmployee>>(result);
+			}
+			catch (Exception e)
+			{
+				return OperationResult<IEnumerable<ShortEmployee>>.FromError(e.Message);
+			}
+		}
+
+		public class CardWithDoors { public DataAccess.Card Card; public IEnumerable<DataAccess.CardDoor> CardDoors; }
+
+		protected ShortEmployee TranslateToShort(
+			DataAccess.Employee employee, 
+			DataAccess.Department department, 
+			DataAccess.Position position,
+			DataAccess.Organisation organisation,
+			DataAccess.Schedule schedule,
+			IEnumerable<DataAccess.AdditionalColumn> additionalColumns)
+		{
+			var result = base.TranslateToShort(employee);
+			result.FirstName = employee.FirstName;
+			result.SecondName = employee.SecondName;
+			result.LastName = employee.LastName;
+			result.Description = employee.Description;
+			var cards = new List<SKDCard>();
+			result.Type = (PersonType)employee.Type;
+			result.CredentialsStartDate = employee.CredentialsStartDate.ToString("d MMM yyyy");
+			result.TabelNo = employee.TabelNo;
+			var textColumns = new List<TextColumn>();
+			foreach (var additionalColumn in additionalColumns)
+			{
+				textColumns.Add(new TextColumn { ColumnTypeUID = additionalColumn.AdditionalColumnTypeUID != null ? additionalColumn.AdditionalColumnTypeUID.Value : Guid.Empty, Text = additionalColumn.TextData });
+			}
+			result.Phone = employee.Phone;
+			result.LastEmployeeDayUpdate = employee.LastEmployeeDayUpdate;
+			if (position != null)
+			{
+				result.PositionName = position.Name;
+				result.IsPositionDeleted = position.IsDeleted;
+			}
+			if (department != null)
+			{
+				result.DepartmentName = department.Name;
+				result.IsDepartmentDeleted = department.IsDeleted;
+			}
+			if (organisation != null)
+				result.OrganisationName = organisation.Name;
+			result.ScheduleUID = schedule != null ? schedule.UID : Guid.Empty;
+			return result;
+		}
+
+		protected override OperationResult CanSave(Employee employee)
+		{
+			var result = base.CanSave(employee);
+			if (result.HasError)
+				return result;
+			bool hasSameName = Table.Any(x => x.FirstName == employee.FirstName &&
+				x.SecondName == employee.SecondName &&
+				x.LastName == employee.LastName &&
+				x.OrganisationUID == employee.OrganisationUID &&
+				x.UID != employee.UID &&
+				x.IsDeleted == false);
+			if (hasSameName)
+				return new OperationResult("Сотрудник с таким же ФИО уже содержится в базе данных");
+			else
+				return new OperationResult();
+		}
+
+		protected override Employee Translate(DataAccess.Employee tableItem)
+		{
+			var result = base.Translate(tableItem);
+			result.FirstName = tableItem.FirstName;
+			result.SecondName = tableItem.SecondName;
+			result.LastName = tableItem.LastName;
+			result.Description = tableItem.Description;
+			result.Department = DatabaseService.DepartmentTranslator.GetSingleShort(tableItem.DepartmentUID);
+			result.Schedule = DatabaseService.ScheduleTranslator.GetSingleShort(tableItem.ScheduleUID);
+			result.ScheduleStartDate = tableItem.ScheduleStartDate;
+			result.AdditionalColumns = DatabaseService.AdditionalColumnTranslator.GetAllByEmployee<DataAccess.AdditionalColumn>(tableItem.UID).Where(x => x.AdditionalColumnType != null).ToList();
+			result.Type = (PersonType)tableItem.Type;
+			result.Cards = DatabaseService.CardTranslator.GetAllByEmployee<DataAccess.Card>(tableItem.UID);
+			result.Position = DatabaseService.PositionTranslator.GetSingleShort(tableItem.PositionUID);
+			result.Photo = GetResult(DatabaseService.PhotoTranslator.GetSingle(tableItem.PhotoUID));
+			result.TabelNo = tableItem.TabelNo;
+			result.CredentialsStartDate = tableItem.CredentialsStartDate;
+			result.EscortUID = tableItem.EscortUID;
+			result.DocumentNumber = tableItem.DocumentNumber;
+			result.BirthDate = tableItem.BirthDate;
+			result.BirthPlace = tableItem.BirthPlace;
+			result.DocumentGivenBy = tableItem.DocumentGivenBy;
+			result.DocumentGivenDate = tableItem.DocumentGivenDate;
+			result.DocumentValidTo = tableItem.DocumentValidTo;
+			result.Gender = (Gender)tableItem.Gender;
+			result.DocumentDepartmentCode = tableItem.DocumentDepartmentCode;
+			result.Citizenship = tableItem.Citizenship;
+			result.DocumentType = (EmployeeDocumentType)tableItem.DocumentType;
+			result.Phone = tableItem.Phone;
+			result.LastEmployeeDayUpdate = tableItem.LastEmployeeDayUpdate;
+			return result;
+		}
+
+		protected override void TranslateBack(DataAccess.Employee tableItem, Employee apiItem)
+		{
+			base.TranslateBack(tableItem, apiItem);
+			tableItem.FirstName = apiItem.FirstName;
+			tableItem.SecondName = apiItem.SecondName;
+			tableItem.LastName = apiItem.LastName;
+			tableItem.Description = apiItem.Description;
+			tableItem.PositionUID = apiItem.Position != null ? apiItem.Position.UID : Guid.Empty;
+			tableItem.DepartmentUID = apiItem.Department != null ? apiItem.Department.UID : Guid.Empty;
+			tableItem.ScheduleUID = apiItem.Schedule != null ? apiItem.Schedule.UID : Guid.Empty;
+			tableItem.ScheduleStartDate = TranslatiorHelper.CheckDate(apiItem.ScheduleStartDate);
+			tableItem.PhotoUID = apiItem.Photo != null ? apiItem.Photo.UID : Guid.Empty;
+			tableItem.Type = (int)apiItem.Type;
+			tableItem.TabelNo = apiItem.TabelNo;
+			tableItem.CredentialsStartDate = TranslatiorHelper.CheckDate(apiItem.CredentialsStartDate);
+			tableItem.EscortUID = apiItem.EscortUID;
+			tableItem.DocumentNumber = apiItem.DocumentNumber;
+			tableItem.BirthDate = TranslatiorHelper.CheckDate(apiItem.BirthDate);
+			tableItem.BirthPlace = apiItem.BirthPlace;
+			tableItem.DocumentGivenBy = apiItem.DocumentGivenBy;
+			tableItem.DocumentGivenDate = TranslatiorHelper.CheckDate(apiItem.DocumentGivenDate);
+			tableItem.DocumentValidTo = TranslatiorHelper.CheckDate(apiItem.DocumentValidTo);
+			tableItem.Gender = (int)apiItem.Gender;
+			tableItem.DocumentDepartmentCode = apiItem.DocumentDepartmentCode;
+			tableItem.Citizenship = apiItem.Citizenship;
+			tableItem.DocumentType = (int)apiItem.DocumentType;
+			tableItem.Phone = apiItem.Phone;
+			tableItem.LastEmployeeDayUpdate = TranslatiorHelper.CheckDate(apiItem.LastEmployeeDayUpdate);
+			if (tableItem.ExternalKey == null)
+				tableItem.ExternalKey = "-1";
+		}
+
+		public override OperationResult Save(Employee apiItem)
+		{
+			var columnSaveResult = DatabaseService.AdditionalColumnTranslator.Save(apiItem.AdditionalColumns);
+			if (columnSaveResult.HasError)
+				return columnSaveResult;
+			var photoSaveResult = DatabaseService.PhotoTranslator.SaveOrDelete(apiItem.Photo);
+			if (photoSaveResult.HasError)
+				return photoSaveResult;
+			return base.Save(apiItem);
+		}
+
+		public Expression<Func<DataAccess.Employee, bool>> GetFilterExpression(EmployeeFilter filter)
+		{
+			if (filter == null)
+				return null;
+			return IsInFilter(filter);
+		}
+
+
+		protected override Expression<Func<DataAccess.Employee, bool>> IsInFilter(EmployeeFilter filter)
+		{
+			var result = base.IsInFilter(filter);
+			if(!filter.IsAllPersonTypes)
+				result = result.And(e => e.Type == (int?)filter.PersonType);
+
+			if (filter.DepartmentUIDs.IsNotNullOrEmpty())
+			{
+				if (filter.WithDeletedDepartments)
+				{
+					result = result.And(e => filter.DepartmentUIDs.Contains(e.DepartmentUID.Value) || Context.Departments.Any(x => x.IsDeleted && x.UID == e.DepartmentUID));
+				}
+				else
+				{
+					result = result.And(e => e != null && filter.DepartmentUIDs.Contains(e.DepartmentUID.Value));
+					result = result.And(e => e != null);
+				}
+			}
+
+			if (filter.PositionUIDs.IsNotNullOrEmpty())
+			{
+				if (filter.WithDeletedPositions)
+					result = result.And(e => filter.PositionUIDs.Contains(e.PositionUID.Value) || Context.Positions.Any(x => x.IsDeleted && x.UID == e.PositionUID));
+				else
+					result = result.And(e => e != null && filter.PositionUIDs.Contains(e.PositionUID.Value));
+			}
+
+			if (filter.ScheduleUIDs.IsNotNullOrEmpty())
+				result = result.And(e => e != null && filter.ScheduleUIDs.Contains(e.ScheduleUID.Value));
+
+			if (!string.IsNullOrEmpty(filter.LastName))
+				result = result.And(e => e.LastName.Contains(filter.LastName));
+
+			if (!string.IsNullOrEmpty(filter.FirstName))
+				result = result.And(e => e.FirstName.Contains(filter.FirstName));
+
+			if (!string.IsNullOrEmpty(filter.SecondName))
+				result = result.And(e => e.SecondName.Contains(filter.SecondName));
+
+			return result;
+		}
+
+		public OperationResult SaveDepartment(Guid uid, Guid departmentUID)
+		{
+			try
+			{
+				var tableItem = Table.FirstOrDefault(x => x.UID == uid);
+				tableItem.DepartmentUID = departmentUID;
+				Table.Context.SubmitChanges();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
+			return new OperationResult();
+		}
+
+		public OperationResult SavePosition(Guid uid, Guid positionUID)
+		{
+			try
+			{
+				var tableItem = Table.FirstOrDefault(x => x.UID == uid);
+				tableItem.PositionUID = positionUID;
+				Table.Context.SubmitChanges();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
+			return new OperationResult();
+		}
+
+		#region EF
+		//protected Expression<Func<EFDataAccess.Employee, bool>> EFIsInFilter(EmployeeFilter filter)
+		//{
+		//    var result = PredicateBuilder.True<EFDataAccess.Employee>();
+		//    result = result.And(e => e != null);
+		//    var uids = filter.UIDs;
+		//    if (uids != null && uids.Count != 0)
+		//        result = result.And(e => uids.Contains(e.UID));
+		//    var exceptUIDs = filter.ExceptUIDs;
+		//    if (exceptUIDs != null && exceptUIDs.Count != 0)
+		//        result = result.And(e => !exceptUIDs.Contains(e.UID));
+		//    var IsDeletedExpression = PredicateBuilder.True<EFDataAccess.Employee>();
+		//    switch (filter.LogicalDeletationType)
+		//    {
+		//        case LogicalDeletationType.Deleted:
+		//            IsDeletedExpression = e => e.IsDeleted;
+		//            break;
+		//        case LogicalDeletationType.Active:
+		//            IsDeletedExpression = e => !e.IsDeleted;
+		//            break;
+		//        default:
+		//            break;
+		//    }
+		//    if (filter.OrganisationUIDs.IsNotNullOrEmpty())
+		//        result = result.And(x => x.OrganisationUID != null && filter.OrganisationUIDs.Contains(x.OrganisationUID.Value));
+		//    if (filter.UserUID != Guid.Empty)
+		//        result = result.And(e => (Context.Organisations.Any(x => x.OrganisationUsers.Any(y => y.UserUID == filter.UserUID) && x.UID == e.OrganisationUID)));
+		//    if (!filter.IsAllPersonTypes)
+		//        result = result.And(e => e.Type == (int?)filter.PersonType);
+
+		//    if (filter.DepartmentUIDs.IsNotNullOrEmpty())
+		//    {
+		//        if (filter.WithDeletedDepartments)
+		//        {
+		//            result = result.And(e => filter.DepartmentUIDs.Contains(e.DepartmentUID.Value) || Context.Departments.Any(x => x.IsDeleted && x.UID == e.DepartmentUID));
+		//        }
+		//        else
+		//        {
+		//            result = result.And(e => e != null && filter.DepartmentUIDs.Contains(e.DepartmentUID.Value));
+		//            result = result.And(e => e != null);
+		//        }
+		//    }
+
+		//    if (filter.PositionUIDs.IsNotNullOrEmpty())
+		//    {
+		//        if (filter.WithDeletedPositions)
+		//            result = result.And(e => filter.PositionUIDs.Contains(e.PositionUID.Value) || Context.Positions.Any(x => x.IsDeleted && x.UID == e.PositionUID));
+		//        else
+		//            result = result.And(e => e != null && filter.PositionUIDs.Contains(e.PositionUID.Value));
+		//    }
+
+		//    if (filter.ScheduleUIDs.IsNotNullOrEmpty())
+		//        result = result.And(e => e != null && filter.ScheduleUIDs.Contains(e.ScheduleUID.Value));
+
+		//    if (!string.IsNullOrEmpty(filter.LastName))
+		//        result = result.And(e => e.LastName.Contains(filter.LastName));
+
+		//    if (!string.IsNullOrEmpty(filter.FirstName))
+		//        result = result.And(e => e.FirstName.Contains(filter.FirstName));
+
+		//    if (!string.IsNullOrEmpty(filter.SecondName))
+		//        result = result.And(e => e.SecondName.Contains(filter.SecondName));
+
+		//    return result;
+		//}
+
+		//public OperationResult<IEnumerable<ShortEmployee>> EFGetList(EmployeeFilter filter)
+		//{
+		//    try
+		//    {
+		//        var result = new List<ShortEmployee>();
+		//        //EFContext.CommandTimeout = 600;
+		//        var tableItems =
+		//            from employee in EFContext.Employees//.Where(EFIsInFilter(filter))
+		//            join department in EFContext.Departments on employee.DepartmentUID equals department.UID into departments
+		//            from department in departments.DefaultIfEmpty()
+		//            join position in EFContext.Positions on employee.PositionUID equals position.UID into positions
+		//            from position in positions.DefaultIfEmpty()
+		//            join schedule in EFContext.Schedules on employee.ScheduleUID equals schedule.UID into schedules
+		//            from schedule in schedules.DefaultIfEmpty()
+		//            join organisation in EFContext.Organisations on employee.OrganisationUID equals organisation.UID into organisations
+		//            from organisation in organisations.DefaultIfEmpty()
+		//            join additionalColumn in EFContext.AdditionalColumns.Where(x => x.AdditionalColumnType.DataType == (int?)AdditionalColumnDataType.Text).DefaultIfEmpty()
+		//                on employee.UID equals additionalColumn.EmployeeUID into additionalColumns
+		//            select new
+		//            {
+		//                Employee = employee,
+		//                Department = department,
+		//                Position = position,
+		//                Organisation = organisation,
+		//                Schedule = schedule,
+		//                //AdditionalColumns = new List<EFDataAccess.AdditionalColumn>(),
+		//            };
+
+		//        foreach (var tableItem in tableItems)
+		//            result.Add(EFTranslateToShort(tableItem.Employee, tableItem.Department, tableItem.Position, tableItem.Organisation, tableItem.Schedule, new List<EFDataAccess.AdditionalColumn>()));
+		//        var operationResult = new OperationResult<IEnumerable<ShortEmployee>>();
+		//        operationResult.Result = result;
+		//        return operationResult;
+		//    }
+		//    catch (Exception e)
+		//    {
+		//        return OperationResult<IEnumerable<ShortEmployee>>.FromError(e.Message);
+		//    }
+		//}
+
+		//protected ShortEmployee EFTranslateToShort(
+		//    EFDataAccess.Employee employee,
+		//    EFDataAccess.Department department,
+		//    EFDataAccess.Position position,
+		//    EFDataAccess.Organisation organisation,
+		//    EFDataAccess.Schedule schedule,
+		//    IEnumerable<EFDataAccess.AdditionalColumn> additionalColumns)
+		//{
+		//    var result = new ShortEmployee
+		//    {
+		//        UID = employee.UID,
+		//        IsDeleted = employee.IsDeleted,
+		//        OrganisationUID = employee.OrganisationUID != null ? employee.OrganisationUID.Value : Guid.Empty,
+		//        RemovalDate = employee.RemovalDate
+		//    };
+		//    result.FirstName = employee.FirstName;
+		//    result.SecondName = employee.SecondName;
+		//    result.LastName = employee.LastName;
+		//    result.Description = employee.Description;
+		//    var cards = new List<SKDCard>();
+		//    result.Type = (PersonType)employee.Type;
+		//    result.CredentialsStartDate = employee.CredentialsStartDate.ToString("d MMM yyyy");
+		//    result.TabelNo = employee.TabelNo;
+		//    var textColumns = new List<TextColumn>();
+		//    foreach (var additionalColumn in additionalColumns)
+		//    {
+		//        textColumns.Add(new TextColumn { ColumnTypeUID = additionalColumn.AdditionalColumnTypeUID != null ? additionalColumn.AdditionalColumnTypeUID.Value : Guid.Empty, Text = additionalColumn.TextData });
+		//    }
+		//    result.Phone = employee.Phone;
+		//    result.LastEmployeeDayUpdate = employee.LastEmployeeDayUpdate;
+		//    if (position != null)
+		//    {
+		//        result.PositionName = position.Name;
+		//        result.IsPositionDeleted = position.IsDeleted;
+		//    }
+		//    if (department != null)
+		//    {
+		//        result.DepartmentName = department.Name;
+		//        result.IsDepartmentDeleted = department.IsDeleted;
+		//    }
+		//    if (organisation != null)
+		//        result.OrganisationName = organisation.Name;
+		//    result.ScheduleUID = schedule != null ? schedule.UID : Guid.Empty;
+		//    return result;
+		//}
+
+		//public void TestGet()
+		//{
+		//    var stopWatch = new Stopwatch();
+		//    stopWatch.Start();
+		//    var iterationCount = 1;
+		//    for (int i = 0; i < iterationCount; i++)
+		//    {
+		//        var e1 = GetList(new EmployeeFilter());
+		//    }
+		//    stopWatch.Stop();
+		//    Trace.WriteLine("LinqToSql " + new TimeSpan(stopWatch.Elapsed.Ticks / iterationCount));
+		//    var stopWatch2 = new Stopwatch();
+		//    stopWatch2.Start();
+		//    for (int i = 0; i < iterationCount; i++)
+		//    {
+		//        var e2 = EFGetList(new EmployeeFilter());
+		//    }
+		//    stopWatch2.Stop();
+		//    Trace.WriteLine("LinqToEntities " + new TimeSpan(stopWatch2.Elapsed.Ticks / iterationCount));
+		//}
+		#endregion
+		
+		#region TestData
+		public OperationResult GenerateTestData(bool isAscending)
+		{
+			try
+			{
+				var cards = TestEmployeeCards();
+				TestCardDoors(cards, true);
+				return new OperationResult();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
+		}
+
+		public List<Guid> GetEmployeeCards()
+		{
+			return Context.Cards.Select(x => x.UID).ToList(); ;
+		}
+
+		//var posUIDs = new List<Guid>();
+		//for (int j = 0; j < 1000; j++)
+		//{
+		//    var pos = new DataAccess.Position { Name = "Должность " + i + j, OrganisationUID = org.UID, UID = Guid.NewGuid(), RemovalDate = new DateTime(1900, 1, 1), ExternalKey = "-1" };
+		//    Context.Positions.InsertOnSubmit(pos);
+		//    posUIDs.Add(pos.UID);
+		//}
+		//var deptUIDs = new List<Guid>();
+		//for (int j = 0; j < 100; j++)
+		//{
+		//    var dept = CreateDept("Подразделение " + i + j, org.UID);
+		//    deptUIDs.Add(dept.UID);
+		//    Context.Departments.InsertOnSubmit(dept);
+		//    for (int k = 0; k < 2; k++)
+		//    {
+		//        var dept2 = CreateDept("Подразделение " + i + j + k, org.UID, dept.UID);
+		//        deptUIDs.Add(dept2.UID);
+		//        Context.Departments.InsertOnSubmit(dept2);
+		//        for (int m = 0; m < 2; m++)
+		//        {
+		//            var dept3 = CreateDept("Подразделение " + i + j + k + m, org.UID, dept2.UID);
+		//            deptUIDs.Add(dept3.UID);
+		//            Context.Departments.InsertOnSubmit(dept3);
+		//            for (int n = 0; n < 2; n++)
+		//            {
+		//                var dept4 = CreateDept("Подразделение " + i + j + k + m + n, org.UID, dept3.UID);
+		//                deptUIDs.Add(dept4.UID);
+		//                Context.Departments.InsertOnSubmit(dept4);
+		//            }
+		//        }
+		//    }
+		//}
+		//for (int j = 0; j < 500; j++)
+		//{
+		//    var empl = CreateEmpl("Сотрудник " + i + j + "0", org.UID, deptUIDs.FirstOrDefault(), posUIDs.FirstOrDefault());
+		//    Context.Employees.InsertOnSubmit(empl);
+		//}
+
+		public List<Guid> TestEmployeeCards()
+		{
+			DeleteAll();
+			var cards = new List<DataAccess.Card>();
+			for (int i = 1; i <= 1; i++)
+			{
+				var org = new DataAccess.Organisation { Name = "Тестовая Организация " + i, UID = Guid.NewGuid(), RemovalDate = new DateTime(1900, 1, 1), ExternalKey = "-1" };
+				Context.Organisations.InsertOnSubmit(org);
+				var user = new DataAccess.OrganisationUser { UID = Guid.NewGuid(), UserUID = new Guid("10e591fb-e017-442d-b176-f05756d984bb"), OrganisationUID = org.UID };
+				Context.OrganisationUsers.InsertOnSubmit(user);
+				for (int j = 1; j < 1000; j++)
+				{
+					var empl = CreateEmployee(j.ToString(), org.UID);
+					Context.Employees.InsertOnSubmit(empl);
+					var card = CreateCard(j, empl.UID);
+					if(j == 1)
+					{
+						card.CardType = (int?)GKCardType.Manufactor;
+						card.CardGKControllerUIDs = new System.Data.Linq.EntitySet<DataAccess.CardGKControllerUID>();
+						card.CardGKControllerUIDs.Add(new DataAccess.CardGKControllerUID() { UID = Guid.NewGuid(), Card = card, GKControllerUID = GKManager.Devices.FirstOrDefault(x => x.DriverType == GKDriverType.GK).UID });
+					}
+					cards.Add(card);
+					Context.Cards.InsertOnSubmit(card);
+				}
+				
+			}
+			Context.SubmitChanges();
+			
+			return cards.Select(x => x.UID).ToList();
+		}
+
+		public void TestCardDoors(List<Guid> cardUIDs, bool isAscending)
+		{
+			int k = 0;
+			int totalDoorsCount = GKManager.Doors.Count;
+			foreach (var cardUID in cardUIDs)
+			{
+				k++;
+				int doorsCount = isAscending ? k < totalDoorsCount ? k : totalDoorsCount : 10;
+				foreach (var door in GKManager.Doors.Take(doorsCount))
+				{
+					var cardDoor = CreateCardDoor(cardUID, door.UID);
+					Context.CardDoors.InsertOnSubmit(cardDoor);
+				}
+			}
+			Context.SubmitChanges();
+		}
+
+		private void DeleteAll()
+		{
+			Context.ExecuteCommand("DELETE FROM AccessTemplate");
+			Context.ExecuteCommand("DELETE FROM AdditionalColumn");
+			Context.ExecuteCommand("DELETE FROM AdditionalColumnType");
+			Context.ExecuteCommand("DELETE FROM CardDoor");
+			Context.ExecuteCommand("DELETE FROM Card");
+			Context.ExecuteCommand("DELETE FROM CurrentConsumption");
+			Context.ExecuteCommand("DELETE FROM DayIntervalPart");
+			Context.ExecuteCommand("DELETE FROM DayInterval");
+			Context.ExecuteCommand("DELETE FROM Department");
+			Context.ExecuteCommand("DELETE FROM Employee");
+			Context.ExecuteCommand("DELETE FROM GKMetadata");
+			Context.ExecuteCommand("DELETE FROM Holiday");
+			Context.ExecuteCommand("DELETE FROM NightSettings");
+			Context.ExecuteCommand("DELETE FROM Organisation");
+			Context.ExecuteCommand("DELETE FROM PassCardTemplate");
+			Context.ExecuteCommand("DELETE FROM Photo");
+			Context.ExecuteCommand("DELETE FROM Position");
+			Context.ExecuteCommand("DELETE FROM ScheduleDay");
+			Context.ExecuteCommand("DELETE FROM ScheduleScheme");
+			Context.ExecuteCommand("DELETE FROM Schedule");
+			Context.ExecuteCommand("DELETE FROM ScheduleZone");
+			Context.ExecuteCommand("DELETE FROM TimeTrackDocument");
+			Context.ExecuteCommand("DELETE FROM TimeTrackDocumentType");
+		}
+
+		DataAccess.Department CreateDepartment(string name, Guid orgUID, Guid? parentUID = null)
+		{
+			return new DataAccess.Department 
+			{ 
+				Name = name, 
+				OrganisationUID = orgUID, 
+				UID = Guid.NewGuid(), 
+				ParentDepartmentUID = parentUID, 
+				RemovalDate = _minDate, 
+				ExternalKey = "-1" 
+			};
+		}
+
+		DataAccess.Employee CreateEmployee(string no, Guid orgUID, Guid? deptUID = null, Guid? posUID = null)
+		{
+			return new DataAccess.Employee
+			{
+				LastName = "Фамилия " + no,
+				FirstName = "Имя " + no,
+				SecondName = "Отчество " + no,
+				DepartmentUID = deptUID,
+				PositionUID = posUID,
+				OrganisationUID = orgUID,
+				UID = Guid.NewGuid(),
+				RemovalDate = _minDate,
+				BirthDate = _minDate,
+				CredentialsStartDate = _minDate,
+				DocumentGivenDate = _minDate,
+				DocumentValidTo = _minDate,
+				LastEmployeeDayUpdate = _minDate,
+				ScheduleStartDate = _minDate,
+				ExternalKey = "-1",
+				Type = 0
+			};
+		}
+
+		static DateTime _minDate = new DateTime(1900, 1, 1);
+
+		DataAccess.Card CreateCard(int no, Guid emplUID)
+		{
+			return new DataAccess.Card 
+			{ 
+				UID = Guid.NewGuid(), 
+				Number = no, 
+				EmployeeUID = emplUID, 
+				CardType = 0, 
+				GKCardType = 0, 
+				StartDate = _minDate,
+				EndDate = _minDate,
+				ExternalKey = "-1",
+ 				GKLevel = 0,
+				GKLevelSchedule = 0
+			};
+		}
+
+		DataAccess.CardDoor CreateCardDoor(Guid cardUID, Guid doorUID)
+		{
+			return new DataAccess.CardDoor 
+			{
+				UID = Guid.NewGuid(), 
+				CardUID = cardUID, 
+				DoorUID = doorUID, 
+				EnterScheduleNo = 1, 
+				ExitScheduleNo = 1 
+			};
+		}
+
+		public OperationResult GenerateEmployeeDays()
+		{
+			try
+			{
+				var result = new List<EmployeeDay>();
+				var employees = Table.Where(x => !x.IsDeleted);
+				foreach (var employee in employees)
+				{
+
+					var employeeDay = new EmployeeDay();
+					employeeDay.EmployeeUID = employee.UID;
+					var schedule = Context.Schedules.FirstOrDefault(x => x.UID == employee.ScheduleUID);
+					if (schedule != null)
+					{
+						employeeDay.IsIgnoreHoliday = schedule.IsIgnoreHoliday;
+						employeeDay.IsOnlyFirstEnter = schedule.IsOnlyFirstEnter;
+						employeeDay.AllowedLate = schedule.AllowedLate;
+						employeeDay.AllowedEarlyLeave = schedule.AllowedEarlyLeave;
+						employeeDay.Date = DateTime.Now;
+						var scheduleScheme = schedule.ScheduleScheme;
+						if (scheduleScheme != null)
+						{
+							var scheduleSchemeType = (ScheduleSchemeType)scheduleScheme.Type;
+							int dayNo = -1;
+							switch (scheduleSchemeType)
+							{
+								case ScheduleSchemeType.Week:
+									dayNo = (int)employeeDay.Date.DayOfWeek - 1;
+									if (dayNo == -1)
+										dayNo = 6;
+									break;
+								case ScheduleSchemeType.SlideDay:
+									var ticksDelta = new TimeSpan(employeeDay.Date.Ticks - employee.ScheduleStartDate.Date.Ticks);
+									var daysDelta = Math.Abs((int)ticksDelta.TotalDays);
+									dayNo = daysDelta % schedule.ScheduleScheme.DaysCount;
+									break;
+								case ScheduleSchemeType.Month:
+									dayNo = (int)employeeDay.Date.Day - 1;
+									break;
+							}
+							var dayIntervalParts = scheduleScheme.ScheduleDays.FirstOrDefault(x => x.Number == dayNo).DayInterval.DayIntervalParts;
+							foreach (var dayIntervalPart in dayIntervalParts)
+							{
+								employeeDay.DayIntervalsString += dayIntervalPart.BeginTime + "-" + dayIntervalPart.EndTime + ";";
+							}
+							employee.LastEmployeeDayUpdate = employeeDay.Date;
+							Context.SubmitChanges();
+							result.Add(employeeDay);
+						}
+					}
+				}
+				var passJournalTranslator = new PassJournalTranslator();
+				return passJournalTranslator.SaveEmployeeDays(result);
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
+		}
+
+		
+		#endregion
+
+		public EmployeeSynchroniser Synchroniser;
+	}
+}

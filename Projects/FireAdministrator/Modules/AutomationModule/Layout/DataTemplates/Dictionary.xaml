@@ -1,0 +1,15 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ViewModels="clr-namespace:AutomationModule.Layout.ViewModels" xmlns:Views="clr-namespace:AutomationModule.Layout.Views">
+
+	<DataTemplate DataType="{x:Type ViewModels:LayoutPartProcedureViewModel}">
+		<Views:LayoutPartProcedureView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:LayoutPartPropertyProcedurePageViewModel}">
+		<Views:LayoutPartPropertyProcedurePageView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:LayoutPartPropertyProcedurePageStyleViewModel}">
+		<Views:LayoutPartPropertyProcedurePageStyleView />
+	</DataTemplate>
+
+</ResourceDictionary>

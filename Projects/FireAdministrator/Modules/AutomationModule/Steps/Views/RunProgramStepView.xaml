@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="AutomationModule.Views.RunProgramStepView"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:Views="clr-namespace:AutomationModule.Views">
+	<UserControl.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="ProcedureResources.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+	</UserControl.Resources>
+	<StackPanel>
+		<DockPanel Margin="2">
+			<Label Content="Путь" />
+			<Views:ArgumentView DataContext="{Binding PathArgument}" />
+		</DockPanel>
+		<DockPanel Margin="2">
+			<Label Content="Параметры" />
+			<Views:ArgumentView DataContext="{Binding ParametersArgument}" />
+		</DockPanel>
+	</StackPanel>
+</UserControl>

@@ -1,0 +1,27 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ViewModels="clr-namespace:GKModule.ViewModels" xmlns:Views="clr-namespace:GKModule.Views">
+
+	<DataTemplate DataType="{x:Type ViewModels:DoorsViewModel}">
+		<Views:DoorsView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:DoorDetailsViewModel}">
+		<Views:DoorDetailsView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:DoorsMenuViewModel}">
+		<Views:DoorsMenuView />
+	</DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:SKDZonesViewModel}">
+        <Views:SKDZonesView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:SKDZoneDetailsViewModel}">
+        <Views:SKDZoneDetailsView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:SKDZonesMenuViewModel}">
+        <Views:SKDZonesMenuView />
+    </DataTemplate>
+
+</ResourceDictionary>

@@ -1,0 +1,7 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ViewModels="clr-namespace:AutomationModule.Plans.ViewModels" xmlns:Views="clr-namespace:AutomationModule.Plans.Views">
+
+	<DataTemplate DataType="{x:Type ViewModels:ProcedurePropertiesViewModel}">
+		<Views:ProcedurePropertiesView/>
+	</DataTemplate>
+
+</ResourceDictionary>

@@ -1,0 +1,11 @@
+﻿<UserControl x:Class="GKModule.Views.DiagnosticsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls">
+	<TabControl>
+		<TabItem Header="Отладка">
+			<Border Background="White" CornerRadius="5">
+				<StackPanel>
+					<Button Command="{Binding TestCommand}" Content="Добавить устройства к существующим шлейфам" Width="300" Margin="2" />
+				</StackPanel>
+			</Border>
+		</TabItem>
+	</TabControl>
+</UserControl>

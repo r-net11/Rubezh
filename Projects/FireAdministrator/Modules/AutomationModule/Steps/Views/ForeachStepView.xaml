@@ -1,0 +1,19 @@
+﻿<UserControl x:Class="AutomationModule.Views.ForeachStepView"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:Views="clr-namespace:AutomationModule.Views">
+	<UserControl.Resources>
+		<ResourceDictionary Source="ProcedureResources.xaml" />
+	</UserControl.Resources>
+
+	<StackPanel>
+		<StackPanel Orientation="Horizontal">
+			<Label Content="Список" />
+			<Views:ArgumentView DataContext="{Binding ListArgument}" />
+		</StackPanel>
+		<StackPanel Orientation="Horizontal">
+			<Label Content="Элемент" />
+			<Views:ArgumentView DataContext="{Binding ItemArgument}" />
+		</StackPanel>
+	</StackPanel>
+</UserControl>

@@ -1,0 +1,189 @@
+<?xml version="1.0"?>
+<SKDConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Version>
+    <MajorVersion>1</MajorVersion>
+    <MinorVersion>1</MinorVersion>
+  </Version>
+  <RootDevice>
+    <UID>5363b1b5-b606-42e4-b439-86c43c711d25</UID>
+    <No>0</No>
+    <Name>Система</Name>
+    <DriverUID>ec1089d1-7dbc-4797-a5ab-f37104999e91</DriverUID>
+    <IntAddress>0</IntAddress>
+    <Children />
+    <Properties />
+    <PlanElementUIDs />
+    <AllowMultipleVizualization>false</AllowMultipleVizualization>
+    <ZoneUID>00000000-0000-0000-0000-000000000000</ZoneUID>
+    <DoorType>TwoWay</DoorType>
+    <CameraUID>00000000-0000-0000-0000-000000000000</CameraUID>
+  </RootDevice>
+  <Zones />
+  <Doors />
+  <TimeIntervalsConfiguration>
+    <Version>
+      <MajorVersion>0</MajorVersion>
+      <MinorVersion>0</MinorVersion>
+    </Version>
+    <DayIntervals>
+      <SKDDayInterval>
+        <UID>ffba0da4-f222-43a1-b6a7-c9e0d3a73a3a</UID>
+        <No>0</No>
+        <Name>&lt;Никогда&gt;</Name>
+        <DayIntervalParts />
+      </SKDDayInterval>
+      <SKDDayInterval>
+        <UID>51dbccbe-ef60-49ac-8028-c4e10b1de9a1</UID>
+        <No>0</No>
+        <Name>&lt;Всегда&gt;</Name>
+        <DayIntervalParts>
+          <SKDDayIntervalPart>
+            <UID>1539289d-42d8-48f6-9e30-4803a4effc28</UID>
+            <StartMilliseconds>0</StartMilliseconds>
+            <EndMilliseconds>86399000</EndMilliseconds>
+          </SKDDayIntervalPart>
+        </DayIntervalParts>
+      </SKDDayInterval>
+    </DayIntervals>
+    <WeeklyIntervals>
+      <SKDWeeklyInterval>
+        <ID>0</ID>
+        <Name>&lt;Никогда&gt;</Name>
+        <WeeklyIntervalParts>
+          <SKDWeeklyIntervalPart>
+            <DayOfWeek>Monday</DayOfWeek>
+            <DayIntervalUID>ffba0da4-f222-43a1-b6a7-c9e0d3a73a3a</DayIntervalUID>
+          </SKDWeeklyIntervalPart>
+          <SKDWeeklyIntervalPart>
+            <DayOfWeek>Tuesday</DayOfWeek>
+            <DayIntervalUID>ffba0da4-f222-43a1-b6a7-c9e0d3a73a3a</DayIntervalUID>
+          </SKDWeeklyIntervalPart>
+          <SKDWeeklyIntervalPart>
+            <DayOfWeek>Wednesday</DayOfWeek>
+            <DayIntervalUID>ffba0da4-f222-43a1-b6a7-c9e0d3a73a3a</DayIntervalUID>
+          </SKDWeeklyIntervalPart>
+          <SKDWeeklyIntervalPart>
+            <DayOfWeek>Thursday</DayOfWeek>
+            <DayIntervalUID>ffba0da4-f222-43a1-b6a7-c9e0d3a73a3a</DayIntervalUID>
+          </SKDWeeklyIntervalPart>
+          <SKDWeeklyIntervalPart>
+            <DayOfWeek>Friday</DayOfWeek>
+            <DayIntervalUID>ffba0da4-f222-43a1-b6a7-c9e0d3a73a3a</DayIntervalUID>
+          </SKDWeeklyIntervalPart>
+          <SKDWeeklyIntervalPart>
+            <DayOfWeek>Saturday</DayOfWeek>
+            <DayIntervalUID>ffba0da4-f222-43a1-b6a7-c9e0d3a73a3a</DayIntervalUID>
+          </SKDWeeklyIntervalPart>
+          <SKDWeeklyIntervalPart>
+            <DayOfWeek>Sunday</DayOfWeek>
+            <DayIntervalUID>ffba0da4-f222-43a1-b6a7-c9e0d3a73a3a</DayIntervalUID>
+          </SKDWeeklyIntervalPart>
+        </WeeklyIntervalParts>
+      </SKDWeeklyInterval>
+      <SKDWeeklyInterval>
+        <ID>1</ID>
+        <Name>&lt;Всегда&gt;</Name>
+        <WeeklyIntervalParts>
+          <SKDWeeklyIntervalPart>
+            <DayOfWeek>Monday</DayOfWeek>
+            <DayIntervalUID>51dbccbe-ef60-49ac-8028-c4e10b1de9a1</DayIntervalUID>
+          </SKDWeeklyIntervalPart>
+          <SKDWeeklyIntervalPart>
+            <DayOfWeek>Tuesday</DayOfWeek>
+            <DayIntervalUID>51dbccbe-ef60-49ac-8028-c4e10b1de9a1</DayIntervalUID>
+          </SKDWeeklyIntervalPart>
+          <SKDWeeklyIntervalPart>
+            <DayOfWeek>Wednesday</DayOfWeek>
+            <DayIntervalUID>51dbccbe-ef60-49ac-8028-c4e10b1de9a1</DayIntervalUID>
+          </SKDWeeklyIntervalPart>
+          <SKDWeeklyIntervalPart>
+            <DayOfWeek>Thursday</DayOfWeek>
+            <DayIntervalUID>51dbccbe-ef60-49ac-8028-c4e10b1de9a1</DayIntervalUID>
+          </SKDWeeklyIntervalPart>
+          <SKDWeeklyIntervalPart>
+            <DayOfWeek>Friday</DayOfWeek>
+            <DayIntervalUID>51dbccbe-ef60-49ac-8028-c4e10b1de9a1</DayIntervalUID>
+          </SKDWeeklyIntervalPart>
+          <SKDWeeklyIntervalPart>
+            <DayOfWeek>Saturday</DayOfWeek>
+            <DayIntervalUID>51dbccbe-ef60-49ac-8028-c4e10b1de9a1</DayIntervalUID>
+          </SKDWeeklyIntervalPart>
+          <SKDWeeklyIntervalPart>
+            <DayOfWeek>Sunday</DayOfWeek>
+            <DayIntervalUID>51dbccbe-ef60-49ac-8028-c4e10b1de9a1</DayIntervalUID>
+          </SKDWeeklyIntervalPart>
+        </WeeklyIntervalParts>
+      </SKDWeeklyInterval>
+    </WeeklyIntervals>
+    <SlideDayIntervals />
+    <SlideWeeklyIntervals />
+    <Holidays>
+      <SKDHoliday>
+        <UID>2502480a-6c70-4d92-bbac-95ccff66dc17</UID>
+        <Name>Новогодние каникулы</Name>
+        <DateTime>2000-01-01T00:00:00</DateTime>
+        <TypeNo>1</TypeNo>
+      </SKDHoliday>
+      <SKDHoliday>
+        <UID>822270a6-d3e1-45fd-8f11-dc01158bd8d9</UID>
+        <Name>Новогодние каникулы</Name>
+        <DateTime>2000-01-02T00:00:00</DateTime>
+        <TypeNo>1</TypeNo>
+      </SKDHoliday>
+      <SKDHoliday>
+        <UID>669c33ad-947b-4ff4-8b6b-b18750822ac9</UID>
+        <Name>Новогодние каникулы</Name>
+        <DateTime>2000-01-03T00:00:00</DateTime>
+        <TypeNo>1</TypeNo>
+      </SKDHoliday>
+      <SKDHoliday>
+        <UID>180bac75-0f40-4a76-97c9-0013c6240deb</UID>
+        <Name>Новогодние каникулы</Name>
+        <DateTime>2000-01-04T00:00:00</DateTime>
+        <TypeNo>1</TypeNo>
+      </SKDHoliday>
+      <SKDHoliday>
+        <UID>76a4c99d-cbf8-4b33-a652-811090db2048</UID>
+        <Name>Рождество</Name>
+        <DateTime>2000-01-07T00:00:00</DateTime>
+        <TypeNo>1</TypeNo>
+      </SKDHoliday>
+      <SKDHoliday>
+        <UID>ebab0dc7-b696-43d2-bb76-4bb6a340f38d</UID>
+        <Name>День советской армии и военно-морского флота</Name>
+        <DateTime>2000-02-23T00:00:00</DateTime>
+        <TypeNo>1</TypeNo>
+      </SKDHoliday>
+      <SKDHoliday>
+        <UID>2f7e97a5-ca49-4929-ab1d-6276958c573b</UID>
+        <Name>Международный женский день</Name>
+        <DateTime>2000-03-08T00:00:00</DateTime>
+        <TypeNo>1</TypeNo>
+      </SKDHoliday>
+      <SKDHoliday>
+        <UID>86b54e5f-81a9-42bf-a1d5-9b613271a810</UID>
+        <Name>День победы</Name>
+        <DateTime>2000-05-09T00:00:00</DateTime>
+        <TypeNo>1</TypeNo>
+      </SKDHoliday>
+      <SKDHoliday>
+        <UID>b7dafdc9-05e1-412c-b771-ea9f45b352d8</UID>
+        <Name>День России</Name>
+        <DateTime>2000-06-12T00:00:00</DateTime>
+        <TypeNo>1</TypeNo>
+      </SKDHoliday>
+      <SKDHoliday>
+        <UID>d6a0b1e2-c062-4841-b6e5-ccd083fb8d17</UID>
+        <Name>День примерения</Name>
+        <DateTime>2000-11-04T00:00:00</DateTime>
+        <TypeNo>1</TypeNo>
+      </SKDHoliday>
+      <SKDHoliday>
+        <UID>e4ea7426-b9be-4cb6-8e97-76eb33f35a43</UID>
+        <Name>Новый год</Name>
+        <DateTime>2000-12-31T00:00:00</DateTime>
+        <TypeNo>1</TypeNo>
+      </SKDHoliday>
+    </Holidays>
+  </TimeIntervalsConfiguration>
+</SKDConfiguration>

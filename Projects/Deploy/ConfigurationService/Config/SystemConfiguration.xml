@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+<SystemConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Version>
+    <MajorVersion>1</MajorVersion>
+    <MinorVersion>1</MinorVersion>
+  </Version>
+  <Sounds>
+    <Sound>
+      <StateClass>Attention</StateClass>
+      <BeeperType>None</BeeperType>
+      <IsContinious>false</IsContinious>
+    </Sound>
+    <Sound>
+      <StateClass>ConnectionLost</StateClass>
+      <BeeperType>None</BeeperType>
+      <IsContinious>false</IsContinious>
+    </Sound>
+    <Sound>
+      <StateClass>Off</StateClass>
+      <BeeperType>None</BeeperType>
+      <IsContinious>false</IsContinious>
+    </Sound>
+    <Sound>
+      <StateClass>On</StateClass>
+      <BeeperType>None</BeeperType>
+      <IsContinious>false</IsContinious>
+    </Sound>
+    <Sound>
+      <StateClass>Fire1</StateClass>
+      <BeeperType>None</BeeperType>
+      <IsContinious>false</IsContinious>
+    </Sound>
+    <Sound>
+      <StateClass>Fire2</StateClass>
+      <BeeperType>None</BeeperType>
+      <IsContinious>false</IsContinious>
+    </Sound>
+    <Sound>
+      <StateClass>AutoOff</StateClass>
+      <BeeperType>None</BeeperType>
+      <IsContinious>false</IsContinious>
+    </Sound>
+    <Sound>
+      <StateClass>Failure</StateClass>
+      <BeeperType>None</BeeperType>
+      <IsContinious>false</IsContinious>
+    </Sound>
+    <Sound>
+      <StateClass>Ignore</StateClass>
+      <BeeperType>None</BeeperType>
+      <IsContinious>false</IsContinious>
+    </Sound>
+    <Sound>
+      <StateClass>TurningOff</StateClass>
+      <BeeperType>None</BeeperType>
+      <IsContinious>false</IsContinious>
+    </Sound>
+    <Sound>
+      <StateClass>TurningOn</StateClass>
+      <BeeperType>None</BeeperType>
+      <IsContinious>false</IsContinious>
+    </Sound>
+  </Sounds>
+  <JournalFilters />
+  <RviSettings>
+    <Ip>172.16.5.7</Ip>
+    <Port>8000</Port>
+    <Login>strazh</Login>
+    <Password>strazh12345</Password>
+    <DllsPath>..\VLC\</DllsPath>
+    <PluginsPath>..\VLC\plugins\</PluginsPath>
+  </RviSettings>
+  <Cameras />
+  <Devices />
+  <EmailData>
+    <Emails />
+    <EmailSettings />
+  </EmailData>
+  <AutomationConfiguration>
+    <Procedures />
+    <AutomationSchedules />
+    <AutomationSounds />
+    <GlobalVariables />
+  </AutomationConfiguration>
+</SystemConfiguration>

@@ -1,0 +1,53 @@
+﻿<Window x:Class="FiresecBootstrapperApplication.MainView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Firesec Installer" Width="400" MinWidth="400" Height="300" MinHeight="300">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Theme\CheckBoxStyle.xaml" />
+                <ResourceDictionary Source="Theme\ButtonStyle.xaml" />
+                <ResourceDictionary Source="Theme\BlueTheme.xaml" />
+                <ResourceDictionary Source="Theme\Converters.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid Background="{DynamicResource BackgroundBrush}">
+        <TextBlock Text="{Binding HeaderText}" Margin="10" FontSize="18" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Top" />
+        <Ellipse Height="100" Width="100" HorizontalAlignment="Center" VerticalAlignment="Center" StrokeThickness="6" Margin="10"
+                 Visibility="{Binding Path=IsThinking, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Ellipse.Stroke>
+                <LinearGradientBrush>
+                    <GradientStop Color="#698EBE" Offset="0.0"/>
+                    <GradientStop Color="White" Offset="0.9"/>
+                </LinearGradientBrush>
+            </Ellipse.Stroke>
+            <Ellipse.RenderTransform>
+                <RotateTransform x:Name="Rotator" CenterX="50" CenterY="50" Angle="0"/>
+            </Ellipse.RenderTransform>
+            <Ellipse.Triggers>
+                <EventTrigger RoutedEvent="Ellipse.Loaded">
+                    <BeginStoryboard>
+                        <Storyboard TargetName="Rotator" TargetProperty="Angle">
+                            <DoubleAnimation By="360" Duration="0:0:2" RepeatBehavior="Forever" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Ellipse.Triggers>
+        </Ellipse>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right">
+            <StackPanel Orientation="Horizontal" Visibility="{Binding Path=IsInstallEnabled, Converter={StaticResource BooleanToVisibilityConverter}}" >
+                <CheckBox Content="Установить SQl сервер" Foreground="White" VerticalAlignment="Center" Margin="10" 
+                          IsChecked="{Binding IsInstallSQL}" Visibility="{Binding Path=CanInstallSQL, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            </StackPanel>
+            <Button Content="Установить" Margin="10" Height="30" Width="100"
+                    Command="{Binding Path=InstallCommand}" Visibility="{Binding Path=IsInstallEnabled, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <Button Content="Удалить" Margin="10" Height="30" Width="100"
+                    Command="{Binding Path=UninstallCommand}" Visibility="{Binding Path=IsUninstallEnabled, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <Button Content="Выход" Margin="10" Height="30" Width="100" 
+                    Command="{Binding Path=ExitCommand}" />
+        </StackPanel>
+    </Grid>
+</Window>

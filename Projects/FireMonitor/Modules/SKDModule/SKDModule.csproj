@@ -1,0 +1,1010 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{8D427CFB-D784-41AC-B2B4-354B017AD556}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SKDModule</RootNamespace>
+    <AssemblyName>SKDModule</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CodeReason.Reports, Version=0.5.0.0, Culture=neutral, PublicKeyToken=74fc60a060db7911, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\3rdParty\codereason_reports_v0.5_alpha\Bin\CodeReason.Reports.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Data.v14.1, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\3rdParty\DevExpress\DevExpress 14.1\DevExpress.Data.v14.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Data.v14.1.resources">
+      <HintPath>..\..\..\..\3rdParty\DevExpress\DevExpress 14.1\ru\DevExpress.Data.v14.1.resources.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Data.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Mvvm.v14.1, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\3rdParty\DevExpress\DevExpress 14.1\DevExpress.Mvvm.v14.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Mvvm.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Printing.v14.1.Core, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\3rdParty\DevExpress\DevExpress 14.1\DevExpress.Printing.v14.1.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Printing.v14.1.Core.resources">
+      <HintPath>..\..\..\..\3rdParty\DevExpress\DevExpress 14.1\ru\DevExpress.Printing.v14.1.Core.resources.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Printing.v14.2.Core, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Xpf.Core.v14.1, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\3rdParty\DevExpress\DevExpress 14.1\DevExpress.Xpf.Core.v14.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Xpf.Core.v14.1.resources, Version=14.1.0.0, Culture=ru, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\3rdParty\DevExpress\DevExpress 14.1\ru\DevExpress.Xpf.Core.v14.1.resources.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Xpf.Core.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="itextsharp, Version=5.4.3.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\3rdParty\iTextSharp\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp.pdfa, Version=5.4.3.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\3rdParty\iTextSharp\itextsharp.pdfa.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp.xtra, Version=5.4.3.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\3rdParty\iTextSharp\itextsharp.xtra.dll</HintPath>
+    </Reference>
+    <Reference Include="Loya.Dameer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\3rdParty\Loya.Dameer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Prism">
+      <HintPath>..\..\..\..\3rdParty\PRISM\Desktop\Microsoft.Practices.Prism.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=2.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="ReachFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Printing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Windows.Controls.Input.Toolkit, Version=3.5.40128.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="UIAutomationTypes" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WPFToolkit, Version=3.5.40128.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="WPFToolkit.Extended, Version=1.4.0.2, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL" />
+    <Reference Include="Xceed.Wpf.Toolkit, Version=2.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\3rdParty\ExtendedWPFToolkit_Binaries\Xceed.Wpf.Toolkit.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\..\Common\Common\AssemblyInfoCommon.cs">
+      <Link>Properties\AssemblyInfoCommon.cs</Link>
+    </Compile>
+    <Compile Include="AccessTemplates\ViewModels\Comparers.cs" />
+    <Compile Include="Common\ChangeIsDeletedSubscriber.cs" />
+    <Compile Include="Common\ChangeIsDeletedViewSubscriber.cs" />
+    <Compile Include="Common\DetailsValidateHelper.cs" />
+    <Compile Include="Common\UpdateOrganisationDoorsEventSubscriber.cs" />
+    <Compile Include="Common\ViewModels\ChiefViewModel.cs" />
+    <Compile Include="Common\ViewModels\EmployeeListViewModel.cs" />
+    <Compile Include="Common\ViewModels\OrganisationBaseViewModel.cs" />
+    <Compile Include="Common\ViewModels\OrganisationElementBaseViewModel.cs" />
+    <Compile Include="Common\ViewModels\DateSelectionViewModel.cs" />
+    <Compile Include="Common\ViewModels\IDetailsViewModel.cs" />
+    <Compile Include="Common\ViewModels\OrganisationsFilterViewModel.cs" />
+    <Compile Include="Common\Views\DateSelectionView.xaml.cs">
+      <DependentUpon>DateSelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Common\Views\DepartmentsFilterView.xaml.cs">
+      <DependentUpon>DepartmentsFilterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Common\Views\EmployeeListView.xaml.cs">
+      <DependentUpon>EmployeeListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Common\Views\EmployeesFilterView.xaml.cs">
+      <DependentUpon>EmployeesFilterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Common\Views\PositionsFilterView.xaml.cs">
+      <DependentUpon>PositionsFilterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\CardTypeToStringConverter.cs" />
+    <Compile Include="Converters\CardTypeToLongStringConverter.cs" />
+    <Compile Include="Converters\RadioButtonCheckedConverter.cs" />
+    <Compile Include="Departments\ViewModels\DepartmentEmployeeListViewModel.cs" />
+    <Compile Include="Departments\Views\DepartmentEmployeeListView.xaml.cs">
+      <DependentUpon>DepartmentEmployeeListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Employees\ViewModels\EmployeeCardsViewModel.cs" />
+    <Compile Include="Employees\ViewModels\AccessDoorsSelectationViewModel.cs" />
+    <Compile Include="Employees\ViewModels\AccessDoorViewModel.cs" />
+    <Compile Include="Employees\ViewModels\CardNumberViewModel.cs" />
+    <Compile Include="Employees\ViewModels\EmployeeDetails\DepartmentSelectionItemViewModel.cs" />
+    <Compile Include="Employees\ViewModels\GKControllerViewModel.cs" />
+    <Compile Include="Employees\ViewModels\GKReaderSelectationViewModel.cs" />
+    <Compile Include="Employees\Views\IsPositionDeletedTextBlock.xaml.cs">
+      <DependentUpon>IsPositionDeletedTextBlock.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Employees\Views\GKReaderSelectationView.xaml.cs">
+      <DependentUpon>GKReaderSelectationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Events\EditDayIntervalEvent.cs" />
+    <Compile Include="Events\EditDocumentEvent.cs" />
+    <Compile Include="Events\EditEmployee2Event.cs" />
+    <Compile Include="Events\EditTimeTrackEvent.cs" />
+    <Compile Include="Events\NewOrganisationEvent.cs" />
+    <Compile Include="Events\RemoveDocumentEvent.cs" />
+    <Compile Include="Events\ShowExportEvent.cs" />
+    <Compile Include="Events\UpdateFilterEvent.cs" />
+    <Compile Include="HR\ViewModels\EmployeesFilterItemViewModel.cs" />
+    <Compile Include="Employees\ViewModels\ReadOnlyAccessDoorViewModel.cs" />
+    <Compile Include="Employees\Views\CardNumberView.xaml.cs">
+      <DependentUpon>CardNumberView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Events\BlockCardEvent.cs" />
+    <Compile Include="Events\ChangeDepartmentChiefEvent.cs" />
+    <Compile Include="Events\ChangeEmployeeGuestEvent.cs" />
+    <Compile Include="Events\ChangeIsDeletedEvent.cs" />
+    <Compile Include="Events\EditEmployeeEvent.cs" />
+    <Compile Include="Events\EditEmployeePositionDepartmentEvent.cs" />
+    <Compile Include="Events\NewCardEvent.cs" />
+    <Compile Include="Events\EditOrganisationEvent.cs" />
+    <Compile Include="Events\NewDepartmentEvent.cs" />
+    <Compile Include="Events\NewPositionEvent.cs" />
+    <Compile Include="Events\OrganisationUsersChangedEvent.cs" />
+    <Compile Include="Events\RemoveOrganisationEvent.cs" />
+    <Compile Include="Events\RestoreOrganisationEvent.cs" />
+    <Compile Include="Events\ShowPassCardDesignerEvent.cs" />
+    <Compile Include="Events\UpdateAccessTemplateEvent.cs" />
+    <Compile Include="Events\UpdateOrganisationDoorsEvent.cs" />
+    <Compile Include="Events\UpdateIsInGridEvent.cs" />
+    <Compile Include="HR\Converters\DeactivationTypeToStringConverter.cs" />
+    <Compile Include="HR\ViewModels\Comparers.cs" />
+    <Compile Include="Employees\ViewModels\EmployeeDetails\EscortSelectionViewModel.cs" />
+    <Compile Include="Employees\ViewModels\EmployeeDetails\ScheduleSelectionViewModel.cs" />
+    <Compile Include="Employees\ViewModels\EmployeeDetails\TextColumnViewModel.cs" />
+    <Compile Include="Employees\ViewModels\CardDoorsViewModel.cs" />
+    <Compile Include="Employees\ViewModels\EmployeeCardDetailsViewModel.cs" />
+    <Compile Include="Employees\ViewModels\CardRemovalReasonViewModel.cs" />
+    <Compile Include="Employees\ViewModels\EmployeeCardViewModel.cs" />
+    <Compile Include="Employees\ViewModels\EmployeeDetails\GraphicsColumnViewModel.cs" />
+    <Compile Include="Employees\ViewModels\EmployeesViewModel.cs" />
+    <Compile Include="Employees\ViewModels\ReaderSelectationViewModel.cs" />
+    <Compile Include="Employees\ViewModels\EmployeeDetails\DepartmentSelectionViewModel.cs" />
+    <Compile Include="Employees\ViewModels\EmployeeDetails\PositionSelectionViewModel.cs" />
+    <Compile Include="Employees\Views\EmployeeDetails\EscortSelectionView.xaml.cs">
+      <DependentUpon>EscortSelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Employees\Views\EmployeeDetails\ScheduleSelectionView.xaml.cs">
+      <DependentUpon>ScheduleSelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Employees\Views\ReaderSelectationView.xaml.cs">
+      <DependentUpon>ReaderSelectationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Employees\Views\EmployeeDetails\DepartmentSelectionView.xaml.cs">
+      <DependentUpon>DepartmentSelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Employees\Views\EmployeeDetails\PositionSelectionView.xaml.cs">
+      <DependentUpon>PositionSelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Events\ArchiveDefaultStateCheckedEvent.cs" />
+    <Compile Include="Events\ShowTimeTrackingEvent.cs" />
+    <Compile Include="Events\ShowHREvent.cs" />
+    <Compile Include="HR\ViewModels\EmployeesFilterViewModel.cs" />
+    <Compile Include="HR\ViewModels\PositionFilterItemViewModel.cs" />
+    <Compile Include="HR\ViewModels\HRFilter.cs" />
+    <Compile Include="HR\ViewModels\PositionsFilterViewModel.cs" />
+    <Compile Include="HR\ViewModels\DepartmentsFilterViewModel.cs" />
+    <Compile Include="HR\ViewModels\DepartmentFilterItemViewModel.cs" />
+    <Compile Include="Common\ViewModels\EmployeeSelectionViewModel.cs" />
+    <Compile Include="Common\Views\EmployeeSelectionView.xaml.cs">
+      <DependentUpon>EmployeeSelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PassCardDesigner\Designer\DesignerCanvas.cs" />
+    <Compile Include="PassCardDesigner\InstrumentAdorners\PassCardImagePropertyAdorner.cs" />
+    <Compile Include="PassCardDesigner\InstrumentAdorners\PassCardTextPropertyAdorner.cs" />
+    <Compile Include="PassCardDesigner\Painter\PassCardImagePropertyPainter.cs" />
+    <Compile Include="PassCardDesigner\ViewModels\PassCardDesignerViewModel.cs" />
+    <Compile Include="PassCardDesigner\ViewModels\PassCardImagePropertyViewModel.cs" />
+    <Compile Include="PassCardDesigner\ViewModels\PassCardTemplateDetailsViewModel.cs" />
+    <Compile Include="PassCardDesigner\ViewModels\PassCardTemplatePropertiesViewModel.cs" />
+    <Compile Include="PassCardDesigner\ViewModels\PassCardTemplatesViewModel.cs" />
+    <Compile Include="PassCardDesigner\ViewModels\PassCardTemplateViewModel.cs" />
+    <Compile Include="PassCardDesigner\ViewModels\PassCardTextPropertyViewModel.cs" />
+    <Compile Include="PassCardDesigner\Views\PassCardImagePropertyView.xaml.cs">
+      <DependentUpon>PassCardImagePropertyView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PassCardDesigner\Views\PassCardTemplateDetailsView.xaml.cs">
+      <DependentUpon>PassCardTemplateDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PassCardDesigner\Views\PassCardTemplatePropertiesView.xaml.cs">
+      <DependentUpon>PassCardTemplatePropertiesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PassCardDesigner\Views\PassCardTemplatesView.xaml.cs">
+      <DependentUpon>PassCardTemplatesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PassCardDesigner\Views\PassCardTextPropertyView.xaml.cs">
+      <DependentUpon>PassCardTextPropertyView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Positions\ViewModels\PositionEmployeeListViewModel.cs" />
+    <Compile Include="Reports\DeviceListReport.cs" />
+    <Compile Include="Reports\DeviceListReportPdf.cs" />
+    <Compile Include="Reports\Providers\EmployeeReportProvider.cs" />
+    <Compile Include="Reports\Providers\EmployeeRootReportProvider.cs" />
+    <Compile Include="Reports\Providers\EventsReportProvider.cs" />
+    <Compile Include="Reports\Providers\WorkingTimeReportProvider.cs" />
+    <Compile Include="Reports\Providers\DoorsReportProvider.cs" />
+    <Compile Include="Reports\Providers\DocumentsReportProvider.cs" />
+    <Compile Include="Reports\Providers\SchedulesReportProvider.cs" />
+    <Compile Include="Reports\Providers\DisciplineReportProvider.cs" />
+    <Compile Include="Reports\Providers\EmployeeZonesReportProvider.cs" />
+    <Compile Include="Reports\Providers\PositionsReportProvider.cs" />
+    <Compile Include="Reports\Providers\DepartmentsReportProvider.cs" />
+    <Compile Include="Reports\Providers\EmployeeDoorsReportProvider.cs" />
+    <Compile Include="Reports\Providers\EmployeeAccessReportProvider.cs" />
+    <Compile Include="Reports\Providers\CardsReportProvider.cs" />
+    <Compile Include="Reports\T13Report.cs" />
+    <Compile Include="Reports\ViewModels\CheckedItemViewModel.cs" />
+    <Compile Include="Reports\ViewModels\ReportFilterOrganisationViewModel.cs" />
+    <Compile Include="Reports\ViewModels\ReportOrganisationsFilterViewModel.cs" />
+    <Compile Include="Reports\ViewModels\ScheduleSchemePageViewModel.cs" />
+    <Compile Include="Reports\ViewModels\DoorPageViewModel.cs" />
+    <Compile Include="Reports\ViewModels\DisciplinaryFilterPageViewModel.cs" />
+    <Compile Include="Reports\ViewModels\DocumentFilterPageViewModel.cs" />
+    <Compile Include="Reports\ViewModels\EventTypePageViewModel.cs" />
+    <Compile Include="Reports\ViewModels\EventTypeViewModel.cs" />
+    <Compile Include="Reports\ViewModels\SKDObjectViewModel.cs" />
+    <Compile Include="Reports\ViewModels\PlacementMainPageViewModel.cs" />
+    <Compile Include="Reports\ViewModels\SchedulePageViewModel.cs" />
+    <Compile Include="Reports\ViewModels\SKDObjectPageViewModel.cs" />
+    <Compile Include="Reports\ViewModels\TreeNodeItemViewModel.cs" />
+    <Compile Include="Reports\ViewModels\UserPageViewModel.cs" />
+    <Compile Include="Reports\ViewModels\ZonePageViewModel.cs" />
+    <Compile Include="Reports\ViewModels\PassCardTypePageViewModel.cs" />
+    <Compile Include="Reports\ViewModels\EmployeePageViewModel.cs" />
+    <Compile Include="Reports\ViewModels\PassCardMainPageViewModel.cs" />
+    <Compile Include="Reports\ViewModels\PositionPageViewModel.cs" />
+    <Compile Include="Reports\ViewModels\DepartmentPageViewModel.cs" />
+    <Compile Include="Reports\ViewModels\OrganizationPageViewModel.cs" />
+    <Compile Include="Reports\Views\DisciplinaryFilterPageView.xaml.cs">
+      <DependentUpon>DisciplinaryFilterPageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\Views\DocumentFilterPageView.xaml.cs">
+      <DependentUpon>DocumentFilterPageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\Views\DoorPageView.xaml.cs">
+      <DependentUpon>DoorPageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\Views\EmployeePageView.xaml.cs">
+      <DependentUpon>EmployeePageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\Views\ScheduleSchemePageView.xaml.cs">
+      <DependentUpon>ScheduleSchemePageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\Views\SKDFilterPageView.xaml.cs">
+      <DependentUpon>SKDFilterPageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\Views\FilterPageView.xaml.cs">
+      <DependentUpon>FilterPageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\Views\OrganizationPageView.xaml.cs">
+      <DependentUpon>OrganizationPageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\Views\PassCardMainPageView.xaml.cs">
+      <DependentUpon>PassCardMainPageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\Views\PassCardTypePageView.xaml.cs">
+      <DependentUpon>PassCardTypePageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\Views\PlacementMainPageView.xaml.cs">
+      <DependentUpon>PlacementMainPageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\Views\SchedulePageView.xaml.cs">
+      <DependentUpon>SchedulePageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\Views\UserPageView.xaml.cs">
+      <DependentUpon>UserPageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\Views\ZonePageView.xaml.cs">
+      <DependentUpon>ZonePageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TimeTrack\Common\CopyHelper.cs" />
+    <Compile Include="TimeTrack\Common\ViewModels\IntervalViewPartViewModel.cs" />
+    <Compile Include="TimeTrack\Common\ViewModels\OrganisationViewModel.cs" />
+    <Compile Include="TimeTrack\Converters\TimeTrackTypeToColorConverter.cs" />
+    <Compile Include="TimeTrack\Converters\TimeSpanToColorConverter.cs" />
+    <Compile Include="TimeTrack\Converters\TimeSpanToStringConverter.cs" />
+    <Compile Include="TimeTrack\Holidays\ViewModels\Comparers.cs" />
+    <Compile Include="TimeTrack\DayIntervals\ViewModels\Comparers.cs" />
+    <Compile Include="TimeTrack\ScheduleShemes\ViewModels\Comparers.cs" />
+    <Compile Include="TimeTrack\ScheduleShemes\ViewModels\ScheduleDayIntervalViewModel.cs" />
+    <Compile Include="TimeTrack\ScheduleShemes\ViewModels\ScheduleSchemeDetailsViewModel.cs" />
+    <Compile Include="TimeTrack\ScheduleShemes\ViewModels\ScheduleSchemesViewModel.cs" />
+    <Compile Include="TimeTrack\ScheduleShemes\ViewModels\ScheduleSchemeViewModel.cs" />
+    <Compile Include="TimeTrack\ScheduleShemes\Views\ScheduleSchemeDetailsView.xaml.cs">
+      <DependentUpon>ScheduleSchemeDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TimeTrack\ScheduleShemes\Views\ScheduleSchemesView.xaml.cs">
+      <DependentUpon>ScheduleSchemesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TimeTrack\Shedules\ViewModels\Comparers.cs" />
+    <Compile Include="TimeTrack\TimeTracking\Model\TimeTrackingPeriod.cs" />
+    <Compile Include="TimeTrack\TimeTracking\ViewModels\DayTimeTrackPartViewModel.cs" />
+    <Compile Include="TimeTrack\TimeTracking\ViewModels\DayTrackViewModel.cs" />
+    <Compile Include="TimeTrack\TimeTracking\ViewModels\DocumentDetailsViewModel.cs" />
+    <Compile Include="TimeTrack\TimeTracking\ViewModels\DocumentsViewModel.cs" />
+    <Compile Include="TimeTrack\TimeTracking\ViewModels\DocumentTypeDetailsViewModel.cs" />
+    <Compile Include="TimeTrack\TimeTracking\ViewModels\DocumentTypesViewModel.cs" />
+    <Compile Include="TimeTrack\TimeTracking\ViewModels\DocumentTypeViewModel.cs" />
+    <Compile Include="TimeTrack\TimeTracking\ViewModels\DocumentViewModel.cs" />
+    <Compile Include="TimeTrack\TimeTracking\Model\TimeTrackFilter.cs" />
+    <Compile Include="TimeTrack\TimeTracking\ViewModels\ReportSettingsViewModel.cs" />
+    <Compile Include="TimeTrack\TimeTracking\ViewModels\TimeTrackFilterViewModel.cs" />
+    <Compile Include="TimeTrack\TimeTracking\ViewModels\TimeTrackDetailsViewModel.cs" />
+    <Compile Include="TimeTrack\TimeTracking\ViewModels\TimeTrackingViewModel.cs" />
+    <Compile Include="TimeTrack\TimeTracking\ViewModels\TimeTrackPartDetailsViewModel.cs" />
+    <Compile Include="TimeTrack\TimeTracking\ViewModels\TimeTrackTypeFilterItem.cs" />
+    <Compile Include="TimeTrack\TimeTracking\ViewModels\TimeTrackViewModel.cs" />
+    <Compile Include="TimeTrack\TimeTracking\Views\DocumentDetailsView.xaml.cs">
+      <DependentUpon>DocumentDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TimeTrack\TimeTracking\Views\DocumentTypeDetailsView.xaml.cs">
+      <DependentUpon>DocumentTypeDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TimeTrack\TimeTracking\Views\DocumentTypesView.xaml.cs">
+      <DependentUpon>DocumentTypesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TimeTrack\TimeTracking\Views\ReportSettingsView.xaml.cs">
+      <DependentUpon>ReportSettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TimeTrack\TimeTracking\Views\TimeTrackFilterView.xaml.cs">
+      <DependentUpon>TimeTrackFilterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TimeTrack\TimeTracking\Views\TimeTrackDetailsView.xaml.cs">
+      <DependentUpon>TimeTrackDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TimeTrack\TimeTracking\Views\TimeTrackingCellView.xaml.cs">
+      <DependentUpon>TimeTrackingCellView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TimeTrack\TimeTracking\Views\TimeTrackingView.xaml.cs">
+      <DependentUpon>TimeTrackingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Organisations\ViewModels\IOrganisationItemViewModel.cs" />
+    <Compile Include="Organisations\ViewModels\OrganisationItemsViewModel.cs" />
+    <Compile Include="Organisations\ViewModels\OrganisationUserViewModel.cs" />
+    <Compile Include="Organisations\ViewModels\OrganisationDoorsViewModel.cs" />
+    <Compile Include="Organisations\ViewModels\OrganisationDoorViewModel.cs" />
+    <Compile Include="Organisations\ViewModels\OrganisationUsersViewModel.cs" />
+    <Compile Include="PassCard\Designer\PassCardCanvas.cs" />
+    <Compile Include="PassCard\Designer\PassCardImagePropertyPainter.cs" />
+    <Compile Include="PassCard\ViewModels\PassCardViewModel.cs" />
+    <Compile Include="Employees\Views\AccessDoorsSelectationView.xaml.cs">
+      <DependentUpon>AccessDoorsSelectationView.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Employees\Views\CardRemovalReasonView.xaml.cs">
+      <DependentUpon>CardRemovalReasonView.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Employees\Views\CardDoorsView.xaml.cs">
+      <DependentUpon>CardDoorsView.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Employees\Views\EmployeeCardDetailsView.xaml.cs">
+      <DependentUpon>EmployeeCardDetailsView.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Employees\Views\EmployeeDetails\EmployeeDetailsView.xaml.cs">
+      <DependentUpon>EmployeeDetailsView.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AccessTemplates\Views\AccessTemplateFilterView.xaml.cs">
+      <DependentUpon>AccessTemplateFilterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Employees\Views\EmployeesView.xaml.cs">
+      <DependentUpon>EmployeesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AdditionalColumns\Converters\AdditionalColumnTypeToStringConverter.cs" />
+    <Compile Include="Cards\ViewModels\CardsViewModel.cs" />
+    <Compile Include="Cards\ViewModels\CardViewModel.cs" />
+    <Compile Include="Cards\Views\CardsView.xaml.cs">
+      <DependentUpon>CardsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Common\ViewModels\FilterBaseViewModel.cs" />
+    <Compile Include="Common\ViewModels\FilterOrganizationViewModel.cs" />
+    <Compile Include="Common\ViewModels\OrganizationFilterBaseViewModel.cs" />
+    <Compile Include="Common\Views\FilterMarkDeletedTabItem.xaml.cs">
+      <DependentUpon>FilterMarkDeletedTabItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Common\Views\OrganisationsFilterView.xaml.cs">
+      <DependentUpon>OrganisationsFilterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Departments\ViewModels\DepartmentDetailsViewModel.cs" />
+    <Compile Include="Departments\ViewModels\DepartmentViewModel.cs" />
+    <Compile Include="Departments\Views\DepartmentDetailsView.xaml.cs">
+      <DependentUpon>DepartmentDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Employees\ViewModels\EmployeeDetails\EmployeeDetailsViewModel.cs" />
+    <Compile Include="PassCard\Views\PassCardView.xaml.cs">
+      <DependentUpon>PassCardView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Events\ShowHolidaysEvent.cs" />
+    <Compile Include="Events\ShowSKDJournalEvent.cs" />
+    <Compile Include="Events\ShowSlideDayIntervalsEvent.cs" />
+    <Compile Include="Events\ShowMonthlyIntervalsEvent.cs" />
+    <Compile Include="Events\ShowTimeIntervalsEvent.cs" />
+    <Compile Include="Events\ShowVerificationEvent.cs" />
+    <Compile Include="Events\ShowWeeklyIntervalsEvent.cs" />
+    <Compile Include="Events\ShowShedulesEvent.cs" />
+    <Compile Include="AccessTemplates\ViewModels\AccessTemplateFilterViewModel.cs" />
+    <Compile Include="Events\UpdateAdditionalColumns.cs" />
+    <Compile Include="TimeTrack\Holidays\ViewModels\NightSettingsViewModel.cs" />
+    <Compile Include="TimeTrack\Holidays\Views\HolidayDetailsView.xaml.cs">
+      <DependentUpon>HolidayDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TimeTrack\Shedules\ViewModels\ZoneViewModel.cs" />
+    <Compile Include="TimeTrack\Shedules\ViewModels\ScheduleDetailsViewModel.cs" />
+    <Compile Include="TimeTrack\Shedules\ViewModels\ScheduleZoneViewModel.cs" />
+    <Compile Include="TimeTrack\Shedules\ViewModels\SchedulesViewModel.cs" />
+    <Compile Include="TimeTrack\Shedules\ViewModels\ScheduleViewModel.cs" />
+    <Compile Include="TimeTrack\Shedules\ViewModels\ScheduleZoneDetailsViewModel.cs" />
+    <Compile Include="TimeTrack\Shedules\Views\ScheduleDetailsView.xaml.cs">
+      <DependentUpon>ScheduleDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TimeTrack\Shedules\Views\SchedulesView.xaml.cs">
+      <DependentUpon>SchedulesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TimeTrack\Shedules\Views\ScheduleZoneDetailsView.xaml.cs">
+      <DependentUpon>ScheduleZoneDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Positions\ViewModels\PositionsViewModel.cs" />
+    <Compile Include="Positions\ViewModels\PositionViewModel.cs" />
+    <Compile Include="Positions\ViewModels\PositionDetailsViewModel.cs" />
+    <Compile Include="Positions\Views\PositionDetailsView.xaml.cs">
+      <DependentUpon>PositionDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Positions\Views\PositionsView.xaml.cs">
+      <DependentUpon>PositionsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SKDModuleLoader.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>
+      </SubType>
+    </Compile>
+    <Compile Include="TimeTrack\TimeTracking\Views\TimeTrackPartDetailsView.xaml.cs">
+      <DependentUpon>TimeTrackPartDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Verification\ViewModels\VerificationViewModel.cs" />
+    <Compile Include="Verification\Views\VerificationlView.xaml.cs">
+      <DependentUpon>VerificationlView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Employees\ViewModels\EmployeeViewModel.cs" />
+    <Compile Include="Organisations\ViewModels\OrganisationDetailsViewModel.cs" />
+    <Compile Include="Organisations\ViewModels\OrganisationsViewModel.cs" />
+    <Compile Include="Organisations\ViewModels\OrganisationViewModel.cs" />
+    <Compile Include="Organisations\Views\OrganisationDetailsView.xaml.cs">
+      <DependentUpon>OrganisationDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Organisations\Views\OrganisationsView.xaml.cs">
+      <DependentUpon>OrganisationsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Departments\ViewModels\DepartmentsViewModel.cs" />
+    <Compile Include="Departments\Views\DepartmentsView.xaml.cs">
+      <DependentUpon>DepartmentsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AdditionalColumns\ViewModels\AdditionalColumnTypeDetailsViewModel.cs" />
+    <Compile Include="AdditionalColumns\ViewModels\AdditionalColumnTypesViewModel.cs" />
+    <Compile Include="AdditionalColumns\ViewModels\AdditionalColumnTypeViewModel.cs" />
+    <Compile Include="AdditionalColumns\Views\AdditionalColumnTypeDetailsView.xaml.cs">
+      <DependentUpon>AdditionalColumnTypeDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AdditionalColumns\Views\AdditionalColumnTypesView.xaml.cs">
+      <DependentUpon>AdditionalColumnTypesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TimeTrack\Holidays\ViewModels\HolidayDetailsViewModel.cs" />
+    <Compile Include="TimeTrack\Holidays\ViewModels\HolidaysViewModel.cs" />
+    <Compile Include="TimeTrack\Holidays\ViewModels\HolidayViewModel.cs" />
+    <Compile Include="TimeTrack\Holidays\Views\NightSettingsView.xaml.cs">
+      <DependentUpon>NightSettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TimeTrack\Holidays\Views\HolidaysView.xaml.cs">
+      <DependentUpon>HolidaysView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TimeTrack\DayIntervals\ViewModels\DayIntervalDetailsViewModel.cs" />
+    <Compile Include="TimeTrack\DayIntervals\ViewModels\DayIntervalPartViewModel.cs" />
+    <Compile Include="TimeTrack\DayIntervals\ViewModels\DayIntervalPartDetailsViewModel.cs" />
+    <Compile Include="TimeTrack\DayIntervals\ViewModels\DayIntervalsViewModel.cs" />
+    <Compile Include="TimeTrack\DayIntervals\ViewModels\DayIntervalViewModel.cs" />
+    <Compile Include="TimeTrack\DayIntervals\Views\DayIntervalPartDetailsView.xaml.cs">
+      <DependentUpon>DayIntervalPartDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TimeTrack\DayIntervals\Views\DayIntervalsView.xaml.cs">
+      <DependentUpon>DayIntervalsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TimeTrack\DayIntervals\Views\DayIntervalDetailsView.xaml.cs">
+      <DependentUpon>DayIntervalDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AccessTemplates\ViewModels\AccessTemplateDetailsViewModel.cs" />
+    <Compile Include="AccessTemplates\ViewModels\AccessTemplatesViewModel.cs" />
+    <Compile Include="AccessTemplates\ViewModels\AccessTemplateViewModel.cs" />
+    <Compile Include="AccessTemplates\Views\AccessTemplateDetailsView.xaml.cs">
+      <DependentUpon>AccessTemplateDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AccessTemplates\Views\AccessTemplatesView.xaml.cs">
+      <DependentUpon>AccessTemplatesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="HR\ViewModels\HRFilterViewModel.cs" />
+    <Compile Include="HR\ViewModels\HRViewModel.cs" />
+    <Compile Include="HR\Views\HRFilterView.xaml.cs">
+      <DependentUpon>HRFilterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="HR\Views\HRView.xaml.cs">
+      <DependentUpon>HRView.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Common\Common\Common.csproj">
+      <Project>{FE37B6D4-73E5-40F2-A770-A974561430B8}</Project>
+      <Name>Common %28Common\Common%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\Controls\Controls.csproj">
+      <Project>{0F0ACE8E-E606-4FCA-B6B2-2F1FD86121DE}</Project>
+      <Name>Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\DeviceControls\DeviceControls.csproj">
+      <Project>{D78CEFEE-52B2-42BC-9E50-94D990E9DFE2}</Project>
+      <Name>DeviceControls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\FiresecClient\FiresecClient.csproj">
+      <Project>{F46953E0-CA12-4659-AE8C-88241B541F6C}</Project>
+      <Name>FiresecClient</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\FiresecServiceAPI\FiresecAPI.csproj">
+      <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
+      <Name>FiresecAPI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\GKProcessor\GKProcessor.csproj">
+      <Project>{62564D14-0234-4947-8218-2C7D74721023}</Project>
+      <Name>GKProcessor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\Infrastructure.Client\Infrastructure.Client.csproj">
+      <Project>{F91017CC-7740-46F0-B86A-9FDB6E2E1EDB}</Project>
+      <Name>Infrastructure.Client</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
+      <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
+      <Name>Infrastructure.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\Infrastructure.Designer\Infrastructure.Designer.csproj">
+      <Project>{9193BC5C-3DEF-49B0-844A-9385B1540381}</Project>
+      <Name>Infrastructure.Designer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\Infrustructure.Plans\Infrustructure.Plans.csproj">
+      <Project>{DA2A8431-7328-4AE8-926F-E191700577A1}</Project>
+      <Name>Infrustructure.Plans</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Infrastructure\Infrastructure.csproj">
+      <Project>{2A951DA3-6221-43E1-8B88-13A591FAA53B}</Project>
+      <Name>Infrastructure</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Common\Views\DateSelectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Common\Views\DepartmentsFilterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Common\Views\EmployeeListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Common\Views\EmployeesFilterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Common\Views\PositionsFilterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Departments\Views\DepartmentEmployeeListView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Employees\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Employees\Views\AccessDoorsSelectationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Employees\Views\CardNumberView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Employees\Views\CardRemovalReasonView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Employees\Views\CardDoorsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Employees\Views\EmployeeCardDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Employees\Views\EmployeeDetails\EmployeeDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Employees\Views\EmployeeDetails\EscortSelectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AccessTemplates\Views\AccessTemplateFilterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Employees\Views\EmployeeDetails\ScheduleSelectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Employees\Views\EmployeesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Cards\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Cards\Views\CardsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Common\Views\FilterMarkDeletedTabItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Common\Views\OrganisationsFilterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Departments\Views\DepartmentDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Employees\Views\IsPositionDeletedTextBlock.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Employees\Views\ReaderSelectationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Employees\Views\EmployeeDetails\DepartmentSelectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Employees\Views\EmployeeDetails\PositionSelectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Resource Include="Reports\T13.xaml">
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="Reports\T13_2.xaml">
+      <SubType>Designer</SubType>
+    </Resource>
+    <Page Include="Common\Views\EmployeeSelectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Employees\Views\GKReaderSelectationView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PassCardDesigner\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PassCardDesigner\Views\PassCardImagePropertyView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PassCardDesigner\Views\PassCardTemplateDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PassCardDesigner\Views\PassCardTemplatePropertiesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PassCardDesigner\Views\PassCardTemplatesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PassCardDesigner\Views\PassCardTextPropertyView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Resource Include="Reports\DeviceListReport.xaml">
+      <SubType>Designer</SubType>
+    </Resource>
+    <Page Include="Reports\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Reports\Views\DisciplinaryFilterPageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Reports\Views\DocumentFilterPageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Reports\Views\DoorPageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Reports\Views\EmployeePageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Reports\Views\ScheduleSchemePageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Reports\Views\SKDFilterPageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Reports\Views\FilterPageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Reports\Views\OrganizationPageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Reports\Views\PassCardMainPageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Reports\Views\PassCardTypePageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Reports\Views\PlacementMainPageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Reports\Views\SchedulePageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Reports\Views\UserPageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Reports\Views\ZonePageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TimeTrack\ScheduleShemes\Views\ScheduleSchemeDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TimeTrack\ScheduleShemes\Views\ScheduleSchemesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TimeTrack\TimeTracking\Views\DocumentDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TimeTrack\TimeTracking\Views\DocumentTypeDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TimeTrack\TimeTracking\Views\DocumentTypesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TimeTrack\TimeTracking\Views\ReportSettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TimeTrack\TimeTracking\Views\TimeTrackFilterView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TimeTrack\TimeTracking\Views\TimeTrackDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TimeTrack\TimeTracking\Views\TimeTrackingCellView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TimeTrack\TimeTracking\Views\TimeTrackingView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PassCard\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PassCard\Views\PassCardView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TimeTrack\Holidays\Views\HolidayDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TimeTrack\Shedules\Views\ScheduleDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TimeTrack\Shedules\Views\SchedulesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TimeTrack\Shedules\Views\ScheduleZoneDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Organisations\Views\OrganisationDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Organisations\Views\OrganisationsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Positions\Views\PositionDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TimeTrack\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TimeTrack\Holidays\Views\NightSettingsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TimeTrack\Holidays\Views\HolidaysView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TimeTrack\DayIntervals\Views\DayIntervalDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TimeTrack\DayIntervals\Views\DayIntervalPartDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TimeTrack\DayIntervals\Views\DayIntervalsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Positions\Views\PositionsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TimeTrack\TimeTracking\Views\TimeTrackPartDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Verification\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Verification\Views\VerificationlView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Organisations\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Positions\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Departments\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Departments\Views\DepartmentsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="AdditionalColumns\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="AdditionalColumns\Views\AdditionalColumnTypeDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="AdditionalColumns\Views\AdditionalColumnTypesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="AccessTemplates\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="AccessTemplates\Views\AccessTemplateDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="AccessTemplates\Views\AccessTemplatesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="HR\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="HR\Views\HRFilterView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="HR\Views\HRView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,22 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:Views="clr-namespace:AutomationModule.Views"
+					xmlns:ViewModels="clr-namespace:AutomationModule.ViewModels">
+
+	<DataTemplate DataType="{x:Type ViewModels:SchedulesViewModel}">
+		<Views:SchedulesView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:SchedulesMenuViewModel}">
+		<Views:SchedulesMenuView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:ScheduleDetailsViewModel}">
+		<Views:ScheduleDetailsView />
+	</DataTemplate>
+	
+	<DataTemplate DataType="{x:Type ViewModels:ProcedureSelectionViewModel}">
+		<Views:ProcedureSelectionView/>
+	</DataTemplate>
+	
+</ResourceDictionary>
