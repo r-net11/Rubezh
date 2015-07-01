@@ -63,7 +63,12 @@ namespace GKProcessor
 
 					var stateBit = CodeReaderEnterTypeToStateBit(settingsPart.CodeReaderEnterType);
 					formula.AddGetBit(stateBit, guardDevice.Device, databaseType);
-					var gotoFormulaOperation = formula.Add(FormulaOperationType.BR, 1, 0);
+					formula.Add(FormulaOperationType.BR, 2, 2);
+					formula.Add(FormulaOperationType.CONST);
+					if (isPim)
+						formula.Add(FormulaOperationType.BR, 0, 2);
+					else
+						formula.Add(FormulaOperationType.BR, 0, 2);
 					var formulaNo = formula.FormulaOperations.Count;
 
 					if (settingsPart.CodeUIDs.Count > 0 && settingsPart.AccessLevel == 0)
@@ -111,7 +116,8 @@ namespace GKProcessor
 					{
 						formula.Add(FormulaOperationType.OR);
 					}
-					gotoFormulaOperation.SecondOperand = (ushort)(formula.FormulaOperations.Count - formulaNo + (isPim ? 4 : 3));
+					
+					//gotoFormulaOperation.SecondOperand = (ushort)(formula.FormulaOperations.Count - formulaNo + (isPim ? 4 : 3));
 				}
 				else
 				{
