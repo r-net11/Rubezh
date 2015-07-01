@@ -28,7 +28,7 @@
 					<StackPanel>
 						<GroupBox Header="Запрет повторного прохода" Foreground="{DynamicResource ForegroundColorLight}" Margin="2">
 							<StackPanel MinHeight="160">
-								<CheckBox Content="Активировать" IsChecked="{Binding IsAntiPassBackActivated}" Margin="2"/>
+								<CheckBox Content="Активировать" IsChecked="{Binding IsAntiPassBackActivated}" IsEnabled="{Binding IsAntiPassBackEnabled}" Margin="2"/>
 								<RadioButton GroupName="AntipassBackGroup" Content="Считыватель 1-вход, 2-выход" IsChecked="{Binding SelectedAntiPassBackMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=R1In_R2Out}" IsEnabled="{Binding IsAntiPassBackModeR1InR2OutEnabled}" Margin="2"/>
 								<RadioButton GroupName="AntipassBackGroup" Content="Считыватель 3-вход, 4-выход" IsChecked="{Binding SelectedAntiPassBackMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=R3In_R4Out}" IsEnabled="{Binding IsAntiPassBackModeR3InR4OutEnabled}" Margin="2"/>
 								<RadioButton GroupName="AntipassBackGroup" Content="Считыватель 1 и 3-вход, 2 и 4-выход" IsChecked="{Binding SelectedAntiPassBackMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=R1R3In_R2R4Out}" IsEnabled="{Binding IsAntiPassBackModeR1R3InR2R4OutEnabled}" Margin="2"/>
@@ -38,7 +38,7 @@
 					<StackPanel>
 						<GroupBox Header="Блокировка прохода" Foreground="{DynamicResource ForegroundColorLight}" Margin="2">
 							<StackPanel MinHeight="160">
-								<CheckBox Content="Активировать" IsChecked="{Binding IsInterlockActivated}" Margin="2"/>
+								<CheckBox Content="Активировать" IsChecked="{Binding IsInterlockActivated}" IsEnabled="{Binding IsInterlockEnabled}" Margin="2"/>
 								<RadioButton GroupName="InterlockGroup" Content="Замок 1+2" IsChecked="{Binding SelectedInterlockMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=L1L2}" IsEnabled="{Binding IsInterlockModeL1L2Enabled}" Margin="2"/>
 								<RadioButton GroupName="InterlockGroup" Content="Замок 1+2+3" IsChecked="{Binding SelectedInterlockMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=L1L2L3}" IsEnabled="{Binding IsInterlockModeL1L2L3Enabled}" Margin="2"/>
 								<RadioButton GroupName="InterlockGroup" Content="Замок 1+2+3+4" IsChecked="{Binding SelectedInterlockMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=L1L2L3L4}" IsEnabled="{Binding IsInterlockModeL1L2L3L4Enabled}" Margin="2"/>

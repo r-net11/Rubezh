@@ -71,6 +71,9 @@
 			<TabItem Header="Пользовательские данные" DataContext="{Binding CustomDataViewModel}">
 				<Views:CustomDataView />
 			</TabItem>
+			<TabItem Header="Поиск устройств" DataContext="{Binding SearchDevicesViewModel}">
+				<Views:SearchDevicesView />
+			</TabItem>
 		</TabControl>
 
 		<TextBox Grid.Row="1" Name="_textBox" TextWrapping="Wrap" />
