@@ -106,11 +106,11 @@ namespace FiresecService.Service
 			var callbackResult = new CallbackResult()
 			{
 				CallbackResultType = CallbackResultType.GKPropertyChanged,
-				GKPropertyChangedCallback = new GKPropertyChangedCallback()
-				{
-					ObjectUID = objectUID,
-					DeviceProperties = deviceProperties
-				}
+				//GKPropertyChangedCallback = new GKPropertyChangedCallback()
+				//{
+				//	ObjectUID = objectUID,
+				//	DeviceProperties = deviceProperties
+				//}
 			};
 			CallbackManager.Add(callbackResult);
 		}
