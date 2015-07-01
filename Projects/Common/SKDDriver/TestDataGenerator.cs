@@ -2,6 +2,7 @@
 using FiresecClient;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -20,6 +21,36 @@ namespace SKDDriver.DataClasses
             {
                 var cards = TestEmployeeCards();
                 TestCardDoors(cards, true);
+                return new OperationResult();
+            }
+            catch (Exception e)
+            {
+                return new OperationResult(e.Message);
+            }
+        }
+
+        public OperationResult GenerateJournal()
+        {
+            try
+            {
+                var journals = new List<Journal>();
+                for (int i = 0; i < 100000; i++)
+                {
+                    var journal = new Journal
+                    {
+                        UID = Guid.NewGuid(),
+                        CardNo = 1,
+                        Description = 1,
+                        Name = 1,
+                        ObjectType = 1,
+                        ObjectUID = Guid.Empty,
+                        Subsystem = 1,
+                        SystemDate = DateTime.Now,
+                    };
+                    journals.Add(journal);    
+                }
+                Context.Journals.AddRange(journals);
+                Context.SaveChanges();
                 return new OperationResult();
             }
             catch (Exception e)
@@ -74,25 +105,46 @@ namespace SKDDriver.DataClasses
         public List<Guid> TestEmployeeCards()
         {
             DeleteAll();
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+            var employees = new List<Employee>();
             var cards = new List<Card>();
             for (int i = 0; i < 1; i++)
             {
-                var org = new Organisation { Name = "Тестовая Организация " + i, UID = Guid.NewGuid(), RemovalDate = new DateTime(1900, 1, 1), ExternalKey = "-1" };
+                var org = new Organisation { Name = "Тестовая Организация " + i, UID = Guid.NewGuid(), ExternalKey = "-1" };
                 Context.Organisations.Add(org);
                 var user = new OrganisationUser { UID = Guid.NewGuid(), UserUID = new Guid("10e591fb-e017-442d-b176-f05756d984bb"), OrganisationUID = org.UID };
                 Context.OrganisationUsers.Add(user);
+                
                 for (int j = 0; j < 65535; j++)
                 {
                     var empl = CreateEmployee(j.ToString(), org.UID);
-                    Context.Employees.Add(empl);
+                    employees.Add(empl);
                     var card = CreateCard(j, empl.UID);
                     cards.Add(card);
-                    Context.Cards.Add(card);
                 }
-
             }
-            Context.SaveChanges();
+            stopwatch.Stop();
+            Trace.WriteLine("GenerateModels " + stopwatch.Elapsed);
 
+            stopwatch = new Stopwatch();
+            stopwatch.Start();
+            bool isBreak = false;
+            int currentPage = 0;
+            int pageSize = 10000;
+            while (!isBreak)
+            {
+                var employeePortion = employees.Skip(currentPage * pageSize).Take(pageSize).ToList();
+                var cardPortion = cards.Skip(currentPage * pageSize).Take(pageSize).ToList();
+                Context.Employees.AddRange(employeePortion);
+                Context.Cards.AddRange(cardPortion);
+                Context.SaveChanges();
+                isBreak = cardPortion.Count < pageSize;
+                currentPage++;
+            }
+            stopwatch.Stop();
+            Trace.WriteLine("Context.SaveChanges " + stopwatch.Elapsed);
+            
             return cards.Select(x => x.UID).ToList();
         }
 
@@ -113,7 +165,7 @@ namespace SKDDriver.DataClasses
             Context.SaveChanges();
         }
 
-        private void DeleteAll()
+        void DeleteAll()
         {
             Context.Database.ExecuteSqlCommand("DELETE FROM \"AccessTemplate\"");
             Context.Database.ExecuteSqlCommand("DELETE FROM \"AdditionalColumn\"");
@@ -162,7 +214,6 @@ namespace SKDDriver.DataClasses
                 PositionUID = posUID,
                 OrganisationUID = orgUID,
                 UID = Guid.NewGuid(),
-                RemovalDate = _minDate,
                 BirthDate = _minDate,
                 CredentialsStartDate = _minDate,
                 DocumentGivenDate = _minDate,

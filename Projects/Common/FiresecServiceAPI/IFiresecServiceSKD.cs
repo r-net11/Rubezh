@@ -103,6 +103,8 @@ namespace FiresecAPI
 
 		[OperationContract]
 		OperationResult SaveCardTemplate(SKDCard card);
+        [OperationContract]
+        OperationResult BeginGetCards(CardFilter archiveFilter, Guid uid);
 		#endregion
 
 		#region AccessTemplate
@@ -291,6 +293,9 @@ namespace FiresecAPI
 
 		[OperationContract]
 		OperationResult GenerateEmployeeDays();
+
+        [OperationContract]
+        OperationResult GenerateJournal();
 
 		[OperationContract]
 		OperationResult GenerateTestData(bool isAscending);

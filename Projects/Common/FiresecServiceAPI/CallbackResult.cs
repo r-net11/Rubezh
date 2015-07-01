@@ -20,6 +20,9 @@ namespace FiresecAPI
 		[DataMember]
 		public List<JournalItem> JournalItems { get; set; }
 
+        [DataMember]
+        public DbCallbackResult DbCallbackResult { get; set; }
+
 		[DataMember]
 		public GKProgressCallback GKProgressCallback { get; set; }
 
@@ -42,6 +45,29 @@ namespace FiresecAPI
 		ArchiveCompleted,
 		AutomationCallbackResult,
 		ConfigurationChanged,
-		Disconnecting
+		Disconnecting, 
+        QueryDb
 	}
+
+    public class DbCallbackResult
+    {
+        public DbCallbackResult()
+        {
+            UID = Guid.NewGuid();
+            Employees = new List<ShortEmployee>();
+            Cards = new List<SKDCard>();
+        }
+        
+        public Guid UID;
+        public List<ShortEmployee> Employees;
+        public List<SKDCard> Cards;
+        public DbCallbackResultType DbCallbackResultType;
+    }
+
+    public enum DbCallbackResultType
+    {
+        Employees,
+        Cards
+    }
+    
 }

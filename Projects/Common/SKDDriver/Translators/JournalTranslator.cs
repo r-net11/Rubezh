@@ -116,14 +116,29 @@ namespace SKDDriver.DataClasses
 				IsAbort = false;
 				var pageSize = archiveFilter.PageSize;
 				int page = 0;
-				bool isEnd = false;
-                while (!isEnd && !IsAbort)
-				{
-					var journalItems = Context.Journals.SqlQuery(BuildArchiveFilterQuery(archiveFilter)).Skip(page * pageSize).Take(pageSize).ToList().Select(x => Translate(x)).ToList();
-					page++;
-					isEnd = journalItems.Count < pageSize;
-					PublishNewItemsPortion(journalItems, archivePortionUID);
-				}
+                //bool isEnd = false;
+                //while (!isEnd && !IsAbort)
+                //{
+                //    var journalItems = Context.Journals.SqlQuery(BuildArchiveFilterQuery(archiveFilter)).Skip(page * pageSize).Take(pageSize).ToList().Select(x => Translate(x)).ToList();
+                //    page++;
+                //    isEnd = journalItems.Count < pageSize;
+                //    PublishNewItemsPortion(journalItems, archivePortionUID);
+                //}
+                var portion = new List<JournalItem>();
+                int itemNo = 0;
+                foreach (var item in Context.Journals.SqlQuery(BuildArchiveFilterQuery(archiveFilter)))
+                {
+                    itemNo++;
+                    portion.Add(Translate(item));
+                    if (itemNo % pageSize == 0)
+                    {
+                        PublishNewItemsPortion(portion, archivePortionUID);
+                        portion = new List<JournalItem>();
+                    }
+                }
+                PublishNewItemsPortion(portion, archivePortionUID);
+                
+
 				return new OperationResult();
 			}
 			catch (Exception e)

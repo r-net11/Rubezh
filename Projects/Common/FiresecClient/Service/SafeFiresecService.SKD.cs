@@ -120,7 +120,7 @@ namespace FiresecClient
 		}
 		public void BeginGetFilteredArchive(ArchiveFilter archiveFilter, Guid archivePortionUID)
 		{
-			SafeOperationCall(() => FiresecService.BeginGetFilteredArchive(archiveFilter, archivePortionUID), "BeginGetFilteredArchive");
+            SafeOperationCall(() => FiresecService.BeginGetFilteredArchive(archiveFilter, archivePortionUID), "BeginGetFilteredArchive");
 		}
 		public OperationResult<bool> AddJournalItem(JournalItem journalItem)
 		{
@@ -157,6 +157,10 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute(() => FiresecService.SaveCardTemplate(item));
 		}
+        public void BeginGetCards(CardFilter cardFilter, Guid uid)
+        {
+            SafeOperationCall(() => FiresecService.BeginGetCards(cardFilter, uid), "BeginGetCards");
+        }
 		#endregion
 
 		#region AccessTemplate
@@ -444,6 +448,11 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute(() => FiresecService.GenerateEmployeeDays());
 		}
+
+        public OperationResult GenerateJournal()
+        {
+            return SafeContext.Execute(() => FiresecService.GenerateJournal());
+        }
 
 		public OperationResult GenerateTestData(bool isAscending)
 		{

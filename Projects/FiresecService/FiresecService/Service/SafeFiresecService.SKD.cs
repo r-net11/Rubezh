@@ -139,7 +139,10 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveCardTemplate(item));
 		}
-		
+        public OperationResult BeginGetCards(CardFilter filter, Guid uid)
+        {
+            return SafeContext.Execute<OperationResult>(() => FiresecService.BeginGetCards(filter, uid));
+        }
 		#endregion
 
 		#region AccessTemplate
@@ -393,6 +396,11 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.GenerateEmployeeDays());
 		}
+
+        public OperationResult GenerateJournal()
+        {
+            return SafeContext.Execute<OperationResult>(() => FiresecService.GenerateJournal());
+        }
 
 		public OperationResult GenerateTestData(bool isAscending)
 		{

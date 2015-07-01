@@ -9,12 +9,15 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Events;
+using FiresecAPI;
+using System.Collections.Generic;
 
 namespace SKDModule.ViewModels
 {
 	public class CardsViewModel : ViewPartViewModel
 	{
 		CardFilter _filter;
+        Guid _dbCallbackResultUID;
 		
 		public CardsViewModel()
 		{
@@ -32,9 +35,37 @@ namespace SKDModule.ViewModels
 			ServiceFactory.Events.GetEvent<OrganisationUsersChangedEvent>().Subscribe(OnOrganisationUsersChanged);
 			ServiceFactory.Events.GetEvent<EditEmployee2Event>().Unsubscribe(OnEditEmployee);
 			ServiceFactory.Events.GetEvent<EditEmployee2Event>().Subscribe(OnEditEmployee);
+            SafeFiresecService.DbCallbackResultEvent -= new Action<DbCallbackResult>(OnDbCallbackResultEvent);
+            SafeFiresecService.DbCallbackResultEvent += new Action<DbCallbackResult>(OnDbCallbackResultEvent);
 		}
 
-		void OnNewCard(SKDCard newCard)
+        void OnDbCallbackResultEvent(DbCallbackResult dbCallbackResult)
+        {
+            if(dbCallbackResult.UID == _dbCallbackResultUID)
+            {
+                foreach (var card in dbCallbackResult.Cards)
+                {
+                    var condition = card.IsInStopList ? (Func<CardViewModel, bool>)(x => x.IsDeactivatedRootItem) : x => x.IsOrganisation && x.Organisation.UID == card.OrganisationUID;
+                    var rootItem = RootItems.FirstOrDefault(condition);
+                    if (rootItem != null)
+                        rootItem.AddChild(new CardViewModel(card));
+                }
+                //foreach (var rootItem in RootItems)
+                //{
+                //    if (rootItem.HasChildren)
+                //        rootItem.ExpandChildren();
+                //}
+                //var rootItemsToRemove = RootItems.Where(x => x.GetAllChildren(false).Count == 0).ToList();
+                //foreach (var rootItem in rootItemsToRemove)
+                //{
+                //    RootItems.Remove(rootItem);
+                //}
+                OnPropertyChanged(() => RootItems);
+                OnPropertyChanged(() => RootItemsArray);
+            }
+        }
+
+        void OnNewCard(SKDCard newCard)
 		{
 			var condition = newCard.IsInStopList ? (Func<CardViewModel, bool>)(x => x.IsDeactivatedRootItem) : x => x.IsOrganisation && x.Organisation.UID == newCard.OrganisationUID;
 			var rootItem = RootItems.FirstOrDefault(condition);
@@ -171,33 +202,13 @@ namespace SKDModule.ViewModels
 			if (organisations == null)
 				return;
 			RootItems = new ObservableCollection<CardViewModel>();
-			foreach (var organisation in organisations)
+            foreach (var organisation in organisations)
 			{
 				RootItems.Add(new CardViewModel(organisation));
 			}
 			RootItems.Add(CardViewModel.DeactivatedRootItem);
-			var cards = CardHelper.Get(filter);
-			if (cards == null)
-				return;
-			foreach (var card in cards)
-			{
-				var condition = card.IsInStopList ? (Func<CardViewModel, bool>)(x => x.IsDeactivatedRootItem) : x => x.IsOrganisation && x.Organisation.UID == card.OrganisationUID;
-				var rootItem = RootItems.FirstOrDefault(condition);
-				if (rootItem != null)
-					rootItem.AddChild(new CardViewModel(card));
-			}
-			foreach (var rootItem in RootItems)
-			{
-				if (rootItem.HasChildren)
-					rootItem.ExpandChildren();
-			}
-			var rootItemsToRemove = RootItems.Where(x => x.GetAllChildren(false).Count == 0).ToList();
-			foreach (var rootItem in rootItemsToRemove)
-			{
-				RootItems.Remove(rootItem);
-			}
-			OnPropertyChanged(() => RootItems);
-			OnPropertyChanged(() => RootItemsArray);
+            _dbCallbackResultUID = Guid.NewGuid();
+            FiresecManager.FiresecService.BeginGetCards(filter, _dbCallbackResultUID);
 		}
 		
 		ObservableCollection<CardViewModel> rootItems;

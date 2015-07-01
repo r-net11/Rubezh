@@ -20,6 +20,7 @@ namespace FiresecClient
 		public static event Action ConfigurationChangedEvent;
 		public static event Action<JournalItem> NewJournalItemEvent;
 		public static event Action<IEnumerable<JournalItem>, Guid> GetFilteredArchiveCompletedEvent;
+        public static event Action<DbCallbackResult> DbCallbackResultEvent;
 
 		bool isConnected = true;
 		public bool SuspendPoll = false;
@@ -143,8 +144,18 @@ namespace FiresecClient
 								ConfigurationChangedEvent();
 						});
 						break;
+
+                    case CallbackResultType.QueryDb:
+                        SafeOperationCall(() =>
+						{
+							if (DbCallbackResultEvent != null)
+                                DbCallbackResultEvent(callbackResult.DbCallbackResult);
+						});
+						break;
 				}
 			}
 		}
 	}
+
+    
 }

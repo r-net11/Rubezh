@@ -258,7 +258,7 @@ namespace SKDModule.ViewModels
 			AccessTemplatesViewModel.Initialize(AccessTemplateFilter);
 			PassCardTemplatesViewModel.Initialize(PassCardTemplateFilter);
 			OrganisationsViewModel.Initialize(Filter.LogicalDeletationType);
-			InitializeEmployeeFilter();
+			//InitializeEmployeeFilter();
 
 			ServiceFactory.Events.GetEvent<ChangeIsDeletedEvent>().Publish(Filter.LogicalDeletationType);
 			ServiceFactory.Events.GetEvent<UpdateFilterEvent>().Publish(Filter);

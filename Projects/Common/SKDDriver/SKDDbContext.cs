@@ -1,4 +1,5 @@
 ﻿using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 
 namespace SKDDriver.DataClasses
 {
@@ -10,6 +11,7 @@ namespace SKDDriver.DataClasses
 			: base(connectionStringName)
 		{
 			ContextType = contextType;
+            ((IObjectContextAdapter)this).ObjectContext.CommandTimeout = 400;
 		}
 
 		protected override void OnModelCreating(DbModelBuilder modelBuilder)

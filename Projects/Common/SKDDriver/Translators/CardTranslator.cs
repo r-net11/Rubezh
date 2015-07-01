@@ -12,7 +12,7 @@ namespace SKDDriver.DataClasses
 	{
 		DatabaseContext Context;
 		DbService DbService;
-
+        public event Action<DbCallbackResult> CardsPortionReady;
 		public CardTranslator(DbService dbService)
 		{
 			Context = dbService.Context;
@@ -383,6 +383,37 @@ namespace SKDDriver.DataClasses
 		}
         #endregion
 
-        
-	}
+        public void BeginGetCards(API.CardFilter filter, Guid uid)
+        {
+            DbService.IsAbort = false;
+            var pageSize = 1000;
+            var portion = new List<API.SKDCard>();
+            int itemNo = 0;
+            foreach (var item in GetFilteredTableItems(filter))
+            {
+                itemNo++;
+                portion.Add(Translate(item));
+                if (itemNo % pageSize == 0)
+                {
+                    PublishNewItemsPortion(portion, uid);
+                    portion = new List<API.SKDCard>();
+                }
+            }
+            PublishNewItemsPortion(portion, uid);
+        }
+
+        void PublishNewItemsPortion(List<API.SKDCard> journalItems, Guid uid)
+        {
+            if (CardsPortionReady != null)
+            {
+                var result = new DbCallbackResult 
+                { 
+                    UID = uid, 
+                    Cards = journalItems, 
+                    DbCallbackResultType = DbCallbackResultType.Cards 
+                };
+                CardsPortionReady(result);
+            }
+        }
+    }
 }

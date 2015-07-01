@@ -8,6 +8,8 @@ using FiresecAPI.Journal;
 using FiresecAPI.SKD;
 using GKProcessor;
 using SKDDriver;
+using System.Threading;
+using DbService = SKDDriver.DataClasses.DbService;
 
 namespace FiresecService.Service
 {
@@ -476,6 +478,44 @@ namespace FiresecService.Service
 			}
 		}
 
+        public static Thread CurrentSKDThread;
+
+        public OperationResult BeginGetCards(CardFilter filter, Guid uid)
+        {
+            try
+            {
+                if (CurrentSKDThread != null)
+                {
+                    DbService.IsAbort = true;
+                    CurrentSKDThread.Join(TimeSpan.FromMinutes(1));
+                    CurrentSKDThread = null;
+                }
+                DbService.IsAbort = false;
+                var thread = new Thread(new ThreadStart((new Action(() =>
+                {
+                    using (var dbService = new SKDDriver.DataClasses.DbService())
+                    {
+                        dbService.CardTranslator.CardsPortionReady -= DatabaseHelper_CardPortionReady;
+                        dbService.CardTranslator.CardsPortionReady += DatabaseHelper_CardPortionReady;
+                        dbService.CardTranslator.BeginGetCards(filter, uid);
+                    }
+                }))));
+                thread.Name = "FiresecService.GetCards";
+                thread.IsBackground = true;
+                CurrentSKDThread = thread;
+                thread.Start();
+                return new OperationResult();
+            }
+            catch (Exception e)
+            {
+                return new OperationResult(e.Message);
+            }
+        }
+
+        void DatabaseHelper_CardPortionReady(DbCallbackResult dbCallbackResult)
+        {
+            FiresecService.NotifyCardsCompleted(dbCallbackResult);
+        }
 		#endregion
 
 		#region AccessTemplate
@@ -1384,6 +1424,14 @@ namespace FiresecService.Service
                 return databaseService.TestDataGenerator.GenerateEmployeeDays();
 			}
 		}
+
+        public OperationResult GenerateJournal()
+        {
+            using (var databaseService = new SKDDriver.DataClasses.DbService())
+            {
+                return databaseService.TestDataGenerator.GenerateJournal();
+            }
+        }
 
 		public OperationResult GenerateTestData(bool isAscending)
 		{
