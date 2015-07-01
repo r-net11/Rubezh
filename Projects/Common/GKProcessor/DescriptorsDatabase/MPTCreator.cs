@@ -57,8 +57,6 @@ namespace GKProcessor
 					deviceDescriptor.Formula = new FormulaBuilder();
 
 					deviceDescriptor.Formula.AddGetBit(GKStateBit.TurningOn, MPT, deviceDescriptor.DatabaseType);
-					deviceDescriptor.Formula.AddGetBit(GKStateBit.On, MPT, deviceDescriptor.DatabaseType);
-					deviceDescriptor.Formula.Add(FormulaOperationType.OR);
 					deviceDescriptor.Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, mptDevice.Device, deviceDescriptor.DatabaseType);
 
 					deviceDescriptor.Formula.AddGetBit(GKStateBit.Off, MPT, deviceDescriptor.DatabaseType);

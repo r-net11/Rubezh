@@ -18,8 +18,13 @@ namespace GKProcessor
 			GKManager.DriversConfiguration.Drivers.Add(KAUIndicator_Helper.Create());
 			GKManager.DriversConfiguration.Drivers.Add(RSR2_KAU_Shleif_Helper.Create());
 			GKManager.DriversConfiguration.Drivers.Add(KAU_Mirror_Helper.Create());
-			GKManager.DriversConfiguration.Drivers.Add(KAU_MirrorItem_Helper.Create());
+			GKManager.DriversConfiguration.Drivers.Add(GKMirrorDetectorsDevice_Helper.Create());
+			GKManager.DriversConfiguration.Drivers.Add(GKMirrorPerformersDevice.Create());
+			GKManager.DriversConfiguration.Drivers.Add(GKMirrorFightFireZone_Helper.Create());
+			GKManager.DriversConfiguration.Drivers.Add(GKMirrorFireZone.Create());
+			GKManager.DriversConfiguration.Drivers.Add(GKMirrorGuardZone_Helper.Create());
 			GKManager.DriversConfiguration.Drivers.Add(GKIndicatorsGroup_Helper.Create());
+			GKManager.DriversConfiguration.Drivers.Add(GKMirrorDirection_Helper.Create());
 			GKManager.DriversConfiguration.Drivers.Add(GKRelaysGroup_Helper.Create());
 
 			AddDriverToKau(RSR2_RM_1_Helper.Create());

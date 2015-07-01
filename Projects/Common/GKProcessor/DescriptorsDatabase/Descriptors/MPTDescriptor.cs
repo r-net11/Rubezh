@@ -135,6 +135,22 @@ namespace GKProcessor
 				Formula.AddPutBit(stateBit, MPT, DatabaseType);
 		}
 
+		GKStateBit CodeReaderEnterTypeToStateBit(GKCodeReaderEnterType codeReaderEnterType)
+		{
+			switch (codeReaderEnterType)
+			{
+				case GKCodeReaderEnterType.CodeOnly:
+					return GKStateBit.Attention;
+
+				case GKCodeReaderEnterType.CodeAndOne:
+					return GKStateBit.Fire1;
+
+				case GKCodeReaderEnterType.CodeAndTwo:
+					return GKStateBit.Fire2;
+			}
+			return GKStateBit.Fire1;
+		}
+
 		void SetPropertiesBytes()
 		{
 			Parameters = new List<byte>();

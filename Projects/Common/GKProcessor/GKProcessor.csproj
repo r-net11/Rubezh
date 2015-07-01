@@ -90,6 +90,11 @@
     <Compile Include="BytesHelper.cs" />
     <Compile Include="Diagnostics\DiagnosticsItem.cs" />
     <Compile Include="Diagnostics\DiagnosticsManager.cs" />
+    <Compile Include="Drivers\GKDevices\GKMirrorDirection_Helper.cs" />
+    <Compile Include="Drivers\GKDevices\GKMirrorGuardZone_Helper.cs" />
+    <Compile Include="Drivers\GKDevices\GKMirrorFightFireZone_Helper.cs" />
+    <Compile Include="Drivers\GKDevices\GKMirrorPerformersDevice.cs" />
+    <Compile Include="Drivers\GKDevices\GKMirrorFireZone_Helper.cs" />
     <Compile Include="Drivers\GKDevices\GKIndicator_Helper.cs" />
     <Compile Include="Drivers\GKDevices\GKRelaysGroup_Helper.cs" />
     <Compile Include="Drivers\GKDevices\GKRele_Helper.cs" />
@@ -100,7 +105,7 @@
     <Compile Include="Drivers\GKDevices\GKIndicatorsGroup_Helper.cs" />
     <Compile Include="Drivers\GKDevices\RSR2_KAU_ShleifHelper.cs" />
     <Compile Include="Drivers\GKDevices\KAU_Mirror_Helper.cs" />
-    <Compile Include="Drivers\GKDevices\KAU_MirrorItem_Helper.cs" />
+    <Compile Include="Drivers\GKDevices\GKMirrorDetectorsDevice_Helper.cs" />
     <Compile Include="Drivers\GKDriversCreator.cs" />
     <Compile Include="Drivers\GKDriversHelper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_AM_2_Group_Helper.cs" />

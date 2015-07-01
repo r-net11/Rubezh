@@ -157,7 +157,7 @@ namespace FiresecAPI.GK
 		/// Отражение объекта ГК
 		/// </summary>
 		[DataMember]
-		public GKMirrorItem MirrorItem { get; set; }
+		public GKReflectionItem GKReflectionItem { get; set; }
 
 		[DataMember]
 		public bool IsOPCUsed { get; set; }
