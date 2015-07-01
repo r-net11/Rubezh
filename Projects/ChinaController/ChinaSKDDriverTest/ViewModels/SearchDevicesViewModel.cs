@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using System.Windows.Threading;
 using ChinaSKDDriverAPI;
 using ChinaSKDDriverNativeApi;
 using Infrastructure.Common;
@@ -15,14 +16,37 @@ namespace ControllerSDK.ViewModels
 {
 	public class SearchDevicesViewModel : BaseViewModel
 	{
+		private DispatcherTimer _searchTimer;
+		bool _isSearchDevicesStarted;
+
+		public bool IsSearchDevicesStarted
+		{
+			get { return _isSearchDevicesStarted; }
+			set
+			{
+				_isSearchDevicesStarted = value;
+				OnPropertyChanged(() => IsSearchDevicesStarted);
+			}
+		}
+
 		public SearchDevicesViewModel()
 		{
+			_searchTimer = new DispatcherTimer();
+			_searchTimer.Interval = new TimeSpan(0, 0, 7);
+			_searchTimer.Tick += _searchTimer_Tick;
+			IsSearchDevicesStarted = false;
 			SearchDevices = new ObservableCollection<SearchDeviceViewModel>();
 
-			SearchDevicesCommand = new RelayCommand(OnSearchDevices);
+			StartSearchDevicesCommand = new RelayCommand(OnStartSearchDevices);
+			StopSearchDevicesCommand = new RelayCommand(OnStopSearchDevices);
 			AddDeviceCommand = new RelayCommand(OnAddDevice, CanAddDevice);
 	
 			Wrapper.NewSearchDevice += WrapperOnNewSearchDevice;
+		}
+
+		private void _searchTimer_Tick(object sender, EventArgs e)
+		{
+			OnStopSearchDevices();
 		}
 
 		public ObservableCollection<SearchDeviceViewModel> SearchDevices { get; private set; }
@@ -45,14 +69,36 @@ namespace ControllerSDK.ViewModels
 			})));
 		}
 
-		public RelayCommand SearchDevicesCommand { get; private set; }
-		private void OnSearchDevices()
+		public RelayCommand StartSearchDevicesCommand { get; private set; }
+		private void OnStartSearchDevices()
 		{
+			if (IsSearchDevicesStarted)
+				return;
+
 			ApplicationService.BeginInvoke(new Action(() =>
 			{
 				SearchDevices.Clear();
 			}));
 			MainViewModel.Wrapper.StartSearchDevices();
+			_searchTimer.Stop();
+			_searchTimer.Start();
+			IsSearchDevicesStarted = true;
+		}
+		private bool CanStartSearchDevices()
+		{
+			return !IsSearchDevicesStarted;
+		}
+
+		public RelayCommand StopSearchDevicesCommand { get; private set; }
+		private void OnStopSearchDevices()
+		{
+			_searchTimer.Stop();
+			MainViewModel.Wrapper.StopSearchDevices();
+			IsSearchDevicesStarted = false;
+		}
+		private bool CanStopSearchDevices()
+		{
+			return IsSearchDevicesStarted;
 		}
 
 		public RelayCommand AddDeviceCommand { get; private set; }

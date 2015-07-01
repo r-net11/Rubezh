@@ -3,8 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 	<StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<Button Content="Найти" Command="{Binding SearchDevicesCommand}" Width="200" HorizontalAlignment="Left" Margin="2" />
-			<Button Content="Добавить" Command="{Binding AddDeviceCommand}" Width="200" HorizontalAlignment="Left" Margin="2" />
+			<Button Content="Начать поиск" Command="{Binding StartSearchDevicesCommand}" IsEnabled="{Binding IsSearchDevicesStarted, Converter={StaticResource InverseBooleanConverter}}"  Width="100" HorizontalAlignment="Left" Margin="2" />
+			<Button Content="Прервать поиск" Command="{Binding StopSearchDevicesCommand}" IsEnabled="{Binding IsSearchDevicesStarted}" Width="100" HorizontalAlignment="Left" Margin="2" />
+			<Button Content="Добавить" Command="{Binding AddDeviceCommand}" Width="100" HorizontalAlignment="Left" Margin="2" />
 		</StackPanel>
 		<StackPanel>
 			<TextBlock Text="Найденные устройства" HorizontalAlignment="Left" Margin="5 2"/>

@@ -32,9 +32,9 @@ namespace ChinaSKDDriver
 		/// </summary>
 		public void StartSearchDevices()
 		{
-			if (_searchHandle != 0)
-				NativeWrapper.CLIENT_StopSearchDevices(_searchHandle);
-			_searchHandle = NativeWrapper.CLIENT_StartSearchDevices(OnSearchDevicesDelegate, IntPtr.Zero);
+			fSearchDevicesCbDelegate = OnSearchDevicesDelegate; // Автопоиск устройств
+			
+			_searchHandle = NativeWrapper.CLIENT_StartSearchDevices(fSearchDevicesCbDelegate, IntPtr.Zero);
 		}
 
 		/// <summary>
@@ -42,8 +42,9 @@ namespace ChinaSKDDriver
 		/// </summary>
 		public void StopSearchDevices()
 		{
-			if (_searchHandle != 0)
-				NativeWrapper.CLIENT_StopSearchDevices(_searchHandle);
+			NativeWrapper.CLIENT_StopSearchDevices(_searchHandle);
+			
+			fSearchDevicesCbDelegate = null;
 		}
 
 		/// <summary>
