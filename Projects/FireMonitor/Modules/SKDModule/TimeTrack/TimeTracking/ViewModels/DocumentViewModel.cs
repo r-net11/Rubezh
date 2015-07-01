@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reactive.Linq;
 using FiresecAPI.SKD;
 using FiresecClient;
 using Infrastructure;
@@ -9,18 +10,26 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Microsoft.Win32;
+using ReactiveUI;
 using SKDModule.Common;
 using SKDModule.Events;
 
 namespace SKDModule.ViewModels
 {
-	public class DocumentViewModel : BaseViewModel
+	public class DocumentViewModel : ReactiveObject// BaseViewModel
 	{
 		public TimeTrackDocument Document { get; private set; }
 
 		public DocumentViewModel(TimeTrackDocument timeTrackDocument)
 		{
 			Document = timeTrackDocument;
+
+			this.WhenAny(x => x.FileName, x => x.Value)
+				.Subscribe(value =>
+				{
+					HasFile = !string.IsNullOrEmpty(value);
+				});
+
 			Update();
 		}
 
@@ -30,14 +39,15 @@ namespace SKDModule.ViewModels
 			ShortName = Document.TimeTrackDocumentType.ShortName;
 			StartDateTime = Document.StartDateTime.ToString("yyyy-MM-dd HH:mm");
 			EndDateTime = Document.EndDateTime.ToString("yyyy-MM-dd HH:mm");
-			_fileName = Document.FileName;
+			FileName = Document.FileName;
+			//	_fileName = Document.FileName;
 
-			OnPropertyChanged(() => Name);
-			OnPropertyChanged(() => ShortName);
-			OnPropertyChanged(() => StartDateTime);
-			OnPropertyChanged(() => EndDateTime);
-			OnPropertyChanged(() => FileName);
-			OnPropertyChanged(() => HasFile);
+			//	OnPropertyChanged(() => Name);
+			//	OnPropertyChanged(() => ShortName);
+			//	OnPropertyChanged(() => StartDateTime);
+			//		OnPropertyChanged(() => EndDateTime);
+			//		OnPropertyChanged(() => FileName);
+			//		OnPropertyChanged(() => HasFile);
 		}
 
 		public void Update(TimeTrackDocument timeTrackDocument)
@@ -46,10 +56,33 @@ namespace SKDModule.ViewModels
 			Update();
 		}
 
-		public string Name { get; private set; }
-		public string ShortName { get; private set; }
-		public string StartDateTime { get; private set; }
-		public string EndDateTime { get; private set; }
+		private string _name;
+		public string Name
+		{
+			get { return _name; }
+			private set { this.RaiseAndSetIfChanged(ref _name, value); }
+		}
+
+		private string _shortName;
+		public string ShortName
+		{
+			get { return _shortName; }
+			private set { this.RaiseAndSetIfChanged(ref _shortName, value); }
+		}
+
+		private string _startDateTime;
+		public string StartDateTime
+		{
+			get { return _startDateTime; }
+			private set { this.RaiseAndSetIfChanged(ref _startDateTime, value); }
+		}
+
+		private string _endDateTime;
+		public string EndDateTime
+		{
+			get { return _endDateTime; }
+			private set { this.RaiseAndSetIfChanged(ref _endDateTime, value); }
+		}
 
 		string _fileName;
 		public string FileName
@@ -57,15 +90,16 @@ namespace SKDModule.ViewModels
 			get { return _fileName; }
 			set
 			{
-				_fileName = value;
+				//_fileName = value;
+				this.RaiseAndSetIfChanged(ref _fileName, value);
 				Document.FileName = _fileName;
 				var operationResult = FiresecManager.FiresecService.EditTimeTrackDocument(Document);
 				if (operationResult.HasError)
 				{
 					MessageBoxService.ShowWarning(operationResult.Error);
 				}
-				OnPropertyChanged(() => FileName);
-				OnPropertyChanged(() => HasFile);
+			//	OnPropertyChanged(() => FileName);
+			//	OnPropertyChanged(() => HasFile);
 			}
 		}
 
@@ -79,14 +113,14 @@ namespace SKDModule.ViewModels
 					Directory.CreateDirectory(docsDirectory);
 				var fileName = openFileDialog.FileName;
 				var length = new FileInfo(fileName).Length;
-				if (length > 52428800)
+				if (length > 52428800) //TODO: WTF??
 				{
 					MessageBoxService.Show("Размер загружаемого файла не должен превышать 50 мб");
 					return;
 				}
 				var files = Directory.GetFiles(docsDirectory).Select(x => Path.GetFileName(x));
 				var newFileName = CopyHelper.CopyFileName(openFileDialog.SafeFileName, files);
-				if (newFileName.Length >= 100)
+				if (newFileName.Length >= 100) //TODO: WTF??
 				{
 					MessageBoxService.Show("Имя файла не может быть длиннее 100 символов");
 					return;
@@ -109,7 +143,8 @@ namespace SKDModule.ViewModels
 				}
 				catch (Exception e)
 				{
-					ShowOpenWithDialog(fileName);
+					MessageBoxService.ShowWarning(e.Message, "Предупреждение");
+				//	ShowOpenWithDialog(fileName);
 				}
 			}
 			else
@@ -131,15 +166,20 @@ namespace SKDModule.ViewModels
 				ServiceFactory.Events.GetEvent<EditDocumentEvent>().Publish(Document);
 			}
 		}
-		
 
-		public bool HasFile { get { return FileName != null; } }
-
-		void ShowOpenWithDialog(string path)
+		private bool _hasFile;
+		public bool HasFile
 		{
-			var args = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "shell32.dll");
-			args += ",OpenAs_RunDLL " + path;
-			Process.Start("rundll32.exe", args);
+			get { return _hasFile; }
+			set{ this.RaiseAndSetIfChanged(ref _hasFile, value); }
 		}
+		//public bool HasFile { get { return FileName != null; } }
+
+		//void ShowOpenWithDialog(string path)
+		//{
+		//	var args = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "shell32.dll");
+		//	args += ",OpenAs_RunDLL " + path;
+		//	Process.Start("rundll32.exe", args);
+		//}
 	}
 }

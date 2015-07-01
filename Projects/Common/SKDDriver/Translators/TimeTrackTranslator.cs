@@ -19,7 +19,7 @@ namespace SKDDriver.Translators
 		{
 			DatabaseService = databaseService;
 			Context = databaseService.Context;
-			
+
 		}
 
 		PassJournalTranslator _PassJournalTranslator;
@@ -58,7 +58,7 @@ namespace SKDDriver.Translators
 		{
 			InitializeData();
 			_PassJournalTranslator.InvalidatePassJournal();
-			
+
 			if (filter.OrganisationUIDs.IsNotNullOrEmpty())
 				Holidays = _Holidays.Where(x => x.Date >= startDate && x.Date <= endDate && filter.OrganisationUIDs.Contains(x.OrganisationUID.Value)).ToList();
 			else

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
 using FiresecAPI.SKD;
 using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using ReactiveUI;
 
 namespace SKDModule.ViewModels
 {
@@ -21,9 +23,9 @@ namespace SKDModule.ViewModels
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
-			AddFileCommand = new RelayCommand(OnAddFile, CanAddFile);
-			OpenFileCommand = new RelayCommand(OnOpenFile, CanOpenFile);
-			RemoveFileCommand = new RelayCommand(OnRemoveFile, CanRemoveFile);
+			AddFileCommand = new RelayCommand(OnAddFile);
+			OpenFileCommand = new RelayCommand(OnOpenFile);
+			RemoveFileCommand = new RelayCommand(OnRemoveFile);
 
 			Documents = new ObservableCollection<DocumentViewModel>();
 			if (timeTrackEmployeeResult.Documents != null)
@@ -35,8 +37,25 @@ namespace SKDModule.ViewModels
 				}
 			}
 			SelectedDocument = Documents.FirstOrDefault();
-			IsChanged = false;
-			
+			IsDirty = false;
+
+			this.WhenAny(x => x.SelectedDocument, x => x.Value)
+				.Subscribe(value =>
+				{
+					CanDoChanges = value != null && value.HasFile;
+				});
+		}
+
+		private bool _canDoChanges;
+		public bool CanDoChanges
+		{
+			get { return _canDoChanges; }
+			set
+			{
+				if (_canDoChanges == value) return;
+				_canDoChanges = value;
+				OnPropertyChanged(() => CanDoChanges);
+			}
 		}
 
 		public ObservableCollection<DocumentViewModel> Documents { get; private set; }
@@ -70,7 +89,7 @@ namespace SKDModule.ViewModels
 					var documentViewModel = new DocumentViewModel(document);
 					Documents.Add(documentViewModel);
 					SelectedDocument = documentViewModel;
-					IsChanged = true;
+					IsDirty = true;
 				}
 			}
 		}
@@ -93,7 +112,7 @@ namespace SKDModule.ViewModels
 					MessageBoxService.ShowWarning(operationResult.Error);
 				}
 				SelectedDocument.Update();
-				IsChanged = true;
+				IsDirty = true;
 			}
 		}
 		bool CanEdit()
@@ -114,7 +133,7 @@ namespace SKDModule.ViewModels
 				else
 				{
 					Documents.Remove(SelectedDocument);
-					IsChanged = true;
+					IsDirty = true;
 				}
 			}
 		}
@@ -128,19 +147,11 @@ namespace SKDModule.ViewModels
 		{
 			SelectedDocument.AddFile();
 		}
-		bool CanAddFile()
-		{
-			return SelectedDocument != null && !SelectedDocument.HasFile;
-		}
 
 		public RelayCommand OpenFileCommand { get; private set; }
 		void OnOpenFile()
 		{
 			SelectedDocument.OpenFile();
-		}
-		bool CanOpenFile()
-		{
-			return SelectedDocument != null && SelectedDocument.HasFile;
 		}
 
 		public RelayCommand RemoveFileCommand { get; private set; }
@@ -148,19 +159,15 @@ namespace SKDModule.ViewModels
 		{
 			SelectedDocument.RemoveFile();
 		}
-		bool CanRemoveFile()
-		{
-			return SelectedDocument != null && SelectedDocument.HasFile;
-		}
 
-		bool _IsChanged;
-		public bool IsChanged
+		bool _isDirty;
+		public bool IsDirty
 		{
-			get { return _IsChanged; }
+			get { return _isDirty; }
 			set
 			{
-				_IsChanged = value;
-				OnPropertyChanged(() => IsChanged);
+				_isDirty = value;
+				OnPropertyChanged(() => IsDirty);
 			}
 		}
 
@@ -178,7 +185,7 @@ namespace SKDModule.ViewModels
 				{
 					Documents.Add(new DocumentViewModel(document));
 				}
-				IsChanged = true;
+				IsDirty = true;
 			}
 		}
 
@@ -189,7 +196,7 @@ namespace SKDModule.ViewModels
 			{
 				Documents.Remove(viewModel);
 				OnPropertyChanged(() => Documents);
-				IsChanged = true;
+				IsDirty = true;
 			}
 		}
 
@@ -197,7 +204,7 @@ namespace SKDModule.ViewModels
 		{
 			if (EmployeeUID == uid)
 			{
-				IsChanged = true;
+				IsDirty = true;
 			}
 		}
 		#endregion

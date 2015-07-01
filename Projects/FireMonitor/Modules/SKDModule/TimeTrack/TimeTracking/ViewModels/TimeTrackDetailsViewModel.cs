@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reactive.Linq;
 using Common;
 using FiresecAPI.SKD;
 using FiresecClient;
@@ -10,6 +11,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using ReactiveUI;
 using SKDModule.Events;
 
 namespace SKDModule.ViewModels
@@ -28,9 +30,9 @@ namespace SKDModule.ViewModels
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
-			AddFileCommand = new RelayCommand(OnAddFile, CanAddFile);
-			OpenFileCommand = new RelayCommand(OnOpenFile, CanOpenFile);
-			RemoveFileCommand = new RelayCommand(OnRemoveFile, CanRemoveFile);
+			AddFileCommand = new RelayCommand(OnAddFile);
+			OpenFileCommand = new RelayCommand(OnOpenFile);
+			RemoveFileCommand = new RelayCommand(OnRemoveFile);
 			AddCustomPartCommand = new RelayCommand(OnAddCustomPart, CanAddPart);
 			RemovePartCommand = new RelayCommand(OnRemovePart, CanEditRemovePart);
 			EditPartCommand = new RelayCommand(OnEditPart, CanEditRemovePart);
@@ -40,6 +42,12 @@ namespace SKDModule.ViewModels
 			DayTimeTrackParts = GetCollection(DayTimeTrack.RealTimeTrackParts);
 
 			Documents = GetCollection(DayTimeTrack.Documents);
+
+			this.WhenAny(x => x.SelectedDocument, x => x.Value)
+				.Subscribe(value =>
+				{
+					CanDoChanges = value != null && value.HasFile;
+				});
 		}
 
 		private ObservableCollection<DocumentViewModel> GetCollection(IEnumerable<TimeTrackDocument> timeTrackDocuments)
@@ -67,14 +75,26 @@ namespace SKDModule.ViewModels
 		}
 
 
-		bool _isChanged;
-		public bool IsChanged
+		bool _isDirty;
+		public bool IsDirty
 		{
-			get { return _isChanged; }
+			get { return _isDirty; }
 			set
 			{
-				_isChanged = value;
-				OnPropertyChanged(() => IsChanged);
+				_isDirty = value;
+				OnPropertyChanged(() => IsDirty);
+			}
+		}
+
+		private bool _canDoChanges;
+		public bool CanDoChanges
+		{
+			get { return _canDoChanges; }
+			set
+			{
+				if (_canDoChanges == value) return;
+				_canDoChanges = value;
+				OnPropertyChanged(() => CanDoChanges);
 			}
 		}
 
@@ -119,8 +139,10 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-
 		public RelayCommand AddCustomPartCommand { get; private set; }
+		/// <summary>
+		/// Функция создания прохода
+		/// </summary>
 		void OnAddCustomPart()
 		{
 			var timeTrackPartDetailsViewModel = new TimeTrackPartDetailsViewModel(DayTimeTrack, ShortEmployee, this);
@@ -128,9 +150,9 @@ namespace SKDModule.ViewModels
 			{
 				DayTimeTrackParts.Add(new DayTimeTrackPartViewModel(timeTrackPartDetailsViewModel));
 				SelectedTimeTrackPartDetailsViewModel = timeTrackPartDetailsViewModel;
-					DayTimeTrack.Date.Date.Add(timeTrackPartDetailsViewModel.ExitTime);
+				DayTimeTrack.Date.Date.Add(timeTrackPartDetailsViewModel.ExitTime);
 
-				IsChanged = true;
+				IsDirty = true;
 				IsNew = true;
 				ServiceFactory.Events.GetEvent<EditTimeTrackPartEvent>().Publish(ShortEmployee.UID);
 			}
@@ -148,7 +170,7 @@ namespace SKDModule.ViewModels
 			{
 				DayTimeTrackParts.Remove(SelectedDayTimeTrackPart);
 				SelectedDayTimeTrackPart = DayTimeTrackParts.FirstOrDefault();
-				IsChanged = true;
+				IsDirty = true;
 				ServiceFactory.Events.GetEvent<EditTimeTrackPartEvent>().Publish(ShortEmployee.UID);
 			}
 		}
@@ -165,7 +187,7 @@ namespace SKDModule.ViewModels
 			{
 				SelectedTimeTrackPartDetailsViewModel = timeTrackPartDetailsViewModel;
 				SelectedDayTimeTrackPart.Update(timeTrackPartDetailsViewModel.EnterTime, timeTrackPartDetailsViewModel.ExitTime, timeTrackPartDetailsViewModel.SelectedZone.Name, timeTrackPartDetailsViewModel.SelectedZone.No);
-				IsChanged = true;
+				IsDirty = true;
 				IsNew = default(bool);
 				ServiceFactory.Events.GetEvent<EditTimeTrackPartEvent>().Publish(ShortEmployee.UID);
 			}
@@ -174,26 +196,30 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var timeTrackDocument = new TimeTrackDocument();
-			timeTrackDocument.StartDateTime = DayTimeTrack.Date.Date;
-			timeTrackDocument.EndDateTime = DayTimeTrack.Date.Date + new TimeSpan(23, 59, 59);
+			var timeTrackDocument = new TimeTrackDocument
+			{
+				StartDateTime = DayTimeTrack.Date.Date,
+				EndDateTime = DayTimeTrack.Date.Date + new TimeSpan(23, 59, 59)
+			};
+
 			var documentDetailsViewModel = new DocumentDetailsViewModel(false, ShortEmployee.OrganisationUID, timeTrackDocument);
+
 			if (DialogService.ShowModalWindow(documentDetailsViewModel))
 			{
-				var document = documentDetailsViewModel.TimeTrackDocument;
-				document.EmployeeUID = ShortEmployee.UID;
-				var operationResult = FiresecManager.FiresecService.AddTimeTrackDocument(document);
+				documentDetailsViewModel.TimeTrackDocument.EmployeeUID = ShortEmployee.UID;
+
+				var operationResult = FiresecManager.FiresecService.AddTimeTrackDocument(documentDetailsViewModel.TimeTrackDocument);
 				if (operationResult.HasError)
 				{
 					MessageBoxService.ShowWarning(operationResult.Error);
 				}
 				else
 				{
-					var documentViewModel = new DocumentViewModel(document);
+					var documentViewModel = new DocumentViewModel(documentDetailsViewModel.TimeTrackDocument);
 					Documents.Add(documentViewModel);
 					SelectedDocument = documentViewModel;
-					IsChanged = true;
-					ServiceFactory.Events.GetEvent<EditDocumentEvent>().Publish(document);
+					IsDirty = true;
+					ServiceFactory.Events.GetEvent<EditDocumentEvent>().Publish(documentDetailsViewModel.TimeTrackDocument);
 				}
 			}
 		}
@@ -216,7 +242,7 @@ namespace SKDModule.ViewModels
 				}
 				ServiceFactory.Events.GetEvent<EditDocumentEvent>().Publish(document);
 				SelectedDocument.Update();
-				IsChanged = true;
+				IsDirty = true;
 			}
 		}
 		bool CanEdit()
@@ -238,7 +264,7 @@ namespace SKDModule.ViewModels
 				{
 					ServiceFactory.Events.GetEvent<RemoveDocumentEvent>().Publish(SelectedDocument.Document);
 					Documents.Remove(SelectedDocument);
-					IsChanged = true;
+					IsDirty = true;
 				}
 			}
 		}
@@ -252,19 +278,11 @@ namespace SKDModule.ViewModels
 		{
 			SelectedDocument.AddFile();
 		}
-		bool CanAddFile()
-		{
-			return SelectedDocument != null && !SelectedDocument.HasFile;
-		}
 
 		public RelayCommand OpenFileCommand { get; private set; }
 		void OnOpenFile()
 		{
 			SelectedDocument.OpenFile();
-		}
-		bool CanOpenFile()
-		{
-			return SelectedDocument != null && SelectedDocument.HasFile;
 		}
 
 		public RelayCommand RemoveFileCommand { get; private set; }
@@ -272,16 +290,10 @@ namespace SKDModule.ViewModels
 		{
 			SelectedDocument.RemoveFile();
 		}
-		bool CanRemoveFile()
-		{
-			return SelectedDocument != null && SelectedDocument.HasFile;
-		}
-
 		protected override bool CanSave()
 		{
 			return (DayTimeTrackParts.Any(x => !x.IsValid) == false) && SelectedTimeTrackPartDetailsViewModel != null;
 		}
-
 		protected override bool Save() //TODO: Save all TimeTracks without refresh
 		{
 			if (IsNew)

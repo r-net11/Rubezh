@@ -298,8 +298,12 @@ namespace FiresecAPI.SKD
 		void CalculateTotal()
 		{
 			Totals = new List<TimeTrackTotal>();
+
 			var totalBalance = new TimeTrackTotal(TimeTrackType.Balance);
+			var totalNight = new TimeTrackTotal(TimeTrackType.Night);
+			Totals.Add(totalNight);
 			Totals.Add(totalBalance);
+
 			Totals.Add(new TimeTrackTotal(TimeTrackType.Presence));
 			Totals.Add(new TimeTrackTotal(TimeTrackType.Absence));
 			Totals.Add(new TimeTrackTotal(TimeTrackType.AbsenceInsidePlan));
@@ -307,8 +311,6 @@ namespace FiresecAPI.SKD
 			Totals.Add(new TimeTrackTotal(TimeTrackType.Late));
 			Totals.Add(new TimeTrackTotal(TimeTrackType.EarlyLeave));
 			Totals.Add(new TimeTrackTotal(TimeTrackType.Overtime));
-			var totalNight = new TimeTrackTotal(TimeTrackType.Night);
-			Totals.Add(totalNight);
 			Totals.Add(new TimeTrackTotal(TimeTrackType.DocumentOvertime));
 			Totals.Add(new TimeTrackTotal(TimeTrackType.DocumentPresence));
 			Totals.Add(new TimeTrackTotal(TimeTrackType.DocumentAbsence));

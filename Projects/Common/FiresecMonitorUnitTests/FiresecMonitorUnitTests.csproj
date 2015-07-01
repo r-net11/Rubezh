@@ -48,12 +48,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FireMonitorTests\BaseTests.cs" />
+    <Compile Include="FireMonitorTests\AppDataFolderHelperTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\FireMonitor\Modules\SKDModule\SKDModule.csproj">
-      <Project>{8D427CFB-D784-41AC-B2B4-354B017AD556}</Project>
+      <Project>{8d427cfb-d784-41ac-b2b4-354b017ad556}</Project>
       <Name>SKDModule</Name>
     </ProjectReference>
     <ProjectReference Include="..\Common\Common.csproj">
@@ -68,6 +68,9 @@
       <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
       <Name>Infrastructure.Common</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

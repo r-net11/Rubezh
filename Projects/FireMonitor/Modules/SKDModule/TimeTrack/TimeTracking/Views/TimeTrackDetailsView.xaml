@@ -46,10 +46,10 @@
 					                                 Mode=TwoWay,
 					                                 UpdateSourceTrigger=PropertyChanged}">
 						<DataGrid.Columns>
-							<DataGridTemplateColumn Header="№" Width="40">
+							<DataGridTemplateColumn Width="40" Header="№">
 								<DataGridTemplateColumn.CellTemplate>
 									<DataTemplate>
-										<TextBlock Text="{Binding No}" Margin="4 0 0 0" />
+										<TextBlock Margin="4 0 0 0" Text="{Binding No}" />
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
@@ -120,14 +120,17 @@
 						<ToolBarButton
 							Command="{Binding AddFileCommand}"
 							ImageSource="Add"
+							IsEnabled="{Binding CanDoChanges}"
 							ToolTip="Добавить файл" />
 						<ToolBarButton
 							Command="{Binding OpenFileCommand}"
 							ImageSource="Edit"
+							IsEnabled="{Binding CanDoChanges}"
 							ToolTip="Открыть файл" />
 						<ToolBarButton
 							Command="{Binding RemoveFileCommand}"
 							ImageSource="Delete"
+							IsEnabled="{Binding CanDoChanges}"
 							ToolTip="Удалить файл" />
 					</StackPanel>
 					<DataGrid
@@ -186,7 +189,7 @@
 		<StackPanel
 			Grid.Row="1"
 			Orientation="Horizontal"
-			Visibility="{Binding IsChanged,
+			Visibility="{Binding IsDirty,
 		                                 Converter={StaticResource BoolToVisibilityConverter}}">
 			<Image
 				Width="16"

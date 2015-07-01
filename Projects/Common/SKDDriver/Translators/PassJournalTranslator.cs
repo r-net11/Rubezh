@@ -105,7 +105,7 @@ namespace SKDDriver.Translators
 
 		bool IsIntersection(DataAccess.PassJournal passJournalItem)
 		{
-			return Context.PassJournals.Any(x => x.UID != passJournalItem.UID && 
+			return Context.PassJournals.Any(x => x.UID != passJournalItem.UID &&
 				x.EmployeeUID == passJournalItem.EmployeeUID &&
 				(x.EnterTime < passJournalItem.EnterTime && x.ExitTime > passJournalItem.EnterTime ||
 					x.EnterTime < passJournalItem.ExitTime && x.ExitTime > passJournalItem.ExitTime));
@@ -153,22 +153,22 @@ namespace SKDDriver.Translators
 		{
 			//try
 			//{
-			//    var hasChanges = false;
-			//    var emptyExitPassJournals = Context.PassJournals.Where(x => x.ExitTime == null);
-			//    foreach (var emptyExitPassJournal in emptyExitPassJournals)
-			//    {
-			//        var enterTime = emptyExitPassJournal.EnterTime;
-			//        var nowTime = DateTime.Now;
-			//        if (nowTime.Date > enterTime.Date)
-			//        {
-			//            emptyExitPassJournal.EnterTime = new DateTime(enterTime.Year, enterTime.Month, enterTime.Day, 23, 59, 59);
-			//            hasChanges = true;
-			//        }
-			//    }
-			//    if (hasChanges)
-			//    {
-			//        Context.SubmitChanges();
-			//    }
+			//	var hasChanges = false;
+			//	var emptyExitPassJournals = Context.PassJournals.Where(x => x.ExitTime == null);
+			//	foreach (var emptyExitPassJournal in emptyExitPassJournals)
+			//	{
+			//		var enterTime = emptyExitPassJournal.EnterTime;
+			//		var nowTime = DateTime.Now;
+			//		if (nowTime.Date > enterTime.Date)
+			//		{
+			//			emptyExitPassJournal.EnterTime = new DateTime(enterTime.Year, enterTime.Month, enterTime.Day, 23, 59, 59);
+			//			hasChanges = true;
+			//		}
+			//	}
+			//	if (hasChanges)
+			//	{
+			//		Context.SubmitChanges();
+			//	}
 			//}
 			//catch { }
 		}
@@ -251,10 +251,10 @@ namespace SKDDriver.Translators
 				}
 			}
 			dayTimeTrack.RealTimeTrackParts = dayTimeTrack.RealTimeTrackParts.OrderBy(x => x.StartTime.Ticks).ToList();
-			
+
 			return dayTimeTrack;
 		}
-		
+
 
 		public OperationResult SaveEmployeeDays(List<EmployeeDay> employeeDays)
 		{

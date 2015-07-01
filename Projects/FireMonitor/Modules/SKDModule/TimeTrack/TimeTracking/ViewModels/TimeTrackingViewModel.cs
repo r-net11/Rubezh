@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -14,6 +12,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
+using ReactiveUI;
 using SKDModule.Events;
 using SKDModule.Model;
 
@@ -42,6 +41,12 @@ namespace SKDModule.ViewModels
 			TimeTrackFilter = CreateTimeTrackFilter();
 
 			UpdateGrid();
+
+			this.WhenAny(x => x.SelectedTimeTrack, x => x.Value)
+				.Subscribe(_ =>
+				{
+					HasSelectedTimeTrack = _ != null;
+				});
 		}
 
 		private TimeTrackFilter CreateTimeTrackFilter() //TODO:Implement to TimeTrackFilter class
@@ -94,13 +99,19 @@ namespace SKDModule.ViewModels
 			{
 				_selectedTimeTrack = value;
 				OnPropertyChanged(() => SelectedTimeTrack);
-				OnPropertyChanged(() => HasSelectedTimeTrack);
+			//	OnPropertyChanged(() => HasSelectedTimeTrack);
 			}
 		}
 
+		private bool _hasSelectedTimeTrack;
 		public bool HasSelectedTimeTrack
 		{
-			get { return SelectedTimeTrack != null; }
+			get { return _hasSelectedTimeTrack; }
+			set
+			{
+				_hasSelectedTimeTrack = value;
+				OnPropertyChanged(() => HasSelectedTimeTrack);
+			}
 		}
 
 		public int TotalDays { get; private set; }
@@ -130,11 +141,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand RefreshCommand { get; private set; }
 		void OnRefresh()
 		{
-			var stopwatch = new Stopwatch();
-			stopwatch.Start();
 			UpdateGrid();
-			stopwatch.Stop();
-			Trace.WriteLine("OnRefresh time " + stopwatch.Elapsed.ToString());
 		}
 
 		public RelayCommand PrintCommand { get; private set; }

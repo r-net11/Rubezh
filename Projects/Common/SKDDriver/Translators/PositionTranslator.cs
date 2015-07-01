@@ -54,7 +54,7 @@ namespace SKDDriver
 			result.Description = tableItem.Description;
 			return result;
 		}
-		
+
 		public override OperationResult Save(Position apiItem)
 		{
 			var photoSaveResult = DatabaseService.PhotoTranslator.SaveOrDelete(apiItem.Photo);
