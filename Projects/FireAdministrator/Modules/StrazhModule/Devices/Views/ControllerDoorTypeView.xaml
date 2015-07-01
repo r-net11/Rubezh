@@ -3,6 +3,8 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 MinWidth="385" MinHeight="300">
 
+	<TabControl>
+		<TabItem Header="Основные">
 			<StackPanel>
 				<StackPanel>
 					<GroupBox Header="Тип точки доступа" Margin="2">
@@ -53,4 +55,6 @@
 					<Button Content="Записать" Command="{Binding WriteToControllerCommand}" Width="150" Margin="2" />
 				</StackPanel>
 			</StackPanel>
+		</TabItem>
+	</TabControl>
 </UserControl>
