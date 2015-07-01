@@ -26,8 +26,8 @@ namespace FiresecAPI
 		[DataMember]
 		public GKCallbackResult GKCallbackResult { get; set; }
 
-		//[DataMember]
-		//public GKPropertyChangedCallback GKPropertyChangedCallback { get; set; }
+		[DataMember]
+		public GKPropertyChangedCallback GKPropertyChangedCallback { get; set; }
 
 		[DataMember]
 		public SKDStates SKDStates { get; set; }
