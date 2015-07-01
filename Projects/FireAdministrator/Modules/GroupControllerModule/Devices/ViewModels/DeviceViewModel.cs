@@ -256,6 +256,8 @@ namespace GKModule.ViewModels
 					}
 					gkDevice.AddChildFirst(gkIndicatorsGroupDevice);
 					gkDevice.AddChildFirst(gkRelaysGroupDevice);
+					
+
 				}
 				foreach (var addedDevice in newDeviceViewModel.AddedDevices)
 				{
@@ -265,7 +267,10 @@ namespace GKModule.ViewModels
 				GKPlanExtension.Instance.Cache.BuildSafe<GKDevice>();
 				ServiceFactory.SaveService.GKChanged = true;
 				return;
+
+			
 			}
+			
 			if (DialogService.ShowModalWindow(newDeviceViewModel))
 			{
 				foreach (var addedDevice in newDeviceViewModel.AddedDevices)
@@ -423,6 +428,8 @@ namespace GKModule.ViewModels
 						presentationZone = "Нажмите для выбора зон";
 					if (Driver.HasLogic)
 						presentationZone = "Нажмите для настройки логики";
+					if (Driver.HasMirror)
+						presentationZone = "Нажмите для настройки отражения";
 				}
 				return presentationZone;
 			}
@@ -484,7 +491,6 @@ namespace GKModule.ViewModels
 				Width = PainterCache.DefaultPointSize,
 			};
 		}
-
 		public RelayCommand ShowOnPlanCommand { get; private set; }
 		void OnShowOnPlan()
 		{
@@ -557,7 +563,20 @@ namespace GKModule.ViewModels
 		{
 			return (Driver.HasZone || Driver.HasGuardZone) && !Device.IsNotUsed;
 		}
-
+		bool CanShowReflection()
+		{
+			return Driver.HasMirror && !Device.IsNotUsed;
+		}
+		void OnShowReflection()
+		{
+			if(Driver.HasMirror)
+				{
+					var _reflectionview = new ReflectionViewModel(Device);
+					DialogService.ShowModalWindow(_reflectionview);
+				}
+			OnPropertyChanged(() => PresentationZone);
+			ServiceFactory.SaveService.GKChanged = true;
+		}
 		public RelayCommand ShowZoneOrLogicCommand { get; private set; }
 		void OnShowZoneOrLogic()
 		{
@@ -568,10 +587,16 @@ namespace GKModule.ViewModels
 
 			if (CanShowLogic())
 				OnShowLogic();
+
+			if (CanShowReflection())
+				OnShowReflection();
+
+
+
 		}
 		bool CanShowZoneOrLogic()
 		{
-			return !Device.IsInMPT && (CanShowZones() || CanShowLogic());
+			return !Device.IsInMPT && (CanShowZones() || CanShowLogic()|| CanShowReflection()) ;
 		}
 
 		public bool IsZoneOrLogic
