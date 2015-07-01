@@ -13,6 +13,11 @@ namespace FiresecAPI.GK
 		{
 			ZoneUIDs = new List<Guid>();
 			GuardZoneUIDs = new List<Guid>();
+			DeviceUIDs = new List<Guid>();
+			DelayUIDs = new List<Guid>();
+			DiretionUIDs = new List<Guid>();
+			NSUIDs = new List<Guid>();
+			MPTUIDs = new List<Guid>();
 		}
 
 		[DataMember]
@@ -20,5 +25,20 @@ namespace FiresecAPI.GK
 
 		[DataMember]
 		public List<Guid> GuardZoneUIDs { get; set; }
+
+	    [DataMember]
+		public List<Guid> DeviceUIDs { get; set; }
+
+		[DataMember]
+		public List<Guid> DelayUIDs { get; set; }
+
+		[DataMember]
+		public List<Guid> DiretionUIDs { get; set; }
+
+		[DataMember]
+		public List<Guid> NSUIDs { get; set; }
+
+		[DataMember]
+		public List<Guid> MPTUIDs { get; set; }
 	}
 }
