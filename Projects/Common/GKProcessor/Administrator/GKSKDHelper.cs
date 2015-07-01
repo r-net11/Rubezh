@@ -28,6 +28,9 @@ namespace GKProcessor
 				Trace.WriteLine("TotalMilliseconds = " + totalMilliseconds);
 			}
 
+			var writeStopWatch = new Stopwatch();
+			writeStopWatch.Start();
+
 			var bytes = new List<byte>();
 			bytes.AddRange(BytesHelper.ShortToBytes((ushort)(gkCardNo)));
 			bytes.Add((byte)card.GKCardType);
@@ -117,6 +120,9 @@ namespace GKProcessor
 				}
 			}
 
+			writeStopWatch.Stop();
+			Trace.WriteLine(writeStopWatch.ElapsedMilliseconds);
+
 			var stopWatch2 = new Stopwatch();
 			stopWatch2.Start();
 			using (var skdDatabaseService = new SKDDatabaseService())
@@ -125,7 +131,8 @@ namespace GKProcessor
 			}
 			stopWatch2.Stop();
 			totalMilliseconds += stopWatch2.ElapsedMilliseconds;
-			Trace.WriteLine("TotalMilliseconds For GKCardTranslator Update = " + totalMilliseconds);
+			//Trace.WriteLine("TotalMilliseconds For GKCardTranslator Update Total = " + totalMilliseconds);
+			//Trace.WriteLine("TotalMilliseconds For GKCardTranslator Update = " + stopWatch2.ElapsedMilliseconds);
 
 			return new OperationResult<bool>(true);
 		}
@@ -179,6 +186,9 @@ namespace GKProcessor
 
 			for (int i = 1; i <= 65535; i++)
 			{
+				var stopWatch2 = new Stopwatch();
+				stopWatch2.Start();
+
 				var bytes = new List<byte>();
 				bytes.Add(0);
 				bytes.AddRange(BytesHelper.ShortToBytes((ushort)(i)));
@@ -192,6 +202,9 @@ namespace GKProcessor
 				{
 					break;
 				}
+
+				stopWatch2.Stop();
+				Trace.WriteLine(stopWatch2.ElapsedMilliseconds);
 
 				var user = new GKUser();
 				user.GKNo = BytesHelper.SubstructShort(sendResult.Bytes, 1);
@@ -247,6 +260,9 @@ namespace GKProcessor
 			int cardsCount = 0;
 			for (int no = 1; no <= usersCount; no++)
 			{
+				var stopWatch2 = new Stopwatch();
+				stopWatch2.Start();
+
 				var bytes = new List<byte>();
 				bytes.Add(0);
 				bytes.AddRange(BytesHelper.ShortToBytes((ushort)(no)));
@@ -287,6 +303,9 @@ namespace GKProcessor
 				{
 					break;
 				}
+
+				stopWatch2.Stop();
+				Trace.WriteLine(stopWatch2.ElapsedMilliseconds);
 
 				cardsCount++;
 				GKProcessorManager.DoProgress("Пользователь " + no, progressCallback);
