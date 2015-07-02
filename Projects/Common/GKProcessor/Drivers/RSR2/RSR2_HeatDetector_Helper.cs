@@ -21,7 +21,6 @@ namespace GKProcessor
 			GKDriversHelper.AddAvailableStateBits(driver, GKStateBit.Fire1);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Test);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Fire1);
-			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Service);
 
 			GKDriversHelper.AddIntProprety(driver, 0, "Порог срабатывания по температуре, C", 70, 0, 100);
 			GKDriversHelper.AddIntProprety(driver, 1, "Порог срабатывания по градиенту температуры, C/мин", 5, 1, 50);

@@ -61,7 +61,8 @@ namespace GKProcessor
 					Max = 240,
 					Default = 180,
 					DriverPropertyType = GKDriverPropertyTypeEnum.IntType,
-					IsAUParameter = true
+					IsAUParameter = true,
+					Multiplier = 10,
 				}
 				);
 

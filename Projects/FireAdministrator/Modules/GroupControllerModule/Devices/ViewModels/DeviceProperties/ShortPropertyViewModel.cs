@@ -29,7 +29,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				double doubleValue = -1;
-				if (double.TryParse(value, out doubleValue))
+				if (double.TryParse(value.Replace(".", ","), out doubleValue))
 				{
 					if (DriverProperty.Multiplier != 0)
 						doubleValue *= DriverProperty.Multiplier;
