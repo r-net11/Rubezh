@@ -8,6 +8,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using ReactiveUI;
+using SKDModule.Model;
 
 namespace SKDModule.ViewModels
 {
@@ -27,12 +28,12 @@ namespace SKDModule.ViewModels
 			OpenFileCommand = new RelayCommand(OnOpenFile);
 			RemoveFileCommand = new RelayCommand(OnRemoveFile);
 
-			Documents = new ObservableCollection<DocumentViewModel>();
+			Documents = new ObservableCollection<TimeTrackAttachedDocument>();
 			if (timeTrackEmployeeResult.Documents != null)
 			{
 				foreach (var document in timeTrackEmployeeResult.Documents.OrderBy(x => x.StartDateTime))
 				{
-					var documentViewModel = new DocumentViewModel(document);
+					var documentViewModel = new TimeTrackAttachedDocument(document);
 					Documents.Add(documentViewModel);
 				}
 			}
@@ -58,10 +59,10 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public ObservableCollection<DocumentViewModel> Documents { get; private set; }
+		public ObservableCollection<TimeTrackAttachedDocument> Documents { get; private set; }
 
-		DocumentViewModel _selectedDocument;
-		public DocumentViewModel SelectedDocument
+		TimeTrackAttachedDocument _selectedDocument;
+		public TimeTrackAttachedDocument SelectedDocument
 		{
 			get { return _selectedDocument; }
 			set
@@ -86,7 +87,7 @@ namespace SKDModule.ViewModels
 				}
 				else
 				{
-					var documentViewModel = new DocumentViewModel(document);
+					var documentViewModel = new TimeTrackAttachedDocument(document);
 					Documents.Add(documentViewModel);
 					SelectedDocument = documentViewModel;
 					IsDirty = true;
@@ -183,7 +184,7 @@ namespace SKDModule.ViewModels
 				}
 				else
 				{
-					Documents.Add(new DocumentViewModel(document));
+					Documents.Add(new TimeTrackAttachedDocument(document));
 				}
 				IsDirty = true;
 			}

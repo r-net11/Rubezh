@@ -14,47 +14,13 @@ using ReactiveUI;
 using SKDModule.Common;
 using SKDModule.Events;
 
-namespace SKDModule.ViewModels
+namespace SKDModule.Model
 {
-	public class DocumentViewModel : ReactiveObject// BaseViewModel
+	public class TimeTrackAttachedDocument : ReactiveObject// BaseViewModel
 	{
+		#region Properties
+
 		public TimeTrackDocument Document { get; private set; }
-
-		public DocumentViewModel(TimeTrackDocument timeTrackDocument)
-		{
-			Document = timeTrackDocument;
-
-			this.WhenAny(x => x.FileName, x => x.Value)
-				.Subscribe(value =>
-				{
-					HasFile = !string.IsNullOrEmpty(value);
-				});
-
-			Update();
-		}
-
-		public void Update()
-		{
-			Name = Document.TimeTrackDocumentType.Name;
-			ShortName = Document.TimeTrackDocumentType.ShortName;
-			StartDateTime = Document.StartDateTime.ToString("yyyy-MM-dd HH:mm");
-			EndDateTime = Document.EndDateTime.ToString("yyyy-MM-dd HH:mm");
-			FileName = Document.FileName;
-			//	_fileName = Document.FileName;
-
-			//	OnPropertyChanged(() => Name);
-			//	OnPropertyChanged(() => ShortName);
-			//	OnPropertyChanged(() => StartDateTime);
-			//		OnPropertyChanged(() => EndDateTime);
-			//		OnPropertyChanged(() => FileName);
-			//		OnPropertyChanged(() => HasFile);
-		}
-
-		public void Update(TimeTrackDocument timeTrackDocument)
-		{
-			Document = timeTrackDocument;
-			Update();
-		}
 
 		private string _name;
 		public string Name
@@ -98,10 +64,42 @@ namespace SKDModule.ViewModels
 				{
 					MessageBoxService.ShowWarning(operationResult.Error);
 				}
-			//	OnPropertyChanged(() => FileName);
-			//	OnPropertyChanged(() => HasFile);
+				//	OnPropertyChanged(() => FileName);
+				//	OnPropertyChanged(() => HasFile);
 			}
 		}
+
+		private bool _hasFile;
+		public bool HasFile
+		{
+			get { return _hasFile; }
+			set { this.RaiseAndSetIfChanged(ref _hasFile, value); }
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public TimeTrackAttachedDocument(TimeTrackDocument timeTrackDocument)
+		{
+			Document = timeTrackDocument;
+
+			this.WhenAny(x => x.FileName, x => x.Value)
+				.Subscribe(value =>
+				{
+					HasFile = !string.IsNullOrEmpty(value);
+				});
+
+			Update();
+		}
+
+		public TimeTrackAttachedDocument()
+		{
+		}
+
+		#endregion
+
+		#region Commands
 
 		public void AddFile()
 		{
@@ -144,7 +142,7 @@ namespace SKDModule.ViewModels
 				catch (Exception e)
 				{
 					MessageBoxService.ShowWarning(e.Message, "Предупреждение");
-				//	ShowOpenWithDialog(fileName);
+					//	ShowOpenWithDialog(fileName);
 				}
 			}
 			else
@@ -167,12 +165,35 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		private bool _hasFile;
-		public bool HasFile
+		#endregion
+
+		#region Methods
+
+		public void Update(TimeTrackDocument timeTrackDocument)
 		{
-			get { return _hasFile; }
-			set{ this.RaiseAndSetIfChanged(ref _hasFile, value); }
+			Document = timeTrackDocument;
+			Update();
 		}
+
+		public void Update()
+		{
+			Name = Document.TimeTrackDocumentType.Name;
+			ShortName = Document.TimeTrackDocumentType.ShortName;
+			StartDateTime = Document.StartDateTime.ToString("yyyy-MM-dd HH:mm");
+			EndDateTime = Document.EndDateTime.ToString("yyyy-MM-dd HH:mm");
+			FileName = Document.FileName;
+			//	_fileName = Document.FileName;
+
+			//	OnPropertyChanged(() => Name);
+			//	OnPropertyChanged(() => ShortName);
+			//	OnPropertyChanged(() => StartDateTime);
+			//		OnPropertyChanged(() => EndDateTime);
+			//		OnPropertyChanged(() => FileName);
+			//		OnPropertyChanged(() => HasFile);
+		}
+
+		#endregion
+
 		//public bool HasFile { get { return FileName != null; } }
 
 		//void ShowOpenWithDialog(string path)

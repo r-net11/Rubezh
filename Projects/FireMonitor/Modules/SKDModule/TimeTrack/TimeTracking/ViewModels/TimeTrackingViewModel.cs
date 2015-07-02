@@ -20,68 +20,20 @@ namespace SKDModule.ViewModels
 {
 	public class TimeTrackingViewModel : ViewPartViewModel
 	{
+		#region Fields
 		TimeTrackFilter TimeTrackFilter;
 		List<TimeTrackEmployeeResult> TimeTrackEmployeeResults;
+		#endregion
 
-		public TimeTrackingViewModel()
-		{
-			ShowFilterCommand = new RelayCommand(OnShowFilter);
-			RefreshCommand = new RelayCommand(OnRefresh);
-			PrintCommand = new RelayCommand(OnPrint, CanPrint);
-			ShowDocumentTypesCommand = new RelayCommand(OnShowDocumentTypes);
-			ServiceFactory.Events.GetEvent<UserChangedEvent>().Unsubscribe(OnUserChanged);
-			ServiceFactory.Events.GetEvent<UserChangedEvent>().Subscribe(OnUserChanged);
-			ServiceFactory.Events.GetEvent<EditDocumentEvent>().Unsubscribe(OnEditDocument);
-			ServiceFactory.Events.GetEvent<EditDocumentEvent>().Subscribe(OnEditDocument);
-			ServiceFactory.Events.GetEvent<RemoveDocumentEvent>().Unsubscribe(OnRemoveDocument);
-			ServiceFactory.Events.GetEvent<RemoveDocumentEvent>().Subscribe(OnRemoveDocument);
-			ServiceFactory.Events.GetEvent<EditTimeTrackPartEvent>().Unsubscribe(OnEditTimeTrackPart);
-			ServiceFactory.Events.GetEvent<EditTimeTrackPartEvent>().Subscribe(OnEditTimeTrackPart);
-
-			TimeTrackFilter = CreateTimeTrackFilter();
-
-			UpdateGrid();
-
-			this.WhenAny(x => x.SelectedTimeTrack, x => x.Value)
-				.Subscribe(_ =>
-				{
-					HasSelectedTimeTrack = _ != null;
-				});
-		}
-
-		private TimeTrackFilter CreateTimeTrackFilter() //TODO:Implement to TimeTrackFilter class
-		{
-			return new TimeTrackFilter
-			{
-				EmployeeFilter = new EmployeeFilter
-				{
-					OrganisationUIDs = new List<Guid> {GetFirstOrganizationUID()},
-					UserUID = FiresecManager.CurrentUser.UID,
-				},
-				Period = TimeTrackingPeriod.CurrentMonth,
-				StartDate = GetFirstDayOfMonth(),
-				EndDate = DateTime.Today
-			};
-		}
-
-		public static DateTime GetFirstDayOfMonth() //TODO: Implement to static extension class
-		{
-			return DateTime.Today.AddDays(1 - DateTime.Today.Day);
-		}
+		#region Properties
 
 		public List<Holiday> HolydaysOfCurrentOrganisation
 		{
 			get { return HolidayHelper.GetByOrganisation(TimeTrackFilter.EmployeeFilter.OrganisationUIDs.FirstOrDefault()).ToList(); }
 		}
 
-		private Guid GetFirstOrganizationUID()
-		{
-			var firstOrganizationElement = OrganisationHelper.GetByCurrentUser().FirstOrDefault();
-			return firstOrganizationElement != null ? firstOrganizationElement.UID : Guid.Empty;
-		}
-
-		SortableObservableCollection<TimeTrackViewModel> _timeTracks;
-		public SortableObservableCollection<TimeTrackViewModel> TimeTracks
+		SortableObservableCollection<TimeTrack> _timeTracks;
+		public SortableObservableCollection<TimeTrack> TimeTracks
 		{
 			get { return _timeTracks; }
 			set
@@ -91,15 +43,14 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		TimeTrackViewModel _selectedTimeTrack;
-		public TimeTrackViewModel SelectedTimeTrack
+		TimeTrack _selectedTimeTrack;
+		public TimeTrack SelectedTimeTrack
 		{
 			get { return _selectedTimeTrack; }
 			set
 			{
 				_selectedTimeTrack = value;
 				OnPropertyChanged(() => SelectedTimeTrack);
-			//	OnPropertyChanged(() => HasSelectedTimeTrack);
 			}
 		}
 
@@ -127,6 +78,115 @@ namespace SKDModule.ViewModels
 				OnPropertyChanged(() => RowHeight);
 			}
 		}
+
+		#endregion
+
+		#region Constructors
+
+		public TimeTrackingViewModel()
+		{
+			ServiceFactory.Events.GetEvent<UserChangedEvent>().Unsubscribe(OnUserChanged);
+			ServiceFactory.Events.GetEvent<UserChangedEvent>().Subscribe(OnUserChanged);
+			ServiceFactory.Events.GetEvent<EditDocumentEvent>().Unsubscribe(OnEditDocument);
+			ServiceFactory.Events.GetEvent<EditDocumentEvent>().Subscribe(OnEditDocument);
+			ServiceFactory.Events.GetEvent<RemoveDocumentEvent>().Unsubscribe(OnRemoveDocument);
+			ServiceFactory.Events.GetEvent<RemoveDocumentEvent>().Subscribe(OnRemoveDocument);
+			ServiceFactory.Events.GetEvent<EditTimeTrackPartEvent>().Unsubscribe(OnEditTimeTrackPart);
+			ServiceFactory.Events.GetEvent<EditTimeTrackPartEvent>().Subscribe(OnEditTimeTrackPart);
+
+			ShowFilterCommand = new RelayCommand(OnShowFilter);
+			RefreshCommand = new RelayCommand(OnRefresh);
+			PrintCommand = new RelayCommand(OnPrint, CanPrint);
+			ShowDocumentTypesCommand = new RelayCommand(OnShowDocumentTypes);
+
+			TimeTrackFilter = CreateTimeTrackFilter();
+
+			UpdateGrid();
+
+			this.WhenAny(x => x.SelectedTimeTrack, x => x.Value)
+				.Subscribe(_ =>
+				{
+					HasSelectedTimeTrack = _ != null;
+				});
+		}
+
+		#endregion
+
+		#region Methods
+
+		private TimeTrackFilter CreateTimeTrackFilter() //TODO:Implement to TimeTrackFilter class
+		{
+			return new TimeTrackFilter
+			{
+				EmployeeFilter = new EmployeeFilter
+				{
+					OrganisationUIDs = new List<Guid> { GetFirstOrganizationUID() },
+					UserUID = FiresecManager.CurrentUser.UID,
+				},
+				Period = TimeTrackingPeriod.CurrentMonth,
+				StartDate = GetFirstDayOfMonth(),
+				EndDate = DateTime.Today
+			};
+		}
+
+		public static DateTime GetFirstDayOfMonth() //TODO: Implement to static extension class
+		{
+			return DateTime.Today.AddDays(1 - DateTime.Today.Day);
+		}
+
+		private Guid GetFirstOrganizationUID()
+		{
+			var firstOrganizationElement = OrganisationHelper.GetByCurrentUser().FirstOrDefault();
+			return firstOrganizationElement != null ? firstOrganizationElement.UID : Guid.Empty;
+		}
+
+		void UpdateGrid()
+		{
+			var employeeUID = SelectedTimeTrack != null ? SelectedTimeTrack.ShortEmployee.UID : Guid.Empty;
+
+			TotalDays = (int)(TimeTrackFilter.EndDate - TimeTrackFilter.StartDate).TotalDays + 1;
+			FirstDay = TimeTrackFilter.StartDate;
+
+
+			var stream = FiresecManager.FiresecService.GetTimeTracksStream(TimeTrackFilter.EmployeeFilter, TimeTrackFilter.StartDate, TimeTrackFilter.EndDate);
+			var folderName = AppDataFolderHelper.GetFolder("TempServer");
+			var resultFileName = Path.Combine(folderName, "ClientTimeTrackResult.xml");
+			var resultFileStream = File.Create(resultFileName);
+			FiresecManager.CopyStream(stream, resultFileStream);
+			var timeTrackResult = Deserialize(resultFileName);
+
+			TimeTracks = new SortableObservableCollection<TimeTrack>();
+
+			if (timeTrackResult != null)
+			{
+				TimeTrackEmployeeResults = timeTrackResult.TimeTrackEmployeeResults;
+				foreach (var timeTrackEmployeeResult in TimeTrackEmployeeResults)
+				{
+					TimeTracks.Add(new TimeTrack(TimeTrackFilter, timeTrackEmployeeResult));
+				}
+
+				TimeTracks.Sort(x => x.ShortEmployee.LastName);
+				RowHeight = 60 + 20 * TimeTrackFilter.TotalTimeTrackTypeFilters.Count;
+			}
+
+			SelectedTimeTrack = TimeTracks.FirstOrDefault(x => x.ShortEmployee.UID == employeeUID) ??
+								TimeTracks.FirstOrDefault();
+		}
+
+		public static TimeTrackResult Deserialize(string fileName)
+		{
+			using (var fileStream = new FileStream(fileName, FileMode.Open, FileAccess.Read))
+			{
+				var dataContractSerializer = new DataContractSerializer(typeof(TimeTrackResult));
+				var result = (TimeTrackResult)dataContractSerializer.ReadObject(fileStream);
+				fileStream.Close();
+				return result;
+			}
+		}
+
+		#endregion
+
+		#region Commands
 
 		public RelayCommand ShowFilterCommand { get; private set; }
 		void OnShowFilter()
@@ -190,50 +250,6 @@ namespace SKDModule.ViewModels
 			return ApplicationService.IsReportEnabled;
 		}
 
-		void UpdateGrid()
-		{
-			var employeeUID = SelectedTimeTrack != null ? SelectedTimeTrack.ShortEmployee.UID : Guid.Empty;
-
-			TotalDays = (int)(TimeTrackFilter.EndDate - TimeTrackFilter.StartDate).TotalDays + 1;
-			FirstDay = TimeTrackFilter.StartDate;
-
-
-			var stream = FiresecManager.FiresecService.GetTimeTracksStream(TimeTrackFilter.EmployeeFilter, TimeTrackFilter.StartDate, TimeTrackFilter.EndDate);
-			var folderName = AppDataFolderHelper.GetFolder("TempServer");
-			var resultFileName = Path.Combine(folderName, "ClientTimeTrackResult.xml");
-			var resultFileStream = File.Create(resultFileName);
-			FiresecManager.CopyStream(stream, resultFileStream);
-			var timeTrackResult = Deserialize(resultFileName);
-
-			TimeTracks = new SortableObservableCollection<TimeTrackViewModel>();
-
-			if (timeTrackResult != null)
-			{
-				TimeTrackEmployeeResults = timeTrackResult.TimeTrackEmployeeResults;
-				foreach (var timeTrackEmployeeResult in TimeTrackEmployeeResults)
-				{
-					TimeTracks.Add(new TimeTrackViewModel(TimeTrackFilter, timeTrackEmployeeResult));
-				}
-
-				TimeTracks.Sort(x => x.ShortEmployee.LastName);
-				RowHeight = 60 + 20 * TimeTrackFilter.TotalTimeTrackTypeFilters.Count;
-			}
-
-			SelectedTimeTrack = TimeTracks.FirstOrDefault(x => x.ShortEmployee.UID == employeeUID) ??
-								TimeTracks.FirstOrDefault();
-		}
-
-		public static TimeTrackResult Deserialize(string fileName)
-		{
-			using (var fileStream = new FileStream(fileName, FileMode.Open, FileAccess.Read))
-			{
-				var dataContractSerializer = new DataContractSerializer(typeof(TimeTrackResult));
-				var result = (TimeTrackResult)dataContractSerializer.ReadObject(fileStream);
-				fileStream.Close();
-				return result;
-			}
-		}
-
 		public RelayCommand ShowDocumentTypesCommand { get; private set; }
 		void OnShowDocumentTypes()
 		{
@@ -241,11 +257,7 @@ namespace SKDModule.ViewModels
 			DialogService.ShowModalWindow(documentTypesViewModel);
 		}
 
-		void OnUserChanged(UserChangedEventArgs args)
-		{
-			TimeTrackFilter.EmployeeFilter.UserUID = FiresecManager.CurrentUser.UID;
-			UpdateGrid();
-		}
+		#endregion
 
 		#region DocumentEvents
 		void OnEditDocument(TimeTrackDocument document)
@@ -274,6 +286,15 @@ namespace SKDModule.ViewModels
 				timeTrackViewModel.DocumentsViewModel.OnEditTimeTrackPart(uid);
 			}
 		}
+		#endregion
+
+		#region MonitorEvents
+		void OnUserChanged(UserChangedEventArgs args)
+		{
+			TimeTrackFilter.EmployeeFilter.UserUID = FiresecManager.CurrentUser.UID;
+			UpdateGrid();
+		}
+
 		#endregion
 	}
 }

@@ -1,6 +1,7 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Input;
 using Infrastructure.Common.Windows;
+using SKDModule.Model;
 using SKDModule.ViewModels;
 
 namespace SKDModule.Views
@@ -14,16 +15,16 @@ namespace SKDModule.Views
 
 		private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
 		{
-			DayTrackViewModel dayTrackViewModel = DataContext as DayTrackViewModel;
-			if (dayTrackViewModel != null)
+			var dayTrack = DataContext as DayTrack;
+			if (dayTrack != null)
 			{
-				var timeTrackDetailsViewModel = new TimeTrackDetailsViewModel(dayTrackViewModel.DayTimeTrack, dayTrackViewModel.ShortEmployee);
+				var timeTrackDetailsViewModel = new TimeTrackDetailsViewModel(dayTrack.DayTimeTrack, dayTrack.ShortEmployee);
 				if (DialogService.ShowModalWindow(timeTrackDetailsViewModel))
 				{
-					if (!string.IsNullOrEmpty(dayTrackViewModel.DayTimeTrack.Error)) return;
+					if (!string.IsNullOrEmpty(dayTrack.DayTimeTrack.Error)) return;
 
-					dayTrackViewModel.DayTimeTrack.Calculate();
-					dayTrackViewModel.Update();
+					dayTrack.DayTimeTrack.Calculate();
+					dayTrack.Update();
 				}
 			}
 		}

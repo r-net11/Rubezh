@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Reactive.Linq;
-using Common;
-using FiresecAPI.SKD;
+﻿using FiresecAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure;
@@ -13,67 +7,60 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using ReactiveUI;
 using SKDModule.Events;
+using SKDModule.Model;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace SKDModule.ViewModels
 {
 	public class TimeTrackDetailsViewModel : SaveCancelDialogViewModel
 	{
+		#region Properties
+
+		TimeTrackAttachedDocument _selectedDocument;
+		public TimeTrackAttachedDocument SelectedDocument
+		{
+			get { return _selectedDocument; }
+			set
+			{
+				_selectedDocument = value;
+				OnPropertyChanged(() => SelectedDocument);
+			}
+		}
+
+		DayTimeTrackPart _selectedDayTimeTrackPart; //TODO: remove it and save all DayTimeTrackParts
+		public DayTimeTrackPart SelectedDayTimeTrackPart
+		{
+			get { return _selectedDayTimeTrackPart; }
+			set
+			{
+				_selectedDayTimeTrackPart = value;
+				OnPropertyChanged(() => SelectedDayTimeTrackPart);
+			}
+		}
+
+		public ObservableCollection<TimeTrackAttachedDocument> Documents { get; private set; }
+
+		public ObservableCollection<DayTimeTrackPart> DayTimeTrackParts { get; private set; }
+
 		public DayTimeTrack DayTimeTrack { get; private set; }
+
 		public ShortEmployee ShortEmployee { get; private set; }
 
-		public TimeTrackDetailsViewModel(DayTimeTrack dayTimeTrack, ShortEmployee shortEmployee)
+		private TimeTrackPartDetailsViewModel _selectedTimeTrackPartDetailsViewModel;
+
+		public TimeTrackPartDetailsViewModel SelectedTimeTrackPartDetailsViewModel
 		{
-			if(string.IsNullOrEmpty(dayTimeTrack.Error))
-				dayTimeTrack.Calculate();
-
-			Title = "Время сотрудника " + shortEmployee.FIO + " в течение дня " + dayTimeTrack.Date.Date.ToString("yyyy-MM-dd");
-			AddCommand = new RelayCommand(OnAdd, CanAdd);
-			EditCommand = new RelayCommand(OnEdit, CanEdit);
-			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
-			AddFileCommand = new RelayCommand(OnAddFile);
-			OpenFileCommand = new RelayCommand(OnOpenFile);
-			RemoveFileCommand = new RelayCommand(OnRemoveFile);
-			AddCustomPartCommand = new RelayCommand(OnAddCustomPart, CanAddPart);
-			RemovePartCommand = new RelayCommand(OnRemovePart, CanEditRemovePart);
-			EditPartCommand = new RelayCommand(OnEditPart, CanEditRemovePart);
-			DayTimeTrack = dayTimeTrack;
-			ShortEmployee = shortEmployee;
-
-			DayTimeTrackParts = GetCollection(DayTimeTrack.RealTimeTrackParts);
-
-			Documents = GetCollection(DayTimeTrack.Documents);
-
-			this.WhenAny(x => x.SelectedDocument, x => x.Value)
-				.Subscribe(value =>
-				{
-					CanDoChanges = value != null && value.HasFile;
-				});
-		}
-
-		private ObservableCollection<DocumentViewModel> GetCollection(IEnumerable<TimeTrackDocument> timeTrackDocuments)
-		{
-			var result = new ObservableCollection<DocumentViewModel>();
-
-			foreach (var document in timeTrackDocuments)
+			get { return _selectedTimeTrackPartDetailsViewModel; }
+			set
 			{
-				result.Add(new DocumentViewModel(document));
+				if (_selectedTimeTrackPartDetailsViewModel == value) return;
+				_selectedTimeTrackPartDetailsViewModel = value;
+				OnPropertyChanged(() => SelectedTimeTrackPartDetailsViewModel);
 			}
-
-			return result;
 		}
-
-		private ObservableCollection<DayTimeTrackPartViewModel> GetCollection(IEnumerable<TimeTrackPart> timeTrackParts)
-		{
-			var result = new ObservableCollection<DayTimeTrackPartViewModel>();
-
-			foreach (var timeTrackPart in timeTrackParts)
-			{
-				result.Add(new DayTimeTrackPartViewModel(timeTrackPart));
-			}
-
-			return result;
-		}
-
 
 		bool _isDirty;
 		public bool IsDirty
@@ -100,46 +87,67 @@ namespace SKDModule.ViewModels
 
 		public bool IsNew { get; set; }
 
-		public ObservableCollection<DayTimeTrackPartViewModel> DayTimeTrackParts { get; private set; }
+		#endregion
 
-		DayTimeTrackPartViewModel _selectedDayTimeTrackPart; //TODO: remove it and save all DayTimeTrackParts
-		public DayTimeTrackPartViewModel SelectedDayTimeTrackPart
+		#region Constructors
+		public TimeTrackDetailsViewModel(DayTimeTrack dayTimeTrack, ShortEmployee shortEmployee)
 		{
-			get { return _selectedDayTimeTrackPart; }
-			set
-			{
-				_selectedDayTimeTrackPart = value;
-				OnPropertyChanged(() => SelectedDayTimeTrackPart);
-			}
+			if (string.IsNullOrEmpty(dayTimeTrack.Error))
+				dayTimeTrack.Calculate();
+
+			Title = "Время сотрудника " + shortEmployee.FIO + " в течение дня " + dayTimeTrack.Date.Date.ToString("yyyy-MM-dd");
+			AddDocumentCommand = new RelayCommand(OnAddDocument, CanAddDocument);
+			EditDocumentCommand = new RelayCommand(OnEditDocument, CanEditDocument);
+			RemoveDocumentCommand = new RelayCommand(OnRemoveDocument, CanRemoveDocument);
+			AddFileCommand = new RelayCommand(OnAddFile);
+			OpenFileCommand = new RelayCommand(OnOpenFile);
+			RemoveFileCommand = new RelayCommand(OnRemoveFile);
+			AddCustomPartCommand = new RelayCommand(OnAddCustomPart, CanAddPart);
+			RemovePartCommand = new RelayCommand(OnRemovePart, CanEditRemovePart);
+			EditPartCommand = new RelayCommand(OnEditPart, CanEditRemovePart);
+			DayTimeTrack = dayTimeTrack;
+			ShortEmployee = shortEmployee;
+
+			DayTimeTrackParts = GetObservableCollection(DayTimeTrack.RealTimeTrackParts, x => new DayTimeTrackPart(x));
+			Documents = GetObservableCollection(DayTimeTrack.Documents, x => new TimeTrackAttachedDocument(x));
+
+			this.WhenAny(x => x.SelectedDocument, x => x.Value)
+				.Subscribe(value =>
+				{
+					CanDoChanges = value != null && value.HasFile;
+				});
 		}
 
-		public ObservableCollection<DocumentViewModel> Documents { get; private set; }
+		#endregion
 
-		DocumentViewModel _selectedDocument;
-		public DocumentViewModel SelectedDocument
+		#region Methods
+
+		private static ObservableCollection<T> GetObservableCollection<T, TU>(IEnumerable<TU> elements, Func<TU, T> del)
+			where T : new()
 		{
-			get { return _selectedDocument; }
-			set
+			var result = new ObservableCollection<T>();
+
+			foreach (TU element in elements)
 			{
-				_selectedDocument = value;
-				OnPropertyChanged(() => SelectedDocument);
+				result.Add(del(element));
 			}
+
+			return result;
 		}
 
-		private TimeTrackPartDetailsViewModel _selectedTimeTrackPartDetailsViewModel;
+		#endregion
 
-		public TimeTrackPartDetailsViewModel SelectedTimeTrackPartDetailsViewModel
-		{
-			get { return _selectedTimeTrackPartDetailsViewModel; }
-			set
-			{
-				if (_selectedTimeTrackPartDetailsViewModel == value) return;
-				_selectedTimeTrackPartDetailsViewModel = value;
-				OnPropertyChanged(() => SelectedTimeTrackPartDetailsViewModel);
-			}
-		}
+		#region Commands
 
 		public RelayCommand AddCustomPartCommand { get; private set; }
+		public RelayCommand RemovePartCommand { get; private set; }
+		public RelayCommand EditPartCommand { get; private set; }
+		public RelayCommand AddDocumentCommand { get; private set; }
+		public RelayCommand EditDocumentCommand { get; private set; }
+		public RelayCommand RemoveDocumentCommand { get; private set; }
+		public RelayCommand AddFileCommand { get; private set; }
+		public RelayCommand OpenFileCommand { get; private set; }
+		public RelayCommand RemoveFileCommand { get; private set; }
 		/// <summary>
 		/// Функция создания прохода
 		/// </summary>
@@ -148,7 +156,7 @@ namespace SKDModule.ViewModels
 			var timeTrackPartDetailsViewModel = new TimeTrackPartDetailsViewModel(DayTimeTrack, ShortEmployee, this);
 			if (DialogService.ShowModalWindow(timeTrackPartDetailsViewModel))
 			{
-				DayTimeTrackParts.Add(new DayTimeTrackPartViewModel(timeTrackPartDetailsViewModel));
+				DayTimeTrackParts.Add(new DayTimeTrackPart(timeTrackPartDetailsViewModel));
 				SelectedTimeTrackPartDetailsViewModel = timeTrackPartDetailsViewModel;
 				DayTimeTrack.Date.Date.Add(timeTrackPartDetailsViewModel.ExitTime);
 
@@ -157,12 +165,12 @@ namespace SKDModule.ViewModels
 				ServiceFactory.Events.GetEvent<EditTimeTrackPartEvent>().Publish(ShortEmployee.UID);
 			}
 		}
+
 		bool CanAddPart()
 		{
 			return FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Parts_Edit);
 		}
 
-		public RelayCommand RemovePartCommand { get; private set; }
 		void OnRemovePart()
 		{
 			var result = PassJournalHelper.DeleteAllPassJournalItems(SelectedDayTimeTrackPart.UID, DayTimeTrack.Date + SelectedDayTimeTrackPart.EnterTimeSpan, DayTimeTrack.Date + SelectedDayTimeTrackPart.ExitTimeSpan);
@@ -179,7 +187,6 @@ namespace SKDModule.ViewModels
 			return SelectedDayTimeTrackPart != null && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Parts_Edit);
 		}
 
-		public RelayCommand EditPartCommand { get; private set; }
 		void OnEditPart()
 		{
 			var timeTrackPartDetailsViewModel = new TimeTrackPartDetailsViewModel(DayTimeTrack, ShortEmployee, this, SelectedDayTimeTrackPart.UID, SelectedDayTimeTrackPart.EnterTimeSpan, SelectedDayTimeTrackPart.ExitTimeSpan);
@@ -193,8 +200,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public RelayCommand AddCommand { get; private set; }
-		void OnAdd()
+		void OnAddDocument()
 		{
 			var timeTrackDocument = new TimeTrackDocument
 			{
@@ -215,7 +221,7 @@ namespace SKDModule.ViewModels
 				}
 				else
 				{
-					var documentViewModel = new DocumentViewModel(documentDetailsViewModel.TimeTrackDocument);
+					var documentViewModel = new TimeTrackAttachedDocument(documentDetailsViewModel.TimeTrackDocument);
 					Documents.Add(documentViewModel);
 					SelectedDocument = documentViewModel;
 					IsDirty = true;
@@ -223,13 +229,13 @@ namespace SKDModule.ViewModels
 				}
 			}
 		}
-		bool CanAdd()
+
+		bool CanAddDocument()
 		{
 			return FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Documents_Edit);
 		}
 
-		public RelayCommand EditCommand { get; private set; }
-		void OnEdit()
+		void OnEditDocument()
 		{
 			var documentDetailsViewModel = new DocumentDetailsViewModel(false, ShortEmployee.OrganisationUID, SelectedDocument.Document);
 			if (DialogService.ShowModalWindow(documentDetailsViewModel))
@@ -245,13 +251,13 @@ namespace SKDModule.ViewModels
 				IsDirty = true;
 			}
 		}
-		bool CanEdit()
+
+		bool CanEditDocument()
 		{
 			return SelectedDocument != null && SelectedDocument.Document.StartDateTime.Date == DayTimeTrack.Date.Date && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Documents_Edit);
 		}
 
-		public RelayCommand RemoveCommand { get; private set; }
-		void OnRemove()
+		void OnRemoveDocument()
 		{
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить документ?"))
 			{
@@ -268,32 +274,32 @@ namespace SKDModule.ViewModels
 				}
 			}
 		}
-		bool CanRemove()
+
+		bool CanRemoveDocument()
 		{
 			return SelectedDocument != null && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Documents_Edit);
 		}
 
-		public RelayCommand AddFileCommand { get; private set; }
 		void OnAddFile()
 		{
 			SelectedDocument.AddFile();
 		}
 
-		public RelayCommand OpenFileCommand { get; private set; }
 		void OnOpenFile()
 		{
 			SelectedDocument.OpenFile();
 		}
 
-		public RelayCommand RemoveFileCommand { get; private set; }
 		void OnRemoveFile()
 		{
 			SelectedDocument.RemoveFile();
 		}
+
 		protected override bool CanSave()
 		{
 			return (DayTimeTrackParts.Any(x => !x.IsValid) == false) && SelectedTimeTrackPartDetailsViewModel != null;
 		}
+
 		protected override bool Save() //TODO: Save all TimeTracks without refresh
 		{
 			if (IsNew)
@@ -309,5 +315,7 @@ namespace SKDModule.ViewModels
 
 			return base.Save();
 		}
+
+		#endregion
 	}
 }

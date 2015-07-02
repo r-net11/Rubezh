@@ -5,26 +5,42 @@ using System.Collections.ObjectModel;
 using FiresecAPI;
 using FiresecAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
+using ReactiveUI;
 using SKDModule.Model;
+using SKDModule.ViewModels;
 
-namespace SKDModule.ViewModels
+namespace SKDModule.Model
 {
-	public class TimeTrackViewModel : BaseViewModel
+	public class TimeTrack : ReactiveObject
 	{
+		#region Properties
+
 		public ShortEmployee ShortEmployee { get; private set; }
 		public string ScheduleName { get; private set; }
 		public DocumentsViewModel DocumentsViewModel { get; private set; }
+		/// <summary>
+		/// Коллекция отображаемых дней в УРВ
+		/// </summary>
+		public ObservableCollection<DayTrack> DayTracks { get; set; }
+		public ObservableCollection<TimeTrackTotal> Totals;
+		#endregion
 
-		public TimeTrackViewModel(TimeTrackFilter timeTrackFilter, TimeTrackEmployeeResult timeTrackEmployeeResult)
+		#region Constructors
+
+		public TimeTrack(TimeTrackFilter timeTrackFilter, TimeTrackEmployeeResult timeTrackEmployeeResult)
 		{
 			DocumentsViewModel = new DocumentsViewModel(timeTrackEmployeeResult, timeTrackFilter.StartDate, timeTrackFilter.EndDate);
 
 			ShortEmployee = timeTrackEmployeeResult.ShortEmployee;
 			ScheduleName = timeTrackEmployeeResult.ScheduleName;
+
 			if (timeTrackEmployeeResult.DayTimeTracks == null)
 			    timeTrackEmployeeResult.DayTimeTracks = new List<DayTimeTrack>();
 
-			DayTracks = new ObservableCollection<DayTrackViewModel>();
+			//Выбор всех типов интервалов, которые указаны в фильтре типов
+			Totals = new ObservableCollection<TimeTrackTotal>(timeTrackFilter.TotalTimeTrackTypeFilters.Select(x => new TimeTrackTotal(x)));
+			DayTracks = new ObservableCollection<DayTrack>();
+
 			foreach (var dayTimeTrack in timeTrackEmployeeResult.DayTimeTracks)
 			{
 				if(string.IsNullOrEmpty(dayTimeTrack.Error))
@@ -35,16 +51,10 @@ namespace SKDModule.ViewModels
 					dayTimeTrack.Tooltip = TimeTrackType.None.ToDescription();
 				}
 
-				var dayTrackViewModel = new DayTrackViewModel(dayTimeTrack, timeTrackFilter, timeTrackEmployeeResult.ShortEmployee);
-				DayTracks.Add(dayTrackViewModel);
+				DayTracks.Add(new DayTrack(dayTimeTrack, timeTrackFilter, timeTrackEmployeeResult.ShortEmployee));
 			}
 
-			Totals = new List<TimeTrackTotal>();
-			foreach (var timeTrackType in timeTrackFilter.TotalTimeTrackTypeFilters)
-			{
-				Totals.Add(new TimeTrackTotal(timeTrackType));
-			}
-
+			//Вычисление и запись результата отображения фильтрованных интервалов в таблице
 			foreach (var dayTimeTrack in timeTrackEmployeeResult.DayTimeTracks)
 			{
 				if(dayTimeTrack == null || dayTimeTrack.Totals == null) continue;
@@ -58,10 +68,8 @@ namespace SKDModule.ViewModels
 					}
 				}
 			}
-			OnPropertyChanged(() => Totals);
 		}
 
-		public ObservableCollection<DayTrackViewModel> DayTracks { get; set; }
-		public List<TimeTrackTotal> Totals { get; private set; }
+		#endregion
 	}
 }

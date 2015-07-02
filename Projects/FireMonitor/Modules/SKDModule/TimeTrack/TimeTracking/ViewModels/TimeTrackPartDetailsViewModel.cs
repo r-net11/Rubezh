@@ -14,6 +14,13 @@ namespace SKDModule.ViewModels
 {
 	public class TimeTrackPartDetailsViewModel: SaveCancelDialogViewModel
 	{
+		#region Fields
+		DayTimeTrack _DayTimeTrack;
+		private TimeTrackDetailsViewModel _Parent;
+		#endregion
+
+		#region Properties
+
 		TimeSpan _EnterTime;
 		public TimeSpan EnterTime
 		{
@@ -40,9 +47,23 @@ namespace SKDModule.ViewModels
 		public DateTime ExitDateTime { get { return _DayTimeTrack.Date.Date.Add(ExitTime); } }
 
 		public Guid UID { get; private set; }
-		DayTimeTrack _DayTimeTrack;
-		private TimeTrackDetailsViewModel _Parent;
 
+		public ObservableCollection<TimeTrackZone> Zones { get; private set; }
+
+		TimeTrackZone _SelectedZone;
+		public TimeTrackZone SelectedZone
+		{
+			get { return _SelectedZone; }
+			set
+			{
+				_SelectedZone = value;
+				OnPropertyChanged(() => SelectedZone);
+			}
+		}
+
+		#endregion
+
+		#region Constructors
 		//TODO:Remove this
 		public TimeTrackPartDetailsViewModel(TimeTrackDetailsViewModel parent, TimeSpan? enterTime = null, TimeSpan? exitTime = null)
 		{
@@ -84,30 +105,23 @@ namespace SKDModule.ViewModels
 
 			SelectedZone = Zones.FirstOrDefault();
 		}
+		#endregion
 
-		public ObservableCollection<TimeTrackZone> Zones { get; private set; }
-
-		TimeTrackZone _SelectedZone;
-		public TimeTrackZone SelectedZone
-		{
-			get { return _SelectedZone; }
-			set
-			{
-				_SelectedZone = value;
-				OnPropertyChanged(() => SelectedZone);
-			}
-		}
+		#region Commands
 
 		protected override bool Save()
 		{
-			if (!Validate())
-				return false;
-			return true;
+			return Validate();
 		}
+
 		protected override bool CanSave()
 		{
 			return SelectedZone != null;
 		}
+
+		#endregion
+
+		#region Methods
 
 		public bool Validate()
 		{
@@ -121,6 +135,8 @@ namespace SKDModule.ViewModels
 			return timeTrackDetailsViewModel.DayTimeTrackParts.Any(x => x.UID != UID &&
 																		(x.EnterTimeSpan < EnterTime && x.ExitTimeSpan > EnterTime || x.EnterTimeSpan < ExitTime && x.ExitTimeSpan > ExitTime));
 		}
+
+		#endregion
 	}
 
 	public class TimeTrackZone
