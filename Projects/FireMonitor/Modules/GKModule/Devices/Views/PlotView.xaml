@@ -30,7 +30,7 @@
 					<d3:HorizontalDateTimeAxis Name="dateAxis" />
 				</d3:ChartPlotter.HorizontalAxis>
 				<d3:Header FontFamily="Georgia" Content="Статистика токопотребления" />
-				<d3:VerticalAxisTitle FontFamily="Georgia" Content="Ток" />
+				<d3:VerticalAxisTitle FontFamily="Georgia" Content="Ток, мА" />
 				<d3:HorizontalAxisTitle FontFamily="ArialGeorgia" Content="Дата" />
 			</d3:ChartPlotter>
 		</Border>

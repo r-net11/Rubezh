@@ -63,7 +63,7 @@ namespace GKModule.ViewModels
 					break;
 			}
 
-			Title = "Выбор зон";
+			Title = "Выбор настройки отражения";
 			Device = device;
 			if (device.GKReflectionItem == null)
 			device.GKReflectionItem = new GKReflectionItem();
@@ -71,13 +71,28 @@ namespace GKModule.ViewModels
 			ZonesSelectationViewModel = new ZonesSelectationViewModel(zones, true);
 			var guardzones = GKManager.GuardZones.Where(x => Device.GKReflectionItem.GuardZoneUIDs.Contains(x.UID)).ToList();
 			GuardZonesSelectationViewModel = new GuardZonesSelectationViewModel(guardzones);
-			//DirectionsSelectationViewModel = new DirectionsSelectationViewModel(device.Directions);
-			//DelaysSelectationViewModel = new DelaysSelectationViewModel(device.);	
+			var directions = GKManager.Directions.Where(x => Device.GKReflectionItem.DiretionUIDs.Contains(x.UID)).ToList();
+			DirectionsSelectationViewModel = new DirectionsSelectationViewModel(directions);
+			var delays = GKManager.Delays.Where(x => Device.GKReflectionItem.DelayUIDs.Contains(x.UID)).ToList();
+			DelaysSelectationViewModel = new DelaysSelectationViewModel(delays);
+			var devices = GKManager.Devices.Where(x => Device.GKReflectionItem.DeviceUIDs.Contains(x.UID)).ToList();
+			DevicesSelectationViewModel = new DevicesSelectationViewModel(devices);
+			var ns = GKManager.PumpStations.Where(x => Device.GKReflectionItem.NSUIDs.Contains(x.UID)).ToList();
+			PumpStationsSelectationViewModel = new PumpStationsSelectationViewModel(ns);
+			var mpts = GKManager.MPTs.Where(x => Device.GKReflectionItem.MPTUIDs.Contains(x.UID)).ToList();
+			MPTsSelectationViewModel = new MPTsSelectationViewModel(mpts);
+			
 		}
 
 		protected override bool Save()
 		{
 			Device.GKReflectionItem.ZoneUIDs = ZonesSelectationViewModel.TargetZones.Select(x => x.UID).ToList();
+			Device.GKReflectionItem.GuardZoneUIDs = GuardZonesSelectationViewModel.TargetZones.Select(x=> x.UID).ToList();
+			Device.GKReflectionItem.DiretionUIDs = DirectionsSelectationViewModel.TargetDirections.Select(x => x.UID).ToList();
+			Device.GKReflectionItem.DelayUIDs = DelaysSelectationViewModel.TargetDelays.Select(x => x.UID).ToList();
+			Device.GKReflectionItem.DeviceUIDs = DevicesSelectationViewModel.Devices.Select(x => x.UID).ToList();
+			Device.GKReflectionItem.NSUIDs = PumpStationsSelectationViewModel.TargetPumpStations.Select(x => x.UID).ToList();
+			Device.GKReflectionItem.MPTUIDs = MPTsSelectationViewModel.TargetMPTs.Select(x => x.UID).ToList();
 			return base.Save();
 		}
 	}

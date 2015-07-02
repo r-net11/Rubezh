@@ -147,11 +147,11 @@ namespace FiresecAPI.GK
 		RSR2_GKMirror,
 		[Description("Извещательные устройства")]
 		RSR2_GKMirrorDetectorsDevice,
-		[Description("Пожаоные зоны")]
+		[Description("Пожарные зоны")]
 		RSR2_GKMirrorFireZone,
 		[Description("Исполнительные устройства")]
 		RSR2_GKMirrorPerformersDevice,
-		[Description("Охранные зоны")]
+		[Description("Зоны пожара тушения")]
 		RSR2_GKMirrorFightFireZone,
 		[Description("Охранные зоны")]
 		RSR2_GKMirrorGuardZone,

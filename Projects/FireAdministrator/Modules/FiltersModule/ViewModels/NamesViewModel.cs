@@ -94,6 +94,7 @@ namespace FiltersModule.ViewModels
 				if (nameViewModel != null)
 				{
 					nameViewModel.IsChecked = true;
+					nameViewModel.ExpandToThis();
 				}
 			}
 			foreach (var journalEventDescriptionType in filter.JournalEventDescriptionTypes)
@@ -111,6 +112,7 @@ namespace FiltersModule.ViewModels
 				if (subsystemViewModel != null)
 				{
 					subsystemViewModel.IsChecked = true;
+					
 				}
 			}
 		}

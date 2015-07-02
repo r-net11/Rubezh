@@ -57,7 +57,6 @@
 	<Converters:EnumToItemsSourceConverter x:Key="EnumToItemsSourceConverter" />
 	<Converters:DateToStringConverter x:Key="DateToStringConverter" />
 	<Converters:StringToResourceConverter x:Key="StringToResourceConverter" />
-	<Converters:BoolToSelectionModeConverter x:Key="BoolToSelectionModeConverter" />
 	<Converters:DoorStateClassToStringConverter x:Key="DoorStateClassToStringConverter" />
 	<Converters:MultiParameterConverter x:Key="MultiParameterConverter" />
 	<Converters:MultiBooleanConverter x:Key="MultiBooleanConverter" />
