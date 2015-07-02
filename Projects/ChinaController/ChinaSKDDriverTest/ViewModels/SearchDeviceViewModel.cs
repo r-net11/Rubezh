@@ -15,6 +15,17 @@ namespace ControllerSDK.ViewModels
 {
 	public class SearchDeviceViewModel : BaseViewModel
 	{
+		private DeviceType _deviceType;
+		public DeviceType DeviceType
+		{
+			get { return _deviceType; }
+			set
+			{
+				_deviceType = value;
+				OnPropertyChanged(() => DeviceType);
+			}
+		}
+
 		private string _ipAddress;
 		public string IpAddress
 		{

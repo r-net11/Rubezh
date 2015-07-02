@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
@@ -7,6 +8,12 @@ namespace ChinaSKDDriverAPI
 {
 	public class DeviceSearchInfo
 	{
+		private readonly DeviceType _deviceType;
+		public DeviceType DeviceType
+		{
+			get { return _deviceType; }
+		}
+
 		private readonly string _ipAddress;
 		public string IpAddress
 		{
@@ -37,8 +44,9 @@ namespace ChinaSKDDriverAPI
 			get { return _mac; }
 		}
 
-		public DeviceSearchInfo(string ipAddress, int port, string submask, string gateway, string mac)
+		public DeviceSearchInfo(DeviceType deviceType, string ipAddress, int port, string submask, string gateway, string mac)
 		{
+			_deviceType = deviceType;
 			_ipAddress = ipAddress;
 			_port = port;
 			_submask = submask;
@@ -46,4 +54,32 @@ namespace ChinaSKDDriverAPI
 			_mac = mac;
 		}
 	}
+
+	public enum DeviceType
+	{
+		[DeviceTypeLabel("Не известно")]
+		Unknown = 0,
+		#region <Контроллер Dahua>
+		[DeviceTypeLabel("Однодверный контроллер", "SR-NC101")]
+		DahuaBsc1221A,
+		[DeviceTypeLabel("Двухдверный контроллер", "SR-NC002")]
+		DahuaBsc1201B,
+		[DeviceTypeLabel("Четырехдверный контроллер", "SR-NC004")]
+		DahuaBsc1202B
+		#endregion </Контроллер Dahua>
+	}
+
+	public class DeviceTypeLabelAttribute : Attribute
+	{
+		public string Type { get; set; }
+
+		public string Label { get; set; }
+
+		public DeviceTypeLabelAttribute(string type, string label = null)
+		{
+			Type = type;
+			Label = label;
+		}
+	}
 }
+
