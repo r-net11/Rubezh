@@ -14,7 +14,7 @@ namespace SKDModule.ViewModels
 	public class DayIntervalViewModel : OrganisationElementViewModel<DayIntervalViewModel, DayInterval>, IEditingViewModel
 	{
 		bool _isInitialized;
-		
+
 		public DayIntervalViewModel(): base()
 		{
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
@@ -22,7 +22,7 @@ namespace SKDModule.ViewModels
 			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
 			_isInitialized = false;
 		}
-		
+
 		public void Initialize()
 		{
 			if (!_isInitialized)
@@ -41,7 +41,7 @@ namespace SKDModule.ViewModels
 				OnPropertyChanged(() => DayIntervalParts);
 			}
 		}
-		
+
 		public SortableObservableCollection<DayIntervalPartViewModel> DayIntervalParts { get; private set; }
 
 		DayIntervalPartViewModel _selectedDayIntervalPart;

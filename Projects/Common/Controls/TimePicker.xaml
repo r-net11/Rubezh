@@ -2,6 +2,14 @@
 	x:Class="Controls.TimePicker"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<UserControl.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="pack://application:,,,/Controls;component/XamlImages/AddTime.xaml" />
+				<ResourceDictionary Source="pack://application:,,,/Controls;component/XamlImages/DeleteTime.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+	</UserControl.Resources>
 	<WrapPanel>
 		<TextBox
 			Name="TextBox"
@@ -27,8 +35,10 @@
 				IsTabStop="False">
 				<Grid
 					Width="16"
+					VerticalAlignment="Center"
+					HorizontalAlignment="Center"
 					Height="16"
-					Background="{DynamicResource AddTime}" />
+					Background="{StaticResource AddTime}" />
 			</Button>
 			<Button
 				Name="Dec"
@@ -40,7 +50,9 @@
 				<Grid
 					Width="16"
 					Height="16"
-					Background="{DynamicResource DeleteTime}" />
+					VerticalAlignment="Center"
+					HorizontalAlignment="Center"
+					Background="{StaticResource DeleteTime}" />
 			</Button>
 		</StackPanel>
 	</WrapPanel>

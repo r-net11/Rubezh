@@ -52,7 +52,7 @@ namespace SKDModule.ViewModels
 			if (_isInitialized)
 				base.OnOrganisationUsersChanged(newOrganisation);
 		}
-		
+
 		protected override void OnRemoveOrganisation(Guid organisationUID)
 		{
 			if (_isInitialized)
