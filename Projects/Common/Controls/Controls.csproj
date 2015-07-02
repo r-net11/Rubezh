@@ -122,7 +122,6 @@
     <Compile Include="Attach.cs" />
     <Compile Include="AttachedColumnBehavior.cs" />
     <Compile Include="ButtonSpinner.cs" />
-    <Compile Include="Converters\BoolToSelectionModeConverter.cs" />
     <Compile Include="Converters\ConverterHelper.cs" />
     <Compile Include="Converters\DoorStateClassToStringConverter.cs" />
     <Compile Include="Converters\EnumToItemsSourceConverter.cs" />
@@ -2575,6 +2574,21 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="GKIcons\RSR2_GKMirrorDirection.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RSR2_GKMirrorGuardZone.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RSR2_GKMirrorFireZone.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RSR2_GKMirrorFightFireZone.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RSR2_GKMirrorPerformersDevice.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RSR2_GKMirrorDetectorsDevice.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

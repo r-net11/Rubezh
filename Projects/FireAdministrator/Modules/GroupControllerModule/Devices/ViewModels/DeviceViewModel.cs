@@ -574,7 +574,7 @@ namespace GKModule.ViewModels
 					var _reflectionview = new ReflectionViewModel(Device);
 					DialogService.ShowModalWindow(_reflectionview);
 				}
-			OnPropertyChanged(() => PresentationZone);
+			
 			ServiceFactory.SaveService.GKChanged = true;
 		}
 		public RelayCommand ShowZoneOrLogicCommand { get; private set; }
@@ -590,9 +590,6 @@ namespace GKModule.ViewModels
 
 			if (CanShowReflection())
 				OnShowReflection();
-
-
-
 		}
 		bool CanShowZoneOrLogic()
 		{
@@ -828,6 +825,8 @@ namespace GKModule.ViewModels
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
+
+		
 		#endregion
 	}
 }

@@ -20,7 +20,7 @@ namespace GKProcessor
 				IsRangeEnabled = true,
 				MinAddress = 1,
 				MaxAddress = 127,
-				IsPlaceable = true
+				IsPlaceable = true,
 			};
 			driver.AutoCreateChildren.Add(GKDriverType.KAUIndicator);
 			driver.AutoCreateChildren.Add(GKDriverType.RSR2_KAU_Shleif);
@@ -57,7 +57,8 @@ namespace GKProcessor
 					Max = 240,
 					Default = 180,
 					DriverPropertyType = GKDriverPropertyTypeEnum.IntType,
-					IsAUParameter = true
+					IsAUParameter = true,
+                    Multiplier = 10,
 				}
 				);
 
