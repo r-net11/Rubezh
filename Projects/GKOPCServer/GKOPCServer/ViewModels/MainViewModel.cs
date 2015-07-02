@@ -38,7 +38,7 @@ namespace GKOPCServer.ViewModels
 			set
 			{
 				_log = value;
-				OnPropertyChanged("Log");
+				OnPropertyChanged(() => Log);
 			}
 		}
 
