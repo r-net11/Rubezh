@@ -7,6 +7,7 @@ using FiresecAPI.AutomationCallback;
 using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
+using System.IO;
 
 namespace FiresecService.Service
 {
@@ -110,6 +111,62 @@ namespace FiresecService.Service
 				{
 					ObjectUID = objectUID,
 					DeviceProperties = deviceProperties
+				}
+			};
+			CallbackManager.Add(callbackResult);
+		}
+
+		public static void NotifyOperationResult_GetAllUsers(OperationResult<List<GKUser>> users)
+		{
+			var callbackResult = new CallbackResult()
+			{
+				CallbackResultType = CallbackResultType.OperationResult,
+				CallbackOperationResult = new CallbackOperationResult()
+				{
+					CallbackOperationResultType = CallbackOperationResultType.GetAllUsers,
+					Users = users
+				}
+			};
+			CallbackManager.Add(callbackResult);
+		}
+
+		public static void NotifyOperationResult_RewriteUsers(OperationResult<bool> result)
+		{
+			var callbackResult = new CallbackResult()
+			{
+				CallbackResultType = CallbackResultType.OperationResult,
+				CallbackOperationResult = new CallbackOperationResult()
+				{
+					CallbackOperationResultType = CallbackOperationResultType.RewriteUsers,
+					Result = result
+				}
+			};
+			CallbackManager.Add(callbackResult);
+		}
+
+		public static void NotifyOperationResult_WriteConfiguration(OperationResult<bool> result)
+		{
+			var callbackResult = new CallbackResult()
+			{
+				CallbackResultType = CallbackResultType.OperationResult,
+				CallbackOperationResult = new CallbackOperationResult()
+				{
+					CallbackOperationResultType = CallbackOperationResultType.WriteConfiguration,
+					Result = result
+				}
+			};
+			CallbackManager.Add(callbackResult);
+		}
+
+		public static void NotifyOperationResult_ReadConfigurationFromGKFile(string fileName)
+		{
+			var callbackResult = new CallbackResult()
+			{
+				CallbackResultType = CallbackResultType.OperationResult,
+				CallbackOperationResult = new CallbackOperationResult()
+				{
+					CallbackOperationResultType = CallbackOperationResultType.ReadConfigurationFromGKFile,
+					FileName = fileName
 				}
 			};
 			CallbackManager.Add(callbackResult);

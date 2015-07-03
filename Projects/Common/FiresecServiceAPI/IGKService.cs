@@ -23,6 +23,9 @@ namespace FiresecAPI
 		Stream GKReadConfigurationFromGKFile(Guid deviceUID);
 
 		[OperationContract]
+		Stream GetGKFileStream(string filePath);
+
+		[OperationContract]
 		OperationResult<GKDevice> GKAutoSearch(Guid deviceUID);
 
 		[OperationContract]

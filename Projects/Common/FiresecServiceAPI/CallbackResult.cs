@@ -34,6 +34,9 @@ namespace FiresecAPI
 
 		[DataMember]
 		public AutomationCallbackResult AutomationCallbackResult { get; set; }
+
+		[DataMember]
+		public CallbackOperationResult CallbackOperationResult { get; set; }
 	}
 
 	public enum CallbackResultType
@@ -46,6 +49,7 @@ namespace FiresecAPI
 		ArchiveCompleted,
 		AutomationCallbackResult,
 		ConfigurationChanged,
-		Disconnecting
+		Disconnecting,
+		OperationResult
 	}
 }

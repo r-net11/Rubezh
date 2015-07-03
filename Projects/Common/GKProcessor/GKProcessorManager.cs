@@ -204,18 +204,14 @@ namespace GKProcessor
 			return OperationResult<GKDeviceConfiguration>.FromError(descriptorReader.Error, descriptorReader.DeviceConfiguration);
 		}
 
-		public static Stream GKReadConfigurationFromGKFile(GKDevice device, string userName)
+		public static string GKReadConfigurationFromGKFile(GKDevice device, string userName)
 		{
 			AddGKMessage(JournalEventNameType.Чтение_конфигурации_из_прибора, JournalEventDescriptionType.NULL, "", device, userName);
 			SuspendMonitoring(device);
 			var gkFileReaderWriter = new GKFileReaderWriter();
 			var filePath = gkFileReaderWriter.ReadConfigFileFromGK(device);
 			ResumeMonitoring(device);
-			if (filePath != null)
-			{
-				return new FileStream(filePath, FileMode.Open, FileAccess.Read);
-			}
-			return Stream.Null;
+			return filePath;
 			//return OperationResult<Stream>.FromError { gkFileReaderWriter.Error, new FileStream(filePath, FileMode.Open, FileAccess.Read));
 		}
 
