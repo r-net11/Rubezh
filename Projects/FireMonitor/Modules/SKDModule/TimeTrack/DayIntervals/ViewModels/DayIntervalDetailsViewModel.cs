@@ -7,35 +7,12 @@ namespace SKDModule.ViewModels
 {
 	public class DayIntervalDetailsViewModel : SaveCancelDialogViewModel, IDetailsViewModel<DayInterval>
 	{
-		FiresecAPI.SKD.Organisation Organisation;
-		public DayInterval Model { get; private set; }
+		#region Fields
 		bool _isNew;
+		#endregion
 
-		public bool Initialize(Organisation organisation, DayInterval model, ViewPartViewModel parentViewModel)
-		{
-			Organisation = organisation;
-			_isNew = model == null;
-			if (_isNew)
-			{
-				Title = "Новый дневной график";
-				model = new DayInterval()
-				{
-					Name = "Дневной график",
-					OrganisationUID = organisation.UID,
-				};
-				model.DayIntervalParts.Add(new DayIntervalPart() { BeginTime = new TimeSpan(9, 0, 0), EndTime = new TimeSpan(18, 0, 0), DayIntervalUID = model.UID });
-				Model = model;
-			}
-			else
-			{
-				Title = "Редактирование дневного графика";
-				Model = DayIntervalHelper.GetSingle(model.UID);
-			}
-			Name = Model.Name;
-			Description = Model.Description;
-			ConstantSlideTime = Model.SlideTime;
-			return true;
-		}
+		#region Properties
+		public DayInterval Model { get; private set; }
 
 		string _name;
 		public string Name
@@ -69,7 +46,9 @@ namespace SKDModule.ViewModels
 				OnPropertyChanged(() => ConstantSlideTime);
 			}
 		}
+		#endregion
 
+		#region Commands
 		protected override bool CanSave()
 		{
 			return !string.IsNullOrEmpty(Name) && Name != "Всегда" && Name != "Никогда";
@@ -83,5 +62,33 @@ namespace SKDModule.ViewModels
 				return false;
 			return DayIntervalHelper.Save(Model, _isNew);
 		}
+		#endregion
+
+		#region Methods
+		public bool Initialize(Organisation organisation, DayInterval model, ViewPartViewModel parentViewModel)
+		{
+			_isNew = model == null;
+			if (_isNew)
+			{
+				Title = "Новый дневной график";
+				model = new DayInterval()
+				{
+					Name = "Дневной график",
+					OrganisationUID = organisation.UID,
+				};
+				model.DayIntervalParts.Add(new DayIntervalPart() { BeginTime = new TimeSpan(9, 0, 0), EndTime = new TimeSpan(18, 0, 0), DayIntervalUID = model.UID });
+				Model = model;
+			}
+			else
+			{
+				Title = "Редактирование дневного графика";
+				Model = DayIntervalHelper.GetSingle(model.UID);
+			}
+			Name = Model.Name;
+			Description = Model.Description;
+			ConstantSlideTime = Model.SlideTime;
+			return true;
+		}
+		#endregion
 	}
 }

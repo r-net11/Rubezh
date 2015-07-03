@@ -21,15 +21,17 @@ namespace SKDModule.ViewModels
 	public class TimeTrackingViewModel : ViewPartViewModel
 	{
 		#region Fields
-		TimeTrackFilter TimeTrackFilter;
-		List<TimeTrackEmployeeResult> TimeTrackEmployeeResults;
+
+		readonly TimeTrackFilter _timeTrackFilter;
+		List<TimeTrackEmployeeResult> _timeTrackEmployeeResults;
+
 		#endregion
 
 		#region Properties
 
 		public List<Holiday> HolydaysOfCurrentOrganisation
 		{
-			get { return HolidayHelper.GetByOrganisation(TimeTrackFilter.EmployeeFilter.OrganisationUIDs.FirstOrDefault()).ToList(); }
+			get { return HolidayHelper.GetByOrganisation(_timeTrackFilter.EmployeeFilter.OrganisationUIDs.FirstOrDefault()).ToList(); }
 		}
 
 		SortableObservableCollection<TimeTrack> _timeTracks;
@@ -99,7 +101,7 @@ namespace SKDModule.ViewModels
 			PrintCommand = new RelayCommand(OnPrint, CanPrint);
 			ShowDocumentTypesCommand = new RelayCommand(OnShowDocumentTypes);
 
-			TimeTrackFilter = CreateTimeTrackFilter();
+			_timeTrackFilter = CreateTimeTrackFilter();
 
 			UpdateGrid();
 
@@ -144,11 +146,11 @@ namespace SKDModule.ViewModels
 		{
 			var employeeUID = SelectedTimeTrack != null ? SelectedTimeTrack.ShortEmployee.UID : Guid.Empty;
 
-			TotalDays = (int)(TimeTrackFilter.EndDate - TimeTrackFilter.StartDate).TotalDays + 1;
-			FirstDay = TimeTrackFilter.StartDate;
+			TotalDays = (int)(_timeTrackFilter.EndDate - _timeTrackFilter.StartDate).TotalDays + 1;
+			FirstDay = _timeTrackFilter.StartDate;
 
 
-			var stream = FiresecManager.FiresecService.GetTimeTracksStream(TimeTrackFilter.EmployeeFilter, TimeTrackFilter.StartDate, TimeTrackFilter.EndDate);
+			var stream = FiresecManager.FiresecService.GetTimeTracksStream(_timeTrackFilter.EmployeeFilter, _timeTrackFilter.StartDate, _timeTrackFilter.EndDate);
 			var folderName = AppDataFolderHelper.GetFolder("TempServer");
 			var resultFileName = Path.Combine(folderName, "ClientTimeTrackResult.xml");
 			var resultFileStream = File.Create(resultFileName);
@@ -159,14 +161,14 @@ namespace SKDModule.ViewModels
 
 			if (timeTrackResult != null)
 			{
-				TimeTrackEmployeeResults = timeTrackResult.TimeTrackEmployeeResults;
-				foreach (var timeTrackEmployeeResult in TimeTrackEmployeeResults)
+				_timeTrackEmployeeResults = timeTrackResult.TimeTrackEmployeeResults;
+				foreach (var timeTrackEmployeeResult in _timeTrackEmployeeResults)
 				{
-					TimeTracks.Add(new TimeTrack(TimeTrackFilter, timeTrackEmployeeResult));
+					TimeTracks.Add(new TimeTrack(_timeTrackFilter, timeTrackEmployeeResult));
 				}
 
 				TimeTracks.Sort(x => x.ShortEmployee.LastName);
-				RowHeight = 60 + 20 * TimeTrackFilter.TotalTimeTrackTypeFilters.Count;
+				RowHeight = 60 + 20 * _timeTrackFilter.TotalTimeTrackTypeFilters.Count;
 			}
 
 			SelectedTimeTrack = TimeTracks.FirstOrDefault(x => x.ShortEmployee.UID == employeeUID) ??
@@ -191,7 +193,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand ShowFilterCommand { get; private set; }
 		void OnShowFilter()
 		{
-			var filterViewModel = new TimeTrackFilterViewModel(TimeTrackFilter);
+			var filterViewModel = new TimeTrackFilterViewModel(_timeTrackFilter);
 			if (DialogService.ShowModalWindow(filterViewModel))
 			{
 				UpdateGrid();
@@ -237,12 +239,12 @@ namespace SKDModule.ViewModels
 				return;
 			}
 
-			if (TimeTrackFilter.StartDate.Date.Month < TimeTrackFilter.EndDate.Date.Month || TimeTrackFilter.StartDate.Date.Year < TimeTrackFilter.EndDate.Date.Year)
+			if (_timeTrackFilter.StartDate.Date.Month < _timeTrackFilter.EndDate.Date.Month || _timeTrackFilter.StartDate.Date.Year < _timeTrackFilter.EndDate.Date.Year)
 			{
 				MessageBoxService.ShowWarning("В отчете содержаться данные за несколько месяцев. Будут показаны данные только за первый месяц");
 			}
 
-			var reportSettingsViewModel = new ReportSettingsViewModel(TimeTrackFilter, TimeTrackEmployeeResults);
+			var reportSettingsViewModel = new ReportSettingsViewModel(_timeTrackFilter, _timeTrackEmployeeResults);
 			DialogService.ShowModalWindow(reportSettingsViewModel);
 		}
 		bool CanPrint()
@@ -291,7 +293,7 @@ namespace SKDModule.ViewModels
 		#region MonitorEvents
 		void OnUserChanged(UserChangedEventArgs args)
 		{
-			TimeTrackFilter.EmployeeFilter.UserUID = FiresecManager.CurrentUser.UID;
+			_timeTrackFilter.EmployeeFilter.UserUID = FiresecManager.CurrentUser.UID;
 			UpdateGrid();
 		}
 

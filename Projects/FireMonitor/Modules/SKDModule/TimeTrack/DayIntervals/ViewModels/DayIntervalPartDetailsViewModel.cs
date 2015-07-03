@@ -10,34 +10,13 @@ namespace SKDModule.ViewModels
 {
 	public class DayIntervalPartDetailsViewModel : SaveCancelDialogViewModel
 	{
-		bool IsNew;
-		DayInterval DayInterval;
-		public DayIntervalPart DayIntervalPart { get; private set; }
-		
-		public DayIntervalPartDetailsViewModel(DayInterval dayInterval, DayIntervalPart dayIntervalPart = null)
-		{
-			DayInterval = dayInterval;
-			if (dayIntervalPart == null)
-			{
-				Title = "Новый интервал";
-				IsNew = true;
-				dayIntervalPart = new DayIntervalPart()
-				{
-					DayIntervalUID = dayInterval.UID,
-				};
-			}
-			else
-			{
-				Title = "Редактирование интервала";
-				IsNew = false;
-			}
-			DayIntervalPart = dayIntervalPart;
+		#region Fields
+		readonly bool _isNew;
+		readonly DayInterval _dayInterval;
+		#endregion
 
-			AvailableTransitions = new ObservableCollection<DayIntervalPartTransitionType>(Enum.GetValues(typeof(DayIntervalPartTransitionType)).OfType<DayIntervalPartTransitionType>());
-			BeginTime = dayIntervalPart.BeginTime;
-			EndTime = dayIntervalPart.EndTime;
-			SelectedTransition = dayIntervalPart.TransitionType;
-		}
+		#region Properties
+		public DayIntervalPart DayIntervalPart { get; private set; }
 
 		TimeSpan _beginTime;
 		public TimeSpan BeginTime
@@ -83,6 +62,36 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		#endregion
+
+		#region Constructors
+		public DayIntervalPartDetailsViewModel(DayInterval dayInterval, DayIntervalPart dayIntervalPart = null)
+		{
+			_dayInterval = dayInterval;
+			if (dayIntervalPart == null)
+			{
+				Title = "Новый интервал";
+				_isNew = true;
+				dayIntervalPart = new DayIntervalPart()
+				{
+					DayIntervalUID = dayInterval.UID,
+				};
+			}
+			else
+			{
+				Title = "Редактирование интервала";
+				_isNew = false;
+			}
+			DayIntervalPart = dayIntervalPart;
+
+			AvailableTransitions = new ObservableCollection<DayIntervalPartTransitionType>(Enum.GetValues(typeof(DayIntervalPartTransitionType)).OfType<DayIntervalPartTransitionType>());
+			BeginTime = dayIntervalPart.BeginTime;
+			EndTime = dayIntervalPart.EndTime;
+			SelectedTransition = dayIntervalPart.TransitionType;
+		}
+		#endregion
+
+		#region Commands
 		protected override bool Save()
 		{
 			if (!Validate())
@@ -92,7 +101,9 @@ namespace SKDModule.ViewModels
 			DayIntervalPart.TransitionType = SelectedTransition;
 			return true;
 		}
+		#endregion
 
+		#region Methods
 		bool Validate()
 		{
 			var dayIntervalParts = CloneDayIntervalPart();
@@ -100,7 +111,7 @@ namespace SKDModule.ViewModels
 			var currentDateTime = TimeSpan.Zero;
 			foreach (var dayIntervalPart in dayIntervalParts)
 			{
-				if(dayIntervalPart.BeginTime < currentDateTime)
+				if (dayIntervalPart.BeginTime < currentDateTime)
 				{
 					MessageBoxService.ShowWarning("Интервалы должны идти последовательно");
 					return false;
@@ -145,10 +156,11 @@ namespace SKDModule.ViewModels
 			}
 			return true;
 		}
+
 		List<DayIntervalPart> CloneDayIntervalPart()
 		{
 			var dayIntervalParts = new List<DayIntervalPart>();
-			foreach (var dayIntervalPart in DayInterval.DayIntervalParts)
+			foreach (var dayIntervalPart in _dayInterval.DayIntervalParts)
 			{
 				var clonedDayIntervalPart = new DayIntervalPart()
 				{
@@ -160,14 +172,14 @@ namespace SKDModule.ViewModels
 				};
 				dayIntervalParts.Add(clonedDayIntervalPart);
 			}
-			if (IsNew)
+			if (_isNew)
 			{
 				var newEmployeeDayIntervalPart = new DayIntervalPart()
 				{
 					BeginTime = BeginTime,
 					EndTime = EndTime,
 					TransitionType = SelectedTransition,
-					DayIntervalUID = DayInterval.UID,
+					DayIntervalUID = _dayInterval.UID,
 				};
 				dayIntervalParts.Add(newEmployeeDayIntervalPart);
 			}
@@ -183,5 +195,6 @@ namespace SKDModule.ViewModels
 			}
 			return dayIntervalParts;
 		}
+		#endregion
 	}
 }
