@@ -24,16 +24,16 @@ namespace SKDModule.Employees.Comparers
 			var secondModel = y as ReadOnlyAccessDoorViewModel;
 			if (firstModel == null || secondModel == null) return 0;
 
+			if (string.Equals(firstModel.EnerScheduleName, secondModel.EnerScheduleName)) return 0;
+
 			if (SortDirection == ListSortDirection.Ascending)
 			{
-				if (string.Equals(firstModel.EnerScheduleName, secondModel.EnerScheduleName)) return 0;
 				if (string.Equals(firstModel.EnerScheduleName, Always) && string.Equals(secondModel.EnerScheduleName, Never)) return -1;
 				if (string.Equals(firstModel.EnerScheduleName, Never) && string.Equals(secondModel.EnerScheduleName, Always)) return 1;
 			}
 
 			if (SortDirection == ListSortDirection.Descending)
 			{
-				if (string.Equals(firstModel.EnerScheduleName, secondModel.EnerScheduleName)) return 0;
 				if (string.Equals(firstModel.EnerScheduleName, Always) && string.Equals(secondModel.EnerScheduleName, Never)) return 1;
 				if (string.Equals(firstModel.EnerScheduleName, Never) && string.Equals(secondModel.EnerScheduleName, Always)) return -1;
 			}
