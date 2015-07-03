@@ -17,8 +17,8 @@ namespace GKProcessor
 
 		public override void Build()
 		{
-			DeviceType = BytesHelper.ShortToBytes((ushort)0x101);
-			SetAddress((ushort)0);
+			DeviceType = BytesHelper.ShortToBytes(0x101);
+			SetAddress(0);
 			SetFormulaBytes();
 			SetPropertiesBytes();
 		}

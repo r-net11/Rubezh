@@ -192,8 +192,6 @@ namespace GKProcessor
 					case GKDriverType.RSR2_MDU24:
 						if (additionalShortParameters[1] == 1)
 							OnDelay = additionalShortParameters[0];
-						if (additionalShortParameters[1] == 2)
-							HoldDelay = additionalShortParameters[0];
 						break;
 					case GKDriverType.RSR2_MVK8:
 					case GKDriverType.RSR2_RM_1:
