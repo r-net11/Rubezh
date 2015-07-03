@@ -2,17 +2,18 @@
 	x:Class="SKDModule.Views.CardDoorsView"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+	xmlns:behaviours="clr-namespace:Controls.Behaviours;assembly=Controls"
+	xmlns:comparers="clr-namespace:SKDModule.Employees.Comparers"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
-	xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
 	xmlns:viewModels="clr-namespace:SKDModule.ViewModels"
 	d:DataContext="{d:DesignInstance viewModels:CardDoorsViewModel,
                                               IsDesignTimeCreatable=True}"
 	d:DesignWidth="500"
 	mc:Ignorable="d">
 	<UserControl.Resources>
+		<comparers:DoorsComparer x:Key="DoorsComparer" />
 		<CollectionViewSource x:Key="cvsDoors" Source="{Binding Doors}">
 			<CollectionViewSource.SortDescriptions>
 				<scm:SortDescription PropertyName="No" />
@@ -24,7 +25,8 @@
 		CanUserSortColumns="True"
 		Focusable="True"
 		ItemsSource="{Binding Source={StaticResource cvsDoors}}"
-		SelectedItem="{Binding SelectedDoor}">
+		SelectedItem="{Binding SelectedDoor}"
+		behaviours:CustomSortBehaviour.AllowCustomSort="True">
 		<DataGrid.Columns>
 			<DataGridTemplateColumn
 				Width="40"
@@ -56,7 +58,12 @@
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
-			<DataGridTemplateColumn Width="*" Header="Вход">
+			<DataGridTemplateColumn
+				Width="*"
+				Header="Вход"
+				CanUserSort="True"
+				SortMemberPath="EnerScheduleName"
+				behaviours:CustomSortBehaviour.CustomSorter="{StaticResource DoorsComparer}">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
 						<TextBlock Margin="4 0 0 0" Text="{Binding EnerScheduleName}" />

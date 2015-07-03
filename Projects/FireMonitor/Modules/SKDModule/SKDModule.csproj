@@ -159,6 +159,7 @@
     <Compile Include="Departments\Views\DepartmentEmployeeListView.xaml.cs">
       <DependentUpon>DepartmentEmployeeListView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Employees\Comparers\DoorsComparer.cs" />
     <Compile Include="Employees\EmployeeCardsViewModel.cs" />
     <Compile Include="Employees\ViewModels\AccessDoorsSelectationViewModel.cs" />
     <Compile Include="Employees\ViewModels\AccessDoorViewModel.cs" />
