@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using FiresecAPI.GK;
+using System.Globalization;
 
 namespace GKModule.ViewModels
 {
@@ -29,7 +30,10 @@ namespace GKModule.ViewModels
 			set
 			{
 				double doubleValue = -1;
-				if (double.TryParse(value.Replace(".", ","), out doubleValue))
+				if (double.TryParse(value.Replace(".", ","), 
+									NumberStyles.Number,
+									CultureInfo.CreateSpecificCulture("ru-RU"), 
+									out doubleValue))
 				{
 					if (DriverProperty.Multiplier != 0)
 						doubleValue *= DriverProperty.Multiplier;
