@@ -574,8 +574,8 @@ namespace GKModule.ViewModels
 					var _reflectionview = new ReflectionViewModel(Device);
 					DialogService.ShowModalWindow(_reflectionview);
 				}
-			
-			ServiceFactory.SaveService.GKChanged = true;
+			OnPropertyChanged(() => EditingPresentationZone);
+			ServiceFactory.SaveService.GKChanged = true;		
 		}
 		public RelayCommand ShowZoneOrLogicCommand { get; private set; }
 		void OnShowZoneOrLogic()

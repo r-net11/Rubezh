@@ -10,14 +10,101 @@ namespace FiresecClient
 	{
 		public static string GetPresentationZoneAndGuardZoneOrLogic(GKDevice device)
 		{
-			if (device.Driver.HasZone || device.Driver.HasGuardZone)
+			if (device.Driver.HasMirror)
+			{
+				var stringBuilder = new StringBuilder();
+				if (device.GKReflectionItem.Zones != null)
+				{
+					if (device.GKReflectionItem.Zones.Count == 1)
+						stringBuilder.Append(device.GKReflectionItem.Zones[0].PresentationName);
+					if (device.GKReflectionItem.Zones.Count > 1)
+					{
+						var zones = new List<ModelBase>(device.GKReflectionItem.Zones);
+						stringBuilder.Append("пожарные зоны: ");
+						stringBuilder.Append(GetCommaSeparatedObjects(new List<ModelBase>(device.GKReflectionItem.Zones), new List<ModelBase>(device.GKReflectionItem.Zones)));
+					}
+				}
+				if (device.GKReflectionItem.GuardZones != null)
+				{
+					if (device.GKReflectionItem.GuardZones.Count == 1)
+					{
+						stringBuilder.Append(device.GKReflectionItem.GuardZones[0].PresentationName);
+					}
+					if (device.GKReflectionItem.GuardZones.Count > 1)
+					{
+						stringBuilder.Append("охранные зоны: ");
+						stringBuilder.Append(GetCommaSeparatedObjects(new List<ModelBase>(device.GKReflectionItem.GuardZones), new List<ModelBase>(device.GKReflectionItem.GuardZones)));
+					}
+				}
+				if (device.GKReflectionItem.Devices != null && device.GKReflectionItem.Devices.Count>0)
+				{				
+					stringBuilder.Append("устройсва: ");
+					foreach (var item in device.GKReflectionItem.Devices)
+	                   {
+		                 stringBuilder.Append(item.ShortName +" ");
+	                   }				
+				}
+				if (device.GKReflectionItem.Delays != null)
+				{
+					if (device.GKReflectionItem.Delays.Count == 1)
+					{
+						stringBuilder.Append(device.GKReflectionItem.Delays[0].PresentationName);
+					}
+					if (device.GKReflectionItem.Delays.Count > 1)
+					{
+						stringBuilder.Append("задержки: ");
+						stringBuilder.Append(GetCommaSeparatedObjects(new List<ModelBase>(device.GKReflectionItem.Delays), new List<ModelBase>(device.GKReflectionItem.Delays)));
+					}
+				}
+
+				if (device.GKReflectionItem.Diretions != null)
+				{
+					if (device.GKReflectionItem.Diretions.Count == 1)
+					{
+						stringBuilder.Append(device.GKReflectionItem.Diretions[0].PresentationName);
+					}
+					if (device.GKReflectionItem.Diretions.Count > 1)
+					{
+						stringBuilder.Append("направления: ");
+						stringBuilder.Append(GetCommaSeparatedObjects(new List<ModelBase>(device.GKReflectionItem.Diretions), new List<ModelBase>(device.GKReflectionItem.Diretions)));
+					}
+				}
+				if (device.GKReflectionItem.MPTs != null)
+				{
+					if (device.GKReflectionItem.MPTs.Count == 1)
+					{
+						stringBuilder.Append(device.GKReflectionItem.MPTs[0].PresentationName);
+					}
+					if (device.GKReflectionItem.MPTs.Count > 1)
+					{
+						stringBuilder.Append("МПТ: ");
+						stringBuilder.Append(GetCommaSeparatedObjects(new List<ModelBase>(device.GKReflectionItem.MPTs), new List<ModelBase>(device.GKReflectionItem.MPTs)));
+					}
+				}
+
+				if (device.GKReflectionItem.NSs != null)
+				{
+					if (device.GKReflectionItem.NSs.Count == 1)
+					{
+						stringBuilder.Append(device.GKReflectionItem.MPTs[0].PresentationName);
+					}
+					if (device.GKReflectionItem.NSs.Count > 1)
+					{
+						stringBuilder.Append("НС: ");
+						stringBuilder.Append(GetCommaSeparatedObjects(new List<ModelBase>(device.GKReflectionItem.NSs), new List<ModelBase>(device.GKReflectionItem.NSs)));
+					}
+				}
+					
+				return stringBuilder.ToString();
+			}
+
+			if (device.Driver.HasZone || device.Driver.HasGuardZone )
 			{
 				var stringBuilder = new StringBuilder();
 				if (device.Zones == null)
 					device.Zones = new List<GKZone>();
 				if (device.GuardZones == null)
 					device.GuardZones = new List<GKGuardZone>();
-
 				if (device.Zones.Count + device.GuardZones.Count == 1)
 				{
 					stringBuilder.Append(device.Zones.Count == 1 ? device.Zones[0].PresentationName : device.GuardZones[0].PresentationName);
@@ -40,7 +127,6 @@ namespace FiresecClient
 				return stringBuilder.ToString();
 			}
 
-
 			if (device.Driver.HasLogic && device.Logic != null)
 				return GetPresentationLogic(device.Logic);
 
@@ -48,7 +134,7 @@ namespace FiresecClient
 		}
 
 		public static string GetPresentationZoneOrLogic(GKDevice device)
-		{
+		{			
 			if (device.Driver.HasZone)
 			{
 				var stringBuilder = new StringBuilder();

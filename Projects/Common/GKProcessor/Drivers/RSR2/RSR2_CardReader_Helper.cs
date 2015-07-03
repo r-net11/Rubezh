@@ -55,7 +55,7 @@ namespace GKProcessor
 				No = 4,
 				Name = "Режим после удержания включенного состояния",
 				Caption = "Режим после удержания включенного состояния",
-				Default = 0,
+				Default = 1,
 				IsLowByte = true,
 				Mask = 0x01
 			};

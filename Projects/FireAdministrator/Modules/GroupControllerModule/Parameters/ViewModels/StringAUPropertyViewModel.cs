@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using FiresecAPI.GK;
+using System.Globalization;
 
 namespace GKModule.DeviceProperties
 {
@@ -19,12 +20,40 @@ namespace GKModule.DeviceProperties
 		string _text;
 		public string Text
 		{
-			get { return _text; }
+			get
+			{
+				if (DriverProperty.Multiplier != 0)
+				{
+					double doubleValue = -1;
+					if (double.TryParse(_text.Replace(".", ","),
+									NumberStyles.Number,
+									CultureInfo.CreateSpecificCulture("ru-RU"),
+									out doubleValue))
+					{
+						return (doubleValue / DriverProperty.Multiplier).ToString();
+					}
+				}
+				return _text;
+			}
 			set
 			{
-				_text = value;
-				OnPropertyChanged("Text");
-				Save(Convert.ToUInt16(value));
+				if (DriverProperty.Multiplier != 0)
+				{
+					double doubleValue = -1;
+					if (double.TryParse(value.Replace(".", ","),
+									NumberStyles.Number,
+									CultureInfo.CreateSpecificCulture("ru-RU"),
+									out doubleValue))
+					{
+						value = (doubleValue * DriverProperty.Multiplier).ToString();
+					}
+					else
+					{
+						_text = value;
+					}
+					OnPropertyChanged("Text");
+					Save(Convert.ToUInt16(value));
+				}
 			}
 		}
 	}

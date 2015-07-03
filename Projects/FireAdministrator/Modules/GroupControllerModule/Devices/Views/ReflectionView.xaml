@@ -7,28 +7,30 @@
              mc:Ignorable="d" 
              MinHeight="550" MinWidth="810">
     <Grid>
+        
         <TabControl>
-            <TabItem Header="Пожарные зоны" Visibility="{Binding HasFireZones, Converter={StaticResource BoolToVisibilityConverter}}">
+            <TabItem Header="Пожарные зоны" Visibility="{Binding HasFireZones, Converter={StaticResource BoolToVisibilityConverter}}" IsSelected="{Binding IsFireZones, Mode=OneWay}">
                 <views:ZonesSelectationView DataContext="{Binding ZonesSelectationViewModel}" />
             </TabItem>
-            <TabItem Header="Охранные зоны" Visibility="{Binding HasGuardZones, Converter={StaticResource BoolToVisibilityConverter}}">
+            <TabItem Header="Охранные зоны" Visibility="{Binding HasGuardZones, Converter={StaticResource BoolToVisibilityConverter}}" IsSelected="{Binding IsGuardZones, Mode=OneWay}">
                 <views:GuardZonesSelectationView DataContext="{Binding GuardZonesSelectationViewModel}" />
             </TabItem>
-            <TabItem Header="Устройства" Visibility="{Binding HasDevices, Converter={StaticResource BoolToVisibilityConverter}}">
+
+            <TabItem Header="Устройства" Visibility="{Binding HasDevices, Converter={StaticResource BoolToVisibilityConverter}}" IsSelected="{Binding IsDevices, Mode=OneWay}">
                 <views:DevicesSelectationView DataContext="{Binding DevicesSelectationViewModel}" />
             </TabItem>
-            <TabItem Header="Направления" Visibility="{Binding HasDirections, Converter={StaticResource BoolToVisibilityConverter}}">
+            <TabItem Header="Направления" Visibility="{Binding HasDirections, Converter={StaticResource BoolToVisibilityConverter}}" IsSelected="{Binding IsDirections, Mode=OneWay}">
                 <views:DirectionsSelectationView DataContext="{Binding DirectionsSelectationViewModel}" />
             </TabItem>
-            <TabItem Header="Задержки" Visibility="{Binding HasDelay, Converter={StaticResource BoolToVisibilityConverter}}">
+            <TabItem Header="Задержки" Visibility="{Binding HasDelay, Converter={StaticResource BoolToVisibilityConverter}}" IsSelected="{Binding IsDelay, Mode=OneWay}">
                 <views:DelaysSelectationView DataContext="{Binding DelaysSelectationViewModel}" />
             </TabItem>
-            <TabItem Header="НС" Visibility="{Binding HasNS, Converter={StaticResource BoolToVisibilityConverter}}">
+            <TabItem Header="НС" Visibility="{Binding HasNS, Converter={StaticResource BoolToVisibilityConverter}}" IsSelected="{Binding IsNS, Mode=OneWay}">
                 <views:PumpStationsSelectationView DataContext="{Binding PumpStationsSelectationViewModel}" />
              </TabItem>
-            <TabItem Header="МПТ" Visibility="{Binding HasMPT, Converter={StaticResource BoolToVisibilityConverter}}">
+            <TabItem Header="МПТ" Visibility="{Binding HasMPT, Converter={StaticResource BoolToVisibilityConverter}}" IsSelected="{Binding IsMPT, Mode=OneWay}">
                 <views:MPTsSelectationView DataContext="{Binding MPTsSelectationViewModel}" />
             </TabItem>
-        </TabControl>
+        </TabControl>            
     </Grid>
 </UserControl>
