@@ -79,8 +79,10 @@ namespace FiresecAPI.GK
 			InitializeGuardZones();
 			InitializeCodes();
 			InitializeDoors();
+			InitializeReflection();
 			UpdateGKChildrenDescription();
 			LinkObjects();
+
 		}
 
 		void ClearAllReferences()
@@ -534,6 +536,109 @@ namespace FiresecAPI.GK
 			}
 		}
 
+		void InitializeReflection()
+		{
+			foreach (var device in Devices)
+			{
+				if (device.Driver.HasMirror)
+				{
+					if (device.GKReflectionItem != null)
+					{						
+						var zoneUIDs = new List<Guid>();
+						var guardzoneUIDs = new List<Guid>();
+						var delayUIDs = new List<Guid>();
+						var deviceUIDs = new List<Guid>();
+						var pumpUIDs = new List<Guid>();
+						var MPTUIDs = new List<Guid>();
+						var directionUIDs = new List<Guid>(); 
+
+						foreach (var guardzoneUID in device.GKReflectionItem.GuardZoneUIDs)
+						{
+							var zone = GuardZones.FirstOrDefault(x => x.UID == guardzoneUID);
+							if (zone != null)
+							{
+								device.GKReflectionItem = new GKReflectionItem();
+								guardzoneUIDs.Add(guardzoneUID);
+								device.GKReflectionItem.GuardZones.Add(zone);
+							}
+						}
+						device.GKReflectionItem.GuardZoneUIDs = guardzoneUIDs;
+
+							foreach (var zoneUID in device.GKReflectionItem.ZoneUIDs)
+							{
+								var zone = Zones.FirstOrDefault(x => x.UID == zoneUID);
+								if (zone != null)
+								{
+									device.GKReflectionItem = new GKReflectionItem();
+									zoneUIDs.Add(zoneUID);
+									device.GKReflectionItem.Zones.Add(zone);
+								}
+							}
+							device.GKReflectionItem.ZoneUIDs = zoneUIDs;					
+
+							foreach (var delayUID in device.GKReflectionItem.DelayUIDs)
+							{
+								var delay = Delays.FirstOrDefault(x => x.UID == delayUID);
+								if (delay != null)
+								{
+									device.GKReflectionItem = new GKReflectionItem();
+									delayUIDs.Add(delayUID);
+									device.GKReflectionItem.Delays.Add(delay);
+								}
+							}
+							device.GKReflectionItem.DelayUIDs = delayUIDs;
+
+							foreach (var deviceUID in device.GKReflectionItem.DeviceUIDs)
+							{
+								var _delice = Devices.FirstOrDefault(x => x.UID == deviceUID);
+								if (_delice != null)
+								{
+									device.GKReflectionItem = new GKReflectionItem();
+									deviceUIDs.Add(deviceUID);
+									device.GKReflectionItem.Devices.Add(_delice);
+								}
+							}
+							device.GKReflectionItem.DeviceUIDs = deviceUIDs;
+
+							foreach (var pumpUID in device.GKReflectionItem.NSUIDs)
+							{
+								var pumps = PumpStations.FirstOrDefault(x => x.UID == pumpUID);
+								if (pumps != null)
+								{
+									device.GKReflectionItem = new GKReflectionItem();
+									pumpUIDs.Add(pumpUID);
+									device.GKReflectionItem.NSs.Add(pumps);
+								}
+							}
+							device.GKReflectionItem.NSUIDs = pumpUIDs;
+
+							foreach (var mptUID in device.GKReflectionItem.MPTUIDs)
+							{
+								var mpts = MPTs.FirstOrDefault(x => x.UID == mptUID);
+								if (mpts != null)
+								{
+									device.GKReflectionItem = new GKReflectionItem();
+									MPTUIDs.Add(mptUID);
+									device.GKReflectionItem.MPTs.Add(mpts);
+								}
+							}
+							device.GKReflectionItem.MPTUIDs = MPTUIDs;
+
+							foreach (var directionUID in device.GKReflectionItem.DiretionUIDs)
+							{
+								var directions = Directions.FirstOrDefault(x => x.UID == directionUID);
+								if (directions!= null)
+								{
+									device.GKReflectionItem = new GKReflectionItem();
+									directionUIDs.Add(directionUID);
+									device.GKReflectionItem.Diretions.Add(directions);
+								}
+							}
+							device.GKReflectionItem.DiretionUIDs = directionUIDs;							
+					}
+				}
+			}
+		}
 		void InitializeDoors()
 		{
 			foreach (var door in Doors)

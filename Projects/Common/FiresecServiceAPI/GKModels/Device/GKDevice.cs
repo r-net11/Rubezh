@@ -24,6 +24,7 @@ namespace FiresecAPI.GK
 			Logic = new GKLogic();
 			NSLogic = new GKLogic();
 			PlanElementUIDs = new List<Guid>();
+			GKReflectionItem = new GKReflectionItem();
 			IsNotUsed = false;
 			AllowMultipleVizualization = false;
 
