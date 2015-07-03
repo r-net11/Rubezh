@@ -36,9 +36,6 @@ namespace FiresecAPI
 		string Ping();
 
 		[OperationContract]
-		List<ServerTask> GetServerTasks();
-
-		[OperationContract]
 		OperationResult ResetDB();
 		#endregion
 

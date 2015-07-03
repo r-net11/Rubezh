@@ -206,6 +206,7 @@
     <Compile Include="ViewModels\ClientViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\ServerMessageBoxViewModel.cs" />
+    <Compile Include="ViewModels\ServerTasksViewModel.cs" />
     <Compile Include="Views\UILogger.cs" />
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>

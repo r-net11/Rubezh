@@ -1,4 +1,5 @@
 ﻿using FiresecAPI;
+using FiresecService.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace FiresecService
 {
 	public static class ServerTaskRunner
 	{
-		static List<ServerOperationTask> ServerOperationTasks = new List<ServerOperationTask>();
+		static List<ServerTask> ServerTasks = new List<ServerTask>();
 
 		static Thread Thread;
 		static AutoResetEvent AutoResetEvent = new AutoResetEvent(false);
@@ -21,11 +22,12 @@ namespace FiresecService
 
 		public static void Stop()
 		{
-			foreach (var serverOperationTask in ServerOperationTasks)
+			foreach (var serverTask in ServerTasks)
 			{
-				if(serverOperationTask.ProgressCallback != null)
+				if(serverTask.ProgressCallback != null)
 				{
-					serverOperationTask.ProgressCallback.IsCanceled = true;
+					serverTask.ProgressCallback.IsCanceled = true;
+					MainViewModel.Current.ServerTasksViewModel.Remove(serverTask);
 				}
 			}
 
@@ -54,24 +56,33 @@ namespace FiresecService
 				{
 					return;
 				}
-				var serverOperationTask = ServerOperationTasks.FirstOrDefault();
-				if(serverOperationTask != null)
+				var serverTask = ServerTasks.FirstOrDefault();
+				if(serverTask != null)
 				{
-					serverOperationTask.Action();
-					ServerOperationTasks.RemoveAt(0);
+					serverTask.Action();
+					MainViewModel.Current.ServerTasksViewModel.Remove(serverTask);
+					ServerTasks.Remove(serverTask);
 				}
 			}
 		}
 
-		public static void Add(GKProgressCallback progressCallback, Action action)
+		public static void Add(GKProgressCallback progressCallback, string name, Action action)
 		{
-			var serverOperationTask = new ServerOperationTask() { Action = action, ProgressCallback = progressCallback };
-			ServerOperationTasks.Add(serverOperationTask);
+			var serverTask = new ServerTask() { Action = action, ProgressCallback = progressCallback, Name = name };
+			ServerTasks.Add(serverTask);
+			MainViewModel.Current.ServerTasksViewModel.Add(serverTask);
 		}
 	}
 
-	public class ServerOperationTask
+	public class ServerTask
 	{
+		public ServerTask()
+		{
+			UID = Guid.NewGuid();
+		}
+
+		public Guid UID { get; private set; }
+		public string Name { get; set; }
 		public Action Action { get; set; }
 		public GKProgressCallback ProgressCallback { get; set; }
 	}

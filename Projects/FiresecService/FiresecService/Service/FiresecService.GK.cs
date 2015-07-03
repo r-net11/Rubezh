@@ -37,7 +37,7 @@ namespace FiresecService.Service
 			if (device != null)
 			{
 				var progressCallback = new GKProgressCallback();
-				ServerTaskRunner.Add(progressCallback, new Action(() =>
+				ServerTaskRunner.Add(progressCallback, "Запись конфигурации ГК", new Action(() =>
 				{
 					var result = GKProcessorManager.GKWriteConfiguration(device, UserName, progressCallback);
 					FiresecService.NotifyOperationResult_WriteConfiguration(result);
@@ -64,7 +64,7 @@ namespace FiresecService.Service
 			if (device != null)
 			{
 				var progressCallback = new GKProgressCallback();
-				ServerTaskRunner.Add(progressCallback, new Action(() =>
+				ServerTaskRunner.Add(progressCallback, "Чтение файла конфигурации ГК", new Action(() =>
 				{
 					var result = GKProcessorManager.GKReadConfigurationFromGKFile(device, UserName, progressCallback);
 					FiresecService.NotifyOperationResult_ReadConfigurationFromGKFile(result);
@@ -484,7 +484,7 @@ namespace FiresecService.Service
 			if (device != null)
 			{
 				var progressCallback = new GKProgressCallback();
-				ServerTaskRunner.Add(progressCallback, new Action(() =>
+				ServerTaskRunner.Add(progressCallback, "Чтение пользователей прибора", new Action(() =>
 					{
 						try
 						{
@@ -508,7 +508,7 @@ namespace FiresecService.Service
 			if (device != null)
 			{
 				var progressCallback = new GKProgressCallback();
-				ServerTaskRunner.Add(progressCallback, new Action(() =>
+				ServerTaskRunner.Add(progressCallback, "Перезапись пользователей прибора", new Action(() =>
 					{
 						progressCallback = GKProcessorManager.StartProgress("Удаление пользователей прибора " + device.PresentationName, "", 65535, false, GKProgressClientType.Administrator);
 
