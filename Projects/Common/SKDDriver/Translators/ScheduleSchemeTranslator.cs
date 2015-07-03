@@ -13,8 +13,8 @@ namespace SKDDriver.DataClasses
 		{
 			get { return Context.ScheduleSchemes; }
 		}
-		
-		protected override IQueryable<ScheduleScheme> GetTableItems()
+
+        public override IQueryable<ScheduleScheme> GetTableItems()
 		{
 			return base.GetTableItems().Include(x => x.ScheduleDays.Select(scheduleDay => scheduleDay.DayInterval));
 		}

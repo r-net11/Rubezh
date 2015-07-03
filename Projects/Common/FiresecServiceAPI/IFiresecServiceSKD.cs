@@ -12,16 +12,16 @@ namespace FiresecAPI
 	{
 		#region Employee
 		[OperationContract]
-		OperationResult<List<ShortEmployee>> GetEmployeeList(EmployeeFilter filter);//
+		OperationResult<List<ShortEmployee>> GetEmployeeList(EmployeeFilter filter);
 
 		[OperationContract]
-		OperationResult<Employee> GetEmployeeDetails(Guid uid);//
+		OperationResult<Employee> GetEmployeeDetails(Guid uid);
 
 		[OperationContract]
-		OperationResult<bool> SaveEmployee(Employee item, bool isNew);//
+		OperationResult<bool> SaveEmployee(Employee item, bool isNew);
 
 		[OperationContract]
-		OperationResult MarkDeletedEmployee(Guid uid, string name);//
+		OperationResult MarkDeletedEmployee(Guid uid, string name);
 
 		[OperationContract]
 		OperationResult<TimeTrackResult> GetTimeTracks(EmployeeFilter filter, DateTime startDate, DateTime endDate);
@@ -30,13 +30,16 @@ namespace FiresecAPI
 		Stream GetTimeTracksStream(EmployeeFilter filter, DateTime startDate, DateTime endDate);
 
 		[OperationContract]
-		OperationResult SaveEmployeeDepartment(Guid uid, Guid? departmentUid, string name);//
+		OperationResult SaveEmployeeDepartment(Guid uid, Guid? departmentUid, string name);
 
 		[OperationContract]
-		OperationResult SaveEmployeePosition(Guid uid, Guid? positionUid, string name);//
+		OperationResult SaveEmployeePosition(Guid uid, Guid? positionUid, string name);
 
 		[OperationContract]
-		OperationResult RestoreEmployee(Guid uid, string name);//
+		OperationResult RestoreEmployee(Guid uid, string name);
+
+        [OperationContract]
+        OperationResult BeginGetEmployees(EmployeeFilter filter, Guid uid);
 		#endregion
 
 		#region Department
@@ -104,7 +107,7 @@ namespace FiresecAPI
 		[OperationContract]
 		OperationResult SaveCardTemplate(SKDCard card);
         [OperationContract]
-        OperationResult BeginGetCards(CardFilter archiveFilter, Guid uid);
+        OperationResult BeginGetCards(CardFilter filter, Guid uid);
 		#endregion
 
 		#region AccessTemplate

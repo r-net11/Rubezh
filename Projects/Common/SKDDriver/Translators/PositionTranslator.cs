@@ -21,7 +21,7 @@ namespace SKDDriver.DataClasses
 			get { return Context.Positions; }
 		}
 
-		protected override System.Linq.IQueryable<Position> GetTableItems()
+        public override System.Linq.IQueryable<Position> GetTableItems()
 		{
 			return base.GetTableItems().Include(x => x.Photo);
 		}
@@ -46,7 +46,7 @@ namespace SKDDriver.DataClasses
 		}
 	}
 
-	public class ShortPositionTranslator : ShortTranslatorBase<Position, API.ShortPosition, API.Position, API.PositionFilter>
+	public class ShortPositionTranslator : OrganisationShortTranslatorBase<Position, API.ShortPosition, API.Position, API.PositionFilter>
 	{
 		public ShortPositionTranslator(PositionTranslator translator) : base(translator) { }
 	}

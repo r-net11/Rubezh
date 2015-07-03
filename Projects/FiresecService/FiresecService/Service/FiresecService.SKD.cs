@@ -115,6 +115,40 @@ namespace FiresecService.Service
 				return databaseService.EmployeeTranslator.Restore(uid);
 			}
 		}
+
+        public static Thread CurrentEmployeeThread;
+
+        public OperationResult BeginGetEmployees(EmployeeFilter filter, Guid uid)
+        {
+            try
+            {
+                if (CurrentEmployeeThread != null)
+                {
+                    DbService.IsAbort = true;
+                    CurrentEmployeeThread.Join(TimeSpan.FromMinutes(1));
+                    CurrentEmployeeThread = null;
+                }
+                DbService.IsAbort = false;
+                var thread = new Thread(new ThreadStart((new Action(() =>
+                {
+                    using (var dbService = new SKDDriver.DataClasses.DbService())
+                    {
+                        dbService.EmployeeTranslator.AsyncTranslator.PortionReady -= DatabaseHelper_DbPortionReady;
+                        dbService.EmployeeTranslator.AsyncTranslator.PortionReady += DatabaseHelper_DbPortionReady;
+                        dbService.EmployeeTranslator.AsyncTranslator.BeginGet(filter, uid);
+                    }
+                }))));
+                thread.Name = "FiresecService.GetEmployees";
+                thread.IsBackground = true;
+                CurrentEmployeeThread = thread;
+                thread.Start();
+                return new OperationResult();
+            }
+            catch (Exception e)
+            {
+                return new OperationResult(e.Message);
+            }
+        }
 		#endregion
 
 		#region Department
@@ -478,31 +512,31 @@ namespace FiresecService.Service
 			}
 		}
 
-        public static Thread CurrentSKDThread;
+        public static Thread CurrentCardThread;
 
         public OperationResult BeginGetCards(CardFilter filter, Guid uid)
         {
             try
             {
-                if (CurrentSKDThread != null)
+                if (CurrentCardThread != null)
                 {
                     DbService.IsAbort = true;
-                    CurrentSKDThread.Join(TimeSpan.FromMinutes(1));
-                    CurrentSKDThread = null;
+                    CurrentCardThread.Join(TimeSpan.FromMinutes(1));
+                    CurrentCardThread = null;
                 }
                 DbService.IsAbort = false;
                 var thread = new Thread(new ThreadStart((new Action(() =>
                 {
                     using (var dbService = new SKDDriver.DataClasses.DbService())
                     {
-                        dbService.CardTranslator.CardsPortionReady -= DatabaseHelper_CardPortionReady;
-                        dbService.CardTranslator.CardsPortionReady += DatabaseHelper_CardPortionReady;
+                        dbService.CardTranslator.CardsPortionReady -= DatabaseHelper_DbPortionReady;
+                        dbService.CardTranslator.CardsPortionReady += DatabaseHelper_DbPortionReady;
                         dbService.CardTranslator.BeginGetCards(filter, uid);
                     }
                 }))));
                 thread.Name = "FiresecService.GetCards";
                 thread.IsBackground = true;
-                CurrentSKDThread = thread;
+                CurrentCardThread = thread;
                 thread.Start();
                 return new OperationResult();
             }
@@ -511,12 +545,11 @@ namespace FiresecService.Service
                 return new OperationResult(e.Message);
             }
         }
-
-        void DatabaseHelper_CardPortionReady(DbCallbackResult dbCallbackResult)
+        void DatabaseHelper_DbPortionReady(DbCallbackResult dbCallbackResult)
         {
             FiresecService.NotifyCardsCompleted(dbCallbackResult);
         }
-		#endregion
+        #endregion
 
 		#region AccessTemplate
 		public OperationResult<List<AccessTemplate>> GetAccessTemplates(AccessTemplateFilter filter)
@@ -1646,5 +1679,50 @@ namespace FiresecService.Service
 			}
 		}
 		#endregion
-	}
+    }
+
+
+    //public class AAA<T, TFilter>
+    //{
+    //    public AAA()
+        
+    //    public static Thread CurrentThread;
+    //    public OperationResult BeginGetEmployees(EmployeeFilter filter, Guid uid)
+    //    {
+    //        try
+    //        {
+    //            if (CurrentThread != null)
+    //            {
+    //                DbService.IsAbort = true;
+    //                CurrentThread.Join(TimeSpan.FromMinutes(1));
+    //                CurrentThread = null;
+    //            }
+    //            DbService.IsAbort = false;
+    //            var thread = new Thread(new ThreadStart((new Action(() =>
+    //            {
+    //                using (var dbService = new SKDDriver.DataClasses.DbService())
+    //                {
+    //                    dbService.EmployeeTranslator.ShortTranslator.PortionReady -= DatabaseHelper_CardPortionReady;
+    //                    dbService.EmployeeTranslator.ShortTranslator.PortionReady += DatabaseHelper_CardPortionReady;
+    //                    dbService.EmployeeTranslator.ShortTranslator.BeginGetList(filter, uid);
+    //                }
+    //            }))));
+    //            thread.Name = "FiresecService.GetCards";
+    //            thread.IsBackground = true;
+    //            CurrentThread = thread;
+    //            thread.Start();
+    //            return new OperationResult();
+    //        }
+    //        catch (Exception e)
+    //        {
+    //            return new OperationResult(e.Message);
+    //        }
+    //    }
+
+    //    void DatabaseHelper_CardPortionReady(DbCallbackResult dbCallbackResult)
+    //    {
+    //        FiresecService.NotifyCardsCompleted(dbCallbackResult);
+    //    }
+    //}
+
 }

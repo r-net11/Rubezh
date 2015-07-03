@@ -25,7 +25,7 @@ namespace SKDDriver.DataClasses
 			get { return Context.Departments; }
 		}
 
-		protected override System.Linq.IQueryable<Department> GetTableItems()
+		public override System.Linq.IQueryable<Department> GetTableItems()
 		{
 			return base.GetTableItems().Include(x => x.Photo).Include(x => x.ChildDepartments);
 		}
@@ -182,7 +182,7 @@ namespace SKDDriver.DataClasses
 		}
 	}
 
-	public class ShortDepartmentTranslator : ShortTranslatorBase<Department, API.ShortDepartment, API.Department, API.DepartmentFilter>
+	public class ShortDepartmentTranslator : OrganisationShortTranslatorBase<Department, API.ShortDepartment, API.Department, API.DepartmentFilter>
 	{
 		public ShortDepartmentTranslator(DepartmentTranslator translator) : base(translator) { }
 

@@ -15,7 +15,7 @@ namespace SKDDriver.DataClasses
 			get { return Context.AccessTemplates; }
 		}
 
-		protected override IQueryable<AccessTemplate> GetTableItems()
+        public override IQueryable<AccessTemplate> GetTableItems()
 		{
 			return base.GetTableItems().Include(x => x.CardDoors);
 		}

@@ -49,6 +49,10 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute(() => FiresecService.RestoreEmployee(uid, name));
 		}
+        public void BeginGetEmployees(EmployeeFilter filter, Guid uid)
+        {
+            SafeOperationCall(() => FiresecService.BeginGetEmployees(filter, uid), "BeginGetEmployees");
+        }
 		#endregion
 
 		#region Department

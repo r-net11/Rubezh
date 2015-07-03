@@ -125,7 +125,11 @@
 						</ItemsControl.ItemTemplate>
 					</ItemsControl>
 				</StackPanel>
-				<GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeWE" />
+                <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="2">
+                    <TextBlock Foreground="White" Text="Количество записей: " />
+                    <TextBlock Foreground="White" Text="{Binding ItemsCount}" />
+                </StackPanel>
+                <!--<GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeWE" />-->
 				<Border Grid.Column="2" Visibility="{Binding IsEmployeeSelected, Converter={StaticResource BoolToVisibilityConverter}}" Background="White" CornerRadius="5">
 					<Grid>
 						<Grid.ColumnDefinitions>

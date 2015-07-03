@@ -254,11 +254,11 @@ namespace SKDModule.ViewModels
 			DepartmentsViewModel.Initialize(DepartmentFilter);
 			PositionsViewModel.Initialize(PositionFilter);
 			AdditionalColumnTypesViewModel.Initialize(AdditionalColumnTypeFilter);
-			CardsViewModel.Initialize(CardFilter);
+			//CardsViewModel.Initialize(CardFilter);
 			AccessTemplatesViewModel.Initialize(AccessTemplateFilter);
 			PassCardTemplatesViewModel.Initialize(PassCardTemplateFilter);
 			OrganisationsViewModel.Initialize(Filter.LogicalDeletationType);
-			//InitializeEmployeeFilter();
+			InitializeEmployeeFilter();
 
 			ServiceFactory.Events.GetEvent<ChangeIsDeletedEvent>().Publish(Filter.LogicalDeletationType);
 			ServiceFactory.Events.GetEvent<UpdateFilterEvent>().Publish(Filter);

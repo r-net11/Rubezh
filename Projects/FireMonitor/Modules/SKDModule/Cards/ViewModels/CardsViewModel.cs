@@ -41,28 +41,49 @@ namespace SKDModule.ViewModels
 
         void OnDbCallbackResultEvent(DbCallbackResult dbCallbackResult)
         {
-            if(dbCallbackResult.UID == _dbCallbackResultUID)
-            {
-                foreach (var card in dbCallbackResult.Cards)
+            
+                if (dbCallbackResult.UID == _dbCallbackResultUID)
                 {
-                    var condition = card.IsInStopList ? (Func<CardViewModel, bool>)(x => x.IsDeactivatedRootItem) : x => x.IsOrganisation && x.Organisation.UID == card.OrganisationUID;
-                    var rootItem = RootItems.FirstOrDefault(condition);
-                    if (rootItem != null)
-                        rootItem.AddChild(new CardViewModel(card));
+                    
+                    //foreach (var rootItem in RootItems)
+                    //{
+                    //    if (rootItem.HasChildren)
+                    //        rootItem.ExpandChildren();
+                    //}
+                    //var rootItemsToRemove = RootItems.Where(x => x.GetAllChildren(false).Count == 0).ToList();
+                    //foreach (var rootItem in rootItemsToRemove)
+                    //{
+                    //    RootItems.Remove(rootItem);
+                    //}
+                    //ApplicationService.Invoke(() => IsLoading = !dbCallbackResult.IsLastPortion);
+                    int portionSize = 5000;
+                    int i = 0;
+                    foreach (var card in dbCallbackResult.Cards)
+                    {
+                        CardViewModel rootItem;
+                        if(card.IsInStopList)
+                        {
+                            rootItem = RootItems.FirstOrDefault(x => x.IsDeactivatedRootItem);
+                        }
+                        else
+                        {
+                            rootItem = RootItems.FirstOrDefault(x => x.IsOrganisation && x.Organisation.UID == card.OrganisationUID);
+                        }
+                        ApplicationService.Invoke(() => { 
+                            rootItem.AddChild(new CardViewModel(card));
+                            ItemsCount = RootItems.Select(x => x.Children.Count()).Sum();
+                        });
+                        
+                        if(i++ % portionSize == 0)
+                            ApplicationService.DoEvents();
+                    }
+                    ApplicationService.DoEvents();
+                    IsLoading = !dbCallbackResult.IsLastPortion;
+                    OnPropertyChanged(() => RootItems);
+                    OnPropertyChanged(() => RootItemsArray);
                 }
-                //foreach (var rootItem in RootItems)
-                //{
-                //    if (rootItem.HasChildren)
-                //        rootItem.ExpandChildren();
-                //}
-                //var rootItemsToRemove = RootItems.Where(x => x.GetAllChildren(false).Count == 0).ToList();
-                //foreach (var rootItem in rootItemsToRemove)
-                //{
-                //    RootItems.Remove(rootItem);
-                //}
-                OnPropertyChanged(() => RootItems);
-                OnPropertyChanged(() => RootItemsArray);
-            }
+            
+            
         }
 
         void OnNewCard(SKDCard newCard)
@@ -209,6 +230,7 @@ namespace SKDModule.ViewModels
 			RootItems.Add(CardViewModel.DeactivatedRootItem);
             _dbCallbackResultUID = Guid.NewGuid();
             FiresecManager.FiresecService.BeginGetCards(filter, _dbCallbackResultUID);
+            IsLoading = true;
 		}
 		
 		ObservableCollection<CardViewModel> rootItems;
@@ -225,7 +247,7 @@ namespace SKDModule.ViewModels
 
 		public CardViewModel[] RootItemsArray
 		{
-			get { return RootItems.ToArray(); }
+            get { return RootItems != null ? RootItems.ToArray() : new CardViewModel[]{new CardViewModel()}; }
 		}
 
 		CardViewModel _selectedCard;
@@ -238,6 +260,28 @@ namespace SKDModule.ViewModels
 				OnPropertyChanged(() => SelectedCard);
 			}
 		}
+
+        int _itemsCount;
+        public int ItemsCount
+        {
+            get { return _itemsCount; }
+            set
+            {
+                _itemsCount = value;
+                OnPropertyChanged(() => ItemsCount);
+            }
+        }
+
+        bool _isLoading;
+        public bool IsLoading
+        {
+            get { return _isLoading; }
+            set
+            {
+                _isLoading = value;
+                OnPropertyChanged(() => IsLoading);
+            }
+        }
 
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
@@ -252,7 +296,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanRemove()
 		{
-			return SelectedCard != null && SelectedCard.IsCard && SelectedCard.Card.IsInStopList && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Cards_Etit);
+			return SelectedCard != null && SelectedCard.IsCard && SelectedCard.Card.IsInStopList && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Cards_Etit) && !IsLoading;
 		}
 	}
 }

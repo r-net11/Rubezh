@@ -7,7 +7,7 @@ using API = FiresecAPI.SKD;
 
 namespace SKDDriver.DataClasses
 {
-	public abstract class OrganisationItemTranslatorBase<TTableItem, TApiItem, TFilter>
+    public abstract class OrganisationItemTranslatorBase<TTableItem, TApiItem, TFilter> : ITranslatorGet<TTableItem, TApiItem, TFilter>
 		where TTableItem : class, IOrganisationItem, new()
 		where TApiItem : class, API.IOrganisationElement, new()
 		where TFilter : API.OrganisationFilterBase
@@ -170,7 +170,7 @@ namespace SKDDriver.DataClasses
 			tableItem.OrganisationUID = apiItem.OrganisationUID;
 		}
 		public abstract DbSet<TTableItem> Table { get; }
-		protected virtual IQueryable<TTableItem> GetTableItems()
+        public virtual IQueryable<TTableItem> GetTableItems()
 		{
 			return Table.Include(x => x.Organisation.Users);
 		}
@@ -187,24 +187,22 @@ namespace SKDDriver.DataClasses
 					x.Organisation != null && x.Organisation.Users.Any(organisationUser => organisationUser.UserUID == filter.UserUID)) 
 			);
 		}
-	}
 
-	public abstract class ShortTranslatorBase<TTableItem, TShort, TApiItem, TFilter>
+        public IQueryable<TTableItem> GetFilteredTableItems(TFilter filter)
+        {
+            return GetFilteredTableItems(filter, GetTableItems());
+        }
+    }
+
+    public abstract class OrganisationShortTranslatorBase<TTableItem, TShort, TApiItem, TFilter> : ShortTranslatorBase<TTableItem, TShort, TApiItem, TFilter>
 		where TTableItem : class, IOrganisationItem, new()
 		where TApiItem :class, API.IOrganisationElement, new()
 		where TShort : class, API.IOrganisationElement, new()
 		where TFilter : API.OrganisationFilterBase
 	{
-		protected OrganisationItemTranslatorBase<TTableItem, TApiItem, TFilter> OrganisationItemTranslatorBase;
-		DbService DbService { get { return OrganisationItemTranslatorBase.DbService; } }
-		DatabaseContext Context { get { return DbService.Context; } }
-
-		public ShortTranslatorBase(OrganisationItemTranslatorBase<TTableItem, TApiItem, TFilter> organisationItemTranslatorBase)
-		{
-			OrganisationItemTranslatorBase = organisationItemTranslatorBase;
-		}
-
-		public virtual TShort TranslateToShort(TTableItem tableItem)
+        public OrganisationShortTranslatorBase(ITranslatorGet<TTableItem, TApiItem, TFilter> tranlsator) : base(tranlsator) { }
+        
+        public virtual TShort TranslateToShort(TTableItem tableItem)
 		{
             if (tableItem == null)
                 return null;
@@ -219,23 +217,123 @@ namespace SKDDriver.DataClasses
 			};		
 		}
 
-		public virtual IQueryable<TTableItem> GetTableItems()
+		public override IQueryable<TTableItem> GetTableItems()
 		{
-			return OrganisationItemTranslatorBase.Table.Include(x => x.Organisation.Users);
-		}
-
-		public OperationResult<List<TShort>> Get(TFilter filter)
-		{
-			try
-			{
-				var tableItems = OrganisationItemTranslatorBase.GetFilteredTableItems(filter, GetTableItems()).ToList();
-				var result = tableItems.Select(x => TranslateToShort(x)).ToList();
-				return new OperationResult<List<TShort>>(result);
-			}
-			catch (System.Exception e)
-			{
-				return OperationResult<List<TShort>>.FromError(e.Message);
-			}
+			return ParentTranslator.Table.Include(x => x.Organisation.Users);
 		}
 	}
+
+    public abstract class ShortTranslatorBase<TTableItem, TShort, TApiItem, TFilter> : ITranslatorGet<TTableItem, TShort, TFilter>
+        where TTableItem : class, new()
+        where TApiItem : class, new()
+        where TShort : class, new()
+    {
+        protected ITranslatorGet<TTableItem, TApiItem, TFilter> ParentTranslator;
+        public DbService DbService { get { return ParentTranslator.DbService; } }
+        DatabaseContext Context { get { return DbService.Context; } }
+
+        public ShortTranslatorBase(ITranslatorGet<TTableItem, TApiItem, TFilter> tranlsator)
+        {
+            ParentTranslator = tranlsator;
+        }
+
+        public virtual TShort Translate(TTableItem tableItem)
+        {
+            if (tableItem == null)
+                return null;
+            return new TShort();
+        }
+
+        public virtual IQueryable<TTableItem> GetTableItems()
+        {
+            return Table;
+        }
+
+        public OperationResult<List<TShort>> Get(TFilter filter)
+        {
+            try
+            {
+                var tableItems = GetFilteredTableItems(filter).ToList();
+                var result = tableItems.Select(x => Translate(x)).ToList();
+                return new OperationResult<List<TShort>>(result);
+            }
+            catch (System.Exception e)
+            {
+                return OperationResult<List<TShort>>.FromError(e.Message);
+            }
+        }
+
+        public IQueryable<TTableItem> GetFilteredTableItems(TFilter filter)
+        {
+            return GetFilteredTableItems(filter, GetTableItems());
+        }
+
+        public IQueryable<TTableItem> GetFilteredTableItems(TFilter filter, IQueryable<TTableItem> tableItems)
+        {
+            return ParentTranslator.GetFilteredTableItems(filter, tableItems);
+        }
+
+        public DbSet<TTableItem> Table
+        {
+            get { return ParentTranslator.Table; }
+        }
+    }
+
+    public abstract class AsyncTranslator<TTableItem, TApiItem, TFilter>
+        where TTableItem : class, new()
+        where TApiItem : class, new()
+    {
+        ITranslatorGet<TTableItem, TApiItem, TFilter> ParentTranslator;
+
+        public AsyncTranslator(ITranslatorGet<TTableItem, TApiItem, TFilter> translator)
+        {
+            ParentTranslator = translator;
+        }
+        
+        public event Action<DbCallbackResult> PortionReady;
+        public void BeginGet(TFilter filter, Guid uid)
+        {
+            DbService.IsAbort = false;
+            var pageSize = 1000;
+            var portion = new List<TApiItem>();
+            int itemNo = 0;
+            foreach (var item in ParentTranslator.GetFilteredTableItems(filter, ParentTranslator.GetTableItems()))
+            {
+                itemNo++;
+                portion.Add(ParentTranslator.Translate(item));
+                if (itemNo % pageSize == 0)
+                {
+                    PublishNewItemsPortion(portion, uid, false);
+                    portion = new List<TApiItem>();
+                }
+            }
+            PublishNewItemsPortion(portion, uid, true);
+        }
+
+        void PublishNewItemsPortion(List<TApiItem> items, Guid uid, bool isLastPortion)
+        {
+            if (PortionReady != null)
+            {
+                var result = new DbCallbackResult
+                {
+                    UID = uid,
+                    IsLastPortion = isLastPortion
+                };
+                GetCollection(result).AddRange(items);
+                PortionReady(result);
+            }
+        }
+
+        public abstract List<TApiItem> GetCollection(DbCallbackResult callbackResult);
+    }
+
+    public interface ITranslatorGet<TTableItem, TApiItem, TFilter>
+        where TTableItem : class
+    {
+        IQueryable<TTableItem> GetFilteredTableItems(TFilter filter, IQueryable<TTableItem> tableItems);
+        IQueryable<TTableItem> GetTableItems();
+        TApiItem Translate(TTableItem tableItem);
+        DbService DbService { get; }
+        DbSet<TTableItem> Table { get; }
+    }
 }

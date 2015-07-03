@@ -10,11 +10,13 @@ namespace SKDDriver.DataClasses
 {
 	public class EmployeeTranslator : OrganisationItemTranslatorBase<Employee, API.Employee, API.EmployeeFilter>
 	{
-        public ShortEmployeeTranslator ShortTranslator { get; private set; }
+        public EmployeeShortTranslator ShortTranslator { get; private set; }
+        public EmployeeAsyncTranslator AsyncTranslator { get; private set; }
         
         public EmployeeTranslator(DbService dbService) : base(dbService) 
         {
-            ShortTranslator = new ShortEmployeeTranslator(this);
+            ShortTranslator = new EmployeeShortTranslator(this);
+            AsyncTranslator = new EmployeeAsyncTranslator(ShortTranslator);
         }
 		
 		public override DbSet<Employee> Table
@@ -22,7 +24,7 @@ namespace SKDDriver.DataClasses
 			get { return Context.Employees; }
 		}
 
-        protected override IQueryable<Employee> GetTableItems()
+        public override IQueryable<Employee> GetTableItems()
         {
             return base.GetTableItems()
                 .Include(x => x.Photo)
@@ -191,9 +193,9 @@ namespace SKDDriver.DataClasses
         }
 	}
 
-    public class ShortEmployeeTranslator : ShortTranslatorBase<Employee, API.ShortEmployee, API.Employee, API.EmployeeFilter>
+    public class EmployeeShortTranslator : OrganisationShortTranslatorBase<Employee, API.ShortEmployee, API.Employee, API.EmployeeFilter>
     {
-        public ShortEmployeeTranslator(EmployeeTranslator translator) : base(translator) { }
+        public EmployeeShortTranslator(EmployeeTranslator translator) : base(translator as ITranslatorGet<Employee, API.Employee, API.EmployeeFilter>) { }
 
         public override IQueryable<Employee> GetTableItems()
         {
@@ -203,12 +205,7 @@ namespace SKDDriver.DataClasses
                 .Include(x => x.AdditionalColumns.Select(additionalColumn => additionalColumn.AdditionalColumnType));
         }
 
-        public IQueryable<Employee> GetTableFilteredItems(API.EmployeeFilter filter)
-        {
-            return OrganisationItemTranslatorBase.GetFilteredTableItems(filter, GetTableItems());
-        }
-
-        public override API.ShortEmployee TranslateToShort(Employee employee)
+        public override API.ShortEmployee Translate(Employee employee)
         {
             return new API.ShortEmployee
             {
@@ -234,6 +231,15 @@ namespace SKDDriver.DataClasses
                 LastEmployeeDayUpdate = employee.LastEmployeeDayUpdate,
                 ScheduleUID = employee.ScheduleUID.GetValueOrDefault()
             };
+        }
+    }
+
+    public class EmployeeAsyncTranslator : AsyncTranslator<Employee, API.ShortEmployee, EmployeeFilter>
+    {
+        public EmployeeAsyncTranslator(EmployeeShortTranslator translator) : base(translator as ITranslatorGet<Employee, API.ShortEmployee, EmployeeFilter>) { }
+        public override List<ShortEmployee> GetCollection(DbCallbackResult callbackResult)
+        {
+            return callbackResult.Employees;
         }
     }
 }

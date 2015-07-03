@@ -23,7 +23,7 @@ namespace FiresecAPI
         [DataMember]
         public DbCallbackResult DbCallbackResult { get; set; }
 
-		[DataMember]
+        [DataMember]
 		public GKProgressCallback GKProgressCallback { get; set; }
 
 		[DataMember]
@@ -62,6 +62,22 @@ namespace FiresecAPI
         public List<ShortEmployee> Employees;
         public List<SKDCard> Cards;
         public DbCallbackResultType DbCallbackResultType;
+        public bool IsLastPortion;
+    }
+
+    [DataContract]
+    [KnownType(typeof(ShortEmployee))]
+    public class DbCallbackResult<T>
+    {
+        public DbCallbackResult()
+        {
+            UID = Guid.NewGuid();
+            
+        }
+
+        public Guid UID;
+        public List<T> Items;
+        public bool IsLastPortion;
     }
 
     public enum DbCallbackResultType

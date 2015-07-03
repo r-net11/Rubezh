@@ -14,7 +14,7 @@ namespace SKDDriver.DataClasses
 			get { return Context.Schedules; }
 		}
 
-		protected override IQueryable<Schedule> GetTableItems()
+        public override IQueryable<Schedule> GetTableItems()
 		{
 			return base.GetTableItems().Include(x => x.ScheduleZones);
 		}

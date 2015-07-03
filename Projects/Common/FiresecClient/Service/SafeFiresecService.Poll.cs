@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Threading;
 using Common;
@@ -65,7 +66,7 @@ namespace FiresecClient
 					}
 
 					var callbackResults = Poll(FiresecServiceFactory.UID);
-					ProcessCallbackResult(callbackResults);
+                    ProcessCallbackResult(callbackResults);
 				}
 				catch (Exception e)
 				{
@@ -79,6 +80,20 @@ namespace FiresecClient
 			if (callbackResults == null || callbackResults.Count == 0)
 				return;
 
+            //if (callbackResults.Any(x => x.CallbackResultType == CallbackResultType.QueryDb))
+            //{
+            //    var dbCallbackResults = callbackResults.Where(x => x.CallbackResultType == CallbackResultType.QueryDb);
+            //    var dbCallbackResult = new DbCallbackResult
+            //    {
+            //        UID = dbCallbackResults.FirstOrDefault().DbCallbackResult.UID,
+            //        Cards = dbCallbackResults.SelectMany(x => x.DbCallbackResult.Cards).ToList(),
+            //        Employees = dbCallbackResults.SelectMany(x => x.DbCallbackResult.Employees).ToList(),
+            //        DbCallbackResultType = dbCallbackResults.FirstOrDefault().DbCallbackResult.DbCallbackResultType,
+            //        IsLastPortion = dbCallbackResults.Any(x => x.DbCallbackResult.IsLastPortion)
+            //    };
+            //    if (DbCallbackResultEvent != null)
+            //        DbCallbackResultEvent(dbCallbackResult);
+            //}
 			foreach (var callbackResult in callbackResults)
 			{
 				switch (callbackResult.CallbackResultType)
@@ -147,11 +162,11 @@ namespace FiresecClient
 
                     case CallbackResultType.QueryDb:
                         SafeOperationCall(() =>
-						{
-							if (DbCallbackResultEvent != null)
+                        {
+                            if (DbCallbackResultEvent != null)
                                 DbCallbackResultEvent(callbackResult.DbCallbackResult);
-						});
-						break;
+                        });
+                        break;
 				}
 			}
 		}

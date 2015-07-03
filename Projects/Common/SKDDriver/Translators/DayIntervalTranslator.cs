@@ -17,7 +17,7 @@ namespace SKDDriver.DataClasses
 			get { return Context.DayIntervals; }
 		}
 
-		protected override IQueryable<DayInterval> GetTableItems()
+        public override IQueryable<DayInterval> GetTableItems()
 		{
 			return base.GetTableItems().Include(x => x.DayIntervalParts);
 		}

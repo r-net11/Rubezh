@@ -5,6 +5,8 @@ using System.Data.Entity;
 using System.Linq;
 using FiresecAPI;
 using API = FiresecAPI.SKD;
+using System.Threading;
+using System.Diagnostics;
 
 namespace SKDDriver.DataClasses
 {
@@ -42,14 +44,14 @@ namespace SKDDriver.DataClasses
             List<Guid> employeeUIDs = new List<Guid>();
             if(filter.EmployeeFilter != null)
             {
-                employeeUIDs = DbService.EmployeeTranslator.ShortTranslator.GetTableFilteredItems(filter.EmployeeFilter).Select(x => x.UID).ToList();
+                employeeUIDs = DbService.EmployeeTranslator.ShortTranslator.GetFilteredTableItems(filter.EmployeeFilter).Select(x => x.UID).ToList();
                 tableItems = tableItems.Where(x => x.EmployeeUID == null || employeeUIDs.Contains(x.EmployeeUID.Value));
             }
             return tableItems.Where(x => 
                 (filter.DeactivationType != API.LogicalDeletationType.Deleted || x.IsInStopList) &&
                 (filter.DeactivationType != API.LogicalDeletationType.Active || !x.IsInStopList) &&
                 (!filter.IsWithEndDate || x.EndDate < filter.EndDate) &&
-                (filter.CardTypes.Count == 0 || (filter.CardTypes.Contains((API.CardType)x.CardType) || (filter.IsWithInactive && x.IsInStopList))));
+                (filter.CardTypes.Count == 0 || (filter.CardTypes.Contains((API.CardType)x.CardType) || (filter.IsWithInactive && x.IsInStopList)))).OrderBy(x => x.UID);
         }
 
         public OperationResult<List<API.SKDCard>> Get(API.CardFilter filter)
@@ -389,20 +391,24 @@ namespace SKDDriver.DataClasses
             var pageSize = 1000;
             var portion = new List<API.SKDCard>();
             int itemNo = 0;
+            Trace.WriteLine(DateTime.Now);
             foreach (var item in GetFilteredTableItems(filter))
             {
                 itemNo++;
                 portion.Add(Translate(item));
                 if (itemNo % pageSize == 0)
                 {
-                    PublishNewItemsPortion(portion, uid);
+                    PublishNewItemsPortion(portion, uid, false);
                     portion = new List<API.SKDCard>();
+                    Trace.WriteLine(DateTime.Now);
                 }
             }
-            PublishNewItemsPortion(portion, uid);
+            PublishNewItemsPortion(portion, uid, true);
+            
+            
         }
 
-        void PublishNewItemsPortion(List<API.SKDCard> journalItems, Guid uid)
+        void PublishNewItemsPortion(List<API.SKDCard> journalItems, Guid uid, bool isLastPortion)
         {
             if (CardsPortionReady != null)
             {
@@ -410,7 +416,8 @@ namespace SKDDriver.DataClasses
                 { 
                     UID = uid, 
                     Cards = journalItems, 
-                    DbCallbackResultType = DbCallbackResultType.Cards 
+                    DbCallbackResultType = DbCallbackResultType.Cards,
+                    IsLastPortion = isLastPortion
                 };
                 CardsPortionReady(result);
             }

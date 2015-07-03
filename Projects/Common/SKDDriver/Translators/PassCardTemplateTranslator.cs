@@ -45,7 +45,7 @@ namespace SKDDriver.DataClasses
 		}
 	}
 
-	public class ShortPassCardTemplateTranslator : ShortTranslatorBase<PassCardTemplate, API.ShortPassCardTemplate, API.PassCardTemplate, API.PassCardTemplateFilter>
+	public class ShortPassCardTemplateTranslator : OrganisationShortTranslatorBase<PassCardTemplate, API.ShortPassCardTemplate, API.PassCardTemplate, API.PassCardTemplateFilter>
 	{
 		public ShortPassCardTemplateTranslator(PassCardTemplateTranslator translator) : base(translator) { }
 	}
