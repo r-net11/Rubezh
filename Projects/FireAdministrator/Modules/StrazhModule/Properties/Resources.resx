@@ -130,7 +130,7 @@
     <value>Карточка сотрудника</value>
   </data>
   <data name="SaveConfigurationControllerWarning" xml:space="preserve">
-    <value>Настройки не записаны в прибор. Вы уверены, что хотите закрыть окно без записи в контроллер?</value>
+    <value>Нет связи с контроллером. Сохранить изменение настроек в конфигурации?</value>
   </data>
   <data name="SaveText" xml:space="preserve">
     <value>Сохранить</value>
