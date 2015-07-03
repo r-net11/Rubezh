@@ -490,5 +490,10 @@ namespace JournalModule.ViewModels
 		{
 			return JournalItem.VideoUID != Guid.Empty;
 		}
+
+		public bool CanShowErrorCode
+		{
+			get { return JournalItem.ErrorCode != JournalErrorCode.None; }
+		}
 	}
 }

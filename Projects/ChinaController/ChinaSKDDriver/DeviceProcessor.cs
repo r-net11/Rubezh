@@ -41,6 +41,7 @@ namespace ChinaSKDDriver
 				journalItem.DeviceDateTime = skdJournalItem.DeviceDateTime;
 				journalItem.JournalEventNameType = skdJournalItem.JournalEventNameType;
 				journalItem.DescriptionText = skdJournalItem.Description;
+				journalItem.ErrorCode = (JournalErrorCode)skdJournalItem.ErrorCode;
 				var cardNo = 0;
 				if (Int32.TryParse(skdJournalItem.CardNo, out cardNo))
 				{

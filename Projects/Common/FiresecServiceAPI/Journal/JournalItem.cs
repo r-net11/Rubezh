@@ -59,6 +59,9 @@ namespace FiresecAPI.Journal
 		public Guid CameraUID { get; set; }
 
 		[DataMember]
+		public JournalErrorCode ErrorCode { get; set; }
+
+		[DataMember]
 		public List<JournalDetalisationItem> JournalDetalisationItems { get; set; }
 	}
 }

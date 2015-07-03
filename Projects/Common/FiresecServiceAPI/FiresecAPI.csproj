@@ -158,6 +158,7 @@
     <Compile Include="GKModels\States\GKSKDZoneInternalState.cs" />
     <Compile Include="Journal\EventDescriptionAttribute.cs" />
     <Compile Include="Journal\JournalDetalisationItem.cs" />
+    <Compile Include="Journal\JournalErrorCode.cs" />
     <Compile Include="ModelBase.cs" />
     <Compile Include="Models\Automation\Argument.cs" />
     <Compile Include="Models\Automation\ElementProperty.cs" />

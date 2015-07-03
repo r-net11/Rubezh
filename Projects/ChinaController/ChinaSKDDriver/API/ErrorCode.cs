@@ -8,53 +8,53 @@ namespace ChinaSKDDriverAPI
 {
     public enum ErrorCode
     {
-        [Description("Нет ошибки")]
-        NoError = 0,
-        [Description("Нет авторизации")]
-        NotAuthorized = 16,
-        [Description("Потеря карты или отмена")]
-        CardLogOffOrReportLoss = 17,
-        [Description("Нет разрешения на эту дверь")]
-        NoRightToThisDoor = 18,
-        [Description("Ошибка режима открытия двери")]
-        DoorOpeningModeError = 19,
-        [Description("Ошибка даты валидации")]
-        ValidDateError = 20,
-        [Description("")]
-        AntiPassbackMode = 21,
-        [Description("")]
-        DuressAlarmIsNotTurnedOn = 22,
-        [Description("Двери обычно закрыты")]
-        DoorsNormallyClosed = 23,
-        [Description("")]
-        AbInterlockStatus = 24,
-        [Description("Патрульные карты")]
-        PatrolCards = 25,
-        [Description("Состояние тревоги из-за взлома")]
-        AlarmStateBecauseOfBreakIn  = 26,
-        [Description("Ошибочный временной диапазон")]
-        TimeError = 32,
-		[Description("Ошибочный временной диапазон для нерабочего дня")]
-		TimeRangeErrorInHoliday = 33,
-        [Description("")]
-        NeedToVerifyCardWhichHasFirstCardPrivilege = 48,
-        [Description("Карта верная, ошибка в пароле")]
-        CardRightPasswordError = 64,
-        [Description("Карта верная, вышло время ввода пароля")]
-        CardRightPasswordInputTimeout = 65,
-        [Description("Карта верная, ошибка отпечатка пальца")]
-        CardRightFingerprintError = 66,
-        [Description("Карта верная, вышло время ввода отпечатка пальца")]
-        CardRightFingerprintInputTimeout = 67,
-        [Description("Отпечаток пальца верный, ошибка в пароле")]
-        FingerprintRightPasswordError = 68,
-        [Description("Отпечаток пальца верный, вышло время ввода пароля")]
-        FingerprintRightPasswordInputTimeout = 69,
-        [Description("Ошибка при совместной попытке открыть дверь")]
-        CombinedOrderToOpenTheDoorError = 80,
-		[Description("Требуется проверка при совместной попытке открыть дверь")]
-        CombinedOrderToOpenTheDoorNeedVerified = 81,
-        [Description("Проверено. Требуется аутентификация на удаленной консоли")]
-        VerifiedRemoteConsoleIsNotAuthorized = 96
-    }
+		[Description("Нет ошибки")]
+		None = 0,
+		[Description("Неверный идентификатор")]
+		Unauthorized = 16,
+		[Description("Пропуск заблокирован")]
+		CardLostOrCancelled = 17,
+		[Description("Нет прав доступа")]
+		NoRight = 18,
+		[Description("Неверный метод открытия замка")]
+		UnlockModeError = 19,
+		[Description("Срок действия пропуска истек или не наступил")]
+		ValidityError = 20,
+		[Description("Повторный проход в зону")]
+		AntipassBack = 21,
+		[Description("Настройки замка не поддерживает пропуск 'Принуждение'")]
+		IntimidationAlarmNotOn = 22,
+		[Description("Замок в режиме 'Закрыто'")]
+		DoorNcStatus = 23,
+		[Description("Открыта другая дверь шлюза")]
+		AbInterlockStatus = 24,
+		//[Description("Патрульные карты")]
+		//PatrolCards = 25,
+		[Description("Замок в состоянии 'Взлом'")]
+		DeviceIsUnderIntrusionAlam = 26,
+		[Description("Нарушение графика доступа")]
+		PeriodError = 32,
+		//[Description("Ошибочный временной диапазон для нерабочего дня")]
+		//TimeRangeErrorInHoliday = 33,
+		//[Description("")]
+		//NeedToVerifyCardWhichHasFirstCardPrivilege = 48,
+		[Description("Неверный пароль пропуска")]
+		CardCorrectInputPasswordError = 64,
+		//[Description("Карта верная, вышло время ввода пароля")]
+		//CardCorrectPasswordInputTimeout = 65,
+		//[Description("Карта верная, ошибка отпечатка пальца")]
+		//CardCorrectFingerprintError = 66,
+		//[Description("Карта верная, вышло время ввода отпечатка пальца")]
+		//CardCorrectFingerprintInputTimeout = 67,
+		//[Description("Отпечаток пальца верный, ошибка в пароле")]
+		//FingerprintCorrectPasswordError = 68,
+		//[Description("Отпечаток пальца верный, вышло время ввода пароля")]
+		//FingerprintCorrectPasswordInputTimeout = 69,
+		//[Description("Ошибка при совместной попытке открыть дверь")]
+		//CombinedOrderToOpenTheDoorError = 80,
+		//[Description("Требуется проверка при совместной попытке открыть дверь")]
+		//CombinedOrderToOpenTheDoorNeedVerified = 81,
+		[Description("Ожидание подтверждения прохода")]
+		VerificationPassedControlNotAuthorized = 96
+	}
 }
