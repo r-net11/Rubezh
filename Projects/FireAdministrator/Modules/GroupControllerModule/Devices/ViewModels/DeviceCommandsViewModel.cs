@@ -112,19 +112,10 @@ namespace GKModule.Models
 				if (ValidateConfiguration())
 				{
 					var result = FiresecManager.FiresecService.GKWriteConfiguration(SelectedDevice.Device.DriverType == GKDriverType.GK ? SelectedDevice.Device : SelectedDevice.Device.GKParent);
-					//var thread = new Thread(() =>
-					//{
-					//	var result = FiresecManager.FiresecService.GKWriteConfiguration(SelectedDevice.Device.DriverType == GKDriverType.GK ? SelectedDevice.Device : SelectedDevice.Device.GKParent);
-					//	ApplicationService.Invoke(() =>
-					//	{
-					//		LoadingService.Close();
-					//		if (result.HasError)
-					//		{
-					//			MessageBoxService.ShowWarning(result.Error);
-					//		}
-					//	});
-					//}) { Name = "DeviceCommandsViewModel WriteConfig" };
-					//thread.Start();
+					if (result.HasError)
+					{
+						MessageBoxService.ShowWarning(result.Error, "Ошибка при записи конфигурации");
+					}
 				}
 			}
 		}
@@ -213,69 +204,10 @@ namespace GKModule.Models
 		void OnReadConfigFile()
 		{
 			var result = FiresecManager.FiresecService.GKReadConfigurationFromGKFile(SelectedDevice.Device);
-			//var thread = new Thread(() =>
-			//{
-			//	var stream = FiresecManager.FiresecService.GKReadConfigurationFromGKFile(SelectedDevice.Device);
-
-			//	ApplicationService.Invoke(new Action(() =>
-			//	{
-			//		if (stream != Stream.Null)
-			//		{
-			//			var folderName = AppDataFolderHelper.GetLocalFolder("GKFile");
-			//			var configFileName = Path.Combine(folderName, "Config.fscp");
-			//			if (Directory.Exists(folderName))
-			//				Directory.Delete(folderName, true);
-			//			Directory.CreateDirectory(folderName);
-
-			//			var configFileStream = File.Create(configFileName);
-			//			FiresecManager.CopyStream(stream, configFileStream);
-			//			configFileStream.Close();
-
-			//			if (new FileInfo(configFileName).Length == 0)
-			//			{
-			//				MessageBoxService.ShowError("Ошибка при чтении конфигурации");
-			//				return;
-			//			}
-
-			//			var zipFile = ZipFile.Read(configFileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
-			//			var fileInfo = new FileInfo(configFileName);
-			//			var unzipFolderPath = fileInfo.Directory.FullName;
-			//			zipFile.ExtractAll(unzipFolderPath);
-			//			zipFile.Dispose();
-			//			var configurationFileName = Path.Combine(unzipFolderPath, "GKDeviceConfiguration.xml");
-			//			if (!File.Exists(configurationFileName))
-			//			{
-			//				MessageBoxService.ShowError("Ошибка при распаковке файла");
-			//				return;
-			//			}
-			//			var deviceConfiguration = ZipSerializeHelper.DeSerialize<GKDeviceConfiguration>(configurationFileName, true);
-
-			//			ConfigurationCompareViewModel configurationCompareViewModel = null;
-			//			WaitHelper.Execute(() =>
-			//			{
-			//				DescriptorsManager.Create();
-			//				deviceConfiguration.UpdateConfiguration();
-			//				deviceConfiguration.PrepareDescriptors();
-			//				configurationCompareViewModel = new ConfigurationCompareViewModel(GKManager.DeviceConfiguration, deviceConfiguration, SelectedDevice.Device, true, configFileName);
-			//			});
-			//			LoadingService.Close();
-			//			if (configurationCompareViewModel.Error != null)
-			//			{
-			//				MessageBoxService.ShowError(configurationCompareViewModel.Error, "Ошибка при чтении конфигурации");
-			//				return;
-			//			}
-			//			if (DialogService.ShowModalWindow(configurationCompareViewModel))
-			//				ServiceFactoryBase.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
-			//		}
-			//		else
-			//		{
-			//			LoadingService.Close();
-			//			MessageBoxService.ShowWarning("Ошибка при чтении конфигурационного файла");
-			//		}
-			//	}));
-			//});
-			//thread.Name = "DeviceCommandsViewModel ReadConfigFile";
-			//thread.Start();
+			if (result.HasError)
+			{
+				MessageBoxService.ShowWarning(result.Error, "Ошибка при чтении конфигурации");
+			}
 		}
 
 		bool CanReadConfiguration()
@@ -412,32 +344,10 @@ namespace GKModule.Models
 		void OnGetUsers()
 		{
 			var result = FiresecManager.FiresecService.GKGetUsers(SelectedDevice.Device);
-
-			//var thread = new Thread(() =>
-			//{
-			//	var result = FiresecManager.FiresecService.GKGetUsers(SelectedDevice.Device);
-
-			//	ApplicationService.Invoke(() =>
-			//	{
-			//		if (!result.HasError)
-			//		{
-			//			GKUsersViewModel gkUsersViewModel = null;
-			//			WaitHelper.Execute(() =>
-			//			{
-			//				gkUsersViewModel = new GKUsersViewModel(result.Result);
-			//			});
-			//			LoadingService.Close();
-			//			DialogService.ShowModalWindow(gkUsersViewModel);
-			//		}
-			//		else
-			//		{
-			//			LoadingService.Close();
-			//			MessageBoxService.ShowWarning(result.Error, "Ошибка при получении пользователей");
-			//		}
-			//	});
-			//});
-			//thread.Name = "DeviceCommandsViewModel GetUsers";
-			//thread.Start();
+			if (result.HasError)
+			{
+				MessageBoxService.ShowWarning(result.Error, "Ошибка при получении пользователей");
+			}
 		}
 
 		bool CanGetUsers()
@@ -449,22 +359,10 @@ namespace GKModule.Models
 		void OnRewriteUsers()
 		{
 			var result = FiresecManager.FiresecService.GKRewriteUsers(SelectedDevice.Device);
-
-			//var thread = new Thread(() =>
-			//{
-			//	var result = FiresecManager.FiresecService.GKRewriteUsers(SelectedDevice.Device);
-
-			//	ApplicationService.Invoke(() =>
-			//	{
-			//		if (result.HasError)
-			//		{
-			//			LoadingService.Close();
-			//			MessageBoxService.ShowWarning(result.Error, "Ошибка при перезаписи пользователей");
-			//		}
-			//	});
-			//});
-			//thread.Name = "DeviceCommandsViewModel RewriteUsers";
-			//thread.Start();
+			if (result.HasError)
+			{
+				MessageBoxService.ShowWarning(result.Error, "Ошибка при перезаписи пользователей");
+			}
 		}
 
 		bool CanRewriteUsers()

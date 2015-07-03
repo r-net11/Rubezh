@@ -522,7 +522,7 @@ namespace SKDDriver
 				Context.Organisations.InsertOnSubmit(org);
 				var user = new DataAccess.OrganisationUser { UID = Guid.NewGuid(), UserUID = new Guid("10e591fb-e017-442d-b176-f05756d984bb"), OrganisationUID = org.UID };
 				Context.OrganisationUsers.InsertOnSubmit(user);
-				for (int j = 1; j < 65500; j++)
+				for (int j = 1; j < 1000; j++)
 				{
 					var empl = CreateEmployee(j.ToString(), org.UID);
 					Context.Employees.InsertOnSubmit(empl);

@@ -23,9 +23,6 @@ namespace FiresecService
 		{
 			try
 			{
-				//SKDDatabaseService.Tst();
-				//EFTest.EFTest.Test();
-			
 				Environment.CurrentDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
 				Logger.Trace(SystemInfo.GetString());
 				var resourceService = new ResourceService();
@@ -57,10 +54,11 @@ namespace FiresecService
 				UILogger.Log("Запуск автоматизации");
 				ScheduleRunner.Start();
 
+				UILogger.Log("Запуск очереди задач сервера");
+				ServerTaskRunner.Start();
+
 				UILogger.Log("Готово");
 				ProcedureRunner.RunOnServerRun();
-
-				
 			}
 			catch (Exception e)
 			{

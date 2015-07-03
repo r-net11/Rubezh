@@ -132,9 +132,9 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.GetDirectoryHash(directory); }, "GetDirectoryHash");
 		}
 
-		public System.IO.Stream GetFile(string dirAndFileName)
+		public System.IO.Stream GetServerAppDataFile(string dirAndFileName)
 		{
-			return SafeOperationCall(() => { return FiresecService.GetFile(dirAndFileName); }, "GetFile");
+			return SafeOperationCall(() => { return FiresecService.GetServerAppDataFile(dirAndFileName); }, "GetServerAppDataFile");
 		}
 
 		public Stream GetConfig()
@@ -142,9 +142,9 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.GetConfig(); }, "GetConfig");
 		}
 
-		public void SetConfig(Stream stream)
+		public void SetRemoteConfig(Stream stream)
 		{
-			SafeOperationCall(() => { FiresecService.SetConfig(stream); }, "SetConfig");
+			SafeOperationCall(() => { FiresecService.SetRemoteConfig(stream); }, "SetRemoteConfig");
 		}
 
 		public void SetLocalConfig()
@@ -193,14 +193,14 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.GKReadConfiguration(deviceUID); }, "GKReadConfiguration");
 		}
 
-		public Stream GKReadConfigurationFromGKFile(Guid deviceUID)
+		public OperationResult<bool> GKReadConfigurationFromGKFile(Guid deviceUID)
 		{
 			return SafeOperationCall(() => { return FiresecService.GKReadConfigurationFromGKFile(deviceUID); }, "GKReadConfigurationFromGKFile");
 		}
 
-		public Stream GetGKFileStream(string filePath)
+		public Stream GetServerFile(string filePath)
 		{
-			return SafeOperationCall(() => { return FiresecService.GetGKFileStream(filePath); }, "GetGKFileStream");
+			return SafeOperationCall(() => { return FiresecService.GetServerFile(filePath); }, "GetServerFile");
 		}
 
 		public OperationResult<GKDevice> GKAutoSearch(Guid deviceUID)
@@ -259,7 +259,7 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.GKSetSchedule(schedule); }, "GKSetSchedule");
 		}
 
-		public OperationResult<List<GKUser>> GKGetUsers(Guid gkDeviceUID)
+		public OperationResult<bool> GKGetUsers(Guid gkDeviceUID)
 		{
 			return SafeOperationCall(() => { return FiresecService.GKGetUsers(gkDeviceUID); }, "GKGetUsers");
 		}

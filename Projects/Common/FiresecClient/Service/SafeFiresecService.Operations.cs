@@ -50,9 +50,9 @@ namespace FiresecClient
 			return SafeOperationCall(() => { return FiresecService.GetDirectoryHash(directory); }, "GetDirectoryHash");
 		}
 
-		public System.IO.Stream GetFile(string dirAndFileName)
+		public System.IO.Stream GetServerAppDataFile(string dirAndFileName)
 		{
-			return SafeOperationCall(() => { return FiresecService.GetFile(dirAndFileName); }, "GetFile");
+			return SafeOperationCall(() => { return FiresecService.GetServerAppDataFile(dirAndFileName); }, "GetServerAppDataFile");
 		}
 
 		public Stream GetConfig()
@@ -60,9 +60,9 @@ namespace FiresecClient
 			return SafeOperationCall(() => { return FiresecService.GetConfig(); }, "GetConfig");
 		}
 
-		public void SetConfig(Stream stream)
+		public void SetRemoteConfig(Stream stream)
 		{
-			SafeOperationCall(() => { FiresecService.SetConfig(stream); }, "SetConfig");
+			SafeOperationCall(() => { FiresecService.SetRemoteConfig(stream); }, "SetRemoteConfig");
 		}
 
 		public void SetLocalConfig()

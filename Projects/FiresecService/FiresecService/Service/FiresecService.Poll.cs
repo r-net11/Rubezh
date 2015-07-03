@@ -116,7 +116,7 @@ namespace FiresecService.Service
 			CallbackManager.Add(callbackResult);
 		}
 
-		public static void NotifyOperationResult_GetAllUsers(OperationResult<List<GKUser>> users)
+		public static void NotifyOperationResult_GetAllUsers(OperationResult<List<GKUser>> result)
 		{
 			var callbackResult = new CallbackResult()
 			{
@@ -124,7 +124,9 @@ namespace FiresecService.Service
 				CallbackOperationResult = new CallbackOperationResult()
 				{
 					CallbackOperationResultType = CallbackOperationResultType.GetAllUsers,
-					Users = users
+					Error = result.Error,
+					HasError = result.HasError,
+					Users = result.Result
 				}
 			};
 			CallbackManager.Add(callbackResult);
@@ -138,7 +140,8 @@ namespace FiresecService.Service
 				CallbackOperationResult = new CallbackOperationResult()
 				{
 					CallbackOperationResultType = CallbackOperationResultType.RewriteUsers,
-					Result = result
+					Error = result.Error,
+					HasError = result.HasError,
 				}
 			};
 			CallbackManager.Add(callbackResult);
@@ -152,13 +155,14 @@ namespace FiresecService.Service
 				CallbackOperationResult = new CallbackOperationResult()
 				{
 					CallbackOperationResultType = CallbackOperationResultType.WriteConfiguration,
-					Result = result
+					Error = result.Error,
+					HasError = result.HasError,
 				}
 			};
 			CallbackManager.Add(callbackResult);
 		}
 
-		public static void NotifyOperationResult_ReadConfigurationFromGKFile(string fileName)
+		public static void NotifyOperationResult_ReadConfigurationFromGKFile(OperationResult<string> result)
 		{
 			var callbackResult = new CallbackResult()
 			{
@@ -166,7 +170,9 @@ namespace FiresecService.Service
 				CallbackOperationResult = new CallbackOperationResult()
 				{
 					CallbackOperationResultType = CallbackOperationResultType.ReadConfigurationFromGKFile,
-					FileName = fileName
+					Error = result.Error,
+					HasError = result.HasError,
+					FileName = result.Result
 				}
 			};
 			CallbackManager.Add(callbackResult);

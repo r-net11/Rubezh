@@ -181,6 +181,7 @@
     <Compile Include="Processor\ConfigurationCashHelper.cs" />
     <Compile Include="Processor\GKProcessor.cs" />
     <Compile Include="Automation\ProcedureThread.Steps.cs" />
+    <Compile Include="Processor\ServerTaskRunner.cs" />
     <Compile Include="Service\CallbackManager.cs" />
     <Compile Include="Service\ClientsManager.cs" />
     <Compile Include="Service\DBHelper\EntLibHelper.cs" />

@@ -19,9 +19,26 @@ namespace FiresecService.Service
 			return HashHelper.GetDirectoryHash(AppDataFolderHelper.GetServerAppDataPath(directory));
 		}
 
-		public Stream GetFile(string fileName)
+		public Stream GetServerAppDataFile(string dirAndFileName)
 		{
-			return new FileStream(AppDataFolderHelper.GetServerAppDataPath(fileName), FileMode.Open, FileAccess.Read);
+			try
+			{
+				if (File.Exists(dirAndFileName))
+					return new FileStream(AppDataFolderHelper.GetServerAppDataPath(dirAndFileName), FileMode.Open, FileAccess.Read);
+			}
+			catch { }
+			return Stream.Null;
+		}
+
+		public Stream GetServerFile(string filePath)
+		{
+			try
+			{
+				if (File.Exists(filePath))
+					return new FileStream(filePath, FileMode.Open, FileAccess.Read);
+			}
+			catch { }
+			return Stream.Null;
 		}
 
 		public Stream GetConfig()
@@ -39,7 +56,7 @@ namespace FiresecService.Service
 			RestartWithNewConfig();
 		}
 
-		public void SetConfig(Stream stream)
+		public void SetRemoteConfig(Stream stream)
 		{
 			var newConfigFileName = AppDataFolderHelper.GetServerAppDataPath("NewConfig.fscp");
 			var newConfigDirectory = AppDataFolderHelper.GetServerAppDataPath("NewConfig");
@@ -99,6 +116,7 @@ namespace FiresecService.Service
 			GKProcessor.SetNewConfig();
 			ScheduleRunner.SetNewConfig();
 			ProcedureRunner.SetNewConfig();
+			ServerTaskRunner.SetNewConfig();
 		}
 
 		static void CreateZipConfigFromFiles(string configFileName, string configDirectory)

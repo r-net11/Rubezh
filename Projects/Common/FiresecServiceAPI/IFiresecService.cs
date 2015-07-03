@@ -64,13 +64,16 @@ namespace FiresecAPI
 		Dictionary<string, string> GetDirectoryHash(string directory);
 
 		[OperationContract]
-		Stream GetFile(string dirAndFileName);
+		Stream GetServerAppDataFile(string dirAndFileName);
+
+		[OperationContract]
+		Stream GetServerFile(string filePath);
 
 		[OperationContract]
 		Stream GetConfig();
 
 		[OperationContract]
-		void SetConfig(Stream stream);
+		void SetRemoteConfig(Stream stream);
 
 		[OperationContract]
 		void SetLocalConfig();

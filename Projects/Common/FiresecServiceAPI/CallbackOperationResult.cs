@@ -10,18 +10,20 @@ namespace FiresecAPI
 	{
 		public CallbackOperationResult()
 		{
-			Users = new OperationResult<List<GKUser>>();
-			Result = new OperationResult<bool>();
+			Users = new List<GKUser>();
 		}
+
+		[DataMember]
+		public bool HasError { get; set; }
+
+		[DataMember]
+		public string Error { get; set; }
 
 		[DataMember]
 		public CallbackOperationResultType CallbackOperationResultType { get; set; }
 
 		[DataMember]
-		public OperationResult<List<GKUser>> Users { get; set; }
-
-		[DataMember]
-		public OperationResult<bool> Result { get; set; }
+		public List<GKUser> Users { get; set; }
 
 		[DataMember]
 		public string FileName { get; set; }
