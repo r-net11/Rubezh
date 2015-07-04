@@ -4,9 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using FiresecAPI;
 using FiresecAPI.SKD;
-using Infrastructure.Common.Windows.ViewModels;
 using ReactiveUI;
-using SKDModule.Model;
 using SKDModule.ViewModels;
 
 namespace SKDModule.Model
