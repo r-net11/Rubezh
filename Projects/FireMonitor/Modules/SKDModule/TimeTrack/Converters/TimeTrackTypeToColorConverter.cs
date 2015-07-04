@@ -13,51 +13,53 @@ namespace SKDModule.Converters
 			switch (timeTrackType)
 			{
 				case TimeTrackType.None:
-					return Brushes.Gray;
+					return new SolidColorBrush(Colors.Gray);
 
 				case TimeTrackType.Balance:
-					return Brushes.Gray;
+					return new SolidColorBrush(Colors.Gray);
 
 				case TimeTrackType.Presence:
-					return Brushes.Green;
+					return new SolidColorBrush(Colors.Green);
 
 				case TimeTrackType.Absence:
-					return Brushes.Red;
+					return new SolidColorBrush(Colors.Red);
+
 
 				case TimeTrackType.AbsenceInsidePlan:
-					return Brushes.Pink;
+					return new SolidColorBrush(Colors.Pink);
 
 				case TimeTrackType.PresenceInBrerak:
-					return Brushes.DarkGreen;
+					return new SolidColorBrush(Colors.DarkGreen);
 
 				case TimeTrackType.Late:
-					return Brushes.SkyBlue;
+					return new SolidColorBrush(Colors.SkyBlue);
 
 				case TimeTrackType.EarlyLeave:
-					return Brushes.LightBlue;
+					return new SolidColorBrush(Colors.LightBlue);
 
 				case TimeTrackType.Overtime:
-					return Brushes.Yellow;
+					return new SolidColorBrush(Colors.Yellow);
 
 				case TimeTrackType.Night:
-					return Brushes.YellowGreen;
+					return new SolidColorBrush(Colors.YellowGreen);
 
 				case TimeTrackType.DayOff:
-					return Brushes.LightGray;
+					return new SolidColorBrush(Colors.LightGray);
 
 				case TimeTrackType.Holiday:
-					return Brushes.DarkGray;
+					return new SolidColorBrush(Colors.DarkGray);
 
 				case TimeTrackType.DocumentOvertime:
-					return Brushes.LightYellow;
+					return new SolidColorBrush(Colors.LightYellow);
 
 				case TimeTrackType.DocumentPresence:
-					return Brushes.LightGreen;
+					return new SolidColorBrush(Colors.LightGreen);
 
 				case TimeTrackType.DocumentAbsence:
-					return Brushes.LightPink;
+					return new SolidColorBrush(Colors.LightPink);
 			}
-			return Brushes.Green;
+
+			return new SolidColorBrush(Colors.Green);
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

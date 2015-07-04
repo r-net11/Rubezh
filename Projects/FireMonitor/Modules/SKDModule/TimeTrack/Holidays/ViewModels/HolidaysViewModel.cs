@@ -18,7 +18,7 @@ namespace SKDModule.ViewModels
 
 		public LogicalDeletationType LogicalDeletationType { get; set; }
 		ChangeIsDeletedSubscriber _changeIsDeletedSubscriber;
-		
+
 		public void Select(Guid holidayUID)
 		{
 			if (holidayUID != Guid.Empty)
@@ -40,7 +40,7 @@ namespace SKDModule.ViewModels
 			copy.Reduction = source.Reduction;
 			return copy;
 		}
-		
+
 		void InitializeYears()
 		{
 			AvailableYears = new ObservableCollection<int>();

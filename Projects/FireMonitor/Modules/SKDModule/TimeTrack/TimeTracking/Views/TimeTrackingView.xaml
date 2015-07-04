@@ -86,25 +86,69 @@
 				<DataGridTemplateColumn Header="ФИО">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<StackPanel VerticalAlignment="Top">
+							<Grid>
+								<Grid.RowDefinitions>
+									<RowDefinition Height="Auto" />
+									<RowDefinition Height="Auto" />
+									<RowDefinition Height="Auto" />
+									<RowDefinition Height="Auto" />
+								</Grid.RowDefinitions>
+								<TextBlock Margin="4 0">
+									<TextBlock.Text>
+										<MultiBinding StringFormat="{}{0}{1}{2}">
+											<Binding Path="ShortEmployee.LastName" />
+											<Binding Path="ShortEmployee.FirstName" />
+											<Binding Path="ShortEmployee.SecondName" />
+										</MultiBinding>
+									</TextBlock.Text>
+								</TextBlock>
+								<TextBlock
+									Grid.Row="1"
+									Margin="4 0"
+									FontSize="11"
+									FontStyle="Italic"
+									Foreground="Gray"
+									Text="{Binding ShortEmployee.DepartmentName}" />
+								<TextBlock
+									Grid.Row="2"
+									Margin="4 0"
+									FontSize="11"
+									FontStyle="Italic"
+									Foreground="Gray"
+									Text="{Binding ShortEmployee.PositionName}" />
+								<TextBlock
+									Grid.Row="3"
+									Margin="4 0"
+									FontSize="11"
+									FontStyle="Italic"
+									Foreground="Gray"
+									Text="{Binding ScheduleName}" />
+							</Grid>
+							<!--<StackPanel VerticalAlignment="Top">
 								<StackPanel Orientation="Horizontal">
 									<TextBlock Margin="4 0" Text="{Binding ShortEmployee.LastName}" />
 									<TextBlock Margin="4 0" Text="{Binding ShortEmployee.FirstName}" />
 									<TextBlock Margin="4 0" Text="{Binding ShortEmployee.SecondName}" />
 								</StackPanel>
 								<TextBlock
+									FontSize="11"
 									Margin="4 0"
+									FontStyle="Italic"
 									Foreground="Gray"
 									Text="{Binding ShortEmployee.DepartmentName}" />
 								<TextBlock
+									FontSize="11"
 									Margin="4 0"
+									FontStyle="Italic"
 									Foreground="Gray"
 									Text="{Binding ShortEmployee.PositionName}" />
 								<TextBlock
+									FontSize="11"
 									Margin="4 0"
+									FontStyle="Italic"
 									Foreground="Gray"
 									Text="{Binding ScheduleName}" />
-							</StackPanel>
+							</StackPanel>-->
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>

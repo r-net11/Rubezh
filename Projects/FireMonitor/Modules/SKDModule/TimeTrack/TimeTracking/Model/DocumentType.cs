@@ -1,16 +1,16 @@
 ﻿using FiresecAPI.SKD;
 using Infrastructure.Common.TreeList;
 
-namespace SKDModule.ViewModels
+namespace SKDModule.Model
 {
-	public class DocumentTypeViewModel : TreeNodeViewModel<DocumentTypeViewModel>
+	public class DocumentType : TreeNodeViewModel<DocumentType>
 	{
 		public Organisation Organisation { get; private set; }
 		public bool IsOrganisation { get; private set; }
 		public string Name { get; private set; }
 		public TimeTrackDocumentType TimeTrackDocumentType { get; private set; }
 
-		public DocumentTypeViewModel(Organisation organisation)
+		public DocumentType(Organisation organisation)
 		{
 			Organisation = organisation;
 			IsOrganisation = true;
@@ -18,7 +18,7 @@ namespace SKDModule.ViewModels
 			IsExpanded = true;
 		}
 
-		public DocumentTypeViewModel(Organisation organisation, TimeTrackDocumentType timeTrackDocumentType)
+		public DocumentType(Organisation organisation, TimeTrackDocumentType timeTrackDocumentType)
 		{
 			Organisation = organisation;
 			TimeTrackDocumentType = timeTrackDocumentType;

@@ -155,7 +155,7 @@ namespace SKDModule.ViewModels
 						{
 							if (timeTrackPart.MinTimeTrackDocumentType != null && timeTrackPart.Delta > TimeSpan.Zero)
 							{
-								if (timeTrackPart.MinTimeTrackDocumentType.DocumentType == DocumentType.Overtime || timeTrackPart.MinTimeTrackDocumentType.DocumentType == DocumentType.Absence)
+								if (timeTrackPart.MinTimeTrackDocumentType.DocumentType == FiresecAPI.SKD.DocumentType.Overtime || timeTrackPart.MinTimeTrackDocumentType.DocumentType == FiresecAPI.SKD.DocumentType.Absence)
 							{
 									if (codeCount < 3)
 									{
@@ -191,7 +191,7 @@ namespace SKDModule.ViewModels
 						{
 							if (employeeReport.MissReasons.Count < 8)
 							{
-								if (trackPart.MinTimeTrackDocumentType != null && (trackPart.MinTimeTrackDocumentType.DocumentType == DocumentType.Absence || trackPart.MinTimeTrackDocumentType.DocumentType == DocumentType.Presence))
+								if (trackPart.MinTimeTrackDocumentType != null && (trackPart.MinTimeTrackDocumentType.DocumentType == FiresecAPI.SKD.DocumentType.Absence || trackPart.MinTimeTrackDocumentType.DocumentType == FiresecAPI.SKD.DocumentType.Presence))
 								{
 									var employeeReportMissReason = employeeReport.MissReasons.FirstOrDefault(x => x.Code == trackPart.MinTimeTrackDocumentType.ShortName);
 									if (employeeReportMissReason == null)

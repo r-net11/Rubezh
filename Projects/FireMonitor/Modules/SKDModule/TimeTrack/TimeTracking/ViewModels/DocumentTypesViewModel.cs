@@ -6,6 +6,7 @@ using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using SKDModule.Model;
 
 namespace SKDModule.ViewModels
 {
@@ -18,14 +19,14 @@ namespace SKDModule.ViewModels
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 
-			Organisations = new List<DocumentTypeViewModel>();
+			Organisations = new List<DocumentType>();
 			var organisations = OrganisationHelper.GetByCurrentUser();
 			if (organisations == null)
 				return;
 
 			foreach (var organisation in organisations)
 			{
-				var organisationViewModel = new DocumentTypeViewModel(organisation);
+				var organisationViewModel = new DocumentType(organisation);
 				Organisations.Add(organisationViewModel);
 
 				var documentTypes = DocumentTypeHelper.GetByOrganisation(organisation.UID);
@@ -33,7 +34,7 @@ namespace SKDModule.ViewModels
 				{
 					if (documentType.OrganisationUID == organisation.UID)
 					{
-						var documentTypeViewModel = new DocumentTypeViewModel(organisation, documentType);
+						var documentTypeViewModel = new DocumentType(organisation, documentType);
 						organisationViewModel.AddChild(documentTypeViewModel);
 					}
 				}
@@ -42,10 +43,10 @@ namespace SKDModule.ViewModels
 			SelectedDocumentType = Organisations.FirstOrDefault();
 		}
 
-		public List<DocumentTypeViewModel> Organisations { get; private set; }
+		public List<DocumentType> Organisations { get; private set; }
 
-		DocumentTypeViewModel _selectedDocumentType;
-		public DocumentTypeViewModel SelectedDocumentType
+		DocumentType _selectedDocumentType;
+		public DocumentType SelectedDocumentType
 		{
 			get { return _selectedDocumentType; }
 			set
@@ -57,11 +58,11 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public DocumentTypeViewModel ParentOrganisation
+		public DocumentType ParentOrganisation
 		{
 			get
 			{
-				DocumentTypeViewModel OrganisationViewModel = SelectedDocumentType;
+				DocumentType OrganisationViewModel = SelectedDocumentType;
 				if (!OrganisationViewModel.IsOrganisation)
 					OrganisationViewModel = SelectedDocumentType.Parent;
 
@@ -80,9 +81,9 @@ namespace SKDModule.ViewModels
 			{
 				if (DocumentTypeHelper.Add(documentTypeDetailsViewModel.TimeTrackDocumentType))
 				{
-					var documentViewModel = new DocumentTypeViewModel(SelectedDocumentType.Organisation, documentTypeDetailsViewModel.TimeTrackDocumentType);
+					var documentViewModel = new DocumentType(SelectedDocumentType.Organisation, documentTypeDetailsViewModel.TimeTrackDocumentType);
 
-					DocumentTypeViewModel OrganisationViewModel = SelectedDocumentType;
+					DocumentType OrganisationViewModel = SelectedDocumentType;
 					if (!OrganisationViewModel.IsOrganisation)
 						OrganisationViewModel = SelectedDocumentType.Parent;
 
@@ -121,7 +122,7 @@ namespace SKDModule.ViewModels
 		{
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить тип документа?"))
 			{
-				DocumentTypeViewModel OrganisationViewModel = SelectedDocumentType;
+				DocumentType OrganisationViewModel = SelectedDocumentType;
 				if (!OrganisationViewModel.IsOrganisation)
 					OrganisationViewModel = SelectedDocumentType.Parent;
 
