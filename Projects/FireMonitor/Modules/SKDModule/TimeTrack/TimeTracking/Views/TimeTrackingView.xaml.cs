@@ -35,7 +35,7 @@ namespace SKDModule.Views
 				grid.Columns.RemoveAt(i);
 			for (int i = 0; i < viewModel.TotalDays; i++)
 			{
-				var factory = new FrameworkElementFactory(typeof(TimeTrackingCellView)); //TODO: Remove obsolete realization
+				var factory = new FrameworkElementFactory(typeof(TimeTrackingDayControl)); //TODO: Remove obsolete realization
 				factory.SetValue(DataContextProperty, new Binding(string.Format("DayTracks[{0}]", i)));
 
 				var column = new DataGridTemplateColumn
