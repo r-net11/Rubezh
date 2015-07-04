@@ -6,6 +6,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:local="clr-namespace:SKDModule.Views"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:models="clr-namespace:SKDModule.Model"
 	xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
 	d:DesignHeight="400"
 	d:DesignWidth="600"
@@ -139,7 +140,7 @@
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn Header="Тип">
 					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
+						<DataTemplate DataType="{x:Type models:TimeTrack}">
 							<StackPanel Margin="0 60 0 0">
 								<ItemsControl ItemsSource="{Binding Totals}">
 									<ItemsControl.ItemTemplate>
@@ -160,7 +161,7 @@
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn Header="Итого">
 					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
+						<DataTemplate DataType="{x:Type models:TimeTrack}">
 							<StackPanel Margin="0 60 0 0">
 								<ItemsControl ItemsSource="{Binding Totals}">
 									<ItemsControl.ItemTemplate>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Windows.Input;
 using Common;
 using FiresecAPI.SKD;
 using FiresecClient;
@@ -13,6 +14,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using ReactiveUI;
+using ReactiveUI.Xaml;
 using SKDModule.Events;
 using SKDModule.Model;
 
@@ -149,11 +151,10 @@ namespace SKDModule.ViewModels
 			TotalDays = (int)(_timeTrackFilter.EndDate - _timeTrackFilter.StartDate).TotalDays + 1;
 			FirstDay = _timeTrackFilter.StartDate;
 
+			var resultFileName = Path.Combine(AppDataFolderHelper.GetFolder("TempServer"), "ClientTimeTrackResult.xml");
+			var resultFileStream = File.Create(resultFileName);
 
 			var stream = FiresecManager.FiresecService.GetTimeTracksStream(_timeTrackFilter.EmployeeFilter, _timeTrackFilter.StartDate, _timeTrackFilter.EndDate);
-			var folderName = AppDataFolderHelper.GetFolder("TempServer");
-			var resultFileName = Path.Combine(folderName, "ClientTimeTrackResult.xml");
-			var resultFileStream = File.Create(resultFileName);
 			FiresecManager.CopyStream(stream, resultFileStream);
 			var timeTrackResult = Deserialize(resultFileName);
 
@@ -201,6 +202,7 @@ namespace SKDModule.ViewModels
 		}
 
 		public RelayCommand RefreshCommand { get; private set; }
+
 		void OnRefresh()
 		{
 			UpdateGrid();

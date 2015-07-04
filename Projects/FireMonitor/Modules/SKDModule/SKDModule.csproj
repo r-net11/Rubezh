@@ -414,8 +414,8 @@
     <Compile Include="TimeTrack\TimeTracking\Views\TimeTrackDetailsView.xaml.cs">
       <DependentUpon>TimeTrackDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TimeTrack\TimeTracking\Views\TimeTrackingDayControl.xaml.cs">
-      <DependentUpon>TimeTrackingDayControl.xaml</DependentUpon>
+    <Compile Include="TimeTrack\TimeTracking\Views\TimeTrackingDayControlView.xaml.cs">
+      <DependentUpon>TimeTrackingDayControlView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TimeTrack\TimeTracking\Views\TimeTrackingView.xaml.cs">
       <DependentUpon>TimeTrackingView.xaml</DependentUpon>
@@ -881,7 +881,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="TimeTrack\TimeTracking\Views\TimeTrackingDayControl.xaml">
+    <Page Include="TimeTrack\TimeTracking\Views\TimeTrackingDayControlView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

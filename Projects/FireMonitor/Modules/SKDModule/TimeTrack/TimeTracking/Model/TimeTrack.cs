@@ -22,7 +22,8 @@ namespace SKDModule.Model
 		/// Коллекция отображаемых дней в УРВ
 		/// </summary>
 		public ObservableCollection<DayTrack> DayTracks { get; set; }
-		public ObservableCollection<TimeTrackTotal> Totals;
+
+		public ObservableCollection<TimeTrackTotal> Totals { get; set; }
 		#endregion
 
 		#region Constructors
