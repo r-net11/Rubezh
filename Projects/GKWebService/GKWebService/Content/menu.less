@@ -1,0 +1,36 @@
+﻿.menu{
+    margin-left: 10px;
+    width: 180px;
+    a {
+     font-size: 14px;
+     display: block;
+     color: white;
+     text-decoration: none;
+     line-height: 30px;
+     background-color: @light-blue;
+     margin-bottom:5px;
+     border-radius: 5px;
+     border: 1px solid black;
+    }
+    li {
+        cursor: pointer;
+        list-style: none;
+        ul {
+            display: none;
+            li{
+                margin-left: 20px;
+            }
+        }
+        &.active {
+            > a {
+                background-color: orange;
+            }  
+        }
+        &.clicked {
+            > ul{
+                display: block;
+            }   
+        }
+
+    }
+}

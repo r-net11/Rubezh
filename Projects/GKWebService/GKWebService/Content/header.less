@@ -1,0 +1,98 @@
+﻿/* Header
+-----------------------------------------------------------------------------*/
+.header {
+	height: 80px;
+	background: @dark-blue;
+    color:white;
+
+    .left{
+        float: left;
+        width:240px;
+        .time {
+        font-size: 20px;
+        margin-bottom: 10px;
+        margin-top: 10px;
+        padding-left: 10px;
+        }
+
+        .icons {
+            overflow:hidden;
+            .icon{
+                width: 20px;
+                height: 20px;
+                background-size:20px 20px;
+                background-repeat: no-repeat;
+                background-position: center;
+                float:left;
+                padding: 5px;
+                border-radius: 5px;
+                margin-right:10px;
+                &:hover{
+                    background-color:@orange;
+                }
+                &.mute {
+                    background-image : url("Image/Icon/Header/sound-on.png");
+
+                    &.off{
+                        background-image : url("Image/Icon/Header/sound-off.png");
+                    }
+                }
+
+                &.connect {
+                    background-image : url("Image/Icon/Header/connection-indicator.png");
+                    width: 40px;
+                    height: 13px;
+                    margin-top:4px;
+                    padding: 5px 5px;
+                    background-size: 40px 13px;
+                }
+
+                &.change-user {
+                    background-image : url("Image/Icon/Header/user.png");
+                }
+
+                &.activation {
+                    background-image : url("Image/Icon/Header/window-normal.png");
+                }
+
+                &.plan {
+                    background-image : url("Image/Icon/Header/map-on.png");
+                }
+            }
+        }
+    }
+
+    .right {
+        float:left;
+        width:880px;
+        .icon{
+            width: 40px;
+            height: 40px;
+            background-size:40px 40px;
+            background-repeat: no-repeat;
+            background-position: center;
+            float:left;
+            padding: 10px;
+            border-radius: 5px;
+            border: 2px solid @light-blue;
+            margin-right:10px;
+            margin-top: 5px;
+            &.extinguisher{
+                background-image : url("Image/Icon/Header/extinguisher.png");
+            }
+
+            &.shield{
+                background-image : url("Image/Icon/Header/Alarm_shield.png");
+            }
+
+            &.fire{
+                background-image : url("Image/Icon/Header/fire.png");
+            }
+
+            &.mani-fire{
+                background-image : url("Image/Icon/Header/mani-fire.png");
+            }
+        }
+    }
+}
+
