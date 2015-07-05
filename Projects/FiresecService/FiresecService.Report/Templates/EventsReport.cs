@@ -8,7 +8,6 @@ using FiresecAPI;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
 using FiresecAPI.SKD.ReportFilters;
-using FiresecClient;
 using FiresecService.Report.DataSources;
 using Infrastructure.Common;
 

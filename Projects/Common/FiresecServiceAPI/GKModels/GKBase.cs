@@ -4,7 +4,6 @@ using System.Runtime.Serialization;
 using Common;
 using System.Xml.Serialization;
 using System.Linq;
-using FiresecClient;
 
 namespace FiresecAPI.GK
 {
@@ -17,7 +16,6 @@ namespace FiresecAPI.GK
 		public GKBase()
 		{
 			ClearClauseDependencies();
-			State = new GKState();
 			InputGKBases = new List<GKBase>();
 			OutputGKBases = new List<GKBase>();
 		}
@@ -102,15 +100,8 @@ namespace FiresecAPI.GK
 
 		[XmlIgnore]
 		public GKBaseInternalState InternalState { get; set; }
-		[XmlIgnore]
-		public GKState State { get; set; }
 
 		#region IStateProvider Members
-
-		IDeviceState IStateProvider.StateClass
-		{
-			get { return State; }
-		}
 
 		Guid IIdentity.UID
 		{
@@ -144,6 +135,11 @@ namespace FiresecAPI.GK
 				result.AddRange(GetAllDependentObjects(inputObject, result).FindAll(x => !result.Contains(x)));
 			}
 			return result;
+		}
+
+		public IDeviceState StateClass
+		{
+			get { throw new NotImplementedException(); }
 		}
 	}
 }

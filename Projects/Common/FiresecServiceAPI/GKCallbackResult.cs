@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 using FiresecAPI.Journal;
+using FiresecAPI.SKD;
 
 namespace FiresecAPI.GK
 {
@@ -11,12 +12,12 @@ namespace FiresecAPI.GK
 		public List<JournalItem> JournalItems { get; set; }
 
 		[DataMember]
-		public GKStates GKStates { get; set; }
+		public SKDStates SKDStates { get; set; }
 
 		public GKCallbackResult()
 		{
 			JournalItems = new List<JournalItem>();
-			GKStates = new GKStates();
+			SKDStates = new SKDStates();
 		}
 	}
 }

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using FiresecAPI.GK;
-using FiresecClient;
 
 namespace GKProcessor
 {

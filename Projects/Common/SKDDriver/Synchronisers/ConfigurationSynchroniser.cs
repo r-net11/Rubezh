@@ -5,7 +5,6 @@ using System.Xml.Serialization;
 using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecAPI.SKD;
-using FiresecClient;
 
 namespace SKDDriver
 {

@@ -9,7 +9,6 @@ using FiresecAPI.Automation;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecAPI.SKD;
-using FiresecClient;
 using FiresecService.Properties;
 using GKProcessor;
 using Infrastructure.Common;

@@ -142,9 +142,8 @@ namespace ChinaSKDDriver
 		public static void OnGKCallbackResult(GKCallbackResult gkCallbackResult)
 		{
 			if (gkCallbackResult.JournalItems.Count +
-				gkCallbackResult.GKStates.DeviceStates.Count +
-				gkCallbackResult.GKStates.ZoneStates.Count +
-				gkCallbackResult.GKStates.DeviceMeasureParameters.Count > 0)
+				gkCallbackResult.SKDStates.DeviceStates.Count +
+				gkCallbackResult.SKDStates.ZoneStates.Count > 0)
 			{
 				if (GKCallbackResultEvent != null)
 					GKCallbackResultEvent(gkCallbackResult);

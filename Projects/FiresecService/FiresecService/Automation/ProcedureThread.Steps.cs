@@ -12,7 +12,6 @@ using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using FiresecAPI.Models;
 using FiresecAPI.SKD;
-using FiresecClient;
 using FiresecService.Automation;
 using FiresecService.Service;
 using SKDDriver.Translators;
@@ -346,9 +345,6 @@ namespace FiresecService
 				{
 					case Property.IntAddress:
 						propertyValue = (item as GKDevice).IntAddress;
-						break;
-					case Property.State:
-						propertyValue = (int)(item as GKDevice).State.StateClass;
 						break;
 					case Property.Description:
 						propertyValue = (item as GKDevice).Description.Trim();

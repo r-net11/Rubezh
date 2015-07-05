@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using FiresecAPI;
 using FiresecAPI.GK;
-using FiresecAPI.SKD;
-using FiresecClient;
-using FiresecAPI.Journal;
-using System.IO;
 
 namespace GKProcessor
 {
@@ -88,11 +83,9 @@ namespace GKProcessor
 		public static void OnGKCallbackResult(GKCallbackResult gkCallbackResult)
 		{
 			if (gkCallbackResult.JournalItems.Count +
-				gkCallbackResult.GKStates.DeviceStates.Count +
-				gkCallbackResult.GKStates.ZoneStates.Count +
-				gkCallbackResult.GKStates.DoorStates.Count +
-				gkCallbackResult.GKStates.SKDZoneStates.Count +
-				gkCallbackResult.GKStates.DeviceMeasureParameters.Count > 0)
+				gkCallbackResult.SKDStates.DeviceStates.Count +
+				gkCallbackResult.SKDStates.ZoneStates.Count +
+				gkCallbackResult.SKDStates.DoorStates.Count > 0)
 			{
 				if (GKCallbackResultEvent != null)
 					GKCallbackResultEvent(gkCallbackResult);

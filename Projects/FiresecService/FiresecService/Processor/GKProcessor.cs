@@ -4,7 +4,6 @@ using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
-using FiresecClient;
 using GKProcessor;
 using SKDDriver;
 using SKDDriver.Translators;

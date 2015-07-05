@@ -4,10 +4,8 @@ using System.Data;
 using System.Linq;
 using Common;
 using FiresecAPI;
-using FiresecAPI.GK;
 using FiresecAPI.SKD;
 using FiresecAPI.SKD.ReportFilters;
-using FiresecClient;
 using FiresecService.Report.DataSources;
 using FiresecService.Report.Model;
 

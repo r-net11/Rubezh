@@ -4,7 +4,6 @@ using System.Data;
 using System.Linq;
 using FiresecAPI.SKD;
 using FiresecAPI.SKD.ReportFilters;
-using FiresecClient;
 using FiresecService.Report.DataSources;
 using SKDDriver.DataAccess;
 

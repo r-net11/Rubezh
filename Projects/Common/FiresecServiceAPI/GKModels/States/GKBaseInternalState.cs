@@ -114,23 +114,5 @@ namespace FiresecAPI.GK
 		public int OnDelay { get; set; }
 		public int HoldDelay { get; set; }
 		public int OffDelay { get; set; }
-
-		public void CopyToXState(GKState state)
-		{
-			state.StateClasses = StateClasses.ToList();
-			state.StateClass = StateClass;
-			state.AdditionalStates = AdditionalStates.ToList();
-			state.OnDelay = OnDelay;
-			state.OffDelay = OffDelay;
-			state.HoldDelay = HoldDelay;
-
-			if (IsInitialState || IsSuspending || IsNoLicense || IsConnectionLost)
-			{
-				state.AdditionalStates = new List<GKAdditionalState>();
-				state.OnDelay = 0;
-				state.OffDelay = 0;
-				state.HoldDelay = 0;
-			}
-		}
 	}
 }

@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Linq;
 using FiresecAPI;
 using FiresecAPI.GK;
-using FiresecClient;
 using SKDDriver;
 
 namespace GKProcessor

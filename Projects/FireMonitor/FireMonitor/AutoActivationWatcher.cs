@@ -29,9 +29,8 @@ namespace FireMonitor
 			if (ClientSettings.AutoActivationSettings.IsPlansAutoActivation)
 				foreach (var journalItem in journalItems)
 				{
-					var gkStateClass = GKManager.GetMinStateClass();
 					var skdStateClass = SKDManager.GetMinStateClass();
-					var globalStateClass = (XStateClass)Math.Min((int)gkStateClass, (int)skdStateClass);
+					var globalStateClass = skdStateClass;
 					var stateClass = EventDescriptionAttributeHelper.ToStateClass(journalItem.JournalEventNameType);
 					if (stateClass <= globalStateClass || (globalStateClass != XStateClass.Fire1 && globalStateClass != XStateClass.Fire2 && globalStateClass != XStateClass.Attention))
 						switch (journalItem.JournalObjectType)
