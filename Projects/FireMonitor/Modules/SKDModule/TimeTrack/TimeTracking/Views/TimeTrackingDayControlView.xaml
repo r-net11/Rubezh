@@ -14,12 +14,8 @@
 		Margin="0.15 0.1"
 		Background="Transparent"
 		Cursor="Hand"
+		MouseDown="Grid_MouseDown"
 		ToolTip="{Binding DayTimeTrack.Tooltip}">
-		<i:Interaction.Triggers>
-			<i:EventTrigger EventName="MouseDown">
-				<i:InvokeCommandAction Command="{Binding MouseDownCommand}" CommandParameter="{Binding}" />
-			</i:EventTrigger>
-		</i:Interaction.Triggers>
 		<Border
 			BorderBrush="#FF585858"
 			BorderThickness="1"

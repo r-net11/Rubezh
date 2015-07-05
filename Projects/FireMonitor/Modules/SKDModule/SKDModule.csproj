@@ -393,7 +393,6 @@
     <Compile Include="TimeTrack\TimeTracking\ViewModels\ReportSettingsViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\TimeTrackFilterViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\TimeTrackDetailsViewModel.cs" />
-    <Compile Include="TimeTrack\TimeTracking\ViewModels\TimeTrackingDayControlViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\TimeTrackingViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\TimeTrackPartDetailsViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\Model\TimeTrackTypeFilterItem.cs" />
