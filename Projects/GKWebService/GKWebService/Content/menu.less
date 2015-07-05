@@ -1,16 +1,51 @@
 ﻿.menu{
     margin-left: 10px;
-    width: 180px;
+    width: 210px;
     a {
-     font-size: 14px;
+     font-size: 12px;
      display: block;
      color: white;
      text-decoration: none;
      line-height: 30px;
      background-color: @light-blue;
+     background-repeat: no-repeat;
+     background-position: 5% 50%;
+     background-size: 30px;
      margin-bottom:5px;
-     border-radius: 5px;
+     border-radius: 3px;
      border: 1px solid black;
+     &:hover{
+        background-color:@orange;
+    }
+     
+    }
+    span{
+        padding-left:33px; 
+    }
+    .group-control{
+        background-image : url("Image/Icon/Menu/tree.png");
+    }
+    .device{
+        background-image : url("Image/Icon/Menu/tree.png");
+    }
+    .params{
+        background-image : url("Image/Icon/Menu/tree.png");
+    }
+    .reports{
+        background-image : url("Image/Icon/Menu/levels.png");
+        background-size: 20px;
+    }
+    .archive{
+        background-image : url("Image/Icon/Menu/archive.png");
+        background-size: 20px;
+    }
+    .diagnostics{
+        background-image : url("Image/Icon/Menu/Bug.png");
+        background-size: 20px;
+    }
+    .queue{
+        background-image : url("Image/Icon/Menu/Bug.png");
+        background-size: 20px;
     }
     li {
         cursor: pointer;

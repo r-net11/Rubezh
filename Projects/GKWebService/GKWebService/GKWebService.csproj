@@ -83,6 +83,23 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Image\Icon\Header\Alarm_shield.png" />
+    <Content Include="Content\Image\Icon\Header\attention.png" />
+    <Content Include="Content\Image\Icon\Header\connection-indicator.png" />
+    <Content Include="Content\Image\Icon\Header\extinguisher.png" />
+    <Content Include="Content\Image\Icon\Header\Failure.png" />
+    <Content Include="Content\Image\Icon\Header\fire.png" />
+    <Content Include="Content\Image\Icon\Header\mani-fire.png" />
+    <Content Include="Content\Image\Icon\Header\map-off.png" />
+    <Content Include="Content\Image\Icon\Header\map-on.png" />
+    <Content Include="Content\Image\Icon\Header\sound-off.png" />
+    <Content Include="Content\Image\Icon\Header\sound-on.png" />
+    <Content Include="Content\Image\Icon\Header\user.png" />
+    <Content Include="Content\Image\Icon\Header\window-normal.png" />
+    <Content Include="Content\Image\Icon\Menu\archive.png" />
+    <Content Include="Content\Image\Icon\Menu\Bug.png" />
+    <Content Include="Content\Image\Icon\Menu\levels.png" />
+    <Content Include="Content\Image\Icon\Menu\tree.png" />
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -134,7 +151,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\Image\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
