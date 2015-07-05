@@ -26,12 +26,12 @@ namespace FiresecService.Service
 				};
 				CallbackResultItems.Add(newCallbackResultItem);
 
-				if (callbackResult.CallbackResultType == CallbackResultType.GKProgress)
+				if (callbackResult.CallbackResultType == CallbackResultType.SKDProgress)
 				{
-					var callbackResultItem = CallbackResultItems.FirstOrDefault(x => x.CallbackResult.GKProgressCallback != null && x.CallbackResult.GKProgressCallback.UID == callbackResult.GKProgressCallback.UID);
+					var callbackResultItem = CallbackResultItems.FirstOrDefault(x => x.CallbackResult.SKDProgressCallback != null && x.CallbackResult.SKDProgressCallback.UID == callbackResult.SKDProgressCallback.UID);
 					if (callbackResultItem != null)
 					{
-						if (callbackResult.GKProgressCallback.LastActiveDateTime > callbackResultItem.CallbackResult.GKProgressCallback.LastActiveDateTime)
+						if (callbackResult.SKDProgressCallback.LastActiveDateTime > callbackResultItem.CallbackResult.SKDProgressCallback.LastActiveDateTime)
 						{
 							CallbackResultItems.Remove(callbackResultItem);
 						}
@@ -60,7 +60,7 @@ namespace FiresecService.Service
 				{
 					if (callbackResultItem.Index > clientInfo.CallbackIndex)
 					{
-						if ((callbackResultItem.CallbackResult.GKProgressCallback == null || !callbackResultItem.CallbackResult.GKProgressCallback.IsCanceled) &&
+						if ((callbackResultItem.CallbackResult.SKDProgressCallback == null || !callbackResultItem.CallbackResult.SKDProgressCallback.IsCanceled) &&
 							(!callbackResultItem.ClientUID.HasValue || callbackResultItem.ClientUID.Value == clientInfo.UID))
 							result.Add(callbackResultItem.CallbackResult);
 					}

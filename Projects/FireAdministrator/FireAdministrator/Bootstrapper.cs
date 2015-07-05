@@ -64,8 +64,8 @@ namespace FireAdministrator
 					AterInitialize();
 					FiresecManager.StartPoll();
 
-					SafeFiresecService.GKProgressCallbackEvent -= new Action<FiresecAPI.GKProgressCallback>(OnGKProgressCallbackEvent);
-					SafeFiresecService.GKProgressCallbackEvent += new Action<FiresecAPI.GKProgressCallback>(OnGKProgressCallbackEvent);
+					SafeFiresecService.SKDProgressCallbackEvent -= new Action<FiresecAPI.SKDProgressCallback>(OnSKDProgressCallbackEvent);
+					SafeFiresecService.SKDProgressCallbackEvent += new Action<FiresecAPI.SKDProgressCallback>(OnSKDProgressCallbackEvent);
 
 					ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Subscribe(OnConfigurationChanged);
 					ServiceFactory.Events.GetEvent<ConfigurationClosedEvent>().Subscribe(OnConfigurationClosed);
@@ -92,31 +92,31 @@ namespace FireAdministrator
 			}
 		}
 
-		void OnGKProgressCallbackEvent(GKProgressCallback gkProgressCallback)
+		void OnSKDProgressCallbackEvent(SKDProgressCallback SKDProgressCallback)
 		{
 			ApplicationService.Invoke(() =>
 			{
-				switch (gkProgressCallback.GKProgressCallbackType)
+				switch (SKDProgressCallback.SKDProgressCallbackType)
 				{
-					case GKProgressCallbackType.Start:
-						if (gkProgressCallback.GKProgressClientType == GKProgressClientType.Administrator)
+					case SKDProgressCallbackType.Start:
+						if (SKDProgressCallback.SKDProgressClientType == SKDProgressClientType.Administrator)
 						{
-							LoadingService.Show(gkProgressCallback.Title, gkProgressCallback.Text, gkProgressCallback.StepCount, gkProgressCallback.CanCancel);
+							LoadingService.Show(SKDProgressCallback.Title, SKDProgressCallback.Text, SKDProgressCallback.StepCount, SKDProgressCallback.CanCancel);
 						}
 						return;
 
-					case GKProgressCallbackType.Progress:
-						if (gkProgressCallback.GKProgressClientType == GKProgressClientType.Administrator)
+					case SKDProgressCallbackType.Progress:
+						if (SKDProgressCallback.SKDProgressClientType == SKDProgressClientType.Administrator)
 						{
-							LoadingService.DoStep(gkProgressCallback.Text, gkProgressCallback.Title, gkProgressCallback.StepCount, gkProgressCallback.CurrentStep, gkProgressCallback.CanCancel);
+							LoadingService.DoStep(SKDProgressCallback.Text, SKDProgressCallback.Title, SKDProgressCallback.StepCount, SKDProgressCallback.CurrentStep, SKDProgressCallback.CanCancel);
 							if (LoadingService.IsCanceled)
 							{
-								FiresecManager.FiresecService.CancelGKProgress(gkProgressCallback.UID, FiresecManager.CurrentUser.Name);
+								FiresecManager.FiresecService.CancelGKProgress(SKDProgressCallback.UID, FiresecManager.CurrentUser.Name);
 							}
 						}
 						return;
 
-					case GKProgressCallbackType.Stop:
+					case SKDProgressCallbackType.Stop:
 						LoadingService.Close();
 						return;
 				}

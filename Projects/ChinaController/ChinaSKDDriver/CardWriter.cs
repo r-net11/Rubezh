@@ -138,7 +138,7 @@ namespace ChinaSKDDriver
 
 		public List<string> RewriteAllCards(SKDDevice device, IEnumerable<SKDCard> cards, IEnumerable<AccessTemplate> accessTemplates)
 		{
-			var progressCallback = Processor.StartProgress("Запись всех карт в контроллер " + device.Name, "", cards.Count(), true, GKProgressClientType.Administrator);
+			var progressCallback = Processor.StartProgress("Запись всех карт в контроллер " + device.Name, "", cards.Count(), true, SKDProgressClientType.Administrator);
 
 			var errors = new List<string>();
 			foreach (var card in cards)

@@ -117,7 +117,7 @@ namespace ChinaSKDDriver
 				if (!deviceProcessor.IsConnected)
 					return OperationResult<bool>.FromError("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
 
-				var progressCallback = Processor.StartProgress("Запись графиков работ в прибор " + deviceProcessor.Device.Name, "", 128, true, GKProgressClientType.Administrator);
+				var progressCallback = Processor.StartProgress("Запись графиков работ в прибор " + deviceProcessor.Device.Name, "", 128, true, SKDProgressClientType.Administrator);
 
 				for (int i = 0; i <= 127; i++)
 				{

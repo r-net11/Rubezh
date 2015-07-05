@@ -12,7 +12,7 @@ namespace GKProcessor
 	{
 		public List<string> ErrorList = new List<string>();
 		string Error;
-		public GKProgressCallback ProgressCallback { get; private set; }
+		public SKDProgressCallback ProgressCallback { get; private set; }
 
 		public void Update(GKDevice device, string fileName, string userName)
 		{

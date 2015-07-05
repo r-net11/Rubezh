@@ -191,8 +191,8 @@
     <Compile Include="Journal\JournalSubsystemType.cs" />
     <Compile Include="IFiresecService.Automation.cs" />
     <Compile Include="IFiresecServiceSKD.TimeTrack.cs" />
-    <Compile Include="GKCallbackResult.cs" />
-    <Compile Include="GKProgressCallback.cs" />
+    <Compile Include="SKDCallbackResult.cs" />
+    <Compile Include="SKDProgressCallback.cs" />
     <Compile Include="IFiresecServiceSKD.cs" />
     <Compile Include="IFiresecService.cs" />
     <Compile Include="Models\Automation\Condition.cs" />

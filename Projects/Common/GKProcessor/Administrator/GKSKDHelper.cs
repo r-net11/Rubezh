@@ -74,7 +74,7 @@ namespace GKProcessor
 
 		//public static OperationResult<List<GKUser>> GetAllUsers(GKDevice device)
 		//{
-		//	var progressCallback = GKProcessorManager.StartProgress("Чтение пользователей прибора " + device.PresentationName, "", 65535, true, GKProgressClientType.Administrator);
+		//	var progressCallback = GKProcessorManager.StartProgress("Чтение пользователей прибора " + device.PresentationName, "", 65535, true, SKDProgressClientType.Administrator);
 		//	var users = new List<GKUser>();
 
 		//	for (int i = 1; i <= 65535; i++)
@@ -111,7 +111,7 @@ namespace GKProcessor
 		//	return new OperationResult<List<GKUser>>(users);
 		//}
 
-		public static bool RemoveAllUsers(GKDevice device, GKProgressCallback progressCallback)
+		public static bool RemoveAllUsers(GKDevice device, SKDProgressCallback progressCallback)
 		{
 			var result = true;
 			int cardsCount = 0;

@@ -14,10 +14,10 @@ namespace FiresecService
 	{
 		//public static void Create()
 		//{
-		//	GKProcessorManager.GKProgressCallbackEvent -= new Action<GKProgressCallback>(OnGKProgressCallbackEvent);
-		//	GKProcessorManager.GKProgressCallbackEvent += new Action<GKProgressCallback>(OnGKProgressCallbackEvent);
-		//	GKProcessorManager.GKCallbackResultEvent -= new Action<GKCallbackResult>(OnGKCallbackResultEvent);
-		//	GKProcessorManager.GKCallbackResultEvent += new Action<GKCallbackResult>(OnGKCallbackResultEvent);
+		//	GKProcessorManager.SKDProgressCallbackEvent -= new Action<SKDProgressCallback>(OnSKDProgressCallbackEvent);
+		//	GKProcessorManager.SKDProgressCallbackEvent += new Action<SKDProgressCallback>(OnSKDProgressCallbackEvent);
+		//	GKProcessorManager.SKDCallbackResultEvent -= new Action<SKDCallbackResult>(OnSKDCallbackResultEvent);
+		//	GKProcessorManager.SKDCallbackResultEvent += new Action<SKDCallbackResult>(OnSKDCallbackResultEvent);
 		//}
 
 		//public static void Start()
@@ -31,24 +31,24 @@ namespace FiresecService
 			//Start();
 	//	}
 
-		//static void OnGKProgressCallbackEvent(GKProgressCallback gkProgressCallback)
+		//static void OnSKDProgressCallbackEvent(SKDProgressCallback SKDProgressCallback)
 		//{
-		//	FiresecService.Service.FiresecService.NotifyGKProgress(gkProgressCallback);
+		//	FiresecService.Service.FiresecService.NotifyGKProgress(SKDProgressCallback);
 		//}
 
-		//static void OnGKCallbackResultEvent(GKCallbackResult gkCallbackResult)
+		//static void OnSKDCallbackResultEvent(SKDCallbackResult SKDCallbackResult)
 		//{
-		//	CheckPendingCards(gkCallbackResult);
+		//	CheckPendingCards(SKDCallbackResult);
 
-		//	if (gkCallbackResult.JournalItems.Count > 0)
+		//	if (SKDCallbackResult.JournalItems.Count > 0)
 		//	{
-		//		foreach (var journalItem in gkCallbackResult.JournalItems)
+		//		foreach (var journalItem in SKDCallbackResult.JournalItems)
 		//		{
 		//			ProcessPassJournal(journalItem);
 		//			FiresecService.Service.FiresecService.AddCommonJournalItem(journalItem);
 		//		}
 		//	}
-		//	FiresecService.Service.FiresecService.NotifyGKObjectStateChanged(gkCallbackResult);
+		//	FiresecService.Service.FiresecService.NotifyGKObjectStateChanged(SKDCallbackResult);
 
 		//	ProcedureRunner.RunOnStateChanged();
 		//}
@@ -69,9 +69,9 @@ namespace FiresecService
 		//	}
 		//}
 
-		//static void CheckPendingCards(GKCallbackResult gkCallbackResult)
+		//static void CheckPendingCards(SKDCallbackResult SKDCallbackResult)
 		//{
-		//	foreach (var deviceState in gkCallbackResult.GKStates.DeviceStates)
+		//	foreach (var deviceState in SKDCallbackResult.GKStates.DeviceStates)
 		//	{
 		//		if (deviceState.Device.DriverType == GKDriverType.GK && !deviceState.StateClasses.Contains(XStateClass.Unknown) && !deviceState.StateClasses.Contains(XStateClass.ConnectionLost))
 		//		{

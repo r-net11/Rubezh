@@ -14,7 +14,7 @@ namespace GKProcessor
 
 		public string ReadConfigFileFromGK(GKDevice gkControllerDevice)
 		{
-			var progressCallback = GKProcessorManager.StartProgress("Чтение конфигурационного файла из " + gkControllerDevice.PresentationName, "Проверка связи", 1, true, GKProgressClientType.Administrator);
+			var progressCallback = GKProcessorManager.StartProgress("Чтение конфигурационного файла из " + gkControllerDevice.PresentationName, "Проверка связи", 1, true, SKDProgressClientType.Administrator);
 			try
 			{
 				var gkFileInfo = ReadInfoBlock(gkControllerDevice);
@@ -22,7 +22,7 @@ namespace GKProcessor
 					return null;
 				var allbytes = new List<byte>();
 				uint i = 2;
-				progressCallback = GKProcessorManager.StartProgress("Чтение конфигурационного файла из " + gkControllerDevice.PresentationName, "", (int)(gkFileInfo.FileSize / 256), true, GKProgressClientType.Administrator);
+				progressCallback = GKProcessorManager.StartProgress("Чтение конфигурационного файла из " + gkControllerDevice.PresentationName, "", (int)(gkFileInfo.FileSize / 256), true, SKDProgressClientType.Administrator);
 				while (true)
 				{
 					if (progressCallback.IsCanceled)

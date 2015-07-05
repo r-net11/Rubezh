@@ -31,22 +31,12 @@ namespace FiresecService.Service
 			return new List<CallbackResult>();
 		}
 
-		public static void NotifyGKProgress(GKProgressCallback gkProgressCallback)
+		public static void NotifySKDProgress(SKDProgressCallback SKDProgressCallback)
 		{
 			var callbackResult = new CallbackResult()
 			{
-				CallbackResultType = CallbackResultType.GKProgress,
-				GKProgressCallback = gkProgressCallback
-			};
-			CallbackManager.Add(callbackResult);
-		}
-
-		public static void NotifyGKObjectStateChanged(GKCallbackResult gkCallbackResult)
-		{
-			var callbackResult = new CallbackResult()
-			{
-				CallbackResultType = CallbackResultType.GKObjectStateChanged,
-				GKCallbackResult = gkCallbackResult
+				CallbackResultType = CallbackResultType.SKDProgress,
+				SKDProgressCallback = SKDProgressCallback
 			};
 			CallbackManager.Add(callbackResult);
 		}

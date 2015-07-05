@@ -13,8 +13,8 @@ namespace FiresecClient
 {
 	public partial class SafeFiresecService
 	{
-		public static event Action<GKProgressCallback> GKProgressCallbackEvent;
-		public static event Action<GKCallbackResult> GKCallbackResultEvent;
+		public static event Action<SKDProgressCallback> SKDProgressCallbackEvent;
+		public static event Action<SKDCallbackResult> SKDCallbackResultEvent;
 		public static event Action<SKDStates> SKDStatesEvent;
 		public static event Action<AutomationCallbackResult> AutomationEvent;
 		public static event Action ConfigurationChangedEvent;
@@ -82,19 +82,11 @@ namespace FiresecClient
 			{
 				switch (callbackResult.CallbackResultType)
 				{
-					case CallbackResultType.GKProgress:
+					case CallbackResultType.SKDProgress:
 						SafeOperationCall(() =>
 						{
-							if (GKProgressCallbackEvent != null)
-								GKProgressCallbackEvent(callbackResult.GKProgressCallback);
-						});
-						break;
-
-					case CallbackResultType.GKObjectStateChanged:
-						SafeOperationCall(() =>
-						{
-							if (GKCallbackResultEvent != null)
-								GKCallbackResultEvent(callbackResult.GKCallbackResult);
+							if (SKDProgressCallbackEvent != null)
+								SKDProgressCallbackEvent(callbackResult.SKDProgressCallback);
 						});
 						break;
 

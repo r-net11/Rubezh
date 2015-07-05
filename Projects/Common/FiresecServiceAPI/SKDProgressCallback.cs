@@ -4,9 +4,9 @@ using System.Runtime.Serialization;
 namespace FiresecAPI
 {
 	[DataContract]
-	public class GKProgressCallback
+	public class SKDProgressCallback
 	{
-		public GKProgressCallback()
+		public SKDProgressCallback()
 		{
 			UID = Guid.NewGuid();
 			LastActiveDateTime = DateTime.Now;
@@ -16,7 +16,7 @@ namespace FiresecAPI
 		public Guid UID { get; set; }
 
 		[DataMember]
-		public GKProgressCallbackType GKProgressCallbackType { get; set; }
+		public SKDProgressCallbackType SKDProgressCallbackType { get; set; }
 
 		[DataMember]
 		public string Title { get; set; }
@@ -34,21 +34,21 @@ namespace FiresecAPI
 		public bool CanCancel { get; set; }
 
 		[DataMember]
-		public GKProgressClientType GKProgressClientType { get; set; }
+		public SKDProgressClientType SKDProgressClientType { get; set; }
 
 		public bool IsCanceled { get; set; }
 		public DateTime CancelizationDateTime { get; set; }
 		public DateTime LastActiveDateTime { get; set; }
 	}
 
-	public enum GKProgressCallbackType
+	public enum SKDProgressCallbackType
 	{
 		Start,
 		Progress,
 		Stop
 	}
 
-	public enum GKProgressClientType
+	public enum SKDProgressClientType
 	{
 		Administrator,
 		Monitor

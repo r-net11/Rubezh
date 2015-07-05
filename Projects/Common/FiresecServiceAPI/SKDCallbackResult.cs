@@ -6,7 +6,7 @@ using FiresecAPI.SKD;
 namespace FiresecAPI.GK
 {
 	[DataContract]
-	public class GKCallbackResult
+	public class SKDCallbackResult
 	{
 		[DataMember]
 		public List<JournalItem> JournalItems { get; set; }
@@ -14,7 +14,7 @@ namespace FiresecAPI.GK
 		[DataMember]
 		public SKDStates SKDStates { get; set; }
 
-		public GKCallbackResult()
+		public SKDCallbackResult()
 		{
 			JournalItems = new List<JournalItem>();
 			SKDStates = new SKDStates();

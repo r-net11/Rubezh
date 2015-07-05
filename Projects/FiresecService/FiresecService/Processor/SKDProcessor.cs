@@ -52,8 +52,8 @@ namespace FiresecService
 				ChinaSKDDriver.Processor.StatesChangedEvent -= new Action<SKDStates>(OnSKDStates);
 				ChinaSKDDriver.Processor.StatesChangedEvent += new Action<SKDStates>(OnSKDStates);
 
-				ChinaSKDDriver.Processor.GKProgressCallbackEvent -= new Action<GKProgressCallback>(OnGKProgressCallbackEvent);
-				ChinaSKDDriver.Processor.GKProgressCallbackEvent += new Action<GKProgressCallback>(OnGKProgressCallbackEvent);
+				ChinaSKDDriver.Processor.SKDProgressCallbackEvent -= new Action<SKDProgressCallback>(OnSKDProgressCallbackEvent);
+				ChinaSKDDriver.Processor.SKDProgressCallbackEvent += new Action<SKDProgressCallback>(OnSKDProgressCallbackEvent);
 			}
 			catch (Exception e)
 			{
@@ -237,9 +237,9 @@ namespace FiresecService
 			return skdStates;
 		}
 
-		static void OnGKProgressCallbackEvent(GKProgressCallback gkProgressCallback)
+		static void OnSKDProgressCallbackEvent(SKDProgressCallback SKDProgressCallback)
 		{
-			FiresecService.Service.FiresecService.NotifyGKProgress(gkProgressCallback);
+			FiresecService.Service.FiresecService.NotifySKDProgress(SKDProgressCallback);
 		}
 
 		static void OnConnectionAppeared(DeviceProcessor deviceProcessor)

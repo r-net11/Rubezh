@@ -9,11 +9,11 @@ namespace GKProcessor
 	public static class GKProcessorManager
 	{
 		#region Callback
-		public static List<GKProgressCallback> GKProgressCallbacks = new List<GKProgressCallback>();
+		public static List<SKDProgressCallback> SKDProgressCallbacks = new List<SKDProgressCallback>();
 
 		public static void CancelGKProgress(Guid progressCallbackUID, string userName)
 		{
-			var progressCallback = GKProgressCallbacks.FirstOrDefault(x => x.UID == progressCallbackUID);
+			var progressCallback = SKDProgressCallbacks.FirstOrDefault(x => x.UID == progressCallbackUID);
 			if (progressCallback != null)
 			{
 				progressCallback.IsCanceled = true;
@@ -23,75 +23,75 @@ namespace GKProcessor
 			}
 		}
 
-		public static GKProgressCallback StartProgress(string title, string text, int stepCount, bool canCancel, GKProgressClientType progressClientType)
+		public static SKDProgressCallback StartProgress(string title, string text, int stepCount, bool canCancel, SKDProgressClientType progressClientType)
 		{
-			var gkProgressCallback = new GKProgressCallback
+			var SKDProgressCallback = new SKDProgressCallback
 			{
-				GKProgressCallbackType = GKProgressCallbackType.Start,
+				SKDProgressCallbackType = SKDProgressCallbackType.Start,
 				Title = title,
 				Text = text,
 				StepCount = stepCount,
 				CanCancel = canCancel,
-				GKProgressClientType = progressClientType
+				SKDProgressClientType = progressClientType
 			};
-			GKProgressCallbacks.Add(gkProgressCallback);
-			OnGKCallbackResult(gkProgressCallback);
-			return gkProgressCallback;
+			SKDProgressCallbacks.Add(SKDProgressCallback);
+			OnSKDCallbackResult(SKDProgressCallback);
+			return SKDProgressCallback;
 		}
 
-		public static void DoProgress(string text, GKProgressCallback progressCallback)
+		public static void DoProgress(string text, SKDProgressCallback progressCallback)
 		{
 			progressCallback.CurrentStep++;
-			var gkProgressCallback = new GKProgressCallback
+			var SKDProgressCallback = new SKDProgressCallback
 			{
 				UID = progressCallback.UID,
 				LastActiveDateTime = DateTime.Now,
-				GKProgressCallbackType = GKProgressCallbackType.Progress,
+				SKDProgressCallbackType = SKDProgressCallbackType.Progress,
 				Title = progressCallback.Title,
 				Text = text,
 				StepCount = progressCallback.StepCount,
 				CurrentStep = progressCallback.CurrentStep,
 				CanCancel = progressCallback.CanCancel,
-				GKProgressClientType = progressCallback.GKProgressClientType
+				SKDProgressClientType = progressCallback.SKDProgressClientType
 			};
-			OnGKCallbackResult(gkProgressCallback);
+			OnSKDCallbackResult(SKDProgressCallback);
 		}
 
-		public static void StopProgress(GKProgressCallback progressCallback)
+		public static void StopProgress(SKDProgressCallback progressCallback)
 		{
-			var gkProgressCallback = new GKProgressCallback
+			var SKDProgressCallback = new SKDProgressCallback
 			{
 				UID = progressCallback.UID,
 				LastActiveDateTime = DateTime.Now,
-				GKProgressCallbackType = GKProgressCallbackType.Stop,
+				SKDProgressCallbackType = SKDProgressCallbackType.Stop,
 			};
-			GKProgressCallbacks.Remove(gkProgressCallback);
-			OnGKCallbackResult(gkProgressCallback);
+			SKDProgressCallbacks.Remove(SKDProgressCallback);
+			OnSKDCallbackResult(SKDProgressCallback);
 		}
 
-		static void OnGKCallbackResult(GKProgressCallback gkProgressCallback)
+		static void OnSKDCallbackResult(SKDProgressCallback SKDProgressCallback)
 		{
-			GKProgressCallbacks.RemoveAll(x => x.IsCanceled && (DateTime.Now - x.CancelizationDateTime).TotalMinutes > 5);
-			if (gkProgressCallback.GKProgressCallbackType == GKProgressCallbackType.Stop || !gkProgressCallback.IsCanceled)
+			SKDProgressCallbacks.RemoveAll(x => x.IsCanceled && (DateTime.Now - x.CancelizationDateTime).TotalMinutes > 5);
+			if (SKDProgressCallback.SKDProgressCallbackType == SKDProgressCallbackType.Stop || !SKDProgressCallback.IsCanceled)
 			{
-				if (GKProgressCallbackEvent != null)
-					GKProgressCallbackEvent(gkProgressCallback);
+				if (SKDProgressCallbackEvent != null)
+					SKDProgressCallbackEvent(SKDProgressCallback);
 			}
 		}
-		public static event Action<GKProgressCallback> GKProgressCallbackEvent;
+		public static event Action<SKDProgressCallback> SKDProgressCallbackEvent;
 
-		public static void OnGKCallbackResult(GKCallbackResult gkCallbackResult)
+		public static void OnSKDCallbackResult(SKDCallbackResult SKDCallbackResult)
 		{
-			if (gkCallbackResult.JournalItems.Count +
-				gkCallbackResult.SKDStates.DeviceStates.Count +
-				gkCallbackResult.SKDStates.ZoneStates.Count +
-				gkCallbackResult.SKDStates.DoorStates.Count > 0)
+			if (SKDCallbackResult.JournalItems.Count +
+				SKDCallbackResult.SKDStates.DeviceStates.Count +
+				SKDCallbackResult.SKDStates.ZoneStates.Count +
+				SKDCallbackResult.SKDStates.DoorStates.Count > 0)
 			{
-				if (GKCallbackResultEvent != null)
-					GKCallbackResultEvent(gkCallbackResult);
+				if (SKDCallbackResultEvent != null)
+					SKDCallbackResultEvent(SKDCallbackResult);
 			}
 		}
-		public static event Action<GKCallbackResult> GKCallbackResultEvent;
+		public static event Action<SKDCallbackResult> SKDCallbackResultEvent;
 		#endregion
 
 		#region Main
