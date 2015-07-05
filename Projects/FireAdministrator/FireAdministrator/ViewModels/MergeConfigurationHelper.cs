@@ -48,7 +48,6 @@ namespace FireAdministrator.ViewModels
 				ServiceFactory.Layout.Close();
 
 				ServiceFactory.SaveService.PlansChanged = true;
-				ServiceFactory.SaveService.GKChanged = true;
 				ServiceFactory.SaveService.SKDChanged = true;
 				ServiceFactory.Layout.ShowFooter(null);
 			}
@@ -101,33 +100,7 @@ namespace FireAdministrator.ViewModels
 
 			zipFile.Dispose();
 
-			MergeGKDeviceConfiguration();
 			MergeSKDConfiguration();
-		}
-
-		void MergeGKDeviceConfiguration()
-		{
-			PlansConfiguration.Update();
-			CreateNewGKUIDs();
-			PlansConfiguration.Update();
-			var errors = new StringBuilder();
-
-			if (PlansConfiguration == null)
-				PlansConfiguration = new PlansConfiguration();
-
-			foreach (var plan in PlansConfiguration.Plans)
-			{
-				FiresecManager.PlansConfiguration.Plans.Add(plan);
-			}
-
-			FiresecManager.UpdateConfiguration();
-			SKDManager.UpdateConfiguration();
-
-			var errorsString = errors.ToString();
-			if (!string.IsNullOrEmpty(errorsString))
-			{
-				MessageBoxService.ShowError(errorsString, "В результате слияния конфигурации возникли ошибки");
-			}
 		}
 
 		void MergeSKDConfiguration()
@@ -155,26 +128,6 @@ namespace FireAdministrator.ViewModels
 
 			ReorderNos(SKDManager.Zones);
 			ReorderNos(SKDManager.Doors);
-		}
-
-		void CreateNewGKUIDs()
-		{
-			foreach (var plan in PlansConfiguration.AllPlans)
-			{
-				foreach (var element in plan.ElementGKDevices)
-				{
-					if (element.DeviceUID != Guid.Empty)
-						element.DeviceUID = GKDeviceUIDs[element.DeviceUID];
-					var uid = Guid.NewGuid();
-					PlenElementUIDs.Add(element.UID, uid);
-					element.UID = uid;
-				}
-			}
-
-			foreach (var plan in PlansConfiguration.AllPlans)
-			{
-				plan.UID = Guid.NewGuid();
-			}
 		}
 
 		void ReplaceLogic(GKLogic logic)

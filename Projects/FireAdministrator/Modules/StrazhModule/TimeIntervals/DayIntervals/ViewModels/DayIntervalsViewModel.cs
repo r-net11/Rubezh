@@ -104,7 +104,7 @@ namespace StrazhModule.ViewModels
 				index = Math.Min(index, DayIntervals.Count - 1);
 				if (index > -1)
 					SelectedDayInterval = DayIntervals[index];
-				ServiceFactory.SaveService.GKChanged = true;
+				ServiceFactory.SaveService.SKDChanged = true;
 			}
 		}
 

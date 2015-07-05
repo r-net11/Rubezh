@@ -8,17 +8,6 @@ namespace Infrastructure
 	{
 		public int FSChangesCount { get; private set; }
 
-		bool _gkChanged;
-		public bool GKChanged
-		{
-			get { return _gkChanged; }
-			set
-			{
-				_gkChanged = value;
-				OnChanged();
-			}
-		}
-
 		bool _plansChanged;
 		public bool PlansChanged
 		{
@@ -152,7 +141,7 @@ namespace Infrastructure
 		{
 			get
 			{
-				return PlansChanged || FilterChanged || SecurityChanged || SoundsChanged || GKChanged || CamerasChanged || EmailsChanged || SKDChanged || SKDLibraryChanged || LayoutsChanged || AutomationChanged;
+				return PlansChanged || FilterChanged || SecurityChanged || SoundsChanged || CamerasChanged || EmailsChanged || SKDChanged || SKDLibraryChanged || LayoutsChanged || AutomationChanged;
 			}
 		}
 
@@ -168,7 +157,6 @@ namespace Infrastructure
 
 		void SetAllValues(bool value)
 		{
-			GKChanged = value;
 			PlansChanged = value;
 			FilterChanged = value;
 			SecurityChanged = value;

@@ -23,12 +23,6 @@ namespace FiresecClient
 							elementSubPlans.Add(elementSubPlan);
 					Plan.ElementSubPlans = elementSubPlans;
 
-					var elementGKDevices = new List<ElementGKDevice>();
-					foreach (var elementGKDevice in Plan.ElementGKDevices.Where(x => x.DeviceUID != Guid.Empty))
-						if (keys.Contains(elementGKDevice.DeviceUID))
-							elementGKDevices.Add(elementGKDevice);
-					Plan.ElementGKDevices = elementGKDevices;
-
 					keys = SKDManager.Zones.Select(item => item.UID).ToList();
 					var elementRectangleSKDZones = new List<ElementRectangleSKDZone>();
 					foreach (var elementRectangleSKDZone in Plan.ElementRectangleSKDZones.Where(x => x.ZoneUID != Guid.Empty))

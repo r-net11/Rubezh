@@ -11,23 +11,6 @@ namespace Infrastructure
 {
 	public static class ShowOnPlanHelper
 	{
-		public static void ShowDevice(GKDevice device, Plan plan = null)
-		{
-			var element = plan == null ? null : plan.ElementGKDevices.FirstOrDefault(item => item.DeviceUID == device.UID);
-			if (plan == null || element == null)
-				ServiceFactory.Events.GetEvent<ShowGKDeviceOnPlanEvent>().Publish(device);
-			else
-				ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
-		}
-		public static bool CanShowDevice(GKDevice device)
-		{
-			if (device != null)
-				foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
-					if (plan.ElementGKDevices.Any(x => x.DeviceUID == device.UID))
-						return true;
-			return false;
-		}
-
 		public static void ShowSKDDevice(SKDDevice device, Plan plan = null)
 		{
 			var element = plan == null ? null : plan.ElementSKDDevices.FirstOrDefault(item => item.DeviceUID == device.UID);

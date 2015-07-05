@@ -442,7 +442,6 @@
     <Compile Include="GKManager\GKManager.Device.cs" />
     <Compile Include="GKManager\GKManager.PresentationZone.cs" />
     <Compile Include="GKManager\GKManager.States.cs" />
-    <Compile Include="Models\Plans\ElementGKDevice.cs" />
     <Compile Include="Models\Plans\ElementPolyline.cs" />
     <Compile Include="Models\Plans\ElementPolygon.cs" />
     <Compile Include="Models\Plans\ElementTextBlock.cs" />
