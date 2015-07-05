@@ -118,7 +118,6 @@
     <Compile Include="Events\ShowOnPlan\ShowSKDDoorOnPlanEvent.cs" />
     <Compile Include="Events\ShowOnPlan\ShowSKDDeviceOnPlanEvent.cs" />
     <Compile Include="Events\ShowOnPlan\ShowSKDZoneOnPlanEvent.cs" />
-    <Compile Include="Events\ShowOnPlan\ShowGKDeviceOnPlanEvent.cs" />
     <Compile Include="Events\ShowDiagnosticsEvent.cs" />
     <Compile Include="Events\NewJournalItemsEvent.cs" />
     <Compile Include="Events\ShowArchiveEvent.cs" />

@@ -10,7 +10,6 @@ namespace Infrastructure.Events
 
 	public class ShowArchiveEventArgs
 	{
-		public GKDevice GKDevice { get; set; }
 		public SKDDevice SKDDevice { get; set; }
 		public SKDZone SKDZone { get; set; }
 		public SKDDoor SKDDoor { get; set; }

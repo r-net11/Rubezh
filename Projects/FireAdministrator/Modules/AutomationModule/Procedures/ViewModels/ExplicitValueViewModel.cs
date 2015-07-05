@@ -17,7 +17,6 @@ namespace AutomationModule.ViewModels
 {
 	public class ExplicitValueViewModel : BaseViewModel
 	{
-		public GKDevice Device { get; private set; }
 		public SKDDevice SKDDevice { get; private set; }
 		public SKDZone SKDZone { get; private set; }
 		public Camera Camera { get; private set; }
@@ -65,8 +64,6 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				if (Device != null)
-					return (Device.PresentationName);
 				if (SKDDevice != null)
 					return SKDDevice.Name;
 				if (SKDZone != null)
@@ -226,12 +223,12 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				return ((Device == null) && (SKDDevice == null) && (SKDZone == null) && (Camera == null) && (SKDDoor == null) && (Organisation == null));
+				return ((SKDDevice == null) && (SKDZone == null) && (Camera == null) && (SKDDoor == null) && (Organisation == null));
 			}
 			set
 			{
 				if (value)
-					Device = null; SKDDevice = null; SKDZone = null; Camera = null; SKDDoor = null; Organisation = null;
+					SKDDevice = null; SKDZone = null; Camera = null; SKDDoor = null; Organisation = null;
 			}
 		}
 

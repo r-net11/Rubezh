@@ -143,7 +143,6 @@
     <Compile Include="Converters\BoolToStringColorConverter.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\BoolToYesConverter.cs" />
-    <Compile Include="Converters\ClauseOperationTypeToIconConverter.cs" />
     <Compile Include="Converters\CollectionViewFactoryConverter.cs" />
     <Compile Include="Converters\ColorToBrushConverter.cs" />
     <Compile Include="Converters\ColorToNameConverter.cs" />
@@ -182,7 +181,6 @@
     <Compile Include="Converters\XStateClassToColorConverter.cs" />
     <Compile Include="Converters\XStateClassToIconConverter2.cs" />
     <Compile Include="Converters\XStateClassToStringConverter.cs" />
-    <Compile Include="Converters\XStateTypeToIconConverter.cs" />
     <Compile Include="Converters\XStateClassToColorConverter2.cs" />
     <Compile Include="Converters\XStateClassToZoneColorConverter.cs" />
     <Compile Include="Converters\XStateClassToSKDStringConverter.cs" />

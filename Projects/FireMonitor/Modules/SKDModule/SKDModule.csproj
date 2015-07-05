@@ -167,12 +167,8 @@
     <Compile Include="Employees\ViewModels\CardNumberViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\DepartmentSelectionItemViewModel.cs" />
     <Compile Include="Employees\ViewModels\ControllerSelectationViewModel.cs" />
-    <Compile Include="Employees\ViewModels\GKReaderSelectationViewModel.cs" />
     <Compile Include="Employees\Views\IsPositionDeletedTextBlock.xaml.cs">
       <DependentUpon>IsPositionDeletedTextBlock.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Employees\Views\GKReaderSelectationView.xaml.cs">
-      <DependentUpon>GKReaderSelectationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Events\EditDayIntervalEvent.cs" />
     <Compile Include="Events\EditDocumentEvent.cs" />
@@ -754,10 +750,6 @@
     <Page Include="Common\Views\EmployeeSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Employees\Views\GKReaderSelectationView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="PassCardDesigner\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>

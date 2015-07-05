@@ -12,7 +12,6 @@ namespace FiresecAPI.SKD
 		{
 			CardDoors = new List<CardDoor>();
 			CardType = CardType.Constant;
-			GKCardType = GK.GKCardType.Employee;
 		}
 
 		[DataMember]
@@ -44,9 +43,6 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public CardType CardType { get; set; }
-
-		[DataMember]
-		public GKCardType GKCardType { get; set; }
 
 		[DataMember]
 		public string Password { get; set; }

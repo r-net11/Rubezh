@@ -86,8 +86,6 @@ namespace JournalModule.ViewModels
 			ClientSettings.ArchiveDefaultState.ArchiveDefaultStateType = ArchiveDefaultStateType.LastDays;
 			ClientSettings.ArchiveDefaultState.Count = 7;
 
-			if (showArchiveEventArgs.GKDevice != null)
-				ArchiveFilter.ObjectUIDs.Add(showArchiveEventArgs.GKDevice.UID);
 			if (showArchiveEventArgs.SKDDevice != null)
 				ArchiveFilter.ObjectUIDs.Add(showArchiveEventArgs.SKDDevice.UID);
 			if (showArchiveEventArgs.SKDZone != null)

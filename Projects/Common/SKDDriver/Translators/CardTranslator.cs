@@ -54,8 +54,6 @@ namespace SKDDriver
 			result.UserTime = card.UserTime;
 			result.GKLevel = card.GKLevel;
 			result.GKLevelSchedule = card.GKLevelSchedule;
-			if (card.GKCardType != -1)
-				result.GKCardType = (GKCardType)card.GKCardType;
 			if (card.EmployeeUID.HasValue)
 			{
 				result.EmployeeUID = card.EmployeeUID.Value;
@@ -84,7 +82,6 @@ namespace SKDDriver
 			tableItem.UserTime = apiItem.UserTime;
 			tableItem.GKLevel = (byte)apiItem.GKLevel;
 			tableItem.GKLevelSchedule = (byte)apiItem.GKLevelSchedule;
-			tableItem.GKCardType = (int)apiItem.GKCardType;
 			if (tableItem.ExternalKey == null)
 				tableItem.ExternalKey = "-1";
 		}

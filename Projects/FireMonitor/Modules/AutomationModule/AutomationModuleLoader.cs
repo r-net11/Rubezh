@@ -116,12 +116,6 @@ namespace AutomationModule
 					var ShowObjectDetailsEvent = new CompositePresentationEvent<Guid>();
 					switch (propertyArguments.ObjectType)
 					{
-						case ObjectType.Device:
-					//		var device = GKManager.Devices.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
-						//	if (device != null)
-							//	ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKDeviceDetailsEvent>();
-							break;
-
 						case ObjectType.SKDDevice:
 							var skdDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
 							if (skdDevice != null)

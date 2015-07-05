@@ -130,23 +130,6 @@ namespace FireAdministrator.ViewModels
 			ReorderNos(SKDManager.Doors);
 		}
 
-		void ReplaceLogic(GKLogic logic)
-		{
-			foreach (var clause in logic.OnClausesGroup.Clauses)
-			{
-				for (int i = 0; i < clause.DeviceUIDs.Count; i++)
-				{
-					var deviceUID = clause.DeviceUIDs[i];
-					clause.DeviceUIDs[i] = GKDeviceUIDs[deviceUID];
-				}
-				for (int i = 0; i < clause.DoorUIDs.Count; i++)
-				{
-					var doorUID = clause.DoorUIDs[i];
-					clause.DoorUIDs[i] = GKDoorUIDs[doorUID];
-				}
-			}
-		}
-
 		void CreateNewSKDUIDs()
 		{
 			foreach (var device in SKDConfiguration.Devices)

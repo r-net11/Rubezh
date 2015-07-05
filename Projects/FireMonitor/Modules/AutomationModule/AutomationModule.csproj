@@ -63,9 +63,6 @@
     <Compile Include="ObjectSelection\Views\CameraSelectionView.xaml.cs">
       <DependentUpon>CameraSelectionView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ObjectSelection\Views\DeviceSelectionView.xaml.cs">
-      <DependentUpon>DeviceSelectionView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ObjectSelection\Views\DoorSelectionView.xaml.cs">
       <DependentUpon>DoorSelectionView.xaml</DependentUpon>
     </Compile>
@@ -99,7 +96,6 @@
     <Compile Include="ViewModels\ArgumentsViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\CameraSelectionViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\CameraViewModel.cs" />
-    <Compile Include="ObjectSelection\ViewModels\DeviceSelectionViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\DeviceViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\DoorSelectionViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\DoorViewModel.cs" />
@@ -166,10 +162,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="ObjectSelection\Views\CameraSelectionView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="ObjectSelection\Views\DeviceSelectionView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

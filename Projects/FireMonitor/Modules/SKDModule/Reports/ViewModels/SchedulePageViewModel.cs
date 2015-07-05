@@ -87,11 +87,11 @@ namespace SKDModule.Reports.ViewModels
 			Description = strazhSchedule.Description;
 		}
 
-		public CommonScheduleViewModel(GKSchedule gkSchedule)
+		public CommonScheduleViewModel(Schedule skdSchedule)
 		{
-			No = gkSchedule.No;
-			Name = gkSchedule.Name;
-			Description = gkSchedule.Description;
+		//	No = gkSchedule.No;
+			Name = skdSchedule.Name;
+			Description = skdSchedule.Description;
 		}
 	}
 }

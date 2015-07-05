@@ -28,10 +28,6 @@
 		<Views:ArgumentDetailsView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:DeviceSelectionViewModel}">
-		<Views:DeviceSelectionView />
-	</DataTemplate>
-
 	<DataTemplate DataType="{x:Type ViewModels:SKDDeviceSelectionViewModel}">
 		<Views:SKDDeviceSelectionView />
 	</DataTemplate>

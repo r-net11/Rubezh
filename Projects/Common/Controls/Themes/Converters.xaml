@@ -19,7 +19,6 @@
 	<Converters:LevelToIndentConverter x:Key="LevelToIndentConverter" />
 	<Converters:TimeToStringConverter x:Key="TimeToStringConverter" />
 	<Converters:NullableTimeToStringConverter x:Key="NullableTimeToStringConverter" />
-	<Converters:XStateTypeToIconConverter x:Key="XStateTypeToIconConverter" />
 	<Converters:XStateClassToStringConverter x:Key="XStateClassToStringConverter" />
 	<Converters:XStateClassToStringConverter2 x:Key="XStateClassToStringConverter2" />
 	<Converters:XStateClassToSKDStringConverter x:Key="XStateClassToSKDStringConverter" />
@@ -36,7 +35,6 @@
 	<Converters:BoolToMinimizeTooltipConverter x:Key="BoolToMinimizeTooltipConverter" />
 	<Converters:VisualizationStateToImageSourceConverter x:Key="VisualizationStateToImageSourceConverter" />
 	<Converters:ConnectionStateToImageSourceConverter x:Key="ConnectionStateToImageSourceConverter" />
-	<Converters:ClauseOperationTypeToIconConverter x:Key="ClauseOperationTypeToIconConverter" />
 	<Converters:StringToImageConverter x:Key="StringToImageConverter" />
 	<Converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
 	<Converters:BoolToStringColorConverter x:Key="BoolToStringColorConverter" />

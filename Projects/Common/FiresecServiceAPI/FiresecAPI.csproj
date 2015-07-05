@@ -150,8 +150,6 @@
     <Compile Include="AutomationCallback\ProcedureProperties.cs" />
     <Compile Include="AutomationCallback\PropertyCallBackData.cs" />
     <Compile Include="AutomationCallback\VisualPropertyCallbackData.cs" />
-    <Compile Include="GKModels\Device\GKProperty.cs" />
-    <Compile Include="GKModels\SKD\GKCardType.cs" />
     <Compile Include="Journal\EventDescriptionAttribute.cs" />
     <Compile Include="Journal\JournalDetalisationItem.cs" />
     <Compile Include="ModelBase.cs" />
@@ -320,13 +318,6 @@
     <Compile Include="SKD\SKDManager\ButtonHelper.cs" />
     <Compile Include="SKD\States\SKDDoorState.cs" />
     <Compile Include="SKD\TimeTrack\NightSettings.cs" />
-    <Compile Include="GKModels\SKD\Calendar\Calendar.cs" />
-    <Compile Include="GKModels\SKD\Calendar\Month.cs" />
-    <Compile Include="GKModels\SKD\Calendar\MonthType.cs" />
-    <Compile Include="GKModels\SKD\GKHolidayType.cs" />
-    <Compile Include="GKModels\SKD\GKHoliday.cs" />
-    <Compile Include="GKModels\SKD\GKDaySchedulePart.cs" />
-    <Compile Include="GKModels\SKD\GKDaySchedule.cs" />
     <Compile Include="GKModels\IStateProvider.cs" />
     <Compile Include="Models\ClientCredentials.cs" />
     <Compile Include="Models\ClientType.cs" />
@@ -454,32 +445,8 @@
     <Compile Include="Models\System\Sound.cs" />
     <Compile Include="Models\Configuration\SystemConfiguration.cs" />
     <Compile Include="OperationResult.cs" />
-    <Compile Include="GKModels\Device\GKDevice.cs" />
-    <Compile Include="GKModels\Firmware\HexFileCollectionInfo.cs" />
-    <Compile Include="GKModels\Firmware\HEXFileInfo.cs" />
-    <Compile Include="GKModels\Formula\FormulaOperation.cs" />
-    <Compile Include="GKModels\Formula\FormulaOperationType.cs" />
     <Compile Include="Journal\JournalEventDescriptionType.cs" />
     <Compile Include="Journal\JournalItem.cs" />
-    <Compile Include="GKModels\Logic\ClauseConditionType.cs" />
-    <Compile Include="GKModels\Logic\ClauseJounOperationType.cs" />
-    <Compile Include="GKModels\Logic\ClauseOperationType.cs" />
-    <Compile Include="GKModels\Logic\GKClause.cs" />
-    <Compile Include="GKModels\Logic\GKClauseGroup.cs" />
-    <Compile Include="GKModels\Logic\GKLogic.cs" />
-    <Compile Include="GKModels\SKD\GKSchedule.cs" />
-    <Compile Include="GKModels\SKD\GKSchedulePeriodType.cs" />
-    <Compile Include="GKModels\SKD\GKScheduleType.cs" />
-    <Compile Include="GKModels\States\GKAdditionalState.cs" />
-    <Compile Include="GKModels\States\GKBaseInternalState.cs" />
-    <Compile Include="GKModels\States\GKDeviceInternalState.cs" />
-    <Compile Include="GKModels\States\GKDriverState.cs" />
-    <Compile Include="GKModels\States\GKStateBit.cs" />
-    <Compile Include="GKModels\GKBase.cs" />
-    <Compile Include="GKModels\States\GKStatesHelper.cs" />
-    <Compile Include="GKModels\GKBaseObjectType.cs" />
-    <Compile Include="GKModels\GKDeviceMeasureParameters.cs" />
-    <Compile Include="GKModels\GKMeasureParameterValue.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\Security\User.cs" />

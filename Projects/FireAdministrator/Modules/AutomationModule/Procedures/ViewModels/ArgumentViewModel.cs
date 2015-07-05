@@ -83,7 +83,6 @@ namespace AutomationModule.ViewModels
 			get
 			{
 				return (((ObjectType == ObjectType.Door) && (ExplicitValue.SKDDoor == null))
-						|| ((ObjectType == ObjectType.Device) && (ExplicitValue.Device == null))
 						|| ((ObjectType == ObjectType.SKDDevice) && (ExplicitValue.SKDDevice == null))
 						|| ((ObjectType == ObjectType.SKDZone) && (ExplicitValue.SKDZone == null))
 						|| ((ObjectType == ObjectType.VideoDevice) && (ExplicitValue.Camera == null))
@@ -254,7 +253,7 @@ namespace AutomationModule.ViewModels
 			OnPropertyChanged(() => AddVariableVisibility);
 		}
 
-		public void Update(List<Variable> variables, ExplicitType explicitType = ExplicitType.Integer, EnumType enumType = EnumType.DriverType, ObjectType objectType = ObjectType.Device, bool? isList = null)
+		public void Update(List<Variable> variables, ExplicitType explicitType = ExplicitType.Integer, EnumType enumType = EnumType.DriverType, ObjectType objectType = ObjectType.SKDDevice, bool? isList = null)
 		{
 			Update(variables, new List<ExplicitType> { explicitType }, new List<EnumType> { enumType }, new List<ObjectType> { objectType }, isList);
 		}

@@ -4,9 +4,6 @@ namespace FiresecAPI.Automation
 {
 	public enum ObjectType
 	{
-		[DescriptionAttribute("ГК-устройство")]
-		Device,
-
 		[DescriptionAttribute("СКД-устройство")]
 		SKDDevice,
 

@@ -90,6 +90,7 @@
     <Compile Include="Layout\Views\LayoutPartPropertyProcedurePageView.xaml.cs">
       <DependentUpon>LayoutPartPropertyProcedurePageView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ObjectSelection\ViewModels\DeviceViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\GKDoorSelectionViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\OrganisationSelectionViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\OrganisationViewModel.cs" />
@@ -149,8 +150,6 @@
     <Compile Include="ObjectSelection\ViewModels\CameraViewModel.cs" />
     <Compile Include="Steps\ViewModels\ConditionStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ControlDoorStepViewModel.cs" />
-    <Compile Include="ObjectSelection\ViewModels\DeviceSelectionViewModel.cs" />
-    <Compile Include="ObjectSelection\ViewModels\DeviceViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ConditionsViewModel.cs" />
     <Compile Include="Steps\ViewModels\ArithmeticStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ControlSKDDeviceStepViewModel.cs" />
@@ -232,9 +231,6 @@
     </Compile>
     <Compile Include="Steps\Views\ConditionStepView.xaml.cs">
       <DependentUpon>ConditionStepView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ObjectSelection\Views\DeviceSelectionView.xaml.cs">
-      <DependentUpon>DeviceSelectionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Steps\Views\ControlPlanStepView.xaml.cs">
       <DependentUpon>ControlPlanStepView.xaml</DependentUpon>
@@ -638,10 +634,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Steps\Views\ConditionStepView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ObjectSelection\Views\DeviceSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

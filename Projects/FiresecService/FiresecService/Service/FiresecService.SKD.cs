@@ -418,7 +418,6 @@ namespace FiresecService.Service
 					PassCardTemplateUID = null,
 					AccessTemplateUID = null,
 					CardType = card.CardType,
-					GKCardType = card.GKCardType,
 					Password = null,
 					IsInStopList = true,
 					StopReason = reason,

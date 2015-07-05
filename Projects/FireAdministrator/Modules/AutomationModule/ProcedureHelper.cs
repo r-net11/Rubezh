@@ -25,7 +25,7 @@ namespace AutomationModule
 			return allVariables;
 		}
 
-		public static List<Variable> GetAllVariables(Procedure procedure, ExplicitType explicitType, ObjectType objectType = ObjectType.Device, EnumType enumType = EnumType.DriverType)
+		public static List<Variable> GetAllVariables(Procedure procedure, ExplicitType explicitType, ObjectType objectType = ObjectType.SKDDevice, EnumType enumType = EnumType.DriverType)
 		{
 			var allVariables = GetAllVariables(procedure).FindAll(x => x.ExplicitType == explicitType);
 			if (explicitType == ExplicitType.Enum)
@@ -79,7 +79,7 @@ namespace AutomationModule
 
 		public static List<Property> ObjectTypeToProperiesList(ObjectType objectType)
 		{
-			if (objectType == ObjectType.Device)
+			if (objectType == ObjectType.SKDDevice)
 				return new List<Property> { Property.Description, Property.ShleifNo, Property.IntAddress, Property.State, Property.Type, Property.Uid };
 			return new List<Property>();
 		}
@@ -107,16 +107,6 @@ namespace AutomationModule
 
 		public static bool SelectObject(ObjectType objectType, ExplicitValueViewModel currentExplicitValue)
 		{
-			if (objectType == ObjectType.Device)
-			{
-				var deviceSelectationViewModel = new DeviceSelectionViewModel(currentExplicitValue.Device);
-				if (DialogService.ShowModalWindow(deviceSelectationViewModel))
-				{
-					currentExplicitValue.UidValue = deviceSelectationViewModel.SelectedDevice != null ? deviceSelectationViewModel.SelectedDevice.Device.UID : Guid.Empty;
-					return true;
-				}
-			}
-
 			if (objectType == ObjectType.SKDDevice)
 			{
 				var skdDeviceSelectationViewModel = new SKDDeviceSelectionViewModel(currentExplicitValue.SKDDevice);
@@ -229,8 +219,6 @@ namespace AutomationModule
 			}
 			foreach (var objectType in objectTypes)
 			{
-				if (CheckForGKTypes(objectType)) continue;
-
 				var explicitTypeViewModel = new ExplicitTypeViewModel(objectType);
 				var parent = ExplicitTypes.FirstOrDefault(x => x.ExplicitType == ExplicitType.Object);
 				if (parent != null)
@@ -239,16 +227,6 @@ namespace AutomationModule
 				}
 			}
 			return ExplicitTypes;
-		}
-
-		private static bool CheckForGKTypes(ObjectType objectType)
-		{
-			switch (objectType)
-			{
-				case ObjectType.Device:
-					return true;
-			}
-			return false;
 		}
 	}
 }

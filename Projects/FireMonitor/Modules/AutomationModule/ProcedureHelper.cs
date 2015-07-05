@@ -31,7 +31,7 @@ namespace AutomationModule
 
 		public static List<Property> ObjectTypeToProperiesList(ObjectType objectType)
 		{
-			if (objectType == ObjectType.Device)
+			if (objectType == ObjectType.SKDDevice)
 				return new List<Property> { Property.Description, Property.ShleifNo, Property.IntAddress, Property.State, Property.Type };
 			return new List<Property>();
 		}
@@ -59,16 +59,6 @@ namespace AutomationModule
 
 		public static bool SelectObject(ObjectType objectType, ExplicitValueViewModel currentExplicitValue)
 		{
-			if (objectType == ObjectType.Device)
-			{
-				var deviceSelectationViewModel = new DeviceSelectionViewModel(currentExplicitValue.Device != null ? currentExplicitValue.Device : null);
-				if (DialogService.ShowModalWindow(deviceSelectationViewModel))
-				{
-					currentExplicitValue.UidValue = deviceSelectationViewModel.SelectedDevice != null ? deviceSelectationViewModel.SelectedDevice.Device.UID : Guid.Empty;
-					return true;
-				}
-			}
-
 			if (objectType == ObjectType.SKDDevice)
 			{
 				var skdDeviceSelectationViewModel = new SKDDeviceSelectionViewModel(currentExplicitValue.SKDDevice != null ? currentExplicitValue.SKDDevice : null);

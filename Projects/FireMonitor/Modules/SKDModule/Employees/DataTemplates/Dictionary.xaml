@@ -28,10 +28,6 @@
 		<Views:ReaderSelectationView />
 	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:GKReaderSelectationViewModel}">
-        <Views:GKReaderSelectationView />
-    </DataTemplate>
-
     <DataTemplate DataType="{x:Type ViewModels:DepartmentSelectionViewModel}">
 		<Views:DepartmentSelectionView />
 	</DataTemplate>

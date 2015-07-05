@@ -29,7 +29,6 @@ namespace JournalModule.ViewModels
 		CompositePresentationEvent<Guid> ShowObjectEvent;
 		CompositePresentationEvent<Guid> ShowObjectDetailsEvent;
 
-		public GKDevice Device { get; set; }
 		SKDDevice SKDDevice { get; set; }
 		SKDZone SKDZone { get; set; }
 		SKDDoor SKDDoor { get; set; }

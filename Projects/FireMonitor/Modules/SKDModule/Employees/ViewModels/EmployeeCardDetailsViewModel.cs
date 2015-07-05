@@ -60,10 +60,6 @@ namespace SKDModule.ViewModels
 			UserTime = Card.UserTime;
 			DeactivationControllerUID = Card.DeactivationControllerUID;
 
-			GKSchedules = new ObservableCollection<GKSchedule>();
-
-			SelectedGKSchedule = GKSchedules.FirstOrDefault(x => x.No == Card.GKLevelSchedule);
-
 			AccessDoorsSelectationViewModel = new AccessDoorsSelectationViewModel(Organisation, Card.CardDoors);
 
 			AvailableAccessTemplates = new ObservableCollection<AccessTemplate>();
@@ -95,16 +91,6 @@ namespace SKDModule.ViewModels
 				CardTypes = new ObservableCollection<CardType>(Enum.GetValues(typeof(CardType)).OfType<CardType>());
 			}
 			SelectedCardType = Card.CardType;
-
-			if (_employee.Type == PersonType.Guest)
-			{
-				GKCardTypes = new ObservableCollection<GKCardType>() { GKCardType.Employee };
-			}
-			else
-			{
-				GKCardTypes = new ObservableCollection<GKCardType>(Enum.GetValues(typeof(GKCardType)).OfType<GKCardType>());
-			}
-			SelectedGKCardType = Card.GKCardType;
 		}
 
 		uint _number;
@@ -149,19 +135,6 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public ObservableCollection<GKCardType> GKCardTypes { get; private set; }
-
-		GKCardType _selectedGKCardType;
-		public GKCardType SelectedGKCardType
-		{
-			get { return _selectedGKCardType; }
-			set
-			{
-				_selectedGKCardType = value;
-				OnPropertyChanged(() => SelectedGKCardType);
-			}
-		}
-
 		public bool CanSelectEndDate
 		{
 			get { return SelectedCardType == CardType.Temporary || SelectedCardType == CardType.Duress || !HasStrazh; }
@@ -202,19 +175,6 @@ namespace SKDModule.ViewModels
 			{
 				_gkLevel = value;
 				OnPropertyChanged(() => GKLevel);
-			}
-		}
-
-		public ObservableCollection<GKSchedule> GKSchedules { get; private set; }
-
-		GKSchedule _selectedGKSchedule;
-		public GKSchedule SelectedGKSchedule
-		{
-			get { return _selectedGKSchedule; }
-			set
-			{
-				_selectedGKSchedule = value;
-				OnPropertyChanged(() => SelectedGKSchedule);
 			}
 		}
 
@@ -497,14 +457,9 @@ namespace SKDModule.ViewModels
 
 			Card.Password = Password;
 			Card.CardType = SelectedCardType;
-			Card.GKCardType = SelectedGKCardType;
 			Card.StartDate = StartDate;
 			Card.EndDate = EndDate;
 			Card.GKLevel = GKLevel;
-			if (SelectedGKSchedule != null)
-			{
-				Card.GKLevelSchedule = SelectedGKSchedule.No;
-			}
 			Card.UserTime = UserTime;
 			Card.DeactivationControllerUID = DeactivationControllerUID;
 			Card.CardDoors = AccessDoorsSelectationViewModel.GetCardDoors();

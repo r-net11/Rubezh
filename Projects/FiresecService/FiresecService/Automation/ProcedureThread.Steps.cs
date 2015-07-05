@@ -339,21 +339,21 @@ namespace FiresecService
 		object GetPropertyValue(ref Guid itemUid, Property property, object item)
 		{
 			var propertyValue = new object();
-			if (item is GKDevice)
+			if (item is SKDDevice)
 			{
 				switch (property)
 				{
 					case Property.IntAddress:
-						propertyValue = (item as GKDevice).IntAddress;
+						propertyValue = (item as SKDDevice).IntAddress;
 						break;
 					case Property.Description:
-						propertyValue = (item as GKDevice).Description.Trim();
+						propertyValue = (item as SKDDevice).Description.Trim();
 						break;
 					case Property.Uid:
-						propertyValue = (item as GKDevice).UID.ToString();
+						propertyValue = (item as SKDDevice).UID.ToString();
 						break;
 				}
-				itemUid = (item as GKDevice).UID;
+				itemUid = (item as SKDDevice).UID;
 			}
 
 			return propertyValue;
@@ -362,7 +362,7 @@ namespace FiresecService
 		void InitializeItems(ref IEnumerable<object> items, ref Variable result)
 		{
 			var explicitValues = new List<ExplicitValue>();
-			if (result.ObjectType == ObjectType.Device)
+			if (result.ObjectType == ObjectType.SKDDevice)
 			{
 			//	items = new List<GKDevice>(GKManager.DeviceConfiguration.Devices);
 			//	foreach (var objectUid in new List<Guid>(GKManager.DeviceConfiguration.Devices.Select(x => x.UID)))
