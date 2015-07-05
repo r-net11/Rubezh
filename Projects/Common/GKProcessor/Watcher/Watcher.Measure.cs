@@ -98,9 +98,6 @@ namespace GKProcessor
 		public DateTime DateTime { get; set; }
 		public List<GKMeasureParameterValue> MeasureParameters;
 
-		int ParameterIndex;
-		bool CanMoveToNextParameter;
-		int GetParameterTryIndex;
 		public DateTime StartTryDateTime { get; set; }
 
 		public MeasureDeviceInfo(GKDevice device)

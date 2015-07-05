@@ -1,0 +1,17 @@
+﻿<UserControl x:Class="GKImitator.Views.MeasureView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 MinWidth="500" MinHeight="500">
+	<Grid>
+		<ItemsControl ItemsSource="{Binding MeasureParameters}">
+			<ItemsControl.ItemTemplate>
+				<DataTemplate>
+					<StackPanel Orientation="Horizontal">
+						<TextBlock Text="{Binding MeasureParameter.Name}" Width="200" Foreground="White" Margin="2" />
+						<TextBox Text="{Binding Value}" Width="200" Margin="2" />
+					</StackPanel>
+				</DataTemplate>
+			</ItemsControl.ItemTemplate>
+		</ItemsControl>
+	</Grid>
+</UserControl>

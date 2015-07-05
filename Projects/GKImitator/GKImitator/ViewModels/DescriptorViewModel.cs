@@ -32,6 +32,7 @@ namespace GKImitator.ViewModels
 			SetManualRegimeCommand = new RelayCommand(OnSetManualRegime);
 			SetIgnoreRegimeCommand = new RelayCommand(OnSetIgnoreRegime);
 			ShowParametersCommand = new RelayCommand(OnShowParameters);
+			ShowMeasureCommand = new RelayCommand(OnShowMeasure);
 
 			InitializeTest();
 			InitializeDustiness();
