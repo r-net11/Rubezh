@@ -16,6 +16,25 @@ namespace GKImitator.ViewModels
 {
 	public partial class DescriptorViewModel : BaseViewModel
 	{
+		bool GetStateBit(GKStateBit stateBit)
+		{
+			var stateBitViewModel = StateBits.FirstOrDefault(x => x.StateBit == stateBit);
+			if (stateBitViewModel != null)
+			{
+				return stateBitViewModel.IsActive;
+			}
+			return false;
+		}
+
+		void SetStateBit(GKStateBit stateBit, bool value)
+		{
+			var stateBitViewModel = StateBits.FirstOrDefault(x => x.StateBit == stateBit);
+			if (stateBitViewModel != null)
+			{
+				stateBitViewModel.IsActive = value;
+			}
+		}
+
 		public bool HasStateNorm { get; private set; }
 		public bool HasStateAttention { get; private set; }
 		public bool HasStateFire1 { get; private set; }
@@ -29,7 +48,7 @@ namespace GKImitator.ViewModels
 		public bool HasStateTurningOff { get; private set; }
 
 		bool _isStateNorm;
-		bool IsStateNorm
+		public bool IsStateNorm
 		{
 			get { return _isStateNorm; }
 			set
@@ -40,7 +59,7 @@ namespace GKImitator.ViewModels
 		}
 
 		bool _isStateAttention;
-		bool IsStateAttention
+		public bool IsStateAttention
 		{
 			get { return _isStateAttention; }
 			set
@@ -51,7 +70,7 @@ namespace GKImitator.ViewModels
 		}
 
 		bool _isStateFire1;
-		bool IsStateFire1
+		public bool IsStateFire1
 		{
 			get { return _isStateFire1; }
 			set
@@ -62,7 +81,7 @@ namespace GKImitator.ViewModels
 		}
 
 		bool _isStateFire2;
-		bool IsStateFire2
+		public bool IsStateFire2
 		{
 			get { return _isStateFire2; }
 			set
@@ -73,7 +92,7 @@ namespace GKImitator.ViewModels
 		}
 
 		bool _isStateTest;
-		bool IsStateTest
+		public bool IsStateTest
 		{
 			get { return _isStateTest; }
 			set
@@ -84,7 +103,7 @@ namespace GKImitator.ViewModels
 		}
 
 		bool _isStateFailure;
-		bool IsStateFailure
+		public bool IsStateFailure
 		{
 			get { return _isStateFailure; }
 			set
@@ -95,7 +114,7 @@ namespace GKImitator.ViewModels
 		}
 
 		bool _isStateIgnore;
-		bool IsStateIgnore
+		public bool IsStateIgnore
 		{
 			get { return _isStateIgnore; }
 			set
@@ -106,7 +125,7 @@ namespace GKImitator.ViewModels
 		}
 
 		bool _isStateOn;
-		bool IsStateOn
+		public bool IsStateOn
 		{
 			get { return _isStateOn; }
 			set
@@ -117,7 +136,7 @@ namespace GKImitator.ViewModels
 		}
 
 		bool _isStateStateOff;
-		bool IsStateOff
+		public bool IsStateOff
 		{
 			get { return _isStateStateOff; }
 			set
@@ -128,7 +147,7 @@ namespace GKImitator.ViewModels
 		}
 
 		bool _isStateTurningOn;
-		bool IsStateTurningOn
+		public bool IsStateTurningOn
 		{
 			get { return _isStateTurningOn; }
 			set
@@ -139,7 +158,7 @@ namespace GKImitator.ViewModels
 		}
 
 		bool _isStateTurningOff;
-		bool IsStateTurningOff
+		public bool IsStateTurningOff
 		{
 			get { return _isStateTurningOff; }
 			set
