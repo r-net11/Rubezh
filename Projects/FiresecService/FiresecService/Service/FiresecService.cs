@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ServiceModel;
-using System.ServiceModel.Channels;
-using Common;
+﻿using Common;
 using FiresecAPI;
 using FiresecAPI.Journal;
 using FiresecAPI.Models;
 using FiresecAPI.SKD;
 using FiresecService.ViewModels;
-using GKProcessor;
 using SKDDriver;
 using SKDDriver.Translators;
+using System;
+using System.Collections.Generic;
+using System.ServiceModel;
+using System.ServiceModel.Channels;
 
 namespace FiresecService.Service
 {

@@ -148,6 +148,7 @@
     <Compile Include="FiresecManager\SKDHelpers\OrganisationHelper.cs" />
     <Compile Include="FiresecManager\SKDHelpers\PositionHelper.cs" />
     <Compile Include="FiresecManager\SKDHelpers\DocumentTypeHelper.cs" />
+    <Compile Include="CallbackManager.cs" />
     <Compile Include="Service\SafeFiresecService.SKD.TimeInterval.cs" />
     <Compile Include="Service\FileHelper.cs" />
     <Compile Include="FiresecManager\FiresecManager.Configuration.cs" />
@@ -192,10 +193,6 @@
     <ProjectReference Include="..\FiresecServiceAPI\FiresecAPI.csproj">
       <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
       <Name>FiresecAPI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GKProcessor\GKProcessor.csproj">
-      <Project>{62564D14-0234-4947-8218-2C7D74721023}</Project>
-      <Name>GKProcessor</Name>
     </ProjectReference>
     <ProjectReference Include="..\Infrastructure.Common\Infrastructure.Common.csproj">
       <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>

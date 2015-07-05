@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using System.Windows;
-using Common;
+﻿using Common;
 using FiresecAPI;
-using FiresecAPI.Automation;
-using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecAPI.SKD;
 using FiresecService.Properties;
-using GKProcessor;
 using Infrastructure.Common;
 using Ionic.Zip;
+using System;
+using System.IO;
+using System.Windows;
 using System.Xml.Serialization;
 
 namespace FiresecService

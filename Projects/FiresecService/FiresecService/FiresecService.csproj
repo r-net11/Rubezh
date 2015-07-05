@@ -151,7 +151,6 @@
     <Compile Include="Automation\ProcedureRunner.cs" />
     <Compile Include="PatchManager\PatchManager.SKD.cs" />
     <Compile Include="Processor\ConfigurationCashHelper.cs" />
-    <Compile Include="Processor\GKProcessor.cs" />
     <Compile Include="Automation\ProcedureThread.Steps.cs" />
     <Compile Include="Processor\SKDDaylyUpdateProcessor.cs" />
     <Compile Include="Processor\SKDProcessor.cs" />
@@ -160,7 +159,6 @@
     <Compile Include="Service\DBHelper\EntLibHelper.cs" />
     <Compile Include="Service\SafeFiresecService.SKD.TimeTrack.cs" />
     <Compile Include="Service\FiresecService.SKD.TimeInterval.cs" />
-    <Compile Include="Service\FiresecService.GK.cs" />
     <Compile Include="Service\FiresecService.Authentication.cs" />
     <Compile Include="Service\FiresecService.Files.cs" />
     <Compile Include="Service\FiresecService.Poll.cs" />
@@ -244,10 +242,6 @@
     <ProjectReference Include="..\..\Common\FiresecServiceAPI\FiresecAPI.csproj">
       <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
       <Name>FiresecAPI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Common\GKProcessor\GKProcessor.csproj">
-      <Project>{62564D14-0234-4947-8218-2C7D74721023}</Project>
-      <Name>GKProcessor</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
       <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>

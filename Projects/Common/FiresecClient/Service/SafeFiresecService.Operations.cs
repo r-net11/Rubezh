@@ -33,9 +33,9 @@ namespace FiresecClient
 			return SafeOperationCall(() => { return FiresecService.GetSecurityConfiguration(); }, "GetSecurityConfiguration");
 		}
 
-		public void CancelGKProgress(Guid progressCallbackUID, string userName)
+		public void CancelSKDProgress(Guid progressCallbackUID, string userName)
 		{
-			SafeOperationCall(() => FiresecService.CancelGKProgress(progressCallbackUID, userName), "CancelGKProgress");
+			SafeOperationCall(() => FiresecService.CancelSKDProgress(progressCallbackUID, userName), "CancelSKDProgress");
 		}
 
 		public T GetConfiguration<T>(string filename)

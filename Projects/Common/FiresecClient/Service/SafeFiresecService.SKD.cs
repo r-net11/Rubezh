@@ -412,10 +412,10 @@ namespace FiresecClient
 			return SafeOperationCall(() => { return FiresecService.SKDZoneAccessStateNormal(zone.UID); }, "SKDZoneAccessStateNormal");
 		}
 
-		public void CancelSKDProgress(Guid progressCallbackUID, string userName)
-		{
-			SafeOperationCall(() => FiresecService.CancelGKProgress(progressCallbackUID, userName), "CancelSKDProgress");
-		}
+		//public void CancelSKDProgress(Guid progressCallbackUID, string userName)
+		//{
+		//	SafeOperationCall(() => FiresecService.CancelGKProgress(progressCallbackUID, userName), "CancelSKDProgress");
+		//}
 
 		public OperationResult<bool> SKDZoneAccessStateCloseAlways(SKDZone zone)
 		{

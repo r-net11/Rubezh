@@ -1,21 +1,19 @@
-﻿using System;
-using System.Diagnostics;
-using System.Linq;
-using System.Windows;
-using Common;
+﻿using Common;
 using FireMonitor.ViewModels;
 using FiresecAPI.Models;
 using FiresecClient;
-using GKProcessor;
 using Infrastructure;
 using Infrastructure.Client;
+using Infrastructure.Client.Startup;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
+using System;
+using System.Diagnostics;
+using System.Linq;
+using System.Windows;
 using System.Windows.Threading;
-using Infrastructure.Client.Startup;
-using System.Threading;
 
 namespace FireMonitor
 {

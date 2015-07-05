@@ -1,21 +1,28 @@
-﻿using System;
+﻿using ChinaSKDDriver;
+using FiresecAPI;
+using FiresecAPI.Journal;
+using FiresecAPI.SKD;
+using SKDDriver;
+using SKDDriver.Translators;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using ChinaSKDDriver;
-using FiresecAPI;
-using FiresecAPI.GK;
-using FiresecAPI.Journal;
-using FiresecAPI.SKD;
-using GKProcessor;
-using SKDDriver;
-using SKDDriver.Translators;
 
 namespace FiresecService.Service
 {
 	public partial class FiresecService : IFiresecService
 	{
+		string UserName
+		{
+			get
+			{
+				if (CurrentClientCredentials != null)
+					return CurrentClientCredentials.FriendlyUserName;
+				return "<Нет>";
+			}
+		}
+
 		#region Employee
 		public OperationResult<IEnumerable<ShortEmployee>> GetEmployeeList(EmployeeFilter filter)
 		{

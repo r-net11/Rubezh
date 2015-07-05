@@ -4,14 +4,14 @@ using System.Linq;
 using FiresecAPI;
 using FiresecAPI.GK;
 
-namespace GKProcessor
+namespace FiresecClient
 {
-	public static class GKProcessorManager
+	public static class CallbackManager
 	{
 		#region Callback
 		public static List<SKDProgressCallback> SKDProgressCallbacks = new List<SKDProgressCallback>();
 
-		public static void CancelGKProgress(Guid progressCallbackUID, string userName)
+		public static void CancelSKDProgress(Guid progressCallbackUID, string userName)
 		{
 			var progressCallback = SKDProgressCallbacks.FirstOrDefault(x => x.UID == progressCallbackUID);
 			if (progressCallback != null)
@@ -92,40 +92,6 @@ namespace GKProcessor
 			}
 		}
 		public static event Action<SKDCallbackResult> SKDCallbackResultEvent;
-		#endregion
-
-		#region Main
-		public static bool MustMonitor = false;
-
-		#endregion
-
-		#region Operations
-		public static OperationResult<bool> GKUpdateFirmware(GKDevice device, string fileName, string userName)
-		{
-			var firmwareUpdateHelper = new FirmwareUpdateHelper();
-			firmwareUpdateHelper.Update(device, fileName, userName);
-			if (firmwareUpdateHelper.ErrorList.Count > 0)
-				return OperationResult<bool>.FromError(firmwareUpdateHelper.ErrorList, false);
-			return new OperationResult<bool>(true);
-		}
-
-		public static OperationResult<bool> GKUpdateFirmwareFSCS(HexFileCollectionInfo hxcFileInfo, string userName, List<GKDevice> devices)
-		{
-			var firmwareUpdateHelper = new FirmwareUpdateHelper();
-			if (firmwareUpdateHelper.ErrorList.Count > 0)
-				return OperationResult<bool>.FromError(firmwareUpdateHelper.ErrorList, false);
-			return new OperationResult<bool>(true);
-		}
-
-		public static OperationResult<List<byte>> GKGKHash(GKDevice device)
-		{
-			var gkFileReaderWriter = new GKFileReaderWriter();
-			var readInfoBlock = gkFileReaderWriter.ReadInfoBlock(device);
-			if (gkFileReaderWriter.Error != null)
-				return OperationResult<List<byte>>.FromError(gkFileReaderWriter.Error);
-			return new OperationResult<List<byte>>(readInfoBlock.Hash1);
-		}
-
 		#endregion
 	}
 }
