@@ -23,6 +23,7 @@
 				<File Id="Server.Controls.dll" Name="Controls.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Server.FiresecAPI.dll" Name="FiresecAPI.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Server.GKProcessor.dll" Name="GKProcessor.dll" Source="$(var.Common.TargetDir)" />
+        <File Id="Server.Defender.dll" Name="Defender.dll" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.Ionic.Zip.dll" Name="Ionic.Zip.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Server.NLog.dll" Name="NLog.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Server.hasp_net_windows.dll" Name="hasp_net_windows.dll" Source="..\..\..\..\..\..\3rdParty\HASP\" />
