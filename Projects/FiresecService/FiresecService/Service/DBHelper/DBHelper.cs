@@ -39,21 +39,25 @@ namespace FiresecService
 						string detalization = JournalDetalisationItem.ListToString(journalItem.JournalDetalisationItems);
 
 						sqCommand.CommandText = @"Insert Into Journal" +
-							"(UID,SystemDate,DeviceDate,Subsystem,Name,Description,DescriptionText,ObjectType,ObjectName,ObjectUID,Detalisation,UserName,EmployeeUID) Values" +
-							"(@p1,@p2,@p3,@p4,@p5,@p6,@p7,@p8,@p9,@p10,@p11,@p12,@p13)";
+							"(UID,SystemDate,DeviceDate,Subsystem,Name,Description,NameText,DescriptionText,ObjectType,ObjectName,ObjectUID,Detalisation,UserName,EmployeeUID,VideoUID,CameraUID,ErrorCode) Values" +
+							"(@p1,@p2,@p3,@p4,@p5,@p6,@p7,@p8,@p9,@p10,@p11,@p12,@p13,@p14,@p15,@p16,@p17)";
 						sqCommand.Parameters.AddWithValue("@p1", (object)journalItem.UID);
 						sqCommand.Parameters.AddWithValue("@p2", (object)journalItem.SystemDateTime);
 						sqCommand.Parameters.AddWithValue("@p3", (object)journalItem.DeviceDateTime ?? DBNull.Value);
 						sqCommand.Parameters.AddWithValue("@p4", (object)((int)journalItem.JournalSubsystemType));
 						sqCommand.Parameters.AddWithValue("@p5", (object)((int)journalItem.JournalEventNameType));
 						sqCommand.Parameters.AddWithValue("@p6", (object)((int)journalItem.JournalEventDescriptionType));
-						sqCommand.Parameters.AddWithValue("@p7", (object)journalItem.DescriptionText ?? DBNull.Value);
-						sqCommand.Parameters.AddWithValue("@p8", (object)((int)journalItem.JournalObjectType));
-						sqCommand.Parameters.AddWithValue("@p9", (object)journalItem.ObjectName ?? DBNull.Value);
-						sqCommand.Parameters.AddWithValue("@p10", (object)journalItem.ObjectUID);
-						sqCommand.Parameters.AddWithValue("@p11", (object)detalization);
-						sqCommand.Parameters.AddWithValue("@p12", (object)journalItem.UserName ?? DBNull.Value);
-						sqCommand.Parameters.AddWithValue("@p13", (object)journalItem.EmployeeUID);
+						sqCommand.Parameters.AddWithValue("@p7", DBNull.Value);
+						sqCommand.Parameters.AddWithValue("@p8", (object)journalItem.DescriptionText ?? DBNull.Value);
+						sqCommand.Parameters.AddWithValue("@p9", (object)((int)journalItem.JournalObjectType));
+						sqCommand.Parameters.AddWithValue("@p10", (object)journalItem.ObjectName ?? DBNull.Value);
+						sqCommand.Parameters.AddWithValue("@p11", (object)journalItem.ObjectUID);
+						sqCommand.Parameters.AddWithValue("@p12", String.IsNullOrEmpty(detalization) ? DBNull.Value : (object)detalization);
+						sqCommand.Parameters.AddWithValue("@p13", (object)journalItem.UserName ?? DBNull.Value);
+						sqCommand.Parameters.AddWithValue("@p14", journalItem.EmployeeUID == Guid.Empty ? DBNull.Value : (object)journalItem.EmployeeUID);
+						sqCommand.Parameters.AddWithValue("@p15", journalItem.VideoUID == Guid.Empty ? DBNull.Value : (object)journalItem.VideoUID);
+						sqCommand.Parameters.AddWithValue("@p16", journalItem.CameraUID == Guid.Empty ? DBNull.Value : (object)journalItem.CameraUID);
+						sqCommand.Parameters.AddWithValue("@p17", (object)((int)journalItem.ErrorCode));
 						sqCommand.ExecuteNonQuery();
 
 						dataContext.Close();
@@ -343,27 +347,14 @@ namespace FiresecService
 		{
 			var journalItem = new JournalItem();
 
-			if (!reader.IsDBNull(reader.GetOrdinal("DescriptionText")))
-				journalItem.DescriptionText = reader.GetString(reader.GetOrdinal("DescriptionText"));
+			if (!reader.IsDBNull(reader.GetOrdinal("UID")))
+				journalItem.UID = reader.GetGuid(reader.GetOrdinal("UID"));
 
-			if (!reader.IsDBNull(reader.GetOrdinal("ObjectName")))
-				journalItem.ObjectName = reader.GetString(reader.GetOrdinal("ObjectName"));
+			if (!reader.IsDBNull(reader.GetOrdinal("SystemDate")))
+				journalItem.SystemDateTime = reader.GetDateTime(reader.GetOrdinal("SystemDate"));
 
-			if (!reader.IsDBNull(reader.GetOrdinal("ObjectType")))
-			{
-				var intValue = (int)reader.GetValue(reader.GetOrdinal("ObjectType"));
-				if (Enum.IsDefined(typeof(JournalObjectType), intValue))
-					journalItem.JournalObjectType = (JournalObjectType)intValue;
-			}
-
-			if (!reader.IsDBNull(reader.GetOrdinal("ObjectUID")))
-				journalItem.ObjectUID = reader.GetGuid(reader.GetOrdinal("ObjectUID"));
-
-			if (!reader.IsDBNull(reader.GetOrdinal("VideoUID")))
-				journalItem.VideoUID = reader.GetGuid(reader.GetOrdinal("VideoUID"));
-
-			if (!reader.IsDBNull(reader.GetOrdinal("CameraUID")))
-				journalItem.CameraUID = reader.GetGuid(reader.GetOrdinal("CameraUID"));
+			if (!reader.IsDBNull(reader.GetOrdinal("DeviceDate")))
+				journalItem.DeviceDateTime = reader.GetDateTime(reader.GetOrdinal("DeviceDate"));
 
 			if (!reader.IsDBNull(reader.GetOrdinal("Subsystem")))
 			{
@@ -371,18 +362,6 @@ namespace FiresecService
 				if (Enum.IsDefined(typeof(JournalSubsystemType), intValue))
 					journalItem.JournalSubsystemType = (JournalSubsystemType)intValue;
 			}
-
-			if (!reader.IsDBNull(reader.GetOrdinal("UID")))
-				journalItem.UID = reader.GetGuid(reader.GetOrdinal("UID"));
-
-			if (!reader.IsDBNull(reader.GetOrdinal("UserName")))
-				journalItem.UserName = reader.GetString(reader.GetOrdinal("UserName"));
-
-			if (!reader.IsDBNull(reader.GetOrdinal("SystemDate")))
-				journalItem.SystemDateTime = reader.GetDateTime(reader.GetOrdinal("SystemDate"));
-
-			if (!reader.IsDBNull(reader.GetOrdinal("DeviceDate")))
-				journalItem.DeviceDateTime = reader.GetDateTime(reader.GetOrdinal("DeviceDate"));
 
 			if (!reader.IsDBNull(reader.GetOrdinal("Name")))
 			{
@@ -398,11 +377,47 @@ namespace FiresecService
 					journalItem.JournalEventDescriptionType = (JournalEventDescriptionType)intValue;
 			}
 
+			if (!reader.IsDBNull(reader.GetOrdinal("DescriptionText")))
+				journalItem.DescriptionText = reader.GetString(reader.GetOrdinal("DescriptionText"));
+
+			if (!reader.IsDBNull(reader.GetOrdinal("ObjectType")))
+			{
+				var intValue = (int)reader.GetValue(reader.GetOrdinal("ObjectType"));
+				if (Enum.IsDefined(typeof(JournalObjectType), intValue))
+					journalItem.JournalObjectType = (JournalObjectType)intValue;
+			}
+
+			if (!reader.IsDBNull(reader.GetOrdinal("ObjectName")))
+				journalItem.ObjectName = reader.GetString(reader.GetOrdinal("ObjectName"));
+
+			if (!reader.IsDBNull(reader.GetOrdinal("ObjectUID")))
+				journalItem.ObjectUID = reader.GetGuid(reader.GetOrdinal("ObjectUID"));
+
 			if (!reader.IsDBNull(reader.GetOrdinal("Detalisation")))
 			{
 				var detalisationString = reader.GetString(reader.GetOrdinal("Detalisation"));
 				journalItem.JournalDetalisationItems = JournalDetalisationItem.StringToList(detalisationString);
 			}
+
+			if (!reader.IsDBNull(reader.GetOrdinal("UserName")))
+				journalItem.UserName = reader.GetString(reader.GetOrdinal("UserName"));
+
+			if (!reader.IsDBNull(reader.GetOrdinal("EmployeeUID")))
+				journalItem.EmployeeUID = reader.GetGuid(reader.GetOrdinal("EmployeeUID"));
+
+			if (!reader.IsDBNull(reader.GetOrdinal("VideoUID")))
+				journalItem.VideoUID = reader.GetGuid(reader.GetOrdinal("VideoUID"));
+
+			if (!reader.IsDBNull(reader.GetOrdinal("CameraUID")))
+				journalItem.CameraUID = reader.GetGuid(reader.GetOrdinal("CameraUID"));
+
+			if (!reader.IsDBNull(reader.GetOrdinal("ErrorCode")))
+			{
+				var intValue = (int)reader.GetValue(reader.GetOrdinal("ErrorCode"));
+				if (Enum.IsDefined(typeof(JournalErrorCode), intValue))
+					journalItem.ErrorCode = (JournalErrorCode)intValue;
+			}
+
 			return journalItem;
 		}
 	}

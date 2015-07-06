@@ -61,6 +61,7 @@ namespace ControllerSDK.ViewModels
 			var deviceSearchInfo = e.DeviceSearchInfo;
 			ApplicationService.BeginInvoke(new Action(() => SearchDevices.Add(new SearchDeviceViewModel
 			{
+				DeviceType = deviceSearchInfo.DeviceType,
 				IpAddress = deviceSearchInfo.IpAddress,
 				Port = deviceSearchInfo.Port,
 				Submask = deviceSearchInfo.Submask,

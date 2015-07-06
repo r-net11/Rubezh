@@ -1,9 +1,13 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Text;
 
-namespace ChinaSKDDriverAPI
+namespace FiresecAPI.Journal
 {
-    public enum ErrorCode
-    {
+	public enum JournalErrorCode
+	{
 		[Description("Нет ошибки")]
 		None = 0,
 		[Description("Неверный идентификатор")]

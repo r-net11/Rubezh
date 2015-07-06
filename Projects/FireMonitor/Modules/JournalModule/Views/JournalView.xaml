@@ -48,6 +48,10 @@
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
 								<TextBlock Text="{Binding Description}" VerticalAlignment="Center" Margin="2 0 0 0" />
+								<StackPanel Orientation="Horizontal" Visibility="{Binding CanShowErrorCode, Converter={StaticResource BoolToVisibilityConverter}}">
+									<TextBlock Text=":" VerticalAlignment="Center" Margin="2 0 0 0" />
+									<TextBlock Text="{Binding JournalItem.ErrorCode, Converter={StaticResource EnumToDescriptionConverter}}" VerticalAlignment="Center" Margin="2 0 0 0" />
+								</StackPanel>
 							</StackPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
@@ -125,12 +129,13 @@
 					<ColumnDefinition Width="*" />
 					<ColumnDefinition Width="*" />
 				</Grid.ColumnDefinitions>
-				<Grid Grid.Column="0">
+				<Grid Grid.Column="0" >
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="100" />
 						<ColumnDefinition Width="Auto" />
 					</Grid.ColumnDefinitions>
 					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto" />
 						<RowDefinition Height="Auto" />
 						<RowDefinition Height="Auto" />
 						<RowDefinition Height="Auto" />
@@ -161,26 +166,36 @@
 					<TextBlock Grid.Row="3" Grid.Column="0" Text="Уточнение" Margin="2" />
 					<TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Description}" Margin="2" />
 
-					<TextBlock Grid.Row="4" Grid.Column="0" Text="Пользователь" Margin="2" />
-					<TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding JournalItem.UserName}" Margin="2" />
+					<TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding JournalItem.ErrorCode, Converter={StaticResource EnumToDescriptionConverter}}" Visibility="{Binding CanShowErrorCode, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}" Margin="2" />
 
-					<TextBlock Grid.Row="5" Grid.Column="0" Text="Подсистема" Margin="2" />
-					<StackPanel Grid.Row="5" Grid.Column="1" Orientation="Horizontal">
+					<TextBlock Grid.Row="5" Grid.Column="0" Text="Пользователь" Margin="2" />
+					<TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding JournalItem.UserName}" Margin="2" />
+
+					<TextBlock Grid.Row="6" Grid.Column="0" Text="Подсистема" Margin="2" />
+					<StackPanel Grid.Row="6" Grid.Column="1" Orientation="Horizontal">
 						<Image Width="16" Source="{Binding JournalItem.JournalSubsystemType, Converter={StaticResource JournalSubsystemTypeToIconConverter}}" VerticalAlignment="Center" Margin="2" />
 						<TextBlock Text="{Binding JournalItem.JournalSubsystemType, Converter={StaticResource EnumToDescriptionConverter}}" VerticalAlignment="Center" />
 					</StackPanel>
-					<Button Grid.Row="6" Grid.Column="1" Command="{Binding ShowVideoCommand}" Content="Показать видео" Width="100" Margin="2" />
+					<Button Grid.Row="7" Grid.Column="1" Command="{Binding ShowVideoCommand}" Content="Показать видео" Width="100" Margin="2" />
 				</Grid>
-				<ItemsControl Grid.Column="1" ItemsSource="{Binding JournalItem.JournalDetalisationItems}">
-					<ItemsControl.ItemTemplate>
-						<DataTemplate>
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="{Binding Name}" Width="200" Margin="1" />
-								<TextBlock Text="{Binding Value}" Margin="1" />
-							</StackPanel>
-						</DataTemplate>
-					</ItemsControl.ItemTemplate>
-				</ItemsControl>
+				<!-- Правая панель -->
+				<StackPanel Grid.Column="1">
+					<ItemsControl ItemsSource="{Binding JournalItem.JournalDetalisationItems}">
+						<ItemsControl.ItemTemplate>
+							<DataTemplate>
+								<StackPanel Orientation="Horizontal">
+									<TextBlock Text="{Binding Name}" Width="200" Margin="1" />
+									<TextBlock Text="{Binding Value}" Margin="1" />
+								</StackPanel>
+							</DataTemplate>
+						</ItemsControl.ItemTemplate>
+					</ItemsControl>
+					<!--<StackPanel Orientation="Horizontal">
+						<TextBlock Text="Расшифровка" Width="200" Margin="1"/>
+						<TextBlock Text="{Binding JournalItem.ErrorCode, Converter={StaticResource EnumToDescriptionConverter}}" Margin="1"/>
+					</StackPanel>-->
+					
+				</StackPanel>
 			</Grid>
 		</Border>
 	</Grid>

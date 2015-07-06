@@ -10,18 +10,41 @@ namespace ChinaSKDDriver
 
 		private static int _searchHandle;
 
-		private static NativeWrapper.fSearchDevicesCBDelegate fSearchDevicesCbDelegate;
+		static NativeWrapper.fSearchDevicesCBDelegate fSearchDevicesCbDelegate;
 
-		private static void OnSearchDevicesDelegate(ref NativeWrapper.DEVICE_NET_INFO_EX pDevNetInfo, IntPtr pUserData)
+		private static DeviceType GetDeviceType(string deviceTypeStr)
 		{
-			if (pDevNetInfo.szDeviceType == "BSC")
-				OnNewSearchDevice(new SearchDevicesEventArgs(new DeviceSearchInfo(
-					pDevNetInfo.szIP,
-					pDevNetInfo.nPort == 0 ? 37777 : pDevNetInfo.nPort,
-					pDevNetInfo.szSubmask,
-					pDevNetInfo.szGateway,
-					pDevNetInfo.szMac
-				)));
+			DeviceType res;
+			switch (deviceTypeStr.ToUpper())
+			{
+				case "BSC1221A":
+					res = DeviceType.DahuaBsc1221A;
+					break;
+				case "BSC1201B":
+					res = DeviceType.DahuaBsc1201B;
+					break;
+				case "BSC1202B":
+					res = DeviceType.DahuaBsc1202B;
+					break;
+				default:
+					res = DeviceType.Unknown;
+					break;
+			}
+			return res;
+		}
+
+		static void OnSearchDevicesDelegate(ref NativeWrapper.DEVICE_NET_INFO_EX pDevNetInfo, IntPtr pUserData)
+		{
+			if (pDevNetInfo.szDeviceType.ToUpper() != "BSC")
+				return;
+
+			OnNewSearchDevice(new SearchDevicesEventArgs(new DeviceSearchInfo(
+				GetDeviceType(pDevNetInfo.szDetailType),
+				pDevNetInfo.szIP,
+				pDevNetInfo.nPort == 0 ? 37777 : pDevNetInfo.nPort,
+				pDevNetInfo.szSubmask,
+				pDevNetInfo.szGateway,
+				pDevNetInfo.szMac)));
 		}
 
 		/// <summary>
