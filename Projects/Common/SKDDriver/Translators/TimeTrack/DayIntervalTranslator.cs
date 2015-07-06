@@ -3,6 +3,7 @@ using System.Data.Entity;
 using System.Linq;
 using FiresecAPI;
 using API = FiresecAPI.SKD;
+using System.Collections.Generic;
 
 namespace SKDDriver.DataClasses
 {
@@ -10,7 +11,13 @@ namespace SKDDriver.DataClasses
 	{
 		int _daySeconds = 86400;
 
-		public DayIntervalTranslator(DbService context) : base(context) { }
+        public DayIntervalTranslator(DbService context)
+            : base(context)
+        {
+            AsyncTranslator = new DayIntervalAsyncTranslator(this);
+        }
+
+        public DayIntervalAsyncTranslator AsyncTranslator { get; private set; }
 		
 		public override DbSet<DayInterval> Table
 		{
@@ -101,4 +108,13 @@ namespace SKDDriver.DataClasses
 			Context.DayIntervalParts.RemoveRange(tableItem.DayIntervalParts);
 		}
 	}
+
+    public class DayIntervalAsyncTranslator : AsyncTranslator<DayInterval, API.DayInterval, API.DayIntervalFilter>
+    {
+        public DayIntervalAsyncTranslator(DayIntervalTranslator translator) : base(translator as ITranslatorGet<DayInterval, API.DayInterval, API.DayIntervalFilter>) { }
+        public override List<API.DayInterval> GetCollection(DbCallbackResult callbackResult)
+        {
+            return callbackResult.DayIntervals;
+        }
+    }
 }

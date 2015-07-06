@@ -10,15 +10,17 @@ using System.Diagnostics;
 
 namespace SKDDriver.DataClasses
 {
-	public class CardTranslator
+    public class CardTranslator : ITranslatorGet<Card, API.SKDCard, API.CardFilter>
 	{
-		DatabaseContext Context;
-		DbService DbService;
-        public event Action<DbCallbackResult> CardsPortionReady;
-		public CardTranslator(DbService dbService)
+        DatabaseContext Context { get { return DbService.Context; } }
+        public DbSet<Card> Table { get { return Context.Cards; } }
+        public DbService DbService { get; private set; }
+        public CardAsyncTranslator AsyncTranslator { get; private set; }
+        public static Thread CurrentThread;
+        public CardTranslator(DbService dbService)
 		{
-			Context = dbService.Context;
 			DbService = dbService;
+            AsyncTranslator = new CardAsyncTranslator(this);
 		}
         OperationResult<bool> CanSave(API.SKDCard item)
         {
@@ -38,9 +40,8 @@ namespace SKDDriver.DataClasses
             return Context.Cards.Include(x => x.CardDoors).Include(x => x.Employee).Include(x => x.AccessTemplate).Include(x => x.GKControllerUIDs);
         }
 
-        public IQueryable<Card> GetFilteredTableItems(API.CardFilter filter)
+        public IQueryable<Card> GetFilteredTableItems(API.CardFilter filter, IQueryable<Card> tableItems)
         {
-            var tableItems = GetTableItems();
             List<Guid> employeeUIDs = new List<Guid>();
             if(filter.EmployeeFilter != null)
             {
@@ -58,7 +59,7 @@ namespace SKDDriver.DataClasses
 		{
 			try
 			{
-                var tableItems = GetFilteredTableItems(filter).ToList();
+                var tableItems = GetFilteredTableItems(filter, GetTableItems()).ToList();
 				var result = tableItems.Select(x => Translate(x)).ToList();
 				return new OperationResult<List<API.SKDCard>>(result);
 			}
@@ -385,14 +386,29 @@ namespace SKDDriver.DataClasses
 		}
         #endregion
 
-        public void BeginGetCards(API.CardFilter filter, Guid uid)
+        void PublishNewItemsPortion(List<API.SKDCard> journalItems, Guid uid, bool isLastPortion)
+        {
+            if (PortionReady != null)
+            {
+                var result = new DbCallbackResult 
+                { 
+                    ClientUID = uid, 
+                    Cards = journalItems, 
+                    IsLastPortion = isLastPortion
+                };
+                PortionReady(result);
+            }
+        }
+
+        public event Action<DbCallbackResult> PortionReady;
+
+        public void BeginGet(API.CardFilter filter, Guid uid)
         {
             DbService.IsAbort = false;
             var pageSize = 1000;
             var portion = new List<API.SKDCard>();
             int itemNo = 0;
-            Trace.WriteLine(DateTime.Now);
-            foreach (var item in GetFilteredTableItems(filter))
+            foreach (var item in GetFilteredTableItems(filter, GetTableItems()))
             {
                 itemNo++;
                 portion.Add(Translate(item));
@@ -400,27 +416,18 @@ namespace SKDDriver.DataClasses
                 {
                     PublishNewItemsPortion(portion, uid, false);
                     portion = new List<API.SKDCard>();
-                    Trace.WriteLine(DateTime.Now);
                 }
             }
             PublishNewItemsPortion(portion, uid, true);
-            
-            
         }
+    }
 
-        void PublishNewItemsPortion(List<API.SKDCard> journalItems, Guid uid, bool isLastPortion)
+    public class CardAsyncTranslator : AsyncTranslator<Card, API.SKDCard, API.CardFilter>
+    {
+        public CardAsyncTranslator(CardTranslator translator) : base(translator as ITranslatorGet<Card, API.SKDCard, API.CardFilter>) { }
+        public override List<API.SKDCard> GetCollection(DbCallbackResult callbackResult)
         {
-            if (CardsPortionReady != null)
-            {
-                var result = new DbCallbackResult 
-                { 
-                    UID = uid, 
-                    Cards = journalItems, 
-                    DbCallbackResultType = DbCallbackResultType.Cards,
-                    IsLastPortion = isLastPortion
-                };
-                CardsPortionReady(result);
-            }
+            return callbackResult.Cards;
         }
     }
 }

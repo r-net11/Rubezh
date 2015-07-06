@@ -27,6 +27,7 @@
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*" MinHeight="200" />
 			<RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
 			<RowDefinition Height="*" MinHeight="200" />
 		</Grid.RowDefinitions>
 		<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
@@ -57,8 +58,12 @@
 				</tree:TreeList.View> 
 			</tree:TreeList>
 		</ScrollViewer>
-		<GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeNS" />
-		<Grid Grid.Row="2" Visibility="{Binding IsEmployeeSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="2">
+            <TextBlock Foreground="White" Text="Количество записей: " />
+            <TextBlock Foreground="White" Text="{Binding ItemsCount}" />
+        </StackPanel>
+        <GridSplitter Grid.Row="2" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeNS" />
+		<Grid Grid.Row="3" Visibility="{Binding IsEmployeeSelected, Converter={StaticResource BoolToVisibilityConverter}}">
 			<Grid DataContext="{Binding SelectedItem}">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="Auto" MinWidth="150" MaxWidth="500" />
@@ -125,11 +130,7 @@
 						</ItemsControl.ItemTemplate>
 					</ItemsControl>
 				</StackPanel>
-                <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="2">
-                    <TextBlock Foreground="White" Text="Количество записей: " />
-                    <TextBlock Foreground="White" Text="{Binding ItemsCount}" />
-                </StackPanel>
-                <!--<GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeWE" />-->
+                <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeWE" />
 				<Border Grid.Column="2" Visibility="{Binding IsEmployeeSelected, Converter={StaticResource BoolToVisibilityConverter}}" Background="White" CornerRadius="5">
 					<Grid>
 						<Grid.ColumnDefinitions>

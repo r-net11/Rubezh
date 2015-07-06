@@ -244,23 +244,37 @@ namespace SKDModule.ViewModels
 		
 		void InitializeFilters()
 		{
-			DepartmentFilter = new DepartmentFilter() { OrganisationUIDs = Filter.OrganisationUIDs, LogicalDeletationType = Filter.LogicalDeletationType };
-			PositionFilter = new PositionFilter() { OrganisationUIDs = Filter.OrganisationUIDs, LogicalDeletationType = Filter.LogicalDeletationType };
-			AdditionalColumnTypeFilter = new AdditionalColumnTypeFilter() { OrganisationUIDs = Filter.OrganisationUIDs, LogicalDeletationType = Filter.LogicalDeletationType };
-			CardFilter = new CardFilter() { OrganisationUIDs = Filter.OrganisationUIDs, EmployeeFilter = Filter.EmployeeFilter };
-			AccessTemplateFilter = new AccessTemplateFilter() { OrganisationUIDs = Filter.OrganisationUIDs, LogicalDeletationType = Filter.LogicalDeletationType };
-			PassCardTemplateFilter = new PassCardTemplateFilter() { OrganisationUIDs = Filter.OrganisationUIDs, LogicalDeletationType = Filter.LogicalDeletationType };
+			
 
-			DepartmentsViewModel.Initialize(DepartmentFilter);
-			PositionsViewModel.Initialize(PositionFilter);
-			AdditionalColumnTypesViewModel.Initialize(AdditionalColumnTypeFilter);
-			//CardsViewModel.Initialize(CardFilter);
-			AccessTemplatesViewModel.Initialize(AccessTemplateFilter);
-			PassCardTemplatesViewModel.Initialize(PassCardTemplateFilter);
-			OrganisationsViewModel.Initialize(Filter.LogicalDeletationType);
-			InitializeEmployeeFilter();
+            
+            
+            //DepartmentsViewModel.Initialize(DepartmentFilter);
+            //PositionsViewModel.Initialize(PositionFilter);
+            //AdditionalColumnTypesViewModel.Initialize(AdditionalColumnTypeFilter);
+            CardsViewModel.Initialize();
+            //AccessTemplatesViewModel.Initialize(AccessTemplateFilter);
+            //PassCardTemplatesViewModel.Initialize(PassCardTemplateFilter);
+            //OrganisationsViewModel.Initialize(Filter.LogicalDeletationType);
+            //InitializeEmployeeFilter();
+            DepartmentFilter = new DepartmentFilter() { OrganisationUIDs = Filter.OrganisationUIDs, LogicalDeletationType = Filter.LogicalDeletationType };
+            PositionFilter = new PositionFilter() { OrganisationUIDs = Filter.OrganisationUIDs, LogicalDeletationType = Filter.LogicalDeletationType };
+            AdditionalColumnTypeFilter = new AdditionalColumnTypeFilter() { OrganisationUIDs = Filter.OrganisationUIDs, LogicalDeletationType = Filter.LogicalDeletationType };
+            CardFilter = new CardFilter() { OrganisationUIDs = Filter.OrganisationUIDs, EmployeeFilter = Filter.EmployeeFilter, ClientUID = CardsViewModel.DbCallbackResultUID, IsLoad = true };
+            AccessTemplateFilter = new AccessTemplateFilter() { OrganisationUIDs = Filter.OrganisationUIDs, LogicalDeletationType = Filter.LogicalDeletationType };
+            PassCardTemplateFilter = new PassCardTemplateFilter() { OrganisationUIDs = Filter.OrganisationUIDs, LogicalDeletationType = Filter.LogicalDeletationType };
 
-			ServiceFactory.Events.GetEvent<ChangeIsDeletedEvent>().Publish(Filter.LogicalDeletationType);
+            var hrViewModel = new FiresecAPI.SKD.HRFilter
+            {
+                AccessTemplateFilter = AccessTemplateFilter,
+                AdditionalColumnTypeFilter = AdditionalColumnTypeFilter,
+                CardFilter = CardFilter,
+                DepartmentFilter = DepartmentFilter,
+                //EmployeeFilter = EmployeeFilter,
+                PassCardTemplateFilter = PassCardTemplateFilter,
+                PositionFilter = PositionFilter
+            };
+            FiresecManager.FiresecService.BeginGetAsync(hrViewModel);
+            ServiceFactory.Events.GetEvent<ChangeIsDeletedEvent>().Publish(Filter.LogicalDeletationType);
 			ServiceFactory.Events.GetEvent<UpdateFilterEvent>().Publish(Filter);
 		}
 
@@ -270,7 +284,7 @@ namespace SKDModule.ViewModels
 			EmployeeFilter.UIDs = Filter.EmplooyeeUIDs;
 			EmployeeFilter.PersonType = SelectedPersonType;
 			EmployeeFilter.LogicalDeletationType = Filter.LogicalDeletationType;
-			EmployeesViewModel.Initialize(EmployeeFilter);
+            EmployeesViewModel.Initialize(EmployeeFilter);
 		}
 		
 		void OnUserChanged(UserChangedEventArgs args)

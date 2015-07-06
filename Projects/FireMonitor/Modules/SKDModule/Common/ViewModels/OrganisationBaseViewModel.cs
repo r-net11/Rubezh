@@ -39,6 +39,7 @@ namespace SKDModule.ViewModels
 			ServiceFactory.Events.GetEvent<RestoreOrganisationEvent>().Subscribe(OnRestoreOrganisation);
 			ServiceFactory.Events.GetEvent<NewOrganisationEvent>().Unsubscribe(OnNewOrganisation);
 			ServiceFactory.Events.GetEvent<NewOrganisationEvent>().Subscribe(OnNewOrganisation);
+            Organisations = new ObservableCollection<TViewModel>();
 			_filter = new TFilter();
 		}
 
@@ -111,19 +112,38 @@ namespace SKDModule.ViewModels
 
 		protected virtual void InitializeModels(IEnumerable<TModel> models)
 		{
-			foreach (var organisation in Organisations)
+            int portionSize = 5000;
+            int i = 0;
+            foreach (var organisation in Organisations)
 			{
 				foreach (var model in models)
 				{
 					if (model.OrganisationUID == organisation.Organisation.UID)
 					{
 						var itemViewModel = new TViewModel();
-						itemViewModel.InitializeModel(organisation.Organisation, model, this);
-						organisation.AddChild(itemViewModel);
+                        itemViewModel.InitializeModel(organisation.Organisation, model, this);
+                        ApplicationService.Invoke(() => 
+                        { 
+                            organisation.AddChild(itemViewModel);
+                            ItemsCount = Organisations.Select(x => x.Children.Count()).Sum();
+                        });
+                        if (i++ % portionSize == 0)
+                            ApplicationService.DoEvents();
 					}
 				}
 			}
 		}
+
+        int _itemsCount;
+        public int ItemsCount
+        {
+            get { return _itemsCount; }
+            set
+            {
+                _itemsCount = value;
+                OnPropertyChanged(() => ItemsCount);
+            }
+        }
 
 		protected virtual void OnEditOrganisation(Organisation newOrganisation)
 		{

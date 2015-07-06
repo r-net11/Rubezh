@@ -53,15 +53,32 @@ namespace FiresecAPI
     {
         public DbCallbackResult()
         {
-            UID = Guid.NewGuid();
+            ClientUID = Guid.NewGuid();
             Employees = new List<ShortEmployee>();
             Cards = new List<SKDCard>();
+            AccessTemplates = new List<AccessTemplate>();
+            AdditionalColumnTypes = new List<AdditionalColumnType>();
+            Departments = new List<ShortDepartment>();
+            PassCardTemplates = new List<ShortPassCardTemplate>();
+            Positions = new List<ShortPosition>();
+            DayIntervals = new List<DayInterval>();
+            ScheduleSchemes = new List<ScheduleScheme>();
+            Schedules = new List<Schedule>();
+            Positions = new List<ShortPosition>();
         }
         
-        public Guid UID;
+        public Guid ClientUID;
         public List<ShortEmployee> Employees;
         public List<SKDCard> Cards;
-        public DbCallbackResultType DbCallbackResultType;
+        public List<AccessTemplate> AccessTemplates;
+        public List<AdditionalColumnType> AdditionalColumnTypes;
+        public List<ShortDepartment> Departments;
+        public List<ShortPassCardTemplate> PassCardTemplates;
+        public List<ShortPosition> Positions;
+        public List<DayInterval> DayIntervals;
+        public List<ScheduleScheme> ScheduleSchemes;
+        public List<Holiday> Holidays;
+        public List<Schedule> Schedules;
         public bool IsLastPortion;
     }
 

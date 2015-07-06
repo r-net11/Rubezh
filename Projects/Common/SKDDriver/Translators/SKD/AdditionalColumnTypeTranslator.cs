@@ -1,4 +1,6 @@
-﻿using System.Data.Entity;
+﻿using FiresecAPI;
+using System.Collections.Generic;
+using System.Data.Entity;
 using System.IO;
 using System.Runtime.Serialization;
 using API = FiresecAPI.SKD;
@@ -13,7 +15,10 @@ namespace SKDDriver.DataClasses
 			: base(context)
 		{
 			_serializer = new DataContractSerializer(typeof(API.AdditionalColumnType));
-		}
+            AsyncTranslator = new AdditionalColumnTypeAsyncTranslator(this);
+        }
+
+        public AdditionalColumnTypeAsyncTranslator AsyncTranslator { get; private set; }
 
 		public override DbSet<AdditionalColumnType> Table
 		{
@@ -43,4 +48,13 @@ namespace SKDDriver.DataClasses
 			}
 		}
 	}
+
+    public class AdditionalColumnTypeAsyncTranslator : AsyncTranslator<AdditionalColumnType, API.AdditionalColumnType, API.AdditionalColumnTypeFilter>
+    {
+        public AdditionalColumnTypeAsyncTranslator(AdditionalColumnTypeTranslator translator) : base(translator as ITranslatorGet<AdditionalColumnType, API.AdditionalColumnType, API.AdditionalColumnTypeFilter>) { }
+        public override List<API.AdditionalColumnType> GetCollection(DbCallbackResult callbackResult)
+        {
+            return callbackResult.AdditionalColumnTypes;
+        }
+    }
 }

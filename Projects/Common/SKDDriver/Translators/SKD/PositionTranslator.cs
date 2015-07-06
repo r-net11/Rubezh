@@ -1,4 +1,6 @@
-﻿using System.Data.Entity;
+﻿using FiresecAPI;
+using System.Collections.Generic;
+using System.Data.Entity;
 using System.Runtime.Serialization;
 using API = FiresecAPI.SKD;
 
@@ -7,14 +9,17 @@ namespace SKDDriver.DataClasses
 	public class PositionTranslator : OrganisationItemTranslatorBase<Position, API.Position, API.PositionFilter>
 	{
 		DataContractSerializer _serializer;
-		public ShortPositionTranslator ShortTranslator { get; private set; }
+		public PositionShortTranslator ShortTranslator { get; private set; }
 		
 		public PositionTranslator(DbService context)
 			: base(context)
 		{
 			_serializer = new DataContractSerializer(typeof(API.Position));
-			ShortTranslator = new ShortPositionTranslator(this);
-		}
+			ShortTranslator = new PositionShortTranslator(this);
+            AsyncTranslator = new PositionAsyncTranslator(ShortTranslator);
+        }
+
+        public PositionAsyncTranslator AsyncTranslator { get; private set; }
 
 		public override DbSet<Position> Table
 		{
@@ -46,8 +51,17 @@ namespace SKDDriver.DataClasses
 		}
 	}
 
-	public class ShortPositionTranslator : OrganisationShortTranslatorBase<Position, API.ShortPosition, API.Position, API.PositionFilter>
+	public class PositionShortTranslator : OrganisationShortTranslatorBase<Position, API.ShortPosition, API.Position, API.PositionFilter>
 	{
-		public ShortPositionTranslator(PositionTranslator translator) : base(translator) { }
+		public PositionShortTranslator(PositionTranslator translator) : base(translator) { }
 	}
+
+    public class PositionAsyncTranslator : AsyncTranslator<Position, API.ShortPosition, API.PositionFilter>
+    {
+        public PositionAsyncTranslator(PositionShortTranslator translator) : base(translator as ITranslatorGet<Position, API.ShortPosition, API.PositionFilter>) { }
+        public override List<API.ShortPosition> GetCollection(DbCallbackResult callbackResult)
+        {
+            return callbackResult.Positions;
+        }
+    }
 }

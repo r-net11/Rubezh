@@ -11,14 +11,17 @@ namespace SKDDriver.DataClasses
 	public class DepartmentTranslator : OrganisationItemTranslatorBase<Department, API.Department, API.DepartmentFilter>
 	{
 		DataContractSerializer _serializer;
-		public ShortDepartmentTranslator ShortTranslator { get; private set; }
+		public DepartmentShortTranslator ShortTranslator { get; private set; }
 		
 		public DepartmentTranslator(DbService context)
 			: base(context)
 		{
 			_serializer = new DataContractSerializer(typeof(API.Department));
-			ShortTranslator = new ShortDepartmentTranslator(this);
-		}
+			ShortTranslator = new DepartmentShortTranslator(this);
+            AsyncTranslator = new DepartmentAsyncTranslator(ShortTranslator);
+        }
+
+        public DepartmentAsyncTranslator AsyncTranslator { get; private set; }
 
 		public override DbSet<Department> Table
 		{
@@ -182,9 +185,9 @@ namespace SKDDriver.DataClasses
 		}
 	}
 
-	public class ShortDepartmentTranslator : OrganisationShortTranslatorBase<Department, API.ShortDepartment, API.Department, API.DepartmentFilter>
+	public class DepartmentShortTranslator : OrganisationShortTranslatorBase<Department, API.ShortDepartment, API.Department, API.DepartmentFilter>
 	{
-		public ShortDepartmentTranslator(DepartmentTranslator translator) : base(translator) { }
+		public DepartmentShortTranslator(DepartmentTranslator translator) : base(translator) { }
 
 		public override IQueryable<Department> GetTableItems()
 		{
@@ -208,4 +211,13 @@ namespace SKDDriver.DataClasses
 			return result;
 		}
 	}
+
+    public class DepartmentAsyncTranslator : AsyncTranslator<Department, API.ShortDepartment, API.DepartmentFilter>
+    {
+        public DepartmentAsyncTranslator(DepartmentShortTranslator translator) : base(translator as ITranslatorGet<Department, API.ShortDepartment, API.DepartmentFilter>) { }
+        public override List<API.ShortDepartment> GetCollection(DbCallbackResult callbackResult)
+        {
+            return callbackResult.Departments;
+        }
+    }
 }

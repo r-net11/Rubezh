@@ -114,34 +114,36 @@
     <Compile Include="DataClasses\TimeTrackDocumnetType.cs" />
     <Compile Include="DataClasses\TimeTrackException.cs" />
     <Compile Include="TestDataGenerator.cs" />
-    <Compile Include="Translators\AccessTemplateTranslator.cs" />
-    <Compile Include="Translators\AdditionalColumnTypeTranslator.cs" />
-    <Compile Include="Translators\CardTranslator.cs" />
+    <Compile Include="Translators\SKD\AccessTemplateTranslator.cs" />
+    <Compile Include="Translators\SKD\AdditionalColumnTypeTranslator.cs" />
+    <Compile Include="Translators\Base\AsyncTranslator.cs" />
+    <Compile Include="Translators\Base\ITranslatorGet.cs" />
+    <Compile Include="Translators\Base\OrganisationShortTranslatorBase.cs" />
+    <Compile Include="Translators\Base\ShortTranslatorBase.cs" />
+    <Compile Include="Translators\SKD\CardTranslator.cs" />
     <Compile Include="Translators\CurrentConsumptionTranslator.cs" />
-    <Compile Include="Translators\DayIntervalTranslator.cs" />
+    <Compile Include="Translators\TimeTrack\DayIntervalTranslator.cs" />
     <Compile Include="DbService.cs" />
     <Compile Include="DbServiceHelper.cs" />
-    <Compile Include="Translators\DepartmentTranslator.cs" />
-    <Compile Include="Translators\EFTest.cs" />
-    <Compile Include="Translators\EmployeeTranslator.cs" />
+    <Compile Include="Translators\SKD\DepartmentTranslator.cs" />
+    <Compile Include="Translators\SKD\EmployeeTranslator.cs" />
     <Compile Include="Translators\GKCardTranslator.cs" />
-    <Compile Include="Translators\GKDayScheduleTranslator.cs" />
+    <Compile Include="Translators\GKSchedule\GKDayScheduleTranslator.cs" />
     <Compile Include="ContextType.cs" />
     <Compile Include="Translators\GKMetadataTranslator.cs" />
-    <Compile Include="Translators\HolidayTranslator.cs" />
+    <Compile Include="Translators\TimeTrack\HolidayTranslator.cs" />
     <Compile Include="Translators\JournalTranslator.cs" />
-    <Compile Include="Translators\NightSettingTranslator.cs" />
-    <Compile Include="Translators\OrganisationItem.cs" />
-    <Compile Include="Translators\OrganisationItemTranslatorBase.cs" />
-    <Compile Include="Translators\OrganisationTranslator.cs" />
+    <Compile Include="Translators\TimeTrack\NightSettingTranslator.cs" />
+    <Compile Include="Translators\Base\OrganisationItemTranslatorBase.cs" />
+    <Compile Include="Translators\SKD\OrganisationTranslator.cs" />
     <Compile Include="Translators\PassJournalTranslator.cs" />
     <Compile Include="SKDDbContext.cs" />
-    <Compile Include="Translators\PassCardTemplateTranslator.cs" />
-    <Compile Include="Translators\PositionTranslator.cs" />
-    <Compile Include="Translators\ScheduleSchemeTranslator.cs" />
-    <Compile Include="Translators\ScheduleTranslator.cs" />
-    <Compile Include="Translators\TimeTrackDocumentTranslator.cs" />
-    <Compile Include="Translators\TimeTrackDocumentTypeTranslator.cs" />
+    <Compile Include="Translators\SKD\PassCardTemplateTranslator.cs" />
+    <Compile Include="Translators\SKD\PositionTranslator.cs" />
+    <Compile Include="Translators\TimeTrack\ScheduleSchemeTranslator.cs" />
+    <Compile Include="Translators\TimeTrack\ScheduleTranslator.cs" />
+    <Compile Include="Translators\TimeTrack\TimeTrackDocumentTranslator.cs" />
+    <Compile Include="Translators\TimeTrack\TimeTrackDocumentTypeTranslator.cs" />
     <Compile Include="Synchronisers\CardSynchroniser.cs" />
     <Compile Include="Synchronisers\ConfigurationSynchroniser.cs" />
     <Compile Include="Synchronisers\DepartmentSynchroniser.cs" />
@@ -151,14 +153,14 @@
     <Compile Include="Synchronisers\PassJounalSynchroniser.cs" />
     <Compile Include="Synchronisers\PositionSynchroniser.cs" />
     <Compile Include="Synchronisers\Synchroniser.cs" />
-    <Compile Include="Translators\GKScheduleTranslator.cs" />
+    <Compile Include="Translators\GKSchedule\GKScheduleTranslator.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Translators\TimeTrackTranslator.cs" />
+    <Compile Include="Translators\TimeTrack\TimeTrackTranslator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">

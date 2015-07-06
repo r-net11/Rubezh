@@ -3,12 +3,19 @@ using System.Data.Entity;
 using System.Linq;
 using FiresecAPI;
 using API = FiresecAPI.SKD;
+using System.Collections.Generic;
 
 namespace SKDDriver.DataClasses
 {
 	public class HolidayTranslator : OrganisationItemTranslatorBase<Holiday, API.Holiday, API.HolidayFilter>
 	{
-		public HolidayTranslator(DbService context) : base(context) { }
+        public HolidayTranslator(DbService context)
+            : base(context)
+        {
+            AsyncTranslator = new HolidayAsyncTranslator(this);
+        }
+
+        public HolidayAsyncTranslator AsyncTranslator { get; private set; }
 
 		public override DbSet<Holiday> Table
 		{
@@ -63,5 +70,14 @@ namespace SKDDriver.DataClasses
 			return new OperationResult<bool>();
 		}
 	}
+
+    public class HolidayAsyncTranslator : AsyncTranslator<Holiday, API.Holiday, API.HolidayFilter>
+    {
+        public HolidayAsyncTranslator(HolidayTranslator translator) : base(translator as ITranslatorGet<Holiday, API.Holiday, API.HolidayFilter>) { }
+        public override List<API.Holiday> GetCollection(DbCallbackResult callbackResult)
+        {
+            return callbackResult.Holidays;
+        }
+    }
 }
 		

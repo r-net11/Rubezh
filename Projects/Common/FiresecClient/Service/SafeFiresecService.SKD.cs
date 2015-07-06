@@ -544,5 +544,10 @@ namespace FiresecClient
 			return SafeContext.Execute(() => FiresecService.GetCurrentConsumption(item));
 		}
 		#endregion
+
+        public OperationResult BeginGetAsync(HRFilter filter)
+        {
+            return SafeContext.Execute(() => FiresecService.BeginGetAsync(filter));
+        }
     }
 }

@@ -30,16 +30,13 @@ namespace SKDModule.ViewModels
 
         void OnDbCallbackResultEvent(DbCallbackResult dbCallbackResult)
         {
-            if (dbCallbackResult.UID == _dbCallbackResultUID)
+            if (dbCallbackResult.ClientUID == _dbCallbackResultUID)
             {
-                ApplicationService.Invoke(()=>
-                {
-                    InitializeModels(dbCallbackResult.Employees);
-                    OnPropertyChanged(() => Organisations);
-                    InitializeAdditionalColumns();
-                    ItemsCount = Organisations.Select(x => x.Children.Count()).Sum();
-                });
-                
+                InitializeModels(dbCallbackResult.Employees);
+
+                OnPropertyChanged(() => Organisations);
+                //InitializeAdditionalColumns();
+                //ItemsCount = Organisations.Select(x => x.Children.Count()).Sum();
                 //    SelectedItem = Organisations.FirstOrDefault();
             }
         }

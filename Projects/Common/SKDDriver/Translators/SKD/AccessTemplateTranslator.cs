@@ -3,12 +3,19 @@ using System.Data.Entity;
 using System.Linq;
 using FiresecAPI;
 using API = FiresecAPI.SKD;
+using System.Collections.Generic;
 
 namespace SKDDriver.DataClasses
 {
 	public class AccessTemplateTranslator : OrganisationItemTranslatorBase<AccessTemplate, API.AccessTemplate, API.AccessTemplateFilter>
 	{
-		public AccessTemplateTranslator(DbService context) : base(context) { }
+        public AccessTemplateTranslator(DbService context)
+            : base(context)
+        {
+            AsyncTranslator = new AccessTemplateAsyncTranslator(this);
+        }
+
+        public AccessTemplateAsyncTranslator AsyncTranslator { get; private set; }
 
 		public override DbSet<AccessTemplate> Table
 		{
@@ -33,6 +40,7 @@ namespace SKDDriver.DataClasses
             if (result == null)
                 return null;
 			result.CardDoors = tableItem.CardDoors.Select(x => x.Translate()).ToList();
+
 			return result;
 		}
 
@@ -47,4 +55,13 @@ namespace SKDDriver.DataClasses
 			Context.CardDoors.RemoveRange(tableItem.CardDoors);
 		}
 	}
+
+    public class AccessTemplateAsyncTranslator : AsyncTranslator<AccessTemplate, API.AccessTemplate, API.AccessTemplateFilter>
+    {
+        public AccessTemplateAsyncTranslator(AccessTemplateTranslator translator) : base(translator as ITranslatorGet<AccessTemplate, API.AccessTemplate, API.AccessTemplateFilter>) { }
+        public override List<API.AccessTemplate> GetCollection(DbCallbackResult callbackResult)
+        {
+            return callbackResult.AccessTemplates;
+        }
+    }
 }

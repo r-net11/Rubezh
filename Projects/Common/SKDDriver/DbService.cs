@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FiresecAPI;
+using System;
 
 namespace SKDDriver.DataClasses
 {
@@ -64,6 +65,30 @@ namespace SKDDriver.DataClasses
             TimeTrackDocumentTranslator = new TimeTrackDocumentTranslator(this);
             TestDataGenerator = new TestDataGenerator(this);
 		}
+        
+        public void BeginGet(FiresecAPI.SKD.HRFilter filter, Action<DbCallbackResult> portionReady)
+        {
+            //EmployeeTranslator.AsyncTranslator.BeginGet(filter.EmployeeFilter, portionReady);
+            CardTranslator.AsyncTranslator.BeginGet(filter.CardFilter, portionReady);
+        }
+
+        public T GetTranslator<T>()
+            where T : class
+        {
+            var result = EmployeeTranslator as T;
+            if (result != null)
+                return result;
+            result = CardTranslator as T;
+            if (result != null)
+                return result;
+            result = EmployeeTranslator.AsyncTranslator as T;
+            if (result != null)
+                return result;
+            result = CardTranslator.AsyncTranslator as T;
+            if (result != null)
+                return result;
+            return null;
+        }
 
 		public void Dispose()
 		{

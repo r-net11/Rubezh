@@ -92,7 +92,7 @@ namespace FiresecService.Service
 			CallbackManager.Add(callbackResult);
 		}
 
-        public static void NotifyCardsCompleted(DbCallbackResult dbCallbackResult)
+        public static void NotifyDbCompleted(DbCallbackResult dbCallbackResult)
         {
             var callbackResult = new CallbackResult()
             {
