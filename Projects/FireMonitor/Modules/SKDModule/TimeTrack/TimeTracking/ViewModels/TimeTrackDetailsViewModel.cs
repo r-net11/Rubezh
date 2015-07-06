@@ -92,8 +92,8 @@ namespace SKDModule.ViewModels
 		#region Constructors
 		public TimeTrackDetailsViewModel(DayTimeTrack dayTimeTrack, ShortEmployee shortEmployee)
 		{
-			if (string.IsNullOrEmpty(dayTimeTrack.Error))
-				dayTimeTrack.Calculate();
+			//if (string.IsNullOrEmpty(dayTimeTrack.Error))
+			//	dayTimeTrack.Calculate();
 
 			Title = "Время сотрудника " + shortEmployee.FIO + " в течение дня " + dayTimeTrack.Date.Date.ToString("yyyy-MM-dd");
 			AddDocumentCommand = new RelayCommand(OnAddDocument, CanAddDocument);
