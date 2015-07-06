@@ -9,9 +9,6 @@ namespace Infrastructure.Common.Services.Layout
 		[Description("Общие")]
 		Common,
 
-		[Description("ГК")]
-		GK,
-
 		[Description("СКД")]
 		SKD,
 

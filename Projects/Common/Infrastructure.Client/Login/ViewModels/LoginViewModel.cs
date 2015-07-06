@@ -111,11 +111,6 @@ namespace Infrastructure.Client.Login.ViewModels
 
 		protected override bool Save()
 		{
-			if (UserName == "debug")
-			{
-				ServiceFactoryBase.Events.GetEvent<ShowGKDebugEvent>().Publish(null);
-				return false;
-			}
 			if (UserName == "Integrate")
 			{
 				ShellIntegrationHelper.Integrate();

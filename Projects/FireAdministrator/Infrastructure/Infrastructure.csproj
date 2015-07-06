@@ -97,7 +97,6 @@
     <Compile Include="Events\ShowUserGroupsEvent.cs" />
     <Compile Include="Events\ShowUsersEvent.cs" />
     <Compile Include="Events\ShowVideoEvent.cs" />
-    <Compile Include="Events\ShowGKDeviceEvent.cs" />
     <Compile Include="Services\ILayoutService.cs" />
     <Compile Include="Services\IProgressService.cs" />
     <Compile Include="Services\IValidationResult.cs" />

@@ -91,12 +91,8 @@
       <DependentUpon>LayoutPartPropertyProcedurePageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ObjectSelection\ViewModels\DeviceViewModel.cs" />
-    <Compile Include="ObjectSelection\ViewModels\GKDoorSelectionViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\OrganisationSelectionViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\OrganisationViewModel.cs" />
-    <Compile Include="ObjectSelection\Views\GKDoorSelectionView.xaml.cs">
-      <DependentUpon>GKDoorSelectionView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ObjectSelection\Views\OrganisatonSelectionView.xaml.cs">
       <DependentUpon>OrganisatonSelectionView.xaml</DependentUpon>
     </Compile>
@@ -486,10 +482,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Layout\Views\LayoutPartPropertyProcedurePageView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ObjectSelection\Views\GKDoorSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

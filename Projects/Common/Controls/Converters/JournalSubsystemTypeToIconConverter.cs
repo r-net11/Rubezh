@@ -13,8 +13,6 @@ namespace Controls.Converters
 			{
 				case JournalSubsystemType.System:
 					return "/Controls;component/Images/PC.png";
-				case JournalSubsystemType.GK:
-					return "/Controls;component/Images/Chip.png";
 				case JournalSubsystemType.SKD:
 					return "/Controls;component/SKDIcons/Controller.png";
 				case JournalSubsystemType.Video:

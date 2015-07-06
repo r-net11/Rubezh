@@ -63,11 +63,7 @@
 	<DataTemplate DataType="{x:Type ViewModels:DoorSelectionViewModel}">
 		<Views:DoorSelectionView />
 	</DataTemplate>
-
-	<DataTemplate DataType="{x:Type ViewModels:GKDoorSelectionViewModel}">
-		<Views:GKDoorSelectionView />
-	</DataTemplate>
-
+	
 	<DataTemplate DataType="{x:Type ViewModels:OrganisationSelectionViewModel}">
 		<Views:OrganisationSelectionView />
 	</DataTemplate>

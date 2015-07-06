@@ -39,7 +39,7 @@ namespace FiresecAPI.Journal
 
 		public static JournalSubsystemType ToSubsystem(JournalEventNameType journalEventNameType)
 		{
-			JournalSubsystemType subsystemType = JournalSubsystemType.GK;
+			JournalSubsystemType subsystemType = JournalSubsystemType.SKD;
 			FieldInfo fieldInfo = journalEventNameType.GetType().GetField(journalEventNameType.ToString());
 			if (fieldInfo != null)
 			{

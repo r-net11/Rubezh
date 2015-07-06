@@ -18,9 +18,6 @@ namespace Infrustructure.Plans.Elements
 
 	public enum ElementZoneType
 	{
-		[Description("Пожарная зона")]
-		GK,
-
 		[Description("СКД зона")]
 		SKD,
 	}

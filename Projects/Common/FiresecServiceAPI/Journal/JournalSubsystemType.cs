@@ -7,9 +7,6 @@ namespace FiresecAPI.Journal
 		[Description("Система")]
 		System,
 
-		[Description("ГК")]
-		GK,
-
 		[Description("Страж")]
 		SKD,
 

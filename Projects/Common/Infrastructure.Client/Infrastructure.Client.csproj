@@ -97,7 +97,6 @@
     <Compile Include="Layout\Views\LayoutPartPictureView.xaml.cs">
       <DependentUpon>LayoutPartPictureView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Events\ShowGKDebugEvent.cs" />
     <Compile Include="Layout\Views\LayoutPartTitleView.xaml.cs">
       <DependentUpon>LayoutPartTitleView.xaml</DependentUpon>
     </Compile>
