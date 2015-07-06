@@ -18,6 +18,7 @@ namespace FiresecService.Service
 	public partial class FiresecService : IFiresecService
 	{
 		ClientCredentials CurrentClientCredentials;
+		public static ServerState ServerState { get; set; }
 
 		void InitializeClientCredentials(ClientCredentials clientCredentials)
 		{
@@ -109,6 +110,11 @@ namespace FiresecService.Service
 			ClientsManager.Remove(uid);
 		}
 
+		public OperationResult<ServerState> GetServerState()
+		{
+			return new OperationResult<ServerState>(ServerState);
+		}
+
 		public string Test(string arg)
 		{
 			using (var passJournalTranslator = new PassJournalTranslator())
@@ -116,11 +122,6 @@ namespace FiresecService.Service
 				passJournalTranslator.InsertPassJournalTestData();
 			}
 			return "Test";
-		}
-
-		public void NotifyClientsOnConfigurationChanged()
-		{
-			NotifyConfigurationChanged();
 		}
 
 		public SecurityConfiguration GetSecurityConfiguration()

@@ -23,7 +23,6 @@ namespace FiresecService
 
 		public static void Start()
 		{
-			// DeviceLibraryConfigurationPatchHelper.Patch();
 			GKProcessorManager.MustMonitor = true;
 			GKProcessorManager.Start();
 			GKLicenseProcessor.Start();

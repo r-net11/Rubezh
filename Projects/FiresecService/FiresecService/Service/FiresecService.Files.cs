@@ -4,6 +4,8 @@ using Common;
 using FiresecAPI.Journal;
 using Infrastructure.Common;
 using Ionic.Zip;
+using System.Threading;
+using System;
 
 namespace FiresecService.Service
 {
@@ -43,16 +45,18 @@ namespace FiresecService.Service
 
 		public Stream GetConfig()
 		{
-			var filePath = AppDataFolderHelper.GetServerAppDataPath("Config.fscp");
-			return new FileStream(filePath, FileMode.Open, FileAccess.Read);
+			var configFilePath = AppDataFolderHelper.GetServerAppDataPath("Config.fscp");
+			if (!File.Exists(configFilePath))
+			{
+				CreateZipConfigFromFiles();
+			}
+			return new FileStream(configFilePath, FileMode.Open, FileAccess.Read);
 		}
 
 		public void SetLocalConfig()
 		{
 			var configFileName = AppDataFolderHelper.GetServerAppDataPath("Config.fscp");
-			var configDirectory = AppDataFolderHelper.GetServerAppDataPath("Config");
-
-			CreateZipConfigFromFiles(configFileName, configDirectory);
+			CreateZipConfigFromFiles();
 			RestartWithNewConfig();
 		}
 
@@ -94,7 +98,7 @@ namespace FiresecService.Service
 			}
 			Directory.Delete(newConfigDirectory, true);
 
-			CreateZipConfigFromFiles(configFileName, configDirectory);
+			CreateZipConfigFromFiles();
 			RestartWithNewConfig();
 		}
 
@@ -112,15 +116,21 @@ namespace FiresecService.Service
 		void RestartWithNewConfig()
 		{
 			AddJournalMessage(JournalEventNameType.Применение_конфигурации, null);
+			NotifyConfigurationChanged();
+			ServerState = FiresecAPI.ServerState.Restarting;
 			ConfigurationCashHelper.Update();
 			GKProcessor.SetNewConfig();
 			ScheduleRunner.SetNewConfig();
 			ProcedureRunner.SetNewConfig();
 			ServerTaskRunner.SetNewConfig();
+			ServerState = FiresecAPI.ServerState.Ready;
 		}
 
-		static void CreateZipConfigFromFiles(string configFileName, string configDirectory)
+		static void CreateZipConfigFromFiles()
 		{
+			var configFileName = AppDataFolderHelper.GetServerAppDataPath("Config.fscp");
+			var configDirectory = AppDataFolderHelper.GetServerAppDataPath("Config");
+
 			if (File.Exists(configFileName))
 				File.Delete(configFileName);
 

@@ -10,6 +10,7 @@ using FiresecService.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Common.BalloonTrayTip;
 using Infrastructure.Common.Windows;
+using FiresecAPI;
 
 namespace FiresecService
 {
@@ -36,14 +37,16 @@ namespace FiresecService
 				WindowThread.Start();
 				MainViewStartedEvent.WaitOne();
 
+				FiresecService.Service.FiresecService.ServerState = ServerState.Sarting;
+				UILogger.Log("Открытие хоста");
+				FiresecServiceManager.Open();
+				ServerLoadHelper.SetStatus(FSServerState.Opened);
+
 				UILogger.Log("Загрузка конфигурации");
 				ConfigurationCashHelper.Update();
 				UILogger.Log("Создание конфигурации ГК");
 				GKProcessor.Create();
 				PatchManager.Patch();
-				UILogger.Log("Открытие хоста");
-				FiresecServiceManager.Open();
-				ServerLoadHelper.SetStatus(FSServerState.Opened);
 				UILogger.Log("Запуск ГК");
 				GKProcessor.Start();
 
@@ -59,6 +62,7 @@ namespace FiresecService
 
 				UILogger.Log("Готово");
 				ProcedureRunner.RunOnServerRun();
+				FiresecService.Service.FiresecService.ServerState = ServerState.Ready;
 			}
 			catch (Exception e)
 			{

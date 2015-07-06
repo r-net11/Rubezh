@@ -18,11 +18,6 @@ namespace Infrastructure.Common
 			PatchLibrary("GKDeviceLibraryConfiguration.xml", typeof(GKDeviceLibraryConfiguration));
 		}
 
-		public static void PatchSKDLibrary()
-		{
-			PatchLibrary("SKDDeviceLibraryConfiguration.xml", typeof(SKDLibraryConfiguration));
-		}
-
 		public static void PatchLibrary(string configurationFileName, Type configurationType)
 		{
 			try

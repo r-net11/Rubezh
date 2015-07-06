@@ -18,14 +18,14 @@ namespace FiresecClient
 			SafeOperationCall(() => { FiresecService.Disconnect(uid); }, "Disconnect");
 		}
 
+		public OperationResult<ServerState> GetServerState()
+		{
+			return SafeOperationCall(() => { return FiresecService.GetServerState(); }, "GetServerState");
+		}
+
 		public List<CallbackResult> Poll(Guid uid)
 		{
 			return SafeOperationCall(() => { return FiresecService.Poll(uid); }, "Poll");
-		}
-
-		public void NotifyClientsOnConfigurationChanged()
-		{
-			SafeOperationCall(() => { FiresecService.NotifyClientsOnConfigurationChanged(); }, "NotifyClientsOnConfigurationChanged");
 		}
 
 		public SecurityConfiguration GetSecurityConfiguration()

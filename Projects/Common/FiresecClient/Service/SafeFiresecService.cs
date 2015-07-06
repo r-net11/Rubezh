@@ -28,7 +28,7 @@ namespace FiresecClient
 			};
 		}
 
-		OperationResult<T> SafeOperationCall<T>(Func<OperationResult<T>> func, string methodName, bool reconnectOnException = true)
+		OperationResult<T> SafeOperationCall<T>(Func<OperationResult<T>> func, string methodName)
 		{
 			try
 			{
@@ -41,11 +41,7 @@ namespace FiresecClient
 			{
 				LogException(e, methodName);
 				OnConnectionLost();
-				if (reconnectOnException)
-				{
-					if (Recover())
-						return SafeOperationCall(func, methodName, false);
-				}
+				Recover();
 			}
 			return OperationResult<T>.FromError("Ошибка при при вызове операции");
 		}
@@ -66,8 +62,7 @@ namespace FiresecClient
 				OnConnectionLost();
 				if (reconnectOnException)
 				{
-					if (Recover())
-						return SafeOperationCall(func, methodName);
+					Recover();
 				}
 			}
 			return default(T);
@@ -86,8 +81,7 @@ namespace FiresecClient
 				OnConnectionLost();
 				if (reconnectOnException)
 				{
-					if (Recover())
-						SafeOperationCall(action, methodName, false);
+					Recover();
 				}
 			}
 		}

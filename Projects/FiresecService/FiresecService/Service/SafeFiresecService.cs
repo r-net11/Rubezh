@@ -92,6 +92,11 @@ namespace FiresecService.Service
 			SafeOperationCall(() => { FiresecService.Disconnect(uid); }, "Disconnect");
 		}
 
+		public OperationResult<ServerState> GetServerState()
+		{
+			return SafeOperationCall(() => { return FiresecService.GetServerState(); }, "GetServerState");
+		}
+
 		public string Ping()
 		{
 			return SafeOperationCall(() => { return FiresecService.Ping(); }, "Ping");
@@ -105,11 +110,6 @@ namespace FiresecService.Service
 		public List<CallbackResult> Poll(Guid uid)
 		{
 			return SafeContext.Execute<List<CallbackResult>>(() => FiresecService.Poll(uid));
-		}
-
-		public void NotifyClientsOnConfigurationChanged()
-		{
-			SafeOperationCall(() => { FiresecService.NotifyClientsOnConfigurationChanged(); }, "NotifyClientsOnConfigurationChanged");
 		}
 
 		public SecurityConfiguration GetSecurityConfiguration()

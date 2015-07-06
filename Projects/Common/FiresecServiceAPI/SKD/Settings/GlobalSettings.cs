@@ -18,7 +18,7 @@ namespace FiresecAPI
 			AdminLogin = "adm";
 			AdminPassword = "";
 			AdminAutoConnect = false;
-			MonitorLogin = "mon";
+			MonitorLogin = "adm";
 			MonitorPassword = "";
 			MonitorAutoConnect = false;
 

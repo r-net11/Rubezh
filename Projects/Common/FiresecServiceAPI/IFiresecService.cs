@@ -21,13 +21,13 @@ namespace FiresecAPI
 		void Disconnect(Guid uid);
 
 		[OperationContract]
+		OperationResult<ServerState> GetServerState();
+
+		[OperationContract]
 		List<CallbackResult> Poll(Guid uid);
 
 		[OperationContract]
 		string Test(string arg);
-
-		[OperationContract(IsOneWay = true)]
-		void NotifyClientsOnConfigurationChanged();
 
 		[OperationContract]
 		SecurityConfiguration GetSecurityConfiguration();

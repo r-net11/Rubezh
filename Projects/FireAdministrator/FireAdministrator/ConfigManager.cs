@@ -59,9 +59,6 @@ namespace FireAdministrator
 					    SaveConfigToFile(true);
 					    FiresecManager.FiresecService.SetLocalConfig();
 					}
-
-					if (ServiceFactory.SaveService.HasChanges)
-						FiresecManager.FiresecService.NotifyClientsOnConfigurationChanged();
 				});
 				LoadingService.Close();
 				ServiceFactory.SaveService.Reset();
