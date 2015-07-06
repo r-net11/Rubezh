@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
-using System.Xml.Serialization;
-
 
 namespace FiresecAPI
 {
@@ -76,18 +72,25 @@ namespace FiresecAPI
 
 		[DataMember]
 		public bool Monitor_F1_Enabled { get; set; }
+
 		[DataMember]
 		public bool Monitor_F2_Enabled { get; set; }
+
 		[DataMember]
 		public bool Monitor_F3_Enabled { get; set; }
+
 		[DataMember]
 		public bool Monitor_F4_Enabled { get; set; }
+
 		[DataMember]
 		public bool Monitor_IsControlMPT { get; set; }
+
 		[DataMember]
 		public bool Monitor_HaspInfo_Enabled { get; set; }
+
 		[DataMember]
 		public bool Monitor_HidePlansTree { get; set; }
+
 		[DataMember]
 		public ValidationErrorType IgnoredErrors { get; set; }
 

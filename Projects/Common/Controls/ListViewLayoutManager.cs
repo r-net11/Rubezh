@@ -1,56 +1,65 @@
-﻿using System;
+﻿using Common;
+using System;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using Common;
 
 namespace Controls
 {
 	public class ListViewLayoutManager
 	{
 		public static readonly DependencyProperty EnabledProperty = DependencyProperty.RegisterAttached("Enabled", typeof(bool), typeof(ListViewLayoutManager), new FrameworkPropertyMetadata(new PropertyChangedCallback(OnLayoutManagerEnabledChanged)));
+
 		public static void SetEnabled(DependencyObject dependencyObject, bool enabled)
 		{
 			dependencyObject.SetValue(EnabledProperty, enabled);
 		}
 
 		public static readonly DependencyProperty ColumnsProperty = DependencyProperty.RegisterAttached("Columns", typeof(GridViewColumnCollection), typeof(ListViewLayoutManager), new FrameworkPropertyMetadata());
+
 		public static void SetColumns(DependencyObject dependencyObject, GridViewColumnCollection value)
 		{
 			dependencyObject.SetValue(ColumnsProperty, value);
 		}
+
 		public static GridViewColumnCollection GetColumns(DependencyObject dependencyObject)
 		{
 			return (GridViewColumnCollection)dependencyObject.GetValue(ColumnsProperty);
 		}
 
 		public static readonly DependencyProperty MinWidthProperty = DependencyProperty.RegisterAttached("MinWidth", typeof(double), typeof(ListViewLayoutManager), new FrameworkPropertyMetadata());
+
 		public static double GetMinWidth(DependencyObject dependencyObject)
 		{
 			return (double)dependencyObject.GetValue(MinWidthProperty);
 		}
+
 		public static void SetMinWidth(DependencyObject dependencyObject, double minWidth)
 		{
 			dependencyObject.SetValue(MinWidthProperty, minWidth);
 		}
 
 		public static readonly DependencyProperty CanUserResizeProperty = DependencyProperty.RegisterAttached("CanUserResize", typeof(bool), typeof(ListViewLayoutManager), new UIPropertyMetadata(true));
+
 		public static bool GetCanUserResize(DependencyObject obj)
 		{
 			return (bool)obj.GetValue(CanUserResizeProperty);
 		}
+
 		public static void SetCanUserResize(DependencyObject obj, bool value)
 		{
 			obj.SetValue(CanUserResizeProperty, value);
 		}
 
 		public static readonly DependencyProperty StarWidthProperty = DependencyProperty.RegisterAttached("StarWidth", typeof(double), typeof(ListViewLayoutManager), new FrameworkPropertyMetadata());
+
 		public static double GetStarWidth(DependencyObject dependencyObject)
 		{
 			return (double)dependencyObject.GetValue(StarWidthProperty);
 		}
+
 		public static void SetStarWidth(DependencyObject dependencyObject, double starWidth)
 		{
 			dependencyObject.SetValue(StarWidthProperty, starWidth);
@@ -82,6 +91,7 @@ namespace Controls
 		}
 
 		private GridViewColumnCollection Columns { get; set; }
+
 		private double MinWidth { get; set; }
 
 		private void ListViewLoaded(object sender, RoutedEventArgs e)
@@ -92,6 +102,7 @@ namespace Controls
 			ResizeColumns(null);
 			_loaded = true;
 		}
+
 		private void ListViewUnloaded(object sender, RoutedEventArgs e)
 		{
 			if (!_loaded)
@@ -117,6 +128,7 @@ namespace Controls
 						dpd.AddValueChanged(column, OnResizeColumns);
 			}
 		}
+
 		private void UnregisterEvents()
 		{
 			if (_scroller != null)
@@ -133,6 +145,7 @@ namespace Controls
 						dpd.RemoveValueChanged(column, OnResizeColumns);
 			}
 		}
+
 		private void OnResizeColumns(object sender, EventArgs e)
 		{
 			ResizeColumns(sender as GridViewColumn);
@@ -153,6 +166,7 @@ namespace Controls
 			}
 			return scroller;
 		}
+
 		private void ResizeColumns(GridViewColumn column)
 		{
 			if (_resizing || Columns == null || Columns.Count == 0)

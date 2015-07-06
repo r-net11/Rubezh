@@ -1,8 +1,8 @@
-﻿using System;
-using System.Runtime.Serialization;
-using FiresecAPI.GK;
+﻿using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using FiresecAPI.Models;
+using System;
+using System.Runtime.Serialization;
 using System.Windows.Media;
 
 namespace FiresecAPI.Automation

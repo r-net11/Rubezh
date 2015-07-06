@@ -1,15 +1,15 @@
-﻿using System;
+﻿using FiresecAPI;
+using System;
 using System.Collections.Generic;
 using System.Threading;
-using FiresecAPI;
 
 namespace FiresecService.Service
 {
 	public class AsyncResult : IAsyncResult, IDisposable
 	{
-		AsyncCallback callback;
-		object state;
-		ManualResetEvent manualResentEvent;
+		private AsyncCallback callback;
+		private object state;
+		private ManualResetEvent manualResentEvent;
 
 		public AsyncResult(AsyncCallback callback, object state)
 		{
@@ -68,7 +68,9 @@ namespace FiresecService.Service
 		public readonly DateTime dateTime = DateTime.Now;
 
 		public Exception Exception { get; set; }
+
 		private List<CallbackResult> callbackResult;
+
 		public List<CallbackResult> Result
 		{
 			get { return callbackResult; }

@@ -20,6 +20,7 @@
 		{
 			return RestrictClose;
 		}
+
 		public void ForceClose()
 		{
 			RestrictClose = false;

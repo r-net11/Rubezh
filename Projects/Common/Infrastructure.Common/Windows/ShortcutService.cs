@@ -7,6 +7,7 @@ namespace Infrastructure.Common.Windows
 	public class ShortcutService
 	{
 		public event KeyEventHandler KeyPressed;
+
 		public Dictionary<KeyGesture, RelayCommand> Shortcuts { get; private set; }
 
 		internal ShortcutService()

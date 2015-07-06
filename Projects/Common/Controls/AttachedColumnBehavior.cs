@@ -101,30 +101,30 @@ namespace Controls
 		}
 
 		#region OnChange handlers
+
 		private static void OnCellTemplatePropertyChanged(DependencyObject depObj, DependencyPropertyChangedEventArgs e)
 		{
-
 		}
+
 		private static void OnHeaderTemplatePropertyChanged(DependencyObject depObj, DependencyPropertyChangedEventArgs e)
 		{
-
 		}
 
 		private static void OnCellEditingTemplatePropertyChanged(DependencyObject depObj, DependencyPropertyChangedEventArgs e)
 		{
-
 		}
+
 		private static void OnMappedValuesPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
-
 		}
-		#endregion
 
+		#endregion OnChange handlers
 
 		public static IEnumerable GetAttachedColumns(DependencyObject dataGrid)
 		{
 			return (IEnumerable)dataGrid.GetValue(AttachedColumnsProperty);
 		}
+
 		public static void SetAttachedColumns(DependencyObject dataGrid, IEnumerable value)
 		{
 			dataGrid.SetValue(AttachedColumnsProperty, value);
@@ -143,6 +143,7 @@ namespace Controls
 		{
 			return (DataTemplate)dataGrid.GetValue(HeaderTemplateProperty);
 		}
+
 		public static void SetHeaderTemplate(DependencyObject dataGrid, DataTemplate value)
 		{
 			dataGrid.SetValue(HeaderTemplateProperty, value);
@@ -152,6 +153,7 @@ namespace Controls
 		{
 			return (DataTemplate)dataGrid.GetValue(AttachedCellTemplateProperty);
 		}
+
 		public static void SetAttachedCellTemplate(DependencyObject dataGrid, DataTemplate value)
 		{
 			dataGrid.SetValue(AttachedCellTemplateProperty, value);
@@ -161,6 +163,7 @@ namespace Controls
 		{
 			return (DataTemplate)dataGrid.GetValue(AttachedCellEditingTemplateProperty);
 		}
+
 		public static void SetAttachedCellEditingTemplate(DependencyObject dataGrid, DataTemplate value)
 		{
 			dataGrid.SetValue(AttachedCellEditingTemplateProperty, value);

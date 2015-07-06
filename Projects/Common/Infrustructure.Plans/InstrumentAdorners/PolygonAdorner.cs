@@ -1,9 +1,9 @@
-﻿using System.Windows;
+﻿using Infrustructure.Plans.Designer;
+using Infrustructure.Plans.Elements;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.Elements;
 
 namespace Infrustructure.Plans.InstrumentAdorners
 {
@@ -30,6 +30,7 @@ namespace Infrustructure.Plans.InstrumentAdorners
 			rubberband.StrokeThickness = 1 / ZoomFactor;
 			AdornerCanvas.Cursor = Cursors.Pen;
 		}
+
 		public override void Hide()
 		{
 			base.Hide();
@@ -37,7 +38,9 @@ namespace Infrustructure.Plans.InstrumentAdorners
 		}
 
 		protected abstract Shape CreateRubberband();
+
 		protected abstract PointCollection Points { get; }
+
 		protected abstract ElementBaseShape CreateElement();
 
 		protected override void OnMouseDown(MouseButtonEventArgs e)
@@ -54,6 +57,7 @@ namespace Infrustructure.Plans.InstrumentAdorners
 			if (e.LeftButton == MouseButtonState.Pressed && e.ClickCount == 2)
 				ClosePolygon();
 		}
+
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
 			if (Points.Count > 0 && _opened)
@@ -67,6 +71,7 @@ namespace Infrustructure.Plans.InstrumentAdorners
 				e.Handled = true;
 			}
 		}
+
 		protected override void OnMouseUp(MouseButtonEventArgs e)
 		{
 			var point = e.GetPosition(this);
@@ -78,6 +83,7 @@ namespace Infrustructure.Plans.InstrumentAdorners
 						if (Points.Count == 1)
 							Points.Add(CutPoint(point));
 						break;
+
 					case MouseButton.Right:
 						if (Points.Count > 1)
 						{
@@ -98,6 +104,7 @@ namespace Infrustructure.Plans.InstrumentAdorners
 			base.UpdateZoom();
 			rubberband.StrokeThickness = 1 / ZoomFactor;
 		}
+
 		public override bool KeyboardInput(Key key)
 		{
 			var handled = base.KeyboardInput(key);
@@ -123,6 +130,7 @@ namespace Infrustructure.Plans.InstrumentAdorners
 			}
 			return handled;
 		}
+
 		private void ClosePolygon()
 		{
 			if (Points.Count > 2)
@@ -137,6 +145,7 @@ namespace Infrustructure.Plans.InstrumentAdorners
 				Cleanup();
 			}
 		}
+
 		private void Cleanup()
 		{
 			_opened = false;

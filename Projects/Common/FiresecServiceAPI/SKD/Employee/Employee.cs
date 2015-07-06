@@ -100,6 +100,7 @@ namespace FiresecAPI.SKD
 		public string Phone { get; set; }
 
 		public string Name { get { return LastName + " " + FirstName + " " + SecondName; } }
+
 		public string FIO { get { return LastName + " " + FirstName + (SecondName != null ? " " + SecondName : ""); } }
 	}
 

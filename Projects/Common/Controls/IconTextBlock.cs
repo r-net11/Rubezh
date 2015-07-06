@@ -11,6 +11,7 @@ namespace Controls
 		}
 
 		public static readonly DependencyProperty ImageSourceProperty = DependencyProperty.Register("ImageSource", typeof(string), typeof(IconLabel));
+
 		public string ImageSource
 		{
 			get { return (string)GetValue(ImageSourceProperty); }
@@ -18,6 +19,7 @@ namespace Controls
 		}
 
 		public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(string), typeof(IconLabel));
+
 		public string Text
 		{
 			get { return (string)GetValue(TextProperty); }

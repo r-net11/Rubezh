@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.Serialization;
 
 namespace FiresecAPI.Automation
@@ -26,7 +25,7 @@ namespace FiresecAPI.Automation
 
 		[Description("Закрыть все двери")]
 		Close,
-		
+
 		[Description("Установить режим ОТКРЫТО")]
 		OpenForever,
 

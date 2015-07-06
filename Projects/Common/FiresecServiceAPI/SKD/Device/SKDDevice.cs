@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Common;
+using FiresecAPI.GK;
+using Infrustructure.Plans.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
-using Common;
-using FiresecAPI.GK;
-using Infrustructure.Plans.Interfaces;
 using System.Xml.Serialization;
 
 namespace FiresecAPI.SKD
@@ -23,17 +23,22 @@ namespace FiresecAPI.SKD
 
 		[XmlIgnore]
 		public SKDDriver Driver { get; set; }
+
 		[XmlIgnore]
 		public SKDDriverType DriverType
 		{
 			get { return Driver.DriverType; }
 		}
+
 		[XmlIgnore]
 		public SKDDevice Parent { get; set; }
+
 		[XmlIgnore]
 		public SKDDeviceState State { get; set; }
+
 		[XmlIgnore]
 		public SKDZone Zone { get; set; }
+
 		[XmlIgnore]
 		public SKDDoor Door { get; set; }
 
@@ -72,7 +77,7 @@ namespace FiresecAPI.SKD
 		{
 			get
 			{
-				switch(DriverType)
+				switch (DriverType)
 				{
 					case SKDDriverType.System:
 					case SKDDriverType.Controller:
@@ -92,7 +97,7 @@ namespace FiresecAPI.SKD
 					case SKDDriverType.Lock:
 					case SKDDriverType.LockControl:
 					case SKDDriverType.Button:
-						return (IntAddress+1).ToString();
+						return (IntAddress + 1).ToString();
 
 					default:
 						return "";
@@ -184,6 +189,6 @@ namespace FiresecAPI.SKD
 			get { return State; }
 		}
 
-		#endregion
+		#endregion IStateProvider Members
 	}
 }

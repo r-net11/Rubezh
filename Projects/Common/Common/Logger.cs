@@ -1,8 +1,8 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
-using NLog;
 
 namespace Common
 {
@@ -22,10 +22,12 @@ namespace Common
 		{
 			Error(ex, ex.Message, _empty);
 		}
+
 		public static void Error(Exception ex, string message)
 		{
 			Error(ex, message, _empty);
 		}
+
 		public static void Error(Exception ex, string message, params object[] args)
 		{
 			System.Diagnostics.Trace.WriteLine(message);
@@ -41,37 +43,44 @@ namespace Common
 		{
 			Error(message, _empty);
 		}
+
 		public static void Error(string message, params object[] args)
 		{
 			System.Diagnostics.Trace.WriteLine(message);
 			WriteLog(LogLevel.Error, message, args);
 		}
+
 		public static void Warn(string message)
 		{
 			Warn(message, _empty);
 		}
+
 		public static void Warn(string message, params object[] args)
 		{
 			WriteLog(LogLevel.Warn, message, args);
 		}
+
 		public static void Info(string message)
 		{
 			Info(message, _empty);
 		}
+
 		public static void Info(string message, params object[] args)
 		{
 			WriteLog(LogLevel.Info, message, args);
 		}
+
 		public static void Trace(string message)
 		{
 			Trace(message, _empty);
 		}
+
 		public static void Trace(string message, params object[] args)
 		{
 			WriteLog(LogLevel.Trace, message, args);
 		}
 
-		static void WriteLog(LogLevel level, string message, params object[] args)
+		private static void WriteLog(LogLevel level, string message, params object[] args)
 		{
 			lock (_logger)
 				try
@@ -83,7 +92,7 @@ namespace Common
 				}
 		}
 
-		static string GetStackTrace()
+		private static string GetStackTrace()
 		{
 			var stringBuilder = new StringBuilder();
 			var stackTrace = new StackTrace(true);

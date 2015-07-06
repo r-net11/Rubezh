@@ -1,20 +1,23 @@
-﻿using System;
+﻿using FiresecAPI.SKD;
+using LinqKit;
+using System;
 using System.Data.Linq;
 using System.Linq.Expressions;
-using FiresecAPI.SKD;
-using LinqKit;
 
 namespace SKDDriver
 {
 	public class PositionSynchroniser : Synchroniser<ExportPosition, DataAccess.Position>
 	{
-		public PositionSynchroniser(Table<DataAccess.Position> table, SKDDatabaseService databaseService) : base(table, databaseService) { }
+		public PositionSynchroniser(Table<DataAccess.Position> table, SKDDatabaseService databaseService)
+			: base(table, databaseService)
+		{
+		}
 
 		public override ExportPosition Translate(DataAccess.Position item)
 		{
-			return new ExportPosition 
-			{ 
-				Name = item.Name, 
+			return new ExportPosition
+			{
+				Name = item.Name,
 				Description = item.Description,
 
 				OrganisationUID = GetUID(item.OrganisationUID),
@@ -39,11 +42,10 @@ namespace SKDDriver
 
 		public override void TranslateBack(ExportPosition exportItem, DataAccess.Position tableItem)
 		{
-			tableItem.Name  = exportItem.Name;
+			tableItem.Name = exportItem.Name;
 			tableItem.Description = exportItem.Description;
 
 			tableItem.OrganisationUID = GetUIDbyExternalKey(exportItem.OrganisationExternalKey, _DatabaseService.Context.Organisations);
 		}
-
 	}
 }

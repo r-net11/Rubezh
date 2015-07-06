@@ -1,17 +1,21 @@
-﻿using System;
+﻿using FiresecAPI;
+using System;
 using System.Data.Linq;
 using System.Linq;
-using FiresecAPI;
 
 namespace SKDDriver.Translators
 {
 	public class JounalTranslator : IDisposable
 	{
-		Table<DataAccess.Journal> _Table;
-		string Name { get { return "Journal"; } }
+		private Table<DataAccess.Journal> _Table;
+
+		private string Name { get { return "Journal"; } }
+
 		public string NameXml { get { return Name + ".xml"; } }
+
 		public static string ConnectionString { get; set; }
-		DataAccess.JournalDataContext Context;
+
+		private DataAccess.JournalDataContext Context;
 
 		public JounalTranslator()
 		{
@@ -37,7 +41,6 @@ namespace SKDDriver.Translators
 				return new OperationResult(e.Message);
 			}
 		}
-
 
 		public OperationResult SaveCameraUID(Guid itemUID, Guid CameraUID)
 		{

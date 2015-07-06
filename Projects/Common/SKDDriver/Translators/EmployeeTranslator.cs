@@ -1,19 +1,19 @@
-﻿using System;
+﻿using FiresecAPI;
+using FiresecAPI.SKD;
+using LinqKit;
+using SKDDriver.Translators;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
-using FiresecAPI;
-using FiresecAPI.SKD;
-using LinqKit;
-using SKDDriver.Translators;
 
 namespace SKDDriver
 {
 	public class EmployeeTranslator : WithShortTranslator<DataAccess.Employee, Employee, EmployeeFilter, ShortEmployee>
 	{
-		EFDataAccess.SKDEntities EFContext;
- 		
+		private EFDataAccess.SKDEntities EFContext;
+
 		public EmployeeTranslator(SKDDatabaseService databaseService)
 			: base(databaseService)
 		{
@@ -42,15 +42,15 @@ namespace SKDDriver
 					from organisation in organisations.DefaultIfEmpty()
 					join additionalColumn in Context.AdditionalColumns.Where(x => x.AdditionalColumnType.DataType == (int?)AdditionalColumnDataType.Text).DefaultIfEmpty()
 						on employee.UID equals additionalColumn.EmployeeUID into additionalColumns
-					select new 
-						{ 
+					select new
+						{
 							Employee = employee,
 							Department = department,
 							Position = position,
 							Organisation = organisation,
-							Schedule = schedule, 
-							Cards = new List<CardWithDoors>(), 
-							AdditionalColumns = additionalColumns, 
+							Schedule = schedule,
+							Cards = new List<CardWithDoors>(),
+							AdditionalColumns = additionalColumns,
 						};
 
 				foreach (var tableItem in tableItems)
@@ -88,7 +88,7 @@ namespace SKDDriver
 						Position = position,
 						Organisation = organisation,
 						Schedule = schedule,
-						
+
 						//AdditionalColumns = new List<EFDataAccess.AdditionalColumn>(),
 					};
 
@@ -107,8 +107,8 @@ namespace SKDDriver
 		public class CardWithDoors { public DataAccess.Card Card; public IEnumerable<DataAccess.CardDoor> CardDoors; }
 
 		protected ShortEmployee TranslateToShort(
-			DataAccess.Employee employee, 
-			DataAccess.Department department, 
+			DataAccess.Employee employee,
+			DataAccess.Department department,
 			DataAccess.Position position,
 			DataAccess.Organisation organisation,
 			DataAccess.Schedule schedule,
@@ -242,13 +242,13 @@ namespace SKDDriver
 			return result;
 		}
 
-		List<DataAccess.Department> _departments;
-		List<DataAccess.Position> _positions;
-		List<DataAccess.Organisation> _organisations;
-		List<DataAccess.Schedule> _schedules;
-		List<Guid> _additionalColumnTypeUIDs;
-		List<DataAccess.AdditionalColumn> _additionalColumns;
-		List<DataAccess.Card> _cards;
+		private List<DataAccess.Department> _departments;
+		private List<DataAccess.Position> _positions;
+		private List<DataAccess.Organisation> _organisations;
+		private List<DataAccess.Schedule> _schedules;
+		private List<Guid> _additionalColumnTypeUIDs;
+		private List<DataAccess.AdditionalColumn> _additionalColumns;
+		private List<DataAccess.Card> _cards;
 
 		protected override void BeforeGetList()
 		{
@@ -322,11 +322,10 @@ namespace SKDDriver
 			return IsInFilter(filter);
 		}
 
-
 		protected override Expression<Func<DataAccess.Employee, bool>> IsInFilter(EmployeeFilter filter)
 		{
 			var result = base.IsInFilter(filter);
-			if(!filter.IsAllPersonTypes)
+			if (!filter.IsAllPersonTypes)
 				result = result.And(e => e.Type == (int?)filter.PersonType);
 
 			if (filter.DepartmentUIDs.IsNotNullOrEmpty())
@@ -381,9 +380,11 @@ namespace SKDDriver
 				case LogicalDeletationType.Deleted:
 					IsDeletedExpression = e => e.IsDeleted;
 					break;
+
 				case LogicalDeletationType.Active:
 					IsDeletedExpression = e => !e.IsDeleted;
 					break;
+
 				default:
 					break;
 			}
@@ -461,6 +462,7 @@ namespace SKDDriver
 		}
 
 		#region TestData
+
 		public OperationResult GenerateTestData()
 		{
 			try
@@ -523,20 +525,20 @@ namespace SKDDriver
 			}
 		}
 
-		DataAccess.Department CreateDepartment(string name, Guid orgUID, Guid? parentUID = null)
+		private DataAccess.Department CreateDepartment(string name, Guid orgUID, Guid? parentUID = null)
 		{
-			return new DataAccess.Department 
-			{ 
-				Name = name, 
-				OrganisationUID = orgUID, 
-				UID = Guid.NewGuid(), 
-				ParentDepartmentUID = parentUID, 
-				RemovalDate = _minDate, 
-				ExternalKey = "-1" 
+			return new DataAccess.Department
+			{
+				Name = name,
+				OrganisationUID = orgUID,
+				UID = Guid.NewGuid(),
+				ParentDepartmentUID = parentUID,
+				RemovalDate = _minDate,
+				ExternalKey = "-1"
 			};
 		}
 
-		DataAccess.Employee CreateEmployee(string no, Guid orgUID, Guid? deptUID = null, Guid? posUID = null)
+		private DataAccess.Employee CreateEmployee(string no, Guid orgUID, Guid? deptUID = null, Guid? posUID = null)
 		{
 			return new DataAccess.Employee
 			{
@@ -559,20 +561,20 @@ namespace SKDDriver
 			};
 		}
 
-		static DateTime _minDate = new DateTime(1900, 1, 1);
+		private static DateTime _minDate = new DateTime(1900, 1, 1);
 
-		DataAccess.Card CreateCard(int no, Guid emplUID)
+		private DataAccess.Card CreateCard(int no, Guid emplUID)
 		{
-			return new DataAccess.Card 
-			{ 
-				UID = Guid.NewGuid(), 
-				Number = no, 
-				EmployeeUID = emplUID, 
-				CardType = 0, 
-				GKCardType = 0, 
+			return new DataAccess.Card
+			{
+				UID = Guid.NewGuid(),
+				Number = no,
+				EmployeeUID = emplUID,
+				CardType = 0,
+				GKCardType = 0,
 				StartDate = _minDate,
 				EndDate = _minDate,
-				ExternalKey = "-1" 
+				ExternalKey = "-1"
 			};
 		}
 
@@ -584,7 +586,6 @@ namespace SKDDriver
 				var employees = Table.Where(x => !x.IsDeleted);
 				foreach (var employee in employees)
 				{
-
 					var employeeDay = new EmployeeDay();
 					employeeDay.EmployeeUID = employee.UID;
 					var schedule = Context.Schedules.FirstOrDefault(x => x.UID == employee.ScheduleUID);
@@ -607,11 +608,13 @@ namespace SKDDriver
 									if (dayNo == -1)
 										dayNo = 6;
 									break;
+
 								case ScheduleSchemeType.SlideDay:
 									var ticksDelta = new TimeSpan(employeeDay.Date.Ticks - employee.ScheduleStartDate.Date.Ticks);
 									var daysDelta = Math.Abs((int)ticksDelta.TotalDays);
 									dayNo = daysDelta % schedule.ScheduleScheme.DaysCount;
 									break;
+
 								case ScheduleSchemeType.Month:
 									dayNo = (int)employeeDay.Date.Day - 1;
 									break;
@@ -642,7 +645,7 @@ namespace SKDDriver
 			stopWatch.Start();
 			for (int i = 0; i < 100; i++)
 			{
-			    var e1 = GetList(new EmployeeFilter());
+				var e1 = GetList(new EmployeeFilter());
 			}
 			stopWatch.Stop();
 			Trace.WriteLine("LinqToSql " + new TimeSpan(stopWatch.Elapsed.Ticks / 100));
@@ -656,7 +659,7 @@ namespace SKDDriver
 			Trace.WriteLine("LinqToEntities " + new TimeSpan(stopWatch2.Elapsed.Ticks / 100));
 			//var e1 = GetList(new EmployeeFilter());
 			//var e2 = EFGetList(new EmployeeFilter());
-			
+
 			//int i = 0;
 			//string s;
 			//foreach (var employee in Table)
@@ -665,7 +668,8 @@ namespace SKDDriver
 			//    s = string.Format("{0} {1}", employee.UID, i);
 			//}
 		}
-		#endregion
+
+		#endregion TestData
 
 		public EmployeeSynchroniser Synchroniser;
 	}

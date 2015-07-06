@@ -1,5 +1,5 @@
-﻿using System.Windows.Media;
-using Infrustructure.Plans.Painters;
+﻿using Infrustructure.Plans.Painters;
+using System.Windows.Media;
 
 namespace Infrustructure.Plans.Presenter
 {
@@ -25,23 +25,27 @@ namespace Infrustructure.Plans.Presenter
 			figure.IsClosed = true;
 			_geometry.Figures.Add(figure);
 		}
+
 		public void Render(DrawingContext drawingContext)
 		{
 			drawingContext.PushTransform(_transform);
 			drawingContext.DrawGeometry(null, _pen, _geometry);
 			drawingContext.Pop();
 		}
+
 		public void UpdateZoom(double zoom)
 		{
 			_pen.Thickness = 3 / zoom;
 			UpdateBounds();
 		}
+
 		public void Hide()
 		{
 			_presenterItem = null;
 			_transform.ScaleX = 0;
 			_transform.ScaleY = 0;
 		}
+
 		public void Show(PresenterItem presenterItem)
 		{
 			_presenterItem = presenterItem;

@@ -1,27 +1,34 @@
-﻿using System;
-using System.Linq;
-using System.Threading;
-using ChinaSKDDriverAPI;
+﻿using ChinaSKDDriverAPI;
+using ChinaSKDDriverNativeApi;
 using FiresecAPI;
 using FiresecAPI.GK;
-using FiresecAPI.SKD;
 using FiresecAPI.Journal;
+using FiresecAPI.SKD;
+using System;
 using System.Collections.Generic;
-using ChinaSKDDriverNativeApi;
+using System.Linq;
+using System.Threading;
 
 namespace ChinaSKDDriver
 {
 	public class DeviceProcessor
 	{
 		public Wrapper Wrapper { get; private set; }
+
 		public SKDDevice Device { get; private set; }
+
 		public int LoginID { get; private set; }
+
 		public bool IsConnected { get; private set; }
+
 		public string LoginFailureReason { get; private set; }
-		Thread Thread;
-		bool IsStopping;
-		static AutoResetEvent AutoResetEvent = new AutoResetEvent(false);
+
+		private Thread Thread;
+		private bool IsStopping;
+		private static AutoResetEvent AutoResetEvent = new AutoResetEvent(false);
+
 		public event Action<JournalItem> NewJournalItem;
+
 		public event Action<DeviceProcessor> ConnectionAppeared;
 
 		public DeviceProcessor(SKDDevice device)
@@ -32,7 +39,7 @@ namespace ChinaSKDDriver
 			Wrapper.NewJournalItem += new Action<SKDJournalItem>(Wrapper_NewJournalItem);
 		}
 
-		void Wrapper_NewJournalItem(SKDJournalItem skdJournalItem)
+		private void Wrapper_NewJournalItem(SKDJournalItem skdJournalItem)
 		{
 			if (skdJournalItem.LoginID == LoginID)
 			{
@@ -208,7 +215,7 @@ namespace ChinaSKDDriver
 			}
 		}
 
-		void OnConnectionChanged(bool isConnected, bool fireJournalItem = true)
+		private void OnConnectionChanged(bool isConnected, bool fireJournalItem = true)
 		{
 			IsConnected = isConnected;
 			if (fireJournalItem)
@@ -320,7 +327,7 @@ namespace ChinaSKDDriver
 			}
 		}
 
-		void OnStart()
+		private void OnStart()
 		{
 			var attemptCount = 0;
 

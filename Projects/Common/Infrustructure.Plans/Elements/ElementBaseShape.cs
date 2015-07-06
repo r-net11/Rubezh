@@ -45,6 +45,7 @@ namespace Infrustructure.Plans.Elements
 				minLeft = maxLeft;
 			return new Rect(minLeft, minTop, maxLeft - minLeft, maxTop - minTop);
 		}
+
 		protected override void SetPosition(Point point)
 		{
 			Rect rect = GetRectangle();

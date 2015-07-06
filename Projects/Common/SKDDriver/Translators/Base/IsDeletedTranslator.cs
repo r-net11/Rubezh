@@ -1,9 +1,9 @@
-﻿using System;
-using System.Linq;
-using System.Linq.Expressions;
-using FiresecAPI;
+﻿using FiresecAPI;
 using FiresecAPI.SKD;
 using LinqKit;
+using System;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace SKDDriver
 {
@@ -12,16 +12,21 @@ namespace SKDDriver
 		where ApiT : SKDIsDeletedModel, new()
 		where FilterT : IsDeletedFilter
 	{
-		public IsDeletedTranslator(SKDDatabaseService databaseService) : base(databaseService) { }
+		public IsDeletedTranslator(SKDDatabaseService databaseService)
+			: base(databaseService)
+		{
+		}
 
 		protected override ApiT Translate(TableT tableItem)
 		{
 			return TranslateIsDeleted<ApiT, TableT>(tableItem);
 		}
+
 		protected override void TranslateBack(TableT tableItem, ApiT apiItem)
 		{
 			TranslateBackIsDeleted<ApiT, TableT>(apiItem, tableItem);
 		}
+
 		protected override Expression<Func<TableT, bool>> IsInFilter(FilterT filter)
 		{
 			var result = base.IsInFilter(filter);
@@ -31,9 +36,11 @@ namespace SKDDriver
 				case LogicalDeletationType.Deleted:
 					IsDeletedExpression = e => e.IsDeleted;
 					break;
+
 				case LogicalDeletationType.Active:
 					IsDeletedExpression = e => !e.IsDeleted;
 					break;
+
 				default:
 					break;
 			}
@@ -112,7 +119,7 @@ namespace SKDDriver
 					return beforeRestoreResult;
 				databaseItem.IsDeleted = false;
 				Table.Context.SubmitChanges();
-				return new OperationResult();	
+				return new OperationResult();
 			}
 			catch (Exception e)
 			{

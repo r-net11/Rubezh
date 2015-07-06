@@ -25,7 +25,5 @@ namespace Controls.Converters
 		{
 			throw new NotSupportedException();
 		}
-
 	}
-
 }

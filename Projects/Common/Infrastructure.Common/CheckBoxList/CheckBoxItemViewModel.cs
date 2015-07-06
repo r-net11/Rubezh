@@ -4,13 +4,13 @@ namespace Infrastructure.Common.CheckBoxList
 {
 	public abstract class CheckBoxItemViewModel : BaseViewModel, ICheckBoxItem
 	{
-		bool _isChecked;
+		private bool _isChecked;
+
 		public bool IsChecked
 		{
 			get { return _isChecked; }
 			set
 			{
-				
 				ItemsList.BeforeChecked();
 				_isChecked = value;
 				OnPropertyChanged(() => IsChecked);

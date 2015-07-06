@@ -15,6 +15,7 @@ namespace Common
 		}
 
 		public static int DpiX { get; private set; }
+
 		public static int DpiY { get; private set; }
 	}
 }

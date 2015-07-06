@@ -1,15 +1,15 @@
-﻿using System;
-using System.IO;
-using System.Runtime.Serialization;
-using Common;
+﻿using Common;
 using FiresecAPI;
+using System;
+using System.IO;
 using System.Xml.Serialization;
 
 namespace Infrastructure.Common
 {
 	public static class GlobalSettingsHelper
 	{
-		static string FileName = AppDataFolderHelper.GetGlobalSettingsFileName();
+		private static string FileName = AppDataFolderHelper.GetGlobalSettingsFileName();
+
 		public static GlobalSettings GlobalSettings { get; private set; }
 
 		static GlobalSettingsHelper()
@@ -37,6 +37,7 @@ namespace Infrastructure.Common
 				Logger.Error(e);
 			}
 		}
+
 		public static void Save()
 		{
 			try
@@ -52,6 +53,7 @@ namespace Infrastructure.Common
 				Logger.Error(e);
 			}
 		}
+
 		public static void Reset()
 		{
 			GlobalSettings = new GlobalSettings();

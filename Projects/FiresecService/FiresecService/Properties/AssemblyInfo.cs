@@ -8,8 +8,6 @@
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyProduct("FiresecService")]
 
-
-
 //Чтобы начать построение локализованных приложений, задайте
 //<UICulture>CultureYouAreCodingWith</UICulture> в файле .csproj
 //внутри <PropertyGroup>.  Например, если используется английский США

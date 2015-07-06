@@ -1,5 +1,4 @@
-﻿using System;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 
 namespace FiresecAPI.Automation
 {
@@ -26,6 +25,5 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public ObjectType ObjectType { get; set; }
-
 	}
 }

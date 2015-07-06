@@ -14,6 +14,7 @@ namespace Controls
 		}
 
 		public static DependencyProperty IsEditingProperty = DependencyProperty.Register("IsEditing", typeof(bool), typeof(EditorPresenter), new FrameworkPropertyMetadata(false));
+
 		public bool IsEditing
 		{
 			get { return (bool)GetValue(IsEditingProperty); }
@@ -32,6 +33,7 @@ namespace Controls
 		}
 
 		public static DependencyProperty EditTemplateProperty = DependencyProperty.Register("EditTemplate", typeof(ControlTemplate), typeof(EditorPresenter), new FrameworkPropertyMetadata());
+
 		public ControlTemplate EditTemplate
 		{
 			get { return (ControlTemplate)this.GetValue(EditTemplateProperty); }
@@ -39,6 +41,7 @@ namespace Controls
 		}
 
 		public static DependencyProperty ViewTemplateProperty = DependencyProperty.Register("ViewTemplate", typeof(ControlTemplate), typeof(EditorPresenter), new FrameworkPropertyMetadata(ViewTemplateChanged));
+
 		public ControlTemplate ViewTemplate
 		{
 			get { return (ControlTemplate)this.GetValue(ViewTemplateProperty); }
@@ -74,12 +77,14 @@ namespace Controls
 				_canBeEdit = true;
 			}
 		}
+
 		protected override void OnMouseLeave(MouseEventArgs e)
 		{
 			base.OnMouseLeave(e);
 			_isMouseWithinScope = false;
 			_canBeEdit = false;
 		}
+
 		protected override void OnMouseUp(MouseButtonEventArgs e)
 		{
 			base.OnMouseUp(e);
@@ -95,6 +100,7 @@ namespace Controls
 					_isMouseWithinScope = true;
 			}
 		}
+
 		protected override void OnPreviewMouseDoubleClick(MouseButtonEventArgs e)
 		{
 			e.Handled = true;
@@ -108,11 +114,13 @@ namespace Controls
 			if (_viewItem == null)
 				_viewItem = GetDependencyObjectFromVisualTree(this, typeof(TreeViewItem)) as TreeViewItem;
 		}
+
 		private void OnEditorLayoutUpdated(object sender, EventArgs e)
 		{
 			if (IsEditing && !IsKeyboardFocusWithin)
 				Focus();
 		}
+
 		private void OnEditorKeyDown(object sender, KeyEventArgs e)
 		{
 			if (IsEditing && (e.Key == Key.Enter || e.Key == Key.F2))
@@ -121,11 +129,13 @@ namespace Controls
 				_canBeEdit = false;
 			}
 		}
+
 		private void OnEditorLostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
 		{
 			if (!IsKeyboardFocusWithin)
 				IsEditing = false;
 		}
+
 		private void OnEditorIsKeyboardFocusWithinChanged(object sender, DependencyPropertyChangedEventArgs e)
 		{
 			if ((bool)e.OldValue == true && (bool)e.NewValue == false)
@@ -157,5 +167,4 @@ namespace Controls
 			return parent;
 		}
 	}
-
 }

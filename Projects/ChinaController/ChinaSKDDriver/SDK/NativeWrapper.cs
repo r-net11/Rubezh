@@ -1,13 +1,14 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿using FiresecAPI.SKD;
+using System;
 using System.ComponentModel;
-using FiresecAPI.SKD;
+using System.Runtime.InteropServices;
 
 namespace ChinaSKDDriverNativeApi
 {
 	public class NativeWrapper
 	{
 		#region Common
+
 		[DllImport(@"CPPWrapper.dll")]
 		public static extern void WRAP_Initialize();
 
@@ -57,9 +58,12 @@ namespace ChinaSKDDriverNativeApi
 			public Int32 nStartNum;
 			public Int32 nEndNum;
 			public Byte nLogStuType;
+
 			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
 			public Byte[] reserved;
+
 			public UInt32 nChannelID;
+
 			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 40)]
 			public Byte[] bReserved;
 		}
@@ -131,8 +135,10 @@ namespace ChinaSKDDriverNativeApi
 		{
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
 			public string szDevType;
+
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
 			public string szSoftWareVersion;
+
 			public Int32 dwSoftwareBuildDate_Year;
 			public Int32 dwSoftwareBuildDate_Month;
 			public Int32 dwSoftwareBuildDate_Day;
@@ -146,10 +152,13 @@ namespace ChinaSKDDriverNativeApi
 		{
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
 			public string szIP;
+
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
 			public string szSubnetMask;
+
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
 			public string szDefGateway;
+
 			public Int32 nMTU;
 		}
 
@@ -209,11 +218,14 @@ namespace ChinaSKDDriverNativeApi
 		public struct CFG_NTP_INFO
 		{
 			public bool bEnable;
+
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
 			public string szAddress;
+
 			public int nPort;
 			public int nUpdatePeriod;
 			public SKDTimeZoneType emTimeZoneType;
+
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
 			public string szTimeZoneDesc;
 		}
@@ -258,6 +270,7 @@ namespace ChinaSKDDriverNativeApi
 		{
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
 			public string szChannelName;
+
 			public CFG_ACCESS_STATE emState;
 			public CFG_ACCESS_MODE emMode;
 			public int nEnableMode;
@@ -289,8 +302,10 @@ namespace ChinaSKDDriverNativeApi
 			public bool bRepeatEnterAlarm;
 			public bool bDoorNotClosedAlarmEnable;
 			public bool bDuressAlarmEnable;
+
 			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 7 * 4)]
 			public CFG_DOOROPEN_TIMESECTION_INFO[] stuDoorTimeSection;
+
 			public bool bSensorEnable;
 
 			public CFG_ACCESS_FIRSTENTER_INFO stuFirstEnterInfo;
@@ -329,9 +344,11 @@ namespace ChinaSKDDriverNativeApi
 
 		[DllImport(@"CPPWrapper.dll")]
 		public static extern bool TestStruct(IntPtr result);
-		#endregion
+
+		#endregion Common
 
 		#region Cards
+
 		public enum NET_ACCESSCTLCARD_STATE
 		{
 			NET_ACCESSCTLCARD_STATE_UNKNOWN = -1,
@@ -371,10 +388,10 @@ namespace ChinaSKDDriverNativeApi
 		[StructLayout(LayoutKind.Sequential)]
 		public struct NET_ACCESSCTLCARD_FINGERPRINT_PACKET
 		{
-		    public uint dwSize;	
+			public uint dwSize;
 			public int nLength;
 			public int nCount;
-			public string	pPacketData; // char*
+			public string pPacketData; // char*
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -383,30 +400,42 @@ namespace ChinaSKDDriverNativeApi
 			public Int32 dwSize;
 			public Int32 nRecNo;
 			public NET_TIME stuCreateTime;
+
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
 			public string szCardNo;
+
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
 			public string szUserID;
+
 			public NET_ACCESSCTLCARD_STATE emStatus;
 			public NET_ACCESSCTLCARD_TYPE emType;
+
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
 			public string szPsw;
+
 			public Int32 nDoorNum;
+
 			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
 			public Int32[] sznDoors;
+
 			public Int32 nTimeSectionNum;
+
 			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
 			public Int32[] sznTimeSectionNo;
+
 			public Int32 nUserTime;
 			public NET_TIME stuValidStartTime;
 			public NET_TIME stuValidEndTime;
 			public bool bIsValid;
 			public NET_ACCESSCTLCARD_FINGERPRINT_PACKET stuFingerPrintInfo;
 			public bool bFirstEnter;
+
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
 			public string szCardName;
+
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
 			public string szVTOPosition;
+
 			public bool bHandicap;
 		}
 
@@ -429,6 +458,7 @@ namespace ChinaSKDDriverNativeApi
 		public struct CardsCollection
 		{
 			public int Count;
+
 			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 10)]
 			public NET_RECORDSET_ACCESS_CTL_CARD[] Cards;
 		}
@@ -444,22 +474,29 @@ namespace ChinaSKDDriverNativeApi
 
 		[DllImport(@"CPPWrapper.dll")]
 		public static extern int WRAP_GetAllCount(int finderID);
-		#endregion
+
+		#endregion Cards
 
 		#region Passwords
+
 		[StructLayout(LayoutKind.Sequential)]
 		public struct NET_RECORDSET_ACCESS_CTL_PWD
 		{
 			public int dwSize;
 			public int nRecNo;
 			public NET_TIME stuCreateTime;
+
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
 			public string szUserID;
+
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
 			public string szDoorOpenPwd;
+
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
 			public string szAlarmPwd;
+
 			public int nDoorNum;
+
 			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
 			public int[] sznDoors;
 		}
@@ -483,6 +520,7 @@ namespace ChinaSKDDriverNativeApi
 		public struct PasswordsCollection
 		{
 			public int Count;
+
 			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 10)]
 			public NET_RECORDSET_ACCESS_CTL_PWD[] Passwords;
 		}
@@ -492,20 +530,25 @@ namespace ChinaSKDDriverNativeApi
 
 		[DllImport(@"CPPWrapper.dll")]
 		public static extern int WRAP_GetAll_Passwords(int finderID, IntPtr result);
-		#endregion
+
+		#endregion Passwords
 
 		#region Holidays
+
 		[StructLayout(LayoutKind.Sequential)]
 		public struct NET_RECORDSET_HOLIDAY
 		{
 			public int dwSize;
 			public int nRecNo;
 			public int nDoorNum;
+
 			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
 			public int[] sznDoors;
+
 			public NET_TIME stuStartTime;
 			public NET_TIME stuEndTime;
 			public bool bEnable;
+
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
 			public string szHolidayNo;
 		}
@@ -532,13 +575,15 @@ namespace ChinaSKDDriverNativeApi
 		public struct HolidaysCollection
 		{
 			public int Count;
+
 			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 10)]
 			public NET_RECORDSET_HOLIDAY[] Holidays;
 		}
 
 		[DllImport(@"CPPWrapper.dll")]
 		public static extern bool WRAP_GetAll_Holidays(int loginID, IntPtr result);
-		#endregion
+
+		#endregion Holidays
 
 		#region Acceses
 
@@ -553,16 +598,21 @@ namespace ChinaSKDDriverNativeApi
 		{
 			public int dwSize;
 			public int nRecNo;
+
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
 			public string szCardNo;
+
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
 			public string szPwd;
+
 			public NET_TIME stuTime;
 			public bool bStatus;
 			public NET_ACCESS_DOOROPEN_METHOD emMethod;
 			public int nDoor;
+
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
 			public string szUserID;
+
 			public int nReaderID;
 		}
 
@@ -570,13 +620,15 @@ namespace ChinaSKDDriverNativeApi
 		public struct AccessesCollection
 		{
 			public int Count;
+
 			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 10)]
 			public NET_RECORDSET_ACCESS_CTL_CARDREC[] Accesses;
 		}
 
-		#endregion //Accesses
+		#endregion Acceses
 
 		#region TimeShedules
+
 		[StructLayout(LayoutKind.Sequential)]
 		public struct CFG_TIME_SECTION
 		{
@@ -594,6 +646,7 @@ namespace ChinaSKDDriverNativeApi
 		{
 			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 7 * 4)]
 			public CFG_TIME_SECTION[] stuTime;
+
 			public bool bEnable;
 		}
 
@@ -602,16 +655,21 @@ namespace ChinaSKDDriverNativeApi
 
 		[DllImport(@"CPPWrapper.dll")]
 		public static extern bool WRAP_SetTimeSchedule(int loginID, int index, ref CFG_ACCESS_TIMESCHEDULE_INFO param);
-		#endregion
+
+		#endregion TimeShedules
 
 		#region Logs
+
 		public struct WRAP_NET_LOG_INFO
 		{
 			public NET_TIME stuTime;
+
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
 			public string szUserName;
+
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
 			public string szLogType;
+
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 1024)]
 			public string szLogMessage;
 		}
@@ -634,9 +692,11 @@ namespace ChinaSKDDriverNativeApi
 
 		[DllImport(@"CPPWrapper.dll")]
 		public static extern bool WRAP_QueryStop();
-		#endregion
+
+		#endregion Logs
 
 		#region Events
+
 		public enum NET_ACCESS_CTL_EVENT_TYPE
 		{
 			[DescriptionAttribute("Неизвестно")]
@@ -692,10 +752,13 @@ namespace ChinaSKDDriverNativeApi
 			public bool bStatus;
 			public NET_ACCESSCTLCARD_TYPE emCardType;
 			public NET_ACCESS_DOOROPEN_METHOD emOpenMethod;
+
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
 			public string szCardNo;
+
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
 			public string szPwd;
+
 			public int nAction;
 			public NET_ACCESS_CTL_STATUS_TYPE emStatus;
 		}
@@ -708,7 +771,8 @@ namespace ChinaSKDDriverNativeApi
 
 		[DllImport(@"CPPWrapper.dll")]
 		public static extern bool WRAP_IsConnected(int loginID);
-		#endregion
+
+		#endregion Events
 
 		#region Native
 
@@ -732,6 +796,7 @@ namespace ChinaSKDDriverNativeApi
 		{
 			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 48)]
 			public Byte[] sSerialNumber;
+
 			public Byte byAlarmInPortNum;
 			public Byte byAlarmOutPortNum;
 			public Byte byDiskNum;
@@ -756,23 +821,31 @@ namespace ChinaSKDDriverNativeApi
 		{
 			public int dwSize;
 			public int nDoor;
+
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
 			public string szDoorName;
+
 			public NET_TIME stuTime;
 			public NET_ACCESS_CTL_EVENT_TYPE emEventType;
 			public bool bStatus;
 			public NET_ACCESSCTLCARD_TYPE emCardType;
 			public NET_ACCESS_DOOROPEN_METHOD emOpenMethod;
+
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
 			public string szCardNo;
+
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
 			public string szPwd;
+
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
 			public string szReaderID;
+
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
 			public string szUserID;
+
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
 			public string szSnapURL;
+
 			public int nErrorCode;
 		};
 
@@ -781,8 +854,10 @@ namespace ChinaSKDDriverNativeApi
 		{
 			public int dwSize;
 			public int nDoor;
+
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
 			public string szDoorName;
+
 			public NET_TIME stuTime;
 			public int nAction;
 		};
@@ -792,8 +867,10 @@ namespace ChinaSKDDriverNativeApi
 		{
 			public int dwSize;
 			public int nDoor;
+
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
 			public string szDoorName;
+
 			public NET_TIME stuTime;
 		}
 
@@ -802,8 +879,10 @@ namespace ChinaSKDDriverNativeApi
 		{
 			public int dwSize;
 			public int nDoor;
+
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
 			public string szDoorName;
+
 			public NET_TIME stuTime;
 		}
 
@@ -812,10 +891,13 @@ namespace ChinaSKDDriverNativeApi
 		{
 			public int dwSize;
 			public int nDoor;
+
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
 			public string szDoorName;
+
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
 			public string szCardNo;
+
 			public NET_TIME stuTime;
 		}
 
@@ -835,6 +917,7 @@ namespace ChinaSKDDriverNativeApi
 			public int nAction;
 			public NET_TIME stuTime;
 			public int nChannelID;
+
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
 			public string szReaderID;
 		}
@@ -853,8 +936,10 @@ namespace ChinaSKDDriverNativeApi
 			public int dwSize;
 			public int nChannelID;
 			public NET_TIME stuTime;
+
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
 			public string szReaderID;
+
 			public int nPacketLen;
 			public int nPacketNum;
 			public IntPtr szFingerPrintInfo;
@@ -898,14 +983,15 @@ namespace ChinaSKDDriverNativeApi
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
-		public struct ALARM_ACCESS_LOCK_STATUS_INFO 
+		public struct ALARM_ACCESS_LOCK_STATUS_INFO
 		{
 			public uint dwSize;
 			public int nChannel;
 			public NET_TIME stuTime;
 			public NET_ACCESS_CTL_STATUS_TYPE emLockStatus; // typedef NET_ACCESS_CTL_STATUS_TYPE  NET_ACCESS_LOCK_STATUS_TYPE
 		}
-		#endregion
+
+		#endregion Native
 
 		#region <Anti-path Back>
 
@@ -929,8 +1015,10 @@ namespace ChinaSKDDriverNativeApi
 			public int nDoorsCount; // Количество дверей на контроллере
 			public bool bCanActivate; // Возможность активации Anti-pass Back
 			public bool bIsActivated; // Anti-pass Back активирован?
+
 			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
 			public WRAP_AntiPassBackModeAvailability[] AvailableAntiPassBackModes; // Доступность режимов Anti-pass Back
+
 			public WRAP_AntiPassBackMode CurrentAntiPassBackMode; // Текущий режим Anti-pass Back
 		}
 
@@ -940,7 +1028,7 @@ namespace ChinaSKDDriverNativeApi
 		[DllImport(@"CPPWrapper.dll")]
 		public static extern bool WRAP_SetAntiPassBackCfg(int loginID, ref WRAP_AntiPassBackCfg cfg);
 
-		#endregion </Anti-path Back>
+		#endregion <Anti-path Back>
 
 		#region <Interlock>
 
@@ -968,8 +1056,10 @@ namespace ChinaSKDDriverNativeApi
 			public int nDoorsCount; // Количество дверей на контроллере
 			public bool bCanActivate; // Возможность активации Interlock
 			public bool bIsActivated; // Interlock активирован?
+
 			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 7)]
 			public WRAP_InterlockModeAvailability[] AvailableInterlockModes; // Доступность режимов Interlock
+
 			public WRAP_InterlockMode CurrentInterlockMode; // Текущий режим Interlock
 		}
 
@@ -979,7 +1069,7 @@ namespace ChinaSKDDriverNativeApi
 		[DllImport(@"CPPWrapper.dll")]
 		public static extern bool WRAP_SetInterlockCfg(int loginID, ref WRAP_InterlockCfg cfg);
 
-		#endregion </Interlock>
+		#endregion <Interlock>
 
 		#region <Custom Data>
 
@@ -990,6 +1080,7 @@ namespace ChinaSKDDriverNativeApi
 			/// Фактическая длина пользовательских данных
 			/// </summary>
 			public int CustomDataLength;
+
 			/// <summary>
 			/// Пользовательские данные
 			/// </summary>
@@ -999,53 +1090,71 @@ namespace ChinaSKDDriverNativeApi
 
 		[DllImport(@"CPPWrapper.dll")]
 		public static extern bool WRAP_GetCustomData(int loginID, out WRAP_CustomData customData);
+
 		[DllImport(@"CPPWrapper.dll")]
 		public static extern bool WRAP_SetCustomData(int loginID, ref WRAP_CustomData customData);
 
-		#endregion  </Custom Data>
+		#endregion <Custom Data>
 
 		#region <Поиск устройств>
 
 		public struct DEVICE_NET_INFO_EX
 		{
 			public int iIPVersion;
+
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
 			public string szIP;
+
 			public int nPort;
+
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
 			public string szSubmask;
+
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
 			public string szGateway;
+
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 40)]
 			public string szMac;
+
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
 			public string szDeviceType;
+
 			public byte byManuFactory;
 			public byte byDefinition;
 			public byte bDhcpEn;
 			public byte byReserved1;
+
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 88)]
 			public string verifyData;
+
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 48)]
 			public string szSerialNo;
+
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
 			public string szDevSoftVersion;
+
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
 			public string szDetailType;
+
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
 			public string szVendor;
+
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
 			public string szDevName;
+
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 16)]
 			public string szUserName;
+
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 16)]
 			public string szPassWord;
+
 			public ushort nHttpPort;
 			public byte wVideoInputCh;
 			public byte wRemoteVideoInputCh;
 			public byte wVideoOutputCh;
 			public byte wAlarmInputCh;
 			public byte wAlarmOutputCh;
+
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 244)]
 			public string cReserved;
 		}
@@ -1058,6 +1167,6 @@ namespace ChinaSKDDriverNativeApi
 		[DllImport(@"dhnetsdk.dll")]
 		public static extern bool CLIENT_StopSearchDevices(Int32 lSearchHandle);
 
-		#endregion </Поиск устройств>
+		#endregion <Поиск устройств>
 	}
 }

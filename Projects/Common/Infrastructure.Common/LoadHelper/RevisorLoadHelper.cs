@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Common;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using Common;
 
 namespace Infrastructure.Common
 {

@@ -1,7 +1,7 @@
-﻿using System;
-using System.Linq;
-using FiresecAPI;
+﻿using FiresecAPI;
 using FiresecAPI.SKD;
+using System;
+using System.Linq;
 
 namespace SKDDriver
 {
@@ -43,7 +43,7 @@ namespace SKDDriver
 			tableItem.Description = apiItem.Description;
 			if (tableItem.ExternalKey == null)
 				tableItem.ExternalKey = "-1";
-			if(apiItem.Photo != null)
+			if (apiItem.Photo != null)
 				tableItem.PhotoUID = apiItem.Photo.UID;
 		}
 

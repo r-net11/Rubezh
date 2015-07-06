@@ -1,10 +1,10 @@
-﻿using System.Windows;
+﻿using Infrastructure.Common.Windows.ViewModels;
+using System.Windows;
 using System.Windows.Controls;
-using Infrastructure.Common.Windows.ViewModels;
 
 namespace Infrastructure.Common.Windows.DataTemplates
 {
-	class MulticlientDataTemplateSelector : HierarhicalDataTemplateSelector
+	internal class MulticlientDataTemplateSelector : HierarhicalDataTemplateSelector
 	{
 		public override DataTemplate SelectTemplate(object item, DependencyObject container)
 		{

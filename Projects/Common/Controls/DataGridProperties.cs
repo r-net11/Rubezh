@@ -54,7 +54,7 @@ namespace Controls
 			datagrid.SetValue(DataGridMiddleButtonScrollProperty, value);
 		}
 
-		static void OnDataGridRollbackOnUnfocusedChanged(DependencyObject depObj, DependencyPropertyChangedEventArgs e)
+		private static void OnDataGridRollbackOnUnfocusedChanged(DependencyObject depObj, DependencyPropertyChangedEventArgs e)
 		{
 			DataGrid datagrid = depObj as DataGrid;
 			if (datagrid == null)
@@ -69,7 +69,7 @@ namespace Controls
 				datagrid.DataContextChanged -= RollbackDataGridOnDataContextChanged;
 		}
 
-		static void OnDataGridMiddleButtonScrollChanged(DependencyObject depObj, DependencyPropertyChangedEventArgs e)
+		private static void OnDataGridMiddleButtonScrollChanged(DependencyObject depObj, DependencyPropertyChangedEventArgs e)
 		{
 			DataGrid datagrid = depObj as DataGrid;
 			if (datagrid == null)
@@ -84,7 +84,7 @@ namespace Controls
 				datagrid.Loaded -= ScrollDataGridLoaded;
 		}
 
-		static void RollbackDataGridOnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+		private static void RollbackDataGridOnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
 		{
 			DataGrid senderDatagrid = sender as DataGrid;
 
@@ -104,7 +104,7 @@ namespace Controls
 			}
 		}
 
-		static void OnMouseMiddleDown(object sender, MouseButtonEventArgs e)
+		private static void OnMouseMiddleDown(object sender, MouseButtonEventArgs e)
 		{
 			if (e.MiddleButton == MouseButtonState.Pressed)
 			{
@@ -115,25 +115,25 @@ namespace Controls
 			}
 		}
 
-		static void OnMouseMiddleUp(object sender, MouseButtonEventArgs e)
+		private static void OnMouseMiddleUp(object sender, MouseButtonEventArgs e)
 		{
 			if (e.MiddleButton == MouseButtonState.Released)
 				MiddleButtonScrollHelper.StopScrolling();
 		}
 
-		static void OnMiddleMouseMove(object sender, MouseEventArgs e)
+		private static void OnMiddleMouseMove(object sender, MouseEventArgs e)
 		{
 			if (e.MiddleButton == MouseButtonState.Pressed)
 				MiddleButtonScrollHelper.UpdateScrolling(e);
 		}
 
-		static void OnMiddleMouseLeave(object sender, MouseEventArgs e)
+		private static void OnMiddleMouseLeave(object sender, MouseEventArgs e)
 		{
 			if (e.MiddleButton == MouseButtonState.Pressed)
 				MiddleButtonScrollHelper.StopScrolling();
 		}
 
-		static void ScrollDataGridLoaded(object sender, RoutedEventArgs e)
+		private static void ScrollDataGridLoaded(object sender, RoutedEventArgs e)
 		{
 			var dg = sender as DataGrid;
 			if (dg == null)

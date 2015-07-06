@@ -19,5 +19,4 @@
 		<Setter Property="BorderThickness" Value="0" />
 		<Setter Property="SelectAllOnGotFocus" Value="True" />
 	</Style>
-
 </ResourceDictionary>

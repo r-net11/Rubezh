@@ -62,5 +62,4 @@
 		<Converters:SwitchCase Then="Сохранить пропорции" When="Uniform" />
 		<Converters:SwitchCase Then="Заполнить пропорционально" When="UniformToFill" />
 	</Converters:SwitchConverter>
-
 </ResourceDictionary>

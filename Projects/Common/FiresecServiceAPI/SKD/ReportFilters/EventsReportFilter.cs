@@ -1,7 +1,7 @@
-﻿using System;
+﻿using FiresecAPI.Journal;
+using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using FiresecAPI.Journal;
 
 namespace FiresecAPI.SKD.ReportFilters
 {
@@ -29,45 +29,53 @@ namespace FiresecAPI.SKD.ReportFilters
 		[DataMember]
 		public DateTime DateTimeTo { get; set; }
 
-		#endregion
+		#endregion IReportFilterPeriod Members
 
 		#region IReportFilterEmployee Members
 
 		[DataMember]
 		public List<Guid> Employees { get; set; }
+
 		[DataMember]
 		public bool IsSearch { get; set; }
+
 		[DataMember]
 		public string LastName { get; set; }
+
 		[DataMember]
 		public string FirstName { get; set; }
+
 		[DataMember]
 		public string SecondName { get; set; }
 
-		#endregion
+		#endregion IReportFilterEmployee Members
 
 		#region IReportFilterEmployeeAndVisitor Members
 
 		[DataMember]
 		public bool IsEmployee { get; set; }
 
-		#endregion
+		#endregion IReportFilterEmployeeAndVisitor Members
 
 		#region IReportFilterUser Members
 
 		[DataMember]
 		public List<string> Users { get; set; }
 
-		#endregion
+		#endregion IReportFilterUser Members
 
 		[DataMember]
 		public List<JournalSubsystemType> JournalEventSubsystemTypes { get; set; }
+
 		[DataMember]
 		public List<JournalEventNameType> JournalEventNameTypes { get; set; }
+
 		[DataMember]
 		public List<JournalSubsystemType> JournalOjbectSubsystemTypes { get; set; }
+
 		[DataMember]
 		public List<JournalObjectType> JournalObjectTypes { get; set; }
+
 		[DataMember]
 		public List<Guid> ObjectUIDs { get; set; }
 	}

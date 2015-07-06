@@ -11,6 +11,7 @@ namespace Infrastructure.Common
 		{
 			return new RelayCommandProvider(provider);
 		}
+
 		private RelayCommandProvider(Func<ICommand> provider)
 		{
 			_provider = provider;
@@ -37,6 +38,6 @@ namespace Infrastructure.Common
 				command.Execute(parameter);
 		}
 
-		#endregion
+		#endregion ICommand Members
 	}
 }

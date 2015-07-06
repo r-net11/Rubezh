@@ -1,17 +1,15 @@
-﻿using System;
-using System.Linq;
-using System.Net;
-using System.ServiceModel;
-using Common;
+﻿using Common;
 using FiresecService.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Common.BalloonTrayTip;
+using System;
+using System.ServiceModel;
 
 namespace FiresecService.Service
 {
 	public static class FiresecServiceManager
 	{
-		static ServiceHost ServiceHost;
+		private static ServiceHost ServiceHost;
 		public static SafeFiresecService SafeFiresecService;
 
 		public static bool Open()
@@ -40,7 +38,7 @@ namespace FiresecService.Service
 			}
 		}
 
-		static void CreateNetPipesEndpoint()
+		private static void CreateNetPipesEndpoint()
 		{
 			try
 			{
@@ -54,7 +52,7 @@ namespace FiresecService.Service
 			}
 		}
 
-		static void CreateHttpEndpoint()
+		private static void CreateHttpEndpoint()
 		{
 			try
 			{
@@ -72,7 +70,7 @@ namespace FiresecService.Service
 			}
 		}
 
-		static void CreateTcpEndpoint()
+		private static void CreateTcpEndpoint()
 		{
 			try
 			{

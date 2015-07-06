@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Runtime.Serialization;
-using FiresecAPI.GK;
+﻿using FiresecAPI.GK;
 using Infrustructure.Plans.Devices;
+using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace FiresecAPI.SKD
 {
@@ -30,6 +30,6 @@ namespace FiresecAPI.SKD
 			get { return StateClass; }
 		}
 
-		#endregion
+		#endregion ILibraryState<SKDLibraryFrame> Members
 	}
 }

@@ -1,25 +1,25 @@
-﻿using System;
+﻿using FiresecAPI.Models;
+using System;
 using System.IO;
 using System.Media;
 using System.Threading;
-using FiresecAPI.Models;
 
 namespace Infrastructure.Common
 {
 	public static class AlarmPlayerHelper
 	{
-		static SoundPlayer _soundPlayer;
-		static bool _isContinious;
-		static Thread _beepThread;
-		static int _beepFrequency;
-		static bool _isBeepThreadStopping;
+		private static SoundPlayer _soundPlayer;
+		private static bool _isContinious;
+		private static Thread _beepThread;
+		private static int _beepFrequency;
+		private static bool _isBeepThreadStopping;
 
 		static AlarmPlayerHelper()
 		{
 			_soundPlayer = new SoundPlayer();
 		}
 
-		static void PlayBeep()
+		private static void PlayBeep()
 		{
 			try
 			{
@@ -42,12 +42,12 @@ namespace Infrastructure.Common
 			}
 		}
 
-		static void StopPlayPCSpeaker()
+		private static void StopPlayPCSpeaker()
 		{
 			_isBeepThreadStopping = true;
 		}
 
-		static void PlayPCSpeaker(BeeperType beeperType, bool isContinious)
+		private static void PlayPCSpeaker(BeeperType beeperType, bool isContinious)
 		{
 			if (beeperType != BeeperType.None)
 			{
@@ -64,7 +64,7 @@ namespace Infrastructure.Common
 			}
 		}
 
-		static void PlaySound(string filePath, bool isContinious)
+		private static void PlaySound(string filePath, bool isContinious)
 		{
 			if (_soundPlayer != null)
 			{
@@ -87,7 +87,7 @@ namespace Infrastructure.Common
 			}
 		}
 
-		static void StopPlaySound()
+		private static void StopPlaySound()
 		{
 			if (_soundPlayer != null)
 			{

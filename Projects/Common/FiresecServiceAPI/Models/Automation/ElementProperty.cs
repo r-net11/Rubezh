@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Runtime.Serialization;
 
 namespace FiresecAPI.Automation
@@ -27,5 +26,4 @@ namespace FiresecAPI.Automation
 		[DataMember]
 		public Argument ValueArgument { get; set; }
 	}
-
 }

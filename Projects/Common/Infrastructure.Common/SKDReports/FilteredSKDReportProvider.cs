@@ -1,8 +1,7 @@
-﻿using System;
-using System.Linq;
+﻿using FiresecAPI.Models;
 using FiresecAPI.SKD.ReportFilters;
 using Infrastructure.Common.Windows;
-using FiresecAPI.Models;
+using System;
 
 namespace Infrastructure.Common.SKDReports
 {
@@ -10,6 +9,7 @@ namespace Infrastructure.Common.SKDReports
 		where T : SKDReportFilter
 	{
 		private bool _modelCreated;
+
 		public FilteredSKDReportProvider(string title, int index, SKDReportGroup? group = null, PermissionType? permission = null)
 			: base(title, index, group, permission)
 		{
@@ -41,6 +41,6 @@ namespace Infrastructure.Common.SKDReports
 			Filter = filter as T;
 		}
 
-		#endregion
+		#endregion IFilteredSKDReportProvider Members
 	}
 }

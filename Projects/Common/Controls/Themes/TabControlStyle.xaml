@@ -55,5 +55,4 @@
 	<Style x:Key="TabItemElementStyle" TargetType="{x:Type TabItem}">
 		<Setter Property="Template" Value="{StaticResource TabItemStyle}" />
 	</Style>
-
 </ResourceDictionary>

@@ -1,10 +1,10 @@
-﻿using System.Data;
-using System.Drawing.Printing;
-using DevExpress.XtraReports.UI;
+﻿using DevExpress.XtraReports.UI;
 using FiresecAPI;
 using FiresecAPI.SKD;
 using FiresecAPI.SKD.ReportFilters;
 using FiresecService.Report.DataSources;
+using System.Data;
+using System.Drawing.Printing;
 
 namespace FiresecService.Report.Templates
 {
@@ -121,6 +121,7 @@ namespace FiresecService.Report.Templates
 			xrLeftTable.AdjustSize();
 			xrLeftTable.EndInit();
 		}
+
 		private void AddRowToLeftTable(string text1, string text2)
 		{
 			var row = new XRTableRow();

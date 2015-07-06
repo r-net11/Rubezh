@@ -10,7 +10,8 @@ namespace Infrastructure.Common.SKDReports
 			IsActive = true;
 		}
 
-		string _title;
+		private string _title;
+
 		public string Title
 		{
 			get { return _title; }
@@ -20,7 +21,9 @@ namespace Infrastructure.Common.SKDReports
 				OnPropertyChanged(() => Title);
 			}
 		}
-		string _imageSource;
+
+		private string _imageSource;
+
 		public string ImageSource
 		{
 			get { return _imageSource; }
@@ -34,6 +37,7 @@ namespace Infrastructure.Common.SKDReports
 		public bool IsActive { get; set; }
 
 		public abstract void LoadFilter(SKDReportFilter filter);
+
 		public abstract void UpdateFilter(SKDReportFilter filter);
 	}
 }

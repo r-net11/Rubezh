@@ -4,9 +4,9 @@
 		<DrawingBrush.Drawing>
 			<DrawingGroup>
 				<DrawingGroup.Children>
-					<GeometryDrawing Brush="{DynamicResource ButtonBackgroundColorDark}" Geometry="F1 M 2.756,2.66669L 21.444,2.66669L 21.444,5.33337L 24.112,5.33337L 24.112,0L 0,0L 0,15.8893L 5.424,15.8893L 5.424,13.3334L 2.756,13.3334L 2.756,2.66669 Z "/>
-					<GeometryDrawing Brush="{DynamicResource ButtonBackgroundColorDark}" Geometry="F1 M 32.1101,21.2493L 32.1101,23.916L 34.6928,23.916L 34.6928,34.5827L 16.0061,34.5827L 16.0061,29.3613L 13.2488,29.3613L 13.2488,37.14L 37.3608,37.14L 37.3608,21.2493L 32.1101,21.2493 Z "/>
-					<GeometryDrawing Brush="{DynamicResource ButtonBackgroundColorDark}" Geometry="F1 M 29.4021,26.6656L 8.11013,26.6656L 8.11013,7.94427L 29.4021,7.94427L 29.4021,26.6656 Z "/>
+					<GeometryDrawing Brush="{DynamicResource ButtonBackgroundColorDark}" Geometry="F1 M 2.756,2.66669L 21.444,2.66669L 21.444,5.33337L 24.112,5.33337L 24.112,0L 0,0L 0,15.8893L 5.424,15.8893L 5.424,13.3334L 2.756,13.3334L 2.756,2.66669 Z " />
+					<GeometryDrawing Brush="{DynamicResource ButtonBackgroundColorDark}" Geometry="F1 M 32.1101,21.2493L 32.1101,23.916L 34.6928,23.916L 34.6928,34.5827L 16.0061,34.5827L 16.0061,29.3613L 13.2488,29.3613L 13.2488,37.14L 37.3608,37.14L 37.3608,21.2493L 32.1101,21.2493 Z " />
+					<GeometryDrawing Brush="{DynamicResource ButtonBackgroundColorDark}" Geometry="F1 M 29.4021,26.6656L 8.11013,26.6656L 8.11013,7.94427L 29.4021,7.94427L 29.4021,26.6656 Z " />
 				</DrawingGroup.Children>
 			</DrawingGroup>
 		</DrawingBrush.Drawing>

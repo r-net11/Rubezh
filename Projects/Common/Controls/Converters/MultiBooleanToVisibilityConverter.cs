@@ -4,7 +4,7 @@ using System.Windows.Data;
 
 namespace Controls.Converters
 {
-	class MultiBooleanToVisibilityConverter : IMultiValueConverter
+	internal class MultiBooleanToVisibilityConverter : IMultiValueConverter
 	{
 		public object Convert(object[] values,
 								Type targetType,
@@ -30,5 +30,4 @@ namespace Controls.Converters
 			throw new NotImplementedException();
 		}
 	}
-
 }

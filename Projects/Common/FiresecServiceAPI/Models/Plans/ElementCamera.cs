@@ -1,7 +1,7 @@
-﻿using System;
-using System.Runtime.Serialization;
-using Infrustructure.Plans.Elements;
+﻿using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Interfaces;
+using System;
+using System.Runtime.Serialization;
 
 namespace FiresecAPI.Models
 {
@@ -23,11 +23,13 @@ namespace FiresecAPI.Models
 			Copy(elementBase);
 			return elementBase;
 		}
+
 		public override void Copy(ElementBase element)
 		{
 			base.Copy(element);
 			((ElementCamera)element).CameraUID = CameraUID;
 		}
+
 		public override void UpdateZLayer()
 		{
 			ZLayer = 70;
@@ -41,6 +43,6 @@ namespace FiresecAPI.Models
 			set { CameraUID = value; }
 		}
 
-		#endregion
+		#endregion IElementReference Members
 	}
 }

@@ -7,9 +7,20 @@ namespace Common
 {
 	public class SortableObservableCollection<T> : ObservableCollection<T>
 	{
-		public SortableObservableCollection() : base() { }
-		public SortableObservableCollection(List<T> list) : base(list) { }
-		public SortableObservableCollection(IEnumerable<T> list) : base(list) { }
+		public SortableObservableCollection()
+			: base()
+		{
+		}
+
+		public SortableObservableCollection(List<T> list)
+			: base(list)
+		{
+		}
+
+		public SortableObservableCollection(IEnumerable<T> list)
+			: base(list)
+		{
+		}
 
 		#region Sorting
 
@@ -17,10 +28,12 @@ namespace Common
 		{
 			InternalSort(Items.OrderBy(keySelector));
 		}
+
 		public void SortDescending<TKey>(Func<T, TKey> keySelector)
 		{
 			InternalSort(Items.OrderByDescending(keySelector));
 		}
+
 		public void Sort<TKey>(Func<T, TKey> keySelector, IComparer<TKey> comparer)
 		{
 			InternalSort(Items.OrderBy(keySelector, comparer));
@@ -36,7 +49,6 @@ namespace Common
 			}
 		}
 
-		#endregion
-
+		#endregion Sorting
 	}
 }

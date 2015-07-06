@@ -3,7 +3,7 @@
 	<Converters:NullToImageConverter x:Key="NullToImageConverter" />
 	<Converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 	<Converters:StringToResourceConverter x:Key="StringToResourceConverter" />
-	
+
 	<Style x:Key="ToolBarButtonStyle" TargetType="{x:Type Button}">
 		<Setter Property="Background" Value="Transparent" />
 		<Setter Property="Template">
@@ -63,5 +63,4 @@
 			</Setter.Value>
 		</Setter>
 	</Style>
-
 </ResourceDictionary>

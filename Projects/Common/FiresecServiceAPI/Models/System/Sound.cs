@@ -1,5 +1,5 @@
-﻿using System.Runtime.Serialization;
-using FiresecAPI.GK;
+﻿using FiresecAPI.GK;
+using System.Runtime.Serialization;
 
 namespace FiresecAPI.Models
 {

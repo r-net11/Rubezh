@@ -11,6 +11,6 @@ namespace FiresecAPI.Automation
 		}
 
 		[DataMember]
-		public Argument ResultArgument{ get; set; }
+		public Argument ResultArgument { get; set; }
 	}
 }

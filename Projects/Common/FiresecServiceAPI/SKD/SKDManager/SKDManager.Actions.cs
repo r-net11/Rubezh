@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Net;
+using System.Text.RegularExpressions;
 
 namespace FiresecAPI.SKD
 {
@@ -91,10 +91,10 @@ namespace FiresecAPI.SKD
 			foreach (var child in device.Children)
 			{
 				var s = child.NameWithParent;
-				if(child.Door == null || child.Door.UID != door.UID) continue;
+				if (child.Door == null || child.Door.UID != door.UID) continue;
 
-					child.Door = null;
-					child.OnChanged();
+				child.Door = null;
+				child.OnChanged();
 			}
 		}
 

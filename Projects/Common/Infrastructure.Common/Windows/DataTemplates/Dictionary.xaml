@@ -59,5 +59,4 @@
 	<DataTemplate DataType="{x:Type ViewModels:DateSelectionViewModel}">
 		<Views:DateSelectionView />
 	</DataTemplate>
-
 </ResourceDictionary>

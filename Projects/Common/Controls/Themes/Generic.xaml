@@ -39,14 +39,14 @@
 									<TextBlock Name="alarmcount" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="11">
 										<TextBlock.Style>
 											<Style TargetType="{x:Type TextBlock}">
-												<Setter Property="Text" Value="{Binding Count}" />  
+												<Setter Property="Text" Value="{Binding Count}" />
 												<Setter Property="Foreground" Value="White" />
 												<Setter Property="FontFamily" Value="Arial" />
 												<Setter Property="Margin" Value="5" />
 												<Setter Property="FontWeight" Value="Bold" />
 												<Style.Triggers>
 													<DataTrigger Binding="{Binding Count}" Value="0">
-													<Setter Property="Text" Value="" />
+														<Setter Property="Text" Value="" />
 													</DataTrigger>
 												</Style.Triggers>
 											</Style>
@@ -93,7 +93,6 @@
 									</RadialGradientBrush>
 								</Border.Background>
 							</Border>
-
 						</Grid>
 					</Border>
 
@@ -117,7 +116,6 @@
 							<Setter Property="Background" Value="DarkGray" />
 						</Trigger>
 					</ControlTemplate.Triggers>
-
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
@@ -188,7 +186,6 @@
 										</RadialGradientBrush>
 									</Border.Background>
 								</Border>
-
 							</Grid>
 						</Border>
 					</Border>
@@ -217,10 +214,8 @@
 							<Setter Property="Background" Value="DarkGray" />
 						</Trigger>
 					</ControlTemplate.Triggers>
-
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
 	</Style>
-
 </ResourceDictionary>

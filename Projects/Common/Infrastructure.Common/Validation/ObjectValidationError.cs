@@ -16,11 +16,15 @@ namespace Infrastructure.Common.Validation
 		#region IValidationError Members
 
 		public abstract ModuleType Module { get; }
+
 		public abstract string Source { get; }
+
 		public abstract string ImageSource { get; }
+
 		public virtual string Address { get { return Key.ToString(); } }
 
 		public string Error { get; private set; }
+
 		public ValidationErrorLevel ErrorLevel { get; private set; }
 
 		public virtual void Navigate()
@@ -28,9 +32,10 @@ namespace Infrastructure.Common.Validation
 			ServiceFactoryBase.Events.GetEvent<TEvent>().Publish(Key);
 		}
 
-		#endregion
+		#endregion IValidationError Members
 
 		protected abstract TKey Key { get; }
+
 		public TObject Object { get; private set; }
 	}
 }

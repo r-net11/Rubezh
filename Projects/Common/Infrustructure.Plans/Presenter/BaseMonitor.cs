@@ -6,6 +6,7 @@ namespace Infrustructure.Plans.Presenter
 	public abstract class BaseMonitor<TPlan>
 	{
 		protected TPlan Plan { get; private set; }
+
 		private List<Action> _callBacks;
 
 		public BaseMonitor(TPlan plan, Action callBack)
@@ -13,6 +14,7 @@ namespace Infrustructure.Plans.Presenter
 		{
 			AddCallBack(callBack);
 		}
+
 		public BaseMonitor(TPlan plan)
 		{
 			_callBacks = new List<Action>();
@@ -23,6 +25,7 @@ namespace Infrustructure.Plans.Presenter
 		{
 			_callBacks.Add(action);
 		}
+
 		protected void CallBack()
 		{
 			_callBacks.ForEach(item => item());

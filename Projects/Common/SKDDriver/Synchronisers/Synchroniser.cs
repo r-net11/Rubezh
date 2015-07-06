@@ -1,13 +1,13 @@
-﻿using System;
+﻿using FiresecAPI;
+using FiresecAPI.SKD;
+using LinqKit;
+using System;
 using System.Collections.Generic;
 using System.Data.Linq;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Xml.Serialization;
-using FiresecAPI;
-using FiresecAPI.SKD;
-using LinqKit;
 
 namespace SKDDriver
 {
@@ -17,9 +17,12 @@ namespace SKDDriver
 	{
 		protected Table<TTableItem> _Table;
 		protected SKDDatabaseService _DatabaseService;
+
 		protected abstract string Name { get; }
+
 		protected abstract string XmlHeaderName { get; }
-		public string NameXml { get { return Name +  ".xml"; } } 
+
+		public string NameXml { get { return Name + ".xml"; } }
 
 		public Synchroniser(Table<TTableItem> table, SKDDatabaseService databaseService)
 		{
@@ -80,7 +83,7 @@ namespace SKDDriver
 			}
 		}
 
-		void Save(List<TExportItem> exportItems)
+		private void Save(List<TExportItem> exportItems)
 		{
 			foreach (var exportItem in exportItems)
 			{
@@ -106,8 +109,7 @@ namespace SKDDriver
 			}
 		}
 
-
-		void SaveForignKeys(List<TExportItem> exportItems)
+		private void SaveForignKeys(List<TExportItem> exportItems)
 		{
 			foreach (var exportItem in exportItems)
 			{
@@ -169,15 +171,23 @@ namespace SKDDriver
 			}
 		}
 
-		protected virtual void BeforeSave(List<TExportItem> exportItems) { }
-		protected virtual void UpdateForignKeys(TExportItem exportItem, TTableItem tableItem) { }
+		protected virtual void BeforeSave(List<TExportItem> exportItems)
+		{
+		}
+
+		protected virtual void UpdateForignKeys(TExportItem exportItem, TTableItem tableItem)
+		{
+		}
+
 		public abstract TExportItem Translate(TTableItem tableItem);
+
 		public abstract void TranslateBack(TExportItem exportItem, TTableItem tableItem);
+
 		protected virtual Expression<Func<TTableItem, bool>> IsInFilter(ExportFilter filter)
 		{
 			var result = PredicateBuilder.True<TTableItem>();
 			result = result.And(e => e != null);
-			if(!filter.IsWithDeleted)
+			if (!filter.IsWithDeleted)
 				result = result.And(e => !e.IsDeleted);
 			return result;
 		}

@@ -40,6 +40,7 @@ namespace Common
 			}
 			return null;
 		}
+
 		public static DependencyObject GetRoot(DependencyObject obj)
 		{
 			var parent = VisualTreeHelper.GetParent(obj);
@@ -63,6 +64,7 @@ namespace Common
 						yield return childOfChild;
 				}
 		}
+
 		public static IEnumerable<T> FindLogicalChildren<T>(this DependencyObject depObj) where T : DependencyObject
 		{
 			if (depObj != null)
@@ -97,6 +99,7 @@ namespace Common
 			while (target != null && !(target is T));
 			return target as T;
 		}
+
 		public static T FindLogicalAncestor<T>(this DependencyObject dependencyObject) where T : class
 		{
 			DependencyObject target = dependencyObject;
@@ -106,7 +109,6 @@ namespace Common
 				target = LogicalTreeHelper.GetParent(target);
 				if (target == null)
 					target = VisualTreeHelper.GetParent(current);
-
 			}
 			while (target != null && !(target is T));
 			return target as T;

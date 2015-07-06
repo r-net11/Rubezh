@@ -23,6 +23,7 @@ namespace Infrastructure.Common.Windows.Views
 			if (e.ChangedButton == MouseButton.Left && e.ClickCount == 2 && (Tag as bool? == true))
 				Window.WindowState = Window.WindowState == WindowState.Normal ? WindowState.Maximized : WindowState.Normal;
 		}
+
 		private void Header_MouseMove(object sender, MouseEventArgs e)
 		{
 			if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed && Window != null)

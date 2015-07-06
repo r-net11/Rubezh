@@ -1,8 +1,8 @@
-﻿using System;
+﻿using FiresecAPI;
+using FiresecAPI.SKD;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI;
-using FiresecAPI.SKD;
 
 namespace SKDDriver
 {
@@ -11,7 +11,6 @@ namespace SKDDriver
 		public NightSettingsTranslator(SKDDatabaseService databaseService)
 			: base(databaseService)
 		{
-
 		}
 
 		protected override NightSettings Translate(DataAccess.NightSetting tableItem)

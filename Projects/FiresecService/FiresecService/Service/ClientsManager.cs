@@ -1,9 +1,9 @@
-﻿using System;
+﻿using FiresecAPI.Models;
+using FiresecService.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using FiresecAPI.Models;
-using FiresecService.ViewModels;
 
 namespace FiresecService.Service
 {
@@ -59,9 +59,13 @@ namespace FiresecService.Service
 	public class ClientInfo
 	{
 		public Guid UID { get; set; }
+
 		public ClientCredentials ClientCredentials { get; set; }
+
 		public int CallbackIndex { get; set; }
+
 		public AutoResetEvent WaitEvent = new AutoResetEvent(false);
+
 		public bool IsDisconnecting { get; set; }
 	}
 }

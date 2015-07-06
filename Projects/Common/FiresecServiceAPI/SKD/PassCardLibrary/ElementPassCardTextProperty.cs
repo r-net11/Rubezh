@@ -1,7 +1,7 @@
-﻿using System;
-using System.Runtime.Serialization;
-using FiresecAPI.Models;
+﻿using FiresecAPI.Models;
 using Infrustructure.Plans.Elements;
+using System;
+using System.Runtime.Serialization;
 
 namespace FiresecAPI.SKD
 {
@@ -18,6 +18,7 @@ namespace FiresecAPI.SKD
 			Copy(elementBase);
 			return elementBase;
 		}
+
 		public override void Copy(ElementBase element)
 		{
 			base.Copy(element);
@@ -27,6 +28,7 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public PassCardTextPropertyType PropertyType { get; set; }
+
 		[DataMember]
 		public Guid AdditionalColumnUID { get; set; }
 

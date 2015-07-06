@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Infrastructure.Common.Windows;
+using Microsoft.Win32;
+using System;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
-using Infrastructure.Common.Windows;
-using Microsoft.Win32;
 
 namespace Controls
 {
@@ -30,7 +30,6 @@ namespace Controls
 			PhotoSelectation photoSelectation = dp as PhotoSelectation;
 			if (photoSelectation != null)
 			{
-
 				if ((bool)e.NewValue)
 				{
 					photoSelectation._stackPanel.Visibility = Visibility.Visible;
@@ -67,7 +66,7 @@ namespace Controls
 				SetNoPhoto();
 		}
 
-		void SetNoPhoto()
+		private void SetNoPhoto()
 		{
 			PhotoImage.Source = new BitmapImage(new Uri("pack://application:,,,/Controls;component/Images/NoPhoto.png"));
 			PhotoImage.Stretch = System.Windows.Media.Stretch.None;
@@ -85,7 +84,7 @@ namespace Controls
 			set { SetValue(CanEditProperty, value); }
 		}
 
-		void OpenButton_Click(object sender, RoutedEventArgs e)
+		private void OpenButton_Click(object sender, RoutedEventArgs e)
 		{
 			var openFileDialog = new OpenFileDialog()
 			{
@@ -99,7 +98,7 @@ namespace Controls
 			}
 		}
 
-		void PasteButton_Click(object sender, RoutedEventArgs e)
+		private void PasteButton_Click(object sender, RoutedEventArgs e)
 		{
 			try
 			{
@@ -135,17 +134,17 @@ namespace Controls
 			}
 		}
 
-		void RemoveButton_Click(object sender, RoutedEventArgs e)
+		private void RemoveButton_Click(object sender, RoutedEventArgs e)
 		{
 			Data = null;
 		}
 
-		void ScannerButton_Click(object sender, RoutedEventArgs e)
+		private void ScannerButton_Click(object sender, RoutedEventArgs e)
 		{
 			MessageBoxService.Show("NOT IMPLEMENTED YET");
 		}
 
-		void WebCamButton_Click(object sender, RoutedEventArgs e)
+		private void WebCamButton_Click(object sender, RoutedEventArgs e)
 		{
 			MessageBoxService.Show("NOT IMPLEMENTED YET");
 		}

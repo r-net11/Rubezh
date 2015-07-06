@@ -13,6 +13,7 @@ namespace Controls.Ribbon.Views
 		{
 			TabStripPlacement = Dock.Left;
 		}
+
 		protected override void OnInitialized(EventArgs e)
 		{
 			base.OnInitialized(e);
@@ -32,10 +33,12 @@ namespace Controls.Ribbon.Views
 		{
 			return new RibbonMenuItemView();
 		}
+
 		protected override bool IsItemItsOwnContainerOverride(object item)
 		{
 			return item is RibbonMenuItemView;
 		}
+
 		protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
 		{
 			base.PrepareContainerForItemOverride(element, item);

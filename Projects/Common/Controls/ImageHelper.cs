@@ -1,5 +1,4 @@
-﻿
-namespace Controls
+﻿namespace Controls
 {
 	public static class ImageHelper
 	{
@@ -15,6 +14,7 @@ namespace Controls
 				path = IconPath + path;
 			return path;
 		}
+
 		public static string ToImagePath(this string name)
 		{
 			return GetImagePath(name);

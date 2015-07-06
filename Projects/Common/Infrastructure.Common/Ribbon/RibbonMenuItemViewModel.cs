@@ -1,6 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using Infrastructure.Common.Windows.ViewModels;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
-using Infrastructure.Common.Windows.ViewModels;
 
 namespace Infrastructure.Common.Ribbon
 {
@@ -14,19 +14,23 @@ namespace Infrastructure.Common.Ribbon
 			IsEnabled = true;
 			IsVisible = true;
 		}
+
 		public RibbonMenuItemViewModel(string text, ObservableCollection<RibbonMenuItemViewModel> items, string imageSource = null, string toolTip = null)
 			: this(text, new RibbonMenuViewModel(items), imageSource, toolTip)
 		{
 		}
+
 		public RibbonMenuItemViewModel(string text, BaseViewModel content, string imageSource = null, string toolTip = null)
 			: this(text, imageSource, toolTip)
 		{
 			Content = content;
 		}
+
 		public RibbonMenuItemViewModel(string text, ICommand command, string imageSource = null, string toolTip = null)
 			: this(text, command, null, imageSource, toolTip)
 		{
 		}
+
 		public RibbonMenuItemViewModel(string text, ICommand command, object commandParameter, string imageSource = null, string toolTip = null)
 			: this(text, imageSource, toolTip)
 		{
@@ -35,6 +39,7 @@ namespace Infrastructure.Common.Ribbon
 		}
 
 		private string _text;
+
 		public string Text
 		{
 			get { return _text; }
@@ -46,6 +51,7 @@ namespace Infrastructure.Common.Ribbon
 		}
 
 		private string _imageSource;
+
 		public string ImageSource
 		{
 			get { return _imageSource; }
@@ -57,6 +63,7 @@ namespace Infrastructure.Common.Ribbon
 		}
 
 		private string _toolTip;
+
 		public string ToolTip
 		{
 			get { return _toolTip; }
@@ -68,6 +75,7 @@ namespace Infrastructure.Common.Ribbon
 		}
 
 		private ICommand _command;
+
 		public ICommand Command
 		{
 			get { return _command; }
@@ -79,6 +87,7 @@ namespace Infrastructure.Common.Ribbon
 		}
 
 		private object _commandParameter;
+
 		public object CommandParameter
 		{
 			get { return _commandParameter; }
@@ -90,6 +99,7 @@ namespace Infrastructure.Common.Ribbon
 		}
 
 		private BaseViewModel _content;
+
 		public BaseViewModel Content
 		{
 			get { return _content; }
@@ -101,6 +111,7 @@ namespace Infrastructure.Common.Ribbon
 		}
 
 		private bool _isEnabled;
+
 		public bool IsEnabled
 		{
 			get { return _isEnabled; }
@@ -112,6 +123,7 @@ namespace Infrastructure.Common.Ribbon
 		}
 
 		private bool _isVisible;
+
 		public bool IsVisible
 		{
 			get { return _isVisible; }
@@ -123,6 +135,7 @@ namespace Infrastructure.Common.Ribbon
 		}
 
 		private int _order;
+
 		public int Order
 		{
 			get { return _order; }
@@ -134,6 +147,7 @@ namespace Infrastructure.Common.Ribbon
 		}
 
 		private bool _isNewGroup;
+
 		public bool IsNewGroup
 		{
 			get { return _isNewGroup; }
@@ -154,6 +168,7 @@ namespace Infrastructure.Common.Ribbon
 				return menuViewModel == null ? null : menuViewModel.Items[index];
 			}
 		}
+
 		public void Add(RibbonMenuItemViewModel ribbonMenuItemViewModel)
 		{
 			var menuViewModel = Content as RibbonMenuViewModel;

@@ -1,20 +1,20 @@
-﻿using System;
+﻿using FiresecAPI.SKD;
+using LinqKit;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using FiresecAPI.SKD;
-using LinqKit;
 using OperationResult = FiresecAPI.OperationResult;
 
 namespace SKDDriver.Translators
 {
 	public class DayIntervalPartTranslator : WithFilterTranslator<DataAccess.DayIntervalPart, DayIntervalPart, DayIntervalPartFilter>
 	{
-		int DaySeconds = 86400;
+		private int DaySeconds = 86400;
+
 		public DayIntervalPartTranslator(SKDDatabaseService databaseService)
 			: base(databaseService)
 		{
-
 		}
 
 		protected override IQueryable<DataAccess.DayIntervalPart> GetQuery(DayIntervalPartFilter filter)

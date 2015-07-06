@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using Common;
+﻿using Common;
 using FiresecAPI.SKD;
 using FiresecAPI.SKD.ReportFilters;
 using FiresecService.Report.DataSources;
 using SKDDriver;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
 
 namespace FiresecService.Report.Templates
 {
@@ -29,6 +29,7 @@ namespace FiresecService.Report.Templates
 		{
 			get { return "Список должностей организации"; }
 		}
+
 		protected override DataSet CreateDataSet(DataProvider dataProvider)
 		{
 			var filter = GetFilter<PositionsReportFilter>();
@@ -54,7 +55,6 @@ namespace FiresecService.Report.Templates
 				OrganisationUIDs = filter.Organisations ?? new List<Guid>(),
 				UIDs = filter.Positions ?? new List<Guid>(),
 				LogicalDeletationType = filter.UseArchive ? LogicalDeletationType.All : LogicalDeletationType.Active,
-
 			};
 
 			var positions = dataProvider.DatabaseService.PositionTranslator.Get(positionFilter);

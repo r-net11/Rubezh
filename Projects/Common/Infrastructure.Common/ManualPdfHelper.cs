@@ -19,7 +19,6 @@ namespace Infrastructure.Common
 				}
 				catch
 				{
-
 				}
 			}
 		}

@@ -1,5 +1,5 @@
-﻿using System;
-using Infrustructure.Plans.Elements;
+﻿using Infrustructure.Plans.Elements;
+using System;
 
 namespace Infrustructure.Plans.Interfaces
 {

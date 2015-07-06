@@ -1,7 +1,7 @@
-﻿using System;
-using System.Diagnostics;
-using Common;
+﻿using Common;
 using ProcessPrivileges;
+using System;
+using System.Diagnostics;
 
 namespace Infrastructure.Common
 {
@@ -24,7 +24,7 @@ namespace Infrastructure.Common
 			}
 		}
 
-		static void Enable2()
+		private static void Enable2()
 		{
 			try
 			{
@@ -38,7 +38,7 @@ namespace Infrastructure.Common
 			}
 		}
 
-		static void Disable2()
+		private static void Disable2()
 		{
 			try
 			{

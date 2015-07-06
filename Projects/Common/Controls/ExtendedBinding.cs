@@ -9,6 +9,7 @@ namespace Controls
 	{
 		public static readonly DependencyProperty SourceProperty = DependencyProperty.Register("Source", typeof(object), typeof(ExtendedBinding),
 		  new FrameworkPropertyMetadata(OnPropertyChanged) { BindsTwoWayByDefault = true, DefaultUpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged, });
+
 		public Object Source
 		{
 			get { return GetValue(ExtendedBinding.SourceProperty); }
@@ -17,6 +18,7 @@ namespace Controls
 
 		public static readonly DependencyProperty TargetProperty = DependencyProperty.Register("Target", typeof(object), typeof(ExtendedBinding),
 		  new FrameworkPropertyMetadata(OnPropertyChanged) { BindsTwoWayByDefault = true, DefaultUpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged, });
+
 		public Object Target
 		{
 			get { return GetValue(ExtendedBinding.TargetProperty); }

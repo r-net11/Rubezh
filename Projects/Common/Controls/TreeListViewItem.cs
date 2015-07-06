@@ -10,12 +10,14 @@ namespace Controls
 		{
 			DefaultStyleKeyProperty.OverrideMetadata(typeof(TreeListViewItem), new FrameworkPropertyMetadata(typeof(TreeListViewItem)));
 		}
+
 		public TreeListViewItem()
 		{
 			MouseRightButtonDown += new MouseButtonEventHandler(TreeListViewItem_MouseRightButtonDown);
 		}
 
-		int _level = -1;
+		private int _level = -1;
+
 		public int Level
 		{
 			get
@@ -33,12 +35,13 @@ namespace Controls
 		{
 			return new TreeListViewItem();
 		}
+
 		protected override bool IsItemItsOwnContainerOverride(object item)
 		{
 			return item is TreeListViewItem;
 		}
 
-		void TreeListViewItem_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+		private void TreeListViewItem_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
 		{
 			TreeListViewItem item = sender as TreeListViewItem;
 			if (item != null)

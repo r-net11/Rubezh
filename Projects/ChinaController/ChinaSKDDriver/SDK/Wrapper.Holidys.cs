@@ -1,9 +1,9 @@
-﻿using System;
+﻿using ChinaSKDDriverAPI;
+using ChinaSKDDriverNativeApi;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
-using ChinaSKDDriverAPI;
-using ChinaSKDDriverNativeApi;
 
 namespace ChinaSKDDriver
 {
@@ -77,7 +77,7 @@ namespace ChinaSKDDriver
 			return holidays;
 		}
 
-		NativeWrapper.NET_RECORDSET_HOLIDAY HolidayToNativeHoliday(Holiday holiday)
+		private NativeWrapper.NET_RECORDSET_HOLIDAY HolidayToNativeHoliday(Holiday holiday)
 		{
 			NativeWrapper.NET_RECORDSET_HOLIDAY nativeHoliday = new NativeWrapper.NET_RECORDSET_HOLIDAY();
 			nativeHoliday.nDoorNum = holiday.DoorsCount;
@@ -104,7 +104,7 @@ namespace ChinaSKDDriver
 			return nativeHoliday;
 		}
 
-		Holiday NativeHolidayToHoliday(NativeWrapper.NET_RECORDSET_HOLIDAY nativeHoliday)
+		private Holiday NativeHolidayToHoliday(NativeWrapper.NET_RECORDSET_HOLIDAY nativeHoliday)
 		{
 			var holiday = new Holiday();
 			holiday.RecordNo = nativeHoliday.nRecNo;

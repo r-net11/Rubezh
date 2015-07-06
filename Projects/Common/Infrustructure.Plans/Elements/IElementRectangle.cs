@@ -3,6 +3,7 @@
 	public interface IElementRectangle
 	{
 		double Width { get; }
+
 		double Height { get; }
 	}
 }

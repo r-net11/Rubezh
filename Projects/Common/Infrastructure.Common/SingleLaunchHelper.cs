@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Common;
+using Infrastructure.Common.Windows;
+using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Windows;
-using Common;
-using Infrastructure.Common.Windows;
 
 namespace Infrastructure.Common
 {
@@ -53,7 +53,7 @@ namespace Infrastructure.Common
 
 	public static class MutexHelper
 	{
-		static Mutex Mutex { get; set; }
+		private static Mutex Mutex { get; set; }
 
 		public static bool IsNew(string mutexName)
 		{
@@ -72,7 +72,9 @@ namespace Infrastructure.Common
 	public class DoubleLaunchLocker : IDisposable
 	{
 		private const int TIMEOUT = 3000;
+
 		public string SignalId { get; private set; }
+
 		public string WaitId { get; private set; }
 
 		private EventWaitHandle _signalHandler;
@@ -116,10 +118,12 @@ namespace Infrastructure.Common
 				ThreadPool.QueueUserWorkItem(WaitingHandler, waitId);
 			}
 		}
+
 		private bool RequestConfirmation()
 		{
 			return MessageBoxService.ShowConfirmation("Другой экземпляр программы уже запущен. Завершить?");
 		}
+
 		private void WaitingHandler(object startInfo)
 		{
 			try
@@ -139,6 +143,7 @@ namespace Infrastructure.Common
 				ForceShutdown();
 			}
 		}
+
 		private void TryShutdown()
 		{
 			if (!_force && Application.Current != null)
@@ -147,6 +152,7 @@ namespace Infrastructure.Common
 				//ApplicationService.DoEvents();
 			}
 		}
+
 		private void ForceShutdown()
 		{
 			if (Application.Current == null || !Application.Current.Dispatcher.HasShutdownFinished)
@@ -169,6 +175,6 @@ namespace Infrastructure.Common
 			}
 		}
 
-		#endregion
+		#endregion IDisposable Members
 	}
 }

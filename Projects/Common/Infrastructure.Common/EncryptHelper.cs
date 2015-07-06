@@ -6,7 +6,7 @@ namespace Infrastructure.Common
 {
 	public static class EncryptHelper
 	{
-		static string FormatPassword(string password)
+		private static string FormatPassword(string password)
 		{
 			if (password == null)
 				password = "";

@@ -6,6 +6,7 @@ namespace FiresecAPI.Automation
 	{
 		[Description("И")]
 		And,
+
 		[DescriptionAttribute("Или")]
 		Or
 	}

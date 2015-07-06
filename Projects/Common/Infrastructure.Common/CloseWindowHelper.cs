@@ -10,11 +10,12 @@ namespace Infrastructure.Common
 	{
 		[DllImport("user32.dll")]
 		public static extern int FindWindow(string lpClassName, string lpWindowName);
+
 		[DllImport("user32.dll")]
 		public static extern int SendMessage(int hWnd, uint Msg, int wParam, int lParam);
 
-		const int WM_SYSCOMMAND = 0x0112;
-		const int SC_CLOSE = 0xF060;
+		private const int WM_SYSCOMMAND = 0x0112;
+		private const int SC_CLOSE = 0xF060;
 
 		public static void Close()
 		{
@@ -29,7 +30,7 @@ namespace Infrastructure.Common
 			}
 		}
 
-		static void Close2()
+		private static void Close2()
 		{
 			int iHandle = FindWindow("fs_server.exe", "Предупреждение COM Сервера");
 			int iHandle2 = FindWindow("fs_server", "Предупреждение COM Сервера");
@@ -39,8 +40,8 @@ namespace Infrastructure.Common
 			}
 		}
 
-		static AutoResetEvent StopWatchEvent;
-		static Thread WatchThread;
+		private static AutoResetEvent StopWatchEvent;
+		private static Thread WatchThread;
 
 		public static void StartWatchThread()
 		{
@@ -65,7 +66,7 @@ namespace Infrastructure.Common
 			}
 		}
 
-		static void OnWatch()
+		private static void OnWatch()
 		{
 			while (true)
 			{

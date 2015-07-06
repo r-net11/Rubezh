@@ -65,13 +65,14 @@ namespace FiresecAPI.Automation
 		private static readonly Func<TSource, TTarget> creator;
 
 		/// <summary>
-		/// List of properties to grab values from. The corresponding targetProperties 
+		/// List of properties to grab values from. The corresponding targetProperties
 		/// list contains the same properties in the target type. Unfortunately we can't
 		/// use expression trees to do this, because we basically need a sequence of statements.
 		/// We could build a DynamicMethod, but that's significantly more work :) Please mail
 		/// me if you really need this...
 		/// </summary>
 		private static readonly List<PropertyInfo> sourceProperties = new List<PropertyInfo>();
+
 		private static readonly List<PropertyInfo> targetProperties = new List<PropertyInfo>();
 		private static readonly Exception initializationException;
 
@@ -103,7 +104,6 @@ namespace FiresecAPI.Automation
 				if (targetProperties[i].Name != "Uid")
 					targetProperties[i].SetValue(target, sourceProperties[i].GetValue(source, null), null);
 			}
-
 		}
 
 		static PropertyCopier()

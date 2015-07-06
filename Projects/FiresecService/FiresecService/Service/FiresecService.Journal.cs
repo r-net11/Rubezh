@@ -1,10 +1,10 @@
-﻿using System;
+﻿using FiresecAPI;
+using FiresecAPI.Journal;
+using FiresecAPI.SKD;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Threading;
-using FiresecAPI;
-using FiresecAPI.Journal;
-using FiresecAPI.SKD;
 
 namespace FiresecService.Service
 {
@@ -13,7 +13,8 @@ namespace FiresecService.Service
 		public static Thread CurrentThread;
 
 		#region Add
-		void AddJournalMessage(JournalEventNameType journalEventNameType, string objectName, JournalEventDescriptionType journalEventDescriptionType = JournalEventDescriptionType.NULL, string userName = null, Guid? uid = null)
+
+		private void AddJournalMessage(JournalEventNameType journalEventNameType, string objectName, JournalEventDescriptionType journalEventDescriptionType = JournalEventDescriptionType.NULL, string userName = null, Guid? uid = null)
 		{
 			var journalItem = new JournalItem()
 			{
@@ -37,7 +38,7 @@ namespace FiresecService.Service
 			AddCommonJournalItem(journalItem);
 		}
 
-		void AddSKDJournalMessage(JournalEventNameType journalEventNameType, SKDDevice device)
+		private void AddSKDJournalMessage(JournalEventNameType journalEventNameType, SKDDevice device)
 		{
 			var journalItem = new JournalItem()
 			{
@@ -54,7 +55,7 @@ namespace FiresecService.Service
 			AddCommonJournalItem(journalItem);
 		}
 
-		void AddSKDJournalMessage(JournalEventNameType journalEventNameType, SKDZone zone)
+		private void AddSKDJournalMessage(JournalEventNameType journalEventNameType, SKDZone zone)
 		{
 			var journalItem = new JournalItem()
 			{
@@ -71,7 +72,7 @@ namespace FiresecService.Service
 			AddCommonJournalItem(journalItem);
 		}
 
-		void AddSKDJournalMessage(JournalEventNameType journalEventNameType, SKDDoor door)
+		private void AddSKDJournalMessage(JournalEventNameType journalEventNameType, SKDDoor door)
 		{
 			var journalItem = new JournalItem()
 			{
@@ -109,9 +110,11 @@ namespace FiresecService.Service
 			}
 			return new OperationResult<bool>(true);
 		}
-		#endregion
+
+		#endregion Add
 
 		#region Get
+
 		public OperationResult<DateTime> GetMinJournalDateTime()
 		{
 			try
@@ -161,7 +164,6 @@ namespace FiresecService.Service
 					DBHelper.ArchivePortionReady -= DatabaseHelper_ArchivePortionReady;
 					DBHelper.ArchivePortionReady += DatabaseHelper_ArchivePortionReady;
 					DBHelper.BeginGetFilteredArchive(archiveFilter, archivePortionUID);
-
 				}))));
 				thread.Name = "FiresecService.GetFilteredArchive";
 				thread.IsBackground = true;
@@ -175,10 +177,11 @@ namespace FiresecService.Service
 			}
 		}
 
-		void DatabaseHelper_ArchivePortionReady(List<JournalItem> journalItems, Guid archivePortionUID)
+		private void DatabaseHelper_ArchivePortionReady(List<JournalItem> journalItems, Guid archivePortionUID)
 		{
 			FiresecService.NotifyArchiveCompleted(journalItems, archivePortionUID);
 		}
-		#endregion
+
+		#endregion Get
 	}
 }

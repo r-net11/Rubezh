@@ -1,12 +1,13 @@
-﻿using System;
-using FiresecAPI.Models.Layouts;
+﻿using FiresecAPI.Models.Layouts;
 using Infrastructure.Common.Windows.ViewModels;
+using System;
 
 namespace Infrastructure.Common.Services.Layout
 {
 	public class LayoutPartPresenter : ILayoutPartPresenter
 	{
-		const string IconPath = "/Controls;component/Images/";
+		private const string IconPath = "/Controls;component/Images/";
+
 		public Converter<ILayoutProperties, BaseViewModel> Factory { get; set; }
 
 		public LayoutPartPresenter(Guid uid, string name, string iconName, Converter<ILayoutProperties, BaseViewModel> factory)
@@ -21,13 +22,16 @@ namespace Infrastructure.Common.Services.Layout
 		#region ILayoutPartPresenter Members
 
 		public Guid UID { get; set; }
+
 		public string Name { get; set; }
+
 		public string IconSource { get; set; }
+
 		public BaseViewModel CreateContent(ILayoutProperties properties)
 		{
 			return Factory(properties);
 		}
 
-		#endregion
+		#endregion ILayoutPartPresenter Members
 	}
 }

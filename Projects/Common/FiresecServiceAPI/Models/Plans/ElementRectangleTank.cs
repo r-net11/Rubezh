@@ -1,7 +1,7 @@
-﻿using System;
-using System.Runtime.Serialization;
-using Infrustructure.Plans.Elements;
+﻿using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Interfaces;
+using System;
+using System.Runtime.Serialization;
 using System.Xml.Serialization;
 
 namespace FiresecAPI.Models
@@ -23,6 +23,7 @@ namespace FiresecAPI.Models
 			Copy(elementBase);
 			return elementBase;
 		}
+
 		public override void Copy(ElementBase element)
 		{
 			base.Copy(element);
@@ -52,6 +53,6 @@ namespace FiresecAPI.Models
 			set { DeviceUID = value; }
 		}
 
-		#endregion
+		#endregion IElementReference Members
 	}
 }

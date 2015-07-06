@@ -1,5 +1,5 @@
-﻿using System.Collections.ObjectModel;
-using Infrastructure.Common.Windows.ViewModels;
+﻿using Infrastructure.Common.Windows.ViewModels;
+using System.Collections.ObjectModel;
 
 namespace Infrastructure.Common.Ribbon
 {
@@ -21,6 +21,7 @@ namespace Infrastructure.Common.Ribbon
 		}
 
 		private ObservableCollection<RibbonMenuItemViewModel> _items;
+
 		public ObservableCollection<RibbonMenuItemViewModel> Items
 		{
 			get { return _items; }
@@ -31,5 +32,4 @@ namespace Infrastructure.Common.Ribbon
 			}
 		}
 	}
-
 }

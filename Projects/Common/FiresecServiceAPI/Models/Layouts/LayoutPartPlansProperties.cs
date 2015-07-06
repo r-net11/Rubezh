@@ -9,6 +9,7 @@ namespace FiresecAPI.Models.Layouts
 	{
 		[DataMember]
 		public List<Guid> Plans { get; set; }
+
 		[DataMember]
 		public LayoutPartPlansType Type { get; set; }
 	}

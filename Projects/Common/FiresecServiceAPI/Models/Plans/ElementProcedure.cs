@@ -1,7 +1,7 @@
-﻿using System;
-using System.Runtime.Serialization;
-using Infrustructure.Plans.Elements;
+﻿using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Interfaces;
+using System;
+using System.Runtime.Serialization;
 using System.Windows.Media;
 using System.Xml.Serialization;
 
@@ -36,22 +36,31 @@ namespace FiresecAPI.Models
 
 		[DataMember]
 		public string Text { get; set; }
+
 		[DataMember]
 		public Color ForegroundColor { get; set; }
+
 		[DataMember]
 		public double FontSize { get; set; }
+
 		[DataMember]
 		public bool FontItalic { get; set; }
+
 		[DataMember]
 		public bool FontBold { get; set; }
+
 		[DataMember]
 		public string FontFamilyName { get; set; }
+
 		[DataMember]
 		public bool Stretch { get; set; }
+
 		[DataMember]
 		public int TextAlignment { get; set; }
+
 		[DataMember]
 		public int VerticalAlignment { get; set; }
+
 		[DataMember]
 		public bool WordWrap { get; set; }
 
@@ -61,6 +70,7 @@ namespace FiresecAPI.Models
 			Copy(elementBase);
 			return elementBase;
 		}
+
 		public override void Copy(ElementBase element)
 		{
 			base.Copy(element);
@@ -77,6 +87,7 @@ namespace FiresecAPI.Models
 			elementProcedure.VerticalAlignment = VerticalAlignment;
 			elementProcedure.WordWrap = WordWrap;
 		}
+
 		public override void UpdateZLayer()
 		{
 			ZLayer = 70;
@@ -90,7 +101,7 @@ namespace FiresecAPI.Models
 			set { ProcedureUID = value; }
 		}
 
-		#endregion
+		#endregion IElementReference Members
 
 		#region IPrimitive Members
 
@@ -100,6 +111,6 @@ namespace FiresecAPI.Models
 			get { return Primitive.TextBlock; }
 		}
 
-		#endregion
+		#endregion IPrimitive Members
 	}
 }

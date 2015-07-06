@@ -1,18 +1,20 @@
-﻿using System;
+﻿using Common;
+using Infrustructure.Plans.Painters;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Xaml;
-using Common;
-using Infrustructure.Plans.Painters;
 
 namespace Infrastructure.Common.Services.Content
 {
 	public class ContentService : IContentService
 	{
 		private const string ContentFolderRelativePath = @"Configuration\Unzip\Content";
+
 		public string ContentFolder { get; private set; }
+
 		private Dictionary<string, Stream> _streams;
 		private Dictionary<string, BitmapImage> _images;
 		private Dictionary<string, object> _objects;
@@ -36,18 +38,22 @@ namespace Infrastructure.Common.Services.Content
 			var fileName = GetContentFileName(guid);
 			return File.Exists(fileName);
 		}
+
 		public string GetContentFileName(Guid guid)
 		{
 			return GetContentFileName(guid.ToString());
 		}
+
 		public string GetContentFileName(string guid)
 		{
 			return Path.Combine(ContentFolder, guid);
 		}
+
 		public Stream GetContentStream(Guid guid)
 		{
 			return GetContentStream(guid.ToString());
 		}
+
 		public Stream GetContentStream(string guid)
 		{
 			if (_streams.ContainsKey(guid))
@@ -62,10 +68,12 @@ namespace Infrastructure.Common.Services.Content
 			_streams.Add(guid, stream);
 			return stream;
 		}
+
 		public BitmapImage GetBitmapContent(Guid guid)
 		{
 			return GetBitmapContent(guid.ToString());
 		}
+
 		public BitmapImage GetBitmapContent(string guid)
 		{
 			if (_images.ContainsKey(guid))
@@ -86,10 +94,12 @@ namespace Infrastructure.Common.Services.Content
 			}
 			return bitmap;
 		}
+
 		public T GetObject<T>(Guid guid)
 		{
 			return GetObject<T>(guid.ToString());
 		}
+
 		public T GetObject<T>(string guid)
 		{
 			if (_objects.ContainsKey(guid))
@@ -99,18 +109,22 @@ namespace Infrastructure.Common.Services.Content
 			_objects.Add(guid, obj);
 			return (T)obj;
 		}
+
 		public Visual GetVisual(Guid guid)
 		{
 			return GetObject<Visual>(guid);
 		}
+
 		public Visual GetVisual(string guid)
 		{
 			return GetObject<Visual>(guid);
 		}
+
 		public Drawing GetDrawing(Guid guid)
 		{
 			return GetObject<Drawing>(guid);
 		}
+
 		public Drawing GetDrawing(string guid)
 		{
 			return GetObject<Drawing>(guid);
@@ -123,6 +137,7 @@ namespace Infrastructure.Common.Services.Content
 			File.Copy(fileName, contentFile);
 			return guid;
 		}
+
 		public Guid AddContent(Stream stream)
 		{
 			var guid = Guid.NewGuid();
@@ -134,6 +149,7 @@ namespace Infrastructure.Common.Services.Content
 					fileStream.Write(buffer, 0, count);
 			return guid;
 		}
+
 		public Guid AddContent(byte[] data)
 		{
 			var guid = Guid.NewGuid();
@@ -142,6 +158,7 @@ namespace Infrastructure.Common.Services.Content
 				fileStream.Write(data, 0, data.Length);
 			return guid;
 		}
+
 		public Guid AddContent(object data)
 		{
 			var guid = Guid.NewGuid();
@@ -156,6 +173,7 @@ namespace Infrastructure.Common.Services.Content
 		{
 			RemoveContent(guid.ToString());
 		}
+
 		public void RemoveContent(string guid)
 		{
 			if (_images.ContainsKey(guid))
@@ -181,6 +199,7 @@ namespace Infrastructure.Common.Services.Content
 			if (!Directory.Exists(ContentFolder))
 				Directory.CreateDirectory(ContentFolder);
 		}
+
 		public void Close()
 		{
 			if (_streams != null)
@@ -196,6 +215,6 @@ namespace Infrastructure.Common.Services.Content
 			PainterCache.Dispose();
 		}
 
-		#endregion
+		#endregion IContentService Members
 	}
 }

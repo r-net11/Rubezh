@@ -1,7 +1,7 @@
-﻿using System.Windows;
-using System.Windows.Media;
-using Infrustructure.Plans.Designer;
+﻿using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
+using System.Windows;
+using System.Windows.Media;
 
 namespace Infrustructure.Plans.Painters
 {
@@ -9,10 +9,15 @@ namespace Infrustructure.Plans.Painters
 		where T : Geometry
 	{
 		protected T Geometry { get; private set; }
+
 		protected ElementBase Element { get; private set; }
+
 		protected CommonDesignerCanvas DesignerCanvas { get; private set; }
+
 		protected Rect Rect { get; private set; }
+
 		protected Brush Brush { get; private set; }
+
 		protected Pen Pen { get; private set; }
 
 		public GeometryPainter(CommonDesignerCanvas designerCanvas, ElementBase element)
@@ -31,6 +36,7 @@ namespace Infrustructure.Plans.Painters
 		}
 
 		protected abstract T CreateGeometry();
+
 		protected virtual void InnerDraw(DrawingContext drawingContext)
 		{
 			drawingContext.DrawGeometry(Brush, Pen, Geometry);
@@ -40,10 +46,12 @@ namespace Infrustructure.Plans.Painters
 		{
 			return DesignerCanvas.PainterCache.GetBrush(Element);
 		}
+
 		protected virtual Pen GetPen()
 		{
 			return PainterCache.GetPen(Element.BorderColor, Element.BorderThickness);
 		}
+
 		protected void CalculateRectangle()
 		{
 			Rect = Element.GetRectangle();
@@ -56,7 +64,7 @@ namespace Infrustructure.Plans.Painters
 			get { return Geometry; }
 		}
 
-		#endregion
+		#endregion IGeometryPainter Members
 
 		#region IPainter Members
 
@@ -71,6 +79,7 @@ namespace Infrustructure.Plans.Painters
 				Invalidate();
 			InnerDraw(drawingContext);
 		}
+
 		public virtual void Invalidate()
 		{
 			//Geometry.Freeze();
@@ -78,6 +87,7 @@ namespace Infrustructure.Plans.Painters
 			Pen = GetPen();
 			Transform();
 		}
+
 		public abstract void Transform();
 
 		public virtual bool HitTest(Point point)
@@ -90,6 +100,6 @@ namespace Infrustructure.Plans.Painters
 			return null;
 		}
 
-		#endregion
+		#endregion IPainter Members
 	}
 }

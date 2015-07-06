@@ -11,6 +11,7 @@ namespace Controls
 		{
 			return (InputBindingCollection)element.GetValue(InputBindingsProperty);
 		}
+
 		public static void SetInputBindings(UIElement element, InputBindingCollection inputBindings)
 		{
 			element.SetValue(InputBindingsProperty, inputBindings);

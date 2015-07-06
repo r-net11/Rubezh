@@ -1,8 +1,8 @@
-﻿using System;
+﻿using FiresecAPI;
+using FiresecAPI.SKD;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI;
-using FiresecAPI.SKD;
 using OperationResult = FiresecAPI.OperationResult;
 
 namespace SKDDriver.Translators
@@ -74,6 +74,7 @@ namespace SKDDriver.Translators
 				return new OperationResult(e.Message);
 			}
 		}
+
 		public OperationResult EditTimeTrackDocumentType(TimeTrackDocumentType timeTrackDocumentType)
 		{
 			try
@@ -94,6 +95,7 @@ namespace SKDDriver.Translators
 				return new OperationResult(e.Message);
 			}
 		}
+
 		public OperationResult RemoveTimeTrackDocumentType(Guid uid)
 		{
 			try

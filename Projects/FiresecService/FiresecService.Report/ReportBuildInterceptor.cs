@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using DevExpress.XtraReports.Service.Extensions;
-using System.ComponentModel.Composition;
+﻿using DevExpress.XtraReports.Service.Extensions;
 using DevExpress.XtraReports.UI;
 using FiresecAPI.SKD.ReportFilters;
+using System;
+using System.ComponentModel.Composition;
 
 namespace FiresecService.Report
 {
@@ -33,6 +30,6 @@ namespace FiresecService.Report
 				filteredReport.ApplyFilter(customArgs as SKDReportFilter);
 		}
 
-		#endregion
+		#endregion IReportBuildInterceptor Members
 	}
 }

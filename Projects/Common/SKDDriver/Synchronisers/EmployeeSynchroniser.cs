@@ -1,20 +1,23 @@
-﻿using System;
+﻿using FiresecAPI.SKD;
+using LinqKit;
+using System;
 using System.Data.Linq;
 using System.Linq.Expressions;
-using FiresecAPI.SKD;
-using LinqKit;
 
 namespace SKDDriver
 {
 	public class EmployeeSynchroniser : Synchroniser<ExportEmployee, DataAccess.Employee>
 	{
-		public EmployeeSynchroniser(Table<DataAccess.Employee> table, SKDDatabaseService databaseService) : base(table, databaseService) { }
+		public EmployeeSynchroniser(Table<DataAccess.Employee> table, SKDDatabaseService databaseService)
+			: base(table, databaseService)
+		{
+		}
 
 		public override ExportEmployee Translate(DataAccess.Employee item)
 		{
-			return new ExportEmployee 
-			{ 
-				FirstName = item.FirstName, 
+			return new ExportEmployee
+			{
+				FirstName = item.FirstName,
 				SecondName = item.SecondName,
 				LastName = item.LastName,
 				CredentialsStartDate = item.CredentialsStartDate,
@@ -31,7 +34,7 @@ namespace SKDDriver
 				Type = item.Type != null ? item.Type.Value : -1,
 				LastEmployeeDayUpdate = item.LastEmployeeDayUpdate,
 				ScheduleStartDate = item.ScheduleStartDate,
-				
+
 				OrganisationUID = GetUID(item.OrganisationUID),
 				OrganisationExternalKey = GetExternalKey(item.OrganisationUID, item.Organisation),
 				PositionUID = GetUID(item.PositionUID),
@@ -50,7 +53,7 @@ namespace SKDDriver
 			tableItem.DepartmentUID = GetUIDbyExternalKey(exportItem.DepartmentExternalKey, _DatabaseService.Context.Departments);
 			tableItem.EscortUID = GetUIDbyExternalKey(exportItem.EscortExternalKey, _DatabaseService.Context.Employees);
 		}
-		
+
 		protected override Expression<Func<DataAccess.Employee, bool>> IsInFilter(ExportFilter filter)
 		{
 			return base.IsInFilter(filter).And(x => x.OrganisationUID == filter.OrganisationUID);
@@ -81,12 +84,10 @@ namespace SKDDriver
 		{
 			get { return "ArrayOfExportEmployee"; }
 		}
-		
+
 		protected override string Name
 		{
 			get { return "Employees"; }
 		}
 	}
 }
-
-

@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Runtime.Serialization;
 using System.ComponentModel;
+using System.Runtime.Serialization;
 
 namespace FiresecAPI.Automation
 {
@@ -51,6 +51,7 @@ namespace FiresecAPI.Automation
 	{
 		[Description("Чтение свойства")]
 		Get,
+
 		[Description("Установка свойства")]
 		Set
 	}
@@ -59,14 +60,19 @@ namespace FiresecAPI.Automation
 	{
 		[Description("Заголовок")]
 		Title,
+
 		[Description("Отступ")]
 		Margin,
+
 		[Description("Цвет фона")]
 		BackgroundColor,
+
 		[Description("Цвет границы")]
 		BorderColor,
+
 		[Description("Ширина границы")]
 		BorderThickness,
+
 		[Description("Текст")]
 		Text,
 	}

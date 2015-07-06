@@ -1,9 +1,9 @@
-﻿using System;
+﻿using FiresecAPI.Journal;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
 using System.Windows;
-using FiresecAPI.Journal;
 
 namespace FiresecAPI
 {

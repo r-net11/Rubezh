@@ -1,23 +1,25 @@
-﻿using System;
+﻿using Infrustructure.Plans.Designer;
+using Infrustructure.Plans.Elements;
+using Infrustructure.Plans.Painters;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.Elements;
-using Infrustructure.Plans.Painters;
 
 namespace Infrustructure.Plans.Presenter
 {
 	public class PresenterItem : CommonDesignerItem
 	{
 		public event EventHandler DoubleClickEvent;
+
 		public event EventHandler ClickEvent;
 
 		public bool IsPoint { get; set; }
-		
+
 		public Func<ContextMenu> ContextMenuProvider { get; set; }
 
 		public bool ShowBorderOnMouseOver { get; set; }
+
 		public Cursor Cursor { get; set; }
 
 		public PresenterItem(ElementBase element)
@@ -59,6 +61,7 @@ namespace Infrustructure.Plans.Presenter
 			if (DoubleClickEvent != null)
 				DoubleClickEvent(this, e);
 		}
+
 		protected override void MouseUp(Point point, MouseButtonEventArgs e)
 		{
 			base.MouseUp(point, e);
@@ -70,6 +73,7 @@ namespace Infrustructure.Plans.Presenter
 		{
 			return ContextMenuProvider == null ? null : ContextMenuProvider();
 		}
+
 		protected override void SetIsMouseOver(bool value)
 		{
 			base.SetIsMouseOver(value);

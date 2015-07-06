@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
-using System.Linq;
-using Common;
+﻿using Common;
 using FiresecAPI;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
 using FiresecAPI.SKD.ReportFilters;
 using FiresecService.Report.DataSources;
 using Infrastructure.Common;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
 
 namespace FiresecService.Report.Templates
 {
@@ -32,6 +32,7 @@ namespace FiresecService.Report.Templates
 		{
 			get { return "Отчет по событиям системы контроля доступа"; }
 		}
+
 		protected override DataSet CreateDataSet(DataProvider dataProvider)
 		{
 			var filter = GetFilter<EventsReportFilter>();
@@ -178,7 +179,7 @@ namespace FiresecService.Report.Templates
 			}
 		}
 
-		string BuildQuery(ArchiveFilter archiveFilter)
+		private string BuildQuery(ArchiveFilter archiveFilter)
 		{
 			string dateTimeTypeString;
 			if (archiveFilter.UseDeviceDateTime)
@@ -278,7 +279,7 @@ namespace FiresecService.Report.Templates
 			return query;
 		}
 
-		JournalItem ReadOneJournalItem(SqlDataReader reader)
+		private JournalItem ReadOneJournalItem(SqlDataReader reader)
 		{
 			var journalItem = new JournalItem();
 

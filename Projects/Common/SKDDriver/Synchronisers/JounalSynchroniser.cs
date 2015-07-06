@@ -1,23 +1,26 @@
-﻿using System;
+﻿using FiresecAPI;
+using FiresecAPI.Journal;
+using FiresecAPI.SKD;
+using System;
 using System.Collections.Generic;
 using System.Data.Linq;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
-using FiresecAPI;
-using FiresecAPI.Journal;
-using FiresecAPI.SKD;
-
 
 namespace SKDDriver
 {
-	public class JounalSynchroniser: IDisposable
+	public class JounalSynchroniser : IDisposable
 	{
-		Table<DataAccess.Journal> _Table;
-		string Name { get { return "Journal"; } }
+		private Table<DataAccess.Journal> _Table;
+
+		private string Name { get { return "Journal"; } }
+
 		public string NameXml { get { return Name + ".xml"; } }
+
 		public static string ConnectionString { get; set; }
-		DataAccess.JournalDataContext Context;
+
+		private DataAccess.JournalDataContext Context;
 
 		public JounalSynchroniser()
 		{
@@ -60,7 +63,7 @@ namespace SKDDriver
 				UID = tableItem.UID,
 				SystemDate = tableItem.SystemDate,
 				DeviceDate = tableItem.DeviceDate != null ? tableItem.DeviceDate.Value : new DateTime(),
-				EventName = Enum.IsDefined(typeof(JournalEventNameType),tableItem.Name) ?  ((JournalEventNameType)tableItem.Name).ToDescription() : tableItem.NameText,
+				EventName = Enum.IsDefined(typeof(JournalEventNameType), tableItem.Name) ? ((JournalEventNameType)tableItem.Name).ToDescription() : tableItem.NameText,
 				EventDescription = Enum.IsDefined(typeof(JournalEventDescriptionType), tableItem.Description) ? ((JournalEventDescriptionType)tableItem.Description).ToDescription() : tableItem.DescriptionText,
 				SubsystemType = ((JournalSubsystemType)tableItem.Subsystem).ToDescription(),
 				UserName = tableItem.UserName,
@@ -77,12 +80,19 @@ namespace SKDDriver
 	public class ExportJournalItem
 	{
 		public Guid UID { get; set; }
+
 		public DateTime SystemDate { get; set; }
+
 		public DateTime DeviceDate { get; set; }
+
 		public string EventName { get; set; }
+
 		public string EventDescription { get; set; }
+
 		public string SubsystemType { get; set; }
+
 		public Guid UserUID { get; set; }
+
 		public string UserName { get; set; }
 	}
 }

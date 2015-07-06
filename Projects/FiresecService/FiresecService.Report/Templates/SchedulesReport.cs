@@ -1,16 +1,7 @@
-﻿using System;
-using System.Drawing;
-using System.Collections;
-using System.ComponentModel;
-using DevExpress.XtraReports.UI;
+﻿using FiresecAPI;
+using FiresecAPI.SKD.ReportFilters;
 using FiresecService.Report.DataSources;
 using System.Data;
-using System.Linq;
-using SKDDriver;
-using FiresecAPI;
-using FiresecAPI.SKD;
-using FiresecAPI.SKD.ReportFilters;
-using System.Collections.Generic;
 
 namespace FiresecService.Report.Templates
 {
@@ -33,6 +24,7 @@ namespace FiresecService.Report.Templates
 		{
 			get { return "Отчет по графикам работы"; }
 		}
+
 		protected override DataSet CreateDataSet(DataProvider dataProvider)
 		{
 			var filter = GetFilter<SchedulesReportFilter>();

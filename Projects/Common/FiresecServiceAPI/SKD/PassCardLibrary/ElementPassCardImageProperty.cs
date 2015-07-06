@@ -1,8 +1,8 @@
-﻿using System;
+﻿using FiresecAPI.Models;
+using Infrustructure.Plans.Elements;
+using System;
 using System.Runtime.Serialization;
 using System.Windows.Media;
-using FiresecAPI.Models;
-using Infrustructure.Plans.Elements;
 
 namespace FiresecAPI.SKD
 {
@@ -20,6 +20,7 @@ namespace FiresecAPI.SKD
 			Copy(elementBase);
 			return elementBase;
 		}
+
 		public override void Copy(ElementBase element)
 		{
 			base.Copy(element);
@@ -31,10 +32,13 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public PassCardImagePropertyType PropertyType { get; set; }
+
 		[DataMember]
 		public Guid AdditionalColumnUID { get; set; }
+
 		[DataMember]
 		public Stretch Stretch { get; set; }
+
 		[DataMember]
 		public string Text { get; set; }
 
@@ -44,6 +48,7 @@ namespace FiresecAPI.SKD
 		{
 			get { return Primitive.NotPrimitive; }
 		}
+
 		public override void UpdateZLayer()
 		{
 			ZLayer = 70;

@@ -1,13 +1,9 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using Common;
-using FiresecAPI.Automation;
-using FiresecAPI.Models;
+﻿using Common;
+using FiresecAPI.Journal;
 using Infrastructure.Common;
 using Ionic.Zip;
-using FiresecAPI.Journal;
+using System.Collections.Generic;
+using System.IO;
 
 namespace FiresecService.Service
 {
@@ -96,7 +92,7 @@ namespace FiresecService.Service
 			output.Close();
 		}
 
-		void RestartWithNewConfig()
+		private void RestartWithNewConfig()
 		{
 			AddJournalMessage(JournalEventNameType.Применение_конфигурации, null);
 			ConfigurationCashHelper.Update();
@@ -105,7 +101,7 @@ namespace FiresecService.Service
 			ProcedureRunner.SetNewConfig();
 		}
 
-		static void CreateZipConfigFromFiles(string configFileName, string configDirectory)
+		private static void CreateZipConfigFromFiles(string configFileName, string configDirectory)
 		{
 			if (File.Exists(configFileName))
 				File.Delete(configFileName);

@@ -1,8 +1,8 @@
-﻿using System;
-using System.Threading;
-using FiresecAPI.Automation;
+﻿using FiresecAPI.Automation;
 using FiresecAPI.AutomationCallback;
+using System;
 using System.Collections.Concurrent;
+using System.Threading;
 
 namespace FiresecService
 {
@@ -39,6 +39,7 @@ namespace FiresecService
 			if (_proceduresThreads.TryRemove(callbackUID, out procedureThread))
 				procedureThread.CallbackResponse(value);
 		}
+
 		private void CallbackResponse(object value)
 		{
 			_callbackResponse = value;
@@ -49,6 +50,7 @@ namespace FiresecService
 		{
 			return arguments.ForAllClients ? null : ClientUID;
 		}
+
 		private ProcedureLayoutCollection GetLayoutFilter(UIArguments arguments)
 		{
 			return arguments.LayoutFilter == null || arguments.LayoutFilter.LayoutsUIDs == null || arguments.LayoutFilter.LayoutsUIDs.Count == 0 ? null : arguments.LayoutFilter;

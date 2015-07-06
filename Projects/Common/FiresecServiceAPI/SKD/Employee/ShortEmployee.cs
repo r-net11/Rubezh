@@ -95,6 +95,7 @@ namespace FiresecAPI.SKD
 	public class TextColumn
 	{
 		public Guid ColumnTypeUID { get; set; }
+
 		public string Text { get; set; }
 	}
 }

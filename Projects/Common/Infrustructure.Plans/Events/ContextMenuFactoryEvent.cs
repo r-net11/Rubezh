@@ -16,6 +16,7 @@ namespace Infrustructure.Plans.Events
 		}
 
 		public ElementBase Element { get; private set; }
+
 		public DesignerItem DesignerItem { get; set; }
 	}
 }

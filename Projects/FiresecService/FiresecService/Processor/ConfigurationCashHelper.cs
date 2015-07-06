@@ -15,6 +15,7 @@ namespace FiresecService
 	public static class ConfigurationCashHelper
 	{
 		public static SecurityConfiguration SecurityConfiguration { get; private set; }
+
 		public static SystemConfiguration SystemConfiguration { get; private set; }
 
 		private static readonly string ConfigFileName = AppDataFolderHelper.GetServerAppDataPath("Config.fscp");
@@ -74,7 +75,6 @@ namespace FiresecService
 			}
 		}
 
-
 		public static SecurityConfiguration GetSecurityConfiguration()
 		{
 			var securityConfiguration = GetConfigurationFomZip("SecurityConfiguration.xml", typeof(SecurityConfiguration)) as SecurityConfiguration;
@@ -86,7 +86,7 @@ namespace FiresecService
 			return securityConfiguration;
 		}
 
-		static SystemConfiguration GetSystemConfiguration()
+		private static SystemConfiguration GetSystemConfiguration()
 		{
 			var systemConfiguration = (SystemConfiguration)GetConfigurationFomZip("SystemConfiguration.xml", typeof(SystemConfiguration));
 
@@ -96,7 +96,7 @@ namespace FiresecService
 			return systemConfiguration;
 		}
 
-		static SKDConfiguration GetSKDConfiguration()
+		private static SKDConfiguration GetSKDConfiguration()
 		{
 			var skdConfiguration = (SKDConfiguration)GetConfigurationFomZip("SKDConfiguration.xml", typeof(SKDConfiguration));
 
@@ -106,7 +106,7 @@ namespace FiresecService
 			return skdConfiguration;
 		}
 
-		static VersionedConfiguration GetConfigurationFomZip(string fileName, Type type)
+		private static VersionedConfiguration GetConfigurationFomZip(string fileName, Type type)
 		{
 			try
 			{
@@ -122,7 +122,6 @@ namespace FiresecService
 				{
 					var xmlSerializer = new XmlSerializer(type);
 					versionedConfiguration = (VersionedConfiguration)xmlSerializer.Deserialize(stream);
-
 				}
 
 				versionedConfiguration.ValidateVersion();

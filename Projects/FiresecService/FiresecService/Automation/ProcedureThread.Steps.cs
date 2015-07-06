@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Mail;
-using System.Text.RegularExpressions;
-using System.Windows.Media;
-using FiresecAPI;
+﻿using FiresecAPI;
 using FiresecAPI.Automation;
 using FiresecAPI.AutomationCallback;
 using FiresecAPI.GK;
@@ -15,13 +8,20 @@ using FiresecAPI.SKD;
 using FiresecService.Automation;
 using FiresecService.Service;
 using SKDDriver.Translators;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Mail;
+using System.Text.RegularExpressions;
+using System.Windows.Media;
 using Property = FiresecAPI.Automation.Property;
 
 namespace FiresecService
 {
 	public partial class ProcedureThread
 	{
-		void AddJournalItem(ProcedureStep procedureStep)
+		private void AddJournalItem(ProcedureStep procedureStep)
 		{
 			var journalItem = new JournalItem();
 			journalItem.SystemDateTime = DateTime.Now;
@@ -31,7 +31,7 @@ namespace FiresecService
 			Service.FiresecService.AddCommonJournalItem(journalItem);
 		}
 
-		bool Compare(ProcedureStep procedureStep)
+		private bool Compare(ProcedureStep procedureStep)
 		{
 			var conditionArguments = procedureStep.ConditionArguments;
 			var result = conditionArguments.JoinOperator == JoinOperator.And;
@@ -46,7 +46,7 @@ namespace FiresecService
 			return result;
 		}
 
-		void ShowMessage(ProcedureStep procedureStep)
+		private void ShowMessage(ProcedureStep procedureStep)
 		{
 			var showMessageArguments = procedureStep.ShowMessageArguments;
 			var messageValue = GetValue<object>(showMessageArguments.MessageArgument);
@@ -71,7 +71,7 @@ namespace FiresecService
 				SendCallback(showMessageArguments, automationCallbackResult);
 		}
 
-		void ShowDialog(ProcedureStep procedureStep)
+		private void ShowDialog(ProcedureStep procedureStep)
 		{
 			var automationCallbackResult = new AutomationCallbackResult()
 			{
@@ -94,7 +94,7 @@ namespace FiresecService
 			SendCallback(procedureStep.ShowDialogArguments, automationCallbackResult);
 		}
 
-		void ShowProperty(ProcedureStep procedureStep)
+		private void ShowProperty(ProcedureStep procedureStep)
 		{
 			var showPropertyArguments = procedureStep.ShowPropertyArguments;
 			var automationCallbackResult = new AutomationCallbackResult()
@@ -109,7 +109,7 @@ namespace FiresecService
 			SendCallback(showPropertyArguments, automationCallbackResult);
 		}
 
-		void SendEmail(ProcedureStep procedureStep)
+		private void SendEmail(ProcedureStep procedureStep)
 		{
 			var sendEmailArguments = procedureStep.SendEmailArguments;
 			var smtp = GetValue<string>(sendEmailArguments.SmtpArgument);
@@ -137,7 +137,7 @@ namespace FiresecService
 			}
 		}
 
-		void PlaySound(ProcedureStep procedureStep)
+		private void PlaySound(ProcedureStep procedureStep)
 		{
 			var automationCallbackResult = new AutomationCallbackResult()
 			{
@@ -150,7 +150,7 @@ namespace FiresecService
 			SendCallback(procedureStep.SoundArguments, automationCallbackResult);
 		}
 
-		void ControlVisual(ProcedureStep procedureStep, ControlElementType type)
+		private void ControlVisual(ProcedureStep procedureStep, ControlElementType type)
 		{
 			if (procedureStep.ControlVisualArguments == null || !procedureStep.ControlVisualArguments.Property.HasValue)
 				return;
@@ -163,10 +163,12 @@ namespace FiresecService
 					callbackType = AutomationCallbackType.GetVisualProperty;
 					waitResponse = true;
 					break;
+
 				case ControlElementType.Set:
 					callbackType = AutomationCallbackType.SetVisualProperty;
 					value = GetValue<object>(procedureStep.ControlVisualArguments.Argument);
 					break;
+
 				default:
 					return;
 			}
@@ -193,7 +195,7 @@ namespace FiresecService
 			}
 		}
 
-		void ControlPlan(ProcedureStep procedureStep, ControlElementType controlElementType)
+		private void ControlPlan(ProcedureStep procedureStep, ControlElementType controlElementType)
 		{
 			var controlPlanArguments = procedureStep.ControlPlanArguments;
 			var callbackType = new AutomationCallbackType();
@@ -224,6 +226,7 @@ namespace FiresecService
 					value = SendCallback(controlPlanArguments, automationCallbackResult, true);
 					SetValue(controlPlanArguments.ValueArgument, value);
 					break;
+
 				case ControlElementType.Set:
 					SendCallback(controlPlanArguments, automationCallbackResult);
 					if (controlPlanArguments.ForAllClients)
@@ -232,7 +235,7 @@ namespace FiresecService
 			}
 		}
 
-		void Calculate(ProcedureStep procedureStep)
+		private void Calculate(ProcedureStep procedureStep)
 		{
 			var arithmeticArguments = procedureStep.ArithmeticArguments;
 			object variable1;
@@ -281,12 +284,15 @@ namespace FiresecService
 							case TimeType.Sec:
 								variable2 = TimeSpan.FromSeconds(GetValue<int>(arithmeticArguments.Argument2));
 								break;
+
 							case TimeType.Min:
 								variable2 = TimeSpan.FromMinutes(GetValue<int>(arithmeticArguments.Argument2));
 								break;
+
 							case TimeType.Hour:
 								variable2 = TimeSpan.FromHours(GetValue<int>(arithmeticArguments.Argument2));
 								break;
+
 							case TimeType.Day:
 								variable2 = TimeSpan.FromDays(GetValue<int>(arithmeticArguments.Argument2));
 								break;
@@ -313,7 +319,7 @@ namespace FiresecService
 			}
 		}
 
-		void FindObjects(ProcedureStep procedureStep)
+		private void FindObjects(ProcedureStep procedureStep)
 		{
 			var findObjectArguments = procedureStep.FindObjectArguments;
 			var variable = AllVariables.FirstOrDefault(x => x.Uid == findObjectArguments.ResultArgument.VariableUid);
@@ -323,7 +329,7 @@ namespace FiresecService
 				FindObjectsAnd(variable, findObjectArguments.FindObjectConditions);
 		}
 
-		void GetObjectProperty(ProcedureStep procedureStep)
+		private void GetObjectProperty(ProcedureStep procedureStep)
 		{
 			var getObjectPropertyArguments = procedureStep.GetObjectPropertyArguments;
 			var target = AllVariables.FirstOrDefault(x => x.Uid == getObjectPropertyArguments.ResultArgument.VariableUid);
@@ -336,7 +342,7 @@ namespace FiresecService
 			SetValue(target, propertyValue);
 		}
 
-		object GetPropertyValue(ref Guid itemUid, Property property, object item)
+		private object GetPropertyValue(ref Guid itemUid, Property property, object item)
 		{
 			var propertyValue = new object();
 			if (item is SKDDevice)
@@ -346,9 +352,11 @@ namespace FiresecService
 					case Property.IntAddress:
 						propertyValue = (item as SKDDevice).IntAddress;
 						break;
+
 					case Property.Description:
 						propertyValue = (item as SKDDevice).Description.Trim();
 						break;
+
 					case Property.Uid:
 						propertyValue = (item as SKDDevice).UID.ToString();
 						break;
@@ -359,21 +367,21 @@ namespace FiresecService
 			return propertyValue;
 		}
 
-		void InitializeItems(ref IEnumerable<object> items, ref Variable result)
+		private void InitializeItems(ref IEnumerable<object> items, ref Variable result)
 		{
 			var explicitValues = new List<ExplicitValue>();
 			if (result.ObjectType == ObjectType.SKDDevice)
 			{
-			//	items = new List<GKDevice>(GKManager.DeviceConfiguration.Devices);
-			//	foreach (var objectUid in new List<Guid>(GKManager.DeviceConfiguration.Devices.Select(x => x.UID)))
-			//		explicitValues.Add(new ExplicitValue { UidValue = objectUid });
+				//	items = new List<GKDevice>(GKManager.DeviceConfiguration.Devices);
+				//	foreach (var objectUid in new List<Guid>(GKManager.DeviceConfiguration.Devices.Select(x => x.UID)))
+				//		explicitValues.Add(new ExplicitValue { UidValue = objectUid });
 			}
 			result.ExplicitValues = explicitValues;
 		}
 
-		object InitializeItem(Guid itemUid)
+		private object InitializeItem(Guid itemUid)
 		{
-	//		var device = GKManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == itemUid);
+			//		var device = GKManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == itemUid);
 			var sKDDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == itemUid);
 			var sKDZone = SKDManager.Zones.FirstOrDefault(x => x.UID == itemUid);
 			var camera = ConfigurationCashHelper.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == itemUid);
@@ -391,7 +399,7 @@ namespace FiresecService
 			return null;
 		}
 
-		void FindObjectsOr(Variable result, IEnumerable<FindObjectCondition> findObjectConditions)
+		private void FindObjectsOr(Variable result, IEnumerable<FindObjectCondition> findObjectConditions)
 		{
 			IEnumerable<object> items = new List<object>();
 			InitializeItems(ref items, ref result);
@@ -416,7 +424,7 @@ namespace FiresecService
 			}
 		}
 
-		void FindObjectsAnd(Variable result, IEnumerable<FindObjectCondition> findObjectConditions)
+		private void FindObjectsAnd(Variable result, IEnumerable<FindObjectCondition> findObjectConditions)
 		{
 			IEnumerable<object> items = new List<object>();
 			InitializeItems(ref items, ref result);
@@ -441,7 +449,7 @@ namespace FiresecService
 			}
 		}
 
-		bool? Compare(object param1, object param2, ConditionType conditionType)
+		private bool? Compare(object param1, object param2, ConditionType conditionType)
 		{
 			if (param1.GetType() != param2.GetType())
 				return null;
@@ -503,7 +511,7 @@ namespace FiresecService
 			}
 		}
 
-		void StartRecord(ProcedureStep procedureStep)
+		private void StartRecord(ProcedureStep procedureStep)
 		{
 			var startRecordArguments = procedureStep.StartRecordArguments;
 			var cameraUID = GetValue<Guid>(startRecordArguments.CameraArgument);
@@ -564,7 +572,7 @@ namespace FiresecService
 			RviClient.RviClientHelper.AlarmRuleExecute(ConfigurationCashHelper.SystemConfiguration, name);
 		}
 
-		void ControlDoor(ProcedureStep procedureStep)
+		private void ControlDoor(ProcedureStep procedureStep)
 		{
 			var doorUid = GetValue<Guid>(procedureStep.ControlDoorArguments.DoorArgument);
 			var door = SKDManager.Doors.FirstOrDefault(x => x.UID == doorUid);
@@ -580,7 +588,7 @@ namespace FiresecService
 				FiresecServiceManager.SafeFiresecService.SKDCloseDoorForever(door.UID);
 		}
 
-		void ControlSKDZone(ProcedureStep procedureStep)
+		private void ControlSKDZone(ProcedureStep procedureStep)
 		{
 			var sKDZoneUid = GetValue<Guid>(procedureStep.ControlSKDZoneArguments.SKDZoneArgument);
 			var sKDZone = SKDManager.Zones.FirstOrDefault(x => x.UID == sKDZoneUid);
@@ -596,7 +604,7 @@ namespace FiresecService
 				FiresecServiceManager.SafeFiresecService.SKDCloseZoneForever(sKDZone.UID);
 		}
 
-		void Pause(ProcedureStep procedureStep)
+		private void Pause(ProcedureStep procedureStep)
 		{
 			var pauseArguments = procedureStep.PauseArguments;
 			var pause = new TimeSpan();
@@ -605,12 +613,15 @@ namespace FiresecService
 				case TimeType.Sec:
 					pause = TimeSpan.FromSeconds(GetValue<int>(pauseArguments.PauseArgument));
 					break;
+
 				case TimeType.Min:
 					pause = TimeSpan.FromMinutes(GetValue<int>(pauseArguments.PauseArgument));
 					break;
+
 				case TimeType.Hour:
 					pause = TimeSpan.FromHours(GetValue<int>(pauseArguments.PauseArgument));
 					break;
+
 				case TimeType.Day:
 					pause = TimeSpan.FromDays(GetValue<int>(pauseArguments.PauseArgument));
 					break;
@@ -620,7 +631,7 @@ namespace FiresecService
 			}
 		}
 
-		void IncrementValue(ProcedureStep procedureStep)
+		private void IncrementValue(ProcedureStep procedureStep)
 		{
 			var incrementValueArguments = procedureStep.IncrementValueArguments;
 			var variable = AllVariables.FirstOrDefault(x => x.Uid == incrementValueArguments.ResultArgument.VariableUid);
@@ -628,7 +639,7 @@ namespace FiresecService
 				variable.ExplicitValue.IntValue = incrementValueArguments.IncrementType == IncrementType.Inc ? variable.ExplicitValue.IntValue + 1 : variable.ExplicitValue.IntValue - 1;
 		}
 
-		void GetRandomValue(ProcedureStep procedureStep)
+		private void GetRandomValue(ProcedureStep procedureStep)
 		{
 			var randomArguments = procedureStep.RandomArguments;
 			var resultVariable = AllVariables.FirstOrDefault(x => x.Uid == randomArguments.ResultArgument.VariableUid);
@@ -637,7 +648,7 @@ namespace FiresecService
 				resultVariable.ExplicitValue.IntValue = new Random().Next(0, maxValue);
 		}
 
-		void ChangeList(ProcedureStep procedureStep)
+		private void ChangeList(ProcedureStep procedureStep)
 		{
 			var changeListArguments = procedureStep.ChangeListArguments;
 			var listVariable = AllVariables.FirstOrDefault(x => x.Uid == changeListArguments.ListArgument.VariableUid);
@@ -655,11 +666,13 @@ namespace FiresecService
 					case ChangeType.AddLast:
 						listVariable.ExplicitValues.Add(explicitValue);
 						break;
+
 					case ChangeType.RemoveFirst:
 						listVariable.ExplicitValues.Remove(listVariable.ExplicitValues.FirstOrDefault
 							(x => ExplicitCompare(x, explicitValue, changeListArguments.ListArgument.ExplicitType,
 								changeListArguments.ListArgument.EnumType)));
 						break;
+
 					case ChangeType.RemoveAll:
 						listVariable.ExplicitValues.RemoveAll(
 							(x => ExplicitCompare(x, explicitValue, changeListArguments.ListArgument.ExplicitType,
@@ -669,7 +682,7 @@ namespace FiresecService
 			}
 		}
 
-		void CheckPermission(ProcedureStep procedureStep)
+		private void CheckPermission(ProcedureStep procedureStep)
 		{
 			var checkPermissionArguments = procedureStep.CheckPermissionArguments;
 			var resultVariable = AllVariables.FirstOrDefault(x => x.Uid == checkPermissionArguments.ResultArgument.VariableUid);
@@ -678,7 +691,7 @@ namespace FiresecService
 				resultVariable.ExplicitValue.BoolValue = User.HasPermission(permissionValue);
 		}
 
-		void GetListCount(ProcedureStep procedureStep)
+		private void GetListCount(ProcedureStep procedureStep)
 		{
 			var getListCountArgument = procedureStep.GetListCountArguments;
 			var listVariable = AllVariables.FirstOrDefault(x => x.Uid == getListCountArgument.ListArgument.VariableUid);
@@ -687,7 +700,7 @@ namespace FiresecService
 				countVariable.ExplicitValue.IntValue = listVariable.ExplicitValues.Count;
 		}
 
-		void GetListItem(ProcedureStep procedureStep)
+		private void GetListItem(ProcedureStep procedureStep)
 		{
 			var getListItemArgument = procedureStep.GetListItemArguments;
 			var listVariable = AllVariables.FirstOrDefault(x => x.Uid == getListItemArgument.ListArgument.VariableUid);
@@ -707,7 +720,7 @@ namespace FiresecService
 			}
 		}
 
-		void GetJournalItem(ProcedureStep procedureStep)
+		private void GetJournalItem(ProcedureStep procedureStep)
 		{
 			var getJournalItemArguments = procedureStep.GetJournalItemArguments;
 			var resultVariable = AllVariables.FirstOrDefault(x => x.Uid == getJournalItemArguments.ResultArgument.VariableUid);
@@ -730,7 +743,7 @@ namespace FiresecService
 			}
 		}
 
-		bool ExplicitCompare(ExplicitValue explicitValue1, ExplicitValue explicitValue2, ExplicitType explicitType, EnumType enumType)
+		private bool ExplicitCompare(ExplicitValue explicitValue1, ExplicitValue explicitValue2, ExplicitType explicitType, EnumType enumType)
 		{
 			if (explicitType == ExplicitType.Integer)
 				return explicitValue1.IntValue == explicitValue2.IntValue;
@@ -762,7 +775,7 @@ namespace FiresecService
 			return false;
 		}
 
-		void SetValue(ProcedureStep procedureStep)
+		private void SetValue(ProcedureStep procedureStep)
 		{
 			var setValueArguments = procedureStep.SetValueArguments;
 			var sourceVariable = AllVariables.FirstOrDefault(x => x.Uid == setValueArguments.SourceArgument.VariableUid);
@@ -780,7 +793,7 @@ namespace FiresecService
 					targetVariable.ExplicitValue);
 		}
 
-		void ExportJournal(ProcedureStep procedureStep)
+		private void ExportJournal(ProcedureStep procedureStep)
 		{
 			var arguments = procedureStep.ExportJournalArguments;
 			var isExportJournal = GetValue<bool>(arguments.IsExportJournalArgument);
@@ -801,7 +814,7 @@ namespace FiresecService
 			//    BalloonHelper.ShowFromServer("Экспорт журнала " + result.Error);
 		}
 
-		void ExportOrganisation(ProcedureStep procedureStep)
+		private void ExportOrganisation(ProcedureStep procedureStep)
 		{
 			var arguments = procedureStep.ExportOrganisationArguments;
 			var isWithDeleted = GetValue<bool>(arguments.IsWithDeleted);
@@ -818,7 +831,7 @@ namespace FiresecService
 			//    MessageBoxService.Show(result.Error);
 		}
 
-		void ExportOrganisationList(ProcedureStep procedureStep)
+		private void ExportOrganisationList(ProcedureStep procedureStep)
 		{
 			var arguments = procedureStep.ImportOrganisationArguments;
 			var isWithDeleted = GetValue<bool>(arguments.IsWithDeleted);
@@ -833,7 +846,7 @@ namespace FiresecService
 			//    MessageBoxService.Show(result.Error);
 		}
 
-		void ExportConfiguration(ProcedureStep procedureStep)
+		private void ExportConfiguration(ProcedureStep procedureStep)
 		{
 			var arguments = procedureStep.ExportConfigurationArguments;
 			var isExportDevices = GetValue<bool>(arguments.IsExportDevices);
@@ -852,7 +865,7 @@ namespace FiresecService
 			//    MessageBoxService.Show(result.Error);
 		}
 
-		void ImportOrganisation(ProcedureStep procedureStep)
+		private void ImportOrganisation(ProcedureStep procedureStep)
 		{
 			var arguments = procedureStep.ImportOrganisationArguments;
 			var isWithDeleted = GetValue<bool>(arguments.IsWithDeleted);
@@ -867,7 +880,7 @@ namespace FiresecService
 			//    MessageBoxService.Show(result.Error);
 		}
 
-		void ImportOrganisationList(ProcedureStep procedureStep)
+		private void ImportOrganisationList(ProcedureStep procedureStep)
 		{
 			var arguments = procedureStep.ImportOrganisationArguments;
 			var isWithDeleted = GetValue<bool>(arguments.IsWithDeleted);
@@ -882,13 +895,14 @@ namespace FiresecService
 			//    MessageBoxService.Show(result.Error);
 		}
 
-		void SetValue(Argument argument, object propertyValue)
+		private void SetValue(Argument argument, object propertyValue)
 		{
 			var variable = AllVariables.FirstOrDefault(x => x.Uid == argument.VariableUid);
 			if (variable != null)
 				SetValue(variable, propertyValue);
 		}
-		void SetValue(Variable target, object propertyValue)
+
+		private void SetValue(Variable target, object propertyValue)
 		{
 			if (target.ExplicitType == ExplicitType.Integer)
 				target.ExplicitValue.IntValue = Convert.ToInt32(propertyValue);
@@ -915,7 +929,7 @@ namespace FiresecService
 			}
 		}
 
-		T GetValue<T>(Argument variable)
+		private T GetValue<T>(Argument variable)
 		{
 			var variableScope = variable.VariableScope;
 			var explicitType = variable.ExplicitType;
@@ -934,7 +948,7 @@ namespace FiresecService
 			return (T)GetValue<object>(explicitValue, explicitType, enumType);
 		}
 
-		bool CheckGuid(string guidString)
+		private bool CheckGuid(string guidString)
 		{
 			var guidRegEx = new Regex("^[A-Fa-f0-9]{32}$|" + "^({|\\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(}|\\))?$|" +
 				"^({)?[0xA-Fa-f0-9]{3,10}(, {0,1}[0xA-Fa-f0-9]{3,6}){2}, {0,1}({)([0xA-Fa-f0-9]{3,4}, {0,1}){7}[0xA-Fa-f0-9]{3,4}(}})$", RegexOptions.Compiled);
@@ -943,7 +957,7 @@ namespace FiresecService
 			return false;
 		}
 
-		T GetValue<T>(ExplicitValue explicitValue, ExplicitType explicitType, EnumType enumType)
+		private T GetValue<T>(ExplicitValue explicitValue, ExplicitType explicitType, EnumType enumType)
 		{
 			var result = new object();
 			if (explicitType == ExplicitType.Boolean)

@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using CodeReason.Reports;
+﻿using CodeReason.Reports;
+using System.Collections.Generic;
 
 namespace Infrastructure.Common.Reports
 {

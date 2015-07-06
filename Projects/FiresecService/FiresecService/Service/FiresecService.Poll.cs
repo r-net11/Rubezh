@@ -1,12 +1,11 @@
-﻿using System;
+﻿using FiresecAPI;
+using FiresecAPI.AutomationCallback;
+using FiresecAPI.Journal;
+using FiresecAPI.SKD;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using FiresecAPI;
-using FiresecAPI.GK;
-using FiresecAPI.Journal;
-using FiresecAPI.SKD;
-using FiresecAPI.AutomationCallback;
 
 namespace FiresecService.Service
 {

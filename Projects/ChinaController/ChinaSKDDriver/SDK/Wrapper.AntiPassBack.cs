@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using ChinaSKDDriverAPI;
+﻿using ChinaSKDDriverAPI;
 using ChinaSKDDriverNativeApi;
 
 namespace ChinaSKDDriver
@@ -23,7 +19,7 @@ namespace ChinaSKDDriver
 			return NativeWrapper.WRAP_SetAntiPassBackCfg(LoginID, ref nativeCfg);
 		}
 
-		AntiPassBackConfiguration NativeAntiPassBackCfgToAntiPassBackConfiguration(NativeWrapper.WRAP_AntiPassBackCfg nativeCfg)
+		private AntiPassBackConfiguration NativeAntiPassBackCfgToAntiPassBackConfiguration(NativeWrapper.WRAP_AntiPassBackCfg nativeCfg)
 		{
 			AntiPassBackConfiguration cfg = new AntiPassBackConfiguration();
 
@@ -42,7 +38,7 @@ namespace ChinaSKDDriver
 			return cfg;
 		}
 
-		NativeWrapper.WRAP_AntiPassBackCfg AntiPassBackConfigurationToNativeAntiPathBackCfg(AntiPassBackConfiguration cfg)
+		private NativeWrapper.WRAP_AntiPassBackCfg AntiPassBackConfigurationToNativeAntiPathBackCfg(AntiPassBackConfiguration cfg)
 		{
 			var nativeCfg = new NativeWrapper.WRAP_AntiPassBackCfg();
 

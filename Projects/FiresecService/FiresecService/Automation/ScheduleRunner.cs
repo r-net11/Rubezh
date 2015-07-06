@@ -1,23 +1,24 @@
-﻿using System;
+﻿using FiresecAPI.Automation;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
-using FiresecAPI.Automation;
 
 namespace FiresecService
 {
 	public static class ScheduleRunner
 	{
-		static int timeValidator;
-		static DateTime startTime;
-		static int TimeDelta
+		private static int timeValidator;
+		private static DateTime startTime;
+
+		private static int TimeDelta
 		{
 			get { return (int)((DateTime.Now - startTime).TotalSeconds); }
 		}
 
-		static Thread Thread;
-		static AutoResetEvent AutoResetEvent = new AutoResetEvent(false);
+		private static Thread Thread;
+		private static AutoResetEvent AutoResetEvent = new AutoResetEvent(false);
 
 		public static void Start()
 		{
@@ -45,7 +46,7 @@ namespace FiresecService
 			Start();
 		}
 
-		static void OnRun()
+		private static void OnRun()
 		{
 			AutoResetEvent = new AutoResetEvent(false);
 			while (true)
@@ -81,7 +82,7 @@ namespace FiresecService
 			}
 		}
 
-		static bool CheckSchedule(AutomationSchedule schedule, DateTime dateTime)
+		private static bool CheckSchedule(AutomationSchedule schedule, DateTime dateTime)
 		{
 			if ((schedule.DayOfWeek.ToString() != dateTime.DayOfWeek.ToString()) && (schedule.DayOfWeek != DayOfWeekType.Any))
 				return false;
@@ -101,7 +102,7 @@ namespace FiresecService
 			return (delta % period == 0);
 		}
 
-		static void RunProcedures(AutomationSchedule schedule)
+		private static void RunProcedures(AutomationSchedule schedule)
 		{
 			if (schedule.IsActive)
 				foreach (var scheduleProcedure in schedule.ScheduleProcedures)

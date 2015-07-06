@@ -1,9 +1,9 @@
-﻿using System;
+﻿using FiresecAPI.SKD;
+using LinqKit;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using FiresecAPI.SKD;
-using LinqKit;
 using OperationResult = FiresecAPI.OperationResult;
 
 namespace SKDDriver.Translators
@@ -13,8 +13,8 @@ namespace SKDDriver.Translators
 		public ScheduleZoneTranslator(SKDDatabaseService databaseService)
 			: base(databaseService)
 		{
-
 		}
+
 		protected override Expression<Func<DataAccess.ScheduleZone, bool>> IsInFilter(ScheduleZoneFilter filter)
 		{
 			var result = base.IsInFilter(filter);
@@ -41,6 +41,7 @@ namespace SKDDriver.Translators
 			apiItem.DoorUID = tableItem.DoorUID;
 			return apiItem;
 		}
+
 		protected override void TranslateBack(DataAccess.ScheduleZone tableItem, ScheduleZone apiItem)
 		{
 			var schedule = Context.Schedules.FirstOrDefault(item => item.UID == apiItem.ScheduleUID);

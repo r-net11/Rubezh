@@ -26,8 +26,8 @@ namespace FiresecAPI.SKD
 		[DataMember]
 		public TimeSpan Reduction { get; set; }
 
-		public string Description 
-		{ 
+		public string Description
+		{
 			get { return ""; }
 			set { return; }
 		}

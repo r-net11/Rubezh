@@ -13,7 +13,7 @@ namespace FiresecService.Service
 {
 	public partial class FiresecService : IFiresecService
 	{
-		string UserName
+		private string UserName
 		{
 			get
 			{
@@ -24,6 +24,7 @@ namespace FiresecService.Service
 		}
 
 		#region Employee
+
 		public OperationResult<IEnumerable<ShortEmployee>> GetEmployeeList(EmployeeFilter filter)
 		{
 			OperationResult<IEnumerable<ShortEmployee>> result;
@@ -33,6 +34,7 @@ namespace FiresecService.Service
 			}
 			return result;
 		}
+
 		public OperationResult<Employee> GetEmployeeDetails(Guid uid)
 		{
 			using (var databaseService = new SKDDatabaseService())
@@ -40,9 +42,10 @@ namespace FiresecService.Service
 				return databaseService.EmployeeTranslator.GetSingle(uid);
 			}
 		}
+
 		public OperationResult SaveEmployee(Employee item, bool isNew)
 		{
-			if(isNew)
+			if (isNew)
 				AddJournalMessage(JournalEventNameType.Добавление_нового_сотрудника, item.Name, uid: item.UID);
 			else
 				AddJournalMessage(JournalEventNameType.Редактирование_сотрудника, item.Name, JournalEventDescriptionType.Редактирование, uid: item.UID);
@@ -51,6 +54,7 @@ namespace FiresecService.Service
 				return databaseService.EmployeeTranslator.Save(item);
 			}
 		}
+
 		public OperationResult MarkDeletedEmployee(Guid uid, string name)
 		{
 			AddJournalMessage(JournalEventNameType.Удаление_сотрудника, name, JournalEventDescriptionType.Удаление, uid: uid);
@@ -83,6 +87,7 @@ namespace FiresecService.Service
 			else
 				return new OperationResult();
 		}
+
 		public OperationResult<TimeTrackResult> GetTimeTracks(EmployeeFilter filter, DateTime startDate, DateTime endDate)
 		{
 			using (var databaseService = new SKDDatabaseService())
@@ -90,6 +95,7 @@ namespace FiresecService.Service
 				return databaseService.TimeTrackTranslator.GetTimeTracks(filter, startDate, endDate);
 			}
 		}
+
 		public Stream GetTimeTracksStream(EmployeeFilter filter, DateTime startDate, DateTime endDate)
 		{
 			using (var databaseService = new SKDDatabaseService())
@@ -97,6 +103,7 @@ namespace FiresecService.Service
 				return databaseService.TimeTrackTranslator.GetTimeTracksStream(filter, startDate, endDate);
 			}
 		}
+
 		public OperationResult SaveEmployeeDepartment(Guid uid, Guid departmentUid, string name)
 		{
 			AddJournalMessage(JournalEventNameType.Редактирование_сотрудника, name, JournalEventDescriptionType.Редактирование, uid: uid);
@@ -105,6 +112,7 @@ namespace FiresecService.Service
 				return databaseService.EmployeeTranslator.SaveDepartment(uid, departmentUid);
 			}
 		}
+
 		public OperationResult SaveEmployeePosition(Guid uid, Guid PositionUid, string name)
 		{
 			AddJournalMessage(JournalEventNameType.Редактирование_сотрудника, name, JournalEventDescriptionType.Редактирование, uid: uid);
@@ -113,6 +121,7 @@ namespace FiresecService.Service
 				return databaseService.EmployeeTranslator.SavePosition(uid, PositionUid);
 			}
 		}
+
 		public OperationResult RestoreEmployee(Guid uid, string name)
 		{
 			AddJournalMessage(JournalEventNameType.Восстановление_сотрудника, name, uid: uid);
@@ -121,9 +130,11 @@ namespace FiresecService.Service
 				return databaseService.EmployeeTranslator.Restore(uid);
 			}
 		}
-		#endregion
+
+		#endregion Employee
 
 		#region Department
+
 		public OperationResult<IEnumerable<ShortDepartment>> GetDepartmentList(DepartmentFilter filter)
 		{
 			OperationResult<IEnumerable<ShortDepartment>> result;
@@ -133,6 +144,7 @@ namespace FiresecService.Service
 			}
 			return result;
 		}
+
 		public OperationResult<Department> GetDepartmentDetails(Guid uid)
 		{
 			using (var databaseService = new SKDDatabaseService())
@@ -140,9 +152,10 @@ namespace FiresecService.Service
 				return databaseService.DepartmentTranslator.GetSingle(uid);
 			}
 		}
+
 		public OperationResult SaveDepartment(Department item, bool isNew)
 		{
-			if(isNew)
+			if (isNew)
 				AddJournalMessage(JournalEventNameType.Добавление_нового_отдела, item.Name, uid: item.UID);
 			else
 				AddJournalMessage(JournalEventNameType.Редактирование_отдела, item.Name, JournalEventDescriptionType.Редактирование, uid: item.UID);
@@ -151,6 +164,7 @@ namespace FiresecService.Service
 				return databaseService.DepartmentTranslator.Save(item);
 			}
 		}
+
 		public OperationResult MarkDeletedDepartment(ShortDepartment department)
 		{
 			AddJournalMessage(JournalEventNameType.Удаление_отдела, department.Name, uid: department.UID);
@@ -163,6 +177,7 @@ namespace FiresecService.Service
 				return databaseService.DepartmentTranslator.MarkDeleted(department.UID);
 			}
 		}
+
 		public OperationResult SaveDepartmentChief(Guid uid, Guid chiefUID, string name)
 		{
 			AddJournalMessage(JournalEventNameType.Редактирование_отдела, name, JournalEventDescriptionType.Редактирование, uid: uid);
@@ -200,9 +215,11 @@ namespace FiresecService.Service
 				return databaseService.DepartmentTranslator.GetParentEmployeeUIDs(uid);
 			}
 		}
-		#endregion
+
+		#endregion Department
 
 		#region Position
+
 		public OperationResult<IEnumerable<ShortPosition>> GetPositionList(PositionFilter filter)
 		{
 			OperationResult<IEnumerable<ShortPosition>> result;
@@ -212,6 +229,7 @@ namespace FiresecService.Service
 			}
 			return result;
 		}
+
 		public OperationResult<Position> GetPositionDetails(Guid uid)
 		{
 			using (var databaseService = new SKDDatabaseService())
@@ -219,6 +237,7 @@ namespace FiresecService.Service
 				return databaseService.PositionTranslator.GetSingle(uid);
 			}
 		}
+
 		public OperationResult SavePosition(Position item, bool isNew)
 		{
 			if (isNew)
@@ -230,6 +249,7 @@ namespace FiresecService.Service
 				return databaseService.PositionTranslator.Save(item);
 			}
 		}
+
 		public OperationResult MarkDeletedPosition(Guid uid, string name)
 		{
 			AddJournalMessage(JournalEventNameType.Удаление_должности, name, uid: uid);
@@ -238,6 +258,7 @@ namespace FiresecService.Service
 				return databaseService.PositionTranslator.MarkDeleted(uid);
 			}
 		}
+
 		public OperationResult RestorePosition(Guid uid, string name)
 		{
 			AddJournalMessage(JournalEventNameType.Восстановление_должности, name, uid: uid);
@@ -246,9 +267,11 @@ namespace FiresecService.Service
 				return databaseService.PositionTranslator.Restore(uid);
 			}
 		}
-		#endregion
+
+		#endregion Position
 
 		#region Card
+
 		public OperationResult<IEnumerable<SKDCard>> GetCards(CardFilter filter)
 		{
 			using (var databaseService = new SKDDatabaseService())
@@ -256,6 +279,7 @@ namespace FiresecService.Service
 				return databaseService.CardTranslator.Get(filter);
 			}
 		}
+
 		public OperationResult<IEnumerable<SKDCard>> GetEmployeeCards(Guid employeeUID)
 		{
 			using (var databaseService = new SKDDatabaseService())
@@ -263,6 +287,7 @@ namespace FiresecService.Service
 				return databaseService.CardTranslator.GetEmployeeCards(employeeUID);
 			}
 		}
+
 		public OperationResult<bool> AddCard(SKDCard card, string employeeName)
 		{
 			AddJournalMessage(JournalEventNameType.Добавление_карты, employeeName, uid: card.EmployeeUID);
@@ -280,12 +305,13 @@ namespace FiresecService.Service
 					errors.AddRange(getAccessTemplateOperationResult.Errors);
 
 				errors.AddRange(AddStrazhCard(card, getAccessTemplateOperationResult.Result, databaseService));
-		//		errors.AddRange(AddGKCard(card, getAccessTemplateOperationResult.Result, databaseService));
+				//		errors.AddRange(AddGKCard(card, getAccessTemplateOperationResult.Result, databaseService));
 
 				return OperationResult<bool>.FromError(errors, true);
 			}
 		}
-		IEnumerable<string> AddStrazhCard(SKDCard card, AccessTemplate accessTemplate, SKDDatabaseService databaseService)
+
+		private IEnumerable<string> AddStrazhCard(SKDCard card, AccessTemplate accessTemplate, SKDDatabaseService databaseService)
 		{
 			var cardWriter = ChinaSKDDriver.Processor.AddCard(card, accessTemplate);
 			var cardWriterError = cardWriter.GetError();
@@ -297,25 +323,26 @@ namespace FiresecService.Service
 			if (pendingResult.HasError)
 				yield return pendingResult.Error;
 		}
-	/*	IEnumerable<string> AddGKCard(SKDCard card, AccessTemplate accessTemplate, SKDDatabaseService databaseService)
-		{
-			var employeeOperationResult = databaseService.EmployeeTranslator.GetSingle(card.HolderUID);
-			if (!employeeOperationResult.HasError)
+
+		/*	IEnumerable<string> AddGKCard(SKDCard card, AccessTemplate accessTemplate, SKDDatabaseService databaseService)
 			{
-				var controllerCardSchedules = GKSKDHelper.GetGKControllerCardSchedules(card, accessTemplate);
-				foreach (var controllerCardSchedule in controllerCardSchedules)
+				var employeeOperationResult = databaseService.EmployeeTranslator.GetSingle(card.HolderUID);
+				if (!employeeOperationResult.HasError)
 				{
-					var addResult = GKSKDHelper.AddOrEditCard(controllerCardSchedule, card, employeeOperationResult.Result.FIO);
-					if (addResult.HasError)
+					var controllerCardSchedules = GKSKDHelper.GetGKControllerCardSchedules(card, accessTemplate);
+					foreach (var controllerCardSchedule in controllerCardSchedules)
 					{
-						yield return "Не удалось добавить карту в устройство " + controllerCardSchedule.ControllerDevice.PresentationName;
-						var pendingResult = databaseService.CardTranslator.AddPendingList(card.UID, new List<Guid>() { controllerCardSchedule.ControllerDevice.UID });
-						if (pendingResult.HasError)
-							yield return pendingResult.Error;
+						var addResult = GKSKDHelper.AddOrEditCard(controllerCardSchedule, card, employeeOperationResult.Result.FIO);
+						if (addResult.HasError)
+						{
+							yield return "Не удалось добавить карту в устройство " + controllerCardSchedule.ControllerDevice.PresentationName;
+							var pendingResult = databaseService.CardTranslator.AddPendingList(card.UID, new List<Guid>() { controllerCardSchedule.ControllerDevice.UID });
+							if (pendingResult.HasError)
+								yield return pendingResult.Error;
+						}
 					}
 				}
-			}
-		}*/
+			}*/
 
 		public OperationResult<bool> EditCard(SKDCard card, string employeeName)
 		{
@@ -340,7 +367,7 @@ namespace FiresecService.Service
 					var oldGetAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(oldCard.AccessTemplateUID);
 
 					errors.AddRange(EditStrazhCard(oldCard, oldGetAccessTemplateOperationResult.Result, card, getAccessTemplateOperationResult.Result, databaseService));
-			//		errors.AddRange(EditGKCard(oldCard, oldGetAccessTemplateOperationResult.Result, card, getAccessTemplateOperationResult.Result, databaseService));
+					//		errors.AddRange(EditGKCard(oldCard, oldGetAccessTemplateOperationResult.Result, card, getAccessTemplateOperationResult.Result, databaseService));
 				}
 				else
 				{
@@ -350,7 +377,8 @@ namespace FiresecService.Service
 				return OperationResult<bool>.FromError(errors, true);
 			}
 		}
-		IEnumerable<string> EditStrazhCard(SKDCard oldCard, AccessTemplate oldAccessTemplate, SKDCard card, AccessTemplate accessTemplate, SKDDatabaseService databaseService)
+
+		private IEnumerable<string> EditStrazhCard(SKDCard oldCard, AccessTemplate oldAccessTemplate, SKDCard card, AccessTemplate accessTemplate, SKDDatabaseService databaseService)
 		{
 			var cardWriter = ChinaSKDDriver.Processor.EditCard(oldCard, oldAccessTemplate, card, accessTemplate);
 			var cardWriterError = cardWriter.GetError();
@@ -361,43 +389,44 @@ namespace FiresecService.Service
 			if (pendingResult.HasError)
 				yield return pendingResult.Error;
 		}
-	/*	IEnumerable<string> EditGKCard(SKDCard oldCard, AccessTemplate oldAccessTemplate, SKDCard card, AccessTemplate accessTemplate, SKDDatabaseService databaseService)
-		{
-			var employeeOperationResult = databaseService.EmployeeTranslator.GetSingle(card.HolderUID);
-			if (!employeeOperationResult.HasError)
+
+		/*	IEnumerable<string> EditGKCard(SKDCard oldCard, AccessTemplate oldAccessTemplate, SKDCard card, AccessTemplate accessTemplate, SKDDatabaseService databaseService)
 			{
-				var controllerCardSchedules_ToDelete = GKSKDHelper.GetGKControllerCardSchedules(oldCard, oldAccessTemplate);
-				var controllerCardSchedules_ToEdit = GKSKDHelper.GetGKControllerCardSchedules(card, accessTemplate);
-				foreach (var controllerCardSchedule_ToEdit in controllerCardSchedules_ToEdit)
+				var employeeOperationResult = databaseService.EmployeeTranslator.GetSingle(card.HolderUID);
+				if (!employeeOperationResult.HasError)
 				{
-					controllerCardSchedules_ToDelete.RemoveAll(x => x.ControllerDevice.UID == controllerCardSchedule_ToEdit.ControllerDevice.UID);
-				}
-
-				foreach (var controllerCardSchedule in controllerCardSchedules_ToDelete)
-				{
-					var removeResult = GKSKDHelper.RemoveCard(controllerCardSchedule.ControllerDevice, card);
-					if (removeResult.HasError)
+					var controllerCardSchedules_ToDelete = GKSKDHelper.GetGKControllerCardSchedules(oldCard, oldAccessTemplate);
+					var controllerCardSchedules_ToEdit = GKSKDHelper.GetGKControllerCardSchedules(card, accessTemplate);
+					foreach (var controllerCardSchedule_ToEdit in controllerCardSchedules_ToEdit)
 					{
-						yield return "Не удалось удалить карту из устройства " + controllerCardSchedule.ControllerDevice.PresentationName;
-						var pendingResult = databaseService.CardTranslator.DeletePendingList(card.UID, new List<Guid>() { controllerCardSchedule.ControllerDevice.UID });
-						if (pendingResult.HasError)
-							yield return pendingResult.Error;
+						controllerCardSchedules_ToDelete.RemoveAll(x => x.ControllerDevice.UID == controllerCardSchedule_ToEdit.ControllerDevice.UID);
+					}
+
+					foreach (var controllerCardSchedule in controllerCardSchedules_ToDelete)
+					{
+						var removeResult = GKSKDHelper.RemoveCard(controllerCardSchedule.ControllerDevice, card);
+						if (removeResult.HasError)
+						{
+							yield return "Не удалось удалить карту из устройства " + controllerCardSchedule.ControllerDevice.PresentationName;
+							var pendingResult = databaseService.CardTranslator.DeletePendingList(card.UID, new List<Guid>() { controllerCardSchedule.ControllerDevice.UID });
+							if (pendingResult.HasError)
+								yield return pendingResult.Error;
+						}
+					}
+
+					foreach (var controllerCardSchedule in controllerCardSchedules_ToEdit)
+					{
+						var addResult = GKSKDHelper.AddOrEditCard(controllerCardSchedule, card, employeeOperationResult.Result.FIO);
+						if (addResult.HasError)
+						{
+							yield return "Не удалось редактировать карту в устройстве " + controllerCardSchedule.ControllerDevice.PresentationName;
+							var pendingResult = databaseService.CardTranslator.AddPendingList(card.UID, new List<Guid>() { controllerCardSchedule.ControllerDevice.UID });
+							if (pendingResult.HasError)
+								yield return pendingResult.Error;
+						}
 					}
 				}
-
-				foreach (var controllerCardSchedule in controllerCardSchedules_ToEdit)
-				{
-					var addResult = GKSKDHelper.AddOrEditCard(controllerCardSchedule, card, employeeOperationResult.Result.FIO);
-					if (addResult.HasError)
-					{
-						yield return "Не удалось редактировать карту в устройстве " + controllerCardSchedule.ControllerDevice.PresentationName;
-						var pendingResult = databaseService.CardTranslator.AddPendingList(card.UID, new List<Guid>() { controllerCardSchedule.ControllerDevice.UID });
-						if (pendingResult.HasError)
-							yield return pendingResult.Error;
-					}
-				}
-			}
-		}*/
+			}*/
 
 		public OperationResult<bool> DeleteCardFromEmployee(SKDCard card, string employeeName, string reason = null)
 		{
@@ -456,7 +485,8 @@ namespace FiresecService.Service
 				return OperationResult<bool>.FromError(errors, true);
 			}
 		}
-		IEnumerable<string> DeleteStrazhCard(SKDCard card, AccessTemplate accessTemplate, SKDDatabaseService databaseService)
+
+		private IEnumerable<string> DeleteStrazhCard(SKDCard card, AccessTemplate accessTemplate, SKDDatabaseService databaseService)
 		{
 			var cardWriter = ChinaSKDDriver.Processor.DeleteCard(card, accessTemplate);
 			var cardWriterError = cardWriter.GetError();
@@ -476,6 +506,7 @@ namespace FiresecService.Service
 				return databaseService.CardTranslator.Delete(card.UID);
 			}
 		}
+
 		public OperationResult SaveCardTemplate(SKDCard card)
 		{
 			using (var databaseService = new SKDDatabaseService())
@@ -484,14 +515,15 @@ namespace FiresecService.Service
 			}
 		}
 
-		IEnumerable<Guid> GetFailedControllerUIDs(CardWriter cardWriter)
+		private IEnumerable<Guid> GetFailedControllerUIDs(CardWriter cardWriter)
 		{
 			return cardWriter.ControllerCardItems.Where(x => x.HasError).Select(x => x.ControllerDevice.UID);
 		}
 
-		#endregion
+		#endregion Card
 
 		#region AccessTemplate
+
 		public OperationResult<IEnumerable<AccessTemplate>> GetAccessTemplates(AccessTemplateFilter filter)
 		{
 			using (var databaseService = new SKDDatabaseService())
@@ -499,6 +531,7 @@ namespace FiresecService.Service
 				return databaseService.AccessTemplateTranslator.Get(filter);
 			}
 		}
+
 		public OperationResult<bool> SaveAccessTemplate(AccessTemplate item, bool isNew)
 		{
 			using (var databaseService = new SKDDatabaseService())
@@ -533,6 +566,7 @@ namespace FiresecService.Service
 				return OperationResult<bool>.FromError(errors, !saveResult.HasError);
 			}
 		}
+
 		public OperationResult MarkDeletedAccessTemplate(Guid uid, string name)
 		{
 			AddJournalMessage(JournalEventNameType.Удаление_шаблона_доступа, name, uid: uid);
@@ -550,9 +584,11 @@ namespace FiresecService.Service
 				return databaseService.AccessTemplateTranslator.Restore(uid);
 			}
 		}
-		#endregion
+
+		#endregion AccessTemplate
 
 		#region Organisation
+
 		public OperationResult<IEnumerable<Organisation>> GetOrganisations(OrganisationFilter filter)
 		{
 			using (var databaseService = new SKDDatabaseService())
@@ -560,6 +596,7 @@ namespace FiresecService.Service
 				return databaseService.OrganisationTranslator.Get(filter);
 			}
 		}
+
 		public OperationResult SaveOrganisation(OrganisationDetails item, bool isNew)
 		{
 			if (isNew)
@@ -571,6 +608,7 @@ namespace FiresecService.Service
 				return databaseService.OrganisationTranslator.Save(item);
 			}
 		}
+
 		public OperationResult MarkDeletedOrganisation(Guid uid, string name)
 		{
 			AddJournalMessage(JournalEventNameType.Удаление_организации, name, uid: uid);
@@ -603,6 +641,7 @@ namespace FiresecService.Service
 				}
 			}
 		}
+
 		public OperationResult SaveOrganisationDoors(Organisation item)
 		{
 			AddJournalMessage(JournalEventNameType.Редактирование_организации, item.Name, JournalEventDescriptionType.Редактирование, uid: item.UID);
@@ -610,8 +649,8 @@ namespace FiresecService.Service
 			{
 				return databaseService.OrganisationTranslator.SaveDoors(item);
 			}
-
 		}
+
 		public OperationResult SaveOrganisationUsers(Organisation item)
 		{
 			AddJournalMessage(JournalEventNameType.Редактирование_организации, item.Name, JournalEventDescriptionType.Редактирование, uid: item.UID);
@@ -620,6 +659,7 @@ namespace FiresecService.Service
 				return databaseService.OrganisationTranslator.SaveUsers(item);
 			}
 		}
+
 		public OperationResult<OrganisationDetails> GetOrganisationDetails(Guid uid)
 		{
 			using (var databaseService = new SKDDatabaseService())
@@ -627,6 +667,7 @@ namespace FiresecService.Service
 				return databaseService.OrganisationTranslator.GetDetails(uid);
 			}
 		}
+
 		public OperationResult SaveOrganisationChief(Guid uid, Guid chiefUID, string name)
 		{
 			AddJournalMessage(JournalEventNameType.Редактирование_организации, name, JournalEventDescriptionType.Редактирование, uid: uid);
@@ -661,9 +702,11 @@ namespace FiresecService.Service
 				return databaseService.OrganisationTranslator.IsAnyItems(uid);
 			}
 		}
-		#endregion
+
+		#endregion Organisation
 
 		#region AdditionalColumnType
+
 		public OperationResult<IEnumerable<ShortAdditionalColumnType>> GetAdditionalColumnTypeList(AdditionalColumnTypeFilter filter)
 		{
 			using (var databaseService = new SKDDatabaseService())
@@ -671,6 +714,7 @@ namespace FiresecService.Service
 				return databaseService.AdditionalColumnTypeTranslator.GetList(filter);
 			}
 		}
+
 		public OperationResult<IEnumerable<AdditionalColumnType>> GetAdditionalColumnTypes(AdditionalColumnTypeFilter filter)
 		{
 			using (var databaseService = new SKDDatabaseService())
@@ -678,6 +722,7 @@ namespace FiresecService.Service
 				return databaseService.AdditionalColumnTypeTranslator.Get(filter);
 			}
 		}
+
 		public OperationResult<AdditionalColumnType> GetAdditionalColumnTypeDetails(Guid uid)
 		{
 			using (var databaseService = new SKDDatabaseService())
@@ -685,6 +730,7 @@ namespace FiresecService.Service
 				return databaseService.AdditionalColumnTypeTranslator.GetSingle(uid);
 			}
 		}
+
 		public OperationResult SaveAdditionalColumnType(AdditionalColumnType item, bool isNew)
 		{
 			if (isNew)
@@ -696,6 +742,7 @@ namespace FiresecService.Service
 				return databaseService.AdditionalColumnTypeTranslator.Save(item);
 			}
 		}
+
 		public OperationResult MarkDeletedAdditionalColumnType(Guid uid, string name)
 		{
 			AddJournalMessage(JournalEventNameType.Удаление_дополнительной_колонки, name, uid: uid);
@@ -704,6 +751,7 @@ namespace FiresecService.Service
 				return databaseService.AdditionalColumnTypeTranslator.MarkDeleted(uid);
 			}
 		}
+
 		public OperationResult RestoreAdditionalColumnType(Guid uid, string name)
 		{
 			AddJournalMessage(JournalEventNameType.Восстановление_дополнительной_колонки, name, uid: uid);
@@ -712,9 +760,11 @@ namespace FiresecService.Service
 				return databaseService.AdditionalColumnTypeTranslator.Restore(uid);
 			}
 		}
-		#endregion
+
+		#endregion AdditionalColumnType
 
 		#region NightSettings
+
 		public OperationResult<NightSettings> GetNightSettingsByOrganisation(Guid organisationUID)
 		{
 			using (var databaseService = new SKDDatabaseService())
@@ -730,9 +780,11 @@ namespace FiresecService.Service
 				return databaseService.NightSettingsTranslator.Save(nightSettings);
 			}
 		}
-		#endregion
+
+		#endregion NightSettings
 
 		#region Devices
+
 		public OperationResult<SKDStates> SKDGetStates()
 		{
 			return new OperationResult<SKDStates>(SKDProcessor.SKDGetStates());
@@ -1021,7 +1073,7 @@ namespace FiresecService.Service
 			}
 		}
 
-		OperationResult<bool> SKDSetDeviceAccessState(Guid deviceUID, JournalEventNameType eventNameType, AccessState accessState)
+		private OperationResult<bool> SKDSetDeviceAccessState(Guid deviceUID, JournalEventNameType eventNameType, AccessState accessState)
 		{
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
@@ -1043,14 +1095,17 @@ namespace FiresecService.Service
 				return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
 			}
 		}
+
 		public OperationResult<bool> SKDDeviceAccessStateNormal(Guid deviceUID)
 		{
 			return SKDSetDeviceAccessState(deviceUID, JournalEventNameType.Команда_на_перевод_двери_в_режим_Норма, AccessState.Normal);
 		}
+
 		public OperationResult<bool> SKDDeviceAccessStateCloseAlways(Guid deviceUID)
 		{
 			return SKDSetDeviceAccessState(deviceUID, JournalEventNameType.Команда_на_перевод_двери_в_режим_Закрыто, AccessState.CloseAlways);
 		}
+
 		public OperationResult<bool> SKDDeviceAccessStateOpenAlways(Guid deviceUID)
 		{
 			return SKDSetDeviceAccessState(deviceUID, JournalEventNameType.Команда_на_перевод_двери_в_режим_Открыто, AccessState.OpenAlways);
@@ -1095,6 +1150,7 @@ namespace FiresecService.Service
 				return OperationResult<bool>.FromError("Зона не найдена в конфигурации");
 			}
 		}
+
 		public OperationResult<bool> SKDCloseZone(Guid zoneUID)
 		{
 			var zone = SKDManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
@@ -1182,6 +1238,7 @@ namespace FiresecService.Service
 				return OperationResult<bool>.FromError("Зона не найдена в конфигурации");
 			}
 		}
+
 		public OperationResult<bool> SKDCloseZoneForever(Guid zoneUID)
 		{
 			var zone = SKDManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
@@ -1230,7 +1287,7 @@ namespace FiresecService.Service
 			}
 		}
 
-		OperationResult<bool> SKDSetZoneAccessState(Guid zoneUID, JournalEventNameType eventNameType, AccessState accessState)
+		private OperationResult<bool> SKDSetZoneAccessState(Guid zoneUID, JournalEventNameType eventNameType, AccessState accessState)
 		{
 			var zone = SKDManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
 			if (zone != null)
@@ -1277,14 +1334,17 @@ namespace FiresecService.Service
 				return OperationResult<bool>.FromError("Зона не найдена в конфигурации");
 			}
 		}
+
 		public OperationResult<bool> SKDZoneAccessStateNormal(Guid zoneUID)
 		{
 			return SKDSetZoneAccessState(zoneUID, JournalEventNameType.Команда_на_перевод_зоны_в_режим_Норма, AccessState.Normal);
 		}
+
 		public OperationResult<bool> SKDZoneAccessStateCloseAlways(Guid zoneUID)
 		{
 			return SKDSetZoneAccessState(zoneUID, JournalEventNameType.Команда_на_перевод_зоны_в_режим_Закрыто, AccessState.CloseAlways);
 		}
+
 		public OperationResult<bool> SKDZoneAccessStateOpenAlways(Guid zoneUID)
 		{
 			return SKDSetZoneAccessState(zoneUID, JournalEventNameType.Команда_на_перевод_зоны_в_режим_Открыто, AccessState.OpenAlways);
@@ -1323,6 +1383,7 @@ namespace FiresecService.Service
 				return OperationResult<bool>.FromError("Точка доступа не найдена в конфигурации");
 			}
 		}
+
 		public OperationResult<bool> SKDCloseDoor(Guid doorUID)
 		{
 			var door = SKDManager.Doors.FirstOrDefault(x => x.UID == doorUID);
@@ -1399,6 +1460,7 @@ namespace FiresecService.Service
 				return OperationResult<bool>.FromError("Точка доступа не найдена в конфигурации");
 			}
 		}
+
 		public OperationResult<bool> SKDCloseDoorForever(Guid doorUID)
 		{
 			var door = SKDManager.Doors.FirstOrDefault(x => x.UID == doorUID);
@@ -1442,7 +1504,7 @@ namespace FiresecService.Service
 			}
 		}
 
-		OperationResult<bool> SKDSetDoorAccessState(Guid doorUID, JournalEventNameType eventNameType, AccessState accessState)
+		private OperationResult<bool> SKDSetDoorAccessState(Guid doorUID, JournalEventNameType eventNameType, AccessState accessState)
 		{
 			var door = SKDManager.Doors.FirstOrDefault(x => x.UID == doorUID);
 			if (door != null)
@@ -1484,14 +1546,17 @@ namespace FiresecService.Service
 				return OperationResult<bool>.FromError("Точка доступа не найдена в конфигурации");
 			}
 		}
+
 		public OperationResult<bool> SKDDoorAccessStateNormal(Guid doorUID)
 		{
 			return SKDSetDoorAccessState(doorUID, JournalEventNameType.Команда_на_перевод_точки_доступа_в_режим_Норма, AccessState.Normal);
 		}
+
 		public OperationResult<bool> SKDDoorAccessStateCloseAlways(Guid doorUID)
 		{
 			return SKDSetDoorAccessState(doorUID, JournalEventNameType.Команда_на_перевод_точки_доступа_в_режим_Закрыто, AccessState.CloseAlways);
 		}
+
 		public OperationResult<bool> SKDDoorAccessStateOpenAlways(Guid doorUID)
 		{
 			return SKDSetDoorAccessState(doorUID, JournalEventNameType.Команда_на_перевод_точки_доступа_в_режим_Открыто, AccessState.OpenAlways);
@@ -1507,6 +1572,7 @@ namespace FiresecService.Service
 			}
 			return OperationResult<SKDAntiPassBackConfiguration>.FromError("Устройство не найдено в конфигурации");
 		}
+
 		public OperationResult<bool> SKDSetAntiPassBackConfiguration(Guid deviceUID, SKDAntiPassBackConfiguration antiPassBackConfiguration)
 		{
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
@@ -1528,6 +1594,7 @@ namespace FiresecService.Service
 			}
 			return OperationResult<SKDInterlockConfiguration>.FromError("Устройство не найдено в конфигурации");
 		}
+
 		public OperationResult<bool> SKDSetInterlockConfiguration(Guid deviceUID, SKDInterlockConfiguration interlockConfiguration)
 		{
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
@@ -1539,9 +1606,10 @@ namespace FiresecService.Service
 			return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
 		}
 
-		#endregion
+		#endregion Devices
 
 		#region PassCardTemplate
+
 		public OperationResult<IEnumerable<ShortPassCardTemplate>> GetPassCardTemplateList(PassCardTemplateFilter filter)
 		{
 			using (var databaseService = new SKDDatabaseService())
@@ -1549,6 +1617,7 @@ namespace FiresecService.Service
 				return databaseService.PassCardTemplateTranslator.GetList(filter);
 			}
 		}
+
 		public OperationResult<PassCardTemplate> GetPassCardTemplateDetails(Guid uid)
 		{
 			using (var databaseService = new SKDDatabaseService())
@@ -1556,6 +1625,7 @@ namespace FiresecService.Service
 				return databaseService.PassCardTemplateTranslator.GetSingle(uid);
 			}
 		}
+
 		public OperationResult SavePassCardTemplate(PassCardTemplate item, bool isNew)
 		{
 			using (var databaseService = new SKDDatabaseService())
@@ -1567,6 +1637,7 @@ namespace FiresecService.Service
 				return databaseService.PassCardTemplateTranslator.Save(item);
 			}
 		}
+
 		public OperationResult MarkDeletedPassCardTemplate(Guid uid, string name)
 		{
 			AddJournalMessage(JournalEventNameType.Удаление_шаблона_пропуска, name, uid: uid);
@@ -1575,6 +1646,7 @@ namespace FiresecService.Service
 				return databaseService.PassCardTemplateTranslator.MarkDeleted(uid);
 			}
 		}
+
 		public OperationResult RestorePassCardTemplate(Guid uid, string name)
 		{
 			AddJournalMessage(JournalEventNameType.Восстановление_шаблона_пропуска, name, uid: uid);
@@ -1583,7 +1655,8 @@ namespace FiresecService.Service
 				return databaseService.PassCardTemplateTranslator.Restore(uid);
 			}
 		}
-		#endregion
+
+		#endregion PassCardTemplate
 
 		public OperationResult ResetSKDDatabase()
 		{
@@ -1623,6 +1696,7 @@ namespace FiresecService.Service
 		}
 
 		#region Export
+
 		public OperationResult ExportOrganisation(ExportFilter filter)
 		{
 			using (var databaseService = new SKDDatabaseService())
@@ -1630,6 +1704,7 @@ namespace FiresecService.Service
 				return databaseService.OrganisationTranslator.Synchroniser.Export(filter);
 			}
 		}
+
 		public OperationResult ImportOrganisation(ImportFilter filter)
 		{
 			using (var databaseService = new SKDDatabaseService())
@@ -1645,6 +1720,7 @@ namespace FiresecService.Service
 				return databaseService.OrganisationTranslator.Synchroniser.ListSynchroniser.Export(filter);
 			}
 		}
+
 		public OperationResult ImportOrganisationList(ImportFilter filter)
 		{
 			using (var databaseService = new SKDDatabaseService())
@@ -1678,6 +1754,7 @@ namespace FiresecService.Service
 		{
 			return ConfigurationSynchroniser.Export(filter);
 		}
-		#endregion
+
+		#endregion Export
 	}
 }

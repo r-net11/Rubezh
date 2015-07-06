@@ -1,6 +1,6 @@
-﻿using System;
-using iTextSharp.text;
+﻿using iTextSharp.text;
 using iTextSharp.text.pdf;
+using System;
 
 namespace Common.PDF
 {
@@ -10,10 +10,15 @@ namespace Common.PDF
 		private PdfTemplate template;
 
 		public int FontSize { get; set; }
+
 		public int FotterShift { get; set; }
+
 		public bool PrintPages { get; set; }
+
 		public bool PrintDate { get; set; }
+
 		public bool PrintFooterLine { get; set; }
+
 		public DateTime PrintDateTime { get; private set; }
 
 		public PageEventHelper()
@@ -31,6 +36,7 @@ namespace Common.PDF
 			cb = writer.DirectContent;
 			template = cb.CreateTemplate(50, 50);
 		}
+
 		public override void OnCloseDocument(PdfWriter writer, Document document)
 		{
 			base.OnCloseDocument(writer, document);
@@ -48,6 +54,7 @@ namespace Common.PDF
 		{
 			base.OnStartPage(writer, document);
 		}
+
 		public override void OnEndPage(PdfWriter writer, Document document)
 		{
 			base.OnEndPage(writer, document);

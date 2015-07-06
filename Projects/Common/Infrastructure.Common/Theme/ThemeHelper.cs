@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Common;
+using System;
 using System.Windows;
-using Common;
 
 namespace Infrastructure.Common.Theme
 {

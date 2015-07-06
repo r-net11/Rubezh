@@ -5,7 +5,7 @@ namespace Infrastructure.Common
 {
 	public class AppDataFolderHelper
 	{
-		static string AppDataFolderName;
+		private static string AppDataFolderName;
 
 		static AppDataFolderHelper()
 		{

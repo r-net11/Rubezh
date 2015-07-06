@@ -10,6 +10,7 @@ namespace Infrustructure.Plans
 		{
 			_eventAggregator = eventAggregator;
 		}
+
 		public static IEventAggregator EventAggregator
 		{
 			get { return _eventAggregator; }

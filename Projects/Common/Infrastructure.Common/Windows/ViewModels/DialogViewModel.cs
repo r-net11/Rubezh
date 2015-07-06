@@ -10,6 +10,7 @@
 		}
 
 		private BaseViewModel _headerCommandViewModel;
+
 		public BaseViewModel HeaderCommandViewModel
 		{
 			get { return _headerCommandViewModel; }

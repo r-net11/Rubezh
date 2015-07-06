@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+
 namespace FiresecAPI.SKD
 {
 	public enum PendingCardAction

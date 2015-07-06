@@ -17,9 +17,9 @@ namespace FiresecService.Service
 	InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Multiple)]
 	public partial class FiresecService : IFiresecService
 	{
-		ClientCredentials CurrentClientCredentials;
+		private ClientCredentials CurrentClientCredentials;
 
-		void InitializeClientCredentials(ClientCredentials clientCredentials)
+		private void InitializeClientCredentials(ClientCredentials clientCredentials)
 		{
 			clientCredentials.ClientIpAddress = "127.0.0.1";
 			clientCredentials.ClientIpAddressAndPort = "127.0.0.1:0";

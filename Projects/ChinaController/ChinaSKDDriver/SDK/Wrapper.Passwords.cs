@@ -1,9 +1,9 @@
-﻿using System;
+﻿using ChinaSKDDriverAPI;
+using ChinaSKDDriverNativeApi;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
-using ChinaSKDDriverAPI;
-using ChinaSKDDriverNativeApi;
 
 namespace ChinaSKDDriver
 {
@@ -105,7 +105,7 @@ namespace ChinaSKDDriver
 			return -1;
 		}
 
-		NativeWrapper.NET_RECORDSET_ACCESS_CTL_PWD PasswordToNativePassword(Password password)
+		private NativeWrapper.NET_RECORDSET_ACCESS_CTL_PWD PasswordToNativePassword(Password password)
 		{
 			NativeWrapper.NET_RECORDSET_ACCESS_CTL_PWD nativePassword = new NativeWrapper.NET_RECORDSET_ACCESS_CTL_PWD();
 			nativePassword.stuCreateTime.dwYear = password.CreationDateTime.Year;
@@ -126,7 +126,7 @@ namespace ChinaSKDDriver
 			return nativePassword;
 		}
 
-		Password NativePasswordToPassword(NativeWrapper.NET_RECORDSET_ACCESS_CTL_PWD nativePassword)
+		private Password NativePasswordToPassword(NativeWrapper.NET_RECORDSET_ACCESS_CTL_PWD nativePassword)
 		{
 			var password = new Password();
 			password.RecordNo = nativePassword.nRecNo;

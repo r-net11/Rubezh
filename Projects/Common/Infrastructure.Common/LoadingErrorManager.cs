@@ -6,7 +6,7 @@ namespace Infrastructure.Common
 {
 	public static class LoadingErrorManager
 	{
-		static List<string> LoadingErrors = new List<string>();
+		private static List<string> LoadingErrors = new List<string>();
 
 		public static void Clear()
 		{

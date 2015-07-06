@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using FiresecAPI.GK;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
-using FiresecAPI.GK;
 
 namespace FiresecAPI.SKD
 {
@@ -21,6 +21,7 @@ namespace FiresecAPI.SKD
 				return ((SKDDoorDayInterval)obj).UID == UID;
 			return base.Equals(obj);
 		}
+
 		public override int GetHashCode()
 		{
 			return No.GetHashCode();

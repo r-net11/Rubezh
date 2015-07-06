@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using ChinaSKDDriverAPI;
+﻿using ChinaSKDDriverAPI;
 using ChinaSKDDriverNativeApi;
 
 namespace ChinaSKDDriver
@@ -23,7 +19,7 @@ namespace ChinaSKDDriver
 			return NativeWrapper.WRAP_SetInterlockCfg(LoginID, ref nativeCfg);
 		}
 
-		InterlockConfiguration NativeInterlockCfgToInterlockConfiguration(NativeWrapper.WRAP_InterlockCfg nativeCfg)
+		private InterlockConfiguration NativeInterlockCfgToInterlockConfiguration(NativeWrapper.WRAP_InterlockCfg nativeCfg)
 		{
 			InterlockConfiguration cfg = new InterlockConfiguration();
 
@@ -42,7 +38,7 @@ namespace ChinaSKDDriver
 			return cfg;
 		}
 
-		NativeWrapper.WRAP_InterlockCfg InterlockConfigurationToNativeAntiPathBackCfg(InterlockConfiguration cfg)
+		private NativeWrapper.WRAP_InterlockCfg InterlockConfigurationToNativeAntiPathBackCfg(InterlockConfiguration cfg)
 		{
 			var nativeCfg = new NativeWrapper.WRAP_InterlockCfg();
 

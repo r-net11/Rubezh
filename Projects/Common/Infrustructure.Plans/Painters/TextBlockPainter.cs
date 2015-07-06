@@ -1,8 +1,8 @@
-﻿using System.Globalization;
+﻿using Infrustructure.Plans.Designer;
+using Infrustructure.Plans.Elements;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Media;
-using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.Elements;
 
 namespace Infrustructure.Plans.Painters
 {
@@ -32,6 +32,7 @@ namespace Infrustructure.Plans.Painters
 			if (_scaleTransform != null)
 				drawingContext.Pop();
 		}
+
 		public override void Transform()
 		{
 			base.Transform();
@@ -49,6 +50,7 @@ namespace Infrustructure.Plans.Painters
 					case TextAlignment.Right:
 						point = bound.TopRight;
 						break;
+
 					case TextAlignment.Center:
 						point = new Point(bound.Left + bound.Width / 2, bound.Top);
 						break;
@@ -67,6 +69,7 @@ namespace Infrustructure.Plans.Painters
 					case VerticalAlignment.Center:
 						point.Y = bound.Top + (bound.Height - formattedText.Height) / 2;
 						break;
+
 					case VerticalAlignment.Bottom:
 						point.Y = bound.Bottom - formattedText.Height;
 						break;
@@ -81,6 +84,7 @@ namespace Infrustructure.Plans.Painters
 			}
 			_textDrawing.Geometry = formattedText.BuildGeometry(point);
 		}
+
 		public override void Invalidate()
 		{
 			IElementTextBlock elementText = (IElementTextBlock)Element;

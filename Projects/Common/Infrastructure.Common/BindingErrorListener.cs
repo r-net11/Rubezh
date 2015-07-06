@@ -12,7 +12,10 @@ namespace Infrastructure.Common
 			PresentationTraceSources.DataBindingSource.Listeners.Add(new BindingErrorListener() { _logAction = logAction });
 		}
 
-		public override void Write(string message) { }
+		public override void Write(string message)
+		{
+		}
+
 		public override void WriteLine(string message)
 		{
 			_logAction(message);

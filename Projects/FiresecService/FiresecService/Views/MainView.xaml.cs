@@ -1,8 +1,8 @@
-﻿using System;
+﻿using FiresecService.Service;
+using Infrastructure.Common.Windows;
+using System;
 using System.Windows;
 using System.Windows.Controls;
-using FiresecService.Service;
-using Infrastructure.Common.Windows;
 
 namespace FiresecService.Views
 {
@@ -20,6 +20,7 @@ namespace FiresecService.Views
 		{
 			NotifyIconService.Start(OnShow, OnClose);
 		}
+
 		private void UserControl_Loaded(object sender, RoutedEventArgs e)
 		{
 			_window = Window.GetWindow(this);
@@ -38,6 +39,7 @@ namespace FiresecService.Views
 			_window.Top = SystemParameters.WorkArea.Bottom - _window.ActualHeight;
 			_window.Activate();
 		}
+
 		private void OnClose(object sender, EventArgs e)
 		{
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите остановить сервер?"))
@@ -57,6 +59,7 @@ namespace FiresecService.Views
 					window.WindowStyle = WindowStyle.ToolWindow;
 					window.ShowInTaskbar = false;
 					break;
+
 				case WindowState.Normal:
 					window.WindowStyle = WindowStyle.None;
 					window.ShowInTaskbar = true;

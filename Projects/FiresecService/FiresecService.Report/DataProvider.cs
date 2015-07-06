@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Common;
+﻿using Common;
 using FiresecAPI;
 using FiresecAPI.SKD;
 using FiresecAPI.SKD.ReportFilters;
 using FiresecService.Report.Model;
 using SKDDriver;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace FiresecService.Report
 {
@@ -19,11 +19,15 @@ namespace FiresecService.Report
 		}
 
 		public SKDDatabaseService DatabaseService { get; private set; }
+
 		public bool IsCacheLoaded { get; private set; }
 
 		public Dictionary<Guid, DeletableObjectInfo<Organisation>> Organisations { get; private set; }
+
 		public Dictionary<Guid, OrganisationBaseObjectInfo<Department>> Departments { get; private set; }
+
 		public Dictionary<Guid, OrganisationBaseObjectInfo<Position>> Positions { get; private set; }
+
 		private Dictionary<Guid, EmployeeInfo> _employees;
 
 		public void LoadCache()
@@ -64,6 +68,7 @@ namespace FiresecService.Report
 				Item = position,
 			});
 		}
+
 		public EmployeeInfo GetEmployee(Guid uid)
 		{
 			if (!_employees.ContainsKey(uid))
@@ -73,6 +78,7 @@ namespace FiresecService.Report
 			}
 			return _employees[uid];
 		}
+
 		public List<EmployeeInfo> GetEmployees(IEnumerable<Guid> uids)
 		{
 			if (uids.IsEmpty())
@@ -95,7 +101,8 @@ namespace FiresecService.Report
 				return GetEmployeesPart(uids);
 			}
 		}
-		List<EmployeeInfo> GetEmployeesPart(IEnumerable<Guid> uids)
+
+		private List<EmployeeInfo> GetEmployeesPart(IEnumerable<Guid> uids)
 		{
 			var employeeFilter = new EmployeeFilter()
 			{
@@ -115,17 +122,19 @@ namespace FiresecService.Report
 			});
 			return employees;
 		}
+
 		public List<EmployeeInfo> GetEmployees(SKDReportFilter filter)
 		{
 			var list = new List<EmployeeInfo>();
 			var employeeFilter = GetEmployeeFilter(filter);
-            return GetEmployees(employeeFilter, filter.IsDefault);
-        }
-        public List<EmployeeInfo> GetEmployees(EmployeeFilter employeeFilter, bool isDefault)
-        {
+			return GetEmployees(employeeFilter, filter.IsDefault);
+		}
+
+		public List<EmployeeInfo> GetEmployees(EmployeeFilter employeeFilter, bool isDefault)
+		{
 			LoadCache();
 			CheckIfNoOrgansations(employeeFilter, isDefault);
-            var employeesResult = DatabaseService.EmployeeTranslator.Get(employeeFilter);
+			var employeesResult = DatabaseService.EmployeeTranslator.Get(employeeFilter);
 			if (employeesResult == null || employeesResult.Result == null)
 				return new List<EmployeeInfo>();
 			var employees = employeesResult.Result.Select(ConvertEmployee).ToList();
@@ -139,7 +148,7 @@ namespace FiresecService.Report
 			return employees;
 		}
 
-		void CheckIfNoOrgansations(EmployeeFilter employeeFilter, bool isDefault)
+		private void CheckIfNoOrgansations(EmployeeFilter employeeFilter, bool isDefault)
 		{
 			if (employeeFilter.OrganisationUIDs.Count == 1 && isDefault)
 			{
@@ -189,6 +198,7 @@ namespace FiresecService.Report
 			}
 			return employeeFilter;
 		}
+
 		public bool IsEmployeeFilter(SKDReportFilter filter)
 		{
 			if ((filter is IReportFilterOrganisation && !((IReportFilterOrganisation)filter).Organisations.IsEmpty()) ||
@@ -198,7 +208,7 @@ namespace FiresecService.Report
 			var employeeFilter = filter as IReportFilterEmployee;
 			if (employeeFilter == null)
 				return false;
-			return (!employeeFilter.IsSearch && !employeeFilter.Employees.IsEmpty()) || 
+			return (!employeeFilter.IsSearch && !employeeFilter.Employees.IsEmpty()) ||
 				(employeeFilter.IsSearch && (!employeeFilter.LastName.IsEmpty() || !employeeFilter.FirstName.IsEmpty() || !employeeFilter.SecondName.IsEmpty()));
 		}
 
@@ -209,7 +219,7 @@ namespace FiresecService.Report
 			DatabaseService.Dispose();
 		}
 
-		#endregion
+		#endregion IDisposable Members
 
 		private EmployeeInfo ConvertEmployee(Employee employee)
 		{
@@ -229,6 +239,7 @@ namespace FiresecService.Report
 					 Item = employee,
 				 };
 		}
+
 		private Dictionary<Guid, T> CreateDictionary<ApiT, T>(OperationResult<IEnumerable<ApiT>> result, Converter<ApiT, T> converter)
 			where T : ObjectInfo
 			where ApiT : SKDModelBase

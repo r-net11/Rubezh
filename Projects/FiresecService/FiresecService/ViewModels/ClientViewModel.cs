@@ -1,15 +1,18 @@
-﻿using System;
-using FiresecAPI;
+﻿using FiresecAPI;
 using FiresecAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
+using System;
 
 namespace FiresecService.ViewModels
 {
 	public class ClientViewModel : BaseViewModel
 	{
 		public ClientCredentials ClientCredentials { get; private set; }
+
 		public string ClientType { get; private set; }
+
 		public Guid UID { get; private set; }
+
 		public string IpAddress { get; private set; }
 
 		public ClientViewModel(ClientCredentials clientCredentials)
@@ -23,7 +26,8 @@ namespace FiresecService.ViewModels
 				IpAddress = "localhost";
 		}
 
-		string _friendlyUserName;
+		private string _friendlyUserName;
+
 		public string FriendlyUserName
 		{
 			get { return _friendlyUserName; }

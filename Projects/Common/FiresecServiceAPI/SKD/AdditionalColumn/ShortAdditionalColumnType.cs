@@ -23,7 +23,7 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public bool IsInGrid { get; set; }
-		
+
 		[DataMember]
 		public bool IsDeleted { get; set; }
 

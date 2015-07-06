@@ -15,6 +15,7 @@ namespace Controls
 		{
 			return (bool)obj.GetValue(HighlightTextOnFocusProperty);
 		}
+
 		public static void SetHighlightTextOnFocus(DependencyObject obj, bool value)
 		{
 			obj.SetValue(HighlightTextOnFocusProperty, value);
@@ -38,7 +39,7 @@ namespace Controls
 			}
 		}
 
-		static void OnGotFocus(object sender, RoutedEventArgs e)
+		private static void OnGotFocus(object sender, RoutedEventArgs e)
 		{
 			var textBox = e.OriginalSource as TextBox;
 			if (textBox != null)
@@ -46,6 +47,7 @@ namespace Controls
 				textBox.SelectAll();
 			}
 		}
+
 		private static void OnMouseLeftButtonDownSetFocus(object sender, MouseButtonEventArgs e)
 		{
 			TextBox tb = FindAncestor<TextBox>((DependencyObject)e.OriginalSource);

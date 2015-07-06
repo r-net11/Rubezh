@@ -1,8 +1,8 @@
-﻿using System.Windows;
+﻿using Controls.Converters;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
-using Controls.Converters;
 
 namespace Controls
 {
@@ -14,6 +14,7 @@ namespace Controls
 		}
 
 		public static readonly DependencyProperty PopupContentProperty = DependencyProperty.Register("PopupContent", typeof(object), typeof(PopupButton), new UIPropertyMetadata(null));
+
 		public object PopupContent
 		{
 			get { return (object)GetValue(PopupContentProperty); }

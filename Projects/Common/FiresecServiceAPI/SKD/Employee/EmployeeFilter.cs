@@ -50,7 +50,7 @@ namespace FiresecAPI.SKD
 		{
 			get
 			{
-				return 
+				return
 					(FirstName != null && FirstName != "") ||
 					(LastName != null && LastName != "") ||
 					(SecondName != null && SecondName != "") ||

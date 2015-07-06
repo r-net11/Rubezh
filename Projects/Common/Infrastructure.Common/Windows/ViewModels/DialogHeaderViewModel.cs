@@ -1,6 +1,6 @@
 ﻿namespace Infrastructure.Common.Windows.ViewModels
 {
-	class DialogHeaderViewModel : BaseViewModel, IHeaderViewModel
+	internal class DialogHeaderViewModel : BaseViewModel, IHeaderViewModel
 	{
 		public DialogHeaderViewModel(DialogViewModel content)
 		{
@@ -11,6 +11,7 @@
 		#region IHeaderViewModel Members
 
 		private HeaderedWindowViewModel _content;
+
 		public HeaderedWindowViewModel Content
 		{
 			get { return _content; }
@@ -23,6 +24,6 @@
 
 		public bool ShowIconAndTitle { get; set; }
 
-		#endregion
+		#endregion IHeaderViewModel Members
 	}
 }

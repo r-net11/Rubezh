@@ -7,11 +7,17 @@ namespace Common
 	{
 		public static bool CounterEnabled = false;
 		private const string Separator = "===========================================";
+
 		public string Label { get; private set; }
+
 		public DateTime Start { get; private set; }
+
 		public DateTime End { get; private set; }
+
 		public TimeSpan Period { get; private set; }
+
 		public bool ShowStartSeparator { get; private set; }
+
 		public bool ShowEndSeparator { get; private set; }
 
 		public TimeCounter(string label = "{0}", bool showStartSeparator = false, bool showEndSeparator = false)
@@ -41,6 +47,6 @@ namespace Common
 			}
 		}
 
-		#endregion
+		#endregion IDisposable Members
 	}
 }

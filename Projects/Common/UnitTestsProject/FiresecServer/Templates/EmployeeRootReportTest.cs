@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using FiresecService.Report.Model;
+﻿using FiresecService.Report.Model;
 using FiresecService.Report.Templates;
 using NUnit.Framework;
 using SKDDriver.DataAccess;
+using System;
+using System.Collections.Generic;
 
 namespace UnitTestsProject.FiresecServer.Templates
 {

@@ -1,9 +1,8 @@
-﻿using System;
+﻿using FiresecAPI.SKD;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.ServiceModel;
-using FiresecAPI.GK;
-using FiresecAPI.SKD;
 
 namespace FiresecAPI
 {
@@ -11,6 +10,7 @@ namespace FiresecAPI
 	public partial interface IFiresecServiceSKD
 	{
 		#region Employee
+
 		[OperationContract]
 		OperationResult<IEnumerable<ShortEmployee>> GetEmployeeList(EmployeeFilter filter);
 
@@ -37,9 +37,11 @@ namespace FiresecAPI
 
 		[OperationContract]
 		OperationResult RestoreEmployee(Guid uid, string name);
-		#endregion
+
+		#endregion Employee
 
 		#region Department
+
 		[OperationContract]
 		OperationResult<IEnumerable<ShortDepartment>> GetDepartmentList(DepartmentFilter filter);
 
@@ -63,9 +65,11 @@ namespace FiresecAPI
 
 		[OperationContract]
 		OperationResult<IEnumerable<Guid>> GetParentEmployeeUIDs(Guid uid);
-		#endregion
+
+		#endregion Department
 
 		#region Position
+
 		[OperationContract]
 		OperationResult<IEnumerable<ShortPosition>> GetPositionList(PositionFilter filter);
 
@@ -80,9 +84,11 @@ namespace FiresecAPI
 
 		[OperationContract]
 		OperationResult RestorePosition(Guid uid, string name);
-		#endregion
+
+		#endregion Position
 
 		#region Card
+
 		[OperationContract]
 		OperationResult<IEnumerable<SKDCard>> GetCards(CardFilter filter);
 
@@ -103,9 +109,11 @@ namespace FiresecAPI
 
 		[OperationContract]
 		OperationResult SaveCardTemplate(SKDCard card);
-		#endregion
+
+		#endregion Card
 
 		#region AccessTemplate
+
 		[OperationContract]
 		OperationResult<IEnumerable<AccessTemplate>> GetAccessTemplates(AccessTemplateFilter filter);
 
@@ -117,9 +125,11 @@ namespace FiresecAPI
 
 		[OperationContract]
 		OperationResult RestoreAccessTemplate(Guid uid, string name);
-		#endregion
+
+		#endregion AccessTemplate
 
 		#region Organisation
+
 		[OperationContract]
 		OperationResult<IEnumerable<Organisation>> GetOrganisations(OrganisationFilter filter);
 
@@ -150,9 +160,10 @@ namespace FiresecAPI
 		[OperationContract]
 		OperationResult<bool> IsAnyOrganisationItems(Guid uid);
 
-		#endregion
+		#endregion Organisation
 
 		#region AdditionalColumnType
+
 		[OperationContract]
 		OperationResult<IEnumerable<ShortAdditionalColumnType>> GetAdditionalColumnTypeList(AdditionalColumnTypeFilter filter);
 
@@ -170,9 +181,11 @@ namespace FiresecAPI
 
 		[OperationContract]
 		OperationResult RestoreAdditionalColumnType(Guid uid, string name);
-		#endregion
+
+		#endregion AdditionalColumnType
 
 		#region DeviceCommands
+
 		[OperationContract]
 		OperationResult<SKDStates> SKDGetStates();
 
@@ -308,17 +321,20 @@ namespace FiresecAPI
 		[OperationContract]
 		OperationResult<bool> SKDSetInterlockConfiguration(Guid deviceUID, SKDInterlockConfiguration interlockConfiguration);
 
-		#endregion
+		#endregion DeviceCommands
 
 		#region NightSettings
+
 		[OperationContract]
 		OperationResult<NightSettings> GetNightSettingsByOrganisation(Guid organisationUID);
 
 		[OperationContract]
 		OperationResult SaveNightSettings(NightSettings nightSettings);
-		#endregion
+
+		#endregion NightSettings
 
 		#region PassCardTemplate
+
 		[OperationContract]
 		OperationResult<IEnumerable<ShortPassCardTemplate>> GetPassCardTemplateList(PassCardTemplateFilter filter);
 
@@ -333,7 +349,8 @@ namespace FiresecAPI
 
 		[OperationContract]
 		OperationResult RestorePassCardTemplate(Guid uid, string name);
-		#endregion
+
+		#endregion PassCardTemplate
 
 		[OperationContract]
 		OperationResult ResetSKDDatabase();
@@ -351,6 +368,7 @@ namespace FiresecAPI
 		OperationResult SaveJournalCameraUID(Guid journaItemUID, Guid CameraUID);
 
 		#region Export
+
 		[OperationContract]
 		OperationResult ExportOrganisation(ExportFilter filter);
 
@@ -368,6 +386,7 @@ namespace FiresecAPI
 
 		[OperationContract]
 		OperationResult ExportConfiguration(ConfigurationExportFilter filter);
-		#endregion
+
+		#endregion Export
 	}
 }

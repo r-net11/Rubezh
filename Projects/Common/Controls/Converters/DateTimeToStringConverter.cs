@@ -6,6 +6,7 @@ namespace Controls.Converters
 	public class DateTimeToStringConverter : IValueConverter
 	{
 		public string Format { get; set; }
+
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
 			return ((DateTime)value).ToString(Format);

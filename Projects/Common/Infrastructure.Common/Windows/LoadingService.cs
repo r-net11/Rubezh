@@ -1,6 +1,6 @@
-﻿using System;
-using Common;
+﻿using Common;
 using Infrastructure.Common.Windows.ViewModels;
+using System;
 
 namespace Infrastructure.Common.Windows
 {
@@ -30,7 +30,7 @@ namespace Infrastructure.Common.Windows
 			}
 		}
 
-		static void Show(ProgressViewModel progressViewModel)
+		private static void Show(ProgressViewModel progressViewModel)
 		{
 			Close();
 			_progressViewModel = progressViewModel;
@@ -38,6 +38,7 @@ namespace Infrastructure.Common.Windows
 			if (ApplicationService.ApplicationWindow != null)
 				ApplicationService.Invoke(() => ApplicationService.ApplicationWindow.IsHitTestVisible = false);
 		}
+
 		public static void Close()
 		{
 			if (_progressViewModel != null)
@@ -78,6 +79,7 @@ namespace Infrastructure.Common.Windows
 				Logger.Error(e, "LoadingService.DoStep " + text + " # " + title + " # " + stepCount);
 			}
 		}
+
 		public static void AddCount(int count)
 		{
 			if (_progressViewModel != null)

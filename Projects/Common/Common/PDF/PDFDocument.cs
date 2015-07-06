@@ -1,21 +1,25 @@
-﻿using System;
-using System.IO;
-using iTextSharp.text;
+﻿using iTextSharp.text;
 using iTextSharp.text.pdf;
+using System;
+using System.IO;
 
 namespace Common.PDF
 {
 	public class PDFDocument : IDisposable
 	{
 		public Document Document { get; private set; }
+
 		public PdfWriter Writer { get; private set; }
+
 		public PageEventHelper PageEventHelper { get; private set; }
+
 		public Stream DocumentStream { get; private set; }
 
 		public PDFDocument(Stream stream)
 			: this(stream, PageSize.A4)
 		{
 		}
+
 		public PDFDocument(Stream stream, Rectangle pageSize)
 		{
 			DocumentStream = stream;
@@ -36,6 +40,6 @@ namespace Common.PDF
 			DocumentStream.Close();
 		}
 
-		#endregion
+		#endregion IDisposable Members
 	}
 }

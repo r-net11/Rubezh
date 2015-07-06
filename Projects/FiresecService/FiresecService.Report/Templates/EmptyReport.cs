@@ -1,10 +1,4 @@
-﻿using System;
-using System.Drawing;
-using System.Collections;
-using System.ComponentModel;
-using DevExpress.XtraReports.UI;
-
-namespace FiresecService.Report.Templates
+﻿namespace FiresecService.Report.Templates
 {
 	public partial class EmptyReport : DevExpress.XtraReports.UI.XtraReport
 	{
@@ -12,6 +6,5 @@ namespace FiresecService.Report.Templates
 		{
 			InitializeComponent();
 		}
-
 	}
 }

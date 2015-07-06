@@ -1,9 +1,9 @@
-﻿using System;
+﻿using ChinaSKDDriverAPI;
+using ChinaSKDDriverNativeApi;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
-using ChinaSKDDriverAPI;
-using ChinaSKDDriverNativeApi;
 
 namespace ChinaSKDDriver
 {
@@ -143,7 +143,7 @@ namespace ChinaSKDDriver
 		/// </summary>
 		/// <param name="card">объект типа Card</param>
 		/// <returns>структура NET_RECORDSET_ACCESS_CTL_CARD</returns>
-		NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD CardToNativeCard(Card card)
+		private NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD CardToNativeCard(Card card)
 		{
 			NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD nativeCard = new NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD();
 			nativeCard.dwSize = System.Runtime.InteropServices.Marshal.SizeOf(typeof(NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD));
@@ -226,7 +226,7 @@ namespace ChinaSKDDriver
 		/// </summary>
 		/// <param name="nativeCard">структура NET_RECORDSET_ACCESS_CTL_CARD</param>
 		/// <returns>объект типа Card</returns>
-		Card NativeCardToCard(NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD nativeCard)
+		private Card NativeCardToCard(NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD nativeCard)
 		{
 			var card = new Card();
 			card.RecordNo = nativeCard.nRecNo;

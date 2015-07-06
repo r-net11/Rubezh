@@ -8,12 +8,19 @@ namespace Infrustructure.Plans.Designer
 	public abstract class ResizeChrome : IVisualItem
 	{
 		private static Brush TransparentBrush { get; set; }
+
 		private static Brush BorderBrush { get; set; }
+
 		private static Brush ThumbBrush { get; set; }
+
 		private static Pen TransparentPen { get; set; }
+
 		private static Pen BorderPen { get; set; }
+
 		private static double ResizeThumbSize { get; set; }
+
 		private static double ResizeMargin { get; set; }
+
 		private static EllipseGeometry ThumbGeometry { get; set; }
 
 		private bool _isVisible;
@@ -26,6 +33,7 @@ namespace Infrustructure.Plans.Designer
 		private TranslateTransform _transformBottomRight;
 		private TranslateTransform _transformBottomLeft;
 		private ResizeDirection _resizeDirection;
+
 		protected bool IsMoved { get; set; }
 
 		static ResizeChrome()
@@ -37,7 +45,6 @@ namespace Infrustructure.Plans.Designer
 				Opacity = 0.7,
 				StartPoint = new Point(0, 0),
 				EndPoint = new Point(1, 0.3),
-
 			};
 			borderBrush.GradientStops.Add(new GradientStop(Colors.SlateBlue, 0));
 			borderBrush.GradientStops.Add(new GradientStop(Colors.LightBlue, 0.5));
@@ -61,6 +68,7 @@ namespace Infrustructure.Plans.Designer
 			ThumbGeometry = new EllipseGeometry();
 			UpdateZoom(1);
 		}
+
 		public static void UpdateZoom(double zoom)
 		{
 			TransparentPen.Thickness = 3.5 / zoom;
@@ -72,10 +80,12 @@ namespace Infrustructure.Plans.Designer
 		}
 
 		protected DesignerItem DesignerItem { get; private set; }
+
 		protected CommonDesignerCanvas DesignerCanvas
 		{
 			get { return DesignerItem.DesignerCanvas; }
 		}
+
 		public bool IsVisible
 		{
 			get { return _isVisible; }
@@ -100,14 +110,17 @@ namespace Infrustructure.Plans.Designer
 			DesignerItem = designerItem;
 			ResetElement();
 		}
+
 		public virtual void ResetElement()
 		{
 		}
+
 		protected void PrepareBounds()
 		{
 			_borderGeometry = new RectangleGeometry();
 			_canResize = false;
 		}
+
 		protected void PrepareSizableBounds()
 		{
 			PrepareBounds();
@@ -123,6 +136,7 @@ namespace Infrustructure.Plans.Designer
 			if (IsVisible)
 				Translate();
 		}
+
 		public void Render(DrawingContext drawingContext)
 		{
 			_isRendered = true;
@@ -130,11 +144,14 @@ namespace Infrustructure.Plans.Designer
 			Draw(drawingContext);
 			drawingContext.Pop();
 		}
+
 		public void Reset()
 		{
 			_isRendered = false;
 		}
+
 		protected abstract void Draw(DrawingContext drawingContext);
+
 		protected virtual void Translate()
 		{
 			if (!_isRendered)
@@ -154,11 +171,13 @@ namespace Infrustructure.Plans.Designer
 				_transformBottomLeft.Y = rect.Bottom;
 			}
 		}
+
 		protected void DrawBounds(DrawingContext drawingContext)
 		{
 			//drawingContext.DrawGeometry(null, TransparentPen, _borderGeometry);
 			drawingContext.DrawGeometry(null, BorderPen, _borderGeometry);
 		}
+
 		protected void DrawSizableBounds(DrawingContext drawingContext)
 		{
 			DrawBounds(drawingContext);
@@ -167,6 +186,7 @@ namespace Infrustructure.Plans.Designer
 			DrawThumb(drawingContext, _transformBottomRight);
 			DrawThumb(drawingContext, _transformBottomLeft);
 		}
+
 		protected TranslateTransform DrawThumb(DrawingContext drawingContext, TranslateTransform transform)
 		{
 			drawingContext.PushTransform(transform);
@@ -180,6 +200,7 @@ namespace Infrustructure.Plans.Designer
 			var rect = DesignerItem.ContentBounds;
 			return new Rect(rect.Left - ResizeMargin, rect.Top - ResizeMargin, rect.Width + 2 * ResizeMargin, rect.Height + 2 * ResizeMargin);
 		}
+
 		protected virtual Cursor GetCursor(Point point)
 		{
 			var cursor = Cursors.Arrow;
@@ -206,10 +227,12 @@ namespace Infrustructure.Plans.Designer
 			}
 			return cursor;
 		}
+
 		protected bool IsInsideRect(Rect rect, Point point)
 		{
 			return rect.Contains(point);
 		}
+
 		protected bool IsInsideThumb(Point location, Point point)
 		{
 			return (location - point).Length < 2 * ResizeThumbSize;
@@ -221,10 +244,12 @@ namespace Infrustructure.Plans.Designer
 		{
 			get { return _canResize; }
 		}
+
 		bool IVisualItem.IsEnabled
 		{
 			get { return IsVisible; }
 		}
+
 		bool IVisualItem.IsBusy
 		{
 			get { return false; }
@@ -237,6 +262,7 @@ namespace Infrustructure.Plans.Designer
 				cursor = GetCursor(point);
 			DesignerCanvas.Cursor = cursor;
 		}
+
 		ContextMenu IVisualItem.ContextMenuOpening()
 		{
 			return null;
@@ -245,14 +271,17 @@ namespace Infrustructure.Plans.Designer
 		void IVisualItem.OnMouseDown(Point point, MouseButtonEventArgs e)
 		{
 		}
+
 		void IVisualItem.OnMouseUp(Point point, MouseButtonEventArgs e)
 		{
 		}
+
 		void IVisualItem.OnMouseMove(Point point, MouseEventArgs e)
 		{
 			if (!IsMoved)
 				DesignerCanvas.Cursor = GetCursor(point);
 		}
+
 		void IVisualItem.OnMouseDoubleClick(Point point, MouseButtonEventArgs e)
 		{
 		}
@@ -261,6 +290,7 @@ namespace Infrustructure.Plans.Designer
 		{
 			UpdateResizeDirection(point);
 		}
+
 		void IVisualItem.DragCompleted(Point point)
 		{
 			_resizeDirection = ResizeDirection.None;
@@ -269,6 +299,7 @@ namespace Infrustructure.Plans.Designer
 			IsMoved = false;
 			DesignerCanvas.Cursor = GetCursor(point);
 		}
+
 		void IVisualItem.DragDelta(Point point, Vector shift)
 		{
 			if (DesignerItem.IsSelected)
@@ -290,12 +321,14 @@ namespace Infrustructure.Plans.Designer
 			}
 		}
 
-		#endregion
+		#endregion IVisualItem Members
 
 		protected virtual void DragDeltaInner(Point point, Vector shift)
 		{
 		}
+
 		protected abstract void Resize(ResizeDirection direction, Vector vector);
+
 		private Vector CalculateSize(ResizeDirection direction, Vector change)
 		{
 			double dragDeltaHorizontal = change.X;
@@ -334,6 +367,7 @@ namespace Infrustructure.Plans.Designer
 			}
 			return new Vector(dragDeltaHorizontal, dragDeltaVertical);
 		}
+
 		private void UpdateResizeDirection(Point point)
 		{
 			_resizeDirection = ResizeDirection.None;
@@ -358,6 +392,7 @@ namespace Infrustructure.Plans.Designer
 					_resizeDirection = ResizeDirection.Right;
 			}
 		}
+
 		private void UpdateVisible()
 		{
 			_visibleTransform.ScaleX = IsVisible ? 1 : 0;
@@ -371,6 +406,6 @@ namespace Infrustructure.Plans.Designer
 			return _borderGeometry != null && _borderGeometry.StrokeContains(TransparentPen, point, 0, ToleranceType.Absolute) ? this : null;
 		}
 
-		#endregion
+		#endregion IVisualItem Members
 	}
 }

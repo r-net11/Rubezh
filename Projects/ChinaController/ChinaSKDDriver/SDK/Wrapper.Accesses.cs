@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using ChinaSKDDriverAPI;
+﻿using ChinaSKDDriverAPI;
 using ChinaSKDDriverNativeApi;
+using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace ChinaSKDDriver
 {
@@ -38,8 +37,8 @@ namespace ChinaSKDDriver
 						var nativeAccess = accessesCollection.Accesses[i];
 						//if (nativeAccess.nRecNo > 0)
 						//{
-							var access = NativeAccessToAccess(nativeAccess);
-							accesses.Add(access);
+						var access = NativeAccessToAccess(nativeAccess);
+						accesses.Add(access);
 						//}
 					}
 					if (result == 0)
@@ -74,7 +73,7 @@ namespace ChinaSKDDriver
 		/// </summary>
 		/// <param name="nativeAccess">структура NET_RECORDSET_ACCESS_CTL_CARDREC</param>
 		/// <returns>объект типа Access</returns>
-		Access NativeAccessToAccess(NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARDREC nativeAccess)
+		private Access NativeAccessToAccess(NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARDREC nativeAccess)
 		{
 			var access = new Access();
 

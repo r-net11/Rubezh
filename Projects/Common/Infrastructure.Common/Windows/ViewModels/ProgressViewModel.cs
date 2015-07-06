@@ -1,5 +1,4 @@
-﻿
-namespace Infrastructure.Common.Windows.ViewModels
+﻿namespace Infrastructure.Common.Windows.ViewModels
 {
 	public class ProgressViewModel : WindowBaseViewModel
 	{
@@ -13,9 +12,11 @@ namespace Infrastructure.Common.Windows.ViewModels
 		}
 
 		public bool RestrictClose { get; private set; }
+
 		public bool IsCanceled { get; set; }
 
-		string _text;
+		private string _text;
+
 		public string Text
 		{
 			get { return _text; }
@@ -26,7 +27,8 @@ namespace Infrastructure.Common.Windows.ViewModels
 			}
 		}
 
-		int _currentStep;
+		private int _currentStep;
+
 		public int CurrentStep
 		{
 			get { return _currentStep; }
@@ -36,7 +38,9 @@ namespace Infrastructure.Common.Windows.ViewModels
 				OnPropertyChanged(() => CurrentStep);
 			}
 		}
-		int _stepCount;
+
+		private int _stepCount;
+
 		public int StepCount
 		{
 			get { return _stepCount; }
@@ -48,7 +52,9 @@ namespace Infrastructure.Common.Windows.ViewModels
 					ApplicationService.DoEvents();
 			}
 		}
-		bool _canCancel;
+
+		private bool _canCancel;
+
 		public bool CanCancel
 		{
 			get { return _canCancel; }
@@ -64,7 +70,8 @@ namespace Infrastructure.Common.Windows.ViewModels
 			}
 		}
 
-		string _cancelText;
+		private string _cancelText;
+
 		public string CancelText
 		{
 			get { return _cancelText; }
@@ -93,6 +100,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 		{
 			return RestrictClose;
 		}
+
 		public void ForceClose()
 		{
 			RestrictClose = false;
@@ -100,6 +108,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 		}
 
 		public RelayCommand CancelCommand { get; private set; }
+
 		protected virtual void OnCancel()
 		{
 			IsCanceled = true;

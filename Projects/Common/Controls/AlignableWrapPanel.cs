@@ -7,6 +7,7 @@ namespace Controls
 	public class AlignableWrapPanel : Panel
 	{
 		public static readonly DependencyProperty HorizontalContentAlignmentProperty = DependencyProperty.Register("HorizontalContentAlignment", typeof(HorizontalAlignment), typeof(AlignableWrapPanel), new FrameworkPropertyMetadata(HorizontalAlignment.Left, FrameworkPropertyMetadataOptions.AffectsArrange));
+
 		public HorizontalAlignment HorizontalContentAlignment
 		{
 			get { return (HorizontalAlignment)GetValue(HorizontalContentAlignmentProperty); }

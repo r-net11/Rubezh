@@ -1,7 +1,7 @@
-﻿using System;
-using System.Windows.Data;
-using FiresecAPI;
+﻿using FiresecAPI;
 using FiresecAPI.GK;
+using System;
+using System.Windows.Data;
 
 namespace Controls.Converters
 {

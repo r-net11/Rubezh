@@ -1,11 +1,11 @@
-﻿using System;
+﻿using FiresecAPI.Automation;
+using FiresecAPI.Journal;
+using FiresecAPI.Models;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using FiresecAPI.Automation;
-using FiresecAPI.Journal;
-using FiresecAPI.Models;
 
 namespace FiresecService
 {
@@ -55,7 +55,7 @@ namespace FiresecService
 
 		public static void RunOnServerRun()
 		{
-			ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.Procedures.ForEach(x => {if(x.StartWithServer) Run(x, new List<Argument>(), null, null);});
+			ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.Procedures.ForEach(x => { if (x.StartWithServer) Run(x, new List<Argument>(), null, null); });
 		}
 
 		public static void RunOnStateChanged()
@@ -92,7 +92,7 @@ namespace FiresecService
 			Stop();
 		}
 
-		static void CheckProcedureThread()
+		private static void CheckProcedureThread()
 		{
 			while (true)
 			{
@@ -110,12 +110,15 @@ namespace FiresecService
 						case TimeType.Sec:
 							timeOut = TimeSpan.FromSeconds(procedureThread.TimeOut);
 							break;
+
 						case TimeType.Min:
 							timeOut = TimeSpan.FromMinutes(procedureThread.TimeOut);
 							break;
+
 						case TimeType.Hour:
 							timeOut = TimeSpan.FromHours(procedureThread.TimeOut);
 							break;
+
 						case TimeType.Day:
 							timeOut = TimeSpan.FromDays(procedureThread.TimeOut);
 							break;

@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Linq;
-using FiresecAPI.GK;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace FiresecAPI.Journal
 {
@@ -14,6 +13,7 @@ namespace FiresecAPI.Journal
 		}
 
 		public string Name { get; set; }
+
 		public List<JournalEventNameType> JournalEventNameTypes { get; set; }
 	}
 }

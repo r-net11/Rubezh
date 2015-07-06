@@ -1,15 +1,18 @@
-﻿using System;
-using System.Data.Linq;
-using System.Linq.Expressions;
-using FiresecAPI;
+﻿using FiresecAPI;
 using FiresecAPI.SKD;
 using LinqKit;
+using System;
+using System.Data.Linq;
+using System.Linq.Expressions;
 
 namespace SKDDriver
 {
 	public class OrganisationSynchroniser : Synchroniser<ExportOrganisation, DataAccess.Organisation>
 	{
-		public OrganisationSynchroniser(Table<DataAccess.Organisation> table, SKDDatabaseService databaseService) : base(table, databaseService) { }
+		public OrganisationSynchroniser(Table<DataAccess.Organisation> table, SKDDatabaseService databaseService)
+			: base(table, databaseService)
+		{
+		}
 
 		public void Initialize()
 		{
@@ -36,9 +39,12 @@ namespace SKDDriver
 			return base.IsInFilter(filter).And(x => x.UID == filter.OrganisationUID);
 		}
 
-		EmployeeSynchroniser EmployeeSynchroniser { get { return _DatabaseService.EmployeeTranslator.Synchroniser; } }
-		PositionSynchroniser PositionSynchroniser { get { return _DatabaseService.PositionTranslator.Synchroniser; } }
-		DepartmentSynchroniser DepartmentSynchroniser { get { return _DatabaseService.DepartmentTranslator.Synchroniser; } }
+		private EmployeeSynchroniser EmployeeSynchroniser { get { return _DatabaseService.EmployeeTranslator.Synchroniser; } }
+
+		private PositionSynchroniser PositionSynchroniser { get { return _DatabaseService.PositionTranslator.Synchroniser; } }
+
+		private DepartmentSynchroniser DepartmentSynchroniser { get { return _DatabaseService.DepartmentTranslator.Synchroniser; } }
+
 		public OrgansiationListSynchroniser ListSynchroniser;
 
 		public override OperationResult Export(ExportFilter filter)
@@ -123,12 +129,16 @@ namespace SKDDriver
 		{
 			return base.Import(filter);
 		}
-		#endregion
+
+		#endregion ExportList
 	}
 
 	public class OrgansiationListSynchroniser : OrganisationSynchroniser
 	{
-		public OrgansiationListSynchroniser(Table<DataAccess.Organisation> table, SKDDatabaseService databaseService) : base(table, databaseService) { }
+		public OrgansiationListSynchroniser(Table<DataAccess.Organisation> table, SKDDatabaseService databaseService)
+			: base(table, databaseService)
+		{
+		}
 
 		protected override Expression<Func<DataAccess.Organisation, bool>> IsInFilter(ExportFilter filter)
 		{

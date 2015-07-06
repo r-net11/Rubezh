@@ -8,6 +8,7 @@
 		}
 
 		private IHeaderViewModel _header;
+
 		public IHeaderViewModel Header
 		{
 			get { return _header; }
@@ -19,6 +20,7 @@
 		}
 
 		private bool _allowMaximize;
+
 		public bool AllowMaximize
 		{
 			get { return _allowMaximize; }

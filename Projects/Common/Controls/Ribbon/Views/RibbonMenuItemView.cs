@@ -1,13 +1,14 @@
-﻿using System.ComponentModel;
+﻿using Common;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
-using Common;
 
 namespace Controls.Ribbon.Views
 {
 	public class RibbonMenuItemView : TabItem
 	{
 		private CoerceValueCallback _callback;
+
 		public RibbonMenuItemView()
 		{
 			DependencyPropertyDescriptor dpd = DependencyPropertyDescriptor.FromProperty(RibbonMenuItemView.IsSelectedProperty, typeof(RibbonMenuItemView));
@@ -38,6 +39,7 @@ namespace Controls.Ribbon.Views
 				}
 			}
 		}
+
 		private object CoerceValueCallback(DependencyObject obj, object val)
 		{
 			var item = obj as RibbonMenuItemView;

@@ -1,11 +1,11 @@
+using Common;
+using Infrastructure.Common.TreeList;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
-using Common;
-using Infrastructure.Common.TreeList;
 
 namespace Controls
 {
@@ -13,6 +13,7 @@ namespace Controls
 	{
 		private const int MinColumnWidth = 20;
 		public static readonly DependencyProperty IsHeaderVisibleProperty = DependencyProperty.Register("IsHeaderVisible", typeof(bool), typeof(TreeListView), new FrameworkPropertyMetadata(true));
+
 		public virtual bool IsHeaderVisible
 		{
 			get { return (bool)GetValue(IsHeaderVisibleProperty); }
@@ -20,6 +21,7 @@ namespace Controls
 		}
 
 		public static readonly DependencyProperty RowHeightProperty = DependencyProperty.Register("RowHeight", typeof(double), typeof(TreeListView), new FrameworkPropertyMetadata(double.NaN));
+
 		public virtual double RowHeight
 		{
 			get { return (double)GetValue(RowHeightProperty); }
@@ -27,6 +29,7 @@ namespace Controls
 		}
 
 		public static readonly DependencyProperty SelectedObjectProperty = DependencyProperty.Register("SelectedObject", typeof(object), typeof(TreeListView), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, SelectedObjectChangedCallback));
+
 		[Bindable(true)]
 		public object SelectedObject
 		{
@@ -38,12 +41,14 @@ namespace Controls
 		{
 			DefaultStyleKeyProperty.OverrideMetadata(typeof(TreeListView), new FrameworkPropertyMetadata(typeof(TreeListView)));
 		}
+
 		public TreeListView()
 		{
 			//PreviewMouseDoubleClick += (sender, e) => e.Handled = true;
 		}
 
 		private GridViewColumnCollection _columns;
+
 		public GridViewColumnCollection Columns
 		{
 			get
@@ -58,10 +63,12 @@ namespace Controls
 		{
 			return new TreeListViewItem();
 		}
+
 		protected override bool IsItemItsOwnContainerOverride(object item)
 		{
 			return item is TreeListViewItem;
 		}
+
 		protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
 		{
 			base.OnItemsChanged(e);
@@ -88,7 +95,7 @@ namespace Controls
 						var treeViewItem = treeView.BringTreeViewItemIntoView(item);
 						if (treeViewItem != null)
 							treeViewItem.IsSelected = true;
-							//treeViewItem.Focus();
+						//treeViewItem.Focus();
 					}
 				}
 		}
@@ -100,6 +107,7 @@ namespace Controls
 			ItemsControl parentContainer = (ItemsControl)BringTreeViewItemIntoView(item.TreeParent) ?? this;
 			return BringItemIntoView(parentContainer, item);
 		}
+
 		private TreeViewItem BringItemIntoView(ItemsControl container, object item)
 		{
 			TreeViewItem element = container.ItemContainerGenerator.ContainerFromItem(item) as TreeViewItem;

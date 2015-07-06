@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Infrastructure.Common.Windows.ViewModels;
+using System.Collections.Generic;
 using System.Linq;
-using Infrastructure.Common.Windows.ViewModels;
 
 namespace Infrastructure.Common.CheckBoxList
 {
@@ -19,6 +19,7 @@ namespace Infrastructure.Common.CheckBoxList
 		}
 
 		public List<T> Items { get; private set; }
+
 		public bool HasCheckedItems
 		{
 			get { return Items.Any(x => x.IsChecked == true); }
@@ -33,7 +34,7 @@ namespace Infrastructure.Common.CheckBoxList
 
 		public virtual void BeforeChecked()
 		{
-			if(IsSingleSelection)
+			if (IsSingleSelection)
 				Items.ForEach(x => x.SetFromParent(false));
 		}
 	}
@@ -41,7 +42,9 @@ namespace Infrastructure.Common.CheckBoxList
 	public interface ICheckBoxItemList
 	{
 		bool HasCheckedItems { get; }
+
 		void BeforeChecked();
+
 		void Update();
 	}
 }

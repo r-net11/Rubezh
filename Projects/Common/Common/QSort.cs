@@ -3,14 +3,16 @@
 namespace Common
 {
 	public delegate int ItemComparer<T>(T a, T b);
+
 	public delegate void Swap<T>(IList<T> elements, int index1, int index2);
+
 	public class QSort
 	{
-
 		public static void Sort<T>(IList<T> elements, ItemComparer<T> comparer, bool reverse = false)
 		{
 			Sort(elements, CollectionSwap, comparer, reverse);
 		}
+
 		public static void Sort<T>(IList<T> elements, Swap<T> swap, ItemComparer<T> comparer, bool reverse = false)
 		{
 			Sort(elements, 0, elements.Count - 1, swap, comparer);
@@ -44,6 +46,7 @@ namespace Common
 			if (i < right)
 				Sort(elements, i, right, swap, comparer);
 		}
+
 		private static void CollectionSwap<T>(IList<T> elements, int index1, int index2)
 		{
 			T tmp = elements[index1];

@@ -1,9 +1,8 @@
-﻿using System;
-using System.Runtime.InteropServices;
-using ChinaSKDDriverAPI;
+﻿using ChinaSKDDriverAPI;
 using ChinaSKDDriverNativeApi;
-using FiresecAPI.SKD;
+using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace ChinaSKDDriver
 {
@@ -39,7 +38,7 @@ namespace ChinaSKDDriver
 			return logs;
 		}
 
-		LogItem NativeLogToLogItem(ChinaSKDDriverNativeApi.NativeWrapper.WRAP_NET_LOG_INFO nativeLogItem)
+		private LogItem NativeLogToLogItem(ChinaSKDDriverNativeApi.NativeWrapper.WRAP_NET_LOG_INFO nativeLogItem)
 		{
 			var logItem = new LogItem();
 			logItem.DateTime = Wrapper.NET_TIMEToDateTime(nativeLogItem.stuTime);

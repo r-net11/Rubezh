@@ -20,7 +20,7 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public bool IsWithEndDate { get; set; }
-		
+
 		[DataMember]
 		public DateTime EndDate { get; set; }
 

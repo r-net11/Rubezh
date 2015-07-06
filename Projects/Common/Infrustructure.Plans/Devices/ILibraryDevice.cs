@@ -8,6 +8,7 @@ namespace Infrustructure.Plans.Devices
 		where TLibraryState : ILibraryState<TLibraryFrame>
 	{
 		Guid DriverId { get; set; }
+
 		List<TLibraryState> States { get; }
 	}
 }

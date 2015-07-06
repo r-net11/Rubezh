@@ -1,11 +1,10 @@
-﻿using System;
+﻿using FiresecAPI;
+using FiresecAPI.SKD;
+using LinqKit;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using FiresecAPI;
-using FiresecAPI.GK;
-using FiresecAPI.SKD;
-using LinqKit;
 
 namespace SKDDriver
 {
@@ -21,7 +20,7 @@ namespace SKDDriver
 			var result = base.CanSave(item);
 			if (result.HasError)
 				return result;
-			bool isSameNumber = Table.Any(x => 
+			bool isSameNumber = Table.Any(x =>
 				x.Number == item.Number &&
 				x.UID != item.UID);
 			if (isSameNumber)
@@ -35,7 +34,7 @@ namespace SKDDriver
 			return Translate(card, employee, cardDoors);
 		}
 
-		SKDCard Translate(DataAccess.Card card, DataAccess.Employee employee, IEnumerable<DataAccess.CardDoor> cardDoors)
+		private SKDCard Translate(DataAccess.Card card, DataAccess.Employee employee, IEnumerable<DataAccess.CardDoor> cardDoors)
 		{
 			var result = new SKDCard();
 			result.UID = card.UID;
@@ -93,13 +92,13 @@ namespace SKDDriver
 			DatabaseService.CardDoorTranslator.Save(card.CardDoors);
 			return result;
 		}
-		
+
 		public OperationResult SavePassTemplate(SKDCard card)
 		{
 			try
 			{
 				var tableItem = Table.FirstOrDefault(x => x.UID == card.UID);
-				if(tableItem == null)
+				if (tableItem == null)
 					return new OperationResult("Карта не найдена в базе данных");
 				tableItem.PassCardTemplateUID = card.PassCardTemplateUID;
 				Context.SubmitChanges();
@@ -111,8 +110,6 @@ namespace SKDDriver
 			}
 		}
 
-
-
 		protected override Expression<Func<DataAccess.Card, bool>> IsInFilter(CardFilter filter)
 		{
 			var result = base.IsInFilter(filter);
@@ -122,6 +119,7 @@ namespace SKDDriver
 				case LogicalDeletationType.Deleted:
 					result = result.And(e => e.IsInStopList);
 					break;
+
 				case LogicalDeletationType.Active:
 					result = result.And(e => !e.IsInStopList);
 					break;
@@ -134,25 +132,25 @@ namespace SKDDriver
 
 			if (filter.CardTypes.IsNotNullOrEmpty())
 			{
-				if(filter.IsWithInactive)
+				if (filter.IsWithInactive)
 					result = result.And(e => (e.CardType != null && filter.CardTypes.Contains((CardType)e.CardType.Value)) || e.IsInStopList);
 				else
 					result = result.And(e => e.CardType != null && filter.CardTypes.Contains((CardType)e.CardType.Value));
 			}
 
 			return result;
-		}		
+		}
 
 		public override IEnumerable<DataAccess.Card> GetTableItems(CardFilter filter)
 		{
 			var result = base.GetTableItems(filter);
-			if(filter.EmployeeFilter != null)
+			if (filter.EmployeeFilter != null)
 			{
 				var employeeUIDs = DatabaseService.EmployeeTranslator.GetTableItems(filter.EmployeeFilter).Select(x => x.UID);
-				if(filter.DeactivationType == LogicalDeletationType.All)
+				if (filter.DeactivationType == LogicalDeletationType.All)
 					result = result.Where(e => e.IsInStopList || (e.EmployeeUID != null && employeeUIDs.Contains(e.EmployeeUID.Value)));
-			    else
-			        result = result.Where(e => e.EmployeeUID != null && employeeUIDs.Contains(e.EmployeeUID.Value));
+				else
+					result = result.Where(e => e.EmployeeUID != null && employeeUIDs.Contains(e.EmployeeUID.Value));
 			}
 			return result;
 		}
@@ -167,7 +165,7 @@ namespace SKDDriver
 				var tableItems =
 					from card in Context.Cards.Where(IsInFilter(filter))
 					join cardDoor in Context.CardDoors on card.UID equals cardDoor.CardUID into cardDoors
-					join employee in filter.EmployeeFilter != null ? Context.Employees.Where(DatabaseService.EmployeeTranslator.GetFilterExpression((filter.EmployeeFilter))) : Context.Employees 
+					join employee in filter.EmployeeFilter != null ? Context.Employees.Where(DatabaseService.EmployeeTranslator.GetFilterExpression((filter.EmployeeFilter))) : Context.Employees
 						on card.EmployeeUID equals employee.UID into employees
 					from employee in employees.DefaultIfEmpty()
 					select new { Card = card, CardDoors = cardDoors, Employee = employee };
@@ -294,7 +292,7 @@ namespace SKDDriver
 			return new OperationResult();
 		}
 
-		OperationResult AddPending(Guid cardUID, Guid controllerUID)
+		private OperationResult AddPending(Guid cardUID, Guid controllerUID)
 		{
 			try
 			{
@@ -308,7 +306,7 @@ namespace SKDDriver
 			}
 		}
 
-		OperationResult EditPending(Guid cardUID, Guid controllerUID)
+		private OperationResult EditPending(Guid cardUID, Guid controllerUID)
 		{
 			try
 			{
@@ -325,7 +323,7 @@ namespace SKDDriver
 			}
 		}
 
-		OperationResult DeletePending(Guid cardUID, Guid controllerUID)
+		private OperationResult DeletePending(Guid cardUID, Guid controllerUID)
 		{
 			try
 			{
@@ -340,6 +338,7 @@ namespace SKDDriver
 					case PendingCardAction.Add:
 						DeleteAllPendingCards(cardUID, controllerUID);
 						break;
+
 					case PendingCardAction.Delete:
 					case PendingCardAction.Edit:
 						DeleteAllPendingCards(cardUID, controllerUID);
@@ -374,7 +373,7 @@ namespace SKDDriver
 			Context.SubmitChanges();
 		}
 
-		void InsertPendingCard(Guid cardUID, Guid controllerUID, PendingCardAction action)
+		private void InsertPendingCard(Guid cardUID, Guid controllerUID, PendingCardAction action)
 		{
 			var pendingCard = new DataAccess.PendingCard
 			{
@@ -386,6 +385,7 @@ namespace SKDDriver
 			Context.PendingCards.InsertOnSubmit(pendingCard);
 			Context.SubmitChanges();
 		}
-		#endregion
+
+		#endregion Pending
 	}
 }

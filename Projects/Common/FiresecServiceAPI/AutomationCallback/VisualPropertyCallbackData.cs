@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using FiresecAPI.Automation;
+using System;
 using System.Runtime.Serialization;
-using FiresecAPI.Automation;
 
 namespace FiresecAPI.AutomationCallback
 {

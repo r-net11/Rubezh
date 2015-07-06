@@ -45,6 +45,6 @@ namespace Infrastructure.Common.Windows.ViewModels
 			return property.Name;
 		}
 
-		#endregion
+		#endregion INotifyPropertyChanged Members and helper
 	}
 }

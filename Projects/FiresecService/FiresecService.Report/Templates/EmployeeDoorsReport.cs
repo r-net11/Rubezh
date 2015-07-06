@@ -1,15 +1,13 @@
-﻿using System;
+﻿using Common;
+using FiresecAPI;
+using FiresecAPI.SKD;
+using FiresecAPI.SKD.ReportFilters;
+using FiresecService.Report.DataSources;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using Common;
-using FiresecAPI;
-using FiresecAPI.GK;
-using FiresecAPI.SKD;
-using FiresecAPI.SKD.ReportFilters;
-using FiresecService.Report.DataSources;
-using Infrastructure.Common;
 
 namespace FiresecService.Report.Templates
 {
@@ -88,7 +86,6 @@ namespace FiresecService.Report.Templates
 				};
 				var accessTemplates = dataProvider.DatabaseService.AccessTemplateTranslator.Get(accessTemplateFilter);
 
-
 				var doorMap = new Dictionary<Guid, CommonDoor>();
 				foreach (var door in SKDManager.Doors)
 				{
@@ -104,7 +101,7 @@ namespace FiresecService.Report.Templates
 					}
 				}
 
-				Dictionary<int, string> intervalMap = new Dictionary<int,string>();
+				Dictionary<int, string> intervalMap = new Dictionary<int, string>();
 				foreach (var interval in SKDManager.SKDConfiguration.TimeIntervalsConfiguration.WeeklyIntervals)
 				{
 					intervalMap.Add(interval.ID, interval.Name);
@@ -158,7 +155,9 @@ namespace FiresecService.Report.Templates
 	public class CommonDoor
 	{
 		public string Name { get; private set; }
+
 		public string EnterZoneName { get; private set; }
+
 		public string ExitZoneName { get; private set; }
 
 		public CommonDoor(SKDDoor door)

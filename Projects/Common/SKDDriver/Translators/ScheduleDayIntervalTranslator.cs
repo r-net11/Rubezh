@@ -1,9 +1,9 @@
-﻿using System;
+﻿using FiresecAPI.SKD;
+using LinqKit;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using FiresecAPI.SKD;
-using LinqKit;
 using OperationResult = FiresecAPI.OperationResult;
 
 namespace SKDDriver.Translators
@@ -13,19 +13,20 @@ namespace SKDDriver.Translators
 		public ScheduleDayIntervalTranslator(SKDDatabaseService databaseService)
 			: base(databaseService)
 		{
-
 		}
 
 		protected override IQueryable<DataAccess.ScheduleDay> GetQuery(ScheduleDayIntervalFilter filter)
 		{
 			return base.GetQuery(filter).OrderBy(item => item.Number);
 		}
+
 		protected override Expression<Func<DataAccess.ScheduleDay, bool>> IsInFilter(ScheduleDayIntervalFilter filter)
 		{
 			var result = base.IsInFilter(filter);
 			result = result.And(e => e.ScheduleSchemeUID.Equals(filter.ScheduleSchemeUID));
 			return result;
 		}
+
 		public override OperationResult Delete(Guid uid)
 		{
 			var dayInterval = Table.FirstOrDefault(x => x.UID == uid);
@@ -54,6 +55,7 @@ namespace SKDDriver.Translators
 			apiItem.ScheduleSchemeUID = tableItem.ScheduleSchemeUID;
 			return apiItem;
 		}
+
 		protected override void TranslateBack(DataAccess.ScheduleDay tableItem, ScheduleDayInterval apiItem)
 		{
 			var dayInterval = apiItem.DayIntervalUID == Guid.Empty ? null : Context.DayIntervals.FirstOrDefault(item => item.UID == apiItem.DayIntervalUID);

@@ -1,28 +1,33 @@
-﻿using System.Windows;
+﻿using Infrustructure.Plans.Designer;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using Infrustructure.Plans.Designer;
 
 namespace Infrustructure.Plans.InstrumentAdorners
 {
 	public abstract class InstrumentAdorner : Adorner
 	{
 		private VisualCollection visuals;
+
 		protected Point? StartPoint { get; set; }
+
 		protected CommonDesignerCanvas DesignerCanvas { get; private set; }
+
 		protected Canvas AdornerCanvas { get; private set; }
 
 		protected override int VisualChildrenCount
 		{
 			get { return visuals.Count; }
 		}
+
 		protected override Size ArrangeOverride(Size arrangeBounds)
 		{
 			AdornerCanvas.Arrange(new Rect(arrangeBounds));
 			return arrangeBounds;
 		}
+
 		protected override Visual GetVisualChild(int index)
 		{
 			return visuals[index];
@@ -32,6 +37,7 @@ namespace Infrustructure.Plans.InstrumentAdorners
 		{
 			get { return DesignerCanvas.Zoom; }
 		}
+
 		public virtual bool AllowBackgroundStart
 		{
 			get { return false; }
@@ -62,7 +68,9 @@ namespace Infrustructure.Plans.InstrumentAdorners
 					adornerLayer.Add(this);
 			}
 		}
+
 		protected abstract void Show();
+
 		public virtual void Hide()
 		{
 			if (IsMouseCaptured)
@@ -76,6 +84,7 @@ namespace Infrustructure.Plans.InstrumentAdorners
 		public virtual void UpdateZoom()
 		{
 		}
+
 		public virtual bool KeyboardInput(Key key)
 		{
 			return false;
@@ -100,6 +109,7 @@ namespace Infrustructure.Plans.InstrumentAdorners
 			base.OnDragOver(e);
 			AdornedElement.RaiseEvent(e);
 		}
+
 		protected override void OnDrop(DragEventArgs e)
 		{
 			base.OnDrop(e);

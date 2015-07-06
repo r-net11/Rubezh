@@ -1,5 +1,5 @@
-﻿using System;
-using FiresecAPI.GK;
+﻿using FiresecAPI.GK;
+using System;
 
 namespace FiresecAPI.Journal
 {
@@ -13,7 +13,9 @@ namespace FiresecAPI.Journal
 		}
 
 		public JournalSubsystemType JournalSubsystemType { get; set; }
+
 		public string Name { get; set; }
+
 		public XStateClass StateClass { get; set; }
 	}
 }

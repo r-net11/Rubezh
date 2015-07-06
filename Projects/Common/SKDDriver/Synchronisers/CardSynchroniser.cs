@@ -1,5 +1,4 @@
-﻿
-namespace SKDDriver
+﻿namespace SKDDriver
 {
 	//public class CardSynchroniser : Synchroniser<ExportCard, DataAccess.Card>
 	//{
@@ -7,9 +6,9 @@ namespace SKDDriver
 
 	//	public override ExportCard Translate(DataAccess.Card item)
 	//	{
-	//		return new ExportCard 
-	//		{ 
-	//			Number = item.Number, 
+	//		return new ExportCard
+	//		{
+	//			Number = item.Number,
 	//			CardType = item.CardType != null ? item.CardType.Value : -1,
 	//			StartDate = item.StartDate,
 	//			EndDate = item.EndDate,

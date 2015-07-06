@@ -8,10 +8,13 @@ namespace Infrastructure.Common.Services.DragDrop
 	public class DragDropService : IDragDropService
 	{
 		public event DragServiceEventHandler DragOver;
+
 		public event DragServiceEventHandler Drop;
+
 		public event DragCorrectionEventHandler DragCorrection;
 
 		public bool IsDragging { get; private set; }
+
 		private bool _dragHasLeftScope;
 		private bool _useDefaultCursor;
 		private DragAdorner _dragAdorner;
@@ -30,14 +33,17 @@ namespace Infrastructure.Common.Services.DragDrop
 		{
 			DoDragDrop(dataObject, dragSource, DragDropEffects.None | DragDropEffects.Move | DragDropEffects.Copy);
 		}
+
 		public void DoDragDrop(IDataObject dataObject, UIElement dragSource, DragDropEffects effects)
 		{
 			DoDragDrop(dataObject, dragSource, false, true, effects);
 		}
+
 		public void DoDragDrop(IDataObject dataObject, UIElement dragSource, bool showDragVisual, bool useVisualBrush)
 		{
 			DoDragDrop(dataObject, dragSource, showDragVisual, useVisualBrush, DragDropEffects.None | DragDropEffects.Move);
 		}
+
 		public void DoDragDrop(IDataObject dataObject, UIElement dragSource, bool showDragVisual, bool useVisualBrush, DragDropEffects effects)
 		{
 			if (!IsDragging)
@@ -89,14 +95,17 @@ namespace Infrastructure.Common.Services.DragDrop
 		{
 			DoDragDropSimulate(dataObject, dragSource, DragDropEffects.None | DragDropEffects.Move | DragDropEffects.Copy, callback);
 		}
+
 		public void DoDragDropSimulate(IDataObject dataObject, UIElement dragSource, DragDropEffects effects, Action callback)
 		{
 			DoDragDropSimulate(dataObject, dragSource, false, true, effects, callback);
 		}
+
 		public void DoDragDropSimulate(IDataObject dataObject, UIElement dragSource, bool showDragVisual, bool useVisualBrush, Action callback)
 		{
 			DoDragDropSimulate(dataObject, dragSource, showDragVisual, useVisualBrush, DragDropEffects.None | DragDropEffects.Move, callback);
 		}
+
 		public void DoDragDropSimulate(IDataObject dataObject, UIElement dragSource, bool showDragVisual, bool useVisualBrush, DragDropEffects effects, Action callback)
 		{
 			if (!IsDragging)
@@ -127,6 +136,7 @@ namespace Infrastructure.Common.Services.DragDrop
 				dragSource.CaptureMouse();
 			}
 		}
+
 		public void StopDragSimulate(bool cancel)
 		{
 			if (IsDragging)
@@ -163,6 +173,7 @@ namespace Infrastructure.Common.Services.DragDrop
 				e.Handled = true;
 			}
 		}
+
 		private void DragScope_DragEnter(object sender, DragEventArgs e)
 		{
 			if (!e.Handled)
@@ -171,6 +182,7 @@ namespace Infrastructure.Common.Services.DragDrop
 				e.Handled = true;
 			}
 		}
+
 		private void DragScope_QueryContinueDrag(object sender, QueryContinueDragEventArgs e)
 		{
 			if (e.EscapePressed || _dragHasLeftScope)
@@ -179,6 +191,7 @@ namespace Infrastructure.Common.Services.DragDrop
 				e.Handled = true;
 			}
 		}
+
 		private void DragSource_GiveFeedback(object sender, GiveFeedbackEventArgs e)
 		{
 			if (!_useDefaultCursor && !e.Handled)
@@ -187,10 +200,12 @@ namespace Infrastructure.Common.Services.DragDrop
 				e.Handled = true;
 			}
 		}
+
 		private void DragScope_PreviewDragOver(object sender, DragEventArgs e)
 		{
 			UpdateAdornerPosition(new DragCorrectionEventArgs(e));
 		}
+
 		private void DragScope_DragOver(object sender, DragEventArgs e)
 		{
 			if (!e.Handled)
@@ -214,6 +229,7 @@ namespace Infrastructure.Common.Services.DragDrop
 				}
 			}
 		}
+
 		private void DragScope_MouseMove(object sender, MouseEventArgs e)
 		{
 			if (IsDragging)
@@ -234,6 +250,7 @@ namespace Infrastructure.Common.Services.DragDrop
 					e.Handled = true;
 			}
 		}
+
 		private void DragScope_PreviewKeyDown(object sender, KeyEventArgs e)
 		{
 			if (e.Key == Key.Escape)

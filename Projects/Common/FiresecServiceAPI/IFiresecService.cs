@@ -1,9 +1,9 @@
-﻿using System;
+﻿using FiresecAPI.Journal;
+using FiresecAPI.Models;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.ServiceModel;
-using FiresecAPI.Journal;
-using FiresecAPI.Models;
 
 namespace FiresecAPI
 {
@@ -44,9 +44,11 @@ namespace FiresecAPI
 
 		[OperationContract]
 		OperationResult ResetDB();
-		#endregion
+
+		#endregion Service
 
 		#region Journal
+
 		[OperationContract]
 		OperationResult<DateTime> GetMinJournalDateTime();
 
@@ -58,9 +60,11 @@ namespace FiresecAPI
 
 		[OperationContract]
 		OperationResult<bool> AddJournalItem(JournalItem journalItem);
-		#endregion
+
+		#endregion Journal
 
 		#region Files
+
 		[OperationContract]
 		List<string> GetFileNamesList(string directory);
 
@@ -78,6 +82,7 @@ namespace FiresecAPI
 
 		[OperationContract]
 		void SetLocalConfig();
-		#endregion
+
+		#endregion Files
 	}
 }

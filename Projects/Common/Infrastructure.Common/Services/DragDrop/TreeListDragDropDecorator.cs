@@ -1,13 +1,14 @@
-﻿using System.Windows;
+﻿using Infrastructure.Common.TreeList;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using Infrastructure.Common.TreeList;
 
 namespace Infrastructure.Common.Services.DragDrop
 {
 	public class TreeListDragDropDecorator : DragDropDecorator
 	{
 		public static readonly DependencyProperty TreeNodeDropCommandProperty = DependencyProperty.Register("TreeNodeDropCommand", typeof(RelayCommand<TreeNodeDropObject>), typeof(TreeListDragDropDecorator), new UIPropertyMetadata(null));
+
 		public RelayCommand<TreeNodeDropObject> TreeNodeDropCommand
 		{
 			get { return (RelayCommand<TreeNodeDropObject>)GetValue(TreeNodeDropCommandProperty); }
@@ -66,6 +67,7 @@ namespace Infrastructure.Common.Services.DragDrop
 				ServiceFactoryBase.DragDropService.DoDragDrop(dataObject, draggedItemContainer, ShowDragVisual, true, DragEffect);
 			}
 		}
+
 		protected override void OnDrop(DragEventArgs e)
 		{
 			if (TreeNodeDropCommand != null)
@@ -103,6 +105,7 @@ namespace Infrastructure.Common.Services.DragDrop
 			_dropObject.DataObject = e.Data;
 			_dropObject.Target = _targetElement;
 		}
+
 		private void HandleDragScrolling(DragEventArgs e)
 		{
 			if (_scrollViewer != null && _scrollViewer.CanContentScroll && _scrollViewer.ComputedVerticalScrollBarVisibility == Visibility.Visible && _scrollViewer.ExtentHeight > _scrollViewer.ViewportHeight && _target != null)
@@ -125,6 +128,7 @@ namespace Infrastructure.Common.Services.DragDrop
 					_dragScrollWaitCounter = 0;
 			}
 		}
+
 		private void HandleDragExpanding(DragEventArgs e)
 		{
 			if (_target != null)
@@ -138,6 +142,7 @@ namespace Infrastructure.Common.Services.DragDrop
 					_dragExpandWaitCounter++;
 			}
 		}
+
 		private void UpdateInsertAdorner(DragEventArgs e)
 		{
 			//TODO:
@@ -149,6 +154,7 @@ namespace Infrastructure.Common.Services.DragDrop
 				return null;
 			return TreeList.ItemContainerGenerator.ContainerFromItem(item) as ListViewItem;
 		}
+
 		private bool ValidateStartPoint()
 		{
 			UIElement element = TreeList.InputHitTest(DragStartPoint) as UIElement;
@@ -164,6 +170,7 @@ namespace Infrastructure.Common.Services.DragDrop
 			}
 			return false;
 		}
+
 		private bool? IsMousePointerAtTop(DragEventArgs e)
 		{
 			var content = _scrollViewer.Content as IInputElement ?? TreeList;
@@ -178,6 +185,7 @@ namespace Infrastructure.Common.Services.DragDrop
 			}
 			return null;
 		}
+
 		private ScrollViewer FindScrollViewer(UIElement element)
 		{
 			if (element != null)

@@ -4,7 +4,8 @@ namespace Infrastructure.Common.Windows.ViewModels
 {
 	public class DateSelectionViewModel : SaveCancelDialogViewModel
 	{
-		DateTime _dateTime;
+		private DateTime _dateTime;
+
 		public DateTime DateTime
 		{
 			get { return _dateTime; }

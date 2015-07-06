@@ -16,9 +16,9 @@ namespace FiresecService
 {
 	public static class Bootstrapper
 	{
-		static Thread WindowThread = null;
-		static MainViewModel MainViewModel;
-		static AutoResetEvent MainViewStartedEvent = new AutoResetEvent(false);
+		private static Thread WindowThread = null;
+		private static MainViewModel MainViewModel;
+		private static AutoResetEvent MainViewStartedEvent = new AutoResetEvent(false);
 
 		public static void Run()
 		{
@@ -47,7 +47,6 @@ namespace FiresecService
 				}
 				catch (Exception)
 				{
-
 					MessageBox.Show("Не удалось подключиться к базе данных");
 					Application.Current.MainWindow.Close();
 				}
@@ -59,7 +58,6 @@ namespace FiresecService
 				}
 				catch (Exception)
 				{
-
 					MessageBox.Show("При открытии хоста обнаружена ошибка");
 					Application.Current.MainWindow.Close();
 				}

@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using Common;
+﻿using Common;
 using FiresecAPI;
 using FiresecAPI.SKD;
 using FiresecAPI.SKD.ReportFilters;
 using FiresecService.Report.DataSources;
 using FiresecService.Report.Model;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
 
 namespace FiresecService.Report.Templates
 {
@@ -81,11 +81,11 @@ namespace FiresecService.Report.Templates
 				{
 					if (door == null || zoneMap.ContainsKey(door.UID)) return;
 
-					var zone1 = door.InDevice != null && door.InDevice.Zone != null && (filter.Zones.IsEmpty() || filter.Zones.Contains(door.InDevice.Zone.UID)) 
-								? door.InDevice.Zone 
+					var zone1 = door.InDevice != null && door.InDevice.Zone != null && (filter.Zones.IsEmpty() || filter.Zones.Contains(door.InDevice.Zone.UID))
+								? door.InDevice.Zone
 								: null;
-					var zone2 = door.OutDevice != null && door.OutDevice.Zone != null && (filter.Zones.IsEmpty() || filter.Zones.Contains(door.OutDevice.Zone.UID)) 
-								? door.OutDevice.Zone 
+					var zone2 = door.OutDevice != null && door.OutDevice.Zone != null && (filter.Zones.IsEmpty() || filter.Zones.Contains(door.OutDevice.Zone.UID))
+								? door.OutDevice.Zone
 								: null;
 
 					if (zone1 == null && zone2 == null) return;
@@ -119,6 +119,7 @@ namespace FiresecService.Report.Templates
 			}
 			return dataSet;
 		}
+
 		private void AddRow(EmployeeAccessDataSet ds, EmployeeInfo employee, SKDCard card, CardDoor door, AccessTemplate template, Dictionary<Guid, Tuple<Tuple<Guid, string>, Tuple<Guid, string>>> zoneMap, List<Guid> addedZones)
 		{
 			if (!zoneMap.ContainsKey(door.DoorUID))

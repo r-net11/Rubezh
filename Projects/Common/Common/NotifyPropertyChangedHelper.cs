@@ -6,7 +6,7 @@ namespace Common
 {
 	public class NotifyPropertyChangedHelper
 	{
-		PropertyChangedEventHandler _propertyChangeHandler;
+		private PropertyChangedEventHandler _propertyChangeHandler;
 
 		public void Add(PropertyChangedEventHandler value)
 		{

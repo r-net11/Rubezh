@@ -16,10 +16,12 @@ namespace FiresecService.Report
 		{
 			BuildCondition(sb, field, OR, objects);
 		}
+
 		public static void BuildConditionAND<T>(StringBuilder sb, string field, IEnumerable<T> objects)
 		{
 			BuildCondition(sb, field, AND, objects);
 		}
+
 		public static void BuildCondition<T>(StringBuilder sb, string field, string join, IEnumerable<T> objects)
 		{
 			if (objects == null)

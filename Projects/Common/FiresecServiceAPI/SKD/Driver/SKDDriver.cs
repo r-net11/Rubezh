@@ -1,6 +1,6 @@
-﻿using System;
+﻿using FiresecAPI.GK;
+using System;
 using System.Collections.Generic;
-using FiresecAPI.GK;
 
 namespace FiresecAPI.SKD
 {
@@ -17,25 +17,32 @@ namespace FiresecAPI.SKD
 		}
 
 		public SKDDriverType DriverType { get; set; }
+
 		public int DriverTypeNo { get; set; }
+
 		public Guid UID { get; set; }
+
 		public string Name { get; set; }
+
 		public string ShortName { get; set; }
 
 		public List<SKDDriverProperty> Properties { get; set; }
+
 		public List<XStateClass> AvailableStateClasses { get; set; }
 
 		public List<SKDDriverType> Children { get; set; }
+
 		public List<SKDDriverAutocreationItem> AutocreationItems { get; set; }
 
 		public bool HasZone { get; set; }
+
 		public bool IsPlaceable { get; set; }
 
 		public bool IsController
 		{
 			get
 			{
-				switch(DriverType)
+				switch (DriverType)
 				{
 					case SKDDriverType.Controller:
 					case SKDDriverType.ChinaController_1:
@@ -62,6 +69,7 @@ namespace FiresecAPI.SKD
 		}
 
 		public SKDDriverType DriverType { get; set; }
+
 		public int Count { get; set; }
 	}
 }

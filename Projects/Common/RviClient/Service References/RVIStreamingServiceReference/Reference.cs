@@ -8,43 +8,44 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace RviClient.RVIStreamingServiceReference {
-	
-	
+namespace RviClient.RVIStreamingServiceReference
+{
 	[System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-	[System.ServiceModel.ServiceContractAttribute(ConfigurationName="RVIStreamingServiceReference.IIntegrationVideoStreaming")]
-	public interface IIntegrationVideoStreaming {
-		
+	[System.ServiceModel.ServiceContractAttribute(ConfigurationName = "RVIStreamingServiceReference.IIntegrationVideoStreaming")]
+	public interface IIntegrationVideoStreaming
+	{
 		// CODEGEN: Контракт генерации сообщений с именем упаковщика (VideoFileIn) сообщения VideoFileIn не соответствует значению по умолчанию (GetVideoFile).
-		[System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IIntegrationVideoStreaming/GetVideoFile", ReplyAction="http://tempuri.org/IIntegrationVideoStreaming/GetVideoFileResponse")]
+		[System.ServiceModel.OperationContractAttribute(Action = "http://tempuri.org/IIntegrationVideoStreaming/GetVideoFile", ReplyAction = "http://tempuri.org/IIntegrationVideoStreaming/GetVideoFileResponse")]
 		RviClient.RVIStreamingServiceReference.VideoFileOut GetVideoFile(RviClient.RVIStreamingServiceReference.VideoFileIn request);
 	}
-	
+
 	[System.Diagnostics.DebuggerStepThroughAttribute()]
 	[System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
 	[System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-	[System.ServiceModel.MessageContractAttribute(WrapperName="VideoFileIn", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
-	public partial class VideoFileIn {
-		
-		[System.ServiceModel.MessageHeaderAttribute(Namespace="http://tempuri.org/")]
+	[System.ServiceModel.MessageContractAttribute(WrapperName = "VideoFileIn", WrapperNamespace = "http://tempuri.org/", IsWrapped = true)]
+	public partial class VideoFileIn
+	{
+		[System.ServiceModel.MessageHeaderAttribute(Namespace = "http://tempuri.org/")]
 		public int ChannelNumber;
-		
-		[System.ServiceModel.MessageHeaderAttribute(Namespace="http://tempuri.org/")]
+
+		[System.ServiceModel.MessageHeaderAttribute(Namespace = "http://tempuri.org/")]
 		public System.Guid DeviceGuid;
-		
-		[System.ServiceModel.MessageHeaderAttribute(Namespace="http://tempuri.org/")]
+
+		[System.ServiceModel.MessageHeaderAttribute(Namespace = "http://tempuri.org/")]
 		public System.Guid EventGuid;
-		
-		[System.ServiceModel.MessageHeaderAttribute(Namespace="http://tempuri.org/")]
+
+		[System.ServiceModel.MessageHeaderAttribute(Namespace = "http://tempuri.org/")]
 		public System.Guid Request;
-		
-		[System.ServiceModel.MessageHeaderAttribute(Namespace="http://tempuri.org/")]
+
+		[System.ServiceModel.MessageHeaderAttribute(Namespace = "http://tempuri.org/")]
 		public System.Guid Session;
-		
-		public VideoFileIn() {
+
+		public VideoFileIn()
+		{
 		}
-		
-		public VideoFileIn(int ChannelNumber, System.Guid DeviceGuid, System.Guid EventGuid, System.Guid Request, System.Guid Session) {
+
+		public VideoFileIn(int ChannelNumber, System.Guid DeviceGuid, System.Guid EventGuid, System.Guid Request, System.Guid Session)
+		{
 			this.ChannelNumber = ChannelNumber;
 			this.DeviceGuid = DeviceGuid;
 			this.EventGuid = EventGuid;
@@ -52,32 +53,34 @@ namespace RviClient.RVIStreamingServiceReference {
 			this.Session = Session;
 		}
 	}
-	
+
 	[System.Diagnostics.DebuggerStepThroughAttribute()]
 	[System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
 	[System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-	[System.ServiceModel.MessageContractAttribute(WrapperName="VideoFileOut", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
-	public partial class VideoFileOut {
-		
-		[System.ServiceModel.MessageHeaderAttribute(Namespace="http://tempuri.org/")]
+	[System.ServiceModel.MessageContractAttribute(WrapperName = "VideoFileOut", WrapperNamespace = "http://tempuri.org/", IsWrapped = true)]
+	public partial class VideoFileOut
+	{
+		[System.ServiceModel.MessageHeaderAttribute(Namespace = "http://tempuri.org/")]
 		public int ErrorCode;
-		
-		[System.ServiceModel.MessageHeaderAttribute(Namespace="http://tempuri.org/")]
+
+		[System.ServiceModel.MessageHeaderAttribute(Namespace = "http://tempuri.org/")]
 		public string ErrorInformation;
-		
-		[System.ServiceModel.MessageHeaderAttribute(Namespace="http://tempuri.org/")]
+
+		[System.ServiceModel.MessageHeaderAttribute(Namespace = "http://tempuri.org/")]
 		public System.Guid Request;
-		
-		[System.ServiceModel.MessageHeaderAttribute(Namespace="http://tempuri.org/")]
+
+		[System.ServiceModel.MessageHeaderAttribute(Namespace = "http://tempuri.org/")]
 		public System.Guid Session;
-		
-		[System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+
+		[System.ServiceModel.MessageBodyMemberAttribute(Namespace = "http://tempuri.org/", Order = 0)]
 		public System.IO.Stream FileContent;
-		
-		public VideoFileOut() {
+
+		public VideoFileOut()
+		{
 		}
-		
-		public VideoFileOut(int ErrorCode, string ErrorInformation, System.Guid Request, System.Guid Session, System.IO.Stream FileContent) {
+
+		public VideoFileOut(int ErrorCode, string ErrorInformation, System.Guid Request, System.Guid Session, System.IO.Stream FileContent)
+		{
 			this.ErrorCode = ErrorCode;
 			this.ErrorInformation = ErrorInformation;
 			this.Request = Request;
@@ -85,40 +88,48 @@ namespace RviClient.RVIStreamingServiceReference {
 			this.FileContent = FileContent;
 		}
 	}
-	
+
 	[System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-	public interface IIntegrationVideoStreamingChannel : RviClient.RVIStreamingServiceReference.IIntegrationVideoStreaming, System.ServiceModel.IClientChannel {
+	public interface IIntegrationVideoStreamingChannel : RviClient.RVIStreamingServiceReference.IIntegrationVideoStreaming, System.ServiceModel.IClientChannel
+	{
 	}
-	
+
 	[System.Diagnostics.DebuggerStepThroughAttribute()]
 	[System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-	public partial class IntegrationVideoStreamingClient : System.ServiceModel.ClientBase<RviClient.RVIStreamingServiceReference.IIntegrationVideoStreaming>, RviClient.RVIStreamingServiceReference.IIntegrationVideoStreaming {
-		
-		public IntegrationVideoStreamingClient() {
+	public partial class IntegrationVideoStreamingClient : System.ServiceModel.ClientBase<RviClient.RVIStreamingServiceReference.IIntegrationVideoStreaming>, RviClient.RVIStreamingServiceReference.IIntegrationVideoStreaming
+	{
+		public IntegrationVideoStreamingClient()
+		{
 		}
-		
-		public IntegrationVideoStreamingClient(string endpointConfigurationName) : 
-				base(endpointConfigurationName) {
+
+		public IntegrationVideoStreamingClient(string endpointConfigurationName) :
+			base(endpointConfigurationName)
+		{
 		}
-		
-		public IntegrationVideoStreamingClient(string endpointConfigurationName, string remoteAddress) : 
-				base(endpointConfigurationName, remoteAddress) {
+
+		public IntegrationVideoStreamingClient(string endpointConfigurationName, string remoteAddress) :
+			base(endpointConfigurationName, remoteAddress)
+		{
 		}
-		
-		public IntegrationVideoStreamingClient(string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
-				base(endpointConfigurationName, remoteAddress) {
+
+		public IntegrationVideoStreamingClient(string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) :
+			base(endpointConfigurationName, remoteAddress)
+		{
 		}
-		
-		public IntegrationVideoStreamingClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
-				base(binding, remoteAddress) {
+
+		public IntegrationVideoStreamingClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) :
+			base(binding, remoteAddress)
+		{
 		}
-		
+
 		[System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-		RviClient.RVIStreamingServiceReference.VideoFileOut RviClient.RVIStreamingServiceReference.IIntegrationVideoStreaming.GetVideoFile(RviClient.RVIStreamingServiceReference.VideoFileIn request) {
+		RviClient.RVIStreamingServiceReference.VideoFileOut RviClient.RVIStreamingServiceReference.IIntegrationVideoStreaming.GetVideoFile(RviClient.RVIStreamingServiceReference.VideoFileIn request)
+		{
 			return base.Channel.GetVideoFile(request);
 		}
-		
-		public int GetVideoFile(int ChannelNumber, System.Guid DeviceGuid, System.Guid EventGuid, ref System.Guid Request, ref System.Guid Session, out string ErrorInformation, out System.IO.Stream FileContent) {
+
+		public int GetVideoFile(int ChannelNumber, System.Guid DeviceGuid, System.Guid EventGuid, ref System.Guid Request, ref System.Guid Session, out string ErrorInformation, out System.IO.Stream FileContent)
+		{
 			RviClient.RVIStreamingServiceReference.VideoFileIn inValue = new RviClient.RVIStreamingServiceReference.VideoFileIn();
 			inValue.ChannelNumber = ChannelNumber;
 			inValue.DeviceGuid = DeviceGuid;

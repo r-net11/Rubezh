@@ -1,15 +1,15 @@
-﻿using System;
+﻿using FiresecAPI.SKD;
+using LinqKit;
+using System;
 using System.Linq;
 using System.Linq.Expressions;
-using FiresecAPI.SKD;
-using LinqKit;
 using OperationResult = FiresecAPI.OperationResult;
 
 namespace SKDDriver.Translators
 {
 	public class ScheduleSchemeTranslator : OrganisationElementTranslator<DataAccess.ScheduleScheme, ScheduleScheme, ScheduleSchemeFilter>
 	{
-		bool _withDays;
+		private bool _withDays;
 
 		public ScheduleSchemeTranslator(SKDDatabaseService databaseService)
 			: base(databaseService)
@@ -20,6 +20,7 @@ namespace SKDDriver.Translators
 		{
 			return base.GetQuery(filter).OrderBy(item => item.Name);
 		}
+
 		protected override Expression<Func<DataAccess.ScheduleScheme, bool>> IsInFilter(ScheduleSchemeFilter filter)
 		{
 			_withDays = filter.WithDays;
@@ -42,7 +43,7 @@ namespace SKDDriver.Translators
 				return new OperationResult("График с таким же названием уже содержится в базе данных");
 			return new OperationResult();
 		}
-		
+
 		protected override ScheduleScheme Translate(DataAccess.ScheduleScheme tableItem)
 		{
 			var result = base.Translate(tableItem);

@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Common;
+using Microsoft.Win32;
+using System;
 using System.Diagnostics;
 using System.Reflection;
-using Common;
-using Microsoft.Win32;
 
 namespace Infrastructure.Common
 {

@@ -26,72 +26,83 @@ namespace FiresecAPI.SKD.ReportFilters
 		[DataMember]
 		public bool PassCardInactive { get; set; }
 
-		#endregion
+		#endregion IReportFilterPassCardTypeFull Members
 
 		#region IReportFilterPassCardType Members
 
 		[DataMember]
 		public bool PassCardActive { get; set; }
+
 		[DataMember]
 		public bool PassCardPermanent { get; set; }
+
 		[DataMember]
 		public bool PassCardTemprorary { get; set; }
+
 		[DataMember]
 		public bool PassCardOnceOnly { get; set; }
+
 		[DataMember]
 		public bool PassCardForcing { get; set; }
+
 		[DataMember]
 		public bool PassCardLocked { get; set; }
 
-		#endregion
+		#endregion IReportFilterPassCardType Members
 
 		#region IReportFilterOrganisation Members
 
 		[DataMember]
 		public List<Guid> Organisations { get; set; }
 
-		#endregion
+		#endregion IReportFilterOrganisation Members
 
 		#region IReportFilterDepartment Members
 
 		[DataMember]
 		public List<Guid> Departments { get; set; }
 
-		#endregion
+		#endregion IReportFilterDepartment Members
 
 		#region IReportFilterPosition Members
 
 		[DataMember]
 		public List<Guid> Positions { get; set; }
 
-		#endregion
+		#endregion IReportFilterPosition Members
 
 		#region IReportFilterEmployee Members
 
 		[DataMember]
 		public List<Guid> Employees { get; set; }
+
 		[DataMember]
 		public bool IsSearch { get; set; }
+
 		[DataMember]
 		public string LastName { get; set; }
+
 		[DataMember]
 		public string FirstName { get; set; }
+
 		[DataMember]
 		public string SecondName { get; set; }
 
-		#endregion
+		#endregion IReportFilterEmployee Members
 
 		#region IReportFilterEmployeeAndVisitor Members
 
 		[DataMember]
 		public bool IsEmployee { get; set; }
 
-		#endregion
+		#endregion IReportFilterEmployeeAndVisitor Members
 
 		[DataMember]
 		public bool UseExpirationDate { get; set; }
+
 		[DataMember]
 		public DateTime ExpirationDate { get; set; }
+
 		[DataMember]
 		public EndDateType ExpirationType { get; set; }
 	}

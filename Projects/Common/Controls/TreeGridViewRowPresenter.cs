@@ -54,6 +54,7 @@ namespace Controls
 		private static readonly Style DefaultSeparatorStyle;
 		public static readonly DependencyProperty SeparatorStyleProperty;
 		private readonly List<FrameworkElement> _lines = new List<FrameworkElement>();
+
 		static TreeGridViewRowPresenter()
 		{
 			DefaultSeparatorStyle = new Style(typeof(Rectangle));
@@ -67,10 +68,12 @@ namespace Controls
 			get { return (Style)GetValue(SeparatorStyleProperty); }
 			set { SetValue(SeparatorStyleProperty, value); }
 		}
+
 		private IEnumerable<FrameworkElement> Children
 		{
 			get { return LogicalTreeHelper.GetChildren(this).OfType<FrameworkElement>(); }
 		}
+
 		private static void SeparatorStyleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
 			var presenter = (TreeGridViewRowPresenter)d;
@@ -78,6 +81,7 @@ namespace Controls
 			foreach (FrameworkElement line in presenter._lines)
 				line.Style = style;
 		}
+
 		private void EnsureLines()
 		{
 			int count = Columns == null ? 0 : Columns.Count;
@@ -143,6 +147,7 @@ namespace Controls
 			}
 			return s;
 		}
+
 		protected override Size MeasureOverride(Size constraint)
 		{
 			Size s = base.MeasureOverride(constraint);
@@ -159,6 +164,7 @@ namespace Controls
 
 			return s;
 		}
+
 		protected override Visual GetVisualChild(int index)
 		{
 			var count = base.VisualChildrenCount;
@@ -169,6 +175,7 @@ namespace Controls
 			else
 				return Expander;
 		}
+
 		protected override int VisualChildrenCount
 		{
 			get
@@ -179,6 +186,7 @@ namespace Controls
 					return base.VisualChildrenCount + _lines.Count;
 			}
 		}
+
 		protected override void OnVisualChildrenChanged(DependencyObject visualAdded, DependencyObject visualRemoved)
 		{
 			if (visualAdded != null)

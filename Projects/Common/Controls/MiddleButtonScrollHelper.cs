@@ -5,7 +5,7 @@ using System.Windows.Media;
 
 namespace Controls
 {
-	enum DirectionType
+	internal enum DirectionType
 	{
 		None,
 		Left,
@@ -49,14 +49,14 @@ namespace Controls
 
 	public static class MiddleButtonScrollHelper
 	{
-		static bool _isScrolling = false;
-		static Point _previousMousePos;
-		static Point _currentMousePos;
-		static DirectionType _currentDirection;
-		static DirectionType _previousDirection;
-		static ScrollViewer _scrollViewer;
+		private static bool _isScrolling = false;
+		private static Point _previousMousePos;
+		private static Point _currentMousePos;
+		private static DirectionType _currentDirection;
+		private static DirectionType _previousDirection;
+		private static ScrollViewer _scrollViewer;
 
-		static DirectionType DirectionX
+		private static DirectionType DirectionX
 		{
 			get
 			{
@@ -67,7 +67,8 @@ namespace Controls
 				return DirectionType.None;
 			}
 		}
-		static DirectionType DirectionY
+
+		private static DirectionType DirectionY
 		{
 			get
 			{
@@ -79,27 +80,32 @@ namespace Controls
 			}
 		}
 
-		static void Scroll()
+		private static void Scroll()
 		{
 			switch (_currentDirection)
 			{
 				case DirectionType.Left:
 					_scrollViewer.LineLeft();
 					break;
+
 				case DirectionType.Right:
 					_scrollViewer.LineRight();
 					break;
+
 				case DirectionType.Down:
 					_scrollViewer.LineDown();
 					break;
+
 				case DirectionType.Up:
 					_scrollViewer.LineUp();
 					break;
+
 				default:
 					break;
 			}
 		}
-		static void SetDirection()
+
+		private static void SetDirection()
 		{
 			if (DirectionX == DirectionType.None && DirectionY == DirectionType.None)
 			{
@@ -118,22 +124,27 @@ namespace Controls
 					}
 			}
 		}
-		static void SetCursorDirection()
+
+		private static void SetCursorDirection()
 		{
 			switch (_currentDirection)
 			{
 				case DirectionType.Left:
 					_scrollViewer.Cursor = Cursors.ScrollW;
 					break;
+
 				case DirectionType.Right:
 					_scrollViewer.Cursor = Cursors.ScrollE;
 					break;
+
 				case DirectionType.Down:
 					_scrollViewer.Cursor = Cursors.ScrollS;
 					break;
+
 				case DirectionType.Up:
 					_scrollViewer.Cursor = Cursors.ScrollN;
 					break;
+
 				default:
 					break;
 			}
@@ -149,6 +160,7 @@ namespace Controls
 			_currentDirection = _previousDirection = DirectionType.None;
 			_scrollViewer.Cursor = Cursors.ScrollAll;
 		}
+
 		public static void UpdateScrolling(MouseEventArgs e)
 		{
 			if (_scrollViewer == null || !_isScrolling)
@@ -160,6 +172,7 @@ namespace Controls
 			_previousMousePos = _currentMousePos;
 			_previousDirection = _currentDirection;
 		}
+
 		public static void StopScrolling()
 		{
 			if (_scrollViewer != null && _isScrolling)

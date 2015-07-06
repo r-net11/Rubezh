@@ -1,8 +1,8 @@
-﻿
+﻿using Infrastructure.Common.Services.Layout;
 using System;
 using System.Collections.Generic;
 using System.Windows.Input;
-using Infrastructure.Common.Services.Layout;
+
 namespace Infrastructure.Common.Windows.ViewModels
 {
 	public abstract class ViewPartViewModel : BaseViewModel, IViewPartViewModel
@@ -10,6 +10,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 		protected Dictionary<KeyGesture, RelayCommand> Shortcuts { get; private set; }
 
 		private bool _isActive;
+
 		public bool IsActive
 		{
 			get { return _isActive; }
@@ -21,7 +22,9 @@ namespace Infrastructure.Common.Windows.ViewModels
 		}
 
 		public bool IsRightPanelEnabled { get; set; }
+
 		private bool _isRightPanelVisible;
+
 		public bool IsRightPanelVisible
 		{
 			get { return _isRightPanelVisible; }
@@ -31,10 +34,12 @@ namespace Infrastructure.Common.Windows.ViewModels
 				RegistrySettingsHelper.SetBool(IsRightPanelVisibleRegistryKey, IsRightPanelVisible);
 			}
 		}
+
 		protected virtual bool IsRightPanelVisibleByDefault
 		{
 			get { return false; }
 		}
+
 		private string IsRightPanelVisibleRegistryKey
 		{
 			get { return "Shell.IsRightPanelVisible." + Key; }
@@ -59,6 +64,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			ApplicationService.Layout.ShortcutService.KeyPressed -= new KeyEventHandler(ShortcutService_KeyPressed);
 			ApplicationService.Layout.ShortcutService.KeyPressed += new KeyEventHandler(ShortcutService_KeyPressed);
 		}
+
 		internal void Hide()
 		{
 			if (IsActive)
@@ -83,6 +89,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 				KeyPressed(e);
 			}
 		}
+
 		protected virtual void KeyPressed(KeyEventArgs e)
 		{
 		}
@@ -97,6 +104,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 		public virtual void OnShow()
 		{
 		}
+
 		public virtual void OnHide()
 		{
 		}
@@ -105,17 +113,19 @@ namespace Infrastructure.Common.Windows.ViewModels
 		{
 			Shortcuts.Add(keyGesture, command);
 		}
+
 		public void RegisterShortcut<T>(KeyGesture keyGesture, RelayCommand<T> command, Func<T> getArg)
 		{
 			RelayCommand cmd = new RelayCommand(() => command.Execute(getArg()), () => command.CanExecute(getArg()));
 			RegisterShortcut(keyGesture, cmd);
 		}
+
 		public void RegisterShortcut(KeyGesture keyGesture, Action action)
 		{
 			RelayCommand cmd = new RelayCommand(action);
 			RegisterShortcut(keyGesture, cmd);
 		}
 
-		#endregion
+		#endregion IViewPartViewModel Members
 	}
 }

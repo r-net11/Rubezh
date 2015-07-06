@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using Common;
+﻿using Common;
 using FiresecAPI.SKD;
+using System;
+using System.Threading;
 
 namespace FiresecService
 {
 	public static class SKDDaylyUpdateProcessor
 	{
-		static Thread Thread;
-		static AutoResetEvent AutoResetEvent = new AutoResetEvent(false);
+		private static Thread Thread;
+		private static AutoResetEvent AutoResetEvent = new AutoResetEvent(false);
 
 		static SKDDaylyUpdateProcessor()
 		{
@@ -51,7 +48,7 @@ namespace FiresecService
 			}
 		}
 
-		static void OnRun()
+		private static void OnRun()
 		{
 			AutoResetEvent = new AutoResetEvent(false);
 			while (true)

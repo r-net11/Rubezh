@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using FiresecAPI.SKD.ReportFilters;
-using Infrastructure.Common.Windows.ViewModels;
+﻿using FiresecAPI.SKD.ReportFilters;
+using System;
 
 namespace Infrastructure.Common.SKDReports
 {
@@ -10,7 +8,9 @@ namespace Infrastructure.Common.SKDReports
 		Type FilterType { get; }
 
 		SKDReportFilter GetFilter();
+
 		FilterModel GetFilterModel();
+
 		void UpdateFilter(SKDReportFilter filter);
 	}
 }

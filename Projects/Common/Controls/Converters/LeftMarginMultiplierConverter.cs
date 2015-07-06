@@ -40,5 +40,4 @@ namespace Controls.Converters
 			return 0;
 		}
 	}
-
 }

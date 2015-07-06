@@ -1,17 +1,23 @@
-﻿using System;
+﻿using ChinaSKDDriverNativeApi;
 using FiresecAPI.Journal;
-using ChinaSKDDriverNativeApi;
+using System;
 
 namespace ChinaSKDDriverAPI
 {
 	public class SKDJournalItem
 	{
 		public int LoginID { get; set; }
-		public DateTime SystemDateTime { get; set;}
+
+		public DateTime SystemDateTime { get; set; }
+
 		public DateTime? DeviceDateTime { get; set; }
+
 		public JournalEventNameType JournalEventNameType { get; set; }
+
 		public string Description { get; set; }
+
 		public string CardNo { get; set; }
+
 		public int DoorNo { get; set; }
 
 		public NativeWrapper.NET_ACCESS_CTL_EVENT_TYPE emEventType;
@@ -23,6 +29,7 @@ namespace ChinaSKDDriverAPI
 		public NativeWrapper.NET_ACCESS_CTL_STATUS_TYPE emStatus;
 		public string szReaderID;
 		public string szDoorName;
-	    public ErrorCode ErrorCode { get; set; }
+
+		public ErrorCode ErrorCode { get; set; }
 	}
 }

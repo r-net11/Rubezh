@@ -28,7 +28,7 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public EnumType EnumType { get; set; }
-		
+
 		[DataMember]
 		public string Name { get; set; }
 

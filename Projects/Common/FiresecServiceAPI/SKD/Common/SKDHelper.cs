@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace FiresecAPI.SKD
 {
-	static class SKDHelper
+	internal static class SKDHelper
 	{
 		public static List<Guid> GetUIDs<T>(List<T> items)
 			where T : SKDModelBase

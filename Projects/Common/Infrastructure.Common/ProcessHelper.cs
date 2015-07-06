@@ -10,9 +10,9 @@ namespace Infrastructure.Common
 	{
 		public const int TOKEN_QUERY = 0X00000008;
 
-		const int ERROR_NO_MORE_ITEMS = 259;
+		private const int ERROR_NO_MORE_ITEMS = 259;
 
-		enum TOKEN_INFORMATION_CLASS
+		private enum TOKEN_INFORMATION_CLASS
 		{
 			TokenUser = 1,
 			TokenGroups,
@@ -29,10 +29,11 @@ namespace Infrastructure.Common
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
-		struct TOKEN_USER
+		private struct TOKEN_USER
 		{
 			public _SID_AND_ATTRIBUTES User;
 		}
+
 		[StructLayout(LayoutKind.Sequential)]
 		public struct _SID_AND_ATTRIBUTES
 		{
@@ -41,17 +42,17 @@ namespace Infrastructure.Common
 		}
 
 		[DllImport("advapi32")]
-		static extern bool OpenProcessToken(
+		private static extern bool OpenProcessToken(
 			HANDLE ProcessHandle, // handle to process
 			int DesiredAccess, // desired access to process
 			ref IntPtr TokenHandle // handle to open access token
 		);
 
 		[DllImport("kernel32")]
-		static extern HANDLE GetCurrentProcess();
+		private static extern HANDLE GetCurrentProcess();
 
 		[DllImport("advapi32", CharSet = CharSet.Auto)]
-		static extern bool GetTokenInformation(
+		private static extern bool GetTokenInformation(
 			HANDLE hToken,
 			TOKEN_INFORMATION_CLASS tokenInfoClass,
 			IntPtr TokenInformation,
@@ -60,16 +61,16 @@ namespace Infrastructure.Common
 		);
 
 		[DllImport("kernel32")]
-		static extern bool CloseHandle(HANDLE handle);
+		private static extern bool CloseHandle(HANDLE handle);
 
 		[DllImport("advapi32", CharSet = CharSet.Auto)]
-		static extern bool ConvertSidToStringSid(
+		private static extern bool ConvertSidToStringSid(
 			IntPtr pSID,
 			[In, Out, MarshalAs(UnmanagedType.LPTStr)] ref string pStringSid
 		);
 
 		[DllImport("advapi32", CharSet = CharSet.Auto)]
-		static extern bool ConvertStringSidToSid(
+		private static extern bool ConvertStringSidToSid(
 			[In, MarshalAs(UnmanagedType.LPTStr)] string pStringSid,
 			ref IntPtr pSID
 		);

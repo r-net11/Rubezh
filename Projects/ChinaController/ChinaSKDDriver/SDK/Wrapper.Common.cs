@@ -1,14 +1,15 @@
-﻿using System;
-using System.Runtime.InteropServices;
-using ChinaSKDDriverAPI;
+﻿using ChinaSKDDriverAPI;
 using ChinaSKDDriverNativeApi;
 using FiresecAPI.SKD;
+using System;
+using System.Runtime.InteropServices;
 
 namespace ChinaSKDDriver
 {
 	public partial class Wrapper
 	{
 		#region Helpers
+
 		public static DateTime NET_TIMEToDateTime(NativeWrapper.NET_TIME netTime)
 		{
 			DateTime dateTime = DateTime.MinValue;
@@ -21,9 +22,11 @@ namespace ChinaSKDDriver
 			catch { }
 			return dateTime;
 		}
-		#endregion
+
+		#endregion Helpers
 
 		#region CommonDevice
+
 		public DeviceSoftwareInfo GetDeviceSoftwareInfo()
 		{
 			NativeWrapper.WRAP_DevConfig_TypeAndSoftInfo_Result outResult;
@@ -331,7 +334,7 @@ namespace ChinaSKDDriver
 			info.nEnableMode = doorConfiguration.EnableMode;
 			// Event linkage capture enabled
 			info.bSnapshotEnable = doorConfiguration.IsSnapshotEnable;
-			
+
 			// Ability
 			info.abDoorOpenMethod = Convert.ToByte(doorConfiguration.UseDoorOpenMethod);
 			info.abUnlockHoldInterval = Convert.ToByte(doorConfiguration.UseUnlockHoldInterval);
@@ -415,6 +418,6 @@ namespace ChinaSKDDriver
 			return result;
 		}
 
-		#endregion
+		#endregion CommonDevice
 	}
 }

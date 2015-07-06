@@ -8,6 +8,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 	public abstract class WindowBaseViewModel : BaseViewModel
 	{
 		public event EventHandler Closed;
+
 		public event CancelEventHandler Closing;
 
 		public WindowBaseViewModel()
@@ -21,12 +22,14 @@ namespace Infrastructure.Common.Windows.ViewModels
 		}
 
 		public Window Surface { get; private set; }
-		internal protected virtual void SetSurface(Window surface)
+
+		protected internal virtual void SetSurface(Window surface)
 		{
 			Surface = surface;
 		}
 
 		private string _icon;
+
 		public string Icon
 		{
 			get { return _icon; }
@@ -36,7 +39,9 @@ namespace Infrastructure.Common.Windows.ViewModels
 				OnPropertyChanged(() => Icon);
 			}
 		}
+
 		private string _title;
+
 		public string Title
 		{
 			get { return _title; }
@@ -46,7 +51,9 @@ namespace Infrastructure.Common.Windows.ViewModels
 				OnPropertyChanged("Title");
 			}
 		}
+
 		private bool _topMost;
+
 		public bool TopMost
 		{
 			get { return _topMost; }
@@ -58,6 +65,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 		}
 
 		private bool _sizable;
+
 		public bool Sizable
 		{
 			get { return _sizable; }
@@ -71,6 +79,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 		}
 
 		private bool _allowClose;
+
 		public bool AllowClose
 		{
 			get { return _allowClose; }
@@ -84,12 +93,14 @@ namespace Infrastructure.Common.Windows.ViewModels
 		public ResizeMode ResizeMode { get; private set; }
 
 		public bool CloseOnEscape { get; set; }
+
 		public bool HideInTaskbar { get; set; }
 
 		public virtual int GetPreferedMonitor()
 		{
 			return ApplicationService.GetActiveMonitor();
 		}
+
 		public virtual void OnLoad()
 		{
 			Surface.Owner = DialogService.GetActiveWindow();
@@ -101,13 +112,16 @@ namespace Infrastructure.Common.Windows.ViewModels
 		{
 			return !AllowClose || isCanceled;
 		}
+
 		public virtual void OnClosed()
 		{
 		}
+
 		public void Close()
 		{
 			Close(true);
 		}
+
 		public void Close(bool result)
 		{
 			if (Surface != null)
@@ -125,6 +139,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 				Closing(this, e);
 			e.Cancel = OnClosing(e.Cancel);
 		}
+
 		internal void InternalClosed()
 		{
 			if (Closed != null)
@@ -137,6 +152,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 		public virtual void Loaded()
 		{
 		}
+
 		public virtual void Unloaded()
 		{
 		}

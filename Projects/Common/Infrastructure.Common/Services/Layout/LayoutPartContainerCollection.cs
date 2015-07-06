@@ -1,11 +1,8 @@
-﻿using System;
-using Common;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Common;
+using FiresecAPI.Models.Layouts;
+using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using FiresecAPI.Models.Layouts;
 
 namespace Infrastructure.Common.Services.Layout
 {
@@ -91,15 +88,17 @@ namespace Infrastructure.Common.Services.Layout
 		}
 
 		public event EventHandler SelectedChanged;
+
 		public event EventHandler ActiveChanged;
 
-		#endregion
+		#endregion ILayoutPartContainer Members
 
 		private void OnActiveChanged(object sender, EventArgs e)
 		{
 			if (ActiveChanged != null)
 				ActiveChanged(sender, e);
 		}
+
 		private void OnSelectedChanged(object sender, EventArgs e)
 		{
 			if (SelectedChanged != null)

@@ -8,10 +8,14 @@ namespace Infrustructure.Plans.Services
 		private class GroupItem
 		{
 			public int Order { get; set; }
+
 			public string Name { get; set; }
+
 			public string Alias { get; set; }
 		}
+
 		private static LayerGroupService _instance = null;
+
 		public static LayerGroupService Instance
 		{
 			get
@@ -51,10 +55,12 @@ namespace Infrustructure.Plans.Services
 			else
 				_groups.Add(alias, groupItem);
 		}
+
 		public string this[string alias]
 		{
 			get { return _groups[alias].Name; }
 		}
+
 		public int Count
 		{
 			get { return _groups.Count; }
@@ -67,7 +73,7 @@ namespace Infrustructure.Plans.Services
 			return _groups.Values.OrderBy(item => item.Order).Select(item => item.Alias).GetEnumerator();
 		}
 
-		#endregion
+		#endregion IEnumerable<string> Members
 
 		#region IEnumerable Members
 
@@ -76,6 +82,6 @@ namespace Infrustructure.Plans.Services
 			return GetEnumerator();
 		}
 
-		#endregion
+		#endregion IEnumerable Members
 	}
 }

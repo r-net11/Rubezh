@@ -1,8 +1,8 @@
-﻿using System;
+﻿using FiresecAPI.Automation;
+using FiresecAPI.Models.Layouts;
+using System;
 using System.Collections.Generic;
 using System.Windows;
-using FiresecAPI.Automation;
-using FiresecAPI.Models.Layouts;
 using System.Windows.Media;
 
 namespace Infrastructure.Common.Services.Layout
@@ -10,6 +10,7 @@ namespace Infrastructure.Common.Services.Layout
 	public class LayoutPartDescription : ILayoutPartDescription
 	{
 		public const string IconPath = "/Controls;component/Images/";
+
 		public Converter<ILayoutProperties, BaseLayoutPartViewModel> Factory { get; set; }
 
 		public LayoutPartDescription(LayoutPartDescriptionGroup group, Guid uid, int index, string name, string description, string iconName = null, bool allowMultiple = true, LayoutPartSize size = null, IEnumerable<LayoutPartProperty> properties = null)
@@ -38,6 +39,7 @@ namespace Infrastructure.Common.Services.Layout
 				list.AddRange(properties);
 			Properties = list;
 		}
+
 		public LayoutPartDescription(LayoutPartDescriptionGroup group, Guid uid, int index, string name, string description, string iconName = null, params LayoutPartProperty[] properties)
 			: this(group, uid, index, name, description, iconName, true, null, properties)
 		{
@@ -46,13 +48,21 @@ namespace Infrastructure.Common.Services.Layout
 		#region ILayoutPartDescription Members
 
 		public Guid UID { get; private set; }
+
 		public int Index { get; private set; }
+
 		public string Name { get; private set; }
+
 		public string IconSource { get; private set; }
+
 		public string Description { get; private set; }
+
 		public bool AllowMultiple { get; private set; }
+
 		public LayoutPartSize Size { get; private set; }
+
 		public LayoutPartDescriptionGroup Group { get; private set; }
+
 		public IEnumerable<LayoutPartProperty> Properties { get; private set; }
 
 		public BaseLayoutPartViewModel CreateContent(ILayoutProperties properties)
@@ -60,6 +70,6 @@ namespace Infrastructure.Common.Services.Layout
 			return Factory == null ? null : Factory(properties);
 		}
 
-		#endregion
+		#endregion ILayoutPartDescription Members
 	}
 }

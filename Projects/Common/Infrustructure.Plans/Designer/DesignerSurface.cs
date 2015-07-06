@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using Common;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using Common;
 
 namespace Infrustructure.Plans.Designer
 {
@@ -15,7 +15,9 @@ namespace Infrustructure.Plans.Designer
 		private bool _isZIndexValid;
 		private Point _previousPosition;
 		private CommonDesignerCanvas _designerCanvas;
+
 		public Brush BackgroundBrush { get; set; }
+
 		public Pen Border { get; set; }
 
 		public DesignerSurface(CommonDesignerCanvas designerCanvas)
@@ -32,37 +34,44 @@ namespace Infrustructure.Plans.Designer
 		{
 			get { return _visuals; }
 		}
+
 		protected override int VisualChildrenCount
 		{
 			get { return 0; }
 		}
+
 		protected override Visual GetVisualChild(int index)
 		{
 			return null;
 		}
+
 		internal void AddDesignerItem(CommonDesignerItem visual)
 		{
 			_visuals.Add(visual);
 			_isZIndexValid = false;
 		}
+
 		internal void DeleteDesignerItem(CommonDesignerItem visual)
 		{
 			if (visual.IsMouseOver)
 				((IVisualItem)visual).SetIsMouseOver(false, new Point());
 			_visuals.Remove(visual);
 		}
+
 		internal void ClearDesignerItems()
 		{
 			if (_visualItemOver != null)
 				_visualItemOver.SetIsMouseOver(false, new Point());
 			_visuals.Clear();
 		}
+
 		internal void UpdateZIndex()
 		{
 			_visuals.Sort((item1, item2) => item1.Element.ZLayer == item2.Element.ZLayer ? item1.Element.ZIndex - item2.Element.ZIndex : item1.Element.ZLayer - item2.Element.ZLayer);
 			_isZIndexValid = true;
 			InvalidateVisual();
 		}
+
 		internal void Update(bool isActive)
 		{
 			if (_visualItemOver != null)
@@ -94,6 +103,7 @@ namespace Infrustructure.Plans.Designer
 				e.Handled = true;
 			}
 		}
+
 		protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
 		{
 			var point = e.GetPosition(this);
@@ -109,6 +119,7 @@ namespace Infrustructure.Plans.Designer
 			if (visualItem != null)
 				visualItem.OnMouseUp(point, e);
 		}
+
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
 			Point point = e.GetPosition(this);
@@ -143,14 +154,17 @@ namespace Infrustructure.Plans.Designer
 			if (_visualItemOver != null)
 				_visualItemOver.OnMouseMove(point, e);
 		}
+
 		protected override void OnMouseEnter(MouseEventArgs e)
 		{
 			Update(true);
 		}
+
 		protected override void OnMouseLeave(MouseEventArgs e)
 		{
 			Update(false);
 		}
+
 		protected override void OnContextMenuOpening(ContextMenuEventArgs e)
 		{
 			base.OnContextMenuOpening(e);

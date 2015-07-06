@@ -1,5 +1,4 @@
-﻿
-namespace Infrustructure.Plans.Designer
+﻿namespace Infrustructure.Plans.Designer
 {
 	public enum ResizeDirection
 	{

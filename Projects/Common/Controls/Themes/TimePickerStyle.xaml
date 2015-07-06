@@ -54,11 +54,11 @@
 								<ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
 
 								<Grid x:Name="arrowGlyph" IsHitTestVisible="False" Grid.Column="1" Margin="5">
-									<Path 
-										x:Name="Arrow" 
-										Width="7" 
-										Height="4" 
-										Data="M 0,1 C0,1 0,0 0,0 0,0 3,0 3,0 3,0 3,1 3,1 3,1 4,1 4,1 4,1 4,0 4,0 4,0 7,0 7,0 7,0 7,1 7,1 7,1 6,1 6,1 6,1 6,2 6,2 6,2 5,2 5,2 5,2 5,3 5,3 5,3 4,3 4,3 4,3 4,4 4,4 4,4 3,4 3,4 3,4 3,3 3,3 3,3 2,3 2,3 2,3 2,2 2,2 2,2 1,2 1,2 1,2 1,1 1,1 1,1 0,1 0,1 z" 
+									<Path
+										x:Name="Arrow"
+										Width="7"
+										Height="4"
+										Data="M 0,1 C0,1 0,0 0,0 0,0 3,0 3,0 3,0 3,1 3,1 3,1 4,1 4,1 4,1 4,0 4,0 4,0 7,0 7,0 7,0 7,1 7,1 7,1 6,1 6,1 6,1 6,2 6,2 6,2 5,2 5,2 5,2 5,3 5,3 5,3 4,3 4,3 4,3 4,4 4,4 4,4 3,4 3,4 3,4 3,3 3,3 3,3 2,3 2,3 2,3 2,2 2,2 2,2 1,2 1,2 1,2 1,1 1,1 1,1 0,1 0,1 z"
 										Fill="White" />
 								</Grid>
 							</Grid>
@@ -114,7 +114,7 @@
 									<ColumnDefinition Width="*" />
 									<ColumnDefinition Width="Auto" />
 								</Grid.ColumnDefinitions>
-								<xctk:DateTimeUpDown x:Name="PART_TimeUpDown" 
+								<xctk:DateTimeUpDown x:Name="PART_TimeUpDown"
                                               BorderThickness="1,1,0,1"
                                               Background="{TemplateBinding Background}"
                                               Foreground="{TemplateBinding Foreground}"
@@ -128,7 +128,7 @@
                                               Value="{Binding Value, RelativeSource={RelativeSource TemplatedParent}}"
                                               Watermark="{TemplateBinding Watermark}"
                                               WatermarkTemplate="{TemplateBinding WatermarkTemplate}"
-                                              TextAlignment="{TemplateBinding TextAlignment}"/>
+                                              TextAlignment="{TemplateBinding TextAlignment}" />
 								<ToggleButton x:Name="_timePickerToggleButton"
                                       Grid.Column="1"
                                       Focusable="False"
@@ -145,7 +145,7 @@
 										<ListBox x:Name="PART_TimeListItems"
                                        BorderThickness="0"
                                        Width="150"
-                                       Height="100" 
+                                       Height="100"
                                        DisplayMemberPath="Display"
                                        ItemContainerStyle="{StaticResource TimeItemStyle}" />
 									</Grid>
@@ -166,11 +166,11 @@
 		<Setter Property="WatermarkTemplate">
 			<Setter.Value>
 				<DataTemplate>
-					<ContentControl Content="{Binding}" Foreground="Gray" Focusable="False" Margin="0,0,3,0"/>
+					<ContentControl Content="{Binding}" Foreground="Gray" Focusable="False" Margin="0,0,3,0" />
 				</DataTemplate>
 			</Setter.Value>
 		</Setter>
-		<Setter Property="IsTabStop" Value="False"/>
+		<Setter Property="IsTabStop" Value="False" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="{x:Type xctk:TimePicker}">
@@ -178,14 +178,14 @@
 						<Grid>
 							<Grid>
 								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="*"/>
-									<ColumnDefinition Width="Auto"/>
+									<ColumnDefinition Width="*" />
+									<ColumnDefinition Width="Auto" />
 								</Grid.ColumnDefinitions>
 								<xctk:DateTimeUpDown x:Name="PART_TimeUpDown" AllowSpin="{TemplateBinding AllowSpin}" BorderThickness="1,1,0,1" Background="{TemplateBinding Background}" ContextMenu="{TemplateBinding ContextMenu}" Foreground="{TemplateBinding Foreground}" FormatString="{TemplateBinding FormatString}" ShowButtonSpinner="{TemplateBinding ShowButtonSpinner}" TextAlignment="{TemplateBinding TextAlignment}" Text="" TabIndex="{TemplateBinding TabIndex}" Value="{Binding Value, RelativeSource={RelativeSource TemplatedParent}}" WatermarkTemplate="{TemplateBinding WatermarkTemplate}" Watermark="{TemplateBinding Watermark}">
 									<xctk:DateTimeUpDown.Format>
 										<TemplateBinding Property="Format">
 											<TemplateBinding.Converter>
-												<xctk:TimeFormatToDateTimeFormatConverter/>
+												<xctk:TimeFormatToDateTimeFormatConverter />
 											</TemplateBinding.Converter>
 										</TemplateBinding>
 									</xctk:DateTimeUpDown.Format>
@@ -194,7 +194,7 @@
 									<ToggleButton.IsHitTestVisible>
 										<Binding Path="IsOpen" RelativeSource="{RelativeSource TemplatedParent}">
 											<Binding.Converter>
-												<xctk:InverseBoolConverter/>
+												<xctk:InverseBoolConverter />
 											</Binding.Converter>
 										</Binding>
 									</ToggleButton.IsHitTestVisible>
@@ -213,24 +213,24 @@
 																</xctk:ButtonChrome.Background>
 																<Grid>
 																	<Grid.ColumnDefinitions>
-																		<ColumnDefinition Width="*"/>
-																		<ColumnDefinition Width="Auto"/>
+																		<ColumnDefinition Width="*" />
+																		<ColumnDefinition Width="Auto" />
 																	</Grid.ColumnDefinitions>
-																	<ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" HorizontalAlignment="Stretch" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="Stretch"/>
+																	<ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" HorizontalAlignment="Stretch" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="Stretch" />
 																	<Grid x:Name="arrowGlyph" Grid.Column="1" IsHitTestVisible="False" Margin="5">
-																		<Path 
-																			x:Name="Arrow" 
-																			Data="M0,1C0,1 0,0 0,0 0,0 3,0 3,0 3,0 3,1 3,1 3,1 4,1 4,1 4,1 4,0 4,0 4,0 7,0 7,0 7,0 7,1 7,1 7,1 6,1 6,1 6,1 6,2 6,2 6,2 5,2 5,2 5,2 5,3 5,3 5,3 4,3 4,3 4,3 4,4 4,4 4,4 3,4 3,4 3,4 3,3 3,3 3,3 2,3 2,3 2,3 2,2 2,2 2,2 1,2 1,2 1,2 1,1 1,1 1,1 0,1 0,1z" 
-																			Fill="White" 
+																		<Path
+																			x:Name="Arrow"
+																			Data="M0,1C0,1 0,0 0,0 0,0 3,0 3,0 3,0 3,1 3,1 3,1 4,1 4,1 4,1 4,0 4,0 4,0 7,0 7,0 7,0 7,1 7,1 7,1 6,1 6,1 6,1 6,2 6,2 6,2 5,2 5,2 5,2 5,3 5,3 5,3 4,3 4,3 4,3 4,4 4,4 4,4 3,4 3,4 3,4 3,3 3,3 3,3 2,3 2,3 2,3 2,2 2,2 2,2 1,2 1,2 1,2 1,1 1,1 1,1 0,1 0,1z"
+																			Fill="White"
 																			Height="4"
-																			Width="7"/>
+																			Width="7" />
 																	</Grid>
 																</Grid>
 															</xctk:ButtonChrome>
 														</Grid>
 														<ControlTemplate.Triggers>
 															<Trigger Property="IsEnabled" Value="False">
-																<Setter Property="Fill" TargetName="Arrow" Value="#FFAFAFAF"/>
+																<Setter Property="Fill" TargetName="Arrow" Value="#FFAFAFAF" />
 															</Trigger>
 														</ControlTemplate.Triggers>
 													</ControlTemplate>
@@ -244,16 +244,16 @@
 								<Border BorderThickness="1">
 									<Border.BorderBrush>
 										<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-											<GradientStop Color="#FFA3AEB9" Offset="0"/>
-											<GradientStop Color="#FF8399A9" Offset="0.375"/>
-											<GradientStop Color="#FF718597" Offset="0.375"/>
-											<GradientStop Color="#FF617584" Offset="1"/>
+											<GradientStop Color="#FFA3AEB9" Offset="0" />
+											<GradientStop Color="#FF8399A9" Offset="0.375" />
+											<GradientStop Color="#FF718597" Offset="0.375" />
+											<GradientStop Color="#FF617584" Offset="1" />
 										</LinearGradientBrush>
 									</Border.BorderBrush>
 									<Border.Background>
 										<LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
-											<GradientStop Color="White" Offset="0"/>
-											<GradientStop Color="#FFE8EBED" Offset="1"/>
+											<GradientStop Color="White" Offset="0" />
+											<GradientStop Color="#FFE8EBED" Offset="1" />
 										</LinearGradientBrush>
 									</Border.Background>
 									<Grid>
@@ -264,15 +264,15 @@
 														<Setter.Value>
 															<ControlTemplate TargetType="{x:Type ListBoxItem}">
 																<Border x:Name="Border" SnapsToDevicePixels="True">
-																	<ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" Margin="4"/>
+																	<ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" Margin="4" />
 																</Border>
 																<ControlTemplate.Triggers>
 																	<Trigger Property="IsMouseOver" Value="True">
-																		<Setter Property="Background" TargetName="Border" Value="#FFE7F5FD"/>
+																		<Setter Property="Background" TargetName="Border" Value="#FFE7F5FD" />
 																	</Trigger>
 																	<Trigger Property="IsSelected" Value="True">
-																		<Setter Property="Background" TargetName="Border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
-																		<Setter Property="Foreground" Value="White"/>
+																		<Setter Property="Background" TargetName="Border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+																		<Setter Property="Foreground" Value="White" />
 																	</Trigger>
 																</ControlTemplate.Triggers>
 															</ControlTemplate>
@@ -288,7 +288,7 @@
 					</Border>
 					<ControlTemplate.Triggers>
 						<Trigger Property="IsFocused" Value="True">
-							<Setter Property="FocusManager.FocusedElement" TargetName="PART_TimeUpDown" Value="{Binding ElementName=PART_TimeUpDown}"/>
+							<Setter Property="FocusManager.FocusedElement" TargetName="PART_TimeUpDown" Value="{Binding ElementName=PART_TimeUpDown}" />
 						</Trigger>
 					</ControlTemplate.Triggers>
 				</ControlTemplate>

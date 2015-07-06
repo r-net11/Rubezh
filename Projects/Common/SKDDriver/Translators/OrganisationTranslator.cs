@@ -1,10 +1,10 @@
-﻿using System;
+﻿using FiresecAPI;
+using FiresecAPI.SKD;
+using LinqKit;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using FiresecAPI;
-using FiresecAPI.SKD;
-using LinqKit;
 
 namespace SKDDriver
 {
@@ -24,7 +24,7 @@ namespace SKDDriver
 				return new OperationResult("Организация таким же именем уже содержится в базе данных");
 			return new OperationResult();
 		}
-		
+
 		protected override Organisation Translate(DataAccess.Organisation tableItem)
 		{
 			var result = base.Translate(tableItem);
@@ -103,7 +103,7 @@ namespace SKDDriver
 					Context.ScheduleSchemes.Any(x => !x.IsDeleted && x.OrganisationUID == organisationUID);
 				return new OperationResult<bool>(result);
 			}
-			catch(Exception e)
+			catch (Exception e)
 			{
 				return OperationResult<bool>.FromError(e.Message);
 			}
@@ -183,12 +183,13 @@ namespace SKDDriver
 		{
 			return SaveDoorsInternal(apiItem.UID, apiItem.DoorUIDs);
 		}
+
 		public OperationResult SaveDoors(OrganisationDetails apiItem)
 		{
 			return SaveDoorsInternal(apiItem.UID, apiItem.DoorUIDs);
 		}
 
-		OperationResult SaveDoorsInternal(Guid organisationUID, List<Guid> doorUIDs)
+		private OperationResult SaveDoorsInternal(Guid organisationUID, List<Guid> doorUIDs)
 		{
 			try
 			{
@@ -224,7 +225,7 @@ namespace SKDDriver
 			return SaveUsersInternal(apiItem.UID, apiItem.UserUIDs);
 		}
 
-		OperationResult SaveUsersInternal(Guid organisationUID, List<Guid> UserUIDs)
+		private OperationResult SaveUsersInternal(Guid organisationUID, List<Guid> UserUIDs)
 		{
 			try
 			{

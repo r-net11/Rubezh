@@ -1,10 +1,10 @@
-﻿using System;
+﻿using FiresecAPI;
+using FiresecAPI.SKD;
+using LinqKit;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using FiresecAPI;
-using FiresecAPI.SKD;
-using LinqKit;
 
 namespace SKDDriver
 {
@@ -16,7 +16,6 @@ namespace SKDDriver
 		public WithFilterTranslator(SKDDatabaseService databaseService)
 			: base(databaseService)
 		{
-
 		}
 
 		protected virtual Expression<Func<TableT, bool>> IsInFilter(FilterT filter)
@@ -37,6 +36,7 @@ namespace SKDDriver
 			var result = Table.Where(IsInFilter(filter));
 			return result;
 		}
+
 		public virtual IEnumerable<TableT> GetTableItems(FilterT filter)
 		{
 			if (filter == null)

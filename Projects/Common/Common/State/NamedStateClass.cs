@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using FiresecAPI.GK;
+﻿using FiresecAPI.GK;
 
 namespace Common
 {
@@ -15,6 +11,7 @@ namespace Common
 		}
 
 		public XStateClass StateClass { get; set; }
+
 		public string Name { get; set; }
 	}
 }

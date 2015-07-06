@@ -10,6 +10,5 @@
 
 	<DataTemplate DataType="{x:Type ViewModels:MenuSeparatorViewModel}">
 		<Separator />
-	</DataTemplate> 
-
+	</DataTemplate>
 </ResourceDictionary>

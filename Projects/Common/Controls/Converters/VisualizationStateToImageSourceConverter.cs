@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Infrastructure.Common;
+using System;
 using System.Collections.Generic;
 using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Infrastructure.Common;
 
 namespace Controls.Converters
 {
@@ -11,6 +11,7 @@ namespace Controls.Converters
 	{
 		private const string VisualizationImageSource = "pack://application:,,,/Controls;component/Images/map{0}.png";
 		private static Dictionary<VisualizationState, ImageSource> _map;
+
 		static VisualizationStateToImageSourceConverter()
 		{
 			_map = new Dictionary<VisualizationState, ImageSource>();

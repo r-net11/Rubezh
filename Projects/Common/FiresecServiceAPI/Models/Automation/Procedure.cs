@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Common;
+using Infrustructure.Plans.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using Common;
-using Infrustructure.Plans.Interfaces;
 
 namespace FiresecAPI.Automation
 {
@@ -64,14 +64,14 @@ namespace FiresecAPI.Automation
 			get { return Uid; }
 		}
 
-		#endregion
+		#endregion IIdentity Members
 
 		#region IPlanPresentable Members
 
 		[DataMember]
 		public List<Guid> PlanElementUIDs { get; set; }
 
-		#endregion
+		#endregion IPlanPresentable Members
 
 		#region IChangedNotification Members
 
@@ -80,8 +80,9 @@ namespace FiresecAPI.Automation
 			if (Changed != null)
 				Changed();
 		}
+
 		public event Action Changed;
 
-		#endregion
+		#endregion IChangedNotification Members
 	}
 }

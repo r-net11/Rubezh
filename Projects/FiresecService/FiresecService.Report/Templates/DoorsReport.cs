@@ -1,11 +1,11 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Data;
-using Common;
+﻿using Common;
 using FiresecAPI.SKD;
 using FiresecAPI.SKD.ReportFilters;
 using FiresecService.Report.DataSources;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
 
 namespace FiresecService.Report.Templates
 {
@@ -28,6 +28,7 @@ namespace FiresecService.Report.Templates
 		{
 			get { return "Список точек доступа"; }
 		}
+
 		protected override DataSet CreateDataSet(DataProvider dataProvider)
 		{
 			var filter = GetFilter<DoorsReportFilter>();

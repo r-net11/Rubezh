@@ -6,6 +6,7 @@ namespace FiresecAPI.SKD
 	{
 		[Description("Односторонняя")]
 		OneWay,
+
 		[Description("Двухсторонняя")]
 		TwoWay
 	}

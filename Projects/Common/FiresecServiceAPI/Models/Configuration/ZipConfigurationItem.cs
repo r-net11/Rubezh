@@ -18,8 +18,10 @@ namespace FiresecAPI.Models
 
 		[DataMember]
 		public string Name { get; set; }
+
 		[DataMember]
 		public int MajorVersion { get; set; }
+
 		[DataMember]
 		public int MinorVersion { get; set; }
 	}

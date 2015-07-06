@@ -14,6 +14,7 @@ namespace Infrustructure.Plans.InstrumentAdorners
 			var vector2 = point3 - point2;
 			return Vector.AngleBetween(vector2, vector1);
 		}
+
 		public static Point TranslatePoint(Point point1, Point point2, Point point3, double angle)
 		{
 			var angle1 = Math.Atan2(point1.Y - point2.Y, point1.X - point2.X);

@@ -18,46 +18,54 @@ namespace FiresecAPI.SKD.ReportFilters
 
 		[DataMember]
 		public ReportPeriodType PeriodType { get; set; }
+
 		[DataMember]
 		public DateTime DateTimeFrom { get; set; }
+
 		[DataMember]
 		public DateTime DateTimeTo { get; set; }
 
-		#endregion
+		#endregion IReportFilterPeriod Members
 
 		#region IReportFilterOrganisation Members
 
 		[DataMember]
 		public List<Guid> Organisations { get; set; }
 
-		#endregion
+		#endregion IReportFilterOrganisation Members
 
 		#region IReportFilterDepartment Members
 
 		[DataMember]
 		public List<Guid> Departments { get; set; }
 
-		#endregion
+		#endregion IReportFilterDepartment Members
 
 		#region IReportFilterEmployee Members
 
 		[DataMember]
 		public List<Guid> Employees { get; set; }
+
 		[DataMember]
 		public bool IsSearch { get; set; }
+
 		[DataMember]
 		public string LastName { get; set; }
+
 		[DataMember]
 		public string FirstName { get; set; }
+
 		[DataMember]
 		public string SecondName { get; set; }
 
-		#endregion
+		#endregion IReportFilterEmployee Members
 
 		[DataMember]
 		public bool Overtime { get; set; }
+
 		[DataMember]
 		public bool Presence { get; set; }
+
 		[DataMember]
 		public bool Abcense { get; set; }
 	}

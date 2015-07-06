@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Common;
+using Infrastructure.Common.Windows.ViewModels;
+using System;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
-using Common;
-using Infrastructure.Common.Windows.ViewModels;
 
 namespace Infrastructure.Common.Windows.Views
 {
@@ -26,6 +26,7 @@ namespace Infrastructure.Common.Windows.Views
 			BottomRight = Bottom | Right,
 			BottomLeft = Bottom | Left,
 		}
+
 		private WindowBaseViewModel _model;
 		private int _monitorID;
 
@@ -33,6 +34,7 @@ namespace Infrastructure.Common.Windows.Views
 			: this(null)
 		{
 		}
+
 		public WindowBaseView(WindowBaseViewModel model)
 		{
 			ContentRendered += new EventHandler(WindowBaseView_ContentRendered);
@@ -78,19 +80,23 @@ namespace Infrastructure.Common.Windows.Views
 		{
 			_model.InternalClosing(e);
 		}
+
 		private void Window_Closed(object sender, System.EventArgs e)
 		{
 			_model.InternalClosed();
 		}
+
 		private void Window_KeyDown(object sender, KeyEventArgs e)
 		{
 			if (_model.CloseOnEscape && e.Key == Key.Escape)
 				Close();
 		}
+
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
 			_model.Loaded();
 		}
+
 		private void Window_Unloaded(object sender, RoutedEventArgs e)
 		{
 			_model.Unloaded();
@@ -162,6 +168,7 @@ namespace Infrastructure.Common.Windows.Views
 			if (MaxWidth > rect.Width)
 				MaxWidth = rect.Width;
 		}
+
 		private void CalculateSize()
 		{
 			ContentPresenter presenter = FindPresenter(this);
@@ -193,6 +200,7 @@ namespace Infrastructure.Common.Windows.Views
 				}
 			}
 		}
+
 		private ContentPresenter FindPresenter(DependencyObject obj)
 		{
 			ContentPresenter result = null;
@@ -235,6 +243,7 @@ namespace Infrastructure.Common.Windows.Views
 				Logger.Error(e, "WindowBaseView.UpdateWindowSize");
 			}
 		}
+
 		private void SaveWindowSize(object sender, EventArgs e)
 		{
 			try

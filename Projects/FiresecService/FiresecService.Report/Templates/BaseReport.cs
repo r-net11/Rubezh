@@ -1,12 +1,12 @@
-﻿using System;
-using System.Linq;
+﻿using DevExpress.XtraReports.UI;
 using FiresecAPI.SKD.ReportFilters;
-using DevExpress.XtraReports.UI;
-using System.Text;
-using System.Drawing;
+using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
 using System.Drawing.Printing;
+using System.Linq;
+using System.Text;
 
 namespace FiresecService.Report.Templates
 {
@@ -15,7 +15,7 @@ namespace FiresecService.Report.Templates
 		private float _topMargin;
 		private float _bottomMargin;
 
-	    protected BaseReport()
+		protected BaseReport()
 		{
 			InitializeComponent();
 			_topMargin = TopMargin.HeightF;
@@ -27,7 +27,9 @@ namespace FiresecService.Report.Templates
 		{
 			get { return ""; }
 		}
+
 		protected SKDReportFilter Filter { get; private set; }
+
 		protected T GetFilter<T>()
 			where T : SKDReportFilter
 		{
@@ -41,7 +43,7 @@ namespace FiresecService.Report.Templates
 			Filter = filter;
 		}
 
-		#endregion
+		#endregion IFilteredReport Members
 
 		protected override void OnBeforePrint(PrintEventArgs e)
 		{
@@ -86,6 +88,7 @@ namespace FiresecService.Report.Templates
 				return;
 			DataSourceRequered();
 		}
+
 		protected virtual void DataSourceRequered()
 		{
 			using (var dataProvider = new DataProvider())
@@ -110,10 +113,11 @@ namespace FiresecService.Report.Templates
 			get;
 		}
 
-	    protected virtual DataSet CreateDataSet(DataProvider dataProvider)
+		protected virtual DataSet CreateDataSet(DataProvider dataProvider)
 		{
 			return new DataSet();
 		}
+
 		protected virtual void UpdateDataSource(DataProvider dataProvider)
 		{
 		}
@@ -133,6 +137,7 @@ namespace FiresecService.Report.Templates
 				return;
 			details.SortFields.Add(new GroupField(Filter.SortColumn, Filter.SortAscending ? XRColumnSortOrder.Ascending : XRColumnSortOrder.Descending));
 		}
+
 		protected DetailBand GetDetailBand()
 		{
 			return Bands.OfType<DetailBand>().FirstOrDefault();
@@ -154,6 +159,7 @@ namespace FiresecService.Report.Templates
 			var dt = DataSet.Tables[DataMember];
 			FillTestData(dt, count);
 		}
+
 		protected void FillTestData(DataTable table, int count)
 		{
 			for (int i = 0; i < count; i++)
@@ -179,6 +185,7 @@ namespace FiresecService.Report.Templates
 				table.Rows.Add(row);
 			}
 		}
+
 		protected void PrintFilter()
 		{
 			var footer = new ReportFooterBand()
@@ -201,6 +208,7 @@ namespace FiresecService.Report.Templates
 			Bands.Add(footer);
 			label.WidthF = footer.RightF;
 		}
+
 		private string BuildFilterString()
 		{
 			var sb = new StringBuilder();

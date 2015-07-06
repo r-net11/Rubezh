@@ -15,6 +15,7 @@ namespace Infrustructure.Plans.Elements
 
 		[DataMember]
 		public double Height { get; set; }
+
 		[DataMember]
 		public double Width { get; set; }
 
@@ -23,10 +24,12 @@ namespace Infrustructure.Plans.Elements
 		{
 			get { return ElementType.Rectangle; }
 		}
+
 		public override Rect GetRectangle()
 		{
 			return new Rect(Left, Top, Width, Height);
 		}
+
 		protected override void SetPosition(Point point)
 		{
 			Left = point.X - Width / 2;

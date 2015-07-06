@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using FiresecAPI;
+﻿using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ChinaSKDDriver
 {
@@ -13,6 +13,7 @@ namespace ChinaSKDDriver
 		public static List<DeviceProcessor> DeviceProcessors { get; private set; }
 
 		public static event Action<SKDStates> StatesChangedEvent;
+
 		public static void OnStatesChanged(SKDStates skdStates)
 		{
 			if (Processor.StatesChangedEvent != null)
@@ -20,7 +21,8 @@ namespace ChinaSKDDriver
 		}
 
 		public static event Action<JournalItem> NewJournalItem;
-		static void OnNewJournalItem(JournalItem journalItem)
+
+		private static void OnNewJournalItem(JournalItem journalItem)
 		{
 			if (NewJournalItem != null)
 				NewJournalItem(journalItem);
@@ -65,6 +67,7 @@ namespace ChinaSKDDriver
 		}
 
 		#region Callback
+
 		public static List<SKDProgressCallback> ProgressCallbacks = new List<SKDProgressCallback>();
 
 		public static void CancelProgress(Guid progressCallbackUID, string userName)
@@ -128,7 +131,7 @@ namespace ChinaSKDDriver
 			OnSKDCallbackResult(SKDProgressCallback);
 		}
 
-		static void OnSKDCallbackResult(SKDProgressCallback SKDProgressCallback)
+		private static void OnSKDCallbackResult(SKDProgressCallback SKDProgressCallback)
 		{
 			ProgressCallbacks.RemoveAll(x => x.IsCanceled && (DateTime.Now - x.CancelizationDateTime).TotalMinutes > 5);
 			if (SKDProgressCallback.SKDProgressCallbackType == SKDProgressCallbackType.Stop || !SKDProgressCallback.IsCanceled)
@@ -137,6 +140,7 @@ namespace ChinaSKDDriver
 					SKDProgressCallbackEvent(SKDProgressCallback);
 			}
 		}
+
 		public static event Action<SKDProgressCallback> SKDProgressCallbackEvent;
 
 		public static void OnSKDCallbackResult(SKDCallbackResult SKDCallbackResult)
@@ -149,7 +153,9 @@ namespace ChinaSKDDriver
 					SKDCallbackResultEvent(SKDCallbackResult);
 			}
 		}
+
 		public static event Action<SKDCallbackResult> SKDCallbackResultEvent;
-		#endregion
+
+		#endregion Callback
 	}
 }

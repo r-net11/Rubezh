@@ -1,19 +1,19 @@
-﻿using System;
-using System.Data.SqlClient;
-using System.IO;
-using System.Windows;
-using Common;
+﻿using Common;
 using FiresecAPI;
 using FiresecService.ViewModels;
 using Infrastructure.Common.BalloonTrayTip;
 using Microsoft.SqlServer.Management.Common;
 using Microsoft.SqlServer.Management.Smo;
+using System;
+using System.Data.SqlClient;
+using System.IO;
+using System.Windows;
 
 namespace FiresecService
 {
 	public static partial class PatchManager
 	{
-		static void Patch_SKD()
+		private static void Patch_SKD()
 		{
 			try
 			{
@@ -48,7 +48,7 @@ namespace FiresecService
 			}
 		}
 
-		static bool IsExistsSKD(Server server)
+		private static bool IsExistsSKD(Server server)
 		{
 			string commandText = @"SELECT name FROM sys.databases WHERE name = 'SKD'";
 			var reader = server.ConnectionContext.ExecuteReader(commandText.ToString());
@@ -57,7 +57,7 @@ namespace FiresecService
 			return isExists;
 		}
 
-		static void CreateSKD(Server server)
+		private static void CreateSKD(Server server)
 		{
 			var createStream = Application.GetResourceStream(new Uri(@"pack://application:,,,/SKDDriver;component/Scripts/SKD/Create.sql"));
 			string commandText;
@@ -69,7 +69,7 @@ namespace FiresecService
 			server.ConnectionContext.Disconnect();
 		}
 
-		static void PatchSKDInternal(Server server)
+		private static void PatchSKDInternal(Server server)
 		{
 			var patchesStream = Application.GetResourceStream(new Uri(@"pack://application:,,,/SKDDriver;component/Scripts/SKD/Patches.sql"));
 			string commandText;
@@ -97,7 +97,7 @@ namespace FiresecService
 			}
 		}
 
-		static void DropIfExistsSKD(Server server)
+		private static void DropIfExistsSKD(Server server)
 		{
 			var patchesStream = Application.GetResourceStream(new Uri(@"pack://application:,,,/SKDDriver;component/Scripts/SKD/DropIfExists.sql"));
 			string commandText;

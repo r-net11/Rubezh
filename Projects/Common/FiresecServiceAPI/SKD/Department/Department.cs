@@ -8,11 +8,11 @@ namespace FiresecAPI.SKD
 	public class Department : OrganisationElementBase
 	{
 		public Department()
-			:base()
+			: base()
 		{
 			ChildDepartmentUIDs = new List<Guid>();
 		}
-		
+
 		[DataMember]
 		public string Name { get; set; }
 

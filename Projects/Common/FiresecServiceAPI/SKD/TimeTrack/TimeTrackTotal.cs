@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace FiresecAPI.SKD
 {
@@ -13,6 +10,7 @@ namespace FiresecAPI.SKD
 		}
 
 		public TimeTrackType TimeTrackType { get; set; }
+
 		public TimeSpan TimeSpan { get; set; }
 	}
 }

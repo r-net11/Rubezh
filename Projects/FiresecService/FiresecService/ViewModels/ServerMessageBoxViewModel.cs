@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using System.Windows;
-using Infrastructure.Common.Windows;
 
 namespace FiresecService.ViewModels
 {
@@ -21,6 +17,7 @@ namespace FiresecService.ViewModels
 			Surface.ShowInTaskbar = false;
 			Surface.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 		}
+
 		public override int GetPreferedMonitor()
 		{
 			return MonitorHelper.FindMonitor(ApplicationService.ApplicationWindow.RestoreBounds);

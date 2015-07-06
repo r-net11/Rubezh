@@ -1,5 +1,4 @@
-﻿
-namespace FiresecAPI.Journal
+﻿namespace FiresecAPI.Journal
 {
 	public enum JournalEventDescriptionType
 	{

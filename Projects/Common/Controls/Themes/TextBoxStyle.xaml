@@ -72,5 +72,4 @@
 		</Setter>
 	</Style>
 	<Style BasedOn="{StaticResource {x:Type controls:AutoCompleteBox}}" TargetType="{x:Type loc:XAutoCompleteBox}" />
-
 </ResourceDictionary>

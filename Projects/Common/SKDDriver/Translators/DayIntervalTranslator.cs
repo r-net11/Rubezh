@@ -1,6 +1,6 @@
-﻿using System;
+﻿using FiresecAPI.SKD;
+using System;
 using System.Linq;
-using FiresecAPI.SKD;
 using OperationResult = FiresecAPI.OperationResult;
 
 namespace SKDDriver.Translators
@@ -30,9 +30,8 @@ namespace SKDDriver.Translators
 				return new OperationResult("Дневной график с таким же названием уже существует");
 			else
 				return new OperationResult();
-		
 		}
-		
+
 		protected override DayInterval Translate(DataAccess.DayInterval tableItem)
 		{
 			var result = base.Translate(tableItem);

@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Common;
+using FiresecAPI.GK;
+using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using Common;
-using FiresecAPI.GK;
 
 namespace FiresecAPI.SKD
 {
@@ -39,8 +39,11 @@ namespace FiresecAPI.SKD
 		public AccessState AccessState { get; set; }
 
 		public SKDDevice Device { get; private set; }
+
 		public bool IsSuspending { get; set; }
+
 		public bool IsInitialState { get; set; }
+
 		public bool IsConnectionLost { get; set; }
 
 		public void Clear()
@@ -50,6 +53,7 @@ namespace FiresecAPI.SKD
 		}
 
 		public event Action StateChanged;
+
 		public void OnStateChanged()
 		{
 			if (StateChanged != null)
@@ -57,14 +61,17 @@ namespace FiresecAPI.SKD
 		}
 
 		#region IDeviceState<XStateClass> Members
+
 		XStateClass IDeviceState.StateClass
 		{
 			get { return StateClass; }
 		}
+
 		string IDeviceState.Name
 		{
 			get { return StateClass.ToDescription(); }
 		}
-		#endregion
+
+		#endregion IDeviceState<XStateClass> Members
 	}
 }

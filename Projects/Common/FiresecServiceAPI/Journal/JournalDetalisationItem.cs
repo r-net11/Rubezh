@@ -9,7 +9,6 @@ namespace FiresecAPI.Journal
 	{
 		public JournalDetalisationItem()
 		{
-
 		}
 
 		public JournalDetalisationItem(string name, string value)

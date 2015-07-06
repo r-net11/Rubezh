@@ -1,5 +1,4 @@
-﻿
-namespace Infrastructure.Common.Reports
+﻿namespace Infrastructure.Common.Reports
 {
 	public interface IFilterableReport
 	{

@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows.Views;
+using System;
 using System.Windows;
 using System.Windows.Controls;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common.Windows.Views;
 
 namespace Infrastructure.Common.Windows.DataTemplates
 {
@@ -41,6 +41,7 @@ namespace Infrastructure.Common.Windows.DataTemplates
 			template = SelectTamplate(type, container);
 			return template ?? base.SelectTemplate(item, container);
 		}
+
 		protected DataTemplate SelectTamplate(Type type, DependencyObject container)
 		{
 			DataTemplate template = null;
@@ -52,6 +53,7 @@ namespace Infrastructure.Common.Windows.DataTemplates
 			}
 			return template;
 		}
+
 		protected DependencyObject GetLogicalRoot(DependencyObject container)
 		{
 			var root = container;

@@ -1,13 +1,14 @@
-﻿using System;
-using Common;
-using System.Net;
+﻿using Common;
+using System;
 using System.Linq;
+using System.Net;
 
 namespace Infrastructure.Common
 {
 	public static class ConnectionSettingsManager
 	{
-		static string _remoteAddress;
+		private static string _remoteAddress;
+
 		public static string RemoteAddress
 		{
 			get { return _remoteAddress; }
@@ -20,6 +21,7 @@ namespace Infrastructure.Common
 		}
 
 		public static int RemotePort { get; set; }
+
 		public static int ReportRemotePort { get; set; }
 
 		static ConnectionSettingsManager()

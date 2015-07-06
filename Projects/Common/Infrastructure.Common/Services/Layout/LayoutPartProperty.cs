@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using FiresecAPI.Automation;
+﻿using FiresecAPI.Automation;
+using System;
 
 namespace Infrastructure.Common.Services.Layout
 {
@@ -16,7 +13,9 @@ namespace Infrastructure.Common.Services.Layout
 		}
 
 		public LayoutPartPropertyAccess Access { get; private set; }
+
 		public Type Type { get; private set; }
+
 		public LayoutPartPropertyName Name { get; private set; }
 
 		public LayoutPartPropertyType PropertyType

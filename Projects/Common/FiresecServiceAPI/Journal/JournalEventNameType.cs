@@ -181,7 +181,6 @@ namespace FiresecAPI.Journal
 		[EventName(JournalSubsystemType.SKD, "Редактирование подразделения", XStateClass.Info)]
 		Редактирование_отдела,
 
-
 		[EventName(JournalSubsystemType.SKD, "Редактирование должности", XStateClass.Info)]
 		Редактирование_должности,
 

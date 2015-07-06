@@ -1,18 +1,20 @@
-﻿using System;
+﻿using FiresecAPI;
+using FiresecAPI.SKD;
+using System;
 using System.Collections.Generic;
 using System.Data.Linq;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
-using FiresecAPI;
-using FiresecAPI.SKD;
 
 namespace SKDDriver
 {
 	public class PassJounalSynchroniser
 	{
-		Table<DataAccess.PassJournal> _Table;
-		string Name { get { return "PassJournal"; } }
+		private Table<DataAccess.PassJournal> _Table;
+
+		private string Name { get { return "PassJournal"; } }
+
 		public string NameXml { get { return Name + ".xml"; } }
 
 		public PassJounalSynchroniser(Table<DataAccess.PassJournal> table)
@@ -48,7 +50,7 @@ namespace SKDDriver
 			}
 		}
 
-		ExportPassJournalItem Translate(DataAccess.PassJournal tableItem)
+		private ExportPassJournalItem Translate(DataAccess.PassJournal tableItem)
 		{
 			return new ExportPassJournalItem
 			{
@@ -64,9 +66,13 @@ namespace SKDDriver
 	public class ExportPassJournalItem
 	{
 		public Guid UID { get; set; }
+
 		public Guid EmployeeUID { get; set; }
+
 		public Guid ZoneUID { get; set; }
+
 		public DateTime EnterDateTime { get; set; }
+
 		public DateTime ExitDateTime { get; set; }
 	}
 }

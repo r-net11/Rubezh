@@ -1,8 +1,4 @@
-﻿using System;
-using System.Data.SqlClient;
-using System.IO;
-using System.Windows;
-using Common;
+﻿using Common;
 using FiresecAPI;
 using FiresecService.ViewModels;
 using Infrastructure.Common;
@@ -11,6 +7,10 @@ using Microsoft.SqlServer.Management.Common;
 using Microsoft.SqlServer.Management.Smo;
 using SKDDriver;
 using SKDDriver.Translators;
+using System;
+using System.Data.SqlClient;
+using System.IO;
+using System.Windows;
 
 namespace FiresecService
 {
@@ -18,7 +18,7 @@ namespace FiresecService
 	{
 		public static string JournalConnectionString { get; private set; }
 
-		static string ConnectionString
+		private static string ConnectionString
 		{
 			get
 			{
@@ -34,7 +34,7 @@ namespace FiresecService
 			Patch_DynamicDB();
 		}
 
-		static void Patch_Journal(int no)
+		private static void Patch_Journal(int no)
 		{
 			try
 			{
@@ -75,7 +75,7 @@ namespace FiresecService
 			}
 		}
 
-		static void Patch_PassJournal(int no)
+		private static void Patch_PassJournal(int no)
 		{
 			try
 			{
@@ -116,7 +116,7 @@ namespace FiresecService
 			}
 		}
 
-		static void Patch_DynamicDB()
+		private static void Patch_DynamicDB()
 		{
 			try
 			{

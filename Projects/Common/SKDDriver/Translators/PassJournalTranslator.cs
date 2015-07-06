@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Common;
+﻿using Common;
 using FiresecAPI;
 using FiresecAPI.SKD;
 using LinqKit;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using OperationResult = FiresecAPI.OperationResult;
 
 namespace SKDDriver.Translators
@@ -12,6 +12,7 @@ namespace SKDDriver.Translators
 	public class PassJournalTranslator : IDisposable
 	{
 		public static string ConnectionString { get; set; }
+
 		public DataAccess.PassJournalDataContext Context { get; private set; }
 
 		public PassJournalTranslator()
@@ -103,7 +104,7 @@ namespace SKDDriver.Translators
 			}
 		}
 
-		bool IsIntersection(DataAccess.PassJournal passJournalItem)
+		private bool IsIntersection(DataAccess.PassJournal passJournalItem)
 		{
 			return Context.PassJournals.Any(x => x.UID != passJournalItem.UID &&
 				x.EmployeeUID == passJournalItem.EmployeeUID &&
@@ -255,7 +256,6 @@ namespace SKDDriver.Translators
 			return dayTimeTrack;
 		}
 
-
 		public OperationResult SaveEmployeeDays(List<EmployeeDay> employeeDays)
 		{
 			try
@@ -343,12 +343,12 @@ namespace SKDDriver.Translators
 							e =>
 								e.EnterTime.Day == dateTime.Value.Day && e.EnterTime.Hour >= dateTime.Value.Hour &&
 								e.EnterTime.Minute >= dateTime.Value.Minute);
-			//		filter =
-			//			filter.And(
-			//				e =>
-			//					e.EnterTime.Day == dateTime.Value.Day && e.EnterTime.Hour >= dateTime.Value.Hour &&
-			//					e.EnterTime.Minute >= dateTime.Value.Minute && !e.ExitTime.HasValue);
-						// !e.ExitTime.HasValue || e.ExitTime > dateTime);
+					//		filter =
+					//			filter.And(
+					//				e =>
+					//					e.EnterTime.Day == dateTime.Value.Day && e.EnterTime.Hour >= dateTime.Value.Hour &&
+					//					e.EnterTime.Minute >= dateTime.Value.Minute && !e.ExitTime.HasValue);
+					// !e.ExitTime.HasValue || e.ExitTime > dateTime);
 				}
 				else
 					filter = filter.And(e => !e.ExitTime.HasValue);
@@ -365,6 +365,7 @@ namespace SKDDriver.Translators
 				return null;
 			}
 		}
+
 		public IEnumerable<DataAccess.PassJournal> GetEmployeesLastExitPassJournal(IEnumerable<Guid> employeeUIDs, DateTime? dateTime)
 		{
 			try
@@ -390,8 +391,8 @@ namespace SKDDriver.Translators
 			{
 				return null;
 			}
-
 		}
+
 		public IEnumerable<DataAccess.PassJournal> GetEmployeesRoot(IEnumerable<Guid> employeeUIDs, IEnumerable<Guid> zoneUIDs, DateTime startDateTime, DateTime endDateTime)
 		{
 			try
@@ -409,7 +410,7 @@ namespace SKDDriver.Translators
 					|| (e.ExitTime >= startDateTime && e.ExitTime <= endDateTime || !e.ExitTime.HasValue));
 				var result = Context.PassJournals.Where(filter).ToList();
 
-				if(isManyEmployees)
+				if (isManyEmployees)
 					result = result.Where(x => employeeUIDs.Contains(x.EmployeeUID)).ToList();
 
 				return result;
@@ -429,12 +430,12 @@ namespace SKDDriver.Translators
 		{
 			try
 			{
-				if(Context.PassJournals.IsEmpty())
+				if (Context.PassJournals.IsEmpty())
 					return new OperationResult<DateTime>(new DateTime());
 				var result = Context.PassJournals.Min(x => x.EnterTime);
 				return new OperationResult<DateTime>(result);
 			}
-			catch(Exception e)
+			catch (Exception e)
 			{
 				return OperationResult<DateTime>.FromError(e.Message);
 			}

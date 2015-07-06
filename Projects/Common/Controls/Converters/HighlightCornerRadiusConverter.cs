@@ -7,7 +7,7 @@ namespace Controls.Converters
 	{
 		public object Convert(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
-			var corners = (CornerRadius) value;
+			var corners = (CornerRadius)value;
 			if (corners != null)
 			{
 				corners.BottomLeft = 0;

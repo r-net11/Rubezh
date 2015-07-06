@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Common;
+using Infrastructure.Common.Windows.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Media;
-using Common;
-using Infrastructure.Common.Windows.ViewModels;
 
 namespace Infrastructure.Common.BalloonTrayTip.ViewModels
 {
@@ -14,9 +14,9 @@ namespace Infrastructure.Common.BalloonTrayTip.ViewModels
 			get { return Items.Count == 0; }
 		}
 
-		static Views.BalloonToolTipView customBalloonView;
+		private static Views.BalloonToolTipView customBalloonView;
 
-		static List<Item> Items = new List<Item>();
+		private static List<Item> Items = new List<Item>();
 
 		public Item LastItem
 		{
@@ -56,6 +56,7 @@ namespace Infrastructure.Common.BalloonTrayTip.ViewModels
 		}
 
 		public RelayCommand RemoveItemCommand { get; private set; }
+
 		private void OnRemoveItem()
 		{
 			try
@@ -73,6 +74,7 @@ namespace Infrastructure.Common.BalloonTrayTip.ViewModels
 		}
 
 		public RelayCommand ClearCommand { get; private set; }
+
 		private void OnClear()
 		{
 			try
@@ -89,8 +91,11 @@ namespace Infrastructure.Common.BalloonTrayTip.ViewModels
 		public class Item
 		{
 			public string Title { get; set; }
+
 			public string Text { get; set; }
+
 			public System.Windows.Media.Brush ForegroundColor { get; set; }
+
 			public System.Windows.Media.Brush BackgroundColor { get; set; }
 		}
 	}

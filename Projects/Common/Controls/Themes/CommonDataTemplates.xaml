@@ -5,5 +5,4 @@
 	<DataTemplate x:Key="EnumDescriptionTemplate">
 		<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
 	</DataTemplate>
-
 </ResourceDictionary>

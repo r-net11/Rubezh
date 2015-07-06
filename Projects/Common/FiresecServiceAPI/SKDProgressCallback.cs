@@ -37,7 +37,9 @@ namespace FiresecAPI
 		public SKDProgressClientType SKDProgressClientType { get; set; }
 
 		public bool IsCanceled { get; set; }
+
 		public DateTime CancelizationDateTime { get; set; }
+
 		public DateTime LastActiveDateTime { get; set; }
 	}
 

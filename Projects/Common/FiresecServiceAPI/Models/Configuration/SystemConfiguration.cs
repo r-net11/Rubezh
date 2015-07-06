@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Runtime.Serialization;
-using Entities.DeviceOriented;
+﻿using Entities.DeviceOriented;
 using FiresecAPI.Automation;
 using FiresecAPI.Journal;
-using System.Xml.Serialization;
+using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace FiresecAPI.Models
 {

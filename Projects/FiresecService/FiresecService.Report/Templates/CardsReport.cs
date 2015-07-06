@@ -1,11 +1,10 @@
-﻿using System;
-using System.Data;
-using System.Linq;
-using FiresecAPI;
+﻿using FiresecAPI;
 using FiresecAPI.SKD;
 using FiresecAPI.SKD.ReportFilters;
 using FiresecService.Report.DataSources;
-using Infrastructure.Common;
+using System;
+using System.Data;
+using System.Linq;
 
 namespace FiresecService.Report.Templates
 {
@@ -28,6 +27,7 @@ namespace FiresecService.Report.Templates
 		{
 			get { return "Сведения о пропусках"; }
 		}
+
 		protected override DataSet CreateDataSet(DataProvider dataProvider)
 		{
 			var filter = GetFilter<CardsReportFilter>();
@@ -63,12 +63,15 @@ namespace FiresecService.Report.Templates
 					case EndDateType.Day:
 						cardFilter.EndDate = DateTime.Today.AddDays(1);
 						break;
+
 					case EndDateType.Week:
 						cardFilter.EndDate = DateTime.Today.AddDays(7);
 						break;
+
 					case EndDateType.Month:
 						cardFilter.EndDate = DateTime.Today.AddDays(31);
 						break;
+
 					case EndDateType.Arbitrary:
 						cardFilter.EndDate = filter.ExpirationDate;
 						break;

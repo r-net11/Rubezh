@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Infrastructure.Common.Windows.ViewModels;
+using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
-using Infrastructure.Common.Windows.ViewModels;
-using System.Windows.Controls.Primitives;
 
 namespace Controls
 {
@@ -27,6 +27,7 @@ namespace Controls
 		}
 
 		public static readonly DependencyProperty DoubleClickOffProperty = DependencyProperty.Register("IsDoubleClickOff", typeof(Boolean), typeof(XDataGrid), new PropertyMetadata(false));
+
 		public Boolean IsDoubleClickOff
 		{
 			get { return (Boolean)this.GetValue(DoubleClickOffProperty); }
@@ -44,11 +45,12 @@ namespace Controls
 					dgrow.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
 			}
 		}
+
 		private void DataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
 		{
 			var depObj = (DependencyObject)e.Device.Target;
 
-			if(CheckForHeader(depObj))
+			if (CheckForHeader(depObj))
 				return;
 
 			if (IsDoubleClickOff)
@@ -86,7 +88,6 @@ namespace Controls
 				dataGrid.ContextMenu = null;
 			else
 				dataGrid.ClearValue(ContextMenuProperty);
-
 
 			_previousDataGridCell = _currentDataGridCell;
 			IInputElement element = e.MouseDevice.DirectlyOver;

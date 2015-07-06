@@ -3,7 +3,7 @@
 namespace Infrastructure.Common
 {
 	/// <summary>
-	/// Представляет сервис по работе с ресурсами WPF приложения 
+	/// Представляет сервис по работе с ресурсами WPF приложения
 	/// </summary>
 	public class ResourceService : IResourceService
 	{

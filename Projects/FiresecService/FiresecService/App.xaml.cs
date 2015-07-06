@@ -1,12 +1,11 @@
-﻿using System;
-using System.Diagnostics;
-using System.Windows;
-using Common;
+﻿using Common;
 using FiresecService;
 using Infrastructure.Common;
 using Infrastructure.Common.BalloonTrayTip;
 using Infrastructure.Common.Theme;
-using System.Reflection;
+using System;
+using System.Diagnostics;
+using System.Windows;
 
 namespace FiresecServiceRunner
 {
@@ -39,7 +38,6 @@ namespace FiresecServiceRunner
 			}
 		}
 
-
 		protected override void OnExit(ExitEventArgs e)
 		{
 			ProcedureRunner.Terminate();
@@ -59,6 +57,7 @@ namespace FiresecServiceRunner
 			Application.Current.MainWindow.Close();
 			Application.Current.Shutdown();
 		}
+
 		private void CurrentDomain_AssemblyLoad(object sender, AssemblyLoadEventArgs args)
 		{
 		}

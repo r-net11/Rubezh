@@ -1,16 +1,15 @@
-﻿using System;
+﻿using FiresecAPI;
+using FiresecAPI.SKD;
+using System;
 using System.Collections.Generic;
 using System.Data.Linq;
 using System.Linq;
-using FiresecAPI;
-using FiresecAPI.SKD;
 
 namespace SKDDriver
 {
 	public abstract class TranslatorBase<TableT, ApiT>
 		where TableT : class,DataAccess.IDatabaseElement, new()
 		where ApiT : SKDModelBase, new()
-		
 	{
 		protected Table<TableT> Table;
 		protected SKDDatabaseService DatabaseService;
@@ -36,7 +35,7 @@ namespace SKDDriver
 				return new OperationResult("Попытка сохранить пустую запись");
 			return new OperationResult();
 		}
-		
+
 		public virtual OperationResult Save(IEnumerable<ApiT> apiItems)
 		{
 			if (apiItems == null || apiItems.Count() == 0)
@@ -77,7 +76,7 @@ namespace SKDDriver
 			}
 		}
 
-		void OnSave(ApiT apiItem)
+		private void OnSave(ApiT apiItem)
 		{
 			var tableItem = (from x in Table where x.UID.Equals(apiItem.UID) select x).FirstOrDefault();
 			if (tableItem == null)
@@ -95,8 +94,6 @@ namespace SKDDriver
 		{
 			return 0;
 		}
-
-		
 
 		protected static ApiType TranslateBase<ApiType, TableType>(TableType tableItem)
 			where ApiType : SKDModelBase, new()
@@ -129,7 +126,6 @@ namespace SKDDriver
 				result.Add(Translate(tableItem));
 			return result;
 		}
-		
 
 		public List<ApiT> GetByEmployee<T>(Guid uid)
 			where T : class, DataAccess.ILinkedToEmployee, DataAccess.IIsDeletedDatabaseElement, TableT
@@ -175,7 +171,7 @@ namespace SKDDriver
 			return new OperationResult();
 		}
 	}
-	
+
 	public static class TranslatiorHelper
 	{
 		public static readonly DateTime MinYear = new DateTime(1900, 1, 1);

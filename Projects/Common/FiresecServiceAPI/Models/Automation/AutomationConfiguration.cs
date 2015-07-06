@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Runtime.Serialization;
-using System.Linq;
+﻿using FiresecAPI.Models;
 using System;
-using FiresecAPI.Models;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Serialization;
 
 namespace FiresecAPI.Automation
 {
@@ -77,7 +77,7 @@ namespace FiresecAPI.Automation
 			}
 		}
 
-		Argument InitializeArgumemt(Variable variable)
+		private Argument InitializeArgumemt(Variable variable)
 		{
 			var argument = new Argument();
 			argument.VariableScope = VariableScope.GlobalVariable;
@@ -95,7 +95,7 @@ namespace FiresecAPI.Automation
 			return argument;
 		}
 
-		bool CheckSignature(Argument argument, Variable variable)
+		private bool CheckSignature(Argument argument, Variable variable)
 		{
 			if (argument.ExplicitType != variable.ExplicitType)
 				return false;
@@ -321,10 +321,12 @@ namespace FiresecAPI.Automation
 						InvalidateArgument(procedure, getListItemArgument.IndexArgument);
 					}
 					break;
+
 				case ProcedureStepType.ControlVisualGet:
 				case ProcedureStepType.ControlVisualSet:
 					InvalidateArgument(procedure, step.ControlVisualArguments.Argument);
 					break;
+
 				case ProcedureStepType.ControlPlanGet:
 				case ProcedureStepType.ControlPlanSet:
 					{
@@ -345,16 +347,20 @@ namespace FiresecAPI.Automation
 						InvalidateArgument(procedure, controlPlanArguments.ValueArgument);
 					}
 					break;
+
 				case ProcedureStepType.ShowDialog:
 					{
 					}
 					break;
+
 				case ProcedureStepType.GenerateGuid:
 					InvalidateArgument(procedure, step.GenerateGuidArguments.ResultArgument);
 					break;
+
 				case ProcedureStepType.SetJournalItemGuid:
 					InvalidateArgument(procedure, step.SetJournalItemGuidArguments.ValueArgument);
 					break;
+
 				case ProcedureStepType.Ptz:
 					{
 						var arguments = step.PtzArguments;
@@ -386,7 +392,7 @@ namespace FiresecAPI.Automation
 			}
 		}
 
-		void InvalidateArgument(Procedure procedure, Argument argument)
+		private void InvalidateArgument(Procedure procedure, Argument argument)
 		{
 			var localVariables = new List<Variable>(procedure.Variables);
 			localVariables.AddRange(new List<Variable>(procedure.Arguments));
@@ -398,7 +404,7 @@ namespace FiresecAPI.Automation
 					argument.VariableUid = Guid.Empty;
 		}
 
-		void InvalidateArgument(Argument argument)
+		private void InvalidateArgument(Argument argument)
 		{
 			if (argument.VariableScope != VariableScope.ExplicitValue)
 				if (GlobalVariables.All(x => x.Uid != argument.VariableUid))

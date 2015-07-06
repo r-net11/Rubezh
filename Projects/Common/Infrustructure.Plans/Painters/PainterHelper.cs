@@ -1,8 +1,8 @@
-﻿using System.IO;
+﻿using Infrustructure.Plans.Elements;
+using System.IO;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Infrustructure.Plans.Elements;
 
 namespace Infrustructure.Plans.Painters
 {
@@ -17,6 +17,7 @@ namespace Infrustructure.Plans.Painters
 					Normalize(element.GetRectangle(), element.BorderThickness) :
 					new PointCollection();
 		}
+
 		public static PointCollection GetRealPoints(ElementBase element)
 		{
 			if (element is ElementBaseShape)
@@ -25,16 +26,18 @@ namespace Infrustructure.Plans.Painters
 				return GetPoints(element.GetRectangle());
 			return new PointCollection();
 		}
+
 		public static PointCollection GetPoints(Rect rect, double margin = 0)
 		{
 			return new PointCollection()
 				{
-					rect.TopLeft + new Vector(-margin, -margin), 
+					rect.TopLeft + new Vector(-margin, -margin),
 					rect.TopRight + new Vector(margin, -margin),
 					rect.BottomRight + new Vector(margin, margin),
 					rect.BottomLeft + new Vector(-margin, margin)
 				};
 		}
+
 		public static PointCollection Normalize(Rect rectangle, double thickness)
 		{
 			double shift = thickness / 2;
@@ -45,6 +48,7 @@ namespace Infrustructure.Plans.Painters
 			pointCollection.Add(new Point(shift, rectangle.Height + shift));
 			return pointCollection;
 		}
+
 		public static PointCollection Normalize(Point topLeftPoint, PointCollection points, double thickness)
 		{
 			double shift = thickness / 2;
@@ -53,6 +57,7 @@ namespace Infrustructure.Plans.Painters
 				pointCollection.Add(new Point(point.X - topLeftPoint.X + shift, point.Y - topLeftPoint.Y + shift));
 			return pointCollection;
 		}
+
 		public static Brush CreateBrush(byte[] backgroundPixels)
 		{
 			if (backgroundPixels == null)

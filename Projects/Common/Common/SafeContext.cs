@@ -15,6 +15,7 @@ namespace Common
 				Logger.Error(e, "Исключение при вызове SafeContext.Execute(Action action)");
 			}
 		}
+
 		public static T Execute<T>(Func<T> action)
 		{
 			try

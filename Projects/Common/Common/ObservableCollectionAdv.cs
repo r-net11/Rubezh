@@ -33,5 +33,4 @@ namespace Common
 			OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
 		}
 	}
-
 }

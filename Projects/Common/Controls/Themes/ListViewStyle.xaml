@@ -216,5 +216,4 @@
 		<Setter Property="HorizontalContentAlignment" Value="Stretch" />
 		<Setter Property="VerticalContentAlignment" Value="Center" />
 	</Style>
-
 </ResourceDictionary>

@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
-using Common;
+﻿using Common;
 using FiresecAPI.GK;
 using Infrustructure.Plans.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Xml.Serialization;
 
 namespace FiresecAPI.SKD
@@ -19,6 +19,7 @@ namespace FiresecAPI.SKD
 
 		[XmlIgnore]
 		public SKDZoneState State { get; set; }
+
 		[XmlIgnore]
 		public List<SKDDevice> Devices { get; set; }
 
@@ -29,10 +30,12 @@ namespace FiresecAPI.SKD
 		public bool AllowMultipleVizualization { get; set; }
 
 		#region IStateProvider Members
+
 		IDeviceState IStateProvider.StateClass
 		{
 			get { return State; }
 		}
-		#endregion
+
+		#endregion IStateProvider Members
 	}
 }

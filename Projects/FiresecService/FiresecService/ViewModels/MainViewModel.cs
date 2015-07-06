@@ -1,18 +1,18 @@
-﻿using System;
+﻿using FiresecAPI.Models;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Threading;
-using FiresecAPI.Models;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common;
 
 namespace FiresecService.ViewModels
 {
 	public class MainViewModel : ApplicationViewModel
 	{
 		public static MainViewModel Current { get; private set; }
-		Dispatcher _dispatcher;
+
+		private Dispatcher _dispatcher;
 
 		public MainViewModel()
 		{
@@ -23,7 +23,7 @@ namespace FiresecService.ViewModels
 			MessageBoxService.SetMessageBoxHandler(MessageBoxHandler);
 		}
 
-		void MessageBoxHandler(MessageBoxViewModel viewModel, bool isModal)
+		private void MessageBoxHandler(MessageBoxViewModel viewModel, bool isModal)
 		{
 			_dispatcher.Invoke((Action)(() =>
 			{
@@ -37,7 +37,8 @@ namespace FiresecService.ViewModels
 		}
 
 		private string _status;
-		string Status
+
+		private string Status
 		{
 			get { return _status; }
 			set
@@ -54,7 +55,8 @@ namespace FiresecService.ViewModels
 
 		public ObservableCollection<ClientViewModel> Clients { get; private set; }
 
-		ClientViewModel _selectedClient;
+		private ClientViewModel _selectedClient;
+
 		public ClientViewModel SelectedClient
 		{
 			get { return _selectedClient; }
@@ -73,6 +75,7 @@ namespace FiresecService.ViewModels
 				Clients.Add(connectionViewModel);
 			}));
 		}
+
 		public void RemoveClient(Guid uid)
 		{
 			_dispatcher.BeginInvoke((Action)(() =>
@@ -82,6 +85,7 @@ namespace FiresecService.ViewModels
 					Clients.Remove(connectionViewModel);
 			}));
 		}
+
 		public void EditClient(Guid uid, string userName)
 		{
 			_dispatcher.BeginInvoke((Action)(() =>
@@ -101,7 +105,8 @@ namespace FiresecService.ViewModels
 			}));
 		}
 
-		string _lastLog = "";
+		private string _lastLog = "";
+
 		public string LastLog
 		{
 			get { return _lastLog; }
@@ -112,7 +117,8 @@ namespace FiresecService.ViewModels
 			}
 		}
 
-		string _infoLog = "";
+		private string _infoLog = "";
+
 		public string InfoLog
 		{
 			get { return _infoLog; }

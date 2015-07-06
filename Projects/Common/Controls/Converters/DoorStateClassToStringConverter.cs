@@ -1,7 +1,7 @@
-﻿using System;
-using System.Windows.Data;
-using FiresecAPI;
+﻿using FiresecAPI;
 using FiresecAPI.GK;
+using System;
+using System.Windows.Data;
 
 namespace Controls.Converters
 {
@@ -9,7 +9,7 @@ namespace Controls.Converters
 	{
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
-			switch((XStateClass)value)
+			switch ((XStateClass)value)
 			{
 				case XStateClass.On:
 					return "Открыта";

@@ -10,6 +10,7 @@ namespace Controls
 		{
 			return (bool)obj.GetValue(ShowSelectionMarkProperty);
 		}
+
 		public static void SetShowSelectionMark(DependencyObject obj, bool value)
 		{
 			obj.SetValue(ShowSelectionMarkProperty, value);
@@ -21,6 +22,7 @@ namespace Controls
 		{
 			return (bool)obj.GetValue(IsActiveSelectionMarkProperty);
 		}
+
 		public static void SetIsActiveSelectionMark(DependencyObject obj, bool value)
 		{
 			obj.SetValue(IsActiveSelectionMarkProperty, value);

@@ -37,6 +37,7 @@ namespace Common
 			}
 			return stringBuilder.ToString();
 		}
+
 		/// <summary>
 		/// Определяет разрядность операционной системы
 		/// </summary>

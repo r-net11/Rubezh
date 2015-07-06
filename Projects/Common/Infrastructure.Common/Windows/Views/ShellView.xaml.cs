@@ -8,6 +8,7 @@ namespace Infrastructure.Common.Windows.Views
 	public partial class ShellView : UserControl
 	{
 		public static readonly DependencyProperty IsRightPanelFocusedProperty = DependencyProperty.Register("IsRightPanelFocused", typeof(bool), typeof(ShellView), new FrameworkPropertyMetadata(false));
+
 		public bool IsRightPanelFocused
 		{
 			get { return (bool)GetValue(IsRightPanelFocusedProperty); }
@@ -24,6 +25,7 @@ namespace Infrastructure.Common.Windows.Views
 		{
 			IsRightPanelFocused = false;
 		}
+
 		private void RightContent_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
 		{
 			IsRightPanelFocused = true;
@@ -34,6 +36,7 @@ namespace Infrastructure.Common.Windows.Views
 			if (!LeftContent.IsKeyboardFocusWithin)
 				LeftContent.Focus();
 		}
+
 		private void RightContent_PreviewMouseDown(object sender, MouseButtonEventArgs e)
 		{
 			if (!RightContent.IsKeyboardFocusWithin)

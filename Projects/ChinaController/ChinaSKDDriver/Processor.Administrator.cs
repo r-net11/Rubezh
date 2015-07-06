@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using ChinaSKDDriverAPI;
+﻿using ChinaSKDDriverAPI;
 using FiresecAPI;
 using FiresecAPI.SKD;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ChinaSKDDriver
 {
@@ -126,7 +126,7 @@ namespace ChinaSKDDriver
 						weeklyInterval = new SKDWeeklyInterval();
 
 					var timeShedules = new List<TimeShedule>();
-					foreach (var weeklyIntervalPart in weeklyInterval.WeeklyIntervalParts.OrderBy(x=>x.DayOfWeek))
+					foreach (var weeklyIntervalPart in weeklyInterval.WeeklyIntervalParts.OrderBy(x => x.DayOfWeek))
 					{
 						var timeShedule = new TimeShedule();
 						var dayInterval = SKDManager.SKDConfiguration.TimeIntervalsConfiguration.DayIntervals.FirstOrDefault(x => x.UID == weeklyIntervalPart.DayIntervalUID);
@@ -410,6 +410,7 @@ namespace ChinaSKDDriver
 			}
 			return OperationResult<SKDAntiPassBackConfiguration>.FromError("Не найден контроллер в конфигурации");
 		}
+
 		public static OperationResult<bool> SetAntiPassBackConfiguration(Guid deviceUID, SKDAntiPassBackConfiguration antiPassBackConfiguration)
 		{
 			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == deviceUID);
@@ -440,6 +441,7 @@ namespace ChinaSKDDriver
 			}
 			return OperationResult<SKDInterlockConfiguration>.FromError("Не найден контроллер в конфигурации");
 		}
+
 		public static OperationResult<bool> SetInterlockConfiguration(Guid deviceUID, SKDInterlockConfiguration interlockConfiguration)
 		{
 			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == deviceUID);

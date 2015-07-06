@@ -1,6 +1,6 @@
-﻿using System;
+﻿using FiresecAPI.Journal;
+using System;
 using System.Windows.Data;
-using FiresecAPI.Journal;
 
 namespace Controls.Converters
 {
@@ -9,7 +9,7 @@ namespace Controls.Converters
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
 			var subsystemType = (JournalSubsystemType)value;
-			switch(subsystemType)
+			switch (subsystemType)
 			{
 				case JournalSubsystemType.System:
 					return "/Controls;component/Images/PC.png";

@@ -1,7 +1,7 @@
-﻿using System;
-using System.Windows.Input;
-using Common;
+﻿using Common;
 using Infrastructure.Common.Windows;
+using System;
+using System.Windows.Input;
 
 namespace Infrastructure.Common
 {
@@ -10,11 +10,14 @@ namespace Infrastructure.Common
 	public class RelayCommand : ICommand
 	{
 		#region Fields
-		readonly Action _execute;
-		readonly Predicate<object> _canExecute;
-		#endregion
+
+		private readonly Action _execute;
+		private readonly Predicate<object> _canExecute;
+
+		#endregion Fields
 
 		#region Ctors
+
 		public RelayCommand(Action execute)
 			: this(execute, (Predicate<object>)null)
 		{
@@ -37,13 +40,15 @@ namespace Infrastructure.Common
 			_execute = execute;
 			_canExecute = (object obj) => { return canExecute(); };
 		}
-		#endregion
+
+		#endregion Ctors
 
 		public void Execute()
 		{
 			if (CanExecute(null))
 				ForceExecute();
 		}
+
 		public void ForceExecute()
 		{
 			try
@@ -58,6 +63,7 @@ namespace Infrastructure.Common
 		}
 
 		#region ICommand Members
+
 		void ICommand.Execute(object parameter)
 		{
 			ForceExecute();
@@ -85,17 +91,18 @@ namespace Infrastructure.Common
 			add { CommandManager.RequerySuggested += value; }
 			remove { CommandManager.RequerySuggested -= value; }
 		}
-		#endregion
+
+		#endregion ICommand Members
 	}
 
 	public class RelayCommand<T> : ICommand
 	{
 		#region Fields
 
-		readonly Action<T> _execute;
-		readonly Predicate<T> _canExecute;
+		private readonly Action<T> _execute;
+		private readonly Predicate<T> _canExecute;
 
-		#endregion
+		#endregion Fields
 
 		#region Ctors
 
@@ -113,13 +120,14 @@ namespace Infrastructure.Common
 			_canExecute = canExecute;
 		}
 
-		#endregion
+		#endregion Ctors
 
 		public void Execute(T parameter)
 		{
 			if (CanExecute(parameter))
 				ForceExecute(parameter);
 		}
+
 		public void ForceExecute(T parameter)
 		{
 			try
@@ -134,6 +142,7 @@ namespace Infrastructure.Common
 		}
 
 		#region ICommand Members
+
 		void ICommand.Execute(object parameter)
 		{
 			ForceExecute((T)parameter);
@@ -151,6 +160,7 @@ namespace Infrastructure.Common
 			add { CommandManager.RequerySuggested += value; }
 			remove { CommandManager.RequerySuggested -= value; }
 		}
-		#endregion
+
+		#endregion ICommand Members
 	}
 }

@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.ServiceModel;
-using Common;
-using DevExpress.XtraReports.Service;
-using DevExpress.DocumentServices.ServiceModel.Client;
-using System.Xml;
+﻿using Common;
 using DevExpress.Xpf.Printing;
-using FiresecAPI.Models;
-using Infrastructure.Common.SKDReports;
-using Infrastructure.Common;
+using DevExpress.XtraReports.Service;
 using FiresecAPI;
+using Infrastructure.Common;
+using System;
+using System.Linq;
+using System.ServiceModel;
 
 namespace FiresecService.Report
 {
@@ -21,6 +15,7 @@ namespace FiresecService.Report
 		private static ReportServiceManager _instance = new ReportServiceManager();
 
 		public static bool IsRunning { get; private set; }
+
 		public static void Run()
 		{
 			if (!IsRunning)
@@ -32,6 +27,7 @@ namespace FiresecService.Report
 						IsRunning = true;
 					}
 		}
+
 		public static void Stop()
 		{
 			if (IsRunning)
@@ -66,11 +62,13 @@ namespace FiresecService.Report
 				return false;
 			}
 		}
+
 		private void Close()
 		{
 			if (_serviceHost != null && _serviceHost.State != CommunicationState.Closed && _serviceHost.State != CommunicationState.Closing)
 				_serviceHost.Close();
 		}
+
 		private void RegisterFilters()
 		{
 			ServiceKnownTypeProvider.Register(typeof(IFiresecService).Assembly.GetTypes().Where(t => t.IsClass && !t.IsAbstract && t.Namespace == FilterNamespace));

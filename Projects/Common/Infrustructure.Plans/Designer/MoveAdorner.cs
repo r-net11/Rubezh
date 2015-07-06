@@ -10,6 +10,7 @@ namespace Infrustructure.Plans.Designer
 	public class MoveAdorner : Adorner
 	{
 		public bool IsMoved { get; private set; }
+
 		private CommonDesignerCanvas _designerCanvas;
 		private DrawingVisual _drawingVisual;
 		private Point? _startPoint;
@@ -42,6 +43,7 @@ namespace Infrustructure.Plans.Designer
 			if (!IsMouseCaptured)
 				CaptureMouse();
 		}
+
 		public void Hide()
 		{
 			Completed();
@@ -57,6 +59,7 @@ namespace Infrustructure.Plans.Designer
 		{
 			get { return 1; }
 		}
+
 		protected override Visual GetVisualChild(int index)
 		{
 			return _drawingVisual;
@@ -91,10 +94,12 @@ namespace Infrustructure.Plans.Designer
 			else
 				Hide();
 		}
+
 		protected override void OnMouseUp(MouseButtonEventArgs e)
 		{
 			Hide();
 		}
+
 		protected override void OnMouseLeave(MouseEventArgs e)
 		{
 			Hide();
@@ -119,6 +124,7 @@ namespace Infrustructure.Plans.Designer
 				_designerCanvas.EndChange();
 			}
 		}
+
 		private Vector CalculateShift(Point point)
 		{
 			var shift = point - _startPoint.Value;

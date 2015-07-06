@@ -13,6 +13,7 @@ namespace Controls.TreeList.Converters
 		{
 			return new Thickness((int)obj * IndentSize, 0, 0, 0);
 		}
+
 		public object ConvertBack(object obj, Type type, object parameter, CultureInfo culture)
 		{
 			throw new NotSupportedException();

@@ -3,7 +3,7 @@
 	<Converters:StringToImageConverter x:Key="StringToImageConverter" />
 	<Converters:NullToImageConverter x:Key="NullToImageConverter" />
 	<Converters:StringToResourceConverter x:Key="StringToResourceConverter" />
-	
+
 	<SolidColorBrush x:Key="EnabledForegroundBrush" Color="Black" />
 
 	<LinearGradientBrush x:Key="NormalBorderBrush" StartPoint="0,0" EndPoint="0,1">
@@ -169,5 +169,4 @@
 			</Trigger>
 		</Style.Triggers>
 	</Style>
-
 </ResourceDictionary>

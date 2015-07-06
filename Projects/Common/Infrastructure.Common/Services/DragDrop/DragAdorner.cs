@@ -48,21 +48,25 @@ namespace Infrastructure.Common.Services.DragDrop
 		}
 
 		protected override int VisualChildrenCount { get { return 1; } }
+
 		protected override Visual GetVisualChild(int index)
 		{
 			return _child;
 		}
+
 		protected override Size MeasureOverride(Size finalSize)
 		{
 			_child.Measure(finalSize);
 			_vector = new Vector(_child.DesiredSize.Width / 2, _child.DesiredSize.Height / 2);
 			return _child.DesiredSize;
 		}
+
 		protected override Size ArrangeOverride(Size finalSize)
 		{
 			_child.Arrange(new Rect(finalSize));
 			return finalSize;
 		}
+
 		public override GeneralTransform GetDesiredTransform(GeneralTransform transform)
 		{
 			GeneralTransformGroup newTransform = new GeneralTransformGroup();

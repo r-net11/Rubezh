@@ -7,35 +7,35 @@ namespace FiresecAPI.SKD.ReportFilters
 	[DataContract]
 	public class DoorsReportFilter : SKDReportFilter, IReportFilterOrganisation, IReportFilterZoneWithDirection, IReportFilterDoor
 	{
-
 		#region IReportFilterOrganisation Members
 
 		[DataMember]
 		public List<Guid> Organisations { get; set; }
 
-		#endregion
+		#endregion IReportFilterOrganisation Members
 
 		#region IReportFilterZone Members
 
 		[DataMember]
 		public List<Guid> Zones { get; set; }
 
-		#endregion
+		#endregion IReportFilterZone Members
 
 		#region IReportFilterDoor Members
 
 		[DataMember]
 		public List<Guid> Doors { get; set; }
 
-		#endregion
+		#endregion IReportFilterDoor Members
 
 		#region IReportFilterZoneWithDirection Members
 
 		[DataMember]
 		public bool ZoneIn { get; set; }
+
 		[DataMember]
 		public bool ZoneOut { get; set; }
 
-		#endregion
+		#endregion IReportFilterZoneWithDirection Members
 	}
 }

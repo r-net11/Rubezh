@@ -1,8 +1,8 @@
-﻿using System;
+﻿using FiresecAPI;
+using FiresecAPI.SKD;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI;
-using FiresecAPI.SKD;
 
 namespace SKDDriver
 {
@@ -10,12 +10,11 @@ namespace SKDDriver
 		where TTableType : class, DataAccess.IOrganisationDatabaseElement, DataAccess.IDatabaseElement, DataAccess.IIsDeletedDatabaseElement, new()
 		where TApiType : OrganisationElementBase, new()
 		where TFilter : OrganisationFilterBase
-		where TShort : class, IOrganisationElement, new() 
+		where TShort : class, IOrganisationElement, new()
 	{
 		public WithShortTranslator(SKDDatabaseService databaseService)
 			: base(databaseService)
 		{
-
 		}
 
 		public virtual OperationResult<IEnumerable<TShort>> GetList(TFilter filter)
@@ -38,9 +37,14 @@ namespace SKDDriver
 				return OperationResult<IEnumerable<TShort>>.FromError(e.Message);
 			}
 		}
-		
-		protected virtual void BeforeGetList() { }
-		protected virtual void AfterGetList() { }
+
+		protected virtual void BeforeGetList()
+		{
+		}
+
+		protected virtual void AfterGetList()
+		{
+		}
 
 		public TShort GetSingleShort(Guid? uid)
 		{

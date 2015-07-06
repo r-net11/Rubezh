@@ -4,16 +4,16 @@
 		<Setter Property="Validation.ErrorTemplate">
 			<Setter.Value>
 				<ControlTemplate>
-					<DockPanel LastChildFill="True" 
+					<DockPanel LastChildFill="True"
                            ToolTip="{Binding ElementName=controlWithError,Path=AdornedElement.(Validation.Errors)[0].ErrorContent}">
-						<TextBlock DockPanel.Dock="Right" 
+						<TextBlock DockPanel.Dock="Right"
                        Foreground="Red"
-                       FontSize="14pt" 
+                       FontSize="14pt"
                        Margin="-15,0,0,0" FontWeight="Bold">*
 						</TextBlock>
 						<Border>
 							<Border>
-								<AdornedElementPlaceholder Name="controlWithError"/>
+								<AdornedElementPlaceholder Name="controlWithError" />
 							</Border>
 						</Border>
 					</DockPanel>
@@ -21,39 +21,39 @@
 						<Ellipse Height="15" Margin="0" Stroke="#FF720000" StrokeThickness="1" SnapsToDevicePixels="True" Width="15">
 							<Ellipse.Fill>
 								<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-									<GradientStop Color="Black" Offset="0"/>
-									<GradientStop Color="#FFF01414" Offset="1"/>
+									<GradientStop Color="Black" Offset="0" />
+									<GradientStop Color="#FFF01414" Offset="1" />
 								</LinearGradientBrush>
 							</Ellipse.Fill>
 						</Ellipse>
-						<Path x:Name="Cross" Margin="0.5 0 0 0" Data="M0,0 L1,1 M0,1 L1,0" SnapsToDevicePixels="True" Stretch="Fill" StrokeThickness="2" Width="10" Height="10"  >
+						<Path x:Name="Cross" Margin="0.5 0 0 0" Data="M0,0 L1,1 M0,1 L1,0" SnapsToDevicePixels="True" Stretch="Fill" StrokeThickness="2" Width="10" Height="10">
 							<Path.Stroke>
 								<LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
-									<GradientStop Color="#FFD9D9D9" Offset="1"/>
-									<GradientStop Color="White"/>
-									<GradientStop Color="#FFE6E6E6" Offset="0.612"/>
-									<GradientStop Color="#FFF2F2F2" Offset="0.284"/>
+									<GradientStop Color="#FFD9D9D9" Offset="1" />
+									<GradientStop Color="White" />
+									<GradientStop Color="#FFE6E6E6" Offset="0.612" />
+									<GradientStop Color="#FFF2F2F2" Offset="0.284" />
 								</LinearGradientBrush>
 							</Path.Stroke>
 						</Path>
-						<AdornedElementPlaceholder DockPanel.Dock="Left" Name="controlWithError"/>
+						<AdornedElementPlaceholder DockPanel.Dock="Left" Name="controlWithError" />
 					</DockPanel> -->
 				</ControlTemplate>
 			</Setter.Value>
-			</Setter>
+		</Setter>
 		<Style.Triggers>
-				<Trigger Property="Validation.HasError" Value="true">
-					<Setter 
+			<Trigger Property="Validation.HasError" Value="true">
+				<Setter
 						Property="ToolTip"
 						Value="{Binding RelativeSource={RelativeSource Self},
-						Path=(Validation.Errors)[0].ErrorContent}"/>
-				</Trigger>
+						Path=(Validation.Errors)[0].ErrorContent}" />
+			</Trigger>
 		</Style.Triggers>
 	</Style>
 
 	<Style x:Key="{x:Type TextBlock}" TargetType="TextBlock" />
 
-		<Style x:Key="{x:Type Label}" TargetType="Label">
+	<Style x:Key="{x:Type Label}" TargetType="Label">
 		<Setter Property="Foreground" Value="White" />
 	</Style>
 
@@ -74,30 +74,30 @@
 	</Style>
 
 	<ControlTemplate x:Key="ValidationErrorTemplate">
-			<DockPanel LastChildFill="True">
-			
+		<DockPanel LastChildFill="True">
+
 			<Ellipse Height="30" Margin="0" Stroke="#FF720000" StrokeThickness="1" SnapsToDevicePixels="True" Width="30">
 				<Ellipse.Fill>
 					<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-						<GradientStop Color="Black" Offset="0"/>
-						<GradientStop Color="#FFF01414" Offset="1"/>
+						<GradientStop Color="Black" Offset="0" />
+						<GradientStop Color="#FFF01414" Offset="1" />
 					</LinearGradientBrush>
 				</Ellipse.Fill>
 			</Ellipse>
-			<Path x:Name="Cross" Data="M0,0 L1,1 M0,1 L1,0" SnapsToDevicePixels="True" Stretch="Fill" StrokeThickness="4" Width="20" Height="20"  >
+			<Path x:Name="Cross" Data="M0,0 L1,1 M0,1 L1,0" SnapsToDevicePixels="True" Stretch="Fill" StrokeThickness="4" Width="20" Height="20">
 				<Path.Stroke>
 					<LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
-						<GradientStop Color="#FFD9D9D9" Offset="1"/>
-						<GradientStop Color="White"/>
-						<GradientStop Color="#FFE6E6E6" Offset="0.612"/>
-						<GradientStop Color="#FFF2F2F2" Offset="0.284"/>
+						<GradientStop Color="#FFD9D9D9" Offset="1" />
+						<GradientStop Color="White" />
+						<GradientStop Color="#FFE6E6E6" Offset="0.612" />
+						<GradientStop Color="#FFF2F2F2" Offset="0.284" />
 					</LinearGradientBrush>
 				</Path.Stroke>
 			</Path>
 			<Border BorderBrush="Red" BorderThickness="1">
 
-				<AdornedElementPlaceholder Name="controlWithError"/>
+				<AdornedElementPlaceholder Name="controlWithError" />
 			</Border>
-			</DockPanel>
+		</DockPanel>
 	</ControlTemplate>
 </ResourceDictionary>

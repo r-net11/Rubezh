@@ -1,7 +1,7 @@
-﻿using System;
+﻿using FiresecAPI.Models.Layouts;
+using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using FiresecAPI.Models.Layouts;
 
 namespace FiresecAPI.Models
 {

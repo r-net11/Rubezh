@@ -18,6 +18,7 @@ namespace Controls
 				throw new ArgumentNullException("textBox");
 			return textBox.GetValue(MaskProperty) as string;
 		}
+
 		public static void SetMask(TextBox textBox, string mask)
 		{
 			if (textBox == null)
@@ -31,6 +32,7 @@ namespace Controls
 				throw new ArgumentNullException("textBox");
 			return textBox.GetValue(MaskExpressionProperty) as Regex;
 		}
+
 		private static void SetMaskExpression(TextBox textBox, Regex regex)
 		{
 			textBox.SetValue(_maskExpressionPropertyKey, regex);
@@ -69,6 +71,7 @@ namespace Controls
 			if (!maskExpression.IsMatch(proposedText))
 				e.Handled = true;
 		}
+
 		private static void textBox_PreviewKeyDown(object sender, KeyEventArgs e)
 		{
 			var textBox = sender as TextBox;
@@ -99,6 +102,7 @@ namespace Controls
 			else
 				e.CancelCommand();
 		}
+
 		private static string GetProposedText(TextBox textBox, string newText)
 		{
 			var text = textBox.Text;

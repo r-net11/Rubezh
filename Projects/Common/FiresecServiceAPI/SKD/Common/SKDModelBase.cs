@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Runtime.Serialization;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace FiresecAPI.SKD
 {
@@ -29,12 +29,18 @@ namespace FiresecAPI.SKD
 	public interface IOrganisationElement
 	{
 		Guid UID { get; set; }
+
 		string Name { get; set; }
+
 		string Description { get; set; }
+
 		Guid OrganisationUID { get; set; }
+
 		bool IsDeleted { get; set; }
+
 		DateTime RemovalDate { get; set; }
 	}
+
 	public class SKDModelComparer<T> : IEqualityComparer<T>
 		where T : SKDModelBase
 	{
@@ -50,6 +56,6 @@ namespace FiresecAPI.SKD
 			return obj.UID.GetHashCode();
 		}
 
-		#endregion
+		#endregion IEqualityComparer<T> Members
 	}
 }

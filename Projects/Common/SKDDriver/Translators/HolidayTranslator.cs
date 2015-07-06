@@ -1,8 +1,8 @@
-﻿using System;
+﻿using FiresecAPI.SKD;
+using LinqKit;
+using System;
 using System.Linq;
 using System.Linq.Expressions;
-using FiresecAPI.SKD;
-using LinqKit;
 using OperationResult = FiresecAPI.OperationResult;
 
 namespace SKDDriver.Translators
@@ -12,7 +12,6 @@ namespace SKDDriver.Translators
 		public HolidayTranslator(SKDDatabaseService databaseService)
 			: base(databaseService)
 		{
-
 		}
 
 		protected override IQueryable<DataAccess.Holiday> GetQuery(HolidayFilter filter)
@@ -44,6 +43,7 @@ namespace SKDDriver.Translators
 				return new OperationResult("Сокращённый день с таким же названием уже содержится в базе данных");
 			return new OperationResult();
 		}
+
 		protected override Holiday Translate(DataAccess.Holiday tableItem)
 		{
 			var apiItem = base.Translate(tableItem);

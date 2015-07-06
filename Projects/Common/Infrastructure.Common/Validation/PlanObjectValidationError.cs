@@ -1,6 +1,6 @@
-﻿using System;
-using Infrastructure.Common.Navigation;
+﻿using Infrastructure.Common.Navigation;
 using Microsoft.Practices.Prism.Events;
+using System;
 
 namespace Infrastructure.Common.Validation
 {
@@ -26,8 +26,11 @@ namespace Infrastructure.Common.Validation
 				};
 			}
 		}
+
 		protected abstract TKey KeyValue { get; }
+
 		public bool? IsRightPanelVisible { get; private set; }
+
 		public Guid? PlanUID { get; private set; }
 	}
 }

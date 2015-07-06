@@ -1,9 +1,9 @@
-﻿using System;
-using System.Data;
-using System.Linq;
-using FiresecAPI.SKD;
+﻿using FiresecAPI.SKD;
 using FiresecAPI.SKD.ReportFilters;
 using FiresecService.Report.DataSources;
+using System;
+using System.Data;
+using System.Linq;
 
 namespace FiresecService.Report.Templates
 {
@@ -26,6 +26,7 @@ namespace FiresecService.Report.Templates
 		{
 			get { return "Справка по отработанному времени"; }
 		}
+
 		protected override DataSet CreateDataSet(DataProvider dataProvider)
 		{
 			var filter = GetFilter<WorkingTimeReportFilter>();

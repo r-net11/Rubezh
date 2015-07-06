@@ -1,14 +1,15 @@
-﻿using System;
+﻿using FiresecAPI.Models;
+using Infrastructure.Common.Windows.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using FiresecAPI.Models;
-using Infrastructure.Common.Windows.ViewModels;
 
 namespace Infrastructure.Common.Navigation
 {
 	public class NavigationItem : BaseViewModel
 	{
 		public ReadOnlyCollection<NavigationItem> Childs { get; private set; }
+
 		public ShellViewModel Context { get; set; }
 
 		public NavigationItem(string title, string icon = null, IList<NavigationItem> childs = null, PermissionType? permission = null)
@@ -27,12 +28,14 @@ namespace Infrastructure.Common.Navigation
 		}
 
 		public Predicate<NavigationItem> PermissionPredicate { get; set; }
+
 		public virtual bool CheckPermission()
 		{
 			return PermissionPredicate == null || PermissionPredicate(this);
 		}
 
 		private string _title;
+
 		public string Title
 		{
 			get { return _title; }
@@ -42,7 +45,9 @@ namespace Infrastructure.Common.Navigation
 				OnPropertyChanged(() => Title);
 			}
 		}
+
 		private string _icon;
+
 		public string Icon
 		{
 			get { return _icon; }
@@ -52,7 +57,9 @@ namespace Infrastructure.Common.Navigation
 				OnPropertyChanged("Icon");
 			}
 		}
+
 		private bool _isVisible;
+
 		public bool IsVisible
 		{
 			get { return _isVisible; }
@@ -64,6 +71,7 @@ namespace Infrastructure.Common.Navigation
 		}
 
 		private bool _isExpanded;
+
 		public bool IsExpanded
 		{
 			get { return _isExpanded; }
@@ -75,7 +83,9 @@ namespace Infrastructure.Common.Navigation
 				OnPropertyChanged("IsExpanded");
 			}
 		}
+
 		private bool _isSelected;
+
 		public bool IsSelected
 		{
 			get { return _isSelected; }
@@ -87,7 +97,9 @@ namespace Infrastructure.Common.Navigation
 				OnPropertyChanged("IsSelected");
 			}
 		}
+
 		private NavigationItem _parent;
+
 		public NavigationItem Parent
 		{
 			get { return _parent; }
@@ -97,7 +109,9 @@ namespace Infrastructure.Common.Navigation
 				OnPropertyChanged("Parent");
 			}
 		}
+
 		private PermissionType? _permission = null;
+
 		public PermissionType? Permission
 		{
 			get { return _permission; }
@@ -107,7 +121,9 @@ namespace Infrastructure.Common.Navigation
 				OnPropertyChanged("Permission");
 			}
 		}
+
 		private bool _isSelectionAllowed;
+
 		public bool IsSelectionAllowed
 		{
 			get { return _isSelectionAllowed; }

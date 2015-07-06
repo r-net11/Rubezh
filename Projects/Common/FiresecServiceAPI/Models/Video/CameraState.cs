@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Runtime.Serialization;
-using Common;
+﻿using Common;
 using FiresecAPI.GK;
+using System;
+using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace FiresecAPI.Models
 {
@@ -19,8 +17,9 @@ namespace FiresecAPI.Models
 
 		[DataMember]
 		public XStateClass StateClass { get; set; }
-		
+
 		public event Action StateChanged;
+
 		public void OnStateChanged()
 		{
 			if (StateChanged != null)
@@ -37,14 +36,17 @@ namespace FiresecAPI.Models
 		public Camera Camera { get; private set; }
 
 		#region IDeviceState<XStateClass> Members
+
 		XStateClass IDeviceState.StateClass
 		{
 			get { return StateClass; }
 		}
+
 		string IDeviceState.Name
 		{
 			get { return StateClass.ToDescription(); }
 		}
-		#endregion
+
+		#endregion IDeviceState<XStateClass> Members
 	}
 }

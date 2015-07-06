@@ -1,10 +1,10 @@
+using Common;
+using Infrustructure.Plans.Elements;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Windows.Media;
-using Infrustructure.Plans.Elements;
 using System.Xml.Serialization;
-using Common;
 
 namespace FiresecAPI.Models
 {
@@ -51,6 +51,7 @@ namespace FiresecAPI.Models
 
 		[DataMember]
 		public string Caption { get; set; }
+
 		[DataMember]
 		public string Description { get; set; }
 
@@ -59,37 +60,52 @@ namespace FiresecAPI.Models
 
 		[DataMember]
 		public Guid UID { get; set; }
+
 		[DataMember]
 		public double Width { get; set; }
+
 		[DataMember]
 		public double Height { get; set; }
+
 		[DataMember]
 		public Color BackgroundColor { get; set; }
+
 		[DataMember]
 		public Guid? BackgroundImageSource { get; set; }
+
 		[DataMember]
 		public string BackgroundSourceName { get; set; }
+
 		[DataMember]
 		public ResourceType ImageType { get; set; }
 
 		[DataMember]
 		public List<ElementRectangle> ElementRectangles { get; set; }
+
 		[DataMember]
 		public List<ElementEllipse> ElementEllipses { get; set; }
+
 		[DataMember]
 		public List<ElementTextBlock> ElementTextBlocks { get; set; }
+
 		[DataMember]
 		public List<ElementPolygon> ElementPolygons { get; set; }
+
 		[DataMember]
 		public List<ElementPolyline> ElementPolylines { get; set; }
+
 		[DataMember]
 		public List<ElementSubPlan> ElementSubPlans { get; set; }
+
 		[DataMember]
 		public List<ElementSKDDevice> ElementSKDDevices { get; set; }
+
 		[DataMember]
 		public List<ElementRectangleSKDZone> ElementRectangleSKDZones { get; set; }
+
 		[DataMember]
 		public List<ElementPolygonSKDZone> ElementPolygonSKDZones { get; set; }
+
 		[DataMember]
 		public List<ElementDoor> ElementDoors { get; set; }
 
@@ -111,12 +127,13 @@ namespace FiresecAPI.Models
 				return union;
 			}
 		}
+
 		[XmlIgnore]
 		public IEnumerable<ElementBase> SimpleElements
 		{
 			get
 			{
-				foreach(var element in ElementRectangles)
+				foreach (var element in ElementRectangles)
 					yield return element;
 				foreach (var element in ElementEllipses)
 					yield return element;
@@ -128,6 +145,7 @@ namespace FiresecAPI.Models
 					yield return element;
 			}
 		}
+
 		[XmlIgnore]
 		public IEnumerable<ElementBase> AllElements
 		{

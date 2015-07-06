@@ -1,5 +1,5 @@
-﻿using System;
-using Infrastructure.Common.Windows.ViewModels;
+﻿using Infrastructure.Common.Windows.ViewModels;
+using System;
 
 namespace Infrastructure.Common.Ribbon
 {
@@ -8,6 +8,7 @@ namespace Infrastructure.Common.Ribbon
 		public event EventHandler PopupOpened;
 
 		private RibbonMenuViewModel _content;
+
 		public RibbonMenuViewModel Content
 		{
 			get { return _content; }
@@ -19,6 +20,7 @@ namespace Infrastructure.Common.Ribbon
 		}
 
 		private bool _isOpened;
+
 		public bool IsOpened
 		{
 			get { return _isOpened; }
@@ -31,7 +33,8 @@ namespace Infrastructure.Common.Ribbon
 			}
 		}
 
-		string logoSource;
+		private string logoSource;
+
 		public string LogoSource
 		{
 			get { return logoSource; }

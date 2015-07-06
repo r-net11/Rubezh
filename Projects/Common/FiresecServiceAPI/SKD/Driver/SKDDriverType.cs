@@ -14,6 +14,7 @@
 
 		//TODO:Refactor this. It's temproary solution
 		EnumType,
+
 		StringType,
 		IntType,
 		BoolType

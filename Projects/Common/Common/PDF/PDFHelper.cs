@@ -1,15 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using iTextSharp.text;
+﻿using iTextSharp.text;
 using iTextSharp.text.pdf;
 using Microsoft.Win32;
+using System;
+using System.Collections.Generic;
+using System.Data;
 
 namespace Common.PDF
 {
 	public static class PDFHelper
 	{
 		private static Dictionary<string, Image> _imageCache = new Dictionary<string, Image>();
+
 		public static Image GetImage(string source)
 		{
 			if (string.IsNullOrEmpty(source))
@@ -29,6 +30,7 @@ namespace Common.PDF
 			_imageCache.Add(source, image);
 			return image;
 		}
+
 		public static void ClearCaches()
 		{
 			_imageCache.Clear();
@@ -48,10 +50,12 @@ namespace Common.PDF
 		{
 			return GetCell(content, PDFStyle.NormalFont, background);
 		}
+
 		public static PdfPCell GetCell(string content, Font font, BaseColor background = null)
 		{
 			return GetCell(content, font, Element.ALIGN_LEFT, background);
 		}
+
 		public static PdfPCell GetCell(string content, Font font, int horizontalAlignment, BaseColor background = null)
 		{
 			return new PdfPCell(new Phrase(content, font))
@@ -60,6 +64,7 @@ namespace Common.PDF
 				HorizontalAlignment = horizontalAlignment,
 			};
 		}
+
 		public static PdfPCell GetImageTextCell(string imageSource, string text, float partial, BaseColor background = null)
 		{
 			var image = GetImage(imageSource);
@@ -90,6 +95,7 @@ namespace Common.PDF
 			table.SpacingAfter = 20f;
 			return table;
 		}
+
 		public static void PrintTable(PdfPTable table, DataTable dataTable)
 		{
 			foreach (DataRow row in dataTable.Rows)

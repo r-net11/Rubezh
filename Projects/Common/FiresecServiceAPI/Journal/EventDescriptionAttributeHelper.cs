@@ -1,5 +1,5 @@
-﻿using System.Reflection;
-using FiresecAPI.GK;
+﻿using FiresecAPI.GK;
+using System.Reflection;
 
 namespace FiresecAPI.Journal
 {

@@ -6,6 +6,7 @@ namespace ChinaSKDDriverAPI
 	public class TimeInterval
 	{
 		public TimeSpan StartDateTime { get; set; }
+
 		public TimeSpan EndDateTime { get; set; }
 	}
 

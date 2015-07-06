@@ -1,9 +1,9 @@
-﻿using System;
-using System.Linq;
-using System.Linq.Expressions;
-using FiresecAPI;
+﻿using FiresecAPI;
 using FiresecAPI.SKD;
 using LinqKit;
+using System;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace SKDDriver
 {
@@ -15,7 +15,6 @@ namespace SKDDriver
 		public OrganisationElementTranslator(SKDDatabaseService databaseService)
 			: base(databaseService)
 		{
-
 		}
 
 		protected override ApiT Translate(TableT tableItem)
@@ -83,7 +82,7 @@ namespace SKDDriver
 		protected override Expression<Func<TableT, bool>> IsInFilter(FilterT filter)
 		{
 			var result = base.IsInFilter(filter);
-			if(filter.OrganisationUIDs.IsNotNullOrEmpty())
+			if (filter.OrganisationUIDs.IsNotNullOrEmpty())
 				result = result.And(x => x.OrganisationUID != null && filter.OrganisationUIDs.Contains(x.OrganisationUID.Value));
 			if (filter.UserUID != Guid.Empty)
 				result = result.And(e => (Context.Organisations.Any(x => x.OrganisationUsers.Any(y => y.UserUID == filter.UserUID) && x.UID == e.OrganisationUID)));

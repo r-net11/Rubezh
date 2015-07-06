@@ -1,8 +1,7 @@
-﻿using System;
+﻿using FiresecAPI.AutomationCallback;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using FiresecAPI.AutomationCallback;
 
 namespace FiresecService.Automation
 {
@@ -27,6 +26,7 @@ namespace FiresecService.Automation
 				}
 			}
 		}
+
 		public static void SetProperty(Guid layoutUID, VisualPropertyCallbackData data)
 		{
 			lock (_lock)
@@ -43,6 +43,7 @@ namespace FiresecService.Automation
 				}
 			}
 		}
+
 		public static ProcedureProperties GetProcedureProperties(Guid layoutUID)
 		{
 			return new ProcedureProperties()
@@ -51,11 +52,13 @@ namespace FiresecService.Automation
 				PlanProperties = GetPlanProperties(),
 			};
 		}
+
 		private static List<VisualPropertyCallbackData> GetProperties(Guid layoutUID)
 		{
 			lock (_lock)
 				return new List<VisualPropertyCallbackData>(_cache.ContainsKey(layoutUID) ? _cache[layoutUID] : Enumerable.Empty<VisualPropertyCallbackData>());
 		}
+
 		private static List<PlanCallbackData> GetPlanProperties()
 		{
 			lock (_lockPlan)

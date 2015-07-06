@@ -5,7 +5,7 @@
 
 	<Converters:ColorToBrushConverter x:Key="ColorToBrushConverter" />
 	<Converters:ColorToNameConverter x:Key="ColorToNameConverter" />
-	<Helpers:ColorsHelper x:Key="ColorsHelper"/>
+	<Helpers:ColorsHelper x:Key="ColorsHelper" />
 
 	<Style x:Key="ColorPickerComboBox" TargetType="ComboBox">
 		<Setter Property="ItemsSource" Value="{Binding Source={StaticResource ColorsHelper},Path=AvailableColors, Mode=OneWay }" />
@@ -17,14 +17,13 @@
 							<ColumnDefinition Width="50" />
 							<ColumnDefinition Width="*" />
 						</Grid.ColumnDefinitions>
-						<Border Grid.Column="0" BorderThickness="1" CornerRadius="2" 
+						<Border Grid.Column="0" BorderThickness="1" CornerRadius="2"
 							BorderBrush="Black" Width="50" VerticalAlignment="Stretch"
-							Background="{Binding ., Converter={StaticResource ColorToBrushConverter}}"/>
+							Background="{Binding ., Converter={StaticResource ColorToBrushConverter}}" />
 						<TextBlock Grid.Column="1" Text="{Binding ., Converter={StaticResource ColorToNameConverter}}" Margin="5, 0, 0, 0" VerticalAlignment="Center" />
 					</Grid>
 				</DataTemplate>
 			</Setter.Value>
 		</Setter>
 	</Style>
-	
 </ResourceDictionary>

@@ -70,10 +70,14 @@ namespace FiresecAPI.SKD
 		public NightSettings NightSettings { get; set; }
 
 		public TimeTrackType TimeTrackType { get; set; }
+
 		public string LetterCode { get; set; }
+
 		public string Tooltip { get; set; }
+
 		public List<TimeTrackTotal> Totals { get; set; }
-		bool IsCrossNight { get { return false; } }
+
+		private bool IsCrossNight { get { return false; } }
 
 		public void Calculate()
 		{
@@ -87,7 +91,7 @@ namespace FiresecAPI.SKD
 			CalculateLetterCode();
 		}
 
-		void CalculateDocuments()
+		private void CalculateDocuments()
 		{
 			DocumentTrackParts = new List<TimeTrackPart>();
 			foreach (var document in Documents)
@@ -170,7 +174,7 @@ namespace FiresecAPI.SKD
 			DocumentTrackParts = result;
 		}
 
-		void CalculateCombinedTimeTrackParts()
+		private void CalculateCombinedTimeTrackParts()
 		{
 			var firstPlanned = new TimeSpan();
 			var lastPlanned = new TimeSpan();
@@ -295,7 +299,7 @@ namespace FiresecAPI.SKD
 			}
 		}
 
-		void CalculateTotal()
+		private void CalculateTotal()
 		{
 			Totals = new List<TimeTrackTotal>();
 
@@ -347,7 +351,7 @@ namespace FiresecAPI.SKD
 					timeTrackTotal.TimeSpan += timeTrack.Delta;
 				}
 
-				switch(timeTrack.TimeTrackPartType)
+				switch (timeTrack.TimeTrackPartType)
 				{
 					case SKD.TimeTrackType.DocumentOvertime:
 					case SKD.TimeTrackType.DocumentPresence:
@@ -384,7 +388,7 @@ namespace FiresecAPI.SKD
 			TimeTrackType = CalculateTimeTrackType();
 		}
 
-		TimeTrackType CalculateTimeTrackType()
+		private TimeTrackType CalculateTimeTrackType()
 		{
 			if (!string.IsNullOrEmpty(Error))
 				return TimeTrackType.None;
@@ -393,7 +397,7 @@ namespace FiresecAPI.SKD
 			var longestTimeSpan = new TimeSpan();
 			foreach (var total in Totals)
 			{
-				switch(total.TimeTrackType)
+				switch (total.TimeTrackType)
 				{
 					case TimeTrackType.Absence:
 					case TimeTrackType.Late:
@@ -422,7 +426,7 @@ namespace FiresecAPI.SKD
 			return longestTimeTrackType;
 		}
 
-		TimeSpan CalculateEveningTime(TimeSpan start, TimeSpan end)
+		private TimeSpan CalculateEveningTime(TimeSpan start, TimeSpan end)
 		{
 			var result = new TimeSpan();
 			if (end > TimeSpan.Zero)
@@ -488,7 +492,7 @@ namespace FiresecAPI.SKD
 
 			for (int i = result.Count - 1; i > 0; i--)
 			{
-				if (result[i].StartTime == result[i - 1].EndTime && result[i].ZoneUID == result[i-1].ZoneUID)
+				if (result[i].StartTime == result[i - 1].EndTime && result[i].ZoneUID == result[i - 1].ZoneUID)
 				{
 					result[i].StartTime = result[i - 1].StartTime;
 					result.RemoveAt(i - 1);
@@ -497,7 +501,7 @@ namespace FiresecAPI.SKD
 			return result;
 		}
 
-		void CalculateLetterCode()
+		private void CalculateLetterCode()
 		{
 			Tooltip = TimeTrackType.ToDescription();
 

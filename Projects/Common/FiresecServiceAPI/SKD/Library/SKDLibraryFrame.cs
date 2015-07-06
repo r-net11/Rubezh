@@ -1,5 +1,5 @@
-﻿using System.Runtime.Serialization;
-using Infrustructure.Plans.Devices;
+﻿using Infrustructure.Plans.Devices;
+using System.Runtime.Serialization;
 
 namespace FiresecAPI.SKD
 {

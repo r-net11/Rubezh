@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Runtime.Serialization;
 
 namespace FiresecAPI.SKD.ReportFilters
@@ -14,20 +12,20 @@ namespace FiresecAPI.SKD.ReportFilters
 		[DataMember]
 		public List<Guid> Organisations { get; set; }
 
-		#endregion
+		#endregion IReportFilterOrganisation Members
 
 		#region IReportFilterDepartment Members
 
 		[DataMember]
 		public List<Guid> Departments { get; set; }
 
-		#endregion
+		#endregion IReportFilterDepartment Members
 
 		#region IReportFilterArchive Members
 
 		[DataMember]
 		public bool UseArchive { get; set; }
 
-		#endregion
+		#endregion IReportFilterArchive Members
 	}
 }

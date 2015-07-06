@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Windows.Media;
 using System.Reflection;
+using System.Windows.Media;
 
 namespace Common
 {
 	public static class ColorUtilities
 	{
 		public static Dictionary<string, Color> KnownColors { get; private set; }
+
 		public static Dictionary<Color, string> ColorNames { get; private set; }
 
 		static ColorUtilities()
@@ -160,7 +159,7 @@ namespace Common
 				{ Colors.YellowGreen, "Желто-зеленый" },
 			};
 		}
-		
+
 		public static string GetColorName(this Color color)
 		{
 			string str = (from kvp in KnownColors where kvp.Value.Equals(color) select kvp.Key).FirstOrDefault<string>();
@@ -168,6 +167,7 @@ namespace Common
 				str = color.ToString();
 			return str;
 		}
+
 		public static string FormatColorString(string stringToFormat, bool isUsingAlphaChannel)
 		{
 			return !isUsingAlphaChannel && (stringToFormat.Length == 9) ? stringToFormat.Remove(1, 2) : stringToFormat;

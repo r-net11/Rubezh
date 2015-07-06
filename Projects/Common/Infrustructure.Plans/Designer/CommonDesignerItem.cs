@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Infrustructure.Plans.Elements;
+using Infrustructure.Plans.Painters;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using Infrustructure.Plans.Elements;
-using Infrustructure.Plans.Painters;
 
 namespace Infrustructure.Plans.Designer
 {
@@ -13,21 +13,31 @@ namespace Infrustructure.Plans.Designer
 		public const int DefaultPointSize = 30;
 
 		public event EventHandler ItemPropertyChanged;
+
 		public event EventHandler IndexPropertyChanged;
+
 		public event EventHandler TitleChanged;
+
 		public event EventHandler IconSourceChanged;
 
 		public CommonDesignerCanvas DesignerCanvas { get; private set; }
+
 		public ElementBase Element { get; protected set; }
+
 		public IPainter Painter { get; protected set; }
+
 		public bool IsMouseOver { get; private set; }
+
 		public bool IsBusy { get; protected set; }
+
 		public bool IsEnabled { get; protected set; }
+
 		public virtual bool AllowDrag { get { return false; } }
 
 		public event Action<CommonDesignerItem> UpdateProperties;
 
 		private string _title;
+
 		public string Title
 		{
 			get { return _title; }
@@ -43,6 +53,7 @@ namespace Infrustructure.Plans.Designer
 		}
 
 		private int _index;
+
 		public int Index
 		{
 			get { return _index; }
@@ -59,6 +70,7 @@ namespace Infrustructure.Plans.Designer
 		public string ClassName { get; set; }
 
 		private string _iconSource;
+
 		public string IconSource
 		{
 			get { return _iconSource; }
@@ -114,11 +126,13 @@ namespace Infrustructure.Plans.Designer
 		}
 
 		public double MinHeight { get; protected set; }
+
 		public double MinWidth { get; protected set; }
 
 		public virtual void UpdateZoom()
 		{
 		}
+
 		public virtual void UpdateZoomPoint()
 		{
 		}
@@ -127,20 +141,24 @@ namespace Infrustructure.Plans.Designer
 		{
 			Element = element;
 		}
+
 		internal virtual void Render(DrawingContext drawingContext)
 		{
 			if (Painter != null)
 				Painter.Draw(drawingContext);
 		}
+
 		public virtual void RefreshPainter()
 		{
 			SetMinSize();
 			Painter.Transform();
 		}
+
 		public virtual Rect GetRectangle()
 		{
 			return Element.GetRectangle();
 		}
+
 		protected virtual void ResetIsEnabled()
 		{
 			IsEnabled = IsVisibleLayout;
@@ -156,10 +174,12 @@ namespace Infrustructure.Plans.Designer
 				MinHeight += 3;
 			}
 		}
+
 		public virtual void UpdateElementProperties()
 		{
 			OnUpdateProperties();
 		}
+
 		protected void OnUpdateProperties()
 		{
 			if (UpdateProperties != null)
@@ -170,10 +190,12 @@ namespace Infrustructure.Plans.Designer
 		{
 			return null;
 		}
+
 		public virtual ContextMenu GetElementContextMenu()
 		{
 			return null;
 		}
+
 		protected void OnDesignerItemPropertyChanged()
 		{
 			if (ItemPropertyChanged != null)
@@ -184,12 +206,15 @@ namespace Infrustructure.Plans.Designer
 		{
 			DesignerCanvas.SetTitle(null);
 		}
+
 		protected virtual void MouseUp(Point point, MouseButtonEventArgs e)
 		{
 		}
+
 		protected virtual void MouseMove(Point point, MouseEventArgs e)
 		{
 		}
+
 		protected virtual void MouseDoubleClick(Point point, MouseButtonEventArgs e)
 		{
 		}
@@ -200,16 +225,18 @@ namespace Infrustructure.Plans.Designer
 			DesignerCanvas.SetTitle(value ? GetToolTip() : null);
 			DesignerCanvas.SetDesignerItemOver(this, value);
 		}
+
 		protected virtual object GetToolTip()
 		{
-			string format = 
-				Index == default(int) 
-				? string.Format("{0}", Title) 
+			string format =
+				Index == default(int)
+				? string.Format("{0}", Title)
 				: string.Format("{0}. {1}", Index, Title);
 
 			var tooltip = Painter == null ? null : Painter.GetToolTip(format);
 			return tooltip ?? format;
 		}
+
 		protected virtual ContextMenu ContextMenuOpening()
 		{
 			DesignerCanvas.SetTitle(null);
@@ -222,6 +249,7 @@ namespace Infrustructure.Plans.Designer
 		{
 			SetIsMouseOver(isMouseOver);
 		}
+
 		ContextMenu IVisualItem.ContextMenuOpening()
 		{
 			return ContextMenuOpening();
@@ -232,23 +260,26 @@ namespace Infrustructure.Plans.Designer
 			if (IsEnabled)
 				MouseDown(point, e);
 		}
+
 		void IVisualItem.OnMouseUp(Point point, MouseButtonEventArgs e)
 		{
 			if (IsEnabled)
 				MouseUp(point, e);
 		}
+
 		void IVisualItem.OnMouseMove(Point point, MouseEventArgs e)
 		{
 			if (IsEnabled)
 				MouseMove(point, e);
 		}
+
 		void IVisualItem.OnMouseDoubleClick(Point point, MouseButtonEventArgs e)
 		{
 			if (IsEnabled)
 				MouseDoubleClick(point, e);
 		}
 
-		#endregion
+		#endregion IVisualItem Members
 
 		public virtual IVisualItem HitTest(Point point)
 		{
@@ -258,9 +289,11 @@ namespace Infrustructure.Plans.Designer
 		public virtual void DragStarted(Point point)
 		{
 		}
+
 		public virtual void DragCompleted(Point point)
 		{
 		}
+
 		public virtual void DragDelta(Point point, Vector shift)
 		{
 		}

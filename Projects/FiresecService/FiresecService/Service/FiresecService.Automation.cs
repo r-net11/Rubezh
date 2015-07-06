@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using FiresecAPI;
+﻿using FiresecAPI;
 using FiresecAPI.Automation;
 using FiresecAPI.AutomationCallback;
 using FiresecService.Automation;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace FiresecService.Service
 {

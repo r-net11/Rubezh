@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 namespace Infrastructure.Common.SKDReports
 {
@@ -10,10 +6,13 @@ namespace Infrastructure.Common.SKDReports
 	{
 		[DescriptionAttribute("Конфигурация")]
 		Configuration = 100,
+
 		[DescriptionAttribute("События")]
 		Events = 200,
+
 		[DescriptionAttribute("Картотека")]
 		HR = 300,
+
 		[DescriptionAttribute("Учет рабочего времени")]
 		TimeTracking = 400,
 	}

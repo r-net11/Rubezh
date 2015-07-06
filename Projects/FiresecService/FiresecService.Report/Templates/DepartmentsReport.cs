@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Drawing.Printing;
-using System.Linq;
-using Common;
+﻿using Common;
 using DevExpress.XtraPrinting;
 using DevExpress.XtraReports.UI;
 using FiresecAPI.SKD;
@@ -11,6 +6,11 @@ using FiresecAPI.SKD.ReportFilters;
 using FiresecService.Report.DataSources;
 using FiresecService.Report.Model;
 using SKDDriver;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Drawing.Printing;
+using System.Linq;
 
 namespace FiresecService.Report.Templates
 {
@@ -33,6 +33,7 @@ namespace FiresecService.Report.Templates
 		{
 			get { return "Список подразделений организации"; }
 		}
+
 		protected override DataSet CreateDataSet(DataProvider dataProvider)
 		{
 			var filter = GetFilter<DepartmentsReportFilter>();
@@ -67,14 +68,14 @@ namespace FiresecService.Report.Templates
 				organisations = organisations.Where(org => !org.Value.IsDeleted);
 			if (filter.Organisations.IsEmpty())
 			{
-				if(filter.IsDefault)
+				if (filter.IsDefault)
 					organisationUID = organisations.FirstOrDefault().Key;
 			}
 			else
 			{
 				organisationUID = organisations.FirstOrDefault(org => org.Key == filter.Organisations.FirstOrDefault()).Key;
 			}
-			
+
 			IEnumerable<OrganisationBaseObjectInfo<Department>> departments = null;
 			if (organisationUID != Guid.Empty)
 			{
@@ -87,6 +88,7 @@ namespace FiresecService.Report.Templates
 			}
 			return departments != null ? departments : new List<OrganisationBaseObjectInfo<Department>>();
 		}
+
 		protected override void ApplySort()
 		{
 			Detail.SortFields.Add(new GroupField("Level", Filter.SortAscending ? XRColumnSortOrder.Ascending : XRColumnSortOrder.Descending));
@@ -119,6 +121,7 @@ namespace FiresecService.Report.Templates
 				xrTableContent.EndInit();
 			}
 		}
+
 		private void xrTableCellLevel_BeforePrint(object sender, PrintEventArgs e)
 		{
 			var level = GetCurrentColumnValue<int>("Level");

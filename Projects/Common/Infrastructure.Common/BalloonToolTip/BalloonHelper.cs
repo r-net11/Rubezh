@@ -1,15 +1,15 @@
-﻿using System;
+﻿using Common;
+using Infrastructure.Common.BalloonTrayTip.ViewModels;
+using System;
 using System.Windows.Media;
 using System.Windows.Threading;
-using Common;
-using Infrastructure.Common.BalloonTrayTip.ViewModels;
 
 namespace Infrastructure.Common.BalloonTrayTip
 {
 	public class BalloonHelper
 	{
-		static BalloonToolTipViewModel balloonToolTipViewModel = new BalloonToolTipViewModel();
-		static Brush ForegroundColor = Brushes.Black;
+		private static BalloonToolTipViewModel balloonToolTipViewModel = new BalloonToolTipViewModel();
+		private static Brush ForegroundColor = Brushes.Black;
 
 		public static void ShowFromFiresec(string text)
 		{
@@ -31,7 +31,7 @@ namespace Infrastructure.Common.BalloonTrayTip
 			Show("Сервер приложений", text);
 		}
 
-		static void Show(string title, string text)
+		private static void Show(string title, string text)
 		{
 			Show(title, text, Brushes.Black, Brushes.Cornsilk);
 		}

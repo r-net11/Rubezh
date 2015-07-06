@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Common;
+using FiresecAPI;
+using System;
 using System.IO;
 using System.Runtime.Serialization;
-using Common;
-using FiresecAPI;
 using System.Xml.Serialization;
 
 namespace Infrastructure.Common

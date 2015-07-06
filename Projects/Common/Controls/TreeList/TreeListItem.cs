@@ -1,14 +1,15 @@
-﻿using System.ComponentModel;
+﻿using Infrastructure.Common.TreeList;
+using Infrastructure.Common.Windows.ViewModels;
+using System.ComponentModel;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Infrastructure.Common.TreeList;
-using Infrastructure.Common.Windows.ViewModels;
 
 namespace Controls.TreeList
 {
 	public class TreeListItem : ListViewItem, INotifyPropertyChanged
 	{
 		private TreeNodeViewModel _node;
+
 		public TreeNodeViewModel Node
 		{
 			get { return _node; }
@@ -41,6 +42,7 @@ namespace Controls.TreeList
 				}
 			}
 		}
+
 		protected override void OnKeyDown(KeyEventArgs e)
 		{
 			if (Node != null)
@@ -56,6 +58,7 @@ namespace Controls.TreeList
 						else if (Node.Nodes.Count > 0)
 							ChangeFocus(Node.Nodes[0]);
 						break;
+
 					case Key.Left:
 						e.Handled = true;
 						if (Node.IsExpanded && Node.HasChildren)
@@ -66,11 +69,13 @@ namespace Controls.TreeList
 						else
 							ChangeFocus(Node.ParentNode);
 						break;
+
 					case Key.Subtract:
 						e.Handled = true;
 						Node.IsExpanded = false;
 						ChangeFocus(Node);
 						break;
+
 					case Key.Add:
 						e.Handled = true;
 						Node.IsExpanded = true;
@@ -95,12 +100,15 @@ namespace Controls.TreeList
 		}
 
 		#region INotifyPropertyChanged Members
+
 		public event PropertyChangedEventHandler PropertyChanged;
+
 		private void OnPropertyChanged(string name)
 		{
 			if (PropertyChanged != null)
 				PropertyChanged(this, new PropertyChangedEventArgs(name));
 		}
-		#endregion
+
+		#endregion INotifyPropertyChanged Members
 	}
 }

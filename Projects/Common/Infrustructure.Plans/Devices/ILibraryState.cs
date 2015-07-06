@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using FiresecAPI.GK;
+﻿using FiresecAPI.GK;
+using System.Collections.Generic;
 
 namespace Infrustructure.Plans.Devices
 {
@@ -7,7 +7,9 @@ namespace Infrustructure.Plans.Devices
 		where TLibraryFrame : ILibraryFrame
 	{
 		List<TLibraryFrame> Frames { get; set; }
+
 		int Layer { get; set; }
+
 		XStateClass StateType { get; }
 	}
 }

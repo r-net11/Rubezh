@@ -26,6 +26,6 @@ namespace Controls.Converters
 			return !(bool?)value;
 		}
 
-		#endregion
+		#endregion IValueConverter Members
 	}
 }

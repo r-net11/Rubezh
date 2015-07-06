@@ -1,10 +1,10 @@
-﻿using System;
+﻿using FiresecAPI;
+using FiresecAPI.SKD;
+using LinqKit;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using FiresecAPI;
-using FiresecAPI.SKD;
-using LinqKit;
 
 namespace SKDDriver
 {
@@ -13,8 +13,8 @@ namespace SKDDriver
 		public AdditionalColumnTypeTranslator(SKDDatabaseService databaseService)
 			: base(databaseService)
 		{
-			
 		}
+
 		protected override OperationResult CanSave(AdditionalColumnType item)
 		{
 			var result = base.CanSave(item);

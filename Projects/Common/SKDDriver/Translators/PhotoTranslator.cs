@@ -1,6 +1,6 @@
-﻿using System.Linq;
-using FiresecAPI;
+﻿using FiresecAPI;
 using FiresecAPI.SKD;
+using System.Linq;
 
 namespace SKDDriver
 {
@@ -40,7 +40,5 @@ namespace SKDDriver
 			}
 			return new OperationResult();
 		}
-
-		
 	}
 }

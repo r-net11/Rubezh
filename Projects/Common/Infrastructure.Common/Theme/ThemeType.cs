@@ -6,7 +6,7 @@ namespace Infrastructure.Common.Theme
 	{
 		[DescriptionAttribute("Синяя тема")]
 		BlueTheme,
-		
+
 		[DescriptionAttribute("Серая тема")]
 		GrayTheme,
 

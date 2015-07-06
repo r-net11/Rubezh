@@ -26,5 +26,4 @@
 		<Setter Property="Foreground" Value="Black" />
 		<Setter Property="TextBlock.TextDecorations" Value="{x:Null}" />
 	</Style>
-
 </ResourceDictionary>

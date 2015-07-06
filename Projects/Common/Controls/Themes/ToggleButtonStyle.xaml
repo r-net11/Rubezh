@@ -67,12 +67,10 @@
 							<Setter Property="TextElement.Foreground" Value="DarkGray" />
 						</Trigger>
 					</ControlTemplate.Triggers>
-
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
 	</Style>
 
 	<Style BasedOn="{StaticResource {x:Type ToggleButton}}" TargetType="{x:Type controls:PopupButton}" />
-
 </ResourceDictionary>

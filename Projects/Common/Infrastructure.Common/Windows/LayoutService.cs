@@ -1,14 +1,16 @@
-﻿using System.Collections.Generic;
-using System.Windows.Controls;
-using Infrastructure.Common.Services;
+﻿using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Collections.Generic;
+using System.Windows.Controls;
 
 namespace Infrastructure.Common.Windows
 {
 	internal class LayoutService : ILayoutService
 	{
 		public ShortcutService ShortcutService { get; private set; }
+
 		public ShellViewModel ShellViewModel { get; private set; }
+
 		private Dictionary<string, ContentPresenter> _cache;
 
 		internal LayoutService(ShellViewModel shellViewModel)
@@ -22,17 +24,18 @@ namespace Infrastructure.Common.Windows
 		{
 			get { return ShellViewModel == null ? false : ShellViewModel.IsRightPanelFocused; }
 		}
+
 		public void SetRightPanelVisible(bool isVisible)
 		{
 			if (ShellViewModel != null)
 				ShellViewModel.RightPanelVisible = isVisible;
 		}
+
 		public void SetLeftPanelVisible(bool isVisible)
 		{
 			if (ShellViewModel != null)
 				ShellViewModel.LeftPanelVisible = isVisible;
 		}
-
 
 		public void Show(ViewPartViewModel viewModel)
 		{
@@ -58,6 +61,7 @@ namespace Infrastructure.Common.Windows
 			ShellViewModel.RightPanelVisible = exist.IsRightPanelVisible;
 			exist.Show();
 		}
+
 		public void Close()
 		{
 			foreach (ViewPartViewModel item in ShellViewModel.ContentItems)
@@ -72,10 +76,12 @@ namespace Infrastructure.Common.Windows
 		{
 			ShellViewModel.Toolbar = model;
 		}
+
 		public void ShowFooter(BaseViewModel model)
 		{
 			ShellViewModel.ContentFotter = model;
 		}
+
 		public void ShowRightContent(RightContentViewModel model)
 		{
 			ShellViewModel.RightContent = model;

@@ -5,9 +5,10 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.SKD
 {
 	[DataContract]
-	public abstract class EmployeeFilterBase: OrganisationFilterBase
+	public abstract class EmployeeFilterBase : OrganisationFilterBase
 	{
-		public EmployeeFilterBase():base()
+		public EmployeeFilterBase()
+			: base()
 		{
 			EmployeeUIDs = new List<Guid>();
 		}

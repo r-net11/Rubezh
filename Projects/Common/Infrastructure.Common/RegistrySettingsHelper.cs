@@ -1,18 +1,17 @@
-﻿using System;
+﻿using Common;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.Serialization;
 using System.Windows.Media;
-using Common;
 using System.Xml.Serialization;
 
 namespace Infrastructure.Common
 {
 	public class RegistrySettingsHelper
 	{
-		static string FileName = AppDataFolderHelper.GetRegistryDataConfigurationFileName();
-		static object locker = new object();
+		private static string FileName = AppDataFolderHelper.GetRegistryDataConfigurationFileName();
+		private static object locker = new object();
 
 		public static string GetString(string name)
 		{
@@ -48,6 +47,7 @@ namespace Infrastructure.Common
 		{
 			return GetBool(name, false);
 		}
+
 		public static bool GetBool(string name, bool defaultValue)
 		{
 			var registryData = GetRegistryData(name);
@@ -158,7 +158,7 @@ namespace Infrastructure.Common
 			SetRegistryData(registryData);
 		}
 
-		static RegistryData GetRegistryData(string name)
+		private static RegistryData GetRegistryData(string name)
 		{
 			try
 			{
@@ -173,7 +173,7 @@ namespace Infrastructure.Common
 			}
 		}
 
-		static void SetRegistryData(RegistryData newRegistryData)
+		private static void SetRegistryData(RegistryData newRegistryData)
 		{
 			try
 			{
@@ -202,7 +202,7 @@ namespace Infrastructure.Common
 			}
 		}
 
-		static RegistryDataConfiguration GetRegistryDataConfiguration()
+		private static RegistryDataConfiguration GetRegistryDataConfiguration()
 		{
 			lock (locker)
 			{
@@ -244,7 +244,7 @@ namespace Infrastructure.Common
 			}
 		}
 
-		static void SetRegistryDataConfiguration(RegistryDataConfiguration registryDataConfiguration)
+		private static void SetRegistryDataConfiguration(RegistryDataConfiguration registryDataConfiguration)
 		{
 			lock (locker)
 			{
@@ -302,20 +302,30 @@ namespace Infrastructure.Common
 		}
 
 		public string Name { get; set; }
+
 		public string StringValue { get; set; }
+
 		public int IntValue { get; set; }
+
 		public double DoubleValue { get; set; }
+
 		public bool BoolValue { get; set; }
+
 		public List<string> StringsValue { get; set; }
+
 		public WindowRect WindowRectValue { get; set; }
+
 		public Color ColorValue { get; set; }
 	}
 
 	public class WindowRect
 	{
 		public double Left { get; set; }
+
 		public double Top { get; set; }
+
 		public double Width { get; set; }
+
 		public double Height { get; set; }
 	}
 }

@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Common;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
-using Common;
 
 namespace Infrastructure.Common
 {
@@ -37,7 +37,7 @@ namespace Infrastructure.Common
 			{
 				return (FSServerState)value;
 			}
-			catch(Exception e)
+			catch (Exception e)
 			{
 				Logger.Error(e, "ServerLoadHelper.GetStatus");
 			}
@@ -95,7 +95,7 @@ namespace Infrastructure.Common
 			return true;
 		}
 
-		static bool Start()
+		private static bool Start()
 		{
 			var fileName = @"..\FiresecService\FiresecService.exe";
 			if (!File.Exists(fileName))

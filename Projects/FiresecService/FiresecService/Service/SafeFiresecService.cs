@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.ServiceModel;
-using Common;
+﻿using Common;
 using FiresecAPI;
 using FiresecAPI.Automation;
 using FiresecAPI.AutomationCallback;
-using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using FiresecAPI.Models;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.ServiceModel;
 
 namespace FiresecService.Service
 {
@@ -31,7 +30,7 @@ namespace FiresecService.Service
 		{
 		}
 
-		OperationResult<T> SafeOperationCall<T>(Func<OperationResult<T>> func, string operationName)
+		private OperationResult<T> SafeOperationCall<T>(Func<OperationResult<T>> func, string operationName)
 		{
 			try
 			{
@@ -47,7 +46,7 @@ namespace FiresecService.Service
 			}
 		}
 
-		T SafeOperationCall<T>(Func<T> func, string operationName)
+		private T SafeOperationCall<T>(Func<T> func, string operationName)
 		{
 			try
 			{
@@ -63,7 +62,7 @@ namespace FiresecService.Service
 			return default(T);
 		}
 
-		void SafeOperationCall(Action action, string operationName)
+		private void SafeOperationCall(Action action, string operationName)
 		{
 			try
 			{
@@ -158,23 +157,28 @@ namespace FiresecService.Service
 		}
 
 		#region Journal
+
 		public OperationResult<DateTime> GetMinJournalDateTime()
 		{
 			return SafeContext.Execute<OperationResult<DateTime>>(() => FiresecService.GetMinJournalDateTime());
 		}
+
 		public OperationResult<List<JournalItem>> GetFilteredJournalItems(JournalFilter filter)
 		{
 			return SafeContext.Execute<OperationResult<List<JournalItem>>>(() => FiresecService.GetFilteredJournalItems(filter));
 		}
+
 		public OperationResult BeginGetFilteredArchive(ArchiveFilter archiveFilter, Guid archivePortionUID)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.BeginGetFilteredArchive(archiveFilter, archivePortionUID));
 		}
+
 		public OperationResult<bool> AddJournalItem(JournalItem journalItem)
 		{
 			return SafeOperationCall(() => { return FiresecService.AddJournalItem(journalItem); }, "AddJournalItem");
 		}
-		#endregion
+
+		#endregion Journal
 
 		#region Automation
 
@@ -193,6 +197,6 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.GetProperties(layoutUID); }, "GetProperties");
 		}
 
-		#endregion
+		#endregion Automation
 	}
 }

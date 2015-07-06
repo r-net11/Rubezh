@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Common;
+using Infrustructure.Plans.Elements;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Common;
-using Infrustructure.Plans.Elements;
 
 namespace Infrustructure.Plans.Painters
 {
@@ -20,10 +20,15 @@ namespace Infrustructure.Plans.Painters
 		private static Dictionary<Color, Dictionary<double, Pen>> _pens = new Dictionary<Color, Dictionary<double, Pen>>();
 
 		public static double DefaultPointSize { get; private set; }
+
 		public static Brush GridLineBrush { get; private set; }
+
 		public static Brush BlackBrush { get; private set; }
+
 		public static Brush WhiteBrush { get; private set; }
+
 		public static Brush TransparentBrush { get; private set; }
+
 		public static bool UseTransparentImage { get; set; }
 
 		static PainterCache()
@@ -45,12 +50,14 @@ namespace Infrustructure.Plans.Painters
 				Logger.Error(e, "PainterCache.PainterCache()");
 			}
 		}
+
 		public static void Initialize(Converter<Guid, BitmapImage> imageFactory, Converter<Guid, Drawing> drawingFactory, Converter<Guid, Visual> visualFactory)
 		{
 			_imageFactory = imageFactory;
 			_drawingFactory = drawingFactory;
 			_visualFactory = visualFactory;
 		}
+
 		public static void Dispose()
 		{
 			_brushes.Clear();
@@ -66,6 +73,7 @@ namespace Infrustructure.Plans.Painters
 				_pictureBrushes.Add(element.BackgroundImageSource.Value, brush);
 			}
 		}
+
 		public static Brush GetBrush(Color color)
 		{
 			if (!_brushes.ContainsKey(color))
@@ -76,6 +84,7 @@ namespace Infrustructure.Plans.Painters
 			}
 			return _brushes[color];
 		}
+
 		public static Brush GetTransparentBrush(Color color)
 		{
 			var brush = GetBrush(color);
@@ -113,10 +122,12 @@ namespace Infrustructure.Plans.Painters
 					drawing.Freeze();
 					brush = new DrawingBrush(drawing);
 					break;
+
 				case ResourceType.Visual:
 					var visual = _visualFactory(guid);
 					brush = new VisualBrush(visual);
 					break;
+
 				case ResourceType.Image:
 					var bitmap = _imageFactory(guid);
 					brush = new ImageBrush(bitmap);
@@ -126,6 +137,7 @@ namespace Infrustructure.Plans.Painters
 				PainterHelper.FreezeBrush(brush);
 			return brush;
 		}
+
 		private static ImageBrush CreateTransparentBackgroundBrush()
 		{
 			var bitmapImage = new BitmapImage();
@@ -142,10 +154,15 @@ namespace Infrustructure.Plans.Painters
 		}
 
 		private ImageBrush _transparentBackgroundBrush;
+
 		public Pen ZonePen { get; private set; }
+
 		public Pen GridLinePen { get; private set; }
+
 		public RectangleGeometry PointGeometry { get; private set; }
+
 		public double Zoom { get; private set; }
+
 		public double PointZoom { get; private set; }
 
 		public PainterCache()
@@ -169,6 +186,7 @@ namespace Infrustructure.Plans.Painters
 			_transparentBackgroundBrush.Viewport = new Rect(0, 0, 16 / zoom, 16 / zoom);
 			DefaultPointSize = PointZoom * Zoom;
 		}
+
 		public Brush GetBrush(IElementBackground element)
 		{
 			if (element.BackgroundImageSource.HasValue)
@@ -182,6 +200,7 @@ namespace Infrustructure.Plans.Painters
 			else
 				return GetBrush(element.BackgroundColor);
 		}
+
 		public Brush GetTransparentBrush(IElementBackground element)
 		{
 			var brush = GetBrush(element);
@@ -194,6 +213,7 @@ namespace Infrustructure.Plans.Painters
 			}
 			return _transparentBrushes[brush];
 		}
+
 		public Pen GetPen(IElementBorder element)
 		{
 			return GetPen(element.BorderColor, element.BorderThickness);

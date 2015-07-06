@@ -16,6 +16,7 @@ namespace Controls.Converters
 			: this(new SwitchCaseCollection())
 		{
 		}
+
 		internal SwitchConverter(SwitchCaseCollection cases)
 		{
 			Contract.Requires(cases != null);
@@ -25,7 +26,9 @@ namespace Controls.Converters
 		}
 
 		public SwitchCaseCollection Cases { get; private set; }
+
 		public StringComparison StringComparison { get; set; }
+
 		public object Else { get; set; }
 
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -42,6 +45,7 @@ namespace Controls.Converters
 			}
 			return Else;
 		}
+
 		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
 		{
 			throw new NotSupportedException();
@@ -70,12 +74,13 @@ namespace Controls.Converters
 			return false;
 		}
 	}
+
 	public sealed class SwitchCaseCollection : Collection<SwitchCase>
 	{
 		internal SwitchCaseCollection()
 		{
-
 		}
+
 		public void Add(object when, object then)
 		{
 			Add(new SwitchCase
@@ -85,6 +90,7 @@ namespace Controls.Converters
 			});
 		}
 	}
+
 	[ContentProperty("Then")]
 	public sealed class SwitchCase : DependencyObject
 	{

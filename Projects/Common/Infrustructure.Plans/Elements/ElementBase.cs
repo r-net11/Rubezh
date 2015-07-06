@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Common;
+using System;
 using System.Runtime.Serialization;
 using System.Windows;
 using System.Windows.Media;
 using System.Xml.Serialization;
-using Common;
 
 namespace Infrustructure.Plans.Elements
 {
@@ -35,22 +35,31 @@ namespace Infrustructure.Plans.Elements
 
 		[DataMember]
 		public string PresentationName { get; set; }
+
 		[DataMember]
 		public Color BorderColor { get; set; }
+
 		[DataMember]
 		public double BorderThickness { get; set; }
+
 		[DataMember]
 		public Color BackgroundColor { get; set; }
+
 		[DataMember]
 		public Guid? BackgroundImageSource { get; set; }
+
 		[DataMember]
 		public string BackgroundSourceName { get; set; }
+
 		[DataMember]
 		public ResourceType ImageType { get; set; }
+
 		[DataMember]
 		public int ZIndex { get; set; }
+
 		[DataMember]
 		public bool IsLocked { get; set; }
+
 		[DataMember]
 		public bool IsHidden { get; set; }
 
@@ -73,10 +82,14 @@ namespace Infrustructure.Plans.Elements
 			}
 			set { SetPosition(value); }
 		}
+
 		[XmlIgnore]
 		public abstract ElementType Type { get; }
+
 		public abstract Rect GetRectangle();
+
 		protected abstract void SetPosition(Point point);
+
 		public abstract ElementBase Clone();
 
 		public virtual void Copy(ElementBase element)
@@ -92,6 +105,7 @@ namespace Infrustructure.Plans.Elements
 			element.IsLocked = IsLocked;
 			element.IsHidden = IsHidden;
 		}
+
 		public virtual void UpdateZLayer()
 		{
 			ZLayer = 0;

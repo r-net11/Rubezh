@@ -1,13 +1,11 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using Common;
+﻿using Common;
 using FiresecAPI;
-using FiresecAPI.GK;
 using FiresecAPI.SKD;
 using Ionic.Zip;
+using System;
+using System.IO;
+using System.Linq;
+using System.Text;
 using System.Xml.Serialization;
 
 namespace Infrastructure.Common
@@ -32,7 +30,7 @@ namespace Infrastructure.Common
 				if (configuration != null)
 				{
 					var zipFile = ZipFile.Read(fileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
-				//	AddConfigurationToZip(zipFile, configuration, "GKDeviceLibraryConfiguration.xml");
+					//	AddConfigurationToZip(zipFile, configuration, "GKDeviceLibraryConfiguration.xml");
 					zipFile.Save(fileName);
 				}
 			}
@@ -42,7 +40,7 @@ namespace Infrastructure.Common
 			}
 		}
 
-		static VersionedConfiguration GetConfigurationFomZip(ZipFile zipFile, string fileName, Type type)
+		private static VersionedConfiguration GetConfigurationFomZip(ZipFile zipFile, string fileName, Type type)
 		{
 			try
 			{
@@ -64,7 +62,7 @@ namespace Infrastructure.Common
 			return null;
 		}
 
-		static void AddConfigurationToZip(ZipFile zipFile, VersionedConfiguration versionedConfiguration, string fileName)
+		private static void AddConfigurationToZip(ZipFile zipFile, VersionedConfiguration versionedConfiguration, string fileName)
 		{
 			var configuarationMemoryStream = ZipSerializeHelper.Serialize(versionedConfiguration);
 			if (zipFile.Entries.Any(x => x.FileName == fileName))

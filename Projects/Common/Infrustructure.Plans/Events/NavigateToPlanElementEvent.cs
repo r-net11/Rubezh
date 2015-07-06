@@ -1,11 +1,12 @@
-﻿using System;
-using Microsoft.Practices.Prism.Events;
+﻿using Microsoft.Practices.Prism.Events;
+using System;
 
 namespace Infrustructure.Plans.Events
 {
 	public class NavigateToPlanElementEventArgs
 	{
 		public Guid PlanUID { get; private set; }
+
 		public Guid ElementUID { get; private set; }
 
 		public NavigateToPlanElementEventArgs(Guid planUID, Guid elementUID)
@@ -14,6 +15,7 @@ namespace Infrustructure.Plans.Events
 			ElementUID = elementUID;
 		}
 	}
+
 	public class NavigateToPlanElementEvent : CompositePresentationEvent<NavigateToPlanElementEventArgs>
 	{
 	}

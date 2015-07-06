@@ -1,20 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using ChinaSKDDriverAPI;
+﻿using ChinaSKDDriverAPI;
 using ChinaSKDDriverNativeApi;
+using System;
 
 namespace ChinaSKDDriver
 {
 	public partial class Wrapper
 	{
 		public static event Action<SearchDevicesEventArgs> NewSearchDevice;
+
 		private static int _searchHandle;
 
-		static NativeWrapper.fSearchDevicesCBDelegate fSearchDevicesCbDelegate;
-		
-		static void OnSearchDevicesDelegate(ref NativeWrapper.DEVICE_NET_INFO_EX pDevNetInfo, IntPtr pUserData)
+		private static NativeWrapper.fSearchDevicesCBDelegate fSearchDevicesCbDelegate;
+
+		private static void OnSearchDevicesDelegate(ref NativeWrapper.DEVICE_NET_INFO_EX pDevNetInfo, IntPtr pUserData)
 		{
 			if (pDevNetInfo.szDeviceType == "BSC")
 				OnNewSearchDevice(new SearchDevicesEventArgs(new DeviceSearchInfo(
@@ -33,7 +31,7 @@ namespace ChinaSKDDriver
 		public void StartSearchDevices()
 		{
 			fSearchDevicesCbDelegate = OnSearchDevicesDelegate; // Автопоиск устройств
-			
+
 			_searchHandle = NativeWrapper.CLIENT_StartSearchDevices(fSearchDevicesCbDelegate, IntPtr.Zero);
 		}
 
@@ -43,7 +41,7 @@ namespace ChinaSKDDriver
 		public void StopSearchDevices()
 		{
 			NativeWrapper.CLIENT_StopSearchDevices(_searchHandle);
-			
+
 			fSearchDevicesCbDelegate = null;
 		}
 
@@ -51,7 +49,7 @@ namespace ChinaSKDDriver
 		/// Функция используется для зажигания события при обнаружении нового устройства в сети
 		/// </summary>
 		/// <param name="e">аргумент события</param>
-		static void OnNewSearchDevice(SearchDevicesEventArgs e)
+		private static void OnNewSearchDevice(SearchDevicesEventArgs e)
 		{
 			var temp = NewSearchDevice;
 

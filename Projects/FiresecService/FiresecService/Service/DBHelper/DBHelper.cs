@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Common;
+using FiresecAPI;
+using FiresecAPI.Journal;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading;
-using Common;
-using FiresecAPI;
-using FiresecAPI.Journal;
 
 namespace FiresecService
 {
@@ -13,8 +13,11 @@ namespace FiresecService
 	{
 		public static object locker = new object();
 		public static object databaseLocker = new object();
+
 		public static bool IsAbort { get; set; }
+
 		public static event Action<List<JournalItem>, Guid> ArchivePortionReady;
+
 		public static string ConnectionString { get; set; }
 
 		public static void Add(JournalItem journalItem)
@@ -137,14 +140,14 @@ namespace FiresecService
 			return result;
 		}
 
-		static void PublishNewItemsPortion(List<JournalItem> journalItems, Guid archivePortionUID)
+		private static void PublishNewItemsPortion(List<JournalItem> journalItems, Guid archivePortionUID)
 		{
 			if (ArchivePortionReady != null)
 				ArchivePortionReady(journalItems.ToList(), archivePortionUID);
 			journalItems.Clear();
 		}
 
-		static string BuildQuery(JournalFilter journalFilter)
+		private static string BuildQuery(JournalFilter journalFilter)
 		{
 			var query = "SELECT TOP (" + journalFilter.LastItemsCount.ToString() + ") * FROM Journal ";
 
@@ -263,7 +266,7 @@ namespace FiresecService
 			return query;
 		}
 
-		static string BuildQuery(ArchiveFilter archiveFilter)
+		private static string BuildQuery(ArchiveFilter archiveFilter)
 		{
 			string dateTimeTypeString;
 			if (archiveFilter.UseDeviceDateTime)
@@ -336,7 +339,7 @@ namespace FiresecService
 			return query;
 		}
 
-		static JournalItem ReadOneJournalItem(SqlDataReader reader)
+		private static JournalItem ReadOneJournalItem(SqlDataReader reader)
 		{
 			var journalItem = new JournalItem();
 
@@ -374,7 +377,7 @@ namespace FiresecService
 
 			if (!reader.IsDBNull(reader.GetOrdinal("UserName")))
 				journalItem.UserName = reader.GetString(reader.GetOrdinal("UserName"));
-			
+
 			if (!reader.IsDBNull(reader.GetOrdinal("SystemDate")))
 				journalItem.SystemDateTime = reader.GetDateTime(reader.GetOrdinal("SystemDate"));
 

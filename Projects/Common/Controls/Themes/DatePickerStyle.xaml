@@ -3,70 +3,70 @@
 	<ResourceDictionary.MergedDictionaries>
 		<ResourceDictionary Source="DatePickerCalendarStyle.xaml" />
 	</ResourceDictionary.MergedDictionaries>
-<!--	<Style x:Key="DatePickerCalendarStyle"
+	<!--	<Style x:Key="DatePickerCalendarStyle"
        TargetType="{x:Type Calendar}"
        BasedOn="{StaticResource {x:Type Calendar}}" /> -->
-	
+
 	<Style TargetType="{x:Type DatePicker}">
-		<Setter Property="Foreground" Value="#FF333333"/>
-		<Setter Property="IsTodayHighlighted" Value="True"/>
-		<Setter Property="SelectedDateFormat" Value="Short"/>
-		<Setter Property="Background" Value="Transparent"/>
+		<Setter Property="Foreground" Value="#FF333333" />
+		<Setter Property="IsTodayHighlighted" Value="True" />
+		<Setter Property="SelectedDateFormat" Value="Short" />
+		<Setter Property="Background" Value="Transparent" />
 		<Setter Property="CalendarStyle" Value="{StaticResource DatePickerCalendarStyle}" />
-	<!--	<Setter Property="Padding" Value="2"/> -->
+		<!--	<Setter Property="Padding" Value="2" /> -->
 		<Setter Property="BorderBrush">
 			<Setter.Value>
 				<LinearGradientBrush EndPoint=".5,0" StartPoint=".5,1">
-					<GradientStop Color="#FFA3AEB9" Offset="0"/>
-					<GradientStop Color="#FF8399A9" Offset="0.375"/>
-					<GradientStop Color="#FF718597" Offset="0.375"/>
-					<GradientStop Color="#FF617584" Offset="1"/>
+					<GradientStop Color="#FFA3AEB9" Offset="0" />
+					<GradientStop Color="#FF8399A9" Offset="0.375" />
+					<GradientStop Color="#FF718597" Offset="0.375" />
+					<GradientStop Color="#FF617584" Offset="1" />
 				</LinearGradientBrush>
 			</Setter.Value>
 		</Setter>
-		<Setter Property="BorderThickness" Value="1"/>
-		<Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+		<Setter Property="BorderThickness" Value="1" />
+		<Setter Property="HorizontalContentAlignment" Value="Stretch" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="{x:Type DatePicker}">
 					<Border
 						BorderBrush="{TemplateBinding BorderBrush}"
-						BorderThickness="{TemplateBinding BorderThickness}" 
-						Background="{TemplateBinding Background}" 
+						BorderThickness="{TemplateBinding BorderThickness}"
+						Background="{TemplateBinding Background}"
 						Padding="{TemplateBinding Padding}">
 						<VisualStateManager.VisualStateGroups>
 							<VisualStateGroup x:Name="CommonStates">
-								<VisualState x:Name="Normal"/>
+								<VisualState x:Name="Normal" />
 								<VisualState x:Name="Disabled">
 									<Storyboard>
-										<DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="PART_DisabledVisual"/>
+										<DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="PART_DisabledVisual" />
 									</Storyboard>
 								</VisualState>
 							</VisualStateGroup>
 						</VisualStateManager.VisualStateGroups>
-						<Grid 
-							x:Name="PART_Root" 
-							HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+						<Grid
+							x:Name="PART_Root"
+							HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
 							VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
 							<Grid.Resources>
-								<SolidColorBrush x:Key="DisabledBrush" Color="#A5FFFFFF"/>
+								<SolidColorBrush x:Key="DisabledBrush" Color="#A5FFFFFF" />
 								<ControlTemplate x:Key="DropDownButtonTemplate" TargetType="{x:Type Button}">
 									<Grid>
 										<VisualStateManager.VisualStateGroups>
 											<VisualStateGroup x:Name="CommonStates">
 												<VisualStateGroup.Transitions>
-													<VisualTransition GeneratedDuration="0"/>
-													<VisualTransition GeneratedDuration="0:0:0.1" To="MouseOver"/>
-													<VisualTransition GeneratedDuration="0:0:0.1" To="Pressed"/>
+													<VisualTransition GeneratedDuration="0" />
+													<VisualTransition GeneratedDuration="0:0:0.1" To="MouseOver" />
+													<VisualTransition GeneratedDuration="0:0:0.1" To="Pressed" />
 												</VisualStateGroup.Transitions>
-												<VisualState x:Name="Normal"/>
+												<VisualState x:Name="Normal" />
 												<VisualState x:Name="MouseOver">
 													<Storyboard>
 														<ColorAnimation
 														 Storyboard.TargetName="Background"
 															Storyboard.TargetProperty="(Border.Background).(GradientBrush.GradientStops)[0].(GradientStop.Color)"
 															To="#EBBD05"
-															Duration="0:0:0.1"/>
+															Duration="0:0:0.1" />
 														<ColorAnimation
 															Storyboard.TargetName="Background"
 															Storyboard.TargetProperty="(Border.Background).(GradientBrush.GradientStops)[1].(GradientStop.Color)"
@@ -88,39 +88,39 @@
 														Duration="0:0:0.1" />
 													</Storyboard>
 												</VisualState>
-												<VisualState x:Name="Disabled"/>
+												<VisualState x:Name="Disabled" />
 											</VisualStateGroup>
 										</VisualStateManager.VisualStateGroups>
-										<Grid 
-											Background="#11FFFFFF" 
-											FlowDirection="LeftToRight" 
-											HorizontalAlignment="Center" 
-											Height="28" 
+										<Grid
+											Background="#11FFFFFF"
+											FlowDirection="LeftToRight"
+											HorizontalAlignment="Center"
+											Height="28"
 											Width="20"
 											Margin="0"
 											VerticalAlignment="Center">
 											<Grid.ColumnDefinitions>
-												<ColumnDefinition Width="20*"/>
-												<ColumnDefinition Width="20*"/>
-												<ColumnDefinition Width="20*"/>
-												<ColumnDefinition Width="20*"/>
+												<ColumnDefinition Width="20*" />
+												<ColumnDefinition Width="20*" />
+												<ColumnDefinition Width="20*" />
+												<ColumnDefinition Width="20*" />
 											</Grid.ColumnDefinitions>
 											<Grid.RowDefinitions>
-												<RowDefinition Height="23*"/>
-												<RowDefinition Height="19*"/>
-												<RowDefinition Height="19*"/>
-												<RowDefinition Height="19*"/>
+												<RowDefinition Height="23*" />
+												<RowDefinition Height="19*" />
+												<RowDefinition Height="19*" />
+												<RowDefinition Height="19*" />
 											</Grid.RowDefinitions>
-											<Border 
+											<Border
 												x:Name="Highlight"
 												Background="{DynamicResource HighlightedBackgoundBrush}"
-												Grid.ColumnSpan="4" 
+												Grid.ColumnSpan="4"
 												CornerRadius="0, 2, 2, 0"
 												SnapsToDevicePixels="True"
-												Opacity="1" 
-												Grid.RowSpan="4"  />
-											<Border 
-												x:Name="Background" 
+												Opacity="1"
+												Grid.RowSpan="4" />
+											<Border
+												x:Name="Background"
 												Grid.ColumnSpan="4"
 												Opacity="1"
 												SnapsToDevicePixels="True"
@@ -135,60 +135,60 @@
 												</Border.Background>
 											</Border>
 											<Path
-												Grid.ColumnSpan="4" 
+												Grid.ColumnSpan="4"
 												SnapsToDevicePixels="True"
 												Data="M 0 0 L 4 4 L 8 0 Z"
-												Fill="White" 
-												HorizontalAlignment="Center"  
-												Grid.RowSpan="4" 
-												VerticalAlignment="Center"/>
-											<Border 
-												x:Name="DisabledVisual" 
+												Fill="White"
+												HorizontalAlignment="Center"
+												Grid.RowSpan="4"
+												VerticalAlignment="Center" />
+											<Border
+												x:Name="DisabledVisual"
 												BorderBrush="#B2FFFFFF"
 												BorderThickness="1"
-												Grid.ColumnSpan="4" 
-												CornerRadius="0,0,.5,.5" 
-												Opacity="0" 
-												Grid.RowSpan="4"/>
+												Grid.ColumnSpan="4"
+												CornerRadius="0,0,.5,.5"
+												Opacity="0"
+												Grid.RowSpan="4" />
 										</Grid>
 									</Grid>
 								</ControlTemplate>
 							</Grid.Resources>
 							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="*"/>
-								<ColumnDefinition Width="Auto"/>
+								<ColumnDefinition Width="*" />
+								<ColumnDefinition Width="Auto" />
 							</Grid.ColumnDefinitions>
-							<Button 
+							<Button
 								x:Name="PART_Button"
 								Grid.Column="1"
-								Foreground="{TemplateBinding Foreground}" 
+								Foreground="{TemplateBinding Foreground}"
 								Focusable="False"
 								HorizontalAlignment="Left"
 								Template="{StaticResource DropDownButtonTemplate}"
-								VerticalAlignment="Top"/>
-							<DatePickerTextBox 
-								x:Name="PART_TextBox" 
-								Focusable="{TemplateBinding Focusable}" 
+								VerticalAlignment="Top" />
+							<DatePickerTextBox
+								x:Name="PART_TextBox"
+								Focusable="{TemplateBinding Focusable}"
 								HorizontalContentAlignment="Left"
-								VerticalContentAlignment="Center"/>
-							<Grid 
-								x:Name="PART_DisabledVisual" 
+								VerticalContentAlignment="Center" />
+							<Grid
+								x:Name="PART_DisabledVisual"
 								Grid.ColumnSpan="2"
-								IsHitTestVisible="False" 
+								IsHitTestVisible="False"
 								Opacity="0">
 								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="*"/>
-									<ColumnDefinition Width="Auto"/>
+									<ColumnDefinition Width="*" />
+									<ColumnDefinition Width="Auto" />
 								</Grid.ColumnDefinitions>
-								<Rectangle Grid.Column="0" Fill="#A5FFFFFF" RadiusY="1" Grid.Row="0" RadiusX="1"/>
-								<Rectangle Grid.Column="1" Fill="#A5FFFFFF" Height="18" RadiusY="1" Grid.Row="0" RadiusX="1"/>
-								<Popup x:Name="PART_Popup" AllowsTransparency="True" Placement="Bottom" PopupAnimation="Scroll" PlacementTarget="{Binding ElementName=PART_TextBox}" StaysOpen="False"/>
+								<Rectangle Grid.Column="0" Fill="#A5FFFFFF" RadiusY="1" Grid.Row="0" RadiusX="1" />
+								<Rectangle Grid.Column="1" Fill="#A5FFFFFF" Height="18" RadiusY="1" Grid.Row="0" RadiusX="1" />
+								<Popup x:Name="PART_Popup" AllowsTransparency="True" Placement="Bottom" PopupAnimation="Scroll" PlacementTarget="{Binding ElementName=PART_TextBox}" StaysOpen="False" />
 							</Grid>
 						</Grid>
 					</Border>
 					<ControlTemplate.Triggers>
 						<DataTrigger Binding="{Binding Source={x:Static SystemParameters.HighContrast}}" Value="false">
-							<Setter Property="Foreground" TargetName="PART_TextBox" Value="{Binding Foreground, RelativeSource={RelativeSource TemplatedParent}}"/>
+							<Setter Property="Foreground" TargetName="PART_TextBox" Value="{Binding Foreground, RelativeSource={RelativeSource TemplatedParent}}" />
 						</DataTrigger>
 					</ControlTemplate.Triggers>
 				</ControlTemplate>

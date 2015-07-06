@@ -1,5 +1,5 @@
-﻿using System.Runtime.Serialization;
-using FiresecAPI.Automation;
+﻿using FiresecAPI.Automation;
+using System.Runtime.Serialization;
 
 namespace FiresecAPI.AutomationCallback
 {

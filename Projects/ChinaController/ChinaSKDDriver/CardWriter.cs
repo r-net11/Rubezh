@@ -1,11 +1,10 @@
-﻿using System;
+﻿using ChinaSKDDriverAPI;
+using FiresecAPI;
+using FiresecAPI.SKD;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using ChinaSKDDriverAPI;
-using FiresecAPI.SKD;
-using FiresecAPI;
 using System.Text;
-using System.Globalization;
 
 namespace ChinaSKDDriver
 {
@@ -24,7 +23,7 @@ namespace ChinaSKDDriver
 			ProcessControllerCardItems(ControllerCardItems, false);
 		}
 
-		List<ControllerCardItem> Create_ControllerCardItems_ToAdd(SKDCard skdCard, AccessTemplate accessTemplate)
+		private List<ControllerCardItem> Create_ControllerCardItems_ToAdd(SKDCard skdCard, AccessTemplate accessTemplate)
 		{
 			var controllerCardItems = new List<ControllerCardItem>();
 			var cardDoors = new List<CardDoor>();
@@ -51,7 +50,7 @@ namespace ChinaSKDDriver
 			return controllerCardItems;
 		}
 
-		void Add(SKDCard card, List<ControllerCardItem> controllerCardItems, Guid readerUID, int intervalID)
+		private void Add(SKDCard card, List<ControllerCardItem> controllerCardItems, Guid readerUID, int intervalID)
 		{
 			var readerDevice = SKDManager.SKDConfiguration.Devices.FirstOrDefault(x => x.UID == readerUID);
 			if (readerDevice != null && readerDevice.Parent != null)
@@ -83,7 +82,7 @@ namespace ChinaSKDDriver
 			ProcessControllerCardItems(ControllerCardItems, false);
 		}
 
-		List<ControllerCardItem> Create_ControllerCardItems_ToDelete(SKDCard skdCard, AccessTemplate accessTemplate)
+		private List<ControllerCardItem> Create_ControllerCardItems_ToDelete(SKDCard skdCard, AccessTemplate accessTemplate)
 		{
 			var controllerCardItems = new List<ControllerCardItem>();
 			var cardDoors = new List<CardDoor>();
@@ -177,7 +176,7 @@ namespace ChinaSKDDriver
 			return errors;
 		}
 
-		void ProcessControllerCardItems(List<ControllerCardItem> controllerCardItems, bool showProgress)
+		private void ProcessControllerCardItems(List<ControllerCardItem> controllerCardItems, bool showProgress)
 		{
 			foreach (var controllerCardItem in controllerCardItems)
 			{
@@ -279,7 +278,7 @@ namespace ChinaSKDDriver
 					if (!result)
 					{
 						var operationName = "";
-						if(controllerCardItem.ActionType == ControllerCardItem.ActionTypeEnum.Add)
+						if (controllerCardItem.ActionType == ControllerCardItem.ActionTypeEnum.Add)
 							operationName = "добавления";
 						if (controllerCardItem.ActionType == ControllerCardItem.ActionTypeEnum.Edit)
 							operationName = "редактирования";
@@ -318,11 +317,15 @@ namespace ChinaSKDDriver
 			}
 
 			public SKDCard Card { get; set; }
+
 			public SKDDevice ControllerDevice { get; set; }
+
 			public List<ReaderIntervalItem> ReaderIntervalItems { get; set; }
+
 			public ActionTypeEnum ActionType { get; set; }
 
 			public string Error { get; set; }
+
 			public bool HasError
 			{
 				get { return Error != null; }
@@ -339,6 +342,7 @@ namespace ChinaSKDDriver
 		public class ReaderIntervalItem
 		{
 			public Guid ReaderUID { get; set; }
+
 			public int WeeklyIntervalID { get; set; }
 		}
 	}

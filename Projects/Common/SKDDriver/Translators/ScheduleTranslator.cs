@@ -1,7 +1,7 @@
-﻿using System;
-using System.Linq;
-using FiresecAPI.SKD;
+﻿using FiresecAPI.SKD;
 using LinqKit;
+using System;
+using System.Linq;
 using OperationResult = FiresecAPI.OperationResult;
 
 namespace SKDDriver.Translators

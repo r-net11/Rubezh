@@ -1,19 +1,24 @@
-﻿using System;
-using System.IO;
-using iTextSharp.text;
+﻿using iTextSharp.text;
 using iTextSharp.text.pdf;
+using System;
+using System.IO;
 
 namespace Common.PDF
 {
 	public static class PDFStyle
 	{
 		public static BaseFont BaseFont { get; private set; }
+
 		public static Font NormalFont { get; private set; }
+
 		public static Font BoldFont { get; private set; }
 
 		public static Font TextFont { get; private set; }
+
 		public static Font BoldTextFont { get; private set; }
+
 		public static Font HeaderFont { get; private set; }
+
 		public static BaseColor HeaderBackground { get; private set; }
 
 		static PDFStyle()

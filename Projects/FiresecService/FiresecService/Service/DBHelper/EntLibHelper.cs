@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Microsoft.Practices.EnterpriseLibrary.Data.Sql;
+using SKDDriver;
+using System;
 using System.Data;
 using System.Diagnostics;
-using Microsoft.Practices.EnterpriseLibrary.Data.Sql;
-using SKDDriver;
 
 namespace FiresecService
 {

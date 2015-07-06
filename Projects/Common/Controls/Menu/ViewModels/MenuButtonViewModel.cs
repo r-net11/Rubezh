@@ -1,5 +1,5 @@
-﻿using System.Windows.Input;
-using Infrastructure.Common.Windows.ViewModels;
+﻿using Infrastructure.Common.Windows.ViewModels;
+using System.Windows.Input;
 
 namespace Controls.Menu.ViewModels
 {
@@ -14,6 +14,7 @@ namespace Controls.Menu.ViewModels
 		}
 
 		private string _toolTip;
+
 		public string ToolTip
 		{
 			get { return _toolTip; }
@@ -25,6 +26,7 @@ namespace Controls.Menu.ViewModels
 		}
 
 		private string _imageSource;
+
 		public string ImageSource
 		{
 			get { return _imageSource; }
@@ -36,6 +38,7 @@ namespace Controls.Menu.ViewModels
 		}
 
 		private ICommand _command;
+
 		public ICommand Command
 		{
 			get { return _command; }
@@ -47,6 +50,7 @@ namespace Controls.Menu.ViewModels
 		}
 
 		private object _commandParameter;
+
 		public object CommandParameter
 		{
 			get { return _commandParameter; }

@@ -1,6 +1,6 @@
-﻿using System.Runtime.Serialization;
+﻿using Infrustructure.Plans.Elements;
+using System.Runtime.Serialization;
 using System.Windows.Media;
-using Infrustructure.Plans.Elements;
 using System.Xml.Serialization;
 
 namespace FiresecAPI.Models
@@ -30,22 +30,31 @@ namespace FiresecAPI.Models
 
 		[DataMember]
 		public string Text { get; set; }
+
 		[DataMember]
 		public Color ForegroundColor { get; set; }
+
 		[DataMember]
 		public double FontSize { get; set; }
+
 		[DataMember]
 		public bool FontItalic { get; set; }
+
 		[DataMember]
 		public bool FontBold { get; set; }
+
 		[DataMember]
 		public string FontFamilyName { get; set; }
+
 		[DataMember]
 		public bool Stretch { get; set; }
+
 		[DataMember]
 		public int TextAlignment { get; set; }
+
 		[DataMember]
 		public int VerticalAlignment { get; set; }
+
 		[DataMember]
 		public bool WordWrap { get; set; }
 
@@ -55,6 +64,7 @@ namespace FiresecAPI.Models
 			Copy(elementBase);
 			return elementBase;
 		}
+
 		public override void Copy(ElementBase element)
 		{
 			base.Copy(element);
@@ -77,6 +87,6 @@ namespace FiresecAPI.Models
 			get { return Infrustructure.Plans.Elements.Primitive.TextBlock; }
 		}
 
-		#endregion
+		#endregion IPrimitive Members
 	}
 }

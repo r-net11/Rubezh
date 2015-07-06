@@ -6,6 +6,7 @@ namespace Infrustructure.Plans.Events
 	public class ShowPropertiesEvent : CompositePresentationEvent<ShowPropertiesEventArgs>
 	{
 	}
+
 	public class ShowPropertiesEventArgs
 	{
 		public ShowPropertiesEventArgs(ElementBase element)
@@ -14,6 +15,7 @@ namespace Infrustructure.Plans.Events
 		}
 
 		public ElementBase Element { get; private set; }
+
 		public object PropertyViewModel { get; set; }
 	}
 }

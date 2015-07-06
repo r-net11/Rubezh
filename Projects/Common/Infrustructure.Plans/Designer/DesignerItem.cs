@@ -1,23 +1,26 @@
-﻿using System.Linq;
+﻿using Infrustructure.Plans.Elements;
+using Infrustructure.Plans.Events;
+using Infrustructure.Plans.Painters;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using Infrustructure.Plans.Elements;
-using Infrustructure.Plans.Events;
-using Infrustructure.Plans.Painters;
 
 namespace Infrustructure.Plans.Designer
 {
 	public abstract class DesignerItem : CommonDesignerItem
 	{
 		public static readonly DependencyProperty IsSelectedProperty = DependencyProperty.Register("IsSelected", typeof(bool), typeof(DesignerItem), new FrameworkPropertyMetadata(false, IsSelectedChanged, IsSelectedCoerce));
+
 		public virtual bool IsSelected
 		{
 			get { return (bool)GetValue(IsSelectedProperty); }
 			set { SetValue(IsSelectedProperty, value); }
 		}
+
 		public static readonly DependencyProperty IsSelectableProperty = DependencyProperty.Register("IsSelectable", typeof(bool), typeof(DesignerItem), new FrameworkPropertyMetadata(true, IsSelectableChanged, IsSelectableCoerce));
+
 		public virtual bool IsSelectable
 		{
 			get { return (bool)GetValue(IsSelectableProperty); }
@@ -34,6 +37,7 @@ namespace Infrustructure.Plans.Designer
 				designerItem.IsSelectedChanged();
 			}
 		}
+
 		private static void IsSelectableChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
 			if (e.Property == IsSelectableProperty)
@@ -44,11 +48,13 @@ namespace Infrustructure.Plans.Designer
 				designerItem.IsSelectableChanged();
 			}
 		}
+
 		private static object IsSelectedCoerce(DependencyObject d, object e)
 		{
 			DesignerItem designerItem = d as DesignerItem;
 			return designerItem != null && (!designerItem.IsSelectable || !designerItem.IsEnabled) ? false : e;
 		}
+
 		private static object IsSelectableCoerce(DependencyObject d, object e)
 		{
 			return e;
@@ -64,12 +70,17 @@ namespace Infrustructure.Plans.Designer
 				base.IsVisibleLayout = value;
 			}
 		}
+
 		public ICommand ShowPropertiesCommand { get; protected set; }
+
 		public ICommand DeleteCommand { get; protected set; }
 
 		public ResizeChrome ResizeChrome { get; private set; }
+
 		public string Group { get; set; }
+
 		public override bool AllowDrag { get { return true; } }
+
 		protected bool IsMoved { get; private set; }
 
 		public DesignerItem(ElementBase element)
@@ -100,6 +111,7 @@ namespace Infrustructure.Plans.Designer
 			if (ResizeChrome != null)
 				ResizeChrome.ResetElement();
 		}
+
 		protected override void ResetIsEnabled()
 		{
 			base.ResetIsEnabled();
@@ -107,6 +119,7 @@ namespace Infrustructure.Plans.Designer
 			if (!IsEnabled)
 				IsSelected = false;
 		}
+
 		internal override void Render(DrawingContext drawingContext)
 		{
 			base.Render(drawingContext);
@@ -118,12 +131,14 @@ namespace Infrustructure.Plans.Designer
 					ResizeChrome.Reset();
 			}
 		}
+
 		public override void RefreshPainter()
 		{
 			base.RefreshPainter();
 			if (ResizeChrome != null)
 				ResizeChrome.InvalidateVisual();
 		}
+
 		protected void SetResizeChrome(ResizeChrome resizeChrome)
 		{
 			ResizeChrome = resizeChrome;
@@ -145,6 +160,7 @@ namespace Infrustructure.Plans.Designer
 				}
 			}
 		}
+
 		protected override void MouseDoubleClick(Point point, MouseButtonEventArgs e)
 		{
 			base.MouseDoubleClick(point, e);
@@ -159,6 +175,7 @@ namespace Infrustructure.Plans.Designer
 			if (!IsMoved)
 				DesignerCanvas.Cursor = value && IsEnabled ? Cursors.SizeAll : Cursors.Arrow;
 		}
+
 		protected override ContextMenu ContextMenuOpening()
 		{
 			if (IsEnabled)
@@ -175,6 +192,7 @@ namespace Infrustructure.Plans.Designer
 		}
 
 		protected abstract void OnShowProperties();
+
 		protected abstract void OnDelete();
 
 		protected void IsSelectableChanged()
@@ -187,6 +205,7 @@ namespace Infrustructure.Plans.Designer
 			if (isLocked == IsSelectable)
 				OnChanged();
 		}
+
 		protected void IsSelectedChanged()
 		{
 			if (ResizeChrome != null)
@@ -199,6 +218,7 @@ namespace Infrustructure.Plans.Designer
 			if (DesignerCanvas.GridLineController != null)
 				DesignerCanvas.GridLineController.PullReset();
 		}
+
 		public override void DragCompleted(Point point)
 		{
 			IsBusy = false;
@@ -206,6 +226,7 @@ namespace Infrustructure.Plans.Designer
 				DesignerCanvas.EndChange();
 			IsMoved = false;
 		}
+
 		public override void DragDelta(Point point, Vector shift)
 		{
 			if (IsSelected)

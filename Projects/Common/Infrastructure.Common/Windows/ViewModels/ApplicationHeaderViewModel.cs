@@ -1,7 +1,6 @@
-﻿
-namespace Infrastructure.Common.Windows.ViewModels
+﻿namespace Infrastructure.Common.Windows.ViewModels
 {
-	class ApplicationHeaderViewModel : BaseViewModel, IHeaderViewModel
+	internal class ApplicationHeaderViewModel : BaseViewModel, IHeaderViewModel
 	{
 		public ApplicationHeaderViewModel(ApplicationViewModel content)
 		{
@@ -9,7 +8,8 @@ namespace Infrastructure.Common.Windows.ViewModels
 			ShowIconAndTitle = true;
 		}
 
-		bool _showIconAndTitle;
+		private bool _showIconAndTitle;
+
 		public bool ShowIconAndTitle
 		{
 			get { return _showIconAndTitle; }
@@ -22,7 +22,8 @@ namespace Infrastructure.Common.Windows.ViewModels
 
 		#region ICaptionedHeaderViewModel Members
 
-		HeaderedWindowViewModel _content;
+		private HeaderedWindowViewModel _content;
+
 		public HeaderedWindowViewModel Content
 		{
 			get { return _content; }
@@ -33,6 +34,6 @@ namespace Infrastructure.Common.Windows.ViewModels
 			}
 		}
 
-		#endregion
+		#endregion ICaptionedHeaderViewModel Members
 	}
 }

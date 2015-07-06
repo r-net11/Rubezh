@@ -1,8 +1,8 @@
-﻿using System.Data;
-using System.Linq;
-using FiresecAPI.SKD;
+﻿using FiresecAPI.SKD;
 using FiresecAPI.SKD.ReportFilters;
 using FiresecService.Report.DataSources;
+using System.Data;
+using System.Linq;
 
 namespace FiresecService.Report.Templates
 {
@@ -25,6 +25,7 @@ namespace FiresecService.Report.Templates
 		{
 			get { return "Дисциплинарный отчет"; }
 		}
+
 		protected override DataSet CreateDataSet(DataProvider dataProvider)
 		{
 			var filter = GetFilter<DisciplineReportFilter>();
@@ -93,7 +94,7 @@ namespace FiresecService.Report.Templates
 							dataRow.DocumentName = document.TimeTrackDocumentType.Name;
 							dataRow.DocumentNo = document.DocumentNumber.ToString();
 						}
-						
+
 						if (absence.TimeSpan.TotalSeconds > 0 || late.TimeSpan.TotalSeconds > 0 || earlyLeave.TimeSpan.TotalSeconds > 0 || overtime.TimeSpan.TotalSeconds > 0 || document != null)
 						{
 							dataSet.Data.Rows.Add(dataRow);

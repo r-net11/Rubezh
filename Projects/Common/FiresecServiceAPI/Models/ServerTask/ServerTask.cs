@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using FiresecAPI.SKD;
 using System.Runtime.Serialization;
-using FiresecAPI.SKD;
 
 namespace FiresecAPI.Models
 {

@@ -1,10 +1,10 @@
-﻿using System;
+﻿using FiresecAPI;
+using FiresecAPI.SKD;
+using LinqKit;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using FiresecAPI;
-using FiresecAPI.SKD;
-using LinqKit;
 
 namespace SKDDriver
 {
@@ -90,8 +90,8 @@ namespace SKDDriver
 			{
 				var tableItem = Table.FirstOrDefault(x => x.UID == apiItem.UID);
 				if (tableItem == null)
-				{  
-					if(apiItem.Photo != null)
+				{
+					if (apiItem.Photo != null)
 						photosToSave.Add(apiItem.Photo);
 					continue;
 				}

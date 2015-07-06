@@ -1,4 +1,8 @@
-﻿using System;
+﻿using FiresecAPI.Models;
+using Infrastructure.Common.Windows.DataTemplates;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows.Views;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -8,27 +12,35 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Threading;
-using FiresecAPI.Models;
-using Infrastructure.Common.Windows.DataTemplates;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common.Windows.Views;
 
 namespace Infrastructure.Common.Windows
 {
 	public static class ApplicationService
 	{
 		public static event EventHandler Starting;
+
 		public static event CancelEventHandler Closing;
+
 		public static event EventHandler Closed;
+
 		public static event Action ShuttingDown;
+
 		public static Window ApplicationWindow { get; private set; }
+
 		public static bool ApplicationActivated { get; private set; }
+
 		public static User User { get; set; }
+
 		public static Action<FrameworkElement> ApplicationController { get; set; }
+
 		public static ReadOnlyCollection<IModule> Modules { get; private set; }
+
 		public static ILayoutService Layout { get; private set; }
+
 		public static ShellViewModel Shell { get; private set; }
+
 		public static bool IsShuttingDown { get; private set; }
+
 		public static bool IsReportEnabled { get; private set; }
 
 		static ApplicationService()
@@ -101,6 +113,7 @@ namespace Infrastructure.Common.Windows
 			frameworkElement.SetResourceReference(ScrollViewer.BackgroundProperty, "BaseWindowBackgroundBrush");
 			return frameworkElement;
 		}
+
 		public static void Run(ShellViewModel model)
 		{
 			Shell = model;
@@ -116,6 +129,7 @@ namespace Infrastructure.Common.Windows
 				ApplicationController(frameworkElement);
 			}
 		}
+
 		public static void ShutDown()
 		{
 			IsShuttingDown = true;
@@ -135,19 +149,23 @@ namespace Infrastructure.Common.Windows
 					Application.Current.Shutdown();
 				});
 		}
+
 		public static bool IsApplicationThread()
 		{
 			return Application.Current == null ? false : Application.Current.Dispatcher.Thread == Thread.CurrentThread;
 		}
+
 		public static void DoEvents()
 		{
 			if (Application.Current != null)
 				DoEvents(Application.Current.Dispatcher);
 		}
+
 		public static void DoEvents(Dispatcher dispatcher)
 		{
 			dispatcher.Invoke(DispatcherPriority.Background, new ThreadStart(delegate { }));
 		}
+
 		public static void Invoke(Action action)
 		{
 			if (Application.Current != null)
@@ -158,10 +176,12 @@ namespace Infrastructure.Common.Windows
 					Application.Current.Dispatcher.Invoke(action);
 			}
 		}
+
 		public static DispatcherOperation BeginInvoke(Action action, DispatcherPriority priority = DispatcherPriority.Normal)
 		{
 			return Application.Current.Dispatcher.BeginInvoke(priority, action);
 		}
+
 		public static void CloseAllWindows()
 		{
 			var windows = new List<Window>();
@@ -171,6 +191,7 @@ namespace Infrastructure.Common.Windows
 			foreach (Window window in windows)
 				Invoke(() => window.Close());
 		}
+
 		public static int GetActiveMonitor(bool shellWindow = false)
 		{
 			if (!Application.Current.Dispatcher.CheckAccess())
@@ -190,6 +211,7 @@ namespace Infrastructure.Common.Windows
 			if (Closing != null)
 				Closing(sender, e);
 		}
+
 		private static void win_Closed(object sender, EventArgs e)
 		{
 			if (Closed != null)

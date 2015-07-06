@@ -15,6 +15,6 @@
 			return Compare((T)x, (T)y);
 		}
 
-		#endregion
+		#endregion IItemComparer Members
 	}
 }

@@ -1,15 +1,16 @@
-﻿using System;
+﻿using FiresecAPI;
+using FiresecAPI.SKD;
+using System;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
-using FiresecAPI;
-using FiresecAPI.SKD;
 
 namespace SKDDriver
 {
 	public class PassCardTemplateTranslator : WithShortTranslator<DataAccess.PassCardTemplate, PassCardTemplate, PassCardTemplateFilter, ShortPassCardTemplate>
 	{
 		private DataContractSerializer _serializer;
+
 		public PassCardTemplateTranslator(SKDDatabaseService databaseService)
 			: base(databaseService)
 		{

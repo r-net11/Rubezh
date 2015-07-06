@@ -1,43 +1,42 @@
-﻿using System;
+﻿using FiresecAPI;
+using FiresecAPI.SKD;
+using Infrastructure.Common;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
-using FiresecAPI;
-using FiresecAPI.SKD;
-using Infrastructure.Common;
 
 namespace SKDDriver.Translators
 {
 	public class TimeTrackTranslator
 	{
-		SKDDatabaseService DatabaseService;
-		DataAccess.SKDDataContext Context;
-		IEnumerable<DataAccess.Holiday> Holidays { get; set; }
+		private SKDDatabaseService DatabaseService;
+		private DataAccess.SKDDataContext Context;
+
+		private IEnumerable<DataAccess.Holiday> Holidays { get; set; }
 
 		public TimeTrackTranslator(SKDDatabaseService databaseService)
 		{
 			DatabaseService = databaseService;
 			Context = databaseService.Context;
-
 		}
 
-		PassJournalTranslator _PassJournalTranslator;
-		List<DataAccess.Employee> _Employees;
-		List<DataAccess.Holiday> _Holidays;
-		List<DataAccess.Schedule> _Schedules;
-		List<DataAccess.ScheduleScheme> _ScheduleSchemes;
-		List<DataAccess.ScheduleDay> _ScheduleDays;
-		List<DataAccess.ScheduleZone> _ScheduleZones;
-		List<DataAccess.PassJournal> _PassJournals;
-		List<DataAccess.DayInterval> _DayIntervals;
-		List<DataAccess.DayIntervalPart> _DayIntervalParts;
-		List<DataAccess.TimeTrackDocument> _TimeTrackDocuments;
-		List<DataAccess.TimeTrackDocumentType> _TimeTrackDocumentTypes;
-		List<DataAccess.NightSetting> _NightSettings;
+		private PassJournalTranslator _PassJournalTranslator;
+		private List<DataAccess.Employee> _Employees;
+		private List<DataAccess.Holiday> _Holidays;
+		private List<DataAccess.Schedule> _Schedules;
+		private List<DataAccess.ScheduleScheme> _ScheduleSchemes;
+		private List<DataAccess.ScheduleDay> _ScheduleDays;
+		private List<DataAccess.ScheduleZone> _ScheduleZones;
+		private List<DataAccess.PassJournal> _PassJournals;
+		private List<DataAccess.DayInterval> _DayIntervals;
+		private List<DataAccess.DayIntervalPart> _DayIntervalParts;
+		private List<DataAccess.TimeTrackDocument> _TimeTrackDocuments;
+		private List<DataAccess.TimeTrackDocumentType> _TimeTrackDocumentTypes;
+		private List<DataAccess.NightSetting> _NightSettings;
 
-
-		void InitializeData()
+		private void InitializeData()
 		{
 			_PassJournalTranslator = DatabaseService.PassJournalTranslator;
 			_Employees = Context.Employees.Where(x => !x.IsDeleted).ToList();
@@ -145,7 +144,7 @@ namespace SKDDriver.Translators
 			return new FileStream(fileName, FileMode.Open, FileAccess.Read);
 		}
 
-		TimeTrackEmployeeResult GetEmployeeTimeTrack(ShortEmployee shortEmployee, DateTime startDate, DateTime endDate)
+		private TimeTrackEmployeeResult GetEmployeeTimeTrack(ShortEmployee shortEmployee, DateTime startDate, DateTime endDate)
 		{
 			var employee = _Employees.FirstOrDefault(x => x.UID == shortEmployee.UID);
 			if (employee == null)
@@ -208,7 +207,7 @@ namespace SKDDriver.Translators
 			return timeTrackEmployeeResult;
 		}
 
-		PlannedTimeTrackPart GetPlannedTimeTrackPart(DataAccess.Employee employee, DataAccess.Schedule schedule, DataAccess.ScheduleScheme scheduleScheme, IEnumerable<DataAccess.ScheduleDay> days, DateTime date, bool ignoreHolidays)
+		private PlannedTimeTrackPart GetPlannedTimeTrackPart(DataAccess.Employee employee, DataAccess.Schedule schedule, DataAccess.ScheduleScheme scheduleScheme, IEnumerable<DataAccess.ScheduleDay> days, DateTime date, bool ignoreHolidays)
 		{
 			var scheduleSchemeType = (ScheduleSchemeType)scheduleScheme.Type;
 
@@ -220,12 +219,14 @@ namespace SKDDriver.Translators
 					if (dayNo == -1)
 						dayNo = 6;
 					break;
+
 				case ScheduleSchemeType.SlideDay:
 					var daysCount = days.Count();
 					var ticksDelta = new TimeSpan(date.Date.Ticks - employee.ScheduleStartDate.Date.Ticks);
 					var daysDelta = Math.Abs((int)ticksDelta.TotalDays);
 					dayNo = daysDelta % daysCount;
 					break;
+
 				case ScheduleSchemeType.Month:
 					dayNo = (int)date.Day - 1;
 					break;

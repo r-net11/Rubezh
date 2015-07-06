@@ -1,14 +1,14 @@
-﻿using System;
+﻿using FiresecAPI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI;
 
 namespace FiresecService.Service
 {
 	public static class CallbackManager
 	{
-		static List<CallbackResultItem> CallbackResultItems = new List<CallbackResultItem>();
-		static int Index = 0;
+		private static List<CallbackResultItem> CallbackResultItems = new List<CallbackResultItem>();
+		private static int Index = 0;
 
 		public static void Add(CallbackResult callbackResult, Guid? clientUID = null)
 		{
@@ -74,8 +74,11 @@ namespace FiresecService.Service
 	public class CallbackResultItem
 	{
 		public CallbackResult CallbackResult { get; set; }
+
 		public int Index { get; set; }
+
 		public DateTime DateTime { get; set; }
+
 		public Guid? ClientUID { get; set; }
 	}
 }

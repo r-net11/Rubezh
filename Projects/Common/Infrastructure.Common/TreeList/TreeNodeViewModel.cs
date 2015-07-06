@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Common;
+using Infrastructure.Common.Windows.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
-using Common;
-using Infrastructure.Common.Windows.ViewModels;
 
 namespace Infrastructure.Common.TreeList
 {
@@ -12,6 +12,7 @@ namespace Infrastructure.Common.TreeList
 	{
 		private List<int> _sortOrder;
 		private RootTreeNodeViewModel _root;
+
 		private RootTreeNodeViewModel Root
 		{
 			get
@@ -21,6 +22,7 @@ namespace Infrastructure.Common.TreeList
 				return _root;
 			}
 		}
+
 		public void AssignToRoot(RootTreeNodeViewModel root)
 		{
 			_root = root;
@@ -42,6 +44,7 @@ namespace Infrastructure.Common.TreeList
 				while (Count != 0)
 					RemoveAt(Count - 1);
 			}
+
 			protected override void InsertItem(int index, TreeNodeViewModel item)
 			{
 				if (item == null)
@@ -61,6 +64,7 @@ namespace Infrastructure.Common.TreeList
 					base.InsertItem(index, item);
 				}
 			}
+
 			protected override void RemoveItem(int index)
 			{
 				TreeNodeViewModel item = this[index];
@@ -78,6 +82,7 @@ namespace Infrastructure.Common.TreeList
 				item.ParentNode = null;
 				item._root = null;
 			}
+
 			protected override void SetItem(int index, TreeNodeViewModel item)
 			{
 				if (item == null)
@@ -88,6 +93,7 @@ namespace Infrastructure.Common.TreeList
 		}
 
 		protected bool IsRoot { get; set; }
+
 		public int Level
 		{
 			get
@@ -99,17 +105,23 @@ namespace Infrastructure.Common.TreeList
 				return ParentNode.Level + 1;
 			}
 		}
+
 		public int Index { get; private set; }
+
 		public bool IsSorted
 		{
 			get { return _sortOrder != null; }
 		}
+
 		public int VisualIndex
 		{
 			get { return ParentNode == null || ParentNode._sortOrder == null ? Index : ParentNode._sortOrder.IndexOf(Index); }
 		}
+
 		public TreeNodeViewModel ParentNode { get; protected set; }
+
 		public TreeItemCollection Nodes { get; private set; }
+
 		public virtual bool InsertSorted
 		{
 			get { return true; }
@@ -139,6 +151,7 @@ namespace Infrastructure.Common.TreeList
 				return true;
 			}
 		}
+
 		private TreeNodeViewModel BottomNode
 		{
 			get
@@ -153,6 +166,7 @@ namespace Infrastructure.Common.TreeList
 				return null;
 			}
 		}
+
 		private TreeNodeViewModel NextVisibleNode
 		{
 			get
@@ -163,6 +177,7 @@ namespace Infrastructure.Common.TreeList
 					return NextNode ?? BottomNode;
 			}
 		}
+
 		private TreeNodeViewModel NextNode
 		{
 			get
@@ -176,10 +191,12 @@ namespace Infrastructure.Common.TreeList
 				return null;
 			}
 		}
+
 		private int VisibleChildrenCount
 		{
 			get { return AllVisibleChildren.Count(); }
 		}
+
 		private IEnumerable<TreeNodeViewModel> AllVisibleChildren
 		{
 			get
@@ -200,6 +217,7 @@ namespace Infrastructure.Common.TreeList
 		protected virtual void OnChildrenChanged(object sender, NotifyCollectionChangedEventArgs e)
 		{
 		}
+
 		private void ChildrenChanged(object sender, NotifyCollectionChangedEventArgs e)
 		{
 			if (IsExpanded && Root != null)
@@ -227,10 +245,12 @@ namespace Infrastructure.Common.TreeList
 							}
 						}
 						break;
+
 					case NotifyCollectionChangedAction.Remove:
 						foreach (TreeNodeViewModel node in e.OldItems)
 							node.DropChildrenRows(true);
 						break;
+
 					case NotifyCollectionChangedAction.Move:
 					case NotifyCollectionChangedAction.Replace:
 					case NotifyCollectionChangedAction.Reset:
@@ -240,6 +260,7 @@ namespace Infrastructure.Common.TreeList
 				}
 			OnPropertyChanged(() => HasChildren);
 		}
+
 		private void DropChildrenRows(bool removeParent)
 		{
 			int start = Root.Rows.IndexOf(this);
@@ -253,6 +274,7 @@ namespace Infrastructure.Common.TreeList
 				Root.Rows.RemoveRange(start, count);
 			}
 		}
+
 		private void CreateChildrenRows()
 		{
 			int index = Root.Rows.IndexOf(this);
@@ -266,6 +288,7 @@ namespace Infrastructure.Common.TreeList
 		}
 
 		private bool _isExpanded;
+
 		public bool IsExpanded
 		{
 			get { return _isExpanded; }
@@ -310,6 +333,7 @@ namespace Infrastructure.Common.TreeList
 				OnPropertyChanged(() => IsSelected);
 			}
 		}
+
 		public bool HasChildren
 		{
 			get { return Nodes.Count > 0; }
@@ -324,14 +348,17 @@ namespace Infrastructure.Common.TreeList
 				parent = parent.ParentNode;
 			}
 		}
+
 		public void CollapseChildren(bool withSelf = true)
 		{
 			ProcessAllChildren(this, withSelf, item => item.IsExpanded = false);
 		}
+
 		public void ExpandChildren(bool withSelf = true)
 		{
 			ProcessAllChildren(this, withSelf, item => item.IsExpanded = true);
 		}
+
 		private void ProcessAllChildren(TreeNodeViewModel parent, bool withSelf, Action<TreeNodeViewModel> action)
 		{
 			if (withSelf)
@@ -349,6 +376,7 @@ namespace Infrastructure.Common.TreeList
 				CreateChildrenRows();
 			}
 		}
+
 		protected virtual void InnerSort()
 		{
 			_sortOrder = new List<int>();
@@ -363,11 +391,11 @@ namespace Infrastructure.Common.TreeList
 				}
 			}
 		}
+
 		public TreeNodeViewModel GetNodeByVisualIndex(int index)
 		{
 			return IsSorted ? Nodes[_sortOrder[index]] : Nodes[index];
 		}
-
 
 		#region IDisposable Members
 
@@ -380,7 +408,7 @@ namespace Infrastructure.Common.TreeList
 			}
 		}
 
-		#endregion
+		#endregion IDisposable Members
 	}
 
 	public class TreeNodeViewModel<T> : TreeNodeViewModel
@@ -389,6 +417,7 @@ namespace Infrastructure.Common.TreeList
 		public TreeNodeViewModel()
 		{
 		}
+
 		public TreeNodeViewModel(IEnumerable<T> children)
 			: this()
 		{
@@ -399,18 +428,22 @@ namespace Infrastructure.Common.TreeList
 		{
 			get { return ParentNode as T; }
 		}
+
 		public T this[int index]
 		{
 			get { return Nodes[index] as T; }
 		}
+
 		public void AddChild(T item)
 		{
 			Nodes.Add(item);
 		}
+
 		public void AddChildFirst(T item)
 		{
 			Nodes.Insert(0, item);
 		}
+
 		public void InsertChild(T item)
 		{
 			var index = this.Parent.Nodes.IndexOf(this);
@@ -422,18 +455,22 @@ namespace Infrastructure.Common.TreeList
 			var index = this.Parent.Nodes.IndexOf(this);
 			Parent.Nodes.Insert(index, item);
 		}
+
 		public void RemoveChild(T item)
 		{
 			Nodes.Remove(item);
 		}
+
 		public void ClearChildren()
 		{
 			Nodes.Clear();
 		}
+
 		public int ChildrenCount
 		{
 			get { return Nodes.Count; }
 		}
+
 		public IEnumerable<T> Children
 		{
 			get
@@ -442,6 +479,7 @@ namespace Infrastructure.Common.TreeList
 					yield return child;
 			}
 		}
+
 		public List<T> GetAllChildren(bool withSelf = true)
 		{
 			var list = new List<T>();
@@ -451,6 +489,7 @@ namespace Infrastructure.Common.TreeList
 				list.AddRange(child.GetAllChildren(true));
 			return list;
 		}
+
 		public List<T> GetAllParents()
 		{
 			if (Parent == null)
@@ -462,6 +501,7 @@ namespace Infrastructure.Common.TreeList
 				return allParents;
 			}
 		}
+
 		public T GetChildByVisualIndex(int index)
 		{
 			return GetNodeByVisualIndex(index) as T;

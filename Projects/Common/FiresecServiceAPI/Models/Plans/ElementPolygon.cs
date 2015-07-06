@@ -1,5 +1,5 @@
-﻿using System.Runtime.Serialization;
-using Infrustructure.Plans.Elements;
+﻿using Infrustructure.Plans.Elements;
+using System.Runtime.Serialization;
 using System.Xml.Serialization;
 
 namespace FiresecAPI.Models
@@ -27,6 +27,6 @@ namespace FiresecAPI.Models
 			get { return Infrustructure.Plans.Elements.Primitive.Polygon; }
 		}
 
-		#endregion
+		#endregion IPrimitive Members
 	}
 }

@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Infrustructure.Plans.Elements;
+using Infrustructure.Plans.Interfaces;
+using System;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
-using Infrustructure.Plans.Elements;
-using Infrustructure.Plans.Interfaces;
 
 namespace FiresecAPI.Models
 {
@@ -23,6 +23,7 @@ namespace FiresecAPI.Models
 			get { return false; }
 			set { }
 		}
+
 		[DataMember]
 		public ElementZoneType ElementZoneType { get; set; }
 
@@ -32,11 +33,13 @@ namespace FiresecAPI.Models
 			Copy(elementBase);
 			return elementBase;
 		}
+
 		public override void Copy(ElementBase element)
 		{
 			base.Copy(element);
 			CopyZone((IElementZone)element);
 		}
+
 		private void CopyZone(IElementZone element)
 		{
 			element.ZoneUID = ZoneUID;
@@ -51,7 +54,7 @@ namespace FiresecAPI.Models
 			get { return Infrustructure.Plans.Elements.Primitive.PolygonZone; }
 		}
 
-		#endregion
+		#endregion IPrimitive Members
 
 		public void SetZLayer(int zlayer)
 		{
@@ -66,6 +69,6 @@ namespace FiresecAPI.Models
 			set { ZoneUID = value; }
 		}
 
-		#endregion
+		#endregion IElementReference Members
 	}
 }

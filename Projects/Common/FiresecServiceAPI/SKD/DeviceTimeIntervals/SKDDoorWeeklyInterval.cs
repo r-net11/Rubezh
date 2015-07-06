@@ -1,10 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
-using Common;
-using System.Xml.Serialization;
-using System;
 
 namespace FiresecAPI.SKD
 {
@@ -54,10 +51,12 @@ namespace FiresecAPI.SKD
 				return ((SKDDoorWeeklyInterval)obj).ID == ID;
 			return base.Equals(obj);
 		}
+
 		public override int GetHashCode()
 		{
 			return ID.GetHashCode();
 		}
+
 		public void InvalidateDayIntervals()
 		{
 			var uids = SKDManager.TimeIntervalsConfiguration.DoorDayIntervals.Select(item => item.UID).ToList();

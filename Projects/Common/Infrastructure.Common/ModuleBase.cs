@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
-using FiresecAPI;
+﻿using FiresecAPI;
 using Infrastructure.Common.Navigation;
+using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace Infrastructure.Common
 {
@@ -42,10 +42,12 @@ namespace Infrastructure.Common
 		}
 
 		public abstract void CreateViewModels();
+
 		public abstract void Initialize();
+
 		public abstract IEnumerable<NavigationItem> CreateNavigation();
 
-		#endregion
+		#endregion IModule Members
 
 		#region IDisposable Members
 
@@ -53,49 +55,68 @@ namespace Infrastructure.Common
 		{
 		}
 
-		#endregion
+		#endregion IDisposable Members
 	}
 
 	public enum ModuleType
 	{
 		[DescriptionAttribute("Администратор")]
 		Administrator,
+
 		[DescriptionAttribute("Автоматизация")]
 		Automation,
+
 		[DescriptionAttribute("Устройства, Зоны")]
 		Devices,
+
 		[DescriptionAttribute("Диагностика")]
 		Diagnostics,
+
 		[DescriptionAttribute("Фильтры журнала событий")]
 		Filters,
+
 		[DescriptionAttribute("Конфигуратор макетов ОЗ")]
 		Layout,
+
 		[DescriptionAttribute("Библиотека устройств")]
 		Library,
+
 		[DescriptionAttribute("Уведомления")]
 		Notification,
+
 		[DescriptionAttribute("Графические планы")]
 		Plans,
+
 		[DescriptionAttribute("Графические планы - Курск")]
 		PlansKursk,
+
 		[DescriptionAttribute("Права доступа")]
 		Security,
+
 		[DescriptionAttribute("Настройки")]
 		Settings,
+
 		[DescriptionAttribute("СКД")]
 		SKD,
+
 		[DescriptionAttribute("Страж")]
 		Strazh,
+
 		[DescriptionAttribute("Звуки")]
 		Sounds,
+
 		[DescriptionAttribute("Видео")]
 		Video,
+
 		[DescriptionAttribute("Cостояния")]
 		Alarm,
+
 		[DescriptionAttribute("Журнал событий и Архив")]
 		Journal,
+
 		[DescriptionAttribute("Отчёты")]
 		Reports,
+
 		[DescriptionAttribute("Монитор")]
 		Monitor,
 	}

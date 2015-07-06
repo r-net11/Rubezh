@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using FiresecAPI.Models;
+﻿using FiresecAPI.Models;
 
 namespace Infrastructure.Common.SKDReports
 {
@@ -19,11 +15,15 @@ namespace Infrastructure.Common.SKDReports
 		#region ISKDReportProvider Members
 
 		public string Title { get; private set; }
+
 		public PermissionType? Permission { get; private set; }
+
 		public int Index { get; private set; }
+
 		public string IconSource { get; private set; }
+
 		public SKDReportGroup? Group { get; private set; }
 
-		#endregion
+		#endregion ISKDReportProvider Members
 	}
 }

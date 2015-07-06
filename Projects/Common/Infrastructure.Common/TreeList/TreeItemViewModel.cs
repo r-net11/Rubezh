@@ -1,16 +1,17 @@
-﻿using System;
+﻿using Infrastructure.Common.Windows.ViewModels;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
-using Infrastructure.Common.Windows.ViewModels;
 
 namespace Infrastructure.Common.TreeList
 {
 	public class TreeItemViewModel : BaseViewModel
 	{
 		private bool _isExpanded;
+
 		public bool IsExpanded
 		{
 			get { return _isExpanded; }
@@ -22,6 +23,7 @@ namespace Infrastructure.Common.TreeList
 		}
 
 		private bool _isSelected;
+
 		public virtual bool IsSelected
 		{
 			get { return _isSelected; }
@@ -37,6 +39,7 @@ namespace Infrastructure.Common.TreeList
 
 		public TreeItemViewModel TreeParent { get; protected set; }
 	}
+
 	public class TreeItemViewModel<T> : TreeItemViewModel, ITreeNodeModel
 		where T : TreeItemViewModel<T>
 	{
@@ -45,6 +48,7 @@ namespace Infrastructure.Common.TreeList
 			Children = new ObservableCollection<T>();
 			Children.CollectionChanged += new NotifyCollectionChangedEventHandler(Children_CollectionChanged);
 		}
+
 		public TreeItemViewModel(IEnumerable<T> children)
 			: this()
 		{
@@ -53,6 +57,7 @@ namespace Infrastructure.Common.TreeList
 		}
 
 		private ObservableCollection<T> _children;
+
 		public ObservableCollection<T> Children
 		{
 			get { return _children; }
@@ -64,6 +69,7 @@ namespace Infrastructure.Common.TreeList
 		}
 
 		private T _parent;
+
 		public T Parent
 		{
 			get { return _parent; }
@@ -80,6 +86,7 @@ namespace Infrastructure.Common.TreeList
 		{
 			get { return Children.Count > 0; }
 		}
+
 		public int Level
 		{
 			get { return GetAllParents().Count(); }
@@ -99,10 +106,12 @@ namespace Infrastructure.Common.TreeList
 		{
 			GetAllParents().ForEach(x => x.IsExpanded = true);
 		}
+
 		public void CollapseChildren(bool withSelf = true)
 		{
 			ProcessAllChildren((T)this, withSelf, item => item.IsExpanded = false);
 		}
+
 		public void ExpandChildren(bool withSelf = true)
 		{
 			ProcessAllChildren((T)this, withSelf, item => item.IsExpanded = true);
@@ -124,6 +133,7 @@ namespace Infrastructure.Common.TreeList
 				return allParents;
 			}
 		}
+
 		private void ProcessAllChildren(T parent, bool withSelf, Action<T> action)
 		{
 			if (withSelf)
@@ -131,6 +141,7 @@ namespace Infrastructure.Common.TreeList
 			foreach (T t in parent.Children)
 				ProcessAllChildren(t, true, action);
 		}
+
 		private void Children_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
 		{
 			switch (e.Action)
@@ -139,10 +150,12 @@ namespace Infrastructure.Common.TreeList
 					foreach (T item in e.NewItems)
 						item.Parent = (T)this;
 					break;
+
 				case NotifyCollectionChangedAction.Remove:
 					foreach (T item in e.OldItems)
 						item.Parent = null;
 					break;
+
 				case NotifyCollectionChangedAction.Replace:
 					foreach (T item in e.OldItems)
 						item.Parent = null;
@@ -160,6 +173,6 @@ namespace Infrastructure.Common.TreeList
 			return Children;
 		}
 
-		#endregion
+		#endregion ITreeNodeModel Members
 	}
 }

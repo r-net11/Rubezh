@@ -10,9 +10,13 @@ namespace Infrastructure.Common.SKDReports
 		}
 
 		public bool AllowSort { get; set; }
+
 		public Dictionary<string, string> Columns { get; set; }
+
 		public FilterContainerViewModel CommandsViewModel { get; set; }
+
 		public FilterContainerViewModel MainViewModel { get; set; }
+
 		public IEnumerable<FilterContainerViewModel> Pages { get; set; }
 	}
 }

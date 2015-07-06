@@ -5,9 +5,11 @@ using System.Windows.Input;
 namespace Infrastructure.Common.Services.DragDrop
 {
 	public delegate void DragCorrectionEventHandler(object sender, DragCorrectionEventArgs e);
+
 	public class DragCorrectionEventArgs : EventArgs
 	{
 		public IDataObject Data { get; private set; }
+
 		public Vector Correction { get; set; }
 
 		private Converter<IInputElement, Point> _getPosition;
@@ -18,6 +20,7 @@ namespace Infrastructure.Common.Services.DragDrop
 			_getPosition = me.GetPosition;
 			Correction = new Vector(0, 0);
 		}
+
 		public DragCorrectionEventArgs(DragEventArgs de)
 		{
 			Data = de.Data;

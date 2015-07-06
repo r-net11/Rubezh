@@ -39,6 +39,5 @@ namespace FiresecService.Report
 				return dataSet;
 			}
 		}
-
 	}
 }

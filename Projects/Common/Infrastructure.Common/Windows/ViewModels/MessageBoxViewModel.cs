@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Common;
+using System;
 using System.Windows;
-using Common;
 
 namespace Infrastructure.Common.Windows.ViewModels
 {
@@ -35,14 +35,17 @@ namespace Infrastructure.Common.Windows.ViewModels
 				case MessageBoxButton.OK:
 					IsOkButtonVisible = true;
 					break;
+
 				case MessageBoxButton.OKCancel:
 					IsOkButtonVisible = true;
 					IsCancelButtonVisible = true;
 					break;
+
 				case MessageBoxButton.YesNo:
 					IsYesButtonVisible = true;
 					IsNoButtonVisible = true;
 					break;
+
 				case MessageBoxButton.YesNoCancel:
 					IsYesButtonVisible = true;
 					IsNoButtonVisible = true;
@@ -50,6 +53,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 					break;
 			}
 		}
+
 		private void SetImageVisibility(MessageBoxImage messageBoxImage)
 		{
 			switch (messageBoxImage)
@@ -57,12 +61,15 @@ namespace Infrastructure.Common.Windows.ViewModels
 				case MessageBoxImage.Information:
 					IsInformationImageVisible = true;
 					break;
+
 				case MessageBoxImage.Question:
 					IsQuestionImageVisible = true;
 					break;
+
 				case MessageBoxImage.Warning:
 					IsWarningImageVisible = true;
 					break;
+
 				case MessageBoxImage.Error:
 					IsErrorImageVisible = true;
 					break;
@@ -70,45 +77,62 @@ namespace Infrastructure.Common.Windows.ViewModels
 		}
 
 		public bool IsOkButtonVisible { get; private set; }
+
 		public bool IsCancelButtonVisible { get; private set; }
+
 		public bool IsYesButtonVisible { get; private set; }
+
 		public bool IsNoButtonVisible { get; private set; }
 
 		public bool IsInformationImageVisible { get; private set; }
+
 		public bool IsQuestionImageVisible { get; private set; }
+
 		public bool IsWarningImageVisible { get; private set; }
+
 		public bool IsErrorImageVisible { get; private set; }
 
 		public bool IsException { get; private set; }
+
 		public string Message { get; set; }
+
 		public MessageBoxResult Result { get; set; }
 
 		public RelayCommand OkCommand { get; private set; }
-		void OnOk()
+
+		private void OnOk()
 		{
 			Result = MessageBoxResult.OK;
 			Close(true);
 		}
+
 		public RelayCommand CancelCommand { get; private set; }
-		void OnCancel()
+
+		private void OnCancel()
 		{
 			Result = MessageBoxResult.Cancel;
 			Close(true);
 		}
+
 		public RelayCommand YesCommand { get; private set; }
-		void OnYes()
+
+		private void OnYes()
 		{
 			Result = MessageBoxResult.Yes;
 			Close(true);
 		}
+
 		public RelayCommand NoCommand { get; private set; }
-		void OnNo()
+
+		private void OnNo()
 		{
 			Result = MessageBoxResult.No;
 			Close(true);
 		}
+
 		public RelayCommand CopyCommand { get; private set; }
-		void OnCopy()
+
+		private void OnCopy()
 		{
 			try
 			{
@@ -137,6 +161,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 				return messageBoxImage;
 			}
 		}
+
 		public MessageBoxButton MessageBoxButton
 		{
 			get

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using FiresecAPI.GK;
 
 namespace FiresecAPI.SKD
 {
@@ -11,14 +10,23 @@ namespace FiresecAPI.SKD
 		}
 
 		public byte No { get; set; }
+
 		public string Name { get; set; }
+
 		public string Caption { get; set; }
+
 		public string ToolTip { get; set; }
+
 		public int Default { get; set; }
+
 		public string StringDefault { get; set; }
+
 		public List<SKDDriverPropertyParameter> Parameters { get; set; }
+
 		public SKDDriverType DriverPropertyType { get; set; }
+
 		public int Min { get; set; }
+
 		public int Max { get; set; }
 	}
 }

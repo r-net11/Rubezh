@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using SKDDriver;
+using System;
 using System.Data.SqlClient;
-using SKDDriver;
 
 namespace FiresecService.Report
 {

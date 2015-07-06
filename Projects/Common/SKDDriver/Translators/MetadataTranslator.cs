@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using SKDDriver.DataAccess;
+using System;
 using System.Linq;
-using System.Text;
-using SKDDriver.DataAccess;
 
 namespace SKDDriver
 {
 	public class MetadataTranslator
 	{
-		DataAccess.SKDDataContext Context;
+		private DataAccess.SKDDataContext Context;
 
 		public MetadataTranslator(SKDDatabaseService databaseService)
 		{

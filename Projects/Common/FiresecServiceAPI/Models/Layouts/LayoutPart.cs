@@ -18,10 +18,13 @@ namespace FiresecAPI.Models.Layouts
 
 		[DataMember]
 		public string Title { get; set; }
+
 		[DataMember]
 		public Guid UID { get; set; }
+
 		[DataMember]
 		public Guid DescriptionUID { get; set; }
+
 		[DataMember]
 		public ILayoutProperties Properties { get; set; }
 	}

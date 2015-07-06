@@ -1,14 +1,16 @@
-﻿using System;
+﻿using FiresecAPI.GK;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.GK;
 
 namespace FiresecAPI.SKD
 {
 	public partial class SKDManager
 	{
 		public static SKDConfiguration SKDConfiguration { get; set; }
+
 		public static SKDLibraryConfiguration SKDLibraryConfiguration { get; set; }
+
 		public static List<SKDDriver> Drivers { get; set; }
 
 		static SKDManager()
@@ -80,7 +82,6 @@ namespace FiresecAPI.SKD
 		{
 			foreach (var device in Devices)
 			{
-
 				device.State = new SKDDeviceState(device);
 				device.State.UID = device.UID;
 				device.State.StateClass = XStateClass.Unknown;
@@ -115,7 +116,7 @@ namespace FiresecAPI.SKD
 			return minStateClass;
 		}
 
-		static void Invalidate()
+		private static void Invalidate()
 		{
 			ClearAllReferences();
 			InitializeDevicesInZone();
@@ -124,7 +125,7 @@ namespace FiresecAPI.SKD
 			InvalidateIntervals();
 		}
 
-		static void ClearAllReferences()
+		private static void ClearAllReferences()
 		{
 			foreach (var device in Devices)
 			{
@@ -136,7 +137,7 @@ namespace FiresecAPI.SKD
 			}
 		}
 
-		static void InvalidateLockConfiguration()
+		private static void InvalidateLockConfiguration()
 		{
 			foreach (var device in Devices)
 			{
@@ -173,7 +174,7 @@ namespace FiresecAPI.SKD
 			}
 		}
 
-		static void InitializeDevicesInZone()
+		private static void InitializeDevicesInZone()
 		{
 			foreach (var device in Devices)
 			{
@@ -195,7 +196,7 @@ namespace FiresecAPI.SKD
 			}
 		}
 
-		static void InvalidateDoors()
+		private static void InvalidateDoors()
 		{
 			foreach (var door in SKDManager.Doors)
 			{
@@ -211,7 +212,7 @@ namespace FiresecAPI.SKD
 			}
 		}
 
-		static void InvalidateIntervals()
+		private static void InvalidateIntervals()
 		{
 			//foreach (var weeklyInterval in SKDConfiguration.TimeIntervalsConfiguration.WeeklyIntervals)
 			//{

@@ -7,7 +7,8 @@ namespace FiresecAPI.SKD
 	[DataContract]
 	public class ScheduleFilter : EmployeeFilterBase
 	{
-		public ScheduleFilter(): base()
+		public ScheduleFilter()
+			: base()
 		{
 			ScheduleSchemeUIDs = new List<Guid>();
 		}

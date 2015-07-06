@@ -1,8 +1,8 @@
-﻿using System.ComponentModel;
+﻿using Infrastructure.Common.TreeList;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using Infrastructure.Common.TreeList;
 
 namespace Controls.TreeList
 {
@@ -19,6 +19,7 @@ namespace Controls.TreeList
 		{
 			return (bool)element.GetValue(CanUserSortColumnsProperty);
 		}
+
 		[AttachedPropertyBrowsableForType(typeof(ListView))]
 		public static void SetCanUserSortColumns(ListView element, bool value)
 		{
@@ -30,6 +31,7 @@ namespace Controls.TreeList
 		{
 			return (IItemComparer)element.GetValue(DefaultSortComparerProperty);
 		}
+
 		[AttachedPropertyBrowsableForType(typeof(ListView))]
 		public static void SetDefaultSortComparer(ListView element, IItemComparer value)
 		{
@@ -43,6 +45,7 @@ namespace Controls.TreeList
 				return false;
 			return (bool)element.GetValue(CanUseSortProperty);
 		}
+
 		[AttachedPropertyBrowsableForType(typeof(GridViewColumn))]
 		public static void SetCanUseSort(GridViewColumn element, bool value)
 		{
@@ -54,6 +57,7 @@ namespace Controls.TreeList
 		{
 			return (ListSortDirection?)element.GetValue(SortDirectionProperty);
 		}
+
 		[AttachedPropertyBrowsableForType(typeof(GridViewColumn))]
 		public static void SetSortDirection(GridViewColumn element, ListSortDirection? value)
 		{
@@ -65,6 +69,7 @@ namespace Controls.TreeList
 		{
 			return (IItemComparer)element.GetValue(SortComparerProperty);
 		}
+
 		[AttachedPropertyBrowsableForType(typeof(GridViewColumn))]
 		public static void SetSortComparer(GridViewColumn element, IItemComparer value)
 		{
@@ -85,6 +90,7 @@ namespace Controls.TreeList
 			else
 				listView.RemoveHandler(GridViewColumnHeader.ClickEvent, (RoutedEventHandler)OnColumnHeaderClick);
 		}
+
 		private static void OnDefaultSortComparerChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
 			var listView = (ListView)d;
@@ -134,6 +140,7 @@ namespace Controls.TreeList
 				SetSortDirection(column, tree.Root.SortDirection);
 			}
 		}
+
 		private static void DoSort(ListView listView, IItemComparer comparer)
 		{
 			var tree = (TreeList)listView;

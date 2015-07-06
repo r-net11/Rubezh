@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using DevExpress.XtraReports.Service.Extensions;
-using System.ComponentModel.Composition;
+﻿using DevExpress.XtraReports.Service.Extensions;
 using DevExpress.XtraReports.UI;
 using FiresecService.Report.Templates;
+using System;
+using System.ComponentModel.Composition;
 
 namespace FiresecService.Report
 {
@@ -14,6 +11,7 @@ namespace FiresecService.Report
 	{
 		private const string ReportNameTemplate = @"FiresecService.Report.Templates.{0}, FiresecService.Report";
 		private const string ProviderSuffix = "Provider";
+
 		public ReportResolver()
 		{
 		}
@@ -36,6 +34,6 @@ namespace FiresecService.Report
 			return (XtraReport)Activator.CreateInstance(type);
 		}
 
-		#endregion
+		#endregion IReportResolver Members
 	}
 }

@@ -6,7 +6,8 @@ namespace Controls.Converters
 {
 	public static class ConverterHelper
 	{
-		static List<string> values = new List<string>();
+		private static List<string> values = new List<string>();
+
 		public static object GetResource(object value)
 		{
 			var resourceName = value as string;

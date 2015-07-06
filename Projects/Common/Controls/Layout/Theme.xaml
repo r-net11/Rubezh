@@ -299,7 +299,6 @@
 								<Border Name="PART_DocumentPaneDropTargetLeftAsAnchorablePane" Grid.Row="2" Grid.Column="0">
 									<Image Margin="2" Source="/Controls;component/Layout/Images/DockDocumentAsAnchorableLeft.png" Stretch="None" />
 								</Border>
-
 							</Grid>
 						</Grid>
 					</Canvas>
@@ -589,7 +588,5 @@
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
-
 	</Style>
-
 </ResourceDictionary>

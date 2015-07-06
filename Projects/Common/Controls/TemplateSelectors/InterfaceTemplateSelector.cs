@@ -12,6 +12,7 @@ namespace Controls.TemplateSelectors
 		}
 
 		public Type Type { get; set; }
+
 		public bool UseDataKey { get; set; }
 
 		public override DataTemplate SelectTemplate(object item, DependencyObject container)

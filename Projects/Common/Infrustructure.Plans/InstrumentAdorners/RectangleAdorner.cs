@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Infrustructure.Plans.Designer;
+using Infrustructure.Plans.Elements;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.Elements;
 
 namespace Infrustructure.Plans.InstrumentAdorners
 {
@@ -26,6 +26,7 @@ namespace Infrustructure.Plans.InstrumentAdorners
 			rubberband.StrokeThickness = 1 / ZoomFactor;
 			AdornerCanvas.Cursor = Cursors.Pen;
 		}
+
 		public override void Hide()
 		{
 			base.Hide();
@@ -36,6 +37,7 @@ namespace Infrustructure.Plans.InstrumentAdorners
 		{
 			return new Rectangle();
 		}
+
 		protected abstract ElementBaseRectangle CreateElement();
 
 		protected override void OnMouseDown(MouseButtonEventArgs e)
@@ -52,6 +54,7 @@ namespace Infrustructure.Plans.InstrumentAdorners
 					AdornerCanvas.CaptureMouse();
 			}
 		}
+
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
 			if (StartPoint.HasValue && AdornerCanvas.Children.Contains(rubberband))
@@ -63,6 +66,7 @@ namespace Infrustructure.Plans.InstrumentAdorners
 				e.Handled = true;
 			}
 		}
+
 		protected override void OnMouseUp(MouseButtonEventArgs e)
 		{
 			if (AdornerCanvas.IsMouseCaptured && StartPoint.HasValue && endPoint.HasValue)
@@ -99,6 +103,7 @@ namespace Infrustructure.Plans.InstrumentAdorners
 			Canvas.SetLeft(rubberband, left);
 			Canvas.SetTop(rubberband, top);
 		}
+
 		public override void UpdateZoom()
 		{
 			base.UpdateZoom();
@@ -115,6 +120,7 @@ namespace Infrustructure.Plans.InstrumentAdorners
 			}
 			return handled;
 		}
+
 		private void Cleanup()
 		{
 			StartPoint = null;

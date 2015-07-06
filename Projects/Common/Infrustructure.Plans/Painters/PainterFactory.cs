@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using Infrustructure.Plans.Designer;
+﻿using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
+using System;
+using System.Collections.Generic;
 
 namespace Infrustructure.Plans.Painters
 {
@@ -19,6 +19,7 @@ namespace Infrustructure.Plans.Painters
 			{Primitive.SubPlan, typeof(SubPlanPainter)},
 			{Primitive.TextBlock, typeof(TextBlockPainter)},
 		};
+
 		public static IPainter Create(CommonDesignerCanvas designerCanvas, ElementBase element)
 		{
 			Type type = element.GetType();

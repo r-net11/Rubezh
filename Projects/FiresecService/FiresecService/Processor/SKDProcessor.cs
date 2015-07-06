@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using ChinaSKDDriver;
+﻿using ChinaSKDDriver;
 using Common;
 using FiresecAPI;
 using FiresecAPI.GK;
@@ -9,6 +6,9 @@ using FiresecAPI.Journal;
 using FiresecAPI.SKD;
 using SKDDriver;
 using SKDDriver.Translators;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace FiresecService
 {
@@ -66,7 +66,7 @@ namespace FiresecService
 			ChinaSKDDriver.Processor.Stop();
 		}
 
-		static void OnNewJournalItem(JournalItem journalItem)
+		private static void OnNewJournalItem(JournalItem journalItem)
 		{
 			var cardNo = 0;
 			var journalDetalisationItem = journalItem.JournalDetalisationItems.FirstOrDefault(x => x.Name == "Номер карты");
@@ -115,7 +115,7 @@ namespace FiresecService
 			FiresecService.Service.FiresecService.AddCommonJournalItem(journalItem);
 		}
 
-		static void OnSKDStates(SKDStates skdStates)
+		private static void OnSKDStates(SKDStates skdStates)
 		{
 			if (skdStates.DeviceStates.Count > 0)
 			{
@@ -167,7 +167,7 @@ namespace FiresecService
 			ProcedureRunner.RunOnStateChanged();
 		}
 
-		static List<XStateClass> GetZoneStateClasses(SKDZone zone)
+		private static List<XStateClass> GetZoneStateClasses(SKDZone zone)
 		{
 			var stateClasses = new List<XStateClass>();
 			foreach (var readerDevice in zone.Devices)
@@ -190,7 +190,7 @@ namespace FiresecService
 			return stateClasses;
 		}
 
-		static List<XStateClass> GetDoorStateClasses(SKDDoor door)
+		private static List<XStateClass> GetDoorStateClasses(SKDDoor door)
 		{
 			var stateClasses = new List<XStateClass>();
 
@@ -237,12 +237,12 @@ namespace FiresecService
 			return skdStates;
 		}
 
-		static void OnSKDProgressCallbackEvent(SKDProgressCallback SKDProgressCallback)
+		private static void OnSKDProgressCallbackEvent(SKDProgressCallback SKDProgressCallback)
 		{
 			FiresecService.Service.FiresecService.NotifySKDProgress(SKDProgressCallback);
 		}
 
-		static void OnConnectionAppeared(DeviceProcessor deviceProcessor)
+		private static void OnConnectionAppeared(DeviceProcessor deviceProcessor)
 		{
 			using (var databaseService = new SKDDatabaseService())
 			{

@@ -1,10 +1,7 @@
-﻿using System;
-using System.Linq;
-using FiresecAPI;
+﻿using FiresecAPI;
 using FiresecAPI.SKD;
-using System.Collections;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 
 namespace ChinaSKDDriver
 {

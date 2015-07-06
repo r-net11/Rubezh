@@ -1,9 +1,9 @@
-﻿
-namespace Infrastructure.Common.Windows.ViewModels
+﻿namespace Infrastructure.Common.Windows.ViewModels
 {
 	public class SaveCancelDialogViewModel : DialogViewModel
 	{
 		public RelayCommand SaveCommand { get; protected set; }
+
 		public RelayCommand CancelCommand { get; protected set; }
 
 		public SaveCancelDialogViewModel()
@@ -17,6 +17,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 		}
 
 		private bool _allowSave;
+
 		public bool AllowSave
 		{
 			get { return _allowSave; }
@@ -26,7 +27,9 @@ namespace Infrastructure.Common.Windows.ViewModels
 				OnPropertyChanged(() => AllowSave);
 			}
 		}
+
 		private string _saveCaption;
+
 		public string SaveCaption
 		{
 			get { return _saveCaption; }
@@ -36,7 +39,9 @@ namespace Infrastructure.Common.Windows.ViewModels
 				OnPropertyChanged("SaveCaption");
 			}
 		}
+
 		private string _cancelCaption;
+
 		public string CancelCaption
 		{
 			get { return _cancelCaption; }
@@ -48,6 +53,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 		}
 
 		private BaseViewModel _commandPanel;
+
 		public BaseViewModel CommandPanel
 		{
 			get { return _commandPanel; }
@@ -62,10 +68,12 @@ namespace Infrastructure.Common.Windows.ViewModels
 		{
 			return true;
 		}
+
 		protected virtual bool Save()
 		{
 			return true;
 		}
+
 		protected virtual bool Cancel()
 		{
 			return false;
@@ -77,6 +85,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			if (result)
 				Close(true);
 		}
+
 		private void OnCancel()
 		{
 			bool result = Cancel();

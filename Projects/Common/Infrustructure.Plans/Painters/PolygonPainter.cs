@@ -1,6 +1,6 @@
-﻿using System.Windows.Media;
-using Infrustructure.Plans.Designer;
+﻿using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
+using System.Windows.Media;
 
 namespace Infrustructure.Plans.Painters
 {
@@ -15,6 +15,7 @@ namespace Infrustructure.Plans.Painters
 		{
 			get { return true; }
 		}
+
 		protected override PathGeometry CreateGeometry()
 		{
 			var geometry = new PathGeometry();
@@ -24,6 +25,7 @@ namespace Infrustructure.Plans.Painters
 			geometry.Figures.Add(figure);
 			return geometry;
 		}
+
 		public override void Transform()
 		{
 			var figure = Geometry.Figures[0];

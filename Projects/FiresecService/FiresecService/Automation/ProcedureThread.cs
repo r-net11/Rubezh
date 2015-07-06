@@ -1,31 +1,43 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using Common;
+﻿using Common;
 using FiresecAPI.Automation;
 using FiresecAPI.Journal;
 using FiresecAPI.Models;
-using SKDDriver.Translators;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 
 namespace FiresecService
 {
 	public partial class ProcedureThread
 	{
 		public Guid UID { get; private set; }
+
 		public Guid? ClientUID { get; private set; }
+
 		public DateTime StartTime { get; private set; }
+
 		public bool IsAlive { get; set; }
+
 		public User User { get; private set; }
+
 		public int TimeOut { get; private set; }
+
 		public TimeType TimeType { get; private set; }
-		AutoResetEvent AutoResetEvent { get; set; }
-		Thread Thread { get; set; }
-		List<Variable> AllVariables { get; set; }
-		List<ProcedureStep> Steps { get; set; }
-		bool IsSync { get; set; }
-		ProcedureThread ChildProcedureThread { get; set; }
-		JournalItem JournalItem { get; set; }
+
+		private AutoResetEvent AutoResetEvent { get; set; }
+
+		private Thread Thread { get; set; }
+
+		private List<Variable> AllVariables { get; set; }
+
+		private List<ProcedureStep> Steps { get; set; }
+
+		private bool IsSync { get; set; }
+
+		private ProcedureThread ChildProcedureThread { get; set; }
+
+		private JournalItem JournalItem { get; set; }
 
 		public ProcedureThread(Procedure procedure, List<Argument> arguments, List<Variable> callingProcedureVariables, JournalItem journalItem = null, User user = null, Guid? clientUID = null)
 		{
@@ -58,7 +70,8 @@ namespace FiresecService
 				Thread.Join();
 		}
 
-		bool _isTimeOut;
+		private bool _isTimeOut;
+
 		public bool IsTimeOut
 		{
 			get { return _isTimeOut; }
@@ -91,7 +104,7 @@ namespace FiresecService
 			return true;
 		}
 
-		Result RunStep(ProcedureStep procedureStep)
+		private Result RunStep(ProcedureStep procedureStep)
 		{
 			if (IsTimeOut)
 				return Result.Normal;
@@ -121,6 +134,7 @@ namespace FiresecService
 						}
 					}
 					break;
+
 				case ProcedureStepType.While:
 					while (Compare(procedureStep))
 					{
@@ -204,7 +218,6 @@ namespace FiresecService
 					}
 					break;
 
-
 				case ProcedureStepType.ProcedureSelection:
 					{
 						var childProcedure = ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.Procedures.
@@ -285,6 +298,7 @@ namespace FiresecService
 				case ProcedureStepType.ControlVisualGet:
 					ControlVisual(procedureStep, ControlElementType.Get);
 					break;
+
 				case ProcedureStepType.ControlVisualSet:
 					ControlVisual(procedureStep, ControlElementType.Set);
 					break;
@@ -361,7 +375,7 @@ namespace FiresecService
 			return Result.Normal;
 		}
 
-		enum Result
+		private enum Result
 		{
 			Normal,
 			Break,

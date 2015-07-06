@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
-using Infrustructure.Plans.Elements;
 using System.Xml.Serialization;
-using System;
+
 namespace FiresecAPI.Models
 {
 	[DataContract]
@@ -21,7 +21,9 @@ namespace FiresecAPI.Models
 
 		[XmlIgnore]
 		public List<Plan> AllPlans { get; set; }
+
 		private Dictionary<Guid, Plan> _planMap;
+
 		[XmlIgnore]
 		public Plan this[Guid uid]
 		{
@@ -37,6 +39,7 @@ namespace FiresecAPI.Models
 			_planMap = new Dictionary<Guid, Plan>();
 			AddChildren(Plans, null);
 		}
+
 		private void AddChildren(List<Plan> plans, Plan parent)
 		{
 			foreach (var plan in plans)
@@ -61,6 +64,7 @@ namespace FiresecAPI.Models
 			result &= ValidateVersion(AllPlans);
 			return result;
 		}
+
 		private bool ValidateVersion(List<Plan> folders)
 		{
 			bool result = true;
@@ -68,6 +72,7 @@ namespace FiresecAPI.Models
 				result &= ValidateVersion(plan);
 			return result;
 		}
+
 		private bool ValidateVersion(Plan plan)
 		{
 			bool result = true;

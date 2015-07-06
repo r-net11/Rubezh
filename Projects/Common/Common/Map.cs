@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Markup;
 
 namespace Common
 {
@@ -21,11 +20,13 @@ namespace Common
 		{
 			return (_map != null && _map.ContainsKey(guid)) ? _map[guid] : default(T);
 		}
+
 		public T GetItem<TT>(TT item, Func<TT, Guid> keySelector)
 		{
 			var key = keySelector(item);
 			return GetItem(key);
 		}
+
 		public ICollection<T> Values
 		{
 			get { return _map.Values; }
@@ -37,6 +38,7 @@ namespace Common
 				items = Builder();
 			_map = items == null ? new Dictionary<Guid, T>() : items.GroupBy(KeySelecter).ToDictionary(group => group.Key, group => group.First());
 		}
+
 		public void Build(IEnumerable<T> items = null)
 		{
 			if (items == null && Builder != null)
@@ -70,11 +72,13 @@ namespace Common
 			BuildSafe();
 		}
 
-		#endregion
+		#endregion IMap Members
 	}
+
 	internal interface IMap
 	{
 		void Build();
+
 		void BuildSafe();
 	}
 }

@@ -1,10 +1,10 @@
-﻿using System;
+﻿using FiresecAPI;
+using FiresecAPI.SKD;
+using LinqKit;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using FiresecAPI;
-using FiresecAPI.SKD;
-using LinqKit;
 
 namespace SKDDriver
 {
@@ -13,14 +13,13 @@ namespace SKDDriver
 		public CardDoorTranslator(SKDDatabaseService databaseService)
 			: base(databaseService)
 		{
-
 		}
 
 		public CardDoor TranslateCardDoor(DataAccess.CardDoor tableItem)
 		{
 			return Translate(tableItem);
 		}
-		
+
 		protected override CardDoor Translate(DataAccess.CardDoor tableItem)
 		{
 			var result = base.Translate(tableItem);

@@ -1,8 +1,8 @@
-﻿using System;
+﻿using FiresecAPI;
+using FiresecAPI.SKD;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI;
-using FiresecAPI.SKD;
 
 namespace SKDDriver
 {
@@ -35,7 +35,7 @@ namespace SKDDriver
 			return MarkDeletedByParentWithSubmit(uid, removalDate);
 		}
 
-		OperationResult MarkDeletedByParent(Guid parentDepartmentUID, DateTime removalDate)
+		private OperationResult MarkDeletedByParent(Guid parentDepartmentUID, DateTime removalDate)
 		{
 			try
 			{
@@ -59,7 +59,7 @@ namespace SKDDriver
 			}
 		}
 
-		OperationResult MarkDeletedByParentWithSubmit(Guid uid, DateTime removalDate)
+		private OperationResult MarkDeletedByParentWithSubmit(Guid uid, DateTime removalDate)
 		{
 			try
 			{
@@ -80,7 +80,7 @@ namespace SKDDriver
 			return RestoreByChildWithSubmit(uid, removalDate);
 		}
 
-		OperationResult RestoreByChild(Guid uid, DateTime removalDate)
+		private OperationResult RestoreByChild(Guid uid, DateTime removalDate)
 		{
 			try
 			{
@@ -100,7 +100,7 @@ namespace SKDDriver
 			}
 		}
 
-		OperationResult RestoreByChildWithSubmit(Guid uid, DateTime removalDate)
+		private OperationResult RestoreByChildWithSubmit(Guid uid, DateTime removalDate)
 		{
 			try
 			{
@@ -173,7 +173,8 @@ namespace SKDDriver
 			return result;
 		}
 
-		List<DataAccess.Department> _allDepartments;
+		private List<DataAccess.Department> _allDepartments;
+
 		protected override void BeforeGetList()
 		{
 			_allDepartments = Table.ToList();
@@ -185,7 +186,7 @@ namespace SKDDriver
 			if (uid == null)
 				return "";
 			var tableItem = Table.FirstOrDefault(x => x.UID == uid.Value);
-			if(tableItem == null)
+			if (tableItem == null)
 				return "";
 			return tableItem.Name;
 		}
@@ -233,7 +234,7 @@ namespace SKDDriver
 			}
 		}
 
-		List<Guid> GetChildUIDs(Guid uid)
+		private List<Guid> GetChildUIDs(Guid uid)
 		{
 			var result = new List<Guid>();
 			result.Add(uid);
@@ -248,7 +249,7 @@ namespace SKDDriver
 			return result;
 		}
 
-		List<Guid> GetParentUIDs(Guid uid)
+		private List<Guid> GetParentUIDs(Guid uid)
 		{
 			var result = new List<Guid>();
 			result.Add(uid);

@@ -1,17 +1,18 @@
-﻿using System;
-using System.Threading;
-using ChinaSKDDriverAPI;
+﻿using ChinaSKDDriverAPI;
 using ChinaSKDDriverNativeApi;
 using FiresecAPI.Journal;
+using System;
+using System.Threading;
 
 namespace ChinaSKDDriver
 {
 	public partial class Wrapper
 	{
 		public static event Action<SKDJournalItem> NewJournalItem;
-		static Thread Thread;
-		static bool IsStopping;
-		static AutoResetEvent AutoResetEvent = new AutoResetEvent(false);
+
+		private static Thread Thread;
+		private static bool IsStopping;
+		private static AutoResetEvent AutoResetEvent = new AutoResetEvent(false);
 
 		public int LoginID { get; private set; }
 
@@ -21,6 +22,7 @@ namespace ChinaSKDDriver
 		}
 
 		#region Connct
+
 		public int WrapConnect(string ipAddress, int port, string login, string password, out string error)
 		{
 			int intError = 1;
@@ -29,7 +31,7 @@ namespace ChinaSKDDriver
 			return LoginID;
 		}
 
-		string GetError(int error)
+		private string GetError(int error)
 		{
 			if (error != 0)
 			{
@@ -37,20 +39,28 @@ namespace ChinaSKDDriver
 				{
 					case 1:
 						return "Неверный пароль";
+
 					case 2:
 						return "Неверный логин";
+
 					case 3:
 						return "Таймаут";
+
 					case 4:
 						return "Пользователь уже залогинен";
+
 					case 5:
 						return "Пользователь был заблокирован";
+
 					case 6:
 						return "Пользователь нелегальный";
+
 					case 7:
 						return "Контроллер занят";
+
 					case 9:
 						return "Контроллер не найден";
+
 					default:
 						return "Неизвестная причина";
 				}
@@ -63,7 +73,8 @@ namespace ChinaSKDDriver
 			var result = NativeWrapper.WRAP_Disconnect(LoginID);
 			return result;
 		}
-		#endregion
+
+		#endregion Connct
 
 		public static void WrapStart()
 		{
@@ -86,7 +97,7 @@ namespace ChinaSKDDriver
 			}
 		}
 
-		static void OnStart()
+		private static void OnStart()
 		{
 			var lastIndex = -1;
 			while (true)
@@ -119,7 +130,7 @@ namespace ChinaSKDDriver
 			}
 		}
 
-		static SKDJournalItem ParceJournal(NativeWrapper.WRAP_JournalItem wrapJournalItem)
+		private static SKDJournalItem ParceJournal(NativeWrapper.WRAP_JournalItem wrapJournalItem)
 		{
 			var journalItem = new SKDJournalItem();
 			journalItem.LoginID = wrapJournalItem.LoginID;

@@ -16,6 +16,5 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public Argument EventUIDArgument { get; set; }
-
 	}
 }

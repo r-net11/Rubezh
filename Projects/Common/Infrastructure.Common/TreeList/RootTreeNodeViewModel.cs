@@ -1,9 +1,9 @@
-﻿using System.Collections;
+﻿using Common;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Windows.Controls;
-using Common;
 
 namespace Infrastructure.Common.TreeList
 {
@@ -25,10 +25,12 @@ namespace Infrastructure.Common.TreeList
 		{
 			_treeLists.Add(treeList);
 		}
+
 		public void DisassignFromTree(ITreeList treeList)
 		{
 			_treeLists.Remove(treeList);
 		}
+
 		public void SetSource(IEnumerable source)
 		{
 			NotifyCollection = source as INotifyCollectionChanged;
@@ -43,6 +45,7 @@ namespace Infrastructure.Common.TreeList
 		}
 
 		private INotifyCollectionChanged _notifyCollection;
+
 		public INotifyCollectionChanged NotifyCollection
 		{
 			get { return _notifyCollection; }
@@ -68,6 +71,7 @@ namespace Infrastructure.Common.TreeList
 							Nodes.Insert(index + i, (TreeNodeViewModel)e.NewItems[i]);
 					}
 					break;
+
 				case NotifyCollectionChangedAction.Remove:
 					if (e.OldItems != null)
 					{
@@ -76,6 +80,7 @@ namespace Infrastructure.Common.TreeList
 							Nodes.RemoveAt(index + i);
 					}
 					break;
+
 				case NotifyCollectionChangedAction.Move:
 				case NotifyCollectionChangedAction.Replace:
 				case NotifyCollectionChangedAction.Reset:
@@ -92,13 +97,14 @@ namespace Infrastructure.Common.TreeList
 		{
 			get { return _rows; }
 		}
+
 		public object SelectedTreeNode
 		{
-			get 
-			{ 
-				return _treeLists.Count > 0 ? _treeLists[0].SelectedTreeNode : null; 
+			get
+			{
+				return _treeLists.Count > 0 ? _treeLists[0].SelectedTreeNode : null;
 			}
-			set 
+			set
 			{
 				_treeLists.ForEach(item =>
 				{
@@ -112,22 +118,27 @@ namespace Infrastructure.Common.TreeList
 		{
 			_treeLists.ForEach(item => item.SuspendSelection());
 		}
+
 		public void ResumeSelection()
 		{
 			_treeLists.ForEach(item => item.ResumeSelection());
 		}
 
-		#endregion
+		#endregion ITreeList Members
 
 		public GridViewColumn SortColumn { get; private set; }
+
 		public ListSortDirection? SortDirection { get; private set; }
+
 		public IItemComparer ItemComparer { get; private set; }
+
 		public void RunSort(GridViewColumn column, IItemComparer itemComparer)
 		{
 			SortDirection = column == SortColumn ? (SortDirection == ListSortDirection.Ascending ? ListSortDirection.Descending : ListSortDirection.Ascending) : ListSortDirection.Ascending;
 			SortColumn = column;
 			RunSort(itemComparer);
 		}
+
 		public void RunSort(IItemComparer itemComparer)
 		{
 			if (SortDirection == null)

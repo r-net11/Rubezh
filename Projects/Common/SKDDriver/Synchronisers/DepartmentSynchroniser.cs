@@ -1,23 +1,26 @@
-﻿using System;
+﻿using FiresecAPI.SKD;
+using LinqKit;
+using System;
 using System.Collections.Generic;
 using System.Data.Linq;
 using System.Linq;
 using System.Linq.Expressions;
-using FiresecAPI.SKD;
-using LinqKit;
 
 namespace SKDDriver
 {
 	public class DepartmentSynchroniser : Synchroniser<ExportDepartment, DataAccess.Department>
 	{
-		public DepartmentSynchroniser(Table<DataAccess.Department> table, SKDDatabaseService databaseService) : base(table, databaseService) { }
+		public DepartmentSynchroniser(Table<DataAccess.Department> table, SKDDatabaseService databaseService)
+			: base(table, databaseService)
+		{
+		}
 
 		public override ExportDepartment Translate(DataAccess.Department item)
 		{
-			return new ExportDepartment 
-			{ 
-				Name = item.Name, 
-				Description = item.Description,	
+			return new ExportDepartment
+			{
+				Name = item.Name,
+				Description = item.Description,
 				Phone = item.Phone,
 
 				OrganisationUID = GetUID(item.OrganisationUID),
@@ -50,7 +53,7 @@ namespace SKDDriver
 		public override void TranslateBack(ExportDepartment exportItem, DataAccess.Department tableItem)
 		{
 			tableItem.Name = exportItem.Name;
-			tableItem.Description = exportItem.Description; 
+			tableItem.Description = exportItem.Description;
 			tableItem.Phone = exportItem.Phone;
 		}
 
@@ -65,7 +68,7 @@ namespace SKDDriver
 			exportItems = resultList;
 		}
 
-		List<ExportDepartment> GetChildrenList(List<ExportDepartment> parentList, List<ExportDepartment> allList)
+		private List<ExportDepartment> GetChildrenList(List<ExportDepartment> parentList, List<ExportDepartment> allList)
 		{
 			var result = allList.Where(x => parentList.Any(y => y.ExternalKey == x.ParentDepartmentExternalKey)).ToList();
 			return result;

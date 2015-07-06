@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
+﻿using Common;
+using System;
 using System.Windows.Data;
 using System.Windows.Media;
-using Common;
 
 namespace Controls.Converters
 {

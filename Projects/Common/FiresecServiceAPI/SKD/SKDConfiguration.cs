@@ -41,7 +41,7 @@ namespace FiresecAPI.SKD
 			}
 		}
 
-		void AddChildDevice(SKDDevice parentDevice)
+		private void AddChildDevice(SKDDevice parentDevice)
 		{
 			foreach (var device in parentDevice.Children)
 			{

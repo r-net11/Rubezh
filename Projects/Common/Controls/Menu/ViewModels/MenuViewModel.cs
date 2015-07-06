@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Infrastructure.Common.Windows.ViewModels;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Infrastructure.Common.Windows.ViewModels;
 
 namespace Controls.Menu.ViewModels
 {
@@ -10,12 +10,14 @@ namespace Controls.Menu.ViewModels
 		{
 			Items = new ObservableCollection<BaseViewModel>();
 		}
+
 		public MenuViewModel(IEnumerable<BaseViewModel> items)
 		{
 			Items = new ObservableCollection<BaseViewModel>(items);
 		}
 
 		private ObservableCollection<BaseViewModel> _items;
+
 		public ObservableCollection<BaseViewModel> Items
 		{
 			get { return _items; }

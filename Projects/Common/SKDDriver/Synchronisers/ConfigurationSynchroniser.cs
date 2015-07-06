@@ -1,10 +1,9 @@
-﻿using System;
+﻿using FiresecAPI;
+using FiresecAPI.SKD;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
-using FiresecAPI;
-using FiresecAPI.GK;
-using FiresecAPI.SKD;
 
 namespace SKDDriver
 {
@@ -20,7 +19,7 @@ namespace SKDDriver
 			var gkZonesResult = new OperationResult();
 			if (filter.IsExportDevices)
 				devicesResult = Export<ExportDevice, SKDDevice>(SKDManager.Devices, "Devices.xml", filter.Path);
-			if(filter.IsExportDoors)
+			if (filter.IsExportDoors)
 				doorsResult = Export<ExportDoor, SKDDoor>(SKDManager.Doors, "Doors.xml", filter.Path);
 			if (filter.IsExportZones)
 			{
@@ -29,7 +28,7 @@ namespace SKDDriver
 			return TranslatiorHelper.ConcatOperationResults(devicesResult, doorsResult, zonesResult);
 		}
 
-		static OperationResult Export<TExportItem, TConfigItem>(List<TConfigItem> configItems, string fileName, string path)
+		private static OperationResult Export<TExportItem, TConfigItem>(List<TConfigItem> configItems, string fileName, string path)
 			where TExportItem : IConfigExportItem<TConfigItem>, new()
 		{
 			try
@@ -59,8 +58,11 @@ namespace SKDDriver
 	public class ExportZone : IConfigExportItem<SKDZone>
 	{
 		public Guid UID { get; set; }
+
 		public string Name { get; set; }
+
 		public string Description { get; set; }
+
 		public int Number { get; set; }
 
 		public void Initialize(SKDZone configItem)
@@ -72,12 +74,14 @@ namespace SKDDriver
 		}
 	}
 
-
 	public class ExportDevice : IConfigExportItem<SKDDevice>
 	{
 		public Guid UID { get; set; }
+
 		public string Name { get; set; }
+
 		public string Address { get; set; }
+
 		public Guid ParentUID { get; set; }
 
 		public void Initialize(SKDDevice configItem)
@@ -92,11 +96,17 @@ namespace SKDDriver
 	public class ExportDoor : IConfigExportItem<SKDDoor>
 	{
 		public Guid UID { get; set; }
+
 		public int Number { get; set; }
+
 		public string Name { get; set; }
+
 		public string Description { get; set; }
+
 		public int Type { get; set; }
+
 		public Guid InDeviceUID { get; set; }
+
 		public Guid OutDeviceUID { get; set; }
 
 		public void Initialize(SKDDoor configItem)

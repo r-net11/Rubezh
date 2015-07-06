@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using FiresecAPI.Models;
 using RviClient.RVIServiceReference;
-using System.ServiceModel;
-using FiresecAPI.Models;
 using RviClient.RVIStreamingServiceReference;
+using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.ServiceModel;
 
 namespace RviClient
 {
 	public static class RviClientHelper
 	{
-		static IntegrationClient CreateIntegrationClient(SystemConfiguration systemConfiguration)
+		private static IntegrationClient CreateIntegrationClient(SystemConfiguration systemConfiguration)
 		{
 			var devices = new List<Device>();
 			var binding = new NetTcpBinding(SecurityMode.None);
@@ -40,7 +39,7 @@ namespace RviClient
 			return client;
 		}
 
-		static IntegrationVideoStreamingClient CreateIntegrationVideoStreamingClient(SystemConfiguration systemConfiguration)
+		private static IntegrationVideoStreamingClient CreateIntegrationVideoStreamingClient(SystemConfiguration systemConfiguration)
 		{
 			var binding = new NetTcpBinding(SecurityMode.None);
 			binding.TransferMode = TransferMode.Streamed;
@@ -71,7 +70,7 @@ namespace RviClient
 		public static List<Device> GetDevices(SystemConfiguration systemConfiguration)
 		{
 			var devices = new List<Device>();
-			
+
 			using (IntegrationClient client = CreateIntegrationClient(systemConfiguration))
 			{
 				var sessionUID = Guid.NewGuid();
@@ -300,7 +299,7 @@ namespace RviClient
 					var result = streaminClient.GetVideoFile(camera.RviChannelNo, camera.RviDeviceUID, eventUID, ref requestUID, ref sessionUID, out errorInformation, out stream);
 					var videoFileStream = File.Create(videoPath);
 					CopyStream(stream, videoFileStream);
-			}
+				}
 
 				var sessionCloseIn = new SessionCloseIn();
 				sessionCloseIn.Header = new HeaderRequest()

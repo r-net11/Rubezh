@@ -1,6 +1,6 @@
-﻿using System.Windows.Media;
-using Infrustructure.Plans.Designer;
+﻿using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
+using System.Windows.Media;
 
 namespace Infrustructure.Plans.Painters
 {
@@ -15,6 +15,7 @@ namespace Infrustructure.Plans.Painters
 		{
 			return DesignerCanvas.PainterCache.GetTransparentBrush(Element);
 		}
+
 		protected override Pen GetPen()
 		{
 			return DesignerCanvas.PainterCache.ZonePen;

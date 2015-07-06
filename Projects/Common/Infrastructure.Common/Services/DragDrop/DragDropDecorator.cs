@@ -25,6 +25,7 @@ namespace Infrastructure.Common.Services.DragDrop
 			if (decorator != null && (bool)e.NewValue != (bool)e.OldValue)
 				decorator.IsSourceChanged();
 		}
+
 		private static void IsTargetChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
 			var decorator = d as DragDropDecorator;
@@ -37,51 +38,61 @@ namespace Infrastructure.Common.Services.DragDrop
 			get { return (bool)GetValue(IsSourceProperty); }
 			set { SetValue(IsSourceProperty, value); }
 		}
+
 		public bool IsTarget
 		{
 			get { return (bool)GetValue(IsTargetProperty); }
 			set { SetValue(IsTargetProperty, value); }
 		}
+
 		public RelayCommand<DataObject> DragCommand
 		{
 			get { return (RelayCommand<DataObject>)GetValue(DragCommandProperty); }
 			set { SetValue(DragCommandProperty, value); }
 		}
+
 		public RelayCommand<IDataObject> DropCommand
 		{
 			get { return (RelayCommand<IDataObject>)GetValue(DropCommandProperty); }
 			set { SetValue(DropCommandProperty, value); }
 		}
+
 		public DragDropEffects DragEffect
 		{
 			get { return (DragDropEffects)GetValue(DragEffectProperty); }
 			set { SetValue(DragEffectProperty, value); }
 		}
+
 		public bool ShowDragVisual
 		{
 			get { return (bool)GetValue(ShowDragVisualProperty); }
 			set { SetValue(ShowDragVisualProperty, value); }
 		}
+
 		public object DragObject
 		{
 			get { return (object)GetValue(DragObjectProperty); }
 			set { SetValue(DragObjectProperty, value); }
 		}
+
 		public UIElement DragVisual
 		{
 			get { return (UIElement)GetValue(DragVisualProperty); }
 			set { SetValue(DragVisualProperty, value); }
 		}
+
 		public Converter<IDataObject, UIElement> DragVisualProvider
 		{
 			get { return (Converter<IDataObject, UIElement>)GetValue(DragVisualProviderProperty); }
 			set { SetValue(DragVisualProviderProperty, value); }
 		}
+
 		public bool DynamicCursor
 		{
 			get { return (bool)GetValue(DynamicCursorProperty); }
 			set { SetValue(DynamicCursorProperty, value); }
 		}
+
 		public bool AllowSimulateDrag
 		{
 			get { return (bool)GetValue(AllowSimulateDragProperty); }
@@ -89,12 +100,14 @@ namespace Infrastructure.Common.Services.DragDrop
 		}
 
 		protected Point DragStartPoint { get; private set; }
+
 		public bool IsDragging { get; private set; }
 
 		public DragDropDecorator()
 		{
 			Loaded += new RoutedEventHandler(DragDropDecorator_Loaded);
 		}
+
 		private void DragDropDecorator_Loaded(object sender, RoutedEventArgs e)
 		{
 			IsTargetChanged();
@@ -118,6 +131,7 @@ namespace Infrastructure.Common.Services.DragDrop
 				Child.PreviewMouseMove -= new MouseEventHandler(OnPreviewMouseMove);
 			}
 		}
+
 		protected virtual void IsTargetChanged()
 		{
 			if (Child == null)
@@ -158,10 +172,12 @@ namespace Infrastructure.Common.Services.DragDrop
 				}
 			}
 		}
+
 		private void OnPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
 		{
 			DragStartPoint = e.GetPosition(Child);
 		}
+
 		private void OnPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
 		{
 			if (AllowSimulateDrag && !IsDragging && e.LeftButton == MouseButtonState.Released)
@@ -182,15 +198,18 @@ namespace Infrastructure.Common.Services.DragDrop
 			if (DropCommand != null)
 				DropCommand.Execute(e.Data);
 		}
+
 		private void OnDragOver(object sender, DragEventArgs e)
 		{
 			e.Effects = DropCommand != null && DropCommand.CanExecute(e.Data) ? DragEffect : DragDropEffects.None;
 			e.Handled = true;
 		}
+
 		private void OnDragLeave(object sender, DragEventArgs e)
 		{
 			e.Handled = true;
 		}
+
 		private void OnDragEnter(object sender, DragEventArgs e)
 		{
 			e.Handled = true;
@@ -200,10 +219,12 @@ namespace Infrastructure.Common.Services.DragDrop
 		{
 			StartDragInternal(true);
 		}
+
 		protected virtual void StartSimulateDrag()
 		{
 			StartDragInternal(false);
 		}
+
 		private void StartDragInternal(bool isRealDrag)
 		{
 			var cancel = false;
@@ -221,6 +242,7 @@ namespace Infrastructure.Common.Services.DragDrop
 			else
 				IsDragging = false;
 		}
+
 		private IDataObject GetDataObject(out bool cancel, bool drag)
 		{
 			cancel = false;
@@ -241,6 +263,7 @@ namespace Infrastructure.Common.Services.DragDrop
 			}
 			return data;
 		}
+
 		protected virtual void UpdateCursor()
 		{
 			if (DynamicCursor)

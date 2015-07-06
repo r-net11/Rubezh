@@ -6,5 +6,4 @@
 	<DataTemplate DataType="{x:Type ViewModels:AboutViewModel}">
 		<Views:AboutView />
 	</DataTemplate>
-
 </ResourceDictionary>

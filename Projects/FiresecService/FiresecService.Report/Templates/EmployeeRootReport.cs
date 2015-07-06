@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using FiresecAPI.SKD;
+﻿using FiresecAPI.SKD;
 using FiresecAPI.SKD.ReportFilters;
 using FiresecService.Report.DataSources;
 using FiresecService.Report.Model;
 using SKDDriver.DataAccess;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
 
 namespace FiresecService.Report.Templates
 {
@@ -71,9 +71,9 @@ namespace FiresecService.Report.Templates
 			((System.ComponentModel.ISupportInitialize)(DataTable)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(HeaderTable)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
-			// 
+			//
 			// Detail
-			// 
+			//
 			Detail.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
             PositionOrEscortLabel,
             OrganisationLabel,
@@ -101,9 +101,9 @@ namespace FiresecService.Report.Templates
 				DescriptionLabel.StylePriority.UseTextAlignment = false;
 				DescriptionLabel.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
 			}
-			// 
+			//
 			// PositionOrEscortLabel
-			// 
+			//
 			if (isEmployee)
 			{
 				PositionOrEscortLabel.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
@@ -121,9 +121,9 @@ namespace FiresecService.Report.Templates
 			PositionOrEscortLabel.SizeF = new System.Drawing.SizeF(831.4792F, 50.8F);
 			PositionOrEscortLabel.StylePriority.UseTextAlignment = false;
 			PositionOrEscortLabel.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
-			// 
+			//
 			// OrganisationLabel
-			// 
+			//
 			OrganisationLabel.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
             new DevExpress.XtraReports.UI.XRBinding("Text", null, "Employee.Organisation", "Организация: {0}")});
 			OrganisationLabel.Dpi = 254F;
@@ -134,9 +134,9 @@ namespace FiresecService.Report.Templates
 			OrganisationLabel.StylePriority.UseTextAlignment = false;
 			OrganisationLabel.Text = "OrganisationLabel";
 			OrganisationLabel.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
-			// 
+			//
 			// EmployeeNameLabel
-			// 
+			//
 			EmployeeNameLabel.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
             new DevExpress.XtraReports.UI.XRBinding("Text", null, "Employee.Name", (isEmployee ? "Сотрудник" : "Посетитель") + ": {0}")});
 			EmployeeNameLabel.Dpi = 254F;
@@ -147,9 +147,9 @@ namespace FiresecService.Report.Templates
 			EmployeeNameLabel.StylePriority.UseTextAlignment = false;
 			EmployeeNameLabel.Text = "EmployeeNameLabel";
 			EmployeeNameLabel.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
-			// 
+			//
 			// DepartmentLabel
-			// 
+			//
 			DepartmentLabel.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
             new DevExpress.XtraReports.UI.XRBinding("Text", null, "Employee.Department", "Подразделение: {0}")});
 			DepartmentLabel.Dpi = 254F;
@@ -160,9 +160,9 @@ namespace FiresecService.Report.Templates
 			DepartmentLabel.StylePriority.UseTextAlignment = false;
 			DepartmentLabel.Text = "DepartmentLabel";
 			DepartmentLabel.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
-			// 
+			//
 			// DetailReport
-			// 
+			//
 			DetailReport.Bands.AddRange(new DevExpress.XtraReports.UI.Band[] {
             Detail1,
             GroupHeader1});
@@ -172,9 +172,9 @@ namespace FiresecService.Report.Templates
 			DetailReport.Name = "DetailReport";
 			DetailReport.PageBreak = DevExpress.XtraReports.UI.PageBreak.AfterBand;
 			DetailReport.ReportPrintOptions.DetailCountOnEmptyDataSource = 0;
-			// 
+			//
 			// Detail1
-			// 
+			//
 			Detail1.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
             DataTable});
 			Detail1.Dpi = 254F;
@@ -182,9 +182,9 @@ namespace FiresecService.Report.Templates
 			Detail1.Name = "Detail1";
 			Detail1.SortFields.AddRange(new DevExpress.XtraReports.UI.GroupField[] {
             new DevExpress.XtraReports.UI.GroupField("DateTime", DevExpress.XtraReports.UI.XRColumnSortOrder.Ascending)});
-			// 
+			//
 			// DataTable
-			// 
+			//
 			DataTable.Borders = ((DevExpress.XtraPrinting.BorderSide)(((DevExpress.XtraPrinting.BorderSide.Left | DevExpress.XtraPrinting.BorderSide.Right)
 			| DevExpress.XtraPrinting.BorderSide.Bottom)));
 			DataTable.Dpi = 254F;
@@ -199,9 +199,9 @@ namespace FiresecService.Report.Templates
 			DataTable.StylePriority.UsePadding = false;
 			DataTable.StylePriority.UseTextAlignment = false;
 			DataTable.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
-			// 
+			//
 			// DataRow
-			// 
+			//
 			//DataRow.Cells.AddRange(new DevExpress.XtraReports.UI.XRTableCell[] {
 			//DateTimeCell,
 			//AccessPointCell,
@@ -213,9 +213,9 @@ namespace FiresecService.Report.Templates
 			DataRow.Dpi = 254F;
 			DataRow.Name = "DataRow";
 			DataRow.Weight = 11.5D;
-			// 
+			//
 			// DateTimeCell
-			// 
+			//
 			DateTimeCell.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
             new DevExpress.XtraReports.UI.XRBinding("Text", null, "Employee.Employee_Data.DateTime", "{0:dd.MM.yyyy H:mm:ss}")});
 			DateTimeCell.Dpi = 254F;
@@ -223,9 +223,9 @@ namespace FiresecService.Report.Templates
 			DateTimeCell.StylePriority.UseTextAlignment = false;
 			//DateTimeCell.Weight = 0.29D;
 			DateTimeCell.WidthF = columnsWidth[0];
-			// 
+			//
 			// AccessPointCell
-			// 
+			//
 			//AccessPointCell.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
 			//new DevExpress.XtraReports.UI.XRBinding("Text", null, "Employee.Employee_Data.DateTime", "{0:dd.MM.yyyy H:mm:ss}")});
 			//AccessPointCell.Dpi = 254F;
@@ -233,9 +233,9 @@ namespace FiresecService.Report.Templates
 			//AccessPointCell.StylePriority.UseTextAlignment = false;
 			//AccessPointCell.Weight = 0.23D;
 			//AccessPointCell.WidthF = columnsWidth[1];
-			// 
+			//
 			// ZoneCell
-			// 
+			//
 			ZoneCell.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
             new DevExpress.XtraReports.UI.XRBinding("Text", null, "Employee.Employee_Data.Zone")});
 			ZoneCell.Dpi = 254F;
@@ -244,16 +244,16 @@ namespace FiresecService.Report.Templates
 			ZoneCell.WidthF = columnsWidth[2];
 			//
 			// PassCell
-			// 
+			//
 			//PassCell.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
 			//new DevExpress.XtraReports.UI.XRBinding("Text", null, "Employee.Employee_Data.Zone")});
 			//PassCell.Dpi = 254F;
 			//PassCell.Name = "PassCell";
 			//PassCell.Weight = 0.19D;
 			//PassCell.WidthF = columnsWidth[3];
-			// 
+			//
 			// GroupHeader1
-			// 
+			//
 			GroupHeader1.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
             HeaderTable});
 			GroupHeader1.Dpi = 254F;
@@ -262,9 +262,9 @@ namespace FiresecService.Report.Templates
 			GroupHeader1.KeepTogether = true;
 			GroupHeader1.Name = "GroupHeader1";
 			GroupHeader1.RepeatEveryPage = true;
-			// 
+			//
 			// HeaderTable
-			// 
+			//
 			HeaderTable.BackColor = System.Drawing.Color.DarkGray;
 			HeaderTable.Borders = ((DevExpress.XtraPrinting.BorderSide)((((DevExpress.XtraPrinting.BorderSide.Left | DevExpress.XtraPrinting.BorderSide.Top)
 			| DevExpress.XtraPrinting.BorderSide.Right)
@@ -280,9 +280,9 @@ namespace FiresecService.Report.Templates
 			HeaderTable.StylePriority.UseBorders = false;
 			HeaderTable.StylePriority.UseTextAlignment = false;
 			HeaderTable.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
-			// 
+			//
 			// HeaderRow
-			// 
+			//
 			HeaderRow.BackColor = System.Drawing.Color.DarkGray;
 			//HeaderRow.Cells.AddRange(new DevExpress.XtraReports.UI.XRTableCell[] {
 			//DateTimeHeaderCell,
@@ -299,47 +299,47 @@ namespace FiresecService.Report.Templates
 			HeaderRow.StylePriority.UseTextAlignment = false;
 			HeaderRow.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
 			HeaderRow.Weight = 11.5D;
-			// 
+			//
 			// DateTimeHeaderCell
-			// 
+			//
 			DateTimeHeaderCell.Dpi = 254F;
 			DateTimeHeaderCell.Name = "DateTimeHeaderCell";
 			DateTimeHeaderCell.Text = "Дата/время прохода";
 			//DateTimeHeaderCell.Weight = 0.29D;
 			DateTimeHeaderCell.WidthF = columnsWidth[0];
-			// 
+			//
 			// AccessPointHeaderCell
-			// 
+			//
 			//AccessPointHeaderCell.Dpi = 254F;
 			//AccessPointHeaderCell.Name = "AccessPointHeaderCell";
 			//AccessPointHeaderCell.Text = "Точка доступа";
 			//AccessPointHeaderCell.Weight = 0.23D;
 			//AccessPointHeaderCell.WidthF = columnsWidth[1];
-			// 
+			//
 			// ZoneHeaderCell
-			// 
+			//
 			ZoneHeaderCell.Dpi = 254F;
 			ZoneHeaderCell.Name = "ZoneHeaderCell";
 			ZoneHeaderCell.Text = "Зона";
 			//ZoneHeaderCell.Weight = 0.29D;
 			ZoneHeaderCell.WidthF = columnsWidth[2];
-			// 
+			//
 			// PassHeaderCell
-			// 
+			//
 			//PassHeaderCell.Dpi = 254F;
 			//PassHeaderCell.Name = "PassHeaderCell";
 			//PassHeaderCell.Text = "Пропуск";
 			//PassHeaderCell.Weight = 0.19D;
 			//PassHeaderCell.WidthF = columnsWidth[3];
-			// 
+			//
 			// xrControlStyle1
-			// 
+			//
 			xrControlStyle1.BackColor = System.Drawing.Color.LightGray;
 			xrControlStyle1.Name = "xrControlStyle1";
 			xrControlStyle1.Padding = new DevExpress.XtraPrinting.PaddingInfo(0, 0, 0, 0, 254F);
-			// 
+			//
 			// EmployeeRootReport
-			// 
+			//
 			Bands.AddRange(new DevExpress.XtraReports.UI.Band[] {
             Detail,
             DetailReport});
@@ -355,7 +355,6 @@ namespace FiresecService.Report.Templates
 			((System.ComponentModel.ISupportInitialize)(DataTable)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(HeaderTable)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this)).EndInit();
-
 		}
 
 		/// <summary>
@@ -383,9 +382,9 @@ namespace FiresecService.Report.Templates
 			var filter = GetFilter<EmployeeRootReportFilter>();
 			var ds = new EmployeeRootDataSet();
 			var employees = dataProvider.GetEmployees(filter);
-			var passJournal = 
-				dataProvider.DatabaseService.PassJournalTranslator != null 
-				? dataProvider.DatabaseService.PassJournalTranslator.GetEmployeesRoot(employees.Select(item => item.UID), filter.Zones, filter.DateTimeFrom, filter.DateTimeTo) 
+			var passJournal =
+				dataProvider.DatabaseService.PassJournalTranslator != null
+				? dataProvider.DatabaseService.PassJournalTranslator.GetEmployeesRoot(employees.Select(item => item.UID), filter.Zones, filter.DateTimeFrom, filter.DateTimeTo)
 				: null;
 
 			var zoneMap = ZoneMap(passJournal);
@@ -398,7 +397,7 @@ namespace FiresecService.Report.Templates
 				employeeRow.Department = employee.Department;
 				employeeRow.Position = employee.Position;
 				employeeRow.Organisation = employee.Organisation;
-				
+
 				// Для посетителя получить дополнительные данные
 				if (!filter.IsEmployee)
 				{
@@ -446,8 +445,8 @@ namespace FiresecService.Report.Templates
 				timeTrackParts.AddRange(item.Select(pass => new TimeTrackPart
 				{
 					StartTime = new TimeSpan(pass.EnterTime.Ticks),
-					EndTime = new TimeSpan(pass.ExitTime.HasValue ? pass.ExitTime.Value.Ticks : 0), 
-					PassJournalUID = pass.UID, 
+					EndTime = new TimeSpan(pass.ExitTime.HasValue ? pass.ExitTime.Value.Ticks : 0),
+					PassJournalUID = pass.UID,
 					ZoneUID = pass.ZoneUID
 				}));
 			}

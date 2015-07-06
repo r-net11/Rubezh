@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Common;
+using Infrastructure.Common.Ribbon;
+using System;
 using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
-using Common;
-using Infrastructure.Common.Ribbon;
 
 namespace Controls.Ribbon.Views
 {
@@ -18,6 +18,7 @@ namespace Controls.Ribbon.Views
 			base.OnOpened(e);
 			Child.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
 		}
+
 		protected override void OnLostKeyboardFocus(KeyboardFocusChangedEventArgs e)
 		{
 			base.OnLostKeyboardFocus(e);
@@ -63,6 +64,7 @@ namespace Controls.Ribbon.Views
 								e.Handled = true;
 							}
 							break;
+
 						case Key.Right:
 							if (ribbonMenuItem != null && !ribbonMenuItem.IsSelected)
 							{
@@ -70,14 +72,17 @@ namespace Controls.Ribbon.Views
 								e.Handled = true;
 							}
 							break;
+
 						case Key.Up:
 							if (MoveFocus(ribbonMenuItem, false))
 								e.Handled = true;
 							break;
+
 						case Key.Down:
 							if (MoveFocus(ribbonMenuItem, true))
 								e.Handled = false;
 							break;
+
 						case Key.Space:
 							ribbonMenuItem.IsSelected = !ribbonMenuItem.IsSelected;
 							if (!ribbonMenuItem.IsSelected)
@@ -98,6 +103,7 @@ namespace Controls.Ribbon.Views
 					}
 			}
 		}
+
 		private static bool MoveFocus(RibbonMenuItemView menuItem, bool down)
 		{
 			var ribbonMenu = VisualHelper.GetParent<RibbonMenuView>(menuItem);

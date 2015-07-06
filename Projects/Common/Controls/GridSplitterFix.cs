@@ -14,6 +14,7 @@ namespace Controls
 		{
 			return (bool)obj.GetValue(AttachProperty);
 		}
+
 		public static void SetAttach(DependencyObject obj, bool value)
 		{
 			obj.SetValue(AttachProperty, value);
@@ -45,6 +46,7 @@ namespace Controls
 					Fix(grid, splitter);
 			}
 		}
+
 		private static void Fix(Grid grid, GridSplitter splitter)
 		{
 			var isColumn = splitter.HorizontalAlignment != HorizontalAlignment.Stretch;
@@ -55,6 +57,7 @@ namespace Controls
 			else
 				FixRow(grid, splitter);
 		}
+
 		private static void FixColumn(Grid grid, GridSplitter splitter)
 		{
 			var index = Grid.GetColumn(splitter);
@@ -73,6 +76,7 @@ namespace Controls
 				}
 			}
 		}
+
 		private static void FixRow(Grid grid, GridSplitter splitter)
 		{
 			var index = Grid.GetRow(splitter);

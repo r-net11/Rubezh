@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Infrastructure.Common.Windows.ViewModels;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Infrastructure.Common.Windows.ViewModels;
 
 namespace Infrastructure.Common
 {
@@ -14,9 +14,11 @@ namespace Infrastructure.Common
 		}
 
 		public ObservableCollection<T> Source { get; set; }
-		ObservableCollection<T> updatingSource { get; set; }
 
-		bool _isExpanded;
+		private ObservableCollection<T> updatingSource { get; set; }
+
+		private bool _isExpanded;
+
 		public bool IsExpanded
 		{
 			get { return _isExpanded; }
@@ -38,7 +40,7 @@ namespace Infrastructure.Common
 			}
 		}
 
-		void HideChildren(T parent)
+		private void HideChildren(T parent)
 		{
 			foreach (T t in parent.Children)
 			{
@@ -48,7 +50,7 @@ namespace Infrastructure.Common
 			}
 		}
 
-		void ExpandChildren(T parent)
+		private void ExpandChildren(T parent)
 		{
 			if (parent.IsExpanded)
 			{
@@ -81,7 +83,7 @@ namespace Infrastructure.Common
 			GetAllParents().ForEach(x => x.IsExpanded = true);
 		}
 
-		List<T> GetAllParents()
+		private List<T> GetAllParents()
 		{
 			if (Parent == null)
 			{
@@ -97,7 +99,8 @@ namespace Infrastructure.Common
 
 		public T Parent { get; set; }
 
-		ObservableCollection<T> _children;
+		private ObservableCollection<T> _children;
+
 		public ObservableCollection<T> Children
 		{
 			get { return _children; }

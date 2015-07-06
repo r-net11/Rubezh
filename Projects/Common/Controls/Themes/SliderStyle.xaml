@@ -4,10 +4,10 @@
 	<SolidColorBrush x:Key="GlyphBrush" Color="White" />
 
 	<Style x:Key="SliderButtonStyle" TargetType="{x:Type RepeatButton}">
-		<Setter Property="SnapsToDevicePixels" Value="true"/>
-		<Setter Property="OverridesDefaultStyle" Value="true"/>
-		<Setter Property="IsTabStop" Value="false"/>
-		<Setter Property="Focusable" Value="false"/>
+		<Setter Property="SnapsToDevicePixels" Value="true" />
+		<Setter Property="OverridesDefaultStyle" Value="true" />
+		<Setter Property="IsTabStop" Value="false" />
+		<Setter Property="Focusable" Value="false" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="{x:Type RepeatButton}">
@@ -18,20 +18,20 @@
 	</Style>
 
 	<Style x:Key="SliderThumbStyle" TargetType="{x:Type Thumb}">
-		<Setter Property="SnapsToDevicePixels" Value="true"/>
-		<Setter Property="OverridesDefaultStyle" Value="true"/>
-		<Setter Property="Height" Value="24"/>
-		<Setter Property="Width" Value="12"/>
+		<Setter Property="SnapsToDevicePixels" Value="true" />
+		<Setter Property="OverridesDefaultStyle" Value="true" />
+		<Setter Property="Height" Value="24" />
+		<Setter Property="Width" Value="12" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="{x:Type Thumb}">
 					<Border Name="Border" Background="{DynamicResource HighlightedBackgoundBrush}" CornerRadius="4" />
 					<ControlTemplate.Triggers>
 						<Trigger Property="IsMouseOver" Value="True">
-							<Setter TargetName="Border" Property="Background" Value="{DynamicResource PressedBackgroundBrush}"/>
+							<Setter TargetName="Border" Property="Background" Value="{DynamicResource PressedBackgroundBrush}" />
 						</Trigger>
 						<Trigger Property="IsEnabled" Value="false">
-							<Setter TargetName="Border" Property="Background" Value="{DynamicResource DisabledBackgroundBrush}"/>
+							<Setter TargetName="Border" Property="Background" Value="{DynamicResource DisabledBackgroundBrush}" />
 						</Trigger>
 					</ControlTemplate.Triggers>
 				</ControlTemplate>
@@ -42,9 +42,9 @@
 	<ControlTemplate x:Key="HorizontalSlider" TargetType="{x:Type Slider}">
 		<Grid>
 			<Grid.RowDefinitions>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto" MinHeight="{TemplateBinding Slider.MinHeight}"/>
-				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" MinHeight="{TemplateBinding Slider.MinHeight}" />
+				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
 			<TickBar Name="TopTick" SnapsToDevicePixels="True" Placement="Top" Fill="{StaticResource GlyphBrush}" Height="4" Visibility="Collapsed" />
 			<Border Name="TrackBackground" Margin="0" CornerRadius="2" Height="4" Grid.Row="1" Background="{DynamicResource WindowBackgroundBrush}" BorderBrush="{DynamicResource BackgroundBrush}" BorderThickness="1" />
@@ -63,14 +63,14 @@
 		</Grid>
 		<ControlTemplate.Triggers>
 			<Trigger Property="TickPlacement" Value="TopLeft">
-				<Setter TargetName="TopTick" Property="Visibility" Value="Visible"/>
+				<Setter TargetName="TopTick" Property="Visibility" Value="Visible" />
 			</Trigger>
 			<Trigger Property="TickPlacement" Value="BottomRight">
-				<Setter TargetName="BottomTick" Property="Visibility" Value="Visible"/>
+				<Setter TargetName="BottomTick" Property="Visibility" Value="Visible" />
 			</Trigger>
 			<Trigger Property="TickPlacement" Value="Both">
-				<Setter TargetName="TopTick" Property="Visibility" Value="Visible"/>
-				<Setter TargetName="BottomTick" Property="Visibility" Value="Visible"/>
+				<Setter TargetName="TopTick" Property="Visibility" Value="Visible" />
+				<Setter TargetName="BottomTick" Property="Visibility" Value="Visible" />
 			</Trigger>
 		</ControlTemplate.Triggers>
 	</ControlTemplate>
@@ -78,9 +78,9 @@
 	<ControlTemplate x:Key="VerticalSlider" TargetType="{x:Type Slider}">
 		<Grid>
 			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="Auto"/>
-				<ColumnDefinition Width="Auto" MinWidth="{TemplateBinding Slider.MinWidth}"/>
-				<ColumnDefinition Width="Auto"/>
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="Auto" MinWidth="{TemplateBinding Slider.MinWidth}" />
+				<ColumnDefinition Width="Auto" />
 			</Grid.ColumnDefinitions>
 			<TickBar Name="TopTick" SnapsToDevicePixels="True" Placement="Left" Fill="{StaticResource GlyphBrush}" Width="4" Visibility="Collapsed" />
 			<Border Name="TrackBackground" Margin="0" CornerRadius="2" Width="4" Grid.Column="1" Background="{DynamicResource WindowBackgroundBrush}" BorderBrush="{DynamicResource BackgroundBrush}" BorderThickness="1" />
@@ -99,21 +99,21 @@
 		</Grid>
 		<ControlTemplate.Triggers>
 			<Trigger Property="TickPlacement" Value="TopLeft">
-				<Setter TargetName="TopTick" Property="Visibility" Value="Visible"/>
+				<Setter TargetName="TopTick" Property="Visibility" Value="Visible" />
 			</Trigger>
 			<Trigger Property="TickPlacement" Value="BottomRight">
-				<Setter TargetName="BottomTick" Property="Visibility" Value="Visible"/>
+				<Setter TargetName="BottomTick" Property="Visibility" Value="Visible" />
 			</Trigger>
 			<Trigger Property="TickPlacement" Value="Both">
-				<Setter TargetName="TopTick" Property="Visibility" Value="Visible"/>
-				<Setter TargetName="BottomTick" Property="Visibility" Value="Visible"/>
+				<Setter TargetName="TopTick" Property="Visibility" Value="Visible" />
+				<Setter TargetName="BottomTick" Property="Visibility" Value="Visible" />
 			</Trigger>
 		</ControlTemplate.Triggers>
 	</ControlTemplate>
 
 	<Style TargetType="{x:Type Slider}">
-		<Setter Property="SnapsToDevicePixels" Value="true"/>
-		<Setter Property="OverridesDefaultStyle" Value="true"/>
+		<Setter Property="SnapsToDevicePixels" Value="true" />
+		<Setter Property="OverridesDefaultStyle" Value="true" />
 		<Style.Triggers>
 			<Trigger Property="Orientation" Value="Horizontal">
 				<Setter Property="MinWidth" Value="104" />

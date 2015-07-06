@@ -1,17 +1,17 @@
-﻿using System;
+﻿using Common;
+using FiresecAPI;
+using FiresecAPI.Models;
+using System;
 using System.Linq;
 using System.Net;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
-using Common;
-using FiresecAPI;
-using FiresecAPI.Models;
 
 namespace FiresecService.Service
 {
 	public partial class FiresecService
 	{
-		OperationResult<bool> Authenticate(ClientCredentials clientCredentials)
+		private OperationResult<bool> Authenticate(ClientCredentials clientCredentials)
 		{
 			if (!CheckLogin(clientCredentials))
 			{
@@ -24,7 +24,7 @@ namespace FiresecService.Service
 			return new OperationResult<bool>(true);
 		}
 
-		bool CheckRemoteAccessPermissions(ClientCredentials clientCredentials)
+		private bool CheckRemoteAccessPermissions(ClientCredentials clientCredentials)
 		{
 			if (CheckHostIps(clientCredentials, "localhost"))
 				return true;
@@ -54,7 +54,7 @@ namespace FiresecService.Service
 			return false;
 		}
 
-		bool CheckHostIps(ClientCredentials clientCredentials, string hostNameOrIpAddress)
+		private bool CheckHostIps(ClientCredentials clientCredentials, string hostNameOrIpAddress)
 		{
 			try
 			{
@@ -68,7 +68,7 @@ namespace FiresecService.Service
 			}
 		}
 
-		bool CheckLogin(ClientCredentials clientCredentials)
+		private bool CheckLogin(ClientCredentials clientCredentials)
 		{
 			var user = ConfigurationCashHelper.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == clientCredentials.UserName);
 			{
@@ -86,7 +86,7 @@ namespace FiresecService.Service
 			return true;
 		}
 
-		void SetUserFullName(ClientCredentials clientCredentials)
+		private void SetUserFullName(ClientCredentials clientCredentials)
 		{
 			string userIp = "127.0.0.1";
 			try

@@ -3,8 +3,8 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 Width="200" Height="200">
 	<Grid>
-		<Calendar SelectionMode="SingleDate" 
-				  SelectedDate="{Binding DateTime, UpdateSourceTrigger=PropertyChanged}" 
+		<Calendar SelectionMode="SingleDate"
+				  SelectedDate="{Binding DateTime, UpdateSourceTrigger=PropertyChanged}"
 				  DisplayDate="{Binding DateTime, UpdateSourceTrigger=PropertyChanged}" />
 	</Grid>
 </UserControl>

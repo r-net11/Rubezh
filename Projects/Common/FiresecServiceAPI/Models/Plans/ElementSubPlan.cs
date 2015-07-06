@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Infrustructure.Plans.Elements;
+using Infrustructure.Plans.Interfaces;
+using System;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
-using Infrustructure.Plans.Elements;
-using Infrustructure.Plans.Interfaces;
 
 namespace FiresecAPI.Models
 {
@@ -26,6 +26,7 @@ namespace FiresecAPI.Models
 			Copy(elementBase);
 			return elementBase;
 		}
+
 		public override void Copy(ElementBase element)
 		{
 			base.Copy(element);
@@ -41,10 +42,9 @@ namespace FiresecAPI.Models
 			get { return Infrustructure.Plans.Elements.Primitive.SubPlan; }
 		}
 
-		#endregion
+		#endregion IPrimitive Members
 
 		#region IElementReference Members
-
 
 		public Guid ItemUID
 		{
@@ -52,6 +52,6 @@ namespace FiresecAPI.Models
 			set { PlanUID = value; }
 		}
 
-		#endregion
+		#endregion IElementReference Members
 	}
 }
