@@ -9,7 +9,7 @@ namespace SKDModule.ViewModels
 {
 	public class ScheduleSchemeDetailsViewModel : SaveCancelDialogViewModel, IDetailsViewModel<ScheduleScheme>
 	{
-		FiresecAPI.SKD.Organisation Organisation;
+		Organisation Organisation;
 		ScheduleSchemesViewModel _parentViewModel;
 		public ObservableCollection<ScheduleSchemeType> ScheduleSchemeTypes { get; set; }
 		ScheduleSchemeType _selectedScheduleSchemeType;
@@ -25,7 +25,7 @@ namespace SKDModule.ViewModels
 		}
 		public bool IsNew { get; private set; }
 		public ScheduleScheme Model { get; private set; }
-		
+
 
 		public ScheduleSchemeDetailsViewModel()	{ }
 
@@ -39,7 +39,7 @@ namespace SKDModule.ViewModels
 				ScheduleSchemeTypes.Add(scheduleSchemeType);
 			}
 			IsNew = model == null;
-			var name = string.Empty;
+
 			if (IsNew)
 			{
 				Name = "Новый график работы";
@@ -85,7 +85,7 @@ namespace SKDModule.ViewModels
 
 		public ObservableCollection<DayInterval> DayIntervals
 		{
-			get 
+			get
 			{
 				if (_parentViewModel != null)
 					return _parentViewModel.GetDayIntervals(Organisation.UID);
@@ -103,7 +103,7 @@ namespace SKDModule.ViewModels
 				OnPropertyChanged(() => SelectedDayInterval);
 			}
 		}
-		
+
 		public bool CanSelectDayInterval
 		{
 			get { return IsNew && SelectedScheduleSchemeType == ScheduleSchemeType.Week; }

@@ -2,12 +2,12 @@
 	x:Class="SKDModule.Views.DayIntervalPartDetailsView"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	Width="400"
-	Height="200">
+	Width="360"
+	Height="160">
 	<Grid>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="*" />
-			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="1.2*" />
 		</Grid.ColumnDefinitions>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
@@ -15,39 +15,39 @@
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 		<TextBlock
-			Grid.Row="0"
-			Grid.Column="0"
-			Margin="2"
+			Margin="5"
+			VerticalAlignment="Center"
 			Foreground="White"
 			Text="Начало" />
 		<TimePicker
-			Grid.Row="0"
 			Grid.Column="1"
-			Margin="2"
+			Margin="5"
+			VerticalAlignment="Center"
 			TimeSpan="{Binding BeginTime}" />
 
 		<TextBlock
 			Grid.Row="1"
-			Grid.Column="0"
-			Margin="2"
+			Margin="5"
+			VerticalAlignment="Center"
 			Foreground="White"
 			Text="Конец" />
 		<TimePicker
 			Grid.Row="1"
 			Grid.Column="1"
-			Margin="2"
+			Margin="5"
+			VerticalAlignment="Center"
 			TimeSpan="{Binding EndTime}" />
 
 		<TextBlock
 			Grid.Row="2"
-			Grid.Column="0"
-			Margin="2"
+			Margin="5"
+			VerticalAlignment="Center"
 			Foreground="White"
 			Text="Переход" />
 		<ComboBox
 			Grid.Row="2"
 			Grid.Column="1"
-			Margin="2"
+			Margin="5"
 			VerticalAlignment="Center"
 			VerticalContentAlignment="Center"
 			ItemsSource="{Binding AvailableTransitions}"
