@@ -111,8 +111,17 @@ namespace AutomationModule.ViewModels
         private TagViewModel AddTagInternal(ReferenceDescription tag, TagViewModel parentTagViewModel)
 		{
 			var tagViewModel = new TagViewModel(tag);
-            /*if (Subscription.MonitoredItems.Any(x => x.NodeId.ToString() == tagViewModel.Address))
-              tagViewModel.IsTagUsed = true;}*/
+            if (parentTagViewModel != null)
+                tagViewModel.Path = parentTagViewModel.Path + "/" + tagViewModel.Address;
+            if (Subscription.MonitoredItems.Any(x => x.NodeId.ToString() == tagViewModel.Address))
+            {
+                tagViewModel.IsTagUsed = true;
+                tagViewModel.IsExpanded = true;
+                tagViewModel.ExpandToThis();
+            }
+            /*tagViewModel.Path = parentTagViewModel == null
+                ? tagViewModel.Tag.DisplayName.ToString()
+                : parentTagViewModel.Path + tagViewModel.Tag.DisplayName.ToString();*/
             if (parentTagViewModel != null)
 				parentTagViewModel.AddChild(tagViewModel);
 

@@ -119,7 +119,7 @@ namespace AutomationModule.ViewModels
 		{
 			var result = new List<string>();
 			if (rootReferenceDescription != null)
-				result.Add(spaces + "+" + rootReferenceDescription.DisplayName);
+				result.Add(spaces + "+" + rootReferenceDescription.DisplayName + " " + rootReferenceDescription.NodeId.ToString());
 			IList<ReferenceDescription> list = Browse(rootReferenceDescription == null ? null : new NodeId(rootReferenceDescription.NodeId), null);
 			if (list != null)
 			{

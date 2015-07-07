@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using FiresecAPI.GK;
 using FiresecAPI.SKD;
 using Infrastructure.Common.TreeList;
@@ -13,13 +14,15 @@ namespace AutomationModule.ViewModels
 	    public string Address { get; set; }
         public string Name { get; set; }
 	    public bool IsTagUsed { get; set; }
-	    
+	    public string Path { get; set; }
+
 	    public TagViewModel(ReferenceDescription tag)
 		{
 			Tag = tag;
 	        UID = Guid.NewGuid();
 	        Address = tag != null ? tag.NodeId.ToString() : "Root";
 	        Name = tag != null ? tag.DisplayName.ToString() : "Name";
+	        Path = "";
 		}
 
 
