@@ -179,9 +179,9 @@ namespace GKProcessor
 			return new OperationResult<bool>(true);
 		}
 
-		public static OperationResult<List<GKUser>> GetAllUsers(GKDevice device)
+		public static OperationResult<List<GKUser>> GetAllUsers(GKDevice device, GKProgressCallback progressCallback)
 		{
-			var progressCallback = GKProcessorManager.StartProgress("Чтение пользователей прибора " + device.PresentationName, "", 65535, true, GKProgressClientType.Administrator);
+			progressCallback = GKProcessorManager.StartProgress("Чтение пользователей прибора " + device.PresentationName, "", 65535, true, GKProgressClientType.Administrator);
 			var users = new List<GKUser>();
 
 			for (int i = 1; i <= 65535; i++)

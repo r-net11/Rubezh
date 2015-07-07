@@ -50,7 +50,7 @@ namespace FireAdministrator
 						var tempFileName = SaveConfigToFile(false);
 						using (var fileStream = new FileStream(tempFileName, FileMode.Open))
 						{
-							FiresecManager.FiresecService.SetConfig(fileStream);
+							FiresecManager.FiresecService.SetRemoteConfig(fileStream);
 						}
 						File.Delete(tempFileName);
 					}
@@ -59,9 +59,6 @@ namespace FireAdministrator
 					    SaveConfigToFile(true);
 					    FiresecManager.FiresecService.SetLocalConfig();
 					}
-
-					if (ServiceFactory.SaveService.HasChanges)
-						FiresecManager.FiresecService.NotifyClientsOnConfigurationChanged();
 				});
 				LoadingService.Close();
 				ServiceFactory.SaveService.Reset();

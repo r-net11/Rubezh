@@ -220,8 +220,6 @@ namespace GKModule.Validation
 				{
 					case GKDriverType.RSR2_CodeReader:
 					case GKDriverType.RSR2_CardReader:
-						if (door.LockDevice.Properties.FirstOrDefault(x => x.Name == "Режим после удержания включенного состояния").Value != 0)
-							Errors.Add(new DeviceValidationError(door.LockDevice, "Парамер 'Режим после удержания включенного состояния' устройства, участвующего в ТД, должен быть 'Выключается'", ValidationErrorLevel.CannotWrite));
 						if (door.LockDevice.Properties.FirstOrDefault(x => x.Name == "Наличие реле").Value != 2)
 							Errors.Add(new DeviceValidationError(door.LockDevice, "Парамер 'Наличие реле' устройства, участвующего в ТД, должен быть 'Есть'", ValidationErrorLevel.CannotWrite));
 						break;

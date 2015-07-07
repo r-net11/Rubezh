@@ -82,7 +82,7 @@ namespace FiresecAPI.GK
 		[XmlIgnore]
 		public override string PresentationName
 		{
-			get { return "MПТ" + "." + No + "." + Name; }
+			get { return No + "." + Name; }
 		}
 
 		[XmlIgnore]

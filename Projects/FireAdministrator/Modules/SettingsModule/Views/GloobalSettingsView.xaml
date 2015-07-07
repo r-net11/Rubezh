@@ -143,7 +143,6 @@
 					<Button Width="300" Margin="2" Command="{Binding ResetDatabaseCommand}" Content="Сбросить базу данных" />
 					<Button Width="300" Margin="2" Command="{Binding ResetConfigurationCommand}" Content="Сбросить конфигурацию" />
 					<Button Width="300" Margin="2" Command="{Binding ResetGKLibaryCommand}" Content="Сбросить библиотеку устройств" />
-					<Button Width="300" Margin="2" Command="{Binding ResetSKDLibaryCommand}" Content="Сбросить библиотеку СКД" />
 					<Button Width="300" Margin="2" Command="{Binding ResetSettingsCommand}" Content="Сбросить настройки" />
 				</StackPanel>
 			</Border>

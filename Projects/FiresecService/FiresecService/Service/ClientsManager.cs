@@ -27,6 +27,7 @@ namespace FiresecService.Service
 			var clientInfo = new ClientInfo();
 			clientInfo.UID = uid;
 			clientInfo.ClientCredentials = clientCredentials;
+			//clientInfo.CallbackIndex = CallbackManager.Index;
 			ClientInfos.Add(clientInfo);
 
 			MainViewModel.Current.AddClient(clientCredentials);

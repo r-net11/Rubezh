@@ -10,37 +10,5 @@
 		<StackPanel Grid.Row="0">
 			<ToolBarButton Command="{Binding RefreshCommand}" ToolTip="Обновить" ImageSource="Refresh"  HorizontalAlignment="Right" Margin="2" />
 		</StackPanel>
-		<DataGrid Grid.Row="1" ItemsSource="{Binding Tasks}" SelectedItem="{Binding SelectedTask}">
-			<DataGrid.Columns>
-				<DataGridTemplateColumn Header="Контроллер" Width="*">
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<TextBlock Text="{Binding ServerTask.DeviceName}" Margin="2" />
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="Адрес" Width="Auto">
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<TextBlock Text="{Binding ServerTask.DeviceAddress}" Margin="2" />
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="Карта" Width="*">
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<TextBlock Text="{Binding ServerTask.CardNumber}" Margin="2" />
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="Операция" Width="Auto">
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<TextBlock Text="{Binding ServerTask.PendingCardAction, Converter={StaticResource EnumToDescriptionConverter}}" Margin="2" />
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-			</DataGrid.Columns>
-		</DataGrid>
 	</Grid>
 </UserControl>

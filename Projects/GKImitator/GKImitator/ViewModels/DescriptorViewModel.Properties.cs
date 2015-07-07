@@ -196,5 +196,29 @@ namespace GKImitator.ViewModels
 			public byte No { get; set; }
 			public ushort Value { get; set; }
 		}
+
+		public bool HasMeasure { get; private set; }
+
+		public RelayCommand ShowMeasureCommand { get; private set; }
+		void OnShowMeasure()
+		{
+			if (GKBase is GKDevice)
+			{
+				var measureViewModel = new MeasureViewModel(GKBase as GKDevice, MeasureParameterValues);
+				if (DialogService.ShowModalWindow(measureViewModel))
+				{
+					MeasureParameterValues = measureViewModel.MeasureParameterValues; new List<MeasureParameterValue>();
+					foreach (var measureParameterValue in MeasureParameterValues)
+					{
+						if (measureParameterValue.MeasureParameter.No - 1 < AdditionalShortParameters.Count)
+						{
+							AdditionalShortParameters[measureParameterValue.MeasureParameter.No - 1] = (ushort)measureParameterValue.Value;
+						}
+					}
+				}
+			}
+		}
+
+		List<MeasureParameterValue> MeasureParameterValues = new List<MeasureParameterValue>();
 	}
 }

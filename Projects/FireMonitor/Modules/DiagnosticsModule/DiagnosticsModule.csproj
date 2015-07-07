@@ -65,7 +65,6 @@
     <Compile Include="Events\ShowServerEvent.cs" />
     <Compile Include="ViewModels\ServerViewModel.cs" />
     <Compile Include="ViewModels\DiagnosticsViewModel.cs" />
-    <Compile Include="ViewModels\TaskViewModel.cs" />
     <Compile Include="Views\ServerView.xaml.cs">
       <DependentUpon>ServerView.xaml</DependentUpon>
     </Compile>

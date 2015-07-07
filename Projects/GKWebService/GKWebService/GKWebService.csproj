@@ -81,12 +81,49 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Image\Icon\Header\Alarm_shield.png" />
+    <Content Include="Content\Image\Icon\Header\attention.png" />
+    <Content Include="Content\Image\Icon\Header\connection-indicator.png" />
+    <Content Include="Content\Image\Icon\Header\extinguisher.png" />
+    <Content Include="Content\Image\Icon\Header\Failure.png" />
+    <Content Include="Content\Image\Icon\Header\fire.png" />
+    <Content Include="Content\Image\Icon\Header\mani-fire.png" />
+    <Content Include="Content\Image\Icon\Header\map-off.png" />
+    <Content Include="Content\Image\Icon\Header\map-on.png" />
+    <Content Include="Content\Image\Icon\Header\sound-off.png" />
+    <Content Include="Content\Image\Icon\Header\sound-on.png" />
+    <Content Include="Content\Image\Icon\Header\user.png" />
+    <Content Include="Content\Image\Icon\Header\window-normal.png" />
+    <Content Include="Content\Image\Icon\Menu\archive.png" />
+    <Content Include="Content\Image\Icon\Menu\Bug.png" />
+    <Content Include="Content\Image\Icon\Menu\levels.png" />
+    <Content Include="Content\Image\Icon\Menu\tree.png" />
+    <Content Include="Content\Site.css" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Content\header.less" />
+    <Content Include="Content\vars.less" />
+    <Content Include="Content\main.less" />
+    <Content Include="Content\menu.less" />
+    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\Clock.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <Content Include="Scripts\knockout-3.3.0.debug.js" />
+    <Content Include="Scripts\knockout-3.3.0.js" />
+    <Content Include="Scripts\less.min.js" />
+    <Content Include="Scripts\Main.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -96,6 +133,15 @@
   <ItemGroup>
     <Content Include="Views\web.config" />
     <Content Include="packages.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\State.cshtml" />
+    <Content Include="Views\Home\Device.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -105,7 +151,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Controllers\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>

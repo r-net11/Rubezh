@@ -119,9 +119,6 @@
     <DelaySign>true</DelaySign>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Entities">
-      <HintPath>..\..\..\3rdParty\RVI_VSS\Entities.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Linq" />
@@ -150,6 +147,7 @@
     <Compile Include="AutomationCallback\ProcedureProperties.cs" />
     <Compile Include="AutomationCallback\PropertyCallBackData.cs" />
     <Compile Include="AutomationCallback\VisualPropertyCallbackData.cs" />
+    <Compile Include="CallbackOperationResult.cs" />
     <Compile Include="GKModels\Configuration\GKNameGenerationType.cs" />
     <Compile Include="GKModels\CurrentConsumption\CurrentConsumption.cs" />
     <Compile Include="GKModels\Device\GKMirrorItem.cs" />
@@ -251,7 +249,6 @@
     <Compile Include="Models\Plans\ElementRectangleGKSKDZone.cs" />
     <Compile Include="Models\Plans\ElementPolygonGKMPT.cs" />
     <Compile Include="Models\Plans\ElementRectangleGKMPT.cs" />
-    <Compile Include="Models\ServerTask\ServerTask.cs" />
     <Compile Include="AutomationCallback\AutomationCallbackData.cs" />
     <Compile Include="AutomationCallback\AutomationCallbackResult.cs" />
     <Compile Include="AutomationCallback\AutomationCallbackType.cs" />
@@ -259,6 +256,7 @@
     <Compile Include="AutomationCallback\SoundCallbackData.cs" />
     <Compile Include="Models\Video\CameraState.cs" />
     <Compile Include="Models\Video\RviSettings.cs" />
+    <Compile Include="ServerState.cs" />
     <Compile Include="SKD\Organisation\ExportOrganisation.cs" />
     <Compile Include="SKD\ReportFilters\IReportFilterUser.cs" />
     <Compile Include="SKD\ReportFilters\IReportFilterEmployeeAndVisitor.cs" />

@@ -19,6 +19,13 @@
 					<TextBox AcceptsReturn="True" IsReadOnly="True" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" Text="{Binding InfoLog}" TextWrapping="WrapWithOverflow" />
 				</ScrollViewer>
 			</TabItem>
+			<TabItem Header="Операции" DataContext="{Binding ServerTasksViewModel}">
+				<DataGrid ItemsSource="{Binding ServerTasks}" SelectedItem="{Binding SelectedServerTask}">
+					<DataGrid.Columns>
+						<DataGridTextColumn Binding="{Binding ServerTask.Name}" Header="Название" />
+					</DataGrid.Columns>
+				</DataGrid>
+			</TabItem>
             <TabItem Header="Лицензирование">
                 <Grid>
                     <Grid.RowDefinitions>

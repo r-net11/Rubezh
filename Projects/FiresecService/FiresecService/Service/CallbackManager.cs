@@ -8,7 +8,7 @@ namespace FiresecService.Service
 	public static class CallbackManager
 	{
 		static List<CallbackResultItem> CallbackResultItems = new List<CallbackResultItem>();
-		static int Index = 0;
+		public static int Index { get; private set; }
 
 		public static void Add(CallbackResult callbackResult, Guid? clientUID = null)
 		{

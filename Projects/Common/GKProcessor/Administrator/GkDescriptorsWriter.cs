@@ -16,14 +16,13 @@ namespace GKProcessor
 			Errors = new List<string>();
 		}
 
-		public void WriteConfig(GKDevice gkControllerDevice)
+		public void WriteConfig(GKDevice gkControllerDevice, GKProgressCallback progressCallback)
 		{
 			Errors = new List<string>();
 
-			var progressCallback = GKProcessorManager.StartProgress("Запись конфигурации", "Проверка связи", 1, false, GKProgressClientType.Administrator);
+			progressCallback = GKProcessorManager.StartProgress("Запись конфигурации", "Проверка связи", 1, false, GKProgressClientType.Administrator);
 			try
 			{
-				DescriptorsManager.Create();
 				var gkDatabase = DescriptorsManager.GkDatabases.FirstOrDefault(x => x.RootDevice.UID == gkControllerDevice.UID);
 				if (gkDatabase != null)
 				{

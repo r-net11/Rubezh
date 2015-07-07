@@ -21,22 +21,19 @@ namespace FiresecAPI
 		void Disconnect(Guid uid);
 
 		[OperationContract]
+		OperationResult<ServerState> GetServerState();
+
+		[OperationContract]
 		List<CallbackResult> Poll(Guid uid);
 
 		[OperationContract]
 		string Test(string arg);
-
-		[OperationContract(IsOneWay = true)]
-		void NotifyClientsOnConfigurationChanged();
 
 		[OperationContract]
 		SecurityConfiguration GetSecurityConfiguration();
 
 		[OperationContract]
 		string Ping();
-
-		[OperationContract]
-		List<ServerTask> GetServerTasks();
 
 		[OperationContract]
 		OperationResult ResetDB();
@@ -64,13 +61,16 @@ namespace FiresecAPI
 		Dictionary<string, string> GetDirectoryHash(string directory);
 
 		[OperationContract]
-		Stream GetFile(string dirAndFileName);
+		Stream GetServerAppDataFile(string dirAndFileName);
+
+		[OperationContract]
+		Stream GetServerFile(string filePath);
 
 		[OperationContract]
 		Stream GetConfig();
 
 		[OperationContract]
-		void SetConfig(Stream stream);
+		void SetRemoteConfig(Stream stream);
 
 		[OperationContract]
 		void SetLocalConfig();

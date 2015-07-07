@@ -18,6 +18,7 @@ namespace FiresecService.Service
 	public partial class FiresecService : IFiresecService
 	{
 		ClientCredentials CurrentClientCredentials;
+		public static ServerState ServerState { get; set; }
 
 		void InitializeClientCredentials(ClientCredentials clientCredentials)
 		{
@@ -109,6 +110,11 @@ namespace FiresecService.Service
 			ClientsManager.Remove(uid);
 		}
 
+		public OperationResult<ServerState> GetServerState()
+		{
+			return new OperationResult<ServerState>(ServerState);
+		}
+
 		public string Test(string arg)
 		{
 			using (var passJournalTranslator = new PassJournalTranslator())
@@ -116,11 +122,6 @@ namespace FiresecService.Service
 				passJournalTranslator.InsertPassJournalTestData();
 			}
 			return "Test";
-		}
-
-		public void NotifyClientsOnConfigurationChanged()
-		{
-			NotifyConfigurationChanged();
 		}
 
 		public SecurityConfiguration GetSecurityConfiguration()
@@ -141,40 +142,6 @@ namespace FiresecService.Service
 			catch (Exception e)
 			{
 				Logger.Error(e, "FiresecService.Ping");
-			}
-			return null;
-		}
-
-		public List<ServerTask> GetServerTasks()
-		{
-			try
-			{
-				var result = new List<ServerTask>();
-				using (var databaseService = new SKDDatabaseService())
-				{
-					foreach (var device in SKDManager.Devices)
-					{
-						if (device.Driver.IsController)
-						{
-							var pendingCards = databaseService.CardTranslator.GetAllPendingCards(device.UID);
-							foreach (var pendingCard in pendingCards)
-							{
-								var serverTask = new ServerTask();
-								serverTask.DeviceName = device.Name;
-								serverTask.DeviceAddress = device.Address;
-								if (pendingCard.Card != null)
-									serverTask.CardNumber = pendingCard.Card.Number;
-								serverTask.PendingCardAction = (PendingCardAction)pendingCard.Action;
-								result.Add(serverTask);
-							}
-						}
-					}
-				}
-				return result;
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "FiresecService.GetServerTasks");
 			}
 			return null;
 		}

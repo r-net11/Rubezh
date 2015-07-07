@@ -111,7 +111,8 @@
                     <Button Content="Сброс" Command="{Binding ResetFireCommand}" Visibility="{Binding HasResetFire, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" Width="200" Margin="2" />
                 </StackPanel>
 
-				<Button Command="{Binding ShowParametersCommand}" Content="Параметры" Visibility="{Binding HasParameters, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" Width="100" Margin="2" />
+				<Button Content="Измерения" Command="{Binding ShowMeasureCommand}" Visibility="{Binding HasMeasure, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" Width="100" Margin="2" />
+				<Button Content="Параметры" Command="{Binding ShowParametersCommand}" Visibility="{Binding HasParameters, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" Width="100" Margin="2" />
 				
             </StackPanel>
         </Grid>

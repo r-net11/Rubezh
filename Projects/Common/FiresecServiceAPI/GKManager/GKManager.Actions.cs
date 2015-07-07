@@ -154,6 +154,8 @@ namespace FiresecClient
 					}
 					device.OnChanged();
 				}
+
+				RebuildRSR2Addresses_Children.FindAll(x => x.Driver.IsGroupDevice).ForEach(x => x.OnChanged());
 			}
 		}
 

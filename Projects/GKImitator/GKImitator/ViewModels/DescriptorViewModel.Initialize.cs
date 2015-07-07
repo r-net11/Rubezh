@@ -23,12 +23,14 @@ namespace GKImitator.ViewModels
 
 			Failures = new ObservableCollection<FailureViewModel>();
 			HasParameters = true;
+			HasMeasure = false;
 
 			if (GKBase is GKDevice)
 			{
 				var device = GKBase as GKDevice;
 				Failures.Add(new FailureViewModel(this, JournalEventDescriptionType.Потеря_связи, 255));
 				HasParameters = device.Properties.Where(x => x.DriverProperty.IsAUParameter).Any();
+				HasMeasure = device.Driver.MeasureParameters.Any();
 
 				switch (device.DriverType)
 				{

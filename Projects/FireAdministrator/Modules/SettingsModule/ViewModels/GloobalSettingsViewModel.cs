@@ -28,7 +28,6 @@ namespace SettingsModule.ViewModels
 			ResetDatabaseCommand = new RelayCommand(OnResetDatabase);
 			ResetConfigurationCommand = new RelayCommand(OnResetConfiguration);
 			ResetGKLibaryCommand = new RelayCommand(OnResetGKLibary);
-			ResetSKDLibaryCommand = new RelayCommand(OnResetSKDLibary);
 			ResetSettingsCommand = new RelayCommand(OnResetSettings);
 			ModulesViewModel = new ModulesViewModel();
 			LogsFolderPath = AppDataFolderHelper.GetLogsFolder();
@@ -217,15 +216,6 @@ namespace SettingsModule.ViewModels
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите сбросить по умолчанию настройки библиотеки устройств?"))
 			{
 				DeviceLibraryConfigurationPatchHelper.Patch();
-			}
-		}
-
-		public RelayCommand ResetSKDLibaryCommand { get; private set; }
-		void OnResetSKDLibary()
-		{
-			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите сбросить по умолчанию настройки библиотеки устройств СКД?"))
-			{
-				DeviceLibraryConfigurationPatchHelper.PatchSKDLibrary();
 			}
 		}
 

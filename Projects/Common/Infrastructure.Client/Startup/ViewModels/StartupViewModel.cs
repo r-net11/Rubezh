@@ -214,19 +214,47 @@ namespace Infrastructure.Client.Startup.ViewModels
 			MessageFontWeight = FontWeights.Black;
 			OnPropertyChanged(() => Content);
 			ApplicationService.DoEvents(Dispatcher);
+
 			var result = FiresecManager.Connect(_clientType, ConnectionSettingsManager.ServerAddress, _startupLoginViewModel.UserName, _startupLoginViewModel.Password);
 			if (string.IsNullOrEmpty(result))
 			{
-				Message = null;
-				SetConnected(true);
+				for (int i = 1; i < 100; i++)
+				{
+					var serverState = FiresecManager.FiresecService.GetServerState();
+					if (!serverState.HasError)
+					{
+						switch (serverState.Result)
+						{
+							case ServerState.Sarting:
+								Message = "Сервер запускается";
+								break;
+
+							case ServerState.Restarting:
+								Message = "Сервер перезапускается";
+								break;
+
+							case ServerState.Ready:
+								Message = null;
+								SetConnected(true);
+								return;
+						}
+					}
+					else
+					{
+						Message = serverState.Error;
+					}
+					Thread.Sleep(TimeSpan.FromSeconds(1));
+				}
+				Message = "Превышено время ожижания запуска сервера";
 			}
 			else
 			{
 				Message = result;
-				MessageFontSize = 12;
-				MessageFontWeight = FontWeights.Regular;
-				IsUIEnabled = true;
 			}
+
+			MessageFontSize = 12;
+			MessageFontWeight = FontWeights.Regular;
+			IsUIEnabled = true;
 		}
 		public RelayCommand CancelCommand { get; private set; }
 		private void OnCancel()

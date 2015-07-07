@@ -31,4 +31,8 @@
         <Views:CodePropertiesView />
     </DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:MeasureViewModel}">
+		<Views:MeasureView />
+	</DataTemplate>
+
 </ResourceDictionary>

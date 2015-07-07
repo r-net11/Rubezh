@@ -320,7 +320,7 @@ namespace GKProcessor
 									JournalItem.JournalEventDescriptionType = JournalStringsHelper.ToBatteryFailure(bytes[32 + 15]);
 									break;
 								default:
-									JournalItem.JournalEventDescriptionType = JournalStringsHelper.ToFailure(bytes[32 + 15]);
+									JournalItem.JournalEventDescriptionType = JournalStringsHelper.ToFailure(bytes[32 + 15], descriptorType == 0xE5);
 									if (bytes[32 + 15] >= 241 && bytes[32 + 15] <= 254)
 									{
 										var firstAdditionalDescription = bytes[32 + 16].ToString();
