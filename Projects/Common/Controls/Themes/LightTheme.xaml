@@ -1,0 +1,63 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+	<LinearGradientBrush x:Key="BaseWindowBackgroundBrush" StartPoint="0, 0" EndPoint="0,1">
+		<GradientStop Color="#E3EDF5" Offset="0" />
+		<GradientStop Color="#C4DAF2" Offset="1" />
+	</LinearGradientBrush>
+
+	<LinearGradientBrush x:Key="WindowBorderBrush" StartPoint="0, 0" EndPoint="0,1">
+		<GradientStop Color="#E3EDF5" Offset="0" />
+		<GradientStop Color="#C4DAF2" Offset="1" />
+	</LinearGradientBrush>
+
+	<LinearGradientBrush x:Key="BackgroundBrush" StartPoint="0, 0" EndPoint="0,1">
+		<GradientStop Color="#E3EDF5" Offset="0" />
+		<GradientStop Color="#C4DAF2" Offset="1" />
+	</LinearGradientBrush>
+
+	<LinearGradientBrush x:Key="DialogHeaderBrush" StartPoint="0,0" EndPoint="0,1">
+		<GradientStop Color="#E3EDF5" Offset="0" />
+		<GradientStop Color="#C4DAF2" Offset="1" />
+	</LinearGradientBrush>
+
+	<LinearGradientBrush x:Key="HighlightedBackgoundBrush" StartPoint="0, 0" EndPoint="0,1">
+		<GradientStop Color="#029CDA" Offset="0" />
+		<GradientStop Color="#0386D6" Offset="1" />
+	</LinearGradientBrush>
+
+	<LinearGradientBrush x:Key="HighlightedBackgoundBrush2" StartPoint="0, 0" EndPoint="0,1">
+		<GradientStop Color="#029CDA" Offset="0" />
+		<GradientStop Color="#0386D6" Offset="1" />
+	</LinearGradientBrush>
+
+	<LinearGradientBrush x:Key="PressedBackgroundBrush" StartPoint="0, 0" EndPoint="0,1">
+		<GradientStop Color="#029CDA" Offset="0" />
+		<GradientStop Color="#0386D6" Offset="1" />
+	</LinearGradientBrush>
+
+	<LinearGradientBrush x:Key="AlternativeBackgroundBrush" StartPoint="0, 0" EndPoint="0,1">
+		<GradientStop Color="#E3EDF5" Offset="0" />
+		<GradientStop Color="#C4DAF2" Offset="1" />
+	</LinearGradientBrush>
+
+	<SolidColorBrush x:Key="DisabledBorderBrush" Color="White" />
+	<SolidColorBrush x:Key="DisabledBackgroundBrush" Color="#E3EDF5" />
+	<SolidColorBrush x:Key="DisabledForegroundBrush" Color="#C4DAF2" />
+	<SolidColorBrush x:Key="WindowBackgroundBrush" Color="White" />
+	<SolidColorBrush x:Key="WindowBlackBackgroundBrush" Color="White" />
+
+	<LinearGradientBrush x:Key="WindowBlacHeaderkBackgroundBrush" StartPoint="0, 0" EndPoint="0, 1" Opacity="0">
+		<GradientStop Color="#E3EDF5" Offset="0" />
+		<GradientStop Color="#C4DAF2" Offset="1" />
+	</LinearGradientBrush>
+
+	<SolidColorBrush x:Key="ButtonBackgroundColor" Color="#39495C" />
+	<SolidColorBrush x:Key="ButtonBackgroundColorDark" Color="#39495C" />
+	<SolidColorBrush x:Key="ButtonBackgroundColorBlue" Color="#39495C" />
+	<SolidColorBrush x:Key="ButtonBackgroundColorRed" Color="Red" />
+	<SolidColorBrush x:Key="ForegroundColorLight" Color="#39495C" />
+	<SolidColorBrush x:Key="ForegroundColorDark" Color="#39495C" />
+	<SolidColorBrush x:Key="ForegroundColorWhite" Color="#39495C" />
+
+</ResourceDictionary>
