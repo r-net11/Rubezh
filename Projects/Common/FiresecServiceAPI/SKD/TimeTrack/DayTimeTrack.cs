@@ -200,8 +200,6 @@ namespace FiresecAPI.SKD
 		private void CalculateCombinedTimeTrackParts()
 		{
 			var plannedScheduleTime = new ScheduleInterval();
-		//	var firstPlanned = new TimeSpan();
-		//	var lastPlanned = new TimeSpan();
 
 			if (PlannedTimeTrackParts.Count > 0)
 			{
@@ -215,9 +213,7 @@ namespace FiresecAPI.SKD
 			CombinedTimeTrackParts = new List<TimeTrackPart>();
 			for (int i = 0; i < combinedTimeSpans.Count - 1; i++)
 			{
-				ScheduleInterval combinedInterval = new ScheduleInterval(combinedTimeSpans[i], combinedTimeSpans[i + 1]);
-			//	var startTime = combinedTimeSpans[i];
-			//	var endTime = combinedTimeSpans[i + 1];
+				var combinedInterval = new ScheduleInterval(combinedTimeSpans[i], combinedTimeSpans[i + 1]);
 
 				var timeTrackPart = new TimeTrackPart { StartTime = combinedInterval.StartTime, EndTime = combinedInterval.EndTime };
 				CombinedTimeTrackParts.Add(timeTrackPart);
@@ -226,32 +222,35 @@ namespace FiresecAPI.SKD
 				var hasPlannedTimeTrack = PlannedTimeTrackParts.Any(x => x.StartTime <= combinedInterval.StartTime && x.EndTime >= combinedInterval.EndTime);
 				var documentTimeTrack = DocumentTrackParts.FirstOrDefault(x => x.StartTime <= combinedInterval.StartTime && x.EndTime >= combinedInterval.EndTime);
 
-				timeTrackPart.TimeTrackPartType = GetTimeTrackType();
+				timeTrackPart.TimeTrackPartType = GetTimeTrackType(timeTrackPart, hasRealTimeTrack, hasPlannedTimeTrack, plannedScheduleTime, combinedInterval);
 
 				//Если на временной интервал есть документ
 				if (documentTimeTrack != null)
 				{
-					var documentType = documentTimeTrack.MinTimeTrackDocumentType.DocumentType;
-					timeTrackPart.MinTimeTrackDocumentType = documentTimeTrack.MinTimeTrackDocumentType;
-					if (documentType == DocumentType.Overtime)
-					{
-						timeTrackPart.TimeTrackPartType = TimeTrackType.DocumentOvertime;
-					}
-					if (documentType == DocumentType.Presence)
-					{
-						if (hasPlannedTimeTrack)
-							timeTrackPart.TimeTrackPartType = TimeTrackType.DocumentPresence;
-						else
-							timeTrackPart.TimeTrackPartType = TimeTrackType.None;
-					}
-					if (documentType == DocumentType.Absence)
-					{
-						if (hasRealTimeTrack || hasPlannedTimeTrack)
-							timeTrackPart.TimeTrackPartType = TimeTrackType.DocumentAbsence;
-						else
-							timeTrackPart.TimeTrackPartType = TimeTrackType.None;
-					}
+					timeTrackPart.TimeTrackPartType = GetDocumentTimeTrackType(documentTimeTrack, timeTrackPart, hasPlannedTimeTrack, hasRealTimeTrack);
 				}
+			}
+		}
+
+		private static TimeTrackType GetDocumentTimeTrackType(TimeTrackPart documentTimeTrack, TimeTrackPart timeTrackPart,
+			bool hasPlannedTimeTrack, bool hasRealTimeTrack)
+		{
+			var documentType = documentTimeTrack.MinTimeTrackDocumentType.DocumentType;
+			timeTrackPart.MinTimeTrackDocumentType = documentTimeTrack.MinTimeTrackDocumentType;
+
+			if (documentType == DocumentType.Overtime)
+			{
+				return TimeTrackType.DocumentOvertime;
+			}
+
+			if (documentType == DocumentType.Presence)
+			{
+				return hasPlannedTimeTrack ? TimeTrackType.DocumentPresence : TimeTrackType.None;
+			}
+
+			if (documentType == DocumentType.Absence)
+			{
+				return (hasRealTimeTrack || hasPlannedTimeTrack) ? TimeTrackType.DocumentAbsence : TimeTrackType.None;
 			}
 		}
 
@@ -260,14 +259,12 @@ namespace FiresecAPI.SKD
 			//Если есть интервал прохода сотрудника, который попадает в гафик работ, то "Явка"
 			if (hasRealTimeTrack && hasPlannedTimeTrack)
 			{
-				//timeTrackPart.TimeTrackPartType = TimeTrackType.Presence;
 				return TimeTrackType.Presence;
 			}
 
 			//Если нет интервала проода сотрудника и нет графика, то "Нет данных"
 			if (!hasRealTimeTrack && !hasPlannedTimeTrack)
 			{
-				//timeTrackPart.TimeTrackPartType = TimeTrackType.None;
 				return TimeTrackType.None;
 			}
 
@@ -275,64 +272,50 @@ namespace FiresecAPI.SKD
 			//или, если он попадает в график работ, то "Явка в перерыве"
 			if (hasRealTimeTrack) //&& !hasPlannedTimeTrack)
 			{
-				//timeTrackPart.TimeTrackPartType = TimeTrackType.Overtime;
 				var type = TimeTrackType.Overtime;
 				if (timeTrackPart.StartTime > schedulePlannedInterval.StartTime &&
 				    timeTrackPart.EndTime < schedulePlannedInterval.EndTime)
 					type = TimeTrackType.PresenceInBrerak;
-				//timeTrackPart.TimeTrackPartType = TimeTrackType.PresenceInBrerak;
 				return type;
 			}
 
 			//Если нет интервала прохода сотрудника, но есть интервал рабочего графика
-			//if (!hasRealTimeTrack && hasPlannedTimeTrack)
-			//{
-				timeTrackPart.TimeTrackPartType = TimeTrackType.Absence; //Отсутствие
+			timeTrackPart.TimeTrackPartType = TimeTrackType.Absence; //Отсутствие
 
-				//Если учитывается первый вход-последний выход и проход в рамках графика, то "Отсутствие в рамках графика"
-				if (RealTimeTrackParts.Any(x => x.StartTime <= combinedInterval.StartTime && x.EndTime >= combinedInterval.EndTime) && IsOnlyFirstEnter)
+			//Если учитывается первый вход-последний выход и проход в рамках графика, то "Отсутствие в рамках графика"
+			if (RealTimeTrackParts.Any(x => x.StartTime <= combinedInterval.StartTime && x.EndTime >= combinedInterval.EndTime) && IsOnlyFirstEnter)
+			{
+				return TimeTrackType.AbsenceInsidePlan;
+			}
+
+
+			if (PlannedTimeTrackParts.Any(x => x.StartTime == timeTrackPart.StartTime) &&
+				PlannedTimeTrackParts.All(x => x.EndTime != timeTrackPart.EndTime) &&
+				RealTimeTrackParts.Any(x => x.StartTime == timeTrackPart.EndTime))
+			{
+				var firstPlannedTimeTrack = PlannedTimeTrackParts.FirstOrDefault(x => x.StartTime == timeTrackPart.StartTime);
+				if (firstPlannedTimeTrack.StartsInPreviousDay)
 				{
-				//	timeTrackPart.TimeTrackPartType = TimeTrackType.AbsenceInsidePlan;
-					return TimeTrackType.AbsenceInsidePlan;
+					return TimeTrackType.Absence;
 				}
 
-
-				if (PlannedTimeTrackParts.Any(x => x.StartTime == timeTrackPart.StartTime) &&
-					PlannedTimeTrackParts.All(x => x.EndTime != timeTrackPart.EndTime) &&
-					RealTimeTrackParts.Any(x => x.StartTime == timeTrackPart.EndTime))
+				if (timeTrackPart.Delta > AllowedLate)
 				{
-					var firstPlannedTimeTrack = PlannedTimeTrackParts.FirstOrDefault(x => x.StartTime == timeTrackPart.StartTime);
-					if (firstPlannedTimeTrack.StartsInPreviousDay)
-					{
-						timeTrackPart.TimeTrackPartType = TimeTrackType.Absence;
-					}
-					else
-					{
-						if (timeTrackPart.Delta > AllowedLate)
-						{
-							timeTrackPart.TimeTrackPartType = TimeTrackType.Late;
-						}
-					}
+					return TimeTrackType.Late;
 				}
+			}
 
-				if (PlannedTimeTrackParts.All(x => x.StartTime != timeTrackPart.StartTime) &&
-					PlannedTimeTrackParts.Any(x => x.EndTime == timeTrackPart.EndTime) &&
-					RealTimeTrackParts.Any(x => x.EndTime == timeTrackPart.StartTime))
-				{
-					var lastPlannedTimeTrack = PlannedTimeTrackParts.FirstOrDefault(x => x.EndTime == timeTrackPart.EndTime);
-					if (lastPlannedTimeTrack.EndsInNextDay)
-					{
-						timeTrackPart.TimeTrackPartType = TimeTrackType.Absence;
-					}
-					else
-					{
-						if (timeTrackPart.Delta > AllowedEarlyLeave)
-						{
-							timeTrackPart.TimeTrackPartType = TimeTrackType.EarlyLeave;
-						}
-					}
-				}
-			//}
+			if (PlannedTimeTrackParts.Any(x => x.StartTime == timeTrackPart.StartTime) ||
+			    PlannedTimeTrackParts.All(x => x.EndTime != timeTrackPart.EndTime) ||
+			    RealTimeTrackParts.All(x => x.EndTime != timeTrackPart.StartTime)) return TimeTrackType.Absence;
+
+			var lastPlannedTimeTrack = PlannedTimeTrackParts.FirstOrDefault(x => x.EndTime == timeTrackPart.EndTime);
+			if (lastPlannedTimeTrack.EndsInNextDay)
+			{
+				return TimeTrackType.Absence;
+			}
+
+			return timeTrackPart.Delta > AllowedEarlyLeave ? TimeTrackType.EarlyLeave : TimeTrackType.Absence;
 		}
 
 		private List<TimeSpan> GetCombinedTimeSpans()
