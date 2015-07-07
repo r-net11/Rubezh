@@ -57,7 +57,7 @@
 			</Grid>
 		</TabItem>
 		<TabItem Header="Процедура">
-			<ListView ItemsSource="{Binding Procedures}" SelectedItem="{Binding SelectedProcedure}">
+			<ListView ItemsSource="{Binding Procedures}" SelectedItem="{Binding SelectedProcedure}" UIBehavior.ShowSelectionMark="True">
 				<ListView.Resources>
 					<InputBindingCollection x:Key="inputCollection" x:Shared="False">
 						<MouseBinding Command="{Binding DataContext.SaveCommand, RelativeSource={RelativeSource AncestorType={x:Type inf:SaveCancelDialogView}}, Mode=OneTime}" MouseAction="LeftDoubleClick" />
