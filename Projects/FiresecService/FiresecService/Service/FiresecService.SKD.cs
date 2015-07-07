@@ -1547,14 +1547,14 @@ namespace FiresecService.Service
         {
             using (var databaseService = new SKDDriver.DataClasses.DbService())
             {
-                return new OperationResult();// databaseService.OrganisationTranslator.Synchroniser.Export(filter);
+                return databaseService.OrganisationTranslator.Synchroniser.Export(filter);
             }
         }
         public OperationResult ImportOrganisation(ImportFilter filter)
         {
             using (var databaseService = new SKDDriver.DataClasses.DbService())
             {
-                return new OperationResult();// databaseService.OrganisationTranslator.Synchroniser.Import(filter);
+                return databaseService.OrganisationTranslator.Synchroniser.Import(filter);
             }
         }
 
@@ -1562,14 +1562,14 @@ namespace FiresecService.Service
         {
             using (var databaseService = new SKDDriver.DataClasses.DbService())
             {
-                return new OperationResult();// databaseService.OrganisationTranslator.Synchroniser.ListSynchroniser.Export(filter);
+                return databaseService.OrganisationTranslator.Synchroniser.ListSynchroniser.Export(filter);
             }
         }
         public OperationResult ImportOrganisationList(ImportFilter filter)
         {
             using (var databaseService = new SKDDriver.DataClasses.DbService())
             {
-                return new OperationResult();// databaseService.OrganisationTranslator.Synchroniser.ListSynchroniser.Import(filter);
+                return databaseService.OrganisationTranslator.Synchroniser.ListSynchroniser.Import(filter);
             }
         }
 

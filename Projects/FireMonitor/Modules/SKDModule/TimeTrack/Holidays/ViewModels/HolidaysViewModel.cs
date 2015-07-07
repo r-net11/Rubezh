@@ -70,14 +70,14 @@ namespace SKDModule.ViewModels
 				OnPropertyChanged(() => SelectedYear);
 
 				var filter = new HolidayFilter() { UserUID = FiresecManager.CurrentUser.UID, Year = value, LogicalDeletationType = LogicalDeletationType };
-				Initialize(filter);
+				BeginInitialize(filter);
 			}
 		}
 
 		public void Initialize()
 		{
 			var filter = new HolidayFilter() { UserUID = FiresecManager.CurrentUser.UID, Year = SelectedYear, LogicalDeletationType = LogicalDeletationType };
-			Initialize(filter);
+			BeginInitialize(filter);
 		}
 
 		protected override bool Add(Holiday item)
@@ -119,6 +119,11 @@ namespace SKDModule.ViewModels
 		protected override bool IsAddViewModel(Holiday model)
 		{
 			return model.Date.Year == SelectedYear && base.IsAddViewModel(model);
+		}
+
+		protected override System.Collections.Generic.List<Holiday> GetFromCallbackResult(FiresecAPI.DbCallbackResult dbCallbackResult)
+		{
+			return dbCallbackResult.Holidays;
 		}
 	}
 }

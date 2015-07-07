@@ -61,7 +61,7 @@ namespace SKDModule.Reports.ViewModels
 			}
 			else
 				ef.UIDs = employeeFilter.Employees;
-			Filter.Initialize(ef);
+			Filter.BeginInitialize(ef);
 		}
 		public override void UpdateFilter(SKDReportFilter filter)
 		{

@@ -6,6 +6,7 @@ using FiresecAPI;
 using LinqKit;
 using SKDDriver.DataClasses;
 using System.Data.Entity;
+using System.Linq;
 
 namespace SKDDriver
 {
@@ -33,32 +34,32 @@ namespace SKDDriver
 			};
 		}
 
-        //protected override Expression<Func<DataAccess.Organisation, bool>> IsInFilter(FiresecAPI.SKD.ExportFilter filter)
-        //{
-        //    return base.IsInFilter(filter).And(x => x.UID == filter.OrganisationUID);
-        //}
+        protected override IQueryable<Organisation> GetFilteredItems(FiresecAPI.SKD.ExportFilter filter)
+		{
+			return base.GetFilteredItems(filter).Where(x => x.UID == filter.OrganisationUID);
+		}
 
-		//EmployeeSynchroniser EmployeeSynchroniser { get { return _DatabaseService.EmployeeTranslator1.Synchroniser; } }
-		//PositionSynchroniser PositionSynchroniser { get { return _DatabaseService.PositionTranslator.Synchroniser; } }
-		//DepartmentSynchroniser DepartmentSynchroniser { get { return _DatabaseService.DepartmentTranslator.Synchroniser; } }
+		EmployeeSynchroniser EmployeeSynchroniser { get { return _DatabaseService.EmployeeTranslator.Synchroniser; } }
+		PositionSynchroniser PositionSynchroniser { get { return _DatabaseService.PositionTranslator.Synchroniser; } }
+		DepartmentSynchroniser DepartmentSynchroniser { get { return _DatabaseService.DepartmentTranslator.Synchroniser; } }
 		public OrgansiationListSynchroniser ListSynchroniser;
 
         public override OperationResult Export(FiresecAPI.SKD.ExportFilter filter)
 		{
 			try
 			{
-                //var organisationResult = base.Export(filter);
-                //if (organisationResult.HasError)
-                //    return organisationResult;
-                //var employeeResult = _DatabaseService.EmployeeTranslator.Synchroniser.Export(filter);
-                //if (employeeResult.HasError)
-                //    return employeeResult;
-                //var PositionResult = _DatabaseService.PositionTranslator.Synchroniser.Export(filter);
-                //if (PositionResult.HasError)
-                //    return PositionResult;
-                //var DepartmentResult = _DatabaseService.DepartmentTranslator.Synchroniser.Export(filter);
-                //if (DepartmentResult.HasError)
-                //    return DepartmentResult;
+				var organisationResult = base.Export(filter);
+				if (organisationResult.HasError)
+					return organisationResult;
+				var employeeResult = EmployeeSynchroniser.Export(filter);
+				if (employeeResult.HasError)
+					return employeeResult;
+				var PositionResult = PositionSynchroniser.Export(filter);
+				if (PositionResult.HasError)
+					return PositionResult;
+				var DepartmentResult = DepartmentSynchroniser.Export(filter);
+				if (DepartmentResult.HasError)
+					return DepartmentResult;
 				return new OperationResult();
 			}
 			catch (Exception e)
@@ -72,12 +73,12 @@ namespace SKDDriver
 			try
 			{
 				base.Import(filter);
-				//PositionSynchroniser.Import(filter);
-				//DepartmentSynchroniser.Import(filter);
-				//EmployeeSynchroniser.Import(filter);
+				PositionSynchroniser.Import(filter);
+				DepartmentSynchroniser.Import(filter);
+				EmployeeSynchroniser.Import(filter);
 				ImportForignKeys();
-				//DepartmentSynchroniser.ImportForignKeys();
-				//EmployeeSynchroniser.ImportForignKeys();
+				DepartmentSynchroniser.ImportForignKeys();
+				EmployeeSynchroniser.ImportForignKeys();
 				return new OperationResult();
 			}
 			catch (Exception e)
@@ -111,12 +112,7 @@ namespace SKDDriver
 
 		#region ExportList
 
-        //protected virtual Expression<Func<DataAccess.Organisation, bool>> IsInFilterList(FiresecAPI.SKD.ExportFilter filter)
-        //{
-        //    return base.IsInFilter(filter);
-        //}
-
-        protected virtual OperationResult ExportList(FiresecAPI.SKD.ExportFilter filter)
+		protected virtual OperationResult ExportList(FiresecAPI.SKD.ExportFilter filter)
 		{
 			return base.Export(filter);
 		}
@@ -131,11 +127,6 @@ namespace SKDDriver
 	public class OrgansiationListSynchroniser : OrganisationSynchroniser
 	{
 		public OrgansiationListSynchroniser(DbSet<Organisation> table, DbService databaseService) : base(table, databaseService) { }
-
-        //protected override Expression<Func<DataAccess.Organisation, bool>> IsInFilter(FiresecAPI.SKD.ExportFilter filter)
-        //{
-        //    return base.IsInFilterList(filter);
-        //}
 
         public override OperationResult Export(FiresecAPI.SKD.ExportFilter filter)
 		{

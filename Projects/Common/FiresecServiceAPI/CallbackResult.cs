@@ -49,6 +49,7 @@ namespace FiresecAPI
         QueryDb
 	}
 
+    [DataContract]
     public class DbCallbackResult
     {
         public DbCallbackResult()
@@ -65,42 +66,34 @@ namespace FiresecAPI
             ScheduleSchemes = new List<ScheduleScheme>();
             Schedules = new List<Schedule>();
             Positions = new List<ShortPosition>();
-        }
-        
-        public Guid ClientUID;
-        public List<ShortEmployee> Employees;
-        public List<SKDCard> Cards;
-        public List<AccessTemplate> AccessTemplates;
-        public List<AdditionalColumnType> AdditionalColumnTypes;
-        public List<ShortDepartment> Departments;
-        public List<ShortPassCardTemplate> PassCardTemplates;
-        public List<ShortPosition> Positions;
-        public List<DayInterval> DayIntervals;
-        public List<ScheduleScheme> ScheduleSchemes;
-        public List<Holiday> Holidays;
-        public List<Schedule> Schedules;
-        public bool IsLastPortion;
-    }
-
-    [DataContract]
-    [KnownType(typeof(ShortEmployee))]
-    public class DbCallbackResult<T>
-    {
-        public DbCallbackResult()
-        {
-            UID = Guid.NewGuid();
-            
+			Holidays = new List<Holiday>();
         }
 
-        public Guid UID;
-        public List<T> Items;
-        public bool IsLastPortion;
+        [DataMember]
+        public Guid ClientUID { get; set; }
+        [DataMember]
+        public List<ShortEmployee> Employees { get; set; }
+        [DataMember]
+        public List<SKDCard> Cards { get; set; }
+        [DataMember]
+        public List<AccessTemplate> AccessTemplates { get; set; }
+        [DataMember]
+        public List<AdditionalColumnType> AdditionalColumnTypes { get; set; }
+        [DataMember]
+        public List<ShortDepartment> Departments { get; set; }
+        [DataMember]
+        public List<ShortPassCardTemplate> PassCardTemplates { get; set; }
+        [DataMember]
+        public List<ShortPosition> Positions { get; set; }
+        [DataMember]
+        public List<DayInterval> DayIntervals { get; set; }
+        [DataMember]
+        public List<ScheduleScheme> ScheduleSchemes { get; set; }
+        [DataMember]
+        public List<Holiday> Holidays { get; set; }
+        [DataMember]
+        public List<Schedule> Schedules { get; set; }
+        [DataMember]
+        public bool IsLastPortion { get; set; }
     }
-
-    public enum DbCallbackResultType
-    {
-        Employees,
-        Cards
-    }
-    
 }

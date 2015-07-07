@@ -37,6 +37,7 @@ namespace SKDModule.ViewModels
 			ServiceFactory.Events.GetEvent<EditEmployee2Event>().Subscribe(OnEditEmployee);
             SafeFiresecService.DbCallbackResultEvent -= new Action<DbCallbackResult>(OnDbCallbackResultEvent);
             SafeFiresecService.DbCallbackResultEvent += new Action<DbCallbackResult>(OnDbCallbackResultEvent);
+			DbCallbackResultUID = Guid.NewGuid();
 		}
 
         void OnDbCallbackResultEvent(DbCallbackResult dbCallbackResult)

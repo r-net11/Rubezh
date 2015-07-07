@@ -16,7 +16,7 @@ namespace SKDModule.ViewModels
 	public class EmployeesViewModel : OrganisationBaseViewModel<ShortEmployee, EmployeeFilter, EmployeeViewModel, EmployeeDetailsViewModel>
 	{
 		public List<AdditionalColumnType> AdditionalColumnTypes { get; private set; }
-        Guid _dbCallbackResultUID;
+       
 
 		public EmployeesViewModel():base()
 		{
@@ -24,46 +24,16 @@ namespace SKDModule.ViewModels
 			ServiceFactory.Events.GetEvent<EditEmployeeEvent>().Subscribe(OnEditEmployee);
 			ServiceFactory.Events.GetEvent<EditAdditionalColumnEvent>().Unsubscribe(OnUpdateIsInGrid);
 			ServiceFactory.Events.GetEvent<EditAdditionalColumnEvent>().Subscribe(OnUpdateIsInGrid);
-            SafeFiresecService.DbCallbackResultEvent -= new Action<DbCallbackResult>(OnDbCallbackResultEvent);
-            SafeFiresecService.DbCallbackResultEvent += new Action<DbCallbackResult>(OnDbCallbackResultEvent);
+            
 		}
 
-        void OnDbCallbackResultEvent(DbCallbackResult dbCallbackResult)
-        {
-            if (dbCallbackResult.ClientUID == _dbCallbackResultUID)
-            {
-                InitializeModels(dbCallbackResult.Employees);
-
-                OnPropertyChanged(() => Organisations);
-                //InitializeAdditionalColumns();
-                //ItemsCount = Organisations.Select(x => x.Children.Count()).Sum();
-                //    SelectedItem = Organisations.FirstOrDefault();
-            }
-        }
-
-		public override void Initialize(EmployeeFilter filter)
-		{
-            _filter = filter;
-            IsWithDeleted = filter.LogicalDeletationType == LogicalDeletationType.All;
-            var result = InitializeOrganisations(_filter);
-            if (result)
-            {
-                _dbCallbackResultUID = Guid.NewGuid();
-                FiresecManager.FiresecService.BeginGetEmployees(filter, _dbCallbackResultUID);
-                IsLoading = true;
-                
-                //var models = GetModels(_filter);
-                //if (models != null)
-                //{
-                //    InitializeModels(models);
-                //    OnPropertyChanged(() => Organisations);
-                //    SelectedItem = Organisations.FirstOrDefault();
-                //}
-            }
-			PersonType = filter.PersonType;
-			//InitializeAdditionalColumns();
-			ServiceFactory.Events.GetEvent<ChangeEmployeeGuestEvent>().Publish(null);
-		}
+		//public override void Initialize(EmployeeFilter filter)
+		//{
+		//	base.Initialize(filter);
+		//	PersonType = filter.PersonType;
+		//	InitializeAdditionalColumns();
+		//	ServiceFactory.Events.GetEvent<ChangeEmployeeGuestEvent>().Publish(null);
+		//}
 
 		protected override void OnOrganisationUsersChanged(Organisation newOrganisation)
 		{
@@ -247,26 +217,9 @@ namespace SKDModule.ViewModels
 			get { return FiresecAPI.Models.PermissionType.Oper_SKD_Employees_Edit; }
 		}
 
-        bool _isLoading;
-        public bool IsLoading
-        {
-            get { return _isLoading; }
-            set
-            {
-                _isLoading = value;
-                OnPropertyChanged(() => IsLoading);
-            }
-        }
-
-        int _itemsCount;
-        public int ItemsCount
-        {
-            get { return _itemsCount; }
-            set
-            {
-                _itemsCount = value;
-                OnPropertyChanged(() => ItemsCount);
-            }
-        }
+		protected override List<ShortEmployee> GetFromCallbackResult(DbCallbackResult dbCallbackResult)
+		{
+			return dbCallbackResult.Employees;
+		}
 	}
 }

@@ -8,9 +8,9 @@ namespace SKDModule.ViewModels
 {
 	public class AccessTemplatesViewModel : OrganisationBaseViewModel<AccessTemplate, AccessTemplateFilter, AccessTemplateViewModel, AccessTemplateDetailsViewModel>, ICardDoorsParentList<AccessTemplateViewModel>
 	{
-		public override void Initialize(AccessTemplateFilter filter)
+		public override void BeginInitialize(AccessTemplateFilter filter)
 		{
-			base.Initialize(filter);
+			base.BeginInitialize(filter);
 			_updateOrganisationDoorsEventSubscriber = new UpdateOrganisationDoorsEventSubscriber<AccessTemplateViewModel>(this);
 		}
 
@@ -84,6 +84,11 @@ namespace SKDModule.ViewModels
 			{
 				SelectedItem.InitializeDoors();
 			}
+		}
+
+		protected override List<AccessTemplate> GetFromCallbackResult(FiresecAPI.DbCallbackResult dbCallbackResult)
+		{
+			return dbCallbackResult.AccessTemplates;
 		}
 	}	
 }

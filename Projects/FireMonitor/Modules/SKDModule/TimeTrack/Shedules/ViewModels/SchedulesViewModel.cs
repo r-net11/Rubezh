@@ -38,7 +38,7 @@ namespace SKDModule.ViewModels
 				UserUID = FiresecManager.CurrentUser.UID,
 				LogicalDeletationType = LogicalDeletationType
 			};
-			Initialize(filter);
+			BeginInitialize(filter);
 		}
 
 		protected override void OnEditOrganisation(Organisation newOrganisation)
@@ -153,7 +153,7 @@ namespace SKDModule.ViewModels
 				LogicalDeletationType = LogicalDeletationType,
 				EmployeeUIDs = hrFilter.EmplooyeeUIDs
 			};
-			Initialize(filter);
+			BeginInitialize(filter);
 		}
 
 		public RelayCommand ShowSettingsCommand { get; private set; }
@@ -170,6 +170,11 @@ namespace SKDModule.ViewModels
 		public List<ScheduleViewModel> DoorsParents
 		{
 			get { return Organisations.SelectMany(x => x.Children).ToList(); }
+		}
+
+		protected override List<Schedule> GetFromCallbackResult(FiresecAPI.DbCallbackResult dbCallbackResult)
+		{
+			return dbCallbackResult.Schedules;
 		}
 	}
 }

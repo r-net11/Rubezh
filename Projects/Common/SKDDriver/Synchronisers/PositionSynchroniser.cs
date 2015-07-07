@@ -4,6 +4,7 @@ using System.Linq.Expressions;
 using FiresecAPI.SKD;
 using LinqKit;
 using System.Data.Entity;
+using System.Linq;
 
 namespace SKDDriver.DataClasses
 {
@@ -23,10 +24,10 @@ namespace SKDDriver.DataClasses
 			};
 		}
 
-        //protected override Expression<Func<DataAccess.Position, bool>> IsInFilter(ExportFilter filter)
-        //{
-        //    return base.IsInFilter(filter).And(x => x.OrganisationUID == filter.OrganisationUID);
-        //}
+		protected override IQueryable<Position> GetFilteredItems(FiresecAPI.SKD.ExportFilter filter)
+		{
+			return base.GetFilteredItems(filter).Where(x => x.OrganisationUID == filter.OrganisationUID);
+		}
 
 		protected override string Name
 		{

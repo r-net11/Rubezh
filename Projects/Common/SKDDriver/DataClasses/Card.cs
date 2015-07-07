@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SKDDriver.DataClasses
 {
-	public class Card
+	public class Card : IExternalKey
 	{
 		public Card()
 		{
@@ -56,5 +57,19 @@ namespace SKDDriver.DataClasses
 		public int GKCardType { get; set; }
 
 		public string ExternalKey { get; set; }
+
+		[NotMapped]
+		public bool IsDeleted
+		{
+			get { return false; }
+			set { return; }
+		}
+
+		[NotMapped]
+		public DateTime? RemovalDate
+		{
+			get { return null; }
+			set { return; }
+		}
 	}
 }

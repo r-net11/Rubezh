@@ -8,18 +8,18 @@ namespace SKDDriver.DataClasses
 {
 	public class PositionTranslator : OrganisationItemTranslatorBase<Position, API.Position, API.PositionFilter>
 	{
-		DataContractSerializer _serializer;
 		public PositionShortTranslator ShortTranslator { get; private set; }
-		
+		public PositionSynchroniser Synchroniser { get; private set; }
+		public PositionAsyncTranslator AsyncTranslator { get; private set; }
 		public PositionTranslator(DbService context)
 			: base(context)
 		{
-			_serializer = new DataContractSerializer(typeof(API.Position));
 			ShortTranslator = new PositionShortTranslator(this);
             AsyncTranslator = new PositionAsyncTranslator(ShortTranslator);
+			Synchroniser = new PositionSynchroniser(Table, DbService);
         }
 
-        public PositionAsyncTranslator AsyncTranslator { get; private set; }
+        
 
 		public override DbSet<Position> Table
 		{

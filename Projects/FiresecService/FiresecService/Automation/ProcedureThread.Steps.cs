@@ -17,6 +17,7 @@ using FiresecService.Automation;
 using FiresecService.Service;
 using SKDDriver.DataClasses;
 using Property = FiresecAPI.Automation.Property;
+using Infrastructure.Common.BalloonTrayTip;
 
 namespace FiresecService
 {
@@ -1060,8 +1061,8 @@ namespace FiresecService
 					MinDate = minDate,
 					Path = path
 				});
-			//if (result.HasError)
-			//    BalloonHelper.ShowFromServer("Экспорт журнала " + result.Error);
+			if (result.HasError)
+				BalloonHelper.ShowFromServer("Экспорт журнала " + result.Error);
 		}
 
 		void ExportOrganisation(ProcedureStep procedureStep)
@@ -1077,8 +1078,8 @@ namespace FiresecService
 					OrganisationUID = organisationUID,
 					Path = path
 				});
-			//if (result.HasError)
-			//    MessageBoxService.Show(result.Error);
+			if (result.HasError)
+				BalloonHelper.ShowFromServer(result.Error);
 		}
 
 		void ExportOrganisationList(ProcedureStep procedureStep)
@@ -1092,8 +1093,8 @@ namespace FiresecService
 					IsWithDeleted = isWithDeleted,
 					Path = path
 				});
-			//if (result.HasError)
-			//    MessageBoxService.Show(result.Error);
+			if (result.HasError)
+				BalloonHelper.ShowFromServer(result.Error);
 		}
 
 		void ExportConfiguration(ProcedureStep procedureStep)
@@ -1111,8 +1112,8 @@ namespace FiresecService
 					IsExportZones = isExportZones,
 					Path = path
 				});
-			//if (result.HasError)
-			//    MessageBoxService.Show(result.Error);
+			if (result.HasError)
+				BalloonHelper.ShowFromServer(result.Error);
 		}
 
 		void ImportOrganisation(ProcedureStep procedureStep)
@@ -1126,8 +1127,8 @@ namespace FiresecService
 					IsWithDeleted = isWithDeleted,
 					Path = path
 				});
-			//if (result.HasError)
-			//    MessageBoxService.Show(result.Error);
+			if (result.HasError)
+				BalloonHelper.ShowFromServer(result.Error);
 		}
 
 		void ImportOrganisationList(ProcedureStep procedureStep)
@@ -1141,8 +1142,8 @@ namespace FiresecService
 					IsWithDeleted = isWithDeleted,
 					Path = path
 				});
-			//if (result.HasError)
-			//    MessageBoxService.Show(result.Error);
+			if (result.HasError)
+				BalloonHelper.ShowFromServer(result.Error);
 		}
 
 		void SetValue(Argument argument, object propertyValue)

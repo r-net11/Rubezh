@@ -33,7 +33,7 @@ namespace SKDModule.ViewModels
 		public void Initialize()
 		{
 			var filter = new ScheduleSchemeFilter() { UserUID = FiresecManager.CurrentUser.UID, LogicalDeletationType = LogicalDeletationType };
-			Initialize(filter);
+			BeginInitialize(filter);
 		}
 
 		public override void OnShow()
@@ -163,6 +163,11 @@ namespace SKDModule.ViewModels
 		void OnEditDayInterval(Guid dayInternalUID)
 		{
 			SelectedItem = Organisations.FirstOrDefault();
+		}
+
+		protected override List<ScheduleScheme> GetFromCallbackResult(FiresecAPI.DbCallbackResult dbCallbackResult)
+		{
+			return dbCallbackResult.ScheduleSchemes;
 		}
 	}
 }

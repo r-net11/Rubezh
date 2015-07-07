@@ -19,7 +19,7 @@ namespace SKDModule.ViewModels
 		public override void Initialize(DepartmentFilter filter)
 		{
 			var emptyFilter = new DepartmentFilter { LogicalDeletationType = filter.LogicalDeletationType, OrganisationUIDs = filter.OrganisationUIDs };
-			base.Initialize(emptyFilter);
+			base.BeginInitialize(emptyFilter);
 			var models = Organisations.SelectMany(x => x.Children);
 			SetSelected(models, filter.UIDs ?? new List<Guid>());
 		}
@@ -27,14 +27,14 @@ namespace SKDModule.ViewModels
 		public void Initialize(List<Guid> uids, LogicalDeletationType logicalDeletationType = LogicalDeletationType.Active)
 		{
 			var filter = new DepartmentFilter { LogicalDeletationType = logicalDeletationType, UIDs = uids };
-			Initialize(filter);
+			BeginInitialize(filter);
 		}
 
 
 		public void Initialize(List<Guid> uids, List<Guid> organisationUIDs, LogicalDeletationType logicalDeletationType = LogicalDeletationType.Active)
 		{
 			var filter = new DepartmentFilter { LogicalDeletationType = logicalDeletationType, UIDs = uids, OrganisationUIDs = organisationUIDs };
-			Initialize(filter);
+			BeginInitialize(filter);
 		}
 
 		public RelayCommand SelectAllCommand { get; private set; }
@@ -133,6 +133,11 @@ namespace SKDModule.ViewModels
 		protected override FiresecAPI.Models.PermissionType Permission
 		{
 			get { return FiresecAPI.Models.PermissionType.Oper_SKD_Departments_Etit; }
+		}
+
+		protected override List<ShortDepartment> GetFromCallbackResult(FiresecAPI.DbCallbackResult dbCallbackResult)
+		{
+			return dbCallbackResult.Departments;
 		}
 	}
 }

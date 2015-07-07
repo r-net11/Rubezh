@@ -68,7 +68,7 @@ namespace SKDDriver.DataClasses
         
         public void BeginGet(FiresecAPI.SKD.HRFilter filter, Action<DbCallbackResult> portionReady)
         {
-            //EmployeeTranslator.AsyncTranslator.BeginGet(filter.EmployeeFilter, portionReady);
+            EmployeeTranslator.AsyncTranslator.BeginGet(filter.EmployeeFilter, portionReady);
             CardTranslator.AsyncTranslator.BeginGet(filter.CardFilter, portionReady);
         }
 

@@ -11,11 +11,13 @@ namespace SKDDriver.DataClasses
 	{
 		DbService DbService; 
 		DatabaseContext Context;
+		public OrganisationSynchroniser Synchroniser { get; private set; }
 
 		public OrganisationTranslator(DbService context)
 		{
 			DbService = context;
 			Context = DbService.Context;
+			Synchroniser = new OrganisationSynchroniser(Table, DbService);
 		}
 
 		public OperationResult<List<API.Organisation>> Get(API.OrganisationFilter filter)

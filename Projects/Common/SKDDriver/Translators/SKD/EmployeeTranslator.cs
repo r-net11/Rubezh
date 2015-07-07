@@ -12,11 +12,13 @@ namespace SKDDriver.DataClasses
 	{
         public EmployeeShortTranslator ShortTranslator { get; private set; }
         public EmployeeAsyncTranslator AsyncTranslator { get; private set; }
+		public EmployeeSynchroniser Synchroniser { get; private set; } 
         
         public EmployeeTranslator(DbService dbService) : base(dbService) 
         {
             ShortTranslator = new EmployeeShortTranslator(this);
             AsyncTranslator = new EmployeeAsyncTranslator(ShortTranslator);
+			Synchroniser = new EmployeeSynchroniser(Table, DbService);
         }
 		
 		public override DbSet<Employee> Table

@@ -80,20 +80,30 @@ namespace FiresecClient
 			if (callbackResults == null || callbackResults.Count == 0)
 				return;
 
-            //if (callbackResults.Any(x => x.CallbackResultType == CallbackResultType.QueryDb))
-            //{
-            //    var dbCallbackResults = callbackResults.Where(x => x.CallbackResultType == CallbackResultType.QueryDb);
-            //    var dbCallbackResult = new DbCallbackResult
-            //    {
-            //        UID = dbCallbackResults.FirstOrDefault().DbCallbackResult.UID,
-            //        Cards = dbCallbackResults.SelectMany(x => x.DbCallbackResult.Cards).ToList(),
-            //        Employees = dbCallbackResults.SelectMany(x => x.DbCallbackResult.Employees).ToList(),
-            //        DbCallbackResultType = dbCallbackResults.FirstOrDefault().DbCallbackResult.DbCallbackResultType,
-            //        IsLastPortion = dbCallbackResults.Any(x => x.DbCallbackResult.IsLastPortion)
-            //    };
-            //    if (DbCallbackResultEvent != null)
-            //        DbCallbackResultEvent(dbCallbackResult);
-            //}
+			var dbCallbackResultGroups = callbackResults.Where(x => x.CallbackResultType == CallbackResultType.QueryDb).Select(x => x.DbCallbackResult).GroupBy(x => x.ClientUID);
+			foreach (var group in dbCallbackResultGroups)
+			{
+				var dbCallBackResult = new DbCallbackResult();
+				dbCallBackResult.ClientUID = group.Key;
+				dbCallBackResult.IsLastPortion = group.Any(x => x.IsLastPortion);
+				foreach (var item in group)
+				{
+					dbCallBackResult.AccessTemplates.AddRange(item.AccessTemplates);
+					dbCallBackResult.AdditionalColumnTypes.AddRange(item.AdditionalColumnTypes);
+					dbCallBackResult.Cards.AddRange(item.Cards);
+					dbCallBackResult.DayIntervals.AddRange(item.DayIntervals);
+					dbCallBackResult.Departments.AddRange(item.Departments);
+					dbCallBackResult.Employees.AddRange(item.Employees);
+					dbCallBackResult.Holidays.AddRange(item.Holidays);
+					dbCallBackResult.PassCardTemplates.AddRange(item.PassCardTemplates);
+					dbCallBackResult.Positions.AddRange(item.Positions);
+					dbCallBackResult.Schedules.AddRange(item.Schedules);
+					dbCallBackResult.ScheduleSchemes.AddRange(item.ScheduleSchemes);
+				}
+				if (DbCallbackResultEvent != null)
+					DbCallbackResultEvent(dbCallBackResult);
+			}
+			
 			foreach (var callbackResult in callbackResults)
 			{
 				switch (callbackResult.CallbackResultType)
@@ -160,13 +170,13 @@ namespace FiresecClient
 						});
 						break;
 
-                    case CallbackResultType.QueryDb:
-                        SafeOperationCall(() =>
-                        {
-                            if (DbCallbackResultEvent != null)
-                                DbCallbackResultEvent(callbackResult.DbCallbackResult);
-                        });
-                        break;
+					//case CallbackResultType.QueryDb:
+					//	SafeOperationCall(() =>
+					//	{
+					//		if (DbCallbackResultEvent != null)
+					//			DbCallbackResultEvent(callbackResult.DbCallbackResult);
+					//	});
+					//	break;
 				}
 			}
 		}

@@ -266,5 +266,10 @@ namespace SKDModule.ViewModels
 		{
 			get { return SelectedItem != null && !SelectedItem.IsOrganisation && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Employees_View); }
 		}
+
+		protected override List<ShortDepartment> GetFromCallbackResult(FiresecAPI.DbCallbackResult dbCallbackResult)
+		{
+			return dbCallbackResult.Departments;
+		}
 	}
 }

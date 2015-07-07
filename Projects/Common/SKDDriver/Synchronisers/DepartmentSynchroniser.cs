@@ -29,10 +29,10 @@ namespace SKDDriver
 			};
 		}
 
-        //protected override Expression<Func<Department, bool>> IsInFilter(FiresecAPI.SKD.ExportFilter filter)
-        //{
-        //    return base.IsInFilter(filter).And(x => x.OrganisationUID == filter.OrganisationUID);
-        //}
+		protected override IQueryable<Department> GetFilteredItems(FiresecAPI.SKD.ExportFilter filter)
+		{
+			return base.GetFilteredItems(filter).Where(x => x.OrganisationUID == filter.OrganisationUID);
+		}
 
         protected override void UpdateForignKeys(FiresecAPI.SKD.ExportDepartment exportItem, Department tableItem)
 		{

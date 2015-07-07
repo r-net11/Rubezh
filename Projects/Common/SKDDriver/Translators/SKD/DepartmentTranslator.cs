@@ -12,16 +12,18 @@ namespace SKDDriver.DataClasses
 	{
 		DataContractSerializer _serializer;
 		public DepartmentShortTranslator ShortTranslator { get; private set; }
-		
+		public DepartmentAsyncTranslator AsyncTranslator { get; private set; }
+		public DepartmentSynchroniser Synchroniser { get; private set; } 
 		public DepartmentTranslator(DbService context)
 			: base(context)
 		{
 			_serializer = new DataContractSerializer(typeof(API.Department));
 			ShortTranslator = new DepartmentShortTranslator(this);
             AsyncTranslator = new DepartmentAsyncTranslator(ShortTranslator);
+			Synchroniser = new DepartmentSynchroniser(Table, DbService);
         }
 
-        public DepartmentAsyncTranslator AsyncTranslator { get; private set; }
+        
 
 		public override DbSet<Department> Table
 		{

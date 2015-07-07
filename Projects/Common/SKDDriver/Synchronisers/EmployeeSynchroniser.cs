@@ -3,6 +3,7 @@ using System.Data.Linq;
 using System.Linq.Expressions;
 using LinqKit;
 using System.Data.Entity;
+using System.Linq;
 
 namespace SKDDriver.DataClasses
 {
@@ -50,12 +51,12 @@ namespace SKDDriver.DataClasses
 			tableItem.DepartmentUID = GetUIDbyExternalKey(exportItem.DepartmentExternalKey, _DatabaseService.Context.Departments);
 			tableItem.EscortUID = GetUIDbyExternalKey(exportItem.EscortExternalKey, _DatabaseService.Context.Employees);
 		}
-		
-        //protected override Expression<Func<DataAccess.Employee, bool>> IsInFilter(ExportFilter filter)
-        //{
-        //    //return new Expression<Func<DataAccess.Employee, bool>>; base.IsInFilter(filter).And(x => x.OrganisationUID == filter.OrganisationUID);
-        //}
 
+		protected override IQueryable<Employee> GetFilteredItems(FiresecAPI.SKD.ExportFilter filter)
+		{
+			return base.GetFilteredItems(filter).Where(x => x.OrganisationUID == filter.OrganisationUID);
+		}
+		
         public override void TranslateBack(FiresecAPI.SKD.ExportEmployee exportItem, Employee tableItem)
 		{
 			tableItem.FirstName = exportItem.FirstName;

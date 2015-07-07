@@ -244,24 +244,25 @@ namespace SKDModule.ViewModels
 		
 		void InitializeFilters()
 		{
-			
-
+			DepartmentFilter = new DepartmentFilter() { OrganisationUIDs = Filter.OrganisationUIDs, LogicalDeletationType = Filter.LogicalDeletationType };
+			PositionFilter = new PositionFilter() { OrganisationUIDs = Filter.OrganisationUIDs, LogicalDeletationType = Filter.LogicalDeletationType };
+			AdditionalColumnTypeFilter = new AdditionalColumnTypeFilter() { OrganisationUIDs = Filter.OrganisationUIDs, LogicalDeletationType = Filter.LogicalDeletationType };
+			CardFilter = new CardFilter() { OrganisationUIDs = Filter.OrganisationUIDs, EmployeeFilter = Filter.EmployeeFilter, ClientUID = CardsViewModel.DbCallbackResultUID, IsLoad = true };
+			AccessTemplateFilter = new AccessTemplateFilter() { OrganisationUIDs = Filter.OrganisationUIDs, LogicalDeletationType = Filter.LogicalDeletationType };
+			PassCardTemplateFilter = new PassCardTemplateFilter() { OrganisationUIDs = Filter.OrganisationUIDs, LogicalDeletationType = Filter.LogicalDeletationType };
+			InitializeEmployeeFilter();
             
             
             //DepartmentsViewModel.Initialize(DepartmentFilter);
             //PositionsViewModel.Initialize(PositionFilter);
             //AdditionalColumnTypesViewModel.Initialize(AdditionalColumnTypeFilter);
-            CardsViewModel.Initialize();
+            //CardsViewModel.Initialize();
             //AccessTemplatesViewModel.Initialize(AccessTemplateFilter);
             //PassCardTemplatesViewModel.Initialize(PassCardTemplateFilter);
             //OrganisationsViewModel.Initialize(Filter.LogicalDeletationType);
-            //InitializeEmployeeFilter();
-            DepartmentFilter = new DepartmentFilter() { OrganisationUIDs = Filter.OrganisationUIDs, LogicalDeletationType = Filter.LogicalDeletationType };
-            PositionFilter = new PositionFilter() { OrganisationUIDs = Filter.OrganisationUIDs, LogicalDeletationType = Filter.LogicalDeletationType };
-            AdditionalColumnTypeFilter = new AdditionalColumnTypeFilter() { OrganisationUIDs = Filter.OrganisationUIDs, LogicalDeletationType = Filter.LogicalDeletationType };
-            CardFilter = new CardFilter() { OrganisationUIDs = Filter.OrganisationUIDs, EmployeeFilter = Filter.EmployeeFilter, ClientUID = CardsViewModel.DbCallbackResultUID, IsLoad = true };
-            AccessTemplateFilter = new AccessTemplateFilter() { OrganisationUIDs = Filter.OrganisationUIDs, LogicalDeletationType = Filter.LogicalDeletationType };
-            PassCardTemplateFilter = new PassCardTemplateFilter() { OrganisationUIDs = Filter.OrganisationUIDs, LogicalDeletationType = Filter.LogicalDeletationType };
+			//EmployeesViewModel.BeginInitialize(EmployeeFilter);
+            
+            
 
             var hrViewModel = new FiresecAPI.SKD.HRFilter
             {
@@ -269,11 +270,11 @@ namespace SKDModule.ViewModels
                 AdditionalColumnTypeFilter = AdditionalColumnTypeFilter,
                 CardFilter = CardFilter,
                 DepartmentFilter = DepartmentFilter,
-                //EmployeeFilter = EmployeeFilter,
+                EmployeeFilter = EmployeeFilter,
                 PassCardTemplateFilter = PassCardTemplateFilter,
                 PositionFilter = PositionFilter
             };
-            FiresecManager.FiresecService.BeginGetAsync(hrViewModel);
+           // FiresecManager.FiresecService.BeginGetAsync(hrViewModel);
             ServiceFactory.Events.GetEvent<ChangeIsDeletedEvent>().Publish(Filter.LogicalDeletationType);
 			ServiceFactory.Events.GetEvent<UpdateFilterEvent>().Publish(Filter);
 		}
@@ -284,8 +285,9 @@ namespace SKDModule.ViewModels
 			EmployeeFilter.UIDs = Filter.EmplooyeeUIDs;
 			EmployeeFilter.PersonType = SelectedPersonType;
 			EmployeeFilter.LogicalDeletationType = Filter.LogicalDeletationType;
-            EmployeesViewModel.Initialize(EmployeeFilter);
-		}
+			EmployeeFilter.ClientUID = EmployeesViewModel.DbCallbackResultUID; 
+			EmployeeFilter.IsLoad = true;
+        }
 		
 		void OnUserChanged(UserChangedEventArgs args)
 		{

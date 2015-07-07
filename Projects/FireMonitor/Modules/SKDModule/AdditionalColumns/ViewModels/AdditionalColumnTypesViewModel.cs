@@ -61,5 +61,10 @@ namespace SKDModule.ViewModels
 			copy.DataType = source.DataType;
 			return copy;
 		}
+
+		protected override List<AdditionalColumnType> GetFromCallbackResult(FiresecAPI.DbCallbackResult dbCallbackResult)
+		{
+			return dbCallbackResult.AdditionalColumnTypes;
+		}
 	}
 }

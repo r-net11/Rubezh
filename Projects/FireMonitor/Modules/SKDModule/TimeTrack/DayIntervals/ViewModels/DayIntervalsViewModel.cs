@@ -38,7 +38,7 @@ namespace SKDModule.ViewModels
 		public void Initialize()
 		{
 			var filter = new DayIntervalFilter() { UserUID = FiresecManager.CurrentUser.UID, LogicalDeletationType = LogicalDeletationType };
-			Initialize(filter);
+			BeginInitialize(filter);
 		}
 
 		protected override void OnEditOrganisation(Organisation newOrganisation)
@@ -146,5 +146,10 @@ namespace SKDModule.ViewModels
 		}
 
 
+
+		protected override List<DayInterval> GetFromCallbackResult(FiresecAPI.DbCallbackResult dbCallbackResult)
+		{
+			return dbCallbackResult.DayIntervals;
+		}
 	}
 }
