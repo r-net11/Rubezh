@@ -8,8 +8,8 @@
 			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
 			 xmlns:viewModel="clr-namespace:GKModule.ViewModels"
 			 xmlns:Views="clr-namespace:GKModule.Views">
-
-	<UserControl.Resources>
+   
+    <UserControl.Resources>
 		<Converters:DeviceParameterMissmatchTypeToColorConverter3 x:Key="DeviceParameterMissmatchTypeToColorConverter3" />
 		<Conv:SwitchConverter x:Key="Tooltip" Else="{x:Null}">
 			<Conv:SwitchCase Then="Устройство может быть размещено на плане" When="Multiple" />
@@ -25,6 +25,15 @@
 			<Controls:IconedMenuItem Command="{Binding CopyLogicCommand}" ImageSource="BCopy" Text="Копировать логику" />
 			<Controls:IconedMenuItem Command="{Binding PasteLogicCommand}" ImageSource="BPaste" Text="Вставить логику" />
 			<Separator />
+            <Controls:IconedMenuItem  ImageSource="BPaste" Text="Генерация отражения" Visibility = "{Binding IsEdit,  Converter={StaticResource BoolToVisibilityConverter}}">
+                <Controls:IconedMenuItem Text="Пожарные зоны" Command="{Binding GenericZonesCommand}" />
+                <Controls:IconedMenuItem  Text="Охранные зоны" Command="{Binding GenericGuardZonesCommand}" />
+                <Controls:IconedMenuItem Text="Зоны пожаратушения" />
+                <Controls:IconedMenuItem Text="Исполнительные устройства" />
+                <Controls:IconedMenuItem Text="Извещательные устройства" />
+                <Controls:IconedMenuItem Text="Направления" />
+            </Controls:IconedMenuItem>
+            <Separator />
 			<Controls:IconedMenuItem Command="{Binding AddCommand}" ImageSource="BAdd" Text="Добавить дочернее устройство (Ctrl+N)" />
 			<Controls:IconedMenuItem Command="{Binding AddToParentCommand}" ImageSource="BAddChild" Text="Добавить к родительскому устройству (Ctrl+M)" />
 			<Controls:IconedMenuItem Command="{Binding RemoveCommand}" ImageSource="BDelete" Text="Удалить (Ctrl+Del)" />
@@ -144,7 +153,7 @@
 								<Controls:EditorPresenter>
 									<Controls:EditorPresenter.ViewTemplate>
 										<ControlTemplate>
-											<TextBlock MinWidth="100" VerticalAlignment="Center" Cursor="Hand" Text="{Binding EditingPresentationZone}" TextWrapping="NoWrap" Visibility="{Binding IsZoneOrLogic, Converter={StaticResource BoolToVisibilityConverter}}">
+											<TextBlock  MinWidth="100" VerticalAlignment="Center" Cursor="Hand" Text="{Binding EditingPresentationZone}" TextWrapping="NoWrap" Visibility="{Binding IsZoneOrLogic, Converter={StaticResource BoolToVisibilityConverter}}">
 												<TextBlock.Style>
 													<Style TargetType="TextBlock">
 														<Style.Triggers>
