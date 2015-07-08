@@ -15,7 +15,7 @@ namespace SKDDriver.DataClasses
     {
         public OrganisationShortTranslatorBase(ITranslatorGet<TTableItem, TApiItem, TFilter> tranlsator) : base(tranlsator) { }
 
-        public virtual TShort TranslateToShort(TTableItem tableItem)
+        public override TShort Translate(TTableItem tableItem)
         {
             if (tableItem == null)
                 return null;

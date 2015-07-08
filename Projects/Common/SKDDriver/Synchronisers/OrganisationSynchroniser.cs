@@ -42,6 +42,8 @@ namespace SKDDriver
 		EmployeeSynchroniser EmployeeSynchroniser { get { return _DatabaseService.EmployeeTranslator.Synchroniser; } }
 		PositionSynchroniser PositionSynchroniser { get { return _DatabaseService.PositionTranslator.Synchroniser; } }
 		DepartmentSynchroniser DepartmentSynchroniser { get { return _DatabaseService.DepartmentTranslator.Synchroniser; } }
+		Guid OrganisationUID;
+
 		public OrgansiationListSynchroniser ListSynchroniser;
 
         public override OperationResult Export(FiresecAPI.SKD.ExportFilter filter)
@@ -76,9 +78,16 @@ namespace SKDDriver
 				PositionSynchroniser.Import(filter);
 				DepartmentSynchroniser.Import(filter);
 				EmployeeSynchroniser.Import(filter);
-				ImportForignKeys();
-				DepartmentSynchroniser.ImportForignKeys();
-				EmployeeSynchroniser.ImportForignKeys();
+				var hrCash = new OrganisationHRCash
+				{
+					OrganisationUID = OrganisationUID,
+					Employees = Context.Employees.Where(x => filter.IsWithDeleted || !x.IsDeleted).ToList(),
+					Departments = Context.Departments.Where(x => filter.IsWithDeleted || !x.IsDeleted).ToList(),
+					Positions = Context.Positions.Where(x => filter.IsWithDeleted || !x.IsDeleted).ToList(),
+				};
+				ImportForignKeys(hrCash);
+				DepartmentSynchroniser.ImportForignKeys(hrCash);
+				EmployeeSynchroniser.ImportForignKeys(hrCash);
 				return new OperationResult();
 			}
 			catch (Exception e)
@@ -86,11 +95,10 @@ namespace SKDDriver
 				return new OperationResult(e.Message);
 			}
 		}
-
-        protected override void UpdateForignKeys(FiresecAPI.SKD.ExportOrganisation exportItem, Organisation tableItem)
+		protected override void UpdateForignKeys(FiresecAPI.SKD.ExportOrganisation exportItem, Organisation tableItem, OrganisationHRCash hrCash)
 		{
-			tableItem.ChiefUID = GetUIDbyExternalKey(exportItem.ChiefExternalKey, _DatabaseService.Context.Employees);
-			tableItem.HRChiefUID = GetUIDbyExternalKey(exportItem.HRChiefExternalKey, _DatabaseService.Context.Employees);
+			tableItem.ChiefUID = GetUIDbyExternalKey(exportItem.ChiefExternalKey, hrCash.Employees);
+			tableItem.HRChiefUID = GetUIDbyExternalKey(exportItem.HRChiefExternalKey, hrCash.Employees);
 		}
 
         public override void TranslateBack(FiresecAPI.SKD.ExportOrganisation exportItem, Organisation tableItem)
@@ -98,6 +106,8 @@ namespace SKDDriver
 			tableItem.Name = exportItem.Name;
 			tableItem.Description = exportItem.Description;
 			tableItem.Phone = exportItem.Phone;
+			tableItem.IsDeleted = exportItem.IsDeleted;
+			tableItem.RemovalDate = exportItem.RemovalDate;
 		}
 
 		protected override string XmlHeaderName
@@ -109,9 +119,13 @@ namespace SKDDriver
 		{
 			get { return "Organisations"; }
 		}
+		protected override void BeforeSave(System.Collections.Generic.List<FiresecAPI.SKD.ExportOrganisation> exportItems)
+		{
+			base.BeforeSave(exportItems);
+			OrganisationUID = exportItems.FirstOrDefault().UID;
+		}
 
 		#region ExportList
-
 		protected virtual OperationResult ExportList(FiresecAPI.SKD.ExportFilter filter)
 		{
 			return base.Export(filter);

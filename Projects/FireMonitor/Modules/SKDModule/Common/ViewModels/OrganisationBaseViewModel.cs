@@ -40,8 +40,8 @@ namespace SKDModule.ViewModels
 			ServiceFactory.Events.GetEvent<RestoreOrganisationEvent>().Subscribe(OnRestoreOrganisation);
 			ServiceFactory.Events.GetEvent<NewOrganisationEvent>().Unsubscribe(OnNewOrganisation);
 			ServiceFactory.Events.GetEvent<NewOrganisationEvent>().Subscribe(OnNewOrganisation);
-			SafeFiresecService.DbCallbackResultEvent -= new Action<DbCallbackResult>(OnDbCallbackResultEvent);
-			SafeFiresecService.DbCallbackResultEvent += new Action<DbCallbackResult>(OnDbCallbackResultEvent);
+			//SafeFiresecService.DbCallbackResultEvent -= new Action<DbCallbackResult>(OnDbCallbackResultEvent);
+			//SafeFiresecService.DbCallbackResultEvent += new Action<DbCallbackResult>(OnDbCallbackResultEvent);
             Organisations = new ObservableCollection<TViewModel>();
 			DbCallbackResultUID = Guid.NewGuid();
 			_filter = new TFilter();
@@ -61,23 +61,21 @@ namespace SKDModule.ViewModels
 		public TFilter Filter { get { return _filter; } }
 		public Guid DbCallbackResultUID;
 
-		void OnDbCallbackResultEvent(DbCallbackResult dbCallbackResult)
-		{
-			if (dbCallbackResult.ClientUID == DbCallbackResultUID)
-			{
-				InitializeModels(GetFromCallbackResult(dbCallbackResult));
-				OnPropertyChanged(() => Organisations);
-				IsLoading = !dbCallbackResult.IsLastPortion;
-				//InitializeAdditionalColumns();
-				//ItemsCount = Organisations.Select(x => x.Children.Count()).Sum();
-				//    SelectedItem = Organisations.FirstOrDefault();
-			}
-		}
+		//void OnDbCallbackResultEvent(DbCallbackResult dbCallbackResult)
+		//{
+		//	if (dbCallbackResult.ClientUID == DbCallbackResultUID)
+		//	{
+		//		InitializeModels(GetFromCallbackResult(dbCallbackResult));
+		//		OnPropertyChanged(() => Organisations);
+		//		IsLoading = !dbCallbackResult.IsLastPortion;
+		//		//InitializeAdditionalColumns();
+		//		//ItemsCount = Organisations.Select(x => x.Children.Count()).Sum();
+		//		//    SelectedItem = Organisations.FirstOrDefault();
+		//	}
+		//}
 
 		protected virtual void InitializeModels(IEnumerable<TModel> models)
 		{
-			int portionSize = 5000;
-			int i = 0;
 			foreach (var organisation in Organisations)
 			{
 				foreach (var model in models)
@@ -86,13 +84,8 @@ namespace SKDModule.ViewModels
 					{
 						var itemViewModel = new TViewModel();
 						itemViewModel.InitializeModel(organisation.Organisation, model, this);
-						ApplicationService.Invoke(() =>
-						{
-							organisation.AddChild(itemViewModel);
-							ItemsCount = Organisations.Select(x => x.Children.Count()).Sum();
-						});
-						if (i++ % portionSize == 0)
-							ApplicationService.DoEvents();
+						organisation.AddChild(itemViewModel);
+						ItemsCount = Organisations.Select(x => x.Children.Count()).Sum();
 					}
 				}
 			}
@@ -109,13 +102,13 @@ namespace SKDModule.ViewModels
 			return result;
 		}
 
-		public virtual void BeginInitialize(TFilter filter)
-		{
-			_filter = filter;
-			IsWithDeleted = filter.LogicalDeletationType == LogicalDeletationType.All;
-			InitializeOrganisations(_filter);
-			IsLoading = true;
-		}
+		//public virtual void BeginInitialize(TFilter filter)
+		//{
+		//	_filter = filter;
+		//	IsWithDeleted = filter.LogicalDeletationType == LogicalDeletationType.All;
+		//	InitializeOrganisations(_filter);
+		//	IsLoading = true;
+		//}
 
 		public virtual void Initialize(TFilter filter)
 		{

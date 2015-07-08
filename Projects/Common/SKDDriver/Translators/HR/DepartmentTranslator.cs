@@ -23,8 +23,6 @@ namespace SKDDriver.DataClasses
 			Synchroniser = new DepartmentSynchroniser(Table, DbService);
         }
 
-        
-
 		public override DbSet<Department> Table
 		{
 			get { return Context.Departments; }
@@ -41,7 +39,7 @@ namespace SKDDriver.DataClasses
             if (result == null)
                 return null;
 			result.Photo = result.Photo = tableItem.Photo != null ? tableItem.Photo.Translate() : null;
-			result.ParentDepartmentUID = tableItem.ParentDepartmentUID;
+			result.ParentDepartmentUID = tableItem.ParentDepartmentUID.GetValueOrDefault();
 			result.ChildDepartmentUIDs = tableItem.ChildDepartments.Select(x => x.UID).ToList();
 			result.ChiefUID = tableItem.ChiefUID.GetValueOrDefault();
 			result.Phone = tableItem.Phone;
@@ -52,7 +50,7 @@ namespace SKDDriver.DataClasses
 		{
 			base.TranslateBack(apiItem, tableItem);
 			tableItem.Photo = Photo.Create(apiItem.Photo);
-			tableItem.ParentDepartmentUID = apiItem.ParentDepartmentUID;
+			tableItem.ParentDepartmentUID = apiItem.ParentDepartmentUID.EmptyToNull();
 			tableItem.ChiefUID = apiItem.ChiefUID.EmptyToNull();
 			tableItem.Phone = apiItem.Phone;
 		}
@@ -196,14 +194,14 @@ namespace SKDDriver.DataClasses
 			return base.GetTableItems().Include(x => x.ChildDepartments);
 		}
 
-		public override API.ShortDepartment TranslateToShort(Department tableItem)
+		public override API.ShortDepartment Translate(Department tableItem)
 		{
-			var result = base.TranslateToShort(tableItem);
+			var result = base.Translate(tableItem);
             if (result == null)
                 return null;
 			result.ChiefUID = tableItem.ChiefUID.GetValueOrDefault();
 			result.Phone = tableItem.Phone;
-			result.ParentDepartmentUID = tableItem.ParentDepartmentUID;
+			result.ParentDepartmentUID = tableItem.ParentDepartmentUID.GetValueOrDefault();
 			result.ChildDepartments = new System.Collections.Generic.Dictionary<Guid, string>();
 			var childDepartments = tableItem.ChildDepartments.Select(x => new { x.UID, x.Name });
 			foreach (var item in childDepartments)

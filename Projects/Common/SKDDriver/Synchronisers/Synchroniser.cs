@@ -34,6 +34,9 @@ namespace SKDDriver.DataClasses
 		{
 			try
 			{
+				foreach (var item in _Table.Where(item => item.ExternalKey == null || item.ExternalKey == "-1" || item.ExternalKey == string.Empty))
+					item.ExternalKey = item.UID.ToString("N");
+				Context.SaveChanges();
 				var result = new List<TExportItem>();
                 var tableItems = GetFilteredItems(filter);
 				foreach (var item in tableItems)
@@ -44,9 +47,6 @@ namespace SKDDriver.DataClasses
 					exportItem.IsDeleted = item.IsDeleted;
 					exportItem.RemovalDate = item.RemovalDate.GetValueOrDefault();
 					result.Add(exportItem);
-					//if (item.ExternalKey == "-1")
-					//	item.ExternalKey = item.UID.ToString("N");
-					//Context.SaveChanges();
 				}
 				return new OperationResult<List<TExportItem>>(result);
 			}
@@ -110,14 +110,14 @@ namespace SKDDriver.DataClasses
 		}
 
 
-		void SaveForignKeys(List<TExportItem> exportItems)
+		void SaveForignKeys(List<TExportItem> exportItems, OrganisationHRCash hrCash)
 		{
 			foreach (var exportItem in exportItems)
 			{
 				var tableItem = _Table.FirstOrDefault(x => x.ExternalKey.Equals(exportItem.ExternalKey));
 				if (tableItem != null)
 				{
-					UpdateForignKeys(exportItem, tableItem);
+					UpdateForignKeys(exportItem, tableItem, hrCash);
 				}
                 Context.SaveChanges();
 			}
@@ -130,7 +130,7 @@ namespace SKDDriver.DataClasses
 				if (!Directory.Exists(filter.Path))
 					return new OperationResult("Папка не существует");
 				var fileName = Path.Combine(filter.Path, NameXml);
-				File.Move(fileName, NameXml);
+				File.Copy(fileName, NameXml, true);
 				using (var stream = new FileStream(NameXml, FileMode.Open))
 				{
 					var serializer = new XmlSerializer(typeof(List<TExportItem>));
@@ -151,7 +151,7 @@ namespace SKDDriver.DataClasses
 			}
 		}
 
-		public virtual OperationResult ImportForignKeys()
+		public virtual OperationResult ImportForignKeys(OrganisationHRCash hrCash)
 		{
 			try
 			{
@@ -161,7 +161,7 @@ namespace SKDDriver.DataClasses
 					var importItems = (List<TExportItem>)serializer.Deserialize(stream);
 					if (importItems != null)
 					{
-						SaveForignKeys(importItems);
+						SaveForignKeys(importItems, hrCash);
 					}
 				}
 				return new OperationResult();
@@ -173,7 +173,7 @@ namespace SKDDriver.DataClasses
 		}
 
 		protected virtual void BeforeSave(List<TExportItem> exportItems) { }
-		protected virtual void UpdateForignKeys(TExportItem exportItem, TTableItem tableItem) { }
+		protected virtual void UpdateForignKeys(TExportItem exportItem, TTableItem tableItem, OrganisationHRCash hrCash) { }
 		public abstract TExportItem Translate(TTableItem tableItem);
 		public abstract void TranslateBack(TExportItem exportItem, TTableItem tableItem);
 		protected virtual IQueryable<TTableItem> GetFilteredItems(ExportFilter filter)
@@ -202,7 +202,7 @@ namespace SKDDriver.DataClasses
 			return exportItem.ExternalKey;
 		}
 
-		protected Guid? GetUIDbyExternalKey<T>(string externalKey, DbSet<T> table)
+		protected Guid? GetUIDbyExternalKey<T>(string externalKey, IEnumerable<T> table)
 			where T : class, IExternalKey
 		{
 			var tableItem = table.FirstOrDefault(x => x.ExternalKey.Equals(externalKey));

@@ -330,11 +330,11 @@ namespace SKDDriver.DataClasses
 			try
 			{
 				var isManyEmployees = employeeUIDs.Count() >= 2100;
-				var items = Context.PassJournals.Where(e => (((!employeeUIDs.IsEmpty() && !isManyEmployees) || (e.EmployeeUID.HasValue && employeeUIDs.Contains(e.EmployeeUID.Value)))) &&
-					(zoneUIDs.IsEmpty() || zoneUIDs.Contains(e.ZoneUID)) &&
+				var items = Context.PassJournals.Where(e => (((employeeUIDs.Count() != 0 && !isManyEmployees) || (e.EmployeeUID != null && employeeUIDs.Contains(e.EmployeeUID.Value)))) &&
+					(zoneUIDs == null || zoneUIDs.Count() == 0 || zoneUIDs.Contains(e.ZoneUID)) &&
 					((e.EnterTime >= startDateTime && e.EnterTime <= endDateTime) || (e.ExitTime >= startDateTime && e.ExitTime <= endDateTime))).ToList();
 				if (isManyEmployees)
-					items = items.Where(e => e.EmployeeUID.HasValue && employeeUIDs.Contains(e.EmployeeUID.Value)).ToList();
+					items = items.Where(e => e.EmployeeUID != null && employeeUIDs.Contains(e.EmployeeUID.Value)).ToList();
 				return items;
 			}
 			catch (Exception)

@@ -54,7 +54,8 @@ namespace SKDDriver.DataClasses
 				(string.IsNullOrEmpty(filter.SecondName) ||
 					(x.SecondName.Contains(filter.SecondName))) &&
 				(string.IsNullOrEmpty(filter.LastName) ||
-					(x.LastName.Contains(filter.LastName)))
+					(x.LastName.Contains(filter.LastName))) &&
+				x.Type == (int)filter.PersonType
 				);
 		}
 
@@ -66,8 +67,8 @@ namespace SKDDriver.DataClasses
 			result.FirstName = tableItem.FirstName;
 			result.SecondName = tableItem.SecondName;
 			result.LastName = tableItem.LastName;
-            result.Position = DbService.PositionTranslator.ShortTranslator.TranslateToShort(tableItem.Position);
-            result.Department = DbService.DepartmentTranslator.ShortTranslator.TranslateToShort(tableItem.Department);
+            result.Position = DbService.PositionTranslator.ShortTranslator.Translate(tableItem.Position);
+            result.Department = DbService.DepartmentTranslator.ShortTranslator.Translate(tableItem.Department);
             result.Schedule = DbService.ScheduleTranslator.Translate(tableItem.Schedule);
 			result.ScheduleName = tableItem.Schedule != null ? tableItem.Schedule.Name : "";
 			result.ScheduleStartDate = tableItem.ScheduleStartDate;

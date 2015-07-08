@@ -18,7 +18,7 @@ namespace SKDModule.ViewModels
 
 		EmployeeFilter _Filter;
 
-		public override void BeginInitialize(EmployeeFilter filter)
+		public override void Initialize(EmployeeFilter filter)
 		{
 			Initialize(filter, filter.LogicalDeletationType, filter.PersonType);
 		}

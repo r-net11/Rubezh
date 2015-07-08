@@ -43,8 +43,13 @@ namespace SKDDriver.DataClasses
 		{
 			tableItem.Name  = exportItem.Name;
 			tableItem.Description = exportItem.Description;
+			tableItem.IsDeleted = exportItem.IsDeleted;
+			tableItem.RemovalDate = exportItem.RemovalDate;
+		}
 
-			tableItem.OrganisationUID = GetUIDbyExternalKey(exportItem.OrganisationExternalKey, _DatabaseService.Context.Organisations);
+		protected override void UpdateForignKeys(ExportPosition exportItem, Position tableItem, OrganisationHRCash hrCash)
+		{
+			tableItem.OrganisationUID = hrCash.OrganisationUID;
 		}
     }
 }

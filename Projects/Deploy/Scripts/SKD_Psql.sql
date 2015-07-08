@@ -37,7 +37,7 @@ CREATE TABLE "Employee"(
 	"SecondName" character varying(50),
 	"LastName" character varying(50),
 	"ScheduleStartDate" timestamp NOT NULL,
-	"Type" character varying(50) NOT NULL,
+	"Type" int NOT NULL,
 	"TabelNo" character varying(40),
 	"CredentialsStartDate" timestamp NOT NULL,
 	"IsDeleted" boolean NOT NULL,

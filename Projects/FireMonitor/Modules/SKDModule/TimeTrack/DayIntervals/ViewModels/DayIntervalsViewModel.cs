@@ -38,7 +38,7 @@ namespace SKDModule.ViewModels
 		public void Initialize()
 		{
 			var filter = new DayIntervalFilter() { UserUID = FiresecManager.CurrentUser.UID, LogicalDeletationType = LogicalDeletationType };
-			BeginInitialize(filter);
+			Initialize(filter);
 		}
 
 		protected override void OnEditOrganisation(Organisation newOrganisation)

@@ -8,9 +8,9 @@ namespace SKDModule.ViewModels
 {
 	public class AccessTemplatesViewModel : OrganisationBaseViewModel<AccessTemplate, AccessTemplateFilter, AccessTemplateViewModel, AccessTemplateDetailsViewModel>, ICardDoorsParentList<AccessTemplateViewModel>
 	{
-		public override void BeginInitialize(AccessTemplateFilter filter)
+		public override void Initialize(AccessTemplateFilter filter)
 		{
-			base.BeginInitialize(filter);
+			base.Initialize(filter);
 			_updateOrganisationDoorsEventSubscriber = new UpdateOrganisationDoorsEventSubscriber<AccessTemplateViewModel>(this);
 		}
 

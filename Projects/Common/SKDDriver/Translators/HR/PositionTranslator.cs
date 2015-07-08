@@ -19,7 +19,10 @@ namespace SKDDriver.DataClasses
 			Synchroniser = new PositionSynchroniser(Table, DbService);
         }
 
-        
+		public override System.Linq.IQueryable<Position> GetFilteredTableItems(API.PositionFilter filter, System.Linq.IQueryable<Position> tableItems)
+		{
+			return base.GetFilteredTableItems(filter, tableItems);
+		}
 
 		public override DbSet<Position> Table
 		{
@@ -42,6 +45,11 @@ namespace SKDDriver.DataClasses
 		{
 			base.TranslateBack(apiItem, tableItem);
 			tableItem.Photo = Photo.Create(apiItem.Photo);
+		}
+
+		public override OperationResult<bool> Save(API.Position item)
+		{
+			return base.Save(item);
 		}
 
 		protected override void ClearDependentData(Position tableItem)

@@ -27,13 +27,13 @@ namespace SKDModule.ViewModels
             
 		}
 
-		//public override void Initialize(EmployeeFilter filter)
-		//{
-		//	base.Initialize(filter);
-		//	PersonType = filter.PersonType;
-		//	InitializeAdditionalColumns();
-		//	ServiceFactory.Events.GetEvent<ChangeEmployeeGuestEvent>().Publish(null);
-		//}
+		public override void Initialize(EmployeeFilter filter)
+		{
+			base.Initialize(filter);
+			PersonType = filter.PersonType;
+			InitializeAdditionalColumns();
+			ServiceFactory.Events.GetEvent<ChangeEmployeeGuestEvent>().Publish(null);
+		}
 
 		protected override void OnOrganisationUsersChanged(Organisation newOrganisation)
 		{

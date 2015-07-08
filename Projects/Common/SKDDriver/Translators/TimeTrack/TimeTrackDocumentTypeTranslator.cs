@@ -29,18 +29,9 @@ namespace SKDDriver.DataClasses
                 if (tableTimeTrackDocumentTypes != null)
                 {
                     var timeTrackDocumentTypes = new List<API.TimeTrackDocumentType>();
-                    foreach (var tableTimeTrackDocumentType in tableTimeTrackDocumentTypes)
+					foreach (var tableItem in tableTimeTrackDocumentTypes)
                     {
-                        var timeTrackDocumentType = new API.TimeTrackDocumentType()
-                        {
-                            UID = tableTimeTrackDocumentType.UID,
-                            OrganisationUID = tableTimeTrackDocumentType.OrganisationUID.Value,
-                            Name = tableTimeTrackDocumentType.Name,
-                            ShortName = tableTimeTrackDocumentType.ShortName,
-                            Code = tableTimeTrackDocumentType.DocumentCode,
-                            DocumentType = (API.DocumentType)tableTimeTrackDocumentType.DocumentType,
-                        };
-                        timeTrackDocumentTypes.Add(timeTrackDocumentType);
+                        timeTrackDocumentTypes.Add(Translate(tableItem));
                     }
                     return new OperationResult<List<API.TimeTrackDocumentType>>(timeTrackDocumentTypes);
                 }
@@ -51,6 +42,19 @@ namespace SKDDriver.DataClasses
                 return OperationResult<List<API.TimeTrackDocumentType>>.FromError(e.Message);
             }
         }
+
+		public API.TimeTrackDocumentType Translate(TimeTrackDocumentType tableItem)
+		{
+			return new API.TimeTrackDocumentType()
+			{
+				UID = tableItem.UID,
+				OrganisationUID = tableItem.OrganisationUID.Value,
+				Name = tableItem.Name,
+				ShortName = tableItem.ShortName,
+				Code = tableItem.DocumentCode,
+				DocumentType = (API.DocumentType)tableItem.DocumentType,
+			};
+		}
 
         public OperationResult AddTimeTrackDocumentType(API.TimeTrackDocumentType timeTrackDocumentType)
         {

@@ -122,5 +122,10 @@ namespace SKDModule.ViewModels
 		{
 			return dbCallbackResult.Positions;
 		}
+
+		public override void Initialize(PositionFilter filter)
+		{
+			base.Initialize(filter);
+		}
 	}
 }

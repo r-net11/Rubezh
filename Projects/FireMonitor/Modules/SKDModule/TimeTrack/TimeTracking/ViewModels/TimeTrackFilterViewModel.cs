@@ -28,11 +28,11 @@ namespace SKDModule.ViewModels
 		void InitializeFilter(TimeTrackFilter timeTrackFilter)
 		{
 			EmployeeFilterViewModel = new EmployeesFilterViewModel();
-			EmployeeFilterViewModel.BeginInitialize(timeTrackFilter.EmployeeFilter);
+			EmployeeFilterViewModel.Initialize(timeTrackFilter.EmployeeFilter);
 			DepartmentsFilterViewModel = new DepartmentsFilterViewModel();
-			DepartmentsFilterViewModel.BeginInitialize(new DepartmentFilter { UIDs = Filter.EmployeeFilter.DepartmentUIDs });
+			DepartmentsFilterViewModel.Initialize(new DepartmentFilter { UIDs = Filter.EmployeeFilter.DepartmentUIDs });
 			PositionsFilterViewModel = new PositionsFilterViewModel();
-			PositionsFilterViewModel.BeginInitialize(new PositionFilter { UIDs = Filter.EmployeeFilter.PositionUIDs });
+			PositionsFilterViewModel.Initialize(new PositionFilter { UIDs = Filter.EmployeeFilter.PositionUIDs });
 
 			Periods = new ObservableCollection<TimeTrackingPeriod>(Enum.GetValues(typeof(TimeTrackingPeriod)).OfType<TimeTrackingPeriod>());
 			Period = timeTrackFilter.Period;

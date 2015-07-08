@@ -44,12 +44,12 @@ namespace SKDDriver.DataClasses
 			};
 		}
 
-        protected override void UpdateForignKeys(FiresecAPI.SKD.ExportEmployee exportItem, Employee tableItem)
+        protected override void UpdateForignKeys(FiresecAPI.SKD.ExportEmployee exportItem, Employee tableItem, OrganisationHRCash hrCash)
 		{
-			tableItem.OrganisationUID = GetUIDbyExternalKey(exportItem.OrganisationExternalKey, _DatabaseService.Context.Organisations);
-			tableItem.PositionUID = GetUIDbyExternalKey(exportItem.PositionExternalKey, _DatabaseService.Context.Positions);
-			tableItem.DepartmentUID = GetUIDbyExternalKey(exportItem.DepartmentExternalKey, _DatabaseService.Context.Departments);
-			tableItem.EscortUID = GetUIDbyExternalKey(exportItem.EscortExternalKey, _DatabaseService.Context.Employees);
+			tableItem.OrganisationUID = hrCash.OrganisationUID;
+			tableItem.PositionUID = GetUIDbyExternalKey(exportItem.PositionExternalKey, hrCash.Positions);
+			tableItem.DepartmentUID = GetUIDbyExternalKey(exportItem.DepartmentExternalKey, hrCash.Departments);
+			tableItem.EscortUID = GetUIDbyExternalKey(exportItem.EscortExternalKey, hrCash.Employees);
 		}
 
 		protected override IQueryable<Employee> GetFilteredItems(FiresecAPI.SKD.ExportFilter filter)
@@ -76,6 +76,8 @@ namespace SKDDriver.DataClasses
 			tableItem.Type = exportItem.Type;
             tableItem.LastEmployeeDayUpdate = DbServiceHelper.CheckDate(exportItem.LastEmployeeDayUpdate);
             tableItem.ScheduleStartDate = DbServiceHelper.CheckDate(exportItem.ScheduleStartDate);
+			tableItem.IsDeleted = exportItem.IsDeleted;
+			tableItem.RemovalDate = exportItem.RemovalDate;
 		}
 
 		protected override string XmlHeaderName

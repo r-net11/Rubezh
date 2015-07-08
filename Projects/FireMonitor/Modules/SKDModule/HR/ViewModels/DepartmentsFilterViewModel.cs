@@ -19,7 +19,7 @@ namespace SKDModule.ViewModels
 		public override void Initialize(DepartmentFilter filter)
 		{
 			var emptyFilter = new DepartmentFilter { LogicalDeletationType = filter.LogicalDeletationType, OrganisationUIDs = filter.OrganisationUIDs };
-			base.BeginInitialize(emptyFilter);
+			base.Initialize(emptyFilter);
 			var models = Organisations.SelectMany(x => x.Children);
 			SetSelected(models, filter.UIDs ?? new List<Guid>());
 		}
@@ -27,14 +27,14 @@ namespace SKDModule.ViewModels
 		public void Initialize(List<Guid> uids, LogicalDeletationType logicalDeletationType = LogicalDeletationType.Active)
 		{
 			var filter = new DepartmentFilter { LogicalDeletationType = logicalDeletationType, UIDs = uids };
-			BeginInitialize(filter);
+			Initialize(filter);
 		}
 
 
 		public void Initialize(List<Guid> uids, List<Guid> organisationUIDs, LogicalDeletationType logicalDeletationType = LogicalDeletationType.Active)
 		{
 			var filter = new DepartmentFilter { LogicalDeletationType = logicalDeletationType, UIDs = uids, OrganisationUIDs = organisationUIDs };
-			BeginInitialize(filter);
+			Initialize(filter);
 		}
 
 		public RelayCommand SelectAllCommand { get; private set; }

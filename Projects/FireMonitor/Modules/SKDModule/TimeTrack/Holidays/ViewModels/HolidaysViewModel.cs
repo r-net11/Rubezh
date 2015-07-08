@@ -70,14 +70,14 @@ namespace SKDModule.ViewModels
 				OnPropertyChanged(() => SelectedYear);
 
 				var filter = new HolidayFilter() { UserUID = FiresecManager.CurrentUser.UID, Year = value, LogicalDeletationType = LogicalDeletationType };
-				BeginInitialize(filter);
+				Initialize(filter);
 			}
 		}
 
 		public void Initialize()
 		{
 			var filter = new HolidayFilter() { UserUID = FiresecManager.CurrentUser.UID, Year = SelectedYear, LogicalDeletationType = LogicalDeletationType };
-			BeginInitialize(filter);
+			Initialize(filter);
 		}
 
 		protected override bool Add(Holiday item)

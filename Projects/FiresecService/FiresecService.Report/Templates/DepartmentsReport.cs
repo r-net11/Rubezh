@@ -48,7 +48,8 @@ namespace FiresecService.Report.Templates
 				row.Department = department.Name;
 				row.Phone = department.Item.Phone;
 				row.Chief = employees.Where(item => item.UID == department.Item.ChiefUID).Select(item => item.Name).FirstOrDefault();
-				row.ParentDepartment = department.Item.ParentDepartmentUID.HasValue ? dataProvider.Departments[department.Item.ParentDepartmentUID.Value].Name : string.Empty;
+				var parent = dataProvider.Departments[department.Item.ParentDepartmentUID];
+				row.ParentDepartment = parent != null ? parent.Name : string.Empty;
 				row.Description = department.Item.Description;
 				row.IsArchive = department.IsDeleted;
 				var parents = GetParents(dataProvider, department);
@@ -97,9 +98,9 @@ namespace FiresecService.Report.Templates
 		private List<OrganisationBaseObjectInfo<Department>> GetParents(DataProvider dataProvider, OrganisationBaseObjectInfo<Department> department)
 		{
 			var parents = new List<OrganisationBaseObjectInfo<Department>>();
-			for (OrganisationBaseObjectInfo<Department> current = department; current.Item.ParentDepartmentUID.HasValue; )
+			for (OrganisationBaseObjectInfo<Department> current = department; current.Item.ParentDepartmentUID != Guid.Empty; )
 			{
-				current = dataProvider.Departments[current.Item.ParentDepartmentUID.Value];
+				current = dataProvider.Departments[current.Item.ParentDepartmentUID];
 				parents.Insert(0, current);
 			}
 			parents.Add(department);

@@ -34,11 +34,11 @@ namespace SKDDriver
 			return base.GetFilteredItems(filter).Where(x => x.OrganisationUID == filter.OrganisationUID);
 		}
 
-        protected override void UpdateForignKeys(FiresecAPI.SKD.ExportDepartment exportItem, Department tableItem)
+        protected override void UpdateForignKeys(FiresecAPI.SKD.ExportDepartment exportItem, Department tableItem, OrganisationHRCash hrCash)
 		{
-			tableItem.OrganisationUID = GetUIDbyExternalKey(exportItem.OrganisationExternalKey, _DatabaseService.Context.Organisations);
-			tableItem.ParentDepartmentUID = GetUIDbyExternalKey(exportItem.ParentDepartmentExternalKey, _DatabaseService.Context.Departments);
-			tableItem.ChiefUID = GetUIDbyExternalKey(exportItem.ChiefExternalKey, _DatabaseService.Context.Employees);
+			tableItem.OrganisationUID = hrCash.OrganisationUID;
+			tableItem.ParentDepartmentUID = GetUIDbyExternalKey(exportItem.ParentDepartmentExternalKey, hrCash.Departments);
+			tableItem.ChiefUID = GetUIDbyExternalKey(exportItem.ChiefExternalKey, hrCash.Employees);
 		}
 
         public override void TranslateBack(FiresecAPI.SKD.ExportDepartment exportItem, Department tableItem)
@@ -46,6 +46,8 @@ namespace SKDDriver
 			tableItem.Name = exportItem.Name;
 			tableItem.Description = exportItem.Description; 
 			tableItem.Phone = exportItem.Phone;
+			tableItem.IsDeleted = exportItem.IsDeleted;
+			tableItem.RemovalDate = exportItem.RemovalDate;
 		}
 
         protected override void BeforeSave(List<FiresecAPI.SKD.ExportDepartment> exportItems)

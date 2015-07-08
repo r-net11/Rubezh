@@ -206,6 +206,7 @@ namespace SKDModule.ViewModels
 				_selectedPersonType = value;
 				OnPropertyChanged(() => SelectedPersonType);
 				InitializeEmployeeFilter();
+				EmployeesViewModel.Initialize(EmployeeFilter);
 			}
 		}
 
@@ -253,28 +254,15 @@ namespace SKDModule.ViewModels
 			InitializeEmployeeFilter();
             
             
-            //DepartmentsViewModel.Initialize(DepartmentFilter);
-            //PositionsViewModel.Initialize(PositionFilter);
-            //AdditionalColumnTypesViewModel.Initialize(AdditionalColumnTypeFilter);
-            //CardsViewModel.Initialize();
-            //AccessTemplatesViewModel.Initialize(AccessTemplateFilter);
-            //PassCardTemplatesViewModel.Initialize(PassCardTemplateFilter);
-            //OrganisationsViewModel.Initialize(Filter.LogicalDeletationType);
-			//EmployeesViewModel.BeginInitialize(EmployeeFilter);
+            DepartmentsViewModel.Initialize(DepartmentFilter);
+            PositionsViewModel.Initialize(PositionFilter);
+            AdditionalColumnTypesViewModel.Initialize(AdditionalColumnTypeFilter);
+			CardsViewModel.Initialize(CardFilter);
+            AccessTemplatesViewModel.Initialize(AccessTemplateFilter);
+            PassCardTemplatesViewModel.Initialize(PassCardTemplateFilter);
+            OrganisationsViewModel.Initialize(Filter.LogicalDeletationType);
+			EmployeesViewModel.Initialize(EmployeeFilter);
             
-            
-
-            var hrViewModel = new FiresecAPI.SKD.HRFilter
-            {
-                AccessTemplateFilter = AccessTemplateFilter,
-                AdditionalColumnTypeFilter = AdditionalColumnTypeFilter,
-                CardFilter = CardFilter,
-                DepartmentFilter = DepartmentFilter,
-                EmployeeFilter = EmployeeFilter,
-                PassCardTemplateFilter = PassCardTemplateFilter,
-                PositionFilter = PositionFilter
-            };
-           // FiresecManager.FiresecService.BeginGetAsync(hrViewModel);
             ServiceFactory.Events.GetEvent<ChangeIsDeletedEvent>().Publish(Filter.LogicalDeletationType);
 			ServiceFactory.Events.GetEvent<UpdateFilterEvent>().Publish(Filter);
 		}
@@ -306,6 +294,21 @@ namespace SKDModule.ViewModels
 			OnPropertyChanged(() => CanSelectAccessTemplates);
 			OnPropertyChanged(() => CanSelectPassCardTemplates);
 			OnPropertyChanged(() => CanSelectOrganisations);
+		}
+
+		void BeginGetAsync()
+		{
+			var hrViewModel = new FiresecAPI.SKD.HRFilter
+			{
+				AccessTemplateFilter = AccessTemplateFilter,
+				AdditionalColumnTypeFilter = AdditionalColumnTypeFilter,
+				CardFilter = CardFilter,
+				DepartmentFilter = DepartmentFilter,
+				EmployeeFilter = EmployeeFilter,
+				PassCardTemplateFilter = PassCardTemplateFilter,
+				PositionFilter = PositionFilter
+			};
+			FiresecManager.FiresecService.BeginGetAsync(hrViewModel);
 		}
 	}
 }

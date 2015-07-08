@@ -136,7 +136,7 @@ namespace SKDModule.ViewModels
 		 
 		protected override void OnPaste()
 		{
-			Guid? parentDepartmentUID = null;
+			var parentDepartmentUID = Guid.Empty;
 			if (SelectedItem.Parent != null && !SelectedItem.Parent.IsOrganisation)
 				parentDepartmentUID = SelectedItem.Parent.Model.UID;
 			_clipboard.ParentDepartmentUID = parentDepartmentUID;

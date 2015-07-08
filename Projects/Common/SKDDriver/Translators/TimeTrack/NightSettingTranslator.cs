@@ -49,19 +49,23 @@ namespace SKDDriver.DataClasses
                 var tableItem = Context.NightSettings.FirstOrDefault(x => x.OrganisationUID == organisationUID);
                 if (tableItem == null)
                     return OperationResult<API.NightSettings>.FromError("Настройки ночных и вечерних интервалов для данной организации не найдены");
-                var result = new API.NightSettings
-                {
-                    UID = tableItem.UID,
-                    NightEndTime = TimeSpan.FromMinutes(tableItem.NightEndTime),
-                    NightStartTime = TimeSpan.FromMinutes(tableItem.NightStartTime),
-                    OrganisationUID = tableItem.OrganisationUID.GetValueOrDefault()
-                };      
-                return new OperationResult<API.NightSettings>(result);
+                return new OperationResult<API.NightSettings>(Transalte(tableItem));
             }
             catch (Exception e)
             {
                 return OperationResult<API.NightSettings>.FromError(e.Message);
             }
         }
+
+		public API.NightSettings Transalte(NightSetting tableItem)
+		{
+			return new API.NightSettings
+			{
+				UID = tableItem.UID,
+				NightEndTime = TimeSpan.FromMinutes(tableItem.NightEndTime),
+				NightStartTime = TimeSpan.FromMinutes(tableItem.NightStartTime),
+				OrganisationUID = tableItem.OrganisationUID.GetValueOrDefault()
+			};      
+		}
     }
 }

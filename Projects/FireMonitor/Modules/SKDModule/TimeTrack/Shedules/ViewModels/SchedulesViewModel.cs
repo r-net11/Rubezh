@@ -38,7 +38,7 @@ namespace SKDModule.ViewModels
 				UserUID = FiresecManager.CurrentUser.UID,
 				LogicalDeletationType = LogicalDeletationType
 			};
-			BeginInitialize(filter);
+			Initialize(filter);
 		}
 
 		protected override void OnEditOrganisation(Organisation newOrganisation)
@@ -153,7 +153,7 @@ namespace SKDModule.ViewModels
 				LogicalDeletationType = LogicalDeletationType,
 				EmployeeUIDs = hrFilter.EmplooyeeUIDs
 			};
-			BeginInitialize(filter);
+			Initialize(filter);
 		}
 
 		public RelayCommand ShowSettingsCommand { get; private set; }

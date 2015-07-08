@@ -33,7 +33,7 @@ namespace SKDModule.ViewModels
 		public void Initialize()
 		{
 			var filter = new ScheduleSchemeFilter() { UserUID = FiresecManager.CurrentUser.UID, LogicalDeletationType = LogicalDeletationType };
-			BeginInitialize(filter);
+			Initialize(filter);
 		}
 
 		public override void OnShow()
