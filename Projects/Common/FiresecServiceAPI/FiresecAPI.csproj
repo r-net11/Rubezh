@@ -174,7 +174,6 @@
     <Compile Include="Models\Automation\StepArguments\ControlDelayArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlGKDoorArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlPlanArguments.cs" />
-    <Compile Include="Models\Automation\StepArguments\ControlSKDZoneArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlVisualArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ExportJournalArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ForArguments.cs" />
@@ -185,11 +184,9 @@
     <Compile Include="Models\Automation\StepArguments\GetObjectPropertyArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\JournalArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlDirectionArguments.cs" />
-    <Compile Include="Models\Automation\StepArguments\ControlDoorArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlGKDeviceArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlGKFireZoneArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlGKGuardZoneArguments.cs" />
-    <Compile Include="Models\Automation\StepArguments\ControlSKDDeviceArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\IncrementValueArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ProcedureLayoutCollection.cs" />
     <Compile Include="Models\Automation\StepArguments\PtzArguments.cs" />

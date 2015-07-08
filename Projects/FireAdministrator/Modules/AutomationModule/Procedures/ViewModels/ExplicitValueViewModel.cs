@@ -21,10 +21,7 @@ namespace AutomationModule.ViewModels
 		public GKDelay Delay { get; private set; }
 		public GKZone Zone { get; private set; }
 		public GKGuardZone GuardZone { get; private set; }
-		public SKDDevice SKDDevice { get; private set; }
-		public SKDZone SKDZone { get; private set; }
 		public Camera Camera { get; private set; }
-		public SKDDoor SKDDoor { get; private set; }
 		public GKDoor GKDoor { get; private set; }
 		public GKDirection Direction { get; private set; }
 		public Organisation Organisation { get; private set; }
@@ -80,14 +77,8 @@ namespace AutomationModule.ViewModels
 					return Zone.PresentationName;
 				if (GuardZone != null)
 					return GuardZone.PresentationName;
-				if (SKDDevice != null)
-					return SKDDevice.Name;
-				if (SKDZone != null)
-					return SKDZone.PresentationName;
 				if (Camera != null)
 					return Camera.PresentationName;
-				if (SKDDoor != null)
-					return SKDDoor.PresentationName;
 				if (GKDoor != null)
 					return GKDoor.PresentationName;
 				if (Direction != null)
@@ -256,12 +247,12 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				return ((Device == null) && (Zone == null) && (GuardZone == null) && (SKDDevice == null) && (SKDZone == null) && (Camera == null) && (Direction == null) && (SKDDoor == null) && (GKDoor == null) && (Delay == null) && (Organisation == null));
+				return ((Device == null) && (Zone == null) && (GuardZone == null) && (Camera == null) && (Direction == null) && (GKDoor == null) && (Delay == null) && (Organisation == null));
 			}
 			set
 			{
 				if (value)
-					Device = null; Zone = null; GuardZone = null; SKDDevice = null; SKDZone = null; Camera = null; Direction = null; SKDDoor = null; GKDoor = null; Delay = null; Organisation = null;
+					Device = null; Zone = null; GuardZone = null; Camera = null; Direction = null; GKDoor = null; Delay = null; Organisation = null;
 			}
 		}
 

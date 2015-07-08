@@ -18,9 +18,8 @@ namespace AutomationModule.ViewModels
 			Name = procedureStepType.ToDescription();
 			IsFolder = false;
 			if ((procedureStepType == ProcedureStepType.ControlDirection)
-				|| (procedureStepType == ProcedureStepType.ControlDoor) || (procedureStepType == ProcedureStepType.ControlGKDevice) || (procedureStepType == ProcedureStepType.ControlGKDoor)
+				|| (procedureStepType == ProcedureStepType.ControlGKDevice) || (procedureStepType == ProcedureStepType.ControlGKDoor)
 				|| (procedureStepType == ProcedureStepType.ControlGKFireZone) || (procedureStepType == ProcedureStepType.ControlGKGuardZone)
-				|| (procedureStepType == ProcedureStepType.ControlSKDDevice) || (procedureStepType == ProcedureStepType.ControlSKDZone)
 				|| (procedureStepType == ProcedureStepType.ControlDelay) || (procedureStepType == ProcedureStepType.Ptz)
 				|| (procedureStepType == ProcedureStepType.StartRecord) || (procedureStepType == ProcedureStepType.StopRecord) || (procedureStepType == ProcedureStepType.RviAlarm))
 				ImageSource = "/Controls;component/StepIcons/Control.png";

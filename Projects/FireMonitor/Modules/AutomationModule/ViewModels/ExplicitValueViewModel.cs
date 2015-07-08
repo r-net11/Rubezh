@@ -21,10 +21,7 @@ namespace AutomationModule.ViewModels
 		public GKDelay Delay { get; private set; }
 		public GKZone Zone { get; private set; }
 		public GKGuardZone GuardZone { get; private set; }
-		public SKDDevice SKDDevice { get; private set; }
-		public SKDZone SKDZone { get; private set; }
 		public Camera Camera { get; private set; }
-		public SKDDoor SKDDoor { get; private set; }
 		public GKDirection Direction { get; private set; }
 		public ExplicitValue ExplicitValue { get; private set; }
 
@@ -48,10 +45,7 @@ namespace AutomationModule.ViewModels
 			Device = GKManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == uidValue);
 			Zone = GKManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == uidValue);
 			GuardZone = GKManager.DeviceConfiguration.GuardZones.FirstOrDefault(x => x.UID == uidValue);
-			SKDDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == uidValue);
-			SKDZone = SKDManager.Zones.FirstOrDefault(x => x.UID == uidValue);
 			Camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == uidValue);
-			SKDDoor = SKDManager.Doors.FirstOrDefault(x => x.UID == uidValue);
 			Direction = GKManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == uidValue);
 			Delay = GKManager.DeviceConfiguration.Delays.FirstOrDefault(x => x.UID == uidValue);
 			base.OnPropertyChanged(() => PresentationName);
@@ -67,14 +61,8 @@ namespace AutomationModule.ViewModels
 					return Zone.PresentationName;
 				if (GuardZone != null)
 					return GuardZone.PresentationName;
-				if (SKDDevice != null)
-					return SKDDevice.Name;
-				if (SKDZone != null)
-					return SKDZone.PresentationName;
 				if (Camera != null)
 					return Camera.PresentationName;
-				if (SKDDoor != null)
-					return SKDDoor.PresentationName;
 				if (Direction != null)
 					return Direction.PresentationName;
 				if (Delay != null)
@@ -161,12 +149,12 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				return ((Device == null) && (Zone == null) && (GuardZone == null) && (SKDDevice == null) && (SKDZone == null) && (Camera == null) && (Direction == null) && (SKDDoor == null) && (Delay == null));
+				return ((Device == null) && (Zone == null) && (GuardZone == null) && (Camera == null) && (Direction == null) && (Delay == null));
 			}
 			set
 			{
 				if (value)
-					Device = null; Zone = null; GuardZone = null; SKDDevice = null; SKDZone = null; Camera = null; Direction = null; SKDDoor = null; Delay = null;
+					Device = null; Zone = null; GuardZone = null; Camera = null; Direction = null; Delay = null;
 			}
 		}
 	}

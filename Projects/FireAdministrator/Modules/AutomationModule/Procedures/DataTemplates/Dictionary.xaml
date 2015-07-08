@@ -44,20 +44,12 @@
 		<Views:DeviceSelectionView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:SKDDeviceSelectionViewModel}">
-		<Views:SKDDeviceSelectionView />
-	</DataTemplate>
-
 	<DataTemplate DataType="{x:Type ViewModels:ZoneSelectionViewModel}">
 		<Views:ZoneSelectionView />
 	</DataTemplate>
 
 	<DataTemplate DataType="{x:Type ViewModels:GuardZoneSelectionViewModel}">
 		<Views:GuardZoneSelectionView />
-	</DataTemplate>
-
-	<DataTemplate DataType="{x:Type ViewModels:SKDZoneSelectionViewModel}">
-		<Views:SKDZoneSelectionView />
 	</DataTemplate>
 
 	<DataTemplate DataType="{x:Type ViewModels:CameraSelectionViewModel}">
@@ -70,10 +62,6 @@
 	
 	<DataTemplate DataType="{x:Type ViewModels:DirectionSelectionViewModel}">
 		<Views:DirectionSelectionView />
-	</DataTemplate>
-
-	<DataTemplate DataType="{x:Type ViewModels:DoorSelectionViewModel}">
-		<Views:DoorSelectionView />
 	</DataTemplate>
 
 	<DataTemplate DataType="{x:Type ViewModels:GKDoorSelectionViewModel}">
@@ -140,10 +128,6 @@
 		<Views:ControlGKDeviceStepView />
 	</DataTemplate>
 
-	<DataTemplate x:Key="controlSKDDeviceTemplate">
-		<Views:ControlSKDDeviceStepView />
-	</DataTemplate>
-
 	<DataTemplate x:Key="controlGKFireZoneTemplate">
 		<Views:ControlGKFireZoneStepView />
 	</DataTemplate>
@@ -152,16 +136,8 @@
 		<Views:ControlGKGuardZoneStepView />
 	</DataTemplate>
 
-	<DataTemplate x:Key="controlSKDZoneTemplate">
-		<Views:ControlSKDZoneStepView />
-	</DataTemplate>
-
 	<DataTemplate x:Key="controlDirectionTemplate">
 		<Views:ControlDirectionStepView />
-	</DataTemplate>
-
-	<DataTemplate x:Key="controlDoorTemplate">
-		<Views:ControlDoorStepView />
 	</DataTemplate>
 
 	<DataTemplate x:Key="controlGKDoorTemplate">
@@ -278,14 +254,11 @@
 										 CheckPermissionTemplate="{StaticResource checkPermissionTemplate}"
 										 ConditionTemplate="{StaticResource conditionTemplate}"
 										 ControlDirectionTemplate="{StaticResource controlDirectionTemplate}"
-										 ControlDoorTemplate="{StaticResource controlDoorTemplate}"
 										 ControlGKDoorTemplate="{StaticResource controlGKDoorTemplate}"
 										 ControlGKDeviceTemplate="{StaticResource controlGKDeviceTemplate}"
 										 ControlGKFireZoneTemplate="{StaticResource controlGKFireZoneTemplate}"
 										 ControlGKGuardZoneTemplate="{StaticResource controlGKGuardZoneTemplate}"
 										 ControlPlanTemplate="{StaticResource controlPlanTemplate}"
-										 ControlSKDDeviceTemplate="{StaticResource controlSKDDeviceTemplate}"
-										 ControlSKDZoneTemplate="{StaticResource controlSKDZoneTemplate}"
 										 ControlVisualTemplate="{StaticResource controlVisualTemplate}"
 										 ExitTemplate="{StaticResource exitTemplate}"
 										 FindObjectTemplate="{StaticResource findObjectTemplate}"

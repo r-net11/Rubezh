@@ -235,13 +235,6 @@ namespace FiresecAPI.Automation
 					}
 					break;
 
-				case ProcedureStepType.ControlSKDDevice:
-					{
-						var controlSKDDeviceArguments = step.ControlSKDDeviceArguments;
-						InvalidateArgument(procedure, controlSKDDeviceArguments.SKDDeviceArgument);
-					}
-					break;
-
 				case ProcedureStepType.ControlGKFireZone:
 					{
 						var controlGKFireZoneArguments = step.ControlGKFireZoneArguments;
@@ -263,24 +256,10 @@ namespace FiresecAPI.Automation
 					}
 					break;
 
-				case ProcedureStepType.ControlDoor:
-					{
-						var controlDoorArguments = step.ControlDoorArguments;
-						InvalidateArgument(procedure, controlDoorArguments.DoorArgument);
-					}
-					break;
-
 				case ProcedureStepType.ControlGKDoor:
 					{
 						var controlGKDoorArguments = step.ControlGKDoorArguments;
 						InvalidateArgument(procedure, controlGKDoorArguments.DoorArgument);
-					}
-					break;
-
-				case ProcedureStepType.ControlSKDZone:
-					{
-						var controlSKDZoneArguments = step.ControlSKDZoneArguments;
-						InvalidateArgument(procedure, controlSKDZoneArguments.SKDZoneArgument);
 					}
 					break;
 

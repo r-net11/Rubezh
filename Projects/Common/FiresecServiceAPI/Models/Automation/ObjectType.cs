@@ -16,20 +16,11 @@ namespace FiresecAPI.Automation
 		[DescriptionAttribute("Задержка")]
 		Delay,
 
-		[DescriptionAttribute("СКД-устройство")]
-		SKDDevice,
-
-		[DescriptionAttribute("СКД-зона")]
-		SKDZone,
-
 		[DescriptionAttribute("Охранная зона")]
 		GuardZone,
 		
 		[DescriptionAttribute("Видеоустройство")]
 		VideoDevice,
-
-		[DescriptionAttribute("Точка доступа")]
-		Door,
 
 		[DescriptionAttribute("Точка доступа ГК")]
 		GKDoor,

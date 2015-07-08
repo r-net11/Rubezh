@@ -768,14 +768,6 @@ namespace FiresecService
 				FiresecServiceManager.SafeFiresecService.GKTurnOnNow(directionUid, GKBaseObjectType.Direction);
 		}
 
-		void ControlDoor(ProcedureStep procedureStep)
-		{
-			var doorUid = GetValue<Guid>(procedureStep.ControlDoorArguments.DoorArgument);
-			var door = SKDManager.Doors.FirstOrDefault(x => x.UID == doorUid);
-			if (door == null)
-				return;
-		}
-
 		void ControlGKDoor(ProcedureStep procedureStep)
 		{
 			var doorUid = GetValue<Guid>(procedureStep.ControlGKDoorArguments.DoorArgument);
@@ -813,14 +805,6 @@ namespace FiresecService
 				FiresecServiceManager.SafeFiresecService.GKSetAutomaticRegime(door.UID, GKBaseObjectType.Door);
 				FiresecServiceManager.SafeFiresecService.GKTurnOff(door.UID, GKBaseObjectType.Door);
 			}
-		}
-
-		void ControlSKDZone(ProcedureStep procedureStep)
-		{
-			var sKDZoneUid = GetValue<Guid>(procedureStep.ControlSKDZoneArguments.SKDZoneArgument);
-			var sKDZone = SKDManager.Zones.FirstOrDefault(x => x.UID == sKDZoneUid);
-			if (sKDZone == null)
-				return;
 		}
 
 		void ControlDelay(ProcedureStep procedureStep)

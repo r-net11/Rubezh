@@ -93,36 +93,6 @@ namespace AutomationModule
 				}
 			}
 
-			if (objectType == ObjectType.SKDDevice)
-			{
-				var skdDeviceSelectationViewModel = new SKDDeviceSelectionViewModel(currentExplicitValue.SKDDevice != null ? currentExplicitValue.SKDDevice : null);
-				if (DialogService.ShowModalWindow(skdDeviceSelectationViewModel))
-				{
-					currentExplicitValue.UidValue = skdDeviceSelectationViewModel.SelectedDevice != null ? skdDeviceSelectationViewModel.SelectedDevice.SKDDevice.UID : Guid.Empty;
-					return true;
-				}
-			}
-
-			if (objectType == ObjectType.SKDZone)
-			{
-				var skdZoneSelectationViewModel = new SKDZoneSelectionViewModel(currentExplicitValue.SKDZone != null ? currentExplicitValue.SKDZone : null);
-				if (DialogService.ShowModalWindow(skdZoneSelectationViewModel))
-				{
-					currentExplicitValue.UidValue = skdZoneSelectationViewModel.SelectedZone != null ? skdZoneSelectationViewModel.SelectedZone.SKDZone.UID : Guid.Empty;
-					return true;
-				}
-			}
-
-			if (objectType == ObjectType.Door)
-			{
-				var doorSelectationViewModel = new DoorSelectionViewModel(currentExplicitValue.SKDDoor != null ? currentExplicitValue.SKDDoor : null);
-				if (DialogService.ShowModalWindow(doorSelectationViewModel))
-				{
-					currentExplicitValue.UidValue = doorSelectationViewModel.SelectedDoor != null ? doorSelectationViewModel.SelectedDoor.Door.UID : Guid.Empty;
-					return true;
-				}
-			}
-
 			if (objectType == ObjectType.Direction)
 			{
 				var directionSelectationViewModel = new DirectionSelectionViewModel(currentExplicitValue.Direction != null ? currentExplicitValue.Direction : null);
