@@ -18,15 +18,6 @@ namespace SKDModule.ViewModels
 		public string PresentationName { get; private set; }
 		public int No { get; private set; }
 
-		public OrganisationDoorViewModel(Organisation organisation, SKDDoor door)
-		{
-			Organisation = organisation;
-			DoorUID = door.UID;
-			PresentationName = door.PresentationName;
-			No = door.No;
-			_isChecked = Organisation != null && Organisation.DoorUIDs.Contains(door.UID);
-		}
-
 		public OrganisationDoorViewModel(Organisation organisation, GKDoor door)
 		{
 			Organisation = organisation;

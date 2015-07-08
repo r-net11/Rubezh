@@ -166,15 +166,6 @@ namespace FiresecService.Report.Templates
 		public string EnterZoneName { get; private set; }
 		public string ExitZoneName { get; private set; }
 
-		public CommonDoor(SKDDoor door)
-		{
-			Name = door.PresentationName;
-			if (door.InDevice != null && door.InDevice.Zone != null)
-				EnterZoneName = door.InDevice.Zone.PresentationName;
-			if (door.OutDevice != null && door.OutDevice.Zone != null)
-				ExitZoneName = door.OutDevice.Zone.PresentationName;
-		}
-
 		public CommonDoor(GKDoor door)
 		{
 			Name = door.PresentationName;

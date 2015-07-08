@@ -10,12 +10,12 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class TimeTrackPartDetailsViewModel: SaveCancelDialogViewModel
+	public class TimeTrackPartDetailsViewModel : SaveCancelDialogViewModel
 	{
 		TimeSpan _EnterTime;
-		public TimeSpan EnterTime 
+		public TimeSpan EnterTime
 		{
-			get { return _EnterTime; } 
+			get { return _EnterTime; }
 			set
 			{
 				_EnterTime = value;
@@ -72,7 +72,7 @@ namespace SKDModule.ViewModels
 				{
 					Zones.Add(new TimeTrackZone(zone));
 				}
-				
+
 				SelectedZone = Zones.FirstOrDefault();
 			}
 		}
@@ -121,25 +121,16 @@ namespace SKDModule.ViewModels
 				MessageBoxService.Show("Невозможно добавить пересекающийся интервал");
 				return false;
 			}
-			return true;				 
+			return true;
 		}
 	}
 
 	public class TimeTrackZone
 	{
-		public SKDZone SKDZone { get; private set; }
 		public GKSKDZone GKSKDZone { get; private set; }
 		public Guid UID { get; private set; }
 		public string Name { get; private set; }
 		public string Description { get; private set; }
-
-		public TimeTrackZone(SKDZone zone)
-		{
-			SKDZone = zone;
-			UID = zone.UID;
-			Name = zone.PresentationName;
-			Description = zone.Description;
-		}
 
 		public TimeTrackZone(GKSKDZone zone)
 		{

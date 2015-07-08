@@ -99,21 +99,10 @@ namespace SKDModule.ViewModels
 		public int No { get; private set; }
 		public string Description { get; private set; }
 
-		public SelectationScheduleZoneViewModel(SKDZone zone, Guid doorUID)
-		{
-			DoorUID = doorUID;
-			ZoneUID = zone.UID;
-		//	Name = zone.PresentationName;
-			Name = zone.Name;
-			No = zone.No;
-			Description = zone.Description;
-		}
-
 		public SelectationScheduleZoneViewModel(GKSKDZone zone, Guid doorUID)
 		{
 			DoorUID = doorUID;
 			ZoneUID = zone.UID;
-		//	Name = zone.PresentationName;
 			Name = zone.Name;
 			No = zone.No;
 			Description = zone.Description;

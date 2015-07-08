@@ -87,20 +87,6 @@ namespace FiresecService
 			return deviceConfiguration;
 		}
 
-		static SKDConfiguration GetSKDConfiguration()
-		{
-			var skdConfiguration = (SKDConfiguration)GetConfiguration("SKDConfiguration.xml", typeof(SKDConfiguration));
-			if (skdConfiguration != null)
-			{
-				skdConfiguration.AfterLoad();
-			}
-			else
-			{
-				skdConfiguration = new SKDConfiguration();
-			}
-			return skdConfiguration;
-		}
-
 		static VersionedConfiguration GetConfiguration(string fileName, Type type)
 		{
 			try

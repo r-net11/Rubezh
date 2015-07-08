@@ -130,24 +130,7 @@ namespace SKDModule.Reports.ViewModels
 			UID = door.UID;
 			ImageSource = "/Controls;component/Images/Door.png";
 		}
-		public SKDObjectViewModel(SKDDevice device)
-		{
-			Name = device.Name;
-			UID = device.UID;
-			ImageSource = device.Driver.ImageSource;
-		}
-		public SKDObjectViewModel(SKDZone zone)
-		{
-			Name = zone.Name;
-			UID = zone.UID;
-			ImageSource = "/Controls;component/Images/Zone.png";
-		}
-		public SKDObjectViewModel(SKDDoor door)
-		{
-			Name = door.Name;
-			UID = door.UID;
-			ImageSource = "/Controls;component/Images/Door.png";
-		}
+
 		public SKDObjectViewModel(Camera camera)
 		{
 			Name = camera.Name;

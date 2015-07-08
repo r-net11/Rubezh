@@ -301,7 +301,7 @@ namespace FiresecClient
 			elementZone.SetZLayer(zone == null ? 50 : 60);
 			elementZone.BackgroundColor = zone == null ? System.Windows.Media.Colors.Black : System.Windows.Media.Colors.Green;
 		}
-		private static void UpdateSKDZoneType(IElementZone elementZone, SKDZone zone)
+		private static void UpdateSKDZoneType(IElementZone elementZone, GKSKDZone zone)
 		{
 			elementZone.SetZLayer(zone == null ? 50 : 60);
 			elementZone.BackgroundColor = zone == null ? System.Windows.Media.Colors.Black : System.Windows.Media.Colors.Green;

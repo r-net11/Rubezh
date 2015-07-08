@@ -145,27 +145,6 @@ namespace FiltersModule.ViewModels
 			ImageSource = "/Controls;component/Images/Door.png";
 		}
 
-		public ObjectViewModel(SKDDevice device)
-		{
-			Name = device.Name;
-			UID = device.UID;
-			ImageSource = device.Driver.ImageSource;
-		}
-
-		public ObjectViewModel(SKDZone zone)
-		{
-			Name = zone.Name;
-			UID = zone.UID;
-			ImageSource = "/Controls;component/Images/SKDZone.png";
-		}
-
-		public ObjectViewModel(SKDDoor door)
-		{
-			Name = door.Name;
-			UID = door.UID;
-			ImageSource = "/Controls;component/Images/Door.png";
-		}
-
 		public ObjectViewModel(FiresecAPI.Models.Camera camera)
 		{
 			Name = camera.Name;

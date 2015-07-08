@@ -21,7 +21,6 @@ namespace FireAdministrator.ViewModels
 	{
 		public PlansConfiguration PlansConfiguration;
 		public GKDeviceConfiguration GKDeviceConfiguration;
-		public SKDConfiguration SKDConfiguration;
 
 		public void Merge()
 		{
@@ -89,10 +88,6 @@ namespace FireAdministrator.ViewModels
 
 						case "GKDeviceConfiguration.xml":
 							GKDeviceConfiguration = ZipSerializeHelper.DeSerialize<GKDeviceConfiguration>(configurationFileName, true);
-							break;
-
-						case "SKDConfiguration.xml":
-							SKDConfiguration = ZipSerializeHelper.DeSerialize<SKDConfiguration>(configurationFileName, true);
 							break;
 					}
 				}

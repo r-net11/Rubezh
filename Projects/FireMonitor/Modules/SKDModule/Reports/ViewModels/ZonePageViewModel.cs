@@ -100,13 +100,6 @@ namespace SKDModule.Reports.ViewModels
 		public string Name { get; private set; }
 		public string Description { get; private set; }
 
-		public CommonZoneViewModel(SKDZone strazhZone)
-		{
-			UID = strazhZone.UID;
-			Name = strazhZone.Name;
-			Description = strazhZone.Description;
-		}
-
 		public CommonZoneViewModel(GKSKDZone gkZone)
 		{
 			UID = gkZone.UID;

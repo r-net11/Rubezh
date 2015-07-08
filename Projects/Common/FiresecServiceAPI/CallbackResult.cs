@@ -30,9 +30,6 @@ namespace FiresecAPI
 		public GKPropertyChangedCallback GKPropertyChangedCallback { get; set; }
 
 		[DataMember]
-		public SKDStates SKDStates { get; set; }
-
-		[DataMember]
 		public AutomationCallbackResult AutomationCallbackResult { get; set; }
 
 		[DataMember]
@@ -44,7 +41,6 @@ namespace FiresecAPI
 		GKProgress,
 		GKObjectStateChanged,
 		GKPropertyChanged,
-		SKDObjectStateChanged,
 		NewEvents,
 		ArchiveCompleted,
 		AutomationCallbackResult,

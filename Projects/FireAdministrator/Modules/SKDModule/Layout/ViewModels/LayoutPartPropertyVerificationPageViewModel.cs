@@ -75,7 +75,6 @@ namespace SKDModule.ViewModels
 
 	public class DeviceViewModel
 	{
-		SKDDevice SKDDevice { get; set; }
 		GKDevice GKDevice { get; set; }
 
 		public Guid UID { get; private set; }
@@ -85,14 +84,6 @@ namespace SKDModule.ViewModels
 		public string NameAndAddress
 		{
 			get { return Name + " " + Address; }
-		}
-
-		public DeviceViewModel(SKDDevice skdDevice)
-		{
-			SKDDevice = skdDevice;
-			UID = skdDevice.UID;
-			Address = skdDevice.Parent != null ? skdDevice.Parent.Address : "";
-			Name = skdDevice.Name;
 		}
 
 		public DeviceViewModel(GKDevice gkDevice)
