@@ -116,7 +116,6 @@ namespace FiresecService.Service
 		void RestartWithNewConfig()
 		{
 			AddJournalMessage(JournalEventNameType.Применение_конфигурации, null);
-			NotifyConfigurationChanged();
 			ServerState = FiresecAPI.ServerState.Restarting;
 			ConfigurationCashHelper.Update();
 			GKProcessor.SetNewConfig();
@@ -124,6 +123,7 @@ namespace FiresecService.Service
 			ProcedureRunner.SetNewConfig();
 			ServerTaskRunner.SetNewConfig();
 			ServerState = FiresecAPI.ServerState.Ready;
+			NotifyConfigurationChanged();
 		}
 
 		static void CreateZipConfigFromFiles()
