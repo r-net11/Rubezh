@@ -145,21 +145,6 @@ namespace SecurityModule.ViewModels
 								}),
 							new PermissionViewModel("СКД", new List<PermissionViewModel>()
 								{
-									new PermissionViewModel("Устройства", new List<PermissionViewModel>()
-										{
-											new PermissionViewModel(PermissionType.Oper_Strazh_Devices_View),
-											new PermissionViewModel(PermissionType.Oper_Strazh_Devices_Control),
-										}),
-									new PermissionViewModel("Зоны", new List<PermissionViewModel>()
-										{
-											new PermissionViewModel(PermissionType.Oper_Strazh_Zones_View),
-											new PermissionViewModel(PermissionType.Oper_Strazh_Zones_Control),
-										}),
-									new PermissionViewModel("Точки доступа", new List<PermissionViewModel>()
-										{
-											new PermissionViewModel(PermissionType.Oper_Strazh_Doors_View),
-											new PermissionViewModel(PermissionType.Oper_Strazh_Doors_Control),
-										}),
 									new PermissionViewModel("Картотека", new List<PermissionViewModel>()
 										{
 											new PermissionViewModel("Сотрудники", new List<PermissionViewModel>()

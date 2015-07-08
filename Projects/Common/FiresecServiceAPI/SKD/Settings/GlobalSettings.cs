@@ -37,8 +37,6 @@ namespace FiresecAPI
 			Monitor_IsControlMPT = false;
 			Monitor_HaspInfo_Enabled = false;
 			IgnoredErrors = 0;
-
-			UseStrazhBrand = false;
 		}
 
 
@@ -69,10 +67,6 @@ namespace FiresecAPI
 
 		[DataMember]
 		public int ReportRemotePort { get; set; }
-
-		[DataMember]
-		[XmlIgnore]
-		public bool UseStrazhBrand { get; set; }
 
 		[DataMember]
 		public bool UseHasp { get; set; }
@@ -137,7 +131,6 @@ namespace FiresecAPI
 			ModuleItems.Add("SecurityModule.dll");
 			ModuleItems.Add("GKModule.dll");
 			ModuleItems.Add("SKDModule.dll");
-			ModuleItems.Add("StrazhModule.dll");
 			ModuleItems.Add("VideoModule.dll");
 			ModuleItems.Add("AutomationModule.dll");
 			ModuleItems.Add("LayoutModule.dll");

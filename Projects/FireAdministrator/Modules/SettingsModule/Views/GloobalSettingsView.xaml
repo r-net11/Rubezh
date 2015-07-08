@@ -6,7 +6,7 @@
 	</UserControl.Resources>
 
 	<TabControl>
-		<TabItem Header="ОЗ" Visibility="{Binding UseStrazhBrand, Converter={StaticResource InversedBoolToVisibilityConverter}}">
+		<TabItem Header="ОЗ">
 			<Grid>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="Auto" />
@@ -38,11 +38,6 @@
 
 				<TextBlock Grid.Row="5" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Разрешить управление МПТ" />
 				<CheckBox Grid.Row="5" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding Monitor_IsControlMPT}" />
-
-				<!--
-					<TextBlock Grid.Row="5" Grid.Column="0" Text="F12 - показать информацию о HASP ключе" HorizontalAlignment="Right" Margin="2" />
-					<CheckBox Grid.Row="5" Grid.Column="1" IsChecked="{Binding Monitor_HaspInfo_Enabled}" HorizontalAlignment="Left" Margin="2" />
-				-->
 			</Grid>
 		</TabItem>
 		<TabItem Header="Сервер">
@@ -72,7 +67,7 @@
 			<StackPanel Margin="2">
 				<TextBlock Margin="2" FontSize="12" Foreground="{DynamicResource ForegroundColorLight}" Text="Следующие приложения будут автоматически запускаться при старте системы:" TextWrapping="Wrap" />
 				<CheckBox Content="{Binding ServerAutoLabel}" FontSize="12" Foreground="{DynamicResource ForegroundColorLight}" IsChecked="{Binding IsServerAuto}" Margin="5 5 5 1" />
-				<CheckBox Content="OPC Сервер ГК Глобал" FontSize="12" Foreground="{DynamicResource ForegroundColorLight}" IsChecked="{Binding IsGKOpcServerAuto}" Margin="5 1" Visibility="{Binding UseStrazhBrand, Converter={StaticResource InversedBoolToVisibilityConverter}}"/>
+				<CheckBox Content="OPC Сервер ГК Глобал" FontSize="12" Foreground="{DynamicResource ForegroundColorLight}" IsChecked="{Binding IsGKOpcServerAuto}" Margin="5 1" />
 			</StackPanel>
 		</TabItem>
 		<TabItem Header="Логи">

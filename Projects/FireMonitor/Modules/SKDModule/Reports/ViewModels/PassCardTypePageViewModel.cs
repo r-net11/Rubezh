@@ -11,11 +11,6 @@ namespace SKDModule.Reports.ViewModels
 			Title = "Типы пропусков";
 		}
 
-		public bool CanSelectActiveTypes
-		{
-			get { return GlobalSettingsHelper.GlobalSettings.UseStrazhBrand; }
-		}
-
 		bool _passCardActive;
 		public bool PassCardActive
 		{
@@ -24,14 +19,6 @@ namespace SKDModule.Reports.ViewModels
 			{
 				_passCardActive = value;
 				OnPropertyChanged(() => PassCardActive);
-				if (PassCardActive)
-				{
-					PassCardPermanent = true;
-					PassCardTemprorary = true;
-					PassCardOnceOnly = true;
-					PassCardForcing = true;
-					PassCardLocked = true;
-				}
 			}
 		}
 		bool _passCardInactive;
@@ -42,56 +29,6 @@ namespace SKDModule.Reports.ViewModels
 			{
 				_passCardInactive = value;
 				OnPropertyChanged(() => PassCardInactive);
-			}
-		}
-		bool _passCardPermanent;
-		public bool PassCardPermanent
-		{
-			get { return _passCardPermanent; }
-			set
-			{
-				_passCardPermanent = value;
-				OnPropertyChanged(() => PassCardPermanent);
-			}
-		}
-		bool _passCardTemprorary;
-		public bool PassCardTemprorary
-		{
-			get { return _passCardTemprorary; }
-			set
-			{
-				_passCardTemprorary = value;
-				OnPropertyChanged(() => PassCardTemprorary);
-			}
-		}
-		bool _passCardOnceOnly;
-		public bool PassCardOnceOnly
-		{
-			get { return _passCardOnceOnly; }
-			set
-			{
-				_passCardOnceOnly = value;
-				OnPropertyChanged(() => PassCardOnceOnly);
-			}
-		}
-		bool _passCardForcing;
-		public bool PassCardForcing
-		{
-			get { return _passCardForcing; }
-			set
-			{
-				_passCardForcing = value;
-				OnPropertyChanged(() => PassCardForcing);
-			}
-		}
-		bool _passCardLocked;
-		public bool PassCardLocked
-		{
-			get { return _passCardLocked; }
-			set
-			{
-				_passCardLocked = value;
-				OnPropertyChanged(() => PassCardLocked);
 			}
 		}
 
@@ -112,11 +49,6 @@ namespace SKDModule.Reports.ViewModels
 			if (passCardTypeFilter == null)
 				return;
 			PassCardActive = passCardTypeFilter.PassCardActive;
-			PassCardPermanent = passCardTypeFilter.PassCardPermanent;
-			PassCardTemprorary = passCardTypeFilter.PassCardTemprorary;
-			PassCardOnceOnly = passCardTypeFilter.PassCardOnceOnly;
-			PassCardForcing = passCardTypeFilter.PassCardForcing;
-			PassCardLocked = passCardTypeFilter.PassCardLocked;
 			var fullPassCardTypeFilter = passCardTypeFilter as IReportFilterPassCardTypeFull;
 			AllowInactive = fullPassCardTypeFilter != null;
 			if (AllowInactive)
@@ -128,11 +60,6 @@ namespace SKDModule.Reports.ViewModels
 			if (passCardTypeFilter == null)
 				return;
 			passCardTypeFilter.PassCardActive = PassCardActive;
-			passCardTypeFilter.PassCardPermanent = PassCardPermanent;
-			passCardTypeFilter.PassCardTemprorary = PassCardTemprorary;
-			passCardTypeFilter.PassCardOnceOnly = PassCardOnceOnly;
-			passCardTypeFilter.PassCardForcing = PassCardForcing;
-			passCardTypeFilter.PassCardLocked = PassCardLocked;
 			var fullPassCardTypeFilter = passCardTypeFilter as IReportFilterPassCardTypeFull;
 			if (fullPassCardTypeFilter != null)
 				fullPassCardTypeFilter.PassCardInactive = PassCardInactive;

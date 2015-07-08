@@ -54,7 +54,7 @@ namespace SettingsModule.ViewModels
 			RunRevisor = GlobalSettingsHelper.GlobalSettings.RunRevisor;
 		}
 
-		public string ServerAutoLabel { get { return "Сервер приложений" + (GlobalSettingsHelper.GlobalSettings.UseStrazhBrand ? String.Empty : " Глобал"); } }
+		public string ServerAutoLabel { get { return "Сервер приложений Глобал"; } }
 
 		void GetServerAuto()
 		{
@@ -371,17 +371,6 @@ namespace SettingsModule.ViewModels
 			{
 				_isGKOpcServerAuto = value;
 				OnPropertyChanged(() => IsGKOpcServerAuto);
-			}
-		}
-
-		bool _useStrazhBrand;
-		public bool UseStrazhBrand
-		{
-			get { return _useStrazhBrand; }
-			set
-			{
-				_useStrazhBrand = value;
-				OnPropertyChanged(() => UseStrazhBrand);
 			}
 		}
 

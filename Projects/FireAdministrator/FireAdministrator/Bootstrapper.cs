@@ -53,7 +53,7 @@ namespace FireAdministrator
 					else if (Application.Current != null)
 					{
 						var shell = new AdministratorShellViewModel();
-						shell.LogoSource = GlobalSettingsHelper.GlobalSettings.UseStrazhBrand ? "Logo" : "rubezhLogo";
+						shell.LogoSource = "rubezhLogo";
 						ServiceFactory.MenuService = new MenuService((vm) => ((MenuViewModel)shell.Toolbar).ExtendedMenu = vm);
 						RunShell(shell);
 					}

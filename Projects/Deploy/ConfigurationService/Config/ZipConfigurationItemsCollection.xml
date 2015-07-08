@@ -16,11 +16,6 @@
       <MinorVersion>1</MinorVersion>
     </ZipConfigurationItem>
     <ZipConfigurationItem>
-      <Name>SKDLibraryConfiguration.xml</Name>
-      <MajorVersion>1</MajorVersion>
-      <MinorVersion>1</MinorVersion>
-    </ZipConfigurationItem>
-    <ZipConfigurationItem>
       <Name>PlansConfiguration.xml</Name>
       <MajorVersion>1</MajorVersion>
       <MinorVersion>1</MinorVersion>
@@ -32,11 +27,6 @@
     </ZipConfigurationItem>
     <ZipConfigurationItem>
       <Name>GKDeviceConfiguration.xml</Name>
-      <MajorVersion>1</MajorVersion>
-      <MinorVersion>1</MinorVersion>
-    </ZipConfigurationItem>
-    <ZipConfigurationItem>
-      <Name>SKDConfiguration.xml</Name>
       <MajorVersion>1</MajorVersion>
       <MinorVersion>1</MinorVersion>
     </ZipConfigurationItem>
