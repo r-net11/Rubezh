@@ -6,6 +6,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:models="clr-namespace:SKDModule.Model"
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"
 	xmlns:viewModels="clr-namespace:SKDModule.ViewModels"
 	Width="900"
 	Height="900"
@@ -15,6 +16,15 @@
 		<Converters:TimeSpanToStringConverter x:Key="TimeSpanToStringConverter" />
 		<Converters:TimeSpanToColorConverter x:Key="TimeSpanToColorConverter" />
 		<Converters:TimeTrackTypeToColorConverter x:Key="TimeTrackTypeToColorConverter" />
+		<Style x:Key="TriggeredTextBlockStyle" TargetType="{StaticResource {x:Type TextBlock}}">
+			<Setter Property="TextBlock.Margin" Value="5" />
+			<Setter Property="TextBlock.VerticalAlignment" Value="Center" />
+			<Style.Triggers>
+				<DataTrigger Binding="{Binding BalanceTimeSpan}" Value="{x:Static sys:TimeSpan.Zero}">
+					<Setter Property="TextBlock.Foreground" Value="Gray" />
+				</DataTrigger>
+			</Style.Triggers>
+		</Style>
 	</UserControl.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
@@ -298,7 +308,433 @@
 						Height="30"
 						Margin="2" />
 				</Grid>
-				<ItemsControl Height="160" ItemsSource="{Binding DayTimeTrack.Totals}">
+				<Grid Margin="50 10 10 10">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition />
+						<ColumnDefinition />
+					</Grid.ColumnDefinitions>
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="0.5*" />
+							<ColumnDefinition />
+						</Grid.ColumnDefinitions>
+						<Grid.RowDefinitions>
+							<RowDefinition />
+							<RowDefinition />
+							<RowDefinition />
+							<RowDefinition />
+							<RowDefinition />
+							<RowDefinition />
+						</Grid.RowDefinitions>
+						<TextBlock
+							Margin="5"
+							HorizontalAlignment="Right"
+							VerticalAlignment="Center"
+							Text="Баланс" />
+						<Border
+							Grid.Column="1"
+							Margin="5"
+							BorderBrush="DarkGray"
+							BorderThickness="1"
+							SnapsToDevicePixels="True">
+							<Rectangle Fill="Gray" />
+						</Border>
+						<TextBlock
+							Grid.Column="2"
+							Margin="5"
+							VerticalAlignment="Center"
+							Text="{Binding BalanceTimeSpan,
+						                          Converter={StaticResource TimeSpanToStringConverter},
+						                          FallbackValue=00.00}">
+							<TextBlock.Style>
+								<Style>
+									<Style.Triggers>
+										<DataTrigger Binding="{Binding BalanceTimeSpan}" Value="{x:Static sys:TimeSpan.Zero}">
+											<Setter Property="TextBlock.Foreground" Value="Gray" />
+										</DataTrigger>
+									</Style.Triggers>
+								</Style>
+							</TextBlock.Style>
+						</TextBlock>
+						<TextBlock
+							Grid.Row="1"
+							Margin="5"
+							HorizontalAlignment="Right"
+							VerticalAlignment="Center"
+							Text="Явка" />
+						<Border
+							Grid.Row="1"
+							Grid.Column="1"
+							Margin="5"
+							BorderBrush="DarkOliveGreen"
+							BorderThickness="1"
+							SnapsToDevicePixels="True">
+							<Rectangle Fill="Green" />
+						</Border>
+						<TextBlock
+							Grid.Row="1"
+							Grid.Column="2"
+							Margin="5"
+							VerticalAlignment="Center"
+							Text="{Binding PresentTimeSpan,
+						                          Converter={StaticResource TimeSpanToStringConverter},
+						                          FallbackValue=00.00}">
+							<TextBlock.Style>
+								<Style>
+									<Style.Triggers>
+										<DataTrigger Binding="{Binding PresentTimeSpan}" Value="{x:Static sys:TimeSpan.Zero}">
+											<Setter Property="TextBlock.Foreground" Value="Gray" />
+										</DataTrigger>
+									</Style.Triggers>
+								</Style>
+							</TextBlock.Style>
+						</TextBlock>
+						<TextBlock
+							Grid.Row="2"
+							Margin="5"
+							HorizontalAlignment="Right"
+							VerticalAlignment="Center"
+							Text="Отсутствие" />
+						<Border
+							Grid.Row="2"
+							Grid.Column="1"
+							Margin="5"
+							BorderBrush="LightCoral"
+							BorderThickness="1"
+							SnapsToDevicePixels="True">
+							<Rectangle Fill="Red" />
+						</Border>
+						<TextBlock
+							Grid.Row="2"
+							Grid.Column="2"
+							Margin="5"
+							VerticalAlignment="Center"
+							Text="{Binding AbsenceTimeSpan,
+						                          Converter={StaticResource TimeSpanToStringConverter},
+						                          FallbackValue=00.00}">
+							<TextBlock.Style>
+								<Style>
+									<Style.Triggers>
+										<DataTrigger Binding="{Binding AbsenceTimeSpan}" Value="{x:Static sys:TimeSpan.Zero}">
+											<Setter Property="TextBlock.Foreground" Value="Gray" />
+										</DataTrigger>
+									</Style.Triggers>
+								</Style>
+							</TextBlock.Style>
+						</TextBlock>
+						<TextBlock
+							Grid.Row="3"
+							Margin="5"
+							HorizontalAlignment="Right"
+							VerticalAlignment="Center"
+							Text="Отсутствие в рамках графика" />
+						<Border
+							Grid.Row="3"
+							Grid.Column="1"
+							Margin="5"
+							BorderBrush="Thistle"
+							BorderThickness="1"
+							SnapsToDevicePixels="True">
+							<Rectangle Fill="Pink" />
+						</Border>
+						<TextBlock
+							Grid.Row="3"
+							Grid.Column="2"
+							Margin="5"
+							VerticalAlignment="Center"
+							Text="{Binding AbsenceInsidePlanTimeSpan,
+						                          Converter={StaticResource TimeSpanToStringConverter},
+						                          FallbackValue=00.00}">
+							<TextBlock.Style>
+								<Style>
+									<Style.Triggers>
+										<DataTrigger Binding="{Binding AbsenceInsidePlanTimeSpan}" Value="{x:Static sys:TimeSpan.Zero}">
+											<Setter Property="TextBlock.Foreground" Value="Gray" />
+										</DataTrigger>
+									</Style.Triggers>
+								</Style>
+							</TextBlock.Style>
+						</TextBlock>
+						<TextBlock
+							Grid.Row="4"
+							Margin="5"
+							HorizontalAlignment="Right"
+							VerticalAlignment="Center"
+							Text="Явка в перерыве" />
+						<Border
+							Grid.Row="4"
+							Grid.Column="1"
+							Margin="5"
+							BorderBrush="OliveDrab"
+							BorderThickness="1"
+							SnapsToDevicePixels="True">
+							<Rectangle Fill="DarkGreen" />
+						</Border>
+						<TextBlock
+							Grid.Row="4"
+							Grid.Column="2"
+							Margin="5"
+							VerticalAlignment="Center"
+							Text="{Binding PresenceInBreakTimeSpan,
+						                          Converter={StaticResource TimeSpanToStringConverter},
+						                          FallbackValue=00.00}">
+							<TextBlock.Style>
+								<Style>
+									<Style.Triggers>
+										<DataTrigger Binding="{Binding PresenceInBreakTimeSpan}" Value="{x:Static sys:TimeSpan.Zero}">
+											<Setter Property="TextBlock.Foreground" Value="Gray" />
+										</DataTrigger>
+									</Style.Triggers>
+								</Style>
+							</TextBlock.Style>
+						</TextBlock>
+						<TextBlock
+							Grid.Row="5"
+							Margin="5"
+							HorizontalAlignment="Right"
+							VerticalAlignment="Center"
+							Text="Опоздание" />
+						<Border
+							Grid.Row="5"
+							Grid.Column="1"
+							Margin="5"
+							BorderBrush="PaleTurquoise"
+							BorderThickness="1"
+							SnapsToDevicePixels="True">
+							<Rectangle Fill="SkyBlue" />
+						</Border>
+						<TextBlock
+							Grid.Row="5"
+							Grid.Column="2"
+							Margin="5"
+							VerticalAlignment="Center"
+							Text="{Binding LateTimeSpan,
+						                          Converter={StaticResource TimeSpanToStringConverter},
+						                          FallbackValue=00.00}">
+							<TextBlock.Style>
+								<Style>
+									<Style.Triggers>
+										<DataTrigger Binding="{Binding LateTimeSpan}" Value="{x:Static sys:TimeSpan.Zero}">
+											<Setter Property="TextBlock.Foreground" Value="Gray" />
+										</DataTrigger>
+									</Style.Triggers>
+								</Style>
+							</TextBlock.Style>
+						</TextBlock>
+					</Grid>
+					<Grid Grid.Column="1">
+						<Grid.RowDefinitions>
+							<RowDefinition />
+							<RowDefinition />
+							<RowDefinition />
+							<RowDefinition />
+							<RowDefinition />
+							<RowDefinition />
+						</Grid.RowDefinitions>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="0.5*" />
+							<ColumnDefinition />
+						</Grid.ColumnDefinitions>
+						<TextBlock
+							Margin="5"
+							HorizontalAlignment="Right"
+							VerticalAlignment="Center"
+							Text="Уход раньше" />
+						<Border
+							Grid.Column="1"
+							Margin="5"
+							BorderBrush="LightBlue"
+							BorderThickness="1"
+							SnapsToDevicePixels="True">
+							<Rectangle Fill="LightBlue" />
+						</Border>
+						<TextBlock
+							Grid.Column="2"
+							Margin="5"
+							VerticalAlignment="Center"
+							Text="{Binding EarlyLeaveTimeSpan,
+						                          Converter={StaticResource TimeSpanToStringConverter},
+						                          FallbackValue=00.00}">
+							<TextBlock.Style>
+								<Style>
+									<Style.Triggers>
+										<DataTrigger Binding="{Binding EarlyLeaveTimeSpan}" Value="{x:Static sys:TimeSpan.Zero}">
+											<Setter Property="TextBlock.Foreground" Value="Gray" />
+										</DataTrigger>
+									</Style.Triggers>
+								</Style>
+							</TextBlock.Style>
+						</TextBlock>
+						<TextBlock
+							Grid.Row="1"
+							Margin="5"
+							HorizontalAlignment="Right"
+							VerticalAlignment="Center"
+							Text="Сверхурочно" />
+						<Border
+							Grid.Row="1"
+							Grid.Column="1"
+							Margin="5"
+							BorderBrush="PaleGoldenrod"
+							BorderThickness="1"
+							SnapsToDevicePixels="True">
+							<Rectangle Fill="Yellow" />
+						</Border>
+						<TextBlock
+							Grid.Row="1"
+							Grid.Column="2"
+							Margin="5"
+							VerticalAlignment="Center"
+							Text="{Binding OvertimeTimeSpan,
+						                          Converter={StaticResource TimeSpanToStringConverter},
+						                          FallbackValue=00.00}">
+							<TextBlock.Style>
+								<Style>
+									<Style.Triggers>
+										<DataTrigger Binding="{Binding OvertimeTimeSpan}" Value="{x:Static sys:TimeSpan.Zero}">
+											<Setter Property="TextBlock.Foreground" Value="Gray" />
+										</DataTrigger>
+									</Style.Triggers>
+								</Style>
+							</TextBlock.Style>
+						</TextBlock>
+						<TextBlock
+							Grid.Row="2"
+							Margin="5"
+							HorizontalAlignment="Right"
+							VerticalAlignment="Center"
+							Text="Работа ночью" />
+						<Border
+							Grid.Row="2"
+							Grid.Column="1"
+							Margin="5"
+							BorderBrush="DarkSeaGreen"
+							BorderThickness="1"
+							SnapsToDevicePixels="True">
+							<Rectangle Fill="YellowGreen" />
+						</Border>
+						<TextBlock
+							Grid.Row="2"
+							Grid.Column="2"
+							Margin="5"
+							VerticalAlignment="Center"
+							Text="{Binding NightTimeSpan,
+						                          Converter={StaticResource TimeSpanToStringConverter},
+						                          FallbackValue=00.00}">
+							<TextBlock.Style>
+								<Style>
+									<Style.Triggers>
+										<DataTrigger Binding="{Binding NightTimeSpan}" Value="{x:Static sys:TimeSpan.Zero}">
+											<Setter Property="TextBlock.Foreground" Value="Gray" />
+										</DataTrigger>
+									</Style.Triggers>
+								</Style>
+							</TextBlock.Style>
+						</TextBlock>
+						<TextBlock
+							Grid.Row="3"
+							Margin="5"
+							HorizontalAlignment="Right"
+							VerticalAlignment="Center"
+							Text="Переработка по документу" />
+						<Border
+							Grid.Row="3"
+							Grid.Column="1"
+							Margin="5"
+							BorderBrush="PapayaWhip"
+							BorderThickness="1"
+							SnapsToDevicePixels="True">
+							<Rectangle Fill="LightYellow" />
+						</Border>
+						<TextBlock
+							Grid.Row="3"
+							Grid.Column="2"
+							Margin="5"
+							VerticalAlignment="Center"
+							Text="{Binding DocumentOvertimeTimeSpan,
+						                          Converter={StaticResource TimeSpanToStringConverter},
+						                          FallbackValue=00.00}">
+							<TextBlock.Style>
+								<Style>
+									<Style.Triggers>
+										<DataTrigger Binding="{Binding DocumentOvertimeTimeSpan}" Value="{x:Static sys:TimeSpan.Zero}">
+											<Setter Property="TextBlock.Foreground" Value="Gray" />
+										</DataTrigger>
+									</Style.Triggers>
+								</Style>
+							</TextBlock.Style>
+						</TextBlock>
+						<TextBlock
+							Grid.Row="4"
+							Margin="5"
+							HorizontalAlignment="Right"
+							VerticalAlignment="Center"
+							Text="Присутствие по документу" />
+						<Border
+							Grid.Row="4"
+							Grid.Column="1"
+							Margin="5"
+							BorderBrush="LawnGreen"
+							BorderThickness="1"
+							SnapsToDevicePixels="True">
+							<Rectangle Fill="LightGreen" />
+						</Border>
+						<TextBlock
+							Grid.Row="4"
+							Grid.Column="2"
+							Margin="5"
+							VerticalAlignment="Center"
+							Text="{Binding DocumentPresenceTimeSpan,
+						                          Converter={StaticResource TimeSpanToStringConverter},
+						                          FallbackValue=00.00}">
+							<TextBlock.Style>
+								<Style>
+									<Style.Triggers>
+										<DataTrigger Binding="{Binding DocumentPresenceTimeSpan}" Value="{x:Static sys:TimeSpan.Zero}">
+											<Setter Property="TextBlock.Foreground" Value="Gray" />
+										</DataTrigger>
+									</Style.Triggers>
+								</Style>
+							</TextBlock.Style>
+						</TextBlock>
+						<TextBlock
+							Grid.Row="5"
+							Margin="5"
+							HorizontalAlignment="Right"
+							VerticalAlignment="Center"
+							Text="Отсутствие по документу" />
+						<Border
+							Grid.Row="5"
+							Grid.Column="1"
+							Margin="5"
+							BorderBrush="Pink"
+							BorderThickness="1"
+							SnapsToDevicePixels="True">
+							<Rectangle Fill="LightPink" />
+						</Border>
+						<TextBlock
+							Grid.Row="5"
+							Grid.Column="2"
+							Margin="5"
+							VerticalAlignment="Center"
+							Text="{Binding DocumentAbsenceTimeSpan,
+						                          Converter={StaticResource TimeSpanToStringConverter},
+						                          FallbackValue=00.00}">
+							<TextBlock.Style>
+								<Style>
+									<Style.Triggers>
+										<DataTrigger Binding="{Binding DocumentAbsenceTimeSpan}" Value="{x:Static sys:TimeSpan.Zero}">
+											<Setter Property="TextBlock.Foreground" Value="Gray" />
+										</DataTrigger>
+									</Style.Triggers>
+								</Style>
+							</TextBlock.Style>
+						</TextBlock>
+					</Grid>
+				</Grid>
+				<!--<ItemsControl Height="160" ItemsSource="{Binding DayTimeTrack.Totals}">
 					<ItemsControl.ItemTemplate>
 						<DataTemplate>
 							<Grid Height="25" Margin="30 0">
@@ -308,7 +744,6 @@
 									<ColumnDefinition Width="Auto" />
 								</Grid.ColumnDefinitions>
 								<TextBlock
-									Grid.Column="0"
 									Margin="4 2"
 									HorizontalAlignment="Right"
 									VerticalAlignment="Center"
@@ -335,7 +770,7 @@
 							<WrapPanel Orientation="Vertical" />
 						</ItemsPanelTemplate>
 					</ItemsControl.ItemsPanel>
-				</ItemsControl>
+				</ItemsControl>-->
 			</StackPanel>
 		</Border>
 	</Grid>

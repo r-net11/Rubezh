@@ -8,6 +8,7 @@ namespace FiresecAPI.SKD
 	[DataContract]
 	public class DayTimeTrack
 	{
+		#region Constructors
 		public DayTimeTrack()
 		{
 			PlannedTimeTrackParts = new List<TimeTrackPart>();
@@ -23,6 +24,9 @@ namespace FiresecAPI.SKD
 		{
 			Error = error;
 		}
+		#endregion
+
+		#region Properties
 
 		[DataMember]
 		public string Error { get; set; }
@@ -88,7 +92,11 @@ namespace FiresecAPI.SKD
 		public List<TimeTrackTotal> Totals { get; set; }
 
 		private bool IsCrossNight { get { return false; } }
+		#endregion
 
+		/// <summary>
+		/// Основной метод по вычислению всех интервалов
+		/// </summary>
 		public void Calculate()
 		{
 			CalculateDocuments();
@@ -96,8 +104,12 @@ namespace FiresecAPI.SKD
 			PlannedTimeTrackParts = NormalizeTimeTrackParts(PlannedTimeTrackParts);
 			RealTimeTrackParts = NormalizeTimeTrackParts(RealTimeTrackParts);
 
-			CalculateCombinedTimeTrackParts();
-			CalculateTotal();
+			//CalculateCombinedTimeTrackParts();
+			CombinedTimeTrackParts = CalculateCombinedTimeTrackParts(PlannedTimeTrackParts, RealTimeTrackParts,
+																							DocumentTrackParts);
+			//CalculateTotal();
+			Totals = CalculateTotal();
+			TimeTrackType = CalculateTimeTrackType(Totals, PlannedTimeTrackParts, IsHoliday, Error);
 			CalculateLetterCode();
 		}
 
@@ -184,43 +196,39 @@ namespace FiresecAPI.SKD
 			DocumentTrackParts = result;
 		}
 
-		private List<TimeSpan> GetCombinedTimeSpans(List<TimeTrackPart> timeTrackParts)
-		{
-			var timeSpans = new List<TimeSpan>();
-
-			foreach (var timeTrack in timeTrackParts)
-			{
-				timeSpans.Add(timeTrack.StartTime);
-				timeSpans.Add(timeTrack.EndTime);
-			}
-
-			return timeSpans;
-		}
-
-		private void CalculateCombinedTimeTrackParts()
+		/// <summary>
+		/// Вычисление всех проходов
+		/// </summary>
+		private List<TimeTrackPart> CalculateCombinedTimeTrackParts(List<TimeTrackPart> plannedTimeTrackParts, List<TimeTrackPart> realTimeTrackParts,																								List<TimeTrackPart> documentTimeTrackParts)
 		{
 			var plannedScheduleTime = new ScheduleInterval();
 
-			if (PlannedTimeTrackParts.Count > 0)
+			if (plannedTimeTrackParts.Count > 0)
 			{
-				plannedScheduleTime.StartTime = PlannedTimeTrackParts.FirstOrDefault().StartTime;
-				plannedScheduleTime.EndTime = PlannedTimeTrackParts.LastOrDefault().EndTime;
+				plannedScheduleTime.StartTime = plannedTimeTrackParts.FirstOrDefault().StartTime;
+				plannedScheduleTime.EndTime = plannedTimeTrackParts.LastOrDefault().EndTime;
 			}
 
 			var combinedTimeSpans = GetCombinedTimeSpans();
 			combinedTimeSpans.Sort();
 
-			CombinedTimeTrackParts = new List<TimeTrackPart>();
-			for (int i = 0; i < combinedTimeSpans.Count - 1; i++)
+			var combinedTimeTrackParts = new List<TimeTrackPart>();
+
+			for (var i = 0; i < combinedTimeSpans.Count - 1; i++)
 			{
 				var combinedInterval = new ScheduleInterval(combinedTimeSpans[i], combinedTimeSpans[i + 1]);
 
 				var timeTrackPart = new TimeTrackPart { StartTime = combinedInterval.StartTime, EndTime = combinedInterval.EndTime };
-				CombinedTimeTrackParts.Add(timeTrackPart);
+				combinedTimeTrackParts.Add(timeTrackPart);
 
-				var hasRealTimeTrack = RealTimeTrackParts.Any(x => x.StartTime <= combinedInterval.StartTime && x.EndTime >= combinedInterval.EndTime);
-				var hasPlannedTimeTrack = PlannedTimeTrackParts.Any(x => x.StartTime <= combinedInterval.StartTime && x.EndTime >= combinedInterval.EndTime);
-				var documentTimeTrack = DocumentTrackParts.FirstOrDefault(x => x.StartTime <= combinedInterval.StartTime && x.EndTime >= combinedInterval.EndTime);
+				var hasRealTimeTrack = realTimeTrackParts.Any(x => x.StartTime <= combinedInterval.StartTime
+																&& x.EndTime >= combinedInterval.EndTime);
+
+				var hasPlannedTimeTrack = plannedTimeTrackParts.Any(x => x.StartTime <= combinedInterval.StartTime
+																		&& x.EndTime >= combinedInterval.EndTime);
+
+				var documentTimeTrack = documentTimeTrackParts.FirstOrDefault(x => x.StartTime <= combinedInterval.StartTime
+																			&& x.EndTime >= combinedInterval.EndTime);
 
 				timeTrackPart.TimeTrackPartType = GetTimeTrackType(timeTrackPart, hasRealTimeTrack, hasPlannedTimeTrack, plannedScheduleTime, combinedInterval);
 
@@ -230,30 +238,46 @@ namespace FiresecAPI.SKD
 					timeTrackPart.TimeTrackPartType = GetDocumentTimeTrackType(documentTimeTrack, timeTrackPart, hasPlannedTimeTrack, hasRealTimeTrack);
 				}
 			}
+
+			return combinedTimeTrackParts;
 		}
 
+		/// <summary>
+		/// Получить тип интервала по документу
+		/// </summary>
+		/// <param name="documentTimeTrack"></param>
+		/// <param name="timeTrackPart"></param>
+		/// <param name="hasPlannedTimeTrack"></param>
+		/// <param name="hasRealTimeTrack"></param>
+		/// <returns></returns>
 		private static TimeTrackType GetDocumentTimeTrackType(TimeTrackPart documentTimeTrack, TimeTrackPart timeTrackPart,
 			bool hasPlannedTimeTrack, bool hasRealTimeTrack)
 		{
 			var documentType = documentTimeTrack.MinTimeTrackDocumentType.DocumentType;
 			timeTrackPart.MinTimeTrackDocumentType = documentTimeTrack.MinTimeTrackDocumentType;
 
-			if (documentType == DocumentType.Overtime)
+			switch (documentType)
 			{
-				return TimeTrackType.DocumentOvertime;
-			}
-
-			if (documentType == DocumentType.Presence)
-			{
-				return hasPlannedTimeTrack ? TimeTrackType.DocumentPresence : TimeTrackType.None;
-			}
-
-			if (documentType == DocumentType.Absence)
-			{
-				return (hasRealTimeTrack || hasPlannedTimeTrack) ? TimeTrackType.DocumentAbsence : TimeTrackType.None;
+				case DocumentType.Overtime :
+					return TimeTrackType.DocumentOvertime;
+				case DocumentType.Presence:
+					return hasPlannedTimeTrack ? TimeTrackType.DocumentPresence : TimeTrackType.None;
+				case DocumentType.Absence:
+					return (hasRealTimeTrack || hasPlannedTimeTrack) ? TimeTrackType.DocumentAbsence : TimeTrackType.None;
+				default:
+					return TimeTrackType.None;
 			}
 		}
 
+		/// <summary>
+		/// Получение типа интервала прохода
+		/// </summary>
+		/// <param name="timeTrackPart">Время, отслеженное в УРВ</param>
+		/// <param name="hasRealTimeTrack">Флаг, показывающий, было ли появление сотрудника в данном интервале времени</param>
+		/// <param name="hasPlannedTimeTrack">Флаг, показывающий, запланирован ли на данный интервал времени, график работы сотрудника</param>
+		/// <param name="schedulePlannedInterval">Начальное и конечное время графика работы</param>
+		/// <param name="combinedInterval">Начальное время и конечное время временного интервала в УРВ</param>
+		/// <returns>Возвращает тип интервала прохода для расчета баланса</returns>
 		private TimeTrackType GetTimeTrackType(TimeTrackPart timeTrackPart, bool hasRealTimeTrack, bool hasPlannedTimeTrack, ScheduleInterval schedulePlannedInterval, ScheduleInterval combinedInterval)
 		{
 			//Если есть интервал прохода сотрудника, который попадает в гафик работ, то "Явка"
@@ -287,7 +311,6 @@ namespace FiresecAPI.SKD
 			{
 				return TimeTrackType.AbsenceInsidePlan;
 			}
-
 
 			if (PlannedTimeTrackParts.Any(x => x.StartTime == timeTrackPart.StartTime) &&
 				PlannedTimeTrackParts.All(x => x.EndTime != timeTrackPart.EndTime) &&
@@ -339,103 +362,159 @@ namespace FiresecAPI.SKD
 			return combinedTimeSpans;
 		}
 
-		private void CalculateTotal()
+		/// <summary>
+		/// Расчет времени и баланса для интервалов каждого типа
+		/// </summary>
+		/// <returns></returns>
+		private List<TimeTrackTotal> CalculateTotal()
 		{
-			Totals = new List<TimeTrackTotal>();
+			var resultTotalCollection = new List<TimeTrackTotal>();
 
-			var totalBalance = new TimeTrackTotal(TimeTrackType.Balance);
-			var totalNight = new TimeTrackTotal(TimeTrackType.Night);
-			Totals.Add(totalNight);
-			Totals.Add(totalBalance);
-
-			Totals.Add(new TimeTrackTotal(TimeTrackType.Presence));
-			Totals.Add(new TimeTrackTotal(TimeTrackType.Absence));
-			Totals.Add(new TimeTrackTotal(TimeTrackType.AbsenceInsidePlan));
-			Totals.Add(new TimeTrackTotal(TimeTrackType.PresenceInBrerak));
-			Totals.Add(new TimeTrackTotal(TimeTrackType.Late));
-			Totals.Add(new TimeTrackTotal(TimeTrackType.EarlyLeave));
-			Totals.Add(new TimeTrackTotal(TimeTrackType.Overtime));
-			Totals.Add(new TimeTrackTotal(TimeTrackType.DocumentOvertime));
-			Totals.Add(new TimeTrackTotal(TimeTrackType.DocumentPresence));
-			Totals.Add(new TimeTrackTotal(TimeTrackType.DocumentAbsence));
-
-			if (SlideTime.TotalSeconds > 0)
-			{
-				if (PlannedTimeTrackParts.Count > 0)
-					totalBalance.TimeSpan = -TimeSpan.FromSeconds(SlideTime.TotalSeconds);
-				else
-					totalBalance.TimeSpan = new TimeSpan();
-				foreach (var realTimeTrackPart in RealTimeTrackParts)
-				{
-					totalBalance.TimeSpan += realTimeTrackPart.Delta;
-				}
-			}
+			var totalBalance = GetBalanceForSlideTime(SlideTime, PlannedTimeTrackParts, RealTimeTrackParts);
 
 			foreach (var timeTrack in CombinedTimeTrackParts)
 			{
-				var timeTrackTotal = Totals.FirstOrDefault(x => x.TimeTrackType == timeTrack.TimeTrackPartType);
-				if (timeTrackTotal != null)
+				var el = resultTotalCollection.FirstOrDefault(x => x.TimeTrackType == timeTrack.TimeTrackPartType);
+				if (el != null) //TODO: Need refactoring
 				{
-					if (IsHoliday)
-					{
-						switch (timeTrack.TimeTrackPartType)
-						{
-							case SKD.TimeTrackType.Absence:
-							case SKD.TimeTrackType.Late:
-							case SKD.TimeTrackType.EarlyLeave:
-							case SKD.TimeTrackType.DocumentAbsence:
-								continue;
-						}
-					}
-
-					timeTrackTotal.TimeSpan += timeTrack.Delta;
-				}
-
-				switch (timeTrack.TimeTrackPartType)
-				{
-					case SKD.TimeTrackType.DocumentOvertime:
-					case SKD.TimeTrackType.DocumentPresence:
-						totalBalance.TimeSpan += timeTrack.Delta;
-						break;
-
-					case SKD.TimeTrackType.Absence:
-					case SKD.TimeTrackType.Late:
-					case SKD.TimeTrackType.EarlyLeave:
-						if (SlideTime.TotalSeconds == 0)
-						{
-							totalBalance.TimeSpan -= timeTrack.Delta;
-						}
-						break;
-
-					case SKD.TimeTrackType.DocumentAbsence:
-						totalBalance.TimeSpan -= timeTrack.Delta;
-						break;
-				}
-			}
-
-			if (NightSettings != null && NightSettings.NightEndTime != NightSettings.NightStartTime)
-			{
-				if (NightSettings.NightEndTime > NightSettings.NightStartTime)
-				{
-					totalNight.TimeSpan = CalculateEveningTime(NightSettings.NightStartTime, NightSettings.NightEndTime);
+					el.TimeSpan += GetDeltaForTimeTrack(timeTrack);
 				}
 				else
 				{
-					totalNight.TimeSpan = CalculateEveningTime(NightSettings.NightStartTime, new TimeSpan(23, 59, 59)) + CalculateEveningTime(new TimeSpan(0, 0, 0), NightSettings.NightEndTime);
+					resultTotalCollection.Add(new TimeTrackTotal(timeTrack.TimeTrackPartType)
+					{
+						TimeSpan = GetDeltaForTimeTrack(timeTrack)
+					});
 				}
+
+				totalBalance += GetBalance(timeTrack, SlideTime.TotalSeconds);
 			}
 
-			TimeTrackType = CalculateTimeTrackType();
+			resultTotalCollection.Add(
+				new TimeTrackTotal(TimeTrackType.Night)
+				{
+					TimeSpan = GetNightTime(NightSettings)
+				});
+
+			resultTotalCollection.Add(
+				new TimeTrackTotal(TimeTrackType.Balance)
+				{
+					TimeSpan = totalBalance
+				});
+
+			return FillCollection(resultTotalCollection);
 		}
 
-		private TimeTrackType CalculateTimeTrackType()
+		private List<TimeTrackTotal> FillCollection(List<TimeTrackTotal> inputCollectionTotals)
 		{
-			if (!string.IsNullOrEmpty(Error))
+			var resultCollection = new List<TimeTrackTotal>();
+			var timeTrackTypes = new List<TimeTrackType>(Enum.GetValues(typeof(TimeTrackType)).Cast<TimeTrackType>().ToList());
+			var collection = timeTrackTypes.Select(x => x).Where(x => !inputCollectionTotals.Select(timeTrack => timeTrack.TimeTrackType).Contains(x) && x != TimeTrackType.Holiday && x != TimeTrackType.DayOff && x != TimeTrackType.None);
+			resultCollection.AddRange(collection.Select(x => new TimeTrackTotal(x)));
+			resultCollection.AddRange(inputCollectionTotals);
+			return resultCollection;
+		}
+
+		/// <summary>
+		/// Получает часы, необходимые для расчета баланса, для каждого типа интервала времени
+		/// </summary>
+		/// <param name="timeTrack">Интервал УРВ</param>
+		/// <returns>Время интервала</returns>
+		private TimeSpan GetDeltaForTimeTrack(TimeTrackPart timeTrack)
+		{
+			if (!IsHoliday) return timeTrack.Delta;
+
+			switch (timeTrack.TimeTrackPartType)
+			{
+				case TimeTrackType.Absence:
+				case TimeTrackType.Late:
+				case TimeTrackType.EarlyLeave:
+				case TimeTrackType.DocumentAbsence:
+					return default(TimeSpan);
+				default:
+					return timeTrack.Delta;
+			}
+		}
+
+		/// <summary>
+		/// Расчитывает баланс
+		/// </summary>
+		/// <param name="timeTrack">Временной интервал УРВ</param>
+		/// <param name="slideTimeSecods">время скользящего графика в секундах</param>
+		/// <returns>Возвращает баланс</returns>
+		private TimeSpan GetBalance(TimeTrackPart timeTrack, double slideTimeSecods)
+		{
+			const double tolerance = 0.0001;
+
+			switch (timeTrack.TimeTrackPartType)
+			{
+				case TimeTrackType.DocumentOvertime:
+				case TimeTrackType.DocumentPresence:
+				case TimeTrackType.Presence:
+					return timeTrack.Delta;
+
+				case TimeTrackType.Absence:
+				case TimeTrackType.Late:
+				case TimeTrackType.EarlyLeave:
+					if (Math.Abs(slideTimeSecods) < tolerance)
+					{
+						return (-timeTrack.Delta);
+					}
+					break;
+
+				case TimeTrackType.DocumentAbsence:
+					return (-timeTrack.Delta);
+			}
+
+			return default(TimeSpan);
+		}
+
+		private TimeSpan GetBalanceForSlideTime(TimeSpan slideTimeTotalSeconds, List<TimeTrackPart> plannedTimeTrackParts, List<TimeTrackPart> realTimeTrackParts)
+		{
+			if (slideTimeTotalSeconds.TotalSeconds <= 0) return default(TimeSpan);
+
+			var balanceTimeSpan = new TimeSpan();
+
+			if (plannedTimeTrackParts.Count > 0)
+				balanceTimeSpan = -TimeSpan.FromSeconds(slideTimeTotalSeconds.TotalSeconds);
+
+			foreach (var realTimeTrackPart in realTimeTrackParts)
+			{
+				balanceTimeSpan += realTimeTrackPart.Delta;
+			}
+
+			return balanceTimeSpan;
+		}
+
+		private TimeSpan GetNightTime(NightSettings nightSettings)
+		{
+			if (nightSettings == null || nightSettings.NightEndTime == nightSettings.NightStartTime) return default(TimeSpan);
+
+			if (nightSettings.NightEndTime > nightSettings.NightStartTime)
+			{
+				return CalculateEveningTime(nightSettings.NightStartTime, nightSettings.NightEndTime, RealTimeTrackParts);
+			}
+
+			return CalculateEveningTime(nightSettings.NightStartTime, new TimeSpan(23, 59, 59), RealTimeTrackParts) +
+				   CalculateEveningTime(new TimeSpan(0, 0, 0), nightSettings.NightEndTime, RealTimeTrackParts);
+		}
+
+		/// <summary>
+		/// Вычисление типа временного интервала
+		/// </summary>
+		/// <param name="totals">Коллекция, хранящая время интервалов всех типов (за один день)</param>
+		/// <param name="plannedTimeTrackParts">Время итервалов рабочего графика</param>
+		/// <param name="isHoliday">Флаг выходного дня (праздника). true - выходной, false - нет</param>
+		/// <param name="error">Текст ошибки</param>
+		/// <returns>Возаращает тип интервала, для отображения в таблице УРВ</returns>
+		private TimeTrackType CalculateTimeTrackType(List<TimeTrackTotal> totals, List<TimeTrackPart> plannedTimeTrackParts, bool isHoliday, string error)
+		{
+			if (!string.IsNullOrEmpty(error))
 				return TimeTrackType.None;
 
 			var longestTimeTrackType = TimeTrackType.Presence;
 			var longestTimeSpan = new TimeSpan();
-			foreach (var total in Totals)
+			foreach (var total in totals)
 			{
 				switch (total.TimeTrackType)
 				{
@@ -455,37 +534,36 @@ namespace FiresecAPI.SKD
 						break;
 				}
 			}
-			if (longestTimeTrackType == TimeTrackType.Presence)
-			{
-				if (IsHoliday)
-					return TimeTrackType.Holiday;
 
-				if (PlannedTimeTrackParts.Count == 0)
-					return TimeTrackType.DayOff;
-			}
-			return longestTimeTrackType;
+			if (longestTimeTrackType != TimeTrackType.Presence) return longestTimeTrackType;
+
+			if (isHoliday)
+				return TimeTrackType.Holiday;
+
+			return plannedTimeTrackParts.Count == 0 ? TimeTrackType.DayOff : longestTimeTrackType;
 		}
 
-		private TimeSpan CalculateEveningTime(TimeSpan start, TimeSpan end)
+
+		private TimeSpan CalculateEveningTime(TimeSpan start, TimeSpan end, List<TimeTrackPart> realTimeTrackParts)
 		{
 			var result = new TimeSpan();
-			if (end > TimeSpan.Zero)
+
+			if (end <= TimeSpan.Zero) return result;
+
+			foreach (var trackPart in realTimeTrackParts)
 			{
-				foreach (var trackPart in RealTimeTrackParts)
+				if (trackPart.StartTime <= start && trackPart.EndTime >= end)
 				{
-					if (trackPart.StartTime <= start && trackPart.EndTime >= end)
+					result += end - start;
+				}
+				else
+				{
+					if ((trackPart.StartTime >= start && trackPart.StartTime <= end) ||
+					    (trackPart.EndTime >= start && trackPart.EndTime <= end))
 					{
-						result += end - start;
-					}
-					else
-					{
-						if ((trackPart.StartTime >= start && trackPart.StartTime <= end) ||
-							(trackPart.EndTime >= start && trackPart.EndTime <= end))
-						{
-							var minStartTime = trackPart.StartTime < start ? start : trackPart.StartTime;
-							var minEndTime = trackPart.EndTime > end ? end : trackPart.EndTime;
-							result += minEndTime - minStartTime;
-						}
+						var minStartTime = trackPart.StartTime < start ? start : trackPart.StartTime;
+						var minEndTime = trackPart.EndTime > end ? end : trackPart.EndTime;
+						result += minEndTime - minStartTime;
 					}
 				}
 			}
@@ -541,6 +619,9 @@ namespace FiresecAPI.SKD
 			return result;
 		}
 
+		/// <summary>
+		/// Получение буквенного кода для дня УРВ
+		/// </summary>
 		private void CalculateLetterCode()
 		{
 			Tooltip = TimeTrackType.ToDescription();
@@ -601,19 +682,18 @@ namespace FiresecAPI.SKD
 			}
 		}
 
-		private class ScheduleInterval
+		/// <summary>
+		/// Структура для хранения начального и конечного времени интервалов
+		/// </summary>
+		private struct ScheduleInterval
 		{
-			public TimeSpan StartTime { get; set; }
-			public TimeSpan EndTime { get; set; }
+			public TimeSpan StartTime;
+			public TimeSpan EndTime;
 
 			public ScheduleInterval(TimeSpan startTime, TimeSpan endTime)
 			{
 				StartTime = startTime;
 				EndTime = endTime;
-			}
-
-			public ScheduleInterval()
-			{
 			}
 		}
 	}

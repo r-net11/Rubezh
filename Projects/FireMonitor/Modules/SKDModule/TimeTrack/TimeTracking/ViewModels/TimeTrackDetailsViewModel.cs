@@ -87,6 +87,126 @@ namespace SKDModule.ViewModels
 
 		public bool IsNew { get; set; }
 
+		public TimeSpan BalanceTimeSpan
+		{
+			get
+			{
+				if (DayTimeTrack == null || DayTimeTrack.Totals == null) return default(TimeSpan);
+				var balance = DayTimeTrack.Totals.FirstOrDefault(x => x.TimeTrackType == TimeTrackType.Balance);
+				return balance != null ? balance.TimeSpan : default(TimeSpan);
+			}
+		}
+
+		public TimeSpan PresentTimeSpan
+		{
+			get
+			{
+				if (DayTimeTrack == null || DayTimeTrack.Totals == null) return default(TimeSpan);
+				var present = DayTimeTrack.Totals.FirstOrDefault(x => x.TimeTrackType == TimeTrackType.Presence);
+				return present != null ? present.TimeSpan : default(TimeSpan);
+			}
+		}
+
+		public TimeSpan AbsenceTimeSpan
+		{
+			get
+			{
+				if (DayTimeTrack == null || DayTimeTrack.Totals == null) return default(TimeSpan);
+				var absence = DayTimeTrack.Totals.FirstOrDefault(x => x.TimeTrackType == TimeTrackType.Absence);
+				return absence != null ? absence.TimeSpan : default(TimeSpan);
+			}
+		}
+
+		public TimeSpan AbsenceInsidePlanTimeSpan
+		{
+			get
+			{
+				if (DayTimeTrack == null || DayTimeTrack.Totals == null) return default(TimeSpan);
+				var absenceInsidePlan = DayTimeTrack.Totals.FirstOrDefault(x => x.TimeTrackType == TimeTrackType.AbsenceInsidePlan);
+				return absenceInsidePlan != null ? absenceInsidePlan.TimeSpan : default(TimeSpan);
+			}
+		}
+
+		public TimeSpan PresenceInBreakTimeSpan
+		{
+			get
+			{
+				if (DayTimeTrack == null || DayTimeTrack.Totals == null) return default(TimeSpan);
+				var presInBreak = DayTimeTrack.Totals.FirstOrDefault(x => x.TimeTrackType == TimeTrackType.PresenceInBrerak);
+				return presInBreak != null ? presInBreak.TimeSpan : default(TimeSpan);
+			}
+		}
+
+		public TimeSpan LateTimeSpan
+		{
+			get
+			{
+				if (DayTimeTrack == null || DayTimeTrack.Totals == null) return default(TimeSpan);
+				var late = DayTimeTrack.Totals.FirstOrDefault(x => x.TimeTrackType == TimeTrackType.Late);
+				return late != null ? late.TimeSpan : default(TimeSpan);
+			}
+		}
+
+		public TimeSpan EarlyLeaveTimeSpan
+		{
+			get
+			{
+				if (DayTimeTrack == null || DayTimeTrack.Totals == null) return default(TimeSpan);
+				var earlyLeave = DayTimeTrack.Totals.FirstOrDefault(x => x.TimeTrackType == TimeTrackType.EarlyLeave);
+				return earlyLeave != null ? earlyLeave.TimeSpan : default(TimeSpan);
+			}
+		}
+
+		public TimeSpan OvertimeTimeSpan
+		{
+			get
+			{
+				if (DayTimeTrack == null || DayTimeTrack.Totals == null) return default(TimeSpan);
+				var overtime = DayTimeTrack.Totals.FirstOrDefault(x => x.TimeTrackType == TimeTrackType.Overtime);
+				return overtime != null ? overtime.TimeSpan : default(TimeSpan);
+			}
+		}
+
+		public TimeSpan NightTimeSpan
+		{
+			get
+			{
+				if (DayTimeTrack == null || DayTimeTrack.Totals == null) return default(TimeSpan);
+				var night = DayTimeTrack.Totals.FirstOrDefault(x => x.TimeTrackType == TimeTrackType.Night);
+				return night != null ? night.TimeSpan : default(TimeSpan);
+			}
+		}
+
+		public TimeSpan DocumentOvertimeTimeSpan
+		{
+			get
+			{
+				if (DayTimeTrack == null || DayTimeTrack.Totals == null) return default(TimeSpan);
+				var docOvertime = DayTimeTrack.Totals.FirstOrDefault(x => x.TimeTrackType == TimeTrackType.DocumentOvertime);
+				return docOvertime != null ? docOvertime.TimeSpan : default(TimeSpan);
+			}
+		}
+
+		public TimeSpan DocumentPresenceTimeSpan
+		{
+			get
+			{
+				if (DayTimeTrack == null || DayTimeTrack.Totals == null) return default(TimeSpan);
+				var docPresence = DayTimeTrack.Totals.FirstOrDefault(x => x.TimeTrackType == TimeTrackType.DocumentPresence);
+				return docPresence != null ? docPresence.TimeSpan : default(TimeSpan);
+			}
+		}
+
+		public TimeSpan DocumentAbsenceTimeSpan
+		{
+			get
+			{
+				if (DayTimeTrack == null || DayTimeTrack.Totals == null) return default(TimeSpan);
+				var docAbsence = DayTimeTrack.Totals.FirstOrDefault(x => x.TimeTrackType == TimeTrackType.DocumentAbsence);
+				return docAbsence != null ? docAbsence.TimeSpan : default(TimeSpan);
+			}
+		}
+
 		#endregion
 
 		#region Constructors
