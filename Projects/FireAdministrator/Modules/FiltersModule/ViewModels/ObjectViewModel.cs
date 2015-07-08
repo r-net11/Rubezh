@@ -71,18 +71,6 @@ namespace FiltersModule.ViewModels
                     ImageSource = "/Controls;component/Images/Door.png";
 					break;
 
-				case JournalObjectType.SKDDevice:
-					ImageSource = "/Controls;component/SKDIcons/Controller.png";
-					break;
-
-				case JournalObjectType.SKDZone:
-					ImageSource = "/Controls;component/Images/SKDZone.png";
-					break;
-
-				case JournalObjectType.SKDDoor:
-					ImageSource = "/Controls;component/Images/Door.png";
-					break;
-
 				case JournalObjectType.VideoDevice:
 					ImageSource = "/Controls;component/Images/Camera.png";
 					break;
