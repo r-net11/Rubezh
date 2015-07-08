@@ -774,14 +774,6 @@ namespace FiresecService
 			var door = SKDManager.Doors.FirstOrDefault(x => x.UID == doorUid);
 			if (door == null)
 				return;
-			if (procedureStep.ControlDoorArguments.DoorCommandType == DoorCommandType.Open)
-				FiresecServiceManager.SafeFiresecService.SKDOpenDoor(door.UID);
-			if (procedureStep.ControlDoorArguments.DoorCommandType == DoorCommandType.Close)
-				FiresecServiceManager.SafeFiresecService.SKDCloseDoor(door.UID);
-			if (procedureStep.ControlDoorArguments.DoorCommandType == DoorCommandType.OpenForever)
-				FiresecServiceManager.SafeFiresecService.SKDOpenDoorForever(door.UID);
-			if (procedureStep.ControlDoorArguments.DoorCommandType == DoorCommandType.CloseForever)
-				FiresecServiceManager.SafeFiresecService.SKDCloseDoorForever(door.UID);
 		}
 
 		void ControlGKDoor(ProcedureStep procedureStep)
@@ -829,14 +821,6 @@ namespace FiresecService
 			var sKDZone = SKDManager.Zones.FirstOrDefault(x => x.UID == sKDZoneUid);
 			if (sKDZone == null)
 				return;
-			if (procedureStep.ControlSKDZoneArguments.SKDZoneCommandType == SKDZoneCommandType.Open)
-				FiresecServiceManager.SafeFiresecService.SKDOpenZone(sKDZone.UID);
-			if (procedureStep.ControlSKDZoneArguments.SKDZoneCommandType == SKDZoneCommandType.Close)
-				FiresecServiceManager.SafeFiresecService.SKDCloseZone(sKDZone.UID);
-			if (procedureStep.ControlSKDZoneArguments.SKDZoneCommandType == SKDZoneCommandType.OpenForever)
-				FiresecServiceManager.SafeFiresecService.SKDOpenZoneForever(sKDZone.UID);
-			if (procedureStep.ControlSKDZoneArguments.SKDZoneCommandType == SKDZoneCommandType.CloseForever)
-				FiresecServiceManager.SafeFiresecService.SKDCloseZoneForever(sKDZone.UID);
 		}
 
 		void ControlDelay(ProcedureStep procedureStep)

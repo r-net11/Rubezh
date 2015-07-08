@@ -110,7 +110,6 @@ namespace FiresecClient
 				GKDriversCreator.Create();
 				GKManager.UpdateConfiguration();
 				GKManager.CreateStates();
-				SKDManager.UpdateConfiguration();
 				UpdatePlansConfiguration();
 			}
 			catch (Exception e)
@@ -130,10 +129,6 @@ namespace FiresecClient
 				GKManager.MPTs.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
 				GKManager.DeviceConfiguration.GuardZones.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
 				GKManager.Doors.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
-
-				SKDManager.Devices.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
-				SKDManager.Zones.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
-				SKDManager.Doors.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
 
 				SystemConfiguration.Cameras.ForEach(x => x.PlanElementUIDs = new List<Guid>());
 				SystemConfiguration.AutomationConfiguration.Procedures.ForEach(x => x.PlanElementUIDs = new List<Guid>());
@@ -173,25 +168,6 @@ namespace FiresecClient
 				{
 					if (!gkDoorMap.ContainsKey(door.UID))
 						gkDoorMap.Add(door.UID, door);
-				}
-
-				var doorMap = new Dictionary<Guid, SKDDoor>();
-				foreach (var door in SKDManager.SKDConfiguration.Doors)
-				{
-					if (!doorMap.ContainsKey(door.UID))
-						doorMap.Add(door.UID, door);
-				}
-				var skdDeviceMap = new Dictionary<Guid, SKDDevice>();				
-				foreach (var skdDevice in SKDManager.Devices)
-				{
-					if (!skdDeviceMap.ContainsKey(skdDevice.UID))
-						skdDeviceMap.Add(skdDevice.UID, skdDevice);
-				}
-				var skdZoneMap = new Dictionary<Guid, SKDZone>();
-				foreach (var skdZone in SKDManager.Zones)
-				{
-					if (!skdZoneMap.ContainsKey(skdZone.UID))
-						skdZoneMap.Add(skdZone.UID, skdZone);
 				}
 
 				var cameraMap = new Dictionary<Guid, Camera>();
@@ -287,33 +263,6 @@ namespace FiresecClient
 						elementGKDoor.UpdateZLayer();
 						if (gkDoorMap.ContainsKey(elementGKDoor.DoorUID))
 							gkDoorMap[elementGKDoor.DoorUID].PlanElementUIDs.Add(elementGKDoor.UID);
-					}
-
-					for (int i = plan.ElementSKDDevices.Count(); i > 0; i--)
-					{
-						var elementSKDDevice = plan.ElementSKDDevices[i - 1];
-						elementSKDDevice.UpdateZLayer();
-						if (skdDeviceMap.ContainsKey(elementSKDDevice.DeviceUID))
-							skdDeviceMap[elementSKDDevice.DeviceUID].PlanElementUIDs.Add(elementSKDDevice.UID);
-					}
-					for (int i = plan.ElementDoors.Count(); i > 0; i--)
-					{
-						var elementDoor = plan.ElementDoors[i - 1];
-						elementDoor.UpdateZLayer();
-						if (doorMap.ContainsKey(elementDoor.DoorUID))
-							doorMap[elementDoor.DoorUID].PlanElementUIDs.Add(elementDoor.UID);
-					}
-					foreach (var skdZone in plan.ElementPolygonSKDZones)
-					{
-						UpdateSKDZoneType(skdZone, skdZone.ZoneUID != Guid.Empty && skdZoneMap.ContainsKey(skdZone.ZoneUID) ? skdZoneMap[skdZone.ZoneUID] : null);
-						if (skdZoneMap.ContainsKey(skdZone.ZoneUID))
-							skdZoneMap[skdZone.ZoneUID].PlanElementUIDs.Add(skdZone.UID);
-					}
-					foreach (var skdZone in plan.ElementRectangleSKDZones)
-					{
-						UpdateSKDZoneType(skdZone, skdZone.ZoneUID != Guid.Empty && skdZoneMap.ContainsKey(skdZone.ZoneUID) ? skdZoneMap[skdZone.ZoneUID] : null);
-						if (skdZoneMap.ContainsKey(skdZone.ZoneUID))
-							skdZoneMap[skdZone.ZoneUID].PlanElementUIDs.Add(skdZone.UID);
 					}
 
 					for (int i = plan.ElementExtensions.Count(); i > 0; i--)

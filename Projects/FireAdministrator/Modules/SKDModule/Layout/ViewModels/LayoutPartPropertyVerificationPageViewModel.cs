@@ -18,14 +18,6 @@ namespace SKDModule.ViewModels
 			_layoutPartVerificationViewModel = layoutPartFilterViewModel;
 
 			Devices = new ObservableCollection<DeviceViewModel>();
-			foreach (var device in SKDManager.Devices)
-			{
-				if (device.DriverType == SKDDriverType.Reader)
-				{
-					var deviceViewModel = new DeviceViewModel(device);
-					Devices.Add(deviceViewModel);
-				}
-			}
 			foreach (var device in GKManager.Devices)
 			{
 				if (device.DriverType == GKDriverType.RSR2_CodeReader || device.DriverType == GKDriverType.RSR2_CardReader)

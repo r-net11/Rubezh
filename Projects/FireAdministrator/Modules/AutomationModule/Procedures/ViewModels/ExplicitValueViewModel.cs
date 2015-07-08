@@ -62,10 +62,7 @@ namespace AutomationModule.ViewModels
 			Device = GKManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == uidValue);
 			Zone = GKManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == uidValue);
 			GuardZone = GKManager.DeviceConfiguration.GuardZones.FirstOrDefault(x => x.UID == uidValue);
-			SKDDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == uidValue);
-			SKDZone = SKDManager.Zones.FirstOrDefault(x => x.UID == uidValue);
 			Camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == uidValue);
-			SKDDoor = SKDManager.Doors.FirstOrDefault(x => x.UID == uidValue);
 			GKDoor = GKManager.Doors.FirstOrDefault(x => x.UID == uidValue);
 			Direction = GKManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == uidValue);
 			Delay = GKManager.DeviceConfiguration.Delays.FirstOrDefault(x => x.UID == uidValue);

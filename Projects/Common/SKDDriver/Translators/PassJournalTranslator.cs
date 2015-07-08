@@ -6,6 +6,7 @@ using FiresecAPI;
 using FiresecAPI.SKD;
 using LinqKit;
 using OperationResult = FiresecAPI.OperationResult;
+using FiresecClient;
 
 namespace SKDDriver.Translators
 {
@@ -180,7 +181,7 @@ namespace SKDDriver.Translators
 			{
 				employees = skdDatabaseService.EmployeeTranslator.GetList(new EmployeeFilter()).Result;
 			}
-			var zoneUID = SKDManager.Zones.FirstOrDefault().UID;
+			var zoneUID = GKManager.Zones.FirstOrDefault().UID;
 
 			foreach (var passJournal in Context.PassJournals)
 			{

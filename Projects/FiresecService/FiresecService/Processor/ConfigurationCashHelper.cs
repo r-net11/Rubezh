@@ -28,7 +28,6 @@ namespace FiresecService
 				SystemConfiguration = new SystemConfiguration();
 
 			GKManager.DeviceConfiguration = GetDeviceConfiguration();
-			SKDManager.SKDConfiguration = GetSKDConfiguration();
 
 			SystemConfiguration.UpdateConfiguration();
 
@@ -39,7 +38,6 @@ namespace FiresecService
 			DescriptorsManager.CreateDynamicObjectsInGKManager();
 			GKManager.UpdateConfiguration();
 
-			SKDManager.UpdateConfiguration();
 		}
 
 		static void CheckConfigDirectory()

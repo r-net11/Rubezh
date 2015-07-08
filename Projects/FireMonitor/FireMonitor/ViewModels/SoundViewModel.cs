@@ -89,15 +89,6 @@ namespace FireMonitor.ViewModels
 							break;
 						}
 
-					foreach (var device in SKDManager.Devices)
-					{
-						if (device.State != null && device.State.StateClass == sound.StateClass)
-						{
-							hasStateClass = true;
-							break;
-						}
-					}
-
 					if (hasStateClass)
 					{
 						if (sound.StateClass < minSoundStateClass)

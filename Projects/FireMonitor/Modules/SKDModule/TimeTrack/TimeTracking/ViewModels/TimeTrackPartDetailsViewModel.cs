@@ -67,11 +67,6 @@ namespace SKDModule.ViewModels
 			{
 				Zones = new ObservableCollection<TimeTrackZone>();
 
-				var strazhZones = SKDManager.Zones.Where(x => schedule.Zones.Any(y => y.ZoneUID == x.UID));
-				foreach (var zone in strazhZones)
-				{
-					Zones.Add(new TimeTrackZone(zone));
-				}
 				var gkZones = GKManager.SKDZones.Where(x => schedule.Zones.Any(y => y.ZoneUID == x.UID));
 				foreach (var zone in gkZones)
 				{

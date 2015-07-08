@@ -19,11 +19,6 @@ namespace SKDModule.ViewModels
 			IconSource = LayoutPartDescription.IconPath + "BLevels.png";
 			_properties = properties ?? new LayoutPartReferenceProperties();
 			DeviceViewModel deviceViewModel = null;
-			var skdDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == _properties.ReferenceUID);
-			if (skdDevice != null)
-			{
-				deviceViewModel = new DeviceViewModel(skdDevice);
-			}
 			var gkDevice = GKManager.Devices.FirstOrDefault(x => x.UID == _properties.ReferenceUID);
 			if (gkDevice != null)
 			{

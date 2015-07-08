@@ -44,7 +44,6 @@ namespace FireAdministrator.ViewModels
 
 				FiresecManager.UpdateConfiguration();
 				GKManager.UpdateConfiguration();
-				SKDManager.UpdateConfiguration();
 
 				ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 				ServiceFactory.Layout.Close();
@@ -53,7 +52,6 @@ namespace FireAdministrator.ViewModels
 
 				ServiceFactory.SaveService.PlansChanged = true;
 				ServiceFactory.SaveService.GKChanged = true;
-				ServiceFactory.SaveService.SKDChanged = true;
 				ServiceFactory.Layout.ShowFooter(null);
 			}
 		}
@@ -110,7 +108,6 @@ namespace FireAdministrator.ViewModels
 			zipFile.Dispose();
 
 			MergeGKDeviceConfiguration();
-			MergeSKDConfiguration();
 		}
 
 		void MergeGKDeviceConfiguration()
@@ -218,40 +215,12 @@ namespace FireAdministrator.ViewModels
 
 			GKManager.UpdateConfiguration();
 			FiresecManager.UpdateConfiguration();
-			SKDManager.UpdateConfiguration();
 
 			var errorsString = errors.ToString();
 			if (!string.IsNullOrEmpty(errorsString))
 			{
 				MessageBoxService.ShowError(errorsString, "В результате слияния конфигурации возникли ошибки");
 			}
-		}
-
-		void MergeSKDConfiguration()
-		{
-			SKDConfiguration.Update();
-			CreateNewSKDUIDs();
-			SKDConfiguration.Update();
-
-			foreach (var device in SKDConfiguration.Devices)
-			{
-				SKDManager.Devices.Add(device);
-				if (device.Parent != null && device.Parent.Parent == null)
-				{
-					SKDManager.SKDConfiguration.RootDevice.Children.Add(device);
-				}
-			}
-			foreach (var zone in SKDConfiguration.Zones)
-			{
-				SKDManager.Zones.Add(zone);
-			}
-			foreach (var door in SKDConfiguration.Doors)
-			{
-				SKDManager.Doors.Add(door);
-			}
-
-			ReorderNos(SKDManager.Zones);
-			ReorderNos(SKDManager.Doors);
 		}
 
 		void CreateNewGKUIDs()
@@ -581,70 +550,6 @@ namespace FireAdministrator.ViewModels
 			}
 		}
 
-		void CreateNewSKDUIDs()
-		{
-			foreach (var device in SKDConfiguration.Devices)
-			{
-				var uid = Guid.NewGuid();
-				SKDDeviceUIDs.Add(device.UID, uid);
-				device.UID = uid;
-			}
-			foreach (var zone in SKDConfiguration.Zones)
-			{
-				var uid = Guid.NewGuid();
-				SKDZoneUIDs.Add(zone.UID, uid);
-				zone.UID = uid;
-			}
-			foreach (var door in SKDConfiguration.Doors)
-			{
-				var uid = Guid.NewGuid();
-				SKDDoorUIDs.Add(door.UID, uid);
-				door.UID = uid;
-			}
-
-			foreach (var device in SKDConfiguration.Devices)
-			{
-				if (device.ZoneUID != Guid.Empty)
-				{
-					device.ZoneUID = ReplaceUID(device.ZoneUID, SKDZoneUIDs);
-				}
-			}
-
-			foreach (var door in SKDConfiguration.Doors)
-			{
-				door.InDeviceUID = ReplaceUID(door.InDeviceUID, SKDDeviceUIDs);
-				door.OutDeviceUID = ReplaceUID(door.OutDeviceUID, SKDDeviceUIDs);
-			}
-
-			foreach (var plan in PlansConfiguration.AllPlans)
-			{
-				foreach (var element in plan.ElementSKDDevices)
-				{
-					if (element.DeviceUID != Guid.Empty)
-						element.DeviceUID = SKDDeviceUIDs[element.DeviceUID];
-					var uid = Guid.NewGuid();
-					PlenElementUIDs.Add(element.UID, uid);
-					element.UID = uid;
-				}
-				foreach (var element in plan.ElementRectangleSKDZones)
-				{
-					if (element.ZoneUID != Guid.Empty)
-						element.ZoneUID = SKDZoneUIDs[element.ZoneUID];
-					var uid = Guid.NewGuid();
-					PlenElementUIDs.Add(element.UID, uid);
-					element.UID = uid;
-				}
-				foreach (var element in plan.ElementPolygonSKDZones)
-				{
-					if (element.ZoneUID != Guid.Empty)
-						element.ZoneUID = SKDZoneUIDs[element.ZoneUID];
-					var uid = Guid.NewGuid();
-					PlenElementUIDs.Add(element.UID, uid);
-					element.UID = uid;
-				}
-			}
-		}
-
 		Dictionary<Guid, Guid> GKDeviceUIDs = new Dictionary<Guid, Guid>();
 		Dictionary<Guid, Guid> GKZoneUIDs = new Dictionary<Guid, Guid>();
 		Dictionary<Guid, Guid> GKGuardZoneUIDs = new Dictionary<Guid, Guid>();
@@ -656,9 +561,6 @@ namespace FireAdministrator.ViewModels
 		Dictionary<Guid, Guid> GKCodeUIDs = new Dictionary<Guid, Guid>();
 		Dictionary<Guid, Guid> GKScheduleUIDs = new Dictionary<Guid, Guid>();
 
-		Dictionary<Guid, Guid> SKDDeviceUIDs = new Dictionary<Guid, Guid>();
-		Dictionary<Guid, Guid> SKDZoneUIDs = new Dictionary<Guid, Guid>();
-		Dictionary<Guid, Guid> SKDDoorUIDs = new Dictionary<Guid, Guid>();
 		Dictionary<Guid, Guid> PlenElementUIDs = new Dictionary<Guid, Guid>();
 
 		Guid ReplaceUID(Guid uid, Dictionary<Guid, Guid> dictionary)

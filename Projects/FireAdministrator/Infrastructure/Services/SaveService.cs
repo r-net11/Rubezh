@@ -107,40 +107,6 @@ namespace Infrastructure
 			}
 		}
 
-		bool _skdChanged;
-		public bool SKDChanged
-		{
-			get { return _skdChanged; }
-			set
-			{
-				_skdChanged = value;
-				OnChanged();
-			}
-		}
-
-		public void TimeIntervalChanged()
-		{
-			ClientSettings.SKDMissmatchSettings.MissmatchControllerUIDs = new List<Guid>();
-			foreach (var device in SKDManager.Devices)
-			{
-				if (device.Driver.IsController)
-				{
-					ClientSettings.SKDMissmatchSettings.MissmatchControllerUIDs.Add(device.UID);
-				}
-			}
-		}
-
-		bool _skdLibraryChanged;
-		public bool SKDLibraryChanged
-		{
-			get { return _skdLibraryChanged; }
-			set
-			{
-				_skdLibraryChanged = value;
-				OnChanged();
-			}
-		}
-
 		bool _layoutsChanged;
 		public bool LayoutsChanged
 		{
@@ -174,7 +140,7 @@ namespace Infrastructure
 		{
 			get
 			{
-				return PlansChanged || FilterChanged || SecurityChanged || SoundsChanged ||  GKLibraryChanged || GKInstructionsChanged || GKChanged || CamerasChanged || EmailsChanged || SKDChanged || SKDLibraryChanged || LayoutsChanged || AutomationChanged;
+				return PlansChanged || FilterChanged || SecurityChanged || SoundsChanged ||  GKLibraryChanged || GKInstructionsChanged || GKChanged || CamerasChanged || EmailsChanged || LayoutsChanged || AutomationChanged;
 			}
 		}
 
@@ -198,8 +164,6 @@ namespace Infrastructure
 			SecurityChanged = value;
 			SoundsChanged = value;
 			CamerasChanged = value;
-			SKDChanged = value;
-			SKDLibraryChanged = value;
 			EmailsChanged = value;
 			LayoutsChanged = value;
 			AutomationChanged = value;

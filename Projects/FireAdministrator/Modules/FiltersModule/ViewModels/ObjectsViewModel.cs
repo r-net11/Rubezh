@@ -177,33 +177,6 @@ namespace FiltersModule.ViewModels
 				}
 			}
 
-			var skdViewModel = new ObjectViewModel(JournalSubsystemType.SKD);
-			skdViewModel.IsExpanded = true;
-			RootObjects.Add(skdViewModel);
-
-			var skdDevicesViewModel = new ObjectViewModel(JournalObjectType.SKDDevice);
-			AddChild(skdViewModel, skdDevicesViewModel);
-			foreach (var childDevice in SKDManager.SKDConfiguration.RootDevice.Children)
-			{
-				AddSKDDeviceInternal(childDevice, skdDevicesViewModel);
-			}
-
-			var skdZonesViewModel = new ObjectViewModel(JournalObjectType.SKDZone);
-			AddChild(skdViewModel, skdZonesViewModel);
-			foreach (var zone in SKDManager.Zones)
-			{
-				var objectViewModel = new ObjectViewModel(zone);
-				AddChild(skdZonesViewModel, objectViewModel);
-			}
-
-			var skdDoorsViewModel = new ObjectViewModel(JournalObjectType.SKDDoor);
-			AddChild(skdViewModel, skdDoorsViewModel);
-			foreach (var door in SKDManager.Doors)
-			{
-				var objectViewModel = new ObjectViewModel(door);
-				AddChild(skdDoorsViewModel, objectViewModel);
-			}
-
 			var videoViewModel = new ObjectViewModel(JournalSubsystemType.Video);
 			videoViewModel.IsExpanded = true;
 			RootObjects.Add(videoViewModel);
@@ -229,19 +202,6 @@ namespace FiltersModule.ViewModels
 				{
 					AddGKDeviceInternal(childDevice, deviceViewModel);
 				}
-			}
-			return deviceViewModel;
-		}
-
-		ObjectViewModel AddSKDDeviceInternal(SKDDevice device, ObjectViewModel parentDeviceViewModel)
-		{
-			var deviceViewModel = new ObjectViewModel(device);
-			if (parentDeviceViewModel != null)
-				AddChild(parentDeviceViewModel, deviceViewModel);
-
-			foreach (var childDevice in device.Children)
-			{
-				AddSKDDeviceInternal(childDevice, deviceViewModel);
 			}
 			return deviceViewModel;
 		}

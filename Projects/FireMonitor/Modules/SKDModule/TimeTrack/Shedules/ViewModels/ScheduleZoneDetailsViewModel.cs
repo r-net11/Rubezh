@@ -35,16 +35,6 @@ namespace SKDModule.ViewModels
 			Zones = new SortableObservableCollection<SelectationScheduleZoneViewModel>();
 			var organisationResult = OrganisationHelper.GetSingle(organisation.UID);
 			_doorUIDs = organisationResult != null ? organisationResult.DoorUIDs : new List<Guid>();
-			
-
-			var strazhDoors = FiresecAPI.SKD.SKDManager.Doors.Where(x => _doorUIDs.Any(y => y == x.UID));
-			foreach (var door in strazhDoors)
-			{
-				if (door != null && door.OutDevice != null && door.OutDevice.Zone != null && !Zones.Any(x => x.ZoneUID == door.OutDevice.Zone.UID))
-					Zones.Add(new SelectationScheduleZoneViewModel(door.OutDevice.Zone, door.UID));
-				if (door != null && door.InDevice != null && door.InDevice.Zone != null && !Zones.Any(x => x.ZoneUID == door.InDevice.Zone.UID))
-					Zones.Add(new SelectationScheduleZoneViewModel(door.InDevice.Zone, door.UID));
-			}
 
 			var gkDoors = FiresecClient.GKManager.Doors.Where(x => _doorUIDs.Any(y => y == x.UID));
 			foreach (var door in gkDoors)

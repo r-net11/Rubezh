@@ -20,10 +20,6 @@
 		<Views:CardRemovalReasonView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:ReaderSelectationViewModel}">
-		<Views:ReaderSelectationView />
-	</DataTemplate>
-
     <DataTemplate DataType="{x:Type ViewModels:GKReaderSelectationViewModel}">
         <Views:GKReaderSelectationView />
     </DataTemplate>

@@ -91,19 +91,6 @@ namespace FiresecService.Report.Templates
 
 
 				var doorMap = new Dictionary<Guid, CommonDoor>();
-				foreach (var door in SKDManager.Doors)
-				{
-					var commonDoor = new CommonDoor(door);
-					if (!filter.Zones.IsEmpty())
-					{
-						if ((filter.ZoneIn && door.InDevice != null && filter.Zones.Contains(door.InDevice.ZoneUID)) || (filter.ZoneOut && door.OutDevice != null && filter.Zones.Contains(door.OutDevice.ZoneUID)))
-							doorMap.Add(door.UID, commonDoor);
-					}
-					else
-					{
-						doorMap.Add(door.UID, commonDoor);
-					}
-				}
 				foreach (var door in GKManager.Doors)
 				{
 					var commonDoor = new CommonDoor(door);
@@ -118,23 +105,13 @@ namespace FiresecService.Report.Templates
 					}
 				}
 
-				Dictionary<int, string> intervalMap = new Dictionary<int,string>();
-				if (GlobalSettingsHelper.GlobalSettings.UseStrazhBrand)
+				Dictionary<int, string> intervalMap = new Dictionary<int, string>();
+				var schedulesResult = dataProvider.DatabaseService.GKScheduleTranslator.GetSchedules();
+				if (!schedulesResult.HasError)
 				{
-					foreach (var interval in SKDManager.SKDConfiguration.TimeIntervalsConfiguration.WeeklyIntervals)
+					foreach (var interval in schedulesResult.Result)
 					{
-						intervalMap.Add(interval.ID, interval.Name);
-					}
-				}
-				else
-				{
-					var schedulesResult = dataProvider.DatabaseService.GKScheduleTranslator.GetSchedules();
-					if (!schedulesResult.HasError)
-					{
-						foreach (var interval in schedulesResult.Result)
-						{
-							intervalMap.Add(interval.No, interval.Name);
-						}
+						intervalMap.Add(interval.No, interval.Name);
 					}
 				}
 
