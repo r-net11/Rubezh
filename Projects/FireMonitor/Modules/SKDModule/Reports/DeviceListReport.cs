@@ -4,6 +4,7 @@ using FiresecAPI;
 using FiresecAPI.GK;
 using Infrastructure.Common.Reports;
 using FiresecAPI.SKD;
+using FiresecClient;
 
 namespace SKDModule.Reports
 {
@@ -23,13 +24,13 @@ namespace SKDModule.Reports
 			table.Columns.Add("Address");
 			table.Columns.Add("DoorType");
 
-			foreach (var device in SKDManager.Devices)
+			foreach (var device in GKManager.Devices)
 			{
-				if (device.Driver.IsController)
+				if (device.DriverType == GKDriverType.RSR2_CardReader || device.DriverType == GKDriverType.RSR2_CodeReader)
 				{
 					var name = device.Name;
 					var address = device.Address;
-					var doorType = device.DoorType.ToDescription();
+					var doorType = "";
 					table.Rows.Add(name, address, doorType);
 				}
 			}

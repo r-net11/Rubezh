@@ -497,10 +497,7 @@ namespace FiresecService
 			var device = GKManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == itemUid);
 			var zone = GKManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == itemUid);
 			var guardZone = GKManager.DeviceConfiguration.GuardZones.FirstOrDefault(x => x.UID == itemUid);
-			var sKDDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == itemUid);
-			var sKDZone = SKDManager.Zones.FirstOrDefault(x => x.UID == itemUid);
 			var camera = ConfigurationCashHelper.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == itemUid);
-			var sKDDoor = SKDManager.Doors.FirstOrDefault(x => x.UID == itemUid);
 			var direction = GKManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == itemUid);
 			var delay = GKManager.DeviceConfiguration.Delays.FirstOrDefault(x => x.UID == itemUid);
 			if (device != null)
@@ -509,14 +506,8 @@ namespace FiresecService
 				return zone;
 			if (guardZone != null)
 				return guardZone;
-			if (sKDDevice != null)
-				return sKDDevice;
-			if (sKDZone != null)
-				return sKDZone;
 			if (camera != null)
 				return camera;
-			if (sKDDoor != null)
-				return sKDDoor;
 			if (direction != null)
 				return direction;
 			if (delay != null)

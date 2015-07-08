@@ -6,6 +6,8 @@ using Common;
 using FiresecAPI.SKD;
 using FiresecAPI.SKD.ReportFilters;
 using FiresecService.Report.DataSources;
+using FiresecAPI.GK;
+using FiresecClient;
 
 namespace FiresecService.Report.Templates
 {
@@ -39,13 +41,13 @@ namespace FiresecService.Report.Templates
 
 			var dataSet = new DoorsDataSet();
 
-			IEnumerable<SKDDoor> doors = SKDManager.Doors;
+			IEnumerable<GKDoor> doors = GKManager.Doors;
 			if (!filter.Doors.IsEmpty())
 				doors = doors.Where(item => filter.Doors.Contains(item.UID));
 			if (!filter.Zones.IsEmpty())
 				doors = doors.Where(item =>
-					(filter.ZoneIn && item.InDevice != null && filter.Zones.Contains(item.InDevice.ZoneUID)) ||
-					(filter.ZoneOut && item.OutDevice != null && filter.Zones.Contains(item.OutDevice.ZoneUID)));
+					(filter.ZoneIn && filter.Zones.Contains(item.EnterZoneUID)) ||
+					(filter.ZoneOut && filter.Zones.Contains(item.ExitZoneUID)));
 
 			var organisationsResult = dataProvider.DatabaseService.OrganisationTranslator.Get(new OrganisationFilter() { UIDs = filter.Organisations ?? new List<Guid>() });
 			if (organisationsResult.Result != null)
@@ -56,22 +58,23 @@ namespace FiresecService.Report.Templates
 						dataRow.Number = door.No;
 						dataRow.Door = door.Name;
 						dataRow.Comment = door.Description;
-						if (door.InDevice != null)
+						if (door.EnterDevice != null)
 						{
-							dataRow.EnterReader = door.InDevice.Name;
-							if (door.InDevice.Zone != null)
-								dataRow.EnterZone = door.InDevice.Zone.Name;
-							if (door.InDevice.Parent != null)
+							dataRow.EnterReader = door.EnterDevice.PresentationName;
+							var enterZone = GKManager.SKDZones.FirstOrDefault(x => x.UID == door.EnterZoneUID);
+							if (enterZone != null)
 							{
-								dataRow.Controller = door.InDevice.Parent.Name;
-								dataRow.IP = door.InDevice.Parent.Address;
+								dataRow.EnterZone = enterZone.Name;
 							}
 						}
-						if (door.OutDevice != null)
+						if (door.ExitDevice != null)
 						{
-							dataRow.ExitReader = door.OutDevice.Name;
-							if (door.OutDevice.Zone != null)
-								dataRow.ExitZone = door.OutDevice.Zone.Name;
+							dataRow.ExitReader = door.ExitDevice.PresentationName;
+							var exitZone = GKManager.SKDZones.FirstOrDefault(x => x.UID == door.ExitZoneUID);
+							if (exitZone != null)
+							{
+								dataRow.ExitZone = exitZone.Name;
+							}
 						}
 						dataRow.Organisation = organisation.Name;
 						dataSet.Data.Rows.Add(dataRow);

@@ -30,25 +30,6 @@ namespace SKDModule.Reports.ViewModels
 		{
 			RootFilters = new ObservableCollection<SKDObjectViewModel>();
 
-			var skdViewModel = new SKDObjectViewModel(JournalSubsystemType.SKD);
-			skdViewModel.IsExpanded = true;
-			RootFilters.Add(skdViewModel);
-
-			var skdDevicesViewModel = new SKDObjectViewModel(JournalObjectType.SKDDevice);
-			skdViewModel.AddChild(skdDevicesViewModel);
-			foreach (var childDevice in SKDManager.SKDConfiguration.RootDevice.Children)
-				AddSKDDeviceInternal(childDevice, skdDevicesViewModel);
-
-			var skdZonesViewModel = new SKDObjectViewModel(JournalObjectType.SKDZone);
-			skdViewModel.AddChild(skdZonesViewModel);
-			foreach (var zone in SKDManager.Zones)
-				skdZonesViewModel.AddChild(new SKDObjectViewModel(zone));
-
-			var skdDoorsViewModel = new SKDObjectViewModel(JournalObjectType.SKDDoor);
-			skdViewModel.AddChild(skdDoorsViewModel);
-			foreach (var door in SKDManager.Doors)
-				skdDoorsViewModel.AddChild(new SKDObjectViewModel(door));
-
 			var gkViewModel = new SKDObjectViewModel(JournalSubsystemType.GK);
 			gkViewModel.IsExpanded = true;
 			RootFilters.Add(gkViewModel);
@@ -76,15 +57,6 @@ namespace SKDModule.Reports.ViewModels
 			foreach (var childDevice in device.Children)
 				if (!childDevice.IsNotUsed)
 					AddGKDeviceInternal(childDevice, deviceViewModel);
-			return deviceViewModel;
-		}
-		private SKDObjectViewModel AddSKDDeviceInternal(SKDDevice device, SKDObjectViewModel parentDeviceViewModel)
-		{
-			var deviceViewModel = new SKDObjectViewModel(device);
-			if (parentDeviceViewModel != null)
-				parentDeviceViewModel.AddChild(deviceViewModel);
-			foreach (var childDevice in device.Children)
-				AddSKDDeviceInternal(childDevice, deviceViewModel);
 			return deviceViewModel;
 		}
 

@@ -44,9 +44,6 @@ namespace FireAdministrator
 					GKDriversCreator.Create();
 					BeforeInitialize(true);
 
-					ServiceFactory.StartupService.DoStep("Загрузка клиентских настроек");
-					ClientSettings.LoadSettings();
-
 					ServiceFactory.StartupService.DoStep("Проверка прав пользователя");
 					if (FiresecManager.CheckPermission(PermissionType.Adm_ViewConfig) == false)
 					{

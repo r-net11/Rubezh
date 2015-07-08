@@ -20,11 +20,6 @@ namespace SKDModule.Reports.ViewModels
 		{
 			Title = "Зоны";
 			Zones = new ObservableCollection<CheckedItemViewModel<CommonZoneViewModel>>();
-			foreach (var zone in SKDManager.Zones)
-			{
-				var zoneViewModel = new CommonZoneViewModel(zone);
-				Zones.Add(new CheckedItemViewModel<CommonZoneViewModel>(zoneViewModel));
-			}
 			foreach (var zone in GKManager.SKDZones)
 			{
 				var zoneViewModel = new CommonZoneViewModel(zone);
