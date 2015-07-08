@@ -39,9 +39,6 @@ namespace JournalModule.ViewModels
 		GKGuardZone GuardZone { get; set; }
 		GKSKDZone GKSKDZone { get; set; }
 		GKDoor GKDoor { get; set; }
-		SKDDevice SKDDevice { get; set; }
-		SKDZone SKDZone { get; set; }
-		SKDDoor SKDDoor { get; set; }
 		Camera Camera { get; set; }
 
 		public JournalItemViewModel(JournalItem journalItem)
@@ -356,24 +353,6 @@ namespace JournalModule.ViewModels
 						ShowOnPlanHelper.ShowDoor(GKDoor);
 					}
 					break;
-				case JournalObjectType.SKDDevice:
-					if (SKDDevice != null)
-					{
-						ShowOnPlanHelper.ShowSKDDevice(SKDDevice);
-					}
-					break;
-				case JournalObjectType.SKDZone:
-					if (SKDZone != null)
-					{
-						ShowOnPlanHelper.ShowSKDZone(SKDZone);
-					}
-					break;
-				case JournalObjectType.SKDDoor:
-					if (SKDDoor != null)
-					{
-						ShowOnPlanHelper.ShowSKDDoor(SKDDoor);
-					}
-					break;
 			}
 		}
 		bool CanShowOnPlan()
@@ -423,24 +402,6 @@ namespace JournalModule.ViewModels
 					if (GKDoor != null)
 					{
 						return ShowOnPlanHelper.CanShowDoor(GKDoor);
-					}
-					break;
-				case JournalObjectType.SKDDevice:
-					if (SKDDevice != null)
-					{
-						return ShowOnPlanHelper.CanShowSKDDevice(SKDDevice);
-					}
-					break;
-				case JournalObjectType.SKDZone:
-					if (SKDZone != null)
-					{
-						return ShowOnPlanHelper.CanShowSKDZone(SKDZone);
-					}
-					break;
-				case JournalObjectType.SKDDoor:
-					if (SKDDoor != null)
-					{
-						return ShowOnPlanHelper.CanShowSKDDoor(SKDDoor);
 					}
 					break;
 			}

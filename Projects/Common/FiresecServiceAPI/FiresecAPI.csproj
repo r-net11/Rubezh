@@ -241,7 +241,6 @@
     <Compile Include="Models\Plans\ElementProcedure.cs" />
     <Compile Include="Models\Plans\ElementPolygonGKGuardZone.cs" />
     <Compile Include="Models\Plans\ElementRectangleGKGuardZone.cs" />
-    <Compile Include="Models\Plans\ElementDoor.cs" />
     <Compile Include="Models\Plans\ElementPolygonGKSKDZone.cs" />
     <Compile Include="Models\Plans\ElementRectangleGKSKDZone.cs" />
     <Compile Include="Models\Plans\ElementPolygonGKMPT.cs" />
@@ -431,9 +430,6 @@
     <Compile Include="Models\Plans\ElementPolygonGKDirection.cs" />
     <Compile Include="Models\Plans\ElementRectangleGKDirection.cs" />
     <Compile Include="Models\Plans\PlanFolder.cs" />
-    <Compile Include="Models\Plans\ElementSKDDevice.cs" />
-    <Compile Include="Models\Plans\ElementPolygonSKDZone.cs" />
-    <Compile Include="Models\Plans\ElementRectangleSKDZone.cs" />
     <Compile Include="SKD\Library\SKDLibraryConfiguration.cs" />
     <Compile Include="SKD\Library\SKDLibraryDevice.cs" />
     <Compile Include="SKD\Library\SKDLibraryFrame.cs" />
