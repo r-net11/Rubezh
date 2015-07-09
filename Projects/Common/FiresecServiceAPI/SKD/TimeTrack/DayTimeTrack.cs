@@ -267,7 +267,7 @@ namespace FiresecAPI.SKD
 				var documentTimeTrack = documentTimeTrackParts.FirstOrDefault(x => x.StartTime <= combinedInterval.StartTime
 																			&& x.EndTime >= combinedInterval.EndTime);
 
-				timeTrackPart.TimeTrackPartType = GetTimeTrackType(timeTrackPart, realTimeTrackParts, plannedTimeTrackParts, IsOnlyFirstEnter, GetPlannedScheduleInterval(plannedTimeTrackParts), combinedInterval);
+				timeTrackPart.TimeTrackPartType = GetTimeTrackType(timeTrackPart, plannedTimeTrackParts, realTimeTrackParts, IsOnlyFirstEnter, GetPlannedScheduleInterval(plannedTimeTrackParts), combinedInterval);
 
 				//Если на временной интервал есть документ
 				if (documentTimeTrack != null)
