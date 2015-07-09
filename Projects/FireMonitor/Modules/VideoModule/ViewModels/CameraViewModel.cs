@@ -5,7 +5,6 @@ using System.Linq;
 using System.Windows;
 using Common;
 using DeviceControls;
-using Entities.DeviceOriented;
 using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
@@ -28,23 +27,6 @@ namespace VideoModule.ViewModels
 		}
 
 		public List<CameraViewModel> VisualCameraViewModels;
-
-		private void PropertyChangedEvent(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
-		{
-			var device = sender as Device;
-			var camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.Ip == Camera.Ip);
-			if ((device == null) || (camera == null))
-			{
-				throw new Exception("Неожидаемый null в CameraViewModel.PropertyChangedEvent");
-			}
-			var cameraViewModel = CamerasViewModel.Current.Cameras.FirstOrDefault(x => x.Camera.Ip == Camera.Ip);
-			if (cameraViewModel != null)
-				cameraViewModel.Update();
-			if ((device.Status == DeviceStatuses.Disconnected) || (device.Status == DeviceStatuses.NotAvailable))
-				StopAll();
-			if (device.Status == DeviceStatuses.Connected)
-				StartAll();
-		}
 
 		public string PresentationName
 		{
