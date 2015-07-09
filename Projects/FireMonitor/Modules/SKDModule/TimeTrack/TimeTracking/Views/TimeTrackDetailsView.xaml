@@ -14,8 +14,6 @@
 	mc:Ignorable="d">
 	<UserControl.Resources>
 		<Converters:TimeSpanToStringConverter x:Key="TimeSpanToStringConverter" />
-		<Converters:TimeSpanToColorConverter x:Key="TimeSpanToColorConverter" />
-		<Converters:TimeTrackTypeToColorConverter x:Key="TimeTrackTypeToColorConverter" />
 		<Style x:Key="TriggeredTextBlockStyle" TargetType="{StaticResource {x:Type TextBlock}}">
 			<Setter Property="TextBlock.Margin" Value="5" />
 			<Setter Property="TextBlock.VerticalAlignment" Value="Center" />
@@ -734,43 +732,6 @@
 						</TextBlock>
 					</Grid>
 				</Grid>
-				<!--<ItemsControl Height="160" ItemsSource="{Binding DayTimeTrack.Totals}">
-					<ItemsControl.ItemTemplate>
-						<DataTemplate>
-							<Grid Height="25" Margin="30 0">
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="200" />
-									<ColumnDefinition Width="50" />
-									<ColumnDefinition Width="Auto" />
-								</Grid.ColumnDefinitions>
-								<TextBlock
-									Margin="4 2"
-									HorizontalAlignment="Right"
-									VerticalAlignment="Center"
-									Text="{Binding TimeTrackType,
-								                          Converter={StaticResource EnumToDescriptionConverter}}" />
-								<Rectangle
-									Grid.Column="1"
-									Margin="4 2"
-									Fill="{Binding TimeTrackType,
-								                          Converter={StaticResource TimeTrackTypeToColorConverter}}" />
-								<TextBlock
-									Grid.Column="2"
-									Margin="4 2"
-									VerticalAlignment="Center"
-									Foreground="{Binding TimeSpan,
-								                                Converter={StaticResource TimeSpanToColorConverter}}"
-									Text="{Binding TimeSpan,
-								                          Converter={StaticResource TimeSpanToStringConverter}}" />
-							</Grid>
-						</DataTemplate>
-					</ItemsControl.ItemTemplate>
-					<ItemsControl.ItemsPanel>
-						<ItemsPanelTemplate>
-							<WrapPanel Orientation="Vertical" />
-						</ItemsPanelTemplate>
-					</ItemsControl.ItemsPanel>
-				</ItemsControl>-->
 			</StackPanel>
 		</Border>
 	</Grid>

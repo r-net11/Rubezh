@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reactive;
+using System.Reactive.Linq;
 using System.Threading;
 using FiresecAPI.SKD;
 using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using iTextSharp.text.pdf.qrcode;
 using ReactiveUI;
+using ReactiveUI.Xaml;
 using SKDModule.Model;
 
 namespace SKDModule.ViewModels
@@ -39,12 +43,35 @@ namespace SKDModule.ViewModels
 			}
 			SelectedDocument = Documents.FirstOrDefault();
 			IsDirty = false;
+				//this.ObservableForProperty(x => x.SelectedDocument)
+				//	.Value()
+				//	.Where(value => value.HasFile)
+				//	.ToProperty(this, x => x.CanDoChanges);
 
 			this.WhenAny(x => x.SelectedDocument, x => x.Value)
 				.Subscribe(value =>
 				{
 					CanDoChanges = value != null && value.HasFile;
 				});
+			//this.WhenAny(x => x.SelectedDocument, x => x.Value).Select(x => x != null)
+			//var isSearchEnabled = this.ObservableForProperty(x => x.SelectedDocument)
+			//.Select(x => x.Value != null);
+			//this.AddFileCommand =
+			//	new ReactiveAsyncCommand(Observable.Return<bool>(false));
+			//AddFileCommand.RegisterAsyncAction(_ => SelectedDocument.AddFile());
+			//.Subscribe(x => this.WhenAny(doc => doc.SelectedDocument, doc => doc.Value).Select(doc => doc.HasFile));
+			//AddFileCommand.Subscribe(this.WhenAny(x => x.SelectedDocument, x => x.Value).Subscribe(value =>
+			//{
+			//	value != null;
+			//})
+			//	)
+			//this.AddFileCommand = ReactiveAsyncCommand.Create(
+			//   pauseOrContinueCommand.Select(x => x.CanExecuteObservable).Switch().ObserveOn(RxApp.MainThreadScheduler),
+			//   async _ =>
+			//   {
+			//	   IReactiveCommand<Unit> command = await pauseOrContinueCommand.FirstAsync();
+			//	   await command.ExecuteAsync();
+			//   });
 		}
 
 		private bool _canDoChanges;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
-using System.Windows.Input;
+using System.Windows;
 using Common;
 using FiresecAPI.SKD;
 using FiresecClient;
@@ -99,13 +99,15 @@ namespace SKDModule.ViewModels
 			ServiceFactory.Events.GetEvent<EditTimeTrackPartEvent>().Subscribe(OnEditTimeTrackPart);
 
 			ShowFilterCommand = new RelayCommand(OnShowFilter);
-			RefreshCommand = new RelayCommand(OnRefresh);
 			PrintCommand = new RelayCommand(OnPrint, CanPrint);
 			ShowDocumentTypesCommand = new RelayCommand(OnShowDocumentTypes);
 
 			_timeTrackFilter = CreateTimeTrackFilter();
 
 			UpdateGrid();
+
+			RefreshCommand = new ReactiveAsyncCommand();
+			RefreshCommand.RegisterAsyncAction(_ => UpdateGrid());
 
 			this.WhenAny(x => x.SelectedTimeTrack, x => x.Value)
 				.Subscribe(_ =>
@@ -165,7 +167,10 @@ namespace SKDModule.ViewModels
 				_timeTrackEmployeeResults = timeTrackResult.TimeTrackEmployeeResults;
 				foreach (var timeTrackEmployeeResult in _timeTrackEmployeeResults)
 				{
-					TimeTracks.Add(new TimeTrack(_timeTrackFilter, timeTrackEmployeeResult));
+					var tmp = timeTrackEmployeeResult; //closures fix
+					Application.Current.Dispatcher.BeginInvoke((Action)(() =>
+						TimeTracks.Add(new TimeTrack(_timeTrackFilter, tmp))));
+
 				}
 
 				TimeTracks.Sort(x => x.ShortEmployee.LastName);
@@ -201,7 +206,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public RelayCommand RefreshCommand { get; private set; }
+		public ReactiveAsyncCommand RefreshCommand { get; private set; }
 
 		void OnRefresh()
 		{
@@ -300,5 +305,10 @@ namespace SKDModule.ViewModels
 		}
 
 		#endregion
+
+		public override void OnShow()
+		{
+			SelectedTimeTrack = TimeTracks.FirstOrDefault();
+		}
 	}
 }

@@ -107,10 +107,30 @@ namespace FiresecAPI.SKD
 			//CalculateCombinedTimeTrackParts();
 			CombinedTimeTrackParts = CalculateCombinedTimeTrackParts(PlannedTimeTrackParts, RealTimeTrackParts,
 																							DocumentTrackParts);
+			RealTimeTrackParts = FillTypesForRealTimeTrackParts(RealTimeTrackParts, PlannedTimeTrackParts);
 			//CalculateTotal();
 			Totals = CalculateTotal();
 			TimeTrackType = CalculateTimeTrackType(Totals, PlannedTimeTrackParts, IsHoliday, Error);
 			CalculateLetterCode();
+		}
+
+		private List<TimeTrackPart> FillTypesForRealTimeTrackParts(List<TimeTrackPart> realTimeTrackParts, List<TimeTrackPart> plannedTimeTrackParts)
+		{
+			var resultCollection = new List<TimeTrackPart>();
+			var scheduleTimeInterval = GetPlannedScheduleInterval(plannedTimeTrackParts);
+
+
+			foreach (var  timeTrackPart in realTimeTrackParts)
+			{
+				var hasPlannedTimeTrack = plannedTimeTrackParts.Any(x => x.StartTime <= timeTrackPart.StartTime
+																		&& x.EndTime >= timeTrackPart.EndTime);
+
+				timeTrackPart.TimeTrackPartType = GetTimeTrackType(timeTrackPart, true, hasPlannedTimeTrack, scheduleTimeInterval,
+					scheduleTimeInterval);
+				resultCollection.Add(timeTrackPart);
+			}
+
+			return resultCollection;
 		}
 
 		private void CalculateDocuments()
@@ -196,19 +216,26 @@ namespace FiresecAPI.SKD
 			DocumentTrackParts = result;
 		}
 
+		private ScheduleInterval GetPlannedScheduleInterval(List<TimeTrackPart> plannedTimeTrackParts)
+		{
+			var plannedScheduleTime = new ScheduleInterval();
+
+			if (plannedTimeTrackParts.Count <= 0) return plannedScheduleTime;
+
+			var startTime = plannedTimeTrackParts.FirstOrDefault();
+			var endTime = plannedTimeTrackParts.LastOrDefault();
+
+			plannedScheduleTime.StartTime = startTime != null ? startTime.StartTime : TimeSpan.Zero;
+			plannedScheduleTime.EndTime = endTime != null ? endTime.EndTime : TimeSpan.Zero;
+
+			return plannedScheduleTime;
+		}
+
 		/// <summary>
 		/// Вычисление всех проходов
 		/// </summary>
 		private List<TimeTrackPart> CalculateCombinedTimeTrackParts(List<TimeTrackPart> plannedTimeTrackParts, List<TimeTrackPart> realTimeTrackParts,																								List<TimeTrackPart> documentTimeTrackParts)
 		{
-			var plannedScheduleTime = new ScheduleInterval();
-
-			if (plannedTimeTrackParts.Count > 0)
-			{
-				plannedScheduleTime.StartTime = plannedTimeTrackParts.FirstOrDefault().StartTime;
-				plannedScheduleTime.EndTime = plannedTimeTrackParts.LastOrDefault().EndTime;
-			}
-
 			var combinedTimeSpans = GetCombinedTimeSpans();
 			combinedTimeSpans.Sort();
 
@@ -230,7 +257,7 @@ namespace FiresecAPI.SKD
 				var documentTimeTrack = documentTimeTrackParts.FirstOrDefault(x => x.StartTime <= combinedInterval.StartTime
 																			&& x.EndTime >= combinedInterval.EndTime);
 
-				timeTrackPart.TimeTrackPartType = GetTimeTrackType(timeTrackPart, hasRealTimeTrack, hasPlannedTimeTrack, plannedScheduleTime, combinedInterval);
+				timeTrackPart.TimeTrackPartType = GetTimeTrackType(timeTrackPart, hasRealTimeTrack, hasPlannedTimeTrack, GetPlannedScheduleInterval(plannedTimeTrackParts), combinedInterval);
 
 				//Если на временной интервал есть документ
 				if (documentTimeTrack != null)
@@ -317,7 +344,7 @@ namespace FiresecAPI.SKD
 				RealTimeTrackParts.Any(x => x.StartTime == timeTrackPart.EndTime))
 			{
 				var firstPlannedTimeTrack = PlannedTimeTrackParts.FirstOrDefault(x => x.StartTime == timeTrackPart.StartTime);
-				if (firstPlannedTimeTrack.StartsInPreviousDay)
+				if (firstPlannedTimeTrack != null && firstPlannedTimeTrack.StartsInPreviousDay)
 				{
 					return TimeTrackType.Absence;
 				}
@@ -333,7 +360,7 @@ namespace FiresecAPI.SKD
 			    RealTimeTrackParts.All(x => x.EndTime != timeTrackPart.StartTime)) return TimeTrackType.Absence;
 
 			var lastPlannedTimeTrack = PlannedTimeTrackParts.FirstOrDefault(x => x.EndTime == timeTrackPart.EndTime);
-			if (lastPlannedTimeTrack.EndsInNextDay)
+			if (lastPlannedTimeTrack != null && lastPlannedTimeTrack.EndsInNextDay)
 			{
 				return TimeTrackType.Absence;
 			}
@@ -402,14 +429,27 @@ namespace FiresecAPI.SKD
 					TimeSpan = totalBalance
 				});
 
-			return FillCollection(resultTotalCollection);
+			return FillTotalsCollection(resultTotalCollection);
 		}
 
-		private List<TimeTrackTotal> FillCollection(List<TimeTrackTotal> inputCollectionTotals)
+		/// <summary>
+		/// Заполняет коллекцию проходов, добавляя элементы тех типов, которые не существуют во входной коллекции проходов.
+		/// Не добавляет типы: Выходной, Праздник, Нет данных.
+		/// </summary>
+		/// <param name="inputCollectionTotals"></param>
+		/// <returns>Коллекция проходов для отображения пользователю</returns>
+		private List<TimeTrackTotal> FillTotalsCollection(List<TimeTrackTotal> inputCollectionTotals)
 		{
 			var resultCollection = new List<TimeTrackTotal>();
 			var timeTrackTypes = new List<TimeTrackType>(Enum.GetValues(typeof(TimeTrackType)).Cast<TimeTrackType>().ToList());
-			var collection = timeTrackTypes.Select(x => x).Where(x => !inputCollectionTotals.Select(timeTrack => timeTrack.TimeTrackType).Contains(x) && x != TimeTrackType.Holiday && x != TimeTrackType.DayOff && x != TimeTrackType.None);
+			var collection = timeTrackTypes
+								.Select(x => x)
+								.Where(x => !inputCollectionTotals
+											.Select(timeTrack => timeTrack.TimeTrackType)
+											.Contains(x)
+											&& x != TimeTrackType.Holiday
+											&& x != TimeTrackType.DayOff
+											&& x != TimeTrackType.None);
 			resultCollection.AddRange(collection.Select(x => new TimeTrackTotal(x)));
 			resultCollection.AddRange(inputCollectionTotals);
 			return resultCollection;
@@ -450,7 +490,6 @@ namespace FiresecAPI.SKD
 			{
 				case TimeTrackType.DocumentOvertime:
 				case TimeTrackType.DocumentPresence:
-				case TimeTrackType.Presence:
 					return timeTrack.Delta;
 
 				case TimeTrackType.Absence:
@@ -469,6 +508,13 @@ namespace FiresecAPI.SKD
 			return default(TimeSpan);
 		}
 
+		/// <summary>
+		/// Расчитывает баланс для каждого прохода сотрудника. Не учитывается неразрешенная переработка.
+		/// </summary>
+		/// <param name="slideTimeTotalSeconds">Время скользящего графика в секундах</param>
+		/// <param name="plannedTimeTrackParts">Интервалы рабочего графика</param>
+		/// <param name="realTimeTrackParts">Интервалы проходов сотрудника</param>
+		/// <returns>Баланс, вычисленный на основе скользящего графика</returns>
 		private TimeSpan GetBalanceForSlideTime(TimeSpan slideTimeTotalSeconds, List<TimeTrackPart> plannedTimeTrackParts, List<TimeTrackPart> realTimeTrackParts)
 		{
 			if (slideTimeTotalSeconds.TotalSeconds <= 0) return default(TimeSpan);
@@ -480,6 +526,8 @@ namespace FiresecAPI.SKD
 
 			foreach (var realTimeTrackPart in realTimeTrackParts)
 			{
+				if (realTimeTrackPart.TimeTrackPartType == TimeTrackType.Overtime) continue;
+
 				balanceTimeSpan += realTimeTrackPart.Delta;
 			}
 
