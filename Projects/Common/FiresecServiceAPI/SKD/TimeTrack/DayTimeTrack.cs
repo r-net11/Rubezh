@@ -109,11 +109,17 @@ namespace FiresecAPI.SKD
 																							DocumentTrackParts);
 			RealTimeTrackParts = FillTypesForRealTimeTrackParts(RealTimeTrackParts, PlannedTimeTrackParts);
 			//CalculateTotal();
-			Totals = CalculateTotal();
+			Totals = CalculateTotal(SlideTime, PlannedTimeTrackParts, RealTimeTrackParts, CombinedTimeTrackParts);
 			TimeTrackType = CalculateTimeTrackType(Totals, PlannedTimeTrackParts, IsHoliday, Error);
 			CalculateLetterCode();
 		}
 
+		/// <summary>
+		/// Расчитывает типы для временных интервалов прохода сотрудника
+		/// </summary>
+		/// <param name="realTimeTrackParts">Коллекция временных интервалов проходов сотрудника</param>
+		/// <param name="plannedTimeTrackParts">Коллекция временных интервалов графика работ</param>
+		/// <returns>Коллекция временных интервалов проходов сотрудника с заполненными типами проходов</returns>
 		private List<TimeTrackPart> FillTypesForRealTimeTrackParts(List<TimeTrackPart> realTimeTrackParts, List<TimeTrackPart> plannedTimeTrackParts)
 		{
 			var resultCollection = new List<TimeTrackPart>();
@@ -125,7 +131,7 @@ namespace FiresecAPI.SKD
 				var hasPlannedTimeTrack = plannedTimeTrackParts.Any(x => x.StartTime <= timeTrackPart.StartTime
 																		&& x.EndTime >= timeTrackPart.EndTime);
 
-				timeTrackPart.TimeTrackPartType = GetTimeTrackType(timeTrackPart, true, hasPlannedTimeTrack, scheduleTimeInterval,
+				timeTrackPart.TimeTrackPartType = GetTimeTrackType(timeTrackPart, realTimeTrackParts, plannedTimeTrackParts, IsOnlyFirstEnter, scheduleTimeInterval,
 					scheduleTimeInterval);
 				resultCollection.Add(timeTrackPart);
 			}
@@ -216,7 +222,7 @@ namespace FiresecAPI.SKD
 			DocumentTrackParts = result;
 		}
 
-		private ScheduleInterval GetPlannedScheduleInterval(List<TimeTrackPart> plannedTimeTrackParts)
+		public ScheduleInterval GetPlannedScheduleInterval(List<TimeTrackPart> plannedTimeTrackParts)
 		{
 			var plannedScheduleTime = new ScheduleInterval();
 
@@ -232,18 +238,22 @@ namespace FiresecAPI.SKD
 		}
 
 		/// <summary>
-		/// Вычисление всех проходов
+		/// Определяет начальное и конечное время всех интервалов и расчитывает для них тип
 		/// </summary>
-		private List<TimeTrackPart> CalculateCombinedTimeTrackParts(List<TimeTrackPart> plannedTimeTrackParts, List<TimeTrackPart> realTimeTrackParts,																								List<TimeTrackPart> documentTimeTrackParts)
+		/// <param name="plannedTimeTrackParts">Коллекция временных интервалов графика работ</param>
+		/// <param name="realTimeTrackParts">Коллекция временных интервалов прохода сотрудника</param>
+		/// <param name="documentTimeTrackParts">Коллекция интервалов, закрытых документами</param>
+		/// <returns>Возвращает все типы интервалов за текущий день</returns>
+		public List<TimeTrackPart> CalculateCombinedTimeTrackParts(List<TimeTrackPart> plannedTimeTrackParts, List<TimeTrackPart> realTimeTrackParts, List<TimeTrackPart> documentTimeTrackParts)
 		{
-			var combinedTimeSpans = GetCombinedTimeSpans();
+			var combinedTimeSpans = GetCombinedTimeSpans(realTimeTrackParts, plannedTimeTrackParts, documentTimeTrackParts);
 			combinedTimeSpans.Sort();
 
 			var combinedTimeTrackParts = new List<TimeTrackPart>();
 
 			for (var i = 0; i < combinedTimeSpans.Count - 1; i++)
 			{
-				var combinedInterval = new ScheduleInterval(combinedTimeSpans[i], combinedTimeSpans[i + 1]);
+				var combinedInterval = new ScheduleInterval(combinedTimeSpans[i], combinedTimeSpans[i + 1]); //TODO: this variable can be killed. Cuz combinedInterval is equal timeTrackPart
 
 				var timeTrackPart = new TimeTrackPart { StartTime = combinedInterval.StartTime, EndTime = combinedInterval.EndTime };
 				combinedTimeTrackParts.Add(timeTrackPart);
@@ -257,7 +267,7 @@ namespace FiresecAPI.SKD
 				var documentTimeTrack = documentTimeTrackParts.FirstOrDefault(x => x.StartTime <= combinedInterval.StartTime
 																			&& x.EndTime >= combinedInterval.EndTime);
 
-				timeTrackPart.TimeTrackPartType = GetTimeTrackType(timeTrackPart, hasRealTimeTrack, hasPlannedTimeTrack, GetPlannedScheduleInterval(plannedTimeTrackParts), combinedInterval);
+				timeTrackPart.TimeTrackPartType = GetTimeTrackType(timeTrackPart, realTimeTrackParts, plannedTimeTrackParts, IsOnlyFirstEnter, GetPlannedScheduleInterval(plannedTimeTrackParts), combinedInterval);
 
 				//Если на временной интервал есть документ
 				if (documentTimeTrack != null)
@@ -297,18 +307,25 @@ namespace FiresecAPI.SKD
 		}
 
 		/// <summary>
-		/// Получение типа интервала прохода
+		/// Получение типа интервала прохода, формируемого в графике "Итого"
 		/// </summary>
 		/// <param name="timeTrackPart">Время, отслеженное в УРВ</param>
-		/// <param name="hasRealTimeTrack">Флаг, показывающий, было ли появление сотрудника в данном интервале времени</param>
-		/// <param name="hasPlannedTimeTrack">Флаг, показывающий, запланирован ли на данный интервал времени, график работы сотрудника</param>
+		/// <param name="realTimeTrackParts">Коллекция интервалов прохода сотрудника</param>
+		/// <param name="plannedTimeTrackParts">Коллекция интервалов графика работ</param>
+		/// <param name="isOnlyFirstEnter">Флаг, показывающий, работает ли система в режиме "первый вход-последний выход"</param>
 		/// <param name="schedulePlannedInterval">Начальное и конечное время графика работы</param>
 		/// <param name="combinedInterval">Начальное время и конечное время временного интервала в УРВ</param>
 		/// <returns>Возвращает тип интервала прохода для расчета баланса</returns>
-		private TimeTrackType GetTimeTrackType(TimeTrackPart timeTrackPart, bool hasRealTimeTrack, bool hasPlannedTimeTrack, ScheduleInterval schedulePlannedInterval, ScheduleInterval combinedInterval)
+		public TimeTrackType GetTimeTrackType(TimeTrackPart timeTrackPart, List<TimeTrackPart> plannedTimeTrackParts, List<TimeTrackPart> realTimeTrackParts,  bool isOnlyFirstEnter, ScheduleInterval schedulePlannedInterval, ScheduleInterval combinedInterval)
 		{
+			var hasRealTimeTrack = realTimeTrackParts.Any(x => x.StartTime <= combinedInterval.StartTime
+																&& x.EndTime >= combinedInterval.EndTime);
+
+			var hasPlannedTimeTrack = plannedTimeTrackParts.Any(x => x.StartTime <= combinedInterval.StartTime
+																	&& x.EndTime >= combinedInterval.EndTime);
+
 			//Если есть интервал прохода сотрудника, который попадает в гафик работ, то "Явка"
-			if (hasRealTimeTrack && hasPlannedTimeTrack)
+			if (hasRealTimeTrack && hasPlannedTimeTrack) //TODO: hasPlannedTimeTrack flag may be killed by inserting (timeTrackPart.StartTime >= schedulePlannedInterval.StartTime && timeTrackPart.EndTime <= schedulePlannedInterval.EndTime)
 			{
 				return TimeTrackType.Presence;
 			}
@@ -321,7 +338,7 @@ namespace FiresecAPI.SKD
 
 			//Если есть интервал прохода сотрудника, который не попадает в интервал графика работа, то "Сверхурочно"
 			//или, если он попадает в график работ, то "Явка в перерыве"
-			if (hasRealTimeTrack) //&& !hasPlannedTimeTrack)
+			if (hasRealTimeTrack)
 			{
 				var type = TimeTrackType.Overtime;
 				if (timeTrackPart.StartTime > schedulePlannedInterval.StartTime &&
@@ -334,16 +351,18 @@ namespace FiresecAPI.SKD
 			timeTrackPart.TimeTrackPartType = TimeTrackType.Absence; //Отсутствие
 
 			//Если учитывается первый вход-последний выход и проход в рамках графика, то "Отсутствие в рамках графика"
-			if (RealTimeTrackParts.Any(x => x.StartTime <= combinedInterval.StartTime && x.EndTime >= combinedInterval.EndTime) && IsOnlyFirstEnter)
+			if (realTimeTrackParts.Any(x => x.StartTime >= combinedInterval.StartTime && x.EndTime >= combinedInterval.EndTime) && isOnlyFirstEnter)
+				//TODO: WTF??: the first expression is equal hasRealTimeTrack.
+				//TODO: It must be smth like this: realTimeTrackParts.Any(x => x.StartTime >= combinedInterval.StartTime && x.EndTime >= combinedInterval.EndTime) && isOnlyFirstEnter
 			{
 				return TimeTrackType.AbsenceInsidePlan;
 			}
 
-			if (PlannedTimeTrackParts.Any(x => x.StartTime == timeTrackPart.StartTime) &&
-				PlannedTimeTrackParts.All(x => x.EndTime != timeTrackPart.EndTime) &&
-				RealTimeTrackParts.Any(x => x.StartTime == timeTrackPart.EndTime))
+			if (plannedTimeTrackParts.Any(x => x.StartTime == timeTrackPart.StartTime) && //TODO: describe it
+				plannedTimeTrackParts.All(x => x.EndTime != timeTrackPart.EndTime) &&
+				realTimeTrackParts.Any(x => x.StartTime == timeTrackPart.EndTime))
 			{
-				var firstPlannedTimeTrack = PlannedTimeTrackParts.FirstOrDefault(x => x.StartTime == timeTrackPart.StartTime);
+				var firstPlannedTimeTrack = plannedTimeTrackParts.FirstOrDefault(x => x.StartTime == timeTrackPart.StartTime);
 				if (firstPlannedTimeTrack != null && firstPlannedTimeTrack.StartsInPreviousDay)
 				{
 					return TimeTrackType.Absence;
@@ -355,11 +374,11 @@ namespace FiresecAPI.SKD
 				}
 			}
 
-			if (PlannedTimeTrackParts.Any(x => x.StartTime == timeTrackPart.StartTime) ||
-			    PlannedTimeTrackParts.All(x => x.EndTime != timeTrackPart.EndTime) ||
-			    RealTimeTrackParts.All(x => x.EndTime != timeTrackPart.StartTime)) return TimeTrackType.Absence;
+			if (plannedTimeTrackParts.Any(x => x.StartTime == timeTrackPart.StartTime) ||		//TODO: describe it
+			    plannedTimeTrackParts.All(x => x.EndTime != timeTrackPart.EndTime) ||
+			    realTimeTrackParts.All(x => x.EndTime != timeTrackPart.StartTime)) return TimeTrackType.Absence;
 
-			var lastPlannedTimeTrack = PlannedTimeTrackParts.FirstOrDefault(x => x.EndTime == timeTrackPart.EndTime);
+			var lastPlannedTimeTrack = plannedTimeTrackParts.FirstOrDefault(x => x.EndTime == timeTrackPart.EndTime);
 			if (lastPlannedTimeTrack != null && lastPlannedTimeTrack.EndsInNextDay)
 			{
 				return TimeTrackType.Absence;
@@ -368,20 +387,20 @@ namespace FiresecAPI.SKD
 			return timeTrackPart.Delta > AllowedEarlyLeave ? TimeTrackType.EarlyLeave : TimeTrackType.Absence;
 		}
 
-		private List<TimeSpan> GetCombinedTimeSpans()
+		private List<TimeSpan> GetCombinedTimeSpans(List<TimeTrackPart> realTimeTrackParts, List<TimeTrackPart> plannedTimeTrackParts, List<TimeTrackPart> documentTimeTrackParts)
 		{
 			var combinedTimeSpans = new List<TimeSpan>();
-			foreach (var trackPart in RealTimeTrackParts)
+			foreach (var trackPart in realTimeTrackParts)
 			{
 				combinedTimeSpans.Add(trackPart.StartTime);
 				combinedTimeSpans.Add(trackPart.EndTime);
 			}
-			foreach (var trackPart in PlannedTimeTrackParts)
+			foreach (var trackPart in plannedTimeTrackParts)
 			{
 				combinedTimeSpans.Add(trackPart.StartTime);
 				combinedTimeSpans.Add(trackPart.EndTime);
 			}
-			foreach (var trackPart in DocumentTrackParts)
+			foreach (var trackPart in documentTimeTrackParts)
 			{
 				combinedTimeSpans.Add(trackPart.StartTime);
 				combinedTimeSpans.Add(trackPart.EndTime);
@@ -390,16 +409,20 @@ namespace FiresecAPI.SKD
 		}
 
 		/// <summary>
-		/// Расчет времени и баланса для интервалов каждого типа
+		/// Расчитывает баланс и время для интервалов каждого типа
 		/// </summary>
-		/// <returns></returns>
-		private List<TimeTrackTotal> CalculateTotal()
+		/// <param name="slideTime">Время скользящего графика</param>
+		/// <param name="plannedTimeTrackParts">Коллекция временных интервалов графика работ</param>
+		/// <param name="realTimeTrackParts">Коллекция интервалов прохода сотрудника</param>
+		/// <param name="combinedTimeTrackParts">Коллекция всех интервалов (графика работ, проходов сотрудника, документов)</param>
+		/// <returns>Возвращает коллекцию всех типов интервалов</returns>
+		public List<TimeTrackTotal> CalculateTotal(TimeSpan slideTime, List<TimeTrackPart> plannedTimeTrackParts, List<TimeTrackPart> realTimeTrackParts, List<TimeTrackPart> combinedTimeTrackParts )
 		{
 			var resultTotalCollection = new List<TimeTrackTotal>();
 
-			var totalBalance = GetBalanceForSlideTime(SlideTime, PlannedTimeTrackParts, RealTimeTrackParts);
+			var totalBalance = GetBalanceForSlideTime(slideTime, plannedTimeTrackParts, realTimeTrackParts);
 
-			foreach (var timeTrack in CombinedTimeTrackParts)
+			foreach (var timeTrack in combinedTimeTrackParts)
 			{
 				var el = resultTotalCollection.FirstOrDefault(x => x.TimeTrackType == timeTrack.TimeTrackPartType);
 				if (el != null) //TODO: Need refactoring
@@ -414,7 +437,7 @@ namespace FiresecAPI.SKD
 					});
 				}
 
-				totalBalance += GetBalance(timeTrack, SlideTime.TotalSeconds);
+				totalBalance += GetBalance(timeTrack, slideTime.TotalSeconds);
 			}
 
 			resultTotalCollection.Add(
@@ -436,8 +459,8 @@ namespace FiresecAPI.SKD
 		/// Заполняет коллекцию проходов, добавляя элементы тех типов, которые не существуют во входной коллекции проходов.
 		/// Не добавляет типы: Выходной, Праздник, Нет данных.
 		/// </summary>
-		/// <param name="inputCollectionTotals"></param>
-		/// <returns>Коллекция проходов для отображения пользователю</returns>
+		/// <param name="inputCollectionTotals">Коллекция интервалов всех типов проходов</param>
+		/// <returns>Коллекция интервалов всех типов для отображения пользователю</returns>
 		private List<TimeTrackTotal> FillTotalsCollection(List<TimeTrackTotal> inputCollectionTotals)
 		{
 			var resultCollection = new List<TimeTrackTotal>();
@@ -548,7 +571,7 @@ namespace FiresecAPI.SKD
 		}
 
 		/// <summary>
-		/// Вычисление типа временного интервала
+		/// Вычисление типа преимущественного интервала, для отображения пользователю в таблице УРВ
 		/// </summary>
 		/// <param name="totals">Коллекция, хранящая время интервалов всех типов (за один день)</param>
 		/// <param name="plannedTimeTrackParts">Время итервалов рабочего графика</param>
@@ -733,7 +756,7 @@ namespace FiresecAPI.SKD
 		/// <summary>
 		/// Структура для хранения начального и конечного времени интервалов
 		/// </summary>
-		private struct ScheduleInterval
+		public struct ScheduleInterval
 		{
 			public TimeSpan StartTime;
 			public TimeSpan EndTime;

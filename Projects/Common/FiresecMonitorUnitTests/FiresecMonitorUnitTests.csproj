@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FireMonitorTests\AppDataFolderHelperTests.cs" />
+    <Compile Include="FireMonitorTests\DayTimeTrackTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
