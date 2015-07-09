@@ -155,8 +155,8 @@ namespace GKProcessor
 				var mptDescriptor = new MPTDescriptor(this, mpt, DatabaseType.Gk);
 				Descriptors.Add(mptDescriptor);
 
-				var mptCreator = new MPTCreator(this, mpt, DatabaseType.Gk);
-				mptCreator.Create();
+				var mptCreator = new MPTCreator(mpt);
+				mptCreator.SetCrossReferences();
 			}
 
 			foreach (var code in Codes)
