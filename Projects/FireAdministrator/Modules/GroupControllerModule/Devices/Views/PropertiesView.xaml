@@ -21,8 +21,8 @@
 				<ColumnDefinition SharedSizeGroup="group2" Width="*" />
 				<ColumnDefinition SharedSizeGroup="group3" Width="*" />
 			</Grid.ColumnDefinitions>
-			<TextBlock Grid.Column="1" Text="В системе" Foreground="{DynamicResource ForegroundColorLight}" FontWeight="Bold" Margin="2" />
-			<TextBlock Grid.Column="2" Text="В устройстве" Foreground="{DynamicResource ForegroundColorLight}" FontWeight="Bold" Margin="2" />
+			<TextBlock Grid.Column="1" Text="В системе" Foreground="{DynamicResource ForegroundColor_0}" FontWeight="Bold" Margin="2" />
+			<TextBlock Grid.Column="2" Text="В устройстве" Foreground="{DynamicResource ForegroundColor_0}" FontWeight="Bold" Margin="2" />
 		</Grid>
 		<ItemsControl ItemsSource="{Binding StringProperties}">
 			<ItemsControl.ItemTemplate>

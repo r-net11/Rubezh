@@ -12,16 +12,16 @@
 		</Grid.RowDefinitions>
 		<Views:JournalGridView Grid.Row="0" />
 		<StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0 3">
-			<TextBlock Text="IP адрес ГК " Foreground="{DynamicResource ForegroundColorLight}" />
-			<TextBlock Text="{Binding JournalItemsCollection.GkIP}" Foreground="{DynamicResource ForegroundColorLight}" />
+			<TextBlock Text="IP адрес ГК " Foreground="{DynamicResource ForegroundColor_0}" />
+			<TextBlock Text="{Binding JournalItemsCollection.GkIP}" Foreground="{DynamicResource ForegroundColor_0}" />
 		</StackPanel>
 		<StackPanel Orientation="Horizontal" Grid.Row="2" Margin="0 3">
-			<TextBlock Text="Файл создан " Foreground="{DynamicResource ForegroundColorLight}" />
-			<TextBlock Text="{Binding JournalItemsCollection.CreationDateTime}" Foreground="{DynamicResource ForegroundColorLight}" />	
+			<TextBlock Text="Файл создан " Foreground="{DynamicResource ForegroundColor_0}" />
+			<TextBlock Text="{Binding JournalItemsCollection.CreationDateTime}" Foreground="{DynamicResource ForegroundColor_0}" />	
 		</StackPanel>
 		<StackPanel Orientation="Horizontal" Grid.Row="3" Margin="0 3">
-			<TextBlock Text="Записей в журнале прибора " Foreground="{DynamicResource ForegroundColorLight}" />
-			<TextBlock Text="{Binding JournalItemsCollection.RecordCount}" Foreground="{DynamicResource ForegroundColorLight}" />
+			<TextBlock Text="Записей в журнале прибора " Foreground="{DynamicResource ForegroundColor_0}" />
+			<TextBlock Text="{Binding JournalItemsCollection.RecordCount}" Foreground="{DynamicResource ForegroundColor_0}" />
 		</StackPanel>
 	</Grid>
 </UserControl>

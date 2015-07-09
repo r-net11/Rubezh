@@ -18,7 +18,7 @@
 			<StackPanel Orientation="Horizontal" Visibility="{Binding ResultArgument.SelectedVariable, Converter = {StaticResource NullToVisibilityConverter}}">
 				<Label Content="Условия поиска " HorizontalAlignment="Right" VerticalAlignment="Center"/>
 				<ToolBarButton HorizontalAlignment="Left" Command="{Binding AddCommand}" ImageSource="Add"  ToolTip="Добавить условие" Height="32" Width="32" />
-				<ToolBarButton HorizontalAlignment="Left" Width="50" Height="30" Foreground="{DynamicResource ForegroundColorLight}" Command="{Binding ChangeJoinOperatorCommand}"
+				<ToolBarButton HorizontalAlignment="Left" Width="50" Height="30" Foreground="{DynamicResource ForegroundColor_0}" Command="{Binding ChangeJoinOperatorCommand}"
 							   Visibility="{Binding Path=IsJoinOperatorVisible, Converter={StaticResource BoolToVisibilityConverter}}">
 					<ToolBarButton.ToolTip>
 						<StackPanel Orientation="Horizontal">

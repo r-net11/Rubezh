@@ -4,9 +4,9 @@
 		<DrawingBrush.Drawing>
 			<DrawingGroup>
 				<DrawingGroup.Children>
-					<GeometryDrawing Brush="{DynamicResource ButtonBackgroundColor}" Geometry="F1 M 149.055,-101.499L 136.667,-101.499L 136.667,-112.509L 149.055,-112.509L 149.055,-101.499 Z "/>
-					<GeometryDrawing Brush="{DynamicResource ButtonBackgroundColor}" Geometry="F1 M 163.721,-101.499L 151.333,-101.499L 151.333,-112.509L 163.721,-112.509L 163.721,-101.499 Z "/>
-					<GeometryDrawing Brush="{DynamicResource ButtonBackgroundColor}" Geometry="F1 M 178.388,-101.499L 166,-101.499L 166,-112.509L 178.388,-112.509L 178.388,-101.499 Z "/>
+					<GeometryDrawing Brush="{DynamicResource ButtonBackground_2}" Geometry="F1 M 149.055,-101.499L 136.667,-101.499L 136.667,-112.509L 149.055,-112.509L 149.055,-101.499 Z "/>
+					<GeometryDrawing Brush="{DynamicResource ButtonBackground_2}" Geometry="F1 M 163.721,-101.499L 151.333,-101.499L 151.333,-112.509L 163.721,-112.509L 163.721,-101.499 Z "/>
+					<GeometryDrawing Brush="{DynamicResource ButtonBackground_2}" Geometry="F1 M 178.388,-101.499L 166,-101.499L 166,-112.509L 178.388,-112.509L 178.388,-101.499 Z "/>
 				</DrawingGroup.Children>
 			</DrawingGroup>
 		</DrawingBrush.Drawing>

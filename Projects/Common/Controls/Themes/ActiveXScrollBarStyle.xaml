@@ -24,8 +24,8 @@
 	<SolidColorBrush x:Key="DisabledBackgroundBrush" Color="LightGray" />
 	<SolidColorBrush x:Key="DisabledForegroundBrush" Color="Gray" />
 
-	<SolidColorBrush x:Key="WindowBackgroundBrush" Color="White" />
-	<SolidColorBrush x:Key="WindowBlackBackgroundBrush" Color="#151515" />
+	<SolidColorBrush x:Key="WindowBackground_0" Color="White" />
+	<SolidColorBrush x:Key="WindowBackground_1" Color="#151515" />
 
 	<LinearGradientBrush x:Key="WindowBlacHeaderkBackgroundBrush" StartPoint="0, 0" EndPoint="0, 1">
 		<GradientStop Color="#ADADAD" Offset="0" />

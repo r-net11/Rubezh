@@ -46,7 +46,7 @@
 								<Controls:IconLabel
 									ImageSource="{Binding ., Converter={StaticResource AlarmTypeToBIconConverter}}" 
 									Text="{Binding ., Converter={StaticResource XAlarmTypeToStringConverter}}" 
-									Foreground="{DynamicResource ForegroundColorDark}"/>
+									Foreground="{DynamicResource ForegroundColor_1}"/>
 							</DataTemplate>
 						</ComboBox.ItemTemplate>
 					</ComboBox>

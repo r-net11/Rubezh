@@ -107,7 +107,7 @@
 									<ColumnDefinition Width="*" />
 									<ColumnDefinition Width="*" />
 								</Grid.ColumnDefinitions>
-								<TextBlock Grid.Column="0" Text="Примечание" HorizontalAlignment="Right" Foreground="{DynamicResource ForegroundColorLight}" Margin="2" />
+								<TextBlock Grid.Column="0" Text="Примечание" HorizontalAlignment="Right" Foreground="{DynamicResource ForegroundColor_0}" Margin="2" />
 								<TextBox Grid.Column="1" Text="{Binding Description}" Margin="2" />
 							</Grid>
 							<TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Visibility="{Binding IsCodeReader, Converter={StaticResource BoolToVisibilityConverter}}">

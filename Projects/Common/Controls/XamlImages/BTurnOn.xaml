@@ -4,7 +4,7 @@
 		<DrawingBrush.Drawing>
 			<DrawingGroup>
 				<DrawingGroup.Children>
-					<GeometryDrawing Brush="{DynamicResource ButtonBackgroundColorDark}" Geometry="F1 M 0,0L 31.7293,16.3654L 0,32.732L 0,0 Z "/>
+					<GeometryDrawing Brush="{DynamicResource ButtonBackground_1}" Geometry="F1 M 0,0L 31.7293,16.3654L 0,32.732L 0,0 Z "/>
 				</DrawingGroup.Children>
 			</DrawingGroup>
 		</DrawingBrush.Drawing>

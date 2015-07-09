@@ -3,7 +3,7 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
 	<WrapPanel>
-		<TextBox Name="addressEditor" Foreground="{DynamicResource ForegroundColorDark}" ContextMenu="{x:Null}"
+		<TextBox Name="addressEditor" Foreground="{DynamicResource ForegroundColor_1}" ContextMenu="{x:Null}"
 				PreviewKeyDown="OnPreviewKeyDown"
 				TextChanged="OnTextChanged"
 				SelectionChanged="OnSelectionChanged"

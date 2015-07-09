@@ -14,7 +14,7 @@
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
-				<TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding CodeName}" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorLight}" Margin="2" />
+				<TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding CodeName}" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColor_0}" Margin="2" />
 				<Views:CodeReaderSettingsView Grid.Row="0" Grid.Column="1" DataContext="{Binding CodeReaderSettingsViewModel}" />
 			</Grid>
 		</TabItem>

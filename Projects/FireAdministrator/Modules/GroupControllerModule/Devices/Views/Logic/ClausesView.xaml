@@ -24,7 +24,7 @@
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 				<Button Grid.Row="0"
-					Width="100" Foreground="{DynamicResource ForegroundColorLight}" Style="{StaticResource ToolBarButtonStyle}"
+					Width="100" Foreground="{DynamicResource ForegroundColor_0}" Style="{StaticResource ToolBarButtonStyle}"
 					Command="{Binding ChangeJoinOperatorCommand}"
 					Background="{Binding JoinOperator, Converter={StaticResource ClauseJoinOperatorToColorConverter}}">
 						<TextBlock Text="{Binding JoinOperator, Converter={StaticResource ClauseJounOperationConverter}}" FontWeight="Bold" />
