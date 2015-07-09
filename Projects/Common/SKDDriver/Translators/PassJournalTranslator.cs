@@ -294,13 +294,18 @@ namespace SKDDriver.DataClasses
 			try
 			{
 				var isManyEmployees = employeeUIDs.Count() >= 2100;
-				var items = Context.PassJournals.Where(e => (isManyEmployees || (e.EmployeeUID.HasValue && employeeUIDs.Contains(e.EmployeeUID.Value))) &&
-					(zoneUIDs.IsEmpty() || zoneUIDs.Contains(e.ZoneUID)) &&
-					(dateTime.HasValue && (e.EnterTime < dateTime && (!e.ExitTime.HasValue || e.ExitTime > dateTime)) ||
-					(!dateTime.HasValue && !e.ExitTime.HasValue))).ToList();
-				if (isManyEmployees)
-					items = items.Where(e => e.EmployeeUID.HasValue && employeeUIDs.Contains(e.EmployeeUID.Value)).ToList();
-				return items.GroupBy(item => item.EmployeeUID).Select(gr => gr.OrderByDescending(item => item.EnterTime).First());
+				IQueryable<PassJournal> items = Context.PassJournals;
+				if (employeeUIDs.Count() == 0 || isManyEmployees)
+					items = items.Where(e => e.EmployeeUID != null && employeeUIDs.Contains(e.EmployeeUID.Value));
+				if (zoneUIDs != null && zoneUIDs.Count() > 0)
+					items = items.Where(x => zoneUIDs.Contains(x.ZoneUID));
+				if (dateTime.HasValue)
+					items = items.Where(e => e.EnterTime < dateTime && (!e.ExitTime.HasValue || e.ExitTime > dateTime));
+				else
+					items.Where(e =>  !e.ExitTime.HasValue);
+				//if (isManyEmployees)
+				//	items = items.Where(e => e.EmployeeUID.HasValue && employeeUIDs.Contains(e.EmployeeUID.Value)).ToList();
+				return items.GroupBy(item => item.EmployeeUID).Select(gr => gr.OrderByDescending(item => item.EnterTime).FirstOrDefault()).ToList();
 			}
 			catch (Exception)
 			{
@@ -312,11 +317,13 @@ namespace SKDDriver.DataClasses
 			try
 			{
 				var isManyEmployees = employeeUIDs.Count() >= 2100;
-				var items = Context.PassJournals.Where(e => (((!employeeUIDs.IsEmpty() && !isManyEmployees) || (e.EmployeeUID.HasValue && employeeUIDs.Contains(e.EmployeeUID.Value)))) &&
-					e.ExitTime.HasValue &&
-					(dateTime.HasValue && e.ExitTime < dateTime)).ToList();
-				if (isManyEmployees)
-					items = items.Where(e => e.EmployeeUID.HasValue && employeeUIDs.Contains(e.EmployeeUID.Value)).ToList();
+				IQueryable<PassJournal> items = Context.PassJournals;
+				if (employeeUIDs.Count() == 0 || isManyEmployees)
+					items = items.Where(e => e.EmployeeUID != null && employeeUIDs.Contains(e.EmployeeUID.Value));
+				if (dateTime.HasValue)
+					items = items.Where(x => x.ExitTime.HasValue && x.ExitTime < dateTime);
+				//if (isManyEmployees)
+				//	items = items.Where(e => e.EmployeeUID.HasValue && employeeUIDs.Contains(e.EmployeeUID.Value)).ToList();
 				return items.GroupBy(item => item.EmployeeUID).Select(gr => gr.OrderByDescending(item => item.ExitTime).First());
 			}
 			catch (Exception)
@@ -330,12 +337,15 @@ namespace SKDDriver.DataClasses
 			try
 			{
 				var isManyEmployees = employeeUIDs.Count() >= 2100;
-				var items = Context.PassJournals.Where(e => (((employeeUIDs.Count() != 0 && !isManyEmployees) || (e.EmployeeUID != null && employeeUIDs.Contains(e.EmployeeUID.Value)))) &&
-					(zoneUIDs == null || zoneUIDs.Count() == 0 || zoneUIDs.Contains(e.ZoneUID)) &&
-					((e.EnterTime >= startDateTime && e.EnterTime <= endDateTime) || (e.ExitTime >= startDateTime && e.ExitTime <= endDateTime))).ToList();
-				if (isManyEmployees)
-					items = items.Where(e => e.EmployeeUID != null && employeeUIDs.Contains(e.EmployeeUID.Value)).ToList();
-				return items;
+				IQueryable<PassJournal> items = Context.PassJournals;
+				if(employeeUIDs.Count() == 0 || isManyEmployees)
+					items = items.Where(e => e.EmployeeUID != null && employeeUIDs.Contains(e.EmployeeUID.Value));
+				if(zoneUIDs != null && zoneUIDs.Count() > 0)
+					items = items.Where(x => zoneUIDs.Contains(x.ZoneUID));
+				items = items.Where(e => (e.EnterTime >= startDateTime && e.EnterTime <= endDateTime) || (e.ExitTime >= startDateTime && e.ExitTime <= endDateTime));
+				//if (isManyEmployees)
+				//	items = items.Where(e => e.EmployeeUID != null && employeeUIDs.Contains(e.EmployeeUID.Value));
+				return items.ToList();
 			}
 			catch (Exception)
 			{

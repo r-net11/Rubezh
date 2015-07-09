@@ -48,8 +48,8 @@ namespace FiresecService.Report.Templates
 				row.Department = department.Name;
 				row.Phone = department.Item.Phone;
 				row.Chief = employees.Where(item => item.UID == department.Item.ChiefUID).Select(item => item.Name).FirstOrDefault();
-				var parent = dataProvider.Departments[department.Item.ParentDepartmentUID];
-				row.ParentDepartment = parent != null ? parent.Name : string.Empty;
+				row.ParentDepartment = dataProvider.Departments.ContainsKey(department.Item.ParentDepartmentUID) ? 
+					dataProvider.Departments[department.Item.ParentDepartmentUID].Name : string.Empty;
 				row.Description = department.Item.Description;
 				row.IsArchive = department.IsDeleted;
 				var parents = GetParents(dataProvider, department);

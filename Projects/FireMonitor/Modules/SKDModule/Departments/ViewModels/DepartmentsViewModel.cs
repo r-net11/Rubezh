@@ -72,8 +72,8 @@ namespace SKDModule.ViewModels
 
 		DepartmentViewModel GetParentItemInternal(ShortDepartment model)
 		{
-			return Organisations.SelectMany(x => x.GetAllChildren()).FirstOrDefault(x => (model.ParentDepartmentUID != null && !x.IsOrganisation && x.Model.UID == model.ParentDepartmentUID) ||
-				(model.ParentDepartmentUID == null && x.IsOrganisation && x.Organisation.UID == model.OrganisationUID));
+			return Organisations.SelectMany(x => x.GetAllChildren()).FirstOrDefault(x => (model.ParentDepartmentUID != Guid.Empty && !x.IsOrganisation && x.Model.UID == model.ParentDepartmentUID) ||
+				(model.ParentDepartmentUID == Guid.Empty && x.IsOrganisation && x.Organisation.UID == model.OrganisationUID));
 		}
 
 		protected override void UpdateParent()
