@@ -9,7 +9,7 @@
 		</Grid.ColumnDefinitions>
 		<Grid Grid.Column="0">
 			<Grid.Resources>
-				<Style BasedOn="{StaticResource {x:Type Label}}" TargetType="{x:Type Label}">
+				<Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
 					<Setter Property="Width" Value="NaN" />
 					<Setter Property="VerticalAlignment" Value="Center" />
 				</Style>
@@ -36,18 +36,18 @@
 				<ColumnDefinition Width="Auto" />
 				<ColumnDefinition Width="*" />
 			</Grid.ColumnDefinitions>
-			<Label Grid.Row="0" Grid.Column="0" Content="Макет окна" />
-			<Label Grid.Row="1" Grid.Column="0" Content="Заголовок" />
-			<Label Grid.Row="2" Grid.Column="0" Content="Модальное окно" />
-			<Label Grid.Row="2" Grid.Column="2" Content="Всем клиентам" />
-			<Label Grid.Row="3" Grid.Column="0" Content="Можно закрывать" />
-			<Label Grid.Row="3" Grid.Column="2" Content="Можно разворачивать" />
-			<Label Grid.Row="4" Grid.Column="0" Content="Поверх всех" />
-			<Label Grid.Row="4" Grid.Column="2" Content="Фиксированный размер" />
-			<Label Grid.Row="5" Grid.Column="2" Content="Ширина" />
-			<Label Grid.Row="6" Grid.Column="2" Content="Высота" />
-			<Label Grid.Row="5" Grid.Column="0" Content="Мин. ширина" />
-			<Label Grid.Row="6" Grid.Column="0" Content="Мин. высота" />
+			<TextBlock Grid.Row="0" Grid.Column="0" Text="Макет окна" />
+			<TextBlock Grid.Row="1" Grid.Column="0" Text="Заголовок" />
+			<TextBlock Grid.Row="2" Grid.Column="0" Text="Модальное окно" />
+			<TextBlock Grid.Row="2" Grid.Column="2" Text="Всем клиентам" />
+			<TextBlock Grid.Row="3" Grid.Column="0" Text="Можно закрывать" />
+			<TextBlock Grid.Row="3" Grid.Column="2" Text="Можно разворачивать" />
+			<TextBlock Grid.Row="4" Grid.Column="0" Text="Поверх всех" />
+			<TextBlock Grid.Row="4" Grid.Column="2" Text="Фиксированный размер" />
+			<TextBlock Grid.Row="5" Grid.Column="2" Text="Ширина" />
+			<TextBlock Grid.Row="6" Grid.Column="2" Text="Высота" />
+			<TextBlock Grid.Row="5" Grid.Column="0" Text="Мин. ширина" />
+			<TextBlock Grid.Row="6" Grid.Column="0" Text="Мин. высота" />
 			<ComboBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" HorizontalAlignment="Left" VerticalAlignment="Center" ItemsSource="{Binding Layouts}" SelectedItem="{Binding SelectedLayout}">
 				<ComboBox.ItemTemplate>
 					<DataTemplate>

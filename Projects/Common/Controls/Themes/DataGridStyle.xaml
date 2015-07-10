@@ -217,7 +217,7 @@
 		<Style.Triggers>
 			<Trigger Property="IsSelected" Value="True">
 				<Setter Property="Background" Value="{DynamicResource PressedBackgroundBrush}" />
-				<Setter Property="Foreground" Value="{DynamicResource PressedForegrouBrush}" />
+				<Setter Property="Foreground" Value="{DynamicResource PressedForegroundBrush}" />
 			</Trigger>
 		</Style.Triggers>
 	</Style>

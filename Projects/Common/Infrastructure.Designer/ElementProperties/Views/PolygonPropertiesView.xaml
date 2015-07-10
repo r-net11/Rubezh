@@ -15,10 +15,10 @@
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 
-				<Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Content="Название" />
-				<Label Grid.Column="0" Grid.Row="1" Content="Цвет фона" HorizontalAlignment="Right" />
-				<Label Grid.Column="0" Grid.Row="2" Content="Цвет границы" HorizontalAlignment="Right" />
-				<Label Grid.Column="0" Grid.Row="3" Content="Ширина границы" HorizontalAlignment="Right" />
+				<TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Text="Название" />
+				<TextBlock Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" Text="Цвет фона" />
+				<TextBlock Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right" Text="Цвет границы" />
+				<TextBlock Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right" Text="Ширина границы" />
 
 				<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding PresentationName, UpdateSourceTrigger=PropertyChanged}" Margin="2" VerticalContentAlignment="Center" />
 				<xc:ColorPicker Grid.Column="1" Grid.Row="1" SelectedColor="{Binding BackgroundColor, UpdateSourceTrigger=PropertyChanged}" Margin="2" />

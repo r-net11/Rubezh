@@ -23,10 +23,10 @@
 					<ColumnDefinition />
 					<ColumnDefinition />
 				</Grid.ColumnDefinitions>
-				<Label Grid.Row="0" Grid.Column="0" Content="Номер" HorizontalAlignment="Right" Margin="2" />
+				<TextBlock Grid.Row="0" Grid.Column="0" Text="Номер" HorizontalAlignment="Right" Margin="2" />
 				<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding No, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 
-				<Label Grid.Row="1" Grid.Column="0" Content="Наименование" HorizontalAlignment="Right" />
+				<TextBlock Grid.Row="1" Grid.Column="0" Text="Наименование" HorizontalAlignment="Right" />
 				<controls:XAutoCompleteBox Grid.Row="1" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" ItemsSource="{Binding AvailableNames}" IsTextCompletionEnabled="True" Margin="2" ContextMenu="{x:Null}" x:Name="nameTextBox">
 					<controls:XAutoCompleteBox.TextBoxStyle>
 						<Style TargetType="TextBox">
@@ -35,10 +35,10 @@
 					</controls:XAutoCompleteBox.TextBoxStyle>
 				</controls:XAutoCompleteBox>
 
-				<Label Grid.Row="2" Grid.Column="0" Content="Примечание" HorizontalAlignment="Right" />
+				<TextBlock Grid.Row="2" Grid.Column="0" Text="Примечание" HorizontalAlignment="Right" />
 				<controls:XAutoCompleteBox Grid.Row="2" Grid.Column="1" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" ItemsSource="{Binding AvailableDescription}" IsTextCompletionEnabled="True" Margin="2" />
 
-				<Label Grid.Row="3" Grid.Column="0" Content="Тип" HorizontalAlignment="Right" />
+				<TextBlock Grid.Row="3" Grid.Column="0" Text="Тип" HorizontalAlignment="Right" />
 				<ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding AvailableDoorTypes}" SelectedItem="{Binding SelectedDoorType}" Margin="2">
 					<ComboBox.ItemTemplate>
 						<DataTemplate>
@@ -47,13 +47,13 @@
 					</ComboBox.ItemTemplate>
 				</ComboBox>
 
-				<Label Grid.Row="4" Grid.Column="0" Content="Задержка на выключение, с" HorizontalAlignment="Right" />
+				<TextBlock Grid.Row="4" Grid.Column="0" Text="Задержка на выключение, с" HorizontalAlignment="Right" />
 				<extToolkit:IntegerUpDown Grid.Row="4" Grid.Column="1" Value="{Binding Delay}" Minimum="2" Maximum="65535" Margin="2" />
 
-				<Label Grid.Row="5" Grid.Column="0" Content="Удержание, с" HorizontalAlignment="Right" />
+				<TextBlock Grid.Row="5" Grid.Column="0" Text="Удержание, с" HorizontalAlignment="Right" />
 				<extToolkit:IntegerUpDown Grid.Row="5" Grid.Column="1" Value="{Binding Hold}" Minimum="2" Maximum="65535" Margin="2" />
 
-				<Label Grid.Row="6" Grid.Column="0" Content="Минимальный уровень на проход" HorizontalAlignment="Right" />
+				<TextBlock Grid.Row="6" Grid.Column="0" Text="Минимальный уровень на проход" HorizontalAlignment="Right" />
 				<extToolkit:IntegerUpDown Grid.Row="6" Grid.Column="1" Value="{Binding EnterLevel}" Minimum="0" Maximum="255" Margin="2" />
 
 				<CheckBox Grid.Row="7" Grid.Column="1" IsChecked="{Binding AntipassbackOn}" Content="Режим запрета повторного прохода" Foreground="{DynamicResource ForegroundColor_0}" Margin="2" 

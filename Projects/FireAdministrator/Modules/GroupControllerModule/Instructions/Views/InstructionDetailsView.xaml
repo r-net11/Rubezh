@@ -32,10 +32,10 @@
 						<RowDefinition Height="auto" />
 						<RowDefinition Height="auto" />
 					</Grid.RowDefinitions>
-					<Label Grid.Column="0" Grid.Row="0" Content="Название" HorizontalAlignment="Right" />
-					<Label Grid.Column="0" Grid.Row="1" Content="Состояние" HorizontalAlignment="Right" />
-					<Label Grid.Column="0" Grid.Row="2" Content="Тип инструкции" HorizontalAlignment="Right" />
-					<Label Grid.Column="0" Grid.Row="3" Content="Текст" HorizontalAlignment="Right" />
+					<TextBlock Grid.Column="0" Grid.Row="0" Text="Название" HorizontalAlignment="Right" />
+					<TextBlock Grid.Column="0" Grid.Row="1" Text="Состояние" HorizontalAlignment="Right" />
+					<TextBlock Grid.Column="0" Grid.Row="2" Text="Тип инструкции" HorizontalAlignment="Right" />
+					<TextBlock Grid.Column="0" Grid.Row="3" Text="Текст" HorizontalAlignment="Right" />
 					<!--<Label Grid.Column="0" Grid.Row="4" Content="Мультимедиа" HorizontalAlignment="Right" VerticalAlignment="Center" />-->
 					<TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Name}" Margin="2" />
 					<ComboBox Grid.Column="1" Grid.Row="1" Margin="2" ItemsSource="{Binding AvailableAlarmTypes}"
@@ -93,9 +93,9 @@
 						<RowDefinition Height="auto" />
 						<RowDefinition Height="auto" />
 					</Grid.RowDefinitions>
-					<Label Grid.Column="0" Grid.Row="0" Content="Устройства" HorizontalAlignment="Right" />
-					<Label Grid.Column="0" Grid.Row="1" Content="Зоны" HorizontalAlignment="Right" />
-					<Label Grid.Column="0" Grid.Row="2" Content="Направления" HorizontalAlignment="Right" />
+					<TextBlock Grid.Column="0" Grid.Row="0" Text="Устройства" HorizontalAlignment="Right" />
+					<TextBlock Grid.Column="0" Grid.Row="1" Text="Зоны" HorizontalAlignment="Right" />
+					<TextBlock Grid.Column="0" Grid.Row="2" Text="Направления" HorizontalAlignment="Right" />
 					<TextBlock Grid.Column="1" Grid.Row="0" VerticalAlignment="Center">
 						<Hyperlink Command="{Binding SelectDeviceCommand}" Style="{StaticResource HyperlinkStyle}">
 							<StackPanel Orientation="Horizontal">

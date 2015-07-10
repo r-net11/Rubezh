@@ -24,7 +24,7 @@
 				</StackPanel>
 			</Hyperlink>
 		</TextBlock>
-		<Label Content="Уровень" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right" />
+		<TextBlock Text="Уровень" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right" />
 		<extToolkit:IntegerUpDown Grid.Column="3" Value="{Binding AccessLevel}" HorizontalAlignment="Right" Minimum="0" Maximum="255" Width="100" Height="25" />
 	</Grid>
 </UserControl>

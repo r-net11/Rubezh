@@ -9,35 +9,35 @@
 		<Grid>
 			<StackPanel>
 				<StackPanel Orientation="Horizontal">
-					<Label Content="От кого (адрес)" />
+					<TextBlock Text="От кого (адрес)" />
 					<Views:ArgumentView DataContext="{Binding EMailAddressFromArgument}" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal">
-					<Label Content="Кому (адрес)" />
+					<TextBlock Text="Кому (адрес)" />
 					<Views:ArgumentView DataContext="{Binding EMailAddressToArgument}" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal">
-					<Label Content="Заголовок" />
+					<TextBlock Text="Заголовок" />
 					<Views:ArgumentView DataContext="{Binding EMailTitleArgument}" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal">
-					<Label Content="Текст" />
+					<TextBlock Text="Текст" />
 					<Views:ArgumentView DataContext="{Binding EMailContentArgument}" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal">
-					<Label Content="SMTP Сервер" />
+					<TextBlock Text="SMTP Сервер" />
 					<Views:ArgumentView DataContext="{Binding SmtpArgument}" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal">
-					<Label Content="Порт" />
+					<TextBlock Text="Порт" />
 					<Views:ArgumentView DataContext="{Binding PortArgument}" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal">
-					<Label Content="Логин" />
+					<TextBlock Text="Логин" />
 					<Views:ArgumentView DataContext="{Binding LoginArgument}" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal">
-					<Label Content="Пароль" />
+					<TextBlock Text="Пароль" />
 					<Views:ArgumentView DataContext="{Binding PasswordArgument}" />
 				</StackPanel>
 			</StackPanel>

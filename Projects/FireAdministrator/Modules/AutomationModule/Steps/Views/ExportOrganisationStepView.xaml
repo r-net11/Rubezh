@@ -9,15 +9,15 @@
 		<Grid>
 			<StackPanel>
 				<StackPanel Orientation="Horizontal">
-					<Label Content="С удалёнными" />
+					<TextBlock Text="С удалёнными" />
 					<Views:ArgumentView DataContext="{Binding IsWithDeleted}" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal">
-					<Label Content="Организация" />
+					<TextBlock Text="Организация" />
 					<Views:ArgumentView DataContext="{Binding Organisation}" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal">
-					<Label Content="Путь к файлам" />
+					<TextBlock Text="Путь к файлам" />
 					<Views:ArgumentView DataContext="{Binding PathArgument}" />
 				</StackPanel>
 			</StackPanel>

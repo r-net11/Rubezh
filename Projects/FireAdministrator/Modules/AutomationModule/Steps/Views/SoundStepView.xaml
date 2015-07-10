@@ -13,7 +13,7 @@
 				</ResourceDictionary>
 			</StackPanel.Resources>
 			<StackPanel Margin="2" Orientation="Horizontal">
-				<Label Content="Звук" />
+				<TextBlock Text="Звук" />
 				<ComboBox ItemsSource="{Binding Sounds}" SelectedItem="{Binding SelectedSound}">
 					<ComboBox.ItemTemplate>
 						<DataTemplate>
@@ -23,7 +23,7 @@
 				</ComboBox>
 			</StackPanel>
 			<StackPanel Orientation="Horizontal">
-				<Label Content="Всем клиентам" />
+				<TextBlock Text="Всем клиентам" />
 				<CheckBox IsChecked="{Binding ForAllClients}" />
 			</StackPanel>
 		</StackPanel>

@@ -15,11 +15,11 @@
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 
-				<Label Grid.Row="0" Grid.Column="0" Content="{Binding ShowOtherZonesDevicesLabelContent}" HorizontalAlignment="Right" />
+				<TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding ShowOtherZonesDevicesLabelContent}" HorizontalAlignment="Right" />
 				<CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding ShowOtherZonesDevices, UpdateSourceTrigger=PropertyChanged}" Margin="2,5,0,0" />
-				<Label Grid.Row="1" Grid.Column="0" Content="Отображать устройства из точек доступа" HorizontalAlignment="Right" />
+				<TextBlock Grid.Row="1" Grid.Column="0" Text="Отображать устройства из точек доступа" HorizontalAlignment="Right" />
 				<CheckBox Grid.Row="1" Grid.Column="1" IsChecked="{Binding ShowDoorsDevices, UpdateSourceTrigger=PropertyChanged}" Margin="2,5,0,0" />
-				<Label Grid.Row="2" Grid.Column="0" Content="Отображать устройства из МПТ" HorizontalAlignment="Right" />
+				<TextBlock Grid.Row="2" Grid.Column="0" Text="Отображать устройства из МПТ" HorizontalAlignment="Right" />
 				<CheckBox Grid.Row="2" Grid.Column="1" IsChecked="{Binding ShowMPTsDevices, UpdateSourceTrigger=PropertyChanged}" Margin="2,5,0,0" />
 			</Grid>
 		</TabItem>

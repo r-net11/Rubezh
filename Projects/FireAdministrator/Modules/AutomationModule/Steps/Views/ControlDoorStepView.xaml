@@ -7,11 +7,11 @@
 	</UserControl.Resources>
 	<StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<Label Content="Точка доступа" />
+			<TextBlock Text="Точка доступа" />
 			<Views:ArgumentView DataContext="{Binding DoorArgument}" />
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<Label Content="Команда" />
+			<TextBlock Text="Команда" />
 			<ComboBox ItemsSource="{Binding Commands}" SelectedItem="{Binding SelectedCommand, UpdateSourceTrigger=PropertyChanged}">
 				<ComboBox.ItemTemplate>
 					<DataTemplate>

@@ -13,7 +13,7 @@
 				</ResourceDictionary>
 			</StackPanel.Resources>
 			<StackPanel Orientation="Horizontal">
-				<Label Content="Тип значений" />
+				<TextBlock Text="Тип значений" />
 				<ComboBox Margin="2" ItemsSource="{Binding ExplicitTypes}" SelectedItem="{Binding ExplicitType, UpdateSourceTrigger=PropertyChanged}">
 					<ComboBox.ItemTemplate>
 						<DataTemplate>
@@ -30,23 +30,23 @@
 				</ComboBox>
 			</StackPanel>
 			<StackPanel Orientation="Horizontal">
-				<Label Content="Сообщение" />
+				<TextBlock Text="Сообщение" />
 				<Views:ArgumentView DataContext="{Binding MessageArgument}" />
 			</StackPanel>
 			<StackPanel Orientation="Horizontal">
-				<Label Content="Всем клиентам" />
+				<TextBlock Text="Всем клиентам" />
 				<CheckBox IsChecked="{Binding ForAllClients}" />
 			</StackPanel>
 			<StackPanel Orientation="Horizontal">
-				<Label Content="Подтверждение" />
+				<TextBlock Text="Подтверждение" />
 				<CheckBox IsChecked="{Binding WithConfirmation}" />
 			</StackPanel>
 			<StackPanel Orientation="Horizontal" Visibility="{Binding WithConfirmation, Converter={StaticResource InversedBoolToVisibilityConverter}}">
-				<Label Content="Модальное окно" />
+				<TextBlock Text="Модальное окно" />
 				<CheckBox IsChecked="{Binding IsModalWindow}" />
 			</StackPanel>
 			<StackPanel Orientation="Horizontal" Visibility="{Binding WithConfirmation, Converter={StaticResource BoolToVisibilityConverter}}">
-				<Label Content="Значение" />
+				<TextBlock Text="Значение" />
 				<Views:ArgumentView DataContext="{Binding ConfirmationValueArgument}" />
 			</StackPanel>
 		</StackPanel>

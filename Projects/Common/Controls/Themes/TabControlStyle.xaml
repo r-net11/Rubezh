@@ -6,7 +6,7 @@
 				<ContentPresenter x:Name="ContentSite" Height="15" Margin="6" HorizontalAlignment="Center" VerticalAlignment="Center" ContentSource="Header" RecognizesAccessKey="True">
 					<ContentPresenter.Style>
 						<Style>
-							<Setter Property="TextElement.Foreground" Value="White" />
+							<Setter Property="TextElement.Foreground" Value="{DynamicResource ForegroundColor_0}" />
 							<Setter Property="TextElement.FontSize" Value="12" />
 							<Setter Property="TextElement.FontWeight" Value="Bold" />
 							<Setter Property="TextElement.FontFamily" Value="Arial" />
