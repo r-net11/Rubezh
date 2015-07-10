@@ -145,7 +145,7 @@ namespace SKDDriver.DataClasses
 		{
 			IEnumerable<ShortEmployee> employees = null;
 			employees = DbService.EmployeeTranslator.ShortTranslator.Get(new EmployeeFilter()).Result;
-			var zoneUID = SKDManager.Zones.FirstOrDefault().UID;
+			//var zoneUID = SKDManager.Zones.FirstOrDefault().UID;
 
 			Context.PassJournals.RemoveRange(Context.PassJournals);
 
@@ -173,7 +173,7 @@ namespace SKDDriver.DataClasses
 						var passJournal = new PassJournal();
 						passJournal.UID = Guid.NewGuid();
 						passJournal.EmployeeUID = employee.UID;
-						passJournal.ZoneUID = zoneUID;
+						//passJournal.ZoneUID = zoneUID;
 						passJournal.EnterTime = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, startTimeSpan.Hours, startTimeSpan.Minutes, startTimeSpan.Seconds);
 						passJournal.ExitTime = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, endTimeSpan.Hours, endTimeSpan.Minutes, endTimeSpan.Seconds);
 						Context.PassJournals.Add(passJournal);

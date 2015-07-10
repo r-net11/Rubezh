@@ -48,7 +48,7 @@ namespace FiresecAPI
 		ArchiveCompleted,
 		AutomationCallbackResult,
 		ConfigurationChanged,
-	        QueryDb
+	    QueryDb,
 		Disconnecting,
 		OperationResult
 	}

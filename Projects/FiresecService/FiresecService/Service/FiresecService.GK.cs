@@ -544,10 +544,7 @@ namespace FiresecService.Service
 									{
 										var getAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(card.AccessTemplateUID);
 										var accessTemplate = getAccessTemplateOperationResult.Result;
-                                {
-                                    var getAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(card.AccessTemplateUID.Value);
-                                    accessTemplate = getAccessTemplateOperationResult.Result;
-                                }
+
 										var controllerCardSchedules = GKSKDHelper.GetGKControllerCardSchedules(card, accessTemplate);
 										var controllerCardSchedule = controllerCardSchedules.FirstOrDefault(x => x.ControllerDevice.UID == device.UID);
 										if (controllerCardSchedule != null)
