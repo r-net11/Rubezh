@@ -52,7 +52,6 @@
     <Compile Include="API\Holiday.cs" />
     <Compile Include="API\LogItem.cs" />
     <Compile Include="API\Password.cs" />
-    <Compile Include="API\SearchDevicesEventArgs.cs" />
     <Compile Include="API\SKDJournalItem.cs" />
     <Compile Include="API\TimeInterval.cs" />
     <Compile Include="API\TimeShedule.cs" />

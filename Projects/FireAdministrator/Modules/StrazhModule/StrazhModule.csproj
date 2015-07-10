@@ -41,6 +41,8 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -68,6 +70,8 @@
     <Compile Include="Devices\ViewModels\ControllerPropertiesViewModel.cs" />
     <Compile Include="Devices\ViewModels\ControllerTimeSettingsViewModel.cs" />
     <Compile Include="Devices\ViewModels\LockPropertiesViewModel.cs" />
+    <Compile Include="Devices\ViewModels\SearchDevicesViewModel.cs" />
+    <Compile Include="Devices\ViewModels\SearchDeviceViewModel.cs" />
     <Compile Include="Devices\Views\ControllerDoorTypeView.xaml.cs">
       <DependentUpon>ControllerDoorTypeView.xaml</DependentUpon>
     </Compile>
@@ -86,10 +90,14 @@
     <Compile Include="Devices\Views\LockPropertiesView.xaml.cs">
       <DependentUpon>LockPropertiesView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Devices\Views\SearchDevicesView.xaml.cs">
+      <DependentUpon>SearchDevicesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Doors\ViewModels\DeviceSelectationViewModel.cs" />
     <Compile Include="Doors\Views\DeviceSelectationView.xaml.cs">
       <DependentUpon>DeviceSelectationView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Events\SKDSearchDeviceEvent.cs" />
     <Compile Include="Events\EditDoorEvent.cs" />
     <Compile Include="Events\CreateDoorEvent.cs" />
     <Compile Include="Events\ShowSKDDoorDayIntervalsEvent.cs" />
@@ -415,6 +423,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Devices\Views\ReaderPropertiesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Devices\Views\SearchDevicesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

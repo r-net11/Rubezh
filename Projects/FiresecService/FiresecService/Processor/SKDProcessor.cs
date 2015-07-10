@@ -4,6 +4,7 @@ using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
+using FiresecAPI.SKD.Device;
 using SKDDriver;
 using SKDDriver.Translators;
 using System;
@@ -54,6 +55,9 @@ namespace FiresecService
 
 				ChinaSKDDriver.Processor.SKDProgressCallbackEvent -= new Action<SKDProgressCallback>(OnSKDProgressCallbackEvent);
 				ChinaSKDDriver.Processor.SKDProgressCallbackEvent += new Action<SKDProgressCallback>(OnSKDProgressCallbackEvent);
+
+				ChinaSKDDriver.Processor.NewSearchDevice -= new Action<SKDDeviceSearchInfo>(OnNewSearchDevice);
+				ChinaSKDDriver.Processor.NewSearchDevice += new Action<SKDDeviceSearchInfo>(OnNewSearchDevice);
 			}
 			catch (Exception e)
 			{
@@ -115,7 +119,12 @@ namespace FiresecService
 			FiresecService.Service.FiresecService.AddCommonJournalItem(journalItem);
 		}
 
-		private static void OnSKDStates(SKDStates skdStates)
+		static void OnNewSearchDevice(SKDDeviceSearchInfo skdDeviceSearchInfo)
+		{
+			FiresecService.Service.FiresecService.NotifyNewSearchDevices(new List<SKDDeviceSearchInfo>() { skdDeviceSearchInfo });
+		}
+
+		static void OnSKDStates(SKDStates skdStates)
 		{
 			if (skdStates.DeviceStates.Count > 0)
 			{

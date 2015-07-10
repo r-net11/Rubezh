@@ -27,6 +27,7 @@ namespace StrazhModule.ViewModels
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
+			SearchDevicesCommand = new RelayCommand(OnSearchDevices);
 			ChangeZoneCommand = new RelayCommand(OnChangeZone, CanChangeZone);
 			ShowZoneCommand = new RelayCommand(OnShowZone, CanShowZone);
 			ShowDoorCommand = new RelayCommand(OnShowDoor, CanShowDoor);
@@ -215,6 +216,32 @@ namespace StrazhModule.ViewModels
 		bool CanShowProperties()
 		{
 			return Driver.IsController || (Driver.DriverType == SKDDriverType.Lock && Device.IsEnabled);
+		}
+
+		public RelayCommand SearchDevicesCommand { get; private set; }
+		private void OnSearchDevices()
+		{
+			var rootDeviceViewModel = DevicesViewModel.Current.RootDevice;
+			var searchDevicesViewModel = new SearchDevicesViewModel(rootDeviceViewModel);
+			var result = DialogService.ShowModalWindow(searchDevicesViewModel);
+			if (!result) return;
+			foreach (var device in searchDevicesViewModel.AddedDevices)
+			{
+				var deviceViewModel = new DeviceViewModel(device);
+				rootDeviceViewModel.AddChild(deviceViewModel);
+				DevicesViewModel.Current.AllDevices.Add(deviceViewModel);
+				DevicesViewModel.Current.SelectedDevice = deviceViewModel;
+
+				foreach (var childDevice in device.Children)
+				{
+					var childDeviceViewModel = new DeviceViewModel(childDevice);
+					deviceViewModel.AddChild(childDeviceViewModel);
+					DevicesViewModel.Current.AllDevices.Add(childDeviceViewModel);
+				}
+			}
+			rootDeviceViewModel.Update();
+			SKDPlanExtension.Instance.Cache.BuildSafe<SKDDevice>();
+			ServiceFactory.SaveService.SKDChanged = true;
 		}
 
 		#region Plan

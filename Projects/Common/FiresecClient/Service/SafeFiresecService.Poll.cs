@@ -7,6 +7,7 @@ using FiresecAPI.AutomationCallback;
 using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
+using FiresecAPI.SKD.Device;
 using Infrastructure.Common.Windows;
 
 namespace FiresecClient
@@ -20,6 +21,7 @@ namespace FiresecClient
 		public static event Action ConfigurationChangedEvent;
 		public static event Action<JournalItem> NewJournalItemEvent;
 		public static event Action<IEnumerable<JournalItem>, Guid> GetFilteredArchiveCompletedEvent;
+		public static event Action<SKDDeviceSearchInfo> NewSearchDeviceEvent;
 
 		bool isConnected = true;
 		public bool SuspendPoll = false;
@@ -135,6 +137,17 @@ namespace FiresecClient
 								ConfigurationChangedEvent();
 						});
 						break;
+					case CallbackResultType.NewSearchDevices:
+						foreach (var searchDevice in callbackResult.SearchDevices)
+						{
+							SafeOperationCall(() =>
+							{
+								if (NewSearchDeviceEvent != null)
+									NewSearchDeviceEvent(searchDevice);
+							});
+						}
+						break;
+
 				}
 			}
 		}

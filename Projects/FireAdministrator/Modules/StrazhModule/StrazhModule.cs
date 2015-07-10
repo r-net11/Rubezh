@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecAPI.Models.Layouts;
+using FiresecAPI.SKD.Device;
+using FiresecClient;
 using Infrastructure;
 using Infrastructure.Client;
 using Infrastructure.Client.Layout;
@@ -10,6 +12,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Validation;
+using Infrastructure.Common.Windows;
 using Infrustructure.Plans.Events;
 using StrazhModule.Events;
 using StrazhModule.Plans;
@@ -73,6 +76,14 @@ namespace StrazhModule
 			DoorDayIntervalsViewModel.Initialize();
 			DoorWeeklyIntervalsViewModel.Initialize();
 		}
+
+		public override void AfterInitialize()
+		{
+			base.AfterInitialize();
+			SafeFiresecService.NewSearchDeviceEvent -= new Action<SKDDeviceSearchInfo>(OnNewSearchDeviceEvent);
+			SafeFiresecService.NewSearchDeviceEvent += new Action<SKDDeviceSearchInfo>(OnNewSearchDeviceEvent);
+		}
+
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
 			return new List<NavigationItem>()
@@ -141,6 +152,15 @@ namespace StrazhModule
 		private void OnEditDoor(Guid doorUID)
 		{
 			DoorsViewModel.EditDoor(doorUID);
+		}
+
+		private void OnNewSearchDeviceEvent(SKDDeviceSearchInfo skdDeviceSearchInfo)
+		{
+			ApplicationService.Invoke(() =>
+			{
+				ServiceFactory.Events.GetEvent<SKDSearchDeviceEvent>()
+					.Publish(new List<SKDDeviceSearchInfo>() {skdDeviceSearchInfo});
+			});
 		}
 
 		#region ILayoutDeclarationModule Members

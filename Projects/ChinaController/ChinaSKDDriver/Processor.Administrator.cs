@@ -458,5 +458,21 @@ namespace ChinaSKDDriver
 			}
 			return OperationResult<bool>.FromError("Не найден контроллер в конфигурации");
 		}
+		
+		public static OperationResult<bool> StartSearchDevices()
+		{
+			if (Wrapper.StartSearchDevices())
+				return new OperationResult<bool>(true);
+			else
+				return OperationResult<bool>.FromError("Ошибка при выполнении операции");
+		}
+
+		public static OperationResult<bool> StopSearchDevices()
+		{
+			if (Wrapper.StopSearchDevices())
+				return new OperationResult<bool>(true);
+			else
+				return OperationResult<bool>.FromError("Ошибка при выполнении операции");
+		}
 	}
 }
