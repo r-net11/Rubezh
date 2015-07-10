@@ -54,7 +54,7 @@
 		<GradientStop Color="#55A3FF" Offset="1" />
 	</LinearGradientBrush>
 
-	<SolidColorBrush Color="#D3D3D3" x:Key="NavigationForegroundColor" />
+	<SolidColorBrush Color="#FFFFFF" x:Key="NavigationForegroundColor" />
 	<SolidColorBrush Color="#000000" x:Key="WindowBorderBrush" />
 	<SolidColorBrush Color="#A9A9A9" x:Key="DisabledBorderBrush" />
 	<SolidColorBrush Color="#D3D3D3" x:Key="DisabledBackgroundBrush" />

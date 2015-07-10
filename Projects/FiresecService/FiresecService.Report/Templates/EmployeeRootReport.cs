@@ -382,8 +382,8 @@ namespace FiresecService.Report.Templates
 			var filter = GetFilter<EmployeeRootReportFilter>();
 			var ds = new EmployeeRootDataSet();
 			var employees = dataProvider.GetEmployees(filter);
-			var passJournal = dataProvider.DatabaseService.PassJournalTranslator != null ?
-				dataProvider.DatabaseService.PassJournalTranslator.GetEmployeesRoot(employees.Select(item => item.UID), filter.Zones, filter.DateTimeFrom, filter.DateTimeTo) : null;
+			var passJournal = dataProvider.DbService.PassJournalTranslator != null ?
+				dataProvider.DbService.PassJournalTranslator.GetEmployeesRoot(employees.Select(item => item.UID), filter.Zones, filter.DateTimeFrom, filter.DateTimeTo) : null;
 
 			var zoneMap = new Dictionary<Guid, string>();
 			if (passJournal != null)

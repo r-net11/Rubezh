@@ -46,9 +46,9 @@ namespace SKDModule.PassCardDesigner.ViewModels
 			}
 		}
 
-		public ObservableCollection<ShortAdditionalColumnType> AdditionalColumnTypes { get; private set; }
-		private ShortAdditionalColumnType _selectedAdditionalColumnType;
-		public ShortAdditionalColumnType SelectedAdditionalColumnType
+		public ObservableCollection<AdditionalColumnType> AdditionalColumnTypes { get; private set; }
+		private AdditionalColumnType _selectedAdditionalColumnType;
+		public AdditionalColumnType SelectedAdditionalColumnType
 		{
 			get { return _selectedAdditionalColumnType; }
 			set
@@ -72,7 +72,7 @@ namespace SKDModule.PassCardDesigner.ViewModels
 				Type = AdditionalColumnDataType.Graphics,
 				OrganisationUIDs = new System.Collections.Generic.List<Guid> { ((ElementPassCardImageProperty)ElementRectangle).OrganisationUID }
 			};
-			AdditionalColumnTypes = new ObservableCollection<ShortAdditionalColumnType>(AdditionalColumnTypeHelper.Get(filter));
+			AdditionalColumnTypes = new ObservableCollection<AdditionalColumnType>(AdditionalColumnTypeHelper.Get(filter));
 			base.CopyProperties();
 			var element = (ElementPassCardImageProperty)ElementRectangle;
 			SelectedPropertyType = element.PropertyType;

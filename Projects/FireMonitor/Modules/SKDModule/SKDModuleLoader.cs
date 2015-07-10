@@ -116,9 +116,7 @@ namespace SKDModule
 		{
 			yield return new EventsReportProvider();
 			if (false)
-			{
-				yield return new DoorsReportProvider();
-			}
+			yield return new DoorsReportProvider();
 			yield return new EmployeeRootReportProvider();
 			yield return new CardsReportProvider();
 			yield return new EmployeeAccessReportProvider();

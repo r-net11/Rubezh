@@ -11,17 +11,17 @@ namespace FiresecService.Service
 	public partial class SafeFiresecService
 	{
 		#region Employee
-		public OperationResult<IEnumerable<ShortEmployee>> GetEmployeeList(EmployeeFilter filter)
+		public OperationResult<List<ShortEmployee>> GetEmployeeList(EmployeeFilter filter)
 		{
-			return SafeContext.Execute<OperationResult<IEnumerable<ShortEmployee>>>(() => FiresecService.GetEmployeeList(filter));
+			return SafeContext.Execute<OperationResult<List<ShortEmployee>>>(() => FiresecService.GetEmployeeList(filter));
 		}
 		public OperationResult<Employee> GetEmployeeDetails(Guid uid)
 		{
 			return SafeContext.Execute<OperationResult<Employee>>(() => FiresecService.GetEmployeeDetails(uid));
 		}
-		public OperationResult SaveEmployee(Employee item, bool isNew)
+		public OperationResult<bool> SaveEmployee(Employee item, bool isNew)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveEmployee(item, isNew));
+			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.SaveEmployee(item, isNew));
 		}
 		public OperationResult MarkDeletedEmployee(Guid uid, string name)
 		{
@@ -37,11 +37,11 @@ namespace FiresecService.Service
 			var result = SafeContext.Execute<Stream>(() => FiresecService.GetTimeTracksStream(filter, startDate, endDate));
 			return result;
 		}
-		public OperationResult SaveEmployeeDepartment(Guid uid, Guid departmentUid, string name)
+		public OperationResult SaveEmployeeDepartment(Guid uid, Guid? departmentUid, string name)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveEmployeeDepartment(uid, departmentUid, name));
 		}
-		public OperationResult SaveEmployeePosition(Guid uid, Guid positionUid, string name)
+		public OperationResult SaveEmployeePosition(Guid uid, Guid? positionUid, string name)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveEmployeePosition(uid, positionUid, name));
 		}
@@ -49,26 +49,26 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.RestoreEmployee(uid, name));
 		}
-		#endregion
+        #endregion
 
 		#region Department
-		public OperationResult<IEnumerable<ShortDepartment>> GetDepartmentList(DepartmentFilter filter)
+		public OperationResult<List<ShortDepartment>> GetDepartmentList(DepartmentFilter filter)
 		{
-			return SafeContext.Execute<OperationResult<IEnumerable<ShortDepartment>>>(() => FiresecService.GetDepartmentList(filter));
+			return SafeContext.Execute<OperationResult<List<ShortDepartment>>>(() => FiresecService.GetDepartmentList(filter));
 		}
 		public OperationResult<Department> GetDepartmentDetails(Guid uid)
 		{
 			return SafeContext.Execute<OperationResult<Department>>(() => FiresecService.GetDepartmentDetails(uid));
 		}
-		public OperationResult SaveDepartment(Department item, bool isNew)
+		public OperationResult<bool> SaveDepartment(Department item, bool isNew)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveDepartment(item, isNew));
+			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.SaveDepartment(item, isNew));
 		}
 		public OperationResult MarkDeletedDepartment(ShortDepartment department)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedDepartment(department));
 		}
-		public OperationResult SaveDepartmentChief(Guid uid, Guid chiefUID, string name)
+		public OperationResult SaveDepartmentChief(Guid uid, Guid? chiefUID, string name)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveDepartmentChief(uid, chiefUID, name));
 		}
@@ -76,28 +76,28 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.RestoreDepartment(department));
 		}
-		public OperationResult<IEnumerable<Guid>> GetChildEmployeeUIDs(Guid uid)
+		public OperationResult<List<Guid>> GetChildEmployeeUIDs(Guid uid)
 		{
-			return SafeContext.Execute<OperationResult<IEnumerable<Guid>>>(() => FiresecService.GetChildEmployeeUIDs(uid));
+			return SafeContext.Execute<OperationResult<List<Guid>>>(() => FiresecService.GetChildEmployeeUIDs(uid));
 		}
-		public OperationResult<IEnumerable<Guid>> GetParentEmployeeUIDs(Guid uid)
+		public OperationResult<List<Guid>> GetParentEmployeeUIDs(Guid uid)
 		{
-			return SafeContext.Execute<OperationResult<IEnumerable<Guid>>>(() => FiresecService.GetParentEmployeeUIDs(uid));
+			return SafeContext.Execute<OperationResult<List<Guid>>>(() => FiresecService.GetParentEmployeeUIDs(uid));
 		}
 		#endregion
 
 		#region Position
-		public OperationResult<IEnumerable<ShortPosition>> GetPositionList(PositionFilter filter)
+		public OperationResult<List<ShortPosition>> GetPositionList(PositionFilter filter)
 		{
-			return SafeContext.Execute<OperationResult<IEnumerable<ShortPosition>>>(() => FiresecService.GetPositionList(filter));
+			return SafeContext.Execute<OperationResult<List<ShortPosition>>>(() => FiresecService.GetPositionList(filter));
 		}
 		public OperationResult<Position> GetPositionDetails(Guid uid)
 		{
 			return SafeContext.Execute<OperationResult<Position>>(() => FiresecService.GetPositionDetails(uid));
 		}
-		public OperationResult SavePosition(Position item, bool isNew)
+		public OperationResult<bool> SavePosition(Position item, bool isNew)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.SavePosition(item, isNew));
+			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.SavePosition(item, isNew));
 		}
 		public OperationResult MarkDeletedPosition(Guid uid, string name)
 		{
@@ -111,13 +111,13 @@ namespace FiresecService.Service
 		#endregion
 
 		#region Card
-		public OperationResult<IEnumerable<SKDCard>> GetCards(CardFilter filter)
+		public OperationResult<List<SKDCard>> GetCards(CardFilter filter)
 		{
-			return SafeContext.Execute<OperationResult<IEnumerable<SKDCard>>>(() => FiresecService.GetCards(filter));
+            return SafeContext.Execute<OperationResult<List<SKDCard>>>(() => FiresecService.GetCards(filter));
 		}
-		public OperationResult<IEnumerable<SKDCard>> GetEmployeeCards(Guid employeeUID)
+        public OperationResult<List<SKDCard>> GetEmployeeCards(Guid employeeUID)
 		{
-			return SafeContext.Execute<OperationResult<IEnumerable<SKDCard>>>(() => FiresecService.GetEmployeeCards(employeeUID));
+            return SafeContext.Execute<OperationResult<List<SKDCard>>>(() => FiresecService.GetEmployeeCards(employeeUID));
 		}
 		public OperationResult<bool> AddCard(SKDCard item, string employeeName)
 		{
@@ -139,13 +139,12 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveCardTemplate(item));
 		}
-		
-		#endregion
+        #endregion
 
 		#region AccessTemplate
-		public OperationResult<IEnumerable<AccessTemplate>> GetAccessTemplates(AccessTemplateFilter filter)
+		public OperationResult<List<AccessTemplate>> GetAccessTemplates(AccessTemplateFilter filter)
 		{
-			return SafeContext.Execute<OperationResult<IEnumerable<AccessTemplate>>>(() => FiresecService.GetAccessTemplates(filter));
+			return SafeContext.Execute<OperationResult<List<AccessTemplate>>>(() => FiresecService.GetAccessTemplates(filter));
 		}
 		public OperationResult<bool> SaveAccessTemplate(AccessTemplate item, bool isNew)
 		{
@@ -162,13 +161,13 @@ namespace FiresecService.Service
 		#endregion
 
 		#region Organisation
-		public OperationResult<IEnumerable<Organisation>> GetOrganisations(OrganisationFilter filter)
+		public OperationResult<List<Organisation>> GetOrganisations(OrganisationFilter filter)
 		{
-			return SafeContext.Execute<OperationResult<IEnumerable<Organisation>>>(() => FiresecService.GetOrganisations(filter));
+			return SafeContext.Execute<OperationResult<List<Organisation>>>(() => FiresecService.GetOrganisations(filter));
 		}
-		public OperationResult SaveOrganisation(OrganisationDetails item, bool isNew)
+		public OperationResult<bool> SaveOrganisation(OrganisationDetails item, bool isNew)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveOrganisation(item, isNew));
+			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.SaveOrganisation(item, isNew));
 		}
 		public OperationResult MarkDeletedOrganisation(Guid uid, string name)
 		{
@@ -190,11 +189,11 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult<OrganisationDetails>>(() => FiresecService.GetOrganisationDetails(uid));
 		}
-		public OperationResult SaveOrganisationChief(Guid uid, Guid chiefUID, string name)
+		public OperationResult SaveOrganisationChief(Guid uid, Guid? chiefUID, string name)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveOrganisationChief(uid, chiefUID, name));
 		}
-		public OperationResult SaveOrganisationHRChief(Guid uid, Guid chiefUID, string name)
+		public OperationResult SaveOrganisationHRChief(Guid uid, Guid? chiefUID, string name)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveOrganisationHRChief(uid, chiefUID, name));
 		}
@@ -209,21 +208,13 @@ namespace FiresecService.Service
 		#endregion
 
 		#region AdditionalColumnType
-		public OperationResult<IEnumerable<ShortAdditionalColumnType>> GetAdditionalColumnTypeList(AdditionalColumnTypeFilter filter)
+		public OperationResult<List<AdditionalColumnType>> GetAdditionalColumnTypes(AdditionalColumnTypeFilter filter)
 		{
-			return SafeContext.Execute<OperationResult<IEnumerable<ShortAdditionalColumnType>>>(() => FiresecService.GetAdditionalColumnTypeList(filter));
+			return SafeContext.Execute<OperationResult<List<AdditionalColumnType>>>(() => FiresecService.GetAdditionalColumnTypes(filter));
 		}
-		public OperationResult<IEnumerable<AdditionalColumnType>> GetAdditionalColumnTypes(AdditionalColumnTypeFilter filter)
+		public OperationResult<bool> SaveAdditionalColumnType(AdditionalColumnType item, bool isNew)
 		{
-			return SafeContext.Execute<OperationResult<IEnumerable<AdditionalColumnType>>>(() => FiresecService.GetAdditionalColumnTypes(filter));
-		}
-		public OperationResult<AdditionalColumnType> GetAdditionalColumnTypeDetails(Guid uid)
-		{
-			return SafeContext.Execute<OperationResult<AdditionalColumnType>>(() => FiresecService.GetAdditionalColumnTypeDetails(uid));
-		}
-		public OperationResult SaveAdditionalColumnType(AdditionalColumnType item, bool isNew)
-		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveAdditionalColumnType(item, isNew));
+			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.SaveAdditionalColumnType(item, isNew));
 		}
 		public OperationResult MarkDeletedAdditionalColumnType(Guid uid, string name)
 		{
@@ -247,17 +238,17 @@ namespace FiresecService.Service
 		#endregion
 
 		#region PassCardTemplate
-		public OperationResult<IEnumerable<ShortPassCardTemplate>> GetPassCardTemplateList(PassCardTemplateFilter filter)
+		public OperationResult<List<ShortPassCardTemplate>> GetPassCardTemplateList(PassCardTemplateFilter filter)
 		{
-			return SafeContext.Execute<OperationResult<IEnumerable<ShortPassCardTemplate>>>(() => FiresecService.GetPassCardTemplateList(filter));
+			return SafeContext.Execute<OperationResult<List<ShortPassCardTemplate>>>(() => FiresecService.GetPassCardTemplateList(filter));
 		}
 		public OperationResult<PassCardTemplate> GetPassCardTemplateDetails(Guid uid)
 		{
 			return SafeContext.Execute<OperationResult<PassCardTemplate>>(() => FiresecService.GetPassCardTemplateDetails(uid));
 		}
-		public OperationResult SavePassCardTemplate(PassCardTemplate item, bool isNew)
+		public OperationResult<bool> SavePassCardTemplate(PassCardTemplate item, bool isNew)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.SavePassCardTemplate(item, isNew));
+			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.SavePassCardTemplate(item, isNew));
 		}
 		public OperationResult MarkDeletedPassCardTemplate(Guid uid, string name)
 		{
@@ -278,6 +269,11 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.GenerateEmployeeDays());
 		}
+
+        public OperationResult GenerateJournal()
+        {
+            return SafeContext.Execute<OperationResult>(() => FiresecService.GenerateJournal());
+        }
 
 		public OperationResult GenerateTestData(bool isAscending)
 		{
@@ -360,10 +356,15 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute(() => FiresecService.SaveCurrentConsumption(item));
 		}
-		public OperationResult<IEnumerable<CurrentConsumption>> GetCurrentConsumption(CurrentConsumptionFilter item)
+		public OperationResult<List<CurrentConsumption>> GetCurrentConsumption(CurrentConsumptionFilter item)
 		{
 			return SafeContext.Execute(() => FiresecService.GetCurrentConsumption(item));
 		}
 		#endregion
+
+        public OperationResult BeginGetAsync(HRFilter filter)
+        {
+            return SafeContext.Execute<OperationResult>(() => FiresecService.BeginGetAsync(filter));
+        }
 	}
 }

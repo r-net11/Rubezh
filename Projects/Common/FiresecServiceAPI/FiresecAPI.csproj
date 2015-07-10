@@ -150,11 +150,11 @@
     <Compile Include="CallbackOperationResult.cs" />
     <Compile Include="GKModels\Configuration\GKNameGenerationType.cs" />
     <Compile Include="GKModels\CurrentConsumption\CurrentConsumption.cs" />
-    <Compile Include="GKModels\Device\GKMirrorItem.cs" />
-    <Compile Include="GKModels\Device\GKReflectionItem.cs" />
+    <Compile Include="GKModels\Reflection\GKReflectionItem.cs" />
     <Compile Include="GKModels\GKPropertyChangedCallback.cs" />
     <Compile Include="GKModels\Guard\GKDeviceGuardZone.cs" />
     <Compile Include="GKModels\Logic\GKAdvancedLogic.cs" />
+    <Compile Include="GKModels\Reflection\MirrorUser.cs" />
     <Compile Include="GKModels\SKD\GKCardType.cs" />
     <Compile Include="GKModels\SKD\GKSKDZone.cs" />
     <Compile Include="GKModels\States\GKSKDZoneState.cs" />
@@ -252,6 +252,7 @@
     <Compile Include="AutomationCallback\SoundCallbackData.cs" />
     <Compile Include="Models\Video\CameraState.cs" />
     <Compile Include="Models\Video\RviSettings.cs" />
+    <Compile Include="SKD\IAsyncTranslator.cs" />
     <Compile Include="ServerState.cs" />
     <Compile Include="SKD\Organisation\ExportOrganisation.cs" />
     <Compile Include="SKD\ReportFilters\IReportFilterUser.cs" />

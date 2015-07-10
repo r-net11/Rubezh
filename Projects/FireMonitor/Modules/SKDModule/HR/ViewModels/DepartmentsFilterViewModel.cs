@@ -134,5 +134,10 @@ namespace SKDModule.ViewModels
 		{
 			get { return FiresecAPI.Models.PermissionType.Oper_SKD_Departments_Etit; }
 		}
+
+		protected override List<ShortDepartment> GetFromCallbackResult(FiresecAPI.DbCallbackResult dbCallbackResult)
+		{
+			return dbCallbackResult.Departments;
+		}
 	}
 }

@@ -9,7 +9,7 @@ using FiresecAPI.Journal;
 
 namespace FiresecService
 {
-	public static partial class DBHelper
+	public static partial class DBHelper1
 	{
 		public static object locker = new object();
 		public static object databaseLocker = new object();

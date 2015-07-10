@@ -85,5 +85,10 @@ namespace SKDModule.ViewModels
 				SelectedItem.InitializeDoors();
 			}
 		}
+
+		protected override List<AccessTemplate> GetFromCallbackResult(FiresecAPI.DbCallbackResult dbCallbackResult)
+		{
+			return dbCallbackResult.AccessTemplates;
+		}
 	}	
 }

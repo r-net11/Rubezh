@@ -44,17 +44,7 @@ namespace FiresecService.Report.Templates
 
 			var cardFilter = new CardFilter();
 			cardFilter.EmployeeFilter = dataProvider.GetCardEmployeeFilter(filter);
-			if (filter.PassCardForcing)
-				cardFilter.CardTypes.Add(CardType.Duress);
-			if (filter.PassCardLocked)
-				cardFilter.CardTypes.Add(CardType.Blocked);
-			if (filter.PassCardOnceOnly)
-				cardFilter.CardTypes.Add(CardType.OneTime);
-			if (filter.PassCardPermanent)
-				cardFilter.CardTypes.Add(CardType.Constant);
-			if (filter.PassCardTemprorary)
-				cardFilter.CardTypes.Add(CardType.Temporary);
-			cardFilter.DeactivationType = filter.PassCardInactive ? (cardFilter.CardTypes.Count > 0 ? LogicalDeletationType.All : LogicalDeletationType.Deleted) : LogicalDeletationType.Active;
+			cardFilter.DeactivationType = filter.PassCardInactive ? LogicalDeletationType.Deleted : LogicalDeletationType.Active;
 			cardFilter.IsWithInactive = filter.PassCardInactive;
 			cardFilter.IsWithEndDate = filter.UseExpirationDate;
 			if (filter.UseExpirationDate)
@@ -73,18 +63,18 @@ namespace FiresecService.Report.Templates
 						cardFilter.EndDate = filter.ExpirationDate;
 						break;
 				}
-			var cardsResult = dataProvider.DatabaseService.CardTranslator.Get(cardFilter);
+			var cardsResult = dataProvider.DbService.CardTranslator.Get(cardFilter);
 
 			var dataSet = new CardsDataSet();
 			if (!cardsResult.HasError)
 			{
-				dataProvider.GetEmployees(cardsResult.Result.Select(item => item.EmployeeUID));
+				dataProvider.GetEmployees(cardsResult.Result.Select(item => item.EmployeeUID.GetValueOrDefault()));
 				foreach (var card in cardsResult.Result)
 				{
 					var dataRow = dataSet.Data.NewDataRow();
 					dataRow.Type = card.IsInStopList ? "Деактивированный" : card.CardType.ToDescription();
 					dataRow.Number = card.Number.ToString();
-					var employee = dataProvider.GetEmployee(card.EmployeeUID);
+					var employee = dataProvider.GetEmployee(card.EmployeeUID.GetValueOrDefault());
 					if (employee != null)
 					{
 						dataRow.Employee = employee.Name;

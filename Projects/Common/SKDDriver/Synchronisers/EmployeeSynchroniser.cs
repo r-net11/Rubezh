@@ -1,18 +1,19 @@
 ﻿using System;
 using System.Data.Linq;
 using System.Linq.Expressions;
-using FiresecAPI.SKD;
 using LinqKit;
+using System.Data.Entity;
+using System.Linq;
 
-namespace SKDDriver
+namespace SKDDriver.DataClasses
 {
-	public class EmployeeSynchroniser : Synchroniser<ExportEmployee, DataAccess.Employee>
+    public class EmployeeSynchroniser : Synchroniser<FiresecAPI.SKD.ExportEmployee, Employee>
 	{
-		public EmployeeSynchroniser(Table<DataAccess.Employee> table, SKDDatabaseService databaseService) : base(table, databaseService) { }
+		public EmployeeSynchroniser(DbSet<Employee> table, DbService databaseService) : base(table, databaseService) { }
 
-		public override ExportEmployee Translate(DataAccess.Employee item)
+        public override FiresecAPI.SKD.ExportEmployee Translate(Employee item)
 		{
-			return new ExportEmployee 
+            return new FiresecAPI.SKD.ExportEmployee 
 			{ 
 				FirstName = item.FirstName, 
 				SecondName = item.SecondName,
@@ -28,7 +29,7 @@ namespace SKDDriver
 				Citizenship = item.Citizenship,
 				Description = item.Description,
 				Gender = item.Gender,
-				Type = item.Type != null ? item.Type.Value : -1,
+				Type = item.Type,
 				LastEmployeeDayUpdate = item.LastEmployeeDayUpdate,
 				ScheduleStartDate = item.ScheduleStartDate,
 				
@@ -39,42 +40,44 @@ namespace SKDDriver
 				DepartmentUID = GetUID(item.DepartmentUID),
 				DepartmentExternalKey = GetExternalKey(item.DepartmentUID, item.Department),
 				EscrortUID = GetUID(item.EscortUID),
-				EscortExternalKey = GetExternalKey(item.EscortUID, item.Employee1)
+				EscortExternalKey = GetExternalKey(item.EscortUID, item.Escort)
 			};
 		}
 
-		protected override void UpdateForignKeys(ExportEmployee exportItem, DataAccess.Employee tableItem)
+        protected override void UpdateForignKeys(FiresecAPI.SKD.ExportEmployee exportItem, Employee tableItem, OrganisationHRCash hrCash)
 		{
-			tableItem.OrganisationUID = GetUIDbyExternalKey(exportItem.OrganisationExternalKey, _DatabaseService.Context.Organisations);
-			tableItem.PositionUID = GetUIDbyExternalKey(exportItem.PositionExternalKey, _DatabaseService.Context.Positions);
-			tableItem.DepartmentUID = GetUIDbyExternalKey(exportItem.DepartmentExternalKey, _DatabaseService.Context.Departments);
-			tableItem.EscortUID = GetUIDbyExternalKey(exportItem.EscortExternalKey, _DatabaseService.Context.Employees);
-		}
-		
-		protected override Expression<Func<DataAccess.Employee, bool>> IsInFilter(ExportFilter filter)
-		{
-			return base.IsInFilter(filter).And(x => x.OrganisationUID == filter.OrganisationUID);
+			tableItem.OrganisationUID = hrCash.OrganisationUID;
+			tableItem.PositionUID = GetUIDbyExternalKey(exportItem.PositionExternalKey, hrCash.Positions);
+			tableItem.DepartmentUID = GetUIDbyExternalKey(exportItem.DepartmentExternalKey, hrCash.Departments);
+			tableItem.EscortUID = GetUIDbyExternalKey(exportItem.EscortExternalKey, hrCash.Employees);
 		}
 
-		public override void TranslateBack(ExportEmployee exportItem, DataAccess.Employee tableItem)
+		protected override IQueryable<Employee> GetFilteredItems(FiresecAPI.SKD.ExportFilter filter)
+		{
+			return base.GetFilteredItems(filter).Where(x => x.OrganisationUID == filter.OrganisationUID);
+		}
+		
+        public override void TranslateBack(FiresecAPI.SKD.ExportEmployee exportItem, Employee tableItem)
 		{
 			tableItem.FirstName = exportItem.FirstName;
 			tableItem.SecondName = exportItem.SecondName;
 			tableItem.LastName = exportItem.LastName;
-			tableItem.CredentialsStartDate = TranslatiorHelper.CheckDate(exportItem.CredentialsStartDate);
+			tableItem.CredentialsStartDate = DbServiceHelper.CheckDate(exportItem.CredentialsStartDate);
 			tableItem.DocumentNumber = exportItem.DocumentNumber;
-			tableItem.BirthDate = TranslatiorHelper.CheckDate(tableItem.BirthDate);
+            tableItem.BirthDate = DbServiceHelper.CheckDate(tableItem.BirthDate);
 			tableItem.BirthPlace = tableItem.BirthPlace;
-			tableItem.DocumentGivenDate = TranslatiorHelper.CheckDate(exportItem.DocumentGivenDate);
+            tableItem.DocumentGivenDate = DbServiceHelper.CheckDate(exportItem.DocumentGivenDate);
 			tableItem.DocumentGivenBy = exportItem.DocumentGivenBy;
-			tableItem.DocumentValidTo = TranslatiorHelper.CheckDate(exportItem.DocumentValidTo);
+            tableItem.DocumentValidTo = DbServiceHelper.CheckDate(exportItem.DocumentValidTo);
 			tableItem.DocumentDepartmentCode = exportItem.DocumentDepartmentCode;
 			tableItem.Citizenship = exportItem.Citizenship;
 			tableItem.Description = exportItem.Description;
 			tableItem.Gender = exportItem.Gender;
 			tableItem.Type = exportItem.Type;
-			tableItem.LastEmployeeDayUpdate = TranslatiorHelper.CheckDate(exportItem.LastEmployeeDayUpdate);
-			tableItem.ScheduleStartDate = TranslatiorHelper.CheckDate(exportItem.ScheduleStartDate);
+            tableItem.LastEmployeeDayUpdate = DbServiceHelper.CheckDate(exportItem.LastEmployeeDayUpdate);
+            tableItem.ScheduleStartDate = DbServiceHelper.CheckDate(exportItem.ScheduleStartDate);
+			tableItem.IsDeleted = exportItem.IsDeleted;
+			tableItem.RemovalDate = exportItem.RemovalDate;
 		}
 
 		protected override string XmlHeaderName

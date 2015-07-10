@@ -45,8 +45,8 @@ namespace GKModule.ViewModels
 		}
 		protected override bool Save()
 		{
-			DaySchedulePart.StartMilliseconds = StartTime.TotalMilliseconds;
-			DaySchedulePart.EndMilliseconds = EndTime.TotalMilliseconds;
+			DaySchedulePart.StartMilliseconds = (int)StartTime.TotalMilliseconds;
+			DaySchedulePart.EndMilliseconds = (int)EndTime.TotalMilliseconds;
 			return true;
 		}
 	}

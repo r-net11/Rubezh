@@ -8,36 +8,35 @@ using FiresecAPI.Journal;
 using FiresecAPI.SKD;
 using GKProcessor;
 using SKDDriver;
-using SKDDriver.Translators;
 
 namespace FiresecService.Service
 {
 	public partial class FiresecService : IFiresecService
 	{
 		#region Employee
-		public OperationResult<IEnumerable<ShortEmployee>> GetEmployeeList(EmployeeFilter filter)
+		public OperationResult<List<ShortEmployee>> GetEmployeeList(EmployeeFilter filter)
 		{
-			OperationResult<IEnumerable<ShortEmployee>> result;
-			using (var databaseService = new SKDDatabaseService())
+			OperationResult<List<ShortEmployee>> result;
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
-				result = databaseService.EmployeeTranslator.GetList(filter);
+				result = databaseService.EmployeeTranslator.ShortTranslator.Get(filter);
 			}
 			return result;
 		}
 		public OperationResult<Employee> GetEmployeeDetails(Guid uid)
 		{
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.EmployeeTranslator.GetSingle(uid);
 			}
 		}
-		public OperationResult SaveEmployee(Employee item, bool isNew)
+		public OperationResult<bool> SaveEmployee(Employee item, bool isNew)
 		{
 			if(isNew)
 				AddJournalMessage(JournalEventNameType.Добавление_нового_сотрудника, item.Name, uid: item.UID);
 			else
 				AddJournalMessage(JournalEventNameType.Редактирование_сотрудника, item.Name, JournalEventDescriptionType.Редактирование, uid: item.UID);
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.EmployeeTranslator.Save(item);
 			}
@@ -46,22 +45,21 @@ namespace FiresecService.Service
 		{
 			AddJournalMessage(JournalEventNameType.Удаление_сотрудника, name, JournalEventDescriptionType.Удаление, uid: uid);
 			var errors = new List<string>();
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
-				var getEmployeeOperationResult = databaseService.EmployeeTranslator.GetSingle(uid);
+				var getEmployeeOperationResult = databaseService.CardTranslator.GetEmployeeCards(uid);
 
 				if (!getEmployeeOperationResult.HasError)
 				{
-					foreach (var card in getEmployeeOperationResult.Result.Cards)
+					foreach (var card in getEmployeeOperationResult.Result)
 					{
 						var operationResult = DeleteCardFromEmployee(card, name, "Сотрудник удален");
 						if (operationResult.HasError)
 						{
 							foreach (var item in operationResult.Errors)
 							{
-								errors.Add("Ошибка БД: " + item);	
+								errors.Add("Ошибка БД: " + item);
 							}
-							
 						}
 					}
 				}
@@ -80,30 +78,30 @@ namespace FiresecService.Service
 		}
 		public OperationResult<TimeTrackResult> GetTimeTracks(EmployeeFilter filter, DateTime startDate, DateTime endDate)
 		{
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.TimeTrackTranslator.GetTimeTracks(filter, startDate, endDate);
 			}
 		}
 		public Stream GetTimeTracksStream(EmployeeFilter filter, DateTime startDate, DateTime endDate)
 		{
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.TimeTrackTranslator.GetTimeTracksStream(filter, startDate, endDate);
 			}
 		}
-		public OperationResult SaveEmployeeDepartment(Guid uid, Guid departmentUid, string name)
+		public OperationResult SaveEmployeeDepartment(Guid uid, Guid? departmentUid, string name)
 		{
 			AddJournalMessage(JournalEventNameType.Редактирование_сотрудника, name, JournalEventDescriptionType.Редактирование, uid: uid);
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.EmployeeTranslator.SaveDepartment(uid, departmentUid);
 			}
 		}
-		public OperationResult SaveEmployeePosition(Guid uid, Guid PositionUid, string name)
+		public OperationResult SaveEmployeePosition(Guid uid, Guid? PositionUid, string name)
 		{
 			AddJournalMessage(JournalEventNameType.Редактирование_сотрудника, name, JournalEventDescriptionType.Редактирование, uid: uid);
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.EmployeeTranslator.SavePosition(uid, PositionUid);
 			}
@@ -111,7 +109,7 @@ namespace FiresecService.Service
 		public OperationResult RestoreEmployee(Guid uid, string name)
 		{
 			AddJournalMessage(JournalEventNameType.Восстановление_сотрудника, name, uid: uid);
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.EmployeeTranslator.Restore(uid);
 			}
@@ -119,29 +117,29 @@ namespace FiresecService.Service
 		#endregion
 
 		#region Department
-		public OperationResult<IEnumerable<ShortDepartment>> GetDepartmentList(DepartmentFilter filter)
+		public OperationResult<List<ShortDepartment>> GetDepartmentList(DepartmentFilter filter)
 		{
-			OperationResult<IEnumerable<ShortDepartment>> result;
-			using (var databaseService = new SKDDatabaseService())
+			OperationResult<List<ShortDepartment>> result;
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
-				result = databaseService.DepartmentTranslator.GetList(filter);
+				result = databaseService.DepartmentTranslator.ShortTranslator.Get(filter);
 			}
 			return result;
 		}
 		public OperationResult<Department> GetDepartmentDetails(Guid uid)
 		{
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.DepartmentTranslator.GetSingle(uid);
 			}
 		}
-		public OperationResult SaveDepartment(Department item, bool isNew)
+		public OperationResult<bool> SaveDepartment(Department item, bool isNew)
 		{
 			if(isNew)
 				AddJournalMessage(JournalEventNameType.Добавление_нового_отдела, item.Name, uid: item.UID);
 			else
 				AddJournalMessage(JournalEventNameType.Редактирование_отдела, item.Name, JournalEventDescriptionType.Редактирование, uid: item.UID);
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.DepartmentTranslator.Save(item);
 			}
@@ -153,15 +151,15 @@ namespace FiresecService.Service
 			{
 				AddJournalMessage(JournalEventNameType.Удаление_отдела, childDepartment.Value, uid: childDepartment.Key);	
 			}
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.DepartmentTranslator.MarkDeleted(department.UID);
 			}
 		}
-		public OperationResult SaveDepartmentChief(Guid uid, Guid chiefUID, string name)
+		public OperationResult SaveDepartmentChief(Guid uid, Guid? chiefUID, string name)
 		{
 			AddJournalMessage(JournalEventNameType.Редактирование_отдела, name, JournalEventDescriptionType.Редактирование, uid: uid);
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.DepartmentTranslator.SaveChief(uid, chiefUID);
 			}
@@ -174,23 +172,23 @@ namespace FiresecService.Service
 			{
 				AddJournalMessage(JournalEventNameType.Восстановление_отдела, parent.Value, uid: parent.Key);
 			}
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.DepartmentTranslator.Restore(department.UID);
 			}
 		}
 
-		public OperationResult<IEnumerable<Guid>> GetChildEmployeeUIDs(Guid uid)
+		public OperationResult<List<Guid>> GetChildEmployeeUIDs(Guid uid)
 		{
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.DepartmentTranslator.GetChildEmployeeUIDs(uid);
 			}
 		}
 
-		public OperationResult<IEnumerable<Guid>> GetParentEmployeeUIDs(Guid uid)
+		public OperationResult<List<Guid>> GetParentEmployeeUIDs(Guid uid)
 		{
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.DepartmentTranslator.GetParentEmployeeUIDs(uid);
 			}
@@ -198,29 +196,29 @@ namespace FiresecService.Service
 		#endregion
 
 		#region Position
-		public OperationResult<IEnumerable<ShortPosition>> GetPositionList(PositionFilter filter)
+		public OperationResult<List<ShortPosition>> GetPositionList(PositionFilter filter)
 		{
-			OperationResult<IEnumerable<ShortPosition>> result;
-			using (var databaseService = new SKDDatabaseService())
+			OperationResult<List<ShortPosition>> result;
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
-				result = databaseService.PositionTranslator.GetList(filter);
+				result = databaseService.PositionTranslator.ShortTranslator.Get(filter);
 			}
 			return result;
 		}
 		public OperationResult<Position> GetPositionDetails(Guid uid)
 		{
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.PositionTranslator.GetSingle(uid);
 			}
 		}
-		public OperationResult SavePosition(Position item, bool isNew)
+		public OperationResult<bool> SavePosition(Position item, bool isNew)
 		{
 			if (isNew)
 				AddJournalMessage(JournalEventNameType.Добавление_новой_должности, item.Name, uid: item.UID);
 			else
 				AddJournalMessage(JournalEventNameType.Редактирование_должности, item.Name, JournalEventDescriptionType.Редактирование, uid: item.UID);
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.PositionTranslator.Save(item);
 			}
@@ -228,7 +226,7 @@ namespace FiresecService.Service
 		public OperationResult MarkDeletedPosition(Guid uid, string name)
 		{
 			AddJournalMessage(JournalEventNameType.Удаление_должности, name, uid: uid);
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.PositionTranslator.MarkDeleted(uid);
 			}
@@ -236,7 +234,7 @@ namespace FiresecService.Service
 		public OperationResult RestorePosition(Guid uid, string name)
 		{
 			AddJournalMessage(JournalEventNameType.Восстановление_должности, name, uid: uid);
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.PositionTranslator.Restore(uid);
 			}
@@ -244,16 +242,16 @@ namespace FiresecService.Service
 		#endregion
 
 		#region Card
-		public OperationResult<IEnumerable<SKDCard>> GetCards(CardFilter filter)
+		public OperationResult<List<SKDCard>> GetCards(CardFilter filter)
 		{
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.CardTranslator.Get(filter);
 			}
 		}
-		public OperationResult<IEnumerable<SKDCard>> GetEmployeeCards(Guid employeeUID)
+		public OperationResult<List<SKDCard>> GetEmployeeCards(Guid employeeUID)
 		{
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.CardTranslator.GetEmployeeCards(employeeUID);
 			}
@@ -262,7 +260,7 @@ namespace FiresecService.Service
 		{
 			AddJournalMessage(JournalEventNameType.Добавление_карты, employeeName, uid: card.EmployeeUID);
 
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				var saveResult = databaseService.CardTranslator.Save(card);
 				if (saveResult.HasError)
@@ -279,9 +277,9 @@ namespace FiresecService.Service
 				return OperationResult<bool>.FromError(errors, true);
 			}
 		}
-		IEnumerable<string> AddGKCard(SKDCard card, AccessTemplate accessTemplate, SKDDatabaseService databaseService)
+		IEnumerable<string> AddGKCard(SKDCard card, AccessTemplate accessTemplate, SKDDriver.DataClasses.DbService databaseService)
 		{
-			var employeeOperationResult = databaseService.EmployeeTranslator.GetSingle(card.HolderUID);
+			var employeeOperationResult = databaseService.EmployeeTranslator.GetSingle(card.EmployeeUID);
 			if (!employeeOperationResult.HasError)
 			{
 				var controllerCardSchedules = GKSKDHelper.GetGKControllerCardSchedules(card, accessTemplate);
@@ -303,7 +301,7 @@ namespace FiresecService.Service
 		{
 			AddJournalMessage(JournalEventNameType.Редактирование_карты, employeeName, uid: card.EmployeeUID);
 
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				var oldCardOperationResult = databaseService.CardTranslator.GetSingle(card.UID);
 
@@ -332,9 +330,9 @@ namespace FiresecService.Service
 				return OperationResult<bool>.FromError(errors, true);
 			}
 		}
-		IEnumerable<string> EditGKCard(SKDCard oldCard, AccessTemplate oldAccessTemplate, SKDCard newCard, AccessTemplate newAccessTemplate, SKDDatabaseService databaseService)
+		IEnumerable<string> EditGKCard(SKDCard oldCard, AccessTemplate oldAccessTemplate, SKDCard newCard, AccessTemplate newAccessTemplate, SKDDriver.DataClasses.DbService databaseService)
 		{
-			var employeeOperationResult = databaseService.EmployeeTranslator.GetSingle(newCard.HolderUID);
+			var employeeOperationResult = databaseService.EmployeeTranslator.GetSingle(newCard.EmployeeUID);
 			if (!employeeOperationResult.HasError)
 			{
 				var oldControllerCardSchedules = GKSKDHelper.GetGKControllerCardSchedules(oldCard, oldAccessTemplate);
@@ -371,11 +369,11 @@ namespace FiresecService.Service
 
 		public OperationResult<bool> DeleteCardFromEmployee(SKDCard card, string employeeName, string reason = null)
 		{
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				AddJournalMessage(JournalEventNameType.Удаление_карты, employeeName, uid: card.EmployeeUID);
 
-				var saveResult = databaseService.CardTranslator.ToStopList(card, employeeName, reason);
+				var saveResult = databaseService.CardTranslator.ToStopList(card, reason);
 				if (saveResult.HasError)
 				{
 					return OperationResult<bool>.FromError(saveResult.Error, false);
@@ -400,7 +398,7 @@ namespace FiresecService.Service
 				return OperationResult<bool>.FromError(errors, true);
 			}
 		}
-		IEnumerable<string> DeleteGKCard(SKDCard card, AccessTemplate accessTemplate, SKDDatabaseService databaseService)
+		IEnumerable<string> DeleteGKCard(SKDCard card, AccessTemplate accessTemplate, SKDDriver.DataClasses.DbService databaseService)
 		{
 			var controllerCardSchedules = GKSKDHelper.GetGKControllerCardSchedules(card, accessTemplate);
 			foreach (var controllerCardSchedule in controllerCardSchedules)
@@ -419,14 +417,14 @@ namespace FiresecService.Service
 		public OperationResult DeletedCard(SKDCard card)
 		{
 			AddJournalMessage(JournalEventNameType.Редактирование_карты, card.Number.ToString(), uid: card.UID);
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
-				return databaseService.CardTranslator.Delete(card.UID);
+				return databaseService.CardTranslator.Delete(card);
 			}
 		}
 		public OperationResult SaveCardTemplate(SKDCard card)
 		{
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.CardTranslator.SavePassTemplate(card);
 			}
@@ -435,16 +433,16 @@ namespace FiresecService.Service
 		#endregion
 
 		#region AccessTemplate
-		public OperationResult<IEnumerable<AccessTemplate>> GetAccessTemplates(AccessTemplateFilter filter)
+		public OperationResult<List<AccessTemplate>> GetAccessTemplates(AccessTemplateFilter filter)
 		{
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.AccessTemplateTranslator.Get(filter);
 			}
 		}
 		public OperationResult<bool> SaveAccessTemplate(AccessTemplate accessTemplate, bool isNew)
 		{
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				if (isNew)
 					AddJournalMessage(JournalEventNameType.Добавление_нового_шаблона_доступа, accessTemplate.Name, uid: accessTemplate.UID);
@@ -472,7 +470,7 @@ namespace FiresecService.Service
 		public OperationResult MarkDeletedAccessTemplate(Guid uid, string name)
 		{
 			AddJournalMessage(JournalEventNameType.Удаление_шаблона_доступа, name, uid: uid);
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.AccessTemplateTranslator.MarkDeleted(uid);
 			}
@@ -481,7 +479,7 @@ namespace FiresecService.Service
 		public OperationResult RestoreAccessTemplate(Guid uid, string name)
 		{
 			AddJournalMessage(JournalEventNameType.Восстановление_шаблона_доступа, name, uid: uid);
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.AccessTemplateTranslator.Restore(uid);
 			}
@@ -489,20 +487,20 @@ namespace FiresecService.Service
 		#endregion
 
 		#region Organisation
-		public OperationResult<IEnumerable<Organisation>> GetOrganisations(OrganisationFilter filter)
+		public OperationResult<List<Organisation>> GetOrganisations(OrganisationFilter filter)
 		{
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.OrganisationTranslator.Get(filter);
 			}
 		}
-		public OperationResult SaveOrganisation(OrganisationDetails item, bool isNew)
+		public OperationResult<bool> SaveOrganisation(OrganisationDetails item, bool isNew)
 		{
 			if (isNew)
 				AddJournalMessage(JournalEventNameType.Добавление_новой_организации, item.Name, uid: item.UID);
 			else
 				AddJournalMessage(JournalEventNameType.Редактирование_организации, item.Name, JournalEventDescriptionType.Редактирование, uid: item.UID);
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.OrganisationTranslator.Save(item);
 			}
@@ -510,7 +508,7 @@ namespace FiresecService.Service
 		public OperationResult MarkDeletedOrganisation(Guid uid, string name)
 		{
 			AddJournalMessage(JournalEventNameType.Удаление_организации, name, uid: uid);
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				var errors = new List<string>();
 				var cards = databaseService.CardTranslator.Get(new CardFilter { EmployeeFilter = new EmployeeFilter { OrganisationUIDs = new List<Guid> { uid } }, DeactivationType = LogicalDeletationType.Active });
@@ -542,7 +540,7 @@ namespace FiresecService.Service
 		public OperationResult AddOrganisationDoor(Organisation item, Guid doorUID)
 		{
 			AddJournalMessage(JournalEventNameType.Редактирование_организации, item.Name, JournalEventDescriptionType.Редактирование, uid: item.UID);
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.OrganisationTranslator.AddDoor(item.UID, doorUID);
 			}
@@ -550,7 +548,7 @@ namespace FiresecService.Service
 		public OperationResult RemoveOrganisationDoor(Organisation item, Guid doorUID)
 		{
 			AddJournalMessage(JournalEventNameType.Редактирование_организации, item.Name, JournalEventDescriptionType.Редактирование, uid: item.UID);
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.OrganisationTranslator.RemoveDoor(item.UID, doorUID);
 			}
@@ -558,31 +556,31 @@ namespace FiresecService.Service
 		public OperationResult SaveOrganisationUsers(Organisation item)
 		{
 			AddJournalMessage(JournalEventNameType.Редактирование_организации, item.Name, JournalEventDescriptionType.Редактирование, uid: item.UID);
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
-				return databaseService.OrganisationTranslator.SaveUsers(item);
+				return databaseService.OrganisationTranslator.SaveUsers(item.UID, item.UserUIDs);
 			}
 		}
 		public OperationResult<OrganisationDetails> GetOrganisationDetails(Guid uid)
 		{
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.OrganisationTranslator.GetDetails(uid);
 			}
 		}
-		public OperationResult SaveOrganisationChief(Guid uid, Guid chiefUID, string name)
+		public OperationResult SaveOrganisationChief(Guid uid, Guid? chiefUID, string name)
 		{
 			AddJournalMessage(JournalEventNameType.Редактирование_организации, name, JournalEventDescriptionType.Редактирование, uid: uid);
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.OrganisationTranslator.SaveChief(uid, chiefUID);
 			}
 		}
 
-		public OperationResult SaveOrganisationHRChief(Guid uid, Guid chiefUID, string name)
+		public OperationResult SaveOrganisationHRChief(Guid uid, Guid? chiefUID, string name)
 		{
 			AddJournalMessage(JournalEventNameType.Редактирование_организации, name, JournalEventDescriptionType.Редактирование, uid: uid);
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.OrganisationTranslator.SaveHRChief(uid, chiefUID);
 			}
@@ -591,7 +589,7 @@ namespace FiresecService.Service
 		public OperationResult RestoreOrganisation(Guid uid, string name)
 		{
 			AddJournalMessage(JournalEventNameType.Восстановление_организации, name, uid: uid);
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.OrganisationTranslator.Restore(uid);
 			}
@@ -599,7 +597,7 @@ namespace FiresecService.Service
 
 		public OperationResult<bool> IsAnyOrganisationItems(Guid uid)
 		{
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.OrganisationTranslator.IsAnyItems(uid);
 			}
@@ -607,34 +605,27 @@ namespace FiresecService.Service
 		#endregion
 
 		#region AdditionalColumnType
-		public OperationResult<IEnumerable<ShortAdditionalColumnType>> GetAdditionalColumnTypeList(AdditionalColumnTypeFilter filter)
+		public OperationResult<List<AdditionalColumnType>> GetAdditionalColumnTypes(AdditionalColumnTypeFilter filter)
 		{
-			using (var databaseService = new SKDDatabaseService())
-			{
-				return databaseService.AdditionalColumnTypeTranslator.GetList(filter);
-			}
-		}
-		public OperationResult<IEnumerable<AdditionalColumnType>> GetAdditionalColumnTypes(AdditionalColumnTypeFilter filter)
-		{
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.AdditionalColumnTypeTranslator.Get(filter);
 			}
 		}
 		public OperationResult<AdditionalColumnType> GetAdditionalColumnTypeDetails(Guid uid)
 		{
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.AdditionalColumnTypeTranslator.GetSingle(uid);
 			}
 		}
-		public OperationResult SaveAdditionalColumnType(AdditionalColumnType item, bool isNew)
+		public OperationResult<bool> SaveAdditionalColumnType(AdditionalColumnType item, bool isNew)
 		{
 			if (isNew)
 				AddJournalMessage(JournalEventNameType.Добавление_новой_дополнительной_колонки, item.Name, uid: item.UID);
 			else
 				AddJournalMessage(JournalEventNameType.Редактирование_дополнительной_колонки, item.Name, JournalEventDescriptionType.Редактирование, uid: item.UID);
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.AdditionalColumnTypeTranslator.Save(item);
 			}
@@ -642,7 +633,7 @@ namespace FiresecService.Service
 		public OperationResult MarkDeletedAdditionalColumnType(Guid uid, string name)
 		{
 			AddJournalMessage(JournalEventNameType.Удаление_дополнительной_колонки, name, uid: uid);
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.AdditionalColumnTypeTranslator.MarkDeleted(uid);
 			}
@@ -650,7 +641,7 @@ namespace FiresecService.Service
 		public OperationResult RestoreAdditionalColumnType(Guid uid, string name)
 		{
 			AddJournalMessage(JournalEventNameType.Восстановление_дополнительной_колонки, name, uid: uid);
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.AdditionalColumnTypeTranslator.Restore(uid);
 			}
@@ -660,39 +651,39 @@ namespace FiresecService.Service
 		#region NightSettings
 		public OperationResult<NightSettings> GetNightSettingsByOrganisation(Guid organisationUID)
 		{
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
-				return databaseService.NightSettingsTranslator.GetByOrganisation(organisationUID);
+				return databaseService.NightSettingTranslator.GetByOrganisation(organisationUID);
 			}
 		}
 
 		public OperationResult SaveNightSettings(NightSettings nightSettings)
 		{
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
-				return databaseService.NightSettingsTranslator.Save(nightSettings);
+				return databaseService.NightSettingTranslator.Save(nightSettings);
 			}
 		}
 		#endregion
 
 		#region PassCardTemplate
-		public OperationResult<IEnumerable<ShortPassCardTemplate>> GetPassCardTemplateList(PassCardTemplateFilter filter)
+		public OperationResult<List<ShortPassCardTemplate>> GetPassCardTemplateList(PassCardTemplateFilter filter)
 		{
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
-				return databaseService.PassCardTemplateTranslator.GetList(filter);
+				return databaseService.PassCardTemplateTranslator.ShortTranslator.Get(filter);
 			}
 		}
 		public OperationResult<PassCardTemplate> GetPassCardTemplateDetails(Guid uid)
 		{
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.PassCardTemplateTranslator.GetSingle(uid);
 			}
 		}
-		public OperationResult SavePassCardTemplate(PassCardTemplate item, bool isNew)
+		public OperationResult<bool> SavePassCardTemplate(PassCardTemplate item, bool isNew)
 		{
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				if (isNew)
 					AddJournalMessage(JournalEventNameType.Добавление_нового_шаблона_пропуска, item.Caption, uid: item.UID);
@@ -704,7 +695,7 @@ namespace FiresecService.Service
 		public OperationResult MarkDeletedPassCardTemplate(Guid uid, string name)
 		{
 			AddJournalMessage(JournalEventNameType.Удаление_шаблона_пропуска, name, uid: uid);
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.PassCardTemplateTranslator.MarkDeleted(uid);
 			}
@@ -712,7 +703,7 @@ namespace FiresecService.Service
 		public OperationResult RestorePassCardTemplate(Guid uid, string name)
 		{
 			AddJournalMessage(JournalEventNameType.Восстановление_шаблона_пропуска, name, uid: uid);
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.PassCardTemplateTranslator.Restore(uid);
 			}
@@ -724,20 +715,21 @@ namespace FiresecService.Service
 			return PatchManager.Reset_SKD();
 		}
 
+		#region TestData
 		public OperationResult GenerateEmployeeDays()
 		{
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
-				return databaseService.EmployeeTranslator.GenerateEmployeeDays();
+				return databaseService.TestDataGenerator.GenerateEmployeeDays();
 			}
 		}
 
 		public OperationResult GenerateTestData(bool isAscending)
 		{
-			List<Guid> cardUIDs ;
-			using (var ds = new SKDDatabaseService())
+			List<Guid> cardUIDs;
+			using (var ds = new SKDDriver.DataClasses.DbService())
 			{
-				cardUIDs = ds.EmployeeTranslator.TestEmployeeCards();
+				cardUIDs = ds.TestDataGenerator.TestEmployeeCards();
 			}
 			bool isBreak = false;
 			int currentPage = 0;
@@ -745,30 +737,40 @@ namespace FiresecService.Service
 			while (!isBreak)
 			{
 				var cardUIDsportion = cardUIDs.Skip(currentPage * pageSize).Take(pageSize).ToList();
-				using (var ds = new SKDDatabaseService())
+				using (var ds = new SKDDriver.DataClasses.DbService())
 				{
-					ds.EmployeeTranslator.TestCardDoors(cardUIDsportion, isAscending);
+					ds.TestDataGenerator.TestCardDoors(cardUIDsportion, isAscending);
 				}
 				isBreak = cardUIDsportion.Count < pageSize;
 				currentPage++;
 			}
-			
+
 			return new OperationResult();
 		}
 
+		public OperationResult GenerateJournal()
+		{
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
+			{
+				return databaseService.TestDataGenerator.GenerateJournal();
+			}
+		}
+		#endregion
+		
+
 		public OperationResult SaveJournalVideoUID(Guid journalItemUID, Guid videoUID, Guid cameraUID)
 		{
-			using (var journalTranslator = new JounalTranslator())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
-				return journalTranslator.SaveVideoUID(journalItemUID, videoUID, cameraUID);
+				return databaseService.JournalTranslator.SaveVideoUID(journalItemUID, videoUID, cameraUID);
 			}
 		}
 
 		public OperationResult SaveJournalCameraUID(Guid journalItemUID, Guid CameraUID)
 		{
-			using (var journalTranslator = new JounalTranslator())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
-				return journalTranslator.SaveCameraUID(journalItemUID, CameraUID);
+				return databaseService.JournalTranslator.SaveCameraUID(journalItemUID, CameraUID);
 			}
 		}
 
@@ -776,9 +778,9 @@ namespace FiresecService.Service
 		#region GKSchedule
 		public OperationResult<List<GKSchedule>> GetGKSchedules()
 		{
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
-				return databaseService.GKScheduleTranslator.GetSchedules();
+				return databaseService.GKScheduleTranslator.Get();
 			}
 		}
 			
@@ -789,9 +791,9 @@ namespace FiresecService.Service
 			else
 				AddJournalMessage(JournalEventNameType.Редактирование_графика_ГК, item.Name, JournalEventDescriptionType.Редактирование, uid: item.UID);
 			var result = new OperationResult();
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
-				result = databaseService.GKScheduleTranslator.SaveSchedule(item);
+				result = databaseService.GKScheduleTranslator.Save(item);
 			}
 			if (!result.HasError)
 				return GKScheduleHelper.AllGKSetSchedule(item);
@@ -803,9 +805,9 @@ namespace FiresecService.Service
 		{
 			AddJournalMessage(JournalEventNameType.Удаление_графика_ГК, item.Name, uid: item.UID);
 			var result = new OperationResult();
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
-				result = databaseService.GKScheduleTranslator.DeleteSchedule(item);
+				result = databaseService.GKScheduleTranslator.Delete(item);
 			}
 			if (!result.HasError)
 				return GKScheduleHelper.AllGKRemoveSchedule(item);
@@ -817,9 +819,9 @@ namespace FiresecService.Service
 		#region GKDaySchedule
 		public OperationResult<List<GKDaySchedule>> GetGKDaySchedules()
 		{
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
-				return databaseService.GKScheduleTranslator.GetDaySchedules();
+				return databaseService.GKDayScheduleTranslator.Get();
 			}
 		}
 
@@ -830,9 +832,9 @@ namespace FiresecService.Service
 			else
 				AddJournalMessage(JournalEventNameType.Редактирование_дневного_графика_ГК, item.Name, JournalEventDescriptionType.Редактирование, uid: item.UID);
 			var result = new OperationResult();
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
-				result = databaseService.GKScheduleTranslator.SaveDaySchedule(item);
+				result = databaseService.GKDayScheduleTranslator.Save(item);
 			}
 			if (!result.HasError)
 				return GKScheduleHelper.AllGKSetDaySchedule(item);
@@ -843,9 +845,9 @@ namespace FiresecService.Service
 		public OperationResult DeleteGKDaySchedule(GKDaySchedule item)
 		{
 			AddJournalMessage(JournalEventNameType.Удаление_дневного_графика_ГК, item.Name, uid: item.UID);
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
-				return databaseService.GKScheduleTranslator.DeleteDaySchedule(item);
+				return databaseService.GKDayScheduleTranslator.Delete(item);
 			}
 		}
 		#endregion
@@ -853,14 +855,14 @@ namespace FiresecService.Service
 		#region Export
 		public OperationResult ExportOrganisation(ExportFilter filter)
 		{
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.OrganisationTranslator.Synchroniser.Export(filter);
 			}
 		}
 		public OperationResult ImportOrganisation(ImportFilter filter)
 		{
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.OrganisationTranslator.Synchroniser.Import(filter);
 			}
@@ -868,14 +870,14 @@ namespace FiresecService.Service
 
 		public OperationResult ExportOrganisationList(ExportFilter filter)
 		{
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.OrganisationTranslator.Synchroniser.ListSynchroniser.Export(filter);
 			}
 		}
 		public OperationResult ImportOrganisationList(ImportFilter filter)
 		{
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.OrganisationTranslator.Synchroniser.ListSynchroniser.Import(filter);
 			}
@@ -887,19 +889,19 @@ namespace FiresecService.Service
 			var passJournalResult = new OperationResult();
 			if (filter.IsExportJournal)
 			{
-				using (var journalSynchroniser = new JounalSynchroniser())
+				using (var databaseService = new  SKDDriver.DataClasses.DbService())
 				{
-					journalResult = journalSynchroniser.Export(filter);
+					journalResult = databaseService.JournalTranslator.JournalSynchroniser.Export(filter);
 				}
 			}
 			if (filter.IsExportPassJournal)
 			{
-				using (var databaseService = new SKDDatabaseService())
+				using (var databaseService = new SKDDriver.DataClasses.DbService())
 				{
 					passJournalResult = databaseService.PassJournalTranslator.Synchroniser.Export(filter);
 				}
 			}
-			return TranslatiorHelper.ConcatOperationResults(journalResult, passJournalResult);
+			return SKDDriver.DataClasses.DbServiceHelper.ConcatOperationResults(journalResult, passJournalResult);
 		}
 
 		public OperationResult ExportConfiguration(ConfigurationExportFilter filter)
@@ -911,14 +913,14 @@ namespace FiresecService.Service
 		#region CurrentConsumption
 		public OperationResult SaveCurrentConsumption(CurrentConsumption item)
 		{
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.CurrentConsumptionTranslator.Save(item);
 			}
 		}
-		public OperationResult<IEnumerable<CurrentConsumption>> GetCurrentConsumption(CurrentConsumptionFilter filter)
+		public OperationResult<List<CurrentConsumption>> GetCurrentConsumption(CurrentConsumptionFilter filter)
 		{
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				return databaseService.CurrentConsumptionTranslator.Get(filter);
 			}

@@ -4,7 +4,7 @@ using SKDModule.ViewModels;
 
 namespace SKDModule.Events
 {
-	public class UpdateFilterEvent : CompositePresentationEvent<HRFilter>
+    public class UpdateFilterEvent : CompositePresentationEvent<SKDModule.ViewModels.HRFilter>
 	{
 	}
 }

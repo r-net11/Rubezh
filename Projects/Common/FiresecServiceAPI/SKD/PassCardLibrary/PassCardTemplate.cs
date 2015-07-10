@@ -9,7 +9,7 @@ using Infrustructure.Plans.Elements;
 namespace FiresecAPI.SKD
 {
 	[DataContract]
-	public class PassCardTemplate : OrganisationElementBase, IElementBackground, IElementRectangle, IElementBorder
+	public class PassCardTemplate : OrganisationElementBase, IElementBackground, IElementRectangle, IElementBorder, IOrganisationElement
 	{
 		public PassCardTemplate()
 		{
@@ -77,6 +77,13 @@ namespace FiresecAPI.SKD
 		public bool AllowTransparent
 		{
 			get { return true; }
+		}
+
+
+		public string Name
+		{
+			get { return Caption; }
+			set { Caption = value; }
 		}
 	}
 }

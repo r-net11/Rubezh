@@ -26,6 +26,17 @@ namespace SKDModule.ViewModels
 			ServiceFactory.Events.GetEvent<ChangeDepartmentChiefEvent>().Subscribe(OnChangeDepartmentChief);
 		}
 
+        protected override void AfterInitialize()
+        {
+            base.AfterInitialize();
+            var departmentViewModel = _parent as DepartmentViewModel;
+            var chief = Employees.FirstOrDefault(x => x.Employee.UID == departmentViewModel.Model.ChiefUID);
+            if (chief != null)
+            {
+                chief.IsChief = true;
+            }
+        }
+
 		DepartmentEmployeeListItemViewModel Chief
 		{
 			get { return Employees.FirstOrDefault(x => x.IsChief); }
@@ -38,7 +49,7 @@ namespace SKDModule.ViewModels
 
 		protected override bool RemoveFromParent(ShortEmployee employee)
 		{
-			return EmployeeHelper.SetDepartment(employee, Guid.Empty); 
+			return EmployeeHelper.SetDepartment(employee, null); 
 		}
 
 		public override bool CanEditDepartment { get { return false; } }
@@ -46,13 +57,28 @@ namespace SKDModule.ViewModels
 
 		protected override EmployeeFilter Filter
 		{
-			get { return new EmployeeFilter { DepartmentUIDs = new List<Guid> { _parent.UID }, OrganisationUIDs = new List<Guid>{ _parent.OrganisationUID }, LogicalDeletationType = _isWithDeleted ? LogicalDeletationType.All : LogicalDeletationType.Active }; }
+			get 
+            { 
+                return new EmployeeFilter 
+                { 
+                    DepartmentUIDs = new List<Guid> { _parent.UID }, 
+                    OrganisationUIDs = new List<Guid>{ _parent.OrganisationUID }, 
+                    LogicalDeletationType = _isWithDeleted ? LogicalDeletationType.All : LogicalDeletationType.Active 
+                }; 
+            }
 		}
 
 		protected override EmployeeFilter EmptyFilter
 		{
-			get { return new EmployeeFilter { DepartmentUIDs = new List<Guid> { Guid.Empty }, OrganisationUIDs = new List<Guid> { _parent.OrganisationUID }, WithDeletedDepartments = true }; }
-		}
+            get
+            {
+                return new EmployeeFilter
+                {
+                    OrganisationUIDs = new List<Guid> { _parent.OrganisationUID },
+                    IsEmptyDepartment = true
+                };
+            }
+        }
 
 		protected override Guid GetParentUID(Employee employee)
 		{
@@ -71,19 +97,31 @@ namespace SKDModule.ViewModels
 		}
 		public bool CanSetChief
 		{
-			get { return SelectedEmployee != null && !SelectedEmployee.IsDeleted && !SelectedEmployee.IsChief && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Departments_Etit) && !_parent.IsDeleted; }
+			get 
+            { 
+                return SelectedEmployee != null && 
+                    !SelectedEmployee.IsDeleted && 
+                    !SelectedEmployee.IsChief && 
+                    FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Departments_Etit) && 
+                    !_parent.IsDeleted; }
 		}
 
 		public RelayCommand UnSetChiefCommand { get; private set; }
 		void OnUnSetChief()
 		{
 			Chief.IsChief = false;
-			DepartmentHelper.SaveChief(_parent.UID, Guid.Empty, _parent.Name);
+			DepartmentHelper.SaveChief(_parent.UID, null, _parent.Name);
 			UpdateCanSet();
 		}
 		public bool CanUnSetChief
 		{
-			get { return SelectedEmployee != null && !SelectedEmployee.IsDeleted && SelectedEmployee.IsChief && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Departments_Etit) && !_parent.IsDeleted; }
+			get 
+            {   return SelectedEmployee != null && 
+                    !SelectedEmployee.IsDeleted && 
+                    SelectedEmployee.IsChief && 
+                    FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Departments_Etit) &&
+                    !_parent.IsDeleted; 
+            }
 		}
 		
 		protected override void Update()

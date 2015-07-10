@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SKDDriver.DataClasses
 {
@@ -7,7 +8,7 @@ namespace SKDDriver.DataClasses
 	{
 		[Key]
 		public Guid UID { get; set; }
-
+		[Index]
 		public Guid? EmployeeUID { get; set; }
 		public Employee Employee { get; set; }
 
@@ -18,7 +19,7 @@ namespace SKDDriver.DataClasses
 		public int AllowedLate { get; set; }
 
 		public int AllowedEarlyLeave { get; set; }
-
+		[MaxLength(4000)]
 		public string DayIntervalsString { get; set; }
 
 		public DateTime Date { get; set; }

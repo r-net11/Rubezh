@@ -89,7 +89,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			Guid? parentDepartmentUID = null;
+			var parentDepartmentUID = Guid.Empty;
 			var hasParentDepartment = SelectedDepartment != null;
 			if (hasParentDepartment)
 				parentDepartmentUID = SelectedDepartment.Department.UID;

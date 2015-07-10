@@ -51,8 +51,17 @@
     <DataTemplate DataType="{x:Type ViewModels:DevicesListViewModel}">
         <Views:DevicesListView />
     </DataTemplate>
+    
     <DataTemplate DataType="{x:Type ViewModels:ReflectionViewModel}">
         <Views:ReflectionView />
     </DataTemplate>
-    
+
+    <DataTemplate DataType="{x:Type ViewModels:AccessUserReflrctionViewModel}">
+        <Views:AccessUserReflrctionView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:AccessDetailsUserReflrctionViewModel}">
+        <Views:AccessDetailsUserReflrctionView />
+    </DataTemplate>
+
 </ResourceDictionary>

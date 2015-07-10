@@ -14,7 +14,7 @@ namespace SKDModule.ViewModels
 			get
 			{
 				if (IsOrganisation)
-					return Organisation.Phone;
+					return "";
 				else
 					return Model.Phone;
 			}

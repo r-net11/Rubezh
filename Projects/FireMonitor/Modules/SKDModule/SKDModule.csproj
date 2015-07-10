@@ -344,15 +344,15 @@
     <Compile Include="TimeTrack\Converters\TimeSpanToStringConverter.cs" />
     <Compile Include="TimeTrack\Holidays\ViewModels\Comparers.cs" />
     <Compile Include="TimeTrack\DayIntervals\ViewModels\Comparers.cs" />
-    <Compile Include="TimeTrack\ScheduleShemes\ViewModels\Comparers.cs" />
-    <Compile Include="TimeTrack\ScheduleShemes\ViewModels\ScheduleDayIntervalViewModel.cs" />
-    <Compile Include="TimeTrack\ScheduleShemes\ViewModels\ScheduleSchemeDetailsViewModel.cs" />
-    <Compile Include="TimeTrack\ScheduleShemes\ViewModels\ScheduleSchemesViewModel.cs" />
-    <Compile Include="TimeTrack\ScheduleShemes\ViewModels\ScheduleSchemeViewModel.cs" />
-    <Compile Include="TimeTrack\ScheduleShemes\Views\ScheduleSchemeDetailsView.xaml.cs">
+    <Compile Include="TimeTrack\ScheduleSchemes\ViewModels\Comparers.cs" />
+    <Compile Include="TimeTrack\ScheduleSchemes\ViewModels\ScheduleDayIntervalViewModel.cs" />
+    <Compile Include="TimeTrack\ScheduleSchemes\ViewModels\ScheduleSchemeDetailsViewModel.cs" />
+    <Compile Include="TimeTrack\ScheduleSchemes\ViewModels\ScheduleSchemesViewModel.cs" />
+    <Compile Include="TimeTrack\ScheduleSchemes\ViewModels\ScheduleSchemeViewModel.cs" />
+    <Compile Include="TimeTrack\ScheduleSchemes\Views\ScheduleSchemeDetailsView.xaml.cs">
       <DependentUpon>ScheduleSchemeDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TimeTrack\ScheduleShemes\Views\ScheduleSchemesView.xaml.cs">
+    <Compile Include="TimeTrack\ScheduleSchemes\Views\ScheduleSchemesView.xaml.cs">
       <DependentUpon>ScheduleSchemesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TimeTrack\Shedules\ViewModels\Comparers.cs" />
@@ -822,11 +822,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="TimeTrack\ScheduleShemes\Views\ScheduleSchemeDetailsView.xaml">
+    <Page Include="TimeTrack\ScheduleSchemes\Views\ScheduleSchemeDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="TimeTrack\ScheduleShemes\Views\ScheduleSchemesView.xaml">
+    <Page Include="TimeTrack\ScheduleSchemes\Views\ScheduleSchemesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

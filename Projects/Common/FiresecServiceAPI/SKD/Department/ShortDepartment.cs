@@ -23,7 +23,7 @@ namespace FiresecAPI.SKD
 		public string Description { get; set; }
 
 		[DataMember]
-		public Guid? ParentDepartmentUID { get; set; }
+		public Guid ParentDepartmentUID { get; set; }
 
 		[DataMember]
 		public Dictionary<Guid, string> ChildDepartments { get; set; }

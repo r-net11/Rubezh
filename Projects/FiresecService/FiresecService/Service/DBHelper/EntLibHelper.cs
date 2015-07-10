@@ -51,7 +51,7 @@ namespace FiresecService
 			{
 				var stopWatch = new Stopwatch();
 				stopWatch.Start();
-				using (var skdDatabaseService = new SKDDatabaseService())
+				//using (var skdDatabaseService = new SKDDatabaseService())
 				{
 					//skdDatabaseService.EmployeeTranslator.TestGet();
 				}
@@ -62,7 +62,7 @@ namespace FiresecService
 
 			Trace.WriteLine("Linq Single DatabaseService");
 			var total3 = new TimeSpan();
-			using (var skdDatabaseService = new SKDDatabaseService())
+			//using (var skdDatabaseService = new SKDDatabaseService())
 			{
 				for (int i = 0; i < 10; i++)
 				{

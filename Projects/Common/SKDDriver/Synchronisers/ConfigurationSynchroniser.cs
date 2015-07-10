@@ -6,6 +6,7 @@ using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecAPI.SKD;
 using FiresecClient;
+using SKDDriver.DataClasses;
 
 namespace SKDDriver
 {
@@ -27,7 +28,7 @@ namespace SKDDriver
 			{
 				gkZonesResult = Export<ExportZone, GKSKDZone>(GKManager.SKDZones, "GKZones.xml", filter.Path);
 			}
-			return TranslatiorHelper.ConcatOperationResults(devicesResult, doorsResult, zonesResult);					
+            return DbServiceHelper.ConcatOperationResults(devicesResult, doorsResult, zonesResult);					
 		}
 
 		static OperationResult Export<TExportItem, TConfigItem>(List<TConfigItem> configItems, string fileName, string path)

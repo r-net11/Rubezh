@@ -3,18 +3,20 @@ using System.Collections.Generic;
 using System.Data.Linq;
 using System.Linq;
 using System.Linq.Expressions;
-using FiresecAPI.SKD;
+
 using LinqKit;
+using SKDDriver.DataClasses;
+using System.Data.Entity;
 
 namespace SKDDriver
 {
-	public class DepartmentSynchroniser : Synchroniser<ExportDepartment, DataAccess.Department>
+    public class DepartmentSynchroniser : Synchroniser<FiresecAPI.SKD.ExportDepartment, Department>
 	{
-		public DepartmentSynchroniser(Table<DataAccess.Department> table, SKDDatabaseService databaseService) : base(table, databaseService) { }
+		public DepartmentSynchroniser(DbSet<Department> table, DbService databaseService) : base(table, databaseService) { }
 
-		public override ExportDepartment Translate(DataAccess.Department item)
+        public override FiresecAPI.SKD.ExportDepartment Translate(Department item)
 		{
-			return new ExportDepartment 
+            return new FiresecAPI.SKD.ExportDepartment 
 			{ 
 				Name = item.Name, 
 				Description = item.Description,	
@@ -23,40 +25,34 @@ namespace SKDDriver
 				OrganisationUID = GetUID(item.OrganisationUID),
 				OrganisationExternalKey = GetExternalKey(item.OrganisationUID, item.Organisation),
 				ParentDepartmentUID = GetUID(item.ParentDepartmentUID),
-				ParentDepartmentExternalKey = GetExternalKey(item.ParentDepartmentUID, item.Department1),
-				ContactEmployeeUID = GetUID(item.ContactEmployeeUID),
-				ContactEmployeeExternalKey = GetExternalKey(item.ContactEmployeeUID, item.Employee2),
-				AttendantUID = GetUID(item.AttendantUID),
-				AttendantExternalKey = GetExternalKey(item.AttendantUID, item.Employee1),
-				ChiefUID = GetUID(item.ChiefUID),
-				ChiefExternalKey = GetExternalKey(item.ChiefUID, item.Employee),
+				ParentDepartmentExternalKey = GetExternalKey(item.ParentDepartmentUID, item.ParentDepartment)
 			};
 		}
 
-		protected override Expression<Func<DataAccess.Department, bool>> IsInFilter(ExportFilter filter)
+		protected override IQueryable<Department> GetFilteredItems(FiresecAPI.SKD.ExportFilter filter)
 		{
-			return base.IsInFilter(filter).And(x => x.OrganisationUID == filter.OrganisationUID);
+			return base.GetFilteredItems(filter).Where(x => x.OrganisationUID == filter.OrganisationUID);
 		}
 
-		protected override void UpdateForignKeys(ExportDepartment exportItem, DataAccess.Department tableItem)
+        protected override void UpdateForignKeys(FiresecAPI.SKD.ExportDepartment exportItem, Department tableItem, OrganisationHRCash hrCash)
 		{
-			tableItem.OrganisationUID = GetUIDbyExternalKey(exportItem.OrganisationExternalKey, _DatabaseService.Context.Organisations);
-			tableItem.ParentDepartmentUID = GetUIDbyExternalKey(exportItem.ParentDepartmentExternalKey, _DatabaseService.Context.Departments);
-			tableItem.ContactEmployeeUID = GetUIDbyExternalKey(exportItem.ContactEmployeeExternalKey, _DatabaseService.Context.Employees);
-			tableItem.AttendantUID = GetUIDbyExternalKey(exportItem.AttendantExternalKey, _DatabaseService.Context.Employees);
-			tableItem.ChiefUID = GetUIDbyExternalKey(exportItem.ChiefExternalKey, _DatabaseService.Context.Employees);
+			tableItem.OrganisationUID = hrCash.OrganisationUID;
+			tableItem.ParentDepartmentUID = GetUIDbyExternalKey(exportItem.ParentDepartmentExternalKey, hrCash.Departments);
+			tableItem.ChiefUID = GetUIDbyExternalKey(exportItem.ChiefExternalKey, hrCash.Employees);
 		}
 
-		public override void TranslateBack(ExportDepartment exportItem, DataAccess.Department tableItem)
+        public override void TranslateBack(FiresecAPI.SKD.ExportDepartment exportItem, Department tableItem)
 		{
 			tableItem.Name = exportItem.Name;
 			tableItem.Description = exportItem.Description; 
 			tableItem.Phone = exportItem.Phone;
+			tableItem.IsDeleted = exportItem.IsDeleted;
+			tableItem.RemovalDate = exportItem.RemovalDate;
 		}
 
-		protected override void BeforeSave(List<ExportDepartment> exportItems)
+        protected override void BeforeSave(List<FiresecAPI.SKD.ExportDepartment> exportItems)
 		{
-			var resultList = new List<ExportDepartment>();
+            var resultList = new List<FiresecAPI.SKD.ExportDepartment>();
 			resultList = exportItems.Where(x => !exportItems.Any(y => y.ExternalKey == x.ParentDepartmentExternalKey)).ToList();
 			while (resultList.Count < exportItems.Count)
 			{
@@ -65,7 +61,7 @@ namespace SKDDriver
 			exportItems = resultList;
 		}
 
-		List<ExportDepartment> GetChildrenList(List<ExportDepartment> parentList, List<ExportDepartment> allList)
+        List<FiresecAPI.SKD.ExportDepartment> GetChildrenList(List<FiresecAPI.SKD.ExportDepartment> parentList, List<FiresecAPI.SKD.ExportDepartment> allList)
 		{
 			var result = allList.Where(x => parentList.Any(y => y.ExternalKey == x.ParentDepartmentExternalKey)).ToList();
 			return result;

@@ -83,6 +83,16 @@ namespace FiresecService.Service
 			CallbackManager.Add(callbackResult);
 		}
 
+        public static void NotifyDbCompleted(DbCallbackResult dbCallbackResult)
+        {
+            var callbackResult = new CallbackResult()
+            {
+                DbCallbackResult = dbCallbackResult,
+                CallbackResultType = CallbackResultType.QueryDb,
+            };
+            CallbackManager.Add(callbackResult);
+        }
+
 		public void NotifyConfigurationChanged()
 		{
 			var callbackResult = new CallbackResult()

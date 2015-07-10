@@ -9,7 +9,7 @@ using FiresecAPI.Models;
 using FiresecAPI.SKD;
 using FiresecService.ViewModels;
 using SKDDriver;
-using SKDDriver.Translators;
+using SKDDriver.DataClasses;
 
 namespace FiresecService.Service
 {
@@ -95,7 +95,7 @@ namespace FiresecService.Service
 				{
 					if (FiresecService.CurrentThread != null)
 					{
-						DBHelper.IsAbort = true;
+						DbService.IsAbort = true;
 						CurrentThread.Join(TimeSpan.FromSeconds(2));
 						CurrentThread = null;
 					}
@@ -117,9 +117,9 @@ namespace FiresecService.Service
 
 		public string Test(string arg)
 		{
-			using (var passJournalTranslator = new PassJournalTranslator())
+			using (var dbService = new SKDDriver.DataClasses.DbService())
 			{
-				passJournalTranslator.InsertPassJournalTestData();
+				dbService.PassJournalTranslator.InsertPassJournalTestData();
 			}
 			return "Test";
 		}

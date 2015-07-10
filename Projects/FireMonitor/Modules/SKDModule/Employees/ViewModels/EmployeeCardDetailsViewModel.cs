@@ -484,7 +484,7 @@ namespace SKDModule.ViewModels
 			Card.CardDoors = AccessDoorsSelectationViewModel.GetCardDoors();
 			Card.CardDoors.ForEach(x => x.CardUID = Card.UID);
 			Card.OrganisationUID = Organisation.UID;
-			Card.HolderUID = _employee.UID;
+			Card.EmployeeUID = _employee.UID;
 			Card.EmployeeName = _employee.Name;
 
 			if (SelectedAccessTemplate != null)

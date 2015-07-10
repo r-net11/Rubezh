@@ -19,7 +19,9 @@ namespace SKDModule.ViewModels
 					return "Деактивированные";
 				if (IsOrganisation)
 					return Organisation.Name;
-				return string.Format("Пропуск {0}", Card.Number);
+                if (Card != null)
+                    return Card.Number.ToString();
+                return "";
 			}
 		}
 		public string CardType

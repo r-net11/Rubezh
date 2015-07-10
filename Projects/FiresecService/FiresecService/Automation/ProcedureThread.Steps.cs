@@ -15,8 +15,9 @@ using FiresecAPI.SKD;
 using FiresecClient;
 using FiresecService.Automation;
 using FiresecService.Service;
-using SKDDriver.Translators;
+using SKDDriver.DataClasses;
 using Property = FiresecAPI.Automation.Property;
+using Infrastructure.Common.BalloonTrayTip;
 
 namespace FiresecService
 {
@@ -619,7 +620,7 @@ namespace FiresecService
 			var setJournalItemGuidArguments = procedureStep.SetJournalItemGuidArguments;
 			if (JournalItem != null)
 			{
-				using (var journalTranslator = new JounalTranslator())
+				using (var dbService = new DbService())
 				{
 					var eventUIDString = GetValue<String>(setJournalItemGuidArguments.ValueArgument);
 					Guid eventUID;
@@ -631,7 +632,7 @@ namespace FiresecService
 					{
 						return;
 					}
-					journalTranslator.SaveVideoUID(JournalItem.UID, eventUID, Guid.Empty);
+					dbService.JournalTranslator.SaveVideoUID(JournalItem.UID, eventUID, Guid.Empty);
 				}
 			}
 		}
@@ -655,9 +656,9 @@ namespace FiresecService
 			}
 			if (JournalItem != null)
 			{
-				using (var journalTranslator = new JounalTranslator())
+				using (var dbService = new DbService())
 				{
-					journalTranslator.SaveVideoUID(JournalItem.UID, eventUID, cameraUID);
+					dbService.JournalTranslator.SaveVideoUID(JournalItem.UID, eventUID, cameraUID);
 				}
 				JournalItem.VideoUID = eventUID;
 				JournalItem.CameraUID = cameraUID;
@@ -1019,8 +1020,8 @@ namespace FiresecService
 					MinDate = minDate,
 					Path = path
 				});
-			//if (result.HasError)
-			//    BalloonHelper.ShowFromServer("Экспорт журнала " + result.Error);
+			if (result.HasError)
+				BalloonHelper.ShowFromServer("Экспорт журнала " + result.Error);
 		}
 
 		void ExportOrganisation(ProcedureStep procedureStep)
@@ -1036,8 +1037,8 @@ namespace FiresecService
 					OrganisationUID = organisationUID,
 					Path = path
 				});
-			//if (result.HasError)
-			//    MessageBoxService.Show(result.Error);
+			if (result.HasError)
+				BalloonHelper.ShowFromServer(result.Error);
 		}
 
 		void ExportOrganisationList(ProcedureStep procedureStep)
@@ -1051,8 +1052,8 @@ namespace FiresecService
 					IsWithDeleted = isWithDeleted,
 					Path = path
 				});
-			//if (result.HasError)
-			//    MessageBoxService.Show(result.Error);
+			if (result.HasError)
+				BalloonHelper.ShowFromServer(result.Error);
 		}
 
 		void ExportConfiguration(ProcedureStep procedureStep)
@@ -1070,8 +1071,8 @@ namespace FiresecService
 					IsExportZones = isExportZones,
 					Path = path
 				});
-			//if (result.HasError)
-			//    MessageBoxService.Show(result.Error);
+			if (result.HasError)
+				BalloonHelper.ShowFromServer(result.Error);
 		}
 
 		void ImportOrganisation(ProcedureStep procedureStep)
@@ -1085,8 +1086,8 @@ namespace FiresecService
 					IsWithDeleted = isWithDeleted,
 					Path = path
 				});
-			//if (result.HasError)
-			//    MessageBoxService.Show(result.Error);
+			if (result.HasError)
+				BalloonHelper.ShowFromServer(result.Error);
 		}
 
 		void ImportOrganisationList(ProcedureStep procedureStep)
@@ -1100,8 +1101,8 @@ namespace FiresecService
 					IsWithDeleted = isWithDeleted,
 					Path = path
 				});
-			//if (result.HasError)
-			//    MessageBoxService.Show(result.Error);
+			if (result.HasError)
+				BalloonHelper.ShowFromServer(result.Error);
 		}
 
 		void SetValue(Argument argument, object propertyValue)

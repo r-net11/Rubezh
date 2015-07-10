@@ -72,8 +72,8 @@ namespace SKDModule.ViewModels
 
 		DepartmentViewModel GetParentItemInternal(ShortDepartment model)
 		{
-			return Organisations.SelectMany(x => x.GetAllChildren()).FirstOrDefault(x => (model.ParentDepartmentUID != null && !x.IsOrganisation && x.Model.UID == model.ParentDepartmentUID) ||
-				(model.ParentDepartmentUID == null && x.IsOrganisation && x.Organisation.UID == model.OrganisationUID));
+			return Organisations.SelectMany(x => x.GetAllChildren()).FirstOrDefault(x => (model.ParentDepartmentUID != Guid.Empty && !x.IsOrganisation && x.Model.UID == model.ParentDepartmentUID) ||
+				(model.ParentDepartmentUID == Guid.Empty && x.IsOrganisation && x.Organisation.UID == model.OrganisationUID));
 		}
 
 		protected override void UpdateParent()
@@ -136,7 +136,7 @@ namespace SKDModule.ViewModels
 		 
 		protected override void OnPaste()
 		{
-			Guid? parentDepartmentUID = null;
+			var parentDepartmentUID = Guid.Empty;
 			if (SelectedItem.Parent != null && !SelectedItem.Parent.IsOrganisation)
 				parentDepartmentUID = SelectedItem.Parent.Model.UID;
 			_clipboard.ParentDepartmentUID = parentDepartmentUID;
@@ -265,6 +265,11 @@ namespace SKDModule.ViewModels
 		public bool IsShowEmployeeList
 		{
 			get { return SelectedItem != null && !SelectedItem.IsOrganisation && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Employees_View); }
+		}
+
+		protected override List<ShortDepartment> GetFromCallbackResult(FiresecAPI.DbCallbackResult dbCallbackResult)
+		{
+			return dbCallbackResult.Departments;
 		}
 	}
 }

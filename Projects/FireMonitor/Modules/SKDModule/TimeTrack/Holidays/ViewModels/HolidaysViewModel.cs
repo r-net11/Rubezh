@@ -120,5 +120,10 @@ namespace SKDModule.ViewModels
 		{
 			return model.Date.Year == SelectedYear && base.IsAddViewModel(model);
 		}
+
+		protected override System.Collections.Generic.List<Holiday> GetFromCallbackResult(FiresecAPI.DbCallbackResult dbCallbackResult)
+		{
+			return dbCallbackResult.Holidays;
+		}
 	}
 }
