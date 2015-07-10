@@ -352,5 +352,6 @@
 		<ResourceDictionary Source="../XamlImages/ExportXPS.xaml" />
 		<ResourceDictionary Source="../XamlImages/RedDeleteCross.xaml" />
 		<ResourceDictionary Source="../XamlImages/Shield.xaml" />
+		<ResourceDictionary Source="../XamlImages/Cable.xaml" />
 	</ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

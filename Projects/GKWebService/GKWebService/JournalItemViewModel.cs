@@ -34,9 +34,6 @@ namespace GKWebService
 		GKGuardZone GuardZone { get; set; }
 		GKSKDZone GKSKDZone { get; set; }
 		GKDoor GKDoor { get; set; }
-		SKDDevice SKDDevice { get; set; }
-		SKDZone SKDZone { get; set; }
-		SKDDoor SKDDoor { get; set; }
 		Camera Camera { get; set; }
 
 		public JournalItemViewModel(JournalItem journalItem)
@@ -189,33 +186,6 @@ namespace GKWebService
 					if (GKDoor != null)
 					{
 						ObjectName = GKDoor.PresentationName;
-					}
-					ObjectImageSource = "/Controls;component/Images/Door.png";
-					break;
-
-				case JournalObjectType.SKDDevice:
-					SKDDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
-					if (SKDDevice != null)
-					{
-						ObjectName = SKDDevice.Name;
-						ObjectImageSource = SKDDevice.Driver.ImageSource;
-					}
-					break;
-
-				case JournalObjectType.SKDZone:
-					SKDZone = SKDManager.Zones.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
-					if (SKDZone != null)
-					{
-						ObjectName = SKDZone.Name;
-					}
-					ObjectImageSource = "/Controls;component/Images/Zone.png";
-					break;
-
-				case JournalObjectType.SKDDoor:
-					SKDDoor = SKDManager.Doors.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
-					if (SKDDoor != null)
-					{
-						ObjectName = SKDDoor.Name;
 					}
 					ObjectImageSource = "/Controls;component/Images/Door.png";
 					break;

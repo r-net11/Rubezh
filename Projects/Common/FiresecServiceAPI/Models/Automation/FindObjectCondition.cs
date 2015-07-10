@@ -32,7 +32,7 @@ namespace FiresecAPI.Automation
 		[Description("Адрес")]
 		IntAddress,
 
-		[Description("Шлейф")]
+		[Description("АЛС")]
 		ShleifNo,
 
 		[Description("Состояние")]
