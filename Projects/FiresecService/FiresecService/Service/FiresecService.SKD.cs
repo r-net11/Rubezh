@@ -1549,6 +1549,16 @@ namespace FiresecService.Service
 			return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
 		}
 
+		public OperationResult<bool> SKDStartSearchDevices()
+		{
+			return ChinaSKDDriver.Processor.StartSearchDevices();
+		}
+		public OperationResult<bool> SKDStopSearchDevices()
+		{
+			return ChinaSKDDriver.Processor.StopSearchDevices();
+		}
+
+
 		#endregion
 
 		#region PassCardTemplate

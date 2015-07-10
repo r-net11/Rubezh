@@ -7,6 +7,7 @@ using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
 using FiresecAPI.AutomationCallback;
+using FiresecAPI.SKD.Device;
 
 namespace FiresecService.Service
 {
@@ -97,6 +98,15 @@ namespace FiresecService.Service
 			var callbackResult = new CallbackResult()
 			{
 				CallbackResultType = CallbackResultType.ConfigurationChanged
+			};
+			CallbackManager.Add(callbackResult);
+		}
+		public static void NotifyNewSearchDevices(List<SKDDeviceSearchInfo> searchDevices)
+		{
+			var callbackResult = new CallbackResult()
+			{
+				CallbackResultType = CallbackResultType.NewSearchDevices,
+				SearchDevices = searchDevices
 			};
 			CallbackManager.Add(callbackResult);
 		}

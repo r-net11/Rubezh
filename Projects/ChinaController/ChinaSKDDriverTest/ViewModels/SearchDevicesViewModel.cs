@@ -53,20 +53,19 @@ namespace ControllerSDK.ViewModels
 
 		public SearchDeviceViewModel SelectedSearchDevice { get; set; }
 
-		private void WrapperOnNewSearchDevice(SearchDevicesEventArgs e)
+		private void WrapperOnNewSearchDevice(DeviceSearchInfo info)
 		{
-			if (SearchDevices.Any((x) => x.Mac == e.DeviceSearchInfo.Mac))
+			if (SearchDevices.Any((x) => x.Mac == info.Mac))
 				return;
 
-			var deviceSearchInfo = e.DeviceSearchInfo;
 			ApplicationService.BeginInvoke(new Action(() => SearchDevices.Add(new SearchDeviceViewModel
 			{
-				DeviceType = deviceSearchInfo.DeviceType,
-				IpAddress = deviceSearchInfo.IpAddress,
-				Port = deviceSearchInfo.Port,
-				Submask = deviceSearchInfo.Submask,
-				Gateway = deviceSearchInfo.Gateway,
-				Mac = deviceSearchInfo.Mac
+				DeviceType = info.DeviceType,
+				IpAddress = info.IpAddress,
+				Port = info.Port,
+				Submask = info.Submask,
+				Gateway = info.Gateway,
+				Mac = info.Mac
 			})));
 		}
 
@@ -80,7 +79,7 @@ namespace ControllerSDK.ViewModels
 			{
 				SearchDevices.Clear();
 			}));
-			MainViewModel.Wrapper.StartSearchDevices();
+			ChinaSKDDriver.Wrapper.StartSearchDevices();
 			_searchTimer.Stop();
 			_searchTimer.Start();
 			IsSearchDevicesStarted = true;
@@ -94,7 +93,7 @@ namespace ControllerSDK.ViewModels
 		private void OnStopSearchDevices()
 		{
 			_searchTimer.Stop();
-			MainViewModel.Wrapper.StopSearchDevices();
+			ChinaSKDDriver.Wrapper.StopSearchDevices();
 			IsSearchDevicesStarted = false;
 		}
 		private bool CanStopSearchDevices()

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using ChinaSKDDriverAPI;
 using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
+using FiresecAPI.SKD.Device;
 
 namespace ChinaSKDDriver
 {
@@ -24,6 +26,24 @@ namespace ChinaSKDDriver
 		{
 			if (NewJournalItem != null)
 				NewJournalItem(journalItem);
+		}
+
+		public static event Action<SKDDeviceSearchInfo> NewSearchDevice;
+		static void OnNewSearchDevice(DeviceSearchInfo deviceSearchInfo)
+		{
+			var skdDeviceSearchInfo = new SKDDeviceSearchInfo
+			{
+				DeviceType = (SKDDeviceType)deviceSearchInfo.DeviceType,
+				Gateway = deviceSearchInfo.Gateway,
+				IpAddress = deviceSearchInfo.IpAddress,
+				Mac = deviceSearchInfo.Mac,
+				Port = deviceSearchInfo.Port,
+				Submask = deviceSearchInfo.Submask
+			};
+
+			var temp = NewSearchDevice;
+			if (temp != null)
+				temp(skdDeviceSearchInfo);
 		}
 
 		static Processor()
@@ -54,10 +74,15 @@ namespace ChinaSKDDriver
 				DeviceProcessors.Add(deviceProcessor);
 				deviceProcessor.Start();
 			}
+
+			Wrapper.NewSearchDevice -= new Action<DeviceSearchInfo>(OnNewSearchDevice);
+			Wrapper.NewSearchDevice += new Action<DeviceSearchInfo>(OnNewSearchDevice);
 		}
 
 		public static void Stop()
 		{
+			Wrapper.NewSearchDevice -= new Action<DeviceSearchInfo>(OnNewSearchDevice);
+
 			if (DeviceProcessors != null)
 				foreach (var deviceProcessor in DeviceProcessors)
 					deviceProcessor.Stop();

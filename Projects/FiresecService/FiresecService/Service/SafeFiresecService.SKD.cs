@@ -415,6 +415,15 @@ namespace FiresecService.Service
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDSetInterlockConfiguration(deviceUID, interlockConfiguration); }, "SKDSetInterlockConfiguration");
 		}
+		public OperationResult<bool> SKDStartSearchDevices()
+		{
+			return SafeOperationCall(() => { return FiresecService.SKDStartSearchDevices(); }, "SKDStartSearchDevices");
+		}
+		public OperationResult<bool> SKDStopSearchDevices()
+		{
+			return SafeOperationCall(() => { return FiresecService.SKDStopSearchDevices(); }, "SKDStopSearchDevices");
+		}
+
 		#endregion
 
 		#region PassCardTemplate

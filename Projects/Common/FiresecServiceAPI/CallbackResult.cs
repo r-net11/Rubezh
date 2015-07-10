@@ -5,6 +5,7 @@ using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
 using FiresecAPI.AutomationCallback;
+using FiresecAPI.SKD.Device;
 
 namespace FiresecAPI
 {
@@ -31,6 +32,9 @@ namespace FiresecAPI
 
 		[DataMember]
 		public AutomationCallbackResult AutomationCallbackResult { get; set; }
+
+		[DataMember]
+		public List<SKDDeviceSearchInfo> SearchDevices { get; set; }
 	}
 
 	public enum CallbackResultType
@@ -42,6 +46,7 @@ namespace FiresecAPI
 		ArchiveCompleted,
 		AutomationCallbackResult,
 		ConfigurationChanged,
-		Disconnecting
+		Disconnecting,
+		NewSearchDevices
 	}
 }

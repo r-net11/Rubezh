@@ -9,7 +9,7 @@ namespace ChinaSKDDriver
 {
 	public partial class Wrapper
 	{
-		public static event Action<SearchDevicesEventArgs> NewSearchDevice;
+		public static event Action<DeviceSearchInfo> NewSearchDevice;
 		private static int _searchHandle;
 
 		static NativeWrapper.fSearchDevicesCBDelegate fSearchDevicesCbDelegate;
@@ -40,46 +40,48 @@ namespace ChinaSKDDriver
 			if (pDevNetInfo.szDeviceType.ToUpper() != "BSC")
 				return;
 
-			OnNewSearchDevice(new SearchDevicesEventArgs(new DeviceSearchInfo(
+			OnNewSearchDevice(new DeviceSearchInfo(
 				GetDeviceType(pDevNetInfo.szDetailType),
 				pDevNetInfo.szIP,
 				pDevNetInfo.nPort == 0 ? 37777 : pDevNetInfo.nPort,
 				pDevNetInfo.szSubmask,
 				pDevNetInfo.szGateway,
-				pDevNetInfo.szMac)));
+				pDevNetInfo.szMac));
 		}
 
 		/// <summary>
 		/// Начать асинхронный поиск IPC, NVS и пр. в локальной сети.
 		/// Результаты поиска возвращаются в виде события NewDevice.
 		/// </summary>
-		public void StartSearchDevices()
+		public static bool StartSearchDevices()
 		{
 			fSearchDevicesCbDelegate = OnSearchDevicesDelegate; // Автопоиск устройств
 			
 			_searchHandle = NativeWrapper.CLIENT_StartSearchDevices(fSearchDevicesCbDelegate, IntPtr.Zero);
+			return _searchHandle != 0;
 		}
 
 		/// <summary>
 		/// Закончить асинхронный поиск IPC, NVS и пр. в локальной сети, начатый функцией StartSearchDevices()
 		/// </summary>
-		public void StopSearchDevices()
+		public static bool StopSearchDevices()
 		{
 			NativeWrapper.CLIENT_StopSearchDevices(_searchHandle);
 			
 			fSearchDevicesCbDelegate = null;
+			return true;
 		}
 
 		/// <summary>
 		/// Функция используется для зажигания события при обнаружении нового устройства в сети
 		/// </summary>
 		/// <param name="e">аргумент события</param>
-		static void OnNewSearchDevice(SearchDevicesEventArgs e)
+		static void OnNewSearchDevice(DeviceSearchInfo info)
 		{
 			var temp = NewSearchDevice;
 
 			if (temp != null)
-				temp(e);
+				temp(info);
 		}
 	}
 }

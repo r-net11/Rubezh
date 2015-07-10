@@ -308,6 +308,11 @@ namespace FiresecAPI
 		[OperationContract]
 		OperationResult<bool> SKDSetInterlockConfiguration(Guid deviceUID, SKDInterlockConfiguration interlockConfiguration);
 
+		[OperationContract]
+		OperationResult<bool> SKDStartSearchDevices();
+		[OperationContract]
+		OperationResult<bool> SKDStopSearchDevices();
+
 		#endregion
 
 		#region NightSettings

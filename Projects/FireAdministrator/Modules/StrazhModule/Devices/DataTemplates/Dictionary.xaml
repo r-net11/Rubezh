@@ -48,4 +48,8 @@
 		<Views:ZoneSelectationView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:SearchDevicesViewModel}">
+		<Views:SearchDevicesView />
+	</DataTemplate>
+
 </ResourceDictionary>
