@@ -18,7 +18,7 @@ namespace SKDModule.Views
 		public TimeTrackDetailsView()
 		{
 			InitializeComponent();
-			Loaded += new System.Windows.RoutedEventHandler(TimeTrackDetailsView_Loaded);
+			Loaded += TimeTrackDetailsView_Loaded;
 		}
 
 		class TimePart
@@ -42,7 +42,7 @@ namespace SKDModule.Views
 			return result;
 		}
 
-		void TimeTrackDetailsView_Loaded(object sender, System.Windows.RoutedEventArgs e)
+		void TimeTrackDetailsView_Loaded(object sender, RoutedEventArgs e)
 		{
 			TimeTrackDetailsViewModel timeTrackDetailsViewModel = DataContext as TimeTrackDetailsViewModel;
 			if (timeTrackDetailsViewModel != null)

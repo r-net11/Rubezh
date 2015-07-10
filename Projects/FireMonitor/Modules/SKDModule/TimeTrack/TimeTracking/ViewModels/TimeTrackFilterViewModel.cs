@@ -87,7 +87,7 @@ namespace SKDModule.ViewModels
 		}
 
 		public DateTime MinDate
-		{ 
+		{
 			get
 			{
 				var result = PassJournalHelper.GetMinPassJournalDate();
@@ -95,7 +95,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 		public DateTime MaxDate { get { return DateTime.Now; } }
-		
+
 		public ObservableCollection<TimeTrackingPeriod> Periods { get; private set; }
 
 		public bool IsFreePeriod
