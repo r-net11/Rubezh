@@ -511,6 +511,7 @@ namespace FiresecService.Service
 
 					var stopWatch = new Stopwatch();
 					stopWatch.Start();
+					using (var databaseService = new SKDDriver.DataClasses.DbService())
 					{
 						var cardsResult = databaseService.CardTranslator.Get(new CardFilter());
 						if (!cardsResult.HasError)

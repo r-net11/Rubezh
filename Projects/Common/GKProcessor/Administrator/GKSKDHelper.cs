@@ -19,7 +19,7 @@ namespace GKProcessor
 			{
 				var stopWatch = new Stopwatch();
 				stopWatch.Start();
-				using (var skdDatabaseService = new SKDDatabaseService())
+				using (var skdDatabaseService = new SKDDriver.DataClasses.DbService())
 				{
 					gkCardNo = skdDatabaseService.GKCardTranslator.GetFreeGKNo(controllerCardSchedule.ControllerDevice.GetGKIpAddress(), card.Number, out isNew);
 				}
@@ -125,7 +125,7 @@ namespace GKProcessor
 
 			var stopWatch2 = new Stopwatch();
 			stopWatch2.Start();
-			using (var skdDatabaseService = new SKDDatabaseService())
+			using (var skdDatabaseService = new SKDDriver.DataClasses.DbService())
 			{
 				skdDatabaseService.GKCardTranslator.AddOrEdit(controllerCardSchedule.ControllerDevice.GetGKIpAddress(), gkCardNo, card.Number, employeeName);
 			}
@@ -140,7 +140,7 @@ namespace GKProcessor
 		public static OperationResult<bool> RemoveCard(GKDevice device, SKDCard card)
 		{
 			var no = 1;
-			using (var skdDatabaseService = new SKDDatabaseService())
+			using (var skdDatabaseService = new SKDDriver.DataClasses.DbService())
 			{
 				no = skdDatabaseService.GKCardTranslator.GetGKNoByCardNo(device.GetGKIpAddress(), card.Number);
 			}
@@ -171,7 +171,7 @@ namespace GKProcessor
 				return OperationResult<bool>.FromError(sendResult.Error);
 			}
 
-			using (var skdDatabaseService = new SKDDatabaseService())
+			using (var skdDatabaseService = new SKDDriver.DataClasses.DbService())
 			{
 				skdDatabaseService.GKCardTranslator.Remove(device.GetGKIpAddress(), no, card.Number);
 			}
@@ -310,7 +310,7 @@ namespace GKProcessor
 				cardsCount++;
 				GKProcessorManager.DoProgress("Пользователь " + no, progressCallback);
 			}
-			using (var skdDatabaseService = new SKDDatabaseService())
+			using (var skdDatabaseService = new SKDDriver.DataClasses.DbService())
 			{
 				GKProcessorManager.DoProgress("Удаление пользователей прибора из БД", progressCallback);
 				skdDatabaseService.GKCardTranslator.RemoveAll(device.GetGKIpAddress(), cardsCount);

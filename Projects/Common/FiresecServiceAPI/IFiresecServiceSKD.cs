@@ -37,9 +37,6 @@ namespace FiresecAPI
 
 		[OperationContract]
 		OperationResult RestoreEmployee(Guid uid, string name);
-
-        [OperationContract]
-        OperationResult BeginGetEmployees(EmployeeFilter filter, Guid uid);
 		#endregion
 
 		#region Department
@@ -106,9 +103,7 @@ namespace FiresecAPI
 
 		[OperationContract]
 		OperationResult SaveCardTemplate(SKDCard card);
-        [OperationContract]
-        OperationResult BeginGetCards(CardFilter filter, Guid uid);
-		#endregion
+        #endregion
 
 		#region AccessTemplate
 		[OperationContract]

@@ -4,6 +4,7 @@ using FiresecAPI;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
 using SKDDriver;
+using System.Threading;
 
 namespace FiresecService.Service
 {
@@ -43,30 +44,6 @@ namespace FiresecService.Service
 				return databaseService.DayIntervalTranslator.Restore(uid);
 			}
 		}
-
-		//public OperationResult<IEnumerable<DayIntervalPart>> GetDayIntervalParts(DayIntervalPartFilter filter)
-		//{
-		//    using (var databaseService = new SKDDatabaseService())
-		//    {
-		//        return databaseService.DayIntervalPartTranslator.Get(filter);
-		//    }
-		//}
-		//public OperationResult SaveDayIntervalPart(DayIntervalPart item, string name)
-		//{
-		//    AddJournalMessage(JournalEventNameType.Редактирование_дневного_графика, name, JournalEventDescriptionType.Редактирование, uid: item.UID);
-		//    using (var databaseService = new SKDDatabaseService())
-		//    {
-		//        return databaseService.DayIntervalPartTranslator.Save(item);
-		//    }
-		//}
-		//public OperationResult RemoveDayIntervalPart(Guid uid, string name)
-		//{
-		//    AddJournalMessage(JournalEventNameType.Удаление_дневного_графика, name, uid: uid);
-		//    using (var databaseService = new SKDDatabaseService())
-		//    {
-		//        return databaseService.DayIntervalPartTranslator.Delete(uid);
-		//    }
-		//}
 
 		public OperationResult<List<Holiday>> GetHolidays(HolidayFilter filter)
 		{
@@ -137,30 +114,6 @@ namespace FiresecService.Service
 			}
 		}
 
-		//public OperationResult<IEnumerable<ScheduleDayInterval>> GetSheduleDayIntervals(ScheduleDayIntervalFilter filter)
-		//{
-		//    using (var databaseService = new SKDDatabaseService())
-		//    {
-		//        return databaseService.ScheduleDayIntervalTranslator.Get(filter);
-		//    }
-		//}
-		//public OperationResult SaveSheduleDayInterval(ScheduleDayInterval item, string name)
-		//{
-		//    AddJournalMessage(JournalEventNameType.Редактирование_графика_работы_сотрудника, name, JournalEventDescriptionType.Редактирование, uid: item.UID);
-		//    using (var databaseService = new SKDDatabaseService())
-		//    {
-		//        return databaseService.ScheduleDayIntervalTranslator.Save(item);
-		//    }
-		//}
-		//public OperationResult RemoveSheduleDayInterval(Guid uid, string name)
-		//{
-		//    AddJournalMessage(JournalEventNameType.Удаление_графика_работы_сотрудника, name);
-		//    using (var databaseService = new SKDDatabaseService())
-		//    {
-		//        return databaseService.ScheduleDayIntervalTranslator.Delete(uid);
-		//    }
-		//}
-
 		public OperationResult<List<Schedule>> GetSchedules(ScheduleFilter filter)
 		{
 			using (var databaseService = new SKDDriver.DataClasses.DbService())
@@ -195,30 +148,6 @@ namespace FiresecService.Service
 				return databaseService.ScheduleTranslator.Restore(uid);
 			}
 		}
-
-		//public OperationResult<IEnumerable<ScheduleZone>> GetScheduleZones(ScheduleZoneFilter filter)
-		//{
-		//    using (var databaseService = new SKDDatabaseService())
-		//    {
-		//        return databaseService.ScheduleZoneTranslator.Get(filter);
-		//    }
-		//}
-		//public OperationResult SaveScheduleZone(ScheduleZone item, string name)
-		//{
-		//    AddJournalMessage(JournalEventNameType.Редактирование_графика_работы, name, JournalEventDescriptionType.Редактирование, uid: item.ScheduleUID);
-		//    using (var databaseService = new SKDDatabaseService())
-		//    {
-		//        return databaseService.ScheduleZoneTranslator.Save(item);
-		//    }
-		//}
-		//public OperationResult MarkDeletedScheduleZone(Guid uid, string name)
-		//{
-		//    AddJournalMessage(JournalEventNameType.Редактирование_графика_работы, name, uid: uid);
-		//    using (var databaseService = new SKDDatabaseService())
-		//    {
-		//        return databaseService.ScheduleZoneTranslator.Delete(uid);
-		//    }
-		//}
 
 		public OperationResult<List<TimeTrackDocument>> GetTimeTrackDocument(Guid employeeUID, DateTime startDateTime, DateTime endDateTime)
 		{
@@ -330,8 +259,43 @@ namespace FiresecService.Service
 				return databaseService.CardTranslator.GetMinDate();
 			}
 		}
-		
-		
+
+		public static Thread DbThread;
+		public OperationResult BeginGetAsync(HRFilter filter)
+		{
+			try
+			{
+				if (DbThread != null)
+				{
+					SKDDriver.DataClasses.DbService.IsAbort = true;
+					DbThread.Join(TimeSpan.FromMinutes(1));
+					DbThread = null;
+				}
+				SKDDriver.DataClasses.DbService.IsAbort = false;
+				var thread = new Thread(new ThreadStart((new Action(() =>
+				{
+					using (var dbService = new SKDDriver.DataClasses.DbService())
+					{
+						dbService.BeginGet(filter, DatabaseHelper_DbPortionReady);
+					}
+				}))));
+				thread.Name = "FiresecService.GetEmployees";
+				thread.IsBackground = true;
+				DbThread = thread;
+				thread.Start();
+				return new OperationResult();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
+		}
+
+		void DatabaseHelper_DbPortionReady(DbCallbackResult dbCallbackResult)
+		{
+			FiresecService.NotifyDbCompleted(dbCallbackResult);
+		}
+
 		
 	}
 }

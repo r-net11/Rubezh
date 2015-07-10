@@ -49,11 +49,7 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.RestoreEmployee(uid, name));
 		}
-        public OperationResult BeginGetEmployees(EmployeeFilter filter, Guid uid)
-        {
-            return SafeContext.Execute<OperationResult>(() => FiresecService.BeginGetEmployees(filter, uid));
-        }
-		#endregion
+        #endregion
 
 		#region Department
 		public OperationResult<List<ShortDepartment>> GetDepartmentList(DepartmentFilter filter)
@@ -143,11 +139,7 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveCardTemplate(item));
 		}
-        public OperationResult BeginGetCards(CardFilter filter, Guid uid)
-        {
-            return SafeContext.Execute<OperationResult>(() => FiresecService.BeginGetCards(filter, uid));
-        }
-		#endregion
+        #endregion
 
 		#region AccessTemplate
 		public OperationResult<List<AccessTemplate>> GetAccessTemplates(AccessTemplateFilter filter)
