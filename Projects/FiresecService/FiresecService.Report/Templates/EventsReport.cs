@@ -203,30 +203,6 @@ namespace FiresecService.Report.Templates
 							}
 							break;
 
-						case JournalObjectType.SKDDevice:
-							var skdDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
-							if (skdDevice != null)
-							{
-								dataRow.Object = skdDevice.Name;
-							}
-							break;
-
-						case JournalObjectType.SKDZone:
-							var skdZone = SKDManager.Zones.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
-							if (skdZone != null)
-							{
-								dataRow.Object = skdZone.Name;
-							}
-							break;
-
-						case JournalObjectType.SKDDoor:
-							var skdDoor = SKDManager.Doors.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
-							if (skdDoor != null)
-							{
-								dataRow.Object = skdDoor.Name;
-							}
-							break;
-
 						case JournalObjectType.VideoDevice:
 							//var camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
 							//if (camera != null)

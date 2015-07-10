@@ -18,14 +18,14 @@ namespace FiresecClient
 			SafeOperationCall(() => { FiresecService.Disconnect(uid); }, "Disconnect");
 		}
 
+		public OperationResult<ServerState> GetServerState()
+		{
+			return SafeOperationCall(() => { return FiresecService.GetServerState(); }, "GetServerState");
+		}
+
 		public List<CallbackResult> Poll(Guid uid)
 		{
 			return SafeOperationCall(() => { return FiresecService.Poll(uid); }, "Poll");
-		}
-
-		public void NotifyClientsOnConfigurationChanged()
-		{
-			SafeOperationCall(() => { FiresecService.NotifyClientsOnConfigurationChanged(); }, "NotifyClientsOnConfigurationChanged");
 		}
 
 		public SecurityConfiguration GetSecurityConfiguration()
@@ -50,9 +50,9 @@ namespace FiresecClient
 			return SafeOperationCall(() => { return FiresecService.GetDirectoryHash(directory); }, "GetDirectoryHash");
 		}
 
-		public System.IO.Stream GetFile(string dirAndFileName)
+		public System.IO.Stream GetServerAppDataFile(string dirAndFileName)
 		{
-			return SafeOperationCall(() => { return FiresecService.GetFile(dirAndFileName); }, "GetFile");
+			return SafeOperationCall(() => { return FiresecService.GetServerAppDataFile(dirAndFileName); }, "GetServerAppDataFile");
 		}
 
 		public Stream GetConfig()
@@ -60,9 +60,9 @@ namespace FiresecClient
 			return SafeOperationCall(() => { return FiresecService.GetConfig(); }, "GetConfig");
 		}
 
-		public void SetConfig(Stream stream)
+		public void SetRemoteConfig(Stream stream)
 		{
-			SafeOperationCall(() => { FiresecService.SetConfig(stream); }, "SetConfig");
+			SafeOperationCall(() => { FiresecService.SetRemoteConfig(stream); }, "SetRemoteConfig");
 		}
 
 		public void SetLocalConfig()
@@ -78,11 +78,6 @@ namespace FiresecClient
 		public string Ping()
 		{
 			return SafeOperationCall(() => { return FiresecService.Ping(); }, "Ping");
-		}
-
-		public List<ServerTask> GetServerTasks()
-		{
-			return SafeOperationCall(() => { return FiresecService.GetServerTasks(); }, "GetServerTasks");
 		}
 
 		public OperationResult ResetDB()

@@ -313,134 +313,7 @@ namespace FiresecAPI.Journal
 		[EventName(JournalSubsystemType.GK, "Неизвестный код события объекта", XStateClass.Unknown)]
         Неизвестный_код_события_объекта = 103,
 
-		[EventName(JournalSubsystemType.SKD, "Потеря связи", XStateClass.ConnectionLost)]
-        Потеря_связи = 104,
-
-		[EventName(JournalSubsystemType.SKD, "Восстановление связи", XStateClass.ConnectionLost)]
-        Восстановление_связи = 105,
-
-		[EventName(JournalSubsystemType.SKD, "Доступ разрешен", XStateClass.Info)]
-        Проход_разрешен = 106,
-
-		[EventName(JournalSubsystemType.SKD, "Доступ запрещен", XStateClass.Attention)]
-        Проход_запрещен = 107,
-
-		[EventName(JournalSubsystemType.SKD, "Дверь не закрыта", XStateClass.Attention)]
-        Дверь_не_закрыта = 108,
-
-		[EventName(JournalSubsystemType.SKD, "Взлом", XStateClass.Attention)]
-        Взлом = 109,
-
-		[EventName(JournalSubsystemType.SKD, "Повторный проход", XStateClass.Attention)]
-        Повторный_проход = 110,
-
-		[EventName(JournalSubsystemType.SKD, "Принуждение", XStateClass.Fire1)]
-        Принуждение = 111,
-
-		[EventName(JournalSubsystemType.SKD, "Открытие двери", XStateClass.On)]
-        Открытие_двери = 112,
-
-		[EventName(JournalSubsystemType.SKD, "Закрытие двери", XStateClass.Off)]
-        Закрытие_двери = 113,
-
-		[EventName(JournalSubsystemType.SKD, "Неизвестный статус двери", XStateClass.Unknown)]
-        Неизвестный_статус_двери = 114,
-
-		[EventName(JournalSubsystemType.SKD, "Вскрытие контроллера", XStateClass.Attention)]
-        Вскрытие_контроллера = 115,
-
-		[EventName(JournalSubsystemType.SKD, "Множественный проход", XStateClass.Attention)]
-        Множественный_проход = 116,
-
-		[EventName(JournalSubsystemType.SKD, "Проход по отпечатку пальца", XStateClass.Info)]
-        Проход_по_отпечатку_пальца = 117,
-
-		[EventName(JournalSubsystemType.SKD, "Местная тревога", XStateClass.Attention)]
-        Местная_тревога = 118,
-
-		[EventName(JournalSubsystemType.SKD, "Сброс Контроллера", XStateClass.TechnologicalRegime)]
-        Сброс_Контроллера = 119,
-
-		[EventName(JournalSubsystemType.SKD, "Перезагрузка Контроллера", XStateClass.TechnologicalRegime)]
-        Перезагрузка_Контроллера = 120,
-
-		[EventName(JournalSubsystemType.SKD, "Запись графиков работы", XStateClass.TechnologicalRegime)]
-        Запись_графиков_работы = 121,
-
-		[EventName(JournalSubsystemType.SKD, "Перезапись всех карт", XStateClass.TechnologicalRegime)]
-        Перезапись_всех_карт = 122,
-
-		[EventName(JournalSubsystemType.SKD, "Обновление ПО Контроллера", XStateClass.TechnologicalRegime)]
-        Обновление_ПО_Контроллера = 123,
-
-		[EventName(JournalSubsystemType.SKD, "Запрос конфигурации контроллера", XStateClass.TechnologicalRegime)]
-        Запрос_конфигурации_контроллера = 124,
-
-		[EventName(JournalSubsystemType.SKD, "Синхронизация времени контроллера", XStateClass.Info)]
-        Синхронизация_времени_контроллера = 125,
-
-		[EventName(JournalSubsystemType.SKD, "Запрос конфигурации двери", XStateClass.TechnologicalRegime)]
-        Запрос_конфигурации_двери = 126,
-
-		[EventName(JournalSubsystemType.SKD, "Запись конфигурации двери", XStateClass.TechnologicalRegime)]
-        Запись_конфигурации_двери = 127,
-
-		[EventName(JournalSubsystemType.SKD, "Запрос направления контроллера", XStateClass.TechnologicalRegime)]
-        Запрос_направления_контроллера = 128,
-
-		[EventName(JournalSubsystemType.SKD, "Запись направления контроллера", XStateClass.TechnologicalRegime)]
-        Запись_направления_контроллера = 129,
-
-		[EventName(JournalSubsystemType.SKD, "Запись пароля контроллера", XStateClass.TechnologicalRegime)]
-        Запись_пароля_контроллера = 130,
-
-		[EventName(JournalSubsystemType.SKD, "Запрос временных настроек контроллера", XStateClass.TechnologicalRegime)]
-        Запрос_временных_настроек_контроллера = 131,
-
-		[EventName(JournalSubsystemType.SKD, "Запись временных настроек контроллера", XStateClass.TechnologicalRegime)]
-        Запись_временных_настроек_контроллера = 132,
-
-		[EventName(JournalSubsystemType.SKD, "Запрос сетевых настроек контроллера", XStateClass.TechnologicalRegime)]
-        Запрос_сетевых_настроек_контроллера = 133,
-
-		[EventName(JournalSubsystemType.SKD, "Запись сетевых настроек контроллера", XStateClass.TechnologicalRegime)]
-        Запись_сетевых_настроек_контроллера = 134,
-
-		[EventName(JournalSubsystemType.SKD, "Команда на открытие двери", XStateClass.On)]
-        Команда_на_открытие_двери = 135,
-
-		[EventName(JournalSubsystemType.SKD, "Команда на закрытие двери", XStateClass.Off)]
-        Команда_на_закрытие_двери = 136,
-
-		[EventName(JournalSubsystemType.SKD, "Команда на перевод двери в режим Открыто", XStateClass.On)]
-        Команда_на_перевод_двери_в_режим_Открыто = 137,
-
-		[EventName(JournalSubsystemType.SKD, "Команда на перевод двери в режим Закрыто", XStateClass.Off)]
-        Команда_на_перевод_двери_в_режим_Закрыто = 138,
-
-		[EventName(JournalSubsystemType.SKD, "Команда на открытие зоны", XStateClass.On)]
-        Команда_на_открытие_зоны = 139,
-
-		[EventName(JournalSubsystemType.SKD, "Команда на закрытие зоны", XStateClass.Off)]
-        Команда_на_закрытие_зоны = 140,
-
-		[EventName(JournalSubsystemType.SKD, "Команда на перевод зоны в режим Открыто", XStateClass.On)]
-        Команда_на_перевод_зоны_в_режим_Открыто = 141,
-
-		[EventName(JournalSubsystemType.SKD, "Команда на перевод зоны в режим Закрыто", XStateClass.Off)]
-        Команда_на_перевод_зоны_в_режим_Закрыто = 142,
-
-		[EventName(JournalSubsystemType.SKD, "Команда на открытие точки доступа", XStateClass.On)]
-        Команда_на_открытие_точки_доступа = 143,
-
-		[EventName(JournalSubsystemType.SKD, "Команда на закрытие точки доступа", XStateClass.Off)]
-        Команда_на_закрытие_точки_доступа = 144,
-
-		[EventName(JournalSubsystemType.SKD, "Команда на перевод точки доступа в режим Открыто", XStateClass.On)]
-        Команда_на_перевод_точки_доступа_в_режим_Открыто = 145,
-
-		[EventName(JournalSubsystemType.SKD, "Команда на перевод точки доступа в режим Закрыто", XStateClass.Off)]
-        Команда_на_перевод_точки_доступа_в_режим_Закрыто = 146,
+		//----------------------------------------------------
 
 		[EventName(JournalSubsystemType.SKD, "Добавление карты", XStateClass.Info)]
         Добавление_карты = 147,
@@ -456,7 +329,6 @@ namespace FiresecAPI.Journal
 
 		[EventName(JournalSubsystemType.SKD, "Редактирование подразделения", XStateClass.Info)]
         Редактирование_отдела = 151,
-		
 
 		[EventName(JournalSubsystemType.SKD, "Редактирование должности", XStateClass.Info)]
         Редактирование_должности = 152,

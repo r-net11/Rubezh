@@ -24,7 +24,6 @@ namespace GKProcessor
 
 		public void Initialize(GKDeviceConfiguration deviceConfiguration, GKDevice gkControllerDevice)
 		{
-			DescriptorsManager.Create();
 			Date = DateTime.Now;
 			var gkDatabase = DescriptorsManager.GkDatabases.FirstOrDefault(x => x.RootDevice.UID == gkControllerDevice.UID);
 			MinorVersion = (byte)deviceConfiguration.Version.MinorVersion;

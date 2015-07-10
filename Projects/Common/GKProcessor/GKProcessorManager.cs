@@ -172,13 +172,13 @@ namespace GKProcessor
 		#endregion
 
 		#region Operations
-		public static OperationResult<bool> GKWriteConfiguration(GKDevice device, string userName)
+		public static OperationResult<bool> GKWriteConfiguration(GKDevice device, string userName, GKProgressCallback progressCallback)
 		{
 			AddGKMessage(JournalEventNameType.Запись_конфигурации_в_прибор, JournalEventDescriptionType.NULL, "", device, userName);
 
 			Stop();
 			var gkDescriptorsWriter = new GkDescriptorsWriter();
-			gkDescriptorsWriter.WriteConfig(device);
+			gkDescriptorsWriter.WriteConfig(device, progressCallback);
 			Start();
 
 			if (gkDescriptorsWriter.Errors.Count > 0)
@@ -197,26 +197,20 @@ namespace GKProcessor
 		{
 			AddGKMessage(JournalEventNameType.Чтение_конфигурации_из_прибора, JournalEventDescriptionType.NULL, "", device, userName);
 			Stop();
-			DescriptorsManager.Create();
 			var descriptorReader = device.Driver.IsKau ? (DescriptorReaderBase)new KauDescriptorsReaderBase() : new GkDescriptorsReaderBase();
 			descriptorReader.ReadConfiguration(device);
 			Start();
 			return OperationResult<GKDeviceConfiguration>.FromError(descriptorReader.Error, descriptorReader.DeviceConfiguration);
 		}
 
-		public static Stream GKReadConfigurationFromGKFile(GKDevice device, string userName)
+		public static OperationResult<string> GKReadConfigurationFromGKFile(GKDevice device, string userName, GKProgressCallback progressCallback)
 		{
 			AddGKMessage(JournalEventNameType.Чтение_конфигурации_из_прибора, JournalEventDescriptionType.NULL, "", device, userName);
 			SuspendMonitoring(device);
 			var gkFileReaderWriter = new GKFileReaderWriter();
-			var filePath = gkFileReaderWriter.ReadConfigFileFromGK(device);
+			var filePath = gkFileReaderWriter.ReadConfigFileFromGK(device, progressCallback);
 			ResumeMonitoring(device);
-			if (filePath != null)
-			{
-				return new FileStream(filePath, FileMode.Open, FileAccess.Read);
-			}
-			return Stream.Null;
-			//return OperationResult<Stream>.FromError { gkFileReaderWriter.Error, new FileStream(filePath, FileMode.Open, FileAccess.Read));
+			return filePath;
 		}
 
 		public static OperationResult<GKDevice> GKAutoSearch(GKDevice device, string userName)

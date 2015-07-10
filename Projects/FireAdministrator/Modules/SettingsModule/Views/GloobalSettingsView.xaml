@@ -1,12 +1,12 @@
 ﻿<UserControl x:Class="SettingsModule.Views.GloobalSettingsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MinWidth="800" MinHeight="500">
 	<UserControl.Resources>
 		<Style TargetType="TextBlock">
-			<Setter Property="Foreground" Value="White" />
+			<Setter Property="Foreground" Value="{DynamicResource ForegroundColor_0}" />
 		</Style>
 	</UserControl.Resources>
 
 	<TabControl>
-		<TabItem Header="ОЗ" Visibility="{Binding UseStrazhBrand, Converter={StaticResource InversedBoolToVisibilityConverter}}">
+		<TabItem Header="ОЗ">
 			<Grid>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="Auto" />
@@ -38,11 +38,6 @@
 
 				<TextBlock Grid.Row="5" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Разрешить управление МПТ" />
 				<CheckBox Grid.Row="5" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding Monitor_IsControlMPT}" />
-
-				<!--
-					<TextBlock Grid.Row="5" Grid.Column="0" Text="F12 - показать информацию о HASP ключе" HorizontalAlignment="Right" Margin="2" />
-					<CheckBox Grid.Row="5" Grid.Column="1" IsChecked="{Binding Monitor_HaspInfo_Enabled}" HorizontalAlignment="Left" Margin="2" />
-				-->
 			</Grid>
 		</TabItem>
 		<TabItem Header="Сервер">
@@ -70,9 +65,9 @@
 		</TabItem>
 		<TabItem Header="Автозапуск">
 			<StackPanel Margin="2">
-				<TextBlock Margin="2" FontSize="12" Foreground="{DynamicResource ForegroundColorLight}" Text="Следующие приложения будут автоматически запускаться при старте системы:" TextWrapping="Wrap" />
-				<CheckBox Content="{Binding ServerAutoLabel}" FontSize="12" Foreground="{DynamicResource ForegroundColorLight}" IsChecked="{Binding IsServerAuto}" Margin="5 5 5 1" />
-				<CheckBox Content="OPC Сервер ГК Глобал" FontSize="12" Foreground="{DynamicResource ForegroundColorLight}" IsChecked="{Binding IsGKOpcServerAuto}" Margin="5 1" Visibility="{Binding UseStrazhBrand, Converter={StaticResource InversedBoolToVisibilityConverter}}"/>
+				<TextBlock Margin="2" FontSize="12" Foreground="{DynamicResource ForegroundColor_0}" Text="Следующие приложения будут автоматически запускаться при старте системы:" TextWrapping="Wrap" />
+				<CheckBox Content="{Binding ServerAutoLabel}" FontSize="12" Foreground="{DynamicResource ForegroundColor_0}" IsChecked="{Binding IsServerAuto}" Margin="5 5 5 1" />
+				<CheckBox Content="OPC Сервер ГК Глобал" FontSize="12" Foreground="{DynamicResource ForegroundColor_0}" IsChecked="{Binding IsGKOpcServerAuto}" Margin="5 1" Visibility="{Binding UseStrazhBrand, Converter={StaticResource InversedBoolToVisibilityConverter}}"/>
 			</StackPanel>
 		</TabItem>
 		<TabItem Header="Логи">
@@ -80,8 +75,8 @@
 				<StackPanel Margin="2">
 					<TextBox Margin="2" Background="LightGray" Text="{Binding LogsFolderPath, Mode=OneWay}" />
 					<StackPanel Orientation="Horizontal">
-						<Button Width="150" Margin="2" Command="{Binding SaveLogsCommand}" Content="Сохранить логи" FontSize="13" />
-						<Button Width="150" Margin="2" Command="{Binding RemoveLogsCommand}" Content="Удалить логи" FontSize="13" />
+						<Button Foreground="{DynamicResource ForegroundColor_0}" Width="150" Margin="2" Command="{Binding SaveLogsCommand}" Content="Сохранить логи" FontSize="13" />
+						<Button Foreground="{DynamicResource ForegroundColor_0}" Width="150" Margin="2" Command="{Binding RemoveLogsCommand}" Content="Удалить логи" FontSize="13" />
 					</StackPanel>
 				</StackPanel>
 			</Border>
@@ -140,11 +135,9 @@
 		<TabItem Header="Сброс" Visibility="{Binding IsDebug, Converter={StaticResource BoolToVisibilityConverter}}">
 			<Border Margin="2" Background="White" CornerRadius="5">
 				<StackPanel Margin="2">
-					<Button Width="300" Margin="2" Command="{Binding ResetDatabaseCommand}" Content="Сбросить базу данных" />
-					<Button Width="300" Margin="2" Command="{Binding ResetConfigurationCommand}" Content="Сбросить конфигурацию" />
-					<Button Width="300" Margin="2" Command="{Binding ResetGKLibaryCommand}" Content="Сбросить библиотеку устройств" />
-					<Button Width="300" Margin="2" Command="{Binding ResetSKDLibaryCommand}" Content="Сбросить библиотеку СКД" />
-					<Button Width="300" Margin="2" Command="{Binding ResetSettingsCommand}" Content="Сбросить настройки" />
+					<Button Foreground="{DynamicResource ForegroundColor_0}" Width="300" Margin="2" Command="{Binding ResetDatabaseCommand}" Content="Сбросить базу данных" />
+					<Button Foreground="{DynamicResource ForegroundColor_0}" Width="300" Margin="2" Command="{Binding ResetConfigurationCommand}" Content="Сбросить конфигурацию" />
+					<Button Foreground="{DynamicResource ForegroundColor_0}"  Width="300" Margin="2" Command="{Binding ResetSettingsCommand}" Content="Сбросить настройки" />
 				</StackPanel>
 			</Border>
 		</TabItem>

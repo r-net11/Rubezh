@@ -6,11 +6,12 @@
 		</Grid.RowDefinitions>
 		<Grid Grid.Row="0">
 			<TreeView x:Name="tv" VerticalAlignment="Top" DockPanel.Dock="Top"
-					  ItemsSource="{Binding NavigationItems,
-											NotifyOnTargetUpdated=True}"
-					  MouseLeftButtonUp="TreeView_MouseLeftButtonUp" PreviewMouseLeftButtonDown="TreeView_PreviewMouseLeftButtonDown" ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-					  Style="{StaticResource OutlookTreeView}"
-					  TargetUpdated="TreeView_TargetUpdated" TreeViewItem.PreviewMouseDoubleClick="TreeViewItem_PreviewMouseDoubleClick" TreeViewItem.Selected="TreeViewItem_Selected">
+						ItemsSource="{Binding NavigationItems, NotifyOnTargetUpdated=True}"
+						MouseLeftButtonUp="TreeView_MouseLeftButtonUp" PreviewMouseLeftButtonDown="TreeView_PreviewMouseLeftButtonDown" 
+						ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+						Style="{DynamicResource OutlookTreeView}"
+						TargetUpdated="TreeView_TargetUpdated" TreeViewItem.PreviewMouseDoubleClick="TreeViewItem_PreviewMouseDoubleClick"
+						TreeViewItem.Selected="TreeViewItem_Selected">
 				<TreeView.ItemTemplate>
 					<HierarchicalDataTemplate ItemsSource="{Binding Childs}">
 						<HierarchicalDataTemplate.Resources>

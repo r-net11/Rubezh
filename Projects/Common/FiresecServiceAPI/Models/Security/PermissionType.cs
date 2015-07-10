@@ -139,24 +139,6 @@ namespace FiresecAPI.Models
 		[DescriptionAttribute("Табель учета рабочего времени (форма Т-13)")]
 		Oper_Reports_T13,
 
-		[DescriptionAttribute("Просмотр устройств")]
-		Oper_Strazh_Devices_View,
-
-		[DescriptionAttribute("Управление замками")]
-		Oper_Strazh_Devices_Control,
-
-		[DescriptionAttribute("Просмотр зон")]
-		Oper_Strazh_Zones_View,
-
-		[DescriptionAttribute("Управление замками")]
-		Oper_Strazh_Zones_Control,
-
-		[DescriptionAttribute("Просмотр точек доступа")]
-		Oper_Strazh_Doors_View,
-
-		[DescriptionAttribute("Управление замками")]
-		Oper_Strazh_Doors_Control,
-
 		[DescriptionAttribute("Просмотр сотрудников")]
 		Oper_SKD_Employees_View,
 

@@ -107,11 +107,7 @@ namespace JournalModule.ViewModels
 
 			var gkViewModel = new FilterObjectViewModel(JournalSubsystemType.GK);
 			gkViewModel.IsExpanded = true;
-
-			if (!GlobalSettingsHelper.GlobalSettings.UseStrazhBrand)
-			{
-				RootFilters.Add(gkViewModel);
-			}
+			RootFilters.Add(gkViewModel);
 
 			var gkDevicesViewModel = new FilterObjectViewModel(JournalObjectType.GKDevice);
 			AddChild(gkViewModel, gkDevicesViewModel);
@@ -184,33 +180,6 @@ namespace JournalModule.ViewModels
 				AddChild(gkDoorsViewModel, filterObjectViewModel);
 			}
 
-			var skdViewModel = new FilterObjectViewModel(JournalSubsystemType.SKD);
-			skdViewModel.IsExpanded = true;
-			RootFilters.Add(skdViewModel);
-
-			var skdDevicesViewModel = new FilterObjectViewModel(JournalObjectType.SKDDevice);
-			AddChild(skdViewModel, skdDevicesViewModel);
-			foreach (var childDevice in SKDManager.SKDConfiguration.RootDevice.Children)
-			{
-				AddSKDDeviceInternal(childDevice, skdDevicesViewModel);
-			}
-
-			var skdZonesViewModel = new FilterObjectViewModel(JournalObjectType.SKDZone);
-			AddChild(skdViewModel, skdZonesViewModel);
-			foreach (var zone in SKDManager.Zones)
-			{
-				var filterObjectViewModel = new FilterObjectViewModel(zone);
-				AddChild(skdZonesViewModel, filterObjectViewModel);
-			}
-
-			var skdDoorsViewModel = new FilterObjectViewModel(JournalObjectType.SKDDoor);
-			AddChild(skdViewModel, skdDoorsViewModel);
-			foreach (var door in SKDManager.Doors)
-			{
-				var filterObjectViewModel = new FilterObjectViewModel(door);
-				AddChild(skdDoorsViewModel, filterObjectViewModel);
-			}
-
 			var videoViewModel = new FilterObjectViewModel(JournalSubsystemType.Video);
 			videoViewModel.IsExpanded = true;
 			RootFilters.Add(videoViewModel);
@@ -236,19 +205,6 @@ namespace JournalModule.ViewModels
 				{
 					AddGKDeviceInternal(childDevice, deviceViewModel);
 				}
-			}
-			return deviceViewModel;
-		}
-
-		FilterObjectViewModel AddSKDDeviceInternal(SKDDevice device, FilterObjectViewModel parentDeviceViewModel)
-		{
-			var deviceViewModel = new FilterObjectViewModel(device);
-			if (parentDeviceViewModel != null)
-				AddChild(parentDeviceViewModel, deviceViewModel);
-
-			foreach (var childDevice in device.Children)
-			{
-				AddSKDDeviceInternal(childDevice, deviceViewModel);
 			}
 			return deviceViewModel;
 		}

@@ -3,6 +3,7 @@ using System.IO;
 using System.Media;
 using System.Threading;
 using FiresecAPI.Models;
+using Common;
 
 namespace Infrastructure.Common
 {
@@ -97,8 +98,15 @@ namespace Infrastructure.Common
 
 		public static void Play(string filePath, BeeperType speakertype, bool isContinious)
 		{
-			PlaySound(filePath, isContinious);
-			//PlayPCSpeaker(speakertype, isContinious);
+			try
+			{
+				PlaySound(filePath, isContinious);
+				PlayPCSpeaker(speakertype, isContinious);
+			}
+			catch(Exception e)
+			{
+				Logger.Error(e, "AlarmPlayerHelper.Play");
+			}
 		}
 
 		public static void Stop()

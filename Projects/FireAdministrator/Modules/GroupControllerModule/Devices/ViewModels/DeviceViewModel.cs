@@ -46,14 +46,20 @@ namespace GKModule.ViewModels
 			ShowParentCommand = new RelayCommand(OnShowParent, CanShowParent);
 			ShowMPTCommand = new RelayCommand(OnShowMPT, CanShowMPT);
 			ShowDoorCommand = new RelayCommand(OnShowDoor);
+			GenericZonesCommand = new RelayCommand(GenericZones);
+			GenericGuardZonesCommand = new RelayCommand(GenericGuardZones);
+			GenericDirectionsCommand = new RelayCommand(GenericDirections);
+			GenericForDetectorDevicesCommand = new RelayCommand(GenericForDetectorDevices);
+			GenericForPerformersDevicesCommand = new RelayCommand(GenericForPerformersDevices);
+			GenericMPTCommand = new RelayCommand(GenericMPTs);
+			ShowAccessUserReflectionCommand = new RelayCommand(ShowAccessUserReflection);
 
 			CreateDragObjectCommand = new RelayCommand<DataObject>(OnCreateDragObjectCommand, CanCreateDragObjectCommand);
 			CreateDragVisual = OnCreateDragVisual;
 			AllowMultipleVizualizationCommand = new RelayCommand<bool>(OnAllowMultipleVizualizationCommand, CanAllowMultipleVizualizationCommand);
-
+			IsEdit = device.Driver.IsEditMirror;
 			Device = device;
 			PropertiesViewModel = new PropertiesViewModel(Device);
-
 			AvailvableDrivers = new ObservableCollection<GKDriver>();
 			UpdateDriver();
 			InitializeParamsCommands();
@@ -256,8 +262,6 @@ namespace GKModule.ViewModels
 					}
 					gkDevice.AddChildFirst(gkIndicatorsGroupDevice);
 					gkDevice.AddChildFirst(gkRelaysGroupDevice);
-					
-
 				}
 				foreach (var addedDevice in newDeviceViewModel.AddedDevices)
 				{
@@ -267,10 +271,8 @@ namespace GKModule.ViewModels
 				GKPlanExtension.Instance.Cache.BuildSafe<GKDevice>();
 				ServiceFactory.SaveService.GKChanged = true;
 				return;
-
-			
 			}
-			
+
 			if (DialogService.ShowModalWindow(newDeviceViewModel))
 			{
 				foreach (var addedDevice in newDeviceViewModel.AddedDevices)
@@ -382,6 +384,140 @@ namespace GKModule.ViewModels
 		{
 			return true;
 		}
+		public RelayCommand GenericZonesCommand { get; private set; }
+		void GenericZones()
+		{
+			var zonesSelectationViewModel = new ZonesSelectationViewModel(new List<GKZone>());
+			if (DialogService.ShowModalWindow(zonesSelectationViewModel))
+			{			
+				foreach (var zone in zonesSelectationViewModel.TargetZones)
+				{
+					var driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_GKMirrorFireZone);
+					GKDevice device = GKManager.AddChild(Device, null, driver, (byte)0);
+					device.GKReflectionItem.ZoneUIDs.Add(zone.UID);
+					device.GKReflectionItem.Zones.Add(zone);
+					var addedDeviceViewModel = NewDeviceHelper.AddDevice(device, this);
+					DevicesViewModel.Current.AllDevices.Add(addedDeviceViewModel);
+					
+				}
+	
+				GKPlanExtension.Instance.Cache.BuildSafe<GKDevice>();
+				ServiceFactory.SaveService.GKChanged = true;
+			}
+		}
+
+		public RelayCommand GenericGuardZonesCommand { get; private set; }
+		void GenericGuardZones()
+		{
+			var guardZonesSelectationViewModel = new GuardZonesSelectationViewModel(new List<GKGuardZone>());
+			if (DialogService.ShowModalWindow(guardZonesSelectationViewModel))
+			{
+				foreach (var zone in guardZonesSelectationViewModel.TargetZones)
+				{
+					var driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_GKMirrorGuardZone);
+					GKDevice device = GKManager.AddChild(Device, null, driver, (byte)0);
+					device.GKReflectionItem.GuardZoneUIDs.Add(zone.UID);
+					device.GKReflectionItem.GuardZones.Add(zone);
+					var addedDeviceViewModel = NewDeviceHelper.AddDevice(device, this);
+					DevicesViewModel.Current.AllDevices.Add(addedDeviceViewModel);
+					
+				}
+				GKPlanExtension.Instance.Cache.BuildSafe<GKDevice>();
+				ServiceFactory.SaveService.GKChanged = true;
+			}
+		}
+
+		public RelayCommand GenericDirectionsCommand { get; private set; }
+		void GenericDirections()
+		{
+			var directionsSelectationViewModel = new DirectionsSelectationViewModel(new List<GKDirection>());
+			if (DialogService.ShowModalWindow(directionsSelectationViewModel))
+			{
+				foreach (var direction in directionsSelectationViewModel.TargetDirections)
+				{
+					var driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_GKMirrorDirection);
+					GKDevice device = GKManager.AddChild(Device, null, driver, (byte)0);
+					device.GKReflectionItem.DiretionUIDs.Add(direction.UID);
+					device.GKReflectionItem.Diretions.Add(direction);
+					var addedDeviceViewModel = NewDeviceHelper.AddDevice(device, this);
+					DevicesViewModel.Current.AllDevices.Add(addedDeviceViewModel);
+
+				}
+				GKPlanExtension.Instance.Cache.BuildSafe<GKDevice>();
+				ServiceFactory.SaveService.GKChanged = true;
+			}
+		}
+
+		public RelayCommand GenericForDetectorDevicesCommand { get; private set; }
+		void GenericForDetectorDevices()
+		{
+			var deviceSelectationViewMode = new DevicesSelectationViewModel(new List<GKDevice>(), GKManager.Devices.Where(x => x.Driver.HasZone).ToList());
+			if (DialogService.ShowModalWindow(deviceSelectationViewMode))
+			{
+				foreach (var detectordevice in deviceSelectationViewMode.Devices)
+				{
+					var driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_GKMirrorDetectorsDevice);
+					GKDevice device = GKManager.AddChild(Device, null, driver, (byte)0);
+					device.GKReflectionItem.DeviceUIDs.Add(detectordevice.UID);
+					device.GKReflectionItem.Devices.Add(detectordevice);
+					var addedDeviceViewModel = NewDeviceHelper.AddDevice(device, this);
+					DevicesViewModel.Current.AllDevices.Add(addedDeviceViewModel);
+
+				}
+				GKPlanExtension.Instance.Cache.BuildSafe<GKDevice>();
+				ServiceFactory.SaveService.GKChanged = true;
+			}
+		}
+
+		public RelayCommand GenericForPerformersDevicesCommand { get; private set; }
+		void GenericForPerformersDevices()
+		{
+			var deviceSelectationViewMode = new DevicesSelectationViewModel(new List<GKDevice>(), GKManager.Devices.Where(x => x.Driver.IsControlDevice).ToList());
+			if (DialogService.ShowModalWindow(deviceSelectationViewMode))
+			{
+				foreach (var performerdevice in deviceSelectationViewMode.Devices)
+				{
+					var driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_GKMirrorPerformersDevice);
+					GKDevice device = GKManager.AddChild(Device, null, driver, (byte)0);
+					device.GKReflectionItem.DeviceUIDs.Add(performerdevice.UID);
+					device.GKReflectionItem.Devices.Add(performerdevice);
+					var addedDeviceViewModel = NewDeviceHelper.AddDevice(device, this);
+					DevicesViewModel.Current.AllDevices.Add(addedDeviceViewModel);
+
+				}
+				GKPlanExtension.Instance.Cache.BuildSafe<GKDevice>();
+				ServiceFactory.SaveService.GKChanged = true;
+			}
+		}
+
+		public RelayCommand GenericMPTCommand { get; private set; }
+		void GenericMPTs()
+		{
+			var mPTsSelectationViewModel = new MPTsSelectationViewModel(new List<GKMPT>());
+			if (DialogService.ShowModalWindow(mPTsSelectationViewModel))
+			{
+				foreach (var mpt in mPTsSelectationViewModel.TargetMPTs)
+				{
+					var driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_GKMirrorFightFireZone);
+					GKDevice device = GKManager.AddChild(Device, null, driver, (byte)0);
+					device.GKReflectionItem.MPTUIDs.Add(mpt.UID);
+					device.GKReflectionItem.MPTs.Add(mpt);
+					var addedDeviceViewModel = NewDeviceHelper.AddDevice(device, this);
+					DevicesViewModel.Current.AllDevices.Add(addedDeviceViewModel);
+
+				}
+				GKPlanExtension.Instance.Cache.BuildSafe<GKDevice>();
+				ServiceFactory.SaveService.GKChanged = true;
+			}
+		}
+
+		public RelayCommand ShowAccessUserReflectionCommand { get; private set; }
+		void ShowAccessUserReflection()
+		{
+			var accessUserReflrctionViewModel = new AccessUserReflrctionViewModel(Device);
+			DialogService.ShowModalWindow(accessUserReflrctionViewModel);
+			ServiceFactory.SaveService.GKChanged = true;			
+		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }
 		void OnShowProperties()
@@ -435,7 +571,7 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public bool IsFireAndGuard 
+		public bool IsFireAndGuard
 		{
 			get { return Driver.HasZone && Driver.HasGuardZone; }
 		}
@@ -569,14 +705,17 @@ namespace GKModule.ViewModels
 		}
 		void OnShowReflection()
 		{
-			if(Driver.HasMirror)
-				{
-					var _reflectionview = new ReflectionViewModel(Device);
-					DialogService.ShowModalWindow(_reflectionview);
-				}
+			if (Driver.HasMirror)
+			{
+				var _reflectionview = new ReflectionViewModel(Device);
+				DialogService.ShowModalWindow(_reflectionview);
+			}
 			OnPropertyChanged(() => EditingPresentationZone);
-			ServiceFactory.SaveService.GKChanged = true;		
+			ServiceFactory.SaveService.GKChanged = true;
 		}
+
+		public bool IsEdit { get; private set; }
+
 		public RelayCommand ShowZoneOrLogicCommand { get; private set; }
 		void OnShowZoneOrLogic()
 		{
@@ -593,7 +732,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanShowZoneOrLogic()
 		{
-			return !Device.IsInMPT && (CanShowZones() || CanShowLogic()|| CanShowReflection()) ;
+			return !Device.IsInMPT && (CanShowZones() || CanShowLogic() || CanShowReflection());
 		}
 
 		public bool IsZoneOrLogic
@@ -826,7 +965,7 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		
+
 		#endregion
 	}
 }

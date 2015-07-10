@@ -11,11 +11,11 @@
 	</UserControl.Resources>
 	<StackPanel>
 		<DockPanel Margin="2">
-			<Label Content="Путь" />
+			<TextBlock Text="Путь" />
 			<Views:ArgumentView DataContext="{Binding PathArgument}" />
 		</DockPanel>
 		<DockPanel Margin="2">
-			<Label Content="Параметры" />
+			<TextBlock Text="Параметры" />
 			<Views:ArgumentView DataContext="{Binding ParametersArgument}" />
 		</DockPanel>
 	</StackPanel>

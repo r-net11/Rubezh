@@ -15,7 +15,7 @@
 								<TextBox x:Name="PART_EditableTextBox" Margin="3,3,23,3" HorizontalAlignment="Left" VerticalAlignment="Center" Background="Transparent" Focusable="True" IsReadOnly="{TemplateBinding IsReadOnly}" Style="{x:Null}" Template="{StaticResource ComboBoxTextBox}" Visibility="Hidden" />
 								<Popup Name="Popup" AllowsTransparency="True" Focusable="False" IsOpen="{TemplateBinding IsDropDownOpen}" Placement="Bottom" PopupAnimation="Slide">
 									<Grid Name="DropDown" MinWidth="{TemplateBinding ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}" SnapsToDevicePixels="True">
-										<Border x:Name="DropDownBorder" Background="{DynamicResource WindowBackgroundBrush}" BorderBrush="Black" BorderThickness="1" />
+										<Border x:Name="DropDownBorder" Background="{DynamicResource WindowBackground_0}" BorderBrush="Black" BorderThickness="1" />
 										<DockPanel Margin="4,6,4,6">
 											<Button Name="button" Command="{Binding AddVariableCommand}" Content="Создать" DockPanel.Dock="Bottom" Visibility="{Binding AddVariableVisibility, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}" />
 											<ScrollViewer KeyboardNavigation.DirectionalNavigation="Cycle" SnapsToDevicePixels="True">
@@ -75,7 +75,7 @@
 				<CheckBox Width="200" IsChecked="{Binding ExplicitValue.BoolValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.Boolean}}" />
 				<DockPanel Width="202" Visibility="{Binding ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.String}}">
 					<TextBox Width="182" Text="{Binding ExplicitValue.StringValue, UpdateSourceTrigger=PropertyChanged}" />
-					<Button Width="20" Height="25" Margin="-5,0,0,0" Command="{Binding EditStringCommand}" Content="..." FontSize="20" Foreground="{DynamicResource ForegroundColorLight}">
+					<Button Width="20" Height="25" Margin="-5,0,0,0" Command="{Binding EditStringCommand}" Content="..." FontSize="20" Foreground="{DynamicResource ForegroundColor_0}">
 						<Button.Style>
 							<Style TargetType="Button">
 								<Setter Property="Template">

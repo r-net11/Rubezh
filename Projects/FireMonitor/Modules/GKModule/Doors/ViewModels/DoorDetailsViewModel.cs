@@ -64,7 +64,7 @@ namespace GKModule.ViewModels
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 			{
 				ElementBase elementBase;
-				elementBase = plan.ElementDoors.FirstOrDefault(x => x.DoorUID == Door.UID);
+				elementBase = plan.ElementGKDoors.FirstOrDefault(x => x.DoorUID == Door.UID);
 				if (elementBase != null)
 				{
 					var planLinkViewModel = new PlanLinkViewModel(plan, elementBase);

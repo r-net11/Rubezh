@@ -388,10 +388,6 @@ namespace FiresecService.Report.Templates
 			var zoneMap = new Dictionary<Guid, string>();
 			if (passJournal != null)
 			{
-				foreach (var zone in SKDManager.Zones)
-				{
-					zoneMap.Add(zone.UID, zone.PresentationName);
-				}
 				foreach (var zone in GKManager.SKDZones)
 				{
 					zoneMap.Add(zone.UID, zone.PresentationName);

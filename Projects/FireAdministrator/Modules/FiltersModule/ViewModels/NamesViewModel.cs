@@ -28,10 +28,7 @@ namespace FiltersModule.ViewModels
 
 			var gkViewModel = new NameViewModel(JournalSubsystemType.GK);
 			gkViewModel.IsExpanded = true;
-			if (!GlobalSettingsHelper.GlobalSettings.UseStrazhBrand)
-			{
-				RootNames.Add(gkViewModel);
-			}
+			RootNames.Add(gkViewModel);
 
 			var skdViewModel = new NameViewModel(JournalSubsystemType.SKD);
 			skdViewModel.IsExpanded = true;
@@ -112,7 +109,7 @@ namespace FiltersModule.ViewModels
 				if (subsystemViewModel != null)
 				{
 					subsystemViewModel.IsChecked = true;
-					
+
 				}
 			}
 		}

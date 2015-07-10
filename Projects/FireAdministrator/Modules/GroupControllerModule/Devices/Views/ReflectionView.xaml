@@ -6,8 +6,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              MinHeight="550" MinWidth="810">
-    <Grid>
-        
+    <Grid>    
         <TabControl>
             <TabItem Header="Пожарные зоны" Visibility="{Binding HasFireZones, Converter={StaticResource BoolToVisibilityConverter}}" IsSelected="{Binding IsFireZones, Mode=OneWay}">
                 <views:ZonesSelectationView DataContext="{Binding ZonesSelectationViewModel}" />

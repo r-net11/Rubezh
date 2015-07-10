@@ -6,7 +6,7 @@
 		<ResourceDictionary Source="ProcedureResources.xaml" />
 	</UserControl.Resources>
 	<StackPanel Orientation="Horizontal" VerticalAlignment="Top">
-		<Label Content="Значение" />
+		<TextBlock Text="Значение" />
 		<Views:ArgumentView DataContext="{Binding NameArgument}" />
 	</StackPanel>
 </UserControl>

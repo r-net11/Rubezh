@@ -7,7 +7,7 @@
 		<Setter Property="Width" Value="163" />
 		<Setter Property="Margin" Value="2" />
 	</Style>
-	<Style BasedOn="{StaticResource {x:Type Label}}" TargetType="{x:Type Label}">
+	<Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
 		<Setter Property="Width" Value="100" />
 		<Setter Property="Margin" Value="2" />
 	</Style>

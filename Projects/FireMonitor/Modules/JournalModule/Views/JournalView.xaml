@@ -169,7 +169,7 @@
 						<Image Width="16" Source="{Binding JournalItem.JournalSubsystemType, Converter={StaticResource JournalSubsystemTypeToIconConverter}}" VerticalAlignment="Center" Margin="2" />
 						<TextBlock Text="{Binding JournalItem.JournalSubsystemType, Converter={StaticResource EnumToDescriptionConverter}}" VerticalAlignment="Center" />
 					</StackPanel>
-					<Button Grid.Row="6" Grid.Column="1" Command="{Binding ShowVideoCommand}" Content="Показать видео" Width="100" Margin="2" />
+					<Button Grid.Row="6" Grid.Column="1" Command="{Binding ShowVideoCommand}" Content="Показать видео" Width="100" Margin="2" Visibility="{Binding ., Converter={StaticResource NullToVisibilityConverter}}" />
 				</Grid>
 				<ItemsControl Grid.Column="1" ItemsSource="{Binding JournalItem.JournalDetalisationItems}">
 					<ItemsControl.ItemTemplate>

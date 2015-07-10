@@ -37,57 +37,6 @@ namespace FiresecService.Service
 			AddCommonJournalItem(journalItem);
 		}
 
-		void AddSKDJournalMessage(JournalEventNameType journalEventNameType, SKDDevice device)
-		{
-			var journalItem = new JournalItem()
-			{
-				SystemDateTime = DateTime.Now,
-				JournalEventNameType = journalEventNameType,
-				JournalEventDescriptionType = JournalEventDescriptionType.NULL,
-				JournalSubsystemType = EventDescriptionAttributeHelper.ToSubsystem(journalEventNameType),
-				JournalObjectType = device != null ? JournalObjectType.SKDDevice : JournalObjectType.None,
-				ObjectUID = device != null ? device.UID : Guid.Empty,
-				ObjectName = device != null ? device.Name : null,
-				UserName = UserName,
-			};
-
-			AddCommonJournalItem(journalItem);
-		}
-
-		void AddSKDJournalMessage(JournalEventNameType journalEventNameType, SKDZone zone)
-		{
-			var journalItem = new JournalItem()
-			{
-				SystemDateTime = DateTime.Now,
-				JournalEventNameType = journalEventNameType,
-				JournalEventDescriptionType = JournalEventDescriptionType.NULL,
-				JournalSubsystemType = EventDescriptionAttributeHelper.ToSubsystem(journalEventNameType),
-				JournalObjectType = zone != null ? JournalObjectType.SKDZone : JournalObjectType.None,
-				ObjectUID = zone != null ? zone.UID : Guid.Empty,
-				ObjectName = zone != null ? zone.Name : null,
-				UserName = UserName,
-			};
-
-			AddCommonJournalItem(journalItem);
-		}
-
-		void AddSKDJournalMessage(JournalEventNameType journalEventNameType, SKDDoor door)
-		{
-			var journalItem = new JournalItem()
-			{
-				SystemDateTime = DateTime.Now,
-				JournalEventNameType = journalEventNameType,
-				JournalEventDescriptionType = JournalEventDescriptionType.NULL,
-				JournalSubsystemType = EventDescriptionAttributeHelper.ToSubsystem(journalEventNameType),
-				JournalObjectType = door != null ? JournalObjectType.SKDDoor : JournalObjectType.None,
-				ObjectUID = door != null ? door.UID : Guid.Empty,
-				ObjectName = door != null ? door.Name : null,
-				UserName = UserName,
-			};
-
-			AddCommonJournalItem(journalItem);
-		}
-
 		public static void AddCommonJournalItem(JournalItem journalItem)
 		{
 			using (var dbService = new SKDDriver.DataClasses.DbService())

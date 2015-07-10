@@ -63,9 +63,6 @@ namespace SKDModule.ViewModels
 		public DayTimeTrackPartViewModel(TimeTrackPart timeTrackPart)
 		{
 			string zoneName = null;
-			var strazhZone = SKDManager.Zones.FirstOrDefault(x => x.UID == timeTrackPart.ZoneUID);
-			if (strazhZone != null)
-				zoneName = strazhZone.PresentationName;
 			var gkZone = GKManager.SKDZones.FirstOrDefault(x => x.UID == timeTrackPart.ZoneUID);
 			if (gkZone != null)
 				zoneName = gkZone.PresentationName;

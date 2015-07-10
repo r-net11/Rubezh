@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
-//using Entities.DeviceOriented;
 using FiresecAPI.Automation;
 using FiresecAPI.Journal;
 
@@ -30,9 +29,6 @@ namespace FiresecAPI.Models
 
 		[DataMember]
 		public List<Camera> Cameras { get; set; }
-
-		//[DataMember]
-		//public List<Device> Devices { get; set; }
 
 		[DataMember]
 		public EmailData EmailData { get; set; }

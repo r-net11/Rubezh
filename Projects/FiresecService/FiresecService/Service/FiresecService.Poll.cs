@@ -7,6 +7,7 @@ using FiresecAPI.AutomationCallback;
 using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
+using System.IO;
 
 namespace FiresecService.Service
 {
@@ -47,16 +48,6 @@ namespace FiresecService.Service
 			{
 				CallbackResultType = CallbackResultType.GKObjectStateChanged,
 				GKCallbackResult = gkCallbackResult
-			};
-			CallbackManager.Add(callbackResult);
-		}
-
-		public static void NotifySKDObjectStateChanged(SKDStates skdStates)
-		{
-			var callbackResult = new CallbackResult()
-			{
-				CallbackResultType = CallbackResultType.SKDObjectStateChanged,
-				SKDStates = skdStates
 			};
 			CallbackManager.Add(callbackResult);
 		}
@@ -120,6 +111,68 @@ namespace FiresecService.Service
 				{
 					ObjectUID = objectUID,
 					DeviceProperties = deviceProperties
+				}
+			};
+			CallbackManager.Add(callbackResult);
+		}
+
+		public static void NotifyOperationResult_GetAllUsers(OperationResult<List<GKUser>> result)
+		{
+			var callbackResult = new CallbackResult()
+			{
+				CallbackResultType = CallbackResultType.OperationResult,
+				CallbackOperationResult = new CallbackOperationResult()
+				{
+					CallbackOperationResultType = CallbackOperationResultType.GetAllUsers,
+					Error = result.Error,
+					HasError = result.HasError,
+					Users = result.Result
+				}
+			};
+			CallbackManager.Add(callbackResult);
+		}
+
+		public static void NotifyOperationResult_RewriteUsers(OperationResult<bool> result)
+		{
+			var callbackResult = new CallbackResult()
+			{
+				CallbackResultType = CallbackResultType.OperationResult,
+				CallbackOperationResult = new CallbackOperationResult()
+				{
+					CallbackOperationResultType = CallbackOperationResultType.RewriteUsers,
+					Error = result.Error,
+					HasError = result.HasError,
+				}
+			};
+			CallbackManager.Add(callbackResult);
+		}
+
+		public static void NotifyOperationResult_WriteConfiguration(OperationResult<bool> result)
+		{
+			var callbackResult = new CallbackResult()
+			{
+				CallbackResultType = CallbackResultType.OperationResult,
+				CallbackOperationResult = new CallbackOperationResult()
+				{
+					CallbackOperationResultType = CallbackOperationResultType.WriteConfiguration,
+					Error = result.Error,
+					HasError = result.HasError,
+				}
+			};
+			CallbackManager.Add(callbackResult);
+		}
+
+		public static void NotifyOperationResult_ReadConfigurationFromGKFile(OperationResult<string> result)
+		{
+			var callbackResult = new CallbackResult()
+			{
+				CallbackResultType = CallbackResultType.OperationResult,
+				CallbackOperationResult = new CallbackOperationResult()
+				{
+					CallbackOperationResultType = CallbackOperationResultType.ReadConfigurationFromGKFile,
+					Error = result.Error,
+					HasError = result.HasError,
+					FileName = result.Result
 				}
 			};
 			CallbackManager.Add(callbackResult);

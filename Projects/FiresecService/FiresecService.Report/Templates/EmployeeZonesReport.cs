@@ -360,10 +360,6 @@ namespace FiresecService.Report.Templates
 			{
 				var employees = dataProvider.GetEmployees(filter);
 				var zoneMap = new Dictionary<Guid, string>();
-				foreach (var zone in SKDManager.Zones)
-				{
-					zoneMap.Add(zone.UID, zone.PresentationName);
-				}
 				foreach (var zone in GKManager.SKDZones)
 				{
 					zoneMap.Add(zone.UID, zone.PresentationName);

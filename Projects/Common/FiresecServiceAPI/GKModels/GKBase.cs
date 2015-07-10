@@ -71,6 +71,12 @@ namespace FiresecAPI.GK
 		public GKDevice GkDatabaseParent { get; set; }
 
 		[XmlIgnore]
+		public GKDevice DataBaseParent 
+		{
+			get { return KauDatabaseParent ?? GkDatabaseParent; }
+		}
+
+		[XmlIgnore]
 		public virtual bool IsLogicOnKau { get; set; }
 
 		[XmlIgnore]

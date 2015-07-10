@@ -13,7 +13,7 @@ namespace Infrastructure.Client.Login.ViewModels
 {
 	internal class LoginViewModel : SaveCancelDialogViewModel
 	{
-		private PasswordViewType _passwordViewType;
+		PasswordViewType _passwordViewType;
 
 		public LoginViewModel(ClientType clientType)
 			: this(clientType, PasswordViewType.Connect)
@@ -73,7 +73,7 @@ namespace Infrastructure.Client.Login.ViewModels
 				OnPropertyChanged(() => Password);
 			}
 		}
-		private bool _savePassword;
+		bool _savePassword;
 		public bool SavePassword
 		{
 			get { return _savePassword; }

@@ -31,9 +31,6 @@ namespace Infrastructure.Client.Layout
 		public static readonly Guid Doors = new Guid("{1944B6F5-779F-4fff-949E-A546AC3493EC}");
 		public static readonly Guid ConnectionIndicator = new Guid("{203F1AD9-212D-4B92-AE61-C4B340D52DD6}");
 
-		public static readonly Guid SKDDevices = new Guid("{41B13062-368D-40D7-B0C5-BCEE16429518}");
-		public static readonly Guid SKDZones = new Guid("{64FB191F-004A-4F52-A0D0-A739031EDBF5}");
-		public static readonly Guid SKDDoors = new Guid("{22DAD869-E2BA-4dac-8B74-FF3C938946ED}");
 		public static readonly Guid SKDHR = new Guid("{CADC9059-9868-4B31-A072-992776677C57}");
 		public static readonly Guid SKDVerification = new Guid("{3223085C-F808-49DC-B215-45875DA67833}");
 		public static readonly Guid SKDDayIntervals = new Guid("{3BB6AB5A-4CD8-4D12-B46C-27E8F9DB8A51}");

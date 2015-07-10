@@ -54,7 +54,7 @@
 			<StackPanel Visibility="{Binding ., Converter={StaticResource NullToVisibilityConverter}}" Orientation="Horizontal">
 				<StackPanel Orientation="Vertical" Margin="5 0 0 0">
 					<StackPanel Orientation="Vertical">
-						<Label Content="Год"/>
+						<TextBlock Text="Год"/>
 						<ComboBox ItemsSource="{Binding Years}" SelectedItem="{Binding SelectedYear}" VerticalAlignment="Center" Margin="2">
 							<ComboBox.ItemTemplate>
 								<DataTemplate>
@@ -64,7 +64,7 @@
 						</ComboBox>
 					</StackPanel>
 					<StackPanel Orientation="Vertical">
-						<Label Content="Час"/>
+						<TextBlock Text="Час"/>
 						<ComboBox ItemsSource="{Binding Hours}" SelectedItem="{Binding SelectedHour}" VerticalAlignment="Center" Margin="2">
 							<ComboBox.ItemTemplate>
 								<DataTemplate>
@@ -76,7 +76,7 @@
 				</StackPanel>
 				<StackPanel Orientation="Vertical" Margin="5 0 0 0">
 					<StackPanel Orientation="Vertical">
-						<Label Content="Месяц"/>
+						<TextBlock Text="Месяц"/>
 						<ComboBox ItemsSource="{Binding Months}" SelectedItem="{Binding SelectedMonth}" VerticalAlignment="Center" Margin="2">
 							<ComboBox.ItemTemplate>
 								<DataTemplate>
@@ -86,7 +86,7 @@
 						</ComboBox>
 					</StackPanel>
 					<StackPanel Orientation="Vertical">
-						<Label Content="Минута"/>
+						<TextBlock Text="Минута"/>
 						<ComboBox ItemsSource="{Binding Minutes}" SelectedItem="{Binding SelectedMinute}" VerticalAlignment="Center" Margin="2">
 							<ComboBox.ItemTemplate>
 								<DataTemplate>
@@ -98,7 +98,7 @@
 				</StackPanel>
 				<StackPanel Orientation="Vertical" Margin="5 0 0 0">
 					<StackPanel Orientation="Vertical">
-						<Label Content="День"/>
+						<TextBlock Text="День"/>
 						<ComboBox ItemsSource="{Binding Days}" SelectedItem="{Binding SelectedDay}" VerticalAlignment="Center" Margin="2">
 							<ComboBox.ItemTemplate>
 								<DataTemplate>
@@ -108,7 +108,7 @@
 						</ComboBox>
 					</StackPanel>
 					<StackPanel Orientation="Vertical">
-						<Label Content="Секунда"/>
+						<TextBlock Text="Секунда"/>
 						<ComboBox ItemsSource="{Binding Seconds}" SelectedItem="{Binding SelectedSecond}" VerticalAlignment="Center" Margin="2">
 							<ComboBox.ItemTemplate>
 								<DataTemplate>
@@ -120,7 +120,7 @@
 				</StackPanel>
 				<StackPanel Orientation="Vertical" Margin="5 0 0 0">
 					<StackPanel Orientation="Vertical">
-						<Label Content="День недели"/>
+						<TextBlock Text="День недели"/>
 						<ComboBox ItemsSource="{Binding DaysOfWeek}" SelectedItem="{Binding SelectedDayOfWeek}" VerticalAlignment="Center" Margin="2">
 							<ComboBox.ItemTemplate>
 								<DataTemplate>
@@ -132,11 +132,11 @@
 				</StackPanel>
 				<StackPanel Orientation="Horizontal">
 					<StackPanel Orientation="Horizontal" Margin="5 0 0 0">
-						<Label Content="Задать период"/>
+						<TextBlock Text="Задать период"/>
 						<CheckBox IsChecked="{Binding IsPeriodSelected}" Margin="5" />
 					</StackPanel>
 					<StackPanel Orientation="Vertical">
-						<Label Content="Дней" IsEnabled="{Binding IsPeriodSelected}"/>
+						<TextBlock Text="Дней" IsEnabled="{Binding IsPeriodSelected}"/>
 						<ComboBox ItemsSource="{Binding PeriodDays}" SelectedItem="{Binding SelectedPeriodDay}" IsEnabled="{Binding IsPeriodSelected}" VerticalAlignment="Center" Margin="2">
 							<ComboBox.ItemTemplate>
 								<DataTemplate>
@@ -146,7 +146,7 @@
 						</ComboBox>
 					</StackPanel>
 					<StackPanel Orientation="Vertical">
-						<Label Content="Часов" IsEnabled="{Binding IsPeriodSelected}"/>
+						<TextBlock Text="Часов" IsEnabled="{Binding IsPeriodSelected}"/>
 						<ComboBox ItemsSource="{Binding PeriodHours}" SelectedItem="{Binding SelectedPeriodHour}" IsEnabled="{Binding IsPeriodSelected}" VerticalAlignment="Center" Margin="2">
 							<ComboBox.ItemTemplate>
 								<DataTemplate>
@@ -156,7 +156,7 @@
 						</ComboBox>
 					</StackPanel>
 					<StackPanel Orientation="Vertical">
-						<Label Content="Минут" IsEnabled="{Binding IsPeriodSelected}"/>
+						<TextBlock Text="Минут" IsEnabled="{Binding IsPeriodSelected}"/>
 						<ComboBox ItemsSource="{Binding PeriodMinutes}" SelectedItem="{Binding SelectedPeriodMinute}" IsEnabled="{Binding IsPeriodSelected}" VerticalAlignment="Center" Margin="2">
 							<ComboBox.ItemTemplate>
 								<DataTemplate>
@@ -166,7 +166,7 @@
 						</ComboBox>
 					</StackPanel>
 					<StackPanel Orientation="Vertical">
-						<Label Content="Секунд" IsEnabled="{Binding IsPeriodSelected}"/>
+						<TextBlock Text="Секунд" IsEnabled="{Binding IsPeriodSelected}"/>
 						<ComboBox ItemsSource="{Binding PeriodSeconds}" SelectedItem="{Binding SelectedPeriodSecond}" IsEnabled="{Binding IsPeriodSelected}" VerticalAlignment="Center" Margin="2">
 							<ComboBox.ItemTemplate>
 								<DataTemplate>

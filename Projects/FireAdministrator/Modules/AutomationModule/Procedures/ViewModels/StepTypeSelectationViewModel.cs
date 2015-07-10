@@ -134,14 +134,6 @@ namespace AutomationModule.ViewModels
 									new StepTypeViewModel(ProcedureStepType.ControlDelay),
 									new StepTypeViewModel(ProcedureStepType.ControlGKDoor)
 								}),
-							new StepTypeViewModel("Управление Страж", "/Controls;component/StepIcons/Control.png",
-								new List<StepTypeViewModel>
-								{
-									new StepTypeViewModel(ProcedureStepType.ControlSKDDevice),
-									new StepTypeViewModel(ProcedureStepType.ControlSKDZone),
-									new StepTypeViewModel(ProcedureStepType.ControlDoor),
-									
-								}),
 							new StepTypeViewModel("Управление Видео", "/Controls;component/StepIcons/Control.png",
 								new List<StepTypeViewModel>
 								{

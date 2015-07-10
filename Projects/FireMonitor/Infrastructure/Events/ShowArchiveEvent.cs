@@ -20,8 +20,5 @@ namespace Infrastructure.Events
 		public GKGuardZone GKGuardZone { get; set; }
 		public GKSKDZone GKSKDZone { get; set; }
 		public GKDoor GKDoor { get; set; }
-		public SKDDevice SKDDevice { get; set; }
-		public SKDZone SKDZone { get; set; }
-		public SKDDoor SKDDoor { get; set; }
 	}
 }

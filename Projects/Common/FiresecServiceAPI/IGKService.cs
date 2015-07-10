@@ -20,7 +20,7 @@ namespace FiresecAPI
 		OperationResult<GKDeviceConfiguration> GKReadConfiguration(Guid deviceUID);
 
 		[OperationContract]
-		Stream GKReadConfigurationFromGKFile(Guid deviceUID);
+		OperationResult<bool> GKReadConfigurationFromGKFile(Guid deviceUID);
 
 		[OperationContract]
 		OperationResult<GKDevice> GKAutoSearch(Guid deviceUID);
@@ -56,7 +56,7 @@ namespace FiresecAPI
 		OperationResult<bool> GKSetSchedule(GKSchedule schedule);
 
 		[OperationContract]
-		OperationResult<List<GKUser>> GKGetUsers(Guid gkDeviceUID);
+		OperationResult<bool> GKGetUsers(Guid gkDeviceUID);
 
 		[OperationContract]
 		OperationResult<bool> GKRewriteUsers(Guid gkDeviceUID);

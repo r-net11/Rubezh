@@ -109,10 +109,7 @@ namespace JournalModule.ViewModels
 
 			var gkViewModel = new FilterNameViewModel(JournalSubsystemType.GK);
 			gkViewModel.IsExpanded = true;
-			if (!GlobalSettingsHelper.GlobalSettings.UseStrazhBrand)
-			{
-				RootFilters.Add(gkViewModel);
-			}
+			RootFilters.Add(gkViewModel);
 
 			var skdViewModel = new FilterNameViewModel(JournalSubsystemType.SKD);
 			skdViewModel.IsExpanded = true;

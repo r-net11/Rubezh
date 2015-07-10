@@ -14,21 +14,21 @@ namespace GKProcessor
 	{
 		public string Error { get; private set; }
 
-		public string ReadConfigFileFromGK(GKDevice gkControllerDevice)
+		public OperationResult<string> ReadConfigFileFromGK(GKDevice gkControllerDevice, GKProgressCallback progressCallback)
 		{
-			var progressCallback = GKProcessorManager.StartProgress("Чтение конфигурационного файла из " + gkControllerDevice.PresentationName, "Проверка связи", 1, true, GKProgressClientType.Administrator);
+			progressCallback = GKProcessorManager.StartProgress("Чтение конфигурационного файла из " + gkControllerDevice.PresentationName, "Проверка связи", 1, true, GKProgressClientType.Administrator);
 			try
 			{
 				var gkFileInfo = ReadInfoBlock(gkControllerDevice);
 				if (Error != null)
-					return null;
+					return OperationResult<string>.FromError("Ошибка чтения информационного блока");
 				var allbytes = new List<byte>();
 				uint i = 2;
 				progressCallback = GKProcessorManager.StartProgress("Чтение конфигурационного файла из " + gkControllerDevice.PresentationName, "", (int)(gkFileInfo.FileSize / 256), true, GKProgressClientType.Administrator);
 				while (true)
 				{
 					if (progressCallback.IsCanceled)
-					{ Error = "Операция отменена"; return null; }
+						return OperationResult<string>.FromError("Операция отменена");
 					GKProcessorManager.DoProgress("Чтение блока данных " + i, progressCallback);
 					var data = new List<byte>(BitConverter.GetBytes(i++));
 					var sendResultBytesCount = 256;
@@ -41,15 +41,14 @@ namespace GKProcessor
 							break;
 						if (j == 9)
 						{
-							Error = "Невозможно прочитать блок данных " + i;
-							return null;
+							return OperationResult<string>.FromError("Невозможно прочитать блок данных " + i);
 						}
 					}
 					if (sendResultBytesCount < 256)
 						break;
 				}
 				if (allbytes.Count == 0)
-				{ Error = "Конфигурационный файл отсутствует"; return null; }
+					return OperationResult<string>.FromError("Конфигурационный файл отсутствует");
 
 				var folderName = AppDataFolderHelper.GetFolder("TempServer");
 				var configFileName = Path.Combine(folderName, "ConfigFromGK.fscp");
@@ -60,10 +59,13 @@ namespace GKProcessor
 				fileStream.Write(allbytes.ToArray(), 0, allbytes.Count);
 				fileStream.Close();
 
-				return configFileName;
+				return new OperationResult<string>(configFileName);
 			}
 			catch (Exception e)
-			{ Logger.Error(e, "GKDescriptorsWriter.WriteConfig"); Error = "Непредвиденная ошибка"; return null; }
+			{
+				Logger.Error(e, "GKDescriptorsWriter.WriteConfig");
+				return OperationResult<string>.FromError("Непредвиденная ошибка"); 
+			}
 			finally
 			{
 				if (progressCallback != null)

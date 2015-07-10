@@ -17,16 +17,16 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
-				<TextBlock Grid.Row="0" Grid.Column="0" Text="Действие для постановки на охрану" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorLight}" Margin="2" />
+				<TextBlock Grid.Row="0" Grid.Column="0" Text="Действие для постановки на охрану" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColor_0}" Margin="2" />
 				<Views:CodeReaderSettingsView Grid.Row="0" Grid.Column="1" DataContext="{Binding SetGuardSettingsViewModel}" />
 
-				<TextBlock Grid.Row="1" Grid.Column="0" Text="Действие для снятия с охраны" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorLight}" Margin="2" />
+				<TextBlock Grid.Row="1" Grid.Column="0" Text="Действие для снятия с охраны" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColor_0}" Margin="2" />
 				<Views:CodeReaderSettingsView Grid.Row="1" Grid.Column="1" DataContext="{Binding ResetGuardSettingsViewModel}" />
 
-				<TextBlock Grid.Row="2" Grid.Column="0" Text="Действие для изменения снятия/постановки" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorLight}" Margin="2" />
+				<TextBlock Grid.Row="2" Grid.Column="0" Text="Действие для изменения снятия/постановки" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColor_0}" Margin="2" />
 				<Views:CodeReaderSettingsView Grid.Row="2" Grid.Column="1" DataContext="{Binding ChangeGuardSettingsViewModel}" />
 
-				<TextBlock Grid.Row="3" Grid.Column="0" Text="Действие для вызова тревоги" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorLight}" Margin="2" />
+				<TextBlock Grid.Row="3" Grid.Column="0" Text="Действие для вызова тревоги" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColor_0}" Margin="2" />
 				<Views:CodeReaderSettingsView Grid.Row="3" Grid.Column="1" DataContext="{Binding AlarmSettingsViewModel}" />
 			</Grid>
 		</TabItem>

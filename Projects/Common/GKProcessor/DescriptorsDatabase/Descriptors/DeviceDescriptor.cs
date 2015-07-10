@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.GK;
+using FiresecClient;
 
 namespace GKProcessor
 {
@@ -14,7 +15,9 @@ namespace GKProcessor
 		{
 			DescriptorType = DescriptorType.Device;
 			Device = device;
-			CreateFormula();
+
+			if (!CreateMPTLogic())
+				CreateFormula();
 		}
 
 		public override void Build()
@@ -218,6 +221,64 @@ namespace GKProcessor
 				Parameters.AddRange(BitConverter.GetBytes(binProperty.Value));
 				Parameters.Add(0);
 			}
+		}
+
+		public bool CreateMPTLogic()
+		{
+			var deviceMpts = GKManager.MPTs.FindAll(x => x.MPTDevices.Exists(y => y.Device == Device));
+			foreach (var deviceMpt in deviceMpts)
+			{
+				var mptDevice = deviceMpt.MPTDevices.FirstOrDefault(x => x.Device == Device);
+				if (mptDevice == null)
+					return false;
+				if (mptDevice.MPTDeviceType == GKMPTDeviceType.AutomaticOffBoard)
+				{
+					CreateAutomaticOffBoards(deviceMpt);
+					return true;
+				}
+				if (mptDevice.MPTDeviceType == GKMPTDeviceType.DoNotEnterBoard || mptDevice.MPTDeviceType == GKMPTDeviceType.ExitBoard || mptDevice.MPTDeviceType == GKMPTDeviceType.Speaker)
+				{ 
+					CreateOnDevices(deviceMpt);
+					return true;
+				}
+				if (mptDevice.MPTDeviceType == GKMPTDeviceType.Bomb)
+				{
+					CreateBombDevices(deviceMpt);
+					return true;
+				}
+			}
+			return false;
+		}
+
+		void CreateAutomaticOffBoards(GKMPT mpt)
+		{
+			Formula = new FormulaBuilder();
+			Formula.AddGetBit(GKStateBit.Norm, mpt, DatabaseType);
+			Formula.Add(FormulaOperationType.DUP);
+			Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device, DatabaseType);
+			Formula.Add(FormulaOperationType.COM);
+			Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device, DatabaseType);
+			Formula.Add(FormulaOperationType.END);
+		}
+
+		void CreateOnDevices(GKMPT mpt)
+		{
+			Formula = new FormulaBuilder();
+			Formula.AddGetBit(GKStateBit.TurningOn, mpt, DatabaseType);
+			Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device, DatabaseType);
+			Formula.AddGetBit(GKStateBit.Off, mpt, DatabaseType);
+			Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device, DatabaseType);
+			Formula.Add(FormulaOperationType.END);
+		}
+
+		void CreateBombDevices(GKMPT mpt)
+		{
+			Formula = new FormulaBuilder();
+			Formula.AddGetBit(GKStateBit.On, mpt, DatabaseType);
+			Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device, DatabaseType);
+			Formula.AddGetBit(GKStateBit.Off, mpt, DatabaseType);
+			Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device, DatabaseType);
+			Formula.Add(FormulaOperationType.END);
 		}
 	}
 }

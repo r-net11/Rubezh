@@ -7,8 +7,7 @@
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <DataGrid Grid.Row="0" ItemsSource="{Binding Directions}" SelectedItem="{Binding SelectedDirection}" SelectionChanged="OnSelectionChanged" CanUserSortColumns="True"
-					  SelectionMode="Extended" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Standard">
+				<DataGrid Grid.Row="0" ItemsSource="{Binding Directions}" SelectedItem="{Binding SelectedDirection}" SelectionChanged="OnSelectionChanged" CanUserSortColumns="True" SelectionMode="Extended" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Standard" UIBehavior.ShowSelectionMark="True">
                     <DataGrid.Resources>
                         <InputBindingCollection x:Key="inputCollection" x:Shared="False">
                             <MouseBinding Command="{Binding DataContext.SaveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick"/>

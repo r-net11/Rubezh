@@ -16,13 +16,15 @@ namespace FiresecService.ViewModels
 	{
 		public static MainViewModel Current { get; private set; }
 		Dispatcher _dispatcher;
+		public ServerTasksViewModel ServerTasksViewModel { get; private set; }
 
 		public MainViewModel()
 		{
 			Current = this;
-			Title = GlobalSettingsHelper.GlobalSettings.UseStrazhBrand ? "Сервер приложений" : "Сервер приложений Глобал";
+			Title = "Сервер приложений Глобал";
 			_dispatcher = Dispatcher.CurrentDispatcher;
 			Clients = new ObservableCollection<ClientViewModel>();
+			ServerTasksViewModel = new ViewModels.ServerTasksViewModel();
 			MessageBoxService.SetMessageBoxHandler(MessageBoxHandler);
 
             _initialKey = InitialKey.Generate();

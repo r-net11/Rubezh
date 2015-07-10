@@ -4,7 +4,7 @@
 			<DrawingBrush.Drawing>
 				<DrawingGroup>
 					<DrawingGroup.Children>
-						<GeometryDrawing Brush="{DynamicResource ButtonBackgroundColor}" Geometry="F1 M 185.056,-86.5898L 172.309,-99.3365L 185.056,-112.083L 176.469,-120.67L 163.723,-107.923L 150.976,-120.67L 142.389,-112.083L 155.136,-99.3365L 142.389,-86.5898L 150.975,-78.0032L 163.723,-90.7485L 176.469,-78.0032L 185.056,-86.5898 Z "/>
+						<GeometryDrawing Brush="{DynamicResource ButtonBackground_2}" Geometry="F1 M 185.056,-86.5898L 172.309,-99.3365L 185.056,-112.083L 176.469,-120.67L 163.723,-107.923L 150.976,-120.67L 142.389,-112.083L 155.136,-99.3365L 142.389,-86.5898L 150.975,-78.0032L 163.723,-90.7485L 176.469,-78.0032L 185.056,-86.5898 Z "/>
 					</DrawingGroup.Children>
 				</DrawingGroup>
 			</DrawingBrush.Drawing>
@@ -18,7 +18,7 @@
 				<ColumnDefinition Width="Auto" />
 			</Grid.ColumnDefinitions>
 
-			<TextBlock Grid.Column="0" Margin="10, 0, 0, 0" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Foreground="{DynamicResource ForegroundColorLight}" Text="{Binding Content.Title}" />
+			<TextBlock Grid.Column="0" Margin="10, 0, 0, 0" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Foreground="{DynamicResource ForegroundColor_0}" Text="{Binding Content.Title}" />
 			<ContentPresenter Grid.Column="1" Content="{Binding Content.HeaderCommandViewModel}" />
 			<Button Grid.Column="2" Margin="0, 0, 10, 0" Click="OnCloseButton" Focusable="False" Style="{StaticResource ToolBarButtonStyle}" Visibility="{Binding Content.AllowClose, Converter={StaticResource BoolToVisibilityConverter}}">
 				<Grid Height="16" Width="16" Background="{StaticResource Close}" />

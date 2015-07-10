@@ -178,14 +178,6 @@
 								</WrapPanel>
 							</StackPanel>
 
-							<StackPanel Orientation="Horizontal" Margin="2" Visibility="{Binding Device.DriverType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDriverType.RSR2_KAU_Shleif}}" >
-								<TextBlock>
-									<Hyperlink Command="{Binding ShowPlotCommand}" Style="{StaticResource HyperlinkStyle2}">
-										<TextBlock Text="Показать график токопотребления" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" FontWeight="Bold"/>
-									</Hyperlink>
-								</TextBlock>
-							</StackPanel>
-
 							<ItemsControl ItemsSource="{Binding PlanNames}" Margin="2" >
 								<ItemsControl.ItemTemplate>
 									<DataTemplate>

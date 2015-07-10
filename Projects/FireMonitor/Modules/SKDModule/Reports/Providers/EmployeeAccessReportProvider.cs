@@ -31,7 +31,7 @@ namespace SKDModule.Reports.Providers
 				},
 				Pages = new List<FilterContainerViewModel>()
 				{
-					new PassCardTypePageViewModel() { IsActive = GlobalSettingsHelper.GlobalSettings.UseStrazhBrand },
+					new PassCardTypePageViewModel() { IsActive = false },
 					new ZonePageViewModel(),
 					new OrganizationPageViewModel(true),
 					new DepartmentPageViewModel(),

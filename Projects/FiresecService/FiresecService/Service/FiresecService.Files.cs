@@ -4,6 +4,8 @@ using Common;
 using FiresecAPI.Journal;
 using Infrastructure.Common;
 using Ionic.Zip;
+using System.Threading;
+using System;
 
 namespace FiresecService.Service
 {
@@ -19,27 +21,47 @@ namespace FiresecService.Service
 			return HashHelper.GetDirectoryHash(AppDataFolderHelper.GetServerAppDataPath(directory));
 		}
 
-		public Stream GetFile(string fileName)
+		public Stream GetServerAppDataFile(string dirAndFileName)
 		{
-			return new FileStream(AppDataFolderHelper.GetServerAppDataPath(fileName), FileMode.Open, FileAccess.Read);
+			try
+			{
+				var filePath = AppDataFolderHelper.GetServerAppDataPath(dirAndFileName);
+				if (File.Exists(filePath))
+					return new FileStream(filePath, FileMode.Open, FileAccess.Read);
+			}
+			catch { }
+			return Stream.Null;
+		}
+
+		public Stream GetServerFile(string filePath)
+		{
+			try
+			{
+				if (File.Exists(filePath))
+					return new FileStream(filePath, FileMode.Open, FileAccess.Read);
+			}
+			catch { }
+			return Stream.Null;
 		}
 
 		public Stream GetConfig()
 		{
-			var filePath = AppDataFolderHelper.GetServerAppDataPath("Config.fscp");
-			return new FileStream(filePath, FileMode.Open, FileAccess.Read);
+			var configFilePath = AppDataFolderHelper.GetServerAppDataPath("Config.fscp");
+			if (!File.Exists(configFilePath))
+			{
+				CreateZipConfigFromFiles();
+			}
+			return new FileStream(configFilePath, FileMode.Open, FileAccess.Read);
 		}
 
 		public void SetLocalConfig()
 		{
 			var configFileName = AppDataFolderHelper.GetServerAppDataPath("Config.fscp");
-			var configDirectory = AppDataFolderHelper.GetServerAppDataPath("Config");
-
-			CreateZipConfigFromFiles(configFileName, configDirectory);
+			CreateZipConfigFromFiles();
 			RestartWithNewConfig();
 		}
 
-		public void SetConfig(Stream stream)
+		public void SetRemoteConfig(Stream stream)
 		{
 			var newConfigFileName = AppDataFolderHelper.GetServerAppDataPath("NewConfig.fscp");
 			var newConfigDirectory = AppDataFolderHelper.GetServerAppDataPath("NewConfig");
@@ -77,7 +99,7 @@ namespace FiresecService.Service
 			}
 			Directory.Delete(newConfigDirectory, true);
 
-			CreateZipConfigFromFiles(configFileName, configDirectory);
+			CreateZipConfigFromFiles();
 			RestartWithNewConfig();
 		}
 
@@ -95,14 +117,21 @@ namespace FiresecService.Service
 		void RestartWithNewConfig()
 		{
 			AddJournalMessage(JournalEventNameType.Применение_конфигурации, null);
+			ServerState = FiresecAPI.ServerState.Restarting;
 			ConfigurationCashHelper.Update();
 			GKProcessor.SetNewConfig();
 			ScheduleRunner.SetNewConfig();
 			ProcedureRunner.SetNewConfig();
+			ServerTaskRunner.SetNewConfig();
+			ServerState = FiresecAPI.ServerState.Ready;
+			NotifyConfigurationChanged();
 		}
 
-		static void CreateZipConfigFromFiles(string configFileName, string configDirectory)
+		static void CreateZipConfigFromFiles()
 		{
+			var configFileName = AppDataFolderHelper.GetServerAppDataPath("Config.fscp");
+			var configDirectory = AppDataFolderHelper.GetServerAppDataPath("Config");
+
 			if (File.Exists(configFileName))
 				File.Delete(configFileName);
 

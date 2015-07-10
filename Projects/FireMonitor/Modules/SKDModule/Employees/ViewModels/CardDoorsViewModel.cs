@@ -35,11 +35,6 @@ namespace SKDModule.ViewModels
 				select new { CardDoor = cardDoor, GKDoor = gkDoor};
 			foreach (var doorViewModel in gkDoors.Select(x => new ReadOnlyAccessDoorViewModel(x.GKDoor, x.CardDoor, schedules)))
 				Doors.Add(doorViewModel);
-			var skdDoors = from cardDoor in CardDoors
-				join skdDoor in SKDManager.SKDConfiguration.Doors on cardDoor.DoorUID equals skdDoor.UID
-				select new { CardDoor = cardDoor, SKDDoor = skdDoor };
-			foreach (var doorViewModel in skdDoors.Select(x => new ReadOnlyAccessDoorViewModel(x.SKDDoor, x.CardDoor)))
-				Doors.Add(doorViewModel);
 		}
 
 		ObservableCollection<ReadOnlyAccessDoorViewModel> _doors;

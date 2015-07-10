@@ -35,17 +35,17 @@
 
 				<StackPanel Orientation="Vertical" Grid.Column="2" Grid.Row="0" HorizontalAlignment="Stretch" Visibility="{Binding IsRealType, Converter={StaticResource BoolToVisibilityConverter}}">
 					<StackPanel Orientation="Horizontal" Margin="2" HorizontalAlignment="Right" Height="28">
-						<Label Content="Имя" />
+						<TextBlock Text="Имя" />
 						<TextBox Text= "{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="2" Width="200"/>
 					</StackPanel>
 
 					<StackPanel Orientation="Horizontal" Margin="2" HorizontalAlignment="Right" Height="28">
-						<Label Content="Список" HorizontalAlignment="Left" />
+						<TextBlock Text="Список" HorizontalAlignment="Left" />
 						<CheckBox Width="202" IsChecked="{Binding IsList}" IsEnabled="{Binding IsEditMode, Converter={StaticResource InverseBooleanConverter}}" HorizontalAlignment="Right" Margin="2, 7, 0, 0" />
 					</StackPanel>
 
 					<StackPanel Orientation="Horizontal" Margin="2" HorizontalAlignment="Right" Height="28">
-						<Label Content="Ссылка" HorizontalAlignment="Left" />
+						<TextBlock Text="Ссылка" HorizontalAlignment="Left" />
 						<CheckBox Width="202" IsChecked="{Binding IsReference}" HorizontalAlignment="Right" Margin="2, 7, 0, 0" />
 					</StackPanel>
 				</StackPanel>

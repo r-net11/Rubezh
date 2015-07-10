@@ -775,26 +775,7 @@ namespace FiresecAPI.Journal
 		[EventDescriptionAttribute("Восстановление", JournalEventNameType.Редактирование_сотрудника, JournalEventNameType.Редактирование_отдела, JournalEventNameType.Редактирование_должности, JournalEventNameType.Редактирование_шаблона_доступа, JournalEventNameType.Редактирование_организации, JournalEventNameType.Редактирование_дополнительной_колонки, JournalEventNameType.Редактирование_дневного_графика, JournalEventNameType.Редактирование_графика_работы, JournalEventNameType.Редактирование_графика_работы, JournalEventNameType.Редактирование_графика_работы_сотрудника, JournalEventNameType.Редактирование_праздничного_дня)]
         Восстановление = 254,
 
-		[EventDescriptionAttribute("Метод открытия Неизвестно", JournalEventNameType.Проход_разрешен, JournalEventNameType.Проход_запрещен)]
-        Метод_открытия_Неизвестно = 255,
-
-		[EventDescriptionAttribute("Метод открытия Пароль", JournalEventNameType.Проход_разрешен, JournalEventNameType.Проход_запрещен)]
-        Метод_открытия_Пароль = 256,
-
-		[EventDescriptionAttribute("Метод открытия Карта", JournalEventNameType.Проход_разрешен, JournalEventNameType.Проход_запрещен)]
-        Метод_открытия_Карта = 257,
-
-		[EventDescriptionAttribute("Метод открытия Сначала карта", JournalEventNameType.Проход_разрешен, JournalEventNameType.Проход_запрещен)]
-        Метод_открытия_Сначала_карта = 258,
-
-		[EventDescriptionAttribute("Метод открытия Сначала пароль", JournalEventNameType.Проход_разрешен, JournalEventNameType.Проход_запрещен)]
-        Метод_открытия_Сначала_пароль = 259,
-
-		[EventDescriptionAttribute("Метод открытия Удаленно", JournalEventNameType.Проход_разрешен, JournalEventNameType.Проход_запрещен)]
-        Метод_открытия_Удаленно = 260,
-
-		[EventDescriptionAttribute("Метод открытия Кнопка", JournalEventNameType.Проход_разрешен, JournalEventNameType.Проход_запрещен)]
-        Метод_открытия_Кнопка = 261,
+		//--------------------------------
 
 		[EventDescriptionAttribute("Остановлено", JournalEventNameType.Информация)]
         Остановлено = 262,

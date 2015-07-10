@@ -19,6 +19,11 @@ using Infrastructure.Common.Validation;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
+using Infrastructure.Common.Services;
+using System.IO;
+using Ionic.Zip;
+using System.Text;
+using FiresecAPI.GK;
 
 namespace GKModule
 {
@@ -244,6 +249,129 @@ namespace GKModule
 			GKDriversCreator.Create();
 			GKManager.UpdateConfiguration();
 			return true;
+		}
+
+		public override void AfterInitialize()
+		{
+			SafeFiresecService.CallbackOperationResultEvent -= new Action<CallbackOperationResult>(OnCallbackOperationResult);
+			SafeFiresecService.CallbackOperationResultEvent += new Action<CallbackOperationResult>(OnCallbackOperationResult);
+		}
+
+		void OnCallbackOperationResult(CallbackOperationResult callbackOperationResult)
+		{
+			if (callbackOperationResult != null)
+			{
+				ApplicationService.Invoke(() =>
+				{
+					LoadingService.Close();
+
+					if (callbackOperationResult.CallbackOperationResultType == CallbackOperationResultType.GetAllUsers)
+					{
+						if (!callbackOperationResult.HasError)
+						{
+							GKUsersViewModel gkUsersViewModel = null;
+							WaitHelper.Execute(() =>
+							{
+								gkUsersViewModel = new GKUsersViewModel(callbackOperationResult.Users);
+							});
+							//LoadingService.Close();
+							DialogService.ShowModalWindow(gkUsersViewModel);
+						}
+						else
+						{
+							//LoadingService.Close();
+							MessageBoxService.ShowWarning(callbackOperationResult.Error, "Ошибка при перезаписи пользователей");
+						}
+					}
+					if (callbackOperationResult.CallbackOperationResultType == CallbackOperationResultType.RewriteUsers)
+					{
+						if (!callbackOperationResult.HasError)
+						{
+							MessageBoxService.Show("Операция перезаписи пользователей завершилась успешно");
+						}
+						else
+						{
+							MessageBoxService.ShowWarning(callbackOperationResult.Error, "Ошибка при получении пользователей");
+						}
+					}
+					if (callbackOperationResult.CallbackOperationResultType == CallbackOperationResultType.WriteConfiguration)
+					{
+						if (!callbackOperationResult.HasError)
+						{
+							MessageBoxService.Show("Операция записи конфигурации в прибор завершилась успешно");
+						}
+						else
+						{
+							MessageBoxService.ShowWarning(callbackOperationResult.Error, "Ошибка при записи конфигурации в прибор");
+						}
+					}
+					if (callbackOperationResult.CallbackOperationResultType == CallbackOperationResultType.ReadConfigurationFromGKFile)
+					{
+						if (!callbackOperationResult.HasError)
+						{
+							var stream = FiresecManager.FiresecService.GetServerFile(callbackOperationResult.FileName);
+
+							if (stream != Stream.Null)
+							{
+								var folderName = AppDataFolderHelper.GetLocalFolder("GKFile");
+								var configFileName = Path.Combine(folderName, "Config.fscp");
+								if (Directory.Exists(folderName))
+									Directory.Delete(folderName, true);
+								Directory.CreateDirectory(folderName);
+
+								var configFileStream = File.Create(configFileName);
+								FiresecManager.CopyStream(stream, configFileStream);
+								configFileStream.Close();
+
+								if (new FileInfo(configFileName).Length == 0)
+								{
+									MessageBoxService.ShowError("Ошибка при чтении конфигурации");
+									return;
+								}
+
+								var zipFile = ZipFile.Read(configFileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
+								var fileInfo = new FileInfo(configFileName);
+								var unzipFolderPath = fileInfo.Directory.FullName;
+								zipFile.ExtractAll(unzipFolderPath);
+								zipFile.Dispose();
+								var configurationFileName = Path.Combine(unzipFolderPath, "GKDeviceConfiguration.xml");
+								if (!File.Exists(configurationFileName))
+								{
+									MessageBoxService.ShowError("Ошибка при распаковке файла");
+									return;
+								}
+								var deviceConfiguration = ZipSerializeHelper.DeSerialize<GKDeviceConfiguration>(configurationFileName, true);
+
+								ConfigurationCompareViewModel configurationCompareViewModel = null;
+								WaitHelper.Execute(() =>
+								{
+									DescriptorsManager.Create();
+									deviceConfiguration.UpdateConfiguration();
+									deviceConfiguration.PrepareDescriptors();
+									configurationCompareViewModel = new ConfigurationCompareViewModel(GKManager.DeviceConfiguration, deviceConfiguration, DevicesViewModel.SelectedDevice.Device, true, configFileName);
+								});
+								//LoadingService.Close();
+								if (configurationCompareViewModel.Error != null)
+								{
+									MessageBoxService.ShowError(configurationCompareViewModel.Error, "Ошибка при чтении конфигурации");
+									return;
+								}
+								if (DialogService.ShowModalWindow(configurationCompareViewModel))
+									ServiceFactoryBase.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
+							}
+							else
+							{
+								//LoadingService.Close();
+								MessageBoxService.ShowWarning("Ошибка при чтении конфигурационного файла");
+							}
+						}
+						else
+						{
+							MessageBoxService.ShowWarning(callbackOperationResult.Error, "Ошибка при чтении конфигурации из прибора");
+						}
+					}
+				});
+			}
 		}
 
 		#region ILayoutDeclarationModule Members

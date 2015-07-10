@@ -36,7 +36,7 @@ namespace FiresecClient
 
 		static void DownloadFile(string sourcePath, string destinationPath)
 		{
-			using (var stream = FiresecManager.FiresecService.GetFile(sourcePath))
+			using (var stream = FiresecManager.FiresecService.GetServerAppDataFile(sourcePath))
 			using (var destinationStream = new FileStream(destinationPath, FileMode.Create, FileAccess.Write))
 			{
 				stream.CopyTo(destinationStream);

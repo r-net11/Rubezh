@@ -7,15 +7,15 @@
 	</UserControl.Resources>
 	<StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<Label Content="Камера" />
+			<TextBlock Text="Камера" />
 			<views:ArgumentView DataContext="{Binding CameraArgument}" />
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<Label Content="Идентификатор" />
+			<TextBlock Text="Идентификатор" />
 			<views:ArgumentView DataContext="{Binding EventUIDArgument}" />
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<Label Content="Длительность" />
+			<TextBlock Text="Длительность" />
 			<views:ArgumentView DataContext="{Binding TimeoutArgument}" />
 		</StackPanel>
 	</StackPanel>

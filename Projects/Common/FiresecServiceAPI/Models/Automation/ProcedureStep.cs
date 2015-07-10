@@ -27,10 +27,7 @@ namespace FiresecAPI.Automation
 			ControlGKDeviceArguments = new ControlGKDeviceArguments();
 			ControlGKFireZoneArguments = new ControlGKFireZoneArguments();
 			ControlGKGuardZoneArguments = new ControlGKGuardZoneArguments();
-			ControlSKDZoneArguments = new ControlSKDZoneArguments();
 			ControlDirectionArguments = new ControlDirectionArguments();
-			ControlDoorArguments = new ControlDoorArguments();
-			ControlSKDDeviceArguments = new ControlSKDDeviceArguments();
 			JournalArguments = new JournalArguments();
 			GetObjectPropertyArguments = new GetObjectPropertyArguments();
 			SendEmailArguments = new SendEmailArguments();
@@ -129,16 +126,7 @@ namespace FiresecAPI.Automation
 		public ControlGKGuardZoneArguments ControlGKGuardZoneArguments { get; set; }
 
 		[DataMember]
-		public ControlSKDZoneArguments ControlSKDZoneArguments { get; set; }
-
-		[DataMember]
 		public ControlDirectionArguments ControlDirectionArguments { get; set; }
-
-		[DataMember]
-		public ControlDoorArguments ControlDoorArguments { get; set; }
-
-		[DataMember]
-		public ControlSKDDeviceArguments ControlSKDDeviceArguments { get; set; }
 
 		[DataMember]
 		public ControlDelayArguments ControlDelayArguments { get; set; }

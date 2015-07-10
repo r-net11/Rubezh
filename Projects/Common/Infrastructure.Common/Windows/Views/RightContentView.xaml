@@ -3,7 +3,7 @@
 		<converters:PanelTooltipConverter x:Key="tooltipConverter" />
 	</UserControl.Resources>
 	<DockPanel>
-		<Border Background="{DynamicResource WindowBlacHeaderkBackgroundBrush}" DockPanel.Dock="Top">
+		<Border Background="{DynamicResource WindowHeaderBackground}" DockPanel.Dock="Top">
 			<DockPanel>
 				<Button Width="50" VerticalAlignment="Center" Command="{Binding Shell.MinimizeCommand}" ToolTip="{Binding Shell.LeftPanelVisible, Converter={StaticResource tooltipConverter}, ConverterParameter=False}" CommandParameter="{x:Static loc:MinimizeTarget.RightPanel}" Content="&gt;&gt;" DockPanel.Dock="Left" />
 				<ContentPresenter Content="{Binding Menu}" />

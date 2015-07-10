@@ -115,6 +115,7 @@ namespace SKDModule
 		public IEnumerable<ISKDReportProvider> GetSKDReportProviders()
 		{
 			yield return new EventsReportProvider();
+			if (false)
 			yield return new DoorsReportProvider();
 			yield return new EmployeeRootReportProvider();
 			yield return new CardsReportProvider();

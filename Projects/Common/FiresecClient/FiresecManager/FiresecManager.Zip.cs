@@ -45,12 +45,6 @@ namespace FiresecClient
 						case "GKDeviceLibraryConfiguration.xml":
 							GKManager.DeviceLibraryConfiguration = ZipSerializeHelper.DeSerialize<GKDeviceLibraryConfiguration>(configurationFileName, true);
 							break;
-						case "SKDConfiguration.xml":
-							SKDManager.SKDConfiguration = ZipSerializeHelper.DeSerialize<SKDConfiguration>(configurationFileName, true);
-							break;
-						case "SKDLibraryConfiguration.xml":
-							SKDManager.SKDLibraryConfiguration = ZipSerializeHelper.DeSerialize<SKDLibraryConfiguration>(configurationFileName, true);
-							break;
 						case "LayoutsConfiguration.xml":
 							LayoutsConfiguration = ZipSerializeHelper.DeSerialize<LayoutsConfiguration>(configurationFileName, false);
 							break;

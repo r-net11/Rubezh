@@ -13,7 +13,7 @@ namespace Infrastructure
 {
 	public class ServiceFactory : ServiceFactoryBase
 	{
-		private static StartupService _startupService;
+		static StartupService _startupService;
 		public static StartupService StartupService
 		{
 			get

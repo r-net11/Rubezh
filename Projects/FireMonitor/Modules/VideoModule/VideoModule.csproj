@@ -59,9 +59,6 @@
     </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Entities, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <HintPath>..\..\..\..\3rdParty\RVI_VSS\Entities.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Practices.Prism, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\3rdParty\PRISM\Desktop\Microsoft.Practices.Prism.dll</HintPath>
     </Reference>
@@ -99,7 +96,6 @@
     <Compile Include="ViewModels\CameraDetailsViewModel.cs" />
     <Compile Include="ViewModels\CameraViewModel.cs" />
     <Compile Include="ViewModels\CamerasViewModel.cs" />
-    <Compile Include="ViewModels\DeviceViewModel.cs" />
     <Compile Include="ViewModels\PropertyViewModel.cs" />
     <Compile Include="ViewModels\LayoutMultiCameraViewModel.cs" />
     <Compile Include="ViewModels\LayoutPartPropertyCameraPageViewModel.cs" />

@@ -33,10 +33,10 @@ namespace FiresecAPI
 		public GKPropertyChangedCallback GKPropertyChangedCallback { get; set; }
 
 		[DataMember]
-		public SKDStates SKDStates { get; set; }
+		public AutomationCallbackResult AutomationCallbackResult { get; set; }
 
 		[DataMember]
-		public AutomationCallbackResult AutomationCallbackResult { get; set; }
+		public CallbackOperationResult CallbackOperationResult { get; set; }
 	}
 
 	public enum CallbackResultType
@@ -44,13 +44,13 @@ namespace FiresecAPI
 		GKProgress,
 		GKObjectStateChanged,
 		GKPropertyChanged,
-		SKDObjectStateChanged,
 		NewEvents,
 		ArchiveCompleted,
 		AutomationCallbackResult,
 		ConfigurationChanged,
-		Disconnecting, 
-        QueryDb
+	        QueryDb
+		Disconnecting,
+		OperationResult
 	}
 
     [DataContract]

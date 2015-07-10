@@ -7,11 +7,11 @@
 	</UserControl.Resources>
 	<StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<Label Content="Список" />
+			<TextBlock Text="Список" />
 			<Views:ArgumentView DataContext="{Binding ListArgument}" />
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<Label Content="Размер" />
+			<TextBlock Text="Размер" />
 			<Views:ArgumentView DataContext="{Binding CountArgument}" />
 		</StackPanel>
 	</StackPanel>
