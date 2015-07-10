@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using FiresecAPI.GK;
 
 namespace GKProcessor
@@ -195,10 +197,10 @@ namespace GKProcessor
 			return bytes;
 		}
 
-		public bool CalculateStackLevels()
+		public int CalculateStackLevels(List<FormulaOperation> formulaOperations)
 		{
 			var stackDepth = 0;
-			foreach (var formulaOperation in FormulaOperations)
+			foreach (var formulaOperation in formulaOperations)
 			{
 				switch (formulaOperation.FormulaOperationType)
 				{
@@ -252,7 +254,25 @@ namespace GKProcessor
 				}
 				formulaOperation.StackLevel = stackDepth;
 			}
-			return stackDepth != 0;
+			return stackDepth;
+		}
+
+		public bool CalculateStackLevels()
+		{
+			var stackDepths = new List<int>();
+			var formulaOperations = new List<FormulaOperation>(FormulaOperations);
+			stackDepths.Add(CalculateStackLevels(formulaOperations));
+			foreach (var formulaOperation in FormulaOperations)
+			{
+				if (formulaOperation.FormulaOperationType == FormulaOperationType.BR)
+				{
+					formulaOperations.RemoveAll(x => (formulaOperations.IndexOf(x) - formulaOperations.IndexOf(formulaOperation) <= formulaOperation.SecondOperand) &&
+						(formulaOperations.IndexOf(x) - formulaOperations.IndexOf(formulaOperation) > 0));
+					stackDepths.Add(CalculateStackLevels(formulaOperations));
+				}
+			}
+
+			return stackDepths.Any(x => x != 0);
 		}
 	}
 }

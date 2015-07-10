@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
+using FiresecAPI.GK;
 using GKProcessor;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -108,41 +109,38 @@ namespace GKModule.ViewModels
 			foreach (var descriptorViewModel in Descriptors)
 			{
 				descriptorViewModel.InputDescriptors = new ObservableCollection<DescriptorViewModel>();
-				if (descriptorViewModel.Descriptor.GKBase.InputGKBases != null)
-				foreach (var inputBase in descriptorViewModel.Descriptor.GKBase.InputGKBases)
-				{
-					var inputDescriptor = SelectedDatabase.Descriptors.FirstOrDefault(x => x.GKBase.UID == inputBase.UID);
-					if (inputDescriptor != null)
-					{
-						var inputDescriptorViewModel = Descriptors.FirstOrDefault(x => x.Descriptor.GKBase.UID == inputDescriptor.GKBase.UID);
-						if (inputDescriptorViewModel != null)
-							descriptorViewModel.InputDescriptors.Add(inputDescriptorViewModel);
-						else
-							MessageBoxService.ShowError("Отсутствует ссылка на входную зависимость" + descriptorViewModel.Descriptor.GKBase.GKDescriptorNo + " " + descriptorViewModel.Descriptor.GKBase.PresentationName);
-					}
-				}
-			}
-
-			foreach (var descriptorViewModel in Descriptors)
-			{
 				descriptorViewModel.OutputDescriptors = new ObservableCollection<DescriptorViewModel>();
-				if (descriptorViewModel.Descriptor.GKBase.OutputGKBases != null)
-				foreach (var outputBase in descriptorViewModel.Descriptor.GKBase.OutputGKBases)
-				{
-					var outputDescriptor = SelectedDatabase.Descriptors.FirstOrDefault(x => x.GKBase.UID == outputBase.UID);
-					if (outputDescriptor != null)
-					{
-						var outputDescriptorViewModel = Descriptors.FirstOrDefault(x => x.Descriptor.GKBase.UID == outputDescriptor.GKBase.UID);
-						if (outputDescriptorViewModel != null)
-							descriptorViewModel.OutputDescriptors.Add(outputDescriptorViewModel);
-						else
-							MessageBoxService.ShowError("Отсутствует ссылка на выходную зависимость" + descriptorViewModel.Descriptor.GKBase.GKDescriptorNo + " " + descriptorViewModel.Descriptor.GKBase.PresentationName);
-					}
-				}
-			}
 
-			foreach (var descriptorViewModel in Descriptors)
-			{
+				if (descriptorViewModel.Descriptor.GKBase.InputGKBases != null)
+					foreach (var inputBase in descriptorViewModel.Descriptor.GKBase.InputGKBases)
+					{
+						var inputDescriptor = SelectedDatabase.Descriptors.FirstOrDefault(x => x.GKBase.UID == inputBase.UID);
+						if (inputDescriptor != null)
+						{
+							var inputDescriptorViewModel = Descriptors.FirstOrDefault(x => x.Descriptor.GKBase.UID == inputDescriptor.GKBase.UID);
+							if (inputDescriptorViewModel != null)
+								descriptorViewModel.InputDescriptors.Add(inputDescriptorViewModel);
+							else
+								MessageBoxService.ShowError("Отсутствует ссылка на входную зависимость " + descriptorViewModel.Descriptor.GKBase.GKDescriptorNo + " " + descriptorViewModel.Descriptor.GKBase.PresentationName);
+						}
+					}
+
+				if (descriptorViewModel.Descriptor.GKBase.OutputGKBases != null)
+					foreach (var outputBase in descriptorViewModel.Descriptor.GKBase.OutputGKBases)
+					{
+						var outputDescriptor = SelectedDatabase.Descriptors.FirstOrDefault(x => x.GKBase.UID == outputBase.UID);
+						if (outputDescriptor != null)
+						{
+							var outputDescriptorViewModel = Descriptors.FirstOrDefault(x => x.Descriptor.GKBase.UID == outputDescriptor.GKBase.UID);
+							if (outputDescriptorViewModel != null)
+								descriptorViewModel.OutputDescriptors.Add(outputDescriptorViewModel);
+							else
+								MessageBoxService.ShowError("Отсутствует ссылка на выходную зависимость " + descriptorViewModel.Descriptor.GKBase.GKDescriptorNo + " " + descriptorViewModel.Descriptor.GKBase.PresentationName);
+						}
+					}
+
+				if (!descriptorViewModel.Descriptor.Formula.FormulaOperations.Exists(x => x.FormulaOperationType == FormulaOperationType.END))
+					MessageBoxService.ShowError("Отсутствует окончание логического блока " + descriptorViewModel.Descriptor.GKBase.GKDescriptorNo + " " + descriptorViewModel.Descriptor.GKBase.PresentationName);
 				descriptorViewModel.InitializeLogic();
 			}
 		}
