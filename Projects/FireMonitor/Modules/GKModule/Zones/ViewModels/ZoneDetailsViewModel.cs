@@ -99,7 +99,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanSetIgnore()
 		{
-			return !State.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);
+			return !State.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_Zone_Control);
 		}
 
 		public RelayCommand ResetIgnoreCommand { get; private set; }
@@ -112,7 +112,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanResetIgnore()
 		{
-			return State.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);
+			return State.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_Zone_Control);
 		}
 
 		public RelayCommand ShowCommand { get; private set; }
@@ -133,7 +133,7 @@ namespace GKModule.ViewModels
 
 		public bool CanControl
 		{
-			get { return FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices); }
+			get { return FiresecManager.CheckPermission(PermissionType.Oper_Zone_Control); }
 		}
 
 		#region IWindowIdentity Members

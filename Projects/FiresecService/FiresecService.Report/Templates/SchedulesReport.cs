@@ -1,16 +1,7 @@
-﻿using System;
-using System.Drawing;
-using System.Collections;
-using System.ComponentModel;
-using DevExpress.XtraReports.UI;
-using FiresecService.Report.DataSources;
-using System.Data;
-using System.Linq;
-using SKDDriver;
+﻿using System.Data;
 using FiresecAPI;
-using FiresecAPI.SKD;
 using FiresecAPI.SKD.ReportFilters;
-using System.Collections.Generic;
+using FiresecService.Report.DataSources;
 
 namespace FiresecService.Report.Templates
 {

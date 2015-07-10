@@ -75,6 +75,7 @@
 							<Button Content="Включить" Command="{Binding TurnOnCommand}" Width="200" Height="50" Margin="2" />
 							<Button Content="Включить немедленно" Command="{Binding TurnOnNowCommand}" Width="200" Height="50" Margin="2" />
 							<Button Content="Выключить" Command="{Binding TurnOffCommand}" Width="200" Height="50" Margin="2" />
+							<Button Content="Останов пуска" Command="{Binding ForbidStartCommand}" Width="200" Height="50" Margin="2" />
 						</StackPanel>
 					</Grid>
 				</Grid>
@@ -93,7 +94,13 @@
 									</Hyperlink>
 								</TextBlock>
 							</WrapPanel>
-							<StackPanel Orientation="Horizontal">
+
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Номер дескриптора ГК:" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" FontWeight="Bold" />
+                                <TextBlock Text="{Binding Delay.GKDescriptorNo}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" FontWeight="Bold" />
+                            </StackPanel>
+                            
+                            <StackPanel Orientation="Horizontal">
 								<WrapPanel>
 									<TextBlock>
 										<Hyperlink Command="{Binding ShowJournalCommand}" Style="{StaticResource HyperlinkStyle2}">
@@ -104,7 +111,10 @@
 										</Hyperlink>
 									</TextBlock>
 								</WrapPanel>
-							</StackPanel>
+                            </StackPanel>
+                            
+                            
+                            
 							<StackPanel Orientation="Horizontal" Margin="2">
 								<TextBlock Text="Задержка: " />
 								<TextBlock Text="{Binding Delay.DelayTime}" />

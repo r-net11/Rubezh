@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
-using Common;
+using System.Linq;
 using FiresecAPI.GK;
 using FiresecClient;
 
@@ -41,7 +40,8 @@ namespace GKProcessor
 			if (MPT.MptLogic.StopClausesGroup.GetObjects().Count > 0)
 			{
 				Formula.AddClauseFormula(MPT.MptLogic.StopClausesGroup, DatabaseType);
-				Formula.Add(FormulaOperationType.DUP);
+				if (MPT.MptLogic.OnClausesGroup.GetObjects().Count > 0)
+					Formula.Add(FormulaOperationType.DUP);
 				Formula.AddPutBit(GKStateBit.Stop_InManual, MPT, DatabaseType);
 			}
 
@@ -135,8 +135,25 @@ namespace GKProcessor
 				Formula.AddPutBit(stateBit, MPT, DatabaseType);
 		}
 
+		GKStateBit CodeReaderEnterTypeToStateBit(GKCodeReaderEnterType codeReaderEnterType)
+		{
+			switch (codeReaderEnterType)
+			{
+				case GKCodeReaderEnterType.CodeOnly:
+					return GKStateBit.Attention;
+
+				case GKCodeReaderEnterType.CodeAndOne:
+					return GKStateBit.Fire1;
+
+				case GKCodeReaderEnterType.CodeAndTwo:
+					return GKStateBit.Fire2;
+			}
+			return GKStateBit.Fire1;
+		}
+
 		void SetPropertiesBytes()
 		{
+			Parameters = new List<byte>();
 			var binProperties = new List<BinProperty>();
 			binProperties.Add(new BinProperty()
 			{

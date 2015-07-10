@@ -7,5 +7,6 @@
 		<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="Add" />
 		<ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать" ImageSource="Edit" />
 		<ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить" ImageSource="Delete" />
+        <ToolBarButton Command="{Binding CheckTagsCommand}" ToolTip="Изменить параметры контроля" ImageSource="Settings2" />        
 	</StackPanel>
 </UserControl>

@@ -2,8 +2,8 @@
 using System.Linq;
 using FiresecAPI;
 using FiresecAPI.GK;
-using FiresecClient;
 using FiresecAPI.Journal;
+using FiresecClient;
 
 namespace GKProcessor
 {

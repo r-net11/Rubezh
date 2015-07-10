@@ -5,6 +5,7 @@ using System.Linq;
 using FiresecAPI.Journal;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common;
+using System.Reflection;
 
 namespace JournalModule.ViewModels
 {
@@ -27,12 +28,23 @@ namespace JournalModule.ViewModels
 					filterNameViewModel.IsChecked = true;
 				}
 			}
+            foreach (var journalEventDescriptionType in filter.JournalEventDescriptionTypes)
+            {
+                var filterNameViewModel = AllFilters.FirstOrDefault(x => x.JournalEventDescriptionType == journalEventDescriptionType);
+                if (filterNameViewModel != null)
+                {
+                    filterNameViewModel.IsChecked = true;
+                    filterNameViewModel.Parent.IsExpanded = true;
+
+                }
+            }
 			foreach (var journalSubsystemTypes in filter.JournalSubsystemTypes)
 			{
-				var filterNameViewModel = RootFilters.FirstOrDefault(x => x.IsSubsystem && x.JournalSubsystemType == journalSubsystemTypes);
+				var filterNameViewModel = RootFilters.FirstOrDefault(x => x.JournalSubsystemType == journalSubsystemTypes);
 				if (filterNameViewModel != null)
 				{
 					filterNameViewModel.IsChecked = true;
+				    
 				}
 			}
 		}
@@ -50,11 +62,22 @@ namespace JournalModule.ViewModels
 				{
 					foreach (var filterViewModel in rootFilter.Children)
 					{
-						if (filterViewModel.IsChecked)
-						{
-							filter.JournalEventNameTypes.Add(filterViewModel.JournalEventNameType);
-						}
+					    if (filterViewModel.IsChecked)
+					    {
+					        filter.JournalEventNameTypes.Add(filterViewModel.JournalEventNameType);
+					    }
+					    else
+					    {
+                            foreach (var descriptionViewModel in filterViewModel.Children)
+                            {
+                                if (descriptionViewModel.IsChecked)
+                                {
+                                    filter.JournalEventDescriptionTypes.Add(descriptionViewModel.JournalEventDescriptionType);
+                                }
+                            }
+					    }
 					}
+                   
 				}
 			}
 			return filter;
@@ -121,11 +144,34 @@ namespace JournalModule.ViewModels
 						skdViewModel.AddChild(filterNameViewModel);
 						break;
 
-					case JournalSubsystemType.Video:
-						videoViewModel.AddChild(filterNameViewModel);
-						break;
+                    //case JournalSubsystemType.Video:
+                    //    videoViewModel.AddChild(filterNameViewModel);
+                    //    break;
 				}
 			}
+
+            foreach (JournalEventDescriptionType journalEventDescriptionType in Enum.GetValues(typeof(JournalEventDescriptionType)))
+            {
+                FieldInfo fieldInfo = journalEventDescriptionType.GetType().GetField(journalEventDescriptionType.ToString());
+                if (fieldInfo != null)
+                {
+                    EventDescriptionAttribute[] eventDescriptionAttributes = (EventDescriptionAttribute[])fieldInfo.GetCustomAttributes(typeof(EventDescriptionAttribute), false);
+                    if (eventDescriptionAttributes.Length > 0)
+                    {
+                        EventDescriptionAttribute eventDescriptionAttribute = eventDescriptionAttributes[0];
+                        foreach (var journalEventNameType in eventDescriptionAttribute.JournalEventNameTypes)
+                        {
+                            var eventViewModel = AllFilters.FirstOrDefault(x => x.JournalEventNameType == journalEventNameType);
+                            if (eventViewModel != null)
+                            {
+                                var descriptionViewModel = new FilterNameViewModel(journalEventDescriptionType, eventDescriptionAttribute.Name);
+                                eventViewModel.AddChild(descriptionViewModel);
+                                AllFilters.Add(descriptionViewModel);
+                            }
+                        }
+                    }
+                }
+            }
 		}
 	}
 }

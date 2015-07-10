@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
 using FiresecAPI;
 using FiresecAPI.GK;
-using FiresecClient;
 using FiresecAPI.Journal;
-using System.IO;
+using FiresecClient;
 
 namespace GKProcessor
 {
@@ -177,7 +176,7 @@ namespace GKProcessor
 		{
 			AddGKMessage(JournalEventNameType.Запись_конфигурации_в_прибор, JournalEventDescriptionType.NULL, "", device, userName);
 
-			Stop();			
+			Stop();
 			var gkDescriptorsWriter = new GkDescriptorsWriter();
 			gkDescriptorsWriter.WriteConfig(device);
 			Start();
@@ -406,7 +405,7 @@ namespace GKProcessor
 
 		public static void GKResetFire2(GKZone zone, string userName)
 		{
-			Watcher.SendControlCommand(zone, 0x03, "Сброс Пожар-1");
+			Watcher.SendControlCommand(zone, 0x03, "Сброс Пожар-2");
 			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Сброс, "", zone, userName);
 		}
 

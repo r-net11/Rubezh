@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
+using System.Xml.Serialization;
 using Common;
 using FiresecAPI;
-using FiresecAPI.Automation;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecAPI.SKD;
@@ -12,7 +10,6 @@ using FiresecClient;
 using GKProcessor;
 using Infrastructure.Common;
 using Ionic.Zip;
-using System.Xml.Serialization;
 
 namespace FiresecService
 {

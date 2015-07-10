@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using System.Windows.Media;
 using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using FiresecAPI.Models;
-using System.Windows.Media;
 
 namespace FiresecAPI.Automation
 {

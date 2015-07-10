@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AutomationModule.ViewModels
 {
-	class ConfigClass
+    public class ConfigClass
 	{
 		public bool LoadApplicationConfiguration()
 		{

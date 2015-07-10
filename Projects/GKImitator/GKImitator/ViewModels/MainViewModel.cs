@@ -11,7 +11,7 @@ namespace GKImitator.ViewModels
 {
 	public class MainViewModel : ApplicationViewModel
 	{
-		GKImitator.Processor.GKProcessor GKProcessor;
+		GKImitator.Processor.NetProcessor GKProcessor;
 		public static MainViewModel Current { get; private set; }
 
 		public MainViewModel()
@@ -22,27 +22,31 @@ namespace GKImitator.ViewModels
 			ConfigurationCashHelper.Update();
 			InitializeDescriptors();
 
-			GKProcessor = new GKImitator.Processor.GKProcessor();
+			GKProcessor = new GKImitator.Processor.NetProcessor();
 			GKProcessor.Start();
 
 			DelayThread = new Thread(OnCheckDelays);
 			DelayThread.Start();
 		}
 
+		bool IsApplicationClosing = false;
 		Thread DelayThread;
 		void OnCheckDelays()
 		{
-			while (true)
+			while (Application.Current != null)
 			{
 				Thread.Sleep(TimeSpan.FromSeconds(1));
-				Application.Current.Dispatcher.Invoke((Action)(() =>
-					{
-						foreach (var descriptor in Descriptors)
+				if (Application.Current != null)
+				{
+					Application.Current.Dispatcher.Invoke((Action)(() =>
 						{
-							descriptor.CheckDelays();
+							foreach (var descriptor in Descriptors)
+							{
+								descriptor.CheckDelays();
+							}
 						}
-					}
-					));
+						));
+				}
 			}
 		}
 
@@ -119,7 +123,7 @@ namespace GKImitator.ViewModels
 
 			if (HasFire2 != hasFire2)
 			{
-				var descriptorViewModel = Descriptors.FirstOrDefault(x => x.BaseDescriptor.GKBase is GKDevice && (x.BaseDescriptor.GKBase as GKDevice).ShortName == "Индикатор Пожар 2");
+				var descriptorViewModel = Descriptors.FirstOrDefault(x => x.GKBaseDescriptor.GKBase is GKDevice && (x.GKBaseDescriptor.GKBase as GKDevice).ShortName == "Индикатор Пожар 2");
 				if (descriptorViewModel != null)
 				{
 					var staeBitViewModel = descriptorViewModel.StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.On);

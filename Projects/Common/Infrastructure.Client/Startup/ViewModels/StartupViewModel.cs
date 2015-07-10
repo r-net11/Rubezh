@@ -155,7 +155,20 @@ namespace Infrastructure.Client.Startup.ViewModels
 
 		private void Login(string login, string password)
 		{
-			bool isAutoconnect = GlobalSettingsHelper.GlobalSettings.AutoConnect;
+			bool isAutoconnect;
+			switch (_clientType)
+			{
+				case ClientType.Administrator:
+					isAutoconnect = GlobalSettingsHelper.GlobalSettings.AdminAutoConnect;
+					break;
+				case ClientType.Monitor:
+					isAutoconnect = GlobalSettingsHelper.GlobalSettings.MonitorAutoConnect;
+					break;
+				default:
+					isAutoconnect = false;
+					break;
+			}
+			
 			if (login != null && password != null)
 			{
 				_startupLoginViewModel.UserName = login;
@@ -166,8 +179,21 @@ namespace Infrastructure.Client.Startup.ViewModels
 			{
 				if (isAutoconnect)
 				{
-					_startupLoginViewModel.UserName = GlobalSettingsHelper.GlobalSettings.Login;
-					_startupLoginViewModel.Password = GlobalSettingsHelper.GlobalSettings.Password;
+					switch (_clientType)
+					{
+						case ClientType.Administrator:
+							_startupLoginViewModel.UserName = GlobalSettingsHelper.GlobalSettings.AdminLogin;
+							_startupLoginViewModel.Password = GlobalSettingsHelper.GlobalSettings.AdminPassword;
+							break;
+						case ClientType.Monitor:
+							_startupLoginViewModel.UserName = GlobalSettingsHelper.GlobalSettings.MonitorLogin;
+							_startupLoginViewModel.Password = GlobalSettingsHelper.GlobalSettings.MonitorPassword;
+							break;
+						default:
+							break;
+					}
+					
+					
 				}
 				else
 				{
@@ -220,7 +246,7 @@ namespace Infrastructure.Client.Startup.ViewModels
 				}
 				StartupSettingsWaitHandler = null;
 			});
-			DialogService.ShowModalWindow(new StartupSettingsViewModel());
+			DialogService.ShowModalWindow(new StartupSettingsViewModel(_clientType));
 			StartupSettingsWaitHandler.Set();
 		}
 
@@ -234,7 +260,20 @@ namespace Infrastructure.Client.Startup.ViewModels
 		}
 		private void SaveSettings()
 		{
-			if (IsConnected && !GlobalSettingsHelper.GlobalSettings.AutoConnect && (Settings.Default.UserName != _startupLoginViewModel.UserName || Settings.Default.Password != (_startupLoginViewModel.SavePassword ? _startupLoginViewModel.Password : string.Empty)))
+			bool isCurrentClientAutoconnect;
+			switch (_clientType)
+			{
+				case ClientType.Administrator:
+					isCurrentClientAutoconnect = GlobalSettingsHelper.GlobalSettings.AdminAutoConnect;
+					break;
+				case ClientType.Monitor:
+					isCurrentClientAutoconnect = GlobalSettingsHelper.GlobalSettings.MonitorAutoConnect;
+					break;
+				default:
+					isCurrentClientAutoconnect = false;
+					break;
+			}
+			if (IsConnected && !isCurrentClientAutoconnect && (Settings.Default.UserName != _startupLoginViewModel.UserName || Settings.Default.Password != (_startupLoginViewModel.SavePassword ? _startupLoginViewModel.Password : string.Empty)))
 			{
 				Settings.Default.UserName = _startupLoginViewModel.UserName;
 				Settings.Default.Password = _startupLoginViewModel.SavePassword ? _startupLoginViewModel.Password : string.Empty;

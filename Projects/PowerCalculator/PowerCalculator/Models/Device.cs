@@ -12,7 +12,6 @@ namespace PowerCalculator.Models
 		public DriverType DriverType { get; set; }
         public Cable Cable { get; set; }
 
-		[XmlIgnore]
 		public Driver Driver
 		{
 			get { return DriversHelper.GetDriver(DriverType); }

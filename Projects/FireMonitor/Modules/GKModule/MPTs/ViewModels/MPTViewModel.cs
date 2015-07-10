@@ -29,11 +29,11 @@ namespace GKModule.ViewModels
 			State.StateChanged += OnStateChanged;
 			OnStateChanged();
 
-			Devices = new ObservableCollection<DeviceViewModel>();
+			MPTDevices = new ObservableCollection<MPTDeviceViewModel>();
 			foreach (var mptDevice in MPT.MPTDevices)
 			{
 				var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device.UID == mptDevice.DeviceUID);
-				Devices.Add(deviceViewModel);
+				MPTDevices.Add(new MPTDeviceViewModel(deviceViewModel, mptDevice.MPTDeviceType));
 			}
 		}
 
@@ -43,7 +43,7 @@ namespace GKModule.ViewModels
 			OnPropertyChanged(() => HasOnDelay);
 		}
 
-		public ObservableCollection<DeviceViewModel> Devices { get; private set; }
+		public ObservableCollection<MPTDeviceViewModel> MPTDevices { get; private set; }
 
 		public RelayCommand ShowJournalCommand { get; private set; }
 		void OnShowJournal()

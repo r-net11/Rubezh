@@ -72,9 +72,9 @@ namespace FiresecClient
 			return SafeOperationCall(() => { return FiresecService.GKReadJournalItem(device.UID, no); }, "GKReadJournalItem");
 		}
 
-		public OperationResult<bool> GKSetSingleParameter(GKBase gkBase, List<byte> parameterBytes)
+		public OperationResult<bool> GKSetSingleParameter(GKBase gkBase, List<byte> parameterBytes, List<GKProperty> deviceProperties = null)
 		{
-			return SafeOperationCall(() => { return FiresecService.GKSetSingleParameter(gkBase.UID, parameterBytes); }, "SetSingleParameter");
+			return SafeOperationCall(() => { return FiresecService.GKSetSingleParameter(gkBase.UID, parameterBytes, deviceProperties); }, "SetSingleParameter");
 		}
 
 		public OperationResult<List<GKProperty>> GKGetSingleParameter(GKBase gkBase)

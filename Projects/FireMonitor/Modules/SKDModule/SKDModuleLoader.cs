@@ -98,14 +98,6 @@ namespace SKDModule
 		}
 		#endregion
 
-		public override bool BeforeInitialize(bool firstTime)
-		{
-			return true;
-		}
-		public override void AfterInitialize()
-		{
-		}
-
 		#region ILayoutProviderModule Members
 		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
 		{

@@ -25,9 +25,9 @@ namespace HexManager.ViewModels
 			Name = hexFileCollectionInfo.Name;
 			MinorVersion = hexFileCollectionInfo.MinorVersion;
 			MajorVersion = hexFileCollectionInfo.MajorVersion;
-			AvailableDriverTypes = new ObservableCollection<XDriverType>()
+            AvailableDriverTypes = new ObservableCollection<GKDriverType>()
 		    { 
-				XDriverType.GK, XDriverType.KAU, XDriverType.RSR2_KAU
+				GKDriverType.GK, GKDriverType.RSR2_KAU
 			};
 			HexFileViewModels = new ObservableRangeCollection<HexFileViewModel>();
 			foreach (var hexFileInfo in hexFileCollectionInfo.HexFileInfos)
@@ -39,8 +39,8 @@ namespace HexManager.ViewModels
 			SelectedDriverType = AvailableDriverTypes.FirstOrDefault();
 		}
 
-		ObservableCollection<XDriverType> _availableDriverTypes;
-		public ObservableCollection<XDriverType> AvailableDriverTypes
+        ObservableCollection<GKDriverType> _availableDriverTypes;
+        public ObservableCollection<GKDriverType> AvailableDriverTypes
 		{
 			get { return _availableDriverTypes; }
 			set
@@ -50,8 +50,8 @@ namespace HexManager.ViewModels
 			}
 		}
 
-		XDriverType _selectedDriverType;
-		public XDriverType SelectedDriverType
+        GKDriverType _selectedDriverType;
+		public GKDriverType SelectedDriverType
 		{
 			get { return _selectedDriverType; }
 			set
@@ -68,7 +68,7 @@ namespace HexManager.ViewModels
 			set
 			{
 				_name = value;
-				OnPropertyChanged("Name");
+				OnPropertyChanged(()=>Name);
 			}
 		}
 
@@ -79,7 +79,7 @@ namespace HexManager.ViewModels
 			set
 			{
 				_minorVersion = value;
-				OnPropertyChanged("MinorVersion");
+                OnPropertyChanged(() => MinorVersion);
 			}
 		}
 
@@ -90,7 +90,7 @@ namespace HexManager.ViewModels
 			set
 			{
 				_majorVersion = value;
-				OnPropertyChanged("MajorVersion");
+                OnPropertyChanged(() => MajorVersion);
 			}
 		}
 
@@ -101,7 +101,7 @@ namespace HexManager.ViewModels
 			set
 			{
 				_hexFilesViewModel = value;
-				OnPropertyChanged("HexFileViewModels");
+                OnPropertyChanged(() => HexFileViewModels);
 			}
 		}
 
@@ -112,7 +112,7 @@ namespace HexManager.ViewModels
 			set
 			{
 				_selectedHexFile = value;
-				OnPropertyChanged("SelectedHexFile");
+                OnPropertyChanged(() => SelectedHexFile);
 			}
 		}
 
@@ -148,7 +148,7 @@ namespace HexManager.ViewModels
 		{
 			SelectedDriverType = SelectedHexFile.DriverType;
 			AvailableDriverTypes.Add(SelectedDriverType);
-			AvailableDriverTypes = new ObservableCollection<XDriverType>(AvailableDriverTypes.OrderBy(x => x.ToString()));
+            AvailableDriverTypes = new ObservableCollection<GKDriverType>(AvailableDriverTypes.OrderBy(x => x.ToString()));
 			HexFileViewModels.Remove(SelectedHexFile);
 			SelectedHexFile = HexFileViewModels.FirstOrDefault();
 		}

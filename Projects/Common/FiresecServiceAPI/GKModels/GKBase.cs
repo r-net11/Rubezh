@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
-using Common;
-using System.Xml.Serialization;
 using System.Linq;
+using System.Runtime.Serialization;
+using System.Xml.Serialization;
+using Common;
 using FiresecClient;
 
 namespace FiresecAPI.GK
@@ -42,6 +42,8 @@ namespace FiresecAPI.GK
 
 		public void ClearClauseDependencies()
 		{
+			InputObjects = new List<GKBase>();
+			OutputObjects = new List<GKBase>();
 			InputGKBases = new List<GKBase>();
 			OutputGKBases = new List<GKBase>();
 			ClauseInputDevices = new List<GKDevice>();
@@ -54,6 +56,10 @@ namespace FiresecAPI.GK
 			ClauseInputPumpStations = new List<GKPumpStation>();
 		}
 
+		[XmlIgnore]
+		protected List<GKBase> InputObjects { get; set; }
+		[XmlIgnore]
+		protected List<GKBase> OutputObjects { get; set; }
 		[XmlIgnore]
 		public List<GKBase> InputGKBases { get; set; }
 		[XmlIgnore]
@@ -71,6 +77,30 @@ namespace FiresecAPI.GK
 		public ushort GKDescriptorNo { get; set; }
 		[XmlIgnore]
 		public ushort KAUDescriptorNo { get; set; }
+
+		public abstract void Update(GKDevice device);
+
+		public abstract void Update(GKDirection direction);
+
+		public void LinkObject(GKBase gkBase)
+		{
+			if (gkBase == null)
+				return;
+			if (!InputObjects.Contains(gkBase))
+				InputObjects.Add(gkBase);
+			if (!gkBase.OutputObjects.Contains(this))
+				gkBase.OutputObjects.Add(this);
+		}
+
+		public void UnLinkObject(GKBase gkBase)
+		{
+			if (gkBase == null)
+				return;
+			if (InputObjects.Contains(gkBase))
+				InputObjects.Remove(gkBase);
+			if (gkBase.OutputObjects.Contains(this))
+				gkBase.OutputObjects.Remove(this);
+		}
 
 		public virtual string GetGKDescriptorName(GKNameGenerationType gkNameGenerationType)
 		{
@@ -132,6 +162,7 @@ namespace FiresecAPI.GK
 			{
 				LinkLogic(direction, direction.Logic.OnClausesGroup);
 				LinkLogic(direction, direction.Logic.OffClausesGroup);
+				LinkLogic(direction, direction.Logic.StopClausesGroup);
 			}
 
 			if (pumpStation != null)
@@ -157,6 +188,7 @@ namespace FiresecAPI.GK
 			{
 				LinkLogic(delay, delay.Logic.OnClausesGroup);
 				LinkLogic(delay, delay.Logic.OffClausesGroup);
+				LinkLogic(delay, delay.Logic.StopClausesGroup);
 			}
 
 			if (guardZone != null)
@@ -235,7 +267,7 @@ namespace FiresecAPI.GK
 
 		public void LinkGKBases(GKBase dependsOn)
 		{
-			AddInputOutputObject(this.InputGKBases, dependsOn);
+			AddInputOutputObject(InputGKBases, dependsOn);
 			AddInputOutputObject(dependsOn.OutputGKBases, this);
 		}
 

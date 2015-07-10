@@ -5,20 +5,30 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
+            <RowDefinition Height="0" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <DataGrid Grid.Row="0" ItemsSource="{Binding OPCServers}" SelectedItem="{Binding SelectedOPCServer}" CanUserSortColumns="True" IsReadOnly="False">
             <DataGrid.Columns>
-                <DataGridTemplateColumn Header="OPC Сервер" SortMemberPath="Name" Width="*">
+                <DataGridTemplateColumn Header="OPC Сервер" SortMemberPath="Name" Width="150" MinWidth="100">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2 0" />
+                                <TextBlock Text="{Binding Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2 0"/>
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-            </DataGrid.Columns>
+                <DataGridTemplateColumn Header="Url" SortMemberPath="Address" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Address}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2 0"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+              </DataGrid.Columns>
         </DataGrid>
         <Grid Grid.Row="1" Margin="2">
             <Grid.ColumnDefinitions>
@@ -26,7 +36,7 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <TextBox Grid.Column="0" Text="{Binding Text}" TextWrapping="Wrap" Margin="2" />
-            <StackPanel Grid.Column="1" HorizontalAlignment="Left">
+            <StackPanel Grid.Column="2" HorizontalAlignment="Left">
                 <Button Content="Сконфигурировать" Command="{Binding ConfigureCommand}" HorizontalAlignment="Left" Width="200" Margin="2" />
 
                 <StackPanel Orientation="Horizontal">
@@ -56,5 +66,45 @@
                 </StackPanel>
             </StackPanel>
         </Grid>
+        <DataGrid Grid.Row="2" ItemsSource="{Binding OPCTags}" CanUserSortColumns="True" IsReadOnly="False">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Мониторинг Тегов" SortMemberPath="Name" Width="150" MinWidth="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2 0"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Адрес тега" SortMemberPath="NodeNum" Width="150" MinWidth="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding NodeNum}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2 0"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Подключение" SortMemberPath="OPCTag.SessionUrl" Width="150" MinWidth="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding OPCTag.SessionUrl}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2 0"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Значение" SortMemberPath="Value" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Value}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2 0"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </UserControl>

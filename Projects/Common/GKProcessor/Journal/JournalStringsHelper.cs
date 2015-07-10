@@ -1,5 +1,4 @@
-﻿using FiresecAPI.GK;
-using FiresecAPI.Journal;
+﻿using FiresecAPI.Journal;
 
 namespace GKProcessor
 {
@@ -82,14 +81,14 @@ namespace GKProcessor
 			return ToState(b);
 		}
 
-		public static JournalEventDescriptionType ToFailure(byte b)
+		public static JournalEventDescriptionType ToFailure(byte b, bool isMVP = false)
 		{
 			switch (b)
 			{
-				case 1: return JournalEventDescriptionType.Напряжение_питания_устройства_не_в_норме; // РМК, МПТ, МРО-2М
-				case 2: return JournalEventDescriptionType.Оптический_канал_или_фотоусилитель; // ИЗВЕЩАТЕЛИ
-				case 3: return JournalEventDescriptionType.Температурный_канал; // ИЗВЕЩАТЕЛИ
-				case 4: return JournalEventDescriptionType.КЗ_ШС; // МПТ, АМ
+				case 1: return isMVP ? JournalEventDescriptionType.КЗ_АЛС_1 : JournalEventDescriptionType.Напряжение_питания_устройства_не_в_норме; // РМК, МПТ, МРО-2М
+				case 2: return isMVP ? JournalEventDescriptionType.КЗ_АЛС_2 : JournalEventDescriptionType.Оптический_канал_или_фотоусилитель; // ИЗВЕЩАТЕЛИ
+				case 3: return isMVP ? JournalEventDescriptionType.КЗ_АЛС_3 : JournalEventDescriptionType.Температурный_канал; // ИЗВЕЩАТЕЛИ
+				case 4: return isMVP ? JournalEventDescriptionType.КЗ_АЛС_4 : JournalEventDescriptionType.КЗ_ШС; // МПТ, АМ
 				case 5: return JournalEventDescriptionType.Обрыв_ШС; // МПТ, АМ
 				//case 6: return "";
 				//case 7: return "";

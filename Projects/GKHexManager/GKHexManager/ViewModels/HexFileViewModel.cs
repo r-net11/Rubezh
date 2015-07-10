@@ -9,7 +9,7 @@ namespace HexManager.ViewModels
 {
 	public class HexFileViewModel : BaseViewModel
 	{
-		public static HexFileViewModel FromFile(string fileName, XDriverType driverType)
+		public static HexFileViewModel FromFile(string fileName, GKDriverType driverType)
 		{
 			return new HexFileViewModel(
 			new HEXFileInfo()
@@ -58,7 +58,7 @@ namespace HexManager.ViewModels
 		public HEXFileInfo HexFileInfo { get; set; }
 		public string FileName { get; set; }
 		public List<LineViewModel> Lines { get; set; }
-		public XDriverType DriverType { get; set; }
+		public GKDriverType DriverType { get; set; }
 		public string Version { get; set; }
 		public string AddressRange { get; set; }
 		public string CRC { get; set; }

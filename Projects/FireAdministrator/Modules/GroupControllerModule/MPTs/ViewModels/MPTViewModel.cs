@@ -27,6 +27,7 @@ namespace GKModule.ViewModels
 			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
 			EditPropertiesCommand = new RelayCommand(OnEditProperties, CanEditProperties);
 
+			MPT.Changed += Update;
 			Devices = new ObservableCollection<MPTDeviceViewModel>();
 			foreach (var mptDevice in MPT.MPTDevices)
 			{
@@ -158,9 +159,19 @@ namespace GKModule.ViewModels
 
 		public void Update()
 		{
-			OnPropertyChanged(() => MPT);
 			_visualizetionState = MPT.PlanElementUIDs.Count == 0 ? VisualizationState.NotPresent : (MPT.PlanElementUIDs.Count > 1 ? VisualizationState.Multiple : VisualizationState.Single);
+			Devices = new ObservableCollection<MPTDeviceViewModel>();
+			foreach (var mptDevice in MPT.MPTDevices)
+			{
+				var deviceViewModel = new MPTDeviceViewModel(mptDevice);
+				Devices.Add(deviceViewModel);
+			}
+			SelectedDevice = Devices.FirstOrDefault();
 			OnPropertyChanged(() => MPT);
+			OnPropertyChanged(() => Devices);
+			OnPropertyChanged(() => StartPresentationName);
+			OnPropertyChanged(() => StopPresentationName);
+			OnPropertyChanged(() => SuspendPresentationName);
 		}
 
 		public void Update(GKMPT mpt)
@@ -172,7 +183,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ChangeStartLogicCommand { get; private set; }
 		void OnChangeStartLogic()
 		{
-			var logicViewModel = new LogicViewModel(null, MPT.MptLogic);
+			var logicViewModel = new LogicViewModel(MPT, MPT.MptLogic);
 			if (DialogService.ShowModalWindow(logicViewModel))
 			{
 				MPT.MptLogic = logicViewModel.GetModel();
@@ -189,7 +200,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ChangeStopLogicCommand { get; private set; }
 		void OnChangeStopLogic()
 		{
-			var logicViewModel = new LogicViewModel(null, MPT.MptLogic, true, hasOnClause:false);
+			var logicViewModel = new LogicViewModel(MPT, MPT.MptLogic, true, hasOnClause: false);
 			if (DialogService.ShowModalWindow(logicViewModel))
 			{
 				MPT.MptLogic = logicViewModel.GetModel();
@@ -206,7 +217,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ChangeSuspendLogicCommand { get; private set; }
 		void OnChangeSuspendLogic()
 		{
-			var logicViewModel = new LogicViewModel(null, MPT.MptLogic, hasStopClause:true, hasOnClause:false);
+			var logicViewModel = new LogicViewModel(MPT, MPT.MptLogic, hasStopClause: true, hasOnClause: false);
 			if (DialogService.ShowModalWindow(logicViewModel))
 			{
 				MPT.MptLogic = logicViewModel.GetModel();

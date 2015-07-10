@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading;
 using Common;
-using FiresecAPI.GK;
 using FiresecAPI.Journal;
 
 namespace GKProcessor

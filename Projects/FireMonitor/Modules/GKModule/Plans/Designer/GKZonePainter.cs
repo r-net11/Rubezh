@@ -7,18 +7,34 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Presenter;
+using FiresecAPI.Models;
+using FiresecAPI;
+using System.Windows.Media;
+using System.Globalization;
+using Infrustructure.Plans.Painters;
+using System.Windows;
 
 namespace GKModule.Plans.Designer
 {
 	class GKZonePainter : BaseZonePainter<GKZone, ShowGKZoneEvent>
 	{
-		private ZoneViewModel _zoneViewModel;
+		ZoneViewModel _zoneViewModel;
+		GeometryDrawing _textDrawing;
+		ScaleTransform _scaleTransform;
+		bool _showState = false;
 
 		public GKZonePainter(PresenterItem presenterItem)
 			: base(presenterItem)
 		{
 			if (Item != null)
 				_zoneViewModel = new ViewModels.ZoneViewModel(Item);
+			_textDrawing = null;
+			_scaleTransform = new ScaleTransform();
+			ElementRectangleGKZone elementRectangleGKZone = presenterItem.Element as ElementRectangleGKZone;
+			if (elementRectangleGKZone != null)
+			{
+				_showState = elementRectangleGKZone.ShowState;
+			}
 		}
 
 		protected override GKZone CreateItem(PresenterItem presenterItem)
@@ -58,6 +74,48 @@ namespace GKModule.Plans.Designer
 		protected override WindowBaseViewModel CreatePropertiesViewModel()
 		{
 			return new ZoneDetailsViewModel(Item);
+		}
+
+		public override void Transform()
+		{
+			if (Item == null)
+				return;
+
+			base.Transform();
+
+			var text = "";
+			if (_showState)
+			{
+				text = Item.State.StateClass.ToDescription();
+			}
+
+			if (!string.IsNullOrEmpty(text))
+			{
+				var typeface = new Typeface("Arial");
+				var formattedText = new FormattedText(text, CultureInfo.InvariantCulture, FlowDirection.LeftToRight, typeface, 10, PainterCache.BlackBrush);
+				Point point = Geometry.Bounds.TopLeft;
+				_scaleTransform.CenterX = point.X;
+				_scaleTransform.CenterY = point.Y;
+				_scaleTransform.ScaleX = Geometry.Bounds.Width / formattedText.Width;
+				_scaleTransform.ScaleY = Geometry.Bounds.Height / formattedText.Height;
+				_textDrawing = new GeometryDrawing(PainterCache.BlackBrush, null, null);
+				_textDrawing.Geometry = formattedText.BuildGeometry(point);
+			}
+			else
+			{
+				_textDrawing = null;
+			}
+		}
+
+		protected override void InnerDraw(DrawingContext drawingContext)
+		{
+			base.InnerDraw(drawingContext);
+			if (_textDrawing != null)
+			{
+				drawingContext.PushTransform(_scaleTransform);
+				drawingContext.DrawDrawing(_textDrawing);
+				drawingContext.Pop();
+			}
 		}
 	}
 }

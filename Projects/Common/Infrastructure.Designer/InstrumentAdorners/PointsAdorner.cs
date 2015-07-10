@@ -61,7 +61,6 @@ namespace Infrastructure.Designer.InstrumentAdorners
 				foreach (var point in element.Points)
 					CreatePointMark(designerItem, point);
 			}
-
 		}
 
 		private void CreatePoint(object sender, MouseButtonEventArgs e)

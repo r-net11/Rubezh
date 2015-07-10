@@ -19,22 +19,6 @@ namespace GKImitator.ViewModels
 			GoToWorkingRegimeCommand = new RelayCommand(OnGoToWorkingRegime);
 			EnterUserCommand = new RelayCommand(OnEnterUser);
 			ExitUserCommand = new RelayCommand(OnExitUser);
-
-			if (GKBase is GKDevice)
-			{
-				var device = GKBase as GKDevice;
-				switch(device.DriverType)
-				{
-					case GKDriverType.GK:
-						HasTechnoligicalCommands = true;
-						HasUserCommands = true;
-						break;
-
-					case GKDriverType.RSR2_KAU:
-						HasTechnoligicalCommands = true;
-						break;
-				}
-			}
 		}
 
 		public bool HasTechnoligicalCommands { get; private set; }

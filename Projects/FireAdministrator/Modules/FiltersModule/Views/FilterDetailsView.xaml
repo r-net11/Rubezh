@@ -35,11 +35,14 @@
 						<GridViewColumn Header="Наименование">
 							<GridViewColumn.CellTemplate>
 								<DataTemplate>
-									<StackPanel Orientation="Horizontal">
-										<Image Width="16" Height="16" Source="{Binding ImageSource}" HorizontalAlignment="Left" Margin="5 0" />
-										<CheckBox IsChecked="{Binding IsChecked}" Margin="2" />
-										<TextBlock Text="{Binding Name}" HorizontalAlignment="Left" VerticalAlignment="Center" Width="1000" />
-									</StackPanel>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                                <Image Grid.Column="0" Width="16" Height="16" Source="{Binding ImageSource}" HorizontalAlignment="Left" Margin="5 0" />
+                                        <CheckBox Grid.Column="1" IsChecked="{Binding IsChecked}" Content="{Binding Name}" Margin="2" />
+										</Grid>
 								</DataTemplate>
 							</GridViewColumn.CellTemplate>
 						</GridViewColumn>
@@ -54,12 +57,15 @@
 						<GridViewColumn Header="Наименование">
 							<GridViewColumn.CellTemplate>
 								<DataTemplate>
-									<StackPanel Orientation="Horizontal">
-										<Image Width="16" Height="16" Source="{Binding ImageSource}" HorizontalAlignment="Left" Margin="5 0" />
-										<CheckBox IsChecked="{Binding IsChecked}" Margin="2" />
-										<TextBlock Text="{Binding Name}" HorizontalAlignment="Left" VerticalAlignment="Center" Width="1000" />
-									</StackPanel>
-								</DataTemplate>
+                                    <Grid> 
+                                        <Grid.ColumnDefinitions>
+                                          <ColumnDefinition Width="Auto" />  
+                                          <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Image Grid.Column="0" Width="16" Height="16" Source="{Binding ImageSource}" HorizontalAlignment="Left" Margin="5 0" />
+										<CheckBox Grid.Column="1" IsChecked="{Binding IsChecked}" Content="{Binding Name}" Margin="2" />
+										</Grid>
+                                </DataTemplate>
 							</GridViewColumn.CellTemplate>
 						</GridViewColumn>
 					</GridView>

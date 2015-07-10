@@ -122,6 +122,12 @@
     </Compile>
     <Compile Include="OPCServers\ViewModels\Client.cs" />
     <Compile Include="OPCServers\ViewModels\ConfigClass.cs" />
+    <Compile Include="OPCServers\ViewModels\TagViewModel.cs" />
+    <Compile Include="OPCServers\ViewModels\OPCSelectTagsViewModel.cs" />
+    <Compile Include="OPCServers\ViewModels\OPCTagViewModel.cs" />
+    <Compile Include="OPCServers\Views\OPCSelectTagsView.xaml.cs">
+      <DependentUpon>OPCSelectTagsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Plans\AutomationPlanExtension.cs" />
     <Compile Include="Plans\InstrumentAdorners\ProcedureRectangleAdorner.cs" />
     <Compile Include="Plans\ViewModels\ProcedurePropertiesViewModel.cs" />
@@ -577,6 +583,10 @@
     <Page Include="ObjectSelection\Views\OrganisatonSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="OPCServers\Views\OPCSelectTagsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Plans\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -6,19 +6,30 @@ using FiresecAPI.GK;
 using FiresecAPI.SKD;
 using FiresecClient;
 using SKDDriver;
+using System.Diagnostics;
 
 namespace GKProcessor
 {
 	public static class GKSKDHelper
 	{
-		public static OperationResult<bool> AddOrEditCard(GKControllerCardSchedule controllerCardSchedule, SKDCard card, string employeeName)
+		static long totalMilliseconds = 0;
+		public static OperationResult<bool> AddOrEditCard(GKControllerCardSchedule controllerCardSchedule, SKDCard card, string employeeName, int gkCardNo = 0, bool isNew = true)
 		{
-			var isNew = true;
-			var gkCardNo = 1;
-			using (var skdDatabaseService = new SKDDriver.DataClasses.DbService())
+			if (gkCardNo == 0)
 			{
-				gkCardNo = skdDatabaseService.GKCardTranslator.GetFreeGKNo(controllerCardSchedule.ControllerDevice.GetGKIpAddress(), card.Number, out isNew);
+				var stopWatch = new Stopwatch();
+				stopWatch.Start();
+				using (var skdDatabaseService = new SKDDatabaseService())
+				{
+					gkCardNo = skdDatabaseService.GKCardTranslator.GetFreeGKNo(controllerCardSchedule.ControllerDevice.GetGKIpAddress(), card.Number, out isNew);
+				}
+				stopWatch.Stop();
+				totalMilliseconds += stopWatch.ElapsedMilliseconds;
+				Trace.WriteLine("TotalMilliseconds = " + totalMilliseconds);
 			}
+
+			var writeStopWatch = new Stopwatch();
+			writeStopWatch.Start();
 
 			var bytes = new List<byte>();
 			bytes.AddRange(BytesHelper.ShortToBytes((ushort)(gkCardNo)));
@@ -109,10 +120,19 @@ namespace GKProcessor
 				}
 			}
 
-            using (var skdDatabaseService = new SKDDriver.DataClasses.DbService())
+			writeStopWatch.Stop();
+			Trace.WriteLine(writeStopWatch.ElapsedMilliseconds);
+
+			var stopWatch2 = new Stopwatch();
+			stopWatch2.Start();
+			using (var skdDatabaseService = new SKDDatabaseService())
 			{
 				skdDatabaseService.GKCardTranslator.AddOrEdit(controllerCardSchedule.ControllerDevice.GetGKIpAddress(), gkCardNo, card.Number, employeeName);
 			}
+			stopWatch2.Stop();
+			totalMilliseconds += stopWatch2.ElapsedMilliseconds;
+			//Trace.WriteLine("TotalMilliseconds For GKCardTranslator Update Total = " + totalMilliseconds);
+			//Trace.WriteLine("TotalMilliseconds For GKCardTranslator Update = " + stopWatch2.ElapsedMilliseconds);
 
 			return new OperationResult<bool>(true);
 		}
@@ -120,7 +140,7 @@ namespace GKProcessor
 		public static OperationResult<bool> RemoveCard(GKDevice device, SKDCard card)
 		{
 			var no = 1;
-            using (var skdDatabaseService = new SKDDriver.DataClasses.DbService())
+			using (var skdDatabaseService = new SKDDatabaseService())
 			{
 				no = skdDatabaseService.GKCardTranslator.GetGKNoByCardNo(device.GetGKIpAddress(), card.Number);
 			}
@@ -151,7 +171,7 @@ namespace GKProcessor
 				return OperationResult<bool>.FromError(sendResult.Error);
 			}
 
-            using (var skdDatabaseService = new SKDDriver.DataClasses.DbService())
+			using (var skdDatabaseService = new SKDDatabaseService())
 			{
 				skdDatabaseService.GKCardTranslator.Remove(device.GetGKIpAddress(), no, card.Number);
 			}
@@ -166,6 +186,9 @@ namespace GKProcessor
 
 			for (int i = 1; i <= 65535; i++)
 			{
+				var stopWatch2 = new Stopwatch();
+				stopWatch2.Start();
+
 				var bytes = new List<byte>();
 				bytes.Add(0);
 				bytes.AddRange(BytesHelper.ShortToBytes((ushort)(i)));
@@ -179,6 +202,9 @@ namespace GKProcessor
 				{
 					break;
 				}
+
+				stopWatch2.Stop();
+				Trace.WriteLine(stopWatch2.ElapsedMilliseconds);
 
 				var user = new GKUser();
 				user.GKNo = BytesHelper.SubstructShort(sendResult.Bytes, 1);
@@ -198,12 +224,45 @@ namespace GKProcessor
 			return new OperationResult<List<GKUser>>(users);
 		}
 
-		public static bool RemoveAllUsers(GKDevice device, GKProgressCallback progressCallback)
+        public static int GetUsersCount(GKDevice device)
+        {
+            int minNo = 1;
+            int maxNo = 65535;
+            int currentNo = 65535 / 2;
+            int delta = currentNo / 2;
+            while (maxNo - minNo > 1)
+            {
+                var bytes = new List<byte>();
+                bytes.Add(0);
+                bytes.AddRange(BytesHelper.ShortToBytes((ushort)(currentNo)));
+
+                var sendResult = SendManager.Send(device, (ushort)(bytes.Count), 24, 0, bytes);
+                if (sendResult.HasError || sendResult.Bytes.Count == 0)
+                {
+                    maxNo = currentNo;
+                    currentNo = currentNo - delta;
+                }
+                else
+                {
+                    minNo = currentNo;
+                    currentNo = currentNo + delta;
+                }
+                delta = delta / 2;
+                if (delta == 0)
+                    delta = 1;
+            }
+            return minNo;
+        }
+
+		public static bool RemoveAllUsers(GKDevice device, int usersCount, GKProgressCallback progressCallback)
 		{
 			var result = true;
 			int cardsCount = 0;
-			for (int no = 1; no <= 65535; no++)
+			for (int no = 1; no <= usersCount; no++)
 			{
+				var stopWatch2 = new Stopwatch();
+				stopWatch2.Start();
+
 				var bytes = new List<byte>();
 				bytes.Add(0);
 				bytes.AddRange(BytesHelper.ShortToBytes((ushort)(no)));
@@ -245,10 +304,13 @@ namespace GKProcessor
 					break;
 				}
 
+				stopWatch2.Stop();
+				Trace.WriteLine(stopWatch2.ElapsedMilliseconds);
+
 				cardsCount++;
 				GKProcessorManager.DoProgress("Пользователь " + no, progressCallback);
 			}
-            using (var skdDatabaseService = new SKDDriver.DataClasses.DbService())
+			using (var skdDatabaseService = new SKDDatabaseService())
 			{
 				GKProcessorManager.DoProgress("Удаление пользователей прибора из БД", progressCallback);
 				skdDatabaseService.GKCardTranslator.RemoveAll(device.GetGKIpAddress(), cardsCount);

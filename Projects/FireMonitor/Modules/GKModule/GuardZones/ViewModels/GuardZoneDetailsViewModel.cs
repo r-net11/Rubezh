@@ -220,11 +220,11 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				if (Zone.IsExtraProtected)
+				if (Zone.IsExtraProtected && FiresecManager.CheckPermission(PermissionType.Oper_ExtraGuardZone))
 				{
 					return FiresecManager.CheckPermission(PermissionType.Oper_ExtraGuardZone);
 				}
-				return FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);
+				return !Zone.IsExtraProtected && FiresecManager.CheckPermission(PermissionType.Oper_GuardZone_Control);
 			}
 		}
 

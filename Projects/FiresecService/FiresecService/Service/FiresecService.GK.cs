@@ -9,6 +9,7 @@ using FiresecAPI.SKD;
 using FiresecClient;
 using GKProcessor;
 using SKDDriver;
+using System.Diagnostics;
 
 namespace FiresecService.Service
 {
@@ -26,7 +27,6 @@ namespace FiresecService.Service
 
 		public void CancelGKProgress(Guid progressCallbackUID, string userName)
 		{
-			ChinaSKDDriver.Processor.CancelProgress(progressCallbackUID, userName);
 			GKProcessorManager.CancelGKProgress(progressCallbackUID, userName);
 		}
 
@@ -142,7 +142,7 @@ namespace FiresecService.Service
 			return OperationResult<JournalItem>.FromError("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
 		}
 
-		public OperationResult<bool> GKSetSingleParameter(Guid objectUID, List<byte> parameterBytes)
+		public OperationResult<bool> GKSetSingleParameter(Guid objectUID, List<byte> parameterBytes, List<GKProperty> deviceProperties)
 		{
 			GKBase gkBase = null;
 			gkBase = GKManager.Devices.FirstOrDefault(x => x.UID == objectUID);
@@ -165,7 +165,12 @@ namespace FiresecService.Service
 
 			if (gkBase != null)
 			{
-				return GKProcessorManager.GKSetSingleParameter(gkBase, parameterBytes);
+				var result = GKProcessorManager.GKSetSingleParameter(gkBase, parameterBytes);
+				if (deviceProperties != null)
+				{
+					FiresecService.NotifyGKParameterChanged(objectUID, deviceProperties);
+				}
+				return result;
 			}
 			return OperationResult<bool>.FromError("Не найден компонент в конфигурации");
 		}
@@ -493,21 +498,26 @@ namespace FiresecService.Service
 
 				try
 				{
-					var removeResult = GKSKDHelper.RemoveAllUsers(device, progressCallback);
+					var usersCount = GKSKDHelper.GetUsersCount(device);
+					var removeResult = GKSKDHelper.RemoveAllUsers(device, usersCount, progressCallback);
 					if (!removeResult)
 					{
 						GKProcessorManager.StopProgress(progressCallback);
 						return OperationResult<bool>.FromError("Ошибка при удалении пользователя из ГК");
 					}
+					progressCallback.Title = "Добавление пользователей прибора " + device.PresentationName;
 
-                    using (var databaseService = new SKDDriver.DataClasses.DbService())
+					int currentUserNo = 1;
+
+					var stopWatch = new Stopwatch();
+					stopWatch.Start();
 					{
 						var cardsResult = databaseService.CardTranslator.Get(new CardFilter());
 						if (!cardsResult.HasError)
 						{
 							progressCallback.StepCount = cardsResult.Result.Count();
 							progressCallback.CurrentStep = 0;
-							foreach (var card in cardsResult.Result)
+							foreach (var card in cardsResult.Result.OrderBy(x => x.Number))
 							{
                                 AccessTemplate accessTemplate = null;
                                 if (card.AccessTemplateUID != null)
@@ -523,13 +533,16 @@ namespace FiresecService.Service
 									var employee = employeeOperationResult.Result;
 									if (employee != null)
 									{
-										GKSKDHelper.AddOrEditCard(controllerCardSchedule, card, employee.FIO);
+										GKSKDHelper.AddOrEditCard(controllerCardSchedule, card, employee.FIO, currentUserNo, currentUserNo > usersCount);
+										currentUserNo++;
 									}
 								}
-								GKProcessorManager.DoProgress("Пользователь " + card.Number, progressCallback);
+								GKProcessorManager.DoProgress("Пользователь " + card.EmployeeName + ". Номер карты " + card.Number, progressCallback);
 							}
 						}
 					}
+					stopWatch.Stop();
+					Trace.WriteLine("Total GK Write milliseconds = " + stopWatch.ElapsedMilliseconds);
 
 					return new OperationResult<bool>(true);
 				}

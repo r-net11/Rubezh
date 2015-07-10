@@ -20,7 +20,7 @@ namespace GKProcessor
 				IsRangeEnabled = true,
 				MinAddress = 1,
 				MaxAddress = 127,
-				IsPlaceable = true
+				IsPlaceable = true,
 			};
 			driver.AutoCreateChildren.Add(GKDriverType.KAUIndicator);
 			driver.AutoCreateChildren.Add(GKDriverType.RSR2_KAU_Shleif);
@@ -51,13 +51,14 @@ namespace GKProcessor
 				{
 					No = 0,
 					Name = "Parameter 0",
-					Caption = "Порог питания, 0.1 В",
+					Caption = "Порог питания, 1 В",
 					ToolTip = "",
 					Min = 100,
 					Max = 240,
 					Default = 180,
 					DriverPropertyType = GKDriverPropertyTypeEnum.IntType,
-					IsAUParameter = true
+					IsAUParameter = true,
+					Multiplier = 10,
 				}
 				);
 
@@ -172,6 +173,8 @@ namespace GKProcessor
 			als78Property.Parameters.Add(new GKDriverPropertyParameter() { Name = "Одна кольцевая", Value = 0xC0 });
 			driver.Properties.Add(als78Property);
 
+			driver.MeasureParameters.Add(new GKMeasureParameter { No = 2, Name = "Питание 1, В", Multiplier = 1024 / 33 });
+			driver.MeasureParameters.Add(new GKMeasureParameter { No = 3, Name = "Питание 2, В", Multiplier = 1024 / 33 });
 			return driver;
 		}
 	}

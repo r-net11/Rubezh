@@ -5,13 +5,21 @@ using System.Xml.Serialization;
 namespace FiresecAPI.GK
 {
 	/// <summary>
-	/// Прошраммно имитируемый модуль ГК
+	/// Программно имитируемый модуль ГК
 	/// </summary>
 	[DataContract]
 	public class GKPim : GKBase
 	{
 		public override GKBaseObjectType ObjectType { get { return GKBaseObjectType.Pim; } }
+		public override void Update(GKDevice device)
+		{
 
+		}
+
+		public override void Update(GKDirection direction)
+		{
+
+		}
 		/// <summary>
 		/// Признак автогенерации
 		/// </summary>

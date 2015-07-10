@@ -25,7 +25,7 @@ namespace GKProcessor
 			GKDriversHelper.AddAvailableStateBits(driver, GKStateBit.Fire2);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Fire1);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Fire2);
-			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Off);
+            GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Test);
 
 			var property1 = new GKDriverProperty()
 			{
@@ -54,7 +54,7 @@ namespace GKProcessor
 			property1.Parameters.Add(property1Parameter3);
 			driver.Properties.Add(property1);
 
-			GKDriversHelper.AddIntProprety(driver, 1, "Порог питания, 0.1 В", 80, 1, 1000);
+			GKDriversHelper.AddIntProprety(driver, 1, "Порог питания, 1 В", 80, 1, 1000).Multiplier = 10;
 			GKDriversHelper.AddIntProprety(driver, 2, "Порог 1", 250, 1, 10000);
 			GKDriversHelper.AddIntProprety(driver, 3, "Порог 2", 750, 1, 10000);
 			GKDriversHelper.AddIntProprety(driver, 4, "Порог 3", 1500, 1, 10000);

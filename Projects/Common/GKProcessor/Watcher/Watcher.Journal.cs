@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.GK;
 using FiresecAPI.Journal;
-using SKDDriver;
 using FiresecClient;
+using SKDDriver;
 
 namespace GKProcessor
 {
@@ -61,6 +60,8 @@ namespace GKProcessor
 			if (sendResult.Bytes.Count == 64)
 			{
 				var journalParser = new JournalParser(GkDatabase.RootDevice, sendResult.Bytes);
+				if (journalParser.JournalItem.JournalObjectType == JournalObjectType.GKPim)
+					return null;
 				return journalParser;
 			}
 			return null;

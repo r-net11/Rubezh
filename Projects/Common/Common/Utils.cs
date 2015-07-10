@@ -1,7 +1,7 @@
-﻿using System.IO;
-using System.Runtime.Serialization;
+﻿using System;
 using System.ComponentModel;
-using System;
+using System.IO;
+using System.Runtime.Serialization;
 
 namespace Common
 {

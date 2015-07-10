@@ -423,7 +423,7 @@ namespace GKModule.ViewModels
 				var baseDescriptor = ParametersHelper.GetBaseDescriptor(device);
 				if (baseDescriptor != null)
 				{
-					var result = FiresecManager.FiresecService.GKSetSingleParameter(device, baseDescriptor.Parameters);
+					var result = FiresecManager.FiresecService.GKSetSingleParameter(device, baseDescriptor.Parameters, device.Properties);
 					if (result.HasError)
 						errorLog += "\n" + device.PresentationName + ". " + result.Error;
 				}

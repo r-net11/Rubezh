@@ -1,4 +1,6 @@
-﻿using FiresecAPI.GK;
+﻿using System.Security.Policy;
+using FiresecAPI.GK;
+using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -169,7 +171,16 @@ namespace GKModule.ViewModels
 
 		public bool CanControl()
 		{
-			return State != null && !State.StateClasses.Contains(XStateClass.Ignore);
+			if (State != null && !State.StateClasses.Contains(XStateClass.Ignore))
+			{
+				if (GuardZone.IsExtraProtected && FiresecManager.CheckPermission(PermissionType.Oper_ExtraGuardZone))
+				{
+					return FiresecManager.CheckPermission(PermissionType.Oper_ExtraGuardZone);
+				}
+				return !GuardZone.IsExtraProtected && FiresecManager.CheckPermission(PermissionType.Oper_GuardZone_Control);
+			}
+			return false;
+
 		}
 	}
 }

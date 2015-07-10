@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using FiresecAPI.AutomationCallback;
 using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
-using FiresecAPI.AutomationCallback;
 
 namespace FiresecAPI
 {
@@ -30,6 +30,9 @@ namespace FiresecAPI
 		public GKCallbackResult GKCallbackResult { get; set; }
 
 		[DataMember]
+		public GKPropertyChangedCallback GKPropertyChangedCallback { get; set; }
+
+		[DataMember]
 		public SKDStates SKDStates { get; set; }
 
 		[DataMember]
@@ -40,6 +43,7 @@ namespace FiresecAPI
 	{
 		GKProgress,
 		GKObjectStateChanged,
+		GKPropertyChanged,
 		SKDObjectStateChanged,
 		NewEvents,
 		ArchiveCompleted,

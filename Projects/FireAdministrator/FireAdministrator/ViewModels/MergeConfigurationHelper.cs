@@ -62,7 +62,7 @@ namespace FireAdministrator.ViewModels
 		{
 			var zipFile = ZipFile.Read(fileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
 			var fileInfo = new FileInfo(fileName);
-			var unzipFolderPath = Path.Combine(fileInfo.Directory.FullName, "Unzip");
+			var unzipFolderPath = fileInfo.Directory.FullName;
 			zipFile.ExtractAll(unzipFolderPath);
 
 			var zipConfigurationItemsCollectionFileName = Path.Combine(unzipFolderPath, "ZipConfigurationItemsCollection.xml");

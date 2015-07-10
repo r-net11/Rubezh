@@ -7,11 +7,9 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
-using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrustructure.Plans.Elements;
-using GKModule.Events;
 
 namespace GKModule.ViewModels
 {
@@ -222,7 +220,7 @@ namespace GKModule.ViewModels
 
 		public bool CanControl
 		{
-			get { return FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices); }
+			get { return FiresecManager.CheckPermission(PermissionType.Oper_Door_Control); }
 		}
 
 		#region IWindowIdentity Members

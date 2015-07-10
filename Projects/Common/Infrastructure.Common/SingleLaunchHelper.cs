@@ -124,7 +124,7 @@ namespace Infrastructure.Common
 		{
 			try
 			{
-				_signalHandler.WaitOne();
+					_signalHandler.WaitOne();
 				TryShutdown();
 			}
 			catch (Exception ex)

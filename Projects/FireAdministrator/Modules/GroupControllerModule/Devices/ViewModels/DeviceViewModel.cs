@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
@@ -238,6 +239,26 @@ namespace GKModule.ViewModels
 			if (newDeviceViewModel.Drivers.Count == 1)
 			{
 				newDeviceViewModel.SaveCommand.Execute();
+				if (newDeviceViewModel.Drivers[0].DriverType == GKDriverType.GK && newDeviceViewModel.AddedDevices.Count > 0)
+				{
+					var gkDevice = newDeviceViewModel.AddedDevices[0];
+					var gkIndicatorsGroupDevice = new DeviceViewModel(new GKDevice { Name = "Группа индикаторов", Driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.GKIndicatorsGroup) });
+					var gkRelaysGroupDevice = new DeviceViewModel(new GKDevice { Name = "Группа реле", Driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.GKRelaysGroup) });
+					var gkIndicators = new List<DeviceViewModel>(gkDevice.Children.Where(x => x.Driver.DriverType == GKDriverType.GKIndicator));
+					var gkRelays = new List<DeviceViewModel>(gkDevice.Children.Where(x => x.Driver.DriverType == GKDriverType.GKRele));
+					foreach (var gkIndicator in gkIndicators)
+					{
+						gkIndicatorsGroupDevice.AddChild(gkIndicator);
+					}
+					foreach (var gkRelay in gkRelays)
+					{
+						gkRelaysGroupDevice.AddChild(gkRelay);
+					}
+					gkDevice.AddChildFirst(gkIndicatorsGroupDevice);
+					gkDevice.AddChildFirst(gkRelaysGroupDevice);
+					
+
+				}
 				foreach (var addedDevice in newDeviceViewModel.AddedDevices)
 				{
 					DevicesViewModel.Current.AllDevices.Add(addedDevice);
@@ -246,7 +267,10 @@ namespace GKModule.ViewModels
 				GKPlanExtension.Instance.Cache.BuildSafe<GKDevice>();
 				ServiceFactory.SaveService.GKChanged = true;
 				return;
+
+			
 			}
+			
 			if (DialogService.ShowModalWindow(newDeviceViewModel))
 			{
 				foreach (var addedDevice in newDeviceViewModel.AddedDevices)
@@ -404,6 +428,8 @@ namespace GKModule.ViewModels
 						presentationZone = "Нажмите для выбора зон";
 					if (Driver.HasLogic)
 						presentationZone = "Нажмите для настройки логики";
+					if (Driver.HasMirror)
+						presentationZone = "Нажмите для настройки отражения";
 				}
 				return presentationZone;
 			}
@@ -465,7 +491,6 @@ namespace GKModule.ViewModels
 				Width = PainterCache.DefaultPointSize,
 			};
 		}
-
 		public RelayCommand ShowOnPlanCommand { get; private set; }
 		void OnShowOnPlan()
 		{
@@ -538,7 +563,20 @@ namespace GKModule.ViewModels
 		{
 			return (Driver.HasZone || Driver.HasGuardZone) && !Device.IsNotUsed;
 		}
-
+		bool CanShowReflection()
+		{
+			return Driver.HasMirror && !Device.IsNotUsed;
+		}
+		void OnShowReflection()
+		{
+			if(Driver.HasMirror)
+				{
+					var _reflectionview = new ReflectionViewModel(Device);
+					DialogService.ShowModalWindow(_reflectionview);
+				}
+			OnPropertyChanged(() => EditingPresentationZone);
+			ServiceFactory.SaveService.GKChanged = true;		
+		}
 		public RelayCommand ShowZoneOrLogicCommand { get; private set; }
 		void OnShowZoneOrLogic()
 		{
@@ -549,10 +587,13 @@ namespace GKModule.ViewModels
 
 			if (CanShowLogic())
 				OnShowLogic();
+
+			if (CanShowReflection())
+				OnShowReflection();
 		}
 		bool CanShowZoneOrLogic()
 		{
-			return !Device.IsInMPT && (CanShowZones() || CanShowLogic());
+			return !Device.IsInMPT && (CanShowZones() || CanShowLogic()|| CanShowReflection()) ;
 		}
 
 		public bool IsZoneOrLogic
@@ -641,6 +682,7 @@ namespace GKModule.ViewModels
 				if (Device.DriverType != value.DriverType)
 				{
 					GKManager.ChangeDriver(Device, value);
+					Device.OnRemoved();
 					Nodes.Clear();
 					foreach (var childDevice in Device.Children)
 					{
@@ -783,6 +825,8 @@ namespace GKModule.ViewModels
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
+
+		
 		#endregion
 	}
 }

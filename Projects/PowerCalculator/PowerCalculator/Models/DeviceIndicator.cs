@@ -10,7 +10,6 @@ namespace PowerCalculator.Models
         public Device Device { get; private set; }
         public double I { get; private set; }
         public double U { get; private set; }
-        public bool NeedSupplier { get; private set; }
         
         public bool HasIError
         {
@@ -34,12 +33,11 @@ namespace PowerCalculator.Models
             }
         }
 
-        public DeviceIndicator(Device device, double i, double u, bool needSupplier = false)
+        public DeviceIndicator(Device device, double i, double u)
         {
             Device = device;
             I = i;
             U = u;
-            NeedSupplier = needSupplier;
         }
     }
 }

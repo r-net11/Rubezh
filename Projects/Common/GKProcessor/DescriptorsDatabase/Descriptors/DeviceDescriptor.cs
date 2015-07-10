@@ -116,6 +116,11 @@ namespace GKProcessor
 					Formula.AddGetBit(GKStateBit.TurningOff, Device.Door, DatabaseType);
 					Formula.AddGetBit(GKStateBit.Off, Device.Door, DatabaseType);
 					Formula.Add(FormulaOperationType.OR);
+					if (Device.Door.LockControlDevice != null)
+					{
+						Formula.AddGetBit(GKStateBit.Fire1, Device.Door.LockControlDevice, DatabaseType);
+						Formula.Add(FormulaOperationType.OR);
+					}
 					Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device, DatabaseType);
 				}
 
@@ -136,6 +141,11 @@ namespace GKProcessor
 					Formula.AddGetBit(GKStateBit.TurningOff, Device.Door, DatabaseType);
 					Formula.AddGetBit(GKStateBit.Off, Device.Door, DatabaseType);
 					Formula.Add(FormulaOperationType.OR);
+					if (Device.Door.LockControlDevice != null)
+					{
+						Formula.AddGetBit(GKStateBit.Fire1, Device.Door.LockControlDeviceExit, DatabaseType);
+						Formula.Add(FormulaOperationType.OR);
+					}
 					Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device, DatabaseType);
 				}
 			}
@@ -145,6 +155,7 @@ namespace GKProcessor
 
 		void SetPropertiesBytes()
 		{
+			Parameters = new List<byte>();
 			var binProperties = new List<BinProperty>();
 
 			if (DatabaseType == DatabaseType.Gk && Device.Driver.IsDeviceOnShleif)

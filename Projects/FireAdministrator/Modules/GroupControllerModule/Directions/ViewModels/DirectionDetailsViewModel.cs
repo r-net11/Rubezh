@@ -16,6 +16,8 @@ namespace GKModule.ViewModels
 	{
 		public GKDirection Direction { get; private set; }
 
+		public bool IsEdit { get; private set; }
+
 		public DirectionDetailsViewModel(GKDirection direction = null)
 		{
 			ReadPropertiesCommand = new RelayCommand(OnReadProperties);
@@ -26,7 +28,7 @@ namespace GKModule.ViewModels
 			if (direction == null)
 			{
 				Title = "Создание новоого направления";
-
+				IsEdit = false;
 				Direction = new GKDirection()
 				{
 					Name = "Новое направление",
@@ -39,6 +41,7 @@ namespace GKModule.ViewModels
 			{
 				Title = string.Format("Свойства направления: {0}", direction.PresentationName);
 				Direction = direction;
+				IsEdit = true;
 			}
 			CopyProperties();
 

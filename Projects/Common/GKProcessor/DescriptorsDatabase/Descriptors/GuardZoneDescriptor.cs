@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using FiresecAPI.GK;
 using FiresecClient;
-using Common;
 
 namespace GKProcessor
 {
@@ -158,7 +157,9 @@ namespace GKProcessor
 
 					var stateBit = CodeReaderEnterTypeToStateBit(settingsPart.CodeReaderEnterType);
 					Formula.AddGetBit(stateBit, guardDevice.Device, DatabaseType);
-					var gotoFormulaOperation = Formula.Add(FormulaOperationType.BR, 1, 0);
+					Formula.Add(FormulaOperationType.BR, 2, 2);
+					Formula.Add(FormulaOperationType.CONST);
+					Formula.Add(FormulaOperationType.BR, 0, 2);
 					var formulaNo = Formula.FormulaOperations.Count;
 
 					if (settingsPart.CodeUIDs.Count > 0 && settingsPart.AccessLevel == 0)
@@ -215,7 +216,7 @@ namespace GKProcessor
 					{
 						Formula.Add(FormulaOperationType.OR);
 					}
-					gotoFormulaOperation.SecondOperand = (ushort)(Formula.FormulaOperations.Count - formulaNo);
+					//gotoFormulaOperation.SecondOperand = (ushort)(Formula.FormulaOperations.Count - formulaNo);
 				}
 				else
 				{
@@ -334,6 +335,7 @@ namespace GKProcessor
 
 		void SetPropertiesBytes()
 		{
+			Parameters = new List<byte>();
 			var binProperties = new List<BinProperty>();
 			binProperties.Add(new BinProperty()
 			{

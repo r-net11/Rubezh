@@ -46,8 +46,6 @@ namespace FiresecService
 				ServerLoadHelper.SetStatus(FSServerState.Opened);
 				UILogger.Log("Запуск ГК");
 				GKProcessor.Start();
-				UILogger.Log("Создание конфигурации СКД");
-				SKDProcessor.Start();
 
 				UILogger.Log("Запуск сервиса отчетов");
 				ReportServiceManager.Run();

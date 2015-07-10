@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using FiresecAPI;
-using FiresecAPI.GK;
 using FiresecClient;
-using FiresecAPI.Journal;
 using SKDDriver;
 
 namespace GKProcessor

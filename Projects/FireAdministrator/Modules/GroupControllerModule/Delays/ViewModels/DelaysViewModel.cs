@@ -29,6 +29,9 @@ namespace GKModule.ViewModels
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
 			CopyCommand = new RelayCommand(OnCopy, CanCopy);
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
+			CopyLogicCommand = new RelayCommand(OnCopyLogic, CanCopyLogic);
+			PasteLogicCommand = new RelayCommand(OnPasteLogic, CanPasteLogic);
+
 			RegisterShortcuts();
 			SetRibbonItems();
 		}
@@ -69,7 +72,7 @@ namespace GKModule.ViewModels
 		void OnCopy()
 		{
 			_delayToCopy = Utils.Clone(SelectedDelay.Delay);
-			var logicViewModel = new LogicViewModel(null, SelectedDelay.Delay.Logic, true);
+			var logicViewModel = new LogicViewModel(SelectedDelay.Delay, SelectedDelay.Delay.Logic, true);
 			_delayToCopy.Logic = logicViewModel.GetModel();
 		}
 
@@ -83,7 +86,7 @@ namespace GKModule.ViewModels
 		{
 			_delayToCopy.UID = Guid.NewGuid();
 			var delayViewModel = new DelayViewModel(Utils.Clone(_delayToCopy));
-			var logicViewModel = new LogicViewModel(null, _delayToCopy.Logic, true);
+			var logicViewModel = new LogicViewModel(SelectedDelay.Delay, _delayToCopy.Logic, true);
 			delayViewModel.Delay.Logic = logicViewModel.GetModel();
 			delayViewModel.Delay.No = (ushort)(GKManager.Delays.Select(x => x.No).Max() + 1);
 			GKManager.Delays.Add(delayViewModel.Delay);
@@ -95,6 +98,36 @@ namespace GKModule.ViewModels
 		bool CanPaste()
 		{
 			return _delayToCopy != null;
+		}
+
+		public RelayCommand CopyLogicCommand { get; private set; }
+		void OnCopyLogic()
+		{
+			GKManager.CopyLogic(SelectedDelay.Delay.Logic, true, false, true);
+		}
+
+		bool CanCopyLogic()
+		{
+			return SelectedDelay != null;
+		}
+
+		public RelayCommand PasteLogicCommand { get; private set; }
+		void OnPasteLogic()
+		{
+			var result = GKManager.CompareLogic(new GKAdvancedLogic(true, false, true, false, false));
+			var messageBoxResult = true;
+			if (!String.IsNullOrEmpty(result))
+				messageBoxResult = MessageBoxService.ShowConfirmation(result, "Копировать логику?");
+			if (messageBoxResult)
+			{
+				SelectedDelay.Delay.Logic = GKManager.PasteLogic(new GKAdvancedLogic(true, false, true, false, false));
+				SelectedDelay.Update();
+			}
+		}
+
+		bool CanPasteLogic()
+		{
+			return SelectedDelay != null && GKManager.LogicToCopy != null;
 		}
 
 		public bool HasSelectedDelay

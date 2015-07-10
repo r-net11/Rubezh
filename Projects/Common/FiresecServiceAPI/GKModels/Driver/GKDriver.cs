@@ -55,6 +55,7 @@ namespace FiresecAPI.GK
 		public bool HasLogic { get; set; }
 		public bool IgnoreHasLogic { get; set; }
 		public bool HasZone { get; set; }
+		public bool HasMirror { get; set; }
 		public bool HasGuardZone { get; set; }
 		public bool IsControlDevice { get; set; }
 		public bool IsPlaceable { get; set; }
@@ -73,7 +74,6 @@ namespace FiresecAPI.GK
 			get
 			{
 				return DriverType == GKDriverType.RSR2_AM_1 || DriverType == GKDriverType.RSR2_AM_2 || DriverType == GKDriverType.RSR2_AM_4
-				|| DriverType == GKDriverType.RSR2_CardReader || DriverType == GKDriverType.RSR2_CodeReader
 				|| DriverType == GKDriverType.RSR2_MAP4_Group || DriverType == GKDriverType.RSR2_MAP4;
 			}
 		}

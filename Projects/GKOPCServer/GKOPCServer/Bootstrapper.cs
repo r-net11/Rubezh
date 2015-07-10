@@ -37,7 +37,7 @@ namespace GKOPCServer
 			UILogger.Log("Соединение с сервером");
 			for (int i = 1; i <= 10; i++)
 			{
-				var message = FiresecManager.Connect(ClientType.OPC, ConnectionSettingsManager.ServerAddress, GlobalSettingsHelper.GlobalSettings.Login, GlobalSettingsHelper.GlobalSettings.Password);
+				var message = FiresecManager.Connect(ClientType.OPC, ConnectionSettingsManager.ServerAddress, GlobalSettingsHelper.GlobalSettings.AdminLogin, GlobalSettingsHelper.GlobalSettings.AdminPassword);
 				if (message == null)
 					break;
 				Thread.Sleep(5000);
@@ -100,9 +100,6 @@ namespace GKOPCServer
 
 			SafeFiresecService.GKCallbackResultEvent -= new Action<GKCallbackResult>(OnGKCallbackResult);
 			SafeFiresecService.GKCallbackResultEvent += new Action<GKCallbackResult>(OnGKCallbackResult);
-
-			GKProcessorManager.GKCallbackResultEvent -= new Action<GKCallbackResult>(OnGKCallbackResult);
-			GKProcessorManager.GKCallbackResultEvent += new Action<GKCallbackResult>(OnGKCallbackResult);
 		}
 
 		static void InitializeStates()
@@ -171,6 +168,30 @@ namespace GKOPCServer
 				if (pim != null)
 				{
 					remotePimState.CopyTo(pim.State);
+				}
+			}
+			foreach (var mptState in gkStates.MPTStates)
+			{
+				var mpt = GKManager.MPTs.FirstOrDefault(x => x.UID == mptState.UID);
+				if (mpt != null)
+				{
+					mptState.CopyTo(mpt.State);
+				}
+			}
+			foreach (var guardZoneState in gkStates.GuardZoneStates)
+			{
+				var guardZone = GKManager.GuardZones.FirstOrDefault(x => x.UID == guardZoneState.UID);
+				if (guardZone != null)
+				{
+					guardZoneState.CopyTo(guardZone.State);
+				}
+			}
+			foreach (var doorState in gkStates.DoorStates)
+			{
+				var door = GKManager.MPTs.FirstOrDefault(x => x.UID == doorState.UID);
+				if (door != null)
+				{
+					doorState.CopyTo(door.State);
 				}
 			}
 		}

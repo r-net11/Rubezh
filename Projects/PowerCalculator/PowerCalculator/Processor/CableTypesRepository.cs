@@ -15,7 +15,7 @@ namespace PowerCalculator.Processor
 
         static CableTypesRepository()
         {
-            CustomCableType = new CableType() { Name = CustomCableTypeName };
+            CustomCableType = new CableType() { Name = CustomCableTypeName, Resistivity = 0.05 };
             CableTypes = new List<CableType>();
         }
 

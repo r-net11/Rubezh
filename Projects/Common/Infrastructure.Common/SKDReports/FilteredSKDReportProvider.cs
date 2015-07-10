@@ -1,19 +1,16 @@
 ﻿using System;
-using System.Linq;
+using FiresecAPI.Models;
 using FiresecAPI.SKD.ReportFilters;
 using Infrastructure.Common.Windows;
-using FiresecAPI.Models;
 
 namespace Infrastructure.Common.SKDReports
 {
 	public abstract class FilteredSKDReportProvider<T> : SKDReportProvider, IFilteredSKDReportProvider
 		where T : SKDReportFilter
 	{
-		private bool _modelCreated;
 		public FilteredSKDReportProvider(string title, int index, SKDReportGroup? group = null, PermissionType? permission = null)
 			: base(title, index, group, permission)
 		{
-			_modelCreated = false;
 			Filter = Activator.CreateInstance<T>();
 		}
 

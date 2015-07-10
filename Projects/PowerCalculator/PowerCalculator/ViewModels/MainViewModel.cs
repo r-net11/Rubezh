@@ -10,6 +10,8 @@ using Microsoft.Win32;
 using PowerCalculator.Models;
 using System.Collections.Generic;
 using PowerCalculator.Processor;
+using System.Text;
+using System.Diagnostics;
 
 namespace PowerCalculator.ViewModels
 {
@@ -23,10 +25,13 @@ namespace PowerCalculator.ViewModels
 			SaveToFileCommand = new RelayCommand(OnSaveToFile);
 			LoadFromFileCommand = new RelayCommand(OnLoadFromFile);
 			AddLineCommand = new RelayCommand(OnAddLine);
-			RemoveLineCommand = new RelayCommand(OnRemoveFile, CanRemoveLine);
+			RemoveLineCommand = new RelayCommand(OnRemoveLine, CanRemoveLine);
+            PatchLineCommand = new RelayCommand(OnPatchLine, CanPatchLine);
             EditCableTypesRepositoryCommand = new RelayCommand(OnEditCableTypesRepository);
-			ShowSpecificationCommand = new RelayCommand(OnShowSpecification);
-			CalculateCommand = new RelayCommand(OnCalculate);
+            ShowSpecificationCommand = new RelayCommand(OnShowSpecification);
+            CollectToSpecificationCommand = new RelayCommand(OnCollectToSpecification, CanCollectToSpecification);
+			PatchCommand = new RelayCommand(OnPatch, CanPatch);
+            AboutCommand = new RelayCommand(OnAbout);
 			OnCreateNew();
 
             CableTypesRepository.LoadOrDefault(CableTypesPath);
@@ -44,7 +49,7 @@ namespace PowerCalculator.ViewModels
 			SelectedLine = Lines.FirstOrDefault();
 		}
 
-        string CableTypesPath { get { return AppDomain.CurrentDomain.BaseDirectory + "\\CableTypes.xml"; } }
+        string CableTypesPath { get { return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "CableTypes.xml"); } }
                        
 		ObservableCollection<LineViewModel> _lines;
 		public ObservableCollection<LineViewModel> Lines
@@ -153,18 +158,46 @@ namespace PowerCalculator.ViewModels
 		}
 
 		public RelayCommand RemoveLineCommand { get; private set; }
-		void OnRemoveFile()
+		void OnRemoveLine()
 		{
             int index = Lines.IndexOf(SelectedLine);
 			Configuration.Lines.Remove(SelectedLine.Line);
 			Lines.Remove(SelectedLine);
             RenameLines(index);
-			SelectedLine = Lines.FirstOrDefault();
+            index = Math.Min(index, Lines.Count - 1);
+            if (index > -1)
+                SelectedLine = Lines[index];
 		}
 		bool CanRemoveLine()
 		{
 			return SelectedLine != null;
 		}
+
+        public RelayCommand PatchLineCommand { get; private set; }
+        void OnPatchLine()
+        {
+            var patch = SelectedLine.GetPatch();
+
+            if (patch == null)
+            {
+                MessageBoxService.Show("Для исправления АЛС недостаточно свободных мест!");
+            }
+            else
+            {
+                var question = new StringBuilder().AppendLine("Список адресов недостающих модулей подпитки:");
+                for (int i = 0; i < patch.Count(); i++)
+                    question.Append(SelectedLine.Devices[patch[i] - i].Address + i).Append(i == patch.Count() - 1 ? "" : ", ");
+                question.AppendLine();
+
+                if (MessageBoxService.ShowQuestion(question.ToString()))
+                    SelectedLine.InstallPatch(patch);
+            }
+        }
+
+        bool CanPatchLine()
+        {
+            return SelectedLine != null && SelectedLine.HasError;
+        }
 
 		public RelayCommand ShowSpecificationCommand { get; private set; }
 		void OnShowSpecification()
@@ -172,6 +205,20 @@ namespace PowerCalculator.ViewModels
 			var specificationViewModel = new SpecificationViewModel(Configuration, Initialize);
             DialogService.ShowModalWindow(specificationViewModel);
 		}
+
+        public RelayCommand CollectToSpecificationCommand { get; private set; }
+        void OnCollectToSpecification()
+        {
+            var specificationViewModel = 
+                new SpecificationViewModel(Configuration, Initialize, 
+                    Processor.Processor.CollectDevices(Configuration.Lines), 
+                    Processor.Processor.CollectCables(Configuration.Lines));
+            DialogService.ShowModalWindow(specificationViewModel);
+        }
+        bool CanCollectToSpecification()
+        {
+            return Lines.Sum(x=>x.Devices.Count) > 0;
+        }
 
         public RelayCommand EditCableTypesRepositoryCommand { get; private set; }
         void OnEditCableTypesRepository()
@@ -183,11 +230,50 @@ namespace PowerCalculator.ViewModels
 			}
 		}
         
-		public RelayCommand CalculateCommand { get; private set; }
-		void OnCalculate()
+		public RelayCommand PatchCommand { get; private set; }
+		void OnPatch()
 		{
+            Dictionary<LineViewModel, List<int>> patches = new Dictionary<LineViewModel, List<int>>();
             foreach (var lineViewModel in Lines)
-                lineViewModel.Calculate();
-		}       
+            {
+                if (lineViewModel.HasError)
+                    patches.Add(lineViewModel, lineViewModel.GetPatch());
+            }
+
+            var question = new StringBuilder().AppendLine("Список адресов недостающих модулей подпитки:");
+            foreach (var patch in patches)
+            {
+                question.Append(patch.Key.Name).Append(": ");
+                
+                if (patch.Value == null)
+                    question.Append("недостаточно мест;");
+                else
+                    for (int i = 0; i < patch.Value.Count(); i++)
+                        question.Append(patch.Key.Devices[patch.Value[i] - i].Address + i).Append(i == patch.Value.Count() - 1 ? "" : ", ");
+                
+                question.AppendLine();
+            }
+            if (MessageBoxService.ShowQuestion(question.ToString()))
+                foreach (var patch in patches)
+                    if (patch.Value != null)
+                        patch.Key.InstallPatch(patch.Value);
+        }    
+        
+        bool CanPatch()
+        {
+            return Lines.Any(x=>x.HasError);
+        }
+
+        public RelayCommand AboutCommand { get; private set; }
+        void OnAbout()
+        {
+            try
+            {
+                Process.Start(Path.Combine(Environment.CurrentDirectory, "PowerCalulatorManual.pdf"));
+            }
+            catch
+            { 
+            }
+        }   
 	}
 }

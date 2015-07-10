@@ -49,9 +49,9 @@ namespace SettingsModule.ViewModels
 			RemoteAddress = GlobalSettingsHelper.GlobalSettings.RemoteAddress;
 			RemotePort = GlobalSettingsHelper.GlobalSettings.RemotePort;
 			ReportRemotePort = GlobalSettingsHelper.GlobalSettings.ReportRemotePort;
-			Login = GlobalSettingsHelper.GlobalSettings.Login;
-			Password = GlobalSettingsHelper.GlobalSettings.Password;
-			AutoConnect = GlobalSettingsHelper.GlobalSettings.AutoConnect;
+			Login = GlobalSettingsHelper.GlobalSettings.AdminLogin;
+			Password = GlobalSettingsHelper.GlobalSettings.AdminPassword;
+			AutoConnect = GlobalSettingsHelper.GlobalSettings.AdminAutoConnect;
 			DoNotAutoconnectAdm = GlobalSettingsHelper.GlobalSettings.DoNotAutoconnectAdm;
 			RunRevisor = GlobalSettingsHelper.GlobalSettings.RunRevisor;
 		}
@@ -517,9 +517,10 @@ namespace SettingsModule.ViewModels
 			GlobalSettingsHelper.GlobalSettings.RemoteAddress = RemoteAddress;
 			GlobalSettingsHelper.GlobalSettings.RemotePort = RemotePort;
 			GlobalSettingsHelper.GlobalSettings.ReportRemotePort = ReportRemotePort;
-			GlobalSettingsHelper.GlobalSettings.Login = Login;
-			GlobalSettingsHelper.GlobalSettings.Password = Password;
-			GlobalSettingsHelper.GlobalSettings.AutoConnect = AutoConnect;
+			GlobalSettingsHelper.GlobalSettings.AdminLogin = Login;
+			GlobalSettingsHelper.GlobalSettings.AdminPassword = Password;
+			GlobalSettingsHelper.GlobalSettings.AdminAutoConnect = AutoConnect;
+
 			GlobalSettingsHelper.GlobalSettings.DoNotAutoconnectAdm = DoNotAutoconnectAdm;
 			GlobalSettingsHelper.GlobalSettings.RunRevisor = RunRevisor;
 			ModulesViewModel.Save();

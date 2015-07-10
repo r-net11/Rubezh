@@ -152,7 +152,6 @@
     <Compile Include="Employees\ViewModels\AccessDoorViewModel.cs" />
     <Compile Include="Employees\ViewModels\CardNumberViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\DepartmentSelectionItemViewModel.cs" />
-    <Compile Include="Employees\ViewModels\ControllerSelectationViewModel.cs" />
     <Compile Include="Employees\ViewModels\GKControllerViewModel.cs" />
     <Compile Include="Employees\ViewModels\GKReaderSelectationViewModel.cs" />
     <Compile Include="Employees\Views\IsPositionDeletedTextBlock.xaml.cs">
@@ -173,9 +172,6 @@
     <Compile Include="Employees\ViewModels\ReadOnlyAccessDoorViewModel.cs" />
     <Compile Include="Employees\Views\CardNumberView.xaml.cs">
       <DependentUpon>CardNumberView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Employees\Views\ControllerSelectationView.xaml.cs">
-      <DependentUpon>ControllerSelectationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Events\BlockCardEvent.cs" />
     <Compile Include="Events\ChangeDepartmentChiefEvent.cs" />
@@ -732,10 +728,6 @@
     <Page Include="Employees\Views\EmployeeDetails\PositionSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Employees\Views\ControllerSelectationView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Resource Include="Reports\T13.xaml">
       <SubType>Designer</SubType>

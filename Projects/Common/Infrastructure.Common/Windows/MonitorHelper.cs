@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Windows;
 using System.Linq;
+using System.Windows;
 using Monitor = System.Windows.Forms.Screen;
 
 namespace Infrastructure.Common.Windows
@@ -27,7 +27,9 @@ namespace Infrastructure.Common.Windows
 		}
 		public static Rect WorkingArea(int monitorID)
 		{
-			return ToRect(Monitor.AllScreens[monitorID]);
+			if (Monitor.AllScreens.Length > monitorID)
+				return ToRect(Monitor.AllScreens[monitorID]);
+			return ToRect(Monitor.AllScreens[0]);
 		}
 		public static int FindMonitor(Rect rect)
 		{

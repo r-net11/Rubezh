@@ -74,7 +74,7 @@
 							<Button Content="Пуск" Command="{Binding TurnOnCommand}" Width="200" Height="50" Margin="2" />
 							<Button Content="Пуск немедленно" Command="{Binding TurnOnNowCommand}" Width="200" Height="50" Margin="2" />
 							<Button Content="Останов пуска" Command="{Binding ForbidStartCommand}" Width="200" Height="50" Margin="2" />
-							<Button Content="Стоп немедленно" Command="{Binding TurnOffCommand}" Width="200" Height="50" Margin="2" />
+							<Button Content="Выключить немедленно" Command="{Binding TurnOffCommand}" Width="200" Height="50" Margin="2" />
 						</StackPanel>
 					</Grid>
 				</Grid>
@@ -83,8 +83,8 @@
 				<ScrollViewer VerticalScrollBarVisibility="Auto">
 					<ItemsControl Background="White" Padding="2">
 						<ItemsControl.Items>
-							<WrapPanel Margin="2">
-								<TextBlock>
+                            <WrapPanel Margin="2">
+                                <TextBlock>
 									<Hyperlink Command="{Binding ShowCommand}" Style="{StaticResource HyperlinkStyle2}">
 										<StackPanel Orientation="Horizontal">
 											<Grid Width="16" Background="{DynamicResource Blue_Direction}" Margin="2 0"/>
@@ -92,8 +92,14 @@
 										</StackPanel>
 									</Hyperlink>
 								</TextBlock>
-							</WrapPanel>
-							<StackPanel Orientation="Horizontal" Margin="2">
+                            </WrapPanel>
+
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Номер дескриптора ГК:" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" FontWeight="Bold" />
+                                <TextBlock Text="{Binding Direction.GKDescriptorNo}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" FontWeight="Bold" />
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" Margin="2">
 								<TextBlock>
 									<Hyperlink Command="{Binding ShowJournalCommand}" Style="{StaticResource HyperlinkStyle2}">
 										<StackPanel Orientation="Horizontal">

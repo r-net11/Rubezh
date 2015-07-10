@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
-using Infrustructure.Plans.Elements;
 using System.Xml.Serialization;
+using Infrustructure.Plans.Elements;
 
 namespace FiresecAPI.Models
 {

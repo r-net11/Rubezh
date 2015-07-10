@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using FiresecAPI.SKD.ReportFilters;
-using Infrastructure.Common.Windows.ViewModels;
 
 namespace Infrastructure.Common.SKDReports
 {

@@ -10,8 +10,8 @@ namespace GKModule.Plans.ViewModels
 {
 	public class DevicePropertiesViewModel : SaveCancelDialogViewModel
 	{
-		private ElementGKDevice _elementGKDevice;
-		private DevicesViewModel _devicesViewModel;
+		ElementGKDevice _elementGKDevice;
+		DevicesViewModel _devicesViewModel;
 
 		public DevicePropertiesViewModel(DevicesViewModel devicesViewModel, ElementGKDevice elementDevice)
 		{
@@ -23,7 +23,7 @@ namespace GKModule.Plans.ViewModels
 			if (SelectedDevice != null)
 				SelectedDevice.ExpandToThis();
 		}
-		private DeviceViewModel AddDeviceInternal(GKDevice device, DeviceViewModel parentDeviceViewModel)
+		DeviceViewModel AddDeviceInternal(GKDevice device, DeviceViewModel parentDeviceViewModel)
 		{
 			var deviceViewModel = new DeviceViewModel(device);
 			if (parentDeviceViewModel != null)
@@ -36,7 +36,7 @@ namespace GKModule.Plans.ViewModels
 			return deviceViewModel;
 		}
 
-		private DeviceViewModel _rootDevice;
+		DeviceViewModel _rootDevice;
 		public DeviceViewModel RootDevice
 		{
 			get { return _rootDevice; }
@@ -79,7 +79,7 @@ namespace GKModule.Plans.ViewModels
 			return SelectedDevice != null && SelectedDevice.Driver.IsPlaceable;
 		}
 
-		private DeviceViewModel Update(Guid deviceUID)
+		DeviceViewModel Update(Guid deviceUID)
 		{
 			var device = _devicesViewModel.AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
 			if (device != null)

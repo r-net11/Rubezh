@@ -55,7 +55,10 @@ namespace FiresecClient
 		public static void AddDeviceToZone(GKDevice device, GKZone zone)
 		{
 			if (!device.Zones.Contains(zone))
+			{
 				device.Zones.Add(zone);
+				zone.LinkObject(device);
+			}
 			if (!device.ZoneUIDs.Contains(zone.UID))
 				device.ZoneUIDs.Add(zone.UID);
 			zone.Devices.Add(device);
@@ -66,7 +69,10 @@ namespace FiresecClient
 		public static void AddDeviceToGuardZone(GKDevice device, GKGuardZone guardZone)
 		{
 			if (!device.GuardZones.Contains(guardZone))
+			{
 				device.GuardZones.Add(guardZone);
+				guardZone.LinkObject(device);
+			}
 			if (!device.GuardZoneUIDs.Contains(guardZone.UID))
 				device.GuardZoneUIDs.Add(guardZone.UID);
 			guardZone.OnChanged();
@@ -80,6 +86,7 @@ namespace FiresecClient
 				device.Zones.Remove(zone);
 				device.ZoneUIDs.Remove(zone.UID);
 				zone.Devices.Remove(device);
+				zone.UnLinkObject(device);
 				zone.OnChanged();
 				device.OnChanged();
 			}
@@ -91,6 +98,7 @@ namespace FiresecClient
 			{
 				device.GuardZones.Remove(guardZone);
 				device.GuardZoneUIDs.Remove(guardZone.UID);
+				guardZone.UnLinkObject(device);
 				device.OnChanged();
 			}
 		}
@@ -124,6 +132,7 @@ namespace FiresecClient
 				}
 			}
 			parentDevice.Children.Remove(device);
+			device.OnRemoved();
 			Devices.Remove(device);
 		}
 
@@ -214,6 +223,7 @@ namespace FiresecClient
 			}
 			Directions.Remove(direction);
 			direction.OnChanged();
+			direction.OnRemoved();
 		}
 
 		public static void ChangeDirectionZones(GKDirection direction, List<GKZone> zones)

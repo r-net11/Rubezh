@@ -15,12 +15,14 @@ namespace GKModule.ViewModels
 		{
 			ShowLogicCommand = new RelayCommand(OnShowLogic);
 			Delay = delay;
+			Delay.Changed += Update;
 			Update();
 		}
 
 		public void Update()
 		{
 			OnPropertyChanged(() => Delay);
+			OnPropertyChanged(() => PresentationLogic);
 		}
 
 		public string PresentationLogic
@@ -52,7 +54,7 @@ namespace GKModule.ViewModels
 		void OnShowLogic()
 		{
 			DelaysViewModel.Current.SelectedDelay = this;
-			var logicViewModel = new LogicViewModel(null, Delay.Logic, true);
+			var logicViewModel = new LogicViewModel(Delay, Delay.Logic, true, hasStopClause: true);
 			if (DialogService.ShowModalWindow(logicViewModel))
 			{
 				Delay.Logic = logicViewModel.GetModel();

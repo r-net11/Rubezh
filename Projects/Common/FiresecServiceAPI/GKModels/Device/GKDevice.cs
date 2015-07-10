@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
-using FiresecClient;
-using Infrustructure.Plans.Interfaces;
 using System.Xml.Serialization;
+using Infrustructure.Plans.Interfaces;
 
 namespace FiresecAPI.GK
 {
@@ -25,15 +24,30 @@ namespace FiresecAPI.GK
 			Logic = new GKLogic();
 			NSLogic = new GKLogic();
 			PlanElementUIDs = new List<Guid>();
+			GKReflectionItem = new GKReflectionItem();
 			IsNotUsed = false;
 			AllowMultipleVizualization = false;
 
 			Zones = new List<GKZone>();
 			GuardZones = new List<GKGuardZone>();
 			Directions = new List<GKDirection>();
+        }
+
+		public override void Update(GKDevice device)
+		{
+			Logic.GetAllClauses().FindAll(x => x.Devices.Contains(device)).ForEach(y => { y.Devices.Remove(device); y.DeviceUIDs.Remove(device.UID); });
+			UnLinkObject(device);
+			OnChanged();
 		}
 
-		[XmlIgnore]
+		public override void Update(GKDirection direction)
+		{
+			Logic.GetAllClauses().FindAll(x => x.Directions.Contains(direction)).ForEach(y => { y.Directions.Remove(direction); y.DirectionUIDs.Remove(direction.UID); });
+			UnLinkObject(direction);
+			OnChanged();
+		}
+
+        [XmlIgnore]
 		public bool IsDisabled{ get; set; }
 		[XmlIgnore]
 		public override GKBaseObjectType ObjectType { get { return GKBaseObjectType.Deivce; } }
@@ -144,7 +158,7 @@ namespace FiresecAPI.GK
 		/// Отражение объекта ГК
 		/// </summary>
 		[DataMember]
-		public GKMirrorItem MirrorItem { get; set; }
+		public GKReflectionItem GKReflectionItem { get; set; }
 
 		[DataMember]
 		public bool IsOPCUsed { get; set; }
@@ -536,6 +550,15 @@ namespace FiresecAPI.GK
 		public bool CanBeNotUsed
 		{
 			get { return (Parent != null && Parent.Driver.IsGroupDevice); }
+		}
+
+		public void OnRemoved()
+		{
+			var newOutputObjects = new List<GKBase>(OutputObjects);
+			foreach (var outputObject in newOutputObjects)
+			{
+				outputObject.Update(this);
+			}
 		}
 
 		public void OnChanged()

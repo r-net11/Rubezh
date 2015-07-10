@@ -6,18 +6,17 @@ namespace PowerCalculator.Processor
 {
 	public static class Processor
 	{
-        public static void CollectToSpecification(Configuration configuration)
+        public static List<DeviceSpecificationItem> CollectDevices(List<Line> lines)
         {
-            configuration.CableSpecificationItems = new List<CableSpecificationItem>();
-            configuration.DeviceSpecificationItems = new List<DeviceSpecificationItem>();
+            var deviceSpecificationItems = new List<DeviceSpecificationItem>();
 
-            foreach (Line line in configuration.Lines)
+            foreach (Line line in lines)
                 foreach (Device device in line.Devices)
                 {
-					if (device.DriverType == DriverType.RSR2_KAU)
+                    if (device.DriverType == DriverType.RSR2_KAU)
                         continue;
 
-                    DeviceSpecificationItem existingDevice = configuration.DeviceSpecificationItems.Where(x => x.DriverType == device.DriverType).FirstOrDefault();
+                    DeviceSpecificationItem existingDevice = deviceSpecificationItems.Where(x => x.DriverType == device.DriverType).FirstOrDefault();
 
                     if (existingDevice == null)
                     {
@@ -25,14 +24,28 @@ namespace PowerCalculator.Processor
                         {
                             DriverType = device.DriverType,
                             Count = 1
-          
+
                         };
-                        configuration.DeviceSpecificationItems.Add(existingDevice);
+                        deviceSpecificationItems.Add(existingDevice);
                     }
                     else
                         existingDevice.Count++;
+                }
 
-                    CableSpecificationItem existingCable = configuration.CableSpecificationItems.Where(x => x.Resistivity == device.Cable.Resistivity && x.CableType == device.Cable.CableType).FirstOrDefault();
+            return deviceSpecificationItems;
+        }
+
+        public static List<CableSpecificationItem> CollectCables(List<Line> lines)
+        {
+            var cableSpecificationItems = new List<CableSpecificationItem>();
+
+            foreach (Line line in lines)
+                foreach (Device device in line.Devices)
+                {
+                    if (device.DriverType == DriverType.RSR2_KAU)
+                        continue;
+
+                    CableSpecificationItem existingCable = cableSpecificationItems.Where(x => x.Resistivity == device.Cable.Resistivity && x.CableType == device.Cable.CableType).FirstOrDefault();
 
                     if (existingCable == null)
                     {
@@ -42,21 +55,26 @@ namespace PowerCalculator.Processor
                             Resistivity = device.Cable.Resistivity,
                             CableType = device.Cable.CableType
                         };
-                        configuration.CableSpecificationItems.Add(existingCable);
+                        cableSpecificationItems.Add(existingCable);
                     }
                     else
                         existingCable.Length += device.Cable.Length;
                 }
+
+            return cableSpecificationItems;
         }
+
         public static IEnumerable<CableSpecificationItem> GenerateFromSpecification(Configuration configuration)
         {
             return GenerateFromSpecification(configuration, configuration.DeviceSpecificationItems, configuration.CableSpecificationItems);
         }
+        
         public static IEnumerable<CableSpecificationItem> GenerateFromSpecification(Configuration configuration, IList<DeviceSpecificationItem> deviceSpecificationItems, IList<CableSpecificationItem> cableSpecificationItems)
 		{
+            const int maxAdress = 240;
 			configuration.Lines = new List<Line>();
 			var totalDevicesCount = deviceSpecificationItems.Sum(x => x.Count * x.Driver.Mult);
-            for (int i = 0; i <= totalDevicesCount / 255; i++)
+            for (int i = 0; i <= totalDevicesCount / maxAdress; i++)
             {
                 configuration.Lines.Add(new Line());
             }
@@ -75,7 +93,7 @@ namespace PowerCalculator.Processor
                 for (int j = i; j < expandedDeviceSpecificationItems.Count; j+=configuration.Lines.Count)
                     sum += expandedDeviceSpecificationItems[j].Driver.Mult;
 
-                if (sum > 255)
+                if (sum > maxAdress)
                 {
                     needAnotherLine = true;
                     break;
@@ -184,19 +202,77 @@ namespace PowerCalculator.Processor
             return cableRemains;
 		}
 
-        public static IEnumerable<DeviceIndicator> CalculateLine(Line line, bool suppliersNeeds = false)
+        public static IEnumerable<DeviceIndicator> CalculateLine(Line line)
         {
             var calcPower = new Algorithms.CalcPowerAlgorithm(line);
             calcPower.Calculate();
 
-            if (suppliersNeeds)
-            {
-
-            }
-            
             foreach (Device device in line.Devices)
                 yield return new DeviceIndicator(device, calcPower.Result[device].il, calcPower.Result[device].ud);
                         
         }       
+
+        public static List<int> GetLinePatch(Line line)
+        {
+            var patch = new List<int>();
+            
+            Line testLine = new Line();
+            testLine.IsCircular = line.IsCircular;
+            testLine.Devices = line.Devices.ToList();
+
+            int step = (int)(line.Devices.Count / 10);
+            if (step == 0)
+                step = 1;
+            int index = 0;
+            while (true)
+            {
+                if (!CalculateLine(testLine).Any(x => x.HasIError || x.HasUError))
+                {
+                    return patch;
+                }
+
+                if (testLine.MaxAdress >= 255)
+                    return null;
+                
+                index += step;
+                if (index >= testLine.Devices.Count)
+                    index = testLine.Devices.Count - 1;
+                InsertSupplier(testLine, index);
+                
+                if (CalculateLine(testLine).Any(x=>testLine.Devices.IndexOf(x.Device) < index && (x.HasIError || x.HasUError)))
+                {
+                    while (true)
+                    {
+                        testLine.Devices.RemoveAt(index);
+                        index--;
+                        InsertSupplier(testLine, index);
+                        if (!CalculateLine(testLine).Any(x => testLine.Devices.IndexOf(x.Device) < index && (x.HasIError || x.HasUError)))
+                        {
+                            patch.Add(index);
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    if (!CalculateLine(testLine).Any(x => x.HasIError || x.HasUError))
+                    {
+                        patch.Add(index);
+                        return patch;
+                    }
+                    testLine.Devices.RemoveAt(index);
+                }
+            }
+        }
+
+        static void InsertSupplier(Line line, int index)
+        {
+            var supplier = new Device();
+            supplier.DriverType = DriverType.RSR2_MP;
+            supplier.Cable.CableType = line.Devices[index].Cable.CableType;
+            supplier.Cable.Length = line.Devices[index].Cable.Length;
+            supplier.Cable.Resistivity = line.Devices[index].Cable.Resistivity;
+            line.Devices.Insert(index, supplier);
+        }
     }
 }

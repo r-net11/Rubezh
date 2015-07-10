@@ -20,37 +20,6 @@ namespace GKImitator.ViewModels
 			SetFireTemperatureGradientCommand = new RelayCommand(OnSetFireTemperatureGradient);
 			SetFireHeandDetectorCommand = new RelayCommand(OnSetFireHeandDetector);
 			ResetFireCommand = new RelayCommand(OnResetFire);
-
-			if (GKBase is GKDevice)
-			{
-				var device = GKBase as GKDevice;
-				switch(device.DriverType)
-				{
-					case GKDriverType.RSR2_SmokeDetector:
-						HasSetFireSmoke = true;
-						HasResetFire = true;
-						StateBits.Add(new StateBitViewModel(this, GKStateBit.Fire1));
-						break;
-					case GKDriverType.RSR2_CombinedDetector:
-						HasSetFireTemperatureGradient = true;
-						HasResetFire = true;
-						StateBits.Add(new StateBitViewModel(this, GKStateBit.Fire1));
-						break;
-					case GKDriverType.RSR2_HeatDetector:
-						HasSetFireTemperature = true;
-						HasResetFire = true;
-						StateBits.Add(new StateBitViewModel(this, GKStateBit.Fire1));
-						break;
-					case GKDriverType.RSR2_HandDetector:
-						HasSetFireHeandDetector = true;
-						HasResetFire = true;
-						StateBits.Add(new StateBitViewModel(this, GKStateBit.Fire2));
-						break;
-					case GKDriverType.RSR2_AM_1:
-					case GKDriverType.RSR2_MAP4:
-						break;
-				}
-			}
 		}
 
 		public bool HasSetFireSmoke { get; private set; }
@@ -98,6 +67,9 @@ namespace GKImitator.ViewModels
 		public RelayCommand ResetFireCommand { get; private set; }
 		void OnResetFire()
 		{
+			var attentionStateBit = StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Attention);
+			if (attentionStateBit != null)
+				attentionStateBit.IsActive = false;
 			var fire1StateBit = StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Fire1);
 			if (fire1StateBit != null)
 				fire1StateBit.IsActive = false;
@@ -108,5 +80,7 @@ namespace GKImitator.ViewModels
 			AddJournalItem(journalItem);
 			RecalculateOutputLogic();
 		}
+
+		public bool HasReset { get; private set; }
 	}
 }

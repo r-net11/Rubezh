@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
-using Common;
+﻿using System.Runtime.Serialization;
 using System.Xml.Serialization;
 
 namespace FiresecAPI.GK
@@ -15,6 +12,15 @@ namespace FiresecAPI.GK
 		public GKCode()
 		{
 			Name = "Новый код";
+		}
+		public override void Update(GKDevice device)
+		{
+
+		}
+
+		public override void Update(GKDirection direction)
+		{
+
 		}
 
 		[XmlIgnore]

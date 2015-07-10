@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.ServiceModel;
 using FiresecAPI.GK;
 using FiresecAPI.Journal;
-using System.IO;
 
 namespace FiresecAPI
 {
@@ -44,7 +44,7 @@ namespace FiresecAPI
 		OperationResult<JournalItem> GKReadJournalItem(Guid deviceUID, int no);
 
 		[OperationContract]
-		OperationResult<bool> GKSetSingleParameter(Guid objectUID, List<byte> parameterBytes);
+		OperationResult<bool> GKSetSingleParameter(Guid objectUID, List<byte> parameterBytes, List<GKProperty> deviceProperties);
 
 		[OperationContract]
 		OperationResult<List<GKProperty>> GKGetSingleParameter(Guid objectUID);

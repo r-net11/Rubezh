@@ -102,6 +102,7 @@
     <Compile Include="Devices\ViewModels\GKUsersViewModel.cs" />
     <Compile Include="Devices\ViewModels\Logic\ClauseGroupViewModel.cs" />
     <Compile Include="Devices\ViewModels\Logic\StateTypeViewModel.cs" />
+    <Compile Include="Devices\ViewModels\ReflectionViewModel.cs" />
     <Compile Include="Devices\ViewModels\RSR2NewDeviceViewModel.cs" />
     <Compile Include="Devices\ViewModels\NewDeviceViewModelBase.cs" />
     <Compile Include="Devices\ViewModels\SettingsViewModel.cs" />
@@ -124,12 +125,16 @@
     <Compile Include="Devices\Views\Logic\ClausesView.xaml.cs">
       <DependentUpon>ClausesView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Devices\Views\ReflectionView.xaml.cs">
+      <DependentUpon>ReflectionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Devices\Views\RSR2NewDeviceView.xaml.cs">
       <DependentUpon>RSR2NewDeviceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Events\CreateGKCodeEvent.cs" />
     <Compile Include="Events\CreateGKDoorEvent.cs" />
     <Compile Include="Events\CreateGKSKDZoneEvent.cs" />
     <Compile Include="Events\EditGKDoorEvent.cs" />
@@ -655,6 +660,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Devices\Views\Logic\ClausesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Devices\Views\ReflectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

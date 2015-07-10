@@ -46,7 +46,7 @@ namespace PlansModule.ViewModels
 
 		public ObservableCollection<PlanViewModel> Plans { get; set; }
 
-		private PlanViewModel _selectedPlan;
+		PlanViewModel _selectedPlan;
 		public PlanViewModel SelectedPlan
 		{
 			get { return _selectedPlan; }

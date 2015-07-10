@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Common;
 using FiresecAPI.GK;
 
 namespace GKProcessor
@@ -40,17 +39,13 @@ namespace GKProcessor
 			var hasStopLogic = PumpStation.StopLogic.OnClausesGroup.Clauses.Count + PumpStation.StopLogic.OnClausesGroup.ClauseGroups.Count > 0;
 			if (hasAutomaticOffLogic)
 			{
-				Formula.Add(FormulaOperationType.DUP);
 				Formula.AddClauseFormula(PumpStation.AutomaticOffLogic.OnClausesGroup, DatabaseType);
-				Formula.Add(FormulaOperationType.AND);
 				Formula.AddPutBit(GKStateBit.SetRegime_Manual, PumpStation, DatabaseType);
 			}
 
 			if (hasStartLogic)
 			{
 				Formula.AddClauseFormula(PumpStation.StartLogic.OnClausesGroup, DatabaseType);
-				//Formula.AddGetBit(GKStateBit.On, MainDelay);
-				//Formula.Add(FormulaOperationType.AND);
 
 				if (hasStopLogic)
 				{
@@ -73,6 +68,7 @@ namespace GKProcessor
 
 		void SetPropertiesBytes()
 		{
+			Parameters = new List<byte>();
 			var binProperties = new List<BinProperty>();
 			binProperties.Add(new BinProperty()
 			{

@@ -13,9 +13,9 @@ namespace ManagementConsole
 			SaveCommand = new RelayCommand(OnSave);
 			RemoteAddress = GlobalSettingsHelper.GlobalSettings.RemoteAddress;
 			RemotePort = GlobalSettingsHelper.GlobalSettings.RemotePort;
-			Login = GlobalSettingsHelper.GlobalSettings.Login;
-			Password = GlobalSettingsHelper.GlobalSettings.Password;
-			AutoConnect = GlobalSettingsHelper.GlobalSettings.AutoConnect;
+			Login		= GlobalSettingsHelper.GlobalSettings.AdminLogin;
+			Password	= GlobalSettingsHelper.GlobalSettings.AdminPassword;
+			AutoConnect = GlobalSettingsHelper.GlobalSettings.AdminAutoConnect;
 			Server_EnableRemoteConnections = GlobalSettingsHelper.GlobalSettings.Server_EnableRemoteConnections;
 			UseHasp = GlobalSettingsHelper.GlobalSettings.UseHasp;
 			DBServerName = GlobalSettingsHelper.GlobalSettings.DBServerName;
@@ -200,9 +200,9 @@ namespace ManagementConsole
 		{
 			GlobalSettingsHelper.GlobalSettings.RemoteAddress = RemoteAddress;
 			GlobalSettingsHelper.GlobalSettings.RemotePort = RemotePort;
-			GlobalSettingsHelper.GlobalSettings.Login = Login;
-			GlobalSettingsHelper.GlobalSettings.Password = Password;
-			GlobalSettingsHelper.GlobalSettings.AutoConnect = AutoConnect;
+			GlobalSettingsHelper.GlobalSettings.AdminLogin = Login;
+			GlobalSettingsHelper.GlobalSettings.AdminPassword = Password;
+			GlobalSettingsHelper.GlobalSettings.AdminAutoConnect = AutoConnect;
 			GlobalSettingsHelper.GlobalSettings.DoNotAutoconnectAdm = DoNotAutoconnectAdm;
 			GlobalSettingsHelper.GlobalSettings.RunRevisor = RunRevisor;
 

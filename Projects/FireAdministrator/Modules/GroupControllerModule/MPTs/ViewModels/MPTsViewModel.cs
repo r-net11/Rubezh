@@ -29,6 +29,9 @@ namespace GKModule.ViewModels
 			AddCommand = new RelayCommand(OnAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
+			CopyLogicCommand = new RelayCommand(OnCopyLogic, CanCopyLogic);
+			PasteLogicCommand = new RelayCommand(OnPasteLogic, CanPasteLogic);
+
 			RegisterShortcuts();
 			IsRightPanelEnabled = true;
 			SubscribeEvents();
@@ -139,6 +142,36 @@ namespace GKModule.ViewModels
 				SelectedMPT.Update();
 				ServiceFactory.SaveService.GKChanged = true;
 			}
+		}
+
+		public RelayCommand CopyLogicCommand { get; private set; }
+		void OnCopyLogic()
+		{
+			GKManager.CopyLogic(SelectedMPT.MPT.MptLogic, true, false, true, false, true);
+		}
+
+		bool CanCopyLogic()
+		{
+			return SelectedMPT != null;
+		}
+
+		public RelayCommand PasteLogicCommand { get; private set; }
+		void OnPasteLogic()
+		{
+			var result = GKManager.CompareLogic(new GKAdvancedLogic(true, false, true, false, true));
+			var messageBoxResult = true;
+			if (!String.IsNullOrEmpty(result))
+				messageBoxResult = MessageBoxService.ShowConfirmation(result, "Копировать логику?");
+			if (messageBoxResult)
+			{
+				SelectedMPT.MPT.MptLogic = GKManager.PasteLogic(new GKAdvancedLogic(true, false, true, false, true));
+				SelectedMPT.Update();
+			}
+		}
+
+		bool CanPasteLogic()
+		{
+			return SelectedMPT != null && GKManager.LogicToCopy != null;
 		}
 
 		public void CreateMPT(CreateGKMPTEventArg createMPTEventArg)

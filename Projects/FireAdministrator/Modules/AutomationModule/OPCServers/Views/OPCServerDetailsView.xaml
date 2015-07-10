@@ -6,15 +6,18 @@
 		<TabItem Header="Основные">
 			<Grid>
 				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="*"/>
+					<ColumnDefinition Width="100"/>
 					<ColumnDefinition Width="*"/>
 				</Grid.ColumnDefinitions>
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
-				<Label Grid.Row="0" Grid.Column="0" Content="Название" HorizontalAlignment="Right" />
+				<Label Grid.Row="0" Grid.Column="0" Content="Название" HorizontalAlignment="Left" />
 				<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-			</Grid>
+                <Label Grid.Row="1" Grid.Column="0" Content="Url" HorizontalAlignment="Left" />
+                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Address, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+            </Grid>
 		</TabItem>
 	</TabControl>
 </UserControl>

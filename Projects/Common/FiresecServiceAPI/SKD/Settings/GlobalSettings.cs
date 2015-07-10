@@ -10,34 +10,20 @@ namespace FiresecAPI
 	[DataContract]
 	public class GlobalSettings
 	{
-		/// <summary>
-		/// Инициализация свойства UseStrazhBrand
-		/// Если в каталоге данных есть файл-флаг "StrazhSettings.xml", то UI подстраивается под бренд СТРАЖ
-		/// </summary>
-		private void InitializeUseStrazhBrandProperty()
-		{
-			try
-			{
-				var appDataFolderName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "Firesec2");
-				UseStrazhBrand = File.Exists(Path.Combine(appDataFolderName, "StrazhSettings.xml"));
-			}
-			catch (Exception)
-			{
-				UseStrazhBrand = false;
-			}
-		}
-
 		public GlobalSettings()
 		{
 			RemoteAddress = "localhost";
 			RemotePort = 8000;
 			ReportRemotePort = 8800;
-			Login = "adm";
-			Password = "";
-			AutoConnect = false;
+			AdminLogin = "adm";
+			AdminPassword = "";
+			AdminAutoConnect = false;
+			MonitorLogin = "mon";
+			MonitorPassword = "";
+			MonitorAutoConnect = false;
+
 			Server_EnableRemoteConnections = false;
 
-			InitializeUseStrazhBrandProperty();
 			UseHasp = false;
 			DBServerName = "SQLEXPRESS";
 			CreateNewDBOnOversize = true;
@@ -51,7 +37,29 @@ namespace FiresecAPI
 			Monitor_IsControlMPT = false;
 			Monitor_HaspInfo_Enabled = false;
 			IgnoredErrors = 0;
+
+			UseStrazhBrand = false;
 		}
+
+
+		[DataMember]
+		public string AdminLogin { get; set; }
+
+		[DataMember]
+		public string AdminPassword { get; set; }
+
+		[DataMember]
+		public bool AdminAutoConnect { get; set; }
+
+		[DataMember]
+		public string MonitorLogin { get; set; }
+
+		[DataMember]
+		public string MonitorPassword { get; set; }
+
+		[DataMember]
+		public bool MonitorAutoConnect { get; set; }
+
 
 		[DataMember]
 		public string RemoteAddress { get; set; }
@@ -61,15 +69,6 @@ namespace FiresecAPI
 
 		[DataMember]
 		public int ReportRemotePort { get; set; }
-
-		[DataMember]
-		public string Login { get; set; }
-
-		[DataMember]
-		public string Password { get; set; }
-
-		[DataMember]
-		public bool AutoConnect { get; set; }
 
 		[DataMember]
 		[XmlIgnore]
@@ -156,8 +155,9 @@ namespace FiresecAPI
 			{
 #if DEBUG
 				return true;
+#else
+                return false;
 #endif
-				return false;
 			}
 		}
 	}

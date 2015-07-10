@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using Common;
-using FiresecAPI.GK;
-using Infrustructure.Plans.Interfaces;
 using System.Xml.Serialization;
+using Infrustructure.Plans.Interfaces;
 
 namespace FiresecAPI.GK
 {
@@ -18,6 +16,16 @@ namespace FiresecAPI.GK
 		{
 			PlanElementUIDs = new List<Guid>();
 			Devices = new List<GKDevice>();
+		}
+
+		public override void Update(GKDevice device)
+		{
+
+		}
+
+		public override void Update(GKDirection direction)
+		{
+
 		}
 
 		[XmlIgnore]

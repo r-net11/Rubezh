@@ -15,7 +15,6 @@ namespace GKImitator.ViewModels
 {
 	public partial class DescriptorViewModel : BaseViewModel
 	{
-		public BaseDescriptor KauBaseDescriptor { get; private set; }
 		public BaseDescriptor LogicDescriptor { get; private set; }
 		public List<FormulaOperation> FormulaOperations { get; protected set; }
 		bool IsKauDecriptor;
@@ -29,8 +28,8 @@ namespace GKImitator.ViewModels
 
 		public void InitializeLogic()
 		{
-			BaseDescriptor.Build();
-			LogicDescriptor = BaseDescriptor;
+			GKBaseDescriptor.Build();
+			LogicDescriptor = GKBaseDescriptor;
 
 			if (KauBaseDescriptor != null)
 			{
@@ -208,6 +207,17 @@ namespace GKImitator.ViewModels
 						break;
 
 					case FormulaOperationType.GT:
+						if (stack.Count > 1)
+						{
+							var currentStackValue1 = stack.LastOrDefault();
+							stack.RemoveAt(stack.Count - 1);
+
+							var currentStackValue2 = stack.LastOrDefault();
+							stack.RemoveAt(stack.Count - 1);
+
+							var newStackValue = (currentStackValue2 > currentStackValue1) ? 1 : 0;
+							stack.Add(newStackValue);
+						}
 						break;
 
 					case FormulaOperationType.GE:
@@ -225,9 +235,31 @@ namespace GKImitator.ViewModels
 						break;
 
 					case FormulaOperationType.LT:
+						if (stack.Count > 1)
+						{
+							var currentStackValue1 = stack.LastOrDefault();
+							stack.RemoveAt(stack.Count - 1);
+
+							var currentStackValue2 = stack.LastOrDefault();
+							stack.RemoveAt(stack.Count - 1);
+
+							var newStackValue = (currentStackValue2 < currentStackValue1) ? 1 : 0;
+							stack.Add(newStackValue);
+						}
 						break;
 
 					case FormulaOperationType.LE:
+						if (stack.Count > 1)
+						{
+							var currentStackValue1 = stack.LastOrDefault();
+							stack.RemoveAt(stack.Count - 1);
+
+							var currentStackValue2 = stack.LastOrDefault();
+							stack.RemoveAt(stack.Count - 1);
+
+							var newStackValue = (currentStackValue2 <= currentStackValue1) ? 1 : 0;
+							stack.Add(newStackValue);
+						}
 						break;
 
 					case FormulaOperationType.TSTP:

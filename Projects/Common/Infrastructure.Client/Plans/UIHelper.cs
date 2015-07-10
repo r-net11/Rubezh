@@ -15,7 +15,7 @@ namespace Infrastructure.Client.Plans
 			Image image = new Image();
 			image.Width = 16;
 			image.VerticalAlignment = VerticalAlignment.Center;
-			BitmapImage sourceImage = new BitmapImage();
+			var sourceImage = new BitmapImage();
 			sourceImage.BeginInit();
 			sourceImage.UriSource = new Uri(imageSourceUri);
 			sourceImage.EndInit();

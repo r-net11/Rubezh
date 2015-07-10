@@ -320,7 +320,7 @@ namespace GKProcessor
 									JournalItem.JournalEventDescriptionType = JournalStringsHelper.ToBatteryFailure(bytes[32 + 15]);
 									break;
 								default:
-									JournalItem.JournalEventDescriptionType = JournalStringsHelper.ToFailure(bytes[32 + 15]);
+									JournalItem.JournalEventDescriptionType = JournalStringsHelper.ToFailure(bytes[32 + 15], descriptorType == 0xE5);
 									if (bytes[32 + 15] >= 241 && bytes[32 + 15] <= 254)
 									{
 										var firstAdditionalDescription = bytes[32 + 16].ToString();
@@ -409,7 +409,8 @@ namespace GKProcessor
 
 						case 9:
 							JournalItem.JournalEventNameType = JournalStringsHelper.ToState(bytes[32 + 15]);
-							if (Device != null && (Device.DriverType == GKDriverType.RSR2_Valve_KV || Device.DriverType == GKDriverType.RSR2_Valve_KVMV || Device.DriverType == GKDriverType.RSR2_Valve_DU))
+							if (Device != null && (Device.DriverType == GKDriverType.RSR2_Valve_KV || Device.DriverType == GKDriverType.RSR2_Valve_KVMV || Device.DriverType == GKDriverType.RSR2_Valve_DU
+								|| Device.DriverType == GKDriverType.RSR2_Buz_KV || Device.DriverType == GKDriverType.RSR2_Buz_KVMV || Device.DriverType == GKDriverType.RSR2_Buz_KVDU))
 							{
 								JournalItem.JournalEventNameType = JournalStringsHelper.ToValveState(bytes[32 + 15]);
 							}

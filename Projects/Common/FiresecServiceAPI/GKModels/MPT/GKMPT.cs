@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
-using Common;
-using System;
 using Infrustructure.Plans.Interfaces;
 
 namespace FiresecAPI.GK
@@ -19,6 +18,21 @@ namespace FiresecAPI.GK
 			MPTDevices = new List<GKMPTDevice>();
 			Delay = 60;
 			PlanElementUIDs = new List<Guid>();
+		}
+
+		public override void Update(GKDevice device)
+		{
+			MptLogic.GetAllClauses().FindAll(x => x.Devices.Contains(device)).ForEach(y => { y.Devices.Remove(device); y.DeviceUIDs.Remove(device.UID); });
+			MPTDevices.RemoveAll(x => x.Device == device);
+			UnLinkObject(device);
+			OnChanged();
+		}
+
+		public override void Update(GKDirection direction)
+		{
+			MptLogic.GetAllClauses().FindAll(x => x.Directions.Contains(direction)).ForEach(y => { y.Directions.Remove(direction); y.DirectionUIDs.Remove(direction.UID); });
+			UnLinkObject(direction);
+			OnChanged();
 		}
 
 		bool _isLogicOnKau;
@@ -68,7 +82,7 @@ namespace FiresecAPI.GK
 		[XmlIgnore]
 		public override string PresentationName
 		{
-			get { return "MПТ" + "." + No + "." + Name; }
+			get { return No + "." + Name; }
 		}
 
 		[XmlIgnore]

@@ -28,6 +28,7 @@ namespace GKProcessor
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.On);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.TurningOn);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Off);
+            GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Test);
 
 			GKDriversHelper.AddAvailableStateBits(driver, GKStateBit.Attention);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Attention);
@@ -54,7 +55,7 @@ namespace GKProcessor
 				No = 4,
 				Name = "Режим после удержания включенного состояния",
 				Caption = "Режим после удержания включенного состояния",
-				Default = 0,
+				Default = 1,
 				IsLowByte = true,
 				Mask = 0x01
 			};

@@ -17,7 +17,7 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public Guid ZoneUID { get; set; }
 		[DataMember]
-		public bool IsHiddenZone { get; set; }
+		public bool ShowState { get; set; }
 		[DataMember]
 		public ElementZoneType ElementZoneType { get; set; }
 
@@ -35,7 +35,6 @@ namespace FiresecAPI.Models
 		private void CopyZone(IElementZone element)
 		{
 			element.ZoneUID = ZoneUID;
-			element.IsHiddenZone = IsHiddenZone;
 		}
 
 		#region IPrimitive Members

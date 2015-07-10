@@ -1,13 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using Common;
-using FiresecAPI.Automation;
-using FiresecAPI.Models;
+using FiresecAPI.Journal;
 using Infrastructure.Common;
 using Ionic.Zip;
-using FiresecAPI.Journal;
 
 namespace FiresecService.Service
 {
@@ -101,7 +97,6 @@ namespace FiresecService.Service
 			AddJournalMessage(JournalEventNameType.Применение_конфигурации, null);
 			ConfigurationCashHelper.Update();
 			GKProcessor.SetNewConfig();
-			SKDProcessor.SetNewConfig();
 			ScheduleRunner.SetNewConfig();
 			ProcedureRunner.SetNewConfig();
 		}

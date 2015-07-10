@@ -17,6 +17,12 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public Guid DirectionUID { get; set; }
 
+		[DataMember]
+		public bool ShowState { get; set; }
+
+		[DataMember]
+		public bool ShowDelay { get; set; }
+
 		public override ElementBase Clone()
 		{
 			var elementBase = new ElementPolygonGKDirection();

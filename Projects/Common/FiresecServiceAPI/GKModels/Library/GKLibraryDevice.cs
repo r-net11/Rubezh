@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using Infrustructure.Plans.Devices;
 using System.Xml.Serialization;
+using Infrustructure.Plans.Devices;
 
 namespace FiresecAPI.GK
 {
