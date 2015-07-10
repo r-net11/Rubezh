@@ -48,7 +48,7 @@
 				</Button>
 			</StackPanel>
 			<Button Command="{Binding Content.ApplicationCloseCommand}" Focusable="False" Style="{StaticResource ToolBarButtonStyle}" ToolTip="Закрыть" Visibility="{Binding Content.AllowClose, Converter={StaticResource BoolToVisibilityConverter}}">
-				<Grid Height="12" Width="12" Margin="-2" Background="{StaticResource Close}" />
+				<Grid Height="12" Width="12" Margin="-2" Background="{DynamicResource Close}" />
 			</Button>
 		</StackPanel>
 	</Grid>
