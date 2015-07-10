@@ -26,6 +26,7 @@ namespace FiresecAPI.GK
 			Delays = new List<GKDelay>();
 			NSs = new List<GKPumpStation>();
 			MPTs = new List<GKMPT>();
+			MirrorUsers = new List<MirrorUser>();
 		}
 
 		[XmlIgnore]
@@ -48,6 +49,9 @@ namespace FiresecAPI.GK
 
 		[XmlIgnore]
 		public List<GKMPT> MPTs { get; set; }
+
+		[XmlIgnore]
+		public List<MirrorUser> MirrorUsers { get; set; }
 
 		[DataMember]
 		public List<Guid> ZoneUIDs { get; set; }
