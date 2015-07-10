@@ -12,7 +12,7 @@
 		<tree:TreeList Grid.Row="0" Name="_treeList" Focusable="True" tree:SortBehavior.CanUserSortColumns="True" Source="{Binding Organisations, Mode=OneWay}" IsEnabled="{Binding IsSelection}" >
 			<tree:TreeList.View>
 				<GridView>
-					<GridViewColumn Header="ФИО" ListViewLayoutManager.StarWidth="1">
+					<GridViewColumn Header="ФИО">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">

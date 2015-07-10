@@ -21,7 +21,7 @@
 	<tree:TreeList Focusable="True" SelectedTreeNode="{Binding SelectedCard}" Source="{Binding RootItemsArray}" tree:SortBehavior.CanUserSortColumns="True">
 		<tree:TreeList.View>
 			<GridView>
-                <GridViewColumn Header="Номер" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource CardViewModelNumberComparer}">
+                <GridViewColumn Header="Номер" Width="300" tree:SortBehavior.SortComparer="{StaticResource CardViewModelNumberComparer}">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
@@ -33,21 +33,21 @@
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
-                <GridViewColumn Header="Тип" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource CardViewModelTypeComparer}" >
+                <GridViewColumn Header="Тип" Width="200" tree:SortBehavior.SortComparer="{StaticResource CardViewModelTypeComparer}" >
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding CardType}" Visibility="{Binding IsInStopList, Converter={StaticResource InversedBoolToVisibilityConverter}}" Style="{StaticResource ActiveStyle}" MinWidth="150" />
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
-				<GridViewColumn Header="Сотрудник" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource CardViewModelEmployeeNameComparer}">
+				<GridViewColumn Header="Сотрудник" Width="300" tree:SortBehavior.SortComparer="{StaticResource CardViewModelEmployeeNameComparer}">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding EmployeeName}" Style="{StaticResource ActiveStyle}" MinWidth="150" />
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
-				<GridViewColumn Header="Причина деактивации" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource CardViewModelStopReasonComparer}">
+				<GridViewColumn Header="Причина деактивации" Width="300" tree:SortBehavior.SortComparer="{StaticResource CardViewModelStopReasonComparer}">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding StopReason}" Style="{StaticResource ActiveStyle}" MinWidth="150" />

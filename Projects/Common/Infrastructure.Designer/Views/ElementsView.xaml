@@ -42,7 +42,7 @@
 		</Style>
 	</UserControl.Resources>
 
-	<tree:TreeList SelectedTreeNode="{Binding SelectedElement}" Source="{Binding Elements}" controls:ListViewLayoutManager.MinWidth="35">
+	<tree:TreeList SelectedTreeNode="{Binding SelectedElement}" Source="{Binding Elements}">
 		<tree:TreeList.ItemContainerStyle>
 			<Style BasedOn="{StaticResource {x:Type tree:TreeListItem}}" TargetType="{x:Type tree:TreeListItem}">
 				<Setter Property="Visibility" Value="{Binding IsGroupHasChild, Converter={StaticResource BoolToVisibilityConverter}}" />
@@ -74,14 +74,14 @@
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
-				<GridViewColumn Header="" Width="35" controls:ListViewLayoutManager.CanUserResize="False">
+				<GridViewColumn Header="" Width="35">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
 							<CheckBox Margin="1" IsChecked="{Binding IsVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IsVisibleCheckBoxStyle}" />
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
-				<GridViewColumn Header="" Width="35" controls:ListViewLayoutManager.CanUserResize="False">
+				<GridViewColumn Header="" Width="35">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
 							<CheckBox Margin="1" IsChecked="{Binding IsSelectable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IsSelectableCheckBoxStyle}" />

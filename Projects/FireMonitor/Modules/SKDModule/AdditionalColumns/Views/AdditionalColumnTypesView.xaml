@@ -10,7 +10,7 @@
 				   Source="{Binding Organisations}" SelectedTreeNode="{Binding SelectedItem}" ItemActivatedCommand="{Binding EditCommand}" >
 		<tree:TreeList.View>
 			<GridView>
-				<GridViewColumn Header="Название" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource AdditionalColumnTypeViewModelNameComparer}">
+				<GridViewColumn Header="Название" Width="300" tree:SortBehavior.SortComparer="{StaticResource AdditionalColumnTypeViewModelNameComparer}">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
@@ -21,14 +21,14 @@
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
-				<GridViewColumn Header="Примечание" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource AdditionalColumnTypeViewModelDescriptionComparer}">
+				<GridViewColumn Header="Примечание" Width="300" tree:SortBehavior.SortComparer="{StaticResource AdditionalColumnTypeViewModelDescriptionComparer}">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding Description}" Style="{StaticResource IsDeletedStyle}" />
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
-				<GridViewColumn Header="Формат данных" Width="100" tree:SortBehavior.SortComparer="{StaticResource AdditionalColumnTypeViewModelDataTypeComparer}">
+				<GridViewColumn Header="Формат данных" Width="150" tree:SortBehavior.SortComparer="{StaticResource AdditionalColumnTypeViewModelDataTypeComparer}">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding DataType}" Style="{StaticResource IsDeletedStyle}" />

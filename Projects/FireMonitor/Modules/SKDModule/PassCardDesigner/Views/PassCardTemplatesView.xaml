@@ -1,28 +1,55 @@
-<UserControl x:Class="SKDModule.PassCardDesigner.Views.PassCardTemplatesView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:viewModel="clr-namespace:SKDModule.ViewModels">
+<UserControl
+	x:Class="SKDModule.PassCardDesigner.Views.PassCardTemplatesView"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:viewModel="clr-namespace:SKDModule.ViewModels">
 	<UserControl.Resources>
 		<viewModel:PassCardTemplateViewModelNameComparer x:Key="PassCardTemplateViewModelNameComparer" />
 		<viewModel:PassCardTemplateViewModelDescriptionComparer x:Key="PassCardTemplateViewModelDescriptionComparer" />
 	</UserControl.Resources>
 
-	<TreeList Name="_treeList" Focusable="True" SelectedTreeNode="{Binding SelectedItem}" SortBehavior.CanUserSortColumns="True" Source="{Binding Organisations}">
+	<TreeList
+		Name="_treeList"
+		Focusable="True"
+		SelectedTreeNode="{Binding SelectedItem}"
+		SortBehavior.CanUserSortColumns="True"
+		Source="{Binding Organisations}">
 		<TreeList.View>
 			<GridView>
-				<GridViewColumn Header="Название" ListViewLayoutManager.StarWidth="1" SortBehavior.SortComparer="{StaticResource PassCardTemplateViewModelNameComparer}">
+				<GridViewColumn
+					Width="300"
+					Header="Название"
+					SortBehavior.SortComparer="{StaticResource PassCardTemplateViewModelNameComparer}">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
-								<Image Width="16" Margin="1 0" VerticalAlignment="Center" Source="/Controls;component/Images/Organisation.png" Visibility="{Binding IsOrganisation, Converter={StaticResource BoolToVisibilityConverter}}" />
-								<Grid Width="16" Margin="1 0" VerticalAlignment="Center" Background="{DynamicResource BPassCardDesigner}" Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
-								<TextBlock Text="{Binding Name}" Style="{StaticResource IsDeletedStyle}" />
+								<Image
+									Width="16"
+									Margin="1 0"
+									VerticalAlignment="Center"
+									Source="/Controls;component/Images/Organisation.png"
+									Visibility="{Binding IsOrganisation,
+								                            Converter={StaticResource BoolToVisibilityConverter}}" />
+								<Grid
+									Width="16"
+									Margin="1 0"
+									VerticalAlignment="Center"
+									Background="{DynamicResource BPassCardDesigner}"
+									Visibility="{Binding IsOrganisation,
+								                           Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+								<TextBlock Style="{StaticResource IsDeletedStyle}" Text="{Binding Name}" />
 							</StackPanel>
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
-				<GridViewColumn Header="Примечание" ListViewLayoutManager.StarWidth="1" SortBehavior.SortComparer="{StaticResource PassCardTemplateViewModelDescriptionComparer}">
+				<GridViewColumn
+					Width="300"
+					Header="Примечание"
+					SortBehavior.SortComparer="{StaticResource PassCardTemplateViewModelDescriptionComparer}">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="{Binding Description}" Style="{StaticResource IsDeletedStyle}" />
+								<TextBlock Style="{StaticResource IsDeletedStyle}" Text="{Binding Description}" />
 							</StackPanel>
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>

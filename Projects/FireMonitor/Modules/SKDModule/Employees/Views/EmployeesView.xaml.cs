@@ -70,7 +70,6 @@ namespace SKDModule.Views
 				binding.Path = new PropertyPath(bindingPath);
 				binding.Mode = BindingMode.OneWay;
 				txtElement.SetBinding(TextBlock.TextProperty, binding);
-				ListViewLayoutManager.SetStarWidth(gridViewColumn, 5);
 				gridViewColumn.CellTemplate = dataTemplate;
 				gridView.Columns.Add(gridViewColumn);
 			}

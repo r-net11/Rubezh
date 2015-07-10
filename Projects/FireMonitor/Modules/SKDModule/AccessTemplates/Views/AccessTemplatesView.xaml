@@ -9,7 +9,7 @@
 	xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
 	xmlns:viewModel="clr-namespace:SKDModule.ViewModels"
 	d:DesignHeight="300"
-	d:DesignWidth="400"
+	d:DesignWidth="500"
 	mc:Ignorable="d">
 	<UserControl.Resources>
 		<viewModel:AccessTemplateViewModelNameComparer x:Key="AccessTemplateViewModelNameComparer" />
@@ -24,7 +24,6 @@
 		</Grid.RowDefinitions>
 		<tree:TreeList
 			Name="_treeList"
-			Grid.Row="0"
 			Focusable="True"
 			ItemActivatedCommand="{Binding EditCommand}"
 			SelectedTreeNode="{Binding SelectedItem}"
@@ -34,7 +33,7 @@
 				<GridView>
 					<GridViewColumn
 						Header="Название"
-						ListViewLayoutManager.StarWidth="1"
+						Width="300"
 						tree:SortBehavior.SortComparer="{StaticResource AccessTemplateViewModelNameComparer}">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
@@ -60,7 +59,7 @@
 					</GridViewColumn>
 					<GridViewColumn
 						Header="Примечание"
-						ListViewLayoutManager.StarWidth="1"
+						Width="300"
 						tree:SortBehavior.SortComparer="{StaticResource AccessTemplateViewModelDescriptionComparer}">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>

@@ -530,8 +530,6 @@ namespace FiresecService.Service
 
 		#endregion
 
-		#endregion Device
-
 		#region PassCardTemplate
 
 		public OperationResult<IEnumerable<ShortPassCardTemplate>> GetPassCardTemplateList(PassCardTemplateFilter filter)

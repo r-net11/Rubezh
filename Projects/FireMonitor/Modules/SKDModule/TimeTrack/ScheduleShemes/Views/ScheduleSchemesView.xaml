@@ -4,16 +4,16 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:Controls="clr-namespace:Controls;assembly=Controls"
 	xmlns:Converters="clr-namespace:SKDModule.Converters"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
 	xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
 	xmlns:viewModel="clr-namespace:SKDModule.ViewModels"
 	DataContextChanged="UserControl_DataContextChanged"
-	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-	xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
-	mc:Ignorable="d" 
 	d:DesignHeight="250"
-	d:DesignWidth="400">
+	d:DesignWidth="400"
+	mc:Ignorable="d">
 	<UserControl.Resources>
 		<viewModel:ScheduleShemeViewModelNameComparer x:Key="ScheduleShemeViewModelNameComparer" />
 		<viewModel:ScheduleShemeViewModelDescriptionComparer x:Key="ScheduleShemeViewModelDescriptionComparer" />
@@ -26,12 +26,32 @@
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 		<StackPanel Grid.Row="0" Orientation="Horizontal">
-			<ToolBarButton Command="{Binding AddCommand}" ImageSource="Add"  ToolTip="Добавить" />
-			<ToolBarButton Command="{Binding EditCommand}" ImageSource="Edit"  ToolTip="Редактировать" />
-			<ToolBarButton Command="{Binding RemoveCommand}" ImageSource="Delete"  ToolTip="Удалить" />
-			<ToolBarButton Command="{Binding CopyCommand}" ImageSource="Copy"  ToolTip="Копировать" />
-			<ToolBarButton Command="{Binding PasteCommand}" ImageSource="Paste"  ToolTip="Вставить" />
-			<ToolBarButton Command="{Binding RestoreCommand}" ImageSource="Redo"  ToolTip="Восстановить" Visibility="{Binding IsWithDeleted, Converter={StaticResource BoolToVisibilityConverter}}" />
+			<ToolBarButton
+				Command="{Binding AddCommand}"
+				ImageSource="Add"
+				ToolTip="Добавить" />
+			<ToolBarButton
+				Command="{Binding EditCommand}"
+				ImageSource="Edit"
+				ToolTip="Редактировать" />
+			<ToolBarButton
+				Command="{Binding RemoveCommand}"
+				ImageSource="Delete"
+				ToolTip="Удалить" />
+			<ToolBarButton
+				Command="{Binding CopyCommand}"
+				ImageSource="Copy"
+				ToolTip="Копировать" />
+			<ToolBarButton
+				Command="{Binding PasteCommand}"
+				ImageSource="Paste"
+				ToolTip="Вставить" />
+			<ToolBarButton
+				Command="{Binding RestoreCommand}"
+				ImageSource="Redo"
+				ToolTip="Восстановить"
+				Visibility="{Binding IsWithDeleted,
+			                                    Converter={StaticResource BoolToVisibilityConverter}}" />
 		</StackPanel>
 
 		<Grid Grid.Row="1">
@@ -39,34 +59,61 @@
 				<ColumnDefinition Width="*" />
 				<ColumnDefinition Width="*" />
 			</Grid.ColumnDefinitions>
-			<tree:TreeList Name="_treeList" Grid.Column="0" Focusable="True" ItemActivatedCommand="{Binding EditCommand}" SelectedTreeNode="{Binding SelectedItem}" Source="{Binding Organisations}" tree:SortBehavior.CanUserSortColumns="True">
+			<tree:TreeList
+				Name="_treeList"
+				Focusable="True"
+				ItemActivatedCommand="{Binding EditCommand}"
+				SelectedTreeNode="{Binding SelectedItem}"
+				Source="{Binding Organisations}"
+				tree:SortBehavior.CanUserSortColumns="True">
 				<tree:TreeList.View>
 					<GridView>
-						<GridViewColumn Header="Название" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource ScheduleShemeViewModelNameComparer}">
+						<GridViewColumn
+							Width="300"
+							Header="Название"
+							tree:SortBehavior.SortComparer="{StaticResource ScheduleShemeViewModelNameComparer}">
 							<GridViewColumn.CellTemplate>
 								<DataTemplate>
 									<StackPanel Orientation="Horizontal">
-										<Image Width="16" Margin="1 0" VerticalAlignment="Center" Source="/Controls;component/Images/Organisation.png" Visibility="{Binding IsOrganisation, Converter={StaticResource BoolToVisibilityConverter}}" />
-										<Image Width="16" Margin="1 0" VerticalAlignment="Center" Source="/Controls;component/Images/Month.png" Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
-										<TextBlock Text="{Binding Name}" Style="{StaticResource IsDeletedStyle}" />
+										<Image
+											Width="16"
+											Margin="1 0"
+											VerticalAlignment="Center"
+											Source="/Controls;component/Images/Organisation.png"
+											Visibility="{Binding IsOrganisation,
+										                            Converter={StaticResource BoolToVisibilityConverter}}" />
+										<Image
+											Width="16"
+											Margin="1 0"
+											VerticalAlignment="Center"
+											Source="/Controls;component/Images/Month.png"
+											Visibility="{Binding IsOrganisation,
+										                            Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+										<TextBlock Style="{StaticResource IsDeletedStyle}" Text="{Binding Name}" />
 									</StackPanel>
 								</DataTemplate>
 							</GridViewColumn.CellTemplate>
 						</GridViewColumn>
-						<GridViewColumn Header="Примечание" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource ScheduleShemeViewModelDescriptionComparer}">
+						<GridViewColumn
+							Width="300"
+							Header="Примечание"
+							tree:SortBehavior.SortComparer="{StaticResource ScheduleShemeViewModelDescriptionComparer}">
 							<GridViewColumn.CellTemplate>
 								<DataTemplate>
 									<StackPanel Orientation="Horizontal">
-										<TextBlock Text="{Binding Description}" Style="{StaticResource IsDeletedStyle}" />
+										<TextBlock Style="{StaticResource IsDeletedStyle}" Text="{Binding Description}" />
 									</StackPanel>
 								</DataTemplate>
 							</GridViewColumn.CellTemplate>
 						</GridViewColumn>
-						<GridViewColumn Header="Тип" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource ScheduleShemeViewModelTypeComparer}">
+						<GridViewColumn
+							Width="100"
+							Header="Тип"
+							tree:SortBehavior.SortComparer="{StaticResource ScheduleShemeViewModelTypeComparer}">
 							<GridViewColumn.CellTemplate>
 								<DataTemplate>
 									<StackPanel Orientation="Horizontal">
-										<TextBlock Text="{Binding Type}" Style="{StaticResource IsDeletedStyle}" />
+										<TextBlock Style="{StaticResource IsDeletedStyle}" Text="{Binding Type}" />
 									</StackPanel>
 								</DataTemplate>
 							</GridViewColumn.CellTemplate>
@@ -74,23 +121,48 @@
 					</GridView>
 				</tree:TreeList.View>
 			</tree:TreeList>
-			<Grid Grid.Column="1" Margin="4 0 0 0" DataContext="{Binding SelectedItem}">
+			<Grid
+				Grid.Column="1"
+				Margin="4 0 0 0"
+				DataContext="{Binding SelectedItem}">
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="*" />
 				</Grid.RowDefinitions>
-				<StackPanel Grid.Row="0" Orientation="Horizontal" Visibility="{Binding IsSlide, Converter={StaticResource BoolToVisibilityConverter}}">
-					<ToolBarButton Command="{Binding AddCommand}" ImageSource="Add"  ToolTip="Добавить" />
-					<ToolBarButton Command="{Binding DeleteCommand}" ImageSource="Delete"  ToolTip="Удалить" />
+				<StackPanel
+					Grid.Row="0"
+					Orientation="Horizontal"
+					Visibility="{Binding IsSlide,
+				                                 Converter={StaticResource BoolToVisibilityConverter}}">
+					<ToolBarButton
+						Command="{Binding AddCommand}"
+						ImageSource="Add"
+						ToolTip="Добавить" />
+					<ToolBarButton
+						Command="{Binding DeleteCommand}"
+						ImageSource="Delete"
+						ToolTip="Удалить" />
 				</StackPanel>
-				<DataGrid Grid.Row="1" Margin="2" IsReadOnly="False" ItemsSource="{Binding SheduleDayIntervals}" SelectedItem="{Binding SelectedSheduleDayInterval}">
+				<DataGrid
+					Grid.Row="1"
+					Margin="2"
+					IsReadOnly="False"
+					ItemsSource="{Binding SheduleDayIntervals}"
+					SelectedItem="{Binding SelectedSheduleDayInterval}">
 					<DataGrid.Columns>
 						<DataGridTemplateColumn Width="Auto" Header="День">
 							<DataGridTemplateColumn.CellTemplate>
 								<DataTemplate>
 									<StackPanel Orientation="Horizontal">
-										<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/Day.png" />
-										<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Name}" Style="{StaticResource IsDeletedTimeTrackStyle}" />
+										<Image
+											Margin="1 0 0 0"
+											VerticalAlignment="Center"
+											Source="/Controls;component/Images/Day.png" />
+										<TextBlock
+											Margin="2"
+											VerticalAlignment="Center"
+											Style="{StaticResource IsDeletedTimeTrackStyle}"
+											Text="{Binding Name}" />
 									</StackPanel>
 								</DataTemplate>
 							</DataGridTemplateColumn.CellTemplate>
@@ -98,15 +170,29 @@
 						<DataGridTemplateColumn Width="*" Header="Дневной график">
 							<DataGridTemplateColumn.CellTemplate>
 								<DataTemplate>
-									<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding SelectedDayIntervalName}" Style="{StaticResource IsDeletedTimeTrackStyle}" />
+									<TextBlock
+										Margin="2"
+										VerticalAlignment="Center"
+										Style="{StaticResource IsDeletedTimeTrackStyle}"
+										Text="{Binding SelectedDayIntervalName}" />
 								</DataTemplate>
 							</DataGridTemplateColumn.CellTemplate>
 							<DataGridTemplateColumn.CellEditingTemplate>
 								<DataTemplate>
-									<ComboBox HorizontalAlignment="Stretch" ItemsSource="{Binding DayIntervals}" SelectedItem="{Binding SelectedDayInterval, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding CanSelect}"  >
+									<ComboBox
+										HorizontalAlignment="Stretch"
+										IsEnabled="{Binding CanSelect}"
+										ItemsSource="{Binding DayIntervals}"
+										SelectedItem="{Binding SelectedDayInterval,
+									                                 UpdateSourceTrigger=PropertyChanged}">
 										<ComboBox.ItemTemplate>
 											<DataTemplate>
-												<TextBlock Margin="2" VerticalAlignment="Center" Foreground="Black" Text="{Binding Name}" Style="{StaticResource IsDeletedTimeTrackStyle}" />
+												<TextBlock
+													Margin="2"
+													VerticalAlignment="Center"
+													Foreground="Black"
+													Style="{StaticResource IsDeletedTimeTrackStyle}"
+													Text="{Binding Name}" />
 											</DataTemplate>
 										</ComboBox.ItemTemplate>
 									</ComboBox>

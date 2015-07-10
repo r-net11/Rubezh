@@ -1,9 +1,10 @@
-﻿<UserControl x:Class="SKDModule.Views.PositionsView"
-			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
-			 xmlns:viewModel="clr-namespace:SKDModule.ViewModels"
-			 xmlns:Views="clr-namespace:SKDModule.Views">
+﻿<UserControl
+	x:Class="SKDModule.Views.PositionsView"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:Views="clr-namespace:SKDModule.Views"
+	xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
+	xmlns:viewModel="clr-namespace:SKDModule.ViewModels">
 	<UserControl.Resources>
 		<viewModel:PositionViewModelNameComparer x:Key="PositionViewModelNameComparer" />
 		<viewModel:PositionViewModelDescriptionComparer x:Key="PositionViewModelDescriptionComparer" />
@@ -14,26 +15,50 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" MinHeight="200" />
 		</Grid.RowDefinitions>
-		<tree:TreeList Name="_treeList" Grid.Row="0" Focusable="True" tree:SortBehavior.CanUserSortColumns="True" 
-					   Source="{Binding Organisations, Mode=OneWay}" SelectedTreeNode="{Binding SelectedItem}" ItemActivatedCommand="{Binding EditCommand}" >
+		<tree:TreeList
+			Name="_treeList"
+			Focusable="True"
+			ItemActivatedCommand="{Binding EditCommand}"
+			SelectedTreeNode="{Binding SelectedItem}"
+			Source="{Binding Organisations,
+		                                Mode=OneWay}"
+			tree:SortBehavior.CanUserSortColumns="True">
 			<tree:TreeList.View>
 				<GridView>
-					<GridViewColumn Header="Название" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource PositionViewModelNameComparer}">
+					<GridViewColumn
+						Width="300"
+						Header="Название"
+						tree:SortBehavior.SortComparer="{StaticResource PositionViewModelNameComparer}">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
-									<Image Width="16" Source="/Controls;component/Images/Organisation.png" Visibility="{Binding IsOrganisation, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="1 0" />
-									<Image Width="16" Source="/Controls;component/Images/Position.png" Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="1 0" />
-									<TextBlock Text="{Binding Name}" Style="{StaticResource IsDeletedStyle}" />
+									<Image
+										Width="16"
+										Margin="1 0"
+										VerticalAlignment="Center"
+										Source="/Controls;component/Images/Organisation.png"
+										Visibility="{Binding IsOrganisation,
+									                            Converter={StaticResource BoolToVisibilityConverter}}" />
+									<Image
+										Width="16"
+										Margin="1 0"
+										VerticalAlignment="Center"
+										Source="/Controls;component/Images/Position.png"
+										Visibility="{Binding IsOrganisation,
+									                            Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+									<TextBlock Style="{StaticResource IsDeletedStyle}" Text="{Binding Name}" />
 								</StackPanel>
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
-					<GridViewColumn Header="Примечание" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource PositionViewModelDescriptionComparer}">
+					<GridViewColumn
+						Width="200"
+						Header="Примечание"
+						tree:SortBehavior.SortComparer="{StaticResource PositionViewModelDescriptionComparer}">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
-									<TextBlock Text="{Binding Description}" Style="{StaticResource IsDeletedStyle}"  />
+									<TextBlock Style="{StaticResource IsDeletedStyle}" Text="{Binding Description}" />
 								</StackPanel>
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
@@ -41,8 +66,18 @@
 				</GridView>
 			</tree:TreeList.View>
 		</tree:TreeList>
-		<GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeNS" />
-		<Views:EmployeeListView Grid.Row="2" DataContext="{Binding EmployeeListViewModel}" 
-				  Visibility="{Binding DataContext.IsShowEmployeeList, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource BoolToVisibilityConverter}}"/>
+		<GridSplitter
+			Grid.Row="1"
+			Height="5"
+			HorizontalAlignment="Stretch"
+			VerticalAlignment="Stretch"
+			Background="Transparent"
+			Cursor="SizeNS" />
+		<Views:EmployeeListView
+			Grid.Row="2"
+			DataContext="{Binding EmployeeListViewModel}"
+			Visibility="{Binding DataContext.IsShowEmployeeList,
+		                                             RelativeSource={RelativeSource AncestorType=UserControl},
+		                                             Converter={StaticResource BoolToVisibilityConverter}}" />
 	</Grid>
 </UserControl>
