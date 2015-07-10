@@ -18,9 +18,8 @@ namespace AutomationModule.ViewModels
 			Step = step;
 			var automationChanged = ServiceFactory.SaveService.AutomationChanged;
 			if ((step.ProcedureStepType == ProcedureStepType.ControlDirection)
-				|| (step.ProcedureStepType == ProcedureStepType.ControlDoor) || (step.ProcedureStepType == ProcedureStepType.ControlGKDevice) || (step.ProcedureStepType == ProcedureStepType.ControlGKDoor)
+				|| (step.ProcedureStepType == ProcedureStepType.ControlGKDevice) || (step.ProcedureStepType == ProcedureStepType.ControlGKDoor)
 				|| (step.ProcedureStepType == ProcedureStepType.ControlGKFireZone) || (step.ProcedureStepType == ProcedureStepType.ControlGKGuardZone)
-				|| (step.ProcedureStepType == ProcedureStepType.ControlSKDDevice) || (step.ProcedureStepType == ProcedureStepType.ControlSKDZone)
 				|| (step.ProcedureStepType == ProcedureStepType.ControlDelay) || (step.ProcedureStepType == ProcedureStepType.Ptz)
 				|| (step.ProcedureStepType == ProcedureStepType.StartRecord) || (step.ProcedureStepType == ProcedureStepType.StopRecord) || (step.ProcedureStepType == ProcedureStepType.RviAlarm))
 				ImageSource = "/Controls;component/StepIcons/Control.png";
@@ -92,10 +91,6 @@ namespace AutomationModule.ViewModels
 					Content = new ControlGKDeviceStepViewModel(this);
 					break;
 
-				case ProcedureStepType.ControlSKDDevice:
-					Content = new ControlSKDDeviceStepViewModel(this);
-					break;
-
 				case ProcedureStepType.ControlGKFireZone:
 					Content = new ControlGKFireZoneStepViewModel(this);
 					break;
@@ -108,16 +103,8 @@ namespace AutomationModule.ViewModels
 					Content = new ControlDirectionStepViewModel(this);
 					break;
 
-				case ProcedureStepType.ControlDoor:
-					Content = new ControlDoorStepViewModel(this);
-					break;
-
 				case ProcedureStepType.ControlGKDoor:
 					Content = new ControlGKDoorStepViewModel(this);
-					break;
-
-				case ProcedureStepType.ControlSKDZone:
-					Content = new ControlSKDZoneStepViewModel(this);
 					break;
 
 				case ProcedureStepType.ControlDelay:

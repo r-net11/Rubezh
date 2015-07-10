@@ -123,7 +123,6 @@
 		<ResourceDictionary Source="../XamlImages/Line.xaml" />
 		<ResourceDictionary Source="../XamlImages/load.xaml" />
 		<ResourceDictionary Source="../XamlImages/logic.xaml" />
-		<ResourceDictionary Source="../XamlImages/logo.xaml" />
 		<ResourceDictionary Source="../XamlImages/rubezhLogo.xaml" />
 		<ResourceDictionary Source="../XamlImages/map.xaml" />
 		<ResourceDictionary Source="../XamlImages/MapOff.xaml" />

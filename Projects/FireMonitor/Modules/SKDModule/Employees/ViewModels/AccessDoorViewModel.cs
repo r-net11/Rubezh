@@ -15,24 +15,6 @@ namespace SKDModule.ViewModels
 		public List<CardDoor> CardDoors { get; private set; }
 		Action<AccessDoorViewModel> OnChecked;
 
-		public AccessDoorViewModel(SKDDoor door, List<CardDoor> cardDoors, Action<AccessDoorViewModel> onChecked)
-		{
-			DoorUID = door.UID;
-			PresentationName = door.PresentationName;
-			HasEnter = door.InDeviceUID != Guid.Empty;
-			HasExit = false;
-
-			EnterSchedules = new ObservableCollection<CardScheduleItem>();
-			ExitSchedules = new ObservableCollection<CardScheduleItem>();
-			foreach (var schedule in SKDManager.SKDConfiguration.TimeIntervalsConfiguration.WeeklyIntervals)
-			{
-				EnterSchedules.Add(new CardScheduleItem(schedule.ID, schedule.Name));
-				ExitSchedules.Add(new CardScheduleItem(schedule.ID, schedule.Name));
-			}
-
-			Initialize(cardDoors, onChecked);
-		}
-
 		public AccessDoorViewModel(GKDoor door, List<CardDoor> cardDoors, Action<AccessDoorViewModel> onChecked, IEnumerable<GKSchedule> schedules)
 		{
 			DoorUID = door.UID;

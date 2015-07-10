@@ -10,7 +10,6 @@ namespace SKDModule.Validation
 
 		public IEnumerable<IValidationError> Validate()
 		{
-			SKDManager.UpdateConfiguration();
 			Errors = new List<IValidationError>();
 			return Errors;
 		}

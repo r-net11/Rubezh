@@ -71,18 +71,6 @@ namespace FiltersModule.ViewModels
                     ImageSource = "/Controls;component/Images/Door.png";
 					break;
 
-				case JournalObjectType.SKDDevice:
-					ImageSource = "/Controls;component/SKDIcons/Controller.png";
-					break;
-
-				case JournalObjectType.SKDZone:
-					ImageSource = "/Controls;component/Images/SKDZone.png";
-					break;
-
-				case JournalObjectType.SKDDoor:
-					ImageSource = "/Controls;component/Images/Door.png";
-					break;
-
 				case JournalObjectType.VideoDevice:
 					ImageSource = "/Controls;component/Images/Camera.png";
 					break;
@@ -141,27 +129,6 @@ namespace FiltersModule.ViewModels
 		public ObjectViewModel(GKDoor door)
 		{
 			Name = door.PresentationName;
-			UID = door.UID;
-			ImageSource = "/Controls;component/Images/Door.png";
-		}
-
-		public ObjectViewModel(SKDDevice device)
-		{
-			Name = device.Name;
-			UID = device.UID;
-			ImageSource = device.Driver.ImageSource;
-		}
-
-		public ObjectViewModel(SKDZone zone)
-		{
-			Name = zone.Name;
-			UID = zone.UID;
-			ImageSource = "/Controls;component/Images/SKDZone.png";
-		}
-
-		public ObjectViewModel(SKDDoor door)
-		{
-			Name = door.Name;
 			UID = door.UID;
 			ImageSource = "/Controls;component/Images/Door.png";
 		}

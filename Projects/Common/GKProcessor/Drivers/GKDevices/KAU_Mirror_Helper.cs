@@ -20,7 +20,8 @@ namespace GKProcessor
 				IsRangeEnabled = true,
 				MinAddress = 1,
 				MaxAddress = 127,
-				IsPlaceable = true
+				IsPlaceable = true,
+				IsEditMirror = true
 			};
 			driver.Children.Add(GKDriverType.RSR2_GKMirrorDetectorsDevice);
 			driver.Children.Add(GKDriverType.RSR2_GKMirrorFireZone);

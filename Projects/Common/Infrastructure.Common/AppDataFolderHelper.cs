@@ -59,26 +59,6 @@ namespace Infrastructure.Common
 			return fileName;
 		}
 
-		public static string GetDBFile(string fileName)
-		{
-			return Path.Combine(AppDataFolderName, "DB", fileName);
-		}
-
-		public static string GetMulticlientDirectory()
-		{
-			return Path.Combine(AppDataFolderName, "Multiclient");
-		}
-
-		public static string GetMulticlientFile()
-		{
-			return Path.Combine(AppDataFolderName, "Multiclient", "MulticlientConfiguration.xml");
-		}
-
-		public static string GetTempMulticlientFile()
-		{
-			return Path.Combine(AppDataFolderName, "Multiclient", "TempConfiguration.xml");
-		}
-
 		public static string GetLogsFolder(string folderName = null)
 		{
 			if (folderName == null)

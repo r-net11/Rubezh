@@ -115,7 +115,7 @@ namespace SKDModule
 		public IEnumerable<ISKDReportProvider> GetSKDReportProviders()
 		{
 			yield return new EventsReportProvider();
-			if (GlobalSettingsHelper.GlobalSettings.UseStrazhBrand)
+			if (false)
 			{
 				yield return new DoorsReportProvider();
 			}

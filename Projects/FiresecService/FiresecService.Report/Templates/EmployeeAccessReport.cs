@@ -79,19 +79,6 @@ namespace FiresecService.Report.Templates
 				var accessTemplates = dataProvider.DatabaseService.AccessTemplateTranslator.Get(accessTemplateFilter);
 
 				var zoneMap = new Dictionary<Guid, Tuple<Tuple<Guid, string>, Tuple<Guid, string>>>();
-				SKDManager.Doors.ForEach(door =>
-				{
-					if (door != null && !zoneMap.ContainsKey(door.UID))
-					{
-						var zone1 = door.InDevice != null && door.InDevice.Zone != null && (filter.Zones.IsEmpty() || filter.Zones.Contains(door.InDevice.Zone.UID)) ? door.InDevice.Zone : null;
-						var zone2 = door.OutDevice != null && door.OutDevice.Zone != null && (filter.Zones.IsEmpty() || filter.Zones.Contains(door.OutDevice.Zone.UID)) ? door.OutDevice.Zone : null;
-						if (zone1 != null || zone2 != null)
-						{
-							var value = new Tuple<Tuple<Guid, string>, Tuple<Guid, string>>(new Tuple<Guid, string>(zone1.UID, zone1.PresentationName), new Tuple<Guid, string>(zone1.UID, zone1.PresentationName));
-							zoneMap.Add(door.UID, value);
-						}
-					}
-				});
 				GKManager.Doors.ForEach(door =>
 				{
 					if (door != null && !zoneMap.ContainsKey(door.UID))

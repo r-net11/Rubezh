@@ -497,10 +497,7 @@ namespace FiresecService
 			var device = GKManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == itemUid);
 			var zone = GKManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == itemUid);
 			var guardZone = GKManager.DeviceConfiguration.GuardZones.FirstOrDefault(x => x.UID == itemUid);
-			var sKDDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == itemUid);
-			var sKDZone = SKDManager.Zones.FirstOrDefault(x => x.UID == itemUid);
 			var camera = ConfigurationCashHelper.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == itemUid);
-			var sKDDoor = SKDManager.Doors.FirstOrDefault(x => x.UID == itemUid);
 			var direction = GKManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == itemUid);
 			var delay = GKManager.DeviceConfiguration.Delays.FirstOrDefault(x => x.UID == itemUid);
 			if (device != null)
@@ -509,14 +506,8 @@ namespace FiresecService
 				return zone;
 			if (guardZone != null)
 				return guardZone;
-			if (sKDDevice != null)
-				return sKDDevice;
-			if (sKDZone != null)
-				return sKDZone;
 			if (camera != null)
 				return camera;
-			if (sKDDoor != null)
-				return sKDDoor;
 			if (direction != null)
 				return direction;
 			if (delay != null)
@@ -768,22 +759,6 @@ namespace FiresecService
 				FiresecServiceManager.SafeFiresecService.GKTurnOnNow(directionUid, GKBaseObjectType.Direction);
 		}
 
-		void ControlDoor(ProcedureStep procedureStep)
-		{
-			var doorUid = GetValue<Guid>(procedureStep.ControlDoorArguments.DoorArgument);
-			var door = SKDManager.Doors.FirstOrDefault(x => x.UID == doorUid);
-			if (door == null)
-				return;
-			if (procedureStep.ControlDoorArguments.DoorCommandType == DoorCommandType.Open)
-				FiresecServiceManager.SafeFiresecService.SKDOpenDoor(door.UID);
-			if (procedureStep.ControlDoorArguments.DoorCommandType == DoorCommandType.Close)
-				FiresecServiceManager.SafeFiresecService.SKDCloseDoor(door.UID);
-			if (procedureStep.ControlDoorArguments.DoorCommandType == DoorCommandType.OpenForever)
-				FiresecServiceManager.SafeFiresecService.SKDOpenDoorForever(door.UID);
-			if (procedureStep.ControlDoorArguments.DoorCommandType == DoorCommandType.CloseForever)
-				FiresecServiceManager.SafeFiresecService.SKDCloseDoorForever(door.UID);
-		}
-
 		void ControlGKDoor(ProcedureStep procedureStep)
 		{
 			var doorUid = GetValue<Guid>(procedureStep.ControlGKDoorArguments.DoorArgument);
@@ -821,22 +796,6 @@ namespace FiresecService
 				FiresecServiceManager.SafeFiresecService.GKSetAutomaticRegime(door.UID, GKBaseObjectType.Door);
 				FiresecServiceManager.SafeFiresecService.GKTurnOff(door.UID, GKBaseObjectType.Door);
 			}
-		}
-
-		void ControlSKDZone(ProcedureStep procedureStep)
-		{
-			var sKDZoneUid = GetValue<Guid>(procedureStep.ControlSKDZoneArguments.SKDZoneArgument);
-			var sKDZone = SKDManager.Zones.FirstOrDefault(x => x.UID == sKDZoneUid);
-			if (sKDZone == null)
-				return;
-			if (procedureStep.ControlSKDZoneArguments.SKDZoneCommandType == SKDZoneCommandType.Open)
-				FiresecServiceManager.SafeFiresecService.SKDOpenZone(sKDZone.UID);
-			if (procedureStep.ControlSKDZoneArguments.SKDZoneCommandType == SKDZoneCommandType.Close)
-				FiresecServiceManager.SafeFiresecService.SKDCloseZone(sKDZone.UID);
-			if (procedureStep.ControlSKDZoneArguments.SKDZoneCommandType == SKDZoneCommandType.OpenForever)
-				FiresecServiceManager.SafeFiresecService.SKDOpenZoneForever(sKDZone.UID);
-			if (procedureStep.ControlSKDZoneArguments.SKDZoneCommandType == SKDZoneCommandType.CloseForever)
-				FiresecServiceManager.SafeFiresecService.SKDCloseZoneForever(sKDZone.UID);
 		}
 
 		void ControlDelay(ProcedureStep procedureStep)

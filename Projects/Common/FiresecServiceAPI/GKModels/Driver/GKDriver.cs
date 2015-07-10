@@ -51,11 +51,11 @@ namespace FiresecAPI.GK
 		public byte MaxAddressOnShleif { get; set; }
 		public bool IsDeviceOnShleif { get; set; }
 		public bool IsReal { get; set; }
-
 		public bool HasLogic { get; set; }
 		public bool IgnoreHasLogic { get; set; }
 		public bool HasZone { get; set; }
 		public bool HasMirror { get; set; }
+		public bool IsEditMirror { get; set; }
 		public bool HasGuardZone { get; set; }
 		public bool IsControlDevice { get; set; }
 		public bool IsPlaceable { get; set; }

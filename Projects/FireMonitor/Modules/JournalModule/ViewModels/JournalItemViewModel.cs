@@ -39,9 +39,6 @@ namespace JournalModule.ViewModels
 		GKGuardZone GuardZone { get; set; }
 		GKSKDZone GKSKDZone { get; set; }
 		GKDoor GKDoor { get; set; }
-		SKDDevice SKDDevice { get; set; }
-		SKDZone SKDZone { get; set; }
-		SKDDoor SKDDoor { get; set; }
 		Camera Camera { get; set; }
 
 		public JournalItemViewModel(JournalItem journalItem)
@@ -232,39 +229,6 @@ namespace JournalModule.ViewModels
 					ObjectImageSource = "/Controls;component/Images/Door.png";
 					break;
 
-				case JournalObjectType.SKDDevice:
-					SKDDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
-					if (SKDDevice != null)
-					{
-						ObjectName = SKDDevice.Name;
-						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowSKDDeviceEvent>();
-						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowSKDDeviceDetailsEvent>();
-						ObjectImageSource = SKDDevice.Driver.ImageSource;
-					}
-					break;
-
-				case JournalObjectType.SKDZone:
-					SKDZone = SKDManager.Zones.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
-					if (SKDZone != null)
-					{
-						ObjectName = SKDZone.Name;
-						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowSKDZoneEvent>();
-						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowSKDZoneDetailsEvent>();
-					}
-					ObjectImageSource = "/Controls;component/Images/Zone.png";
-					break;
-
-				case JournalObjectType.SKDDoor:
-					SKDDoor = SKDManager.Doors.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
-					if (SKDDoor != null)
-					{
-						ObjectName = SKDDoor.Name;
-						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowSKDDoorEvent>();
-						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowSKDDoorDetailsEvent>();
-					}
-					ObjectImageSource = "/Controls;component/Images/Door.png";
-					break;
-
 				case JournalObjectType.VideoDevice:
 					Camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
 					if (Camera != null)
@@ -389,24 +353,6 @@ namespace JournalModule.ViewModels
 						ShowOnPlanHelper.ShowDoor(GKDoor);
 					}
 					break;
-				case JournalObjectType.SKDDevice:
-					if (SKDDevice != null)
-					{
-						ShowOnPlanHelper.ShowSKDDevice(SKDDevice);
-					}
-					break;
-				case JournalObjectType.SKDZone:
-					if (SKDZone != null)
-					{
-						ShowOnPlanHelper.ShowSKDZone(SKDZone);
-					}
-					break;
-				case JournalObjectType.SKDDoor:
-					if (SKDDoor != null)
-					{
-						ShowOnPlanHelper.ShowSKDDoor(SKDDoor);
-					}
-					break;
 			}
 		}
 		bool CanShowOnPlan()
@@ -456,24 +402,6 @@ namespace JournalModule.ViewModels
 					if (GKDoor != null)
 					{
 						return ShowOnPlanHelper.CanShowDoor(GKDoor);
-					}
-					break;
-				case JournalObjectType.SKDDevice:
-					if (SKDDevice != null)
-					{
-						return ShowOnPlanHelper.CanShowSKDDevice(SKDDevice);
-					}
-					break;
-				case JournalObjectType.SKDZone:
-					if (SKDZone != null)
-					{
-						return ShowOnPlanHelper.CanShowSKDZone(SKDZone);
-					}
-					break;
-				case JournalObjectType.SKDDoor:
-					if (SKDDoor != null)
-					{
-						return ShowOnPlanHelper.CanShowSKDDoor(SKDDoor);
 					}
 					break;
 			}

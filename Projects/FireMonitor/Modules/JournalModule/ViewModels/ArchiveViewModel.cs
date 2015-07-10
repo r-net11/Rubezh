@@ -108,12 +108,6 @@ namespace JournalModule.ViewModels
 				ArchiveFilter.ObjectUIDs.Add(showArchiveEventArgs.GKSKDZone.UID);
 			if (showArchiveEventArgs.GKDoor != null)
 				ArchiveFilter.ObjectUIDs.Add(showArchiveEventArgs.GKDoor.UID);
-			if (showArchiveEventArgs.SKDDevice != null)
-				ArchiveFilter.ObjectUIDs.Add(showArchiveEventArgs.SKDDevice.UID);
-			if (showArchiveEventArgs.SKDZone != null)
-				ArchiveFilter.ObjectUIDs.Add(showArchiveEventArgs.SKDZone.UID);
-			if (showArchiveEventArgs.SKDDoor != null)
-				ArchiveFilter.ObjectUIDs.Add(showArchiveEventArgs.SKDDoor.UID);
 
 			Update();
 		}

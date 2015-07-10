@@ -45,19 +45,15 @@ namespace GKModule.ViewModels
 					break;
 
 				case GKDriverType.RSR2_GKMirrorDetectorsDevice:
-					HasMPT = true;
 					HasDevices = true;
-					HasDirections = true;
-					HasNS = true;
-					HasDelay = true;
-					IsMPT = true;
+					IsDevices = true;
 					break;
 			}
 
 			Title = "Выбор настройки отражения";
 			Device = device;
-			if (device.GKReflectionItem == null)
-				device.GKReflectionItem = new GKReflectionItem();
+			//if (device.GKReflectionItem == null)
+			//	device.GKReflectionItem = new GKReflectionItem();
 			var zones = GKManager.Zones.Where(x => Device.GKReflectionItem.ZoneUIDs.Contains(x.UID)).ToList();
 			ZonesSelectationViewModel = new ZonesSelectationViewModel(zones, true);
 			var guardzones = GKManager.GuardZones.Where(x => Device.GKReflectionItem.GuardZoneUIDs.Contains(x.UID)).ToList();
@@ -148,7 +144,11 @@ namespace GKModule.ViewModels
 
 			Device.GKReflectionItem.MPTs = MPTsSelectationViewModel.TargetMPTs.ToList();
 
+
+
 			return base.Save();
+			
 		}
+
 	}
 }

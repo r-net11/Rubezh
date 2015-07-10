@@ -65,7 +65,6 @@ namespace FireAdministrator
 			if (ApplicationService.Modules != null)
 				foreach (var module in ApplicationService.Modules)
 					module.Dispose();
-			ClientSettings.SaveSettings();
 			FiresecManager.Disconnect();
 		}
 

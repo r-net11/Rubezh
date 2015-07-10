@@ -91,19 +91,6 @@ namespace FiresecService.Report.Templates
 
 
 				var doorMap = new Dictionary<Guid, CommonDoor>();
-				foreach (var door in SKDManager.Doors)
-				{
-					var commonDoor = new CommonDoor(door);
-					if (!filter.Zones.IsEmpty())
-					{
-						if ((filter.ZoneIn && door.InDevice != null && filter.Zones.Contains(door.InDevice.ZoneUID)) || (filter.ZoneOut && door.OutDevice != null && filter.Zones.Contains(door.OutDevice.ZoneUID)))
-							doorMap.Add(door.UID, commonDoor);
-					}
-					else
-					{
-						doorMap.Add(door.UID, commonDoor);
-					}
-				}
 				foreach (var door in GKManager.Doors)
 				{
 					var commonDoor = new CommonDoor(door);
@@ -118,23 +105,13 @@ namespace FiresecService.Report.Templates
 					}
 				}
 
-				Dictionary<int, string> intervalMap = new Dictionary<int,string>();
-				if (GlobalSettingsHelper.GlobalSettings.UseStrazhBrand)
+				Dictionary<int, string> intervalMap = new Dictionary<int, string>();
+				var schedulesResult = dataProvider.DatabaseService.GKScheduleTranslator.GetSchedules();
+				if (!schedulesResult.HasError)
 				{
-					foreach (var interval in SKDManager.SKDConfiguration.TimeIntervalsConfiguration.WeeklyIntervals)
+					foreach (var interval in schedulesResult.Result)
 					{
-						intervalMap.Add(interval.ID, interval.Name);
-					}
-				}
-				else
-				{
-					var schedulesResult = dataProvider.DatabaseService.GKScheduleTranslator.GetSchedules();
-					if (!schedulesResult.HasError)
-					{
-						foreach (var interval in schedulesResult.Result)
-						{
-							intervalMap.Add(interval.No, interval.Name);
-						}
+						intervalMap.Add(interval.No, interval.Name);
 					}
 				}
 
@@ -188,15 +165,6 @@ namespace FiresecService.Report.Templates
 		public string Name { get; private set; }
 		public string EnterZoneName { get; private set; }
 		public string ExitZoneName { get; private set; }
-
-		public CommonDoor(SKDDoor door)
-		{
-			Name = door.PresentationName;
-			if (door.InDevice != null && door.InDevice.Zone != null)
-				EnterZoneName = door.InDevice.Zone.PresentationName;
-			if (door.OutDevice != null && door.OutDevice.Zone != null)
-				ExitZoneName = door.OutDevice.Zone.PresentationName;
-		}
 
 		public CommonDoor(GKDoor door)
 		{

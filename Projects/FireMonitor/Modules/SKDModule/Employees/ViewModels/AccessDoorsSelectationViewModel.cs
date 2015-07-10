@@ -21,14 +21,6 @@ namespace SKDModule.ViewModels
 				CardDoors = new List<CardDoor>();
 
 			Doors = new ObservableCollection<AccessDoorViewModel>();
-			foreach (var door in SKDManager.SKDConfiguration.Doors)
-			{
-				if (Organisation.DoorUIDs.Any(y => y == door.UID))
-				{
-					var accessDoorViewModel = new AccessDoorViewModel(door, CardDoors, x => { SelectedDoor = x; });
-					Doors.Add(accessDoorViewModel);
-				}
-			}
 			foreach (var door in GKManager.DeviceConfiguration.Doors)
 			{
 				if (Organisation.DoorUIDs.Any(y => y == door.UID))

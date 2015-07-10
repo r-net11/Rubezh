@@ -73,7 +73,6 @@
     <Compile Include="BaseDevicePicture.cs" />
     <Compile Include="CameraPicture.cs" />
     <Compile Include="DoorPicture.cs" />
-    <Compile Include="SKDDevicePicture.cs" />
     <Compile Include="FramesControl.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="PictureCacheSource.cs" />

@@ -19,12 +19,9 @@ namespace AutomationModule.ViewModels
 		public DataTemplate SetValueTemplate { get; set; }
 		public DataTemplate IncrementValueTemplate { get; set; }
 		public DataTemplate ControlGKDeviceTemplate { get; set; }
-		public DataTemplate ControlSKDDeviceTemplate { get; set; }
 		public DataTemplate ControlGKFireZoneTemplate { get; set; }
 		public DataTemplate ControlGKGuardZoneTemplate { get; set; }
-		public DataTemplate ControlSKDZoneTemplate { get; set; }
 		public DataTemplate ControlDirectionTemplate { get; set; }
-		public DataTemplate ControlDoorTemplate { get; set; }
 		public DataTemplate ControlGKDoorTemplate { get; set; }
 		public DataTemplate GetObjectPropertyTemplate { get; set; }
 		public DataTemplate SendEmailTemplate { get; set; }
@@ -83,18 +80,12 @@ namespace AutomationModule.ViewModels
 				return IncrementValueTemplate;
 			if (item is ControlGKDeviceStepViewModel)
 				return ControlGKDeviceTemplate;
-			if (item is ControlSKDDeviceStepViewModel)
-				return ControlSKDDeviceTemplate;
 			if (item is ControlGKFireZoneStepViewModel)
 				return ControlGKFireZoneTemplate;
 			if (item is ControlGKGuardZoneStepViewModel)
 				return ControlGKGuardZoneTemplate;
-			if (item is ControlSKDZoneStepViewModel)
-				return ControlSKDZoneTemplate;
 			if (item is ControlDirectionStepViewModel)
 				return ControlDirectionTemplate;
-			if (item is ControlDoorStepViewModel)
-				return ControlDoorTemplate;
 			if (item is ControlGKDoorStepViewModel)
 				return ControlGKDoorTemplate;
 			if (item is ControlDelayStepViewModel)

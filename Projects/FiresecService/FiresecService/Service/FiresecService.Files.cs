@@ -25,8 +25,9 @@ namespace FiresecService.Service
 		{
 			try
 			{
-				if (File.Exists(dirAndFileName))
-					return new FileStream(AppDataFolderHelper.GetServerAppDataPath(dirAndFileName), FileMode.Open, FileAccess.Read);
+				var filePath = AppDataFolderHelper.GetServerAppDataPath(dirAndFileName);
+				if (File.Exists(filePath))
+					return new FileStream(filePath, FileMode.Open, FileAccess.Read);
 			}
 			catch { }
 			return Stream.Null;
@@ -116,7 +117,6 @@ namespace FiresecService.Service
 		void RestartWithNewConfig()
 		{
 			AddJournalMessage(JournalEventNameType.Применение_конфигурации, null);
-			NotifyConfigurationChanged();
 			ServerState = FiresecAPI.ServerState.Restarting;
 			ConfigurationCashHelper.Update();
 			GKProcessor.SetNewConfig();
@@ -124,6 +124,7 @@ namespace FiresecService.Service
 			ProcedureRunner.SetNewConfig();
 			ServerTaskRunner.SetNewConfig();
 			ServerState = FiresecAPI.ServerState.Ready;
+			NotifyConfigurationChanged();
 		}
 
 		static void CreateZipConfigFromFiles()

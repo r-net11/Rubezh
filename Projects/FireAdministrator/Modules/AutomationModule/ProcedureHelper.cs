@@ -143,36 +143,6 @@ namespace AutomationModule
 				}
 			}
 
-			if (objectType == ObjectType.SKDDevice)
-			{
-				var skdDeviceSelectationViewModel = new SKDDeviceSelectionViewModel(currentExplicitValue.SKDDevice);
-				if (DialogService.ShowModalWindow(skdDeviceSelectationViewModel))
-				{
-					currentExplicitValue.UidValue = skdDeviceSelectationViewModel.SelectedDevice != null ? skdDeviceSelectationViewModel.SelectedDevice.SKDDevice.UID : Guid.Empty;
-					return true;
-				}
-			}
-
-			if (objectType == ObjectType.SKDZone)
-			{
-				var skdZoneSelectationViewModel = new SKDZoneSelectionViewModel(currentExplicitValue.SKDZone);
-				if (DialogService.ShowModalWindow(skdZoneSelectationViewModel))
-				{
-					currentExplicitValue.UidValue = skdZoneSelectationViewModel.SelectedZone != null ? skdZoneSelectationViewModel.SelectedZone.SKDZone.UID : Guid.Empty;
-					return true;
-				}
-			}
-
-			if (objectType == ObjectType.Door)
-			{
-				var doorSelectationViewModel = new DoorSelectionViewModel(currentExplicitValue.SKDDoor);
-				if (DialogService.ShowModalWindow(doorSelectationViewModel))
-				{
-					currentExplicitValue.UidValue = doorSelectationViewModel.SelectedDoor != null ? doorSelectationViewModel.SelectedDoor.Door.UID : Guid.Empty;
-					return true;
-				}
-			}
-
 			if (objectType == ObjectType.GKDoor)
 			{
 				var doorSelectationViewModel = new GKDoorSelectionViewModel(currentExplicitValue.GKDoor);

@@ -5,51 +5,42 @@ namespace FiresecAPI.Journal
 	public enum JournalObjectType
 	{
 		[DescriptionAttribute("Нет")]
-		None,
+		None = 0,
 
 		[DescriptionAttribute("Устройства ГК")]
-		GKDevice,
+		GKDevice = 1,
 
 		[DescriptionAttribute("Зоны ГК")]
-		GKZone,
+		GKZone = 2,
 
 		[DescriptionAttribute("Направления ГК")]
-		GKDirection,
+		GKDirection = 3,
 
 		[DescriptionAttribute("МПТ ГК")]
-		GKMPT,
+		GKMPT = 4,
 
 		[DescriptionAttribute("Насосные станции ГК")]
-		GKPumpStation,
+		GKPumpStation = 5,
 
 		[DescriptionAttribute("Задержки ГК")]
-		GKDelay,
+		GKDelay = 6,
 
 		[DescriptionAttribute("ПИМ ГК")]
-		GKPim,
+		GKPim = 7,
 
 		[DescriptionAttribute("Охранные Зоны ГК")]
-		GKGuardZone,
+		GKGuardZone = 8,
 
 		[DescriptionAttribute("Точки доступа ГК")]
-		GKDoor,
-
-		[DescriptionAttribute("Устройства Страж")]
-		SKDDevice,
-
-		[DescriptionAttribute("Зоны Страж")]
-		SKDZone,
-
-		[DescriptionAttribute("Точки доступа Страж")]
-		SKDDoor,
+		GKDoor = 9,
 
 		[DescriptionAttribute("Видеоустройства")]
-		VideoDevice,
+		VideoDevice = 10,
 
 		[DescriptionAttribute("Пользователи ГК")]
-		GKUser,
+		GKUser = 11,
 
 		[DescriptionAttribute("Зоны СКД ГК")]
-		GKSKDZone,
+		GKSKDZone = 12,
 	}
 }

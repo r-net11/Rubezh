@@ -35,16 +35,6 @@ namespace SKDModule.ViewModels
 			Zones = new SortableObservableCollection<SelectationScheduleZoneViewModel>();
 			var organisationResult = OrganisationHelper.GetSingle(organisation.UID);
 			_doorUIDs = organisationResult != null ? organisationResult.DoorUIDs : new List<Guid>();
-			
-
-			var strazhDoors = FiresecAPI.SKD.SKDManager.Doors.Where(x => _doorUIDs.Any(y => y == x.UID));
-			foreach (var door in strazhDoors)
-			{
-				if (door != null && door.OutDevice != null && door.OutDevice.Zone != null && !Zones.Any(x => x.ZoneUID == door.OutDevice.Zone.UID))
-					Zones.Add(new SelectationScheduleZoneViewModel(door.OutDevice.Zone, door.UID));
-				if (door != null && door.InDevice != null && door.InDevice.Zone != null && !Zones.Any(x => x.ZoneUID == door.InDevice.Zone.UID))
-					Zones.Add(new SelectationScheduleZoneViewModel(door.InDevice.Zone, door.UID));
-			}
 
 			var gkDoors = FiresecClient.GKManager.Doors.Where(x => _doorUIDs.Any(y => y == x.UID));
 			foreach (var door in gkDoors)
@@ -109,21 +99,10 @@ namespace SKDModule.ViewModels
 		public int No { get; private set; }
 		public string Description { get; private set; }
 
-		public SelectationScheduleZoneViewModel(SKDZone zone, Guid doorUID)
-		{
-			DoorUID = doorUID;
-			ZoneUID = zone.UID;
-		//	Name = zone.PresentationName;
-			Name = zone.Name;
-			No = zone.No;
-			Description = zone.Description;
-		}
-
 		public SelectationScheduleZoneViewModel(GKSKDZone zone, Guid doorUID)
 		{
 			DoorUID = doorUID;
 			ZoneUID = zone.UID;
-		//	Name = zone.PresentationName;
 			Name = zone.Name;
 			No = zone.No;
 			Description = zone.Description;

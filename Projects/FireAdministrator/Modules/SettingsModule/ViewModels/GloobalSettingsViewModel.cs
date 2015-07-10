@@ -27,7 +27,6 @@ namespace SettingsModule.ViewModels
 			RemoveLogsCommand = new RelayCommand(OnRemoveLogs);
 			ResetDatabaseCommand = new RelayCommand(OnResetDatabase);
 			ResetConfigurationCommand = new RelayCommand(OnResetConfiguration);
-			ResetGKLibaryCommand = new RelayCommand(OnResetGKLibary);
 			ResetSettingsCommand = new RelayCommand(OnResetSettings);
 			ModulesViewModel = new ModulesViewModel();
 			LogsFolderPath = AppDataFolderHelper.GetLogsFolder();
@@ -55,7 +54,7 @@ namespace SettingsModule.ViewModels
 			RunRevisor = GlobalSettingsHelper.GlobalSettings.RunRevisor;
 		}
 
-		public string ServerAutoLabel { get { return "Сервер приложений" + (GlobalSettingsHelper.GlobalSettings.UseStrazhBrand ? String.Empty : " Глобал"); } }
+		public string ServerAutoLabel { get { return "Сервер приложений Глобал"; } }
 
 		void GetServerAuto()
 		{
@@ -207,15 +206,6 @@ namespace SettingsModule.ViewModels
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите сбросить по конфигурацию?"))
 			{
 				File.Copy(AppDataFolderHelper.GetFileInFolder("Empty", "Config.fscp"), AppDataFolderHelper.GetFileInFolder("Server", "Config.fscp"), true);
-			}
-		}
-
-		public RelayCommand ResetGKLibaryCommand { get; private set; }
-		void OnResetGKLibary()
-		{
-			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите сбросить по умолчанию настройки библиотеки устройств?"))
-			{
-				DeviceLibraryConfigurationPatchHelper.Patch();
 			}
 		}
 
@@ -381,17 +371,6 @@ namespace SettingsModule.ViewModels
 			{
 				_isGKOpcServerAuto = value;
 				OnPropertyChanged(() => IsGKOpcServerAuto);
-			}
-		}
-
-		bool _useStrazhBrand;
-		public bool UseStrazhBrand
-		{
-			get { return _useStrazhBrand; }
-			set
-			{
-				_useStrazhBrand = value;
-				OnPropertyChanged(() => UseStrazhBrand);
 			}
 		}
 

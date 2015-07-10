@@ -27,45 +27,33 @@ namespace SKDModule.ViewModels
 		{
 			foreach (var journalItem in journalItems)
 			{
-				var isForVerification = false;
-				if (journalItem.JournalEventNameType == JournalEventNameType.Проход_разрешен || journalItem.JournalEventNameType == JournalEventNameType.Проход_запрещен)
-				{
-					isForVerification = journalItem.ObjectUID == DeviceUID;
-				}
 				if (journalItem.JournalEventNameType == JournalEventNameType.Проход_пользователя_разрешен)
 				{
 					var door = GKManager.Doors.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
 					if (door != null)
 					{
-						if (journalItem.JournalEventDescriptionType == JournalEventDescriptionType.Вход_Глобал && door.EnterDeviceUID == DeviceUID)
+						if ((journalItem.JournalEventDescriptionType == JournalEventDescriptionType.Вход_Глобал && door.EnterDeviceUID == DeviceUID) ||
+							(journalItem.JournalEventDescriptionType == JournalEventDescriptionType.Выход_Глобал && door.ExitDeviceUID == DeviceUID))
 						{
-							isForVerification = true;
-						}
-						if (journalItem.JournalEventDescriptionType == JournalEventDescriptionType.Выход_Глобал && door.ExitDeviceUID == DeviceUID)
-						{
-							isForVerification = true;
-						}
-					}
-				}
-				if (isForVerification)
-				{
-					EventName = EventDescriptionAttributeHelper.ToName(journalItem.JournalEventNameType);
-					DateTime = journalItem.SystemDateTime.ToString();
+							EventName = EventDescriptionAttributeHelper.ToName(journalItem.JournalEventNameType);
+							DateTime = journalItem.SystemDateTime.ToString();
 
-					if (journalItem.EmployeeUID != Guid.Empty)
-					{
-						var operationResult = FiresecManager.FiresecService.GetEmployeeDetails(journalItem.EmployeeUID);
-						if (!operationResult.HasError && operationResult.Result != null)
-						{
-							Employee = operationResult.Result;
-							PhotoColumnViewModel = new PhotoColumnViewModel(Employee.Photo);
-							Organisation = OrganisationHelper.GetSingle(Employee.OrganisationUID);
-							continue;
+							if (journalItem.EmployeeUID != Guid.Empty)
+							{
+								var operationResult = FiresecManager.FiresecService.GetEmployeeDetails(journalItem.EmployeeUID);
+								if (!operationResult.HasError && operationResult.Result != null)
+								{
+									Employee = operationResult.Result;
+									PhotoColumnViewModel = new PhotoColumnViewModel(Employee.Photo);
+									Organisation = OrganisationHelper.GetSingle(Employee.OrganisationUID);
+									continue;
+								}
+							}
+							Employee = null;
+							PhotoColumnViewModel = null;
+							Organisation = null;
 						}
 					}
-					Employee = null;
-					PhotoColumnViewModel = null;
-					Organisation = null;
 				}
 			}
 		}

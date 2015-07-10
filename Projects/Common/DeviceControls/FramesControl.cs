@@ -21,10 +21,6 @@ namespace DeviceControls
 			this(frames.Cast<ILibraryFrame>())
 		{
 		}
-		public FramesControl(List<SKDLibraryFrame> frames) :
-			this(frames.Cast<ILibraryFrame>())
-		{
-		}
 		public FramesControl(IEnumerable<ILibraryFrame> frames)
 		{
 			_index = -1;

@@ -6,7 +6,7 @@
 	</UserControl.Resources>
 
 	<TabControl>
-		<TabItem Header="ОЗ" Visibility="{Binding UseStrazhBrand, Converter={StaticResource InversedBoolToVisibilityConverter}}">
+		<TabItem Header="ОЗ">
 			<Grid>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="Auto" />
@@ -38,11 +38,6 @@
 
 				<TextBlock Grid.Row="5" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Разрешить управление МПТ" />
 				<CheckBox Grid.Row="5" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding Monitor_IsControlMPT}" />
-
-				<!--
-					<TextBlock Grid.Row="5" Grid.Column="0" Text="F12 - показать информацию о HASP ключе" HorizontalAlignment="Right" Margin="2" />
-					<CheckBox Grid.Row="5" Grid.Column="1" IsChecked="{Binding Monitor_HaspInfo_Enabled}" HorizontalAlignment="Left" Margin="2" />
-				-->
 			</Grid>
 		</TabItem>
 		<TabItem Header="Сервер">
@@ -142,7 +137,6 @@
 				<StackPanel Margin="2">
 					<Button Foreground="{DynamicResource ForegroundColor_0}" Width="300" Margin="2" Command="{Binding ResetDatabaseCommand}" Content="Сбросить базу данных" />
 					<Button Foreground="{DynamicResource ForegroundColor_0}" Width="300" Margin="2" Command="{Binding ResetConfigurationCommand}" Content="Сбросить конфигурацию" />
-					<Button Foreground="{DynamicResource ForegroundColor_0}" Width="300" Margin="2" Command="{Binding ResetGKLibaryCommand}" Content="Сбросить библиотеку устройств" />
 					<Button Foreground="{DynamicResource ForegroundColor_0}"  Width="300" Margin="2" Command="{Binding ResetSettingsCommand}" Content="Сбросить настройки" />
 				</StackPanel>
 			</Border>

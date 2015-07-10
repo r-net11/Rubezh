@@ -97,17 +97,8 @@ namespace FiresecAPI.Automation
 		[DescriptionAttribute("Управление охраной зоной")]
 		ControlGKGuardZone,
 
-		[DescriptionAttribute("Управление устройством СКД")]
-		ControlSKDDevice,
-
-		[DescriptionAttribute("Управление зоной СКД")]
-		ControlSKDZone,
-
 		[DescriptionAttribute("Управление направлением")]
 		ControlDirection,
-
-		[DescriptionAttribute("Управление точкой доступа")]
-		ControlDoor,
 
 		[DescriptionAttribute("Управление точкой доступа ГК")]
 		ControlGKDoor,

@@ -9,6 +9,8 @@ using System.Collections.ObjectModel;
 using FiresecAPI.SKD;
 using Infrastructure.Common;
 using Common;
+using FiresecClient;
+using FiresecAPI.GK;
 
 namespace SKDModule.Reports.ViewModels
 {
@@ -17,14 +19,14 @@ namespace SKDModule.Reports.ViewModels
 		public DoorPageViewModel()
 		{
 			Title = "Точки доступа";
-			Doors = new ObservableCollection<CheckedItemViewModel<SKDDoor>>(SKDManager.Doors.Select(item => new CheckedItemViewModel<SKDDoor>(item)));
+			Doors = new ObservableCollection<CheckedItemViewModel<GKDoor>>(GKManager.Doors.Select(item => new CheckedItemViewModel<GKDoor>(item)));
 			SelectAllCommand = new RelayCommand(() => Doors.ForEach(item => item.IsChecked = true));
 			SelectNoneCommand = new RelayCommand(() => Doors.ForEach(item => item.IsChecked = false));
 		}
 
 		public RelayCommand SelectAllCommand { get; private set; }
 		public RelayCommand SelectNoneCommand { get; private set; }
-		public ObservableCollection<CheckedItemViewModel<SKDDoor>> Doors { get; private set; }
+		public ObservableCollection<CheckedItemViewModel<GKDoor>> Doors { get; private set; }
 
 		public override void LoadFilter(SKDReportFilter filter)
 		{

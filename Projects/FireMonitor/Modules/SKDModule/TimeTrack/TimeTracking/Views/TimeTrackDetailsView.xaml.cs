@@ -71,11 +71,6 @@ namespace SKDModule.Views
 				foreach (var timeTrackPart in dayTimeTrack.RealTimeTrackParts)
 				{
 					var zoneName = "<Нет в конфигурации>";
-					var strazhZone = SKDManager.Zones.FirstOrDefault(x => x.UID == timeTrackPart.ZoneUID);
-					if (strazhZone != null)
-					{
-						zoneName = strazhZone.Name;
-					}
 					var gkZone = GKManager.SKDZones.FirstOrDefault(x => x.UID == timeTrackPart.ZoneUID);
 					if (gkZone != null)
 					{

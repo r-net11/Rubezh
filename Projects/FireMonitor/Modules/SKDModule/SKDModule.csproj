@@ -201,7 +201,6 @@
     <Compile Include="Employees\ViewModels\EmployeeCardViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\GraphicsColumnViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeesViewModel.cs" />
-    <Compile Include="Employees\ViewModels\ReaderSelectationViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\DepartmentSelectionViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\PositionSelectionViewModel.cs" />
     <Compile Include="Employees\Views\EmployeeDetails\EscortSelectionView.xaml.cs">
@@ -209,9 +208,6 @@
     </Compile>
     <Compile Include="Employees\Views\EmployeeDetails\ScheduleSelectionView.xaml.cs">
       <DependentUpon>ScheduleSelectionView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Employees\Views\ReaderSelectationView.xaml.cs">
-      <DependentUpon>ReaderSelectationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Employees\Views\EmployeeDetails\DepartmentSelectionView.xaml.cs">
       <DependentUpon>DepartmentSelectionView.xaml</DependentUpon>
@@ -714,10 +710,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Employees\Views\IsPositionDeletedTextBlock.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Employees\Views\ReaderSelectationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text;
 using FiresecAPI;
 using FiresecAPI.GK;
+using System.IO;
 
 namespace FiresecClient
 {
@@ -12,90 +13,104 @@ namespace FiresecClient
 		{
 			if (device.Driver.HasMirror)
 			{
-				var stringBuilder = new StringBuilder();
-				if (device.GKReflectionItem.Zones != null)
+				List<StringBuilder> list = new List<StringBuilder>();
+				if (device.GKReflectionItem.Zones != null && device.GKReflectionItem.Zones.Count>0)
 				{
+					StringBuilder stringbuilderZones = new StringBuilder();
 					if (device.GKReflectionItem.Zones.Count == 1)
-						stringBuilder.Append(device.GKReflectionItem.Zones[0].PresentationName);
+						stringbuilderZones.Append("пожарные зоны: " + device.GKReflectionItem.Zones[0].PresentationName);
 					if (device.GKReflectionItem.Zones.Count > 1)
 					{
 						var zones = new List<ModelBase>(device.GKReflectionItem.Zones);
-						stringBuilder.Append("пожарные зоны: ");
-						stringBuilder.Append(GetCommaSeparatedObjects(new List<ModelBase>(device.GKReflectionItem.Zones), new List<ModelBase>(device.GKReflectionItem.Zones)));
+						stringbuilderZones.Append("пожарные зоны: ");
+						stringbuilderZones.Append(GetCommaSeparatedObjects(new List<ModelBase>(device.GKReflectionItem.Zones), new List<ModelBase>(device.GKReflectionItem.Zones)));
 					}
+					list.Add(stringbuilderZones);
 				}
-				if (device.GKReflectionItem.GuardZones != null)
+				if (device.GKReflectionItem.GuardZones != null && device.GKReflectionItem.GuardZones.Count>0)
 				{
+					StringBuilder stringbiulderGuardZones = new StringBuilder();
 					if (device.GKReflectionItem.GuardZones.Count == 1)
 					{
-						stringBuilder.Append(device.GKReflectionItem.GuardZones[0].PresentationName);
+						stringbiulderGuardZones.Append("охранные зоны: " + device.GKReflectionItem.GuardZones[0].PresentationName);
 					}
 					if (device.GKReflectionItem.GuardZones.Count > 1)
 					{
-						stringBuilder.Append("охранные зоны: ");
-						stringBuilder.Append(GetCommaSeparatedObjects(new List<ModelBase>(device.GKReflectionItem.GuardZones), new List<ModelBase>(device.GKReflectionItem.GuardZones)));
+						stringbiulderGuardZones.Append("охранные зоны: ");
+						stringbiulderGuardZones.Append(GetCommaSeparatedObjects(new List<ModelBase>(device.GKReflectionItem.GuardZones), new List<ModelBase>(device.GKReflectionItem.GuardZones)));
 					}
+					list.Add(stringbiulderGuardZones);
 				}
 				if (device.GKReflectionItem.Devices != null && device.GKReflectionItem.Devices.Count>0)
-				{				
-					stringBuilder.Append("устройсва: ");
-					foreach (var item in device.GKReflectionItem.Devices)
-	                   {
-		                 stringBuilder.Append(item.ShortName +" ");
-	                   }				
-				}
-				if (device.GKReflectionItem.Delays != null)
 				{
+					StringBuilder stringbuilderDevice = new StringBuilder();
+					stringbuilderDevice.Append("устройсва: ");
+					foreach (var item in device.GKReflectionItem.Devices)
+					   {
+						   stringbuilderDevice.Append(item.ShortName + ", "); 
+	                   }
+					list.Add(stringbuilderDevice);
+				}
+				if (device.GKReflectionItem.Delays != null && device.GKReflectionItem.Delays.Count>0)
+				{
+					StringBuilder stringbuilderDalays = new StringBuilder();
 					if (device.GKReflectionItem.Delays.Count == 1)
 					{
-						stringBuilder.Append(device.GKReflectionItem.Delays[0].PresentationName);
+						stringbuilderDalays.Append("задержки: "+ device.GKReflectionItem.Delays[0].PresentationName);
 					}
 					if (device.GKReflectionItem.Delays.Count > 1)
 					{
-						stringBuilder.Append("задержки: ");
-						stringBuilder.Append(GetCommaSeparatedObjects(new List<ModelBase>(device.GKReflectionItem.Delays), new List<ModelBase>(device.GKReflectionItem.Delays)));
+						stringbuilderDalays.Append("задержки: ");
+						stringbuilderDalays.Append(GetCommaSeparatedObjects(new List<ModelBase>(device.GKReflectionItem.Delays), new List<ModelBase>(device.GKReflectionItem.Delays)));
 					}
+					list.Add(stringbuilderDalays);
 				}
 
-				if (device.GKReflectionItem.Diretions != null)
+				if (device.GKReflectionItem.Diretions != null && device.GKReflectionItem.Diretions.Count > 0)
 				{
+					StringBuilder stringbuilderDerictions = new StringBuilder();
 					if (device.GKReflectionItem.Diretions.Count == 1)
 					{
-						stringBuilder.Append(device.GKReflectionItem.Diretions[0].PresentationName);
+						stringbuilderDerictions.Append("направления: "+ device.GKReflectionItem.Diretions[0].PresentationName);
 					}
 					if (device.GKReflectionItem.Diretions.Count > 1)
 					{
-						stringBuilder.Append("направления: ");
-						stringBuilder.Append(GetCommaSeparatedObjects(new List<ModelBase>(device.GKReflectionItem.Diretions), new List<ModelBase>(device.GKReflectionItem.Diretions)));
+						stringbuilderDerictions.Append("направления: ");
+						stringbuilderDerictions.Append(GetCommaSeparatedObjects(new List<ModelBase>(device.GKReflectionItem.Diretions), new List<ModelBase>(device.GKReflectionItem.Diretions)));
 					}
+					list.Add(stringbuilderDerictions);
 				}
-				if (device.GKReflectionItem.MPTs != null)
+				if (device.GKReflectionItem.MPTs != null && device.GKReflectionItem.MPTs.Count>0)
 				{
+					StringBuilder stringboilderMPTs = new StringBuilder();
 					if (device.GKReflectionItem.MPTs.Count == 1)
 					{
-						stringBuilder.Append(device.GKReflectionItem.MPTs[0].PresentationName);
+						stringboilderMPTs.Append("МПТ: "+device.GKReflectionItem.MPTs[0].PresentationName);
 					}
 					if (device.GKReflectionItem.MPTs.Count > 1)
 					{
-						stringBuilder.Append("МПТ: ");
-						stringBuilder.Append(GetCommaSeparatedObjects(new List<ModelBase>(device.GKReflectionItem.MPTs), new List<ModelBase>(device.GKReflectionItem.MPTs)));
+						stringboilderMPTs.Append("МПТ: ");
+						stringboilderMPTs.Append(GetCommaSeparatedObjects(new List<ModelBase>(device.GKReflectionItem.MPTs), new List<ModelBase>(device.GKReflectionItem.MPTs)));
 					}
+					list.Add(stringboilderMPTs);
 				}
 
-				if (device.GKReflectionItem.NSs != null)
+				if (device.GKReflectionItem.NSs != null && device.GKReflectionItem.NSs.Count>0)
 				{
+					StringBuilder stringbuilderNSs = new StringBuilder();
 					if (device.GKReflectionItem.NSs.Count == 1)
 					{
-						stringBuilder.Append(device.GKReflectionItem.MPTs[0].PresentationName);
+						stringbuilderNSs.Append("НС: " + device.GKReflectionItem.NSs[0].PresentationName);	
 					}
 					if (device.GKReflectionItem.NSs.Count > 1)
 					{
-						stringBuilder.Append("НС: ");
-						stringBuilder.Append(GetCommaSeparatedObjects(new List<ModelBase>(device.GKReflectionItem.NSs), new List<ModelBase>(device.GKReflectionItem.NSs)));
+						stringbuilderNSs.Append("НС: ");
+						stringbuilderNSs.Append(GetCommaSeparatedObjects(new List<ModelBase>(device.GKReflectionItem.NSs), new List<ModelBase>(device.GKReflectionItem.NSs)));					
 					}
-				}
-					
-				return stringBuilder.ToString();
+					list.Add(stringbuilderNSs);					
+				}	
+		
+				return string.Join("\n",list);
 			}
 
 			if (device.Driver.HasZone || device.Driver.HasGuardZone )

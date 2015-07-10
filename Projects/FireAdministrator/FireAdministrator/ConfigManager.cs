@@ -101,10 +101,6 @@ namespace FireAdministrator
 					AddConfiguration(tempFolderName, "SecurityConfiguration.xml", FiresecManager.SecurityConfiguration, 1, 1, true);
 				if (ServiceFactory.SaveService.GKLibraryChanged)
 					AddConfiguration(tempFolderName, "GKDeviceLibraryConfiguration.xml", GKManager.DeviceLibraryConfiguration, 1, 1, true);
-				if (ServiceFactory.SaveService.SKDChanged)
-					AddConfiguration(tempFolderName, "SKDConfiguration.xml", SKDManager.SKDConfiguration, 1, 1, true);
-				if (ServiceFactory.SaveService.SKDLibraryChanged)
-					AddConfiguration(tempFolderName, "SKDLibraryConfiguration.xml", SKDManager.SKDLibraryConfiguration, 1, 1, true);
 				if (ServiceFactory.SaveService.LayoutsChanged)
 					AddConfiguration(tempFolderName, "LayoutsConfiguration.xml", FiresecManager.LayoutsConfiguration, 1, 1, false);
 
@@ -177,7 +173,6 @@ namespace FireAdministrator
 					FiresecManager.SystemConfiguration.Cameras = new List<Camera>();
 					FiresecManager.SystemConfiguration.AutomationConfiguration = new AutomationConfiguration();
 					FiresecManager.PlansConfiguration.Update();
-					SKDManager.SetEmptyConfiguration();
 					FiresecManager.LayoutsConfiguration = new LayoutsConfiguration();
 
 					ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
@@ -186,7 +181,6 @@ namespace FireAdministrator
 					ServiceFactory.SaveService.CamerasChanged = true;
 					ServiceFactory.SaveService.GKChanged = true;
 					ServiceFactory.SaveService.GKInstructionsChanged = true;
-					ServiceFactory.SaveService.SKDChanged = true;
 					ServiceFactory.SaveService.LayoutsChanged = true;
 
 					ShowFirstDevice();

@@ -20,12 +20,11 @@ namespace SKDDriver
 			var zonesResult = new OperationResult();
 			var gkZonesResult = new OperationResult();
 			if (filter.IsExportDevices)
-				devicesResult = Export<ExportDevice, SKDDevice>(SKDManager.Devices, "Devices.xml", filter.Path);
+				devicesResult = Export<ExportDevice, GKDevice>(GKManager.Devices, "Devices.xml", filter.Path);
 			if(filter.IsExportDoors)
-				doorsResult = Export<ExportDoor, SKDDoor>(SKDManager.Doors, "Doors.xml", filter.Path);
+				doorsResult = Export<ExportDoor, GKDoor>(GKManager.Doors, "Doors.xml", filter.Path);
 			if (filter.IsExportZones)
 			{
-				zonesResult = Export<ExportZone, SKDZone>(SKDManager.Zones, "StrazhZones.xml", filter.Path);
 				gkZonesResult = Export<ExportZone, GKSKDZone>(GKManager.SKDZones, "GKZones.xml", filter.Path);
 			}
 			return TranslatiorHelper.ConcatOperationResults(devicesResult, doorsResult, zonesResult);					
@@ -58,20 +57,12 @@ namespace SKDDriver
 		}
 	}
 
-	public class ExportZone : IConfigExportItem<SKDZone>, IConfigExportItem<GKSKDZone>
+	public class ExportZone : IConfigExportItem<GKSKDZone>
 	{
 		public Guid UID { get; set; }
 		public string Name { get; set; }
 		public string Description { get; set; }
 		public int Number { get; set; }
-		
-		public void Initialize(SKDZone configItem)
-		{
-			UID = configItem.UID;
-			Name = configItem.Name;
-			Description = configItem.Description;
-			Number = configItem.No;
-		}
 
 		public void Initialize(GKSKDZone configItem)
 		{
@@ -83,14 +74,14 @@ namespace SKDDriver
 	}
 
 
-	public class ExportDevice : IConfigExportItem<SKDDevice>
+	public class ExportDevice : IConfigExportItem<GKDevice>
 	{
 		public Guid UID { get; set; }
 		public string Name { get; set; }
 		public string Address { get; set; }
 		public Guid ParentUID { get; set; }
 
-		public void Initialize(SKDDevice configItem)
+		public void Initialize(GKDevice configItem)
 		{
 			UID = configItem.UID;
 			Name = configItem.Name;
@@ -99,7 +90,7 @@ namespace SKDDriver
 		}
 	}
 
-	public class ExportDoor : IConfigExportItem<SKDDoor>
+	public class ExportDoor : IConfigExportItem<GKDoor>
 	{
 		public Guid UID { get; set; }
 		public int Number { get; set; }
@@ -109,15 +100,15 @@ namespace SKDDriver
 		public Guid InDeviceUID { get; set; }
 		public Guid OutDeviceUID { get; set; }
 
-		public void Initialize(SKDDoor configItem)
+		public void Initialize(GKDoor configItem)
 		{
 			UID = configItem.UID;
 			Number = configItem.No;
 			Name = configItem.Name;
 			Description = configItem.Description;
 			Type = (int)configItem.DoorType;
-			InDeviceUID = configItem.InDeviceUID;
-			OutDeviceUID = configItem.OutDeviceUID;
+			InDeviceUID = configItem.EnterDeviceUID;
+			OutDeviceUID = configItem.ExitDeviceUID;
 		}
 	}
 

@@ -28,7 +28,6 @@ namespace FiresecService
 				SystemConfiguration = new SystemConfiguration();
 
 			GKManager.DeviceConfiguration = GetDeviceConfiguration();
-			SKDManager.SKDConfiguration = GetSKDConfiguration();
 
 			SystemConfiguration.UpdateConfiguration();
 
@@ -39,7 +38,6 @@ namespace FiresecService
 			DescriptorsManager.CreateDynamicObjectsInGKManager();
 			GKManager.UpdateConfiguration();
 
-			SKDManager.UpdateConfiguration();
 		}
 
 		static void CheckConfigDirectory()
@@ -87,20 +85,6 @@ namespace FiresecService
 				deviceConfiguration = new GKDeviceConfiguration();
 			deviceConfiguration.AfterLoad();
 			return deviceConfiguration;
-		}
-
-		static SKDConfiguration GetSKDConfiguration()
-		{
-			var skdConfiguration = (SKDConfiguration)GetConfiguration("SKDConfiguration.xml", typeof(SKDConfiguration));
-			if (skdConfiguration != null)
-			{
-				skdConfiguration.AfterLoad();
-			}
-			else
-			{
-				skdConfiguration = new SKDConfiguration();
-			}
-			return skdConfiguration;
 		}
 
 		static VersionedConfiguration GetConfiguration(string fileName, Type type)

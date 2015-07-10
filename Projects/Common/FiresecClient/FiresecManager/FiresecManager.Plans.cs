@@ -76,33 +76,6 @@ namespace FiresecClient
 							elementGKDoors.Add(elementDoor);
 					Plan.ElementGKDoors = elementGKDoors;
 
-					keys = SKDManager.Zones.Select(item => item.UID).ToList();
-					var elementRectangleSKDZones = new List<ElementRectangleSKDZone>();
-					foreach (var elementRectangleSKDZone in Plan.ElementRectangleSKDZones.Where(x => x.ZoneUID != Guid.Empty))
-						if (keys.Contains(elementRectangleSKDZone.ZoneUID))
-							elementRectangleSKDZones.Add(elementRectangleSKDZone);
-					Plan.ElementRectangleSKDZones = elementRectangleSKDZones;
-
-					var elementPolygonSKDZones = new List<ElementPolygonSKDZone>();
-					foreach (var elementPolygonSKDZone in Plan.ElementPolygonSKDZones.Where(x => x.ZoneUID != Guid.Empty))
-						if (keys.Contains(elementPolygonSKDZone.ZoneUID))
-							elementPolygonSKDZones.Add(elementPolygonSKDZone);
-					Plan.ElementPolygonSKDZones = elementPolygonSKDZones;
-
-					keys = SKDManager.Devices.Select(item => item.UID).ToList();
-					var elementSKDDevices = new List<ElementSKDDevice>();
-					foreach (var elementSKDDevice in Plan.ElementSKDDevices.Where(x => x.DeviceUID != Guid.Empty))
-						if (keys.Contains(elementSKDDevice.DeviceUID))
-							elementSKDDevices.Add(elementSKDDevice);
-					Plan.ElementSKDDevices = elementSKDDevices;
-
-					keys = SKDManager.SKDConfiguration.Doors.Select(item => item.UID).ToList();
-					var elementDoors = new List<ElementDoor>();
-					foreach (var elementDoor in Plan.ElementDoors.Where(x => x.DoorUID != Guid.Empty))
-						if (keys.Contains(elementDoor.DoorUID))
-							elementDoors.Add(elementDoor);
-					Plan.ElementDoors = elementDoors;
-
 					keys = GKManager.Devices.Select(item => item.UID).ToList();
 					var cameraKeys = SystemConfiguration.Cameras.Select(item => item.UID).ToList();
 					var procedureKeys = SystemConfiguration.AutomationConfiguration.Procedures.Select(item => item.Uid).ToList();

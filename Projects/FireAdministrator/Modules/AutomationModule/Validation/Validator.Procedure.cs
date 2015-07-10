@@ -179,13 +179,6 @@ namespace AutomationModule.Validation
 					}
 					break;
 
-				case ProcedureStepType.ControlSKDDevice:
-					{
-						var controlSKDDeviceArguments = step.ControlSKDDeviceArguments;
-						ValidateArgument(step, controlSKDDeviceArguments.SKDDeviceArgument);
-					}
-					break;
-
 				case ProcedureStepType.ControlGKFireZone:
 					{
 						var controlGKFireZoneArguments = step.ControlGKFireZoneArguments;
@@ -207,13 +200,6 @@ namespace AutomationModule.Validation
 					}
 					break;
 
-				case ProcedureStepType.ControlDoor:
-					{
-						var controlDoorArguments = step.ControlDoorArguments;
-						ValidateArgument(step, controlDoorArguments.DoorArgument);
-					}
-					break;
-
 				case ProcedureStepType.ControlGKDoor:
 					{
 						var controlGKDoorArguments = step.ControlGKDoorArguments;
@@ -225,13 +211,6 @@ namespace AutomationModule.Validation
 					{
 						var controlDelayArguments = step.ControlDelayArguments;
 						ValidateArgument(step, controlDelayArguments.DelayArgument);
-					}
-					break;
-
-				case ProcedureStepType.ControlSKDZone:
-					{
-						var controlSKDZoneArguments = step.ControlSKDZoneArguments;
-						ValidateArgument(step, controlSKDZoneArguments.SKDZoneArgument);
 					}
 					break;
 

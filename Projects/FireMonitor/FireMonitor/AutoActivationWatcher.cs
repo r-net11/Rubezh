@@ -29,9 +29,7 @@ namespace FireMonitor
 			if (ClientSettings.AutoActivationSettings.IsPlansAutoActivation)
 				foreach (var journalItem in journalItems)
 				{
-					var gkStateClass = GKManager.GetMinStateClass();
-					var skdStateClass = SKDManager.GetMinStateClass();
-					var globalStateClass = (XStateClass)Math.Min((int)gkStateClass, (int)skdStateClass);
+					var globalStateClass = GKManager.GetMinStateClass();
 					var stateClass = EventDescriptionAttributeHelper.ToStateClass(journalItem.JournalEventNameType);
 					if (stateClass <= globalStateClass || (globalStateClass != XStateClass.Fire1 && globalStateClass != XStateClass.Fire2 && globalStateClass != XStateClass.Attention))
 						switch (journalItem.JournalObjectType)
@@ -55,21 +53,6 @@ namespace FireMonitor
 								var guardZone = GKManager.GuardZones.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
 								if (ShowOnPlanHelper.CanShowGuardZone(guardZone))
 									ShowOnPlanHelper.ShowGuardZone(guardZone);
-								break;
-							case JournalObjectType.SKDDevice:
-								var skdDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
-								if (ShowOnPlanHelper.CanShowSKDDevice(skdDevice))
-									ShowOnPlanHelper.ShowSKDDevice(skdDevice);
-								break;
-							case JournalObjectType.SKDZone:
-								var skdZone = SKDManager.Zones.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
-								if (ShowOnPlanHelper.CanShowSKDZone(skdZone))
-									ShowOnPlanHelper.ShowSKDZone(skdZone);
-								break;
-							case JournalObjectType.SKDDoor:
-								var skdDoor = SKDManager.Doors.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
-								if (ShowOnPlanHelper.CanShowSKDDoor(skdDoor))
-									ShowOnPlanHelper.ShowSKDDoor(skdDoor);
 								break;
 							case JournalObjectType.VideoDevice:
 								var camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
