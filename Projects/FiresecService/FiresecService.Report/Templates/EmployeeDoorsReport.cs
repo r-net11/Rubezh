@@ -65,16 +65,6 @@ namespace FiresecService.Report.Templates
 
 			var cardFilter = new CardFilter();
 			cardFilter.EmployeeFilter = dataProvider.GetCardEmployeeFilter(filter);
-			if (filter.PassCardForcing)
-				cardFilter.CardTypes.Add(CardType.Duress);
-			if (filter.PassCardLocked)
-				cardFilter.CardTypes.Add(CardType.Blocked);
-			if (filter.PassCardOnceOnly)
-				cardFilter.CardTypes.Add(CardType.OneTime);
-			if (filter.PassCardPermanent)
-				cardFilter.CardTypes.Add(CardType.Constant);
-			if (filter.PassCardTemprorary)
-				cardFilter.CardTypes.Add(CardType.Temporary);
 			cardFilter.DeactivationType = LogicalDeletationType.Active;
 			cardFilter.LogicalDeletationType = LogicalDeletationType.Active;
             var cardsResult = dataProvider.DbService.CardTranslator.Get(cardFilter);

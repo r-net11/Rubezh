@@ -8,13 +8,13 @@ namespace SKDDriver.DataClasses
 		public static readonly DateTime MinYear = new DateTime(1900, 1, 1);
 		public static readonly DateTime MaxYear = new DateTime(9000, 1, 1);
 
-		public static DateTime CheckDate(DateTime dateTime)
+		public static DateTime CheckDate(DateTime value)
 		{
-			if (dateTime < MinYear)
+			if (value < MinYear)
 				return MinYear;
-			if (dateTime > MaxYear)
+			if (value > MaxYear)
 				return MaxYear;
-			return dateTime;
+			return value;
 		}
 
 		public static OperationResult ConcatOperationResults(params OperationResult[] results)

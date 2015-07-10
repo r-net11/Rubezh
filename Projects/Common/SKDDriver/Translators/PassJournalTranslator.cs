@@ -59,8 +59,8 @@ namespace SKDDriver.DataClasses
 				passJournalItem.UID = uid;
 				passJournalItem.EmployeeUID = employeeUID.EmptyToNull();
 				passJournalItem.ZoneUID = zoneUID;
-				passJournalItem.EnterTime = enterTime;
-				passJournalItem.ExitTime = exitTime;
+				passJournalItem.EnterTime = enterTime.CheckDate();
+				passJournalItem.ExitTime = exitTime.CheckDate();
 				if (IsIntersection(passJournalItem))
 				{
 					return new OperationResult("Невозможно добавить пересекающийся интервал");
@@ -83,8 +83,8 @@ namespace SKDDriver.DataClasses
 				if (passJournalItem != null)
 				{
 					passJournalItem.ZoneUID = zoneUID;
-					passJournalItem.EnterTime = enterTime;
-					passJournalItem.ExitTime = exitTime;
+					passJournalItem.EnterTime = enterTime.CheckDate();
+					passJournalItem.ExitTime = exitTime.CheckDate();
 				}
 				if (IsIntersection(passJournalItem))
 				{

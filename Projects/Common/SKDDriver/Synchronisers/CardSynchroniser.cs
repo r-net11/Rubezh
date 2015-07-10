@@ -14,14 +14,11 @@ namespace SKDDriver.DataClasses
             return new API.ExportCard
             {
                 Number = item.Number,
-                CardType = item.CardType,
                 StartDate = item.StartDate,
                 EndDate = item.EndDate,
                 IsInStopList = item.IsInStopList,
                 StopReason = item.StopReason,
-                Password = item.Password,
-                UserTime = item.UserTime,
-
+                
                 OrganisationUID = item.Employee != null ? GetUID(item.Employee.OrganisationUID) : Guid.Empty,
                 OrganisationExternalKey = item.Employee != null ? GetExternalKey(item.Employee.OrganisationUID, item.Employee.Organisation) : "-1",
                 EmployeeUID = GetUID(item.EmployeeUID),
@@ -32,13 +29,10 @@ namespace SKDDriver.DataClasses
         public override void TranslateBack(API.ExportCard exportItem, Card tableItem)
         {
             tableItem.Number = exportItem.Number;
-            tableItem.CardType = exportItem.CardType;
             tableItem.StartDate = exportItem.StartDate;
             tableItem.EndDate = exportItem.EndDate;
             tableItem.IsInStopList = exportItem.IsInStopList;
             tableItem.StopReason = exportItem.StopReason;
-            tableItem.Password = exportItem.Password;
-            tableItem.UserTime = exportItem.UserTime;
         }
 
         protected override IQueryable<Card> GetFilteredItems(API.ExportFilter filter)

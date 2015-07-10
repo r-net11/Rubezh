@@ -29,20 +29,20 @@ namespace SKDDriver.DataClasses
 			get { return string.Format("{0} {1} {2}", FirstName, SecondName, LastName); }
 			set { return; }
 		}
-
+		[MaxLength(4000)]
 		public string Description { get; set; }
 
 		public bool IsDeleted { get; set; }
 
 		public DateTime? RemovalDate { get; set; }
-
+		[Index]
 		public Guid? OrganisationUID { get; set; }
 		public Organisation Organisation { get; set; }
 		#endregion
-
+		[Index]
         public Guid? PositionUID { get; set; }
         public Position Position { get; set; }
-
+		[Index]
         public Guid? DepartmentUID { get; set; }
         public Department Department { get; set; }
 
@@ -52,7 +52,7 @@ namespace SKDDriver.DataClasses
         public Guid? EscortUID { get; set; }
         public Employee Escort { get; set; }
         public ICollection<Employee> Guests { get; set; }
-
+		[Index]
         public Guid? ScheduleUID { get; set; }
         public Schedule Schedule { get; set; }
 
@@ -70,44 +70,45 @@ namespace SKDDriver.DataClasses
 
         public ICollection<EmployeeDay> EmployeeDays { get; set; }
 
+		[MaxLength(50)]
 		public string FirstName { get; set; }
-
+		[MaxLength(50)]
 		public string SecondName { get; set; }
-
+		[MaxLength(50)]
 		public string LastName { get; set; }
 
 		public DateTime ScheduleStartDate { get; set; }
 
 		public int Type { get; set; }
-
+		[MaxLength(50)]
 		public string TabelNo { get; set; }
 
 		public DateTime CredentialsStartDate { get; set; }
-
+		[MaxLength(50)]
 		public string DocumentNumber { get; set; }
 
 		public DateTime BirthDate { get; set; }
-
+		[MaxLength(4000)]
 		public string BirthPlace { get; set; }
 
 		public DateTime DocumentGivenDate { get; set; }
-
+		[MaxLength(4000)]
 		public string DocumentGivenBy { get; set; }
 
 		public DateTime DocumentValidTo { get; set; }
 
 		public int Gender { get; set; }
-
+		[MaxLength(50)]
 		public string DocumentDepartmentCode { get; set; }
 
 		public string Citizenship { get; set; }
 
 		public int DocumentType { get; set; }
-
+		[MaxLength(50)]
 		public string Phone { get; set; }
 
 		public DateTime LastEmployeeDayUpdate { get; set; }
-
+		[MaxLength(50)]
 		public string ExternalKey { get; set; }
 	}
 }

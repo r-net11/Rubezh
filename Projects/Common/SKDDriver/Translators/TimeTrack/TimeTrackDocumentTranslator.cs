@@ -59,9 +59,6 @@ namespace SKDDriver.DataClasses
             }
         }
 
-
-
-
         public OperationResult AddTimeTrackDocument(API.TimeTrackDocument timeTrackDocument)
         {
             try
@@ -69,11 +66,11 @@ namespace SKDDriver.DataClasses
                 var tableItem = new TimeTrackDocument();
                 tableItem.UID = timeTrackDocument.UID;
                 tableItem.EmployeeUID = timeTrackDocument.EmployeeUID;
-                tableItem.StartDateTime = timeTrackDocument.StartDateTime;
-                tableItem.EndDateTime = timeTrackDocument.EndDateTime;
+				tableItem.StartDateTime = timeTrackDocument.StartDateTime.CheckDate();
+				tableItem.EndDateTime = timeTrackDocument.EndDateTime.CheckDate();
                 tableItem.DocumentCode = timeTrackDocument.DocumentCode;
                 tableItem.Comment = timeTrackDocument.Comment;
-                tableItem.DocumentDateTime = timeTrackDocument.DocumentDateTime;
+				tableItem.DocumentDateTime = timeTrackDocument.DocumentDateTime.CheckDate();
                 tableItem.DocumentNumber = timeTrackDocument.DocumentNumber;
                 Context.TimeTrackDocuments.Add(tableItem);
                 tableItem.FileName = timeTrackDocument.FileName;
@@ -93,11 +90,11 @@ namespace SKDDriver.DataClasses
                 if (tableItem != null)
                 {
                     tableItem.EmployeeUID = timeTrackDocument.EmployeeUID;
-                    tableItem.StartDateTime = timeTrackDocument.StartDateTime;
-                    tableItem.EndDateTime = timeTrackDocument.EndDateTime;
+                    tableItem.StartDateTime = timeTrackDocument.StartDateTime.CheckDate();
+					tableItem.EndDateTime = timeTrackDocument.EndDateTime.CheckDate();
                     tableItem.DocumentCode = timeTrackDocument.DocumentCode;
                     tableItem.Comment = timeTrackDocument.Comment;
-                    tableItem.DocumentDateTime = timeTrackDocument.DocumentDateTime;
+					tableItem.DocumentDateTime = timeTrackDocument.DocumentDateTime.CheckDate();
                     tableItem.DocumentNumber = timeTrackDocument.DocumentNumber;
                     tableItem.FileName = timeTrackDocument.FileName;
                     Context.SaveChanges();

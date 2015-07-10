@@ -113,6 +113,7 @@
     <Compile Include="DataClasses\TimeTrackDocument.cs" />
     <Compile Include="DataClasses\TimeTrackDocumnetType.cs" />
     <Compile Include="DataClasses\TimeTrackException.cs" />
+    <Compile Include="ExtensionMethods.cs" />
     <Compile Include="Synchronisers\HRCash.cs" />
     <Compile Include="TestDataGenerator.cs" />
     <Compile Include="Translators\HR\AccessTemplateTranslator.cs" />
@@ -138,7 +139,7 @@
     <Compile Include="Translators\Base\OrganisationItemTranslatorBase.cs" />
     <Compile Include="Translators\HR\OrganisationTranslator.cs" />
     <Compile Include="Translators\PassJournalTranslator.cs" />
-    <Compile Include="SKDDbContext.cs" />
+    <Compile Include="DatabaseContext.cs" />
     <Compile Include="Translators\HR\PassCardTemplateTranslator.cs" />
     <Compile Include="Translators\HR\PositionTranslator.cs" />
     <Compile Include="Translators\TimeTrack\ScheduleSchemeTranslator.cs" />
@@ -224,7 +225,10 @@
   <ItemGroup>
     <Resource Include="Scripts\SKD\DropIfExists.sql" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Scripts\Create_Mssql.sql" />
+    <Content Include="Scripts\Create_Psql.sql" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

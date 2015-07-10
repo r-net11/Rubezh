@@ -107,8 +107,8 @@ namespace SKDDriver.DataClasses
 			tableItem.LastName = apiItem.LastName;
             tableItem.PositionUID = apiItem.Position != null ? (Guid?)apiItem.Position.UID : null;
             tableItem.DepartmentUID = apiItem.Department != null ? (Guid?)apiItem.Department.UID : null;
-            tableItem.ScheduleUID = apiItem.Schedule != null ? (Guid?)apiItem.Schedule.UID : null; 
-			tableItem.ScheduleStartDate = apiItem.ScheduleStartDate;
+            tableItem.ScheduleUID = apiItem.Schedule != null ? (Guid?)apiItem.Schedule.UID : null;
+			tableItem.ScheduleStartDate = apiItem.ScheduleStartDate.CheckDate();
             tableItem.Photo = Photo.Create(apiItem.Photo);
             tableItem.AdditionalColumns = apiItem.AdditionalColumns.Select(x => new AdditionalColumn
             {
@@ -122,16 +122,17 @@ namespace SKDDriver.DataClasses
 			tableItem.TabelNo = apiItem.TabelNo;
             tableItem.CredentialsStartDate = apiItem.CredentialsStartDate;
 			tableItem.EscortUID = apiItem.EscortUID;
-			tableItem.DocumentNumber = apiItem.DocumentNumber;
-			tableItem.BirthDate = apiItem.BirthDate;
+			tableItem.BirthDate = apiItem.BirthDate.CheckDate();
 			tableItem.BirthPlace = apiItem.BirthPlace;
+			tableItem.DocumentNumber = apiItem.DocumentNumber;
 			tableItem.DocumentGivenBy = apiItem.DocumentGivenBy;
-			tableItem.DocumentValidTo = apiItem.DocumentValidTo;
-			tableItem.Gender = (int)apiItem.Gender;
+			tableItem.DocumentValidTo = apiItem.DocumentValidTo.CheckDate();
+			tableItem.DocumentGivenDate = apiItem.DocumentGivenDate.CheckDate();
 			tableItem.DocumentDepartmentCode = tableItem.DocumentDepartmentCode;
-			tableItem.Citizenship = apiItem.Citizenship;
 			tableItem.DocumentType = (int)apiItem.DocumentType;
-			tableItem.LastEmployeeDayUpdate = apiItem.LastEmployeeDayUpdate;
+			tableItem.Gender = (int)apiItem.Gender;
+			tableItem.Citizenship = apiItem.Citizenship;
+			tableItem.LastEmployeeDayUpdate = apiItem.LastEmployeeDayUpdate.CheckDate();
 			tableItem.Phone = apiItem.Phone;
 		}
 

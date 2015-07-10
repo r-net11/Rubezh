@@ -9,7 +9,7 @@ namespace SKDModule.Reports.Providers
 	public class EventsReportProvider : FilteredSKDReportProvider<EventsReportFilter>
 	{
 		public EventsReportProvider()
-			: base("Отчет по событиям системы контроля доступа", 401, SKDReportGroup.Events, PermissionType.Oper_Reports_Events)
+			: base("Отчет по событиям", 401, SKDReportGroup.Events, PermissionType.Oper_Reports_Events)
 		{
 		}
 

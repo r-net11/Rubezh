@@ -166,7 +166,7 @@ namespace SKDDriver.DataClasses
 			tableItem.Name = apiItem.Name;
 			tableItem.Description = apiItem.Description;
 			tableItem.IsDeleted = apiItem.IsDeleted;
-			tableItem.RemovalDate = apiItem.RemovalDate;
+			tableItem.RemovalDate = apiItem.RemovalDate.CheckDate();
 			tableItem.OrganisationUID = apiItem.OrganisationUID;
 		}
 		public abstract DbSet<TTableItem> Table { get; }

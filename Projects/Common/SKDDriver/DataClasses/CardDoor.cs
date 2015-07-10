@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SKDDriver.DataClasses
 {
@@ -15,10 +16,10 @@ namespace SKDDriver.DataClasses
 		
 		[Key]
 		public Guid UID { get; set; }
-
+		[Index]
 		public Guid? CardUID { get; set; }
 		public Card Card { get; set; }
-
+		[Index]
 		public Guid? AccessTemplateUID { get; set; }
 		public AccessTemplate AccessTemplate { get; set; }
 

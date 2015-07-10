@@ -61,7 +61,7 @@ namespace SKDDriver.DataClasses
             }
             tableItem.AlsUID = item.AlsUID;
             tableItem.Current = item.Current;
-            tableItem.DateTime = item.DateTime;
+			tableItem.DateTime = item.DateTime.CheckDate();
             if (isNew)
                 Context.CurrentConsumptions.Add(tableItem);
         }

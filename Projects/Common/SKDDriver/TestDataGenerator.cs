@@ -232,7 +232,6 @@ namespace SKDDriver.DataClasses
                 UID = Guid.NewGuid(),
                 Number = no,
                 EmployeeUID = emplUID,
-                CardType = 0,
                 GKCardType = 0,
                 StartDate = _minDate,
                 EndDate = _minDate,

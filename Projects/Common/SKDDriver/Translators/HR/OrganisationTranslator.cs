@@ -205,7 +205,7 @@ namespace SKDDriver.DataClasses
 			tableItem.Name = apiItem.Name;
 			tableItem.Description = apiItem.Description;
 			tableItem.IsDeleted = apiItem.IsDeleted;
-			tableItem.RemovalDate = apiItem.RemovalDate;
+			tableItem.RemovalDate = apiItem.RemovalDate.CheckDate();
 			tableItem.Doors = apiItem.DoorUIDs.Select(x => new OrganisationDoor { UID = Guid.NewGuid(), DoorUID = x }).ToList();
 			tableItem.Users = apiItem.UserUIDs.Select(x => new OrganisationUser { UID = Guid.NewGuid(), UserUID = x }).ToList();
 			tableItem.ChiefUID = apiItem.ChiefUID.EmptyToNull();

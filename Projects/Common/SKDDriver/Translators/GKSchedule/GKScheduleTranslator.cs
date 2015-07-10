@@ -84,7 +84,7 @@ namespace SKDDriver.DataClasses
 				{
 					UID = Guid.NewGuid(),
 					ScheduleUID = item.UID,
-					DateTime = x
+					DateTime = x.CheckDate()
 				}).ToList();
 				tableItem.ScheduleGKDaySchedules = item.DayScheduleUIDs.Select(x => new ScheduleGKDaySchedule
 				{

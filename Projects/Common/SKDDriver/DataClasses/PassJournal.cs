@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SKDDriver.DataClasses
 {
@@ -7,7 +8,6 @@ namespace SKDDriver.DataClasses
 	{
 		[Key]
 		public Guid UID { get; set; }
-
 		public Guid? EmployeeUID { get; set; }
 		public Employee Employee { get; set; }
 

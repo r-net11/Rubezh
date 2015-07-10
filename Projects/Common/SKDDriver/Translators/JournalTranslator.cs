@@ -98,7 +98,7 @@ namespace SKDDriver.DataClasses
 		{
 			try
 			{
-				var tableItems = Context.Journals.SqlQuery(BuildJournalFilterQuery(filter)).ToList();
+				var tableItems = GetFilteredJournalItemsInternal(filter).ToList();
 				var result = new List<JournalItem>(tableItems.Select(x => Translate(x)));
 				return new OperationResult<List<JournalItem>>(result);
 			}
@@ -115,18 +115,9 @@ namespace SKDDriver.DataClasses
 			{
 				IsAbort = false;
 				var pageSize = archiveFilter.PageSize;
-				int page = 0;
-                //bool isEnd = false;
-                //while (!isEnd && !IsAbort)
-                //{
-                //    var journalItems = Context.Journals.SqlQuery(BuildArchiveFilterQuery(archiveFilter)).Skip(page * pageSize).Take(pageSize).ToList().Select(x => Translate(x)).ToList();
-                //    page++;
-                //    isEnd = journalItems.Count < pageSize;
-                //    PublishNewItemsPortion(journalItems, archivePortionUID);
-                //}
-                var portion = new List<JournalItem>();
+				var portion = new List<JournalItem>();
                 int itemNo = 0;
-                foreach (var item in Context.Journals.SqlQuery(BuildArchiveFilterQuery(archiveFilter)))
+                foreach (var item in BeginGetFilteredArchiveInternal(archiveFilter))
                 {
                     itemNo++;
                     portion.Add(Translate(item));
@@ -196,8 +187,8 @@ namespace SKDDriver.DataClasses
 			return new Journal
 			{
 				UID = apiItem.UID,
-				SystemDate = apiItem.SystemDateTime,
-				DeviceDate = apiItem.DeviceDateTime,
+				SystemDate = apiItem.SystemDateTime.CheckDate(),
+				DeviceDate = apiItem.DeviceDateTime.CheckDate(),
 				Subsystem = (int)apiItem.JournalSubsystemType,
 				Name = (int)apiItem.JournalEventNameType,
 				Description = (int)apiItem.JournalEventDescriptionType,
@@ -214,224 +205,81 @@ namespace SKDDriver.DataClasses
 			};
 		}
 
-		string BuildJournalFilterQuery(JournalFilter journalFilter)
+		IQueryable<Journal> GetFilteredJournalItemsInternal(JournalFilter filter)
 		{
-			var lastItemsCount = journalFilter.LastItemsCount.ToString();
-			string query;
-			if(Context.ContextType == DbContextType.MSSQL)
-				query = string.Format("SELECT TOP ({0}) * FROM {1}", lastItemsCount, IntoBrackets("Journal"));
+			IQueryable<Journal> result = Context.Journals;
+			if (filter.JournalEventNameTypes.Count > 0)
+			{
+				var names = filter.JournalEventNameTypes.Select(x => (int)x).ToList();
+				result = result.Where(x => names.Contains(x.Name));
+			}
+			if (filter.JournalEventDescriptionTypes.Count > 0)
+			{
+				var descriptions = filter.JournalEventDescriptionTypes.Select(x => (int)x).ToList();
+				result = result.Where(x => descriptions.Contains(x.Description));
+			}
+			if (filter.JournalSubsystemTypes.Count > 0)
+			{
+				var subsystems = filter.JournalSubsystemTypes.Select(x => (int)x).ToList();
+				result = result.Where(x => subsystems.Contains(x.Subsystem));
+			}
+			if (filter.JournalObjectTypes.Count > 0)
+			{
+				var objects = filter.JournalObjectTypes.Select(x => (int)x).ToList();
+				result = result.Where(x => objects.Contains(x.ObjectType));
+			}
+			if (filter.ObjectUIDs.Count > 0)
+			{
+				result = result.Where(x => filter.ObjectUIDs.Contains(x.ObjectUID));
+			}
+			if (filter.ObjectUIDs.Count > 0)
+			{
+				result = result.Where(x => filter.ObjectUIDs.Contains(x.ObjectUID));
+			}
+			result = result.Take(filter.LastItemsCount);
+			return result;
+		}
+
+		IQueryable<Journal> BeginGetFilteredArchiveInternal(ArchiveFilter filter)
+		{
+			IQueryable<Journal> result = Context.Journals;
+			if (filter.JournalEventNameTypes.Count > 0)
+			{
+				var names = filter.JournalEventNameTypes.Select(x => (int)x).ToList();
+				result = result.Where(x => names.Contains(x.Name));
+			}
+			if (filter.JournalEventDescriptionTypes.Count > 0)
+			{
+				var descriptions = filter.JournalEventDescriptionTypes.Select(x => (int)x).ToList();
+				result = result.Where(x => descriptions.Contains(x.Description));
+			}
+			if (filter.JournalSubsystemTypes.Count > 0)
+			{
+				var subsystems = filter.JournalSubsystemTypes.Select(x => (int)x).ToList();
+				result = result.Where(x => subsystems.Contains(x.Subsystem));
+			}
+			if (filter.JournalObjectTypes.Count > 0)
+			{
+				var objects = filter.JournalObjectTypes.Select(x => (int)x).ToList();
+				result = result.Where(x => objects.Contains(x.ObjectType));
+			}
+			if (filter.ObjectUIDs.Count > 0)
+			{
+				result = result.Where(x => filter.ObjectUIDs.Contains(x.ObjectUID));
+			}
+			if (filter.ObjectUIDs.Count > 0)
+			{
+				result = result.Where(x => filter.ObjectUIDs.Contains(x.ObjectUID));
+			}
+			if(filter.UseDeviceDateTime)
+			{
+				result = result.Where(x => x.DeviceDate > filter.StartDate && x.DeviceDate < filter.EndDate);
+			}
 			else
-				query = string.Format("SELECT * FROM {0}", IntoBrackets("Journal"));
-			bool hasWhere = false;
-			if (journalFilter.JournalEventNameTypes.Count > 0)
 			{
-				if (!hasWhere)
-				{
-					query += "\n Where (";
-					hasWhere = true;
-				}
-				else
-				{
-					query += "\n AND (";
-				}
-				int index = 0;
-				foreach (var journalEventNameType in journalFilter.JournalEventNameTypes)
-				{
-					if (index > 0)
-						query += "\n OR ";
-					index++;
-					query += string.Format("{0} = '{1}'", IntoBrackets("Name"), (int)journalEventNameType);
-				}
-				query += ")";
+				result = result.Where(x => x.SystemDate > filter.StartDate && x.SystemDate < filter.EndDate);
 			}
-
-			if (journalFilter.JournalEventDescriptionTypes.Count > 0)
-			{
-				if (!hasWhere)
-				{
-					query += "\n Where (";
-					hasWhere = true;
-				}
-				else
-				{
-					query += "\n AND (";
-				}
-				int index = 0;
-				foreach (var journalEventDescriptionType in journalFilter.JournalEventDescriptionTypes)
-				{
-					if (index > 0)
-						query += "\n OR ";
-					index++;
-					query += string.Format("{0} = '{1}'", IntoBrackets("Description"), (int)journalEventDescriptionType);
-				}
-				query += ")";
-			}
-
-			if (journalFilter.JournalSubsystemTypes.Count > 0)
-			{
-				if (!hasWhere)
-				{
-					query += "\n Where (";
-					hasWhere = true;
-				}
-				else
-				{
-					query += "\n AND (";
-				}
-				int index = 0;
-				foreach (var journalSubsystemType in journalFilter.JournalSubsystemTypes)
-				{
-					if (index > 0)
-						query += "\n OR ";
-					index++;
-					query += string.Format("{0} = '{1}'", IntoBrackets("Subsystem"), (int)journalSubsystemType);
-				}
-				query += ")";
-			}
-
-			if (journalFilter.JournalObjectTypes.Count > 0)
-			{
-				if (!hasWhere)
-				{
-					query += "\n Where (";
-					hasWhere = true;
-				}
-				else
-				{
-					query += "\n AND (";
-				}
-				int index = 0;
-				foreach (var journalObjectType in journalFilter.JournalObjectTypes)
-				{
-					if (index > 0)
-						query += "\n OR ";
-					index++;
-					query += string.Format("{0} = '{1}'", IntoBrackets("ObjectType"), (int)journalObjectType);
-				}
-				query += ")";
-			}
-
-			if (journalFilter.ObjectUIDs.Count > 0)
-			{
-				if (!hasWhere)
-				{
-					query += "\n Where (";
-					hasWhere = true;
-				}
-				else
-				{
-					query += "\n AND (";
-				}
-				int index = 0;
-				foreach (var objectUID in journalFilter.ObjectUIDs)
-				{
-					if (index > 0)
-						query += "\n OR ";
-					index++;
-					query += string.Format("{0} = '{1}'", IntoBrackets("ObjectUID"), objectUID);
-				}
-				query += ")";
-			}
-
-			query += string.Format("\n ORDER BY {0} DESC", IntoBrackets("SystemDate"));
-			if (Context.ContextType == DbContextType.PostgreSQL)
-				query += string.Format("\n LIMIT {0}", lastItemsCount);
-			return query;
+			return result;
 		}
-
-		string BuildArchiveFilterQuery(ArchiveFilter archiveFilter)
-		{
-			string dateTimeTypeString;
-			if (archiveFilter.UseDeviceDateTime)
-				dateTimeTypeString = IntoBrackets("DeviceDate");
-			else
-				dateTimeTypeString = IntoBrackets("SystemDate");
-
-			var query = string.Format( "SELECT * FROM {0} WHERE {1}  > '{2}'  AND {3}  < '{4}'", 
-				IntoBrackets("Journal"), 
-				dateTimeTypeString, 
-				archiveFilter.StartDate.ToString("yyyy-MM-dd HH:mm:ss"), 
-				dateTimeTypeString, 
-				archiveFilter.EndDate.ToString("yyyy-MM-dd HH:mm:ss"));
-
-			if (archiveFilter.JournalEventNameTypes.Count > 0)
-			{
-				query += "\n and (";
-				int index = 0;
-				foreach (var journalEventNameType in archiveFilter.JournalEventNameTypes)
-				{
-					if (index > 0)
-						query += "\n OR ";
-					index++;
-					query += string.Format("{0} = '{1}'", IntoBrackets("Name"), (int)journalEventNameType);
-				}
-				query += ")";
-			}
-
-			if (archiveFilter.JournalSubsystemTypes.Count > 0)
-			{
-				query += "\n AND (";
-				int index = 0;
-				foreach (var journalSubsystemType in archiveFilter.JournalSubsystemTypes)
-				{
-					if (index > 0)
-						query += "\n OR ";
-					index++;
-					query += string.Format("{0} = '{1}'", IntoBrackets("Subsystem"), (int)journalSubsystemType);
-				}
-				query += ")";
-			}
-
-			if (archiveFilter.JournalObjectTypes.Count > 0)
-			{
-				query += "\n AND (";
-				int index = 0;
-				foreach (var journalObjectType in archiveFilter.JournalObjectTypes)
-				{
-					if (index > 0)
-						query += "\n OR ";
-					index++;
-					query += string.Format("{0} = '{1}'", IntoBrackets("ObjectType"), (int)journalObjectType);
-				}
-				query += ")";
-			}
-
-			if (archiveFilter.ObjectUIDs.Count > 0)
-			{
-				query += "\n AND (";
-				int index = 0;
-				foreach (var objectUID in archiveFilter.ObjectUIDs)
-				{
-					if (index > 0)
-						query += "\n OR ";
-					index++;
-					query += string.Format("{0} = '{1}'", IntoBrackets("ObjectUID"), objectUID);
-				}
-				query += ")";
-			}
-
-			query += "\n ORDER BY " + dateTimeTypeString + " DESC";
-
-			return query;
-		}
-
-		string IntoBrackets(string item)
-		{
-			string openingBracket = "";
-			string closingBracket = "";
-			switch (Context.ContextType)
-			{
-				case DbContextType.MSSQL:
-					openingBracket = "[";
-					closingBracket = "]";
-					break;
-				case DbContextType.PostgreSQL:
-					openingBracket = "\"";
-					closingBracket = "\"";
-					break;
-			}
-			return openingBracket + item + closingBracket;
-		}
-
 	}
 }

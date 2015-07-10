@@ -52,7 +52,7 @@ namespace SKDDriver.DataClasses
                 (filter.DeactivationType != API.LogicalDeletationType.Deleted || x.IsInStopList) &&
                 (filter.DeactivationType != API.LogicalDeletationType.Active || !x.IsInStopList) &&
                 (!filter.IsWithEndDate || x.EndDate < filter.EndDate) &&
-                (filter.CardTypes.Count == 0 || (filter.CardTypes.Contains((API.CardType)x.CardType) || (filter.IsWithInactive && x.IsInStopList)))).OrderBy(x => x.UID);
+                (filter.IsWithInactive && x.IsInStopList)).OrderBy(x => x.UID);
         }
 
         public OperationResult<List<API.SKDCard>> Get(API.CardFilter filter)
@@ -134,11 +134,8 @@ namespace SKDDriver.DataClasses
 					card.EmployeeUID = null;
 					card.StartDate = DateTime.Now;
 					card.EndDate = DateTime.Now;
-					card.UserTime = 0;
-					card.DeactivationControllerUID = Guid.Empty;
 					card.CardDoors = new List<CardDoor>();
 					card.PassCardTemplateUID = null;
-					card.Password = null;
 					card.IsInStopList = true;
 					card.StopReason = reason;
 					card.EmployeeUID = null;
@@ -216,13 +213,9 @@ namespace SKDDriver.DataClasses
 				EmployeeUID = tableItem.EmployeeUID,
 				StartDate = tableItem.StartDate,
 				EndDate = tableItem.EndDate,
-				UserTime = tableItem.UserTime,
-				DeactivationControllerUID = tableItem.DeactivationControllerUID,
 				CardDoors = tableItem.CardDoors.Select(x => x.Translate()).ToList(),
 				PassCardTemplateUID = tableItem.PassCardTemplateUID,
-				CardType = (FiresecAPI.SKD.CardType)tableItem.CardType,
 				GKCardType = (FiresecAPI.GK.GKCardType)tableItem.GKCardType,
-				Password = tableItem.Password,
 				IsInStopList = tableItem.IsInStopList,
 				StopReason = tableItem.StopReason,
 				EmployeeName = tableItem.Employee != null ? tableItem.Employee.Name : null,
@@ -239,14 +232,10 @@ namespace SKDDriver.DataClasses
 			tableItem.EmployeeUID = apiItem.EmployeeUID;
 			tableItem.StartDate = apiItem.StartDate;
 			tableItem.EndDate = apiItem.EndDate;
-			tableItem.UserTime = apiItem.UserTime;
-			tableItem.DeactivationControllerUID = apiItem.DeactivationControllerUID;
 			tableItem.CardDoors = apiItem.CardDoors.Select(x => new CardDoor(x)).ToList();
 			tableItem.PassCardTemplateUID = apiItem.PassCardTemplateUID;
 			tableItem.AccessTemplateUID = apiItem.AccessTemplateUID;
-			tableItem.CardType = (int)apiItem.CardType;
 			tableItem.GKCardType = (int)apiItem.GKCardType;
-			tableItem.Password = apiItem.Password;
 			tableItem.IsInStopList = apiItem.IsInStopList;
 			tableItem.StopReason = apiItem.StopReason;
 			tableItem.GKLevel = apiItem.GKLevel;

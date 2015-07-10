@@ -16,13 +16,13 @@ namespace SKDDriver.DataClasses
 		
 		[Key]
 		public Guid UID { get; set; }
-
+		[Index]
 		public Guid? EmployeeUID { get; set; }
 		public Employee Employee { get; set; }
-
+		[Index]
 		public Guid? AccessTemplateUID { get; set; }
 		public AccessTemplate AccessTemplate { get; set; }
-
+		[Index]
 		public Guid? PassCardTemplateUID { get; set; }
 		public PassCardTemplate PassCardTemplate { get; set; }
 
@@ -31,24 +31,16 @@ namespace SKDDriver.DataClasses
 		public ICollection<CardDoor> CardDoors { get; set; }
 
 		public ICollection<CardGKControllerUID> GKControllerUIDs { get; set; }
-
+		
 		public int Number { get; set; }
-
-		public int CardType { get; set; }
 
 		public DateTime StartDate { get; set; }
 
 		public DateTime EndDate { get; set; }
 
 		public bool IsInStopList { get; set; }
-
+		[MaxLength(4000)]
 		public string StopReason { get; set; }
-
-		public string Password { get; set; }
-
-		public Guid DeactivationControllerUID { get; set; }
-
-		public int UserTime { get; set; }
 
 		public int GKLevel { get; set; }
 
@@ -56,6 +48,7 @@ namespace SKDDriver.DataClasses
 
 		public int GKCardType { get; set; }
 
+		[MaxLength(50)]
 		public string ExternalKey { get; set; }
 
 		[NotMapped]

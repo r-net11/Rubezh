@@ -28,8 +28,9 @@ namespace SKDDriver.DataClasses
 		[Key]
 		public Guid UID { get; set; }
 
+		[MaxLength(50)]
 		public string Name { get; set; }
-
+		[MaxLength(4000)]
 		public string Description { get; set; }
 
 		public bool IsDeleted { get; set; }
@@ -75,9 +76,9 @@ namespace SKDDriver.DataClasses
 		public ICollection<PassCardTemplate> PassCardTemplates { get; set; }
 
 		public ICollection<TimeTrackDocumentType> TimeTrackDocumnetTypes { get; set; }
-
+		[MaxLength(50)]
 		public string Phone { get; set; }
-
+		[MaxLength(50)]
 		public string ExternalKey { get; set; }
 	}
 }

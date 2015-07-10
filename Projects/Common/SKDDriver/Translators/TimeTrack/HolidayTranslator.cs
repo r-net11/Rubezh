@@ -38,7 +38,7 @@ namespace SKDDriver.DataClasses
 		{
 			base.TranslateBack(apiItem, tableItem);
 			tableItem.Date = apiItem.Date;
-			tableItem.TransferDate = apiItem.TransferDate;
+			tableItem.TransferDate = apiItem.TransferDate.CheckDate();
 			tableItem.Type = (int)apiItem.Type;
 			tableItem.Reduction = (int)apiItem.Reduction.TotalMilliseconds;
 		}
