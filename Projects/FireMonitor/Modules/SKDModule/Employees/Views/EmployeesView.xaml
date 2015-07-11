@@ -41,7 +41,6 @@
 				Name="_treeList"
 				Focusable="True"
 				ItemActivatedCommand="{Binding EditCommand}"
-				ListViewLayoutManager.Enabled="False"
 				Loaded="treeList_Loaded"
 				SelectedTreeNode="{Binding SelectedItem}"
 				Source="{Binding Organisations}"

@@ -205,7 +205,6 @@
     <Compile Include="ImageHelper.cs" />
     <Compile Include="IPValidationRule.cs" />
     <Compile Include="Layout\RubezhTheme.cs" />
-    <Compile Include="ListViewLayoutManager.cs" />
     <Compile Include="Masking.cs" />
     <Compile Include="PhotoSelectation.xaml.cs">
       <DependentUpon>PhotoSelectation.xaml</DependentUpon>
