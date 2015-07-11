@@ -38,7 +38,7 @@ namespace SKDDriver.DataClasses
 
         public int GetFreeGKNo(string gkIPAddress, uint cardNo, out bool isNew)
         {
-            var gkCard = Context.GKCards.FirstOrDefault(x => x.IpAddress == gkIPAddress && (uint)x.CardNo == cardNo);
+            var gkCard = Context.GKCards.FirstOrDefault(x => x.IpAddress == gkIPAddress && x.CardNo == (int)cardNo);
             if (gkCard != null)
             {
                 isNew = false;

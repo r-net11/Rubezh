@@ -511,6 +511,10 @@ namespace GKImitator.ViewModels
 						HasAutomaticRegime = true;
 						HasManualRegime = true;
 						HasIgnoreRegime = true;
+						HasCard = true;
+						StateBits.Add(new StateBitViewModel(this, GKStateBit.Attention));
+						StateBits.Add(new StateBitViewModel(this, GKStateBit.Fire1));
+						StateBits.Add(new StateBitViewModel(this, GKStateBit.Fire2));
 						break;
 
 					case GKDriverType.RSR2_GuardDetector:
@@ -523,6 +527,10 @@ namespace GKImitator.ViewModels
 						HasAutomaticRegime = true;
 						HasManualRegime = true;
 						HasIgnoreRegime = true;
+						HasCard = true;
+						StateBits.Add(new StateBitViewModel(this, GKStateBit.Attention));
+						StateBits.Add(new StateBitViewModel(this, GKStateBit.Fire1));
+						StateBits.Add(new StateBitViewModel(this, GKStateBit.Fire2));
 						break;
 
 					case GKDriverType.RSR2_GuardDetectorSound:

@@ -8,8 +8,8 @@ namespace GKImitator.Processor
 {
 	public static class DBHelper
 	{
-		static string FileName = AppDataFolderHelper.GetServerAppDataPath("GKImitatorJournal.xml");
-		public static ImitatorJournalItemCollection ImitatorJournalItemCollection { get; set; }
+		static string FileName = AppDataFolderHelper.GetServerAppDataPath("ImitatorSerializedCollection.xml");
+		public static ImitatorSerializedCollection ImitatorSerializedCollection { get; set; }
 
 		static DBHelper()
 		{
@@ -20,19 +20,19 @@ namespace GKImitator.Processor
 		{
 			try
 			{
-				ImitatorJournalItemCollection = new ImitatorJournalItemCollection();
+				ImitatorSerializedCollection = new ImitatorSerializedCollection();
 				if (File.Exists(FileName))
 				{
 					using (var fileStream = new FileStream(FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
 					{
-						var dataContractSerializer = new DataContractSerializer(typeof(ImitatorJournalItemCollection));
-						ImitatorJournalItemCollection = (ImitatorJournalItemCollection)dataContractSerializer.ReadObject(fileStream);
+						var dataContractSerializer = new DataContractSerializer(typeof(ImitatorSerializedCollection));
+						ImitatorSerializedCollection = (ImitatorSerializedCollection)dataContractSerializer.ReadObject(fileStream);
 					}
 				}
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "JournalHelper.Load");
+				Logger.Error(e, "DBHelper.Load");
 			}
 		}
 
@@ -40,15 +40,15 @@ namespace GKImitator.Processor
 		{
 			try
 			{
-				var dataContractSerializer = new DataContractSerializer(typeof(ImitatorJournalItemCollection));
+				var dataContractSerializer = new DataContractSerializer(typeof(ImitatorSerializedCollection));
 				using (var fileStream = new FileStream(FileName, FileMode.Create, FileAccess.Write, FileShare.ReadWrite))
 				{
-					dataContractSerializer.WriteObject(fileStream, ImitatorJournalItemCollection);
+					dataContractSerializer.WriteObject(fileStream, ImitatorSerializedCollection);
 				}
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "JournalHelper.Save");
+				Logger.Error(e, "DBHelper.Save");
 			}
 		}
 	}

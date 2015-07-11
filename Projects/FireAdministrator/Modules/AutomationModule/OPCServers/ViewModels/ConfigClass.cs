@@ -1,6 +1,7 @@
 ﻿using Softing.Opc.Ua.Toolkit;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,7 @@ namespace AutomationModule.ViewModels
 {
     public class ConfigClass
 	{
+		[DebuggerStepThrough]
 		public bool LoadApplicationConfiguration()
 		{
 			Application.Configuration.ApplicationName = "Softing OPC UA .NET Toolkit Tutorial Client";

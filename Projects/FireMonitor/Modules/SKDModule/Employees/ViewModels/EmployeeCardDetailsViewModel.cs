@@ -322,15 +322,6 @@ namespace SKDModule.ViewModels
 				{
 					StopPollThread();
 				}
-
-				if (value)
-				{
-					ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Subscribe(OnNewJournal);
-				}
-				else
-				{
-					ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Unsubscribe(OnNewJournal);
-				}
 			}
 		}
 
@@ -366,24 +357,6 @@ namespace SKDModule.ViewModels
 						Number = operationResult.Result;
 					}
 					Thread.Sleep(TimeSpan.FromMilliseconds(500));
-				}
-			}
-		}
-
-		public void OnNewJournal(List<JournalItem> journalItems)
-		{
-			foreach (var journalItem in journalItems)
-			{
-				if (journalItem.ObjectUID == ClientSettings.SKDSettings.CardCreatorReaderUID)
-				{
-					var journalDetalisationItem = journalItem.JournalDetalisationItems.FirstOrDefault(x => x.Name == "Номер карты");
-					if (journalDetalisationItem != null)
-					{
-						var cardNoString = journalDetalisationItem.Value;
-						int cardNo;
-						Int32.TryParse(cardNoString, System.Globalization.NumberStyles.HexNumber, null, out cardNo);
-						Number = (uint)cardNo;
-					}
 				}
 			}
 		}

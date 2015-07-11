@@ -6,6 +6,8 @@ using Infrastructure.Common.Windows.ViewModels;
 using System.Threading;
 using System;
 using System.Windows;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 
 namespace GKImitator.ViewModels
 {
@@ -18,6 +20,7 @@ namespace GKImitator.ViewModels
 		{
 			Title = "Имитатор ГК";
 			Current = this;
+			ShowUsersCommand = new RelayCommand(OnShowUsers);
 
 			ConfigurationCashHelper.Update();
 			InitializeDescriptors();
@@ -136,6 +139,13 @@ namespace GKImitator.ViewModels
 			HasFire1 = hasFire1;
 			HasFire2 = hasFire2;
 			HasAutomaticOff = hasAutomaticOff;
+		}
+
+		public RelayCommand ShowUsersCommand { get; private set; }
+		void OnShowUsers()
+		{
+			var usersViewModel = new UsersViewModel();
+			DialogService.ShowModalWindow(usersViewModel);
 		}
 	}
 }

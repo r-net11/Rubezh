@@ -4,14 +4,18 @@ using System.Runtime.Serialization;
 namespace GKImitator.Processor
 {
 	[DataContract]
-	public class ImitatorJournalItemCollection
+	public class ImitatorSerializedCollection
 	{
-		public ImitatorJournalItemCollection()
+		public ImitatorSerializedCollection()
 		{
 			ImitatorJournalItems = new List<ImitatorJournalItem>();
+			ImitatorUsers = new List<ImitatorUser>();
 		}
 
 		[DataMember]
 		public List<ImitatorJournalItem> ImitatorJournalItems { get; set; }
+
+		[DataMember]
+		public List<ImitatorUser> ImitatorUsers { get; set; }
 	}
 }
