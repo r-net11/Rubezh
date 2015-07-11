@@ -249,6 +249,13 @@ namespace FiresecService.Service
 				return databaseService.CardTranslator.Get(filter);
 			}
 		}
+		public OperationResult<SKDCard> GetSingleCard(Guid uid)
+		{
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
+			{
+				return databaseService.CardTranslator.GetSingle(uid);
+			}
+		}
 		public OperationResult<List<SKDCard>> GetEmployeeCards(Guid employeeUID)
 		{
 			using (var databaseService = new SKDDriver.DataClasses.DbService())

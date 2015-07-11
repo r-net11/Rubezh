@@ -45,7 +45,6 @@ namespace FiresecService.Report.Templates
 			var cardFilter = new CardFilter();
 			cardFilter.EmployeeFilter = dataProvider.GetCardEmployeeFilter(filter);
 			cardFilter.DeactivationType = filter.PassCardInactive ? LogicalDeletationType.Deleted : LogicalDeletationType.Active;
-			cardFilter.IsWithInactive = filter.PassCardInactive;
 			cardFilter.IsWithEndDate = filter.UseExpirationDate;
 			if (filter.UseExpirationDate)
 				switch (filter.ExpirationType)

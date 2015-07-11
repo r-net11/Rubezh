@@ -87,6 +87,9 @@ namespace FiresecAPI
 		OperationResult<List<SKDCard>> GetCards(CardFilter filter);
 
 		[OperationContract]
+		OperationResult<SKDCard> GetSingleCard(Guid uid);
+
+		[OperationContract]
 		OperationResult<List<SKDCard>> GetEmployeeCards(Guid employeeUID);
 
 		[OperationContract]

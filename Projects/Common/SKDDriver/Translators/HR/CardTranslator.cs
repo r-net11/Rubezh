@@ -42,18 +42,21 @@ namespace SKDDriver.DataClasses
 
         public IQueryable<Card> GetFilteredTableItems(API.CardFilter filter, IQueryable<Card> tableItems)
         {
-            List<Guid> employeeUIDs = new List<Guid>();
             if(filter.EmployeeFilter != null)
             {
-                employeeUIDs = DbService.EmployeeTranslator.ShortTranslator.GetFilteredTableItems(filter.EmployeeFilter).Select(x => x.UID).ToList();
+                var employeeUIDs = DbService.EmployeeTranslator.ShortTranslator.GetFilteredTableItems(filter.EmployeeFilter).Select(x => x.UID).ToList();
                 tableItems = tableItems.Where(x => x.EmployeeUID == null || employeeUIDs.Contains(x.EmployeeUID.Value));
             }
-            return tableItems.Where(x => 
-                (filter.DeactivationType != API.LogicalDeletationType.Deleted || x.IsInStopList) &&
-                (filter.DeactivationType != API.LogicalDeletationType.Active || !x.IsInStopList) &&
-                (!filter.IsWithEndDate || x.EndDate < filter.EndDate) &&
-                (filter.IsWithInactive && x.IsInStopList)).OrderBy(x => x.UID);
-        }
+			if (filter.UIDs != null && filter.UIDs.Count > 0)
+				tableItems = tableItems.Where(x => filter.UIDs.Contains(x.UID));
+			if(filter.DeactivationType == API.LogicalDeletationType.Deleted)
+				tableItems = tableItems.Where(x => x.IsInStopList);
+			if(filter.DeactivationType == API.LogicalDeletationType.Active)
+				tableItems = tableItems.Where(x => !x.IsInStopList);
+			if (filter.IsWithEndDate)
+				tableItems = tableItems.Where(x => x.EndDate < filter.EndDate);
+			return tableItems.OrderBy(x => x.UID);
+		}
 
         public OperationResult<List<API.SKDCard>> Get(API.CardFilter filter)
 		{
@@ -176,9 +179,8 @@ namespace SKDDriver.DataClasses
 			{
                 if (uid == null)
                     return new OperationResult<API.SKDCard>(null);
-                var tableItems = GetTableItems()
-					.FirstOrDefault(x => x.UID == uid);
-				var result = Translate(tableItems);
+                var tableItem = GetTableItems().FirstOrDefault(x => x.UID == uid);
+				var result = Translate(tableItem);
 				return new OperationResult<API.SKDCard>(result);
 			}
 			catch (System.Exception e)

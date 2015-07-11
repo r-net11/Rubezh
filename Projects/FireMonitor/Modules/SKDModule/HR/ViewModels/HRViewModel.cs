@@ -245,12 +245,38 @@ namespace SKDModule.ViewModels
 		
 		void InitializeFilters()
 		{
-			DepartmentFilter = new DepartmentFilter() { OrganisationUIDs = Filter.OrganisationUIDs, LogicalDeletationType = Filter.LogicalDeletationType };
-			PositionFilter = new PositionFilter() { OrganisationUIDs = Filter.OrganisationUIDs, LogicalDeletationType = Filter.LogicalDeletationType };
-			AdditionalColumnTypeFilter = new AdditionalColumnTypeFilter() { OrganisationUIDs = Filter.OrganisationUIDs, LogicalDeletationType = Filter.LogicalDeletationType };
-			CardFilter = new CardFilter() { OrganisationUIDs = Filter.OrganisationUIDs, EmployeeFilter = Filter.EmployeeFilter, ClientUID = CardsViewModel.DbCallbackResultUID, IsLoad = true };
-			AccessTemplateFilter = new AccessTemplateFilter() { OrganisationUIDs = Filter.OrganisationUIDs, LogicalDeletationType = Filter.LogicalDeletationType };
-			PassCardTemplateFilter = new PassCardTemplateFilter() { OrganisationUIDs = Filter.OrganisationUIDs, LogicalDeletationType = Filter.LogicalDeletationType };
+			DepartmentFilter = new DepartmentFilter() 
+			{ 
+				OrganisationUIDs = Filter.OrganisationUIDs, 
+				LogicalDeletationType = Filter.LogicalDeletationType 
+			};
+			PositionFilter = new PositionFilter() 
+			{ 
+				OrganisationUIDs = Filter.OrganisationUIDs, 
+				LogicalDeletationType = Filter.LogicalDeletationType 
+			};
+			AdditionalColumnTypeFilter = new AdditionalColumnTypeFilter() 
+			{ 
+				OrganisationUIDs = Filter.OrganisationUIDs, 
+				LogicalDeletationType = Filter.LogicalDeletationType 
+			};
+			CardFilter = new CardFilter() 
+			{ 
+				OrganisationUIDs = Filter.OrganisationUIDs, 
+				EmployeeFilter = Filter.EmployeeFilter, 
+				ClientUID = CardsViewModel.DbCallbackResultUID, 
+				IsLoad = true 
+			};
+			AccessTemplateFilter = new AccessTemplateFilter() 
+			{ 
+				OrganisationUIDs = Filter.OrganisationUIDs, 
+				LogicalDeletationType = Filter.LogicalDeletationType 
+			};
+			PassCardTemplateFilter = new PassCardTemplateFilter() 
+			{ 
+				OrganisationUIDs = Filter.OrganisationUIDs, 
+				LogicalDeletationType = Filter.LogicalDeletationType 
+			};
 			InitializeEmployeeFilter();
             
             

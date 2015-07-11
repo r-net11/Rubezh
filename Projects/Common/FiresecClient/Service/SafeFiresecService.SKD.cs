@@ -133,6 +133,10 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute<OperationResult<List<SKDCard>>>(() => FiresecService.GetCards(filter));
 		}
+		public OperationResult<SKDCard> GetSingleCard(Guid uid)
+		{
+			return SafeContext.Execute<OperationResult<SKDCard>>(() => FiresecService.GetSingleCard(uid));
+		}
 		public OperationResult<List<SKDCard>> GetEmployeeCards(Guid employeeUID)
 		{
             return SafeContext.Execute<OperationResult<List<SKDCard>>>(() => FiresecService.GetEmployeeCards(employeeUID));
