@@ -31,7 +31,7 @@ namespace GKImitator.ViewModels
 		public RelayCommand SetFireSmokeCommand { get; private set; }
 		void OnSetFireSmoke()
 		{
-			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Fire1).IsActive = true;
+			SetStateBit(GKStateBit.Fire1, true);
 			var journalItem = new ImitatorJournalItem(2, 2, 2, 0);
 			AddJournalItem(journalItem);
 			RecalculateOutputLogic();
@@ -40,7 +40,7 @@ namespace GKImitator.ViewModels
 		public RelayCommand SetFireTemperatureCommand { get; private set; }
 		void OnSetFireTemperature()
 		{
-			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Fire1).IsActive = true;
+			SetStateBit(GKStateBit.Fire1, true);
 			var journalItem = new ImitatorJournalItem(2, 2, 3, 0);
 			AddJournalItem(journalItem);
 			RecalculateOutputLogic();
@@ -49,7 +49,7 @@ namespace GKImitator.ViewModels
 		public RelayCommand SetFireTemperatureGradientCommand { get; private set; }
 		void OnSetFireTemperatureGradient()
 		{
-			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Fire1).IsActive = true;
+			SetStateBit(GKStateBit.Fire1, true);
 			var journalItem = new ImitatorJournalItem(2, 2, 4, 0);
 			AddJournalItem(journalItem);
 			RecalculateOutputLogic();
@@ -58,7 +58,7 @@ namespace GKImitator.ViewModels
 		public RelayCommand SetFireHeandDetectorCommand { get; private set; }
 		void OnSetFireHeandDetector()
 		{
-			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Fire2).IsActive = true;
+			SetStateBit(GKStateBit.Fire2, true);
 			var journalItem = new ImitatorJournalItem(2, 3, 1, 0);
 			AddJournalItem(journalItem);
 			RecalculateOutputLogic();
@@ -67,15 +67,9 @@ namespace GKImitator.ViewModels
 		public RelayCommand ResetFireCommand { get; private set; }
 		void OnResetFire()
 		{
-			var attentionStateBit = StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Attention);
-			if (attentionStateBit != null)
-				attentionStateBit.IsActive = false;
-			var fire1StateBit = StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Fire1);
-			if (fire1StateBit != null)
-				fire1StateBit.IsActive = false;
-			var fire2StateBit = StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Fire2);
-			if (fire2StateBit != null)
-				fire2StateBit.IsActive = false;
+			SetStateBit(GKStateBit.Attention, false);
+			SetStateBit(GKStateBit.Fire1, false);
+			SetStateBit(GKStateBit.Fire2, false);
 			var journalItem = new ImitatorJournalItem(2, 14, 0, 0);
 			AddJournalItem(journalItem);
 			RecalculateOutputLogic();
