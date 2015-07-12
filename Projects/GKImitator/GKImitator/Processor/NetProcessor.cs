@@ -181,13 +181,20 @@ namespace GKImitator.Processor
 
 					return infoBlock;
 
+				case 24: // Чтение пользователя
+					return UsersProcessor.ReadUser(BytesHelper.SubstructShort(byteData.ToList(), 6));
+
 				case 25: // Добавление пользователя
-					UsersViewModel.AddUser(byteData.Skip(6).ToList());
-					return null;
+					UsersProcessor.AddUser(byteData.Skip(6).ToList());
+					return new List<byte>();
 
 				case 26: // Редактирование пользователя
-					UsersViewModel.EditUser(byteData.Skip(6).ToList());
-					return null;
+					UsersProcessor.EditUser(byteData.Skip(6).ToList());
+					return new List<byte>();
+
+				case 28: // Редактирование графика работ
+					SchedulesProcessor.EditShedule(byteData.Skip(5).ToList());
+					return new List<byte>();
 			}
 			return new List<byte>();
 		}

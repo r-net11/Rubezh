@@ -231,7 +231,6 @@ namespace GKImitator.ViewModels
 				journalItem.ObjectDeviceAddress = (short)(((GKBaseDescriptor.GKBase as GKDevice).ShleifNo - 1) * 256 + (GKBaseDescriptor.GKBase as GKDevice).IntAddress);
 			}
 			DBHelper.ImitatorSerializedCollection.ImitatorJournalItems.Add(journalItem);
-			DBHelper.Save();
 		}
 	}
 }

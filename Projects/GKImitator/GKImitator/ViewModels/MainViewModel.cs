@@ -21,6 +21,7 @@ namespace GKImitator.ViewModels
 			Title = "Имитатор ГК";
 			Current = this;
 			ShowUsersCommand = new RelayCommand(OnShowUsers);
+			ShowSchedulesCommand = new RelayCommand(OnShowSchedules);
 
 			ConfigurationCashHelper.Update();
 			InitializeDescriptors();
@@ -144,6 +145,13 @@ namespace GKImitator.ViewModels
 		{
 			var usersViewModel = new UsersViewModel();
 			DialogService.ShowModalWindow(usersViewModel);
+		}
+
+		public RelayCommand ShowSchedulesCommand { get; private set; }
+		void OnShowSchedules()
+		{
+			var schedulesViewModel = new SchedulesViewModel();
+			DialogService.ShowModalWindow(schedulesViewModel);
 		}
 	}
 }

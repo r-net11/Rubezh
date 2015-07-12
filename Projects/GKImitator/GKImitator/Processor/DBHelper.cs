@@ -3,6 +3,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using Common;
 using Infrastructure.Common;
+using System.Collections.Generic;
 
 namespace GKImitator.Processor
 {
@@ -14,6 +15,8 @@ namespace GKImitator.Processor
 		static DBHelper()
 		{
 			Load();
+			if (ImitatorSerializedCollection.ImitatorSchedules == null)
+				ImitatorSerializedCollection.ImitatorSchedules = new List<ImitatorSchedule>();
 		}
 
 		public static void Load()

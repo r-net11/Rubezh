@@ -43,4 +43,8 @@
 		<Views:UsersView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:SchedulesViewModel}">
+		<Views:SchedulesView />
+	</DataTemplate>
+
 </ResourceDictionary>
