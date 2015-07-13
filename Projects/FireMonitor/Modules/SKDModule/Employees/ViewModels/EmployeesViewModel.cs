@@ -14,7 +14,7 @@ namespace SKDModule.ViewModels
 	public class EmployeesViewModel : OrganisationBaseViewModel<ShortEmployee, EmployeeFilter, EmployeeViewModel, EmployeeDetailsViewModel>
 	{
 		public List<ShortAdditionalColumnType> AdditionalColumnTypes { get; private set; }
-		
+
 		public EmployeesViewModel():base()
 		{
 			ServiceFactory.Events.GetEvent<EditEmployeeEvent>().Unsubscribe(OnEditEmployee);
@@ -25,14 +25,10 @@ namespace SKDModule.ViewModels
 
 		public override void Initialize(EmployeeFilter filter)
 		{
-			var stopwatch = new Stopwatch();
-			stopwatch.Start();
 			base.Initialize(filter);
 			PersonType = filter.PersonType;
 			InitializeAdditionalColumns();
 			ServiceFactory.Events.GetEvent<ChangeEmployeeGuestEvent>().Publish(null);
-			stopwatch.Stop();
-			Trace.WriteLine("Client InitializeVM " + stopwatch.Elapsed);
 		}
 
 		protected override void OnOrganisationUsersChanged(Organisation newOrganisation)
@@ -114,12 +110,12 @@ namespace SKDModule.ViewModels
 			ServiceFactory.Events.GetEvent<EditEmployee2Event>().Publish(model.UID);
 		}
 
-		public bool IsEmployeeSelected 
+		public bool IsEmployeeSelected
 		{
 			get { return SelectedItem != null && !SelectedItem.IsOrganisation; }
 		}
 
-		protected override void UpdateSelected() 
+		protected override void UpdateSelected()
 		{
 			OnPropertyChanged(() => IsEmployeeSelected);
 			if (SelectedItem != null)
@@ -146,18 +142,18 @@ namespace SKDModule.ViewModels
 				OnPropertyChanged(() => TabItemHeader);
 			}
 		}
-		
+
 		protected override string ItemRemovingName
 		{
-			get 
-			{ 
+			get
+			{
 				if(PersonType == FiresecAPI.SKD.PersonType.Employee)
-					return "сотрудника"; 
+					return "сотрудника";
 				else
-					return "посетителя"; 
+					return "посетителя";
 			}
 		}
-		
+
 		public string AddCommandToolTip
 		{
 			get { return "Добавить " + ItemRemovingName; }
@@ -200,7 +196,7 @@ namespace SKDModule.ViewModels
 			ServiceFactory.Events.GetEvent<EditEmployee2Event>().Publish(SelectedItem.Model.UID);
 		}
 
-		
+
 
 		void OnUpdateIsInGrid(object obj)
 		{

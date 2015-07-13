@@ -12,7 +12,6 @@ namespace DiagnosticsModule.ViewModels
 	{
 		public DiagnosticsViewModel()
 		{
-			TurnOnOffRMCommand = new RelayCommand(OnTurnOnOffRM);
 			CheckHaspCommand = new RelayCommand(OnCheckHasp);
 			TestCommand = new RelayCommand(OnTest);
 			SKDDataCommand = new RelayCommand(OnSKDData);
@@ -34,11 +33,6 @@ namespace DiagnosticsModule.ViewModels
 				_text = value;
 				OnPropertyChanged(() => Text);
 			}
-		}
-
-		public RelayCommand TurnOnOffRMCommand { get; private set; }
-		void OnTurnOnOffRM()
-		{
 		}
 
 		public RelayCommand CheckHaspCommand { get; private set; }
@@ -63,7 +57,7 @@ namespace DiagnosticsModule.ViewModels
 		public RelayCommand TestCommand { get; private set; }
 		void OnTest()
 		{
-			FiresecManager.FiresecService.Test("");
+			FiresecManager.FiresecService.InsertPassJournalTestData("");
 			return;
 
 			var thread = new Thread(new ThreadStart(() =>

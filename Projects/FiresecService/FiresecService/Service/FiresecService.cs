@@ -109,7 +109,7 @@ namespace FiresecService.Service
 			ClientsManager.Remove(uid);
 		}
 
-		public string Test(string arg)
+		public string InsertPassJournalTestData(string arg)
 		{
 			using (var passJournalTranslator = new PassJournalTranslator())
 			{

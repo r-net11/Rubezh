@@ -14,7 +14,7 @@ namespace SKDModule.ViewModels
 		}
 		public string DepartmentName
 		{
-			get 
+			get
 			{
 				var isWithDeleted = (ParentViewModel as EmployeesViewModel).IsWithDeleted;
 				if (!IsOrganisation && (isWithDeleted || !IsDepartmentDeleted))
@@ -25,7 +25,7 @@ namespace SKDModule.ViewModels
 		}
 		public string PositionName
 		{
-			get 
+			get
 			{
 				var isWithDeleted = (ParentViewModel as EmployeesViewModel).IsWithDeleted;
 				if (!IsOrganisation && (isWithDeleted || !IsPositionDeleted))
@@ -62,14 +62,14 @@ namespace SKDModule.ViewModels
 		{
 			get { return IsOrganisation ? false : Model.IsPositionDeleted || IsOrganisationDeleted; }
 		}
-		
+
 		public override void InitializeOrganisation(Organisation organisation, ViewPartViewModel parentViewModel)
 		{
 			base.InitializeOrganisation(organisation, parentViewModel);
 		}
 
-		public string[] AdditionalColumnValues 
-		{ 
+		public string[] AdditionalColumnValues
+		{
 			get
 			{
 				var additionalColumnTypes = (ParentViewModel as EmployeesViewModel).AdditionalColumnTypes;
@@ -91,7 +91,7 @@ namespace SKDModule.ViewModels
 		public override void InitializeModel(Organisation organisation, ShortEmployee model, ViewPartViewModel parentViewModel)
 		{
 			base.InitializeModel(organisation, model, parentViewModel);
-			
+
 			Update();
 		}
 
@@ -101,8 +101,8 @@ namespace SKDModule.ViewModels
 		}
 
 		public EmployeeCardsViewModel EmployeeCardsViewModel { get; private set; }
-		
-		
+
+
 		public PhotoColumnViewModel Photo { get; private set; }
 
 		public void UpdatePhoto()

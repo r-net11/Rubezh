@@ -28,7 +28,7 @@ namespace FiresecAPI
 		List<CallbackResult> Poll(Guid uid);
 
 		[OperationContract]
-		string Test(string arg);
+		string InsertPassJournalTestData(string arg);
 
 		[OperationContract(IsOneWay = true)]
 		void NotifyClientsOnConfigurationChanged();

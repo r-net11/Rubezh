@@ -181,41 +181,47 @@ namespace SKDDriver.Translators
 			{
 				employees = skdDatabaseService.EmployeeTranslator.GetList(new EmployeeFilter()).Result;
 			}
-			var zoneUID = SKDManager.Zones.FirstOrDefault().UID;
+		//	var zoneUID = SKDManager.Zones.FirstOrDefault().UID;
 
-			foreach (var passJournal in Context.PassJournals)
-			{
-				Context.PassJournals.DeleteOnSubmit(passJournal);
-			}
+			//foreach (var passJournal in Context.PassJournals)
+			//{
+			//	Context.PassJournals.DeleteOnSubmit(passJournal);
+			//}
 
 			var random = new Random();
 			foreach (var employee in employees)
 			{
-				for (int day = 0; day < 100; day++)
+				for (int day = 0; day < 30; day++)
 				{
 					var dateTime = DateTime.Now.AddDays(-day);
 
-					var seconds = new List<int>();
-					var count = random.Next(0, 5);
-					for (int i = 0; i < count * 2; i++)
+					//var seconds = new List<int>();
+					var count = 2;
+					//for (int i = 0; i < count * 2; i++)
+					//{
+					////	var totalSeconds = random.Next(0, 24 * 60 * 60);
+					//	seconds.Add(7200);
+					//}
+					//seconds.Sort();
+					int hours = 4;
+					int pauseHours = 2;
+					for (var i = 0; i < count * 2; i ++)
 					{
-						var totalSeconds = random.Next(0, 24 * 60 * 60);
-						seconds.Add(totalSeconds);
-					}
-					seconds.Sort();
+						//var startTimeSpan = TimeSpan.FromSeconds(seconds[i]);
+						//var endTimeSpan = TimeSpan.FromSeconds(seconds[i + 1]);
 
-					for (int i = 0; i < count * 2; i += 2)
-					{
-						var startTimeSpan = TimeSpan.FromSeconds(seconds[i]);
-						var endTimeSpan = TimeSpan.FromSeconds(seconds[i + 1]);
-
-						var passJournal = new DataAccess.PassJournal();
-						passJournal.UID = Guid.NewGuid();
-						passJournal.EmployeeUID = employee.UID;
-						passJournal.ZoneUID = zoneUID;
-						passJournal.EnterTime = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, startTimeSpan.Hours, startTimeSpan.Minutes, startTimeSpan.Seconds);
-						passJournal.ExitTime = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, endTimeSpan.Hours, endTimeSpan.Minutes, endTimeSpan.Seconds);
+						var passJournal = new DataAccess.PassJournal
+						{
+							UID = Guid.NewGuid(),
+							EmployeeUID = employee.UID,
+							//ZoneUID = zoneUID,
+							ZoneUID = Guid.Parse("23701231-F0EA-411C-8C07-5EB175F7A964"),
+							EnterTime = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, hours, 5, 5),
+							ExitTime = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, (hours + 2), 5, 5)
+						};
 						Context.PassJournals.InsertOnSubmit(passJournal);
+
+						hours += pauseHours;
 					}
 				}
 			}
@@ -440,5 +446,6 @@ namespace SKDDriver.Translators
 				return OperationResult<DateTime>.FromError(e.Message);
 			}
 		}
+
 	}
 }

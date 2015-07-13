@@ -467,10 +467,12 @@ namespace SKDDriver
 		{
 			try
 			{
+				var or = Context.Organisations.FirstOrDefault();
+
 				for (int i = 0; i < 1; i++)
 				{
-					var org = new DataAccess.Organisation { Name = "Тестовая Организация " + i, UID = Guid.NewGuid(), RemovalDate = new DateTime(1900, 1, 1), ExternalKey = "-1" };
-					Context.Organisations.InsertOnSubmit(org);
+					//var org = new DataAccess.Organisation { Name = "Тестовая Организация " + i, UID = Guid.NewGuid(), RemovalDate = new DateTime(1900, 1, 1), ExternalKey = "-1" };
+					//Context.Organisations.InsertOnSubmit(org);
 					//var posUIDs = new List<Guid>();
 					//for (int j = 0; j < 1000; j++)
 					//{
@@ -508,9 +510,10 @@ namespace SKDDriver
 					//    var empl = CreateEmpl("Сотрудник " + i + j + "0", org.UID, deptUIDs.FirstOrDefault(), posUIDs.FirstOrDefault());
 					//    Context.Employees.InsertOnSubmit(empl);
 					//}
-					for (int j = 0; j < 10000; j++)
+					for (int j = 0; j < 500; j++)
 					{
-						var empl = CreateEmployee(i + j + "", org.UID);
+					//	var empl = CreateEmployee(i + j + "", org.UID);
+						var empl = CreateEmployee(i + j + "", or.UID, Context.Schedules.FirstOrDefault().UID);
 						Context.Employees.InsertOnSubmit(empl);
 						//var card = CreateCard(j, empl.UID);
 						//Context.Cards.InsertOnSubmit(card);
@@ -538,24 +541,26 @@ namespace SKDDriver
 			};
 		}
 
-		private DataAccess.Employee CreateEmployee(string no, Guid orgUID, Guid? deptUID = null, Guid? posUID = null)
+		private DataAccess.Employee CreateEmployee(string no, Guid orgUID, Guid scheduleUid, Guid? deptUID = null, Guid? posUID = null)
 		{
 			return new DataAccess.Employee
 			{
 				LastName = "Фамилия " + no,
 				FirstName = "Имя " + no,
 				SecondName = "Отчество " + no,
-				DepartmentUID = deptUID,
-				PositionUID = posUID,
+				PhotoUID = Guid.Empty,
+				ScheduleUID = scheduleUid,
+				DepartmentUID = Guid.Empty,
+				PositionUID = Guid.Empty,
 				OrganisationUID = orgUID,
 				UID = Guid.NewGuid(),
 				RemovalDate = _minDate,
 				BirthDate = _minDate,
-				CredentialsStartDate = _minDate,
-				DocumentGivenDate = _minDate,
+				CredentialsStartDate = DateTime.Now.AddDays(-30),
+				DocumentGivenDate = DateTime.Now.AddDays(-30),
 				DocumentValidTo = _minDate,
 				LastEmployeeDayUpdate = _minDate,
-				ScheduleStartDate = _minDate,
+				ScheduleStartDate = DateTime.Now.AddDays(-30),
 				ExternalKey = "-1",
 				Type = 0
 			};

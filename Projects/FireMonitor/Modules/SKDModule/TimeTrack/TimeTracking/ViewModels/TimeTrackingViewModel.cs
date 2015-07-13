@@ -170,7 +170,6 @@ namespace SKDModule.ViewModels
 					var tmp = timeTrackEmployeeResult; //closures fix
 					Application.Current.Dispatcher.BeginInvoke((Action)(() =>
 						TimeTracks.Add(new TimeTrack(_timeTrackFilter, tmp))));
-
 				}
 
 				TimeTracks.Sort(x => x.ShortEmployee.LastName);
