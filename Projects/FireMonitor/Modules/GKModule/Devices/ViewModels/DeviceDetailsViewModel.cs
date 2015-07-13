@@ -82,11 +82,19 @@ namespace GKModule.ViewModels
 		}
 		public bool HasHoldDelay
 		{
-			get { return State.StateClasses.Contains(XStateClass.On) && State.HoldDelay > 0; }
+			get
+			{
+				if (Device.DriverType == GKDriverType.RSR2_MDU24 || Device.DriverType == GKDriverType.RSR2_MDU)
+					return (State.StateClasses.Contains(XStateClass.TurningOn) || State.StateClasses.Contains(XStateClass.TurningOff)) && State.HoldDelay > 0;
+				return State.StateClasses.Contains(XStateClass.On) && State.HoldDelay > 0;
+			}
 		}
 		public bool HasOffDelay
 		{
-			get { return State.StateClasses.Contains(XStateClass.TurningOff) && State.OffDelay > 0; }
+			get
+			{
+				return State.StateClasses.Contains(XStateClass.TurningOff) && State.OffDelay > 0;
+			}
 		}
 		public bool HasRunTime
 		{
