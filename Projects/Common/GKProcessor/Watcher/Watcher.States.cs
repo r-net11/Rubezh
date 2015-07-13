@@ -100,7 +100,8 @@ namespace GKProcessor
 				return;
 
 			bool mustGetState = false;
-			switch (gkBase.InternalState.StateClass)
+			var stateClass = gkBase.InternalState.StateClasses.FirstOrDefault(x => x == XStateClass.TurningOn || x == XStateClass.On || x == XStateClass.TurningOff);
+			switch (stateClass)
 			{
 				case XStateClass.TurningOn:
 					mustGetState = (DateTime.Now - gkBase.InternalState.LastDateTime).TotalMilliseconds > 500;
