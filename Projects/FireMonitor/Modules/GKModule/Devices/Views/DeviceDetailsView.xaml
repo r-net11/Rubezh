@@ -27,22 +27,22 @@
 			<StackPanel Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">
 				<StackPanel TextBlock.Foreground="Red">
 					<StackPanel Visibility="{Binding HasOnDelay, Converter={StaticResource BoolToVisibilityConverter}}">
-						<TextBlock Text="Задержка на включение" Foreground="White" Margin="2" />
+						<TextBlock Text="Задержка, c" Foreground="White" Margin="2" />
 						<StackPanel Orientation="Horizontal">
 							<TextBlock Text="{Binding State.OnDelay}" FontSize="24" Margin="2" />
 							<TextBlock Text="Сек" FontSize="24" Margin="2" />
 						</StackPanel>
 					</StackPanel>
 					<StackPanel Visibility="{Binding HasHoldDelay, Converter={StaticResource BoolToVisibilityConverter}}">
-						<TextBlock Margin="2" Foreground="White" Text="Удержание" Visibility="{Binding HasRunTime, Converter={StaticResource BoolToVisibilityConverter}}" />
-						<TextBlock Margin="2" Foreground="White" Text="Время хода" Visibility="{Binding HasRunTime, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+						<TextBlock Margin="2" Foreground="White" Text="Удержание, c" Visibility="{Binding HasRunTime, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+						<TextBlock Margin="2" Foreground="White" Text="Время хода, c" Visibility="{Binding HasRunTime, Converter={StaticResource BoolToVisibilityConverter}}" />
 						<StackPanel Orientation="Horizontal">
 							<TextBlock Text="{Binding State.HoldDelay}" FontSize="24" Margin="2" />
 							<TextBlock Text="Сек" FontSize="24" Margin="2" />
 						</StackPanel>
 					</StackPanel>
 					<StackPanel Visibility="{Binding HasOffDelay, Converter={StaticResource BoolToVisibilityConverter}}">
-						<TextBlock Margin="2" Foreground="White" Text="Задержка на выключение" />
+						<TextBlock Margin="2" Foreground="White" Text="Задержка, c" />
 						<StackPanel Orientation="Horizontal">
 							<TextBlock Text="{Binding State.OffDelay}" FontSize="24" Margin="2" />
 							<TextBlock Text="Сек" FontSize="24" Margin="2" />

@@ -23,6 +23,7 @@ namespace SKDModule.ViewModels
 		public SKDCard Card { get; private set; }
 		public AccessDoorsSelectationViewModel AccessDoorsSelectationViewModel { get; private set; }
 		public bool IsNewCard { get; private set; }
+		public bool CanChangeCardType { get; private set; }
 		ShortEmployee _employee;
 
 		public EmployeeCardDetailsViewModel(Organisation organisation, ShortEmployee employee, SKDCard card = null)
@@ -69,15 +70,8 @@ namespace SKDModule.ViewModels
 				CardTypes = new ObservableCollection<CardType>(Enum.GetValues(typeof(CardType)).OfType<CardType>());
 			}
 			SelectedCardType = Card.CardType;
-
-			if (_employee.Type == PersonType.Guest)
-			{
-				GKCardTypes = new ObservableCollection<GKCardType>() { GKCardType.Employee };
-			}
-			else
-			{
-				GKCardTypes = new ObservableCollection<GKCardType>(Enum.GetValues(typeof(GKCardType)).OfType<GKCardType>());
-			}
+			CanChangeCardType = _employee.Type == PersonType.Employee && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Employees_Edit_CardType);
+			GKCardTypes = new ObservableCollection<GKCardType>(Enum.GetValues(typeof(GKCardType)).OfType<GKCardType>());
 			SelectedGKCardType = Card.GKCardType;
 
 			AvailableGKControllers = new ObservableCollection<GKControllerViewModel>();

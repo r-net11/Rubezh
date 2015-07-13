@@ -11,10 +11,10 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <DataGrid Grid.Row="0" ItemsSource="{Binding MirrorUsers}" SelectedItem="{Binding SelectedUser}">
+        <DataGrid Grid.Row="0" ItemsSource="{Binding MirrorUserNewModels}" SelectedItem="{Binding SelectedUser}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Имя" Width="*" Binding="{Binding Name}" />
-                <DataGridTextColumn Header="Пароль" Width="*" Binding="{Binding Passwoed }" />
+                <DataGridTextColumn Header="Пароль" Width="*" Binding="{Binding Password }" />
                 <DataGridTextColumn Header="Тип" Width="*" Binding="{Binding Type}" />
             </DataGrid.Columns>
         </DataGrid>

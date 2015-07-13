@@ -13,21 +13,19 @@ using SKDDriver;
 
 namespace FiresecService
 {
-	public static partial class PatchManager
+	static partial class PatchManager
 	{
-		public static string JournalConnectionString { get; private set; }
-
 		static string ConnectionString
 		{
 			get
 			{
-				var serverName = GlobalSettingsHelper.GlobalSettings.DBServerName;
+				var serverName = GlobalSettingsHelper.GlobalSettings.DbConnectionString;
 				var connectionString = @"Data Source=.\" + serverName + ";Initial Catalog=master;Integrated Security=True;Language='English'";
 				return connectionString;
 			}
 		}
 
-		public static void Patch()
+		static void Patch()
 		{
 			Patch_SKD();
 			Patch_DynamicDB();
@@ -147,7 +145,7 @@ namespace FiresecService
 			}
 		}
 
-		public static OperationResult ResetDB()
+		static OperationResult ResetDB()
 		{
 			try
 			{

@@ -1,22 +1,12 @@
 ﻿using System;
 using FiresecAPI;
+using System.Data.Common;
+using System.Data.Entity.Infrastructure;
 
 namespace SKDDriver.DataClasses
 {
 	public static class DbServiceHelper
 	{
-		public static readonly DateTime MinYear = new DateTime(1900, 1, 1);
-		public static readonly DateTime MaxYear = new DateTime(9000, 1, 1);
-
-		public static DateTime CheckDate(DateTime value)
-		{
-			if (value < MinYear)
-				return MinYear;
-			if (value > MaxYear)
-				return MaxYear;
-			return value;
-		}
-
 		public static OperationResult ConcatOperationResults(params OperationResult[] results)
 		{
 			var result = new OperationResult();
@@ -30,5 +20,25 @@ namespace SKDDriver.DataClasses
 			}
 			return result;
 		}
+
+		public static DbConnection CreateConnection(string connectionString, DbType contextType)
+		{
+			IDbConnectionFactory connectionFactory;
+			switch (contextType)
+			{
+				case DbType.Postgres:
+					connectionFactory = new Npgsql.NpgsqlConnectionFactory();
+					return connectionFactory.CreateConnection(connectionString);
+				case DbType.MsSql:
+					connectionFactory = new SqlConnectionFactory();
+					return connectionFactory.CreateConnection(connectionString);
+				default:
+					connectionFactory = new SqlConnectionFactory();
+					return connectionFactory.CreateConnection(connectionString);
+			}
+		}
 	}
+
+	
+
 }

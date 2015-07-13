@@ -11,6 +11,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Ionic.Zip;
 using Microsoft.Win32;
+using System.Collections.ObjectModel;
 
 namespace SettingsModule.ViewModels
 {
@@ -42,8 +43,7 @@ namespace SettingsModule.ViewModels
 			Monitor_HaspInfo_Enabled = GlobalSettingsHelper.GlobalSettings.Monitor_HaspInfo_Enabled;
 			Server_EnableRemoteConnections = GlobalSettingsHelper.GlobalSettings.Server_EnableRemoteConnections;
 			UseHasp = GlobalSettingsHelper.GlobalSettings.UseHasp;
-			DBServerName = GlobalSettingsHelper.GlobalSettings.DBServerName;
-			CreateNewDBOnOversize = GlobalSettingsHelper.GlobalSettings.CreateNewDBOnOversize;
+			DbConnectionString = GlobalSettingsHelper.GlobalSettings.DbConnectionString;
 			RemoteAddress = GlobalSettingsHelper.GlobalSettings.RemoteAddress;
 			RemotePort = GlobalSettingsHelper.GlobalSettings.RemotePort;
 			ReportRemotePort = GlobalSettingsHelper.GlobalSettings.ReportRemotePort;
@@ -52,6 +52,13 @@ namespace SettingsModule.ViewModels
 			AutoConnect = GlobalSettingsHelper.GlobalSettings.AdminAutoConnect;
 			DoNotAutoconnectAdm = GlobalSettingsHelper.GlobalSettings.DoNotAutoconnectAdm;
 			RunRevisor = GlobalSettingsHelper.GlobalSettings.RunRevisor;
+			var dbTypes = Enum.GetValues(typeof(DbType));
+			DbTypes = new ObservableCollection<DbType>();
+			foreach (DbType dbType in dbTypes)
+			{
+				DbTypes.Add(dbType);
+			}
+			DbType = GlobalSettingsHelper.GlobalSettings.DbType;
 		}
 
 		public string ServerAutoLabel { get { return "Сервер приложений Глобал"; } }
@@ -331,24 +338,26 @@ namespace SettingsModule.ViewModels
 		}
 
 		string _dbServerName;
-		public string DBServerName
+		public string DbConnectionString
 		{
 			get { return _dbServerName; }
 			set
 			{
 				_dbServerName = value;
-				OnPropertyChanged(() => DBServerName);
+				OnPropertyChanged(() => DbConnectionString);
 			}
 		}
 
-		bool _createNewDBOnOversize;
-		public bool CreateNewDBOnOversize
+		public ObservableCollection<DbType> DbTypes { get; private set; }
+
+		FiresecAPI.DbType _dbType;
+		public FiresecAPI.DbType DbType
 		{
-			get { return _createNewDBOnOversize; }
+			get { return _dbType; }
 			set
 			{
-				_createNewDBOnOversize = value;
-				OnPropertyChanged(() => CreateNewDBOnOversize);
+				_dbType = value;
+				OnPropertyChanged(() => DbType);
 			}
 		}
 
@@ -481,8 +490,8 @@ namespace SettingsModule.ViewModels
 			GlobalSettingsHelper.GlobalSettings.Monitor_HaspInfo_Enabled = Monitor_HaspInfo_Enabled;
 			GlobalSettingsHelper.GlobalSettings.Server_EnableRemoteConnections = Server_EnableRemoteConnections;
 			GlobalSettingsHelper.GlobalSettings.UseHasp = UseHasp;
-			GlobalSettingsHelper.GlobalSettings.DBServerName = DBServerName;
-			GlobalSettingsHelper.GlobalSettings.CreateNewDBOnOversize = CreateNewDBOnOversize;
+			GlobalSettingsHelper.GlobalSettings.DbConnectionString = DbConnectionString;
+			GlobalSettingsHelper.GlobalSettings.DbType = DbType;
 			GlobalSettingsHelper.GlobalSettings.RemoteAddress = RemoteAddress;
 			GlobalSettingsHelper.GlobalSettings.RemotePort = RemotePort;
 			GlobalSettingsHelper.GlobalSettings.ReportRemotePort = ReportRemotePort;

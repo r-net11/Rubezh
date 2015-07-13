@@ -11,7 +11,7 @@
 							<Image.Source>
 								<MultiBinding Converter="{StaticResource XStateClassToIconConverter2}" >
 									<Binding Path="StateClass" />
-									<Binding Path="DataContext.IsStateImage" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=UserControl}" />
+									<Binding Path="DataContext.IsStateImage" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}" />
 								</MultiBinding>
 							</Image.Source>
 						</Image>

@@ -4,17 +4,24 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Migrations;
+using System.Data.Common;
 
 namespace SKDDriver.DataClasses
 {
 	public class DatabaseContext : DbContext
 	{
-		public static string ConnectionStringName;
-		public DatabaseContext()
-			: base(ConnectionStringName)
+		//public static DbConnection connection;
+
+		public DatabaseContext(DbConnection connection)
+			: base(connection, true)
 		{
-			Database.SetInitializer<DatabaseContext>(new MigrateDatabaseToLatestVersion<DatabaseContext, Configuration>(ConnectionStringName));
+			Database.SetInitializer<DatabaseContext>(new MigrateDatabaseToLatestVersion<DatabaseContext, Configuration>(true));
 		}
+
+		//public DatabaseContext(DbConnection connection) : base(connection, true)
+		//{
+		//	Database.SetInitializer<DatabaseContext>(new MigrateDatabaseToLatestVersion<DatabaseContext, Configuration>());
+		//}
 
 		public DbSet<GKSchedule> GKSchedules { get; set; }
 		public DbSet<GKScheduleDay> GKScheduleDays { get; set; }

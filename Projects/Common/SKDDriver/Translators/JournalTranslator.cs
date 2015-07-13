@@ -109,6 +109,21 @@ namespace SKDDriver.DataClasses
 			}
 		}
 
+		public OperationResult<List<JournalItem>> GetFilteredJournalItems(ArchiveFilter filter)
+		{
+			try
+			{
+				var tableItems = BeginGetFilteredArchiveInternal(filter).ToList();
+				var result = new List<JournalItem>(tableItems.Select(x => Translate(x)));
+				return new OperationResult<List<JournalItem>>(result);
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "JournalTranslator.GetFilteredJournalItems");
+				return OperationResult<List<JournalItem>>.FromError(e.Message);
+			}
+		}
+
 		public OperationResult BeginGetFilteredArchive(ArchiveFilter archiveFilter, Guid archivePortionUID)
 		{
 			try

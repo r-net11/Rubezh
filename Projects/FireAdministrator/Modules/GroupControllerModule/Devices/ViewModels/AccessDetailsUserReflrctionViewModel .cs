@@ -7,6 +7,8 @@ using FiresecClient;
 using FiresecAPI.GK;
 using Infrastructure.Common;
 using System.Collections.ObjectModel;
+using Infrastructure.Common.Windows;
+using System.Text.RegularExpressions;
 
 
 namespace GKModule.ViewModels
@@ -14,12 +16,15 @@ namespace GKModule.ViewModels
 	class AccessDetailsUserReflrctionViewModel : SaveCancelDialogViewModel
 	{
 		public MirrorUser MirrorUser { get; set; }
-		public AccessDetailsUserReflrctionViewModel(MirrorUser mirrorUser = null)
+		private List <MirrorUser> _mirrorUsers;
+		public AccessDetailsUserReflrctionViewModel(List <MirrorUser> mirrorUsers ,MirrorUser mirrorUser = null)
 		{
+			_mirrorUsers = new List<MirrorUser>(mirrorUsers);
 			if (mirrorUser == null)
 			{
 				Title = "Создание доступа для пользователя";
-				mirrorUser = new MirrorUser();	
+				mirrorUser = new MirrorUser() { DateEndAccess = DateTime.Now.AddYears(1)};
+				DateEndAccess = mirrorUser.DateEndAccess;
 			}
 			else	
 			{
@@ -28,10 +33,11 @@ namespace GKModule.ViewModels
 				DateEndAccess = mirrorUser.DateEndAccess;
 				SelectedGKCardType = mirrorUser.Type;	
 				Title = string.Format("Редактирование пользователя: {0}", mirrorUser.Name);
+				_mirrorUsers.RemoveAll(x => x.Name == mirrorUser.Name && x.Password == x.Password);
 			}
 
 			GKCardTypes = new ObservableCollection<GKCardType>(Enum.GetValues(typeof(GKCardType)).OfType<GKCardType>());
-		    
+			
 		}
 		public ObservableCollection<GKCardType> GKCardTypes { get; private set; }
 
@@ -47,7 +53,6 @@ namespace GKModule.ViewModels
 		}
 
 		private string password_;
-
 		public string Password
 		{
  			get	{return password_;}
@@ -85,6 +90,31 @@ namespace GKModule.ViewModels
 
 		protected override bool Save()
 		{
+			
+			if (_mirrorUsers.Any(x => x.Name == Name) )
+			{
+				MessageBoxService.Show("Данный Логин уже существует");
+				return false;
+			}
+
+			if (_mirrorUsers.Any(x => x.Password == Password) )
+			{
+				MessageBoxService.Show("Данный Пароль уже существует");
+				return false;
+			}
+
+			if (string.IsNullOrWhiteSpace(Name))
+			{
+				MessageBoxService.Show("Поле Имя должно быть заполнено");
+				return false;
+			}
+
+			if (string.IsNullOrWhiteSpace(Password))
+			{
+				MessageBoxService.Show("Поле Пароль должно быть заполнено");
+				return false;
+			}
+
 			MirrorUser = new MirrorUser();
 			MirrorUser.Name = Name;
 			MirrorUser.Password = Password;

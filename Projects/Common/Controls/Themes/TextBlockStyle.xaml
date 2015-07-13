@@ -15,4 +15,7 @@
 			</DataTrigger>
 		</Style.Triggers>
 	</Style>
+	<Style x:Key="RegularTextBlock" BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+				<Setter Property="Foreground" Value="{DynamicResource ForegroundColor_0}" />
+	</Style>
 </ResourceDictionary>
