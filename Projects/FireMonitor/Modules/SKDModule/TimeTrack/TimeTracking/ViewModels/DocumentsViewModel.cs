@@ -51,7 +51,7 @@ namespace SKDModule.ViewModels
 			this.WhenAny(x => x.SelectedDocument, x => x.Value)
 				.Subscribe(value =>
 				{
-					CanDoChanges = value != null && value.HasFile;
+					CanDoChanges = value != null && !value.HasFile;
 				});
 			//this.WhenAny(x => x.SelectedDocument, x => x.Value).Select(x => x != null)
 			//var isSearchEnabled = this.ObservableForProperty(x => x.SelectedDocument)

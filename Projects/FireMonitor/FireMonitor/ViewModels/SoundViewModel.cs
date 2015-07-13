@@ -15,9 +15,6 @@ namespace FireMonitor.ViewModels
 	{
 		public SoundViewModel()
 		{
-			ServiceFactory.Events.GetEvent<GKObjectsStateChangedEvent>().Unsubscribe(OnStateChanged);
-			ServiceFactory.Events.GetEvent<GKObjectsStateChangedEvent>().Subscribe(OnStateChanged);
-
 			ServiceFactory.Events.GetEvent<SKDObjectsStateChangedEvent>().Unsubscribe(OnStateChanged);
 			ServiceFactory.Events.GetEvent<SKDObjectsStateChangedEvent>().Subscribe(OnStateChanged);
 

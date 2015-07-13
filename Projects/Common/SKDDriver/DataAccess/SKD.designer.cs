@@ -9365,47 +9365,7 @@ namespace SKDDriver.DataAccess
 				}
 			}
 		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GKLevel", DbType="TinyInt NOT NULL")]
-		public byte GKLevel
-		{
-			get
-			{
-				return this._GKLevel;
-			}
-			set
-			{
-				if ((this._GKLevel != value))
-				{
-					this.OnGKLevelChanging(value);
-					this.SendPropertyChanging();
-					this._GKLevel = value;
-					this.SendPropertyChanged("GKLevel");
-					this.OnGKLevelChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GKLevelSchedule", DbType="TinyInt NOT NULL")]
-		public byte GKLevelSchedule
-		{
-			get
-			{
-				return this._GKLevelSchedule;
-			}
-			set
-			{
-				if ((this._GKLevelSchedule != value))
-				{
-					this.OnGKLevelScheduleChanging(value);
-					this.SendPropertyChanging();
-					this._GKLevelSchedule = value;
-					this.SendPropertyChanged("GKLevelSchedule");
-					this.OnGKLevelScheduleChanged();
-				}
-			}
-		}
-		
+
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ExternalKey", DbType="NVarChar(40) NOT NULL", CanBeNull=false)]
 		public string ExternalKey
 		{

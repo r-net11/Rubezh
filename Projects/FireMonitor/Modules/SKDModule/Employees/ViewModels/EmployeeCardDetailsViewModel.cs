@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading;
-using FiresecAPI.GK;
-using FiresecAPI.Journal;
+﻿using FiresecAPI.Journal;
 using FiresecAPI.SKD;
-using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common;
@@ -14,6 +7,11 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using SKDModule.Events;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading;
 
 namespace SKDModule.ViewModels
 {
@@ -56,7 +54,6 @@ namespace SKDModule.ViewModels
 			Password = Card.Password;
 			StartDate = Card.StartDate;
 			EndDate = Card.EndDate;
-			GKLevel = Card.GKLevel;
 			UserTime = Card.UserTime;
 			DeactivationControllerUID = Card.DeactivationControllerUID;
 
@@ -167,17 +164,6 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		int _gkLevel;
-		public int GKLevel
-		{
-			get { return _gkLevel; }
-			set
-			{
-				_gkLevel = value;
-				OnPropertyChanged(() => GKLevel);
-			}
-		}
-
 		int _userTime;
 		public int UserTime
 		{
@@ -263,17 +249,6 @@ namespace SKDModule.ViewModels
 			{
 				_useReader = value;
 				OnPropertyChanged(() => UseReader);
-				//if (HasGK)
-				//{
-				//	if (value)
-				//	{
-				//		StartPollThread();
-				//	}
-				//	else
-				//	{
-				//		StopPollThread();
-				//	}
-				//}
 				if (value)
 				{
 					ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Subscribe(OnNewJournal);
@@ -342,53 +317,19 @@ namespace SKDModule.ViewModels
 		public RelayCommand ChangeReaderCommand { get; private set; }
 		void OnChangeReader()
 		{
-			//if (HasGK)
-			//{
-			//	var readerSelectationViewModel = new GKReaderSelectationViewModel(ClientSettings.SKDSettings.CardCreatorReaderUID);
-			//	if (DialogService.ShowModalWindow(readerSelectationViewModel))
-			//	{
-			//		OnPropertyChanged(() => ReaderName);
-			//		UseReader = UseReader;
-			//	}
-			//}
-			//else
-			//{
-				var readerSelectationViewModel = new ReaderSelectationViewModel(ClientSettings.SKDSettings.CardCreatorReaderUID);
-				if (DialogService.ShowModalWindow(readerSelectationViewModel))
-				{
-					OnPropertyChanged(() => ReaderName);
-				}
-		//	}
+			var readerSelectationViewModel = new ReaderSelectationViewModel(ClientSettings.SKDSettings.CardCreatorReaderUID);
+			if (DialogService.ShowModalWindow(readerSelectationViewModel))
+			{
+				OnPropertyChanged(() => ReaderName);
+			}
 		}
 
 		public string ReaderName
 		{
 			get
 			{
-				//if (HasGK)
-				//{
-				//	var readerDevice = GKManager.Devices.FirstOrDefault(x => x.UID == ClientSettings.SKDSettings.CardCreatorReaderUID);
-				//	if (readerDevice != null)
-				//	{
-				//		return readerDevice.PresentationName;
-				//	}
-				//	else
-				//	{
-				//		return "Нажмите для выбора считывателя";
-				//	}
-				//}
-				//else
-				//{
-					var readerDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == ClientSettings.SKDSettings.CardCreatorReaderUID);
-					if (readerDevice != null)
-					{
-						return readerDevice.Name;
-					}
-					else
-					{
-						return "Нажмите для выбора считывателя";
-					}
-				//}
+				var readerDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == ClientSettings.SKDSettings.CardCreatorReaderUID);
+				return readerDevice != null ? readerDevice.Name : "Нажмите для выбора считывателя";
 			}
 		}
 
@@ -431,8 +372,6 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
-
-
 			Card.Number = Number;
 			var stopListCard = StopListCards.FirstOrDefault(x => x.Number == Card.Number);
 			if (stopListCard != null)
@@ -459,7 +398,6 @@ namespace SKDModule.ViewModels
 			Card.CardType = SelectedCardType;
 			Card.StartDate = StartDate;
 			Card.EndDate = EndDate;
-			Card.GKLevel = GKLevel;
 			Card.UserTime = UserTime;
 			Card.DeactivationControllerUID = DeactivationControllerUID;
 			Card.CardDoors = AccessDoorsSelectationViewModel.GetCardDoors();
@@ -540,11 +478,6 @@ namespace SKDModule.ViewModels
 				}
 			}
 
-			if (GKLevel < 0 || GKLevel > 255)
-			{
-				MessageBoxService.ShowWarning("Уровень доступа должен быть в пределах от 0 до 255");
-				return false;
-			}
 			return true;
 		}
 	}

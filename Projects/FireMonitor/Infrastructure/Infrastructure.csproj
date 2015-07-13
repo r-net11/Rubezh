@@ -100,14 +100,10 @@
     <Compile Include="Events\Reports\PrintReportPreviewEvent.cs" />
     <Compile Include="Events\Reports\PrintReportEvent.cs" />
     <Compile Include="Events\GetFilteredArchiveCompletedEvent.cs" />
-    <Compile Include="Events\ShowDetails\ShowGKDoorDetailsEvent.cs" />
     <Compile Include="Events\ShowObject\ShowGKDoorEvent.cs" />
     <Compile Include="Events\ShowOnPlan\ShowProcedureOnPlanEvent.cs" />
     <Compile Include="Events\ShowOnPlan\ShowCameraOnPlanEvent.cs" />
     <Compile Include="Events\ShowObject\ShowCameraEvent.cs" />
-    <Compile Include="Events\GKObjectsStateChangedEvent.cs" />
-    <Compile Include="Events\ShowDetails\ShowGKDeviceDetailsEvent.cs" />
-    <Compile Include="Events\ShowDetails\ShowGKZoneDetailsEvent.cs" />
     <Compile Include="Events\ShowDetails\ShowSKDDeviceDetailsEvent.cs" />
     <Compile Include="Events\ShowDetails\ShowSKDZoneDetailsEvent.cs" />
     <Compile Include="Events\ShowDetails\ShowSKDDoorDetailsEvent.cs" />

@@ -234,7 +234,7 @@ namespace SKDModule.ViewModels
 			this.WhenAny(x => x.SelectedDocument, x => x.Value)
 				.Subscribe(value =>
 				{
-					CanDoChanges = value != null && value.HasFile;
+					CanDoChanges = value != null && !value.HasFile;
 				});
 		}
 

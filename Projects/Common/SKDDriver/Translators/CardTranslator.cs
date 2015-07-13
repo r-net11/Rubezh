@@ -51,8 +51,6 @@ namespace SKDDriver
 			result.DeactivationControllerUID = card.DeactivationControllerUID != null ? card.DeactivationControllerUID.Value : Guid.Empty;
 			result.Password = card.Password;
 			result.UserTime = card.UserTime;
-			result.GKLevel = card.GKLevel;
-			result.GKLevelSchedule = card.GKLevelSchedule;
 			if (card.EmployeeUID.HasValue)
 			{
 				result.EmployeeUID = card.EmployeeUID.Value;
@@ -79,8 +77,6 @@ namespace SKDDriver
 			tableItem.Password = apiItem.Password;
 			tableItem.DeactivationControllerUID = apiItem.DeactivationControllerUID;
 			tableItem.UserTime = apiItem.UserTime;
-			tableItem.GKLevel = (byte)apiItem.GKLevel;
-			tableItem.GKLevelSchedule = (byte)apiItem.GKLevelSchedule;
 			if (tableItem.ExternalKey == null)
 				tableItem.ExternalKey = "-1";
 		}

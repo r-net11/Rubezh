@@ -99,9 +99,7 @@ namespace FiresecAPI
 			ModuleItems = new List<string>();
 
 			ModuleItems.Add("PlansModule.dll");
-			ModuleItems.Add("PlansModule.Kursk.dll");
 			ModuleItems.Add("SecurityModule.dll");
-			ModuleItems.Add("GKModule.dll");
 			ModuleItems.Add("SKDModule.dll");
 			ModuleItems.Add("StrazhModule.dll");
 			ModuleItems.Add("VideoModule.dll");

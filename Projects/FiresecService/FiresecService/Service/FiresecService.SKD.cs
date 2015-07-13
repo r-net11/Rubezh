@@ -453,8 +453,6 @@ namespace FiresecService.Service
 					EmployeeName = null,
 					EmployeeUID = Guid.Empty,
 					OrganisationUID = Guid.Empty,
-					GKLevel = 0,
-					GKLevelSchedule = 0
 				};
 
 				var saveResult = databaseService.CardTranslator.Save(cardToDelete);
