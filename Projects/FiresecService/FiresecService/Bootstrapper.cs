@@ -46,7 +46,7 @@ namespace FiresecService
 				ConfigurationCashHelper.Update();
 				UILogger.Log("Создание конфигурации ГК");
 				GKProcessor.Create();
-				PatchManager.Patch();
+				//PatchManager.Patch();
 				UILogger.Log("Запуск ГК");
 				GKProcessor.Start();
 

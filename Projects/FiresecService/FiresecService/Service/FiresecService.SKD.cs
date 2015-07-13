@@ -719,7 +719,10 @@ namespace FiresecService.Service
 
 		public OperationResult ResetSKDDatabase()
 		{
-			return PatchManager.Reset_SKD();
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
+			{
+				return databaseService.ResetDB();
+			}
 		}
 
 		#region TestData

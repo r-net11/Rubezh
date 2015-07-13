@@ -54,13 +54,19 @@
 				</Grid.RowDefinitions>
 				<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Разрешить удаленные соединения на сервере" />
 				<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Использовать HASP" />
-				<TextBlock Grid.Row="2" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Название экземпляра сервера БД" />
-				<TextBlock Grid.Row="3" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Создавать новую БД при переполнении" />
+				<TextBlock Grid.Row="2" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Строка подключения к БД" />
+				<TextBlock Grid.Row="3" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Тип базы данных" />
 
 				<CheckBox Grid.Row="0" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding Server_EnableRemoteConnections}" />
 				<CheckBox Grid.Row="1" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding UseHasp}" />
-				<TextBox Grid.Row="2" Grid.Column="1" Margin="2" Text="{Binding DBServerName, UpdateSourceTrigger=PropertyChanged}" />
-				<CheckBox Grid.Row="3" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding CreateNewDBOnOversize}" />
+				<TextBox Grid.Row="2" Grid.Column="1" Margin="2" Text="{Binding DbConnectionString, UpdateSourceTrigger=PropertyChanged}" />
+				<ComboBox Grid.Row="3" Grid.Column="1" Margin="2" HorizontalAlignment="Left"  ItemsSource="{Binding DbTypes}" SelectedItem="{Binding DbType}">
+					<ComboBox.ItemTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+						</DataTemplate>
+					</ComboBox.ItemTemplate>
+				</ComboBox>
 			</Grid>
 		</TabItem>
 		<TabItem Header="Автозапуск">

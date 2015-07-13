@@ -1,4 +1,5 @@
 ﻿using FiresecAPI;
+using Infrastructure.Common;
 using System;
 
 namespace SKDDriver.DataClasses
@@ -6,7 +7,6 @@ namespace SKDDriver.DataClasses
 	public class DbService : IDisposable
 	{
 		public DatabaseContext Context;
-
 		public GKScheduleTranslator GKScheduleTranslator { get; private set; }
 		public GKDayScheduleTranslator GKDayScheduleTranslator { get; private set; }
 		public PassJournalTranslator PassJournalTranslator { get; private set; }
@@ -39,9 +39,11 @@ namespace SKDDriver.DataClasses
 
 		public DbService()
 		{
+			var connection = DbServiceHelper.CreateConnection(GlobalSettingsHelper.GlobalSettings.DbConnectionString, GlobalSettingsHelper.GlobalSettings.DbType);
+			//DatabaseContext.connection = connection;
 			//DatabaseContext.ConnectionStringName = "PostgresConnectionString";
-			DatabaseContext.ConnectionStringName = "MsSQLConnectionString";
-			Context = new DatabaseContext();
+			//DatabaseContext.ConnectionStringName = "MsSQLConnectionString";
+			Context = new DatabaseContext(connection);
 			GKScheduleTranslator = new GKScheduleTranslator(this);
 			GKDayScheduleTranslator = new GKDayScheduleTranslator(this);
 			PassJournalTranslator = new PassJournalTranslator(this);
@@ -74,25 +76,20 @@ namespace SKDDriver.DataClasses
             CardTranslator.AsyncTranslator.BeginGet(filter.CardFilter, portionReady);
         }
 
-        public T GetTranslator<T>()
-            where T : class
-        {
-            var result = EmployeeTranslator as T;
-            if (result != null)
-                return result;
-            result = CardTranslator as T;
-            if (result != null)
-                return result;
-            result = EmployeeTranslator.AsyncTranslator as T;
-            if (result != null)
-                return result;
-            result = CardTranslator.AsyncTranslator as T;
-            if (result != null)
-                return result;
-            return null;
-        }
+		public OperationResult ResetDB()
+		{
+			try
+			{
+				Context.Database.Initialize(true);
+				return new OperationResult();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
+		}
 
-		public void Dispose()
+        public void Dispose()
 		{
 			Context.Dispose();
 		}

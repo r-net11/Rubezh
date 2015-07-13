@@ -62,20 +62,20 @@ namespace SKDDriver.DataClasses
 			tableItem.FirstName = exportItem.FirstName;
 			tableItem.SecondName = exportItem.SecondName;
 			tableItem.LastName = exportItem.LastName;
-			tableItem.CredentialsStartDate = DbServiceHelper.CheckDate(exportItem.CredentialsStartDate);
+			tableItem.CredentialsStartDate = exportItem.CredentialsStartDate.CheckDate();
 			tableItem.DocumentNumber = exportItem.DocumentNumber;
-            tableItem.BirthDate = DbServiceHelper.CheckDate(tableItem.BirthDate);
+            tableItem.BirthDate = tableItem.BirthDate.CheckDate();
 			tableItem.BirthPlace = tableItem.BirthPlace;
-            tableItem.DocumentGivenDate = DbServiceHelper.CheckDate(exportItem.DocumentGivenDate);
+			tableItem.DocumentGivenDate = exportItem.DocumentGivenDate.CheckDate();
 			tableItem.DocumentGivenBy = exportItem.DocumentGivenBy;
-            tableItem.DocumentValidTo = DbServiceHelper.CheckDate(exportItem.DocumentValidTo);
+			tableItem.DocumentValidTo = exportItem.DocumentValidTo.CheckDate();
 			tableItem.DocumentDepartmentCode = exportItem.DocumentDepartmentCode;
 			tableItem.Citizenship = exportItem.Citizenship;
 			tableItem.Description = exportItem.Description;
 			tableItem.Gender = exportItem.Gender;
 			tableItem.Type = exportItem.Type;
-            tableItem.LastEmployeeDayUpdate = DbServiceHelper.CheckDate(exportItem.LastEmployeeDayUpdate);
-            tableItem.ScheduleStartDate = DbServiceHelper.CheckDate(exportItem.ScheduleStartDate);
+			tableItem.LastEmployeeDayUpdate = exportItem.LastEmployeeDayUpdate.CheckDate();
+			tableItem.ScheduleStartDate = exportItem.ScheduleStartDate.CheckDate();
 			tableItem.IsDeleted = exportItem.IsDeleted;
 			tableItem.RemovalDate = exportItem.RemovalDate;
 		}

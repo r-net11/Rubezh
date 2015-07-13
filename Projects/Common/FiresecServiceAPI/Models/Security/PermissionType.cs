@@ -145,6 +145,9 @@ namespace FiresecAPI.Models
 		[DescriptionAttribute("Создание, редактирование, архивирование, восстановление сотрудника")]
 		Oper_SKD_Employees_Edit,
 
+		[DescriptionAttribute("Редактирование типа карты сотрудника")]
+		Oper_SKD_Employees_Edit_CardType,
+
 		[DescriptionAttribute("Просмотр посетителей")]
 		Oper_SKD_Guests_View,
 

@@ -100,7 +100,7 @@ namespace SKDDriver.DataClasses
 					else
 						newTableItem.UID = Guid.NewGuid();
 					newTableItem.ExternalKey = exportItem.ExternalKey;
-					newTableItem.RemovalDate = DbServiceHelper.CheckDate(exportItem.RemovalDate);
+					newTableItem.RemovalDate = exportItem.RemovalDate.CheckDate();
 					newTableItem.IsDeleted = exportItem.IsDeleted;
 					TranslateBack(exportItem, newTableItem);
 					_Table.Add(newTableItem);

@@ -18,8 +18,7 @@ namespace SKDDriver
 		DbSet<Journal> _Table;
 		string Name { get { return "Journal"; } }
 		public string NameXml { get { return Name + ".xml"; } }
-		public static string ConnectionString { get; set; }
-        DatabaseContext Context;
+		DatabaseContext Context;
 
 		public JounalSynchroniser(DbService dbService)
 		{
@@ -33,7 +32,7 @@ namespace SKDDriver
 			{
 				if (!Directory.Exists(filter.Path))
 					return new OperationResult("Папка не существует");
-                var tableItems = _Table.Where(x => x.SystemDate >= DbServiceHelper.CheckDate(filter.MinDate) & x.SystemDate <= DbServiceHelper.CheckDate(filter.MaxDate));
+				var tableItems = _Table.Where(x => x.SystemDate >= filter.MinDate.CheckDate() & x.SystemDate <= filter.MaxDate.CheckDate());
 				var items = tableItems.Select(x => Translate(x)).ToList();
 				var serializer = new XmlSerializer(typeof(List<ExportJournalItem>));
 				using (var fileStream = File.Open(NameXml, FileMode.Create))
