@@ -14,10 +14,10 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
-				<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" Foreground="{DynamicResource ForegroundColorLight}" Text="Начало" />
+				<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" Foreground="{DynamicResource ForegroundColor_0}" Text="Начало" />
 				<Controls:TimePicker Grid.Row="0" Grid.Column="1" Margin="2" TimeSpan="{Binding StartTime, UpdateSourceTrigger=PropertyChanged}" />
 
-				<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" Foreground="{DynamicResource ForegroundColorLight}" Text="Конец" />
+				<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" Foreground="{DynamicResource ForegroundColor_0}" Text="Конец" />
 				<Controls:TimePicker Grid.Row="1" Grid.Column="1" Margin="2" TimeSpan="{Binding EndTime, UpdateSourceTrigger=PropertyChanged}" />
 			</Grid>
 		</TabItem>

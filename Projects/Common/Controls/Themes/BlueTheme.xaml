@@ -46,7 +46,7 @@
 		<GradientStop Color="#DEA34B" Offset="0" />
 		<GradientStop Color="#C98226" Offset="1" />
 	</LinearGradientBrush>
-	<SolidColorBrush x:Key="PressedForegroungBrush" Color="White" />
+	<SolidColorBrush Color="#FFFFFF" x:Key="PressedForegroundBrush" />
 
 	<!-- Неизвестность -->
 	<LinearGradientBrush x:Key="AlternativeBackgroundBrush" StartPoint="0, 0" EndPoint="0,1">
@@ -64,6 +64,7 @@
 	<SolidColorBrush Color="#FFFFFF" x:Key="ButtonBackground_2" />
 	<SolidColorBrush Color="#00008B" x:Key="ButtonBackground_1" />
 	<SolidColorBrush Color="#ADD8E6" x:Key="ButtonBackground_0" />
+	<SolidColorBrush Color="#FF0000" x:Key="ButtonBackgroundColorRed" />
 	<SolidColorBrush Color="#FFFFFF" x:Key="ForegroundColor_0" />
 	<SolidColorBrush Color="#000000" x:Key="ForegroundColor_1" />
 	<SolidColorBrush Color="#FFFFFF" x:Key="ForegroundColor_2" />
