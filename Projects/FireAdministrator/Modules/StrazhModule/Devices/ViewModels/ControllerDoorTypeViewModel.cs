@@ -337,7 +337,7 @@ namespace StrazhModule.ViewModels
 		{
 			switch (SelectedDoorType)
 			{
-				case DoorType.OneWay:
+				case DoorType.TwoWay:
 					switch (DeviceViewModel.Device.DriverType)
 					{
 						// Однодверник
@@ -365,7 +365,7 @@ namespace StrazhModule.ViewModels
 							break;
 					}
 					break;
-				case DoorType.TwoWay:
+				case DoorType.OneWay:
 					switch (DeviceViewModel.Device.DriverType)
 					{
 						// Однодверник
