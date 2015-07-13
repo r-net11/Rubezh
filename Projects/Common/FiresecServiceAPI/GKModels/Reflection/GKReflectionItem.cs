@@ -50,7 +50,7 @@ namespace FiresecAPI.GK
 		[XmlIgnore]
 		public List<GKMPT> MPTs { get; set; }
 
-		[XmlIgnore]
+		[DataMember]
 		public List<MirrorUser> MirrorUsers { get; set; }
 
 		[DataMember]
