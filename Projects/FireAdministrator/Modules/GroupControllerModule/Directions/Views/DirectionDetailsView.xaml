@@ -16,12 +16,12 @@
 					<ColumnDefinition />
 					<ColumnDefinition />
 				</Grid.ColumnDefinitions>
-				<TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Text="Номер" Margin="2" />
-				<TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" Text="Наименование" />
-				<TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Text="Примечание" />
-				<TextBlock Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" Text="Задержка, с" />
-				<TextBlock Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" Text="Удержание, с" />
-				<TextBlock Grid.Row="5" Grid.Column="0" HorizontalAlignment="Right" Text="Режим по окончанию удержания" />
+				<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Text="Номер" Margin="2" />
+				<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" Text="Наименование" />
+				<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Text="Примечание" />
+				<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" Text="Задержка, с" />
+				<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" Text="Удержание, с" />
+				<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Row="5" Grid.Column="0" HorizontalAlignment="Right" Text="Режим по окончанию удержания" />
 
 				<TextBox Grid.Row="0" Grid.Column="1" Margin="2" Text="{Binding No, UpdateSourceTrigger=PropertyChanged}" />
 				<XAutoCompleteBox x:Name="nameTextBox" Grid.Row="1" Grid.Column="1" Margin="2" ContextMenu="{x:Null}" IsTextCompletionEnabled="True" ItemsSource="{Binding AvailableNames}" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />

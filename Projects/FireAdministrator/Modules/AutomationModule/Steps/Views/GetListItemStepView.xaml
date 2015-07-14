@@ -8,15 +8,15 @@
 	</UserControl.Resources>
 	<StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<TextBlock Text="Список" />
+			<TextBlock Style="{DynamicResource LabelStyle}" Text="Список" />
 			<Views:ArgumentView DataContext="{Binding ListArgument}" />
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<TextBlock Text="Элемент" />
+			<TextBlock Style="{DynamicResource LabelStyle}" Text="Элемент" />
 			<Views:ArgumentView DataContext="{Binding ItemArgument}" />
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<TextBlock Text="Позиция" />
+			<TextBlock Style="{DynamicResource LabelStyle}" Text="Позиция" />
 			<ComboBox ItemsSource="{Binding PositionTypes}" SelectedItem="{Binding SelectedPositionType, UpdateSourceTrigger=PropertyChanged}">
 				<ComboBox.ItemTemplate>
 					<DataTemplate>
@@ -26,7 +26,7 @@
 			</ComboBox>
 		</StackPanel>
 		<StackPanel Orientation="Horizontal" Visibility="{Binding Path=SelectedPositionType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:PositionType.ByIndex}}">
-			<TextBlock Text="Индекс" />
+			<TextBlock Style="{DynamicResource LabelStyle}" Text="Индекс" />
 			<Views:ArgumentView DataContext="{Binding IndexArgument}" />
 		</StackPanel>
 	</StackPanel>

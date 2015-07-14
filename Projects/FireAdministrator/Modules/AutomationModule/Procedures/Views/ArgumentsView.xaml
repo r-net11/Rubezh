@@ -3,7 +3,7 @@
 		<Style x:Key="LabelStyle" TargetType="TextBlock">
 			<Setter Property="HorizontalAlignment" Value="Right" />
 			<Setter Property="VerticalAlignment" Value="Center" />
-			<Setter Property="Foreground" Value="White" />
+			<Setter Property="Foreground" Value="{DynamicResource FofegroundColor_0}" />
 		</Style>
 	</UserControl.Resources>
 	<Grid>
@@ -13,7 +13,7 @@
 					<DataTemplate>
 						<Grid>
 							<StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
-								<TextBlock Width="150" Text="{Binding Name}" Style="{StaticResource LabelStyle}" ToolTip="{Binding Name}" />
+								<TextBlock Width="150" Text="{Binding Name}" Style="{DynamicResource LabelStyle}" ToolTip="{Binding Name}" />
 								<Views:ArgumentView HorizontalAlignment="Left" DataContext="{Binding .}" />
 							</StackPanel>
 						</Grid>

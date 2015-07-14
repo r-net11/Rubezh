@@ -20,18 +20,18 @@
 				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
 
-			<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" HorizontalAlignment="Right"	Text="Текст" />
-			<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" HorizontalAlignment="Right"	Text="Пользовательский стиль" />
-			<TextBlock Grid.Row="2" Grid.Column="0" Margin="2" HorizontalAlignment="Right"	Text="Выравнивать" />
-			<TextBlock Grid.Row="3" Grid.Column="0" Margin="2" HorizontalAlignment="Right"	Text="Цвет текста" />
-			<TextBlock Grid.Row="4" Grid.Column="0" Margin="2" HorizontalAlignment="Right"	Text="Цвет фона" />
-			<TextBlock Grid.Row="5" Grid.Column="0" Margin="2" HorizontalAlignment="Right"	Text="Цвет границы" />
-			<TextBlock Grid.Row="6" Grid.Column="0" Margin="2" HorizontalAlignment="Right"	Text="Ширина границы" />
-			<TextBlock Grid.Row="7" Grid.Column="0" Margin="2" HorizontalAlignment="Right"	Text="Размер шрифта" />
-			<TextBlock Grid.Row="8" Grid.Column="0" Margin="2" HorizontalAlignment="Right"	Text="Шрифт" />
-			<TextBlock Grid.Row="9" Grid.Column="0" Margin="2" HorizontalAlignment="Right"	Text="Жирный" />
-			<TextBlock Grid.Row="10" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Курсив" />
-			<TextBlock Grid.Row="11" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Растянуть" />
+			<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Row="0" Grid.Column="0" Margin="2" HorizontalAlignment="Right"	Text="Текст" />
+			<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Row="1" Grid.Column="0" Margin="2" HorizontalAlignment="Right"	Text="Пользовательский стиль" />
+			<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Row="2" Grid.Column="0" Margin="2" HorizontalAlignment="Right"	Text="Выравнивать" />
+			<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Row="3" Grid.Column="0" Margin="2" HorizontalAlignment="Right"	Text="Цвет текста" />
+			<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Row="4" Grid.Column="0" Margin="2" HorizontalAlignment="Right"	Text="Цвет фона" />
+			<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Row="5" Grid.Column="0" Margin="2" HorizontalAlignment="Right"	Text="Цвет границы" />
+			<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Row="6" Grid.Column="0" Margin="2" HorizontalAlignment="Right"	Text="Ширина границы" />
+			<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Row="7" Grid.Column="0" Margin="2" HorizontalAlignment="Right"	Text="Размер шрифта" />
+			<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Row="8" Grid.Column="0" Margin="2" HorizontalAlignment="Right"	Text="Шрифт" />
+			<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Row="9" Grid.Column="0" Margin="2" HorizontalAlignment="Right"	Text="Жирный" />
+			<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Row="10" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Курсив" />
+			<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Row="11" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Растянуть" />
 
 			<TextBox x:Name="_textBox" Grid.Row="0" Grid.Column="1" Margin="2" AcceptsReturn="True" Background="White" HorizontalScrollBarVisibility="Auto" Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}" VerticalScrollBarVisibility="Auto" />
 			<CheckBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" IsChecked="{Binding UseCustomStyle, UpdateSourceTrigger=PropertyChanged}" />

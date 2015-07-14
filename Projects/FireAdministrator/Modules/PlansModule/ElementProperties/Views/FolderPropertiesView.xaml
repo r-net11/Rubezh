@@ -8,8 +8,8 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
-		<TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Text="Название" />
-		<TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" Text="Описание" />
+		<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Text="Название" />
+		<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" Text="Описание" />
 		<TextBox Grid.Row="0" Grid.Column="1" Margin="2" Text="{Binding Caption, UpdateSourceTrigger=PropertyChanged}" />
 		<TextBox Grid.Row="1" Grid.Column="1" Margin="2" AcceptsReturn="True" AcceptsTab="True" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" />
 	</Grid>

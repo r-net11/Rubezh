@@ -8,9 +8,6 @@
 			<Setter Property="Margin" Value="1" />
 			<Setter Property="Foreground" Value="{DynamicResource ForegroundColor_0}" />
 		</Style>
-		<Style TargetType="Button">
-			<Setter Property="Foreground" Value="{DynamicResource ForegroundColor_0}" />
-		</Style>
 	</UserControl.Resources>
 	<Grid>
         <Grid.RowDefinitions>

@@ -7,11 +7,11 @@
 	</UserControl.Resources>
 	<StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<TextBlock Text="Зона" />
+			<TextBlock Style="{DynamicResource LabelStyle}" Text="Зона" />
 			<Views:ArgumentView DataContext="{Binding GKGuardZoneArgument}" />
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<TextBlock Text="Команда" />
+			<TextBlock Style="{DynamicResource LabelStyle}" Text="Команда" />
 			<ComboBox ItemsSource="{Binding Commands}" SelectedItem="{Binding SelectedCommand, UpdateSourceTrigger=PropertyChanged}">
 				<ComboBox.ItemTemplate>
 					<DataTemplate>
