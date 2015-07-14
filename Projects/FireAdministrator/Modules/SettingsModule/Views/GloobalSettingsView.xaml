@@ -21,22 +21,22 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
-				<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Скрывать дерево планов в ОЗ" />
+				<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Row="0" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Скрывать дерево планов в ОЗ" />
 				<CheckBox Grid.Row="0" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding Monitor_HidePlansTree}" />
 
-				<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="F1 - показать справку" />
+				<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Row="1" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="F1 - показать справку" />
 				<CheckBox Grid.Row="1" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding Monitor_F1_Enabled}" />
 
-				<TextBlock Grid.Row="2" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="F2 - снять все отключения" />
+				<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Row="2" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="F2 - снять все отключения" />
 				<CheckBox Grid.Row="2" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding Monitor_F2_Enabled}" />
 
-				<TextBlock Grid.Row="3" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="F3 - отключить все устройства и зоны в состоянии П1 или П2" />
+				<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Row="3" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="F3 - отключить все устройства и зоны в состоянии П1 или П2" />
 				<CheckBox Grid.Row="3" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding Monitor_F3_Enabled}" />
 
-				<TextBlock Grid.Row="4" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="F4 - сбросить все" />
+				<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Row="4" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="F4 - сбросить все" />
 				<CheckBox Grid.Row="4" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding Monitor_F4_Enabled}" />
 
-				<TextBlock Grid.Row="5" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Разрешить управление МПТ" />
+				<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Row="5" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Разрешить управление МПТ" />
 				<CheckBox Grid.Row="5" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding Monitor_IsControlMPT}" />
 			</Grid>
 		</TabItem>

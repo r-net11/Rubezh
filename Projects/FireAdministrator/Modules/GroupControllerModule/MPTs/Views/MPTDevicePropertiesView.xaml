@@ -9,7 +9,7 @@
 			<Setter Property="ToolTip" Value="{Binding Caption}" />
 			<Setter Property="HorizontalAlignment" Value="Right" />
 			<Setter Property="VerticalAlignment" Value="Center" />
-			<Setter Property="Foreground" Value="White" />
+			<Setter Property="Foreground" Value="{DynamicResource ForegroundColor_0}" />
 			<Setter Property="TextBlock.FontWeight" Value="Bold" />
 		</Style>
 	</UserControl.Resources>

@@ -8,11 +8,11 @@
 
 	<StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<TextBlock Text="Список" />
+			<TextBlock Style="{DynamicResource LabelStyle}" Text="Список" />
 			<Views:ArgumentView DataContext="{Binding ListArgument}" />
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<TextBlock Text="Элемент" />
+			<TextBlock Style="{DynamicResource LabelStyle}" Text="Элемент" />
 			<Views:ArgumentView DataContext="{Binding ItemArgument}" />
 		</StackPanel>
 	</StackPanel>

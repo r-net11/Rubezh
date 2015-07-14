@@ -35,17 +35,17 @@
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="*" />
 			</Grid.RowDefinitions>
-			<TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right"		Text="Заголовок" />
-			<TextBlock Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center"	Text="Ширина" />
-			<TextBlock Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center"	Text="Высота" />
-			<TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right"		Text="Тип" />
-			<TextBlock Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right"		Text="Размер" />
-			<TextBlock Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right"		Text="Минимальный" />
-			<TextBlock Grid.Row="5" Grid.Column="0" HorizontalAlignment="Right"		Text="Фиксированный" />
-			<TextBlock Grid.Row="6" Grid.Column="0" HorizontalAlignment="Right"		Text="Ширина границы" />
-			<TextBlock Grid.Row="7" Grid.Column="0" HorizontalAlignment="Right"		Text="Цвет границы" />
-			<TextBlock Grid.Row="8" Grid.Column="0" HorizontalAlignment="Right"		Text="Цвет фона" />
-			<TextBlock Grid.Row="9" Grid.Column="0" HorizontalAlignment="Right"		Text="Отступ" />
+			<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right"		Text="Заголовок" />
+			<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center"	Text="Ширина" />
+			<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center"	Text="Высота" />
+			<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right"		Text="Тип" />
+			<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right"		Text="Размер" />
+			<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right"		Text="Минимальный" />
+			<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Row="5" Grid.Column="0" HorizontalAlignment="Right"		Text="Фиксированный" />
+			<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Row="6" Grid.Column="0" HorizontalAlignment="Right"		Text="Ширина границы" />
+			<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Row="7" Grid.Column="0" HorizontalAlignment="Right"		Text="Цвет границы" />
+			<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Row="8" Grid.Column="0" HorizontalAlignment="Right"		Text="Цвет фона" />
+			<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Row="9" Grid.Column="0" HorizontalAlignment="Right"		Text="Отступ" />
 
 			<TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Margin="2" Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" />
 

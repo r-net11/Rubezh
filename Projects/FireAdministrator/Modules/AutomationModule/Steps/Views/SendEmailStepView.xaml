@@ -9,35 +9,35 @@
 		<Grid>
 			<StackPanel>
 				<StackPanel Orientation="Horizontal">
-					<TextBlock Text="От кого (адрес)" />
+					<TextBlock Style="{DynamicResource LabelTextBlock}" Text="От кого (адрес)" />
 					<Views:ArgumentView DataContext="{Binding EMailAddressFromArgument}" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal">
-					<TextBlock Text="Кому (адрес)" />
+					<TextBlock Style="{DynamicResource LabelTextBlock}" Text="Кому (адрес)" />
 					<Views:ArgumentView DataContext="{Binding EMailAddressToArgument}" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal">
-					<TextBlock Text="Заголовок" />
+					<TextBlock Style="{DynamicResource LabelTextBlock}" Text="Заголовок" />
 					<Views:ArgumentView DataContext="{Binding EMailTitleArgument}" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal">
-					<TextBlock Text="Текст" />
+					<TextBlock Style="{DynamicResource LabelTextBlock}" Text="Текст" />
 					<Views:ArgumentView DataContext="{Binding EMailContentArgument}" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal">
-					<TextBlock Text="SMTP Сервер" />
+					<TextBlock Style="{DynamicResource LabelTextBlock}" Text="SMTP Сервер" />
 					<Views:ArgumentView DataContext="{Binding SmtpArgument}" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal">
-					<TextBlock Text="Порт" />
+					<TextBlock Style="{DynamicResource LabelTextBlock}" Text="Порт" />
 					<Views:ArgumentView DataContext="{Binding PortArgument}" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal">
-					<TextBlock Text="Логин" />
+					<TextBlock Style="{DynamicResource LabelTextBlock}" Text="Логин" />
 					<Views:ArgumentView DataContext="{Binding LoginArgument}" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal">
-					<TextBlock Text="Пароль" />
+					<TextBlock Style="{DynamicResource LabelTextBlock}" Text="Пароль" />
 					<Views:ArgumentView DataContext="{Binding PasswordArgument}" />
 				</StackPanel>
 			</StackPanel>

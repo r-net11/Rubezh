@@ -19,17 +19,17 @@
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 
-				<TextBlock Grid.Row="0" Grid.Column="0" Text="IP Адрес" HorizontalAlignment="Right" />
+				<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Row="0" Grid.Column="0" Text="IP Адрес" HorizontalAlignment="Right" />
 				<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Ip, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-				<TextBlock Grid.Row="1" Grid.Column="0" Text="Порт" HorizontalAlignment="Right" />
+				<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Row="1" Grid.Column="0" Text="Порт" HorizontalAlignment="Right" />
 				<extToolkit:IntegerUpDown Grid.Row="1" Grid.Column="1" Value="{Binding Port}" Margin="2" />
-				<TextBlock Grid.Row="2" Grid.Column="0" Text="Логин" HorizontalAlignment="Right" />
+				<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Row="2" Grid.Column="0" Text="Логин" HorizontalAlignment="Right" />
 				<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-				<TextBlock Grid.Row="3" Grid.Column="0" Text="Пароль" HorizontalAlignment="Right" />
+				<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Row="3" Grid.Column="0" Text="Пароль" HorizontalAlignment="Right" />
 				<TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-				<TextBlock Grid.Row="4" Grid.Column="0" Text="Путь к VLC" HorizontalAlignment="Right" />
+				<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Row="4" Grid.Column="0" Text="Путь к VLC" HorizontalAlignment="Right" />
 				<TextBox Grid.Row="4" Grid.Column="1" Text="{Binding DllsPath, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-				<TextBlock Grid.Row="5" Grid.Column="0" Text="Путь к плагинам" HorizontalAlignment="Right" />
+				<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Row="5" Grid.Column="0" Text="Путь к плагинам" HorizontalAlignment="Right" />
 				<TextBox Grid.Row="5" Grid.Column="1" Text="{Binding PluginsPath, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 			</Grid>
 		</TabItem>

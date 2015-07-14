@@ -9,15 +9,15 @@
 		<Grid>
 			<StackPanel>
 				<StackPanel Orientation="Horizontal">
-					<TextBlock Text="С удалёнными" />
+					<TextBlock Style="{DynamicResource LabelStyle}" Text="С удалёнными" />
 					<Views:ArgumentView DataContext="{Binding IsWithDeleted}" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal">
-					<TextBlock Text="Организация" />
+					<TextBlock Style="{DynamicResource LabelStyle}" Text="Организация" />
 					<Views:ArgumentView DataContext="{Binding Organisation}" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal">
-					<TextBlock Text="Путь к файлам" />
+					<TextBlock Style="{DynamicResource LabelStyle}" Text="Путь к файлам" />
 					<Views:ArgumentView DataContext="{Binding PathArgument}" />
 				</StackPanel>
 			</StackPanel>

@@ -520,7 +520,7 @@
 							<Border Grid.Row="1" Background="{DynamicResource BaseWindowBackgroundBrush}" CornerRadius="0,0,10,10" Padding="5">
 								<Border.Resources>
 									<Style TargetType="{x:Type TextBlock}">
-										<Setter Property="Foreground" Value="White" />
+										<Setter Property="Foreground" Value="{DynamicResource ForegroundColor_0}" />
 									</Style>
 								</Border.Resources>
 								<Grid Margin="5">
