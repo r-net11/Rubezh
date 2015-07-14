@@ -581,5 +581,27 @@ namespace FiresecService.Service
 			return OperationResult<bool>.FromError("Не найден ГК в конфигурации");
 		}
 		#endregion
+
+		public OperationResult<List<MirrorUser>> GKReadMirrorUsers(Guid deviceUID)
+		{
+			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{		
+				return OperationResult<List<MirrorUser>>.FromError("метод не реализован");	
+			}
+			else
+				return OperationResult<List<MirrorUser>>.FromError("Не найдено Отражение в конфигурации");
+		}
+
+		public OperationResult<bool> GKWriteMirrorUsers(Guid deviceUID, List<MirrorUser> mirrorUsers)
+		{
+			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				return OperationResult<bool>.FromError("метод не реализован");
+			}
+			else
+				return OperationResult<bool>.FromError("Не найдено Отражение в конфигурации");
+		}
 	}
 }

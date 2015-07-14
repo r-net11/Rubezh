@@ -3,8 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:views="clr-namespace:GKModule.Views"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" 
               MinHeight="550" MinWidth="810">
     <Grid>
         <Grid.RowDefinitions>
@@ -15,13 +13,15 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Имя" Width="*" Binding="{Binding Name}" />
                 <DataGridTextColumn Header="Пароль" Width="*" Binding="{Binding Password }" />
-                <DataGridTextColumn Header="Тип" Width="*" Binding="{Binding Type}" />
+                <DataGridTextColumn Header="Тип" Width="*" Binding="{Binding Type, Converter={StaticResource EnumToDescriptionConverter}}" />
             </DataGrid.Columns>
         </DataGrid>
         <StackPanel Grid.Row="1" Orientation="Horizontal">
-            <ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить (Ctrl+N)" ImageSource="Add"  />
-            <ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать (Ctrl+E)" ImageSource="Edit"  />
-            <ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить (Ctrl+Del)" ImageSource="Delete"  />
+            <ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="Add"  />
+            <ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать" ImageSource="Edit"  />
+            <ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить" ImageSource="Delete"  />
+            <ToolBarButton Command ="{Binding ReadCommand}" ToolTip="Читать пользователей" />
+            <ToolBarButton Command ="{Binding WriteCommand}" ToolTip="Записать пользователей" />
         </StackPanel>
     </Grid>
 </UserControl>

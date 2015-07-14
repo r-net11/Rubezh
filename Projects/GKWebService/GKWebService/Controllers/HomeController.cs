@@ -43,13 +43,12 @@ namespace GKWebService.Controllers
             return Json(new { Success = error == null, Message = error });
         }
 
-        [HttpPost]
-        [HttpGet]
+
         public JsonResult GetReports()
         {
             List<ReportModel> list = new List<ReportModel>();
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 100; i++)
             {
                 list.Add(new ReportModel()
                 {
@@ -61,7 +60,18 @@ namespace GKWebService.Controllers
                 });
             }
 
-            return Json(list);
+            dynamic result = new
+            {
+                page = 1,
+                total = 100,
+                records = 100,
+                rows = list,
+            };
+
+
+
+
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
     }
 }
