@@ -4,7 +4,7 @@
 		<StackPanel>
 			<StackPanel.Resources>
 				<Style TargetType="TextBlock">
-					<Setter Property="Foreground" Value="White" />
+					<Setter Property="Foreground" Value="{DynamicResource ForegroundColor_0}" />
 					<Setter Property="Margin" Value="2" />
 				</Style>
 			</StackPanel.Resources>

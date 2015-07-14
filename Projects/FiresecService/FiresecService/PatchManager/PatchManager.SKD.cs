@@ -11,7 +11,7 @@ using Microsoft.SqlServer.Management.Smo;
 
 namespace FiresecService
 {
-    public static partial class PatchManager
+    static partial class PatchManager
     {
         static void Patch_SKD()
         {
@@ -81,7 +81,7 @@ namespace FiresecService
             server.ConnectionContext.Disconnect();
         }
 
-        public static OperationResult Reset_SKD()
+        static OperationResult Reset_SKD()
         {
             try
             {

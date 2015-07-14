@@ -9,7 +9,7 @@
 			<TabItem Header="Печать">
 				<DockPanel>
 					<StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
-						<TextBlock Margin="2" VerticalAlignment="Center" Foreground="White" Text="Шаблон пропуска: " />
+						<TextBlock Margin="2" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColor_0}" Text="Шаблон пропуска: " />
 						<ComboBox Width="200" DisplayMemberPath="Name" ItemsSource="{Binding PassCardTemplates}" SelectedItem="{Binding SelectedPassCardTemplate}" />
 					</StackPanel>
 					<clientPlans:PlanDesignerView />

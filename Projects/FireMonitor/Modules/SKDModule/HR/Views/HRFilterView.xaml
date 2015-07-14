@@ -25,6 +25,6 @@
 			</TabItem>
 		</TabControl>
 		<Views:OrganisationsFilterView Grid.Row="0" Visibility="{Binding ShowEmployeeFilter, Converter={StaticResource InversedBoolToVisibilityConverter}}"/>
-		<CheckBox Grid.Row="1" Margin="5" Content="Отображать архивные сведения" IsChecked="{Binding IsWithDeleted}" VerticalAlignment="Center" VerticalContentAlignment="Center" Foreground="White" />
+		<CheckBox Grid.Row="1" Margin="5" Content="Отображать архивные сведения" IsChecked="{Binding IsWithDeleted}" VerticalAlignment="Center" VerticalContentAlignment="Center" Foreground="{DynamicResource ForegroundColor_0}" />
 	</Grid>
 </UserControl>

@@ -71,6 +71,7 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Converters\BytesToStringConverter.cs" />
     <Compile Include="Converters\DescriptorNoToStringConverter.cs" />
+    <Compile Include="Models\ImitatorSchedule.cs" />
     <Compile Include="Models\ImitatorUser.cs" />
     <Compile Include="Models\ImitatorSerializedCollection.cs" />
     <Compile Include="Processor\NetProcessor.cs" />
@@ -80,6 +81,8 @@
     <Compile Include="Processor\ConfigurationCashHelper.cs" />
     <Compile Include="Models\Regime.cs" />
     <Compile Include="Models\TurningState.cs" />
+    <Compile Include="Processor\SchedulesProcessor.cs" />
+    <Compile Include="Processor\UsersProcessor.cs" />
     <Compile Include="ViewModels\CardReaderViewModel.cs" />
     <Compile Include="ViewModels\DescriptorViewModel.Fire.cs" />
     <Compile Include="ViewModels\DescriptorViewModel.States.cs" />
@@ -106,6 +109,7 @@
     <Compile Include="ViewModels\DescriptorViewModel.Commands.cs" />
     <Compile Include="ViewModels\DescriptorViewModel.Initialize.cs" />
     <Compile Include="ViewModels\DescriptorViewModel.Properties.cs" />
+    <Compile Include="ViewModels\SchedulesViewModel.cs" />
     <Compile Include="ViewModels\UsersViewModel.cs" />
     <Compile Include="Views\CardReaderView.xaml.cs">
       <DependentUpon>CardReaderView.xaml</DependentUpon>
@@ -133,6 +137,9 @@
     </Compile>
     <Compile Include="Views\MeasureView.xaml.cs">
       <DependentUpon>MeasureView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SchedulesView.xaml.cs">
+      <DependentUpon>SchedulesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UsersView.xaml.cs">
       <DependentUpon>UsersView.xaml</DependentUpon>
@@ -180,6 +187,10 @@
     <Page Include="Views\MeasureView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SchedulesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\UsersView.xaml">
       <SubType>Designer</SubType>

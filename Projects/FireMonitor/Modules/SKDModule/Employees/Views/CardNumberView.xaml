@@ -3,7 +3,7 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 MinWidth="300" MinHeight="100">
 	<StackPanel>
-		<TextBlock Text="Приложите карту к USB-считывателю карт" TextWrapping="Wrap" Foreground="White" Margin="2" />
+		<TextBlock Text="Приложите карту к USB-считывателю карт" TextWrapping="Wrap" Foreground="{DynamicResource ForegroundColor_0}" Margin="2" />
 		<TextBox Text="{Binding Number}" Margin="2" />
 	</StackPanel>
 </UserControl>

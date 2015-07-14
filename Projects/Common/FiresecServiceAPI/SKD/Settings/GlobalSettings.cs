@@ -25,9 +25,10 @@ namespace FiresecAPI
 			Server_EnableRemoteConnections = false;
 
 			UseHasp = false;
-			DBServerName = "SQLEXPRESS";
-			CreateNewDBOnOversize = true;
-
+			DbConnectionString = @"Data Source=.\sqlexpress;Initial Catalog=Rubezh;Integrated Security=True;Language='English'";
+			//DbConnectionString = @"Server=localhost;Database=Rubezh;User Id=asd;Password=1;";
+			DbType = FiresecAPI.DbType.MsSql;
+			
 			ModuleItems = new List<string>();
 
 			Monitor_F1_Enabled = false;
@@ -81,10 +82,10 @@ namespace FiresecAPI
 		public bool Server_EnableRemoteConnections { get; set; }
 
 		[DataMember]
-		public string DBServerName { get; set; }
+		public string DbConnectionString { get; set; }
 
 		[DataMember]
-		public bool CreateNewDBOnOversize { get; set; }
+		public DbType DbType { get; set; }
 
 		[DataMember]
 		public List<string> ModuleItems { get; set; }

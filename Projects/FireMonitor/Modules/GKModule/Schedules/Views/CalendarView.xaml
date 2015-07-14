@@ -9,7 +9,7 @@
 		</Grid.RowDefinitions>
 		<StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
 			<ToolBarButton Command="{Binding PreviousYearCommand}" ImageSource="left"  />
-			<Label Content="{Binding Year}" FontSize="16" Foreground="{DynamicResource ForegroundColorLight}" VerticalAlignment="Center" />
+			<Label Content="{Binding Year}" FontSize="16" Foreground="{DynamicResource ForegroundColor_0}" VerticalAlignment="Center" />
 			<ToolBarButton Command="{Binding NextYearCommand}" ImageSource="right"  />
 		</StackPanel>
 		<ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">

@@ -10,6 +10,7 @@ namespace GKImitator.Processor
 		{
 			ImitatorJournalItems = new List<ImitatorJournalItem>();
 			ImitatorUsers = new List<ImitatorUser>();
+			ImitatorSchedules = new List<ImitatorSchedule>();
 		}
 
 		[DataMember]
@@ -17,5 +18,8 @@ namespace GKImitator.Processor
 
 		[DataMember]
 		public List<ImitatorUser> ImitatorUsers { get; set; }
+
+		[DataMember]
+		public List<ImitatorSchedule> ImitatorSchedules { get; set; }
 	}
 }

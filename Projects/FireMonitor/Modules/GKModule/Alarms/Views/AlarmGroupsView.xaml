@@ -20,7 +20,7 @@
 				Width="70" Height="70" Margin="5 2" FontSize="15" GlowColor="Transparent" IsGlowing="{Binding IsCanReset}"
 				MouseDown="Button_MouseDown">
 				<StackPanel>
-					<TextBlock Text="СБРОС" HorizontalAlignment="Center" Margin="0 3" Foreground="White" FontWeight="Bold" VerticalAlignment="Top" />
+					<TextBlock Text="СБРОС" HorizontalAlignment="Center" Margin="0 3" Foreground="{DynamicResource ForegroundColor_0}" FontWeight="Bold" VerticalAlignment="Top" />
 					<Grid Background="{DynamicResource ResetAlarm}" Width="32" />
 				</StackPanel>
 			</Controls:AlarmButton>

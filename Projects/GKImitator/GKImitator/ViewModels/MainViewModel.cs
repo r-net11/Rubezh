@@ -21,6 +21,7 @@ namespace GKImitator.ViewModels
 			Title = "Имитатор ГК";
 			Current = this;
 			ShowUsersCommand = new RelayCommand(OnShowUsers);
+			ShowSchedulesCommand = new RelayCommand(OnShowSchedules);
 
 			ConfigurationCashHelper.Update();
 			InitializeDescriptors();
@@ -118,10 +119,10 @@ namespace GKImitator.ViewModels
 
 			foreach (var descriptorViewModel in Descriptors)
 			{
-				hasAttention = hasAttention || descriptorViewModel.StateBits.Any(x => x.StateBit == GKStateBit.Attention && x.IsActive);
-				hasFire1 = hasFire1 || descriptorViewModel.StateBits.Any(x => x.StateBit == GKStateBit.Fire1 && x.IsActive);
-				hasFire2 = hasFire2 || descriptorViewModel.StateBits.Any(x => x.StateBit == GKStateBit.Fire2 && x.IsActive);
-				hasAutomaticOff = hasAutomaticOff || descriptorViewModel.StateBits.Any(x => x.StateBit == GKStateBit.Norm && !x.IsActive);
+				hasAttention = hasAttention || descriptorViewModel.GetStateBit(GKStateBit.Attention);
+				hasFire1 = hasFire1 || descriptorViewModel.GetStateBit(GKStateBit.Fire1);
+				hasFire2 = hasFire2 || descriptorViewModel.GetStateBit(GKStateBit.Fire2);
+				hasAutomaticOff = hasAutomaticOff || !descriptorViewModel.GetStateBit(GKStateBit.Norm);
 			}
 
 			if (HasFire2 != hasFire2)
@@ -129,9 +130,7 @@ namespace GKImitator.ViewModels
 				var descriptorViewModel = Descriptors.FirstOrDefault(x => x.GKBaseDescriptor.GKBase is GKDevice && (x.GKBaseDescriptor.GKBase as GKDevice).ShortName == "Индикатор Пожар 2");
 				if (descriptorViewModel != null)
 				{
-					var staeBitViewModel = descriptorViewModel.StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.On);
-					if (staeBitViewModel != null)
-						staeBitViewModel.IsActive = hasFire2;
+					 descriptorViewModel.SetStateBit(GKStateBit.On, hasFire2);
 				}
 			}
 
@@ -146,6 +145,13 @@ namespace GKImitator.ViewModels
 		{
 			var usersViewModel = new UsersViewModel();
 			DialogService.ShowModalWindow(usersViewModel);
+		}
+
+		public RelayCommand ShowSchedulesCommand { get; private set; }
+		void OnShowSchedules()
+		{
+			var schedulesViewModel = new SchedulesViewModel();
+			DialogService.ShowModalWindow(schedulesViewModel);
 		}
 	}
 }

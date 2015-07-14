@@ -12,6 +12,7 @@
 				<Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
 					<Setter Property="Width" Value="NaN" />
 					<Setter Property="VerticalAlignment" Value="Center" />
+					<Setter Property="Foreground" Value="{DynamicResource ForegroundColor_0}"/>
 				</Style>
 				<Style BasedOn="{StaticResource {x:Type extToolkit:IntegerUpDown}}" TargetType="{x:Type extToolkit:IntegerUpDown}">
 					<Setter Property="Width" Value="NaN" />

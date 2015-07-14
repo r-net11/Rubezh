@@ -25,7 +25,7 @@
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
 								<Image Source="{Binding ., Converter={StaticResource XStateClassToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
-								<TextBlock Text="{Binding ., Converter={StaticResource XGuardZoneStateClassToStringConverter}}" VerticalAlignment="Center" Foreground="White" Margin="5, 1, 1, 1" />
+								<TextBlock Text="{Binding ., Converter={StaticResource XGuardZoneStateClassToStringConverter}}" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColor_0}" Margin="5, 1, 1, 1" />
 							</StackPanel>
 						</DataTemplate>
 					</ItemsControl.ItemTemplate>
@@ -50,8 +50,8 @@
 					</Grid.RowDefinitions>
 					<StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="0 0 0 5">
 						<Image Width="16" Source="{Binding ControlRegime, Converter={StaticResource DeviceControlRegimeToIconConverter}}" Margin="2" />
-						<TextBlock Text="Режим" HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" Margin="2"  Foreground="White"/>
-						<TextBlock Text="{Binding ControlRegime, Converter={StaticResource DeviceControlRegimeToStringConverter}}" FontSize="16" Margin="2" Foreground="White" FontWeight="Bold" />
+						<TextBlock Text="Режим" HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" Margin="2"  Foreground="{DynamicResource ForegroundColor_0}"/>
+						<TextBlock Text="{Binding ControlRegime, Converter={StaticResource DeviceControlRegimeToStringConverter}}" FontSize="16" Margin="2" Foreground="{DynamicResource ForegroundColor_0}" FontWeight="Bold" />
 					</StackPanel>
 					<Grid Grid.Row="1" Background="White">
 						<Grid.ColumnDefinitions>

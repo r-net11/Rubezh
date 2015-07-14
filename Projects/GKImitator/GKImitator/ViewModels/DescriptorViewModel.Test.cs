@@ -27,7 +27,7 @@ namespace GKImitator.ViewModels
 		public RelayCommand TestButtonCommand { get; private set; }
 		void OnTestButton()
 		{
-			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Test).IsActive = true;
+			SetStateBit(GKStateBit.Test, true);
 			var journalItem = new ImitatorJournalItem(2, 6, 1, 1);
 			AddJournalItem(journalItem);
 		}
@@ -35,7 +35,7 @@ namespace GKImitator.ViewModels
 		public RelayCommand TestLaserCommand { get; private set; }
 		void OnTestLaser()
 		{
-			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Test).IsActive = true;
+			SetStateBit(GKStateBit.Test, true);
 			var journalItem = new ImitatorJournalItem(2, 6, 2, 1);
 			AddJournalItem(journalItem);
 		}
@@ -43,7 +43,7 @@ namespace GKImitator.ViewModels
 		public RelayCommand ResetTestCommand { get; private set; }
 		void OnResetTest()
 		{
-			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Test).IsActive = false;
+			SetStateBit(GKStateBit.Test, false);
 			var journalItem = new ImitatorJournalItem(2, 6, 0, 0);
 			AddJournalItem(journalItem);
 		}

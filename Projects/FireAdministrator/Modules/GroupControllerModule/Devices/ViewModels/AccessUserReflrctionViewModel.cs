@@ -18,31 +18,33 @@ namespace GKModule.ViewModels
 		{
 			Device = device;
 			Title = "Права доступа для отражения";
-			MirrorUsers = new ObservableCollection <MirrorUser>();
-			MirrorUsers.Add(new MirrorUser() { Name = "eddddd", DateEndAccess = DateTime.Now.AddYears(1), Type = GKCardType.Manufactor });
-			MirrorUsers.Add(new MirrorUser() { Name = "eddddd", DateEndAccess = DateTime.Now.AddYears(1), Type = GKCardType.Manufactor });
-			SelectedUser = MirrorUsers.FirstOrDefault();
+			MirrorUserNewModels = new ObservableCollection<MirrorUserNewModel>();
+			foreach (var mirrorUser in device.GKReflectionItem.MirrorUsers)
+			{
+				var mirrorUserNewModel = new MirrorUserNewModel(mirrorUser);
+				MirrorUserNewModels.Add(mirrorUserNewModel);
+			}
+			SelectedUser = MirrorUserNewModels.FirstOrDefault();
 
 			AddCommand = new RelayCommand(Add);
 			DeleteCommand = new RelayCommand(Delete);
 			EditCommand = new RelayCommand(Edit);
-
 		}
 
 		GKDevice Device { get; set; }
-		private ObservableCollection <MirrorUser> _mirrorUsers;
-		public ObservableCollection <MirrorUser> MirrorUsers
+		private ObservableCollection<MirrorUserNewModel> _mirrorUserNewModel;
+		public ObservableCollection<MirrorUserNewModel> MirrorUserNewModels
 		{
-			get { return _mirrorUsers; }
+			get { return _mirrorUserNewModel; }
 			private set
 			{
-				_mirrorUsers = value;
-				OnPropertyChanged(() => MirrorUsers);
+				_mirrorUserNewModel = value;
+				OnPropertyChanged(() => MirrorUserNewModels);
 			}
 		}
 
-		private MirrorUser _selectedUser;
-		public MirrorUser SelectedUser
+		private MirrorUserNewModel _selectedUser;
+		public MirrorUserNewModel SelectedUser
 		{
 			get { return _selectedUser; }
 			set
@@ -54,34 +56,46 @@ namespace GKModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void Add()
 		{
-			var accessDetailsUserReflrctionViewModel = new AccessDetailsUserReflrctionViewModel();
-			DialogService.ShowModalWindow(accessDetailsUserReflrctionViewModel);
+			var accessDetailsUserReflrctionViewModel = new AccessDetailsUserReflrctionViewModel(Device.GKReflectionItem.MirrorUsers);
+			if (DialogService.ShowModalWindow(accessDetailsUserReflrctionViewModel))
+			{
+				var mirrorUser = accessDetailsUserReflrctionViewModel.MirrorUser;
+				MirrorUserNewModels.Add(new MirrorUserNewModel(mirrorUser));
+				SelectedUser = MirrorUserNewModels.FirstOrDefault();
+				Device.GKReflectionItem.MirrorUsers.Add(mirrorUser);
+
+			}
 		}
 
 		public RelayCommand DeleteCommand { get; private set; }
 		void Delete()
 		{
-			var index = MirrorUsers.IndexOf(SelectedUser);
-			MirrorUsers.Remove(SelectedUser);
-			index = Math.Min(index, MirrorUsers.Count - 1);
+			var index = MirrorUserNewModels.IndexOf(SelectedUser);
+			MirrorUserNewModels.Remove(SelectedUser);
+			index = Math.Min(index, MirrorUserNewModels.Count - 1);
 			if (index > -1)
-				SelectedUser = MirrorUsers[index];
+				SelectedUser = MirrorUserNewModels[index];
 			ServiceFactory.SaveService.GKChanged= true;
 		}
 
 		public RelayCommand EditCommand { get; private set; }
 		void Edit()
 		{
-			var accessDetailsUserReflrctionViewModel = new AccessDetailsUserReflrctionViewModel(SelectedUser);
-			if (DialogService.ShowModalWindow(accessDetailsUserReflrctionViewModel))
-			{			
-						
+			if (SelectedUser != null)
+			{
+				var accessDetailsUserReflrctionViewModel = new AccessDetailsUserReflrctionViewModel(Device.GKReflectionItem.MirrorUsers,SelectedUser.MirrorUser);
+				if (DialogService.ShowModalWindow(accessDetailsUserReflrctionViewModel))
+				{
+					var mirrorUser = accessDetailsUserReflrctionViewModel.MirrorUser;
+					SelectedUser.Update(mirrorUser);
+					Device.GKReflectionItem.MirrorUsers = new List<MirrorUser>(MirrorUserNewModels.Select(x => x.MirrorUser));
+				}
 			}
 		}
 		
 		protected override bool Save()
 		{
-			Device.GKReflectionItem.MirrorUsers = new List<MirrorUser>(MirrorUsers);
+			Device.GKReflectionItem.MirrorUsers = new List<MirrorUser>(MirrorUserNewModels.Select(x=>x.MirrorUser));
 			return base.Save();
 		}
 	}

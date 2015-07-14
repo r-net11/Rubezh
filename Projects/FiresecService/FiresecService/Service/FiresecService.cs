@@ -148,7 +148,10 @@ namespace FiresecService.Service
 
 		public OperationResult ResetDB()
 		{
-			return PatchManager.ResetDB();
+			using (var dbService = new SKDDriver.DataClasses.DbService())
+			{
+				return dbService.ResetDB();
+			}
 		}
 	}
 }

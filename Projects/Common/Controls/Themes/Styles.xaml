@@ -314,6 +314,9 @@
 		<ResourceDictionary Source="../XamlImages/BSave.xaml" />
 		<ResourceDictionary Source="../XamlImages/BSearch.xaml" />
 		<ResourceDictionary Source="../XamlImages/BSettings.xaml" />
+		<ResourceDictionary Source="../XamlImages/BReadDeviceUsers.xaml" />
+		<ResourceDictionary Source="../XamlImages/BUpdateDeviceUsers.xaml" />
+		<ResourceDictionary Source="../XamlImages/BUpdateAllSchedules.xaml" />
 		<ResourceDictionary Source="../XamlImages/bshapes-align-hori-center.xaml" />
 		<ResourceDictionary Source="../XamlImages/bshapes-align-hori-left.xaml" />
 		<ResourceDictionary Source="../XamlImages/bshapes-align-hori-right.xaml" />

@@ -12,7 +12,7 @@
 		</Grid.ColumnDefinitions>
 		<StackPanel Grid.Column="0">
 			<StackPanel Orientation="Horizontal">
-				<TextBlock Text="Тип объекта" />
+				<TextBlock Style="{DynamicResource LabelTextBlock}" Text="Тип объекта" />
 				<ComboBox Margin="2" ItemsSource="{Binding ObjectTypes}" SelectedItem="{Binding ObjectType, UpdateSourceTrigger=PropertyChanged}">
 					<ComboBox.ItemTemplate>
 						<DataTemplate>
@@ -22,11 +22,11 @@
 				</ComboBox>
 			</StackPanel>
 			<StackPanel Orientation="Horizontal">
-				<TextBlock Text="Объект" />
+				<TextBlock Style="{DynamicResource LabelTextBlock}" Text="Объект" />
 				<Views:ArgumentView DataContext="{Binding ObjectArgument}" />
 			</StackPanel>
 			<StackPanel Orientation="Horizontal">
-				<TextBlock Text="Всем клиентам" />
+				<TextBlock Style="{DynamicResource LabelTextBlock}" Text="Всем клиентам" />
 				<CheckBox IsChecked="{Binding ForAllClients}" />
 			</StackPanel>
 		</StackPanel>

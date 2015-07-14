@@ -100,6 +100,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="SettingsModule.cs" />
+    <Compile Include="ViewModels\DbSettingsViewModel.cs" />
     <Compile Include="ViewModels\ErrorFilterViewModel.cs" />
     <Compile Include="ViewModels\ErrorsFilterViewModel.cs" />
     <Compile Include="ViewModels\ModulesViewModel.cs" />
@@ -107,6 +108,9 @@
     <Compile Include="ViewModels\ModuleViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\ThemeViewModel.cs" />
+    <Compile Include="Views\DbSettingsView.xaml.cs">
+      <DependentUpon>DbSettingsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ErrorsFilterView.xaml.cs">
       <DependentUpon>ErrorsFilterView.xaml</DependentUpon>
     </Compile>
@@ -155,6 +159,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="DataTemplates\Dictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DbSettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

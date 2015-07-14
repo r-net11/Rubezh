@@ -16,7 +16,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
-			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <DataGrid Grid.Row="0" ItemsSource="{Binding Descriptors}" SelectedItem="{Binding SelectedDescriptor}" Margin="2">
             <DataGrid.Columns>
@@ -119,8 +119,9 @@
 			</StackPanel>
 		</Grid>
 		
-		<StackPanel Grid.Row="2">
-			<Button Content="Пользователи" Command="{Binding ShowUsersCommand}" Margin="2" />
+		<StackPanel Grid.Row="2" Orientation="Horizontal">
+			<Button Content="Пользователи" Command="{Binding ShowUsersCommand}" Width="100" Margin="2" />
+			<Button Content="Графики" Command="{Binding ShowSchedulesCommand}" Width="100" Margin="2" />
 		</StackPanel>
     </Grid>
 </Window>

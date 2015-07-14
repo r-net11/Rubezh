@@ -7,11 +7,11 @@
 	</UserControl.Resources>
 	<StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<TextBlock Text="Результат" />
+			<TextBlock Style="{DynamicResource LabelTextBlock}" Text="Результат" />
 			<Views:ArgumentView DataContext="{Binding ResultArgument}" />
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<TextBlock Text="Максимум" />
+			<TextBlock Style="{DynamicResource LabelTextBlock}" Text="Максимум" />
 			<Views:ArgumentView DataContext="{Binding MaxValueArgument}" />
 		</StackPanel>
 	</StackPanel>

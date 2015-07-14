@@ -74,12 +74,8 @@ namespace GKImitator.ViewModels
 					case FormulaOperationType.GETBIT:
 						if (descriptorViewModel != null)
 						{
-							var stateBitViewModel = descriptorViewModel.StateBits.FirstOrDefault(x => x.StateBit == stateBit);
-							if (stateBitViewModel != null)
-							{
-								var bitValue = stateBitViewModel.IsActive ? 1 : 0;
-								stack.Add(bitValue);
-							}
+							var bitValue = GetStateBit(stateBit) ? 1 : 0;
+							stack.Add(bitValue);
 						}
 						break;
 
@@ -310,15 +306,7 @@ namespace GKImitator.ViewModels
 			{
 				if (stateBitVale.Key == GKStateBit.Attention || stateBitVale.Key == GKStateBit.Fire1 || stateBitVale.Key == GKStateBit.Fire2)
 				{
-					var stateBitViewModel = StateBits.FirstOrDefault(x => x.StateBit == stateBitVale.Key);
-					if (stateBitViewModel != null)
-					{
-						if (stateBitViewModel.IsActive != stateBitVale.Value)
-						{
-							stateBitViewModel.IsActive = stateBitVale.Value;
-							hasZoneBitsChanged = true;
-						}
-					}
+					hasZoneBitsChanged = SetStateBit(stateBitVale.Key, stateBitVale.Value);
 				}
 
 				if (stateBitVale.Value)

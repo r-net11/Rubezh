@@ -1,4 +1,10 @@
-﻿<UserControl x:Class="SettingsModule.Views.GloobalSettingsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MinWidth="800" MinHeight="500">
+﻿<UserControl x:Class="SettingsModule.Views.GloobalSettingsView" 
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+			 xmlns:Views="clr-namespace:SettingsModule.Views"
+			 MinWidth="800" 
+			 MinHeight="500"
+			 >
 	<UserControl.Resources>
 		<Style TargetType="TextBlock">
 			<Setter Property="Foreground" Value="{DynamicResource ForegroundColor_0}" />
@@ -21,47 +27,27 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
-				<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Скрывать дерево планов в ОЗ" />
+				<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Row="0" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Скрывать дерево планов в ОЗ" />
 				<CheckBox Grid.Row="0" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding Monitor_HidePlansTree}" />
 
-				<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="F1 - показать справку" />
+				<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Row="1" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="F1 - показать справку" />
 				<CheckBox Grid.Row="1" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding Monitor_F1_Enabled}" />
 
-				<TextBlock Grid.Row="2" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="F2 - снять все отключения" />
+				<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Row="2" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="F2 - снять все отключения" />
 				<CheckBox Grid.Row="2" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding Monitor_F2_Enabled}" />
 
-				<TextBlock Grid.Row="3" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="F3 - отключить все устройства и зоны в состоянии П1 или П2" />
+				<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Row="3" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="F3 - отключить все устройства и зоны в состоянии П1 или П2" />
 				<CheckBox Grid.Row="3" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding Monitor_F3_Enabled}" />
 
-				<TextBlock Grid.Row="4" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="F4 - сбросить все" />
+				<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Row="4" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="F4 - сбросить все" />
 				<CheckBox Grid.Row="4" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding Monitor_F4_Enabled}" />
 
-				<TextBlock Grid.Row="5" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Разрешить управление МПТ" />
+				<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Row="5" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Разрешить управление МПТ" />
 				<CheckBox Grid.Row="5" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding Monitor_IsControlMPT}" />
 			</Grid>
 		</TabItem>
 		<TabItem Header="Сервер">
-			<Grid Margin="2">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="Auto" />
-					<ColumnDefinition Width="*" />
-				</Grid.ColumnDefinitions>
-				<Grid.RowDefinitions>
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-				</Grid.RowDefinitions>
-				<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Разрешить удаленные соединения на сервере" />
-				<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Использовать HASP" />
-				<TextBlock Grid.Row="2" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Название экземпляра сервера БД" />
-				<TextBlock Grid.Row="3" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Создавать новую БД при переполнении" />
-
-				<CheckBox Grid.Row="0" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding Server_EnableRemoteConnections}" />
-				<CheckBox Grid.Row="1" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding UseHasp}" />
-				<TextBox Grid.Row="2" Grid.Column="1" Margin="2" Text="{Binding DBServerName, UpdateSourceTrigger=PropertyChanged}" />
-				<CheckBox Grid.Row="3" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding CreateNewDBOnOversize}" />
-			</Grid>
+			<Views:DbSettingsView DataContext="{Binding DbSettingsViewModel}" />
 		</TabItem>
 		<TabItem Header="Автозапуск">
 			<StackPanel Margin="2">

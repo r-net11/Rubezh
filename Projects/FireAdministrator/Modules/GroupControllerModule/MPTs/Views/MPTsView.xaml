@@ -112,7 +112,7 @@
 							</Grid>
 							<TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Visibility="{Binding IsCodeReader, Converter={StaticResource BoolToVisibilityConverter}}">
 								<Hyperlink Command="{Binding ShowPropertiesCommand}" Style="{StaticResource HyperlinkStyle2}">
-									<TextBlock Margin="2" Text="Свойства" Foreground="White" />
+									<TextBlock Margin="2" Text="Свойства" Foreground="{DynamicResource ForegroundColor_0}" />
 								</Hyperlink>
 							</TextBlock>
 							<Views:MPTDevicePropertiesView DataContext="{Binding MPTDevicePropertiesViewModel}" MinHeight="10" />

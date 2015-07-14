@@ -6,7 +6,7 @@
 		<ResourceDictionary Source="ProcedureResources.xaml" />
 	</UserControl.Resources>
 	<StackPanel Orientation="Horizontal" VerticalAlignment="Top">
-		<TextBlock Text="Код выхода" />
+		<TextBlock Style="{DynamicResource LabelStyle}" Text="Код выхода" />
 		<Views:ArgumentView DataContext="{Binding ExitCodeArgument}" />
 	</StackPanel>
 </UserControl>

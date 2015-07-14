@@ -24,8 +24,6 @@ namespace SKDDriver.DataClasses
 		
 		public OperationResult AddPassJournal(Guid employeeUID, Guid zoneUID)
 		{
-			InvalidatePassJournal();
-
 			try
 			{
 				var exitPassJournal = Context.PassJournals.FirstOrDefault(x => x.EmployeeUID == employeeUID && x.ExitTime == null);
@@ -108,8 +106,8 @@ namespace SKDDriver.DataClasses
 				if (passJournalItem != null)
 				{
 					Context.PassJournals.Remove(passJournalItem);
+					Context.SaveChanges();
 				}
-				Context.SaveChanges();
 				return new OperationResult();
 			}
 			catch (Exception e)
@@ -132,8 +130,8 @@ namespace SKDDriver.DataClasses
 						x.ExitTime != null &&
 						x.ExitTime.Value <= exitTime);
 					Context.PassJournals.RemoveRange(items);
+					Context.SaveChanges();
 				}
-				Context.SaveChanges();
 				return new OperationResult();
 			}
 			catch (Exception e)
@@ -374,30 +372,6 @@ namespace SKDDriver.DataClasses
 			return Context.PassJournals.ToList();
 		}
 
-		void InvalidatePassJournal()
-		{
-			//try
-			//{
-			//    var hasChanges = false;
-			//    var emptyExitPassJournals = Context.PassJournals.Where(x => x.ExitTime == null);
-			//    foreach (var emptyExitPassJournal in emptyExitPassJournals)
-			//    {
-			//        var enterTime = emptyExitPassJournal.EnterTime;
-			//        var nowTime = DateTime.Now;
-			//        if (nowTime.Date > enterTime.Date)
-			//        {
-			//            emptyExitPassJournal.EnterTime = new DateTime(enterTime.Year, enterTime.Month, enterTime.Day, 23, 59, 59);
-			//            hasChanges = true;
-			//        }
-			//    }
-			//    if (hasChanges)
-			//    {
-			//        Context.SubmitChanges();
-			//    }
-			//}
-			//catch { }
-		}
-
 		bool IsIntersection(PassJournal passJournalItem)
 		{
 			return Context.PassJournals.Any(x => x.UID != passJournalItem.UID &&
@@ -424,7 +398,7 @@ namespace SKDDriver.DataClasses
 			{
 				if (!Directory.Exists(filter.Path))
 					return new OperationResult("Папка не существует");
-                var tableItems = _context.PassJournals.Where(x => x.EnterTime >= DbServiceHelper.CheckDate(filter.MinDate) & x.EnterTime <= DbServiceHelper.CheckDate(filter.MaxDate));
+                var tableItems = _context.PassJournals.Where(x => x.EnterTime >= filter.MinDate.CheckDate() & x.EnterTime <= filter.MaxDate.CheckDate());
 				var items = tableItems.Select(x => Translate(x)).ToList();
 				var serializer = new XmlSerializer(typeof(List<ExportPassJournalItem>));
 				using (var fileStream = File.Open(NameXml, FileMode.Create))

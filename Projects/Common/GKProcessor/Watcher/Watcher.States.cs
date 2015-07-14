@@ -98,20 +98,13 @@ namespace GKProcessor
 		{
 			if (gkBase.InternalState == null)
 				return;
-
-			bool mustGetState = false;
-			switch (gkBase.InternalState.StateClass)
-			{
-				case XStateClass.TurningOn:
-					mustGetState = (DateTime.Now - gkBase.InternalState.LastDateTime).TotalMilliseconds > 500;
-					break;
-				case XStateClass.On:
-					mustGetState = gkBase.InternalState.ZeroHoldDelayCount < 10 && (DateTime.Now - gkBase.InternalState.LastDateTime).TotalMilliseconds > 500;
-					break;
-				case XStateClass.TurningOff:
-					mustGetState = (DateTime.Now - gkBase.InternalState.LastDateTime).TotalMilliseconds > 500;
-					break;
-			}
+			var mustGetState = false;
+			if (gkBase.InternalState.StateClasses.Contains(XStateClass.TurningOn))
+				mustGetState = (DateTime.Now - gkBase.InternalState.LastDateTime).TotalMilliseconds > 500;
+			else if (gkBase.InternalState.StateClasses.Contains(XStateClass.On))
+				mustGetState = gkBase.InternalState.ZeroHoldDelayCount < 10 && (DateTime.Now - gkBase.InternalState.LastDateTime).TotalMilliseconds > 500;
+			else if (gkBase.InternalState.StateClasses.Contains(XStateClass.TurningOff))
+				mustGetState = (DateTime.Now - gkBase.InternalState.LastDateTime).TotalMilliseconds > 500;
 			if (mustGetState)
 			{
 				var onDelay = gkBase.InternalState.OnDelay;

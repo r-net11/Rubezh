@@ -66,7 +66,7 @@ namespace FiresecService.Report.Templates
 			}
 			if (!filter.Users.IsEmpty())
 				archiveFilter.Users = filter.Users;
-			var journalItemsResult = GetFilteredJournalItems(archiveFilter);
+			var journalItemsResult = dataProvider.DbService.JournalTranslator.GetFilteredJournalItems(archiveFilter);
 			if (journalItemsResult.Result != null)
 			{
 				foreach (var journalItem in journalItemsResult.Result)
@@ -232,35 +232,6 @@ namespace FiresecService.Report.Templates
 				}
 			}
 			return dataSet;
-		}
-
-		public OperationResult<List<JournalItem>> GetFilteredJournalItems(ArchiveFilter archiveFilter)
-		{
-			var ConnectionString = @"Data Source=.\" + GlobalSettingsHelper.GlobalSettings.DBServerName + ";Initial Catalog=Journal_" + "1" + ";Integrated Security=True;Language='English'";
-
-			try
-			{
-				var journalItems = new List<JournalItem>();
-				using (var dataContext = new SqlConnection(ConnectionString))
-				{
-					var query = BuildQuery(archiveFilter);
-					var sqlCommand = new SqlCommand(query, dataContext);
-					dataContext.Open();
-					var reader = sqlCommand.ExecuteReader();
-					while (reader.Read())
-					{
-						var journalItem = ReadOneJournalItem(reader);
-						journalItems.Add(journalItem);
-					}
-				}
-				journalItems.Reverse();
-				return new OperationResult<List<JournalItem>>(journalItems);
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "Report401.GetFilteredJournalItems");
-				return OperationResult<List<JournalItem>>.FromError(e.Message);
-			}
 		}
 
 		string BuildQuery(ArchiveFilter archiveFilter)

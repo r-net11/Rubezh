@@ -119,7 +119,7 @@
 		</TabControl>
 		<StackPanel Grid.Row="1"  Orientation="Horizontal" Visibility="{Binding IsChanged, Converter={StaticResource BoolToVisibilityConverter}}" >
             <Image Margin="2" Width="16" Source="/Controls;component/StateClassIcons/Attention.png" />
-            <TextBlock VerticalAlignment="Center" Foreground="White" FontWeight="Bold" Text="Данные о проходах были изменены. Обновите вкладку УРВ" />
+			<TextBlock VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColor_0}" FontWeight="Bold" Text="Данные о проходах были изменены. Обновите вкладку УРВ" />
         </StackPanel>
         <Border Grid.Row="2" CornerRadius="2" Background="White" Margin="2 5">
 			<StackPanel>

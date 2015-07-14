@@ -9,7 +9,7 @@
 				<RowDefinition />
 				<RowDefinition Height="40" />
 			</Grid.RowDefinitions>
-			<TextBlock Name="_textBlock" Grid.Row="0" FontFamily="Arial" Foreground="White" FontSize="23" Margin="11 11 0 0" />
+			<TextBlock Name="_textBlock" Grid.Row="0" FontFamily="Arial" Foreground="{DynamicResource ForegroundColor_0}" FontSize="23" Margin="11 11 0 0" />
 
 			<ItemsControl Grid.Row="1" VerticalAlignment="Center" Focusable="False" ItemsSource="{Binding ToolbarItems}">
 				<ItemsControl.ItemsPanel>

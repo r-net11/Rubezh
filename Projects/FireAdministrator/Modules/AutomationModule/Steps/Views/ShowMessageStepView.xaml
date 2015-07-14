@@ -13,7 +13,7 @@
 				</ResourceDictionary>
 			</StackPanel.Resources>
 			<StackPanel Orientation="Horizontal">
-				<TextBlock Text="Тип значений" />
+				<TextBlock Style="{DynamicResource LabelTextBlock}" Text="Тип значений" />
 				<ComboBox Margin="2" ItemsSource="{Binding ExplicitTypes}" SelectedItem="{Binding ExplicitType, UpdateSourceTrigger=PropertyChanged}">
 					<ComboBox.ItemTemplate>
 						<DataTemplate>
@@ -30,23 +30,23 @@
 				</ComboBox>
 			</StackPanel>
 			<StackPanel Orientation="Horizontal">
-				<TextBlock Text="Сообщение" />
+				<TextBlock Style="{DynamicResource LabelTextBlock}" Text="Сообщение" />
 				<Views:ArgumentView DataContext="{Binding MessageArgument}" />
 			</StackPanel>
 			<StackPanel Orientation="Horizontal">
-				<TextBlock Text="Всем клиентам" />
+				<TextBlock Style="{DynamicResource LabelTextBlock}" Text="Всем клиентам" />
 				<CheckBox IsChecked="{Binding ForAllClients}" />
 			</StackPanel>
 			<StackPanel Orientation="Horizontal">
-				<TextBlock Text="Подтверждение" />
+				<TextBlock Style="{DynamicResource LabelTextBlock}" Text="Подтверждение" />
 				<CheckBox IsChecked="{Binding WithConfirmation}" />
 			</StackPanel>
 			<StackPanel Orientation="Horizontal" Visibility="{Binding WithConfirmation, Converter={StaticResource InversedBoolToVisibilityConverter}}">
-				<TextBlock Text="Модальное окно" />
+				<TextBlock Style="{DynamicResource LabelTextBlock}" Text="Модальное окно" />
 				<CheckBox IsChecked="{Binding IsModalWindow}" />
 			</StackPanel>
 			<StackPanel Orientation="Horizontal" Visibility="{Binding WithConfirmation, Converter={StaticResource BoolToVisibilityConverter}}">
-				<TextBlock Text="Значение" />
+				<TextBlock Style="{DynamicResource LabelTextBlock}" Text="Значение" />
 				<Views:ArgumentView DataContext="{Binding ConfirmationValueArgument}" />
 			</StackPanel>
 		</StackPanel>

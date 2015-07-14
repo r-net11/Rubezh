@@ -7,15 +7,15 @@
 	</UserControl.Resources>
 	<StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<TextBlock Text="Индексатор" />
+			<TextBlock Style="{DynamicResource LabelStyle}" Text="Индексатор" />
 			<Views:ArgumentView DataContext="{Binding IndexerArgument}" />
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<TextBlock Text="Начальное" />
+			<TextBlock Style="{DynamicResource LabelStyle}" Text="Начальное" />
 			<Views:ArgumentView DataContext="{Binding InitialValueArgument}" />
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<TextBlock Text="Условие" />
+			<TextBlock Style="{DynamicResource LabelStyle}" Text="Условие" />
 			<ComboBox ItemsSource="{Binding ConditionTypes}" SelectedItem="{Binding SelectedConditionType, UpdateSourceTrigger=PropertyChanged}">
 				<ComboBox.ItemTemplate>
 					<DataTemplate>
@@ -25,11 +25,11 @@
 			</ComboBox>
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<TextBlock Text="Текущее" />
+			<TextBlock Style="{DynamicResource LabelStyle}" Text="Текущее" />
 			<Views:ArgumentView DataContext="{Binding ValueArgument}" />
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<TextBlock Text="Итератор" />
+			<TextBlock Style="{DynamicResource LabelStyle}" Text="Итератор" />
 			<Views:ArgumentView DataContext="{Binding IteratorArgument}" />
 		</StackPanel>
 	</StackPanel>

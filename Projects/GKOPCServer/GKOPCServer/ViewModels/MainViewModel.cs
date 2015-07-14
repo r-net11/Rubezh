@@ -12,7 +12,7 @@ namespace GKOPCServer.ViewModels
 		public MainViewModel()
 		{
 			Current = this;
-			Title = "OPC Сервер ГК ОПС FireSec";
+			Title = "OPC Сервер Рубеж Глобал";
 			RegisterCommand = new RelayCommand(OnRegister);
 		}
 

@@ -12,7 +12,7 @@
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
-				<TextBlock Grid.Row="0" Grid.Column="0" Text="Название" HorizontalAlignment="Right" />
+				<TextBlock Style="{DynamicResource LabelStyle}" Grid.Row="0" Grid.Column="0" Text="Название" HorizontalAlignment="Right" />
 				<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 			</Grid>
 		</TabItem>

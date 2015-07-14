@@ -50,7 +50,7 @@ namespace GKImitator.ViewModels
 		public RelayCommand EnterCommand { get; private set; }
 		void OnEnter()
 		{
-			DescriptorViewModel.StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Attention).IsActive = true;
+			DescriptorViewModel.SetStateBit(GKStateBit.Attention, true);
 			DescriptorViewModel.CurrentCardNo = CardNo;
 			var backgroundWorker = new BackgroundWorker();
 			backgroundWorker.DoWork += backgroundWorker_DoWork;
@@ -60,7 +60,7 @@ namespace GKImitator.ViewModels
 		void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
 		{
 			Thread.Sleep(TimeSpan.FromSeconds(3));
-			DescriptorViewModel.StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Attention).IsActive = false;
+			DescriptorViewModel.SetStateBit(GKStateBit.Attention, false);
 			DescriptorViewModel.CurrentCardNo = 0;
 		}
 	}
