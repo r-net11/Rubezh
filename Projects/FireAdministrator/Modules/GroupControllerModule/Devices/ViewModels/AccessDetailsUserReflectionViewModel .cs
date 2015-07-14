@@ -13,13 +13,13 @@ using System.Text.RegularExpressions;
 
 namespace GKModule.ViewModels
 {
-	class AccessDetailsUserReflrctionViewModel : SaveCancelDialogViewModel
+	class AccessDetailsUserReflectionViewModel : SaveCancelDialogViewModel
 	{
 		public MirrorUser MirrorUser { get; set; }
-		private List <MirrorUser> _mirrorUsers;
-		public AccessDetailsUserReflrctionViewModel(List <MirrorUser> mirrorUsers ,MirrorUser mirrorUser = null)
+		private ObservableCollection<MirrorUserNewModel> _mirrorUsers;
+		public AccessDetailsUserReflectionViewModel(ObservableCollection<MirrorUserNewModel> mirrorUsers ,MirrorUser mirrorUser = null)
 		{
-			_mirrorUsers = new List<MirrorUser>(mirrorUsers);
+			_mirrorUsers = new ObservableCollection<MirrorUserNewModel>(mirrorUsers);
 			if (mirrorUser == null)
 			{
 				Title = "Создание доступа для пользователя";
@@ -33,7 +33,6 @@ namespace GKModule.ViewModels
 				DateEndAccess = mirrorUser.DateEndAccess;
 				SelectedGKCardType = mirrorUser.Type;	
 				Title = string.Format("Редактирование пользователя: {0}", mirrorUser.Name);
-				_mirrorUsers.RemoveAll(x => x.Name == mirrorUser.Name && x.Password == x.Password);
 			}
 
 			GKCardTypes = new ObservableCollection<GKCardType>(Enum.GetValues(typeof(GKCardType)).OfType<GKCardType>());
@@ -73,7 +72,6 @@ namespace GKModule.ViewModels
 				dateEndAccess_ = value;
 				OnPropertyChanged(() => DateEndAccess);
 			}
-		
 		}
 
 		GKCardType _selectedGKCardType;
