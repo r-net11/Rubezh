@@ -27,33 +27,28 @@ namespace SKDDriver.Translators
 		{
 			try
 			{
-				var tableTimeTrackDocuments = tableItems.Where(x => x.EmployeeUID == employeeUID &&
+				var tableTimeTrackDocuments = tableItems
+					.Where(x => x.EmployeeUID == employeeUID &&
 					((x.StartDateTime.Date >= startDateTime && x.StartDateTime.Date <= endDateTime) ||
 					 (x.EndDateTime.Date >= startDateTime && x.EndDateTime.Date <= endDateTime) ||
 					 (startDateTime >= x.StartDateTime.Date && startDateTime <= x.EndDateTime.Date) ||
 					 (endDateTime >= x.StartDateTime.Date && endDateTime <= x.EndDateTime.Date)));
-				if (tableTimeTrackDocuments != null)
-				{
-					var timeTrackDocuments = new List<TimeTrackDocument>();
-					foreach (var tableTimeTrackDocument in tableTimeTrackDocuments)
+
+				var timeTrackDocuments = tableTimeTrackDocuments
+					.Select(tableTimeTrackDocument => new TimeTrackDocument
 					{
-						var timeTrackDocument = new TimeTrackDocument()
-						{
-							UID = tableTimeTrackDocument.UID,
-							EmployeeUID = tableTimeTrackDocument.EmployeeUID,
-							StartDateTime = tableTimeTrackDocument.StartDateTime,
-							EndDateTime = tableTimeTrackDocument.EndDateTime,
-							DocumentCode = tableTimeTrackDocument.DocumentCode,
-							Comment = tableTimeTrackDocument.Comment,
-							DocumentDateTime = tableTimeTrackDocument.DocumentDateTime,
-							DocumentNumber = tableTimeTrackDocument.DocumentNumber,
-							FileName = tableTimeTrackDocument.FileName
-						};
-						timeTrackDocuments.Add(timeTrackDocument);
-					}
-					return new OperationResult<List<TimeTrackDocument>>(timeTrackDocuments);
-				}
-				return new OperationResult<List<TimeTrackDocument>>(new List<TimeTrackDocument>());
+						UID = tableTimeTrackDocument.UID,
+						EmployeeUID = tableTimeTrackDocument.EmployeeUID,
+						StartDateTime = tableTimeTrackDocument.StartDateTime,
+						EndDateTime = tableTimeTrackDocument.EndDateTime,
+						DocumentCode = tableTimeTrackDocument.DocumentCode,
+						Comment = tableTimeTrackDocument.Comment,
+						DocumentDateTime = tableTimeTrackDocument.DocumentDateTime,
+						DocumentNumber = tableTimeTrackDocument.DocumentNumber,
+						FileName = tableTimeTrackDocument.FileName
+					})
+					.ToList();
+				return new OperationResult<List<TimeTrackDocument>>(timeTrackDocuments);
 			}
 			catch (Exception e)
 			{

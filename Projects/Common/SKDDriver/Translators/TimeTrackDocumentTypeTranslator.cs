@@ -27,26 +27,20 @@ namespace SKDDriver.Translators
 		{
 			try
 			{
-				var tableTimeTrackDocumentTypes = tableItems.Where(x => x.OrganisationUID == organisationUID);
-				if (tableTimeTrackDocumentTypes != null)
-				{
-					var timeTrackDocumentTypes = new List<TimeTrackDocumentType>();
-					foreach (var tableTimeTrackDocumentType in tableTimeTrackDocumentTypes)
+				var timeTrackDocumentTypes = tableItems
+					.Where(x => x.OrganisationUID == organisationUID)
+					.Select(tableTimeTrackDocumentType => new TimeTrackDocumentType
 					{
-						var timeTrackDocumentType = new TimeTrackDocumentType()
-						{
-							UID = tableTimeTrackDocumentType.UID,
-							OrganisationUID = tableTimeTrackDocumentType.OrganisationUID,
-							Name = tableTimeTrackDocumentType.Name,
-							ShortName = tableTimeTrackDocumentType.ShortName,
-							Code = tableTimeTrackDocumentType.DocumentCode,
-							DocumentType = (DocumentType)tableTimeTrackDocumentType.DocumentType,
-						};
-						timeTrackDocumentTypes.Add(timeTrackDocumentType);
-					}
-					return new OperationResult<List<TimeTrackDocumentType>>(timeTrackDocumentTypes);
-				}
-				return new OperationResult<List<TimeTrackDocumentType>>(new List<TimeTrackDocumentType>());
+						UID = tableTimeTrackDocumentType.UID,
+						OrganisationUID = tableTimeTrackDocumentType.OrganisationUID,
+						Name = tableTimeTrackDocumentType.Name,
+						ShortName = tableTimeTrackDocumentType.ShortName,
+						Code = tableTimeTrackDocumentType.DocumentCode,
+						DocumentType = (DocumentType) tableTimeTrackDocumentType.DocumentType,
+					})
+					.ToList();
+
+				return new OperationResult<List<TimeTrackDocumentType>>(timeTrackDocumentTypes);
 			}
 			catch (Exception e)
 			{

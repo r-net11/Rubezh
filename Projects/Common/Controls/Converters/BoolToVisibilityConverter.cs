@@ -8,7 +8,10 @@ namespace Controls.Converters
 	{
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
-			return (bool)value ? Visibility.Visible : (parameter != null && parameter.ToString() == "True") ? Visibility.Hidden : Visibility.Collapsed;
+			var visible = (bool?)value;
+			if (visible.HasValue)
+				return (visible.Value ? Visibility.Visible : Visibility.Collapsed);
+			return Visibility.Hidden;
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

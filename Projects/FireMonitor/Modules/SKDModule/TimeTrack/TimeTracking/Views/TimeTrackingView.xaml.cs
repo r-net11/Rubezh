@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
 using FiresecAPI.SKD;
+using Infrastructure.Common.Services;
 using SKDModule.ViewModels;
 
 namespace SKDModule.Views
@@ -57,6 +58,7 @@ namespace SKDModule.Views
 				grid.Columns.Add(column);
 				date = date.AddDays(1);
 			}
+
 		}
 
 		private TextBlock CreateColumnHeader(DateTime date, Holiday holiday)

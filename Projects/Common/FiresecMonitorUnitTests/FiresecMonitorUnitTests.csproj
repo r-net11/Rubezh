@@ -105,7 +105,6 @@
     <Compile Include="FireMonitorTests\AppDataFolderHelperTests.cs" />
     <Compile Include="FireMonitorTests\DayTimeTrackTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StressTests\TimeTrackCalculateTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\FireMonitor\Modules\SKDModule\SKDModule.csproj">

@@ -176,19 +176,24 @@ namespace SKDDriver.Translators
 
 		public void InsertPassJournalTestData()
 		{
-			IEnumerable<ShortEmployee> employees = null;
+			IEnumerable<ShortEmployee> employees;
 			using (var skdDatabaseService = new SKDDatabaseService())
 			{
 				employees = skdDatabaseService.EmployeeTranslator.GetList(new EmployeeFilter()).Result;
 			}
-		//	var zoneUID = SKDManager.Zones.FirstOrDefault().UID;
+
+			//Guid zoneUID;
+			//using (var skdDatabaseService = new SKDDatabaseService())
+			//{
+			//	zoneUID = skdDatabaseService.ScheduleZoneTranslator.Result.FirstOrDefault().ZoneUID;
+			//}
+
 
 			//foreach (var passJournal in Context.PassJournals)
 			//{
 			//	Context.PassJournals.DeleteOnSubmit(passJournal);
 			//}
 
-			var random = new Random();
 			foreach (var employee in employees)
 			{
 				for (int day = 0; day < 30; day++)
@@ -214,7 +219,7 @@ namespace SKDDriver.Translators
 						{
 							UID = Guid.NewGuid(),
 							EmployeeUID = employee.UID,
-							//ZoneUID = zoneUID,
+				//			ZoneUID = zoneUID,
 							ZoneUID = Guid.Parse("23701231-F0EA-411C-8C07-5EB175F7A964"),
 							EnterTime = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, hours, 5, 5),
 							ExitTime = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, (hours + 2), 5, 5)
@@ -236,27 +241,25 @@ namespace SKDDriver.Translators
 
 		public DayTimeTrack GetRealTimeTrack(DataAccess.Employee employee, DataAccess.Schedule schedule, DataAccess.ScheduleScheme scheduleScheme, IEnumerable<DataAccess.ScheduleZone> scheduleZones, DateTime date, IEnumerable<DataAccess.PassJournal> passJournals)
 		{
-			var dayTimeTrack = new DayTimeTrack();
-			dayTimeTrack.Date = date;
+			var dayTimeTrack = new DayTimeTrack { Date = date };
 
-			foreach (var passJournal in passJournals.Where(x => x.EmployeeUID == employee.UID && x.EnterTime != null && x.EnterTime.Date == date.Date).ToList())
+			foreach (var passJournal in passJournals.Where(x => x.EmployeeUID == employee.UID && x.EnterTime.Date == date.Date).ToList())
 			{
 				var scheduleZone = scheduleZones.FirstOrDefault(x => x.ZoneUID == passJournal.ZoneUID);
-				if (scheduleZone != null)
+
+				if (scheduleZone == null || !passJournal.ExitTime.HasValue) continue;
+
+				var timeTrackPart = new TimeTrackPart
 				{
-					if (passJournal.ExitTime.HasValue)
-					{
-						var timeTrackPart = new TimeTrackPart()
-						{
-							StartTime = passJournal.EnterTime.TimeOfDay,
-							EndTime = passJournal.ExitTime.Value.TimeOfDay,
-							ZoneUID = passJournal.ZoneUID,
-							PassJournalUID = passJournal.UID
-						};
-						dayTimeTrack.RealTimeTrackParts.Add(timeTrackPart);
-					}
-				}
+					StartTime = passJournal.EnterTime.TimeOfDay,
+					EndTime = passJournal.ExitTime.Value.TimeOfDay,
+					ZoneUID = passJournal.ZoneUID,
+					PassJournalUID = passJournal.UID
+				};
+
+				dayTimeTrack.RealTimeTrackParts.Add(timeTrackPart);
 			}
+
 			dayTimeTrack.RealTimeTrackParts = dayTimeTrack.RealTimeTrackParts.OrderBy(x => x.StartTime.Ticks).ToList();
 
 			return dayTimeTrack;

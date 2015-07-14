@@ -1,4 +1,5 @@
-﻿using FiresecAPI;
+﻿using System.Diagnostics;
+using FiresecAPI;
 using FiresecAPI.SKD;
 using Infrastructure.Common;
 using System;
@@ -6,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
+using SKDDriver.DataAccess;
 
 namespace SKDDriver.Translators
 {
@@ -55,13 +57,13 @@ namespace SKDDriver.Translators
 
 		public OperationResult<TimeTrackResult> GetTimeTracks(EmployeeFilter filter, DateTime startDate, DateTime endDate)
 		{
+			var stopwatch = new Stopwatch();
 			InitializeData();
-			_PassJournalTranslator.InvalidatePassJournal();
+		//	_PassJournalTranslator.InvalidatePassJournal();
 
-			if (filter.OrganisationUIDs.IsNotNullOrEmpty())
-				Holidays = _Holidays.Where(x => x.Date >= startDate && x.Date <= endDate && filter.OrganisationUIDs.Contains(x.OrganisationUID.Value)).ToList();
-			else
-				Holidays = _Holidays.Where(x => x.Date >= startDate && x.Date <= endDate).ToList();
+			Holidays = filter.OrganisationUIDs.IsNotNullOrEmpty()
+				? _Holidays.Where(x => x.Date >= startDate && x.Date <= endDate && filter.OrganisationUIDs.Contains(x.OrganisationUID.Value)).ToList()
+				: _Holidays.Where(x => x.Date >= startDate && x.Date <= endDate).ToList();
 
 			try
 			{
@@ -72,22 +74,22 @@ namespace SKDDriver.Translators
 				var timeTrackResult = new TimeTrackResult();
 				foreach (var shortEmployee in operationResult.Result)
 				{
+					stopwatch.Restart();
 					var timeTrackEmployeeResult = GetEmployeeTimeTrack(shortEmployee, startDate, endDate);
+					stopwatch.Stop();
 					timeTrackEmployeeResult.ShortEmployee = shortEmployee;
 					if (timeTrackEmployeeResult.Error != null)
 					{
-						for (DateTime date = startDate; date <= endDate; date = date.AddDays(1))
+						for (var date = startDate; date <= endDate; date = date.AddDays(1))
 						{
-							var dayTimeTrack = new DayTimeTrack();
-							dayTimeTrack.Error = timeTrackEmployeeResult.Error;
-							dayTimeTrack.Date = date;
-							timeTrackEmployeeResult.DayTimeTracks.Add(dayTimeTrack);
+							timeTrackEmployeeResult.DayTimeTracks.Add(new DayTimeTrack { Error = timeTrackEmployeeResult.Error, Date = date });
 						}
 					}
 
 					var documentsOperationResult = DatabaseService.TimeTrackDocumentTranslator.Get(shortEmployee.UID, startDate, endDate, _TimeTrackDocuments);
 					if (!documentsOperationResult.HasError)
 					{
+						stopwatch.Restart();
 						var documents = documentsOperationResult.Result;
 						foreach (var document in documents)
 						{
@@ -105,10 +107,13 @@ namespace SKDDriver.Translators
 								timeTrackEmployeeResult.Documents.Add(document);
 							}
 						}
+						stopwatch.Stop();
+
+						stopwatch.Restart();
 
 						foreach (var document in timeTrackEmployeeResult.Documents)
 						{
-							for (DateTime date = document.StartDateTime; date < new DateTime(document.EndDateTime.Year, document.EndDateTime.Month, document.EndDateTime.Day).AddDays(1); date = date.AddDays(1))
+							for (var date = document.StartDateTime; date < new DateTime(document.EndDateTime.Year, document.EndDateTime.Month, document.EndDateTime.Day).AddDays(1); date = date.AddDays(1))
 							{
 								var dayTimeTracks = timeTrackEmployeeResult.DayTimeTracks.FirstOrDefault(x => x.Date.Date == date.Date);
 								if (dayTimeTracks != null)
@@ -117,6 +122,7 @@ namespace SKDDriver.Translators
 								}
 							}
 						}
+						stopwatch.Stop();
 					}
 
 					timeTrackResult.TimeTrackEmployeeResults.Add(timeTrackEmployeeResult);
@@ -131,16 +137,21 @@ namespace SKDDriver.Translators
 
 		public Stream GetTimeTracksStream(EmployeeFilter filter, DateTime startDate, DateTime endDate)
 		{
+			var watch = new Stopwatch();
+			watch.Start();
 			var timeTracksResult = GetTimeTracks(filter, startDate, endDate).Result;
+			watch.Stop();
 			var serializer = new DataContractSerializer(typeof(TimeTrackResult));
 			var folderName = AppDataFolderHelper.GetFolder("TempServer");
 			if (!Directory.Exists(folderName))
 				Directory.CreateDirectory(folderName);
 			var fileName = Path.Combine(folderName, "TimeTrackResult.xml");
+			watch.Restart();
 			using (var fileStream = File.Open(fileName, FileMode.Create))
 			{
 				serializer.WriteObject(fileStream, timeTracksResult);
 			}
+			watch.Stop();
 			return new FileStream(fileName, FileMode.Open, FileAccess.Read);
 		}
 
@@ -165,10 +176,9 @@ namespace SKDDriver.Translators
 			var scheduleZones = _ScheduleZones.Where(x => x.ScheduleUID == schedule.UID).ToList();
 			var nightSettings = DatabaseService.NightSettingsTranslator.GetByOrganisation(employee.OrganisationUID.Value, _NightSettings).Result;
 
-			var timeTrackEmployeeResult = new TimeTrackEmployeeResult();
-			timeTrackEmployeeResult.ScheduleName = schedule.Name;
+			var timeTrackEmployeeResult = new TimeTrackEmployeeResult { ScheduleName = schedule.Name };
 
-			for (DateTime date = startDate; date <= endDate; date = date.AddDays(1))
+			for (var date = startDate; date <= endDate; date = date.AddDays(1))
 			{
 				if (employee.ScheduleStartDate.Date > date.Date)
 				{
@@ -211,7 +221,7 @@ namespace SKDDriver.Translators
 		{
 			var scheduleSchemeType = (ScheduleSchemeType)scheduleScheme.Type;
 
-			int dayNo = -1;
+			var dayNo = -1;
 			switch (scheduleSchemeType)
 			{
 				case ScheduleSchemeType.Week:
@@ -228,9 +238,10 @@ namespace SKDDriver.Translators
 					break;
 
 				case ScheduleSchemeType.Month:
-					dayNo = (int)date.Day - 1;
+					dayNo = date.Day - 1;
 					break;
 			}
+
 			var day = days.FirstOrDefault(x => x.Number == dayNo);
 			if (day == null)
 				return new PlannedTimeTrackPart("Не найден день");
@@ -247,11 +258,10 @@ namespace SKDDriver.Translators
 
 			TimeTrackPart nightTimeTrackPart = null;
 			{
-				SKDDriver.DataAccess.ScheduleDay previousDay = null;
-				if (dayNo > 0)
-					previousDay = days.FirstOrDefault(x => x.Number == dayNo - 1);
-				else
-					previousDay = days.FirstOrDefault(x => x.Number == days.Count() - 1);
+				var previousDay = dayNo > 0
+					? days.FirstOrDefault(x => x.Number == dayNo - 1)
+					: days.FirstOrDefault(x => x.Number == days.Count() - 1);
+
 				if (previousDay != null)
 				{
 					if (previousDay.DayIntervalUID != null)
@@ -263,11 +273,13 @@ namespace SKDDriver.Translators
 							var nightInterval = previousIntervals.FirstOrDefault(x => x.EndTime > 60 * 60 * 24);
 							if (nightInterval != null)
 							{
-								nightTimeTrackPart = new TimeTrackPart();
-								nightTimeTrackPart.StartTime = new TimeSpan();
-								nightTimeTrackPart.EndTime = TimeSpan.FromSeconds(nightInterval.EndTime - 60 * 60 * 24);
-								nightTimeTrackPart.StartsInPreviousDay = true;
-								nightTimeTrackPart.DayName = previousDayInterval.Name;
+								nightTimeTrackPart = new TimeTrackPart
+								{
+									StartTime = new TimeSpan(),
+									EndTime = TimeSpan.FromSeconds(nightInterval.EndTime - 60*60*24),
+									StartsInPreviousDay = true,
+									DayName = previousDayInterval.Name
+								};
 							}
 						}
 					}
