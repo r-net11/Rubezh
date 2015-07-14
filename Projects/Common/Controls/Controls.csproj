@@ -964,7 +964,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="XamlImages\BReadDeviceSettings.xaml">
+    <Page Include="XamlImages\BReadDeviceUsers.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1080,7 +1080,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="XamlImages\BUpdateDeviceSettings.xaml">
+    <Page Include="XamlImages\BUpdateDeviceUsers.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

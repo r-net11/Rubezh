@@ -1,10 +1,12 @@
 ﻿using FiresecAPI;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -14,39 +16,10 @@ namespace SettingsModule.ViewModels
 	{
 		public DbSettingsViewModel()
 		{
-			Server_EnableRemoteConnections = GlobalSettingsHelper.GlobalSettings.Server_EnableRemoteConnections;
-			UseHasp = GlobalSettingsHelper.GlobalSettings.UseHasp;
 			DbConnectionString = GlobalSettingsHelper.GlobalSettings.DbConnectionString;
-			var dbTypes = Enum.GetValues(typeof(DbType));
-			DbTypes = new ObservableCollection<DbType>();
-			foreach (DbType dbType in dbTypes)
-			{
-				DbTypes.Add(dbType);
-			}
+			DbTypes = new ObservableCollection<DbType>(Enum.GetValues(typeof(DbType)) as IEnumerable<DbType>);
 			SelectedDbType = GlobalSettingsHelper.GlobalSettings.DbType;
 			GetConnectionParams();
-		}
-
-		bool _server_EnableRemoteConnections;
-		public bool Server_EnableRemoteConnections
-		{
-			get { return _server_EnableRemoteConnections; }
-			set
-			{
-				_server_EnableRemoteConnections = value;
-				OnPropertyChanged(() => Server_EnableRemoteConnections);
-			}
-		}
-
-		bool _useHasp;
-		public bool UseHasp
-		{
-			get { return _useHasp; }
-			set
-			{
-				_useHasp = value;
-				OnPropertyChanged(() => UseHasp);
-			}
 		}
 
 		string _dbConnectionString;
@@ -71,101 +44,121 @@ namespace SettingsModule.ViewModels
 				_dbType = value;
 				OnPropertyChanged(() => SelectedDbType);
 				OnPropertyChanged(() => IsMsSQL);
+				OnPropertyChanged(() => IsPostgres);
 			}
 		}
 		public bool IsMsSQL { get { return SelectedDbType == DbType.MsSql; } }
+		public bool IsPostgres { get { return SelectedDbType == DbType.Postgres; } }
 
-		bool _IsCreateConnectionString;
+		bool _isCreateConnectionString;
 		public bool IsCreateConnectionString
 		{
-			get { return _IsCreateConnectionString; }
+			get { return _isCreateConnectionString; }
 			set
 			{
-				_IsCreateConnectionString = value;
+				_isCreateConnectionString = value;
 				OnPropertyChanged(() => IsCreateConnectionString);
 				OnPropertyChanged(() => IsSetConnectionString);
+				OnPropertyChanged(() => IsCanSetLogin);
 			}
 		}
 		public bool IsSetConnectionString { get { return !IsCreateConnectionString; } }
 
-		string _IpAddress;
+		string _dataSource;
 		public string DataSource
 		{
-			get { return _IpAddress; }
+			get { return _dataSource; }
 			set
 			{
-				_IpAddress = value;
+				_dataSource = value;
 				OnPropertyChanged(() => DataSource);
 			}
 		}
 
-		string _InstanceName;
-		public string InstanceName
-		{
-			get { return _InstanceName; }
-			set
-			{
-				_InstanceName = value;
-				OnPropertyChanged(() => InstanceName);
-			}
-		}
-
-		bool _IsSQLAuthentication;
+		bool _isSQLAuthentication;
 		public bool IsSQLAuthentication
 		{
-			get { return _IsSQLAuthentication; }
+			get { return _isSQLAuthentication; }
 			set
 			{
-				_IsSQLAuthentication = value;
+				_isSQLAuthentication = value;
 				OnPropertyChanged(() => IsSQLAuthentication);
+				OnPropertyChanged(() => IsCanSetLogin);
 			}
 		}
+		public bool IsCanSetLogin { get { return IsSQLAuthentication && IsCreateConnectionString; } }
 
-		string _Login;
+		string _login;
 		public string Login
 		{
-			get { return _Login; }
+			get { return _login; }
 			set
 			{
-				_Login = value;
+				_login = value;
 				OnPropertyChanged(() => Login);
 			}
 		}
 
-		string _Password;
+		string _password;
 		public string Password
 		{
-			get { return _Password; }
+			get { return _password; }
 			set
 			{
-				_Password = value;
+				_password = value;
 				OnPropertyChanged(() => Password);
 			}
 		}
 
-		string _DbName;
+		string _dbName;
 		public string DbName
 		{
-			get { return _DbName; }
+			get { return _dbName; }
 			set
 			{
-				_DbName = value;
+				_dbName = value;
 				OnPropertyChanged(() => DbName);
+			}
+		}
+
+		string _server;
+		public string Server
+		{
+			get { return _server; }
+			set
+			{
+				_server = value;
+				OnPropertyChanged(() => Server);
+			}
+		}
+
+		int _port;
+		public int Port
+		{
+			get { return _port; }
+			set
+			{
+				_port = value;
+				OnPropertyChanged(() => Port);
 			}
 		}
 
 		public void Save()
 		{
-			GlobalSettingsHelper.GlobalSettings.DbConnectionString = CreateConnectionString();
-			GlobalSettingsHelper.GlobalSettings.Server_EnableRemoteConnections = Server_EnableRemoteConnections;
-			GlobalSettingsHelper.GlobalSettings.UseHasp = UseHasp;
 			GlobalSettingsHelper.GlobalSettings.DbType = SelectedDbType;
+			if (IsCreateConnectionString)
+			{
+				if (IsMsSQL)
+					GlobalSettingsHelper.GlobalSettings.DbConnectionString = CreateMsSQLConnectionString();
+				if (IsPostgres)
+					GlobalSettingsHelper.GlobalSettings.DbConnectionString = CreatePostgresConnectionString();
+			}
+			else
+				GlobalSettingsHelper.GlobalSettings.DbConnectionString = DbConnectionString;
 		}
 
-		string CreateConnectionString()
+		string CreateMsSQLConnectionString()
 		{
-			if (!IsCreateConnectionString)
-				return DbConnectionString;
 			var builder = new SqlConnectionStringBuilder();
 			builder.DataSource = DataSource;
 			if (IsSQLAuthentication)
@@ -173,7 +166,7 @@ namespace SettingsModule.ViewModels
 				builder.UserID = Login;
 				builder.Password = Password;
 				builder.IntegratedSecurity = false;
-				builder.InitialCatalog = _DbName;
+				builder.InitialCatalog = _dbName;
 			}
 			else
 			{
@@ -182,16 +175,49 @@ namespace SettingsModule.ViewModels
 			return builder.ConnectionString;
 		}
 
+		string CreatePostgresConnectionString()
+		{
+			var builder = new NpgsqlConnectionStringBuilder();
+			builder.Database = DbName;
+			builder.Host = Server;
+			builder.Port = Port;
+
+			if(IsSQLAuthentication)
+			{
+				builder.IntegratedSecurity = false;
+				builder.UserName = Login;
+				builder.Password = Password;
+			}
+			return builder.ConnectionString;
+		}
+
 		void GetConnectionParams()
 		{
-			if(IsMsSQL)
+			try
 			{
-				var builder = new SqlConnectionStringBuilder(DbConnectionString);
-				Login = builder.UserID;
-				Password = builder.Password;
-				IsSQLAuthentication = builder.IntegratedSecurity;
-				DbName = builder.InitialCatalog;
-				DataSource = builder.DataSource;
+				if (IsMsSQL)
+				{
+					var builder = new SqlConnectionStringBuilder(DbConnectionString);
+					Login = builder.UserID;
+					Password = builder.Password;
+					IsSQLAuthentication = !builder.IntegratedSecurity;
+					DbName = builder.InitialCatalog;
+					DataSource = builder.DataSource;
+				}
+				if (IsPostgres)
+				{
+					var builder2 = new NpgsqlConnectionStringBuilder(DbConnectionString);
+					Login = builder2.UserName;
+					Password = builder2.Password;
+					IsSQLAuthentication = !builder2.IntegratedSecurity;
+					DbName = builder2.Database;
+					Server = builder2.Host;
+					Port = builder2.Port;
+				}
+			}
+			catch (Exception )
+			{
+				
 			}
 		}
 	}

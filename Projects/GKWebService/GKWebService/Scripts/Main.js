@@ -94,11 +94,15 @@ function HeaderIconsViewModel() {
     return self;
 }
 
+
+
 function AppViewModel() {
     var self = this;
     self.Menu = MenuViewModel();
     
     self.Header = HeaderIconsViewModel();
+
+    self.Menu.Report = ReportViewModel();
 }
 
 ko.applyBindings(new AppViewModel());

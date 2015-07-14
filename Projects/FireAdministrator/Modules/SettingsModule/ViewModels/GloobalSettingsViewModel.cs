@@ -31,6 +31,7 @@ namespace SettingsModule.ViewModels
 			ResetConfigurationCommand = new RelayCommand(OnResetConfiguration);
 			ResetSettingsCommand = new RelayCommand(OnResetSettings);
 			ModulesViewModel = new ModulesViewModel();
+			DbSettingsViewModel = new DbSettingsViewModel();
 			LogsFolderPath = AppDataFolderHelper.GetLogsFolder();
 
 			GetServerAuto();
@@ -52,8 +53,8 @@ namespace SettingsModule.ViewModels
 			AutoConnect = GlobalSettingsHelper.GlobalSettings.AdminAutoConnect;
 			DoNotAutoconnectAdm = GlobalSettingsHelper.GlobalSettings.DoNotAutoconnectAdm;
 			RunRevisor = GlobalSettingsHelper.GlobalSettings.RunRevisor;
-
-			DbSettingsViewModel = new DbSettingsViewModel();
+			Server_EnableRemoteConnections = GlobalSettingsHelper.GlobalSettings.Server_EnableRemoteConnections;
+			UseHasp = GlobalSettingsHelper.GlobalSettings.UseHasp;
 		}
 
 		public string ServerAutoLabel { get { return "Сервер приложений Глобал"; } }
@@ -196,7 +197,7 @@ namespace SettingsModule.ViewModels
 		{
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите сбросить базу данных?"))
 			{
-				var result = FiresecManager.FiresecService.ResetSKDDatabase();
+				var result = FiresecManager.FiresecService.ResetDB();
 				if (result.HasError)
 					MessageBoxService.Show(result.Error);
 			}
@@ -318,6 +319,28 @@ namespace SettingsModule.ViewModels
 			{
 				_isServerAuto = value;
 				OnPropertyChanged(() => IsServerAuto);
+			}
+		}
+
+		bool _server_EnableRemoteConnections;
+		public bool Server_EnableRemoteConnections
+		{
+			get { return _server_EnableRemoteConnections; }
+			set
+			{
+				_server_EnableRemoteConnections = value;
+				OnPropertyChanged(() => Server_EnableRemoteConnections);
+			}
+		}
+
+		bool _useHasp;
+		public bool UseHasp
+		{
+			get { return _useHasp; }
+			set
+			{
+				_useHasp = value;
+				OnPropertyChanged(() => UseHasp);
 			}
 		}
 
@@ -443,12 +466,13 @@ namespace SettingsModule.ViewModels
 			GlobalSettingsHelper.GlobalSettings.AdminLogin = Login;
 			GlobalSettingsHelper.GlobalSettings.AdminPassword = Password;
 			GlobalSettingsHelper.GlobalSettings.AdminAutoConnect = AutoConnect;
-
+			GlobalSettingsHelper.GlobalSettings.Server_EnableRemoteConnections = Server_EnableRemoteConnections;
+			GlobalSettingsHelper.GlobalSettings.UseHasp = UseHasp;
 			GlobalSettingsHelper.GlobalSettings.DoNotAutoconnectAdm = DoNotAutoconnectAdm;
 			GlobalSettingsHelper.GlobalSettings.RunRevisor = RunRevisor;
 			ModulesViewModel.Save();
-			GlobalSettingsHelper.Save();
 			DbSettingsViewModel.Save();
+			GlobalSettingsHelper.Save();
 			return true;
 		}
 	}

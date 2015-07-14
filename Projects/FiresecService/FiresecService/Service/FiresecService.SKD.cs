@@ -717,14 +717,6 @@ namespace FiresecService.Service
 		}
 		#endregion
 
-		public OperationResult ResetSKDDatabase()
-		{
-			using (var databaseService = new SKDDriver.DataClasses.DbService())
-			{
-				return databaseService.ResetDB();
-			}
-		}
-
 		#region TestData
 		public OperationResult GenerateEmployeeDays()
 		{

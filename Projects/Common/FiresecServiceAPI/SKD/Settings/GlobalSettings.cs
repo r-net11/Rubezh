@@ -40,7 +40,6 @@ namespace FiresecAPI
 			IgnoredErrors = 0;
 		}
 
-
 		[DataMember]
 		public string AdminLogin { get; set; }
 
@@ -58,7 +57,6 @@ namespace FiresecAPI
 
 		[DataMember]
 		public bool MonitorAutoConnect { get; set; }
-
 
 		[DataMember]
 		public string RemoteAddress { get; set; }

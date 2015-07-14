@@ -85,7 +85,6 @@ namespace SKDModule.ViewModels
 						var itemViewModel = new TViewModel();
 						itemViewModel.InitializeModel(organisation.Organisation, model, this);
 						organisation.AddChild(itemViewModel);
-						ItemsCount = Organisations.Select(x => x.Children.Count()).Sum();
 					}
 				}
 			}
@@ -482,28 +481,6 @@ namespace SKDModule.ViewModels
 			copy.Description = source.Description;
 			copy.OrganisationUID = ParentOrganisation.Organisation.UID;
 			return copy;
-		}
-
-		bool _isLoading;
-		public bool IsLoading
-		{
-			get { return _isLoading; }
-			set
-			{
-				_isLoading = value;
-				OnPropertyChanged(() => IsLoading);
-			}
-		}
-
-		int _itemsCount;
-		public int ItemsCount
-		{
-			get { return _itemsCount; }
-			set
-			{
-				_itemsCount = value;
-				OnPropertyChanged(() => ItemsCount);
-			}
 		}
 	}
 }

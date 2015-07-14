@@ -60,6 +60,10 @@
     <Reference Include="Microsoft.Practices.Unity">
       <HintPath>..\..\..\..\3rdParty\PRISM\Desktop\Microsoft.Practices.Unity.dll</HintPath>
     </Reference>
+    <Reference Include="Npgsql, Version=2.2.5.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\FiresecService\packages\Npgsql.2.2.5\lib\net40\Npgsql.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
