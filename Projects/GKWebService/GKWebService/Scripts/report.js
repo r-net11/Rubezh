@@ -113,7 +113,7 @@ $(document).ready(function () {
         url: '/Home/GetReports',
         datatype: "json",
         colModel: [
-           { label: 'Дата в приборе', name: 'DeviceDate', formatter: Formatter.date, formatoptions: { newformat: 'M/D/YYYY HH:mm:ss' }, width: 75, sortable: false },
+           { label: 'Дата в приборе',  name: 'DeviceDate', formatter: Formatter.date, formatoptions: { newformat: 'M/D/YYYY HH:mm:ss' }, width: 75, sortable: false },
            { label: 'Дата в системе', name: 'SystemDate', formatter: Formatter.date, formatoptions: { newformat: 'M/D/YYYY HH:mm:ss' }, width: 90, sortable: false },
            { label: 'Название', name: 'Name', width: 100, sortable: false },
            { label: 'Уточнение', name: 'Desc', width: 80, sortable: false },
