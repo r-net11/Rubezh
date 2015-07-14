@@ -63,8 +63,8 @@
             </tree:TreeList.View>
         </tree:TreeList>
         <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="2">
-            <TextBlock Foreground="White" Text="Количество записей: " />
-            <TextBlock Foreground="White" Text="{Binding ItemsCount}" />    
+			<TextBlock Foreground="{DynamicResource ForegroundColor_0}" Text="Количество записей: " />
+			<TextBlock Foreground="{DynamicResource ForegroundColor_0}" Text="{Binding ItemsCount}" />    
         </StackPanel>
         
     </Grid>

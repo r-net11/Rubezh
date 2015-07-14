@@ -13,11 +13,11 @@
 			<RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
-		<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" Foreground="White" Text="Название" />
+		<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" Foreground="{DynamicResource ForegroundColor_0}" Text="Название" />
 		<TextBox Grid.Row="0" Grid.Column="1" Margin="2" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
-		<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" Foreground="White" Text="Примечание" />
+		<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" Foreground="{DynamicResource ForegroundColor_0}" Text="Примечание" />
 		<TextBox Grid.Row="1" Grid.Column="1" Margin="2" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" />
-		<TextBlock Grid.Row="2" Grid.Column="0" Margin="2" Foreground="White" Text="Тип графика" Visibility="{Binding IsNew, Converter={StaticResource BoolToVisibilityConverter}}" />
+		<TextBlock Grid.Row="2" Grid.Column="0" Margin="2" Foreground="{DynamicResource ForegroundColor_0}" Text="Тип графика" Visibility="{Binding IsNew, Converter={StaticResource BoolToVisibilityConverter}}" />
 		<ComboBox Grid.Row="2" Grid.Column="1" Margin="2" 
 						  ItemsSource="{Binding ScheduleSchemeTypes}" SelectedItem="{Binding SelectedScheduleSchemeType}" Visibility="{Binding IsNew, Converter={StaticResource BoolToVisibilityConverter}}" >
 			<ComboBox.ItemTemplate>
@@ -26,7 +26,7 @@
 				</DataTemplate>
 			</ComboBox.ItemTemplate>
 		</ComboBox>
-        <TextBlock Grid.Row="3" Grid.Column="0" Margin="3" Foreground="White" Text="Дневной график" Visibility="{Binding CanSelectDayInterval, Converter={StaticResource BoolToVisibilityConverter}}" />
+		<TextBlock Grid.Row="3" Grid.Column="0" Margin="3" Foreground="{DynamicResource ForegroundColor_0}" Text="Дневной график" Visibility="{Binding CanSelectDayInterval, Converter={StaticResource BoolToVisibilityConverter}}" />
         <ComboBox Grid.Row="3" Grid.Column="1" Margin="3" 
 						  ItemsSource="{Binding DayIntervals}" SelectedItem="{Binding SelectedDayInterval}" Visibility="{Binding CanSelectDayInterval, Converter={StaticResource BoolToVisibilityConverter}}" >
             <ComboBox.ItemTemplate>

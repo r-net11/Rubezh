@@ -9,13 +9,13 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
-		<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" Foreground="White" Text="Начало" />
+		<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" Foreground="{DynamicResource ForegroundColor_0}" Text="Начало" />
 		<TimePicker Grid.Row="0" Grid.Column="1" Margin="2" TimeSpan="{Binding BeginTime}" />
 
-		<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" Foreground="White" Text="Конец" />
+		<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" Foreground="{DynamicResource ForegroundColor_0}" Text="Конец" />
 		<TimePicker Grid.Row="1" Grid.Column="1" Margin="2" TimeSpan="{Binding EndTime}" />
 
-		<TextBlock Grid.Row="2" Grid.Column="0" Margin="2" Foreground="White" Text="Переход" />
+		<TextBlock Grid.Row="2" Grid.Column="0" Margin="2" Foreground="{DynamicResource ForegroundColor_0}" Text="Переход" />
 		<ComboBox Grid.Row="2" Grid.Column="1" Margin="2" VerticalAlignment="Center" VerticalContentAlignment="Center" ItemsSource="{Binding AvailableTransitions}" SelectedItem="{Binding SelectedTransition, UpdateSourceTrigger=PropertyChanged}">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
