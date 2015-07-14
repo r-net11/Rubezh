@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using FiresecAPI.GK;
+using Infrastructure.Common.Windows;
 
 namespace FiresecClient.SKDHelpers
 {
@@ -8,13 +9,17 @@ namespace FiresecClient.SKDHelpers
 		public static bool SaveSchedule(GKSchedule item, bool isNew)
 		{
 			var operationResult = FiresecManager.FiresecService.SaveGKSchedule(item, isNew);
-			return Common.ShowErrorIfExists(operationResult);
+			if (operationResult.HasError)
+				MessageBoxService.ShowWarning(operationResult.Error);
+			return operationResult.Result;
 		}
 
 		public static bool DeleteSchedule(GKSchedule item)
 		{
 			var operationResult = FiresecManager.FiresecService.DeleteGKSchedule(item);
-			return Common.ShowErrorIfExists(operationResult);
+			if (operationResult.HasError)
+				MessageBoxService.ShowWarning(operationResult.Error);
+			return operationResult.Result;
 		}
 
 		public static List<GKSchedule> GetSchedules()
