@@ -116,8 +116,7 @@
 			<TabItem IsSelected="{Binding IsEmployeesSelected}" Visibility="{Binding CanSelectEmployees, Converter={StaticResource BoolToVisibilityConverter}}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <Controls:SpinnerCogs VerticalAlignment="Center" Visibility="{Binding EmployeesViewModel.IsLoading, Converter={StaticResource BoolToVisibilityConverter}}" />
-						<TextBlock Text="{Binding EmployeesViewModel.TabItemHeader}" Foreground="{DynamicResource ForegroundColor_0}" FontWeight="Bold" VerticalAlignment="Center" Margin="2" />
+                        <TextBlock Text="{Binding EmployeesViewModel.TabItemHeader}" Foreground="{DynamicResource ForegroundColor_0}" FontWeight="Bold" VerticalAlignment="Center" Margin="2" />
                     </StackPanel>
                 </TabItem.Header>
                 <Views:EmployeesView DataContext="{Binding EmployeesViewModel}" />
@@ -134,8 +133,7 @@
 			<TabItem IsSelected="{Binding IsCardsSelected}" Visibility="{Binding CanSelectCards, Converter={StaticResource BoolToVisibilityConverter}}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <Controls:SpinnerCogs VerticalAlignment="Center" Visibility="{Binding CardsViewModel.IsLoading, Converter={StaticResource BoolToVisibilityConverter}}" />
-						<TextBlock Text="Пропуска" Foreground="{DynamicResource ForegroundColor_0}" FontWeight="Bold" VerticalAlignment="Center" Margin="2" />
+                        <TextBlock Text="Пропуска" Foreground="{DynamicResource ForegroundColor_0}" FontWeight="Bold" VerticalAlignment="Center" Margin="2" />
                     </StackPanel>
                 </TabItem.Header>
 				<Views:CardsView DataContext="{Binding CardsViewModel}" />
