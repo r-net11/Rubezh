@@ -40,9 +40,6 @@ namespace SKDDriver.DataClasses
 		public DbService()
 		{
 			var connection = DbServiceHelper.CreateConnection(GlobalSettingsHelper.GlobalSettings.DbConnectionString, GlobalSettingsHelper.GlobalSettings.DbType);
-			//DatabaseContext.connection = connection;
-			//DatabaseContext.ConnectionStringName = "PostgresConnectionString";
-			//DatabaseContext.ConnectionStringName = "MsSQLConnectionString";
 			Context = new DatabaseContext(connection);
 			GKScheduleTranslator = new GKScheduleTranslator(this);
 			GKDayScheduleTranslator = new GKDayScheduleTranslator(this);

@@ -354,9 +354,9 @@ namespace AutomationModule.ViewModels
 			try
 			{
 				var configClass = new ConfigClass();
-				var result = configClass.LoadApplicationConfiguration();
-				if (result)
-					Text += "Configuratrion loaded\n";
+				//var result = configClass.LoadApplicationConfiguration();
+				//if (result)
+				//	Text += "Configuratrion loaded\n";
 			}
 			catch { }
         }

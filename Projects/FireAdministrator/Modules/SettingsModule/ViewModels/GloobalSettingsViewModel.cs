@@ -19,6 +19,7 @@ namespace SettingsModule.ViewModels
 	{
 		public static GloobalSettingsViewModel Curent { get; private set; }
 		public ModulesViewModel ModulesViewModel { get; private set; }
+		public DbSettingsViewModel DbSettingsViewModel { get; private set; } 
 
 		public GloobalSettingsViewModel()
 		{
@@ -41,9 +42,8 @@ namespace SettingsModule.ViewModels
 			Monitor_F4_Enabled = GlobalSettingsHelper.GlobalSettings.Monitor_F4_Enabled;
 			Monitor_IsControlMPT = GlobalSettingsHelper.GlobalSettings.Monitor_IsControlMPT;
 			Monitor_HaspInfo_Enabled = GlobalSettingsHelper.GlobalSettings.Monitor_HaspInfo_Enabled;
-			Server_EnableRemoteConnections = GlobalSettingsHelper.GlobalSettings.Server_EnableRemoteConnections;
-			UseHasp = GlobalSettingsHelper.GlobalSettings.UseHasp;
-			DbConnectionString = GlobalSettingsHelper.GlobalSettings.DbConnectionString;
+			
+			
 			RemoteAddress = GlobalSettingsHelper.GlobalSettings.RemoteAddress;
 			RemotePort = GlobalSettingsHelper.GlobalSettings.RemotePort;
 			ReportRemotePort = GlobalSettingsHelper.GlobalSettings.ReportRemotePort;
@@ -52,13 +52,8 @@ namespace SettingsModule.ViewModels
 			AutoConnect = GlobalSettingsHelper.GlobalSettings.AdminAutoConnect;
 			DoNotAutoconnectAdm = GlobalSettingsHelper.GlobalSettings.DoNotAutoconnectAdm;
 			RunRevisor = GlobalSettingsHelper.GlobalSettings.RunRevisor;
-			var dbTypes = Enum.GetValues(typeof(DbType));
-			DbTypes = new ObservableCollection<DbType>();
-			foreach (DbType dbType in dbTypes)
-			{
-				DbTypes.Add(dbType);
-			}
-			DbType = GlobalSettingsHelper.GlobalSettings.DbType;
+
+			DbSettingsViewModel = new DbSettingsViewModel();
 		}
 
 		public string ServerAutoLabel { get { return "Сервер приложений Глобал"; } }
@@ -315,52 +310,6 @@ namespace SettingsModule.ViewModels
 			}
 		}
 
-		bool _server_EnableRemoteConnections;
-		public bool Server_EnableRemoteConnections
-		{
-			get { return _server_EnableRemoteConnections; }
-			set
-			{
-				_server_EnableRemoteConnections = value;
-				OnPropertyChanged(() => Server_EnableRemoteConnections);
-			}
-		}
-
-		bool _useHasp;
-		public bool UseHasp
-		{
-			get { return _useHasp; }
-			set
-			{
-				_useHasp = value;
-				OnPropertyChanged(() => UseHasp);
-			}
-		}
-
-		string _dbServerName;
-		public string DbConnectionString
-		{
-			get { return _dbServerName; }
-			set
-			{
-				_dbServerName = value;
-				OnPropertyChanged(() => DbConnectionString);
-			}
-		}
-
-		public ObservableCollection<DbType> DbTypes { get; private set; }
-
-		FiresecAPI.DbType _dbType;
-		public FiresecAPI.DbType DbType
-		{
-			get { return _dbType; }
-			set
-			{
-				_dbType = value;
-				OnPropertyChanged(() => DbType);
-			}
-		}
-
 		bool _isServerAuto;
 		public bool IsServerAuto
 		{
@@ -488,10 +437,6 @@ namespace SettingsModule.ViewModels
 			GlobalSettingsHelper.GlobalSettings.Monitor_F4_Enabled = Monitor_F4_Enabled;
 			GlobalSettingsHelper.GlobalSettings.Monitor_IsControlMPT = Monitor_IsControlMPT;
 			GlobalSettingsHelper.GlobalSettings.Monitor_HaspInfo_Enabled = Monitor_HaspInfo_Enabled;
-			GlobalSettingsHelper.GlobalSettings.Server_EnableRemoteConnections = Server_EnableRemoteConnections;
-			GlobalSettingsHelper.GlobalSettings.UseHasp = UseHasp;
-			GlobalSettingsHelper.GlobalSettings.DbConnectionString = DbConnectionString;
-			GlobalSettingsHelper.GlobalSettings.DbType = DbType;
 			GlobalSettingsHelper.GlobalSettings.RemoteAddress = RemoteAddress;
 			GlobalSettingsHelper.GlobalSettings.RemotePort = RemotePort;
 			GlobalSettingsHelper.GlobalSettings.ReportRemotePort = ReportRemotePort;
@@ -503,6 +448,7 @@ namespace SettingsModule.ViewModels
 			GlobalSettingsHelper.GlobalSettings.RunRevisor = RunRevisor;
 			ModulesViewModel.Save();
 			GlobalSettingsHelper.Save();
+			DbSettingsViewModel.Save();
 			return true;
 		}
 	}

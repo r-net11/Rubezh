@@ -159,10 +159,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult<List<JournalItem>> GetFilteredJournalItems(JournalFilter filter)
 		{
-			var result = new OperationResult<List<JournalItem>>();
-			result.Result = new List<JournalItem>();
-			return result;
-			//return SafeContext.Execute<OperationResult<List<JournalItem>>>(() => FiresecService.GetFilteredJournalItems(filter));
+			return SafeContext.Execute<OperationResult<List<JournalItem>>>(() => FiresecService.GetFilteredJournalItems(filter));
 		}
 		public OperationResult BeginGetFilteredArchive(ArchiveFilter archiveFilter, Guid archivePortionUID)
 		{
