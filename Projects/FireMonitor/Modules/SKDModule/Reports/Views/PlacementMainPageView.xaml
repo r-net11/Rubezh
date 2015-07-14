@@ -9,9 +9,9 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition />
 		</Grid.RowDefinitions>
-		<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Text="Использовать текущую дату и время" />
+		<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColor_0}" Text="Использовать текущую дату и время" />
 		<CheckBox Grid.Row="0" Grid.Column="1" Margin="2" VerticalAlignment="Center" IsChecked="{Binding UseCurrentDate}" HorizontalAlignment="Left"/>
-		<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" IsEnabled="{Binding UseCurrentDate, Converter={StaticResource InverseBooleanConverter}}" Text="Дата и время" />
+		<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColor_0}" IsEnabled="{Binding UseCurrentDate, Converter={StaticResource InverseBooleanConverter}}" Text="Дата и время" />
 		<!--<loya:Dameer Grid.Row="1" Grid.Column="1" Width="240" Margin="2,6,2,6" HorizontalAlignment="Left" CustomFormat="dd MMMM yyyy HH:mm:ss" Format="Custom" IsEnabled="{Binding UseCurrentDate, Converter={StaticResource InverseBooleanConverter}}" ShowCheckBox="False" Value="{Binding ReportDateTime}" />-->
 		<DatePicker
 			Grid.Row="1"

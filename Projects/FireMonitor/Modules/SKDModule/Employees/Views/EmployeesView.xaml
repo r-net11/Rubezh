@@ -59,8 +59,8 @@
 			</tree:TreeList>
 		</ScrollViewer>
         <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="2">
-            <TextBlock Foreground="White" Text="Количество записей: " />
-            <TextBlock Foreground="White" Text="{Binding ItemsCount}" />
+			<TextBlock Foreground="{DynamicResource ForegroundColor_0}" Text="Количество записей: " />
+			<TextBlock Foreground="{DynamicResource ForegroundColor_0}" Text="{Binding ItemsCount}" />
         </StackPanel>
         <GridSplitter Grid.Row="2" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeNS" />
 		<Grid Grid.Row="3" Visibility="{Binding IsEmployeeSelected, Converter={StaticResource BoolToVisibilityConverter}}">
