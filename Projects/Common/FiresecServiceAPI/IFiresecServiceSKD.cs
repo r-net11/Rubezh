@@ -198,9 +198,6 @@ namespace FiresecAPI
 		#endregion
 
 		[OperationContract]
-		OperationResult ResetSKDDatabase();
-
-		[OperationContract]
 		OperationResult GenerateEmployeeDays();
 
         [OperationContract]

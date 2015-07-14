@@ -232,29 +232,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-        int _itemsCount;
-        public int ItemsCount
-        {
-            get { return _itemsCount; }
-            set
-            {
-                _itemsCount = value;
-                OnPropertyChanged(() => ItemsCount);
-            }
-        }
-
-        bool _isLoading;
-        public bool IsLoading
-        {
-            get { return _isLoading; }
-            set
-            {
-                _isLoading = value;
-                OnPropertyChanged(() => IsLoading);
-            }
-        }
-
-		public RelayCommand RemoveCommand { get; private set; }
+        public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить карту?"))
@@ -267,7 +245,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanRemove()
 		{
-			return SelectedCard != null && SelectedCard.IsCard && SelectedCard.Card.IsInStopList && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Cards_Etit) && !IsLoading;
+			return SelectedCard != null && SelectedCard.IsCard && SelectedCard.Card.IsInStopList && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Cards_Etit);
 		}
 	}
 }

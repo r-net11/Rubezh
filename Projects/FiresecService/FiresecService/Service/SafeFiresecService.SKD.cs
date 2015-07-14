@@ -264,11 +264,6 @@ namespace FiresecService.Service
 		}
 		#endregion
 
-		public OperationResult ResetSKDDatabase()
-		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.ResetSKDDatabase());
-		}
-
 		public OperationResult GenerateEmployeeDays()
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.GenerateEmployeeDays());

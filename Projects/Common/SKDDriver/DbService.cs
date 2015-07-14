@@ -39,8 +39,8 @@ namespace SKDDriver.DataClasses
 
 		public DbService()
 		{
-			var connection = DbServiceHelper.CreateConnection(GlobalSettingsHelper.GlobalSettings.DbConnectionString, GlobalSettingsHelper.GlobalSettings.DbType);
-			Context = new DatabaseContext(connection);
+			var builder = new Npgsql.NpgsqlConnectionStringBuilder();
+			Context = new DatabaseContext(DbServiceHelper.CreateConnection());
 			GKScheduleTranslator = new GKScheduleTranslator(this);
 			GKDayScheduleTranslator = new GKDayScheduleTranslator(this);
 			PassJournalTranslator = new PassJournalTranslator(this);

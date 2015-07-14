@@ -47,7 +47,25 @@
 			</Grid>
 		</TabItem>
 		<TabItem Header="Сервер">
-			<Views:DbSettingsView DataContext="{Binding DbSettingsViewModel}" />
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
+				<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Разрешить удаленные соединения на сервере" VerticalAlignment="Center" />
+				<CheckBox Grid.Row="0" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding Server_EnableRemoteConnections}" />
+
+				<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Использовать HASP" VerticalAlignment="Center" />
+				<CheckBox Grid.Row="1" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding UseHasp}" />
+
+				<Views:DbSettingsView Grid.Row="2" Grid.ColumnSpan="2" DataContext="{Binding DbSettingsViewModel}" />
+			</Grid>
+			
 		</TabItem>
 		<TabItem Header="Автозапуск">
 			<StackPanel Margin="2">

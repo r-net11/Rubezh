@@ -41,7 +41,8 @@ namespace SKDModule.ViewModels
 				card = new SKDCard()
 				{
 					StartDate = DateTime.Now,
-					EndDate = DateTime.Now.AddYears(1)
+					EndDate = DateTime.Now.AddYears(1),
+					GKCardType = GKCardType.Employee
 				};
 			}
 			else
@@ -435,7 +436,10 @@ namespace SKDModule.ViewModels
 			
 			Card.Password = Password;
 			Card.CardType = SelectedCardType;
-			Card.GKCardType = SelectedGKCardType;
+			if (_employee.Type == PersonType.Guest)
+				Card.GKCardType = GKCardType.Employee;
+			else
+				Card.GKCardType = SelectedGKCardType;
 			if (SelectedGKCardType != GKCardType.Employee)
 			{
 				Card.GKControllerUIDs = AvailableGKControllers.Where(x => x.IsChecked).Select(x => x.Device.UID).ToList();

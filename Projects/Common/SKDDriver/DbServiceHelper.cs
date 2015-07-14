@@ -2,6 +2,7 @@
 using FiresecAPI;
 using System.Data.Common;
 using System.Data.Entity.Infrastructure;
+using Infrastructure.Common;
 
 namespace SKDDriver.DataClasses
 {
@@ -21,10 +22,11 @@ namespace SKDDriver.DataClasses
 			return result;
 		}
 
-		public static DbConnection CreateConnection(string connectionString, DbType contextType)
+		public static DbConnection CreateConnection()
 		{
 			IDbConnectionFactory connectionFactory;
-			switch (contextType)
+			var connectionString = GlobalSettingsHelper.GlobalSettings.DbConnectionString;
+			switch (GlobalSettingsHelper.GlobalSettings.DbType)
 			{
 				case DbType.Postgres:
 					connectionFactory = new Npgsql.NpgsqlConnectionFactory();
