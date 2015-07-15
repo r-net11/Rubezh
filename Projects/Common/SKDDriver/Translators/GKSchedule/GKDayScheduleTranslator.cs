@@ -21,8 +21,7 @@ namespace SKDDriver.DataClasses
 		{
 			try
 			{
-				var result = Context.GKDaySchedules.Include(x => x.GKDayScheduleParts).Include(x => x.ScheduleGKDaySchedules).ToList()
-					.Select(x => Translate(x)).ToList();
+				var result = GetTableItems().ToList().Select(x => Translate(x)).ToList();
 				return new OperationResult<List<FiresecAPI.GK.GKDaySchedule>>(result);
 			}
 			catch (Exception e)
@@ -83,7 +82,7 @@ namespace SKDDriver.DataClasses
 
 			try
 			{
-				var tableItem = Context.GKDaySchedules.FirstOrDefault(x => x.UID == item.UID);
+				var tableItem = GetTableItems().FirstOrDefault(x => x.UID == item.UID);
 				if (tableItem != null)
 				{
 					Context.GKDaySchedules.Remove(tableItem);
@@ -95,6 +94,11 @@ namespace SKDDriver.DataClasses
 			{
 				return new OperationResult(e.Message);
 			}
+		}
+
+		IQueryable<GKDaySchedule> GetTableItems()
+		{
+			return Context.GKDaySchedules.Include(x => x.GKDayScheduleParts).Include(x => x.ScheduleGKDaySchedules);
 		}
 	}
 }
