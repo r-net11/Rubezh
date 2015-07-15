@@ -13,11 +13,11 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
-				<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Text="Название" />
-				<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" Text="Описание" />
-				<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Text="Ширина" />
-				<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" Text="Высота" />
-				<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" Text="Цвет фона" />
+				<Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Content="Название" />
+				<Label Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" Content="Описание" />
+				<Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Content="Ширина" />
+				<Label Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" Content="Высота" />
+				<Label Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" Content="Цвет фона" />
 				<TextBox Grid.Row="0" Grid.Column="1" Margin="2" Text="{Binding Caption, UpdateSourceTrigger=PropertyChanged}" />
 				<TextBox Grid.Row="1" Grid.Column="1" Margin="2" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" />
 				<extToolkit:IntegerUpDown Grid.Row="2" Grid.Column="1" Margin="2" Minimum="10" Value="{Binding Width, UpdateSourceTrigger=PropertyChanged}" />

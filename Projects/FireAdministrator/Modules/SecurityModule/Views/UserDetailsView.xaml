@@ -17,13 +17,13 @@
 						<RowDefinition Height="auto" />
 						<RowDefinition Height="auto" />
 					</Grid.RowDefinitions>
-					<TextBlock Grid.Column="0" Style="{DynamicResource LabelTextBlock}" Grid.Row="0" Text="Имя пользователя" HorizontalAlignment="Right" VerticalAlignment="Center" />
-					<TextBlock Grid.Column="0" Style="{DynamicResource LabelTextBlock}" Grid.Row="1" Text="Логин" HorizontalAlignment="Right" VerticalAlignment="Center" />
+					<Label Grid.Column="0" Grid.Row="0" Content="Имя пользователя" HorizontalAlignment="Right" VerticalAlignment="Center" />
+					<Label Grid.Column="0" Grid.Row="1" Content="Логин" HorizontalAlignment="Right" VerticalAlignment="Center" />
 
 					<TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Name}" VerticalAlignment="Center" MaxLength="100" Margin="5" />
 					<TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Login}" IsEnabled="{Binding CanChangeLogin}" VerticalAlignment="Center" MaxLength="100" Margin="5" />
 
-					<CheckBox Grid.Column="1" Grid.Row="2" Content="Сменить пароль" Foreground="{DynamicResource ForegroundColor_0}"
+					<CheckBox Grid.Column="1" Grid.Row="2" Content="Сменить пароль" Foreground="{DynamicResource ForegroundColorLight}"
 						Visibility="{Binding IsNotNew, Converter={StaticResource BoolToVisibilityConverter}}"
 						IsChecked="{Binding IsChangePassword}" />
 				</Grid>
@@ -36,8 +36,8 @@
 						<RowDefinition Height="auto" />
 						<RowDefinition Height="auto" />
 					</Grid.RowDefinitions>
-					<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Column="0" Grid.Row="0" Text="Пароль" HorizontalAlignment="Right" VerticalAlignment="Center" />
-					<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Column="0" Grid.Row="1" Text="Подтверждение" HorizontalAlignment="Right" VerticalAlignment="Center" />
+					<Label Grid.Column="0" Grid.Row="0" Content="Пароль" HorizontalAlignment="Right" VerticalAlignment="Center" />
+					<Label Grid.Column="0" Grid.Row="1" Content="Подтверждение" HorizontalAlignment="Right" VerticalAlignment="Center" />
 					<Controls:PasswordBoxControl Grid.Column="1" Grid.Row="0" Password="{Binding Password}" VerticalAlignment="Center" Margin="5" />
 					<Controls:PasswordBoxControl Grid.Column="1" Grid.Row="1" Password="{Binding PasswordConfirmation}" VerticalAlignment="Center" Margin="5" />
 				</Grid>

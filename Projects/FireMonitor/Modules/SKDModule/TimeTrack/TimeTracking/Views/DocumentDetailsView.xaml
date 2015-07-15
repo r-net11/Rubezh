@@ -18,7 +18,7 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
-		<TextBlock Grid.Row="0" Grid.Column="0" Text="Оправдательный документ" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColor_0}" Margin="2" />
+		<TextBlock Grid.Row="0" Grid.Column="0" Text="Оправдательный документ" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Margin="2" />
 		<ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding AvailableDocuments}" SelectedItem="{Binding SelectedDocument}" Margin="2">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
@@ -30,13 +30,13 @@
 			</ComboBox.ItemTemplate>
 		</ComboBox>
 
-		<TextBlock Grid.Row="1" Grid.Column="0" Text="Примечание" HorizontalAlignment="Right" Foreground="{DynamicResource ForegroundColor_0}" Margin="2" />
+		<TextBlock Grid.Row="1" Grid.Column="0" Text="Примечание" HorizontalAlignment="Right" Foreground="White" Margin="2" />
 		<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Comment}" Margin="2" />
 
-		<TextBlock Grid.Row="2" Grid.Column="0" Text="Номер документа" HorizontalAlignment="Right" Foreground="{DynamicResource ForegroundColor_0}" Margin="2" />
+		<TextBlock Grid.Row="2" Grid.Column="0" Text="Номер документа" HorizontalAlignment="Right" Foreground="White" Margin="2" />
 		<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding DocumentNumber}" Margin="2" />
 
-		<TextBlock Grid.Row="3" Grid.Column="0" Text="Дата документа" HorizontalAlignment="Right" Foreground="{DynamicResource ForegroundColor_0}" Margin="2" />
+		<TextBlock Grid.Row="3" Grid.Column="0" Text="Дата документа" HorizontalAlignment="Right" Foreground="White" Margin="2" />
 		<Calendar Grid.Row="3" Grid.Column="1" DisplayDate="{Binding DocumentDateTime, UpdateSourceTrigger=PropertyChanged}" SelectedDate="{Binding DocumentDateTime, UpdateSourceTrigger=PropertyChanged}" SelectionMode="SingleDate" />
 
 		<Label Grid.Row="4" Grid.Column="0" HorizontalAlignment="Center" Content="Дата начала" />

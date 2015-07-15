@@ -50,7 +50,7 @@
 													<ComboBox VerticalAlignment="Center" VerticalContentAlignment="Center" ItemsSource="{Binding ActionTypes}" SelectedItem="{Binding SelectedActionType, UpdateSourceTrigger=PropertyChanged}">
 														<ComboBox.ItemTemplate>
 															<DataTemplate>
-																<Controls:IconLabel Foreground="{DynamicResource ForegroundColor_1}" ImageSource="{Binding ., Converter={StaticResource GKGuardZoneDeviceActionTypeToIconConverter}}" Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+																<Controls:IconLabel Foreground="{DynamicResource ForegroundColorDark}" ImageSource="{Binding ., Converter={StaticResource GKGuardZoneDeviceActionTypeToIconConverter}}" Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
 															</DataTemplate>
 														</ComboBox.ItemTemplate>
 													</ComboBox>

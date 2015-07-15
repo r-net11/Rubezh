@@ -10,8 +10,8 @@ namespace Infrastructure.Common.Theme
 		[DescriptionAttribute("Серая тема")]
 		GrayTheme,
 
-		[DescriptionAttribute("Голубая тема")]
-		SkyblueTheme,
+		[DescriptionAttribute("Страж тема")]
+		StrazhTheme,
 
 		[DescriptionAttribute("Светлая тема")]
 		LightTheme,

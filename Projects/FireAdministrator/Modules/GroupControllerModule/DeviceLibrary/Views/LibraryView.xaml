@@ -9,7 +9,7 @@
 		</Grid.ColumnDefinitions>
 		<DataGrid Grid.Column="0" CanUserSortColumns="True" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}">
 			<DataGrid.Columns>
-				<DataGridTemplateColumn Width="150" Header="Обозначение" SortMemberPath="Driver.ShortName">
+                <DataGridTemplateColumn Width="150" Header="Обозначение" SortMemberPath="Driver.ShortName">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Margin="5, 1, 0, 0" Orientation="Horizontal">
@@ -92,7 +92,7 @@
 							<DockPanel>
 								<StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
 									<StackPanel DataContext="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TabControl}}, Path=DataContext}" Orientation="Horizontal" Visibility="{Binding IsLayerEditingVisible, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
-									<TextBlock Style="{DynamicResource LabelTextBlock}" VerticalAlignment="Center" Text=" Длительность, мс: " />
+									<Label VerticalAlignment="Center" Content=" Длительность, мс: " />
 									<ExtToolkit:IntegerUpDown Width="75" Height="20" Increment="100" IsEditable="False" Maximum="10000" Minimum="100" Text="{Binding Duration, Mode=TwoWay}" />
 									<!--  <ToolBarButton Command="{Binding ImportSvgCommand}" ImageSource="Arrow-up-left"  ToolTip="Импорт из .svg" />
 									<ToolBarButton Command="{Binding ExportSvgCommand}" ToolTip="Экспорт в .svg" ImageSource="Arrow-down-right"  />  -->

@@ -9,7 +9,7 @@
 			<ColumnDefinition Width="{Binding Width3, Mode=TwoWay}" MinWidth="{Binding Width3, Converter={StaticResource GridLengthToMinWidthConverter}}" />
 		</Grid.ColumnDefinitions>
 		<DockPanel x:Name="LeftContent" Grid.Row="0" FocusManager.IsFocusScope="True" Keyboard.GotKeyboardFocus="LeftContent_GotKeyboardFocus" PreviewMouseDown="LeftContent_PreviewMouseDown">
-			<Border Background="{DynamicResource WindowHeaderBackground}" DockPanel.Dock="Top">
+			<Border Background="{DynamicResource WindowBlacHeaderkBackgroundBrush}" DockPanel.Dock="Top">
 				<DockPanel>
 					<Button Width="50" VerticalAlignment="Center" Command="{Binding MinimizeCommand}" CommandParameter="{x:Static loc:MinimizeTarget.LeftPanel}" Content="&lt;&lt;" DockPanel.Dock="Right" ToolTip="{Binding RightPanelVisible, Converter={StaticResource tooltipConverter}, ConverterParameter=True}" Visibility="{Binding IsRightPanelEnabled, Converter={StaticResource BoolToVisibilityConverter}}" />
 					<StackPanel Orientation="Horizontal">

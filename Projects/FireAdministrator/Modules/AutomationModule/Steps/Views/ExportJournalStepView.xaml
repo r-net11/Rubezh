@@ -9,23 +9,23 @@
 		<Grid>
 			<StackPanel>
 				<StackPanel Orientation="Horizontal">
-					<TextBlock Style="{DynamicResource LabelStyle}" Text="Журнал событий" />
+					<Label Content="Журнал событий" />
 					<Views:ArgumentView DataContext="{Binding IsExportJournalArgument}" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal">
-					<TextBlock Style="{DynamicResource LabelStyle}" Text="Журнал проходов" />
+					<Label Content="Журнал проходов" />
 					<Views:ArgumentView DataContext="{Binding IsExportPassJournalArgument}" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal">
-					<TextBlock Style="{DynamicResource LabelStyle}" Text="С" />
+					<Label Content="С" />
 					<Views:ArgumentView DataContext="{Binding MinDateArgument}" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal">
-					<TextBlock Style="{DynamicResource LabelStyle}" Text="До" />
+					<Label Content="До" />
 					<Views:ArgumentView DataContext="{Binding MaxDateArgument}" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal">
-					<TextBlock Style="{DynamicResource LabelStyle}" Text="Путь к файлу" />
+					<Label Content="Путь к файлу" />
 					<Views:ArgumentView DataContext="{Binding PathArgument}" />
 				</StackPanel>
 			</StackPanel>

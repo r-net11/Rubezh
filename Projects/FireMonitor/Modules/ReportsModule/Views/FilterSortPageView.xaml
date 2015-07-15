@@ -34,8 +34,8 @@
 			</ListBox.ItemTemplate>
 		</ListBox>
 		<StackPanel Grid.Column="2" Margin="3">
-			<RadioButton Margin="5" Content="По возрастанию" Foreground="{DynamicResource ForegroundColor_0}" GroupName="SortOrder" IsChecked="{Binding SortAscending, Converter={StaticResource RadioButtonCheckedConverter}, ConverterParameter={StaticResource True}}" />
-			<RadioButton Margin="5" Content="По убыванию" Foreground="{DynamicResource ForegroundColor_0}" GroupName="SortOrder" IsChecked="{Binding SortAscending, Converter={StaticResource RadioButtonCheckedConverter}, ConverterParameter={StaticResource False}}" />
+			<RadioButton Margin="5" Content="По возрастанию" Foreground="White" GroupName="SortOrder" IsChecked="{Binding SortAscending, Converter={StaticResource RadioButtonCheckedConverter}, ConverterParameter={StaticResource True}}" />
+			<RadioButton Margin="5" Content="По убыванию" Foreground="White" GroupName="SortOrder" IsChecked="{Binding SortAscending, Converter={StaticResource RadioButtonCheckedConverter}, ConverterParameter={StaticResource False}}" />
 		</StackPanel>
 	</Grid>
 </UserControl>

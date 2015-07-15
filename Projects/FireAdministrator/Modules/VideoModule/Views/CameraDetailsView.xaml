@@ -19,16 +19,16 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-				<TextBlock Grid.Row="0" Grid.Column="0" Text="Название" HorizontalAlignment="Right" Foreground="{DynamicResource ForegroundColor_0}" Margin="2" />
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Название" HorizontalAlignment="Right" Foreground="White" Margin="2" />
                 <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Camera.Name}" Foreground="White" Margin="2" />
 
-				<TextBlock Grid.Row="1" Grid.Column="0" Text="Адрес" HorizontalAlignment="Right" Foreground="{DynamicResource ForegroundColor_0}" Margin="2" />
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Адрес" HorizontalAlignment="Right" Foreground="White" Margin="2" />
                 <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Camera.Ip}" Foreground="White" Margin="2" />
 
-				<TextBlock Grid.Row="2" Grid.Column="0" Text="Номер канала" HorizontalAlignment="Right" Foreground="{DynamicResource ForegroundColor_0}" Margin="2" />
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="Номер канала" HorizontalAlignment="Right" Foreground="White" Margin="2" />
                 <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Camera.RviChannelNo}" Foreground="White" Margin="2" />
 
-				<TextBlock Grid.Row="3" Grid.Column="0" Text="Название канала" HorizontalAlignment="Right" Foreground="{DynamicResource ForegroundColor_0}" Margin="2" />
+                <TextBlock Grid.Row="3" Grid.Column="0" Text="Название канала" HorizontalAlignment="Right" Foreground="White" Margin="2" />
                 <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Camera.RviChannelName}" Foreground="White" Margin="2" />
 
                 <Button Grid.Row="4" Grid.ColumnSpan="2" Command="{Binding ShowCommand}" Content="Предпросмотр" Width="150" Margin="2" />

@@ -61,7 +61,7 @@
 						<Controls:TimePicker TimeSpan="{Binding EndDateTime.Time, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 					</StackPanel>
 
-					<CheckBox IsChecked="{Binding UseDeviceDateTime, UpdateSourceTrigger=PropertyChanged}" Content="Использовать дату прибора" Foreground="{DynamicResource ForegroundColor_0}" Margin="102 2 0 0" />
+					<CheckBox IsChecked="{Binding UseDeviceDateTime, UpdateSourceTrigger=PropertyChanged}" Content="Использовать дату прибора" Foreground="White" Margin="102 2 0 0" />
 				</StackPanel>
 			</TabItem>
 			<TabItem Header="Событие" DataContext="{Binding FilterNamesViewModel}">

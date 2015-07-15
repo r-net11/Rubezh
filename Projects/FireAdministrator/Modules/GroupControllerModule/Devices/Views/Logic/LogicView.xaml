@@ -43,7 +43,7 @@
 						</Grid>
 					</StackPanel>
 				</ScrollViewer>
-				<CheckBox Grid.Row="1" Margin="2" Content="Использовать условие включения в качестве противоположного для условия выключения" Foreground="{DynamicResource ForegroundColor_0}" IsChecked="{Binding UseOffCounterLogic}" />
+				<CheckBox Grid.Row="1" Margin="2" Content="Использовать условие включения в качестве противоположного для условия выключения" Foreground="{DynamicResource ForegroundColorLight}" IsChecked="{Binding UseOffCounterLogic}" />
 			</Grid>
 		</TabItem>
 		<TabItem Header="Условие включения немедленно" Visibility="{Binding HasOnNowClause, Converter={StaticResource BoolToVisibilityConverter}}">

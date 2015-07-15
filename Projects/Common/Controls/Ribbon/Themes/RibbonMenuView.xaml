@@ -11,7 +11,7 @@
 			<Setter.Value>
 				<ControlTemplate TargetType="{x:Type ribbon:RibbonMenuView}">
 					<DockPanel>
-						<Border Margin="5" Background="{DynamicResource WindowBackground_0}" BorderBrush="{DynamicResource WindowBorderBrush}" BorderThickness="1" CornerRadius="5" DockPanel.Dock="Left">
+						<Border Margin="5" Background="{DynamicResource WindowBackgroundBrush}" BorderBrush="{DynamicResource WindowBorderBrush}" BorderThickness="1" CornerRadius="5" DockPanel.Dock="Left">
 							<StackPanel Margin="2" IsItemsHost="True" />
 						</Border>
 						<ContentPresenter x:Name="PART_SelectedContentHost" ContentSource="SelectedContent" />

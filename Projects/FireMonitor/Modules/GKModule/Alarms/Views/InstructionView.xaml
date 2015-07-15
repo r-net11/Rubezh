@@ -29,7 +29,7 @@
 			<Slider Name="slider" Margin="5" LostMouseCapture="slider_LostMouseCapture"/>
 		</DockPanel>
 		<ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
-			<TextBlock TextWrapping="Wrap" Text="{Binding Instruction.Text, Mode=OneWay}" Visibility="{Binding Instruction.HasText, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" Foreground="{DynamicResource ForegroundColor_0}"/>
+			<TextBlock TextWrapping="Wrap" Text="{Binding Instruction.Text, Mode=OneWay}" Visibility="{Binding Instruction.HasText, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" Foreground="White"/>
 		</ScrollViewer>
 	</Grid>
 </UserControl>

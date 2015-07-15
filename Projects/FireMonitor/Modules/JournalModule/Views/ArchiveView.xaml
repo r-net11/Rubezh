@@ -32,7 +32,7 @@
 				</StackPanel>
 				<StackPanel Grid.Column="3" HorizontalAlignment="Center"  Orientation="Horizontal">
 					<Controls:SpinnerCogs VerticalAlignment="Center" Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisibilityConverter}}" />
-					<TextBlock Text="{Binding Status}" Foreground="{DynamicResource ForegroundColor_0}" FontWeight="Bold" VerticalAlignment="Center" Margin="2" />
+					<TextBlock Text="{Binding Status}" Foreground="White" FontWeight="Bold" VerticalAlignment="Center" Margin="2" />
 				</StackPanel>
 				<Controls:ToolBarButton Grid.Column="4" Command="{Binding ShowSettingsCommand}" ToolTip="Настройки" ImageSource="Settings2" />
 			</Grid>

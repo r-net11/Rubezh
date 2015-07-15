@@ -4,8 +4,8 @@
 	<UserControl.Resources>
 		<Converters:DeviceParameterMissmatchTypeToColorConverter x:Key="DeviceParameterMissmatchTypeToColorConverter" />
 		<Converters:DeviceParameterMissmatchTypeToColorConverter2 x:Key="DeviceParameterMissmatchTypeToColorConverter2" />
-		<Style TargetType="TextBlock" x:Key="PropertyCaptionStyle">
-			<Setter Property="Text" Value="{Binding Caption}" />
+		<Style TargetType="Label" x:Key="PropertyCaptionStyle">
+			<Setter Property="Content" Value="{Binding Caption}" />
 			<Setter Property="ToolTip" Value="{Binding Caption}" />
 			<Setter Property="HorizontalAlignment" Value="Right" />
 			<Setter Property="VerticalAlignment" Value="Center" />
@@ -21,8 +21,8 @@
 				<ColumnDefinition SharedSizeGroup="group2" Width="*" />
 				<ColumnDefinition SharedSizeGroup="group3" Width="*" />
 			</Grid.ColumnDefinitions>
-			<TextBlock Grid.Column="1" Text="В системе" Foreground="{DynamicResource ForegroundColor_0}" FontWeight="Bold" Margin="2" />
-			<TextBlock Grid.Column="2" Text="В устройстве" Foreground="{DynamicResource ForegroundColor_0}" FontWeight="Bold" Margin="2" />
+			<TextBlock Grid.Column="1" Text="В системе" Foreground="{DynamicResource ForegroundColorLight}" FontWeight="Bold" Margin="2" />
+			<TextBlock Grid.Column="2" Text="В устройстве" Foreground="{DynamicResource ForegroundColorLight}" FontWeight="Bold" Margin="2" />
 		</Grid>
 		<ItemsControl ItemsSource="{Binding StringProperties}">
 			<ItemsControl.ItemTemplate>
@@ -33,7 +33,7 @@
 							<ColumnDefinition SharedSizeGroup="group2" Width="*" />
 							<ColumnDefinition SharedSizeGroup="group3" Width="*" />
 						</Grid.ColumnDefinitions>
-						<TextBlock Grid.Column="0"  Style="{StaticResource PropertyCaptionStyle}"/>
+						<Label Grid.Column="0"  Style="{StaticResource PropertyCaptionStyle}"/>
 						<TextBox Grid.Column="1" Text="{Binding Text}" IsEnabled="{Binding IsEnabled}" VerticalAlignment="Center" Margin="2" />
 						<TextBox Grid.Column="2" Text="{Binding DeviceAUParameterValue, Mode=OneWay}" VerticalAlignment="Center" Margin="2" IsEnabled="False" Visibility="{Binding IsAUParameter, Converter={StaticResource BoolToVisibilityConverter}}"/>
 					</Grid>
@@ -49,7 +49,7 @@
 							<ColumnDefinition SharedSizeGroup="group2" Width="*" />
 							<ColumnDefinition SharedSizeGroup="group3" Width="*" />
 						</Grid.ColumnDefinitions>
-						<TextBlock Grid.Column="0"  Style="{StaticResource PropertyCaptionStyle}"/>
+						<Label Grid.Column="0"  Style="{StaticResource PropertyCaptionStyle}"/>
 						<TextBox Grid.Column="1" Text="{Binding Text}" VerticalAlignment="Center" Margin="2" />
 						<TextBox Grid.Column="2" Text="{Binding DeviceAUParameterValue, Mode=OneWay}" VerticalAlignment="Center" Margin="2" IsEnabled="False" Visibility="{Binding IsAUParameter, Converter={StaticResource BoolToVisibilityConverter}}" />
 					</Grid>
@@ -65,7 +65,7 @@
 							<ColumnDefinition SharedSizeGroup="group2" Width="*" />
 							<ColumnDefinition SharedSizeGroup="group3" Width="*" />
 						</Grid.ColumnDefinitions>
-						<TextBlock Grid.Column="0" Style="{StaticResource PropertyCaptionStyle}" />
+						<Label Grid.Column="0" Style="{StaticResource PropertyCaptionStyle}" />
 						<CheckBox Grid.Column="1" IsChecked="{Binding IsChecked, UpdateSourceTrigger=PropertyChanged}" Margin="2" VerticalAlignment="Center" />
 						<TextBox Grid.Column="2" Text="{Binding DeviceAUParameterValue, Mode=OneWay}" VerticalAlignment="Center" Margin="2" IsEnabled="False" Visibility="{Binding IsAUParameter, Converter={StaticResource BoolToVisibilityConverter}}" />
 					</Grid>
@@ -81,7 +81,7 @@
 							<ColumnDefinition SharedSizeGroup="group2" Width="*" />
 							<ColumnDefinition SharedSizeGroup="group3" Width="*" />
 						</Grid.ColumnDefinitions>
-						<TextBlock Grid.Column="0"  Style="{StaticResource PropertyCaptionStyle}"/>
+						<Label Grid.Column="0"  Style="{StaticResource PropertyCaptionStyle}"/>
 						<ComboBox Grid.Column="1" ItemsSource="{Binding Parameters}" SelectedItem="{Binding SelectedParameter, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsEnabled}" ToolTip="{Binding SelectedParameter.Name}" VerticalAlignment="Center" Margin="2">
 							<ComboBox.ItemTemplate>
 								<DataTemplate>

@@ -112,7 +112,7 @@
 													<ComboBox ItemsSource="{Binding AvailvableDrivers}" SelectedItem="{Binding Driver, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding CanChangeDriver, Converter={StaticResource BoolToVisibilityConverter}}">
 														<ComboBox.ItemTemplate>
 															<DataTemplate>
-																<Controls:IconLabel Foreground="{DynamicResource ForegroundColor_1}" ImageSource="{Binding ImageSource}" Text="{Binding ShortName}" />
+																<Controls:IconLabel Foreground="{DynamicResource ForegroundColorDark}" ImageSource="{Binding ImageSource}" Text="{Binding ShortName}" />
 															</DataTemplate>
 														</ComboBox.ItemTemplate>
 													</ComboBox>
@@ -192,7 +192,7 @@
 									</Controls:EditorPresenter.ViewTemplate>
 									<Controls:EditorPresenter.EditTemplate>
 										<ControlTemplate>
-											<TextBox Name="projectAddressTextBox" HorizontalAlignment="Stretch" BorderThickness="0" Foreground="{DynamicResource ForegroundColor_1}" Text="{Binding ProjectAddress, UpdateSourceTrigger=PropertyChanged}" />
+											<TextBox Name="projectAddressTextBox" HorizontalAlignment="Stretch" BorderThickness="0" Foreground="{DynamicResource ForegroundColorDark}" Text="{Binding ProjectAddress, UpdateSourceTrigger=PropertyChanged}" />
 											<ControlTemplate.Triggers>
 												<Trigger SourceName="projectAddressTextBox" Property="IsVisible" Value="True">
 													<Setter TargetName="projectAddressTextBox" Property="FocusManager.FocusedElement" Value="{Binding ElementName=projectAddressTextBox}" />
@@ -216,7 +216,7 @@
 									</Controls:EditorPresenter.ViewTemplate>
 									<Controls:EditorPresenter.EditTemplate>
 										<ControlTemplate>
-											<TextBox Name="descriptionTextBox" HorizontalAlignment="Stretch" BorderThickness="0" Foreground="{DynamicResource ForegroundColor_1}" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" />
+											<TextBox Name="descriptionTextBox" HorizontalAlignment="Stretch" BorderThickness="0" Foreground="{DynamicResource ForegroundColorDark}" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" />
 											<ControlTemplate.Triggers>
 												<Trigger SourceName="descriptionTextBox" Property="IsVisible" Value="True">
 													<Setter TargetName="descriptionTextBox" Property="FocusManager.FocusedElement" Value="{Binding ElementName=descriptionTextBox}" />
@@ -242,11 +242,11 @@
 					<StackPanel Margin="5" HorizontalAlignment="Left">
 						<StackPanel Orientation="Horizontal">
 							<Image Width="16" Margin="2 2 5 2" Source="{Binding Driver.ImageSource}" />
-							<TextBlock VerticalAlignment="Center" FontWeight="Bold" Foreground="{DynamicResource ForegroundColor_0}" Text="{Binding Driver.Name}" />
+							<TextBlock VerticalAlignment="Center" FontWeight="Bold" Foreground="{DynamicResource ForegroundColorLight}" Text="{Binding Driver.Name}" />
 						</StackPanel>
 						<StackPanel Orientation="Horizontal">
-							<TextBlock Width="120" Margin="2 2 5 2" Foreground="{DynamicResource ForegroundColor_0}" Text="Подключено к " />
-							<TextBlock VerticalAlignment="Center" FontWeight="Bold" Foreground="{DynamicResource ForegroundColor_0}">
+							<TextBlock Width="120" Margin="2 2 5 2" Foreground="{DynamicResource ForegroundColorLight}" Text="Подключено к " />
+							<TextBlock VerticalAlignment="Center" FontWeight="Bold" Foreground="{DynamicResource ForegroundColorLight}">
 								<Hyperlink Command="{Binding ShowParentCommand}" Style="{StaticResource HyperlinkStyle}">
 									<StackPanel Orientation="Horizontal">
 										<Image Width="16" Margin="2 2 5 2" Source="{Binding Device.Parent.Driver.ImageSource}" />
@@ -265,8 +265,8 @@
 							</StackPanel.Style>
 						</StackPanel>
 						<WrapPanel Orientation="Horizontal" Visibility="{Binding IsZoneOrLogic, Converter={StaticResource BoolToVisibilityConverter}}">
-							<TextBlock Width="120" Margin="2 2 5 2" Foreground="{DynamicResource ForegroundColor_0}" Text="Зона или Логика " />
-							<TextBlock Margin="2 2 5 2" FontStyle="Italic" Foreground="{DynamicResource ForegroundColor_0}" Text="Зона или Логика не указана">
+							<TextBlock Width="120" Margin="2 2 5 2" Foreground="{DynamicResource ForegroundColorLight}" Text="Зона или Логика " />
+							<TextBlock Margin="2 2 5 2" FontStyle="Italic" Foreground="{DynamicResource ForegroundColorLight}" Text="Зона или Логика не указана">
 								<TextBlock.Style>
 									<Style>
 										<Setter Property="TextBlock.Visibility" Value="Collapsed" />
@@ -315,8 +315,8 @@
 									</Style.Triggers>
 								</Style>
 							</WrapPanel.Style>
-							<TextBlock Width="120" Margin="2 2 5 2" Foreground="{DynamicResource ForegroundColor_0}" Text="Охранная Зона" />
-							<TextBlock Margin="2 2 5 2" FontStyle="Italic" Foreground="{DynamicResource ForegroundColor_0}" Text="Охранная зона не указана">
+							<TextBlock Width="120" Margin="2 2 5 2" Foreground="{DynamicResource ForegroundColorLight}" Text="Охранная Зона" />
+							<TextBlock Margin="2 2 5 2" FontStyle="Italic" Foreground="{DynamicResource ForegroundColorLight}" Text="Охранная зона не указана">
 								<TextBlock.Style>
 									<Style>
 										<Setter Property="TextBlock.Visibility" Value="Collapsed" />
@@ -355,7 +355,7 @@
 						</WrapPanel>
 
 						<StackPanel Orientation="Horizontal" Visibility="{Binding IsInMPT, Converter={StaticResource BoolToVisibilityConverter}}">
-							<TextBlock Width="120" Margin="2 2 5 2" Foreground="{DynamicResource ForegroundColor_0}" Text="МПТ " />
+							<TextBlock Width="120" Margin="2 2 5 2" Foreground="{DynamicResource ForegroundColorLight}" Text="МПТ " />
 							
 							<TextBlock VerticalAlignment="Center">
 								<Hyperlink Command="{Binding ShowMPTCommand}" Style="{StaticResource HyperlinkStyle}">
@@ -368,7 +368,7 @@
 						</StackPanel>
 
 						<StackPanel Orientation="Horizontal" Visibility="{Binding IsInDoor, Converter={StaticResource BoolToVisibilityConverter}}">
-							<TextBlock Width="120" Margin="2 2 5 2" Foreground="{DynamicResource ForegroundColor_0}" Text="Точка доступа " />
+							<TextBlock Width="120" Margin="2 2 5 2" Foreground="{DynamicResource ForegroundColorLight}" Text="Точка доступа " />
 
 							<TextBlock VerticalAlignment="Center">
 								<Hyperlink Command="{Binding ShowDoorCommand}" Style="{StaticResource HyperlinkStyle}">

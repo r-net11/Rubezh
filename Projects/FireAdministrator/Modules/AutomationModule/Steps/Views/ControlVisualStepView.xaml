@@ -9,7 +9,7 @@
 
 	<StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<TextBlock Style="{DynamicResource LabelStyle}" Text="Макет" />
+			<Label Content="Макет" />
 			<ComboBox ItemsSource="{Binding Layouts}" SelectedItem="{Binding SelectedLayout}">
 				<ComboBox.ItemTemplate>
 					<DataTemplate>
@@ -20,7 +20,7 @@
 		</StackPanel>
 
 		<StackPanel Orientation="Horizontal">
-			<TextBlock Style="{DynamicResource LabelStyle}" Text="Элемент" />
+			<Label Content="Элемент" />
 			<ComboBox IsEnabled="{Binding SelectedLayout, Converter={StaticResource NullToBoolConverter}}" ItemsSource="{Binding LayoutParts}" SelectedItem="{Binding SelectedLayoutPart}">
 				<ComboBox.ItemTemplate>
 					<DataTemplate>
@@ -31,7 +31,7 @@
 		</StackPanel>
 
 		<StackPanel Orientation="Horizontal">
-			<TextBlock Style="{DynamicResource LabelStyle}" Text="Свойство" />
+			<Label Content="Свойство" />
 			<ComboBox IsEnabled="{Binding SelectedLayoutPart, Converter={StaticResource NullToBoolConverter}}" ItemsSource="{Binding LayoutPartProperties}" SelectedItem="{Binding SelectedLayoutPartProperty}">
 				<ComboBox.ItemTemplate>
 					<DataTemplate>
@@ -42,17 +42,17 @@
 		</StackPanel>
 
 		<StackPanel Orientation="Horizontal">
-			<TextBlock Style="{DynamicResource LabelStyle}" Text="Аргумент" />
+			<Label Content="Аргумент" />
 			<Views:ArgumentView DataContext="{Binding ValueArgument}" />
 		</StackPanel>
 
 		<StackPanel Orientation="Horizontal">
-			<TextBlock Style="{DynamicResource LabelStyle}" Text="Всем клиентам" />
+			<Label Content="Всем клиентам" />
 			<CheckBox IsChecked="{Binding ForAllClients}" />
 		</StackPanel>
 
 		<StackPanel Orientation="Horizontal" Visibility="{Binding Path=ControlElementType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ControlElementType.Set}}" >
-			<TextBlock Style="{DynamicResource LabelStyle}" Text="Восстанавливать" Width="108" Margin="2, 2, -6, 2" />
+			<Label Content="Восстанавливать" Width="108" Margin="2, 2, -6, 2" />
 			<CheckBox IsChecked="{Binding StoreOnServer}" IsEnabled="{Binding CanStoreOnServer}" />
 		</StackPanel>
 	</StackPanel>

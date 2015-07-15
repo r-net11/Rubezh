@@ -12,13 +12,13 @@
 		</Grid.RowDefinitions>
 		<StackPanel Grid.Row="0">
 			<StackPanel Orientation="Horizontal">
-				<TextBlock Style="{DynamicResource LabelStyle}" Text="Результат " HorizontalAlignment="Right" VerticalAlignment="Center"/>
+				<Label Content="Результат " HorizontalAlignment="Right" VerticalAlignment="Center"/>
 				<Views:ArgumentView DataContext="{Binding ResultArgument}" />
 			</StackPanel>
 			<StackPanel Orientation="Horizontal" Visibility="{Binding ResultArgument.SelectedVariable, Converter = {StaticResource NullToVisibilityConverter}}">
-				<TextBlock Style="{DynamicResource LabelStyle}" Text="Условия поиска " HorizontalAlignment="Right" VerticalAlignment="Center"/>
+				<Label Content="Условия поиска " HorizontalAlignment="Right" VerticalAlignment="Center"/>
 				<ToolBarButton HorizontalAlignment="Left" Command="{Binding AddCommand}" ImageSource="Add"  ToolTip="Добавить условие" Height="32" Width="32" />
-				<ToolBarButton HorizontalAlignment="Left" Width="50" Height="30" Foreground="{DynamicResource ForegroundColor_0}" Command="{Binding ChangeJoinOperatorCommand}"
+				<ToolBarButton HorizontalAlignment="Left" Width="50" Height="30" Foreground="{DynamicResource ForegroundColorLight}" Command="{Binding ChangeJoinOperatorCommand}"
 							   Visibility="{Binding Path=IsJoinOperatorVisible, Converter={StaticResource BoolToVisibilityConverter}}">
 					<ToolBarButton.ToolTip>
 						<StackPanel Orientation="Horizontal">

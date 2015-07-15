@@ -78,7 +78,7 @@
 				Margin="2"
 				Width="150"/>
 		</Grid>
-		<CheckBox Grid.Row="2" VerticalAlignment="Center" Content="Отображать архивные сведения" Foreground="{DynamicResource ForegroundColor_0}" IsChecked="{Binding UseArchive}" Visibility="{Binding HasArchive, Converter={StaticResource BoolToVisibilityConverter}}" />
+		<CheckBox Grid.Row="2" VerticalAlignment="Center" Content="Отображать архивные сведения" Foreground="White" IsChecked="{Binding UseArchive}" Visibility="{Binding HasArchive, Converter={StaticResource BoolToVisibilityConverter}}" />
 		<ContentPresenter Grid.Row="3" Content="{Binding MainViewModel, Mode=OneTime}" />
 		<TextBlock Grid.Row="4" Visibility="{Binding IsAdditionalExpanded, Converter={StaticResource InversedBoolToVisibilityConverter}}">
 			<Hyperlink Command="{Binding ExpandAdditionalCommand}" Style="{StaticResource HyperlinkStyle}">
@@ -94,11 +94,11 @@
 				</TextBlock>
 			</GroupBox.Header>
 			<StackPanel Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2">
-				<CheckBox Margin="4" Content="Отображать название фильтра" Foreground="{DynamicResource ForegroundColor_0}" IsChecked="{Binding PrintFilterName}" />
-				<CheckBox Margin="4" Content="Отображать название фильтра в заголовке" Foreground="{DynamicResource ForegroundColor_0}" IsChecked="{Binding PrintFilterNameInHeader}" />
-				<CheckBox Margin="4" Content="Отображать границы периода формирования отчёта" Foreground="{DynamicResource ForegroundColor_0}" IsChecked="{Binding PrintPeriod}" Visibility="{Binding HasPeriod, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneTime}" />
-				<CheckBox Margin="4" Content="Отображать дату и время формирования отчёта" Foreground="{DynamicResource ForegroundColor_0}" IsChecked="{Binding PrintDate}" />
-				<CheckBox Margin="4" Content="Отображать сведения о пользователе, сформировавшем отчёт" Foreground="{DynamicResource ForegroundColor_0}" IsChecked="{Binding PrintUser}" />
+				<CheckBox Margin="4" Content="Отображать название фильтра" Foreground="White" IsChecked="{Binding PrintFilterName}" />
+				<CheckBox Margin="4" Content="Отображать название фильтра в заголовке" Foreground="White" IsChecked="{Binding PrintFilterNameInHeader}" />
+				<CheckBox Margin="4" Content="Отображать границы периода формирования отчёта" Foreground="White" IsChecked="{Binding PrintPeriod}" Visibility="{Binding HasPeriod, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneTime}" />
+				<CheckBox Margin="4" Content="Отображать дату и время формирования отчёта" Foreground="White" IsChecked="{Binding PrintDate}" />
+				<CheckBox Margin="4" Content="Отображать сведения о пользователе, сформировавшем отчёт" Foreground="White" IsChecked="{Binding PrintUser}" />
 			</StackPanel>
 		</GroupBox>
 	</Grid>

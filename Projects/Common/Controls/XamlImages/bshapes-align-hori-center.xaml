@@ -4,11 +4,11 @@
 		<DrawingBrush.Drawing>
 			<DrawingGroup>
 				<DrawingGroup.Children>
-					<GeometryDrawing Brush="{DynamicResource ButtonBackground_1}" Geometry="F1 M 10.8343,13.2767L 8.1676,13.2767L 8.1676,7.99933L 10.8343,7.99933L 10.8343,5.38733L 5.5556,5.38733L 5.5556,15.9993L 10.8343,15.9993L 10.8343,13.2767 Z "/>
-					<GeometryDrawing Brush="{DynamicResource ButtonBackground_1}" Geometry="F1 M 21.5009,5.38733L 21.5009,7.99805L 24.2223,7.99805L 24.2223,13.2767L 21.5009,13.2767L 21.5009,15.998L 26.8889,15.998L 26.8889,5.38733L 21.5009,5.38733 Z "/>
-					<GeometryDrawing Brush="{DynamicResource ButtonBackground_1}" Geometry="F1 M 18.8333,37.416L 13.4173,37.416L 13.4173,0L 18.8333,0L 18.8333,37.416 Z "/>
-					<GeometryDrawing Brush="{DynamicResource ButtonBackground_1}" Geometry="F1 M 32.0827,31.9987L 21.5,31.9987L 21.5,21.332L 32.0827,21.332L 32.0827,31.9987 Z "/>
-					<GeometryDrawing Brush="{DynamicResource ButtonBackground_1}" Geometry="F1 M 10.8347,31.9987L 0,31.9987L 0,21.332L 10.8347,21.332L 10.8347,31.9987 Z "/>
+					<GeometryDrawing Brush="{DynamicResource ButtonBackgroundColorDark}" Geometry="F1 M 10.8343,13.2767L 8.1676,13.2767L 8.1676,7.99933L 10.8343,7.99933L 10.8343,5.38733L 5.5556,5.38733L 5.5556,15.9993L 10.8343,15.9993L 10.8343,13.2767 Z "/>
+					<GeometryDrawing Brush="{DynamicResource ButtonBackgroundColorDark}" Geometry="F1 M 21.5009,5.38733L 21.5009,7.99805L 24.2223,7.99805L 24.2223,13.2767L 21.5009,13.2767L 21.5009,15.998L 26.8889,15.998L 26.8889,5.38733L 21.5009,5.38733 Z "/>
+					<GeometryDrawing Brush="{DynamicResource ButtonBackgroundColorDark}" Geometry="F1 M 18.8333,37.416L 13.4173,37.416L 13.4173,0L 18.8333,0L 18.8333,37.416 Z "/>
+					<GeometryDrawing Brush="{DynamicResource ButtonBackgroundColorDark}" Geometry="F1 M 32.0827,31.9987L 21.5,31.9987L 21.5,21.332L 32.0827,21.332L 32.0827,31.9987 Z "/>
+					<GeometryDrawing Brush="{DynamicResource ButtonBackgroundColorDark}" Geometry="F1 M 10.8347,31.9987L 0,31.9987L 0,21.332L 10.8347,21.332L 10.8347,31.9987 Z "/>
 				</DrawingGroup.Children>
 			</DrawingGroup>
 		</DrawingBrush.Drawing>

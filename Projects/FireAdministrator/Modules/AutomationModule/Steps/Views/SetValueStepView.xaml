@@ -8,7 +8,7 @@
 	</UserControl.Resources>
 	<StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<TextBlock Style="{DynamicResource LabelTextBlock}" Text="Тип значений" />
+			<Label Content="Тип значений" />
 			<ComboBox ItemsSource="{Binding ExplicitTypes}" SelectedItem="{Binding SelectedExplicitType, UpdateSourceTrigger=PropertyChanged}">
 				<ComboBox.ItemTemplate>
 					<DataTemplate>
@@ -34,11 +34,11 @@
 			</ComboBox>
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<TextBlock Style="{DynamicResource LabelTextBlock}" Text="Результат" />
+			<Label Content="Результат" />
 			<Views:ArgumentView DataContext="{Binding TargetArgument}" />
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<TextBlock Style="{DynamicResource LabelTextBlock}" Text="Значение" />
+			<Label Content="Значение" />
 			<Views:ArgumentView DataContext="{Binding SourceArgument}" />
 		</StackPanel>
 	</StackPanel>

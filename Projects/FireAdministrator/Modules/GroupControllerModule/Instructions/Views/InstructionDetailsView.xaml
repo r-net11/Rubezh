@@ -32,10 +32,10 @@
 						<RowDefinition Height="auto" />
 						<RowDefinition Height="auto" />
 					</Grid.RowDefinitions>
-					<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Column="0" Grid.Row="0" Text="Название" HorizontalAlignment="Right" />
-					<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Column="0" Grid.Row="1" Text="Состояние" HorizontalAlignment="Right" />
-					<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Column="0" Grid.Row="2" Text="Тип инструкции" HorizontalAlignment="Right" />
-					<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Column="0" Grid.Row="3" Text="Текст" HorizontalAlignment="Right" />
+					<Label Grid.Column="0" Grid.Row="0" Content="Название" HorizontalAlignment="Right" />
+					<Label Grid.Column="0" Grid.Row="1" Content="Состояние" HorizontalAlignment="Right" />
+					<Label Grid.Column="0" Grid.Row="2" Content="Тип инструкции" HorizontalAlignment="Right" />
+					<Label Grid.Column="0" Grid.Row="3" Content="Текст" HorizontalAlignment="Right" />
 					<!--<TextBlock Grid.Column="0" Grid.Row="4" Content="Мультимедиа" HorizontalAlignment="Right" VerticalAlignment="Center" />-->
 					<TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Name}" Margin="2" />
 					<ComboBox Grid.Column="1" Grid.Row="1" Margin="2" ItemsSource="{Binding AvailableAlarmTypes}"
@@ -46,7 +46,7 @@
 								<Controls:IconLabel
 									ImageSource="{Binding ., Converter={StaticResource AlarmTypeToBIconConverter}}" 
 									Text="{Binding ., Converter={StaticResource XAlarmTypeToStringConverter}}" 
-									Foreground="{DynamicResource ForegroundColor_1}"/>
+									Foreground="{DynamicResource ForegroundColorDark}"/>
 							</DataTemplate>
 						</ComboBox.ItemTemplate>
 					</ComboBox>
@@ -93,9 +93,9 @@
 						<RowDefinition Height="auto" />
 						<RowDefinition Height="auto" />
 					</Grid.RowDefinitions>
-					<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Column="0" Grid.Row="0" Text="Устройства" HorizontalAlignment="Right" />
-					<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Column="0" Grid.Row="1" Text="Зоны" HorizontalAlignment="Right" />
-					<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Column="0" Grid.Row="2" Text="Направления" HorizontalAlignment="Right" />
+					<Label Grid.Column="0" Grid.Row="0" Content="Устройства" HorizontalAlignment="Right" />
+					<Label Grid.Column="0" Grid.Row="1" Content="Зоны" HorizontalAlignment="Right" />
+					<Label Grid.Column="0" Grid.Row="2" Content="Направления" HorizontalAlignment="Right" />
 					<TextBlock Grid.Column="1" Grid.Row="0" VerticalAlignment="Center">
 						<Hyperlink Command="{Binding SelectDeviceCommand}" Style="{StaticResource HyperlinkStyle}">
 							<StackPanel Orientation="Horizontal">

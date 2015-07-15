@@ -8,7 +8,7 @@
 	<Grid>
 		<StackPanel>
 			<StackPanel Orientation="Horizontal">
-				<TextBlock Style="{DynamicResource LabelStyle}" Text="Тип объекта" />
+				<Label Content="Тип объекта" />
 				<ComboBox ItemsSource="{Binding ObjectTypes}" SelectedItem="{Binding SelectedObjectType, UpdateSourceTrigger=PropertyChanged}">
 					<ComboBox.ItemTemplate>
 						<DataTemplate>
@@ -19,12 +19,12 @@
 			</StackPanel>
 
 			<StackPanel Orientation="Horizontal">
-				<TextBlock Style="{DynamicResource LabelStyle}" Text="Объект" />
+				<Label Content="Объект" />
 				<Views:ArgumentView DataContext="{Binding ObjectArgument}" />
 			</StackPanel>
 
 			<StackPanel Orientation="Horizontal">
-				<TextBlock Style="{DynamicResource LabelStyle}" Text="Свойство" />
+				<Label Content="Свойство" />
 				<ComboBox ItemsSource="{Binding Properties}" SelectedItem="{Binding SelectedProperty, UpdateSourceTrigger=PropertyChanged}">
 					<ComboBox.ItemTemplate>
 						<DataTemplate>
@@ -35,7 +35,7 @@
 			</StackPanel>
 
 			<StackPanel Orientation="Horizontal">
-				<TextBlock Style="{DynamicResource LabelStyle}" Text="Результат" />
+				<Label Content="Результат" />
 				<Views:ArgumentView DataContext="{Binding ResultArgument}" />
 			</StackPanel>
 		</StackPanel>

@@ -23,12 +23,12 @@
 					<ColumnDefinition />
 					<ColumnDefinition />
 				</Grid.ColumnDefinitions>
-				<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Row="0" Grid.Column="0" Text="Номер" Margin="2" HorizontalAlignment="Right" />
-				<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Row="1" Grid.Column="0" Text="Наименование" HorizontalAlignment="Right" />
-				<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Row="2" Grid.Column="0" Text="Задержка, с" HorizontalAlignment="Right" />
-				<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Row="3" Grid.Column="0" Text="Время тушения, с" HorizontalAlignment="Right" />
-				<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Row="4" Grid.Column="0" Text="Количество основных насосов" HorizontalAlignment="Right" Margin="2" />
-				<TextBlock Style="{DynamicResource LabelTextBlock}" Grid.Row="5" Grid.Column="0" Text="Интервал разновременного пуска, с" HorizontalAlignment="Right" Margin="2" />
+				<Label Grid.Row="0" Grid.Column="0" Content="Номер" Margin="2" HorizontalAlignment="Right" />
+				<Label Grid.Row="1" Grid.Column="0" Content="Наименование" HorizontalAlignment="Right" />
+				<Label Grid.Row="2" Grid.Column="0" Content="Задержка, с" HorizontalAlignment="Right" />
+				<Label Grid.Row="3" Grid.Column="0" Content="Время тушения, с" HorizontalAlignment="Right" />
+				<Label Grid.Row="4" Grid.Column="0" Content="Количество основных насосов" HorizontalAlignment="Right" Margin="2" />
+				<Label Grid.Row="5" Grid.Column="0" Content="Интервал разновременного пуска, с" HorizontalAlignment="Right" Margin="2" />
 
 				<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding No, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 				<controls:XAutoCompleteBox Grid.Row="1" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" ItemsSource="{Binding AvailableNames}" IsTextCompletionEnabled="True" ContextMenu="{x:Null}" x:Name="nameTextBox" Margin="2">

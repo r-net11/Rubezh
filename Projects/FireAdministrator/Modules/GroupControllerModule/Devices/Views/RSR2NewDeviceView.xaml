@@ -46,7 +46,7 @@
 				<ColumnDefinition Width="*" />
 			</Grid.ColumnDefinitions>
 			<StackPanel Grid.Column="1" Visibility="{Binding SelectedDriver.HasAddress, Converter={StaticResource BoolToVisibilityConverter}}" Orientation="Horizontal" Margin="0 5">
-				<TextBlock Style="{DynamicResource LabelTextBlock}" Text="Количество" />
+				<Label Content="Количество" />
 				<extToolkit:IntegerUpDown Minimum="1" Maximum="255" Value="{Binding Count}" SelectAllOnGotFocus="True" Width="150" HorizontalAlignment="Left" />
 			</StackPanel>
 		</Grid>

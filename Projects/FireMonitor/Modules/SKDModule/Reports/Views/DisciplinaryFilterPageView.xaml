@@ -23,8 +23,8 @@
 			<ColumnDefinition Width="Auto" />
 			<ColumnDefinition />
 		</Grid.ColumnDefinitions>
-		<RadioButton Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Margin="-10,5,5,5" Foreground="{DynamicResource ForegroundColor_0}" VerticalAlignment="Center" Content="Отображать нарушения временных критериев первого входа/последнего выхода" GroupName="main" IsChecked="{Binding ShowAllViolation, Converter={StaticResource InverseBooleanConverter}}" />
-		<RadioButton Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Margin="-10,5,5,5" Foreground="{DynamicResource ForegroundColor_0}" VerticalAlignment="Center" Content="Отображать нарушения временных критериев всех рабочих интервалов" GroupName="main" IsChecked="{Binding ShowAllViolation}" />
+		<RadioButton Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Margin="-10,5,5,5" Foreground="White" VerticalAlignment="Center" Content="Отображать нарушения временных критериев первого входа/последнего выхода" GroupName="main" IsChecked="{Binding ShowAllViolation, Converter={StaticResource InverseBooleanConverter}}" />
+		<RadioButton Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Margin="-10,5,5,5" Foreground="White" VerticalAlignment="Center" Content="Отображать нарушения временных критериев всех рабочих интервалов" GroupName="main" IsChecked="{Binding ShowAllViolation}" />
 
 		<CheckBox Grid.Row="2" Grid.Column="1" Content="Опоздания" IsChecked="{Binding ShowDelay}" />
 		<CheckBox Grid.Row="3" Grid.Column="1" Content="Уход раньше" IsChecked="{Binding ShowEarlуRetirement}" />

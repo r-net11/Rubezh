@@ -7,11 +7,11 @@
 	</UserControl.Resources>
 	<StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<TextBlock Style="{DynamicResource LabelStyle}" Text="Право" />
+			<Label Content="Право" />
 			<Views:ArgumentView DataContext="{Binding PermissionArgument}" />
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<TextBlock Style="{DynamicResource LabelStyle}" Text="Результат" />
+			<Label Content="Результат" />
 			<Views:ArgumentView DataContext="{Binding ResultArgument}" />
 		</StackPanel>
 	</StackPanel>

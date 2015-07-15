@@ -39,7 +39,7 @@
 						<ComboBox HorizontalAlignment="Stretch" Width="Auto" ItemsSource="{Binding AvailableSounds}" SelectedItem="{Binding SoundName,  Converter={StaticResource SoundToStringConverter}, UpdateSourceTrigger=PropertyChanged}">
 							<ComboBox.ItemTemplate>
 								<DataTemplate>
-									<TextBlock Text="{Binding ., Converter={StaticResource SoundToStringConverter}}" Foreground="{DynamicResource ForegroundColor_1}" />
+									<TextBlock Text="{Binding ., Converter={StaticResource SoundToStringConverter}}" Foreground="{DynamicResource ForegroundColorDark}" />
 								</DataTemplate>
 							</ComboBox.ItemTemplate>
 						</ComboBox>
@@ -57,7 +57,7 @@
 						<ComboBox HorizontalAlignment="Stretch" Width="Auto" ItemsSource="{Binding AvailableSpeakers}" SelectedItem="{Binding BeeperType, Converter={StaticResource BeeperTypeToStringConverter}, UpdateSourceTrigger=PropertyChanged}">
 							<ComboBox.ItemTemplate>
 								<DataTemplate>
-									<TextBlock Text="{Binding ., Converter={StaticResource BeeperTypeToStringConverter}}" Foreground="{DynamicResource ForegroundColor_1}" />
+									<TextBlock Text="{Binding ., Converter={StaticResource BeeperTypeToStringConverter}}" Foreground="{DynamicResource ForegroundColorDark}" />
 								</DataTemplate>
 							</ComboBox.ItemTemplate>
 						</ComboBox>
