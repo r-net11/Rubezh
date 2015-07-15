@@ -113,7 +113,7 @@ namespace FiresecService.Service
 		{
 			using (var passJournalTranslator = new PassJournalTranslator())
 			{
-				passJournalTranslator.InsertPassJournalTestData();
+				passJournalTranslator.InsertPassJournalTestData(arg);
 			}
 			return "Test";
 		}

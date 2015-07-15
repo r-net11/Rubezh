@@ -527,9 +527,9 @@ namespace FiresecClient
 			return SafeContext.Execute(() => FiresecService.GenerateEmployeeDays());
 		}
 
-		public OperationResult GenerateTestData()
+		public OperationResult GenerateTestData(int employeeCount)
 		{
-			return SafeContext.Execute(() => FiresecService.GenerateTestData());
+			return SafeContext.Execute(() => FiresecService.GenerateTestData(employeeCount));
 		}
 
 		public OperationResult SaveJournalVideoUID(Guid journalItemUID, Guid videoUID, Guid cameraUID)

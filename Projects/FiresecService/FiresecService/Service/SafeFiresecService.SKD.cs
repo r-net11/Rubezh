@@ -569,9 +569,9 @@ namespace FiresecService.Service
 			return SafeContext.Execute<OperationResult>(() => FiresecService.GenerateEmployeeDays());
 		}
 
-		public OperationResult GenerateTestData()
+		public OperationResult GenerateTestData(int employeeCount)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.GenerateTestData());
+			return SafeContext.Execute<OperationResult>(() => FiresecService.GenerateTestData(employeeCount));
 		}
 
 		public OperationResult SaveJournalVideoUID(Guid journalItemUID, Guid videoUID, Guid cameraUID)

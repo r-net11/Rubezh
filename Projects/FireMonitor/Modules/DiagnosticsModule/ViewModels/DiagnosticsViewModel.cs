@@ -1,5 +1,7 @@
-﻿using FiresecClient;
+﻿using System.Security.Policy;
+using FiresecClient;
 using Infrastructure.Common;
+using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using System;
@@ -57,7 +59,7 @@ namespace DiagnosticsModule.ViewModels
 		public RelayCommand TestCommand { get; private set; }
 		void OnTest()
 		{
-			FiresecManager.FiresecService.InsertPassJournalTestData("");
+			FiresecManager.FiresecService.InsertPassJournalTestData(ZoneUID);
 			return;
 
 			var thread = new Thread(new ThreadStart(() =>
@@ -69,10 +71,34 @@ namespace DiagnosticsModule.ViewModels
 			thread.Start();
 		}
 
+		private string _zoneUID;
+		public string ZoneUID
+		{
+			get { return _zoneUID; }
+			set
+			{
+				_zoneUID = value;
+				OnPropertyChanged(() => ZoneUID);
+			}
+		}
+
+		private int _employeeCount;
+
+		public int EmployeeCount
+		{
+			get { return _employeeCount; }
+			set
+			{
+				if (_employeeCount == value) return;
+				_employeeCount = value;
+				OnPropertyChanged(() => EmployeeCount);
+			}
+		}
+
 		public RelayCommand SKDDataCommand { get; private set; }
 		void OnSKDData()
 		{
-			FiresecManager.FiresecService.GenerateTestData();
+			FiresecManager.FiresecService.GenerateTestData(EmployeeCount);
 		}
 
 		public RelayCommand GenerateEmployeeDaysCommand { get; private set; }

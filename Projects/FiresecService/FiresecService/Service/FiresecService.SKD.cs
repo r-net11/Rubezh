@@ -1679,11 +1679,11 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult GenerateTestData()
+		public OperationResult GenerateTestData(int employeeCount)
 		{
 			using (var databaseService = new SKDDatabaseService())
 			{
-				return databaseService.EmployeeTranslator.GenerateTestData();
+				return databaseService.EmployeeTranslator.GenerateTestData(employeeCount);
 			}
 		}
 

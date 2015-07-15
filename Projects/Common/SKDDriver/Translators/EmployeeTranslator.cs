@@ -463,7 +463,7 @@ namespace SKDDriver
 
 		#region TestData
 
-		public OperationResult GenerateTestData()
+		public OperationResult GenerateTestData(int employeeCount)
 		{
 			try
 			{
@@ -510,7 +510,7 @@ namespace SKDDriver
 					//    var empl = CreateEmpl("Сотрудник " + i + j + "0", org.UID, deptUIDs.FirstOrDefault(), posUIDs.FirstOrDefault());
 					//    Context.Employees.InsertOnSubmit(empl);
 					//}
-					for (int j = 0; j < 50; j++)
+					for (int j = 0; j < employeeCount; j++)
 					{
 					//	var empl = CreateEmployee(i + j + "", org.UID);
 						var empl = CreateEmployee(i + j + "", or.UID, Context.Schedules.FirstOrDefault().UID);

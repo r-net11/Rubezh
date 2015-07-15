@@ -174,7 +174,7 @@ namespace SKDDriver.Translators
 			//catch { }
 		}
 
-		public void InsertPassJournalTestData()
+		public void InsertPassJournalTestData(string zoneUID)
 		{
 			IEnumerable<ShortEmployee> employees;
 			using (var skdDatabaseService = new SKDDatabaseService())
@@ -220,7 +220,7 @@ namespace SKDDriver.Translators
 							UID = Guid.NewGuid(),
 							EmployeeUID = employee.UID,
 				//			ZoneUID = zoneUID,
-							ZoneUID = Guid.Parse("23701231-F0EA-411C-8C07-5EB175F7A964"),
+							ZoneUID = Guid.Parse(zoneUID),
 							EnterTime = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, hours, 5, 5),
 							ExitTime = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, (hours + 2), 5, 5)
 						};
