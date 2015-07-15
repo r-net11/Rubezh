@@ -4,6 +4,7 @@
 		<ResourceDictionary Source="Constants.xaml" />
 		<ResourceDictionary Source="Converters.xaml" />
 		<ResourceDictionary Source="CommonDataTemplates.xaml" />
+		<ResourceDictionary Source="BlueTheme.xaml" />
 		<ResourceDictionary Source="ScrollBarStyle.xaml" />
 		<ResourceDictionary Source="DatePickerCalendarStyle.xaml" />
 		<ResourceDictionary Source="DatePickerStyle.xaml" />
@@ -314,9 +315,6 @@
 		<ResourceDictionary Source="../XamlImages/BSave.xaml" />
 		<ResourceDictionary Source="../XamlImages/BSearch.xaml" />
 		<ResourceDictionary Source="../XamlImages/BSettings.xaml" />
-		<ResourceDictionary Source="../XamlImages/BReadDeviceUsers.xaml" />
-		<ResourceDictionary Source="../XamlImages/BUpdateDeviceUsers.xaml" />
-		<ResourceDictionary Source="../XamlImages/BUpdateAllSchedules.xaml" />
 		<ResourceDictionary Source="../XamlImages/bshapes-align-hori-center.xaml" />
 		<ResourceDictionary Source="../XamlImages/bshapes-align-hori-left.xaml" />
 		<ResourceDictionary Source="../XamlImages/bshapes-align-hori-right.xaml" />
@@ -343,6 +341,9 @@
 		<ResourceDictionary Source="../XamlImages/BPassController.xaml" />
 		<ResourceDictionary Source="../XamlImages/BNetController.xaml" />
 		<ResourceDictionary Source="../XamlImages/BGraphAllController.xaml" />
+		<ResourceDictionary Source="../XamlImages/BReadDeviceUsers.xaml" />
+		<ResourceDictionary Source="../XamlImages/BUpdateDeviceUsers.xaml" />
+		<ResourceDictionary Source="../XamlImages/BUpdateAllSchedules.xaml" />
 		<ResourceDictionary Source="../XamlImages/ExportPDF.xaml" />
 		<ResourceDictionary Source="../XamlImages/ExportHTM.xaml" />
 		<ResourceDictionary Source="../XamlImages/ExportMHT.xaml" />

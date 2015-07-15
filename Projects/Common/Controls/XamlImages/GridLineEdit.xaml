@@ -4,10 +4,10 @@
 		<DrawingBrush.Drawing>
 			<DrawingGroup>
 				<DrawingGroup.Children>
-					<GeometryDrawing Brush="{DynamicResource ButtonBackground_2}" Geometry="F1 M 12.388,11.0094L 0,11.0094L 0,3.05176e-005L 12.388,3.05176e-005L 12.388,11.0094 Z "/>
-					<GeometryDrawing Brush="{DynamicResource ButtonBackground_2}" Geometry="F1 M 41.0656,24.0499L 34.9656,17.9499L 41.0656,11.8472L 36.9549,7.73788L 30.8523,13.8392L 24.7523,7.73788L 20.6416,11.8472L 26.7443,17.9499L 20.6416,24.0499L 24.7523,28.1632L 30.8523,22.0606L 36.9549,28.1632L 41.0656,24.0499 Z "/>
-					<GeometryDrawing Brush="{DynamicResource ButtonBackground_2}" Geometry="F1 M 25.1749,6.7699L 27.5269,6.7699L 27.5269,-0.000762939L 15.1389,-0.000762939L 15.1389,11.0099L 18.8656,11.0099C 19.8829,8.52322 22.3216,6.7699 25.1749,6.7699 Z "/>
-					<GeometryDrawing Brush="{DynamicResource ButtonBackground_2}" Geometry="F1 M 36.6372,6.7699C 39.2705,6.7699 41.5279,8.27655 42.6652,10.4592L 42.6652,-0.000762939L 30.2772,-0.000762939L 30.2772,6.7699L 36.6372,6.7699 Z "/>
+					<GeometryDrawing Brush="{DynamicResource ButtonBackgroundColor}" Geometry="F1 M 12.388,11.0094L 0,11.0094L 0,3.05176e-005L 12.388,3.05176e-005L 12.388,11.0094 Z "/>
+					<GeometryDrawing Brush="{DynamicResource ButtonBackgroundColor}" Geometry="F1 M 41.0656,24.0499L 34.9656,17.9499L 41.0656,11.8472L 36.9549,7.73788L 30.8523,13.8392L 24.7523,7.73788L 20.6416,11.8472L 26.7443,17.9499L 20.6416,24.0499L 24.7523,28.1632L 30.8523,22.0606L 36.9549,28.1632L 41.0656,24.0499 Z "/>
+					<GeometryDrawing Brush="{DynamicResource ButtonBackgroundColor}" Geometry="F1 M 25.1749,6.7699L 27.5269,6.7699L 27.5269,-0.000762939L 15.1389,-0.000762939L 15.1389,11.0099L 18.8656,11.0099C 19.8829,8.52322 22.3216,6.7699 25.1749,6.7699 Z "/>
+					<GeometryDrawing Brush="{DynamicResource ButtonBackgroundColor}" Geometry="F1 M 36.6372,6.7699C 39.2705,6.7699 41.5279,8.27655 42.6652,10.4592L 42.6652,-0.000762939L 30.2772,-0.000762939L 30.2772,6.7699L 36.6372,6.7699 Z "/>
 				</DrawingGroup.Children>
 			</DrawingGroup>
 		</DrawingBrush.Drawing>

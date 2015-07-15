@@ -52,7 +52,7 @@
 											</Style>
 										</TextBlock.Style>
 									</TextBlock>
-									<ContentPresenter Name="content" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center" TextBlock.FontWeight="Bold" TextBlock.Foreground="{DynamicResource ForegroundColor_0}" />
+									<ContentPresenter Name="content" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center" TextBlock.FontWeight="Bold" TextBlock.Foreground="{DynamicResource ForegroundColorLight}" />
 								</Grid>
 							</Border>
 

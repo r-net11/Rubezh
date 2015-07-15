@@ -41,7 +41,7 @@
 				</ScrollViewer>
                 
                 <StackPanel Grid.Row="1" Orientation="Horizontal">
-					<TextBlock Text="Начало действия графика" Foreground="{DynamicResource ForegroundColor_0}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <TextBlock Text="Начало действия графика" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
                     <loya:Dameer Width="240" Margin="2,6,2,6" HorizontalAlignment="Center" CustomFormat="dd MMMM yyyy" Format="Custom" ShowCheckBox="False" Value="{Binding StartDate}" />
                 </StackPanel>
             </Grid>

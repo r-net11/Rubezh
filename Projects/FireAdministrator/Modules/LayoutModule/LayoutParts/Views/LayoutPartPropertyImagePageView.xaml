@@ -23,7 +23,7 @@
 			<StackPanel Grid.Column="1">
 				<Button Margin="2" Command="{Binding SelectPictureCommand}" Content="Выбрать картинку" />
 				<Button Margin="2" Command="{Binding RemovePictureCommand}" Content="Очистить картинку" />
-				<TextBlock Margin="4" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColor_0}" Text="Расположение:" />
+				<TextBlock Margin="4" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorLight}" Text="Расположение:" />
 				<ComboBox Margin="4" ItemsSource="{Binding StretchTypes}" SelectedItem="{Binding Stretch, UpdateSourceTrigger=PropertyChanged}" />
 			</StackPanel>
 		</Grid>

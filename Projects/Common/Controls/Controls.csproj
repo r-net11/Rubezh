@@ -352,10 +352,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\LightTheme.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Themes\IntegerUpDown.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -371,6 +367,10 @@
     <Page Include="Themes\ItemsControlStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\LightTheme.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\SkyblueTheme.xaml">
       <SubType>Designer</SubType>
@@ -965,8 +965,8 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="XamlImages\BReadDeviceUsers.xaml">
-      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="XamlImages\BRefresh.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -1077,12 +1077,12 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="XamlImages\BUpdateAllSchedules.xaml">
-      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="XamlImages\BUpdateDeviceUsers.xaml">
-      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="XamlImages\BUser.xaml">
       <Generator>MSBuild:Compile</Generator>

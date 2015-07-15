@@ -60,7 +60,7 @@
 				<StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="280 14 0 0">
 					<StackPanel Orientation="Horizontal">
 
-						<Button Content="Шаги" Command="{Binding ShowStepsCommand}" Width="120" Foreground="{DynamicResource ForegroundColor_0}">
+						<Button Content="Шаги" Command="{Binding ShowStepsCommand}" Width="120" Foreground="{DynamicResource ForegroundColorLight}">
 							<Button.Style>
 								<Style BasedOn="{StaticResource ToolBarButtonStyle}" TargetType="{x:Type Button}">
 									<Style.Triggers>
@@ -77,7 +77,7 @@
 							</Button.Style>
 						</Button>
 
-						<Button Content="Переменные" Command="{Binding ShowVariablesCommand}" Width="120" Foreground="{DynamicResource ForegroundColor_0}">
+						<Button Content="Переменные" Command="{Binding ShowVariablesCommand}" Width="120" Foreground="{DynamicResource ForegroundColorLight}">
 							<Button.Style>
 								<Style BasedOn="{StaticResource ToolBarButtonStyle}" TargetType="{x:Type Button}">
 									<Style.Triggers>
@@ -94,7 +94,7 @@
 							</Button.Style>
 						</Button>
 
-						<Button Content="Аргументы" Command="{Binding ShowArgumentsCommand}" Width="120" Foreground="{DynamicResource ForegroundColor_0}">
+						<Button Content="Аргументы" Command="{Binding ShowArgumentsCommand}" Width="120" Foreground="{DynamicResource ForegroundColorLight}">
 							<Button.Style>
 								<Style BasedOn="{StaticResource ToolBarButtonStyle}" TargetType="{x:Type Button}">
 									<Style.Triggers>
@@ -111,7 +111,7 @@
 							</Button.Style>
 						</Button>
 
-						<Button Content="Условия запуска" Command="{Binding ShowConditionsCommand}" Width="120" Foreground="{DynamicResource ForegroundColor_0}">
+						<Button Content="Условия запуска" Command="{Binding ShowConditionsCommand}" Width="120" Foreground="{DynamicResource ForegroundColorLight}">
 							<Button.Style>
 								<Style BasedOn="{StaticResource ToolBarButtonStyle}" TargetType="{x:Type Button}">
 									<Style.Triggers>

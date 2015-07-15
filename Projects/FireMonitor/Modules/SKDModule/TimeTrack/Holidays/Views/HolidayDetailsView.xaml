@@ -11,10 +11,10 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
-		<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" Foreground="{DynamicResource ForegroundColor_0}" Text="Название" />
+		<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" Foreground="White" Text="Название" />
 		<TextBox Grid.Row="0" Grid.Column="1" Margin="2" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
 
-		<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" Foreground="{DynamicResource ForegroundColor_0}" Text="Тип" />
+		<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" Foreground="White" Text="Тип" />
 		<ComboBox Grid.Row="1" Grid.Column="1" Margin="2" ItemsSource="{Binding AvailableHolidayTypes}" SelectedItem="{Binding HolidayType}">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
@@ -25,20 +25,20 @@
 			</ComboBox.ItemTemplate>
 		</ComboBox>
 
-		<TextBlock Grid.Row="2" Grid.Column="0" Margin="2" Foreground="{DynamicResource ForegroundColor_0}" Text="Дата" />
+		<TextBlock Grid.Row="2" Grid.Column="0" Margin="2" Foreground="White" Text="Дата" />
 		<Calendar Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" DisplayDate="{Binding Date, UpdateSourceTrigger=PropertyChanged}" SelectedDate="{Binding Date, UpdateSourceTrigger=PropertyChanged}" SelectionMode="SingleDate" />
 
-		<TextBlock Grid.Row="3" Grid.Column="0" Margin="2" Foreground="{DynamicResource ForegroundColor_0}" Text="Величина сокращения" />
+		<TextBlock Grid.Row="3" Grid.Column="0" Margin="2" Foreground="White" Text="Величина сокращения" />
 		<StackPanel Grid.Row="3" Grid.Column="1" Margin="3">
-			<RadioButton Margin="5" Content="1 час" Foreground="{DynamicResource ForegroundColor_0}" GroupName="Reduction" 
+			<RadioButton Margin="5" Content="1 час" Foreground="White" GroupName="Reduction" 
 						 IsEnabled="{Binding IsReductionEnabled}" 
 						 IsChecked="{Binding IsOneHourReduction, Converter={StaticResource RadioButtonCheckedConverter}, ConverterParameter={StaticResource True}}" />
-			<RadioButton Margin="5" Content="2 часа" Foreground="{DynamicResource ForegroundColor_0}" GroupName="Reduction" 
+			<RadioButton Margin="5" Content="2 часа" Foreground="White" GroupName="Reduction" 
 						 IsEnabled="{Binding IsReductionEnabled}" 
 						 IsChecked="{Binding IsOneHourReduction, Converter={StaticResource RadioButtonCheckedConverter}, ConverterParameter={StaticResource False}}" />
 		</StackPanel>
 
-		<TextBlock Grid.Row="4" Grid.Column="0" Margin="2" Foreground="{DynamicResource ForegroundColor_0}" Text="Дата переноса" />
+		<TextBlock Grid.Row="4" Grid.Column="0" Margin="2" Foreground="White" Text="Дата переноса" />
 		<Calendar Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" DisplayDate="{Binding TransferDate, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsTransferDateEnabled}" SelectedDate="{Binding TransferDate, UpdateSourceTrigger=PropertyChanged}" SelectionMode="SingleDate" />
 	</Grid>
 </UserControl>

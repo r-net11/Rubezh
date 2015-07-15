@@ -16,8 +16,8 @@
 					<ToolBarButton Command="{Binding FirstPageCommand}" ImageSource="leftLeft"  ToolTip="Начальная страница" />
 					<ToolBarButton x:Name="_previousButton" Command="{Binding PreviousPageCommand}" ImageSource="left"  ToolTip="Предыдущая страница" />
 					<TextBox Height="30" MinWidth="25" MinHeight="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Stretch" FontSize="20" Text="{Binding CurrentPageNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}" />
-					<TextBlock Foreground="{DynamicResource ForegroundColor_0}" VerticalAlignment="Center" FontSize="20" Margin="2" Text="/" />
-					<TextBlock Foreground="{DynamicResource ForegroundColor_0}" VerticalAlignment="Center" FontSize="20" Margin="2" Text="{Binding TotalPageNumber}" />
+					<TextBlock Text="/" VerticalAlignment="Center" FontSize="20" Foreground="White" Margin="2"/>
+					<TextBlock Text="{Binding TotalPageNumber}" VerticalAlignment="Center" FontSize="20" Foreground="White" Margin="2"/>
 					<ToolBarButton x:Name="_nextButton"  Command="{Binding NextPageCommand}" ImageSource="right"  ToolTip="Следующая страница" />
 					<ToolBarButton Command="{Binding LastPageCommand}" ImageSource="rightRight"  ToolTip="Последняя страница" />
 					<ToolBarButton Command="{Binding FitToWidthCommand}" CommandParameter="{Binding ViewportWidth, ElementName=_scrollViewer}" ImageSource="WidthToPage"  ToolTip="По ширине страницы" />

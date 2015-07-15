@@ -56,7 +56,7 @@
                             </Controls:EditorPresenter.ViewTemplate>
                             <Controls:EditorPresenter.EditTemplate>
                                 <ControlTemplate>
-                                    <TextBox Name="projectAddressTextBox" HorizontalAlignment="Stretch" BorderThickness="0" Foreground="{DynamicResource ForegroundColor_1}" Text="{Binding ProjectAddress, UpdateSourceTrigger=PropertyChanged}" />
+                                    <TextBox Name="projectAddressTextBox" HorizontalAlignment="Stretch" BorderThickness="0" Foreground="{DynamicResource ForegroundColorDark}" Text="{Binding ProjectAddress, UpdateSourceTrigger=PropertyChanged}" />
                                     <ControlTemplate.Triggers>
                                         <Trigger SourceName="projectAddressTextBox" Property="IsVisible" Value="True">
                                             <Setter TargetName="projectAddressTextBox" Property="FocusManager.FocusedElement" Value="{Binding ElementName=projectAddressTextBox}" />
@@ -79,7 +79,7 @@
                             </Controls:EditorPresenter.ViewTemplate>
                             <Controls:EditorPresenter.EditTemplate>
                                 <ControlTemplate>
-                                    <TextBox Name="descriptionTextBox" HorizontalAlignment="Stretch" BorderThickness="0" Foreground="{DynamicResource ForegroundColor_1}" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" />
+                                    <TextBox Name="descriptionTextBox" HorizontalAlignment="Stretch" BorderThickness="0" Foreground="{DynamicResource ForegroundColorDark}" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" />
                                     <ControlTemplate.Triggers>
                                         <Trigger SourceName="descriptionTextBox" Property="IsVisible" Value="True">
                                             <Setter TargetName="descriptionTextBox" Property="FocusManager.FocusedElement" Value="{Binding ElementName=descriptionTextBox}" />

@@ -26,7 +26,7 @@
 						<RowDefinition Height="Auto" />
 					</Grid.RowDefinitions>
 
-					<TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Top" Foreground="{DynamicResource ForegroundColor_0}" Text="Тип пропуска" Margin="2 4"
+                    <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Top" Foreground="White" Text="Тип пропуска" Margin="2 4"
 							   Visibility="{Binding CanChangeCardType, Converter={StaticResource BoolToVisibilityConverter}}" />
 					<ComboBox Grid.Row="0" Grid.Column="1" Margin="2"
 							  ItemsSource="{Binding GKCardTypes}" SelectedItem="{Binding SelectedGKCardType}" Visibility="{Binding CanChangeCardType, Converter={StaticResource BoolToVisibilityConverter}}" >
@@ -37,19 +37,19 @@
 						</ComboBox.ItemTemplate>
 					</ComboBox>
 
-					<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Foreground="{DynamicResource ForegroundColor_0}" Text="Конец действия" />
+					<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Foreground="White" Text="Конец действия" />
 					<Calendar Grid.Row="1" Grid.Column="1"  Margin="2" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="#66ff9829" BorderThickness="2" IsTodayHighlighted="False" SelectionMode="SingleDate" 
 							  DisplayDate="{Binding EndDate}" SelectedDate="{Binding EndDate}"  />
 
-					<TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColor_0}" Text="Количество проходов" Margin="2" 
+					<TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Text="Количество проходов" Margin="2" 
 							   Visibility="{Binding CanSetUserTime, Converter={StaticResource BoolToVisibilityConverter}}" />
 					<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding UserTime}" Margin="2" 
 							 Visibility="{Binding CanSetUserTime, Converter={StaticResource BoolToVisibilityConverter}}" />
 
-					<TextBlock Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColor_0}" Text="Уровень доступа" Margin="2" />
+					<TextBlock Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Text="Уровень доступа" Margin="2" />
 					<TextBox Grid.Row="3" Grid.Column="1" Text="{Binding GKLevel}" Margin="2" />
 
-					<TextBlock Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColor_0}" Text="График доступа" Margin="2" />
+					<TextBlock Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Text="График доступа" Margin="2" />
                     <ComboBox Grid.Row="4" Grid.Column="1" ItemsSource="{Binding GKSchedules}" SelectedItem="{Binding SelectedGKSchedule}" Margin="2">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
@@ -73,11 +73,11 @@
 						<RowDefinition Height="Auto" />
 						<RowDefinition Height="Auto" />
 					</Grid.RowDefinitions>
-					<TextBlock Grid.Row="0" Grid.Column="0" Text="Номер" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColor_0}" Margin="2" />
+					<TextBlock Grid.Row="0" Grid.Column="0" Text="Номер" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Margin="2" />
 					<TextBox Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" Width="100" Margin="2" 
 							 IsEnabled="{Binding UseStopList, Converter={StaticResource InverseBooleanConverter}}" Text="{Binding Number}" />
 
-					<CheckBox Grid.Row="1" Grid.Column="0" Content="Из списка деактивированных" IsChecked="{Binding UseStopList}" Foreground="{DynamicResource ForegroundColor_0}" VerticalAlignment="Center" Margin="2" />
+					<CheckBox Grid.Row="1" Grid.Column="0" Content="Из списка деактивированных" IsChecked="{Binding UseStopList}" Foreground="White" VerticalAlignment="Center" Margin="2" />
 					<ComboBox Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" Width="100" Margin="2"
 							  IsEnabled="{Binding UseStopList}" ItemsSource="{Binding StopListCards}" SelectedItem="{Binding SelectedStopListCard}" >
 						<ComboBox.ItemTemplate>

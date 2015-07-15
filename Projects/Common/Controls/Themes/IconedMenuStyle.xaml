@@ -41,7 +41,7 @@
 				<Grid Grid.Column="0 " Width="{Binding Path=TotalHeight, RelativeSource={RelativeSource TemplatedParent}}" Height="{Binding Path=TotalHeight, RelativeSource={RelativeSource TemplatedParent}}" Background="{Binding Path=ImageSource, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource StringToResourceConverter}}" />
 				<TextBlock Grid.Column="1" Margin="2 0 0 0" VerticalAlignment="Center" Text="{Binding Path=Text, RelativeSource={RelativeSource TemplatedParent}}" />
 				<Popup Name="Popup" AllowsTransparency="True" Focusable="False" IsOpen="{TemplateBinding IsSubmenuOpen}" Placement="Bottom" PopupAnimation="Fade">
-					<Border Name="SubmenuBorder" Background="{DynamicResource WindowBackground_0}" BorderBrush="{StaticResource SolidBorderBrush}" BorderThickness="1" SnapsToDevicePixels="True">
+					<Border Name="SubmenuBorder" Background="{DynamicResource WindowBackgroundBrush}" BorderBrush="{StaticResource SolidBorderBrush}" BorderThickness="1" SnapsToDevicePixels="True">
 						<StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
 					</Border>
 				</Popup>
@@ -129,7 +129,7 @@
 				<TextBlock Grid.Column="1" Margin="2 0" VerticalAlignment="Center" Text="{Binding Path=Text, RelativeSource={RelativeSource TemplatedParent}}" />
 				<Path Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 0 L 0 7 L 4 3.5 Z" Fill="{StaticResource GlyphBrush}" />
 				<Popup Name="Popup" AllowsTransparency="True" Focusable="False" HorizontalOffset="-4" IsOpen="{TemplateBinding IsSubmenuOpen}" Placement="Right" PopupAnimation="Fade">
-					<Border Name="SubmenuBorder" Background="{DynamicResource WindowBackground_0}" BorderBrush="{StaticResource SolidBorderBrush}" BorderThickness="1" SnapsToDevicePixels="True">
+					<Border Name="SubmenuBorder" Background="{DynamicResource WindowBackgroundBrush}" BorderBrush="{StaticResource SolidBorderBrush}" BorderThickness="1" SnapsToDevicePixels="True">
 						<StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
 					</Border>
 				</Popup>

@@ -16,7 +16,7 @@
 			<StackPanel Grid.Column="0" Height="30">
 				<StackPanel Orientation="Horizontal" VerticalAlignment="Top">
 					<Image Width="16" Height="16" VerticalAlignment="Center" Source="{Binding Camera.CameraState.StateClass, Converter={StaticResource XStateClassToIconConverter}}" />
-					<!--<TextBlock Text="{Binding Camera.CameraState.StateClass, Converter={StaticResource XStateClassToStringConverter}}" Foreground="{DynamicResource ForegroundColor_0}" VerticalAlignment="Center" Margin="5 1 1 1" />-->
+					<!--<TextBlock Text="{Binding Camera.CameraState.StateClass, Converter={StaticResource XStateClassToStringConverter}}" Foreground="White" VerticalAlignment="Center" Margin="5 1 1 1" />-->
 				</StackPanel>
 			</StackPanel>
 		</Grid>

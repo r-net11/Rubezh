@@ -176,11 +176,11 @@
 			</DataGrid.CellStyle>
 		</DataGrid>
 		<GridSplitter Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="5" Background="Transparent" Cursor="SizeNS" />
-		<Border Grid.Row="2" DataContext="{Binding SelectedAlarm}" TextBlock.FontSize="11" TextBlock.Foreground="{DynamicResource ForegroundColor_0}"
+		<Border Grid.Row="2" DataContext="{Binding SelectedAlarm}" TextBlock.FontSize="11" TextBlock.Foreground="White"
 				CornerRadius="5" BorderThickness="0" Margin="0, 5, 0, 0" Padding="5" Background="{DynamicResource BackgroundBrush}">
 			<ScrollViewer VerticalScrollBarVisibility="Auto">
 				<WrapPanel Margin="1">
-					<TextBlock Text="{Binding Instruction.Text}" Foreground="{DynamicResource ForegroundColor_0}" TextWrapping="Wrap" />
+					<TextBlock Text="{Binding Instruction.Text}" Foreground="White" TextWrapping="Wrap" />
 				</WrapPanel>
 			</ScrollViewer>
 		</Border>

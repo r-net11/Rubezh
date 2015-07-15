@@ -38,7 +38,7 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="Ключ:" Foreground="{DynamicResource ForegroundColor_0}" Margin="5"/>
+                    <TextBlock Text="Ключ:" Foreground="White" Margin="5"/>
                     <TextBox Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding InitialKeyString}" IsReadOnly="True" VerticalContentAlignment="Center"/>
                     <DataGrid Grid.Row="1" Grid.ColumnSpan="3" ItemsSource="{Binding License.Parameters}" Margin="0 5">
                         <DataGrid.Columns>
@@ -84,7 +84,7 @@
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <Button Grid.Column="2" Grid.Row="2" Content="Загрузить лицензию" Foreground="{DynamicResource ForegroundColor_0}" Width="150" Command="{Binding LoadLicenseCommand}"/>
+                    <Button Grid.Column="2" Grid.Row="2" Content="Загрузить лицензию" Width="150" Command="{Binding LoadLicenseCommand}"/>
                 </Grid>
             </TabItem>
         </TabControl>

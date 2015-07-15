@@ -7,11 +7,11 @@
 	</UserControl.Resources>
 	<StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<TextBlock Style="{DynamicResource LabelTextBlock}" Text="Камера" />
+			<Label Content="Камера" />
 			<views:ArgumentView DataContext="{Binding CameraArgument}" />
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<TextBlock Style="{DynamicResource LabelTextBlock}" Text="Идентификатор" />
+			<Label Content="Идентификатор" />
 			<views:ArgumentView DataContext="{Binding EventUIDArgument}" />
 		</StackPanel>
 	</StackPanel>

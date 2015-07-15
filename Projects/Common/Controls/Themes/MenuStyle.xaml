@@ -41,7 +41,7 @@
 			<Grid>
 				<ContentPresenter Margin="6,3,6,3" ContentSource="Header" RecognizesAccessKey="True" />
 				<Popup Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsSubmenuOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Fade">
-					<Border  Name="SubmenuBorder" SnapsToDevicePixels="True" Background="{DynamicResource WindowBackground_0}" BorderBrush="{StaticResource SolidBorderBrush}" BorderThickness="1" >
+					<Border  Name="SubmenuBorder" SnapsToDevicePixels="True" Background="{DynamicResource WindowBackgroundBrush}" BorderBrush="{StaticResource SolidBorderBrush}" BorderThickness="1" >
 						<StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
 					</Border>
 				</Popup>
@@ -141,7 +141,7 @@
 				<TextBlock Grid.Column="1" Text="{Binding Path=Text, RelativeSource={RelativeSource TemplatedParent}}" VerticalAlignment="Center" Margin="2 0 0 0" />
 				<Path Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 0 L 0 7 L 4 3.5 Z" Fill="{StaticResource GlyphBrush}" />
 				<Popup Name="Popup" Placement="Right" HorizontalOffset="-4" IsOpen="{TemplateBinding IsSubmenuOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Fade">
-					<Border Name="SubmenuBorder" SnapsToDevicePixels="True" Background="{DynamicResource WindowBackground_0}" BorderBrush="{StaticResource SolidBorderBrush}" BorderThickness="1" >
+					<Border Name="SubmenuBorder" SnapsToDevicePixels="True" Background="{DynamicResource WindowBackgroundBrush}" BorderBrush="{StaticResource SolidBorderBrush}" BorderThickness="1" >
 						<StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
 					</Border>
 				</Popup>
@@ -175,7 +175,7 @@
 				<TextBlock x:Name="InputGestureText" Grid.Column="2" Text="{TemplateBinding InputGestureText}" Margin="5,2,2,2" DockPanel.Dock="Right"/>
 				<Path Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 0 L 0 7 L 4 3.5 Z" Fill="{StaticResource GlyphBrush}" />
 				<Popup Name="Popup" Placement="Right" HorizontalOffset="-4" IsOpen="{TemplateBinding IsSubmenuOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Fade">
-					<Border Name="SubmenuBorder" SnapsToDevicePixels="True" Background="{DynamicResource WindowBackground_0}" BorderBrush="{StaticResource SolidBorderBrush}" BorderThickness="1" >
+					<Border Name="SubmenuBorder" SnapsToDevicePixels="True" Background="{DynamicResource WindowBackgroundBrush}" BorderBrush="{StaticResource SolidBorderBrush}" BorderThickness="1" >
 						<StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
 					</Border>
 				</Popup>

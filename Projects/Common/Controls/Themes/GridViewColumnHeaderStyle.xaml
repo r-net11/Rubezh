@@ -8,7 +8,7 @@
 		<Setter Property="TextBlock.FontFamily" Value="Arial" />
 		<Setter Property="Height" Value="30" />
 		<Setter Property="VerticalContentAlignment" Value="Center" />
-		<Setter Property="Foreground" Value="{DynamicResource ForegroundColor_0}" />
+		<Setter Property="Foreground" Value="{DynamicResource ForegroundColorLight}" />
 		<Setter Property="BorderBrush" Value="{DynamicResource BackgroundBrush}" />
 		<Setter Property="BorderThickness" Value="0,0,0,0" />
 		<Setter Property="Background" Value="{DynamicResource BackgroundBrush}" />

@@ -10,7 +10,6 @@
 		</Style>
 		<Style TargetType="{x:Type TextBox}">
 			<Setter Property="ContextMenu" Value="{StaticResource ContextMenu}" />
-			<Setter Property="Foreground" Value="{DynamicResource ForegroundColor_0}" />
 		</Style>
 	</UserControl.Resources>
 	<Grid>
@@ -28,12 +27,12 @@
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 
-		<TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Text="Сервер" />
-		<TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" Text="Порт" />
-		<TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Text="Порт сервиса отчетов" />
-		<TextBlock Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" Text="Автоподключение" />
-		<TextBlock Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" Text="Логин автоподключения" />
-		<TextBlock Grid.Row="5" Grid.Column="0" HorizontalAlignment="Right" Text="Пароль автоподключения" />
+		<Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Content="Сервер" />
+		<Label Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" Content="Порт" />
+		<Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Content="Порт сервиса отчетов" />
+		<Label Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" Content="Автоподключение" />
+		<Label Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" Content="Логин автоподключения" />
+		<Label Grid.Row="5" Grid.Column="0" HorizontalAlignment="Right" Content="Пароль автоподключения" />
 
 		<TextBox Grid.Row="0" Grid.Column="1" Margin="2" Text="{Binding RemoteAddress, UpdateSourceTrigger=PropertyChanged}" />
 		<extToolkit:IntegerUpDown Grid.Row="1" Grid.Column="1" Margin="2" Maximum="65535" Minimum="0" Value="{Binding RemotePort, UpdateSourceTrigger=PropertyChanged}" />

@@ -28,8 +28,8 @@
 			<ToolBarButton Command="{Binding SelectNoneCommand}" ImageSource="SelectNone" ToolTip="Снять все выделения" />
 		</StackPanel>
 		<StackPanel Grid.Row="2" Orientation="Vertical" Visibility="{Binding WithDirection, Converter={StaticResource BoolToVisibilityConverter}}">
-			<CheckBox Margin="3" VerticalAlignment="Center" Content="Из зоны" Foreground="{DynamicResource ForegroundColor_0}" IsChecked="{Binding ZoneOut}" />
-			<CheckBox Margin="3" VerticalAlignment="Center" Content="В зону" Foreground="{DynamicResource ForegroundColor_0}" IsChecked="{Binding ZoneIn}" />
+			<CheckBox Margin="3" VerticalAlignment="Center" Content="Из зоны" Foreground="White" IsChecked="{Binding ZoneOut}" />
+			<CheckBox Margin="3" VerticalAlignment="Center" Content="В зону" Foreground="White" IsChecked="{Binding ZoneIn}" />
 		</StackPanel>
 	</Grid>
 </UserControl>

@@ -11,11 +11,11 @@
 	</UserControl.Resources>
 	<StackPanel>
 		<DockPanel Margin="2">
-			<TextBlock Style="{DynamicResource LabelTextBlock}" Text="Путь" />
+			<Label Content="Путь" />
 			<Views:ArgumentView DataContext="{Binding PathArgument}" />
 		</DockPanel>
 		<DockPanel Margin="2">
-			<TextBlock Style="{DynamicResource LabelTextBlock}" Text="Параметры" />
+			<Label Content="Параметры" />
 			<Views:ArgumentView DataContext="{Binding ParametersArgument}" />
 		</DockPanel>
 	</StackPanel>

@@ -15,10 +15,10 @@
 					<RowDefinition Height="288*" />
 				</Grid.RowDefinitions>
 
-				<TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Style="{DynamicResource LabelTextBlock}" Text="Название" />
-				<TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" Style="{DynamicResource LabelTextBlock}" Text="Цвет фона" />
-				<TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Style="{DynamicResource LabelTextBlock}" Text="Цвет границы" />
-				<TextBlock Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" Style="{DynamicResource LabelTextBlock}" Text="Ширина границы" />
+				<Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Content="Название" />
+				<Label Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" Content="Цвет фона" />
+				<Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Content="Цвет границы" />
+				<Label Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" Content="Ширина границы" />
 
 				<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding PresentationName, UpdateSourceTrigger=PropertyChanged}" Margin="2" VerticalContentAlignment="Center" />
 				<xc:ColorPicker Grid.Row="1" Grid.Column="1" Margin="2" SelectedColor="{Binding BackgroundColor, UpdateSourceTrigger=PropertyChanged}" />

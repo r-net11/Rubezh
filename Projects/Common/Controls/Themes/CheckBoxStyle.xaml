@@ -22,7 +22,7 @@
 				<ControlTemplate TargetType="CheckBox">
 					<BulletDecorator Background="Transparent">
 						<BulletDecorator.Bullet>
-							<Border x:Name="Border" Width="13" Height="13" CornerRadius="0" Background="{DynamicResource WindowBackground_0}" BorderThickness="1" BorderBrush="{DynamicResource WindowBorderBrush}">
+							<Border x:Name="Border" Width="13" Height="13" CornerRadius="0" Background="{DynamicResource WindowBackgroundBrush}" BorderThickness="1" BorderBrush="{DynamicResource WindowBorderBrush}">
 								<Path Width="4" Height="4" x:Name="CheckMark" SnapsToDevicePixels="False" Fill="{DynamicResource WindowBorderBrush}" StrokeThickness="2">
 									<Path.Data>
 										<RectangleGeometry Rect="0,0,4,4" />

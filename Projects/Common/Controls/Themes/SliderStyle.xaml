@@ -47,7 +47,7 @@
 				<RowDefinition Height="Auto"/>
 			</Grid.RowDefinitions>
 			<TickBar Name="TopTick" SnapsToDevicePixels="True" Placement="Top" Fill="{StaticResource GlyphBrush}" Height="4" Visibility="Collapsed" />
-			<Border Name="TrackBackground" Margin="0" CornerRadius="2" Height="4" Grid.Row="1" Background="{DynamicResource WindowBackground_0}" BorderBrush="{DynamicResource BackgroundBrush}" BorderThickness="1" />
+			<Border Name="TrackBackground" Margin="0" CornerRadius="2" Height="4" Grid.Row="1" Background="{DynamicResource WindowBackgroundBrush}" BorderBrush="{DynamicResource BackgroundBrush}" BorderThickness="1" />
 			<Track Grid.Row="1" Name="PART_Track">
 				<Track.DecreaseRepeatButton>
 					<RepeatButton Style="{StaticResource SliderButtonStyle}" Command="Slider.DecreaseLarge" />
@@ -83,7 +83,7 @@
 				<ColumnDefinition Width="Auto"/>
 			</Grid.ColumnDefinitions>
 			<TickBar Name="TopTick" SnapsToDevicePixels="True" Placement="Left" Fill="{StaticResource GlyphBrush}" Width="4" Visibility="Collapsed" />
-			<Border Name="TrackBackground" Margin="0" CornerRadius="2" Width="4" Grid.Column="1" Background="{DynamicResource WindowBackground_0}" BorderBrush="{DynamicResource BackgroundBrush}" BorderThickness="1" />
+			<Border Name="TrackBackground" Margin="0" CornerRadius="2" Width="4" Grid.Column="1" Background="{DynamicResource WindowBackgroundBrush}" BorderBrush="{DynamicResource BackgroundBrush}" BorderThickness="1" />
 			<Track Grid.Column="1" Name="PART_Track">
 				<Track.DecreaseRepeatButton>
 					<RepeatButton Style="{StaticResource SliderButtonStyle}" Command="Slider.DecreaseLarge" />

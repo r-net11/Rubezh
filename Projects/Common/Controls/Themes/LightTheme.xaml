@@ -1,8 +1,9 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-	<LinearGradientBrush x:Key="WindowHeaderBackground" Opacity="0" StartPoint="0, 0" EndPoint="0, 1">
-		<GradientStop Color="#E3EDF5" Offset="0" />
-		<GradientStop Color="#C4DAF2" Offset="1" />
+	<LinearGradientBrush x:Key="WindowBlacHeaderkBackgroundBrush" Opacity="0" StartPoint="0, 0" EndPoint="0, 1">
+		<GradientStop Color="#000000" Offset="0" />
+		<GradientStop Color="#000000" Offset=".2" />
+		<GradientStop Color="#4172A3" Offset=".4" />
 	</LinearGradientBrush>
 
 	<!-- Основной фон -->
@@ -40,7 +41,6 @@
 		<GradientStop Color="#029CDA" Offset="0" />
 		<GradientStop Color="#0386D6" Offset="1" />
 	</LinearGradientBrush>
-	<SolidColorBrush Color="#FFFFFF" x:Key="PressedForegroundBrush" />
 
 	<!-- Неизвестность -->
 	<LinearGradientBrush x:Key="AlternativeBackgroundBrush" StartPoint="0, 0" EndPoint="0,1">
@@ -48,22 +48,18 @@
 		<GradientStop Color="#C4DAF2" Offset="1" />
 	</LinearGradientBrush>
 
-	<LinearGradientBrush x:Key="WindowBorderBrush" StartPoint="0, 0" EndPoint="0,1">
-		<GradientStop Color="#E3EDF5" Offset="0" />
-		<GradientStop Color="#C4DAF2" Offset="1" />
-	</LinearGradientBrush>
-
-	<SolidColorBrush Color="#39495C" x:Key="NavigationForegroundColor" />
+	<SolidColorBrush Color="#286C9C" x:Key="WindowBorderBrush" />
 	<SolidColorBrush Color="#FFFFFF" x:Key="DisabledBorderBrush" />
-	<SolidColorBrush Color="#E3EDF5" x:Key="DisabledBackgroundBrush" />
-	<SolidColorBrush Color="#C4DAF2" x:Key="DisabledForegroundBrush" />
-	<SolidColorBrush Color="#FFFFFF" x:Key="WindowBackground_0" />
-	<SolidColorBrush Color="#FFFFFF" x:Key="WindowBackground_1" />
-	<SolidColorBrush Color="#39495C" x:Key="ButtonBackground_2" />
-	<SolidColorBrush Color="#39495C" x:Key="ButtonBackground_1" />
-	<SolidColorBrush Color="#39495C" x:Key="ButtonBackground_0" />
+	<SolidColorBrush Color="#D3D3D3" x:Key="DisabledBackgroundBrush" />
+	<SolidColorBrush Color="#808080" x:Key="DisabledForegroundBrush" />
+	<SolidColorBrush Color="#FFFFFF" x:Key="WindowBackgroundBrush" />
+	<SolidColorBrush Color="#39495C" x:Key="ButtonBackgroundColor" />
+	<SolidColorBrush Color="#39495C" x:Key="ButtonBackgroundColorDark" />
+	<SolidColorBrush Color="#39495C" x:Key="ButtonBackgroundColorBlue" />
+	<SolidColorBrush Color="#39495C" x:Key="ForegroundColorLight" />
+	<SolidColorBrush Color="#39495C" x:Key="ForegroundColorDark" />
+	<SolidColorBrush Color="#39495C" x:Key="ForegroundColorWhite" />
 	<SolidColorBrush Color="#FF0000" x:Key="ButtonBackgroundColorRed" />
-	<SolidColorBrush Color="#39495C" x:Key="ForegroundColor_0" />
-	<SolidColorBrush Color="#39495C" x:Key="ForegroundColor_1" />
-	<SolidColorBrush Color="#39495C" x:Key="ForegroundColor_2" />
+	<SolidColorBrush Color="#FFFFFF" x:Key="PressedForegroungBrush" />
+
 </ResourceDictionary>
