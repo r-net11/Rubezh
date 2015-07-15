@@ -330,9 +330,9 @@ namespace FiresecClient
 			return SafeContext.Execute<OperationResult<List<GKDaySchedule>>>(() => FiresecService.GetGKDaySchedules());
 		}
 
-		public OperationResult SaveGKDaySchedule(GKDaySchedule item, bool isNew)
+		public OperationResult<bool> SaveGKDaySchedule(GKDaySchedule item, bool isNew)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveGKDaySchedule(item, isNew));
+			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.SaveGKDaySchedule(item, isNew));
 		}
 
 		public OperationResult DeleteGKDaySchedule(GKDaySchedule item)

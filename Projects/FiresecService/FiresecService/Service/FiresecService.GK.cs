@@ -219,19 +219,15 @@ namespace FiresecService.Service
 			var gkControllerDevice = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (gkControllerDevice != null)
 			{
-				return GKScheduleHelper.GKRewriteAllSchedules(gkControllerDevice);
+				return GKScheduleHelper.RewriteAllSchedules(gkControllerDevice);
 			}
 			return OperationResult<bool>.FromError("Не найден ГК в конфигурации");
 		}
 
 		public OperationResult<bool> GKSetSchedule(GKSchedule schedule)
 		{
-			var gkControllerDevice = GKManager.Devices.FirstOrDefault(x => x.DriverType == GKDriverType.GK);
-			if (gkControllerDevice != null)
-			{
-				return GKScheduleHelper.GKSetSchedule(gkControllerDevice, schedule);
-			}
-			return OperationResult<bool>.FromError("Не найден ГК в конфигурации");
+			var result = GKScheduleHelper.SetSchedule(schedule);
+			return OperationResult<bool>.FromError(result.Error, true);
 		}
 
 		public OperationResult<List<byte>> GKGKHash(Guid gkDeviceUID)
