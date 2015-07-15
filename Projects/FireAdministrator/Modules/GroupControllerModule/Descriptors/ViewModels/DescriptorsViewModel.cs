@@ -3,7 +3,6 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
-using FiresecAPI.GK;
 using GKProcessor;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -38,34 +37,20 @@ namespace GKModule.ViewModels
 			{
 				foreach (var descriptor in database.Descriptors)
 				{
+					#region Test
+
+					using (var s = new StreamWriter(@"C:\1.txt", true, Encoding.GetEncoding("Windows-1251")))
+					{
+						s.WriteLine(descriptor.GKBase.PresentationName + " " + BitConverter.ToString(descriptor.FormulaBytes.ToArray()));
+					}
+
+					#endregion
 					var isFormulaInvalid = descriptor.Formula.CalculateStackLevels();
 					if (isFormulaInvalid)
 					{
 						MessageBoxService.ShowError("Ошибка глубины стека дескриптора " + descriptor.GKBase.GKDescriptorNo + " " + descriptor.GKBase.PresentationName);
 						return;
 					}
-
-					//#region Test
-
-					//using (var s = new StreamWriter(@"C:\1.txt", true, Encoding.GetEncoding("Windows-1251")))
-					//{
-					//    if (descriptor.GKBase.InputGKBases.Count > 0)
-					//    {
-					//        foreach (var inputGKBase in descriptor.GKBase.InputGKBases)
-					//        {
-					//            foreach (var inputGKBase2 in inputGKBase.InputGKBases)
-					//            {
-					//                if (inputGKBase2 == descriptor.GKBase)
-					//                {
-					//                    string dataasstring = inputGKBase.PresentationName + " " + inputGKBase2.PresentationName;
-					//                    s.WriteLine(dataasstring);
-					//                }
-					//            }
-					//        }
-					//    }
-					//}
-
-					//#endregion
 				}
 			}
 		}
@@ -109,38 +94,44 @@ namespace GKModule.ViewModels
 			foreach (var descriptorViewModel in Descriptors)
 			{
 				descriptorViewModel.InputDescriptors = new ObservableCollection<DescriptorViewModel>();
-				descriptorViewModel.OutputDescriptors = new ObservableCollection<DescriptorViewModel>();
-
 				if (descriptorViewModel.Descriptor.GKBase.InputGKBases != null)
-					foreach (var inputBase in descriptorViewModel.Descriptor.GKBase.InputGKBases)
+				foreach (var inputBase in descriptorViewModel.Descriptor.GKBase.InputGKBases)
+				{
+					var inputDescriptor = SelectedDatabase.Descriptors.FirstOrDefault(x => x.GKBase.UID == inputBase.UID);
+					if (inputDescriptor != null)
 					{
-						var inputDescriptor = SelectedDatabase.Descriptors.FirstOrDefault(x => x.GKBase.UID == inputBase.UID);
-						if (inputDescriptor != null)
-						{
-							var inputDescriptorViewModel = Descriptors.FirstOrDefault(x => x.Descriptor.GKBase.UID == inputDescriptor.GKBase.UID);
-							if (inputDescriptorViewModel != null)
-								descriptorViewModel.InputDescriptors.Add(inputDescriptorViewModel);
-							else
-								MessageBoxService.ShowError("Отсутствует ссылка на входную зависимость " + descriptorViewModel.Descriptor.GKBase.GKDescriptorNo + " " + descriptorViewModel.Descriptor.GKBase.PresentationName);
-						}
+						var inputDescriptorViewModel = Descriptors.FirstOrDefault(x => x.Descriptor.GKBase.UID == inputDescriptor.GKBase.UID);
+						if (inputDescriptorViewModel != null)
+							descriptorViewModel.InputDescriptors.Add(inputDescriptorViewModel);
+						else
+							MessageBoxService.ShowError("Отсутствует ссылка на входную зависимость" + descriptorViewModel.Descriptor.GKBase.GKDescriptorNo + " " + descriptorViewModel.Descriptor.GKBase.PresentationName);
 					}
+				}
+			}
 
-				if (descriptorViewModel.Descriptor.GKBase.OutputGKBases != null)
-					foreach (var outputBase in descriptorViewModel.Descriptor.GKBase.OutputGKBases)
+			foreach (var descriptorViewModel in Descriptors)
+			{
+				descriptorViewModel.OutputDescriptors = new ObservableCollection<DescriptorViewModel>();
+				if (descriptorViewModel.Descriptor.GKBase.InputGKBases != null)
+				foreach (var outputBase in descriptorViewModel.Descriptor.GKBase.OutputGKBases)
+				{
+					var outputDescriptor = SelectedDatabase.Descriptors.FirstOrDefault(x => x.GKBase.UID == outputBase.UID);
+					if (outputDescriptor != null)
 					{
-						var outputDescriptor = SelectedDatabase.Descriptors.FirstOrDefault(x => x.GKBase.UID == outputBase.UID);
-						if (outputDescriptor != null)
+						var outputDescriptorViewModel = Descriptors.FirstOrDefault(x => x.Descriptor.GKBase.UID == outputDescriptor.GKBase.UID);
+						if (outputDescriptorViewModel == null)
 						{
-							var outputDescriptorViewModel = Descriptors.FirstOrDefault(x => x.Descriptor.GKBase.UID == outputDescriptor.GKBase.UID);
-							if (outputDescriptorViewModel != null)
-								descriptorViewModel.OutputDescriptors.Add(outputDescriptorViewModel);
-							else
-								MessageBoxService.ShowError("Отсутствует ссылка на выходную зависимость " + descriptorViewModel.Descriptor.GKBase.GKDescriptorNo + " " + descriptorViewModel.Descriptor.GKBase.PresentationName);
 						}
+						if (outputDescriptorViewModel != null)
+							descriptorViewModel.OutputDescriptors.Add(outputDescriptorViewModel);
+						else
+							MessageBoxService.ShowError("Отсутствует ссылка на выходную зависимость" + descriptorViewModel.Descriptor.GKBase.GKDescriptorNo + " " + descriptorViewModel.Descriptor.GKBase.PresentationName);
 					}
+				}
+			}
 
-				if (!descriptorViewModel.Descriptor.Formula.FormulaOperations.Exists(x => x.FormulaOperationType == FormulaOperationType.END))
-					MessageBoxService.ShowError("Отсутствует окончание логического блока " + descriptorViewModel.Descriptor.GKBase.GKDescriptorNo + " " + descriptorViewModel.Descriptor.GKBase.PresentationName);
+			foreach (var descriptorViewModel in Descriptors)
+			{
 				descriptorViewModel.InitializeLogic();
 			}
 		}

@@ -33,7 +33,8 @@ namespace SKDDriver.DataClasses
                 .Include(x => x.Position)
                 .Include(x => x.Department)
                 .Include(x => x.Schedule)
-                .Include(x => x.AdditionalColumns.Select(additionalColumn => additionalColumn.AdditionalColumnType));
+                .Include(x => x.AdditionalColumns.Select(additionalColumn => additionalColumn.AdditionalColumnType))
+				.Include(x => x.AdditionalColumns.Select(additionalColumn => additionalColumn.Photo));
         }
 
         public override IQueryable<Employee> GetFilteredTableItems(API.EmployeeFilter filter, IQueryable<Employee> tableItems)
