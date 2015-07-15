@@ -109,7 +109,7 @@ namespace FiresecAPI.SKD
 																							DocumentTrackParts);
 			RealTimeTrackParts = FillTypesForRealTimeTrackParts(RealTimeTrackParts, PlannedTimeTrackParts);
 			//CalculateTotal();
-			Totals = CalculateTotal(SlideTime, PlannedTimeTrackParts, RealTimeTrackParts, CombinedTimeTrackParts);
+			Totals = CalculateTotal(SlideTime, PlannedTimeTrackParts, RealTimeTrackParts, CombinedTimeTrackParts, IsHoliday);
 			TimeTrackType = CalculateTimeTrackType(Totals, PlannedTimeTrackParts, IsHoliday, Error);
 			CalculateLetterCode();
 		}
@@ -416,7 +416,7 @@ namespace FiresecAPI.SKD
 		/// <param name="realTimeTrackParts">Коллекция интервалов прохода сотрудника</param>
 		/// <param name="combinedTimeTrackParts">Коллекция всех интервалов (графика работ, проходов сотрудника, документов)</param>
 		/// <returns>Возвращает коллекцию всех типов интервалов</returns>
-		public List<TimeTrackTotal> CalculateTotal(TimeSpan slideTime, List<TimeTrackPart> plannedTimeTrackParts, List<TimeTrackPart> realTimeTrackParts, List<TimeTrackPart> combinedTimeTrackParts )
+		public List<TimeTrackTotal> CalculateTotal(TimeSpan slideTime, List<TimeTrackPart> plannedTimeTrackParts, List<TimeTrackPart> realTimeTrackParts, List<TimeTrackPart> combinedTimeTrackParts, bool isHoliday)
 		{
 			var resultTotalCollection = new List<TimeTrackTotal>();
 
@@ -427,13 +427,13 @@ namespace FiresecAPI.SKD
 				var el = resultTotalCollection.FirstOrDefault(x => x.TimeTrackType == timeTrack.TimeTrackPartType);
 				if (el != null) //TODO: Need refactoring
 				{
-					el.TimeSpan += GetDeltaForTimeTrack(timeTrack);
+					el.TimeSpan += GetDeltaForTimeTrack(timeTrack, isHoliday);
 				}
 				else
 				{
 					resultTotalCollection.Add(new TimeTrackTotal(timeTrack.TimeTrackPartType)
 					{
-						TimeSpan = GetDeltaForTimeTrack(timeTrack)
+						TimeSpan = GetDeltaForTimeTrack(timeTrack, isHoliday)
 					});
 				}
 
@@ -483,9 +483,9 @@ namespace FiresecAPI.SKD
 		/// </summary>
 		/// <param name="timeTrack">Интервал УРВ</param>
 		/// <returns>Время интервала</returns>
-		private TimeSpan GetDeltaForTimeTrack(TimeTrackPart timeTrack)
+		public TimeSpan GetDeltaForTimeTrack(TimeTrackPart timeTrack, bool isHoliday)
 		{
-			if (!IsHoliday) return timeTrack.Delta;
+			if (!isHoliday) return timeTrack.Delta;
 
 			switch (timeTrack.TimeTrackPartType)
 			{

@@ -12,7 +12,7 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 	[TestFixture]
 	public class DayTimeTrackTests
 	{
-		#region Base Tests
+		#region GetTimeTrackType Tests
 		[Test]
 		public void GetTimeTrackTypeNonOfficialOvertimeTimeTrackType()
 		{
@@ -38,7 +38,7 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 		}
 
 		[Test]
-		public void GetTimeTrackTypePresentTimeTrackType() //TODO: incorrect working with incorrect input data
+		public void GetTimeTrackTypePresentTimeTrackType()
 		{
 			//Arrange
 			var dayTimeTrack = new DayTimeTrack();
@@ -63,7 +63,7 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 		}
 
 		[Test]
-		public void GetTimeTrackTypeNoneTimeTrackType() //TODO: incorrect working with incorrect input data
+		public void GetTimeTrackTypeNoneTimeTrackType()
 		{
 			//Arrange
 			var dayTimeTrack = new DayTimeTrack();
@@ -88,7 +88,7 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 		}
 
 		[Test]
-		public void GetTimeTrackTypePresenceInBrerakTimeTrackType() //TODO: incorrect working with incorrect input data
+		public void GetTimeTrackTypePresenceInBrerakTimeTrackType()
 		{
 			//Arrange
 			var dayTimeTrack = new DayTimeTrack();
@@ -121,7 +121,7 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 		}
 
 		[Test]
-		public void GetTimeTrackTypeAbsenceTimeTrackType() //TODO: incorrect working with incorrect input data
+		public void GetTimeTrackTypeAbsenceTimeTrackType()
 		{
 			//Arrange
 			var dayTimeTrack = new DayTimeTrack();
@@ -146,7 +146,7 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 		}
 
 		[Test]
-		public void GetTimeTrackTypeAbsenceInsidePlanTimeTrackType() //TODO: incorrect working with incorrect input data
+		public void GetTimeTrackTypeAbsenceInsidePlanTimeTrackType()
 		{
 			//Arrange
 			const bool isOnlyFirstEnter = true;
@@ -173,6 +173,330 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 			Assert.IsTrue(type == TimeTrackType.AbsenceInsidePlan);
 		}
 
+
+		#endregion
+
+		#region GetDeltaForTimeTrack
+
+		[Test]
+		public void GetDeltaForAbsenceTimeTrackType()
+		{
+			//Arrange
+			var timeTrackPart = new TimeTrackPart
+			{
+				TimeTrackPartType = TimeTrackType.Absence,
+				StartTime = TimeSpan.FromHours(8),
+				EndTime = TimeSpan.FromHours(18)
+			};
+			const bool isHoliday = default(bool);
+
+			//Act
+			var dayTimeTrack = new DayTimeTrack();
+			var result = dayTimeTrack.GetDeltaForTimeTrack(timeTrackPart, isHoliday);
+
+			//Assert
+			Assert.AreEqual(result.Hours, 10);
+		}
+
+		[Test]
+		public void GetDeltaForAbsenceHolidayTimeTrackType()
+		{
+			//Arrange
+			var timeTrackPart = new TimeTrackPart
+			{
+				TimeTrackPartType = TimeTrackType.Absence,
+				StartTime = TimeSpan.FromHours(8),
+				EndTime = TimeSpan.FromHours(18)
+			};
+			const bool isHoliday = true;
+
+			//Act
+			var dayTimeTrack = new DayTimeTrack();
+			var result = dayTimeTrack.GetDeltaForTimeTrack(timeTrackPart, isHoliday);
+
+			//Assert
+			Assert.AreEqual(result.Hours, 0);
+		}
+
+		[Test]
+		public void GetDeltaForPresenceTimeTrackType()
+		{
+			//Arrange
+			var timeTrackPart = new TimeTrackPart
+			{
+				TimeTrackPartType = TimeTrackType.Presence,
+				StartTime = TimeSpan.FromHours(8),
+				EndTime = TimeSpan.FromHours(18)
+			};
+			const bool isHoliday = default(bool);
+
+			//Act
+			var dayTimeTrack = new DayTimeTrack();
+			var result = dayTimeTrack.GetDeltaForTimeTrack(timeTrackPart, isHoliday);
+
+			//Assert
+			Assert.AreEqual(result.Hours, 10);
+		}
+
+		[Test]
+		public void GetDeltaForPresenceHolidayTimeTrackType()
+		{
+			//Arrange
+			var timeTrackPart = new TimeTrackPart
+			{
+				TimeTrackPartType = TimeTrackType.Presence,
+				StartTime = TimeSpan.FromHours(8),
+				EndTime = TimeSpan.FromHours(18)
+			};
+			const bool isHoliday = true;
+
+			//Act
+			var dayTimeTrack = new DayTimeTrack();
+			var result = dayTimeTrack.GetDeltaForTimeTrack(timeTrackPart, isHoliday);
+
+			//Assert
+			Assert.AreEqual(result.Hours, 10);
+		}
+
+		[Test]
+		public void GetDeltaForAbsenceInsidePlanTimeTrackType()
+		{
+			//Arrange
+			var timeTrackPart = new TimeTrackPart
+			{
+				TimeTrackPartType = TimeTrackType.AbsenceInsidePlan,
+				StartTime = TimeSpan.FromHours(8),
+				EndTime = TimeSpan.FromHours(18)
+			};
+			const bool isHoliday = default(bool);
+
+			//Act
+			var dayTimeTrack = new DayTimeTrack();
+			var result = dayTimeTrack.GetDeltaForTimeTrack(timeTrackPart, isHoliday);
+
+			//Assert
+			Assert.AreEqual(result.Hours, 10);
+		}
+
+		[Test]
+		public void GetDeltaForAbsenceInsidePlanHolidayTimeTrackType()
+		{
+			//Arrange
+			var timeTrackPart = new TimeTrackPart
+			{
+				TimeTrackPartType = TimeTrackType.AbsenceInsidePlan,
+				StartTime = TimeSpan.FromHours(8),
+				EndTime = TimeSpan.FromHours(18)
+			};
+			const bool isHoliday = true;
+
+			//Act
+			var dayTimeTrack = new DayTimeTrack();
+			var result = dayTimeTrack.GetDeltaForTimeTrack(timeTrackPart, isHoliday);
+
+			//Assert
+			Assert.AreEqual(result.Hours, 10);
+		}
+
+		[Test]
+		public void GetDeltaForPresenceInBrerakTimeTrackType()
+		{
+			//Arrange
+			var timeTrackPart = new TimeTrackPart
+			{
+				TimeTrackPartType = TimeTrackType.PresenceInBrerak,
+				StartTime = TimeSpan.FromHours(8),
+				EndTime = TimeSpan.FromHours(18)
+			};
+			const bool isHoliday = default(bool);
+
+			//Act
+			var dayTimeTrack = new DayTimeTrack();
+			var result = dayTimeTrack.GetDeltaForTimeTrack(timeTrackPart, isHoliday);
+
+			//Assert
+			Assert.AreEqual(result.Hours, 10);
+		}
+
+		[Test]
+		public void GetDeltaForPresenceInBrerakHolidayTimeTrackType()
+		{
+			//Arrange
+			var timeTrackPart = new TimeTrackPart
+			{
+				TimeTrackPartType = TimeTrackType.PresenceInBrerak,
+				StartTime = TimeSpan.FromHours(8),
+				EndTime = TimeSpan.FromHours(18)
+			};
+			const bool isHoliday = true;
+
+			//Act
+			var dayTimeTrack = new DayTimeTrack();
+			var result = dayTimeTrack.GetDeltaForTimeTrack(timeTrackPart, isHoliday);
+
+			//Assert
+			Assert.AreEqual(result.Hours, 10);
+		}
+
+		[Test]
+		public void GetDeltaForLateTimeTrackType()
+		{
+			//Arrange
+			var timeTrackPart = new TimeTrackPart
+			{
+				TimeTrackPartType = TimeTrackType.Late,
+				StartTime = TimeSpan.FromHours(8),
+				EndTime = TimeSpan.FromHours(18)
+			};
+			const bool isHoliday = default(bool);
+
+			//Act
+			var dayTimeTrack = new DayTimeTrack();
+			var result = dayTimeTrack.GetDeltaForTimeTrack(timeTrackPart, isHoliday);
+
+			//Assert
+			Assert.AreEqual(result.Hours, 10);
+		}
+
+		[Test]
+		public void GetDeltaForLateHolidayTimeTrackType()
+		{
+			//Arrange
+			var timeTrackPart = new TimeTrackPart
+			{
+				TimeTrackPartType = TimeTrackType.Late,
+				StartTime = TimeSpan.FromHours(8),
+				EndTime = TimeSpan.FromHours(18)
+			};
+			const bool isHoliday = true;
+
+			//Act
+			var dayTimeTrack = new DayTimeTrack();
+			var result = dayTimeTrack.GetDeltaForTimeTrack(timeTrackPart, isHoliday);
+
+			//Assert
+			Assert.AreEqual(result.Hours, 0);
+		}
+
+		[Test]
+		public void GetDeltaForEarlyLeaveTimeTrackType()
+		{
+			//Arrange
+			var timeTrackPart = new TimeTrackPart
+			{
+				TimeTrackPartType = TimeTrackType.EarlyLeave,
+				StartTime = TimeSpan.FromHours(8),
+				EndTime = TimeSpan.FromHours(18)
+			};
+			const bool isHoliday = default(bool);
+
+			//Act
+			var dayTimeTrack = new DayTimeTrack();
+			var result = dayTimeTrack.GetDeltaForTimeTrack(timeTrackPart, isHoliday);
+
+			//Assert
+			Assert.AreEqual(result.Hours, 10);
+		}
+
+		[Test]
+		public void GetDeltaForEarlyLeaveHolidayTimeTrackType()
+		{
+			//Arrange
+			var timeTrackPart = new TimeTrackPart
+			{
+				TimeTrackPartType = TimeTrackType.EarlyLeave,
+				StartTime = TimeSpan.FromHours(8),
+				EndTime = TimeSpan.FromHours(18)
+			};
+			const bool isHoliday = true;
+
+			//Act
+			var dayTimeTrack = new DayTimeTrack();
+			var result = dayTimeTrack.GetDeltaForTimeTrack(timeTrackPart, isHoliday);
+
+			//Assert
+			Assert.AreEqual(result.Hours, 0);
+		}
+
+		[Test]
+		public void GetDeltaForOvertimeTimeTrackType()
+		{
+			//Arrange
+			var timeTrackPart = new TimeTrackPart
+			{
+				TimeTrackPartType = TimeTrackType.Overtime,
+				StartTime = TimeSpan.FromHours(8),
+				EndTime = TimeSpan.FromHours(18)
+			};
+			const bool isHoliday = default(bool);
+
+			//Act
+			var dayTimeTrack = new DayTimeTrack();
+			var result = dayTimeTrack.GetDeltaForTimeTrack(timeTrackPart, isHoliday);
+
+			//Assert
+			Assert.AreEqual(result.Hours, 10);
+		}
+
+		[Test]
+		public void GetDeltaForOvertimeHolidayTimeTrackType()
+		{
+			//Arrange
+			var timeTrackPart = new TimeTrackPart
+			{
+				TimeTrackPartType = TimeTrackType.Overtime,
+				StartTime = TimeSpan.FromHours(8),
+				EndTime = TimeSpan.FromHours(18)
+			};
+			const bool isHoliday = true;
+
+			//Act
+			var dayTimeTrack = new DayTimeTrack();
+			var result = dayTimeTrack.GetDeltaForTimeTrack(timeTrackPart, isHoliday);
+
+			//Assert
+			Assert.AreEqual(result.Hours, 10);
+		}
+
+		[Test]
+		public void GetDeltaForNightTimeTrackType()
+		{
+			//Arrange
+			var timeTrackPart = new TimeTrackPart
+			{
+				TimeTrackPartType = TimeTrackType.Night,
+				StartTime = TimeSpan.FromHours(8),
+				EndTime = TimeSpan.FromHours(18)
+			};
+			const bool isHoliday = default(bool);
+
+			//Act
+			var dayTimeTrack = new DayTimeTrack();
+			var result = dayTimeTrack.GetDeltaForTimeTrack(timeTrackPart, isHoliday);
+
+			//Assert
+			Assert.AreEqual(result.Hours, 10);
+		}
+
+		[Test]
+		public void GetDeltaFoNightHolidayTimeTrackType()
+		{
+			//Arrange
+			var timeTrackPart = new TimeTrackPart
+			{
+				TimeTrackPartType = TimeTrackType.Night,
+				StartTime = TimeSpan.FromHours(8),
+				EndTime = TimeSpan.FromHours(18)
+			};
+			const bool isHoliday = true;
+
+			//Act
+			var dayTimeTrack = new DayTimeTrack();
+			var result = dayTimeTrack.GetDeltaForTimeTrack(timeTrackPart, isHoliday);
+
+			//Assert
+			Assert.AreEqual(result.Hours, 10);
+		}
 
 		#endregion
 	}
