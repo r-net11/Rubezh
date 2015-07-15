@@ -505,7 +505,7 @@ namespace FiresecAPI.SKD
 		/// <param name="timeTrack">Временной интервал УРВ</param>
 		/// <param name="slideTimeSecods">время скользящего графика в секундах</param>
 		/// <returns>Возвращает баланс</returns>
-		private TimeSpan GetBalance(TimeTrackPart timeTrack, double slideTimeSecods)
+		public TimeSpan GetBalance(TimeTrackPart timeTrack, double slideTimeSecods)
 		{
 			const double tolerance = 0.0001;
 

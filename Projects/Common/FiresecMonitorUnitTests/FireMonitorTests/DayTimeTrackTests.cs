@@ -6,6 +6,7 @@ using System.Text;
 using FiresecAPI.SKD;
 using Infrastructure.Common;
 using NUnit.Framework;
+using SKDModule.Model;
 
 namespace FiresecMonitorUnitTests.FireMonitorTests
 {
@@ -176,7 +177,7 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 
 		#endregion
 
-		#region GetDeltaForTimeTrack
+		#region GetDeltaForTimeTrack Tests
 
 		[Test]
 		public void GetDeltaForAbsenceTimeTrackType()
@@ -496,6 +497,242 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 
 			//Assert
 			Assert.AreEqual(result.Hours, 10);
+		}
+
+		#endregion
+
+		#region GetBalance Tests
+
+		[Test]
+		public void GetBalanceForAbsenceTimeTrackType()
+		{
+			//Arrange
+			var timeTrackPart = new TimeTrackPart
+			{
+				TimeTrackPartType = TimeTrackType.Absence,
+				StartTime = TimeSpan.FromHours(8),
+				EndTime = TimeSpan.FromHours(18)
+			};
+
+			var slideTimeSeconds = TimeSpan.FromHours(10).TotalSeconds;
+
+
+			//Act
+			var dayTimeTrack = new DayTimeTrack();
+			var result = dayTimeTrack.GetBalance(timeTrackPart, slideTimeSeconds);
+
+			//Assert
+			Assert.AreEqual(result, TimeSpan.Zero);
+		}
+
+		[Test]
+		public void GetBalanceForPresenceTimeTrackType()
+		{
+			//Arrange
+			var timeTrackPart = new TimeTrackPart
+			{
+				TimeTrackPartType = TimeTrackType.Presence,
+				StartTime = TimeSpan.FromHours(8),
+				EndTime = TimeSpan.FromHours(15)
+			};
+
+			var slideTimeSeconds = TimeSpan.FromHours(10).TotalSeconds;
+
+			//Act
+			var dayTimeTrack = new DayTimeTrack();
+			var result = dayTimeTrack.GetBalance(timeTrackPart, slideTimeSeconds);
+
+			//Assert
+			Assert.AreEqual(result, TimeSpan.Zero);
+		}
+
+		[Test]
+		public void GetBalanceForAbsenceInsidePlanTimeTrackType()
+		{
+			//Arrange
+			var timeTrackPart = new TimeTrackPart
+			{
+				TimeTrackPartType = TimeTrackType.AbsenceInsidePlan,
+				StartTime = TimeSpan.FromHours(8),
+				EndTime = TimeSpan.FromHours(15)
+			};
+
+			var slideTimeSeconds = TimeSpan.FromHours(10).TotalSeconds;
+
+			//Act
+			var dayTimeTrack = new DayTimeTrack();
+			var result = dayTimeTrack.GetBalance(timeTrackPart, slideTimeSeconds);
+
+			//Assert
+			Assert.AreEqual(result, TimeSpan.Zero);
+		}
+
+		[Test]
+		public void GetBalanceForPresenceInBrerakTimeTrackType()
+		{
+			//Arrange
+			var timeTrackPart = new TimeTrackPart
+			{
+				TimeTrackPartType = TimeTrackType.PresenceInBrerak,
+				StartTime = TimeSpan.FromHours(8),
+				EndTime = TimeSpan.FromHours(15)
+			};
+
+			var slideTimeSeconds = TimeSpan.FromHours(10).TotalSeconds;
+
+			//Act
+			var dayTimeTrack = new DayTimeTrack();
+			var result = dayTimeTrack.GetBalance(timeTrackPart, slideTimeSeconds);
+
+			//Assert
+			Assert.AreEqual(result, TimeSpan.Zero);
+		}
+
+		[Test]
+		public void GetBalanceForLateTimeTrackType()
+		{
+			//Arrange
+			var timeTrackPart = new TimeTrackPart
+			{
+				TimeTrackPartType = TimeTrackType.Late,
+				StartTime = TimeSpan.FromHours(10),
+				EndTime = TimeSpan.FromHours(15)
+			};
+
+			var slideTimeSeconds = TimeSpan.FromHours(10).TotalSeconds;
+
+			//Act
+			var dayTimeTrack = new DayTimeTrack();
+			var result = dayTimeTrack.GetBalance(timeTrackPart, slideTimeSeconds);
+
+			//Assert
+			Assert.AreEqual(result, TimeSpan.Zero);
+		}
+
+		[Test]
+		public void GetBalanceForEarlyLeaveTimeTrackType()
+		{
+			//Arrange
+			var timeTrackPart = new TimeTrackPart
+			{
+				TimeTrackPartType = TimeTrackType.EarlyLeave,
+				StartTime = TimeSpan.FromHours(10),
+				EndTime = TimeSpan.FromHours(15)
+			};
+
+			var slideTimeSeconds = TimeSpan.FromHours(10).TotalSeconds;
+
+			//Act
+			var dayTimeTrack = new DayTimeTrack();
+			var result = dayTimeTrack.GetBalance(timeTrackPart, slideTimeSeconds);
+
+			//Assert
+			Assert.AreEqual(result, TimeSpan.Zero);
+		}
+
+		[Test]
+		public void GetBalanceForOvertimeTimeTrackType()
+		{
+			//Arrange
+			var timeTrackPart = new TimeTrackPart
+			{
+				TimeTrackPartType = TimeTrackType.Overtime,
+				StartTime = TimeSpan.FromHours(10),
+				EndTime = TimeSpan.FromHours(15)
+			};
+
+			var slideTimeSeconds = TimeSpan.FromHours(10).TotalSeconds;
+
+			//Act
+			var dayTimeTrack = new DayTimeTrack();
+			var result = dayTimeTrack.GetBalance(timeTrackPart, slideTimeSeconds);
+
+			//Assert
+			Assert.AreEqual(result, TimeSpan.Zero);
+		}
+
+		[Test]
+		public void GetBalanceForNightTimeTrackType()
+		{
+			//Arrange
+			var timeTrackPart = new TimeTrackPart
+			{
+				TimeTrackPartType = TimeTrackType.Night,
+				StartTime = TimeSpan.FromHours(10),
+				EndTime = TimeSpan.FromHours(15)
+			};
+
+			var slideTimeSeconds = TimeSpan.FromHours(10).TotalSeconds;
+
+			//Act
+			var dayTimeTrack = new DayTimeTrack();
+			var result = dayTimeTrack.GetBalance(timeTrackPart, slideTimeSeconds);
+
+			//Assert
+			Assert.AreEqual(result, TimeSpan.Zero);
+		}
+
+		[Test]
+		public void GetBalanceForDocumentOvertimeTimeTrackType()
+		{
+			//Arrange
+			var timeTrackPart = new TimeTrackPart
+			{
+				TimeTrackPartType = TimeTrackType.DocumentOvertime,
+				StartTime = TimeSpan.FromHours(10),
+				EndTime = TimeSpan.FromHours(15)
+			};
+
+			var slideTimeSeconds = TimeSpan.FromHours(10).TotalSeconds;
+
+			//Act
+			var dayTimeTrack = new DayTimeTrack();
+			var result = dayTimeTrack.GetBalance(timeTrackPart, slideTimeSeconds);
+
+			//Assert
+			Assert.AreEqual(result, timeTrackPart.Delta);
+		}
+
+		[Test]
+		public void GetBalanceForDocumentPresenceTimeTrackType()
+		{
+			//Arrange
+			var timeTrackPart = new TimeTrackPart
+			{
+				TimeTrackPartType = TimeTrackType.DocumentPresence,
+				StartTime = TimeSpan.FromHours(10),
+				EndTime = TimeSpan.FromHours(15)
+			};
+
+			var slideTimeSeconds = TimeSpan.FromHours(10).TotalSeconds;
+
+			//Act
+			var dayTimeTrack = new DayTimeTrack();
+			var result = dayTimeTrack.GetBalance(timeTrackPart, slideTimeSeconds);
+
+			//Assert
+			Assert.AreEqual(result, timeTrackPart.Delta);
+		}
+
+		[Test]
+		public void GetBalanceForDocumentAbsenceTimeTrackType()
+		{
+			//Arrange
+			var timeTrackPart = new TimeTrackPart
+			{
+				TimeTrackPartType = TimeTrackType.DocumentAbsence,
+				StartTime = TimeSpan.FromHours(10),
+				EndTime = TimeSpan.FromHours(15)
+			};
+
+			var slideTimeSeconds = TimeSpan.FromHours(10).TotalSeconds;
+
+			//Act
+			var dayTimeTrack = new DayTimeTrack();
+			var result = dayTimeTrack.GetBalance(timeTrackPart, slideTimeSeconds);
+
+			//Assert
+			Assert.AreEqual(result, -timeTrackPart.Delta);
 		}
 
 		#endregion
