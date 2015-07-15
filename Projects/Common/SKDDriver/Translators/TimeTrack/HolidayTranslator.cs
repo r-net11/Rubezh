@@ -55,13 +55,12 @@ namespace SKDDriver.DataClasses
 				return result;
 			if (item.Reduction.TotalHours > 2)
 				return OperationResult<bool>.FromError("Величина сокращения не может быть больше двух часов");
-			int day = item.Date.Day;
-			int month = item.Date.Month;
 			int year = item.Date.Year;
 			if (Table.Any(x => x.UID != item.UID 
 				&& x.OrganisationUID == item.OrganisationUID 
 				&& x.Date.Year == year
-				&& !x.IsDeleted))
+				&& !x.IsDeleted
+				&& x.Date == item.Date))
 				return OperationResult<bool>.FromError("Дата сокращённого дня совпадает с введенной ранее");
 			bool hasSameName = Table.Any(x => x.OrganisationUID == item.OrganisationUID && x.UID != item.UID && !x.IsDeleted && x.Name == item.Name 
 				&& x.Date.Year == year);

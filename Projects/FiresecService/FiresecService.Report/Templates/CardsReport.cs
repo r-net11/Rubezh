@@ -31,20 +31,14 @@ namespace FiresecService.Report.Templates
 		protected override DataSet CreateDataSet(DataProvider dataProvider)
 		{
 			var filter = GetFilter<CardsReportFilter>();
-			if (!filter.PassCardActive && !filter.PassCardForcing && !filter.PassCardInactive && !filter.PassCardLocked && !filter.PassCardOnceOnly && !filter.PassCardPermanent && !filter.PassCardTemprorary)
-			{
-				filter.PassCardActive = true;
-				filter.PassCardForcing = true;
-				filter.PassCardInactive = true;
-				filter.PassCardLocked = true;
-				filter.PassCardOnceOnly = true;
-				filter.PassCardPermanent = true;
-				filter.PassCardTemprorary = true;
-			}
-
 			var cardFilter = new CardFilter();
 			cardFilter.EmployeeFilter = dataProvider.GetCardEmployeeFilter(filter);
-			cardFilter.DeactivationType = filter.PassCardInactive ? LogicalDeletationType.Deleted : LogicalDeletationType.Active;
+			if ((filter.PassCardActive && filter.PassCardInactive) || (!filter.PassCardActive && !filter.PassCardInactive))
+				cardFilter.DeactivationType = LogicalDeletationType.All;
+			if (filter.PassCardActive && !filter.PassCardInactive)
+				cardFilter.DeactivationType = LogicalDeletationType.Active;
+			if (!filter.PassCardActive && filter.PassCardInactive)
+				cardFilter.DeactivationType = LogicalDeletationType.Deleted;
 			cardFilter.IsWithEndDate = filter.UseExpirationDate;
 			if (filter.UseExpirationDate)
 				switch (filter.ExpirationType)

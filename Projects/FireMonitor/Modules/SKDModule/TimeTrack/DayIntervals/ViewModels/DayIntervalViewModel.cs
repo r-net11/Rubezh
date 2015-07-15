@@ -62,7 +62,6 @@ namespace SKDModule.ViewModels
 			if (DialogService.ShowModalWindow(dayIntervalPartDetailsViewModel) && AddSave(dayIntervalPartDetailsViewModel.DayIntervalPart))
 			{
 				var dayIntervalPart = dayIntervalPartDetailsViewModel.DayIntervalPart;
-				Model.DayIntervalParts.Add(dayIntervalPart);
 				var dayIntervalPartViewModel = new DayIntervalPartViewModel(dayIntervalPart);
 				DayIntervalParts.Add(dayIntervalPartViewModel);
 				DayIntervalParts.Sort(item => item.BeginTime);
