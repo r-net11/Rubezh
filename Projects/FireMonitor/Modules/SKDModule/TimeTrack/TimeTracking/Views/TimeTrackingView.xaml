@@ -19,7 +19,7 @@
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="pack://application:,,,/Controls;component/Themes/StrazhTheme.xaml" />
 			</ResourceDictionary.MergedDictionaries>
-			<Converters2:InversedBoolToVisibilityConverter x:Key="InversedBoolToVisibilityConverter" />
+			<Converters2:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 			<Converters:TimeSpanToStringConverter x:Key="TimeSpanToStringConverter" />
 			<Converters:TimeSpanToColorConverter x:Key="TimeSpanToColorConverter" />
 			<CollectionViewSource x:Key="cvsTimeTracks" Source="{Binding SearchResults}">
@@ -35,11 +35,10 @@
 	<Grid Background="{StaticResource BaseWindowBackgroundBrush}">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
-			<RowDefinition Height="*" MinHeight="200" />
+			<RowDefinition Height="2*" MinHeight="200" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="*" MinHeight="200" />
+			<RowDefinition Height="0.9*" MinHeight="200" />
 		</Grid.RowDefinitions>
 		<StackPanel MinHeight="20" Orientation="Horizontal">
 			<ToolBarButton
@@ -231,14 +230,7 @@
 				</ItemsPanelTemplate>
 			</DataGrid.ItemsPanel>
 		</DataGrid>
-		<GridSplitter
-			Grid.Row="2"
-			Height="5"
-			HorizontalAlignment="Stretch"
-			VerticalAlignment="Stretch"
-			Background="Transparent"
-			Cursor="SizeNS" />
-		<Grid Grid.Row="3" HorizontalAlignment="Center">
+		<Grid Grid.Row="2" HorizontalAlignment="Center">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition />
 				<ColumnDefinition />
@@ -266,11 +258,13 @@
 				ToolTip="Следующая страница" />
 		</Grid>
 		<StackPanel
-			Grid.Row="4"
+			Grid.Row="3"
 			Margin="2"
 			VerticalAlignment="Center"
 			Orientation="Horizontal"
 			Visibility="{Binding SelectedTimeTrack.DocumentsViewModel.IsDirty,
+		                                 FallbackValue=Hidden,
+		                                 TargetNullValue=Hidden,
 		                                 Converter={StaticResource BoolToVisibilityConverter}}">
 			<Image
 				Width="16"
@@ -282,12 +276,7 @@
 				Foreground="White"
 				Text="Данные о проходах были изменены. Обновите вкладку УРВ" />
 		</StackPanel>
-		<Grid
-			Grid.Row="5"
-			DataContext="{Binding SelectedTimeTrack.DocumentsViewModel}"
-			Visibility="{Binding ElementName=grid,
-		                           Path=DataContext.HasSelectedTimeTrack,
-		                           Converter={StaticResource BoolToVisibilityConverter}}">
+		<Grid Grid.Row="4" DataContext="{Binding SelectedTimeTrack.DocumentsViewModel}">
 			<DataGrid ItemsSource="{Binding Documents}" SelectedItem="{Binding SelectedDocument}">
 				<DataGrid.Columns>
 					<DataGridTemplateColumn Width="*" Header="Название документа">

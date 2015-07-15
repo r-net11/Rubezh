@@ -155,6 +155,13 @@ namespace SKDModule.ViewModels
 
 			_searchResults = new ObservableAsPropertyHelper<ObservableCollection<TimeTrack>>(results, _ => OnPropertyChanged(() => SearchResults));
 
+			this.WhenAny(x => x.IsActive, x => x.Value)
+				.Subscribe(value =>
+				{
+					if (!value || (SelectedTimeTrack == null && SearchResults == null)) return;
+					SelectedTimeTrack = SelectedTimeTrack ?? SearchResults.FirstOrDefault();
+				});
+
 			this.WhenAny(x => x.SelectedTimeTrack, x => x.Value)
 				.Subscribe(_ =>
 				{
