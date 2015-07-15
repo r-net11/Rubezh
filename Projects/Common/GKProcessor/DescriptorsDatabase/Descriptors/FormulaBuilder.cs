@@ -236,8 +236,14 @@ namespace GKProcessor
 					case FormulaOperationType.SUB:
 					case FormulaOperationType.XOR:
 					case FormulaOperationType.CMPKOD:
-					case FormulaOperationType.BR:
 						stackDepth -= 1;
+						break;
+
+					case FormulaOperationType.BR:
+						if (formulaOperation.FirstOperand == 0)
+							stackDepth += 0;
+						else
+							stackDepth -= 1;
 						break;
 
 					case FormulaOperationType.PUTP:
@@ -252,7 +258,7 @@ namespace GKProcessor
 						stackDepth += 0;
 						break;
 				}
-				formulaOperation.StackLevel = stackDepth;
+				formulaOperation.StackLevels.Add(stackDepth);
 			}
 			return stackDepth;
 		}
@@ -260,14 +266,37 @@ namespace GKProcessor
 		public bool CalculateStackLevels()
 		{
 			var stackDepths = new List<int>();
+			FormulaOperations.ForEach(x => x.StackLevels = new List<int>());
 			var formulaOperations = new List<FormulaOperation>(FormulaOperations);
+			var unconditionalBrOperations = formulaOperations.FindAll(x => x.FormulaOperationType == FormulaOperationType.BR && x.FirstOperand == 0);
+			foreach (var unconditionalBrOperation in unconditionalBrOperations)
+			{
+				var missFormulaOperations = formulaOperations.FindAll(x => (formulaOperations.IndexOf(x) - formulaOperations.IndexOf(unconditionalBrOperation) <= unconditionalBrOperation.SecondOperand) &&
+					(formulaOperations.IndexOf(x) - formulaOperations.IndexOf(unconditionalBrOperation) > 0));
+				missFormulaOperations.ForEach(x => x.StackLevels.Add(9999));
+				formulaOperations.RemoveAll(x => (formulaOperations.IndexOf(x) - formulaOperations.IndexOf(unconditionalBrOperation) <= unconditionalBrOperation.SecondOperand) &&
+					(formulaOperations.IndexOf(x) - formulaOperations.IndexOf(unconditionalBrOperation) > 0));
+			}
 			stackDepths.Add(CalculateStackLevels(formulaOperations));
 			foreach (var formulaOperation in FormulaOperations)
 			{
-				if (formulaOperation.FormulaOperationType == FormulaOperationType.BR)
+				if (formulaOperation.FormulaOperationType == FormulaOperationType.BR && formulaOperation.FirstOperand != 0)
 				{
+					formulaOperations = new List<FormulaOperation>(FormulaOperations);
+					var missFormulaOperations = formulaOperations.FindAll(x => (formulaOperations.IndexOf(x) - formulaOperations.IndexOf(formulaOperation) <= formulaOperation.SecondOperand) &&
+						(formulaOperations.IndexOf(x) - formulaOperations.IndexOf(formulaOperation) > 0));
+					missFormulaOperations.ForEach(x => x.StackLevels.Add(9999));
 					formulaOperations.RemoveAll(x => (formulaOperations.IndexOf(x) - formulaOperations.IndexOf(formulaOperation) <= formulaOperation.SecondOperand) &&
 						(formulaOperations.IndexOf(x) - formulaOperations.IndexOf(formulaOperation) > 0));
+					unconditionalBrOperations = formulaOperations.FindAll(x => x.FormulaOperationType == FormulaOperationType.BR && x.FirstOperand == 0);
+					foreach (var unconditionalBrOperation in unconditionalBrOperations)
+					{
+						missFormulaOperations = formulaOperations.FindAll(x => (formulaOperations.IndexOf(x) - formulaOperations.IndexOf(unconditionalBrOperation) <= unconditionalBrOperation.SecondOperand) &&
+							(formulaOperations.IndexOf(x) - formulaOperations.IndexOf(unconditionalBrOperation) > 0));
+						missFormulaOperations.ForEach(x => x.StackLevels.Add(9999));
+						formulaOperations.RemoveAll(x => (formulaOperations.IndexOf(x) - formulaOperations.IndexOf(unconditionalBrOperation) <= unconditionalBrOperation.SecondOperand) &&
+							(formulaOperations.IndexOf(x) - formulaOperations.IndexOf(unconditionalBrOperation) > 0));
+					}
 					stackDepths.Add(CalculateStackLevels(formulaOperations));
 				}
 			}
