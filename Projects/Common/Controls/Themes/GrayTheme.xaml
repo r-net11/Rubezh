@@ -42,23 +42,23 @@
 		<GradientStop Color="#494549" Offset="1" />
 	</LinearGradientBrush>
 
-	<SolidColorBrush x:Key="DisabledBorderBrush" Color="DarkGray" />
-	<SolidColorBrush x:Key="DisabledBackgroundBrush" Color="LightGray" />
-	<SolidColorBrush x:Key="DisabledForegroundBrush" Color="Gray" />
-	<SolidColorBrush x:Key="WindowBackgroundBrush" Color="White" />
-	<SolidColorBrush x:Key="WindowBlackBackgroundBrush" Color="#151515" />
+	<SolidColorBrush Color="#A9A9A9" x:Key="DisabledBorderBrush" />
+	<SolidColorBrush Color="#D3D3D3" x:Key="DisabledBackgroundBrush" />
+	<SolidColorBrush Color="#808080" x:Key="DisabledForegroundBrush" />
+	<SolidColorBrush Color="#FFFFFF" x:Key="WindowBackgroundBrush" />
+	<SolidColorBrush Color="#151515" x:Key="WindowBlackBackgroundBrush" />
 
 	<LinearGradientBrush x:Key="WindowBlacHeaderkBackgroundBrush" StartPoint="0, 0" EndPoint="0, 1" Opacity="0">
 		<GradientStop Color="#505050" Offset="0" />
 		<GradientStop Color="#404040" Offset="1" />
 	</LinearGradientBrush>
 
-	<SolidColorBrush x:Key="ButtonBackgroundColor" Color="Green" />
-	<SolidColorBrush x:Key="ButtonBackgroundColorDark" Color="Green" />
-	<SolidColorBrush x:Key="ButtonBackgroundColorBlue" Color="Green" />
-	<SolidColorBrush x:Key="ButtonBackgroundColorRed" Color="Red" />
-	<SolidColorBrush x:Key="ForegroundColorLight" Color="White" />
-	<SolidColorBrush x:Key="ForegroundColorDark" Color="Black" />
-	<SolidColorBrush x:Key="ForegroundColorWhite" Color="White" />
+	<SolidColorBrush Color="#008000" x:Key="ButtonBackgroundColor" />
+	<SolidColorBrush Color="#008000" x:Key="ButtonBackgroundColorDark" />
+	<SolidColorBrush Color="#008000" x:Key="ButtonBackgroundColorBlue" />
+	<SolidColorBrush Color="#FF0000" x:Key="ButtonBackgroundColorRed" />
+	<SolidColorBrush Color="#FFFFFF" x:Key="ForegroundColorLight" />
+	<SolidColorBrush Color="#000000" x:Key="ForegroundColorDark" />
+	<SolidColorBrush Color="#FFFFFF" x:Key="ForegroundColorWhite" />
 
 </ResourceDictionary>

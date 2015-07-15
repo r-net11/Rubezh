@@ -50,19 +50,22 @@
 
     <!-- Неизвестность -->
     <LinearGradientBrush x:Key="AlternativeBackgroundBrush" StartPoint="0, 0" EndPoint="0,1">
-        <GradientStop Offset="0" Color="#589ccb" />
-        <GradientStop Offset="1" Color="#589ccb" />
+		<GradientStop Color="#589ccb" Offset="0" />
+        <GradientStop Color="#589ccb" Offset="1" />
     </LinearGradientBrush>
 
-    <SolidColorBrush x:Key="WindowBorderBrush" Color="#286c9c" />
-    <SolidColorBrush x:Key="DisabledBorderBrush" Color="#ffffff" />
-    <SolidColorBrush x:Key="DisabledBackgroundBrush" Color="LightGray" />
-    <SolidColorBrush x:Key="DisabledForegroundBrush" Color="Gray" />
-    <SolidColorBrush x:Key="WindowBackgroundBrush" Color="White" />
-    <SolidColorBrush x:Key="ButtonBackgroundColor" Color="#ffffff" />
-    <SolidColorBrush x:Key="ButtonBackgroundColorDark" Color="#286c9c" />
-    <SolidColorBrush x:Key="ButtonBackgroundColorBlue" Color="LightBlue" />
-	<SolidColorBrush x:Key="ForegroundColorLight" Color="White" />
-	<SolidColorBrush x:Key="ForegroundColorDark" Color="Black" />
-	<SolidColorBrush x:Key="ForegroundColorWhite" Color="White" />
+	<SolidColorBrush Color="#286C9C" x:Key="WindowBorderBrush" />
+    <SolidColorBrush Color="#FFFFFF" x:Key="DisabledBorderBrush" />
+    <SolidColorBrush Color="#D3D3D3" x:Key="DisabledBackgroundBrush" />
+    <SolidColorBrush Color="#808080" x:Key="DisabledForegroundBrush" />
+    <SolidColorBrush Color="#FFFFFF" x:Key="WindowBackgroundBrush" />
+    <SolidColorBrush Color="#FFFFFF" x:Key="ButtonBackgroundColor" />
+    <SolidColorBrush Color="#286C9C" x:Key="ButtonBackgroundColorDark" />
+    <SolidColorBrush Color="#ADD8E6" x:Key="ButtonBackgroundColorBlue" />
+	<SolidColorBrush Color="#FFFFFF" x:Key="ForegroundColorLight" />
+	<SolidColorBrush Color="#000000" x:Key="ForegroundColorDark" />
+	<SolidColorBrush Color="#FFFFFF" x:Key="ForegroundColorWhite" />
+	<SolidColorBrush Color="#FF0000" x:Key="ButtonBackgroundColorRed" />
+	<SolidColorBrush Color="#FFFFFF" x:Key="PressedForegroungBrush" />
+
 </ResourceDictionary>
