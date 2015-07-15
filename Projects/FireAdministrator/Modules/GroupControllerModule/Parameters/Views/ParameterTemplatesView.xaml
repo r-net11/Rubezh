@@ -8,7 +8,7 @@
 			<Setter Property="ToolTipService.ShowOnDisabled" Value="true" />
 			<Setter Property="HorizontalAlignment" Value="Right" />
 			<Setter Property="VerticalAlignment" Value="Center" />
-			<Setter Property="Foreground" Value="{DynamicResource ForegroundColor_0}" />
+			<Setter Property="Foreground" Value="White" />
 		</Style>
 	</UserControl.Resources>
 	<Grid>
@@ -92,7 +92,7 @@
 											<ColumnDefinition SharedSizeGroup="group2" Width="2*" />
 											<ColumnDefinition SharedSizeGroup="group1" Width="1*" />
 										</Grid.ColumnDefinitions>
-										<TextBlock Grid.Column="0" Style="{StaticResource PropertyCaptionStyle}" />
+										<Label Grid.Column="0" Style="{StaticResource PropertyCaptionStyle}" />
 										<ComboBox Grid.Column="1" ItemsSource="{Binding Parameters}" SelectedItem="{Binding SelectedParameter, UpdateSourceTrigger=PropertyChanged}" ToolTipService.ShowOnDisabled="True" ToolTip="{Binding SelectedParameter.Name}" IsEnabled="{Binding IsEnabled}" VerticalAlignment="Center" Margin="2">
 											<ComboBox.ItemTemplate>
 												<DataTemplate>

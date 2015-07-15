@@ -35,6 +35,7 @@
 		<GradientStop Color="#DEA34B" Offset="0" />
 		<GradientStop Color="#C98226" Offset="1" />
 	</LinearGradientBrush>
+	<SolidColorBrush Color="#FFFFFF" x:Key="PressedForegroungBrush" />
 
 	<LinearGradientBrush x:Key="AlternativeBackgroundBrush" StartPoint="0, 0" EndPoint="0,1">
 		<GradientStop Color="#545358" Offset="0" />
