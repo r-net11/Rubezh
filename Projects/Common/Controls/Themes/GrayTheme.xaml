@@ -17,7 +17,7 @@
 	</LinearGradientBrush>
 
 	<LinearGradientBrush x:Key="DialogHeaderBrush" StartPoint="0,0" EndPoint="0,1">
-		<GradientStop Color="#FF505050" Offset="0" />
+		<GradientStop Color="#505050" Offset="0" />
 		<GradientStop Color="#404040" Offset="1" />
 	</LinearGradientBrush>
 
@@ -58,6 +58,5 @@
 	<SolidColorBrush x:Key="ButtonBackgroundColorRed" Color="Red" />
 	<SolidColorBrush x:Key="ForegroundColorLight" Color="White" />
 	<SolidColorBrush x:Key="ForegroundColorDark" Color="Black" />
-	<SolidColorBrush x:Key="ForegroundColorWhite" Color="White" />
 
 </ResourceDictionary>
