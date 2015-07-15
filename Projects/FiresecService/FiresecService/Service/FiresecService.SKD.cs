@@ -785,36 +785,34 @@ namespace FiresecService.Service
 				return databaseService.GKScheduleTranslator.Get();
 			}
 		}
-			
-		public OperationResult SaveGKSchedule(GKSchedule item, bool isNew)
+
+		public OperationResult<bool> SaveGKSchedule(GKSchedule item, bool isNew)
 		{
 			if (isNew)
 				AddJournalMessage(JournalEventNameType.Добавление_нового_графика_ГК, item.Name, uid: item.UID);
 			else
 				AddJournalMessage(JournalEventNameType.Редактирование_графика_ГК, item.Name, JournalEventDescriptionType.Редактирование, uid: item.UID);
-			var result = new OperationResult();
 			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
-				result = databaseService.GKScheduleTranslator.Save(item);
+				var dbResult = databaseService.GKScheduleTranslator.Save(item);
+				if (dbResult.HasError)
+					return OperationResult<bool>.FromError(dbResult.Error, false);
 			}
-			if (!result.HasError)
-				return GKScheduleHelper.AllGKSetSchedule(item);
-			else
-				return result;
+			var result = GKScheduleHelper.AllGKSetSchedule(item);
+			return OperationResult<bool>.FromError(result.Error, true);
 		}
 
-		public OperationResult DeleteGKSchedule(GKSchedule item)
+		public OperationResult<bool> DeleteGKSchedule(GKSchedule item)
 		{
 			AddJournalMessage(JournalEventNameType.Удаление_графика_ГК, item.Name, uid: item.UID);
-			var result = new OperationResult();
 			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
-				result = databaseService.GKScheduleTranslator.Delete(item);
+				var dbResult = databaseService.GKScheduleTranslator.Delete(item);
+				if (dbResult.HasError)
+					return OperationResult<bool>.FromError(dbResult.Error, false);
 			}
-			if (!result.HasError)
-				return GKScheduleHelper.AllGKRemoveSchedule(item);
-			else
-				return result;
+			var result = GKScheduleHelper.AllGKRemoveSchedule(item);
+			return OperationResult<bool>.FromError(result.Error, true);
 		}
 		#endregion
 

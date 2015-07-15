@@ -16,6 +16,7 @@ using Infrastructure.ViewModels;
 using Microsoft.Win32;
 using Softing.Opc.Ua.Toolkit;
 using Softing.Opc.Ua.Toolkit.Client;
+using System.Diagnostics;
 
 namespace AutomationModule.ViewModels
 {
@@ -349,14 +350,15 @@ namespace AutomationModule.ViewModels
 
         public RelayCommand ConfigureCommand { get; private set; }
 
+		[DebuggerStepThrough]
         private void OnConfigure()
         {
 			try
 			{
 				var configClass = new ConfigClass();
-				//var result = configClass.LoadApplicationConfiguration();
-				//if (result)
-				//	Text += "Configuratrion loaded\n";
+				var result = configClass.LoadApplicationConfiguration();
+				if (result)
+					Text += "Configuratrion loaded\n";
 			}
 			catch { }
         }

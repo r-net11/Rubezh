@@ -16,6 +16,7 @@ namespace GKProcessor
 			var removeResult = GKRemoveAllSchedules(device);
 			if (removeResult.HasError)
 				return OperationResult<bool>.FromError(removeResult.Errors);
+
 			var schedules = new List<GKSchedule>();
 			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
@@ -45,7 +46,7 @@ namespace GKProcessor
 			return new OperationResult<bool>(true);
 		}
 
-		public static OperationResult<bool> GKRemoveAllSchedules(GKDevice device)
+		static OperationResult<bool> GKRemoveAllSchedules(GKDevice device)
 		{
 			for (int no = 1; no <= 255; no++)
 			{
@@ -192,9 +193,9 @@ namespace GKProcessor
 		{
 			try
 			{
-				foreach (var gk in GKManager.Devices.Where(x => x.DriverType == GKDriverType.GK))
+				foreach (var device in GKManager.Devices.Where(x => x.DriverType == GKDriverType.GK))
 				{
-					var result = GKSetSchedule(gk, schedule);
+					var result = GKSetSchedule(device, schedule);
 					if (result.HasError)
 						return new OperationResult(result.Error);
 				}

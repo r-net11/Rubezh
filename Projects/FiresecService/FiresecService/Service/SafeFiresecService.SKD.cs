@@ -295,14 +295,14 @@ namespace FiresecService.Service
 			return SafeContext.Execute<OperationResult<List<GKSchedule>>>(() => FiresecService.GetGKSchedules());
 		}
 
-		public OperationResult SaveGKSchedule(GKSchedule item, bool isNew)
+		public OperationResult<bool> SaveGKSchedule(GKSchedule item, bool isNew)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveGKSchedule(item, isNew));
+			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.SaveGKSchedule(item, isNew));
 		}
 
-		public OperationResult DeleteGKSchedule(GKSchedule item)
+		public OperationResult<bool> DeleteGKSchedule(GKSchedule item)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.DeleteGKSchedule(item));
+			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.DeleteGKSchedule(item));
 		}
 		#endregion
 

@@ -217,10 +217,10 @@ namespace FiresecAPI
 		OperationResult<List<GKSchedule>> GetGKSchedules();
 
 		[OperationContract]
-		OperationResult SaveGKSchedule(GKSchedule item, bool isNew);
+		OperationResult<bool> SaveGKSchedule(GKSchedule item, bool isNew);
 
 		[OperationContract]
-		OperationResult DeleteGKSchedule(GKSchedule item);
+		OperationResult<bool> DeleteGKSchedule(GKSchedule item);
 		#endregion
 
 		#region GKDaySchedule
