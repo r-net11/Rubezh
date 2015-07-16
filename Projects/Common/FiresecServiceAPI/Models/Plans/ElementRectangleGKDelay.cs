@@ -33,6 +33,9 @@ namespace FiresecAPI.Models
         [DataMember()]
         public bool ShowState { get; set; }
 
+		[DataMember]
+		public bool ShowDelay { get; set; }
+
         #region IPrimitive Members
 
         [XmlIgnore()]

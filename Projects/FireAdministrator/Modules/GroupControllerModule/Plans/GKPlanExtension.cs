@@ -41,7 +41,7 @@ namespace GKModule.Plans
         private DirectionsViewModel _directionsViewModel;
         private MPTsViewModel _mptsViewModel;
         private DoorsViewModel _doorsViewModel;
-        private DelaysViewModel _delaysViewModel = null;
+        private DelaysViewModel _delaysViewModel;
         private IEnumerable<IInstrument> _instruments;
         private List<DesignerItem> _designerItems;
 
@@ -63,11 +63,12 @@ namespace GKModule.Plans
             _devicesViewModel = devicesViewModel;
             _zonesViewModel = zonesViewModel;
             _guardZonesViewModel = guardZonesViewModel;
-
             _skdZonesViewModel = skdZonesViewModel;
             _directionsViewModel = directionsViewModel;
             _mptsViewModel = mptsViewModel;
             _doorsViewModel = doorsViewModel;
+			_delaysViewModel = delaysViewModel;
+
             _instruments = null;
             _processChanges = true;
             Cache.Add<GKDevice>(() => GKManager.Devices);
@@ -213,6 +214,24 @@ namespace GKModule.Plans
 							Index = 212,
 							Autostart = true,
 							GroupIndex = 210,
+						},
+						new InstrumentViewModel()
+						{
+							ImageSource="DirectionRectangle",
+							ToolTip="Задержки",
+							Adorner = new DelayRectangleAdorner(DesignerCanvas, _delaysViewModel),
+							Index = 213,
+							Autostart = true,
+							GroupIndex = 212,
+						},
+						new InstrumentViewModel()
+						{
+							ImageSource="DirectionPolygon",
+							ToolTip="Задержки",
+							Adorner = new DelayPolygonAdorner(DesignerCanvas, _delaysViewModel),
+							Index = 214,
+							Autostart = true,
+							GroupIndex = 212,
 						},
 				};
                 return _instruments;
@@ -537,6 +556,12 @@ namespace GKModule.Plans
                 designerItem.Title = door == null ? "Неизвестная точка доступа" : door.Name;
                 designerItem.Index = door == null ? default(int) : door.No;
             }
+			else if (typeof(TItem) == typeof(GKDelay))
+			{
+				var delay = item as GKDelay;
+				designerItem.Title = delay == null ? "Неизвестная задержка" : delay.Name;
+				designerItem.Index = delay == null ? default(int) : delay.No;
+			}
             else
                 base.UpdateDesignerItemProperties<TItem>(designerItem, item);
         }
@@ -572,6 +597,12 @@ namespace GKModule.Plans
                 elementMPT.BackgroundColor = GetGKMPTColor(item as GKMPT);
                 elementMPT.SetZLayer(item == null ? 10 : 11);
             }
+			else if (typeof(TItem) == typeof(GKDelay))
+			{
+				var elementDelay = (IElementDelay)element;
+				elementDelay.BackgroundColor = GetGKDelayColor(item as GKDelay);
+				elementDelay.SetZLayer(item == null ? 10 : 11);
+			}
             else
                 base.UpdateElementProperties<TItem>(element, item);
         }
@@ -599,6 +630,8 @@ namespace GKModule.Plans
                 e.PropertyViewModel = new DirectionPropertiesViewModel((IElementDirection)e.Element, _directionsViewModel);
             else if (e.Element is ElementRectangleGKMPT || e.Element is ElementPolygonGKMPT)
                 e.PropertyViewModel = new MPTPropertiesViewModel((IElementMPT)e.Element, _mptsViewModel);
+			else if (e.Element is ElementRectangleGKDelay || e.Element is ElementPolygonGKDelay)
+				e.PropertyViewModel = new DelayPropertiesViewModel((IElementDelay)e.Element, _delaysViewModel);
             else if (e.Element is ElementGKDoor)
                 e.PropertyViewModel = new GKDoorPropertiesViewModel(_doorsViewModel, (ElementGKDoor)e.Element);
         }
@@ -747,5 +780,12 @@ namespace GKModule.Plans
                 color = Colors.Green;
             return color;
         }
+		private Color GetGKDelayColor(GKDelay delay)
+		{
+			Color color = Colors.Black;
+			if (delay != null)
+				color = Colors.LightBlue;
+			return color;
+		}
     }
 }

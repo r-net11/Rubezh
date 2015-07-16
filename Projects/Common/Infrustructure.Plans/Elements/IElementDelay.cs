@@ -1,5 +1,6 @@
 ﻿using System;
 using Infrustructure.Plans.Interfaces;
+using System.Windows.Media;
 
 namespace Infrustructure.Plans.Elements
 {
@@ -8,7 +9,10 @@ namespace Infrustructure.Plans.Elements
     /// </summary>
     public interface IElementDelay : IElementReference
     {
-        Guid DelayUID { get; set; }
-        bool ShowState { get; set; }
+		Guid DelayUID { get; set; }
+		Color BackgroundColor { get; set; }
+		void SetZLayer(int zlayer);
+		bool ShowState { get; set; }
+		bool ShowDelay { get; set; }
     }
 }
