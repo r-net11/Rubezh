@@ -9,11 +9,11 @@
 		<Grid>
 			<StackPanel>
 				<StackPanel Orientation="Horizontal">
-					<Label Content="С удалёнными" />
+					<TextBlock Text="С удалёнными" Style="{DynamicResource TextBlockDetailsStyle}" />
 					<Views:ArgumentView DataContext="{Binding IsWithDeleted}" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal">
-					<Label Content="Путь к файлам" />
+					<TextBlock Text="Путь к файлам" Style="{DynamicResource TextBlockDetailsStyle}" />
 					<Views:ArgumentView DataContext="{Binding PathArgument}" />
 				</StackPanel>
 			</StackPanel>

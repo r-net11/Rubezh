@@ -7,9 +7,9 @@ namespace SKDDriver.DataClasses
 	{
 		[Key]
 		public Guid UID { get; set; }
-
+		[MaxLength(50)]
 		public string IpAddress { get; set; }
-
+		[MaxLength(50)]
 		public string SerialNo { get; set; }
 
 		public int LastJournalNo { get; set; }

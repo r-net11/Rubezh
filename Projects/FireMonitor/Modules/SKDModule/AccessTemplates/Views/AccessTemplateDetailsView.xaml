@@ -17,8 +17,8 @@
 					<ColumnDefinition />
 					<ColumnDefinition />
 				</Grid.ColumnDefinitions>
-				<Label Grid.Row="0" Grid.Column="0" Content="Название" HorizontalAlignment="Right" />
-				<Label Grid.Row="1" Grid.Column="0" Content="Примечание" HorizontalAlignment="Right" />
+				<TextBlock Grid.Row="0" Grid.Column="0" Text="Название" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
+				<TextBlock Grid.Row="1" Grid.Column="0" Text="Примечание" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
 
 				<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 				<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" Margin="2" />

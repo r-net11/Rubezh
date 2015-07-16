@@ -17,6 +17,7 @@ namespace DiagnosticsModule.ViewModels
 			SKDDataCommand = new RelayCommand(OnSKDData);
 			SKDDataAscCommand = new RelayCommand(OnSKDDataAsc);
 			GenerateEmployeeDaysCommand = new RelayCommand(OnGenerateEmployeeDays);
+            JournalCommand = new RelayCommand(OnJournal);
 		}
 
 		public void StopThreads()
@@ -74,6 +75,12 @@ namespace DiagnosticsModule.ViewModels
 		{
 			FiresecManager.FiresecService.GenerateTestData(false);
 		}
+
+        public RelayCommand JournalCommand { get; private set; }
+        void OnJournal()
+        {
+            FiresecManager.FiresecService.GenerateJournal();
+        }
 		
 		public RelayCommand SKDDataAscCommand { get; private set; }
 		void OnSKDDataAsc()

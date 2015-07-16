@@ -8,13 +8,13 @@ namespace FiresecClient
 {
 	public partial class SafeFiresecService
 	{
-		public FiresecAPI.OperationResult<IEnumerable<DayInterval>> GetDayIntervals(DayIntervalFilter filter)
+		public FiresecAPI.OperationResult<List<DayInterval>> GetDayIntervals(DayIntervalFilter filter)
 		{
-			return SafeContext.Execute<FiresecAPI.OperationResult<IEnumerable<DayInterval>>>(() => FiresecService.GetDayIntervals(filter));
+			return SafeContext.Execute<FiresecAPI.OperationResult<List<DayInterval>>>(() => FiresecService.GetDayIntervals(filter));
 		}
-		public FiresecAPI.OperationResult SaveDayInterval(DayInterval item, bool isNew)
+		public FiresecAPI.OperationResult<bool> SaveDayInterval(DayInterval item, bool isNew)
 		{
-			return SafeContext.Execute<FiresecAPI.OperationResult>(() => FiresecService.SaveDayInterval(item, isNew));
+			return SafeContext.Execute<FiresecAPI.OperationResult<bool>>(() => FiresecService.SaveDayInterval(item, isNew));
 		}
 		public FiresecAPI.OperationResult MarkDeletedDayInterval(Guid uid, string name)
 		{
@@ -25,26 +25,26 @@ namespace FiresecClient
 			return SafeContext.Execute(() => FiresecService.RestoreDayInterval(uid, name));
 		}
 	
-		public FiresecAPI.OperationResult<IEnumerable<DayIntervalPart>> GetDayIntervalParts(DayIntervalPartFilter filter)
-		{
-			return SafeContext.Execute<FiresecAPI.OperationResult<IEnumerable<DayIntervalPart>>>(() => FiresecService.GetDayIntervalParts(filter));
-		}
-		public FiresecAPI.OperationResult SaveDayIntervalPart(DayIntervalPart item, string name)
-		{
-			return SafeContext.Execute<FiresecAPI.OperationResult>(() => FiresecService.SaveDayIntervalPart(item, name));
-		}
-		public FiresecAPI.OperationResult RemoveDayIntervalPart(DayIntervalPart item, string name)
-		{
-			return SafeContext.Execute(() => FiresecService.RemoveDayIntervalPart(item.UID, name));
-		}
+		//public FiresecAPI.OperationResult<IEnumerable<DayIntervalPart>> GetDayIntervalParts(DayIntervalPartFilter filter)
+		//{
+		//    return SafeContext.Execute<FiresecAPI.OperationResult<IEnumerable<DayIntervalPart>>>(() => FiresecService.GetDayIntervalParts(filter));
+		//}
+		//public FiresecAPI.OperationResult SaveDayIntervalPart(DayIntervalPart item, string name)
+		//{
+		//    return SafeContext.Execute<FiresecAPI.OperationResult>(() => FiresecService.SaveDayIntervalPart(item, name));
+		//}
+		//public FiresecAPI.OperationResult RemoveDayIntervalPart(DayIntervalPart item, string name)
+		//{
+		//    return SafeContext.Execute(() => FiresecService.RemoveDayIntervalPart(item.UID, name));
+		//}
 
-		public FiresecAPI.OperationResult<IEnumerable<Holiday>> GetHolidays(HolidayFilter filter)
+		public FiresecAPI.OperationResult<List<Holiday>> GetHolidays(HolidayFilter filter)
 		{
-			return SafeContext.Execute<FiresecAPI.OperationResult<IEnumerable<Holiday>>>(() => FiresecService.GetHolidays(filter));
+			return SafeContext.Execute<FiresecAPI.OperationResult<List<Holiday>>>(() => FiresecService.GetHolidays(filter));
 		}
-		public FiresecAPI.OperationResult SaveHoliday(Holiday item, bool isNew)
+		public FiresecAPI.OperationResult<bool> SaveHoliday(Holiday item, bool isNew)
 		{
-			return SafeContext.Execute<FiresecAPI.OperationResult>(() => FiresecService.SaveHoliday(item, isNew));
+			return SafeContext.Execute<FiresecAPI.OperationResult<bool>>(() => FiresecService.SaveHoliday(item, isNew));
 		}
 		public FiresecAPI.OperationResult MarkDeletedHoliday(Guid uid, string name)
 		{
@@ -55,13 +55,13 @@ namespace FiresecClient
 			return SafeContext.Execute(() => FiresecService.RestoreHoliday(uid, name));
 		}
 
-		public FiresecAPI.OperationResult<IEnumerable<ScheduleScheme>> GetScheduleSchemes(ScheduleSchemeFilter filter)
+		public FiresecAPI.OperationResult<List<ScheduleScheme>> GetScheduleSchemes(ScheduleSchemeFilter filter)
 		{
-			return SafeContext.Execute<FiresecAPI.OperationResult<IEnumerable<ScheduleScheme>>>(() => FiresecService.GetScheduleSchemes(filter));
+			return SafeContext.Execute<FiresecAPI.OperationResult<List<ScheduleScheme>>>(() => FiresecService.GetScheduleSchemes(filter));
 		}
-		public FiresecAPI.OperationResult SaveScheduleScheme(ScheduleScheme item, bool isNew)
+		public FiresecAPI.OperationResult<bool> SaveScheduleScheme(ScheduleScheme item, bool isNew)
 		{
-			return SafeContext.Execute<FiresecAPI.OperationResult>(() => FiresecService.SaveScheduleScheme(item, isNew));
+			return SafeContext.Execute<FiresecAPI.OperationResult<bool>>(() => FiresecService.SaveScheduleScheme(item, isNew));
 		}
 		public FiresecAPI.OperationResult MarkDeletedScheduleScheme(Guid uid, string name)
 		{
@@ -72,52 +72,48 @@ namespace FiresecClient
 			return SafeContext.Execute(() => FiresecService.RestoreScheduleScheme(uid, name));
 		}
 
-		public FiresecAPI.OperationResult<IEnumerable<ScheduleDayInterval>> GetSheduleDayIntervals(ScheduleDayIntervalFilter filter)
-		{
-			return SafeContext.Execute<FiresecAPI.OperationResult<IEnumerable<ScheduleDayInterval>>>(() => FiresecService.GetSheduleDayIntervals(filter));
-		}
-		public FiresecAPI.OperationResult SaveSheduleDayInterval(ScheduleDayInterval item, string name)
-		{
-			return SafeContext.Execute<FiresecAPI.OperationResult>(() => FiresecService.SaveSheduleDayInterval(item, name));
-		}
-		public FiresecAPI.OperationResult RemoveSheduleDayInterval(ScheduleDayInterval item, string name)
-		{
-			return SafeContext.Execute(() => FiresecService.RemoveSheduleDayInterval(item.UID, name));
-		}
+		//public FiresecAPI.OperationResult<IEnumerable<ScheduleDayInterval>> GetSheduleDayIntervals(ScheduleDayIntervalFilter filter)
+		//{
+		//    return SafeContext.Execute<FiresecAPI.OperationResult<IEnumerable<ScheduleDayInterval>>>(() => FiresecService.GetSheduleDayIntervals(filter));
+		//}
+		//public FiresecAPI.OperationResult SaveSheduleDayInterval(ScheduleDayInterval item, string name)
+		//{
+		//    return SafeContext.Execute<FiresecAPI.OperationResult>(() => FiresecService.SaveSheduleDayInterval(item, name));
+		//}
+		//public FiresecAPI.OperationResult RemoveSheduleDayInterval(ScheduleDayInterval item, string name)
+		//{
+		//    return SafeContext.Execute(() => FiresecService.RemoveSheduleDayInterval(item.UID, name));
+		//}
 
-		public FiresecAPI.OperationResult<IEnumerable<Schedule>> GetSchedules(ScheduleFilter filter)
+		public FiresecAPI.OperationResult<List<Schedule>> GetSchedules(ScheduleFilter filter)
 		{
-			return SafeContext.Execute<FiresecAPI.OperationResult<IEnumerable<Schedule>>>(() => FiresecService.GetSchedules(filter));
+			return SafeContext.Execute<FiresecAPI.OperationResult<List<Schedule>>>(() => FiresecService.GetSchedules(filter));
 		}
-		public FiresecAPI.OperationResult SaveSchedule(Schedule item, bool isNew)
+		public FiresecAPI.OperationResult<bool> SaveSchedule(Schedule item, bool isNew)
 		{
-			return SafeContext.Execute<FiresecAPI.OperationResult>(() => FiresecService.SaveSchedule(item, isNew));
+			return SafeContext.Execute<FiresecAPI.OperationResult<bool>>(() => FiresecService.SaveSchedule(item, isNew));
 		}
 		public FiresecAPI.OperationResult MarkDeletedSchedule(Guid uid, string name)
 		{
 			return SafeContext.Execute(() => FiresecService.MarkDeletedSchedule(uid, name));
-		}
-		public FiresecAPI.OperationResult<IEnumerable<ShortSchedule>> GetScheduleShortList(ScheduleFilter filter)
-		{
-			return SafeContext.Execute<FiresecAPI.OperationResult<IEnumerable<ShortSchedule>>>(() => FiresecService.GetScheduleShortList(filter));
 		}
 		public FiresecAPI.OperationResult RestoreSchedule(Guid uid, string name)
 		{
 			return SafeContext.Execute(() => FiresecService.RestoreSchedule(uid, name));
 		}
 
-		public FiresecAPI.OperationResult<IEnumerable<ScheduleZone>> GetScheduleZones(ScheduleZoneFilter filter)
-		{
-			return SafeContext.Execute<FiresecAPI.OperationResult<IEnumerable<ScheduleZone>>>(() => FiresecService.GetScheduleZones(filter));
-		}
-		public FiresecAPI.OperationResult SaveScheduleZone(ScheduleZone item, string name)
-		{
-			return SafeContext.Execute<FiresecAPI.OperationResult>(() => FiresecService.SaveScheduleZone(item, name));
-		}
-		public FiresecAPI.OperationResult MarkDeletedScheduleZone(ScheduleZone item, string name)
-		{
-			return SafeContext.Execute(() => FiresecService.MarkDeletedScheduleZone(item.UID, name));
-		}
+		//public FiresecAPI.OperationResult<IEnumerable<ScheduleZone>> GetScheduleZones(ScheduleZoneFilter filter)
+		//{
+		//    return SafeContext.Execute<FiresecAPI.OperationResult<IEnumerable<ScheduleZone>>>(() => FiresecService.GetScheduleZones(filter));
+		//}
+		//public FiresecAPI.OperationResult SaveScheduleZone(ScheduleZone item, string name)
+		//{
+		//    return SafeContext.Execute<FiresecAPI.OperationResult>(() => FiresecService.SaveScheduleZone(item, name));
+		//}
+		//public FiresecAPI.OperationResult MarkDeletedScheduleZone(ScheduleZone item, string name)
+		//{
+		//    return SafeContext.Execute(() => FiresecService.MarkDeletedScheduleZone(item.UID, name));
+		//}
 
 		public FiresecAPI.OperationResult<List<TimeTrackDocument>> GetTimeTrackDocument(Guid employeeUID, DateTime startDateTime, DateTime endDateTime)
 		{

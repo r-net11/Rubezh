@@ -20,7 +20,7 @@ namespace FiresecAPI.SKD
 		public uint Number { get; set; }
 
 		[DataMember]
-		public Guid? HolderUID { get; set; }
+		public Guid? EmployeeUID { get; set; }
 
 		[DataMember]
 		public DateTime StartDate { get; set; }
@@ -60,9 +60,6 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public string EmployeeName { get; set; }
-
-		[DataMember]
-		public Guid EmployeeUID { get; set; }
 
 		[DataMember]
 		public Guid OrganisationUID { get; set; }

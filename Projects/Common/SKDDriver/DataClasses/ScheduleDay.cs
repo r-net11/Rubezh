@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SKDDriver.DataClasses
 {
@@ -10,7 +11,7 @@ namespace SKDDriver.DataClasses
 
 		public Guid? DayIntervalUID { get; set; }
 		public DayInterval DayInterval { get; set; }
-
+		[Index]
 		public Guid? ScheduleSchemeUID { get; set; }
 		public ScheduleScheme ScheduleScheme { get; set; }
 

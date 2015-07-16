@@ -1,56 +1,55 @@
 ﻿using System;
 using System.Linq;
-using SKDDriver.DataAccess;
 
-namespace SKDDriver
+namespace SKDDriver.DataClasses
 {
-	public class GKMetadataTranslator
-	{
-		DataAccess.SKDDataContext Context;
+    public class GKMetadataTranslator
+    {
+        DatabaseContext Context;
 
-		public GKMetadataTranslator(SKDDatabaseService databaseService)
-		{
-			Context = databaseService.Context;
-		}
+        public GKMetadataTranslator(DbService databaseService)
+        {
+            Context = databaseService.Context;
+        }
 
-		public int GetLastJournalNo(string gkIPAddress)
-		{
-			if (string.IsNullOrEmpty(gkIPAddress))
-			{
-				return -1;
-			}
-			var gkMetadata = Context.GKMetadatas.FirstOrDefault(x => x.IPAddress == gkIPAddress);
-			if (gkMetadata != null)
-			{
-				return gkMetadata.LastJournalNo;
-			}
-			return -1;
-		}
+        public int GetLastJournalNo(string gkIPAddress)
+        {
+            if (string.IsNullOrEmpty(gkIPAddress))
+            {
+                return -1;
+            }
+            var gkMetadata = Context.GKMetadatas.FirstOrDefault(x => x.IpAddress == gkIPAddress);
+            if (gkMetadata != null)
+            {
+                return gkMetadata.LastJournalNo;
+            }
+            return -1;
+        }
 
-		public void SetLastJournalNo(string gkIPAddress, int lastJournalNo)
-		{
-			if (string.IsNullOrEmpty(gkIPAddress))
-			{
-				return;
-			}
-			var gkMetadata = Context.GKMetadatas.FirstOrDefault(x => x.IPAddress == gkIPAddress);
-			if (gkMetadata != null)
-			{
-				gkMetadata.LastJournalNo = lastJournalNo;
-				Context.SubmitChanges();
-			}
-			else
-			{
-				gkMetadata = new GKMetadata()
-				{
-					UID = Guid.NewGuid(),
-					IPAddress = gkIPAddress,
-					SerialNo = "",
-					LastJournalNo = lastJournalNo
-				};
-				Context.GKMetadatas.InsertOnSubmit(gkMetadata);
-				Context.SubmitChanges();
-			}
-		}
-	}
+        public void SetLastJournalNo(string gkIPAddress, int lastJournalNo)
+        {
+            if (string.IsNullOrEmpty(gkIPAddress))
+            {
+                return;
+            }
+            var gkMetadata = Context.GKMetadatas.FirstOrDefault(x => x.IpAddress == gkIPAddress);
+            if (gkMetadata != null)
+            {
+                gkMetadata.LastJournalNo = lastJournalNo;
+                Context.SaveChanges();
+            }
+            else
+            {
+                gkMetadata = new GKMetadata()
+                {
+                    UID = Guid.NewGuid(),
+                    IpAddress = gkIPAddress,
+                    SerialNo = "",
+                    LastJournalNo = lastJournalNo
+                };
+                Context.GKMetadatas.Add(gkMetadata);
+                Context.SaveChanges();
+            }
+        }
+    }
 }

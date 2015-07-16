@@ -23,6 +23,7 @@ namespace SKDModule.ViewModels
 		public SKDCard Card { get; private set; }
 		public AccessDoorsSelectationViewModel AccessDoorsSelectationViewModel { get; private set; }
 		public bool IsNewCard { get; private set; }
+		public bool CanChangeCardType { get; private set; }
 		ShortEmployee _employee;
 
 		public EmployeeCardDetailsViewModel(Organisation organisation, ShortEmployee employee, SKDCard card = null)
@@ -40,7 +41,8 @@ namespace SKDModule.ViewModels
 				card = new SKDCard()
 				{
 					StartDate = DateTime.Now,
-					EndDate = DateTime.Now.AddYears(1)
+					EndDate = DateTime.Now.AddYears(1),
+					GKCardType = GKCardType.Employee
 				};
 			}
 			else
@@ -69,15 +71,8 @@ namespace SKDModule.ViewModels
 				CardTypes = new ObservableCollection<CardType>(Enum.GetValues(typeof(CardType)).OfType<CardType>());
 			}
 			SelectedCardType = Card.CardType;
-
-			if (_employee.Type == PersonType.Guest)
-			{
-				GKCardTypes = new ObservableCollection<GKCardType>() { GKCardType.Employee };
-			}
-			else
-			{
-				GKCardTypes = new ObservableCollection<GKCardType>(Enum.GetValues(typeof(GKCardType)).OfType<GKCardType>());
-			}
+			CanChangeCardType = _employee.Type == PersonType.Employee && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Employees_Edit_CardType);
+			GKCardTypes = new ObservableCollection<GKCardType>(Enum.GetValues(typeof(GKCardType)).OfType<GKCardType>());
 			SelectedGKCardType = Card.GKCardType;
 
 			AvailableGKControllers = new ObservableCollection<GKControllerViewModel>();
@@ -322,15 +317,6 @@ namespace SKDModule.ViewModels
 				{
 					StopPollThread();
 				}
-
-				if (value)
-				{
-					ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Subscribe(OnNewJournal);
-				}
-				else
-				{
-					ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Unsubscribe(OnNewJournal);
-				}
 			}
 		}
 
@@ -366,24 +352,6 @@ namespace SKDModule.ViewModels
 						Number = operationResult.Result;
 					}
 					Thread.Sleep(TimeSpan.FromMilliseconds(500));
-				}
-			}
-		}
-
-		public void OnNewJournal(List<JournalItem> journalItems)
-		{
-			foreach (var journalItem in journalItems)
-			{
-				if (journalItem.ObjectUID == ClientSettings.SKDSettings.CardCreatorReaderUID)
-				{
-					var journalDetalisationItem = journalItem.JournalDetalisationItems.FirstOrDefault(x => x.Name == "Номер карты");
-					if (journalDetalisationItem != null)
-					{
-						var cardNoString = journalDetalisationItem.Value;
-						int cardNo;
-						Int32.TryParse(cardNoString, System.Globalization.NumberStyles.HexNumber, null, out cardNo);
-						Number = (uint)cardNo;
-					}
 				}
 			}
 		}
@@ -468,7 +436,10 @@ namespace SKDModule.ViewModels
 			
 			Card.Password = Password;
 			Card.CardType = SelectedCardType;
-			Card.GKCardType = SelectedGKCardType;
+			if (_employee.Type == PersonType.Guest)
+				Card.GKCardType = GKCardType.Employee;
+			else
+				Card.GKCardType = SelectedGKCardType;
 			if (SelectedGKCardType != GKCardType.Employee)
 			{
 				Card.GKControllerUIDs = AvailableGKControllers.Where(x => x.IsChecked).Select(x => x.Device.UID).ToList();
@@ -484,7 +455,7 @@ namespace SKDModule.ViewModels
 			Card.CardDoors = AccessDoorsSelectationViewModel.GetCardDoors();
 			Card.CardDoors.ForEach(x => x.CardUID = Card.UID);
 			Card.OrganisationUID = Organisation.UID;
-			Card.HolderUID = _employee.UID;
+			Card.EmployeeUID = _employee.UID;
 			Card.EmployeeName = _employee.Name;
 
 			if (SelectedAccessTemplate != null)

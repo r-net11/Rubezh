@@ -65,29 +65,19 @@ namespace FiresecService.Report.Templates
 
 			var cardFilter = new CardFilter();
 			cardFilter.EmployeeFilter = dataProvider.GetCardEmployeeFilter(filter);
-			if (filter.PassCardForcing)
-				cardFilter.CardTypes.Add(CardType.Duress);
-			if (filter.PassCardLocked)
-				cardFilter.CardTypes.Add(CardType.Blocked);
-			if (filter.PassCardOnceOnly)
-				cardFilter.CardTypes.Add(CardType.OneTime);
-			if (filter.PassCardPermanent)
-				cardFilter.CardTypes.Add(CardType.Constant);
-			if (filter.PassCardTemprorary)
-				cardFilter.CardTypes.Add(CardType.Temporary);
 			cardFilter.DeactivationType = LogicalDeletationType.Active;
 			cardFilter.LogicalDeletationType = LogicalDeletationType.Active;
-			var cardsResult = dataProvider.DatabaseService.CardTranslator.Get(cardFilter);
+            var cardsResult = dataProvider.DbService.CardTranslator.Get(cardFilter);
 
 			var dataSet = new EmployeeDoorsDataSet();
 			if (!cardsResult.HasError)
 			{
-				dataProvider.GetEmployees(cardsResult.Result.Select(item => item.EmployeeUID));
+				dataProvider.GetEmployees(cardsResult.Result.Select(item => item.EmployeeUID.GetValueOrDefault()));
 				var accessTemplateFilter = new AccessTemplateFilter()
 				{
 					UIDs = cardsResult.Result.Where(item => item.AccessTemplateUID.HasValue && item.AccessTemplateUID != Guid.Empty).Select(item => item.AccessTemplateUID.Value).ToList()
 				};
-				var accessTemplates = dataProvider.DatabaseService.AccessTemplateTranslator.Get(accessTemplateFilter);
+                var accessTemplates = dataProvider.DbService.AccessTemplateTranslator.Get(accessTemplateFilter);
 
 
 				var doorMap = new Dictionary<Guid, CommonDoor>();
@@ -106,7 +96,7 @@ namespace FiresecService.Report.Templates
 				}
 
 				Dictionary<int, string> intervalMap = new Dictionary<int, string>();
-				var schedulesResult = dataProvider.DatabaseService.GKScheduleTranslator.GetSchedules();
+					var schedulesResult = dataProvider.DbService.GKScheduleTranslator.Get();
 				if (!schedulesResult.HasError)
 				{
 					foreach (var interval in schedulesResult.Result)
@@ -125,7 +115,7 @@ namespace FiresecService.Report.Templates
 						if (accessTemplate != null)
 							cardDoors = cardDoors.Union(accessTemplate.CardDoors.Where(item => !cardDoorUIDs.Contains(item.DoorUID)));
 					}
-					var employee = dataProvider.GetEmployee(card.EmployeeUID);
+					var employee = dataProvider.GetEmployee(card.EmployeeUID.GetValueOrDefault());
 					if (!filter.Schedules.IsEmpty())
 						cardDoors = cardDoors.Where(item =>
 							(filter.ScheduleEnter && filter.Schedules.Contains(item.EnterScheduleNo)) ||

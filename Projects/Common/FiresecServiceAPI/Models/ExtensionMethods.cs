@@ -41,5 +41,12 @@ namespace FiresecAPI
 		{
 			return new Size(s1.Width - s2.Width, s1.Height - s2.Height);
 		}
+
+		public static Guid? EmptyToNull(this Guid value)
+		{
+			if (value == Guid.Empty)
+				return null;
+			return value;
+		}
 	}
 }

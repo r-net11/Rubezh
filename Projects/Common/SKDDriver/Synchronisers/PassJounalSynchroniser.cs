@@ -6,16 +6,18 @@ using System.Linq;
 using System.Xml.Serialization;
 using FiresecAPI;
 using FiresecAPI.SKD;
+using SKDDriver.DataClasses;
+using System.Data.Entity;
 
 namespace SKDDriver
 {
 	public class PassJounalSynchroniser
 	{
-		Table<DataAccess.PassJournal> _Table;
+		DbSet<PassJournal> _Table;
 		string Name { get { return "PassJournal"; } }
 		public string NameXml { get { return Name + ".xml"; } }
 
-		public PassJounalSynchroniser(Table<DataAccess.PassJournal> table)
+        public PassJounalSynchroniser(DbSet<PassJournal> table)
 		{
 			_Table = table;
 		}
@@ -26,7 +28,7 @@ namespace SKDDriver
 			{
 				if (!Directory.Exists(filter.Path))
 					return new OperationResult("Папка не существует");
-				var tableItems = _Table.Where(x => x.EnterTime >= TranslatiorHelper.CheckDate(filter.MinDate) & x.EnterTime <= TranslatiorHelper.CheckDate(filter.MaxDate));
+                var tableItems = _Table.Where(x => x.EnterTime >= filter.MinDate.CheckDate() & x.EnterTime <= filter.MaxDate.CheckDate());
 				var items = tableItems.Select(x => Translate(x)).ToList();
 				var serializer = new XmlSerializer(typeof(List<ExportPassJournalItem>));
 				using (var fileStream = File.Open(NameXml, FileMode.Create))
@@ -48,12 +50,12 @@ namespace SKDDriver
 			}
 		}
 
-		ExportPassJournalItem Translate(DataAccess.PassJournal tableItem)
+		ExportPassJournalItem Translate(PassJournal tableItem)
 		{
 			return new ExportPassJournalItem
 			{
 				UID = tableItem.UID,
-				EmployeeUID = tableItem.EmployeeUID,
+				EmployeeUID = tableItem.EmployeeUID.GetValueOrDefault(),
 				EnterDateTime = tableItem.EnterTime,
 				ExitDateTime = tableItem.ExitTime != null ? tableItem.ExitTime.Value : new DateTime(),
 				ZoneUID = tableItem.ZoneUID

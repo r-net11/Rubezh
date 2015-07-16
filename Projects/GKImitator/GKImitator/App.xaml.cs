@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using Infrastructure.Common.Theme;
+using GKImitator.Processor;
 
 namespace GKImitator
 {
@@ -10,6 +11,12 @@ namespace GKImitator
 			base.OnStartup(e);
 			ThemeHelper.LoadThemeFromRegister();
 			Bootstrapper.Run();
+		}
+
+		protected override void OnExit(ExitEventArgs e)
+		{
+			DBHelper.Save();
+			base.OnExit(e);
 		}
 	}
 }

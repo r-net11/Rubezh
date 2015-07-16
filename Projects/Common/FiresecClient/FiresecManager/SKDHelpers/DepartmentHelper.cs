@@ -53,12 +53,12 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(result);
 		}
 
-		public static bool SaveChief(ShortDepartment model, Guid chiefUID)
+		public static bool SaveChief(ShortDepartment model, Guid? chiefUID)
 		{
 			return SaveChief(model.UID, chiefUID, model.Name);
 		}
 		
-		public static bool SaveChief(Guid uid, Guid chiefUID, string name)
+		public static bool SaveChief(Guid uid, Guid? chiefUID, string name)
 		{
 			var result = FiresecManager.FiresecService.SaveDepartmentChief(uid, chiefUID, name);
 			return Common.ShowErrorIfExists(result);

@@ -70,12 +70,24 @@
                     <DataGridTemplateColumn Header="Тип кабеля" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding CableType}" Margin="2" />
+								<StackPanel Orientation="Horizontal">
+									<Image Width="16" Height="16" Margin="5 0" HorizontalAlignment="Left" Source="/Controls;component/Images/Cable.png" />
+									<TextBlock Text="{Binding CableType}" Margin="2" />
+								</StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                         <DataGridTemplateColumn.CellEditingTemplate>
                             <DataTemplate>
-                                <ComboBox ItemsSource="{Binding CableTypes}" SelectedItem="{Binding CableType, UpdateSourceTrigger=PropertyChanged}" Foreground="Black" Margin="2" />
+								<ComboBox ItemsSource="{Binding CableTypes}" SelectedItem="{Binding CableType, UpdateSourceTrigger=PropertyChanged}" Foreground="Black">
+									<ComboBox.ItemTemplate>
+										<DataTemplate>
+											<StackPanel Orientation="Horizontal">
+												<Image Width="16" Height="16" Margin="5 0" HorizontalAlignment="Left" Source="/Controls;component/Images/Cable.png" />
+												<TextBlock Text="{Binding .}" Margin="2" />
+											</StackPanel>
+										</DataTemplate>
+									</ComboBox.ItemTemplate>
+								</ComboBox>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellEditingTemplate>
                     </DataGridTemplateColumn>

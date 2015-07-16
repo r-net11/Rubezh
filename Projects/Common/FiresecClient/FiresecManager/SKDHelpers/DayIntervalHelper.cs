@@ -50,7 +50,6 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
-
 		public static DayInterval GetSingle(Guid? uid)
 		{
 			if (uid == null)

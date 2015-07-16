@@ -1,4 +1,8 @@
-<UserControl x:Class="SKDModule.Views.HRView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls" xmlns:Views="clr-namespace:SKDModule.Views">
+<UserControl x:Class="SKDModule.Views.HRView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+             xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls" 
+             xmlns:Views="clr-namespace:SKDModule.Views"
+             xmlns:Controls="clr-namespace:Controls;assembly=Controls">
 
 	<Grid>
 		<Grid.RowDefinitions>
@@ -109,8 +113,13 @@
 		</StackPanel>
 
 		<TabControl Grid.Row="1">
-			<TabItem Header="{Binding EmployeesViewModel.TabItemHeader}" IsSelected="{Binding IsEmployeesSelected}" Visibility="{Binding CanSelectEmployees, Converter={StaticResource BoolToVisibilityConverter}}">
-				<Views:EmployeesView DataContext="{Binding EmployeesViewModel}" />
+			<TabItem IsSelected="{Binding IsEmployeesSelected}" Visibility="{Binding CanSelectEmployees, Converter={StaticResource BoolToVisibilityConverter}}">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+						<TextBlock Text="{Binding EmployeesViewModel.TabItemHeader}" Style="{DynamicResource TextBlockDetailsStyle}" FontWeight="Bold" VerticalAlignment="Center" Margin="2" />
+                    </StackPanel>
+                </TabItem.Header>
+                <Views:EmployeesView DataContext="{Binding EmployeesViewModel}" />
 			</TabItem>
 			<TabItem Header="Подразделения" IsSelected="{Binding IsDepartmentsSelected}" Visibility="{Binding CanSelectDepartments, Converter={StaticResource BoolToVisibilityConverter}}">
 				<Views:DepartmentsView DataContext="{Binding DepartmentsViewModel}" />
@@ -121,7 +130,12 @@
 			<TabItem Header="Дополнительные колонки" IsSelected="{Binding IsAdditionalColumnTypesSelected}" Visibility="{Binding CanSelectAdditionalColumns, Converter={StaticResource BoolToVisibilityConverter}}">
 				<Views:AdditionalColumnTypesView DataContext="{Binding AdditionalColumnTypesViewModel}" />
 			</TabItem>
-			<TabItem Header="Пропуска" IsSelected="{Binding IsCardsSelected}" Visibility="{Binding CanSelectCards, Converter={StaticResource BoolToVisibilityConverter}}">
+			<TabItem IsSelected="{Binding IsCardsSelected}" Visibility="{Binding CanSelectCards, Converter={StaticResource BoolToVisibilityConverter}}">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+						<TextBlock Text="Пропуска" Style="{DynamicResource TextBlockDetailsStyle}" FontWeight="Bold" VerticalAlignment="Center" Margin="2" />
+                    </StackPanel>
+                </TabItem.Header>
 				<Views:CardsView DataContext="{Binding CardsViewModel}" />
 			</TabItem>
 			<TabItem Header="Шаблоны доступа" IsSelected="{Binding IsAccessTemplatesSelected}" Visibility="{Binding CanSelectAccessTemplates, Converter={StaticResource BoolToVisibilityConverter}}">

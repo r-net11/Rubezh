@@ -37,34 +37,20 @@ namespace GKModule.ViewModels
 			{
 				foreach (var descriptor in database.Descriptors)
 				{
+					#region Test
+
+					using (var s = new StreamWriter(@"C:\1.txt", true, Encoding.GetEncoding("Windows-1251")))
+					{
+						s.WriteLine(descriptor.GKBase.PresentationName + " " + BitConverter.ToString(descriptor.FormulaBytes.ToArray()));
+					}
+
+					#endregion
 					var isFormulaInvalid = descriptor.Formula.CalculateStackLevels();
 					if (isFormulaInvalid)
 					{
 						MessageBoxService.ShowError("Ошибка глубины стека дескриптора " + descriptor.GKBase.GKDescriptorNo + " " + descriptor.GKBase.PresentationName);
 						return;
 					}
-
-					//#region Test
-
-					//using (var s = new StreamWriter(@"C:\1.txt", true, Encoding.GetEncoding("Windows-1251")))
-					//{
-					//    if (descriptor.GKBase.InputGKBases.Count > 0)
-					//    {
-					//        foreach (var inputGKBase in descriptor.GKBase.InputGKBases)
-					//        {
-					//            foreach (var inputGKBase2 in inputGKBase.InputGKBases)
-					//            {
-					//                if (inputGKBase2 == descriptor.GKBase)
-					//                {
-					//                    string dataasstring = inputGKBase.PresentationName + " " + inputGKBase2.PresentationName;
-					//                    s.WriteLine(dataasstring);
-					//                }
-					//            }
-					//        }
-					//    }
-					//}
-
-					//#endregion
 				}
 			}
 		}
@@ -126,13 +112,16 @@ namespace GKModule.ViewModels
 			foreach (var descriptorViewModel in Descriptors)
 			{
 				descriptorViewModel.OutputDescriptors = new ObservableCollection<DescriptorViewModel>();
-				if (descriptorViewModel.Descriptor.GKBase.OutputGKBases != null)
+				if (descriptorViewModel.Descriptor.GKBase.InputGKBases != null)
 				foreach (var outputBase in descriptorViewModel.Descriptor.GKBase.OutputGKBases)
 				{
 					var outputDescriptor = SelectedDatabase.Descriptors.FirstOrDefault(x => x.GKBase.UID == outputBase.UID);
 					if (outputDescriptor != null)
 					{
 						var outputDescriptorViewModel = Descriptors.FirstOrDefault(x => x.Descriptor.GKBase.UID == outputDescriptor.GKBase.UID);
+						if (outputDescriptorViewModel == null)
+						{
+						}
 						if (outputDescriptorViewModel != null)
 							descriptorViewModel.OutputDescriptors.Add(outputDescriptorViewModel);
 						else

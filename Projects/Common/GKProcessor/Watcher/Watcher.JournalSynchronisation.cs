@@ -11,7 +11,7 @@ namespace GKProcessor
 		{
 			var gkIpAddress = GKManager.GetIpAddress(GkDatabase.RootDevice);
 			var localLastDBNo = -1;
-			using (var skdDatabaseService = new SKDDatabaseService())
+            using (var skdDatabaseService = new SKDDriver.DataClasses.DbService())
 			{
 				localLastDBNo = skdDatabaseService.GKMetadataTranslator.GetLastJournalNo(gkIpAddress);
 			}
@@ -24,7 +24,7 @@ namespace GKProcessor
 			{
 				return false;
 			}
-			using (var skdDatabaseService = new SKDDatabaseService())
+			using (var skdDatabaseService = new SKDDriver.DataClasses.DbService())
 			{
 				skdDatabaseService.GKMetadataTranslator.SetLastJournalNo(gkIpAddress, remoteLastId);
 			}

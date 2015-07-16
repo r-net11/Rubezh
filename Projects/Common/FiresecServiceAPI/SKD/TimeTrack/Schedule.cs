@@ -33,10 +33,7 @@ namespace FiresecAPI.SKD
 		[DataMember]
 		public List<ScheduleZone> Zones { get; set; }
 
-		public string Description 
-		{ 
-			get { return ""; }
-			set { return; }
-		}
+		[DataMember]
+		public string Description  {get; set;}
 	}
 }

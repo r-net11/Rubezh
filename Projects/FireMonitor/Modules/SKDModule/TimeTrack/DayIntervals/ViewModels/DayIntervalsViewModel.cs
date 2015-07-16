@@ -146,5 +146,10 @@ namespace SKDModule.ViewModels
 		}
 
 
+
+		protected override List<DayInterval> GetFromCallbackResult(FiresecAPI.DbCallbackResult dbCallbackResult)
+		{
+			return dbCallbackResult.DayIntervals;
+		}
 	}
 }

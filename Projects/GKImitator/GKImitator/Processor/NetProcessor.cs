@@ -14,7 +14,7 @@ namespace GKImitator.Processor
 	{
 		GkDatabase GkDatabase;
 		Socket serverSocket;
-		byte[] byteData = new byte[64];
+		byte[] byteData = new byte[1000];
 
 		public void Start()
 		{
@@ -76,6 +76,11 @@ namespace GKImitator.Processor
 			if(byteData[0] == 4) databaseType = DatabaseType.Kau;
 			var kauAddress = byteData[1];
 
+			if (byteData[4] != 6)
+			{
+				;
+			}
+
 			switch (byteData[4])
 			{
 				case 1:
@@ -99,7 +104,7 @@ namespace GKImitator.Processor
 					return new List<byte>();
 
 				case 6:
-					var count = DBHelper.ImitatorJournalItemCollection.ImitatorJournalItems.Count;
+					var count = DBHelper.ImitatorSerializedCollection.ImitatorJournalItems.Count;
 					if (count > 0)
 						return GetJournalBytes(count);
 					return null;
@@ -175,13 +180,28 @@ namespace GKImitator.Processor
 						infoBlock.Add(0);
 
 					return infoBlock;
+
+				case 24: // Чтение пользователя
+					return UsersProcessor.ReadUser(BytesHelper.SubstructShort(byteData.ToList(), 6));
+
+				case 25: // Добавление пользователя
+					UsersProcessor.AddUser(byteData.Skip(6).ToList());
+					return new List<byte>();
+
+				case 26: // Редактирование пользователя
+					UsersProcessor.EditUser(byteData.Skip(6).ToList());
+					return new List<byte>();
+
+				case 28: // Редактирование графика работ
+					SchedulesProcessor.EditShedule(byteData.Skip(5).ToList());
+					return new List<byte>();
 			}
 			return new List<byte>();
 		}
 
 		public static List<byte> GetJournalBytes(int no)
 		{
-			var imitatorJournalItems = DBHelper.ImitatorJournalItemCollection.ImitatorJournalItems[no - 1];
+			var imitatorJournalItems = DBHelper.ImitatorSerializedCollection.ImitatorJournalItems[no - 1];
 			return imitatorJournalItems.ToBytes();
 		}
 

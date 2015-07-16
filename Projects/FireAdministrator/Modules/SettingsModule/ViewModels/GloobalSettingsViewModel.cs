@@ -11,6 +11,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Ionic.Zip;
 using Microsoft.Win32;
+using System.Collections.ObjectModel;
 
 namespace SettingsModule.ViewModels
 {
@@ -18,6 +19,7 @@ namespace SettingsModule.ViewModels
 	{
 		public static GloobalSettingsViewModel Curent { get; private set; }
 		public ModulesViewModel ModulesViewModel { get; private set; }
+		public DbSettingsViewModel DbSettingsViewModel { get; private set; } 
 
 		public GloobalSettingsViewModel()
 		{
@@ -29,6 +31,7 @@ namespace SettingsModule.ViewModels
 			ResetConfigurationCommand = new RelayCommand(OnResetConfiguration);
 			ResetSettingsCommand = new RelayCommand(OnResetSettings);
 			ModulesViewModel = new ModulesViewModel();
+			DbSettingsViewModel = new DbSettingsViewModel();
 			LogsFolderPath = AppDataFolderHelper.GetLogsFolder();
 
 			GetServerAuto();
@@ -40,10 +43,8 @@ namespace SettingsModule.ViewModels
 			Monitor_F4_Enabled = GlobalSettingsHelper.GlobalSettings.Monitor_F4_Enabled;
 			Monitor_IsControlMPT = GlobalSettingsHelper.GlobalSettings.Monitor_IsControlMPT;
 			Monitor_HaspInfo_Enabled = GlobalSettingsHelper.GlobalSettings.Monitor_HaspInfo_Enabled;
-			Server_EnableRemoteConnections = GlobalSettingsHelper.GlobalSettings.Server_EnableRemoteConnections;
-			UseHasp = GlobalSettingsHelper.GlobalSettings.UseHasp;
-			DBServerName = GlobalSettingsHelper.GlobalSettings.DBServerName;
-			CreateNewDBOnOversize = GlobalSettingsHelper.GlobalSettings.CreateNewDBOnOversize;
+			
+			
 			RemoteAddress = GlobalSettingsHelper.GlobalSettings.RemoteAddress;
 			RemotePort = GlobalSettingsHelper.GlobalSettings.RemotePort;
 			ReportRemotePort = GlobalSettingsHelper.GlobalSettings.ReportRemotePort;
@@ -52,6 +53,8 @@ namespace SettingsModule.ViewModels
 			AutoConnect = GlobalSettingsHelper.GlobalSettings.AdminAutoConnect;
 			DoNotAutoconnectAdm = GlobalSettingsHelper.GlobalSettings.DoNotAutoconnectAdm;
 			RunRevisor = GlobalSettingsHelper.GlobalSettings.RunRevisor;
+			Server_EnableRemoteConnections = GlobalSettingsHelper.GlobalSettings.Server_EnableRemoteConnections;
+			UseHasp = GlobalSettingsHelper.GlobalSettings.UseHasp;
 		}
 
 		public string ServerAutoLabel { get { return "Сервер приложений Глобал"; } }
@@ -194,7 +197,7 @@ namespace SettingsModule.ViewModels
 		{
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите сбросить базу данных?"))
 			{
-				var result = FiresecManager.FiresecService.ResetSKDDatabase();
+				var result = FiresecManager.FiresecService.ResetDB();
 				if (result.HasError)
 					MessageBoxService.Show(result.Error);
 			}
@@ -308,6 +311,17 @@ namespace SettingsModule.ViewModels
 			}
 		}
 
+		bool _isServerAuto;
+		public bool IsServerAuto
+		{
+			get { return _isServerAuto; }
+			set
+			{
+				_isServerAuto = value;
+				OnPropertyChanged(() => IsServerAuto);
+			}
+		}
+
 		bool _server_EnableRemoteConnections;
 		public bool Server_EnableRemoteConnections
 		{
@@ -327,39 +341,6 @@ namespace SettingsModule.ViewModels
 			{
 				_useHasp = value;
 				OnPropertyChanged(() => UseHasp);
-			}
-		}
-
-		string _dbServerName;
-		public string DBServerName
-		{
-			get { return _dbServerName; }
-			set
-			{
-				_dbServerName = value;
-				OnPropertyChanged(() => DBServerName);
-			}
-		}
-
-		bool _createNewDBOnOversize;
-		public bool CreateNewDBOnOversize
-		{
-			get { return _createNewDBOnOversize; }
-			set
-			{
-				_createNewDBOnOversize = value;
-				OnPropertyChanged(() => CreateNewDBOnOversize);
-			}
-		}
-
-		bool _isServerAuto;
-		public bool IsServerAuto
-		{
-			get { return _isServerAuto; }
-			set
-			{
-				_isServerAuto = value;
-				OnPropertyChanged(() => IsServerAuto);
 			}
 		}
 
@@ -479,20 +460,18 @@ namespace SettingsModule.ViewModels
 			GlobalSettingsHelper.GlobalSettings.Monitor_F4_Enabled = Monitor_F4_Enabled;
 			GlobalSettingsHelper.GlobalSettings.Monitor_IsControlMPT = Monitor_IsControlMPT;
 			GlobalSettingsHelper.GlobalSettings.Monitor_HaspInfo_Enabled = Monitor_HaspInfo_Enabled;
-			GlobalSettingsHelper.GlobalSettings.Server_EnableRemoteConnections = Server_EnableRemoteConnections;
-			GlobalSettingsHelper.GlobalSettings.UseHasp = UseHasp;
-			GlobalSettingsHelper.GlobalSettings.DBServerName = DBServerName;
-			GlobalSettingsHelper.GlobalSettings.CreateNewDBOnOversize = CreateNewDBOnOversize;
 			GlobalSettingsHelper.GlobalSettings.RemoteAddress = RemoteAddress;
 			GlobalSettingsHelper.GlobalSettings.RemotePort = RemotePort;
 			GlobalSettingsHelper.GlobalSettings.ReportRemotePort = ReportRemotePort;
 			GlobalSettingsHelper.GlobalSettings.AdminLogin = Login;
 			GlobalSettingsHelper.GlobalSettings.AdminPassword = Password;
 			GlobalSettingsHelper.GlobalSettings.AdminAutoConnect = AutoConnect;
-
+			GlobalSettingsHelper.GlobalSettings.Server_EnableRemoteConnections = Server_EnableRemoteConnections;
+			GlobalSettingsHelper.GlobalSettings.UseHasp = UseHasp;
 			GlobalSettingsHelper.GlobalSettings.DoNotAutoconnectAdm = DoNotAutoconnectAdm;
 			GlobalSettingsHelper.GlobalSettings.RunRevisor = RunRevisor;
 			ModulesViewModel.Save();
+			DbSettingsViewModel.Save();
 			GlobalSettingsHelper.Save();
 			return true;
 		}

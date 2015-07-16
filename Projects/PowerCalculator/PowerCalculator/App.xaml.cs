@@ -3,6 +3,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using PowerCalculator.ViewModels;
 using PowerCalculator.Views;
+using Infrastructure.Common.Theme;
 
 namespace PowerCalculator
 {
@@ -13,6 +14,7 @@ namespace PowerCalculator
 			var resourceService = new ResourceService();
 			resourceService.AddResource(new ResourceDescription(typeof(App).Assembly, "DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml"));
+			ThemeHelper.LoadThemeFromRegister();
 
 			var mainView = new MainView();
 			var mainViewModel = new MainViewModel();

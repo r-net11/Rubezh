@@ -151,6 +151,7 @@ namespace SecurityModule.ViewModels
 											{
 												new PermissionViewModel(PermissionType.Oper_SKD_Employees_View),
 												new PermissionViewModel(PermissionType.Oper_SKD_Employees_Edit),
+												new PermissionViewModel(PermissionType.Oper_SKD_Employees_Edit_CardType),
 											}),
 											new PermissionViewModel("Посетители", new List<PermissionViewModel>()
 											{

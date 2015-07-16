@@ -14,11 +14,11 @@ namespace FiresecService.Report
 	{
 		public DataProvider()
 		{
-			DatabaseService = new SKDDatabaseService();
+			DbService = new SKDDriver.DataClasses.DbService();
 			IsCacheLoaded = false;
 		}
 
-		public SKDDatabaseService DatabaseService { get; private set; }
+		public SKDDriver.DataClasses.DbService DbService { get; private set; }
 		public bool IsCacheLoaded { get; private set; }
 
 		public Dictionary<Guid, DeletableObjectInfo<Organisation>> Organisations { get; private set; }
@@ -33,7 +33,7 @@ namespace FiresecService.Report
 
 			_employees = new Dictionary<Guid, EmployeeInfo>();
 
-			var organisationResult = DatabaseService.OrganisationTranslator.Get(new OrganisationFilter() { LogicalDeletationType = LogicalDeletationType.All });
+			var organisationResult = DbService.OrganisationTranslator.Get(new OrganisationFilter() { LogicalDeletationType = LogicalDeletationType.All });
 			Organisations = CreateDictionary(organisationResult, organisation => new DeletableObjectInfo<Organisation>()
 			{
 				IsDeleted = organisation.IsDeleted,
@@ -42,7 +42,7 @@ namespace FiresecService.Report
 				Item = organisation,
 			});
 
-			var departmentResult = DatabaseService.DepartmentTranslator.Get(new DepartmentFilter() { LogicalDeletationType = LogicalDeletationType.All });
+			var departmentResult = DbService.DepartmentTranslator.Get(new DepartmentFilter() { LogicalDeletationType = LogicalDeletationType.All });
 			Departments = CreateDictionary(departmentResult, department => new OrganisationBaseObjectInfo<Department>()
 			{
 				IsDeleted = department.IsDeleted,
@@ -53,7 +53,7 @@ namespace FiresecService.Report
 				Item = department,
 			});
 
-			var positionResult = DatabaseService.PositionTranslator.Get(new PositionFilter() { LogicalDeletationType = LogicalDeletationType.All });
+			var positionResult = DbService.PositionTranslator.Get(new PositionFilter() { LogicalDeletationType = LogicalDeletationType.All });
 			Positions = CreateDictionary(positionResult, position => new OrganisationBaseObjectInfo<Position>()
 			{
 				IsDeleted = position.IsDeleted,
@@ -68,7 +68,7 @@ namespace FiresecService.Report
 		{
 			if (!_employees.ContainsKey(uid))
 			{
-				var result = DatabaseService.EmployeeTranslator.GetSingle(uid);
+				var result = DbService.EmployeeTranslator.GetSingle(uid);
 				_employees.Add(uid, result == null ? null : ConvertEmployee(result.Result));
 			}
 			return _employees[uid];
@@ -102,7 +102,7 @@ namespace FiresecService.Report
 				UIDs = uids.ToList(),
 				LogicalDeletationType = LogicalDeletationType.All,
 			};
-			var employeesResult = DatabaseService.EmployeeTranslator.Get(employeeFilter);
+			var employeesResult = DbService.EmployeeTranslator.Get(employeeFilter);
 			if (employeesResult == null || employeesResult.Result == null)
 				return new List<EmployeeInfo>();
 			var employees = employeesResult.Result.Select(ConvertEmployee).ToList();
@@ -125,7 +125,7 @@ namespace FiresecService.Report
         {
 			LoadCache();
 			CheckIfNoOrgansations(employeeFilter, isDefault);
-            var employeesResult = DatabaseService.EmployeeTranslator.Get(employeeFilter);
+            var employeesResult = DbService.EmployeeTranslator.Get(employeeFilter);
 			if (employeesResult == null || employeesResult.Result == null)
 				return new List<EmployeeInfo>();
 			var employees = employeesResult.Result.Select(ConvertEmployee).ToList();
@@ -157,13 +157,21 @@ namespace FiresecService.Report
 			return employeeFilter;
 		}
 
+        public List<SKDCard> GetCards(CardFilter filter)
+        {
+            var result = DbService.CardTranslator.Get(filter);
+            if (result.HasError)
+                return new List<SKDCard>();
+            return result.Result;
+        }
+
 		public EmployeeFilter GetEmployeeFilter(SKDReportFilter filter)
 		{
 			var employeeFilter = new EmployeeFilter();
 			var withDeleted = filter is IReportFilterArchive ? ((IReportFilterArchive)filter).UseArchive : false;
 			employeeFilter.LogicalDeletationType = withDeleted ? LogicalDeletationType.All : LogicalDeletationType.Active;
-			employeeFilter.WithDeletedDepartments = withDeleted;
-			employeeFilter.WithDeletedPositions = withDeleted;
+			employeeFilter.IsEmptyDepartment = withDeleted;
+			employeeFilter.IsEmptyPosition = withDeleted;
 			employeeFilter.UserUID = filter.UserUID;
 			if (filter is IReportFilterOrganisation)
 			{
@@ -206,7 +214,7 @@ namespace FiresecService.Report
 
 		public void Dispose()
 		{
-			DatabaseService.Dispose();
+			DbService.Dispose();
 		}
 
 		#endregion
@@ -237,5 +245,14 @@ namespace FiresecService.Report
 				return new Dictionary<Guid, T>();
 			return result.Result.ToDictionary(item => item.UID, item => converter(item));
 		}
+
+        private Dictionary<Guid, T> CreateDictionary<ApiT, T>(OperationResult<List<ApiT>> result, Converter<ApiT, T> converter)
+            where T : ObjectInfo
+            where ApiT : SKDModelBase
+        {
+            if (result == null || result.Result == null)
+                return new Dictionary<Guid, T>();
+            return result.Result.ToDictionary(item => item.UID, item => converter(item));
+        }
 	}
 }

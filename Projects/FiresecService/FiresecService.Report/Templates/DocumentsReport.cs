@@ -33,12 +33,12 @@ namespace FiresecService.Report.Templates
 			var ds = new DataSetDocuments();
 			foreach (var employee in employees)
 			{
-				var documentsResult = dataProvider.DatabaseService.TimeTrackDocumentTranslator.Get(employee.UID, filter.DateTimeFrom, filter.DateTimeTo);
+				var documentsResult = dataProvider.DbService.TimeTrackDocumentTranslator.Get(employee.UID, filter.DateTimeFrom, filter.DateTimeTo);
 				if (documentsResult.Result != null)
 				{
 					foreach (var document in documentsResult.Result)
 					{
-						var documentTypesResult = dataProvider.DatabaseService.TimeTrackDocumentTypeTranslator.Get(employee.OrganisationUID);
+                        var documentTypesResult = dataProvider.DbService.TimeTrackDocumentTypeTranslator.Get(employee.OrganisationUID);
 						if (documentTypesResult.Result != null)
 						{
 							var documentType = documentTypesResult.Result.FirstOrDefault(x => x.Code == document.DocumentCode);

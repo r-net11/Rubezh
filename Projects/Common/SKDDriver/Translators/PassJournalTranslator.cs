@@ -1,35 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Xml.Serialization;
 using Common;
 using FiresecAPI;
 using FiresecAPI.SKD;
-using LinqKit;
-using OperationResult = FiresecAPI.OperationResult;
 using FiresecClient;
 
-namespace SKDDriver.Translators
+namespace SKDDriver.DataClasses
 {
-	public class PassJournalTranslator : IDisposable
+	public class PassJournalTranslator
 	{
-		public static string ConnectionString { get; set; }
-		public DataAccess.PassJournalDataContext Context { get; private set; }
+		DbService DbService; 
+		DatabaseContext Context;
+		public PassJounalSynchroniser Synchroniser { get; private set; } 
 
-		public PassJournalTranslator()
+		public PassJournalTranslator(DbService dbService)
 		{
-			Context = new DataAccess.PassJournalDataContext(ConnectionString);
-			Synchroniser = new PassJounalSynchroniser(Context.PassJournals);
+			DbService = dbService;
+			Context = DbService.Context;
 		}
-
-		public void Dispose()
-		{
-			Context.Dispose();
-		}
-
+		
 		public OperationResult AddPassJournal(Guid employeeUID, Guid zoneUID)
 		{
-			InvalidatePassJournal();
-
 			try
 			{
 				var exitPassJournal = Context.PassJournals.FirstOrDefault(x => x.EmployeeUID == employeeUID && x.ExitTime == null);
@@ -39,15 +33,15 @@ namespace SKDDriver.Translators
 				}
 				if (zoneUID != Guid.Empty)
 				{
-					var enterPassJournal = new DataAccess.PassJournal();
+					var enterPassJournal = new PassJournal();
 					enterPassJournal.UID = Guid.NewGuid();
 					enterPassJournal.EmployeeUID = employeeUID;
 					enterPassJournal.ZoneUID = zoneUID;
 					enterPassJournal.EnterTime = DateTime.Now;
 					enterPassJournal.ExitTime = null;
-					Context.PassJournals.InsertOnSubmit(enterPassJournal);
+					Context.PassJournals.Add(enterPassJournal);
 				}
-				Context.SubmitChanges();
+				Context.SaveChanges();
 				return new OperationResult();
 			}
 			catch (Exception e)
@@ -60,18 +54,18 @@ namespace SKDDriver.Translators
 		{
 			try
 			{
-				var passJournalItem = new DataAccess.PassJournal();
+				var passJournalItem = new PassJournal();
 				passJournalItem.UID = uid;
-				passJournalItem.EmployeeUID = employeeUID;
+				passJournalItem.EmployeeUID = employeeUID.EmptyToNull();
 				passJournalItem.ZoneUID = zoneUID;
-				passJournalItem.EnterTime = enterTime;
-				passJournalItem.ExitTime = exitTime;
+				passJournalItem.EnterTime = enterTime.CheckDate();
+				passJournalItem.ExitTime = exitTime.CheckDate();
 				if (IsIntersection(passJournalItem))
 				{
 					return new OperationResult("Невозможно добавить пересекающийся интервал");
 				}
-				Context.PassJournals.InsertOnSubmit(passJournalItem);
-				Context.SubmitChanges();
+				Context.PassJournals.Add(passJournalItem);
+				Context.SaveChanges();
 				return new OperationResult();
 			}
 			catch (Exception e)
@@ -88,28 +82,20 @@ namespace SKDDriver.Translators
 				if (passJournalItem != null)
 				{
 					passJournalItem.ZoneUID = zoneUID;
-					passJournalItem.EnterTime = enterTime;
-					passJournalItem.ExitTime = exitTime;
+					passJournalItem.EnterTime = enterTime.CheckDate();
+					passJournalItem.ExitTime = exitTime.CheckDate();
 				}
 				if (IsIntersection(passJournalItem))
 				{
 					return new OperationResult("Невозможно добавить пересекающийся интервал");
 				}
-				Context.SubmitChanges();
+				Context.SaveChanges();
 				return new OperationResult();
 			}
 			catch (Exception e)
 			{
 				return new OperationResult(e.Message);
 			}
-		}
-
-		bool IsIntersection(DataAccess.PassJournal passJournalItem)
-		{
-			return Context.PassJournals.Any(x => x.UID != passJournalItem.UID && 
-				x.EmployeeUID == passJournalItem.EmployeeUID &&
-				(x.EnterTime < passJournalItem.EnterTime && x.ExitTime > passJournalItem.EnterTime ||
-					x.EnterTime < passJournalItem.ExitTime && x.ExitTime > passJournalItem.ExitTime));
 		}
 
 		public OperationResult DeletePassJournal(Guid uid)
@@ -119,9 +105,9 @@ namespace SKDDriver.Translators
 				var passJournalItem = Context.PassJournals.FirstOrDefault(x => x.UID == uid);
 				if (passJournalItem != null)
 				{
-					Context.PassJournals.DeleteOnSubmit(passJournalItem);
+					Context.PassJournals.Remove(passJournalItem);
+					Context.SaveChanges();
 				}
-				Context.SubmitChanges();
 				return new OperationResult();
 			}
 			catch (Exception e)
@@ -137,11 +123,15 @@ namespace SKDDriver.Translators
 				var passJournalItem = Context.PassJournals.FirstOrDefault(x => x.UID == uid);
 				if (passJournalItem != null)
 				{
-					var items = Context.PassJournals.Where(x => x.EmployeeUID == passJournalItem.EmployeeUID && x.ZoneUID == passJournalItem.ZoneUID &&
-						x.EnterTime >= enterTime && x.ExitTime != null && x.ExitTime.Value <= exitTime);
-					Context.PassJournals.DeleteAllOnSubmit(items);
+					var items = Context.PassJournals.Where(x =>
+						x.EmployeeUID == passJournalItem.EmployeeUID &&
+						x.ZoneUID == passJournalItem.ZoneUID &&
+						x.EnterTime >= enterTime &&
+						x.ExitTime != null &&
+						x.ExitTime.Value <= exitTime);
+					Context.PassJournals.RemoveRange(items);
+					Context.SaveChanges();
 				}
-				Context.SubmitChanges();
 				return new OperationResult();
 			}
 			catch (Exception e)
@@ -150,43 +140,13 @@ namespace SKDDriver.Translators
 			}
 		}
 
-		public void InvalidatePassJournal()
-		{
-			//try
-			//{
-			//    var hasChanges = false;
-			//    var emptyExitPassJournals = Context.PassJournals.Where(x => x.ExitTime == null);
-			//    foreach (var emptyExitPassJournal in emptyExitPassJournals)
-			//    {
-			//        var enterTime = emptyExitPassJournal.EnterTime;
-			//        var nowTime = DateTime.Now;
-			//        if (nowTime.Date > enterTime.Date)
-			//        {
-			//            emptyExitPassJournal.EnterTime = new DateTime(enterTime.Year, enterTime.Month, enterTime.Day, 23, 59, 59);
-			//            hasChanges = true;
-			//        }
-			//    }
-			//    if (hasChanges)
-			//    {
-			//        Context.SubmitChanges();
-			//    }
-			//}
-			//catch { }
-		}
-
 		public void InsertPassJournalTestData()
 		{
 			IEnumerable<ShortEmployee> employees = null;
-			using (var skdDatabaseService = new SKDDatabaseService())
-			{
-				employees = skdDatabaseService.EmployeeTranslator.GetList(new EmployeeFilter()).Result;
-			}
+			employees = DbService.EmployeeTranslator.ShortTranslator.Get(new EmployeeFilter()).Result;
 			var zoneUID = GKManager.Zones.FirstOrDefault().UID;
 
-			foreach (var passJournal in Context.PassJournals)
-			{
-				Context.PassJournals.DeleteOnSubmit(passJournal);
-			}
+			Context.PassJournals.RemoveRange(Context.PassJournals);
 
 			var random = new Random();
 			foreach (var employee in employees)
@@ -209,33 +169,34 @@ namespace SKDDriver.Translators
 						var startTimeSpan = TimeSpan.FromSeconds(seconds[i]);
 						var endTimeSpan = TimeSpan.FromSeconds(seconds[i + 1]);
 
-						var passJournal = new DataAccess.PassJournal();
+						var passJournal = new PassJournal();
 						passJournal.UID = Guid.NewGuid();
 						passJournal.EmployeeUID = employee.UID;
 						passJournal.ZoneUID = zoneUID;
 						passJournal.EnterTime = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, startTimeSpan.Hours, startTimeSpan.Minutes, startTimeSpan.Seconds);
 						passJournal.ExitTime = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, endTimeSpan.Hours, endTimeSpan.Minutes, endTimeSpan.Seconds);
-						Context.PassJournals.InsertOnSubmit(passJournal);
+						Context.PassJournals.Add(passJournal);
 					}
 				}
 			}
-
-			Context.SubmitChanges();
+			Context.SaveChanges();
 		}
 
-		public DayTimeTrack GetRealTimeTrack(DataAccess.Employee employee, DataAccess.Schedule schedule, DataAccess.ScheduleScheme scheduleScheme, IEnumerable<DataAccess.ScheduleZone> scheduleZones, DateTime date)
+		public DayTimeTrack GetRealTimeTrack(Guid employeeUID, IEnumerable<Guid> scheduleZoneUIDs, DateTime date)
 		{
-			return GetRealTimeTrack(employee, schedule, scheduleScheme, scheduleZones, date, Context.PassJournals);
+			return GetRealTimeTrack(employeeUID, scheduleZoneUIDs, date, Context.PassJournals);
 		}
 
-		public DayTimeTrack GetRealTimeTrack(DataAccess.Employee employee, DataAccess.Schedule schedule, DataAccess.ScheduleScheme scheduleScheme, IEnumerable<DataAccess.ScheduleZone> scheduleZones, DateTime date, IEnumerable<DataAccess.PassJournal> passJournals)
+		public DayTimeTrack GetRealTimeTrack(Guid employeeUID, IEnumerable<Guid> scheduleZoneUIDs, DateTime date, IEnumerable<PassJournal> passJournals)
 		{
 			var dayTimeTrack = new DayTimeTrack();
 			dayTimeTrack.Date = date;
 
-			foreach (var passJournal in passJournals.Where(x => x.EmployeeUID == employee.UID && x.EnterTime != null && x.EnterTime.Date == date.Date).ToList())
+			foreach (var passJournal in passJournals.Where(x => x.EmployeeUID == employeeUID &&
+				x.EnterTime != null &&
+				x.EnterTime.Date == date.Date).ToList())
 			{
-				var scheduleZone = scheduleZones.FirstOrDefault(x => x.ZoneUID == passJournal.ZoneUID);
+				var scheduleZone = scheduleZoneUIDs.FirstOrDefault(x => x == passJournal.ZoneUID);
 				if (scheduleZone != null)
 				{
 					if (passJournal.ExitTime.HasValue)
@@ -252,18 +213,17 @@ namespace SKDDriver.Translators
 				}
 			}
 			dayTimeTrack.RealTimeTrackParts = dayTimeTrack.RealTimeTrackParts.OrderBy(x => x.StartTime.Ticks).ToList();
-			
+
 			return dayTimeTrack;
 		}
-		
 
-		public OperationResult SaveEmployeeDays(List<EmployeeDay> employeeDays)
+		public OperationResult SaveEmployeeDays(List<FiresecAPI.SKD.EmployeeDay> employeeDays)
 		{
 			try
 			{
 				foreach (var employeeDay in employeeDays)
 				{
-					var tableEmployeeDay = new DataAccess.EmployeeDay
+					var tableEmployeeDay = new EmployeeDay
 					{
 						UID = employeeDay.UID,
 						AllowedEarlyLeave = employeeDay.AllowedEarlyLeave,
@@ -274,9 +234,9 @@ namespace SKDDriver.Translators
 						IsIgnoreHoliday = employeeDay.IsIgnoreHoliday,
 						IsOnlyFirstEnter = employeeDay.IsOnlyFirstEnter
 					};
-					Context.EmployeeDays.InsertOnSubmit(tableEmployeeDay);
+					Context.EmployeeDays.Add(tableEmployeeDay);
 				}
-				Context.SubmitChanges();
+				Context.SaveChanges();
 				return new OperationResult();
 			}
 			catch (Exception e)
@@ -285,9 +245,7 @@ namespace SKDDriver.Translators
 			}
 		}
 
-		public PassJounalSynchroniser Synchroniser;
-
-		public DataAccess.PassJournal GetEmployeeLastPassJournal(Guid employeeUID)
+		public PassJournal GetEmployeeLastPassJournal(Guid employeeUID)
 		{
 			try
 			{
@@ -298,7 +256,8 @@ namespace SKDDriver.Translators
 				}
 				else
 				{
-					lastPassJournal = Context.PassJournals.Where(x => x.EmployeeUID == employeeUID).OrderByDescending(x => x.ExitTime).FirstOrDefault();
+					lastPassJournal = Context.PassJournals.Where(x => x.EmployeeUID == employeeUID)
+						.OrderByDescending(x => x.ExitTime).FirstOrDefault();
 					if (lastPassJournal != null)
 					{
 						return lastPassJournal;
@@ -306,13 +265,13 @@ namespace SKDDriver.Translators
 				}
 				return null;
 			}
-			catch (Exception e)
+			catch (Exception)
 			{
 				return null;
 			}
 		}
 
-		public IEnumerable<DataAccess.PassJournal> GetEmployeeRoot(Guid employeeUID, List<Guid> zoneUIDs, DateTime startDateTime, DateTime endDateTime)
+		public IEnumerable<PassJournal> GetEmployeeRoot(Guid employeeUID, List<Guid> zoneUIDs, DateTime startDateTime, DateTime endDateTime)
 		{
 			try
 			{
@@ -323,75 +282,71 @@ namespace SKDDriver.Translators
 				}
 				return null;
 			}
-			catch (Exception e)
+			catch (Exception)
 			{
 				return null;
 			}
 		}
 
-		public IEnumerable<DataAccess.PassJournal> GetEmployeesLastEnterPassJournal(IEnumerable<Guid> employeeUIDs, IEnumerable<Guid> zoneUIDs, DateTime? dateTime)
+		public IEnumerable<PassJournal> GetEmployeesLastEnterPassJournal(IEnumerable<Guid> employeeUIDs, IEnumerable<Guid> zoneUIDs, DateTime? dateTime)
 		{
 			try
 			{
-				var filter = PredicateBuilder.True<DataAccess.PassJournal>();
 				var isManyEmployees = employeeUIDs.Count() >= 2100;
-				if (!employeeUIDs.IsEmpty() && !isManyEmployees)
-					filter = filter.And(e => employeeUIDs.Contains(e.EmployeeUID));
-				if (!zoneUIDs.IsEmpty())
-					filter = filter.And(e => zoneUIDs.Contains(e.ZoneUID));
+				IQueryable<PassJournal> items = Context.PassJournals;
+				if (employeeUIDs.Count() == 0 || isManyEmployees)
+					items = items.Where(e => e.EmployeeUID != null && employeeUIDs.Contains(e.EmployeeUID.Value));
+				if (zoneUIDs != null && zoneUIDs.Count() > 0)
+					items = items.Where(x => zoneUIDs.Contains(x.ZoneUID));
 				if (dateTime.HasValue)
-					filter = filter.And(e => e.EnterTime < dateTime && (!e.ExitTime.HasValue || e.ExitTime > dateTime));
+					items = items.Where(e => e.EnterTime < dateTime && (!e.ExitTime.HasValue || e.ExitTime > dateTime));
 				else
-					filter = filter.And(e => !e.ExitTime.HasValue);
-				var result = Context.PassJournals.Where(filter).ToList();
-				if (isManyEmployees)
-					result = result.Where(x => employeeUIDs.Contains(x.EmployeeUID)).ToList();
-				return result.GroupBy(item => item.EmployeeUID).Select(gr => gr.OrderByDescending(item => item.EnterTime).First());
+					items.Where(e =>  !e.ExitTime.HasValue);
+				//if (isManyEmployees)
+				//	items = items.Where(e => e.EmployeeUID.HasValue && employeeUIDs.Contains(e.EmployeeUID.Value)).ToList();
+				return items.GroupBy(item => item.EmployeeUID).Select(gr => gr.OrderByDescending(item => item.EnterTime).FirstOrDefault()).ToList();
 			}
-			catch(Exception e)
+			catch (Exception)
 			{
 				return null;
 			}
 		}
-		public IEnumerable<DataAccess.PassJournal> GetEmployeesLastExitPassJournal(IEnumerable<Guid> employeeUIDs, DateTime? dateTime)
+		public IEnumerable<PassJournal> GetEmployeesLastExitPassJournal(IEnumerable<Guid> employeeUIDs, DateTime? dateTime)
 		{
 			try
 			{
-				var filter = PredicateBuilder.True<DataAccess.PassJournal>();
 				var isManyEmployees = employeeUIDs.Count() >= 2100;
-				if (!employeeUIDs.IsEmpty() && !isManyEmployees)
-					filter = filter.And(e => employeeUIDs.Contains(e.EmployeeUID));
-				filter = filter.And(e => e.ExitTime.HasValue);
+				IQueryable<PassJournal> items = Context.PassJournals;
+				if (employeeUIDs.Count() == 0 || isManyEmployees)
+					items = items.Where(e => e.EmployeeUID != null && employeeUIDs.Contains(e.EmployeeUID.Value));
 				if (dateTime.HasValue)
-					filter = filter.And(e => e.ExitTime < dateTime);
-				var result = Context.PassJournals.Where(filter).ToList();
-				if (isManyEmployees)
-					result = result.Where(x => employeeUIDs.Contains(x.EmployeeUID)).ToList();
-				return result.GroupBy(item => item.EmployeeUID).Select(gr => gr.OrderByDescending(item => item.ExitTime).First());
+					items = items.Where(x => x.ExitTime.HasValue && x.ExitTime < dateTime);
+				//if (isManyEmployees)
+				//	items = items.Where(e => e.EmployeeUID.HasValue && employeeUIDs.Contains(e.EmployeeUID.Value)).ToList();
+				return items.GroupBy(item => item.EmployeeUID).Select(gr => gr.OrderByDescending(item => item.ExitTime).First());
 			}
-			catch(Exception e)
+			catch (Exception)
 			{
 				return null;
 			}
 
 		}
-		public IEnumerable<DataAccess.PassJournal> GetEmployeesRoot(IEnumerable<Guid> employeeUIDs, IEnumerable<Guid> zoneUIDs, DateTime startDateTime, DateTime endDateTime)
+		public IEnumerable<PassJournal> GetEmployeesRoot(IEnumerable<Guid> employeeUIDs, IEnumerable<Guid> zoneUIDs, DateTime startDateTime, DateTime endDateTime)
 		{
 			try
 			{
-				var filter = PredicateBuilder.True<DataAccess.PassJournal>();
 				var isManyEmployees = employeeUIDs.Count() >= 2100;
-				if (!employeeUIDs.IsEmpty() && !isManyEmployees)
-					filter = filter.And(e => employeeUIDs.Contains(e.EmployeeUID));
-				if (!zoneUIDs.IsEmpty())
-					filter = filter.And(e => zoneUIDs.Contains(e.ZoneUID));
-				filter = filter.And(e => (e.EnterTime >= startDateTime && e.EnterTime <= endDateTime) || (e.ExitTime >= startDateTime && e.ExitTime <= endDateTime));
-				var result = Context.PassJournals.Where(filter).ToList();
-				if(isManyEmployees)
-					result = result.Where(x => employeeUIDs.Contains(x.EmployeeUID)).ToList();
-				return result;
+				IQueryable<PassJournal> items = Context.PassJournals;
+				if(employeeUIDs.Count() == 0 || isManyEmployees)
+					items = items.Where(e => e.EmployeeUID != null && employeeUIDs.Contains(e.EmployeeUID.Value));
+				if(zoneUIDs != null && zoneUIDs.Count() > 0)
+					items = items.Where(x => zoneUIDs.Contains(x.ZoneUID));
+				items = items.Where(e => (e.EnterTime >= startDateTime && e.EnterTime <= endDateTime) || (e.ExitTime >= startDateTime && e.ExitTime <= endDateTime));
+				//if (isManyEmployees)
+				//	items = items.Where(e => e.EmployeeUID != null && employeeUIDs.Contains(e.EmployeeUID.Value));
+				return items.ToList();
 			}
-			catch (Exception e)
+			catch (Exception)
 			{
 				return null;
 			}
@@ -401,15 +356,89 @@ namespace SKDDriver.Translators
 		{
 			try
 			{
-				if(Context.PassJournals.IsEmpty())
+				if (Context.PassJournals.IsEmpty())
 					return new OperationResult<DateTime>(new DateTime());
 				var result = Context.PassJournals.Min(x => x.EnterTime);
 				return new OperationResult<DateTime>(result);
 			}
-			catch(Exception e)
+			catch (Exception e)
 			{
 				return OperationResult<DateTime>.FromError(e.Message);
 			}
 		}
+
+		public List<PassJournal> GetAllPassJournals()
+		{
+			return Context.PassJournals.ToList();
+		}
+
+		bool IsIntersection(PassJournal passJournalItem)
+		{
+			return Context.PassJournals.Any(x => x.UID != passJournalItem.UID &&
+				x.EmployeeUID == passJournalItem.EmployeeUID &&
+				(x.EnterTime < passJournalItem.EnterTime && x.ExitTime > passJournalItem.EnterTime ||
+					x.EnterTime < passJournalItem.ExitTime && x.ExitTime > passJournalItem.ExitTime));
+		}
+	}
+
+	public class PassJounalSynchroniser
+	{
+		DatabaseContext _context;
+		string Name { get { return "PassJournal"; } }
+		public string NameXml { get { return Name + ".xml"; } }
+
+		public PassJounalSynchroniser(DbService dbService)
+		{
+			_context = dbService.Context;
+		}
+
+		public OperationResult Export(JournalExportFilter filter)
+		{
+			try
+			{
+				if (!Directory.Exists(filter.Path))
+					return new OperationResult("Папка не существует");
+                var tableItems = _context.PassJournals.Where(x => x.EnterTime >= filter.MinDate.CheckDate() & x.EnterTime <= filter.MaxDate.CheckDate());
+				var items = tableItems.Select(x => Translate(x)).ToList();
+				var serializer = new XmlSerializer(typeof(List<ExportPassJournalItem>));
+				using (var fileStream = File.Open(NameXml, FileMode.Create))
+				{
+					serializer.Serialize(fileStream, items);
+				}
+				if (filter.Path != null)
+				{
+					var newPath = Path.Combine(filter.Path, NameXml);
+					if (File.Exists(newPath))
+						File.Delete(newPath);
+					File.Move(NameXml, newPath);
+				}
+				return new OperationResult();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
+		}
+
+		ExportPassJournalItem Translate(PassJournal tableItem)
+		{
+			return new ExportPassJournalItem
+			{
+				UID = tableItem.UID,
+				EmployeeUID = tableItem.EmployeeUID != null ? tableItem.EmployeeUID.Value : Guid.Empty,
+				EnterDateTime = tableItem.EnterTime,
+				ExitDateTime = tableItem.ExitTime != null ? tableItem.ExitTime.Value : new DateTime(),
+				ZoneUID = tableItem.ZoneUID
+			};
+		}
+	}
+
+	public class ExportPassJournalItem
+	{
+		public Guid UID { get; set; }
+		public Guid EmployeeUID { get; set; }
+		public Guid ZoneUID { get; set; }
+		public DateTime EnterDateTime { get; set; }
+		public DateTime ExitDateTime { get; set; }
 	}
 }

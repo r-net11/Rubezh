@@ -14,7 +14,7 @@ namespace GKModule.ViewModels
 
 		public DevicesOnShleifViewModel(GKDevice shleifDevice)
 		{
-			Title = "Выбор устройств на шлейфе " + shleifDevice.PresentationName;
+			Title = "Выбор устройств на АЛС " + shleifDevice.PresentationName;
 			ShleifDevice = shleifDevice;
 			SelectAllCommand = new RelayCommand(OnSelectAll);
 			DeSelectAllCommand = new RelayCommand(OnDeSelectAll);

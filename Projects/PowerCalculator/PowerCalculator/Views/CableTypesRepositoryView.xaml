@@ -17,12 +17,18 @@
                     <DataGridTemplateColumn Header="Название" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Name}" Margin="2" />
+								<StackPanel Orientation="Horizontal">
+									<Image Width="16" Height="16" Margin="5 0" HorizontalAlignment="Left" Source="/Controls;component/Images/Cable.png" />
+									<TextBlock Text="{Binding Name}" Margin="2" />
+								</StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                         <DataGridTemplateColumn.CellEditingTemplate>
                             <DataTemplate>
-                                <TextBox Text="{Binding Name}" Foreground="Black" Margin="2" />
+								<StackPanel Orientation="Horizontal">
+									<Image Width="16" Height="16" Margin="5 0" HorizontalAlignment="Left" Source="/Controls;component/Images/Cable.png" />
+									<TextBox Text="{Binding Name}" Foreground="Black" Margin="2" />
+								</StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellEditingTemplate>
                     </DataGridTemplateColumn>

@@ -20,7 +20,10 @@ namespace FiresecAPI
 		[DataMember]
 		public List<JournalItem> JournalItems { get; set; }
 
-		[DataMember]
+        [DataMember]
+        public DbCallbackResult DbCallbackResult { get; set; }
+
+        [DataMember]
 		public GKProgressCallback GKProgressCallback { get; set; }
 
 		[DataMember]
@@ -45,7 +48,56 @@ namespace FiresecAPI
 		ArchiveCompleted,
 		AutomationCallbackResult,
 		ConfigurationChanged,
+	    QueryDb,
 		Disconnecting,
 		OperationResult
 	}
+
+    [DataContract]
+    public class DbCallbackResult
+    {
+        public DbCallbackResult()
+        {
+            ClientUID = Guid.NewGuid();
+            Employees = new List<ShortEmployee>();
+            Cards = new List<SKDCard>();
+            AccessTemplates = new List<AccessTemplate>();
+            AdditionalColumnTypes = new List<AdditionalColumnType>();
+            Departments = new List<ShortDepartment>();
+            PassCardTemplates = new List<ShortPassCardTemplate>();
+            Positions = new List<ShortPosition>();
+            DayIntervals = new List<DayInterval>();
+            ScheduleSchemes = new List<ScheduleScheme>();
+            Schedules = new List<Schedule>();
+            Positions = new List<ShortPosition>();
+			Holidays = new List<Holiday>();
+        }
+
+        [DataMember]
+        public Guid ClientUID { get; set; }
+        [DataMember]
+        public List<ShortEmployee> Employees { get; set; }
+        [DataMember]
+        public List<SKDCard> Cards { get; set; }
+        [DataMember]
+        public List<AccessTemplate> AccessTemplates { get; set; }
+        [DataMember]
+        public List<AdditionalColumnType> AdditionalColumnTypes { get; set; }
+        [DataMember]
+        public List<ShortDepartment> Departments { get; set; }
+        [DataMember]
+        public List<ShortPassCardTemplate> PassCardTemplates { get; set; }
+        [DataMember]
+        public List<ShortPosition> Positions { get; set; }
+        [DataMember]
+        public List<DayInterval> DayIntervals { get; set; }
+        [DataMember]
+        public List<ScheduleScheme> ScheduleSchemes { get; set; }
+        [DataMember]
+        public List<Holiday> Holidays { get; set; }
+        [DataMember]
+        public List<Schedule> Schedules { get; set; }
+        [DataMember]
+        public bool IsLastPortion { get; set; }
+    }
 }

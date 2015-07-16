@@ -206,6 +206,7 @@ namespace SKDModule.ViewModels
 				_selectedPersonType = value;
 				OnPropertyChanged(() => SelectedPersonType);
 				InitializeEmployeeFilter();
+				EmployeesViewModel.Initialize(EmployeeFilter);
 			}
 		}
 
@@ -244,23 +245,51 @@ namespace SKDModule.ViewModels
 		
 		void InitializeFilters()
 		{
-			DepartmentFilter = new DepartmentFilter() { OrganisationUIDs = Filter.OrganisationUIDs, LogicalDeletationType = Filter.LogicalDeletationType };
-			PositionFilter = new PositionFilter() { OrganisationUIDs = Filter.OrganisationUIDs, LogicalDeletationType = Filter.LogicalDeletationType };
-			AdditionalColumnTypeFilter = new AdditionalColumnTypeFilter() { OrganisationUIDs = Filter.OrganisationUIDs, LogicalDeletationType = Filter.LogicalDeletationType };
-			CardFilter = new CardFilter() { OrganisationUIDs = Filter.OrganisationUIDs, EmployeeFilter = Filter.EmployeeFilter };
-			AccessTemplateFilter = new AccessTemplateFilter() { OrganisationUIDs = Filter.OrganisationUIDs, LogicalDeletationType = Filter.LogicalDeletationType };
-			PassCardTemplateFilter = new PassCardTemplateFilter() { OrganisationUIDs = Filter.OrganisationUIDs, LogicalDeletationType = Filter.LogicalDeletationType };
-
-			DepartmentsViewModel.Initialize(DepartmentFilter);
-			PositionsViewModel.Initialize(PositionFilter);
-			AdditionalColumnTypesViewModel.Initialize(AdditionalColumnTypeFilter);
-			CardsViewModel.Initialize(CardFilter);
-			AccessTemplatesViewModel.Initialize(AccessTemplateFilter);
-			PassCardTemplatesViewModel.Initialize(PassCardTemplateFilter);
-			OrganisationsViewModel.Initialize(Filter.LogicalDeletationType);
+			DepartmentFilter = new DepartmentFilter() 
+			{ 
+				OrganisationUIDs = Filter.OrganisationUIDs, 
+				LogicalDeletationType = Filter.LogicalDeletationType 
+			};
+			PositionFilter = new PositionFilter() 
+			{ 
+				OrganisationUIDs = Filter.OrganisationUIDs, 
+				LogicalDeletationType = Filter.LogicalDeletationType 
+			};
+			AdditionalColumnTypeFilter = new AdditionalColumnTypeFilter() 
+			{ 
+				OrganisationUIDs = Filter.OrganisationUIDs, 
+				LogicalDeletationType = Filter.LogicalDeletationType 
+			};
+			CardFilter = new CardFilter() 
+			{ 
+				OrganisationUIDs = Filter.OrganisationUIDs, 
+				EmployeeFilter = Filter.EmployeeFilter, 
+				ClientUID = CardsViewModel.DbCallbackResultUID, 
+				IsLoad = true 
+			};
+			AccessTemplateFilter = new AccessTemplateFilter() 
+			{ 
+				OrganisationUIDs = Filter.OrganisationUIDs, 
+				LogicalDeletationType = Filter.LogicalDeletationType 
+			};
+			PassCardTemplateFilter = new PassCardTemplateFilter() 
+			{ 
+				OrganisationUIDs = Filter.OrganisationUIDs, 
+				LogicalDeletationType = Filter.LogicalDeletationType 
+			};
 			InitializeEmployeeFilter();
-
-			ServiceFactory.Events.GetEvent<ChangeIsDeletedEvent>().Publish(Filter.LogicalDeletationType);
+            
+            
+            DepartmentsViewModel.Initialize(DepartmentFilter);
+            PositionsViewModel.Initialize(PositionFilter);
+            AdditionalColumnTypesViewModel.Initialize(AdditionalColumnTypeFilter);
+			CardsViewModel.Initialize(CardFilter);
+            AccessTemplatesViewModel.Initialize(AccessTemplateFilter);
+            PassCardTemplatesViewModel.Initialize(PassCardTemplateFilter);
+            OrganisationsViewModel.Initialize(Filter.LogicalDeletationType);
+			EmployeesViewModel.Initialize(EmployeeFilter);
+            
+            ServiceFactory.Events.GetEvent<ChangeIsDeletedEvent>().Publish(Filter.LogicalDeletationType);
 			ServiceFactory.Events.GetEvent<UpdateFilterEvent>().Publish(Filter);
 		}
 
@@ -270,8 +299,9 @@ namespace SKDModule.ViewModels
 			EmployeeFilter.UIDs = Filter.EmplooyeeUIDs;
 			EmployeeFilter.PersonType = SelectedPersonType;
 			EmployeeFilter.LogicalDeletationType = Filter.LogicalDeletationType;
-			EmployeesViewModel.Initialize(EmployeeFilter);
-		}
+			EmployeeFilter.ClientUID = EmployeesViewModel.DbCallbackResultUID; 
+			EmployeeFilter.IsLoad = true;
+        }
 		
 		void OnUserChanged(UserChangedEventArgs args)
 		{
@@ -290,6 +320,21 @@ namespace SKDModule.ViewModels
 			OnPropertyChanged(() => CanSelectAccessTemplates);
 			OnPropertyChanged(() => CanSelectPassCardTemplates);
 			OnPropertyChanged(() => CanSelectOrganisations);
+		}
+
+		void BeginGetAsync()
+		{
+			var hrViewModel = new FiresecAPI.SKD.HRFilter
+			{
+				AccessTemplateFilter = AccessTemplateFilter,
+				AdditionalColumnTypeFilter = AdditionalColumnTypeFilter,
+				CardFilter = CardFilter,
+				DepartmentFilter = DepartmentFilter,
+				EmployeeFilter = EmployeeFilter,
+				PassCardTemplateFilter = PassCardTemplateFilter,
+				PositionFilter = PositionFilter
+			};
+			FiresecManager.FiresecService.BeginGetAsync(hrViewModel);
 		}
 	}
 }

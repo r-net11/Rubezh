@@ -210,7 +210,7 @@ namespace GKModule.Validation
 							var realDevice = realChildren[i];
 							if (realDevice.IntAddress != i + 1)
 							{
-								Errors.Add(new DeviceValidationError(realDevice, string.Format("Последовательность адресов шлейфа " + shleifDevice.IntAddress + " должна быть неразрывна начиная с 1"), ValidationErrorLevel.CannotWrite));
+								Errors.Add(new DeviceValidationError(realDevice, string.Format("Последовательность адресов АЛС " + shleifDevice.IntAddress + " должна быть неразрывна начиная с 1"), ValidationErrorLevel.CannotWrite));
 								break;
 							}
 						}

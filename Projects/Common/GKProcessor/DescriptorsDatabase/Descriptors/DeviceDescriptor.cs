@@ -244,7 +244,7 @@ namespace GKProcessor
 				if (mptDevice.MPTDeviceType == GKMPTDeviceType.Bomb)
 				{
 					CreateBombDevices(deviceMpt);
-									return true;
+					return true;
 				}
 			}
 			return false;

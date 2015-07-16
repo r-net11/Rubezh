@@ -38,7 +38,7 @@ namespace FiresecService.Report.Templates
 				employeeFilter.SecondName = filter.SecondName;
 				employeeFilter.LastName = filter.LastName;
 			}
-			var timeTrackResult = dataProvider.DatabaseService.TimeTrackTranslator.GetTimeTracks(employeeFilter, filter.DateTimeFrom, filter.DateTimeTo);
+            var timeTrackResult = dataProvider.DbService.TimeTrackTranslator.GetTimeTracks(employeeFilter, filter.DateTimeFrom, filter.DateTimeTo);
 
 			var dataSet = new WorkingTimeDataSet();
 			foreach (var employee in employees)

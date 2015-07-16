@@ -5,7 +5,6 @@ using System.Linq;
 using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecClient;
-using SKDDriver;
 
 namespace GKProcessor
 {
@@ -17,10 +16,11 @@ namespace GKProcessor
 			var removeResult = GKRemoveAllSchedules(device);
 			if (removeResult.HasError)
 				return OperationResult<bool>.FromError(removeResult.Errors);
+
 			var schedules = new List<GKSchedule>();
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
-				var schedulesResult = databaseService.GKScheduleTranslator.GetSchedules();
+				var schedulesResult = databaseService.GKScheduleTranslator.Get();
 				if(schedulesResult.HasError)
 					return OperationResult<bool>.FromError(schedulesResult.Errors);
 				schedules = schedulesResult.Result;
@@ -46,7 +46,7 @@ namespace GKProcessor
 			return new OperationResult<bool>(true);
 		}
 
-		public static OperationResult<bool> GKRemoveAllSchedules(GKDevice device)
+		static OperationResult<bool> GKRemoveAllSchedules(GKDevice device)
 		{
 			for (int no = 1; no <= 255; no++)
 			{
@@ -71,9 +71,9 @@ namespace GKProcessor
 		{
 			var count = 0;
 			var daySchedules = new List<GKDaySchedule>();
-			using (var databaseService = new SKDDatabaseService())
+			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
-				var schedulesResult = databaseService.GKScheduleTranslator.GetDaySchedules();
+				var schedulesResult = databaseService.GKDayScheduleTranslator.Get();
 				if (schedulesResult.HasError)
 					return OperationResult<bool>.FromError(schedulesResult.Errors);
 				daySchedules = schedulesResult.Result;
@@ -193,9 +193,9 @@ namespace GKProcessor
 		{
 			try
 			{
-				foreach (var gk in GKManager.Devices.Where(x => x.DriverType == GKDriverType.GK))
+				foreach (var device in GKManager.Devices.Where(x => x.DriverType == GKDriverType.GK))
 				{
-					var result = GKSetSchedule(gk, schedule);
+					var result = GKSetSchedule(device, schedule);
 					if (result.HasError)
 						return new OperationResult(result.Error);
 				}
@@ -211,9 +211,9 @@ namespace GKProcessor
 		{
 			try
 			{
-				using (var databaseService = new SKDDatabaseService())
+				using (var dbService = new SKDDriver.DataClasses.DbService())
 				{
-					var schedulesResult = databaseService.GKScheduleTranslator.GetSchedules();
+					var schedulesResult = dbService.GKScheduleTranslator.Get();
 					if (schedulesResult.HasError)
 						return new OperationResult(schedulesResult.Error);
 					var schedules = schedulesResult.Result.Where(x => x.DayScheduleUIDs.Any(y => y == daySchedule.UID));

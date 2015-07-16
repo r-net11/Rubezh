@@ -10,7 +10,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Grid.Column="0" Text="Правило генерации названия компонента" Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="2" />
+		<TextBlock Grid.Row="0" Grid.Column="0" Text="Правило генерации названия компонента" Style="{DynamicResource TextBlockDetailsStyle}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="2" />
         <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding NameGenerationTypes}" SelectedItem="{Binding SelectedNameGenerationType}" Margin="2">
             <ComboBox.ItemTemplate>
                 <DataTemplate>

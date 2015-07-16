@@ -56,7 +56,10 @@ namespace SKDModule.ViewModels
 				Employees.Add(viewModel);
 			}
 			SelectedEmployee = Employees.FirstOrDefault();
+            AfterInitialize();
 		}
+
+        protected virtual void AfterInitialize() { }
 
 		ObservableCollection<TItem> _Employees;
 		public ObservableCollection<TItem> Employees 

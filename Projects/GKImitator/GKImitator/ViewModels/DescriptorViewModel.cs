@@ -33,6 +33,7 @@ namespace GKImitator.ViewModels
 			SetIgnoreRegimeCommand = new RelayCommand(OnSetIgnoreRegime);
 			ShowParametersCommand = new RelayCommand(OnShowParameters);
 			ShowMeasureCommand = new RelayCommand(OnShowMeasure);
+			ShowCardReaderCommand = new RelayCommand(OnShowCardReader);
 
 			InitializeTest();
 			InitializeDustiness();
@@ -87,8 +88,8 @@ namespace GKImitator.ViewModels
 		void OnSetAutomaticRegime()
 		{
 			Regime = Regime.Automatic;
-			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Norm).IsActive = true;
-			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Ignore).IsActive = false;
+			SetStateBit(GKStateBit.Norm, true);
+			SetStateBit(GKStateBit.Ignore, false);
 			var journalItem = new ImitatorJournalItem(2, 10, 0, 0);
 			AddJournalItem(journalItem);
 		}
@@ -102,8 +103,8 @@ namespace GKImitator.ViewModels
 		void OnSetManualRegime()
 		{
 			Regime = Regime.Manual;
-			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Norm).IsActive = false;
-			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Ignore).IsActive = false;
+			SetStateBit(GKStateBit.Norm, false);
+			SetStateBit(GKStateBit.Ignore, false);
 			var journalItem = new ImitatorJournalItem(2, 10, 1, 0);
 			AddJournalItem(journalItem);
 		}
@@ -117,8 +118,8 @@ namespace GKImitator.ViewModels
 		void OnSetIgnoreRegime()
 		{
 			Regime = Regime.Ignore;
-			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Norm).IsActive = false;
-			StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Ignore).IsActive = true;
+			SetStateBit(GKStateBit.Norm, false);
+			SetStateBit(GKStateBit.Ignore, true);
 			var journalItem = new ImitatorJournalItem(2, 10, 2, 0);
 			AddJournalItem(journalItem);
 		}
@@ -154,6 +155,17 @@ namespace GKImitator.ViewModels
 			}
 		}
 
+		public RelayCommand ShowCardReaderCommand { get; private set; }
+		void OnShowCardReader()
+		{
+			var cardReaderViewModel = new CardReaderViewModel(this);
+			DialogService.ShowModalWindow(cardReaderViewModel);
+		}
+
+		public int CurrentCardNo { get; set; }
+
+		public bool HasCard { get; private set; }
+
 		public List<byte> GetStateBytes(int no)
 		{
 			var result = new List<byte>();
@@ -174,19 +186,17 @@ namespace GKImitator.ViewModels
 			var serialNo = 0;
 			result.AddRange(IntToBytes((int)serialNo));
 
-			var state = 0;
-			foreach (var stateBitViewModel in StateBits)
-			{
-				if (stateBitViewModel.IsActive)
-				{
-					state += (1 << (int)stateBitViewModel.StateBit);
-				}
-			}
-			result.AddRange(IntToBytes((int)state));
+			result.AddRange(IntToBytes(StatesToInt()));
 
 			foreach (var additionalShortParameter in AdditionalShortParameters)
 			{
 				result.AddRange(ShortToBytes(additionalShortParameter));
+			}
+
+			if(HasCard)
+			{
+				result.RemoveRange(52, 4);
+				result.InsertRange(52, IntToBytes(CurrentCardNo));
 			}
 
 			return result;
@@ -209,28 +219,18 @@ namespace GKImitator.ViewModels
 
 		public void AddJournalItem(ImitatorJournalItem journalItem)
 		{
-			var state = 0;
-			foreach (var stateBitViewModel in StateBits)
-			{
-				if (stateBitViewModel.IsActive)
-				{
-					state += (1 << (int)stateBitViewModel.StateBit);
-				}
-			}
-
 			journalItem.UNUSED_KauNo = 0;
 			journalItem.UNUSED_KauAddress = 0;
-			journalItem.GkNo = DBHelper.ImitatorJournalItemCollection.ImitatorJournalItems.Count + 1;
+			journalItem.GkNo = DBHelper.ImitatorSerializedCollection.ImitatorJournalItems.Count + 1;
 			journalItem.GkObjectNo = GKBaseDescriptor.GetDescriptorNo();
 			journalItem.ObjectFactoryNo = 0;
-			journalItem.ObjectState = state;
+			journalItem.ObjectState = StatesToInt();
 			if (GKBaseDescriptor.GKBase is GKDevice)
 			{
 				journalItem.ObjectDeviceType = (short)(GKBaseDescriptor.GKBase as GKDevice).Driver.DriverTypeNo;
 				journalItem.ObjectDeviceAddress = (short)(((GKBaseDescriptor.GKBase as GKDevice).ShleifNo - 1) * 256 + (GKBaseDescriptor.GKBase as GKDevice).IntAddress);
 			}
-			DBHelper.ImitatorJournalItemCollection.ImitatorJournalItems.Add(journalItem);
-			DBHelper.Save();
+			DBHelper.ImitatorSerializedCollection.ImitatorJournalItems.Add(journalItem);
 		}
 	}
 }

@@ -31,7 +31,7 @@ namespace SKDModule.ViewModels
 				Department = new Department()
 				{
 					Name = "Новое подразделение",
-					ParentDepartmentUID = parentModel != null ? parentModel.UID : new Guid?(),
+					ParentDepartmentUID = parentModel != null ? parentModel.UID : Guid.Empty,
 					OrganisationUID = OrganisationUID
 				};
 				_childDepartments = new Dictionary<Guid, string>();
@@ -48,7 +48,7 @@ namespace SKDModule.ViewModels
 			return true;
 		}
 
-		public void Initialize(Guid organisationUID, Guid? parentDepartmentUID)
+		public void Initialize(Guid organisationUID, Guid parentDepartmentUID)
 		{
 			OrganisationUID = organisationUID;
 			Title = "Создание подразделения";
@@ -67,7 +67,7 @@ namespace SKDModule.ViewModels
 			Name = Department.Name;
 			Description = Department.Description;
 			Phone = Department.Phone;
-			SelectedDepartment = Department.ParentDepartmentUID != null ? DepartmentHelper.GetSingleShort(Department.ParentDepartmentUID.Value) : null; 
+			SelectedDepartment = DepartmentHelper.GetSingleShort(Department.ParentDepartmentUID); 
 			if (Department.Photo != null)
 				PhotoData = Department.Photo.Data;
 		}
@@ -183,7 +183,7 @@ namespace SKDModule.ViewModels
 				Department.Photo = new Photo();
 			Department.Photo.Data = PhotoData;
 			Department.ChiefUID = ChiefViewModel.SelectedEmployeeUID;
-			Department.ParentDepartmentUID = SelectedDepartment != null ? (Guid?)SelectedDepartment.UID : null;
+			Department.ParentDepartmentUID = SelectedDepartment != null ? SelectedDepartment.UID : Guid.Empty;
 			Department.Phone = Phone;
 			if (!DetailsValidateHelper.Validate(Model))
 				return false;

@@ -190,7 +190,7 @@
       <Name>Infrustructure.Plans</Name>
     </ProjectReference>
     <ProjectReference Include="..\SKDDriver\SKDDriver.csproj">
-      <Project>{E1D3CDA0-1DE6-47D3-8D2F-C56B297E8007}</Project>
+      <Project>{e1d3cda0-1de6-47d3-8d2f-c56b297e8007}</Project>
       <Name>SKDDriver</Name>
     </ProjectReference>
   </ItemGroup>

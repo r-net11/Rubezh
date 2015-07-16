@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Xml.Serialization;
 
 namespace FiresecAPI.SKD
 {
@@ -87,7 +88,7 @@ namespace FiresecAPI.SKD
 		public string OrganisationExternalKey { get; set; }
 	}
 
-	public class ExportCard// : IExportItem
+	public class ExportCard : IExportItem
 	{
 		public Guid UID { get; set; }
 		public string ExternalKey { get; set; }
@@ -104,6 +105,20 @@ namespace FiresecAPI.SKD
 		public string OrganisationExternalKey { get; set; }
 		public Guid EmployeeUID { get; set; }
 		public string EmployeeExternalKey { get; set; }
+
+		[XmlIgnore]
+		public bool IsDeleted
+		{
+			get { return false; }
+			set { return; }
+		}
+
+		[XmlIgnore]
+		public DateTime RemovalDate
+		{
+			get { return new DateTime(); }
+			set { return; }
+		}
 	}
 
 	public class ExportFilter

@@ -7,21 +7,22 @@ using System.Xml.Serialization;
 using FiresecAPI;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
+using SKDDriver.DataClasses;
+using System.Data.Entity;
 
 
 namespace SKDDriver
 {
 	public class JounalSynchroniser: IDisposable
 	{
-		Table<DataAccess.Journal> _Table;
+		DbSet<Journal> _Table;
 		string Name { get { return "Journal"; } }
 		public string NameXml { get { return Name + ".xml"; } }
-		public static string ConnectionString { get; set; }
-		DataAccess.JournalDataContext Context;
+		DatabaseContext Context;
 
-		public JounalSynchroniser()
+		public JounalSynchroniser(DbService dbService)
 		{
-			Context = new DataAccess.JournalDataContext(ConnectionString);
+            Context = dbService.Context;
 			_Table = Context.Journals;
 		}
 
@@ -31,7 +32,7 @@ namespace SKDDriver
 			{
 				if (!Directory.Exists(filter.Path))
 					return new OperationResult("Папка не существует");
-				var tableItems = _Table.Where(x => x.SystemDate >= TranslatiorHelper.CheckDate(filter.MinDate) & x.SystemDate <= TranslatiorHelper.CheckDate(filter.MaxDate));
+				var tableItems = _Table.Where(x => x.SystemDate >= filter.MinDate.CheckDate() & x.SystemDate <= filter.MaxDate.CheckDate());
 				var items = tableItems.Select(x => Translate(x)).ToList();
 				var serializer = new XmlSerializer(typeof(List<ExportJournalItem>));
 				using (var fileStream = File.Open(NameXml, FileMode.Create))
@@ -53,14 +54,14 @@ namespace SKDDriver
 			}
 		}
 
-		public ExportJournalItem Translate(DataAccess.Journal tableItem)
+		public ExportJournalItem Translate(Journal tableItem)
 		{
 			return new ExportJournalItem
 			{
 				UID = tableItem.UID,
 				SystemDate = tableItem.SystemDate,
 				DeviceDate = tableItem.DeviceDate != null ? tableItem.DeviceDate.Value : new DateTime(),
-				EventName = Enum.IsDefined(typeof(JournalEventNameType),tableItem.Name) ?  ((JournalEventNameType)tableItem.Name).ToDescription() : tableItem.NameText,
+				EventName = ((JournalEventNameType)tableItem.Name).ToDescription(),
 				EventDescription = Enum.IsDefined(typeof(JournalEventDescriptionType), tableItem.Description) ? ((JournalEventDescriptionType)tableItem.Description).ToDescription() : tableItem.DescriptionText,
 				SubsystemType = ((JournalSubsystemType)tableItem.Subsystem).ToDescription(),
 				UserName = tableItem.UserName,

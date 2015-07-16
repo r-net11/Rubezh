@@ -8,31 +8,31 @@ using FiresecClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common.Windows;
 using SKDModule.Events;
+using FiresecClient;
+using FiresecAPI;
 
 namespace SKDModule.ViewModels
 {
 	public class EmployeesViewModel : OrganisationBaseViewModel<ShortEmployee, EmployeeFilter, EmployeeViewModel, EmployeeDetailsViewModel>
 	{
-		public List<ShortAdditionalColumnType> AdditionalColumnTypes { get; private set; }
-		
+		public List<AdditionalColumnType> AdditionalColumnTypes { get; private set; }
+       
+
 		public EmployeesViewModel():base()
 		{
 			ServiceFactory.Events.GetEvent<EditEmployeeEvent>().Unsubscribe(OnEditEmployee);
 			ServiceFactory.Events.GetEvent<EditEmployeeEvent>().Subscribe(OnEditEmployee);
 			ServiceFactory.Events.GetEvent<EditAdditionalColumnEvent>().Unsubscribe(OnUpdateIsInGrid);
 			ServiceFactory.Events.GetEvent<EditAdditionalColumnEvent>().Subscribe(OnUpdateIsInGrid);
+            
 		}
 
 		public override void Initialize(EmployeeFilter filter)
 		{
-			var stopwatch = new Stopwatch();
-			stopwatch.Start();
 			base.Initialize(filter);
 			PersonType = filter.PersonType;
 			InitializeAdditionalColumns();
 			ServiceFactory.Events.GetEvent<ChangeEmployeeGuestEvent>().Publish(null);
-			stopwatch.Stop();
-			Trace.WriteLine("Client InitializeVM " + stopwatch.Elapsed);
 		}
 
 		protected override void OnOrganisationUsersChanged(Organisation newOrganisation)
@@ -215,6 +215,11 @@ namespace SKDModule.ViewModels
 		protected override FiresecAPI.Models.PermissionType Permission
 		{
 			get { return FiresecAPI.Models.PermissionType.Oper_SKD_Employees_Edit; }
+		}
+
+		protected override List<ShortEmployee> GetFromCallbackResult(DbCallbackResult dbCallbackResult)
+		{
+			return dbCallbackResult.Employees;
 		}
 	}
 }

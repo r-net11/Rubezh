@@ -94,7 +94,7 @@
                 <ToolBarButton Command="{Binding LoadFromFileCommand}" ToolTip="Загрузить файл" ImageSource="Load" Margin="2" />
                 <ToolBarButton Command="{Binding ShowSpecificationCommand}" ToolTip="Редактировать спецификацию" ImageSource="Settings2" Margin="2" />
                 <ToolBarButton Command="{Binding CollectToSpecificationCommand}" ToolTip="Собрать в спецификацию" ImageSource="arrowInto" Margin="2" />
-                <ToolBarButton Command="{Binding EditCableTypesRepositoryCommand}" ToolTip="Редактировать список кабелей" ImageSource="Direction" Margin="2" />
+				<ToolBarButton Command="{Binding EditCableTypesRepositoryCommand}" ToolTip="Редактировать список кабелей" ImageSource="Cable" Margin="2" />
                 <ToolBarButton Command="{Binding PatchCommand}" ToolTip="Исправить" ImageSource="Play" Margin="2" />
             </StackPanel>
             <ToolBarButton Command="{Binding AboutCommand}" ToolTip="О программе..." ImageSource="Information" DockPanel.Dock="Right" Margin="5 2"/>
@@ -151,7 +151,7 @@
                             </DataGridTemplateColumn.CellTemplate>
                             <DataGridTemplateColumn.CellEditingTemplate>
                                 <DataTemplate>
-                                    <ComboBox ItemsSource="{Binding Drivers}" SelectedItem="{Binding SelectedDriver, UpdateSourceTrigger=PropertyChanged}" Margin="2">
+                                    <ComboBox ItemsSource="{Binding Drivers}" SelectedItem="{Binding SelectedDriver, UpdateSourceTrigger=PropertyChanged}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
                                                 <StackPanel Orientation="Horizontal">

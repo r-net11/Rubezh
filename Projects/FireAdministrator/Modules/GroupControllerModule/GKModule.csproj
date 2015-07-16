@@ -92,6 +92,9 @@
     <Compile Include="Descriptors\Views\DescriptorsMenuView.xaml.cs">
       <DependentUpon>DescriptorsMenuView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Devices\MirrorUserNewModel.cs" />
+    <Compile Include="Devices\ViewModels\AccessDetailsUserReflectionViewModel .cs" />
+    <Compile Include="Devices\ViewModels\AccessUserReflrctionViewModel.cs" />
     <Compile Include="Devices\ViewModels\AutoSearchDevicesViewModel.cs" />
     <Compile Include="Devices\ViewModels\DevicesListViewModel.cs" />
     <Compile Include="Devices\ViewModels\DevicesOnShleifViewModel.cs" />
@@ -108,6 +111,9 @@
     <Compile Include="Devices\ViewModels\NewDeviceViewModelBase.cs" />
     <Compile Include="Devices\ViewModels\SettingsViewModel.cs" />
     <Compile Include="Devices\ViewModels\UpdatedDeviceViewModel.cs" />
+    <Compile Include="Devices\Views\AccessDetailsUserReflrctionView.xaml.cs">
+      <DependentUpon>AccessDetailsUserReflrctionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Devices\Views\AutoSearchDevicesView.xaml.cs">
       <DependentUpon>AutoSearchDevicesView.xaml</DependentUpon>
     </Compile>
@@ -125,6 +131,9 @@
     </Compile>
     <Compile Include="Devices\Views\Logic\ClausesView.xaml.cs">
       <DependentUpon>ClausesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Devices\Views\AccessUserReflrctionView.xaml.cs">
+      <DependentUpon>AccessUserReflrctionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\ReflectionView.xaml.cs">
       <DependentUpon>ReflectionView.xaml</DependentUpon>
@@ -641,6 +650,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Devices\Views\AccessDetailsUserReflrctionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Devices\Views\AddressEdiotor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -666,6 +679,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Devices\Views\Logic\ClausesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Devices\Views\AccessUserReflrctionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

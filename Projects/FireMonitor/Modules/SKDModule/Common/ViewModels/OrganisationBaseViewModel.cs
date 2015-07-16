@@ -12,6 +12,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Common;
 using SKDModule.Events;
+using FiresecAPI;
 
 namespace SKDModule.ViewModels
 {
@@ -39,6 +40,10 @@ namespace SKDModule.ViewModels
 			ServiceFactory.Events.GetEvent<RestoreOrganisationEvent>().Subscribe(OnRestoreOrganisation);
 			ServiceFactory.Events.GetEvent<NewOrganisationEvent>().Unsubscribe(OnNewOrganisation);
 			ServiceFactory.Events.GetEvent<NewOrganisationEvent>().Subscribe(OnNewOrganisation);
+			//SafeFiresecService.DbCallbackResultEvent -= new Action<DbCallbackResult>(OnDbCallbackResultEvent);
+			//SafeFiresecService.DbCallbackResultEvent += new Action<DbCallbackResult>(OnDbCallbackResultEvent);
+            Organisations = new ObservableCollection<TViewModel>();
+			DbCallbackResultUID = Guid.NewGuid();
 			_filter = new TFilter();
 		}
 
@@ -50,9 +55,40 @@ namespace SKDModule.ViewModels
 		protected abstract bool MarkDeleted(TModel model);
 		protected abstract bool Add(TModel item);
 		protected abstract bool Restore(TModel model);
+		protected abstract List<TModel> GetFromCallbackResult(DbCallbackResult dbCallbackResult);
 		protected abstract PermissionType Permission { get; }
 		bool IsEditAllowed { get { return FiresecManager.CheckPermission(Permission); } }
 		public TFilter Filter { get { return _filter; } }
+		public Guid DbCallbackResultUID;
+
+		//void OnDbCallbackResultEvent(DbCallbackResult dbCallbackResult)
+		//{
+		//	if (dbCallbackResult.ClientUID == DbCallbackResultUID)
+		//	{
+		//		InitializeModels(GetFromCallbackResult(dbCallbackResult));
+		//		OnPropertyChanged(() => Organisations);
+		//		IsLoading = !dbCallbackResult.IsLastPortion;
+		//		//InitializeAdditionalColumns();
+		//		//ItemsCount = Organisations.Select(x => x.Children.Count()).Sum();
+		//		//    SelectedItem = Organisations.FirstOrDefault();
+		//	}
+		//}
+
+		protected virtual void InitializeModels(IEnumerable<TModel> models)
+		{
+			foreach (var organisation in Organisations)
+			{
+				foreach (var model in models)
+				{
+					if (model.OrganisationUID == organisation.Organisation.UID)
+					{
+						var itemViewModel = new TViewModel();
+						itemViewModel.InitializeModel(organisation.Organisation, model, this);
+						organisation.AddChild(itemViewModel);
+					}
+				}
+			}
+		}
 		
 		protected TModel ShowDetails(Organisation organisation, TModel model = null)
 		{
@@ -64,6 +100,14 @@ namespace SKDModule.ViewModels
 				return null;
 			return result;
 		}
+
+		//public virtual void BeginInitialize(TFilter filter)
+		//{
+		//	_filter = filter;
+		//	IsWithDeleted = filter.LogicalDeletationType == LogicalDeletationType.All;
+		//	InitializeOrganisations(_filter);
+		//	IsLoading = true;
+		//}
 
 		public virtual void Initialize(TFilter filter)
 		{
@@ -109,21 +153,7 @@ namespace SKDModule.ViewModels
 			return true;
 		}
 
-		protected virtual void InitializeModels(IEnumerable<TModel> models)
-		{
-			foreach (var organisation in Organisations)
-			{
-				foreach (var model in models)
-				{
-					if (model.OrganisationUID == organisation.Organisation.UID)
-					{
-						var itemViewModel = new TViewModel();
-						itemViewModel.InitializeModel(organisation.Organisation, model, this);
-						organisation.AddChild(itemViewModel);
-					}
-				}
-			}
-		}
+		
 
 		protected virtual void OnEditOrganisation(Organisation newOrganisation)
 		{

@@ -29,13 +29,13 @@ namespace FiresecAPI.SKD
 		public List<Guid> DepartmentUIDs { get; set; }
 
 		[DataMember]
-		public bool WithDeletedDepartments { get; set; }
+		public bool IsEmptyDepartment { get; set; }
 
 		[DataMember]
 		public List<Guid> PositionUIDs { get; set; }
 
 		[DataMember]
-		public bool WithDeletedPositions { get; set; }
+		public bool IsEmptyPosition { get; set; }
 
 		[DataMember]
 		public List<Guid> ScheduleUIDs { get; set; }
@@ -58,9 +58,29 @@ namespace FiresecAPI.SKD
 					PositionUIDs.IsNotNullOrEmpty() ||
 					ScheduleUIDs.IsNotNullOrEmpty() ||
 					OrganisationUIDs.IsNotNullOrEmpty() ||
-					UIDs.IsNotNullOrEmpty() ||
-					ExceptUIDs.IsNotNullOrEmpty();
+					UIDs.IsNotNullOrEmpty();
 			}
 		}
 	}
+
+    public class HRFilter
+    {
+        public HRFilter()
+        {
+            EmployeeFilter = new EmployeeFilter();
+            DepartmentFilter = new DepartmentFilter();
+            PositionFilter = new PositionFilter();
+            AdditionalColumnTypeFilter = new AdditionalColumnTypeFilter();
+            AccessTemplateFilter = new AccessTemplateFilter();
+            PassCardTemplateFilter = new PassCardTemplateFilter();
+            CardFilter = new CardFilter();
+        }
+        public EmployeeFilter EmployeeFilter { get; set; }
+        public DepartmentFilter DepartmentFilter { get; set; }
+        public PositionFilter PositionFilter { get; set; }
+        public AdditionalColumnTypeFilter AdditionalColumnTypeFilter { get; set; }
+        public AccessTemplateFilter AccessTemplateFilter { get; set; }
+        public PassCardTemplateFilter PassCardTemplateFilter { get; set; }
+        public CardFilter CardFilter { get; set; }
+    }
 }

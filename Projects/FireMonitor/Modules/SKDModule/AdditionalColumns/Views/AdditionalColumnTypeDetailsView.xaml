@@ -17,10 +17,10 @@
 					<ColumnDefinition />
 					<ColumnDefinition />
 				</Grid.ColumnDefinitions>
-				<Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Content="Название" />
-				<Label Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" Content="Примечание" />
-				<Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Content="Формат данных" />
-				<Label Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" Content="Отображать в списке сотрудников" Visibility="{Binding IsTextType, Converter={StaticResource BoolToVisibilityConverter}}" />
+				<TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Text="Название" Style="{DynamicResource TextBlockDetailsStyle}" />
+				<TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" Text="Примечание" Style="{DynamicResource TextBlockDetailsStyle}" />
+				<TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Text="Формат данных" Style="{DynamicResource TextBlockDetailsStyle}" />
+				<TextBlock Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" Text="Отображать в списке сотрудников" Visibility="{Binding IsTextType, Converter={StaticResource BoolToVisibilityConverter}}" Style="{DynamicResource TextBlockDetailsStyle}" />
 
 				<TextBox Grid.Row="0" Grid.Column="1" Margin="2" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
 				<TextBox Grid.Row="1" Grid.Column="1" Margin="2" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" />

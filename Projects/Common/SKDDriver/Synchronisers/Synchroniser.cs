@@ -8,42 +8,45 @@ using System.Xml.Serialization;
 using FiresecAPI;
 using FiresecAPI.SKD;
 using LinqKit;
+using System.Data.Entity;
 
-namespace SKDDriver
+namespace SKDDriver.DataClasses
 {
 	public abstract class Synchroniser<TExportItem, TTableItem>
-		where TTableItem : class, DataAccess.IExternalKey, new()
+		where TTableItem : class, IExternalKey, new()
 		where TExportItem : IExportItem
 	{
-		protected Table<TTableItem> _Table;
-		protected SKDDatabaseService _DatabaseService;
+		protected DbSet<TTableItem> _Table;
+		protected DbService _DatabaseService;
+        protected DatabaseContext Context;
 		protected abstract string Name { get; }
 		protected abstract string XmlHeaderName { get; }
-		public string NameXml { get { return Name +  ".xml"; } } 
+		public string NameXml { get { return Name +  ".xml"; } }
 
-		public Synchroniser(Table<TTableItem> table, SKDDatabaseService databaseService)
+        public Synchroniser(DbSet<TTableItem> table, DbService databaseService)
 		{
 			_Table = table;
 			_DatabaseService = databaseService;
+            Context = databaseService.Context;
 		}
 
 		public OperationResult<List<TExportItem>> Get(ExportFilter filter)
 		{
 			try
 			{
+				foreach (var item in _Table.Where(item => item.ExternalKey == null || item.ExternalKey == "-1" || item.ExternalKey == string.Empty))
+					item.ExternalKey = item.UID.ToString("N");
+				Context.SaveChanges();
 				var result = new List<TExportItem>();
-				var tableItems = _Table.Where(IsInFilter(filter));
+                var tableItems = GetFilteredItems(filter);
 				foreach (var item in tableItems)
 				{
 					var exportItem = Translate(item);
 					exportItem.UID = item.UID;
-					if (item.ExternalKey == "-1")
-						item.ExternalKey = item.UID.ToString("N");
 					exportItem.ExternalKey = item.ExternalKey;
 					exportItem.IsDeleted = item.IsDeleted;
-					exportItem.RemovalDate = item.RemovalDate;
+					exportItem.RemovalDate = item.RemovalDate.GetValueOrDefault();
 					result.Add(exportItem);
-					_Table.Context.SubmitChanges();
 				}
 				return new OperationResult<List<TExportItem>>(result);
 			}
@@ -97,26 +100,26 @@ namespace SKDDriver
 					else
 						newTableItem.UID = Guid.NewGuid();
 					newTableItem.ExternalKey = exportItem.ExternalKey;
-					newTableItem.RemovalDate = TranslatiorHelper.CheckDate(exportItem.RemovalDate);
+					newTableItem.RemovalDate = exportItem.RemovalDate.CheckDate();
 					newTableItem.IsDeleted = exportItem.IsDeleted;
 					TranslateBack(exportItem, newTableItem);
-					_Table.InsertOnSubmit(newTableItem);
+					_Table.Add(newTableItem);
 				}
-				_Table.Context.SubmitChanges();
+				Context.SaveChanges();
 			}
 		}
 
 
-		void SaveForignKeys(List<TExportItem> exportItems)
+		void SaveForignKeys(List<TExportItem> exportItems, OrganisationHRCash hrCash)
 		{
 			foreach (var exportItem in exportItems)
 			{
 				var tableItem = _Table.FirstOrDefault(x => x.ExternalKey.Equals(exportItem.ExternalKey));
 				if (tableItem != null)
 				{
-					UpdateForignKeys(exportItem, tableItem);
+					UpdateForignKeys(exportItem, tableItem, hrCash);
 				}
-				_Table.Context.SubmitChanges();
+                Context.SaveChanges();
 			}
 		}
 
@@ -127,7 +130,7 @@ namespace SKDDriver
 				if (!Directory.Exists(filter.Path))
 					return new OperationResult("Папка не существует");
 				var fileName = Path.Combine(filter.Path, NameXml);
-				File.Move(fileName, NameXml);
+				File.Copy(fileName, NameXml, true);
 				using (var stream = new FileStream(NameXml, FileMode.Open))
 				{
 					var serializer = new XmlSerializer(typeof(List<TExportItem>));
@@ -148,7 +151,7 @@ namespace SKDDriver
 			}
 		}
 
-		public virtual OperationResult ImportForignKeys()
+		public virtual OperationResult ImportForignKeys(OrganisationHRCash hrCash)
 		{
 			try
 			{
@@ -158,7 +161,7 @@ namespace SKDDriver
 					var importItems = (List<TExportItem>)serializer.Deserialize(stream);
 					if (importItems != null)
 					{
-						SaveForignKeys(importItems);
+						SaveForignKeys(importItems, hrCash);
 					}
 				}
 				return new OperationResult();
@@ -170,24 +173,27 @@ namespace SKDDriver
 		}
 
 		protected virtual void BeforeSave(List<TExportItem> exportItems) { }
-		protected virtual void UpdateForignKeys(TExportItem exportItem, TTableItem tableItem) { }
+		protected virtual void UpdateForignKeys(TExportItem exportItem, TTableItem tableItem, OrganisationHRCash hrCash) { }
 		public abstract TExportItem Translate(TTableItem tableItem);
 		public abstract void TranslateBack(TExportItem exportItem, TTableItem tableItem);
-		protected virtual Expression<Func<TTableItem, bool>> IsInFilter(ExportFilter filter)
+		protected virtual IQueryable<TTableItem> GetFilteredItems(ExportFilter filter)
 		{
-			var result = PredicateBuilder.True<TTableItem>();
-			result = result.And(e => e != null);
-			if(!filter.IsWithDeleted)
-				result = result.And(e => !e.IsDeleted);
+            var result = GetTableItems().Where(x => x != null);
+            if(!filter.IsWithDeleted)
+				result = result.Where(x => !x.IsDeleted);
 			return result;
 		}
+        protected virtual IQueryable<TTableItem> GetTableItems()
+        {
+            return _Table;
+        }
 
 		protected Guid GetUID(Guid? uid)
 		{
 			return uid != null ? uid.Value : Guid.Empty;
 		}
 
-		protected string GetExternalKey(Guid? uid, DataAccess.IExternalKey exportItem)
+		protected string GetExternalKey(Guid? uid, IExternalKey exportItem)
 		{
 			if (exportItem == null)
 				return "-1";
@@ -196,11 +202,11 @@ namespace SKDDriver
 			return exportItem.ExternalKey;
 		}
 
-		protected Guid GetUIDbyExternalKey<T>(string externalKey, Table<T> table)
-			where T : class, DataAccess.IExternalKey
+		protected Guid? GetUIDbyExternalKey<T>(string externalKey, IEnumerable<T> table)
+			where T : class, IExternalKey
 		{
-			var organisation = table.FirstOrDefault(x => x.ExternalKey.Equals(externalKey));
-			return organisation != null ? organisation.UID : Guid.Empty;
+			var tableItem = table.FirstOrDefault(x => x.ExternalKey.Equals(externalKey));
+			return tableItem != null ? (Guid?)tableItem.UID : null;
 		}
 	}
 }

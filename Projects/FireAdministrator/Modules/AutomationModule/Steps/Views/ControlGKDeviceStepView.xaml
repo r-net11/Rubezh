@@ -7,11 +7,11 @@
 	</UserControl.Resources>
 	<StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<Label Content="Устройство" />
+			<TextBlock Text="Устройство" Style="{DynamicResource TextBlockDetailsStyle}" />
 			<Views:ArgumentView DataContext="{Binding GKDeviceArgument}" />
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<Label Content="Команда" />
+			<TextBlock Text="Команда" Style="{DynamicResource TextBlockDetailsStyle}" />
 			<ComboBox ItemsSource="{Binding Commands}" SelectedItem="{Binding SelectedCommand, UpdateSourceTrigger=PropertyChanged}">
 				<ComboBox.ItemTemplate>
 					<DataTemplate>

@@ -48,5 +48,10 @@ namespace SKDModule.PassCardDesigner.ViewModels
 		{
 			get { return FiresecAPI.Models.PermissionType.Oper_SKD_PassCards_Etit; }
 		}
+
+		protected override List<ShortPassCardTemplate> GetFromCallbackResult(FiresecAPI.DbCallbackResult dbCallbackResult)
+		{
+			return dbCallbackResult.PassCardTemplates;
+		}
 	}
 }

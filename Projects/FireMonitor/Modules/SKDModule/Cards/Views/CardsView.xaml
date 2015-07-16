@@ -18,22 +18,22 @@
 			</Style.Triggers>
 		</Style>
 	</UserControl.Resources>
-	<tree:TreeList Focusable="True" SelectedTreeNode="{Binding SelectedCard}" Source="{Binding RootItemsArray}" tree:SortBehavior.CanUserSortColumns="True">
+    <tree:TreeList Grid.Row="0" Focusable="True" SelectedTreeNode="{Binding SelectedCard}" Source="{Binding RootItemsArray}" tree:SortBehavior.CanUserSortColumns="True">
 		<tree:TreeList.View>
 			<GridView>
-                <GridViewColumn Header="Номер" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource CardViewModelNumberComparer}">
+				<GridViewColumn Header="Номер" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource CardViewModelNumberComparer}">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
-								<Image Width="16" Margin="1 0" VerticalAlignment="Center" Source="/Controls;component/Images/Organisation.png" Visibility="{Binding IsOrganisation, Converter={StaticResource BoolToVisibilityConverter}}" />
-								<Image Width="16" Margin="1 0" VerticalAlignment="Center" Source="/Controls;component/Images/Card.png" Visibility="{Binding IsCard, Converter={StaticResource BoolToVisibilityConverter}}" />
-								<Image Width="16" Margin="1 0" VerticalAlignment="Center" Source="/Controls;component/Images/Lock.png" Visibility="{Binding IsDeactivatedRootItem, Converter={StaticResource BoolToVisibilityConverter}}" />
-								<TextBlock Text="{Binding Number}" Style="{StaticResource ActiveStyle}" MinWidth="150" />
+								<Image Width="16" Margin="2" VerticalAlignment="Center" Source="/Controls;component/Images/Organisation.png" Visibility="{Binding IsOrganisation, Converter={StaticResource BoolToVisibilityConverter}}" />
+								<Image Width="16" Margin="2" VerticalAlignment="Center" Source="/Controls;component/Images/Card.png" Visibility="{Binding IsCard, Converter={StaticResource BoolToVisibilityConverter}}" />
+								<Image Width="16" Margin="2" VerticalAlignment="Center" Source="/Controls;component/Images/Lock.png" Visibility="{Binding IsDeactivatedRootItem, Converter={StaticResource BoolToVisibilityConverter}}" />
+								<TextBlock Text="{Binding Number}" Style="{StaticResource ActiveStyle}" MinWidth="150" VerticalAlignment="Center" />
 							</StackPanel>
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
-                <GridViewColumn Header="Тип" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource CardViewModelTypeComparer}" >
+				<GridViewColumn Header="Тип" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource CardViewModelTypeComparer}" >
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding CardType}" Visibility="{Binding IsInStopList, Converter={StaticResource InversedBoolToVisibilityConverter}}" Style="{StaticResource ActiveStyle}" MinWidth="150" />
@@ -57,4 +57,6 @@
 			</GridView>
 		</tree:TreeList.View>
 	</tree:TreeList>
+    
+	
 </UserControl>

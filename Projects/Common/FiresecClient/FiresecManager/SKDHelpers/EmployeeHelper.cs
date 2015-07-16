@@ -73,23 +73,23 @@ namespace FiresecClient.SKDHelpers
 		}
 
 
-		public static bool SetDepartment(ShortEmployee employee, Guid departmentUID)
+		public static bool SetDepartment(ShortEmployee employee, Guid? departmentUID)
 		{
 			return SetDepartment(employee.UID, departmentUID, employee.Name);
 		}
 
-		public static bool SetPosition(ShortEmployee employee, Guid positionUID)
+		public static bool SetPosition(ShortEmployee employee, Guid? positionUID)
 		{
 			return SetPosition(employee.UID, positionUID, employee.Name);
 		}
 
-		public static bool SetDepartment(Guid employeeUID, Guid departmentUID, string name)
+		public static bool SetDepartment(Guid employeeUID, Guid? departmentUID, string name)
 		{
 			var operationResult = FiresecManager.FiresecService.SaveEmployeeDepartment(employeeUID, departmentUID, name);
 			return Common.ShowErrorIfExists(operationResult); 
 		}
 
-		public static bool SetPosition(Guid employeeUID, Guid positionUID, string name)
+		public static bool SetPosition(Guid employeeUID, Guid? positionUID, string name)
 		{
 			var operationResult = FiresecManager.FiresecService.SaveEmployeePosition(employeeUID, positionUID, name);
 			return Common.ShowErrorIfExists(operationResult); 

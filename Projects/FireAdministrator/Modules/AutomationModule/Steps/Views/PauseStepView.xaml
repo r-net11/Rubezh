@@ -6,7 +6,7 @@
 		<ResourceDictionary Source="ProcedureResources.xaml" />
 	</UserControl.Resources>
 	<StackPanel Orientation="Horizontal" VerticalAlignment="Top">
-		<Label Content="Значение" />
+		<TextBlock Text="Значение" Style="{DynamicResource TextBlockDetailsStyle}" />
 		<Views:ArgumentView DataContext="{Binding PauseArgument}" />
 		<ComboBox ItemsSource="{Binding TimeTypes}" SelectedItem="{Binding SelectedTimeType, UpdateSourceTrigger=PropertyChanged}">
 			<ComboBox.ItemTemplate>

@@ -60,6 +60,10 @@
     <Reference Include="Microsoft.Practices.Unity">
       <HintPath>..\..\..\..\3rdParty\PRISM\Desktop\Microsoft.Practices.Unity.dll</HintPath>
     </Reference>
+    <Reference Include="Npgsql, Version=2.2.5.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\FiresecService\packages\Npgsql.2.2.5\lib\net40\Npgsql.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
@@ -100,6 +104,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="SettingsModule.cs" />
+    <Compile Include="ViewModels\DbSettingsViewModel.cs" />
     <Compile Include="ViewModels\ErrorFilterViewModel.cs" />
     <Compile Include="ViewModels\ErrorsFilterViewModel.cs" />
     <Compile Include="ViewModels\ModulesViewModel.cs" />
@@ -107,6 +112,9 @@
     <Compile Include="ViewModels\ModuleViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\ThemeViewModel.cs" />
+    <Compile Include="Views\DbSettingsView.xaml.cs">
+      <DependentUpon>DbSettingsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ErrorsFilterView.xaml.cs">
       <DependentUpon>ErrorsFilterView.xaml</DependentUpon>
     </Compile>
@@ -155,6 +163,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="DataTemplates\Dictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DbSettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

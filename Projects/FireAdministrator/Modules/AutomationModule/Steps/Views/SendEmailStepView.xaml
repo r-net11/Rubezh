@@ -9,35 +9,35 @@
 		<Grid>
 			<StackPanel>
 				<StackPanel Orientation="Horizontal">
-					<Label Content="От кого (адрес)" />
+					<TextBlock Text="От кого (адрес)" Style="{DynamicResource TextBlockDetailsStyle}" />
 					<Views:ArgumentView DataContext="{Binding EMailAddressFromArgument}" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal">
-					<Label Content="Кому (адрес)" />
+					<TextBlock Text="Кому (адрес)" Style="{DynamicResource TextBlockDetailsStyle}" />
 					<Views:ArgumentView DataContext="{Binding EMailAddressToArgument}" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal">
-					<Label Content="Заголовок" />
+					<TextBlock Text="Заголовок" Style="{DynamicResource TextBlockDetailsStyle}" />
 					<Views:ArgumentView DataContext="{Binding EMailTitleArgument}" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal">
-					<Label Content="Текст" />
+					<TextBlock Text="Текст" Style="{DynamicResource TextBlockDetailsStyle}" />
 					<Views:ArgumentView DataContext="{Binding EMailContentArgument}" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal">
-					<Label Content="SMTP Сервер" />
+					<TextBlock Text="SMTP Сервер" Style="{DynamicResource TextBlockDetailsStyle}" />
 					<Views:ArgumentView DataContext="{Binding SmtpArgument}" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal">
-					<Label Content="Порт" />
+					<TextBlock Text="Порт" Style="{DynamicResource TextBlockDetailsStyle}" />
 					<Views:ArgumentView DataContext="{Binding PortArgument}" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal">
-					<Label Content="Логин" />
+					<TextBlock Text="Логин" Style="{DynamicResource TextBlockDetailsStyle}" />
 					<Views:ArgumentView DataContext="{Binding LoginArgument}" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal">
-					<Label Content="Пароль" />
+					<TextBlock Text="Пароль" Style="{DynamicResource TextBlockDetailsStyle}" />
 					<Views:ArgumentView DataContext="{Binding PasswordArgument}" />
 				</StackPanel>
 			</StackPanel>

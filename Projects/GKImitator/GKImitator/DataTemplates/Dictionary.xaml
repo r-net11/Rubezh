@@ -35,4 +35,16 @@
 		<Views:MeasureView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:CardReaderViewModel}">
+		<Views:CardReaderView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:UsersViewModel}">
+		<Views:UsersView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:SchedulesViewModel}">
+		<Views:SchedulesView />
+	</DataTemplate>
+
 </ResourceDictionary>

@@ -141,7 +141,7 @@ namespace GKProcessor
 								}
 							}
 
-							using (var databaseService = new SKDDatabaseService())
+							using (var databaseService = new SKDDriver.DataClasses.DbService())
 							{
 								var cardNo = databaseService.GKCardTranslator.GetCardNoByGKNo(gkControllerDevice.GetGKIpAddress(), (int)gkCardNo);
 								var operationResult = databaseService.CardTranslator.GetEmployeeByCardNo(cardNo);
@@ -196,7 +196,7 @@ namespace GKProcessor
 								}
 							}
 
-							using (var databaseService = new SKDDatabaseService())
+                            using (var databaseService = new SKDDriver.DataClasses.DbService())
 							{
 								var cardNo = databaseService.GKCardTranslator.GetCardNoByGKNo(gkControllerDevice.GetGKIpAddress(), (int)gkCardNo);
 								var operationResult = databaseService.CardTranslator.GetEmployeeByCardNo(cardNo);

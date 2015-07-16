@@ -62,6 +62,12 @@ namespace FiresecAPI
 		OperationResult<bool> GKRewriteUsers(Guid gkDeviceUID);
 
 		[OperationContract]
+		OperationResult<List<MirrorUser>> GKReadMirrorUsers(Guid gkDeviceUID);
+
+		[OperationContract]
+		OperationResult<bool> GKWriteMirrorUsers(Guid gkDeviceUID,List<MirrorUser> mirrorUsers);
+
+		[OperationContract]
 		OperationResult<List<byte>> GKGKHash(Guid gkDeviceUID);
 
 		[OperationContract]

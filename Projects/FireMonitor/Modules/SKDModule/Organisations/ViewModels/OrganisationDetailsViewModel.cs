@@ -62,7 +62,6 @@ namespace SKDModule.ViewModels
 					RemovalDate = OrganisationDetails.RemovalDate,
 					UID = OrganisationDetails.UID,
 					DoorUIDs = OrganisationDetails.DoorUIDs,
-					Phone = OrganisationDetails.Phone,
 					UserUIDs = OrganisationDetails.UserUIDs,
 				};
 			}

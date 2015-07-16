@@ -7,7 +7,7 @@ namespace SKDDriver.DataClasses
 	{
 		[Key]
 		public Guid UID { get; set; }
-
+		[MaxLength(50)]
 		public string IpAddress { get; set; }
 
 		public int GKNo { get; set; }
@@ -17,5 +17,7 @@ namespace SKDDriver.DataClasses
 		public bool IsActive { get; set; }
 
 		public int UserType { get; set; }
+		[MaxLength(50)]
+        public string FIO { get; set; }
 	}
 }

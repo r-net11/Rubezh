@@ -512,7 +512,7 @@ namespace FiresecService.Service
 					{
 						progressCallback = GKProcessorManager.StartProgress("Удаление пользователей прибора " + device.PresentationName, "", 65535, false, GKProgressClientType.Administrator);
 
-						using (var databaseService = new SKDDatabaseService())
+                using (var databaseService = new SKDDriver.DataClasses.DbService())
 						{
 							databaseService.CardTranslator.DeleteAllPendingCards(device.UID);
 						}
@@ -533,7 +533,7 @@ namespace FiresecService.Service
 
 							var stopWatch = new Stopwatch();
 							stopWatch.Start();
-							using (var databaseService = new SKDDatabaseService())
+					using (var databaseService = new SKDDriver.DataClasses.DbService())
 							{
 								var cardsResult = databaseService.CardTranslator.Get(new CardFilter());
 								if (!cardsResult.HasError)
@@ -549,7 +549,7 @@ namespace FiresecService.Service
 										var controllerCardSchedule = controllerCardSchedules.FirstOrDefault(x => x.ControllerDevice.UID == device.UID);
 										if (controllerCardSchedule != null)
 										{
-											var employeeOperationResult = databaseService.EmployeeTranslator.GetSingle(card.HolderUID);
+									var employeeOperationResult = databaseService.EmployeeTranslator.GetSingle(card.EmployeeUID.Value);
 											var employee = employeeOperationResult.Result;
 											if (employee != null)
 											{
@@ -581,5 +581,27 @@ namespace FiresecService.Service
 			return OperationResult<bool>.FromError("Не найден ГК в конфигурации");
 		}
 		#endregion
+
+		public OperationResult<List<MirrorUser>> GKReadMirrorUsers(Guid deviceUID)
+		{
+			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{		
+				return OperationResult<List<MirrorUser>>.FromError("метод не реализован");	
+			}
+			else
+				return OperationResult<List<MirrorUser>>.FromError("Не найдено Отражение в конфигурации");
+		}
+
+		public OperationResult<bool> GKWriteMirrorUsers(Guid deviceUID, List<MirrorUser> mirrorUsers)
+		{
+			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				return OperationResult<bool>.FromError("метод не реализован");
+			}
+			else
+				return OperationResult<bool>.FromError("Не найдено Отражение в конфигурации");
+		}
 	}
 }

@@ -16,13 +16,13 @@ namespace SKDModule.ViewModels
 	public class DepartmentSelectionViewModel : SaveCancelDialogViewModel
 	{
 		protected Guid _organisationUID;
-		protected Guid _firstSelectedDepartmentUID;
+		protected Guid _initialDepartmentUID;
 		
 		public DepartmentSelectionViewModel(Guid organisationUID, Guid departmentUID)
 		{
 			Title = "Выбор подразделения";
 			_organisationUID = organisationUID;
-			_firstSelectedDepartmentUID = departmentUID;
+			_initialDepartmentUID = departmentUID;
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			ClearCommand = new RelayCommand(OnClear);
 		}
@@ -42,14 +42,14 @@ namespace SKDModule.ViewModels
 			RootDepartments = new ObservableCollection<DepartmentSelectionItemViewModel>();
 			foreach (var department in AllDepartments)
 			{
-				if (department.Department.ParentDepartmentUID == null)
+				if (department.Department.ParentDepartmentUID == Guid.Empty)
 				{
 					RootDepartments.Add(department);
 					SetChildren(department);
 				}
 			}
 
-			SelectedDepartment = AllDepartments.FirstOrDefault(x => x.Department.UID == _firstSelectedDepartmentUID);
+			SelectedDepartment = AllDepartments.FirstOrDefault(x => x.Department.UID == _initialDepartmentUID);
 			if (SelectedDepartment != null)
 			{
 				SelectedDepartment.ExpandToThis();
@@ -89,7 +89,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			Guid? parentDepartmentUID = null;
+			var parentDepartmentUID = Guid.Empty;
 			var hasParentDepartment = SelectedDepartment != null;
 			if (hasParentDepartment)
 				parentDepartmentUID = SelectedDepartment.Department.UID;

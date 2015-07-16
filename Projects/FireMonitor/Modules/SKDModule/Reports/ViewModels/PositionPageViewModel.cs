@@ -18,6 +18,7 @@ namespace SKDModule.Reports.ViewModels
 			ServiceFactory.Events.GetEvent<SKDReportUseArchiveChangedEvent>().Unsubscribe(OnUseArchive);
 			ServiceFactory.Events.GetEvent<SKDReportUseArchiveChangedEvent>().Subscribe(OnUseArchive);
 			_OrganisationChangedSubscriber = new OrganisationChangedSubscriber(this);
+			OrganisationUIDs = new List<Guid>();
 		}
 
 		IReportFilterPosition _reportFilter;

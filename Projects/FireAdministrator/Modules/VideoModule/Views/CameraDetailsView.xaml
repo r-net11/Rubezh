@@ -19,17 +19,17 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Row="0" Grid.Column="0" Text="Название" HorizontalAlignment="Right" Foreground="White" Margin="2" />
-                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Camera.Name}" Foreground="White" Margin="2" />
+				<TextBlock Grid.Row="0" Grid.Column="0" Text="Название" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" Margin="2" />
+				<TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Camera.Name}" Style="{DynamicResource TextBlockDetailsStyle}" Margin="2" />
 
-                <TextBlock Grid.Row="1" Grid.Column="0" Text="Адрес" HorizontalAlignment="Right" Foreground="White" Margin="2" />
-                <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Camera.Ip}" Foreground="White" Margin="2" />
+				<TextBlock Grid.Row="1" Grid.Column="0" Text="Адрес" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" Margin="2" />
+				<TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Camera.Ip}" Style="{DynamicResource TextBlockDetailsStyle}" Margin="2" />
 
-                <TextBlock Grid.Row="2" Grid.Column="0" Text="Номер канала" HorizontalAlignment="Right" Foreground="White" Margin="2" />
-                <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Camera.RviChannelNo}" Foreground="White" Margin="2" />
+				<TextBlock Grid.Row="2" Grid.Column="0" Text="Номер канала" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" Margin="2" />
+				<TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Camera.RviChannelNo}" Style="{DynamicResource TextBlockDetailsStyle}" Margin="2" />
 
-                <TextBlock Grid.Row="3" Grid.Column="0" Text="Название канала" HorizontalAlignment="Right" Foreground="White" Margin="2" />
-                <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Camera.RviChannelName}" Foreground="White" Margin="2" />
+				<TextBlock Grid.Row="3" Grid.Column="0" Text="Название канала" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" Margin="2" />
+				<TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Camera.RviChannelName}" Style="{DynamicResource TextBlockDetailsStyle}" Margin="2" />
 
                 <Button Grid.Row="4" Grid.ColumnSpan="2" Command="{Binding ShowCommand}" Content="Предпросмотр" Width="150" Margin="2" />
 

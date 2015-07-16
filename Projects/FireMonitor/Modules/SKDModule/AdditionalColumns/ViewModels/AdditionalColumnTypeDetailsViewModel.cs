@@ -10,16 +10,16 @@ using SKDModule.Events;
 
 namespace SKDModule.ViewModels
 {
-	public class AdditionalColumnTypeDetailsViewModel : SaveCancelDialogViewModel, IDetailsViewModel<ShortAdditionalColumnType>
+	public class AdditionalColumnTypeDetailsViewModel : SaveCancelDialogViewModel, IDetailsViewModel<AdditionalColumnType>
 	{
 		Organisation Organisation { get; set; }
 		bool _isNew;
 		public AdditionalColumnType AdditionalColumnType { get; private set; }
-		public ShortAdditionalColumnType Model
+		public AdditionalColumnType Model
 		{
 			get
 			{
-				return new ShortAdditionalColumnType
+				return new AdditionalColumnType
 				{
 					UID = AdditionalColumnType.UID,
 					Name = AdditionalColumnType.Name,
@@ -33,7 +33,7 @@ namespace SKDModule.ViewModels
 
 		public AdditionalColumnTypeDetailsViewModel() { }
 
-		public bool Initialize(Organisation organisation, ShortAdditionalColumnType model, ViewPartViewModel parentViewModel)
+		public bool Initialize(Organisation organisation, AdditionalColumnType model, ViewPartViewModel parentViewModel)
 		{
 			Organisation = organisation;
 			_isNew = model == null;

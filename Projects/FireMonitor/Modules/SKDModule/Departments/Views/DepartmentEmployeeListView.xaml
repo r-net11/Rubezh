@@ -59,10 +59,10 @@
 				<ToolBarButton ImageSource="Add"  ToolTip="Добавить сотрудника" Command="{Binding AddCommand}" />
 				<ToolBarButton ImageSource="Delete"  ToolTip="Удалить сотрудника" Command="{Binding RemoveCommand}" />
 				<ToolBarButton ImageSource="Edit"  ToolTip="Редактировать сотрудника" Command="{Binding EditCommand}" />
-				<ToolBarButton ImageSource="ChiefW"  ToolTip="Назначить руководителя" 
-							   Command="{Binding SetChiefCommand}" Visibility="{Binding CanSetChief, Converter={StaticResource BoolToVisibilityConverter}}" />
-				<ToolBarButton ImageSource="Delete"  ToolTip="Снять руководителя" 
-							   Command="{Binding UnSetChiefCommand}" Visibility="{Binding CanUnSetChief, Converter={StaticResource BoolToVisibilityConverter}}" />
+                <ToolBarButton ImageSource="ChiefW"  ToolTip="Назначить руководителя" 
+							   Command="{Binding SetChiefCommand}" />
+                <ToolBarButton ImageSource="Delete"  ToolTip="Снять руководителя" 
+							   Command="{Binding UnSetChiefCommand}" />
 			</StackPanel>
 		</StackPanel>
 	</Grid>

@@ -40,13 +40,13 @@
                 <Button Content="Сконфигурировать" Command="{Binding ConfigureCommand}" HorizontalAlignment="Left" Width="200" Margin="2" />
 
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Строка подключения" Foreground="White" Width="150" Margin="2" />
+					<TextBlock Text="Строка подключения" Style="{DynamicResource TextBlockDetailsStyle}" Width="150" Margin="2" />
                     <TextBox Text="{Binding ConnectionString}" Width="300" Margin="2" />
                     <Button Content="Получить конечные точки" Command="{Binding GetEndpontsCommand}" Width="200" Margin="2" />
                 </StackPanel>
                 
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="URL сервера" Foreground="White" Width="150" Margin="2" />
+					<TextBlock Text="URL сервера" Style="{DynamicResource TextBlockDetailsStyle}" Width="150" Margin="2" />
                     <TextBox Text="{Binding ServerUrl}" Width="200" Margin="2" />
                     <Button Content="Соединить" Command="{Binding CreateOpcTcpSessionWithNoSecurityCommand}" Width="200" Margin="2" />
                     <Button Content="Разъединить" Command="{Binding DisconnectSessionCommand}" Width="200" Margin="2" />
@@ -58,7 +58,7 @@
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Название подписки" Foreground="White" Width="150" Margin="2" />
+					<TextBlock Text="Название подписки" Style="{DynamicResource TextBlockDetailsStyle}" Width="150" Margin="2" />
                     <TextBox Text="{Binding SubscriptionName}" Width="200" Margin="2" />
                     <Button Content="Добавить подписку" Command="{Binding AddSubscriptionCommand}" Width="150" Margin="2" />
                     <Button Content="Удалить подписку" Command="{Binding DeleteSubscriptionCommand}" Width="150" Margin="2" />

@@ -6,12 +6,11 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.SKD
 {
 	[DataContract]
-	public class Employee : OrganisationElementBase
+	public class Employee : OrganisationElementBase, IOrganisationElement
 	{
 		public Employee()
 			: base()
 		{
-			Cards = new List<SKDCard>();
 			AdditionalColumns = new List<AdditionalColumn>();
 		}
 
@@ -34,7 +33,7 @@ namespace FiresecAPI.SKD
 		public ShortDepartment Department { get; set; }
 
 		[DataMember]
-		public ShortSchedule Schedule { get; set; }
+		public Schedule Schedule { get; set; }
 
 		[DataMember]
 		public string ScheduleName { get; set; }
@@ -47,9 +46,6 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public List<AdditionalColumn> AdditionalColumns { get; set; }
-
-		[DataMember]
-		public List<SKDCard> Cards { get; set; }
 
 		[DataMember]
 		public PersonType Type { get; set; }
@@ -99,7 +95,7 @@ namespace FiresecAPI.SKD
 		[DataMember]
 		public string Phone { get; set; }
 
-		public string Name { get { return LastName + " " + FirstName + " " + SecondName; } }
+		public string Name { get { return LastName + " " + FirstName + " " + SecondName; } set { return; } }
 		public string FIO { get { return LastName + " " + FirstName + (SecondName != null ? " " + SecondName : ""); } }
 	}
 

@@ -5,6 +5,7 @@ using FiresecAPI;
 using FiresecAPI.SKD;
 using FiresecAPI.SKD.ReportFilters;
 using FiresecService.Report.DataSources;
+using System.Linq;
 
 namespace FiresecService.Report.Templates
 {
@@ -39,7 +40,8 @@ namespace FiresecService.Report.Templates
 			var filter = GetFilter<EmployeeReportFilter>();
 			dataProvider.LoadCache();
 			var employees = dataProvider.GetEmployees(filter);
-			var dataSet = new EmployeeDataSet();
+            var cards = dataProvider.GetCards(new CardFilter { EmployeeFilter = new EmployeeFilter { UIDs = employees.Select(x => x.UID).ToList() } });
+            var dataSet = new EmployeeDataSet();
 			foreach (var employee in employees)
 			{
 				var dataRow = dataSet.Data.NewDataRow();
@@ -68,7 +70,8 @@ namespace FiresecService.Report.Templates
 				dataRow.Sex = employee.Item.Gender.ToDescription();
 				dataRow.UID = employee.UID;
 				dataSet.Data.Rows.Add(dataRow);
-				foreach (var card in employee.Item.Cards)
+                var employeeCards = cards.Where(x => x.EmployeeUID == employee.UID);
+                foreach (var card in employeeCards)
 				{
 					var cardRow = dataSet.PassCards.NewPassCardsRow();
 					cardRow.DataRow = dataRow;
