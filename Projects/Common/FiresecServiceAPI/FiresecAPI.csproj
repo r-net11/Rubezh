@@ -156,6 +156,7 @@
     <Compile Include="GKModels\Logic\GKAdvancedLogic.cs" />
     <Compile Include="GKModels\Reflection\MirrorUser.cs" />
     <Compile Include="GKModels\SKD\GKCardType.cs" />
+    <Compile Include="GKModels\SKD\GKSchedulePart.cs" />
     <Compile Include="GKModels\SKD\GKSKDZone.cs" />
     <Compile Include="GKModels\States\GKSKDZoneState.cs" />
     <Compile Include="GKModels\States\GKSKDZoneInternalState.cs" />

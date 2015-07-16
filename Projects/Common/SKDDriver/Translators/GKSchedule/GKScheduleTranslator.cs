@@ -43,8 +43,8 @@ namespace SKDDriver.DataClasses
 			result.HoursPeriod = tableItem.HoursPeriod;
 			result.HolidayScheduleNo = tableItem.HolidayScheduleNo;
 			result.WorkHolidayScheduleNo = tableItem.WorkingHolidayScheduleNo;
-			result.DayScheduleUIDs = 
-				tableItem.ScheduleGKDaySchedules.Select(x => x.DayScheduleUID.GetValueOrDefault()).ToList();
+			result.ScheduleParts =
+				tableItem.ScheduleGKDaySchedules.Select(x => new GKSchedulePart() { DayScheduleUID = x.DayScheduleUID.GetValueOrDefault() }).ToList();
 			result.Calendar = new Calendar
 			{
 				SelectedDays = tableItem.ScheduleDays.Select(x => x.DateTime).ToList(),
@@ -85,11 +85,11 @@ namespace SKDDriver.DataClasses
 					ScheduleUID = item.UID,
 					DateTime = x.CheckDate()
 				}).ToList();
-				tableItem.ScheduleGKDaySchedules = item.DayScheduleUIDs.Select(x => new ScheduleGKDaySchedule
+				tableItem.ScheduleGKDaySchedules = item.ScheduleParts.Select(x => new ScheduleGKDaySchedule
 				{
 					UID = Guid.NewGuid(),
 					ScheduleUID = item.UID,
-					DayScheduleUID = x
+					DayScheduleUID = x.DayScheduleUID.EmptyToNull()
 				}).ToList();
 				if(isNew)
 					Context.GKSchedules.Add(tableItem);

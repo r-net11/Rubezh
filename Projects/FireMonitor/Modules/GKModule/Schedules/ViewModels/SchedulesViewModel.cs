@@ -92,7 +92,7 @@ namespace GKModule.ViewModels
 						var daySchedule = GKModuleLoader.DaySchedulesViewModel.GetDaySchedules().FirstOrDefault();
 						if (daySchedule != null)
 						{
-							schedule.DayScheduleUIDs.Add(daySchedule.UID);
+							schedule.ScheduleParts.Add(new GKSchedulePart() { DayNo = i, DayScheduleUID = daySchedule.UID });
 						}
 					}
 				}

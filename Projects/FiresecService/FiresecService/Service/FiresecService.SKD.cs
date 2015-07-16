@@ -871,7 +871,7 @@ namespace FiresecService.Service
 				var schedulesResult = databaseService.GKScheduleTranslator.Get();
 				if (schedulesResult.HasError)
 					return OperationResult<bool>.FromError(schedulesResult.Error, false);
-				changedSchedules = schedulesResult.Result.Where(x => x.DayScheduleUIDs.Any(y => y == daySchedule.UID));
+				changedSchedules = schedulesResult.Result.Where(x => x.ScheduleParts.Any(y => y.DayScheduleUID == daySchedule.UID));
 			}
 			return GKScheduleHelper.SetSchedules(changedSchedules);
 		}
@@ -892,7 +892,7 @@ namespace FiresecService.Service
 				var schedulesResult = databaseService.GKScheduleTranslator.Get();
 				if (schedulesResult.HasError)
 					return OperationResult<bool>.FromError(schedulesResult.Error, false);
-				changedSchedules = schedulesResult.Result.Where(x => x.DayScheduleUIDs.Any(y => y == daySchedule.UID));
+				changedSchedules = schedulesResult.Result.Where(x => x.ScheduleParts.Any(y => y.DayScheduleUID == daySchedule.UID));
 
 				var deleteResult = databaseService.GKDayScheduleTranslator.Delete(daySchedule);
 				if (deleteResult.HasError)

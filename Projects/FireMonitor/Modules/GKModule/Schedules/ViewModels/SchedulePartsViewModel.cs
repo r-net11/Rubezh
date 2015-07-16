@@ -32,9 +32,9 @@ namespace GKModule.ViewModels
 		public void Update()
 		{
 			Parts = new SortableObservableCollection<SchedulePartViewModel>();
-			for (int i = 0; i < Schedule.DayScheduleUIDs.Count; i++)
+			for (int i = 0; i < Schedule.ScheduleParts.Count; i++)
 			{
-				var dayScheduleUID = Schedule.DayScheduleUIDs[i];
+				var dayScheduleUID = Schedule.ScheduleParts[i].DayScheduleUID;
 				var daySchedule = GKModuleLoader.DaySchedulesViewModel.GetDaySchedules().FirstOrDefault(x => x.UID == dayScheduleUID);
 				var schedulePartViewModel = new SchedulePartViewModel(Schedule, dayScheduleUID, i);
 				Parts.Add(schedulePartViewModel);
@@ -87,10 +87,10 @@ namespace GKModule.ViewModels
 				var daySchedule = GKModuleLoader.DaySchedulesViewModel.GetDaySchedules().FirstOrDefault();
 				if (daySchedule != null)
 				{
-					Schedule.DayScheduleUIDs.Add(daySchedule.UID);
+					Schedule.ScheduleParts.Add(new GKSchedulePart() { DayNo = i, DayScheduleUID = daySchedule.UID });
 					if (UpdateSchedule())
 					{
-						var schedulePartViewModel = new SchedulePartViewModel(Schedule, Guid.Empty, Schedule.DayScheduleUIDs.Count - 1);
+						var schedulePartViewModel = new SchedulePartViewModel(Schedule, Guid.Empty, i);
 						Parts.Add(schedulePartViewModel);
 					}
 				}
@@ -111,7 +111,7 @@ namespace GKModule.ViewModels
 				for (int i = 6; i >= 0; i--)
 				{
 					var index = weekNo * 7 + i;
-					Schedule.DayScheduleUIDs.RemoveAt(index);
+					Schedule.ScheduleParts.RemoveAt(index);
 					if (UpdateSchedule())
 					{
 						Parts.RemoveAt(index);
@@ -120,7 +120,7 @@ namespace GKModule.ViewModels
 			}
 			else
 			{
-				Schedule.DayScheduleUIDs.Remove(SelectedPart.SelectedDaySchedule.UID);
+				Schedule.ScheduleParts.RemoveAll(x => x.DayScheduleUID == SelectedPart.SelectedDaySchedule.UID);
 				if (UpdateSchedule())
 				{
 					Parts.Remove(SelectedPart);

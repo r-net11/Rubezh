@@ -95,19 +95,21 @@ namespace GKProcessor
 				daySchedules = schedulesResult.Result;
 			}
 			if (schedule.ScheduleType == GKScheduleType.Access)
-				foreach (var dayScheduleUID in schedule.DayScheduleUIDs)
+			{
+				foreach (var schedulePart in schedule.ScheduleParts)
 				{
-					var daySchedule = daySchedules.FirstOrDefault(x => x.UID == dayScheduleUID);
+					var daySchedule = daySchedules.FirstOrDefault(x => x.UID == schedulePart.DayScheduleUID);
 					if (daySchedule != null)
 					{
 						count += daySchedule.DayScheduleParts.Count;
 					}
 				}
+			}
 			else
 			{
 				count = schedule.Calendar.SelectedDays.FindAll(x => x > schedule.StartDateTime).Count;
 			}
-			var secondsPeriod = schedule.DayScheduleUIDs.Count * 60 * 60 * 24;
+			var secondsPeriod = schedule.ScheduleParts.Count * 60 * 60 * 24;
 			if (schedule.SchedulePeriodType == GKSchedulePeriodType.Custom)
 				secondsPeriod = schedule.HoursPeriod * 60 * 60;
 			if (schedule.SchedulePeriodType == GKSchedulePeriodType.NonPeriodic || schedule.ScheduleType == GKScheduleType.Holiday || schedule.ScheduleType == GKScheduleType.WorkHoliday)
@@ -151,9 +153,9 @@ namespace GKProcessor
 			var scheduleStartSeconds = timeSpan.TotalSeconds;
 
 			if (schedule.ScheduleType == GKScheduleType.Access)
-				for (int dayNo = 0; dayNo < schedule.DayScheduleUIDs.Count; dayNo++)
+				for (int dayNo = 0; dayNo < schedule.ScheduleParts.Count; dayNo++)
 				{
-					var dayScheduleUID = schedule.DayScheduleUIDs[dayNo];
+					var dayScheduleUID = schedule.ScheduleParts[dayNo].DayScheduleUID;
 					var daySchedule = daySchedules.FirstOrDefault(x => x.UID == dayScheduleUID);
 					if (daySchedule != null)
 					{
@@ -164,8 +166,6 @@ namespace GKProcessor
 
 							var startSeconds = 24 * 60 * 60 * dayNo + daySchedulePart.StartMilliseconds / 1000;
 							var endSeconds = 24 * 60 * 60 * dayNo + daySchedulePart.EndMilliseconds / 1000;
-
-							Trace.WriteLine("Time interval " + startSeconds + " " + endSeconds);
 						}
 					}
 				}

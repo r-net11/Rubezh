@@ -19,7 +19,7 @@ namespace GKModule.Plans.Designer
 			: base(presenterItem)
 		{
 			if (Item != null)
-				_skdZoneViewModel = new ViewModels.SKDZoneViewModel(Item);
+				_skdZoneViewModel = new SKDZoneViewModel(Item);
 		}
 
 		protected override GKSKDZone CreateItem(PresenterItem presenterItem)

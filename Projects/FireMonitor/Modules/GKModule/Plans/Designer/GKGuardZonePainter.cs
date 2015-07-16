@@ -19,7 +19,7 @@ namespace GKModule.Plans.Designer
 			: base(presenterItem)
 		{
 			if (Item != null)
-				_guardZoneViewModel = new ViewModels.GuardZoneViewModel(Item);
+				_guardZoneViewModel = new GuardZoneViewModel(Item);
 		}
 
 		protected override GKGuardZone CreateItem(PresenterItem presenterItem)

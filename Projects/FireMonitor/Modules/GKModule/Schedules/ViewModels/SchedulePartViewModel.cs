@@ -42,7 +42,7 @@ namespace GKModule.ViewModels
 				{
 					_selectedDaySchedule = value;
 					OnPropertyChanged(() => SelectedDaySchedule);
-					Schedule.DayScheduleUIDs[Index] = SelectedDaySchedule.UID;
+					Schedule.ScheduleParts[Index].DayScheduleUID = SelectedDaySchedule.UID;
 				}
 				GKScheduleHelper.SaveSchedule(Schedule, false);
 			}
@@ -59,7 +59,7 @@ namespace GKModule.ViewModels
 			{
 				Name = string.Format("{0}", Index + 1);
 			}
-			_selectedDaySchedule = AvailableDaySchedules.FirstOrDefault(x => x.UID == Schedule.DayScheduleUIDs[Index]);
+			_selectedDaySchedule = AvailableDaySchedules.FirstOrDefault(x => x.UID == Schedule.ScheduleParts[Index].DayScheduleUID);
 			if (_selectedDaySchedule == null)
 				_selectedDaySchedule = AvailableDaySchedules.FirstOrDefault();
 			OnPropertyChanged(() => SelectedDaySchedule);

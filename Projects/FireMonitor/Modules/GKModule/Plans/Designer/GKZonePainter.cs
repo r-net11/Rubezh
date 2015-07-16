@@ -27,7 +27,7 @@ namespace GKModule.Plans.Designer
 			: base(presenterItem)
 		{
 			if (Item != null)
-				_zoneViewModel = new ViewModels.ZoneViewModel(Item);
+				_zoneViewModel = new ZoneViewModel(Item);
 			_textDrawing = null;
 			_scaleTransform = new ScaleTransform();
 			ElementRectangleGKZone elementRectangleGKZone = presenterItem.Element as ElementRectangleGKZone;
