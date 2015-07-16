@@ -1,0 +1,595 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Fragment>
+        <DirectoryRef Id="INSTALLLOCATION">
+            <Component Id="cmpC4CE820BE1C6C92E6AF5DA4F89D6606D" Guid="*">
+                <File Id="fil444811F2991EA3901996DABEDF455E20" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\AutomationModule.dll" />
+            </Component>
+            
+            <Component Id="cmpD31F5EF4CC334564314D0673C5706C7A" Guid="*">
+                <File Id="filB616149A55DCE0B2E9E6492125920C35" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\Caliburn.Micro.dll" />
+            </Component>
+            <Component Id="cmp2DE3A580E9D94181C65D785B1596D188" Guid="*">
+                <File Id="filADA1750AD856538EDFA802015E62E581" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\Caliburn.Micro.Platform.dll" />
+            </Component>
+            
+            
+            <Component Id="cmpB07E75915581567F44748BC030654792" Guid="*">
+                <File Id="filE5DF9E6780971F02B25FB93272525E9A" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\CodeReason.Reports.dll" />
+            </Component>
+            
+            <Component Id="cmp950293BAA7024489CB5CC2E8ED679166" Guid="*">
+                <File Id="fil4D8CFD0B432898CEC74B7159AF819EA7" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\Common.dll" />
+            </Component>
+            
+            <Component Id="cmp0E94D0B40C46533C677235B970202FA4" Guid="*">
+                <File Id="filB5180B5DE129E8FB5B578B9F9BCECACE" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\Controls.dll" />
+            </Component>
+            
+            <Component Id="cmpD1E0C34AE725AE3CA9AF88003E017DAF" Guid="*">
+                <File Id="fil256F4793D6108D5B2771E5F2BEADDCFF" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\DevExpress.Data.v14.1.dll" />
+            </Component>
+            <Component Id="cmpA7ED457C0F49957DC4FE29B7566C6B71" Guid="*">
+                <File Id="fil9FBD421E27234275550DBFCEA3450AD6" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\DevExpress.Data.v14.1.resources.dll" />
+            </Component>
+            <Component Id="cmp8044AFF20A06B8A4091F1B4AF2ABFF80" Guid="*">
+                <File Id="fil05ECA45954632B237E3C4A815E081663" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\DevExpress.Mvvm.v14.1.dll" />
+            </Component>
+            <Component Id="cmpF512DE2886B892F441EF393F0FB11B81" Guid="*">
+                <File Id="filDC824AFE101C0CE1B2C8956DE2EAFEAD" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\DevExpress.Printing.v14.1.Core.dll" />
+            </Component>
+            <Component Id="cmpA901B9537DD40D5A9BB5C5A7E31ACB49" Guid="*">
+                <File Id="fil9BD6F47FDF329549BB10551B2AB0281D" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\DevExpress.Printing.v14.1.Core.resources.dll" />
+            </Component>
+            <Component Id="cmp42F5A8CC9FD4A5ACA8615897529BA7CE" Guid="*">
+                <File Id="filF9839AA8073F4EAA6665DD47F104F195" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\DevExpress.Xpf.Core.v14.1.dll" />
+            </Component>
+            <Component Id="cmpCC8054C3D86BB4A3D6FADE753D6DBACD" Guid="*">
+                <File Id="fil253BDCC49E8A5522F9A8AD71D0D8D1DA" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\DevExpress.Xpf.Core.v14.1.resources.dll" />
+            </Component>
+            <Component Id="cmpD9781ADA4A522DB798E9A0F56C77837D" Guid="*">
+                <File Id="filACBEC4BCAC2760E7A480F1A9DD7C00B8" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\DevExpress.Xpf.Docking.v14.1.dll" />
+            </Component>
+            <Component Id="cmp1BA12E766D4B8073B45F8D4D550650A0" Guid="*">
+                <File Id="fil6D236DB129F68D5C0C0F011D5F790F0B" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\DevExpress.Xpf.Docking.v14.1.resources.dll" />
+            </Component>
+            <Component Id="cmp03B00DD0CE60CB8BEF1E0CAF98A22D27" Guid="*">
+                <File Id="fil38ED23FBEA91A25734C33AD23CEAECB8" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\DevExpress.Xpf.Layout.v14.1.Core.dll" />
+            </Component>
+            <Component Id="cmpFC6C87984418ECE19101374DED05F163" Guid="*">
+                <File Id="filCBDB2B851B31141CD382F0C16DE0C701" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\DevExpress.Xpf.Printing.v14.1.dll" />
+            </Component>
+            <Component Id="cmpC0E1F7CC05AB0FBE8B2BEF7E38480919" Guid="*">
+                <File Id="fil598FF766F11B69C186BF4B4ADD3E3C82" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\DevExpress.Xpf.Printing.v14.1.resources.dll" />
+            </Component>
+            <Component Id="cmp66A9B5720DB3A216115E3D39EF064C7A" Guid="*">
+                <File Id="fil4A5D400DC9592E5EA8188F6F9C2C4ED7" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\DevExpress.Xpf.Ribbon.v14.1.dll" />
+            </Component>
+            <Component Id="cmp65C0ACCB87F971E8F51E348AF335D48D" Guid="*">
+                <File Id="fil06DE68F598A9CAACC038881D00B3383F" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\DeviceControls.dll" />
+            </Component>
+            
+            <Component Id="cmp0AED7BFC2717BEE385877855ABCF01F9" Guid="*">
+                <File Id="fil37AAC366B302F80E7DFD51745A43D627" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\DiagnosticsModule.dll" />
+            </Component>
+            
+            <Component Id="cmpD4077E47298B44927BC5D5E3F8A68AA9" Guid="*">
+                <File Id="fil7093C11FCA5980328320213D3987DC7A" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\Entities.dll" />
+            </Component>
+            
+            <Component Id="cmp96311286847CDD7B9A9465EB0C50105E" Guid="*">
+                <File Id="filA04ECBE077CF2F64B7DBEBCA02751758" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\FireMonitor.exe.config" />
+            </Component>
+            <Component Id="cmpFB6E1F7FDD080EE0B5F21E78FC897B8C" Guid="*">
+                <File Id="fil63935B36BB4499BE18A52BC470B7871E" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\FireMonitor.exe.manifest" />
+            </Component>
+            
+            <Component Id="cmp79C1C22557180233331486BF45147BDA" Guid="*">
+                <File Id="fil8C4099718E734C2FA91C544E51B4F7D3" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\FireMonitor.Layout.exe" />
+            </Component>
+            <Component Id="cmpE15E32AFCC6D483350E65E1A696EFDBC" Guid="*">
+                <File Id="filBF4DF5285A3F2A1908AC111E7A339AFD" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\FireMonitor.Layout.exe.config" />
+            </Component>
+            <Component Id="cmp2CE701FCA4EEA6BB4F369904B7742E18" Guid="*">
+                <File Id="fil539848C6D6A327D9F24A96E6BF64F1B3" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\FireMonitor.Layout.exe.manifest" />
+            </Component>
+            
+            
+            
+            
+            
+            <Component Id="cmpBDADBBE70FD652E2C8ADB8030407E714" Guid="*">
+                <File Id="fil229E8C98836EAFDCB575F1251297C84C" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\FiresecAPI.dll" />
+            </Component>
+            
+            
+            <Component Id="cmp3E1F965B42654B44268C4DB2BF213E64" Guid="*">
+                <File Id="fil2D7D4B90F2C98EC477AFA0972B116EB0" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\FiresecClient.dll" />
+            </Component>
+            
+            <Component Id="cmpCFDD31029065A52EF47E4A2F23678D0B" Guid="*">
+                <File Id="filA9B6715BB77360E08A7F5280BC5AE62D" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\GalaSoft.MvvmLight.WPF4.dll" />
+            </Component>
+            <Component Id="cmp446612EF388389C546542ADE973B3935" Guid="*">
+                <File Id="fil39F748DEC926B1F0D4CC175D6296DFCE" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\GKModule.dll" />
+            </Component>
+            
+            <Component Id="cmp731CA76D4E32900B7BC2ABB083ACB27D" Guid="*">
+                <File Id="filCB45456F52425DCCF5342623EAE439EE" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\GKProcessor.dll" />
+            </Component>
+            
+            <Component Id="cmpA9647B5566F1AE74083FB76739CC8E27" Guid="*">
+                <File Id="fil03A29F5A5CE9F71E0799B1D089CD3442" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\Infrastructure.Client.dll" />
+            </Component>
+            
+            <Component Id="cmp5A9AAB9B8E8C606D2AE58CCCC0ABDD72" Guid="*">
+                <File Id="fil2CAA06A6CEFD29FCB74DAE1572A14101" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\Infrastructure.Common.dll" />
+            </Component>
+            
+            <Component Id="cmp97E74D08CD107A68183B6D78EE4D0AE8" Guid="*">
+                <File Id="fil04635C7C709A70EA35D2CDAC06FF86CD" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\Infrastructure.Designer.dll" />
+            </Component>
+            
+            <Component Id="cmp8B45F107EC13EA42C873C88B94DDFFE8" Guid="*">
+                <File Id="filEA707D8FA529297B2EF4344311661DE4" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\Infrastructure.dll" />
+            </Component>
+            
+            <Component Id="cmpB84336E5959750306B734C59A6B815AE" Guid="*">
+                <File Id="fil03208C5CF8AC34716F652A5755B535F4" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\Infrustructure.Plans.dll" />
+            </Component>
+            
+            <Component Id="cmpFDE10E03DBD59366BF95DF79D08265CF" Guid="*">
+                <File Id="filF10ED696BE59900E1807456A24A9A77D" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\Ionic.Zip.dll" />
+            </Component>
+            <Component Id="cmp51EE13A158331F3D44AEA432F795D0C1" Guid="*">
+                <File Id="fil7D6281F00DF99CBF7C168A3496592F05" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\itextsharp.dll" />
+            </Component>
+            <Component Id="cmpA1F87724483C4427A8C0849EA79F369D" Guid="*">
+                <File Id="fil1FEBCD30E1E6A1921A8B14DEEF7D9F05" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\itextsharp.pdfa.dll" />
+            </Component>
+            <Component Id="cmpF23A44B3DA72B7D4442BDC54E26CD958" Guid="*">
+                <File Id="fil2B946547DC2BFA9D691C35FD1040FAF6" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\itextsharp.xtra.dll" />
+            </Component>
+            <Component Id="cmpBD832D5176F642EA55817B3C9CAC825B" Guid="*">
+                <File Id="fil0B64E78CF2070DAADDAC78D4CCB68DD3" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\JournalModule.dll" />
+            </Component>
+            
+            <Component Id="cmp6CBCC1A4FEB3266505EB0F78E2959B18" Guid="*">
+                <File Id="fil5A79936123A476186634D49139C049DB" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\LinqKit.dll" />
+            </Component>
+            <Component Id="cmpD06C3541084E52FFCE18710914F8971F" Guid="*">
+                <File Id="fil5AF3252FB1E7BF35DD19CA8C008A9139" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\Loya.Dameer.dll" />
+            </Component>
+            <Component Id="cmpCF2DA6AC9E8DE953188C5A9130FE3625" Guid="*">
+                <File Id="fil806FAB652ED023447A29AAE3F7E154A7" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\Microsoft.Practices.Prism.dll" />
+            </Component>
+            
+            <Component Id="cmp3D01E72919B2D356A3DF230B97CD6D77" Guid="*">
+                <File Id="fil79C9DB96262B56DAF5EF84FBE28E1EFD" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\Microsoft.Practices.Prism.UnityExtensions.dll" />
+            </Component>
+            
+            
+            
+            <Component Id="cmpF4800E564F7DA802B927A6C71F217F27" Guid="*">
+                <File Id="filEC4A67189B1587E9CE60938F9DE13906" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\Microsoft.Practices.ServiceLocation.dll" />
+            </Component>
+            
+            <Component Id="cmpC0E8036CF477605DF57C03E95BE7C1C6" Guid="*">
+                <File Id="fil31857DA7757A7B8A174E29FA301B0479" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\Microsoft.Practices.Unity.dll" />
+            </Component>
+            
+            <Component Id="cmpF74F5FF80224DCCCF8F44A8FC568A770" Guid="*">
+                <File Id="filAA413DCE37439E3AE0D8CF523078DF06" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\Microsoft.Threading.Tasks.dll" />
+            </Component>
+            <Component Id="cmpF56482EFA031899CFF7366CDD605679A" Guid="*">
+                <File Id="fil36C8DDA68588B2458D07C9E96EC87081" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\Microsoft.Threading.Tasks.Extensions.Desktop.dll" />
+            </Component>
+            
+            <Component Id="cmp820F39F085C1575998824AA2BD0C105B" Guid="*">
+                <File Id="fil41F7C44C0FC8619286B0ED0371C65599" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\Microsoft.Threading.Tasks.Extensions.dll" />
+            </Component>
+            
+            
+            <Component Id="cmp0758E167CC73C057A0ECE2DC5E35F506" Guid="*">
+                <File Id="fil61D8D3E960CBBF3448E98CF5D5492B82" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\NLog.dll" />
+            </Component>
+            
+            
+            <Component Id="cmpFA07974B4490ECD180B3FC461E91666B" Guid="*">
+                <File Id="fil7BC1B46146C4F70C1A997ABFABB41CC9" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\PlansModule.dll" />
+            </Component>
+            <Component Id="cmp2936717430FF054551328AAC04851FCD" Guid="*">
+                <File Id="filEB6A1B5F8254C5755ACEF3FBFE93D7F1" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\PlansModule.Kursk.dll" />
+            </Component>
+            
+            
+            <Component Id="cmpA24617117DEB662D76F2D62439737922" Guid="*">
+                <File Id="fil56AC2C3AB5FD987C868E29FE4AA5BED0" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\ProcessPrivileges.dll" />
+            </Component>
+            
+            <Component Id="cmpB2C9F012BBFA1785BA427EAC8D72D9BD" Guid="*">
+                <File Id="fil57D9AD95247899F928058B8375640CC4" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\ReactiveUI.Blend.dll" />
+            </Component>
+            
+            <Component Id="cmpF0ED3A5BFC4C39ED4B5BC7073D9F58A9" Guid="*">
+                <File Id="fil4851E401FCE4DA0BCC45B434F0C8C476" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\ReactiveUI.dll" />
+            </Component>
+            <Component Id="cmp9125DDEF7315F9CF9D3B8B06F5B62E98" Guid="*">
+                <File Id="fil9D4B444567D025173930C4DBD6C4D62E" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\ReactiveUI.NLog.dll" />
+            </Component>
+            
+            <Component Id="cmp44D629AB2D00EA57FB6912E8597BB15E" Guid="*">
+                <File Id="filDA1953AD4C923732E2C0E0312C1BAC30" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\ReactiveUI.Routing.dll" />
+            </Component>
+            
+            <Component Id="cmpD65A2BAA4089CC0C044BB668406033A4" Guid="*">
+                <File Id="filCE7877D973ED664C073F05EAB8998390" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\ReactiveUI.Xaml.dll" />
+            </Component>
+            
+            
+            <Component Id="cmp78C22EE006F826C84F449FE21CC85975" Guid="*">
+                <File Id="fil0FCDED1801572D32A7C50A3196E14BA8" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\ReportsModule.dll" />
+            </Component>
+            
+            <Component Id="cmp86E60B7BBE14FFB3FF561A84C1532FBA" Guid="*">
+                <File Id="fil72E76E8F6EAD13444A76194663451397" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\Revisor.exe" />
+            </Component>
+            <Component Id="cmpAE8E8A5C3A699597AEBCD2E360B82234" Guid="*">
+                <File Id="filBFA7AA1338E9B12EDA5517FA1AB31BE6" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\Revisor.exe.manifest" />
+            </Component>
+            
+            <Component Id="cmp2BD08ACA2777A529865A4856E80B951E" Guid="*">
+                <File Id="filE82A758E3139082673E3CAFFD160F0C3" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\RviClient.dll" />
+            </Component>
+            
+            <Component Id="cmp18453357AE3CE7387C59824A93ADA007" Guid="*">
+                <File Id="fil7AB2C00FAB12930F6B10EE886AB0AC2F" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\SdkWrapper.dll" />
+            </Component>
+            <Component Id="cmp66D88B24DB6069A9F61E8E166E9BDB08" Guid="*">
+                <File Id="fil17F02E09AE8B11B1F48A2CADCE53BA25" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\SharpVectors.Converters.dll" />
+            </Component>
+            <Component Id="cmp8CBB7B000D4CF904EA4E7B1F730721BA" Guid="*">
+                <File Id="fil4DF7683F7E1958C0A7ADF9E5337E5FF3" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\SharpVectors.Core.dll" />
+            </Component>
+            <Component Id="cmp334EECF04D7696CB5F7735DC8B74B44E" Guid="*">
+                <File Id="filB3F62A33CE1C14752E8621EA9918C8C2" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\SharpVectors.Css.dll" />
+            </Component>
+            <Component Id="cmpFF2F8C7328E9E8E02D35AC26228D2A48" Guid="*">
+                <File Id="fil9877E1AE8C0D3689F5D39C59DE627DD8" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\SharpVectors.Dom.dll" />
+            </Component>
+            <Component Id="cmpC38C874312E3D78F7CC671D4BB90E59B" Guid="*">
+                <File Id="fil40BD81AB71440C76653ED4BDE016AFD2" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\SharpVectors.Model.dll" />
+            </Component>
+            <Component Id="cmpCEB9B85915570BE7DFE2EC11C896290C" Guid="*">
+                <File Id="fil2A8BA9A02004C33634454BBE5AEC3DF6" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\SharpVectors.Rendering.Wpf.dll" />
+            </Component>
+            <Component Id="cmpE51087A6E306536054C04AEB70C0F3DB" Guid="*">
+                <File Id="fil509887AE16B39502171526FEDCA3CC02" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\SharpVectors.Runtime.dll" />
+            </Component>
+            <Component Id="cmp13919AD667908EECFB46563AA90D13AC" Guid="*">
+                <File Id="fil5F8EAAE4DD09DF127E5C68DEFAA3300F" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\SKDDriver.dll" />
+            </Component>
+            
+            <Component Id="cmp41DE0FAE7B0FE69365AACA4EE9C599CF" Guid="*">
+                <File Id="fil51B650EB30170E55ECC87EA0CD1FC386" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\SKDModule.dll" />
+            </Component>
+            
+            
+            
+            <Component Id="cmpFBBF5141B6F02915266546DD748C506A" Guid="*">
+                <File Id="fil5FF4073B7799347F2F4D348656E26AA3" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\StrazhModule.dll" />
+            </Component>
+            
+            <Component Id="cmpE0A8165B0AA9BAB548691F12343F9C48" Guid="*">
+                <File Id="filA113131CA290F3E8B5E7B70A8D1C0E08" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\System.IO.dll" />
+            </Component>
+            
+            <Component Id="cmp18D7DDBDF5B438D6F911D5A7395C3A3F" Guid="*">
+                <File Id="fil736E053EB1E398006C9739B3BC20947B" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\System.Reactive.Core.dll" />
+            </Component>
+            
+            <Component Id="cmpF2267E81A7A5F72FB500E2316FD9B245" Guid="*">
+                <File Id="filD7A10E6F4FAA7266AB0619BBF1216981" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\System.Reactive.Interfaces.dll" />
+            </Component>
+            
+            <Component Id="cmp0C7E2465651BC6098685840BDFE548B6" Guid="*">
+                <File Id="fil53382AA2F36086D816D4B97F9D05CA93" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\System.Reactive.Linq.dll" />
+            </Component>
+            
+            <Component Id="cmpD2BD72393CA5BCEA2EFD3FCA8B4DC898" Guid="*">
+                <File Id="fil628DD6CD39FC903BB3DAFB855A264E7F" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\System.Reactive.PlatformServices.dll" />
+            </Component>
+            
+            <Component Id="cmp6D4211E3487325DD16A97C3B994B16A3" Guid="*">
+                <File Id="fil4722798E3ED9CF4F6F045DD8B30193D3" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\System.Reactive.Windows.Threading.dll" />
+            </Component>
+            
+            <Component Id="cmp186835B1EAF2C7A34732B6D110B86959" Guid="*">
+                <File Id="fil4A6D1225EC8D05AAE6A1D043EFDD9874" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\System.Runtime.dll" />
+            </Component>
+            
+            <Component Id="cmp22FD8CD875BED817540E0E85640FD0B1" Guid="*">
+                <File Id="filAADC047E625055BC2A586A1DC6BE3218" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\System.Threading.Tasks.dll" />
+            </Component>
+            
+            <Component Id="cmp080C02BFB34DE788CABD10C8F7ED5787" Guid="*">
+                <File Id="fil926FAED11137DEE13C8A17FC76390738" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\System.Windows.Controls.Input.Toolkit.dll" />
+            </Component>
+            <Component Id="cmp7610FA931ED264E2DDF8F5B6D53D1873" Guid="*">
+                <File Id="fil5789A3F41EE337A1B8F482A64C786BDE" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\System.Windows.Interactivity.dll" />
+            </Component>
+            
+            <Component Id="cmp4AA411F021882EAD301AA431DD02902E" Guid="*">
+                <File Id="filB37F0C6A3CF7AAE535CDF469D8202EFB" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\VideoModule.dll" />
+            </Component>
+            
+            <Component Id="cmp380AAA8B465D928968F969E15947F118" Guid="*">
+                <File Id="fil8A9FBF8CA2349AE83D7A59D65200EE9B" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\Vlc.DotNet.Core.dll" />
+            </Component>
+            <Component Id="cmp1FE2A44B8FF98A2D3DFA5528095C810C" Guid="*">
+                <File Id="filB2A85BCA1F322BB1BD635367718A3776" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\Vlc.DotNet.Core.Interops.dll" />
+            </Component>
+            <Component Id="cmp2BC6BFBDE9BD93F5C4E2A02C272215B8" Guid="*">
+                <File Id="filD1EA08EEBA837DC9DE462876AFD49DAC" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\Vlc.DotNet.Wpf.dll" />
+            </Component>
+            <Component Id="cmpABCB0FA888DF5CF1E51337B806923E64" Guid="*">
+                <File Id="fil20933DBF3CD2AE8BEB8CBAA2E8BAE01B" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\WPFToolkit.dll" />
+            </Component>
+            <Component Id="cmp93E1751159B9535E3C7C801101BA5B8D" Guid="*">
+                <File Id="fil833DC6C5ECF557F7CA811C6C5603AD4D" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\WPFToolkit.Extended.dll" />
+            </Component>
+            <Component Id="cmp582E15A88CE9EC97A244B0D820670E15" Guid="*">
+                <File Id="filD0AC5E6F5F63243E5C8FC00C92E04CEB" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\XamlTune.dll" />
+            </Component>
+            <Component Id="cmpC7A312B48128BBF41FA51F71FAE5DFFF" Guid="*">
+                <File Id="filFBD91875F23B0A41E3D677C70456B3A0" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\Xceed.Wpf.AvalonDock.dll" />
+            </Component>
+            
+            <Component Id="cmp05A7B2EA74727730CCF0B26FED8DB5BA" Guid="*">
+                <File Id="fil43AB1C58F3F35F183B98F2357534609A" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\Xceed.Wpf.Toolkit.dll" />
+            </Component>
+            <Directory Id="dirB27348B57A5DB473BF7C6C7DF00A5DBA" Name="de">
+                <Component Id="cmpCE669A69064F1B52061761121856123F" Guid="*">
+                    <File Id="fil0F860218658BC7CC0710E24A249F23B5" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\de\System.Windows.Interactivity.resources.dll" />
+                </Component>
+            </Directory>
+            <Directory Id="dir77A47C9F143A7502466C548C9FCBAD08" Name="en">
+                <Component Id="cmp5A1EA8B65117824B4C76145E75ED9568" Guid="*">
+                    <File Id="fil1216DE5D4A085A7333624F2DEC8E48F0" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\en\System.Windows.Interactivity.resources.dll" />
+                </Component>
+            </Directory>
+            <Directory Id="dir562D8D513850F1ADE7FBC3F03925F40D" Name="es">
+                <Component Id="cmpD39D198EBCFC6502C7597F6B05805A1C" Guid="*">
+                    <File Id="fil082B969D0F4532AD489E98380013F303" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\es\System.Windows.Interactivity.resources.dll" />
+                </Component>
+            </Directory>
+            <Directory Id="dir72226116A8527C99EDF529487A911522" Name="fr">
+                <Component Id="cmp454B63C3AD41ABF33FD0F000D58DBAEC" Guid="*">
+                    <File Id="fil2209339ACDC8547B2F68C8A230432C9C" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\fr\System.Windows.Interactivity.resources.dll" />
+                </Component>
+            </Directory>
+            <Directory Id="dir35E624903EE34E687FB4AA2ED234EDEB" Name="it">
+                <Component Id="cmpFC10A3DE987784D23615B4226A405A64" Guid="*">
+                    <File Id="filACD127D6B1951C0C8FF05733C5E510C8" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\it\System.Windows.Interactivity.resources.dll" />
+                </Component>
+            </Directory>
+            <Directory Id="dirC57BC71387503E379EF57803476BCA43" Name="ja">
+                <Component Id="cmp9614A023C650875CE1821E6A5F1E7312" Guid="*">
+                    <File Id="filBCBBDC769A39502A07C74812D27233BF" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\ja\System.Windows.Interactivity.resources.dll" />
+                </Component>
+            </Directory>
+            <Directory Id="dir36D6CA8E5A6770CE8A5D00823F5A6613" Name="ko">
+                <Component Id="cmpED3D770E48EC0BE1CCC3B4E87107590F" Guid="*">
+                    <File Id="fil873D437774C02BFFB333E4B88E35B642" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\ko\System.Windows.Interactivity.resources.dll" />
+                </Component>
+            </Directory>
+            <Directory Id="dirD7F168AE7E2140C2AFD9C7E999CF79E1" Name="ru">
+                <Component Id="cmpD11654A22C5259F1B4FFC37A9121837B" Guid="*">
+                    <File Id="filBF1D2986D5771EC8A7EA0CDDDA918F4F" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\ru\DevExpress.Data.v14.1.resources.dll" />
+                </Component>
+                <Component Id="cmp15E9D920F985AB58FCD2FCFA2E181D4F" Guid="*">
+                    <File Id="filA7A992DE3D379636B3D3021A388142C1" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\ru\DevExpress.Printing.v14.1.Core.resources.dll" />
+                </Component>
+                <Component Id="cmp0DAF711CA3CFA366AA6A91BC1D1C84CE" Guid="*">
+                    <File Id="fil4A2A321EA0F96018E8257187B72417CD" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\ru\DevExpress.Xpf.Core.v14.1.resources.dll" />
+                </Component>
+                <Component Id="cmpB52234D4C425DB77575F44A58E3630D9" Guid="*">
+                    <File Id="fil26979B3C04C89534559D79865E0C244F" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\ru\DevExpress.Xpf.Docking.v14.1.resources.dll" />
+                </Component>
+                <Component Id="cmpB81C8BEF6A5781D7DC6F272538899821" Guid="*">
+                    <File Id="fil850541045E72FF33F5C7B4A0E4C0373B" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\ru\DevExpress.Xpf.Printing.v14.1.resources.dll" />
+                </Component>
+                <Component Id="cmpDA9F337CB2549A1DF8AC5928717B7B28" Guid="*">
+                    <File Id="fil0D1FCB7ABE52A9859063E1C053D1D1B4" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\ru\DevExpress.Xpf.Ribbon.v14.1.resources.dll" />
+                </Component>
+            </Directory>
+            <Directory Id="dirBD2E157967EF588314F0A51AB23B8FBC" Name="zh-Hans">
+                <Component Id="cmp6038E4C761FE927357069D5D48AB8175" Guid="*">
+                    <File Id="filF72EC6526A08752072D17A6070CDDC97" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\zh-Hans\System.Windows.Interactivity.resources.dll" />
+                </Component>
+            </Directory>
+            <Directory Id="dir40B2F705302A2CFF6B6BA2423E1D5450" Name="zh-Hant">
+                <Component Id="cmp0829704F1BA9A9680181CE02F7B55E4A" Guid="*">
+                    <File Id="filC77BDE7BE0BFC3F4B0218C7305679FCD" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\zh-Hant\System.Windows.Interactivity.resources.dll" />
+                </Component>
+            </Directory>
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <ComponentGroup Id="Binaries">
+            <ComponentRef Id="cmpC4CE820BE1C6C92E6AF5DA4F89D6606D" />
+            
+            <ComponentRef Id="cmpD31F5EF4CC334564314D0673C5706C7A" />
+            <ComponentRef Id="cmp2DE3A580E9D94181C65D785B1596D188" />
+            
+            
+            <ComponentRef Id="cmpB07E75915581567F44748BC030654792" />
+            
+            <ComponentRef Id="cmp950293BAA7024489CB5CC2E8ED679166" />
+            
+            <ComponentRef Id="cmp0E94D0B40C46533C677235B970202FA4" />
+            
+            <ComponentRef Id="cmpD1E0C34AE725AE3CA9AF88003E017DAF" />
+            <ComponentRef Id="cmpA7ED457C0F49957DC4FE29B7566C6B71" />
+            <ComponentRef Id="cmp8044AFF20A06B8A4091F1B4AF2ABFF80" />
+            <ComponentRef Id="cmpF512DE2886B892F441EF393F0FB11B81" />
+            <ComponentRef Id="cmpA901B9537DD40D5A9BB5C5A7E31ACB49" />
+            <ComponentRef Id="cmp42F5A8CC9FD4A5ACA8615897529BA7CE" />
+            <ComponentRef Id="cmpCC8054C3D86BB4A3D6FADE753D6DBACD" />
+            <ComponentRef Id="cmpD9781ADA4A522DB798E9A0F56C77837D" />
+            <ComponentRef Id="cmp1BA12E766D4B8073B45F8D4D550650A0" />
+            <ComponentRef Id="cmp03B00DD0CE60CB8BEF1E0CAF98A22D27" />
+            <ComponentRef Id="cmpFC6C87984418ECE19101374DED05F163" />
+            <ComponentRef Id="cmpC0E1F7CC05AB0FBE8B2BEF7E38480919" />
+            <ComponentRef Id="cmp66A9B5720DB3A216115E3D39EF064C7A" />
+            <ComponentRef Id="cmp65C0ACCB87F971E8F51E348AF335D48D" />
+            
+            <ComponentRef Id="cmp0AED7BFC2717BEE385877855ABCF01F9" />
+            
+            <ComponentRef Id="cmpD4077E47298B44927BC5D5E3F8A68AA9" />
+            
+            <ComponentRef Id="cmp96311286847CDD7B9A9465EB0C50105E" />
+            <ComponentRef Id="cmpFB6E1F7FDD080EE0B5F21E78FC897B8C" />
+            
+            <ComponentRef Id="cmp79C1C22557180233331486BF45147BDA" />
+            <ComponentRef Id="cmpE15E32AFCC6D483350E65E1A696EFDBC" />
+            <ComponentRef Id="cmp2CE701FCA4EEA6BB4F369904B7742E18" />
+            
+            
+            
+            
+            
+            <ComponentRef Id="cmpBDADBBE70FD652E2C8ADB8030407E714" />
+            
+            
+            <ComponentRef Id="cmp3E1F965B42654B44268C4DB2BF213E64" />
+            
+            <ComponentRef Id="cmpCFDD31029065A52EF47E4A2F23678D0B" />
+            <ComponentRef Id="cmp446612EF388389C546542ADE973B3935" />
+            
+            <ComponentRef Id="cmp731CA76D4E32900B7BC2ABB083ACB27D" />
+            
+            <ComponentRef Id="cmpA9647B5566F1AE74083FB76739CC8E27" />
+            
+            <ComponentRef Id="cmp5A9AAB9B8E8C606D2AE58CCCC0ABDD72" />
+            
+            <ComponentRef Id="cmp97E74D08CD107A68183B6D78EE4D0AE8" />
+            
+            <ComponentRef Id="cmp8B45F107EC13EA42C873C88B94DDFFE8" />
+            
+            <ComponentRef Id="cmpB84336E5959750306B734C59A6B815AE" />
+            
+            <ComponentRef Id="cmpFDE10E03DBD59366BF95DF79D08265CF" />
+            <ComponentRef Id="cmp51EE13A158331F3D44AEA432F795D0C1" />
+            <ComponentRef Id="cmpA1F87724483C4427A8C0849EA79F369D" />
+            <ComponentRef Id="cmpF23A44B3DA72B7D4442BDC54E26CD958" />
+            <ComponentRef Id="cmpBD832D5176F642EA55817B3C9CAC825B" />
+            
+            <ComponentRef Id="cmp6CBCC1A4FEB3266505EB0F78E2959B18" />
+            <ComponentRef Id="cmpD06C3541084E52FFCE18710914F8971F" />
+            <ComponentRef Id="cmpCF2DA6AC9E8DE953188C5A9130FE3625" />
+            
+            <ComponentRef Id="cmp3D01E72919B2D356A3DF230B97CD6D77" />
+            
+            
+            
+            <ComponentRef Id="cmpF4800E564F7DA802B927A6C71F217F27" />
+            
+            <ComponentRef Id="cmpC0E8036CF477605DF57C03E95BE7C1C6" />
+            
+            <ComponentRef Id="cmpF74F5FF80224DCCCF8F44A8FC568A770" />
+            <ComponentRef Id="cmpF56482EFA031899CFF7366CDD605679A" />
+            
+            <ComponentRef Id="cmp820F39F085C1575998824AA2BD0C105B" />
+            
+            
+            <ComponentRef Id="cmp0758E167CC73C057A0ECE2DC5E35F506" />
+            
+            
+            <ComponentRef Id="cmpFA07974B4490ECD180B3FC461E91666B" />
+            <ComponentRef Id="cmp2936717430FF054551328AAC04851FCD" />
+            
+            
+            <ComponentRef Id="cmpA24617117DEB662D76F2D62439737922" />
+            
+            <ComponentRef Id="cmpB2C9F012BBFA1785BA427EAC8D72D9BD" />
+            
+            <ComponentRef Id="cmpF0ED3A5BFC4C39ED4B5BC7073D9F58A9" />
+            <ComponentRef Id="cmp9125DDEF7315F9CF9D3B8B06F5B62E98" />
+            
+            <ComponentRef Id="cmp44D629AB2D00EA57FB6912E8597BB15E" />
+            
+            <ComponentRef Id="cmpD65A2BAA4089CC0C044BB668406033A4" />
+            
+            
+            <ComponentRef Id="cmp78C22EE006F826C84F449FE21CC85975" />
+            
+            <ComponentRef Id="cmp86E60B7BBE14FFB3FF561A84C1532FBA" />
+            <ComponentRef Id="cmpAE8E8A5C3A699597AEBCD2E360B82234" />
+            
+            <ComponentRef Id="cmp2BD08ACA2777A529865A4856E80B951E" />
+            
+            <ComponentRef Id="cmp18453357AE3CE7387C59824A93ADA007" />
+            <ComponentRef Id="cmp66D88B24DB6069A9F61E8E166E9BDB08" />
+            <ComponentRef Id="cmp8CBB7B000D4CF904EA4E7B1F730721BA" />
+            <ComponentRef Id="cmp334EECF04D7696CB5F7735DC8B74B44E" />
+            <ComponentRef Id="cmpFF2F8C7328E9E8E02D35AC26228D2A48" />
+            <ComponentRef Id="cmpC38C874312E3D78F7CC671D4BB90E59B" />
+            <ComponentRef Id="cmpCEB9B85915570BE7DFE2EC11C896290C" />
+            <ComponentRef Id="cmpE51087A6E306536054C04AEB70C0F3DB" />
+            <ComponentRef Id="cmp13919AD667908EECFB46563AA90D13AC" />
+            
+            <ComponentRef Id="cmp41DE0FAE7B0FE69365AACA4EE9C599CF" />
+            
+            
+            
+            <ComponentRef Id="cmpFBBF5141B6F02915266546DD748C506A" />
+            
+            <ComponentRef Id="cmpE0A8165B0AA9BAB548691F12343F9C48" />
+            
+            <ComponentRef Id="cmp18D7DDBDF5B438D6F911D5A7395C3A3F" />
+            
+            <ComponentRef Id="cmpF2267E81A7A5F72FB500E2316FD9B245" />
+            
+            <ComponentRef Id="cmp0C7E2465651BC6098685840BDFE548B6" />
+            
+            <ComponentRef Id="cmpD2BD72393CA5BCEA2EFD3FCA8B4DC898" />
+            
+            <ComponentRef Id="cmp6D4211E3487325DD16A97C3B994B16A3" />
+            
+            <ComponentRef Id="cmp186835B1EAF2C7A34732B6D110B86959" />
+            
+            <ComponentRef Id="cmp22FD8CD875BED817540E0E85640FD0B1" />
+            
+            <ComponentRef Id="cmp080C02BFB34DE788CABD10C8F7ED5787" />
+            <ComponentRef Id="cmp7610FA931ED264E2DDF8F5B6D53D1873" />
+            
+            <ComponentRef Id="cmp4AA411F021882EAD301AA431DD02902E" />
+            
+            <ComponentRef Id="cmp380AAA8B465D928968F969E15947F118" />
+            <ComponentRef Id="cmp1FE2A44B8FF98A2D3DFA5528095C810C" />
+            <ComponentRef Id="cmp2BC6BFBDE9BD93F5C4E2A02C272215B8" />
+            <ComponentRef Id="cmpABCB0FA888DF5CF1E51337B806923E64" />
+            <ComponentRef Id="cmp93E1751159B9535E3C7C801101BA5B8D" />
+            <ComponentRef Id="cmp582E15A88CE9EC97A244B0D820670E15" />
+            <ComponentRef Id="cmpC7A312B48128BBF41FA51F71FAE5DFFF" />
+            
+            <ComponentRef Id="cmp05A7B2EA74727730CCF0B26FED8DB5BA" />
+            <ComponentRef Id="cmpCE669A69064F1B52061761121856123F" />
+            <ComponentRef Id="cmp5A1EA8B65117824B4C76145E75ED9568" />
+            <ComponentRef Id="cmpD39D198EBCFC6502C7597F6B05805A1C" />
+            <ComponentRef Id="cmp454B63C3AD41ABF33FD0F000D58DBAEC" />
+            <ComponentRef Id="cmpFC10A3DE987784D23615B4226A405A64" />
+            <ComponentRef Id="cmp9614A023C650875CE1821E6A5F1E7312" />
+            <ComponentRef Id="cmpED3D770E48EC0BE1CCC3B4E87107590F" />
+            <ComponentRef Id="cmpD11654A22C5259F1B4FFC37A9121837B" />
+            <ComponentRef Id="cmp15E9D920F985AB58FCD2FCFA2E181D4F" />
+            <ComponentRef Id="cmp0DAF711CA3CFA366AA6A91BC1D1C84CE" />
+            <ComponentRef Id="cmpB52234D4C425DB77575F44A58E3630D9" />
+            <ComponentRef Id="cmpB81C8BEF6A5781D7DC6F272538899821" />
+            <ComponentRef Id="cmpDA9F337CB2549A1DF8AC5928717B7B28" />
+            <ComponentRef Id="cmp6038E4C761FE927357069D5D48AB8175" />
+            <ComponentRef Id="cmp0829704F1BA9A9680181CE02F7B55E4A" />
+        </ComponentGroup>
+    </Fragment>
+</Wix>

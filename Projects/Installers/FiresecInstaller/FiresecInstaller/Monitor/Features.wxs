@@ -14,6 +14,7 @@
 			<ComponentRef Id="Monitor.ProgramsMenuLayoutShortcut" />
 			<ComponentRef Id="Monitor.DesktopLayoutShortcut" />
 			<ComponentRef Id="Monitor.Revisor" />
+			<ComponentGroupRef Id="Binaries"/>
 
 			<ComponentRef Id="Monitor.VIDEO_MODULE_DLL" />
 		</Feature>

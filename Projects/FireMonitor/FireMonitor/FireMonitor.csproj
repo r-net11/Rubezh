@@ -17,7 +17,7 @@
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -290,6 +290,9 @@
   <ItemGroup>
     <SplashScreen Include="Logo.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="FireMonitor.Setup\Filter.xslt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -299,7 +302,6 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>call "$(WIX)bin\heat.exe" dir "$(TargetDir)\" -t "$(SolutionDir)FireMonitor\FireMonitor.Setup\Filter.xslt"  -var var.FireMonitor.TargetDir -dr INSTALLLOCATION -cg Binaries -ag -scom -sreg -sfrag –srd -o "$(SolutionDir)FireMonitor\FireMonitor.Setup\Binaries.wxs"</PostBuildEvent>
   </PropertyGroup>
 </Project>
