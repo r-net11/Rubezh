@@ -52,6 +52,13 @@ namespace FiresecAPI.GK
 				gkBase.IsLogicOnKau = false;
 				gkBase.KauDatabaseParent = null;
 			}
+			if (gkBase is GKMPT)
+			{
+				foreach (var mptDevice in (gkBase as GKMPT).MPTDevices)
+				{
+					mptDevice.Device.IsLogicOnKau = gkBase.IsLogicOnKau;
+				}
+			}
 		}
 
 		void PrepareObjects()
