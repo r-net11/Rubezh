@@ -178,14 +178,6 @@ namespace FiresecClient
 								ConfigurationChangedEvent();
 						});
 						break;
-
-					//case CallbackResultType.QueryDb:
-					//	SafeOperationCall(() =>
-					//	{
-					//		if (DbCallbackResultEvent != null)
-					//			DbCallbackResultEvent(callbackResult.DbCallbackResult);
-					//	});
-					//	break;
 				}
 			}
 		}

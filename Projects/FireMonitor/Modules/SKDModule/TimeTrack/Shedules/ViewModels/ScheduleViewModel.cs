@@ -100,7 +100,6 @@ namespace SKDModule.ViewModels
 			if (DialogService.ShowModalWindow(scheduleZoneDetailsViewModel) && AddSave(scheduleZoneDetailsViewModel.ScheduleZone))
 			{
 				var scheduleZone = scheduleZoneDetailsViewModel.ScheduleZone;
-				Model.Zones.Add(scheduleZone);
 				var scheduleZoneViewModel = new ScheduleZoneViewModel(scheduleZone);
 				ScheduleZones.Add(scheduleZoneViewModel);
 				Sort();
@@ -127,7 +126,7 @@ namespace SKDModule.ViewModels
 		}
 
 		public RelayCommand EditCommand { get; private set; }
-		private void OnEdit()
+		void OnEdit()
 		{
 			var scheduleZoneDetailsViewModel = new ScheduleZoneDetailsViewModel(Model, Organisation, SelectedScheduleZone.Model);
 			if (DialogService.ShowModalWindow(scheduleZoneDetailsViewModel) && EditSave(SelectedScheduleZone.Model))
