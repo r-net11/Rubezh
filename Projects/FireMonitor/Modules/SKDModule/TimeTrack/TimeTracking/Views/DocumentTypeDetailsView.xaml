@@ -14,16 +14,16 @@
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 
-		<Label Grid.Row="0" Grid.Column="0" Content="Название" HorizontalAlignment="Right" />
+		<TextBlock Grid.Row="0" Grid.Column="0" Text="Название" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
 		<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 
-		<Label Grid.Row="1" Grid.Column="0" Content="Буквенный код" HorizontalAlignment="Right" />
+		<TextBlock Grid.Row="1" Grid.Column="0" Text="Буквенный код" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
 		<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding ShortName, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 
-		<Label Grid.Row="2" Grid.Column="0" Content="Числовой код" HorizontalAlignment="Right" />
+		<TextBlock Grid.Row="2" Grid.Column="0" Text="Числовой код" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
 		<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Code, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 
-		<Label Grid.Row="3" Grid.Column="0" Content="Тип" HorizontalAlignment="Right" />
+		<TextBlock Grid.Row="3" Grid.Column="0" Text="Тип" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
 		<ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding AvailableDocumentTypes}" SelectedItem="{Binding SelectedDocumentType}" Margin="2">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>

@@ -19,13 +19,13 @@
 				</Style.Setters>
 			</Style>
 		</Grid.Resources>
-		<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" Foreground="White" Text="Название" />
+		<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" Text="Название" />
 		<TextBox Grid.Row="0" Grid.Column="1" Margin="2" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
 
-		<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" Foreground="White" Text="Примечание" />
+		<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" Text="Примечание" />
 		<TextBox Grid.Row="1" Grid.Column="1" Margin="2" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" />
 
-		<TextBlock Grid.Row="2" Grid.Column="0" Margin="2" Foreground="White" Text="Обязательная продолжительность скользящего графика" TextWrapping="Wrap" />
+		<TextBlock Grid.Row="2" Grid.Column="0" Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" Text="Обязательная продолжительность скользящего графика" TextWrapping="Wrap" />
 		<TimePicker Grid.Row="2" Grid.Column="1" Margin="2" TimeSpan="{Binding ConstantSlideTime, UpdateSourceTrigger=PropertyChanged}" />
 	</Grid>
 </UserControl>

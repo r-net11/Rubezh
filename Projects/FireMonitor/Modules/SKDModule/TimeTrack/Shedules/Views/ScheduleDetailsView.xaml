@@ -17,10 +17,10 @@
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 
-		<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" Foreground="White" Text="Название" />
+		<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" Text="Название" />
 		<TextBox Grid.Row="0" Grid.Column="1" Margin="2" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
 
-		<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" Foreground="White" Text="График работы" />
+		<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" Text="График работы" />
 		<ComboBox Grid.Row="1" Grid.Column="1" Margin="2" VerticalAlignment="Center" VerticalContentAlignment="Center" ItemsSource="{Binding AvailableScheduleTypes}" SelectedItem="{Binding SelectedScheduleType, UpdateSourceTrigger=PropertyChanged}">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
@@ -39,10 +39,10 @@
         <CheckBox Grid.Row="3" Grid.Column="1" Margin="2" Content="Не учитывать сокращённые дни" Foreground="White" IsChecked="{Binding IsIgnoreHoliday, UpdateSourceTrigger=PropertyChanged}" />
 		<CheckBox Grid.Row="4" Grid.Column="1" Margin="2" Content="Учитывать только первый вход последний выход" Foreground="White" IsChecked="{Binding IsOnlyFirstEnter, UpdateSourceTrigger=PropertyChanged}" />
 
-		<TextBlock Grid.Row="5" Grid.Column="0" Margin="2" Foreground="White" Text="Разрешить опоздания не более чем на" />
+		<TextBlock Grid.Row="5" Grid.Column="0" Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" Text="Разрешить опоздания не более чем на" />
 		<TimePicker Grid.Row="5" Grid.Column="1" Margin="2" TimeSpan="{Binding AllowedLate, UpdateSourceTrigger=PropertyChanged}" />
 
-		<TextBlock Grid.Row="6" Grid.Column="0" Margin="2" Foreground="White" Text="Разрешить уходы раньше не более чем на" />
+		<TextBlock Grid.Row="6" Grid.Column="0" Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" Text="Разрешить уходы раньше не более чем на" />
 		<TimePicker Grid.Row="6" Grid.Column="1" Margin="2" TimeSpan="{Binding AllowedEarlyLeave, UpdateSourceTrigger=PropertyChanged}" />
 	</Grid>
 </UserControl>

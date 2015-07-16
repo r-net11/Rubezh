@@ -23,10 +23,10 @@
 					<ColumnDefinition />
 					<ColumnDefinition />
 				</Grid.ColumnDefinitions>
-				<Label Grid.Row="0" Grid.Column="0" Content="Номер" HorizontalAlignment="Right" Margin="2" />
+				<TextBlock Grid.Row="0" Grid.Column="0" Text="Номер" HorizontalAlignment="Right" Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" />
 				<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding No, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 
-				<Label Grid.Row="1" Grid.Column="0" Content="Наименование" HorizontalAlignment="Right" Margin="2" />
+				<TextBlock Grid.Row="1" Grid.Column="0" Text="Наименование" HorizontalAlignment="Right" Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" />
 				<XAutoCompleteBox Grid.Row="1" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" ItemsSource="{Binding AvailableNames}" IsTextCompletionEnabled="True" Margin="2" ContextMenu="{x:Null}" x:Name="nameTextBox">
 					<XAutoCompleteBox.TextBoxStyle>
 						<Style TargetType="TextBox">
@@ -35,13 +35,13 @@
 					</XAutoCompleteBox.TextBoxStyle>
 				</XAutoCompleteBox>
 
-				<Label Grid.Row="2" Grid.Column="0" Content="Примечание" HorizontalAlignment="Right" Margin="2" />
+				<TextBlock Grid.Row="2" Grid.Column="0" Text="Примечание" HorizontalAlignment="Right" Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" />
 				<XAutoCompleteBox Grid.Row="2" Grid.Column="1" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" ItemsSource="{Binding AvailableDescription}" IsTextCompletionEnabled="True" Margin="2" />
 
-				<Label Grid.Row="3" Grid.Column="0" Content="Дата начала действия" HorizontalAlignment="Right" Margin="2" />
+				<TextBlock Grid.Row="3" Grid.Column="0" Text="Дата начала действия" HorizontalAlignment="Right" Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" />
 				<loya:Dameer Grid.Row="3" Grid.Column="1" CustomFormat="dd MMMM yyyy" Format="Custom" ShowCheckBox="False" Value="{Binding StartDateTime}" Width="Auto" Margin="2" />
 
-				<Label Grid.Row="4" Grid.Column="0" Content="Тип графика" HorizontalAlignment="Right" Margin="2" />
+				<TextBlock Grid.Row="4" Grid.Column="0" Text="Тип графика" HorizontalAlignment="Right" Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" />
                 <ComboBox Grid.Row="4" Grid.Column="1" ItemsSource="{Binding ScheduleTypes}" SelectedItem="{Binding SelectedScheduleType}" IsEnabled="{Binding IsNew}" Margin="2">
 					<ComboBox.ItemTemplate>
 						<DataTemplate>
@@ -50,7 +50,7 @@
 					</ComboBox.ItemTemplate>
 				</ComboBox>
 
-				<Label Grid.Row="5" Grid.Column="0" Content="Тип периодичности" HorizontalAlignment="Right" Visibility="{Binding IsAccessSchedule, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
+				<TextBlock Grid.Row="5" Grid.Column="0" Text="Тип периодичности" HorizontalAlignment="Right" Visibility="{Binding IsAccessSchedule, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" />
                 <ComboBox Grid.Row="5" Grid.Column="1" ItemsSource="{Binding SchedulePeriodTypes}" SelectedItem="{Binding SelectedSchedulePeriodType}" IsEnabled="{Binding IsNew}" Visibility="{Binding IsAccessSchedule, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
 					<ComboBox.ItemTemplate>
 						<DataTemplate>
@@ -59,7 +59,7 @@
 					</ComboBox.ItemTemplate>
 				</ComboBox>
 
-				<Label Grid.Row="6" Grid.Column="0" Content="График праздников" HorizontalAlignment="Right" Visibility="{Binding IsAccessSchedule, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
+				<TextBlock Grid.Row="6" Grid.Column="0" Text="График праздников" HorizontalAlignment="Right" Visibility="{Binding IsAccessSchedule, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" />
 				<ComboBox Grid.Row="6" Grid.Column="1" ItemsSource="{Binding Holidays}" SelectedItem="{Binding SelectedHoliday}" Visibility="{Binding IsAccessSchedule, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
 					<ComboBox.ItemTemplate>
 						<DataTemplate>
@@ -68,7 +68,7 @@
 					</ComboBox.ItemTemplate>
 				</ComboBox>
 
-				<Label Grid.Row="7" Grid.Column="0" Content="График рабочих выходных" HorizontalAlignment="Right" Visibility="{Binding IsAccessSchedule, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
+				<TextBlock Grid.Row="7" Grid.Column="0" Text="График рабочих выходных" HorizontalAlignment="Right" Visibility="{Binding IsAccessSchedule, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" />
 				<ComboBox Grid.Row="7" Grid.Column="1" ItemsSource="{Binding WorkHolidays}" SelectedItem="{Binding SelectedWorkHoliday}" Visibility="{Binding IsAccessSchedule, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
 					<ComboBox.ItemTemplate>
 						<DataTemplate>
@@ -77,7 +77,7 @@
 					</ComboBox.ItemTemplate>
 				</ComboBox>
 
-				<Label Grid.Row="8" Grid.Column="0" Content="Период, ч" HorizontalAlignment="Right" Visibility="{Binding ShowHoursPeriod, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
+				<TextBlock Grid.Row="8" Grid.Column="0" Text="Период, ч" HorizontalAlignment="Right" Visibility="{Binding ShowHoursPeriod, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" />
 				<extToolkit:IntegerUpDown Grid.Row="8" Grid.Column="1" Value="{Binding HoursPeriod, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding ShowHoursPeriod, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
 			</Grid>
 		</TabItem>

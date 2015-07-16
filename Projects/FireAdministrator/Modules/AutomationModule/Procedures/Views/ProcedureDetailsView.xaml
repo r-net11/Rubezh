@@ -19,17 +19,17 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
-				<Label Grid.Row="0" Grid.Column="0" Content="Название" Margin="2" HorizontalAlignment="Right" />
+				<TextBlock Grid.Row="0" Grid.Column="0" Text="Название" Margin="2" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
 				<TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" Margin="2" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
-				<Label Grid.Row="1" Grid.Column="0" Content="Примечание" HorizontalAlignment="Right" Margin="2" />
+				<TextBlock Grid.Row="1" Grid.Column="0" Text="Примечание" HorizontalAlignment="Right" Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" />
 				<TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" Margin="2" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" />
-				<Label Grid.Row="2" Grid.Column="0"  Content="Активно" HorizontalAlignment="Right" Margin="2" />
+				<TextBlock Grid.Row="2" Grid.Column="0"  Text="Активно" HorizontalAlignment="Right" Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" />
 				<CheckBox Grid.Row="2" Grid.Column="1" IsChecked="{Binding IsActive}" Margin="2,7,0,0" />
-				<Label Grid.Row="3" Grid.Column="0"  Content="Запуск после сервера" HorizontalAlignment="Right" Margin="2" />
+				<TextBlock Grid.Row="3" Grid.Column="0"  Text="Запуск после сервера" HorizontalAlignment="Right" Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" />
 				<CheckBox Grid.Row="3" Grid.Column="1" IsChecked="{Binding StartWithServer}" Margin="2,7,0,0" />
-				<Label Grid.Row="4" Grid.Column="0"  Content="Выполнять синхронно" HorizontalAlignment="Right" Margin="2" />
+				<TextBlock Grid.Row="4" Grid.Column="0"  Text="Выполнять синхронно" HorizontalAlignment="Right" Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" />
 				<CheckBox Grid.Row="4" Grid.Column="1" IsChecked="{Binding IsSync}" Margin="2,7,0,0" />
-				<Label Grid.Row="5" Grid.Column="0" Content="Время выполнения" HorizontalAlignment="Right" Margin="2" />
+				<TextBlock Grid.Row="5" Grid.Column="0" Text="Время выполнения" HorizontalAlignment="Right" Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" />
 				<extToolkit:IntegerUpDown Grid.Row="5" Grid.Column="1" HorizontalAlignment="Stretch" Margin="2" Minimum="0" Value="{Binding TimeOut, UpdateSourceTrigger=PropertyChanged}" />
 				<ComboBox Grid.Row="5" Grid.Column="2" ItemsSource="{Binding TimeTypes}" Margin="2, 2, -2, 0" HorizontalAlignment="Left" SelectedItem="{Binding SelectedTimeType, UpdateSourceTrigger=PropertyChanged}">
 					<ComboBox.ItemTemplate>

@@ -9,19 +9,19 @@
 		<Grid>
 			<StackPanel>
 				<StackPanel Orientation="Horizontal">
-					<Label Content="Точки доступа" />
+					<TextBlock Text="Точки доступа" Style="{DynamicResource TextBlockDetailsStyle}" />
 					<Views:ArgumentView DataContext="{Binding IsExportDoors}" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal">
-					<Label Content="Устройства" />
+					<TextBlock Text="Устройства" Style="{DynamicResource TextBlockDetailsStyle}" />
 					<Views:ArgumentView DataContext="{Binding IsExportDevices}" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal">
-					<Label Content="Зоны" />
+					<TextBlock Text="Зоны" Style="{DynamicResource TextBlockDetailsStyle}" />
 					<Views:ArgumentView DataContext="{Binding IsExportZones}" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal">
-					<Label Content="Путь к файлам" />
+					<TextBlock Text="Путь к файлам" Style="{DynamicResource TextBlockDetailsStyle}" />
 					<Views:ArgumentView DataContext="{Binding PathArgument}" />
 				</StackPanel>
 			</StackPanel>

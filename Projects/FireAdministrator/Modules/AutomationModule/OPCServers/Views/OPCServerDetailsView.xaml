@@ -13,9 +13,9 @@
 					<RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
-				<Label Grid.Row="0" Grid.Column="0" Content="Название" HorizontalAlignment="Left" />
+				<TextBlock Grid.Row="0" Grid.Column="0" Text="Название" HorizontalAlignment="Left" Style="{DynamicResource TextBlockDetailsStyle}" />
 				<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-                <Label Grid.Row="1" Grid.Column="0" Content="Url" HorizontalAlignment="Left" />
+				<TextBlock Grid.Row="1" Grid.Column="0" Text="Url" HorizontalAlignment="Left" Style="{DynamicResource TextBlockDetailsStyle}" />
                 <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Address, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
             </Grid>
 		</TabItem>

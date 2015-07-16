@@ -22,13 +22,13 @@
 								<RowDefinition Height="Auto" />
 								<RowDefinition Height="Auto" />
 							</Grid.RowDefinitions>
-							<Label Grid.Row="0" Grid.Column="0" Content="Номер" HorizontalAlignment="Right" Margin="2" />
+							<TextBlock Grid.Row="0" Grid.Column="0" Text="Номер" HorizontalAlignment="Right" Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" />
 							<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding No, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 
-							<Label Grid.Row="1" Grid.Column="0" Content="Название" HorizontalAlignment="Right" Margin="2" />
+							<TextBlock Grid.Row="1" Grid.Column="0" Text="Название" HorizontalAlignment="Right" Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" />
 							<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" MaxLength="20" Name="nameTextBox" Margin="2" />
 
-							<Label Grid.Row="2" Grid.Column="0" Content="Пароль" HorizontalAlignment="Right" Margin="2" />
+							<TextBlock Grid.Row="2" Grid.Column="0" Text="Пароль" HorizontalAlignment="Right" Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" />
 							<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Path=Password, UpdateSourceTrigger=PropertyChanged}" MaxLength="10" Margin="2" />
 						</Grid>
 					</StackPanel>

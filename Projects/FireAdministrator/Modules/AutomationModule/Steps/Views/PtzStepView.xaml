@@ -7,11 +7,11 @@
 	</UserControl.Resources>
 	<StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<Label Content="Камера" />
+			<TextBlock Text="Камера" Style="{DynamicResource TextBlockDetailsStyle}" />
 			<Views:ArgumentView DataContext="{Binding CameraArgument}" />
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<Label Content="Номер PTZ" />
+			<TextBlock Text="Номер PTZ" Style="{DynamicResource TextBlockDetailsStyle}" />
 			<Views:ArgumentView DataContext="{Binding PtzNumberArgument}" />
 		</StackPanel>
 	</StackPanel>

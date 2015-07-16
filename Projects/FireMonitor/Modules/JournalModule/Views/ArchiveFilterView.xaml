@@ -29,7 +29,7 @@
 			<TabItem Header="Временной диапазон" DataContext="{Binding ArchiveDateTimeViewModel}">
 				<StackPanel Margin="2">
 					<StackPanel Orientation="Horizontal" Margin="2">
-						<TextBlock Text="Интервал" Width="100" VerticalAlignment="Center" Foreground="White" />
+						<TextBlock Text="Интервал" Width="100" VerticalAlignment="Center" Style="{DynamicResource TextBlockDetailsStyle}" />
 						<ComboBox ItemsSource="{Binding ArchiveDefaultStateTypes}" SelectedItem="{Binding SelectedArchiveDefaultStateType}" Width="250">
 							<ComboBox.ItemTemplate>
 								<DataTemplate>
@@ -42,7 +42,7 @@
 					<ExtToolkit:IntegerUpDown Minimum="1" Maximum="1000" Value="{Binding Count, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding IsCountVisible, Converter={StaticResource BoolToVisibilityConverter}}" HorizontalAlignment="Left" Width="200" Margin="102 2 0 0" />
 
 					<StackPanel Orientation="Horizontal" Visibility="{Binding IsStartDateVisible, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
-						<TextBlock Text="Дата начала" Width="100" VerticalAlignment="Top" Foreground="White" />
+						<TextBlock Text="Дата начала" Width="100" VerticalAlignment="Top" Style="{DynamicResource TextBlockDetailsStyle}" />
 						<Calendar
 								DisplayDateStart="{Binding ArchiveFirstDate, Mode=OneWay}"
 								SelectedDate="{Binding StartDateTime.Date, UpdateSourceTrigger=PropertyChanged}"
@@ -52,7 +52,7 @@
 					</StackPanel>
 
 					<StackPanel Orientation="Horizontal" Visibility="{Binding IsEndDateVisible, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
-						<TextBlock Text="Дата окончания" Width="100" VerticalAlignment="Top" Foreground="White" />
+						<TextBlock Text="Дата окончания" Width="100" VerticalAlignment="Top" Style="{DynamicResource TextBlockDetailsStyle}" />
 						<Calendar
 								DisplayDateStart="{Binding ArchiveFirstDate, Mode=OneWay}"
 								SelectedDate="{Binding EndDateTime.Date, UpdateSourceTrigger=PropertyChanged}"

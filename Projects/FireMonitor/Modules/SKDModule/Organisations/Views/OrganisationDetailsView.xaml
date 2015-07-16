@@ -19,13 +19,13 @@
 					<ColumnDefinition />
 					<ColumnDefinition />
 				</Grid.ColumnDefinitions>
-				<Label Grid.Row="0" Grid.Column="0" Content="Название" Margin="2" HorizontalAlignment="Right" />
+				<TextBlock Grid.Row="0" Grid.Column="0" Text="Название" Margin="2" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
 				<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 
-				<Label Grid.Row="1" Grid.Column="0" Content="Примечание" Margin="2" HorizontalAlignment="Right" />
+				<TextBlock Grid.Row="1" Grid.Column="0" Text="Примечание" Margin="2" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
 				<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 
-				<Label Grid.Row="2" Grid.Column="0" Content="Руководитель" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="{Binding IsNew, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+				<TextBlock Grid.Row="2" Grid.Column="0" Text="Руководитель" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="{Binding IsNew, Converter={StaticResource InversedBoolToVisibilityConverter}}" Style="{DynamicResource TextBlockDetailsStyle}" />
 				<StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Visibility="{Binding IsNew, Converter={StaticResource InversedBoolToVisibilityConverter}}" >
 					<TextBlock VerticalAlignment="Center">
 						<Hyperlink Command="{Binding ChiefViewModel.SelectCommand}" Style="{StaticResource HyperlinkStyle}">
@@ -37,7 +37,7 @@
 					</TextBlock>
 				</StackPanel>
 
-				<Label Grid.Row="3" Grid.Column="0" Content="Руководитель отдела кадров" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="{Binding IsNew, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+				<TextBlock Grid.Row="3" Grid.Column="0" Text="Руководитель отдела кадров" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="{Binding IsNew, Converter={StaticResource InversedBoolToVisibilityConverter}}" Style="{DynamicResource TextBlockDetailsStyle}" />
 				<StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Visibility="{Binding IsNew, Converter={StaticResource InversedBoolToVisibilityConverter}}" >
 					<TextBlock VerticalAlignment="Center">
                         <Hyperlink Command="{Binding HRChiefViewModel.SelectCommand}" Style="{StaticResource HyperlinkStyle}">
@@ -49,7 +49,7 @@
 					</TextBlock>
 				</StackPanel>
 
-				<Label Grid.Row="4" Grid.Column="0" Content="Телефон" Margin="2" HorizontalAlignment="Right" />
+				<TextBlock Grid.Row="4" Grid.Column="0" Text="Телефон" Margin="2" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
 				<TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Phone, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 			</Grid>
 		</TabItem>

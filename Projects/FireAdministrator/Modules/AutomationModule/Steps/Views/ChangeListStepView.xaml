@@ -4,15 +4,15 @@
 	</UserControl.Resources>
 	<StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<Label Content="Список" />
+			<TextBlock Text="Список" Style="{DynamicResource TextBlockDetailsStyle}" />
 			<Views:ArgumentView DataContext="{Binding ListArgument}" />
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<Label Content="Элемнент" />
+			<TextBlock Text="Элемнент" Style="{DynamicResource TextBlockDetailsStyle}" />
 			<Views:ArgumentView DataContext="{Binding ItemArgument}" />
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<Label Content="Команда" />
+			<TextBlock Text="Команда" Style="{DynamicResource TextBlockDetailsStyle}" />
 			<ComboBox ItemsSource="{Binding ChangeTypes}" SelectedItem="{Binding SelectedChangeType, UpdateSourceTrigger=PropertyChanged}">
 				<ComboBox.ItemTemplate>
 					<DataTemplate>
