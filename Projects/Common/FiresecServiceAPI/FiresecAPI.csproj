@@ -233,6 +233,7 @@
     <Compile Include="Models\Automation\VariableScope.cs" />
     <Compile Include="Models\Automation\Variable.cs" />
     <Compile Include="Models\Automation\ExplicitType.cs" />
+    <Compile Include="Models\Plans\ElementPolygonGKDelay.cs" />
     <Compile Include="Models\Layouts\LayoutPartTextProperties.cs" />
     <Compile Include="Models\Layouts\LayoutPartTimeProperties.cs" />
     <Compile Include="Models\Layouts\LayoutPartProcedureProperties.cs" />
@@ -240,6 +241,7 @@
     <Compile Include="Models\Plans\ElementGKDoor.cs" />
     <Compile Include="Models\Plans\ElementProcedure.cs" />
     <Compile Include="Models\Plans\ElementPolygonGKGuardZone.cs" />
+    <Compile Include="Models\Plans\ElementRectangleGKDelay.cs" />
     <Compile Include="Models\Plans\ElementRectangleGKGuardZone.cs" />
     <Compile Include="Models\Plans\ElementPolygonGKSKDZone.cs" />
     <Compile Include="Models\Plans\ElementRectangleGKSKDZone.cs" />

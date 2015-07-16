@@ -77,6 +77,7 @@
     <Compile Include="Converters\ClauseJoinOperatorToColorConverter.cs" />
     <Compile Include="Converters\LibraryXStateClassToIconConverter.cs" />
     <Compile Include="Converters\XStateClassToJournalColorConverter.cs" />
+    <Compile Include="Delays\ViewModels\DelayViewModel.cs" />
     <Compile Include="Descriptors\Converters\BytesToStringConverter.cs" />
     <Compile Include="Descriptors\Converters\DescriptorNoToStringConverter.cs" />
     <Compile Include="Descriptors\Converters\NullImageConverter.cs" />
@@ -135,8 +136,10 @@
       <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Events\CreateGKCodeEvent.cs" />
+    <Compile Include="Events\CreateGKDelayEvent.cs" />
     <Compile Include="Events\CreateGKDoorEvent.cs" />
     <Compile Include="Events\CreateGKSKDZoneEvent.cs" />
+    <Compile Include="Events\EditGKDelayEvent.cs" />
     <Compile Include="Events\EditGKDoorEvent.cs" />
     <Compile Include="Events\EditGKGuardZoneEvent.cs" />
     <Compile Include="Events\CreateGKDirectionEvent.cs" />
@@ -144,6 +147,7 @@
     <Compile Include="Events\CreateGKZoneEvent.cs" />
     <Compile Include="Events\EditGKDirectionEvent.cs" />
     <Compile Include="Events\EditGKZoneEvent.cs" />
+    <Compile Include="Events\ShowGKDelayEvent.cs" />
     <Compile Include="Events\ShowGKDescriptorsEvent.cs" />
     <Compile Include="Events\ShowGKDeviceLidraryEvent.cs" />
     <Compile Include="Events\ShowGKDevicePropertiesEvent.cs" />
@@ -249,12 +253,15 @@
     <Compile Include="Parameters\ViewModels\DeviceParameterViewModel.cs" />
     <Compile Include="Plans\Designer\GKDoorPainter.cs" />
     <Compile Include="Plans\Designer\ElementDeviceUpdater.cs" />
+    <Compile Include="Plans\InstrumentAdorners\DelayPolygonAdorner.cs" />
+    <Compile Include="Plans\InstrumentAdorners\DelayRectangleAdorner.cs" />
     <Compile Include="Plans\InstrumentAdorners\GuardZonePolygonAdorner.cs" />
     <Compile Include="Plans\InstrumentAdorners\GuardZoneRectangleAdorner.cs" />
     <Compile Include="Plans\InstrumentAdorners\SKDZonePolygonAdorner.cs" />
     <Compile Include="Plans\InstrumentAdorners\SKDZoneRectangleAdorner.cs" />
     <Compile Include="Plans\InstrumentAdorners\MPTPolygonAdorner.cs" />
     <Compile Include="Plans\InstrumentAdorners\MPTRectangleAdorner.cs" />
+    <Compile Include="Plans\ViewModels\DelayPropertiesViewModel.cs" />
     <Compile Include="Plans\ViewModels\GKDoorPropertiesViewModel.cs" />
     <Compile Include="Plans\ViewModels\GuardZonePropertiesViewModel.cs" />
     <Compile Include="Plans\ViewModels\SKDZonePropertiesViewModel.cs" />
@@ -573,7 +580,6 @@
     <Compile Include="Delays\ViewModels\DelayDetailsViewModel.cs" />
     <Compile Include="Delays\ViewModels\DelaysMenuViewModel.cs" />
     <Compile Include="Delays\ViewModels\DelaysViewModel.cs" />
-    <Compile Include="Delays\ViewModels\DelayViewModel.cs" />
     <Compile Include="Delays\Views\DelayDetailsView.xaml.cs">
       <DependentUpon>DelayDetailsView.xaml</DependentUpon>
     </Compile>

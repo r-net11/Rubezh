@@ -66,6 +66,7 @@
     <Compile Include="Elements\ElementError.cs" />
     <Compile Include="Elements\IElementBase.cs" />
     <Compile Include="Elements\IElementBorder.cs" />
+    <Compile Include="Elements\IElementDelay.cs" />
     <Compile Include="Elements\IElementRectangle.cs" />
     <Compile Include="Elements\IElementDirection.cs" />
     <Compile Include="Elements\IElementBackground.cs" />
