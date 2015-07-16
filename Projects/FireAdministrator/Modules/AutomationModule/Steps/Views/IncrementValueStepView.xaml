@@ -7,11 +7,11 @@
 	</UserControl.Resources>
 	<StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<Label Content="Переменная" HorizontalAlignment="Right" />
+			<TextBlock Text="Переменная" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
 			<Views:ArgumentView DataContext="{Binding ResultArgument}" />
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<Label Content="Значение" />
+			<TextBlock Text="Значение" Style="{DynamicResource TextBlockDetailsStyle}" />
 			<ComboBox ItemsSource="{Binding IncrementTypes}" SelectedItem="{Binding SelectedIncrementType, UpdateSourceTrigger=PropertyChanged}">
 				<ComboBox.ItemTemplate>
 					<DataTemplate>

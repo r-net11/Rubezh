@@ -7,7 +7,7 @@
 	</UserControl.Resources>
 	<StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<Label Content="Результат" />
+			<TextBlock Text="Результат" Style="{DynamicResource TextBlockDetailsStyle}" />
 			<views:ArgumentView DataContext="{Binding ResultArgument}" />
 		</StackPanel>
 	</StackPanel>
