@@ -7,11 +7,11 @@
 	</UserControl.Resources>
 	<StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<Label Content="Результат" />
+			<TextBlock Text="Результат" Style="{DynamicResource TextBlockDetailsStyle}" />
 			<Views:ArgumentView DataContext="{Binding ResultArgument}" />
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<Label Content="Тип колонки" />
+			<TextBlock Text="Тип колонки" Style="{DynamicResource TextBlockDetailsStyle}" />
 			<ComboBox ItemsSource="{Binding JournalColumnTypes}" SelectedItem="{Binding SelectedJournalColumnType, UpdateSourceTrigger=PropertyChanged}">
 				<ComboBox.ItemTemplate>
 					<DataTemplate>

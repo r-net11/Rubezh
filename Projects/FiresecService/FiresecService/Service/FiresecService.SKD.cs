@@ -778,6 +778,11 @@ namespace FiresecService.Service
 
 
 		#region GKSchedule
+		/// <summary>
+		/// Получение всех графиков ГК
+		/// Список графиков един для всей системы и не зависит от конкретного ГК
+		/// </summary>
+		/// <returns></returns>
 		public OperationResult<List<GKSchedule>> GetGKSchedules()
 		{
 			using (var databaseService = new SKDDriver.DataClasses.DbService())
@@ -786,37 +791,55 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult<bool> SaveGKSchedule(GKSchedule item, bool isNew)
+		/// <summary>
+		/// Сохранить график в БД и записать во все ГК
+		/// </summary>
+		/// <param name="schedule"></param>
+		/// <param name="isNew"></param>
+		/// <returns>Возвращает False, только если произошла ошибка в БД</returns>
+		public OperationResult<bool> SaveGKSchedule(GKSchedule schedule, bool isNew)
 		{
 			if (isNew)
-				AddJournalMessage(JournalEventNameType.Добавление_нового_графика_ГК, item.Name, uid: item.UID);
+				AddJournalMessage(JournalEventNameType.Добавление_нового_графика_ГК, schedule.Name, uid: schedule.UID);
 			else
-				AddJournalMessage(JournalEventNameType.Редактирование_графика_ГК, item.Name, JournalEventDescriptionType.Редактирование, uid: item.UID);
+				AddJournalMessage(JournalEventNameType.Редактирование_графика_ГК, schedule.Name, JournalEventDescriptionType.Редактирование, uid: schedule.UID);
+
 			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
-				var dbResult = databaseService.GKScheduleTranslator.Save(item);
+				var dbResult = databaseService.GKScheduleTranslator.Save(schedule);
 				if (dbResult.HasError)
 					return OperationResult<bool>.FromError(dbResult.Error, false);
 			}
-			var result = GKScheduleHelper.AllGKSetSchedule(item);
+			var result = GKScheduleHelper.SetSchedule(schedule);
 			return OperationResult<bool>.FromError(result.Error, true);
 		}
 
-		public OperationResult<bool> DeleteGKSchedule(GKSchedule item)
+		/// <summary>
+		/// Удалить график и перезаписать все ГК
+		/// </summary>
+		/// <param name="schedule"></param>
+		/// <returns>Возвращает False, только если произошла ошибка в БД</returns>
+		public OperationResult<bool> DeleteGKSchedule(GKSchedule schedule)
 		{
-			AddJournalMessage(JournalEventNameType.Удаление_графика_ГК, item.Name, uid: item.UID);
+			AddJournalMessage(JournalEventNameType.Удаление_графика_ГК, schedule.Name, uid: schedule.UID);
+
 			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
-				var dbResult = databaseService.GKScheduleTranslator.Delete(item);
+				var dbResult = databaseService.GKScheduleTranslator.Delete(schedule);
 				if (dbResult.HasError)
 					return OperationResult<bool>.FromError(dbResult.Error, false);
 			}
-			var result = GKScheduleHelper.AllGKRemoveSchedule(item);
+			var result = GKScheduleHelper.RemoveSchedule(schedule.No);
 			return OperationResult<bool>.FromError(result.Error, true);
 		}
 		#endregion
 
 		#region GKDaySchedule
+
+		/// <summary>
+		/// Получение всех дневных графиков
+		/// </summary>
+		/// <returns></returns>
 		public OperationResult<List<GKDaySchedule>> GetGKDaySchedules()
 		{
 			using (var databaseService = new SKDDriver.DataClasses.DbService())
@@ -824,31 +847,58 @@ namespace FiresecService.Service
 				return databaseService.GKDayScheduleTranslator.Get();
 			}
 		}
-
-		public OperationResult SaveGKDaySchedule(GKDaySchedule item, bool isNew)
+		
+		/// <summary>
+		/// Редактирование дневного графика в БД и запись во все ГК
+		/// </summary>
+		/// <param name="daySchedule"></param>
+		/// <param name="isNew"></param>
+		/// <returns>Возвращает False, только если произошла ошибка в БД</returns>
+		public OperationResult<bool> SaveGKDaySchedule(GKDaySchedule daySchedule, bool isNew)
 		{
 			if (isNew)
-				AddJournalMessage(JournalEventNameType.Добавление_нового_дневного_графика_ГК, item.Name, uid: item.UID);
+				AddJournalMessage(JournalEventNameType.Добавление_нового_дневного_графика_ГК, daySchedule.Name, uid: daySchedule.UID);
 			else
-				AddJournalMessage(JournalEventNameType.Редактирование_дневного_графика_ГК, item.Name, JournalEventDescriptionType.Редактирование, uid: item.UID);
-			var result = new OperationResult();
+				AddJournalMessage(JournalEventNameType.Редактирование_дневного_графика_ГК, daySchedule.Name, JournalEventDescriptionType.Редактирование, uid: daySchedule.UID);
+
+			IEnumerable<GKSchedule> changedSchedules;
 			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
-				result = databaseService.GKDayScheduleTranslator.Save(item);
+				var saveResult = databaseService.GKDayScheduleTranslator.Save(daySchedule);
+				if (saveResult.HasError)
+					return OperationResult<bool>.FromError(saveResult.Error, false);
+
+				var schedulesResult = databaseService.GKScheduleTranslator.Get();
+				if (schedulesResult.HasError)
+					return OperationResult<bool>.FromError(schedulesResult.Error, false);
+				changedSchedules = schedulesResult.Result.Where(x => x.DayScheduleUIDs.Any(y => y == daySchedule.UID));
 			}
-			if (!result.HasError)
-				return GKScheduleHelper.AllGKSetDaySchedule(item);
-			else
-				return result;
+			return GKScheduleHelper.SetSchedules(changedSchedules);
 		}
 
-		public OperationResult DeleteGKDaySchedule(GKDaySchedule item)
+		/// <summary>
+		/// Редактирование дневного графика из БД и из всех ГК
+		/// При изменении дневного графика ГК перезаписываются все графики в ГК, в которых данный дневной график учавствовал
+		/// </summary>
+		/// <param name="daySchedule"></param>
+		/// <returns>Возвращает False, только если произошла ошибка в БД</returns>
+		public OperationResult<bool> DeleteGKDaySchedule(GKDaySchedule daySchedule)
 		{
-			AddJournalMessage(JournalEventNameType.Удаление_дневного_графика_ГК, item.Name, uid: item.UID);
+			AddJournalMessage(JournalEventNameType.Удаление_дневного_графика_ГК, daySchedule.Name, uid: daySchedule.UID);
+
+			IEnumerable<GKSchedule> changedSchedules;
 			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
-				return databaseService.GKDayScheduleTranslator.Delete(item);
+				var schedulesResult = databaseService.GKScheduleTranslator.Get();
+				if (schedulesResult.HasError)
+					return OperationResult<bool>.FromError(schedulesResult.Error, false);
+				changedSchedules = schedulesResult.Result.Where(x => x.DayScheduleUIDs.Any(y => y == daySchedule.UID));
+
+				var deleteResult = databaseService.GKDayScheduleTranslator.Delete(daySchedule);
+				if (deleteResult.HasError)
+					return OperationResult<bool>.FromError(deleteResult.Error, false);
 			}
+			return GKScheduleHelper.SetSchedules(changedSchedules);
 		}
 		#endregion
 

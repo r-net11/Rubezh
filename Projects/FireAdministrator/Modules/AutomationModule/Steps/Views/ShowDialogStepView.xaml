@@ -9,10 +9,7 @@
 		</Grid.ColumnDefinitions>
 		<Grid Grid.Column="0">
 			<Grid.Resources>
-				<Style BasedOn="{StaticResource {x:Type Label}}" TargetType="{x:Type Label}">
-					<Setter Property="Width" Value="NaN" />
-					<Setter Property="VerticalAlignment" Value="Center" />
-				</Style>
+				
 				<Style BasedOn="{StaticResource {x:Type extToolkit:IntegerUpDown}}" TargetType="{x:Type extToolkit:IntegerUpDown}">
 					<Setter Property="Width" Value="NaN" />
 					<Setter Property="VerticalAlignment" Value="Center" />
@@ -36,18 +33,21 @@
 				<ColumnDefinition Width="Auto" />
 				<ColumnDefinition Width="*" />
 			</Grid.ColumnDefinitions>
-			<Label Grid.Row="0" Grid.Column="0" Content="Макет окна" />
-			<Label Grid.Row="1" Grid.Column="0" Content="Заголовок" />
-			<Label Grid.Row="2" Grid.Column="0" Content="Модальное окно" />
-			<Label Grid.Row="2" Grid.Column="2" Content="Всем клиентам" />
-			<Label Grid.Row="3" Grid.Column="0" Content="Можно закрывать" />
-			<Label Grid.Row="3" Grid.Column="2" Content="Можно разворачивать" />
-			<Label Grid.Row="4" Grid.Column="0" Content="Поверх всех" />
-			<Label Grid.Row="4" Grid.Column="2" Content="Фиксированный размер" />
-			<Label Grid.Row="5" Grid.Column="2" Content="Ширина" />
-			<Label Grid.Row="6" Grid.Column="2" Content="Высота" />
-			<Label Grid.Row="5" Grid.Column="0" Content="Мин. ширина" />
-			<Label Grid.Row="6" Grid.Column="0" Content="Мин. высота" />
+			<!--Zemskov_question-->
+			
+			<TextBlock Grid.Row="0" Grid.Column="0" Style="{DynamicResource ShowDialogStepView}" Text="Макет окна" />
+			<TextBlock Grid.Row="1" Grid.Column="0" Style="{DynamicResource ShowDialogStepView}" Text="Заголовок" />
+			<TextBlock Grid.Row="2" Grid.Column="0" Style="{DynamicResource ShowDialogStepView}" Text="Модальное окно" />
+			<TextBlock Grid.Row="2" Grid.Column="2" Style="{DynamicResource ShowDialogStepView}" Text="Всем клиентам" />
+			<TextBlock Grid.Row="3" Grid.Column="0" Style="{DynamicResource ShowDialogStepView}" Text="Можно закрывать" />
+			<TextBlock Grid.Row="3" Grid.Column="2" Style="{DynamicResource ShowDialogStepView}" Text="Можно разворачивать" />
+			<TextBlock Grid.Row="4" Grid.Column="0" Style="{DynamicResource ShowDialogStepView}" Text="Поверх всех" />
+			<TextBlock Grid.Row="4" Grid.Column="2" Style="{DynamicResource ShowDialogStepView}" Text="Фиксированный размер" />
+			<TextBlock Grid.Row="5" Grid.Column="2" Style="{DynamicResource ShowDialogStepView}" Text="Ширина" />
+			<TextBlock Grid.Row="6" Grid.Column="2" Style="{DynamicResource ShowDialogStepView}" Text="Высота" />
+			<TextBlock Grid.Row="5" Grid.Column="0" Style="{DynamicResource ShowDialogStepView}" Text="Мин. ширина" />
+			<TextBlock Grid.Row="6" Grid.Column="0" Style="{DynamicResource ShowDialogStepView}" Text="Мин. высота" />
+			
 			<ComboBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" HorizontalAlignment="Left" VerticalAlignment="Center" ItemsSource="{Binding Layouts}" SelectedItem="{Binding SelectedLayout}">
 				<ComboBox.ItemTemplate>
 					<DataTemplate>

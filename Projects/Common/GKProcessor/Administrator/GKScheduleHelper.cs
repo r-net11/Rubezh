@@ -10,10 +10,15 @@ namespace GKProcessor
 {
 	public static class GKScheduleHelper
 	{
-		public static OperationResult<bool> GKRewriteAllSchedules(GKDevice device)
+		/// <summary>
+		/// Перезаписать вае графики конкретного ГК
+		/// </summary>
+		/// <param name="device"></param>
+		/// <returns></returns>
+		public static OperationResult<bool> RewriteAllSchedules(GKDevice device)
 		{
 			var progressCallback = GKProcessorManager.StartProgress("Перезапись графиков в " + device.PresentationName, "Стирание графиков", 1, false, GKProgressClientType.Administrator);
-			var removeResult = GKRemoveAllSchedules(device);
+			var removeResult = RemoveAllSchedules(device);
 			if (removeResult.HasError)
 				return OperationResult<bool>.FromError(removeResult.Errors);
 
@@ -21,11 +26,11 @@ namespace GKProcessor
 			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
 				var schedulesResult = databaseService.GKScheduleTranslator.Get();
-				if(schedulesResult.HasError)
+				if (schedulesResult.HasError)
 					return OperationResult<bool>.FromError(schedulesResult.Errors);
 				schedules = schedulesResult.Result;
 			}
-			
+
 			progressCallback = GKProcessorManager.StartProgress("Запись графиков в " + device.PresentationName, "", schedules.Count + 1, false, GKProgressClientType.Administrator);
 			var emptySchedule = new GKSchedule();
 			emptySchedule.Name = "Никогда";
@@ -46,7 +51,12 @@ namespace GKProcessor
 			return new OperationResult<bool>(true);
 		}
 
-		static OperationResult<bool> GKRemoveAllSchedules(GKDevice device)
+		/// <summary>
+		/// Стереть все графики конкретного ГК
+		/// </summary>
+		/// <param name="device"></param>
+		/// <returns></returns>
+		static OperationResult<bool> RemoveAllSchedules(GKDevice device)
 		{
 			for (int no = 1; no <= 255; no++)
 			{
@@ -67,7 +77,13 @@ namespace GKProcessor
 			return new OperationResult<bool>(true);
 		}
 
-		public static OperationResult<bool> GKSetSchedule(GKDevice device, GKSchedule schedule)
+		/// <summary>
+		/// Записать график в конкретный ГК
+		/// </summary>
+		/// <param name="device"></param>
+		/// <param name="schedule"></param>
+		/// <returns></returns>
+		static OperationResult<bool> GKSetSchedule(GKDevice device, GKSchedule schedule)
 		{
 			var count = 0;
 			var daySchedules = new List<GKDaySchedule>();
@@ -189,7 +205,12 @@ namespace GKProcessor
 			return new OperationResult<bool>(true);
 		}
 
-		public static OperationResult AllGKSetSchedule(GKSchedule schedule)
+		/// <summary>
+		/// Записать один график во все ГК
+		/// </summary>
+		/// <param name="schedule"></param>
+		/// <returns></returns>
+		public static OperationResult SetSchedule(GKSchedule schedule)
 		{
 			try
 			{
@@ -207,41 +228,46 @@ namespace GKProcessor
 			}
 		}
 
-		public static OperationResult AllGKSetDaySchedule(GKDaySchedule daySchedule)
+		/// <summary>
+		/// Записать несколько графиков во все ГК
+		/// </summary>
+		/// <param name="daySchedule"></param>
+		/// <returns>true всегда</returns>
+		public static OperationResult<bool> SetSchedules(IEnumerable<GKSchedule> schedules)
 		{
 			try
 			{
-				using (var dbService = new SKDDriver.DataClasses.DbService())
+				var operationResult = new OperationResult<bool>(true);
+				foreach (var device in GKManager.Devices.Where(x => x.DriverType == GKDriverType.GK))
 				{
-					var schedulesResult = dbService.GKScheduleTranslator.Get();
-					if (schedulesResult.HasError)
-						return new OperationResult(schedulesResult.Error);
-					var schedules = schedulesResult.Result.Where(x => x.DayScheduleUIDs.Any(y => y == daySchedule.UID));
 					foreach (var schedule in schedules)
 					{
-						var result = AllGKSetSchedule(schedule);
+						var result = GKSetSchedule(device, schedule);
 						if (result.HasError)
-							return new OperationResult(result.Error);
+						{
+							operationResult.Errors.AddRange(result.Errors);
+							break;
+						}
 					}
-					return new OperationResult();
 				}
+				return operationResult;
 			}
 			catch (Exception e)
 			{
-				return new OperationResult(e.Message);
+				return OperationResult<bool>.FromError(e.Message, true);
 			}
 		}
 
-		public static OperationResult AllGKRemoveSchedule(GKSchedule schedule)
+		/// <summary>
+		/// Стереть график из всех ГК
+		/// </summary>
+		/// <param name="schedule"></param>
+		/// <returns></returns>
+		public static OperationResult RemoveSchedule(int scheduleNo)
 		{
-			try
-			{
-				return new OperationResult();
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
-		}			
+			var schedule = new GKSchedule();
+			schedule.No = scheduleNo;
+			return SetSchedule(schedule);
+		}
 	}
 }

@@ -11,7 +11,7 @@
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 		<StackPanel Grid.Row="0" Orientation="Horizontal">
-			<Label Content="Процедура" />
+			<TextBlock Text="Процедура" Style="{DynamicResource TextBlockDetailsStyle}" />
 			<ComboBox VerticalAlignment="Top" ItemsSource="{Binding ScheduleProcedures}" SelectedItem="{Binding SelectedScheduleProcedure}">
 				<ComboBox.ItemTemplate>
 					<DataTemplate>

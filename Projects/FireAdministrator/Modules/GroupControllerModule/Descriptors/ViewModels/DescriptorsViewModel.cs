@@ -41,7 +41,7 @@ namespace GKModule.ViewModels
 
 					using (var s = new StreamWriter(@"C:\1.txt", true, Encoding.GetEncoding("Windows-1251")))
 					{
-						s.WriteLine(descriptor.GKBase.PresentationName + " " + BitConverter.ToString(descriptor.FormulaBytes.ToArray()));
+						s.WriteLine(descriptor.GKBase.PresentationName + " " + BitConverter.ToString(descriptor.AllBytes.ToArray()));
 					}
 
 					#endregion

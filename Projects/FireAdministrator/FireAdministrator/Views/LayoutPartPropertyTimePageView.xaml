@@ -21,18 +21,18 @@
 				<RowDefinition Height="*" />
 			</Grid.RowDefinitions>
 
-			<Label Grid.Row="0" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Формат" />
-			<Label Grid.Row="1" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Выравнивать по горизонтали" />
-			<Label Grid.Row="2" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Выравнивать по вертикали" />
-			<Label Grid.Row="3" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Цвет текста" />
-			<Label Grid.Row="4" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Цвет фона" />
-			<Label Grid.Row="5" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Цвет границы" />
-			<Label Grid.Row="6" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Ширина границы" />
-			<Label Grid.Row="7" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Размер шрифта" />
-			<Label Grid.Row="8" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Шрифт" />
-			<Label Grid.Row="9" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Жирный" />
-			<Label Grid.Row="10" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Курсив" />
-			<Label Grid.Row="11" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Растянуть" />
+			<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" Text="Формат" />
+			<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" Text="Выравнивать по горизонтали" />
+			<TextBlock Grid.Row="2" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" Text="Выравнивать по вертикали" />
+			<TextBlock Grid.Row="3" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" Text="Цвет текста" />
+			<TextBlock Grid.Row="4" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" Text="Цвет фона" />
+			<TextBlock Grid.Row="5" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" Text="Цвет границы" />
+			<TextBlock Grid.Row="6" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" Text="Ширина границы" />
+			<TextBlock Grid.Row="7" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" Text="Размер шрифта" />
+			<TextBlock Grid.Row="8" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" Text="Шрифт" />
+			<TextBlock Grid.Row="9" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" Text="Жирный" />
+			<TextBlock Grid.Row="10" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" Text="Курсив" />
+			<TextBlock Grid.Row="11" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" Text="Растянуть" />
 
 			<ComboBox Grid.Row="0" Grid.Column="1" Margin="2" ItemsSource="{Binding Formats}" SelectedItem="{Binding Format, UpdateSourceTrigger=PropertyChanged}" />
 			<ComboBox Grid.Row="1" Grid.Column="1" Margin="2" ItemsSource="{Binding HorizontalAlignments}" SelectedIndex="{Binding HorizontalAlignment, UpdateSourceTrigger=PropertyChanged}" />

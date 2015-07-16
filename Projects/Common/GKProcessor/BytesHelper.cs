@@ -20,7 +20,7 @@ namespace GKProcessor
 		public static List<byte> StringDescriptionToBytes(string str, int length = 32)
 		{
 			if (str == null)
-				return new List<byte>();
+				str = "";
 			if (str.Length > length)
 				str = str.Substring(0, length);
 			var bytes = Encoding.GetEncoding(1251).GetBytes(str).ToList();
