@@ -13,30 +13,28 @@ using System.Text.RegularExpressions;
 
 namespace GKModule.ViewModels
 {
-	class AccessDetailsUserReflectionViewModel : SaveCancelDialogViewModel
+	class ReflectionUserDetailsViewModel : SaveCancelDialogViewModel
 	{
 		public MirrorUser MirrorUser { get; set; }
 		private ObservableCollection<MirrorUserNewModel> _mirrorUsers;
-		public AccessDetailsUserReflectionViewModel(ObservableCollection<MirrorUserNewModel> mirrorUsers ,MirrorUser mirrorUser = null)
+		public ReflectionUserDetailsViewModel(ObservableCollection<MirrorUserNewModel> mirrorUsers, MirrorUser mirrorUser = null)
 		{
 			_mirrorUsers = new ObservableCollection<MirrorUserNewModel>(mirrorUsers);
+			 GKCardTypes = new ObservableCollection<GKCardType>(Enum.GetValues(typeof(GKCardType)).OfType<GKCardType>());
 			if (mirrorUser == null)
 			{
 				Title = "Создание доступа для пользователя";
-				mirrorUser = new MirrorUser() { DateEndAccess = DateTime.Now.AddYears(1)};
+				mirrorUser = new MirrorUser();
 				DateEndAccess = mirrorUser.DateEndAccess;
 			}
 			else	
-			{
-				Name = mirrorUser.Name;
-				Password = mirrorUser.Password;
-				DateEndAccess = mirrorUser.DateEndAccess;
-				SelectedGKCardType = mirrorUser.Type;	
+			{	
 				Title = string.Format("Редактирование пользователя: {0}", mirrorUser.Name);
 			}
-
-			GKCardTypes = new ObservableCollection<GKCardType>(Enum.GetValues(typeof(GKCardType)).OfType<GKCardType>());
-			
+			Name = mirrorUser.Name;
+			Password = mirrorUser.Password;
+			DateEndAccess = mirrorUser.DateEndAccess;
+			SelectedGKCardType = mirrorUser.Type;
 		}
 		public ObservableCollection<GKCardType> GKCardTypes { get; private set; }
 

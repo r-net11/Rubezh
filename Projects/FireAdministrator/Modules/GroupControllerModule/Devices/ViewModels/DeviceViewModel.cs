@@ -514,7 +514,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowAccessUserReflectionCommand { get; private set; }
 		void ShowAccessUserReflection()
 		{
-			var accessUserReflrctionViewModel = new AccessUserReflrctionViewModel(Device);
+			var accessUserReflrctionViewModel = new ReflectionUsersViewModel(Device);
 			DialogService.ShowModalWindow(accessUserReflrctionViewModel);
 			ServiceFactory.SaveService.GKChanged = true;			
 		}

@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace GKModule.Views
 {
 	/// <summary>
-	/// Interaction logic for NewUserReflrctionView.xaml
+	/// Interaction logic for OPCMenuView.xaml
 	/// </summary>
-	public partial class AccessUserReflrctionView : UserControl
+	public partial class OPCMenuView : UserControl
 	{
-		public AccessUserReflrctionView()
+		public OPCMenuView()
 		{
 			InitializeComponent();
 		}

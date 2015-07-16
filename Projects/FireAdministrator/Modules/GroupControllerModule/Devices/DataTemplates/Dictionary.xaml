@@ -56,12 +56,12 @@
         <Views:ReflectionView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:AccessUserReflrctionViewModel}">
-        <Views:AccessUserReflrctionView />
+    <DataTemplate DataType="{x:Type ViewModels:ReflectionUsersViewModel}">
+        <Views:ReflectionUsersView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:AccessDetailsUserReflectionViewModel}">
-        <Views:AccessDetailsUserReflectionView />
+    <DataTemplate DataType="{x:Type ViewModels:ReflectionUserDetailsViewModel}">
+        <Views:ReflectionUserDetailsView />
     </DataTemplate>
 
 </ResourceDictionary>

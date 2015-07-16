@@ -42,9 +42,7 @@ namespace GKModule
         SKDZonesViewModel SKDZonesViewModel;
         LibraryViewModel DeviceLidraryViewModel;
         InstructionsViewModel InstructionsViewModel;
-        OPCDevicesViewModel OPCDevicesViewModel;
-        OPCZonesViewModel OPCZonesViewModel;
-        OPCDirectionsViewModel OPCDirectionsViewModel;
+		OPCsViewModel OPCViewModel;
         DescriptorsViewModel DescriptorsViewModel;
         DiagnosticsViewModel DiagnosticsViewModel;
         GKPlanExtension _planExtension;
@@ -81,9 +79,7 @@ namespace GKModule
             SKDZonesViewModel = new SKDZonesViewModel();
             DeviceLidraryViewModel = new LibraryViewModel();
             InstructionsViewModel = new InstructionsViewModel();
-            OPCDevicesViewModel = new OPCDevicesViewModel();
-            OPCZonesViewModel = new OPCZonesViewModel();
-            OPCDirectionsViewModel = new OPCDirectionsViewModel();
+			OPCViewModel = new OPCsViewModel();
             DescriptorsViewModel = new DescriptorsViewModel();
             DiagnosticsViewModel = new DiagnosticsViewModel();
             _planExtension = new GKPlanExtension(DevicesViewModel, ZonesViewModel, GuardZonesViewModel, SKDZonesViewModel, DelaysViewModel, DirectionsViewModel, MPTsViewModel, DoorsViewModel);
@@ -103,9 +99,7 @@ namespace GKModule
             DoorsViewModel.Initialize();
             SKDZonesViewModel.Initialize();
             InstructionsViewModel.Initialize();
-            OPCDevicesViewModel.Initialize();
-            OPCZonesViewModel.Initialize();
-            OPCDirectionsViewModel.Initialize();
+			OPCViewModel.Initialize();
 
             _planExtension.Initialize();
             ServiceFactory.Events.GetEvent<RegisterPlanExtensionEvent<Plan>>().Publish(_planExtension);
@@ -141,13 +135,8 @@ namespace GKModule
 					new NavigationItem<ShowGKInstructionsEvent, Guid>(InstructionsViewModel, "Инструкции", "information", null, null, Guid.Empty),
 					new NavigationItem<ShowGKDescriptorsEvent, object>(DescriptorsViewModel, "Дескрипторы", "Descriptors"),
 #if DEBUG
-					new NavigationItem("OPC Сервер", "tree",
-						new List<NavigationItem>()
-						{
-							new NavigationItem<ShowGKOPCDevicesEvent, Guid>(OPCDevicesViewModel, "Устройства", "tree", null, null, Guid.Empty),
-							new NavigationItem<ShowGKOPCZonesEvent, Guid>(OPCZonesViewModel, "Зоны", "Zones", null, null, Guid.Empty),
-							new NavigationItem<ShowGKOPCDirectionsEvent, Guid>(OPCDirectionsViewModel, "Направления", "Direction", null, null, Guid.Empty),
-						}),
+					new NavigationItem<ShowGKOPCDevicesEvent, Guid>(OPCViewModel,"OPC Сервер", "tree", null, null, Guid.Empty),
+						
 					new NavigationItem<ShowGKDeviceLidraryEvent, object>(DeviceLidraryViewModel, "Библиотека", "Book"),
 #endif
 					new NavigationItem<ShowGKDiagnosticsEvent, object>(DiagnosticsViewModel, "Диагностика", "Bug"),
