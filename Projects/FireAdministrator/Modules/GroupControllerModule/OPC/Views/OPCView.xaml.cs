@@ -2,9 +2,9 @@
 
 namespace GKModule.Views
 {
-	public partial class OPCDirectionsView : UserControl
+	public partial class OPCView : UserControl
 	{
-		public OPCDirectionsView()
+		public OPCView()
 		{
 			InitializeComponent();
 		}

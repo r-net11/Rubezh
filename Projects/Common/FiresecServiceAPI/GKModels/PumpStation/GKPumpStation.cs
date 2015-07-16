@@ -160,7 +160,7 @@ namespace FiresecAPI.GK
 		[XmlIgnore]
 		public override string ImageSource
 		{
-			get { return "/Controls;component/Images/PumpStation.png"; }
+			get { return "/Controls;component/Images/BPumpStation.png"; }
 		}
 	}
 }

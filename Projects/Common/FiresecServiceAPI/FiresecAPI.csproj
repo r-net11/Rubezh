@@ -150,6 +150,7 @@
     <Compile Include="CallbackOperationResult.cs" />
     <Compile Include="GKModels\Configuration\GKNameGenerationType.cs" />
     <Compile Include="GKModels\CurrentConsumption\CurrentConsumption.cs" />
+    <Compile Include="GKModels\OPC\OPCSettings.cs" />
     <Compile Include="GKModels\Reflection\GKReflectionItem.cs" />
     <Compile Include="GKModels\GKPropertyChangedCallback.cs" />
     <Compile Include="GKModels\Guard\GKDeviceGuardZone.cs" />

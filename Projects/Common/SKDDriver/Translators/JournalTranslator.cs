@@ -282,9 +282,10 @@ namespace SKDDriver.DataClasses
 			{
 				result = result.Where(x => filter.ObjectUIDs.Contains(x.ObjectUID));
 			}
-			if (filter.ObjectUIDs.Count > 0)
+			if (filter.EmployeeUIDs.Count > 0)
 			{
-				result = result.Where(x => filter.ObjectUIDs.Contains(x.ObjectUID));
+				result = result.Where(x => filter.EmployeeUIDs.Contains(x.ObjectUID) ||
+					(x.EmployeeUID != null && filter.EmployeeUIDs.Contains(x.EmployeeUID.Value)));
 			}
 			if(filter.UseDeviceDateTime)
 			{

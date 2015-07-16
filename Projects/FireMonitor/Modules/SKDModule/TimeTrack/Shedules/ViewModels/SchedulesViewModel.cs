@@ -12,7 +12,8 @@ using SKDModule.Events;
 
 namespace SKDModule.ViewModels
 {
-	public class SchedulesViewModel : OrganisationBaseViewModel<Schedule, ScheduleFilter, ScheduleViewModel, ScheduleDetailsViewModel>, ISelectable<Guid>, ITimeTrackItemsViewModel, ICardDoorsParentList<ScheduleViewModel>
+	public class SchedulesViewModel 
+		: OrganisationBaseViewModel<Schedule, ScheduleFilter, ScheduleViewModel, ScheduleDetailsViewModel>, ISelectable<Guid>, ITimeTrackItemsViewModel, ICardDoorsParentList<ScheduleViewModel>
 	{
 		bool _isInitialized;
 		ChangeIsDeletedSubscriber _changeIsDeletedSubscriber;

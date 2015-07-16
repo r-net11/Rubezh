@@ -92,9 +92,9 @@
     <Compile Include="Descriptors\Views\DescriptorsMenuView.xaml.cs">
       <DependentUpon>DescriptorsMenuView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Devices\MirrorUserNewModel.cs" />
-    <Compile Include="Devices\ViewModels\AccessDetailsUserReflectionViewModel .cs" />
-    <Compile Include="Devices\ViewModels\AccessUserReflrctionViewModel.cs" />
+    <Compile Include="Devices\ViewModels\MirrorUserNewModel.cs" />
+    <Compile Include="Devices\ViewModels\ReflectionUserDetailsViewModel.cs" />
+    <Compile Include="Devices\ViewModels\ReflectionUsersViewModel.cs" />
     <Compile Include="Devices\ViewModels\AutoSearchDevicesViewModel.cs" />
     <Compile Include="Devices\ViewModels\DevicesListViewModel.cs" />
     <Compile Include="Devices\ViewModels\DevicesOnShleifViewModel.cs" />
@@ -111,8 +111,8 @@
     <Compile Include="Devices\ViewModels\NewDeviceViewModelBase.cs" />
     <Compile Include="Devices\ViewModels\SettingsViewModel.cs" />
     <Compile Include="Devices\ViewModels\UpdatedDeviceViewModel.cs" />
-    <Compile Include="Devices\Views\AccessDetailsUserReflrctionView.xaml.cs">
-      <DependentUpon>AccessDetailsUserReflrctionView.xaml</DependentUpon>
+    <Compile Include="Devices\Views\ReflectionUserDetailsView.xaml.cs">
+      <DependentUpon>ReflectionUserDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\AutoSearchDevicesView.xaml.cs">
       <DependentUpon>AutoSearchDevicesView.xaml</DependentUpon>
@@ -132,8 +132,8 @@
     <Compile Include="Devices\Views\Logic\ClausesView.xaml.cs">
       <DependentUpon>ClausesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Devices\Views\AccessUserReflrctionView.xaml.cs">
-      <DependentUpon>AccessUserReflrctionView.xaml</DependentUpon>
+    <Compile Include="Devices\Views\ReflectionUsersView.xaml.cs">
+      <DependentUpon>ReflectionUsersView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\ReflectionView.xaml.cs">
       <DependentUpon>ReflectionView.xaml</DependentUpon>
@@ -259,6 +259,15 @@
     <Compile Include="MPTs\Views\MPTDeviceTypeSelectationView.xaml.cs">
       <DependentUpon>MPTDeviceTypeSelectationView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="OPC\ViewModels\OPCDetailsViewModel.cs" />
+    <Compile Include="OPC\ViewModels\OPCItemViewModel.cs" />
+    <Compile Include="OPC\ViewModels\OPCMenuViewModel.cs" />
+    <Compile Include="OPC\Views\OPCDetailsView.xaml.cs">
+      <DependentUpon>OPCDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OPC\Views\OPCMenuView.xaml.cs">
+      <DependentUpon>OPCMenuView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Parameters\ViewModels\DeviceParameterViewModel.cs" />
     <Compile Include="Plans\Designer\GKDoorPainter.cs" />
     <Compile Include="Plans\Designer\ElementDeviceUpdater.cs" />
@@ -346,17 +355,12 @@
     <Compile Include="PumpStation\Views\PumpStationsView.xaml.cs">
       <DependentUpon>PumpStationsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="OPC\ViewModels\OPCDevicesViewModel.cs" />
-    <Compile Include="OPC\ViewModels\OPCDirectionsViewModel.cs" />
-    <Compile Include="OPC\ViewModels\OPCZonesViewModel.cs" />
+    <Compile Include="OPC\ViewModels\OPCsViewModel.cs" />
     <Compile Include="OPC\Views\OPCDevicesView.xaml.cs">
       <DependentUpon>OPCDevicesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="OPC\Views\OPCDirectionsView.xaml.cs">
-      <DependentUpon>OPCDirectionsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="OPC\Views\OPCZonesView.xaml.cs">
-      <DependentUpon>OPCZonesView.xaml</DependentUpon>
+    <Compile Include="OPC\Views\OPCView.xaml.cs">
+      <DependentUpon>OPCView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Parameters\Converters\DeviceParameterMissmatchTypeToColorConverter.cs" />
     <Compile Include="Parameters\Converters\DeviceParameterMissmatchTypeToColorConverter2.cs" />
@@ -650,7 +654,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Devices\Views\AccessDetailsUserReflrctionView.xaml">
+    <Page Include="Devices\Views\ReflectionUserDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -682,7 +686,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Devices\Views\AccessUserReflrctionView.xaml">
+    <Page Include="Devices\Views\ReflectionUsersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -777,6 +781,14 @@
     <Page Include="OPC\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="OPC\Views\OPCDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="OPC\Views\OPCMenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Plans\Views\GKDoorPropertiesView.xaml">
       <SubType>Designer</SubType>
@@ -898,11 +910,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="OPC\Views\OPCDirectionsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="OPC\Views\OPCZonesView.xaml">
+    <Page Include="OPC\Views\OPCView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

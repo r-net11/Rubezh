@@ -145,8 +145,6 @@ namespace SKDModule.ViewModels
 			get { return FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_DaySchedules_Edit; }
 		}
 
-
-
 		protected override List<DayInterval> GetFromCallbackResult(FiresecAPI.DbCallbackResult dbCallbackResult)
 		{
 			return dbCallbackResult.DayIntervals;

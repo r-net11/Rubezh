@@ -50,20 +50,26 @@ namespace SKDDriver.DataClasses
 
 		protected override FiresecAPI.OperationResult<bool> CanSave(API.Holiday item)
 		{
-			var result = base.CanSave(item);
-			if (result.HasError)
-				return result;
+			if (item == null)
+				return OperationResult<bool>.FromError("Попытка сохранить пустую запись");
+			if (item.OrganisationUID == Guid.Empty)
+				return OperationResult<bool>.FromError("Не указана организация");
+			int year = item.Date.Year;
+			bool hasSameName = Table.Any(x => x.Name == item.Name &&
+				x.OrganisationUID == item.OrganisationUID &&
+				x.UID != item.UID &&
+				x.Date.Year == year &&
+				!x.IsDeleted);
+			if (hasSameName)
+				return OperationResult<bool>.FromError("Запись с таким же названием уже существует");
 			if (item.Reduction.TotalHours > 2)
 				return OperationResult<bool>.FromError("Величина сокращения не может быть больше двух часов");
-			int year = item.Date.Year;
 			if (Table.Any(x => x.UID != item.UID 
 				&& x.OrganisationUID == item.OrganisationUID 
 				&& x.Date.Year == year
 				&& !x.IsDeleted
 				&& x.Date == item.Date))
 				return OperationResult<bool>.FromError("Дата сокращённого дня совпадает с введенной ранее");
-			bool hasSameName = Table.Any(x => x.OrganisationUID == item.OrganisationUID && x.UID != item.UID && !x.IsDeleted && x.Name == item.Name 
-				&& x.Date.Year == year);
 			if (hasSameName)
 				return OperationResult<bool>.FromError("Сокращённый день с таким же названием уже содержится в базе данных");
 			return new OperationResult<bool>();

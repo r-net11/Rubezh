@@ -34,7 +34,7 @@ namespace SKDDriver.DataClasses
 			var result = base.Translate(tableItem);
             if (result == null)
                 return null;
-			result.SlideTime = TimeSpan.FromTicks(tableItem.SlideTime);
+			result.SlideTime = TimeSpan.FromSeconds(tableItem.SlideTime);
 			result.DayIntervalParts = tableItem.DayIntervalParts.Select(x => TranslatePart(x)).ToList();
 			return result;
 		}

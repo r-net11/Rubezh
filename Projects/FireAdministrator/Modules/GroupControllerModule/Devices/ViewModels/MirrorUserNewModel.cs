@@ -34,9 +34,8 @@ namespace GKModule.ViewModels
 		{
 			MirrorUser = mirrorUser;
 			OnPropertyChanged(() => MirrorUser.Name);
-			OnPropertyChanged(() => MirrorUser.Type);
 			OnPropertyChanged(() => MirrorUser.Password);
-		
+			OnPropertyChanged(() => MirrorUser.Type);	
 		}
 
 	}

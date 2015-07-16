@@ -8,6 +8,10 @@ namespace FiresecAPI.GK
 {
 	public class MirrorUser 
 	{
+		public MirrorUser()
+		{
+			DateEndAccess = DateTime.Now.AddYears(1);
+		}
 
 		public string Name { get; set;}
 

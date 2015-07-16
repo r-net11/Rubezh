@@ -17,9 +17,9 @@ namespace GKModule.Views
 	/// <summary>
 	/// Interaction logic for AccessDetailsUserReflrctionViewModel.xaml
 	/// </summary>
-	public partial class AccessDetailsUserReflectionView : UserControl
+	public partial class ReflectionUserDetailsView : UserControl
 	{
-		public AccessDetailsUserReflectionView()
+		public ReflectionUserDetailsView()
 		{
 			InitializeComponent();
 		}

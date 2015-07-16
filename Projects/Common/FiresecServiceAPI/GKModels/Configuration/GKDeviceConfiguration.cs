@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FiresecAPI.GKModels.OPC;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -24,6 +25,7 @@ namespace FiresecAPI.GK
 			Codes = new List<GKCode>();
 			Doors = new List<GKDoor>();
 			SKDZones = new List<GKSKDZone>();
+			OPCSettings = new OPCSettings();
 
 			Instructions = new List<GKInstruction>();
 			ParameterTemplates = new List<GKParameterTemplate>();
@@ -110,6 +112,9 @@ namespace FiresecAPI.GK
 		/// </summary>
 		[DataMember]
 		public GKNameGenerationType GKNameGenerationType { get; set; }
+
+		[DataMember]
+		public OPCSettings OPCSettings { get; set; }
 
 		public void Update()
 		{
