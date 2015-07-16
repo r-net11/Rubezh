@@ -165,6 +165,9 @@ namespace GKProcessor
 			{
 				return;
 			}
+
+			Device.Properties = (from i in Device.Driver.Properties join o in Device.Properties on i.Name equals o.Name select o).ToList();
+
 			foreach (var property in Device.Properties)
 			{
 				var driverProperty = Device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
