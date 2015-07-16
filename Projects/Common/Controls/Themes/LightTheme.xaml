@@ -56,9 +56,9 @@
 	<SolidColorBrush Color="#39495C" x:Key="ButtonBackgroundColor" />
 	<SolidColorBrush Color="#39495C" x:Key="ButtonBackgroundColorDark" />
 	<SolidColorBrush Color="#39495C" x:Key="ButtonBackgroundColorBlue" />
-	<SolidColorBrush Color="#39495C" x:Key="ForegroundColorLight" />
-	<SolidColorBrush Color="#39495C" x:Key="ForegroundColorDark" />
-	<SolidColorBrush Color="#39495C" x:Key="ForegroundColorWhite" />
+	<SolidColorBrush Color="#FA0000" x:Key="ForegroundColorLight" />
+	<SolidColorBrush Color="#25F700" x:Key="ForegroundColorDark" />
+	<SolidColorBrush Color="#FF00F4" x:Key="ForegroundColorWhite" />
 	<SolidColorBrush Color="#FF0000" x:Key="ButtonBackgroundColorRed" />
 	<SolidColorBrush Color="#FFFFFF" x:Key="PressedForegroungBrush" />
 

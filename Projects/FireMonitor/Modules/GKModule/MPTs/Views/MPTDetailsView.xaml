@@ -26,7 +26,7 @@
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
 								<Image Source="{Binding ., Converter={StaticResource XStateClassToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
-								<TextBlock Text="{Binding ., Converter={StaticResource XStateClassToStringConverter}}" VerticalAlignment="Center" Foreground="White" Margin="5, 1, 1, 1" />
+								<TextBlock Text="{Binding ., Converter={StaticResource XStateClassToStringConverter}}" VerticalAlignment="Center" Style="{DynamicResource TextBlockDetailsStyle}" Margin="5, 1, 1, 1" />
 							</StackPanel>
 						</DataTemplate>
 					</ItemsControl.ItemTemplate>

@@ -1,15 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-	<DrawingBrush x:Key="BUpdateDeviceSettings" Stretch="Uniform">
+	<DrawingBrush x:Key="BUpdateDeviceUsers" Stretch="Uniform">
 		<DrawingBrush.Drawing>
 			<DrawingGroup>
 				<DrawingGroup.Children>
-					<GeometryDrawing Brush="{DynamicResource ButtonBackground_1}" Geometry="F1 M 69.7713,26.7733C 69.7713,41.56 57.782,53.5507 42.994,53.5507C 28.21,53.5507 16.222,41.56 16.222,26.7733C 16.222,11.9893 28.21,0 42.994,0C 57.782,0 69.7713,11.9893 69.7713,26.7733 Z "/>
-					<GeometryDrawing Brush="{DynamicResource ButtonBackground_1}" Geometry="F1 M 96.5604,45.6125L 98.4457,43.7272C 100.788,41.3832 100.788,37.5845 98.4457,35.2419C 96.1031,32.8992 92.3044,32.8992 89.9604,35.2419L 88.0751,37.1285L 96.5604,45.6125 Z "/>
-					<GeometryDrawing Brush="{DynamicResource ButtonBackground_1}" Geometry="F1 M 54.1347,91.8104L 53.72,92.2251L 53.1707,92.4277L 39.6787,97.401L 34.2347,99.4077L 36.2573,93.9691L 41.264,80.5091L 41.4667,79.9651L 41.8787,79.5544L 70.5787,50.8531C 69.9,50.1758 69.208,49.5224 68.496,48.8971C 62.3053,56.0317 53.1787,60.5464 42.9947,60.5464C 32.9693,60.5464 23.968,56.1717 17.7827,49.2304C 7.00533,58.9251 0,74.8277 0,92.3624C 0,94.6144 0.151998,96.7637 0.374667,99.5344L 86.2507,99.5344C 86.4747,96.7637 86.6253,94.5251 86.6253,92.273C 86.6253,82.4997 84.44,73.2517 80.6453,65.2997L 54.1347,91.8104 Z "/>
-					<GeometryDrawing Brush="{DynamicResource ButtonBackground_1}" Geometry="F1 M 52.2648,89.9406L 38.7581,94.8993L 43.7155,81.3913L 52.2648,89.9406 Z "/>
-					<GeometryDrawing Brush="{DynamicResource ButtonBackground_1}" Geometry="F1 M 89.0175,39.9563L 87.1321,38.071L 44.7055,80.4976L 46.5921,82.3829L 89.0175,39.9563 Z "/>
-					<GeometryDrawing Brush="{DynamicResource ButtonBackground_1}" Geometry="F1 M 89.9601,40.899L 47.5348,83.3256L 53.1921,88.9829L 95.6175,46.5549L 89.9601,40.899 Z "/>
+					<GeometryDrawing Brush="{DynamicResource ButtonBackgroundColor}" Geometry="F1 M 69.7713,26.7733C 69.7713,41.56 57.782,53.5507 42.994,53.5507C 28.21,53.5507 16.222,41.56 16.222,26.7733C 16.222,11.9893 28.21,0 42.994,0C 57.782,0 69.7713,11.9893 69.7713,26.7733 Z "/>
+					<GeometryDrawing Brush="{DynamicResource ButtonBackgroundColor}" Geometry="F1 M 96.5604,45.6125L 98.4457,43.7272C 100.788,41.3832 100.788,37.5845 98.4457,35.2419C 96.1031,32.8992 92.3044,32.8992 89.9604,35.2419L 88.0751,37.1285L 96.5604,45.6125 Z "/>
+					<GeometryDrawing Brush="{DynamicResource ButtonBackgroundColor}" Geometry="F1 M 54.1347,91.8104L 53.72,92.2251L 53.1707,92.4277L 39.6787,97.401L 34.2347,99.4077L 36.2573,93.9691L 41.264,80.5091L 41.4667,79.9651L 41.8787,79.5544L 70.5787,50.8531C 69.9,50.1758 69.208,49.5224 68.496,48.8971C 62.3053,56.0317 53.1787,60.5464 42.9947,60.5464C 32.9693,60.5464 23.968,56.1717 17.7827,49.2304C 7.00533,58.9251 0,74.8277 0,92.3624C 0,94.6144 0.151998,96.7637 0.374667,99.5344L 86.2507,99.5344C 86.4747,96.7637 86.6253,94.5251 86.6253,92.273C 86.6253,82.4997 84.44,73.2517 80.6453,65.2997L 54.1347,91.8104 Z "/>
+					<GeometryDrawing Brush="{DynamicResource ButtonBackgroundColor}" Geometry="F1 M 52.2648,89.9406L 38.7581,94.8993L 43.7155,81.3913L 52.2648,89.9406 Z "/>
+					<GeometryDrawing Brush="{DynamicResource ButtonBackgroundColor}" Geometry="F1 M 89.0175,39.9563L 87.1321,38.071L 44.7055,80.4976L 46.5921,82.3829L 89.0175,39.9563 Z "/>
+					<GeometryDrawing Brush="{DynamicResource ButtonBackgroundColor}" Geometry="F1 M 89.9601,40.899L 47.5348,83.3256L 53.1921,88.9829L 95.6175,46.5549L 89.9601,40.899 Z "/>
 				</DrawingGroup.Children>
 			</DrawingGroup>
 		</DrawingBrush.Drawing>

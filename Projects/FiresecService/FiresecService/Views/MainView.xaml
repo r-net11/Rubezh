@@ -38,7 +38,7 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="Ключ:" Foreground="White" Margin="5"/>
+					<TextBlock Text="Ключ:" Style="{DynamicResource TextBlockDetailsStyle}" Margin="5"/>
                     <TextBox Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding InitialKeyString}" IsReadOnly="True" VerticalContentAlignment="Center"/>
                     <DataGrid Grid.Row="1" Grid.ColumnSpan="3" ItemsSource="{Binding License.Parameters}" Margin="0 5">
                         <DataGrid.Columns>
