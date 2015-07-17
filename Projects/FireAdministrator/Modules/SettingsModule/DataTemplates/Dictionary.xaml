@@ -3,7 +3,7 @@
 					xmlns:Views="clr-namespace:SettingsModule.Views"
 					xmlns:ViewModels="clr-namespace:SettingsModule.ViewModels">
 	
-	<DataTemplate DataType="{x:Type ViewModels:GlobalSettingsViewModel}">
+	<DataTemplate DataType="{x:Type ViewModels:GloobalSettingsViewModel}">
 		<Views:GloobalSettingsView />
 	</DataTemplate>
 

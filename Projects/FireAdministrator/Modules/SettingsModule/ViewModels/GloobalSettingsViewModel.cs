@@ -15,13 +15,13 @@ using System.Collections.ObjectModel;
 
 namespace SettingsModule.ViewModels
 {
-	public class GlobalSettingsViewModel : SaveCancelDialogViewModel
+	public class GloobalSettingsViewModel : SaveCancelDialogViewModel
 	{
-		public static GlobalSettingsViewModel Curent { get; private set; }
+		public static GloobalSettingsViewModel Curent { get; private set; }
 		public ModulesViewModel ModulesViewModel { get; private set; }
 		public DbSettingsViewModel DbSettingsViewModel { get; private set; } 
 
-		public GlobalSettingsViewModel()
+		public GloobalSettingsViewModel()
 		{
 			Title = "Параметры";
 			Curent = this;
