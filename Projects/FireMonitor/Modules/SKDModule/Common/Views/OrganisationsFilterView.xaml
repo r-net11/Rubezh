@@ -1,23 +1,52 @@
-﻿<UserControl 
+﻿<UserControl
 	x:Class="SKDModule.Views.OrganisationsFilterView"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	x:Name="_this">
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	x:Name="_this"
+	d:DesignHeight="400"
+	d:DesignWidth="400"
+	mc:Ignorable="d">
 	<UserControl.Resources>
 		<DataTemplate x:Key="RadioButtonDataTemplate">
-			<RadioButton IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="2 0">
+			<RadioButton
+				Margin="2 0"
+				VerticalAlignment="Center"
+				IsChecked="{Binding IsChecked,
+			                                 Mode=TwoWay,
+			                                 UpdateSourceTrigger=PropertyChanged}">
 				<StackPanel Orientation="Horizontal">
-					<Image Width="16" Source="/Controls;component/Images/Organisation.png" VerticalAlignment="Center" Margin="1 0 0 0" />
-					<TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2" />
+					<Image
+						Width="16"
+						Margin="1 0 0 0"
+						VerticalAlignment="Center"
+						Source="/Controls;component/Images/Organisation.png" />
+					<TextBlock
+						Margin="2"
+						VerticalAlignment="Center"
+						Text="{Binding Name}" />
 				</StackPanel>
 			</RadioButton>
 		</DataTemplate>
-		
+
 		<DataTemplate x:Key="CheckBoxDataTemplate">
-			<CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="2 0">
+			<CheckBox
+				Margin="2 0"
+				VerticalAlignment="Center"
+				IsChecked="{Binding IsChecked,
+			                              Mode=TwoWay,
+			                              UpdateSourceTrigger=PropertyChanged}">
 				<StackPanel Orientation="Horizontal">
-					<Image Width="16" Source="/Controls;component/Images/Organisation.png" VerticalAlignment="Center" Margin="1 0 0 0" />
-					<TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2" />
+					<Image
+						Width="16"
+						Margin="1 0 0 0"
+						VerticalAlignment="Center"
+						Source="/Controls;component/Images/Organisation.png" />
+					<TextBlock
+						Margin="2"
+						VerticalAlignment="Center"
+						Text="{Binding Name}" />
 				</StackPanel>
 			</CheckBox>
 		</DataTemplate>
@@ -27,28 +56,34 @@
 				<ContentControl.Style>
 					<Style TargetType="{x:Type ContentControl}">
 
-						<!-- Default Template -->
+						<!--  Default Template  -->
 						<Setter Property="ContentTemplate" Value="{StaticResource CheckBoxDataTemplate}" />
 
-						<!-- Triggers to change Template -->
+						<!--  Triggers to change Template  -->
 						<Style.Triggers>
 							<DataTrigger Binding="{Binding IsCheckBoxes, ElementName=_this, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Value="False">
 								<Setter Property="ContentTemplate" Value="{StaticResource RadioButtonDataTemplate}" />
-							</DataTrigger> 
+							</DataTrigger>
 						</Style.Triggers>
 					</Style>
 				</ContentControl.Style>
 			</ContentControl>
 		</DataTemplate>
 	</UserControl.Resources>
-	
+
 	<DataGrid ItemsSource="{Binding Organisations.Items}">
 		<DataGrid.Columns>
-			<DataGridTemplateColumn Header="Название" Width="*" CellTemplate="{StaticResource FullTemplate}" />
-			<DataGridTemplateColumn Header="Примечание" Width="*">
+			<DataGridTemplateColumn
+				Width="*"
+				CellTemplate="{StaticResource FullTemplate}"
+				Header="Название" />
+			<DataGridTemplateColumn Width="*" Header="Примечание">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
-						<TextBlock Text="{Binding Description}" VerticalAlignment="Center" Margin="2" />
+						<TextBlock
+							Margin="2"
+							VerticalAlignment="Center"
+							Text="{Binding Description}" />
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
