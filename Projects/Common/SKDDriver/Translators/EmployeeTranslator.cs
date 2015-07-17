@@ -510,10 +510,13 @@ namespace SKDDriver
 					//    var empl = CreateEmpl("Сотрудник " + i + j + "0", org.UID, deptUIDs.FirstOrDefault(), posUIDs.FirstOrDefault());
 					//    Context.Employees.InsertOnSubmit(empl);
 					//}
+					var schedule = Context.Schedules.FirstOrDefault();
 					for (int j = 0; j < employeeCount; j++)
 					{
 					//	var empl = CreateEmployee(i + j + "", org.UID);
-						var empl = CreateEmployee(i + j + "", or.UID, Context.Schedules.FirstOrDefault().UID);
+						if(or == null || schedule == null) return new OperationResult("Не добавлена организация или график");
+
+						var empl = CreateEmployee(i + j + "", or.UID, schedule.UID);
 						Context.Employees.InsertOnSubmit(empl);
 						//var card = CreateCard(j, empl.UID);
 						//Context.Cards.InsertOnSubmit(card);

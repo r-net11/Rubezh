@@ -57,7 +57,6 @@ namespace SKDDriver.Translators
 
 		public OperationResult<TimeTrackResult> GetTimeTracks(EmployeeFilter filter, DateTime startDate, DateTime endDate)
 		{
-			var stopwatch = new Stopwatch();
 			InitializeData();
 		//	_PassJournalTranslator.InvalidatePassJournal();
 
@@ -74,9 +73,7 @@ namespace SKDDriver.Translators
 				var timeTrackResult = new TimeTrackResult();
 				foreach (var shortEmployee in operationResult.Result)
 				{
-					stopwatch.Restart();
 					var timeTrackEmployeeResult = GetEmployeeTimeTrack(shortEmployee, startDate, endDate);
-					stopwatch.Stop();
 					timeTrackEmployeeResult.ShortEmployee = shortEmployee;
 					if (timeTrackEmployeeResult.Error != null)
 					{
@@ -89,7 +86,6 @@ namespace SKDDriver.Translators
 					var documentsOperationResult = DatabaseService.TimeTrackDocumentTranslator.Get(shortEmployee.UID, startDate, endDate, _TimeTrackDocuments);
 					if (!documentsOperationResult.HasError)
 					{
-						stopwatch.Restart();
 						var documents = documentsOperationResult.Result;
 						foreach (var document in documents)
 						{
@@ -107,9 +103,6 @@ namespace SKDDriver.Translators
 								timeTrackEmployeeResult.Documents.Add(document);
 							}
 						}
-						stopwatch.Stop();
-
-						stopwatch.Restart();
 
 						foreach (var document in timeTrackEmployeeResult.Documents)
 						{
@@ -122,7 +115,6 @@ namespace SKDDriver.Translators
 								}
 							}
 						}
-						stopwatch.Stop();
 					}
 
 					timeTrackResult.TimeTrackEmployeeResults.Add(timeTrackEmployeeResult);

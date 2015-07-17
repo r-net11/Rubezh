@@ -37,56 +37,123 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="2*" MinHeight="200" />
 			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
 			<RowDefinition Height="0.9*" MinHeight="200" />
 		</Grid.RowDefinitions>
-		<StackPanel MinHeight="20" Orientation="Horizontal">
-			<ToolBarButton
-				Command="{Binding ShowFilterCommand}"
-				ImageSource="filter"
-				ToolTip="Задать фильтр" />
-			<ToolBarButton
-				Command="{Binding RefreshCommand}"
-				ImageSource="Refresh"
-				ToolTip="Обновить" />
-			<ToolBarButton
-				Command="{Binding PrintCommand}"
-				ImageSource="Print"
-				ToolTip="Печать" />
-			<StackPanel DataContext="{Binding SelectedTimeTrack.DocumentsViewModel}" Orientation="Horizontal">
+		<Border
+			MinHeight="20"
+			Background="{StaticResource BackgroundBrush}"
+			CornerRadius="5">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition />
+				</Grid.ColumnDefinitions>
 				<ToolBarButton
-					Command="{Binding AddCommand}"
-					ImageSource="Add"
-					ToolTip="Добавить документ" />
+					Command="{Binding ShowFilterCommand}"
+					ImageSource="filter"
+					ToolTip="Задать фильтр" />
 				<ToolBarButton
-					Command="{Binding EditCommand}"
-					ImageSource="Edit"
-					ToolTip="Редактировать документ" />
+					Grid.Column="1"
+					Command="{Binding RefreshCommand}"
+					ImageSource="Refresh"
+					ToolTip="Обновить" />
 				<ToolBarButton
-					Command="{Binding RemoveCommand}"
-					ImageSource="Delete"
-					ToolTip="Удалить документ" />
+					Grid.Column="2"
+					Command="{Binding PrintCommand}"
+					ImageSource="Print"
+					ToolTip="Печать" />
+				<StackPanel
+					Grid.Column="3"
+					DataContext="{Binding SelectedTimeTrack.DocumentsViewModel}"
+					Orientation="Horizontal">
+					<ToolBarButton
+						Command="{Binding AddCommand}"
+						ImageSource="Add"
+						ToolTip="Добавить документ" />
+					<ToolBarButton
+						Command="{Binding EditCommand}"
+						ImageSource="Edit"
+						ToolTip="Редактировать документ" />
+					<ToolBarButton
+						Command="{Binding RemoveCommand}"
+						ImageSource="Delete"
+						ToolTip="Удалить документ" />
+					<ToolBarButton
+						Command="{Binding AddFileCommand}"
+						ImageSource="Add"
+						IsEnabled="{Binding CanDoChanges}"
+						ToolTip="Загрузить файл" />
+					<ToolBarButton
+						Command="{Binding OpenFileCommand}"
+						ImageSource="Edit"
+						IsEnabled="{Binding CanDoChanges}"
+						ToolTip="Открыть файл" />
+					<ToolBarButton
+						Command="{Binding RemoveFileCommand}"
+						ImageSource="Delete"
+						IsEnabled="{Binding CanDoChanges}"
+						ToolTip="Удалить файл" />
+				</StackPanel>
 				<ToolBarButton
-					Command="{Binding AddFileCommand}"
-					ImageSource="Add"
-					IsEnabled="{Binding CanDoChanges}"
-					ToolTip="Загрузить файл" />
-				<ToolBarButton
-					Command="{Binding OpenFileCommand}"
-					ImageSource="Edit"
-					IsEnabled="{Binding CanDoChanges}"
-					ToolTip="Открыть файл" />
-				<ToolBarButton
-					Command="{Binding RemoveFileCommand}"
-					ImageSource="Delete"
-					IsEnabled="{Binding CanDoChanges}"
-					ToolTip="Удалить файл" />
-			</StackPanel>
-			<ToolBarButton
-				Command="{Binding ShowDocumentTypesCommand}"
-				ImageSource="Settings2"
-				ToolTip="Типы документов" />
-		</StackPanel>
+					Grid.Column="4"
+					Command="{Binding ShowDocumentTypesCommand}"
+					ImageSource="Settings2"
+					ToolTip="Типы документов" />
+				<StackPanel
+					Grid.Column="5"
+					HorizontalAlignment="Right"
+					Margin="0 0 10 0"
+					Orientation="Horizontal">
+					<ToolBarButton
+						Command="{Binding FirstPageCommand}"
+						ImageSource="LeftLeft"
+						ToolTip="Начальная страница" />
+					<ToolBarButton
+						VerticalAlignment="Center"
+						Command="{Binding PreviousPageCommand}"
+						ImageSource="Left"
+						ToolTip="Предыдущая страница" />
+					<TextBox
+						Height="30"
+						MinWidth="25"
+						MinHeight="25"
+						HorizontalContentAlignment="Center"
+						VerticalContentAlignment="Stretch"
+						ContextMenu="{x:Null}"
+						FontSize="20"
+						VerticalAlignment="Center"
+						Text="{Binding PageNumber,
+					                        Mode=TwoWay,
+					                        FallbackValue=0,
+					                        UpdateSourceTrigger=PropertyChanged}" />
+					<TextBlock
+						VerticalAlignment="Center"
+						FontSize="20"
+						Foreground="White"
+						Margin="5 0"
+						Text="/" />
+					<TextBlock
+						VerticalAlignment="Center"
+						Text="{Binding TotalPageNumber}"
+						Foreground="White"
+						Margin="5 0"
+						FontSize="20" />
+					<ToolBarButton
+						VerticalAlignment="Center"
+						Command="{Binding NextPageCommand}"
+						ImageSource="Right"
+						ToolTip="Следующая страница" />
+					<ToolBarButton
+						Command="{Binding LastPageCommand}"
+						ImageSource="RightRight"
+						ToolTip="Последняя страница" />
+				</StackPanel>
+			</Grid>
+		</Border>
 		<DataGrid
 			x:Name="grid"
 			Grid.Row="1"
@@ -230,35 +297,8 @@
 				</ItemsPanelTemplate>
 			</DataGrid.ItemsPanel>
 		</DataGrid>
-		<Grid Grid.Row="2" HorizontalAlignment="Center">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition />
-				<ColumnDefinition />
-				<ColumnDefinition />
-			</Grid.ColumnDefinitions>
-			<ToolBarButton
-				VerticalAlignment="Center"
-				Command="{Binding PreviousPageCommand}"
-				ImageSource="Left"
-				ToolTip="Предыдущая страница" />
-			<TextBox
-				Grid.Column="1"
-				Width="20"
-				HorizontalAlignment="Center"
-				VerticalAlignment="Center"
-				Text="{Binding PageNumber,
-			                        Mode=TwoWay,
-			                        FallbackValue=0,
-			                        UpdateSourceTrigger=PropertyChanged}" />
-			<ToolBarButton
-				Grid.Column="2"
-				VerticalAlignment="Center"
-				Command="{Binding NextPageCommand}"
-				ImageSource="Right"
-				ToolTip="Следующая страница" />
-		</Grid>
 		<StackPanel
-			Grid.Row="3"
+			Grid.Row="2"
 			Margin="2"
 			VerticalAlignment="Center"
 			Orientation="Horizontal"
@@ -276,7 +316,7 @@
 				Foreground="White"
 				Text="Данные о проходах были изменены. Обновите вкладку УРВ" />
 		</StackPanel>
-		<Grid Grid.Row="4" DataContext="{Binding SelectedTimeTrack.DocumentsViewModel}">
+		<Grid Grid.Row="3" DataContext="{Binding SelectedTimeTrack.DocumentsViewModel}">
 			<DataGrid ItemsSource="{Binding Documents}" SelectedItem="{Binding SelectedDocument}">
 				<DataGrid.Columns>
 					<DataGridTemplateColumn Width="*" Header="Название документа">

@@ -83,7 +83,6 @@
             <Component Id="cmpFB6E1F7FDD080EE0B5F21E78FC897B8C" Guid="*">
                 <File Id="fil63935B36BB4499BE18A52BC470B7871E" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\FireMonitor.exe.manifest" />
             </Component>
-            
             <Component Id="cmp79C1C22557180233331486BF45147BDA" Guid="*">
                 <File Id="fil8C4099718E734C2FA91C544E51B4F7D3" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\FireMonitor.Layout.exe" />
             </Component>
@@ -97,11 +96,9 @@
             
             
             
-            
             <Component Id="cmpBDADBBE70FD652E2C8ADB8030407E714" Guid="*">
                 <File Id="fil229E8C98836EAFDCB575F1251297C84C" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\FiresecAPI.dll" />
             </Component>
-            
             
             <Component Id="cmp3E1F965B42654B44268C4DB2BF213E64" Guid="*">
                 <File Id="fil2D7D4B90F2C98EC477AFA0972B116EB0" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\FiresecClient.dll" />
@@ -159,6 +156,9 @@
             </Component>
             <Component Id="cmpD06C3541084E52FFCE18710914F8971F" Guid="*">
                 <File Id="fil5AF3252FB1E7BF35DD19CA8C008A9139" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\Loya.Dameer.dll" />
+            </Component>
+            <Component Id="cmp09A6BF1D8E9C340A99C1FE4BD4D92FD3" Guid="*">
+                <File Id="fil63B9EF1F3F8C894D06B9B5A84835C0F1" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\Microsoft.Bcl.Build.Tasks.dll" />
             </Component>
             <Component Id="cmpCF2DA6AC9E8DE953188C5A9130FE3625" Guid="*">
                 <File Id="fil806FAB652ED023447A29AAE3F7E154A7" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\Microsoft.Practices.Prism.dll" />
@@ -273,7 +273,6 @@
             <Component Id="cmp41DE0FAE7B0FE69365AACA4EE9C599CF" Guid="*">
                 <File Id="fil51B650EB30170E55ECC87EA0CD1FC386" KeyPath="yes" Source="$(var.FireMonitor.TargetDir)\SKDModule.dll" />
             </Component>
-            
             
             
             <Component Id="cmpFBBF5141B6F02915266546DD748C506A" Guid="*">
@@ -450,7 +449,6 @@
             
             <ComponentRef Id="cmp96311286847CDD7B9A9465EB0C50105E" />
             <ComponentRef Id="cmpFB6E1F7FDD080EE0B5F21E78FC897B8C" />
-            
             <ComponentRef Id="cmp79C1C22557180233331486BF45147BDA" />
             <ComponentRef Id="cmpE15E32AFCC6D483350E65E1A696EFDBC" />
             <ComponentRef Id="cmp2CE701FCA4EEA6BB4F369904B7742E18" />
@@ -458,9 +456,7 @@
             
             
             
-            
             <ComponentRef Id="cmpBDADBBE70FD652E2C8ADB8030407E714" />
-            
             
             <ComponentRef Id="cmp3E1F965B42654B44268C4DB2BF213E64" />
             
@@ -487,6 +483,7 @@
             
             <ComponentRef Id="cmp6CBCC1A4FEB3266505EB0F78E2959B18" />
             <ComponentRef Id="cmpD06C3541084E52FFCE18710914F8971F" />
+            <ComponentRef Id="cmp09A6BF1D8E9C340A99C1FE4BD4D92FD3" />
             <ComponentRef Id="cmpCF2DA6AC9E8DE953188C5A9130FE3625" />
             
             <ComponentRef Id="cmp3D01E72919B2D356A3DF230B97CD6D77" />
@@ -540,7 +537,6 @@
             <ComponentRef Id="cmp13919AD667908EECFB46563AA90D13AC" />
             
             <ComponentRef Id="cmp41DE0FAE7B0FE69365AACA4EE9C599CF" />
-            
             
             
             <ComponentRef Id="cmpFBBF5141B6F02915266546DD748C506A" />

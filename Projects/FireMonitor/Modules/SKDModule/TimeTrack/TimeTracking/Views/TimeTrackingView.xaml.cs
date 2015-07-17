@@ -58,7 +58,6 @@ namespace SKDModule.Views
 				grid.Columns.Add(column);
 				date = date.AddDays(1);
 			}
-
 		}
 
 		private TextBlock CreateColumnHeader(DateTime date, Holiday holiday)

@@ -1,9 +1,8 @@
-﻿using Common;
-using FiresecAPI.SKD;
+﻿using FiresecAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
-using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
@@ -20,6 +19,7 @@ using System.Reactive.Linq;
 using System.Runtime.Serialization;
 using System.Windows.Input;
 
+// ReSharper disable once CheckNamespace
 namespace SKDModule.ViewModels
 {
 	public class TimeTrackingViewModel : ViewPartViewModel
@@ -27,14 +27,29 @@ namespace SKDModule.ViewModels
 		#region Fields
 
 		readonly TimeTrackFilter _timeTrackFilter;
-		List<TimeTrackEmployeeResult> _timeTrackEmployeeResults;
+		private TimeTrack _selectedTimeTrack;
+		private bool _hasSelectedTimeTrack;
+		private List<TimeTrackEmployeeResult> _timeTrackEmployeeResults;
 		private List<TimeTrack> _cachedTimeTracks;
-		private const int PageCountElements = 25; //Определяет количество записей, отображаемых на одной странице в таблице УРВ
+		private const int RecordsPerPage = 25;
 		private readonly ObservableAsPropertyHelper<ObservableCollection<TimeTrack>> _searchResults;
+		private int _pageNumber;
+		int _rowHeight;
+		private bool _isFilterAccepted;
 
 		#endregion
 
 		#region Properties
+
+		public bool IsFilterAccepted
+		{
+			get { return _isFilterAccepted; }
+			set
+			{
+				_isFilterAccepted = value;
+				OnPropertyChanged(() => IsFilterAccepted);
+			}
+		}
 
 		public ObservableCollection<TimeTrack> SearchResults
 		{
@@ -49,30 +64,25 @@ namespace SKDModule.ViewModels
 			get { return HolidayHelper.GetByOrganisation(_timeTrackFilter.EmployeeFilter.OrganisationUIDs.FirstOrDefault()).ToList(); }
 		}
 
-		private int _pageNumber;
 		public int PageNumber
 		{
 			get { return _pageNumber; }
 			set
 			{
-				if (value == _pageNumber) return;
 				_pageNumber = value;
 				OnPropertyChanged(() => PageNumber);
 			}
 		}
 
-		SortableObservableCollection<TimeTrack> _timeTracks;
-		public SortableObservableCollection<TimeTrack> TimeTracks
+		public int TotalPageNumber
 		{
-			get { return _timeTracks; }
-			set
+			get
 			{
-				_timeTracks = value;
-				OnPropertyChanged(() => TimeTracks);
+				if (_cachedTimeTracks == null) return 0;
+				return ((_cachedTimeTracks.Count - 1) / RecordsPerPage + 1) - 1;
 			}
 		}
 
-		TimeTrack _selectedTimeTrack;
 		public TimeTrack SelectedTimeTrack
 		{
 			get { return _selectedTimeTrack; }
@@ -83,7 +93,6 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		private bool _hasSelectedTimeTrack;
 		public bool HasSelectedTimeTrack
 		{
 			get { return _hasSelectedTimeTrack; }
@@ -97,7 +106,6 @@ namespace SKDModule.ViewModels
 		public int TotalDays { get; private set; }
 		public DateTime FirstDay { get; private set; }
 
-		int _rowHeight;
 		public int RowHeight
 		{
 			get { return _rowHeight; }
@@ -119,22 +127,30 @@ namespace SKDModule.ViewModels
 			ShowFilterCommand = new RelayCommand(OnShowFilter);
 			PrintCommand = new RelayCommand(OnPrint, CanPrint);
 			ShowDocumentTypesCommand = new RelayCommand(OnShowDocumentTypes);
-
 			_timeTrackFilter = CreateTimeTrackFilter();
-
 			UpdateGrid();
-			PreviousPageCommand = new ReactiveAsyncCommand();
-			PreviousPageCommand.RegisterAsyncAction(_ => { --PageNumber; });
 
-			NextPageCommand = new ReactiveAsyncCommand();
-			NextPageCommand.RegisterAsyncAction(_ => { PageNumber++; });
+			IObservable<bool> canSelectPreviousPage = this.WhenAny(x => x.PageNumber, x => (x.Value > default(int)));
+			PreviousPageCommand = new ReactiveAsyncCommand(canSelectPreviousPage);
+			PreviousPageCommand.RegisterAsyncAction(_ => PageNumber--);
+
+			FirstPageCommand = new ReactiveAsyncCommand(canSelectPreviousPage);
+			FirstPageCommand.RegisterAsyncAction(_ => PageNumber = default(int));
+
+			IObservable<bool> canSelectNextPage = this.WhenAny(x => x.PageNumber,
+													x => (_cachedTimeTracks != null && (x.Value < TotalPageNumber)));
+			NextPageCommand = new ReactiveAsyncCommand(canSelectNextPage);
+			NextPageCommand.RegisterAsyncAction(_ => PageNumber++);
+
+			LastPageCommand = new ReactiveAsyncCommand(canSelectNextPage);
+			LastPageCommand.RegisterAsyncAction(_ =>
+			{
+				if (_cachedTimeTracks == null) return;
+				PageNumber = TotalPageNumber;
+			});
 
 			RefreshCommand = new ReactiveAsyncCommand();
-			RefreshCommand.RegisterAsyncAction(_ => UpdateGrid()).Subscribe(x =>
-			{
-				//if (SelectedTimeTrack == null && SearchResults == null) return;
-				//SelectedTimeTrack = SelectedTimeTrack ?? SearchResults.FirstOrDefault();
-			});
+			RefreshCommand.RegisterAsyncAction(_ => UpdateGrid());
 
 			var executeSearchCommand = new ReactiveAsyncCommand();
 			executeSearchCommand.Subscribe(x =>
@@ -146,12 +162,16 @@ namespace SKDModule.ViewModels
 			var results = executeSearchCommand.RegisterAsyncFunction(s => ExecuteSearch((int) s));
 			_executeSearchCommand = executeSearchCommand;
 
-			this.WhenAny(x => x.IsActive, x => x.PageNumber,
-				(isActive, pageNumber) => new {IsActive = isActive.Value, PageNumber = pageNumber.Value})
+			this.WhenAny(x => x.IsActive, x => x.PageNumber, x => x.IsFilterAccepted,
+				(isActive, pageNumber, isFilterAccepted) => new { IsActive = isActive.Value, PageNumber = pageNumber.Value, IsFilterAccepted = isFilterAccepted.Value })
 			//	.Throttle(TimeSpan.FromMilliseconds(1000))
-				.Select(x => x.PageNumber)
-				.Where(x => x >= 0)
-				.Subscribe(value => _executeSearchCommand.Execute(value));
+				.Select(x => new { x.PageNumber, x.IsFilterAccepted })
+				.Where(x => (x.PageNumber >= default(int) && x.PageNumber <= TotalPageNumber) || x.IsFilterAccepted)
+				.Subscribe(value =>
+				{
+					_executeSearchCommand.Execute(value.PageNumber);
+					IsFilterAccepted = false;
+				});
 
 			_searchResults = new ObservableAsPropertyHelper<ObservableCollection<TimeTrack>>(results, _ => OnPropertyChanged(() => SearchResults));
 
@@ -175,19 +195,21 @@ namespace SKDModule.ViewModels
 
 		private void SubscribeOnEvents()
 		{
-			ServiceFactory.Events.GetEvent<UserChangedEvent>().Unsubscribe(OnUserChanged);
-			ServiceFactory.Events.GetEvent<UserChangedEvent>().Subscribe(OnUserChanged);
-			ServiceFactory.Events.GetEvent<EditDocumentEvent>().Unsubscribe(OnEditDocument);
-			ServiceFactory.Events.GetEvent<EditDocumentEvent>().Subscribe(OnEditDocument);
-			ServiceFactory.Events.GetEvent<RemoveDocumentEvent>().Unsubscribe(OnRemoveDocument);
-			ServiceFactory.Events.GetEvent<RemoveDocumentEvent>().Subscribe(OnRemoveDocument);
-			ServiceFactory.Events.GetEvent<EditTimeTrackPartEvent>().Unsubscribe(OnEditTimeTrackPart);
-			ServiceFactory.Events.GetEvent<EditTimeTrackPartEvent>().Subscribe(OnEditTimeTrackPart);
+			ServiceFactoryBase.Events.GetEvent<UserChangedEvent>().Unsubscribe(OnUserChanged);
+			ServiceFactoryBase.Events.GetEvent<UserChangedEvent>().Subscribe(OnUserChanged);
+			ServiceFactoryBase.Events.GetEvent<EditDocumentEvent>().Unsubscribe(OnEditDocument);
+			ServiceFactoryBase.Events.GetEvent<EditDocumentEvent>().Subscribe(OnEditDocument);
+			ServiceFactoryBase.Events.GetEvent<RemoveDocumentEvent>().Unsubscribe(OnRemoveDocument);
+			ServiceFactoryBase.Events.GetEvent<RemoveDocumentEvent>().Subscribe(OnRemoveDocument);
+			ServiceFactoryBase.Events.GetEvent<EditTimeTrackPartEvent>().Unsubscribe(OnEditTimeTrackPart);
+			ServiceFactoryBase.Events.GetEvent<EditTimeTrackPartEvent>().Subscribe(OnEditTimeTrackPart);
 		}
 
 		private ObservableCollection<TimeTrack> ExecuteSearch(int pageNumber)
 		{
-			return new ObservableCollection<TimeTrack>(_cachedTimeTracks.Skip(pageNumber * PageCountElements).Take(PageCountElements));
+			return _cachedTimeTracks == null
+				? null
+				: new ObservableCollection<TimeTrack>(_cachedTimeTracks.Skip(pageNumber * RecordsPerPage).Take(RecordsPerPage));
 		}
 
 		private TimeTrackFilter CreateTimeTrackFilter() //TODO:Implement to TimeTrackFilter class
@@ -225,8 +247,6 @@ namespace SKDModule.ViewModels
 
 			if (timeTrackResult == null) return;
 
-			TimeTracks = new SortableObservableCollection<TimeTrack>();
-
 			_timeTrackEmployeeResults = timeTrackResult.TimeTrackEmployeeResults;
 			_cachedTimeTracks = _timeTrackEmployeeResults.Select(x => new TimeTrack(_timeTrackFilter, x)).OrderBy(x => x.ShortEmployee.FirstName).ToList();
 
@@ -260,6 +280,10 @@ namespace SKDModule.ViewModels
 
 		private readonly ICommand _executeSearchCommand;
 
+		public ReactiveAsyncCommand LastPageCommand { get; private set; }
+
+		public ReactiveAsyncCommand FirstPageCommand { get; private set; }
+
 		public ReactiveAsyncCommand PreviousPageCommand { get; private set; }
 
 		public ReactiveAsyncCommand NextPageCommand { get; private set; }
@@ -271,6 +295,8 @@ namespace SKDModule.ViewModels
 			if (DialogService.ShowModalWindow(filterViewModel))
 			{
 				UpdateGrid();
+				PageNumber = default(int);
+				IsFilterAccepted = true;
 			}
 		}
 
@@ -279,14 +305,14 @@ namespace SKDModule.ViewModels
 		public RelayCommand PrintCommand { get; private set; }
 		void OnPrint()
 		{
-			if (TimeTracks.Count == 0)
+			if (_cachedTimeTracks.Count == 0)
 			{
 				MessageBoxService.ShowWarning("В отчете нет ни одного сотрудника");
 				return;
 			}
 			var organisationUIDs = new HashSet<Guid>();
 			var departmentNames = new HashSet<string>();
-			foreach (var timeTrack in TimeTracks)
+			foreach (var timeTrack in _cachedTimeTracks)
 			{
 				if (timeTrack.ShortEmployee.OrganisationUID != Guid.Empty)
 					organisationUIDs.Add(timeTrack.ShortEmployee.OrganisationUID);
@@ -334,7 +360,7 @@ namespace SKDModule.ViewModels
 		#region DocumentEvents
 		void OnEditDocument(TimeTrackDocument document)
 		{
-			var timeTrackViewModel = TimeTracks.FirstOrDefault(x => x.ShortEmployee.UID == document.EmployeeUID);
+			var timeTrackViewModel = _cachedTimeTracks.FirstOrDefault(x => x.ShortEmployee.UID == document.EmployeeUID);
 			if (timeTrackViewModel != null)
 			{
 				timeTrackViewModel.DocumentsViewModel.OnEditDocument(document);
@@ -343,7 +369,7 @@ namespace SKDModule.ViewModels
 
 		void OnRemoveDocument(TimeTrackDocument document)
 		{
-			var timeTrackViewModel = TimeTracks.FirstOrDefault(x => x.ShortEmployee.UID == document.EmployeeUID);
+			var timeTrackViewModel = _cachedTimeTracks.FirstOrDefault(x => x.ShortEmployee.UID == document.EmployeeUID);
 			if (timeTrackViewModel != null)
 			{
 				timeTrackViewModel.DocumentsViewModel.OnRemoveDocument(document);
@@ -352,7 +378,7 @@ namespace SKDModule.ViewModels
 
 		void OnEditTimeTrackPart(Guid uid)
 		{
-			var timeTrackViewModel = TimeTracks.FirstOrDefault(x => x.ShortEmployee.UID == uid);
+			var timeTrackViewModel = _cachedTimeTracks.FirstOrDefault(x => x.ShortEmployee.UID == uid);
 			if (timeTrackViewModel != null)
 			{
 				timeTrackViewModel.DocumentsViewModel.OnEditTimeTrackPart(uid);
