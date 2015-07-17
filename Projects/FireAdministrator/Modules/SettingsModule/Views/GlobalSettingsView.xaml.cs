@@ -2,9 +2,9 @@
 
 namespace SettingsModule.Views
 {
-	public partial class GloobalSettingsView : UserControl
+	public partial class GlobalSettingsView : UserControl
 	{
-		public GloobalSettingsView()
+		public GlobalSettingsView()
 		{
 			InitializeComponent();
 		}

@@ -1,13 +1,15 @@
-﻿using System;
+﻿using FiresecAPI.GK;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Xml.Serialization;
 
-namespace FiresecAPI.GKModels.OPC
+namespace FiresecAPI.OPC
 {
 	[DataContract]
-	public class OPCSettings
+	public class OPCSettings : ModelBase
 	{
 		public OPCSettings()
 		{
@@ -18,6 +20,7 @@ namespace FiresecAPI.GKModels.OPC
 			DiretionUIDs = new List<Guid>();
 			NSUIDs = new List<Guid>();
 			MPTUIDs = new List<Guid>();
+			DoorUIDs = new List<Guid>();
 		}
 
 		[DataMember]
@@ -40,6 +43,9 @@ namespace FiresecAPI.GKModels.OPC
 
 		[DataMember]
 		public List<Guid> MPTUIDs { get; set; }
+
+		[DataMember]
+		public List<Guid> DoorUIDs { get; set; }
  
 	}
 }

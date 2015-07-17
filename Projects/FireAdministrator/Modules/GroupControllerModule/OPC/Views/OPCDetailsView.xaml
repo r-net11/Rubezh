@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:views="clr-namespace:GKModule.Views"
-             MinHeight="550" MinWidth="810">
+             MinHeight="500" MinWidth="800">
+    
     <Grid>
         <TabControl>
             <TabItem Header="Пожарные зоны">
@@ -17,6 +18,9 @@
             </TabItem>
             <TabItem Header="Направления">
                 <views:DirectionsSelectationView DataContext="{Binding DirectionsSelectationViewModel}" />
+            </TabItem>
+            <TabItem Header="Точки доступа">
+                <views:DoorsSelectationView DataContext="{Binding DoorsSelectationViewModel}" />
             </TabItem>
             <TabItem Header="Задержки" >
                 <views:DelaysSelectationView DataContext="{Binding DelaysSelectationViewModel}" />

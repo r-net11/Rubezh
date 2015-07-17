@@ -356,9 +356,6 @@
       <DependentUpon>PumpStationsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="OPC\ViewModels\OPCsViewModel.cs" />
-    <Compile Include="OPC\Views\OPCDevicesView.xaml.cs">
-      <DependentUpon>OPCDevicesView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="OPC\Views\OPCView.xaml.cs">
       <DependentUpon>OPCView.xaml</DependentUpon>
     </Compile>
@@ -898,10 +895,6 @@
     <Page Include="PumpStation\Views\PumpStationsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="OPC\Views\OPCDevicesView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="OPC\Views\OPCView.xaml">
       <SubType>Designer</SubType>

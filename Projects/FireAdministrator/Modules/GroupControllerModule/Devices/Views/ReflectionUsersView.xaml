@@ -20,8 +20,8 @@
             <ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="Add"  />
             <ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать" ImageSource="Edit"  />
             <ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить" ImageSource="Delete"  />
-            <ToolBarButton Command ="{Binding ReadCommand}" ToolTip="Читать пользователей" />
-            <ToolBarButton Command ="{Binding WriteCommand}" ToolTip="Записать пользователей" />
+            <ToolBarButton Command ="{Binding ReadCommand}" ToolTip="Читать пользователей"  ImageSource ="BReadDeviceUsers"/>
+            <ToolBarButton Command ="{Binding WriteCommand}" ToolTip="Записать пользователей" ImageSource="BUpdateDeviceUsers" />
         </StackPanel>
     </Grid>
 </UserControl>

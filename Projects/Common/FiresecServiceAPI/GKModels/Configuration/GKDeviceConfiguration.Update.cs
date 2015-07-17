@@ -80,9 +80,9 @@ namespace FiresecAPI.GK
 			InitializeCodes();
 			InitializeDoors();
 			InitializeReflection();
+			InitializeOPC();
 			UpdateGKChildrenDescription();
 			LinkObjects();
-
 		}
 
 		void ClearAllReferences()
@@ -642,6 +642,19 @@ namespace FiresecAPI.GK
 				}
 			}
 		}
+
+		void InitializeOPC()
+		{
+			OPCSettings.ZoneUIDs = Zones.Where(x => OPCSettings.ZoneUIDs.Contains(x.UID)).Select(x => x.UID).ToList();
+			OPCSettings.DelayUIDs = Delays.Where(x => OPCSettings.DelayUIDs.Contains(x.UID)).Select(x => x.UID).ToList();
+			OPCSettings.DeviceUIDs = Devices.Where(x => OPCSettings.DeviceUIDs.Contains(x.UID)).Select(x => x.UID).ToList();
+			OPCSettings.DiretionUIDs = Directions.Where(x => OPCSettings.DiretionUIDs.Contains(x.UID)).Select(x => x.UID).ToList();
+			OPCSettings.GuardZoneUIDs = GuardZones.Where(x => OPCSettings.GuardZoneUIDs.Contains(x.UID)).Select(x => x.UID).ToList();
+			OPCSettings.MPTUIDs = MPTs.Where(x => OPCSettings.MPTUIDs.Contains(x.UID)).Select(x => x.UID).ToList();
+			OPCSettings.NSUIDs = PumpStations.Where(x => OPCSettings.NSUIDs.Contains(x.UID)).Select(x => x.UID).ToList();
+			OPCSettings.DoorUIDs = Doors.Where(x => OPCSettings.DoorUIDs.Contains(x.UID)).Select(x => x.UID).ToList();
+		}			
+
 		void InitializeDoors()
 		{
 			foreach (var door in Doors)

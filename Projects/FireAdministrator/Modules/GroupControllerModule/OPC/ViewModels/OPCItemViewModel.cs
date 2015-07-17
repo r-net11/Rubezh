@@ -9,11 +9,24 @@ namespace GKModule.ViewModels
 {
 	public class OPCItemViewModel : BaseViewModel
 	{
-		public OPCItemViewModel(GKBase objects )
-		{ 
-			Object = objects;
+		public OPCItemViewModel(GKBase device)
+		{
+			Device = device;
+			var _device = device as GKDevice;
+			if (_device != null)
+			{
+				Name = _device.Driver.ShortName;
+				Address = _device.PresentationAddress;
+			}
+			else
+			{
+				Name = device.Name;
+				Address = device.No.ToString();
+			}
 		}
 
-		public GKBase Object { get; private set; }
+		public GKBase Device { get; private set; }
+		public string Name { get; private set; }
+		public string Address { get; private set; }
 	}
 }
