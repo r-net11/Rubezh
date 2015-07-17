@@ -20,11 +20,13 @@ namespace GKModule.ViewModels
 			var delays = GKManager.Delays.Where(x => GKManager.DeviceConfiguration.OPCSettings.DelayUIDs.Contains(x.UID)).ToList();
 			DelaysSelectationViewModel = new DelaysSelectationViewModel(delays);
 			var devices = GKManager.Devices.Where(x => GKManager.DeviceConfiguration.OPCSettings.DeviceUIDs.Contains(x.UID)).ToList();
-			DevicesSelectationViewModel = new DevicesSelectationViewModel(devices, GKManager.Devices.Where(x => x.Driver.HasZone || x.Driver.IsControlDevice).ToList());
+			DevicesSelectationViewModel = new DevicesSelectationViewModel(devices, GKManager.Devices.Where(x => x.Driver.IsReal).ToList());
 			var mpts = GKManager.MPTs.Where(x => GKManager.DeviceConfiguration.OPCSettings.MPTUIDs.Contains(x.UID)).ToList();
 			MPTsSelectationViewModel = new MPTsSelectationViewModel(mpts);
 			var ns = GKManager.PumpStations.Where(x => GKManager.DeviceConfiguration.OPCSettings.NSUIDs.Contains(x.UID)).ToList();
 			PumpStationsSelectationViewModel = new PumpStationsSelectationViewModel(ns);
+			var doors = GKManager.Doors.Where(x => GKManager.DeviceConfiguration.OPCSettings.DoorUIDs.Contains(x.UID)).ToList();
+			DoorsSelectationViewModel = new DoorsSelectationViewModel(doors);
 		}
 
 		public ZonesSelectationViewModel ZonesSelectationViewModel { get; private set; }
@@ -41,6 +43,8 @@ namespace GKModule.ViewModels
 
 		public DevicesSelectationViewModel DevicesSelectationViewModel { get; private set; }
 
+		public DoorsSelectationViewModel DoorsSelectationViewModel { get; private set; }
+
 		protected override bool Save()
 		{
 		GKManager.DeviceConfiguration.OPCSettings.ZoneUIDs = ZonesSelectationViewModel.TargetZones.Select(x => x.UID).ToList();
@@ -56,6 +60,8 @@ namespace GKModule.ViewModels
 		GKManager.DeviceConfiguration.OPCSettings.MPTUIDs = MPTsSelectationViewModel.TargetMPTs.Select(x => x.UID).ToList();
 
 		GKManager.DeviceConfiguration.OPCSettings.NSUIDs = PumpStationsSelectationViewModel.TargetPumpStations.Select(x => x.UID).ToList();
+
+		GKManager.DeviceConfiguration.OPCSettings.DoorUIDs = DoorsSelectationViewModel.TargetDoors.Select(x => x.UID).ToList();
 
 			return base.Save();
 		}

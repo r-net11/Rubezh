@@ -1,4 +1,4 @@
-﻿using FiresecAPI.GKModels.OPC;
+﻿using FiresecAPI.OPC;
 using System;
 using System.Collections.Generic;
 using System.Linq;
