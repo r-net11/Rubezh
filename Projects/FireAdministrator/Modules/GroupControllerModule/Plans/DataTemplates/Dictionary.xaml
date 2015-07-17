@@ -16,7 +16,7 @@
         <Views:SKDZonePropertiesView />
     </DataTemplate>
 
-    <DataTemplate DataType="ViewModels:DelayPropertiesViewModel">
+    <DataTemplate DataType="{x:Type ViewModels:DelayPropertiesViewModel}">
         <Views:DelayPropertiesView />
     </DataTemplate>
 
