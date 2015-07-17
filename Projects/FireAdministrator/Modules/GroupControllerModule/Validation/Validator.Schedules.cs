@@ -33,8 +33,8 @@ namespace GKModule.Validation
 
 		void ValidateSchedule(GKSchedule schedule)
 		{
-			if(schedule.DayScheduleUIDs.Count > 250)
-				Errors.Add(new ScheduleValidationError(schedule, "Количество интервалов графика не должно превышать 250", ValidationErrorLevel.CannotWrite));
+			//if(schedule.DayScheduleUIDs.Count > 250)
+			//	Errors.Add(new ScheduleValidationError(schedule, "Количество интервалов графика не должно превышать 250", ValidationErrorLevel.CannotWrite));
 		}
 	}
 }

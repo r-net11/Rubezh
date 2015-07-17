@@ -26,7 +26,7 @@ namespace SettingsModule.ViewModels
 		{
 			if (FiresecManager.CheckPermission(PermissionType.Adm_SetNewConfig))
 			{
-				var gloobalSettingsViewModel = new GloobalSettingsViewModel();
+				var gloobalSettingsViewModel = new GlobalSettingsViewModel();
 				DialogService.ShowModalWindow(gloobalSettingsViewModel);
 			}
 			else
