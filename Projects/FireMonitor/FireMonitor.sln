@@ -75,6 +75,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Designer", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RviClient", "..\Common\RviClient\RviClient.csproj", "{112658EB-3244-4922-AEF7-6376E688B7A7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SKDDriver", "..\Common\SKDDriver\SKDDriver.csproj", "{E1D3CDA0-1DE6-47D3-8D2F-C56B297E8007}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -408,6 +410,18 @@ Global
 		{112658EB-3244-4922-AEF7-6376E688B7A7}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{112658EB-3244-4922-AEF7-6376E688B7A7}.Release|x64.ActiveCfg = Release|Any CPU
 		{112658EB-3244-4922-AEF7-6376E688B7A7}.Release|x86.ActiveCfg = Release|Any CPU
+		{E1D3CDA0-1DE6-47D3-8D2F-C56B297E8007}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1D3CDA0-1DE6-47D3-8D2F-C56B297E8007}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1D3CDA0-1DE6-47D3-8D2F-C56B297E8007}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{E1D3CDA0-1DE6-47D3-8D2F-C56B297E8007}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{E1D3CDA0-1DE6-47D3-8D2F-C56B297E8007}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E1D3CDA0-1DE6-47D3-8D2F-C56B297E8007}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E1D3CDA0-1DE6-47D3-8D2F-C56B297E8007}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1D3CDA0-1DE6-47D3-8D2F-C56B297E8007}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1D3CDA0-1DE6-47D3-8D2F-C56B297E8007}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{E1D3CDA0-1DE6-47D3-8D2F-C56B297E8007}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{E1D3CDA0-1DE6-47D3-8D2F-C56B297E8007}.Release|x64.ActiveCfg = Release|Any CPU
+		{E1D3CDA0-1DE6-47D3-8D2F-C56B297E8007}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -433,5 +447,6 @@ Global
 		{EACD3C52-8D58-4A73-BDE4-E67E619BCD72} = {7C5CB4A0-7F30-446F-96ED-0E3693176556}
 		{9193BC5C-3DEF-49B0-844A-9385B1540381} = {785CAF4E-9859-4BC8-BBD8-7410571BE9E1}
 		{112658EB-3244-4922-AEF7-6376E688B7A7} = {785CAF4E-9859-4BC8-BBD8-7410571BE9E1}
+		{E1D3CDA0-1DE6-47D3-8D2F-C56B297E8007} = {785CAF4E-9859-4BC8-BBD8-7410571BE9E1}
 	EndGlobalSection
 EndGlobal
