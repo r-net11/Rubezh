@@ -61,13 +61,12 @@
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 
-				<Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Content="Ширина границы" />
-				<Label Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" Content="Цвет границы" />
-				<Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Content="Цвет фона" />
-				<Label Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" Content="Отступ" />
-
-				<Label Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" Content="Ширина разделителя" />
-				<Label Grid.Row="5" Grid.Column="0" HorizontalAlignment="Right" Content="Цвет разделителя" />
+				<TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" Text="Ширина границы" />
+				<TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" Text="Цвет границы" />
+				<TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" Text="Цвет фона" />
+				<TextBlock Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" Text="Отступ" />
+				<TextBlock Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" Text="Ширина разделителя" />
+				<TextBlock Grid.Row="5" Grid.Column="0" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" Text="Цвет разделителя" />
 
 				<extToolkit:IntegerUpDown Grid.Row="0" Grid.Column="1" Margin="2" Maximum="100" Minimum="0" Value="{Binding BorderThickness, UpdateSourceTrigger=PropertyChanged}" />
 				<xc:ColorPicker Grid.Row="1" Grid.Column="1" Margin="2" SelectedColor="{Binding BorderColor, UpdateSourceTrigger=PropertyChanged}" />

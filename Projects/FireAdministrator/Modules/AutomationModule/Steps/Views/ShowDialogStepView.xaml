@@ -9,7 +9,6 @@
 		</Grid.ColumnDefinitions>
 		<Grid Grid.Column="0">
 			<Grid.Resources>
-				
 				<Style BasedOn="{StaticResource {x:Type extToolkit:IntegerUpDown}}" TargetType="{x:Type extToolkit:IntegerUpDown}">
 					<Setter Property="Width" Value="NaN" />
 					<Setter Property="VerticalAlignment" Value="Center" />

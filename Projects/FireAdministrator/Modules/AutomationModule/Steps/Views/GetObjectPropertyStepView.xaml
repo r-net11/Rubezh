@@ -6,39 +6,36 @@
 		<ResourceDictionary Source="ProcedureResources.xaml" />
 	</UserControl.Resources>
 	<Grid>
-		<StackPanel>
-			<StackPanel Orientation="Horizontal">
-				<TextBlock Text="Тип объекта" Style="{DynamicResource TextBlockDetailsStyle}" />
-				<ComboBox ItemsSource="{Binding ObjectTypes}" SelectedItem="{Binding SelectedObjectType, UpdateSourceTrigger=PropertyChanged}">
-					<ComboBox.ItemTemplate>
-						<DataTemplate>
-							<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
-						</DataTemplate>
-					</ComboBox.ItemTemplate>
-				</ComboBox>
-			</StackPanel>
-
-			<StackPanel Orientation="Horizontal">
-				<TextBlock Text="Объект" Style="{DynamicResource TextBlockDetailsStyle}" />
-				<Views:ArgumentView DataContext="{Binding ObjectArgument}" />
-			</StackPanel>
-
-			<StackPanel Orientation="Horizontal">
-				<TextBlock Text="Свойство" Style="{DynamicResource TextBlockDetailsStyle}" />
-				<ComboBox ItemsSource="{Binding Properties}" SelectedItem="{Binding SelectedProperty, UpdateSourceTrigger=PropertyChanged}">
-					<ComboBox.ItemTemplate>
-						<DataTemplate>
-							<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
-						</DataTemplate>
-					</ComboBox.ItemTemplate>
-				</ComboBox>
-			</StackPanel>
-
-			<StackPanel Orientation="Horizontal">
-				<TextBlock Text="Результат" Style="{DynamicResource TextBlockDetailsStyle}" />
-				<Views:ArgumentView DataContext="{Binding ResultArgument}" />
-			</StackPanel>
-		</StackPanel>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition Width="Auto" />
+		</Grid.ColumnDefinitions>
+		<TextBlock Grid.Column="0" Grid.Row="0" Text="Тип объекта" Style="{DynamicResource TextBlockDetailsStyle}" />
+		<ComboBox ItemsSource="{Binding ObjectTypes}" SelectedItem="{Binding SelectedObjectType, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" >
+			<ComboBox.ItemTemplate>
+				<DataTemplate>
+					<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+				</DataTemplate>
+			</ComboBox.ItemTemplate>
+		</ComboBox>
+		<TextBlock Grid.Column="0" Grid.Row="1" Text="Объект" Style="{DynamicResource TextBlockDetailsStyle}" />
+		<Views:ArgumentView DataContext="{Binding ObjectArgument}" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" />
+		<TextBlock Text="Свойство" Grid.Column="0" Grid.Row="2" Style="{DynamicResource TextBlockDetailsStyle}" />
+		<ComboBox Grid.Column="1" Grid.Row="2" ItemsSource="{Binding Properties}" SelectedItem="{Binding SelectedProperty, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" >
+			<ComboBox.ItemTemplate>
+				<DataTemplate>
+					<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+				</DataTemplate>
+			</ComboBox.ItemTemplate>
+		</ComboBox>
+		<TextBlock Grid.Column="0" Grid.Row="3" Text="Результат" Style="{DynamicResource TextBlockDetailsStyle}" />
+		<Views:ArgumentView DataContext="{Binding ResultArgument}" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left" />
 	</Grid>
 </UserControl>
 

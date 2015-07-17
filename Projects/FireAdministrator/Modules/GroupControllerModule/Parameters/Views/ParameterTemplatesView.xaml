@@ -2,13 +2,11 @@
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 	<UserControl.Resources>
-		<Style TargetType="Label" x:Key="PropertyCaptionStyle">
-			<Setter Property="Content" Value="{Binding Caption}" />
+		<Style TargetType="TextBlock" x:Key="PropertyCaptionStyle" BasedOn="{StaticResource TextBlockDetailsStyle}">
+			<Setter Property="Text" Value="{Binding Caption}" />
 			<Setter Property="ToolTip" Value="{Binding Caption}" />
 			<Setter Property="ToolTipService.ShowOnDisabled" Value="true" />
 			<Setter Property="HorizontalAlignment" Value="Right" />
-			<Setter Property="VerticalAlignment" Value="Center" />
-			<Setter Property="Foreground" Value="White" />
 		</Style>
 	</UserControl.Resources>
 	<Grid>
@@ -78,7 +76,7 @@
 											<ColumnDefinition SharedSizeGroup="group2" Width="2*" />
 											<ColumnDefinition SharedSizeGroup="group1" Width="1*" />
 										</Grid.ColumnDefinitions>
-										<Label Grid.Column="0" Style="{StaticResource PropertyCaptionStyle}" />
+										<TextBlock Grid.Column="0" Style="{StaticResource PropertyCaptionStyle}" />
 										<TextBox Grid.Column="1" Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsEnabled}" VerticalAlignment="Center" Margin="2" />
 									</Grid>
 								</DataTemplate>
@@ -92,7 +90,7 @@
 											<ColumnDefinition SharedSizeGroup="group2" Width="2*" />
 											<ColumnDefinition SharedSizeGroup="group1" Width="1*" />
 										</Grid.ColumnDefinitions>
-										<Label Grid.Column="0" Style="{StaticResource PropertyCaptionStyle}" />
+										<TextBlock Grid.Column="0" Style="{StaticResource PropertyCaptionStyle}" />
 										<ComboBox Grid.Column="1" ItemsSource="{Binding Parameters}" SelectedItem="{Binding SelectedParameter, UpdateSourceTrigger=PropertyChanged}" ToolTipService.ShowOnDisabled="True" ToolTip="{Binding SelectedParameter.Name}" IsEnabled="{Binding IsEnabled}" VerticalAlignment="Center" Margin="2">
 											<ComboBox.ItemTemplate>
 												<DataTemplate>
