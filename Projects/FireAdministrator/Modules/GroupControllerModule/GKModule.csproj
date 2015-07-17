@@ -284,6 +284,9 @@
     <Compile Include="Plans\ViewModels\GuardZonePropertiesViewModel.cs" />
     <Compile Include="Plans\ViewModels\SKDZonePropertiesViewModel.cs" />
     <Compile Include="Plans\ViewModels\MPTPropertiesViewModel.cs" />
+    <Compile Include="Plans\Views\DelayPropertiesView.xaml.cs">
+      <DependentUpon>DelayPropertiesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Plans\Views\GKDoorPropertiesView.xaml.cs">
       <DependentUpon>GKDoorPropertiesView.xaml</DependentUpon>
     </Compile>
@@ -777,6 +780,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="OPC\Views\OPCMenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Plans\Views\DelayPropertiesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
