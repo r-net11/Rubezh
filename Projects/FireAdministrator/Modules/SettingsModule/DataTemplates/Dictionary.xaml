@@ -4,7 +4,7 @@
 					xmlns:ViewModels="clr-namespace:SettingsModule.ViewModels">
 	
 	<DataTemplate DataType="{x:Type ViewModels:GlobalSettingsViewModel}">
-		<Views:GloobalSettingsView />
+		<Views:GlobalSettingsView />
 	</DataTemplate>
 
 	<DataTemplate DataType="{x:Type ViewModels:ErrorsFilterViewModel}">
