@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 
-namespace GKImitator.Processor
+namespace SKDDriver.DataClasses
 {
-	[DataContract]
 	public class ImitatorJournalItem
 	{
 		public ImitatorJournalItem()
 		{
+			UID = Guid.NewGuid();
 			DateTime = DateTime.Now;
 			ObjectDeviceType = 0;
 			ObjectDeviceAddress = 0;
@@ -16,43 +17,28 @@ namespace GKImitator.Processor
 
 		public ImitatorJournalItem(byte source, byte nameCode, byte descriptionCode, byte yesNoCode)
 		{
+			UID = Guid.NewGuid();
 			Source = source;
 			NameCode = nameCode;
 			DescriptionCode = descriptionCode;
 			YesNoCode = yesNoCode;
 		}
 
-		[DataMember]
+		[Key]
+		public Guid UID { get; set; }
 		public int GkNo { get; set; }
-		[DataMember]
 		public int GkObjectNo { get; set; }
-		[DataMember]
 		public int UNUSED_KauNo { get; set; }
-
-		[DataMember]
 		public DateTime DateTime { get; set; }
-
-		[DataMember]
 		public short UNUSED_KauAddress { get; set; }
-		[DataMember]
 		public byte Source { get; set; } // Controller = 0, Device = 1, Object = 2
-		[DataMember]
 		public byte NameCode { get; set; }
-
-		[DataMember]
 		public byte YesNoCode { get; set; }
-		[DataMember]
 		public byte DescriptionCode { get; set; }
-
-		[DataMember]
 		public short ObjectNo { get; set; }
-		[DataMember]
 		public short ObjectDeviceType { get; set; }
-		[DataMember]
 		public short ObjectDeviceAddress { get; set; }
-		[DataMember]
 		public int ObjectFactoryNo { get; set; }
-		[DataMember]
 		public int ObjectState { get; set; }
 
 		public List<byte> ToBytes()

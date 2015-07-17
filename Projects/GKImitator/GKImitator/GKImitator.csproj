@@ -81,7 +81,6 @@
     <Compile Include="Models\ImitatorSerializedCollection.cs" />
     <Compile Include="Processor\NetProcessor.cs" />
     <Compile Include="Processor\HashHelper.cs" />
-    <Compile Include="Models\ImitatorJournalItem.cs" />
     <Compile Include="Processor\DBHelper.cs" />
     <Compile Include="Processor\ConfigurationCashHelper.cs" />
     <Compile Include="Models\Regime.cs" />
