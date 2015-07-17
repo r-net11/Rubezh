@@ -83,6 +83,8 @@
     <Compile Include="DataClasses\GKSchedule.cs" />
     <Compile Include="DataClasses\GKScheduleDay.cs" />
     <Compile Include="DataClasses\IExternalKey.cs" />
+    <Compile Include="DataClasses\Imitator\ImitatorSchedule.cs" />
+    <Compile Include="DataClasses\Imitator\ImitatorUser.cs" />
     <Compile Include="DataClasses\IOrganisationItem.cs" />
     <Compile Include="DataClasses\Journal.cs" />
     <Compile Include="DataClasses\NightSetting.cs" />
@@ -124,6 +126,8 @@
     <Compile Include="Translators\Base\ShortTranslatorBase.cs" />
     <Compile Include="Translators\HR\CardTranslator.cs" />
     <Compile Include="Translators\CurrentConsumptionTranslator.cs" />
+    <Compile Include="Translators\Imitator\ImitatorScheduleTranslator.cs" />
+    <Compile Include="Translators\Imitator\ImitatorUserTraslator.cs" />
     <Compile Include="Translators\TimeTrack\DayIntervalTranslator.cs" />
     <Compile Include="DbService.cs" />
     <Compile Include="DbServiceHelper.cs" />

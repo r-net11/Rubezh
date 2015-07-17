@@ -14,5 +14,7 @@ namespace SKDDriver.DataClasses
 
 		public Guid? DayScheduleUID { get; set; }
 		public GKDaySchedule DaySchedule { get; set; }
+
+		public int DayNo { get; set; }
 	}
 }
