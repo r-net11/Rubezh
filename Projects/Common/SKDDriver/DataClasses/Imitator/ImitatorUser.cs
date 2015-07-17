@@ -1,58 +1,60 @@
 ﻿using FiresecAPI.GK;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 
-namespace GKImitator.Processor
+namespace SKDDriver.DataClasses
 {
-	[DataContract]
 	public class ImitatorUser
 	{
 		public ImitatorUser()
 		{
+			UID = Guid.NewGuid();
 			ImitatorUserDevices = new List<ImitatorUserDevice>();
 		}
 
-		[DataMember]
+		[Key]
+		public Guid UID { get; set; }
+
 		public int GKNo { get; set; }
 
-		[DataMember]
 		public int Number { get; set; }
 
-		[DataMember]
+		[MaxLength(32)]
 		public string Name { get; set; }
 
-		[DataMember]
 		public DateTime EndDateTime { get; set; }
 
-		[DataMember]
 		public int TotalSeconds { get; set; }
 
-		[DataMember]
 		public GKCardType CardType { get; set; }
 
-		[DataMember]
 		public int Level { get; set; }
 
-		[DataMember]
 		public int ScheduleNo { get; set; }
 
-		[DataMember]
 		public bool IsBlocked { get; set; }
 
-		[DataMember]
-		public List<ImitatorUserDevice> ImitatorUserDevices { get; set; }
+		public ICollection<ImitatorUserDevice> ImitatorUserDevices { get; set; }
 	}
 
-	[DataContract]
 	public class ImitatorUserDevice
 	{
-		[DataMember]
+		public ImitatorUserDevice()
+		{
+			UID = Guid.NewGuid();
+		}
+		
+		[Key]
+		public Guid UID { get; set; }
+
 		public int DescriptorNo { get; set; }
 
-		[DataMember]
 		public int ScheduleNo { get; set; }
+
+		public Guid ImitatorUserUID { get; set; }
 	}
 }

@@ -61,7 +61,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_zones = value;
-				OnPropertyChanged("Zones");
+				OnPropertyChanged(()=>Zones);
 			}
 		}
 
@@ -80,7 +80,7 @@ namespace GKModule.ViewModels
 				{
 					ZoneDevices.Clear();
 				}
-				OnPropertyChanged("SelectedZone");
+				OnPropertyChanged(() => SelectedZone);
 				if (!_lockSelection && _selectedZone != null && _selectedZone.Zone.PlanElementUIDs != null && _selectedZone.Zone.PlanElementUIDs.Count > 0)
 					ServiceFactory.Events.GetEvent<FindElementEvent>().Publish(_selectedZone.Zone.PlanElementUIDs);
 			}

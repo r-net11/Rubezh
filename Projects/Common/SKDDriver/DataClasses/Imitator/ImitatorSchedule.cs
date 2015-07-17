@@ -1,49 +1,52 @@
 ﻿using FiresecAPI.GK;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 
-namespace GKImitator.Processor
+namespace SKDDriver.DataClasses
 {
-	[DataContract]
 	public class ImitatorSchedule
 	{
 		public ImitatorSchedule()
 		{
+			UID = Guid.NewGuid();
 			ImitatorSheduleIntervals = new List<ImitatorSheduleInterval>();
 		}
 
-		[DataMember]
+		[Key]
+		public Guid UID { get; set; }
+
 		public int No { get; set; }
 
-		[DataMember]
+		[MaxLength(32)]
 		public string Name { get; set; }
 
-		[DataMember]
 		public int HolidayScheduleNo { get; set; }
 
-		[DataMember]
 		public int PartsCount { get; set; }
 
-		[DataMember]
 		public int TotalSeconds { get; set; }
 
-		[DataMember]
 		public int WorkHolidayScheduleNo { get; set; }
 
-		[DataMember]
 		public List<ImitatorSheduleInterval> ImitatorSheduleIntervals { get; set; }
 	}
 
-	[DataContract]
 	public class ImitatorSheduleInterval
 	{
-		[DataMember]
+		public ImitatorSheduleInterval()
+		{
+			UID = Guid.NewGuid();
+		}
+
+		[Key]
+		public Guid UID { get; set; }
+
 		public int StartSeconds { get; set; }
 
-		[DataMember]
 		public int EndSeconds { get; set; }
 	}
 }
