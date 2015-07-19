@@ -1,4 +1,5 @@
 ﻿using Common;
+using Infrastructure.Common.Properties;
 using Infrastructure.Common.Windows;
 using System;
 using System.Diagnostics;
@@ -83,40 +84,40 @@ namespace Infrastructure.Common
 
 		public DoubleLaunchLocker(string signalId, string waitId, bool force = false, bool isEnable = true)
 		{
-			if (isEnable)
+			if (!isEnable) return;
+
+			_force = force;
+			SignalId = signalId;
+			WaitId = waitId;
+			bool isNew;
+			_signalHandler = new EventWaitHandle(false, EventResetMode.AutoReset, signalId, out isNew);
+			if (!isNew)
 			{
-				_force = force;
-				SignalId = signalId;
-				WaitId = waitId;
-				bool isNew;
-				_signalHandler = new EventWaitHandle(false, EventResetMode.AutoReset, signalId, out isNew);
-				if (!isNew)
+				Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+				bool terminate = false;
+				var messageBoxResult = MessageBoxService.ShowConfirmationExtended(Resources.SecondInstanceMessage);
+				if (!force && messageBoxResult != MessageBoxResult.Yes)
+					terminate = true;
+				if (!terminate)
 				{
-					Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
-					bool terminate = false;
-					if (!force && !RequestConfirmation())
-						terminate = true;
-					if (!terminate)
+					_waitHandler = new EventWaitHandle(false, EventResetMode.AutoReset, waitId);
+					_signalHandler.Dispose();
+					_signalHandler = new EventWaitHandle(false, EventResetMode.ManualReset, signalId, out isNew);
+					if (!isNew)
 					{
-						_waitHandler = new EventWaitHandle(false, EventResetMode.AutoReset, waitId);
-						_signalHandler.Dispose();
-						_signalHandler = new EventWaitHandle(false, EventResetMode.ManualReset, signalId, out isNew);
-						if (!isNew)
-						{
-							_signalHandler.Set();
-							terminate = !_waitHandler.WaitOne(TIMEOUT);
-						}
+						_signalHandler.Set();
+						terminate = !_waitHandler.WaitOne(TIMEOUT);
 					}
-					if (terminate)
-					{
-						TryShutdown();
-						ForceShutdown();
-					}
-					else
-						Application.Current.ShutdownMode = ShutdownMode.OnLastWindowClose;
 				}
-				ThreadPool.QueueUserWorkItem(WaitingHandler, waitId);
+				if (terminate)
+				{
+					TryShutdown();
+					ForceShutdown();
+				}
+				else
+					Application.Current.ShutdownMode = ShutdownMode.OnLastWindowClose;
 			}
+			ThreadPool.QueueUserWorkItem(WaitingHandler, waitId);
 		}
 
 		private bool RequestConfirmation()

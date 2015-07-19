@@ -197,7 +197,8 @@ namespace Infrastructure.Common.Windows
 			if (!Application.Current.Dispatcher.CheckAccess())
 				return (int)Application.Current.Dispatcher.Invoke((Func<bool, int>)GetActiveMonitor, shellWindow);
 			var window = shellWindow ? ApplicationWindow : DialogService.GetActiveWindow();
-			return MonitorHelper.FindMonitor(window.RestoreBounds);
+			
+			return window != null ? MonitorHelper.FindMonitor(window.RestoreBounds) : default(int);
 		}
 
 		public static void RegisterModules(List<IModule> modules)
