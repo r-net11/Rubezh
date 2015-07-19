@@ -37,7 +37,6 @@
     <Compile Include="Administrator\Files.wxs" />
     <Compile Include="Administrator\Shortcuts.wxs" />
     <Compile Include="Administrator\Uninstall.wxs" />
-    <Compile Include="Monitor\Binaries.wxs" />
     <Compile Include="Monitor\Features.wxs" />
     <Compile Include="Monitor\Files.wxs" />
     <Compile Include="Monitor\Shortcuts.wxs" />
@@ -88,7 +87,6 @@
     <Content Include="Data\SetupProgress.ico" />
     <Content Include="Administrator\Variables.wxi" />
     <Content Include="Data\TitleRect.bmp" />
-    <Content Include="Monitor\Filter.xslt" />
     <Content Include="Monitor\Variables.wxi" />
     <Content Include="Server\Variables.wxi" />
     <Content Include="UI\UI_Variables.wxi" />
