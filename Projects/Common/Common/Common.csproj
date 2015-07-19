@@ -151,6 +151,7 @@
     <Compile Include="EnvironmentParameters.cs" />
     <Compile Include="GuidHelper.cs" />
     <Compile Include="HashHelper.cs" />
+    <Compile Include="ICustomSorter.cs" />
     <Compile Include="IEnumerableExtensions.cs" />
     <Compile Include="IIdentity.cs" />
     <Compile Include="ImageCapturer.cs" />
