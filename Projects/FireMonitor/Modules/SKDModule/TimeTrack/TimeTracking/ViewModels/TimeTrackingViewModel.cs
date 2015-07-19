@@ -255,7 +255,10 @@ namespace SKDModule.ViewModels
 
 		private TimeTrackResult GetServerTimeTrackResults()
 		{
-			var resultFileName = Path.Combine(AppDataFolderHelper.GetFolder("TempServer"), "ClientTimeTrackResult.xml");
+			var resultFileName = Path.Combine(AppDataFolderHelper.GetFolder("Temp"), "ClientTimeTrackResult.xml");
+
+			if (!Directory.Exists(resultFileName)) Directory.CreateDirectory(AppDataFolderHelper.GetFolder("Temp"));
+
 			var resultFileStream = File.Create(resultFileName);
 			var stream = FiresecManager.FiresecService.GetTimeTracksStream(_timeTrackFilter.EmployeeFilter, _timeTrackFilter.StartDate, _timeTrackFilter.EndDate);
 			FiresecManager.CopyStream(stream, resultFileStream);
