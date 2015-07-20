@@ -16,7 +16,7 @@ namespace GKModule.ViewModels
 	{
 		public GKSchedule Schedule { get; set; }
 		public CalendarViewModel Calendar { get; private set; }
-		List<GKDaySchedule> _DaySchedules { get{ return GKModuleLoader.DaySchedulesViewModel.GetDaySchedules(); }}
+		List<GKDaySchedule> DaySchedules { get{ return GKModuleLoader.DaySchedulesViewModel.GetDaySchedules(); }}
 
 		public ScheduleViewModel(GKSchedule schedule)
 		{
@@ -62,11 +62,9 @@ namespace GKModule.ViewModels
 		public void Update()
 		{
 			Parts = new SortableObservableCollection<SchedulePartViewModel>();
-			for (int i = 0; i < Schedule.ScheduleParts.Count; i++)
+			foreach (var schedulePart in Schedule.ScheduleParts.OrderBy(x => x.DayNo))
 			{
-				var dayScheduleUID = Schedule.ScheduleParts[i].DayScheduleUID;
-				var daySchedule = _DaySchedules.FirstOrDefault(x => x.UID == dayScheduleUID);
-				var schedulePartViewModel = new SchedulePartViewModel(Schedule, dayScheduleUID, i);
+				var schedulePartViewModel = new SchedulePartViewModel(Schedule, schedulePart);
 				Parts.Add(schedulePartViewModel);
 			}
 			SelectedPart = Parts.FirstOrDefault();
@@ -107,25 +105,19 @@ namespace GKModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var daysCount = 1;
-			if (Schedule.SchedulePeriodType == GKSchedulePeriodType.Weekly)
+			var daySchedule = DaySchedules.FirstOrDefault();
+			if (daySchedule != null)
 			{
-				daysCount = 7;
-			}
-			for (int i = 0; i < daysCount; i++)
-			{
-				var daySchedule = _DaySchedules.FirstOrDefault();
-				if (daySchedule != null)
+				var daysCount = Schedule.SchedulePeriodType == GKSchedulePeriodType.Weekly ? 7 : 1;
+				for (int i = 0; i < daysCount; i++)
 				{
-					Schedule.ScheduleParts.Add(new GKSchedulePart() { DayNo = i, DayScheduleUID = daySchedule.UID });
-					if (UpdateSchedule())
-					{
-						var schedulePartViewModel = new SchedulePartViewModel(Schedule, Guid.Empty, i);
-						Parts.Add(schedulePartViewModel);
-					}
+					Schedule.ScheduleParts.Add(new GKSchedulePart() { DayNo = Schedule.ScheduleParts.Count, DayScheduleUID = daySchedule.UID });
+				}
+				if (GKScheduleHelper.SaveSchedule(Schedule, false))
+				{
+					Update();
 				}
 			}
-			SelectedPart = Parts.LastOrDefault();
 		}
 		bool CanAdd()
 		{
@@ -137,26 +129,25 @@ namespace GKModule.ViewModels
 		{
 			if (Schedule.SchedulePeriodType == GKSchedulePeriodType.Weekly)
 			{
-				var weekNo = SelectedPart.Index / 7;
+				var weekNo = SelectedPart.DayNo / 7;
 				for (int i = 6; i >= 0; i--)
 				{
 					var index = weekNo * 7 + i;
-					if (UpdateSchedule())
-					{
-						Schedule.ScheduleParts.RemoveAt(index);
-					}
-					Parts.RemoveAt(index);
+					Schedule.ScheduleParts.RemoveAt(index);
 				}
 			}
 			else
 			{
-				Schedule.ScheduleParts.RemoveAll(x => x.DayScheduleUID == SelectedPart.SelectedDaySchedule.UID);
-				if (UpdateSchedule())
-				{
-					Parts.Remove(SelectedPart);
-				}
+				Schedule.ScheduleParts.RemoveAll(x => x.DayNo == SelectedPart.DayNo);
 			}
-			Update();
+			for (int i = 0; i < Schedule.ScheduleParts.Count; i++)
+			{
+				Schedule.ScheduleParts[i].DayNo = i;
+			}
+			if (GKScheduleHelper.SaveSchedule(Schedule, false))
+			{
+				Update();
+			}
 		}
 		bool CanDelete()
 		{
@@ -165,11 +156,6 @@ namespace GKModule.ViewModels
 			if (Schedule.SchedulePeriodType == GKSchedulePeriodType.Dayly)
 				return Parts.Count > 1;
 			return Parts.Count > 7;
-		}
-
-		public bool UpdateSchedule()
-		{
-			return GKScheduleHelper.SaveSchedule(Schedule, false);
 		}
 	}
 }

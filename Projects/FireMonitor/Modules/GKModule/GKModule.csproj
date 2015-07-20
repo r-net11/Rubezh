@@ -173,13 +173,11 @@
     <Compile Include="Schedules\ViewModels\CalendarViewModel.cs" />
     <Compile Include="Schedules\ViewModels\DayScheduleDetailsViewModel.cs" />
     <Compile Include="Schedules\ViewModels\DaySchedulePartDetailsViewModel.cs" />
-    <Compile Include="Schedules\ViewModels\DaySchedulePartsViewModel.cs" />
     <Compile Include="Schedules\ViewModels\DaySchedulePartViewModel.cs" />
     <Compile Include="Schedules\ViewModels\DaySchedulesMenuViewModel.cs" />
     <Compile Include="Schedules\ViewModels\DaySchedulesViewModel.cs" />
     <Compile Include="Schedules\ViewModels\DayScheduleViewModel.cs" />
     <Compile Include="Schedules\ViewModels\ScheduleDetailsViewModel.cs" />
-    <Compile Include="Schedules\ViewModels\SchedulePartsViewModel.cs" />
     <Compile Include="Schedules\ViewModels\SchedulePartViewModel.cs" />
     <Compile Include="Schedules\ViewModels\SchedulesMenuViewModel.cs" />
     <Compile Include="Schedules\ViewModels\SchedulesViewModel.cs" />

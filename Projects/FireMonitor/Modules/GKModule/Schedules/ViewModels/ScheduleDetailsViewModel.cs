@@ -11,7 +11,6 @@ namespace GKModule.ViewModels
 {
 	public class ScheduleDetailsViewModel : SaveCancelDialogViewModel
 	{
-		public SchedulePartsViewModel SchedulePartsViewModel { get; private set; }
 		public GKSchedule Schedule;
 		public bool IsNew { get; private set; }
 		List<GKSchedule> _schedules;
@@ -76,8 +75,6 @@ namespace GKModule.ViewModels
 			}
 			AvailableNames = new ObservableCollection<string>(availableNames);
 			AvailableDescription = new ObservableCollection<string>(availableDescription);
-
-			SchedulePartsViewModel = new SchedulePartsViewModel(Schedule);
 		}
 
 		void CopyProperties()

@@ -26,22 +26,22 @@ namespace GKModule.ViewModels
 		{
 			DaySchedules = new ObservableCollection<DayScheduleViewModel>();
 			var daySchedules = GKScheduleHelper.GetDaySchedules();
-			if(daySchedules == null)
+			if (daySchedules == null)
 				daySchedules = new List<GKDaySchedule>();
-			if(daySchedules.Count == 0)
+			if (daySchedules.Count == 0)
 			{
 				var neverDaySchedule = new GKDaySchedule();
 				neverDaySchedule.Name = "<Никогда>";
-				if(GKScheduleHelper.SaveDaySchedule(neverDaySchedule, true))
+				if (GKScheduleHelper.SaveDaySchedule(neverDaySchedule, true))
 					daySchedules.Add(neverDaySchedule);
-				
+
 				var alwaysDaySchedule = new GKDaySchedule();
 				alwaysDaySchedule.Name = "<Всегда>";
 				alwaysDaySchedule.DayScheduleParts.Add(new GKDaySchedulePart() { StartMilliseconds = 0, EndMilliseconds = (int)new TimeSpan(23, 59, 59).TotalMilliseconds });
-				if(GKScheduleHelper.SaveDaySchedule(alwaysDaySchedule, true))
+				if (GKScheduleHelper.SaveDaySchedule(alwaysDaySchedule, true))
 					daySchedules.Add(alwaysDaySchedule);
 			}
-			foreach (var dayInterval in daySchedules)
+			foreach (var dayInterval in daySchedules.OrderBy(x => x.IsEnabled))
 			{
 				var dayScheduleViewModel = new DayScheduleViewModel(dayInterval);
 				DaySchedules.Add(dayScheduleViewModel);
@@ -87,7 +87,7 @@ namespace GKModule.ViewModels
 
 		bool CanEditRemove()
 		{
-			return SelectedDaySchedule != null && SelectedDaySchedule.IsEnabled;
+			return SelectedDaySchedule != null && SelectedDaySchedule.DaySchedule.IsEnabled;
 		}
 
 		public RelayCommand AddCommand { get; private set; }

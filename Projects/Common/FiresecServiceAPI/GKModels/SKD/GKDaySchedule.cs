@@ -20,6 +20,14 @@ namespace FiresecAPI.GK
 		[DataMember]
 		public List<GKDaySchedulePart> DayScheduleParts { get; set; }
 
+		public bool IsEnabled
+		{
+			get
+			{
+				return Name != "<Никогда>" && Name != "<Всегда>";
+			}
+		}
+
 		public override bool Equals(object obj)
 		{
 			if (obj is GKDaySchedule)

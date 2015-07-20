@@ -13,18 +13,30 @@ using GKModule.Events;
 using FiresecAPI.GK;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecClient;
+using System.Collections.ObjectModel;
+using FiresecClient.SKDHelpers;
 
 namespace GKModule.ViewModels
 {
 	public class DayScheduleViewModel : BaseViewModel
 	{
 		public GKDaySchedule DaySchedule { get; private set; }
-		public DaySchedulePartsViewModel DaySchedulePartsViewModel { get; private set; }
 
 		public DayScheduleViewModel(GKDaySchedule daySchedule)
 		{
 			DaySchedule = daySchedule;
-			DaySchedulePartsViewModel = new DaySchedulePartsViewModel(daySchedule);
+			AddCommand = new RelayCommand(OnAdd, CanAdd);
+			EditCommand = new RelayCommand(OnEdit, CanEdit);
+			RemoveCommand = new RelayCommand(OnRemove, CanEdit);
+
+			DaySchedule = daySchedule;
+			Parts = new ObservableCollection<DaySchedulePartViewModel>();
+			foreach (var dayIntervalPart in daySchedule.DayScheduleParts)
+			{
+				var daySchedulePartViewModel = new DaySchedulePartViewModel(dayIntervalPart);
+				Parts.Add(daySchedulePartViewModel);
+			}
+
 			Update(DaySchedule);
 		}
 
@@ -46,19 +58,68 @@ namespace GKModule.ViewModels
 			get { return DaySchedule.Description; }
 		}
 
-		public bool IsEnabled
-		{
-			get
-			{
-				return Name != "<Никогда>" && Name != "<Всегда>";
-			}
-		}
-
 		public bool ConfirmDeactivation()
 		{
 			return true;
 			//var hasReference = GKManager.DeviceConfiguration.WeeklyIntervals.Any(item => item.WeeklyIntervalParts.Any(part => part.DayIntervalUID == DayInterval.UID));
 			//return !hasReference || MessageBoxService.ShowConfirmation("Данный дневной график используется в одном или нескольких недельных графиках, Вы уверены что хотите его деактивировать?");
+		}
+
+		public ObservableCollection<DaySchedulePartViewModel> Parts { get; protected set; }
+
+		private DaySchedulePartViewModel _selectedPart;
+		public DaySchedulePartViewModel SelectedPart
+		{
+			get { return _selectedPart; }
+			set
+			{
+				_selectedPart = value;
+				OnPropertyChanged(() => SelectedPart);
+			}
+		}
+
+		public RelayCommand AddCommand { get; private set; }
+		void OnAdd()
+		{
+			var daySchedulePartDetailsViewModel = new DaySchedulePartDetailsViewModel();
+			if (DialogService.ShowModalWindow(daySchedulePartDetailsViewModel))
+			{
+				DaySchedule.DayScheduleParts.Add(daySchedulePartDetailsViewModel.DaySchedulePart);
+				if (GKScheduleHelper.SaveDaySchedule(DaySchedule, false))
+				{
+					var daySchedulePartViewModel = new DaySchedulePartViewModel(daySchedulePartDetailsViewModel.DaySchedulePart);
+					Parts.Add(daySchedulePartViewModel);
+					SelectedPart = daySchedulePartViewModel;
+				}
+			}
+		}
+		bool CanAdd()
+		{
+			return Parts.Count < 4;
+		}
+
+		public RelayCommand RemoveCommand { get; private set; }
+		void OnRemove()
+		{
+			DaySchedule.DayScheduleParts.Remove(SelectedPart.DaySchedulePart);
+			if (GKScheduleHelper.SaveDaySchedule(DaySchedule, false))
+			{
+				Parts.Remove(SelectedPart);
+			}
+		}
+
+		public RelayCommand EditCommand { get; private set; }
+		void OnEdit()
+		{
+			var daySchedulePartDetailsViewModel = new DaySchedulePartDetailsViewModel(SelectedPart.DaySchedulePart);
+			if (DialogService.ShowModalWindow(daySchedulePartDetailsViewModel) && GKScheduleHelper.SaveDaySchedule(DaySchedule, false))
+			{
+				SelectedPart.Update();
+			}
+		}
+		bool CanEdit()
+		{
+			return SelectedPart != null;
 		}
 	}
 }

@@ -10,6 +10,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI.Journal;
 using System.Collections.Generic;
 using System.Diagnostics;
+using SKDDriver.DataClasses;
 
 namespace GKImitator.ViewModels
 {

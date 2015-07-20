@@ -6,6 +6,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI.Journal;
 using GKImitator.Processor;
 using FiresecAPI.GK;
+using SKDDriver.DataClasses;
 
 namespace GKImitator.ViewModels
 {
