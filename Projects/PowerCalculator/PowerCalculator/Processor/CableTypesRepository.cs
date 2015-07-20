@@ -83,14 +83,14 @@ namespace PowerCalculator.Processor
         public static void Default()
         {
             Initialize();
-            
-            CableTypes.Add(new CableType() {
-                Name = @"КПСнг(А)-FRLS 1x2x0,35",
-                Resistivity = 0.04849
-                });
+
             CableTypes.Add(new CableType()
             {
                 Name = @"КПСЭнг(А)-FRLS 1x2x0,35",
+                Resistivity = 0.04849
+            });
+            CableTypes.Add(new CableType() {
+                Name = @"КПСнг(А)-FRLS 1x2x0,35",
                 Resistivity = 0.04849
             });
             CableTypes.Add(new CableType()
