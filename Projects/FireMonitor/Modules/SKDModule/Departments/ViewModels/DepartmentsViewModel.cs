@@ -115,7 +115,7 @@ namespace SKDModule.ViewModels
 		protected override bool Restore(ShortDepartment model)
 		{
 			model.ParentDepartments = new Dictionary<Guid, string>();
-			foreach (var parent in SelectedItem.GetAllParents().Where(x => !x.IsOrganisation))
+			foreach (var parent in SelectedItem.GetAllParents().Where(x => !x.IsOrganisation && x.IsDeleted))
 			{
 				model.ParentDepartments.Add(parent.UID, parent.Name);
 			}
@@ -226,7 +226,7 @@ namespace SKDModule.ViewModels
 				child.IsDeleted = false;
 				SelectedItem.RemovalDate = "";
 			}
-			var employeeUIDs = DepartmentHelper.GetParentEmployeeUIDs(SelectedItem.UID);;
+			var employeeUIDs = DepartmentHelper.GetParentEmployeeUIDs(SelectedItem.UID);
 			foreach (var uid in employeeUIDs)
 			{
 				ServiceFactory.Events.GetEvent<EditEmployeeEvent>().Publish(uid);
