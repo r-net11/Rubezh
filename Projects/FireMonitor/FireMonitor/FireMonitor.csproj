@@ -302,7 +302,6 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>call "$(WIX)bin\heat.exe" dir "$(TargetDir)\" -t "$(SolutionDir)\..\Installers\FiresecInstaller\FiresecInstaller\Monitor\Filter.xslt"  -var var.FireMonitor.TargetDir -dr INSTALLLOCATION -cg Binaries -ag -scom -sreg -sfrag –srd -o "$(SolutionDir)\..\Installers\FiresecInstaller\FiresecInstaller\Monitor\Binaries.wxs"</PostBuildEvent>
   </PropertyGroup>
 </Project>

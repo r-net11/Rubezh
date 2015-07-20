@@ -13,6 +13,7 @@ obj/
 *_i.c
 *_p.c
 *.ncb
+*.exe
 *.suo
 *.tlb
 *.tlh
