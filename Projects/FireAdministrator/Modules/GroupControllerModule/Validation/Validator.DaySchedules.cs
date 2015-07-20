@@ -25,8 +25,8 @@ namespace GKModule.Validation
 
 				if (string.IsNullOrEmpty(daySchedule.Name))
 					Errors.Add(new DayScheduleValidationError(daySchedule, "Отсутствует название дневного графика", ValidationErrorLevel.CannotWrite));
-				if (daySchedule.DayScheduleParts.Count == 0)
-					Errors.Add(new DayScheduleValidationError(daySchedule, "Отсутствуют составляющие части дневного графика", ValidationErrorLevel.CannotWrite));
+				//if (daySchedule.DayScheduleParts.Count == 0)
+				//	Errors.Add(new DayScheduleValidationError(daySchedule, "Отсутствуют составляющие части дневного графика", ValidationErrorLevel.CannotWrite));
 				foreach (var daySchedulePart in daySchedule.DayScheduleParts)
 					if (daySchedulePart.EndMilliseconds < daySchedulePart.StartMilliseconds)
 					{

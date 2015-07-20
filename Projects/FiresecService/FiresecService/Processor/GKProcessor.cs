@@ -120,6 +120,7 @@ namespace FiresecService
 
 		static void CheckPendingCards(GKCallbackResult gkCallbackResult)
 		{
+			return;
 			foreach (var journalItem in gkCallbackResult.JournalItems)
 			{
 				if (journalItem.JournalEventNameType == JournalEventNameType.Восстановление_связи_с_прибором || journalItem.JournalEventNameType == JournalEventNameType.Начало_мониторинга)
