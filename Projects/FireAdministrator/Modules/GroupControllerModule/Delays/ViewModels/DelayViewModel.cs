@@ -25,6 +25,12 @@ namespace GKModule.ViewModels
 			OnPropertyChanged(() => PresentationLogic);
 		}
 
+		public void Update(GKDelay delay)
+		{
+			this.Delay = delay;
+			this.Update();
+		}
+
 		public string PresentationLogic
 		{
 			get

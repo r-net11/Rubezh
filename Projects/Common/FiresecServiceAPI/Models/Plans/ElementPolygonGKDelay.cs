@@ -6,59 +6,59 @@ using Infrustructure.Plans.Interfaces;
 
 namespace FiresecAPI.Models
 {
-    [DataContract()]
-    public class ElementPolygonGKDelay : ElementBasePolygon, IPrimitive, IElementDelay, IElementReference
-    {
-        public ElementPolygonGKDelay()
-        {
-            PresentationName = "Задержка";
-        }
+	[DataContract()]
+	public class ElementPolygonGKDelay : ElementBasePolygon, IPrimitive, IElementDelay, IElementReference
+	{
+		public ElementPolygonGKDelay()
+		{
+			PresentationName = "Задержка";
+		}
 
-        public override ElementBase Clone()
-        {
-            var elementBase = new ElementPolygonGKMPT();
-            Copy(elementBase);
-            return elementBase;
-        }
+		public override ElementBase Clone()
+		{
+			var elementBase = new ElementPolygonGKDelay();
+			Copy(elementBase);
+			return elementBase;
+		}
 
-        public override void Copy(ElementBase element)
-        {
-            base.Copy(element);
-            ((ElementPolygonGKDelay)element).DelayUID = DelayUID;
-        }
+		public override void Copy(ElementBase element)
+		{
+			base.Copy(element);
+			((ElementPolygonGKDelay)element).DelayUID = DelayUID;
+		}
 
-        [DataMember()]
-        public Guid DelayUID { get; set; }
+		[DataMember()]
+		public Guid DelayUID { get; set; }
 
-        [DataMember()]
-        public bool ShowState { get; set; }
+		[DataMember()]
+		public bool ShowState { get; set; }
 
 		[DataMember]
 		public bool ShowDelay { get; set; }
 
-        #region IPrimitive Members
+		#region IPrimitive Members
 
-        [XmlIgnore()]
-        public Primitive Primitive
-        {
-            get { return Infrustructure.Plans.Elements.Primitive.PolygonZone; }
-        }
+		[XmlIgnore()]
+		public Primitive Primitive
+		{
+			get { return Infrustructure.Plans.Elements.Primitive.PolygonZone; }
+		}
 
-        #endregion IPrimitive Members
+		#endregion IPrimitive Members
 
-        public void SetZLayer(int zlayer)
-        {
-            ZLayer = zlayer;
-        }
+		public void SetZLayer(int zlayer)
+		{
+			ZLayer = zlayer;
+		}
 
-        #region IElementReference Members
+		#region IElementReference Members
 
-        Guid IElementReference.ItemUID
-        {
-            get { return this.DelayUID; }
-            set { this.DelayUID = value; }
-        }
+		Guid IElementReference.ItemUID
+		{
+			get { return this.DelayUID; }
+			set { this.DelayUID = value; }
+		}
 
-        #endregion
-    }
+		#endregion
+	}
 }
