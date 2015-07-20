@@ -209,6 +209,19 @@ namespace GKModule.ViewModels
 			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
 		}
 
+		public void LockedSelect(Guid zoneUID)
+		{
+			try
+			{
+				this._lockSelection = true;
+				Select(zoneUID);
+			}
+			finally
+			{
+				this._lockSelection = false;
+			}
+		}
+
 		private void SetRibbonItems()
 		{
 			RibbonItems = new List<RibbonMenuItemViewModel>()
@@ -223,5 +236,10 @@ namespace GKModule.ViewModels
 				}, "BEdit") { Order = 2 }
 			};
 		}
+
+		#region Fields
+		private bool _lockSelection = false;
+
+		#endregion
 	}
 }
