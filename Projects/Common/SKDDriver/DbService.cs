@@ -31,6 +31,9 @@ namespace SKDDriver.DataClasses
         public TimeTrackDocumentTypeTranslator TimeTrackDocumentTypeTranslator { get; private set; }
         public TimeTrackDocumentTranslator TimeTrackDocumentTranslator { get; private set; }
         public TestDataGenerator TestDataGenerator { get; private set; }
+		public ImitatorUserTraslator ImitatorUserTraslator { get; private set; }
+		public ImitatorScheduleTranslator ImitatorScheduleTranslator { get; private set; }
+
         public static bool IsAbort
 		{
 			get { return JournalTranslator.IsAbort; }
@@ -65,6 +68,8 @@ namespace SKDDriver.DataClasses
             TimeTrackDocumentTypeTranslator = new TimeTrackDocumentTypeTranslator(this);
             TimeTrackDocumentTranslator = new TimeTrackDocumentTranslator(this);
             TestDataGenerator = new TestDataGenerator(this);
+			ImitatorUserTraslator = new ImitatorUserTraslator(this);
+			ImitatorScheduleTranslator = new ImitatorScheduleTranslator(this);
 		}
         
         public void BeginGet(FiresecAPI.SKD.HRFilter filter, Action<DbCallbackResult> portionReady)

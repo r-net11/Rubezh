@@ -15,8 +15,6 @@ namespace GKImitator.Processor
 		static DBHelper()
 		{
 			Load();
-			if (ImitatorSerializedCollection.ImitatorSchedules == null)
-				ImitatorSerializedCollection.ImitatorSchedules = new List<ImitatorSchedule>();
 		}
 
 		public static void Load()

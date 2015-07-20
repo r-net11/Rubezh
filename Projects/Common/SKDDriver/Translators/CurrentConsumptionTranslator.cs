@@ -12,9 +12,9 @@ namespace SKDDriver.DataClasses
         public DbService DbService { get; private set; }
 		public DatabaseContext Context { get { return DbService.Context; } }
 
-        public CurrentConsumptionTranslator(DbService context)
+        public CurrentConsumptionTranslator(DbService dbService)
 		{
-			DbService = context;
+			DbService = dbService;
 		}
 
         public OperationResult Save(API.CurrentConsumption item)

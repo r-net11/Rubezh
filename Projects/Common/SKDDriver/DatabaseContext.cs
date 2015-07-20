@@ -61,6 +61,11 @@ namespace SKDDriver.DataClasses
 		public DbSet<TimeTrackDocument> TimeTrackDocuments { get; set; }
 		public DbSet<TimeTrackDocumentType> TimeTrackDocumentTypes { get; set; }
 		public DbSet<TimeTrackException> TimeTrackExceptions { get; set; }
+
+		public DbSet<ImitatorUser> ImitatorUsers { get; set; }
+		public DbSet<ImitatorUserDevice> ImitatorUserDevices { get; set; }
+		public DbSet<ImitatorSchedule> ImitatorSchedules { get; set; }
+		public DbSet<ImitatorSheduleInterval> ImitatorSheduleIntervals { get; set; }
 	}
 
 	internal sealed class Configuration : DbMigrationsConfiguration<DatabaseContext>

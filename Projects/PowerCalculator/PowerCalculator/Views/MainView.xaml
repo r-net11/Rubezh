@@ -27,6 +27,28 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+        <Style x:Key="DataGridDevicesCellStyle" TargetType="{x:Type DataGridCell}">
+            <Style.Setters>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type DataGridCell}">
+                            <Border Background="{TemplateBinding Background}" BorderThickness="0">
+                                <ContentPresenter VerticalAlignment="Center" />
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style.Setters>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource PressedBackgroundBrush}" />
+                    <Setter Property="Foreground" Value="White" />
+                </Trigger>
+                <DataTrigger Binding ="{Binding SelectedDriver.Driver.DeviceType}" Value="Supplier">
+                    <Setter Property="FontWeight" Value="Bold" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
         <Style x:Key="DataGridICellStyle" TargetType="{x:Type DataGridCell}">
             <Style.Setters>
                 <Setter Property="Template">
@@ -44,6 +66,9 @@
                     <Setter Property="Background" Value="{DynamicResource PressedBackgroundBrush}" />
                     <Setter Property="Foreground" Value="White" />
                 </Trigger>
+                <DataTrigger Binding ="{Binding SelectedDriver.Driver.DeviceType}" Value="Supplier">
+                    <Setter Property="FontWeight" Value="Bold" />
+                </DataTrigger>
                 <DataTrigger Binding ="{Binding HasIError}" Value="True">
                     <Setter Property="Background" Value="Red" />
                 </DataTrigger>
@@ -66,6 +91,9 @@
                     <Setter Property="Background" Value="{DynamicResource PressedBackgroundBrush}" />
                     <Setter Property="Foreground" Value="White" />
                 </Trigger>
+                <DataTrigger Binding ="{Binding SelectedDriver.Driver.DeviceType}" Value="Supplier">
+                    <Setter Property="FontWeight" Value="Bold" />
+                </DataTrigger>
                 <DataTrigger Binding ="{Binding HasUError}" Value="True">
                     <Setter Property="Background" Value="Red" />
                 </DataTrigger>
@@ -138,7 +166,7 @@
             </StackPanel>
 
             <Grid Grid.Row="0" Grid.Column="1" DataContext="{Binding SelectedLine}">
-                <DataGrid Name="DevicesDataGrid" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" SelectionMode="Extended" IsReadOnly="False" Margin="2">
+                <DataGrid Name="DevicesDataGrid" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" SelectionMode="Extended" IsReadOnly="False" CellStyle="{StaticResource DataGridDevicesCellStyle}" Margin="2">
                     <DataGrid.Columns>
                         <DataGridTemplateColumn Header="Устройство" Width="*">
                             <DataGridTemplateColumn.CellTemplate>

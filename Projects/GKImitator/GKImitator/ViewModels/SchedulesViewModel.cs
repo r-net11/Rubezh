@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using SKDDriver.DataClasses;
 
 namespace GKImitator.ViewModels
 {
@@ -16,7 +17,12 @@ namespace GKImitator.ViewModels
 		public SchedulesViewModel()
 		{
 			Title = "Графики работ прибора";
-			Schedules = new ObservableCollection<ImitatorSchedule>(DBHelper.ImitatorSerializedCollection.ImitatorSchedules);
+
+			using(var dbService = new DbService())
+			{
+				var schedules = dbService.ImitatorScheduleTranslator.Get();
+				Schedules = new ObservableCollection<ImitatorSchedule>(schedules);
+			}
 		}
 
 		public ObservableCollection<ImitatorSchedule> Schedules { get; private set; }

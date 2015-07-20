@@ -75,6 +75,8 @@ namespace PowerCalculator.ViewModels
 			set
 			{
                 _cableLength = value > 0 ? Math.Round(value, 2) : 1;
+                if (_cableLength > 1000)
+                    _cableLength = 1000;
 				OnPropertyChanged(() => CableLength);
 			}
 		}

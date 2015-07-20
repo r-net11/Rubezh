@@ -61,12 +61,19 @@
 			</DataGrid.Columns>
 		</DataGrid>
 		<Grid Grid.Row="1" DataContext="{Binding SelectedUser}" Margin="2">
-			<DataGrid ItemsSource="{Binding Devices}">
+			<DataGrid ItemsSource="{Binding ImitatorUserDevices}">
 				<DataGrid.Columns>
-					<DataGridTemplateColumn Header="Номер" Width="*">
+					<DataGridTemplateColumn Header="Номер компонента" Width="*">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<TextBlock Text="{Binding DescriptorNo}" Margin="2" />
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+					<DataGridTemplateColumn Header="Номер графика" Width="*">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding ScheduleNo}" Margin="2" />
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>

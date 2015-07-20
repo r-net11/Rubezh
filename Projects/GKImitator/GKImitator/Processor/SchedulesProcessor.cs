@@ -1,4 +1,5 @@
 ﻿using GKProcessor;
+using SKDDriver.DataClasses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,12 +18,12 @@ namespace GKImitator.Processor
 			imitatorSchedule.PartsCount = BytesHelper.SubstructShort(bytes, 36);
 			imitatorSchedule.TotalSeconds = BytesHelper.SubstructInt(bytes, 38);
 			imitatorSchedule.WorkHolidayScheduleNo = bytes[42];
-			for(int i = 0; i < 100; i++)
+			for (int i = 0; i < 100; i++)
 			{
 				var imitatorSheduleInterval = new ImitatorSheduleInterval();
 				imitatorSheduleInterval.StartSeconds = BytesHelper.SubstructInt(bytes, 49 + i * 4);
 				imitatorSheduleInterval.EndSeconds = BytesHelper.SubstructInt(bytes, 53 + i * 4);
-				if(imitatorSheduleInterval.StartSeconds != 0)
+				if (imitatorSheduleInterval.StartSeconds != 0)
 				{
 					imitatorSchedule.ImitatorSheduleIntervals.Add(imitatorSheduleInterval);
 				}
@@ -31,14 +32,10 @@ namespace GKImitator.Processor
 					break;
 				}
 			}
-			var existingImitatorSchedule = DBHelper.ImitatorSerializedCollection.ImitatorSchedules.FirstOrDefault(x => x.No == imitatorSchedule.No);
-			if (existingImitatorSchedule == null)
+
+			using (var dbService = new DbService())
 			{
-				DBHelper.ImitatorSerializedCollection.ImitatorSchedules.Add(imitatorSchedule);
-			}
-			else
-			{
-				existingImitatorSchedule = imitatorSchedule;
+				dbService.ImitatorScheduleTranslator.AddOrEdit(imitatorSchedule);
 			}
 		}
 	}

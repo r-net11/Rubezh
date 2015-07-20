@@ -284,6 +284,9 @@
     <Compile Include="Plans\ViewModels\GuardZonePropertiesViewModel.cs" />
     <Compile Include="Plans\ViewModels\SKDZonePropertiesViewModel.cs" />
     <Compile Include="Plans\ViewModels\MPTPropertiesViewModel.cs" />
+    <Compile Include="Plans\Views\DelayPropertiesView.xaml.cs">
+      <DependentUpon>DelayPropertiesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Plans\Views\GKDoorPropertiesView.xaml.cs">
       <DependentUpon>GKDoorPropertiesView.xaml</DependentUpon>
     </Compile>
@@ -356,9 +359,6 @@
       <DependentUpon>PumpStationsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="OPC\ViewModels\OPCsViewModel.cs" />
-    <Compile Include="OPC\Views\OPCDevicesView.xaml.cs">
-      <DependentUpon>OPCDevicesView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="OPC\Views\OPCView.xaml.cs">
       <DependentUpon>OPCView.xaml</DependentUpon>
     </Compile>
@@ -783,6 +783,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Plans\Views\DelayPropertiesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Plans\Views\GKDoorPropertiesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -898,10 +902,6 @@
     <Page Include="PumpStation\Views\PumpStationsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="OPC\Views\OPCDevicesView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="OPC\Views\OPCView.xaml">
       <SubType>Designer</SubType>

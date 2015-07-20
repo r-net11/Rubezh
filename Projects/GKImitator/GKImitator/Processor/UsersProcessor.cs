@@ -1,5 +1,6 @@
 ﻿using FiresecAPI.GK;
 using GKProcessor;
+using SKDDriver.DataClasses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,21 +14,29 @@ namespace GKImitator.Processor
 		{
 			var imitatorUser = ImitatorUserFromBytes(bytes);
 			var packNo = BytesHelper.SubstructShort(bytes, 255);
-			imitatorUser.GKNo = DBHelper.ImitatorSerializedCollection.ImitatorUsers.Count;
-			DBHelper.ImitatorSerializedCollection.ImitatorUsers.Add(imitatorUser);
+			using(var dbServce = new DbService())
+			{
+				dbServce.ImitatorUserTraslator.Add(imitatorUser);
+			}
 		}
 
 		public static void EditUser(List<byte> bytes)
 		{
 			var imitatorUser = ImitatorUserFromBytes(bytes);
 			var packNo = BytesHelper.SubstructShort(bytes, 255);
-			var existingImitatorUser = DBHelper.ImitatorSerializedCollection.ImitatorUsers.FirstOrDefault(x => x.GKNo == imitatorUser.GKNo);
-			existingImitatorUser = imitatorUser;
+			using (var dbService = new DbService())
+			{
+				dbService.ImitatorUserTraslator.Edit(imitatorUser);
+			}
 		}
 
 		public static List<byte> ReadUser(int gkUserNo)
 		{
-			var imitatorUser = DBHelper.ImitatorSerializedCollection.ImitatorUsers.FirstOrDefault(x => x.GKNo == gkUserNo);
+			ImitatorUser imitatorUser = null;
+			using (var dbService = new DbService())
+			{
+				imitatorUser = dbService.ImitatorUserTraslator.GetByGKNo(gkUserNo);
+			}
 			if (imitatorUser != null)
 			{
 				var bytes = new List<byte>();

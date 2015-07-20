@@ -1,32 +1,36 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ViewModels="clr-namespace:GKModule.Plans.ViewModels" xmlns:Views="clr-namespace:GKModule.Plans.Views">
 
-	<DataTemplate DataType="{x:Type ViewModels:DevicePropertiesViewModel}">
-		<Views:DevicePropertiesView />
-	</DataTemplate>
+    <DataTemplate DataType="{x:Type ViewModels:DevicePropertiesViewModel}">
+        <Views:DevicePropertiesView />
+    </DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:ZonePropertiesViewModel}">
-		<Views:ZonePropertiesView />
-	</DataTemplate>
+    <DataTemplate DataType="{x:Type ViewModels:ZonePropertiesViewModel}">
+        <Views:ZonePropertiesView />
+    </DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:GuardZonePropertiesViewModel}">
-		<Views:GuardZonePropertiesView />
-	</DataTemplate>
+    <DataTemplate DataType="{x:Type ViewModels:GuardZonePropertiesViewModel}">
+        <Views:GuardZonePropertiesView />
+    </DataTemplate>
 
     <DataTemplate DataType="{x:Type ViewModels:SKDZonePropertiesViewModel}">
         <Views:SKDZonePropertiesView />
     </DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:DirectionPropertiesViewModel}">
-		<Views:DirectionPropertiesView />
-	</DataTemplate>
+    <DataTemplate DataType="{x:Type ViewModels:DelayPropertiesViewModel}">
+        <Views:DelayPropertiesView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:DirectionPropertiesViewModel}">
+        <Views:DirectionPropertiesView />
+    </DataTemplate>
 
     <DataTemplate DataType="{x:Type ViewModels:MPTPropertiesViewModel}">
         <Views:MPTPropertiesView />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type ViewModels:GKDoorPropertiesViewModel}">
-		<Views:GKDoorPropertiesView />
-	</DataTemplate>
+        <Views:GKDoorPropertiesView />
+    </DataTemplate>
 
     <DataTemplate DataType="{x:Type ViewModels:DevicesInZoneViewModel}">
         <Views:DevicesInZoneView />
