@@ -120,18 +120,23 @@ namespace PowerCalculator.Processor
 			}
               
             //Cables
-            var cableRemains = cableSpecificationItems.OrderBy(x=>x.Resistivity).ToList();
+            var cableRemains = 
+                cableSpecificationItems.OrderBy(x => x.Resistivity)
+                .Select(x => new CableSpecificationItem() { CableType = x.CableType, Length = x.Length, Resistivity = x.Resistivity })
+                .ToList();
             var cablePieces = new List<CableSpecificationItem>();
                         
             do
             {
                 bool goAgain = false;
                 var totalCableLength = cableRemains.Sum(x => x.Length);
-                var avarageCableLength = totalCableLength / (expandedDeviceSpecificationItems.Count - cablePieces.Count);
+                var averageCableLength = totalCableLength / (expandedDeviceSpecificationItems.Count - cablePieces.Count);
+                if (averageCableLength > 1000)
+                    averageCableLength = 1000;
 
                 for (int i = cableRemains.Count - 1; i >= 0 && cablePieces.Count < expandedDeviceSpecificationItems.Count; i--)
                 {
-                    if (cableRemains[i].Length < avarageCableLength)
+                    if (cableRemains[i].Length < averageCableLength)
                     {
                         goAgain = true;
                         cablePieces.Add(cableRemains[i]);
@@ -156,9 +161,11 @@ namespace PowerCalculator.Processor
                     if (cableRemains.Count == 1)
                         pc = expandedDeviceSpecificationItems.Count - cablePieces.Count;
                     else 
-                        pc = cableRemains[i].Length % avarageCableLength == 0 ? (int)(cableRemains[i].Length / avarageCableLength) : (int)(cableRemains[i].Length / avarageCableLength) + 1;
+                        pc = cableRemains[i].Length % averageCableLength == 0 ? (int)(cableRemains[i].Length / averageCableLength) : (int)(cableRemains[i].Length / averageCableLength) + 1;
                     
                     double pieceLength = cableRemains[i].Length / pc;
+                    if (pieceLength > 1000)
+                        pieceLength = 1000;
 
                     if (pieceLength > maxPieceLength)
                     {
@@ -170,8 +177,14 @@ namespace PowerCalculator.Processor
 
                 for (int i = 0; i < piecesCount; i++)
                     cablePieces.Add(new CableSpecificationItem() { Length = maxPieceLength, Resistivity = cableRemains[selectedIndex].Resistivity, CableType = cableRemains[selectedIndex].CableType });
-                cableRemains.RemoveAt(selectedIndex);
-                    
+
+                if (selectedIndex < cableRemains.Count)
+                {
+                    cableRemains[selectedIndex].Length -= maxPieceLength * piecesCount;
+                    if (cableRemains[selectedIndex].Length <= 0)
+                        cableRemains.RemoveAt(selectedIndex);
+                }
+
             } while (cablePieces.Count < expandedDeviceSpecificationItems.Count);
 
 
