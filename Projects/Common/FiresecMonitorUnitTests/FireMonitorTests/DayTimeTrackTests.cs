@@ -538,7 +538,7 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 			var result = dayTimeTrack.GetBalance(timeTrackPart, slideTimeSeconds);
 
 			//Assert
-			Assert.AreEqual(result, TimeSpan.Zero);
+			Assert.AreEqual(result, TimeSpan.FromHours(7));
 		}
 
 		[Test]

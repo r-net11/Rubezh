@@ -482,6 +482,7 @@ namespace FiresecAPI.SKD
 		/// Получает часы, необходимые для расчета баланса, для каждого типа интервала времени
 		/// </summary>
 		/// <param name="timeTrack">Интервал УРВ</param>
+		/// <param name="isHoliday">Флаг, определяющий праздничный день для конкретного дня</param>
 		/// <returns>Время интервала</returns>
 		public TimeSpan GetDeltaForTimeTrack(TimeTrackPart timeTrack, bool isHoliday)
 		{
@@ -513,6 +514,7 @@ namespace FiresecAPI.SKD
 			{
 				case TimeTrackType.DocumentOvertime:
 				case TimeTrackType.DocumentPresence:
+				case TimeTrackType.Presence:
 					return timeTrack.Delta;
 
 				case TimeTrackType.Absence:
