@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Management.Instrumentation;
-using System.Text;
-using FiresecAPI.SKD;
-using Infrastructure.Common;
+﻿using FiresecAPI.SKD;
 using NUnit.Framework;
-using SKDModule.Model;
+using System;
+using System.Collections.Generic;
 
 namespace FiresecMonitorUnitTests.FireMonitorTests
 {

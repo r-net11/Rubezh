@@ -53,11 +53,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StrazhModule", "Modules\Str
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiresecMonitorUnitTests", "..\Common\FiresecMonitorUnitTests\FiresecMonitorUnitTests.csproj", "{41498CE8-63D7-4EEA-970E-41B77995EE21}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A48F07C9-BFDA-41DB-A114-E9B542B05EDB}"
-	ProjectSection(SolutionItems) = preProject
-		Performance1.psess = Performance1.psess
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
