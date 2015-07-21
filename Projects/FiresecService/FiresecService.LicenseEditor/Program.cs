@@ -15,13 +15,6 @@ namespace FiresecService.LicenseEditor
         [STAThread]
         static void Main(string[] args)
         {
-            if (args.Length == 1 && args[0].ToLower().Replace("/", "-").Replace(" ", "") == "-gui")
-            {
-                Application.EnableVisualStyles();
-                Application.SetCompatibleTextRenderingDefault(false);
-                Application.Run(new MainForm());
-            }
-
             if (args.Length >= 3)
             {
                 var key = InitialKey.FromHexString(args[1]);
@@ -44,6 +37,13 @@ namespace FiresecService.LicenseEditor
                 LicenseProcessor.ProcessSave(args[0], license, key);
 
                 return;
+            }
+
+            if (args.Length == 1 && args[0].ToLower().Replace("/", "-").Replace(" ", "") == "-gui")
+            {
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                Application.Run(new MainForm());
             }
         }
     }
