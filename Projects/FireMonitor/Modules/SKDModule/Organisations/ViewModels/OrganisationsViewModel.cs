@@ -5,6 +5,7 @@ using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
@@ -143,34 +144,32 @@ namespace SKDModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
-			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить огранизацию?"))
+			if (!MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить организацию?")) return;
+
+			if (SelectedOrganisation == null) return;
+
+			if (OrganisationHelper.IsAnyItems(SelectedOrganisation.Organisation.UID) &&
+			    !MessageBoxService.ShowQuestion("Привязанные к организации объекты будут также архивированы. Продолжить?")) return;
+
+			OrganisationHelper.MarkDeleted(SelectedOrganisation.Organisation);
+			ServiceFactoryBase.Events.GetEvent<RemoveOrganisationEvent>().Publish(SelectedOrganisation.Organisation.UID);
+
+			if (_logicalDeletationType == LogicalDeletationType.All)
 			{
-				if (!OrganisationHelper.IsAnyItems(SelectedOrganisation.Organisation.UID) ||
-					MessageBoxService.ShowQuestion("Привязанные к организации объекты будут также архивированы. Продолжить?"))
-				{
-					var organisation = SelectedOrganisation.Organisation;
-					var removeResult = OrganisationHelper.MarkDeleted(organisation);
-					if (removeResult == false)
-						return;
-					if (_logicalDeletationType == LogicalDeletationType.All)
-					{
-						SelectedOrganisation.IsDeleted = true;
-						SetItemsCanSelect(false);
-					}
-					else
-					{
-						Organisations.Remove(SelectedOrganisation);
-						SelectedOrganisation = Organisations.FirstOrDefault();
-					}
-					ServiceFactory.Events.GetEvent<RemoveOrganisationEvent>().Publish(organisation.UID);
-				}
+				SelectedOrganisation.IsDeleted = true;
+				SetItemsCanSelect(false);
+			}
+			else
+			{
+				Organisations.Remove(SelectedOrganisation);
+				SelectedOrganisation = Organisations.FirstOrDefault();
 			}
 		}
 
 		public RelayCommand RestoreCommand { get; private set; }
 		void OnRestore()
 		{
-			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите восстановить огранизацию?"))
+			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите восстановить организацию?"))
 			{
 				var restoreResult = OrganisationHelper.Restore(SelectedOrganisation.Organisation);
 				if (!restoreResult)

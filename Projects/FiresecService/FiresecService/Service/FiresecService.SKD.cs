@@ -614,29 +614,23 @@ namespace FiresecService.Service
 			{
 				var errors = new List<string>();
 				var cards = databaseService.CardTranslator.Get(new CardFilter { EmployeeFilter = new EmployeeFilter { OrganisationUIDs = new List<Guid> { uid } }, DeactivationType = LogicalDeletationType.Active });
-				if (!cards.HasError)
+				if (cards.HasError) return new OperationResult(cards.Error);
+
+				foreach (var card in cards.Result)
 				{
-					foreach (var card in cards.Result)
-					{
-						var cardResult = DeleteCardFromEmployee(card, name);
-						if (cardResult.HasError)
-							errors.Add(cardResult.Error);
-					}
-					var markDeleledResult = databaseService.OrganisationTranslator.MarkDeleted(uid);
-					if (markDeleledResult.HasError)
-					{
-						errors.Add("Ошибка БД:");
-						errors.Add(markDeleledResult.Error);
-					}
-					if (errors.Count > 0)
-						return new OperationResult(String.Join("\n", errors));
-					else
-						return new OperationResult();
+					var cardResult = DeleteCardFromEmployee(card, name);
+					if (cardResult.HasError)
+						errors.Add(cardResult.Error);
 				}
-				else
+
+				var markDeleledResult = databaseService.OrganisationTranslator.MarkDeleted(uid);
+				if (markDeleledResult.HasError)
 				{
-					return new OperationResult(cards.Error);
+					errors.Add("Ошибка БД:");
+					errors.Add(markDeleledResult.Error);
 				}
+
+				return errors.Count > 0 ? new OperationResult(String.Join("\n", errors)) : new OperationResult();
 			}
 		}
 
