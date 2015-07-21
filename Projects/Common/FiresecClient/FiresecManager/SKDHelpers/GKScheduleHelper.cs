@@ -40,6 +40,8 @@ namespace FiresecClient.SKDHelpers
 		public static bool SaveDaySchedule(GKDaySchedule item, bool isNew)
 		{
 			var operationResult = FiresecManager.FiresecService.SaveGKDaySchedule(item, isNew);
+			if (operationResult == null)
+				return false;
 			if (operationResult.HasError)
 				MessageBoxService.ShowWarning(operationResult.Error);
 			return operationResult.Result;
