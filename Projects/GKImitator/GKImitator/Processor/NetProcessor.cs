@@ -7,6 +7,7 @@ using FiresecAPI.GK;
 using GKImitator.ViewModels;
 using GKProcessor;
 using FiresecClient;
+using SKDDriver.DataClasses;
 
 namespace GKImitator.Processor
 {
@@ -73,7 +74,7 @@ namespace GKImitator.Processor
 		{
 			DatabaseType databaseType = DatabaseType.Gk;
 			if (byteData[0] == 2) databaseType = DatabaseType.Gk;
-			if(byteData[0] == 4) databaseType = DatabaseType.Kau;
+			if (byteData[0] == 4) databaseType = DatabaseType.Kau;
 			var kauAddress = byteData[1];
 
 			if (byteData[4] != 6)
@@ -104,9 +105,12 @@ namespace GKImitator.Processor
 					return new List<byte>();
 
 				case 6:
-					var count = DBHelper.ImitatorSerializedCollection.ImitatorJournalItems.Count;
-					if (count > 0)
-						return GetJournalBytes(count);
+					using(var dbService = new DbService())
+					{
+						var count = dbService.ImitatorJournalTranslator.GetCount();
+						if (count > 0)
+							return GetJournalBytes(count);
+					}
 					return null;
 
 				case 7:
@@ -201,8 +205,15 @@ namespace GKImitator.Processor
 
 		public static List<byte> GetJournalBytes(int no)
 		{
-			var imitatorJournalItems = DBHelper.ImitatorSerializedCollection.ImitatorJournalItems[no - 1];
-			return imitatorJournalItems.ToBytes();
+			using (var dbService = new DbService())
+			{
+				var imitatorJournalItems = dbService.ImitatorJournalTranslator.GetByGKNo(no);
+				if (imitatorJournalItems != null)
+				{
+					return imitatorJournalItems.ToBytes();
+				}
+				return null;
+			}
 		}
 
 		public static List<byte> ToBytes(short shortValue)

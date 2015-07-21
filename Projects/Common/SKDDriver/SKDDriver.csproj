@@ -127,6 +127,7 @@
     <Compile Include="Translators\Base\ShortTranslatorBase.cs" />
     <Compile Include="Translators\HR\CardTranslator.cs" />
     <Compile Include="Translators\CurrentConsumptionTranslator.cs" />
+    <Compile Include="Translators\Imitator\ImitatorJournalTranslator.cs" />
     <Compile Include="Translators\Imitator\ImitatorScheduleTranslator.cs" />
     <Compile Include="Translators\Imitator\ImitatorUserTraslator.cs" />
     <Compile Include="Translators\TimeTrack\DayIntervalTranslator.cs" />

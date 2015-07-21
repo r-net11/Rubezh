@@ -78,10 +78,8 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Converters\BytesToStringConverter.cs" />
     <Compile Include="Converters\DescriptorNoToStringConverter.cs" />
-    <Compile Include="Models\ImitatorSerializedCollection.cs" />
     <Compile Include="Processor\NetProcessor.cs" />
     <Compile Include="Processor\HashHelper.cs" />
-    <Compile Include="Processor\DBHelper.cs" />
     <Compile Include="Processor\ConfigurationCashHelper.cs" />
     <Compile Include="Models\Regime.cs" />
     <Compile Include="Models\TurningState.cs" />

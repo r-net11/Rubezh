@@ -115,6 +115,8 @@ namespace GKImitator.Processor
 			imitatorUser.Level = bytes[40];
 			imitatorUser.ScheduleNo = bytes[41];
 			imitatorUser.TotalSeconds = BytesHelper.SubstructInt(bytes, 44);
+			imitatorUser.EndDateTime = new DateTime(2000, 1, 1).Add(new TimeSpan(0, 0, (int)(imitatorUser.TotalSeconds)));
+
 
 			var descriptorNos = new List<int>();
 			for (int i = 0; i <= 68; i++)
