@@ -188,7 +188,7 @@
 								</Grid.RowDefinitions>
 								<TextBlock Margin="4 0">
 									<TextBlock.Text>
-										<MultiBinding StringFormat="{}{0}{1}{2}">
+										<MultiBinding StringFormat="{}{0} {1} {2}">
 											<Binding Path="ShortEmployee.LastName" />
 											<Binding Path="ShortEmployee.FirstName" />
 											<Binding Path="ShortEmployee.SecondName" />
