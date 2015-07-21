@@ -6,9 +6,9 @@ namespace GKSDK
 {
 	public class DeviceCommandViewModel : BaseViewModel
 	{
-		XDevice Device;
+		GKDevice Device;
 
-		public DeviceCommandViewModel(XDevice device)
+        public DeviceCommandViewModel(GKDevice device)
 		{
 			ExecuteCommand = new RelayCommand(OnExecute);
 			Device = device;

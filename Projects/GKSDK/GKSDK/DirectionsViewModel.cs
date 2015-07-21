@@ -13,7 +13,7 @@ namespace GKSDK
 			UnSetZoneGuardCommand = new RelayCommand(OnUnSetZoneGuard, CanUnSetZoneGuard);
 
 			Directions = new ObservableCollection<DirectionViewModel>();
-			foreach (var direction in XManager.Directions)
+            foreach (var direction in GKManager.Directions)
 			{
 				var deviceViewModel = new DirectionViewModel(direction.State);
 				Directions.Add(deviceViewModel);

@@ -35,7 +35,7 @@ namespace GKSDK
 		{
 			for (int i = 1; i <= 10; i++)
 			{
-				var message = FiresecManager.Connect(ClientType.Other, ConnectionSettingsManager.ServerAddress, GlobalSettingsHelper.GlobalSettings.Login, GlobalSettingsHelper.GlobalSettings.Password);
+				var message = FiresecManager.Connect(ClientType.Other, ConnectionSettingsManager.ServerAddress, GlobalSettingsHelper.GlobalSettings.AdminLogin, GlobalSettingsHelper.GlobalSettings.AdminPassword);
 				if (message == null)
 					break;
 				Thread.Sleep(5000);
@@ -47,19 +47,13 @@ namespace GKSDK
 			}
 
 			ServiceFactoryBase.Events = new EventAggregator();
-			GKDBHelper.CanAdd = false;
 
 			FiresecManager.GetConfiguration("GKSDK/Configuration");
 			GKDriversCreator.Create();
-			XManager.UpdateConfiguration();
-			XManager.CreateStates();
+            GKManager.UpdateConfiguration();
+            GKManager.CreateStates();
 			DescriptorsManager.Create();
-			DescriptorsManager.CreateDynamicObjectsInXManager();
 			InitializeStates();
-			if (!GlobalSettingsHelper.GlobalSettings.IsGKAsAService)
-			{
-				GKProcessorManager.Start();
-			}
 
 			SafeFiresecService.GKProgressCallbackEvent -= new Action<GKProgressCallback>(OnGKProgressCallbackEvent);
 			SafeFiresecService.GKProgressCallbackEvent += new Action<GKProgressCallback>(OnGKProgressCallbackEvent);
@@ -91,7 +85,7 @@ namespace GKSDK
 						return;
 
 					case GKProgressCallbackType.Progress:
-						LoadingService.DoStep(gkProgressCallback.Text, gkProgressCallback.Title, gkProgressCallback.StepCount, gkProgressCallback.CanCancel);
+						//LoadingService.DoStep(gkProgressCallback.Text, gkProgressCallback.Title, gkProgressCallback.StepCount, gkProgressCallback.CanCancel);
 						return;
 
 					case GKProgressCallbackType.Stop:
@@ -117,7 +111,7 @@ namespace GKSDK
 		{
 			foreach (var remoteDeviceState in gkStates.DeviceStates)
 			{
-				var device = XManager.Devices.FirstOrDefault(x => x.BaseUID == remoteDeviceState.UID);
+                var device = GKManager.Devices.FirstOrDefault(x => x.UID == remoteDeviceState.UID);
 				if (device != null)
 				{
 					remoteDeviceState.CopyTo(device.State);
@@ -126,7 +120,7 @@ namespace GKSDK
 			}
 			foreach (var remoteZoneState in gkStates.ZoneStates)
 			{
-				var zone = XManager.Zones.FirstOrDefault(x => x.BaseUID == remoteZoneState.UID);
+                var zone = GKManager.Zones.FirstOrDefault(x => x.UID == remoteZoneState.UID);
 				if (zone != null)
 				{
 					remoteZoneState.CopyTo(zone.State);
@@ -135,7 +129,7 @@ namespace GKSDK
 			}
 			foreach (var remoteDirectionState in gkStates.DirectionStates)
 			{
-				var direction = XManager.Directions.FirstOrDefault(x => x.BaseUID == remoteDirectionState.UID);
+                var direction = GKManager.Directions.FirstOrDefault(x => x.UID == remoteDirectionState.UID);
 				if (direction != null)
 				{
 					remoteDirectionState.CopyTo(direction.State);
@@ -144,7 +138,7 @@ namespace GKSDK
 			}
 			foreach (var remotePumpStationState in gkStates.PumpStationStates)
 			{
-				var pumpStation = XManager.PumpStations.FirstOrDefault(x => x.UID == remotePumpStationState.UID);
+                var pumpStation = GKManager.PumpStations.FirstOrDefault(x => x.UID == remotePumpStationState.UID);
 				if (pumpStation != null)
 				{
 					remotePumpStationState.CopyTo(pumpStation.State);
@@ -153,9 +147,9 @@ namespace GKSDK
 			}
 			foreach (var delayState in gkStates.DelayStates)
 			{
-				var delay = XManager.Delays.FirstOrDefault(x => x.BaseUID == delayState.UID);
+                var delay = GKManager.Delays.FirstOrDefault(x => x.UID == delayState.UID);
 				if (delay == null)
-					delay = XManager.Delays.FirstOrDefault(x => x.PresentationName == delayState.PresentationName);
+                    delay = GKManager.Delays.FirstOrDefault(x => x.PresentationName == delayState.PresentationName);
 				if (delay != null)
 				{
 					delayState.CopyTo(delay.State);

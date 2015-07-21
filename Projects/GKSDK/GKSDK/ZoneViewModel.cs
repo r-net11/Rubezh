@@ -8,7 +8,7 @@ namespace GKSDK
 {
 	public class ZoneViewModel : BaseViewModel
 	{
-		public ZoneViewModel(XState state)
+        public ZoneViewModel(GKState state)
 		{
 			ZoneState = state;
 			_stateClass = state.StateClass;
@@ -28,7 +28,7 @@ namespace GKSDK
 			StateClass = ZoneState.StateClass;
 		}
 
-		public XState ZoneState { get; private set; }
+        public GKState ZoneState { get; private set; }
 		public int No { get; private set; }
 		public string Name { get; private set; }
 

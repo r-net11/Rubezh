@@ -7,7 +7,7 @@ namespace GKSDK
 {
 	public class DirectionViewModel : BaseViewModel
 	{
-		public DirectionViewModel(XState state)
+		public DirectionViewModel(GKState state)
 		{
 			DirectionState = state;
 			_stateClass = state.StateClass;
@@ -27,7 +27,7 @@ namespace GKSDK
 			StateClass = DirectionState.StateClass;
 		}
 
-		public XState DirectionState { get; private set; }
+        public GKState DirectionState { get; private set; }
 		public int No { get; private set; }
 		public string Name { get; private set; }
 

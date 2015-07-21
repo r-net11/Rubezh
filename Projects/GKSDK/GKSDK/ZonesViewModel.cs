@@ -13,7 +13,7 @@ namespace GKSDK
 			UnSetZoneGuardCommand = new RelayCommand(OnUnSetZoneGuard, CanUnSetZoneGuard);
 
 			Zones = new ObservableCollection<ZoneViewModel>();
-			foreach (var zone in XManager.Zones)
+			foreach (var zone in GKManager.Zones)
 			{
 				var deviceViewModel = new ZoneViewModel(zone.State);
 				Zones.Add(deviceViewModel);

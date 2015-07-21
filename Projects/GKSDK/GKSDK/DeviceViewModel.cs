@@ -10,7 +10,7 @@ namespace GKSDK
 {
 	public class DeviceViewModel : BaseViewModel
 	{
-		public DeviceViewModel(XDevice device)
+        public DeviceViewModel(GKDevice device)
 		{
 			AddToIgnoreListCommand = new RelayCommand(OnAddToIgnoreList, CanAddToIgnoreList);
 			RemoveFromIgnoreListCommand = new RelayCommand(OnRemoveFromIgnoreList, CanRemoveFromIgnoreList);
@@ -34,8 +34,8 @@ namespace GKSDK
 			StateClass = DeviceState.StateClass;
 		}
 
-		public XDevice Device { get; private set; }
-		public XState DeviceState { get; private set; }
+        public GKDevice Device { get; private set; }
+        public GKState DeviceState { get; private set; }
 		public string Name { get; private set; }
 
 		XStateClass _stateClass;

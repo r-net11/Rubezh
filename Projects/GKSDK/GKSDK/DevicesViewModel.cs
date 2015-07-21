@@ -12,7 +12,7 @@ namespace GKSDK
             ResetAllCommand = new RelayCommand(OnResetAll);
 
 			Devices = new ObservableCollection<DeviceViewModel>();
-			foreach (var device in XManager.Devices)
+			foreach (var device in GKManager.Devices)
 			{
 				var deviceViewModel = new DeviceViewModel(device);
 				Devices.Add(deviceViewModel);
