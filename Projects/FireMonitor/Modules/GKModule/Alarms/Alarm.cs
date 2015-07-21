@@ -8,6 +8,7 @@ namespace GKModule
 		public GKDevice Device { get; set; }
 		public GKZone Zone { get; set; }
 		public GKGuardZone GuardZone { get; set; }
+		public GKDelay Delay { get; set; }
 		public GKDirection Direction { get; set; }
 		public GKDoor Door { get; set; }
 		public GKMPT Mpt { get; set; }
@@ -29,7 +30,11 @@ namespace GKModule
 			AlarmType = alarmType;
 			GuardZone = guardZone;
 		}
-
+		public Alarm(GKAlarmType alarmType, GKDelay delay)
+		{
+			AlarmType = alarmType;
+			Delay = delay;
+		}
 		public Alarm(GKAlarmType alarmType, GKDirection direction)
 		{
 			AlarmType = alarmType;

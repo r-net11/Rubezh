@@ -149,6 +149,25 @@ namespace GKModule.ViewModels
 						Plans.Add(alarmPlanViewModel);
 					}
 				}
+				if (Alarm.Delay != null)
+				{
+					elementBase = plan.ElementRectangleGKDelays.FirstOrDefault(x => x.DelayUID == Alarm.Delay.UID);
+					if (elementBase != null)
+					{
+						var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
+						alarmPlanViewModel.Delay = Alarm.Delay;
+						Plans.Add(alarmPlanViewModel);
+						continue;
+					}
+					elementBase = plan.ElementPolygonGKDelays.FirstOrDefault(x => x.DelayUID == Alarm.Delay.UID);
+					if (elementBase != null)
+					{
+						var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
+						alarmPlanViewModel.Delay = Alarm.Delay;
+						Plans.Add(alarmPlanViewModel);
+						continue;
+					}
+				}
 				if (Alarm.Direction != null)
 				{
 					elementBase = plan.ElementRectangleGKDirections.FirstOrDefault(x => x.DirectionUID == Alarm.Direction.UID);
@@ -419,11 +438,11 @@ namespace GKModule.ViewModels
 				}
 			}
 		}
-		bool CanResetIgnore()  
+		bool CanResetIgnore()
 		{
 			if (Alarm.AlarmType != GKAlarmType.Ignore)
 				return false;
-			
+
 			if (Alarm.Device != null)
 			{
 				if (Alarm.Device.State.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_Device_Control))
@@ -462,7 +481,7 @@ namespace GKModule.ViewModels
 		}
 
 		public RelayCommand TurnOnAutomaticCommand { get; private set; }
-		void OnTurnOnAutomatic()  
+		void OnTurnOnAutomatic()
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{

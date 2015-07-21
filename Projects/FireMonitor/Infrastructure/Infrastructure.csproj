@@ -98,6 +98,7 @@
     <Compile Include="Events\ChangePlanPropertiesEvent.cs" />
     <Compile Include="Events\GKObjectsPropertyChangedEvent.cs" />
     <Compile Include="Events\ShowDetails\ShowGKSKDZoneDetailsEvent.cs" />
+    <Compile Include="Events\ShowOnPlan\ShowGKDelayOnPlanEvent.cs" />
     <Compile Include="Events\ShowObject\ShowGKSKDZoneEvent.cs" />
     <Compile Include="Events\ShowOnPlan\ShowGKSKDZoneOnPlanEvent.cs" />
     <Compile Include="Events\ShowOnPlan\ShowGKMPTOnPlanEvent.cs" />

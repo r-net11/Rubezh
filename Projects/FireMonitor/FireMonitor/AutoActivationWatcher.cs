@@ -44,6 +44,11 @@ namespace FireMonitor
 								if (ShowOnPlanHelper.CanShowZone(zone))
 									ShowOnPlanHelper.ShowZone(zone);
 								break;
+							case JournalObjectType.GKDelay:
+								var delay = GKManager.Delays.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
+								if (ShowOnPlanHelper.CanShowDelay(delay))
+									ShowOnPlanHelper.ShowDelay(delay);
+								break;
 							case JournalObjectType.GKDirection:
 								var direction = GKManager.Directions.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
 								if (ShowOnPlanHelper.CanShowDirection(direction))

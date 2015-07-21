@@ -60,6 +60,5 @@ namespace FiresecAPI.Models
         }
 
         #endregion
-
-    }
+	}
 }

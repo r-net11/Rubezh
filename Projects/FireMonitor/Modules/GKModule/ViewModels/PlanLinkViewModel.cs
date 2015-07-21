@@ -24,6 +24,7 @@ namespace GKModule.ViewModels
 		public GKZone Zone { get; set; }
 		public GKGuardZone GuardZone { get; set; }
 		public GKSKDZone SKDZone { get; set; }
+		public GKDelay Delay { get; set; }
 		public GKDirection Direction { get; set; }
 		public GKMPT MPT { get; set; }
 		public GKDoor Door { get; set; }
