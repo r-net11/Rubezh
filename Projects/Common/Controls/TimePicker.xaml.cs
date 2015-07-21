@@ -8,7 +8,7 @@ namespace Controls
 {
 	public partial class TimePicker : UserControl
 	{
-		static readonly int HoursMax = 23;
+        static readonly int HoursMax = 24;
 		static readonly int MinutesMax = 59;
 		static readonly int HoursMin = 0;
 		static readonly int MinutesMin = 0;
@@ -16,13 +16,21 @@ namespace Controls
 		public static readonly DependencyProperty TimeSpanProperty = DependencyProperty.Register("TimeSpan", typeof(TimeSpan), typeof(TimePicker), 
 			new FrameworkPropertyMetadata(TimeSpan.Zero, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, new PropertyChangedCallback(OnTimeSpanPropertyChanged)));
 
+        public static readonly DependencyProperty IsFullDayProperty = DependencyProperty.Register("IsFullDay", typeof(Boolean), typeof(TimePicker));
+
 		static void OnTimeSpanPropertyChanged(DependencyObject dp, DependencyPropertyChangedEventArgs e)
 		{
 			TimePicker timePicker = dp as TimePicker;
 			if (timePicker != null)
 			{
 				timePicker.TimeSpan = timePicker.TimeSpan;
-				timePicker.TextBox.Text = timePicker.TimeSpan.Hours.ToString("D2") + ":" + timePicker.TimeSpan.Minutes.ToString("D2");
+                if (timePicker.TimeSpan.Days > 0)
+                {
+                    if (timePicker.IsFullDay)
+                            timePicker.TextBox.Text = "24:00";
+                    else timePicker.TextBox.Text = "23:59";
+                }
+                 else timePicker.TextBox.Text = timePicker.TimeSpan.Hours.ToString("D2") + ":" + timePicker.TimeSpan.Minutes.ToString("D2");
 			}
 			dp.CoerceValue(TimeSpanProperty);
 		}
@@ -39,6 +47,12 @@ namespace Controls
 			get { return (TimeSpan)GetValue(TimeSpanProperty); }
 			set { SetValue(TimeSpanProperty, value); }
 		}
+
+        public bool IsFullDay
+        {
+            get { return (bool)GetValue(IsFullDayProperty); }
+            set { SetValue(IsFullDayProperty, value); }
+        }
 
 		public void InitializeTime()
 		{
@@ -60,6 +74,8 @@ namespace Controls
 			{
 				if (value > HoursMax)
 					value = HoursMax;
+                if (value == HoursMax && Minutes > MinutesMin && !this.IsFullDay)
+                    value = HoursMax-1;
 				if (value < HoursMin)
 					value = HoursMin;
 				var stringValue = value.ToString("D2");
@@ -89,6 +105,8 @@ namespace Controls
 					value = MinutesMax;
 				if (value < MinutesMin)
 					value = MinutesMin;
+                if (this.IsFullDay&& Hours==HoursMax)
+                    value = MinutesMin;
 				var stringValue = value.ToString("D2");
 				var text = TextBox.Text.ToCharArray();
 				var caretIndex = TextBox.CaretIndex;
@@ -96,7 +114,7 @@ namespace Controls
 				text[4] = stringValue[1];
 				TextBox.Text = new string(text);
 				TextBox.CaretIndex = caretIndex;
-				TimeSpan = new TimeSpan(TimeSpan.Hours, value, 0);
+				TimeSpan = new TimeSpan(Hours, value, 0);
 			}
 		}
 
@@ -132,6 +150,8 @@ namespace Controls
 		{
 			if (caretIndex == 2)
 				return;
+            if (this.IsFullDay && Hours == HoursMax && (caretIndex == 3 || caretIndex == 4))
+                return;
 			var text = TextBox.Text.ToCharArray();
 			if (value < 0)
 				value = 0;
@@ -166,14 +186,6 @@ namespace Controls
 		}
 		void TextBox_TextChanged(object sender, TextChangedEventArgs e)
 		{
-			if (Hours > HoursMax)
-				Hours = HoursMax;
-			if (Hours < HoursMin)
-				Hours = HoursMin;
-			if (Minutes > MinutesMax)
-				Minutes = MinutesMax;
-			if (Minutes < MinutesMin)
-				Minutes = MinutesMin;
 			TimeSpan = new TimeSpan(Hours, Minutes, 0);
 		}
 		void TextBox_LostFocus(object sender, RoutedEventArgs e)
