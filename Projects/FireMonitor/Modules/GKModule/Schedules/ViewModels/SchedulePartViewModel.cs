@@ -9,19 +9,19 @@ namespace GKModule.ViewModels
 {
 	public class SchedulePartViewModel : BaseViewModel
 	{
-		public int Index { get; private set; }
+		public int DayNo { get; private set; }
 		GKSchedule Schedule;
 
-		public SchedulePartViewModel(GKSchedule schedule, Guid uid, int index)
+		public SchedulePartViewModel(GKSchedule schedule, GKSchedulePart schedulePart)
 		{
 			Schedule = schedule;
-			Index = index;
+			DayNo = schedulePart.DayNo;
 			AvailableDaySchedules = new ObservableCollection<GKDaySchedule>();
 			foreach (var dayInterval in GKModuleLoader.DaySchedulesViewModel.GetDaySchedules())
 			{
 				AvailableDaySchedules.Add(dayInterval);
 			}
-			_selectedDaySchedule = AvailableDaySchedules.FirstOrDefault(x => x.UID == uid);
+			_selectedDaySchedule = AvailableDaySchedules.FirstOrDefault(x => x.UID == schedulePart.DayScheduleUID);
 			if (_selectedDaySchedule == null)
 				_selectedDaySchedule = AvailableDaySchedules.FirstOrDefault();
 			Update();
@@ -42,7 +42,10 @@ namespace GKModule.ViewModels
 				{
 					_selectedDaySchedule = value;
 					OnPropertyChanged(() => SelectedDaySchedule);
-					Schedule.ScheduleParts[Index].DayScheduleUID = SelectedDaySchedule.UID;
+					if (Schedule.ScheduleParts.Count > DayNo)
+					{
+						Schedule.ScheduleParts[DayNo].DayScheduleUID = SelectedDaySchedule.UID;
+					}
 				}
 				GKScheduleHelper.SaveSchedule(Schedule, false);
 			}
@@ -52,14 +55,14 @@ namespace GKModule.ViewModels
 		{
 			if (Schedule.SchedulePeriodType == GKSchedulePeriodType.Weekly)
 			{
-				var dayOfWeekNo = Index % 7;
+				var dayOfWeekNo = DayNo % 7;
 				Name = IntToWeekDay(dayOfWeekNo);
 			}
 			else
 			{
-				Name = string.Format("{0}", Index + 1);
+				Name = string.Format("{0}", DayNo + 1);
 			}
-			_selectedDaySchedule = AvailableDaySchedules.FirstOrDefault(x => x.UID == Schedule.ScheduleParts[Index].DayScheduleUID);
+			_selectedDaySchedule = AvailableDaySchedules.FirstOrDefault(x => x.UID == Schedule.ScheduleParts[DayNo].DayScheduleUID);
 			if (_selectedDaySchedule == null)
 				_selectedDaySchedule = AvailableDaySchedules.FirstOrDefault();
 			OnPropertyChanged(() => SelectedDaySchedule);

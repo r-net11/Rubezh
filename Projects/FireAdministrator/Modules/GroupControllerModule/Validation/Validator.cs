@@ -27,7 +27,6 @@ namespace GKModule.Validation
 			ValidateGuardZones();
 			ValidateDoors();
 			ValidateSKDZones();
-			ValidateDaySchedules();
 			ValidatePlans();
 			ValidateTypesCorrectness();
 			return Errors;

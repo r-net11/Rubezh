@@ -106,10 +106,6 @@ namespace FiresecService
 
 				if (zoneUID.HasValue)
 				{
-					//using (var passJournalTranslator = new PassJournalTranslator())
-					//{
-					//    passJournalTranslator.AddPassJournal(journalItem.EmployeeUID, zoneUID.Value);
-					//}
 					using (var dbService = new SKDDriver.DataClasses.DbService())
 					{
 						dbService.PassJournalTranslator.AddPassJournal(journalItem.EmployeeUID, zoneUID.Value);
@@ -125,11 +121,10 @@ namespace FiresecService
 				if (journalItem.JournalEventNameType == JournalEventNameType.Восстановление_связи_с_прибором || journalItem.JournalEventNameType == JournalEventNameType.Начало_мониторинга)
 				{
 					var device = GKManager.Devices.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
-					if (device != null && device.DriverType == GKDriverType.GK)
 					{
 						using (var databaseService = new SKDDriver.DataClasses.DbService())
 						{
-							var pendingCards = databaseService.CardTranslator.GetAllPendingCards(device.UID);
+							var pendingCards = databaseService.CardTranslator.GetAllPendingCards(device.UID).ToList();
 							foreach (var pendingCard in pendingCards)
 							{
 								var operationResult = databaseService.CardTranslator.GetSingle(pendingCard.CardUID);

@@ -66,6 +66,7 @@ namespace SKDDriver.DataClasses
 		public DbSet<ImitatorUserDevice> ImitatorUserDevices { get; set; }
 		public DbSet<ImitatorSchedule> ImitatorSchedules { get; set; }
 		public DbSet<ImitatorSheduleInterval> ImitatorSheduleIntervals { get; set; }
+		public DbSet<ImitatorJournalItem> ImitatorJournalItems { get; set; }
 	}
 
 	internal sealed class Configuration : DbMigrationsConfiguration<DatabaseContext>

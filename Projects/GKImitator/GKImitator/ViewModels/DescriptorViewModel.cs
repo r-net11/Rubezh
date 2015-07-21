@@ -11,6 +11,7 @@ using FiresecAPI.Journal;
 using System.Collections.Generic;
 using System.Windows.Input;
 using Infrastructure.Common.Windows;
+using SKDDriver.DataClasses;
 
 namespace GKImitator.ViewModels
 {
@@ -221,7 +222,6 @@ namespace GKImitator.ViewModels
 		{
 			journalItem.UNUSED_KauNo = 0;
 			journalItem.UNUSED_KauAddress = 0;
-			journalItem.GkNo = DBHelper.ImitatorSerializedCollection.ImitatorJournalItems.Count + 1;
 			journalItem.GkObjectNo = GKBaseDescriptor.GetDescriptorNo();
 			journalItem.ObjectFactoryNo = 0;
 			journalItem.ObjectState = StatesToInt();
@@ -230,7 +230,10 @@ namespace GKImitator.ViewModels
 				journalItem.ObjectDeviceType = (short)(GKBaseDescriptor.GKBase as GKDevice).Driver.DriverTypeNo;
 				journalItem.ObjectDeviceAddress = (short)(((GKBaseDescriptor.GKBase as GKDevice).ShleifNo - 1) * 256 + (GKBaseDescriptor.GKBase as GKDevice).IntAddress);
 			}
-			DBHelper.ImitatorSerializedCollection.ImitatorJournalItems.Add(journalItem);
+			using(var dbService = new DbService())
+			{
+				dbService.ImitatorJournalTranslator.Add(journalItem);
+			}
 		}
 	}
 }

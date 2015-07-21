@@ -508,7 +508,7 @@ namespace FiresecService.Service
 					{
 						progressCallback = GKProcessorManager.StartProgress("Удаление пользователей прибора " + device.PresentationName, "", 65535, false, GKProgressClientType.Administrator);
 
-                using (var databaseService = new SKDDriver.DataClasses.DbService())
+						using (var databaseService = new SKDDriver.DataClasses.DbService())
 						{
 							databaseService.CardTranslator.DeleteAllPendingCards(device.UID);
 						}
@@ -527,9 +527,7 @@ namespace FiresecService.Service
 
 							int currentUserNo = 1;
 
-							var stopWatch = new Stopwatch();
-							stopWatch.Start();
-					using (var databaseService = new SKDDriver.DataClasses.DbService())
+							using (var databaseService = new SKDDriver.DataClasses.DbService())
 							{
 								var cardsResult = databaseService.CardTranslator.Get(new CardFilter());
 								if (!cardsResult.HasError)
@@ -545,7 +543,7 @@ namespace FiresecService.Service
 										var controllerCardSchedule = controllerCardSchedules.FirstOrDefault(x => x.ControllerDevice.UID == device.UID);
 										if (controllerCardSchedule != null)
 										{
-									var employeeOperationResult = databaseService.EmployeeTranslator.GetSingle(card.EmployeeUID.Value);
+											var employeeOperationResult = databaseService.EmployeeTranslator.GetSingle(card.EmployeeUID.Value);
 											var employee = employeeOperationResult.Result;
 											if (employee != null)
 											{
@@ -557,9 +555,6 @@ namespace FiresecService.Service
 									}
 								}
 							}
-							stopWatch.Stop();
-							Trace.WriteLine("Total GK Write milliseconds = " + stopWatch.ElapsedMilliseconds);
-
 							FiresecService.NotifyOperationResult_RewriteUsers(new OperationResult<bool>(true));
 						}
 						catch (Exception e)

@@ -11,7 +11,7 @@ using KeyboardKey = System.Windows.Input.Key;
 
 namespace GKModule.ViewModels
 {
-	public class SchedulesViewModel : ViewPartViewModel, IEditingViewModel, ISelectable<Guid>
+	public class SchedulesViewModel : ViewPartViewModel, IEditingViewModel
 	{
 		public SchedulesViewModel()
 		{
@@ -25,14 +25,15 @@ namespace GKModule.ViewModels
 		{
 			Schedules = new ObservableCollection<ScheduleViewModel>();
 			var schedules = GKScheduleHelper.GetSchedules();
-			if (schedules == null)
-				return;
-			foreach (var schedule in schedules.OrderBy(x => x.No))
+			if (schedules != null)
 			{
-				var scheduleViewModel = new ScheduleViewModel(schedule);
-				Schedules.Add(scheduleViewModel);
+				foreach (var schedule in schedules.OrderBy(x => x.No))
+				{
+					var scheduleViewModel = new ScheduleViewModel(schedule);
+					Schedules.Add(scheduleViewModel);
+				}
+				SelectedSchedule = Schedules.FirstOrDefault();
 			}
-			SelectedSchedule = Schedules.FirstOrDefault();
 		}
 
 		ObservableCollection<ScheduleViewModel> _schedules;
@@ -112,10 +113,8 @@ namespace GKModule.ViewModels
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить график работ " + SelectedSchedule.Schedule.PresentationName))
 			{
 				var index = Schedules.IndexOf(SelectedSchedule);
-				var deleteScheduleResult = GKScheduleHelper.DeleteSchedule(SelectedSchedule.Schedule);
-				if (deleteScheduleResult)
+				if (GKScheduleHelper.DeleteSchedule(SelectedSchedule.Schedule))
 				{
-					SelectedSchedule.Schedule.OnChanged();
 					Schedules.Remove(SelectedSchedule);
 					index = Math.Min(index, Schedules.Count - 1);
 					if (index > -1)
@@ -131,8 +130,7 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(scheduleDetailsViewModel))
 			{
 				var schedule = scheduleDetailsViewModel.Schedule;
-				var saveScheduleResult = GKScheduleHelper.SaveSchedule(schedule, false);
-				if (saveScheduleResult)
+				if (GKScheduleHelper.SaveSchedule(schedule, false))
 				{
 					SelectedSchedule.Update(schedule);
 					scheduleDetailsViewModel.Schedule.OnChanged();
@@ -145,16 +143,6 @@ namespace GKModule.ViewModels
 			base.OnShow();
 			SelectedSchedule = SelectedSchedule;
 		}
-
-		#region ISelectable<Guid> Members
-
-		public void Select(Guid scheduleUID)
-		{
-			if (scheduleUID != Guid.Empty)
-				SelectedSchedule = Schedules.FirstOrDefault(x => x.Schedule.UID == scheduleUID);
-		}
-
-		#endregion
 
 		void RegisterShortcuts()
 		{

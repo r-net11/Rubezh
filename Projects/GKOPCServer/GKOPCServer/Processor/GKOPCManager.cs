@@ -16,9 +16,14 @@ namespace GKOPCServer
 		static Guid srvGuid = new Guid("C8F9CDB2-5BD7-4369-8DEC-4514CE236DF5");
 		static Thread thread;
 		public static OPCDAServer OPCDAServer { get; private set; }
-		static List<TagDevice> TagDevices = new List<TagDevice>();
-		static List<TagZone> TagZones = new List<TagZone>();
-		static List<TagDirection> TagDirections = new List<TagDirection>();
+		static List<TagBase> TagDevices = new List<TagBase>();
+		static List<TagBase> TagZones = new List<TagBase>();
+		static List<TagBase> TagDirections = new List<TagBase>();
+		static List<TagBase> TagGuardZones = new List<TagBase>();
+		static List<TagBase> TagDelays = new List<TagBase>();
+		static List<TagBase> TagMPTs = new List<TagBase>();
+		static List<TagBase> TagPumpStations = new List<TagBase>();
+		static List<TagBase> TagDoors = new List<TagBase>();
 		static int TagsCount = 0;
 		static AutoResetEvent StopEvent;
 
@@ -76,14 +81,10 @@ namespace GKOPCServer
 
 			OPCDAServer.Initialize(srvGuid, 50, 50, ServerOptions.NoAccessPaths, '/', 100);
 
-			foreach (var device in GKManager.Devices)
+			foreach (var device in GKManager.Devices.Where(x => GKManager.DeviceConfiguration.OPCSettings.DeviceUIDs.Contains(x.UID)).ToList())
 			{
 				if (TagsCount >= 100)
 					break;
-
-				if (!device.IsOPCUsed)
-					continue;
-
 				var tagName = new StringBuilder();
 				foreach (var parentDevice in device.AllParents)
 				{
@@ -107,17 +108,15 @@ namespace GKOPCServer
 					AccessRights.readable,
 					(double)0);
 
-				var tagDevice = new TagDevice(tagId, device.State);
+				var tagDevice = new TagBase(tagId, device.State);
 				TagDevices.Add(tagDevice);
 				TagsCount++;
 			}
-			foreach (var zone in (from GKZone zone in GKManager.Zones orderby zone.No select zone))
+
+			foreach (var zone in GKManager.Zones.Where(x => GKManager.DeviceConfiguration.OPCSettings.ZoneUIDs.Contains(x.UID)).ToList())
 			{
 				if (TagsCount >= 100)
 					break;
-
-				if (!zone.IsOPCUsed)
-					continue;
 
 				var tagId = OPCDAServer.CreateTag(
 					TagsCount,
@@ -125,18 +124,15 @@ namespace GKOPCServer
 					AccessRights.readable,
 					(double)0);
 
-				var tagZone = new TagZone(tagId, zone.State);
+				var tagZone = new TagBase(tagId, zone.State);
 				TagZones.Add(tagZone);
 				TagsCount++;
 			}
 
-			foreach (var direction in (from GKDirection direction in GKManager.Directions orderby direction.No select direction))
+			foreach (var direction in GKManager.Directions.Where(x=> GKManager.DeviceConfiguration.OPCSettings.DiretionUIDs.Contains(x.UID)).ToList())
 			{
 				if (TagsCount >= 100)
 					break;
-
-				if (!direction.IsOPCUsed)
-					continue;
 
 				var tagId = OPCDAServer.CreateTag(
 					TagsCount,
@@ -144,8 +140,88 @@ namespace GKOPCServer
 					AccessRights.readable,
 					(double)0);
 
-				var tagDirection = new TagDirection(tagId, direction.State);
+				var tagDirection = new TagBase(tagId, direction.State);
 				TagDirections.Add(tagDirection);
+				TagsCount++;
+			}
+
+			foreach (var zone in GKManager.GuardZones.Where(x => GKManager.DeviceConfiguration.OPCSettings.GuardZoneUIDs.Contains(x.UID)).ToList())
+			{
+				if (TagsCount >= 100)
+					break;
+
+				var tagId = OPCDAServer.CreateTag(
+					TagsCount,
+					"GuardZones/" + zone.PresentationName,
+					AccessRights.readable,
+					(double)0);
+
+				var tagGuardZone = new TagBase(tagId, zone.State);
+				TagGuardZones.Add(tagGuardZone);
+				TagsCount++;
+			}
+
+			foreach (var delay in GKManager.Delays.Where(x => GKManager.DeviceConfiguration.OPCSettings.DelayUIDs.Contains(x.UID)).ToList())
+			{
+				if (TagsCount >= 100)
+					break;
+
+				var tagId = OPCDAServer.CreateTag(
+					TagsCount,
+					"Delays/" + delay.PresentationName,
+					AccessRights.readable,
+					(double)0);
+
+				var tagdelay = new TagBase(tagId, delay.State);
+				TagDelays.Add(tagdelay);
+				TagsCount++;
+			}
+
+			foreach (var mpt in GKManager.MPTs.Where(x => GKManager.DeviceConfiguration.OPCSettings.MPTUIDs.Contains(x.UID)).ToList())
+			{
+				if (TagsCount >= 100)
+					break;
+
+				var tagId = OPCDAServer.CreateTag(
+					TagsCount,
+					"MPTs/" + mpt.PresentationName,
+					AccessRights.readable,
+					(double)0);
+
+				var tagmpt = new TagBase(tagId, mpt.State);
+				TagMPTs.Add(tagmpt);
+				TagsCount++;
+			}
+
+			foreach (var pump in GKManager.PumpStations.Where(x => GKManager.DeviceConfiguration.OPCSettings.NSUIDs.Contains(x.UID)).ToList())
+			{
+				if (TagsCount >= 100)
+					break;
+
+				var tagId = OPCDAServer.CreateTag(
+					TagsCount,
+					"PumpStations/" + pump.PresentationName,
+					AccessRights.readable,
+					(double)0);
+
+				var tagns = new TagBase(tagId, pump.State);
+				TagPumpStations.Add(tagns);
+				TagsCount++;
+			}
+
+			foreach (var door in GKManager.Doors.Where(x => GKManager.DeviceConfiguration.OPCSettings.DoorUIDs.Contains(x.UID)).ToList())
+			{
+				if (TagsCount >= 100)
+					break;
+
+				var tagId = OPCDAServer.CreateTag(
+					TagsCount,
+					"Doors/" + door.PresentationName,
+					AccessRights.readable,
+					(double)0);
+
+				var tagdoor = new TagBase(tagId, door.State);
+				TagDoors.Add(tagdoor);
 				TagsCount++;
 			}
 
@@ -158,11 +234,31 @@ namespace GKOPCServer
 			}
 			foreach (var tagZone in TagZones)
 			{
-				OPCDAServer.SetTag(tagZone.TagId, tagZone.ZoneState.StateClass);
+				OPCDAServer.SetTag(tagZone.TagId, tagZone.State.StateClass);
 			}
 			foreach (var tagDirection in TagDirections)
 			{
 				OPCDAServer.SetTag(tagDirection.TagId, tagDirection.State.StateClass);
+			}
+			foreach (var tagGuardZone in TagGuardZones)
+			{
+				OPCDAServer.SetTag(tagGuardZone.TagId, tagGuardZone.State.StateClass);	
+			}
+			foreach (var tagDelay in TagDelays)
+			{
+				OPCDAServer.SetTag(tagDelay.TagId, tagDelay.State.StateClass);
+			}
+			foreach (var tagMPT in TagMPTs)
+			{
+				OPCDAServer.SetTag(tagMPT.TagId, tagMPT.State.StateClass);
+			}
+			foreach (var tagPumps in TagPumpStations)
+			{
+				OPCDAServer.SetTag(tagPumps.TagId, tagPumps.State.StateClass);
+			}
+			foreach (var tagDoors in TagDoors)
+			{
+				OPCDAServer.SetTag(tagDoors.TagId, tagDoors.State.StateClass);
 			}
 			OPCDAServer.EndUpdate(false);
 

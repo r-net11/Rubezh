@@ -11,6 +11,7 @@ using FiresecAPI.Journal;
 using System.Collections.Generic;
 using System.Windows.Input;
 using Infrastructure.Common.Windows;
+using SKDDriver.DataClasses;
 
 namespace GKImitator.ViewModels
 {

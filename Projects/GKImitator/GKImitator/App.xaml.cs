@@ -12,11 +12,5 @@ namespace GKImitator
 			ThemeHelper.LoadThemeFromRegister();
 			Bootstrapper.Run();
 		}
-
-		protected override void OnExit(ExitEventArgs e)
-		{
-			DBHelper.Save();
-			base.OnExit(e);
-		}
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using FiresecAPI.GK;
 using Infrastructure.Common.Windows;
 
@@ -9,6 +10,8 @@ namespace FiresecClient.SKDHelpers
 		public static List<GKSchedule> GetSchedules()
 		{
 			var operationResult = FiresecManager.FiresecService.GetGKSchedules();
+			if (operationResult.Result != null)
+				operationResult.Result.ForEach(x => x.ScheduleParts = x.ScheduleParts.OrderBy(y => y.DayNo).ToList());
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
@@ -37,6 +40,8 @@ namespace FiresecClient.SKDHelpers
 		public static bool SaveDaySchedule(GKDaySchedule item, bool isNew)
 		{
 			var operationResult = FiresecManager.FiresecService.SaveGKDaySchedule(item, isNew);
+			if (operationResult == null)
+				return false;
 			if (operationResult.HasError)
 				MessageBoxService.ShowWarning(operationResult.Error);
 			return operationResult.Result;

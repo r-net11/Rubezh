@@ -153,22 +153,20 @@ namespace GKProcessor
 			var scheduleStartSeconds = timeSpan.TotalSeconds;
 
 			if (schedule.ScheduleType == GKScheduleType.Access)
-				for (int dayNo = 0; dayNo < schedule.ScheduleParts.Count; dayNo++)
+			{
+				foreach (var schedulePart in schedule.ScheduleParts.OrderBy(x => x.DayNo))
 				{
-					var dayScheduleUID = schedule.ScheduleParts[dayNo].DayScheduleUID;
-					var daySchedule = daySchedules.FirstOrDefault(x => x.UID == dayScheduleUID);
+					var daySchedule = daySchedules.FirstOrDefault(x => x.UID == schedulePart.DayScheduleUID);
 					if (daySchedule != null)
 					{
 						foreach (var daySchedulePart in daySchedule.DayScheduleParts)
 						{
-							bytes.AddRange(BytesHelper.IntToBytes((int)(scheduleStartSeconds + 24 * 60 * 60 * dayNo + daySchedulePart.StartMilliseconds / 1000)));
-							bytes.AddRange(BytesHelper.IntToBytes((int)(scheduleStartSeconds + 24 * 60 * 60 * dayNo + daySchedulePart.EndMilliseconds / 1000)));
-
-							var startSeconds = 24 * 60 * 60 * dayNo + daySchedulePart.StartMilliseconds / 1000;
-							var endSeconds = 24 * 60 * 60 * dayNo + daySchedulePart.EndMilliseconds / 1000;
+							bytes.AddRange(BytesHelper.IntToBytes((int)(scheduleStartSeconds + 24 * 60 * 60 * schedulePart.DayNo + daySchedulePart.StartMilliseconds / 1000)));
+							bytes.AddRange(BytesHelper.IntToBytes((int)(scheduleStartSeconds + 24 * 60 * 60 * schedulePart.DayNo + daySchedulePart.EndMilliseconds / 1000)));
 						}
 					}
 				}
+			}
 			else
 			{
 				foreach (var day in schedule.Calendar.SelectedDays.FindAll(x => x >= schedule.StartDateTime))
