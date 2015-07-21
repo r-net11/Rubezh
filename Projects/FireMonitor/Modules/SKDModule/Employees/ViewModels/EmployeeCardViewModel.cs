@@ -135,7 +135,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public void UpdateCardDoors(IEnumerable<Guid> doorUIDs)
+		public void UpdateCardDoors(IEnumerable<Guid> doorUIDs, Guid organisationUID) //TODO: Adding Guid organisationUID to fix SKDDEV-625. Check the necessity
 		{
 			Card.CardDoors.RemoveAll(x => doorUIDs.Any(y => y == x.DoorUID));
 			CardDoorsViewModel.UpdateDoors(doorUIDs);

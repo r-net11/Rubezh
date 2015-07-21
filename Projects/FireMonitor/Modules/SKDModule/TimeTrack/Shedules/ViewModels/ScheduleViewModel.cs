@@ -144,7 +144,7 @@ namespace SKDModule.ViewModels
 			return SelectedScheduleZone != null && !IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Schedules_Edit);
 		}
 
-		public void UpdateCardDoors(IEnumerable<Guid> doorUIDs)
+		public void UpdateCardDoors(IEnumerable<Guid> doorUIDs, Guid organisationUID)
 		{
 			if (ScheduleZones == null)
 				return;

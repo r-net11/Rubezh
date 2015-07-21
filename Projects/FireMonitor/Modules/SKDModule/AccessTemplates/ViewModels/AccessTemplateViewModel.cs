@@ -29,11 +29,10 @@ namespace SKDModule.ViewModels
 			base.Update(accessTemplate);
 		}
 
-		public void UpdateCardDoors(IEnumerable<Guid> doorUIDs)
+		public void UpdateCardDoors(IEnumerable<Guid> doorUIDs, Guid organisationUID)
 		{
-			if (IsOrganisation) return;
-
-			var doorsUIDsToRemove = Model.CardDoors.Where(x => !doorUIDs.Any(y => y == x.DoorUID)).ToList();
+			if (IsOrganisation || OrganisationUID != organisationUID) return;
+			var doorsUIDsToRemove = Model.CardDoors.Where(x => doorUIDs.All(y => y != x.DoorUID)).ToList();
 			doorsUIDsToRemove.ForEach(x => Model.CardDoors.Remove(x));
 			var saveResult = AccessTemplateHelper.Save(Model, false);
 			if (saveResult)
