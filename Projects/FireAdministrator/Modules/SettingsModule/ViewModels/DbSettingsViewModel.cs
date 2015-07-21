@@ -182,7 +182,7 @@ namespace SettingsModule.ViewModels
 			builder.Host = Server;
 			builder.Port = Port;
 
-			if(IsSQLAuthentication)
+			if (IsSQLAuthentication)
 			{
 				builder.IntegratedSecurity = false;
 				builder.UserName = Login;
@@ -215,9 +215,9 @@ namespace SettingsModule.ViewModels
 					Port = builder2.Port;
 				}
 			}
-			catch (Exception )
+			catch (Exception)
 			{
-				
+
 			}
 		}
 	}

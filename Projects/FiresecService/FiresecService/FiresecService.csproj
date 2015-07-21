@@ -173,7 +173,6 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Automation\ScheduleRunner.cs" />
     <Compile Include="Automation\ProcedureRunner.cs" />
-    <Compile Include="PatchManager\PatchManager.SKD.cs" />
     <Compile Include="Processor\ConfigurationCashHelper.cs" />
     <Compile Include="Processor\GKProcessor.cs" />
     <Compile Include="Automation\ProcedureThread.Steps.cs" />

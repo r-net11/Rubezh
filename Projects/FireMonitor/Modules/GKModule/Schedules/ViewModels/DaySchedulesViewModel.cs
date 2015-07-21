@@ -37,7 +37,7 @@ namespace GKModule.ViewModels
 
 				var alwaysDaySchedule = new GKDaySchedule();
 				alwaysDaySchedule.Name = "<Всегда>";
-				alwaysDaySchedule.DayScheduleParts.Add(new GKDaySchedulePart() { StartMilliseconds = 0, EndMilliseconds = (int)new TimeSpan(23, 59, 59).TotalMilliseconds });
+				alwaysDaySchedule.DayScheduleParts.Add(new GKDaySchedulePart() { StartMilliseconds = 0, EndMilliseconds = (int)new TimeSpan(1, 0, 0, 0, 0).TotalMilliseconds });
 				if (GKScheduleHelper.SaveDaySchedule(alwaysDaySchedule, true))
 					daySchedules.Add(alwaysDaySchedule);
 			}
