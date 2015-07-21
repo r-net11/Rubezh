@@ -48,6 +48,7 @@
 				<File Id="Server.DevExpress.Xpo.v14.1.dll" Name="DevExpress.Xpo.v14.1.dll" Source="$(var.Server.TargetDir)" />
 
         <File Id="Server.Npgsql.dll" Name="Npgsql.dll" Source="$(var.Server.TargetDir)" />
+        <File Id="Server.Npgsql.EntityFramework.dll" Name="Npgsql.EntityFramework.dll" Source="$(var.Server.TargetDir)" />
 			</Component>
 
 			<Component Id="Server.DB.Common" Guid="B596A2AE-21D9-48AA-8F7F-C0062E152994">
