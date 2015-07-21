@@ -19,11 +19,11 @@ namespace FireMonitor
 	{
 		public void Run()
 		{
-			ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Unsubscribe(OnNewJournal);
-			ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Subscribe(OnNewJournal);
+			ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Unsubscribe(OnNewJournals);
+			ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Subscribe(OnNewJournals);
 		}
 
-		void OnNewJournal(List<JournalItem> journalItems)
+		void OnNewJournals(List<JournalItem> journalItems)
 		{
 			AutoActivate();
 			if (ClientSettings.AutoActivationSettings.IsPlansAutoActivation)
