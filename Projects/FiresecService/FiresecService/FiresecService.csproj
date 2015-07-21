@@ -193,6 +193,7 @@
     <Compile Include="Service\FiresecService.Automation.cs" />
     <Compile Include="PatchManager\PatchManager.cs" />
     <Compile Include="ViewModels\LicenseViewModel.cs" />
+    <Compile Include="ViewModels\LogViewModel.cs" />
     <Compile Include="ViewModels\NotifyIconService.cs" />
     <Compile Include="Service\SafeFiresecService.cs" />
     <Compile Include="Service\FiresecServiceManager.cs" />

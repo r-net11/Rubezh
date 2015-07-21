@@ -26,6 +26,7 @@ namespace FiresecService.ViewModels
 			Clients = new ObservableCollection<ClientViewModel>();
 			ServerTasksViewModel = new ViewModels.ServerTasksViewModel();
 			MessageBoxService.SetMessageBoxHandler(MessageBoxHandler);
+			Logs = new ObservableCollection<LogViewModel>();
 
             _initialKey = InitialKey.Generate();
             InitialKeyString = _initialKey.ToString();
@@ -102,12 +103,15 @@ namespace FiresecService.ViewModels
 			}));
 		}
 
-		public void AddLog(string message)
+		public void AddLog(string message, bool isError)
 		{
 			_dispatcher.BeginInvoke((Action)(() =>
 			{
 				LastLog = message;
-				InfoLog += message + "\n";
+				var logViewModel = new LogViewModel(message, isError);
+				Logs.Add(logViewModel);
+				if (Logs.Count > 1000)
+					Logs.RemoveAt(0);
 			}));
 		}
 
@@ -122,14 +126,16 @@ namespace FiresecService.ViewModels
 			}
 		}
 
-		string _infoLog = "";
-		public string InfoLog
+		public ObservableCollection<LogViewModel> Logs { get; private set; }
+
+		LogViewModel _selectedLog;
+		public LogViewModel SelectedLog
 		{
-			get { return _infoLog; }
+			get { return _selectedLog; }
 			set
 			{
-				_infoLog = value;
-				OnPropertyChanged(() => InfoLog);
+				_selectedLog = value;
+				OnPropertyChanged(() => SelectedLog);
 			}
 		}
 
