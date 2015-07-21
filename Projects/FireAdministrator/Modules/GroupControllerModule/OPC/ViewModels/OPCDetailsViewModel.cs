@@ -47,6 +47,7 @@ namespace GKModule.ViewModels
 
 		protected override bool Save()
 		{
+
 		GKManager.DeviceConfiguration.OPCSettings.ZoneUIDs = ZonesSelectationViewModel.TargetZones.Select(x => x.UID).ToList();
 
 		GKManager.DeviceConfiguration.OPCSettings.GuardZoneUIDs = GuardZonesSelectationViewModel.TargetZones.Select(x => x.UID).ToList();

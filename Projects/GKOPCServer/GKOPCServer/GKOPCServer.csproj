@@ -76,10 +76,7 @@
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Processor\TagBase.cs" />
-    <Compile Include="Processor\TagDirection.cs" />
     <Compile Include="ViewModels\NotifyIconService.cs" />
-    <Compile Include="Processor\TagDevice.cs" />
-    <Compile Include="Processor\TagZone.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\UILogger.cs" />
     <Compile Include="Views\MainView.xaml.cs">
