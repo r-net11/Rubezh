@@ -32,7 +32,7 @@ namespace GKModule.Validation
 
 		void ValidateEmpty(GKPumpStation pumpStation)
 		{
-			if (pumpStation.GetDataBaseParent() == null)
+			if (pumpStation.DataBaseParent == null)
 			{
 				Errors.Add(new PumpStationValidationError(pumpStation, "Пустые зависимости", ValidationErrorLevel.CannotWrite));
 			}
@@ -114,7 +114,7 @@ namespace GKModule.Validation
 		{
 			foreach (var zone in pumpStation.ClauseInputZones)
 			{
-				if (zone.GetDataBaseParent() == null)
+				if (zone.DataBaseParent == null)
 				{
 					Errors.Add(new PumpStationValidationError(pumpStation, "В НС входит пустая зона " + zone.PresentationName, ValidationErrorLevel.CannotWrite));
 				}
@@ -122,7 +122,7 @@ namespace GKModule.Validation
 
 			foreach (var direction in pumpStation.ClauseInputDirections)
 			{
-				if (direction.GetDataBaseParent() == null)
+				if (direction.DataBaseParent == null)
 				{
 					Errors.Add(new PumpStationValidationError(pumpStation, "В НС входит пустое направление " + direction.PresentationName, ValidationErrorLevel.CannotWrite));
 				}
