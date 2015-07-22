@@ -413,7 +413,8 @@ namespace FiresecAPI.GK
 				result = result.Distinct().ToList();
 				GetDataBaseParent(inputObject, result, kauDataBaseParent);
 			}
-
+			if (kauDataBaseParent != null)
+				return kauDataBaseParent;
 			var kauParents = result.FindAll(x => x is GKDevice).Select(y => (y as GKDevice).KAUParent).ToList();
 			kauParents = kauParents.Distinct().ToList();
 			if (kauParents.Count > 1)
