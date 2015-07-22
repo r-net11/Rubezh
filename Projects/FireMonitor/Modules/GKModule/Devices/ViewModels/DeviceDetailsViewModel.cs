@@ -53,6 +53,10 @@ namespace GKModule.ViewModels
 			ServiceFactory.Events.GetEvent<GKObjectsPropertyChangedEvent>().Unsubscribe(OnGKObjectsPropertyChanged);
 			ServiceFactory.Events.GetEvent<GKObjectsPropertyChangedEvent>().Subscribe(OnGKObjectsPropertyChanged);
 		}
+		public string DescriptorName
+		{ 
+			get { return Device.GetGKDescriptorName(GKNameGenerationType.Description); } 
+		}
 
 		void OnStateChanged()
 		{
