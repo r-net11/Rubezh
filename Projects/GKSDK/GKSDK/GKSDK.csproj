@@ -40,6 +40,7 @@
     <Reference Include="Microsoft.Practices.Prism">
       <HintPath>..\Assemblies\Microsoft.Practices.Prism.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.QualityTools.Testing.Fakes, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
@@ -94,7 +95,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Common\Common\Common.csproj">
       <Project>{FE37B6D4-73E5-40F2-A770-A974561430B8}</Project>
-      <Name>Common %28Common\Common%29</Name>
+      <Name>Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Common\Controls\Controls.csproj">
       <Project>{0F0ACE8E-E606-4FCA-B6B2-2F1FD86121DE}</Project>
@@ -119,6 +120,14 @@
     <ProjectReference Include="..\..\Common\Infrustructure.Plans\Infrustructure.Plans.csproj">
       <Project>{DA2A8431-7328-4AE8-926F-E191700577A1}</Project>
       <Name>Infrustructure.Plans</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\FireMonitor\Infrastructure\Infrastructure.csproj">
+      <Project>{2a951da3-6221-43e1-8b88-13a591faa53b}</Project>
+      <Name>Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\FireMonitor\Modules\GKModule\GKModule.csproj">
+      <Project>{8122cf0a-ac1d-4d4d-b20b-49bb565114a8}</Project>
+      <Name>GKModule</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

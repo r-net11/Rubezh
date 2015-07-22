@@ -75,9 +75,16 @@
                         </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
-                <StackPanel Grid.Row="1" Orientation="Horizontal">
-                    <Button Content="Поставить на охрану" Command="{Binding SetZoneGuardCommand}" Width="150" Margin="2" />
-                    <Button Content="Снять с охраны" Command="{Binding UnSetZoneGuardCommand}" Width="150" Margin="2" />
+                <StackPanel Grid.Row="1">
+                    <StackPanel Grid.Row="1" Orientation="Horizontal">
+                        <Button Content="Поставить на охрану" Command="{Binding SetZoneGuardCommand}" Width="150" Margin="2" />
+                        <Button Content="Снять с охраны" Command="{Binding UnSetZoneGuardCommand}" Width="150" Margin="2" />
+                    </StackPanel>
+                <StackPanel DataContext="{Binding SelectedZone}" Orientation="Horizontal">
+                    <Button Content="Отключить" Command="{Binding SetIgnoreCommand}" Width="150" Margin="2" />
+                    <Button Content="Снять отключение" Command="{Binding ResetIgnoreCommand}" Width="150" Margin="2" />
+                    <Button Content="Сбросить" Command="{Binding ResetFireCommand}" Width="150" Margin="2" />
+                </StackPanel>
                 </StackPanel>
             </Grid>
         </TabItem>
@@ -103,9 +110,22 @@
                         </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
-                <StackPanel Grid.Row="1" Orientation="Horizontal">
-                    <Button Content="Поставить на охрану" Command="{Binding SetZoneGuardCommand}" Width="150" Margin="2" />
-                    <Button Content="Снять с охраны" Command="{Binding UnSetZoneGuardCommand}" Width="150" Margin="2" />
+                <StackPanel Grid.Row="1">
+                    <StackPanel Orientation="Horizontal">
+                        <Button Content="Поставить на охрану" Command="{Binding SetZoneGuardCommand}" Width="150" Margin="2" />
+                        <Button Content="Снять с охраны" Command="{Binding UnSetZoneGuardCommand}" Width="150" Margin="2" />
+                    </StackPanel>
+                    <StackPanel DataContext="{Binding SelectedDirection}" Orientation="Horizontal">
+                        <Button Content="Автоматика" Command="{Binding SetAutomaticStateCommand}" Width="150" Margin="2" />
+                        <Button Content="Ручное" Command="{Binding SetManualStateCommand}" Width="150" Margin="2" />
+                        <Button Content="Отключение" Command="{Binding SetIgnoreStateCommand}" Width="150" Margin="2" />
+                    </StackPanel>
+                    <StackPanel DataContext="{Binding SelectedDirection}" Orientation="Horizontal" IsEnabled="{Binding IsControlRegime}">
+                        <Button Content="Пуск" Command="{Binding TurnOnCommand}" Width="150" Margin="2" />
+                        <Button Content="Пуск немедленно" Command="{Binding TurnOnNowCommand}" Width="150" Margin="2" />
+                        <Button Content="Останов пуска" Command="{Binding ForbidStartCommand}" Width="150" Margin="2" />
+                        <Button Content="Выключить немедленно" Command="{Binding TurnOffCommand}" Width="150" Margin="2" />
+                    </StackPanel>
                 </StackPanel>
             </Grid>
         </TabItem>
