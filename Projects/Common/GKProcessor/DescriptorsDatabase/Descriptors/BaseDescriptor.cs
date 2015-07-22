@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using FiresecAPI.GK;
 using FiresecClient;
 
@@ -90,21 +91,27 @@ namespace GKProcessor
 
 			if (DatabaseType == DatabaseType.Kau)
 			{
-				foreach (var inputGKBase in GKBase.InputGKBases)
+				if (GKBase.InputGKBases != null)
 				{
-					if (inputGKBase.KauDatabaseParent != GKBase.KauDatabaseParent)
-						continue;
-					var no = inputGKBase.GKDescriptorNo;
-					InputDependenses.AddRange(BitConverter.GetBytes(no));
+					GKBase.InputGKBases = GKBase.InputGKBases.OrderBy(x => x.No).ToList();
+					foreach (var inputGKBase in GKBase.InputGKBases)
+					{
+						if (inputGKBase.KauDatabaseParent != GKBase.KauDatabaseParent)
+							continue;
+						var no = inputGKBase.GKDescriptorNo;
+						InputDependenses.AddRange(BitConverter.GetBytes(no));
+					}
 				}
-				foreach (var outputGKBase in GKBase.OutputGKBases)
+				if (GKBase.OutputGKBases != null)
 				{
-					//if ((outputGKBase is GKGuardZone) && (outputGKBase as GKGuardZone).GuardZoneEnterMethod != GKGuardZoneEnterMethod.GlobalOnly)
-					//	return;
-					if (outputGKBase.KauDatabaseParent != GKBase.KauDatabaseParent)
-						continue;
-					var no = outputGKBase.KAUDescriptorNo;
-					OutputDependenses.AddRange(BitConverter.GetBytes(no));
+					GKBase.InputGKBases = GKBase.OutputGKBases.OrderBy(x => x.No).ToList();
+					foreach (var outputGKBase in GKBase.OutputGKBases)
+					{
+						if (outputGKBase.KauDatabaseParent != GKBase.KauDatabaseParent)
+							continue;
+						var no = outputGKBase.KAUDescriptorNo;
+						OutputDependenses.AddRange(BitConverter.GetBytes(no));
+					}
 				}
 			}
 		}
