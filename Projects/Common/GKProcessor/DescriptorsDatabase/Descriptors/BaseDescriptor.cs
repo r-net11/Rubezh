@@ -76,16 +76,22 @@ namespace GKProcessor
 			if (DatabaseType == DatabaseType.Gk)
 			{
 				if (GKBase.InputGKBases != null)
-				foreach (var inputGKBase in GKBase.InputGKBases)
 				{
-					var no = inputGKBase.GKDescriptorNo;
-					InputDependenses.AddRange(BitConverter.GetBytes(no));
+					GKBase.InputGKBases = GKBase.InputGKBases.OrderBy(x => x.No).ToList();
+					foreach (var inputGKBase in GKBase.InputGKBases)
+					{
+						var no = inputGKBase.GKDescriptorNo;
+						InputDependenses.AddRange(BitConverter.GetBytes(no));
+					}
 				}
 				if (GKBase.OutputGKBases != null)
-				foreach (var outputGKBase in GKBase.OutputGKBases)
 				{
-					var no = outputGKBase.GKDescriptorNo;
-					OutputDependenses.AddRange(BitConverter.GetBytes(no));
+					GKBase.OutputGKBases = GKBase.OutputGKBases.OrderBy(x => x.No).ToList();
+					foreach (var outputGKBase in GKBase.OutputGKBases)
+					{
+						var no = outputGKBase.GKDescriptorNo;
+						OutputDependenses.AddRange(BitConverter.GetBytes(no));
+					}
 				}
 			}
 
@@ -104,7 +110,7 @@ namespace GKProcessor
 				}
 				if (GKBase.OutputGKBases != null)
 				{
-					GKBase.InputGKBases = GKBase.OutputGKBases.OrderBy(x => x.No).ToList();
+					GKBase.OutputGKBases = GKBase.OutputGKBases.OrderBy(x => x.No).ToList();
 					foreach (var outputGKBase in GKBase.OutputGKBases)
 					{
 						if (outputGKBase.KauDatabaseParent != GKBase.KauDatabaseParent)

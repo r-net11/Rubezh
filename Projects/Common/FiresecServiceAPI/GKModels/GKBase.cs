@@ -388,8 +388,6 @@ namespace FiresecAPI.GK
 			{
 				if (inputObject is GKDoor)
 					return inputObject.GkDatabaseParent;
-				if (inputObject is GKGuardZone)
-					result.AddRange(GKManager.GuardZones.FindAll(x => x.GetCodeUids().Intersect((inputObject as GKGuardZone).GetCodeUids()).Any() &&  !result.Contains(x)));
 				if (inputObject.DataBaseParent == null)
 				{
 					inputObject.PrepareInputOutputDependences();
@@ -409,6 +407,8 @@ namespace FiresecAPI.GK
 				}
 				if (result.Any(x => x.UID == inputObject.UID))
 					continue;
+				if (inputObject is GKGuardZone)
+					result.AddRange(GKManager.GuardZones.FindAll(x => x.GetCodeUids().Intersect((inputObject as GKGuardZone).GetCodeUids()).Any() && !result.Contains(x)));
 				result.Add(inputObject);
 				result = result.Distinct().ToList();
 				GetDataBaseParent(inputObject, result, kauDataBaseParent);
