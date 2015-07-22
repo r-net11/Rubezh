@@ -57,7 +57,6 @@ namespace GKModule.ViewModels
 		{ 
 			get { return Device.GetGKDescriptorName(GKNameGenerationType.Description); } 
 		}
-
 		void OnStateChanged()
 		{
 			OnPropertyChanged(() => DevicePicture);
