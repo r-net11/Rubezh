@@ -67,7 +67,7 @@ namespace GKModule.ViewModels
 					AddedDevices.Add(addedDevice);
 				}
 			}
-			GKManager.RebuildRSR2Addresses(ParentDevice.KAUParent);
+			GKManager.RebuildRSR2Addresses(ParentDevice);
 			return true;
 		}
 

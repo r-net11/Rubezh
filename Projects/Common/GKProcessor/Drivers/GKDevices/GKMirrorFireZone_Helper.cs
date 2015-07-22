@@ -15,7 +15,7 @@ namespace GKProcessor
 				Name = "Пожарные зоны",
 				ShortName = "Пожарные зоны",
 				CanEditAddress = true,
-				HasAddress = false,
+				HasAddress = true,
 				IsDeviceOnShleif = false,
 				IsPlaceable = false,
 				HasMirror = true,

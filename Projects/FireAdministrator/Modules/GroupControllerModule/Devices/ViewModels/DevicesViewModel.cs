@@ -234,7 +234,7 @@ namespace GKModule.ViewModels
 					}
 					if (SelectedDevice.Device.IsConnectedToKAU)
 					{
-						GKManager.RebuildRSR2Addresses(SelectedDevice.Device.KAUParent);
+						GKManager.RebuildRSR2Addresses(SelectedDevice.Device);
 						GKManager.UpdateConfiguration();
 					}
 				}
