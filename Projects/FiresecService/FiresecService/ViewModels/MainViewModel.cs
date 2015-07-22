@@ -27,6 +27,7 @@ namespace FiresecService.ViewModels
 			ServerTasksViewModel = new ViewModels.ServerTasksViewModel();
 			MessageBoxService.SetMessageBoxHandler(MessageBoxHandler);
 			Logs = new ObservableCollection<LogViewModel>();
+			GKViewModels = new ObservableCollection<GKViewModel>();
 
             _initialKey = InitialKey.Generate();
             InitialKeyString = _initialKey.ToString();
@@ -47,7 +48,7 @@ namespace FiresecService.ViewModels
 			}));
 		}
 		
-		private string _status;
+		string _status;
 		string Status
 		{
 			get { return _status; }
@@ -63,6 +64,7 @@ namespace FiresecService.ViewModels
 			return MonitorHelper.PrimaryMonitor;
 		}
 
+		#region Clients
 		public ObservableCollection<ClientViewModel> Clients { get; private set; }
 
 		ClientViewModel _selectedClient;
@@ -102,7 +104,9 @@ namespace FiresecService.ViewModels
 					connectionViewModel.FriendlyUserName = userName;
 			}));
 		}
+		#endregion Clients
 
+		#region Logs
 		public void AddLog(string message, bool isError)
 		{
 			_dispatcher.BeginInvoke((Action)(() =>
@@ -138,12 +142,91 @@ namespace FiresecService.ViewModels
 				OnPropertyChanged(() => SelectedLog);
 			}
 		}
+		#endregion Logs
 
-		public override bool OnClosing(bool isCanceled)
+		#region Address
+
+		public static void SetLocalAddress(string address)
 		{
-			ApplicationMinimizeCommand.ForceExecute();
-			return true;
-        }
+			if(Current != null)
+			{
+				Current._dispatcher.BeginInvoke((Action)(() => { Current.LocalAddress = address; }));
+			}
+		}
+
+		public static void SetRemoteAddress(string address)
+		{
+			if (Current != null)
+			{
+				Current._dispatcher.BeginInvoke((Action)(() => { Current.RemoteAddress = address; }));
+			}
+		}
+
+		public static void SetReportAddress(string address)
+		{
+			if (Current != null)
+			{
+				Current._dispatcher.BeginInvoke((Action)(() => { Current.ReportAddress = address; }));
+			}
+		}
+
+		string _localAddress;
+		public string LocalAddress
+		{
+			get { return _localAddress; }
+			set
+			{
+				_localAddress = value;
+				OnPropertyChanged(() => LocalAddress);
+			}
+		}
+
+		string _remoteAddress;
+		public string RemoteAddress
+		{
+			get { return _remoteAddress; }
+			set
+			{
+				_remoteAddress = value;
+				OnPropertyChanged(() => RemoteAddress);
+			}
+		}
+
+		string _reportAddress;
+		public string ReportAddress
+		{
+			get { return _reportAddress; }
+			set
+			{
+				_reportAddress = value;
+				OnPropertyChanged(() => ReportAddress);
+			}
+		}
+		#endregion Address
+
+		#region GK
+		ObservableCollection<GKViewModel> _gkViewModels;
+		public ObservableCollection<GKViewModel> GKViewModels
+		{
+			get { return _gkViewModels; }
+			set
+			{
+				_gkViewModels = value;
+				OnPropertyChanged(() => GKViewModels);
+			}
+		}
+
+		GKViewModel _selectedGKViewModel;
+		public GKViewModel SelectedGKViewModel
+		{
+			get { return _selectedGKViewModel; }
+			set
+			{
+				_selectedGKViewModel = value;
+				OnPropertyChanged(() => SelectedGKViewModel);
+			}
+		}
+		#endregion GK
 
         #region Licensing
 
@@ -203,5 +286,11 @@ namespace FiresecService.ViewModels
             }
         }
         #endregion
+
+		public override bool OnClosing(bool isCanceled)
+		{
+			ApplicationMinimizeCommand.ForceExecute();
+			return true;
+		}
     }
 }

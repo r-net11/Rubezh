@@ -54,7 +54,6 @@ namespace SettingsModule.ViewModels
 			DoNotAutoconnectAdm = GlobalSettingsHelper.GlobalSettings.DoNotAutoconnectAdm;
 			RunRevisor = GlobalSettingsHelper.GlobalSettings.RunRevisor;
 			Server_EnableRemoteConnections = GlobalSettingsHelper.GlobalSettings.Server_EnableRemoteConnections;
-			UseHasp = GlobalSettingsHelper.GlobalSettings.UseHasp;
 		}
 
 		public string ServerAutoLabel { get { return "Сервер приложений Глобал"; } }
@@ -333,17 +332,6 @@ namespace SettingsModule.ViewModels
 			}
 		}
 
-		bool _useHasp;
-		public bool UseHasp
-		{
-			get { return _useHasp; }
-			set
-			{
-				_useHasp = value;
-				OnPropertyChanged(() => UseHasp);
-			}
-		}
-
 		bool _isGKOpcServerAuto;
 		public bool IsGKOpcServerAuto
 		{
@@ -467,7 +455,6 @@ namespace SettingsModule.ViewModels
 			GlobalSettingsHelper.GlobalSettings.AdminPassword = Password;
 			GlobalSettingsHelper.GlobalSettings.AdminAutoConnect = AutoConnect;
 			GlobalSettingsHelper.GlobalSettings.Server_EnableRemoteConnections = Server_EnableRemoteConnections;
-			GlobalSettingsHelper.GlobalSettings.UseHasp = UseHasp;
 			GlobalSettingsHelper.GlobalSettings.DoNotAutoconnectAdm = DoNotAutoconnectAdm;
 			GlobalSettingsHelper.GlobalSettings.RunRevisor = RunRevisor;
 			ModulesViewModel.Save();

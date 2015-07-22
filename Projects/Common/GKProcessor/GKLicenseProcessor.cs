@@ -44,8 +44,7 @@ namespace GKProcessor
 
 		static void OnRun()
 		{
-			if (!GlobalSettingsHelper.GlobalSettings.UseHasp)
-				return;
+			return;
 
 			AutoResetEvent = new AutoResetEvent(false);
 			if (AutoResetEvent.WaitOne(TimeSpan.FromMinutes(10)))

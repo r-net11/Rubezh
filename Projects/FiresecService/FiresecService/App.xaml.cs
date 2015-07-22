@@ -24,7 +24,6 @@ namespace FiresecServiceRunner
 			using (new DoubleLaunchLocker(SignalId, WaitId, true))
 			{
 				AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
-				AppDomain.CurrentDomain.AssemblyLoad += new AssemblyLoadEventHandler(CurrentDomain_AssemblyLoad);
 				try
 				{
 					Bootstrapper.Run();
@@ -57,9 +56,6 @@ namespace FiresecServiceRunner
 			Bootstrapper.Close();
 			Application.Current.MainWindow.Close();
 			Application.Current.Shutdown();
-		}
-		private void CurrentDomain_AssemblyLoad(object sender, AssemblyLoadEventArgs args)
-		{
 		}
 	}
 }

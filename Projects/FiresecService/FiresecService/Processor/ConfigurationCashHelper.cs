@@ -103,7 +103,7 @@ namespace FiresecService
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "ConfigActualizeHelper.GetFile " + fileName);
+				Logger.Error(e, "ConfigurationCashHelper.GetConfiguration " + fileName);
 			}
 			return null;
 		}

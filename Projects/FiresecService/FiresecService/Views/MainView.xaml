@@ -72,6 +72,36 @@
 					</Grid>
 				</Grid>
 			</TabItem>
+			<TabItem Header="Статус">
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition Width="*" />
+					</Grid.ColumnDefinitions>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+					</Grid.RowDefinitions>
+
+					<TextBlock Grid.Row="0" Grid.Column="0" Text="Локальный адрес сервера" Foreground="{DynamicResource ForegroundColorWhite}" VerticalAlignment="Center" Margin="2" />
+					<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding LocalAddress}" Margin="2" />
+
+					<TextBlock Grid.Row="1" Grid.Column="0" Text="Удаленный адрес сервера" Foreground="{DynamicResource ForegroundColorWhite}" VerticalAlignment="Center" Margin="2" />
+					<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding RemoteAddress}" Margin="2" />
+
+					<TextBlock Grid.Row="2" Grid.Column="0" Text="Адрес сервера отчетов" Foreground="{DynamicResource ForegroundColorWhite}" VerticalAlignment="Center" Margin="2" />
+					<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding ReportAddress}" Margin="2" />
+				</Grid>
+			</TabItem>
+			<TabItem Header="ГК" DataContext="{Binding ServerTasksViewModel}">
+				<DataGrid ItemsSource="{Binding GKViewModels}" SelectedItem="{Binding SelectedGKViewModel}">
+					<DataGrid.Columns>
+						<DataGridTextColumn Binding="{Binding Name}" Header="Название" Width="*" />
+						<DataGridTextColumn Binding="{Binding State}" Header="Состояние" Width="*" />
+					</DataGrid.Columns>
+				</DataGrid>
+			</TabItem>
 			<TabItem Header="Операции" DataContext="{Binding ServerTasksViewModel}">
 				<DataGrid ItemsSource="{Binding ServerTasks}" SelectedItem="{Binding SelectedServerTask}">
 					<DataGrid.Columns>
@@ -79,7 +109,7 @@
 					</DataGrid.Columns>
 				</DataGrid>
 			</TabItem>
-            <TabItem Header="Лицензирование">
+			<TabItem Header="Лицензирование">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
