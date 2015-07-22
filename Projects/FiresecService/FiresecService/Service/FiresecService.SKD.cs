@@ -498,7 +498,7 @@ namespace FiresecService.Service
 
 		public OperationResult DeletedCard(SKDCard card)
 		{
-			AddJournalMessage(JournalEventNameType.Редактирование_карты, card.Number.ToString(), uid: card.UID);
+			AddJournalMessage(JournalEventNameType.Удаление_карты, card.Number.ToString(), JournalEventDescriptionType.Удаление, "карты с номером: " + card.Number, uid: card.UID);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.CardTranslator.Delete(card.UID);

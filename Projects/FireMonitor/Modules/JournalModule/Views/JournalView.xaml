@@ -69,7 +69,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Width="150" Header="Уточнение">
+				<DataGridTemplateColumn Width="*" Header="Уточнение">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
@@ -92,7 +92,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Width="120" Header="Объект">
+				<DataGridTemplateColumn Width="150" Header="Объект">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
@@ -114,11 +114,14 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTextColumn
-					Width="100"
-					Binding="{Binding JournalItem.UserName}"
-					Header="Пользователь" />
-				<DataGridTemplateColumn Width="200" Header="Подсистема">
+				<DataGridTemplateColumn Width="*" Header="Пользователь">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<TextBlock Margin="5 0 0 0" Text="{Binding JournalItem.UserName}" />
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn Width="*" Header="Подсистема">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">

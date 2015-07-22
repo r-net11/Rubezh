@@ -14,26 +14,20 @@ namespace FiresecService.Service
 
 		#region Add
 
-		private void AddJournalMessage(JournalEventNameType journalEventNameType, string objectName, JournalEventDescriptionType journalEventDescriptionType = JournalEventDescriptionType.NULL, string userName = null, Guid? uid = null)
+		private void AddJournalMessage(JournalEventNameType journalEventNameType, string objectName, JournalEventDescriptionType journalEventDescriptionType = JournalEventDescriptionType.NULL, string descriptionText = null, string userName = null, Guid? uid = null)
 		{
-			var journalItem = new JournalItem()
+			var journalItem = new JournalItem
 			{
 				SystemDateTime = DateTime.Now,
 				JournalEventNameType = journalEventNameType,
 				JournalEventDescriptionType = journalEventDescriptionType,
+				DescriptionText = descriptionText,
 				JournalSubsystemType = EventDescriptionAttributeHelper.ToSubsystem(journalEventNameType),
 				JournalObjectType = JournalObjectType.None,
 				ObjectUID = uid != null ? uid.Value : Guid.Empty,
 				ObjectName = objectName,
+				UserName = userName ?? UserName,
 			};
-			if (userName != null)
-			{
-				journalItem.UserName = userName;
-			}
-			else
-			{
-				journalItem.UserName = UserName;
-			}
 
 			AddCommonJournalItem(journalItem);
 		}
