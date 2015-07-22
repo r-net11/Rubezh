@@ -51,6 +51,7 @@ namespace StrazhModule.ViewModels
 			{
 				_address = value;
 				OnPropertyChanged(() => Address);
+				HasChanged = true;
 			}
 		}
 
@@ -62,6 +63,7 @@ namespace StrazhModule.ViewModels
 			{
 				_mask = value;
 				OnPropertyChanged(() => Mask);
+				HasChanged = true;
 			}
 		}
 
@@ -73,6 +75,7 @@ namespace StrazhModule.ViewModels
 			{
 				_defaultGateway = value;
 				OnPropertyChanged(() => DefaultGateway);
+				HasChanged = true;
 			}
 		}
 
@@ -146,29 +149,29 @@ namespace StrazhModule.ViewModels
 
 		protected override bool Save()
 		{
-			if (HasChanged)
-			{
-				if (MessageBoxService.ShowQuestion("Сетевые настройки в контроллере были изменены. Изменить сетевые настройки в конфигурации?"))
-				{
-					var addressProperty = DeviceViewModel.Device.Properties.FirstOrDefault(x => x.Name == "Address");
-					if (addressProperty != null)
-					{
-						addressProperty.StringValue = Address;
-					}
-					var maskProperty = DeviceViewModel.Device.Properties.FirstOrDefault(x => x.Name == "Mask");
-					if (maskProperty != null)
-					{
-						maskProperty.StringValue = Mask;
-					}
-					var gatewayProperty = DeviceViewModel.Device.Properties.FirstOrDefault(x => x.Name == "Gateway");
-					if (gatewayProperty != null)
-					{
-						gatewayProperty.StringValue = DefaultGateway;
-					}
+			if (!HasChanged) return base.Save();
 
-					DeviceViewModel.UpdateProperties();
-					ServiceFactory.SaveService.SKDChanged = true;
+			if (MessageBoxService.ShowQuestion("Сетевые настройки в контроллере были изменены. Изменить сетевые настройки в конфигурации?"))
+			{
+				var addressProperty = DeviceViewModel.Device.Properties.FirstOrDefault(x => x.Name == "Address");
+				if (addressProperty != null)
+				{
+					addressProperty.StringValue = Address;
 				}
+				var maskProperty = DeviceViewModel.Device.Properties.FirstOrDefault(x => x.Name == "Mask");
+				if (maskProperty != null)
+				{
+					maskProperty.StringValue = Mask;
+				}
+				var gatewayProperty = DeviceViewModel.Device.Properties.FirstOrDefault(x => x.Name == "Gateway");
+				if (gatewayProperty != null)
+				{
+					gatewayProperty.StringValue = DefaultGateway;
+				}
+
+				DeviceViewModel.UpdateProperties();
+				ServiceFactory.SaveService.SKDChanged = true;
+				//	ServiceFactoryBase.Events.GetEvent<ElementAddedEvent>().Publish(historyItem.ElementsBefore);
 			}
 			return base.Save();
 		}

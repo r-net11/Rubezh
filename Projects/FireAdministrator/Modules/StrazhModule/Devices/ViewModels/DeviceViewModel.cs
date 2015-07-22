@@ -20,7 +20,17 @@ namespace StrazhModule.ViewModels
 	public class DeviceViewModel : TreeNodeViewModel<DeviceViewModel>
 	{
 		public SKDDevice Device { get; private set; }
-		public PropertiesViewModel PropertiesViewModel { get; private set; }
+
+		private PropertiesViewModel _propertiesViewModel;
+		public PropertiesViewModel PropertiesViewModel
+		{
+			get { return _propertiesViewModel; }
+			set
+			{
+				_propertiesViewModel = value;
+				OnPropertyChanged(() => PropertiesViewModel);
+			}
+		}
 
 		public DeviceViewModel(SKDDevice device)
 		{
@@ -58,6 +68,7 @@ namespace StrazhModule.ViewModels
 		{
 			PropertiesViewModel = new PropertiesViewModel(Device);
 			OnPropertyChanged(() => PropertiesViewModel);
+			OnChanged();
 		}
 
 		public void Update()
