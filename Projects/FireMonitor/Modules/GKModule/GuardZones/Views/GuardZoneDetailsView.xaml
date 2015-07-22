@@ -90,7 +90,7 @@
 							</WrapPanel>
                             
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Номер дескриптора ГК:" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" FontWeight="Bold" />
+								<TextBlock Text="{Binding Zone.GKDescriptorNo}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" FontWeight="Bold" />
                                 <TextBlock Text="{Binding Zone.GKDescriptorNo}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" FontWeight="Bold" />
                             </StackPanel>
 

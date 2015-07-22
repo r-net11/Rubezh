@@ -47,6 +47,7 @@
 									</Hyperlink>
 								</TextBlock>
 							</WrapPanel>
+								<TextBlock Text="{Binding Zone.GKDescriptorNo}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" FontWeight="Bold" />
 							<StackPanel Orientation="Horizontal">
 								<WrapPanel>
 									<TextBlock>

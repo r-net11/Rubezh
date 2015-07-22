@@ -161,10 +161,10 @@
 							</WrapPanel>
 
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Название в ГК:" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" FontWeight="Bold" />
-                                <TextBlock Text="{Binding Device.DescriptorName}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" FontWeight="Bold" />
+								<TextBlock Text="{Binding DescriptorName}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" FontWeight="Bold" />
                             </StackPanel>
 
+								<TextBlock Text="{Binding Device.GKDescriptorNo}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" FontWeight="Bold" />
                             <StackPanel Orientation="Horizontal" Margin="2">
 								<WrapPanel>
 									<TextBlock>
@@ -177,7 +177,6 @@
 									</TextBlock>
 								</WrapPanel>
 							</StackPanel>
-
 							<ItemsControl ItemsSource="{Binding PlanNames}" Margin="2" >
 								<ItemsControl.ItemTemplate>
 									<DataTemplate>

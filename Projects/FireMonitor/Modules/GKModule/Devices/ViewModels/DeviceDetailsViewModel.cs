@@ -53,7 +53,8 @@ namespace GKModule.ViewModels
 			ServiceFactory.Events.GetEvent<GKObjectsPropertyChangedEvent>().Unsubscribe(OnGKObjectsPropertyChanged);
 			ServiceFactory.Events.GetEvent<GKObjectsPropertyChangedEvent>().Subscribe(OnGKObjectsPropertyChanged);
 		}
-
+		{
+			get { return Device.GetGKDescriptorName(GKNameGenerationType.Description); }
 		void OnStateChanged()
 		{
 			OnPropertyChanged(() => DevicePicture);
