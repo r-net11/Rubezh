@@ -88,13 +88,11 @@
 									</Hyperlink>
 								</TextBlock>
 							</WrapPanel>
-                            
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Номер дескриптора ГК:" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" FontWeight="Bold" />
-                                <TextBlock Text="{Binding Zone.GKDescriptorNo}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" FontWeight="Bold" />
-                            </StackPanel>
-
-                            <StackPanel Orientation="Horizontal">
+							<StackPanel Orientation="Horizontal" Margin="2" >
+								<TextBlock Text="Номер дескриптора ГК:" TextWrapping="Wrap" Width="110" VerticalAlignment="Center" FontWeight="Bold" />
+								<TextBlock Text="{Binding Zone.GKDescriptorNo}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" FontWeight="Bold" />
+							</StackPanel>
+							<StackPanel Orientation="Horizontal">
 								<WrapPanel>
 									<TextBlock>
 										<Hyperlink Command="{Binding ShowJournalCommand}" Style="{StaticResource HyperlinkStyle2}">

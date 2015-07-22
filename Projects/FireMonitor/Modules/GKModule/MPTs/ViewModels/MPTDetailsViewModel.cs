@@ -21,7 +21,6 @@ namespace GKModule.ViewModels
 		{
 			get { return MPT.State; }
 		}
-
 		public MPTDetailsViewModel(GKMPT mpt)
 		{
 			MPT = mpt;

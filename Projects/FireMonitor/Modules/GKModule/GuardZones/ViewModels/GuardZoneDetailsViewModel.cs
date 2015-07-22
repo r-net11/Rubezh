@@ -22,7 +22,6 @@ namespace GKModule.ViewModels
 		{
 			get { return Zone.State; }
 		}
-
 		public GuardZoneDetailsViewModel(GKGuardZone zone)
 		{
 			ShowCommand = new RelayCommand(OnShow);

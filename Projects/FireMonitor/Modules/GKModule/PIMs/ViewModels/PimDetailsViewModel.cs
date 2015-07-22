@@ -21,7 +21,6 @@ namespace GKModule.ViewModels
 		{
 			get { return Pim.State; }
 		}
-
 		public PimDetailsViewModel(GKPim pim)
 		{
 			Pim = pim;
