@@ -23,7 +23,7 @@ namespace SKDModule.Views
 		}
 
 		ChangeIsDeletedViewSubscriber _changeIsDeletedViewSubscriber;
-		
+
 		public TreeList TreeList
 		{
 			get { return _treeList; }
@@ -36,7 +36,7 @@ namespace SKDModule.Views
 			UpdateAdditionalColumns();
 			TreeList.RaiseEvent(new RoutedEventArgs(TreeList.LoadedEvent));
 		}
-		
+
 		void treeList_Loaded(object sender, RoutedEventArgs e)
 		{
 			UpdateAdditionalColumns();
@@ -45,22 +45,23 @@ namespace SKDModule.Views
 
 		void UpdateAdditionalColumns()
 		{
-			GridView gridView = _treeList.View as GridView;
-			EmployeesViewModel employeesViewModel = _treeList.DataContext as EmployeesViewModel;
-			if (employeesViewModel.AdditionalColumnNames == null)
+			var gridView = _treeList.View as GridView;
+			var employeesViewModel = _treeList.DataContext as EmployeesViewModel;
+			if (employeesViewModel != null && employeesViewModel.AdditionalColumnNames == null)
 				return;
 
-			var columnCount = 2;
-			for (int i = gridView.Columns.Count - 1; i >= columnCount; i--)
+			const int columnCount = 2;
+
+			if (gridView == null) return;
+
+			for (var i = gridView.Columns.Count - 1; i >= columnCount; i--)
 			{
 				gridView.Columns.RemoveAt(i);
 			}
 
-			for (int i = 0; i < employeesViewModel.AdditionalColumnNames.Count; i++)
+			for (var i = 0; i < employeesViewModel.AdditionalColumnNames.Count; i++)
 			{
-				var gridViewColumn = new GridViewColumn();
-				gridViewColumn.Header = employeesViewModel.AdditionalColumnNames[i];
-				gridViewColumn.Width = 350;
+				var gridViewColumn = new GridViewColumn {Header = employeesViewModel.AdditionalColumnNames[i], Width = 350};
 
 				var dataTemplate = new DataTemplate();
 				var txtElement = new FrameworkElementFactory(typeof(TextBlock));
@@ -86,8 +87,8 @@ namespace SKDModule.Views
 		{
 			ChangeEmployeeGuest();
 			TreeList.RaiseEvent(new RoutedEventArgs(TreeList.LoadedEvent));
-		} 
-		
+		}
+
 		void ChangeEmployeeGuest()
 		{
 			if (IsGuest)

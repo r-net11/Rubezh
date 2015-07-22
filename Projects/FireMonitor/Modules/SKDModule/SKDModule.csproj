@@ -157,6 +157,10 @@
     <Compile Include="Common\Views\PositionsFilterView.xaml.cs">
       <DependentUpon>PositionsFilterView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ConnectionIndicator\ViewModel\ConnectionIndicatorViewModel.cs" />
+    <Compile Include="ConnectionIndicator\View\ConnectionIndicatorView.xaml.cs">
+      <DependentUpon>ConnectionIndicatorView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Converters\CardTypeToStringConverter.cs" />
     <Compile Include="Converters\CardTypeToLongStringConverter.cs" />
     <Compile Include="Converters\RadioButtonCheckedConverter.cs" />
@@ -650,6 +654,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Common\Views\PositionsFilterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ConnectionIndicator\View\ConnectionIndicatorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

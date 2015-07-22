@@ -1,0 +1,126 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
+using FiresecClient;
+using Infrastructure.Common.BalloonTrayTip;
+using Infrastructure.Common.Services;
+using Infrastructure.Events;
+
+// ReSharper disable once CheckNamespace
+namespace SKDModule.ViewModels
+{
+	/// <summary>
+	/// Interaction logic for ConnectionIndicatorView.xaml
+	/// </summary>
+	public partial class ConnectionIndicatorView : INotifyPropertyChanged
+	{
+		public ConnectionIndicatorView()
+		{
+			InitializeComponent();
+			DataContext = this;
+		}
+
+		private void UserControl_Loaded(object sender, RoutedEventArgs e)
+		{
+			OnSKDObjectsStateChangedEvent(true);
+			ServiceFactoryBase.Events.GetEvent<SKDObjectsStateChangedEvent>().Unsubscribe(OnSKDObjectsStateChangedEvent);
+			ServiceFactoryBase.Events.GetEvent<SKDObjectsStateChangedEvent>().Subscribe(OnSKDObjectsStateChangedEvent);
+			SafeFiresecService.ConnectionLost += OnService_ConnectionLost;
+			SafeFiresecService.ConnectionAppeared += OnService_ConnectionAppeared;
+		}
+
+		void OnService_ConnectionLost()
+		{
+			Dispatcher.Invoke(new Action(() =>
+			{
+				_isServerConnected = false;
+				IsConnected = IsAllConnected;
+			}));
+		}
+
+		void OnService_ConnectionAppeared()
+		{
+			Dispatcher.Invoke(new Action(() =>
+			{
+				_isServerConnected = true;
+				IsConnected = IsAllConnected;
+			}));
+		}
+
+		void OnSKDObjectsStateChangedEvent(object obj)
+		{
+			IsConnected = IsAllConnected;
+		}
+
+		bool _isServerConnected = true;
+		bool IsAllConnected
+		{
+			get { return _isServerConnected; }
+		}
+
+		bool _isConnected = true;
+		public bool IsConnected
+		{
+			get { return _isConnected; }
+			set
+			{
+				_isConnected = value;
+				OnPropertyChanged("IsConnected");
+				if (value)
+				{
+					_border.ToolTip = "Связь в норме";
+					_border.Background = Brushes.Transparent;
+					_image.Opacity = 0.4;
+					_image.Visibility = Visibility.Visible;
+				}
+				else
+				{
+					var strings = new List<string>();
+					if (!_isServerConnected)
+					{
+						strings.Add("Связь с сервером потеряна");
+					}
+					var text = string.Join("\n", strings);
+
+					_border.ToolTip = text;
+					_border.SetResourceReference(Border.BackgroundProperty, "HighlightedBackgoundBrush");
+					_border.Background = Brushes.DarkOrange;
+					_image.Opacity = 1;
+					BalloonHelper.ShowFromMonitor(text);
+				}
+				_image.BeginAnimation(VisibilityProperty, GetAnimation(value));
+			}
+		}
+
+		ObjectAnimationUsingKeyFrames GetAnimation(bool start)
+		{
+			var animation = new ObjectAnimationUsingKeyFrames();
+			if (!start)
+			{
+				animation.Duration = TimeSpan.FromSeconds(1.5);
+				animation.RepeatBehavior = RepeatBehavior.Forever;
+				animation.KeyFrames.Add(new DiscreteObjectKeyFrame(Visibility.Visible, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0.0))));
+				animation.KeyFrames.Add(new DiscreteObjectKeyFrame(Visibility.Hidden, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0.5))));
+				animation.KeyFrames.Add(new DiscreteObjectKeyFrame(Visibility.Visible, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(1.0))));
+				animation.KeyFrames.Add(new DiscreteObjectKeyFrame(Visibility.Hidden, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(1.5))));
+			}
+			else
+			{
+				animation.Duration = TimeSpan.FromSeconds(0.5);
+				animation.KeyFrames.Add(new DiscreteObjectKeyFrame(Visibility.Visible));
+			}
+			return animation;
+		}
+
+		public event PropertyChangedEventHandler PropertyChanged;
+		public void OnPropertyChanged(string propertyName)
+		{
+			if (PropertyChanged != null)
+				PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+		}
+	}
+}

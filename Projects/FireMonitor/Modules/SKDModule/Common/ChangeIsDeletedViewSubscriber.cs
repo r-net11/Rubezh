@@ -46,9 +46,7 @@ namespace SKDModule
 			{
 				if (!IsColumnShown)
 				{
-					var gridViewColumn = new GridViewColumn();
-					gridViewColumn.Header = "Дата удаления";
-					gridViewColumn.Width = 150;
+					var gridViewColumn = new GridViewColumn {Header = "Дата удаления", Width = 150};
 					var dataTemplate = new DataTemplate();
 					var txtElement = new FrameworkElementFactory(typeof(IsDeletedTextBlock));
 					dataTemplate.VisualTree = txtElement;

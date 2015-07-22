@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using FiresecAPI.Models;
 using FiresecAPI.Models.Layouts;
+using Infrastructure;
 using Infrastructure.Client;
 using Infrastructure.Client.Layout;
 using Infrastructure.Common;
@@ -28,6 +29,8 @@ namespace SKDModule
 
 		public override void CreateViewModels()
 		{
+			ServiceFactory.Layout.AddToolbarItem(new ConnectionIndicatorViewModel());
+
 			HRViewModel = new HRViewModel();
 			DayIntervalsViewModel = new DayIntervalsViewModel();
 			ScheduleSchemesViewModel = new ScheduleSchemesViewModel();

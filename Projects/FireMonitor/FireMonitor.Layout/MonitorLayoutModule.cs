@@ -2,6 +2,7 @@
 using FireMonitor.Layout.ViewModels;
 using FireMonitor.ViewModels;
 using FiresecAPI.Models.Layouts;
+using Infrastructure;
 using Infrastructure.Client.Layout;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
