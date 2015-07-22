@@ -352,7 +352,7 @@ namespace FiresecAPI.GK
 		//	return null;
 		//}
 
-		public void GetDataBaseParent2()
+		public void GetDataBaseParent()
 		{
 			PrepareInputOutputDependences();
 			var dataBaseParent = GetDataBaseParent(this, new List<GKBase>(), null);
@@ -421,44 +421,5 @@ namespace FiresecAPI.GK
 				return kauParents[0].GKParent;
 			return kauParents.Count ==1 ? kauParents[0] : null;
 		}
-
-		//List<GKDevice> GetGuardZoneDependetnDevicesByCodes(GKGuardZone currentZone)
-		//{
-		//	var dependentZones = GKManager.GuardZones.FindAll(x => x.GetCodeUids().Intersect(currentZone.GetCodeUids()).Any());
-		//	var allDependentDevices = new List<GKDevice>();
-		//	dependentZones.ForEach(x => x.PrepareInputOutputDependences());
-		//	dependentZones.ForEach(x => allDependentDevices.AddRange(GetFullTree(x).Where(y => y is GKDevice).Cast<GKDevice>().ToList()));
-		//	return allDependentDevices.Select(x => x.KAUParent).Distinct().ToList();
-		//}
-
-		//List<GKBase> GetFullTree(GKBase gkBase)
-		//{
-		//	return GetAllDependentObjects(gkBase, new List<GKBase>()).ToList();
-		//}
-
-		//List<GKBase> GetAllDependentObjects(GKBase gkBase, List<GKBase> result)
-		//{
-		//	var inputObjects = new List<GKBase>(gkBase.InputGKBases);
-		//	inputObjects.RemoveAll(x => x.UID == gkBase.UID);
-		//	foreach (var inputObject in new List<GKBase>(inputObjects))
-		//	{
-		//		inputObject.PrepareInputOutputDependences();
-		//		if (result.All(x => x.UID != inputObject.UID))
-		//			result.Add(inputObject);
-		//		else
-		//			continue;
-		//		result.AddRange(GetAllDependentObjects(inputObject, result).FindAll(x => !result.Contains(x)));
-		//	}
-		//	if (gkBase is GKGuardZone)
-		//	{
-		//		var guardZoneDevice = (gkBase as GKGuardZone).GuardZoneDevices.FirstOrDefault(x => x.ActionType == GKGuardZoneDeviceActionType.ChangeGuard);
-		//		if (guardZoneDevice != null)
-		//		{
-		//			if (result.All(x => x.UID != guardZoneDevice.Device.UID))
-		//				result.Add(guardZoneDevice.Device);
-		//		}
-		//	}
-		//	return result;
-		//}
 	}
 }
