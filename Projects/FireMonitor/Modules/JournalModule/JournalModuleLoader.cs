@@ -27,7 +27,6 @@ namespace JournalModule
 		public override void CreateViewModels()
 		{
 			ServiceFactory.Events.GetEvent<ShowJournalEvent>().Subscribe(OnShowJournal);
-			ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Subscribe(OnNewJournalItem);
 			JournalViewModel = new JournalViewModel();
 			ArchiveViewModel = new ArchiveViewModel();
 			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Unsubscribe(OnShowArchive);
@@ -50,11 +49,6 @@ namespace JournalModule
 		{
 			UnreadJournalCount = 0;
 			JournalViewModel.SelectedJournal = JournalViewModel.JournalItems.FirstOrDefault();
-		}
-		void OnNewJournalItem(List<JournalItem> journalItems)
-		{
-			if (_journalNavigationItem == null || !_journalNavigationItem.IsSelected)
-				UnreadJournalCount += journalItems.Count;
 		}
 
 		void OnShowArchive(ShowArchiveEventArgs showArchiveEventArgs)
@@ -99,8 +93,8 @@ namespace JournalModule
 
 		public override void AfterInitialize()
 		{
-			SafeFiresecService.NewJournalItemEvent -= new Action<JournalItem>(OnNewJournalItem);
-			SafeFiresecService.NewJournalItemEvent += new Action<JournalItem>(OnNewJournalItem);
+			SafeFiresecService.NewJournalItemsEvent -= new Action<List<JournalItem>>(OnNewJournalItems);
+			SafeFiresecService.NewJournalItemsEvent += new Action<List<JournalItem>>(OnNewJournalItems);
 
 			SafeFiresecService.GetFilteredArchiveCompletedEvent -= new Action<IEnumerable<JournalItem>, Guid>(OnGetFilteredArchiveCompletedEvent);
 			SafeFiresecService.GetFilteredArchiveCompletedEvent += new Action<IEnumerable<JournalItem>, Guid>(OnGetFilteredArchiveCompletedEvent);
@@ -114,12 +108,13 @@ namespace JournalModule
 			ArchiveViewModel.Update();
 		}
 
-		void OnNewJournalItem(JournalItem journalItem)
+		void OnNewJournalItems(List<JournalItem> journalItems)
 		{
 			ApplicationService.Invoke(() =>
 			{
-				var journalItems = new List<JournalItem>();
-				journalItems.Add(journalItem);
+				if (_journalNavigationItem == null || !_journalNavigationItem.IsSelected)
+					UnreadJournalCount += journalItems.Count;
+
 				ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Publish(journalItems);
 			});
 		}

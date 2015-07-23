@@ -19,11 +19,11 @@ namespace SKDModule.ViewModels
 		public VerificationViewModel(LayoutPartReferenceProperties layoutPartSKDVerificationProperties)
 		{
 			DeviceUID = layoutPartSKDVerificationProperties.ReferenceUID;
-			ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Unsubscribe(OnNewJournal);
-			ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Subscribe(OnNewJournal);
+			ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Unsubscribe(OnNewJournals);
+			ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Subscribe(OnNewJournals);
 		}
 
-		public void OnNewJournal(List<JournalItem> journalItems)
+		public void OnNewJournals(List<JournalItem> journalItems)
 		{
 			foreach (var journalItem in journalItems)
 			{

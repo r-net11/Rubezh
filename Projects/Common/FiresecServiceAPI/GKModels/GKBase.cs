@@ -74,6 +74,13 @@ namespace FiresecAPI.GK
 		public GKDevice DataBaseParent 
 		{
 			get { return KauDatabaseParent ?? GkDatabaseParent; }
+			set
+			{
+				if (value != null && value.DriverType == GKDriverType.GK)
+					GkDatabaseParent = value;
+				if (value != null && value.DriverType == GKDriverType.RSR2_KAU)
+					KauDatabaseParent = value;
+			}
 		}
 
 		[XmlIgnore]
@@ -322,66 +329,99 @@ namespace FiresecAPI.GK
 
 		#endregion
 
-		public GKDevice GetDataBaseParent()
+		//public GKDevice GetDataBaseParent()
+		//{
+		//	PrepareInputOutputDependences();
+		//	var allDependentObjects = GetFullTree(this);
+		//	var allDependentDoors = allDependentObjects.Where(x => x is GKDoor).Cast<GKDoor>().ToList();
+		//	if (allDependentDoors.Count > 0)
+		//		return allDependentDoors.FirstOrDefault().GkDatabaseParent;
+		//	var allDependentDevices = allDependentObjects.Where(x => x is GKDevice).Cast<GKDevice>().ToList();
+		//	var allDependentGuardZones = allDependentObjects.Where(x => x is GKGuardZone).Cast<GKGuardZone>().ToList();
+		//	allDependentGuardZones.ForEach(x => allDependentDevices.AddRange(GetGuardZoneDependetnDevicesByCodes(x)));
+		//	var kauParents = allDependentDevices.Select(x => x.KAUParent).ToList();
+		//	kauParents = kauParents.Distinct().ToList();
+		//	if (this is GKDevice && allDependentGuardZones.Any(x => x.HasAccessLevel))
+		//		return (this as GKDevice).GKParent;
+		//	if (kauParents.Count == 1 && kauParents.FirstOrDefault() != null)
+		//		return kauParents.FirstOrDefault();
+		//	if (this is GKDevice)
+		//		return (this as GKDevice).GKParent;
+		//	if (allDependentDevices != null && allDependentDevices.Count > 0)
+		//		return allDependentDevices.FirstOrDefault().GKParent;
+		//	return null;
+		//}
+
+		public void GetDataBaseParent()
 		{
 			PrepareInputOutputDependences();
-			var allDependentObjects = GetFullTree(this);
-			var allDependentDoors = allDependentObjects.Where(x => x is GKDoor).Cast<GKDoor>().ToList();
-			if (allDependentDoors.Count > 0)
-				return allDependentDoors.FirstOrDefault().GkDatabaseParent;
-			var allDependentDevices = allDependentObjects.Where(x => x is GKDevice).Cast<GKDevice>().ToList();
-			var allDependentGuardZones = allDependentObjects.Where(x => x is GKGuardZone).Cast<GKGuardZone>().ToList();
-			allDependentGuardZones.ForEach(x => allDependentDevices.AddRange(GetGuardZoneDependetnDevicesByCodes(x)));
-			var kauParents = allDependentDevices.Select(x => x.KAUParent).ToList();
-			kauParents = kauParents.Distinct().ToList();
-			if (this is GKDevice && allDependentGuardZones.Any(x => x.HasAccessLevel))
-				return (this as GKDevice).GKParent;
-			if (kauParents.Count == 1 && kauParents.FirstOrDefault() != null)
-				return kauParents.FirstOrDefault();
-			if (this is GKDevice)
-				return (this as GKDevice).GKParent;
-			if (allDependentDevices != null && allDependentDevices.Count > 0)
-				return allDependentDevices.FirstOrDefault().GKParent;
-			return null;
+			var dataBaseParent = GetDataBaseParent(this, new List<GKBase>(), null);
+			if (dataBaseParent == null)
+				return;
+			IsLogicOnKau = dataBaseParent.Driver.IsKau;
+			if (dataBaseParent.Driver.IsKau)
+			{
+				KauDatabaseParent = dataBaseParent;
+				GkDatabaseParent = dataBaseParent.GKParent;
+			}
+			else
+				GkDatabaseParent = dataBaseParent;
+			if (this is GKGuardZone && (this as GKGuardZone).HasAccessLevel)
+			{
+				IsLogicOnKau = false;
+				KauDatabaseParent = null;
+			}
+			if (this is GKMPT)
+			{
+				foreach (var mptDevice in (this as GKMPT).MPTDevices)
+				{
+					mptDevice.Device.IsLogicOnKau = IsLogicOnKau;
+				}
+			}
 		}
 
-		List<GKDevice> GetGuardZoneDependetnDevicesByCodes(GKGuardZone currentZone)
-		{
-			var dependentZones = GKManager.GuardZones.FindAll(x => x.GetCodeUids().Intersect(currentZone.GetCodeUids()).Any());
-			var allDependentDevices = new List<GKDevice>();
-			dependentZones.ForEach(x => x.PrepareInputOutputDependences());
-			dependentZones.ForEach(x => allDependentDevices.AddRange(GetFullTree(x).Where(y => y is GKDevice).Cast<GKDevice>().ToList()));
-			return allDependentDevices.Select(x => x.KAUParent).Distinct().ToList();
-		}
-
-		List<GKBase> GetFullTree(GKBase gkBase)
-		{
-			return GetAllDependentObjects(gkBase, new List<GKBase>()).ToList();
-		}
-
-		List<GKBase> GetAllDependentObjects(GKBase gkBase, List<GKBase> result)
+		public GKDevice GetDataBaseParent(GKBase gkBase, List<GKBase> result, GKDevice kauDataBaseParent)
 		{
 			var inputObjects = new List<GKBase>(gkBase.InputGKBases);
 			inputObjects.RemoveAll(x => x.UID == gkBase.UID);
+			inputObjects.RemoveAll(x => result.Contains(x));
 			foreach (var inputObject in new List<GKBase>(inputObjects))
 			{
-				inputObject.PrepareInputOutputDependences();
-				if (result.All(x => x.UID != inputObject.UID))
-					result.Add(inputObject);
-				else
-					continue;
-				result.AddRange(GetAllDependentObjects(inputObject, result).FindAll(x => !result.Contains(x)));
-			}
-			if (gkBase is GKGuardZone)
-			{
-				var guardZoneDevice = (gkBase as GKGuardZone).GuardZoneDevices.FirstOrDefault(x => x.ActionType == GKGuardZoneDeviceActionType.ChangeGuard);
-				if (guardZoneDevice != null)
+				if (inputObject is GKDoor)
+					return inputObject.GkDatabaseParent;
+				if (inputObject.DataBaseParent == null)
 				{
-					if (result.All(x => x.UID != guardZoneDevice.Device.UID))
-						result.Add(guardZoneDevice.Device);
+					inputObject.PrepareInputOutputDependences();
 				}
+				else
+				{
+					if (inputObject.DataBaseParent.DriverType == GKDriverType.GK)
+						return inputObject.DataBaseParent;
+					if (inputObject.DataBaseParent.DriverType == GKDriverType.RSR2_KAU)
+					{
+						if (kauDataBaseParent == null)
+							kauDataBaseParent = inputObject.DataBaseParent;
+						else if (kauDataBaseParent != inputObject.DataBaseParent)
+							return kauDataBaseParent.GKParent;
+						continue;
+					}
+				}
+				if (result.Any(x => x.UID == inputObject.UID))
+					continue;
+				if (inputObject is GKGuardZone)
+					result.AddRange(GKManager.GuardZones.FindAll(x => x.GetCodeUids().Intersect((inputObject as GKGuardZone).GetCodeUids()).Any() && !result.Contains(x)));
+				if (!result.Contains(inputObject))
+					result.Add(inputObject);
+				GetDataBaseParent(inputObject, result, kauDataBaseParent);
 			}
-			return result;
+			result = result.Distinct().ToList();
+			if (kauDataBaseParent != null)
+				return kauDataBaseParent;
+			var kauParents = result.FindAll(x => x is GKDevice).Select(y => (y as GKDevice).KAUParent).ToList();
+			kauParents = kauParents.Distinct().ToList();
+			if (kauParents.Count > 1)
+				return kauParents[0].GKParent;
+			return kauParents.Count ==1 ? kauParents[0] : null;
 		}
 	}
 }

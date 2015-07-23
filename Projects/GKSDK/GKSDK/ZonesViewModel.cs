@@ -2,6 +2,8 @@
 using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using FiresecAPI.GK;
+using FiresecAPI.Models;
 
 namespace GKSDK
 {
@@ -9,13 +11,13 @@ namespace GKSDK
 	{
 		public ZonesViewModel()
 		{
-			SetZoneGuardCommand = new RelayCommand(OnSetZoneGuard, CanSetZoneGuard);
-			UnSetZoneGuardCommand = new RelayCommand(OnUnSetZoneGuard, CanUnSetZoneGuard);
+            SetZoneGuardCommand = new RelayCommand(OnSetZoneGuard, CanSetZoneGuard);
+            UnSetZoneGuardCommand = new RelayCommand(OnUnSetZoneGuard, CanUnSetZoneGuard);
 
 			Zones = new ObservableCollection<ZoneViewModel>();
 			foreach (var zone in GKManager.Zones)
 			{
-				var deviceViewModel = new ZoneViewModel(zone.State);
+				var deviceViewModel = new ZoneViewModel(zone);
 				Zones.Add(deviceViewModel);
 			}
 		}
@@ -29,26 +31,24 @@ namespace GKSDK
 			set
 			{
 				_selectedZone = value;
-				OnPropertyChanged("SelectedZone");
+				OnPropertyChanged(() => SelectedZone);
 			}
 		}
-
-		bool CanSetZoneGuard()
-		{
-			return SelectedZone != null;
-		}
-		public RelayCommand SetZoneGuardCommand { get; private set; }
-		void OnSetZoneGuard()
-		{
-		}
-
-		bool CanUnSetZoneGuard()
-		{
-			return SelectedZone != null;
-		}
-		public RelayCommand UnSetZoneGuardCommand { get; private set; }
-		void OnUnSetZoneGuard()
-		{
-		}
+        public RelayCommand SetZoneGuardCommand { get; private set; }
+        void OnSetZoneGuard()
+        {
+        }
+        bool CanSetZoneGuard()
+        {
+            return SelectedZone != null;
+        }
+        public RelayCommand UnSetZoneGuardCommand { get; private set; }
+        void OnUnSetZoneGuard()
+        {
+        }
+        bool CanUnSetZoneGuard()
+        {
+            return SelectedZone != null;
+        }
 	}
 }

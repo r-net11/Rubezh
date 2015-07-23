@@ -18,8 +18,6 @@ namespace FiresecAPI.SKD
 		Department,
 		[Description("Должность")]
 		Position,
-		[Description("Начало срока дейстия")]
-		StartDate,
 		[Description("Конец срока дейстия")]
 		EndDate,
 		[Description("Номер карты")]

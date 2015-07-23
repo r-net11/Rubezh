@@ -26,7 +26,7 @@ namespace SKDModule.ViewModels
 		}
 		public string CardType
 		{
-			get{ return IsCard ? Card.CardType.ToDescription() : ""; }
+			get{ return IsCard ? Card.GKCardType.ToDescription() : ""; }
 		}
 
 		public bool IsInStopList

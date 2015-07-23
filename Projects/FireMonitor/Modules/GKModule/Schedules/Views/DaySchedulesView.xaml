@@ -67,14 +67,14 @@
 						<DataGridTemplateColumn Width="*" Header="Начало">
 							<DataGridTemplateColumn.CellTemplate>
 								<DataTemplate>
-									<TextBlock Text="{Binding Path=StartTime}" />
+									<TextBlock Text="{Binding StartTime}" />
 								</DataTemplate>
 							</DataGridTemplateColumn.CellTemplate>
 						</DataGridTemplateColumn>
 						<DataGridTemplateColumn Width="*" Header="Конец">
 							<DataGridTemplateColumn.CellTemplate>
 								<DataTemplate>
-									<TextBlock Text="{Binding Path=EndTime}" />
+									<TextBlock Text="{Binding EndTime}" />
 								</DataTemplate>
 							</DataGridTemplateColumn.CellTemplate>
 						</DataGridTemplateColumn>

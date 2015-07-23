@@ -23,8 +23,8 @@ namespace GKProcessor
 				if (GKManager.IsValidIpAddress(gkDatabase.RootDevice))
 				{
 					var watcher = new Watcher(gkDatabase);
-					watcher.StartThread();
 					Watchers.Add(watcher);
+					watcher.StartThread();
 				}
 			}
 			ApplicationService.Closing += new System.ComponentModel.CancelEventHandler(ApplicationService_Closing);

@@ -13,14 +13,14 @@ namespace GKModule.ViewModels
 			DaySchedulePart = daySchedulePart;
 		}
 
-		public TimeSpan StartTime
+		public string StartTime
 		{
-			get { return TimeSpan.FromMilliseconds(DaySchedulePart.StartMilliseconds); }
+			get { return MillisecondsToString(DaySchedulePart.StartMilliseconds); }
 		}
 
-		public TimeSpan EndTime
+		public string EndTime
 		{
-			get { return TimeSpan.FromMilliseconds(DaySchedulePart.EndMilliseconds); }
+			get { return MillisecondsToString(DaySchedulePart.EndMilliseconds); }
 		}
 
 		public void Update()
@@ -28,6 +28,16 @@ namespace GKModule.ViewModels
 			OnPropertyChanged(() => DaySchedulePart);
 			OnPropertyChanged(() => StartTime);
 			OnPropertyChanged(() => EndTime);
+		}
+
+		string MillisecondsToString(int milliseconds)
+		{
+			var timeSpan = TimeSpan.FromMilliseconds(milliseconds);
+			if (timeSpan.Days > 0)
+			{
+				return "24:00";
+			}
+			return timeSpan.Hours.ToString("D2") + ":" + timeSpan.Minutes.ToString("D2");
 		}
 	}
 }

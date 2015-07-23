@@ -9,13 +9,10 @@ namespace GKSDK
 	{
 		public DirectionsViewModel()
 		{
-			SetZoneGuardCommand = new RelayCommand(OnSetZoneGuard, CanSetZoneGuard);
-			UnSetZoneGuardCommand = new RelayCommand(OnUnSetZoneGuard, CanUnSetZoneGuard);
-
 			Directions = new ObservableCollection<DirectionViewModel>();
             foreach (var direction in GKManager.Directions)
 			{
-				var deviceViewModel = new DirectionViewModel(direction.State);
+				var deviceViewModel = new DirectionViewModel(direction);
 				Directions.Add(deviceViewModel);
 			}
 		}
@@ -31,24 +28,6 @@ namespace GKSDK
 				_selectedDirection = value;
 				OnPropertyChanged("SelectedDirection");
 			}
-		}
-
-		bool CanSetZoneGuard()
-		{
-			return SelectedDirection != null;
-		}
-		public RelayCommand SetZoneGuardCommand { get; private set; }
-		void OnSetZoneGuard()
-		{
-		}
-
-		bool CanUnSetZoneGuard()
-		{
-			return SelectedDirection != null;
-		}
-		public RelayCommand UnSetZoneGuardCommand { get; private set; }
-		void OnUnSetZoneGuard()
-		{
 		}
 	}
 }

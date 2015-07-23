@@ -12,7 +12,6 @@ namespace GKProcessor
 {
 	public static class GKSKDHelper
 	{
-		static long totalMilliseconds = 0;
 		public static OperationResult<bool> AddOrEditCard(GKControllerCardSchedule controllerCardSchedule, SKDCard card, string employeeName, int gkCardNo = 0, bool isNew = true)
 		{
 			if (gkCardNo == 0)

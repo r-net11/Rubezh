@@ -6,7 +6,7 @@
 	MinWidth="650" MinHeight="400">
 
 	<TabControl>
-		<TabItem Header="Основные">
+		<TabItem Header="Свойства">
 			<Grid>
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto" />

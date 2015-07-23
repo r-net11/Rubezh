@@ -76,16 +76,6 @@
     <Reference Include="CodeReason.Reports">
       <HintPath>..\..\..\3rdParty\codereason_reports_v0.5_alpha\Bin\CodeReason.Reports.dll</HintPath>
     </Reference>
-    <Reference Include="DeviceOrientedLib">
-      <HintPath>..\..\..\3rdParty\RVI_VSS\DeviceOrientedLib.dll</HintPath>
-    </Reference>
-    <Reference Include="Entities, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\3rdParty\RVI_VSS\Entities.dll</HintPath>
-    </Reference>
-    <Reference Include="GalaSoft.MvvmLight.WPF4">
-      <HintPath>..\..\..\3rdParty\RVI_VSS\GalaSoft.MvvmLight.WPF4.dll</HintPath>
-    </Reference>
     <Reference Include="hasp_net_windows">
       <HintPath>..\..\..\3rdParty\HASP\hasp_net_windows.dll</HintPath>
     </Reference>
@@ -118,10 +108,6 @@
       <HintPath>..\..\..\3rdParty\ProcessPrivileges_1.5.7.0_Release\ProcessPrivileges.dll</HintPath>
     </Reference>
     <Reference Include="ReachFramework" />
-    <Reference Include="SdkWrapper, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\3rdParty\RVI_VSS\SdkWrapper.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Activities" />
     <Reference Include="System.configuration" />
@@ -140,9 +126,6 @@
     <Reference Include="System.Xml" />
     <Reference Include="UIAutomationProvider" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="VideoCellLayoutControl">
-      <HintPath>..\..\..\3rdParty\RVI_VSS\VideoCellLayoutControl.dll</HintPath>
-    </Reference>
     <Reference Include="Vlc.DotNet.Core">
       <HintPath>..\..\..\3rdParty\VLC\Vlc.DotNet\Vlc.DotNet.Core.dll</HintPath>
     </Reference>

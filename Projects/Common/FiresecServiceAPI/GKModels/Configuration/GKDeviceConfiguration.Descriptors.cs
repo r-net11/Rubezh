@@ -36,29 +36,7 @@ namespace FiresecAPI.GK
 			gkBase.KauDatabaseParent = null;
 			gkBase.GkDatabaseParent = null;
 
-			var dataBaseParent = gkBase.GetDataBaseParent();
-			if (dataBaseParent == null)
-				return;
-			gkBase.IsLogicOnKau = dataBaseParent.Driver.IsKau;
-			if (dataBaseParent.Driver.IsKau)
-			{
-				gkBase.KauDatabaseParent = dataBaseParent;
-				gkBase.GkDatabaseParent = dataBaseParent.GKParent;
-			}
-			else
-				gkBase.GkDatabaseParent = dataBaseParent;
-			if (gkBase is GKGuardZone && (gkBase as GKGuardZone).HasAccessLevel)
-			{
-				gkBase.IsLogicOnKau = false;
-				gkBase.KauDatabaseParent = null;
-			}
-			if (gkBase is GKMPT)
-			{
-				foreach (var mptDevice in (gkBase as GKMPT).MPTDevices)
-				{
-					mptDevice.Device.IsLogicOnKau = gkBase.IsLogicOnKau;
-				}
-			}
+			gkBase.GetDataBaseParent();
 		}
 
 		void PrepareObjects()
@@ -71,7 +49,8 @@ namespace FiresecAPI.GK
 		{
 			foreach (var device in Devices)
 			{
-				var dataBaseParent = device.GetDataBaseParent();
+				device.GetDataBaseParent();
+				var dataBaseParent = device.DataBaseParent;
 				if (dataBaseParent == null)
 					continue;
 				device.IsLogicOnKau = dataBaseParent.Driver.IsKau && device.KAUParent == dataBaseParent;

@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
+using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 
@@ -10,10 +13,9 @@ namespace GKSDK
 {
 	public class DeviceViewModel : BaseViewModel
 	{
+		public ObservableCollection<DeviceExecutableCommandViewModel> DeviceExecutableCommands { get; private set; }
         public DeviceViewModel(GKDevice device)
 		{
-			AddToIgnoreListCommand = new RelayCommand(OnAddToIgnoreList, CanAddToIgnoreList);
-			RemoveFromIgnoreListCommand = new RelayCommand(OnRemoveFromIgnoreList, CanRemoveFromIgnoreList);
 			Device = device;
 			DeviceState = device.State;
 			_stateClass = DeviceState.StateClass;
@@ -21,6 +23,44 @@ namespace GKSDK
 			Name = Device.Driver.ShortName + " - " + Device.DottedAddress;
 
 			DeviceCommands = new List<DeviceCommandViewModel>();
+			DeviceExecutableCommands = new ObservableCollection<DeviceExecutableCommandViewModel>();
+			foreach (var availableCommand in Device.Driver.AvailableCommandBits)
+			{
+				var deviceExecutableCommandViewModel = new DeviceExecutableCommandViewModel(Device, availableCommand);
+				DeviceExecutableCommands.Add(deviceExecutableCommandViewModel);
+			}
+			SetAutomaticStateCommand = new RelayCommand(OnSetAutomaticState, CanSetAutomaticState);
+			SetManualStateCommand = new RelayCommand(OnSetManualState, CanSetManualState);
+			SetIgnoreStateCommand = new RelayCommand(OnSetIgnoreState, CanSetIgnoreState);
+		}
+		public DeviceControlRegime ControlRegime
+		{
+			get
+			{
+				if (DeviceState.StateClasses.Contains(XStateClass.Ignore))
+					return DeviceControlRegime.Ignore;
+
+				if (!DeviceState.StateClasses.Contains(XStateClass.AutoOff))
+					return DeviceControlRegime.Automatic;
+
+				return DeviceControlRegime.Manual;
+			}
+		}
+				public bool IsControlRegime
+		{
+			get
+			{
+				if (Device.DriverType == GKDriverType.RSR2_Valve_DU || Device.DriverType == GKDriverType.RSR2_Valve_KV || Device.DriverType == GKDriverType.RSR2_Valve_KVMV)
+				{
+					var automaticParameter = Device.State.XMeasureParameterValues.FirstOrDefault(x => x.Name == "Управление с ГК");
+					if (automaticParameter != null)
+					{
+						return automaticParameter.StringValue == "Р";
+					}
+					return false;
+				}
+				return ControlRegime == DeviceControlRegime.Manual;
+			}
 		}
 
 		public void SafeCall(Action action)
@@ -45,28 +85,37 @@ namespace GKSDK
 			set
 			{
 				_stateClass = value;
-				OnPropertyChanged("StateClass");
+				OnPropertyChanged(()=>StateClass);
 			}
 		}
-
-		public RelayCommand AddToIgnoreListCommand { get; private set; }
-		void OnAddToIgnoreList()
-		{
-		}
-		bool CanAddToIgnoreList()
-		{
-			return true;
-		}
-
-		public RelayCommand RemoveFromIgnoreListCommand { get; private set; }
-		void OnRemoveFromIgnoreList()
-		{
-		}
-		bool CanRemoveFromIgnoreList()
-		{
-			return true;
-		}
-
 		public List<DeviceCommandViewModel> DeviceCommands { get; private set; }
+
+		public RelayCommand SetAutomaticStateCommand { get; private set; }
+		void OnSetAutomaticState()
+		{
+				FiresecManager.FiresecService.GKSetAutomaticRegime(Device);
+		}
+		bool CanSetAutomaticState()
+		{
+			return ControlRegime != DeviceControlRegime.Automatic;
+		}
+		public RelayCommand SetManualStateCommand { get; private set; }
+		void OnSetManualState()
+		{
+				FiresecManager.FiresecService.GKSetManualRegime(Device);
+		}
+		bool CanSetManualState()
+		{
+			return ControlRegime != DeviceControlRegime.Manual;
+		}
+		public RelayCommand SetIgnoreStateCommand { get; private set; }
+		void OnSetIgnoreState()
+		{
+				FiresecManager.FiresecService.GKSetIgnoreRegime(Device);
+		}
+		bool CanSetIgnoreState()
+		{
+			return ControlRegime != DeviceControlRegime.Ignore;
+		}
 	}
 }

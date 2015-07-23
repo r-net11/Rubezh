@@ -40,7 +40,6 @@ namespace GKModule.ViewModels
 			TurnOffCommand = new RelayCommand(OnTurnOff);
 			ForbidStartCommand = new RelayCommand(OnForbidStart);
 		}
-
 		private void InitializePlans()
 		{
 			this.Plans = new ObservableCollection<PlanLinkViewModel>();

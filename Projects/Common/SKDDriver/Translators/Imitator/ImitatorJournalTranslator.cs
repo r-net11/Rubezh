@@ -45,7 +45,9 @@ namespace SKDDriver.DataClasses
 			try
 			{
 				imitatorJournalItem.GkNo = Context.ImitatorJournalItems.Count() + 1;
+				imitatorJournalItem.DateTime = imitatorJournalItem.DateTime.CheckDate();
 				Context.ImitatorJournalItems.Add(imitatorJournalItem);
+				Context.SaveChanges();
 			}
 			catch
 			{

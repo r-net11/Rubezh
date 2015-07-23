@@ -51,7 +51,7 @@ namespace GKModule.Validation
 
 		void ValidateEmpty(GKMPT mpt)
 		{
-			if (mpt.GetDataBaseParent() == null)
+			if (mpt.DataBaseParent == null)
 			{
 				Errors.Add(new MPTValidationError(mpt, "Пустые зависимости", ValidationErrorLevel.CannotWrite));
 			}

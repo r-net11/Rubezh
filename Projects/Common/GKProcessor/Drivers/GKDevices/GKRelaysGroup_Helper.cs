@@ -13,7 +13,6 @@ namespace GKProcessor
 				UID = new Guid("77980273-4B1D-4ACC-915E-95FFDCD1DD02"),
 				Name = "Группа реле",
 				ShortName = "Группа реле",
-				CanEditAddress = false,
 				HasAddress = false,
 				IsAutoCreate = true,
 				IsDeviceOnShleif = false,

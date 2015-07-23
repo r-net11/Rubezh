@@ -55,7 +55,7 @@ namespace FiresecService
 
 		public static void RunOnServerRun()
 		{
-			ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.Procedures.ForEach(x => {if(x.StartWithServer) Run(x, new List<Argument>(), null, null);});
+			ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.Procedures.ForEach(x => { if (x.StartWithServer) Run(x, new List<Argument>(), null, null); });
 		}
 
 		public static void RunOnStateChanged()

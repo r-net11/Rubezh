@@ -40,7 +40,6 @@ namespace SKDModule.ViewModels
 				Title = "Создание пропуска";
 				card = new SKDCard()
 				{
-					StartDate = DateTime.Now,
 					EndDate = DateTime.Now.AddYears(1),
 					GKCardType = GKCardType.Employee
 				};
@@ -62,15 +61,6 @@ namespace SKDModule.ViewModels
 				StopListCards.Add(item);
 			SelectedStopListCard = StopListCards.FirstOrDefault();
 
-			if (_employee.Type == PersonType.Guest)
-			{
-				CardTypes = new ObservableCollection<CardType>() { CardType.Temporary, CardType.OneTime, CardType.Blocked };
-			}
-			else
-			{
-				CardTypes = new ObservableCollection<CardType>(Enum.GetValues(typeof(CardType)).OfType<CardType>());
-			}
-			SelectedCardType = Card.CardType;
 			CanChangeCardType = _employee.Type == PersonType.Employee && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Employees_Edit_CardType);
 			GKCardTypes = new ObservableCollection<GKCardType>(Enum.GetValues(typeof(GKCardType)).OfType<GKCardType>());
 			SelectedGKCardType = Card.GKCardType;
@@ -90,11 +80,8 @@ namespace SKDModule.ViewModels
 		private void CopyProperties()
 		{
 			Number = Card.Number;
-			Password = Card.Password;
-			StartDate = Card.StartDate;
 			EndDate = Card.EndDate;
 			GKLevel = Card.GKLevel;
-			UserTime = Card.UserTime;
 		}
 
 		private void InitializeAccessTemplates()
@@ -136,31 +123,6 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		string _password;
-		public string Password
-		{
-			get { return _password; }
-			set
-			{
-				_password = value;
-				OnPropertyChanged(() => Password);
-			}
-		}
-
-		public ObservableCollection<CardType> CardTypes { get; private set; }
-
-		CardType _selectedCardType;
-		public CardType SelectedCardType
-		{
-			get { return _selectedCardType; }
-			set
-			{
-				_selectedCardType = value;
-				OnPropertyChanged(() => SelectedCardType);
-				OnPropertyChanged(() => CanSetUserTime);
-			}
-		}
-
 		public ObservableCollection<GKCardType> GKCardTypes { get; private set; }
 
 		GKCardType _selectedGKCardType;
@@ -172,22 +134,6 @@ namespace SKDModule.ViewModels
 				_selectedGKCardType = value;
 				OnPropertyChanged(() => SelectedGKCardType);
 				CanSelectGKControllers = value != GKCardType.Employee;
-			}
-		}
-
-		DateTime _startDate;
-		public DateTime StartDate
-		{
-			get { return _startDate; }
-			set
-			{
-				_startDate = value;
-				OnPropertyChanged(() => StartDate);
-
-				if (SelectedCardType != CardType.Temporary)
-				{
-					EndDate = value;
-				}
 			}
 		}
 
@@ -224,23 +170,6 @@ namespace SKDModule.ViewModels
 				_selectedGKSchedule = value;
 				OnPropertyChanged(() => SelectedGKSchedule);
 			}
-		}
-
-		int _userTime;
-		public int UserTime
-		{
-			get { return _userTime; }
-			set
-			{
-				_userTime = value;
-				OnPropertyChanged(() => UserTime);
-			}
-		}
-
-		public bool CanSetUserTime
-		{
-			//get { return HasSKD && SelectedCardType == CardType.OneTime; }
-			get { return false; }
 		}
 
 		ObservableCollection<AccessTemplate> _availableAccessTemplates;
@@ -434,8 +363,6 @@ namespace SKDModule.ViewModels
 				Card.StopReason = null;
 			}
 			
-			Card.Password = Password;
-			Card.CardType = SelectedCardType;
 			if (_employee.Type == PersonType.Guest)
 				Card.GKCardType = GKCardType.Employee;
 			else
@@ -444,14 +371,12 @@ namespace SKDModule.ViewModels
 			{
 				Card.GKControllerUIDs = AvailableGKControllers.Where(x => x.IsChecked).Select(x => x.Device.UID).ToList();
 			}
-			Card.StartDate = StartDate;
 			Card.EndDate = EndDate;
 			Card.GKLevel = GKLevel;
 			if (SelectedGKSchedule != null)
 			{
 				Card.GKLevelSchedule = SelectedGKSchedule.No;
 			}
-			Card.UserTime = UserTime;
 			Card.CardDoors = AccessDoorsSelectationViewModel.GetCardDoors();
 			Card.CardDoors.ForEach(x => x.CardUID = Card.UID);
 			Card.OrganisationUID = Organisation.UID;
@@ -479,43 +404,10 @@ namespace SKDModule.ViewModels
 
 		bool Validate()
 		{
-			if (Card.Password != null && Card.Password.Length > 50)
-			{
-				MessageBoxService.Show("Значение поля 'Пароль' не может быть длиннее 50 символов");
-				return false;
-			}
-
-			if (SelectedCardType == CardType.Temporary || SelectedCardType == CardType.Duress)
-			{
-				if (EndDate < DateTime.Now)
-				{
-					MessageBoxService.ShowWarning("Дата конца действия пропуска не может быть меньше теущей даты");
-					return false;
-				}
-			}
-
-			if (EndDate < StartDate)
-			{
-				MessageBoxService.ShowWarning("Дата конца действия пропуска не может быть раньше даты начала действия");
-				return false;
-			}
-
 			if (Number <= 0 || Number > Int32.MaxValue)
 			{
 				MessageBoxService.ShowWarning("Номер карты должен быть задан в пределах 1 ... 2147483647");
 				return false;
-			}
-
-			if (!string.IsNullOrEmpty(Password))
-			{
-				foreach (char c in Password)
-				{
-					if (!Char.IsDigit(c))
-					{
-						MessageBoxService.ShowWarning("Пароль может содержать только цифры");
-						return false;
-					}
-				}
 			}
 
 			if (GKLevel < 0 || GKLevel > 255)

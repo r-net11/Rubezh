@@ -106,23 +106,15 @@ namespace GKProcessor
 		#endregion
 
 		#region Main
-		public static bool MustMonitor = false;
-
 		public static void Start()
 		{
-			if (MustMonitor)
-			{
-				WatcherManager.IsConfigurationReloading = false;
-				WatcherManager.Start();
-			}
+			WatcherManager.IsConfigurationReloading = false;
+			WatcherManager.Start();
 		}
 
 		public static void Stop()
 		{
-			if (MustMonitor)
-			{
-				WatcherManager.Stop();
-			}
+			WatcherManager.Stop();
 		}
 
 		public static void Suspend()
@@ -133,29 +125,23 @@ namespace GKProcessor
 
 		static void SuspendMonitoring(GKDevice gkControllerDevice)
 		{
-			if (MustMonitor)
+			gkControllerDevice = GetGKDevice(gkControllerDevice);
+			if (WatcherManager.Watchers != null && gkControllerDevice != null)
 			{
-				gkControllerDevice = GetGKDevice(gkControllerDevice);
-				if (WatcherManager.Watchers != null && gkControllerDevice != null)
-				{
-					var watcher = WatcherManager.Watchers.FirstOrDefault(x => x.GkDatabase.RootDevice.UID == gkControllerDevice.UID);
-					if (watcher != null)
-						watcher.Suspend();
-				}
+				var watcher = WatcherManager.Watchers.FirstOrDefault(x => x.GkDatabase.RootDevice.UID == gkControllerDevice.UID);
+				if (watcher != null)
+					watcher.Suspend();
 			}
 		}
 
 		static void ResumeMonitoring(GKDevice gkControllerDevice)
 		{
-			if (MustMonitor)
+			gkControllerDevice = GetGKDevice(gkControllerDevice);
+			if (WatcherManager.Watchers != null && gkControllerDevice != null)
 			{
-				gkControllerDevice = GetGKDevice(gkControllerDevice);
-				if (WatcherManager.Watchers != null && gkControllerDevice != null)
-				{
-					var watcher = WatcherManager.Watchers.FirstOrDefault(x => x.GkDatabase.RootDevice.UID == gkControllerDevice.UID);
-					if (watcher != null)
-						watcher.Resume();
-				}
+				var watcher = WatcherManager.Watchers.FirstOrDefault(x => x.GkDatabase.RootDevice.UID == gkControllerDevice.UID);
+				if (watcher != null)
+					watcher.Resume();
 			}
 		}
 

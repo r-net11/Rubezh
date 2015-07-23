@@ -20,7 +20,7 @@ namespace GKProcessor
 				IsPlaceable = true
 			};
 
-			driver.AvailableStateBits.Add(GKStateBit.Off);
+			GKDriversHelper.AddAvailableStateBits(driver, GKStateBit.Off);
 			driver.AvailableStateBits.Add(GKStateBit.TurningOn);
 			driver.AvailableStateBits.Add(GKStateBit.TurningOff);
 			GKDriversHelper.AddControlAvailableStates(driver);
