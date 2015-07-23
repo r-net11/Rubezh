@@ -64,6 +64,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DeviceControlRegime.cs" />
     <Compile Include="DirectionsViewModel.cs" />
     <Compile Include="DirectionViewModel.cs" />
     <Compile Include="DeviceCommandViewModel.cs" />
@@ -124,10 +125,6 @@
     <ProjectReference Include="..\..\FireMonitor\Infrastructure\Infrastructure.csproj">
       <Project>{2a951da3-6221-43e1-8b88-13a591faa53b}</Project>
       <Name>Infrastructure</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\FireMonitor\Modules\GKModule\GKModule.csproj">
-      <Project>{8122cf0a-ac1d-4d4d-b20b-49bb565114a8}</Project>
-      <Name>GKModule</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

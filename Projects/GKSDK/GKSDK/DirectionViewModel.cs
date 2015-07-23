@@ -1,5 +1,4 @@
 ﻿using System;
-using GKModule;
 using System.Windows;
 using FiresecAPI.GK;
 using FiresecClient;
@@ -34,7 +33,6 @@ namespace GKSDK
 
 
 		}
-
         public DeviceControlRegime ControlRegime
         {
             get
