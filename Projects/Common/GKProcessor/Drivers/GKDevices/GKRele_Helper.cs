@@ -16,7 +16,6 @@ namespace GKProcessor
 				ShortName = "Реле ГК",
 				IsControlDevice = true,
 				HasLogic = true,
-				CanEditAddress = false,
 				HasAddress = false,
 				IsAutoCreate = true,
 				MinAddress = 12,

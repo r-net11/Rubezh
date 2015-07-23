@@ -14,7 +14,6 @@ namespace GKProcessor
 				UID = new Guid("17A2B7D1-CB62-4AF7-940E-BC30B004B0D0"),
 				Name = "Индикатор Неисправность КАУ",
 				ShortName = "Индикатор Неисправность КАУ",
-				CanEditAddress = false,
 				HasAddress = false,
 				IsAutoCreate = true,
 				MinAddress = 1,

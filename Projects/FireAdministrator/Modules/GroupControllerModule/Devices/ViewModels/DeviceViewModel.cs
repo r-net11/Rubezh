@@ -321,8 +321,7 @@ namespace GKModule.ViewModels
 		void OnRemove()
 		{
 			Remove(true);
-			if (Device.KAUParent != null)
-				GKManager.RebuildRSR2Addresses(Device.KAUParent);
+			GKManager.RebuildRSR2Addresses(Device);
 		}
 		bool CanRemove()
 		{
@@ -400,7 +399,7 @@ namespace GKModule.ViewModels
 					DevicesViewModel.Current.AllDevices.Add(addedDeviceViewModel);
 					
 				}
-	
+				GKManager.RebuildRSR2Addresses(Device);
 				GKPlanExtension.Instance.Cache.BuildSafe<GKDevice>();
 				ServiceFactory.SaveService.GKChanged = true;
 			}
@@ -836,8 +835,7 @@ namespace GKModule.ViewModels
 					OnPropertyChanged(() => IsFireAndGuard);
 					PropertiesViewModel = new PropertiesViewModel(Device);
 					OnPropertyChanged(() => PropertiesViewModel);
-					if (Device.KAUParent != null)
-						GKManager.RebuildRSR2Addresses(Device.KAUParent);
+					GKManager.RebuildRSR2Addresses(Device);
 					GKManager.DeviceConfiguration.Update();
 					Update();
 					ServiceFactory.SaveService.GKChanged = true;

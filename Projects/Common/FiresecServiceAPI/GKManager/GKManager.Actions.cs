@@ -139,24 +139,45 @@ namespace FiresecClient
 		#region RebuildRSR2Addresses
 		public static void RebuildRSR2Addresses(GKDevice parentDevice)
 		{
-			foreach (var shliefDevice in parentDevice.Children)
+			var kauParent = parentDevice.KAUParent;
+			if (kauParent != null)
 			{
-				RebuildRSR2Addresses_Children = new List<GKDevice>();
-				RebuildRSR2Addresses_AddChild(shliefDevice);
-
-				byte currentAddress = 1;
-				foreach (var device in RebuildRSR2Addresses_Children)
+				foreach (var shliefDevice in kauParent.Children)
 				{
-					device.IntAddress = currentAddress;
-					if (!device.Driver.IsGroupDevice)
-					{
-						currentAddress++;
-					}
-					device.OnChanged();
-				}
+					RebuildRSR2Addresses_Children = new List<GKDevice>();
+					RebuildRSR2Addresses_AddChild(shliefDevice);
 
-				RebuildRSR2Addresses_Children.FindAll(x => x.Driver.IsGroupDevice).ForEach(x => x.OnChanged());
+					byte currentAddress = 1;
+					foreach (var device in RebuildRSR2Addresses_Children)
+					{
+						device.IntAddress = currentAddress;
+						if (!device.Driver.IsGroupDevice)
+						{
+							currentAddress++;
+						}
+						device.OnChanged();
+					}
+
+					RebuildRSR2Addresses_Children.FindAll(x => x.Driver.IsGroupDevice).ForEach(x => x.OnChanged());
+				}
 			}
+
+			var mirrorParent = parentDevice.MirrorParent;
+			if (mirrorParent != null)
+			{			
+					byte currentAddress = 1;
+					foreach (var device in mirrorParent.Children)
+					{
+						device.IntAddress = currentAddress;
+						if (!device.Driver.IsGroupDevice)
+						{
+							currentAddress++;
+						}
+						device.OnChanged();
+					}
+
+			}
+
 		}
 
 		static List<GKDevice> RebuildRSR2Addresses_Children;

@@ -14,7 +14,6 @@ namespace GKProcessor
 				UID = new Guid("200EED4B-3402-45B4-8122-AE51A4841E18"),
 				Name = "Индикатор ГК",
 				ShortName = "Индикатор ГК",
-				CanEditAddress = false,
 				HasAddress = false,
 				IsAutoCreate = true,
 				MinAddress = 2,

@@ -4,7 +4,7 @@
 			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
 			 Width="500" Height="200">
 	<TabControl>
-		<TabItem Header="Основные">
+		<TabItem Header="Свойства">
 			<Grid>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="*" />
