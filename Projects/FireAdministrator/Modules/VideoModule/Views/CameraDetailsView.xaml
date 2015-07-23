@@ -5,6 +5,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:viewModels="clr-namespace:VideoModule.ViewModels"
+	xmlns:mediaSourcePlayer="clr-namespace:MediaSourcePlayer;assembly=MediaSourcePlayer"
 	Width="545"
 	Height="380"
 	d:DataContext="{d:DesignInstance viewModels:CameraDetailsViewModel}"
@@ -45,9 +46,10 @@
 			Width="140"
 			HorizontalAlignment="Center"
 			VerticalAlignment="Top"
-			Command="{Binding ShowCommand}"
 			Content="Предпросмотр"
-			Padding="4" />
+			Padding="4" 
+			Click="ButtonBase_OnClick"
+			IsEnabled="{Binding CanPlay}"/>
 		<TextBlock
 			Grid.Row="1"
 			Margin="5 10 10 10"
@@ -60,25 +62,16 @@
 			Style="{StaticResource TextBlockCameraStyle}"
 			Text="{Binding Camera.Ip,
 		                          FallbackValue=0.0.0.0}" />
-		<Border
+		<mediaSourcePlayer:MediaPlayer
+			x:Name="MediaSourcePlayer"
 			Grid.Row="1"
 			Grid.RowSpan="4"
 			Grid.Column="2"
 			Width="250"
 			Height="250"
 			Margin="5"
-			VerticalAlignment="Top"
-			BorderBrush="Black"
-			BorderThickness="1"
-			SnapsToDevicePixels="True">
-			<Border.Background>
-				<VisualBrush Stretch="Uniform">
-					<VisualBrush.Visual>
-						<Image Source="{Binding Image}" />
-					</VisualBrush.Visual>
-				</VisualBrush>
-			</Border.Background>
-		</Border>
+			VerticalAlignment="Top">
+		</mediaSourcePlayer:MediaPlayer>
 		<TextBlock
 			Grid.Row="2"
 			Margin="5 10 10 10"

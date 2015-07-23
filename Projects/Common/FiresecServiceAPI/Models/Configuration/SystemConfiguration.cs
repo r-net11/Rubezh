@@ -15,6 +15,7 @@ namespace FiresecAPI.Models
 			Sounds = new List<Sound>();
 			JournalFilters = new List<JournalFilter>();
 			Cameras = new List<Camera>();
+			Devices = new List<Device>();
 			EmailData = new EmailData();
 			AutomationConfiguration = new AutomationConfiguration();
 			RviSettings = new RviSettings();

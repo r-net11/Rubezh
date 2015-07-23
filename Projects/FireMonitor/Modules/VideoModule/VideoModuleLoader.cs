@@ -17,7 +17,6 @@ using Infrastructure.Events;
 using Infrustructure.Plans.Events;
 using VideoModule.Plans;
 using VideoModule.ViewModels;
-using Vlc.DotNet.Core;
 
 namespace VideoModule
 {
@@ -32,44 +31,7 @@ namespace VideoModule
 			_planPresenter = new PlanPresenter();
 			CamerasViewModel = new CamerasViewModel();
 
-			VlcInitialize();
 			SubscribeShowDelailsEvent();
-		}
-
-		public void VlcInitialize()
-		{
-			try
-			{
-				//if (!VlcContext.IsInitialized)
-				{
-					//Set libvlc.dll and libvlccore.dll directory path
-					VlcContext.LibVlcDllsPath = FiresecManager.SystemConfiguration.RviSettings.DllsPath;
-					//Set the vlc plugins directory path
-					VlcContext.LibVlcPluginsPath = FiresecManager.SystemConfiguration.RviSettings.PluginsPath;
-
-					//Set the startup options
-					VlcContext.StartupOptions.IgnoreConfig = true;
-					VlcContext.StartupOptions.LogOptions.LogInFile = false;
-					VlcContext.StartupOptions.LogOptions.ShowLoggerConsole = false;
-					VlcContext.StartupOptions.LogOptions.Verbosity = VlcLogVerbosities.Debug;
-
-					VlcContext.StartupOptions.AddOption("--network-caching=1000");
-					VlcContext.StartupOptions.AddOption("--ffmpeg-hw");
-					VlcContext.StartupOptions.AddOption("--no-skip-frames");
-					VlcContext.StartupOptions.AddOption("--no-video-title");
-					VlcContext.StartupOptions.AddOption("--live-caching=20000");
-					VlcContext.StartupOptions.AddOption("--file-caching=2000");
-					VlcContext.StartupOptions.AddOption("--http-caching=0" );
-					VlcContext.StartupOptions.AddOption("--rtsp-tcp");
-
-					//Initialize the VlcContext
-					//VlcContext.Initialize();
-				}
-			}
-			catch (Exception e)
-			{
-				MessageBoxService.ShowWarning(e.Message);
-			}
 		}
 
 		#region ShowDelailsEvent
