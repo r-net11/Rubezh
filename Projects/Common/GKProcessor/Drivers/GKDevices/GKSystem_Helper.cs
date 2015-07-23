@@ -12,7 +12,6 @@ namespace GKProcessor
 				UID = GKDriver.System_UID,
 				Name = "Локальная сеть",
 				ShortName = "Локальная сеть",
-				CanEditAddress = false,
 				HasAddress = false,
 				IsDeviceOnShleif = false,
 				IsReal = false
