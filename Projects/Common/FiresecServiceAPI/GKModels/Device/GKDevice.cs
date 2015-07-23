@@ -395,7 +395,7 @@ namespace FiresecAPI.GK
 					return false;
 				if (AllParents.Any(x => x.DriverType == GKDriverType.RSR2_KAU))
 					return false;
-				return (Driver.HasAddress && Driver.CanEditAddress);
+				return Driver.HasAddress && Driver.CanEditAddress;
 			}
 		}
 
@@ -476,6 +476,17 @@ namespace FiresecAPI.GK
 				var allParents = AllParents;
 				allParents.Add(this);
 				return allParents.LastOrDefault(x => x.DriverType == GKDriverType.RSR2_MVP_Part);
+			}
+		}
+
+		[XmlIgnore]
+		public GKDevice MirrorParent
+		{
+			get
+			{
+				var allParents = AllParents;
+				allParents.Add(this);
+				return allParents.LastOrDefault(x => x.DriverType == GKDriverType.RSR2_GKMirror);
 			}
 		}
 

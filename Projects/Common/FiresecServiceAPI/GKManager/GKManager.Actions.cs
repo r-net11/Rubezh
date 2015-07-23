@@ -161,6 +161,23 @@ namespace FiresecClient
 					RebuildRSR2Addresses_Children.FindAll(x => x.Driver.IsGroupDevice).ForEach(x => x.OnChanged());
 				}
 			}
+
+			var mirrorParent = parentDevice.MirrorParent;
+			if (mirrorParent != null)
+			{			
+					byte currentAddress = 1;
+					foreach (var device in mirrorParent.Children)
+					{
+						device.IntAddress = currentAddress;
+						if (!device.Driver.IsGroupDevice)
+						{
+							currentAddress++;
+						}
+						device.OnChanged();
+					}
+
+			}
+
 		}
 
 		static List<GKDevice> RebuildRSR2Addresses_Children;

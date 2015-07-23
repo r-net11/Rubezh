@@ -14,7 +14,6 @@ namespace GKProcessor
 				UID = new Guid("C1C19C8D-6462-4D5C-A9EC-56E2222AC245"),
 				Name = "Пожарные зоны",
 				ShortName = "Пожарные зоны",
-				CanEditAddress = true,
 				HasAddress = true,
 				IsDeviceOnShleif = false,
 				IsPlaceable = false,

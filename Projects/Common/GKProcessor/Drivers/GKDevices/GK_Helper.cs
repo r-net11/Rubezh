@@ -15,7 +15,6 @@ namespace GKProcessor
 				Name = "Групповой контроллер",
 				ShortName = "ГК",
 				IsDeviceOnShleif = false,
-				CanEditAddress = false,
 				HasAddress = false,
 				IsPlaceable = true
 			};

@@ -16,7 +16,7 @@ namespace FiresecAPI.GK
 			AvailableStateBits = new List<GKStateBit>();
 			AvailableStateClasses = new List<XStateClass>();
 			AvailableCommandBits = new List<GKStateBit>();
-			CanEditAddress = true;
+			CanEditAddress = false;
 			HasAddress = true;
 			IsDeviceOnShleif = true;
 			IsReal = true;
