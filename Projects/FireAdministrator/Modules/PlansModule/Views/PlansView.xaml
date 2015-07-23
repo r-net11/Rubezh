@@ -1,22 +1,48 @@
-﻿<UserControl x:Class="PlansModule.Views.PlansView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<UserControl
+	x:Class="PlansModule.Views.PlansView"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	d:DesignHeight="600"
+	d:DesignWidth="600"
+	mc:Ignorable="d">
 	<Grid Margin="0 5 5 5">
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="{Binding Width1, Mode=TwoWay}" MinWidth="200" />
 			<ColumnDefinition Width="{Binding Width2, Mode=TwoWay}" />
 			<ColumnDefinition Width="{Binding Width3, Mode=TwoWay}" MinWidth="{Binding Width3, Converter={StaticResource GridLengthToMinWidthConverter}}" />
 		</Grid.ColumnDefinitions>
-		<Border Grid.Column="0" Background="{DynamicResource BackgroundBrush}" CornerRadius="5" Padding="5">
+		<Border
+			Grid.Column="0"
+			Background="{DynamicResource BackgroundBrush}"
+			CornerRadius="5"
+			Padding="5">
 			<ContentPresenter Content="{Binding PlanDesignerViewModel}" />
 		</Border>
-		<GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeWE" GridSplitterFix.Attach="True" />
+		<GridSplitter
+			Grid.Column="1"
+			Width="5"
+			HorizontalAlignment="Stretch"
+			VerticalAlignment="Stretch"
+			Background="Transparent"
+			Cursor="SizeWE"
+			GridSplitterFix.Attach="True" />
 		<Grid Grid.Column="2">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="{Binding LayersHeight, Mode=TwoWay}" MinHeight="200" />
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="*" MinHeight="200" />
 			</Grid.RowDefinitions>
-			<ContentPresenter Grid.Row="0" Content="{Binding ElementsViewModel}" />
-			<GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeNS" GridSplitterFix.Attach="True" />
+			<ContentPresenter Content="{Binding ElementsViewModel}" />
+			<GridSplitter
+				Grid.Row="1"
+				Height="5"
+				HorizontalAlignment="Stretch"
+				VerticalAlignment="Stretch"
+				Background="Transparent"
+				Cursor="SizeNS"
+				GridSplitterFix.Attach="True" />
 			<ContentPresenter Grid.Row="2" Content="{Binding PlansTreeViewModel}" />
 		</Grid>
 	</Grid>

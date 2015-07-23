@@ -75,15 +75,7 @@ namespace FireAdministrator
 		{
 			try
 			{
-				var tempFolderName = "";
-				if (isLocal)
-				{
-					tempFolderName = AppDataFolderHelper.GetServerAppDataPath("Config");
-				}
-				else
-				{
-					tempFolderName = AppDataFolderHelper.GetTempFolder();
-				}
+				var tempFolderName = isLocal ? AppDataFolderHelper.GetServerAppDataPath("Config") : AppDataFolderHelper.GetTempFolder();
 
 				if (!Directory.Exists(tempFolderName))
 					Directory.CreateDirectory(tempFolderName);

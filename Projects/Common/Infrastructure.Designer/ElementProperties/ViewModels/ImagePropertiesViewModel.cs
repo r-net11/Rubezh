@@ -41,8 +41,7 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 		public RelayCommand SelectPictureCommand { get; private set; }
 		private void OnSelectPicture()
 		{
-			var openFileDialog = new OpenFileDialog();
-			openFileDialog.Filter = ImageExtensions.GraphicFilter;
+			var openFileDialog = new OpenFileDialog {Filter = ImageExtensions.GraphicFilter};
 
 			if (!openFileDialog.ShowDialog().Value) return;
 

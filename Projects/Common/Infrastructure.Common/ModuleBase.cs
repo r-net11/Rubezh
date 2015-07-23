@@ -87,9 +87,6 @@ namespace Infrastructure.Common
 		[DescriptionAttribute("Графические планы")]
 		Plans,
 
-		[DescriptionAttribute("Графические планы - Курск")]
-		PlansKursk,
-
 		[DescriptionAttribute("Права доступа")]
 		Security,
 

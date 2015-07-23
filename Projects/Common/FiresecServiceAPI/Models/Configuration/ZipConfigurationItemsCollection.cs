@@ -32,16 +32,18 @@ namespace FiresecAPI.Models
 
 		public static List<string> GetWellKnownNames()
 		{
-			var names = new List<string>();
-			names.Add("SecurityConfiguration.xml");
-			names.Add("PlansConfiguration.xml");
-			names.Add("SystemConfiguration.xml");
-			names.Add("DriversConfiguration.xml");
-			names.Add("DeviceConfiguration.xml");
-			names.Add("DeviceLibraryConfiguration.xml");
-			names.Add("SKDConfiguration.xml");
-			names.Add("SKDLibraryConfiguration.xml");
-			names.Add("LayoutsConfiguration.xml");
+			var names = new List<string>
+			{
+				"SecurityConfiguration.xml",
+				"PlansConfiguration.xml",
+				"SystemConfiguration.xml",
+				"DriversConfiguration.xml",
+				"DeviceConfiguration.xml",
+				"DeviceLibraryConfiguration.xml",
+				"SKDConfiguration.xml",
+				"SKDLibraryConfiguration.xml",
+				"LayoutsConfiguration.xml"
+			};
 			return names;
 		}
 	}

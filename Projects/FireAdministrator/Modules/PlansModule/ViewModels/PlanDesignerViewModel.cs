@@ -16,8 +16,7 @@ namespace PlansModule.ViewModels
 		public PlanDesignerViewModel(PlansViewModel plansViewModel)
 		{
 			PlansViewModel = plansViewModel;
-			DesignerCanvas = new DesignerCanvas(this);
-			DesignerCanvas.Toolbox.IsRightPanel = true;
+			DesignerCanvas = new DesignerCanvas(this) {Toolbox = {IsRightPanel = true}};
 			DesignerCanvas.Toolbox.RegisterInstruments(new[]{
 				new InstrumentViewModel()
 				{
