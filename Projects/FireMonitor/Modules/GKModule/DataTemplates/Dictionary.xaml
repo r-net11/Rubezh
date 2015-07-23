@@ -99,6 +99,10 @@
 	<DataTemplate DataType="{x:Type ViewModels:DeviceTooltipViewModel}">
 		<Views:DeviceTooltipView />
 	</DataTemplate>
+    
+    <DataTemplate DataType="{x:Type ViewModels:DelayTooltipViewModel}">
+        <Views:DelayToolTipView />
+    </DataTemplate>
 
 	<DataTemplate DataType="{x:Type ViewModels:DirectionTooltipViewModel}">
 		<Views:DirectionToolTipView />
