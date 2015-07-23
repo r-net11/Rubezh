@@ -84,17 +84,16 @@ namespace SKDModule.Reports.ViewModels
 
 		public List<Guid> SearchEmployees()
 		{
-			if (Filter.Organisations == null) return null;
-
-			return (
-				from item in Filter.Organisations.SelectMany(x => x.Children) 
-				where 
-				!string.IsNullOrEmpty(Filter.FirstName) && item.Model.FirstName.Contains(Filter.FirstName) 
-				|| 
-				!string.IsNullOrEmpty(Filter.SecondName) && item.Model.SecondName.Contains(Filter.SecondName) 
-				|| 
-				!string.IsNullOrEmpty(Filter.LastName) && item.Model.LastName.Contains(Filter.LastName) 
-				select item.UID
+			return Filter.Organisations == null
+				? null
+				: (
+				from x in Filter.Organisations
+				from child in x.Children
+				where child.Model != null
+				where !string.IsNullOrEmpty(Filter.FirstName) && child.Model.FirstName.Contains(Filter.FirstName)
+					|| !string.IsNullOrEmpty(Filter.SecondName) && child.Model.SecondName.Contains(Filter.SecondName)
+					|| !string.IsNullOrEmpty(Filter.LastName) && child.Model.LastName.Contains(Filter.LastName)
+						select child.UID
 				).ToList();
 		}
 	}
