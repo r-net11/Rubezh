@@ -28,6 +28,7 @@ namespace GKModule.Plans
 			Cache.Add<GKGuardZone>(() => GKManager.GuardZones);
 			Cache.Add<GKSKDZone>(() => GKManager.SKDZones);
 			Cache.Add<GKDevice>(() => GKManager.Devices);
+			Cache.Add<GKDelay>(() => GKManager.Delays);
 			Cache.Add<GKDirection>(() => GKManager.Directions);
 			Cache.Add<GKMPT>(() => GKManager.MPTs);
 			Cache.Add<GKDoor>(() => GKManager.Doors);
@@ -63,30 +64,21 @@ namespace GKModule.Plans
 
 		public IEnumerable<ElementBase> LoadPlan(Plan plan)
 		{
-			foreach (var element in plan.ElementGKDevices.Where(x => x.DeviceUID != Guid.Empty))
-				yield return element;
-			foreach (var element in plan.ElementRectangleGKZones.Where(x => x.ZoneUID != Guid.Empty))
-				yield return element;
-			foreach (var element in plan.ElementPolygonGKZones.Where(x => x.ZoneUID != Guid.Empty))
-				yield return element;
-			foreach (var element in plan.ElementRectangleGKGuardZones.Where(x => x.ZoneUID != Guid.Empty))
-				yield return element;
-			foreach (var element in plan.ElementPolygonGKGuardZones.Where(x => x.ZoneUID != Guid.Empty))
-				yield return element;
-			foreach (var element in plan.ElementRectangleGKSKDZones.Where(x => x.ZoneUID != Guid.Empty))
-				yield return element;
-			foreach (var element in plan.ElementPolygonGKSKDZones.Where(x => x.ZoneUID != Guid.Empty))
-				yield return element;
-			foreach (var element in plan.ElementRectangleGKDirections.Where(x => x.DirectionUID != Guid.Empty))
-				yield return element;
-			foreach (var element in plan.ElementPolygonGKDirections.Where(x => x.DirectionUID != Guid.Empty))
-				yield return element;
-			foreach (var element in plan.ElementRectangleGKMPTs.Where(x => x.MPTUID != Guid.Empty))
-				yield return element;
-			foreach (var element in plan.ElementPolygonGKMPTs.Where(x => x.MPTUID != Guid.Empty))
-				yield return element;
-			foreach (var element in plan.ElementGKDoors.Where(x => x.DoorUID != Guid.Empty))
-				yield return element;
+			return new ElementBase[0]
+				.Concat(plan.ElementGKDevices.Where(x => x.DeviceUID != Guid.Empty))
+				.Concat(plan.ElementRectangleGKZones.Where(x => x.ZoneUID != Guid.Empty))
+				.Concat(plan.ElementPolygonGKZones.Where(x => x.ZoneUID != Guid.Empty))
+				.Concat(plan.ElementRectangleGKGuardZones.Where(x => x.ZoneUID != Guid.Empty))
+				.Concat(plan.ElementPolygonGKGuardZones.Where(x => x.ZoneUID != Guid.Empty))
+				.Concat(plan.ElementRectangleGKSKDZones.Where(x => x.ZoneUID != Guid.Empty))
+				.Concat(plan.ElementPolygonGKSKDZones.Where(x => x.ZoneUID != Guid.Empty))
+				.Concat(plan.ElementRectangleGKDelays.Where(x => x.DelayUID != Guid.Empty))
+				.Concat(plan.ElementPolygonGKDelays.Where(x => x.DelayUID != Guid.Empty))
+				.Concat(plan.ElementRectangleGKDirections.Where(x => x.DirectionUID != Guid.Empty))
+				.Concat(plan.ElementPolygonGKDirections.Where(x => x.DirectionUID != Guid.Empty))
+				.Concat(plan.ElementRectangleGKMPTs.Where(x => x.MPTUID != Guid.Empty))
+				.Concat(plan.ElementPolygonGKMPTs.Where(x => x.MPTUID != Guid.Empty))
+				.Concat(plan.ElementGKDoors.Where(x => x.DoorUID != Guid.Empty));
 		}
 
 		public void RegisterPresenterItem(PresenterItem presenterItem)
@@ -99,6 +91,8 @@ namespace GKModule.Plans
 				presenterItem.OverridePainter(new GKGuardZonePainter(presenterItem));
 			else if (presenterItem.Element is ElementPolygonGKSKDZone || presenterItem.Element is ElementRectangleGKSKDZone)
 				presenterItem.OverridePainter(new GKSKDZonePainter(presenterItem));
+			else if (presenterItem.Element is ElementRectangleGKDelay || presenterItem.Element is ElementPolygonGKDelay)
+				presenterItem.OverridePainter(new GKDelayPainter(presenterItem));
 			else if (presenterItem.Element is ElementRectangleGKDirection || presenterItem.Element is ElementPolygonGKDirection)
 				presenterItem.OverridePainter(new GKDirectionPainter(presenterItem));
 			else if (presenterItem.Element is ElementRectangleGKMPT || presenterItem.Element is ElementPolygonGKMPT)
