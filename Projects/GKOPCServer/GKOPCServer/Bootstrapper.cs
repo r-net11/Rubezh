@@ -99,6 +99,8 @@ namespace GKOPCServer
 
 			SafeFiresecService.GKCallbackResultEvent -= new Action<GKCallbackResult>(OnGKCallbackResult);
 			SafeFiresecService.GKCallbackResultEvent += new Action<GKCallbackResult>(OnGKCallbackResult);
+
+			FiresecManager.StartPoll();
 		}
 
 		static void InitializeStates()

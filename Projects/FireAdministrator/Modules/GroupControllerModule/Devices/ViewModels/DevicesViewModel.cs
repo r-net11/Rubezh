@@ -285,7 +285,11 @@ namespace GKModule.ViewModels
 			if (SelectedDevice.Device.IsConnectedToKAU)
 			{
 				var kauDeviceShleifdevice = SelectedDevice.Device.KAUShleifParent;
-				int maxAddress = NewDeviceHelper.GetMinAddress(device.Driver, kauDeviceShleifdevice);
+				var allChildren = kauDeviceShleifdevice.AllChildren;
+				int maxAddress = 0;
+				if (allChildren.Count > 0)
+					maxAddress = allChildren.Max(x => x.IntAddress);
+
 				if (maxAddress >= 255)
 					return null;
 
