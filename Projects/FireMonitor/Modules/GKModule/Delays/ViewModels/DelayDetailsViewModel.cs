@@ -11,6 +11,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
+using Infrustructure.Plans.Elements;
 
 namespace GKModule.ViewModels
 {
@@ -27,6 +28,7 @@ namespace GKModule.ViewModels
 			Delay = delay;
 			Title = Delay.Name;
 			State.StateChanged += new Action(OnStateChanged);
+			this.InitializePlans();
 
 			ShowCommand = new RelayCommand(OnShow);
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
@@ -37,6 +39,29 @@ namespace GKModule.ViewModels
 			TurnOnNowCommand = new RelayCommand(OnTurnOnNow);
 			TurnOffCommand = new RelayCommand(OnTurnOff);
 			ForbidStartCommand = new RelayCommand(OnForbidStart);
+		}
+		private void InitializePlans()
+		{
+			this.Plans = new ObservableCollection<PlanLinkViewModel>();
+			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+			{
+				ElementBase elementBase = plan.ElementRectangleGKDelays.FirstOrDefault(x => x.DelayUID == this.Delay.UID);
+				if (elementBase != null)
+				{
+					var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
+					alarmPlanViewModel.Delay = this.Delay;
+					Plans.Add(alarmPlanViewModel);
+					continue;
+				}
+
+				elementBase = plan.ElementPolygonGKDelays.FirstOrDefault(x => x.DelayUID == this.Delay.UID);
+				if (elementBase != null)
+				{
+					var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
+					alarmPlanViewModel.Delay = this.Delay;
+					Plans.Add(alarmPlanViewModel);
+				}
+			}
 		}
 
 		void OnStateChanged()
@@ -188,9 +213,9 @@ namespace GKModule.ViewModels
 		public bool CanControl
 		{
 			get { return FiresecManager.CheckPermission(PermissionType.Oper_Delay_Control); }
-			
+
 		}
-		
+
 
 		#region IWindowIdentity Members
 		public string Guid

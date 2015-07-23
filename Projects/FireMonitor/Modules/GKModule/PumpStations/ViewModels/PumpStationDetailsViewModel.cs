@@ -21,7 +21,6 @@ namespace GKModule.ViewModels
 		{
 			get { return PumpStation.State; }
 		}
-
 		public PumpStationDetailsViewModel(GKPumpStation pumpStation)
 		{
 			PumpStation = pumpStation;

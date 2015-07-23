@@ -123,7 +123,7 @@ namespace FiresecService.Report.Templates
 				return;
 			var zones = zoneMap[door.DoorUID];
 			var dataRow = ds.Data.NewDataRow();
-			dataRow.Type = card.CardType.ToDescription();
+			dataRow.Type = card.GKCardType.ToDescription();
 			dataRow.Number = card.Number.ToString();
 			if (employee != null)
 			{

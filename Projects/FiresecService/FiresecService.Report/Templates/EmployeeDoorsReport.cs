@@ -126,7 +126,7 @@ namespace FiresecService.Report.Templates
 							var door = doorMap[cardDoor.DoorUID];
 
 							var dataRow = dataSet.Data.NewDataRow();
-							dataRow.Type = card.CardType.ToDescription();
+							dataRow.Type = card.GKCardType.ToDescription();
 							dataRow.Number = card.Number.ToString();
 							if (employee != null)
 							{

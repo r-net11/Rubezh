@@ -11,7 +11,6 @@ namespace FiresecAPI.SKD
 		public SKDCard()
 		{
 			CardDoors = new List<CardDoor>();
-			CardType = CardType.Constant;
 			GKCardType = GK.GKCardType.Employee;
 			GKControllerUIDs = new List<Guid>();
 		}
@@ -23,13 +22,7 @@ namespace FiresecAPI.SKD
 		public Guid? EmployeeUID { get; set; }
 
 		[DataMember]
-		public DateTime StartDate { get; set; }
-
-		[DataMember]
 		public DateTime EndDate { get; set; }
-
-		[DataMember]
-		public int UserTime { get; set; }
 
 		[DataMember]
 		public Guid DeactivationControllerUID { get; set; }
@@ -44,13 +37,7 @@ namespace FiresecAPI.SKD
 		public Guid? AccessTemplateUID { get; set; }
 
 		[DataMember]
-		public CardType CardType { get; set; }
-
-		[DataMember]
 		public GKCardType GKCardType { get; set; }
-
-		[DataMember]
-		public string Password { get; set; }
 
 		[DataMember]
 		public bool IsInStopList { get; set; }

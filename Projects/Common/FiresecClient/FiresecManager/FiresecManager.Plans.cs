@@ -69,6 +69,7 @@ namespace FiresecClient
                             elementPolygonGKSKDZones.Add(elementPolygonGKSKDZone);
                     Plan.ElementPolygonGKSKDZones = elementPolygonGKSKDZones;
 
+					keys = GKManager.Delays.Select(item => item.UID).ToList();
                     var elementRectangleGKDelays = Plan.ElementRectangleGKDelays
                         .Where(x => x.DelayUID != Guid.Empty && keys.Contains(x.DelayUID))
                         .ToList();

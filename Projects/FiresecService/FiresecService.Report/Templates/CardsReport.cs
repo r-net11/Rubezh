@@ -65,7 +65,7 @@ namespace FiresecService.Report.Templates
 				foreach (var card in cardsResult.Result)
 				{
 					var dataRow = dataSet.Data.NewDataRow();
-					dataRow.Type = card.IsInStopList ? "Деактивированный" : card.CardType.ToDescription();
+					dataRow.Type = card.IsInStopList ? "Деактивированный" : card.GKCardType.ToDescription();
 					dataRow.Number = card.Number.ToString();
 					var employee = dataProvider.GetEmployee(card.EmployeeUID.GetValueOrDefault());
 					if (employee != null)
@@ -75,7 +75,7 @@ namespace FiresecService.Report.Templates
 						dataRow.Department = employee.Department;
 						dataRow.Position = employee.Position;
 					}
-					if (!card.IsInStopList && (card.CardType == CardType.Duress || card.CardType == CardType.Temporary))
+					if (!card.IsInStopList)
 						dataRow.Period = card.EndDate;
 					dataSet.Data.Rows.Add(dataRow);
 				}

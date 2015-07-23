@@ -20,7 +20,7 @@ namespace GKModule.Validation
 
 		void ValidateEmpty(GKDelay delay)
 		{
-			if (delay.GetDataBaseParent() == null)
+			if (delay.DataBaseParent == null)
 			{
 				Errors.Add(new DelayValidationError(delay, "Пустые зависимости", ValidationErrorLevel.CannotWrite));
 			}

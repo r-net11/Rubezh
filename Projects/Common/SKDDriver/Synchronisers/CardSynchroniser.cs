@@ -14,7 +14,6 @@ namespace SKDDriver.DataClasses
             return new API.ExportCard
             {
                 Number = item.Number,
-                StartDate = item.StartDate,
                 EndDate = item.EndDate,
                 IsInStopList = item.IsInStopList,
                 StopReason = item.StopReason,
@@ -29,7 +28,6 @@ namespace SKDDriver.DataClasses
         public override void TranslateBack(API.ExportCard exportItem, Card tableItem)
         {
             tableItem.Number = exportItem.Number;
-            tableItem.StartDate = exportItem.StartDate;
             tableItem.EndDate = exportItem.EndDate;
             tableItem.IsInStopList = exportItem.IsInStopList;
             tableItem.StopReason = exportItem.StopReason;

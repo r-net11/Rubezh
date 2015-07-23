@@ -22,7 +22,7 @@ namespace GKModule.Validation
 
 		void ValidateEmpty(GKDirection direction)
 		{
-			if (direction.GetDataBaseParent() == null)
+			if (direction.DataBaseParent == null)
 			{
 				Errors.Add(new DirectionValidationError(direction, "Пустые зависимости", ValidationErrorLevel.CannotWrite));
 			}

@@ -5,11 +5,6 @@
 			 xmlns:Views="clr-namespace:SKDModule.Views"
 			 MinWidth="600" MinHeight="500">
 
-	<UserControl.Resources>
-		<Converters:CardTypeToStringConverter x:Key="CardTypeToStringConverter" />
-		<Converters:CardTypeToLongStringConverter x:Key="CardTypeToLongStringConverter" />
-	</UserControl.Resources>
-
 	<TabControl>
 		<TabItem Header="Основные">
 			<StackPanel>
@@ -20,7 +15,6 @@
 					</Grid.ColumnDefinitions>
 					<Grid.RowDefinitions>
 						<RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
 						<RowDefinition Height="Auto" />
 						<RowDefinition Height="Auto" />
 						<RowDefinition Height="Auto" />
@@ -41,16 +35,12 @@
 					<Calendar Grid.Row="1" Grid.Column="1"  Margin="2" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="#66ff9829" BorderThickness="2" IsTodayHighlighted="False" SelectionMode="SingleDate" 
 							  DisplayDate="{Binding EndDate}" SelectedDate="{Binding EndDate}"  />
 
-					<TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{DynamicResource TextBlockDetailsStyle}" Text="Количество проходов" Margin="2" 
-							   Visibility="{Binding CanSetUserTime, Converter={StaticResource BoolToVisibilityConverter}}" />
-					<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding UserTime}" Margin="2" 
-							 Visibility="{Binding CanSetUserTime, Converter={StaticResource BoolToVisibilityConverter}}" />
 
-					<TextBlock Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{DynamicResource TextBlockDetailsStyle}" Text="Уровень доступа" Margin="2" />
-					<TextBox Grid.Row="3" Grid.Column="1" Text="{Binding GKLevel}" Margin="2" />
+					<TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{DynamicResource TextBlockDetailsStyle}" Text="Уровень доступа" Margin="2" />
+					<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding GKLevel}" Margin="2" />
 
-					<TextBlock Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{DynamicResource TextBlockDetailsStyle}" Text="График доступа" Margin="2" />
-                    <ComboBox Grid.Row="4" Grid.Column="1" ItemsSource="{Binding GKSchedules}" SelectedItem="{Binding SelectedGKSchedule}" Margin="2">
+					<TextBlock Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{DynamicResource TextBlockDetailsStyle}" Text="График доступа" Margin="2" />
+                    <ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding GKSchedules}" SelectedItem="{Binding SelectedGKSchedule}" Margin="2">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">

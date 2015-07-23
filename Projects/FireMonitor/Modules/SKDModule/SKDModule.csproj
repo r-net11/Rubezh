@@ -140,8 +140,6 @@
     <Compile Include="Common\Views\PositionsFilterView.xaml.cs">
       <DependentUpon>PositionsFilterView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Converters\CardTypeToStringConverter.cs" />
-    <Compile Include="Converters\CardTypeToLongStringConverter.cs" />
     <Compile Include="Converters\RadioButtonCheckedConverter.cs" />
     <Compile Include="Departments\ViewModels\DepartmentEmployeeListViewModel.cs" />
     <Compile Include="Departments\Views\DepartmentEmployeeListView.xaml.cs">

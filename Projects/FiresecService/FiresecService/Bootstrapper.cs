@@ -11,6 +11,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.BalloonTrayTip;
 using Infrastructure.Common.Windows;
 using FiresecAPI;
+using SKDDriver.DataClasses;
 
 namespace FiresecService
 {
@@ -38,30 +39,38 @@ namespace FiresecService
 				MainViewStartedEvent.WaitOne();
 
 				FiresecService.Service.FiresecService.ServerState = ServerState.Sarting;
+
+				UILogger.Log("Проверка соединения с БД");
+				if(!DbService.CheckConnection())
+					UILogger.Log("Ошибка соединения с БД", true);
+				//PatchManager.Patch();
+
 				UILogger.Log("Открытие хоста");
 				FiresecServiceManager.Open();
 				ServerLoadHelper.SetStatus(FSServerState.Opened);
 
 				UILogger.Log("Загрузка конфигурации");
 				ConfigurationCashHelper.Update();
-				UILogger.Log("Создание конфигурации ГК");
 				GKProcessor.Create();
-				//PatchManager.Patch();
 				UILogger.Log("Запуск ГК");
 				GKProcessor.Start();
 
 				UILogger.Log("Запуск сервиса отчетов");
-				ReportServiceManager.Run();
-				UILogger.Log("Сервис отчетов запущен: " + ConnectionSettingsManager.ReportServerAddress);
+				if (ReportServiceManager.Run())
+				{
+					UILogger.Log("Сервис отчетов запущен: " + ConnectionSettingsManager.ReportServerAddress);
+					MainViewModel.SetReportAddress(ConnectionSettingsManager.ReportServerAddress);
+				}
+				else
+				{
+					UILogger.Log("Ошибка при запуске сервиса отчетов", true);
+					MainViewModel.SetReportAddress("<Ошибка>");
+				}
 
-				UILogger.Log("Запуск автоматизации");
 				ScheduleRunner.Start();
-
-				UILogger.Log("Запуск очереди задач сервера");
 				ServerTaskRunner.Start();
-
-				UILogger.Log("Готово");
 				ProcedureRunner.RunOnServerRun();
+				UILogger.Log("Готово");
 				FiresecService.Service.FiresecService.ServerState = ServerState.Ready;
 			}
 			catch (Exception e)
@@ -102,8 +111,9 @@ namespace FiresecService
 
 #if DEBUG
 			return;
-#endif
+#else
 			Process.GetCurrentProcess().Kill();
+#endif
 		}
 	}
 }

@@ -40,7 +40,4 @@ namespace SKDDriver.DataClasses
 			}
 		}
 	}
-
-	
-
 }

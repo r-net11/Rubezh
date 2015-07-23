@@ -30,7 +30,7 @@ namespace GKModule.Validation
 
 		void ValidateEmpty(GKZone zone)
 		{
-			if (zone.GetDataBaseParent() == null)
+			if (zone.DataBaseParent == null)
 			{
 				Errors.Add(new ZoneValidationError(zone, "Пустые зависимости", ValidationErrorLevel.CannotWrite));
 			}

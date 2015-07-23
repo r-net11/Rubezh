@@ -20,9 +20,9 @@ namespace FiresecClient
 		public static event Action<CallbackOperationResult> CallbackOperationResultEvent;
 		public static event Action<AutomationCallbackResult> AutomationEvent;
 		public static event Action ConfigurationChangedEvent;
-		public static event Action<JournalItem> NewJournalItemEvent;
+		public static event Action<List<JournalItem>> NewJournalItemsEvent;
 		public static event Action<IEnumerable<JournalItem>, Guid> GetFilteredArchiveCompletedEvent;
-        public static event Action<DbCallbackResult> DbCallbackResultEvent;
+		public static event Action<DbCallbackResult> DbCallbackResultEvent;
 
 		bool isConnected = true;
 		public bool SuspendPoll = false;
@@ -67,7 +67,7 @@ namespace FiresecClient
 					}
 
 					var callbackResults = Poll(FiresecServiceFactory.UID);
-                    ProcessCallbackResult(callbackResults);
+					ProcessCallbackResult(callbackResults);
 				}
 				catch (Exception e)
 				{
@@ -104,7 +104,7 @@ namespace FiresecClient
 				if (DbCallbackResultEvent != null)
 					DbCallbackResultEvent(dbCallBackResult);
 			}
-			
+
 			foreach (var callbackResult in callbackResults)
 			{
 				switch (callbackResult.CallbackResultType)
@@ -152,15 +152,12 @@ namespace FiresecClient
 						break;
 
 					case CallbackResultType.NewEvents:
-						foreach (var journalItem in callbackResult.JournalItems)
+						SafeOperationCall(() =>
 						{
-							SafeOperationCall(() =>
-							{
-								if (NewJournalItemEvent != null)
-									NewJournalItemEvent(journalItem);
+							if (NewJournalItemsEvent != null)
+								NewJournalItemsEvent(callbackResult.JournalItems);
 
-							});
-						}
+						});
 						break;
 
 					case CallbackResultType.ArchiveCompleted:
@@ -182,6 +179,4 @@ namespace FiresecClient
 			}
 		}
 	}
-
-    
 }

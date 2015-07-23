@@ -26,6 +26,8 @@ namespace FiresecService.ViewModels
 			Clients = new ObservableCollection<ClientViewModel>();
 			ServerTasksViewModel = new ViewModels.ServerTasksViewModel();
 			MessageBoxService.SetMessageBoxHandler(MessageBoxHandler);
+			Logs = new ObservableCollection<LogViewModel>();
+			GKViewModels = new ObservableCollection<GKViewModel>();
 
             _initialKey = InitialKey.Generate();
             InitialKeyString = _initialKey.ToString();
@@ -46,7 +48,7 @@ namespace FiresecService.ViewModels
 			}));
 		}
 		
-		private string _status;
+		string _status;
 		string Status
 		{
 			get { return _status; }
@@ -62,6 +64,7 @@ namespace FiresecService.ViewModels
 			return MonitorHelper.PrimaryMonitor;
 		}
 
+		#region Clients
 		public ObservableCollection<ClientViewModel> Clients { get; private set; }
 
 		ClientViewModel _selectedClient;
@@ -101,13 +104,18 @@ namespace FiresecService.ViewModels
 					connectionViewModel.FriendlyUserName = userName;
 			}));
 		}
+		#endregion Clients
 
-		public void AddLog(string message)
+		#region Logs
+		public void AddLog(string message, bool isError)
 		{
 			_dispatcher.BeginInvoke((Action)(() =>
 			{
 				LastLog = message;
-				InfoLog += message + "\n";
+				var logViewModel = new LogViewModel(message, isError);
+				Logs.Add(logViewModel);
+				if (Logs.Count > 1000)
+					Logs.RemoveAt(0);
 			}));
 		}
 
@@ -122,22 +130,103 @@ namespace FiresecService.ViewModels
 			}
 		}
 
-		string _infoLog = "";
-		public string InfoLog
+		public ObservableCollection<LogViewModel> Logs { get; private set; }
+
+		LogViewModel _selectedLog;
+		public LogViewModel SelectedLog
 		{
-			get { return _infoLog; }
+			get { return _selectedLog; }
 			set
 			{
-				_infoLog = value;
-				OnPropertyChanged(() => InfoLog);
+				_selectedLog = value;
+				OnPropertyChanged(() => SelectedLog);
+			}
+		}
+		#endregion Logs
+
+		#region Address
+
+		public static void SetLocalAddress(string address)
+		{
+			if(Current != null)
+			{
+				Current._dispatcher.BeginInvoke((Action)(() => { Current.LocalAddress = address; }));
 			}
 		}
 
-		public override bool OnClosing(bool isCanceled)
+		public static void SetRemoteAddress(string address)
 		{
-			ApplicationMinimizeCommand.ForceExecute();
-			return true;
-        }
+			if (Current != null)
+			{
+				Current._dispatcher.BeginInvoke((Action)(() => { Current.RemoteAddress = address; }));
+			}
+		}
+
+		public static void SetReportAddress(string address)
+		{
+			if (Current != null)
+			{
+				Current._dispatcher.BeginInvoke((Action)(() => { Current.ReportAddress = address; }));
+			}
+		}
+
+		string _localAddress;
+		public string LocalAddress
+		{
+			get { return _localAddress; }
+			set
+			{
+				_localAddress = value;
+				OnPropertyChanged(() => LocalAddress);
+			}
+		}
+
+		string _remoteAddress;
+		public string RemoteAddress
+		{
+			get { return _remoteAddress; }
+			set
+			{
+				_remoteAddress = value;
+				OnPropertyChanged(() => RemoteAddress);
+			}
+		}
+
+		string _reportAddress;
+		public string ReportAddress
+		{
+			get { return _reportAddress; }
+			set
+			{
+				_reportAddress = value;
+				OnPropertyChanged(() => ReportAddress);
+			}
+		}
+		#endregion Address
+
+		#region GK
+		ObservableCollection<GKViewModel> _gkViewModels;
+		public ObservableCollection<GKViewModel> GKViewModels
+		{
+			get { return _gkViewModels; }
+			set
+			{
+				_gkViewModels = value;
+				OnPropertyChanged(() => GKViewModels);
+			}
+		}
+
+		GKViewModel _selectedGKViewModel;
+		public GKViewModel SelectedGKViewModel
+		{
+			get { return _selectedGKViewModel; }
+			set
+			{
+				_selectedGKViewModel = value;
+				OnPropertyChanged(() => SelectedGKViewModel);
+			}
+		}
+		#endregion GK
 
         #region Licensing
 
@@ -197,5 +286,11 @@ namespace FiresecService.ViewModels
             }
         }
         #endregion
+
+		public override bool OnClosing(bool isCanceled)
+		{
+			ApplicationMinimizeCommand.ForceExecute();
+			return true;
+		}
     }
 }

@@ -233,7 +233,6 @@ namespace SKDDriver.DataClasses
                 Number = no,
                 EmployeeUID = emplUID,
                 GKCardType = 0,
-                StartDate = _minDate,
                 EndDate = _minDate,
                 ExternalKey = "-1",
                 GKLevel = 0,

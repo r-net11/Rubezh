@@ -135,7 +135,6 @@ namespace SKDDriver.DataClasses
 				if (card != null)
 				{
 					card.EmployeeUID = null;
-					card.StartDate = DateTime.Now;
 					card.EndDate = DateTime.Now;
 					card.CardDoors = new List<CardDoor>();
 					card.PassCardTemplateUID = null;
@@ -213,7 +212,6 @@ namespace SKDDriver.DataClasses
 				UID = tableItem.UID,
 				Number = (uint)tableItem.Number,
 				EmployeeUID = tableItem.EmployeeUID,
-				StartDate = tableItem.StartDate,
 				EndDate = tableItem.EndDate,
 				CardDoors = tableItem.CardDoors.Select(x => x.Translate()).ToList(),
 				PassCardTemplateUID = tableItem.PassCardTemplateUID,
@@ -232,7 +230,6 @@ namespace SKDDriver.DataClasses
 		{
 			tableItem.Number = (int)apiItem.Number;
 			tableItem.EmployeeUID = apiItem.EmployeeUID;
-			tableItem.StartDate = apiItem.StartDate;
 			tableItem.EndDate = apiItem.EndDate;
 			tableItem.CardDoors = apiItem.CardDoors.Select(x => new CardDoor(x)).ToList();
 			tableItem.PassCardTemplateUID = apiItem.PassCardTemplateUID;

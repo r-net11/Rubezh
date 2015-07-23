@@ -93,6 +93,11 @@ namespace SKDDriver.DataClasses
 			}
 		}
 
+		public static bool CheckConnection()
+		{
+			return true;
+		}
+
         public void Dispose()
 		{
 			Context.Dispose();

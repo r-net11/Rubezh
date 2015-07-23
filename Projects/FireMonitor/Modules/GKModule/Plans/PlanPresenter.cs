@@ -36,6 +36,7 @@ namespace GKModule.Plans
 			ServiceFactory.Events.GetEvent<ShowGKZoneOnPlanEvent>().Subscribe(OnShowGKZoneOnPlan);
 			ServiceFactory.Events.GetEvent<ShowGKGuardZoneOnPlanEvent>().Subscribe(OnShowGKGuardZoneOnPlan);
 			ServiceFactory.Events.GetEvent<ShowGKSKDZoneOnPlanEvent>().Subscribe(OnShowGKSKDZoneOnPlan);
+			ServiceFactory.Events.GetEvent<ShowGKDelayOnPlanEvent>().Subscribe(OnShowGKDelayOnPlan);
 			ServiceFactory.Events.GetEvent<ShowGKDirectionOnPlanEvent>().Subscribe(OnShowGKDirectionOnPlan);
 			ServiceFactory.Events.GetEvent<ShowGKMPTOnPlanEvent>().Subscribe(OnShowGKMPTOnPlan);
 			ServiceFactory.Events.GetEvent<ShowGKDoorOnPlanEvent>().Subscribe(OnShowGKDoorOnPlan);
@@ -188,6 +189,28 @@ namespace GKModule.Plans
 						ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
 						return;
 					}
+			}
+		}
+		private void OnShowGKDelayOnPlan(GKDelay delay)
+		{
+			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+			{
+				foreach (var element in plan.ElementRectangleGKDelays)
+				{
+					if (element.DelayUID == delay.UID)
+					{
+						ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
+						return;
+					}
+				}
+				foreach (var element in plan.ElementPolygonGKDelays)
+				{
+					if (element.DelayUID == delay.UID)
+					{
+						ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
+						return;
+					}
+				}
 			}
 		}
 		private void OnShowGKDirectionOnPlan(GKDirection direction)

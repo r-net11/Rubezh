@@ -143,7 +143,7 @@ namespace FiresecClient
 				foreach (var zone in GKManager.Zones)
 				{
 					if (!gkZoneMap.ContainsKey(zone.UID))
-					gkZoneMap.Add(zone.UID, zone);
+						gkZoneMap.Add(zone.UID, zone);
 				}
 				var gkGuardZoneMap = new Dictionary<Guid, GKGuardZone>();
 				foreach (var guardZone in GKManager.DeviceConfiguration.GuardZones)
@@ -156,6 +156,12 @@ namespace FiresecClient
 				{
 					if (!gkDirectionMap.ContainsKey(direction.UID))
 						gkDirectionMap.Add(direction.UID, direction);
+				}
+				var gkDelayMap = new Dictionary<Guid, GKDelay>();
+				foreach (var delay in GKManager.Delays)
+				{
+					if (!gkDelayMap.ContainsKey(delay.UID))
+						gkDelayMap.Add(delay.UID, delay);
 				}
 				var gkMPTMap = new Dictionary<Guid, GKMPT>();
 				foreach (var mpt in GKManager.MPTs)
@@ -233,6 +239,18 @@ namespace FiresecClient
 						if (gkDoorMap.ContainsKey(elementPolygonGKSKDZone.ZoneUID))
 							gkDoorMap[elementPolygonGKSKDZone.ZoneUID].PlanElementUIDs.Add(elementPolygonGKSKDZone.UID);
 					}
+					foreach (var delay in plan.ElementRectangleGKDelays)
+					{
+						UpdateDelayType(delay, delay.DelayUID != Guid.Empty && gkDelayMap.ContainsKey(delay.DelayUID) ? gkDelayMap[delay.DelayUID] : null);
+						if (gkDelayMap.ContainsKey(delay.DelayUID))
+							gkDelayMap[delay.DelayUID].PlanElementUIDs.Add(delay.UID);
+					}
+					foreach (var delay in plan.ElementPolygonGKDelays)
+					{
+						UpdateDelayType(delay, delay.DelayUID != Guid.Empty && gkDelayMap.ContainsKey(delay.DelayUID) ? gkDelayMap[delay.DelayUID] : null);
+						if (gkDelayMap.ContainsKey(delay.DelayUID))
+							gkDelayMap[delay.DelayUID].PlanElementUIDs.Add(delay.UID);
+					}
 					foreach (var direction in plan.ElementRectangleGKDirections)
 					{
 						UpdateDirectionType(direction, direction.DirectionUID != Guid.Empty && gkDirectionMap.ContainsKey(direction.DirectionUID) ? gkDirectionMap[direction.DirectionUID] : null);
@@ -305,6 +323,10 @@ namespace FiresecClient
 		{
 			elementZone.SetZLayer(zone == null ? 50 : 60);
 			elementZone.BackgroundColor = zone == null ? System.Windows.Media.Colors.Black : System.Windows.Media.Colors.Green;
+		}
+		private static void UpdateDelayType(IElementDelay elementGKDelay, GKDelay gkDelay)
+		{
+			elementGKDelay.BackgroundColor = gkDelay == null ? System.Windows.Media.Colors.Black : System.Windows.Media.Colors.LightBlue;
 		}
 		private static void UpdateDirectionType(IElementDirection elementGKDirection, GKDirection gkDirection)
 		{

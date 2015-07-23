@@ -55,23 +55,19 @@
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 				<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Разрешить удаленные соединения на сервере" VerticalAlignment="Center" />
 				<CheckBox Grid.Row="0" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding Server_EnableRemoteConnections}" />
 
-				<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Использовать HASP" VerticalAlignment="Center" />
-				<CheckBox Grid.Row="1" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding UseHasp}" />
-
-				<Views:DbSettingsView Grid.Row="2" Grid.ColumnSpan="2" DataContext="{Binding DbSettingsViewModel}" />
+				<Views:DbSettingsView Grid.Row="1" Grid.ColumnSpan="2" DataContext="{Binding DbSettingsViewModel}" />
 			</Grid>
 			
 		</TabItem>
 		<TabItem Header="Автозапуск">
 			<StackPanel Margin="2">
-				<TextBlock Margin="2" FontSize="12" Foreground="{DynamicResource ForegroundColorLight}" Text="Следующие приложения будут автоматически запускаться при старте системы:" TextWrapping="Wrap" />
-				<CheckBox Content="{Binding ServerAutoLabel}" FontSize="12" Foreground="{DynamicResource ForegroundColorLight}" IsChecked="{Binding IsServerAuto}" Margin="5 5 5 1" />
-				<CheckBox Content="OPC Сервер ГК Глобал" FontSize="12" Foreground="{DynamicResource ForegroundColorLight}" IsChecked="{Binding IsGKOpcServerAuto}" Margin="5 1" Visibility="{Binding UseStrazhBrand, Converter={StaticResource InversedBoolToVisibilityConverter}}"/>
+				<TextBlock Text="Следующие приложения будут автоматически запускаться при старте системы:" FontSize="12" Foreground="{DynamicResource ForegroundColorLight}" TextWrapping="Wrap" Margin="2" />
+				<CheckBox Content="{Binding ServerAutoLabel}" IsChecked="{Binding IsServerAuto}" FontSize="12" Foreground="{DynamicResource ForegroundColorLight}" Margin="5 5 5 1" />
+				<CheckBox Content="OPC Сервер ГК Глобал" IsChecked="{Binding IsGKOpcServerAuto}" FontSize="12" Foreground="{DynamicResource ForegroundColorLight}" Margin="5 1" />
 			</StackPanel>
 		</TabItem>
 		<TabItem Header="Логи">

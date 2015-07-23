@@ -27,122 +27,86 @@ namespace FiresecService
 
 		static void Patch()
 		{
-			Patch_SKD();
-			Patch_DynamicDB();
-		}
-
-		static void Patch_Journal(int no)
-		{
 			try
 			{
 				var server = new Server(new ServerConnection(new SqlConnection(ConnectionString)));
-				string commandText = @"SELECT name FROM sys.databases WHERE name = 'Journal_" + no.ToString() + "'";
-				var reader = server.ConnectionContext.ExecuteReader(commandText.ToString());
-				bool isExists = reader.Read();
-				server.ConnectionContext.Disconnect();
-				if (!isExists)
+				if (!IsExistsSKD(server))
 				{
-					var createStream = Application.GetResourceStream(new Uri(@"pack://application:,,,/SKDDriver;component/Scripts/Journal/Create.sql"));
-					using (StreamReader streamReader = new StreamReader(createStream.Stream))
-					{
-						commandText = streamReader.ReadToEnd();
-					}
-					commandText = commandText.Replace("Journal_0", "Journal_" + no.ToString());
-					server.ConnectionContext.ExecuteNonQuery(commandText.ToString());
-					server.ConnectionContext.Disconnect();
+					CreateSKD(server);
 				}
-				var patchesStream = Application.GetResourceStream(new Uri(@"pack://application:,,,/SKDDriver;component/Scripts/Journal/Patches.sql"));
-				using (StreamReader streamReader = new StreamReader(patchesStream.Stream))
-				{
-					commandText = streamReader.ReadToEnd();
-				}
-				commandText = commandText.Replace("Journal_0", "Journal_" + no.ToString());
-				server.ConnectionContext.ExecuteNonQuery(commandText.ToString());
-				server.ConnectionContext.Disconnect();
+				PatchSKDInternal(server);
 			}
 			catch (ConnectionFailureException e)
 			{
 				UILogger.Log("Не удалось подключиться к базе данных " + ConnectionString);
-				Logger.Error(e, "PatchManager.Patch_Journal");
+				Logger.Error(e, "PatchManager.Patch_SKD");
 				BalloonHelper.ShowFromServer("Не удалось подключиться к базе данных");
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "PatchManager.Patch_Journal");
+				Logger.Error(e, "PatchManager.Patch_SKD");
 			}
 		}
 
-		static void Patch_PassJournal(int no)
+		static bool IsExistsSKD(Server server)
+		{
+			string commandText = @"SELECT name FROM sys.databases WHERE name = 'SKD'";
+			var reader = server.ConnectionContext.ExecuteReader(commandText.ToString());
+			bool isExists = reader.Read();
+			server.ConnectionContext.Disconnect();
+			return isExists;
+		}
+
+		static void CreateSKD(Server server)
+		{
+			var createStream = Application.GetResourceStream(new Uri(@"pack://application:,,,/SKDDriver;component/Scripts/SKD/Create.sql"));
+			string commandText;
+			using (StreamReader streamReader = new StreamReader(createStream.Stream))
+			{
+				commandText = streamReader.ReadToEnd();
+			}
+			server.ConnectionContext.ExecuteNonQuery(commandText);
+			server.ConnectionContext.Disconnect();
+		}
+
+		static void PatchSKDInternal(Server server)
+		{
+			var patchesStream = Application.GetResourceStream(new Uri(@"pack://application:,,,/SKDDriver;component/Scripts/SKD/Patches.sql"));
+			string commandText;
+			using (StreamReader streamReader = new StreamReader(patchesStream.Stream))
+			{
+				commandText = streamReader.ReadToEnd();
+			}
+			server.ConnectionContext.ExecuteNonQuery(commandText);
+			server.ConnectionContext.Disconnect();
+		}
+
+		static OperationResult Reset_SKD()
 		{
 			try
 			{
 				var server = new Server(new ServerConnection(new SqlConnection(ConnectionString)));
-				string commandText = @"SELECT name FROM sys.databases WHERE name = 'PassJournal_" + no.ToString() + "'";
-				var reader = server.ConnectionContext.ExecuteReader(commandText.ToString());
-				bool isExists = reader.Read();
-				server.ConnectionContext.Disconnect();
-				if (!isExists)
-				{
-					var createStream = Application.GetResourceStream(new Uri(@"pack://application:,,,/SKDDriver;component/Scripts/PassJournal/Create.sql"));
-					using (StreamReader streamReader = new StreamReader(createStream.Stream))
-					{
-						commandText = streamReader.ReadToEnd();
-					}
-					commandText = commandText.Replace("PassJournal_0", "PassJournal_" + no.ToString());
-					server.ConnectionContext.ExecuteNonQuery(commandText.ToString());
-					server.ConnectionContext.Disconnect();
-				}
-				var patchesStream = Application.GetResourceStream(new Uri(@"pack://application:,,,/SKDDriver;component/Scripts/PassJournal/Patches.sql"));
-				using (StreamReader streamReader = new StreamReader(patchesStream.Stream))
-				{
-					commandText = streamReader.ReadToEnd();
-				}
-				commandText = commandText.Replace("PassJournal_0", "PassJournal_" + no.ToString());
-				server.ConnectionContext.ExecuteNonQuery(commandText.ToString());
-				server.ConnectionContext.Disconnect();
-			}
-			catch (ConnectionFailureException e)
-			{
-				UILogger.Log("Не удалось подключиться к базе данных " + ConnectionString);
-				Logger.Error(e, "PatchManager.Patch_PassJournal");
-				BalloonHelper.ShowFromServer("Не удалось подключиться к базе данных");
+				DropIfExistsSKD(server);
+				CreateSKD(server);
+				return new OperationResult();
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "PatchManager.Patch_PassJournal");
+				Logger.Error(e, "PatchManager.Reset_SKD");
+				return new OperationResult(e.Message);
 			}
 		}
 
-		static void Patch_DynamicDB()
+		static void DropIfExistsSKD(Server server)
 		{
-			try
+			var patchesStream = Application.GetResourceStream(new Uri(@"pack://application:,,,/SKDDriver;component/Scripts/SKD/DropIfExists.sql"));
+			string commandText;
+			using (StreamReader streamReader = new StreamReader(patchesStream.Stream))
 			{
-                //using (var skdDatabaseService = new SKDDriver.DataClasses.DbService())
-                //{
-                //    var journalDBNo = skdDatabaseService.GKMetadataTranslator.GetJournalNo();
-                //    if (journalDBNo == 0)
-                //        journalDBNo = 1;
-                //    Patch_Journal(journalDBNo);
-                //    skdDatabaseService.GKMetadataTranslator.AddJournalMetadata(journalDBNo, DateTime.Now, DateTime.Now);
-                //    //JournalConnectionString = DBHelper.ConnectionString = @"Data Source=.\" + GlobalSettingsHelper.GlobalSettings.DBServerName + ";Initial Catalog=Journal_" + journalDBNo.ToString() + ";Integrated Security=True;Language='English'";
-                //    JounalSynchroniser.ConnectionString = JournalConnectionString;
-                //    //JounalTranslator.ConnectionString = JournalConnectionString;
-                //}
-
-                //using (var skdDatabaseService = new SKDDriver.DataClasses.DbService())
-                //{
-                //    var passJournalDBNo = skdDatabaseService.GKMetadataTranslator.GetPassJournalNo();
-                //    if (passJournalDBNo == 0)
-                //        passJournalDBNo++;
-                //    Patch_PassJournal(passJournalDBNo);
-                //    skdDatabaseService.GKMetadataTranslator.AddPassJournalMetadata(passJournalDBNo, DateTime.Now, DateTime.Now);
-                //    //PassJournalTranslator.ConnectionString = @"Data Source=.\" + GlobalSettingsHelper.GlobalSettings.DBServerName + ";Initial Catalog=PassJournal_" + passJournalDBNo.ToString() + ";Integrated Security=True;Language='English'";
-                //}
+				commandText = streamReader.ReadToEnd();
 			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "PatchManager.Patch_NewJournal");
-			}
+			server.ConnectionContext.ExecuteNonQuery(commandText);
+			server.ConnectionContext.Disconnect();
 		}
 
 		static OperationResult ResetDB()

@@ -19,11 +19,11 @@ namespace FireMonitor
 	{
 		public void Run()
 		{
-			ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Unsubscribe(OnNewJournal);
-			ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Subscribe(OnNewJournal);
+			ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Unsubscribe(OnNewJournals);
+			ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Subscribe(OnNewJournals);
 		}
 
-		void OnNewJournal(List<JournalItem> journalItems)
+		void OnNewJournals(List<JournalItem> journalItems)
 		{
 			AutoActivate();
 			if (ClientSettings.AutoActivationSettings.IsPlansAutoActivation)
@@ -43,6 +43,11 @@ namespace FireMonitor
 								var zone = GKManager.Zones.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
 								if (ShowOnPlanHelper.CanShowZone(zone))
 									ShowOnPlanHelper.ShowZone(zone);
+								break;
+							case JournalObjectType.GKDelay:
+								var delay = GKManager.Delays.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
+								if (ShowOnPlanHelper.CanShowDelay(delay))
+									ShowOnPlanHelper.ShowDelay(delay);
 								break;
 							case JournalObjectType.GKDirection:
 								var direction = GKManager.Directions.FirstOrDefault(x => x.UID == journalItem.ObjectUID);

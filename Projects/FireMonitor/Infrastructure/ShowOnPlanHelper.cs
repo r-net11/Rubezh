@@ -79,6 +79,25 @@ namespace Infrastructure
 			return false;
 		}
 
+		public static void ShowDelay(GKDelay delay)
+		{
+			ServiceFactory.Events.GetEvent<ShowGKDelayOnPlanEvent>().Publish(delay);
+		}
+		public static bool CanShowDelay(GKDelay delay)
+		{
+			if (delay != null)
+			{
+				foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+				{
+					if (plan.ElementRectangleGKDelays.Any(x => x.DelayUID == delay.UID))
+						return true;
+					if (plan.ElementPolygonGKDelays.Any(x => x.DelayUID == delay.UID))
+						return true;
+				}
+			}
+			return false;
+		}
+
 		public static void ShowDirection(GKDirection direction)
 		{
 			ServiceFactory.Events.GetEvent<ShowGKDirectionOnPlanEvent>().Publish(direction);

@@ -24,7 +24,6 @@ namespace FiresecAPI
 
 			Server_EnableRemoteConnections = false;
 
-			UseHasp = false;
 			DbConnectionString = @"Data Source=.\sqlexpress;Initial Catalog=Rubezh;Integrated Security=True;Language='English'";
 			//DbConnectionString = @"Server=localhost;Database=Rubezh;User Id=asd;Password=1;";
 			DbType = FiresecAPI.DbType.MsSql;
@@ -66,9 +65,6 @@ namespace FiresecAPI
 
 		[DataMember]
 		public int ReportRemotePort { get; set; }
-
-		[DataMember]
-		public bool UseHasp { get; set; }
 
 		[DataMember]
 		public bool DoNotAutoconnectAdm { get; set; }
@@ -126,7 +122,7 @@ namespace FiresecAPI
 			ModuleItems = new List<string>();
 
 			ModuleItems.Add("PlansModule.dll");
-			ModuleItems.Add("PlansModule.Kursk.dll");
+			//ModuleItems.Add("PlansModule.Kursk.dll");
 			ModuleItems.Add("SecurityModule.dll");
 			ModuleItems.Add("GKModule.dll");
 			ModuleItems.Add("SKDModule.dll");
@@ -138,7 +134,7 @@ namespace FiresecAPI
 			ModuleItems.Add("JournalModule.dll");
 			ModuleItems.Add("SoundsModule.dll");
 			ModuleItems.Add("SettingsModule.dll");
-			ModuleItems.Add("DiagnosticsModule.dll");
+			//ModuleItems.Add("DiagnosticsModule.dll");
 		}
 
 		public bool IsDebug
