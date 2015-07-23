@@ -50,10 +50,16 @@ namespace FiresecAPI.GK
 					ZoneUIDs = clause.ZoneUIDs,
 					GuardZoneUIDs = clause.GuardZoneUIDs,
 					DirectionUIDs = clause.DirectionUIDs,
+					DelayUIDs = clause.DelayUIDs,
+					DoorUIDs = clause.DoorUIDs,
+					MPTUIDs = clause.MPTUIDs,
 					Devices = clause.Devices,
 					Zones = clause.Zones,
 					GuardZones = clause.GuardZones,
 					Directions = clause.Directions,
+					Delays = clause.Delays,
+					Doors = clause.Doors,
+					MPTs = clause.MPTs
 				};
 				result.Clauses.Add(clonedClause);
 			}
