@@ -1,6 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using FiresecClient;
-using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI.GK;
@@ -32,7 +31,7 @@ namespace GKSDK
 			set
 			{
 				_selectedZone = value;
-				OnPropertyChanged("SelectedZone");
+				OnPropertyChanged(() => SelectedZone);
 			}
 		}
         public RelayCommand SetZoneGuardCommand { get; private set; }

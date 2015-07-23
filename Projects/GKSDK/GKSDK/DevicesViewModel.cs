@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using FiresecClient;
 using Infrastructure.Common;
+using FiresecAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace GKSDK
@@ -9,8 +10,6 @@ namespace GKSDK
 	{
 		public DevicesViewModel()
 		{
-            ResetAllCommand = new RelayCommand(OnResetAll);
-
 			Devices = new ObservableCollection<DeviceViewModel>();
 			foreach (var device in GKManager.Devices)
 			{
@@ -32,10 +31,14 @@ namespace GKSDK
 				OnPropertyChanged("StateType");
 			}
 		}
-
-        public RelayCommand ResetAllCommand { get; private set; }
-        void OnResetAll()
-        {
-        }
+		public bool IsBiStateControl
+		{
+			get 
+			{ 
+				if (SelectedDevice!=null)
+				return SelectedDevice.Device.Driver.IsDeviceOnShleif && !SelectedDevice.Device.Driver.IsControlDevice && FiresecManager.CheckPermission(PermissionType.Oper_Device_Control);
+				return true;
+			}
+		}
 	}
 }

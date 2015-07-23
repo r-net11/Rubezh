@@ -5,7 +5,6 @@ using FiresecAPI.GK;
 using FiresecAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common;
-using Infrastructure;
 
 namespace GKSDK
 {
@@ -51,7 +50,7 @@ namespace GKSDK
 			set
 			{
 				_stateClass = value;
-				OnPropertyChanged("StateClass");
+				OnPropertyChanged(() => StateClass);
 			}
 		}
 
