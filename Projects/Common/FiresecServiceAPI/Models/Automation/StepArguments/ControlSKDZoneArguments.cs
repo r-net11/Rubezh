@@ -31,8 +31,5 @@ namespace FiresecAPI.Automation
 
 		[Description("Установить режим НОРМА")]
 		CloseForever,
-
-		[Description("Обнаружение сотрудников")]
-		DetectEmployees
 	}
 }

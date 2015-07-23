@@ -34,7 +34,6 @@ namespace StrazhModule.ViewModels
 			ZoneAccessStateNormalCommand = new RelayCommand(OnZoneAccessStateNormal, CanZoneAccessStateNormal);
 			ZoneAccessStateCloseAlwaysCommand = new RelayCommand(OnZoneAccessStateCloseAlways, CanZoneAccessStateCloseAlways);
 			ZoneAccessStateOpenAlwaysCommand = new RelayCommand(OnZoneAccessStateOpenAlways, CanZoneAccessStateOpenAlways);
-			DetectEmployeesCommand = new RelayCommand(OnDetectEmployees, CanDetectEmployees);
 
 			Zone = zone;
 			Title = Zone.PresentationName;
@@ -198,15 +197,6 @@ namespace StrazhModule.ViewModels
 		bool CanZoneAccessStateOpenAlways()
 		{
 			return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Zones_Control) && State.StateClass != XStateClass.On && State.StateClass != XStateClass.ConnectionLost;
-		}
-
-		public RelayCommand DetectEmployeesCommand { get; private set; }
-		void OnDetectEmployees()
-		{
-		}
-		bool CanDetectEmployees()
-		{
-			return true;
 		}
 
 		public RelayCommand ShowCommand { get; private set; }

@@ -196,15 +196,6 @@ namespace StrazhModule.ViewModels
 			return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Zones_Control) && State.StateClass != XStateClass.On && State.StateClass != XStateClass.ConnectionLost;
 		}
 
-		public RelayCommand DetectEmployeesCommand { get; private set; }
-		void OnDetectEmployees()
-		{
-		}
-		bool CanDetectEmployees()
-		{
-			return true;
-		}
-
 		public bool IsBold { get; set; }
 	}
 }
