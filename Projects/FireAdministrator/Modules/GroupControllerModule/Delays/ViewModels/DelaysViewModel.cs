@@ -103,7 +103,7 @@ namespace GKModule.ViewModels
 		public RelayCommand CopyLogicCommand { get; private set; }
 		void OnCopyLogic()
 		{
-			GKManager.CopyLogic(SelectedDelay.Delay.Logic, true, false, true);
+			GKManager.CopyLogic(SelectedDelay.Delay.Logic, true, false, true, false, true);
 		}
 
 		bool CanCopyLogic()
@@ -114,13 +114,13 @@ namespace GKModule.ViewModels
 		public RelayCommand PasteLogicCommand { get; private set; }
 		void OnPasteLogic()
 		{
-			var result = GKManager.CompareLogic(new GKAdvancedLogic(true, false, true, false, false));
+			var result = GKManager.CompareLogic(new GKAdvancedLogic(true, false, true, false, true));
 			var messageBoxResult = true;
 			if (!String.IsNullOrEmpty(result))
 				messageBoxResult = MessageBoxService.ShowConfirmation(result, "Копировать логику?");
 			if (messageBoxResult)
 			{
-				SelectedDelay.Delay.Logic = GKManager.PasteLogic(new GKAdvancedLogic(true, false, true, false, false));
+				SelectedDelay.Delay.Logic = GKManager.PasteLogic(new GKAdvancedLogic(true, false, true, false, true));
 				SelectedDelay.Update();
 			}
 		}
