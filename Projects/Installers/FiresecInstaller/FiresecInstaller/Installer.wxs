@@ -56,15 +56,15 @@
 								<Directory Id="Administrator.Xaml2svgFolder" Name="$(var.xaml2svgFolder)" />
 							</Directory>
 						</Directory>
+						<Directory Id="Administrator.dll" Name="dll" />
 					</Directory>
 					<Directory Id="MONITORLOCATION" Name="$(var.MonitorName)">
 						<Directory Id="Monitor.ShellFolder" Name="Shell" />
 						<Directory Id="Monitor.ClientSettingsFolder" Name="ClientSettings" />
 						<Directory Id="Monitor.ru" Name="ru" />
+						<Directory Id="Monitor.dll" Name="dll" />
 					</Directory>
-					<Directory Id="GKOPCLOCATION" Name="GKOPC" />
-					<Directory Id="FirmwhareUpdateLOCATION" Name="Актуальные прошивки ГК" />
-        </Directory>
+				</Directory>
 			</Directory>
 			<Directory Id="ProgramMenuFolder">
 				<Directory Id="ProgramMenuDir" Name="$(var.ProductName)">
@@ -80,11 +80,11 @@
 			<Directory Id="DesktopFolder" />
 			<Directory Id="CommonAppDataFolder" Name="CommonAppDataFolder">
 				<Directory Id="AppData.FiresecLocation" Name="Firesec2">
-          <Directory Id="AppData.ServerLocation" Name="Server">
-            <Directory Id="AppData.ServerLocation.Config" Name="Config">
-              <Directory Id="AppData.ServerLocation.Content" Name="Content" />
-            </Directory>
-          </Directory>
+					<Directory Id="AppData.ServerLocation" Name="Server">
+						<Directory Id="AppData.ServerLocation.Config" Name="Config">
+							<Directory Id="AppData.ServerLocation.Content" Name="Content" />
+						</Directory>
+					</Directory>
 					<Directory Id="AppData.EmptyLocation" Name="Empty" />
 				</Directory>
 			</Directory>
@@ -97,12 +97,11 @@
 			<RemoveExistingProducts After="InstallInitialize" />
 			<InstallExecute After="RemoveExistingProducts" />
 			<Custom Action="InstallHaspDriver" After="InstallFinalize">INSTALLMODE AND <![CDATA[&Firesec.HASP=3]]></Custom>
-			<Custom Action="StartOPCServerOnExit" After="InstallHaspDriver">INSTALLMODE</Custom>
 		</InstallExecuteSequence>
 
 		<UI Id="MyWixUI_Wizard">
 			<UIRef Id="WixUI_Wizard" />
 			<UIRef Id="WixUI_ErrorProgressText" />
 		</UI>
-  </Product>
+	</Product>
 </Wix>
