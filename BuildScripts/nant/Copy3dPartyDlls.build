@@ -1,0 +1,57 @@
+﻿<?xml version="1.0"?>
+<project name="Simple" default="run">
+  <property name="nant.settings.currentframework" value="net-4.0" />
+  <target name="run">
+    <call target="rvivssToFiresecService" />
+    <call target="rvivssToFireAdministratorAndFireMonitor" />
+  </target>
+
+  <target name="rvivssToFiresecService">
+    <copy todir="..\..\Projects\FiresecService\bin\Debug" includeemptydirs="true" overwrite="true" verbose="true">
+      <fileset basedir="..\..\3rdParty\RVI_VSS">
+        <include name="API.dll" />
+        <include name="Entities.dll" />
+        <include name="GalaSoft.MvvmLight.WPF4.dll" />
+        <include name="SdkWrapper.dll" />
+      </fileset>
+    </copy>
+    <copy todir="..\..\Projects\FiresecService\bin\Release" includeemptydirs="true" overwrite="true" verbose="true">
+      <fileset basedir="..\..\3rdParty\RVI_VSS">
+        <include name="API.dll" />
+        <include name="Entities.dll" />
+        <include name="GalaSoft.MvvmLight.WPF4.dll" />
+        <include name="SdkWrapper.dll" />
+      </fileset>
+    </copy>
+  </target>
+
+  <target name="rvivssToFireAdministratorAndFireMonitor">
+    <!-- FireAdministrator -->
+    <copy todir="..\..\Projects\FireAdministrator\bin\Debug" includeemptydirs="true" overwrite="true" verbose="true">
+      <fileset basedir="..\..\3rdParty\RVI_VSS">
+        <include name="**" />
+        <exclude name="readme.txt" />
+      </fileset>
+    </copy>
+    <copy todir="..\..\Projects\FireAdministrator\bin\Release" includeemptydirs="true" overwrite="true" verbose="true">
+      <fileset basedir="..\..\3rdParty\RVI_VSS">
+        <include name="**" />
+        <exclude name="readme.txt" />
+      </fileset>
+    </copy>
+
+    <!-- FireMonitor -->
+    <copy todir="..\..\Projects\FireMonitor\bin\Debug" includeemptydirs="true" overwrite="true" verbose="true">
+      <fileset basedir="..\..\3rdParty\RVI_VSS">
+        <include name="**" />
+        <exclude name="readme.txt" />
+      </fileset>
+    </copy>
+    <copy todir="..\..\Projects\FireMonitor\bin\Release" includeemptydirs="true" overwrite="true" verbose="true">
+      <fileset basedir="..\..\3rdParty\RVI_VSS">
+        <include name="**" />
+        <exclude name="readme.txt" />
+      </fileset>
+    </copy>
+  </target>
+</project>

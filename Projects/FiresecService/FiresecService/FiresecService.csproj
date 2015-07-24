@@ -64,6 +64,7 @@
   <ItemGroup>
     <Reference Include="Entities, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <HintPath>..\..\..\3rdParty\RVI_VSS\Entities.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net40\EntityFramework.dll</HintPath>

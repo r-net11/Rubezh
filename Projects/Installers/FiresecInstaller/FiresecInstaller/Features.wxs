@@ -13,6 +13,7 @@
         Display="expand" AllowAdvertise="no" Absent='allow' InstallDefault="local">
         <Condition Level="0">INSTALL_HASP</Condition>
       </Feature>
+
       <Feature Id="SKD.Features" Title="Страж" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компопненты для работы оборудования Страж">
         <Condition Level="1">INSTALL_STRAZH</Condition>
         <ComponentRef Id="Administrator.STRAZH_MODULE" />

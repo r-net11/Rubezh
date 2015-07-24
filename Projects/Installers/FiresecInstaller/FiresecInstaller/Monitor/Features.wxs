@@ -16,6 +16,7 @@
 			<ComponentRef Id="Monitor.Revisor" />
 		
 			<ComponentRef Id="Monitor.VIDEO_MODULE_DLL" />
+			<ComponentRef Id="Monitor.Files.dll" />
 		</Feature>
 	</Fragment>
 </Wix>

@@ -1,4 +1,7 @@
-﻿using Vlc.DotNet.Core.Medias;
+﻿using System;
+using System.Windows;
+using MediaSourcePlayer.MediaSource;
+using VideoModule.ViewModels;
 
 namespace VideoModule.Views
 {
@@ -7,27 +10,37 @@ namespace VideoModule.Views
 		public VlcControlView()
 		{
 			InitializeComponent();
+
+			Loaded += OnLoaded;
+			Unloaded += OnUnloaded;
 		}
 
-		private string _rtsp;
-		public string Rtsp
+		private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
 		{
-			get { return _rtsp; }
-			set
-			{
-				_rtsp = value;
-				myVlcControl.Media = new LocationMedia(_rtsp);
-			}
+			var viewModel = DataContext as VlcControlViewModel;
+			if (viewModel == null)
+				return;
+			viewModel.OnStart -= OnStart;
+			viewModel.OnStop -= OnStop;
 		}
 
-		public void Start()
+		private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
 		{
-			myVlcControl.Play();
+			var viewModel = DataContext as VlcControlViewModel;
+			if (viewModel == null)
+				return;
+			viewModel.OnStart += OnStart;
+			viewModel.OnStop += OnStop;
 		}
 
-		public void Stop()
+		private void OnStart(object sender, EventArgs eventArgs)
 		{
-			myVlcControl.Stop();
+			MediaPlayer.Play();
+		}
+
+		private void OnStop(object sender, EventArgs eventArgs)
+		{
+			MediaPlayer.Stop();
 		}
 	}
 }
