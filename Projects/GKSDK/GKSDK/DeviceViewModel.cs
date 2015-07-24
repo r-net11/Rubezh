@@ -14,7 +14,7 @@ namespace GKSDK
 	public class DeviceViewModel : BaseViewModel
 	{
 		public ObservableCollection<DeviceExecutableCommandViewModel> DeviceExecutableCommands { get; private set; }
-        public DeviceViewModel(GKDevice device)
+		public DeviceViewModel(GKDevice device)
 		{
 			Device = device;
 			DeviceState = device.State;
@@ -46,7 +46,7 @@ namespace GKSDK
 				return DeviceControlRegime.Manual;
 			}
 		}
-				public bool IsControlRegime
+		public bool IsControlRegime
 		{
 			get
 			{
@@ -74,8 +74,8 @@ namespace GKSDK
 			StateClass = DeviceState.StateClass;
 		}
 
-        public GKDevice Device { get; private set; }
-        public GKState DeviceState { get; private set; }
+		public GKDevice Device { get; private set; }
+		public GKState DeviceState { get; private set; }
 		public string Name { get; private set; }
 
 		XStateClass _stateClass;
@@ -85,7 +85,7 @@ namespace GKSDK
 			set
 			{
 				_stateClass = value;
-				OnPropertyChanged(()=>StateClass);
+				OnPropertyChanged(() => StateClass);
 			}
 		}
 		public List<DeviceCommandViewModel> DeviceCommands { get; private set; }
@@ -93,7 +93,7 @@ namespace GKSDK
 		public RelayCommand SetAutomaticStateCommand { get; private set; }
 		void OnSetAutomaticState()
 		{
-				FiresecManager.FiresecService.GKSetAutomaticRegime(Device);
+			FiresecManager.FiresecService.GKSetAutomaticRegime(Device);
 		}
 		bool CanSetAutomaticState()
 		{
@@ -102,7 +102,7 @@ namespace GKSDK
 		public RelayCommand SetManualStateCommand { get; private set; }
 		void OnSetManualState()
 		{
-				FiresecManager.FiresecService.GKSetManualRegime(Device);
+			FiresecManager.FiresecService.GKSetManualRegime(Device);
 		}
 		bool CanSetManualState()
 		{
@@ -111,7 +111,7 @@ namespace GKSDK
 		public RelayCommand SetIgnoreStateCommand { get; private set; }
 		void OnSetIgnoreState()
 		{
-				FiresecManager.FiresecService.GKSetIgnoreRegime(Device);
+			FiresecManager.FiresecService.GKSetIgnoreRegime(Device);
 		}
 		bool CanSetIgnoreState()
 		{
