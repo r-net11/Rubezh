@@ -55,44 +55,16 @@ namespace GKSDK
 			DescriptorsManager.Create();
 			InitializeStates();
 
-			SafeFiresecService.GKProgressCallbackEvent -= new Action<GKProgressCallback>(OnGKProgressCallbackEvent);
-			SafeFiresecService.GKProgressCallbackEvent += new Action<GKProgressCallback>(OnGKProgressCallbackEvent);
-
 			SafeFiresecService.GKCallbackResultEvent -= new Action<GKCallbackResult>(OnGKCallbackResult);
 			SafeFiresecService.GKCallbackResultEvent += new Action<GKCallbackResult>(OnGKCallbackResult);
 
-			GKProcessorManager.GKProgressCallbackEvent -= new Action<GKProgressCallback>(OnGKProgressCallbackEvent);
-			GKProcessorManager.GKProgressCallbackEvent += new Action<GKProgressCallback>(OnGKProgressCallbackEvent);
-
-			GKProcessorManager.GKCallbackResultEvent -= new Action<GKCallbackResult>(OnGKCallbackResult);
-			GKProcessorManager.GKCallbackResultEvent += new Action<GKCallbackResult>(OnGKCallbackResult);
+			FiresecManager.StartPoll();
 		}
 
 		static void InitializeStates()
 		{
 			var gkStates = FiresecManager.FiresecService.GKGetStates();
 			CopyGKStates(gkStates);
-		}
-
-		static void OnGKProgressCallbackEvent(GKProgressCallback gkProgressCallback)
-		{
-			ApplicationService.Invoke(() =>
-			{
-				switch (gkProgressCallback.GKProgressCallbackType)
-				{
-					case GKProgressCallbackType.Start:
-						LoadingService.Show(gkProgressCallback.Title, gkProgressCallback.Text, gkProgressCallback.StepCount, gkProgressCallback.CanCancel);
-						return;
-
-					case GKProgressCallbackType.Progress:
-						//LoadingService.DoStep(gkProgressCallback.Text, gkProgressCallback.Title, gkProgressCallback.StepCount, gkProgressCallback.CanCancel);
-						return;
-
-					case GKProgressCallbackType.Stop:
-						LoadingService.Close();
-						return;
-				}
-			});
 		}
 
 		static void OnGKCallbackResult(GKCallbackResult gkCallbackResult)

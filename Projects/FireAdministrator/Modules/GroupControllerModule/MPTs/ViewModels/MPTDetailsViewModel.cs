@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using FiresecAPI.GK;
 using FiresecClient;
 using Infrastructure.Common.Windows;
@@ -9,6 +11,8 @@ namespace GKModule.ViewModels
 	public class MPTDetailsViewModel : SaveCancelDialogViewModel
 	{
 		public GKMPT MPT { get; set; }
+		public ObservableCollection<string> AvailableNames { get; private set; }
+		public ObservableCollection<string> AvailableDescription { get; private set; }
 
 		public MPTDetailsViewModel(GKMPT mpt = null)
 		{
@@ -30,6 +34,15 @@ namespace GKModule.ViewModels
 				MPT = mpt;
 			}
 			CopyProperties();
+			var availableNames = new HashSet<string>();
+			var availableDescription = new HashSet<string>();
+			foreach (var existingMPTs in GKManager.MPTs)
+			{
+				availableNames.Add(existingMPTs.Name);
+				availableDescription.Add(existingMPTs.Description);
+			}
+			AvailableNames = new ObservableCollection<string>(availableNames);
+			AvailableDescription = new ObservableCollection<string>(availableDescription);
 		}
 
 		void CopyProperties()

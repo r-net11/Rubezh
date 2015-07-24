@@ -101,6 +101,7 @@ namespace GKModule.ViewModels
 			OnPropertyChanged(() => IsInDoor);
 			OnPropertyChanged(() => MPTName);
 			OnPropertyChanged(() => IsInMPT);
+			OnPropertyChanged(() => IsZoneOrLogic);
 		}
 
 		public void UpdateProperties()
@@ -661,7 +662,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanShowLogic()
 		{
-			return Driver.HasLogic && !Device.IsNotUsed;
+			return Driver.HasLogic && !Device.IsNotUsed && !Device.IsInMPT;
 		}
 
 		public RelayCommand ShowZonesCommand { get; private set; }
