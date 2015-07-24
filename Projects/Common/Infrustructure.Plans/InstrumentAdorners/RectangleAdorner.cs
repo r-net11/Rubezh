@@ -11,8 +11,8 @@ namespace Infrustructure.Plans.InstrumentAdorners
 {
 	public abstract class BaseRectangleAdorner : InstrumentAdorner
 	{
-		private Point? endPoint;
-		private Shape rubberband;
+		private Point? _endPoint;
+		private Shape _rubberband;
 
 		public BaseRectangleAdorner(CommonDesignerCanvas designerCanvas)
 			: base(designerCanvas)
@@ -21,16 +21,16 @@ namespace Infrustructure.Plans.InstrumentAdorners
 
 		protected override void Show()
 		{
-			rubberband = CreateRubberband();
-			rubberband.Stroke = Brushes.Navy;
-			rubberband.StrokeThickness = 1 / ZoomFactor;
+			_rubberband = CreateRubberband();
+			_rubberband.Stroke = Brushes.Navy;
+			_rubberband.StrokeThickness = 1 / ZoomFactor;
 			AdornerCanvas.Cursor = Cursors.Pen;
 		}
 
 		public override void Hide()
 		{
 			base.Hide();
-			endPoint = null;
+			_endPoint = null;
 		}
 
 		protected virtual Shape CreateRubberband()
@@ -42,13 +42,13 @@ namespace Infrustructure.Plans.InstrumentAdorners
 
 		protected override void OnMouseDown(MouseButtonEventArgs e)
 		{
-			if (e.LeftButton == MouseButtonState.Pressed && !endPoint.HasValue)
+			if (e.LeftButton == MouseButtonState.Pressed && !_endPoint.HasValue)
 			{
 				DesignerCanvas.DeselectAll();
 				StartPoint = e.GetPosition(this);
-				endPoint = null;
-				if (!AdornerCanvas.Children.Contains(rubberband))
-					AdornerCanvas.Children.Add(rubberband);
+				_endPoint = null;
+				if (!AdornerCanvas.Children.Contains(_rubberband))
+					AdornerCanvas.Children.Add(_rubberband);
 				//AdornerCanvas.Cursor = null;
 				if (!AdornerCanvas.IsMouseCaptured)
 					AdornerCanvas.CaptureMouse();
@@ -57,11 +57,11 @@ namespace Infrustructure.Plans.InstrumentAdorners
 
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
-			if (StartPoint.HasValue && AdornerCanvas.Children.Contains(rubberband))
+			if (StartPoint.HasValue && AdornerCanvas.Children.Contains(_rubberband))
 			{
 				if (!AdornerCanvas.IsMouseCaptured)
 					AdornerCanvas.CaptureMouse();
-				endPoint = CutPoint(e.GetPosition(this));
+				_endPoint = CutPoint(e.GetPosition(this));
 				UpdateRubberband();
 				e.Handled = true;
 			}
@@ -69,66 +69,60 @@ namespace Infrustructure.Plans.InstrumentAdorners
 
 		protected override void OnMouseUp(MouseButtonEventArgs e)
 		{
-			if (AdornerCanvas.IsMouseCaptured && StartPoint.HasValue && endPoint.HasValue)
+			if (!AdornerCanvas.IsMouseCaptured || !StartPoint.HasValue || !_endPoint.HasValue) return;
+			//AdornerCanvas.Cursor = Cursors.Pen;
+			ElementBaseRectangle element = CreateElement();
+			if (element != null)
 			{
-				//AdornerCanvas.Cursor = Cursors.Pen;
-				ElementBaseRectangle element = CreateElement();
-				if (element != null)
-				{
-					if (endPoint.HasValue)
-					{
-						element.Left = Canvas.GetLeft(rubberband);
-						element.Top = Canvas.GetTop(rubberband);
-						element.Height = rubberband.Height;
-						element.Width = rubberband.Width;
-					}
-					else
-						element.Position = StartPoint.Value;
-					DesignerCanvas.CreateDesignerItem(element);
-				}
-				Cleanup();
+				element.Left = Canvas.GetLeft(_rubberband);
+				element.Top = Canvas.GetTop(_rubberband);
+				element.Height = _rubberband.Height;
+				element.Width = _rubberband.Width;
+				DesignerCanvas.CreateDesignerItem(element);
 			}
+			Cleanup();
 		}
 
 		private void UpdateRubberband()
 		{
-			double left = Math.Min(StartPoint.Value.X, endPoint.Value.X);
-			double top = Math.Min(StartPoint.Value.Y, endPoint.Value.Y);
+			if (!StartPoint.HasValue || !_endPoint.HasValue) return;
 
-			double width = Math.Abs(StartPoint.Value.X - endPoint.Value.X);
-			double height = Math.Abs(StartPoint.Value.Y - endPoint.Value.Y);
+			var left = Math.Min(StartPoint.Value.X, _endPoint.Value.X);
+			var top = Math.Min(StartPoint.Value.Y, _endPoint.Value.Y);
 
-			rubberband.Width = width;
-			rubberband.Height = height;
-			Canvas.SetLeft(rubberband, left);
-			Canvas.SetTop(rubberband, top);
+			var width = Math.Abs(StartPoint.Value.X - _endPoint.Value.X);
+			var height = Math.Abs(StartPoint.Value.Y - _endPoint.Value.Y);
+
+			_rubberband.Width = width;
+			_rubberband.Height = height;
+			Canvas.SetLeft(_rubberband, left);
+			Canvas.SetTop(_rubberband, top);
 		}
 
 		public override void UpdateZoom()
 		{
 			base.UpdateZoom();
-			rubberband.StrokeThickness = 1 / ZoomFactor;
+			_rubberband.StrokeThickness = 1 / ZoomFactor;
 		}
 
 		public override bool KeyboardInput(Key key)
 		{
 			var handled = base.KeyboardInput(key);
-			if (!handled && key == Key.Escape && endPoint.HasValue)
-			{
-				Cleanup();
-				handled = true;
-			}
-			return handled;
+			if (handled || key != Key.Escape || !_endPoint.HasValue) return handled;
+
+			Cleanup();
+
+			return true;
 		}
 
 		private void Cleanup()
 		{
 			StartPoint = null;
-			endPoint = null;
-			rubberband.Width = 0;
-			rubberband.Height = 0;
+			_endPoint = null;
+			_rubberband.Width = 0;
+			_rubberband.Height = 0;
 			AdornerCanvas.ReleaseMouseCapture();
-			AdornerCanvas.Children.Remove(rubberband);
+			AdornerCanvas.Children.Remove(_rubberband);
 		}
 	}
 }

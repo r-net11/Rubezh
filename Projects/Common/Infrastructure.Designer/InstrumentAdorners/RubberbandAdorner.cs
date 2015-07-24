@@ -11,13 +11,13 @@ namespace Infrastructure.Designer.InstrumentAdorners
 {
 	public class RubberbandAdorner : InstrumentAdorner
 	{
-		private Point? endPoint;
-		private Rectangle rubberband;
+		private Point? _endPoint;
+		private readonly Rectangle _rubberband;
 
 		public RubberbandAdorner(DesignerCanvas designerCanvas)
 			: base(designerCanvas)
 		{
-			rubberband = new Rectangle()
+			_rubberband = new Rectangle
 			{
 				Stroke = Brushes.Navy,
 				StrokeThickness = 1 / ZoomFactor,
@@ -31,9 +31,9 @@ namespace Infrastructure.Designer.InstrumentAdorners
 		}
 		protected override void Show()
 		{
-			rubberband.Width = 0;
-			rubberband.Height = 0;
-			AdornerCanvas.Children.Add(rubberband);
+			_rubberband.Width = 0;
+			_rubberband.Height = 0;
+			AdornerCanvas.Children.Add(_rubberband);
 		}
 
 		protected override void OnMouseMove(MouseEventArgs e)
@@ -43,9 +43,9 @@ namespace Infrastructure.Designer.InstrumentAdorners
 				if (!IsMouseCaptured)
 					CaptureMouse();
 
-				endPoint = e.GetPosition(this);
+				_endPoint = e.GetPosition(this);
 
-				if (StartPoint != null) 
+				if (StartPoint != null)
 				{
 					UpdateRubberband();
 					UpdateSelection();
@@ -60,26 +60,29 @@ namespace Infrastructure.Designer.InstrumentAdorners
 
 		private void UpdateRubberband()
 		{
-			rubberband.StrokeThickness = 1 / ZoomFactor;
+			_rubberband.StrokeThickness = 1 / ZoomFactor;
 
-			double left = Math.Min(StartPoint.Value.X, endPoint.Value.X);
-			double top = Math.Min(StartPoint.Value.Y, endPoint.Value.Y);
+			if (!StartPoint.HasValue || !_endPoint.HasValue) return;
 
-			double width = Math.Abs(StartPoint.Value.X - endPoint.Value.X);
-			double height = Math.Abs(StartPoint.Value.Y - endPoint.Value.Y);
+			var left = Math.Min(StartPoint.Value.X, _endPoint.Value.X);
+			var top = Math.Min(StartPoint.Value.Y, _endPoint.Value.Y);
 
-			rubberband.Width = width;
-			rubberband.Height = height;
-			Canvas.SetLeft(rubberband, left);
-			Canvas.SetTop(rubberband, top);
+			var width = Math.Abs(StartPoint.Value.X - _endPoint.Value.X);
+			var height = Math.Abs(StartPoint.Value.Y - _endPoint.Value.Y);
+
+			_rubberband.Width = width;
+			_rubberband.Height = height;
+			Canvas.SetLeft(_rubberband, left);
+			Canvas.SetTop(_rubberband, top);
 		}
 		private void UpdateSelection()
 		{
-			Rect rubberBand = new Rect(StartPoint.Value, endPoint.Value);
+			if (!StartPoint.HasValue || !_endPoint.HasValue) return;
+			var rubberBand = new Rect(StartPoint.Value, _endPoint.Value);
 			foreach (DesignerItem designerItem in DesignerCanvas.Items)
 				if (designerItem.IsEnabled)
 				{
-					Rect itemRect = designerItem.ContentBounds;
+					var itemRect = designerItem.ContentBounds;
 					designerItem.IsSelected = rubberBand.Contains(itemRect);
 					//Rect itemBounds = designerItem.TransformToAncestor(DesignerCanvas).TransformBounds(itemRect);
 					//designerItem.IsSelected = rubberBand.Contains(itemBounds);
