@@ -16,9 +16,6 @@ namespace GKModule.ViewModels
 			var sortedDrivers = SortDrivers();
 			foreach (var driver in sortedDrivers)
 			{
-				if (driver.IsIgnored)
-					continue;
-
 				if (ParentDevice.Driver.Children.Contains(driver.DriverType))
 					Drivers.Add(driver);
 			}
@@ -54,15 +51,16 @@ namespace GKModule.ViewModels
 
 		void UpdateAddressRange()
 		{
-			int maxAddress = NewDeviceHelper.GetMinAddress(SelectedDriver, ParentDevice);
-			StartAddress = (byte)(maxAddress % 256);
+			var _x = ParentDevice.Children.Where(x => x.Driver.HasAddress).ToList();
+			if(_x.Count>0)
+			StartAddress=_x.Max(x => x.IntAddress)+1;
+			else
+			StartAddress = 1;	
 		}
 
 		bool CreateDevices()
 		{
-			var step = Math.Max(SelectedDriver.GroupDeviceChildrenCount, (byte)1);
-
-			for (int i = StartAddress; i < StartAddress + Count * step; i++)
+			for (int i = StartAddress; i < StartAddress + Count; i++)
 			{
 				if (ParentDevice.Children.Any(x => x.Driver.HasAddress && x.IntAddress == i))
 				{
@@ -71,23 +69,16 @@ namespace GKModule.ViewModels
 				}
 			}
 
-			if (ParentDevice.Driver.IsGroupDevice)
-			{
-				Count = Math.Min(Count, ParentDevice.Driver.GroupDeviceChildrenCount);
-			}
-
 			AddedDevices = new List<DeviceViewModel>();
 			for (int i = 0; i < Count; i++)
 			{
-				var address = StartAddress + i * step;
-				if (address + SelectedDriver.GroupDeviceChildrenCount >= 256)
+				var address = StartAddress + i;
+				if (address >= 256)
 				{
 					return true;
 				}
 
-				if (!SelectedDriver.HasAddress)
-					address = 0;
-				GKDevice device = GKManager.AddChild(ParentDevice, null, SelectedDriver, (byte)address);
+				GKDevice device = GKManager.AddChild(ParentDevice, null, SelectedDriver, address);
 				var addedDevice = NewDeviceHelper.AddDevice(device, ParentDeviceViewModel);
 				AddedDevices.Add(addedDevice);
 			}

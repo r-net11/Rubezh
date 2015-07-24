@@ -13,7 +13,7 @@ namespace GKProcessor
 				UID = new Guid("848642DD-BE2F-443B-9739-FF6C7C06DC4C"),
 				Name = "Группа индикаторов",
 				ShortName = "Группа индикаторов",
-				HasAddress = true,
+				HasAddress = false,
 				IsAutoCreate = true,
 				IsDeviceOnShleif = false,
 				IsPlaceable = false,
