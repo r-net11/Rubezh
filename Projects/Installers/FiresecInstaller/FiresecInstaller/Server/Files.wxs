@@ -107,10 +107,8 @@
 				<File Id="Server.Config.fscp" Name="Config.fscp" Source="..\..\..\..\..\Deploy\ConfigurationService\Config.fscp" KeyPath="yes" />
 			</Component>
 
-			<Directory Id="AppData.ServerConfigLocation" Name="Config">
+			<!--<Directory Id="AppData.ServerConfigLocation" Name="Config">
 				<Component Id="AppData.ServerLocation.Config" Guid="4B2FABCC-4278-41ba-A803-D7D246204188">
-					<File Id="Server.GKDeviceConfiguration.xml" Name="GKDeviceConfiguration.xml" Source="..\..\..\..\..\Deploy\ConfigurationService\Config\GKDeviceConfiguration.xml" />
-					<File Id="Server.GKDeviceLibraryConfiguration.xml" Name="GKDeviceLibraryConfiguration.xml" Source="..\..\..\..\..\Deploy\ConfigurationService\Config\GKDeviceLibraryConfiguration.xml" />
 					<File Id="Server.LayoutsConfiguration.xml" Name="LayoutsConfiguration.xml" Source="..\..\..\..\..\Deploy\ConfigurationService\Config\LayoutsConfiguration.xml" />
 					<File Id="Server.PlansConfiguration.xml" Name="PlansConfiguration.xml" Source="..\..\..\..\..\Deploy\ConfigurationService\Config\PlansConfiguration.xml" />
 					<File Id="Server.SecurityConfiguration.xml" Name="SecurityConfiguration.xml" Source="..\..\..\..\..\Deploy\ConfigurationService\Config\SecurityConfiguration.xml" />
@@ -119,7 +117,7 @@
 					<File Id="Server.SystemConfiguration.xml" Name="SystemConfiguration.xml" Source="..\..\..\..\..\Deploy\ConfigurationService\Config\SystemConfiguration.xml" />
 					<File Id="Server.ZipConfigurationItemsCollection.xml" Name="ZipConfigurationItemsCollection.xml" Source="..\..\..\..\..\Deploy\ConfigurationService\Config\ZipConfigurationItemsCollection.xml" />
 				</Component>
-			</Directory>
+			</Directory>-->
 		</DirectoryRef>
 
 		<DirectoryRef Id="SERVERLOCATION">
