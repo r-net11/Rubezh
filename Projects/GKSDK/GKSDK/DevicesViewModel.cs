@@ -31,14 +31,5 @@ namespace GKSDK
 				OnPropertyChanged("StateType");
 			}
 		}
-		public bool IsBiStateControl
-		{
-			get 
-			{ 
-				if (SelectedDevice!=null)
-				return SelectedDevice.Device.Driver.IsDeviceOnShleif && !SelectedDevice.Device.Driver.IsControlDevice && FiresecManager.CheckPermission(PermissionType.Oper_Device_Control);
-				return true;
-			}
-		}
 	}
 }

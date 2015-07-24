@@ -117,5 +117,13 @@ namespace GKSDK
 		{
 			return ControlRegime != DeviceControlRegime.Ignore;
 		}
+		public bool IsTriStateControl
+		{
+			get { return Device.Driver.IsControlDevice && FiresecManager.CheckPermission(PermissionType.Oper_Device_Control); }
+		}
+		public bool IsBiStateControl
+		{
+			get { return Device.Driver.IsDeviceOnShleif && !Device.Driver.IsControlDevice && FiresecManager.CheckPermission(PermissionType.Oper_Device_Control); }
+		}
 	}
 }

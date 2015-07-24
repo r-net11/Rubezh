@@ -7,67 +7,66 @@
 
     <TabControl>
         <TabItem Header="Устройства" DataContext="{Binding DevicesViewModel}">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <DataGrid Grid.Row="0" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}">
-                    <DataGrid.Columns>
-                        <DataGridTemplateColumn Header="Устройство">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Image Source="{Binding Device.Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" VerticalAlignment="Center" />
-                                        <TextBlock Text="{Binding Device.Driver.ShortName}" />
-                                    </StackPanel>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <DataGridTextColumn Header="Адрес" Binding="{Binding Device.DottedAddress}" />
-                        <DataGridTemplateColumn Header="Состояние" Width="*">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Image Source="{Binding StateClass, Converter={StaticResource XStateClassToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
-                                        <TextBlock Text="{Binding StateClass, Converter={StaticResource XStateClassToStringConverter}}" />
-                                    </StackPanel>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                    </DataGrid.Columns>
-                </DataGrid>
-                <StackPanel Grid.Row="1">
-					<Grid Visibility="{Binding IsBiStateControl, Converter={StaticResource BoolToVisibilityConverter}}">
-						<StackPanel Orientation="Horizontal" DataContext="{Binding SelectedDevice}">
-							<Button Content="Автоматика" Command="{Binding SetAutomaticStateCommand}" Width="150" Margin="2" />
-							<Button Content="Ручное" Command="{Binding SetManualStateCommand}" Width="150" Margin="2" />
-							<Button Content="Отключение" Command="{Binding SetIgnoreStateCommand}" Width="150" Margin="2" />
-							<ItemsControl ItemsSource="{Binding DeviceExecutableCommands}">
-								<ItemsControl.ItemTemplate>
-									<DataTemplate>
-										<Button Command="{Binding ExecuteControlCommand}" Content="{Binding Name}" Width="150" Margin="2" />
-									</DataTemplate>
-								</ItemsControl.ItemTemplate>
-							</ItemsControl>
-							<ItemsControl ItemsSource="{Binding DeviceCommands}">
-								<ItemsControl.ItemTemplate>
-									<DataTemplate>
-										<Button Content="{Binding CommandName}" Command="{Binding ExecuteCommand}" Width="200" Margin="2" />
-									</DataTemplate>
-								</ItemsControl.ItemTemplate>
-							</ItemsControl>
-						</StackPanel>
-					</Grid>
-					<Grid Visibility="Visible">
-						<StackPanel Orientation="Horizontal" DataContext="{Binding SelectedDevice}">
-							<Button  Content="Снять отключение" Command="{Binding SetAutomaticStateCommand}" Width="150" Margin="2" />
-							<Button  Content="Отключение" Command="{Binding SetIgnoreStateCommand}" Width="150" Margin="2" />
-						</StackPanel>
-					</Grid>
-                </StackPanel>
-				
-            </Grid>
+			<Grid>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="*" />
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
+				<DataGrid Grid.Row="0" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}">
+					<DataGrid.Columns>
+						<DataGridTemplateColumn Header="Устройство">
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<StackPanel Orientation="Horizontal">
+										<Image Source="{Binding Device.Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" VerticalAlignment="Center" />
+										<TextBlock Text="{Binding Device.Driver.ShortName}" />
+									</StackPanel>
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+						</DataGridTemplateColumn>
+						<DataGridTextColumn Header="Адрес" Binding="{Binding Device.DottedAddress}" />
+						<DataGridTemplateColumn Header="Состояние" Width="*">
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<StackPanel Orientation="Horizontal">
+										<Image Source="{Binding StateClass, Converter={StaticResource XStateClassToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
+										<TextBlock Text="{Binding StateClass, Converter={StaticResource XStateClassToStringConverter}}" />
+									</StackPanel>
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+						</DataGridTemplateColumn>
+					</DataGrid.Columns>
+				</DataGrid>
+					<StackPanel Grid.Row="1" Orientation="Horizontal" DataContext="{Binding SelectedDevice}">
+						<Grid Visibility="{Binding IsTriStateControl, Converter={StaticResource BoolToVisibilityConverter}}">
+							<StackPanel>
+								<Button Content="Автоматика" Command="{Binding SetAutomaticStateCommand}" Width="150" Margin="2" />
+								<Button Content="Ручное" Command="{Binding SetManualStateCommand}" Width="150" Margin="2" />
+								<Button Content="Отключение" Command="{Binding SetIgnoreStateCommand}" Width="150" Margin="2" />
+								<ItemsControl ItemsSource="{Binding DeviceExecutableCommands}">
+									<ItemsControl.ItemTemplate>
+										<DataTemplate>
+											<Button Command="{Binding ExecuteControlCommand}" Content="{Binding Name}" Width="150" Margin="2" />
+										</DataTemplate>
+									</ItemsControl.ItemTemplate>
+								</ItemsControl>
+								<ItemsControl ItemsSource="{Binding DeviceCommands}">
+									<ItemsControl.ItemTemplate>
+										<DataTemplate>
+											<Button Content="{Binding CommandName}" Command="{Binding ExecuteCommand}" Width="200" Margin="2" />
+										</DataTemplate>
+									</ItemsControl.ItemTemplate>
+								</ItemsControl>
+							</StackPanel>
+						</Grid>
+						<Grid Visibility="{Binding IsBiStateControl, Converter={StaticResource BoolToVisibilityConverter}}">
+							<StackPanel Orientation="Horizontal" DataContext="{Binding SelectedDevice}">
+								<Button  Content="Снять отключение" Command="{Binding SetAutomaticStateCommand}" Width="150" Margin="2" />
+								<Button  Content="Отключение" Command="{Binding SetIgnoreStateCommand}" Width="150" Margin="2" />
+							</StackPanel>
+						</Grid>
+					</StackPanel>
+				</Grid>
         </TabItem>
         <TabItem Header="Зоны" DataContext="{Binding ZonesViewModel}">
             <Grid>
