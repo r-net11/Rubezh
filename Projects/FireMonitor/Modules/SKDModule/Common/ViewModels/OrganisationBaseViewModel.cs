@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using FiresecAPI.Models;
 using FiresecAPI.SKD;
@@ -323,7 +324,7 @@ namespace SKDModule.ViewModels
 			if (IsWithDeleted)
 			{
 				SelectedItem.IsDeleted = true;
-				SelectedItem.RemovalDate = DateTime.Now.ToString("d MMM yyyy");
+				SelectedItem.RemovalDate = DateTime.Now.ToString(CultureInfo.CurrentUICulture);
 			}
 			else
 			{

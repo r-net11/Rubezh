@@ -6,6 +6,7 @@ using System.Linq;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using SKDModule.Events;
 
@@ -17,10 +18,10 @@ namespace SKDModule.ViewModels
 
 		public EmployeesViewModel():base()
 		{
-			ServiceFactory.Events.GetEvent<EditEmployeeEvent>().Unsubscribe(OnEditEmployee);
-			ServiceFactory.Events.GetEvent<EditEmployeeEvent>().Subscribe(OnEditEmployee);
-			ServiceFactory.Events.GetEvent<EditAdditionalColumnEvent>().Unsubscribe(OnUpdateIsInGrid);
-			ServiceFactory.Events.GetEvent<EditAdditionalColumnEvent>().Subscribe(OnUpdateIsInGrid);
+			ServiceFactoryBase.Events.GetEvent<EditEmployeeEvent>().Unsubscribe(OnEditEmployee);
+			ServiceFactoryBase.Events.GetEvent<EditEmployeeEvent>().Subscribe(OnEditEmployee);
+			ServiceFactoryBase.Events.GetEvent<EditAdditionalColumnEvent>().Unsubscribe(OnUpdateIsInGrid);
+			ServiceFactoryBase.Events.GetEvent<EditAdditionalColumnEvent>().Subscribe(OnUpdateIsInGrid);
 		}
 
 		public override void Initialize(EmployeeFilter filter)
@@ -28,7 +29,7 @@ namespace SKDModule.ViewModels
 			base.Initialize(filter);
 			PersonType = filter.PersonType;
 			InitializeAdditionalColumns();
-			ServiceFactory.Events.GetEvent<ChangeEmployeeGuestEvent>().Publish(null);
+			ServiceFactoryBase.Events.GetEvent<ChangeEmployeeGuestEvent>().Publish(null);
 		}
 
 		protected override void OnOrganisationUsersChanged(Organisation newOrganisation)
@@ -53,13 +54,13 @@ namespace SKDModule.ViewModels
 
 		protected override void Remove()
 		{
-			if (SelectedItem.Cards.Count() == 0 || MessageBoxService.ShowQuestion("Привязанные к сотруднику пропуска будут деактивированы. Продожить?"))
+			if (!SelectedItem.Cards.Any() || MessageBoxService.ShowQuestion("Привязанные к сотруднику пропуска будут деактивированы. Продожить?"))
 			{
 				var cardUIDs = SelectedItem.Cards.Select(x => x.UID);
 				base.Remove();
 				foreach (var uid in cardUIDs)
 				{
-					ServiceFactory.Events.GetEvent<BlockCardEvent>().Publish(uid);
+					ServiceFactoryBase.Events.GetEvent<BlockCardEvent>().Publish(uid);
 				}
 			}
 		}
@@ -71,7 +72,7 @@ namespace SKDModule.ViewModels
 			{
 				foreach (var uid in cards.Select(x => x.UID))
 				{
-					ServiceFactory.Events.GetEvent<BlockCardEvent>().Publish(uid);
+					ServiceFactoryBase.Events.GetEvent<BlockCardEvent>().Publish(uid);
 				}
 			}
 			base.OnRemoveOrganisation(organisationUID);
@@ -101,13 +102,13 @@ namespace SKDModule.ViewModels
 		protected override void AfterRemove(ShortEmployee model)
 		{
 			base.AfterRemove(model);
-			ServiceFactory.Events.GetEvent<EditEmployee2Event>().Publish(model.UID);
+			ServiceFactoryBase.Events.GetEvent<EditEmployee2Event>().Publish(model.UID);
 		}
 
 		protected override void AfterRestore(ShortEmployee model)
 		{
 			base.AfterRestore(model);
-			ServiceFactory.Events.GetEvent<EditEmployee2Event>().Publish(model.UID);
+			ServiceFactoryBase.Events.GetEvent<EditEmployee2Event>().Publish(model.UID);
 		}
 
 		public bool IsEmployeeSelected

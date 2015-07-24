@@ -7,6 +7,7 @@ using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Events;
@@ -44,7 +45,7 @@ namespace SKDModule.ViewModels
 			CanEditDepartment = canEditDepartment;
 			_canEditPosition = canEditPosition;
 			_isWithDeleted = isWithDeleted;
-			
+
 			Genders = new ObservableCollection<Gender>();
 			foreach (Gender item in Enum.GetValues(typeof(Gender)))
 			{
@@ -63,25 +64,26 @@ namespace SKDModule.ViewModels
 			_isNew = employee == null;
 			if (_isNew)
 			{
-				Employee = new Employee();
-				Employee.OrganisationUID = organisationUID;
+				Employee = new Employee
+				{
+					OrganisationUID = organisationUID,
+					BirthDate = DateTime.Now,
+					CredentialsStartDate = DateTime.Now,
+					DocumentGivenDate = DateTime.Now,
+					DocumentValidTo = DateTime.Now,
+					RemovalDate = DateTime.Now,
+					ScheduleStartDate = DateTime.Now
+				};
 				Title = IsEmployee ? "Добавить сотрудника" : "Добавить посетителя";
-				Employee.BirthDate = DateTime.Now;
-				Employee.CredentialsStartDate = DateTime.Now;
-				Employee.DocumentGivenDate = DateTime.Now;
-				Employee.DocumentValidTo = DateTime.Now;
-				Employee.RemovalDate = DateTime.Now;
-				Employee.ScheduleStartDate = DateTime.Now;
+
 			}
 			else
 			{
-				Employee = EmployeeHelper.GetDetails(employee.UID);
-				if (Employee == null)
-					Employee = new Employee();
-				if (IsEmployee)
-					Title = string.Format("Свойства сотрудника: {0}", employee.FIO);
-				else
-					Title = string.Format("Свойства посетителя: {0}", employee.FIO);
+				if (employee != null)
+				{
+					Employee = EmployeeHelper.GetDetails(employee.UID) ?? new Employee();
+					Title = string.Format(IsEmployee ? "Свойства сотрудника: {0}" : "Свойства посетителя: {0}", employee.FIO);
+				}
 			}
 			CopyProperties();
 			return true;
@@ -119,11 +121,10 @@ namespace SKDModule.ViewModels
 			}
 			SelectedDepartment = Employee.Department;
 			TextColumns = new List<TextColumnViewModel>();
-			GraphicsColumns = new List<IGraphicsColumnViewModel>();
-			GraphicsColumns.Add(new PhotoColumnViewModel(Employee.Photo));
+			GraphicsColumns = new List<IGraphicsColumnViewModel> {new PhotoColumnViewModel(Employee.Photo)};
 			SelectedGraphicsColumn = GraphicsColumns.FirstOrDefault();
 			var additionalColumnTypes = AdditionalColumnTypeHelper.GetByOrganisation(Employee.OrganisationUID);
-			if (additionalColumnTypes != null && additionalColumnTypes.Count() > 0)
+			if (additionalColumnTypes != null && additionalColumnTypes.Any())
 			{
 				foreach (var columnType in additionalColumnTypes)
 				{
@@ -171,18 +172,18 @@ namespace SKDModule.ViewModels
 		public bool CanEditDepartment { get; private set; }
 
 		bool _canEditPosition;
-		public bool CanEditPosition 
+		public bool CanEditPosition
 		{
-			get { return IsEmployee && _canEditPosition ; } 
+			get { return IsEmployee && _canEditPosition ; }
 		}
-		
-		ShortDepartment selectedDepartment;
+
+		ShortDepartment _selectedDepartment;
 		public ShortDepartment SelectedDepartment
 		{
-			get { return selectedDepartment; }
+			get { return _selectedDepartment; }
 			private set
 			{
-				selectedDepartment = value;
+				_selectedDepartment = value;
 				OnPropertyChanged(() => SelectedDepartment);
 				OnPropertyChanged(() => HasSelectedDepartment);
 			}
@@ -197,7 +198,7 @@ namespace SKDModule.ViewModels
 		public ShortEmployee SelectedEscort
 		{
 			get { return selectedEscort; }
-			private set 
+			private set
 			{
 				selectedEscort = value;
 				OnPropertyChanged(() => SelectedEscort);
@@ -257,12 +258,8 @@ namespace SKDModule.ViewModels
 
 		public string ScheduleString
 		{
-			get
-			{
-				if (HasSelectedSchedule)
-					return string.Format("{0} с {1}", SelectedSchedule.Name, ScheduleStartDate.ToString("dd/MM/yyyy"));
-				else
-					return "";
+			get {
+				return HasSelectedSchedule ? string.Format("{0} с {1}", SelectedSchedule.Name, ScheduleStartDate.ToString("dd/MM/yyyy")) : string.Empty;
 			}
 		}
 
@@ -683,10 +680,7 @@ namespace SKDModule.ViewModels
 				SelectedEscort = escortSelectionViewModel.SelectedEmployee;
 			}
 		}
-		bool CanSelectEscort()
-		{
-			return SelectedDepartment != null;
-		}
+
 		#endregion
 
 		protected override bool CanSave()
@@ -696,7 +690,7 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
-			bool isLaunchEvent = IsLaunchEvent();
+			var isLaunchEvent = IsLaunchEvent();
 			Employee.FirstName = FirstName;
 			Employee.SecondName = SecondName;
 			Employee.LastName = LastName;
@@ -728,7 +722,7 @@ namespace SKDModule.ViewModels
 			}
 
 			Employee.Department = SelectedDepartment;
-			
+
 			if (IsEmployee)
 			{
 				Employee.Position = SelectedPosition;
@@ -756,7 +750,7 @@ namespace SKDModule.ViewModels
 				return false;
 			var saveResult = EmployeeHelper.Save(Employee, _isNew);
 			if (saveResult && isLaunchEvent)
-				ServiceFactory.Events.GetEvent<EditEmployeePositionDepartmentEvent>().Publish(Employee);
+				ServiceFactoryBase.Events.GetEvent<EditEmployeePositionDepartmentEvent>().Publish(Employee);
 			return saveResult;
 		}
 
@@ -824,6 +818,6 @@ namespace SKDModule.ViewModels
 				return false;
 			}
 			return true;
-		}	
+		}
 	}
 }
