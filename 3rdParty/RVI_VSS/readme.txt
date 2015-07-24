@@ -5,7 +5,6 @@ RVI VSS видео €чейка по состо€нию на 22.07.2015 г.
 API.dll
 Entities.dll
 GalaSoft.MvvmLight.WPF4.dll
-RVI_VSS.Utils.dll
 SdkWrapper.dll
 
 2. в FireAdministrator / FireMonitor
@@ -17,6 +16,5 @@ MediaSourcePlayer.dll
 NativePlayerIpcProtocol.dll
 NativePlayerWrap.dll
 ProcessCommunication.dll
-RVI_VSS.Utils.dll
 RviVssDec.exe
 SdkWrapper.dll
