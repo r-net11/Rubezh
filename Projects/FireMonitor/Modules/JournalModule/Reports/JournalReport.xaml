@@ -1,4 +1,11 @@
-﻿<FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:xrbc="clr-namespace:CodeReason.Reports.Document.Barcode;assembly=CodeReason.Reports" xmlns:xrd="clr-namespace:CodeReason.Reports.Document;assembly=CodeReason.Reports" ColumnWidth="29.7cm" PageHeight="21cm" PageWidth="29.7cm">
+﻿<FlowDocument
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:xrbc="clr-namespace:CodeReason.Reports.Document.Barcode;assembly=CodeReason.Reports"
+	xmlns:xrd="clr-namespace:CodeReason.Reports.Document;assembly=CodeReason.Reports"
+	ColumnWidth="29.7cm"
+	PageHeight="21cm"
+	PageWidth="29.7cm">
 	<FlowDocument.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
@@ -9,8 +16,15 @@
 
 	<xrd:ReportProperties />
 
-	<xrd:SectionReportFooter Padding="50,0,50,0" PageFooterHeight="4" Style="{StaticResource section}">
-		<Table BorderBrush="Black" BorderThickness="0,1,0,0" CellSpacing="0" Padding="0,3,0,0">
+	<xrd:SectionReportFooter
+		Padding="50,0,50,0"
+		PageFooterHeight="4"
+		Style="{StaticResource section}">
+		<Table
+			BorderBrush="Black"
+			BorderThickness="0,1,0,0"
+			CellSpacing="0"
+			Padding="0,3,0,0">
 			<Table.Columns>
 				<TableColumn Width="*" />
 				<TableColumn Width="*" />
@@ -35,8 +49,15 @@
 		</Table>
 	</xrd:SectionReportFooter>
 
-	<Section BreakPageBefore="True" FontSize="12" Padding="80,20,40,10" Style="{StaticResource section}">
-		<Table BorderBrush="Black" BorderThickness="0.02cm" CellSpacing="0">
+	<Section
+		BreakPageBefore="True"
+		FontSize="12"
+		Padding="80,20,40,10"
+		Style="{StaticResource section}">
+		<Table
+			BorderBrush="Black"
+			BorderThickness="0.02cm"
+			CellSpacing="0">
 			<Table.Columns>
 				<TableColumn Width="1*" />
 				<TableColumn Width="1*" />
@@ -59,7 +80,7 @@
 			<TableRowGroup Style="{StaticResource header2}">
 				<TableRow>
 					<TableCell>
-						<Paragraph TextAlignment="Center">Дата в приборе</Paragraph>
+						<Paragraph TextAlignment="Center">Дата на устройстве</Paragraph>
 					</TableCell>
 					<TableCell>
 						<Paragraph TextAlignment="Center">Дата в системе</Paragraph>

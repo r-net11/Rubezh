@@ -27,7 +27,7 @@
 			ItemsSource="{Binding JournalItems}"
 			SelectedItem="{Binding SelectedJournal}">
 			<DataGrid.Columns>
-				<DataGridTemplateColumn Width="150" Header="Дата в приборе">
+				<DataGridTemplateColumn Width="150" Header="Дата на устройстве">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock
@@ -228,7 +228,7 @@
 						Grid.Row="1"
 						Grid.Column="0"
 						Margin="2"
-						Text="Дата в приборе" />
+						Text="Дата на устройстве" />
 					<TextBlock
 						Grid.Row="1"
 						Grid.Column="1"

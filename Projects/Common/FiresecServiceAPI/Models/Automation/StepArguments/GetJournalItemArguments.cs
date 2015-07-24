@@ -20,7 +20,7 @@ namespace FiresecAPI.Automation
 
 	public enum JournalColumnType
 	{
-		[Description("Дата в приборе")]
+		[Description("Дата на устройстве")]
 		DeviceDateTime,
 
 		[Description("Дата в системе")]

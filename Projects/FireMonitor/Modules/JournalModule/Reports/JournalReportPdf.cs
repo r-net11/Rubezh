@@ -30,9 +30,9 @@ namespace JournalModule.Reports
 			cell.Colspan = 8;
 			cell.HorizontalAlignment = Element.ALIGN_CENTER;
 			table.AddCell(cell);
-			var headers = new string[] 
+			var headers = new string[]
 			{
-				"Дата в приборе",
+				"Дата на устройстве",
 				"Дата в системе",
 				"Название",
 				"Описание",
