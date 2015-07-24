@@ -3,6 +3,7 @@ using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
@@ -39,7 +40,7 @@ namespace SKDModule.ViewModels
 			{
 				IsNewCard = true;
 				Title = "Создание пропуска";
-				card = new SKDCard()
+				card = new SKDCard
 				{
 					StartDate = DateTime.Now,
 					EndDate = DateTime.Now.AddYears(1)
@@ -59,8 +60,7 @@ namespace SKDModule.ViewModels
 
 			AccessDoorsSelectationViewModel = new AccessDoorsSelectationViewModel(Organisation, Card.CardDoors);
 
-			AvailableAccessTemplates = new ObservableCollection<AccessTemplate>();
-			AvailableAccessTemplates.Add(new AccessTemplate() { Name = "<нет>" });
+			AvailableAccessTemplates = new ObservableCollection<AccessTemplate> {new AccessTemplate {Name = "<нет>"}};
 			var accessTemplateFilter = new AccessTemplateFilter();
 			accessTemplateFilter.OrganisationUIDs.Add(Organisation.UID);
 			var accessTemplates = AccessTemplateHelper.Get(accessTemplateFilter);
@@ -81,7 +81,7 @@ namespace SKDModule.ViewModels
 
 			if (_employee.Type == PersonType.Guest)
 			{
-				CardTypes = new ObservableCollection<CardType>() { CardType.Temporary, CardType.OneTime, CardType.Blocked };
+				CardTypes = new ObservableCollection<CardType> { CardType.Temporary, CardType.OneTime, CardType.Blocked };
 			}
 			else
 			{
@@ -251,11 +251,11 @@ namespace SKDModule.ViewModels
 				OnPropertyChanged(() => UseReader);
 				if (value)
 				{
-					ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Subscribe(OnNewJournal);
+					ServiceFactoryBase.Events.GetEvent<NewJournalItemsEvent>().Subscribe(OnNewJournal);
 				}
 				else
 				{
-					ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Unsubscribe(OnNewJournal);
+					ServiceFactoryBase.Events.GetEvent<NewJournalItemsEvent>().Unsubscribe(OnNewJournal);
 				}
 			}
 		}
@@ -263,14 +263,12 @@ namespace SKDModule.ViewModels
 		void StartPollThread()
 		{
 			StopPollThread();
-			IsThreadPolling = true;
 			_pollReaderThread = new Thread(OnPollReader);
 			_pollReaderThread.Start();
 		}
 
 		void StopPollThread()
 		{
-			IsThreadPolling = false;
 			if (_pollReaderThread != null)
 			{
 				_pollReaderThread.Join(TimeSpan.FromSeconds(2));
@@ -278,7 +276,7 @@ namespace SKDModule.ViewModels
 		}
 
 		Thread _pollReaderThread;
-		bool IsThreadPolling;
+
 		void OnPollReader()
 		{
 		//	var readerDevice = GKManager.Devices.FirstOrDefault(x => x.UID == ClientSettings.SKDSettings.CardCreatorReaderUID);
@@ -349,14 +347,7 @@ namespace SKDModule.ViewModels
 			get
 			{
 				var controllerDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == DeactivationControllerUID);
-				if (controllerDevice != null)
-				{
-					return controllerDevice.Name;
-				}
-				else
-				{
-					return "Нажмите для выбора контроллера";
-				}
+				return controllerDevice != null ? controllerDevice.Name : "Нажмите для выбора контроллера";
 			}
 		}
 
@@ -415,7 +406,7 @@ namespace SKDModule.ViewModels
 			var saveResult = IsNewCard ? CardHelper.Add(Card, _employee.Name) : CardHelper.Edit(Card, _employee.Name);
 			if (!saveResult)
 				return false;
-			ServiceFactory.Events.GetEvent<NewCardEvent>().Publish(Card);
+			ServiceFactoryBase.Events.GetEvent<NewCardEvent>().Publish(Card);
 			return true;
 		}
 
@@ -437,7 +428,7 @@ namespace SKDModule.ViewModels
 			{
 				if (EndDate < DateTime.Now)
 				{
-					MessageBoxService.ShowWarning("Дата конца действия пропуска не может быть меньше теущей даты");
+					MessageBoxService.ShowWarning("Дата конца действия пропуска не может быть меньше текущей даты");
 					return false;
 				}
 			}
@@ -462,23 +453,15 @@ namespace SKDModule.ViewModels
 
 			if (SelectedCardType == CardType.OneTime && DeactivationControllerUID != Guid.Empty && UserTime <= 0)
 			{
-				MessageBoxService.ShowWarning("Количество проходов для разого пропуска должно быть задано в пределах от 1 до " + Int16.MaxValue.ToString());
+				MessageBoxService.ShowWarning("Количество проходов для разого пропуска должно быть задано в пределах от 1 до " + Int16.MaxValue);
 				return false;
 			}
 
-			if (!string.IsNullOrEmpty(Password))
-			{
-				foreach (char c in Password)
-				{
-					if (!Char.IsDigit(c))
-					{
-						MessageBoxService.ShowWarning("Пароль может содержать только цифры");
-						return false;
-					}
-				}
-			}
+			if (string.IsNullOrEmpty(Password)) return true;
+			if (Password.All(Char.IsDigit)) return true;
 
-			return true;
+			MessageBoxService.ShowWarning("Пароль может содержать только цифры");
+			return false;
 		}
 	}
 }
