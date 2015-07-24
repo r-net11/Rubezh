@@ -12,7 +12,7 @@
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
 									<CheckBox Margin="2" IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-									<Image Width="16" Margin="1 0" VerticalAlignment="Center" Source="/Controls;component/Images/User.png" />
+									<Image Width="16" Margin="1 0" VerticalAlignment="Center" Source="/Controls;component/Images/BUser.png" />
 									<TextBlock VerticalAlignment="Center" Text="{Binding Item.Login}" />
 								</StackPanel>
 							</DataTemplate>
