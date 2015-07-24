@@ -27,8 +27,7 @@ namespace GKSDK
 			set
 			{
 				_selectedDevice = value;
-                OnPropertyChanged("SelectedDevice");
-				OnPropertyChanged("StateType");
+                OnPropertyChanged(()=>SelectedDevice);
 			}
 		}
 	}
