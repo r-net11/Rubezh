@@ -148,6 +148,7 @@ namespace FiresecClient
 				LogicToCopy.OffNowClausesGroup = sourceLogic.OffNowClausesGroup.Clone();
 			if (hasStopClause)
 				LogicToCopy.StopClausesGroup = sourceLogic.StopClausesGroup.Clone();
+			LogicToCopy.UseOffCounterLogic = sourceLogic.UseOffCounterLogic;
 		}
 
 		public static string CompareLogic(GKAdvancedLogic targetLogic)
@@ -187,7 +188,7 @@ namespace FiresecClient
 			if (targetLogic.HasOffClause)
 			{
 				gkLogic.OffClausesGroup = LogicToCopy.OffClausesGroup;
-				targetLogic.UseOffCounterLogic = LogicToCopy.UseOffCounterLogic;
+				gkLogic.UseOffCounterLogic = LogicToCopy.UseOffCounterLogic;
 			}
 			if (targetLogic.HasOffNowClause)
 				gkLogic.OffNowClausesGroup = LogicToCopy.OffNowClausesGroup;

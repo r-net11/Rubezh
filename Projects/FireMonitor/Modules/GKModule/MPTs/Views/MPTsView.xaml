@@ -43,7 +43,10 @@
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
 									<Image Width="16" Height="16" Margin="2" VerticalAlignment="Center" Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter2}}" />
-									<TextBlock Width="200" Text="{Binding MPT.Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+									<TextBlock Width="200" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+										<Hyperlink Command="{Binding ShowPropertiesCommand}" Style="{StaticResource HyperlinkStyle2}">
+											<TextBlock Text="{Binding MPT.Name}" />
+										</Hyperlink>
 										<TextBlock.ContextMenu>
 											<ContextMenu>
 												<IconedMenuItem ImageSource="BJournal" Text="Показать связанные события" Command="{Binding ShowJournalCommand}" />
