@@ -24,8 +24,8 @@
 				            <RowDefinition Height="Auto" />
 			            </Grid.RowDefinitions>
 			            <Grid.ColumnDefinitions>
-				            <ColumnDefinition />
-				            <ColumnDefinition />
+							<ColumnDefinition MaxWidth="200"/>
+							<ColumnDefinition Width="*"/>
 			            </Grid.ColumnDefinitions>
 						<TextBlock Grid.Row="0" Grid.Column="0" Text="Фамилия" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
 			            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
@@ -143,8 +143,8 @@
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 				<Grid.ColumnDefinitions>
-					<ColumnDefinition />
-					<ColumnDefinition />
+					<ColumnDefinition MaxWidth="200"/>
+					<ColumnDefinition Width="*"/>
 				</Grid.ColumnDefinitions>
 				<TextBlock Grid.Row="0" Grid.Column="0" Text="Номер" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
 				<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding DocumentNumber, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
