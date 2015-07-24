@@ -69,6 +69,7 @@
     <Compile Include="DirectionsViewModel.cs" />
     <Compile Include="DirectionViewModel.cs" />
     <Compile Include="DeviceCommandViewModel.cs" />
+    <Compile Include="JournalItemViewModel.cs" />
     <Compile Include="JournalsViewModel.cs" />
     <Compile Include="MainViewModel.cs" />
     <Compile Include="ZonesViewModel.cs" />

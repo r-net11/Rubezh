@@ -18,8 +18,8 @@ namespace GKModule.Plans
 			Plan.ElementPolygonGKGuardZones.ForEach(item => InitializeGuard(item));
 			Plan.ElementRectangleGKSKDZones.ForEach(item => InitializeSKD(item));
 			Plan.ElementPolygonGKSKDZones.ForEach(item => InitializeSKD(item));
-			plan.ElementRectangleGKDelays.ForEach(item => Initialize(item));
-			plan.ElementPolygonGKDelays.ForEach(item => Initialize(item));
+			Plan.ElementRectangleGKDelays.ForEach(item => Initialize(item));
+			Plan.ElementPolygonGKDelays.ForEach(item => Initialize(item));
 			Plan.ElementRectangleGKDirections.ForEach(item => Initialize(item));
 			Plan.ElementPolygonGKDirections.ForEach(item => Initialize(item));
 			Plan.ElementRectangleGKMPTs.ForEach(item => Initialize(item));

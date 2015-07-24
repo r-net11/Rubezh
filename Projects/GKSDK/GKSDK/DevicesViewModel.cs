@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Linq;
 using FiresecClient;
 using Infrastructure.Common;
 using FiresecAPI.Models;
@@ -11,7 +12,7 @@ namespace GKSDK
 		public DevicesViewModel()
 		{
 			Devices = new ObservableCollection<DeviceViewModel>();
-			foreach (var device in GKManager.Devices)
+			foreach (var device in GKManager.Devices.Where(x => x.IsRealDevice))
 			{
 				var deviceViewModel = new DeviceViewModel(device);
 				Devices.Add(deviceViewModel);

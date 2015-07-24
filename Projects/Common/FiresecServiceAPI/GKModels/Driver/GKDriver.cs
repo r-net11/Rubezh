@@ -62,7 +62,6 @@ namespace FiresecAPI.GK
 		public bool IsGroupDevice { get; set; }
 		public GKDriverType GroupDeviceChildType { get; set; }
 		public byte GroupDeviceChildrenCount { get; set; }
-		public bool IsIgnored { get; set; }
 
 		public bool IsKau
 		{

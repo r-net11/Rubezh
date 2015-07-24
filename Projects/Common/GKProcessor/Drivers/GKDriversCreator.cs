@@ -31,7 +31,6 @@ namespace GKProcessor
 			AddDriverToKau(RSR2_AM_1_Helper.Create());
 			AddDriverToKau(RSR2_HandDetector_Helper.Create());
 			AddDriverToKau(RSR2_SmokeDetector_Helper.Create());
-			AddDriverToKau(RSR2_SmokeDetector2_Helper.Create());
 			AddDriverToKau(RSR2_RM_2_Helper.Create());
 			AddDriverToKau(RSR2_RM_4_Helper.Create());
 			AddDriverToKau(RSR2_AM_4_Group_Helper.Create());

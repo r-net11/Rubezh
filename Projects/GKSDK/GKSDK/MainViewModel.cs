@@ -11,6 +11,8 @@ using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Microsoft.Practices.Prism.Events;
+using FiresecAPI.Journal;
+using System.Collections.Generic;
 
 namespace GKSDK
 {
@@ -31,7 +33,7 @@ namespace GKSDK
 			JournalsViewModel = new JournalsViewModel();
 		}
 
-		static void InitializeGK()
+		void InitializeGK()
 		{
 			for (int i = 1; i <= 10; i++)
 			{
@@ -58,28 +60,35 @@ namespace GKSDK
 			SafeFiresecService.GKCallbackResultEvent -= new Action<GKCallbackResult>(OnGKCallbackResult);
 			SafeFiresecService.GKCallbackResultEvent += new Action<GKCallbackResult>(OnGKCallbackResult);
 
+			SafeFiresecService.NewJournalItemsEvent -= OnNewJournalItems;
+			SafeFiresecService.NewJournalItemsEvent += OnNewJournalItems;
+
 			FiresecManager.StartPoll();
 		}
 
-		static void InitializeStates()
+		void InitializeStates()
 		{
 			var gkStates = FiresecManager.FiresecService.GKGetStates();
 			CopyGKStates(gkStates);
 		}
 
-		static void OnGKCallbackResult(GKCallbackResult gkCallbackResult)
+		void OnGKCallbackResult(GKCallbackResult gkCallbackResult)
 		{
 			ApplicationService.Invoke(() =>
 			{
-				if (gkCallbackResult.JournalItems.Count > 0)
-				{
-					//ServiceFactoryBase.Events.GetEvent<NewXJournalEvent>().Publish(gkCallbackResult.JournalItems);
-				}
 				CopyGKStates(gkCallbackResult.GKStates);
 			});
 		}
 
-		static void CopyGKStates(GKStates gkStates)
+		public void OnNewJournalItems(List<JournalItem> journalItems)
+		{
+			ApplicationService.Invoke(() =>
+			{
+				JournalsViewModel.OnNewJournalItems(journalItems);
+			});
+		}
+
+		void CopyGKStates(GKStates gkStates)
 		{
 			foreach (var remoteDeviceState in gkStates.DeviceStates)
 			{
