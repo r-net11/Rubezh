@@ -1,21 +1,21 @@
-﻿using System;
+﻿using Common;
+using FiresecAPI.SKD;
+using FiresecClient.SKDHelpers;
+using Infrastructure.Client.Plans;
+using Infrastructure.Common;
+using Infrastructure.Common.Services;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrustructure.Plans.Designer;
+using Infrustructure.Plans.Elements;
+using Infrustructure.Plans.Events;
+using SKDModule.PassCard.Designer;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using Common;
-using FiresecAPI.SKD;
-using FiresecClient.SKDHelpers;
-using Infrastructure;
-using Infrastructure.Client.Plans;
-using Infrastructure.Common;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.Elements;
-using Infrustructure.Plans.Events;
-using SKDModule.PassCard.Designer;
 
 namespace SKDModule.PassCard.ViewModels
 {
@@ -44,8 +44,8 @@ namespace SKDModule.PassCard.ViewModels
 			_passCardCanvas = new PassCardCanvas();
 			PassCardTemplates = new ObservableCollection<ShortPassCardTemplate>(PassCardTemplateHelper.GetByOrganisation(_organisation.UID));
 
-			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
-			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Subscribe(OnPainterFactoryEvent);
+			ServiceFactoryBase.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
+			ServiceFactoryBase.Events.GetEvent<PainterFactoryEvent>().Subscribe(OnPainterFactoryEvent);
 
 			var uid = _card.PassCardTemplateUID;
 			SelectedPassCardTemplate = uid.HasValue ? PassCardTemplates.FirstOrDefault(item => item.UID == uid.Value) : null;
@@ -78,9 +78,12 @@ namespace SKDModule.PassCard.ViewModels
 			{
 				var rect = LayoutInformation.GetLayoutSlot(_passCardCanvas);
 				var capabilities = dialog.PrintQueue.GetPrintCapabilities(dialog.PrintTicket);
-				var origin = new Point(capabilities.PageImageableArea.OriginWidth, capabilities.PageImageableArea.OriginHeight);
-				var size = new Size(_passCardCanvas.DesiredSize.Width + 2 * _passCardCanvas.CanvasBorder.Thickness, _passCardCanvas.DesiredSize.Height + 2 * _passCardCanvas.CanvasBorder.Thickness);
-				_passCardCanvas.Arrange(new Rect(origin, size));
+				if (capabilities.PageImageableArea != null)
+				{
+					var origin = new Point(capabilities.PageImageableArea.OriginWidth, capabilities.PageImageableArea.OriginHeight);
+					var size = new Size(_passCardCanvas.DesiredSize.Width + 2 * _passCardCanvas.CanvasBorder.Thickness, _passCardCanvas.DesiredSize.Height + 2 * _passCardCanvas.CanvasBorder.Thickness);
+					_passCardCanvas.Arrange(new Rect(origin, size));
+				}
 				dialog.PrintVisual(_passCardCanvas, "Пропуск " + _employee.LastName);
 				_passCardCanvas.Arrange(rect);
 			}
@@ -120,7 +123,7 @@ namespace SKDModule.PassCard.ViewModels
 			}
 			foreach (var elementImageProperty in passCardTemplate.ElementImageProperties)
 			{
-				ResolveImageProperty(elementImageProperty);
+			//	ResolveImageProperty(elementImageProperty);
 				yield return elementImageProperty;
 			}
 			foreach (var elementRectangle in passCardTemplate.ElementRectangles)
@@ -180,12 +183,12 @@ namespace SKDModule.PassCard.ViewModels
 					break;
 			}
 		}
-		private void ResolveImageProperty(ElementPassCardImageProperty elementImageProperty)
-		{
-			//elementImageProperty.BackgroundColor = Colors.Transparent;
-			//elementImageProperty.BackgroundSourceName = null;
-			//elementImageProperty.BackgroundImageSource = null;
-		}
+		//private void ResolveImageProperty(ElementPassCardImageProperty elementImageProperty)
+		//{
+		//	//elementImageProperty.BackgroundColor = Colors.Transparent;
+		//	//elementImageProperty.BackgroundSourceName = null;
+		//	//elementImageProperty.BackgroundImageSource = null;
+		//}
 
 		#region IPlanDesignerViewModel Members
 
@@ -242,36 +245,33 @@ namespace SKDModule.PassCard.ViewModels
 
 		private void OnPainterFactoryEvent(PainterFactoryEventArgs args)
 		{
-			if (args.DesignerCanvas != _passCardCanvas)
+			if (!Equals(args.DesignerCanvas, _passCardCanvas))
 				return;
 			var elementPassCardImageProperty = args.Element as ElementPassCardImageProperty;
-			if (elementPassCardImageProperty != null)
+			if (elementPassCardImageProperty == null) return;
+
+			Photo photo = null;
+			switch (elementPassCardImageProperty.PropertyType)
 			{
-				Photo photo = null;
-				switch (elementPassCardImageProperty.PropertyType)
-				{
-					case PassCardImagePropertyType.DepartmentLogo:
-						photo = _department == null ? null : _department.Photo;
-						break;
-					case PassCardImagePropertyType.OrganisationLogo:
-						photo = _organisation.Photo;
-						break;
-					case PassCardImagePropertyType.Photo:
-						photo = _employee.Photo;
-						break;
-					case PassCardImagePropertyType.PositionLogo:
-						photo = _position == null ? null : _position.Photo;
-						break;
-					case PassCardImagePropertyType.Additional:
-						var columnValue = _employee.AdditionalColumns.FirstOrDefault(x => x.AdditionalColumnType.UID == elementPassCardImageProperty.AdditionalColumnUID);
-						if (columnValue != null)
-							photo = columnValue.Photo;
-						break;
-					default:
-						break;
-				}
-				args.Painter = new PassCardImagePropertyPainter(_passCardCanvas, elementPassCardImageProperty, photo == null || photo.Data == null || photo.Data.Count() == 0 ? null : photo.Data);
+				case PassCardImagePropertyType.DepartmentLogo:
+					photo = _department == null ? null : _department.Photo;
+					break;
+				case PassCardImagePropertyType.OrganisationLogo:
+					photo = _organisation.Photo;
+					break;
+				case PassCardImagePropertyType.Photo:
+					photo = _employee.Photo;
+					break;
+				case PassCardImagePropertyType.PositionLogo:
+					photo = _position == null ? null : _position.Photo;
+					break;
+				case PassCardImagePropertyType.Additional:
+					var columnValue = _employee.AdditionalColumns.FirstOrDefault(x => x.AdditionalColumnType.UID == elementPassCardImageProperty.AdditionalColumnUID);
+					if (columnValue != null)
+						photo = columnValue.Photo;
+					break;
 			}
+			args.Painter = new PassCardImagePropertyPainter(_passCardCanvas, elementPassCardImageProperty, photo == null || photo.Data == null || photo.Data.Count() == 0 ? null : photo.Data);
 		}
 
 		protected override bool Save()

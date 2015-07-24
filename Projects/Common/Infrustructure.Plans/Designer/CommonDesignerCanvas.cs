@@ -125,24 +125,20 @@ namespace Infrustructure.Plans.Designer
 
 		public void SetTitle(object title)
 		{
-			if (DesignerSurface != null)
-			{
-				var toolTip = DesignerSurface.ToolTip as ToolTip;
-				if (toolTip != null)
-					toolTip.IsOpen = false;
-				DesignerSurface.ToolTip = null;
-				if (title != null)
-				{
-					toolTip = new ToolTip();
-					toolTip.Content = title;
-					toolTip.Placement = PlacementMode.MousePoint;
-					if (DesignerSurface.IsMouseOver)
-					{
-						DesignerSurface.ToolTip = toolTip;
-						toolTip.IsOpen = true;
-					}
-				}
-			}
+			if (DesignerSurface == null) return;
+
+			var toolTip = DesignerSurface.ToolTip as ToolTip;
+			if (toolTip != null)
+				toolTip.IsOpen = false;
+
+			DesignerSurface.ToolTip = null;
+			if (title == null || string.Equals(title, string.Empty)) return;
+
+			toolTip = new ToolTip {Content = title, Placement = PlacementMode.MousePoint};
+			if (!DesignerSurface.IsMouseOver) return;
+
+			DesignerSurface.ToolTip = toolTip;
+			toolTip.IsOpen = true;
 		}
 
 		public IEnumerable<DesignerItem> Items

@@ -7,16 +7,16 @@ using Infrastructure.Common;
 
 namespace Infrastructure.Client.Plans
 {
-	public partial class PlanDesignerView : UserControl
+	public partial class PlanDesignerView
 	{
 		private const string DeviceZoomSetting = "Plans.DeviceZoom";
-		private double WheelScrollSpeed = 1;
-		private Point? lastMousePositionOnTarget;
-		private Point? lastCenterPositionOnTarget;
-		private double initialScale = 1;
+		private const double WheelScrollSpeed = 1;
+		private Point? _lastMousePositionOnTarget;
+		private Point? _lastCenterPositionOnTarget;
+		private double _initialScale = 1;
 		private bool _requreRefresh;
 		private bool _locked;
-		private DispatcherTimer _timer;
+		private readonly DispatcherTimer _timer;
 
 		public PlanDesignerView()
 		{
@@ -36,12 +36,12 @@ namespace Infrastructure.Client.Plans
 			_scrollViewer.ScrollChanged += OnScrollViewerScrollChanged;
 
 			slider.ValueChanged += OnSliderValueChanged;
-			deviceSlider.ValueChanged += new RoutedPropertyChangedEventHandler<double>(deviceSlider_ValueChanged);
+			deviceSlider.ValueChanged += deviceSlider_ValueChanged;
 
-			Loaded += new RoutedEventHandler(OnLoaded);
-			_scrollViewer.SizeChanged += new SizeChangedEventHandler(OnSizeChanged);
-			_scrollViewer.LayoutUpdated += new EventHandler(OnLayoutUpdated);
-			_timer = new DispatcherTimer()
+			Loaded += OnLoaded;
+			_scrollViewer.SizeChanged += OnSizeChanged;
+			_scrollViewer.LayoutUpdated += OnLayoutUpdated;
+			_timer = new DispatcherTimer
 			{
 				Interval = TimeSpan.FromMilliseconds(100),
 				IsEnabled = false,
@@ -79,34 +79,32 @@ namespace Infrastructure.Client.Plans
 		public void Reset()
 		{
 			_requreRefresh = false;
-			if (!_locked)
-			{
-				FullSize();
-				slider.Value = 1;
-				_timer.IsEnabled = false;
-				_locked = false;
-				UpdateScale();
-				((IPlanDesignerViewModel)DataContext).ResetZoom(slider.Value * initialScale, deviceSlider.Value);
-			}
+			if (_locked) return;
+
+			FullSize();
+			slider.Value = 1;
+			_timer.IsEnabled = false;
+			_locked = false;
+			UpdateScale();
+			((IPlanDesignerViewModel)DataContext).ResetZoom(slider.Value * _initialScale, deviceSlider.Value);
 		}
 
 		private void OnPreviewMouseWheel(object sender, MouseWheelEventArgs e)
 		{
 			if (!((IPlanDesignerViewModel)DataContext).HasPermissionsToScale)
 				return;
-			lastMousePositionOnTarget = Mouse.GetPosition(_grid);
+			_lastMousePositionOnTarget = Mouse.GetPosition(_grid);
 			if (e.Delta != 0)
 				slider.Value += e.Delta > 0 ? WheelScrollSpeed : -WheelScrollSpeed;
 			e.Handled = true;
 		}
 		private void OnContentMouseDown(object sender, MouseButtonEventArgs e)
 		{
-			if (e.Source == _grid)
-			{
-				var viewModel = (IPlanDesignerViewModel)DataContext;
-				if (viewModel != null && viewModel.Canvas != null)
-					viewModel.Canvas.BackgroundMouseDown(e);
-			}
+			if (!Equals(e.Source, _grid)) return;
+
+			var viewModel = (IPlanDesignerViewModel)DataContext;
+			if (viewModel != null && viewModel.Canvas != null)
+				viewModel.Canvas.BackgroundMouseDown(e);
 		}
 
 		public RelayCommand ZoomInCommand { get; private set; }
@@ -163,13 +161,13 @@ namespace Infrastructure.Client.Plans
 		}
 		private void UpdateScale()
 		{
-			scaleTransform.ScaleX = slider.Value * initialScale;
-			scaleTransform.ScaleY = slider.Value * initialScale;
+			scaleTransform.ScaleX = slider.Value * _initialScale;
+			scaleTransform.ScaleY = slider.Value * _initialScale;
 
-			((IPlanDesignerViewModel)DataContext).ChangeZoom(slider.Value * initialScale);
+			((IPlanDesignerViewModel)DataContext).ChangeZoom(slider.Value * _initialScale);
 
 			var centerOfViewport = new Point(_scrollViewer.ViewportWidth / 2, _scrollViewer.ViewportHeight / 2);
-			lastCenterPositionOnTarget = _scrollViewer.TranslatePoint(centerOfViewport, _grid);
+			_lastCenterPositionOnTarget = _scrollViewer.TranslatePoint(centerOfViewport, _grid);
 		}
 		void OnScrollViewerScrollChanged(object sender, ScrollChangedEventArgs e)
 		{
@@ -179,42 +177,41 @@ namespace Infrastructure.Client.Plans
 			Point? targetBefore = null;
 			Point? targetNow = null;
 
-			if (!lastMousePositionOnTarget.HasValue)
+			if (!_lastMousePositionOnTarget.HasValue)
 			{
-				if (lastCenterPositionOnTarget.HasValue)
+				if (_lastCenterPositionOnTarget.HasValue)
 				{
 					var centerOfViewport = new Point(_scrollViewer.ViewportWidth / 2, _scrollViewer.ViewportHeight / 2);
 					Point centerOfTargetNow = _scrollViewer.TranslatePoint(centerOfViewport, _grid);
 
-					targetBefore = lastCenterPositionOnTarget;
+					targetBefore = _lastCenterPositionOnTarget;
 					targetNow = centerOfTargetNow;
 				}
 			}
 			else
 			{
-				targetBefore = lastMousePositionOnTarget;
+				targetBefore = _lastMousePositionOnTarget;
 				targetNow = Mouse.GetPosition(_grid);
 
-				lastMousePositionOnTarget = null;
+				_lastMousePositionOnTarget = null;
 			}
 
-			if (targetBefore.HasValue)
-			{
-				double dXInTargetPixels = targetNow.Value.X - targetBefore.Value.X;
-				double dYInTargetPixels = targetNow.Value.Y - targetBefore.Value.Y;
+			if (!targetBefore.HasValue) return;
 
-				double multiplicatorX = e.ExtentWidth / _grid.ActualWidth;
-				double multiplicatorY = e.ExtentHeight / _grid.ActualHeight;
+			double dXInTargetPixels = targetNow.Value.X - targetBefore.Value.X;
+			double dYInTargetPixels = targetNow.Value.Y - targetBefore.Value.Y;
 
-				double newOffsetX = _scrollViewer.HorizontalOffset - dXInTargetPixels * multiplicatorX;
-				double newOffsetY = _scrollViewer.VerticalOffset - dYInTargetPixels * multiplicatorY;
+			double multiplicatorX = e.ExtentWidth / _grid.ActualWidth;
+			double multiplicatorY = e.ExtentHeight / _grid.ActualHeight;
 
-				if (double.IsNaN(newOffsetX) || double.IsNaN(newOffsetY))
-					return;
+			double newOffsetX = _scrollViewer.HorizontalOffset - dXInTargetPixels * multiplicatorX;
+			double newOffsetY = _scrollViewer.VerticalOffset - dYInTargetPixels * multiplicatorY;
 
-				_scrollViewer.ScrollToHorizontalOffset(newOffsetX);
-				_scrollViewer.ScrollToVerticalOffset(newOffsetY);
-			}
+			if (double.IsNaN(newOffsetX) || double.IsNaN(newOffsetY))
+				return;
+
+			_scrollViewer.ScrollToHorizontalOffset(newOffsetX);
+			_scrollViewer.ScrollToVerticalOffset(newOffsetY);
 		}
 
 		private void FullSize()
@@ -232,59 +229,55 @@ namespace Infrastructure.Client.Plans
 					return;
 				if (Double.IsNaN(scale))
 					scale = 1;
-				initialScale = scale;
+				_initialScale = scale;
 			}
 			else
-				initialScale = 1;
+				_initialScale = 1;
 		}
 
-		private Point? lastDragPoint;
+		private Point? _lastDragPoint;
 		private void OnMouseMiddleDown(object sender, MouseButtonEventArgs e)
 		{
-			if (e.MiddleButton == MouseButtonState.Pressed)
+			if (e.MiddleButton != MouseButtonState.Pressed) return;
+
+			var mousePos = e.GetPosition(_scrollViewer);
+			if (mousePos.X <= _scrollViewer.ViewportWidth && mousePos.Y < _scrollViewer.ViewportHeight)
 			{
-				var mousePos = e.GetPosition(_scrollViewer);
-				if (mousePos.X <= _scrollViewer.ViewportWidth && mousePos.Y < _scrollViewer.ViewportHeight)
-				{
-					lastDragPoint = mousePos;
-					_scrollViewer.Cursor = Cursors.SizeAll;
-					_scrollViewer.CaptureMouse();
-				}
-				e.Handled = true;
+				_lastDragPoint = mousePos;
+				_scrollViewer.Cursor = Cursors.SizeAll;
+				_scrollViewer.CaptureMouse();
 			}
+			e.Handled = true;
 		}
 		private void OnMouseMiddleUp(object sender, MouseButtonEventArgs e)
 		{
-			if (e.MiddleButton == MouseButtonState.Released)
-			{
-				lastDragPoint = null;
-				_scrollViewer.Cursor = Cursors.Arrow;
-				_scrollViewer.ReleaseMouseCapture();
-			}
+			if (e.MiddleButton != MouseButtonState.Released) return;
+
+			_lastDragPoint = null;
+			_scrollViewer.Cursor = Cursors.Arrow;
+			_scrollViewer.ReleaseMouseCapture();
 		}
 		private void OnMiddleMouseMove(object sender, MouseEventArgs e)
 		{
-			if (e.MiddleButton == MouseButtonState.Pressed && lastDragPoint.HasValue)
-			{
-				Point posNow = e.GetPosition(_scrollViewer);
+			if (e.MiddleButton != MouseButtonState.Pressed || !_lastDragPoint.HasValue) return;
 
-				double dX = posNow.X - lastDragPoint.Value.X;
-				double dY = posNow.Y - lastDragPoint.Value.Y;
+			Point posNow = e.GetPosition(_scrollViewer);
 
-				lastDragPoint = posNow;
+			double dX = posNow.X - _lastDragPoint.Value.X;
+			double dY = posNow.Y - _lastDragPoint.Value.Y;
 
-				_scrollViewer.ScrollToHorizontalOffset(_scrollViewer.HorizontalOffset - dX);
-				_scrollViewer.ScrollToVerticalOffset(_scrollViewer.VerticalOffset - dY);
-			}
+			_lastDragPoint = posNow;
+
+			_scrollViewer.ScrollToHorizontalOffset(_scrollViewer.HorizontalOffset - dX);
+			_scrollViewer.ScrollToVerticalOffset(_scrollViewer.VerticalOffset - dY);
 		}
 		private void OnMiddleMouseLeave(object sender, MouseEventArgs e)
 		{
-			if (e.MiddleButton == MouseButtonState.Pressed)
-			{
-				lastDragPoint = null;
-				_scrollViewer.Cursor = Cursors.Arrow;
-				_scrollViewer.ReleaseMouseCapture();
-			}
+			if (e.MiddleButton != MouseButtonState.Pressed) return;
+
+			_lastDragPoint = null;
+			_scrollViewer.Cursor = Cursors.Arrow;
+			_scrollViewer.ReleaseMouseCapture();
 		}
 	}
 }
