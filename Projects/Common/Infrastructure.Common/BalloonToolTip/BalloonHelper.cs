@@ -8,12 +8,11 @@ namespace Infrastructure.Common.BalloonTrayTip
 {
 	public class BalloonHelper
 	{
-		private static BalloonToolTipViewModel balloonToolTipViewModel = new BalloonToolTipViewModel();
-		private static Brush ForegroundColor = Brushes.Black;
+		private static BalloonToolTipViewModel _balloonToolTipViewModel = new BalloonToolTipViewModel();
 
 		public static void ShowFromFiresec(string text)
 		{
-			Show("Глобал", text);
+			Show("Страж", text);
 		}
 
 		public static void ShowFromAdm(string text)
@@ -42,11 +41,11 @@ namespace Infrastructure.Common.BalloonTrayTip
 			{
 				try
 				{
-					if (balloonToolTipViewModel == null)
+					if (_balloonToolTipViewModel == null)
 					{
-						balloonToolTipViewModel = new BalloonToolTipViewModel();
+						_balloonToolTipViewModel = new BalloonToolTipViewModel();
 					}
-					balloonToolTipViewModel.Add(title, text, foregroundColor, backgroundColor);
+					_balloonToolTipViewModel.Add(title, text, foregroundColor, backgroundColor);
 				}
 				catch (Exception e)
 				{

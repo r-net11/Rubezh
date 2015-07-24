@@ -8,7 +8,7 @@ namespace FireMonitor.ViewModels
 	{
 		public RestartApplicationViewModel()
 		{
-			Title = "Глобал";
+			Title = "Страж";
 			TopMost = true;
 			AllowClose = false;
 			Sizable = false;
