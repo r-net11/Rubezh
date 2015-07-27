@@ -10,25 +10,9 @@ namespace FiresecAPI.GK
 	{
 		public void UpdateConfiguration()
 		{
-			if (RootDevice == null)
-			{
-				var systemDriver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.System);
-				if (systemDriver != null)
-				{
-					RootDevice = new GKDevice()
-					{
-						DriverUID = systemDriver.UID,
-						Driver = systemDriver
-					};
-				}
-				else
-				{
-					Logger.Error("GKManager.SetEmptyConfiguration systemDriver = null");
-				}
-			}
 			ValidateVersion();
-
 			Update();
+
 			foreach (var device in Devices)
 			{
 				device.Driver = GKManager.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);

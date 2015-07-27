@@ -40,12 +40,12 @@ namespace GKModule.Validation
 				if (IsManyGK)
 					ValidateDifferentGK(device);
 				ValidateIPAddress(device);
-				if (GlobalSettingsHelper.GlobalSettings.IgnoredErrors.HasFlag(ValidationErrorType.DeviceNotConnected))
+				if (!GlobalSettingsHelper.GlobalSettings.IgnoredErrors.HasFlag(ValidationErrorType.DeviceNotConnected))
 				{
 					ValidateDeviceZone(device);
 					ValidateGuardDeviceZone(device);
 				}
-				if (GlobalSettingsHelper.GlobalSettings.IgnoredErrors.HasFlag(ValidationErrorType.DeviceHaveNoLogic))
+				if (!GlobalSettingsHelper.GlobalSettings.IgnoredErrors.HasFlag(ValidationErrorType.DeviceHaveNoLogic))
 					ValidateLogic(device);
 				ValidateGKNotEmptyChildren(device);
 				ValidateParametersMinMax(device);

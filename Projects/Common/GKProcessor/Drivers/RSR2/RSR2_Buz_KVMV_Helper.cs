@@ -104,8 +104,8 @@ namespace GKProcessor
 			var property94 = new GKDriverProperty()
 			{
 				No = 9,
-				Name = "ДУ Откр",
-				Caption = "ДУ Откр",
+				Name = "ОГВ",
+				Caption = "ОГВ",
 				Default = 0,
 				IsLowByte = true,
 				Mask = 16
@@ -117,8 +117,8 @@ namespace GKProcessor
 			var property95 = new GKDriverProperty()
 			{
 				No = 9,
-				Name = "ДУ Закр",
-				Caption = "ДУ Закр",
+				Name = "ДУ Откр",
+				Caption = "ДУ Откр",
 				Default = 0,
 				IsLowByte = true,
 				Mask = 32
@@ -130,8 +130,8 @@ namespace GKProcessor
 			var property96 = new GKDriverProperty()
 			{
 				No = 9,
-				Name = "ДУ Стоп",
-				Caption = "ДУ Стоп",
+				Name = "ДУ Закр",
+				Caption = "ДУ Закр",
 				Default = 0,
 				IsLowByte = true,
 				Mask = 64
@@ -143,8 +143,8 @@ namespace GKProcessor
 			var property97 = new GKDriverProperty()
 			{
 				No = 9,
-				Name = "ОГВ",
-				Caption = "ОГВ",
+				Name = "ДУ Стоп",
+				Caption = "ДУ Стоп",
 				Default = 0,
 				IsLowByte = true,
 				Mask = 128

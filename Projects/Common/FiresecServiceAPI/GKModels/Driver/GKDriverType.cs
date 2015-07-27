@@ -1,165 +1,163 @@
 ﻿using System.ComponentModel;
+
 namespace FiresecAPI.GK
 {
 	public enum GKDriverType
 	{
 		[Description("Локальная сеть")]
-		System,
+		System = 0,
+
 		[Description("ГК")]
-		GK,
+		GK = 1,
+
 		[Description("Индикатор ГК")]
-		GKIndicator,
+		GKIndicator = 2,
+
 		[Description("Линия ГК")]
-		GKLine,
+		GKLine = 3,
+
 		[Description("Реле ГК")]
-		GKRele,
-		[Description("КАУ")]
-		Obsolete_KAU,
-		[Description("АЛС")]
-		Obsolete_KAU_Shleif,
+		GKRele = 4,
+
 		[Description("Индикатор Неисправность КАУ")]
-		KAUIndicator,
-		[Description("ИП-64")]
-		Obsolete_SmokeDetector,
-		[Description("ИП-29")]
-		Obsolete_HeatDetector,
-		[Description("ИП-212")]
-		Obsolete_CombinedDetector,
-		[Description("ИПР")]
-		Obsolete_HandDetector,
-		[Description("АМ-1")]
-		Obsolete_AM_1,
-		[Description("АМП")]
-		Obsolete_AMP_1,
-		[Description("АМ1-Т")]
-		Obsolete_AM1_T,
-		[Description("РМ-1")]
-		Obsolete_RM_1,
-		[Description("МРО-2М")]
-		Obsolete_MRO_2,
-		[Description("МДУ-1")]
-		Obsolete_MDU,
-		[Description("МПТ-1")]
-		Obsolete_MPT,
-		[Description("ШУЗ")]
-		Obsolete_Valve,
-		[Description("Пожарный насос")]
-		Obsolete_FirePump,
-		[Description("Жокей насос")]
-		Obsolete_JockeyPump,
-		[Description("Дренажный насос")]
-		Obsolete_DrainagePump,
-		[Description("РМ-2")]
-		Obsolete_RM_2,
-		[Description("РМ-3")]
-		Obsolete_RM_3,
-		[Description("РМ-4")]
-		Obsolete_RM_4,
-		[Description("РМ-5")]
-		Obsolete_RM_5,
-		[Description("АМ-4")]
-		Obsolete_AM_4,
-		[Description("АМП-4")]
-		Obsolete_AMP_4,
+		KAUIndicator = 7,
+		
 		[Description("КАУ RSR2")]
-		RSR2_KAU,
+		RSR2_KAU = 29,
+
 		[Description("АЛС")]
-		RSR2_KAU_Shleif,
+		RSR2_KAU_Shleif = 30,
+
 		[Description("ИПР R2")]
-		RSR2_HandDetector,
+		RSR2_HandDetector = 31,
+
 		[Description("ИПД R2")]
-		RSR2_SmokeDetector,
+		RSR2_SmokeDetector = 32,
+
 		[Description("ИПК R2")]
-		RSR2_CombinedDetector,
-		[Description("ИП2Д R2")]
-		RSR2_SmokeDetector2,
+		RSR2_CombinedDetector = 33,
+
 		[Description("МР R2")]
-		RSR2_RM_1,
+		RSR2_RM_1 = 35,
+
 		[Description("МР-2 R2")]
-		RSR2_RM_2,
+		RSR2_RM_2 = 36,
+
 		[Description("МА R2")]
-		RSR2_AM_1,
+		RSR2_AM_1 = 37,
+
 		[Description("МА-4 R2")]
-		RSR2_AM_4,
+		RSR2_AM_4 = 38,
+
 		[Description("МА-2 R2")]
-		RSR2_AM_2,
+		RSR2_AM_2 = 39,
+
 		[Description("МДУ-1 R2")]
-		RSR2_MDU,
+		RSR2_MDU = 40,
+
 		[Description("МДУ24 R2")]
-		RSR2_MDU24,
+		RSR2_MDU24 = 41,
+
 		[Description("МАП R2")]
-		RSR2_MAP4,
+		RSR2_MAP4 = 42,
+
 		[Description("МВК R2")]
-		RSR2_MVK8,
+		RSR2_MVK8 = 43,
+
 		[Description("МАП-4 R2")]
-		RSR2_MAP4_Group,
+		RSR2_MAP4_Group = 44,
+
 		[Description("МВК-8 R2")]
-		RSR2_MVK8_Group,
+		RSR2_MVK8_Group = 45,
+
 		[Description("ИПТ R2")]
-		RSR2_HeatDetector,
+		RSR2_HeatDetector = 46,
+
 		[Description("ППУ ДН R2")]
-		RSR2_Bush_Drenazh,
+		RSR2_Bush_Drenazh = 47,
+
 		[Description("ППУ ЖН R2")]
-		RSR2_Bush_Jokey,
+		RSR2_Bush_Jokey = 48,
+
 		[Description("ППУ ПН R2")]
-		RSR2_Bush_Fire,
+		RSR2_Bush_Fire = 49,
+
 		[Description("ППУ В R2")]
-		RSR2_Bush_Shuv,
+		RSR2_Bush_Shuv = 50,
+
 		[Description("БУЗ КВ R2")]
-		RSR2_Valve_KV,
+		RSR2_Valve_KV = 51,
+
 		[Description("БУЗ КВ-МВ R2")]
-		RSR2_Valve_KVMV,
+		RSR2_Valve_KVMV = 52,
+
 		[Description("БУЗ КВ-ДУ R2")]
-		RSR2_Valve_DU,
-		[Description ("ИВЭПР")]
-		Obsolete_Battery,
-		[Description("ШУ")]
-		Obsolete_Shu,
-		[Description("ШУВ")]
-		Obsolete_Shuv,
+		RSR2_Valve_DU = 53,
+
 		[Description("ОПК-R2")]
-		RSR2_OPK,
+		RSR2_OPK = 57,
+
 		[Description("ОПС-R2")]
-		RSR2_OPS,
+		RSR2_OPS = 58,
+
 		[Description("ОПЗ-R2")]
-		RSR2_OPZ,
+		RSR2_OPZ = 59,
+
 		[Description("МВП R2")]
-		RSR2_MVP,
+		RSR2_MVP = 60,
+
 		[Description("Линия МВП")]
-		RSR2_MVP_Part,
+		RSR2_MVP_Part = 61,
+
 		[Description("НК R2")]
-		RSR2_CodeReader,
+		RSR2_CodeReader = 62,
+
 		[Description("ИО-ИК R2")]
-		RSR2_GuardDetector,
+		RSR2_GuardDetector = 63,
+
 		[Description("Контроллер Wiegand")]
-		RSR2_CardReader,
+		RSR2_CardReader = 64,
+
 		[Description("МР-4 R2")]
-		RSR2_RM_4,
+		RSR2_RM_4 = 65,
+
 		[Description("Буз КВ R2")]
-		RSR2_Buz_KV,
+		RSR2_Buz_KV = 66,
+
 		[Description("Буз КВ-МВ R2")]
-		RSR2_Buz_KVMV,
+		RSR2_Buz_KVMV = 67,
+
 		[Description("Буз КВ-ДУ R2")]
-		RSR2_Buz_KVDU,
+		RSR2_Buz_KVDU = 68,
+
 		[Description("ИО-ПЗ R2")]
-		RSR2_GuardDetectorSound,
+		RSR2_GuardDetectorSound = 69,
+
 		[Description("Отражение ГК")]
-		RSR2_GKMirror,
+		RSR2_GKMirror = 70,
+
 		[Description("Извещательные устройства")]
-		RSR2_GKMirrorDetectorsDevice,
+		RSR2_GKMirrorDetectorsDevice = 71,
+
 		[Description("Пожарные зоны")]
-		RSR2_GKMirrorFireZone,
+		RSR2_GKMirrorFireZone = 72,
+
 		[Description("Исполнительные устройства")]
-		RSR2_GKMirrorPerformersDevice,
+		RSR2_GKMirrorPerformersDevice = 73,
+
 		[Description("Зоны пожара тушения")]
-		RSR2_GKMirrorFightFireZone,
+		RSR2_GKMirrorFightFireZone = 74,
+
 		[Description("Охранные зоны")]
-		RSR2_GKMirrorGuardZone,
+		RSR2_GKMirrorGuardZone = 75,
+
 		[Description("Направления")]
-		RSR2_GKMirrorDirection,
+		RSR2_GKMirrorDirection = 76,
+
 		[Description("Группа индикаторов")]
-		GKIndicatorsGroup,
+		GKIndicatorsGroup = 77,
+
 		[Description("Группа реле")]
-		GKRelaysGroup
+		GKRelaysGroup = 78
 	}
 }

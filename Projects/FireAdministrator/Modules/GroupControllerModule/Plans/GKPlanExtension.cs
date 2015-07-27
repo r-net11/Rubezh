@@ -495,7 +495,7 @@ namespace GKModule.Plans
 		public override IEnumerable<ElementError> Validate()
 		{
 			List<ElementError> errors = new List<ElementError>();
-			if (GlobalSettingsHelper.GlobalSettings.IgnoredErrors.HasFlag(ValidationErrorType.NotBoundedElements))
+			if (!GlobalSettingsHelper.GlobalSettings.IgnoredErrors.HasFlag(ValidationErrorType.NotBoundedElements))
 				FiresecManager.PlansConfiguration.AllPlans.ForEach(plan =>
 				{
 					errors.AddRange(FindUnbindedErrors<ElementGKDevice, ShowGKDeviceEvent, Guid>(plan.ElementGKDevices, plan.UID, "Несвязанное устройство", "/Controls;component/GKIcons/RM_1.png", Guid.Empty));

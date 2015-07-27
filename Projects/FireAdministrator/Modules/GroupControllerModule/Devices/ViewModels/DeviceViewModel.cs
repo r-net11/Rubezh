@@ -101,6 +101,7 @@ namespace GKModule.ViewModels
 			OnPropertyChanged(() => IsInDoor);
 			OnPropertyChanged(() => MPTName);
 			OnPropertyChanged(() => IsInMPT);
+			OnPropertyChanged(() => IsInPumpStation);
 			OnPropertyChanged(() => IsZoneOrLogic);
 		}
 
@@ -133,6 +134,11 @@ namespace GKModule.ViewModels
 					|| x.LockDeviceUID == Device.UID || x.LockDeviceExitUID == Device.UID
 					|| x.LockControlDeviceUID == Device.UID || x.LockControlDeviceExitUID == Device.UID);
 			}
+		}
+
+		public bool IsInPumpStation
+		{
+			get { return Device != null && GKManager.PumpStations.Any(x => x.NSDevices.Contains(Device)); }
 		}
 
 		public string Address
@@ -667,7 +673,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanShowLogic()
 		{
-			return Driver.HasLogic && !Device.IsNotUsed && !Device.IsInMPT;
+			return Driver.HasLogic && !Device.IsNotUsed && !Device.IsInMPT && !IsInPumpStation;
 		}
 
 		public RelayCommand ShowZonesCommand { get; private set; }
@@ -737,7 +743,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanShowZoneOrLogic()
 		{
-			return !Device.IsInMPT && (CanShowZones() || CanShowLogic() || CanShowReflection());
+			return !Device.IsInMPT && !IsInPumpStation && (CanShowZones() || CanShowLogic() || CanShowReflection());
 		}
 
 		public bool IsZoneOrLogic
