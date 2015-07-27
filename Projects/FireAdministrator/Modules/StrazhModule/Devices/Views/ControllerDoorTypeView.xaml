@@ -1,7 +1,7 @@
 ﻿<UserControl x:Class="StrazhModule.Views.ControllerDoorTypeView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 MinWidth="385" MinHeight="300">
+			 MinWidth="493" MinHeight="318">
 
 	<TabControl>
 		<TabItem Header="Основные">
@@ -13,7 +13,7 @@
 								<TextBlock Text="{Binding}"  Foreground="{DynamicResource ForegroundColorLight}"/>
 							</DataTemplate>
 						</GroupBox.HeaderTemplate>
-						<StackPanel>
+						<StackPanel Margin="5">
 							<ComboBox ItemsSource="{Binding AvailableDoorTypes}" SelectedItem="{Binding SelectedDoorType}" Width="150" HorizontalAlignment="Left" Margin="2">
 								<ComboBox.ItemTemplate>
 									<DataTemplate>
@@ -27,7 +27,7 @@
 				<StackPanel Orientation="Horizontal">
 					<StackPanel>
 						<GroupBox Header="Запрет повторного прохода" Foreground="{DynamicResource ForegroundColorLight}" Margin="2">
-							<StackPanel MinHeight="160">
+							<StackPanel MinHeight="160" Margin="5">
 								<CheckBox Content="Активировать" IsChecked="{Binding IsAntiPassBackActivated}" IsEnabled="{Binding IsAntiPassBackEnabled}" Margin="2"/>
 								<RadioButton GroupName="AntipassBackGroup" Content="Считыватель 1-вход, 2-выход" IsChecked="{Binding SelectedAntiPassBackMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=R1In_R2Out}" IsEnabled="{Binding IsAntiPassBackModeR1InR2OutEnabled}" Margin="2"/>
 								<RadioButton GroupName="AntipassBackGroup" Content="Считыватель 3-вход, 4-выход" IsChecked="{Binding SelectedAntiPassBackMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=R3In_R4Out}" IsEnabled="{Binding IsAntiPassBackModeR3InR4OutEnabled}" Margin="2"/>
@@ -36,8 +36,8 @@
 						</GroupBox>
 					</StackPanel>
 					<StackPanel>
-						<GroupBox Header="Блокировка прохода" Foreground="{DynamicResource ForegroundColorLight}" Margin="2">
-							<StackPanel MinHeight="160">
+						<GroupBox Header="Блокировка одновременного прохода" Foreground="{DynamicResource ForegroundColorLight}" Margin="2">
+							<StackPanel MinHeight="160" Margin="5">
 								<CheckBox Content="Активировать" IsChecked="{Binding IsInterlockActivated}" IsEnabled="{Binding IsInterlockEnabled}" Margin="2"/>
 								<RadioButton GroupName="InterlockGroup" Content="Замок 1+2" IsChecked="{Binding SelectedInterlockMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=L1L2}" IsEnabled="{Binding IsInterlockModeL1L2Enabled}" Margin="2"/>
 								<RadioButton GroupName="InterlockGroup" Content="Замок 1+2+3" IsChecked="{Binding SelectedInterlockMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=L1L2L3}" IsEnabled="{Binding IsInterlockModeL1L2L3Enabled}" Margin="2"/>

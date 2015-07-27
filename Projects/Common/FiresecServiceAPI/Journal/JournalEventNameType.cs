@@ -331,16 +331,16 @@ namespace FiresecAPI.Journal
 		[EventName(JournalSubsystemType.SKD, "Команда на перевод двери в режим Норма", XStateClass.Norm)]
 		Команда_на_перевод_двери_в_режим_Норма,
 
-		[EventName(JournalSubsystemType.SKD, "Запрос antipassback настройки контроллера", XStateClass.TechnologicalRegime)]
+		[EventName(JournalSubsystemType.SKD, "Запрос настроек запрета повторного прохода", XStateClass.TechnologicalRegime)]
 		Запрос_antipassback_настройки_контроллера,
 
-		[EventName(JournalSubsystemType.SKD, "Запись antipassback настройки контроллера", XStateClass.TechnologicalRegime)]
+		[EventName(JournalSubsystemType.SKD, "Изменение настроек запрета повторного прохода", XStateClass.TechnologicalRegime)]
 		Запись_antipassback_настройки_контроллера,
 
-		[EventName(JournalSubsystemType.SKD, "Запрос interlock настройки контроллера", XStateClass.TechnologicalRegime)]
+		[EventName(JournalSubsystemType.SKD, "Запрос настроек блокировки одновременного прохода", XStateClass.TechnologicalRegime)]
 		Запрос_interlock_настройки_контроллера,
 
-		[EventName(JournalSubsystemType.SKD, "Запись interlock настройки контроллера", XStateClass.TechnologicalRegime)]
+		[EventName(JournalSubsystemType.SKD, "Изменение настроек блокировки одновременного прохода", XStateClass.TechnologicalRegime)]
 		Запись_interlock_настройки_контроллера,
 
 		[EventName(JournalSubsystemType.SKD, "Подтверждение тревоги", XStateClass.Fire1)]
