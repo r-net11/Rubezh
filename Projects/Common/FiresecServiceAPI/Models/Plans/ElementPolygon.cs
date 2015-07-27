@@ -12,13 +12,6 @@ namespace FiresecAPI.Models
 			PresentationName = "Многоугольник";
 		}
 
-		public override ElementBase Clone()
-		{
-			ElementPolygon elementBase = new ElementPolygon();
-			Copy(elementBase);
-			return elementBase;
-		}
-
 		#region IPrimitive Members
 
 		[XmlIgnore]

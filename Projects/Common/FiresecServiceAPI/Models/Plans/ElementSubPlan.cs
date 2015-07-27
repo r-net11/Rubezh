@@ -20,12 +20,6 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public string Caption { get; set; }
 
-		public override ElementBase Clone()
-		{
-			ElementSubPlan elementBase = new ElementSubPlan();
-			Copy(elementBase);
-			return elementBase;
-		}
 		public override void Copy(ElementBase element)
 		{
 			base.Copy(element);

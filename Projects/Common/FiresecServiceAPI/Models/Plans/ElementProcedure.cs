@@ -55,12 +55,6 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public bool WordWrap { get; set; }
 
-		public override ElementBase Clone()
-		{
-			ElementProcedure elementBase = new ElementProcedure();
-			Copy(elementBase);
-			return elementBase;
-		}
 		public override void Copy(ElementBase element)
 		{
 			base.Copy(element);
@@ -84,7 +78,7 @@ namespace FiresecAPI.Models
 
 		#region IElementReference Members
 
-		Guid IElementReference.ItemUID
+		public Guid ItemUID
 		{
 			get { return ProcedureUID; }
 			set { ProcedureUID = value; }

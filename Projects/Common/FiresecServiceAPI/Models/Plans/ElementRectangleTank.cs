@@ -17,12 +17,6 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public Guid DeviceUID { get; set; }
 
-		public override ElementBase Clone()
-		{
-			var elementBase = new ElementRectangleTank();
-			Copy(elementBase);
-			return elementBase;
-		}
 		public override void Copy(ElementBase element)
 		{
 			base.Copy(element);
@@ -46,7 +40,7 @@ namespace FiresecAPI.Models
 
 		#region IElementReference Members
 
-		Guid IElementReference.ItemUID
+		public Guid ItemUID
 		{
 			get { return DeviceUID; }
 			set { DeviceUID = value; }
