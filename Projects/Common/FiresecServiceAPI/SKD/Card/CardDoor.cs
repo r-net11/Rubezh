@@ -13,9 +13,6 @@ namespace FiresecAPI.SKD
 		public int EnterScheduleNo { get; set; }
 
 		[DataMember]
-		public int ExitScheduleNo { get; set; }
-
-		[DataMember]
 		public Guid? CardUID { get; set; }
 
 		[DataMember]

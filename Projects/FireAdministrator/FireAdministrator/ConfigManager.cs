@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using Common;
+using FireAdministrator.Properties;
 using FiresecAPI;
 using FiresecAPI.Automation;
 using FiresecAPI.Models;
@@ -155,7 +156,7 @@ namespace FireAdministrator
 		{
 			try
 			{
-				if (MessageBoxService.ShowQuestion("Вы уверены, что хотите создать новую конфигурацию"))
+				if (MessageBoxService.ShowQuestion(Resources.CreateNewConfigurationMessage))
 				{
 					ServiceFactory.Events.GetEvent<ConfigurationClosedEvent>().Publish(null);
 					FiresecManager.PlansConfiguration = new PlansConfiguration();
