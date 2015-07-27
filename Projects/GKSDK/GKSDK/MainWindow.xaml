@@ -125,7 +125,7 @@
                         <Button Content="Ручное" Command="{Binding SetManualStateCommand}" Width="160" Margin="2" />
                         <Button Content="Отключение" Command="{Binding SetIgnoreStateCommand}" Width="160" Margin="2" />
                     </StackPanel>
-                    <StackPanel DataContext="{Binding SelectedDirection}" Orientation="Horizontal" IsEnabled="{Binding IsControlRegime}">
+                    <StackPanel DataContext="{Binding SelectedDirection}" Orientation="Horizontal">
                         <Button Content="Пуск" Command="{Binding TurnOnCommand}" Width="160" Margin="2" />
                         <Button Content="Пуск немедленно" Command="{Binding TurnOnNowCommand}" Width="160" Margin="2" />
                         <Button Content="Останов пуска" Command="{Binding ForbidStartCommand}" Width="160" Margin="2" />
