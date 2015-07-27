@@ -79,8 +79,7 @@ namespace AutomationModule.ViewModels
 		{
 			if (IsNowPlaying == false)
 			{
-				AlarmPlayerHelper.Play(FiresecClient.FileHelper.GetSoundFilePath
-					(Path.Combine(ServiceFactoryBase.ContentService.ContentFolder, SelectedSound.Sound.Uid.ToString())), BeeperType.Alarm, false);
+				AlarmPlayerHelper.Play(FiresecClient.FileHelper.GetSoundFilePath(Path.Combine(ServiceFactoryBase.ContentService.ContentFolder, SelectedSound.Sound.Uid.ToString())), BeeperType.None, false);
 				IsNowPlaying = false;
 			}
 			else
