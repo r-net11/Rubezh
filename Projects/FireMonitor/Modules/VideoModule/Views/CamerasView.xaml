@@ -7,9 +7,9 @@
 	<UserControl.Resources>
 		<converters:CameraViewModelNameComparer x:Key="CamerasViewModelNameComparer" />
 		<converters:CamerasViewModelAddressComparer x:Key="CamerasViewModelAddressComparer" />
-		<ContextMenu  x:Key="CameraContextMenu">
-			<IconedMenuItem Command="{Binding ShowOnPlanCommand}" ImageSource="BMap"  Text="Показать на плане" />
-			<IconedMenuItem Command="{Binding ShowPropertiesCommand}" ImageSource="BSettings"  Text="Свойства" />
+		<ContextMenu x:Key="CameraContextMenu">
+			<IconedMenuItem Command="{Binding ShowOnPlanCommand}" ImageSource="BMap" Text="Показать на плане" />
+			<IconedMenuItem Command="{Binding ShowPropertiesCommand}" ImageSource="BSettings" Text="Свойства" />
 		</ContextMenu>
 	</UserControl.Resources>
 	<TreeList
@@ -30,7 +30,11 @@
 								<StackPanel Orientation="Horizontal">
 									<StackPanel Orientation="Horizontal">
 										<Grid Width="16" Height="16" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Background="{DynamicResource BVideo}" />
-										<TextBlock Text="{Binding  Camera.Name, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Center" />
+										<TextBlock HorizontalAlignment="Left" VerticalAlignment="Center">
+											<Hyperlink Command="{Binding ShowPropertiesCommand}" Style="{StaticResource HyperlinkStyle2}">
+												<TextBlock Text="{Binding Camera.Name, UpdateSourceTrigger=PropertyChanged}" />
+											</Hyperlink>
+										</TextBlock>
 									</StackPanel>
 								</StackPanel>
 							</DataTemplate>

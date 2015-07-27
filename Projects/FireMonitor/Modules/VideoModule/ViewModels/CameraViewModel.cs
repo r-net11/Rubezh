@@ -19,11 +19,16 @@ namespace VideoModule.ViewModels
 	public class CameraViewModel : TreeNodeViewModel<CameraViewModel>
 	{
 		public Camera Camera { get; set; }
-
+		public RelayCommand ShowPropertiesCommand { get; private set; }
+		void OnShowProperties()
+		{
+			DialogService.ShowWindow(new CameraDetailsViewModel(Camera));
+		}
 		public CameraViewModel(Camera camera)
 		{
 			VisualCameraViewModels = new List<CameraViewModel>();
 			Camera = camera;
+			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
 		}
 
 		public List<CameraViewModel> VisualCameraViewModels;
