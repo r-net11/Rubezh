@@ -203,7 +203,7 @@ namespace Infrastructure.Client
                         {
                             var message = string.Format("Не найден файл модуля {0}", moduleElement.AssemblyFile);
                             Logger.Error(message);
-                            MessageBoxService.ShowError(message);
+                            //MessageBoxService.ShowError(message);
                         }
 					}
 					catch (StartupCancellationException)

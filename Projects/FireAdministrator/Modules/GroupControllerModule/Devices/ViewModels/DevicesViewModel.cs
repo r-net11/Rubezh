@@ -192,7 +192,7 @@ namespace GKModule.ViewModels
 		bool CanCutCopy()
 		{
 			return !(SelectedDevice == null || SelectedDevice.Parent == null ||
-				SelectedDevice.Driver.IsAutoCreate || SelectedDevice.Parent.Driver.IsGroupDevice);
+				SelectedDevice.Driver.IsAutoCreate || SelectedDevice.Parent.Driver.IsGroupDevice || SelectedDevice.Parent.Driver.DriverType == GKDriverType.RSR2_GKMirror);
 		}
 
 		private bool isCut;

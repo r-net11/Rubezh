@@ -35,9 +35,11 @@ namespace GKModule.ViewModels
 				var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 				if (device != null)
 				{
+					device.Logic = new GKLogic();
 					PumpStation.NSDevices.Add(device);
 					var deviceViewModel = new DeviceViewModel(device);
 					PumpDevices.Add(deviceViewModel);
+					device.OnChanged();
 				}
 			}
 			OnPropertyChanged(() => PumpStation);
@@ -79,6 +81,7 @@ namespace GKModule.ViewModels
 				}
 			}
 
+			var pumpDevices = new List<GKDevice>(PumpStation.NSDevices);
 			var devicesSelectationViewModel = new DevicesSelectationViewModel(PumpStation.NSDevices, sourceDevices);
 			if (DialogService.ShowModalWindow(devicesSelectationViewModel))
 			{
@@ -88,8 +91,11 @@ namespace GKModule.ViewModels
 				{
 					PumpStation.NSDeviceUIDs.Add(device.UID);
 					PumpStation.LinkObject(device);
+					device.Logic = new GKLogic();
 				}
 				Update();
+				pumpDevices.ForEach(x => x.OnChanged());
+				PumpStation.NSDevices.FindAll(x => !pumpDevices.Contains(x)).ForEach(y => y.NSLogic = new GKLogic());
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -98,8 +104,11 @@ namespace GKModule.ViewModels
 		{
 			if (SelectedPumpDevice != null)
 			{
+				var device = SelectedPumpDevice.Device;
 				PumpStation.NSDeviceUIDs.Remove(SelectedPumpDevice.Device.UID);
 				Update();
+				device.NSLogic = new GKLogic();
+				device.OnChanged();
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 			SelectedPumpDevice = null;

@@ -20,7 +20,7 @@ namespace GKModule.Validation
 					ValidateDifferentGK(zone);
 				//ValidateZoneHasNoDevices(zone);
 				ValidateEmpty(zone);
-				if (GlobalSettingsHelper.GlobalSettings.IgnoredErrors.HasFlag(ValidationErrorType.ZoneSensorQuantity))
+				if (!GlobalSettingsHelper.GlobalSettings.IgnoredErrors.HasFlag(ValidationErrorType.ZoneSensorQuantity))
 				{
 					ValidateZoneDetectorCount(zone);
 					ValidateZoneFire1Fire2Count(zone);

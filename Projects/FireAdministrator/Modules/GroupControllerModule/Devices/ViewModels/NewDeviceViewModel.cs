@@ -60,6 +60,12 @@ namespace GKModule.ViewModels
 
 		bool CreateDevices()
 		{
+			if (SelectedDriver.DriverType == GKDriverType.RSR2_KAU && StartAddress + Count > 127)
+			{
+				MessageBoxService.ShowWarning("При добавлении количество КАУ на ГК будет превышать 127");
+				return false;
+			}
+
 			for (int i = StartAddress; i < StartAddress + Count; i++)
 			{
 				if (ParentDevice.Children.Any(x => x.Driver.HasAddress && x.IntAddress == i))
