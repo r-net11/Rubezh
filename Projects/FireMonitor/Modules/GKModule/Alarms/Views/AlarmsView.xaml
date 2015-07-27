@@ -12,7 +12,6 @@
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
-			<RowDefinition Height="100" MinHeight="100" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 		<DataGrid Grid.Row="0" ItemsSource="{Binding Alarms}" SelectedItem="{Binding SelectedAlarm}">
@@ -110,15 +109,6 @@
 									</Hyperlink>
 								</TextBlock>
 
-								<TextBlock Margin="2 0" Visibility="{Binding CanShowInstructionCommand, Converter={StaticResource BoolToVisibilityConverter}}">
-									<Hyperlink Command="{Binding ShowInstructionCommand}" Style="{StaticResource HyperlinkStyle2}">
-										<StackPanel Orientation="Horizontal">
-											<Grid Width="16" Background="{DynamicResource BInformation}" VerticalAlignment="Center" Margin="1" />
-											<TextBlock Text="Инструкции" VerticalAlignment="Center" Margin="1" />
-										</StackPanel>
-									</Hyperlink>
-								</TextBlock>
-
 								<TextBlock Margin="2 0" Visibility="{Binding CanShowPropertiesCommand, Converter={StaticResource BoolToVisibilityConverter}}">
 									<Hyperlink Command="{Binding ShowPropertiesCommand}" Style="{StaticResource HyperlinkStyle2}">
 										<StackPanel Orientation="Horizontal">
@@ -141,11 +131,10 @@
 									<IconedMenuItem ImageSource="BReset" Text="Сбросить" Command="{Binding ResetCommand}" />
 									<IconedMenuItem ImageSource="BResetIgnore" Text="Снять отключение" Command="{Binding ResetIgnoreCommand}" />
 									<IconedMenuItem ImageSource="BResetIgnore" Text="Включить автоматику" Command="{Binding TurnOnAutomaticCommand}" />
-									<IconedMenuItem ImageSource="BMap"  Text="Показать на плане" Command="{Binding ShowOnPlanCommand}" />
-									<IconedMenuItem ImageSource="BTree"  Text="Показать" Command="{Binding ShowObjectCommand}" />
+									<IconedMenuItem ImageSource="BMap" Text="Показать на плане" Command="{Binding ShowOnPlanCommand}" />
+									<IconedMenuItem ImageSource="BTree" Text="Показать" Command="{Binding ShowObjectCommand}" />
 									<IconedMenuItem ImageSource="BJournal" Text="Показать связанные события" Command="{Binding ShowJournalCommand}" />
-									<IconedMenuItem ImageSource="BSettings"  Text="Свойства" Command="{Binding ShowPropertiesCommand}" />
-									<IconedMenuItem ImageSource="BInformation"  Text="Инструкции" Command="{Binding ShowInstructionCommand}" />
+									<IconedMenuItem ImageSource="BSettings" Text="Свойства" Command="{Binding ShowPropertiesCommand}" />
 								</ContextMenu>
 							</Setter.Value>
 						</Setter>
@@ -176,16 +165,7 @@
 			</DataGrid.CellStyle>
 		</DataGrid>
 		<GridSplitter Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="5" Background="Transparent" Cursor="SizeNS" />
-		<!--Zemskov_question-->
-		<Border Grid.Row="2" DataContext="{Binding SelectedAlarm}" TextBlock.FontSize="11" TextBlock.Foreground="White"
-				CornerRadius="5" BorderThickness="0" Margin="0, 5, 0, 0" Padding="5" Background="{DynamicResource BackgroundBrush}">
-			<ScrollViewer VerticalScrollBarVisibility="Auto">
-				<WrapPanel Margin="1">
-					<TextBlock Text="{Binding Instruction.Text}" Style="{DynamicResource TextBlockDetailsStyle}" TextWrapping="Wrap" />
-				</WrapPanel>
-			</ScrollViewer>
-		</Border>
-		<StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
+		<StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
 			<Button Content="Снять все отключения" Command="{Binding ResetIgnoreAllCommand}" Width="150" Margin="2" />
 		</StackPanel>
 	</Grid>

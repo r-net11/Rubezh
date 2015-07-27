@@ -245,7 +245,7 @@ namespace Infrastructure.Client.Startup.ViewModels
 					}
 					Thread.Sleep(TimeSpan.FromSeconds(1));
 				}
-				Message = "Превышено время ожижания запуска сервера";
+				Message = "Превышено время ожидания запуска сервера";
 			}
 			else
 			{

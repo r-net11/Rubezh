@@ -135,7 +135,6 @@
     <Compile Include="Validation\Converters\ErrorLevelToColorConverter.cs" />
     <Compile Include="Validation\Converters\ErrorLevelToIconConverter.cs" />
     <Compile Include="Validation\Converters\ErrorLevelToStringConverter.cs" />
-    <Compile Include="Validation\ViewModels\ErrorEntityType.cs" />
     <Compile Include="Validation\ViewModels\ValidationErrorsViewModel.cs" />
     <Compile Include="Validation\Views\ValidationErrorsView.xaml.cs">
       <DependentUpon>ValidationErrorsView.xaml</DependentUpon>
