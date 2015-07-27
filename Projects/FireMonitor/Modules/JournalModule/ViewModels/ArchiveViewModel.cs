@@ -108,7 +108,8 @@ namespace JournalModule.ViewModels
 				ArchiveFilter.ObjectUIDs.Add(showArchiveEventArgs.GKSKDZone.UID);
 			if (showArchiveEventArgs.GKDoor != null)
 				ArchiveFilter.ObjectUIDs.Add(showArchiveEventArgs.GKDoor.UID);
-
+			if (showArchiveEventArgs.Camera != null)
+				ArchiveFilter.ObjectUIDs.Add(showArchiveEventArgs.Camera.UID);
 			Update();
 		}
 

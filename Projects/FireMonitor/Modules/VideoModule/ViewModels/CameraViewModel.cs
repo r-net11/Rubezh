@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using Common;
@@ -13,6 +14,9 @@ using Infrastructure.Common;
 using Infrastructure.Common.TreeList;
 using Infrustructure.Plans.Painters;
 using Infrastructure.Common.Windows;
+using Infrastructure.Events;
+using Infrastructure;
+using Infrastructure.Common.Services;
 
 namespace VideoModule.ViewModels
 {
@@ -28,7 +32,9 @@ namespace VideoModule.ViewModels
 		{
 			VisualCameraViewModels = new List<CameraViewModel>();
 			Camera = camera;
+			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
+			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, () => Camera != null && Camera.PlanElementUIDs.Count > 0);
 		}
 
 		public List<CameraViewModel> VisualCameraViewModels;
@@ -98,5 +104,20 @@ namespace VideoModule.ViewModels
 				return CamerasViewModel.Current.Cameras.FirstOrDefault(x => x.Camera.Ip == Camera.Ip);
 			}
 		}
+		public RelayCommand ShowJournalCommand { get; private set; }
+		void OnShowJournal()
+		{
+			var showArchiveEventArgs = new ShowArchiveEventArgs()
+			{
+				Camera = Camera,
+			};
+			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(showArchiveEventArgs);
+		}
+		public RelayCommand ShowOnPlanCommand { get; private set; }
+		void OnShowOnPlan()
+		{
+			ServiceFactoryBase.Events.GetEvent<ShowCameraOnPlanEvent>().Publish(Camera);
+		}
+
 	}
 }
