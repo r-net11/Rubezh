@@ -23,10 +23,8 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-				</Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
 				<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Скрывать дерево планов в ОЗ" />
 				<CheckBox Grid.Row="0" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding Monitor_HidePlansTree}" />
 
@@ -40,29 +38,25 @@
 				<CheckBox Grid.Row="3" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding Monitor_F3_Enabled}" />
 
 				<TextBlock Grid.Row="4" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="F4 - сбросить все" />
-				<CheckBox Grid.Row="4" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding Monitor_F4_Enabled}" />
-
-				<TextBlock Grid.Row="5" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Разрешить управление МПТ" />
-				<CheckBox Grid.Row="5" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding Monitor_IsControlMPT}" />
-			</Grid>
+                <CheckBox Grid.Row="4" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding Monitor_F4_Enabled}" />
+            </Grid>
 		</TabItem>
 		<TabItem Header="Сервер">
-			<Grid>
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="*" />
-					<ColumnDefinition Width="*" />
-				</Grid.ColumnDefinitions>
-				<Grid.RowDefinitions>
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-				</Grid.RowDefinitions>
-				<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Разрешить удаленные соединения на сервере" VerticalAlignment="Center" />
-				<CheckBox Grid.Row="0" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding Server_EnableRemoteConnections}" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Разрешить удаленные соединения на сервере" VerticalAlignment="Center" />
+                <CheckBox Grid.Row="0" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding Server_EnableRemoteConnections}" />
 
-				<Views:DbSettingsView Grid.Row="1" Grid.ColumnSpan="2" DataContext="{Binding DbSettingsViewModel}" />
-			</Grid>
-			
-		</TabItem>
+                <Views:DbSettingsView Grid.Row="1" Grid.ColumnSpan="2" DataContext="{Binding DbSettingsViewModel}" />
+            </Grid>
+        </TabItem>
 		<TabItem Header="Автозапуск">
 			<StackPanel Margin="2">
 				<TextBlock Text="Следующие приложения будут автоматически запускаться при старте системы:" FontSize="12" Foreground="{DynamicResource ForegroundColorLight}" TextWrapping="Wrap" Margin="2" />

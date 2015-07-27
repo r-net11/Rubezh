@@ -18,6 +18,9 @@ namespace GKProcessor
 				IsDeviceOnShleif = false,
 				IsPlaceable = false,
 				HasMirror = true,
+				MinAddress = 1,
+				MaxAddress = 2000
+			    
 			};
 
 			driver.AvailableStateClasses.Add(XStateClass.Norm);

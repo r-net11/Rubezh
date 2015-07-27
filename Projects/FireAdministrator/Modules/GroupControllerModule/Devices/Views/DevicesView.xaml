@@ -26,12 +26,12 @@
 			<Controls:IconedMenuItem Command="{Binding PasteLogicCommand}" ImageSource="BPaste" Text="Вставить логику" />
 			<Separator />
             <Controls:IconedMenuItem  ImageSource="BPaste" Text="Генерация отражения" Visibility = "{Binding IsEdit,  Converter={StaticResource BoolToVisibilityConverter}}">
-                <Controls:IconedMenuItem Text="Пожарные зоны" Command="{Binding GenericZonesCommand}" />
-                <Controls:IconedMenuItem Text="Охранные зоны" Command="{Binding GenericGuardZonesCommand}" />
-                <Controls:IconedMenuItem Text="Зоны пожаратушения" Command="{Binding GenericMPTCommand}" />
-                <Controls:IconedMenuItem Text="Исполнительные устройства" Command="{Binding GenericForPerformersDevicesCommand}" />
-                <Controls:IconedMenuItem Text="Извещательные устройства" Command="{Binding GenericForDetectorDevicesCommand}" />
-                <Controls:IconedMenuItem Text="Направления" Command="{Binding GenericDirectionsCommand}" />
+                <Controls:IconedMenuItem Text="Пожарные зоны" Command="{Binding GenerateZonesCommand}" />
+                <Controls:IconedMenuItem Text="Охранные зоны" Command="{Binding GenerateGuardZonesCommand}" />
+                <Controls:IconedMenuItem Text="Зоны пожаратушения" Command="{Binding GenerateMPTCommand}" />
+                <Controls:IconedMenuItem Text="Исполнительные устройства" Command="{Binding GenerateForPerformersDevicesCommand}" />
+                <Controls:IconedMenuItem Text="Извещательные устройства" Command="{Binding GenerateForDetectorDevicesCommand}" />
+                <Controls:IconedMenuItem Text="Направления" Command="{Binding GenerateDirectionsCommand}" />
             </Controls:IconedMenuItem>
             <Controls:IconedMenuItem  ImageSource="BPaste" Command="{Binding ShowAccessUserReflectionCommand}" Text="Права чтение/запись" Visibility = "{Binding IsEdit,  Converter={StaticResource BoolToVisibilityConverter}}" />
             <Separator />

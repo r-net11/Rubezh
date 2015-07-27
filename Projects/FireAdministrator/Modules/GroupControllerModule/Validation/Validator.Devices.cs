@@ -73,6 +73,10 @@ namespace GKModule.Validation
 				{
 					Errors.Add(new DeviceValidationError(device, "Дублируется адрес устройства", ValidationErrorLevel.CannotWrite));
 				}
+				if ((device.Driver.MaxAddress > 0 && device.Driver.MinAddress > 0) && (device.IntAddress > device.Driver.MaxAddress || device.IntAddress < device.Driver.MinAddress))
+				{
+					Errors.Add(new DeviceValidationError(device, "Неверно задано количество. Диапазон допустимых значений от " + device.Driver.MinAddress.ToString() + " до " + device.Driver.MaxAddress.ToString(), ValidationErrorLevel.CannotWrite));
+				}
 			}
 		}
 

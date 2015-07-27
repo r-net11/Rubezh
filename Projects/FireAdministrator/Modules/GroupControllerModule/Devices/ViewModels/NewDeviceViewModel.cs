@@ -13,10 +13,8 @@ namespace GKModule.ViewModels
 		public NewDeviceViewModel(DeviceViewModel deviceViewModel)
 			: base(deviceViewModel)
 		{
-			var sortedDrivers = SortDrivers();
-			foreach (var driver in sortedDrivers)
+			foreach (var driver in SortDrivers().Where(x => ParentDevice.Driver.Children.Contains(x.DriverType)))
 			{
-				if (ParentDevice.Driver.Children.Contains(driver.DriverType))
 					Drivers.Add(driver);
 			}
 
@@ -51,18 +49,18 @@ namespace GKModule.ViewModels
 
 		void UpdateAddressRange()
 		{
-			var _x = ParentDevice.Children.Where(x => x.Driver.HasAddress).ToList();
-			if(_x.Count>0)
-			StartAddress=_x.Max(x => x.IntAddress)+1;
+			var children = ParentDevice.Children.Where(x => x.Driver.HasAddress).ToList();
+			if (children.Count > 0)
+				StartAddress = children.Max(x => x.IntAddress) + 1;
 			else
 			StartAddress = 1;	
 		}
 
 		bool CreateDevices()
 		{
-			if (SelectedDriver.DriverType == GKDriverType.RSR2_KAU && StartAddress + Count > 127)
+			if ((StartAddress-1) + Count > SelectedDriver.MaxAddress && SelectedDriver.HasAddress)
 			{
-				MessageBoxService.ShowWarning("При добавлении количество КАУ на ГК будет превышать 127");
+				MessageBoxService.ShowWarning("При добавлении устройств количество будет превышать максимально допустимое значения в " + SelectedDriver.MaxAddress.ToString());
 				return false;
 			}
 
@@ -74,26 +72,28 @@ namespace GKModule.ViewModels
 					return false;
 				}
 			}
-
+			
 			AddedDevices = new List<DeviceViewModel>();
-			for (int i = 0; i < Count; i++)
-			{
-				var address = StartAddress + i;
-				if (address >= 256)
+
+				for (int i = 0; i < Count; i++)
 				{
-					return true;
+					var address = StartAddress + i;
+					if (address > SelectedDriver.MaxAddress && SelectedDriver.HasAddress)
+					{
+						return true;
+					}
+
+					GKDevice device = GKManager.AddChild(ParentDevice, null, SelectedDriver, address);
+					var addedDevice = NewDeviceHelper.AddDevice(device, ParentDeviceViewModel);
+					AddedDevices.Add(addedDevice);
 				}
 
-				GKDevice device = GKManager.AddChild(ParentDevice, null, SelectedDriver, address);
-				var addedDevice = NewDeviceHelper.AddDevice(device, ParentDeviceViewModel);
-				AddedDevices.Add(addedDevice);
-			}
 			return true;
 		}
 
 		protected override bool CanSave()
 		{
-			return (SelectedDriver != null);
+			return SelectedDriver != null;
 		}
 
 		protected override bool Save()

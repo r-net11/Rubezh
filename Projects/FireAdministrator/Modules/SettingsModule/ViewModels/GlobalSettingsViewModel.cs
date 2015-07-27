@@ -41,7 +41,6 @@ namespace SettingsModule.ViewModels
 			Monitor_F2_Enabled = GlobalSettingsHelper.GlobalSettings.Monitor_F2_Enabled;
 			Monitor_F3_Enabled = GlobalSettingsHelper.GlobalSettings.Monitor_F3_Enabled;
 			Monitor_F4_Enabled = GlobalSettingsHelper.GlobalSettings.Monitor_F4_Enabled;
-			Monitor_IsControlMPT = GlobalSettingsHelper.GlobalSettings.Monitor_IsControlMPT;
 			Monitor_HaspInfo_Enabled = GlobalSettingsHelper.GlobalSettings.Monitor_HaspInfo_Enabled;
 			
 			
@@ -288,17 +287,6 @@ namespace SettingsModule.ViewModels
 			}
 		}
 
-		bool _monitor_IsControlMPT;
-		public bool Monitor_IsControlMPT
-		{
-			get { return _monitor_IsControlMPT; }
-			set
-			{
-				_monitor_IsControlMPT = value;
-				OnPropertyChanged(() => Monitor_IsControlMPT);
-			}
-		}
-
 		bool _monitor_HaspInfo_Enabled;
 		public bool Monitor_HaspInfo_Enabled
 		{
@@ -446,7 +434,6 @@ namespace SettingsModule.ViewModels
 			GlobalSettingsHelper.GlobalSettings.Monitor_F2_Enabled = Monitor_F2_Enabled;
 			GlobalSettingsHelper.GlobalSettings.Monitor_F3_Enabled = Monitor_F3_Enabled;
 			GlobalSettingsHelper.GlobalSettings.Monitor_F4_Enabled = Monitor_F4_Enabled;
-			GlobalSettingsHelper.GlobalSettings.Monitor_IsControlMPT = Monitor_IsControlMPT;
 			GlobalSettingsHelper.GlobalSettings.Monitor_HaspInfo_Enabled = Monitor_HaspInfo_Enabled;
 			GlobalSettingsHelper.GlobalSettings.RemoteAddress = RemoteAddress;
 			GlobalSettingsHelper.GlobalSettings.RemotePort = RemotePort;
