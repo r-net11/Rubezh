@@ -77,11 +77,6 @@ namespace GKImitator.Processor
 			if (byteData[0] == 4) databaseType = DatabaseType.Kau;
 			var kauAddress = byteData[1];
 
-			if (byteData[4] != 6)
-			{
-				;
-			}
-
 			switch (byteData[4])
 			{
 				case 1:
@@ -104,16 +99,15 @@ namespace GKImitator.Processor
 					}
 					return new List<byte>();
 
-				case 6:
+				case 6: // Чтение последней записи журнала событий
 					using(var dbService = new DbService())
 					{
-						var count = dbService.ImitatorJournalTranslator.GetCount();
-						if (count > 0)
-							return GetJournalBytes(count);
+						if (JournalCash.Count > 0)
+							return GetJournalBytes(JournalCash.Count);
 					}
 					return null;
 
-				case 7:
+				case 7: // Чтение конкретной записи журнала событий
 					descriptorNo = BytesHelper.SubstructInt(byteData.ToList(), 5);
 					return GetJournalBytes(descriptorNo);
 
@@ -205,15 +199,12 @@ namespace GKImitator.Processor
 
 		public static List<byte> GetJournalBytes(int no)
 		{
-			using (var dbService = new DbService())
+			var imitatorJournalItem = JournalCash.GetByGKNo(no);
+			if (imitatorJournalItem != null)
 			{
-				var imitatorJournalItems = dbService.ImitatorJournalTranslator.GetByGKNo(no);
-				if (imitatorJournalItems != null)
-				{
-					return imitatorJournalItems.ToBytes();
-				}
-				return null;
+				return imitatorJournalItem.ToBytes();
 			}
+			return null;
 		}
 
 		public static List<byte> ToBytes(short shortValue)

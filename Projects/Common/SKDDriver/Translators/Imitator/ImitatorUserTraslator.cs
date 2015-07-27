@@ -48,7 +48,7 @@ namespace SKDDriver.DataClasses
 		{
 			try
 			{
-				var existingUser = Context.ImitatorUsers.Include(x=>x.ImitatorUserDevices).FirstOrDefault(x => x.GKNo == imitatorUser.GKNo);
+				var existingUser = Context.ImitatorUsers.Include(x => x.ImitatorUserDevices).FirstOrDefault(x => x.GKNo == imitatorUser.GKNo);
 				if (existingUser != null)
 				{
 
@@ -76,8 +76,19 @@ namespace SKDDriver.DataClasses
 		{
 			try
 			{
-				var imitatorUser = Context.ImitatorUsers.FirstOrDefault(x => x.GKNo == gkNo);
-				return imitatorUser;
+				return Context.ImitatorUsers.FirstOrDefault(x => x.GKNo == gkNo);
+			}
+			catch
+			{
+				return null;
+			}
+		}
+
+		public ImitatorUser GetByNo(int no)
+		{
+			try
+			{
+				return Context.ImitatorUsers.Include(x => x.ImitatorUserDevices).FirstOrDefault(x => x.Number == no);
 			}
 			catch
 			{

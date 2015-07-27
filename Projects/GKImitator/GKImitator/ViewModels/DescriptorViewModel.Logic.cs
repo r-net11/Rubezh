@@ -24,7 +24,7 @@ namespace GKImitator.ViewModels
 		{
 			KauBaseDescriptor = kauBaseDescriptor;
 			InitializeLogic();
-			FormulaOperations = LogicDescriptor.Formula.FormulaOperations;
+			
 		}
 
 		public void InitializeLogic()
@@ -41,9 +41,11 @@ namespace GKImitator.ViewModels
 					IsKauDecriptor = true;
 				}
 			}
+
+			FormulaOperations = LogicDescriptor.Formula.FormulaOperations;
 		}
 
-		void RecalculateOutputLogic()
+		public void RecalculateOutputLogic()
 		{
 			foreach (var gkBase in LogicDescriptor.GKBase.OutputGKBases)
 			{
@@ -269,6 +271,49 @@ namespace GKImitator.ViewModels
 						break;
 
 					case FormulaOperationType.ACS:
+						var level = formulaOperation.FirstOperand;
+
+						var isAccess = false;
+
+						if (descriptorViewModel != null && descriptorViewModel.CurrentCardNo > 0)
+						{
+							var device = descriptorViewModel.GKBase as GKDevice;
+							if (device != null && (device.DriverType == GKDriverType.RSR2_CodeReader || device.DriverType == GKDriverType.RSR2_CardReader))
+							{
+								using (var dbService = new DbService())
+								{
+									var user = dbService.ImitatorUserTraslator.GetByNo(descriptorViewModel.CurrentCardNo);
+									if (user != null)
+									{
+										if (user.Level >= level)
+										{
+											if (IsInSchedule(dbService, user.ScheduleNo))
+												isAccess = true;
+										}
+
+										foreach(var imitatorUserDevice in user.ImitatorUserDevices)
+										{
+											if(imitatorUserDevice.DescriptorNo == formulaOperation.SecondOperand)
+											{
+												if(IsInSchedule(dbService, imitatorUserDevice.ScheduleNo))
+													isAccess = true;
+											}
+										}
+									}
+								}
+							}
+						}
+
+						if (isAccess)
+						{
+
+						}
+						else
+						{
+
+						}
+						stack.Add(isAccess ? 1 : 0);
+
 						break;
 
 					case FormulaOperationType.EXIT:
@@ -366,6 +411,33 @@ namespace GKImitator.ViewModels
 					AddJournalItem(journalItem);
 				}
 			}
+		}
+
+		private static bool IsInSchedule(DbService dbService, int scheduleNo)
+		{
+			var timeSpan = DateTime.Now - new DateTime(2000, 1, 1);
+			var nowTotalSeconds = timeSpan.TotalSeconds;
+
+			var schedule = dbService.ImitatorScheduleTranslator.GetByNo(scheduleNo);
+			if (schedule != null)
+			{
+				foreach (var imitatorSheduleInterval in schedule.ImitatorSheduleIntervals)
+				{
+					Trace.WriteLine(imitatorSheduleInterval.UID);
+					var delta = 0;
+					if(schedule.TotalSeconds > 0)
+					{
+						var periodsCount = (nowTotalSeconds - imitatorSheduleInterval.StartSeconds) / schedule.TotalSeconds;
+						delta = (int)periodsCount * schedule.TotalSeconds;
+					}
+
+					if (nowTotalSeconds > imitatorSheduleInterval.StartSeconds + delta || nowTotalSeconds < imitatorSheduleInterval.EndSeconds + delta)
+					{
+						return true;
+					}
+				}
+			}
+			return false;
 		}
 	}
 }

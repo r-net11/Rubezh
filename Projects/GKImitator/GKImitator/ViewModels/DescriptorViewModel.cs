@@ -234,6 +234,7 @@ namespace GKImitator.ViewModels
 			{
 				dbService.ImitatorJournalTranslator.Add(journalItem);
 			}
+			JournalCash.Add(journalItem);
 		}
 	}
 }
