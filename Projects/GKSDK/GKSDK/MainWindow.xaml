@@ -37,8 +37,8 @@
 						</DataGridTemplateColumn>
 					</DataGrid.Columns>
 				</DataGrid>
-					<StackPanel Grid.Row="1" Orientation="Horizontal" DataContext="{Binding SelectedDevice}">
-						<Grid Visibility="{Binding IsTriStateControl, Converter={StaticResource BoolToVisibilityConverter}}">
+				<StackPanel Grid.Row="1" Orientation="Horizontal" DataContext="{Binding SelectedDevice}">
+					<Grid Visibility="{Binding IsTriStateControl, Converter={StaticResource BoolToVisibilityConverter}}">
 							<StackPanel>
 								<Button Content="Автоматика" Command="{Binding SetAutomaticStateCommand}" Width="150" Margin="2" />
 								<Button Content="Ручное" Command="{Binding SetManualStateCommand}" Width="150" Margin="2" />
