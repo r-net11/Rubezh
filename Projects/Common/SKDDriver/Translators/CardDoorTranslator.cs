@@ -24,7 +24,6 @@ namespace SKDDriver
 		{
 			var result = base.Translate(tableItem);
 			result.EnterScheduleNo = tableItem.EnterScheduleNo;
-			result.ExitScheduleNo = tableItem.ExitScheduleNo;
 			result.DoorUID = tableItem.DoorUID;
 			result.CardUID = tableItem.CardUID;
 			result.AccessTemplateUID = tableItem.AccessTemplateUID;
@@ -34,7 +33,6 @@ namespace SKDDriver
 		protected override void TranslateBack(DataAccess.CardDoor tableItem, CardDoor apiItem)
 		{
 			tableItem.EnterScheduleNo = apiItem.EnterScheduleNo;
-			tableItem.ExitScheduleNo = apiItem.ExitScheduleNo;
 			tableItem.DoorUID = apiItem.DoorUID;
 			tableItem.CardUID = apiItem.CardUID;
 			tableItem.AccessTemplateUID = apiItem.AccessTemplateUID;

@@ -121,7 +121,7 @@ namespace FiresecService.Report.Templates
 					if (!filter.Schedules.IsEmpty())
 						cardDoors = cardDoors.Where(item =>
 							(filter.ScheduleEnter && filter.Schedules.Contains(item.EnterScheduleNo)) ||
-							(filter.ScheduleExit && filter.Schedules.Contains(item.ExitScheduleNo)));
+							(filter.ScheduleExit)); //TODO: can delete it
 					foreach (var cardDoor in cardDoors)
 						if (doorMap.ContainsKey(cardDoor.DoorUID))
 						{
@@ -141,8 +141,6 @@ namespace FiresecService.Report.Templates
 							dataRow.ZoneOut = door.ExitZoneName;
 							if (intervalMap.ContainsKey(cardDoor.EnterScheduleNo))
 								dataRow.Enter = intervalMap[cardDoor.EnterScheduleNo];
-							if (intervalMap.ContainsKey(cardDoor.ExitScheduleNo))
-								dataRow.Exit = intervalMap[cardDoor.ExitScheduleNo];
 							dataRow.AccessPoint = door.Name;
 							dataSet.Data.Rows.Add(dataRow);
 						}
