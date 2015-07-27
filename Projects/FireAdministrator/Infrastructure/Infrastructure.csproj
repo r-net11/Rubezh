@@ -86,7 +86,6 @@
     <Compile Include="Events\ConfigurationSavingEvent.cs" />
     <Compile Include="Events\ConfigurationClosedEvent.cs" />
     <Compile Include="Events\CreateFilterEvent.cs" />
-    <Compile Include="Events\EditValidationEvent.cs" />
     <Compile Include="Events\ShowMonitorLayoutEvent.cs" />
     <Compile Include="Events\SetNewConfigurationEvent.cs" />
     <Compile Include="Events\ShowPlanElementEvent.cs" />

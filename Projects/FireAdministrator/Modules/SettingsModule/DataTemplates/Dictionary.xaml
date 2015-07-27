@@ -1,14 +1,11 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-					xmlns:Views="clr-namespace:SettingsModule.Views"
-					xmlns:ViewModels="clr-namespace:SettingsModule.ViewModels">
-	
+﻿<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:ViewModels="clr-namespace:SettingsModule.ViewModels"
+	xmlns:Views="clr-namespace:SettingsModule.Views">
+
 	<DataTemplate DataType="{x:Type ViewModels:GloobalSettingsViewModel}">
 		<Views:GloobalSettingsView />
-	</DataTemplate>
-
-	<DataTemplate DataType="{x:Type ViewModels:ErrorsFilterViewModel}">
-		<Views:ErrorsFilterView/>
 	</DataTemplate>
 
 </ResourceDictionary>

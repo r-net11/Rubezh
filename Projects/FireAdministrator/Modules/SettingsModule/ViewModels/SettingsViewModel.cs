@@ -13,7 +13,6 @@ namespace SettingsModule.ViewModels
 		public SettingsViewModel()
 		{
 			ShowSettingsCommand = new RelayCommand(OnShowSettings);
-			ShowErrorsFilterCommand = new RelayCommand(OnShowErrorsFilter);
 		}
 
 		public void Initialize()
@@ -33,13 +32,6 @@ namespace SettingsModule.ViewModels
 			{
 				MessageBoxService.ShowError("У Вас нет прав для изменения настроек");
 			}
-		}
-
-		public RelayCommand ShowErrorsFilterCommand { get; private set; }
-		void OnShowErrorsFilter()
-		{
-			var errorsFilterViewModel = new ErrorsFilterViewModel();
-			DialogService.ShowModalWindow(errorsFilterViewModel);
 		}
 	}
 }

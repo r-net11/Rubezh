@@ -55,17 +55,16 @@ namespace PlansModule.ViewModels
 		}
 		public IEnumerable<IValidationError> Validate()
 		{
-			if (GlobalSettingsHelper.GlobalSettings.IgnoredErrors.HasFlag(ValidationErrorType.NotBoundedElements))
-				foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
-					foreach (var element in BasePlanExtension.FindUnbinded<ElementSubPlan>(plan.ElementSubPlans))
-						yield return new PlanElementValidationError(new ElementError()
-						{
-							PlanUID = plan.UID,
-							Error = "Несвязанная ссылка на план",
-							Element = element,
-							IsCritical = false,
-							ImageSource = "/Controls;component/Images/CMap.png",
-						});
+			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+				foreach (var element in BasePlanExtension.FindUnbinded(plan.ElementSubPlans))
+					yield return new PlanElementValidationError(new ElementError
+					{
+						PlanUID = plan.UID,
+						Error = "Несвязанная ссылка на план",
+						Element = element,
+						IsCritical = false,
+						ImageSource = "/Controls;component/Images/CMap.png",
+					});
 			foreach (var planExtension in _planExtensions)
 				foreach (var error in planExtension.Validate())
 					yield return new PlanElementValidationError(error);

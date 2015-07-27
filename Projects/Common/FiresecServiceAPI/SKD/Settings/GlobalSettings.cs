@@ -96,21 +96,22 @@ namespace FiresecAPI
 
 		public void SetDefaultModules()
 		{
-			ModuleItems = new List<string>();
-
-			ModuleItems.Add("PlansModule.dll");
-			ModuleItems.Add("SecurityModule.dll");
-			ModuleItems.Add("SKDModule.dll");
-			ModuleItems.Add("StrazhModule.dll");
-			ModuleItems.Add("VideoModule.dll");
-			ModuleItems.Add("AutomationModule.dll");
-			ModuleItems.Add("LayoutModule.dll");
-			ModuleItems.Add("ReportsModule.dll");
-			ModuleItems.Add("FiltersModule.dll");
-			ModuleItems.Add("JournalModule.dll");
-			ModuleItems.Add("SoundsModule.dll");
-			ModuleItems.Add("SettingsModule.dll");
-			ModuleItems.Add("DiagnosticsModule.dll");
+			ModuleItems = new List<string>
+			{
+				"PlansModule.dll",
+				"SecurityModule.dll",
+				"SKDModule.dll",
+				"StrazhModule.dll",
+				"VideoModule.dll",
+				"AutomationModule.dll",
+				"LayoutModule.dll",
+				"ReportsModule.dll",
+				"FiltersModule.dll",
+				"JournalModule.dll",
+				"SoundsModule.dll",
+				"SettingsModule.dll",
+				"DiagnosticsModule.dll"
+			};
 		}
 
 		public bool IsDebug
@@ -120,7 +121,6 @@ namespace FiresecAPI
 #if DEBUG
 				return true;
 #endif
-				return false;
 			}
 		}
 	}

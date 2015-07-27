@@ -13,7 +13,6 @@ namespace FireAdministrator.ViewModels
 		public ValidationErrorsViewModel()
 		{
 			ClickCommand = new RelayCommand(OnClick);
-			EditValidationCommand = new RelayCommand(OnEditValidation);
 			CloseValidationCommand = new RelayCommand(OnCloseValidation);
 			Validate();
 		}
@@ -70,12 +69,6 @@ namespace FireAdministrator.ViewModels
 		{
 			if (SelectedError != null)
 				SelectedError.Navigate();
-		}
-
-		public RelayCommand EditValidationCommand { get; private set; }
-		void OnEditValidation()
-		{
-			ServiceFactory.Events.GetEvent<EditValidationEvent>().Publish(null);
 		}
 
 		public RelayCommand CloseValidationCommand { get; private set; }
