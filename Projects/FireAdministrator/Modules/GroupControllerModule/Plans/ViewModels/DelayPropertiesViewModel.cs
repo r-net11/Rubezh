@@ -23,6 +23,7 @@ namespace GKModule.Plans.ViewModels
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 
 			ShowState = element.ShowState;
+			this.ShowDelay = element.ShowDelay;
 
 			this.Delays = new ObservableCollection<DelayViewModel>(GKManager.Delays.Select(delay => new DelayViewModel(delay)));
 			if (element.DelayUID != Guid.Empty)
