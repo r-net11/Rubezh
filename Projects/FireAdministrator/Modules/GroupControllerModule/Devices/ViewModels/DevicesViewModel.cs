@@ -295,18 +295,18 @@ namespace GKModule.ViewModels
 
 				if (SelectedDevice.Device.DriverType == GKDriverType.RSR2_KAU_Shleif || SelectedDevice.Device.DriverType == GKDriverType.RSR2_MVP_Part)
 				{
-					var addedDevice = GKManager.AddChild(SelectedDevice.Device, null, device.Driver, (byte)(maxAddress));
+					var addedDevice = GKManager.AddChild(SelectedDevice.Device, null, device.Driver, maxAddress);
 					GKManager.CopyDevice(device, addedDevice);
-					addedDevice.IntAddress = (byte)(maxAddress);
+					addedDevice.IntAddress = maxAddress;
 					var addedDeviceViewModel = NewDeviceHelper.AddDevice(addedDevice, SelectedDevice, false);
 					AllDevices.Add(addedDeviceViewModel);
 					return addedDevice;
 				}
 				else
 				{
-					var addedDevice = GKManager.AddChild(SelectedDevice.Parent.Device, SelectedDevice.Device, device.Driver, (byte)(maxAddress));
+					var addedDevice = GKManager.AddChild(SelectedDevice.Parent.Device, SelectedDevice.Device, device.Driver, maxAddress);
 					GKManager.CopyDevice(device, addedDevice);
-					addedDevice.IntAddress = (byte)(maxAddress);
+					addedDevice.IntAddress = maxAddress;
 					var addedDeviceViewModel = NewDeviceHelper.InsertDevice(addedDevice, SelectedDevice);
 					AllDevices.Add(addedDeviceViewModel);
 					return addedDevice;

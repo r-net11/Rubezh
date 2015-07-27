@@ -128,7 +128,7 @@ namespace GKModule.Views
 			if (Device.Driver.IsRangeEnabled)
 			{
 				IntAddressMin = Device.Driver.MinAddress;
-				IntAddressMax = Device.Driver.MaxAddress;
+				IntAddressMax = (byte)Device.Driver.MaxAddress;
 			}
 		}
 

@@ -46,12 +46,12 @@ namespace GKModule.ViewModels
 			ShowParentCommand = new RelayCommand(OnShowParent, CanShowParent);
 			ShowMPTCommand = new RelayCommand(OnShowMPT, CanShowMPT);
 			ShowDoorCommand = new RelayCommand(OnShowDoor);
-			GenerationZonesCommand = new RelayCommand(GenerationZones);
-			GenerationGuardZonesCommand = new RelayCommand(GenerationGuardZones);
-			GenerationDirectionsCommand = new RelayCommand(GenerationDirections);
-			GenerationForDetectorDevicesCommand = new RelayCommand(GenerationForDetectorDevices);
-			GenerationForPerformersDevicesCommand = new RelayCommand(GenerationForPerformersDevices);
-			GenerationMPTCommand = new RelayCommand(GenerationMPTs);
+			GenerateZonesCommand = new RelayCommand(GenerateZones);
+			GenerateGuardZonesCommand = new RelayCommand(GenerateGuardZones);
+			GenerateDirectionsCommand = new RelayCommand(GenerateDirections);
+			GenerateForDetectorDevicesCommand = new RelayCommand(GenerateForDetectorDevices);
+			GenerateForPerformersDevicesCommand = new RelayCommand(GenerateForPerformersDevices);
+			GenerateMPTCommand = new RelayCommand(GenerateMPTs);
 			ShowAccessUserReflectionCommand = new RelayCommand(ShowAccessUserReflection);
 
 			CreateDragObjectCommand = new RelayCommand<DataObject>(OnCreateDragObjectCommand, CanCreateDragObjectCommand);
@@ -390,16 +390,21 @@ namespace GKModule.ViewModels
 		{
 			return true;
 		}
-		public RelayCommand GenerationZonesCommand { get; private set; }
-		void GenerationZones()
+		public RelayCommand GenerateZonesCommand { get; private set; }
+		void GenerateZones()
 		{
 			var zonesSelectationViewModel = new ZonesSelectationViewModel(new List<GKZone>());
 			if (DialogService.ShowModalWindow(zonesSelectationViewModel))
-			{			
+			{
+				if (Device.Children.Count + zonesSelectationViewModel.TargetZones.Count > 2000)
+				{
+					MessageBoxService.ShowWarning("При добавлении устройств количество будет превышать максимально допустимое значения в 2000");
+					return;
+				}
 				foreach (var zone in zonesSelectationViewModel.TargetZones)
 				{
 					var driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_GKMirrorFireZone);
-					GKDevice device = GKManager.AddChild(Device, null, driver, (byte)0);
+					GKDevice device = GKManager.AddChild(Device, null, driver, 0);
 					device.GKReflectionItem.ZoneUIDs.Add(zone.UID);
 					device.GKReflectionItem.Zones.Add(zone);
 					var addedDeviceViewModel = NewDeviceHelper.AddDevice(device, this);
@@ -412,8 +417,8 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public RelayCommand GenerationGuardZonesCommand { get; private set; }
-		void GenerationGuardZones()
+		public RelayCommand GenerateGuardZonesCommand { get; private set; }
+		void GenerateGuardZones()
 		{
 			var guardZonesSelectationViewModel = new GuardZonesSelectationViewModel(new List<GKGuardZone>());
 			if (DialogService.ShowModalWindow(guardZonesSelectationViewModel))
@@ -434,8 +439,8 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public RelayCommand GenerationDirectionsCommand { get; private set; }
-		void GenerationDirections()
+		public RelayCommand GenerateDirectionsCommand { get; private set; }
+		void GenerateDirections()
 		{
 			var directionsSelectationViewModel = new DirectionsSelectationViewModel(new List<GKDirection>());
 			if (DialogService.ShowModalWindow(directionsSelectationViewModel))
@@ -456,8 +461,8 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public RelayCommand GenerationForDetectorDevicesCommand { get; private set; }
-		void GenerationForDetectorDevices()
+		public RelayCommand GenerateForDetectorDevicesCommand { get; private set; }
+		void GenerateForDetectorDevices()
 		{
 			var deviceSelectationViewMode = new DevicesSelectationViewModel(new List<GKDevice>(), GKManager.Devices.Where(x => x.Driver.HasZone).ToList());
 			if (DialogService.ShowModalWindow(deviceSelectationViewMode))
@@ -478,8 +483,8 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public RelayCommand GenerationForPerformersDevicesCommand { get; private set; }
-		void GenerationForPerformersDevices()
+		public RelayCommand GenerateForPerformersDevicesCommand { get; private set; }
+		void GenerateForPerformersDevices()
 		{
 			var deviceSelectationViewMode = new DevicesSelectationViewModel(new List<GKDevice>(), GKManager.Devices.Where(x => x.Driver.IsControlDevice).ToList());
 			if (DialogService.ShowModalWindow(deviceSelectationViewMode))
@@ -500,8 +505,8 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public RelayCommand GenerationMPTCommand { get; private set; }
-		void GenerationMPTs()
+		public RelayCommand GenerateMPTCommand { get; private set; }
+		void GenerateMPTs()
 		{
 			var mPTsSelectationViewModel = new MPTsSelectationViewModel(new List<GKMPT>());
 			if (DialogService.ShowModalWindow(mPTsSelectationViewModel))

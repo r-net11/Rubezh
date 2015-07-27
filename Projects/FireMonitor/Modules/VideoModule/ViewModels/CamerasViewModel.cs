@@ -16,15 +16,7 @@ namespace VideoModule.ViewModels
 		public CamerasViewModel()
 		{
 			Current = this;
-			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, () => SelectedCamera != null && SelectedCamera.Camera.PlanElementUIDs.Count > 0);
-			ShowPropertiesCommand = new RelayCommand(OnShowProperties, () => SelectedCamera != null);
 			Initialize();
-		}
-
-		public RelayCommand ShowPropertiesCommand { get; private set; }
-		void OnShowProperties()
-		{
-			DialogService.ShowWindow(new CameraDetailsViewModel(SelectedCamera.Camera));
 		}
 
 		public void Initialize()
@@ -52,13 +44,6 @@ namespace VideoModule.ViewModels
 				OnPropertyChanged(() => SelectedCamera);
 			}
 		}
-
-		public RelayCommand ShowOnPlanCommand { get; private set; }
-		void OnShowOnPlan()
-		{
-			ServiceFactoryBase.Events.GetEvent<ShowCameraOnPlanEvent>().Publish(SelectedCamera.Camera);
-		}
-
 		public void Select(Guid cameraUID)
 		{
 			if (cameraUID != Guid.Empty)
