@@ -1,11 +1,9 @@
-﻿using System;
+﻿using FiresecAPI.SKD;
+using Infrastructure.Common.Windows.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.GK;
-using FiresecAPI.SKD;
-using FiresecClient.SKDHelpers;
-using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
@@ -20,14 +18,11 @@ namespace SKDModule.ViewModels
 			No = door.No;
 			Name = door.Name;
 			HasEnter = door.InDeviceUID != Guid.Empty;
-			HasExit = false;
 
 			EnterSchedules = new ObservableCollection<CardScheduleItem>();
-			ExitSchedules = new ObservableCollection<CardScheduleItem>();
 			foreach (var schedule in SKDManager.SKDConfiguration.TimeIntervalsConfiguration.WeeklyIntervals)
 			{
 				EnterSchedules.Add(new CardScheduleItem(schedule.ID, schedule.Name));
-				ExitSchedules.Add(new CardScheduleItem(schedule.ID, schedule.Name));
 			}
 
 			Initialize(cardDoors, onChecked);
@@ -40,7 +35,6 @@ namespace SKDModule.ViewModels
 		public string Name { get; private set; }
 		public List<CardDoor> CardDoors { get; private set; }
 		public bool HasEnter { get; private set; }
-		public bool HasExit { get; private set; }
 
 		bool _isChecked;
 		public bool IsChecked
@@ -77,27 +71,6 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		ObservableCollection<CardScheduleItem> _exitSchedules;
-		public ObservableCollection<CardScheduleItem> ExitSchedules
-		{
-			get { return _exitSchedules; }
-			set
-			{
-				_exitSchedules = value;
-				OnPropertyChanged(() => ExitSchedules);
-			}
-		}
-
-		CardScheduleItem _selectedExitSchedule;
-		public CardScheduleItem SelectedExitSchedule
-		{
-			get { return _selectedExitSchedule; }
-			set
-			{
-				_selectedExitSchedule = value;
-				OnPropertyChanged(() => SelectedExitSchedule);
-			}
-		}
 		#endregion
 
 		void Initialize(List<CardDoor> cardDoors, Action<AccessDoorViewModel> onChecked)
@@ -109,17 +82,12 @@ namespace SKDModule.ViewModels
 			if (cardDoor != null)
 			{
 				_isChecked = true;
-				SelectedEnterSchedule = EnterSchedules.FirstOrDefault(x => x.ScheduleNo == cardDoor.EnterScheduleNo);
-				if (SelectedEnterSchedule == null)
-					SelectedEnterSchedule = EnterSchedules.FirstOrDefault();
-				SelectedExitSchedule = ExitSchedules.FirstOrDefault(x => x.ScheduleNo == cardDoor.ExitScheduleNo);
-				if (SelectedExitSchedule == null)
-					SelectedExitSchedule = ExitSchedules.FirstOrDefault();
+				SelectedEnterSchedule = EnterSchedules.FirstOrDefault(x => x.ScheduleNo == cardDoor.EnterScheduleNo) ??
+				                        EnterSchedules.FirstOrDefault();
 			}
 			else
 			{
 				SelectedEnterSchedule = EnterSchedules.FirstOrDefault();
-				SelectedExitSchedule = ExitSchedules.FirstOrDefault();
 			}
 		}
 	}

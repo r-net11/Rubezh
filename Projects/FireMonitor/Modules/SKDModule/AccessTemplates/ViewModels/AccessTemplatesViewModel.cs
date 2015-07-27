@@ -49,12 +49,13 @@ namespace SKDModule.ViewModels
 			var copy = base.CopyModel(source);
 			foreach (var cardDoor in source.CardDoors)
 			{
-				var copyCardDoor = new CardDoor();
-				copyCardDoor.DoorUID = cardDoor.DoorUID;
-				copyCardDoor.EnterScheduleNo = cardDoor.EnterScheduleNo;
-				copyCardDoor.ExitScheduleNo = cardDoor.ExitScheduleNo;
-				copyCardDoor.CardUID = null;
-				copyCardDoor.AccessTemplateUID = null;
+				var copyCardDoor = new CardDoor
+				{
+					DoorUID = cardDoor.DoorUID,
+					EnterScheduleNo = cardDoor.EnterScheduleNo,
+					CardUID = null,
+					AccessTemplateUID = null
+				};
 				copy.CardDoors.Add(copyCardDoor);
 			}
 			copy.CardDoors.ForEach(x => x.AccessTemplateUID = copy.UID);

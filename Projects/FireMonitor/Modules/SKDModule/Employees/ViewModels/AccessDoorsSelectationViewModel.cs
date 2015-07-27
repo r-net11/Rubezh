@@ -82,7 +82,6 @@ namespace SKDModule.ViewModels
 					{
 						DoorUID = door.DoorUID,
 						EnterScheduleNo = door.SelectedEnterSchedule != null ? door.SelectedEnterSchedule.ScheduleNo : default(int),
-						ExitScheduleNo = door.SelectedExitSchedule != null ? door.SelectedExitSchedule.ScheduleNo : default(int),
 					}
 				);
 			}

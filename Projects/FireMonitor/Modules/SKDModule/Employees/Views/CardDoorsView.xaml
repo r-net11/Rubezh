@@ -70,13 +70,6 @@
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
-			<DataGridTemplateColumn Width="*" Header="Выход">
-				<DataGridTemplateColumn.CellTemplate>
-					<DataTemplate>
-						<TextBlock Margin="4 0 0 0" Text="{Binding ExitScheduleName}" />
-					</DataTemplate>
-				</DataGridTemplateColumn.CellTemplate>
-			</DataGridTemplateColumn>
 		</DataGrid.Columns>
 	</DataGrid>
 </UserControl>

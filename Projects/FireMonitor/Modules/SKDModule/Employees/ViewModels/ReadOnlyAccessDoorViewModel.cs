@@ -12,9 +12,7 @@ namespace SKDModule.ViewModels
 		public int No { get; set; }
 		public string Name { get; set; }
 		public string EnerScheduleName { get; private set; }
-		public string ExitScheduleName { get; private set; }
 		public bool HasEnter { get; private set; }
-		public bool HasExit { get; private set; }
 		public CardDoor CardDoor { get; private set; }
 
 		public ReadOnlyAccessDoorViewModel(SKDDoor door, CardDoor cardDoor)
@@ -34,8 +32,6 @@ namespace SKDModule.ViewModels
 			}
 
 			HasEnter = door.InDeviceUID != Guid.Empty;
-			HasExit = false;
-			ExitScheduleName = "";
 		}
 	}
 }
