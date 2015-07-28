@@ -89,7 +89,7 @@ namespace FiresecAPI.GK
 		/// Адрес
 		/// </summary>
 		[DataMember]
-		public byte IntAddress { get; set; }
+		public int IntAddress { get; set; }
 
 		[DataMember]
 		public string PredefinedName { get; set; }
@@ -172,7 +172,7 @@ namespace FiresecAPI.GK
 				var shleif = allParents.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_KAU_Shleif);
 				if (shleif != null)
 				{
-					return shleif.IntAddress;
+					return (byte)shleif.IntAddress;
 				}
 				return 0;
 			}

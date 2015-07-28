@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -12,7 +11,6 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
-using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrustructure.Plans.Elements;
@@ -118,13 +116,13 @@ namespace GKModule.ViewModels
 
 		public bool HasMeasureParameters
 		{
-			get { return Device.Driver.MeasureParameters.Where(x => !x.IsDelay).Count() > 0 || Device.DriverType == GKDriverType.RSR2_Valve_DU || Device.DriverType == GKDriverType.RSR2_Valve_KV || Device.DriverType == GKDriverType.RSR2_Valve_KVMV; }
+			get { return Device.Driver.MeasureParameters.Where(x => !x.IsDelay && !x.IsNotVisible).Count() > 0 || Device.DriverType == GKDriverType.RSR2_Valve_DU || Device.DriverType == GKDriverType.RSR2_Valve_KV || Device.DriverType == GKDriverType.RSR2_Valve_KVMV; }
 		}
 
 		void StartMeasureParametersMonitoring()
 		{
 			MeasureParameters = new ObservableCollection<MeasureParameterViewModel>();
-			foreach (var measureParameter in Device.Driver.MeasureParameters)
+			foreach (var measureParameter in Device.Driver.MeasureParameters.FindAll(x => !x.IsNotVisible))
 			{
 				var measureParameterViewModel = new MeasureParameterViewModel()
 				{
@@ -156,6 +154,8 @@ namespace GKModule.ViewModels
 			MeasureParameters = new ObservableCollection<MeasureParameterViewModel>();
 			foreach (var measureParameter in Device.State.XMeasureParameterValues)
 			{
+				if (Device.Driver.MeasureParameters.Any(x => x.Name == measureParameter.Name && x.IsNotVisible))
+					continue;
 				var measureParameterViewModel = new MeasureParameterViewModel()
 				{
 					Name = measureParameter.Name,

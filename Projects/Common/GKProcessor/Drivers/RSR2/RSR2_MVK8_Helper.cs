@@ -101,11 +101,11 @@ namespace GKProcessor
 
 			GKDriversHelper.AddIntProprety(driver, 5, "Норма питания, 1В", 80, 1, 1000).Multiplier = 10;
 
-			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 1, Name = "Отсчет задержки на включение, с", IsDelay = true });
-			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 2, Name = "Отсчет удержания, с", IsDelay = true });
-			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 3, Name = "Отсчет задержки на выключение, с", IsDelay = true });
-			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 4, Name = "Питание, 0.1В" });
-			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 5, Name = "Ед АЦП выхода" });
+			driver.MeasureParameters.Add(new GKMeasureParameter { No = 1, Name = "Отсчет задержки на включение, с", IsDelay = true, IsNotVisible = true});
+			driver.MeasureParameters.Add(new GKMeasureParameter { No = 2, Name = "Отсчет удержания, с", IsDelay = true, IsNotVisible = true });
+			driver.MeasureParameters.Add(new GKMeasureParameter { No = 3, Name = "Отсчет задержки на выключение, с", IsDelay = true, IsNotVisible = true });
+			driver.MeasureParameters.Add(new GKMeasureParameter { No = 4, Name = "Напряжение, В", Multiplier = 10 });
+			driver.MeasureParameters.Add(new GKMeasureParameter { No = 5, Name = "Ед АЦП выхода", IsNotVisible = true });
 
 			return driver;
 		}

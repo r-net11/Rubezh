@@ -165,7 +165,7 @@ namespace FiresecClient
 			var mirrorParent = parentDevice.MirrorParent;
 			if (mirrorParent != null)
 			{			
-					byte currentAddress = 1;
+					int currentAddress = 1;
 					foreach (var device in mirrorParent.Children)
 					{
 						device.IntAddress = currentAddress;

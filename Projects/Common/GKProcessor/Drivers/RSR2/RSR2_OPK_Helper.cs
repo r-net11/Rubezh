@@ -68,8 +68,8 @@ namespace GKProcessor
 			GKDriversHelper.AddPropertyParameter(property2, "Мерцание", 4);
 			driver.Properties.Add(property2);
 
-			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 1, Name = "Отсчет задержки на включение, с", IsDelay = true });
-			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 2, Name = "Отсчет удержания, с", IsDelay = true });
+			driver.MeasureParameters.Add(new GKMeasureParameter { No = 1, Name = "Отсчет задержки на включение, с", IsDelay = true, IsNotVisible = true });
+			driver.MeasureParameters.Add(new GKMeasureParameter { No = 2, Name = "Отсчет удержания, с", IsDelay = true, IsNotVisible = true });
 
 			return driver;
 		}

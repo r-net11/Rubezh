@@ -40,12 +40,12 @@ namespace GKModule.Validation
 				if (IsManyGK)
 					ValidateDifferentGK(device);
 				ValidateIPAddress(device);
-				if (GlobalSettingsHelper.GlobalSettings.IgnoredErrors.HasFlag(ValidationErrorType.DeviceNotConnected))
+				if (!GlobalSettingsHelper.GlobalSettings.IgnoredErrors.HasFlag(ValidationErrorType.DeviceNotConnected))
 				{
 					ValidateDeviceZone(device);
 					ValidateGuardDeviceZone(device);
 				}
-				if (GlobalSettingsHelper.GlobalSettings.IgnoredErrors.HasFlag(ValidationErrorType.DeviceHaveNoLogic))
+				if (!GlobalSettingsHelper.GlobalSettings.IgnoredErrors.HasFlag(ValidationErrorType.DeviceHaveNoLogic))
 					ValidateLogic(device);
 				ValidateGKNotEmptyChildren(device);
 				ValidateParametersMinMax(device);
@@ -72,6 +72,10 @@ namespace GKModule.Validation
 				if (!deviceAddresses.Add(device.DottedAddress))
 				{
 					Errors.Add(new DeviceValidationError(device, "Дублируется адрес устройства", ValidationErrorLevel.CannotWrite));
+				}
+				if ((device.Driver.MaxAddress > 0 && device.Driver.MinAddress > 0) && (device.IntAddress > device.Driver.MaxAddress || device.IntAddress < device.Driver.MinAddress))
+				{
+					Errors.Add(new DeviceValidationError(device, "Неверно задано количество. Диапазон допустимых значений от " + device.Driver.MinAddress.ToString() + " до " + device.Driver.MaxAddress.ToString(), ValidationErrorLevel.CannotWrite));
 				}
 			}
 		}

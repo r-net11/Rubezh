@@ -13,13 +13,8 @@ namespace GKModule.ViewModels
 		public NewDeviceViewModel(DeviceViewModel deviceViewModel)
 			: base(deviceViewModel)
 		{
-			var sortedDrivers = SortDrivers();
-			foreach (var driver in sortedDrivers)
+			foreach (var driver in SortDrivers().Where(x => ParentDevice.Driver.Children.Contains(x.DriverType)))
 			{
-				if (driver.IsIgnored)
-					continue;
-
-				if (ParentDevice.Driver.Children.Contains(driver.DriverType))
 					Drivers.Add(driver);
 			}
 
@@ -54,15 +49,22 @@ namespace GKModule.ViewModels
 
 		void UpdateAddressRange()
 		{
-			int maxAddress = NewDeviceHelper.GetMinAddress(SelectedDriver, ParentDevice);
-			StartAddress = (byte)(maxAddress % 256);
+			var children = ParentDevice.Children.Where(x => x.Driver.HasAddress).ToList();
+			if (children.Count > 0)
+				StartAddress = children.Max(x => x.IntAddress) + 1;
+			else
+			StartAddress = 1;	
 		}
 
 		bool CreateDevices()
 		{
-			var step = Math.Max(SelectedDriver.GroupDeviceChildrenCount, (byte)1);
+			if ((StartAddress-1) + Count > SelectedDriver.MaxAddress && SelectedDriver.HasAddress)
+			{
+				MessageBoxService.ShowWarning("При добавлении устройств количество будет превышать максимально допустимое значения в " + SelectedDriver.MaxAddress.ToString());
+				return false;
+			}
 
-			for (int i = StartAddress; i < StartAddress + Count * step; i++)
+			for (int i = StartAddress; i < StartAddress + Count; i++)
 			{
 				if (ParentDevice.Children.Any(x => x.Driver.HasAddress && x.IntAddress == i))
 				{
@@ -70,33 +72,28 @@ namespace GKModule.ViewModels
 					return false;
 				}
 			}
-
-			if (ParentDevice.Driver.IsGroupDevice)
-			{
-				Count = Math.Min(Count, ParentDevice.Driver.GroupDeviceChildrenCount);
-			}
-
+			
 			AddedDevices = new List<DeviceViewModel>();
-			for (int i = 0; i < Count; i++)
-			{
-				var address = StartAddress + i * step;
-				if (address + SelectedDriver.GroupDeviceChildrenCount >= 256)
+
+				for (int i = 0; i < Count; i++)
 				{
-					return true;
+					var address = StartAddress + i;
+					if (address > SelectedDriver.MaxAddress && SelectedDriver.HasAddress)
+					{
+						return true;
+					}
+
+					GKDevice device = GKManager.AddChild(ParentDevice, null, SelectedDriver, address);
+					var addedDevice = NewDeviceHelper.AddDevice(device, ParentDeviceViewModel);
+					AddedDevices.Add(addedDevice);
 				}
 
-				if (!SelectedDriver.HasAddress)
-					address = 0;
-				GKDevice device = GKManager.AddChild(ParentDevice, null, SelectedDriver, (byte)address);
-				var addedDevice = NewDeviceHelper.AddDevice(device, ParentDeviceViewModel);
-				AddedDevices.Add(addedDevice);
-			}
 			return true;
 		}
 
 		protected override bool CanSave()
 		{
-			return (SelectedDriver != null);
+			return SelectedDriver != null;
 		}
 
 		protected override bool Save()

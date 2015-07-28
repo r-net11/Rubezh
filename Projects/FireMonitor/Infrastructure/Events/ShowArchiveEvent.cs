@@ -1,6 +1,7 @@
 ﻿using Microsoft.Practices.Prism.Events;
 using FiresecAPI.SKD;
 using FiresecAPI.GK;
+using FiresecAPI.Models;
 
 namespace Infrastructure.Events
 {
@@ -20,5 +21,6 @@ namespace Infrastructure.Events
 		public GKGuardZone GKGuardZone { get; set; }
 		public GKSKDZone GKSKDZone { get; set; }
 		public GKDoor GKDoor { get; set; }
+		public Camera Camera { get; set; }
 	}
 }

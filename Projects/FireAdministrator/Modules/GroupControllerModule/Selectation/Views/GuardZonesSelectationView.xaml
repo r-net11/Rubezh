@@ -15,8 +15,8 @@
 				<ColumnDefinition Width="50" />
 				<ColumnDefinition Width="*" />
 			</Grid.ColumnDefinitions>
-			<DataGrid x:Name="dataGrid1" Grid.Column="0" ItemsSource="{Binding TargetZones}" SelectedItem="{Binding SelectedTargetZone}" SelectionChanged="OnSelectionChanged" CanUserSortColumns="True"
-					  SelectionMode="Extended" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Standard">
+			<MultiselectDataGrid x:Name="dataGrid1" Grid.Column="0" ItemsSource="{Binding TargetZones}" SelectedItem="{Binding SelectedTargetZone}" CanUserSortColumns="True"
+					VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Standard">
 				<DataGrid.Resources>
 					<InputBindingCollection x:Key="inputCollection" x:Shared="False">
 						<MouseBinding Command="{Binding DataContext.RemoveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" CommandParameter="{Binding ElementName=dataGrid1, Path=SelectedItems}" />
@@ -41,15 +41,15 @@
 					<DataGridTextColumn Binding="{Binding Name}" Header="Выбранные зоны" Width="*" />
 					<DataGridTextColumn Binding="{Binding Description}" Header="Примечание" />
 				</DataGrid.Columns>
-			</DataGrid>
+			</MultiselectDataGrid>
 			<StackPanel Grid.Column="1" Margin="2">
 				<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить выбранные зоны" ImageSource="left"  CommandParameter="{Binding ElementName=dataGrid2, Path=SelectedItems}" />
 				<ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить выбранные зоны" ImageSource="right"  CommandParameter="{Binding ElementName=dataGrid1, Path=SelectedItems}" />
 				<ToolBarButton Command="{Binding AddAllCommand}" ToolTip="Добавить все зоны" ImageSource="leftLeft"  />
 				<ToolBarButton Command="{Binding RemoveAllCommand}" ToolTip="Удалить все зоны" ImageSource="rightRight"  />
 			</StackPanel>
-			<DataGrid x:Name="dataGrid2" Grid.Column="2" ItemsSource="{Binding SourceZones}" SelectedItem="{Binding SelectedSourceZone}" SelectionChanged="OnSelectionChanged" CanUserSortColumns="True"
-					  SelectionMode="Extended" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Standard">
+			<MultiselectDataGrid x:Name="dataGrid2" Grid.Column="2" ItemsSource="{Binding SourceZones}" SelectedItem="{Binding SelectedSourceZone}" CanUserSortColumns="True"
+					VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Standard">
 				<DataGrid.Resources>
 					<InputBindingCollection x:Key="inputCollection" x:Shared="False">
 						<MouseBinding Command="{Binding DataContext.AddCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" CommandParameter="{Binding ElementName=dataGrid2, Path=SelectedItems}" />
@@ -74,9 +74,8 @@
 					<DataGridTextColumn Binding="{Binding Name}" Header="Зоны" Width="*" />
 					<DataGridTextColumn Binding="{Binding Description}" Header="Примечание" />
 				</DataGrid.Columns>
-			</DataGrid>
+			</MultiselectDataGrid>
 		</Grid>
-		<Button Grid.Row="1" Content="Создать новую зону" Command="{Binding CreateNewCommand}" Visibility="{Binding CanCreateNew, Converter={StaticResource BoolToVisibilityConverter}}"
-			HorizontalAlignment="Left" Width="200" Margin="2" />
+		<Button Grid.Row="1" Content="Создать новую зону" Command="{Binding CreateNewCommand}" HorizontalAlignment="Left" Width="200" Margin="2" />
 	</Grid>
 </UserControl>

@@ -45,7 +45,7 @@ namespace FiresecAPI.GK
 		public bool IsRangeEnabled { get; set; }
 		public bool IsAutoCreate { get; set; }
 		public byte MinAddress { get; set; }
-		public byte MaxAddress { get; set; }
+		public int MaxAddress { get; set; }
 		public byte MinAddress2 { get; set; }
 		public byte MaxAddress2 { get; set; }
 		public byte MaxAddressOnShleif { get; set; }
@@ -62,7 +62,6 @@ namespace FiresecAPI.GK
 		public bool IsGroupDevice { get; set; }
 		public GKDriverType GroupDeviceChildType { get; set; }
 		public byte GroupDeviceChildrenCount { get; set; }
-		public bool IsIgnored { get; set; }
 
 		public bool IsKau
 		{

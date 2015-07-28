@@ -192,7 +192,7 @@ namespace GKModule.ViewModels
 		bool CanCutCopy()
 		{
 			return !(SelectedDevice == null || SelectedDevice.Parent == null ||
-				SelectedDevice.Driver.IsAutoCreate || SelectedDevice.Parent.Driver.IsGroupDevice);
+				SelectedDevice.Driver.IsAutoCreate || SelectedDevice.Parent.Driver.IsGroupDevice || SelectedDevice.Parent.Driver.DriverType == GKDriverType.RSR2_GKMirror);
 		}
 
 		private bool isCut;
@@ -285,24 +285,28 @@ namespace GKModule.ViewModels
 			if (SelectedDevice.Device.IsConnectedToKAU)
 			{
 				var kauDeviceShleifdevice = SelectedDevice.Device.KAUShleifParent;
-				int maxAddress = NewDeviceHelper.GetMinAddress(device.Driver, kauDeviceShleifdevice);
+				var allChildren = kauDeviceShleifdevice.AllChildren;
+				int maxAddress = 0;
+				if (allChildren.Count > 0)
+					maxAddress = allChildren.Max(x => x.IntAddress);
+
 				if (maxAddress >= 255)
 					return null;
 
 				if (SelectedDevice.Device.DriverType == GKDriverType.RSR2_KAU_Shleif || SelectedDevice.Device.DriverType == GKDriverType.RSR2_MVP_Part)
 				{
-					var addedDevice = GKManager.AddChild(SelectedDevice.Device, null, device.Driver, (byte)(maxAddress));
+					var addedDevice = GKManager.AddChild(SelectedDevice.Device, null, device.Driver, maxAddress);
 					GKManager.CopyDevice(device, addedDevice);
-					addedDevice.IntAddress = (byte)(maxAddress);
+					addedDevice.IntAddress = maxAddress;
 					var addedDeviceViewModel = NewDeviceHelper.AddDevice(addedDevice, SelectedDevice, false);
 					AllDevices.Add(addedDeviceViewModel);
 					return addedDevice;
 				}
 				else
 				{
-					var addedDevice = GKManager.AddChild(SelectedDevice.Parent.Device, SelectedDevice.Device, device.Driver, (byte)(maxAddress));
+					var addedDevice = GKManager.AddChild(SelectedDevice.Parent.Device, SelectedDevice.Device, device.Driver, maxAddress);
 					GKManager.CopyDevice(device, addedDevice);
-					addedDevice.IntAddress = (byte)(maxAddress);
+					addedDevice.IntAddress = maxAddress;
 					var addedDeviceViewModel = NewDeviceHelper.InsertDevice(addedDevice, SelectedDevice);
 					AllDevices.Add(addedDeviceViewModel);
 					return addedDevice;

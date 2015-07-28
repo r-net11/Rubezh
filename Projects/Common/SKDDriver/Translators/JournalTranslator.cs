@@ -10,23 +10,23 @@ namespace SKDDriver.DataClasses
 {
 	public class JournalTranslator
 	{
-		DbService DbService; 
+		DbService DbService;
 		DatabaseContext Context;
 		public PassJounalSynchroniser PassJournalSynchroniser { get; private set; }
-        public JounalSynchroniser JournalSynchroniser { get; private set; }
+		public JounalSynchroniser JournalSynchroniser { get; private set; }
 
 		public JournalTranslator(DbService dbService)
 		{
 			DbService = dbService;
 			Context = DbService.Context;
-            JournalSynchroniser = new JounalSynchroniser(dbService);
-            PassJournalSynchroniser = new PassJounalSynchroniser(dbService);
+			JournalSynchroniser = new JounalSynchroniser(dbService);
+			PassJournalSynchroniser = new PassJounalSynchroniser(dbService);
 		}
-		
+
 		public event Action<List<JournalItem>, Guid> ArchivePortionReady;
 		public static bool IsAbort { get; set; }
 
-		
+
 		#region Video
 		public OperationResult SaveVideoUID(Guid itemUID, Guid videoUID, Guid cameraUID)
 		{
@@ -65,7 +65,7 @@ namespace SKDDriver.DataClasses
 			}
 		}
 		#endregion
-		
+
 		public OperationResult<DateTime> GetMinDate()
 		{
 			try
@@ -131,19 +131,19 @@ namespace SKDDriver.DataClasses
 				IsAbort = false;
 				var pageSize = archiveFilter.PageSize;
 				var portion = new List<JournalItem>();
-                int itemNo = 0;
-                foreach (var item in BeginGetFilteredArchiveInternal(archiveFilter))
-                {
-                    itemNo++;
-                    portion.Add(Translate(item));
-                    if (itemNo % pageSize == 0)
-                    {
-                        PublishNewItemsPortion(portion, archivePortionUID);
-                        portion = new List<JournalItem>();
-                    }
-                }
-                PublishNewItemsPortion(portion, archivePortionUID);
-                
+				int itemNo = 0;
+				foreach (var item in BeginGetFilteredArchiveInternal(archiveFilter))
+				{
+					itemNo++;
+					portion.Add(Translate(item));
+					if (itemNo % pageSize == 0)
+					{
+						PublishNewItemsPortion(portion, archivePortionUID);
+						portion = new List<JournalItem>();
+					}
+				}
+				PublishNewItemsPortion(portion, archivePortionUID);
+
 
 				return new OperationResult();
 			}
@@ -251,7 +251,7 @@ namespace SKDDriver.DataClasses
 			{
 				result = result.Where(x => filter.ObjectUIDs.Contains(x.ObjectUID));
 			}
-			result = result.Take(filter.LastItemsCount);
+			result = result.OrderBy(x => x.SystemDate).Take(filter.LastItemsCount);
 			return result;
 		}
 
@@ -287,13 +287,13 @@ namespace SKDDriver.DataClasses
 				result = result.Where(x => filter.EmployeeUIDs.Contains(x.ObjectUID) ||
 					(x.EmployeeUID != null && filter.EmployeeUIDs.Contains(x.EmployeeUID.Value)));
 			}
-			if(filter.UseDeviceDateTime)
+			if (filter.UseDeviceDateTime)
 			{
-				result = result.Where(x => x.DeviceDate > filter.StartDate && x.DeviceDate < filter.EndDate);
+				result = result.Where(x => x.DeviceDate > filter.StartDate && x.DeviceDate < filter.EndDate).OrderBy(x => x.DeviceDate);
 			}
 			else
 			{
-				result = result.Where(x => x.SystemDate > filter.StartDate && x.SystemDate < filter.EndDate);
+				result = result.Where(x => x.SystemDate > filter.StartDate && x.SystemDate < filter.EndDate).OrderBy(x => x.SystemDate);
 			}
 			return result;
 		}

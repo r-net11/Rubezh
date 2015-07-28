@@ -41,7 +41,6 @@ namespace GKModule
         DoorsViewModel DoorsViewModel;
         SKDZonesViewModel SKDZonesViewModel;
         LibraryViewModel DeviceLidraryViewModel;
-        InstructionsViewModel InstructionsViewModel;
 		OPCsViewModel OPCViewModel;
         DescriptorsViewModel DescriptorsViewModel;
         DiagnosticsViewModel DiagnosticsViewModel;
@@ -78,7 +77,6 @@ namespace GKModule
             DoorsViewModel = new DoorsViewModel();
             SKDZonesViewModel = new SKDZonesViewModel();
             DeviceLidraryViewModel = new LibraryViewModel();
-            InstructionsViewModel = new InstructionsViewModel();
 			OPCViewModel = new OPCsViewModel();
             DescriptorsViewModel = new DescriptorsViewModel();
             DiagnosticsViewModel = new DiagnosticsViewModel();
@@ -98,7 +96,6 @@ namespace GKModule
             GuardZonesViewModel.Initialize();
             DoorsViewModel.Initialize();
             SKDZonesViewModel.Initialize();
-            InstructionsViewModel.Initialize();
 			OPCViewModel.Initialize();
 
             _planExtension.Initialize();
@@ -132,11 +129,9 @@ namespace GKModule
 							new NavigationItemEx<ShowGKSKDZoneEvent, Guid>(SKDZonesViewModel, "Зоны", "Zones", null, null, Guid.Empty),
 						}),
 
-					new NavigationItem<ShowGKInstructionsEvent, Guid>(InstructionsViewModel, "Инструкции", "information", null, null, Guid.Empty),
 					new NavigationItem<ShowGKDescriptorsEvent, object>(DescriptorsViewModel, "Дескрипторы", "Descriptors"),
 #if DEBUG
-					new NavigationItem<ShowGKOPCDevicesEvent, Guid>(OPCViewModel,"OPC Сервер", "tree", null, null, Guid.Empty),
-						
+					new NavigationItem<ShowGKOPCDevicesEvent, Guid>(OPCViewModel,"OPC Сервер", "tree", null, null, Guid.Empty),						
 					new NavigationItem<ShowGKDeviceLidraryEvent, object>(DeviceLidraryViewModel, "Библиотека", "Book"),
 #endif
 					new NavigationItem<ShowGKDiagnosticsEvent, object>(DiagnosticsViewModel, "Диагностика", "Bug"),
@@ -158,7 +153,6 @@ namespace GKModule
             resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Diagnostics/DataTemplates/Dictionary.xaml"));
             resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Directions/DataTemplates/Dictionary.xaml"));
             resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Guard/DataTemplates/Dictionary.xaml"));
-            resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Instructions/DataTemplates/Dictionary.xaml"));
             resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Journal/DataTemplates/Dictionary.xaml"));
             resourceService.AddResource(new ResourceDescription(GetType().Assembly, "MPTs/DataTemplates/Dictionary.xaml"));
             resourceService.AddResource(new ResourceDescription(GetType().Assembly, "OPC/DataTemplates/Dictionary.xaml"));

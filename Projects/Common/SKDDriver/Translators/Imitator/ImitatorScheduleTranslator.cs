@@ -20,8 +20,19 @@ namespace SKDDriver.DataClasses
 		{
 			try
 			{
-				var schedules = Context.ImitatorSchedules.Include(x => x.ImitatorSheduleIntervals).ToList();
-				return schedules;
+				return Context.ImitatorSchedules.Include(x => x.ImitatorSheduleIntervals).ToList();
+			}
+			catch
+			{
+				return null;
+			}
+		}
+
+		public ImitatorSchedule GetByNo(int no)
+		{
+			try
+			{
+				return Context.ImitatorSchedules.Include(x => x.ImitatorSheduleIntervals).Where(x => x.No == no).FirstOrDefault();
 			}
 			catch
 			{
@@ -50,9 +61,7 @@ namespace SKDDriver.DataClasses
 				}
 				Context.SaveChanges();
 			}
-			catch
-			{
-			}
+			catch { }
 		}
 	}
 }

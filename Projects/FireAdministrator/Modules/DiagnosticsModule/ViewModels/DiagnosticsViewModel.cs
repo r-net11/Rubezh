@@ -1,5 +1,8 @@
-﻿using Infrastructure.Common;
+﻿using FiresecAPI.GK;
+using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using System;
+using System.Diagnostics;
 
 namespace DiagnosticsModule.ViewModels
 {

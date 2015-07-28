@@ -5,6 +5,9 @@ using System.Windows;
 using FiresecAPI.GK;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI.Journal;
+using Infrastructure;
+using Infrastructure.Events;
+using FiresecClient;
 
 namespace GKSDK
 {
@@ -12,25 +15,19 @@ namespace GKSDK
 	{
 		public JournalsViewModel()
 		{
-			JournalItems = new ObservableCollection<JournalItem>();
-			//ServiceFactoryBase.Events.GetEvent<NewXJournalEvent>().Subscribe(OnNewJournalItems);
+			JournalItems = new ObservableCollection<JournalItemViewModel>();
 		}
 
-		public void SafeCall(Action action)
-		{
-			if (Application.Current != null && Application.Current.Dispatcher != null)
-				Application.Current.Dispatcher.BeginInvoke(action);
-		}
+		public ObservableCollection<JournalItemViewModel> JournalItems { get; private set; }
 
-		void OnNewJournalItems(List<JournalItem> journalItems)
+		public void OnNewJournalItems(List<JournalItem> journalItems)
 		{
-			//SafeCall(() => { OnNewJournalRecord(x); });
 			foreach (var journalItem in journalItems)
 			{
-				JournalItems.Add(journalItem);
+				var journalItemViewModel = new JournalItemViewModel(journalItem);
+				JournalItems.Add(journalItemViewModel);
 			}
 		}
 
-		public ObservableCollection<JournalItem> JournalItems { get; private set; }
 	}
 }

@@ -9,7 +9,7 @@ namespace GKModule.Views
 			InitializeComponent();
 		}
 
-		private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+		void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			DataGrid dataGrid = sender as DataGrid;
 			if (dataGrid != null && dataGrid.SelectedItem != null)

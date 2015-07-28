@@ -5,129 +5,129 @@
 			 MinWidth="500" MinHeight="500">
 	<TabControl>
 		<TabItem Header="Основные">
-            <ScrollViewer VerticalScrollBarVisibility="Auto" >
-	            <StackPanel>
-		            <Grid>
-			            <Grid.RowDefinitions>
-				            <RowDefinition Height="Auto" />
-				            <RowDefinition Height="Auto" />
-				            <RowDefinition Height="Auto" />
-				            <RowDefinition Height="Auto" />
-				            <RowDefinition Height="Auto" />
-				            <RowDefinition Height="Auto" />
-				            <RowDefinition Height="Auto" />
-				            <RowDefinition Height="Auto" />
-				            <RowDefinition Height="Auto" />
-				            <RowDefinition Height="Auto" />
-				            <RowDefinition Height="Auto" />
-				            <RowDefinition Height="Auto" />
-				            <RowDefinition Height="Auto" />
-			            </Grid.RowDefinitions>
-			            <Grid.ColumnDefinitions>
-				            <ColumnDefinition />
-				            <ColumnDefinition />
-			            </Grid.ColumnDefinitions>
+			<ScrollViewer VerticalScrollBarVisibility="Auto" >
+				<StackPanel>
+					<Grid>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+						</Grid.RowDefinitions>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition MaxWidth="200" />
+							<ColumnDefinition Width="*" />
+						</Grid.ColumnDefinitions>
 						<TextBlock Grid.Row="0" Grid.Column="0" Text="Фамилия" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
-			            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+						<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 
 						<TextBlock Grid.Row="1" Grid.Column="0" Text="Имя" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
-			            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+						<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 
 						<TextBlock Grid.Row="2" Grid.Column="0" Text="Отчество" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
-			            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding SecondName, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+						<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding SecondName, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 
 						<TextBlock Grid.Row="3" Grid.Column="0" Text="Должность" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="{Binding CanEditPosition, Converter={StaticResource BoolToVisibilityConverter}}" Style="{DynamicResource TextBlockDetailsStyle}" />
-			            <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Visibility="{Binding CanEditPosition, Converter={StaticResource BoolToVisibilityConverter}}">
-                            <TextBlock VerticalAlignment="Center">
-					            <Hyperlink Command="{Binding SelectPositionCommand}" Style="{StaticResource HyperlinkStyle}">
-						            <TextBlock Text="{Binding SelectedPosition.Name}" TextDecorations="Underline" Visibility="{Binding HasSelectedPosition, Converter={StaticResource BoolToVisibilityConverter}}" />
-                                    <TextBlock Text="Нажмите для выбора должности" Visibility="{Binding HasSelectedPosition, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
-							    </Hyperlink>
-				            </TextBlock>
-			            </StackPanel>
+						<StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Visibility="{Binding CanEditPosition, Converter={StaticResource BoolToVisibilityConverter}}">
+							<TextBlock VerticalAlignment="Center">
+								<Hyperlink Command="{Binding SelectPositionCommand}" Style="{StaticResource HyperlinkStyle}">
+									<TextBlock Text="{Binding SelectedPosition.Name}" TextDecorations="Underline" Visibility="{Binding HasSelectedPosition, Converter={StaticResource BoolToVisibilityConverter}}" />
+									<TextBlock Text="Нажмите для выбора должности" Visibility="{Binding HasSelectedPosition, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+								</Hyperlink>
+							</TextBlock>
+						</StackPanel>
 
 						<TextBlock Grid.Row="4" Grid.Column="0" Text="Подразделение" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="{Binding CanEditDepartment, Converter={StaticResource BoolToVisibilityConverter}}" Style="{DynamicResource TextBlockDetailsStyle}" />
-			            <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Visibility="{Binding CanEditDepartment, Converter={StaticResource BoolToVisibilityConverter}}">
-				            <TextBlock VerticalAlignment="Center">
-					            <Hyperlink Command="{Binding SelectDepartmentCommand}" Style="{StaticResource HyperlinkStyle}">
-						            <TextBlock Text="{Binding SelectedDepartment.Name}" TextDecorations="Underline" Visibility="{Binding HasSelectedDepartment, Converter={StaticResource BoolToVisibilityConverter}}" />
-                                    <TextBlock Text="Нажмите для выбора подразделения" Visibility="{Binding HasSelectedDepartment, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
-					            </Hyperlink>
-				            </TextBlock>
-			            </StackPanel>
-					
-			            <TextBlock Grid.Row="5" Grid.Column="0" Text="Сопровождающий" HorizontalAlignment="Right" VerticalAlignment="Center" 
-					            Visibility="{Binding IsEmployee, Converter={StaticResource InversedBoolToVisibilityConverter}}" Style="{DynamicResource TextBlockDetailsStyle}" />
-			            <StackPanel Grid.Row="5" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center"
-						            Visibility="{Binding IsEmployee, Converter={StaticResource InversedBoolToVisibilityConverter}}">
-				            <TextBlock VerticalAlignment="Center">
-					            <Hyperlink Command="{Binding SelectEscortCommand}" Style="{StaticResource HyperlinkStyle}">
-						            <TextBlock Text="{Binding SelectedEscort.Name}" TextDecorations="Underline" />
-						            <TextBlock>
-							            <TextBlock.Style>
-								            <Style>
-									            <Style.Triggers>
-										            <DataTrigger Binding="{Binding HasSelectedEscort}" Value="false">
-											            <Setter Property="TextBlock.Text" Value="Нажмите для выбора сопровождающего" />
-										            </DataTrigger>
-									            </Style.Triggers>
-								            </Style>
-							            </TextBlock.Style>
-						            </TextBlock>
-					            </Hyperlink>
-				            </TextBlock>
-			            </StackPanel>
+						<StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Visibility="{Binding CanEditDepartment, Converter={StaticResource BoolToVisibilityConverter}}">
+							<TextBlock VerticalAlignment="Center">
+								<Hyperlink Command="{Binding SelectDepartmentCommand}" Style="{StaticResource HyperlinkStyle}">
+									<TextBlock Text="{Binding SelectedDepartment.Name}" TextDecorations="Underline" Visibility="{Binding HasSelectedDepartment, Converter={StaticResource BoolToVisibilityConverter}}" />
+									<TextBlock Text="Нажмите для выбора подразделения" Visibility="{Binding HasSelectedDepartment, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+								</Hyperlink>
+							</TextBlock>
+						</StackPanel>
 
-			            <TextBlock Grid.Row="6" Grid.Column="0" Text="Примечание" HorizontalAlignment="Right" VerticalAlignment="Center" 
-					            Visibility="{Binding IsEmployee, Converter={StaticResource InversedBoolToVisibilityConverter}}" Style="{DynamicResource TextBlockDetailsStyle}" />
-			            <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" Margin="2" 
-						            Visibility="{Binding IsEmployee, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+						<TextBlock Grid.Row="5" Grid.Column="0" Text="Сопровождающий" HorizontalAlignment="Right" VerticalAlignment="Center" 
+								Visibility="{Binding IsEmployee, Converter={StaticResource InversedBoolToVisibilityConverter}}" Style="{DynamicResource TextBlockDetailsStyle}" />
+						<StackPanel Grid.Row="5" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center"
+								Visibility="{Binding IsEmployee, Converter={StaticResource InversedBoolToVisibilityConverter}}">
+							<TextBlock VerticalAlignment="Center">
+								<Hyperlink Command="{Binding SelectEscortCommand}" Style="{StaticResource HyperlinkStyle}">
+									<TextBlock Text="{Binding SelectedEscort.Name}" TextDecorations="Underline" />
+									<TextBlock>
+										<TextBlock.Style>
+											<Style>
+												<Style.Triggers>
+													<DataTrigger Binding="{Binding HasSelectedEscort}" Value="false">
+														<Setter Property="TextBlock.Text" Value="Нажмите для выбора сопровождающего" />
+													</DataTrigger>
+												</Style.Triggers>
+											</Style>
+										</TextBlock.Style>
+									</TextBlock>
+								</Hyperlink>
+							</TextBlock>
+						</StackPanel>
+
+						<TextBlock Grid.Row="6" Grid.Column="0" Text="Примечание" HorizontalAlignment="Right" VerticalAlignment="Center" 
+								Visibility="{Binding IsEmployee, Converter={StaticResource InversedBoolToVisibilityConverter}}" Style="{DynamicResource TextBlockDetailsStyle}" />
+						<TextBox Grid.Row="6" Grid.Column="1" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" Margin="2" 
+								Visibility="{Binding IsEmployee, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
 
 						<TextBlock Grid.Row="7" Grid.Column="0" Text="График работы" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}" Style="{DynamicResource TextBlockDetailsStyle}" />
-                        <StackPanel Grid.Row="7" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}">
-                            <TextBlock VerticalAlignment="Center">
-					            <Hyperlink Command="{Binding SelectScheduleCommand}" Style="{StaticResource HyperlinkStyle}">
-						            <TextBlock Text="{Binding ScheduleString}" TextDecorations="Underline" Visibility="{Binding HasSelectedSchedule, Converter={StaticResource BoolToVisibilityConverter}}" />
-                                    <TextBlock Text="Нажмите для выбора графика работы" Visibility="{Binding HasSelectedSchedule, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
-					            </Hyperlink>
-				            </TextBlock>
-                        </StackPanel>
+						<StackPanel Grid.Row="7" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}">
+							<TextBlock VerticalAlignment="Center">
+								<Hyperlink Command="{Binding SelectScheduleCommand}" Style="{StaticResource HyperlinkStyle}">
+									<TextBlock Text="{Binding ScheduleString}" TextDecorations="Underline" Visibility="{Binding HasSelectedSchedule, Converter={StaticResource BoolToVisibilityConverter}}" />
+									<TextBlock Text="Нажмите для выбора графика работы" Visibility="{Binding HasSelectedSchedule, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+								</Hyperlink>
+							</TextBlock>
+						</StackPanel>
 
 						<TextBlock Grid.Row="8" Grid.Column="0" Text="Учётные данные действуют с" HorizontalAlignment="Right"  Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}" Style="{DynamicResource TextBlockDetailsStyle}" />
-			            <TextBlock Grid.Row="8" Grid.Column="1" VerticalAlignment="Center" Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}">
-				            <Hyperlink Command="{Binding SelectCredentialsStartDateCommand}" Style="{StaticResource HyperlinkStyle}">
-					            <TextBlock Text="{Binding CredentialsStartDateString}" TextDecorations="Underline" Margin="2" />
-				            </Hyperlink>
-			            </TextBlock>
+						<TextBlock Grid.Row="8" Grid.Column="1" VerticalAlignment="Center" Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}">
+							<Hyperlink Command="{Binding SelectCredentialsStartDateCommand}" Style="{StaticResource HyperlinkStyle}">
+								<TextBlock Text="{Binding CredentialsStartDateString}" TextDecorations="Underline" Margin="2" />
+							</Hyperlink>
+						</TextBlock>
 
 						<TextBlock Grid.Row="9" Grid.Column="0" Text="Табельный номер" Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
-			            <TextBox Grid.Row="9" Grid.Column="1" Text="{Binding TabelNo}" Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2" />
+						<TextBox Grid.Row="9" Grid.Column="1" Text="{Binding TabelNo}" Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2" />
 
 						<TextBlock Grid.Row="10" Grid.Column="0" Text="Телефон" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
-			            <TextBox Grid.Row="10" Grid.Column="1" Text="{Binding Phone, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="2" />
+						<TextBox Grid.Row="10" Grid.Column="1" Text="{Binding Phone, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="2" />
 
 						<TextBlock Grid.Row="11" Grid.Column="0" Text="Руководитель организации" HorizontalAlignment="Right" Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}" Style="{DynamicResource TextBlockDetailsStyle}" />
-			            <CheckBox Grid.Row="11" Grid.Column="1" IsChecked="{Binding IsOrganisationChief}" VerticalAlignment="Center" Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
+						<CheckBox Grid.Row="11" Grid.Column="1" IsChecked="{Binding IsOrganisationChief}" VerticalAlignment="Center" Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
 
 						<TextBlock Grid.Row="12" Grid.Column="0" Text="Руководитель отдела кадров" HorizontalAlignment="Right" Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}" Style="{DynamicResource TextBlockDetailsStyle}" />
-			            <CheckBox Grid.Row="12" Grid.Column="1" IsChecked="{Binding IsOrganisationHRChief}" VerticalAlignment="Center" Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
-		            </Grid>
-		            <ItemsControl ItemsSource="{Binding TextColumns}" Visibility="{Binding HasTextColumns, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
-			            <ItemsControl.ItemTemplate>
-				            <DataTemplate>
-					            <Grid>
-						            <Grid.ColumnDefinitions>
-							            <ColumnDefinition />
-							            <ColumnDefinition />
-						            </Grid.ColumnDefinitions>
+						<CheckBox Grid.Row="12" Grid.Column="1" IsChecked="{Binding IsOrganisationHRChief}" VerticalAlignment="Center" Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
+					</Grid>
+					<ItemsControl ItemsSource="{Binding TextColumns}" Visibility="{Binding HasTextColumns, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
+						<ItemsControl.ItemTemplate>
+							<DataTemplate>
+								<Grid>
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition />
+										<ColumnDefinition />
+									</Grid.ColumnDefinitions>
 									<TextBlock Grid.Column="0" Text="{Binding Name}" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
-						            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-					            </Grid>
-				            </DataTemplate>
-			            </ItemsControl.ItemTemplate>
-		            </ItemsControl>
-	            </StackPanel>
-            </ScrollViewer>
+									<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+								</Grid>
+							</DataTemplate>
+						</ItemsControl.ItemTemplate>
+					</ItemsControl>
+				</StackPanel>
+			</ScrollViewer>
 		</TabItem>
 		<TabItem Header="Документ">
 			<Grid>
@@ -143,8 +143,8 @@
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 				<Grid.ColumnDefinitions>
-					<ColumnDefinition />
-					<ColumnDefinition />
+					<ColumnDefinition MaxWidth="200" />
+					<ColumnDefinition Width="*" />
 				</Grid.ColumnDefinitions>
 				<TextBlock Grid.Row="0" Grid.Column="0" Text="Номер" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
 				<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding DocumentNumber, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
@@ -173,7 +173,7 @@
 				<TextBlock Grid.Row="6" Grid.Column="0" Text="Гражданство" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
 				<TextBox Grid.Row="6" Grid.Column="1" Text="{Binding Citizenship, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 				<TextBlock Grid.Row="7" Grid.Column="0" Text="Пол" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
-                <ComboBox Grid.Row="7" Grid.Column="1" ItemsSource="{Binding Genders}" SelectedItem="{Binding Gender}" Margin="2">
+				<ComboBox Grid.Row="7" Grid.Column="1" ItemsSource="{Binding Genders}" SelectedItem="{Binding Gender}" Margin="2">
 					<ComboBox.ItemTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" Margin="1" />
@@ -181,14 +181,14 @@
 					</ComboBox.ItemTemplate>
 				</ComboBox>
 				<TextBlock Grid.Row="8" Grid.Column="0" Text="Тип документа" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
-                <ComboBox Grid.Row="8" Grid.Column="1" ItemsSource="{Binding DocumentTypes}" SelectedItem="{Binding DocumentType}" Margin="2">
+				<ComboBox Grid.Row="8" Grid.Column="1" ItemsSource="{Binding DocumentTypes}" SelectedItem="{Binding DocumentType}" Margin="2">
 					<ComboBox.ItemTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" Margin="1" />
 						</DataTemplate>
 					</ComboBox.ItemTemplate>
 				</ComboBox>
-			</Grid>	 
+			</Grid>
 		</TabItem>
 		<TabItem Header="{Binding GraphicsColumnsTabItemName}">
 			<Grid>

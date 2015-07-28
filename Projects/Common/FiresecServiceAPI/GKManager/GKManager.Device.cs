@@ -64,7 +64,7 @@ namespace FiresecClient
 			return deviceTo;
 		}
 
-		public static GKDevice AddChild(GKDevice parentDevice, GKDevice previousDevice, GKDriver driver, byte intAddress)
+		public static GKDevice AddChild(GKDevice parentDevice, GKDevice previousDevice, GKDriver driver, int intAddress)
 		{
 			var device = new GKDevice()
 			{

@@ -1,4 +1,6 @@
-﻿using FiresecAPI.OPC;
+﻿using Common;
+using FiresecAPI.OPC;
+using FiresecClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,7 +29,6 @@ namespace FiresecAPI.GK
 			SKDZones = new List<GKSKDZone>();
 			OPCSettings = new OPCSettings();
 
-			Instructions = new List<GKInstruction>();
 			ParameterTemplates = new List<GKParameterTemplate>();
 			GKNameGenerationType = GKNameGenerationType.DriverTypePlusAddressPlusDescription;
 		}
@@ -70,12 +71,6 @@ namespace FiresecAPI.GK
 		/// </summary>
 		[DataMember]
 		public List<GKDelay> Delays { get; set; }
-
-		/// <summary>
-		/// Инструкции
-		/// </summary>
-		[DataMember]
-		public List<GKInstruction> Instructions { get; set; }
 
 		/// <summary>
 		/// Коды
@@ -153,6 +148,10 @@ namespace FiresecAPI.GK
 		{
 			foreach (var device in Devices)
 			{
+				if (device.DriverType == GKDriverType.RSR2_KAU || device.DriverType == GKDriverType.RSR2_GKMirror)
+				{
+					GKManager.RebuildRSR2Addresses(device);
+				}
 				device.SynchronizeChildern();
 			}
 		}
@@ -163,35 +162,21 @@ namespace FiresecAPI.GK
 
 			if (RootDevice == null)
 			{
-				var device = new GKDevice();
-				device.DriverUID = new Guid("938947C5-4624-4A1A-939C-60AEEBF7B65C");
-				RootDevice = device;
-				result = false;
-			}
-
-			Update();
-
-			foreach (var delay in Delays)
-			{
-			}
-			foreach (var mpt in MPTs)
-			{
-				foreach (var mptDevice in mpt.MPTDevices)
+				var systemDriver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.System);
+				if (systemDriver != null)
 				{
+					RootDevice = new GKDevice()
+					{
+						DriverUID = systemDriver.UID,
+						Driver = systemDriver
+					};
+				}
+				else
+				{
+					Logger.Error("ValidateVersion.RootDevice = null systemDriver = null");
 				}
 			}
-			foreach (var device in Devices)
-			{
-			}
-			foreach (var pumpStation in PumpStations)
-			{
-			}
-			foreach (var parameterTemplate in ParameterTemplates)
-			{
-				foreach (var deviceParameterTemplate in parameterTemplate.DeviceParameterTemplates)
-				{
-				}
-			}
+
 			return result;
 		}
 	}
