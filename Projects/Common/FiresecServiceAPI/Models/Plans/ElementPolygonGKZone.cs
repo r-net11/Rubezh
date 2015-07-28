@@ -21,12 +21,6 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public ElementZoneType ElementZoneType { get; set; }
 
-		public override ElementBase Clone()
-		{
-			var elementBase = new ElementPolygonGKZone();
-			Copy(elementBase);
-			return elementBase;
-		}
 		public override void Copy(ElementBase element)
 		{
 			base.Copy(element);
@@ -54,7 +48,7 @@ namespace FiresecAPI.Models
 
 		#region IElementReference Members
 
-		Guid IElementReference.ItemUID
+		public Guid ItemUID
 		{
 			get { return ZoneUID; }
 			set { ZoneUID = value; }

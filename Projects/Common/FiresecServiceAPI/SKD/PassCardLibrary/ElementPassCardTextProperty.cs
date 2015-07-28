@@ -12,12 +12,6 @@ namespace FiresecAPI.SKD
 		{
 		}
 
-		public override ElementBase Clone()
-		{
-			ElementPassCardTextProperty elementBase = new ElementPassCardTextProperty();
-			Copy(elementBase);
-			return elementBase;
-		}
 		public override void Copy(ElementBase element)
 		{
 			base.Copy(element);

@@ -12,13 +12,6 @@ namespace FiresecAPI.Models
 			PresentationName = "Эллипс";
 		}
 
-		public override ElementBase Clone()
-		{
-			ElementEllipse elementBase = new ElementEllipse();
-			Copy(elementBase);
-			return elementBase;
-		}
-
 		#region IPrimitive Members
 
 		[XmlIgnore]
