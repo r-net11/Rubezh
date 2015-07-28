@@ -71,6 +71,8 @@ extern "C" SDK_CLIENT_API BOOL SDK_CALL_METHOD WRAP_CloseDoor(int loginID, int c
 
 extern "C" SDK_CLIENT_API int SDK_CALL_METHOD WRAP_GetDoorStatus(int loginID, int channelNo);
 
+extern "C" SDK_CLIENT_API BOOL SDK_CALL_METHOD WRAP_PromptWarning(int loginID, int channelNo);
+
 extern "C" SDK_CLIENT_API BOOL SDK_CALL_METHOD WRAP_Upgrade(int loginID, char fileName[256]);
 
 typedef struct tagWRAP_NET_LOG_INFO

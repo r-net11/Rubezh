@@ -8,6 +8,7 @@ namespace ControllerSDK.ViewModels
 	{
 		public static Wrapper Wrapper { get; set; }
 
+		public ConnectionViewModel ConnectionViewModel { get; private set; }
 		public CardsViewModel CardsViewModel { get; private set; }
 		public PasswordsViewModel PasswordsViewModel { get; private set; }
 		public HolidaysViewModel HolidaysViewModel { get; private set; }
@@ -28,6 +29,7 @@ namespace ControllerSDK.ViewModels
 		{
 			Wrapper = new Wrapper();
 
+			ConnectionViewModel = new ConnectionViewModel();
 			CardsViewModel = new CardsViewModel();
 			PasswordsViewModel = new PasswordsViewModel();
 			HolidaysViewModel = new HolidaysViewModel();
@@ -43,25 +45,6 @@ namespace ControllerSDK.ViewModels
 			AccessesViewModel = new AccessesViewModel();
 			CustomDataViewModel = new CustomDataViewModel();
 			SearchDevicesViewModel = new SearchDevicesViewModel();
-
-			ConnectCommand = new RelayCommand(OnConnect);
-			DisconnectCommand = new RelayCommand(OnDisconnect);
-			OnConnect();
-		}
-
-		public RelayCommand ConnectCommand { get; private set; }
-		void OnConnect()
-		{
-			Wrapper.Initialize();
-			string error;
-			var connectionSettings = ConnectionSettingsHelper.Get();
-			MainViewModel.Wrapper.Connect(connectionSettings.Address, connectionSettings.Port, connectionSettings.Login, connectionSettings.Password, out error);
-		}
-
-		public RelayCommand DisconnectCommand { get; private set; }
-		void OnDisconnect()
-		{
-			MainViewModel.Wrapper.Disconnect();
 		}
 	}
 }

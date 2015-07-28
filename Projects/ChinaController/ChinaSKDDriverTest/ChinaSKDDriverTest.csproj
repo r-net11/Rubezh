@@ -78,6 +78,7 @@
     <Compile Include="Converters\DeviceTypeEnumToAttributeValueConverter.cs" />
     <Compile Include="ViewModels\AntiPassBackViewModel.cs" />
     <Compile Include="ViewModels\CommonViewModel.cs" />
+    <Compile Include="ViewModels\ConnectionViewModel.cs" />
     <Compile Include="ViewModels\ControlViewModel.cs" />
     <Compile Include="ViewModels\AccessesViewModel.cs" />
     <Compile Include="ViewModels\AccessViewModel.cs" />
@@ -108,6 +109,9 @@
     <Compile Include="ViewModels\CardViewModel.cs" />
     <Compile Include="Views\CommonView.xaml.cs">
       <DependentUpon>CommonView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ConnectionView.xaml.cs">
+      <DependentUpon>ConnectionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ControlView.xaml.cs">
       <DependentUpon>ControlView.xaml</DependentUpon>
@@ -156,6 +160,10 @@
     <Page Include="Views\CommonView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ConnectionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ControlView.xaml">
       <SubType>Designer</SubType>

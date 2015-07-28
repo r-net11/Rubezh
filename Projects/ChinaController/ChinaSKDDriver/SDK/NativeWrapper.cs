@@ -340,6 +340,9 @@ namespace ChinaSKDDriverNativeApi
 		public static extern int WRAP_GetDoorStatus(int loginID, int channelNo);
 
 		[DllImport(@"CPPWrapper.dll")]
+		public static extern bool WRAP_PromptWarning(int loginID, int channelNo);
+
+		[DllImport(@"CPPWrapper.dll")]
 		public static extern bool WRAP_Upgrade(int loginID, string fileName);
 
 		[DllImport(@"CPPWrapper.dll")]

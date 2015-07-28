@@ -405,6 +405,21 @@ int CALL_METHOD WRAP_GetDoorStatus(int loginID, int channelNo)
 	}
 }
 
+BOOL CALL_METHOD WRAP_PromptWarning(int loginID, int channelNo)
+{
+	if (loginID == NULL)
+	{
+		return FALSE;
+	}
+
+	NET_CTRL_CLEAR_ALARM stuParam = { sizeof(stuParam) };
+	stuParam.bEventType = TRUE;
+	stuParam.nEventType = DH_ALARM_ACCESS_CTL_BREAK_IN;
+	stuParam.nChannelID = channelNo;
+
+	return CLIENT_ControlDevice(loginID, DH_CTRL_CLEAR_ALARM, &stuParam);
+}
+
 LLONG m_hUpgradeId;
 
 void WINAPI UpgradeCallBack(LLONG lLoginID, LLONG lUpgradechannel, int nTotalSize, int nSendSize, LDWORD dwUser)

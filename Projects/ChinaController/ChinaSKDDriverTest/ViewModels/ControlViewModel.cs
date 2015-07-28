@@ -1,4 +1,9 @@
-﻿using System.Windows;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.IO;
+using System.Threading;
+using System.Windows;
+using System.Windows.Threading;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 
@@ -6,49 +11,62 @@ namespace ControllerSDK.ViewModels
 {
 	public class ControlViewModel : BaseViewModel
 	{
+		private DispatcherTimer _timer;
+
 		public ControlViewModel()
 		{
+			InitAvailableDoorStatuses();			
 			OpenDoorCommand = new RelayCommand(OnOpenDoor);
 			CloseDoorCommand = new RelayCommand(OnCloseDoor);
 			GetDoorStatusCommand = new RelayCommand(OnGetDoorStatus);
+			PromptWarningCommand = new RelayCommand(OnPromptWarning);
+			
+			_timer = new DispatcherTimer();
+			_timer.Interval = TimeSpan.FromMilliseconds(5000);
+			_timer.Tick += (sender, args) =>
+			{
+				OnGetDoorStatus();
+				_timer.Stop();
+			};
 		}
 
 		public RelayCommand OpenDoorCommand { get; private set; }
 		void OnOpenDoor()
 		{
-			var result = MainViewModel.Wrapper.OpenDoor(Index);
-			MessageBox.Show(result.ToString());
+			if (!MainViewModel.Wrapper.OpenDoor(Index))
+			{
+				MessageBox.Show("Операция открытия двери завершилась с ошибкой");
+				return;
+			}
+			DoorStatus = (DoorStatus)MainViewModel.Wrapper.GetDoorStatus(Index);
+			_timer.Stop();
+			_timer.Start();
 		}
 
 		public RelayCommand CloseDoorCommand { get; private set; }
 		void OnCloseDoor()
 		{
-			var result = MainViewModel.Wrapper.CloseDoor(Index);
-			MessageBox.Show(result.ToString());
+			if (!MainViewModel.Wrapper.CloseDoor(Index))
+			{
+				MessageBox.Show("Операция закрытия двери завершилась с ошибкой");
+				return;
+			}
+			DoorStatus = (DoorStatus)MainViewModel.Wrapper.GetDoorStatus(Index);
+			_timer.Stop();
+			_timer.Start();
 		}
 
 		public RelayCommand GetDoorStatusCommand { get; private set; }
 		void OnGetDoorStatus()
 		{
-			var result = MainViewModel.Wrapper.GetDoorStatus(Index);
-			switch (result)
-			{
-				case -1:
-					MessageBox.Show("Error");
-					break;
+			DoorStatus = (DoorStatus)MainViewModel.Wrapper.GetDoorStatus(Index);
+		}
 
-				case 0:
-					MessageBox.Show("Unknown");
-					break;
-
-				case 1:
-					MessageBox.Show("Opened");
-					break;
-
-				case 2:
-					MessageBox.Show("Closed");
-					break;
-			}
+		public RelayCommand PromptWarningCommand { get; private set; }
+		private void OnPromptWarning()
+		{
+			var opStatus = MainViewModel.Wrapper.PromptWarning(Index) ? "успешно" : "с ошибкой";
+			MessageBox.Show(String.Format("Операция сброса состояния \"ВЗЛОМ\" завершилась {0}", opStatus));
 		}
 
 		int _index;
@@ -61,5 +79,40 @@ namespace ControllerSDK.ViewModels
 				OnPropertyChanged(() => Index);
 			}
 		}
+
+		private DoorStatus _doorStatus;
+		public DoorStatus DoorStatus
+		{
+			get { return _doorStatus; }
+			set
+			{
+				if (_doorStatus == value)
+					return;
+				_doorStatus = value;
+				OnPropertyChanged(() => DoorStatus);
+			}
+		}
+
+		public ObservableCollection<DoorStatus> AvailableDoorStatuses { get; private set; }
+
+		private void InitAvailableDoorStatuses()
+		{
+			AvailableDoorStatuses = new ObservableCollection<DoorStatus>
+			{
+				DoorStatus.Error,
+				DoorStatus.Unknown,
+				DoorStatus.Opened,
+				DoorStatus.Closed
+			};
+		}
+
+	}
+
+	public enum DoorStatus
+	{
+		Error = -1,
+		Unknown = 0,
+		Opened = 1,
+		Closed = 2
 	}
 }
