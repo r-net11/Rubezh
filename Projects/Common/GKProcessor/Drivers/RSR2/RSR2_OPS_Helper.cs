@@ -39,9 +39,9 @@ namespace GKProcessor
 			driver.AvailableCommandBits.Add(GKStateBit.TurnOff_InManual);
 			driver.AvailableCommandBits.Add(GKStateBit.TurnOffNow_InManual);
 
-			GKDriversHelper.AddIntProprety(driver, 0, "Задержка на включение, с", 5, 0, 65535);
-			GKDriversHelper.AddIntProprety(driver, 1, "Время удержания, с", 16, 0, 65535);
-			GKDriversHelper.AddIntProprety(driver, 2, "Задержка на выключение, с", 5, 0, 65535);
+			GKDriversHelper.AddIntProprety(driver, 0, "Задержка на включение, с", 0, 0, 65535);
+			GKDriversHelper.AddIntProprety(driver, 1, "Время удержания, с", 0, 0, 65535);
+			GKDriversHelper.AddIntProprety(driver, 2, "Задержка на выключение, с", 0, 0, 65535);
 
 			var property1 = new GKDriverProperty()
 			{
@@ -62,7 +62,7 @@ namespace GKProcessor
 				No = 3,
 				Name = "Состояние для режима Удержания",
 				Caption = "Состояние для режима Удержания",
-				Default = 0,
+				Default = 4,
 				IsLowByte = true,
 				Mask = 0x0C
 			};

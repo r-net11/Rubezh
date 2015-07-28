@@ -163,6 +163,7 @@ namespace GKProcessor
 			AddGKMessage(JournalEventNameType.Запись_конфигурации_в_прибор, JournalEventDescriptionType.NULL, "", device, userName);
 
 			Stop();
+			GKSyncronyseTime(device, userName);
 			var gkDescriptorsWriter = new GkDescriptorsWriter();
 			gkDescriptorsWriter.WriteConfig(device, progressCallback);
 			Start();
