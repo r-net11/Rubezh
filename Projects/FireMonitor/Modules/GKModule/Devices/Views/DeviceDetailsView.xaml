@@ -142,15 +142,27 @@
 								<TextBlock Text="{Binding Device.GKDescriptorNo}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" FontWeight="Bold" />
 							</StackPanel>
 							<WrapPanel Margin="2">
-								<TextBlock Width="110" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold" Text="Зона или Логика: " />
-								<TextBlock>
-									<Hyperlink Command="{Binding ShowZoneCommand}" Style="{StaticResource HyperlinkStyle2}">
+								<StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Visibility="{Binding Device.Driver.HasZone, Converter={StaticResource BoolToVisibilityConverter}}">
+									<TextBlock Width="110" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold" Text="Зона: " />
+									<TextBlock>
+										<Hyperlink Command="{Binding ShowZoneCommand}" Style="{StaticResource HyperlinkStyle2}">
+											<StackPanel Orientation="Horizontal">
+												<Image Width="16" Source="/Controls;component/Images/Zone.png" />
+												<TextBlock Text="{Binding PresentationZone}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" />
+												<TextBlock Text="{Binding Driver.HasZone}" />
+											</StackPanel>
+										</Hyperlink>
+									</TextBlock>
+								</StackPanel>
+								<StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Visibility="{Binding Device.Driver.HasLogic, Converter={StaticResource BoolToVisibilityConverter}}">
+									<TextBlock Width="110" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold" Text="Логика: " />
+									<TextBlock>
 										<StackPanel Orientation="Horizontal">
-											<Image Width="16" Source="/Controls;component/Images/Zone.png" />
 											<TextBlock Text="{Binding PresentationZone}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" />
+											<TextBlock Text="{Binding Driver.HasLogic}" />
 										</StackPanel>
-									</Hyperlink>
-								</TextBlock>
+									</TextBlock>
+								</StackPanel>
 								<WrapPanel.Style>
 									<Style>
 										<Style.Triggers>

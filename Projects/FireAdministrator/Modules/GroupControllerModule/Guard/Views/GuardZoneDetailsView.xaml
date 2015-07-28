@@ -40,10 +40,10 @@
 				<controls:XAutoCompleteBox Grid.Row="2" Grid.Column="1" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" ItemsSource="{Binding AvailableDescription}" IsTextCompletionEnabled="True" Margin="2" />
 
 				<TextBlock Grid.Row="3" Grid.Column="0" Text="Задержка на постановку, с" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
-				<extToolkit:IntegerUpDown Grid.Row="3" Grid.Column="1" Value="{Binding SetDelay}" Minimum="1" Maximum="65535" Margin="2" />
+				<extToolkit:IntegerUpDown Grid.Row="3" Grid.Column="1" Value="{Binding SetDelay}" Minimum="0" Maximum="65535" Margin="2" />
 
 				<TextBlock Grid.Row="4" Grid.Column="0" Text="Задержка на снятие, с" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
-				<extToolkit:IntegerUpDown Grid.Row="4" Grid.Column="1" Value="{Binding ResetDelay}" Minimum="1" Maximum="65535" Margin="2" />
+				<extToolkit:IntegerUpDown Grid.Row="4" Grid.Column="1" Value="{Binding ResetDelay}" Minimum="0" Maximum="65535" Margin="2" />
 
 				<TextBlock Grid.Row="5" Grid.Column="0" Text="Задержка на тревогу, с" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
 				<extToolkit:IntegerUpDown Grid.Row="5" Grid.Column="1" Value="{Binding AlarmDelay}" Minimum="1" Maximum="65535" Margin="2" />
