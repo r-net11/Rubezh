@@ -121,7 +121,7 @@ namespace FiresecAPI.SKD
 		[Description("Неизвестно")]
 		CFG_DOOR_OPEN_METHOD_UNKNOWN = 0,
 
-		[Description("Только пароль")]
+		[Description("Пароль")]
 		CFG_DOOR_OPEN_METHOD_PWD_ONLY,
 
 		[Description("Карта")]
@@ -136,7 +136,7 @@ namespace FiresecAPI.SKD
 		[Description("Сначала пароль")]
 		CFG_DOOR_OPEN_METHOD_PWD_FIRST,
 
-		[Description("Недельный график")]
+		[Description("График замка")]
 		CFG_DOOR_OPEN_METHOD_SECTION,
 
 		[Description("Только отпечаток пальца")]
