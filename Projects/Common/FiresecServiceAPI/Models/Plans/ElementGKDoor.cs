@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Interfaces;
 
@@ -17,11 +18,6 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public Guid DoorUID { get; set; }
 
-		public override void Copy(ElementBase element)
-		{
-			base.Copy(element);
-			((ElementGKDoor)element).DoorUID = DoorUID;
-		}
 		public override void UpdateZLayer()
 		{
 			ZLayer = 70;
@@ -29,6 +25,7 @@ namespace FiresecAPI.Models
 
 		#region IElementReference Members
 
+		[XmlIgnore]
 		public Guid ItemUID
 		{
 			get { return DoorUID; }

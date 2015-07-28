@@ -17,11 +17,6 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public Guid CameraUID { get; set; }
 
-		public override void Copy(ElementBase element)
-		{
-			base.Copy(element);
-			((ElementCamera)element).CameraUID = CameraUID;
-		}
 		public override void UpdateZLayer()
 		{
 			ZLayer = 70;

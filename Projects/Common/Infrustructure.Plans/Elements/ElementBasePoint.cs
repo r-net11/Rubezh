@@ -32,12 +32,5 @@ namespace Infrustructure.Plans.Elements
 			Left = point.X;
 			Top = point.Y;
 		}
-
-		public override void Copy(ElementBase element)
-		{
-			base.Copy(element);
-			((ElementBasePoint)element).Left = Left;
-			((ElementBasePoint)element).Top = Top;
-		}
 	}
 }

@@ -23,12 +23,6 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public bool ShowDelay { get; set; }
 
-		public override void Copy(ElementBase element)
-		{
-			base.Copy(element);
-			((ElementPolygonGKDirection)element).DirectionUID = DirectionUID;
-		}
-
 		#region IPrimitive Members
 
 		[XmlIgnore]
@@ -45,7 +39,8 @@ namespace FiresecAPI.Models
 		}
 
 		#region IElementReference Members
-
+		
+		[XmlIgnore]
 		public Guid ItemUID
 		{
 			get { return DirectionUID; }

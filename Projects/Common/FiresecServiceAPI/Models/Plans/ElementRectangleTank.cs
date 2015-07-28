@@ -17,12 +17,6 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public Guid DeviceUID { get; set; }
 
-		public override void Copy(ElementBase element)
-		{
-			base.Copy(element);
-			((ElementRectangleTank)element).DeviceUID = DeviceUID;
-		}
-
 		#region IPrimitive Members
 
 		[XmlIgnore]
@@ -40,6 +34,7 @@ namespace FiresecAPI.Models
 
 		#region IElementReference Members
 
+		[XmlIgnore]
 		public Guid ItemUID
 		{
 			get { return DeviceUID; }

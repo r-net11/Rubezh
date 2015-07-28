@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.Serialization;
 using System.Windows;
 using System.Windows.Media;
 using System.Xml.Serialization;
 using Common;
-using System.Reflection;
-using System.Collections;
-using Infrustructure.Plans.Interfaces;
 
 namespace Infrustructure.Plans.Elements
 {
@@ -90,7 +88,7 @@ namespace Infrustructure.Plans.Elements
 			return newElement;
 		}
 
-		public virtual void Copy(ElementBase target)
+		public void Copy(ElementBase target)
 		{
 			PropertyInfo[] sourceProperties = this.GetType().GetProperties();
 			PropertyInfo[] targetProperties = target.GetType().GetProperties();

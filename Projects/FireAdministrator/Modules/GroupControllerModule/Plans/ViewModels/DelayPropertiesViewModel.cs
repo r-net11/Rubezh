@@ -77,6 +77,8 @@ namespace GKModule.Plans.ViewModels
 
 		protected override bool Save()
 		{
+			_element.ShowState = this.ShowState;
+			_element.ShowDelay = this.ShowDelay;
 			Guid delayUID = _element.DelayUID;
 			GKPlanExtension.Instance.SetItem<GKDelay>(_element, this.SelectedDelay == null ? null : this.SelectedDelay.Delay);
 			UpdateDelays(delayUID);

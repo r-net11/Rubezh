@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
+using Common;
 using FiresecAPI.GK;
 using FiresecClient;
+using GKModule.Events;
+using GKModule.Plans;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Ribbon;
@@ -12,7 +15,6 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
 using KeyboardKey = System.Windows.Input.Key;
-using Common;
 
 namespace GKModule.ViewModels
 {
@@ -24,7 +26,7 @@ namespace GKModule.ViewModels
 		{
 			Current = this;
 			Menu = new DelaysMenuViewModel(this);
-			AddCommand = new RelayCommand(OnAdd);
+			AddCommand = new RelayCommand(() => OnAdd());
 			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
 			CopyCommand = new RelayCommand(OnCopy, CanCopy);
@@ -43,6 +45,37 @@ namespace GKModule.ViewModels
 				orderby delay.No
 				select new DelayViewModel(delay));
 			SelectedDelay = Delays.FirstOrDefault();
+		}
+
+		/// <summary>
+		/// Creates new Delay.
+		/// </summary>
+		/// <param name="createDelayEventArg">Argument for Delay Creation.</param>
+		public void CreateDelay(CreateGKDelayEventArgs createDelayEventArg)
+		{
+			DelayDetailsViewModel result = this.OnAdd();
+			if (result == null)
+			{
+				createDelayEventArg.Cancel = true;
+				createDelayEventArg.DelayUID = Guid.Empty;
+			}
+			else
+			{
+				createDelayEventArg.Cancel = false;
+				createDelayEventArg.DelayUID = result.Delay.UID;
+				createDelayEventArg.Delay = result.Delay;
+			}
+		}
+
+		/// <summary>
+		/// Edits specified Delay.
+		/// </summary>
+		/// <param name="delayUID">UID of the Delay to edit.</param>
+		public void EditDelay(Guid delayUID)
+		{
+			var delayViewModel = delayUID == Guid.Empty ? null : this.Delays.FirstOrDefault(x => x.Delay.UID == delayUID);
+			if (delayViewModel != null)
+				this.OnEdit(delayViewModel.Delay);
 		}
 
 		ObservableCollection<DelayViewModel> _delays;
@@ -141,18 +174,20 @@ namespace GKModule.ViewModels
 		}
 
 		public RelayCommand AddCommand { get; private set; }
-		void OnAdd()
+		private DelayDetailsViewModel OnAdd()
 		{
 			var delayDetailsViewModel = new DelayDetailsViewModel();
 			if (DialogService.ShowModalWindow(delayDetailsViewModel))
 			{
-				GKManager.Delays.Add(delayDetailsViewModel.Delay);
+				GKManager.AddDelay(delayDetailsViewModel.Delay);
 				var delayViewModel = new DelayViewModel(delayDetailsViewModel.Delay);
 				Delays.Add(delayViewModel);
 				SelectedDelay = delayViewModel;
-				OnPropertyChanged(() => HasSelectedDelay);
 				ServiceFactory.SaveService.GKChanged = true;
+				GKPlanExtension.Instance.Cache.BuildSafe<GKDelay>();
+				return delayDetailsViewModel;
 			}
+			return null;
 		}
 
 		public RelayCommand DeleteCommand { get; private set; }
@@ -172,9 +207,18 @@ namespace GKModule.ViewModels
 		}
 
 		public RelayCommand EditCommand { get; private set; }
-		void OnEdit()
+		private void OnEdit()
 		{
-			var delayDetailsViewModel = new DelayDetailsViewModel(SelectedDelay.Delay);
+			this.OnEdit(this.SelectedDelay.Delay);
+		}
+
+		/// <summary>
+		/// Handles editing a Delay.
+		/// </summary>
+		/// <param name="delay">Delay to be edited.</param>
+		private void OnEdit(GKDelay delay)
+		{
+			var delayDetailsViewModel = new DelayDetailsViewModel(delay);
 			if (DialogService.ShowModalWindow(delayDetailsViewModel))
 			{
 				SelectedDelay.Delay = delayDetailsViewModel.Delay;

@@ -192,12 +192,12 @@ namespace GKModule
 
         public void OnCreateGKDelay(CreateGKDelayEventArgs createDelayEventArg)
         {
-            // TODO Create Delay here
+			DelaysViewModel.CreateDelay(createDelayEventArg);
         }
 
         public void OnEditGKDelay(Guid delayUID)
         {
-            // TODO Edit Delay here
+			DelaysViewModel.EditDelay(delayUID);
         }
 
         private void OnCreateGKDirection(CreateGKDirectionEventArg createDirectionEventArg)

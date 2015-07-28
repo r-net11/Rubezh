@@ -52,11 +52,5 @@ namespace Infrustructure.Plans.Elements
 			for (int i = 0; i < Points.Count; i++)
 				Points[i] = Points[i] + shift;
 		}
-
-		public override void Copy(ElementBase element)
-		{
-			base.Copy(element);
-			((ElementBaseShape)element).Points = Points.Clone();
-		}
 	}
 }

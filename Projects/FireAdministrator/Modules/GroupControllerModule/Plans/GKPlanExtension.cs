@@ -161,24 +161,6 @@ namespace GKModule.Plans
 							Autostart = true,
 							GroupIndex = 206,
 						},
-                        new InstrumentViewModel()
-						{
-							ImageSource="ZoneRectangle",
-							ToolTip="Задержка",
-							Adorner = new DelayRectangleAdorner(DesignerCanvas, this._delaysViewModel),
-							Index = 208,
-							Autostart = true,
-							GroupIndex = 206,
-						},
-						new InstrumentViewModel()
-						{
-							ImageSource="ZonePolygon",
-							ToolTip="Задержка",
-							Adorner = new DelayRectangleAdorner(DesignerCanvas, this._delaysViewModel),
-							Index = 208,
-							Autostart = true,
-							GroupIndex = 206,
-						},
 						new InstrumentViewModel()
 						{
 							ImageSource="DirectionRectangle",
@@ -484,7 +466,7 @@ namespace GKModule.Plans
 			LayerGroupService.Instance.RegisterGroup("GKDirection", "Направления", 16);
 			LayerGroupService.Instance.RegisterGroup("GKMPT", "Направления", 17);
 			LayerGroupService.Instance.RegisterGroup("GKDoors", "ГК Точки доступа", 18);
-			LayerGroupService.Instance.RegisterGroup("GKDelays", "Задержки", 19);
+			LayerGroupService.Instance.RegisterGroup("GKDelay", "Задержки", 19);
 		}
 		public override void ExtensionAttached()
 		{

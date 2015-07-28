@@ -14,15 +14,6 @@ namespace FiresecAPI.SKD
 			Stretch = Stretch.Fill;
 		}
 
-		public override void Copy(ElementBase element)
-		{
-			base.Copy(element);
-			((ElementPassCardImageProperty)element).PropertyType = PropertyType;
-			((ElementPassCardImageProperty)element).AdditionalColumnUID = AdditionalColumnUID;
-			((ElementPassCardImageProperty)element).Stretch = Stretch;
-			((ElementPassCardImageProperty)element).Text = Text;
-		}
-
 		[DataMember]
 		public PassCardImagePropertyType PropertyType { get; set; }
 		[DataMember]

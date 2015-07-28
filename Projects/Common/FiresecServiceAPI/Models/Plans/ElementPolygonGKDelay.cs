@@ -14,12 +14,6 @@ namespace FiresecAPI.Models
 			PresentationName = "Задержка";
 		}
 
-		public override void Copy(ElementBase element)
-		{
-			base.Copy(element);
-			((ElementPolygonGKDelay)element).DelayUID = DelayUID;
-		}
-
 		[DataMember()]
 		public Guid DelayUID { get; set; }
 
@@ -46,6 +40,7 @@ namespace FiresecAPI.Models
 
 		#region IElementReference Members
 
+		[XmlIgnore]
 		public Guid ItemUID
 		{
 			get { return this.DelayUID; }
