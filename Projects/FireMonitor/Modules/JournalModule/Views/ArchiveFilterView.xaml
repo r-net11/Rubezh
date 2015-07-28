@@ -27,22 +27,30 @@
 		</Grid>
 		<TabControl BorderThickness="0" Padding="11" SelectedIndex="0">
 			<TabItem Header="Временной диапазон" DataContext="{Binding ArchiveDateTimeViewModel}">
-				<StackPanel Margin="2">
-					<StackPanel Orientation="Horizontal" Margin="2">
-						<TextBlock Text="Интервал" Width="100" VerticalAlignment="Center" Style="{DynamicResource TextBlockDetailsStyle}" />
-						<ComboBox ItemsSource="{Binding ArchiveDefaultStateTypes}" SelectedItem="{Binding SelectedArchiveDefaultStateType}" Width="250">
-							<ComboBox.ItemTemplate>
-								<DataTemplate>
-									<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" Margin="1" />
-								</DataTemplate>
-							</ComboBox.ItemTemplate>
-						</ComboBox>
-					</StackPanel>
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="100" />
+						<ColumnDefinition Width="250" />
+					</Grid.ColumnDefinitions>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+					</Grid.RowDefinitions>
+					<TextBlock Text="Интервал" Width="100" VerticalAlignment="Center" Style="{DynamicResource TextBlockDetailsStyle}" Grid.Column="0" Grid.Row="0" />
+					<ComboBox ItemsSource="{Binding ArchiveDefaultStateTypes}" SelectedItem="{Binding SelectedArchiveDefaultStateType}" Width="250" Grid.Column="1" Grid.Row="0" Margin="0 4 0 4">
+						<ComboBox.ItemTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" Margin="0 4 0 4" />
+							</DataTemplate>
+						</ComboBox.ItemTemplate>
+					</ComboBox>
 
-					<ExtToolkit:IntegerUpDown Minimum="1" Maximum="1000" Value="{Binding Count, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding IsCountVisible, Converter={StaticResource BoolToVisibilityConverter}}" HorizontalAlignment="Left" Width="200" Margin="102 2 0 0" />
+					<ExtToolkit:IntegerUpDown Minimum="1" Maximum="1000" Value="{Binding Count, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding IsCountVisible, Converter={StaticResource BoolToVisibilityConverter}}" HorizontalAlignment="Left" Width="250" Grid.Column="1" Grid.Row="1" />
 
-					<StackPanel Orientation="Horizontal" Visibility="{Binding IsStartDateVisible, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
-						<TextBlock Text="Дата начала" Width="100" VerticalAlignment="Top" Style="{DynamicResource TextBlockDetailsStyle}" />
+					<TextBlock Text="Дата начала" Width="100" VerticalAlignment="Top" Style="{DynamicResource TextBlockDetailsStyle}" Grid.Column="0" Grid.Row="1" Visibility="{Binding IsStartDateVisible, Converter={StaticResource BoolToVisibilityConverter}}" Margin="0 4 0 4" />
+					<StackPanel Orientation="Horizontal" Visibility="{Binding IsStartDateVisible, Converter={StaticResource BoolToVisibilityConverter}}" Grid.Column="1" Grid.Row="1">
 						<Calendar
 								DisplayDateStart="{Binding ArchiveFirstDate, Mode=OneWay}"
 								SelectedDate="{Binding StartDateTime.Date, UpdateSourceTrigger=PropertyChanged}"
@@ -51,8 +59,8 @@
 						<Controls:TimePicker TimeSpan="{Binding StartDateTime.Time, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 					</StackPanel>
 
-					<StackPanel Orientation="Horizontal" Visibility="{Binding IsEndDateVisible, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
-						<TextBlock Text="Дата окончания" Width="100" VerticalAlignment="Top" Style="{DynamicResource TextBlockDetailsStyle}" />
+					<TextBlock Text="Дата окончания" Width="100" VerticalAlignment="Top" Style="{DynamicResource TextBlockDetailsStyle}" Grid.Column="0" Grid.Row="2" Visibility="{Binding IsEndDateVisible, Converter={StaticResource BoolToVisibilityConverter}}" Margin="0 4 0 4" />
+					<StackPanel Orientation="Horizontal" Visibility="{Binding IsEndDateVisible, Converter={StaticResource BoolToVisibilityConverter}}" Grid.Column="1" Grid.Row="2">
 						<Calendar
 								DisplayDateStart="{Binding ArchiveFirstDate, Mode=OneWay}"
 								SelectedDate="{Binding EndDateTime.Date, UpdateSourceTrigger=PropertyChanged}"
@@ -61,8 +69,8 @@
 						<Controls:TimePicker TimeSpan="{Binding EndDateTime.Time, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 					</StackPanel>
 
-					<CheckBox IsChecked="{Binding UseDeviceDateTime, UpdateSourceTrigger=PropertyChanged}" Content="Использовать дату прибора" Foreground="White" Margin="102 2 0 0" />
-				</StackPanel>
+					<CheckBox IsChecked="{Binding UseDeviceDateTime, UpdateSourceTrigger=PropertyChanged}" Content="Использовать дату прибора" Foreground="White" Grid.Column="1" Grid.Row="3" Margin="0 4 0 4" />
+				</Grid>
 			</TabItem>
 			<TabItem Header="Событие" DataContext="{Binding FilterNamesViewModel}">
 				<tree:TreeList Focusable="False" Source="{Binding RootFilters}" SelectedTreeNode="{Binding SelectedFilter}" tree:SortBehavior.CanUserSortColumns="False" Margin="-5">
