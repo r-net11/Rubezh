@@ -153,6 +153,8 @@ namespace GKModule.ViewModels
 			set
 			{
 				_alarmDelay = value;
+				if (AlarmDelay == 0)
+					AlarmDelay = 1;
 				OnPropertyChanged(() => AlarmDelay);
 			}
 		}
