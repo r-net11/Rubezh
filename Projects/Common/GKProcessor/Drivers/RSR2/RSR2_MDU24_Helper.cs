@@ -93,9 +93,9 @@ namespace GKProcessor
 			property4.Parameters.Add(property4Parameter1);
 			property4.Parameters.Add(property4Parameter2);
 			driver.Properties.Add(property4);
-			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 1, Name = "Задержка", IsDelay = true });
-			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 2, Name = "Тип задержки"}); // 1 - Задержка, 2 - Время хода
-			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 3, Name = "Напряжение", Multiplier = 10 });
+			driver.MeasureParameters.Add(new GKMeasureParameter { No = 1, Name = "Задержка", IsDelay = true, IsNotVisible = true});
+			driver.MeasureParameters.Add(new GKMeasureParameter { No = 2, Name = "Тип задержки", IsNotVisible = true}); // 1 - Задержка, 2 - Время хода
+			driver.MeasureParameters.Add(new GKMeasureParameter { No = 3, Name = "Напряжение, В", Multiplier = 10 });
 
 			return driver;
 		}

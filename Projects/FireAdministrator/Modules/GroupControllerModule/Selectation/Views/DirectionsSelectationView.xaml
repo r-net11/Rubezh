@@ -10,8 +10,8 @@
 			<ColumnDefinition Width="50" />
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
-		<DataGrid x:Name="dataGrid1" Grid.Column="0" ItemsSource="{Binding TargetDirections}" SelectedItem="{Binding SelectedTargetDirection}" SelectionChanged="OnSelectionChanged" CanUserSortColumns="True"
-					  SelectionMode="Extended" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Standard">
+		<MultiselectDataGrid x:Name="dataGrid1" Grid.Column="0" ItemsSource="{Binding TargetDirections}" SelectedItem="{Binding SelectedTargetDirection}" CanUserSortColumns="True"
+				VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Standard">
 			<DataGrid.Resources>
 				<InputBindingCollection x:Key="inputCollection" x:Shared="False">
 					<MouseBinding Command="{Binding DataContext.RemoveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" CommandParameter="{Binding ElementName=dataGrid1, Path=SelectedItems}" />
@@ -36,15 +36,15 @@
 				<DataGridTextColumn Binding="{Binding Name}" Header="Выбранные направления" Width="*" />
 				<DataGridTextColumn Binding="{Binding Description}" Header="Примечание" />
 			</DataGrid.Columns>
-		</DataGrid>
+		</MultiselectDataGrid>
 		<StackPanel Grid.Column="1" Margin="2">
 			<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="left"  CommandParameter="{Binding ElementName=dataGrid2, Path=SelectedItems}"/>
 			<ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить" ImageSource="right"  CommandParameter="{Binding ElementName=dataGrid1, Path=SelectedItems}"/>
 			<ToolBarButton Command="{Binding AddAllCommand}" ToolTip="Добавить все" ImageSource="leftLeft"  />
 			<ToolBarButton Command="{Binding RemoveAllCommand}" ToolTip="Удалить все" ImageSource="rightRight"  />
 		</StackPanel>
-		<DataGrid x:Name="dataGrid2" Grid.Column="2" ItemsSource="{Binding SourceDirections}" SelectedItem="{Binding SelectedSourceDirection}" SelectionChanged="OnSelectionChanged" CanUserSortColumns="True"
-					  SelectionMode="Extended" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Standard">
+		<MultiselectDataGrid x:Name="dataGrid2" Grid.Column="2" ItemsSource="{Binding SourceDirections}" SelectedItem="{Binding SelectedSourceDirection}" CanUserSortColumns="True"
+				VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Standard">
 			<DataGrid.Resources>
 				<InputBindingCollection x:Key="inputCollection" x:Shared="False">
 					<MouseBinding Command="{Binding DataContext.AddCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" CommandParameter="{Binding ElementName=dataGrid2, Path=SelectedItems}" />
@@ -69,6 +69,6 @@
 				<DataGridTextColumn Binding="{Binding Name}" Header="Направления" Width="*" />
 				<DataGridTextColumn Binding="{Binding Description}" Header="Примечание" />
 			</DataGrid.Columns>
-		</DataGrid>
+		</MultiselectDataGrid>
 	</Grid>
 </UserControl>

@@ -52,6 +52,7 @@ namespace GKImitator.ViewModels
 		{
 			DescriptorViewModel.SetStateBit(GKStateBit.Attention, true);
 			DescriptorViewModel.CurrentCardNo = CardNo;
+			DescriptorViewModel.RecalculateOutputLogic();
 			var backgroundWorker = new BackgroundWorker();
 			backgroundWorker.DoWork += backgroundWorker_DoWork;
 			backgroundWorker.RunWorkerAsync();

@@ -29,7 +29,6 @@ namespace FiresecAPI.GK
 			SKDZones = new List<GKSKDZone>();
 			OPCSettings = new OPCSettings();
 
-			Instructions = new List<GKInstruction>();
 			ParameterTemplates = new List<GKParameterTemplate>();
 			GKNameGenerationType = GKNameGenerationType.DriverTypePlusAddressPlusDescription;
 		}
@@ -72,12 +71,6 @@ namespace FiresecAPI.GK
 		/// </summary>
 		[DataMember]
 		public List<GKDelay> Delays { get; set; }
-
-		/// <summary>
-		/// Инструкции
-		/// </summary>
-		[DataMember]
-		public List<GKInstruction> Instructions { get; set; }
 
 		/// <summary>
 		/// Коды

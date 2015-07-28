@@ -8,6 +8,8 @@ using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using GKModule.Events;
+using Infrastructure;
 
 namespace GKModule.ViewModels
 {
@@ -23,6 +25,7 @@ namespace GKModule.ViewModels
 			RemoveCommand = new RelayCommand<object>(OnRemove, CanRemove);
 			AddAllCommand = new RelayCommand(OnAddAll, CanAddAll);
 			RemoveAllCommand = new RelayCommand(OnRemoveAll, CanRemoveAll);
+			CreateNewCommand = new RelayCommand(OnCreateNew);
 
 			GuardZones = guardZones;
 			TargetZones = new ObservableCollection<GKGuardZone>();
@@ -140,6 +143,21 @@ namespace GKModule.ViewModels
 			}
 			TargetZones.Clear();
 			SelectedSourceZone = SourceZones.FirstOrDefault();
+		}
+
+		public RelayCommand CreateNewCommand { get; private set; }
+		void OnCreateNew()
+		{
+			var createGuardZoneEventArg = new CreateGKGuardZoneEventArg();
+			ServiceFactory.Events.GetEvent<CreateGKGuardZoneEvent>().Publish(createGuardZoneEventArg);
+			if (createGuardZoneEventArg.Zone != null)
+			{
+				TargetZones.Add(createGuardZoneEventArg.Zone);
+				if (TargetZones.Count == 1)
+				{
+					SaveCommand.Execute();
+				}
+			}
 		}
 
 		public bool CanAdd(object parameter)
