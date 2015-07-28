@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System.Globalization;
 using FiresecAPI;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
-using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Events;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace SKDModule.ViewModels
 {
@@ -22,8 +22,6 @@ namespace SKDModule.ViewModels
 		public ObservableCollection<Gender> Genders { get; private set; }
 		public ObservableCollection<EmployeeDocumentType> DocumentTypes { get; private set; }
 		bool _isWithDeleted;
-
-		public EmployeeDetailsViewModel() { }
 
 		public bool Initialize(Organisation organisation, ShortEmployee employee, ViewPartViewModel parentViewModel)
 		{
@@ -37,10 +35,6 @@ namespace SKDModule.ViewModels
 			SelectPositionCommand = new RelayCommand(OnSelectPosition);
 			SelectScheduleCommand = new RelayCommand(OnSelectSchedule);
 			SelectEscortCommand = new RelayCommand(OnSelectEscort);
-			SelectBirthDateCommand = new RelayCommand(OnSelectBirthDate);
-			SelectGivenDateCommand = new RelayCommand(OnSelectGivenDate);
-			SelectValidToCommand = new RelayCommand(OnSelectValidTo);
-			SelectCredentialsStartDateCommand = new RelayCommand(OnSelectCredentialsStartDate);
 
 			CanEditDepartment = canEditDepartment;
 			_canEditPosition = canEditPosition;
@@ -67,10 +61,6 @@ namespace SKDModule.ViewModels
 				Employee = new Employee
 				{
 					OrganisationUID = organisationUID,
-					BirthDate = DateTime.Now,
-					CredentialsStartDate = DateTime.Now,
-					DocumentGivenDate = DateTime.Now,
-					DocumentValidTo = DateTime.Now,
 					RemovalDate = DateTime.Now,
 					ScheduleStartDate = DateTime.Now
 				};
@@ -151,7 +141,7 @@ namespace SKDModule.ViewModels
 					SecondName = SecondName,
 					LastName = LastName,
 					Type = Employee.Type,
-					CredentialsStartDate = CredentialsStartDateString,
+					CredentialsStartDate = CredentialsStartDate.ToString(CultureInfo.CurrentUICulture),
 					TextColumns = new List<TextColumn>(),
 					Phone = Employee.Phone,
 					Description = Employee.Description,
@@ -194,13 +184,13 @@ namespace SKDModule.ViewModels
 			get { return SelectedDepartment != null && !SelectedDepartment.IsDeleted; }
 		}
 
-		ShortEmployee selectedEscort;
+		ShortEmployee _selectedEscort;
 		public ShortEmployee SelectedEscort
 		{
-			get { return selectedEscort; }
+			get { return _selectedEscort; }
 			private set
 			{
-				selectedEscort = value;
+				_selectedEscort = value;
 				OnPropertyChanged(() => SelectedEscort);
 				OnPropertyChanged(() => HasSelectedEscort);
 			}
@@ -269,11 +259,9 @@ namespace SKDModule.ViewModels
 			get { return _firstName; }
 			set
 			{
-				if (_firstName != value)
-				{
-					_firstName = value;
-					OnPropertyChanged(() => FirstName);
-				}
+				if (_firstName == value) return;
+				_firstName = value;
+				OnPropertyChanged(() => FirstName);
 			}
 		}
 
@@ -283,11 +271,9 @@ namespace SKDModule.ViewModels
 			get { return _secondName; }
 			set
 			{
-				if (_secondName != value)
-				{
-					_secondName = value;
-					OnPropertyChanged(() => SecondName);
-				}
+				if (_secondName == value) return;
+				_secondName = value;
+				OnPropertyChanged(() => SecondName);
 			}
 		}
 
@@ -297,11 +283,9 @@ namespace SKDModule.ViewModels
 			get { return _lastName; }
 			set
 			{
-				if (_lastName != value)
-				{
-					_lastName = value;
-					OnPropertyChanged(() => LastName);
-				}
+				if (_lastName == value) return;
+				_lastName = value;
+				OnPropertyChanged(() => LastName);
 			}
 		}
 
@@ -311,11 +295,9 @@ namespace SKDModule.ViewModels
 			get { return _description; }
 			set
 			{
-				if (_description != value)
-				{
-					_description = value;
-					OnPropertyChanged(() => Description);
-				}
+				if (_description == value) return;
+				_description = value;
+				OnPropertyChanged(() => Description);
 			}
 		}
 
@@ -325,11 +307,9 @@ namespace SKDModule.ViewModels
 			get { return _phone; }
 			set
 			{
-				if (_phone != value)
-				{
-					_phone = value;
-					OnPropertyChanged(() => Phone);
-				}
+				if (_phone == value) return;
+				_phone = value;
+				OnPropertyChanged(() => Phone);
 			}
 		}
 
@@ -339,17 +319,10 @@ namespace SKDModule.ViewModels
 			get { return _credentialsStartDate; }
 			set
 			{
-				if (_credentialsStartDate != value)
-				{
-					_credentialsStartDate = value;
-					OnPropertyChanged(() => CredentialsStartDate);
-					OnPropertyChanged(() => CredentialsStartDateString);
-				}
+				if (_credentialsStartDate == value) return;
+				_credentialsStartDate = value;
+				OnPropertyChanged(() => CredentialsStartDate);
 			}
-		}
-		public string CredentialsStartDateString
-		{
-			get { return CredentialsStartDate.ToString("dd/MM/yyyy"); }
 		}
 
 		string _tabelNo;
@@ -358,11 +331,9 @@ namespace SKDModule.ViewModels
 			get { return _tabelNo; }
 			set
 			{
-				if (_tabelNo != value)
-				{
-					_tabelNo = value;
-					OnPropertyChanged(() => TabelNo);
-				}
+				if (_tabelNo == value) return;
+				_tabelNo = value;
+				OnPropertyChanged(() => TabelNo);
 			}
 		}
 
@@ -372,11 +343,9 @@ namespace SKDModule.ViewModels
 			get { return _isOrganisationChief; }
 			set
 			{
-				if (_isOrganisationChief != value)
-				{
-					_isOrganisationChief = value;
-					OnPropertyChanged(() => IsOrganisationChief);
-				}
+				if (_isOrganisationChief == value) return;
+				_isOrganisationChief = value;
+				OnPropertyChanged(() => IsOrganisationChief);
 			}
 		}
 
@@ -386,11 +355,9 @@ namespace SKDModule.ViewModels
 			get { return _isOrganisationHRChief; }
 			set
 			{
-				if (_isOrganisationHRChief != value)
-				{
-					_isOrganisationHRChief = value;
-					OnPropertyChanged(() => IsOrganisationHRChief);
-				}
+				if (_isOrganisationHRChief == value) return;
+				_isOrganisationHRChief = value;
+				OnPropertyChanged(() => IsOrganisationHRChief);
 			}
 		}
 
@@ -414,13 +381,7 @@ namespace SKDModule.ViewModels
 			{
 				_birthDate = value;
 				OnPropertyChanged(() => BirthDate);
-				OnPropertyChanged(() => BirthDateString);
 			}
-		}
-
-		public string BirthDateString
-		{
-			get { return BirthDate.ToString("dd/MM/yyyy"); }
 		}
 
 		string _birthPlace;
@@ -442,13 +403,7 @@ namespace SKDModule.ViewModels
 			{
 				_givenDate = value;
 				OnPropertyChanged(() => GivenDate);
-				OnPropertyChanged(() => GivenDateString);
 			}
-		}
-
-		public string GivenDateString
-		{
-			get { return GivenDate.ToString("dd/MM/yyyy"); }
 		}
 
 		string _givenBy;
@@ -462,21 +417,15 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		Gender _gender;
-		public Gender Gender
+		Gender? _gender;
+		public Gender? Gender
 		{
 			get { return _gender; }
 			set
 			{
 				_gender = value;
 				OnPropertyChanged(() => Gender);
-				OnPropertyChanged(() => GenderString);
 			}
-		}
-
-		public string GenderString
-		{
-			get { return Gender.ToDescription(); }
 		}
 
 		DateTime _validTo;
@@ -487,13 +436,7 @@ namespace SKDModule.ViewModels
 			{
 				_validTo = value;
 				OnPropertyChanged(() => ValidTo);
-				OnPropertyChanged(() => ValidToString);
 			}
-		}
-
-		public string ValidToString
-		{
-			get { return ValidTo.ToString("dd/MM/yyyy"); }
 		}
 
 		string _departmentCode;
@@ -540,24 +483,24 @@ namespace SKDModule.ViewModels
 		public bool HasAdditionalGraphicsColumns { get; private set; }
 		public string GraphicsColumnsTabItemName { get; private set; }
 
-		List<IGraphicsColumnViewModel> graphicsColumns;
+		List<IGraphicsColumnViewModel> _graphicsColumns;
 		public List<IGraphicsColumnViewModel> GraphicsColumns
 		{
-			get { return graphicsColumns; }
+			get { return _graphicsColumns; }
 			set
 			{
-				graphicsColumns = value;
+				_graphicsColumns = value;
 				OnPropertyChanged(() => GraphicsColumns);
 			}
 		}
 
-		IGraphicsColumnViewModel selectedGraphicsColumn;
+		IGraphicsColumnViewModel _selectedGraphicsColumn;
 		public IGraphicsColumnViewModel SelectedGraphicsColumn
 		{
-			get { return selectedGraphicsColumn; }
+			get { return _selectedGraphicsColumn; }
 			set
 			{
-				selectedGraphicsColumn = value;
+				_selectedGraphicsColumn = value;
 				OnPropertyChanged(() => SelectedGraphicsColumn);
 			}
 		}
@@ -567,39 +510,30 @@ namespace SKDModule.ViewModels
 			get { return TextColumns.IsNotNullOrEmpty(); }
 		}
 
-		List<TextColumnViewModel> textColumns;
+		List<TextColumnViewModel> _textColumns;
 		public List<TextColumnViewModel> TextColumns
 		{
-			get { return textColumns; }
+			get { return _textColumns; }
 			set
 			{
-				textColumns = value;
+				_textColumns = value;
 				OnPropertyChanged(() => TextColumns);
 			}
 		}
 
-		TextColumnViewModel selectedTextColumn;
+		TextColumnViewModel _selectedTextColumn;
 		public TextColumnViewModel SelectedTextColumn
 		{
-			get { return selectedTextColumn; }
+			get { return _selectedTextColumn; }
 			set
 			{
-				selectedTextColumn = value;
+				_selectedTextColumn = value;
 				OnPropertyChanged(() => SelectedTextColumn);
 			}
 		}
 		#endregion
 
 		#region Commands
-		public RelayCommand SelectCredentialsStartDateCommand { get; private set; }
-		void OnSelectCredentialsStartDate()
-		{
-			var selectDateViewModel = new DateSelectionViewModel(CredentialsStartDate);
-			if (DialogService.ShowModalWindow(selectDateViewModel))
-			{
-				CredentialsStartDate = selectDateViewModel.DateTime;
-			}
-		}
 
 		public RelayCommand SelectScheduleCommand { get; private set; }
 		void OnSelectSchedule()
@@ -612,36 +546,6 @@ namespace SKDModule.ViewModels
 				{
 					ScheduleStartDate = scheduleSelectionViewModel.StartDate;
 				}
-			}
-		}
-
-		public RelayCommand SelectGivenDateCommand { get; private set; }
-		void OnSelectGivenDate()
-		{
-			var selectDateViewModel = new DateSelectionViewModel(GivenDate);
-			if (DialogService.ShowModalWindow(selectDateViewModel))
-			{
-				GivenDate = selectDateViewModel.DateTime;
-			}
-		}
-
-		public RelayCommand SelectValidToCommand { get; private set; }
-		void OnSelectValidTo()
-		{
-			var selectDateViewModel = new DateSelectionViewModel(ValidTo);
-			if (DialogService.ShowModalWindow(selectDateViewModel))
-			{
-				ValidTo = selectDateViewModel.DateTime;
-			}
-		}
-
-		public RelayCommand SelectBirthDateCommand { get; private set; }
-		void OnSelectBirthDate()
-		{
-			var selectDateViewModel = new DateSelectionViewModel(BirthDate);
-			if (DialogService.ShowModalWindow(selectDateViewModel))
-			{
-				BirthDate = selectDateViewModel.DateTime;
 			}
 		}
 
@@ -762,10 +666,8 @@ namespace SKDModule.ViewModels
 			if((Employee.Department == null && SelectedDepartment != null) ||
 				(Employee.Position == null && SelectedPosition != null))
 				return true;
-			if ((SelectedDepartment != null && Employee.Department.UID != SelectedDepartment.UID) ||
-				(SelectedPosition != null && Employee.Position.UID != SelectedPosition.UID))
-				return true;
-			return false;
+			return (SelectedDepartment != null && Employee.Department.UID != SelectedDepartment.UID) ||
+			       (SelectedPosition != null && Employee.Position.UID != SelectedPosition.UID);
 		}
 
 		bool Validate()

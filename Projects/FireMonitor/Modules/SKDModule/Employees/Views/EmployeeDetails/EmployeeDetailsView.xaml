@@ -1,133 +1,314 @@
-﻿<UserControl x:Class="SKDModule.Views.EmployeeDetailsView"
-			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
-			 MinWidth="500" MinHeight="500">
+﻿<UserControl
+	x:Class="SKDModule.Views.EmployeeDetailsView"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+	xmlns:Converters="clr-namespace:Controls.Converters;assembly=Controls"
+	xmlns:s="clr-namespace:System;assembly=mscorlib"
+	xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+	MinWidth="500"
+	MinHeight="500">
+	<UserControl.Resources>
+		<Converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+		<Converters:InversedBoolToVisibilityConverter x:Key="InversedBoolToVisibilityConverter" />
+		<Converters:EnumToDescriptionConverter x:Key="EnumToDescriptionConverter" />
+	</UserControl.Resources>
 	<TabControl>
 		<TabItem Header="Основные">
-            <ScrollViewer VerticalScrollBarVisibility="Auto" >
-	            <StackPanel>
-		            <Grid>
-			            <Grid.RowDefinitions>
-				            <RowDefinition Height="Auto" />
-				            <RowDefinition Height="Auto" />
-				            <RowDefinition Height="Auto" />
-				            <RowDefinition Height="Auto" />
-				            <RowDefinition Height="Auto" />
-				            <RowDefinition Height="Auto" />
-				            <RowDefinition Height="Auto" />
-				            <RowDefinition Height="Auto" />
-				            <RowDefinition Height="Auto" />
-				            <RowDefinition Height="Auto" />
-				            <RowDefinition Height="Auto" />
-				            <RowDefinition Height="Auto" />
-				            <RowDefinition Height="Auto" />
-			            </Grid.RowDefinitions>
-			            <Grid.ColumnDefinitions>
-				            <ColumnDefinition />
-				            <ColumnDefinition />
-			            </Grid.ColumnDefinitions>
-			            <Label Grid.Row="0" Grid.Column="0" Content="Фамилия" HorizontalAlignment="Right" />
-			            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-					
-			            <Label Grid.Row="1" Grid.Column="0" Content="Имя" HorizontalAlignment="Right" />
-			            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-					
-			            <Label Grid.Row="2" Grid.Column="0" Content="Отчество" HorizontalAlignment="Right" />
-			            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding SecondName, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+			<ScrollViewer VerticalScrollBarVisibility="Auto">
+				<StackPanel>
+					<Grid>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+						</Grid.RowDefinitions>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition />
+							<ColumnDefinition />
+						</Grid.ColumnDefinitions>
+						<Label
+							Grid.Row="0"
+							Grid.Column="0"
+							HorizontalAlignment="Right"
+							Content="Фамилия" />
+						<TextBox
+							Grid.Row="0"
+							Grid.Column="1"
+							Margin="2"
+							Text="{Binding LastName,
+						                        UpdateSourceTrigger=PropertyChanged}" />
 
-			            <Label Grid.Row="3" Grid.Column="0" Content="Должность" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="{Binding CanEditPosition, Converter={StaticResource BoolToVisibilityConverter}}" />
-			            <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Visibility="{Binding CanEditPosition, Converter={StaticResource BoolToVisibilityConverter}}">
-                            <TextBlock VerticalAlignment="Center">
-					            <Hyperlink Command="{Binding SelectPositionCommand}" Style="{StaticResource HyperlinkStyle}">
-						            <TextBlock Text="{Binding SelectedPosition.Name}" TextDecorations="Underline" Visibility="{Binding HasSelectedPosition, Converter={StaticResource BoolToVisibilityConverter}}" />
-                                    <TextBlock Text="Нажмите для выбора должности" Visibility="{Binding HasSelectedPosition, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
-							    </Hyperlink>
-				            </TextBlock>
-			            </StackPanel>
+						<Label
+							Grid.Row="1"
+							Grid.Column="0"
+							HorizontalAlignment="Right"
+							Content="Имя" />
+						<TextBox
+							Grid.Row="1"
+							Grid.Column="1"
+							Margin="2"
+							Text="{Binding FirstName,
+						                        UpdateSourceTrigger=PropertyChanged}" />
 
-			            <Label Grid.Row="4" Grid.Column="0" Content="Подразделение" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="{Binding CanEditDepartment, Converter={StaticResource BoolToVisibilityConverter}}"/>
-			            <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Visibility="{Binding CanEditDepartment, Converter={StaticResource BoolToVisibilityConverter}}">
-				            <TextBlock VerticalAlignment="Center">
-					            <Hyperlink Command="{Binding SelectDepartmentCommand}" Style="{StaticResource HyperlinkStyle}">
-						            <TextBlock Text="{Binding SelectedDepartment.Name}" TextDecorations="Underline" Visibility="{Binding HasSelectedDepartment, Converter={StaticResource BoolToVisibilityConverter}}" />
-                                    <TextBlock Text="Нажмите для выбора подразделения" Visibility="{Binding HasSelectedDepartment, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
-					            </Hyperlink>
-				            </TextBlock>
-			            </StackPanel>
-					
-			            <Label Grid.Row="5" Grid.Column="0" Content="Сопровождающий" HorizontalAlignment="Right" VerticalAlignment="Center" 
-					            Visibility="{Binding IsEmployee, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
-			            <StackPanel Grid.Row="5" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center"
-						            Visibility="{Binding IsEmployee, Converter={StaticResource InversedBoolToVisibilityConverter}}">
-				            <TextBlock VerticalAlignment="Center">
-					            <Hyperlink Command="{Binding SelectEscortCommand}" Style="{StaticResource HyperlinkStyle}">
-						            <TextBlock Text="{Binding SelectedEscort.Name}" TextDecorations="Underline" />
-						            <TextBlock>
-							            <TextBlock.Style>
-								            <Style>
-									            <Style.Triggers>
-										            <DataTrigger Binding="{Binding HasSelectedEscort}" Value="false">
-											            <Setter Property="TextBlock.Text" Value="Нажмите для выбора сопровождающего" />
-										            </DataTrigger>
-									            </Style.Triggers>
-								            </Style>
-							            </TextBlock.Style>
-						            </TextBlock>
-					            </Hyperlink>
-				            </TextBlock>
-			            </StackPanel>
+						<Label
+							Grid.Row="2"
+							Grid.Column="0"
+							HorizontalAlignment="Right"
+							Content="Отчество" />
+						<TextBox
+							Grid.Row="2"
+							Grid.Column="1"
+							Margin="2"
+							Text="{Binding SecondName,
+						                        UpdateSourceTrigger=PropertyChanged}" />
 
-			            <Label Grid.Row="6" Grid.Column="0" Content="Примечание" HorizontalAlignment="Right" VerticalAlignment="Center" 
-					            Visibility="{Binding IsEmployee, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
-			            <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" Margin="2" 
-						            Visibility="{Binding IsEmployee, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+						<Label
+							Grid.Row="3"
+							Grid.Column="0"
+							HorizontalAlignment="Right"
+							VerticalAlignment="Center"
+							Content="Должность"
+							Visibility="{Binding CanEditPosition,
+						                            Converter={StaticResource BoolToVisibilityConverter}}" />
+						<StackPanel
+							Grid.Row="3"
+							Grid.Column="1"
+							VerticalAlignment="Center"
+							Orientation="Horizontal"
+							Visibility="{Binding CanEditPosition,
+						                                 Converter={StaticResource BoolToVisibilityConverter}}">
+							<TextBlock VerticalAlignment="Center">
+								<Hyperlink Command="{Binding SelectPositionCommand}" Style="{StaticResource HyperlinkStyle}">
+									<TextBlock
+										Text="{Binding SelectedPosition.Name}"
+										TextDecorations="Underline"
+										Visibility="{Binding HasSelectedPosition,
+									                                Converter={StaticResource BoolToVisibilityConverter}}" />
+									<TextBlock Text="Нажмите для выбора должности" Visibility="{Binding HasSelectedPosition, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+								</Hyperlink>
+							</TextBlock>
+						</StackPanel>
 
-                        <Label Grid.Row="7" Grid.Column="0" Content="График работы" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                        <StackPanel Grid.Row="7" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}">
-                            <TextBlock VerticalAlignment="Center">
-					            <Hyperlink Command="{Binding SelectScheduleCommand}" Style="{StaticResource HyperlinkStyle}">
-						            <TextBlock Text="{Binding ScheduleString}" TextDecorations="Underline" Visibility="{Binding HasSelectedSchedule, Converter={StaticResource BoolToVisibilityConverter}}" />
-                                    <TextBlock Text="Нажмите для выбора графика работы" Visibility="{Binding HasSelectedSchedule, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
-					            </Hyperlink>
-				            </TextBlock>
-                        </StackPanel>
+						<Label
+							Grid.Row="4"
+							Grid.Column="0"
+							HorizontalAlignment="Right"
+							VerticalAlignment="Center"
+							Content="Подразделение"
+							Visibility="{Binding CanEditDepartment,
+						                            Converter={StaticResource BoolToVisibilityConverter}}" />
+						<StackPanel
+							Grid.Row="4"
+							Grid.Column="1"
+							VerticalAlignment="Center"
+							Orientation="Horizontal"
+							Visibility="{Binding CanEditDepartment,
+						                                 Converter={StaticResource BoolToVisibilityConverter}}">
+							<TextBlock VerticalAlignment="Center">
+								<Hyperlink Command="{Binding SelectDepartmentCommand}" Style="{StaticResource HyperlinkStyle}">
+									<TextBlock
+										Text="{Binding SelectedDepartment.Name}"
+										TextDecorations="Underline"
+										Visibility="{Binding HasSelectedDepartment,
+									                                Converter={StaticResource BoolToVisibilityConverter}}" />
+									<TextBlock Text="Нажмите для выбора подразделения" Visibility="{Binding HasSelectedDepartment, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+								</Hyperlink>
+							</TextBlock>
+						</StackPanel>
 
-                        <Label Grid.Row="8" Grid.Column="0" Content="Учётные данные действуют с" HorizontalAlignment="Right"  Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}" />
-			            <TextBlock Grid.Row="8" Grid.Column="1" VerticalAlignment="Center" Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}">
-				            <Hyperlink Command="{Binding SelectCredentialsStartDateCommand}" Style="{StaticResource HyperlinkStyle}">
-					            <TextBlock Text="{Binding CredentialsStartDateString}" TextDecorations="Underline" Margin="2" />
-				            </Hyperlink>
-			            </TextBlock>
+						<Label
+							Grid.Row="5"
+							Grid.Column="0"
+							HorizontalAlignment="Right"
+							VerticalAlignment="Center"
+							Content="Сопровождающий"
+							Visibility="{Binding IsEmployee,
+						                            Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+						<StackPanel
+							Grid.Row="5"
+							Grid.Column="1"
+							VerticalAlignment="Center"
+							Orientation="Horizontal"
+							Visibility="{Binding IsEmployee,
+						                                 Converter={StaticResource InversedBoolToVisibilityConverter}}">
+							<TextBlock VerticalAlignment="Center">
+								<Hyperlink Command="{Binding SelectEscortCommand}" Style="{StaticResource HyperlinkStyle}">
+									<TextBlock Text="{Binding SelectedEscort.Name}" TextDecorations="Underline" />
+									<TextBlock>
+										<TextBlock.Style>
+											<Style>
+												<Style.Triggers>
+													<DataTrigger Binding="{Binding HasSelectedEscort}" Value="false">
+														<Setter Property="TextBlock.Text" Value="Нажмите для выбора сопровождающего" />
+													</DataTrigger>
+												</Style.Triggers>
+											</Style>
+										</TextBlock.Style>
+									</TextBlock>
+								</Hyperlink>
+							</TextBlock>
+						</StackPanel>
 
-			            <Label Grid.Row="9" Grid.Column="0" Content="Табельный номер" Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}" HorizontalAlignment="Right" />
-			            <TextBox Grid.Row="9" Grid.Column="1" Text="{Binding TabelNo}" Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2" />
+						<Label
+							Grid.Row="6"
+							Grid.Column="0"
+							HorizontalAlignment="Right"
+							VerticalAlignment="Center"
+							Content="Примечание"
+							Visibility="{Binding IsEmployee,
+						                            Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+						<TextBox
+							Grid.Row="6"
+							Grid.Column="1"
+							Margin="2"
+							Text="{Binding Description,
+						                        UpdateSourceTrigger=PropertyChanged}"
+							Visibility="{Binding IsEmployee,
+						                              Converter={StaticResource InversedBoolToVisibilityConverter}}" />
 
-			            <Label Grid.Row="10" Grid.Column="0" Content="Телефон" HorizontalAlignment="Right" />
-			            <TextBox Grid.Row="10" Grid.Column="1" Text="{Binding Phone, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="2" />
+						<Label
+							Grid.Row="7"
+							Grid.Column="0"
+							HorizontalAlignment="Right"
+							VerticalAlignment="Center"
+							Content="График работы"
+							Visibility="{Binding IsEmployee,
+						                            Converter={StaticResource BoolToVisibilityConverter}}" />
+						<StackPanel
+							Grid.Row="7"
+							Grid.Column="1"
+							VerticalAlignment="Center"
+							Orientation="Horizontal"
+							Visibility="{Binding IsEmployee,
+						                                 Converter={StaticResource BoolToVisibilityConverter}}">
+							<TextBlock VerticalAlignment="Center">
+								<Hyperlink Command="{Binding SelectScheduleCommand}" Style="{StaticResource HyperlinkStyle}">
+									<TextBlock
+										Text="{Binding ScheduleString}"
+										TextDecorations="Underline"
+										Visibility="{Binding HasSelectedSchedule,
+									                                Converter={StaticResource BoolToVisibilityConverter}}" />
+									<TextBlock Text="Нажмите для выбора графика работы" Visibility="{Binding HasSelectedSchedule, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+								</Hyperlink>
+							</TextBlock>
+						</StackPanel>
 
-			            <Label Grid.Row="11" Grid.Column="0" Content="Руководитель организации" HorizontalAlignment="Right" Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}" />
-			            <CheckBox Grid.Row="11" Grid.Column="1" IsChecked="{Binding IsOrganisationChief}" VerticalAlignment="Center" Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
+						<Label
+							Grid.Row="8"
+							Grid.Column="0"
+							HorizontalAlignment="Right"
+							Content="Учётные данные действуют с"
+							Visibility="{Binding IsEmployee,
+						                            Converter={StaticResource BoolToVisibilityConverter}}" />
+						<xctk:MaskedTextBox
+							Grid.Row="8"
+							Grid.Column="1"
+							VerticalAlignment="Center"
+							ValueDataType="{x:Type s:DateTime}"
+							Visibility="{Binding IsEmployee,
+						                                         Converter={StaticResource BoolToVisibilityConverter}}"
+							Value="{Binding CredentialsStartDate,
+						                                    UpdateSourceTrigger=PropertyChanged}" />
+						<Label
+							Grid.Row="9"
+							Grid.Column="0"
+							HorizontalAlignment="Right"
+							Content="Табельный номер"
+							Visibility="{Binding IsEmployee,
+						                            Converter={StaticResource BoolToVisibilityConverter}}" />
+						<TextBox
+							Grid.Row="9"
+							Grid.Column="1"
+							Margin="2"
+							VerticalAlignment="Center"
+							Text="{Binding TabelNo}"
+							Visibility="{Binding IsEmployee,
+						                              Converter={StaticResource BoolToVisibilityConverter}}" />
 
-			            <Label Grid.Row="12" Grid.Column="0" Content="Руководитель отдела кадров" HorizontalAlignment="Right" Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}" />
-			            <CheckBox Grid.Row="12" Grid.Column="1" IsChecked="{Binding IsOrganisationHRChief}" VerticalAlignment="Center" Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
-		            </Grid>
-		            <ItemsControl ItemsSource="{Binding TextColumns}" Visibility="{Binding HasTextColumns, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
-			            <ItemsControl.ItemTemplate>
-				            <DataTemplate>
-					            <Grid>
-						            <Grid.ColumnDefinitions>
-							            <ColumnDefinition />
-							            <ColumnDefinition />
-						            </Grid.ColumnDefinitions>
-						            <Label Grid.Column="0" Content="{Binding Name}" HorizontalAlignment="Right" />
-						            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-					            </Grid>
-				            </DataTemplate>
-			            </ItemsControl.ItemTemplate>
-		            </ItemsControl>
-	            </StackPanel>
-            </ScrollViewer>
+						<Label
+							Grid.Row="10"
+							Grid.Column="0"
+							HorizontalAlignment="Right"
+							Content="Телефон" />
+						<TextBox
+							Grid.Row="10"
+							Grid.Column="1"
+							Margin="2"
+							VerticalAlignment="Center"
+							Text="{Binding Phone,
+						                        UpdateSourceTrigger=PropertyChanged}" />
+
+						<Label
+							Grid.Row="11"
+							Grid.Column="0"
+							HorizontalAlignment="Right"
+							Content="Руководитель организации"
+							Visibility="{Binding IsEmployee,
+						                            Converter={StaticResource BoolToVisibilityConverter}}" />
+						<CheckBox
+							Grid.Row="11"
+							Grid.Column="1"
+							Margin="2"
+							VerticalAlignment="Center"
+							IsChecked="{Binding IsOrganisationChief}"
+							Visibility="{Binding IsEmployee,
+						                               Converter={StaticResource BoolToVisibilityConverter}}" />
+
+						<Label
+							Grid.Row="12"
+							Grid.Column="0"
+							HorizontalAlignment="Right"
+							Content="Руководитель отдела кадров"
+							Visibility="{Binding IsEmployee,
+						                            Converter={StaticResource BoolToVisibilityConverter}}" />
+						<CheckBox
+							Grid.Row="12"
+							Grid.Column="1"
+							Margin="2"
+							VerticalAlignment="Center"
+							IsChecked="{Binding IsOrganisationHRChief}"
+							Visibility="{Binding IsEmployee,
+						                               Converter={StaticResource BoolToVisibilityConverter}}" />
+					</Grid>
+					<ItemsControl
+						Margin="2"
+						ItemsSource="{Binding TextColumns}"
+						Visibility="{Binding HasTextColumns,
+					                                   Converter={StaticResource BoolToVisibilityConverter}}">
+						<ItemsControl.ItemTemplate>
+							<DataTemplate>
+								<Grid>
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition />
+										<ColumnDefinition />
+									</Grid.ColumnDefinitions>
+									<Label
+										Grid.Column="0"
+										HorizontalAlignment="Right"
+										Content="{Binding Name}" />
+									<TextBox
+										Grid.Row="0"
+										Grid.Column="1"
+										Margin="2"
+										Text="{Binding Text,
+									                        UpdateSourceTrigger=PropertyChanged}" />
+								</Grid>
+							</DataTemplate>
+						</ItemsControl.ItemTemplate>
+					</ItemsControl>
+				</StackPanel>
+			</ScrollViewer>
 		</TabItem>
 		<TabItem Header="Документ">
 			<Grid>
@@ -146,49 +327,130 @@
 					<ColumnDefinition />
 					<ColumnDefinition />
 				</Grid.ColumnDefinitions>
-				<Label Grid.Row="0" Grid.Column="0" Content="Номер" HorizontalAlignment="Right" />
-				<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding DocumentNumber, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-				<Label Grid.Row="1" Grid.Column="0" Content="Место рождения" HorizontalAlignment="Right" />
-				<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding BirthPlace, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-				<Label Grid.Row="2" Grid.Column="0" Content="Дата рождения" HorizontalAlignment="Right" />
-				<TextBlock Grid.Row="2" Grid.Column="1" VerticalAlignment="Center">
-					<Hyperlink Command="{Binding SelectBirthDateCommand}" Style="{StaticResource HyperlinkStyle}">
-						<TextBlock Text="{Binding BirthDateString}" TextDecorations="Underline" />
-					</Hyperlink>
-				</TextBlock>
-				<Label Grid.Row="3" Grid.Column="0" Content="Кем выдан" HorizontalAlignment="Right" />
-				<TextBox Grid.Row="3" Grid.Column="1" Text="{Binding GivenBy, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-				<Label Grid.Row="4" Grid.Column="0" Content="Дата выдачи" HorizontalAlignment="Right" />
-				<TextBlock Grid.Row="4" Grid.Column="1" VerticalAlignment="Center">
-					<Hyperlink Command="{Binding SelectGivenDateCommand}" Style="{StaticResource HyperlinkStyle}">
-						<TextBlock Text="{Binding GivenDateString}" TextDecorations="Underline" />
-					</Hyperlink>
-				</TextBlock>
-				<Label Grid.Row="5" Grid.Column="0" Content="Документ действителен до" HorizontalAlignment="Right" />
-				<TextBlock Grid.Row="5" Grid.Column="1" VerticalAlignment="Center">
-					<Hyperlink Command="{Binding SelectValidToCommand}" Style="{StaticResource HyperlinkStyle}">
-						<TextBlock Text="{Binding ValidToString}" TextDecorations="Underline" />
-					</Hyperlink>
-				</TextBlock>
-				<Label Grid.Row="6" Grid.Column="0" Content="Гражданство" HorizontalAlignment="Right" />
-				<TextBox Grid.Row="6" Grid.Column="1" Text="{Binding Citizenship, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-				<Label Grid.Row="7" Grid.Column="0" Content="Пол" HorizontalAlignment="Right" />
-                <ComboBox Grid.Row="7" Grid.Column="1" ItemsSource="{Binding Genders}" SelectedItem="{Binding Gender}" Margin="2">
+				<Label
+					Grid.Row="0"
+					Grid.Column="0"
+					HorizontalAlignment="Right"
+					Content="Номер" />
+				<TextBox
+					Grid.Row="0"
+					Grid.Column="1"
+					Margin="2"
+					Text="{Binding DocumentNumber,
+				                        UpdateSourceTrigger=PropertyChanged}" />
+				<Label
+					Grid.Row="1"
+					Grid.Column="0"
+					HorizontalAlignment="Right"
+					Content="Место рождения" />
+				<TextBox
+					Grid.Row="1"
+					Grid.Column="1"
+					Margin="2"
+					Text="{Binding BirthPlace,
+				                        UpdateSourceTrigger=PropertyChanged}" />
+				<Label
+					Grid.Row="2"
+					Grid.Column="0"
+					HorizontalAlignment="Right"
+					Content="Дата рождения" />
+				<xctk:MaskedTextBox
+					Grid.Row="2"
+					Grid.Column="1"
+					VerticalAlignment="Center"
+					Mask="00/00/0000"
+					NullValue="{x:Null}"
+					ValueDataType="{x:Type s:DateTime}"
+					Value="{Binding BirthDate,
+				                                    Mode=TwoWay,
+				                                    UpdateSourceTrigger=PropertyChanged}" />
+				<Label
+					Grid.Row="3"
+					Grid.Column="0"
+					HorizontalAlignment="Right"
+					Content="Кем выдан" />
+				<TextBox
+					Grid.Row="3"
+					Grid.Column="1"
+					Margin="2"
+					Text="{Binding GivenBy,
+				                        UpdateSourceTrigger=PropertyChanged}" />
+				<Label
+					Grid.Row="4"
+					Grid.Column="0"
+					HorizontalAlignment="Right"
+					Content="Дата выдачи" />
+				<xctk:MaskedTextBox
+					Grid.Row="4"
+					Grid.Column="1"
+					VerticalAlignment="Center"
+					Mask="00/00/0000"
+					ValueDataType="{x:Type s:DateTime}"
+					Value="{Binding GivenDate,
+				                                    Mode=TwoWay,
+				                                    UpdateSourceTrigger=PropertyChanged}" />
+				<Label
+					Grid.Row="5"
+					Grid.Column="0"
+					HorizontalAlignment="Right"
+					Content="Документ действителен до" />
+				<xctk:MaskedTextBox
+					Grid.Row="5"
+					Grid.Column="1"
+					VerticalAlignment="Center"
+					Mask="00/00/0000"
+					ValueDataType="{x:Type s:DateTime}"
+					Value="{Binding ValidTo,
+				                                    Mode=TwoWay,
+				                                    UpdateSourceTrigger=PropertyChanged}" />
+				<Label
+					Grid.Row="6"
+					Grid.Column="0"
+					HorizontalAlignment="Right"
+					Content="Гражданство" />
+				<TextBox
+					Grid.Row="6"
+					Grid.Column="1"
+					Margin="2"
+					Text="{Binding Citizenship,
+				                        UpdateSourceTrigger=PropertyChanged}" />
+				<Label
+					Grid.Row="7"
+					Grid.Column="0"
+					HorizontalAlignment="Right"
+					Content="Пол" />
+				<Controls:FeaturedComboBox
+					Grid.Row="7"
+					Grid.Column="1"
+					Margin="2"
+					CanSelectNullItem="True"
+					ItemsSource="{Binding Genders}"
+					NullValueText=""
+					SelectedItem="{Binding Gender}">
+					<Controls:FeaturedComboBox.ItemTemplate>
+						<DataTemplate>
+							<TextBlock Margin="1" Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+						</DataTemplate>
+					</Controls:FeaturedComboBox.ItemTemplate>
+				</Controls:FeaturedComboBox>
+				<Label
+					Grid.Row="8"
+					Grid.Column="0"
+					HorizontalAlignment="Right"
+					Content="Тип документа" />
+				<ComboBox
+					Grid.Row="8"
+					Grid.Column="1"
+					Margin="2"
+					ItemsSource="{Binding DocumentTypes}"
+					SelectedItem="{Binding DocumentType}">
 					<ComboBox.ItemTemplate>
 						<DataTemplate>
-							<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" Margin="1" />
+							<TextBlock Margin="1" Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
 						</DataTemplate>
 					</ComboBox.ItemTemplate>
 				</ComboBox>
-				<Label Grid.Row="8" Grid.Column="0" Content="Тип документа" HorizontalAlignment="Right" />
-                <ComboBox Grid.Row="8" Grid.Column="1" ItemsSource="{Binding DocumentTypes}" SelectedItem="{Binding DocumentType}" Margin="2">
-					<ComboBox.ItemTemplate>
-						<DataTemplate>
-							<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" Margin="1" />
-						</DataTemplate>
-					</ComboBox.ItemTemplate>
-				</ComboBox>
-			</Grid>	 
+			</Grid>
 		</TabItem>
 		<TabItem Header="{Binding GraphicsColumnsTabItemName}">
 			<Grid>
@@ -196,17 +458,29 @@
 					<ColumnDefinition Width="Auto" />
 					<ColumnDefinition Width="*" />
 				</Grid.ColumnDefinitions>
-				<ListBox Grid.Column="0" ItemsSource="{Binding GraphicsColumns}" SelectedItem="{Binding SelectedGraphicsColumn}" Visibility="{Binding HasAdditionalGraphicsColumns, Converter={StaticResource BoolToVisibilityConverter}}">
+				<ListBox
+					Grid.Column="0"
+					ItemsSource="{Binding GraphicsColumns}"
+					SelectedItem="{Binding SelectedGraphicsColumn}"
+					Visibility="{Binding HasAdditionalGraphicsColumns,
+				                              Converter={StaticResource BoolToVisibilityConverter}}">
 					<ListBox.ItemTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
-								<Image Width="16" Source="/Controls;component/Images/Zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
+								<Image
+									Width="16"
+									Margin="1 0 0 0"
+									VerticalAlignment="Center"
+									Source="/Controls;component/Images/Zone.png" />
 								<TextBlock Text="{Binding Name}" />
 							</StackPanel>
 						</DataTemplate>
 					</ListBox.ItemTemplate>
 				</ListBox>
-				<Controls:PhotoSelectation Grid.Column="1" Data="{Binding SelectedGraphicsColumn.Data}" CanEdit="True" />
+				<Controls:PhotoSelectation
+					Grid.Column="1"
+					CanEdit="True"
+					Data="{Binding SelectedGraphicsColumn.Data}" />
 			</Grid>
 		</TabItem>
 	</TabControl>

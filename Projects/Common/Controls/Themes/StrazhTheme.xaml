@@ -6,21 +6,21 @@
 		<GradientStop Offset=".4" Color="#4172A3" />
 	</LinearGradientBrush>
 
-	<!-- Основной фон -->
+	<!--  Основной фон  -->
 	<LinearGradientBrush x:Key="BaseWindowBackgroundBrush" StartPoint="0, 0" EndPoint="0,1">
 		<GradientStop Offset="0" Color="#589ccb" />
 		<GradientStop Offset=".08" Color="#589ccb" />
 		<GradientStop Offset="1" Color="#589ccb" />
 	</LinearGradientBrush>
 
-	<!-- Верхняя плашка входного окна -->
+	<!--  Верхняя плашка входного окна  -->
 	<LinearGradientBrush x:Key="DialogHeaderBrush" StartPoint="0,0" EndPoint="0,1">
 		<GradientStop Offset="0" Color="LightBlue" />
 		<GradientStop Offset=".02" Color="#a2cae5" />
 		<GradientStop Offset=".4" Color="#a2cae5" />
 	</LinearGradientBrush>
 
-	<!-- Цвета неактивных кнопок, верхней main плашки и фона лого -->
+	<!--  Цвета неактивных кнопок, верхней main плашки и фона лого  -->
 	<LinearGradientBrush x:Key="BackgroundBrush" StartPoint="0, 0" EndPoint="0,1">
 		<GradientStop Offset="0.2" Color="#78b8e4" />
 		<GradientStop Offset="0.4" Color="#78b8e4" />
@@ -30,25 +30,25 @@
 		<GradientStop Offset="1" Color="#78b8e4" />
 	</LinearGradientBrush>
 
-	<!-- Цвет элементов при наведении -->
+	<!--  Цвет элементов при наведении  -->
 	<LinearGradientBrush x:Key="HighlightedBackgoundBrush" StartPoint="0, 0" EndPoint="0,1">
 		<GradientStop Offset="0" Color="#fbd029" />
 		<GradientStop Offset="1" Color="#fbd029" />
 	</LinearGradientBrush>
 
-	<!-- Неизвестность -->
+	<!--  Неизвестность  -->
 	<LinearGradientBrush x:Key="HighlightedBackgoundBrush2" StartPoint="0, 0" EndPoint="0,1">
 		<GradientStop Offset="0" Color="#bc13c2" />
 		<GradientStop Offset="1" Color="#bc13c2" />
 	</LinearGradientBrush>
 
-	<!-- Цвет элементов при нажатии и верхней main плашки -->
+	<!--  Цвет элементов при нажатии и верхней main плашки  -->
 	<LinearGradientBrush x:Key="PressedBackgroundBrush" StartPoint="0, 0" EndPoint="0,1">
 		<GradientStop Offset="0" Color="#fbd029" />
 		<GradientStop Offset="1" Color="#fbd029" />
 	</LinearGradientBrush>
 
-	<!-- Неизвестность -->
+	<!--  Неизвестность  -->
 	<LinearGradientBrush x:Key="AlternativeBackgroundBrush" StartPoint="0, 0" EndPoint="0,1">
 		<GradientStop Offset="0" Color="#589ccb" />
 		<GradientStop Offset="1" Color="#589ccb" />

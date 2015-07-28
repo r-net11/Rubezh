@@ -59,7 +59,7 @@ namespace FiresecAPI.SKD
 
 		public string Description { get; set; }
 
-		public int Gender { get; set; }
+		public int? Gender { get; set; }
 
 		public int Type { get; set; }
 

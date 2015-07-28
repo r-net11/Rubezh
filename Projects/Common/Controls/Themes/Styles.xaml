@@ -13,6 +13,7 @@
 		<ResourceDictionary Source="DatePickerCalendarStyle.xaml" />
 		<ResourceDictionary Source="DatePickerStyle.xaml" />
 		<ResourceDictionary Source="DateTimePickerStyle.xaml" />
+		<ResourceDictionary Source="FeaturedComboBoxStyle.xaml" />
 		<ResourceDictionary Source="DataGridStyle.xaml" />
 		<ResourceDictionary Source="TimePickerStyle.xaml" />
 		<ResourceDictionary Source="TreeExpanderStyle.xaml" />

@@ -3,9 +3,6 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:ViewModels="clr-namespace:SKDModule.ViewModels"
 	xmlns:Views="clr-namespace:SKDModule.Views">
-	<DataTemplate DataType="{x:Type ViewModels:DateSelectionViewModel}">
-		<Views:DateSelectionView />
-	</DataTemplate>
 
 	<DataTemplate DataType="{x:Type ViewModels:ConnectionIndicatorViewModel}">
 		<ViewModels:ConnectionIndicatorView />

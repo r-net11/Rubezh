@@ -30,7 +30,7 @@
           <EntitySet Name="PassCardTemplate" EntityType="SKDModel.Store.PassCardTemplate" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="PassJournalMetadata" EntityType="SKDModel.Store.PassJournalMetadata" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Patches" EntityType="SKDModel.Store.Patches" store:Type="Tables" store:Schema="dbo" store:Name="Patches">
-            <DefiningQuery>SELECT 
+            <DefiningQuery>SELECT
       [Patches].[Id] AS [Id]
       FROM [dbo].[Patches] AS [Patches]</DefiningQuery>
           </EntitySet>
@@ -363,7 +363,7 @@
           <Property Name="DocumentGivenDate" Type="datetime" Nullable="false" />
           <Property Name="DocumentGivenBy" Type="nvarchar(max)" />
           <Property Name="DocumentValidTo" Type="datetime" Nullable="false" />
-          <Property Name="Gender" Type="int" Nullable="false" />
+          <Property Name="Gender" Type="int" Nullable="true" />
           <Property Name="DocumentDepartmentCode" Type="nvarchar" MaxLength="50" />
           <Property Name="Citizenship" Type="nvarchar(max)" />
           <Property Name="DocumentType" Type="int" Nullable="false" />
@@ -1593,7 +1593,7 @@
           <Property Name="DocumentGivenDate" Type="DateTime" Nullable="false" />
           <Property Name="DocumentGivenBy" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Name="DocumentValidTo" Type="DateTime" Nullable="false" />
-          <Property Name="Gender" Type="Int32" Nullable="false" />
+          <Property Name="Gender" Type="Int32" Nullable="true" />
           <Property Name="DocumentDepartmentCode" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
           <Property Name="Citizenship" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Name="DocumentType" Type="Int32" Nullable="false" />

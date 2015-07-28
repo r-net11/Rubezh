@@ -1,16 +1,27 @@
-<UserControl x:Class="SKDModule.Views.DepartmentEmployeeListView"
-			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 >
+<UserControl
+	x:Class="SKDModule.Views.DepartmentEmployeeListView"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	d:DesignHeight="300"
+	d:DesignWidth="300"
+	mc:Ignorable="d">
 	<UserControl.Resources>
-		<Style x:Key="IsDepartmentDeletedStyle" BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+		<Style
+			x:Key="IsDepartmentDeletedStyle"
+			BasedOn="{StaticResource {x:Type TextBlock}}"
+			TargetType="{x:Type TextBlock}">
 			<Style.Triggers>
 				<DataTrigger Binding="{Binding IsDepartmentDeleted}" Value="True">
 					<Setter Property="Foreground" Value="Gray" />
 				</DataTrigger>
 			</Style.Triggers>
 		</Style>
-		<Style x:Key="IsPositionDeletedStyle" BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+		<Style
+			x:Key="IsPositionDeletedStyle"
+			BasedOn="{StaticResource {x:Type TextBlock}}"
+			TargetType="{x:Type TextBlock}">
 			<Style.Triggers>
 				<DataTrigger Binding="{Binding IsPositionDeleted}" Value="True">
 					<Setter Property="Foreground" Value="Gray" />
@@ -23,32 +34,60 @@
 			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
-		<FrameworkElement x:Name="dummyElement" Visibility="Collapsed"/>
-		<DataGrid Grid.Row="0" ItemsSource="{Binding Employees}" SelectedItem="{Binding SelectedEmployee}">
+		<FrameworkElement x:Name="dummyElement" Visibility="Collapsed" />
+		<DataGrid
+			Grid.Row="0"
+			ItemsSource="{Binding Employees}"
+			SelectedItem="{Binding SelectedEmployee}">
 			<DataGrid.Columns>
-				<DataGridTemplateColumn Header="ФИО" Width="*">
+				<DataGridTemplateColumn Width="*" Header="ФИО">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
-								<Image Width="16" Source="/Controls;component/Images/Employee.png" VerticalAlignment="Center" Margin="1 0" />
-								<Image Width="16" Source="/Controls;component/Images/Chief.png" VerticalAlignment="Center" Margin="1 0" 
-									   Visibility="{Binding IsChief, Converter={StaticResource BoolToVisibilityConverter}}"/>
-								<TextBlock Text="{Binding Employee.Name}" Style="{StaticResource IsDeletedStyle}" />
+								<Image
+									Width="16"
+									Margin="1 0"
+									VerticalAlignment="Center"
+									Source="/Controls;component/Images/Employee.png" />
+								<Image
+									Width="16"
+									Margin="1 0"
+									VerticalAlignment="Center"
+									Source="/Controls;component/Images/Chief.png"
+									Visibility="{Binding IsChief,
+								                            Converter={StaticResource BoolToVisibilityConverter}}" />
+								<TextBlock Style="{StaticResource IsDeletedStyle}" Text="{Binding Employee.Name}" />
 							</StackPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="Подразделение" Width="*" Visibility="{Binding DataContext.CanEditDepartment, Source={x:Reference dummyElement}, Converter={StaticResource BoolToVisibilityConverter}}" >
+				<DataGridTemplateColumn
+					Width="*"
+					Header="Подразделение"
+					Visibility="{Binding DataContext.CanEditDepartment,
+				                                             Source={x:Reference dummyElement},
+				                                             Converter={StaticResource BoolToVisibilityConverter}}">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<TextBlock Text="{Binding Employee.DepartmentName}" Style="{StaticResource IsDepartmentDeletedStyle}" Margin="2" />
+							<TextBlock
+								Margin="2"
+								Style="{StaticResource IsDepartmentDeletedStyle}"
+								Text="{Binding Employee.DepartmentName}" />
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="Должность" Width="*" Visibility="{Binding DataContext.CanEditPosition, Source={x:Reference dummyElement}, Converter={StaticResource BoolToVisibilityConverter}}" >
+				<DataGridTemplateColumn
+					Width="*"
+					Header="Должность"
+					Visibility="{Binding DataContext.CanEditPosition,
+				                                             Source={x:Reference dummyElement},
+				                                             Converter={StaticResource BoolToVisibilityConverter}}">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-                            <TextBlock Text="{Binding Employee.PositionName}"  Style="{StaticResource IsPositionDeletedStyle}" Margin="2" />
+							<TextBlock
+								Margin="2"
+								Style="{StaticResource IsPositionDeletedStyle}"
+								Text="{Binding Employee.PositionName}" />
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
@@ -56,13 +95,30 @@
 		</DataGrid>
 		<StackPanel Grid.Row="1" Orientation="Horizontal">
 			<StackPanel Orientation="Horizontal">
-				<ToolBarButton ImageSource="Add"  ToolTip="Добавить сотрудника" Command="{Binding AddCommand}" />
-				<ToolBarButton ImageSource="Delete"  ToolTip="Удалить сотрудника" Command="{Binding RemoveCommand}" />
-				<ToolBarButton ImageSource="Edit"  ToolTip="Редактировать сотрудника" Command="{Binding EditCommand}" />
-				<ToolBarButton ImageSource="ChiefW"  ToolTip="Назначить руководителя" 
-							   Command="{Binding SetChiefCommand}" Visibility="{Binding CanSetChief, Converter={StaticResource BoolToVisibilityConverter}}" />
-				<ToolBarButton ImageSource="Delete"  ToolTip="Снять руководителя" 
-							   Command="{Binding UnSetChiefCommand}" Visibility="{Binding CanUnSetChief, Converter={StaticResource BoolToVisibilityConverter}}" />
+				<ToolBarButton
+					Command="{Binding AddCommand}"
+					ImageSource="Add"
+					ToolTip="Добавить сотрудника" />
+				<ToolBarButton
+					Command="{Binding RemoveCommand}"
+					ImageSource="Delete"
+					ToolTip="Удалить сотрудника" />
+				<ToolBarButton
+					Command="{Binding EditCommand}"
+					ImageSource="Edit"
+					ToolTip="Редактировать сотрудника" />
+				<ToolBarButton
+					Command="{Binding SetChiefCommand}"
+					ImageSource="ChiefW"
+					ToolTip="Назначить руководителя"
+					Visibility="{Binding CanSetChief,
+				                                    Converter={StaticResource BoolToVisibilityConverter}}" />
+				<ToolBarButton
+					Command="{Binding UnSetChiefCommand}"
+					ImageSource="Delete"
+					ToolTip="Снять руководителя"
+					Visibility="{Binding CanUnSetChief,
+				                                    Converter={StaticResource BoolToVisibilityConverter}}" />
 			</StackPanel>
 		</StackPanel>
 	</Grid>

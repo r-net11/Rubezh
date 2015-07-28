@@ -82,7 +82,7 @@ namespace FiresecAPI.SKD
 		public DateTime DocumentValidTo { get; set; }
 
 		[DataMember]
-		public Gender Gender { get; set; }
+		public Gender? Gender { get; set; }
 
 		[DataMember]
 		public string DocumentDepartmentCode { get; set; }

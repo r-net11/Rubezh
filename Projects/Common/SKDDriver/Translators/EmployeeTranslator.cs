@@ -12,7 +12,7 @@ namespace SKDDriver
 {
 	public class EmployeeTranslator : WithShortTranslator<DataAccess.Employee, Employee, EmployeeFilter, ShortEmployee>
 	{
-		private EFDataAccess.SKDEntities EFContext;
+		private readonly EFDataAccess.SKDEntities EFContext;
 
 		public EmployeeTranslator(SKDDatabaseService databaseService)
 			: base(databaseService)
@@ -233,7 +233,7 @@ namespace SKDDriver
 			result.DocumentGivenBy = tableItem.DocumentGivenBy;
 			result.DocumentGivenDate = tableItem.DocumentGivenDate;
 			result.DocumentValidTo = tableItem.DocumentValidTo;
-			result.Gender = (Gender)tableItem.Gender;
+			result.Gender = (Gender?)tableItem.Gender;
 			result.DocumentDepartmentCode = tableItem.DocumentDepartmentCode;
 			result.Citizenship = tableItem.Citizenship;
 			result.DocumentType = (EmployeeDocumentType)tableItem.DocumentType;
@@ -296,7 +296,7 @@ namespace SKDDriver
 			tableItem.DocumentGivenBy = apiItem.DocumentGivenBy;
 			tableItem.DocumentGivenDate = TranslatiorHelper.CheckDate(apiItem.DocumentGivenDate);
 			tableItem.DocumentValidTo = TranslatiorHelper.CheckDate(apiItem.DocumentValidTo);
-			tableItem.Gender = (int)apiItem.Gender;
+			tableItem.Gender = (int?)apiItem.Gender;
 			tableItem.DocumentDepartmentCode = apiItem.DocumentDepartmentCode;
 			tableItem.Citizenship = apiItem.Citizenship;
 			tableItem.DocumentType = (int)apiItem.DocumentType;
