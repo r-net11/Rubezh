@@ -646,18 +646,26 @@ namespace FiresecAPI.GK
 				door.EnterDevice = Devices.FirstOrDefault(x => x.UID == door.EnterDeviceUID);
 				if (door.EnterDevice == null)
 					door.EnterDeviceUID = Guid.Empty;
+				else
+					door.EnterDevice.Door = door;
 
 				door.ExitDevice = Devices.FirstOrDefault(x => x.UID == door.ExitDeviceUID);
 				if (door.ExitDevice == null)
 					door.ExitDeviceUID = Guid.Empty;
+				else
+					door.ExitDevice.Door = door;
 
 				door.EnterButton = Devices.FirstOrDefault(x => x.UID == door.EnterButtonUID);
 				if (door.EnterButton == null)
 					door.EnterButtonUID = Guid.Empty;
+				else
+					door.EnterButton.Door = door;
 
 				door.ExitButton = Devices.FirstOrDefault(x => x.UID == door.ExitButtonUID);
 				if (door.ExitButton == null)
 					door.ExitButtonUID = Guid.Empty;
+				else
+					door.ExitButton.Door = door;
 
 				door.LockDevice = Devices.FirstOrDefault(x => x.UID == door.LockDeviceUID);
 				if (door.LockDevice == null)
@@ -674,10 +682,14 @@ namespace FiresecAPI.GK
 				door.LockControlDevice = Devices.FirstOrDefault(x => x.UID == door.LockControlDeviceUID);
 				if (door.LockControlDevice == null)
 					door.LockControlDeviceUID = Guid.Empty;
+				else
+					door.LockControlDevice.Door = door;
 
 				door.LockControlDeviceExit = Devices.FirstOrDefault(x => x.UID == door.LockControlDeviceExitUID);
 				if (door.LockControlDeviceExit == null)
 					door.LockControlDeviceExitUID = Guid.Empty;
+				else
+					door.LockControlDeviceExit.Door = door;
 
 				InvalidateInputObjectsBaseLogic(door, door.OpenRegimeLogic);
 				InvalidateInputObjectsBaseLogic(door, door.NormRegimeLogic);

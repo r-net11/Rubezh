@@ -142,20 +142,10 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedScheduleType = value;
-				switch (_selectedScheduleType)
-				{
-					case GKScheduleType.Holiday:
-						Name = "Новый график праздников";
-						break;
-					case GKScheduleType.WorkHoliday:
-						Name = "Новый график рабочих выходных";
-						break;
-					default:
-						Name = "Новый график доступа";
-						break;
-				}
 				OnPropertyChanged(() => SelectedScheduleType);
-				IsAccessSchedule = value == GKScheduleType.Access;
+				OnPropertyChanged(() => IsAccessSchedule);
+				OnPropertyChanged(() => CanSetStartDateTime);
+				OnPropertyChanged(() => ShowHoursPeriod);
 			}
 		}
 
@@ -169,30 +159,24 @@ namespace GKModule.ViewModels
 			{
 				_selectedSchedulePeriodType = value;
 				OnPropertyChanged(() => SelectedSchedulePeriodType);
-				ShowHoursPeriod = value == GKSchedulePeriodType.Custom;
-			}
-		}
-
-		bool _isAccessSchedule;
-		public bool IsAccessSchedule
-		{
-			get { return _isAccessSchedule; }
-			set
-			{
-				_isAccessSchedule = value;
-				OnPropertyChanged(() => IsAccessSchedule);
-			}
-		}
-
-		bool _showHoursPeriod;
-		public bool ShowHoursPeriod
-		{
-			get { return _showHoursPeriod; }
-			set
-			{
-				_showHoursPeriod = value;
+				OnPropertyChanged(() => CanSetStartDateTime);
 				OnPropertyChanged(() => ShowHoursPeriod);
 			}
+		}
+
+		public bool IsAccessSchedule
+		{
+			get { return SelectedScheduleType == GKScheduleType.Access; }
+		}
+
+		public bool CanSetStartDateTime
+		{
+			get { return SelectedScheduleType == GKScheduleType.Access && (SelectedSchedulePeriodType == GKSchedulePeriodType.Custom || SelectedSchedulePeriodType == GKSchedulePeriodType.NonPeriodic); }
+		}
+
+		public bool ShowHoursPeriod
+		{
+			get { return SelectedScheduleType == GKScheduleType.Access && SelectedSchedulePeriodType == GKSchedulePeriodType.Custom; }
 		}
 
 		public ObservableCollection<GKSchedule> Holidays { get; private set; }
@@ -234,7 +218,7 @@ namespace GKModule.ViewModels
 
 		protected override bool Save()
 		{
-			if (No <= 0 || No >= 255)
+			if (No < 1 || No > 255)
 			{
 				MessageBoxService.Show("Номер должен быть задан в диапазоне от 1 до 255");
 				return false;
