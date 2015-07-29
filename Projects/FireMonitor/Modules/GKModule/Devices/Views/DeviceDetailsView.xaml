@@ -149,7 +149,7 @@
 											<StackPanel Orientation="Horizontal">
 												<Image Width="16" Source="/Controls;component/Images/Zone.png" />
 												<TextBlock Text="{Binding PresentationZone}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" />
-												<TextBlock Text="{Binding Driver.HasZone}" />
+												<TextBlock Text="{Binding Device.Driver.HasZone}" />
 											</StackPanel>
 										</Hyperlink>
 									</TextBlock>
@@ -159,7 +159,7 @@
 									<TextBlock>
 										<StackPanel Orientation="Horizontal">
 											<TextBlock Text="{Binding PresentationZone}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" />
-											<TextBlock Text="{Binding Driver.HasLogic}" />
+											<TextBlock Text="{Binding Device.Driver.HasLogic}" />
 										</StackPanel>
 									</TextBlock>
 								</StackPanel>
