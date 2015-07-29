@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Reflection;
 using System.Runtime.Serialization;
 using System.Windows;
 using System.Windows.Media;
@@ -77,20 +79,43 @@ namespace Infrustructure.Plans.Elements
 		public abstract ElementType Type { get; }
 		public abstract Rect GetRectangle();
 		protected abstract void SetPosition(Point point);
-		public abstract ElementBase Clone();
 
-		public virtual void Copy(ElementBase element)
+		public ElementBase Clone()
 		{
-			element.UID = UID;
-			element.BorderColor = BorderColor;
-			element.BorderThickness = BorderThickness;
-			element.BackgroundColor = BackgroundColor;
-			element.BackgroundImageSource = BackgroundImageSource;
-			element.BackgroundSourceName = BackgroundSourceName;
-			element.ImageType = ImageType;
-			element.ZIndex = ZIndex;
-			element.IsLocked = IsLocked;
-			element.IsHidden = IsHidden;
+			Type type2create = this.GetType();
+			ElementBase newElement = (ElementBase)Activator.CreateInstance(type2create);
+			this.Copy(newElement);
+			return newElement;
+		}
+
+		public void Copy(ElementBase target)
+		{
+			PropertyInfo[] sourceProperties = this.GetType().GetProperties();
+			PropertyInfo[] targetProperties = target.GetType().GetProperties();
+
+			foreach (PropertyInfo sourceProperty in sourceProperties)
+			{
+				PropertyInfo targetProperty = targetProperties
+					.Where(property => property.GetSetMethod() != null
+					&& property.Name == sourceProperty.Name
+					&& property.PropertyType == sourceProperty.PropertyType)
+					.FirstOrDefault();
+				if (targetProperty != null)
+				{
+					object propertyValue = sourceProperty.GetValue(this, null);
+					// Sometimes there are Point Collections in the Objects.
+					// New Instance should be created and Points should be copied from the Source.
+					if (sourceProperty.PropertyType == typeof(PointCollection))
+					{
+						PointCollection pointCollection = (PointCollection)propertyValue;
+						PointCollection clone = new PointCollection(pointCollection);
+						targetProperty.SetValue(target, clone, null);
+					}
+					else
+						// Other Properties are copied by their Value:
+						targetProperty.SetValue(target, propertyValue, null);
+				}
+			}
 		}
 		public virtual void UpdateZLayer()
 		{

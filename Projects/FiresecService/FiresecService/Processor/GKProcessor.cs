@@ -123,44 +123,47 @@ namespace FiresecService
 					{
 						using (var databaseService = new SKDDriver.DataClasses.DbService())
 						{
-							var pendingCards = databaseService.CardTranslator.GetAllPendingCards(device.UID).ToList();
-							foreach (var pendingCard in pendingCards)
+							if (device != null)
 							{
-								var operationResult = databaseService.CardTranslator.GetSingle(pendingCard.CardUID);
-								if (!operationResult.HasError && operationResult.Result != null)
+								var pendingCards = databaseService.CardTranslator.GetAllPendingCards(device.UID).ToList();
+								foreach (var pendingCard in pendingCards)
 								{
-									var card = operationResult.Result;
-									var getAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(card.AccessTemplateUID);
-									var employeeOperationResult = databaseService.EmployeeTranslator.GetSingle(card.EmployeeUID);
-									var employeeName = employeeOperationResult.Result != null ? employeeOperationResult.Result.FIO : "";
+									var operationResult = databaseService.CardTranslator.GetSingle(pendingCard.CardUID);
+									if (!operationResult.HasError && operationResult.Result != null)
+									{
+										var card = operationResult.Result;
+										var getAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(card.AccessTemplateUID);
+										var employeeOperationResult = databaseService.EmployeeTranslator.GetSingle(card.EmployeeUID);
+										var employeeName = employeeOperationResult.Result != null ? employeeOperationResult.Result.FIO : "";
 
-									if ((PendingCardAction)pendingCard.Action == PendingCardAction.Delete)
-									{
-										var result = GKSKDHelper.RemoveCard(device, card);
-										if (!result.HasError)
+										if ((PendingCardAction)pendingCard.Action == PendingCardAction.Delete)
 										{
-											databaseService.CardTranslator.DeleteAllPendingCards(pendingCard.CardUID, device.UID);
+											var result = GKSKDHelper.RemoveCard(device, card);
+											if (!result.HasError)
+											{
+												databaseService.CardTranslator.DeleteAllPendingCards(pendingCard.CardUID, device.UID);
+											}
+										}
+										var controllerCardSchedules = GKSKDHelper.GetGKControllerCardSchedules(card, getAccessTemplateOperationResult.Result);
+										foreach (var controllerCardSchedule in controllerCardSchedules)
+										{
+											switch ((PendingCardAction)pendingCard.Action)
+											{
+												case PendingCardAction.Add:
+												case PendingCardAction.Edit:
+													var result = GKSKDHelper.AddOrEditCard(controllerCardSchedule, card, employeeName);
+													if (!result.HasError)
+													{
+														databaseService.CardTranslator.DeleteAllPendingCards(pendingCard.CardUID, device.UID);
+													}
+													break;
+											}
 										}
 									}
-									var controllerCardSchedules = GKSKDHelper.GetGKControllerCardSchedules(card, getAccessTemplateOperationResult.Result);
-									foreach (var controllerCardSchedule in controllerCardSchedules)
+									else
 									{
-										switch ((PendingCardAction)pendingCard.Action)
-										{
-											case PendingCardAction.Add:
-											case PendingCardAction.Edit:
-												var result = GKSKDHelper.AddOrEditCard(controllerCardSchedule, card, employeeName);
-												if (!result.HasError)
-												{
-													databaseService.CardTranslator.DeleteAllPendingCards(pendingCard.CardUID, device.UID);
-												}
-												break;
-										}
+										databaseService.CardTranslator.DeleteAllPendingCards(pendingCard.CardUID, device.UID);
 									}
-								}
-								else
-								{
-									databaseService.CardTranslator.DeleteAllPendingCards(pendingCard.CardUID, device.UID);
 								}
 							}
 						}

@@ -23,6 +23,7 @@ namespace GKModule.Plans.ViewModels
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 
 			ShowState = element.ShowState;
+			this.ShowDelay = element.ShowDelay;
 
 			this.Delays = new ObservableCollection<DelayViewModel>(GKManager.Delays.Select(delay => new DelayViewModel(delay)));
 			if (element.DelayUID != Guid.Empty)
@@ -76,6 +77,8 @@ namespace GKModule.Plans.ViewModels
 
 		protected override bool Save()
 		{
+			_element.ShowState = this.ShowState;
+			_element.ShowDelay = this.ShowDelay;
 			Guid delayUID = _element.DelayUID;
 			GKPlanExtension.Instance.SetItem<GKDelay>(_element, this.SelectedDelay == null ? null : this.SelectedDelay.Delay);
 			UpdateDelays(delayUID);

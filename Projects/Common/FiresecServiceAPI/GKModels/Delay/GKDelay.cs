@@ -73,12 +73,6 @@ namespace FiresecAPI.GK
 		public override GKBaseObjectType ObjectType { get { return GKBaseObjectType.Delay; } }
 
 		[XmlIgnore]
-		public override string PresentationName
-		{
-			get { return Name; }
-		}
-
-		[XmlIgnore]
 		public override string ImageSource
 		{
 			get { return "/Controls;component/Images/Delay.png"; }

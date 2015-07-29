@@ -12,13 +12,6 @@ namespace FiresecAPI.Models
 			PresentationName = "Прямоугольник";
 		}
 
-		public override ElementBase Clone()
-		{
-			ElementRectangle elementBase = new ElementRectangle();
-			Copy(elementBase);
-			return elementBase;
-		}
-
 		#region IPrimitive Members
 
 		[XmlIgnore]

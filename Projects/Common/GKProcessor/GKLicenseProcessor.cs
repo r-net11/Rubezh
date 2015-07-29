@@ -63,7 +63,7 @@ namespace GKProcessor
 
 					ApplicationService.Invoke(() =>
 					{
-						CurrentHasLicense = LicenseHelper.CheckLicense(false);
+                        CurrentHasLicense = true; //CurrentHasLicense = LicenseHelper.CheckLicense(false);
 					});
 					if (CurrentHasLicense != HasLicense)
 					{

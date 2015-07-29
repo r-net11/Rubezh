@@ -49,26 +49,6 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public bool WordWrap { get; set; }
 
-		public override ElementBase Clone()
-		{
-			ElementTextBlock elementBase = new ElementTextBlock();
-			Copy(elementBase);
-			return elementBase;
-		}
-		public override void Copy(ElementBase element)
-		{
-			base.Copy(element);
-			var elementTextBlock = (ElementTextBlock)element;
-			elementTextBlock.Text = Text;
-			elementTextBlock.ForegroundColor = ForegroundColor;
-			elementTextBlock.FontSize = FontSize;
-			elementTextBlock.FontFamilyName = FontFamilyName;
-			elementTextBlock.Stretch = Stretch;
-			elementTextBlock.TextAlignment = TextAlignment;
-			elementTextBlock.FontBold = FontBold;
-			elementTextBlock.FontItalic = FontItalic;
-		}
-
 		#region IPrimitive Members
 
 		[XmlIgnore]
