@@ -41,12 +41,11 @@ namespace GKProcessor
 			}
 			if (Direction.Logic.OnClausesGroup.Clauses.Count + Direction.Logic.OnClausesGroup.ClauseGroups.Count > 0)
 			{
+				if (Direction.Logic.StopClausesGroup.GetObjects().Count > 0)
+					Formula.Add(FormulaOperationType.COM);
 				Formula.AddClauseFormula(Direction.Logic.OnClausesGroup, DatabaseType);
 				if (Direction.Logic.StopClausesGroup.GetObjects().Count > 0)
-				{
-					Formula.Add(FormulaOperationType.COM);
 					Formula.Add(FormulaOperationType.AND);
-				}
 				Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Direction, DatabaseType);
 				if (Direction.Logic.UseOffCounterLogic)
 				{
