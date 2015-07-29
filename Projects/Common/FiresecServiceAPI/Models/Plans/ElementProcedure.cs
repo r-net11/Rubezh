@@ -55,28 +55,6 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public bool WordWrap { get; set; }
 
-		public override ElementBase Clone()
-		{
-			ElementProcedure elementBase = new ElementProcedure();
-			Copy(elementBase);
-			return elementBase;
-		}
-		public override void Copy(ElementBase element)
-		{
-			base.Copy(element);
-			var elementProcedure = (ElementProcedure)element;
-			elementProcedure.ProcedureUID = ProcedureUID;
-			elementProcedure.Text = Text;
-			elementProcedure.ForegroundColor = ForegroundColor;
-			elementProcedure.FontSize = FontSize;
-			elementProcedure.FontItalic = FontItalic;
-			elementProcedure.FontBold = FontBold;
-			elementProcedure.FontFamilyName = FontFamilyName;
-			elementProcedure.Stretch = Stretch;
-			elementProcedure.TextAlignment = TextAlignment;
-			elementProcedure.VerticalAlignment = VerticalAlignment;
-			elementProcedure.WordWrap = WordWrap;
-		}
 		public override void UpdateZLayer()
 		{
 			ZLayer = 70;
@@ -84,7 +62,7 @@ namespace FiresecAPI.Models
 
 		#region IElementReference Members
 
-		Guid IElementReference.ItemUID
+		public Guid ItemUID
 		{
 			get { return ProcedureUID; }
 			set { ProcedureUID = value; }

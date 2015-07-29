@@ -164,17 +164,17 @@ namespace FiresecClient
 
 			var mirrorParent = parentDevice.MirrorParent;
 			if (mirrorParent != null)
-			{			
-					int currentAddress = 1;
-					foreach (var device in mirrorParent.Children)
+			{
+				int currentAddress = 1;
+				foreach (var device in mirrorParent.Children)
+				{
+					device.IntAddress = currentAddress;
+					if (!device.Driver.IsGroupDevice)
 					{
-						device.IntAddress = currentAddress;
-						if (!device.Driver.IsGroupDevice)
-						{
-							currentAddress++;
-						}
-						device.OnChanged();
+						currentAddress++;
 					}
+					device.OnChanged();
+				}
 
 			}
 
@@ -231,6 +231,24 @@ namespace FiresecClient
 			}
 			zone.OnChanged();
 		}
+		
+		/// <summary>
+		/// Adds specified Delay.
+		/// </summary>
+		/// <param name="delay">Delay to add.</param>
+		public static void AddDelay(GKDelay delay)
+		{
+			Delays.Add(delay);
+		}
+
+		/// <summary>
+		/// Removes specified Delay.
+		/// </summary>
+		/// <param name="delay">Delay to remove.</param>
+		public static void RemoveDelay(GKDelay delay)
+		{
+			throw new NotImplementedException();
+		}
 
 		public static void AddDirection(GKDirection direction)
 		{
@@ -286,7 +304,7 @@ namespace FiresecClient
 					DeviceUID = device.UID,
 					Device = device
 				};
-				if(device.Driver.AvailableStateBits.Contains(GKStateBit.Fire1))
+				if (device.Driver.AvailableStateBits.Contains(GKStateBit.Fire1))
 				{
 					directionDevice.StateBit = GKStateBit.Fire1;
 				}

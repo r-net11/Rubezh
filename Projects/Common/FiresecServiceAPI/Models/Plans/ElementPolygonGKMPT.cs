@@ -17,18 +17,6 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public Guid MPTUID { get; set; }
 
-		public override ElementBase Clone()
-		{
-			var elementBase = new ElementPolygonGKMPT();
-			Copy(elementBase);
-			return elementBase;
-		}
-		public override void Copy(ElementBase element)
-		{
-			base.Copy(element);
-			((ElementPolygonGKMPT)element).MPTUID = MPTUID;
-		}
-
 		#region IPrimitive Members
 
 		[XmlIgnore]
@@ -46,7 +34,8 @@ namespace FiresecAPI.Models
 
 		#region IElementReference Members
 
-		Guid IElementReference.ItemUID
+		[XmlIgnore]
+		public Guid ItemUID
 		{
 			get { return MPTUID; }
 			set { MPTUID = value; }

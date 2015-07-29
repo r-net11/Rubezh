@@ -12,13 +12,6 @@ namespace FiresecAPI.Models
 			PresentationName = "Линия";
 		}
 
-		public override ElementBase Clone()
-		{
-			ElementPolyline elementLine = new ElementPolyline();
-			Copy(elementLine);
-			return elementLine;
-		}
-
 		#region IPrimitive Members
 
 		[XmlIgnore]

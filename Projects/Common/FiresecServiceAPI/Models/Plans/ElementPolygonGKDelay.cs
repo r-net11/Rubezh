@@ -14,19 +14,6 @@ namespace FiresecAPI.Models
 			PresentationName = "Задержка";
 		}
 
-		public override ElementBase Clone()
-		{
-			var elementBase = new ElementPolygonGKDelay();
-			Copy(elementBase);
-			return elementBase;
-		}
-
-		public override void Copy(ElementBase element)
-		{
-			base.Copy(element);
-			((ElementPolygonGKDelay)element).DelayUID = DelayUID;
-		}
-
 		[DataMember()]
 		public Guid DelayUID { get; set; }
 
@@ -53,7 +40,8 @@ namespace FiresecAPI.Models
 
 		#region IElementReference Members
 
-		Guid IElementReference.ItemUID
+		[XmlIgnore]
+		public Guid ItemUID
 		{
 			get { return this.DelayUID; }
 			set { this.DelayUID = value; }

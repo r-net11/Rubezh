@@ -18,18 +18,6 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public Guid DeviceUID { get; set; }
 
-		public override ElementBase Clone()
-		{
-			ElementGKDevice elementBase = new ElementGKDevice();
-			Copy(elementBase);
-			return elementBase;
-		}
-		public override void Copy(ElementBase element)
-		{
-			base.Copy(element);
-			((ElementGKDevice)element).DeviceUID = DeviceUID;
-		}
-
 		public override void UpdateZLayer()
 		{
 			ZLayer = 70;
