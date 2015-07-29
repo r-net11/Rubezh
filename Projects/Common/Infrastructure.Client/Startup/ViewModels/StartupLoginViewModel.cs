@@ -1,13 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common;
-using Infrastructure.Client.Properties;
-using FiresecAPI.Models;
+﻿using FiresecAPI.Models;
 using Infrastructure.Client.Login.ViewModels;
-using System.Threading;
 
 namespace Infrastructure.Client.Startup.ViewModels
 {

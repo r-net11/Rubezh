@@ -29,7 +29,6 @@ namespace Infrastructure.Client.Startup.ViewModels
 					Password = GlobalSettingsHelper.GlobalSettings.MonitorPassword;
 					break;
 			}
-
 		}
 
 		public ClientType ClientType { get; set; }
@@ -111,21 +110,21 @@ namespace Infrastructure.Client.Startup.ViewModels
 			GlobalSettingsHelper.GlobalSettings.ReportRemotePort = ReportRemotePort;
 			GlobalSettingsHelper.GlobalSettings.RemotePort = RemotePort;
 			GlobalSettingsHelper.GlobalSettings.RemoteAddress = RemoteAddress;
-			
+
 			switch (ClientType)
 			{
 				case ClientType.Administrator:
-					GlobalSettingsHelper.GlobalSettings.AdminAutoConnect	=	AutoConnect;
-					GlobalSettingsHelper.GlobalSettings.AdminLogin			=	Login;
-					GlobalSettingsHelper.GlobalSettings.AdminPassword		=	Password;
+					GlobalSettingsHelper.GlobalSettings.AdminAutoConnect = AutoConnect;
+					GlobalSettingsHelper.GlobalSettings.AdminLogin = Login;
+					GlobalSettingsHelper.GlobalSettings.AdminPassword = Password;
 					break;
 				case ClientType.Monitor:
-					GlobalSettingsHelper.GlobalSettings.MonitorAutoConnect	=	AutoConnect;
-					GlobalSettingsHelper.GlobalSettings.MonitorLogin		=	Login;
-					GlobalSettingsHelper.GlobalSettings.MonitorPassword		=	Password;
+					GlobalSettingsHelper.GlobalSettings.MonitorAutoConnect = AutoConnect;
+					GlobalSettingsHelper.GlobalSettings.MonitorLogin = Login;
+					GlobalSettingsHelper.GlobalSettings.MonitorPassword = Password;
 					break;
 			}
-			
+
 			GlobalSettingsHelper.Save();
 			return base.Save();
 		}

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using System.Windows;
-using Infrastructure.Common.Windows;
 
 namespace Infrastructure.Client.Startup.ViewModels
 {
