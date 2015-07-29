@@ -366,7 +366,7 @@ namespace FiresecAPI.GK
 			}
 			else
 			{
-				KauDatabaseParent = null;
+				IsLogicOnKau = false;
 				GkDatabaseParent = dataBaseParent;
 			}
 			if (this is GKGuardZone && (this as GKGuardZone).HasAccessLevel)
