@@ -92,7 +92,7 @@
                         <ToolBarButton Command="{Binding EditCommand}" ImageSource="Edit"  ToolTip="Редактировать" />
                         <ToolBarButton Command="{Binding RestoreCommand}" ImageSource="Redo"  ToolTip="Восстановить"  Visibility="{Binding IsWithDeleted, Converter={StaticResource BoolToVisibilityConverter}}"/>
                     </StackPanel>
-                    <ToolBarButton ImageSource="Add" ToolTip="Отображать архивные сведения" Command="{Binding ChangeIsDeletedCommand}" Visibility="{Binding IsWithDeleted, Converter={StaticResource BoolToVisibilityConverter}}" />
+                    <ToolBarButton ImageSource="Add" ToolTip="Скрыть архивные сведения" Command="{Binding ChangeIsDeletedCommand}" Visibility="{Binding IsWithDeleted, Converter={StaticResource BoolToVisibilityConverter}}" />
                     <ToolBarButton ImageSource="Delete" ToolTip="Отображать архивные сведения" Command="{Binding ChangeIsDeletedCommand}" Visibility="{Binding IsWithDeleted, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
                 </StackPanel>
             </Grid>
