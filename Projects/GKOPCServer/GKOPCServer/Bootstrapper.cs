@@ -125,6 +125,7 @@ namespace GKOPCServer
 				if (device != null)
 				{
 					remoteDeviceState.CopyTo(device.State);
+					device.State.OnStateChanged();
 				}
 			}
 			foreach (var remoteZoneState in gkStates.ZoneStates)
@@ -133,6 +134,7 @@ namespace GKOPCServer
 				if (zone != null)
 				{
 					remoteZoneState.CopyTo(zone.State);
+					zone.State.OnStateChanged();
 				}
 			}
 			foreach (var remoteDirectionState in gkStates.DirectionStates)
@@ -141,6 +143,7 @@ namespace GKOPCServer
 				if (direction != null)
 				{
 					remoteDirectionState.CopyTo(direction.State);
+					direction.State.OnStateChanged();
 				}
 			}
 			foreach (var remotePumpStationState in gkStates.PumpStationStates)
@@ -149,6 +152,7 @@ namespace GKOPCServer
 				if (pumpStation != null)
 				{
 					remotePumpStationState.CopyTo(pumpStation.State);
+					pumpStation.State.OnStateChanged();
 				}
 			}
 			foreach (var delayState in gkStates.DelayStates)
@@ -159,6 +163,8 @@ namespace GKOPCServer
 				if (delay != null)
 				{
 					delayState.CopyTo(delay.State);
+					delay.State.OnStateChanged();
+
 				}
 			}
 			foreach (var remotePimState in gkStates.PimStates)
@@ -169,6 +175,7 @@ namespace GKOPCServer
 				if (pim != null)
 				{
 					remotePimState.CopyTo(pim.State);
+					pim.State.OnStateChanged();
 				}
 			}
 			foreach (var mptState in gkStates.MPTStates)
@@ -177,6 +184,7 @@ namespace GKOPCServer
 				if (mpt != null)
 				{
 					mptState.CopyTo(mpt.State);
+					mpt.State.OnStateChanged();
 				}
 			}
 			foreach (var guardZoneState in gkStates.GuardZoneStates)
@@ -185,6 +193,7 @@ namespace GKOPCServer
 				if (guardZone != null)
 				{
 					guardZoneState.CopyTo(guardZone.State);
+					guardZone.State.OnStateChanged();
 				}
 			}
 			foreach (var doorState in gkStates.DoorStates)
@@ -193,6 +202,7 @@ namespace GKOPCServer
 				if (door != null)
 				{
 					doorState.CopyTo(door.State);
+					door.State.OnStateChanged();
 				}
 			}
 		}
