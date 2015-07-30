@@ -62,19 +62,6 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public int InputZonesCount
-		{
-			get { return Direction.InputZones.Count; }
-		}
-		public int InputDevicesCount
-		{
-			get { return Direction.InputDevices.Count; }
-		}
-		public int OutputDevicesCount
-		{
-			get { return Direction.OutputDevices.Count; }
-		}
-
 		public DeviceControlRegime ControlRegime
 		{
 			get

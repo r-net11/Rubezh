@@ -26,6 +26,7 @@ namespace GKModule.ViewModels
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
 			ChangePumpDevicesCommand = new RelayCommand(OnChangePumpDevices, CanChangePumpDevices);
 			DeletePumpDeviceCommand = new RelayCommand(OnDeletePumpDevice, CanDeletePumpDevice);
+			DeleteAllEmptyCommand = new RelayCommand(OnDeleteAllEmpty, CanDeleteAllEmpty);
 			RegisterShortcuts();
 			SetRibbonItems();
 		}
@@ -104,6 +105,30 @@ namespace GKModule.ViewModels
 			}
 		}
 
+		public RelayCommand DeleteAllEmptyCommand { get; private set; }
+		void OnDeleteAllEmpty()
+		{
+			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить все пустые НС ?"))
+			{
+
+				var emptyPumpStations = PumpStations.Where(x => !x.PumpStation.StopLogic.GetObjects().Any() && !x.PumpStation.StartLogic.GetObjects().Any() && !x.PumpStation.NSDevices.Any() && !x.PumpStation.AutomaticOffLogic.GetObjects().Any());
+				if (emptyPumpStations.Any())
+				{
+					foreach (var emptyPumpStation in emptyPumpStations)
+					{
+						GKManager.PumpStations.Remove(emptyPumpStation.PumpStation);
+						PumpStations.Remove(emptyPumpStation);
+					}
+				}
+			}
+		}
+
+		bool CanDeleteAllEmpty()
+		{
+			return PumpStations.Any(x => !x.PumpStation.StopLogic.GetObjects().Any() && !x.PumpStation.StartLogic.GetObjects().Any() && !x.PumpStation.NSDevices.Any() && !x.PumpStation.AutomaticOffLogic.GetObjects().Any());
+		}
+			
+
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
@@ -169,6 +194,7 @@ namespace GKModule.ViewModels
 					new RibbonMenuItemViewModel("Добавить", AddCommand, "BAdd"),
 					new RibbonMenuItemViewModel("Редактировать", EditCommand, "BEdit"),
 					new RibbonMenuItemViewModel("Удалить", DeleteCommand, "BDelete"),
+					new RibbonMenuItemViewModel("Удалить все пустые НС", DeleteAllEmptyCommand, "BDeleteEmpty"),
 				}, "BEdit") { Order = 2 }
 			};
 		}

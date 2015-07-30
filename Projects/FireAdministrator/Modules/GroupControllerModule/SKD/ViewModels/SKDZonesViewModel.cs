@@ -125,6 +125,20 @@ namespace GKModule.ViewModels
 			}
 		}
 
+		public RelayCommand DeleteAllEmptyCommand { get; private set; }
+		void OnDeleteAllEmpty()
+		{
+			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить все пустые зоны ?"))
+			{
+
+			}
+		}
+
+		bool CanDeleteAllEmpty()
+		{
+			return false;
+		}
+
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
@@ -255,6 +269,7 @@ namespace GKModule.ViewModels
 					new RibbonMenuItemViewModel("Добавить", "BAdd"),
 					new RibbonMenuItemViewModel("Редактировать", "BEdit"),
 					new RibbonMenuItemViewModel("Удалить", "BDelete"),
+					new RibbonMenuItemViewModel("Удалить все пустые зоны", DeleteAllEmptyCommand, "BDeleteEmpty"),
 				}, "BEdit") { Order = 1 }
 			};
 		}
