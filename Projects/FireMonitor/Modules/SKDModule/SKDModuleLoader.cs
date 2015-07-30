@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using FiresecAPI.Models;
 using FiresecAPI.Models.Layouts;
@@ -38,26 +39,20 @@ namespace SKDModule
 
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
-			var list = new  List<NavigationItem>() {
+			var timetrackNavigationItems = new List<NavigationItem>() {
 							new NavigationItem<ShowTimeIntervalsEvent, Guid>(DayIntervalsViewModel, "Дневные графики", "ShedulesDaylyW", null, PermissionType.Oper_SKD_TimeTrack_DaySchedules_View, Guid.Empty),
 							new NavigationItem<ShowWeeklyIntervalsEvent, Guid>(ScheduleSchemesViewModel, "Графики", "SheduleWeeklyW", null, PermissionType.Oper_SKD_TimeTrack_ScheduleSchemes_View, Guid.Empty),
 							new NavigationItem<ShowHolidaysEvent, Guid>(HolidaysViewModel, "Праздничные дни", "HolidaysW", null, PermissionType.Oper_SKD_TimeTrack_Holidays_View, Guid.Empty),
 							new NavigationItem<ShowShedulesEvent, Guid>(SchedulesViewModel, "Графики работ", "ShedulesW", null, PermissionType.Oper_SKD_TimeTrack_Schedules_View, Guid.Empty),
 							new NavigationItem<ShowTimeTrackingEvent>(TimeTrackingViewModel, "Учет рабочего времени", "TimeTrackingW", null, PermissionType.Oper_SKD_TimeTrack_Report_View),
 						};
-			bool isvisible=false;
-			foreach (var item in list)
-			{
-				if (item.IsVisible)
-				{ isvisible = true; break; }
-			}
 			return new List<NavigationItem>
 				{
 				new NavigationItem("СКД", "SKDW",
 					new List<NavigationItem>()
 					{
 						new NavigationItem<ShowHREvent>(HRViewModel, "Картотека", "Kartoteka2W"),
-						new NavigationItem("Учет рабочего времени", "TimeTrackingW", list){IsVisible=isvisible},
+						new NavigationItem("Учет рабочего времени", "TimeTrackingW", timetrackNavigationItems){IsVisible=timetrackNavigationItems.Any(x=>x.IsVisible)},
 					})
 				};
 		}

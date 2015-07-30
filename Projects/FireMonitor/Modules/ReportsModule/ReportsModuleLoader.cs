@@ -34,6 +34,10 @@ namespace ReportsModule
 
 		public override void Initialize()
 		{
+			_skdReportViewModel.Initialize();
+		}
+		public override IEnumerable<NavigationItem> CreateNavigation()
+		{
 			_reportViewModel.Reports.Clear();
 			foreach (var module in ApplicationService.Modules)
 			{
@@ -44,14 +48,9 @@ namespace ReportsModule
 				if (skdReportProviderModule != null)
 					_skdReportViewModel.RegisterReportProviderModule(skdReportProviderModule);
 			}
-			_skdReportViewModel.Initialize();
-		}
-
-		public override IEnumerable<NavigationItem> CreateNavigation()
-		{
 			return new List<NavigationItem>()
 			{
-				new NavigationItem<ShowSKDReportsEvent>(_skdReportViewModel, ModuleType.ToDescription(), "levels"),
+				new NavigationItem<ShowSKDReportsEvent>(_skdReportViewModel, ModuleType.ToDescription(), "levels"){IsVisible =_skdReportViewModel.IsCheckedPermission} ,
 				//new NavigationItem<ShowReportsEvent>(_reportViewModel, ModuleType.ToDescription(), "levels"),
 			};
 		}
