@@ -13,34 +13,8 @@ namespace JournalModule.ViewModels
 	public class FilterObjectViewModel : TreeNodeViewModel<FilterObjectViewModel>
 	{
 		public Guid UID { get; private set; }
-
-		public FilterObjectViewModel(JournalEventNameType journalEventNameType)
-		{
-			JournalEventNameType = journalEventNameType;
-
-			FieldInfo fieldInfo = journalEventNameType.GetType().GetField(journalEventNameType.ToString());
-			if (fieldInfo != null)
-			{
-				EventNameAttribute[] descriptionAttributes = (EventNameAttribute[])fieldInfo.GetCustomAttributes(typeof(EventNameAttribute), false);
-				if (descriptionAttributes.Length > 0)
-				{
-					EventNameAttribute eventNameAttribute = descriptionAttributes[0];
-					Name = eventNameAttribute.Name;
-					JournalSubsystemType = eventNameAttribute.JournalSubsystemType;
-					StateClass = eventNameAttribute.StateClass;
-					if (StateClass == XStateClass.Norm)
-						ImageSource = null;
-
-					ImageSource = "/Controls;component/StateClassIcons/" + StateClass.ToString() + ".png";
-				}
-			}
-			IsSubsystem = false;
-		}
-
 		public FilterObjectViewModel(JournalSubsystemType journalSubsystemType)
 		{
-			JournalSubsystemType = journalSubsystemType;
-			IsSubsystem = true;
 			Name = journalSubsystemType.ToDescription();
 			var converter = new JournalSubsystemTypeToIconConverter();
 			ImageSource = (string)converter.Convert(journalSubsystemType, typeof(JournalSubsystemType), null, null);
@@ -165,12 +139,9 @@ namespace JournalModule.ViewModels
 			ImageSource = "/Controls;component/Images/Camera.png";
 		}
 
-		public JournalEventNameType JournalEventNameType { get; private set; }
 		public string Name { get; private set; }
 		public string ImageSource { get; private set; }
 		public XStateClass StateClass { get; private set; }
-		public JournalSubsystemType JournalSubsystemType { get; private set; }
-		public bool IsSubsystem { get; private set; }
 		public bool IsObjectGroup { get; private set; }
 		public JournalObjectType JournalObjectType { get; private set; }
 

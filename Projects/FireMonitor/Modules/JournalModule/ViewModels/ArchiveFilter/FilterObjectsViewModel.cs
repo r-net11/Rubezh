@@ -20,15 +20,8 @@ namespace JournalModule.ViewModels
 
 		public void Initialize(ArchiveFilter filter)
 		{
-			AllFilters.ForEach(x => x.SetIsChecked(false));
-			foreach (var subsystemType in filter.JournalSubsystemTypes)
-			{
-				var filterNameViewModel = RootFilters.FirstOrDefault(x => x.IsSubsystem && x.JournalSubsystemType == subsystemType);
-				if (filterNameViewModel != null)
-				{
-					filterNameViewModel.IsChecked = true;
-				}
-			}
+			AllFilters.ForEach(x => x.IsChecked=false);
+
 			foreach (var journalObjectType in filter.JournalObjectTypes)
 			{
 				var filterNameViewModel = AllFilters.FirstOrDefault(x => x.IsObjectGroup && x.JournalObjectType == journalObjectType);
@@ -54,28 +47,22 @@ namespace JournalModule.ViewModels
 		public ArchiveFilter GetModel()
 		{
 			var filter = new ArchiveFilter();
+
 			foreach (var subsystemFilter in RootFilters)
 			{
-				if (subsystemFilter.IsChecked)
+				foreach (var objectTypeFilter in subsystemFilter.Children)
 				{
-					filter.JournalSubsystemTypes.Add(subsystemFilter.JournalSubsystemType);
-				}
-				else
-				{
-					foreach (var objectTypeFilter in subsystemFilter.Children)
+					if (objectTypeFilter.IsChecked)
 					{
-						if (objectTypeFilter.IsChecked)
+						filter.JournalObjectTypes.Add(objectTypeFilter.JournalObjectType);
+					}
+					else
+					{
+						foreach (var filterViewModel in objectTypeFilter.GetAllChildren())
 						{
-							filter.JournalObjectTypes.Add(objectTypeFilter.JournalObjectType);
-						}
-						else
-						{
-							foreach (var filterViewModel in objectTypeFilter.GetAllChildren())
+							if (filterViewModel.IsChecked && filterViewModel.UID != Guid.Empty)
 							{
-								if (filterViewModel.IsChecked && filterViewModel.UID != Guid.Empty)
-								{
-									filter.ObjectUIDs.Add(filterViewModel.UID);
-								}
+								filter.ObjectUIDs.Add(filterViewModel.UID);
 							}
 						}
 					}
