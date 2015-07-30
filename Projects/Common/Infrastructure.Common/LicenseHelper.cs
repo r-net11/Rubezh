@@ -17,7 +17,6 @@ namespace Infrastructure.Common
 
         static LicenseHelper()
         {
-#if DEBUG
 			NumberOfUsers = 10;
 			FireAlarm = true;
 			SecurityAlarm = true;
@@ -25,7 +24,7 @@ namespace Infrastructure.Common
 			ControlScripts = true;
 			OrsServer = true;
 			return;
-#endif
+
 			try
 			{
 				License = LicenseProcessor.ProcessLoad(AppDataFolderHelper.GetFile("FiresecService.license"), InitialKey.Generate());
