@@ -1,8 +1,7 @@
 ﻿<UserControl x:Class="SKDModule.Views.VerificationView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:Controls="clr-namespace:Controls;assembly=Controls">
-
+			 xmlns:SKDModule="clr-namespace:SKDModule">
 	<Border Background="White" CornerRadius="5">
 		<Grid>
 			<Grid.RowDefinitions>
@@ -10,7 +9,7 @@
 				<RowDefinition Height="Auto"/>
 			</Grid.RowDefinitions>
 			<Grid Grid.Row="0" Margin="0 5 0 0">
-				<Controls:PhotoSelectation Data="{Binding PhotoColumnViewModel.Data}" CanEdit="False" Margin="2" />
+				<SKDModule:PhotoSelection Data="{Binding PhotoColumnViewModel.Data}" CanEdit="False" Margin="2" />
 			</Grid>
 			<StackPanel Grid.Row="1" Margin="5">
 				<StackPanel Orientation="Horizontal">

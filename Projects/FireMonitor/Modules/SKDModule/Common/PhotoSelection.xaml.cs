@@ -6,43 +6,43 @@ using System.Windows.Media.Imaging;
 using Infrastructure.Common.Windows;
 using Microsoft.Win32;
 
-namespace Controls
+namespace SKDModule
 {
-	public partial class PhotoSelectation : UserControl
+	public partial class PhotoSelection : UserControl
 	{
 		public static readonly DependencyProperty DataProperty =
-			DependencyProperty.Register("Data", typeof(byte[]), typeof(PhotoSelectation),
+			DependencyProperty.Register("Data", typeof(byte[]), typeof(PhotoSelection),
 			new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, new PropertyChangedCallback(OnDataPropertyChanged)));
 
 		public static readonly DependencyProperty CanEditProperty =
-			DependencyProperty.Register("CanEdit", typeof(bool), typeof(PhotoSelectation),
+			DependencyProperty.Register("CanEdit", typeof(bool), typeof(PhotoSelection),
 			new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, new PropertyChangedCallback(OnCanEditPropertyChanged)));
 
 		private static void OnDataPropertyChanged(DependencyObject dp, DependencyPropertyChangedEventArgs e)
 		{
-			PhotoSelectation photoSelectation = dp as PhotoSelectation;
-			if (photoSelectation != null)
-				photoSelectation.UpdatePhoto();
+			PhotoSelection photoSelection = dp as PhotoSelection;
+			if (photoSelection != null)
+				photoSelection.UpdatePhoto();
 		}
 
 		private static void OnCanEditPropertyChanged(DependencyObject dp, DependencyPropertyChangedEventArgs e)
 		{
-			PhotoSelectation photoSelectation = dp as PhotoSelectation;
-			if (photoSelectation != null)
+			PhotoSelection photoSelection = dp as PhotoSelection;
+			if (photoSelection != null)
 			{
 
 				if ((bool)e.NewValue)
 				{
-					photoSelectation._stackPanel.Visibility = Visibility.Visible;
+					photoSelection._stackPanel.Visibility = Visibility.Visible;
 				}
 				else
 				{
-					photoSelectation._stackPanel.Visibility = Visibility.Collapsed;
+					photoSelection._stackPanel.Visibility = Visibility.Collapsed;
 				}
 			}
 		}
 
-		public PhotoSelectation()
+		public PhotoSelection()
 		{
 			InitializeComponent();
 			UpdatePhoto();
