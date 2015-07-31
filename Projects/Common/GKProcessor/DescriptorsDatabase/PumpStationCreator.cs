@@ -226,6 +226,7 @@ namespace GKProcessor
 
 		void CreatePim()
 		{
+			PumpStation.Pim.GetDataBaseParent();
 			Database.AddPim(PumpStation.Pim);
 			var pimDescriptor = new PimDescriptor(PumpStation.Pim, DatabaseType);
 			Database.Descriptors.Add(pimDescriptor);

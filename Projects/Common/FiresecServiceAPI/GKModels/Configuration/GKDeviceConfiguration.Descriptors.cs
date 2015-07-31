@@ -51,6 +51,7 @@ namespace FiresecAPI.GK
 			foreach (var device in Devices)
 			{
 				device.KauDatabaseParent = device.KAUParent;
+				Trace.WriteLine(device.PresentationName);
 				device.GetDataBaseParent();
 				var dataBaseParent = device.DataBaseParent;
 				if (dataBaseParent == null)
