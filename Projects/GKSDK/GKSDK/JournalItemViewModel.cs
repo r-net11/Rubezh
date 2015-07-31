@@ -8,8 +8,6 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Events;
-using Microsoft.Practices.Prism.Events;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows;
 
@@ -19,7 +17,6 @@ namespace GKSDK
 	{
 		public JournalItem JournalItem { get; private set; }
 		public bool IsExistsInConfig { get; private set; }
-
 		public string Name { get; private set; }
 		public string Description { get; private set; }
 		public string ObjectImageSource { get; private set; }

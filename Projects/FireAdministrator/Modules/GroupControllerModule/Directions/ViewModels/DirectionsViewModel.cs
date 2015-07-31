@@ -106,9 +106,6 @@ namespace GKModule.ViewModels
 			var logicViewModel = new LogicViewModel(SelectedDirection.Direction, _directionToCopy.Logic, true);
 			directionViewModel.Direction.Logic = logicViewModel.GetModel();
 			directionViewModel.Direction.No = (ushort)(GKManager.Directions.Select(x => x.No).Max() + 1);
-			directionViewModel.Direction.InputDevices = new List<GKDevice>();
-			directionViewModel.Direction.InputZones = new List<GKZone>();
-			directionViewModel.Direction.OutputDevices = new List<GKDevice>();
 			GKManager.Directions.Add(directionViewModel.Direction);
 			Directions.Add(directionViewModel);
 			SelectedDirection = directionViewModel;
@@ -197,7 +194,7 @@ namespace GKModule.ViewModels
 		{
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить все пустые направления ?"))
 			{
-				var emptyDirections = Directions.Where(x => x.Direction.InputDevices.Count + x.Direction.OutputDevices.Count == 0).ToList();
+				var emptyDirections = Directions.Where(x => !x.Direction.Logic.GetObjects().Any());
 				foreach (var emptyDirection in emptyDirections)
 				{
 					GKManager.RemoveDirection(emptyDirection.Direction);
@@ -210,7 +207,7 @@ namespace GKModule.ViewModels
 
 		bool CanDeleteAllEmpty()
 		{
-			return Directions.Count(x => x.Direction.InputDevices.Count + x.Direction.OutputDevices.Count == 0) > 0;
+			return Directions.Any(x => !x.Direction.Logic.GetObjects().Any());
 		}
 
 		public RelayCommand EditCommand { get; private set; }

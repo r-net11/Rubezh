@@ -396,11 +396,6 @@ namespace GKModule.ViewModels
 			var zonesSelectationViewModel = new ZonesSelectationViewModel(new List<GKZone>());
 			if (DialogService.ShowModalWindow(zonesSelectationViewModel))
 			{
-				if (Device.Children.Count + zonesSelectationViewModel.TargetZones.Count > 2000)
-				{
-					MessageBoxService.ShowWarning("При добавлении устройств количество будет превышать максимально допустимое значения в 2000");
-					return;
-				}
 				foreach (var zone in zonesSelectationViewModel.TargetZones)
 				{
 					var driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_GKMirrorFireZone);

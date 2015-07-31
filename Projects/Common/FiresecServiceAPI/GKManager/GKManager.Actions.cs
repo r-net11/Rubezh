@@ -116,12 +116,7 @@ namespace FiresecClient
 				zone.Devices.Remove(device);
 				zone.OnChanged();
 			}
-			foreach (var direction in device.Directions)
-			{
-				direction.InputDevices.Remove(device);
-				direction.OutputDevices.Remove(device);
-				direction.OnChanged();
-			}
+
 			var deviceMPTs = MPTs.FindAll(x => x.MPTDevices.Any(y => y.DeviceUID == device.UID));
 			foreach (var deviceMPT in deviceMPTs)
 			{
@@ -206,11 +201,6 @@ namespace FiresecClient
 				device.ZoneUIDs.Remove(zone.UID);
 				device.OnChanged();
 			}
-			foreach (var direction in zone.Directions)
-			{
-				direction.InputZones.Remove(zone);
-				direction.OnChanged();
-			}
 			Zones.Remove(zone);
 			zone.OnChanged();
 		}
@@ -257,83 +247,14 @@ namespace FiresecClient
 
 		public static void RemoveDirection(GKDirection direction)
 		{
-			foreach (var zone in direction.InputZones)
-			{
-				zone.Directions.Remove(direction);
-				zone.OnChanged();
-			}
 			Directions.Remove(direction);
 			direction.OnChanged();
 			direction.OnRemoved();
 		}
-
-		public static void ChangeDirectionZones(GKDirection direction, List<GKZone> zones)
-		{
-			foreach (var zone in direction.InputZones)
-			{
-				zone.Directions.Remove(direction);
-				zone.OnChanged();
-			}
-			direction.InputZones.Clear();
-			foreach (var zone in zones)
-			{
-				direction.InputZones.Add(zone);
-				var directionZone = new GKDirectionZone()
-				{
-					ZoneUID = zone.UID,
-					Zone = zone
-				};
-				zone.Directions.Add(direction);
-				zone.OnChanged();
-			}
-			direction.OnChanged();
-		}
-
-		public static void ChangeDirectionDevices(GKDirection direction, List<GKDevice> devices)
-		{
-			foreach (var device in direction.InputDevices)
-			{
-				device.Directions.Remove(direction);
-				device.OnChanged();
-			}
-			direction.InputDevices.Clear();
-			foreach (var device in devices)
-			{
-				var directionDevice = new GKDirectionDevice()
-				{
-					DeviceUID = device.UID,
-					Device = device
-				};
-				if (device.Driver.AvailableStateBits.Contains(GKStateBit.Fire1))
-				{
-					directionDevice.StateBit = GKStateBit.Fire1;
-				}
-				else if (device.Driver.AvailableStateBits.Contains(GKStateBit.Fire2))
-				{
-					directionDevice.StateBit = GKStateBit.Fire2;
-				}
-				else if (device.Driver.AvailableStateBits.Contains(GKStateBit.On))
-				{
-					directionDevice.StateBit = GKStateBit.On;
-				}
-				direction.InputDevices.Add(device);
-				device.Directions.Add(direction);
-				device.OnChanged();
-			}
-			direction.OnChanged();
-		}
-
+		
 		public static void ChangeLogic(GKDevice device, GKLogic logic)
 		{
-			foreach (var clause in device.Logic.OnClausesGroup.Clauses)
-			{
-				foreach (var direction in clause.Directions)
-				{
-					direction.OutputDevices.Remove(device);
-					direction.OnChanged();
-					device.Directions.Remove(direction);
-				}
-			}
+			
 			device.Logic = logic;
 			DeviceConfiguration.InvalidateOneLogic(device, device.Logic);
 			device.OnChanged();

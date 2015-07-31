@@ -96,16 +96,16 @@ namespace FiresecAPI.Journal
 		[EventDescriptionAttribute("Не совпадает описание компонента", JournalEventNameType.Ошибка_при_опросе_состояний_компонентов_ГК)]
         Не_совпадает_описание_компонента = 30,
 
-		[EventDescriptionAttribute("Ручник сорван", JournalEventNameType.Сработка_1, JournalEventNameType.Сработка_2)]
+		[EventDescriptionAttribute("Ручник сорван", JournalEventNameType.Сработка_2)]
         Ручник_сорван = 31,
 
-		[EventDescriptionAttribute("Срабатывание по дыму", JournalEventNameType.Сработка_1, JournalEventNameType.Сработка_2)]
+		[EventDescriptionAttribute("Срабатывание по дыму", JournalEventNameType.Сработка_1)]
         Срабатывание_по_дыму = 32,
 
-		[EventDescriptionAttribute("Срабатывание по температуре", JournalEventNameType.Сработка_1, JournalEventNameType.Сработка_2)]
+		[EventDescriptionAttribute("Срабатывание по температуре", JournalEventNameType.Сработка_1)]
         Срабатывание_по_температуре = 33,
 
-		[EventDescriptionAttribute("Срабатывание по градиенту температуры", JournalEventNameType.Сработка_1, JournalEventNameType.Сработка_2)]
+		[EventDescriptionAttribute("Срабатывание по градиенту температуры", JournalEventNameType.Сработка_1)]
         Срабатывание_по_градиенту_температуры = 34,
 
 		[EventDescriptionAttribute("Напряжение питания устройства не в норме", JournalEventNameType.Неисправность, JournalEventNameType.Неисправность_устранена)]

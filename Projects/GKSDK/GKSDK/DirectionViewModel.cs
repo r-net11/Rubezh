@@ -72,7 +72,7 @@ namespace GKSDK
 			set
 			{
 				_stateClass = value;
-				OnPropertyChanged("StateClass");
+				OnPropertyChanged(()=>StateClass);
 			}
 		}
         public RelayCommand SetAutomaticStateCommand { get; private set; }

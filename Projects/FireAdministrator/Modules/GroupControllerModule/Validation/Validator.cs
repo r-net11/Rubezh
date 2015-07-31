@@ -45,7 +45,7 @@ namespace GKModule.Validation
 
 		bool IsManyGK { get; set; }
 
-		static bool AreDevicesInSameGK(List<GKDevice> devices)
+		static bool AreDevicesInSameGK(IEnumerable<GKDevice> devices)
 		{
 			var gkDevices = new HashSet<GKDevice>();
 			foreach (var device in devices)

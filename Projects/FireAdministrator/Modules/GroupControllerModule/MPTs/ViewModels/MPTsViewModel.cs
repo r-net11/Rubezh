@@ -31,6 +31,7 @@ namespace GKModule.ViewModels
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
 			CopyLogicCommand = new RelayCommand(OnCopyLogic, CanCopyLogic);
 			PasteLogicCommand = new RelayCommand(OnPasteLogic, CanPasteLogic);
+			DeleteAllEmptyCommand = new RelayCommand(OnDeleteAllEmpty, CanDeleteAllEmpty);
 
 			RegisterShortcuts();
 			IsRightPanelEnabled = true;
@@ -127,6 +128,26 @@ namespace GKModule.ViewModels
 			}
 		}
 
+		public RelayCommand DeleteAllEmptyCommand { get; private set; }
+		void OnDeleteAllEmpty()
+		{
+			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить все пустые МПТ ?"))
+			{
+				var emptyMPTs = MPTs.Where(x => !x.MPT.MPTDevices.Any() && !x.MPT.MptLogic.GetObjects().Any());
+				foreach (var emptyMPT in emptyMPTs)
+				{
+					GKManager.MPTs.Remove(emptyMPT.MPT);
+					MPTs.Remove(emptyMPT);
+				}
+				SelectedMPT = MPTs.FirstOrDefault();
+				ServiceFactory.SaveService.GKChanged = true;
+			}
+		}
+
+		bool CanDeleteAllEmpty()
+		{
+			return MPTs.Any(x => !x.MPT.MPTDevices.Any() && !x.MPT.MptLogic.GetObjects().Any());
+		}
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
@@ -291,6 +312,7 @@ namespace GKModule.ViewModels
 					new RibbonMenuItemViewModel("Добавить", AddCommand, "BAdd"),
 					new RibbonMenuItemViewModel("Редактировать", EditCommand, "BEdit"),
 					new RibbonMenuItemViewModel("Удалить", DeleteCommand, "BDelete"),
+					new RibbonMenuItemViewModel("Удалить все пустые МПТ", DeleteAllEmptyCommand, "BDeleteEmpty"),
 				}, "BEdit") { Order = 2 }
 			};
 		}

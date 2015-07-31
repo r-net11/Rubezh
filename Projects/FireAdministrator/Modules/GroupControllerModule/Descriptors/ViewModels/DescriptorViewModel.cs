@@ -73,7 +73,7 @@ namespace GKModule.ViewModels
 			DescriptorLogicItems = new ObservableCollection<DescriptorLogicItem>();
 			foreach (var formulaOperation in Descriptor.Formula.FormulaOperations)
 			{
-				var descriptorLogicItem = new DescriptorLogicItem(formulaOperation, DescriptorsViewModel);
+				var descriptorLogicItem = new DescriptorLogicItem(formulaOperation, DescriptorsViewModel, Descriptor);
 				DescriptorLogicItems.Add(descriptorLogicItem);
 			}
 		}

@@ -33,6 +33,7 @@ namespace GKModule.ViewModels
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
 			CopyLogicCommand = new RelayCommand(OnCopyLogic, CanCopyLogic);
 			PasteLogicCommand = new RelayCommand(OnPasteLogic, CanPasteLogic);
+			DeleteAllEmptyCommand = new RelayCommand(OnDeleteAllEmpty, CanDeleteAllEmpty);
 
 			RegisterShortcuts();
 			SetRibbonItems();
@@ -206,6 +207,27 @@ namespace GKModule.ViewModels
 			}
 		}
 
+		public RelayCommand DeleteAllEmptyCommand { get; private set; }
+		void OnDeleteAllEmpty()
+		{
+			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить все пустые задержки ?"))
+			{
+				var emptyDelays = Delays.Where(x => !x.Delay.Logic.GetObjects().Any());
+				foreach (var emptyDelay in emptyDelays)
+				{
+					GKManager.Delays.Remove(emptyDelay.Delay);
+					Delays.Remove(emptyDelay);
+				}
+				SelectedDelay = Delays.FirstOrDefault();
+				ServiceFactory.SaveService.GKChanged = true;
+			}
+		}
+
+		bool CanDeleteAllEmpty()
+		{
+			return Delays.Any(x => !x.Delay.Logic.GetObjects().Any()); 
+		}
+
 		public RelayCommand EditCommand { get; private set; }
 		private void OnEdit()
 		{
@@ -277,6 +299,7 @@ namespace GKModule.ViewModels
 					new RibbonMenuItemViewModel("Копировать", CopyCommand, "BCopy"),
 					new RibbonMenuItemViewModel("Вставить", PasteCommand, "BPaste"),
 					new RibbonMenuItemViewModel("Удалить", DeleteCommand, "BDelete"),
+					new RibbonMenuItemViewModel("Удалить все пустые задержки", DeleteAllEmptyCommand, "BDeleteEmpty"),
 				}, "BEdit") { Order = 2 }
 			};
 		}

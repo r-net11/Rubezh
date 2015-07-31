@@ -38,11 +38,8 @@
 				<TextBlock Grid.Row="2" Grid.Column="0" Text="Примечание" HorizontalAlignment="Right" Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" />
 				<XAutoCompleteBox Grid.Row="2" Grid.Column="1" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" ItemsSource="{Binding AvailableDescription}" IsTextCompletionEnabled="True" Margin="2" />
 
-				<TextBlock Grid.Row="3" Grid.Column="0" Text="Дата начала действия" HorizontalAlignment="Right" Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" />
-				<loya:Dameer Grid.Row="3" Grid.Column="1" CustomFormat="dd MMMM yyyy" Format="Custom" ShowCheckBox="False" Value="{Binding StartDateTime}" Width="Auto" Margin="2" />
-
-				<TextBlock Grid.Row="4" Grid.Column="0" Text="Тип графика" HorizontalAlignment="Right" Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" />
-                <ComboBox Grid.Row="4" Grid.Column="1" ItemsSource="{Binding ScheduleTypes}" SelectedItem="{Binding SelectedScheduleType}" IsEnabled="{Binding IsNew}" Margin="2">
+				<TextBlock Grid.Row="3" Grid.Column="0" Text="Тип графика" HorizontalAlignment="Right" Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" />
+                <ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding ScheduleTypes}" SelectedItem="{Binding SelectedScheduleType}" IsEnabled="{Binding IsNew}" Margin="2">
 					<ComboBox.ItemTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
@@ -50,8 +47,8 @@
 					</ComboBox.ItemTemplate>
 				</ComboBox>
 
-				<TextBlock Grid.Row="5" Grid.Column="0" Text="Тип периодичности" HorizontalAlignment="Right" Visibility="{Binding IsAccessSchedule, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" />
-                <ComboBox Grid.Row="5" Grid.Column="1" ItemsSource="{Binding SchedulePeriodTypes}" SelectedItem="{Binding SelectedSchedulePeriodType}" IsEnabled="{Binding IsNew}" Visibility="{Binding IsAccessSchedule, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
+				<TextBlock Grid.Row="4" Grid.Column="0" Text="Тип периодичности" HorizontalAlignment="Right" Visibility="{Binding IsAccessSchedule, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" />
+                <ComboBox Grid.Row="4" Grid.Column="1" ItemsSource="{Binding SchedulePeriodTypes}" SelectedItem="{Binding SelectedSchedulePeriodType}" IsEnabled="{Binding IsNew}" Visibility="{Binding IsAccessSchedule, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
 					<ComboBox.ItemTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
@@ -59,8 +56,8 @@
 					</ComboBox.ItemTemplate>
 				</ComboBox>
 
-				<TextBlock Grid.Row="6" Grid.Column="0" Text="График праздников" HorizontalAlignment="Right" Visibility="{Binding IsAccessSchedule, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" />
-				<ComboBox Grid.Row="6" Grid.Column="1" ItemsSource="{Binding Holidays}" SelectedItem="{Binding SelectedHoliday}" Visibility="{Binding IsAccessSchedule, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
+				<TextBlock Grid.Row="5" Grid.Column="0" Text="График праздников" HorizontalAlignment="Right" Visibility="{Binding IsAccessSchedule, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" />
+				<ComboBox Grid.Row="5" Grid.Column="1" ItemsSource="{Binding Holidays}" SelectedItem="{Binding SelectedHoliday}" Visibility="{Binding IsAccessSchedule, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
 					<ComboBox.ItemTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding Name}" />
@@ -68,14 +65,17 @@
 					</ComboBox.ItemTemplate>
 				</ComboBox>
 
-				<TextBlock Grid.Row="7" Grid.Column="0" Text="График рабочих выходных" HorizontalAlignment="Right" Visibility="{Binding IsAccessSchedule, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" />
-				<ComboBox Grid.Row="7" Grid.Column="1" ItemsSource="{Binding WorkHolidays}" SelectedItem="{Binding SelectedWorkHoliday}" Visibility="{Binding IsAccessSchedule, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
+				<TextBlock Grid.Row="6" Grid.Column="0" Text="График рабочих выходных" HorizontalAlignment="Right" Visibility="{Binding IsAccessSchedule, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" />
+				<ComboBox Grid.Row="6" Grid.Column="1" ItemsSource="{Binding WorkHolidays}" SelectedItem="{Binding SelectedWorkHoliday}" Visibility="{Binding IsAccessSchedule, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
 					<ComboBox.ItemTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding Name}" />
 						</DataTemplate>
 					</ComboBox.ItemTemplate>
 				</ComboBox>
+
+				<TextBlock Grid.Row="7" Grid.Column="0" Text="Дата начала действия" Visibility="{Binding CanSetStartDateTime, Converter={StaticResource BoolToVisibilityConverter}}" HorizontalAlignment="Right" Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" />
+				<loya:Dameer Grid.Row="7" Grid.Column="1" Value="{Binding StartDateTime}" Visibility="{Binding CanSetStartDateTime, Converter={StaticResource BoolToVisibilityConverter}}" CustomFormat="dd MMMM yyyy" Format="Custom" ShowCheckBox="False" Width="Auto" Margin="2" />
 
 				<TextBlock Grid.Row="8" Grid.Column="0" Text="Период, ч" HorizontalAlignment="Right" Visibility="{Binding ShowHoursPeriod, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" />
 				<extToolkit:IntegerUpDown Grid.Row="8" Grid.Column="1" Value="{Binding HoursPeriod, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding ShowHoursPeriod, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />

@@ -286,10 +286,11 @@ namespace FiresecAPI.GK
 
 		void AddInputOutputObject(List<GKBase> objects, GKBase newObject)
 		{
-			if(objects == null)
+			if (objects == null)
 				objects = new List<GKBase>();
-			if (objects.All(x => x.UID != newObject.UID))
-				objects.Add(newObject);
+			if (newObject != null)
+				if (objects.All(x => x.UID != newObject.UID))
+					objects.Add(newObject);
 		}
 
 
@@ -366,7 +367,7 @@ namespace FiresecAPI.GK
 			}
 			else
 			{
-				KauDatabaseParent = null;
+				IsLogicOnKau = false;
 				GkDatabaseParent = dataBaseParent;
 			}
 			if (this is GKGuardZone && (this as GKGuardZone).HasAccessLevel)

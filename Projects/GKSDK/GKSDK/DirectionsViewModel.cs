@@ -26,7 +26,7 @@ namespace GKSDK
 			set
 			{
 				_selectedDirection = value;
-				OnPropertyChanged("SelectedDirection");
+				OnPropertyChanged(()=>SelectedDirection);
 			}
 		}
 	}

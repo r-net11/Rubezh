@@ -233,10 +233,11 @@ namespace FiresecAPI.GK
 		{
 			get
 			{
+				if (!Driver.HasAddress)
+					return "";
+
 				if (DriverType == GKDriverType.GK)
-				{
 					return Address;
-				}
 
 				var address = new StringBuilder();
 				var allParents = AllParents;

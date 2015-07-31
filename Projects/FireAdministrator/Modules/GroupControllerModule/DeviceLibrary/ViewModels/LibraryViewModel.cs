@@ -34,7 +34,7 @@ namespace GKModule.ViewModels
 				else
 				{
 					devicesToRemove.Add(libraryDevice);
-					Logger.Error("XLibraryViewModel.Initialize driver = null " + libraryDevice.DriverUID.ToString());
+					Logger.Error("LibraryViewModel.Initialize driver = null " + libraryDevice.DriverUID.ToString());
 				}
 			}
 			foreach (var libraryDevice in devicesToRemove)

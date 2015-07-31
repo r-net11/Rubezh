@@ -181,7 +181,7 @@ namespace GKModule.ViewModels
 
 	static class DateTimeExtensions
 	{
-		static GregorianCalendar _gc = new GregorianCalendar();
+		static GregorianCalendar gregorianCalendar = new GregorianCalendar();
 		public static int GetWeekOfMonth(this DateTime time)
 		{
 			var first = new DateTime(time.Year, time.Month, 1);
@@ -190,7 +190,7 @@ namespace GKModule.ViewModels
 
 		static int GetWeekOfYear(this DateTime time)
 		{
-			return _gc.GetWeekOfYear(time, CalendarWeekRule.FirstDay, DayOfWeek.Monday);
+			return gregorianCalendar.GetWeekOfYear(time, CalendarWeekRule.FirstDay, DayOfWeek.Monday);
 		}
 	}
 }
