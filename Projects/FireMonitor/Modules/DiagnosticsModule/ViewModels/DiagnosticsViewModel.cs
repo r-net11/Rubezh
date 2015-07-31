@@ -4,8 +4,6 @@ using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using WPFMediaKit;
-using WPFMediaKit.DirectShow.Interop;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using System.IO;
@@ -105,7 +103,7 @@ namespace DiagnosticsModule.ViewModels
 
 		public BitmapImage Image { get; set; }
 
-		public DsDevice VideoDevicesList { get { return WPFMediaKit.DirectShow.Controls.MultimediaUtil.VideoInputDevices.FirstOrDefault<DsDevice>(); } }
+		//public DsDevice VideoDevicesList { get { return WPFMediaKit.DirectShow.Controls.MultimediaUtil.VideoInputDevices.FirstOrDefault<DsDevice>(); } }
 		void OnTakeSnapshot()
 		{
 

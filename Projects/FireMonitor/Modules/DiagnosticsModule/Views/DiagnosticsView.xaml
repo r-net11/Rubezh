@@ -1,7 +1,6 @@
 ﻿<UserControl x:Class="DiagnosticsModule.Views.DiagnosticsView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:WPFMediaKit="clr-namespace:WPFMediaKit.DirectShow.Controls;assembly=WPFMediaKit"
 			 >
 
 	<Grid Margin="2">
@@ -20,7 +19,7 @@
 				</WrapPanel>
 
 			</TabItem>
-			<TabItem Header="WebCam1 - inits - capture fails">
+			<!--<TabItem Header="WebCam1 - inits - capture fails">
 					<StackPanel>
 						<WPFMediaKit:VideoCaptureElement x:Name="videoCapElement"
 							LoadedBehavior="Play"
@@ -36,7 +35,7 @@
 							 />
 						<Button Click="TakeSnapshot" Content="TakeSnapshot" />
 					</StackPanel>
-			</TabItem>
+			</TabItem>-->
 		</TabControl>
 		<ScrollViewer Grid.Row="1" Margin="2">
 			<TextBox Text="{Binding Text}" Margin="2" />
