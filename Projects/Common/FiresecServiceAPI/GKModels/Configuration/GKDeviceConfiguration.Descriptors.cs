@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using FiresecClient;
 
@@ -49,6 +50,7 @@ namespace FiresecAPI.GK
 		{
 			foreach (var device in Devices)
 			{
+				device.KauDatabaseParent = device.KAUParent;
 				device.GetDataBaseParent();
 				var dataBaseParent = device.DataBaseParent;
 				if (dataBaseParent == null)
