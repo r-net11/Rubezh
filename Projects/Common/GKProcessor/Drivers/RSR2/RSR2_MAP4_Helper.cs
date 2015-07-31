@@ -91,8 +91,8 @@ namespace GKProcessor
 			};
 			driver.Properties.Add(property4);
 
-			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 1, Name = "Сопротивление, Ом", InternalName = "Resistance" });
-			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 2, Name = "Питание, В" });
+			driver.MeasureParameters.Add(new GKMeasureParameter { No = 1, Name = "Сопротивление, Ом", InternalName = "Resistance" });
+			driver.MeasureParameters.Add(new GKMeasureParameter { No = 2, Name = "Питание, В", Multiplier = 10});
 
 
 			return driver;

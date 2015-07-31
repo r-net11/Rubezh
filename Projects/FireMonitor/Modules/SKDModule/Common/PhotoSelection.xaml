@@ -1,0 +1,18 @@
+<UserControl x:Class="SKDModule.PhotoSelection"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+		<Image Grid.Row="0" Name="PhotoImage" Stretch="Uniform" />
+		<StackPanel Grid.Row="1" Name="_stackPanel" Orientation="Horizontal" HorizontalAlignment="Right">
+			<ToolBarButton ImageSource="Webcam" ToolTip="Загрузить фото из веб-камеры" Click="WebCamButton_Click" IsEnabled="{Binding IsWebcamAvailable}" />
+			<ToolBarButton ImageSource="Scanner" ToolTip="Загрузить фото из сканера" Click="ScannerButton_Click" Visibility="Collapsed" />
+			<ToolBarButton ImageSource="Paste" ToolTip="Загрузить фото из буфера обмена" Click="PasteButton_Click" IsEnabled="True" />
+			<ToolBarButton ImageSource="Load" ToolTip="Загрузить фото из файла" Click="OpenButton_Click" IsEnabled="True" />
+			<ToolBarButton ImageSource="Close" ToolTip="Очитстить фото" Click="RemoveButton_Click" IsEnabled="True" />
+		</StackPanel>
+	</Grid>
+</UserControl>

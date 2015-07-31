@@ -517,7 +517,7 @@ namespace GKProcessor
 				if (door.EnterZoneUID == zone.UID)
 				{
 					AddGKMessage(JournalEventNameType.Закрытие_зоны_СКД, JournalEventDescriptionType.NULL, "", zone, null);
-					Watcher.SendControlCommand(door, GKStateBit.TurnOff_InAutomatic, "Включить в автоматике");
+					Watcher.SendControlCommand(door, GKStateBit.TurnOff_InAutomatic, "Выключить в автоматике");
 				}
 			}
 		}

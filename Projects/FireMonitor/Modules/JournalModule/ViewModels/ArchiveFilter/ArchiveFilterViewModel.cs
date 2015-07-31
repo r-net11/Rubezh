@@ -25,7 +25,6 @@ namespace JournalModule.ViewModels
 			ArchiveDateTimeViewModel = new ArchiveDateTimeViewModel();
 			FilterNamesViewModel = new FilterNamesViewModel(filter);
 			FilterObjectsViewModel = new FilterObjectsViewModel(filter);
-			Initialize(filter);
 		}
 
 		void Initialize(ArchiveFilter filter)
@@ -38,11 +37,6 @@ namespace JournalModule.ViewModels
 		{
 			var archiveFilter = FilterNamesViewModel.GetModel();
 			var objectsFilter = FilterObjectsViewModel.GetModel();
-			foreach (var journalSubsystemTypes in objectsFilter.JournalSubsystemTypes)
-			{
-				if (!archiveFilter.JournalSubsystemTypes.Contains(journalSubsystemTypes))
-					archiveFilter.JournalSubsystemTypes.Add(journalSubsystemTypes);
-			}
 			archiveFilter.JournalObjectTypes = objectsFilter.JournalObjectTypes;
 			archiveFilter.ObjectUIDs = objectsFilter.ObjectUIDs;
 			return archiveFilter;

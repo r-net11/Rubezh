@@ -1,9 +1,9 @@
 ﻿<UserControl x:Class="SKDModule.Views.EmployeesView" 
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
-			 xmlns:Controls="clr-namespace:Controls;assembly=Controls" 
 			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
 			 xmlns:Views="clr-namespace:SKDModule.Views"
+			 xmlns:SKDModule="clr-namespace:SKDModule"
 			 xmlns:viewModel="clr-namespace:SKDModule.ViewModels">
 	<UserControl.Resources>
 		<viewModel:EmployeeViewModelLastNameComparer x:Key="EmployeeViewModelLastNameComparer" />
@@ -170,7 +170,7 @@
 								<TextBlock Margin="2" Text="{Binding RemovalDate}" />
 							</StackPanel>
 						</StackPanel>
-						<Controls:PhotoSelectation Grid.Column="1" Data="{Binding Photo.Data, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="20" CanEdit="False" />
+						<SKDModule:PhotoSelection Grid.Column="1" Data="{Binding Photo.Data, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="20" CanEdit="False" />
 					</Grid>
 				</Border>
 				<Grid Grid.Column="2" Visibility="{Binding IsCardSelected, Converter={StaticResource BoolToVisibilityConverter}}">

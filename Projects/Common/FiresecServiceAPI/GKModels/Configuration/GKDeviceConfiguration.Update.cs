@@ -99,9 +99,6 @@ namespace FiresecAPI.GK
 			foreach (var direction in Directions)
 			{
 				direction.ClearClauseDependencies();
-				direction.InputZones = new List<GKZone>();
-				direction.InputDevices = new List<GKDevice>();
-				direction.OutputDevices = new List<GKDevice>();
 			}
 			foreach (var pumpStation in PumpStations)
 			{
@@ -239,7 +236,6 @@ namespace FiresecAPI.GK
 				}
 				foreach (var clauseDirection in clause.Directions)
 				{
-					clauseDirection.OutputDevices.Add(device);
 					device.Directions.Add(clauseDirection);
 				}
 			}
@@ -251,7 +247,6 @@ namespace FiresecAPI.GK
 				}
 				foreach (var clauseDirection in clause.Directions)
 				{
-					clauseDirection.OutputDevices.Add(device);
 					device.Directions.Add(clauseDirection);
 				}
 			}
@@ -263,7 +258,6 @@ namespace FiresecAPI.GK
 				}
 				foreach (var clauseDirection in clause.Directions)
 				{
-					clauseDirection.OutputDevices.Add(device);
 					device.Directions.Add(clauseDirection);
 				}
 			}

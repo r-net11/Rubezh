@@ -37,14 +37,14 @@ namespace GKModule.ViewModels
 			{
 				foreach (var descriptor in database.Descriptors)
 				{
-					#region Test
+					//#region Test
 
-					using (var s = new StreamWriter(@"C:\1.txt", true, Encoding.GetEncoding("Windows-1251")))
-					{
-						s.WriteLine(descriptor.GKBase.PresentationName + " " + BitConverter.ToString(descriptor.AllBytes.ToArray()));
-					}
+					//using (var s = new StreamWriter(@"C:\1.txt", true, Encoding.GetEncoding("Windows-1251")))
+					//{
+					//	s.WriteLine(descriptor.GKBase.PresentationName + " " + BitConverter.ToString(descriptor.AllBytes.ToArray()));
+					//}
 
-					#endregion
+					//#endregion
 					var isFormulaInvalid = descriptor.Formula.CalculateStackLevels();
 					if (isFormulaInvalid)
 					{
