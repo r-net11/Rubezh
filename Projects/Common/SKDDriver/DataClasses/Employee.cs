@@ -26,7 +26,7 @@ namespace SKDDriver.DataClasses
 		[NotMapped]
 		public string Name
 		{
-			get { return string.Format("{0} {1} {2}", FirstName, SecondName, LastName); }
+			get { return string.Format("{0} {1} {2}", LastName, FirstName, SecondName); }
 			set { return; }
 		}
 		[MaxLength(4000)]
