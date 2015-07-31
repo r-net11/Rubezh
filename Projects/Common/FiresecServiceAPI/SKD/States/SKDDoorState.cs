@@ -18,6 +18,9 @@ namespace FiresecAPI.SKD
 		public Guid UID { get; set; }
 
 		[DataMember]
+		public AccessState AccessState { get; set; }
+
+		[DataMember]
 		public List<XStateClass> StateClasses { get; set; }
 
 		[DataMember]

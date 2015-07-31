@@ -264,6 +264,9 @@ namespace FiresecAPI
 		OperationResult<bool> SKDDeviceAccessStateOpenAlways(Guid deviceUID);
 
 		[OperationContract]
+		OperationResult<bool> SKDClearDevicePromptWarning(Guid deviceUID);
+
+		[OperationContract]
 		OperationResult<bool> SKDOpenZone(Guid zoneUID);
 
 		[OperationContract]
