@@ -6,14 +6,14 @@
 					<MouseBinding Command="{Binding DataContext.PlansViewModel.EditCommand, RelativeSource={RelativeSource AncestorType={x:Type tree:TreeList}}}" MouseAction="LeftDoubleClick" />
 				</InputBindingCollection>
 				<ContextMenu x:Key="contextMenu" DataContext="{Binding DataContext.PlansViewModel, RelativeSource={RelativeSource AncestorType={x:Type tree:TreeList}}}">
-					<Controls:IconedMenuItem Command="{Binding AddSubPlanCommand}" ImageSource="BAdd"  Text="Добавить дочерний план" />
-					<Controls:IconedMenuItem Command="{Binding AddSubFolderCommand}" ImageSource="BFolderOpen"  Text="Добавить дочернюю папку" />
-					<Controls:IconedMenuItem Command="{Binding EditCommand}" ImageSource="BEdit"  Text="Редактировать" />
-					<Controls:IconedMenuItem Command="{Binding RemoveCommand}" ImageSource="BDelete"  Text="Удалить" />
+					<Controls:IconedMenuItem Command="{Binding AddSubPlanCommand}" ImageSource="BAdd" Text="Добавить дочерний план" />
+					<Controls:IconedMenuItem Command="{Binding AddSubFolderCommand}" ImageSource="BFolderOpen" Text="Добавить дочернюю папку" />
+					<Controls:IconedMenuItem Command="{Binding EditCommand}" ImageSource="BEdit" Text="Редактировать" />
+					<Controls:IconedMenuItem Command="{Binding RemoveCommand}" ImageSource="BDelete" Text="Удалить" />
 					<Separator />
-					<Controls:IconedMenuItem Command="{Binding PlanCopyCommand}" ImageSource="BCopy"  Text="Копировать" />
-					<Controls:IconedMenuItem Command="{Binding PlanCutCommand}" ImageSource="BCut"  Text="Вырезать" />
-					<Controls:IconedMenuItem Command="{Binding PlanPasteCommand}" CommandParameter="{StaticResource False}" ImageSource="BPaste"  Text="Вставить" />
+					<Controls:IconedMenuItem Command="{Binding PlanCopyCommand}" ImageSource="BCopy" Text="Копировать" />
+					<Controls:IconedMenuItem Command="{Binding PlanCutCommand}" ImageSource="BCut" Text="Вырезать" />
+					<Controls:IconedMenuItem Command="{Binding PlanPasteCommand}" CommandParameter="{StaticResource False}" ImageSource="BPaste" Text="Вставить" />
 				</ContextMenu>
 			</tree:TreeList.Resources>
 			<tree:TreeList.ItemContainerStyle>

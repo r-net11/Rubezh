@@ -163,6 +163,7 @@ namespace GKProcessor
 			AddGKMessage(JournalEventNameType.Запись_конфигурации_в_прибор, JournalEventDescriptionType.NULL, "", device, userName);
 
 			Stop();
+			GKSyncronyseTime(device, userName);
 			var gkDescriptorsWriter = new GkDescriptorsWriter();
 			gkDescriptorsWriter.WriteConfig(device, progressCallback);
 			Start();
@@ -516,7 +517,7 @@ namespace GKProcessor
 				if (door.EnterZoneUID == zone.UID)
 				{
 					AddGKMessage(JournalEventNameType.Закрытие_зоны_СКД, JournalEventDescriptionType.NULL, "", zone, null);
-					Watcher.SendControlCommand(door, GKStateBit.TurnOff_InAutomatic, "Включить в автоматике");
+					Watcher.SendControlCommand(door, GKStateBit.TurnOff_InAutomatic, "Выключить в автоматике");
 				}
 			}
 		}

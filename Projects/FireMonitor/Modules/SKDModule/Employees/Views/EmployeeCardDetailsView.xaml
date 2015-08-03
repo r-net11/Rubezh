@@ -65,7 +65,7 @@
 					</Grid.RowDefinitions>
 					<TextBlock Grid.Row="0" Grid.Column="0" Text="Номер" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{DynamicResource TextBlockDetailsStyle}" Margin="2" />
 					<TextBox Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" Width="100" Margin="2" 
-							 IsEnabled="{Binding UseStopList, Converter={StaticResource InverseBooleanConverter}}" Text="{Binding Number}" />
+							 IsEnabled="{Binding UseStopList, Converter={StaticResource InverseBooleanConverter}}" Text="{Binding Number, UpdateSourceTrigger=PropertyChanged}" />
 
 					<CheckBox Grid.Row="1" Grid.Column="0" Content="Из списка деактивированных" IsChecked="{Binding UseStopList}" Foreground="White" VerticalAlignment="Center" Margin="2" />
 					<ComboBox Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" Width="100" Margin="2"

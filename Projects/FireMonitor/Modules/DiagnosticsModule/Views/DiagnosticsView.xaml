@@ -1,6 +1,7 @@
 ﻿<UserControl x:Class="DiagnosticsModule.Views.DiagnosticsView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 >
 
 	<Grid Margin="2">
 		<Grid.RowDefinitions>
@@ -11,12 +12,30 @@
 			<TabItem Header="Отладка">
 				<WrapPanel>
 					<Button Content="Проверить HASP" Command="{Binding CheckHaspCommand}" Width="200" Margin="2" />
-					<Button Content="Сгенерировать графика  сотрудников" Command="{Binding TestCommand}" Width="200" Margin="2" />
+					<Button Content="Сгенерировать графика сотрудников" Command="{Binding TestCommand}" Width="200" Margin="2" />
 					<Button Content="Сгенерировать сотрудников" Command="{Binding SKDDataCommand}" Width="300" Margin="2" />
-                    <Button Content="GenerateEmployeeDays" Command="{Binding GenerateEmployeeDaysCommand}" Width="200" Margin="2" />
-                    <Button Content="JournalCommand" Command="{Binding JournalCommand}" Width="200" Margin="2" />
+					<Button Content="GenerateEmployeeDays" Command="{Binding GenerateEmployeeDaysCommand}" Width="200" Margin="2" />
+					<Button Content="JournalCommand" Command="{Binding JournalCommand}" Width="200" Margin="2" />
 				</WrapPanel>
+
 			</TabItem>
+			<!--<TabItem Header="WebCam1 - inits - capture fails">
+					<StackPanel>
+						<WPFMediaKit:VideoCaptureElement x:Name="videoCapElement"
+							LoadedBehavior="Play"
+							UnloadedBehavior="Stop"
+							DesiredPixelWidth="640"
+							DesiredPixelHeight="480"
+							VideoCaptureDevice="{Binding VideoDevicesList}"
+							Stretch="Fill"
+							FPS="30" 
+							Width="640" Height="480" 
+							EnableSampleGrabbing="True"
+							HorizontalAlignment="Center"
+							 />
+						<Button Click="TakeSnapshot" Content="TakeSnapshot" />
+					</StackPanel>
+			</TabItem>-->
 		</TabControl>
 		<ScrollViewer Grid.Row="1" Margin="2">
 			<TextBox Text="{Binding Text}" Margin="2" />

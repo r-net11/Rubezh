@@ -1,6 +1,8 @@
 ﻿using System.Linq;
 using Controls.Converters;
 using FiresecAPI.GK;
+using GKProcessor;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace GKModule.ViewModels
@@ -14,13 +16,15 @@ namespace GKModule.ViewModels
 		public bool IsBold { get; private set; }
 		public string StateIcon { get; private set; }
 		public string DescriptorIcon { get; private set; }
+		public BaseDescriptor Descriptor { get; private set; }
 
-		public DescriptorLogicItem(FormulaOperation formulaOperation, DescriptorsViewModel descriptorsViewModel)
+		public DescriptorLogicItem(FormulaOperation formulaOperation, DescriptorsViewModel descriptorsViewModel, BaseDescriptor descriptor)
 		{
 			FormulaOperation = formulaOperation;
 			DescriptorsViewModel = descriptorsViewModel;
 			FirstOperand = FormulaOperation.FirstOperand.ToString();
 			SecondOperand = FormulaOperation.SecondOperand.ToString();
+			Descriptor = descriptor;
 
 			switch (FormulaOperation.FormulaOperationType)
 			{
@@ -63,6 +67,7 @@ namespace GKModule.ViewModels
 					else
 					{
 						SecondOperand = "<Не найдено в конфигурации>";
+						MessageBoxService.ShowError("Отсутствует ссылка на объект логики" + Descriptor.GKBase.GKDescriptorNo + " " + Descriptor.GKBase.PresentationName);
 					}
 					break;
 
@@ -84,6 +89,7 @@ namespace GKModule.ViewModels
 					else
 					{
 						SecondOperand = "<Не найдено в конфигурации>";
+						MessageBoxService.ShowError("Отсутствует ссылка на объект логики" + Descriptor.GKBase.GKDescriptorNo + " " + Descriptor.GKBase.PresentationName);
 					}
 					break;
 			}

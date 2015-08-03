@@ -50,12 +50,11 @@ namespace GKProcessor
 			}
 			if (Delay.Logic.OnClausesGroup.Clauses.Count + Delay.Logic.OnClausesGroup.ClauseGroups.Count > 0)
 			{
+				if (Delay.Logic.StopClausesGroup.GetObjects().Count > 0)
+					Formula.Add(FormulaOperationType.COM);
 				Formula.AddClauseFormula(Delay.Logic.OnClausesGroup, DatabaseType);
 				if (Delay.Logic.StopClausesGroup.GetObjects().Count > 0)
-				{
-					Formula.Add(FormulaOperationType.COM);
 					Formula.Add(FormulaOperationType.AND);
-				}
 				Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Delay, DatabaseType);
 				if (Delay.Logic.UseOffCounterLogic)
 				{

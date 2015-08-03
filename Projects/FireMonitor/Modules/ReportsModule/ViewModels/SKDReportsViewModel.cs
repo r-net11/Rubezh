@@ -39,7 +39,13 @@ namespace ReportsModule.ViewModels
 
 		public void RegisterReportProviderModule(ISKDReportProviderModule module)
 		{
+
+			var list = module.GetSKDReportProviders();
 			module.GetSKDReportProviders().Where(CheckPermission).ForEach(RegisterReportProvider);
+			if (!IsCheckedPermission)
+			{
+				IsCheckedPermission = module.GetSKDReportProviders().Any(CheckPermission);
+			}
 		}
 		private bool CheckPermission(ISKDReportProvider provider)
 		{
@@ -61,5 +67,7 @@ namespace ReportsModule.ViewModels
 			if (SelectedReport == null)
 				SelectedReport = Reports.FirstOrDefault(item => item is SKDReportViewModel);
 		}
+
+		public bool IsCheckedPermission { get; private set; }
 	}
 }

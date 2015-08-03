@@ -6,7 +6,6 @@ using FiresecAPI.GK;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI.Journal;
 using Infrastructure;
-using Infrastructure.Events;
 using FiresecClient;
 
 namespace GKSDK

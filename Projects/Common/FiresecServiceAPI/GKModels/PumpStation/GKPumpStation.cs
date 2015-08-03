@@ -57,20 +57,9 @@ namespace FiresecAPI.GK
 			OnChanged();
 		}
 
-		bool _isLogicOnKau;
 		[XmlIgnore]
-		public override bool IsLogicOnKau
-		{
-			get { return _isLogicOnKau; }
-			set
-			{
-				_isLogicOnKau = value;
-				if (MainDelay != null)
-					MainDelay.IsLogicOnKau = true;
-				if (Pim != null)
-					Pim.IsLogicOnKau = true;
-			}
-		}
+		public override bool IsLogicOnKau { get; set; }
+
 		[XmlIgnore]
 		public GKPim Pim { get; private set; }
 		[XmlIgnore]

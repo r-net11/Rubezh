@@ -37,11 +37,11 @@ namespace GKProcessor
 		{
 			CreateMainDelay();
 			CreateDelays();
+			SetCrossReferences();
 			CreateDelaysLogic();
 			SetFirePumpDevicesLogic();
 			//SetJokeyPumpLogic();
 			CreatePim();
-			SetCrossReferences();
 		}
 
 		void CreateMainDelay()
@@ -97,8 +97,6 @@ namespace GKProcessor
 					Device = pumpDevice
 				};
 				PumpDelays.Add(pumpDelay);
-
-				delay.IsLogicOnKau = PumpStation.IsLogicOnKau;
 
 				Database.AddDelay(delay);
 				var delayDescriptor = new DelayDescriptor(delay, DatabaseType);
@@ -228,6 +226,7 @@ namespace GKProcessor
 
 		void CreatePim()
 		{
+			PumpStation.Pim.GetDataBaseParent();
 			Database.AddPim(PumpStation.Pim);
 			var pimDescriptor = new PimDescriptor(PumpStation.Pim, DatabaseType);
 			Database.Descriptors.Add(pimDescriptor);
@@ -316,6 +315,8 @@ namespace GKProcessor
 					firePumpDevice.LinkGKBases(otherFirePumpDevice);
 				}
 			}
+
+			PumpDelays.ForEach(x => x.Delay.GetDataBaseParent());
 		}
 	}
 

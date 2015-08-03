@@ -51,7 +51,15 @@ namespace SKDModule.ViewModels
 			DepartmentFilter = new DepartmentFilter();
 			PositionFilter = new PositionFilter();
 			CardFilter = new CardFilter();
-			IsEmployeesSelected = true;
+			if (CanSelectEmployees) IsEmployeesSelected = true;
+			else if (CanSelectDepartments) IsDepartmentsSelected = true;
+			else if (CanSelectPositions) IsPositionsSelected = true;
+			else if (CanSelectAdditionalColumns) IsAdditionalColumnTypesSelected = true;
+			else if (CanSelectCards) IsCardsSelected = true;
+			else if (CanSelectAccessTemplates) IsAccessTemplatesSelected = true;
+			else if (CanSelectPassCardTemplates) IsPassCardTemplatesSelected = true;
+			else if (CanSelectOrganisations) IsOrganisationsSelected = true;
+				
 
 			PersonTypes = new ObservableCollection<PersonType>();
 			if (FiresecManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_Employees_View))

@@ -16,10 +16,6 @@ namespace FiresecAPI.GK
 		{
 			DelayRegime = DelayRegime.On;
 			Logic = new GKLogic();
-
-			InputDevices = new List<GKDevice>();
-			InputZones = new List<GKZone>();
-			OutputDevices = new List<GKDevice>();
 			PlanElementUIDs = new List<Guid>();
 		}
 
@@ -48,13 +44,6 @@ namespace FiresecAPI.GK
 
 		[XmlIgnore]
 		public override GKBaseObjectType ObjectType { get { return GKBaseObjectType.Direction; } }
-
-		[XmlIgnore]
-		public List<GKDevice> InputDevices { get; set; }
-		[XmlIgnore]
-		public List<GKZone> InputZones { get; set; }
-		[XmlIgnore]
-		public List<GKDevice> OutputDevices { get; set; }
 
 		/// <summary>
 		/// Задержка на включение

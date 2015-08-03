@@ -4,6 +4,10 @@ using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Windows.Controls;
+using System.Windows.Media.Imaging;
+using System.IO;
+using System.Linq;
 
 namespace DiagnosticsModule.ViewModels
 {
@@ -17,9 +21,10 @@ namespace DiagnosticsModule.ViewModels
 			SKDDataCommand = new RelayCommand(OnSKDData);
 			SKDDataAscCommand = new RelayCommand(OnSKDDataAsc);
 			GenerateEmployeeDaysCommand = new RelayCommand(OnGenerateEmployeeDays);
-            JournalCommand = new RelayCommand(OnJournal);
+			JournalCommand = new RelayCommand(OnJournal);
+			TakeSnapshotCommand = new RelayCommand(OnTakeSnapshot);
 		}
-
+		
 		public void StopThreads()
 		{
 			IsThreadStoping = true;
@@ -92,6 +97,16 @@ namespace DiagnosticsModule.ViewModels
 		void OnGenerateEmployeeDays()
 		{
 			FiresecManager.FiresecService.GenerateEmployeeDays();
+		}
+
+		public RelayCommand TakeSnapshotCommand { get; set; }
+
+		public BitmapImage Image { get; set; }
+
+		//public DsDevice VideoDevicesList { get { return WPFMediaKit.DirectShow.Controls.MultimediaUtil.VideoInputDevices.FirstOrDefault<DsDevice>(); } }
+		void OnTakeSnapshot()
+		{
+
 		}
 	}
 }

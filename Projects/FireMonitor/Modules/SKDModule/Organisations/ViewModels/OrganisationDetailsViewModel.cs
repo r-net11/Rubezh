@@ -26,7 +26,7 @@ namespace SKDModule.ViewModels
 				Title = "Создание новой организации";
 				OrganisationDetails = new OrganisationDetails()
 				{
-					Name = "Огранизация",
+					Name = "Организация",
 				};
 				OrganisationDetails.UserUIDs.Add(FiresecManager.CurrentUser.UID);
 			}

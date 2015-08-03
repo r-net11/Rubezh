@@ -33,6 +33,7 @@ namespace GKModule.ViewModels
 			AddCommand = new RelayCommand(OnAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
+			DeleteAllEmptyCommand = new RelayCommand(OnDeleteAllEmpty, CanDeleteAllEmpty);
 			RegisterShortcuts();
 			IsRightPanelEnabled = true;
 			SubscribeEvents();
@@ -122,6 +123,30 @@ namespace GKModule.ViewModels
 					SelectedDoor = Doors[index];
 				ServiceFactory.SaveService.GKChanged = true;
 			}
+		}
+
+		public RelayCommand DeleteAllEmptyCommand { get; private set; }
+		void OnDeleteAllEmpty()
+		{
+			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить все пустые ТД ?"))
+			{
+				var emptyDoors = Doors.Where( x => x.ExitButton.UID == Guid.Empty && x.EnterDevice.UID == Guid.Empty && x.ExitDevice.UID == Guid.Empty && x.EnterButton.UID == Guid.Empty &&  x.ExitZone.UID == Guid.Empty &&
+					x.LockDevice.UID == Guid.Empty && x.LockDeviceExit.UID == Guid.Empty && x.LockControlDevice.UID == Guid.Empty &&  x.LockControlDeviceExit.UID == Guid.Empty && x.EnterZone.UID == Guid.Empty );
+				if (emptyDoors.Any())
+				{
+					foreach (var emptyDoor in emptyDoors)
+					{
+						GKManager.Doors.Remove(emptyDoor.Door);
+						Doors.Remove(emptyDoor);
+					}
+				}
+			}
+		}
+
+		bool CanDeleteAllEmpty()
+		{
+			return Doors.Any(x => x.ExitButton.UID == Guid.Empty && x.EnterDevice.UID == Guid.Empty && x.ExitDevice.UID == Guid.Empty && x.EnterButton.UID == Guid.Empty && x.ExitZone.UID == Guid.Empty &&
+					x.LockDevice.UID == Guid.Empty && x.LockDeviceExit.UID == Guid.Empty && x.LockControlDevice.UID == Guid.Empty && x.LockControlDeviceExit.UID == Guid.Empty && x.EnterZone.UID == Guid.Empty);
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -243,6 +268,7 @@ namespace GKModule.ViewModels
 					new RibbonMenuItemViewModel("Добавить", AddCommand, "BAdd"),
 					new RibbonMenuItemViewModel("Редактировать", EditCommand, "BEdit"),
 					new RibbonMenuItemViewModel("Удалить", DeleteCommand, "BDelete"),
+					new RibbonMenuItemViewModel("Удалить все пустые ТД", DeleteAllEmptyCommand, "BDeleteEmpty"),
 				}, "BEdit") { Order = 2 }
 			};
 		}

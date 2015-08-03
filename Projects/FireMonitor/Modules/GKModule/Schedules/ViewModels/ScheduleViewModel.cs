@@ -151,11 +151,13 @@ namespace GKModule.ViewModels
 		}
 		bool CanDelete()
 		{
-			if (SelectedPart == null)
-				return false;
-			if (Schedule.SchedulePeriodType == GKSchedulePeriodType.Dayly)
-				return Parts.Count > 1;
-			return Parts.Count > 7;
+			return SelectedPart != null;
+
+			//if (SelectedPart == null)
+			//	return false;
+			//if (Schedule.SchedulePeriodType == GKSchedulePeriodType.Dayly)
+			//	return Parts.Count > 1;
+			//return Parts.Count > 7;
 		}
 	}
 }

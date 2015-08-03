@@ -20,7 +20,7 @@ namespace GKSDK
             Zone = zone;
 			ZoneState = zone.State;
 			_stateClass = zone.State.StateClass;
-			zone.State.StateChanged += new Action(OnStateChanged);
+			State.StateChanged += new Action(OnStateChanged);
 			No = zone.No;
 			Name = zone.Name;
             SetIgnoreCommand = new RelayCommand(OnSetIgnore, CanSetIgnore);
@@ -36,6 +36,10 @@ namespace GKSDK
 
 		void OnStateChanged()
 		{
+			OnPropertyChanged(() => State);
+			OnPropertyChanged(() => ResetFireCommand);
+			OnPropertyChanged(() => SetIgnoreCommand);
+			OnPropertyChanged(() => ResetIgnoreCommand);
 			StateClass = ZoneState.StateClass;
 		}
 

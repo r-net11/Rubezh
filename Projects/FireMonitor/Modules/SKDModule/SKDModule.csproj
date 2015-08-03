@@ -42,12 +42,10 @@
     <Reference Include="DevExpress.Data.v14.1.resources">
       <HintPath>..\..\..\..\3rdParty\DevExpress\DevExpress 14.1\ru\DevExpress.Data.v14.1.resources.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.Data.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Mvvm.v14.1, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\3rdParty\DevExpress\DevExpress 14.1\DevExpress.Mvvm.v14.1.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.Mvvm.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Printing.v14.1.Core, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\3rdParty\DevExpress\DevExpress 14.1\DevExpress.Printing.v14.1.Core.dll</HintPath>
@@ -55,7 +53,6 @@
     <Reference Include="DevExpress.Printing.v14.1.Core.resources">
       <HintPath>..\..\..\..\3rdParty\DevExpress\DevExpress 14.1\ru\DevExpress.Printing.v14.1.Core.resources.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.Printing.v14.2.Core, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Xpf.Core.v14.1, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\3rdParty\DevExpress\DevExpress 14.1\DevExpress.Xpf.Core.v14.1.dll</HintPath>
@@ -64,7 +61,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\3rdParty\DevExpress\DevExpress 14.1\ru\DevExpress.Xpf.Core.v14.1.resources.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.Xpf.Core.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="itextsharp, Version=5.4.3.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\3rdParty\iTextSharp\itextsharp.dll</HintPath>
     </Reference>
@@ -117,6 +113,9 @@
     <Compile Include="Common\ChangeIsDeletedSubscriber.cs" />
     <Compile Include="Common\ChangeIsDeletedViewSubscriber.cs" />
     <Compile Include="Common\DetailsValidateHelper.cs" />
+    <Compile Include="Common\PhotoSelection.xaml.cs">
+      <DependentUpon>PhotoSelection.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Common\UpdateOrganisationDoorsEventSubscriber.cs" />
     <Compile Include="Common\ViewModels\ChiefViewModel.cs" />
     <Compile Include="Common\ViewModels\EmployeeListViewModel.cs" />
@@ -125,6 +124,7 @@
     <Compile Include="Common\ViewModels\DateSelectionViewModel.cs" />
     <Compile Include="Common\ViewModels\IDetailsViewModel.cs" />
     <Compile Include="Common\ViewModels\OrganisationsFilterViewModel.cs" />
+    <Compile Include="Common\ViewModels\WebCameraDetailsViewModel.cs" />
     <Compile Include="Common\Views\DateSelectionView.xaml.cs">
       <DependentUpon>DateSelectionView.xaml</DependentUpon>
     </Compile>
@@ -139,6 +139,9 @@
     </Compile>
     <Compile Include="Common\Views\PositionsFilterView.xaml.cs">
       <DependentUpon>PositionsFilterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Common\Views\WebCameraDetailsView.xaml.cs">
+      <DependentUpon>WebCameraDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\RadioButtonCheckedConverter.cs" />
     <Compile Include="Departments\ViewModels\DepartmentEmployeeListViewModel.cs" />
@@ -158,6 +161,7 @@
     <Compile Include="Employees\Views\GKReaderSelectationView.xaml.cs">
       <DependentUpon>GKReaderSelectationView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Events\DeleteCardEvent.cs" />
     <Compile Include="Events\EditDayIntervalEvent.cs" />
     <Compile Include="Events\EditDocumentEvent.cs" />
     <Compile Include="Events\EditEmployee2Event.cs" />
@@ -615,6 +619,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Common\PhotoSelection.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Common\Views\DateSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -632,6 +640,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Common\Views\PositionsFilterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Common\Views\WebCameraDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

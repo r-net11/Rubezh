@@ -72,7 +72,7 @@ namespace GKModule.Validation
 			}
 			foreach (var direction in pumpStation.ClauseInputDirections)
 			{
-				devices.AddRange(direction.InputDevices);
+				//devices.AddRange(direction.InputDevices);
 			}
 
 			if (AreDevicesInSameGK(devices))

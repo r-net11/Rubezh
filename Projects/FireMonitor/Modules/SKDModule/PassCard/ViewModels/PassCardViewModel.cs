@@ -141,7 +141,7 @@ namespace SKDModule.PassCard.ViewModels
 			switch (elementTextProperty.PropertyType)
 			{
 				case PassCardTextPropertyType.Birthday:
-					elementTextProperty.Text = "[Пока нет в БД]";
+					elementTextProperty.Text = _employee.BirthDate.ToShortDateString();
 					break;
 				case PassCardTextPropertyType.Department:
 					if (_department != null)

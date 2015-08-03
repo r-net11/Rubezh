@@ -12,12 +12,12 @@
 			</Style.Triggers>
 		</Style>
 		<ContextMenu x:Key="ProcedureContextMenu">
-			<IconedMenuItem Command="{Binding AddCommand}" ImageSource="BAdd"  Text="Добавить процедуру (Ctrl+N)" />
-			<IconedMenuItem Command="{Binding DeleteCommand}" ImageSource="BDelete"  Text="Удалить процедуру (Ctrl+Del)" />
-			<IconedMenuItem Command="{Binding EditCommand}" ImageSource="BEdit"  Text="Редактировать процедуру (Ctrl+E)" />
-			<IconedMenuItem Command="{Binding CopyCommand}" ImageSource="BCopy"  Text="Копировать процедуру (Ctrl+C)" />
-			<IconedMenuItem Command="{Binding CutCommand}" ImageSource="BCut"  Text="Вырезать процедуру (Ctrl+X)" />
-			<IconedMenuItem Command="{Binding PasteCommand}" ImageSource="BPaste"  Text="Вставить процедуру (Ctrl+V)" />
+			<IconedMenuItem Command="{Binding AddCommand}" ImageSource="BAdd" Text="Добавить процедуру (Ctrl+N)" />
+			<IconedMenuItem Command="{Binding DeleteCommand}" ImageSource="BDelete" Text="Удалить процедуру (Ctrl+Del)" />
+			<IconedMenuItem Command="{Binding EditCommand}" ImageSource="BEdit" Text="Редактировать процедуру (Ctrl+E)" />
+			<IconedMenuItem Command="{Binding CopyCommand}" ImageSource="BCopy" Text="Копировать процедуру (Ctrl+C)" />
+			<IconedMenuItem Command="{Binding CutCommand}" ImageSource="BCut" Text="Вырезать процедуру (Ctrl+X)" />
+			<IconedMenuItem Command="{Binding PasteCommand}" ImageSource="BPaste" Text="Вставить процедуру (Ctrl+V)" />
 		</ContextMenu>
 	</UserControl.Resources>
 	<Grid>

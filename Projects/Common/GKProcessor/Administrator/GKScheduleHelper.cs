@@ -107,13 +107,33 @@ namespace GKProcessor
 			}
 			else
 			{
-				count = schedule.Calendar.SelectedDays.FindAll(x => x > schedule.StartDateTime).Count;
+				count = schedule.Calendar.SelectedDays.Count;
 			}
-			var secondsPeriod = schedule.ScheduleParts.Count * 60 * 60 * 24;
-			if (schedule.SchedulePeriodType == GKSchedulePeriodType.Custom)
-				secondsPeriod = schedule.HoursPeriod * 60 * 60;
-			if (schedule.SchedulePeriodType == GKSchedulePeriodType.NonPeriodic || schedule.ScheduleType == GKScheduleType.Holiday || schedule.ScheduleType == GKScheduleType.WorkHoliday)
-				secondsPeriod = 0;
+
+			int secondsPeriod = 0;
+			switch(schedule.ScheduleType)
+			{
+				case GKScheduleType.Access:
+					switch(schedule.SchedulePeriodType)
+					{
+						case GKSchedulePeriodType.Weekly:
+						case GKSchedulePeriodType.Dayly:
+							secondsPeriod = schedule.ScheduleParts.Count * 60 * 60 * 24;
+							break;
+						case GKSchedulePeriodType.Custom:
+							secondsPeriod = schedule.HoursPeriod * 60 * 60;
+							break;
+						case GKSchedulePeriodType.NonPeriodic:
+							secondsPeriod = 0;
+							break;
+					}
+					break;
+
+				case GKScheduleType.Holiday:
+				case GKScheduleType.WorkHoliday:
+					secondsPeriod = 0;
+					break;
+			}
 
 			var bytes = new List<byte>();
 			bytes.Add((byte)schedule.No);
@@ -132,7 +152,7 @@ namespace GKProcessor
 			bytes.Add(0);
 
 			var startDateTime = schedule.StartDateTime;
-			if (schedule.SchedulePeriodType == GKSchedulePeriodType.Weekly && schedule.ScheduleType == GKScheduleType.Access)
+			if (schedule.ScheduleType == GKScheduleType.Access && schedule.SchedulePeriodType == GKSchedulePeriodType.Weekly)
 			{
 				if (startDateTime.DayOfWeek == DayOfWeek.Monday)
 					startDateTime = startDateTime.AddDays(0);
@@ -159,7 +179,7 @@ namespace GKProcessor
 					var daySchedule = daySchedules.FirstOrDefault(x => x.UID == schedulePart.DayScheduleUID);
 					if (daySchedule != null)
 					{
-						foreach (var daySchedulePart in daySchedule.DayScheduleParts)
+						foreach (var daySchedulePart in daySchedule.DayScheduleParts.OrderBy(x => x.StartMilliseconds))
 						{
 							bytes.AddRange(BytesHelper.IntToBytes((int)(scheduleStartSeconds + 24 * 60 * 60 * schedulePart.DayNo + daySchedulePart.StartMilliseconds / 1000)));
 							bytes.AddRange(BytesHelper.IntToBytes((int)(scheduleStartSeconds + 24 * 60 * 60 * schedulePart.DayNo + daySchedulePart.EndMilliseconds / 1000)));
@@ -169,10 +189,10 @@ namespace GKProcessor
 			}
 			else
 			{
-				foreach (var day in schedule.Calendar.SelectedDays.FindAll(x => x >= schedule.StartDateTime))
+				foreach (var day in schedule.Calendar.SelectedDays.OrderBy(x => x.Date))
 				{
 					bytes.AddRange(BytesHelper.IntToBytes((int)((day - new DateTime(2000, 1, 1)).TotalSeconds)));
-					bytes.AddRange(BytesHelper.IntToBytes((int)((day - new DateTime(2000, 1, 1) + TimeSpan.FromDays(1) - TimeSpan.FromSeconds(1)).TotalSeconds)));
+					bytes.AddRange(BytesHelper.IntToBytes((int)((day - new DateTime(2000, 1, 1) + TimeSpan.FromDays(1)).TotalSeconds)));
 				}
 			}
 
