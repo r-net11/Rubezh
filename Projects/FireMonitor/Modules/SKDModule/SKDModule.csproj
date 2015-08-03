@@ -161,6 +161,7 @@
     <Compile Include="Employees\Views\GKReaderSelectationView.xaml.cs">
       <DependentUpon>GKReaderSelectationView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Events\DeleteCardEvent.cs" />
     <Compile Include="Events\EditDayIntervalEvent.cs" />
     <Compile Include="Events\EditDocumentEvent.cs" />
     <Compile Include="Events\EditEmployee2Event.cs" />

@@ -212,7 +212,7 @@ namespace SKDModule.ViewModels
 				x.IsDeleted = true;
 				x.IsOrganisationDeleted = true;
 				if (x.RemovalDate == null || x.RemovalDate == "")
-					x.RemovalDate = DateTime.Now.ToString();
+					x.RemovalDate = DateTime.Now.ToString("d MMM yyyy");
 				x.Update();
 			});
 		}
