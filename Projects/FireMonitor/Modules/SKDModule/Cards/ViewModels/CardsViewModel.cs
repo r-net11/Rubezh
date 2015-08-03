@@ -242,6 +242,10 @@ namespace SKDModule.ViewModels
 				CardHelper.Delete(SelectedCard.Card);
 				var parent = SelectedCard.Card.IsInStopList ? RootItems.FirstOrDefault(x => x.IsDeactivatedRootItem) : RootItems.FirstOrDefault(x => x.Organisation.UID == SelectedCard.Card.OrganisationUID);
 				parent.RemoveChild(SelectedCard);
+				if (parent.Children.Count() == 0)
+					RootItems.Remove(parent);
+				OnPropertyChanged(() => RootItems);
+				OnPropertyChanged(() => RootItemsArray);
 				SelectedCard = parent.HasChildren ? parent : parent.Children.FirstOrDefault();
 			}
 		}
@@ -257,7 +261,11 @@ namespace SKDModule.ViewModels
 			{
 				var parent = card.Parent;
 				parent.RemoveChild(card);
+				if (parent.Children.Count() == 0)
+					RootItems.Remove(parent);
 			}
+			OnPropertyChanged(() => RootItems);
+			OnPropertyChanged(() => RootItemsArray);
 		}
 	}
 }

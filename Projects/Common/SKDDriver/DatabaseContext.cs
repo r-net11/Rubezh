@@ -84,7 +84,7 @@ namespace SKDDriver.DataClasses
 				context.Organisations.Add(new Organisation
 				{
 					UID = Guid.NewGuid(),
-					Name = "Огранизация",
+					Name = "Организация",
 					Users = new List<OrganisationUser>
 					{  
 						new OrganisationUser { UID = Guid.NewGuid(), UserUID = new Guid("10e591fb-e017-442d-b176-f05756d984bb") }

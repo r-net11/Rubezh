@@ -86,8 +86,8 @@ namespace SKDModule.ViewModels
 				{
 					if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить карту полностью?"))
 					{
-						CardHelper.Delete(Card);
 						ServiceFactory.Events.GetEvent<DeleteCardEvent>().Publish(Card.UID);
+						CardHelper.Delete(Card);
 					}
 				}
 				else
