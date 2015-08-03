@@ -33,6 +33,7 @@
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 		<Grid
 			Grid.ColumnSpan="2"
@@ -100,93 +101,70 @@
 				</DataGrid.Columns>
 			</DataGrid>
 		</Grid>
-		<Grid
+		<CheckBox
 			Grid.Row="1"
+			Content="Не учитывать в расчетах"
+			IsChecked="{Binding NotTakeInCalculations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+			Foreground="White"
+			VerticalAlignment="Center"
+			Margin="5"/>
+		<Grid
+			Grid.Row="2"
 			Grid.ColumnSpan="2"
-			Margin="0 4 0 0">
+			Margin="0 10 0 0">
 			<Grid.RowDefinitions>
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
 			<Grid.ColumnDefinitions>
-				<ColumnDefinition />
-				<ColumnDefinition />
+				<ColumnDefinition Width="Auto" SharedSizeGroup="FirstColumn" />
+				<ColumnDefinition Width="Auto" />
 			</Grid.ColumnDefinitions>
 			<TextBlock
 				Margin="5 2"
-				HorizontalAlignment="Right"
 				VerticalAlignment="Center"
+				HorizontalAlignment="Left"
 				Foreground="White"
-				Text="Дата входа"/>
-			<DatePicker
+				Text="Дата и время входа"/>
+			<StackPanel
+				Orientation="Horizontal"
+				Grid.Column="1"
+				HorizontalAlignment="Left">
+				<DatePicker
+					HorizontalAlignment="Right"
+					SelectedDate="{Binding EnterDateTime, Mode=TwoWay}"
+					Margin="5 2"
+					Width="100"
+					VerticalAlignment="Center"/>
+				<TimePicker
+					HorizontalAlignment="Left"
+					Margin="5 2"
+					TimeSpan="{Binding EnterTime, Mode=TwoWay}" />
+			</StackPanel>
+			<TextBlock
 				Grid.Row="1"
-				HorizontalAlignment="Right"
-				SelectedDate="{Binding EnterDateTime, Mode=TwoWay}"
-				Margin="5 2"
-				Width="100"
-				VerticalAlignment="Center"/>
-			<TextBlock
-				Grid.Column="1"
 				Margin="5 2"
 				HorizontalAlignment="Left"
 				VerticalAlignment="Center"
 				Foreground="White"
-				Text="Время входа"/>
-			<TimePicker
+				Text="Дата и время выхода"/>
+			<StackPanel
 				Grid.Row="1"
 				Grid.Column="1"
+				Orientation="Horizontal"
 				HorizontalAlignment="Left"
-				Margin="5 2"
-				TimeSpan="{Binding EnterTime, Mode=TwoWay}" />
-			<Separator
-				Style="{x:Null}"
-				Grid.Row="2"
-				Width="50"
-				Margin="4"
-				BorderThickness="1"
-				Opacity="0.3"
-				BorderBrush="LightGray"
-				Height="2"
-				Grid.ColumnSpan="2" />
-			<TextBlock
-				Grid.Row="3"
-				Margin="5 2"
-				HorizontalAlignment="Right"
-				VerticalAlignment="Center"
-				Foreground="White"
-				Text="Дата выхода"/>
-			<DatePicker
-				Grid.Row="4"
-				HorizontalAlignment="Right"
-				SelectedDate="{Binding ExitDateTime}"
-				Width="100"
-				VerticalAlignment="Center"
-				Margin="5 2"/>
-			<TextBlock
-				Grid.Row="3"
-				Grid.Column="1"
-				VerticalAlignment="Center"
-				HorizontalAlignment="Left"
-				Foreground="White"
-				Margin="5 2"
-				Text="Время выхода"/>
-			<TimePicker
-				Grid.Row="4"
-				Grid.Column="1"
-				Margin="5 2"
-				HorizontalAlignment="Left"
-				TimeSpan="{Binding ExitTime}" />
-			<CheckBox
-				Grid.Row="5"
-				Content="Не учитывать в расчетах"
-				IsChecked="{Binding NotTakeInCalculations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-				Foreground="White"
-				VerticalAlignment="Center"
-				Margin="5"/>
+				Margin="0 0 0 10">
+				<DatePicker
+					HorizontalAlignment="Right"
+					SelectedDate="{Binding ExitDateTime}"
+					Width="100"
+					VerticalAlignment="Center"
+					Margin="5 2"/>
+				<TimePicker
+					Margin="5 2"
+					HorizontalAlignment="Left"
+					TimeSpan="{Binding ExitTime}" />
+			</StackPanel>
 		</Grid>
 	</Grid>
 </UserControl>

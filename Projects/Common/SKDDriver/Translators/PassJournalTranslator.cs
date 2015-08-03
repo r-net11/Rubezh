@@ -35,16 +35,24 @@ namespace SKDDriver.Translators
 				var exitPassJournal = Context.PassJournals.FirstOrDefault(x => x.EmployeeUID == employeeUID && x.ExitTime == null);
 				if (exitPassJournal != null)
 				{
-					exitPassJournal.ExitTime = DateTime.Now;
+					var tmpDateTime = DateTime.Now;
+					exitPassJournal.ExitTime = tmpDateTime;
+					exitPassJournal.ExitTimeOriginal = tmpDateTime;
 				}
 				if (zoneUID != Guid.Empty)
 				{
-					var enterPassJournal = new DataAccess.PassJournal();
-					enterPassJournal.UID = Guid.NewGuid();
-					enterPassJournal.EmployeeUID = employeeUID;
-					enterPassJournal.ZoneUID = zoneUID;
-					enterPassJournal.EnterTime = DateTime.Now;
-					enterPassJournal.ExitTime = null;
+					var tmpDateTime = DateTime.Now;
+
+					var enterPassJournal = new DataAccess.PassJournal //TODO:
+					{
+						UID = Guid.NewGuid(),
+						EmployeeUID = employeeUID,
+						ZoneUID = zoneUID,
+						EnterTime = tmpDateTime,
+						ExitTime = null,
+						IsNeedAdjustment = false, //TODO: Logic for needing adjustment
+						EnterTimeOriginal = tmpDateTime
+					};
 					Context.PassJournals.InsertOnSubmit(enterPassJournal);
 				}
 				Context.SubmitChanges();
