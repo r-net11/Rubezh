@@ -1,18 +1,18 @@
-﻿using System.Windows.Controls;
+﻿using System.Globalization;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+using FiresecAPI;
 using FiresecAPI.GK;
+using FiresecAPI.Models;
 using GKModule.ViewModels;
 using Infrastructure.Client.Plans;
 using Infrastructure.Client.Plans.Presenter;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrustructure.Plans.Elements;
-using Infrustructure.Plans.Presenter;
-using FiresecAPI.Models;
-using FiresecAPI;
-using System.Windows.Media;
-using System.Globalization;
 using Infrustructure.Plans.Painters;
-using System.Windows;
+using Infrustructure.Plans.Presenter;
 
 namespace GKModule.Plans.Designer
 {
@@ -30,10 +30,16 @@ namespace GKModule.Plans.Designer
 				_zoneViewModel = new ZoneViewModel(Item);
 			_textDrawing = null;
 			_scaleTransform = new ScaleTransform();
-			ElementRectangleGKZone elementRectangleGKZone = presenterItem.Element as ElementRectangleGKZone;
-			if (elementRectangleGKZone != null)
+			
+			if (presenterItem.Element is ElementRectangleGKZone)
 			{
-				_showState = elementRectangleGKZone.ShowState;
+				var element = presenterItem.Element as ElementRectangleGKZone;
+				_showState = element.ShowState;
+			}
+			else if(presenterItem.Element is ElementPolygonGKZone)
+			{
+				var element = presenterItem.Element as ElementPolygonGKZone;
+				this._showState = element.ShowState;
 			}
 		}
 
