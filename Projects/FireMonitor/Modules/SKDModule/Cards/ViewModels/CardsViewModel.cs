@@ -27,6 +27,8 @@ namespace SKDModule.ViewModels
 			ServiceFactory.Events.GetEvent<NewCardEvent>().Subscribe(OnNewCard);
 			ServiceFactory.Events.GetEvent<BlockCardEvent>().Unsubscribe(OnBlockCard);
 			ServiceFactory.Events.GetEvent<BlockCardEvent>().Subscribe(OnBlockCard);
+			ServiceFactory.Events.GetEvent<DeleteCardEvent>().Unsubscribe(OnDeleteCard);
+			ServiceFactory.Events.GetEvent<DeleteCardEvent>().Subscribe(OnDeleteCard);
 			ServiceFactory.Events.GetEvent<EditOrganisationEvent>().Unsubscribe(OnEditOrganisation);
 			ServiceFactory.Events.GetEvent<EditOrganisationEvent>().Subscribe(OnEditOrganisation);
 			ServiceFactory.Events.GetEvent<RemoveOrganisationEvent>().Unsubscribe(OnRemoveOrganisation);
@@ -246,6 +248,16 @@ namespace SKDModule.ViewModels
 		bool CanRemove()
 		{
 			return SelectedCard != null && SelectedCard.IsCard && SelectedCard.Card.IsInStopList && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Cards_Etit);
+		}
+
+		void OnDeleteCard(Guid uid)
+		{
+			var card = RootItems.SelectMany(x => x.Children).FirstOrDefault(x => x.Card.UID == uid);
+			if (card != null)
+			{
+				var parent = card.Parent;
+				parent.RemoveChild(card);
+			}
 		}
 	}
 }
