@@ -102,5 +102,25 @@ namespace ChinaSKDDriver
 			cardWriter.DeleteCard(skdCard, accessTemplate);
 			return cardWriter;
 		}
+
+		public static OperationResult<bool> ClearPromptWarning(SKDDevice device)
+		{
+			if (device.Parent != null)
+			{
+				var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == device.Parent.UID);
+				if (deviceProcessor != null)
+				{
+					if (!deviceProcessor.IsConnected)
+						return OperationResult<bool>.FromError("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
+
+					var result = deviceProcessor.Wrapper.PromptWarning(device.IntAddress);
+					if (result)
+						return new OperationResult<bool>(true);
+					else
+						return OperationResult<bool>.FromError("Ошибка при выполнении операции в контроллере");
+				}
+			}
+			return OperationResult<bool>.FromError("Не найден контроллер в конфигурации");
+		}
 	}
 }

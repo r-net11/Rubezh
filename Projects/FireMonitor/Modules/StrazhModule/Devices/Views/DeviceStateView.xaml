@@ -1,4 +1,6 @@
-﻿<UserControl x:Class="StrazhModule.Views.DeviceStateView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<UserControl x:Class="StrazhModule.Views.DeviceStateView"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
 	<StackPanel DataContext="{Binding DeviceStateViewModel}">
 		<ItemsControl ItemsSource="{Binding StateClasses}">
@@ -11,5 +13,6 @@
 				</DataTemplate>
 			</ItemsControl.ItemTemplate>
 		</ItemsControl>
+		<Button Content="Сброс тревоги" Command="{Binding ClearDevicePromptWarningCommand}" Visibility="{Binding IsPromptWarning, Converter={StaticResource BoolToVisibilityConverter}}" Width="100" Margin="2" />
 	</StackPanel>
 </UserControl>

@@ -12,6 +12,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrustructure.Plans.Elements;
+using StrazhModule.Zones;
 
 namespace StrazhModule.ViewModels
 {
@@ -82,35 +83,21 @@ namespace StrazhModule.ViewModels
 		public RelayCommand OpenCommand { get; private set; }
 		void OnOpen()
 		{
-			if (ServiceFactory.SecurityService.Validate())
-			{
-				var result = FiresecManager.FiresecService.SKDOpenZone(Zone);
-				if (result.HasError)
-				{
-					MessageBoxService.ShowWarning(result.Error);
-				}
-			}
+			ZoneCommander.Open(Zone);
 		}
 		bool CanOpen()
 		{
-			return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Zones_Control) && Zone.State.StateClass != XStateClass.On && Zone.State.StateClass != XStateClass.ConnectionLost;
+			return ZoneCommander.CanOpen(Zone);
 		}
 
 		public RelayCommand CloseCommand { get; private set; }
 		void OnClose()
 		{
-			if (ServiceFactory.SecurityService.Validate())
-			{
-				var result = FiresecManager.FiresecService.SKDCloseZone(Zone);
-				if (result.HasError)
-				{
-					MessageBoxService.ShowWarning(result.Error);
-				}
-			}
+			ZoneCommander.Close(Zone);
 		}
 		bool CanClose()
 		{
-			return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Zones_Control) && Zone.State.StateClass != XStateClass.Off && Zone.State.StateClass != XStateClass.ConnectionLost;
+			return ZoneCommander.CanClose(Zone);
 		}
 
 		public RelayCommand OpenForeverCommand { get; private set; }
@@ -150,53 +137,31 @@ namespace StrazhModule.ViewModels
 		public RelayCommand ZoneAccessStateNormalCommand { get; private set; }
 		void OnZoneAccessStateNormal()
 		{
-			if (ServiceFactory.SecurityService.Validate())
-			{
-				var result = FiresecManager.FiresecService.SKDZoneAccessStateNormal(Zone);
-				if (result.HasError)
-				{
-					MessageBoxService.ShowWarning(result.Error);
-				}
-			}
+			ZoneCommander.SetAccessStateToNormal(Zone);
 		}
 		bool CanZoneAccessStateNormal()
 		{
-			//return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Zones_Control) && State.StateClass != XStateClass.Off && State.StateClass != XStateClass.ConnectionLost;
-			return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Zones_Control) && State.StateClass != XStateClass.ConnectionLost;
+			return ZoneCommander.CanSetAccessStateToNormal(Zone);
 		}
 
 		public RelayCommand ZoneAccessStateCloseAlwaysCommand { get; private set; }
 		void OnZoneAccessStateCloseAlways()
 		{
-			if (ServiceFactory.SecurityService.Validate())
-			{
-				var result = FiresecManager.FiresecService.SKDZoneAccessStateCloseAlways(Zone);
-				if (result.HasError)
-				{
-					MessageBoxService.ShowWarning(result.Error);
-				}
-			}
+			ZoneCommander.SetAccessStateToCloseAlways(Zone);
 		}
 		bool CanZoneAccessStateCloseAlways()
 		{
-			return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Zones_Control) && State.StateClass != XStateClass.Off && State.StateClass != XStateClass.ConnectionLost;
+			return ZoneCommander.CanSetAccessStateToCloseAlways(Zone);
 		}
 
 		public RelayCommand ZoneAccessStateOpenAlwaysCommand { get; private set; }
 		void OnZoneAccessStateOpenAlways()
 		{
-			if (ServiceFactory.SecurityService.Validate())
-			{
-				var result = FiresecManager.FiresecService.SKDZoneAccessStateOpenAlways(Zone);
-				if (result.HasError)
-				{
-					MessageBoxService.ShowWarning(result.Error);
-				}
-			}
+			ZoneCommander.SetAccessStateToOpenAlways(Zone);
 		}
 		bool CanZoneAccessStateOpenAlways()
 		{
-			return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Zones_Control) && State.StateClass != XStateClass.On && State.StateClass != XStateClass.ConnectionLost;
+			return ZoneCommander.CanSetAccessStateToOpenAlways(Zone);
 		}
 
 		public RelayCommand ShowCommand { get; private set; }

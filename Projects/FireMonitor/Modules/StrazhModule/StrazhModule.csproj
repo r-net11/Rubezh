@@ -81,6 +81,7 @@
     <Compile Include="..\..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
+    <Compile Include="Devices\DeviceCommander.cs" />
     <Compile Include="Devices\ViewModels\DeviceCommandsViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceDetailsViewModel.cs" />
     <Compile Include="Devices\ViewModels\DevicePropertiesViewModel.cs" />
@@ -101,6 +102,7 @@
     <Compile Include="Devices\Views\DeviceView.xaml.cs">
       <DependentUpon>DeviceView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Doors\DoorCommander.cs" />
     <Compile Include="Plans\Designer\DoorPainter.cs" />
     <Compile Include="Plans\Designer\SKDDevicePainter.cs" />
     <Compile Include="Plans\Designer\SKDZonePainter.cs" />
@@ -123,6 +125,7 @@
       <SubType>
       </SubType>
     </Compile>
+    <Compile Include="Zones\ZoneCommander.cs" />
     <Compile Include="Zones\ViewModels\ZoneDetailsViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZonesViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZoneViewModel.cs" />

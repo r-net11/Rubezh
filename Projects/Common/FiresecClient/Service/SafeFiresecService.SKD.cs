@@ -387,6 +387,11 @@ namespace FiresecClient
 			return SafeOperationCall(() => { return FiresecService.SKDDeviceAccessStateOpenAlways(device.UID); }, "SKDDeviceAccessStateOpenAlways");
 		}
 
+		public OperationResult<bool> SKDClearDevicePromptWarning(SKDDevice device)
+		{
+			return SafeOperationCall(() => { return FiresecService.SKDClearDevicePromptWarning(device.UID); }, "SKDClearDevicePromptWarning");
+		}
+
 		public OperationResult<bool> SKDOpenZone(SKDZone zone)
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDOpenZone(zone.UID); }, "SKDOpenZone");

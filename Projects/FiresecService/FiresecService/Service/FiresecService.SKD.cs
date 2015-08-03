@@ -1103,6 +1103,20 @@ namespace FiresecService.Service
 			return SKDSetDeviceAccessState(deviceUID, JournalEventNameType.Команда_на_перевод_двери_в_режим_Открыто, AccessState.OpenAlways);
 		}
 
+		public OperationResult<bool> SKDClearDevicePromptWarning(Guid deviceUID)
+		{
+			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				AddSKDJournalMessage(JournalEventNameType.Сброс_состояния_взлом_двери, device);
+				return ChinaSKDDriver.Processor.ClearPromptWarning(device);
+			}
+			else
+			{
+				return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
+			}
+		}
+
 		public OperationResult<bool> SKDOpenZone(Guid zoneUID)
 		{
 			var zone = SKDManager.Zones.FirstOrDefault(x => x.UID == zoneUID);

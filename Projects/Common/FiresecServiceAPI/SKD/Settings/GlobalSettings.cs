@@ -121,6 +121,7 @@ namespace FiresecAPI
 #if DEBUG
 				return true;
 #endif
+				return false;
 			}
 		}
 	}
