@@ -107,7 +107,7 @@ namespace SKDDriver.DataAccess
 		
 		private System.Nullable<System.Guid> _CorrectedByUID;
 		
-		private bool _IsTakeInCalculations;
+		private bool _NotTakeInCalculations;
 		
 		private bool _IsAddedManually;
 		
@@ -135,8 +135,8 @@ namespace SKDDriver.DataAccess
     partial void OnAdjustmentDateChanged();
     partial void OnCorrectedByUIDChanging(System.Nullable<System.Guid> value);
     partial void OnCorrectedByUIDChanged();
-    partial void OnIsTakeInCalculationsChanging(bool value);
-    partial void OnIsTakeInCalculationsChanged();
+    partial void OnNotTakeInCalculationsChanging(bool value);
+    partial void OnNotTakeInCalculationsChanged();
     partial void OnIsAddedManuallyChanging(bool value);
     partial void OnIsAddedManuallyChanged();
     partial void OnEnterTimeOriginalChanging(System.Nullable<System.DateTime> value);
@@ -310,22 +310,22 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsTakeInCalculations")]
-		public bool IsTakeInCalculations
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NotTakeInCalculations")]
+		public bool NotTakeInCalculations
 		{
 			get
 			{
-				return this._IsTakeInCalculations;
+				return this._NotTakeInCalculations;
 			}
 			set
 			{
-				if ((this._IsTakeInCalculations != value))
+				if ((this._NotTakeInCalculations != value))
 				{
-					this.OnIsTakeInCalculationsChanging(value);
+					this.OnNotTakeInCalculationsChanging(value);
 					this.SendPropertyChanging();
-					this._IsTakeInCalculations = value;
-					this.SendPropertyChanged("IsTakeInCalculations");
-					this.OnIsTakeInCalculationsChanged();
+					this._NotTakeInCalculations = value;
+					this.SendPropertyChanged("NotTakeInCalculations");
+					this.OnNotTakeInCalculationsChanged();
 				}
 			}
 		}

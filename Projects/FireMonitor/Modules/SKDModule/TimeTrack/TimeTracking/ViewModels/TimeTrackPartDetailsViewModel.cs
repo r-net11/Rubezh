@@ -33,15 +33,15 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		private bool _isTakeInCalcualtions;
+		private bool _notTakeInCalculations;
 
-		public bool IsTakeInCalculations
+		public bool NotTakeInCalculations
 		{
-			get { return _isTakeInCalcualtions; }
+			get { return _notTakeInCalculations; }
 			set
 			{
-				_isTakeInCalcualtions = value;
-				OnPropertyChanged(() => IsTakeInCalculations);
+				_notTakeInCalculations = value;
+				OnPropertyChanged(() => NotTakeInCalculations);
 			}
 		}
 

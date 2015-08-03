@@ -57,7 +57,7 @@ namespace SKDDriver.Translators
 		}
 
 		public OperationResult AddCustomPassJournal(Guid uid, Guid employeeUID, Guid zoneUID, DateTime enterTime, DateTime exitTime,
-			DateTime? adjustmentDate, Guid correctedBy, bool isTakeInCalculations, bool isAddedManually, DateTime? enterTimeOriginal, DateTime? exitTimeOriginal)
+			DateTime? adjustmentDate, Guid correctedBy, bool notTakeInCalculations, bool isAddedManually, DateTime? enterTimeOriginal, DateTime? exitTimeOriginal)
 		{
 			try
 			{
@@ -70,7 +70,7 @@ namespace SKDDriver.Translators
 					ExitTime = exitTime,
 					AdjustmentDate = adjustmentDate,
 					CorrectedByUID = correctedBy,
-					IsTakeInCalculations = isTakeInCalculations,
+					NotTakeInCalculations = notTakeInCalculations,
 					IsAddedManually = isAddedManually,
 					EnterTimeOriginal = enterTimeOriginal,
 					ExitTimeOriginal = exitTimeOriginal
@@ -91,7 +91,7 @@ namespace SKDDriver.Translators
 		}
 
 		public OperationResult EditPassJournal(Guid uid, Guid zoneUID, DateTime enterTime, DateTime exitTime,
-			bool isNeedAdjustment, DateTime? adjustmentDate, Guid correctedBy, bool isTakeInCalculations, bool isAddedManually)
+			bool isNeedAdjustment, DateTime? adjustmentDate, Guid correctedBy, bool notTakeInCalculations, bool isAddedManually)
 		{
 			try
 			{
@@ -104,7 +104,7 @@ namespace SKDDriver.Translators
 					passJournalItem.IsNeedAdjustment = isNeedAdjustment;
 					passJournalItem.AdjustmentDate = adjustmentDate;
 					passJournalItem.CorrectedByUID = correctedBy;
-					passJournalItem.IsTakeInCalculations = isTakeInCalculations;
+					passJournalItem.NotTakeInCalculations = notTakeInCalculations;
 					passJournalItem.IsAddedManually = isAddedManually;
 				}
 				if (passJournalItem != null && IsIntersection(passJournalItem))
@@ -270,7 +270,14 @@ namespace SKDDriver.Translators
 					StartTime = passJournal.EnterTime.TimeOfDay,
 					EndTime = passJournal.ExitTime.Value.TimeOfDay,
 					ZoneUID = passJournal.ZoneUID,
-					PassJournalUID = passJournal.UID
+					PassJournalUID = passJournal.UID,
+					IsManuallyAdded = passJournal.IsAddedManually,
+					NotTakeInCalculations = passJournal.NotTakeInCalculations,
+					IsNeedAdjustment = passJournal.IsNeedAdjustment,
+					AdjustmentDate = passJournal.AdjustmentDate,
+					CorrectedByUID = passJournal.CorrectedByUID,
+					EnterTimeOriginal = passJournal.EnterTimeOriginal,
+					ExitTimeOriginal = passJournal.ExitTimeOriginal
 				};
 
 				dayTimeTrack.RealTimeTrackParts.Add(timeTrackPart);

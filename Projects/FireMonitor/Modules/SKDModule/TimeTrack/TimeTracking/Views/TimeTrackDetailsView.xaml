@@ -10,6 +10,7 @@
 	xmlns:viewModels="clr-namespace:SKDModule.ViewModels"
 	Width="1100"
 	Height="900"
+	DataContextChanged="TimeTrackDetailsView_OnDataContextChanged"
 	d:DataContext="{d:DesignInstance viewModels:TimeTrackDetailsViewModel}"
 	mc:Ignorable="d">
 	<UserControl.Resources>
@@ -128,13 +129,13 @@
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
-							<DataGridTemplateColumn Width="Auto" Header="Учитывать в расчетах">
+							<DataGridTemplateColumn Width="Auto" Header="Не учитывать в расчетах">
 								<DataGridTemplateColumn.CellTemplate>
 									<DataTemplate>
 										<CheckBox
 											HorizontalAlignment="Center"
 											VerticalAlignment="Center"
-											IsChecked="{Binding IsTakeInCalculations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+											IsChecked="{Binding NotTakeInCalculations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>

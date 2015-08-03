@@ -111,11 +111,11 @@ namespace FiresecAPI
 
 		[OperationContract]
 		OperationResult AddCustomPassJournal(Guid uid, Guid employeeUID, Guid zoneUID, DateTime enterTime, DateTime exitTime,
-			DateTime? adjustmentDate, Guid correctedBy, bool isTakeInCalculations, bool isAddedManually, DateTime? enterTimeOriginal, DateTime? exitTimeOriginal);
+			DateTime? adjustmentDate, Guid correctedBy, bool notTakeInCalculations, bool isAddedManually, DateTime? enterTimeOriginal, DateTime? exitTimeOriginal);
 
 		[OperationContract]
 		OperationResult EditPassJournal(Guid uid, Guid zoneUID, DateTime enterTime, DateTime exitTime,
-			bool isNeedAdjustment, DateTime? adjustmentDate, Guid correctedBy, bool isTakeInCalculations, bool isAddedManually);
+			bool isNeedAdjustment, DateTime? adjustmentDate, Guid correctedBy, bool notTakeInCalculations, bool isAddedManually);
 
 		[OperationContract]
 		OperationResult DeletePassJournal(Guid uid);

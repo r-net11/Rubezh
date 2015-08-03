@@ -45,10 +45,10 @@ BEGIN
 	INSERT INTO Patches (Id) VALUES ('AddingCorrectedByUIDColumn')
 END
 GO
-IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'AddingIsTakeInCalculationsColumn')
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'AddingNotTakeInCalculationsColumn')
 BEGIN
-	ALTER TABLE PassJournal ADD [IsTakeInCalculations] bit NOT NULL DEFAULT 0
-	INSERT INTO Patches (Id) VALUES ('AddingIsTakeInCalculationsColumn')
+	ALTER TABLE PassJournal ADD [NotTakeInCalculations] bit NOT NULL DEFAULT 0
+	INSERT INTO Patches (Id) VALUES ('AddingNotTakeInCalculationsColumn')
 END
 GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'AddingIsAddedManuallyColumn')

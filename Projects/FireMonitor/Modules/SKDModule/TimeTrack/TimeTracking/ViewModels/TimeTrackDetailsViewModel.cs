@@ -4,6 +4,7 @@ using FiresecClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Client.Login;
 using Infrastructure.Common;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using ReactiveUI;
@@ -260,6 +261,8 @@ namespace SKDModule.ViewModels
 
 		#region Commands
 
+		public event EventHandler RefreshGridHandler;
+
 		public RelayCommand AddCustomPartCommand { get; private set; }
 		public RelayCommand RemovePartCommand { get; private set; }
 		public RelayCommand EditPartCommand { get; private set; }
@@ -274,17 +277,21 @@ namespace SKDModule.ViewModels
 		/// </summary>
 		void OnAddCustomPart()
 		{
-			var timeTrackPartDetailsViewModel = new TimeTrackPartDetailsViewModel(DayTimeTrack, ShortEmployee, this) {IsTakeInCalculations = true, IsManuallyAdded = true};
+			var timeTrackPartDetailsViewModel = new TimeTrackPartDetailsViewModel(DayTimeTrack, ShortEmployee, this) {IsManuallyAdded = true};
 
 			if (DialogService.ShowModalWindow(timeTrackPartDetailsViewModel))
 			{
 				DayTimeTrackParts.Add(new DayTimeTrackPart(timeTrackPartDetailsViewModel));
 				SelectedTimeTrackPartDetailsViewModel = timeTrackPartDetailsViewModel;
 				DayTimeTrack.Date.Date.Add(timeTrackPartDetailsViewModel.ExitTime);
-
 				IsDirty = true;
 				IsNew = true;
-				ServiceFactory.Events.GetEvent<EditTimeTrackPartEvent>().Publish(ShortEmployee.UID);
+				ServiceFactoryBase.Events.GetEvent<EditTimeTrackPartEvent>().Publish(ShortEmployee.UID);
+
+				if (RefreshGridHandler != null)
+				{
+					RefreshGridHandler(this, EventArgs.Empty);
+				}
 			}
 		}
 
@@ -314,7 +321,7 @@ namespace SKDModule.ViewModels
 			var timeTrackPartDetailsViewModel = new TimeTrackPartDetailsViewModel(DayTimeTrack, ShortEmployee, this, SelectedDayTimeTrackPart.UID, SelectedDayTimeTrackPart.EnterTimeSpan,
 				SelectedDayTimeTrackPart.ExitTimeSpan)
 			{
-				IsTakeInCalculations = SelectedDayTimeTrackPart.IsTakeInCalculations,
+				NotTakeInCalculations = SelectedDayTimeTrackPart.NotTakeInCalculations,
 				IsNeedAdjustment = SelectedDayTimeTrackPart.IsNeedAdjustment
 			};
 
@@ -329,7 +336,7 @@ namespace SKDModule.ViewModels
 					timeTrackPartDetailsViewModel.ExitTime,
 					timeTrackPartDetailsViewModel.SelectedZone.Name,
 					timeTrackPartDetailsViewModel.SelectedZone.No,
-					timeTrackPartDetailsViewModel.IsTakeInCalculations,
+					timeTrackPartDetailsViewModel.NotTakeInCalculations,
 					timeTrackPartDetailsViewModel.IsManuallyAdded);
 
 				IsDirty = true;
@@ -449,7 +456,7 @@ namespace SKDModule.ViewModels
 					DayTimeTrack.Date.Date.Add(SelectedTimeTrackPartDetailsViewModel.ExitTime),
 					DateTime.Now,
 					FiresecManager.CurrentUser.UID,
-					SelectedTimeTrackPartDetailsViewModel.IsTakeInCalculations,
+					SelectedTimeTrackPartDetailsViewModel.NotTakeInCalculations,
 					SelectedTimeTrackPartDetailsViewModel.IsManuallyAdded,
 					DayTimeTrack.Date.Date.Add(SelectedTimeTrackPartDetailsViewModel.EnterTime),
 					DayTimeTrack.Date.Date.Add(SelectedTimeTrackPartDetailsViewModel.ExitTime)
@@ -463,7 +470,7 @@ namespace SKDModule.ViewModels
 					SelectedTimeTrackPartDetailsViewModel.IsNeedAdjustment,
 					DateTime.Now,
 					FiresecManager.CurrentUser.UID,
-					SelectedTimeTrackPartDetailsViewModel.IsTakeInCalculations,
+					SelectedTimeTrackPartDetailsViewModel.NotTakeInCalculations,
 					SelectedTimeTrackPartDetailsViewModel.IsManuallyAdded);
 
 			return base.Save();

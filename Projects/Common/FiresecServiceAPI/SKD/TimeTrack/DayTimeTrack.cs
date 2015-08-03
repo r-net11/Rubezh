@@ -666,7 +666,7 @@ namespace FiresecAPI.SKD
 
 				if (timeTrackPart != null)
 				{
-					var newTimeTrackPart = new TimeTrackPart()
+					var newTimeTrackPart = new TimeTrackPart //TODO:
 					{
 						StartTime = startTimeSpan,
 						EndTime = endTimeSpan,
@@ -675,7 +675,14 @@ namespace FiresecAPI.SKD
 						StartsInPreviousDay = timeTrackPart.StartsInPreviousDay,
 						EndsInNextDay = timeTrackPart.EndsInNextDay,
 						DayName = timeTrackPart.DayName,
-						PassJournalUID = timeTrackPart.PassJournalUID
+						PassJournalUID = timeTrackPart.PassJournalUID,
+						IsNeedAdjustment = timeTrackPart.IsNeedAdjustment,
+						AdjustmentDate = timeTrackPart.AdjustmentDate,
+						CorrectedByUID = timeTrackPart.CorrectedByUID,
+						EnterTimeOriginal = timeTrackPart.EnterTimeOriginal,
+						ExitTimeOriginal = timeTrackPart.ExitTimeOriginal,
+						NotTakeInCalculations = timeTrackPart.NotTakeInCalculations,
+						IsManuallyAdded = timeTrackPart.IsManuallyAdded
 					};
 					result.Add(newTimeTrackPart);
 				}

@@ -44,6 +44,11 @@ namespace SKDModule.Views
 
 		void TimeTrackDetailsView_Loaded(object sender, RoutedEventArgs e)
 		{
+			Refresh();
+		}
+
+		public void Refresh()
+		{
 			TimeTrackDetailsViewModel timeTrackDetailsViewModel = DataContext as TimeTrackDetailsViewModel;
 			if (timeTrackDetailsViewModel != null)
 			{
@@ -65,7 +70,9 @@ namespace SKDModule.Views
 							timeTrackPart.TimeTrackPartType = TimeTrackType.DocumentAbsence;
 							break;
 					}
-					timeTrackPart.Tooltip = TimePartDateToString(timeTrackPart.StartTime) + " - " + TimePartDateToString(timeTrackPart.EndTime) + "\n" + timeTrackPart.MinTimeTrackDocumentType.Name;
+					timeTrackPart.Tooltip = TimePartDateToString(timeTrackPart.StartTime) + " - " +
+					                        TimePartDateToString(timeTrackPart.EndTime) + "\n" +
+					                        timeTrackPart.MinTimeTrackDocumentType.Name;
 				}
 
 				foreach (var timeTrackPart in dayTimeTrack.RealTimeTrackParts)
@@ -77,13 +84,15 @@ namespace SKDModule.Views
 						zoneName = strazhZone.Name;
 					}
 
-					timeTrackPart.Tooltip = TimePartDateToString(timeTrackPart.StartTime) + " - " + TimePartDateToString(timeTrackPart.EndTime) + "\n" + zoneName;
+					timeTrackPart.Tooltip = TimePartDateToString(timeTrackPart.StartTime) + " - " +
+					                        TimePartDateToString(timeTrackPart.EndTime) + "\n" + zoneName;
 					timeTrackPart.TimeTrackPartType = TimeTrackType.Presence;
 				}
 
 				foreach (var timeTrackPart in dayTimeTrack.PlannedTimeTrackParts)
 				{
-					timeTrackPart.Tooltip = TimePartDateToString(timeTrackPart.StartTime) + " - " + TimePartDateToString(timeTrackPart.EndTime) + "\n" + timeTrackPart.DayName;
+					timeTrackPart.Tooltip = TimePartDateToString(timeTrackPart.StartTime) + " - " +
+					                        TimePartDateToString(timeTrackPart.EndTime) + "\n" + timeTrackPart.DayName;
 					if (timeTrackPart.StartsInPreviousDay)
 						timeTrackPart.Tooltip += "\n" + "Интервал начинается днем рашьше";
 					if (timeTrackPart.EndsInNextDay)
@@ -93,7 +102,9 @@ namespace SKDModule.Views
 
 				foreach (var timeTrackPart in dayTimeTrack.CombinedTimeTrackParts)
 				{
-					timeTrackPart.Tooltip = TimePartDateToString(timeTrackPart.StartTime) + " - " + TimePartDateToString(timeTrackPart.EndTime) + "\n" + timeTrackPart.TimeTrackPartType.ToDescription();
+					timeTrackPart.Tooltip = TimePartDateToString(timeTrackPart.StartTime) + " - " +
+					                        TimePartDateToString(timeTrackPart.EndTime) + "\n" +
+					                        timeTrackPart.TimeTrackPartType.ToDescription();
 				}
 
 				DrawTimeTrackGrid(dayTimeTrack.DocumentTrackParts, DocumentsGrid);
@@ -177,6 +188,18 @@ namespace SKDModule.Views
 				TimeLineGrid.Children.Add(timeTextBlock);
 			}
 			TimeLineGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(0.5, GridUnitType.Star) });
+		}
+
+		private void TimeTrackDetailsView_OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+		{
+			var vm = (TimeTrackDetailsViewModel) e.NewValue;
+			vm.RefreshGridHandler += vm_RefreshGridHandler;
+		}
+
+		void vm_RefreshGridHandler(object sender, EventArgs e)
+		{
+			//Refresh();
+			
 		}
 	}
 }

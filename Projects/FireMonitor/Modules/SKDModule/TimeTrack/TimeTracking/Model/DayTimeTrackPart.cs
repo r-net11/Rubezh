@@ -24,12 +24,12 @@ namespace SKDModule.Model
 			set { this.RaiseAndSetIfChanged(ref _isManuallyAdded, value); }
 		}
 
-		private bool _isTakeInCalculations;
+		private bool _notTakeInCalculations;
 
-		public bool IsTakeInCalculations
+		public bool NotTakeInCalculations
 		{
-			get { return _isTakeInCalculations; }
-			set { this.RaiseAndSetIfChanged(ref _isTakeInCalculations, value); }
+			get { return _notTakeInCalculations; }
+			set { this.RaiseAndSetIfChanged(ref _notTakeInCalculations, value); }
 		}
 
 		private bool _isNeedAdjustment;
@@ -110,7 +110,7 @@ namespace SKDModule.Model
 				timeTrackPartDetailsViewModel.ExitTime,
 				timeTrackPartDetailsViewModel.SelectedZone.Name,
 				timeTrackPartDetailsViewModel.SelectedZone.No,
-				timeTrackPartDetailsViewModel.IsTakeInCalculations,
+				timeTrackPartDetailsViewModel.NotTakeInCalculations,
 				timeTrackPartDetailsViewModel.IsManuallyAdded);
 		}
 
@@ -134,7 +134,7 @@ namespace SKDModule.Model
 				timeTrackPart.EndTime,
 				zoneName,
 				num,
-				timeTrackPart.IsTakeInCalculations,
+				timeTrackPart.NotTakeInCalculations,
 				timeTrackPart.IsManuallyAdded);
 		}
 
@@ -146,7 +146,7 @@ namespace SKDModule.Model
 
 		#region Methods
 
-		public void Update(DateTime? enterDateTime, DateTime? exitDateTime, TimeSpan enterTime, TimeSpan exitTime, string zoneName, int no, bool isTakeInCalculations, bool isManuallyAdded)
+		public void Update(DateTime? enterDateTime, DateTime? exitDateTime, TimeSpan enterTime, TimeSpan exitTime, string zoneName, int no, bool notTakeInCalculations, bool isManuallyAdded)
 		{
 			ZoneName = zoneName ?? "<Нет в конфигурации>";
 			No = no;
@@ -154,7 +154,7 @@ namespace SKDModule.Model
 			ExitDateTime = exitDateTime;
 			EnterTimeSpan = enterTime;
 			ExitTimeSpan = exitTime;
-			IsTakeInCalculations = isTakeInCalculations;
+			NotTakeInCalculations = notTakeInCalculations;
 			IsManuallyAdded = isManuallyAdded;
 		}
 

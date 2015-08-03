@@ -7,13 +7,13 @@
       <Column Name="ZoneUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
       <Column Name="EnterTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="ExitTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Column Member="IsNeedAdjustment" Type="System.Boolean" CanBeNull="false" />
-      <Column Member="AdjustmentDate" Type="System.DateTime" CanBeNull="true" />
-      <Column Member="CorrectedByUID" Type="System.Guid" CanBeNull="true" />
-      <Column Member="IsTakeInCalculations" Type="System.Boolean" CanBeNull="false" />
-      <Column Member="IsAddedManually" Type="System.Boolean" CanBeNull="false" />
-      <Column Member="EnterTimeOriginal" Type="System.DateTime" CanBeNull="true" />
-      <Column Member="ExitTimeOriginal" Type="System.DateTime" CanBeNull="true" />
+      <Column Name="IsNeedAdjustment" Type="System.Boolean" CanBeNull="false" />
+      <Column Name="AdjustmentDate" Type="System.DateTime" CanBeNull="true" />
+      <Column Name="CorrectedByUID" Type="System.Guid" CanBeNull="true" />
+      <Column Name="NotTakeInCalculations" Member="NotTakeInCalculations" Storage="_NotTakeInCalculations" Type="System.Boolean" CanBeNull="false" />
+      <Column Name="IsAddedManually" Type="System.Boolean" CanBeNull="false" />
+      <Column Name="EnterTimeOriginal" Type="System.DateTime" CanBeNull="true" />
+      <Column Name="ExitTimeOriginal" Type="System.DateTime" CanBeNull="true" />
     </Type>
   </Table>
   <Table Name="dbo.EmployeeDay" Member="EmployeeDays">

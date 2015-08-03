@@ -182,8 +182,8 @@
 				TimeSpan="{Binding ExitTime}" />
 			<CheckBox
 				Grid.Row="5"
-				Content="Учитывать в расчетах"
-				IsChecked="{Binding IsTakeInCalculations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+				Content="Не учитывать в расчетах"
+				IsChecked="{Binding NotTakeInCalculations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 				Foreground="White"
 				VerticalAlignment="Center"
 				Margin="5"/>

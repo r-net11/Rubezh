@@ -17,7 +17,22 @@ namespace FiresecAPI.SKD
 		public bool IsManuallyAdded { get; set; }
 
 		[DataMember]
-		public bool IsTakeInCalculations { get; set; }
+		public bool IsNeedAdjustment { get; set; }
+
+		[DataMember]
+		public DateTime? AdjustmentDate { get; set; }
+
+		[DataMember]
+		public Guid? CorrectedByUID { get; set; }
+
+		[DataMember]
+		public DateTime? EnterTimeOriginal { get; set; }
+
+		[DataMember]
+		public DateTime? ExitTimeOriginal { get; set; }
+
+		[DataMember]
+		public bool NotTakeInCalculations { get; set; }
 
 		[DataMember]
 		public Guid PassJournalUID { get; set; }

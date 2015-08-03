@@ -179,17 +179,17 @@ namespace FiresecService.Service
 		}
 
 		public OperationResult AddCustomPassJournal(Guid uid, Guid employeeUID, Guid zoneUID, DateTime enterTime, DateTime exitTime,
-			DateTime? adjustmentDate, Guid correctedBy, bool isTakeInCalculations, bool isAddedManually, DateTime? enterTimeOriginal, DateTime? exitTimeOriginal)
+			DateTime? adjustmentDate, Guid correctedBy, bool notTakeInCalculations, bool isAddedManually, DateTime? enterTimeOriginal, DateTime? exitTimeOriginal)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.AddCustomPassJournal(uid, employeeUID, zoneUID, enterTime, exitTime,
-				adjustmentDate, correctedBy, isTakeInCalculations, isAddedManually, enterTimeOriginal, exitTimeOriginal));
+				adjustmentDate, correctedBy, notTakeInCalculations, isAddedManually, enterTimeOriginal, exitTimeOriginal));
 		}
 
 		public OperationResult EditPassJournal(Guid uid, Guid zoneUID, DateTime enterTime, DateTime exitTime,
-			bool isNeedAdjustment, DateTime? adjustmentDate, Guid correctedBy, bool isTakeInCalculations, bool isAddedManually)
+			bool isNeedAdjustment, DateTime? adjustmentDate, Guid correctedBy, bool notTakeInCalculations, bool isAddedManually)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.EditPassJournal(uid, zoneUID, enterTime, exitTime,
-				isNeedAdjustment, adjustmentDate, correctedBy, isTakeInCalculations, isAddedManually));
+				isNeedAdjustment, adjustmentDate, correctedBy, notTakeInCalculations, isAddedManually));
 		}
 
 		public OperationResult DeletePassJournal(Guid uid)
