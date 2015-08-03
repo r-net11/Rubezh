@@ -100,7 +100,7 @@ namespace SKDModule.ViewModels
 			IsExpanded = true;
 			ParentViewModel = parentViewModel;
 			IsDeleted = organisation.IsDeleted;
-			RemovalDate = IsDeleted ? organisation.RemovalDate.ToString() : ""; 
+			RemovalDate = IsDeleted ? organisation.RemovalDate.ToString("d MMM yyyy") : ""; 
 		}
 
 		public virtual void InitializeModel(Organisation organisation, ModelT model, ViewPartViewModel parentViewModel)
@@ -110,14 +110,14 @@ namespace SKDModule.ViewModels
 			IsOrganisation = false;
 			ParentViewModel = parentViewModel;
 			IsDeleted = model.IsDeleted;
-			RemovalDate = IsDeleted ? model.RemovalDate.ToString() : "";
+			RemovalDate = IsDeleted ? model.RemovalDate.ToString("d MMM yyyy") : "";
 		}
 
 		public virtual void Update(ModelT model)
 		{
 			Model = model;
 			IsDeleted = model.IsDeleted;
-			RemovalDate = IsDeleted ? model.RemovalDate.ToString() : "";
+			RemovalDate = IsDeleted ? model.RemovalDate.ToString("d MMM yyyy") : "";
 			Update();
 		}
 
@@ -126,7 +126,7 @@ namespace SKDModule.ViewModels
 			Organisation = organisation;
 			IsOrganisation = true;
 			IsDeleted = organisation.IsDeleted;
-			RemovalDate = IsDeleted ? organisation.RemovalDate.ToString() : ""; 
+			RemovalDate = IsDeleted ? organisation.RemovalDate.ToString("d MMM yyyy") : ""; 
 			Update();
 		}
 
