@@ -56,16 +56,26 @@ namespace SKDDriver.Translators
 			}
 		}
 
-		public OperationResult AddCustomPassJournal(Guid uid, Guid employeeUID, Guid zoneUID, DateTime enterTime, DateTime exitTime)
+		public OperationResult AddCustomPassJournal(Guid uid, Guid employeeUID, Guid zoneUID, DateTime enterTime, DateTime exitTime,
+			DateTime? adjustmentDate, Guid correctedBy, bool isTakeInCalculations, bool isAddedManually, DateTime? enterTimeOriginal, DateTime? exitTimeOriginal)
 		{
 			try
 			{
-				var passJournalItem = new DataAccess.PassJournal();
-				passJournalItem.UID = uid;
-				passJournalItem.EmployeeUID = employeeUID;
-				passJournalItem.ZoneUID = zoneUID;
-				passJournalItem.EnterTime = enterTime;
-				passJournalItem.ExitTime = exitTime;
+				var passJournalItem = new DataAccess.PassJournal
+				{
+					UID = uid,
+					EmployeeUID = employeeUID,
+					ZoneUID = zoneUID,
+					EnterTime = enterTime,
+					ExitTime = exitTime,
+					AdjustmentDate = adjustmentDate,
+					CorrectedByUID = correctedBy,
+					IsTakeInCalculations = isTakeInCalculations,
+					IsAddedManually = isAddedManually,
+					EnterTimeOriginal = enterTimeOriginal,
+					ExitTimeOriginal = exitTimeOriginal
+				};
+
 				if (IsIntersection(passJournalItem))
 				{
 					return new OperationResult("Невозможно добавить пересекающийся интервал");
@@ -80,7 +90,8 @@ namespace SKDDriver.Translators
 			}
 		}
 
-		public OperationResult EditPassJournal(Guid uid, Guid zoneUID, DateTime enterTime, DateTime exitTime)
+		public OperationResult EditPassJournal(Guid uid, Guid zoneUID, DateTime enterTime, DateTime exitTime,
+			bool isNeedAdjustment, DateTime? adjustmentDate, Guid correctedBy, bool isTakeInCalculations, bool isAddedManually)
 		{
 			try
 			{
@@ -90,6 +101,11 @@ namespace SKDDriver.Translators
 					passJournalItem.ZoneUID = zoneUID;
 					passJournalItem.EnterTime = enterTime;
 					passJournalItem.ExitTime = exitTime;
+					passJournalItem.IsNeedAdjustment = isNeedAdjustment;
+					passJournalItem.AdjustmentDate = adjustmentDate;
+					passJournalItem.CorrectedByUID = correctedBy;
+					passJournalItem.IsTakeInCalculations = isTakeInCalculations;
+					passJournalItem.IsAddedManually = isAddedManually;
 				}
 				if (passJournalItem != null && IsIntersection(passJournalItem))
 				{

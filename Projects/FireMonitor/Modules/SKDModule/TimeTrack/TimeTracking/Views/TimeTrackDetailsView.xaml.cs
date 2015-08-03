@@ -32,7 +32,7 @@ namespace SKDModule.Views
 
 		string TimePartDateToString(DateTime dateTime)
 		{
-			var result = dateTime.TimeOfDay.Hours.ToString() + ":" + dateTime.TimeOfDay.Minutes.ToString() + ":" + dateTime.TimeOfDay.Seconds.ToString();
+			var result = dateTime.TimeOfDay.Hours + ":" + dateTime.TimeOfDay.Minutes + ":" + dateTime.TimeOfDay.Seconds;
 			return result;
 		}
 
@@ -115,23 +115,21 @@ namespace SKDModule.Views
 				{
 					var timeTrackPart = timeTrackParts[i];
 
-					var startTimePart = new TimePart();
-					startTimePart.Delta = timeTrackPart.StartTime.TotalSeconds - current;
-					startTimePart.IsInterval = false;
+					var startTimePart = new TimePart {Delta = timeTrackPart.StartTime.TotalSeconds - current, IsInterval = false};
 					timeParts.Add(startTimePart);
 
-					var endTimePart = new TimePart();
-					endTimePart.Delta = timeTrackPart.EndTime.TotalSeconds - timeTrackPart.StartTime.TotalSeconds;
-					endTimePart.IsInterval = timeTrackPart.TimeTrackPartType != TimeTrackType.None;
-					endTimePart.TimeTrackType = timeTrackPart.TimeTrackPartType;
-					endTimePart.Tooltip = timeTrackPart.Tooltip;
+					var endTimePart = new TimePart
+					{
+						Delta = timeTrackPart.EndTime.TotalSeconds - timeTrackPart.StartTime.TotalSeconds,
+						IsInterval = timeTrackPart.TimeTrackPartType != TimeTrackType.None,
+						TimeTrackType = timeTrackPart.TimeTrackPartType,
+						Tooltip = timeTrackPart.Tooltip
+					};
 					timeParts.Add(endTimePart);
 
 					current = timeTrackPart.EndTime.TotalSeconds;
 				}
-				var lastTimePart = new TimePart();
-				lastTimePart.Delta = 24 * 60 * 60 - current;
-				lastTimePart.IsInterval = false;
+				var lastTimePart = new TimePart {Delta = 24*60*60 - current, IsInterval = false};
 				timeParts.Add(lastTimePart);
 
 				DrawGrid(timeParts, grid);
@@ -146,12 +144,11 @@ namespace SKDModule.Views
 				var widht = timePart.Delta;
 				if (widht >= 0)
 				{
-					grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(widht, GridUnitType.Star) });
+					grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(widht, GridUnitType.Star) });
 
 					if (timePart.IsInterval)
 					{
-						Rectangle rectangle = new Rectangle();
-						rectangle.ToolTip = timePart.Tooltip;
+						var rectangle = new Rectangle {ToolTip = timePart.Tooltip};
 						var timeTrackTypeToColorConverter = new TimeTrackTypeToColorConverter();
 						rectangle.Fill = (Brush)timeTrackTypeToColorConverter.Convert(timePart.TimeTrackType, null, null, null);
 						rectangle.Stroke = new SolidColorBrush(Colors.Black);
@@ -165,19 +162,21 @@ namespace SKDModule.Views
 
 		void DrawHoursGrid()
 		{
-			TimeLineGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(0.5, GridUnitType.Star) });
+			TimeLineGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(0.5, GridUnitType.Star) });
 			for (int i = 1; i <= 23; i++)
 			{
-				TimeLineGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
-				TextBlock timeTextBlock = new TextBlock();
-				timeTextBlock.Text = i.ToString();
-				timeTextBlock.Foreground = new SolidColorBrush(Colors.Black);
-				timeTextBlock.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
+				TimeLineGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+				var timeTextBlock = new TextBlock
+				{
+					Text = i.ToString(),
+					Foreground = new SolidColorBrush(Colors.Black),
+					HorizontalAlignment = HorizontalAlignment.Center
+				};
 				Grid.SetRow(timeTextBlock, 0);
 				Grid.SetColumn(timeTextBlock, i);
 				TimeLineGrid.Children.Add(timeTextBlock);
 			}
-			TimeLineGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(0.5, GridUnitType.Star) });
+			TimeLineGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(0.5, GridUnitType.Star) });
 		}
 	}
 }

@@ -387,6 +387,7 @@
     <Compile Include="TimeTrack\TimeTracking\Model\TimeTrackingPeriod.cs" />
     <Compile Include="TimeTrack\TimeTracking\Model\DayTimeTrackPart.cs" />
     <Compile Include="TimeTrack\TimeTracking\Model\DayTrack.cs" />
+    <Compile Include="TimeTrack\TimeTracking\Model\TimeTrackZone.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\DocumentDetailsViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\DocumentsViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\DocumentTypeDetailsViewModel.cs" />

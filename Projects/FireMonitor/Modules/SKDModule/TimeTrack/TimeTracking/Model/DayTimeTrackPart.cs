@@ -1,4 +1,6 @@
-﻿using FiresecAPI.SKD;
+﻿using System.Globalization;
+using FiresecAPI.SKD;
+using FiresecClient;
 using ReactiveUI;
 using SKDModule.ViewModels;
 using System;
@@ -13,6 +15,46 @@ namespace SKDModule.Model
 
 		public Guid UID { get; private set; }
 		public int No { get; private set; }
+
+		private bool _isManuallyAdded;
+
+		public bool IsManuallyAdded
+		{
+			get { return _isManuallyAdded; }
+			set { this.RaiseAndSetIfChanged(ref _isManuallyAdded, value); }
+		}
+
+		private bool _isTakeInCalculations;
+
+		public bool IsTakeInCalculations
+		{
+			get { return _isTakeInCalculations; }
+			set { this.RaiseAndSetIfChanged(ref _isTakeInCalculations, value); }
+		}
+
+		private bool _isNeedAdjustment;
+
+		public bool IsNeedAdjustment
+		{
+			get { return _isNeedAdjustment; }
+			set { this.RaiseAndSetIfChanged(ref _isNeedAdjustment, value); }
+		}
+
+		private DateTime? _enterDateTime;
+
+		public DateTime? EnterDateTime
+		{
+			get { return _enterDateTime; }
+			set { this.RaiseAndSetIfChanged(ref _enterDateTime, value); }
+		}
+
+		private DateTime? _exitDateTime;
+
+		public DateTime? ExitDateTime
+		{
+			get { return _exitDateTime; }
+			set { this.RaiseAndSetIfChanged(ref _exitDateTime, value); }
+		}
 
 		TimeSpan _enterTimeSpan;
 		public TimeSpan EnterTimeSpan
@@ -48,6 +90,10 @@ namespace SKDModule.Model
 			}
 		}
 
+		public string CorrectedDate { get; set; }
+
+		public string CorrectedBy { get; set; }
+
 		#endregion
 
 		#region Constructors
@@ -55,7 +101,17 @@ namespace SKDModule.Model
 		public DayTimeTrackPart(TimeTrackPartDetailsViewModel timeTrackPartDetailsViewModel)
 		{
 			UID = timeTrackPartDetailsViewModel.UID;
-			Update(timeTrackPartDetailsViewModel.EnterTime, timeTrackPartDetailsViewModel.ExitTime, timeTrackPartDetailsViewModel.SelectedZone.Name, timeTrackPartDetailsViewModel.SelectedZone.No);
+			CorrectedBy = FiresecManager.CurrentUser.Name;
+			CorrectedDate = DateTime.Now.ToString(CultureInfo.CurrentUICulture);
+			Update(
+				timeTrackPartDetailsViewModel.EnterDateTime,
+				timeTrackPartDetailsViewModel.EnterDateTime,
+				timeTrackPartDetailsViewModel.EnterTime,
+				timeTrackPartDetailsViewModel.ExitTime,
+				timeTrackPartDetailsViewModel.SelectedZone.Name,
+				timeTrackPartDetailsViewModel.SelectedZone.No,
+				timeTrackPartDetailsViewModel.IsTakeInCalculations,
+				timeTrackPartDetailsViewModel.IsManuallyAdded);
 		}
 
 		public DayTimeTrackPart(TimeTrackPart timeTrackPart)
@@ -71,7 +127,15 @@ namespace SKDModule.Model
 			}
 
 			UID = timeTrackPart.PassJournalUID;
-			Update(timeTrackPart.StartTime, timeTrackPart.EndTime, zoneName, num);
+			Update(
+				timeTrackPart.EnterDateTime,
+				timeTrackPart.ExitDateTime,
+				timeTrackPart.StartTime,
+				timeTrackPart.EndTime,
+				zoneName,
+				num,
+				timeTrackPart.IsTakeInCalculations,
+				timeTrackPart.IsManuallyAdded);
 		}
 
 		public DayTimeTrackPart()
@@ -82,12 +146,16 @@ namespace SKDModule.Model
 
 		#region Methods
 
-		public void Update(TimeSpan enterTime, TimeSpan exitTime, string zoneName, int no)
+		public void Update(DateTime? enterDateTime, DateTime? exitDateTime, TimeSpan enterTime, TimeSpan exitTime, string zoneName, int no, bool isTakeInCalculations, bool isManuallyAdded)
 		{
 			ZoneName = zoneName ?? "<Нет в конфигурации>";
 			No = no;
+			EnterDateTime = enterDateTime;
+			ExitDateTime = exitDateTime;
 			EnterTimeSpan = enterTime;
 			ExitTimeSpan = exitTime;
+			IsTakeInCalculations = isTakeInCalculations;
+			IsManuallyAdded = isManuallyAdded;
 		}
 
 		#endregion

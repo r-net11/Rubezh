@@ -2,6 +2,7 @@
 using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure;
+using Infrastructure.Client.Login;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
@@ -273,7 +274,8 @@ namespace SKDModule.ViewModels
 		/// </summary>
 		void OnAddCustomPart()
 		{
-			var timeTrackPartDetailsViewModel = new TimeTrackPartDetailsViewModel(DayTimeTrack, ShortEmployee, this);
+			var timeTrackPartDetailsViewModel = new TimeTrackPartDetailsViewModel(DayTimeTrack, ShortEmployee, this) {IsTakeInCalculations = true, IsManuallyAdded = true};
+
 			if (DialogService.ShowModalWindow(timeTrackPartDetailsViewModel))
 			{
 				DayTimeTrackParts.Add(new DayTimeTrackPart(timeTrackPartDetailsViewModel));
@@ -309,11 +311,27 @@ namespace SKDModule.ViewModels
 
 		void OnEditPart()
 		{
-			var timeTrackPartDetailsViewModel = new TimeTrackPartDetailsViewModel(DayTimeTrack, ShortEmployee, this, SelectedDayTimeTrackPart.UID, SelectedDayTimeTrackPart.EnterTimeSpan, SelectedDayTimeTrackPart.ExitTimeSpan);
+			var timeTrackPartDetailsViewModel = new TimeTrackPartDetailsViewModel(DayTimeTrack, ShortEmployee, this, SelectedDayTimeTrackPart.UID, SelectedDayTimeTrackPart.EnterTimeSpan,
+				SelectedDayTimeTrackPart.ExitTimeSpan)
+			{
+				IsTakeInCalculations = SelectedDayTimeTrackPart.IsTakeInCalculations,
+				IsNeedAdjustment = SelectedDayTimeTrackPart.IsNeedAdjustment
+			};
+
 			if (DialogService.ShowModalWindow(timeTrackPartDetailsViewModel))
 			{
 				SelectedTimeTrackPartDetailsViewModel = timeTrackPartDetailsViewModel;
-				SelectedDayTimeTrackPart.Update(timeTrackPartDetailsViewModel.EnterTime, timeTrackPartDetailsViewModel.ExitTime, timeTrackPartDetailsViewModel.SelectedZone.Name, timeTrackPartDetailsViewModel.SelectedZone.No);
+				SelectedDayTimeTrackPart
+					.Update(
+					timeTrackPartDetailsViewModel.EnterDateTime,
+					timeTrackPartDetailsViewModel.ExitDateTime,
+					timeTrackPartDetailsViewModel.EnterTime,
+					timeTrackPartDetailsViewModel.ExitTime,
+					timeTrackPartDetailsViewModel.SelectedZone.Name,
+					timeTrackPartDetailsViewModel.SelectedZone.No,
+					timeTrackPartDetailsViewModel.IsTakeInCalculations,
+					timeTrackPartDetailsViewModel.IsManuallyAdded);
+
 				IsDirty = true;
 				IsNew = default(bool);
 				ServiceFactory.Events.GetEvent<EditTimeTrackPartEvent>().Publish(ShortEmployee.UID);
@@ -423,15 +441,30 @@ namespace SKDModule.ViewModels
 		protected override bool Save() //TODO: Save all TimeTracks without refresh
 		{
 			if (IsNew)
-				PassJournalHelper.AddCustomPassJournal(Guid.NewGuid(), ShortEmployee.UID,
+				PassJournalHelper.AddCustomPassJournal(
+					Guid.NewGuid(),
+					ShortEmployee.UID,
 					SelectedTimeTrackPartDetailsViewModel.SelectedZone.UID,
 					DayTimeTrack.Date.Date.Add(SelectedTimeTrackPartDetailsViewModel.EnterTime),
-					DayTimeTrack.Date.Date.Add(SelectedTimeTrackPartDetailsViewModel.ExitTime));
+					DayTimeTrack.Date.Date.Add(SelectedTimeTrackPartDetailsViewModel.ExitTime),
+					DateTime.Now,
+					FiresecManager.CurrentUser.UID,
+					SelectedTimeTrackPartDetailsViewModel.IsTakeInCalculations,
+					SelectedTimeTrackPartDetailsViewModel.IsManuallyAdded,
+					DayTimeTrack.Date.Date.Add(SelectedTimeTrackPartDetailsViewModel.EnterTime),
+					DayTimeTrack.Date.Date.Add(SelectedTimeTrackPartDetailsViewModel.ExitTime)
+					);
 			else
-				PassJournalHelper.EditPassJournal(SelectedDayTimeTrackPart.UID,
+				PassJournalHelper.EditPassJournal(
+					SelectedDayTimeTrackPart.UID,
 					SelectedTimeTrackPartDetailsViewModel.SelectedZone.UID,
 					DayTimeTrack.Date.Date.Add(SelectedTimeTrackPartDetailsViewModel.EnterTime),
-					DayTimeTrack.Date.Date.Add(SelectedTimeTrackPartDetailsViewModel.ExitTime));
+					DayTimeTrack.Date.Date.Add(SelectedTimeTrackPartDetailsViewModel.ExitTime),
+					SelectedTimeTrackPartDetailsViewModel.IsNeedAdjustment,
+					DateTime.Now,
+					FiresecManager.CurrentUser.UID,
+					SelectedTimeTrackPartDetailsViewModel.IsTakeInCalculations,
+					SelectedTimeTrackPartDetailsViewModel.IsManuallyAdded);
 
 			return base.Save();
 		}
