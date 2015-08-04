@@ -4,6 +4,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ReactiveUI;
 using SKDModule.Model;
 using SKDModule.Helpers;
 
@@ -110,6 +111,19 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		private bool _isEnabledTakeInCalculations;
+
+		public bool IsEnabledTakeInCalculations
+		{
+			get { return _isEnabledTakeInCalculations; }
+			set
+			{
+				if (_isEnabledTakeInCalculations == value) return;
+				_isEnabledTakeInCalculations = value;
+				OnPropertyChanged(() => IsEnabledTakeInCalculations);
+			}
+		}
+
 		#endregion
 
 		#region Constructors
@@ -129,12 +143,26 @@ namespace SKDModule.ViewModels
 			{
 				UID = Guid.NewGuid();
 				Title = "Добавить проход";
-				EnterDateTime = DateTime.Now;
-
+				EnterDateTime = dayTimeTrack.Date;
+				ExitDateTime = dayTimeTrack.Date;
 			}
 
 			Zones = new List<TimeTrackZone>(TimeTrackingHelper.GetMergedZones(employee));
 			SelectedZone = Zones.FirstOrDefault();
+			this.WhenAny(x => x.SelectedZone, x => x.Value)
+				.Subscribe(value =>
+				{
+					if (value != null && !value.IsURV)
+					{
+						IsEnabledTakeInCalculations = false;
+						NotTakeInCalculations = true;
+					}
+					else
+					{
+						IsEnabledTakeInCalculations = true;
+						NotTakeInCalculations = false;
+					}
+				});
 		}
 		#endregion
 

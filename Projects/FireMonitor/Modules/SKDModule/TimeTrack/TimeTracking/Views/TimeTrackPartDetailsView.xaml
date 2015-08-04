@@ -104,6 +104,7 @@
 		<CheckBox
 			Grid.Row="1"
 			Content="Не учитывать в расчетах"
+			IsEnabled="{Binding IsEnabledTakeInCalculations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 			IsChecked="{Binding NotTakeInCalculations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 			Foreground="White"
 			VerticalAlignment="Center"

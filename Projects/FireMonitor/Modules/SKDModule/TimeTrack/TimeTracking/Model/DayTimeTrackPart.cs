@@ -32,6 +32,16 @@ namespace SKDModule.Model
 			set { this.RaiseAndSetIfChanged(ref _notTakeInCalculations, value); }
 		}
 
+		public bool IsEnabledNotTakeInCalculations
+		{
+			get
+			{
+				if (TimeTrackZone.IsURV) return true;
+				NotTakeInCalculations = true;
+				return false;
+			}
+		}
+
 		private bool _isNeedAdjustment;
 
 		public bool IsNeedAdjustment

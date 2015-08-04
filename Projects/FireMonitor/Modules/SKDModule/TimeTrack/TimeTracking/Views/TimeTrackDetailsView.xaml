@@ -25,6 +25,7 @@
 					</DataTrigger>
 				</Style.Triggers>
 			</Style>
+			<BitmapImage x:Key="MyImageSource" UriSource="pack://application:,,,/Controls;component/Images/Zone.png" />
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="pack://application:,,,/Controls;component/Themes/StrazhTheme.xaml" />
 			</ResourceDictionary.MergedDictionaries>
@@ -44,7 +45,7 @@
 						<RowDefinition Height="Auto" />
 						<RowDefinition Height="*" />
 					</Grid.RowDefinitions>
-					<StackPanel Grid.Row="0" Orientation="Horizontal">
+					<StackPanel Orientation="Horizontal">
 						<ToolBarButton
 							Command="{Binding AddCustomPartCommand}"
 							ImageSource="Add"
@@ -77,12 +78,12 @@
 								<DataGridTemplateColumn.CellTemplate>
 									<DataTemplate>
 										<StackPanel Orientation="Horizontal">
-											<Grid
+											<Image
 												Width="16"
 												Height="16"
-												Margin="4 0 0 0"
+												Margin="4 2"
 												VerticalAlignment="Center"
-												Background="{DynamicResource Zone}" />
+												Source="{StaticResource MyImageSource}" />
 											<TextBlock
 												HorizontalAlignment="Stretch"
 												VerticalAlignment="Center"
@@ -135,6 +136,7 @@
 										<CheckBox
 											HorizontalAlignment="Center"
 											VerticalAlignment="Center"
+											IsEnabled="{Binding IsEnabledNotTakeInCalculations}"
 											IsChecked="{Binding NotTakeInCalculations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>
