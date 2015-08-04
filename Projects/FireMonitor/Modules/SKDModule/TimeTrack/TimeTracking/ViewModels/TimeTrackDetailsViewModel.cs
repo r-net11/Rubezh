@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Globalization;
 using System.Windows.Data;
 using FiresecAPI.SKD;
 using FiresecClient;
@@ -380,7 +381,9 @@ namespace SKDModule.ViewModels
 					timeTrackPartDetailsViewModel.ExitTime,
 					timeTrackPartDetailsViewModel.SelectedZone,
 					timeTrackPartDetailsViewModel.NotTakeInCalculations,
-					timeTrackPartDetailsViewModel.IsManuallyAdded);
+					timeTrackPartDetailsViewModel.IsManuallyAdded,
+					DateTime.Now.ToString(CultureInfo.CurrentUICulture),
+					FiresecManager.CurrentUser.Name);
 
 				IsDirty = true;
 				IsNew = default(bool);

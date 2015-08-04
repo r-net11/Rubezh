@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using FiresecAPI.Models;
 using FiresecAPI.SKD;
 using FiresecClient;
 using ReactiveUI;
@@ -93,9 +94,31 @@ namespace SKDModule.Model
 			}
 		}
 
-		public string CorrectedDate { get; set; }
+		private string _correctedDate;
+		public string CorrectedDate
+		{
+			get { return _correctedDate; }
+			set
+			{
+				if (string.Equals(_correctedDate, value)) return;
+				_correctedDate = value;
+				this.RaiseAndSetIfChanged(ref _correctedDate, value);
 
-		public string CorrectedBy { get; set; }
+			}
+		}
+
+		private string _correctedBy;
+
+		public string CorrectedBy
+		{
+			get { return _correctedBy; }
+			set
+			{
+				if (string.Equals(_correctedBy, value)) return;
+				_correctedBy = value;
+				this.RaiseAndSetIfChanged(ref _correctedBy, value);
+			}
+		}
 
 		private TimeTrackZone _timeTrackZone;
 
@@ -116,8 +139,6 @@ namespace SKDModule.Model
 		public DayTimeTrackPart(TimeTrackPartDetailsViewModel timeTrackPartDetailsViewModel)
 		{
 			UID = timeTrackPartDetailsViewModel.UID;
-			CorrectedBy = FiresecManager.CurrentUser.Name;
-			CorrectedDate = DateTime.Now.ToString(CultureInfo.CurrentUICulture);
 			Update(
 				timeTrackPartDetailsViewModel.EnterDateTime,
 				timeTrackPartDetailsViewModel.EnterDateTime,
@@ -125,7 +146,9 @@ namespace SKDModule.Model
 				timeTrackPartDetailsViewModel.ExitTime,
 				timeTrackPartDetailsViewModel.SelectedZone,
 				timeTrackPartDetailsViewModel.NotTakeInCalculations,
-				timeTrackPartDetailsViewModel.IsManuallyAdded);
+				timeTrackPartDetailsViewModel.IsManuallyAdded,
+				DateTime.Now.ToString(CultureInfo.CurrentUICulture),
+				FiresecManager.CurrentUser.Name);
 		}
 
 		public DayTimeTrackPart(TimeTrackPart timeTrackPart, ShortEmployee employee)
@@ -136,6 +159,11 @@ namespace SKDModule.Model
 				new TimeTrackZone { Name = "<Нет в конфигурации>", No = default(int) };
 
 			UID = timeTrackPart.PassJournalUID;
+			var user =
+				FiresecManager.SecurityConfiguration.Users.FirstOrDefault(x => x.UID == timeTrackPart.CorrectedByUID)
+				??
+			    new User {Name = "<Нет в конфигурации>"};
+
 			Update(
 				timeTrackPart.EnterDateTime,
 				timeTrackPart.ExitDateTime,
@@ -143,7 +171,9 @@ namespace SKDModule.Model
 				timeTrackPart.EndTime,
 				zone,
 				timeTrackPart.NotTakeInCalculations,
-				timeTrackPart.IsManuallyAdded);
+				timeTrackPart.IsManuallyAdded,
+				timeTrackPart.AdjustmentDate.ToString(),
+				user.Name);
 		}
 
 		public DayTimeTrackPart()
@@ -154,7 +184,8 @@ namespace SKDModule.Model
 
 		#region Methods
 
-		public void Update(DateTime? enterDateTime, DateTime? exitDateTime, TimeSpan enterTime, TimeSpan exitTime, TimeTrackZone timeTrackZone, bool notTakeInCalculations, bool isManuallyAdded)
+		public void Update(DateTime? enterDateTime, DateTime? exitDateTime, TimeSpan enterTime, TimeSpan exitTime,
+			TimeTrackZone timeTrackZone, bool notTakeInCalculations, bool isManuallyAdded, string adjustmentDate, string correctedBy)
 		{
 			TimeTrackZone = timeTrackZone;
 			EnterDateTime = enterDateTime;
@@ -163,6 +194,8 @@ namespace SKDModule.Model
 			ExitTimeSpan = exitTime;
 			NotTakeInCalculations = notTakeInCalculations;
 			IsManuallyAdded = isManuallyAdded;
+			CorrectedDate = adjustmentDate;
+			CorrectedBy = correctedBy;
 		}
 
 		#endregion
