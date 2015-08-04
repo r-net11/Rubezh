@@ -122,6 +122,7 @@
     <Compile Include="Attach.cs" />
     <Compile Include="AttachedColumnBehavior.cs" />
     <Compile Include="Behaviours\CustomSortBehaviour.cs" />
+    <Compile Include="Behaviours\DatePickerCustomWatermark.cs" />
     <Compile Include="ButtonSpinner.cs" />
     <Compile Include="Converters\BoolToSelectionModeConverter.cs" />
     <Compile Include="Converters\ConverterHelper.cs" />

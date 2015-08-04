@@ -6,6 +6,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
 	xmlns:viewModel="clr-namespace:SKDModule.ViewModels"
+	xmlns:AttachedBehaviours="clr-namespace:Controls.Behaviours;assembly=Controls"
 	Width="500"
 	Height="450"
 	d:DataContext="{d:DesignInstance viewModel:TimeTrackFilterViewModel}"
@@ -17,13 +18,13 @@
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="pack://application:,,,/Controls;component/Themes/StrazhTheme.xaml" />
 			</ResourceDictionary.MergedDictionaries>
+			<SolidColorBrush x:Key="WatermarkColor" Color="LightGray"/>
 			<CollectionViewSource x:Key="cvsZones" Source="{Binding Zones}">
 				<CollectionViewSource.SortDescriptions>
 					<scm:SortDescription PropertyName="No" />
 				</CollectionViewSource.SortDescriptions>
 			</CollectionViewSource>
 		</ResourceDictionary>
-
 	</UserControl.Resources>
 	<Grid Background="{StaticResource BaseWindowBackgroundBrush}">
 		<Grid.ColumnDefinitions>
@@ -132,6 +133,8 @@
 				Grid.Column="1"
 				HorizontalAlignment="Left">
 				<DatePicker
+					AttachedBehaviours:DatePickerCustomWatermark.Watermark="{StaticResource WatermarkColor}"
+					AttachedBehaviours:DatePickerCustomWatermark.WatermarkText="дд.мм.ггг"
 					HorizontalAlignment="Right"
 					SelectedDate="{Binding EnterDateTime, Mode=TwoWay}"
 					Margin="5 2"
@@ -156,6 +159,8 @@
 				HorizontalAlignment="Left"
 				Margin="0 0 0 10">
 				<DatePicker
+					AttachedBehaviours:DatePickerCustomWatermark.Watermark="{StaticResource WatermarkColor}"
+					AttachedBehaviours:DatePickerCustomWatermark.WatermarkText="дд.мм.ггг"
 					HorizontalAlignment="Right"
 					SelectedDate="{Binding ExitDateTime}"
 					Width="100"
