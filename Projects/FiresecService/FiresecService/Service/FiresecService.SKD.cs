@@ -1080,6 +1080,10 @@ namespace FiresecService.Service
 					device.State.AccessState = accessState;
 					var skdStates = new SKDStates();
 					skdStates.DeviceStates.Add(device.State);
+
+					//device.Door.State.AccessState = accessState; // TODO: Точка доступа тоже должна хранить состояние
+					//skdStates.DoorStates.Add(device.Door.State);
+
 					ChinaSKDDriver.Processor.OnStatesChanged(skdStates);
 				}
 				return result;
@@ -1583,6 +1587,10 @@ namespace FiresecService.Service
 							lockDevice.State.AccessState = accessState;
 							var skdStates = new SKDStates();
 							skdStates.DeviceStates.Add(lockDevice.State);
+
+							//door.State.AccessState = accessState; // TODO: Точка доступа тоже должна хранить состояние
+							//skdStates.DoorStates.Add(door.State);
+							
 							ChinaSKDDriver.Processor.OnStatesChanged(skdStates);
 						}
 						return result;
