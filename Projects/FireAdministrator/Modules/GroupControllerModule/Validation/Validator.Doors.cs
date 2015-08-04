@@ -4,6 +4,8 @@ using FiresecAPI.GK;
 using FiresecClient;
 using Infrastructure.Common.Validation;
 using System;
+using Infrastructure.Common;
+using FiresecAPI;
 
 namespace GKModule.Validation
 {
@@ -16,10 +18,13 @@ namespace GKModule.Validation
 
 			foreach (var door in GKManager.DeviceConfiguration.Doors)
 			{
-				ValidateDoorHasNoDevices(door);
-				ValidateDoorHasWrongDevices(door);
-				ValidateLockProperties(door);
-				ValidateLockControlDevice(door);
+				if (!GlobalSettingsHelper.GlobalSettings.IgnoredErrors.HasFlag(ValidationErrorType.NotTD))
+				{
+					ValidateDoorHasNoDevices(door);
+					ValidateDoorHasWrongDevices(door);
+					ValidateLockProperties(door);
+					ValidateLockControlDevice(door);
+				}
 			}
 		}
 
@@ -62,6 +67,36 @@ namespace GKModule.Validation
 			foreach (var door in GKManager.DeviceConfiguration.Doors)
 			{
 				var doorDeviceUIDs = new HashSet<Guid>();
+				if (door.EnterButton != null)
+				{
+					if (!doorDeviceUIDs.Add(door.EnterButtonUID))
+					{
+						Errors.Add(new DoorValidationError(door, "Устройство " + door.EnterButton.PresentationName + " уже участвует в точке дотупа", ValidationErrorLevel.CannotWrite));
+					}
+				}
+				if (door.ExitButton != null)
+				{
+					if (!doorDeviceUIDs.Add(door.ExitButtonUID))
+					{
+						Errors.Add(new DoorValidationError(door, "Устройство " + door.ExitButton.PresentationName + " уже участвует в точке дотупа", ValidationErrorLevel.CannotWrite));
+					}
+				}
+				if (door.LockControlDeviceExit != null)
+				{
+					if (!doorDeviceUIDs.Add(door.LockControlDeviceExitUID))
+					{
+						Errors.Add(new DoorValidationError(door, "Устройство " + door.LockControlDeviceExit.PresentationName + " уже участвует в точке дотупа", ValidationErrorLevel.CannotWrite));
+					}
+				}
+
+				if (door.LockControlDevice != null)
+				{
+					if (!doorDeviceUIDs.Add(door.LockControlDevice.UID))
+					{
+						Errors.Add(new DoorValidationError(door, "Устройство " + door.LockControlDevice.PresentationName + " уже участвует в точке дотупа", ValidationErrorLevel.CannotWrite));
+					}
+				}
+
 				if (door.EnterDevice != null)
 				{
 					doorDeviceUIDs.Add(door.EnterDevice.UID);
@@ -74,10 +109,7 @@ namespace GKModule.Validation
 				{
 					doorDeviceUIDs.Add(door.LockDevice.UID);
 				}
-				if (door.LockControlDevice != null)
-				{
-					doorDeviceUIDs.Add(door.LockControlDevice.UID);
-				}
+
 				foreach (var doorDeviceUID in doorDeviceUIDs)
 				{
 					if (!deviceUIDs.Add(doorDeviceUID))
