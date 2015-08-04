@@ -131,8 +131,8 @@ namespace FiresecAPI.SKD
 				var hasPlannedTimeTrack = plannedTimeTrackParts.Any(x => x.StartTime <= timeTrackPart.StartTime
 																		&& x.EndTime >= timeTrackPart.EndTime);
 
-				timeTrackPart.TimeTrackPartType = GetTimeTrackType(timeTrackPart, realTimeTrackParts, plannedTimeTrackParts, IsOnlyFirstEnter, scheduleTimeInterval,
-					scheduleTimeInterval);
+				timeTrackPart.TimeTrackPartType = GetTimeTrackType(timeTrackPart, plannedTimeTrackParts, realTimeTrackParts, IsOnlyFirstEnter, scheduleTimeInterval,
+					new ScheduleInterval(timeTrackPart.StartTime, timeTrackPart.EndTime));
 				resultCollection.Add(timeTrackPart);
 			}
 
