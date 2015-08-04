@@ -23,6 +23,7 @@ namespace GKModule.ViewModels
 			AddCommand = new RelayCommand(OnAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
+			DeleteAllEmptyCommand = new RelayCommand(OnDeleteAllEmpty, CanDeleteAllEmpty);
 			RegisterShortcuts();
 			SetRibbonItems();
 		}
@@ -94,6 +95,20 @@ namespace GKModule.ViewModels
 				SelectedCode = Codes[System.Math.Min(oldIndex, Codes.Count - 1)];
 		}
 
+		public RelayCommand DeleteAllEmptyCommand { get; private set; }
+		void OnDeleteAllEmpty()
+		{
+			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить все пустые зоны ?"))
+			{
+			
+			}
+		}
+
+		bool CanDeleteAllEmpty()
+		{
+			return false;
+		}
+
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
@@ -126,10 +141,10 @@ namespace GKModule.ViewModels
 					new RibbonMenuItemViewModel("Добавить", AddCommand, "BAdd"),
 					new RibbonMenuItemViewModel("Редактировать", EditCommand, "BEdit"),
 					new RibbonMenuItemViewModel("Удалить", DeleteCommand, "BDelete"),
+					new RibbonMenuItemViewModel("Удалить все пустые коды", DeleteAllEmptyCommand, "BDeleteEmpty"),
 				}, "BEdit") { Order = 2 }
 			};
 		}
-
 		#region ISelectable<Guid> Members
 		public void Select(Guid codeUID)
 		{
