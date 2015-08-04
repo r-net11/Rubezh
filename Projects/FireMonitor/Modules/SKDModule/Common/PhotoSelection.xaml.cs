@@ -5,6 +5,8 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using Infrastructure.Common.Windows;
 using Microsoft.Win32;
+using SKDModule.Views;
+using SKDModule.ViewModels;
 
 namespace SKDModule
 {
@@ -147,7 +149,15 @@ namespace SKDModule
 
 		void WebCamButton_Click(object sender, RoutedEventArgs e)
 		{
-			MessageBoxService.Show("NOT IMPLEMENTED YET");
+
+			if (WebCameraDetailsViewModel.HasCamera)
+			{
+				var webCameraView = new WebCameraDetailsViewModel();
+				DialogService.ShowModalWindow(webCameraView);
+			} else
+			{
+				MessageBoxService.Show("NO WEBCAM DETECTED. NEED TO RESTART THE APP AFTER YOU`VE CONNECTED THR CAMERA");
+			}
 		}
 	}
 }
