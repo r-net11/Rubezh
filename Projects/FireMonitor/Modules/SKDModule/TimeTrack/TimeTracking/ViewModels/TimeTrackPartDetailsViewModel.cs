@@ -1,12 +1,11 @@
 ﻿using FiresecAPI.SKD;
-using FiresecClient;
-using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using SKDModule.Model;
+using SKDModule.Helpers;
 
 namespace SKDModule.ViewModels
 {
@@ -134,20 +133,10 @@ namespace SKDModule.ViewModels
 
 			}
 
-			Zones = new List<TimeTrackZone>(GetMergedZones(employee));
+			Zones = new List<TimeTrackZone>(TimeTrackingHelper.GetMergedZones(employee));
 			SelectedZone = Zones.FirstOrDefault();
 		}
 		#endregion
-
-		private static List<TimeTrackZone> GetMergedZones(ShortEmployee employee)
-		{
-			var schedule = ScheduleHelper.GetSingle(employee.ScheduleUID);
-			if (schedule == null) return SKDManager.Zones.Select(x => new TimeTrackZone(x)).ToList();
-
-			return SKDManager.Zones.Select(zone => schedule.Zones.Any(x => x.ZoneUID == zone.UID)
-				? new TimeTrackZone(zone) {IsURV = true}
-				: new TimeTrackZone(zone)).ToList();
-		}
 
 		#region Commands
 

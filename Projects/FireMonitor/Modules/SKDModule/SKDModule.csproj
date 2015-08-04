@@ -384,6 +384,7 @@
       <DependentUpon>ScheduleSchemesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TimeTrack\Shedules\ViewModels\Comparers.cs" />
+    <Compile Include="TimeTrack\TimeTracking\Helpers\TimeTrackingHelper.cs" />
     <Compile Include="TimeTrack\TimeTracking\Model\TimeTrackingPeriod.cs" />
     <Compile Include="TimeTrack\TimeTracking\Model\DayTimeTrackPart.cs" />
     <Compile Include="TimeTrack\TimeTracking\Model\DayTrack.cs" />

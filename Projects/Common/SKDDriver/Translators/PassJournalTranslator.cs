@@ -260,18 +260,16 @@ namespace SKDDriver.Translators
 
 		public DayTimeTrack GetRealTimeTrack(DataAccess.Employee employee, DataAccess.Schedule schedule, DataAccess.ScheduleScheme scheduleScheme, IEnumerable<DataAccess.ScheduleZone> scheduleZones, DateTime date)
 		{
-			return GetRealTimeTrack(employee, schedule, scheduleScheme, scheduleZones, date, Context.PassJournals);
+			return GetRealTimeTrack(employee, schedule, scheduleScheme, date, Context.PassJournals);
 		}
 
-		public DayTimeTrack GetRealTimeTrack(DataAccess.Employee employee, DataAccess.Schedule schedule, DataAccess.ScheduleScheme scheduleScheme, IEnumerable<DataAccess.ScheduleZone> scheduleZones, DateTime date, IEnumerable<DataAccess.PassJournal> passJournals)
+		public DayTimeTrack GetRealTimeTrack(DataAccess.Employee employee, DataAccess.Schedule schedule, DataAccess.ScheduleScheme scheduleScheme, DateTime date, IEnumerable<DataAccess.PassJournal> passJournals)
 		{
 			var dayTimeTrack = new DayTimeTrack { Date = date };
 
 			foreach (var passJournal in passJournals.Where(x => x.EmployeeUID == employee.UID && x.EnterTime.Date == date.Date).ToList())
 			{
-				var scheduleZone = scheduleZones.FirstOrDefault(x => x.ZoneUID == passJournal.ZoneUID);
-
-				if (scheduleZone == null || !passJournal.ExitTime.HasValue) continue;
+				if (!passJournal.ExitTime.HasValue) continue;
 
 				var timeTrackPart = new TimeTrackPart
 				{

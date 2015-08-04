@@ -61,7 +61,7 @@
 					<DataGrid
 						Grid.Row="1"
 						Margin="2"
-						ItemsSource="{Binding DayTimeTrackParts}"
+						ItemsSource="{Binding DayTimeTrackPartsCollection}"
 						SelectedItem="{Binding SelectedDayTimeTrackPart,
 					                                 Mode=TwoWay,
 					                                 UpdateSourceTrigger=PropertyChanged}">
@@ -69,7 +69,7 @@
 							<DataGridTemplateColumn Width="40" Header="№">
 								<DataGridTemplateColumn.CellTemplate>
 									<DataTemplate>
-										<TextBlock Margin="4 0 0 0" Text="{Binding No}" />
+										<TextBlock Margin="4 0 0 0" Text="{Binding TimeTrackZone.No}" />
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
@@ -86,7 +86,7 @@
 											<TextBlock
 												HorizontalAlignment="Stretch"
 												VerticalAlignment="Center"
-												Text="{Binding ZoneName}" />
+												Text="{Binding Path=TimeTrackZone.Name}" />
 										</StackPanel>
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>

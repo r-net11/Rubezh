@@ -165,7 +165,6 @@ namespace SKDDriver.Translators
 				return new TimeTrackEmployeeResult("Не найдена схема работы");
 
 			var days = _ScheduleDays.Where(x => x.ScheduleSchemeUID == scheduleScheme.UID).ToList();
-			var scheduleZones = _ScheduleZones.Where(x => x.ScheduleUID == schedule.UID).ToList();
 			var nightSettings = DatabaseService.NightSettingsTranslator.GetByOrganisation(employee.OrganisationUID.Value, _NightSettings).Result;
 
 			var timeTrackEmployeeResult = new TimeTrackEmployeeResult { ScheduleName = schedule.Name };
@@ -178,7 +177,7 @@ namespace SKDDriver.Translators
 					continue;
 				}
 
-				var dayTimeTrack = _PassJournalTranslator.GetRealTimeTrack(employee, schedule, scheduleScheme, scheduleZones, date, _PassJournals);
+				var dayTimeTrack = _PassJournalTranslator.GetRealTimeTrack(employee, schedule, scheduleScheme, date, _PassJournals);
 				dayTimeTrack.NightSettings = nightSettings;
 				dayTimeTrack.IsIgnoreHoliday = schedule.IsIgnoreHoliday;
 				dayTimeTrack.IsOnlyFirstEnter = schedule.IsOnlyFirstEnter;

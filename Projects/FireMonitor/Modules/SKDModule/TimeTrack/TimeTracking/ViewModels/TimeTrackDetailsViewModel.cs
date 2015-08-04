@@ -1,8 +1,9 @@
-﻿using FiresecAPI.SKD;
+﻿using System.ComponentModel;
+using System.Windows.Data;
+using FiresecAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure;
-using Infrastructure.Client.Login;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
@@ -209,6 +210,32 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		private bool _isShowOnlyScheduledIntervals;
+
+		public bool IsShowOnlyScheduledIntervals
+		{
+			get { return _isShowOnlyScheduledIntervals; }
+			set
+			{
+				_isShowOnlyScheduledIntervals = value;
+				OnPropertyChanged(() => IsShowOnlyScheduledIntervals);
+			}
+		}
+
+		private ICollectionView _dayTimeTrackPartsCollection;
+
+		public ICollectionView DayTimeTrackPartsCollection
+		{
+			get { return _dayTimeTrackPartsCollection; }
+			set
+			{
+				if (_dayTimeTrackPartsCollection == value) return;
+
+				_dayTimeTrackPartsCollection = value;
+				OnPropertyChanged(() => DayTimeTrackPartsCollection);
+			}
+		}
+
 		#endregion
 
 		#region Constructors
@@ -230,7 +257,9 @@ namespace SKDModule.ViewModels
 			DayTimeTrack = dayTimeTrack;
 			ShortEmployee = shortEmployee;
 
-			DayTimeTrackParts = GetObservableCollection(DayTimeTrack.RealTimeTrackParts, x => new DayTimeTrackPart(x));
+			DayTimeTrackParts = GetObservableCollection(DayTimeTrack.RealTimeTrackParts, x => new DayTimeTrackPart(x, ShortEmployee));
+			DayTimeTrackPartsCollection = CollectionViewSource.GetDefaultView(DayTimeTrackParts);
+			DayTimeTrackPartsCollection.Filter = new Predicate<object>(FilterDayTimeTrackParts);
 			Documents = GetObservableCollection(DayTimeTrack.Documents, x => new TimeTrackAttachedDocument(x));
 
 			this.WhenAny(x => x.SelectedDocument, x => x.Value)
@@ -238,11 +267,26 @@ namespace SKDModule.ViewModels
 				{
 					CanDoChanges = value != null && !value.HasFile;
 				});
+
+			this.WhenAny(x => x.IsShowOnlyScheduledIntervals, x => x.Value)
+				.Subscribe(value => DayTimeTrackPartsCollection.Refresh());
 		}
 
 		#endregion
 
 		#region Methods
+
+		private bool FilterDayTimeTrackParts(object item)
+		{
+			var dayTimeTrackPart = item as DayTimeTrackPart;
+			if (dayTimeTrackPart == null) return false;
+
+			if (IsShowOnlyScheduledIntervals)
+			{
+				return dayTimeTrackPart.TimeTrackZone.IsURV;
+			}
+			return true;
+		}
 
 		private static ObservableCollection<T> GetObservableCollection<T, TU>(IEnumerable<TU> elements, Func<TU, T> del)
 			where T : new()
@@ -334,8 +378,7 @@ namespace SKDModule.ViewModels
 					timeTrackPartDetailsViewModel.ExitDateTime,
 					timeTrackPartDetailsViewModel.EnterTime,
 					timeTrackPartDetailsViewModel.ExitTime,
-					timeTrackPartDetailsViewModel.SelectedZone.Name,
-					timeTrackPartDetailsViewModel.SelectedZone.No,
+					timeTrackPartDetailsViewModel.SelectedZone,
 					timeTrackPartDetailsViewModel.NotTakeInCalculations,
 					timeTrackPartDetailsViewModel.IsManuallyAdded);
 

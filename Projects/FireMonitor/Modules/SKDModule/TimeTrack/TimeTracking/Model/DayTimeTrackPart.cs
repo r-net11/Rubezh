@@ -2,6 +2,7 @@
 using FiresecAPI.SKD;
 using FiresecClient;
 using ReactiveUI;
+using SKDModule.Helpers;
 using SKDModule.ViewModels;
 using System;
 using System.ComponentModel;
@@ -14,7 +15,6 @@ namespace SKDModule.Model
 		#region Properties
 
 		public Guid UID { get; private set; }
-		public int No { get; private set; }
 
 		private bool _isManuallyAdded;
 
@@ -70,13 +70,6 @@ namespace SKDModule.Model
 			set { this.RaiseAndSetIfChanged(ref _exitTimeSpan, value); }
 		}
 
-		string _zoneName;
-		public string ZoneName
-		{
-			get { return _zoneName; }
-			set { this.RaiseAndSetIfChanged(ref _zoneName, value); }
-		}
-
 		public bool IsValid
 		{
 			get { return string.IsNullOrEmpty(Error); }
@@ -94,6 +87,18 @@ namespace SKDModule.Model
 
 		public string CorrectedBy { get; set; }
 
+		private TimeTrackZone _timeTrackZone;
+
+		public TimeTrackZone TimeTrackZone
+		{
+			get { return _timeTrackZone; }
+			set
+			{
+				_timeTrackZone = value;
+				this.RaiseAndSetIfChanged(ref _timeTrackZone, value);
+			}
+		}
+
 		#endregion
 
 		#region Constructors
@@ -108,23 +113,17 @@ namespace SKDModule.Model
 				timeTrackPartDetailsViewModel.EnterDateTime,
 				timeTrackPartDetailsViewModel.EnterTime,
 				timeTrackPartDetailsViewModel.ExitTime,
-				timeTrackPartDetailsViewModel.SelectedZone.Name,
-				timeTrackPartDetailsViewModel.SelectedZone.No,
+				timeTrackPartDetailsViewModel.SelectedZone,
 				timeTrackPartDetailsViewModel.NotTakeInCalculations,
 				timeTrackPartDetailsViewModel.IsManuallyAdded);
 		}
 
-		public DayTimeTrackPart(TimeTrackPart timeTrackPart)
+		public DayTimeTrackPart(TimeTrackPart timeTrackPart, ShortEmployee employee)
 		{
-			string zoneName = null;
-			var num = default(int);
-
-			var strazhZone = SKDManager.Zones.FirstOrDefault(x => x.UID == timeTrackPart.ZoneUID);
-			if (strazhZone != null)
-			{
-				zoneName = strazhZone.Name;
-				num = strazhZone.No;
-			}
+			var zone =
+				TimeTrackingHelper.GetMergedZones(employee).FirstOrDefault(x => x.UID == timeTrackPart.ZoneUID)
+				??
+				new TimeTrackZone { Name = "<Нет в конфигурации>", No = default(int) };
 
 			UID = timeTrackPart.PassJournalUID;
 			Update(
@@ -132,8 +131,7 @@ namespace SKDModule.Model
 				timeTrackPart.ExitDateTime,
 				timeTrackPart.StartTime,
 				timeTrackPart.EndTime,
-				zoneName,
-				num,
+				zone,
 				timeTrackPart.NotTakeInCalculations,
 				timeTrackPart.IsManuallyAdded);
 		}
@@ -146,10 +144,9 @@ namespace SKDModule.Model
 
 		#region Methods
 
-		public void Update(DateTime? enterDateTime, DateTime? exitDateTime, TimeSpan enterTime, TimeSpan exitTime, string zoneName, int no, bool notTakeInCalculations, bool isManuallyAdded)
+		public void Update(DateTime? enterDateTime, DateTime? exitDateTime, TimeSpan enterTime, TimeSpan exitTime, TimeTrackZone timeTrackZone, bool notTakeInCalculations, bool isManuallyAdded)
 		{
-			ZoneName = zoneName ?? "<Нет в конфигурации>";
-			No = no;
+			TimeTrackZone = timeTrackZone;
 			EnterDateTime = enterDateTime;
 			ExitDateTime = exitDateTime;
 			EnterTimeSpan = enterTime;
