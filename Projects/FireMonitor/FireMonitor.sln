@@ -68,6 +68,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RviClient", "..\Common\RviC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SKDDriver", "..\Common\SKDDriver\SKDDriver.csproj", "{E1D3CDA0-1DE6-47D3-8D2F-C56B297E8007}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JournalModule", "Modules\JournalModule\JournalModule.csproj", "{73FD68C0-A071-4BC1-8299-0EDB03B9C119}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -399,6 +401,20 @@ Global
 		{E1D3CDA0-1DE6-47D3-8D2F-C56B297E8007}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{E1D3CDA0-1DE6-47D3-8D2F-C56B297E8007}.Release|x64.ActiveCfg = Release|Any CPU
 		{E1D3CDA0-1DE6-47D3-8D2F-C56B297E8007}.Release|x86.ActiveCfg = Release|Any CPU
+		{73FD68C0-A071-4BC1-8299-0EDB03B9C119}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73FD68C0-A071-4BC1-8299-0EDB03B9C119}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73FD68C0-A071-4BC1-8299-0EDB03B9C119}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{73FD68C0-A071-4BC1-8299-0EDB03B9C119}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{73FD68C0-A071-4BC1-8299-0EDB03B9C119}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{73FD68C0-A071-4BC1-8299-0EDB03B9C119}.Debug|x86.ActiveCfg = Debug|x86
+		{73FD68C0-A071-4BC1-8299-0EDB03B9C119}.Debug|x86.Build.0 = Debug|x86
+		{73FD68C0-A071-4BC1-8299-0EDB03B9C119}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73FD68C0-A071-4BC1-8299-0EDB03B9C119}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73FD68C0-A071-4BC1-8299-0EDB03B9C119}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{73FD68C0-A071-4BC1-8299-0EDB03B9C119}.Release|Mixed Platforms.Build.0 = Release|x86
+		{73FD68C0-A071-4BC1-8299-0EDB03B9C119}.Release|x64.ActiveCfg = Release|Any CPU
+		{73FD68C0-A071-4BC1-8299-0EDB03B9C119}.Release|x86.ActiveCfg = Release|x86
+		{73FD68C0-A071-4BC1-8299-0EDB03B9C119}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -424,5 +440,6 @@ Global
 		{9193BC5C-3DEF-49B0-844A-9385B1540381} = {785CAF4E-9859-4BC8-BBD8-7410571BE9E1}
 		{112658EB-3244-4922-AEF7-6376E688B7A7} = {785CAF4E-9859-4BC8-BBD8-7410571BE9E1}
 		{E1D3CDA0-1DE6-47D3-8D2F-C56B297E8007} = {785CAF4E-9859-4BC8-BBD8-7410571BE9E1}
+		{73FD68C0-A071-4BC1-8299-0EDB03B9C119} = {7C5CB4A0-7F30-446F-96ED-0E3693176556}
 	EndGlobalSection
 EndGlobal

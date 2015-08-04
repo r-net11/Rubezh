@@ -4,6 +4,6 @@
 	<StackPanel>
 		<TextBlock Text="Причина деактивации" Style="{DynamicResource TextBlockDetailsStyle}" Margin="2" />
 		<TextBox Text="{Binding RemovalReason, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-		<CheckBox Margin="10 10 0 0" VerticalAlignment="Center" Content="Удалить полностью" IsChecked="{Binding IsChecked}" Foreground="White"/>
+		<CheckBox Margin="10 10 0 0" VerticalAlignment="Center" Content="Удалить полностью" IsChecked="{Binding IsChecked}" Foreground="{DynamicResource ForegroundColorWhite}"/>
 	</StackPanel>
 </UserControl>
