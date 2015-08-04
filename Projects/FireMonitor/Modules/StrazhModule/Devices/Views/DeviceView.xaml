@@ -19,13 +19,13 @@
 			</Hyperlink>
 			<TextBlock.ContextMenu>
 				<ContextMenu>
-					<IconedMenuItem Text="Режим Открыто" Command="{Binding DeviceAccessStateOpenAlwaysCommand}" />
-					<IconedMenuItem Text="Режим Норма" Command="{Binding DeviceAccessStateNormalCommand}" />
-					<IconedMenuItem Text="Режим Закрыто" Command="{Binding DeviceAccessStateCloseAlwaysCommand}" />
-					<Separator/>
-					<IconedMenuItem Text="Открыть" Command="{Binding OpenCommand}" />
-					<IconedMenuItem Text="Закрыть" Command="{Binding CloseCommand}" />
-					<Separator/>
+					<IconedMenuItem Text="Режим Открыто" Command="{Binding DeviceAccessStateOpenAlwaysCommand}" Visibility="{Binding IsLock, Converter={StaticResource BoolToVisibilityConverter}}" />
+					<IconedMenuItem Text="Режим Норма" Command="{Binding DeviceAccessStateNormalCommand}" Visibility="{Binding IsLock, Converter={StaticResource BoolToVisibilityConverter}}" />
+					<IconedMenuItem Text="Режим Закрыто" Command="{Binding DeviceAccessStateCloseAlwaysCommand}" Visibility="{Binding IsLock, Converter={StaticResource BoolToVisibilityConverter}}" />
+					<Separator Visibility="{Binding IsLock, Converter={StaticResource BoolToVisibilityConverter}}"/>
+					<IconedMenuItem Text="Открыть" Command="{Binding OpenCommand}" Visibility="{Binding IsLock, Converter={StaticResource BoolToVisibilityConverter}}" />
+					<IconedMenuItem Text="Закрыть" Command="{Binding CloseCommand}" Visibility="{Binding IsLock, Converter={StaticResource BoolToVisibilityConverter}}" />
+					<Separator Visibility="{Binding IsLock, Converter={StaticResource BoolToVisibilityConverter}}"/>
 					<IconedMenuItem ImageSource="BMap"  Text="Показать на плане" Command="{Binding ShowOnPlanCommand}" />
 					<IconedMenuItem ImageSource="BJournal" Text="Показать связанные события" Command="{Binding ShowJournalCommand}" />
 					<IconedMenuItem ImageSource="BSettings"  Text="Свойства" Command="{Binding ShowPropertiesCommand}" />

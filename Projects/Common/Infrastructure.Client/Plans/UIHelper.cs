@@ -12,16 +12,19 @@ namespace Infrastructure.Client.Plans
 		{
 			var menuItem = new MenuItem();
 
-			Image image = new Image();
-			image.Width = 16;
-			image.VerticalAlignment = VerticalAlignment.Center;
-			BitmapImage sourceImage = new BitmapImage();
-			sourceImage.BeginInit();
-			sourceImage.UriSource = new Uri(imageSourceUri);
-			sourceImage.EndInit();
-			image.Source = sourceImage;
+			if (!String.IsNullOrEmpty(imageSourceUri))
+			{
+				var image = new Image();
+				image.Width = 16;
+				image.VerticalAlignment = VerticalAlignment.Center;
+				var sourceImage = new BitmapImage();
+				sourceImage.BeginInit();
+				sourceImage.UriSource = new Uri(imageSourceUri);
+				sourceImage.EndInit();
+				image.Source = sourceImage;
 
-			menuItem.Icon = image;
+				menuItem.Icon = image;
+			}
 			menuItem.Header = header;
 			menuItem.Command = command;
 

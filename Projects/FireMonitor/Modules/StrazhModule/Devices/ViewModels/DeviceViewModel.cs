@@ -66,6 +66,11 @@ namespace StrazhModule.ViewModels
 
 		public bool IsEnabled { get; private set; }
 
+		public bool IsLock
+		{
+			get { return Device.DriverType == SKDDriverType.Lock; }
+		}
+
 		#region <Zone>
 
 		public ZoneViewModel Zone { get; private set; }
