@@ -240,6 +240,8 @@ namespace FiresecAPI
 		[OperationContract]
 		OperationResult<bool> SetControllerNetworkSettings(Guid deviceUID, SKDControllerNetworkSettings controllerNetworkSettings);
 
+		#region <Замок>
+
 		[OperationContract]
 		OperationResult<bool> SKDOpenDevice(Guid deviceUID);
 
@@ -266,6 +268,10 @@ namespace FiresecAPI
 		[OperationContract]
 		OperationResult<bool> SKDClearDevicePromptWarning(Guid deviceUID);
 
+		#endregion </Замок>
+
+		#region <Зона>
+
 		[OperationContract]
 		OperationResult<bool> SKDOpenZone(Guid zoneUID);
 
@@ -290,6 +296,13 @@ namespace FiresecAPI
 		OperationResult<bool> SKDZoneAccessStateOpenAlways(Guid zoneUID);
 
 		[OperationContract]
+		OperationResult<bool> SKDClearZonePromptWarning(Guid zoneUID);
+
+		#endregion </Зона>
+
+		#region <Точка доступа>
+
+		[OperationContract]
 		OperationResult<bool> SKDOpenDoor(Guid doorUID);
 
 		[OperationContract]
@@ -311,6 +324,11 @@ namespace FiresecAPI
 
 		[OperationContract]
 		OperationResult<bool> SKDDoorAccessStateOpenAlways(Guid doorUID);
+
+		[OperationContract]
+		OperationResult<bool> SKDClearDoorPromptWarning(Guid doorUID);
+
+		#endregion </Точка доступа>
 
 		[OperationContract]
 		OperationResult<SKDAntiPassBackConfiguration> SKDGetAntiPassBackConfiguration(Guid deviceUID);

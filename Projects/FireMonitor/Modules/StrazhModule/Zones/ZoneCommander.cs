@@ -145,5 +145,21 @@ namespace StrazhModule.Zones
 			return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Zones_Control)
 				&& zone.State.StateClass != XStateClass.ConnectionLost;
 		}
+
+		/// <summary>
+		/// Сбрасывает статус ВЗЛОМ для зоны
+		/// </summary>
+		/// <param name="zone">требуемая зона</param>
+		public static void ClearPromptWarning(SKDZone zone)
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				var result = FiresecManager.FiresecService.SKDClearZonePromptWarning(zone);
+				if (result.HasError)
+				{
+					MessageBoxService.ShowWarning(result.Error);
+				}
+			}
+		}
 	}
 }

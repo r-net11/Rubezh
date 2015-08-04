@@ -26,6 +26,7 @@ namespace StrazhModule.ViewModels
 
 		public DoorDetailsViewModel(SKDDoor door)
 		{
+			ClearPromptWarningCommand = new RelayCommand(OnClearPromptWarning);
 			ShowCommand = new RelayCommand(OnShow);
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			OpenCommand = new RelayCommand(OnOpen, CanOpen);
@@ -46,6 +47,7 @@ namespace StrazhModule.ViewModels
 		void OnStateChanged()
 		{
 			OnPropertyChanged(() => State);
+			OnPropertyChanged(() => IsPromptWarning);
 			CommandManager.InvalidateRequerySuggested();
 		}
 
@@ -70,6 +72,17 @@ namespace StrazhModule.ViewModels
 					continue;
 				}
 			}
+		}
+
+		public bool IsPromptWarning
+		{
+			get { return State.StateClass == XStateClass.Attention; }
+		}
+
+		public RelayCommand ClearPromptWarningCommand { get; private set; }
+		private void OnClearPromptWarning()
+		{
+			DoorCommander.ClearPromptWarning(Door);
 		}
 
 		public RelayCommand OpenCommand { get; private set; }

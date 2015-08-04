@@ -991,6 +991,8 @@ namespace FiresecService.Service
 			return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
 		}
 
+		#region <Замок>
+
 		public OperationResult<bool> SKDOpenDevice(Guid deviceUID)
 		{
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
@@ -1108,7 +1110,7 @@ namespace FiresecService.Service
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				AddSKDJournalMessage(JournalEventNameType.Сброс_состояния_взлом_двери, device);
+				AddSKDJournalMessage(JournalEventNameType.Сброс_состояния_взлом_замка, device);
 				return ChinaSKDDriver.Processor.ClearPromptWarning(device);
 			}
 			else
@@ -1116,6 +1118,10 @@ namespace FiresecService.Service
 				return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
 			}
 		}
+
+		#endregion </Замок>
+
+		#region <Зона>
 
 		public OperationResult<bool> SKDOpenZone(Guid zoneUID)
 		{
@@ -1356,6 +1362,50 @@ namespace FiresecService.Service
 			return SKDSetZoneAccessState(zoneUID, JournalEventNameType.Команда_на_перевод_зоны_в_режим_Открыто, AccessState.OpenAlways);
 		}
 
+		public OperationResult<bool> SKDClearZonePromptWarning(Guid zoneUID)
+		{
+			var zone = SKDManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
+			if (zone != null)
+			{
+				AddSKDJournalMessage(JournalEventNameType.Сброс_состояния_взлом_зоны, zone);
+				var errors = new List<string>();
+				foreach (var device in zone.Devices)
+				{
+					var lockAddress = device.IntAddress;
+					if (device.Parent != null && device.Parent.DoorType == DoorType.TwoWay)
+					{
+						lockAddress = device.IntAddress / 2;
+					}
+					var lockDevice = device.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == lockAddress);
+					if (lockDevice != null)
+					{
+						var result = ChinaSKDDriver.Processor.ClearPromptWarning(lockDevice);
+						if (result.HasError)
+						{
+							errors.AddRange(result.Errors);
+						}
+					}
+					else
+					{
+						return OperationResult<bool>.FromError("Для зоны не найден замок");
+					}
+				}
+				if (errors.Count > 0)
+				{
+					return OperationResult<bool>.FromError(errors);
+				}
+				return new OperationResult<bool>(true);
+			}
+			else
+			{
+				return OperationResult<bool>.FromError("Зона не найдена в конфигурации");
+			}
+		}
+
+		#endregion </Зона>
+
+		#region <Точка доступа>
+
 		public OperationResult<bool> SKDOpenDoor(Guid doorUID)
 		{
 			var door = SKDManager.Doors.FirstOrDefault(x => x.UID == doorUID);
@@ -1567,6 +1617,42 @@ namespace FiresecService.Service
 		{
 			return SKDSetDoorAccessState(doorUID, JournalEventNameType.Команда_на_перевод_точки_доступа_в_режим_Открыто, AccessState.OpenAlways);
 		}
+
+		public OperationResult<bool> SKDClearDoorPromptWarning(Guid doorUID)
+		{
+			var door = SKDManager.Doors.FirstOrDefault(x => x.UID == doorUID);
+			if (door != null)
+			{
+				AddSKDJournalMessage(JournalEventNameType.Сброс_состояния_взлом_точки_доступа, door);
+				if (door.InDevice != null)
+				{
+					var lockAddress = door.InDevice.IntAddress;
+					if (door.DoorType == DoorType.TwoWay)
+					{
+						lockAddress = door.InDevice.IntAddress / 2;
+					}
+					var lockDevice = door.InDevice.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == lockAddress);
+					if (lockDevice != null)
+					{
+						return ChinaSKDDriver.Processor.ClearPromptWarning(lockDevice);
+					}
+					else
+					{
+						return OperationResult<bool>.FromError("Для точки доступа не найден замок");
+					}
+				}
+				else
+				{
+					return OperationResult<bool>.FromError("У точки доступа не указано устройство входа");
+				}
+			}
+			else
+			{
+				return OperationResult<bool>.FromError("Точка доступа не найдена в конфигурации");
+			}
+		}
+
+		#endregion </Точка доступа>
 
 		public OperationResult<SKDAntiPassBackConfiguration> SKDGetAntiPassBackConfiguration(Guid deviceUID)
 		{

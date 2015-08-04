@@ -347,6 +347,12 @@ namespace FiresecAPI.Journal
 		Подтверждение_тревоги,
 
 		[EventName(JournalSubsystemType.SKD, "Сброс состояния \"Взлом\"", XStateClass.Info)]
-		Сброс_состояния_взлом_двери,
+		Сброс_состояния_взлом_замка,
+
+		[EventName(JournalSubsystemType.SKD, "Сброс состояния \"Взлом\"", XStateClass.Info)]
+		Сброс_состояния_взлом_точки_доступа,
+
+		[EventName(JournalSubsystemType.SKD, "Сброс состояния \"Взлом\"", XStateClass.Info)]
+		Сброс_состояния_взлом_зоны,
 	}
 }

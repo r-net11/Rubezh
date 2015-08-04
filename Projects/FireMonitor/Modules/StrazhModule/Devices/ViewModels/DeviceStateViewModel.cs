@@ -9,6 +9,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using StrazhModule.Devices;
 
 namespace StrazhModule.ViewModels
 {
@@ -23,7 +24,7 @@ namespace StrazhModule.ViewModels
 
 		public DeviceStateViewModel(SKDDeviceState deviceState)
 		{
-			ClearDevicePromptWarningCommand = new RelayCommand(OnClearDevicePromptWarning/*, CanClearDevicePromptWarning*/);
+			ClearPromptWarningCommand = new RelayCommand(OnClearPromptWarning);
 			State = deviceState;
 			StateClasses = new ObservableCollection<XStateClassViewModel>();
 			State.StateChanged -= new Action(OnStateChanged);
@@ -45,22 +46,11 @@ namespace StrazhModule.ViewModels
 
 		public ObservableCollection<XStateClassViewModel> StateClasses { get; private set; }
 
-		public RelayCommand ClearDevicePromptWarningCommand { get; private set; }
-		public void OnClearDevicePromptWarning()
+		public RelayCommand ClearPromptWarningCommand { get; private set; }
+		void OnClearPromptWarning()
 		{
-			if (ServiceFactory.SecurityService.Validate())
-			{
-				var result = FiresecManager.FiresecService.SKDClearDevicePromptWarning(State.Device);
-				if (result.HasError)
-				{
-					MessageBoxService.ShowWarning(result.Error);
-				}
-			}
+			DeviceCommander.ClearPromptWarning(State.Device);
 		}
-		//public bool CanClearDevicePromptWarning()
-		//{
-		//	return StateClasses.Any(x => x.StateClass == XStateClass.Attention);
-		//}
 	}
 
 	public class XStateClassViewModel : BaseViewModel
@@ -78,8 +68,7 @@ namespace StrazhModule.ViewModels
 		{
 			get
 			{
-				var result = GetStateName(StateClass, Device);
-				return result;
+				return GetStateName(StateClass, Device);
 			}
 		}
 

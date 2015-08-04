@@ -26,6 +26,7 @@ namespace StrazhModule.ViewModels
 
 		public ZoneDetailsViewModel(SKDZone zone)
 		{
+			ClearPromptWarningCommand = new RelayCommand(OnClearPromptWarning);
 			ShowCommand = new RelayCommand(OnShow);
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			OpenCommand = new RelayCommand(OnOpen, CanOpen);
@@ -46,6 +47,7 @@ namespace StrazhModule.ViewModels
 		void OnStateChanged()
 		{
 			OnPropertyChanged(() => State);
+			OnPropertyChanged(() => IsPromptWarning);
 			CommandManager.InvalidateRequerySuggested();
 		}
 
@@ -78,6 +80,17 @@ namespace StrazhModule.ViewModels
 					Plans.Add(alarmPlanViewModel);
 				}
 			}
+		}
+
+		public bool IsPromptWarning
+		{
+			get { return State.StateClass == XStateClass.Attention; }
+		}
+
+		public RelayCommand ClearPromptWarningCommand { get; private set; }
+		private void OnClearPromptWarning()
+		{
+			ZoneCommander.ClearPromptWarning(Zone);
 		}
 
 		public RelayCommand OpenCommand { get; private set; }
