@@ -5,6 +5,7 @@ namespace SKDModule.ViewModels
 {
 	public class CardRemovalReasonViewModel : SaveCancelDialogViewModel
 	{
+		public bool IsChecked { get; set; }
 		public CardRemovalReasonViewModel()
 		{
 			Title = "Причина деактивации";
