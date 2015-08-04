@@ -151,6 +151,11 @@ namespace SKDModule.ViewModels
 
 			RefreshCommand = new ReactiveAsyncCommand();
 			RefreshCommand.RegisterAsyncAction(_ => UpdateGrid());
+			RefreshCommand.Subscribe(x =>
+			{
+				if(_executeSearchCommand != null)
+				_executeSearchCommand.Execute(PageNumber);
+			});
 
 			var executeSearchCommand = new ReactiveAsyncCommand();
 			executeSearchCommand.Subscribe(x =>
