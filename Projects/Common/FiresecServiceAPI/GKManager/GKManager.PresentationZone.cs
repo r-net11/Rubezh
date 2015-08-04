@@ -191,7 +191,47 @@ namespace FiresecClient
 
 		public static string GetPresentationLogic(GKLogic logic)
 		{
-			return GetPresentationLogic(logic.OnClausesGroup);
+			List<StringBuilder> list = new List<StringBuilder>();
+			if (logic.OnClausesGroup.ClauseGroups.Count > 0 || logic.OnClausesGroup.Clauses.Count > 0)
+			{
+				StringBuilder stringBuuilder = new StringBuilder();
+				stringBuuilder.Append("1: ");
+				stringBuuilder.Append(GetPresentationLogic(logic.OnClausesGroup));
+				list.Add(stringBuuilder);
+			}
+
+			if (logic.OnNowClausesGroup.ClauseGroups.Count > 0 || logic.OnNowClausesGroup.Clauses.Count > 0)
+			{
+				StringBuilder stringBuuilder = new StringBuilder();
+				stringBuuilder.Append("2: ");
+				stringBuuilder.Append(GetPresentationLogic(logic.OnNowClausesGroup));
+				list.Add(stringBuuilder);
+			}
+
+			if (logic.OffClausesGroup.ClauseGroups.Count > 0 || logic.OffClausesGroup.Clauses.Count > 0)
+			{
+				StringBuilder stringBuuilder = new StringBuilder();
+				stringBuuilder.Append("3: ");
+				stringBuuilder.Append(GetPresentationLogic(logic.OffClausesGroup));
+				list.Add(stringBuuilder);
+			}
+
+			if (logic.OffNowClausesGroup.ClauseGroups.Count > 0 || logic.OffNowClausesGroup.Clauses.Count > 0)
+			{
+				StringBuilder stringBuuilder = new StringBuilder();
+				stringBuuilder.Append("4: ");
+				stringBuuilder.Append(GetPresentationLogic(logic.OffNowClausesGroup));
+				list.Add(stringBuuilder);
+			}
+
+			if (logic.OffNowClausesGroup.ClauseGroups.Count > 0 || logic.OffNowClausesGroup.Clauses.Count > 0 )
+			{
+				StringBuilder stringBuuilder = new StringBuilder();
+				stringBuuilder.Append("5: ");
+				stringBuuilder.Append(GetPresentationLogic(logic.StopClausesGroup));
+				list.Add(stringBuuilder);
+			}
+			return string.Join("\n", list);
 		}
 
 		public static string GetPresentationLogic(GKClauseGroup clauseGroup)
