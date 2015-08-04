@@ -82,7 +82,7 @@ namespace Infrastructure.Client.Plans
 			if (!_locked)
 			{
 				FullSize();
-				slider.Value = 1;
+				slider.Value = 4;
 				_timer.IsEnabled = false;
 				_locked = false;
 				UpdateScale();
