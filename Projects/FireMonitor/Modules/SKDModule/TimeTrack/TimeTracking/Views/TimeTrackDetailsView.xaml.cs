@@ -108,9 +108,9 @@ namespace SKDModule.Views
 				}
 
 				DrawTimeTrackGrid(dayTimeTrack.DocumentTrackParts, DocumentsGrid);
-				DrawTimeTrackGrid(dayTimeTrack.RealTimeTrackParts, RealGrid);
+				DrawTimeTrackGrid(dayTimeTrack.RealTimeTrackParts.ToList(), RealGrid);
 				DrawTimeTrackGrid(dayTimeTrack.PlannedTimeTrackParts, PlannedGrid);
-				DrawTimeTrackGrid(dayTimeTrack.CombinedTimeTrackParts, CombinedGrid);
+				DrawTimeTrackGrid(dayTimeTrack.CombinedTimeTrackParts.Where(x => !x.NotTakeInCalculations).ToList(), CombinedGrid);
 			}
 
 			DrawHoursGrid();
@@ -199,7 +199,7 @@ namespace SKDModule.Views
 		void vm_RefreshGridHandler(object sender, EventArgs e)
 		{
 			//Refresh();
-			
+
 		}
 	}
 }

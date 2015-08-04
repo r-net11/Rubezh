@@ -128,9 +128,6 @@ namespace FiresecAPI.SKD
 
 			foreach (var  timeTrackPart in realTimeTrackParts)
 			{
-				var hasPlannedTimeTrack = plannedTimeTrackParts.Any(x => x.StartTime <= timeTrackPart.StartTime
-																		&& x.EndTime >= timeTrackPart.EndTime);
-
 				timeTrackPart.TimeTrackPartType = GetTimeTrackType(timeTrackPart, plannedTimeTrackParts, realTimeTrackParts, IsOnlyFirstEnter, scheduleTimeInterval,
 					new ScheduleInterval(timeTrackPart.StartTime, timeTrackPart.EndTime));
 				resultCollection.Add(timeTrackPart);
@@ -255,7 +252,14 @@ namespace FiresecAPI.SKD
 			{
 				var combinedInterval = new ScheduleInterval(combinedTimeSpans[i], combinedTimeSpans[i + 1]); //TODO: this variable can be killed. Cuz combinedInterval is equal timeTrackPart
 
-				var timeTrackPart = new TimeTrackPart { StartTime = combinedInterval.StartTime, EndTime = combinedInterval.EndTime };
+				var realTimeTrackPart = realTimeTrackParts.FirstOrDefault(x => x.StartTime == combinedInterval.StartTime && x.EndTime == combinedInterval.EndTime);
+				var timeTrackPart = new TimeTrackPart
+				{
+					StartTime = combinedInterval.StartTime,
+					EndTime = combinedInterval.EndTime,
+					NotTakeInCalculations = realTimeTrackPart != null && realTimeTrackPart.NotTakeInCalculations
+				};
+
 				combinedTimeTrackParts.Add(timeTrackPart);
 
 				var hasRealTimeTrack = realTimeTrackParts.Any(x => x.StartTime <= combinedInterval.StartTime
@@ -508,6 +512,8 @@ namespace FiresecAPI.SKD
 		/// <returns>Возвращает баланс</returns>
 		public TimeSpan GetBalance(TimeTrackPart timeTrack, double slideTimeSecods)
 		{
+			if (timeTrack.NotTakeInCalculations) return TimeSpan.Zero;
+
 			const double tolerance = 0.0001;
 
 			switch (timeTrack.TimeTrackPartType)
