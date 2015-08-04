@@ -8,7 +8,6 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using System.IO;
 using System.Linq;
-using WPFMediaKit.DirectShow.Interop;
 
 namespace DiagnosticsModule.ViewModels
 {
