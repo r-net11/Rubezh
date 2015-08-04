@@ -22,7 +22,7 @@ namespace DiagnosticsModule.ViewModels
 			SKDDataAscCommand = new RelayCommand(OnSKDDataAsc);
 			GenerateEmployeeDaysCommand = new RelayCommand(OnGenerateEmployeeDays);
 			JournalCommand = new RelayCommand(OnJournal);
-			TakeSnapshotCommand = new RelayCommand(OnTakeSnapshot);
+			
 		}
 		
 		public void StopThreads()
@@ -99,14 +99,6 @@ namespace DiagnosticsModule.ViewModels
 			FiresecManager.FiresecService.GenerateEmployeeDays();
 		}
 
-		public RelayCommand TakeSnapshotCommand { get; set; }
 
-		public BitmapImage Image { get; set; }
-
-		//public DsDevice VideoDevicesList { get { return WPFMediaKit.DirectShow.Controls.MultimediaUtil.VideoInputDevices.FirstOrDefault<DsDevice>(); } }
-		void OnTakeSnapshot()
-		{
-
-		}
 	}
 }

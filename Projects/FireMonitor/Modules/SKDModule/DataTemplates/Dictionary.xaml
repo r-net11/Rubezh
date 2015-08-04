@@ -10,4 +10,8 @@
 		<Views:OrganisationsFilterView />
 	</DataTemplate>
 	
+	<DataTemplate DataType="{x:Type ViewModels:WebCameraDetailsViewModel}">
+		<Views:WebCameraDetailsView />
+	</DataTemplate>
+
 </ResourceDictionary>
