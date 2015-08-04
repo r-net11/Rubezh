@@ -19,23 +19,11 @@
 				</WrapPanel>
 
 			</TabItem>
-			<!--<TabItem Header="WebCam1 - inits - capture fails">
+			<TabItem Header="WebCam1 - inits - capture fails">
 					<StackPanel>
-						<WPFMediaKit:VideoCaptureElement x:Name="videoCapElement"
-							LoadedBehavior="Play"
-							UnloadedBehavior="Stop"
-							DesiredPixelWidth="640"
-							DesiredPixelHeight="480"
-							VideoCaptureDevice="{Binding VideoDevicesList}"
-							Stretch="Fill"
-							FPS="30" 
-							Width="640" Height="480" 
-							EnableSampleGrabbing="True"
-							HorizontalAlignment="Center"
-							 />
-						<Button Click="TakeSnapshot" Content="TakeSnapshot" />
+						
 					</StackPanel>
-			</TabItem>-->
+			</TabItem>
 		</TabControl>
 		<ScrollViewer Grid.Row="1" Margin="2">
 			<TextBox Text="{Binding Text}" Margin="2" />
