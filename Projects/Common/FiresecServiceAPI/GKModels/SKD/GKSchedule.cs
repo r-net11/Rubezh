@@ -8,7 +8,7 @@ namespace FiresecAPI.GK
 	/// График работ
 	/// </summary>
 	[DataContract]
-	public class GKSchedule : ModelBase, IComparable<GKSchedule>
+	public class GKSchedule : ModelBase
 	{
 		public GKSchedule()
 		{
@@ -63,11 +63,5 @@ namespace FiresecAPI.GK
 		/// </summary>
 		[DataMember]
 		public List<GKSchedulePart> ScheduleParts { get; set; }
-		public int CompareTo(GKSchedule other)
-		{
-			if (this.No < other.No) return -1;
-			if (this.No > other.No) return 1;
-			return 0;
-		}
 	}
 }
