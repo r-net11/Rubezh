@@ -21,15 +21,6 @@ namespace FiltersModule.ViewModels
 		void Initialize(JournalFilter filter)
 		{
 			AllObjects.ForEach(x => x.SetIsChecked(false));
-			foreach (var subsystemType in filter.JournalSubsystemTypes)
-			{
-				var subsystemViewModel = RootObjects.FirstOrDefault(x => x.JournalSubsystemType == subsystemType);
-				if (subsystemViewModel != null)
-				{
-					subsystemViewModel.IsChecked = true;
-					subsystemViewModel.IsRealChecked = true;
-				}
-			}
 			foreach (var journalObjectType in filter.JournalObjectTypes)
 			{
 				var objectTypeViewModel = AllObjects.FirstOrDefault(x => x.IsObjectGroup && x.JournalObjectType == journalObjectType);
@@ -59,26 +50,19 @@ namespace FiltersModule.ViewModels
 			var filter = new ArchiveFilter();
 			foreach (var subsystem in RootObjects)
 			{
-				if (subsystem.IsChecked)
+				foreach (var objectType in subsystem.Children)
 				{
-					filter.JournalSubsystemTypes.Add(subsystem.JournalSubsystemType);
-				}
-				else
-				{
-					foreach (var objectType in subsystem.Children)
+					if (objectType.IsChecked)
 					{
-						if (objectType.IsChecked)
+						filter.JournalObjectTypes.Add(objectType.JournalObjectType);
+					}
+					else
+					{
+						foreach (var objectViewModel in objectType.GetAllChildren())
 						{
-							filter.JournalObjectTypes.Add(objectType.JournalObjectType);
-						}
-						else
-						{
-							foreach (var objectViewModel in objectType.GetAllChildren())
+							if (objectViewModel.IsChecked && objectViewModel.UID != Guid.Empty)
 							{
-								if (objectViewModel.IsChecked && objectViewModel.UID != Guid.Empty)
-								{
-									filter.ObjectUIDs.Add(objectViewModel.UID);
-								}
+								filter.ObjectUIDs.Add(objectViewModel.UID);
 							}
 						}
 					}
@@ -172,6 +156,14 @@ namespace FiltersModule.ViewModels
 			{
 				var doorViewModel = new ObjectViewModel(door);
 				AddChild(gkDoorsViewModel, doorViewModel);
+			}
+
+			var gkSKDZonesViewModel = new ObjectViewModel(JournalObjectType.GKSKDZone);
+			AddChild(gkViewModel, gkSKDZonesViewModel);
+			foreach (var skdZone in FiresecClient.GKManager.SKDZones)
+			{
+				var filterObjectViewModel = new ObjectViewModel(skdZone);
+				AddChild(gkSKDZonesViewModel, filterObjectViewModel);
 			}
 
 			var videoViewModel = new ObjectViewModel(JournalSubsystemType.Video);

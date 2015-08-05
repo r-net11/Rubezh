@@ -212,14 +212,19 @@ namespace GKModule.ViewModels
 		{
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить все пустые задержки ?"))
 			{
-				var emptyDelays = Delays.Where(x => !x.Delay.Logic.GetObjects().Any());
-				foreach (var emptyDelay in emptyDelays)
+				var emptyDelays = Delays.Where(x => !x.Delay.Logic.GetObjects().Any()).ToList();
+
+				if (emptyDelays.Any())
 				{
-					GKManager.Delays.Remove(emptyDelay.Delay);
-					Delays.Remove(emptyDelay);
+					for (var i = emptyDelays.Count() - 1; i >= 0; i--)
+					{
+						GKManager.Delays.Remove(emptyDelays.ElementAt(i).Delay);
+						Delays.Remove(emptyDelays.ElementAt(i));
+					}
+
+					SelectedDelay = Delays.FirstOrDefault();
+					ServiceFactory.SaveService.GKChanged = true;
 				}
-				SelectedDelay = Delays.FirstOrDefault();
-				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
 

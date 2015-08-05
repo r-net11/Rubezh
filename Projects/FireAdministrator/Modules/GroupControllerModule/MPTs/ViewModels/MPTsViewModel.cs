@@ -134,13 +134,17 @@ namespace GKModule.ViewModels
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить все пустые МПТ ?"))
 			{
 				var emptyMPTs = MPTs.Where(x => !x.MPT.MPTDevices.Any() && !x.MPT.MptLogic.GetObjects().Any());
-				foreach (var emptyMPT in emptyMPTs)
+
+				if (emptyMPTs.Any())
 				{
-					GKManager.MPTs.Remove(emptyMPT.MPT);
-					MPTs.Remove(emptyMPT);
+					for (var i = emptyMPTs.Count() - 1; i >= 0; i--)
+					{
+						GKManager.MPTs.Remove(emptyMPTs.ElementAt(i).MPT);
+						MPTs.Remove(emptyMPTs.ElementAt(i));
+					}
+					SelectedMPT = MPTs.FirstOrDefault();
+					ServiceFactory.SaveService.GKChanged = true;
 				}
-				SelectedMPT = MPTs.FirstOrDefault();
-				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
 
