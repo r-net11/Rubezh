@@ -41,10 +41,13 @@ namespace StrazhModule.Plans.Designer
 			var contextMenu = new ContextMenu();
 			if (Item != null)
 			{
-				contextMenu.Items.Add(UIHelper.BuildMenuItem("Открыть все двери", "pack://application:,,,/Controls;component/Images/BTurnOn.png", _zoneViewModel.OpenCommand));
-				contextMenu.Items.Add(UIHelper.BuildMenuItem("Закрыть все двери", "pack://application:,,,/Controls;component/Images/BTurnOff.png", _zoneViewModel.CloseCommand));
-				contextMenu.Items.Add(UIHelper.BuildMenuItem("Установить режим ОТКРЫТО", "pack://application:,,,/Controls;component/Images/BTurnOn.png", _zoneViewModel.OpenForeverCommand));
-				contextMenu.Items.Add(UIHelper.BuildMenuItem("Установить режим НОРМА", "pack://application:,,,/Controls;component/Images/BTurnOff.png", _zoneViewModel.CloseForeverCommand));
+				contextMenu.Items.Add(UIHelper.BuildMenuItem("Режим Открыто", null, _zoneViewModel.ZoneAccessStateOpenAlwaysCommand));
+				contextMenu.Items.Add(UIHelper.BuildMenuItem("Режим Норма", null, _zoneViewModel.ZoneAccessStateNormalCommand));
+				contextMenu.Items.Add(UIHelper.BuildMenuItem("Режим Закрыто", null, _zoneViewModel.ZoneAccessStateCloseAlwaysCommand));
+				contextMenu.Items.Add(new Separator());
+				contextMenu.Items.Add(UIHelper.BuildMenuItem("Открыть", null, _zoneViewModel.OpenCommand));
+				contextMenu.Items.Add(UIHelper.BuildMenuItem("Закрыть", null, _zoneViewModel.CloseCommand));
+				contextMenu.Items.Add(new Separator());
 				contextMenu.Items.Add(Helper.CreateShowInTreeItem());
 				contextMenu.Items.Add(UIHelper.BuildMenuItem("Показать связанные события", "pack://application:,,,/Controls;component/Images/BJournal.png", ShowJournalCommand));
 				contextMenu.Items.Add(Helper.CreateShowPropertiesItem());

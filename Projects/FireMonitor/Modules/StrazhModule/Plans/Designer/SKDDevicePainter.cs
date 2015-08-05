@@ -16,9 +16,13 @@ namespace StrazhModule.Plans.Designer
 {
 	class SKDDevicePainter : BasePointPainter<SKDDevice, ShowSKDDeviceEvent>
 	{
+		private DeviceViewModel _deviceViewModel;
+
 		public SKDDevicePainter(PresenterItem presenterItem)
 			: base(presenterItem)
 		{
+			if (Item != null)
+				_deviceViewModel = new ViewModels.DeviceViewModel(Item);
 		}
 
 		protected override SKDDevice CreateItem(PresenterItem presenterItem)
@@ -35,6 +39,18 @@ namespace StrazhModule.Plans.Designer
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
 
 			var contextMenu = new ContextMenu();
+
+			if (_deviceViewModel.IsLock)
+			{
+				contextMenu.Items.Add(UIHelper.BuildMenuItem("Режим Открыто", null, _deviceViewModel.DeviceAccessStateOpenAlwaysCommand));
+				contextMenu.Items.Add(UIHelper.BuildMenuItem("Режим Норма", null, _deviceViewModel.DeviceAccessStateNormalCommand));
+				contextMenu.Items.Add(UIHelper.BuildMenuItem("Режим Закрыто", null, _deviceViewModel.DeviceAccessStateCloseAlwaysCommand));
+				contextMenu.Items.Add(new Separator());
+				contextMenu.Items.Add(UIHelper.BuildMenuItem("Открыть", null, _deviceViewModel.OpenCommand));
+				contextMenu.Items.Add(UIHelper.BuildMenuItem("Закрыть", null, _deviceViewModel.CloseCommand));
+				contextMenu.Items.Add(new Separator());
+			}
+			
 			contextMenu.Items.Add(Helper.CreateShowInTreeItem());
 			contextMenu.Items.Add(UIHelper.BuildMenuItem("Показать связанные события", "pack://application:,,,/Controls;component/Images/BJournal.png", ShowJournalCommand));
 			contextMenu.Items.Add(Helper.CreateShowPropertiesItem());

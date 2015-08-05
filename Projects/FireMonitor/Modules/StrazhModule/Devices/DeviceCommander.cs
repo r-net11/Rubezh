@@ -42,6 +42,7 @@ namespace StrazhModule.Devices
 			return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Devices_Control)
 				&& device.State.StateClass != XStateClass.On
 				&& device.State.StateClass != XStateClass.ConnectionLost
+				&& device.State.StateClass != XStateClass.Attention
 				&& device.State.AccessState == AccessState.Normal;
 		}
 
@@ -70,6 +71,7 @@ namespace StrazhModule.Devices
 			return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Devices_Control)
 				&& device.State.StateClass != XStateClass.Off
 				&& device.State.StateClass != XStateClass.ConnectionLost
+				&& device.State.StateClass != XStateClass.Attention
 				&& device.State.AccessState == AccessState.Normal;
 		}
 
@@ -97,6 +99,7 @@ namespace StrazhModule.Devices
 		{
 			return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Devices_Control)
 				&& device.State.StateClass != XStateClass.ConnectionLost
+				&& device.State.StateClass != XStateClass.Attention
 				&& device.State.AccessState != AccessState.Normal;
 		}
 
@@ -124,6 +127,7 @@ namespace StrazhModule.Devices
 		{
 			return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Devices_Control)
 				&& device.State.StateClass != XStateClass.ConnectionLost
+				&& device.State.StateClass != XStateClass.Attention
 				&& device.State.AccessState != AccessState.CloseAlways;
 		}
 
@@ -151,7 +155,24 @@ namespace StrazhModule.Devices
 		{
 			return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Devices_Control)
 				&& device.State.StateClass != XStateClass.ConnectionLost
+				&& device.State.StateClass != XStateClass.Attention
 				&& device.State.AccessState != AccessState.OpenAlways;
+		}
+
+		/// <summary>
+		/// Сбрасывает статус ВЗЛОМ для замака
+		/// </summary>
+		/// <param name="device">требуемый замок</param>
+		public static void ClearPromptWarning(SKDDevice device)
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				var result = FiresecManager.FiresecService.SKDClearDevicePromptWarning(device);
+				if (result.HasError)
+				{
+					MessageBoxService.ShowWarning(result.Error);
+				}
+			}
 		}
 	}
 }

@@ -13,6 +13,6 @@
 				</DataTemplate>
 			</ItemsControl.ItemTemplate>
 		</ItemsControl>
-		<Button Content="Сброс тревоги" Command="{Binding ClearDevicePromptWarningCommand}" Visibility="{Binding IsPromptWarning, Converter={StaticResource BoolToVisibilityConverter}}" Width="100" Margin="2" />
+		<Button Content="Сброс тревоги" Command="{Binding ClearPromptWarningCommand}" Visibility="{Binding IsPromptWarning, Converter={StaticResource BoolToVisibilityConverter}}" Width="100" Margin="2" />
 	</StackPanel>
 </UserControl>

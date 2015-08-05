@@ -41,6 +41,7 @@ namespace StrazhModule.Doors
 			return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Doors_Control)
 				&& door.State.StateClass != XStateClass.On
 				&& door.State.StateClass != XStateClass.ConnectionLost
+				&& door.State.StateClass != XStateClass.Attention
 				&& door.State.AccessState == AccessState.Normal;
 		}
 
@@ -69,6 +70,7 @@ namespace StrazhModule.Doors
 			return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Doors_Control)
 				&& door.State.StateClass != XStateClass.Off
 				&& door.State.StateClass != XStateClass.ConnectionLost
+				&& door.State.StateClass != XStateClass.Attention
 				&& door.State.AccessState == AccessState.Normal;
 		}
 
@@ -96,6 +98,7 @@ namespace StrazhModule.Doors
 		{
 			return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Doors_Control)
 				&& door.State.StateClass != XStateClass.ConnectionLost
+				&& door.State.StateClass != XStateClass.Attention
 				&& door.State.AccessState != AccessState.Normal;
 		}
 
@@ -123,6 +126,7 @@ namespace StrazhModule.Doors
 		{
 			return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Doors_Control)
 				&& door.State.StateClass != XStateClass.ConnectionLost
+				&& door.State.StateClass != XStateClass.Attention
 				&& door.State.AccessState != AccessState.CloseAlways;
 		}
 
@@ -150,7 +154,24 @@ namespace StrazhModule.Doors
 		{
 			return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Doors_Control)
 				&& door.State.StateClass != XStateClass.ConnectionLost
+				&& door.State.StateClass != XStateClass.Attention
 				&& door.State.AccessState != AccessState.OpenAlways;
+		}
+
+		/// <summary>
+		/// Сбрасывает статус ВЗЛОМ для точки доступа
+		/// </summary>
+		/// <param name="door">требуемая точка доступа</param>
+		public static void ClearPromptWarning(SKDDoor door)
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				var result = FiresecManager.FiresecService.SKDClearDoorPromptWarning(door);
+				if (result.HasError)
+				{
+					MessageBoxService.ShowWarning(result.Error);
+				}
+			}
 		}
 	}
 }

@@ -22,6 +22,7 @@
 	<Converters:XStateClassToStringConverter x:Key="XStateClassToStringConverter" />
 	<Converters:XStateClassToStringConverter2 x:Key="XStateClassToStringConverter2" />
 	<Converters:XStateClassToSKDStringConverter x:Key="XStateClassToSKDStringConverter" />
+	<Converters:XStateClassToSKDStringConverter2 x:Key="XStateClassToSKDStringConverter2" />
 	<Converters:XStateClassToColorConverter x:Key="XStateClassToColorConverter" />
 	<Converters:XStateClassToZoneColorConverter x:Key="XStateClassToZoneColorConverter" />
 	<Converters:XStateClassToColorConverter2 x:Key="XStateClassToColorConverter2" />

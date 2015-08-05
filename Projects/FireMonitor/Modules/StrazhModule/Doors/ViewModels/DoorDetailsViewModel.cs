@@ -18,6 +18,8 @@ namespace StrazhModule.ViewModels
 {
 	public class DoorDetailsViewModel : DialogViewModel, IWindowIdentity
 	{
+		private SKDDevice _lock;
+
 		public SKDDoor Door { get; private set; }
 		public SKDDoorState State
 		{
@@ -26,6 +28,7 @@ namespace StrazhModule.ViewModels
 
 		public DoorDetailsViewModel(SKDDoor door)
 		{
+			ClearPromptWarningCommand = new RelayCommand(OnClearPromptWarning);
 			ShowCommand = new RelayCommand(OnShow);
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			OpenCommand = new RelayCommand(OnOpen, CanOpen);
@@ -41,12 +44,39 @@ namespace StrazhModule.ViewModels
 			State.StateChanged -= new Action(OnStateChanged);
 			State.StateChanged += new Action(OnStateChanged);
 			InitializePlans();
+
+			InitializeLock();
+			if (_lock != null)
+			{
+				_lock.State.StateChanged -= new Action(OnLockStateChanged);
+				_lock.State.StateChanged += new Action(OnLockStateChanged);
+			}
+		}
+
+		void InitializeLock()
+		{
+			if (Door.InDevice != null)
+			{
+				var lockAddress = Door.InDevice.IntAddress;
+				if (Door.DoorType == DoorType.TwoWay)
+				{
+					lockAddress = Door.InDevice.IntAddress / 2;
+				}
+				 _lock = Door.InDevice.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == lockAddress);
+			}
 		}
 
 		void OnStateChanged()
 		{
 			OnPropertyChanged(() => State);
+			OnPropertyChanged(() => IsPromptWarning);
 			CommandManager.InvalidateRequerySuggested();
+		}
+
+		void OnLockStateChanged()
+		{
+			State.AccessState = _lock.State.AccessState;
+			OnStateChanged();
 		}
 
 		public ObservableCollection<PlanLinkViewModel> Plans { get; private set; }
@@ -70,6 +100,17 @@ namespace StrazhModule.ViewModels
 					continue;
 				}
 			}
+		}
+
+		public bool IsPromptWarning
+		{
+			get { return State.StateClass == XStateClass.Attention; }
+		}
+
+		public RelayCommand ClearPromptWarningCommand { get; private set; }
+		void OnClearPromptWarning()
+		{
+			DoorCommander.ClearPromptWarning(Door);
 		}
 
 		public RelayCommand OpenCommand { get; private set; }
@@ -187,6 +228,8 @@ namespace StrazhModule.ViewModels
 		public override void OnClosed()
 		{
 			State.StateChanged -= new Action(OnStateChanged);
+			if (_lock != null)
+				_lock.State.StateChanged -= new Action(OnLockStateChanged);
 		}
 	}
 }

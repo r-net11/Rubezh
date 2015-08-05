@@ -46,10 +46,6 @@ namespace StrazhModule.ViewModels
 		}
 		bool CanOpen()
 		{
-			//return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Devices_Control)
-			//	&& DeviceState.StateClass != XStateClass.On
-			//	&& DeviceState.StateClass != XStateClass.ConnectionLost
-			//	&& DeviceState.AccessState == AccessState.Normal;
 			return DeviceCommander.CanOpen(Device);
 		}
 
