@@ -158,6 +158,7 @@ namespace SKDDriver.DataClasses
 		{
 			try
 			{
+				//var card = Context.Cards.Include(x=>x.CardDoors).FirstOrDefault(x => x.UID == item.UID);
 				var card = Context.Cards.FirstOrDefault(x => x.UID == item.UID);
 				if (card != null)
 				{
