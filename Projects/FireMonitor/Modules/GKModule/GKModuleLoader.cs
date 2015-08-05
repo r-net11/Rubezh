@@ -93,7 +93,7 @@ namespace GKModule
 			ServiceFactory.Events.GetEvent<ShowGKPIMDetailsEvent>().Unsubscribe(OnShowPIMDetails);
 			ServiceFactory.Events.GetEvent<ShowGKGuardZoneDetailsEvent>().Unsubscribe(OnShowGuardZoneDetails);
 			ServiceFactory.Events.GetEvent<ShowGKSKDZoneDetailsEvent>().Unsubscribe(OnShowSKDZoneDetails);
-
+			ServiceFactory.Events.GetEvent<ShowGKDoorDetailsEvent>().Unsubscribe(OnShowDoorDetails);
 			ServiceFactory.Events.GetEvent<ShowGKDeviceDetailsEvent>().Subscribe(OnShowDeviceDetails);
 			ServiceFactory.Events.GetEvent<ShowGKZoneDetailsEvent>().Subscribe(OnShowZoneDetails);
 			ServiceFactory.Events.GetEvent<ShowGKDirectionDetailsEvent>().Subscribe(OnShowDirectionDetails);
@@ -103,6 +103,7 @@ namespace GKModule
 			ServiceFactory.Events.GetEvent<ShowGKPIMDetailsEvent>().Subscribe(OnShowPIMDetails);
 			ServiceFactory.Events.GetEvent<ShowGKGuardZoneDetailsEvent>().Subscribe(OnShowGuardZoneDetails);
 			ServiceFactory.Events.GetEvent<ShowGKSKDZoneDetailsEvent>().Subscribe(OnShowSKDZoneDetails);
+			ServiceFactory.Events.GetEvent<ShowGKDoorDetailsEvent>().Subscribe(OnShowDoorDetails);
 		}
 
 		void OnShowDeviceDetails(Guid deviceUID)
@@ -181,6 +182,14 @@ namespace GKModule
 			if (skdZone != null)
 			{
 				DialogService.ShowWindow(new SKDZoneDetailsViewModel(skdZone));
+			}
+		}
+		void OnShowDoorDetails(Guid doorUID)
+		{
+			var door = GKManager.Doors.FirstOrDefault(x => x.UID == doorUID);
+			if (door != null)
+			{
+				DialogService.ShowWindow(new DoorDetailsViewModel(door));
 			}
 		}
 		#endregion

@@ -649,41 +649,87 @@ namespace FiresecAPI.GK
 				else
 					door.ExitDevice.Door = door;
 
-				door.EnterButton = Devices.FirstOrDefault(x => x.UID == door.EnterButtonUID);
-				if (door.EnterButton == null)
+				if (door.DoorType == GKDoorType.AirlockBooth)
+				{
+					door.EnterButton = Devices.FirstOrDefault(x => x.UID == door.EnterButtonUID);
+					if (door.EnterButton == null)
+						door.EnterButtonUID = Guid.Empty;
+					else
+						door.EnterButton.Door = door;
+
+					door.ExitButton = Devices.FirstOrDefault(x => x.UID == door.ExitButtonUID);
+					if (door.ExitButton == null)
+						door.ExitButtonUID = Guid.Empty;
+					else
+						door.ExitButton.Door = door;
+
+					door.LockControlDevice = Devices.FirstOrDefault(x => x.UID == door.LockControlDeviceUID);
+					if (door.LockControlDevice == null)
+						door.LockControlDeviceUID = Guid.Empty;
+					else
+						door.LockControlDevice.Door = door;
+
+					door.LockControlDeviceExit = Devices.FirstOrDefault(x => x.UID == door.LockControlDeviceExitUID);
+					if (door.LockControlDeviceExit == null)
+						door.LockControlDeviceExitUID = Guid.Empty;
+					else
+						door.LockControlDeviceExit.Door = door;
+				}
+				if (door.DoorType == GKDoorType.AirlockBooth || door.DoorType == GKDoorType.Barrier || door.DoorType == GKDoorType.Turnstile)
+				{
+					if (door.DoorType == GKDoorType.Barrier || door.DoorType == GKDoorType.Turnstile)
+					{
+						door.EnterButton = null;
+						door.EnterButtonUID = Guid.Empty;
+						door.ExitButton = null;
+						door.ExitButtonUID = Guid.Empty;
+						door.LockControlDeviceExit = null;
+						door.LockControlDeviceExitUID = Guid.Empty;
+
+						if (door.DoorType == GKDoorType.Barrier)
+						{
+							door.LockControlDevice = null;
+							door.LockControlDeviceUID = Guid.Empty;
+						}
+					}
+					door.LockDevice = Devices.FirstOrDefault(x => x.UID == door.LockDeviceUID);
+					if (door.LockDevice == null)
+						door.LockDeviceUID = Guid.Empty;
+					else
+						door.LockDevice.Door = door;
+
+					door.LockDeviceExit = Devices.FirstOrDefault(x => x.UID == door.LockDeviceExitUID);
+					if (door.LockDeviceExit == null)
+						door.LockDeviceExitUID = Guid.Empty;
+					else
+						door.LockDeviceExit.Door = door;
+				}
+
+				if (door.DoorType == GKDoorType.OneWay || door.DoorType == GKDoorType.TwoWay)
+				{
+					door.EnterButton = null;
 					door.EnterButtonUID = Guid.Empty;
-				else
-					door.EnterButton.Door = door;
-
-				door.ExitButton = Devices.FirstOrDefault(x => x.UID == door.ExitButtonUID);
-				if (door.ExitButton == null)
+					door.ExitButton = null;
 					door.ExitButtonUID = Guid.Empty;
-				else
-					door.ExitButton.Door = door;
-
-				door.LockDevice = Devices.FirstOrDefault(x => x.UID == door.LockDeviceUID);
-				if (door.LockDevice == null)
-					door.LockDeviceUID = Guid.Empty;
-				else
-					door.LockDevice.Door = door;
-
-				door.LockDeviceExit = Devices.FirstOrDefault(x => x.UID == door.LockDeviceExitUID);
-				if (door.LockDeviceExit == null)
-					door.LockDeviceExitUID = Guid.Empty;
-				else
-					door.LockDeviceExit.Door = door;
-
-				door.LockControlDevice = Devices.FirstOrDefault(x => x.UID == door.LockControlDeviceUID);
-				if (door.LockControlDevice == null)
-					door.LockControlDeviceUID = Guid.Empty;
-				else
-					door.LockControlDevice.Door = door;
-
-				door.LockControlDeviceExit = Devices.FirstOrDefault(x => x.UID == door.LockControlDeviceExitUID);
-				if (door.LockControlDeviceExit == null)
+					door.LockControlDeviceExit = null;
 					door.LockControlDeviceExitUID = Guid.Empty;
-				else
-					door.LockControlDeviceExit.Door = door;
+					door.LockDevice = null;
+					door.LockDeviceUID = Guid.Empty;
+					door.LockDeviceExit = null;
+					door.LockDeviceExitUID = Guid.Empty;
+
+					door.LockDevice = Devices.FirstOrDefault(x => x.UID == door.LockDeviceUID);
+					if (door.LockDevice == null)
+						door.LockDeviceUID = Guid.Empty;
+					else
+						door.LockDevice.Door = door;
+
+					door.LockControlDevice = Devices.FirstOrDefault(x => x.UID == door.LockControlDeviceUID);
+					if (door.LockControlDevice == null)
+						door.LockControlDeviceUID = Guid.Empty;
+					else
+						door.LockControlDevice.Door = door;
+				}
 
 				InvalidateInputObjectsBaseLogic(door, door.OpenRegimeLogic);
 				InvalidateInputObjectsBaseLogic(door, door.NormRegimeLogic);

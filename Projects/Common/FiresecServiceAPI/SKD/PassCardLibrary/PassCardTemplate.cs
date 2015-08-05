@@ -15,11 +15,11 @@ namespace FiresecAPI.SKD
 		{
 			UID = Guid.NewGuid();
 			Caption = "Шаблон пропуска";
-			Width = 210;
-			Height = 297;
+			Width = 54;
+			Height = 86;
 			BackgroundColor = Colors.Transparent;
 			BorderColor = Colors.Black;
-			BorderThickness = 0;
+			BorderThickness = 2;
 			ImageType = ResourceType.Image;
 			ClearElements();
 		}

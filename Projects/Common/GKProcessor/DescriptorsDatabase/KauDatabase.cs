@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
-using FiresecAPI.GK;
+﻿using FiresecAPI.GK;
 using FiresecClient;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace GKProcessor
 {
@@ -20,37 +21,37 @@ namespace GKProcessor
 				Devices.Add(device);
 			}
 
-			foreach (var delay in GKManager.Delays.FindAll(x => x.KauDatabaseParent == RootDevice))
+			foreach (var delay in GKManager.Delays.Where(x => x.KauDatabaseParent == RootDevice))
 			{
 				delay.KauDatabaseParent = RootDevice;
 				Delays.Add(delay);
 			}
 
-			foreach (var zone in GKManager.Zones.FindAll(x => x.KauDatabaseParent == RootDevice))
+			foreach (var zone in GKManager.Zones.Where(x => x.KauDatabaseParent == RootDevice))
 			{
 				zone.KauDatabaseParent = RootDevice;
 				Zones.Add(zone);
 			}
 
-			foreach (var guardZone in GKManager.GuardZones.FindAll(x => x.KauDatabaseParent == RootDevice && !x.HasAccessLevel))
+			foreach (var guardZone in GKManager.GuardZones.Where(x => x.KauDatabaseParent == RootDevice && !x.HasAccessLevel))
 			{
 				guardZone.KauDatabaseParent = RootDevice;
 				GuardZones.Add(guardZone);
 			}
 
-			foreach (var direction in GKManager.Directions.FindAll(x => x.KauDatabaseParent == RootDevice))
+			foreach (var direction in GKManager.Directions.Where(x => x.KauDatabaseParent == RootDevice))
 			{
 				direction.KauDatabaseParent = RootDevice;
 				Directions.Add(direction);
 			}
 
-			foreach (var pumpStation in GKManager.PumpStations.FindAll(x => x.KauDatabaseParent == RootDevice))
+			foreach (var pumpStation in GKManager.PumpStations.Where(x => x.KauDatabaseParent == RootDevice))
 			{
 				pumpStation.KauDatabaseParent = RootDevice;
 				PumpStations.Add(pumpStation);
 			}
 
-			foreach (var mpt in GKManager.DeviceConfiguration.MPTs.FindAll(x => x.KauDatabaseParent == RootDevice))
+			foreach (var mpt in GKManager.DeviceConfiguration.MPTs.Where(x => x.KauDatabaseParent == RootDevice))
 			{
 				mpt.KauDatabaseParent = RootDevice;
 				MPTs.Add(mpt);

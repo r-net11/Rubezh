@@ -195,13 +195,17 @@ namespace GKModule.ViewModels
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить все пустые направления ?"))
 			{
 				var emptyDirections = Directions.Where(x => !x.Direction.Logic.GetObjects().Any());
-				foreach (var emptyDirection in emptyDirections)
+
+				if (emptyDirections.Any())
 				{
-					GKManager.RemoveDirection(emptyDirection.Direction);
-					Directions.Remove(emptyDirection);
+					for (var i = emptyDirections.Count() - 1; i >= 0; i--)
+					{
+						GKManager.Directions.Remove(emptyDirections.ElementAt(i).Direction);
+						Directions.Remove(emptyDirections.ElementAt(i));
+					}
+					SelectedDirection = Directions.FirstOrDefault();
+					ServiceFactory.SaveService.GKChanged = true;
 				}
-				SelectedDirection = Directions.FirstOrDefault();
-				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
 

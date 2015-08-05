@@ -12,12 +12,12 @@ namespace Infrastructure.Designer.InstrumentAdorners
 	public class RubberbandAdorner : InstrumentAdorner
 	{
 		private Point? endPoint;
-		private Rectangle rubberband;
+		private readonly Rectangle rubberband;
 
 		public RubberbandAdorner(DesignerCanvas designerCanvas)
 			: base(designerCanvas)
 		{
-			rubberband = new Rectangle()
+			rubberband = new Rectangle
 			{
 				Stroke = Brushes.Navy,
 				StrokeThickness = 1 / ZoomFactor,
@@ -44,8 +44,12 @@ namespace Infrastructure.Designer.InstrumentAdorners
 					CaptureMouse();
 
 				endPoint = e.GetPosition(this);
-				UpdateRubberband();
-				UpdateSelection();
+
+				if (StartPoint != null)
+				{
+					UpdateRubberband();
+					UpdateSelection();
+				}
 				e.Handled = true;
 			}
 		}
@@ -58,11 +62,13 @@ namespace Infrastructure.Designer.InstrumentAdorners
 		{
 			rubberband.StrokeThickness = 1 / ZoomFactor;
 
-			double left = Math.Min(StartPoint.Value.X, endPoint.Value.X);
-			double top = Math.Min(StartPoint.Value.Y, endPoint.Value.Y);
+			if (!StartPoint.HasValue || !endPoint.HasValue) return;
 
-			double width = Math.Abs(StartPoint.Value.X - endPoint.Value.X);
-			double height = Math.Abs(StartPoint.Value.Y - endPoint.Value.Y);
+			var left = Math.Min(StartPoint.Value.X, endPoint.Value.X);
+			var top = Math.Min(StartPoint.Value.Y, endPoint.Value.Y);
+
+			var width = Math.Abs(StartPoint.Value.X - endPoint.Value.X);
+			var height = Math.Abs(StartPoint.Value.Y - endPoint.Value.Y);
 
 			rubberband.Width = width;
 			rubberband.Height = height;
@@ -71,11 +77,12 @@ namespace Infrastructure.Designer.InstrumentAdorners
 		}
 		private void UpdateSelection()
 		{
-			Rect rubberBand = new Rect(StartPoint.Value, endPoint.Value);
+			if (!StartPoint.HasValue || !endPoint.HasValue) return;
+			var rubberBand = new Rect(StartPoint.Value, endPoint.Value);
 			foreach (DesignerItem designerItem in DesignerCanvas.Items)
 				if (designerItem.IsEnabled)
 				{
-					Rect itemRect = designerItem.ContentBounds;
+					var itemRect = designerItem.ContentBounds;
 					designerItem.IsSelected = rubberBand.Contains(itemRect);
 					//Rect itemBounds = designerItem.TransformToAncestor(DesignerCanvas).TransformBounds(itemRect);
 					//designerItem.IsSelected = rubberBand.Contains(itemBounds);

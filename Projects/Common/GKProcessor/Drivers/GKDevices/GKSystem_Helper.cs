@@ -1,4 +1,5 @@
 ﻿using FiresecAPI.GK;
+using System;
 
 namespace GKProcessor
 {
@@ -9,7 +10,7 @@ namespace GKProcessor
 			var driver = new GKDriver()
 			{
 				DriverType = GKDriverType.System,
-				UID = GKDriver.System_UID,
+				UID = new Guid("938947C5-4624-4A1A-939C-60AEEBF7B65C"),
 				Name = "Локальная сеть",
 				ShortName = "Локальная сеть",
 				HasAddress = false,

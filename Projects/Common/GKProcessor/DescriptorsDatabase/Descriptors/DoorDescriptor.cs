@@ -237,42 +237,47 @@ namespace GKProcessor
 			}
 			Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Door, DatabaseType.Gk);
 			Formula.Add(FormulaOperationType.EXIT);
-
-			Formula.AddGetBit(GKStateBit.Fire1, enterButton, DatabaseType.Gk);
-			Formula.AddGetBit(GKStateBit.Off, Door, DatabaseType.Gk);
-			Formula.Add(FormulaOperationType.AND);
-			Formula.Add(FormulaOperationType.BR, 1, 3);
-			Formula.Add(FormulaOperationType.CONST, 0, 1);
-			Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Door, DatabaseType.Gk);
-			Formula.Add(FormulaOperationType.EXIT);
-
-			Formula.AddGetBit(GKStateBit.Attention, exitDevice, DatabaseType.Gk);
-			Formula.AddGetBit(GKStateBit.Off, Door, DatabaseType.Gk);
-			Formula.Add(FormulaOperationType.AND);
-			if (!Door.AntipassbackOn || enterZone == null)
+			if (enterButton != null)
 			{
+				Formula.AddGetBit(GKStateBit.Fire1, enterButton, DatabaseType.Gk);
+				Formula.AddGetBit(GKStateBit.Off, Door, DatabaseType.Gk);
+				Formula.Add(FormulaOperationType.AND);
 				Formula.Add(FormulaOperationType.BR, 1, 3);
-				Formula.Add(FormulaOperationType.ACS, (byte) Door.EnterLevel, exitDevice.GKDescriptorNo);
-			}
-			else
-			{
-				Formula.Add(FormulaOperationType.BR, 1, 9);
-				Formula.Add(FormulaOperationType.ACSP, (byte) Door.EnterLevel, exitDevice.GKDescriptorNo);
-				Formula.Add(FormulaOperationType.BR, 1, 6);
-				Formula.Add(FormulaOperationType.TSTP, 0, (byte) enterZone.No);
-				Formula.Add(FormulaOperationType.BR, 1, 4);
-				Formula.Add(FormulaOperationType.CONST, 0, 0);
-				Formula.Add(FormulaOperationType.PUTMEMB, 0, (byte) Door.GKDescriptorNo);
 				Formula.Add(FormulaOperationType.CONST, 0, 1);
+				Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Door, DatabaseType.Gk);
+				Formula.Add(FormulaOperationType.EXIT);
 			}
-			Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Door, DatabaseType.Gk);
-			Formula.Add(FormulaOperationType.EXIT);
-
-			Formula.AddGetBit(GKStateBit.Fire1, exitButton, DatabaseType.Gk);
-			Formula.AddGetBit(GKStateBit.Off, Door, DatabaseType.Gk);
-			Formula.Add(FormulaOperationType.AND);
-			Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Door, DatabaseType.Gk);
-
+			if (exitDevice != null)
+			{
+				Formula.AddGetBit(GKStateBit.Attention, exitDevice, DatabaseType.Gk);
+				Formula.AddGetBit(GKStateBit.Off, Door, DatabaseType.Gk);
+				Formula.Add(FormulaOperationType.AND);
+				if (!Door.AntipassbackOn || enterZone == null)
+				{
+					Formula.Add(FormulaOperationType.BR, 1, 3);
+					Formula.Add(FormulaOperationType.ACS, (byte)Door.EnterLevel, exitDevice.GKDescriptorNo);
+				}
+				else
+				{
+					Formula.Add(FormulaOperationType.BR, 1, 9);
+					Formula.Add(FormulaOperationType.ACSP, (byte)Door.EnterLevel, exitDevice.GKDescriptorNo);
+					Formula.Add(FormulaOperationType.BR, 1, 6);
+					Formula.Add(FormulaOperationType.TSTP, 0, (byte)enterZone.No);
+					Formula.Add(FormulaOperationType.BR, 1, 4);
+					Formula.Add(FormulaOperationType.CONST, 0, 0);
+					Formula.Add(FormulaOperationType.PUTMEMB, 0, (byte)Door.GKDescriptorNo);
+					Formula.Add(FormulaOperationType.CONST, 0, 1);
+				}
+				Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Door, DatabaseType.Gk);
+				Formula.Add(FormulaOperationType.EXIT);
+			}
+			if (exitButton != null)
+			{
+				Formula.AddGetBit(GKStateBit.Fire1, exitButton, DatabaseType.Gk);
+				Formula.AddGetBit(GKStateBit.Off, Door, DatabaseType.Gk);
+				Formula.Add(FormulaOperationType.AND);
+				Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Door, DatabaseType.Gk);
+			}
 			if (Door.PimEnter != null)
 			{
 				Door.LinkGKBases(Door.PimEnter);

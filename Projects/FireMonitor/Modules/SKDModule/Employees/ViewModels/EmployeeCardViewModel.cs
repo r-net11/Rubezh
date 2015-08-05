@@ -82,15 +82,15 @@ namespace SKDModule.ViewModels
 			if (DialogService.ShowModalWindow(cardRemovalReasonViewModel))
 			{
 				var cardRemovalReason = cardRemovalReasonViewModel.RemovalReason;
-				if (cardRemovalReasonViewModel.IsChecked)
+				if (cardRemovalReasonViewModel.RemoveIsChecked)
 				{
-					if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить карту полностью?"))
+					if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить карту?"))
 					{
 						ServiceFactory.Events.GetEvent<DeleteCardEvent>().Publish(Card.UID);
 						CardHelper.Delete(Card);
 					}
 				}
-				else
+				if (cardRemovalReasonViewModel.DeactivatedIsChecked)
 				{
 					var toStopListResult = CardHelper.DeleteFromEmployee(Card, EmployeeCardsViewModel.Employee.Name, cardRemovalReason);
 					if (!toStopListResult)
