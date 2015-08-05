@@ -50,7 +50,7 @@ namespace SKDDriver.Translators
 						ZoneUID = zoneUID,
 						EnterTime = tmpDateTime,
 						ExitTime = null,
-						IsNeedAdjustment = false, //TODO: Logic for needing adjustment
+						IsNeedAdjustment = exitPassJournal != null && exitPassJournal.ZoneUID == zoneUID,
 						EnterTimeOriginal = tmpDateTime
 					};
 					Context.PassJournals.InsertOnSubmit(enterPassJournal);
