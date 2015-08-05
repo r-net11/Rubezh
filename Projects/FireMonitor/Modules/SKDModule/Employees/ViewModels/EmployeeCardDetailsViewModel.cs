@@ -103,6 +103,7 @@ namespace SKDModule.ViewModels
 		{
 			GKSchedules = new ObservableCollection<GKSchedule>();
 			var scheduleModels = GKScheduleHelper.GetSchedules();
+			scheduleModels.Sort();
 			if (scheduleModels == null)
 				scheduleModels = new List<GKSchedule>();
 			foreach (var schedule in scheduleModels)
