@@ -32,6 +32,5 @@ namespace Infrustructure.Plans.Elements
 			Left = point.X - Width / 2;
 			Top = point.Y - Height / 2;
 		}
-
 	}
 }

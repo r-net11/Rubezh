@@ -33,6 +33,7 @@ namespace FiresecAPI.SKD
 			ElementExtensions = new List<ElementBase>();
 			ElementImageProperties = new List<ElementPassCardImageProperty>();
 			ElementTextProperties = new List<ElementPassCardTextProperty>();
+			PassCardImages = new List<PassCardImage>();
 		}
 
 		[DataMember]
@@ -73,6 +74,8 @@ namespace FiresecAPI.SKD
 		public List<ElementPassCardImageProperty> ElementImageProperties { get; set; }
 		[DataMember]
 		public List<ElementPassCardTextProperty> ElementTextProperties { get; set; }
+		[DataMember]
+		public List<PassCardImage> PassCardImages { get; set; }
 
 		public bool AllowTransparent
 		{
@@ -85,5 +88,15 @@ namespace FiresecAPI.SKD
 			get { return Caption; }
 			set { Caption = value; }
 		}
+	}
+
+	[DataContract]
+	public class PassCardImage
+	{
+		[DataMember]
+		public Guid ImageUID { get; set; }
+
+		[DataMember]
+		public byte[] Image { get; set; }
 	}
 }

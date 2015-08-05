@@ -95,14 +95,15 @@ namespace SKDModule.PassCard.ViewModels
 			using (new WaitWrapper())
 				if (SelectedPassCardTemplate != null)
 				{
-					var template = PassCardTemplateHelper.GetDetails(SelectedPassCardTemplate.UID);
-					using (new TimeCounter("\t\tPassCardCanvas.Initialize: {0}"))
-						_passCardCanvas.Initialize(template);
-					using (new TimeCounter("\t\tDesignerItem.Create: {0}"))
-						foreach (var elementBase in EnumerateElements(template))
-							_passCardCanvas.CreatePresenterItem(elementBase);
-					using (new TimeCounter("\t\tPassCardViewModel.OnUpdated: {0}"))
-						Update();
+					var passCardTemplate = PassCardTemplateHelper.GetDetails(SelectedPassCardTemplate.UID);
+					foreach (var passCardImage in passCardTemplate.PassCardImages)
+					{
+						ServiceFactory.ContentService.AddContent(passCardImage.Image, passCardImage.ImageUID);
+					}
+					_passCardCanvas.Initialize(passCardTemplate);
+					foreach (var elementBase in EnumerateElements(passCardTemplate))
+						_passCardCanvas.CreatePresenterItem(elementBase);
+					Update();
 					_passCardCanvas.LoadingFinished();
 					_passCardCanvas.Refresh();
 				}

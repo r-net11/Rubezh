@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using Common;
 using Controls.Menu.ViewModels;
 using FiresecAPI.SKD;
@@ -14,6 +11,13 @@ using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Services;
 using SKDModule.PassCardDesigner.InstrumentAdorners;
 using SKDModule.ViewModels;
+using System;
+using System.Linq;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using Infrastructure.Common.Services.Content;
+using Infrastructure;
+using System.IO;
 
 namespace SKDModule.PassCardDesigner.ViewModels
 {
@@ -45,26 +49,27 @@ namespace SKDModule.PassCardDesigner.ViewModels
 			{
 				Items = new ObservableCollection<BaseViewModel>()
 				{
-					new MenuButtonViewModel(EditCommand, "Edit" , "Редактировать"),
-					//new MenuSeparatorViewModel(),
-					new MenuButtonViewModel(PassCardDesignerViewModel.CopyCommand, "Copy" , "Копировать"),
-					new MenuButtonViewModel(PassCardDesignerViewModel.CutCommand, "Cut" , "Вырезать"),
-					new MenuButtonViewModel(PassCardDesignerViewModel.PasteCommand, "Paste" , "Вставить"),
-					new MenuButtonViewModel(PassCardDesignerViewModel.UndoCommand, "Undo" , "Отменить"),
-					new MenuButtonViewModel(PassCardDesignerViewModel.RedoCommand, "Redo" , "Применить"),
-					//new MenuSeparatorViewModel(),
-					new MenuButtonViewModel(PassCardDesignerViewModel.MoveToFrontCommand, "MoveForward" , "Вверх"),
-					new MenuButtonViewModel(PassCardDesignerViewModel.SendToBackCommand, "MoveBackward" , "Вниз"),
-					new MenuButtonViewModel(PassCardDesignerViewModel.MoveForwardCommand, "MoveFront" , "Выше"),
-					new MenuButtonViewModel(PassCardDesignerViewModel.MoveBackwardCommand, "MoveBack" , "Ниже"),
+					new MenuButtonViewModel(EditCommand, "Edit", "Редактировать"),
+
+					new MenuButtonViewModel(PassCardDesignerViewModel.CopyCommand, "Copy", "Копировать"),
+					new MenuButtonViewModel(PassCardDesignerViewModel.CutCommand, "Cut", "Вырезать"),
+					new MenuButtonViewModel(PassCardDesignerViewModel.PasteCommand, "Paste", "Вставить"),
+					new MenuButtonViewModel(PassCardDesignerViewModel.UndoCommand, "Undo", "Отменить"),
+					new MenuButtonViewModel(PassCardDesignerViewModel.RedoCommand, "Redo", "Применить"),
+
+					new MenuButtonViewModel(PassCardDesignerViewModel.MoveToFrontCommand, "MoveForward", "Вверх"),
+					new MenuButtonViewModel(PassCardDesignerViewModel.SendToBackCommand, "MoveBackward", "Вниз"),
+					new MenuButtonViewModel(PassCardDesignerViewModel.MoveForwardCommand, "MoveFront", "Выше"),
+					new MenuButtonViewModel(PassCardDesignerViewModel.MoveBackwardCommand, "MoveBack", "Ниже"),
+
+					new MenuButtonViewModel(PassCardDesignerViewModel.AlignHorizontalLeftCommand, "shapes-align-hori-left", "Выровнять по левому краю"),
+					new MenuButtonViewModel(PassCardDesignerViewModel.AlignHorizontalCenterCommand, "shapes-align-hori-center", "Выровнять по вертикали"),
+					new MenuButtonViewModel(PassCardDesignerViewModel.AlignHorizontalRightCommand, "shapes-align-hori-right", "Выровнять по правому краю"),
+					new MenuButtonViewModel(PassCardDesignerViewModel.AlignVerticalTopCommand, "shapes-align-verti-top", "Выровнять по верхнему краю"),
+					new MenuButtonViewModel(PassCardDesignerViewModel.AlignVerticalCenterCommand, "shapes-align-verti-middle", "Выровнять по горизонтали"),
+					new MenuButtonViewModel(PassCardDesignerViewModel.AlignVerticalBottomCommand, "shapes-align-verti-bottom", "Выровнять по нижнему краю")
 				}
 			};
-			Menu.Items.Add(new MenuButtonViewModel(PassCardDesignerViewModel.AlignHorizontalLeftCommand, "shapes-align-hori-left", "Выровнять по левому краю"));
-			Menu.Items.Add(new MenuButtonViewModel(PassCardDesignerViewModel.AlignHorizontalCenterCommand, "shapes-align-hori-center", "Выровнять по вертикали"));
-			Menu.Items.Add(new MenuButtonViewModel(PassCardDesignerViewModel.AlignHorizontalRightCommand, "shapes-align-hori-right", "Выровнять по правому краю"));
-			Menu.Items.Add(new MenuButtonViewModel(PassCardDesignerViewModel.AlignVerticalTopCommand, "shapes-align-verti-top", "Выровнять по верхнему краю"));
-			Menu.Items.Add(new MenuButtonViewModel(PassCardDesignerViewModel.AlignVerticalCenterCommand, "shapes-align-verti-middle", "Выровнять по горизонтали"));
-			Menu.Items.Add(new MenuButtonViewModel(PassCardDesignerViewModel.AlignVerticalBottomCommand, "shapes-align-verti-bottom", "Выровнять по нижнему краю"));
 		}
 
 		#region IDetailsViewModel<ShortPassCardTemplate> Members
@@ -103,6 +108,10 @@ namespace SKDModule.PassCardDesigner.ViewModels
 			else
 			{
 				PassCardTemplate = PassCardTemplateHelper.GetDetails(model.UID);
+				foreach(var passCardImage in PassCardTemplate.PassCardImages)
+				{
+					ServiceFactory.ContentService.AddContent(passCardImage.Image, passCardImage.ImageUID);
+				}
 				Update();
 			}
 			LoadPassCardDesigner();
@@ -198,8 +207,44 @@ namespace SKDModule.PassCardDesigner.ViewModels
 			SaveDefaultProperties();
 			if (!DetailsValidateHelper.Validate(Model))
 				return false;
+
+			PassCardTemplate.PassCardImages = new List<PassCardImage>();
+			foreach(var elementRectangle in PassCardTemplate.ElementRectangles)
+			{
+				AddImage(elementRectangle.BackgroundImageSource);
+			}
+			foreach (var elementEllipse in PassCardTemplate.ElementEllipses)
+			{
+				AddImage(elementEllipse.BackgroundImageSource);
+			}
+			foreach (var elementPolygon in PassCardTemplate.ElementPolygons)
+			{
+				AddImage(elementPolygon.BackgroundImageSource);
+			}
+			AddImage(PassCardTemplate.BackgroundImageSource);
+
 			return PassCardTemplateHelper.Save(PassCardTemplate, _isNew);
 		}
+
+		void AddImage(Guid? backgroundImageSource)
+		{
+			if (backgroundImageSource.HasValue && backgroundImageSource != Guid.Empty)
+			{
+				var stream = ServiceFactory.ContentService.GetContentStream(backgroundImageSource.Value);
+				var bytes = ReadFully(stream);
+				PassCardTemplate.PassCardImages.Add(new PassCardImage() { Image = bytes, ImageUID = backgroundImageSource.Value });
+			}
+		}
+
+		public byte[] ReadFully(Stream input)
+		{
+			using (MemoryStream ms = new MemoryStream())
+			{
+				input.CopyTo(ms);
+				return ms.ToArray();
+			}
+		}
+
 		public override void OnClosed()
 		{
 			DesignerCanvas.Toolbox.AcceptKeyboard = false;
