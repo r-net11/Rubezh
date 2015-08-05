@@ -15,9 +15,9 @@ namespace SKDDriver.DataClasses
 			: base(context)
 		{
 			ShortTranslator = new PositionShortTranslator(this);
-            AsyncTranslator = new PositionAsyncTranslator(ShortTranslator);
+			AsyncTranslator = new PositionAsyncTranslator(ShortTranslator);
 			Synchroniser = new PositionSynchroniser(Table, DbService);
-        }
+		}
 
 		public override System.Linq.IQueryable<Position> GetFilteredTableItems(API.PositionFilter filter, System.Linq.IQueryable<Position> tableItems)
 		{
@@ -29,11 +29,11 @@ namespace SKDDriver.DataClasses
 			get { return Context.Positions; }
 		}
 
-        public override System.Linq.IQueryable<Position> GetTableItems()
+		public override System.Linq.IQueryable<Position> GetTableItems()
 		{
 			return base.GetTableItems().Include(x => x.Photo);
 		}
-		
+
 		public override API.Position Translate(Position tableItem)
 		{
 			var result = base.Translate(tableItem);
@@ -64,12 +64,12 @@ namespace SKDDriver.DataClasses
 		public PositionShortTranslator(PositionTranslator translator) : base(translator) { }
 	}
 
-    public class PositionAsyncTranslator : AsyncTranslator<Position, API.ShortPosition, API.PositionFilter>
-    {
-        public PositionAsyncTranslator(PositionShortTranslator translator) : base(translator as ITranslatorGet<Position, API.ShortPosition, API.PositionFilter>) { }
-        public override List<API.ShortPosition> GetCollection(DbCallbackResult callbackResult)
-        {
-            return callbackResult.Positions;
-        }
-    }
+	public class PositionAsyncTranslator : AsyncTranslator<Position, API.ShortPosition, API.PositionFilter>
+	{
+		public PositionAsyncTranslator(PositionShortTranslator translator) : base(translator as ITranslatorGet<Position, API.ShortPosition, API.PositionFilter>) { }
+		public override List<API.ShortPosition> GetCollection(DbCallbackResult callbackResult)
+		{
+			return callbackResult.Positions;
+		}
+	}
 }

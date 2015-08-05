@@ -11,20 +11,20 @@ namespace SKDDriver.DataClasses
 	{
 		int _daySeconds = 86400;
 
-        public DayIntervalTranslator(DbService context)
-            : base(context)
-        {
-            AsyncTranslator = new DayIntervalAsyncTranslator(this);
-        }
+		public DayIntervalTranslator(DbService context)
+			: base(context)
+		{
+			AsyncTranslator = new DayIntervalAsyncTranslator(this);
+		}
 
-        public DayIntervalAsyncTranslator AsyncTranslator { get; private set; }
-		
+		public DayIntervalAsyncTranslator AsyncTranslator { get; private set; }
+
 		public override DbSet<DayInterval> Table
 		{
 			get { return Context.DayIntervals; }
 		}
 
-        public override IQueryable<DayInterval> GetTableItems()
+		public override IQueryable<DayInterval> GetTableItems()
 		{
 			return base.GetTableItems().Include(x => x.DayIntervalParts);
 		}
@@ -32,8 +32,8 @@ namespace SKDDriver.DataClasses
 		public override API.DayInterval Translate(DayInterval tableItem)
 		{
 			var result = base.Translate(tableItem);
-            if (result == null)
-                return null;
+			if (result == null)
+				return null;
 			result.SlideTime = TimeSpan.FromSeconds(tableItem.SlideTime);
 			result.DayIntervalParts = tableItem.DayIntervalParts.Select(x => TranslatePart(x)).ToList();
 			return result;
@@ -109,12 +109,12 @@ namespace SKDDriver.DataClasses
 		}
 	}
 
-    public class DayIntervalAsyncTranslator : AsyncTranslator<DayInterval, API.DayInterval, API.DayIntervalFilter>
-    {
-        public DayIntervalAsyncTranslator(DayIntervalTranslator translator) : base(translator as ITranslatorGet<DayInterval, API.DayInterval, API.DayIntervalFilter>) { }
-        public override List<API.DayInterval> GetCollection(DbCallbackResult callbackResult)
-        {
-            return callbackResult.DayIntervals;
-        }
-    }
+	public class DayIntervalAsyncTranslator : AsyncTranslator<DayInterval, API.DayInterval, API.DayIntervalFilter>
+	{
+		public DayIntervalAsyncTranslator(DayIntervalTranslator translator) : base(translator as ITranslatorGet<DayInterval, API.DayInterval, API.DayIntervalFilter>) { }
+		public override List<API.DayInterval> GetCollection(DbCallbackResult callbackResult)
+		{
+			return callbackResult.DayIntervals;
+		}
+	}
 }

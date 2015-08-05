@@ -9,20 +9,20 @@ namespace SKDDriver.DataClasses
 {
 	public class AccessTemplateTranslator : OrganisationItemTranslatorBase<AccessTemplate, API.AccessTemplate, API.AccessTemplateFilter>
 	{
-        public AccessTemplateTranslator(DbService context)
-            : base(context)
-        {
-            AsyncTranslator = new AccessTemplateAsyncTranslator(this);
-        }
+		public AccessTemplateTranslator(DbService context)
+			: base(context)
+		{
+			AsyncTranslator = new AccessTemplateAsyncTranslator(this);
+		}
 
-        public AccessTemplateAsyncTranslator AsyncTranslator { get; private set; }
+		public AccessTemplateAsyncTranslator AsyncTranslator { get; private set; }
 
 		public override DbSet<AccessTemplate> Table
 		{
 			get { return Context.AccessTemplates; }
 		}
 
-        public override IQueryable<AccessTemplate> GetTableItems()
+		public override IQueryable<AccessTemplate> GetTableItems()
 		{
 			return base.GetTableItems().Include(x => x.CardDoors);
 		}
@@ -37,8 +37,8 @@ namespace SKDDriver.DataClasses
 		public override API.AccessTemplate Translate(AccessTemplate tableItem)
 		{
 			var result = base.Translate(tableItem);
-            if (result == null)
-                return null;
+			if (result == null)
+				return null;
 			result.CardDoors = tableItem.CardDoors.Select(x => x.Translate()).ToList();
 
 			return result;
@@ -56,12 +56,12 @@ namespace SKDDriver.DataClasses
 		}
 	}
 
-    public class AccessTemplateAsyncTranslator : AsyncTranslator<AccessTemplate, API.AccessTemplate, API.AccessTemplateFilter>
-    {
-        public AccessTemplateAsyncTranslator(AccessTemplateTranslator translator) : base(translator as ITranslatorGet<AccessTemplate, API.AccessTemplate, API.AccessTemplateFilter>) { }
-        public override List<API.AccessTemplate> GetCollection(DbCallbackResult callbackResult)
-        {
-            return callbackResult.AccessTemplates;
-        }
-    }
+	public class AccessTemplateAsyncTranslator : AsyncTranslator<AccessTemplate, API.AccessTemplate, API.AccessTemplateFilter>
+	{
+		public AccessTemplateAsyncTranslator(AccessTemplateTranslator translator) : base(translator as ITranslatorGet<AccessTemplate, API.AccessTemplate, API.AccessTemplateFilter>) { }
+		public override List<API.AccessTemplate> GetCollection(DbCallbackResult callbackResult)
+		{
+			return callbackResult.AccessTemplates;
+		}
+	}
 }
