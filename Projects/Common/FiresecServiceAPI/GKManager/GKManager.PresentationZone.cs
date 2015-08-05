@@ -195,7 +195,7 @@ namespace FiresecClient
 			if (logic.OnClausesGroup.ClauseGroups.Count > 0 || logic.OnClausesGroup.Clauses.Count > 0)
 			{
 				StringBuilder stringBuuilder = new StringBuilder();
-				stringBuuilder.Append("1: ");
+				stringBuuilder.Append("Условие включения: ");
 				stringBuuilder.Append(GetPresentationLogic(logic.OnClausesGroup));
 				list.Add(stringBuuilder);
 			}
@@ -203,7 +203,7 @@ namespace FiresecClient
 			if (logic.OnNowClausesGroup.ClauseGroups.Count > 0 || logic.OnNowClausesGroup.Clauses.Count > 0)
 			{
 				StringBuilder stringBuuilder = new StringBuilder();
-				stringBuuilder.Append("2: ");
+				stringBuuilder.Append("Условие включения немедленно: ");
 				stringBuuilder.Append(GetPresentationLogic(logic.OnNowClausesGroup));
 				list.Add(stringBuuilder);
 			}
@@ -211,7 +211,7 @@ namespace FiresecClient
 			if (logic.OffClausesGroup.ClauseGroups.Count > 0 || logic.OffClausesGroup.Clauses.Count > 0)
 			{
 				StringBuilder stringBuuilder = new StringBuilder();
-				stringBuuilder.Append("3: ");
+				stringBuuilder.Append("Условие выключения: ");
 				stringBuuilder.Append(GetPresentationLogic(logic.OffClausesGroup));
 				list.Add(stringBuuilder);
 			}
@@ -219,15 +219,15 @@ namespace FiresecClient
 			if (logic.OffNowClausesGroup.ClauseGroups.Count > 0 || logic.OffNowClausesGroup.Clauses.Count > 0)
 			{
 				StringBuilder stringBuuilder = new StringBuilder();
-				stringBuuilder.Append("4: ");
+				stringBuuilder.Append("Условие выключения немедленно: ");
 				stringBuuilder.Append(GetPresentationLogic(logic.OffNowClausesGroup));
 				list.Add(stringBuuilder);
 			}
 
-			if (logic.OffNowClausesGroup.ClauseGroups.Count > 0 || logic.OffNowClausesGroup.Clauses.Count > 0 )
+			if (logic.StopClausesGroup.ClauseGroups.Count > 0 || logic.StopClausesGroup.Clauses.Count > 0 )
 			{
 				StringBuilder stringBuuilder = new StringBuilder();
-				stringBuuilder.Append("5: ");
+				stringBuuilder.Append("Условие остановки: ");
 				stringBuuilder.Append(GetPresentationLogic(logic.StopClausesGroup));
 				list.Add(stringBuuilder);
 			}
