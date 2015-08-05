@@ -130,23 +130,26 @@ namespace GKModule.ViewModels
 		{
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить все пустые ТД ?"))
 			{
-				var emptyDoors = Doors.Where( x => x.ExitButton.UID == Guid.Empty && x.EnterDevice.UID == Guid.Empty && x.ExitDevice.UID == Guid.Empty && x.EnterButton.UID == Guid.Empty &&  x.ExitZone.UID == Guid.Empty &&
-					x.LockDevice.UID == Guid.Empty && x.LockDeviceExit.UID == Guid.Empty && x.LockControlDevice.UID == Guid.Empty &&  x.LockControlDeviceExit.UID == Guid.Empty && x.EnterZone.UID == Guid.Empty );
+				var emptyDoors = Doors.Where( x => x.Door.ExitButtonUID == Guid.Empty && x.Door.EnterDeviceUID == Guid.Empty && x.Door.ExitDeviceUID == Guid.Empty && x.Door.EnterButtonUID == Guid.Empty &&  x.Door.ExitZoneUID == Guid.Empty &&
+					x.Door.LockDeviceUID == Guid.Empty && x.Door.LockDeviceExitUID == Guid.Empty && x.Door.LockControlDeviceUID == Guid.Empty &&  x.Door.LockControlDeviceExitUID == Guid.Empty && x.Door.EnterZoneUID == Guid.Empty );
+
 				if (emptyDoors.Any())
 				{
-					foreach (var emptyDoor in emptyDoors)
+					for (var i = emptyDoors.Count() - 1; i >= 0; i--)
 					{
-						GKManager.Doors.Remove(emptyDoor.Door);
-						Doors.Remove(emptyDoor);
+						GKManager.Doors.Remove(emptyDoors.ElementAt(i).Door);
+						Doors.Remove(emptyDoors.ElementAt(i));
 					}
+					SelectedDoor = Doors.FirstOrDefault();
+					ServiceFactory.SaveService.GKChanged = true;
 				}
 			}
 		}
 
 		bool CanDeleteAllEmpty()
 		{
-			return Doors.Any(x => x.ExitButton.UID == Guid.Empty && x.EnterDevice.UID == Guid.Empty && x.ExitDevice.UID == Guid.Empty && x.EnterButton.UID == Guid.Empty && x.ExitZone.UID == Guid.Empty &&
-					x.LockDevice.UID == Guid.Empty && x.LockDeviceExit.UID == Guid.Empty && x.LockControlDevice.UID == Guid.Empty && x.LockControlDeviceExit.UID == Guid.Empty && x.EnterZone.UID == Guid.Empty);
+			return Doors.Any(x => x.Door.ExitButtonUID == Guid.Empty && x.Door.EnterDeviceUID == Guid.Empty && x.Door.ExitDeviceUID == Guid.Empty && x.Door.EnterButtonUID == Guid.Empty && x.Door.ExitZoneUID == Guid.Empty &&
+					x.Door.LockDeviceUID == Guid.Empty && x.Door.LockDeviceExitUID == Guid.Empty && x.Door.LockControlDeviceUID == Guid.Empty && x.Door.LockControlDeviceExitUID == Guid.Empty && x.Door.EnterZoneUID == Guid.Empty);
 		}
 
 		public RelayCommand EditCommand { get; private set; }

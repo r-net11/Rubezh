@@ -17,5 +17,8 @@ namespace FiresecAPI
 
 		[Description("Несвязанные элементы плана")]
 		NotBoundedElements = 8,
+
+		[Description("тест для ТД")]
+		NotTD = 16,
 	}
 }
