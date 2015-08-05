@@ -71,21 +71,21 @@ namespace GKModule.Validation
 				{
 					if (!doorDeviceUIDs.Add(door.EnterButtonUID))
 					{
-						Errors.Add(new DoorValidationError(door, "Устройство " + door.EnterButton.PresentationName + " уже участвует в точке дотупа", ValidationErrorLevel.CannotWrite));
+						Errors.Add(new DoorValidationError(door, "Устройство " + door.EnterButton.PresentationName + " уже участвует в точке доступа", ValidationErrorLevel.CannotWrite));
 					}
 				}
 				if (door.ExitButton != null)
 				{
 					if (!doorDeviceUIDs.Add(door.ExitButtonUID))
 					{
-						Errors.Add(new DoorValidationError(door, "Устройство " + door.ExitButton.PresentationName + " уже участвует в точке дотупа", ValidationErrorLevel.CannotWrite));
+						Errors.Add(new DoorValidationError(door, "Устройство " + door.ExitButton.PresentationName + " уже участвует в точке доступа", ValidationErrorLevel.CannotWrite));
 					}
 				}
 				if (door.LockControlDeviceExit != null)
 				{
 					if (!doorDeviceUIDs.Add(door.LockControlDeviceExitUID))
 					{
-						Errors.Add(new DoorValidationError(door, "Устройство " + door.LockControlDeviceExit.PresentationName + " уже участвует в точке дотупа", ValidationErrorLevel.CannotWrite));
+						Errors.Add(new DoorValidationError(door, "Устройство " + door.LockControlDeviceExit.PresentationName + " уже участвует в точке доступа", ValidationErrorLevel.CannotWrite));
 					}
 				}
 
@@ -93,7 +93,7 @@ namespace GKModule.Validation
 				{
 					if (!doorDeviceUIDs.Add(door.LockControlDevice.UID))
 					{
-						Errors.Add(new DoorValidationError(door, "Устройство " + door.LockControlDevice.PresentationName + " уже участвует в точке дотупа", ValidationErrorLevel.CannotWrite));
+						Errors.Add(new DoorValidationError(door, "Устройство " + door.LockControlDevice.PresentationName + " уже участвует в точке доступа", ValidationErrorLevel.CannotWrite));
 					}
 				}
 
