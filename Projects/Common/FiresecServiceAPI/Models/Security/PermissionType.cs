@@ -196,14 +196,17 @@ namespace FiresecAPI.Models
 		[DescriptionAttribute("Просмотр организаций")]
 		Oper_SKD_Organisations_View,
 
-		[DescriptionAttribute("Создание, редактирование, архивирование, восстановление организации")]
-		Oper_SKD_Organisations_Edit,
-
 		[DescriptionAttribute("Привязка пользователей к организации, открепление пользователей от организации")]
 		Oper_SKD_Organisations_Users,
 
 		[DescriptionAttribute("Привязка точек доступа к организации, открепление точек доступа от организации")]
 		Oper_SKD_Organisations_Doors,
+
+		[DescriptionAttribute("Редактирование организации")]
+		Oper_SKD_Organisations_Edit,
+
+		[DescriptionAttribute("Добавление, архивирование, удаление и востановление организации")]
+		Oper_SKD_Organisations_AddRemove,
 
 		[DescriptionAttribute("Просмотр дневных графиков")]
 		Oper_SKD_TimeTrack_DaySchedules_View,

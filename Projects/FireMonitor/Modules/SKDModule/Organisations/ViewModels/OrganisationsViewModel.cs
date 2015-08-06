@@ -20,9 +20,9 @@ namespace SKDModule.ViewModels
 		public OrganisationsViewModel()
 		{
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
-			RemoveCommand = new RelayCommand(OnRemove, CanEditRemove);
+			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			RestoreCommand = new RelayCommand(OnRestore, CanRestore);
-			EditCommand = new RelayCommand(OnEdit, CanEditRemove);
+			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			ServiceFactory.Events.GetEvent<UserChangedEvent>().Unsubscribe(OnUserChanged);
 			ServiceFactory.Events.GetEvent<UserChangedEvent>().Subscribe(OnUserChanged);
 		}
@@ -112,7 +112,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		bool CanEditRemove()
+		bool CanEdit()
 		{
 			return SelectedOrganisation != null && !SelectedOrganisation.IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Organisations_Edit);
 		}
@@ -137,7 +137,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanAdd()
 		{
-			 return FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Organisations_Edit);
+			return FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Organisations_AddRemove);
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
@@ -166,6 +166,11 @@ namespace SKDModule.ViewModels
 				}
 			}
 		}
+
+		bool CanRemove()
+		{
+			return SelectedOrganisation != null && !SelectedOrganisation.IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Organisations_AddRemove);
+		}
 		
 		public RelayCommand RestoreCommand { get; private set; }
 		void OnRestore()
@@ -182,7 +187,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanRestore()
 		{
-			return SelectedOrganisation != null && SelectedOrganisation.IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Organisations_Edit);
+			return SelectedOrganisation != null && SelectedOrganisation.IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Organisations_AddRemove);
 		}
 
 		public RelayCommand EditCommand { get; private set; }

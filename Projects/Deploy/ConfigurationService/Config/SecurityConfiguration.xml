@@ -6,19 +6,6 @@
   </Version>
   <Users>
     <User>
-      <UID>3aafca33-b452-4b29-bf49-0d3b3c1ac167</UID>
-      <Name>Оператор</Name>
-      <Login>oper</Login>
-      <PasswordHash>d41d8cd98f00b204e9800998ecf8427e</PasswordHash>
-      <PermissionStrings>
-        <string>Oper_Login</string>
-        <string>Oper_Logout</string>
-        <string>Oper_AddToIgnoreList</string>
-        <string>Oper_RemoveFromIgnoreList</string>
-        <string>Oper_SecurityZone</string>
-      </PermissionStrings>
-    </User>
-    <User>
       <UID>644cd7e2-21ae-4e0d-a12a-4955125102ae</UID>
       <Name>Оператор (лайт)</Name>
       <Login>operl</Login>
@@ -28,6 +15,53 @@
       </PermissionStrings>
     </User>
     <User>
+      <UID>3aafca33-b452-4b29-bf49-0d3b3c1ac167</UID>
+      <Name>Оператор</Name>
+      <Login>oper</Login>
+      <PasswordHash>d41d8cd98f00b204e9800998ecf8427e</PasswordHash>
+      <PermissionStrings>
+        <string>Oper_Login</string>
+        <string>Oper_Logout</string>
+        <string>Oper_SKD_Employees_View</string>
+        <string>Oper_SKD_Employees_Edit</string>
+        <string>Oper_SKD_Employees_Edit_CardType</string>
+        <string>Oper_SKD_Guests_View</string>
+        <string>Oper_SKD_Guests_Edit</string>
+        <string>Oper_SKD_Departments_View</string>
+        <string>Oper_SKD_Departments_Etit</string>
+        <string>Oper_SKD_Positions_View</string>
+        <string>Oper_SKD_Positions_Etit</string>
+        <string>Oper_SKD_AdditionalColumns_View</string>
+        <string>Oper_SKD_AdditionalColumns_Etit</string>
+        <string>Oper_SKD_Cards_View</string>
+        <string>Oper_SKD_Cards_Etit</string>
+        <string>Oper_SKD_AccessTemplates_View</string>
+        <string>Oper_SKD_AccessTemplates_Etit</string>
+        <string>Oper_SKD_PassCards_View</string>
+        <string>Oper_SKD_PassCards_Etit</string>
+        <string>Oper_SKD_Organisations_View</string>
+        <string>Oper_SKD_Organisations_Users</string>
+        <string>Oper_SKD_Organisations_Doors</string>
+        <string>Oper_SKD_Organisations_Edit</string>
+        <string>Oper_SKD_TimeTrack_DaySchedules_View</string>
+        <string>Oper_SKD_TimeTrack_DaySchedules_Edit</string>
+        <string>Oper_SKD_TimeTrack_ScheduleSchemes_View</string>
+        <string>Oper_SKD_TimeTrack_ScheduleSchemes_Edit</string>
+        <string>Oper_SKD_TimeTrack_Holidays_View</string>
+        <string>Oper_SKD_TimeTrack_Holidays_Edit</string>
+        <string>Oper_SKD_TimeTrack_Schedules_View</string>
+        <string>Oper_SKD_TimeTrack_Schedules_Edit</string>
+        <string>Oper_SKD_TimeTrack_Report_View</string>
+        <string>Oper_SKD_TimeTrack_Parts_Edit</string>
+        <string>Oper_SKD_TimeTrack_Documents_Edit</string>
+        <string>Oper_SKD_TimeTrack_DocumentTypes_Edit</string>
+      </PermissionStrings>
+      <RemoreAccess>
+        <RemoteAccessType>RemoteAccessBanned</RemoteAccessType>
+        <HostNameOrAddressList />
+      </RemoreAccess>
+    </User>
+    <User>
       <UID>10e591fb-e017-442d-b176-f05756d984bb</UID>
       <Name>Администратор</Name>
       <Login>adm</Login>
@@ -35,7 +69,7 @@
       <PermissionStrings>
         <string>Adm_ViewConfig</string>
         <string>Adm_SetNewConfig</string>
-        <string>Adm_WriteDeviceConfig</string>
+        <string>Adm_ChangeDevicesSoft</string>
         <string>Adm_Security</string>
         <string>Oper_Login</string>
         <string>Oper_Logout</string>
@@ -74,6 +108,7 @@
         <string>Oper_Reports_T13</string>
         <string>Oper_SKD_Employees_View</string>
         <string>Oper_SKD_Employees_Edit</string>
+        <string>Oper_SKD_Employees_Edit_CardType</string>
         <string>Oper_SKD_Guests_View</string>
         <string>Oper_SKD_Guests_Edit</string>
         <string>Oper_SKD_Departments_View</string>
@@ -89,9 +124,10 @@
         <string>Oper_SKD_PassCards_View</string>
         <string>Oper_SKD_PassCards_Etit</string>
         <string>Oper_SKD_Organisations_View</string>
-        <string>Oper_SKD_Organisations_Edit</string>
         <string>Oper_SKD_Organisations_Users</string>
         <string>Oper_SKD_Organisations_Doors</string>
+        <string>Oper_SKD_Organisations_Edit</string>
+        <string>Oper_SKD_Organisations_AddRemove</string>
         <string>Oper_SKD_TimeTrack_DaySchedules_View</string>
         <string>Oper_SKD_TimeTrack_DaySchedules_Edit</string>
         <string>Oper_SKD_TimeTrack_ScheduleSchemes_View</string>
@@ -158,6 +194,7 @@
         <string>Oper_Reports_T13</string>
         <string>Oper_SKD_Employees_View</string>
         <string>Oper_SKD_Employees_Edit</string>
+        <string>Oper_SKD_Employees_Edit_CardType</string>
         <string>Oper_SKD_Guests_View</string>
         <string>Oper_SKD_Guests_Edit</string>
         <string>Oper_SKD_Departments_View</string>
@@ -173,9 +210,10 @@
         <string>Oper_SKD_PassCards_View</string>
         <string>Oper_SKD_PassCards_Etit</string>
         <string>Oper_SKD_Organisations_View</string>
-        <string>Oper_SKD_Organisations_Edit</string>
         <string>Oper_SKD_Organisations_Users</string>
         <string>Oper_SKD_Organisations_Doors</string>
+        <string>Oper_SKD_Organisations_Edit</string>
+        <string>Oper_SKD_Organisations_AddRemove</string>
         <string>Oper_SKD_TimeTrack_DaySchedules_View</string>
         <string>Oper_SKD_TimeTrack_DaySchedules_Edit</string>
         <string>Oper_SKD_TimeTrack_ScheduleSchemes_View</string>
@@ -220,7 +258,7 @@
       <PermissionStrings>
         <string>Adm_ViewConfig</string>
         <string>Adm_SetNewConfig</string>
-        <string>Adm_WriteDeviceConfig</string>
+        <string>Adm_ChangeDevicesSoft</string>
         <string>Adm_Security</string>
         <string>Oper_Login</string>
         <string>Oper_Logout</string>
@@ -259,6 +297,7 @@
         <string>Oper_Reports_T13</string>
         <string>Oper_SKD_Employees_View</string>
         <string>Oper_SKD_Employees_Edit</string>
+        <string>Oper_SKD_Employees_Edit_CardType</string>
         <string>Oper_SKD_Guests_View</string>
         <string>Oper_SKD_Guests_Edit</string>
         <string>Oper_SKD_Departments_View</string>
@@ -274,9 +313,10 @@
         <string>Oper_SKD_PassCards_View</string>
         <string>Oper_SKD_PassCards_Etit</string>
         <string>Oper_SKD_Organisations_View</string>
-        <string>Oper_SKD_Organisations_Edit</string>
         <string>Oper_SKD_Organisations_Users</string>
         <string>Oper_SKD_Organisations_Doors</string>
+        <string>Oper_SKD_Organisations_Edit</string>
+        <string>Oper_SKD_Organisations_AddRemove</string>
         <string>Oper_SKD_TimeTrack_DaySchedules_View</string>
         <string>Oper_SKD_TimeTrack_DaySchedules_Edit</string>
         <string>Oper_SKD_TimeTrack_ScheduleSchemes_View</string>
@@ -337,6 +377,7 @@
         <string>Oper_Reports_T13</string>
         <string>Oper_SKD_Employees_View</string>
         <string>Oper_SKD_Employees_Edit</string>
+        <string>Oper_SKD_Employees_Edit_CardType</string>
         <string>Oper_SKD_Guests_View</string>
         <string>Oper_SKD_Guests_Edit</string>
         <string>Oper_SKD_Departments_View</string>
@@ -352,9 +393,10 @@
         <string>Oper_SKD_PassCards_View</string>
         <string>Oper_SKD_PassCards_Etit</string>
         <string>Oper_SKD_Organisations_View</string>
-        <string>Oper_SKD_Organisations_Edit</string>
         <string>Oper_SKD_Organisations_Users</string>
         <string>Oper_SKD_Organisations_Doors</string>
+        <string>Oper_SKD_Organisations_Edit</string>
+        <string>Oper_SKD_Organisations_AddRemove</string>
         <string>Oper_SKD_TimeTrack_DaySchedules_View</string>
         <string>Oper_SKD_TimeTrack_DaySchedules_Edit</string>
         <string>Oper_SKD_TimeTrack_ScheduleSchemes_View</string>
