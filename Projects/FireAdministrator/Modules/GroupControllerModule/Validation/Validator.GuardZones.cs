@@ -78,13 +78,13 @@ namespace GKModule.Validation
 				if (guardZoneDevice.Device.DriverType == GKDriverType.RSR2_CodeReader)
 				{
 					if (guardZoneDevice.CodeReaderSettings.SetGuardSettings.CodeUIDs.Count > 100)
-						Errors.Add(new GuardZoneValidationError(guardZone, "Количестао кодов для постановки у кодонаборника " + guardZoneDevice.Device.PredefinedName + " не должно превышать 100", ValidationErrorLevel.CannotWrite));
+						Errors.Add(new GuardZoneValidationError(guardZone, "Количество кодов для постановки у кодонаборника " + guardZoneDevice.Device.PredefinedName + " не должно превышать 100", ValidationErrorLevel.CannotWrite));
 					if (guardZoneDevice.CodeReaderSettings.ResetGuardSettings.CodeUIDs.Count > 100)
-						Errors.Add(new GuardZoneValidationError(guardZone, "Количестао кодов для снятия с охраны у кодонаборника " + guardZoneDevice.Device.PredefinedName + " не должно превышать 100", ValidationErrorLevel.CannotWrite));
+						Errors.Add(new GuardZoneValidationError(guardZone, "Количество кодов для снятия с охраны у кодонаборника " + guardZoneDevice.Device.PredefinedName + " не должно превышать 100", ValidationErrorLevel.CannotWrite));
 					if (guardZoneDevice.CodeReaderSettings.ChangeGuardSettings.CodeUIDs.Count > 100)
-						Errors.Add(new GuardZoneValidationError(guardZone, "Количестао кодов для изменения состояни у кодонаборника " + guardZoneDevice.Device.PredefinedName + " не должно превышать 100", ValidationErrorLevel.CannotWrite));
+						Errors.Add(new GuardZoneValidationError(guardZone, "Количество кодов для изменения состояни у кодонаборника " + guardZoneDevice.Device.PredefinedName + " не должно превышать 100", ValidationErrorLevel.CannotWrite));
 					if (guardZoneDevice.CodeReaderSettings.AlarmSettings.CodeUIDs.Count > 100)
-						Errors.Add(new GuardZoneValidationError(guardZone, "Количестао кодов на вызов тревоги у кодонаборника " + guardZoneDevice.Device.PredefinedName + " не должно превышать 100", ValidationErrorLevel.CannotWrite));
+						Errors.Add(new GuardZoneValidationError(guardZone, "Количество кодов на вызов тревоги у кодонаборника " + guardZoneDevice.Device.PredefinedName + " не должно превышать 100", ValidationErrorLevel.CannotWrite));
 				}
 			}
 		}
@@ -129,7 +129,7 @@ namespace GKModule.Validation
 					{
 						var code = GKManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == codeUID);
 						if (code != null)
-							Errors.Add(new GuardZoneValidationError(guardZone, "дублируется комманда " + codeReaderSettingsPart.CodeReaderEnterType.ToDescription() + " в устройстве " + name + " для кода " + code.PresentationName, ValidationErrorLevel.CannotWrite));
+							Errors.Add(new GuardZoneValidationError(guardZone, "Дублируется комманда " + codeReaderSettingsPart.CodeReaderEnterType.ToDescription() + " в устройстве " + name + " для кода " + code.PresentationName, ValidationErrorLevel.CannotWrite));
 					}
 				}
 			}

@@ -112,11 +112,6 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		bool CanEdit()
-		{
-			return SelectedOrganisation != null && !SelectedOrganisation.IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Organisations_Edit);
-		}
-
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
@@ -201,6 +196,10 @@ namespace SKDModule.ViewModels
 				SelectedOrganisation.Update();
 				ServiceFactory.Events.GetEvent<EditOrganisationEvent>().Publish(organisation);
 			}
+		}
+		bool CanEdit()
+		{
+			return SelectedOrganisation != null && !SelectedOrganisation.IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Organisations_Edit);
 		}
 
 		void SetItemsCanSelect(bool canSelect)
