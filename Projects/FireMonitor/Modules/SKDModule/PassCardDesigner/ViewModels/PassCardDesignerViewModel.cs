@@ -34,21 +34,15 @@ namespace SKDModule.PassCardDesigner.ViewModels
 			ServiceFactory.Events.GetEvent<ShowPropertiesEvent>().Subscribe(OnShowPropertiesEvent);
 			PassCardTemplate = passCardTemplate;
 			IsNotEmpty = PassCardTemplate != null;
-			using (new TimeCounter("\tPassCardDesignerViewModel.Initialize: {0}"))
 			using (new WaitWrapper())
 			{
-				using (new TimeCounter("\t\tDesignerCanvas.Initialize: {0}"))
-					((DesignerCanvas)DesignerCanvas).Initialize(PassCardTemplate);
+				((DesignerCanvas)DesignerCanvas).Initialize(PassCardTemplate);
 				if (PassCardTemplate != null)
 				{
-					using (new TimeCounter("\t\tDesignerItem.Create: {0}"))
-					{
-						foreach (var elementBase in EnumerateElements())
-							DesignerCanvas.Create(elementBase);
-						DesignerCanvas.UpdateZIndex();
-					}
-					using (new TimeCounter("\t\tPassCardDesignerViewModel.OnUpdated: {0}"))
-						Update();
+					foreach (var elementBase in EnumerateElements())
+						DesignerCanvas.Create(elementBase);
+					DesignerCanvas.UpdateZIndex();
+					Update();
 				}
 			}
 			ResetHistory();

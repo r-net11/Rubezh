@@ -9,13 +9,13 @@ namespace SKDDriver.DataClasses
 {
 	public class HolidayTranslator : OrganisationItemTranslatorBase<Holiday, API.Holiday, API.HolidayFilter>
 	{
-        public HolidayTranslator(DbService context)
-            : base(context)
-        {
-            AsyncTranslator = new HolidayAsyncTranslator(this);
-        }
+		public HolidayTranslator(DbService context)
+			: base(context)
+		{
+			AsyncTranslator = new HolidayAsyncTranslator(this);
+		}
 
-        public HolidayAsyncTranslator AsyncTranslator { get; private set; }
+		public HolidayAsyncTranslator AsyncTranslator { get; private set; }
 
 		public override DbSet<Holiday> Table
 		{
@@ -25,8 +25,8 @@ namespace SKDDriver.DataClasses
 		public override API.Holiday Translate(Holiday tableItem)
 		{
 			var result = base.Translate(tableItem);
-            if (result == null)
-                return null;
+			if (result == null)
+				return null;
 			result.Date = tableItem.Date;
 			result.TransferDate = tableItem.TransferDate;
 			result.Type = (API.HolidayType)tableItem.Type;
@@ -64,8 +64,8 @@ namespace SKDDriver.DataClasses
 				return OperationResult<bool>.FromError("Запись с таким же названием уже существует");
 			if (item.Reduction.TotalHours > 2)
 				return OperationResult<bool>.FromError("Величина сокращения не может быть больше двух часов");
-			if (Table.Any(x => x.UID != item.UID 
-				&& x.OrganisationUID == item.OrganisationUID 
+			if (Table.Any(x => x.UID != item.UID
+				&& x.OrganisationUID == item.OrganisationUID
 				&& x.Date.Year == year
 				&& !x.IsDeleted
 				&& x.Date == item.Date))
@@ -76,13 +76,12 @@ namespace SKDDriver.DataClasses
 		}
 	}
 
-    public class HolidayAsyncTranslator : AsyncTranslator<Holiday, API.Holiday, API.HolidayFilter>
-    {
-        public HolidayAsyncTranslator(HolidayTranslator translator) : base(translator as ITranslatorGet<Holiday, API.Holiday, API.HolidayFilter>) { }
-        public override List<API.Holiday> GetCollection(DbCallbackResult callbackResult)
-        {
-            return callbackResult.Holidays;
-        }
-    }
+	public class HolidayAsyncTranslator : AsyncTranslator<Holiday, API.Holiday, API.HolidayFilter>
+	{
+		public HolidayAsyncTranslator(HolidayTranslator translator) : base(translator as ITranslatorGet<Holiday, API.Holiday, API.HolidayFilter>) { }
+		public override List<API.Holiday> GetCollection(DbCallbackResult callbackResult)
+		{
+			return callbackResult.Holidays;
+		}
+	}
 }
-		
