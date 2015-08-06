@@ -13,6 +13,7 @@ namespace GKWebService
         {
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+            Bootstrapper.Run();
         }
     }
 }
