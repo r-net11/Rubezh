@@ -129,7 +129,7 @@ namespace FiresecAPI.SKD
 			foreach (var  timeTrackPart in realTimeTrackParts)
 			{
 				timeTrackPart.TimeTrackPartType = GetTimeTrackType(timeTrackPart, plannedTimeTrackParts, realTimeTrackParts, IsOnlyFirstEnter, scheduleTimeInterval,
-					new ScheduleInterval(timeTrackPart.StartTime, timeTrackPart.EndTime));
+					new ScheduleInterval(timeTrackPart.EnterDateTime, timeTrackPart.ExitDateTime));
 				resultCollection.Add(timeTrackPart);
 			}
 
@@ -144,34 +144,34 @@ namespace FiresecAPI.SKD
 				TimeTrackPart timeTrackPart = null;
 				if (document.StartDateTime.Date < Date && document.EndDateTime.Date > Date)
 				{
-					timeTrackPart = new TimeTrackPart()
+					timeTrackPart = new TimeTrackPart
 					{
-						StartTime = TimeSpan.Zero,
-						EndTime = new TimeSpan(23, 59, 59)
+						EnterDateTime = new DateTime(Date.Year, Date.Month, Date.Day, 0, 0, 0), //TimeSpan.Zero
+						ExitDateTime =  new DateTime(Date.Year, Date.Month, (Date.Day + 1), 0, 0, 0)//new TimeSpan(23, 59, 59)
 					};
 				}
 				if (document.StartDateTime.Date == Date && document.EndDateTime.Date > Date)
 				{
-					timeTrackPart = new TimeTrackPart()
+					timeTrackPart = new TimeTrackPart
 					{
-						StartTime = document.StartDateTime.TimeOfDay,
-						EndTime = new TimeSpan(23, 59, 59)
+						EnterDateTime = document.StartDateTime, //document.StartDateTime.TimeOfDay,
+						ExitDateTime = new DateTime(document.StartDateTime.Year, document.StartDateTime.Month, (document.StartDateTime.Day + 1), 0, 0, 0)  //new TimeSpan(23, 59, 59)
 					};
 				}
 				if (document.StartDateTime.Date == Date && document.EndDateTime.Date == Date)
 				{
-					timeTrackPart = new TimeTrackPart()
+					timeTrackPart = new TimeTrackPart
 					{
-						StartTime = document.StartDateTime.TimeOfDay,
-						EndTime = document.EndDateTime.TimeOfDay
+						EnterDateTime = document.StartDateTime, //document.StartDateTime.TimeOfDay,
+						ExitDateTime = document.EndDateTime//document.EndDateTime.TimeOfDay
 					};
 				}
 				if (document.StartDateTime.Date < Date && document.EndDateTime.Date == Date)
 				{
-					timeTrackPart = new TimeTrackPart()
+					timeTrackPart = new TimeTrackPart
 					{
-						StartTime = TimeSpan.Zero,
-						EndTime = document.EndDateTime.TimeOfDay
+						EnterDateTime = new DateTime(Date.Year, Date.Month, Date.Day, 0, 0, 0), //TimeSpan.Zero,
+						ExitDateTime = document.EndDateTime//document.EndDateTime.TimeOfDay
 					};
 				}
 				if (timeTrackPart != null)
@@ -180,29 +180,29 @@ namespace FiresecAPI.SKD
 					DocumentTrackParts.Add(timeTrackPart);
 				}
 			}
-			DocumentTrackParts = DocumentTrackParts.OrderBy(x => x.StartTime.Ticks).ToList();
+			DocumentTrackParts = DocumentTrackParts.OrderBy(x => x.EnterDateTime.Ticks).ToList();
 
-			var timeSpans = new List<TimeSpan>();
+			var dateTimes = new List<DateTime>();
 			foreach (var trackPart in DocumentTrackParts)
 			{
-				timeSpans.Add(trackPart.StartTime);
-				timeSpans.Add(trackPart.EndTime);
+				dateTimes.Add(trackPart.EnterDateTime);
+				dateTimes.Add(trackPart.ExitDateTime);
 			}
-			timeSpans = timeSpans.OrderBy(x => x.TotalSeconds).ToList();
+			dateTimes = dateTimes.OrderBy(x => x.TimeOfDay.TotalSeconds).ToList();
 
 			var result = new List<TimeTrackPart>();
-			for (int i = 0; i < timeSpans.Count - 1; i++)
+			for (int i = 0; i < dateTimes.Count - 1; i++)
 			{
-				var startTimeSpan = timeSpans[i];
-				var endTimeSpan = timeSpans[i + 1];
-				var timeTrackParts = DocumentTrackParts.Where(x => x.StartTime <= startTimeSpan && x.EndTime > startTimeSpan);
+				var startTimeSpan = dateTimes[i];
+				var endTimeSpan = dateTimes[i + 1];
+				var timeTrackParts = DocumentTrackParts.Where(x => x.EnterDateTime <= startTimeSpan && x.ExitDateTime > startTimeSpan);
 
 				if (timeTrackParts.Count() > 0)
 				{
-					var newTimeTrackPart = new TimeTrackPart()
+					var newTimeTrackPart = new TimeTrackPart
 					{
-						StartTime = startTimeSpan,
-						EndTime = endTimeSpan,
+						EnterDateTime = startTimeSpan,
+						ExitDateTime = endTimeSpan,
 					};
 					foreach (var timeTrackPart in timeTrackParts)
 					{
@@ -228,8 +228,8 @@ namespace FiresecAPI.SKD
 			var startTime = plannedTimeTrackParts.FirstOrDefault();
 			var endTime = plannedTimeTrackParts.LastOrDefault();
 
-			plannedScheduleTime.StartTime = startTime != null ? startTime.StartTime : TimeSpan.Zero;
-			plannedScheduleTime.EndTime = endTime != null ? endTime.EndTime : TimeSpan.Zero;
+			plannedScheduleTime.StartTime = startTime != null ? startTime.EnterDateTime : default(DateTime);
+			plannedScheduleTime.EndTime = endTime != null ? endTime.ExitDateTime : default(DateTime);
 
 			return plannedScheduleTime;
 		}
@@ -243,8 +243,8 @@ namespace FiresecAPI.SKD
 		/// <returns>Возвращает все типы интервалов за текущий день</returns>
 		public List<TimeTrackPart> CalculateCombinedTimeTrackParts(List<TimeTrackPart> plannedTimeTrackParts, List<TimeTrackPart> realTimeTrackParts, List<TimeTrackPart> documentTimeTrackParts)
 		{
-			var combinedTimeSpans = GetCombinedTimeSpans(realTimeTrackParts, plannedTimeTrackParts, documentTimeTrackParts);
-			combinedTimeSpans.Sort();
+			var combinedTimeSpans = GetCombinedDateTimes(realTimeTrackParts, plannedTimeTrackParts, documentTimeTrackParts);
+			combinedTimeSpans = combinedTimeSpans.OrderBy(x => x.TimeOfDay.TotalSeconds).ToList();
 
 			var combinedTimeTrackParts = new List<TimeTrackPart>();
 
@@ -252,24 +252,24 @@ namespace FiresecAPI.SKD
 			{
 				var combinedInterval = new ScheduleInterval(combinedTimeSpans[i], combinedTimeSpans[i + 1]); //TODO: this variable can be killed. Cuz combinedInterval is equal timeTrackPart
 
-				var realTimeTrackPart = realTimeTrackParts.FirstOrDefault(x => x.StartTime == combinedInterval.StartTime && x.EndTime == combinedInterval.EndTime);
+				var realTimeTrackPart = realTimeTrackParts.FirstOrDefault(x => x.EnterDateTime == combinedInterval.StartTime && x.ExitDateTime == combinedInterval.EndTime);
 				var timeTrackPart = new TimeTrackPart
 				{
-					StartTime = combinedInterval.StartTime,
-					EndTime = combinedInterval.EndTime,
+					EnterDateTime = combinedInterval.StartTime,
+					ExitDateTime = combinedInterval.EndTime,
 					NotTakeInCalculations = realTimeTrackPart != null && realTimeTrackPart.NotTakeInCalculations
 				};
 
 				combinedTimeTrackParts.Add(timeTrackPart);
 
-				var hasRealTimeTrack = realTimeTrackParts.Any(x => x.StartTime <= combinedInterval.StartTime
-																&& x.EndTime >= combinedInterval.EndTime);
+				var hasRealTimeTrack = realTimeTrackParts.Any(x => x.EnterDateTime.TimeOfDay <= combinedInterval.StartTime.TimeOfDay
+																&& x.ExitDateTime.TimeOfDay >= combinedInterval.EndTime.TimeOfDay);
 
-				var hasPlannedTimeTrack = plannedTimeTrackParts.Any(x => x.StartTime <= combinedInterval.StartTime
-																		&& x.EndTime >= combinedInterval.EndTime);
+				var hasPlannedTimeTrack = plannedTimeTrackParts.Any(x => x.EnterDateTime.TimeOfDay <= combinedInterval.StartTime.TimeOfDay
+																		&& x.ExitDateTime.TimeOfDay >= combinedInterval.EndTime.TimeOfDay);
 
-				var documentTimeTrack = documentTimeTrackParts.FirstOrDefault(x => x.StartTime <= combinedInterval.StartTime
-																			&& x.EndTime >= combinedInterval.EndTime);
+				var documentTimeTrack = documentTimeTrackParts.FirstOrDefault(x => x.EnterDateTime.TimeOfDay <= combinedInterval.StartTime.TimeOfDay
+																			&& x.ExitDateTime.TimeOfDay >= combinedInterval.EndTime.TimeOfDay);
 
 				timeTrackPart.TimeTrackPartType = GetTimeTrackType(timeTrackPart, plannedTimeTrackParts, realTimeTrackParts, IsOnlyFirstEnter, GetPlannedScheduleInterval(plannedTimeTrackParts), combinedInterval);
 
@@ -322,11 +322,11 @@ namespace FiresecAPI.SKD
 		/// <returns>Возвращает тип интервала прохода для расчета баланса</returns>
 		public TimeTrackType GetTimeTrackType(TimeTrackPart timeTrackPart, List<TimeTrackPart> plannedTimeTrackParts, List<TimeTrackPart> realTimeTrackParts,  bool isOnlyFirstEnter, ScheduleInterval schedulePlannedInterval, ScheduleInterval combinedInterval)
 		{
-			var hasRealTimeTrack = realTimeTrackParts.Any(x => x.StartTime <= combinedInterval.StartTime
-																&& x.EndTime >= combinedInterval.EndTime);
+			var hasRealTimeTrack = realTimeTrackParts.Any(x => x.EnterDateTime.TimeOfDay <= combinedInterval.StartTime.TimeOfDay
+																&& x.ExitDateTime.TimeOfDay >= combinedInterval.EndTime.TimeOfDay);
 
-			var hasPlannedTimeTrack = plannedTimeTrackParts.Any(x => x.StartTime <= combinedInterval.StartTime
-																	&& x.EndTime >= combinedInterval.EndTime);
+			var hasPlannedTimeTrack = plannedTimeTrackParts.Any(x => x.EnterDateTime.TimeOfDay <= combinedInterval.StartTime.TimeOfDay
+																	&& x.ExitDateTime.TimeOfDay >= combinedInterval.EndTime.TimeOfDay);
 
 			//Если есть интервал прохода сотрудника, который попадает в гафик работ, то "Явка"
 			if (hasRealTimeTrack && hasPlannedTimeTrack) //TODO: hasPlannedTimeTrack flag may be killed by inserting (timeTrackPart.StartTime >= schedulePlannedInterval.StartTime && timeTrackPart.EndTime <= schedulePlannedInterval.EndTime)
@@ -345,8 +345,8 @@ namespace FiresecAPI.SKD
 			if (hasRealTimeTrack)
 			{
 				var type = TimeTrackType.Overtime;
-				if (timeTrackPart.StartTime > schedulePlannedInterval.StartTime &&
-				    timeTrackPart.EndTime < schedulePlannedInterval.EndTime)
+				if (timeTrackPart.EnterDateTime.TimeOfDay > schedulePlannedInterval.StartTime.TimeOfDay &&
+					timeTrackPart.ExitDateTime.TimeOfDay < schedulePlannedInterval.EndTime.TimeOfDay)
 					type = TimeTrackType.PresenceInBrerak;
 				return type;
 			}
@@ -355,18 +355,18 @@ namespace FiresecAPI.SKD
 			timeTrackPart.TimeTrackPartType = TimeTrackType.Absence; //Отсутствие
 
 			//Если учитывается первый вход-последний выход и проход в рамках графика, то "Отсутствие в рамках графика"
-			if (realTimeTrackParts.Any(x => x.StartTime >= combinedInterval.StartTime && x.EndTime >= combinedInterval.EndTime) && isOnlyFirstEnter)
+			if (realTimeTrackParts.Any(x => x.EnterDateTime.TimeOfDay >= combinedInterval.StartTime.TimeOfDay && x.ExitDateTime.TimeOfDay >= combinedInterval.EndTime.TimeOfDay) && isOnlyFirstEnter)
 				//TODO: WTF??: the first expression is equal hasRealTimeTrack.
 				//TODO: It must be smth like this: realTimeTrackParts.Any(x => x.StartTime >= combinedInterval.StartTime && x.EndTime >= combinedInterval.EndTime) && isOnlyFirstEnter
 			{
 				return TimeTrackType.AbsenceInsidePlan;
 			}
 
-			if (plannedTimeTrackParts.Any(x => x.StartTime == timeTrackPart.StartTime) && //TODO: describe it
-				plannedTimeTrackParts.All(x => x.EndTime != timeTrackPart.EndTime) &&
-				realTimeTrackParts.Any(x => x.StartTime == timeTrackPart.EndTime))
+			if (plannedTimeTrackParts.Any(x => x.EnterDateTime.TimeOfDay == timeTrackPart.EnterDateTime.TimeOfDay) && //TODO: describe it
+				plannedTimeTrackParts.All(x => x.ExitDateTime.TimeOfDay != timeTrackPart.ExitDateTime.TimeOfDay) &&
+				realTimeTrackParts.Any(x => x.EnterDateTime.TimeOfDay == timeTrackPart.ExitDateTime.TimeOfDay))
 			{
-				var firstPlannedTimeTrack = plannedTimeTrackParts.FirstOrDefault(x => x.StartTime == timeTrackPart.StartTime);
+				var firstPlannedTimeTrack = plannedTimeTrackParts.FirstOrDefault(x => x.EnterDateTime.TimeOfDay == timeTrackPart.ExitDateTime.TimeOfDay);
 				if (firstPlannedTimeTrack != null && firstPlannedTimeTrack.StartsInPreviousDay)
 				{
 					return TimeTrackType.Absence;
@@ -378,11 +378,11 @@ namespace FiresecAPI.SKD
 				}
 			}
 
-			if (plannedTimeTrackParts.Any(x => x.StartTime == timeTrackPart.StartTime) ||		//TODO: describe it
-			    plannedTimeTrackParts.All(x => x.EndTime != timeTrackPart.EndTime) ||
-			    realTimeTrackParts.All(x => x.EndTime != timeTrackPart.StartTime)) return TimeTrackType.Absence;
+			if (plannedTimeTrackParts.Any(x => x.EnterDateTime.TimeOfDay == timeTrackPart.EnterDateTime.TimeOfDay) ||		//TODO: describe it
+				plannedTimeTrackParts.All(x => x.ExitDateTime.TimeOfDay != timeTrackPart.ExitDateTime.TimeOfDay) ||
+				realTimeTrackParts.All(x => x.ExitDateTime.TimeOfDay != timeTrackPart.EnterDateTime.TimeOfDay)) return TimeTrackType.Absence;
 
-			var lastPlannedTimeTrack = plannedTimeTrackParts.FirstOrDefault(x => x.EndTime == timeTrackPart.EndTime);
+			var lastPlannedTimeTrack = plannedTimeTrackParts.FirstOrDefault(x => x.ExitDateTime.TimeOfDay == timeTrackPart.ExitDateTime.TimeOfDay);
 			if (lastPlannedTimeTrack != null && lastPlannedTimeTrack.EndsInNextDay)
 			{
 				return TimeTrackType.Absence;
@@ -391,23 +391,23 @@ namespace FiresecAPI.SKD
 			return timeTrackPart.Delta > AllowedEarlyLeave ? TimeTrackType.EarlyLeave : TimeTrackType.Absence;
 		}
 
-		private List<TimeSpan> GetCombinedTimeSpans(List<TimeTrackPart> realTimeTrackParts, List<TimeTrackPart> plannedTimeTrackParts, List<TimeTrackPart> documentTimeTrackParts)
+		private List<DateTime> GetCombinedDateTimes(List<TimeTrackPart> realTimeTrackParts, List<TimeTrackPart> plannedTimeTrackParts, List<TimeTrackPart> documentTimeTrackParts)
 		{
-			var combinedTimeSpans = new List<TimeSpan>();
+			var combinedTimeSpans = new List<DateTime>();
 			foreach (var trackPart in realTimeTrackParts)
 			{
-				combinedTimeSpans.Add(trackPart.StartTime);
-				combinedTimeSpans.Add(trackPart.EndTime);
+				combinedTimeSpans.Add(trackPart.EnterDateTime);
+				combinedTimeSpans.Add(trackPart.ExitDateTime);
 			}
 			foreach (var trackPart in plannedTimeTrackParts)
 			{
-				combinedTimeSpans.Add(trackPart.StartTime);
-				combinedTimeSpans.Add(trackPart.EndTime);
+				combinedTimeSpans.Add(trackPart.EnterDateTime);
+				combinedTimeSpans.Add(trackPart.ExitDateTime);
 			}
 			foreach (var trackPart in documentTimeTrackParts)
 			{
-				combinedTimeSpans.Add(trackPart.StartTime);
-				combinedTimeSpans.Add(trackPart.EndTime);
+				combinedTimeSpans.Add(trackPart.EnterDateTime);
+				combinedTimeSpans.Add(trackPart.ExitDateTime);
 			}
 			return combinedTimeSpans;
 		}
@@ -631,17 +631,17 @@ namespace FiresecAPI.SKD
 
 			foreach (var trackPart in realTimeTrackParts)
 			{
-				if (trackPart.StartTime <= start && trackPart.EndTime >= end)
+				if (trackPart.EnterDateTime.TimeOfDay <= start && trackPart.ExitDateTime.TimeOfDay >= end)
 				{
 					result += end - start;
 				}
 				else
 				{
-					if ((trackPart.StartTime >= start && trackPart.StartTime <= end) ||
-					    (trackPart.EndTime >= start && trackPart.EndTime <= end))
+					if ((trackPart.EnterDateTime.TimeOfDay >= start && trackPart.EnterDateTime.TimeOfDay <= end) ||
+					    (trackPart.ExitDateTime.TimeOfDay >= start && trackPart.ExitDateTime.TimeOfDay <= end))
 					{
-						var minStartTime = trackPart.StartTime < start ? start : trackPart.StartTime;
-						var minEndTime = trackPart.EndTime > end ? end : trackPart.EndTime;
+						var minStartTime = trackPart.EnterDateTime.TimeOfDay < start ? start : trackPart.EnterDateTime.TimeOfDay;
+						var minEndTime = trackPart.ExitDateTime.TimeOfDay > end ? end : trackPart.ExitDateTime.TimeOfDay;
 						result += minEndTime - minStartTime;
 					}
 				}
@@ -656,26 +656,26 @@ namespace FiresecAPI.SKD
 
 			var result = new List<TimeTrackPart>();
 
-			var timeSpans = new List<TimeSpan>();
+			var timeSpans = new List<DateTime>();
 			foreach (var timeTrackPart in timeTrackParts)
 			{
-				timeSpans.Add(timeTrackPart.StartTime);
-				timeSpans.Add(timeTrackPart.EndTime);
+				timeSpans.Add(timeTrackPart.EnterDateTime);
+				timeSpans.Add(timeTrackPart.ExitDateTime);
 			}
-			timeSpans = timeSpans.OrderBy(x => x.TotalSeconds).ToList();
+			timeSpans = timeSpans.OrderBy(x => x.TimeOfDay.TotalSeconds).ToList();
 
 			for (int i = 0; i < timeSpans.Count - 1; i++)
 			{
 				var startTimeSpan = timeSpans[i];
 				var endTimeSpan = timeSpans[i + 1];
-				var timeTrackPart = timeTrackParts.FirstOrDefault(x => x.StartTime <= startTimeSpan && x.EndTime > startTimeSpan);
+				var timeTrackPart = timeTrackParts.FirstOrDefault(x => x.EnterDateTime <= startTimeSpan && x.ExitDateTime > startTimeSpan);
 
 				if (timeTrackPart != null)
 				{
 					var newTimeTrackPart = new TimeTrackPart //TODO:
 					{
-						StartTime = startTimeSpan,
-						EndTime = endTimeSpan,
+						EnterDateTime = startTimeSpan,
+						ExitDateTime = endTimeSpan,
 						TimeTrackPartType = timeTrackPart.TimeTrackPartType,
 						ZoneUID = timeTrackPart.ZoneUID,
 						StartsInPreviousDay = timeTrackPart.StartsInPreviousDay,
@@ -696,9 +696,9 @@ namespace FiresecAPI.SKD
 
 			for (int i = result.Count - 1; i > 0; i--)
 			{
-				if (result[i].StartTime == result[i - 1].EndTime && result[i].ZoneUID == result[i - 1].ZoneUID)
+				if (result[i].EnterDateTime == result[i - 1].ExitDateTime && result[i].ZoneUID == result[i - 1].ZoneUID)
 				{
-					result[i].StartTime = result[i - 1].StartTime;
+					result[i].EnterDateTime = result[i - 1].EnterDateTime;
 					result.RemoveAt(i - 1);
 				}
 			}
@@ -773,10 +773,10 @@ namespace FiresecAPI.SKD
 		/// </summary>
 		public struct ScheduleInterval
 		{
-			public TimeSpan StartTime;
-			public TimeSpan EndTime;
+			public DateTime StartTime;
+			public DateTime EndTime;
 
-			public ScheduleInterval(TimeSpan startTime, TimeSpan endTime)
+			public ScheduleInterval(DateTime startTime, DateTime endTime)
 			{
 				StartTime = startTime;
 				EndTime = endTime;

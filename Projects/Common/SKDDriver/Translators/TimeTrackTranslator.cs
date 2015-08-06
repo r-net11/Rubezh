@@ -261,13 +261,13 @@ namespace SKDDriver.Translators
 						if (previousDayInterval != null)
 						{
 							var previousIntervals = _DayIntervalParts.Where(x => x.DayIntervalUID == previousDayInterval.UID).ToList();
-							var nightInterval = previousIntervals.FirstOrDefault(x => x.EndTime > 60 * 60 * 24);
+							var nightInterval = previousIntervals.FirstOrDefault(x => x.EndTime > 60 * 60 * 24); //total seconds of day
 							if (nightInterval != null)
 							{
 								nightTimeTrackPart = new TimeTrackPart
 								{
-									StartTime = new TimeSpan(),
-									EndTime = TimeSpan.FromSeconds(nightInterval.EndTime - 60*60*24),
+									EnterDateTime = new DateTime() + new TimeSpan(),  //new TimeSpan(),
+									ExitDateTime = new DateTime() + TimeSpan.FromSeconds(nightInterval.EndTime - 60*60*24),
 									StartsInPreviousDay = true,
 									DayName = previousDayInterval.Name
 								};
@@ -307,9 +307,11 @@ namespace SKDDriver.Translators
 			{
 				foreach (var tableInterval in intervals)
 				{
-					var timeTrackPart = new TimeTrackPart();
-					timeTrackPart.StartTime = TimeSpan.FromSeconds(tableInterval.BeginTime);
-					timeTrackPart.EndTime = TimeSpan.FromSeconds(Math.Min(tableInterval.EndTime, 60 * 60 * 24 - 1));
+					var timeTrackPart = new TimeTrackPart
+					{
+						EnterDateTime = new DateTime() + TimeSpan.FromSeconds(tableInterval.BeginTime),
+						ExitDateTime = new DateTime() + TimeSpan.FromSeconds(Math.Min(tableInterval.EndTime, 60*60*24 - 1))
+					};
 					if (tableInterval.EndTime > 60 * 60 * 24)
 						timeTrackPart.EndsInNextDay = true;
 					timeTrackPart.DayName = dayInterval.Name;
@@ -319,7 +321,7 @@ namespace SKDDriver.Translators
 				{
 					result.TimeTrackParts.Add(nightTimeTrackPart);
 				}
-				result.TimeTrackParts = result.TimeTrackParts.OrderBy(x => x.StartTime.Ticks).ToList();
+				result.TimeTrackParts = result.TimeTrackParts.OrderBy(x => x.EnterDateTime.Ticks).ToList();
 			}
 			if (result.HolidayReduction > 0)
 			{
@@ -329,7 +331,7 @@ namespace SKDDriver.Translators
 					var reductionTimeSpan = TimeSpan.FromSeconds(result.HolidayReduction);
 					if (lastTimeTrack.Delta.TotalHours > reductionTimeSpan.TotalHours)
 					{
-						lastTimeTrack.EndTime = lastTimeTrack.EndTime.Subtract(reductionTimeSpan);
+						lastTimeTrack.ExitDateTime = lastTimeTrack.ExitDateTime.Subtract(reductionTimeSpan);
 					}
 					else
 					{

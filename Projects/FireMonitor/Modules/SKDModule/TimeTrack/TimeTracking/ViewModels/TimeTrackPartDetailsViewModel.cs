@@ -93,9 +93,6 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		//public DateTime EnterDateTime { get { return _dayTimeTrack.Date.Date.Add(EnterTime); } }
-	//	public DateTime ExitDateTime { get { return _dayTimeTrack.Date.Date.Add(ExitTime); } }
-
 		public Guid UID { get; private set; }
 
 		public List<TimeTrackZone> Zones { get; private set; }
@@ -128,15 +125,17 @@ namespace SKDModule.ViewModels
 
 		#region Constructors
 
-		public TimeTrackPartDetailsViewModel(DayTimeTrack dayTimeTrack, ShortEmployee employee, TimeTrackDetailsViewModel parent, Guid? uid = null, TimeSpan? enterTime = null, TimeSpan? exitTime = null)
+		public TimeTrackPartDetailsViewModel(DayTimeTrack dayTimeTrack, ShortEmployee employee, TimeTrackDetailsViewModel parent, Guid? uid = null, DateTime? enterDateTime = null, DateTime? exitDateTime = null)
 		{
 			_dayTimeTrack = dayTimeTrack;
 			_parent = parent;
 			if (uid != null)
 			{
 				UID = uid.Value;
-				EnterTime = enterTime.Value;
-				ExitTime = exitTime.Value;
+				EnterDateTime = enterDateTime.HasValue ? enterDateTime.Value.Date : dayTimeTrack.Date;
+				EnterTime = enterDateTime.HasValue ? enterDateTime.Value.TimeOfDay : dayTimeTrack.Date.TimeOfDay;
+				ExitDateTime = exitDateTime.HasValue ? exitDateTime.Value.Date : dayTimeTrack.Date.Date;
+				ExitTime = exitDateTime.HasValue ? exitDateTime.Value.TimeOfDay : dayTimeTrack.Date.TimeOfDay;
 				Title = "Редактировать проход";
 			}
 			else
@@ -184,6 +183,12 @@ namespace SKDModule.ViewModels
 
 		public bool Validate()
 		{
+			if (EnterDateTime == null || ExitDateTime == null)
+			{
+				MessageBoxService.Show("Выберите дату начала и дату конца интервала");
+				return false;
+			}
+
 			if (_parent == null || !IsIntersection(_parent)) return true;
 			MessageBoxService.Show("Невозможно добавить пересекающийся интервал");
 			return false;
@@ -192,7 +197,10 @@ namespace SKDModule.ViewModels
 		public bool IsIntersection(TimeTrackDetailsViewModel timeTrackDetailsViewModel)
 		{
 			return timeTrackDetailsViewModel.DayTimeTrackParts.Any(x => x.UID != UID &&
-																		(x.EnterTimeSpan < EnterTime && x.ExitTimeSpan > EnterTime || x.EnterTimeSpan < ExitTime && x.ExitTimeSpan > ExitTime));
+																		(x.EnterDateTime < (EnterDateTime + EnterTime) &&
+																		x.ExitDateTime > (EnterDateTime + EnterTime) ||
+																		x.EnterDateTime < (ExitDateTime + ExitTime) &&
+																		x.ExitDateTime > (ExitDateTime + ExitTime)));
 		}
 
 		#endregion

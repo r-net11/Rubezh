@@ -67,20 +67,6 @@ namespace SKDModule.Model
 			set { this.RaiseAndSetIfChanged(ref _exitDateTime, value); }
 		}
 
-		TimeSpan _enterTimeSpan;
-		public TimeSpan EnterTimeSpan
-		{
-			get { return _enterTimeSpan; }
-			set { this.RaiseAndSetIfChanged(ref _enterTimeSpan, value); }
-		}
-
-		TimeSpan _exitTimeSpan;
-		public TimeSpan ExitTimeSpan
-		{
-			get { return _exitTimeSpan; }
-			set { this.RaiseAndSetIfChanged(ref _exitTimeSpan, value); }
-		}
-
 		public bool IsValid
 		{
 			get { return string.IsNullOrEmpty(Error); }
@@ -140,10 +126,8 @@ namespace SKDModule.Model
 		{
 			UID = timeTrackPartDetailsViewModel.UID;
 			Update(
-				timeTrackPartDetailsViewModel.EnterDateTime,
-				timeTrackPartDetailsViewModel.EnterDateTime,
-				timeTrackPartDetailsViewModel.EnterTime,
-				timeTrackPartDetailsViewModel.ExitTime,
+				timeTrackPartDetailsViewModel.EnterDateTime + timeTrackPartDetailsViewModel.EnterTime,
+				timeTrackPartDetailsViewModel.EnterDateTime + timeTrackPartDetailsViewModel.ExitTime,
 				timeTrackPartDetailsViewModel.SelectedZone,
 				timeTrackPartDetailsViewModel.NotTakeInCalculations,
 				timeTrackPartDetailsViewModel.IsManuallyAdded,
@@ -167,8 +151,6 @@ namespace SKDModule.Model
 			Update(
 				timeTrackPart.EnterDateTime,
 				timeTrackPart.ExitDateTime,
-				timeTrackPart.StartTime,
-				timeTrackPart.EndTime,
 				zone,
 				timeTrackPart.NotTakeInCalculations,
 				timeTrackPart.IsManuallyAdded,
@@ -184,14 +166,12 @@ namespace SKDModule.Model
 
 		#region Methods
 
-		public void Update(DateTime? enterDateTime, DateTime? exitDateTime, TimeSpan enterTime, TimeSpan exitTime,
+		public void Update(DateTime? enterDateTime, DateTime? exitDateTime,
 			TimeTrackZone timeTrackZone, bool notTakeInCalculations, bool isManuallyAdded, string adjustmentDate, string correctedBy)
 		{
 			TimeTrackZone = timeTrackZone;
 			EnterDateTime = enterDateTime;
 			ExitDateTime = exitDateTime;
-			EnterTimeSpan = enterTime;
-			ExitTimeSpan = exitTime;
 			NotTakeInCalculations = notTakeInCalculations;
 			IsManuallyAdded = isManuallyAdded;
 			CorrectedDate = adjustmentDate;
@@ -208,12 +188,12 @@ namespace SKDModule.Model
 				propertyName = propertyName ?? string.Empty;
 				if (propertyName == string.Empty || propertyName == "EnterTime")
 				{
-					if (EnterTimeSpan > ExitTimeSpan)
+					if (EnterDateTime > ExitDateTime)
 						result = "Время входа не может быть больше времени выхода";
 				}
 				if (propertyName == string.Empty || propertyName == "ExitTime")
 				{
-					if (EnterTimeSpan == ExitTimeSpan)
+					if (EnterDateTime == ExitDateTime)
 						result = "Невозможно добавить нулевое пребывание в зоне";
 				}
 				return result;

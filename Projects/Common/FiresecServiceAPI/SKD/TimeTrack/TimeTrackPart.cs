@@ -44,12 +44,6 @@ namespace FiresecAPI.SKD
 		public DateTime ExitDateTime { get; set; }
 
 		[DataMember]
-		public TimeSpan StartTime { get; set; }
-
-		[DataMember]
-		public TimeSpan EndTime { get; set; }
-
-		[DataMember]
 		public TimeTrackType TimeTrackPartType { get; set; }
 
 		[DataMember]
@@ -77,8 +71,8 @@ namespace FiresecAPI.SKD
 		{
 			get
 			{
-				var result = EndTime - StartTime;
-				var isCrossNight = EndTime >= new TimeSpan(23, 59, 00);
+				var result = ExitDateTime.TimeOfDay - EnterDateTime.TimeOfDay;
+				var isCrossNight = ExitDateTime.TimeOfDay >= new TimeSpan(23, 59, 00);
 				if (isCrossNight)
 					result += new TimeSpan(0, 1, 0); //TODO:
 				return result;

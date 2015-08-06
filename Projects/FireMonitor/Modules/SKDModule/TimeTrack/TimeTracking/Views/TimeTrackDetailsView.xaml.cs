@@ -70,8 +70,8 @@ namespace SKDModule.Views
 							timeTrackPart.TimeTrackPartType = TimeTrackType.DocumentAbsence;
 							break;
 					}
-					timeTrackPart.Tooltip = TimePartDateToString(timeTrackPart.StartTime) + " - " +
-					                        TimePartDateToString(timeTrackPart.EndTime) + "\n" +
+					timeTrackPart.Tooltip = TimePartDateToString(timeTrackPart.EnterDateTime) + " - " +
+					                        TimePartDateToString(timeTrackPart.ExitDateTime) + "\n" +
 					                        timeTrackPart.MinTimeTrackDocumentType.Name;
 				}
 
@@ -84,15 +84,15 @@ namespace SKDModule.Views
 						zoneName = strazhZone.Name;
 					}
 
-					timeTrackPart.Tooltip = TimePartDateToString(timeTrackPart.StartTime) + " - " +
-					                        TimePartDateToString(timeTrackPart.EndTime) + "\n" + zoneName;
+					timeTrackPart.Tooltip = TimePartDateToString(timeTrackPart.EnterDateTime) + " - " +
+					                        TimePartDateToString(timeTrackPart.ExitDateTime) + "\n" + zoneName;
 					timeTrackPart.TimeTrackPartType = TimeTrackType.Presence;
 				}
 
 				foreach (var timeTrackPart in dayTimeTrack.PlannedTimeTrackParts)
 				{
-					timeTrackPart.Tooltip = TimePartDateToString(timeTrackPart.StartTime) + " - " +
-					                        TimePartDateToString(timeTrackPart.EndTime) + "\n" + timeTrackPart.DayName;
+					timeTrackPart.Tooltip = TimePartDateToString(timeTrackPart.EnterDateTime) + " - " +
+					                        TimePartDateToString(timeTrackPart.ExitDateTime) + "\n" + timeTrackPart.DayName;
 					if (timeTrackPart.StartsInPreviousDay)
 						timeTrackPart.Tooltip += "\n" + "Интервал начинается днем рашьше";
 					if (timeTrackPart.EndsInNextDay)
@@ -102,8 +102,8 @@ namespace SKDModule.Views
 
 				foreach (var timeTrackPart in dayTimeTrack.CombinedTimeTrackParts)
 				{
-					timeTrackPart.Tooltip = TimePartDateToString(timeTrackPart.StartTime) + " - " +
-					                        TimePartDateToString(timeTrackPart.EndTime) + "\n" +
+					timeTrackPart.Tooltip = TimePartDateToString(timeTrackPart.EnterDateTime) + " - " +
+					                        TimePartDateToString(timeTrackPart.ExitDateTime) + "\n" +
 					                        timeTrackPart.TimeTrackPartType.ToDescription();
 				}
 
@@ -126,19 +126,19 @@ namespace SKDModule.Views
 				{
 					var timeTrackPart = timeTrackParts[i];
 
-					var startTimePart = new TimePart {Delta = timeTrackPart.StartTime.TotalSeconds - current, IsInterval = false};
+					var startTimePart = new TimePart {Delta = timeTrackPart.EnterDateTime.TimeOfDay.TotalSeconds - current, IsInterval = false};
 					timeParts.Add(startTimePart);
 
 					var endTimePart = new TimePart
 					{
-						Delta = timeTrackPart.EndTime.TotalSeconds - timeTrackPart.StartTime.TotalSeconds,
+						Delta = timeTrackPart.ExitDateTime.TimeOfDay.TotalSeconds - timeTrackPart.EnterDateTime.TimeOfDay.TotalSeconds,
 						IsInterval = timeTrackPart.TimeTrackPartType != TimeTrackType.None,
 						TimeTrackType = timeTrackPart.TimeTrackPartType,
 						Tooltip = timeTrackPart.Tooltip
 					};
 					timeParts.Add(endTimePart);
 
-					current = timeTrackPart.EndTime.TotalSeconds;
+					current = timeTrackPart.ExitDateTime.TimeOfDay.TotalSeconds;
 				}
 				var lastTimePart = new TimePart {Delta = 24*60*60 - current, IsInterval = false};
 				timeParts.Add(lastTimePart);

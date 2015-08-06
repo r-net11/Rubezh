@@ -84,10 +84,10 @@ namespace SKDDriver.Translators
 					ExitTimeOriginal = exitTimeOriginal
 				};
 
-				if (IsIntersection(passJournalItem))
-				{
-					return new OperationResult("Невозможно добавить пересекающийся интервал");
-				}
+				//if (IsIntersection(passJournalItem))
+				//{
+				//	return new OperationResult("Невозможно добавить пересекающийся интервал");
+				//}
 				Context.PassJournals.InsertOnSubmit(passJournalItem);
 				Context.SubmitChanges();
 				return new OperationResult();
@@ -115,10 +115,10 @@ namespace SKDDriver.Translators
 					passJournalItem.NotTakeInCalculations = notTakeInCalculations;
 					passJournalItem.IsAddedManually = isAddedManually;
 				}
-				if (passJournalItem != null && IsIntersection(passJournalItem))
-				{
-					return new OperationResult("Невозможно добавить пересекающийся интервал");
-				}
+				//if (passJournalItem != null && IsIntersection(passJournalItem))
+				//{
+				//	return new OperationResult("Невозможно добавить пересекающийся интервал");
+				//}
 				Context.SubmitChanges();
 				return new OperationResult();
 			}
@@ -128,13 +128,13 @@ namespace SKDDriver.Translators
 			}
 		}
 
-		private bool IsIntersection(DataAccess.PassJournal passJournalItem)
-		{
-			return Context.PassJournals.Any(x => x.UID != passJournalItem.UID &&
-				x.EmployeeUID == passJournalItem.EmployeeUID &&
-				(x.EnterTime < passJournalItem.EnterTime && x.ExitTime > passJournalItem.EnterTime ||
-					x.EnterTime < passJournalItem.ExitTime && x.ExitTime > passJournalItem.ExitTime));
-		}
+		//private bool IsIntersection(DataAccess.PassJournal passJournalItem)
+		//{
+		//	return Context.PassJournals.Any(x => x.UID != passJournalItem.UID &&
+		//		x.EmployeeUID == passJournalItem.EmployeeUID &&
+		//		(x.EnterTime < passJournalItem.EnterTime && x.ExitTime > passJournalItem.EnterTime ||
+		//			x.EnterTime < passJournalItem.ExitTime && x.ExitTime > passJournalItem.ExitTime));
+		//}
 
 		public OperationResult DeletePassJournal(Guid uid)
 		{
@@ -273,8 +273,8 @@ namespace SKDDriver.Translators
 
 				var timeTrackPart = new TimeTrackPart
 				{
-					StartTime = passJournal.EnterTime.TimeOfDay,
-					EndTime = passJournal.ExitTime.Value.TimeOfDay,
+					EnterDateTime = passJournal.EnterTime,
+					ExitDateTime = (DateTime) passJournal.ExitTime,
 					ZoneUID = passJournal.ZoneUID,
 					PassJournalUID = passJournal.UID,
 					IsManuallyAdded = passJournal.IsAddedManually,
@@ -289,7 +289,7 @@ namespace SKDDriver.Translators
 				dayTimeTrack.RealTimeTrackParts.Add(timeTrackPart);
 			}
 
-			dayTimeTrack.RealTimeTrackParts = dayTimeTrack.RealTimeTrackParts.OrderBy(x => x.StartTime.Ticks).ToList();
+			dayTimeTrack.RealTimeTrackParts = dayTimeTrack.RealTimeTrackParts.OrderBy(x => x.EnterDateTime.Ticks).ToList();
 
 			return dayTimeTrack;
 		}

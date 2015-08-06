@@ -347,7 +347,8 @@ namespace SKDModule.ViewModels
 
 		void OnRemovePart()
 		{
-			var result = PassJournalHelper.DeleteAllPassJournalItems(SelectedDayTimeTrackPart.UID, DayTimeTrack.Date + SelectedDayTimeTrackPart.EnterTimeSpan, DayTimeTrack.Date + SelectedDayTimeTrackPart.ExitTimeSpan);
+		//	var result = PassJournalHelper.DeleteAllPassJournalItems(SelectedDayTimeTrackPart.UID, DayTimeTrack.Date + SelectedDayTimeTrackPart.EnterTimeSpan, DayTimeTrack.Date + SelectedDayTimeTrackPart.ExitTimeSpan);
+			var result = PassJournalHelper.DeleteAllPassJournalItems(SelectedDayTimeTrackPart.UID, SelectedDayTimeTrackPart.EnterDateTime.GetValueOrDefault(), SelectedDayTimeTrackPart.ExitDateTime.GetValueOrDefault());
 			if (result)
 			{
 				DayTimeTrackParts.Remove(SelectedDayTimeTrackPart);
@@ -363,8 +364,8 @@ namespace SKDModule.ViewModels
 
 		void OnEditPart()
 		{
-			var timeTrackPartDetailsViewModel = new TimeTrackPartDetailsViewModel(DayTimeTrack, ShortEmployee, this, SelectedDayTimeTrackPart.UID, SelectedDayTimeTrackPart.EnterTimeSpan,
-				SelectedDayTimeTrackPart.ExitTimeSpan)
+			var timeTrackPartDetailsViewModel = new TimeTrackPartDetailsViewModel(DayTimeTrack, ShortEmployee, this, SelectedDayTimeTrackPart.UID, SelectedDayTimeTrackPart.EnterDateTime,
+				SelectedDayTimeTrackPart.ExitDateTime)
 			{
 				NotTakeInCalculations = SelectedDayTimeTrackPart.NotTakeInCalculations,
 				IsNeedAdjustment = SelectedDayTimeTrackPart.IsNeedAdjustment
@@ -375,10 +376,8 @@ namespace SKDModule.ViewModels
 				SelectedTimeTrackPartDetailsViewModel = timeTrackPartDetailsViewModel;
 				SelectedDayTimeTrackPart
 					.Update(
-					timeTrackPartDetailsViewModel.EnterDateTime,
-					timeTrackPartDetailsViewModel.ExitDateTime,
-					timeTrackPartDetailsViewModel.EnterTime,
-					timeTrackPartDetailsViewModel.ExitTime,
+					timeTrackPartDetailsViewModel.EnterDateTime + timeTrackPartDetailsViewModel.EnterTime,
+					timeTrackPartDetailsViewModel.ExitDateTime + timeTrackPartDetailsViewModel.ExitTime,
 					timeTrackPartDetailsViewModel.SelectedZone,
 					timeTrackPartDetailsViewModel.NotTakeInCalculations,
 					timeTrackPartDetailsViewModel.IsManuallyAdded,
