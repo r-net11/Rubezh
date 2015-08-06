@@ -231,7 +231,7 @@ namespace SKDDriver.DataClasses
 			tableItem.Number = (int)apiItem.Number;
 			tableItem.EmployeeUID = apiItem.EmployeeUID;
 			tableItem.EndDate = apiItem.EndDate;
-			tableItem.CardDoors = apiItem.CardDoors.Select(x => new CardDoor(x)).ToList();
+			tableItem.CardDoors = apiItem.CardDoors.Select(x => new CardDoor(x) { UID = Guid.NewGuid() }).ToList();
 			tableItem.PassCardTemplateUID = apiItem.PassCardTemplateUID;
 			tableItem.AccessTemplateUID = apiItem.AccessTemplateUID;
 			tableItem.GKCardType = (int)apiItem.GKCardType;
