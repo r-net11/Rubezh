@@ -18,7 +18,7 @@ namespace FiresecAPI
 		[Description("Несвязанные элементы плана")]
 		NotBoundedElements = 8,
 
-		[Description("тест для ТД")]
-		NotTD = 16,
+		[Description("Датчик не подключен к ТД")]
+		SensorNotConnected = 16,
 	}
 }

@@ -18,13 +18,10 @@ namespace GKModule.Validation
 
 			foreach (var door in GKManager.DeviceConfiguration.Doors)
 			{
-				if (!GlobalSettingsHelper.GlobalSettings.IgnoredErrors.HasFlag(ValidationErrorType.NotTD))
-				{
 					ValidateDoorHasNoDevices(door);
 					ValidateDoorHasWrongDevices(door);
 					ValidateLockProperties(door);
 					ValidateLockControlDevice(door);
-				}
 			}
 		}
 
@@ -158,6 +155,19 @@ namespace GKModule.Validation
 			{
 				if (door.DoorType == GKDoorType.AirlockBooth)
 					Errors.Add(new DoorValidationError(door, "К точке доступа не подключена кнопка на выход", ValidationErrorLevel.CannotWrite));
+			}
+			if (!GlobalSettingsHelper.GlobalSettings.IgnoredErrors.HasFlag(ValidationErrorType.SensorNotConnected))
+			{
+				if (door.LockControlDevice == null)
+				{
+					if (door.DoorType != GKDoorType.Barrier)
+						Errors.Add(new DoorValidationError(door, "У точке доступа отсутствует датчик контроля дверина на вход", ValidationErrorLevel.Warning));
+				}
+				if (door.DoorType == GKDoorType.AirlockBooth)
+				{
+					if (door.LockControlDeviceExit == null)
+						Errors.Add(new DoorValidationError(door, "У точке доступа отсутствует датчик контроля дверина выход", ValidationErrorLevel.Warning));
+				}
 			}
 		}
 
