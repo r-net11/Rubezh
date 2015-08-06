@@ -14,11 +14,6 @@ namespace FiresecAPI
 			Login = "adm";
 			Password = "";
 			AutoConnect = false;
-			Server_EnableRemoteConnections = false;
-
-			UseHasp = false;
-			DBServerName = "SQLEXPRESS";
-			CreateNewDBOnOversize = true;
 
 			ModuleItems = new List<string>();
 
@@ -50,22 +45,10 @@ namespace FiresecAPI
 		public bool AutoConnect { get; set; }
 
 		[DataMember]
-		public bool UseHasp { get; set; }
-
-		[DataMember]
 		public bool DoNotAutoconnectAdm { get; set; }
 
 		[DataMember]
 		public bool RunRevisor { get; set; }
-
-		[DataMember]
-		public bool Server_EnableRemoteConnections { get; set; }
-
-		[DataMember]
-		public string DBServerName { get; set; }
-
-		[DataMember]
-		public bool CreateNewDBOnOversize { get; set; }
 
 		[DataMember]
 		public List<string> ModuleItems { get; set; }

@@ -28,9 +28,9 @@ namespace Infrastructure.Common
 		{
 			try
 			{
-				RemoteAddress = GlobalSettingsHelper.GlobalSettings.RemoteAddress;
-				RemotePort = GlobalSettingsHelper.GlobalSettings.RemotePort;
-				ReportRemotePort = GlobalSettingsHelper.GlobalSettings.ReportRemotePort;
+				RemoteAddress = AppServerSettingsHelper.AppServerSettings.ServiceAddress;
+				RemotePort = AppServerSettingsHelper.AppServerSettings.ServicePort;
+				ReportRemotePort = AppServerSettingsHelper.AppServerSettings.ReportServicePort;
 			}
 			catch (Exception e)
 			{
@@ -70,21 +70,24 @@ namespace Infrastructure.Common
 			}
 		}
 
+		/// <summary>
+		/// Выбирает IP-адрес для запуска WCF-Сервиса
+		/// </summary>
+		/// <returns></returns>
 		public static string GetIPAddress()
 		{
-			try
-			{
-				var hostName = System.Net.Dns.GetHostName();
-				IPHostEntry ipEntry = System.Net.Dns.GetHostEntry(hostName);
-				IPAddress[] addresses = ipEntry.AddressList;
-				var ipV6Address = addresses.FirstOrDefault(x => x.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork);
-				return ipV6Address.ToString();
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "FiresecServiceManager.GetIPAddress");
-				return "localhost";
-			}
+			// Получаем список IP-адресов хоста
+			var hostIpAdresses = NetworkHelper.GetHostIpAddresses();
+
+			// Получаем IP-адрес из конфигурации
+			var ipAddressFromConfig = AppServerSettingsHelper.AppServerSettings.ServiceAddress;
+
+			// Если IP-адрес из конфигурации входит в список IP-адресов хоста, то используем его
+			if (hostIpAdresses.Any(x => x == ipAddressFromConfig))
+				return ipAddressFromConfig;
+
+			// В противном случае, используем "localhost"
+			return "localhost";
 		}
 	}
 }

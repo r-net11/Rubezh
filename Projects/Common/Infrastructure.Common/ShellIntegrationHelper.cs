@@ -49,8 +49,8 @@ namespace Infrastructure.Common
 
 			RegistryHelper.RegistryHelper.Integrate();
 
-			GlobalSettingsHelper.GlobalSettings.Server_EnableRemoteConnections = false;
-			GlobalSettingsHelper.Save();
+			AppServerSettingsHelper.AppServerSettings.EnableRemoteConnections = false;
+			AppServerSettingsHelper.Save();
 		}
 
 		public static void Desintegrate()
