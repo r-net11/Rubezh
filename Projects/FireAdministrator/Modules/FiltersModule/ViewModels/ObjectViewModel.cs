@@ -72,13 +72,17 @@ namespace FiltersModule.ViewModels
 				case JournalObjectType.VideoDevice:
 					ImageSource = "/Controls;component/Images/Camera.png";
 					break;
+
+				case JournalObjectType.GKSKDZone:
+					ImageSource = "/Controls;component/Images/Zone.png";
+					break;
 			}
 		}
-		public ObjectViewModel(GKBase device)
+		public ObjectViewModel(GKBase gkBase)
 		{
-			Name = device.PresentationName;
-			UID = device.UID;
-			ImageSource = device.ImageSource;
+			Name = gkBase.PresentationName;
+			UID = gkBase.UID;
+			ImageSource = gkBase.ImageSource;
 		}
 
 		public ObjectViewModel(FiresecAPI.Models.Camera camera)

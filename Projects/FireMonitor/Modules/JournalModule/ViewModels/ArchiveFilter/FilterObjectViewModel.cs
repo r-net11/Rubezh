@@ -69,11 +69,11 @@ namespace JournalModule.ViewModels
 			}
 		}
 
-		public FilterObjectViewModel (GKBase device)
+		public FilterObjectViewModel(GKBase gkBase)
 		{
-			Name = device.PresentationName;
-			UID = device.UID;
-			ImageSource = device.ImageSource;
+			Name = gkBase.PresentationName;
+			UID = gkBase.UID;
+			ImageSource = gkBase.ImageSource;
 		}
 
 		public FilterObjectViewModel(FiresecAPI.Models.Camera camera)

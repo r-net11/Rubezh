@@ -3,6 +3,9 @@ using Infrastructure.Common;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Events;
+using Infrastructure.Common.Windows;
+using System.Diagnostics;
+using System.Windows;
 
 namespace FireMonitor.ViewModels
 {
@@ -21,18 +24,8 @@ namespace FireMonitor.ViewModels
 		public RelayCommand ChangeUserCommand { get; private set; }
 		void OnChangeUser()
 		{
-			var oldUserName = UserName;
-			var result = ServiceFactory.LoginService.ExecuteReconnect();
-			if (result)
-			{
-				var userChangedEventArgs = new UserChangedEventArgs()
-				{
-					IsReconnect = true,
-					OldName = oldUserName,
-					NewName = UserName
-				};
-				ServiceFactory.Events.GetEvent<UserChangedEvent>().Publish(userChangedEventArgs);
-			}
+			ApplicationService.ShutDown();
+			Process.Start(Application.ResourceAssembly.Location);
 		}
 	}
 }
