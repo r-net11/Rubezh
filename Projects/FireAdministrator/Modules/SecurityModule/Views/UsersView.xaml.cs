@@ -8,8 +8,6 @@ namespace SecurityModule.Views
 		{
 			InitializeComponent();
 			
-		}
-
-		
+		}		
 	}
 }

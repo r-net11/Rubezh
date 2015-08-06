@@ -713,8 +713,6 @@ namespace FiresecAPI.GK
 					door.ExitButtonUID = Guid.Empty;
 					door.LockControlDeviceExit = null;
 					door.LockControlDeviceExitUID = Guid.Empty;
-					door.LockDevice = null;
-					door.LockDeviceUID = Guid.Empty;
 					door.LockDeviceExit = null;
 					door.LockDeviceExitUID = Guid.Empty;
 

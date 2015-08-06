@@ -226,14 +226,14 @@
 		<Setter Property="ContextMenu">
 			<Setter.Value>
 				<ContextMenu OverridesDefaultStyle="True">
-					<local:IconedMenuItem Command="{Binding AddCommand}" ImageSource="BAdd"  Text="Добавить (Ctrl+N)" />
-					<local:IconedMenuItem Command="{Binding DeleteCommand}" ImageSource="BDelete"  Text="Удалить (Ctrl+Del)" />
-					<local:IconedMenuItem Command="{Binding EditCommand}" ImageSource="BEdit"  Text="Редактировать (Ctrl+E)" />
+					<local:IconedMenuItem Command="{Binding AddCommand}" ImageSource="BAdd" Text="Добавить (Ctrl+N)" />
+					<local:IconedMenuItem Command="{Binding DeleteCommand}" ImageSource="BDelete" Text="Удалить (Ctrl+Del)" />
+					<local:IconedMenuItem Command="{Binding EditCommand}" ImageSource="BEdit" Text="Редактировать (Ctrl+E)" />
 				</ContextMenu>
 			</Setter.Value>
 		</Setter>
 	</Style>
 
-	<Style BasedOn="{StaticResource {x:Type DataGrid}}" TargetType="{x:Type local:MultiselectDataGrid}">
+	<Style TargetType="{x:Type local:MultiselectDataGrid}" BasedOn="{StaticResource {x:Type DataGrid}}">
 	</Style>
 </ResourceDictionary>
