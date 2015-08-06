@@ -215,6 +215,7 @@ namespace SKDDriver.DataClasses
 				EndDate = tableItem.EndDate,
 				CardDoors = tableItem.CardDoors.Select(x => x.Translate()).ToList(),
 				PassCardTemplateUID = tableItem.PassCardTemplateUID,
+				AccessTemplateUID = tableItem.AccessTemplateUID,
 				GKCardType = (FiresecAPI.GK.GKCardType)tableItem.GKCardType,
 				IsInStopList = tableItem.IsInStopList,
 				StopReason = tableItem.StopReason,
@@ -222,7 +223,7 @@ namespace SKDDriver.DataClasses
 				OrganisationUID = tableItem.Employee != null ? tableItem.Employee.OrganisationUID.GetValueOrDefault() : Guid.Empty,
 				GKLevel = tableItem.GKLevel,
 				GKLevelSchedule = tableItem.GKLevelSchedule,
-				GKControllerUIDs = tableItem.GKControllerUIDs.Select(x => x.UID).ToList()
+				GKControllerUIDs = tableItem.GKControllerUIDs.Select(x => x.GKControllerUID).ToList()
 			};
 		}
 
