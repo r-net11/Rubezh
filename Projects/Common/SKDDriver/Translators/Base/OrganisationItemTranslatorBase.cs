@@ -7,13 +7,13 @@ using API = FiresecAPI.SKD;
 
 namespace SKDDriver.DataClasses
 {
-    public abstract class OrganisationItemTranslatorBase<TTableItem, TApiItem, TFilter> : ITranslatorGet<TTableItem, TApiItem, TFilter>
+	public abstract class OrganisationItemTranslatorBase<TTableItem, TApiItem, TFilter> : ITranslatorGet<TTableItem, TApiItem, TFilter>
 		where TTableItem : class, IOrganisationItem, new()
 		where TApiItem : class, API.IOrganisationElement, new()
 		where TFilter : API.OrganisationFilterBase
 	{
 		public DbService DbService { get; private set; }
-		public DatabaseContext Context { get { return DbService.Context; } } 
+		public DatabaseContext Context { get { return DbService.Context; } }
 
 		public OrganisationItemTranslatorBase(DbService context)
 		{
@@ -38,9 +38,9 @@ namespace SKDDriver.DataClasses
 		{
 			try
 			{
-                if (uid == null)
-                    return new OperationResult<TApiItem>(null);
-                var tableItems = GetTableItems().FirstOrDefault(x => x.UID == uid);
+				if (uid == null)
+					return new OperationResult<TApiItem>(null);
+				var tableItems = GetTableItems().FirstOrDefault(x => x.UID == uid);
 				var result = Translate(tableItems);
 				return new OperationResult<TApiItem>(result);
 			}
@@ -67,7 +67,7 @@ namespace SKDDriver.DataClasses
 				else
 				{
 					ClearDependentData(tableItem);
-                    TranslateBack(item, tableItem);
+					TranslateBack(item, tableItem);
 				}
 				Context.SaveChanges();
 				return new OperationResult<bool>(true);
@@ -148,9 +148,9 @@ namespace SKDDriver.DataClasses
 
 		public virtual TApiItem Translate(TTableItem tableItem)
 		{
-            if (tableItem == null)
-                return null;
-            return new TApiItem
+			if (tableItem == null)
+				return null;
+			return new TApiItem
 			{
 				UID = tableItem.UID,
 				Name = tableItem.Name,
@@ -170,7 +170,7 @@ namespace SKDDriver.DataClasses
 			tableItem.OrganisationUID = apiItem.OrganisationUID;
 		}
 		public abstract DbSet<TTableItem> Table { get; }
-        public virtual IQueryable<TTableItem> GetTableItems()
+		public virtual IQueryable<TTableItem> GetTableItems()
 		{
 			return Table.Include(x => x.Organisation.Users);
 		}
@@ -184,13 +184,13 @@ namespace SKDDriver.DataClasses
 				(filter.OrganisationUIDs.Count() == 0 ||
 					(x.OrganisationUID != null && filter.OrganisationUIDs.Contains(x.OrganisationUID.Value))) &&
 				(filter.UserUID == Guid.Empty ||
-					x.Organisation != null && x.Organisation.Users.Any(organisationUser => organisationUser.UserUID == filter.UserUID)) 
+					x.Organisation != null && x.Organisation.Users.Any(organisationUser => organisationUser.UserUID == filter.UserUID))
 			);
 		}
 
-        public IQueryable<TTableItem> GetFilteredTableItems(TFilter filter)
-        {
-            return GetFilteredTableItems(filter, GetTableItems());
-        }
-    }
+		public IQueryable<TTableItem> GetFilteredTableItems(TFilter filter)
+		{
+			return GetFilteredTableItems(filter, GetTableItems());
+		}
+	}
 }

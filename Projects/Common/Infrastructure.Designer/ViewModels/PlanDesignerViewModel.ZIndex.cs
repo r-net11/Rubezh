@@ -24,24 +24,44 @@ namespace Infrastructure.Designer.ViewModels
 		public RelayCommand MoveToFrontCommand { get; private set; }
 		private void OnMoveToFront()
 		{
-			int maxZIndex = 0;
-			foreach (var designerItem in DesignerCanvas.Items)
-				maxZIndex = System.Math.Max(designerItem.Element.ZIndex, maxZIndex);
-
-			foreach (var designerItem in DesignerCanvas.SelectedItems)
-				designerItem.Element.ZIndex = maxZIndex + 1;
+			// Computing the minimum Z-Index for the Group of selected Items:
+			int baseGroupZIndex = DesignerCanvas.Items.Max(item => item.Element.ZIndex) + 1;
+			// Ordering Items by their Z-Index and getting Index Increment for each Item:
+			var elementsWithIndices = DesignerCanvas.SelectedItems
+				.OrderBy(item => item.Element.ZIndex)
+				.Select((item, index) => new
+				{
+					Index = index,
+					Element = item.Element,
+				});
+			// Incrementing Z-Index for selected Items:
+			foreach (var elementWithIndex in elementsWithIndices)
+			{
+				elementWithIndex.Element.ZIndex = baseGroupZIndex + elementWithIndex.Index;
+			}
+			// Updating the Designer:
 			DesignerCanvas.UpdateZIndex();
 			DesignerCanvas.DesignerChanged();
 		}
 		public RelayCommand SendToBackCommand { get; private set; }
 		private void OnSendToBack()
 		{
-			int minZIndex = 0;
-			foreach (var designerItem in DesignerCanvas.Items)
-				minZIndex = System.Math.Min(designerItem.Element.ZIndex, minZIndex);
-
-			foreach (var designerItem in DesignerCanvas.SelectedItems)
-				designerItem.Element.ZIndex = minZIndex - 1;
+			// Computing the maximum Z-Index for the Group of selected Items:
+			int baseGroupZIndex = DesignerCanvas.Items.Min(item => item.Element.ZIndex) - 1;
+			// Ordering Items by their Z-Index and getting Index Decrement for each Item:
+			var elementWithIndices = DesignerCanvas.SelectedItems
+				.OrderByDescending(item => item.Element.ZIndex)
+				.Select((item, index) => new
+				{
+					Index = index,
+					Element = item.Element,
+				});
+			// Decrementing Z-Index for selected Items:
+			foreach (var elementWithIndex in elementWithIndices)
+			{
+				elementWithIndex.Element.ZIndex = baseGroupZIndex - elementWithIndex.Index;
+			}
+			// Updating the Designer:
 			DesignerCanvas.UpdateZIndex();
 			DesignerCanvas.DesignerChanged();
 		}

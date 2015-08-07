@@ -10,9 +10,9 @@ namespace GKProcessor
 	{
 		CommonDatabase Database;
 		GKPumpStation PumpStation;
-		List<GKDevice> FirePumpDevices;
+		List<GKDevice> FirePumpDevices = new List<GKDevice>();
 		GKDevice JNPumpDevice;
-		List<PumpDelay> PumpDelays;
+		List<PumpDelay> PumpDelays = new List<PumpDelay>();
 		DatabaseType DatabaseType;
 
 		public PumpStationCreator(CommonDatabase database, GKPumpStation pumpStation, DatabaseType dataBaseType)
@@ -21,9 +21,6 @@ namespace GKProcessor
 			PumpStation = pumpStation;
 			DatabaseType = dataBaseType;
 
-			PumpDelays = new List<PumpDelay>();
-
-			FirePumpDevices = new List<GKDevice>();
 			foreach (var nsDevice in pumpStation.NSDevices)
 			{
 				if (nsDevice.DriverType == GKDriverType.RSR2_Bush_Fire)
@@ -110,8 +107,6 @@ namespace GKProcessor
 			{
 				var pumpDelay = PumpDelays[i];
 				var delayDescriptor = Database.Descriptors.FirstOrDefault(x => x.DescriptorType == DescriptorType.Delay && x.GKBase.UID == pumpDelay.Delay.UID);
-				var formula = new FormulaBuilder();
-
 				if (delayDescriptor == null)
 					return;
 
@@ -122,6 +117,7 @@ namespace GKProcessor
 					return;
 				}
 
+				var formula = new FormulaBuilder();
 				AddCountFirePumpDevicesFormula(formula, delayDescriptor.DatabaseType);
 				if (i > 0)
 				{

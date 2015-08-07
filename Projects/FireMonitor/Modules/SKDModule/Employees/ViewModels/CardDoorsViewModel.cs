@@ -33,7 +33,7 @@ namespace SKDModule.ViewModels
 			var gkDoors = from cardDoor in CardDoors
 				join gkDoor in  GKManager.DeviceConfiguration.Doors on cardDoor.DoorUID equals gkDoor.UID
 				select new { CardDoor = cardDoor, GKDoor = gkDoor};
-			foreach (var doorViewModel in gkDoors.Select(x => new ReadOnlyAccessDoorViewModel(x.GKDoor, x.CardDoor, schedules)))
+			foreach (var doorViewModel in gkDoors.Select(x => new ReadOnlyAccessDoorViewModel(x.GKDoor, x.CardDoor, schedules)).OrderBy(x=>x.PresentationName))
 				Doors.Add(doorViewModel);
 		}
 

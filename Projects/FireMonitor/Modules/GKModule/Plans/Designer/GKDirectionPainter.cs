@@ -5,7 +5,6 @@ using System.Windows.Media;
 using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
-using GKModule.Events;
 using GKModule.ViewModels;
 using Infrastructure;
 using Infrastructure.Client.Plans;
@@ -31,11 +30,17 @@ namespace GKModule.Plans.Designer
 		{
 			_textDrawing = null;
 			_scaleTransform = new ScaleTransform();
-			var elementRectangleGKDirection = presenterItem.Element as ElementRectangleGKDirection;
-			if (Item != null && elementRectangleGKDirection != null)
+			if (Item != null && presenterItem.Element is ElementRectangleGKDirection)
 			{
+				var elementRectangleGKDirection = presenterItem.Element as ElementRectangleGKDirection;
 				_showState = elementRectangleGKDirection.ShowState;
 				_showDelay = elementRectangleGKDirection.ShowDelay;
+			}
+			else if (Item != null && presenterItem.Element is ElementPolygonGKDirection)
+			{
+				var elementPolygonGKDirection = presenterItem.Element as ElementPolygonGKDirection;
+				this._showState = elementPolygonGKDirection.ShowState;
+				this._showDelay = elementPolygonGKDirection.ShowDelay;
 			}
 		}
 

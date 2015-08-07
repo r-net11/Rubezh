@@ -32,6 +32,7 @@
 				<File Id="Monitor.DiagnosticsModule.dll" Name="DiagnosticsModule.dll" Source="$(var.Monitor.TargetDir)" />
 
 				<File Id="Monitor.SKDModule.dll" Name="SKDModule.dll" Source="$(var.Monitor.TargetDir)" />
+        <File Id="Monitor.WPFMediaKit.dll" Name="WPFMediaKit.dll" Source="..\..\..\..\..\..\3rdParty\" />
 				<File Id="Monitor.Xceed.Wpf.AvalonDock.dll" Name="Xceed.Wpf.AvalonDock.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Monitor.SharpVectors.Converters.dll" Name="SharpVectors.Converters.dll" Source="$(var.Monitor.TargetDir)" />
 				<File Id="Monitor.SharpVectors.Core.dll" Name="SharpVectors.Core.dll" Source="$(var.Monitor.TargetDir)" />

@@ -9,30 +9,31 @@ namespace SKDDriver.DataClasses
 {
 	public class ScheduleSchemeTranslator : OrganisationItemTranslatorBase<ScheduleScheme, API.ScheduleScheme, API.ScheduleSchemeFilter>
 	{
-		public ScheduleSchemeTranslator(DbService context) : base(context) 
-        {
-            AsyncTranslator = new ScheduleSchemeAsyncTranslator(this);
-        }
+		public ScheduleSchemeTranslator(DbService context)
+			: base(context)
+		{
+			AsyncTranslator = new ScheduleSchemeAsyncTranslator(this);
+		}
 
-        public ScheduleSchemeAsyncTranslator AsyncTranslator { get; private set; }
+		public ScheduleSchemeAsyncTranslator AsyncTranslator { get; private set; }
 
 		public override DbSet<ScheduleScheme> Table
 		{
 			get { return Context.ScheduleSchemes; }
 		}
 
-        public override IQueryable<ScheduleScheme> GetTableItems()
+		public override IQueryable<ScheduleScheme> GetTableItems()
 		{
 			return base.GetTableItems().Include(x => x.ScheduleDays.Select(scheduleDay => scheduleDay.DayInterval));
 		}
-		
+
 		public override API.ScheduleScheme Translate(ScheduleScheme tableItem)
 		{
 			var result = base.Translate(tableItem);
-            if (result == null)
-                return null;
+			if (result == null)
+				return null;
 			result.DayIntervals = tableItem.ScheduleDays.OrderBy(item => item.Number).Select(x => new API.ScheduleDayInterval
-			{ 
+			{
 				DayInterval = x.DayInterval != null ? DbService.DayIntervalTranslator.Translate(x.DayInterval) : null,
 				Number = x.Number,
 				ScheduleSchemeUID = x.ScheduleSchemeUID.GetValueOrDefault(),
@@ -60,14 +61,14 @@ namespace SKDDriver.DataClasses
 		{
 			Context.ScheduleDays.RemoveRange(tableItem.ScheduleDays);
 		}
-    }
+	}
 
-    public class ScheduleSchemeAsyncTranslator : AsyncTranslator<ScheduleScheme, API.ScheduleScheme, API.ScheduleSchemeFilter>
-    {
-        public ScheduleSchemeAsyncTranslator(ScheduleSchemeTranslator translator) : base(translator as ITranslatorGet<ScheduleScheme, API.ScheduleScheme, API.ScheduleSchemeFilter>) { }
-        public override List<API.ScheduleScheme> GetCollection(DbCallbackResult callbackResult)
-        {
-            return callbackResult.ScheduleSchemes;
-        }
-    }
+	public class ScheduleSchemeAsyncTranslator : AsyncTranslator<ScheduleScheme, API.ScheduleScheme, API.ScheduleSchemeFilter>
+	{
+		public ScheduleSchemeAsyncTranslator(ScheduleSchemeTranslator translator) : base(translator as ITranslatorGet<ScheduleScheme, API.ScheduleScheme, API.ScheduleSchemeFilter>) { }
+		public override List<API.ScheduleScheme> GetCollection(DbCallbackResult callbackResult)
+		{
+			return callbackResult.ScheduleSchemes;
+		}
+	}
 }

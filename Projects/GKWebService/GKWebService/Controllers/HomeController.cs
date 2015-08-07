@@ -35,6 +35,11 @@ namespace GKWebService.Controllers
             return View();
         }
 
+        public ActionResult Archive()
+        {
+            return View();
+        }
+
         [HttpPost]
         public JsonResult Logon(string login, string password)
         {

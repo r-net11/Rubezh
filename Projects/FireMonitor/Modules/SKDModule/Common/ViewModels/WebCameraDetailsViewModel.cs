@@ -1,48 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common;
+using System.Linq;
+using WPFMediaKit.DirectShow.Interop;
 
-namespace SKDModule.Common.ViewModels
+namespace SKDModule.ViewModels
 {
 	class WebCameraDetailsViewModel : DialogViewModel
 	{
 		public WebCameraDetailsViewModel()
 		{
+			Title = "Web-камера";
 			OkCommand = new RelayCommand(OnOk);
 			CancelCommand = new RelayCommand(OnCancel);
-			YesCommand = new RelayCommand(OnYes);
-			NoCommand = new RelayCommand(OnNo);
 		}
 
-		private void OnOk()
-		{
-			throw new NotImplementedException();
-		}
-
-		private void OnCancel()
-		{
-			throw new NotImplementedException();
-		}
-
-		private void OnYes()
-		{
-			throw new NotImplementedException();
-		}
-
-		private void OnNo()
-		{
-			throw new NotImplementedException();
-		}
+		public byte[] Data { get; set; }
 
 		public RelayCommand OkCommand { get; set; }
+		void OnOk()
+		{
+			Close(true);
+		}
 
 		public RelayCommand CancelCommand { get; set; }
+		void OnCancel()
+		{
+			Close(false);
+		}
 
-		public RelayCommand YesCommand { get; set; }
-
-		public RelayCommand NoCommand { get; set; }
+		public DsDevice VideoDevicesList { get { return WPFMediaKit.DirectShow.Controls.MultimediaUtil.VideoInputDevices.FirstOrDefault<DsDevice>(); } }
 	}
 }

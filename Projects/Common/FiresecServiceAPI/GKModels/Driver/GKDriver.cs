@@ -5,8 +5,6 @@ namespace FiresecAPI.GK
 {
 	public class GKDriver
 	{
-		public static Guid System_UID = new Guid("938947C5-4624-4A1A-939C-60AEEBF7B65C");
-
 		public GKDriver()
 		{
 			Children = new List<GKDriverType>();
@@ -72,8 +70,7 @@ namespace FiresecAPI.GK
 		{
 			get
 			{
-				return DriverType == GKDriverType.RSR2_AM_1 || DriverType == GKDriverType.RSR2_AM_2 || DriverType == GKDriverType.RSR2_AM_4
-				|| DriverType == GKDriverType.RSR2_MAP4_Group || DriverType == GKDriverType.RSR2_MAP4;
+				return DriverType == GKDriverType.RSR2_AM_1 || DriverType == GKDriverType.RSR2_AM_2 || DriverType == GKDriverType.RSR2_AM_4 || DriverType == GKDriverType.RSR2_MAP4_Group || DriverType == GKDriverType.RSR2_MAP4;
 			}
 		}
 
@@ -81,7 +78,7 @@ namespace FiresecAPI.GK
 		{
 			get
 			{
-				return (DriverType == GKDriverType.RSR2_Bush_Drenazh || DriverType == GKDriverType.RSR2_Bush_Jokey || DriverType == GKDriverType.RSR2_Bush_Fire || DriverType == GKDriverType.RSR2_Bush_Shuv);
+				return DriverType == GKDriverType.RSR2_Bush_Drenazh || DriverType == GKDriverType.RSR2_Bush_Jokey || DriverType == GKDriverType.RSR2_Bush_Fire || DriverType == GKDriverType.RSR2_Bush_Shuv;
 			}
 		}
 

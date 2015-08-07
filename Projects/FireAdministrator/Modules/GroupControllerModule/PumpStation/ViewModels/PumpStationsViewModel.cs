@@ -114,15 +114,18 @@ namespace GKModule.ViewModels
 				var emptyPumpStations = PumpStations.Where(x => !x.PumpStation.StopLogic.GetObjects().Any() && !x.PumpStation.StartLogic.GetObjects().Any() && !x.PumpStation.NSDevices.Any() && !x.PumpStation.AutomaticOffLogic.GetObjects().Any());
 				if (emptyPumpStations.Any())
 				{
-					foreach (var emptyPumpStation in emptyPumpStations)
+					
+					for (var i = emptyPumpStations.Count()-1; i >= 0; i--)
 					{
-						GKManager.PumpStations.Remove(emptyPumpStation.PumpStation);
-						PumpStations.Remove(emptyPumpStation);
+						GKManager.PumpStations.Remove(emptyPumpStations.ElementAt(i).PumpStation);
+						PumpStations.Remove(emptyPumpStations.ElementAt(i));
 					}
+
+					SelectedPumpStation = PumpStations.FirstOrDefault();
+					ServiceFactory.SaveService.GKChanged = true;		
 				}
 			}
 		}
-
 		bool CanDeleteAllEmpty()
 		{
 			return PumpStations.Any(x => !x.PumpStation.StopLogic.GetObjects().Any() && !x.PumpStation.StartLogic.GetObjects().Any() && !x.PumpStation.NSDevices.Any() && !x.PumpStation.AutomaticOffLogic.GetObjects().Any());

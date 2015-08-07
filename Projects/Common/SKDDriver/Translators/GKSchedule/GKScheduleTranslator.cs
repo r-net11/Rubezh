@@ -8,7 +8,7 @@ namespace SKDDriver.DataClasses
 {
 	public class GKScheduleTranslator
 	{
-		DbService DbService; 
+		DbService DbService;
 		DatabaseContext Context;
 
 		public GKScheduleTranslator(DbService context)
@@ -16,7 +16,7 @@ namespace SKDDriver.DataClasses
 			DbService = context;
 			Context = DbService.Context;
 		}
-		
+
 		public OperationResult<List<FiresecAPI.GK.GKSchedule>> Get()
 		{
 			try
@@ -92,7 +92,7 @@ namespace SKDDriver.DataClasses
 					DayScheduleUID = x.DayScheduleUID.EmptyToNull(),
 					DayNo = x.DayNo
 				}).ToList();
-				if(isNew)
+				if (isNew)
 					Context.GKSchedules.Add(tableItem);
 				Context.SaveChanges();
 				return new OperationResult();

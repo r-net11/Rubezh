@@ -1,4 +1,8 @@
-﻿using FiresecAPI;
+﻿using System.Globalization;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
 using GKModule.ViewModels;
@@ -11,14 +15,6 @@ using Infrastructure.Events;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
 
 namespace GKModule.Plans.Designer
 {
@@ -34,11 +30,17 @@ namespace GKModule.Plans.Designer
 		{
 			_textDrawing = null;
 			_scaleTransform = new ScaleTransform();
-			var elementRectangleGKDelay = presenterItem.Element as ElementRectangleGKDelay;
-			if (Item != null && elementRectangleGKDelay != null)
+			if (Item != null && presenterItem.Element is ElementRectangleGKDelay)
 			{
-				_showState = elementRectangleGKDelay.ShowState;
-				_showDelay = elementRectangleGKDelay.ShowDelay;
+				var element = presenterItem.Element as ElementRectangleGKDelay;
+				_showState = element.ShowState;
+				_showDelay = element.ShowDelay;
+			}
+			else if (Item != null && presenterItem.Element is ElementPolygonGKDelay)
+			{
+				var element = presenterItem.Element as ElementPolygonGKDelay;
+				this._showState = element.ShowState;
+				this._showDelay = element.ShowDelay;
 			}
 		}
 

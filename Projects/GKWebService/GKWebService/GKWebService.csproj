@@ -84,6 +84,12 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Image\Icon\Archive\filter.png" />
+    <Content Include="Content\Image\Icon\Archive\left.png" />
+    <Content Include="Content\Image\Icon\Archive\leftLeft.png" />
+    <Content Include="Content\Image\Icon\Archive\refresh.png" />
+    <Content Include="Content\Image\Icon\Archive\right.png" />
+    <Content Include="Content\Image\Icon\Archive\rightRight.png" />
     <Content Include="Content\Image\Icon\Header\Alarm_shield.png" />
     <Content Include="Content\Image\Icon\Header\attention.png" />
     <Content Include="Content\Image\Icon\Header\close_pop.png" />
@@ -139,6 +145,7 @@
     <Content Include="Content\themes\base\tooltip.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\archive.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Content\header.less" />
@@ -147,6 +154,7 @@
     <Content Include="Content\menu.less" />
     <Content Include="Content\logon.less" />
     <Content Include="Content\report.less" />
+    <Content Include="Content\archive.less" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\Clock.js" />
     <Content Include="Scripts\i18n\grid.locale-ar.js" />
@@ -214,6 +222,7 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Controllers\ArchiveController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Global.asax.cs">
@@ -237,6 +246,7 @@
     <Content Include="Views\Home\Device.cshtml" />
     <Content Include="Views\Home\Report.cshtml" />
     <Content Include="Views\Home\HR.cshtml" />
+    <Content Include="Views\Home\Archive.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -246,6 +256,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Archive\" />
     <Folder Include="Views\Report\" />
   </ItemGroup>
   <ItemGroup>

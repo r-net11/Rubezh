@@ -13,15 +13,15 @@ namespace SKDDriver.DataClasses
 		DataContractSerializer _serializer;
 		public DepartmentShortTranslator ShortTranslator { get; private set; }
 		public DepartmentAsyncTranslator AsyncTranslator { get; private set; }
-		public DepartmentSynchroniser Synchroniser { get; private set; } 
+		public DepartmentSynchroniser Synchroniser { get; private set; }
 		public DepartmentTranslator(DbService context)
 			: base(context)
 		{
 			_serializer = new DataContractSerializer(typeof(API.Department));
 			ShortTranslator = new DepartmentShortTranslator(this);
-            AsyncTranslator = new DepartmentAsyncTranslator(ShortTranslator);
+			AsyncTranslator = new DepartmentAsyncTranslator(ShortTranslator);
 			Synchroniser = new DepartmentSynchroniser(Table, DbService);
-        }
+		}
 
 		public override DbSet<Department> Table
 		{
@@ -32,12 +32,12 @@ namespace SKDDriver.DataClasses
 		{
 			return base.GetTableItems().Include(x => x.Photo).Include(x => x.ChildDepartments);
 		}
-		
+
 		public override API.Department Translate(Department tableItem)
 		{
 			var result = base.Translate(tableItem);
-            if (result == null)
-                return null;
+			if (result == null)
+				return null;
 			result.Photo = result.Photo = tableItem.Photo != null ? tableItem.Photo.Translate() : null;
 			result.ParentDepartmentUID = tableItem.ParentDepartmentUID.GetValueOrDefault();
 			result.ChildDepartmentUIDs = tableItem.ChildDepartments.Select(x => x.UID).ToList();
@@ -120,7 +120,7 @@ namespace SKDDriver.DataClasses
 			while (parent != null)
 			{
 				parent = Table.FirstOrDefault(x => x.UID == parent.ParentDepartmentUID);
-				if(parent != null)
+				if (parent != null)
 					items.Add(parent);
 			}
 			foreach (var item in items)
@@ -135,10 +135,10 @@ namespace SKDDriver.DataClasses
 			try
 			{
 				var tableItem = Table.FirstOrDefault(x => x.UID == uid);
-                if (tableItem == null)
-                    return new OperationResult("Запись не найдена");
-                tableItem.ChiefUID = chiefUID != null ? chiefUID.Value.EmptyToNull() : null;
-                Context.SaveChanges();
+				if (tableItem == null)
+					return new OperationResult("Запись не найдена");
+				tableItem.ChiefUID = chiefUID != null ? chiefUID.Value.EmptyToNull() : null;
+				Context.SaveChanges();
 				return new OperationResult();
 			}
 			catch (Exception e)
@@ -152,9 +152,9 @@ namespace SKDDriver.DataClasses
 			try
 			{
 				var result = new List<Guid>();
-                var tableItem = Table.Include(x => x.ChildDepartments.Select(y => y.Employees)).FirstOrDefault(x => x.UID == uid);
-                result.AddRange(tableItem.Employees.Select(x => x.UID));
-                result.AddRange(tableItem.ChildDepartments.SelectMany(x => x.Employees.Select(y => y.UID)));
+				var tableItem = Table.Include(x => x.ChildDepartments.Select(y => y.Employees)).FirstOrDefault(x => x.UID == uid);
+				result.AddRange(tableItem.Employees.Select(x => x.UID));
+				result.AddRange(tableItem.ChildDepartments.SelectMany(x => x.Employees.Select(y => y.UID)));
 				return new OperationResult<List<Guid>>(result);
 			}
 			catch (Exception e)
@@ -168,14 +168,14 @@ namespace SKDDriver.DataClasses
 			try
 			{
 				var result = new List<Guid>();
-                var parentItem = Table.Include(x => x.ChildDepartments.Select(y => y.Employees)).FirstOrDefault(x => x.UID == uid);
-                bool isRoot = true;
-                while (isRoot)
-                {
-                    isRoot = parentItem.ParentDepartment != null;
-                    result.AddRange(parentItem.Employees.Select(x => x.UID));
-                    parentItem = parentItem.ParentDepartment;
-                }
+				var parentItem = Table.Include(x => x.ChildDepartments.Select(y => y.Employees)).FirstOrDefault(x => x.UID == uid);
+				bool isRoot = true;
+				while (isRoot)
+				{
+					isRoot = parentItem.ParentDepartment != null;
+					result.AddRange(parentItem.Employees.Select(x => x.UID));
+					parentItem = parentItem.ParentDepartment;
+				}
 				return new OperationResult<List<Guid>>(result);
 			}
 			catch (Exception e)
@@ -197,8 +197,8 @@ namespace SKDDriver.DataClasses
 		public override API.ShortDepartment Translate(Department tableItem)
 		{
 			var result = base.Translate(tableItem);
-            if (result == null)
-                return null;
+			if (result == null)
+				return null;
 			result.ChiefUID = tableItem.ChiefUID.GetValueOrDefault();
 			result.Phone = tableItem.Phone;
 			result.ParentDepartmentUID = tableItem.ParentDepartmentUID.GetValueOrDefault();
@@ -212,12 +212,12 @@ namespace SKDDriver.DataClasses
 		}
 	}
 
-    public class DepartmentAsyncTranslator : AsyncTranslator<Department, API.ShortDepartment, API.DepartmentFilter>
-    {
-        public DepartmentAsyncTranslator(DepartmentShortTranslator translator) : base(translator as ITranslatorGet<Department, API.ShortDepartment, API.DepartmentFilter>) { }
-        public override List<API.ShortDepartment> GetCollection(DbCallbackResult callbackResult)
-        {
-            return callbackResult.Departments;
-        }
-    }
+	public class DepartmentAsyncTranslator : AsyncTranslator<Department, API.ShortDepartment, API.DepartmentFilter>
+	{
+		public DepartmentAsyncTranslator(DepartmentShortTranslator translator) : base(translator as ITranslatorGet<Department, API.ShortDepartment, API.DepartmentFilter>) { }
+		public override List<API.ShortDepartment> GetCollection(DbCallbackResult callbackResult)
+		{
+			return callbackResult.Departments;
+		}
+	}
 }

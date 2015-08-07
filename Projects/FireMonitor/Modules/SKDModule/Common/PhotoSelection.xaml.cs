@@ -5,6 +5,9 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using Infrastructure.Common.Windows;
 using Microsoft.Win32;
+using SKDModule.Views;
+using SKDModule.ViewModels;
+using WPFMediaKit.DirectShow.Interop;
 
 namespace SKDModule
 {
@@ -147,7 +150,18 @@ namespace SKDModule
 
 		void WebCamButton_Click(object sender, RoutedEventArgs e)
 		{
-			MessageBoxService.Show("NOT IMPLEMENTED YET");
+			if (WPFMediaKit.DirectShow.Controls.MultimediaUtil.VideoInputDevices.Length > 0)
+			{
+				var webCameraViewModel = new WebCameraDetailsViewModel();
+				if (DialogService.ShowModalWindow(webCameraViewModel))
+				{
+					Data = webCameraViewModel.Data;
+				}
+			} 
+			else
+			{
+				MessageBoxService.Show("Устройство не обнаружено. Подключите камеру и перезапустите приложение.");
+			}
 		}
 	}
 }

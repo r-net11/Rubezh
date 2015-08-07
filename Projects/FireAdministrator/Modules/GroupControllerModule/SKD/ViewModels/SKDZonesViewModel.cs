@@ -32,6 +32,7 @@ namespace GKModule.ViewModels
 			AddCommand = new RelayCommand(OnAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanEditRemove);
 			EditCommand = new RelayCommand(OnEdit, CanEditRemove);
+			DeleteAllEmptyCommand = new RelayCommand(OnDeleteAllEmpty, CanDeleteAllEmpty);
 			Current = this;
 			RegisterShortcuts();
 			IsRightPanelEnabled = true;
@@ -130,13 +131,23 @@ namespace GKModule.ViewModels
 		{
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить все пустые зоны ?"))
 			{
-
+				var emptyzone = Zones.Where(x=> !GKManager.Doors.Any(y=> y.EnterZoneUID == x.Zone.UID));
+				if (emptyzone.Any())
+				{
+					for (var i = emptyzone.Count() - 1; i >= 0; i--)
+					{
+						GKManager.SKDZones.Remove(emptyzone.ElementAt(i).Zone);
+						Zones.Remove(emptyzone.ElementAt(i));
+					}
+					SelectedZone = Zones.FirstOrDefault();
+					ServiceFactory.SaveService.GKChanged = true;
+				}
 			}
 		}
 
 		bool CanDeleteAllEmpty()
 		{
-			return false;
+			return Zones.Any(x => !GKManager.Doors.Any(y => y.EnterZoneUID == x.Zone.UID));
 		}
 
 		public RelayCommand EditCommand { get; private set; }

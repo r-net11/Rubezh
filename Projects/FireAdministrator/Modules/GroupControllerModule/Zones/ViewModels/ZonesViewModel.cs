@@ -134,13 +134,17 @@ namespace GKModule.ViewModels
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить все пустые зоны ?"))
 			{
 				var emptyZones = Zones.Where(x => !x.Zone.Devices.Any()).ToList();
-				foreach (var emptyZone in emptyZones)
+
+				if (emptyZones.Any())
 				{
-					GKManager.RemoveZone(emptyZone.Zone);
-					Zones.Remove(emptyZone);
+					foreach (var emptyZone in emptyZones)
+					{
+						GKManager.RemoveZone(emptyZone.Zone);
+						Zones.Remove(emptyZone);
+					}
+					SelectedZone = Zones.FirstOrDefault();
+					ServiceFactory.SaveService.GKChanged = true;
 				}
-				SelectedZone = Zones.FirstOrDefault();
-				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
 

@@ -529,7 +529,7 @@ namespace FiresecService.Service
 
 							using (var databaseService = new SKDDriver.DataClasses.DbService())
 							{
-								var cardsResult = databaseService.CardTranslator.Get(new CardFilter());
+								var cardsResult = databaseService.CardTranslator.Get(new CardFilter() { DeactivationType = LogicalDeletationType.Active });
 								if (!cardsResult.HasError)
 								{
 									progressCallback.StepCount = cardsResult.Result.Count();
@@ -577,8 +577,8 @@ namespace FiresecService.Service
 		{
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
-			{		
-				return OperationResult<List<MirrorUser>>.FromError("метод не реализован");	
+			{
+				return OperationResult<List<MirrorUser>>.FromError("метод не реализован");
 			}
 			else
 				return OperationResult<List<MirrorUser>>.FromError("Не найдено Отражение в конфигурации");

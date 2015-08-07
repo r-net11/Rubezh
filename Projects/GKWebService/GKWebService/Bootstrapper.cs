@@ -16,11 +16,13 @@ namespace GKWebService
 {
 	public static class Bootstrapper
 	{
+        private static object syncBootstrapper = new object();
+
 		public static void Run()
 		{
 			for (int i = 1; i <= 10; i++)
 			{
-				var message = FiresecManager.Connect(ClientType.OPC, ConnectionSettingsManager.ServerAddress, GlobalSettingsHelper.GlobalSettings.AdminLogin, GlobalSettingsHelper.GlobalSettings.AdminPassword);
+				var message = FiresecManager.Connect(ClientType.OPC, ConnectionSettingsManager.ServerAddress, GlobalSettingsHelper.GlobalSettings.AdminLogin, "");
 				if (message == null)
 					break;
 				Thread.Sleep(5000);
@@ -37,6 +39,7 @@ namespace GKWebService
 		static void InitializeGK()
 		{
 			FiresecManager.GetConfiguration("GKOPC/Configuration");
+            
 			GKDriversCreator.Create();
 			GKManager.UpdateConfiguration();
 			GKManager.CreateStates();
@@ -47,8 +50,8 @@ namespace GKWebService
 			SafeFiresecService.GKCallbackResultEvent -= new Action<GKCallbackResult>(OnGKCallbackResult);
 			SafeFiresecService.GKCallbackResultEvent += new Action<GKCallbackResult>(OnGKCallbackResult);
 
-			SafeFiresecService.NewJournalItemEvent -= new Action<JournalItem>(OnNewJournalItem);
-			SafeFiresecService.NewJournalItemEvent += new Action<JournalItem>(OnNewJournalItem);
+			//SafeFiresecService.NewJournalItemEvent -= new Action<JournalItem>(OnNewJournalItem);
+			//SafeFiresecService.NewJournalItemEvent += new Action<JournalItem>(OnNewJournalItem);
 
 			ShowAllObjects();
 		}
@@ -152,38 +155,38 @@ namespace GKWebService
 
 		static void ShowAllObjects()
 		{
-			foreach(var device in GKManager.Devices)
-			{
-				Trace.WriteLine(device.PresentationName);
-			}
-			foreach (var zone in GKManager.Zones)
-			{
-				Trace.WriteLine(zone.PresentationName);
-			}
-			foreach (var direction in GKManager.Directions)
-			{
-				Trace.WriteLine(direction.PresentationName);
-			}
-			foreach (var delay in GKManager.Delays)
-			{
-				Trace.WriteLine(delay.PresentationName);
-			}
-			foreach (var mpt in GKManager.MPTs)
-			{
-				Trace.WriteLine(mpt.PresentationName);
-			}
-			foreach (var pumpStation in GKManager.PumpStations)
-			{
-				Trace.WriteLine(pumpStation.PresentationName);
-			}
-			foreach (var guardZone in GKManager.GuardZones)
-			{
-				Trace.WriteLine(guardZone.PresentationName);
-			}
-			foreach (var door in GKManager.Doors)
-			{
-				Trace.WriteLine(door.PresentationName);
-			}
+            //foreach(var device in GKManager.Devices)
+            //{
+            //    Trace.WriteLine(device.PresentationName);
+            //}
+            //foreach (var zone in GKManager.Zones)
+            //{
+            //    Trace.WriteLine(zone.PresentationName);
+            //}
+            //foreach (var direction in GKManager.Directions)
+            //{
+            //    Trace.WriteLine(direction.PresentationName);
+            //}
+            //foreach (var delay in GKManager.Delays)
+            //{
+            //    Trace.WriteLine(delay.PresentationName);
+            //}
+            //foreach (var mpt in GKManager.MPTs)
+            //{
+            //    Trace.WriteLine(mpt.PresentationName);
+            //}
+            //foreach (var pumpStation in GKManager.PumpStations)
+            //{
+            //    Trace.WriteLine(pumpStation.PresentationName);
+            //}
+            //foreach (var guardZone in GKManager.GuardZones)
+            //{
+            //    Trace.WriteLine(guardZone.PresentationName);
+            //}
+            //foreach (var door in GKManager.Doors)
+            //{
+            //    Trace.WriteLine(door.PresentationName);
+            //}
 		}
 	}
 }

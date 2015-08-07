@@ -7,7 +7,8 @@ function MenuViewModel() {
         State: ko.observable(false),
         Report: ko.observable(false),
         Device: ko.observable(false),
-        HR: ko.observable(false)
+        HR: ko.observable(false),
+        Archive: ko.observable(false)
     };
 
     self.StatePageOpened = ko.observable(false);
@@ -103,6 +104,7 @@ function AppViewModel() {
     self.Header = HeaderIconsViewModel();
 
     self.Menu.Report = ReportViewModel();
+    self.Menu.Archive = ArchiveViewModel();
 }
 
 ko.applyBindings(new AppViewModel());

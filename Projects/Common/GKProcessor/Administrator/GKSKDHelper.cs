@@ -48,8 +48,6 @@ namespace GKProcessor
 					cardScheduleCount = 84;
 				}
 				var cardSchedules = controllerCardSchedule.CardSchedules.Skip(startCardScheduleNo).Take(cardScheduleCount).ToList();
-				if (cardSchedules.Count == 0)
-					break;
 
 				foreach (var cardSchedule in cardSchedules)
 				{
@@ -81,6 +79,9 @@ namespace GKProcessor
 					bytes.Add(0);
 					bytes.Add(0);
 				}
+
+				if (cardSchedules.Count == 0)
+					break;
 			}
 
 			var packs = new List<List<byte>>();
@@ -353,13 +354,13 @@ namespace GKProcessor
 				var controllerDevice = GKManager.Devices.FirstOrDefault(x => x.UID == controllerUID);
 				if (controllerDevice != null)
 				{
-					var controllerCardSchedule = controllerCardSchedules.FirstOrDefault(x => x.ControllerDevice.UID == controllerUID);
-					if (controllerCardSchedule == null && card.GKCardType != GKCardType.Employee)
+					if (!controllerCardSchedules.Any(x => x.ControllerDevice.UID == controllerUID) && card.GKCardType != GKCardType.Employee)
 					{
-						controllerCardSchedule = new GKControllerCardSchedule()
+						var controllerCardSchedule = new GKControllerCardSchedule()
 						{
 							ControllerDevice = controllerDevice
 						};
+						controllerCardSchedules.Add(controllerCardSchedule);
 					}
 				}
 			}

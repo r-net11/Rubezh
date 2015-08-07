@@ -86,11 +86,6 @@ namespace FiltersModule.ViewModels
 			Filter.JournalEventDescriptionTypes = namesFilter.JournalEventDescriptionTypes;
 
 			var objectsFilter = ObjectsViewModel.GetModel();
-			foreach (var journalSubsystemTypes in objectsFilter.JournalSubsystemTypes)
-			{
-				if (!Filter.JournalSubsystemTypes.Contains(journalSubsystemTypes))
-					Filter.JournalSubsystemTypes.Add(journalSubsystemTypes);
-			}
 			Filter.JournalObjectTypes = objectsFilter.JournalObjectTypes;
 			Filter.ObjectUIDs = objectsFilter.ObjectUIDs;
 

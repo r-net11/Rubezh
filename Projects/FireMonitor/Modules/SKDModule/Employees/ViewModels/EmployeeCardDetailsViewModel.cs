@@ -66,14 +66,11 @@ namespace SKDModule.ViewModels
 			SelectedGKCardType = Card.GKCardType;
 
 			AvailableGKControllers = new ObservableCollection<GKControllerViewModel>();
-			foreach (var device in GKManager.Devices)
+			foreach (var device in GKManager.Devices.Where(x => x.DriverType == GKDriverType.GK))
 			{
-				if (device.DriverType == GKDriverType.GK)
-				{
-					var controllerViewModel = new GKControllerViewModel(device);
-					controllerViewModel.IsChecked = IsNewCard || (card.GKControllerUIDs != null && card.GKControllerUIDs.Contains(device.UID));
-					AvailableGKControllers.Add(controllerViewModel);
-				}
+				var controllerViewModel = new GKControllerViewModel(device);
+				controllerViewModel.IsChecked = IsNewCard || (card.GKControllerUIDs != null && card.GKControllerUIDs.Contains(device.UID));
+				AvailableGKControllers.Add(controllerViewModel);
 			}
 		}
 
@@ -105,7 +102,7 @@ namespace SKDModule.ViewModels
 			var scheduleModels = GKScheduleHelper.GetSchedules();
 			if (scheduleModels == null)
 				scheduleModels = new List<GKSchedule>();
-			foreach (var schedule in scheduleModels)
+			foreach (var schedule in scheduleModels.OrderBy(x=>x.No))
 			{
 				GKSchedules.Add(schedule);
 			}

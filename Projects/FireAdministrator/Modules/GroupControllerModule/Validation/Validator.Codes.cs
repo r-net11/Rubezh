@@ -2,6 +2,8 @@
 using FiresecAPI.GK;
 using FiresecClient;
 using Infrastructure.Common.Validation;
+using System.Linq;
+using System;
 
 namespace GKModule.Validation
 {
@@ -10,7 +12,8 @@ namespace GKModule.Validation
 		void ValidateCodes()
 		{
 			ValidateCodeNoEquality();
-			ValidateGuardPasswordEquality();
+			ValidateCodeNameEquality();
+			ValidateCodePasswordEquality();
 
 			foreach (var code in GKManager.DeviceConfiguration.Codes)
 			{
@@ -29,7 +32,7 @@ namespace GKModule.Validation
 			}
 		}
 
-		void ValidateGuardPasswordEquality()
+		void ValidateCodeNameEquality()
 		{
 			var codeNames = new HashSet<string>();
 			foreach (var code in GKManager.DeviceConfiguration.Codes)
@@ -38,9 +41,19 @@ namespace GKModule.Validation
 					Errors.Add(new CodeValidationError(code, "Дублируется название кода", ValidationErrorLevel.CannotWrite));
 			}
 		}
+		void ValidateCodePasswordEquality()
+		{
+
+			var codePassowrds = new HashSet<int>();
+			foreach (var code in GKManager.DeviceConfiguration.Codes)
+			{
+				if (!codePassowrds.Add(code.Password))
+					Errors.Add(new CodeValidationError(code, "Дублируется пароль кода", ValidationErrorLevel.CannotWrite));
+			}
+		}
 
 		void ValidateCodeDifferentGK(GKCode code)
 		{
-		}
+		}	
 	}
 }

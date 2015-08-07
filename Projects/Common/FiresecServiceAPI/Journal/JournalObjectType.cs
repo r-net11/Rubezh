@@ -7,40 +7,40 @@ namespace FiresecAPI.Journal
 		[DescriptionAttribute("Нет")]
 		None = 0,
 
-		[DescriptionAttribute("Устройства ГК")]
+		[DescriptionAttribute("Устройства")]
 		GKDevice = 1,
 
-		[DescriptionAttribute("Зоны ГК")]
+		[DescriptionAttribute("Пожарные зоны")]
 		GKZone = 2,
 
-		[DescriptionAttribute("Направления ГК")]
+		[DescriptionAttribute("Направления")]
 		GKDirection = 3,
 
-		[DescriptionAttribute("МПТ ГК")]
+		[DescriptionAttribute("МПТ")]
 		GKMPT = 4,
 
-		[DescriptionAttribute("Насосные станции ГК")]
+		[DescriptionAttribute("Насосные станции")]
 		GKPumpStation = 5,
 
-		[DescriptionAttribute("Задержки ГК")]
+		[DescriptionAttribute("Задержки")]
 		GKDelay = 6,
 
-		[DescriptionAttribute("ПИМ ГК")]
+		[DescriptionAttribute("ПИМ")]
 		GKPim = 7,
 
-		[DescriptionAttribute("Охранные Зоны ГК")]
+		[DescriptionAttribute("Охранные зоны")]
 		GKGuardZone = 8,
 
-		[DescriptionAttribute("Точки доступа ГК")]
+		[DescriptionAttribute("Точки доступа")]
 		GKDoor = 9,
 
 		[DescriptionAttribute("Видеоустройства")]
 		VideoDevice = 10,
 
-		[DescriptionAttribute("Пользователи ГК")]
+		[DescriptionAttribute("Пользователи прибора")]
 		GKUser = 11,
 
-		[DescriptionAttribute("Зоны СКД ГК")]
+		[DescriptionAttribute("Зоны СКД")]
 		GKSKDZone = 12,
 	}
 }

@@ -629,7 +629,7 @@ namespace GKModule.Plans
 			if (IsDeviceInZonesChanged(items))
 			{
 				var deviceInZones = new Dictionary<GKDevice, Guid>();
-				var handledXDevices = new List<GKDevice>();
+				var handledDevices = new List<GKDevice>();
 				using (new WaitWrapper())
 				using (new TimeCounter("\tUpdateGKDeviceInZones: {0}"))
 				{
@@ -640,7 +640,7 @@ namespace GKModule.Plans
 						if (elementGKDevice != null)
 						{
 							var device = GetItem<GKDevice>(elementGKDevice);
-							if (device == null || device.Driver == null || handledXDevices.Contains(device))
+							if (device == null || device.Driver == null || handledDevices.Contains(device) || !device.Driver.HasZone)
 								continue;
 							var point = new Point(elementGKDevice.Left, elementGKDevice.Top);
 							var zones = new List<IElementZone>();
@@ -656,7 +656,7 @@ namespace GKModule.Plans
 										if (zone != null)
 										{
 											GKManager.AddDeviceToZone(device, zone);
-											handledXDevices.Add(device);
+											handledDevices.Add(device);
 										}
 									}
 									break;
@@ -669,7 +669,7 @@ namespace GKModule.Plans
 									}
 									else
 									{
-										handledXDevices.Add(device);
+										handledDevices.Add(device);
 										if (deviceInZones.ContainsKey(device))
 											deviceInZones.Remove(device);
 									}

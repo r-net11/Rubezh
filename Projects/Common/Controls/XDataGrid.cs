@@ -5,6 +5,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Diagnostics;
 
 namespace Controls
 {
@@ -46,14 +47,21 @@ namespace Controls
 		}
 		private void DataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
 		{
-			var depObj = (DependencyObject)e.Device.Target;
-
-			if(CheckForHeader(depObj))
+			var depObj = (DependencyObject)e.OriginalSource;
+			while (depObj != null && !(depObj is DataGridCell) && !(depObj is DataGridColumnHeader))
+			{
+				depObj = VisualTreeHelper.GetParent(depObj);
+			}
+			if (!(depObj is DataGridCell))
+			{
 				return;
+			}
 
 			if (IsDoubleClickOff)
 				return;
 			if (_previousDataGridCell != _currentDataGridCell)
+				return;
+			if(e.LeftButton != MouseButtonState.Pressed)
 				return;
 
 			var dataGrid = sender as DataGrid;
@@ -65,40 +73,31 @@ namespace Controls
 			}
 		}
 
-		private bool CheckForHeader(DependencyObject depObj)
-		{
-			while (depObj != null && !(depObj is DataGridColumnHeader))
-				depObj = VisualTreeHelper.GetParent(depObj);
-
-			if (depObj == null) return false;
-
-			return true;
-		}
-
 		private void DataGrid_PreviewMouseDown(object sender, MouseButtonEventArgs e)
 		{
-			var depObj = (DependencyObject)e.OriginalSource;
-
 			var dataGrid = sender as DataGrid;
-			if (dataGrid == null) return;
+			if (dataGrid == null)
+				return;
 
-			if (CheckForHeader(depObj)) //Off context menu if click on DataGridColumnHeader
-				dataGrid.ContextMenu = null;
-			else
-				dataGrid.ClearValue(ContextMenuProperty);
-
+			var depObj = (DependencyObject)e.OriginalSource;
+			while (depObj != null && !(depObj is DataGridCell) && !(depObj is DataGridColumnHeader))
+			{
+				depObj = VisualTreeHelper.GetParent(depObj);
+			}
 
 			_previousDataGridCell = _currentDataGridCell;
-			IInputElement element = e.MouseDevice.DirectlyOver;
 
-			if (element is FrameworkElement && (((FrameworkElement)element).Parent is DataGridCell || ((FrameworkElement)element).Parent == null))
-			{
-				_currentDataGridCell = ((FrameworkElement)element).Parent as DataGridCell;
-			}
-			else
+			if (depObj == null || depObj is DataGridColumnHeader)
 			{
 				_currentDataGridCell = null;
 				dataGrid.SelectedItem = null;
+				return;
+			}
+
+			if(depObj is DataGridCell)
+			{
+				_currentDataGridCell = depObj as DataGridCell;
+				return;
 			}
 		}
 

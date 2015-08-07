@@ -9,19 +9,19 @@ namespace SKDDriver.DataClasses
 {
 	public class ScheduleTranslator : OrganisationItemTranslatorBase<Schedule, API.Schedule, API.ScheduleFilter>
 	{
-        public ScheduleTranslator(DbService context)
-            : base(context)
-        {
-            AsyncTranslator = new ScheduleAsyncTranslator(this);
-        }
+		public ScheduleTranslator(DbService context)
+			: base(context)
+		{
+			AsyncTranslator = new ScheduleAsyncTranslator(this);
+		}
 
-        public ScheduleAsyncTranslator AsyncTranslator { get; private set; }
+		public ScheduleAsyncTranslator AsyncTranslator { get; private set; }
 		public override DbSet<Schedule> Table
 		{
 			get { return Context.Schedules; }
 		}
 
-        public override IQueryable<Schedule> GetTableItems()
+		public override IQueryable<Schedule> GetTableItems()
 		{
 			return base.GetTableItems().Include(x => x.ScheduleZones);
 		}
@@ -29,8 +29,8 @@ namespace SKDDriver.DataClasses
 		public override API.Schedule Translate(Schedule tableItem)
 		{
 			var result = base.Translate(tableItem);
-            if (result == null)
-                return null;
+			if (result == null)
+				return null;
 			result.ScheduleSchemeUID = tableItem.ScheduleSchemeUID.HasValue ? tableItem.ScheduleSchemeUID.Value : Guid.Empty;
 			result.IsIgnoreHoliday = tableItem.IsIgnoreHoliday;
 			result.IsOnlyFirstEnter = tableItem.IsOnlyFirstEnter;
@@ -69,12 +69,12 @@ namespace SKDDriver.DataClasses
 		}
 	}
 
-    public class ScheduleAsyncTranslator : AsyncTranslator<Schedule, API.Schedule, API.ScheduleFilter>
-    {
-        public ScheduleAsyncTranslator(ScheduleTranslator translator) : base(translator as ITranslatorGet<Schedule, API.Schedule, API.ScheduleFilter>) { }
-        public override List<API.Schedule> GetCollection(DbCallbackResult callbackResult)
-        {
-            return callbackResult.Schedules;
-        }
-    }
+	public class ScheduleAsyncTranslator : AsyncTranslator<Schedule, API.Schedule, API.ScheduleFilter>
+	{
+		public ScheduleAsyncTranslator(ScheduleTranslator translator) : base(translator as ITranslatorGet<Schedule, API.Schedule, API.ScheduleFilter>) { }
+		public override List<API.Schedule> GetCollection(DbCallbackResult callbackResult)
+		{
+			return callbackResult.Schedules;
+		}
+	}
 }
