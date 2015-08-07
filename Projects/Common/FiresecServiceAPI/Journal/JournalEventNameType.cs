@@ -334,13 +334,13 @@ namespace FiresecAPI.Journal
 		[EventName(JournalSubsystemType.SKD, "Запрос настроек запрета повторного прохода", XStateClass.TechnologicalRegime)]
 		Запрос_antipassback_настройки_контроллера,
 
-		[EventName(JournalSubsystemType.SKD, "Изменение настроек запрета повторного прохода", XStateClass.TechnologicalRegime)]
+		[EventName(JournalSubsystemType.SKD, "Запись настроек запрета повторного прохода", XStateClass.TechnologicalRegime)]
 		Запись_antipassback_настройки_контроллера,
 
 		[EventName(JournalSubsystemType.SKD, "Запрос настроек блокировки одновременного прохода", XStateClass.TechnologicalRegime)]
 		Запрос_interlock_настройки_контроллера,
 
-		[EventName(JournalSubsystemType.SKD, "Изменение настроек блокировки одновременного прохода", XStateClass.TechnologicalRegime)]
+		[EventName(JournalSubsystemType.SKD, "Запись настроек блокировки одновременного прохода", XStateClass.TechnologicalRegime)]
 		Запись_interlock_настройки_контроллера,
 
 		[EventName(JournalSubsystemType.SKD, "Подтверждение тревоги", XStateClass.Fire1)]
