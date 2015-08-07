@@ -25,7 +25,17 @@ namespace GKWebService.Controllers
             return View();
         }
 
+        public ActionResult HR()
+        {
+            return View();
+        }
+
         public ActionResult Report()
+        {
+            return View();
+        }
+
+        public ActionResult Archive()
         {
             return View();
         }

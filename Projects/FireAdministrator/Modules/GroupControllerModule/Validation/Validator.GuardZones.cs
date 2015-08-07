@@ -4,6 +4,7 @@ using FiresecAPI.GK;
 using FiresecClient;
 using Infrastructure.Common.Validation;
 using System;
+using FiresecAPI;
 
 namespace GKModule.Validation
 {
@@ -13,6 +14,7 @@ namespace GKModule.Validation
 		{
 			ValidateGuardZoneNoEquality();
 			ValidateGuardZoneSameDevices();
+			ValidateCodeForZones();
 
 			foreach (var guardZone in GKManager.GuardZones)
 			{
@@ -76,13 +78,13 @@ namespace GKModule.Validation
 				if (guardZoneDevice.Device.DriverType == GKDriverType.RSR2_CodeReader)
 				{
 					if (guardZoneDevice.CodeReaderSettings.SetGuardSettings.CodeUIDs.Count > 100)
-						Errors.Add(new GuardZoneValidationError(guardZone, "Количестао кодов для постановки у кодонаборника " + guardZoneDevice.Device.PredefinedName + " не должно превышать 100", ValidationErrorLevel.CannotWrite));
+						Errors.Add(new GuardZoneValidationError(guardZone, "Количество кодов для постановки у кодонаборника " + guardZoneDevice.Device.PredefinedName + " не должно превышать 100", ValidationErrorLevel.CannotWrite));
 					if (guardZoneDevice.CodeReaderSettings.ResetGuardSettings.CodeUIDs.Count > 100)
-						Errors.Add(new GuardZoneValidationError(guardZone, "Количестао кодов для снятия с охраны у кодонаборника " + guardZoneDevice.Device.PredefinedName + " не должно превышать 100", ValidationErrorLevel.CannotWrite));
+						Errors.Add(new GuardZoneValidationError(guardZone, "Количество кодов для снятия с охраны у кодонаборника " + guardZoneDevice.Device.PredefinedName + " не должно превышать 100", ValidationErrorLevel.CannotWrite));
 					if (guardZoneDevice.CodeReaderSettings.ChangeGuardSettings.CodeUIDs.Count > 100)
-						Errors.Add(new GuardZoneValidationError(guardZone, "Количестао кодов для изменения состояни у кодонаборника " + guardZoneDevice.Device.PredefinedName + " не должно превышать 100", ValidationErrorLevel.CannotWrite));
+						Errors.Add(new GuardZoneValidationError(guardZone, "Количество кодов для изменения состояни у кодонаборника " + guardZoneDevice.Device.PredefinedName + " не должно превышать 100", ValidationErrorLevel.CannotWrite));
 					if (guardZoneDevice.CodeReaderSettings.AlarmSettings.CodeUIDs.Count > 100)
-						Errors.Add(new GuardZoneValidationError(guardZone, "Количестао кодов на вызов тревоги у кодонаборника " + guardZoneDevice.Device.PredefinedName + " не должно превышать 100", ValidationErrorLevel.CannotWrite));
+						Errors.Add(new GuardZoneValidationError(guardZone, "Количество кодов на вызов тревоги у кодонаборника " + guardZoneDevice.Device.PredefinedName + " не должно превышать 100", ValidationErrorLevel.CannotWrite));
 				}
 			}
 		}
@@ -95,9 +97,40 @@ namespace GKModule.Validation
 				{
 					var enterTypes = new HashSet<GKCodeReaderEnterType>();
 
-					if(guardZoneDevice.CodeReaderSettings.SetGuardSettings.CodeReaderEnterType != GKCodeReaderEnterType.None)
-						if(!enterTypes.Add(guardZoneDevice.CodeReaderSettings.SetGuardSettings.CodeReaderEnterType))
+					if (guardZoneDevice.CodeReaderSettings.SetGuardSettings.CodeReaderEnterType != GKCodeReaderEnterType.None)
+						if (!enterTypes.Add(guardZoneDevice.CodeReaderSettings.SetGuardSettings.CodeReaderEnterType))
 							Errors.Add(new GuardZoneValidationError(guardZone, "Дублируется метод ввода у кодонаборника " + guardZoneDevice.Device.PredefinedName, ValidationErrorLevel.CannotWrite));
+				}
+			}
+		}
+
+		void ValidateCodeForZones()
+		{
+			var guardDevice = new HashSet<Tuple<Guid, GKCodeReaderEnterType>>();
+			foreach (var guardZone in GKManager.DeviceConfiguration.GuardZones)
+			{
+				foreach (var guard in guardZone.GuardZoneDevices.Where(x => x.Device.DriverType == GKDriverType.RSR2_CardReader || x.Device.DriverType == GKDriverType.RSR2_CodeReader))
+				{
+					ValidationGuardSettings(guard.CodeReaderSettings.AlarmSettings, guardDevice, guardZone, guard.Device.PresentationName);
+					ValidationGuardSettings(guard.CodeReaderSettings.ChangeGuardSettings, guardDevice, guardZone, guard.Device.PresentationName);
+					ValidationGuardSettings(guard.CodeReaderSettings.ResetGuardSettings, guardDevice, guardZone, guard.Device.PresentationName);
+					ValidationGuardSettings(guard.CodeReaderSettings.SetGuardSettings, guardDevice, guardZone, guard.Device.PresentationName);
+				}
+			}
+		}
+
+		void ValidationGuardSettings(GKCodeReaderSettingsPart codeReaderSettingsPart, HashSet<Tuple<Guid, GKCodeReaderEnterType>> hashSet, GKGuardZone guardZone, string name)
+		{
+			if (codeReaderSettingsPart.CodeReaderEnterType != GKCodeReaderEnterType.None)
+			{
+				foreach (var codeUID in codeReaderSettingsPart.CodeUIDs)
+				{
+					if (!hashSet.Add(new Tuple<Guid, GKCodeReaderEnterType>(codeUID, codeReaderSettingsPart.CodeReaderEnterType)))
+					{
+						var code = GKManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == codeUID);
+						if (code != null)
+							Errors.Add(new GuardZoneValidationError(guardZone, "Дублируется комманда " + codeReaderSettingsPart.CodeReaderEnterType.ToDescription() + " в устройстве " + name + " для кода " + code.PresentationName, ValidationErrorLevel.CannotWrite));
+					}
 				}
 			}
 		}

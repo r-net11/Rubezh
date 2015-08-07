@@ -76,7 +76,7 @@ namespace GKProcessor
 						{ Errors.Add(gkFileReaderWriter.Error); break; }
 						if (gkDatabase.KauDatabases.Any(x => !DeviceBytesHelper.GoToWorkingRegime(x.RootDevice, progressCallback)))
 						{ Errors.Add("Не удалось перевести КАУ в рабочий режим"); }
-						if (!DeviceBytesHelper.GoToWorkingRegime(gkDatabase.RootDevice, progressCallback))
+						if (!DeviceBytesHelper.GoToWorkingRegime(gkDatabase.RootDevice, progressCallback, false))
 						{ Errors.Add("Не удалось перевести ГК в рабочий режим"); }
 						break;
 					}

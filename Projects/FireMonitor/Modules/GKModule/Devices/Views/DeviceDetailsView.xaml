@@ -138,8 +138,12 @@
 								<TextBlock Text="{Binding DescriptorName}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" FontWeight="Bold" />
 							</StackPanel>
 							<StackPanel Orientation="Horizontal" Margin="2" >
-								<TextBlock Text="Номер дескриптора ГК:" TextWrapping="Wrap" Width="110" VerticalAlignment="Center" FontWeight="Bold" />
+								<TextBlock Text="Номер в ГК:" TextWrapping="Wrap" Width="110" VerticalAlignment="Center" FontWeight="Bold" />
 								<TextBlock Text="{Binding Device.GKDescriptorNo}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" FontWeight="Bold" />
+							</StackPanel>
+							<StackPanel Orientation="Horizontal" Margin="2" >
+								<TextBlock Text="Проектный адрес:" TextWrapping="Wrap" Width="110" VerticalAlignment="Center" FontWeight="Bold" />
+								<TextBlock Text="{Binding Device.PresentationAddress}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" FontWeight="Bold" />
 							</StackPanel>
 							<WrapPanel Margin="2">
 								<StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Visibility="{Binding Device.Driver.HasZone, Converter={StaticResource BoolToVisibilityConverter}}">

@@ -7,6 +7,7 @@ using Infrastructure.Common.Windows;
 using Microsoft.Win32;
 using SKDModule.Views;
 using SKDModule.ViewModels;
+using WPFMediaKit.DirectShow.Interop;
 
 namespace SKDModule
 {
@@ -149,14 +150,17 @@ namespace SKDModule
 
 		void WebCamButton_Click(object sender, RoutedEventArgs e)
 		{
-
-			if (WebCameraDetailsViewModel.HasCamera)
+			if (WPFMediaKit.DirectShow.Controls.MultimediaUtil.VideoInputDevices.Length > 0)
 			{
-				var webCameraView = new WebCameraDetailsViewModel();
-				DialogService.ShowModalWindow(webCameraView);
-			} else
+				var webCameraViewModel = new WebCameraDetailsViewModel();
+				if (DialogService.ShowModalWindow(webCameraViewModel))
+				{
+					Data = webCameraViewModel.Data;
+				}
+			} 
+			else
 			{
-				MessageBoxService.Show("NO WEBCAM DETECTED. NEED TO RESTART THE APP AFTER YOU`VE CONNECTED THR CAMERA");
+				MessageBoxService.Show("Устройство не обнаружено. Подключите камеру и перезапустите приложение.");
 			}
 		}
 	}

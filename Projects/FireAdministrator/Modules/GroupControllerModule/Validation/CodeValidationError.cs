@@ -6,7 +6,7 @@ using Infrastructure.Common;
 
 namespace GKModule.Validation
 {
-	public class CodeValidationError : ObjectValidationError<GKCode, ShowGKGuardEvent, Guid>
+	public class CodeValidationError : ObjectValidationError<GKCode, ShowGKCodeEvent, Guid>
 	{
 		public CodeValidationError(GKCode code, string error, ValidationErrorLevel level)
 			: base(code, error, level)
@@ -29,11 +29,11 @@ namespace GKModule.Validation
 		}
 		public override string Address
 		{
-			get { return Object.Name; }
+			get { return Object.No.ToString(); }
 		}
 		public override string ImageSource
 		{
-			get { return "/Controls;component/Images/BUser.png"; }
+			get { return "/Controls;component/Images/Code.png"; }
 		}
 	}
 }

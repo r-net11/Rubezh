@@ -135,7 +135,7 @@ namespace GKProcessor
 			return false;
 		}
 
-		public static bool GoToWorkingRegime(GKDevice device, GKProgressCallback progressCallback)
+		public static bool GoToWorkingRegime(GKDevice device, GKProgressCallback progressCallback, bool waitUntillStart = true)
 		{
 			progressCallback.IsCanceled = false;
 			GKProcessorManager.DoProgress(device.PresentationName + " Переход в рабочий режим", progressCallback);
@@ -143,26 +143,32 @@ namespace GKProcessor
 				return true;
 			SendManager.Send(device, 0, 11, 0, null, device.DriverType == GKDriverType.GK);
 
-			for (int i = 0; i < 20; i++)
+			if (waitUntillStart)
 			{
-				if (progressCallback.IsCanceled)
-					return true;
-				var sendResult = SendManager.Send(device, 0, 1, 1);
-				if (!sendResult.HasError)
+				for (int i = 0; i < 20; i++)
 				{
-					if (sendResult.Bytes.Count > 0)
+					if (progressCallback.IsCanceled)
+						return true;
+					var sendResult = SendManager.Send(device, 0, 1, 1);
+					if (!sendResult.HasError)
 					{
-						var version = sendResult.Bytes[0];
-						if (version <= 127)
+						if (sendResult.Bytes.Count > 0)
 						{
-							return true;
+							var version = sendResult.Bytes[0];
+							if (version <= 127)
+							{
+								return true;
+							}
 						}
 					}
+					Thread.Sleep(TimeSpan.FromSeconds(1));
 				}
-				Thread.Sleep(TimeSpan.FromSeconds(1));
+				return false;
 			}
-
-			return false;
+			else
+			{
+				return true;
+			}
 		}
 
 		public static bool Ping(GKDevice gkControllerDevice)

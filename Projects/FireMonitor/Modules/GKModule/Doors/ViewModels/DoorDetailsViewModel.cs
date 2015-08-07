@@ -223,6 +223,11 @@ namespace GKModule.ViewModels
 			get { return FiresecManager.CheckPermission(PermissionType.Oper_Door_Control); }
 		}
 
+		public bool FullCanControl
+		{
+			get { return FiresecManager.CheckPermission(PermissionType.Oper_Full_Door_Control); }
+		}
+
 		#region IWindowIdentity Members
 		public string Guid
 		{

@@ -6,13 +6,14 @@ function MenuViewModel() {
     self.pages = {
         State: ko.observable(false),
         Report: ko.observable(false),
-        Device: ko.observable(false)
+        Device: ko.observable(false),
+        HR: ko.observable(false),
+        Archive: ko.observable(false)
     };
 
     self.StatePageOpened = ko.observable(false);
 
     self.PageClick = function (data, e, page) {
-
         for (var propertyName in self.pages) {
             self.pages[propertyName](false);
         }
@@ -103,6 +104,7 @@ function AppViewModel() {
     self.Header = HeaderIconsViewModel();
 
     self.Menu.Report = ReportViewModel();
+    self.Menu.Archive = ArchiveViewModel();
 }
 
 ko.applyBindings(new AppViewModel());

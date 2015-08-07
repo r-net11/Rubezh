@@ -71,7 +71,7 @@ namespace FiresecAPI.GK
 		public GKDevice GkDatabaseParent { get; set; }
 
 		[XmlIgnore]
-		public GKDevice DataBaseParent 
+		public GKDevice DataBaseParent
 		{
 			get { return KauDatabaseParent ?? GkDatabaseParent; }
 			set
@@ -126,14 +126,6 @@ namespace FiresecAPI.GK
 		public void PrepareInputOutputDependences()
 		{
 			var device = this as GKDevice;
-			var zone = this as GKZone;
-			var direction = this as GKDirection;
-			var pumpStation = this as GKPumpStation;
-			var mpt = this as GKMPT;
-			var delay = this as GKDelay;
-			var guardZone = this as GKGuardZone;
-			var door = this as GKDoor;
-
 			if (device != null)
 			{
 				LinkLogic(device, device.Logic.OnClausesGroup);
@@ -160,19 +152,18 @@ namespace FiresecAPI.GK
 					}
 				}
 
-				var deviceDoors = GKManager.Doors.FindAll(x => x.LockDevice == device);
-				foreach (var deviceDoor in deviceDoors)
+				foreach (var deviceDoor in GKManager.Doors.Where(x => x.LockDevice == device))
 				{
 					device.LinkGKBases(deviceDoor);
 				}
 
-				var devicePumpStations = GKManager.PumpStations.FindAll(x => x.NSDevices.Contains(device));
-				foreach (var devicePumpStation in devicePumpStations)
+				foreach (var devicePumpStation in GKManager.PumpStations.Where(x => x.NSDevices.Contains(device)))
 				{
 					device.LinkGKBases(devicePumpStation);
 				}
 			}
 
+			var zone = this as GKZone;
 			if (zone != null)
 			{
 				foreach (var zoneDevice in zone.Devices)
@@ -182,6 +173,7 @@ namespace FiresecAPI.GK
 				zone.LinkGKBases(zone);
 			}
 
+			var direction = this as GKDirection;
 			if (direction != null)
 			{
 				LinkLogic(direction, direction.Logic.OnClausesGroup);
@@ -189,6 +181,7 @@ namespace FiresecAPI.GK
 				LinkLogic(direction, direction.Logic.StopClausesGroup);
 			}
 
+			var pumpStation = this as GKPumpStation;
 			if (pumpStation != null)
 			{
 				LinkLogic(pumpStation, pumpStation.StartLogic.OnClausesGroup);
@@ -196,6 +189,7 @@ namespace FiresecAPI.GK
 				LinkLogic(pumpStation, pumpStation.AutomaticOffLogic.OnClausesGroup);
 			}
 
+			var mpt = this as GKMPT;
 			if (mpt != null)
 			{
 				LinkLogic(mpt, mpt.MptLogic.OnClausesGroup);
@@ -208,6 +202,7 @@ namespace FiresecAPI.GK
 				}
 			}
 
+			var delay = this as GKDelay;
 			if (delay != null)
 			{
 				LinkLogic(delay, delay.Logic.OnClausesGroup);
@@ -215,6 +210,7 @@ namespace FiresecAPI.GK
 				LinkLogic(delay, delay.Logic.StopClausesGroup);
 			}
 
+			var guardZone = this as GKGuardZone;
 			if (guardZone != null)
 			{
 				foreach (var guardZoneDevice in guardZone.GuardZoneDevices)
@@ -231,6 +227,7 @@ namespace FiresecAPI.GK
 				guardZone.LinkGKBases(guardZone);
 			}
 
+			var door = this as GKDoor;
 			if (door != null)
 			{
 				if (door.EnterDevice != null)
@@ -371,14 +368,13 @@ namespace FiresecAPI.GK
 			if (dataBaseParent == null)
 				return;
 			IsLogicOnKau = dataBaseParent.Driver.IsKau;
-			if (dataBaseParent.Driver.IsKau)
+			if (IsLogicOnKau)
 			{
 				KauDatabaseParent = dataBaseParent;
 				GkDatabaseParent = dataBaseParent.GKParent;
 			}
 			else
 			{
-				IsLogicOnKau = false;
 				GkDatabaseParent = dataBaseParent;
 			}
 			if (this is GKGuardZone && (this as GKGuardZone).HasAccessLevel)
@@ -417,7 +413,7 @@ namespace FiresecAPI.GK
 					result.AddRange(GKManager.GuardZones.FindAll(x => x.GetCodeUids().Intersect((inputObject as GKGuardZone).GetCodeUids()).Any() && !result.Contains(x)));
 				if (!result.Contains(inputObject))
 					result.Add(inputObject);
-				if(!result.Contains(null))
+				if (!result.Contains(null))
 					GetDataBaseParent(inputObject, result, dataBaseParents);
 			}
 			result.RemoveAll(x => x == null);
@@ -429,7 +425,7 @@ namespace FiresecAPI.GK
 			kauParents = dataBaseParents.FindAll(x => x.DriverType == GKDriverType.RSR2_KAU).Distinct().ToList();
 			if (kauParents.Count > 1)
 				return kauParents[0].GKParent;
-			return kauParents.Count ==1 ? kauParents[0] : null;
+			return kauParents.Count == 1 ? kauParents[0] : null;
 		}
 	}
 }

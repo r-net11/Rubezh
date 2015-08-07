@@ -9,7 +9,7 @@ namespace SKDDriver.DataClasses
 {
 	public class OrganisationTranslator
 	{
-		DbService DbService; 
+		DbService DbService;
 		DatabaseContext Context;
 		public OrganisationSynchroniser Synchroniser { get; private set; }
 
@@ -215,20 +215,20 @@ namespace SKDDriver.DataClasses
 		}
 
 		DbSet<Organisation> Table { get { return Context.Organisations; } }
-		
+
 		IQueryable<Organisation> GetTableItems()
 		{
 			return Table.Include(x => x.Users).Include(x => x.Doors).Include(x => x.Photo);
 		}
-		
-		void ClearDependentData(Organisation tableItem) 
+
+		void ClearDependentData(Organisation tableItem)
 		{
 			Context.OrganisationUsers.RemoveRange(tableItem.Users);
 			Context.OrganisationDoors.RemoveRange(tableItem.Doors);
-			if(tableItem.Photo != null)
+			if (tableItem.Photo != null)
 				Context.Photos.Remove(tableItem.Photo);
 		}
-		
+
 		IQueryable<Organisation> GetFilteredTableItems(API.OrganisationFilter filter)
 		{
 			return GetTableItems().Where(x =>
@@ -237,7 +237,7 @@ namespace SKDDriver.DataClasses
 				(filter.LogicalDeletationType != API.LogicalDeletationType.Active || !x.IsDeleted) &&
 				(filter.LogicalDeletationType != API.LogicalDeletationType.Deleted || x.IsDeleted) &&
 				(filter.UserUID == Guid.Empty ||
-					x.Users.Any(organisationUser => organisationUser.UserUID == filter.UserUID)) 
+					x.Users.Any(organisationUser => organisationUser.UserUID == filter.UserUID))
 			);
 		}
 
@@ -299,7 +299,7 @@ namespace SKDDriver.DataClasses
 		{
 			try
 			{
-				var result = 
+				var result =
 					//Context.Employees.Any(x => !x.IsDeleted && x.OrganisationUID == organisationUID) ||
 					//Context.Departments.Any(x => !x.IsDeleted && x.OrganisationUID == organisationUID) ||
 					//Context.Positions.Any(x => !x.IsDeleted && x.OrganisationUID == organisationUID) ||
@@ -323,17 +323,17 @@ namespace SKDDriver.DataClasses
 			try
 			{
 				var tableItem = Table.FirstOrDefault(x => x.UID == uid);
-                if (tableItem == null)
-                    return new OperationResult("Запись не найдена");
-                tableItem.ChiefUID = chiefUID != null ? chiefUID.Value.EmptyToNull() : null;
-                Context.SaveChanges();
+				if (tableItem == null)
+					return new OperationResult("Запись не найдена");
+				tableItem.ChiefUID = chiefUID != null ? chiefUID.Value.EmptyToNull() : null;
+				Context.SaveChanges();
 				return new OperationResult();
 			}
 			catch (Exception e)
 			{
 				return new OperationResult(e.Message);
 			}
-			
+
 		}
 
 		public OperationResult SaveHRChief(Guid uid, Guid? chiefUID)
@@ -341,9 +341,9 @@ namespace SKDDriver.DataClasses
 			try
 			{
 				var tableItem = Table.FirstOrDefault(x => x.UID == uid);
-                if (tableItem == null)
-                    return new OperationResult("Запись не найдена");
-                tableItem.HRChiefUID = chiefUID != null ? chiefUID.Value.EmptyToNull() : null;
+				if (tableItem == null)
+					return new OperationResult("Запись не найдена");
+				tableItem.HRChiefUID = chiefUID != null ? chiefUID.Value.EmptyToNull() : null;
 				Context.SaveChanges();
 				return new OperationResult();
 			}

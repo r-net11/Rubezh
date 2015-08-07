@@ -12,27 +12,27 @@ namespace SKDDriver.DataClasses
 	{
 		DataContractSerializer _serializer;
 		public PassCardTemplateShortTranslator ShortTranslator { get; private set; }
-		
+
 		public PassCardTemplateTranslator(DbService context)
 			: base(context)
 		{
 			_serializer = new DataContractSerializer(typeof(API.PassCardTemplate));
 			ShortTranslator = new PassCardTemplateShortTranslator(this);
-            AsyncTranslator = new PassCardTemplateAsyncTranslator(ShortTranslator);
-        }
+			AsyncTranslator = new PassCardTemplateAsyncTranslator(ShortTranslator);
+		}
 
-        public PassCardTemplateAsyncTranslator AsyncTranslator { get; private set; }
+		public PassCardTemplateAsyncTranslator AsyncTranslator { get; private set; }
 
 		public override DbSet<PassCardTemplate> Table
 		{
 			get { return Context.PassCardTemplates; }
 		}
-		
+
 		public override API.PassCardTemplate Translate(PassCardTemplate tableItem)
 		{
-            if (tableItem == null)
-                return null;
-            using (var ms = new MemoryStream(tableItem.Data.ToArray()))
+			if (tableItem == null)
+				return null;
+			using (var ms = new MemoryStream(tableItem.Data.ToArray()))
 			{
 				var result = (API.PassCardTemplate)_serializer.ReadObject(ms);
 				return result;
@@ -55,12 +55,12 @@ namespace SKDDriver.DataClasses
 		public PassCardTemplateShortTranslator(PassCardTemplateTranslator translator) : base(translator) { }
 	}
 
-    public class PassCardTemplateAsyncTranslator : AsyncTranslator<PassCardTemplate, API.ShortPassCardTemplate, API.PassCardTemplateFilter>
-    {
-        public PassCardTemplateAsyncTranslator(PassCardTemplateShortTranslator translator) : base(translator as ITranslatorGet<PassCardTemplate, API.ShortPassCardTemplate, API.PassCardTemplateFilter>) { }
-        public override List<API.ShortPassCardTemplate> GetCollection(DbCallbackResult callbackResult)
-        {
-            return callbackResult.PassCardTemplates;
-        }
-    }
+	public class PassCardTemplateAsyncTranslator : AsyncTranslator<PassCardTemplate, API.ShortPassCardTemplate, API.PassCardTemplateFilter>
+	{
+		public PassCardTemplateAsyncTranslator(PassCardTemplateShortTranslator translator) : base(translator as ITranslatorGet<PassCardTemplate, API.ShortPassCardTemplate, API.PassCardTemplateFilter>) { }
+		public override List<API.ShortPassCardTemplate> GetCollection(DbCallbackResult callbackResult)
+		{
+			return callbackResult.PassCardTemplates;
+		}
+	}
 }

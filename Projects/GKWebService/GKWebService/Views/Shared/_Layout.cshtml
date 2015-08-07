@@ -78,7 +78,7 @@
                         </ul>
                     </li>
                     <li class="event-log"><a href="" data-bind="click: function(data,event) { PageClick(data, event, 'Report'); }"><span>Журнал событий</span></a></li>
-                    <li><a class="archive" href="" data-bind="click: MenuClick"><span>Архив</span></a></li>
+                    <li><a class="archive" href="" data-bind="click: function(data,event) { PageClick(data, event, 'Archive'); }"><span>Архив</span></a></li>
                     <li><a class="reports" href="" data-bind="click: MenuClick"><span>Отчёты</span></a></li>
                     <li>
                         <a class="diagnostics" href=" " data-bind="click: MenuClick"><span>Диагностика</span></a>
@@ -90,7 +90,7 @@
                     <li class="SKD has-sub last">
                         <a data-bind="click: MenuClick"><span>СКД</span></a>
                         <ul>
-                            <li class="file"><a href=""><span>Картотека</span></a></li>
+                            <li><a class="file" href="" data-bind="click: function(data,event) { PageClick(data, event, 'HR'); }"><span>Картотека</span></a></li>
                             <li class="work-time">
                                 <a data-bind="click: MenuClick" href=""><span>Учет рабочего времени</span></a>
                                 <ul>
@@ -121,6 +121,7 @@
     <script src="Scripts/i18n/grid.locale-ru.js"></script>
     
     <script src="Scripts/report.js"></script>
+    <script src="Scripts/archive.js"></script>
     <script src="Scripts/Main.js"></script>
     <script src="Scripts/Clock.js"></script>
     

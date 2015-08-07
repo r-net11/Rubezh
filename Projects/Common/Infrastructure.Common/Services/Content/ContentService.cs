@@ -169,13 +169,18 @@ namespace Infrastructure.Common.Services.Content
 					fileStream.Write(buffer, 0, count);
 			return guid;
 		}
-		public Guid AddContent(byte[] data)
+		public Guid AddContent(byte[] data, Guid? guid = null)
 		{
-			var guid = Guid.NewGuid();
+			if (guid == null)
+				guid = Guid.NewGuid();
+			else
+			{
+				RemoveContent(guid.Value);
+			}
 			var contentFile = Path.Combine(ContentFolder, guid.ToString());
 			using (var fileStream = new FileStream(contentFile, FileMode.CreateNew, FileAccess.Write))
 				fileStream.Write(data, 0, data.Length);
-			return guid;
+			return guid.Value;
 		}
 		public Guid AddContent(object data)
 		{

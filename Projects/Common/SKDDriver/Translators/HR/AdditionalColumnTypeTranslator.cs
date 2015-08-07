@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization;
 using API = FiresecAPI.SKD;
 
@@ -10,26 +11,36 @@ namespace SKDDriver.DataClasses
 	public class AdditionalColumnTypeTranslator : OrganisationItemTranslatorBase<AdditionalColumnType, API.AdditionalColumnType, API.AdditionalColumnTypeFilter>
 	{
 		DataContractSerializer _serializer;
-		
+
 		public AdditionalColumnTypeTranslator(DbService context)
 			: base(context)
 		{
 			_serializer = new DataContractSerializer(typeof(API.AdditionalColumnType));
-            AsyncTranslator = new AdditionalColumnTypeAsyncTranslator(this);
-        }
+			AsyncTranslator = new AdditionalColumnTypeAsyncTranslator(this);
+		}
 
-        public AdditionalColumnTypeAsyncTranslator AsyncTranslator { get; private set; }
+		public AdditionalColumnTypeAsyncTranslator AsyncTranslator { get; private set; }
 
 		public override DbSet<AdditionalColumnType> Table
 		{
 			get { return Context.AdditionalColumnTypes; }
 		}
-		
+
+		public override System.Linq.IQueryable<AdditionalColumnType> GetFilteredTableItems(API.AdditionalColumnTypeFilter filter, System.Linq.IQueryable<AdditionalColumnType> tableItems)
+		{
+			var filteredTableItems = base.GetFilteredTableItems(filter, tableItems);
+			if(filter.Type.HasValue)
+			{
+				filteredTableItems = filteredTableItems.Where(x => x.DataType == (int)filter.Type.Value);
+			}
+			return filteredTableItems;
+		}
+
 		public override API.AdditionalColumnType Translate(AdditionalColumnType tableItem)
 		{
 			var result = base.Translate(tableItem);
-            if (result == null)
-                return null;
+			if (result == null)
+				return null;
 			result.DataType = (API.AdditionalColumnDataType)tableItem.DataType;
 			result.PersonType = (API.PersonType)tableItem.PersonType;
 			result.IsInGrid = tableItem.IsInGrid;
@@ -49,12 +60,12 @@ namespace SKDDriver.DataClasses
 		}
 	}
 
-    public class AdditionalColumnTypeAsyncTranslator : AsyncTranslator<AdditionalColumnType, API.AdditionalColumnType, API.AdditionalColumnTypeFilter>
-    {
-        public AdditionalColumnTypeAsyncTranslator(AdditionalColumnTypeTranslator translator) : base(translator as ITranslatorGet<AdditionalColumnType, API.AdditionalColumnType, API.AdditionalColumnTypeFilter>) { }
-        public override List<API.AdditionalColumnType> GetCollection(DbCallbackResult callbackResult)
-        {
-            return callbackResult.AdditionalColumnTypes;
-        }
-    }
+	public class AdditionalColumnTypeAsyncTranslator : AsyncTranslator<AdditionalColumnType, API.AdditionalColumnType, API.AdditionalColumnTypeFilter>
+	{
+		public AdditionalColumnTypeAsyncTranslator(AdditionalColumnTypeTranslator translator) : base(translator as ITranslatorGet<AdditionalColumnType, API.AdditionalColumnType, API.AdditionalColumnTypeFilter>) { }
+		public override List<API.AdditionalColumnType> GetCollection(DbCallbackResult callbackResult)
+		{
+			return callbackResult.AdditionalColumnTypes;
+		}
+	}
 }

@@ -8,7 +8,7 @@ namespace SKDDriver.DataClasses
 {
 	public class GKDayScheduleTranslator
 	{
-		DbService DbService; 
+		DbService DbService;
 		DatabaseContext Context;
 
 		public GKDayScheduleTranslator(DbService context)
@@ -78,7 +78,7 @@ namespace SKDDriver.DataClasses
 		}
 
 		public OperationResult Delete(FiresecAPI.GK.GKDaySchedule item)
-		{ 
+		{
 
 			try
 			{

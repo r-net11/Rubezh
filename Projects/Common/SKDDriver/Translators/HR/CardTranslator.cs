@@ -10,59 +10,59 @@ using System.Diagnostics;
 
 namespace SKDDriver.DataClasses
 {
-    public class CardTranslator : ITranslatorGet<Card, API.SKDCard, API.CardFilter>
+	public class CardTranslator : ITranslatorGet<Card, API.SKDCard, API.CardFilter>
 	{
-        DatabaseContext Context { get { return DbService.Context; } }
-        public DbSet<Card> Table { get { return Context.Cards; } }
-        public DbService DbService { get; private set; }
-        public CardAsyncTranslator AsyncTranslator { get; private set; }
-        public static Thread CurrentThread;
-        public CardTranslator(DbService dbService)
+		DatabaseContext Context { get { return DbService.Context; } }
+		public DbSet<Card> Table { get { return Context.Cards; } }
+		public DbService DbService { get; private set; }
+		public CardAsyncTranslator AsyncTranslator { get; private set; }
+		public static Thread CurrentThread;
+		public CardTranslator(DbService dbService)
 		{
 			DbService = dbService;
-            AsyncTranslator = new CardAsyncTranslator(this);
+			AsyncTranslator = new CardAsyncTranslator(this);
 		}
-        OperationResult<bool> CanSave(API.SKDCard item)
-        {
-            if (item == null)
-                return OperationResult<bool>.FromError("Попытка сохранить пустую запись");
-            bool isSameNumber = Context.Cards.Any(x =>
-                x.Number == item.Number &&
-                x.UID != item.UID);
-            if (isSameNumber)
-                return OperationResult<bool>.FromError("Попытка добавить карту с повторяющимся номером");
-            else
-                return new OperationResult<bool>();
-        }
+		OperationResult<bool> CanSave(API.SKDCard item)
+		{
+			if (item == null)
+				return OperationResult<bool>.FromError("Попытка сохранить пустую запись");
+			bool isSameNumber = Context.Cards.Any(x =>
+				x.Number == item.Number &&
+				x.UID != item.UID);
+			if (isSameNumber)
+				return OperationResult<bool>.FromError("Попытка добавить карту с повторяющимся номером");
+			else
+				return new OperationResult<bool>();
+		}
 
 		public IQueryable<Card> GetTableItems()
-        {
-            return Context.Cards.Include(x => x.CardDoors).Include(x => x.Employee).Include(x => x.AccessTemplate).Include(x => x.GKControllerUIDs);
-        }
+		{
+			return Context.Cards.Include(x => x.CardDoors).Include(x => x.Employee).Include(x => x.AccessTemplate).Include(x => x.GKControllerUIDs);
+		}
 
-        public IQueryable<Card> GetFilteredTableItems(API.CardFilter filter, IQueryable<Card> tableItems)
-        {
-            if(filter.EmployeeFilter != null)
-            {
-                var employeeUIDs = DbService.EmployeeTranslator.ShortTranslator.GetFilteredTableItems(filter.EmployeeFilter).Select(x => x.UID).ToList();
-                tableItems = tableItems.Where(x => x.EmployeeUID == null || employeeUIDs.Contains(x.EmployeeUID.Value));
-            }
+		public IQueryable<Card> GetFilteredTableItems(API.CardFilter filter, IQueryable<Card> tableItems)
+		{
+			if (filter.EmployeeFilter != null)
+			{
+				var employeeUIDs = DbService.EmployeeTranslator.ShortTranslator.GetFilteredTableItems(filter.EmployeeFilter).Select(x => x.UID).ToList();
+				tableItems = tableItems.Where(x => x.EmployeeUID == null || employeeUIDs.Contains(x.EmployeeUID.Value));
+			}
 			if (filter.UIDs != null && filter.UIDs.Count > 0)
 				tableItems = tableItems.Where(x => filter.UIDs.Contains(x.UID));
-			if(filter.DeactivationType == API.LogicalDeletationType.Deleted)
+			if (filter.DeactivationType == API.LogicalDeletationType.Deleted)
 				tableItems = tableItems.Where(x => x.IsInStopList);
-			if(filter.DeactivationType == API.LogicalDeletationType.Active)
+			if (filter.DeactivationType == API.LogicalDeletationType.Active)
 				tableItems = tableItems.Where(x => !x.IsInStopList);
 			if (filter.IsWithEndDate)
 				tableItems = tableItems.Where(x => x.EndDate < filter.EndDate);
 			return tableItems.OrderBy(x => x.UID);
 		}
 
-        public OperationResult<List<API.SKDCard>> Get(API.CardFilter filter)
+		public OperationResult<List<API.SKDCard>> Get(API.CardFilter filter)
 		{
 			try
 			{
-                var tableItems = GetFilteredTableItems(filter, GetTableItems()).ToList();
+				var tableItems = GetTableItems().ToList();// GetFilteredTableItems(filter, GetTableItems()).ToList();
 				var result = tableItems.Select(x => Translate(x)).ToList();
 				return new OperationResult<List<API.SKDCard>>(result);
 			}
@@ -76,7 +76,7 @@ namespace SKDDriver.DataClasses
 		{
 			try
 			{
-                var tableItems = GetTableItems().Where(x => x.EmployeeUID == employeeUID).ToList();
+				var tableItems = GetTableItems().Where(x => x.EmployeeUID == employeeUID).ToList();
 				var result = tableItems.Select(x => Translate(x)).ToList();
 				return new OperationResult<List<API.SKDCard>>(result);
 			}
@@ -86,28 +86,28 @@ namespace SKDDriver.DataClasses
 			}
 		}
 
-        public OperationResult<List<API.SKDCard>> GetByAccessTemplateUID(Guid accessTemplateUID)
-        {
-            try
-            {
-                var tableItems = GetTableItems().Where(x => x.AccessTemplateUID == accessTemplateUID).ToList();
-                var result = tableItems.Select(x => Translate(x)).ToList();
-                return new OperationResult<List<API.SKDCard>>(result);
-            }
-            catch (System.Exception e)
-            {
-                return OperationResult<List<API.SKDCard>>.FromError(e.Message);
-            }
-        }
+		public OperationResult<List<API.SKDCard>> GetByAccessTemplateUID(Guid accessTemplateUID)
+		{
+			try
+			{
+				var tableItems = GetTableItems().Where(x => x.AccessTemplateUID == accessTemplateUID).ToList();
+				var result = tableItems.Select(x => Translate(x)).ToList();
+				return new OperationResult<List<API.SKDCard>>(result);
+			}
+			catch (System.Exception e)
+			{
+				return OperationResult<List<API.SKDCard>>.FromError(e.Message);
+			}
+		}
 
 		public OperationResult<bool> Save(API.SKDCard item)
 		{
 			try
 			{
-                var canSave = CanSave(item);
-                if (canSave.HasError)
-                    return canSave;
-                var tableItem = GetTableItems().FirstOrDefault(x => x.UID == item.UID);
+				var canSave = CanSave(item);
+				if (canSave.HasError)
+					return canSave;
+				var tableItem = GetTableItems().FirstOrDefault(x => x.UID == item.UID);
 				if (tableItem == null)
 				{
 					tableItem = new Card { UID = item.UID };
@@ -158,7 +158,7 @@ namespace SKDDriver.DataClasses
 		{
 			try
 			{
-				var card = Context.Cards.FirstOrDefault(x => x.UID == item.UID);
+				var card = Context.Cards.Include(x => x.CardDoors).Include(x => x.PendingCards).FirstOrDefault(x => x.UID == item.UID);
 				if (card != null)
 				{
 					Context.Cards.Remove(card);
@@ -176,9 +176,9 @@ namespace SKDDriver.DataClasses
 		{
 			try
 			{
-                if (uid == null)
-                    return new OperationResult<API.SKDCard>(null);
-                var tableItem = GetTableItems().FirstOrDefault(x => x.UID == uid);
+				if (uid == null)
+					return new OperationResult<API.SKDCard>(null);
+				var tableItem = GetTableItems().FirstOrDefault(x => x.UID == uid);
 				var result = Translate(tableItem);
 				return new OperationResult<API.SKDCard>(result);
 			}
@@ -215,6 +215,7 @@ namespace SKDDriver.DataClasses
 				EndDate = tableItem.EndDate,
 				CardDoors = tableItem.CardDoors.Select(x => x.Translate()).ToList(),
 				PassCardTemplateUID = tableItem.PassCardTemplateUID,
+				AccessTemplateUID = tableItem.AccessTemplateUID,
 				GKCardType = (FiresecAPI.GK.GKCardType)tableItem.GKCardType,
 				IsInStopList = tableItem.IsInStopList,
 				StopReason = tableItem.StopReason,
@@ -222,7 +223,7 @@ namespace SKDDriver.DataClasses
 				OrganisationUID = tableItem.Employee != null ? tableItem.Employee.OrganisationUID.GetValueOrDefault() : Guid.Empty,
 				GKLevel = tableItem.GKLevel,
 				GKLevelSchedule = tableItem.GKLevelSchedule,
-				GKControllerUIDs = tableItem.GKControllerUIDs.Select(x => x.UID).ToList()
+				GKControllerUIDs = tableItem.GKControllerUIDs.Select(x => x.GKControllerUID).ToList()
 			};
 		}
 
@@ -231,7 +232,7 @@ namespace SKDDriver.DataClasses
 			tableItem.Number = (int)apiItem.Number;
 			tableItem.EmployeeUID = apiItem.EmployeeUID;
 			tableItem.EndDate = apiItem.EndDate;
-			tableItem.CardDoors = apiItem.CardDoors.Select(x => new CardDoor(x)).ToList();
+			tableItem.CardDoors = apiItem.CardDoors.Select(x => new CardDoor(x) { UID = Guid.NewGuid() }).ToList();
 			tableItem.PassCardTemplateUID = apiItem.PassCardTemplateUID;
 			tableItem.AccessTemplateUID = apiItem.AccessTemplateUID;
 			tableItem.GKCardType = (int)apiItem.GKCardType;
@@ -253,38 +254,38 @@ namespace SKDDriver.DataClasses
 			return tableItem;
 		}
 
-        public OperationResult<Guid> GetEmployeeByCardNo(int cardNo)
-        {
-            try
-            {
-                var card = Context.Cards.FirstOrDefault(x => x.Number == cardNo && x.EmployeeUID != null);
-                if (card != null)
-                {
-                    return new OperationResult<Guid>(card.EmployeeUID.Value);
-                }
-                else
-                {
-                    return OperationResult<Guid>.FromError("Карта не найдена");
-                }
-            }
-            catch (Exception e)
-            {
-                return OperationResult<Guid>.FromError(e.Message);
-            }
-        }
+		public OperationResult<Guid> GetEmployeeByCardNo(int cardNo)
+		{
+			try
+			{
+				var card = Context.Cards.FirstOrDefault(x => x.Number == cardNo && x.EmployeeUID != null);
+				if (card != null)
+				{
+					return new OperationResult<Guid>(card.EmployeeUID.Value);
+				}
+				else
+				{
+					return OperationResult<Guid>.FromError("Карта не найдена");
+				}
+			}
+			catch (Exception e)
+			{
+				return OperationResult<Guid>.FromError(e.Message);
+			}
+		}
 
-        public OperationResult<DateTime> GetMinDate()
-        {
-            try
-            {
-                var result = Context.Cards.Min(x => x.EndDate);
-                return new OperationResult<DateTime>(result);
-            }
-            catch (Exception e)
-            {
-                return OperationResult<DateTime>.FromError(e.Message);
-            }
-        }
+		public OperationResult<DateTime> GetMinDate()
+		{
+			try
+			{
+				var result = Context.Cards.Min(x => x.EndDate);
+				return new OperationResult<DateTime>(result);
+			}
+			catch (Exception e)
+			{
+				return OperationResult<DateTime>.FromError(e.Message);
+			}
+		}
 
 		#region Pending
 		public OperationResult AddPending(Guid cardUID, Guid controllerUID)
@@ -372,50 +373,50 @@ namespace SKDDriver.DataClasses
 		{
 			return Context.PendingCards.Where(x => x.ControllerUID == controllerUID);
 		}
-        #endregion
+		#endregion
 
-        void PublishNewItemsPortion(List<API.SKDCard> journalItems, Guid uid, bool isLastPortion)
-        {
-            if (PortionReady != null)
-            {
-                var result = new DbCallbackResult 
-                { 
-                    ClientUID = uid, 
-                    Cards = journalItems, 
-                    IsLastPortion = isLastPortion
-                };
-                PortionReady(result);
-            }
-        }
+		void PublishNewItemsPortion(List<API.SKDCard> journalItems, Guid uid, bool isLastPortion)
+		{
+			if (PortionReady != null)
+			{
+				var result = new DbCallbackResult
+				{
+					ClientUID = uid,
+					Cards = journalItems,
+					IsLastPortion = isLastPortion
+				};
+				PortionReady(result);
+			}
+		}
 
-        public event Action<DbCallbackResult> PortionReady;
+		public event Action<DbCallbackResult> PortionReady;
 
-        public void BeginGet(API.CardFilter filter, Guid uid)
-        {
-            DbService.IsAbort = false;
-            var pageSize = 1000;
-            var portion = new List<API.SKDCard>();
-            int itemNo = 0;
-            foreach (var item in GetFilteredTableItems(filter, GetTableItems()))
-            {
-                itemNo++;
-                portion.Add(Translate(item));
-                if (itemNo % pageSize == 0)
-                {
-                    PublishNewItemsPortion(portion, uid, false);
-                    portion = new List<API.SKDCard>();
-                }
-            }
-            PublishNewItemsPortion(portion, uid, true);
-        }
-    }
+		public void BeginGet(API.CardFilter filter, Guid uid)
+		{
+			DbService.IsAbort = false;
+			var pageSize = 1000;
+			var portion = new List<API.SKDCard>();
+			int itemNo = 0;
+			foreach (var item in GetFilteredTableItems(filter, GetTableItems()))
+			{
+				itemNo++;
+				portion.Add(Translate(item));
+				if (itemNo % pageSize == 0)
+				{
+					PublishNewItemsPortion(portion, uid, false);
+					portion = new List<API.SKDCard>();
+				}
+			}
+			PublishNewItemsPortion(portion, uid, true);
+		}
+	}
 
-    public class CardAsyncTranslator : AsyncTranslator<Card, API.SKDCard, API.CardFilter>
-    {
-        public CardAsyncTranslator(CardTranslator translator) : base(translator as ITranslatorGet<Card, API.SKDCard, API.CardFilter>) { }
-        public override List<API.SKDCard> GetCollection(DbCallbackResult callbackResult)
-        {
-            return callbackResult.Cards;
-        }
-    }
+	public class CardAsyncTranslator : AsyncTranslator<Card, API.SKDCard, API.CardFilter>
+	{
+		public CardAsyncTranslator(CardTranslator translator) : base(translator as ITranslatorGet<Card, API.SKDCard, API.CardFilter>) { }
+		public override List<API.SKDCard> GetCollection(DbCallbackResult callbackResult)
+		{
+			return callbackResult.Cards;
+		}
+	}
 }

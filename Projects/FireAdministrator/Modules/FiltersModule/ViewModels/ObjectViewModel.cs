@@ -16,7 +16,6 @@ namespace FiltersModule.ViewModels
 		public string Name { get; private set; }
 		public string ImageSource { get; private set; }
 		public XStateClass StateClass { get; private set; }
-		public JournalSubsystemType JournalSubsystemType { get; private set; }
 		public bool IsSubsystem { get; private set; }
 		public bool IsObjectGroup { get; private set; }
 		public JournalObjectType JournalObjectType { get; private set; }
@@ -25,8 +24,7 @@ namespace FiltersModule.ViewModels
 
 		public ObjectViewModel(JournalSubsystemType journalSubsystemType)
 		{
-			JournalSubsystemType = journalSubsystemType;
-			IsSubsystem = true;
+			//IsSubsystem = true;
 			Name = journalSubsystemType.ToDescription();
 			var converter = new JournalSubsystemTypeToIconConverter();
 			ImageSource = (string)converter.Convert(journalSubsystemType, typeof(JournalSubsystemType), null, null);
@@ -74,63 +72,17 @@ namespace FiltersModule.ViewModels
 				case JournalObjectType.VideoDevice:
 					ImageSource = "/Controls;component/Images/Camera.png";
 					break;
+
+				case JournalObjectType.GKSKDZone:
+					ImageSource = "/Controls;component/Images/Zone.png";
+					break;
 			}
 		}
-
-		public ObjectViewModel(GKDevice device)
+		public ObjectViewModel(GKBase gkBase)
 		{
-			Name = device.PresentationName;
-			UID = device.UID;
-			ImageSource = device.Driver.ImageSource;
-		}
-
-		public ObjectViewModel(GKZone zone)
-		{
-			Name = zone.PresentationName;
-			UID = zone.UID;
-			ImageSource = "/Controls;component/Images/Zone.png";
-		}
-
-		public ObjectViewModel(GKDirection direction)
-		{
-			Name = direction.PresentationName;
-			UID = direction.UID;
-			ImageSource = "/Controls;component/Images/BDirection.png";
-		}
-
-		public ObjectViewModel(GKMPT mpt)
-		{
-			Name = mpt.PresentationName;
-			UID = mpt.UID;
-			ImageSource = "/Controls;component/Images/BMPT.png";
-		}
-
-		public ObjectViewModel(GKPumpStation pumpStation)
-		{
-			Name = pumpStation.PresentationName;
-			UID = pumpStation.UID;
-			ImageSource = "/Controls;component/Images/BPumpStation.png";
-		}
-
-		public ObjectViewModel(GKDelay delay)
-		{
-			Name = delay.PresentationName;
-			UID = delay.UID;
-			ImageSource = "/Controls;component/Images/Delay.png";
-		}
-
-		public ObjectViewModel(GKGuardZone guardZone)
-		{
-			Name = guardZone.PresentationName;
-			UID = guardZone.UID;
-			ImageSource = "/Controls;component/Images/GuardZone.png";
-		}
-
-		public ObjectViewModel(GKDoor door)
-		{
-			Name = door.PresentationName;
-			UID = door.UID;
-			ImageSource = "/Controls;component/Images/Door.png";
+			Name = gkBase.PresentationName;
+			UID = gkBase.UID;
+			ImageSource = gkBase.ImageSource;
 		}
 
 		public ObjectViewModel(FiresecAPI.Models.Camera camera)

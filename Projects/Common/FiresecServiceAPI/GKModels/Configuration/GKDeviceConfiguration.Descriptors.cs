@@ -12,7 +12,7 @@ namespace FiresecAPI.GK
 			GKBases.ForEach(x => x.ClearDescriptor());
 			Devices.ForEach(x => x.ClearDescriptor());
 			PrepareDevices();
-			PrepareObjects();
+			GKBases.ForEach(x => { InitializeDataBaseParent(x); });
 			PrepareCodes();
 			PrepareDoors();
 		}
@@ -36,14 +36,7 @@ namespace FiresecAPI.GK
 		{
 			gkBase.KauDatabaseParent = null;
 			gkBase.GkDatabaseParent = null;
-
 			gkBase.GetDataBaseParent();
-		}
-
-		void PrepareObjects()
-		{
-			foreach (var gkBase in GKBases)
-				InitializeDataBaseParent(gkBase);
 		}
 
 		void PrepareDevices()
@@ -51,14 +44,13 @@ namespace FiresecAPI.GK
 			foreach (var device in Devices)
 			{
 				device.KauDatabaseParent = device.KAUParent;
-				Trace.WriteLine(device.PresentationName);
 				device.GetDataBaseParent();
-				var dataBaseParent = device.DataBaseParent;
-				if (dataBaseParent == null)
-					continue;
-				if (device.Door != null && device.Door.LockDeviceUID == device.UID)
+				if (device.DataBaseParent != null)
 				{
-					device.IsLogicOnKau = false;
+					if (device.Door != null && device.Door.LockDeviceUID == device.UID)
+					{
+						device.IsLogicOnKau = false;
+					}
 				}
 			}
 		}
