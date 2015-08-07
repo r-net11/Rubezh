@@ -100,6 +100,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="SettingsModule.cs" />
+    <Compile Include="ViewModels\AppServerViewModel.cs" />
     <Compile Include="ViewModels\ModulesViewModel.cs" />
     <Compile Include="ViewModels\GloobalSettingsViewModel.cs" />
     <Compile Include="ViewModels\ModuleViewModel.cs" />

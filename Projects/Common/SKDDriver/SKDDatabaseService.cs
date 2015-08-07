@@ -12,7 +12,7 @@ namespace SKDDriver
 		{
 			get
 			{
-				var serverName = GlobalSettingsHelper.GlobalSettings.DBServerName;
+				var serverName = AppServerSettingsHelper.AppServerSettings.DBServerName;
 				var connectionString = @"Data Source=.\" + serverName + ";Initial Catalog=SKD;Integrated Security=True;Language='English'";
 				return connectionString;
 			}

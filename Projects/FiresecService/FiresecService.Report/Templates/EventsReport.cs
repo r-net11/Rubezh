@@ -152,7 +152,7 @@ namespace FiresecService.Report.Templates
 
 		public OperationResult<List<JournalItem>> GetFilteredJournalItems(ArchiveFilter archiveFilter)
 		{
-			var ConnectionString = @"Data Source=.\" + GlobalSettingsHelper.GlobalSettings.DBServerName + ";Initial Catalog=Journal_" + "1" + ";Integrated Security=True;Language='English'";
+			var ConnectionString = @"Data Source=.\" + AppServerSettingsHelper.AppServerSettings.DBServerName + ";Initial Catalog=Journal_" + "1" + ";Integrated Security=True;Language='English'";
 
 			try
 			{

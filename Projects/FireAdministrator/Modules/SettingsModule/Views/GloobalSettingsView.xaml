@@ -2,8 +2,8 @@
 	x:Class="SettingsModule.Views.GloobalSettingsView"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	MinWidth="800"
-	MinHeight="500">
+	xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
+	MinWidth="800" MinHeight="500">
 	<UserControl.Resources>
 		<Style TargetType="TextBlock">
 			<Setter Property="Foreground" Value="White" />
@@ -11,7 +11,7 @@
 	</UserControl.Resources>
 
 	<TabControl>
-		<TabItem DataContext="{Binding GlobalSettings}" Header="Сервер">
+		<TabItem DataContext="{Binding AppServerViewModel}" Header="Сервер">
 			<Grid Margin="2">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="Auto" />
@@ -22,52 +22,54 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
+
+				<TextBlock Grid.Row="0" Grid.Column="0" Text="Разрешить удаленные соединения на сервере" HorizontalAlignment="Right" Margin="2" />
+				<CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding EnableRemoteConnections}" HorizontalAlignment="Left" Margin="2" />
+
+				<TextBlock Grid.Row="1" Grid.Column="0" Text="IP-адрес сервера" HorizontalAlignment="Right" Margin="2" />
+				<ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding AvailableIpAddresses}" SelectedItem="{Binding ServiceAddress}" IsEnabled="{Binding EnableRemoteConnections}" Margin="2" />
+
+				<TextBlock Grid.Row="2" Grid.Column="0" Text="Порт" HorizontalAlignment="Right" Margin="2" />
+				<extToolkit:IntegerUpDown Grid.Row="2" Grid.Column="1" Value="{Binding ServicePort, UpdateSourceTrigger=PropertyChanged}" Minimum="0" Maximum="65535" Margin="2" />
+
+				<TextBlock Grid.Row="3" Grid.Column="0" Text="Порт сервиса отчетов" HorizontalAlignment="Right" Margin="2" />
+				<extToolkit:IntegerUpDown Grid.Row="3" Grid.Column="1" Value="{Binding ReportServicePort, UpdateSourceTrigger=PropertyChanged}" Minimum="0" Maximum="65535" Margin="2" />
+
 				<TextBlock
-					Grid.Row="0"
-					Grid.Column="0"
-					Margin="2"
-					HorizontalAlignment="Right"
-					Text="Разрешить удаленные соединения на сервере" />
-				<CheckBox
-					Grid.Row="0"
-					Grid.Column="1"
-					Margin="2"
-					HorizontalAlignment="Left"
-					IsChecked="{Binding Server_EnableRemoteConnections}" />
-				<TextBlock
-					Grid.Row="1"
+					Grid.Row="4"
 					Grid.Column="0"
 					Margin="2"
 					HorizontalAlignment="Right"
 					Text="Использовать HASP" />
 				<CheckBox
-					Grid.Row="1"
+					Grid.Row="4"
 					Grid.Column="1"
 					Margin="2"
 					HorizontalAlignment="Left"
 					IsChecked="{Binding UseHasp}" />
 				<TextBlock
-					Grid.Row="2"
+					Grid.Row="5"
 					Grid.Column="0"
 					Margin="2"
 					HorizontalAlignment="Right"
 					Text="Название экземпляра сервера БД" />
 				<TextBox
-					Grid.Row="2"
+					Grid.Row="5"
 					Grid.Column="1"
 					Margin="2"
-					Text="{Binding DBServerName,
-				                        UpdateSourceTrigger=PropertyChanged}" />
+					Text="{Binding DBServerName}" />
 				<TextBlock
-					Grid.Row="3"
+					Grid.Row="6"
 					Grid.Column="0"
 					Margin="2"
 					HorizontalAlignment="Right"
 					Text="Создавать новую БД при переполнении" />
-
 				<CheckBox
-					Grid.Row="3"
+					Grid.Row="6"
 					Grid.Column="1"
 					Margin="2"
 					HorizontalAlignment="Left"
@@ -152,24 +154,24 @@
 					Margin="2"
 					HorizontalAlignment="Right"
 					Text="Порт сервера" />
-				<TextBox
+				<extToolkit:IntegerUpDown
 					Grid.Row="1"
 					Grid.Column="1"
 					Margin="2"
-					Text="{Binding RemotePort,
-				                        UpdateSourceTrigger=PropertyChanged}" />
+					Value="{Binding RemotePort, UpdateSourceTrigger=PropertyChanged}"
+					Minimum="0" Maximum="65535" />
 				<TextBlock
 					Grid.Row="2"
 					Grid.Column="0"
 					Margin="2"
 					HorizontalAlignment="Right"
 					Text="Порт сервиса отчетов" />
-				<TextBox
+				<extToolkit:IntegerUpDown
 					Grid.Row="2"
 					Grid.Column="1"
 					Margin="2"
-					Text="{Binding ReportRemotePort,
-				                        UpdateSourceTrigger=PropertyChanged}" />
+					Value="{Binding ReportRemotePort, UpdateSourceTrigger=PropertyChanged}"
+					Minimum="0" Maximum="65535" />
 				<TextBlock
 					Grid.Row="3"
 					Grid.Column="0"

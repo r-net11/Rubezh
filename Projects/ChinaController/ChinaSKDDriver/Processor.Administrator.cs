@@ -229,6 +229,7 @@ namespace ChinaSKDDriver
 				doorConfiguration.HolidayTimeRecoNo = nativeDoorConfiguration.HolidayTimeRecoNo;
 				doorConfiguration.IsRepeatEnterAlarmEnable = nativeDoorConfiguration.IsRepeatEnterAlarmEnable;
 				doorConfiguration.DoorDayIntervalsCollection = nativeDoorConfiguration.DoorDayIntervalsCollection;
+				doorConfiguration.IsCloseCheckSensor = nativeDoorConfiguration.IsCloseCheckSensor;
 
 				return new OperationResult<SKDDoorConfiguration>(doorConfiguration);
 			}
@@ -276,6 +277,7 @@ namespace ChinaSKDDriver
 				nativeDoorConfiguration.HolidayTimeRecoNo = doorConfiguration.HolidayTimeRecoNo;
 				nativeDoorConfiguration.IsRepeatEnterAlarmEnable = doorConfiguration.IsRepeatEnterAlarmEnable;
 				nativeDoorConfiguration.DoorDayIntervalsCollection = doorConfiguration.DoorDayIntervalsCollection;
+				nativeDoorConfiguration.IsCloseCheckSensor = doorConfiguration.IsCloseCheckSensor;
 
 				var result = deviceProcessor.Wrapper.SetDoorConfiguration(nativeDoorConfiguration, readerDevice.IntAddress);
 				if (result)

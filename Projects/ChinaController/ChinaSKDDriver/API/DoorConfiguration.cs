@@ -167,6 +167,11 @@ namespace ChinaSKDDriverAPI
 		/// Parameters for the disabled door
 		/// </summary>
 		public HandicapTimeoutInfo HandicapTimeout { get; set; }
+
+		/// <summary>
+		/// Закрывать замок при закрытии двери
+		/// </summary>
+		public bool IsCloseCheckSensor { get; set; }
 	}
 
 	public enum AccessState

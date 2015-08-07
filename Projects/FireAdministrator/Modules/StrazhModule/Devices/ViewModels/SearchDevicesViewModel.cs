@@ -31,6 +31,7 @@ namespace StrazhModule.ViewModels
 		public RelayCommand StartSearchCommand { get; private set; }
 		private void OnStartSearch()
 		{
+			Devices.Clear();
 			StopSearchDevices();
 			StartSearchDevices();
 		}

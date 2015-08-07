@@ -137,11 +137,14 @@
 							<CheckBox Grid.Row="0" Grid.Column="0" IsChecked="{Binding IsSensorEnable}" Margin="2" HorizontalAlignment="Right"/>
 							<TextBlock Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Text="Активен датчик контроля двери" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorLight}" Margin="5 2" />
 
-							<CheckBox Grid.Row="2" Grid.Column="1" IsChecked="{Binding IsBreakInAlarmEnable}" IsEnabled="{Binding IsSensorEnable}" Margin="2" HorizontalAlignment="Right"/>
-							<TextBlock Grid.Row="2" Grid.Column="2" Text="Тревога по взлому" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorLight}" Margin="5 2" />
+							<CheckBox Grid.Row="1" Grid.Column="1" IsChecked="{Binding IsBreakInAlarmEnable}" IsEnabled="{Binding IsSensorEnable}" Margin="2" HorizontalAlignment="Right"/>
+							<TextBlock Grid.Row="1" Grid.Column="2" Text="Тревога по взлому" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorLight}" Margin="5 2" />
 
-							<CheckBox Grid.Row="3" Grid.Column="1" IsChecked="{Binding IsDoorNotClosedAlarmEnable}"  IsEnabled="{Binding IsSensorEnable}" Margin="2" HorizontalAlignment="Right"/>
-							<TextBlock Grid.Row="3" Grid.Column="2" Text="Тревога по незакрытию" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorLight}" Margin="5 2" />
+							<CheckBox Grid.Row="2" Grid.Column="1" IsChecked="{Binding IsDoorNotClosedAlarmEnable}"  IsEnabled="{Binding IsSensorEnable}" Margin="2" HorizontalAlignment="Right"/>
+							<TextBlock Grid.Row="2" Grid.Column="2" Text="Тревога по незакрытию" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorLight}" Margin="5 2" />
+
+							<CheckBox Grid.Row="3" Grid.Column="1" IsChecked="{Binding IsCloseCheckSensorEnable}"  IsEnabled="{Binding IsSensorEnable}" Margin="2" HorizontalAlignment="Right"/>
+							<TextBlock Grid.Row="3" Grid.Column="2" Text="Закрывать замок при закрытии двери" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorLight}" Margin="5 2" />
 
 							<Grid Grid.Row="4" Grid.Column="2">
 								<Grid.ColumnDefinitions>

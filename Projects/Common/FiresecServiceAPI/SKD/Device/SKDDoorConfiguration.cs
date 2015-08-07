@@ -104,6 +104,12 @@ namespace FiresecAPI.SKD
 		/// </summary>
 		[DataMember]
 		public DoorDayIntervalsCollection DoorDayIntervalsCollection { get; set; }
+
+		/// <summary>
+		/// Закрывать замок при закрытии двери
+		/// </summary>
+		[DataMember]
+		public bool IsCloseCheckSensor { get; set; }
 	}
 
 	public enum AccessState

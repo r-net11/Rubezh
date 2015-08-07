@@ -3,18 +3,21 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-			xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="200" d:DesignWidth="400"
-			 MinHeight="200" MinWidth="400">
+             d:DesignHeight="200" d:DesignWidth="580"
+			 MinHeight="200" MinWidth="580">
 	<Grid>
 		<Grid.RowDefinitions>
-			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
-		<DataGrid Grid.Row="0" ItemsSource="{Binding Devices}">
+		<StackPanel Grid.Row="0" Orientation="Horizontal">
+			<ToolBarButton Command="{Binding StartSearchCommand}" ImageSource="Refresh" ToolTip="Обновить" HorizontalAlignment="Left"/>
+		</StackPanel>
+		<DataGrid Grid.Row="1" ItemsSource="{Binding Devices}">
 			<DataGrid.Columns>
-				<DataGridTemplateColumn Header="Добавить" Width="*" >
+				<DataGridTemplateColumn Header="Добавить" Width="Auto" >
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsEnabled}" HorizontalAlignment="Center"/>
@@ -28,28 +31,28 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="Тип" Width="*">
+				<DataGridTemplateColumn Header="Тип" Width="100">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding DeviceType, Converter={StaticResource SKDDeviceTypeEnumToAttributeValueConverter}, ConverterParameter=label}" VerticalAlignment="Center" Margin="2" />
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="IP-адрес" Width="*">
+				<DataGridTemplateColumn Header="IP-адрес" Width="80">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding IpAddress}" VerticalAlignment="Center" Margin="2" />
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="Шлюз" Width="*">
+				<DataGridTemplateColumn Header="Шлюз" Width="80">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding Gateway}" VerticalAlignment="Center" Margin="2" />
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="Порт" Width="*">
+				<DataGridTemplateColumn Header="Порт" Width="50">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding Port}" VerticalAlignment="Center" Margin="2" />
@@ -58,6 +61,5 @@
 				</DataGridTemplateColumn>
 			</DataGrid.Columns>
 		</DataGrid>
-		<Button Grid.Row="1" Command="{Binding StartSearchCommand}" Content="Обновить" Width="100" HorizontalAlignment="Left" Margin="0 5"/>
 	</Grid>
 </UserControl>
