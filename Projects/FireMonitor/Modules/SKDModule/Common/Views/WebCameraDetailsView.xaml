@@ -6,19 +6,37 @@
 			xmlns:WPFMediaKit="clr-namespace:WPFMediaKit.DirectShow.Controls;assembly=WPFMediaKit"
 			Height="510" Width="640">
 	<StackPanel Orientation="Vertical">
-		<WPFMediaKit:VideoCaptureElement x:Name="videoCapElement"
-			LoadedBehavior="Play"
-			UnloadedBehavior="Stop"
-			DesiredPixelWidth="640"
-			DesiredPixelHeight="480"
-			VideoCaptureDevice="{Binding VideoDevicesList}"
-			Stretch="Fill"
-			FPS="30" 
-			Width="640" Height="480" 
-			EnableSampleGrabbing="True"
-			HorizontalAlignment="Center"
-			 />
-		<DockPanel Margin="5">
+		<Grid>
+			<TextBlock Panel.ZIndex="1" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center" Opacity="0" Foreground="{DynamicResource ForegroundColorWhite}" FontSize="16">
+				<TextBlock.Triggers>
+					<EventTrigger RoutedEvent="TextBlock.Loaded">
+						<EventTrigger.Actions>
+							<BeginStoryboard>
+								<Storyboard TargetProperty ="Opacity">
+									<DoubleAnimation From="0" To="1" Duration="0:0:1" RepeatBehavior="Forever" BeginTime="0:0:2" />
+								</Storyboard>
+							</BeginStoryboard>
+						</EventTrigger.Actions>
+					</EventTrigger>
+				</TextBlock.Triggers>
+					Проблема с устройством.
+					<LineBreak /> Проверьте подключение, и перезапустите приложение.
+			</TextBlock>
+			<WPFMediaKit:VideoCaptureElement x:Name="videoCapElement"
+				LoadedBehavior="Play"
+				UnloadedBehavior="Stop"
+				DesiredPixelWidth="640"
+				DesiredPixelHeight="480"
+				VideoCaptureDevice="{Binding VideoDevicesList}"
+				Stretch="Fill"
+				FPS="30" 
+				Width="640" Height="480" 
+				EnableSampleGrabbing="True"
+				HorizontalAlignment="Center"
+				Panel.ZIndex="2"
+				 />
+		</Grid>
+		<DockPanel Margin="5" VerticalAlignment="Bottom">
 			<Button DockPanel.Dock="Right" Command="{Binding CancelCommand}" Content="Отмена" Width="75" Height="23" />
 			<Button DockPanel.Dock="Right" Click="TakeSnapshot" Command="{Binding OkCommand}" Content="Ок" Margin="0 0 5 0" Width="75" Height="23" />
 			<Border />

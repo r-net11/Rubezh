@@ -28,6 +28,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -244,6 +245,7 @@
     <Content Include="Views\Home\State.cshtml" />
     <Content Include="Views\Home\Device.cshtml" />
     <Content Include="Views\Home\Report.cshtml" />
+    <Content Include="Views\Home\HR.cshtml" />
     <Content Include="Views\Home\Archive.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

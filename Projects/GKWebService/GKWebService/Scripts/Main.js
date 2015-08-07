@@ -7,13 +7,13 @@ function MenuViewModel() {
         State: ko.observable(false),
         Report: ko.observable(false),
         Device: ko.observable(false),
+        HR: ko.observable(false),
         Archive: ko.observable(false)
     };
 
     self.StatePageOpened = ko.observable(false);
 
     self.PageClick = function (data, e, page) {
-
         for (var propertyName in self.pages) {
             self.pages[propertyName](false);
         }
