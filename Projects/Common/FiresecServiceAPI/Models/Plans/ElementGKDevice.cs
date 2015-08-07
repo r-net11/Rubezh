@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Infrustructure.Plans.Elements;
+using Infrustructure.Plans.Interfaces;
+using System;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
-using Infrustructure.Plans.Elements;
-using Infrustructure.Plans.Interfaces;
 
 namespace FiresecAPI.Models
 {
@@ -12,7 +12,7 @@ namespace FiresecAPI.Models
 		public ElementGKDevice()
 		{
 			DeviceUID = Guid.Empty;
-			PresentationName = "ГК-устройство";
+			PresentationName = "Устройство";
 		}
 
 		[DataMember]
