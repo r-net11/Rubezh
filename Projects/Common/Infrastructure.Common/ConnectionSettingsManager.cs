@@ -5,10 +5,16 @@ using System.Net;
 
 namespace Infrastructure.Common
 {
+	/// <summary>
+	/// Класс описывает сетевые настройки Сервера приложений и Сервера отчетов
+	/// </summary>
 	public static class ConnectionSettingsManager
 	{
 		private static string _remoteAddress;
 
+		/// <summary>
+		/// IP-адрес Сервера приложений
+		/// </summary>
 		public static string RemoteAddress
 		{
 			get { return _remoteAddress; }
@@ -20,8 +26,14 @@ namespace Infrastructure.Common
 			}
 		}
 
+		/// <summary>
+		/// Порт Сервера приложений
+		/// </summary>
 		public static int RemotePort { get; set; }
 
+		/// <summary>
+		/// Порт Сервера отчетов
+		/// </summary>
 		public static int ReportRemotePort { get; set; }
 
 		static ConnectionSettingsManager()
@@ -38,6 +50,9 @@ namespace Infrastructure.Common
 			}
 		}
 
+		/// <summary>
+		/// URI Сервера приложений
+		/// </summary>
 		public static string ServerAddress
 		{
 			get
@@ -51,6 +66,9 @@ namespace Infrastructure.Common
 			}
 		}
 
+		/// <summary>
+		/// URI Сервера отчетов
+		/// </summary>
 		public static string ReportServerAddress
 		{
 			get
@@ -60,6 +78,9 @@ namespace Infrastructure.Common
 			}
 		}
 
+		/// <summary>
+		/// Определяет доступность Сервера приложений извне
+		/// </summary>
 		public static bool IsRemote
 		{
 			get
@@ -73,7 +94,7 @@ namespace Infrastructure.Common
 		/// <summary>
 		/// Выбирает IP-адрес для запуска WCF-Сервиса
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>IP-адрес</returns>
 		public static string GetIPAddress()
 		{
 			// Получаем список IP-адресов хоста

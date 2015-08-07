@@ -10,25 +10,23 @@ namespace Infrastructure.Common
 	public static class NetworkHelper
 	{
 		/// <summary>
-		/// Возвращает список IP-адресов (IPv4) хоста, включая localhost
+		/// Возвращает список IP-адресов (IPv4) хоста
 		/// </summary>
-		/// <returns>Список IP-адресов (IPv4) хоста, включая localhost</returns>
+		/// <returns>Список IP-адресов (IPv4) хоста</returns>
 		public static List<string> GetHostIpAddresses()
 		{
 			try
 			{
 				var hostName = Dns.GetHostName();
 				var ipEntry = Dns.GetHostEntry(hostName);
-				var ipAdresses = ipEntry.AddressList.Where(x => x.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+				return ipEntry.AddressList.Where(x => x.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
 					.Select(x => x.ToString())
 					.ToList();
-				ipAdresses.Insert(0, "localhost");
-				return ipAdresses;
 			}
 			catch (Exception e)
 			{
 				Logger.Error(e, "NetworkHelper.GetHostIpAddresses");
-				return new List<string>() {"localhost"};
+				return new List<string>();
 			}
 		}
 	}

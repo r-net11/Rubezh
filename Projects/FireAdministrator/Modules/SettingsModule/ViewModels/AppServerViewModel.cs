@@ -18,7 +18,9 @@ namespace SettingsModule.ViewModels
 
 		private void InitializeAvailableIpAddresses()
 		{
-			AvailableIpAddresses = new ObservableCollection<string>(NetworkHelper.GetHostIpAddresses());
+			var hostIpAdresses = NetworkHelper.GetHostIpAddresses();
+			hostIpAdresses.Add("localhost");
+			AvailableIpAddresses = new ObservableCollection<string>(hostIpAdresses);
 		}
 
 		private string _serviceAddress;
