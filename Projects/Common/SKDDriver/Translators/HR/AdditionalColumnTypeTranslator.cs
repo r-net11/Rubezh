@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization;
 using API = FiresecAPI.SKD;
 
@@ -23,6 +24,16 @@ namespace SKDDriver.DataClasses
 		public override DbSet<AdditionalColumnType> Table
 		{
 			get { return Context.AdditionalColumnTypes; }
+		}
+
+		public override System.Linq.IQueryable<AdditionalColumnType> GetFilteredTableItems(API.AdditionalColumnTypeFilter filter, System.Linq.IQueryable<AdditionalColumnType> tableItems)
+		{
+			var filteredTableItems = base.GetFilteredTableItems(filter, tableItems);
+			if(filter.Type.HasValue)
+			{
+				filteredTableItems = filteredTableItems.Where(x => x.DataType == (int)filter.Type.Value);
+			}
+			return filteredTableItems;
 		}
 
 		public override API.AdditionalColumnType Translate(AdditionalColumnType tableItem)
