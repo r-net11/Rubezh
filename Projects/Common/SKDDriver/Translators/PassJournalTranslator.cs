@@ -64,7 +64,7 @@ namespace SKDDriver.Translators
 			}
 		}
 
-		public OperationResult AddCustomPassJournal(Guid uid, Guid employeeUID, Guid zoneUID, DateTime enterTime, DateTime exitTime,
+		public OperationResult AddCustomPassJournal(Guid uid, Guid employeeUID, Guid zoneUID, DateTime? enterTime, DateTime? exitTime,
 			DateTime? adjustmentDate, Guid correctedBy, bool notTakeInCalculations, bool isAddedManually, DateTime? enterTimeOriginal, DateTime? exitTimeOriginal)
 		{
 			try
@@ -74,8 +74,8 @@ namespace SKDDriver.Translators
 					UID = uid,
 					EmployeeUID = employeeUID,
 					ZoneUID = zoneUID,
-					EnterTime = enterTime,
-					ExitTime = exitTime,
+					EnterTime = enterTime.GetValueOrDefault(),
+					ExitTime = exitTime.GetValueOrDefault(),
 					AdjustmentDate = adjustmentDate,
 					CorrectedByUID = correctedBy,
 					NotTakeInCalculations = notTakeInCalculations,
@@ -98,7 +98,7 @@ namespace SKDDriver.Translators
 			}
 		}
 
-		public OperationResult EditPassJournal(Guid uid, Guid zoneUID, DateTime enterTime, DateTime exitTime,
+		public OperationResult EditPassJournal(Guid uid, Guid zoneUID, DateTime? enterTime, DateTime? exitTime,
 			bool isNeedAdjustment, DateTime? adjustmentDate, Guid correctedBy, bool notTakeInCalculations, bool isAddedManually)
 		{
 			try
@@ -107,8 +107,8 @@ namespace SKDDriver.Translators
 				if (passJournalItem != null)
 				{
 					passJournalItem.ZoneUID = zoneUID;
-					passJournalItem.EnterTime = enterTime;
-					passJournalItem.ExitTime = exitTime;
+					passJournalItem.EnterTime = enterTime.GetValueOrDefault();
+					passJournalItem.ExitTime = exitTime.GetValueOrDefault();
 					passJournalItem.IsNeedAdjustment = isNeedAdjustment;
 					passJournalItem.AdjustmentDate = adjustmentDate;
 					passJournalItem.CorrectedByUID = correctedBy;

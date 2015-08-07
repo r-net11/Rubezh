@@ -314,7 +314,7 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult AddCustomPassJournal(Guid uid, Guid employeeUID, Guid zoneUID, DateTime enterTime, DateTime exitTime,
+		public OperationResult AddCustomPassJournal(Guid uid, Guid employeeUID, Guid zoneUID, DateTime? enterTime, DateTime? exitTime,
 			DateTime? adjustmentDate, Guid correctedBy, bool notTakeInCalculations, bool isAddedManually, DateTime? enterTimeOriginal, DateTime? exitTimeOriginal)
 		{
 			using (var databaseService = new SKDDatabaseService())
@@ -324,7 +324,7 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult EditPassJournal(Guid uid, Guid zoneUID, DateTime enterTime, DateTime exitTime,
+		public OperationResult EditPassJournal(Guid uid, Guid zoneUID, DateTime? enterTime, DateTime? exitTime,
 			bool isNeedAdjustment, DateTime? adjustmentDate, Guid correctedBy, bool notTakeInCalculations, bool isAddedManually)
 		{
 			using (var databaseService = new SKDDatabaseService())

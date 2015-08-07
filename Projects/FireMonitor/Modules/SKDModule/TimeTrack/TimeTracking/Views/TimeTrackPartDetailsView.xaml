@@ -102,19 +102,12 @@
 				</DataGrid.Columns>
 			</DataGrid>
 		</Grid>
-		<CheckBox
-			Grid.Row="1"
-			Content="Не учитывать в расчетах"
-			IsEnabled="{Binding IsEnabledTakeInCalculations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-			IsChecked="{Binding NotTakeInCalculations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-			Foreground="White"
-			VerticalAlignment="Center"
-			Margin="5"/>
 		<Grid
 			Grid.Row="2"
-			Grid.ColumnSpan="2"
-			Margin="0 10 0 0">
+			Grid.ColumnSpan="2">
 			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
@@ -122,13 +115,22 @@
 				<ColumnDefinition Width="Auto" SharedSizeGroup="FirstColumn" />
 				<ColumnDefinition Width="Auto" />
 			</Grid.ColumnDefinitions>
+			<CheckBox
+				Content="Не учитывать в расчетах"
+				IsEnabled="{Binding IsEnabledTakeInCalculations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+				IsChecked="{Binding CurrentTimeTrackPart.NotTakeInCalculations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+				Foreground="White"
+				VerticalAlignment="Center"
+				Margin="5"/>
 			<TextBlock
+				Grid.Row="1"
 				Margin="5 2"
 				VerticalAlignment="Center"
 				HorizontalAlignment="Left"
 				Foreground="White"
 				Text="Дата и время входа"/>
 			<StackPanel
+				Grid.Row="1"
 				Orientation="Horizontal"
 				Grid.Column="1"
 				HorizontalAlignment="Left">
@@ -136,24 +138,24 @@
 					AttachedBehaviours:DatePickerCustomWatermark.Watermark="{StaticResource WatermarkColor}"
 					AttachedBehaviours:DatePickerCustomWatermark.WatermarkText="дд.мм.ггг"
 					HorizontalAlignment="Right"
-					SelectedDate="{Binding EnterDateTime, Mode=TwoWay}"
+					SelectedDate="{Binding CurrentTimeTrackPart.EnterDateTime, UpdateSourceTrigger=PropertyChanged}"
 					Margin="5 2"
 					Width="100"
 					VerticalAlignment="Center"/>
 				<TimePicker
 					HorizontalAlignment="Left"
 					Margin="5 2"
-					TimeSpan="{Binding EnterTime, Mode=TwoWay}" />
+					TimeSpan="{Binding CurrentTimeTrackPart.EnterTime, UpdateSourceTrigger=PropertyChanged}" />
 			</StackPanel>
 			<TextBlock
-				Grid.Row="1"
+				Grid.Row="2"
 				Margin="5 2"
 				HorizontalAlignment="Left"
 				VerticalAlignment="Center"
 				Foreground="White"
 				Text="Дата и время выхода"/>
 			<StackPanel
-				Grid.Row="1"
+				Grid.Row="2"
 				Grid.Column="1"
 				Orientation="Horizontal"
 				HorizontalAlignment="Left"
@@ -162,14 +164,17 @@
 					AttachedBehaviours:DatePickerCustomWatermark.Watermark="{StaticResource WatermarkColor}"
 					AttachedBehaviours:DatePickerCustomWatermark.WatermarkText="дд.мм.ггг"
 					HorizontalAlignment="Right"
-					SelectedDate="{Binding ExitDateTime}"
+					SelectedDate="{Binding CurrentTimeTrackPart.ExitDateTime, UpdateSourceTrigger=PropertyChanged}"
 					Width="100"
 					VerticalAlignment="Center"
 					Margin="5 2"/>
 				<TimePicker
 					Margin="5 2"
 					HorizontalAlignment="Left"
-					TimeSpan="{Binding ExitTime}" />
+					TimeSpan="{Binding CurrentTimeTrackPart.ExitTime, UpdateSourceTrigger=PropertyChanged}" />
+			</StackPanel>
+			<StackPanel Grid.Row="3" Grid.ColumnSpan="2">
+				<TextBlock Text="{Binding CurrentTimeTrackPart.Error}" />
 			</StackPanel>
 		</Grid>
 	</Grid>

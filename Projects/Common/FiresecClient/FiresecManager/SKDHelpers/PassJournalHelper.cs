@@ -4,14 +4,14 @@ namespace FiresecClient.SKDHelpers
 {
 	public static class PassJournalHelper
 	{
-		public static bool AddCustomPassJournal(Guid uid, Guid employeeUID, Guid zoneUID, DateTime enterTime, DateTime exitTime,
+		public static bool AddCustomPassJournal(Guid uid, Guid employeeUID, Guid zoneUID, DateTime? enterTime, DateTime? exitTime,
 			DateTime? adjustmentDate, Guid correctedBy, bool notTakeInCalculations, bool isAddedManually, DateTime? enterTimeOriginal, DateTime? exitTimeOriginal)
 		{
 			var result = FiresecManager.FiresecService.AddCustomPassJournal(uid, employeeUID, zoneUID, enterTime, exitTime,
 				adjustmentDate, correctedBy, notTakeInCalculations, isAddedManually, enterTimeOriginal, exitTimeOriginal);
 			return Common.ShowErrorIfExists(result);
 		}
-		public static bool EditPassJournal(Guid uid, Guid zoneUID, DateTime enterTime, DateTime exitTime,
+		public static bool EditPassJournal(Guid uid, Guid zoneUID, DateTime? enterTime, DateTime? exitTime,
 			bool isNeedAdjustment, DateTime? adjustmentDate, Guid correctedBy, bool notTakeInCalculations, bool isAddedManually)
 		{
 			var result = FiresecManager.FiresecService.EditPassJournal(uid, zoneUID, enterTime, exitTime,

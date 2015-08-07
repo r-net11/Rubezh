@@ -15,7 +15,7 @@ namespace SKDModule.Model
 	{
 		#region Properties
 
-		public Guid UID { get; private set; }
+		public Guid UID { get; set; }
 
 		private bool _isManuallyAdded;
 
@@ -37,7 +37,7 @@ namespace SKDModule.Model
 		{
 			get
 			{
-				if (TimeTrackZone.IsURV) return true;
+				if (TimeTrackZone != null && TimeTrackZone.IsURV) return true;
 				NotTakeInCalculations = true;
 				return false;
 			}
@@ -59,12 +59,28 @@ namespace SKDModule.Model
 			set { this.RaiseAndSetIfChanged(ref _enterDateTime, value); }
 		}
 
+		private TimeSpan _enterTime;
+
+		public TimeSpan EnterTime
+		{
+			get { return _enterTime; }
+			set { this.RaiseAndSetIfChanged(ref _enterTime, value); }
+		}
+
 		private DateTime? _exitDateTime;
 
 		public DateTime? ExitDateTime
 		{
 			get { return _exitDateTime; }
 			set { this.RaiseAndSetIfChanged(ref _exitDateTime, value); }
+		}
+
+		private TimeSpan _exitTime;
+
+		public TimeSpan ExitTime
+		{
+			get { return _exitTime; }
+			set { this.RaiseAndSetIfChanged(ref _exitTime, value); }
 		}
 
 		public bool IsValid
@@ -124,15 +140,15 @@ namespace SKDModule.Model
 
 		public DayTimeTrackPart(TimeTrackPartDetailsViewModel timeTrackPartDetailsViewModel)
 		{
-			UID = timeTrackPartDetailsViewModel.UID;
-			Update(
-				timeTrackPartDetailsViewModel.EnterDateTime + timeTrackPartDetailsViewModel.EnterTime,
-				timeTrackPartDetailsViewModel.EnterDateTime + timeTrackPartDetailsViewModel.ExitTime,
-				timeTrackPartDetailsViewModel.SelectedZone,
-				timeTrackPartDetailsViewModel.NotTakeInCalculations,
-				timeTrackPartDetailsViewModel.IsManuallyAdded,
-				DateTime.Now.ToString(CultureInfo.CurrentUICulture),
-				FiresecManager.CurrentUser.Name);
+			//UID = timeTrackPartDetailsViewModel.UID;
+			//Update(
+			//	timeTrackPartDetailsViewModel.EnterDateTime + timeTrackPartDetailsViewModel.EnterTime,
+			//	timeTrackPartDetailsViewModel.EnterDateTime + timeTrackPartDetailsViewModel.ExitTime,
+			//	timeTrackPartDetailsViewModel.SelectedZone,
+			//	timeTrackPartDetailsViewModel.NotTakeInCalculations,
+			//	timeTrackPartDetailsViewModel.IsManuallyAdded,
+			//	DateTime.Now.ToString(CultureInfo.CurrentUICulture),
+			//	FiresecManager.CurrentUser.Name);
 		}
 
 		public DayTimeTrackPart(TimeTrackPart timeTrackPart, ShortEmployee employee)
@@ -174,7 +190,9 @@ namespace SKDModule.Model
 		{
 			TimeTrackZone = timeTrackZone;
 			EnterDateTime = enterDateTime;
+			EnterTime = enterDateTime.GetValueOrDefault().TimeOfDay;
 			ExitDateTime = exitDateTime;
+			ExitTime = exitDateTime.GetValueOrDefault().TimeOfDay;
 			NotTakeInCalculations = notTakeInCalculations;
 			IsManuallyAdded = isManuallyAdded;
 			CorrectedDate = adjustmentDate;
@@ -198,6 +216,16 @@ namespace SKDModule.Model
 				{
 					if (EnterDateTime == ExitDateTime)
 						result = "Невозможно добавить нулевое пребывание в зоне";
+				}
+				if (propertyName == string.Empty || propertyName == "EnterDateTime")
+				{
+					if (EnterDateTime > ExitDateTime)
+						result = "Дата входа не может быть больше даты выхода";
+				}
+				if (propertyName == string.Empty || propertyName == "EnterDateTime" || propertyName == "ExitDateTime")
+				{
+					if (EnterDateTime == null || ExitDateTime == null)
+						result = "Введите дату";
 				}
 				return result;
 			}

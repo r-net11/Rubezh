@@ -19,81 +19,7 @@ namespace SKDModule.ViewModels
 
 		#region Properties
 
-		public bool IsNeedAdjustment { get; set; }
-
-		private bool _isManuallyAdded;
-
-		public bool IsManuallyAdded
-		{
-			get { return _isManuallyAdded; }
-			set
-			{
-				_isManuallyAdded = value;
-				OnPropertyChanged(() => IsManuallyAdded);
-			}
-		}
-
-		private bool _notTakeInCalculations;
-
-		public bool NotTakeInCalculations
-		{
-			get { return _notTakeInCalculations; }
-			set
-			{
-				_notTakeInCalculations = value;
-				OnPropertyChanged(() => NotTakeInCalculations);
-			}
-		}
-
-		TimeSpan _enterTime;
-		public TimeSpan EnterTime
-		{
-			get { return _enterTime; }
-			set
-			{
-				_enterTime = value;
-				OnPropertyChanged(() => EnterTime);
-			}
-		}
-
-		TimeSpan _exitTime;
-		public TimeSpan ExitTime
-		{
-			get { return _exitTime; }
-			set
-			{
-				_exitTime = value;
-				OnPropertyChanged(() => ExitTime);
-			}
-		}
-
-		private DateTime? _enterDateTime;
-
-		public DateTime? EnterDateTime
-		{
-			get { return _enterDateTime; }
-			set
-			{
-				if (Equals(_enterDateTime, value)) return;
-				_enterDateTime = value;
-				OnPropertyChanged(() => EnterDateTime);
-			}
-		}
-
-		private DateTime? _exitDateTime;
-
-		public DateTime? ExitDateTime
-		{
-			get { return _exitDateTime; }
-			set
-			{
-				if (Equals(_exitDateTime, value)) return;
-				_exitDateTime = value;
-				OnPropertyChanged(() => ExitDateTime);
-			}
-		}
-
-		public Guid UID { get; private set; }
+		public DayTimeTrackPart CurrentTimeTrackPart { get; set; }
 
 		public List<TimeTrackZone> Zones { get; private set; }
 
@@ -125,25 +51,28 @@ namespace SKDModule.ViewModels
 
 		#region Constructors
 
-		public TimeTrackPartDetailsViewModel(DayTimeTrack dayTimeTrack, ShortEmployee employee, TimeTrackDetailsViewModel parent, Guid? uid = null, DateTime? enterDateTime = null, DateTime? exitDateTime = null)
+		public TimeTrackPartDetailsViewModel(DayTimeTrack dayTimeTrack, ShortEmployee employee, TimeTrackDetailsViewModel parent, DayTimeTrackPart inputTimeTrackPart = null)
 		{
 			_dayTimeTrack = dayTimeTrack;
 			_parent = parent;
-			if (uid != null)
+			if (inputTimeTrackPart != null)
 			{
-				UID = uid.Value;
-				EnterDateTime = enterDateTime.HasValue ? enterDateTime.Value.Date : dayTimeTrack.Date;
-				EnterTime = enterDateTime.HasValue ? enterDateTime.Value.TimeOfDay : dayTimeTrack.Date.TimeOfDay;
-				ExitDateTime = exitDateTime.HasValue ? exitDateTime.Value.Date : dayTimeTrack.Date.Date;
-				ExitTime = exitDateTime.HasValue ? exitDateTime.Value.TimeOfDay : dayTimeTrack.Date.TimeOfDay;
+				CurrentTimeTrackPart = inputTimeTrackPart;
+				CurrentTimeTrackPart.EnterTime = inputTimeTrackPart.EnterTime;
+				CurrentTimeTrackPart.ExitTime = inputTimeTrackPart.ExitTime;
 				Title = "Редактировать проход";
 			}
 			else
 			{
-				UID = Guid.NewGuid();
+				CurrentTimeTrackPart = new DayTimeTrackPart
+				{
+					UID = Guid.NewGuid(),
+					EnterDateTime = dayTimeTrack.Date,
+					ExitDateTime = dayTimeTrack.Date,
+					IsManuallyAdded = true
+				};
+
 				Title = "Добавить проход";
-				EnterDateTime = dayTimeTrack.Date;
-				ExitDateTime = dayTimeTrack.Date;
 			}
 
 			Zones = new List<TimeTrackZone>(TimeTrackingHelper.GetMergedZones(employee));
@@ -154,12 +83,12 @@ namespace SKDModule.ViewModels
 					if (value != null && !value.IsURV)
 					{
 						IsEnabledTakeInCalculations = false;
-						NotTakeInCalculations = true;
+						CurrentTimeTrackPart.NotTakeInCalculations = true;
 					}
 					else
 					{
 						IsEnabledTakeInCalculations = true;
-						NotTakeInCalculations = false;
+						CurrentTimeTrackPart.NotTakeInCalculations = false;
 					}
 				});
 		}
@@ -169,6 +98,7 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
+			CurrentTimeTrackPart.TimeTrackZone = SelectedZone;
 			return Validate();
 		}
 
@@ -183,7 +113,7 @@ namespace SKDModule.ViewModels
 
 		public bool Validate()
 		{
-			if (EnterDateTime == null || ExitDateTime == null)
+			if (CurrentTimeTrackPart.EnterDateTime == null || CurrentTimeTrackPart.ExitDateTime == null)
 			{
 				MessageBoxService.Show("Выберите дату начала и дату конца интервала");
 				return false;
@@ -196,11 +126,11 @@ namespace SKDModule.ViewModels
 
 		public bool IsIntersection(TimeTrackDetailsViewModel timeTrackDetailsViewModel)
 		{
-			return timeTrackDetailsViewModel.DayTimeTrackParts.Any(x => x.UID != UID &&
-																		(x.EnterDateTime < (EnterDateTime + EnterTime) &&
-																		x.ExitDateTime > (EnterDateTime + EnterTime) ||
-																		x.EnterDateTime < (ExitDateTime + ExitTime) &&
-																		x.ExitDateTime > (ExitDateTime + ExitTime)));
+			return timeTrackDetailsViewModel.DayTimeTrackParts.Any(x => x.UID != CurrentTimeTrackPart.UID &&
+																		(x.EnterDateTime < (CurrentTimeTrackPart.EnterDateTime + CurrentTimeTrackPart.EnterTime) &&
+																		x.ExitDateTime > (CurrentTimeTrackPart.EnterDateTime + CurrentTimeTrackPart.EnterTime) ||
+																		x.EnterDateTime < (CurrentTimeTrackPart.ExitDateTime + CurrentTimeTrackPart.ExitTime) &&
+																		x.ExitDateTime > (CurrentTimeTrackPart.ExitDateTime + CurrentTimeTrackPart.EnterTime)));
 		}
 
 		#endregion
