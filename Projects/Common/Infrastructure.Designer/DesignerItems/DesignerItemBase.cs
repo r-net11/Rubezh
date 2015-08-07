@@ -1,5 +1,9 @@
-﻿using System.Windows;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using Infrastructure.Client.Plans.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
@@ -8,9 +12,6 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
-using System.Windows.Input;
-using System.Collections.Generic;
-using System;
 
 namespace Infrastructure.Designer.DesignerItems
 {
@@ -92,11 +93,14 @@ namespace Infrastructure.Designer.DesignerItems
 					"BDelete",
 					DeleteCommand
 				));
-				_contextMenu.Items.Add(DesignerCanvasHelper.BuildMenuItem(
-					"Свойства",
-					"BSettings",
-					ShowPropertiesCommand
-				));
+				if (this.DesignerCanvas.SelectedElements.Count() < 2)
+				{
+					_contextMenu.Items.Add(DesignerCanvasHelper.BuildMenuItem(
+						"Свойства",
+						"BSettings",
+						ShowPropertiesCommand
+					));
+				}
 				_contextMenu.Items.Add(new Separator());
 				_contextMenu.Items.Add(DesignerCanvasHelper.BuildMenuItem(
 					"Вверх",

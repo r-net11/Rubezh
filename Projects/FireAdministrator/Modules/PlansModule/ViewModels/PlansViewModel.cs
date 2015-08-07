@@ -62,6 +62,7 @@ namespace PlansModule.ViewModels
 			CreatePages();
 			_planExtensions = new List<Infrustructure.Plans.IPlanExtension<Plan>>();
 			Menu = new PlansMenuViewModel(this);
+
 			_splitterDistance = RegistrySettingsHelper.GetDouble("Administrator.Plans.SplitterDistance");
 			if (_splitterDistance == 0)
 				_splitterDistance = 300;
