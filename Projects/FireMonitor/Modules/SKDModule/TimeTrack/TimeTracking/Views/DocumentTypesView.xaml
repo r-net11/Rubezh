@@ -40,7 +40,7 @@
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
-					<GridViewColumn Header="Бкувенный код">
+					<GridViewColumn Header="Буквенный код">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<TextBlock Text="{Binding TimeTrackDocumentType.ShortName}" Margin="1" />

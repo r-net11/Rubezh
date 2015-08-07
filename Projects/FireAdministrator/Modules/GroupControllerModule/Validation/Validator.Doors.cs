@@ -18,13 +18,10 @@ namespace GKModule.Validation
 
 			foreach (var door in GKManager.DeviceConfiguration.Doors)
 			{
-				if (!GlobalSettingsHelper.GlobalSettings.IgnoredErrors.HasFlag(ValidationErrorType.NotTD))
-				{
-					ValidateDoorHasNoDevices(door);
-					ValidateDoorHasWrongDevices(door);
-					ValidateLockProperties(door);
-					ValidateLockControlDevice(door);
-				}
+				ValidateDoorHasNoDevices(door);
+				ValidateDoorHasWrongDevices(door);
+				ValidateLockProperties(door);
+				ValidateLockControlDevice(door);
 			}
 		}
 
@@ -159,6 +156,19 @@ namespace GKModule.Validation
 				if (door.DoorType == GKDoorType.AirlockBooth)
 					Errors.Add(new DoorValidationError(door, "К точке доступа не подключена кнопка на выход", ValidationErrorLevel.CannotWrite));
 			}
+			if (!GlobalSettingsHelper.GlobalSettings.IgnoredErrors.HasFlag(ValidationErrorType.SensorNotConnected))
+			{
+				if (door.LockControlDevice == null)
+				{
+					if (door.DoorType != GKDoorType.Barrier)
+						Errors.Add(new DoorValidationError(door, "У точки доступа отсутствует датчик контроля двери на на вход", ValidationErrorLevel.Warning));
+				}
+				if (door.DoorType == GKDoorType.AirlockBooth)
+				{
+					if (door.LockControlDeviceExit == null)
+						Errors.Add(new DoorValidationError(door, "У точки доступа отсутствует датчик контроля двери на выход", ValidationErrorLevel.Warning));
+				}
+			}
 		}
 
 		void ValidateDoorOtherLock(GKDoor door)
@@ -168,7 +178,7 @@ namespace GKModule.Validation
 				if (door.LockDevice.DriverType == GKDriverType.RSR2_CardReader || door.LockDevice.DriverType == GKDriverType.RSR2_CardReader)
 				{
 					if (door.EnterDevice.UID != door.LockDevice.UID && door.ExitDevice.UID != door.LockDevice.UID)
-						Errors.Add(new DoorValidationError(door, "Устройство Замок должно совпадать с устройством на Вход или выход", ValidationErrorLevel.CannotWrite));
+						Errors.Add(new DoorValidationError(door, "Устройство Замок должно совпадать с устройством на вход или выход", ValidationErrorLevel.CannotWrite));
 				}
 			}
 		}
@@ -218,7 +228,7 @@ namespace GKModule.Validation
 		{
 			if (door.LockDevice != null)
 			{
-				switch(door.LockDevice.DriverType)
+				switch (door.LockDevice.DriverType)
 				{
 					case GKDriverType.RSR2_RM_1:
 					case GKDriverType.RSR2_MVK8:

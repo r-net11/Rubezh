@@ -16,5 +16,9 @@ namespace GKWebService.Models
         public string Desc { get; set; }
 
         public string Object { get; set; }
+
+        public string Subsystem { get; set; }
+
+        public string User { get; set; }
     }
 }

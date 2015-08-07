@@ -191,9 +191,10 @@ namespace SecurityModule.ViewModels
 											new PermissionViewModel("Организации", new List<PermissionViewModel>()
 											{
 												new PermissionViewModel(PermissionType.Oper_SKD_Organisations_View),
-												new PermissionViewModel(PermissionType.Oper_SKD_Organisations_Edit),
 												new PermissionViewModel(PermissionType.Oper_SKD_Organisations_Users),
 												new PermissionViewModel(PermissionType.Oper_SKD_Organisations_Doors),
+												new PermissionViewModel(PermissionType.Oper_SKD_Organisations_Edit),
+												new PermissionViewModel(PermissionType.Oper_SKD_Organisations_AddRemove),
 											}),
 										}),
 									new PermissionViewModel("Учет рабочего времени", new List<PermissionViewModel>()
