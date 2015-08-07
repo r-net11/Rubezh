@@ -143,10 +143,13 @@ namespace SKDModule.Model
 				new TimeTrackZone { Name = "<Нет в конфигурации>", No = default(int) };
 
 			UID = timeTrackPart.PassJournalUID;
-			var user =
-				FiresecManager.SecurityConfiguration.Users.FirstOrDefault(x => x.UID == timeTrackPart.CorrectedByUID)
-				??
-			    new User {Name = "<Нет в конфигурации>"};
+			var user = timeTrackPart.IsManuallyAdded
+						?
+						(FiresecManager.SecurityConfiguration.Users.FirstOrDefault(x => x.UID == timeTrackPart.CorrectedByUID)
+						??
+						new User {Name = "<Нет в конфигурации>"})
+						:
+						new User{Name = string.Empty};
 
 			Update(
 				timeTrackPart.EnterDateTime,
