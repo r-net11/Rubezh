@@ -13,6 +13,7 @@ namespace FiresecAPI.SKD
 		{
 			PlannedTimeTrackParts = new List<TimeTrackPart>();
 			RealTimeTrackParts = new List<TimeTrackPart>();
+			CrossNightTimeTrackParts = new List<TimeTrackPart>();
 			DocumentTrackParts = new List<TimeTrackPart>();
 			CombinedTimeTrackParts = new List<TimeTrackPart>();
 			Documents = new List<TimeTrackDocument>();
@@ -91,7 +92,23 @@ namespace FiresecAPI.SKD
 
 		public List<TimeTrackTotal> Totals { get; set; }
 
+		/// <summary>
+		/// Интервалы, которые служат для отображения в графике "Итого".
+		/// Коллекция данных интервалов добавлена в связи с необходимостью корректно отображать интервалы, переходящие через сутки,
+		/// так как в таких случаях отображается интервал: "Время входа - 00:00", вместо "Время входа - Время выхода".
+		/// </summary>
+		public List<TimeTrackPart> RealTimeDesignTimeTrackParts { get; set; }
+
 		private bool IsCrossNight { get { return false; } }
+
+		/// <summary>
+		/// Интервалы, переходящие через сутки (текущую дату)
+		/// <example>EnterDateTime == 03.04.2015 && ExitDateTime == 04.04.2015</example>
+		/// </summary>
+		public List<TimeTrackPart> CrossNightTimeTrackParts { get; set; }
+
+		public List<TimeTrackPart> RealTimeTrackPartsForCalculates { get; set; }
+
 		#endregion
 
 		/// <summary>
@@ -101,17 +118,96 @@ namespace FiresecAPI.SKD
 		{
 			CalculateDocuments();
 
-			PlannedTimeTrackParts = NormalizeTimeTrackParts(PlannedTimeTrackParts);
-			RealTimeTrackParts = NormalizeTimeTrackParts(RealTimeTrackParts);
-
+			PlannedTimeTrackParts = PlannedTimeTrackParts; //NormalizeTimeTrackParts(PlannedTimeTrackParts);
+			RealTimeTrackParts.AddRange(CrossNightTimeTrackParts);
+			CrossNightTimeTrackParts = CalculateCrossNightTimeTrackParts(RealTimeTrackParts, Date);
+			RealTimeTrackParts = RealTimeTrackParts.OrderBy(x => x.EnterDateTime).ThenBy(x => x.ExitDateTime).ToList();//NormalizeTimeTrackParts(RealTimeTrackParts);
+			RealTimeTrackPartsForCalculates = GetRealTimeTracksForCalculate(RealTimeTrackParts);
 			//CalculateCombinedTimeTrackParts();
-			CombinedTimeTrackParts = CalculateCombinedTimeTrackParts(PlannedTimeTrackParts, RealTimeTrackParts,
+			CombinedTimeTrackParts = CalculateCombinedTimeTrackParts(PlannedTimeTrackParts, RealTimeTrackPartsForCalculates,
 																							DocumentTrackParts);
-			RealTimeTrackParts = FillTypesForRealTimeTrackParts(RealTimeTrackParts, PlannedTimeTrackParts);
+			RealTimeTrackPartsForCalculates = FillTypesForRealTimeTrackParts(RealTimeTrackPartsForCalculates, PlannedTimeTrackParts);
 			//CalculateTotal();
-			Totals = CalculateTotal(SlideTime, PlannedTimeTrackParts, RealTimeTrackParts, CombinedTimeTrackParts, IsHoliday);
+			Totals = CalculateTotal(SlideTime, PlannedTimeTrackParts, RealTimeTrackPartsForCalculates, CombinedTimeTrackParts, IsHoliday);
 			TimeTrackType = CalculateTimeTrackType(Totals, PlannedTimeTrackParts, IsHoliday, Error);
 			CalculateLetterCode();
+		}
+
+		private List<TimeTrackPart> GetRealTimeTracksForCalculate(List<TimeTrackPart> realTimeTrackParts)
+		{
+			var resultCollection = new List<TimeTrackPart>();
+			TimeTrackPart timeTrackPartItem;
+			foreach (var timeTrackPart in realTimeTrackParts)
+			{
+				timeTrackPartItem = timeTrackPart;
+				if (timeTrackPart.EnterDateTime.Date == Date && timeTrackPart.ExitDateTime.Date > Date)
+				{
+					timeTrackPartItem = new TimeTrackPart
+					{
+						EnterDateTime = timeTrackPart.EnterDateTime,
+						ExitDateTime = Date.AddDays(1).AddTicks(-1), //23.59.59.9999999
+						TimeTrackPartType = timeTrackPart.TimeTrackPartType,
+						ZoneUID = timeTrackPart.ZoneUID,
+						StartsInPreviousDay = timeTrackPart.StartsInPreviousDay,
+						EndsInNextDay = timeTrackPart.EndsInNextDay,
+						DayName = timeTrackPart.DayName,
+						PassJournalUID = timeTrackPart.PassJournalUID,
+						IsNeedAdjustment = timeTrackPart.IsNeedAdjustment,
+						AdjustmentDate = timeTrackPart.AdjustmentDate,
+						CorrectedByUID = timeTrackPart.CorrectedByUID,
+						EnterTimeOriginal = timeTrackPart.EnterTimeOriginal,
+						ExitTimeOriginal = timeTrackPart.ExitTimeOriginal,
+						NotTakeInCalculations = timeTrackPart.NotTakeInCalculations,
+						IsManuallyAdded = timeTrackPart.IsManuallyAdded
+					};
+				}
+				else if (timeTrackPart.EnterDateTime.Date < Date && timeTrackPart.ExitDateTime.Date == Date)
+				{
+					timeTrackPartItem = new TimeTrackPart
+					{
+						EnterDateTime = Date, //00:00
+						ExitDateTime = timeTrackPart.ExitDateTime,
+						TimeTrackPartType = timeTrackPart.TimeTrackPartType,
+						ZoneUID = timeTrackPart.ZoneUID,
+						StartsInPreviousDay = timeTrackPart.StartsInPreviousDay,
+						EndsInNextDay = timeTrackPart.EndsInNextDay,
+						DayName = timeTrackPart.DayName,
+						PassJournalUID = timeTrackPart.PassJournalUID,
+						IsNeedAdjustment = timeTrackPart.IsNeedAdjustment,
+						AdjustmentDate = timeTrackPart.AdjustmentDate,
+						CorrectedByUID = timeTrackPart.CorrectedByUID,
+						EnterTimeOriginal = timeTrackPart.EnterTimeOriginal,
+						ExitTimeOriginal = timeTrackPart.ExitTimeOriginal,
+						NotTakeInCalculations = timeTrackPart.NotTakeInCalculations,
+						IsManuallyAdded = timeTrackPart.IsManuallyAdded
+					};
+				}
+				else if (timeTrackPart.EnterDateTime.Date < Date && timeTrackPart.ExitDateTime.Date > Date)
+				{
+					timeTrackPartItem = new TimeTrackPart
+					{
+						EnterDateTime = Date, //00:00
+						ExitDateTime = Date.AddDays(1).AddTicks(-1), //23.59.59.9999999
+						TimeTrackPartType = timeTrackPart.TimeTrackPartType,
+						ZoneUID = timeTrackPart.ZoneUID,
+						StartsInPreviousDay = timeTrackPart.StartsInPreviousDay,
+						EndsInNextDay = timeTrackPart.EndsInNextDay,
+						DayName = timeTrackPart.DayName,
+						PassJournalUID = timeTrackPart.PassJournalUID,
+						IsNeedAdjustment = timeTrackPart.IsNeedAdjustment,
+						AdjustmentDate = timeTrackPart.AdjustmentDate,
+						CorrectedByUID = timeTrackPart.CorrectedByUID,
+						EnterTimeOriginal = timeTrackPart.EnterTimeOriginal,
+						ExitTimeOriginal = timeTrackPart.ExitTimeOriginal,
+						NotTakeInCalculations = timeTrackPart.NotTakeInCalculations,
+						IsManuallyAdded = timeTrackPart.IsManuallyAdded
+					};
+				}
+
+				resultCollection.Add(timeTrackPartItem);
+			}
+
+			return resultCollection;
 		}
 
 		/// <summary>
@@ -124,7 +220,6 @@ namespace FiresecAPI.SKD
 		{
 			var resultCollection = new List<TimeTrackPart>();
 			var scheduleTimeInterval = GetPlannedScheduleInterval(plannedTimeTrackParts);
-
 
 			foreach (var  timeTrackPart in realTimeTrackParts)
 			{
@@ -656,53 +751,48 @@ namespace FiresecAPI.SKD
 
 			var result = new List<TimeTrackPart>();
 
-			var timeSpans = new List<DateTime>();
-			foreach (var timeTrackPart in timeTrackParts)
-			{
-				timeSpans.Add(timeTrackPart.EnterDateTime);
-				timeSpans.Add(timeTrackPart.ExitDateTime);
-			}
-			timeSpans = timeSpans.OrderBy(x => x.TimeOfDay.TotalSeconds).ToList();
+			var timeScheduleIntervals = timeTrackParts.Select(timeTrackPart => new ScheduleInterval(timeTrackPart.EnterDateTime, timeTrackPart.ExitDateTime)).ToList();
+			timeScheduleIntervals = timeScheduleIntervals.OrderBy(x => x.StartTime.TimeOfDay).ToList();
 
-			for (int i = 0; i < timeSpans.Count - 1; i++)
+			foreach (var timeScheduleInterval in timeScheduleIntervals)
 			{
-				var startTimeSpan = timeSpans[i];
-				var endTimeSpan = timeSpans[i + 1];
-				var timeTrackPart = timeTrackParts.FirstOrDefault(x => x.EnterDateTime <= startTimeSpan && x.ExitDateTime > startTimeSpan);
+				var timeTrackPart = timeTrackParts.FirstOrDefault(x => x.EnterDateTime <= timeScheduleInterval.StartTime && x.ExitDateTime > timeScheduleInterval.StartTime);
 
-				if (timeTrackPart != null)
+				if(timeTrackPart == null) continue;
+
+				result.Add(new TimeTrackPart
 				{
-					var newTimeTrackPart = new TimeTrackPart //TODO:
-					{
-						EnterDateTime = startTimeSpan,
-						ExitDateTime = endTimeSpan,
-						TimeTrackPartType = timeTrackPart.TimeTrackPartType,
-						ZoneUID = timeTrackPart.ZoneUID,
-						StartsInPreviousDay = timeTrackPart.StartsInPreviousDay,
-						EndsInNextDay = timeTrackPart.EndsInNextDay,
-						DayName = timeTrackPart.DayName,
-						PassJournalUID = timeTrackPart.PassJournalUID,
-						IsNeedAdjustment = timeTrackPart.IsNeedAdjustment,
-						AdjustmentDate = timeTrackPart.AdjustmentDate,
-						CorrectedByUID = timeTrackPart.CorrectedByUID,
-						EnterTimeOriginal = timeTrackPart.EnterTimeOriginal,
-						ExitTimeOriginal = timeTrackPart.ExitTimeOriginal,
-						NotTakeInCalculations = timeTrackPart.NotTakeInCalculations,
-						IsManuallyAdded = timeTrackPart.IsManuallyAdded
-					};
-					result.Add(newTimeTrackPart);
-				}
-			}
-
-			for (int i = result.Count - 1; i > 0; i--)
-			{
-				if (result[i].EnterDateTime == result[i - 1].ExitDateTime && result[i].ZoneUID == result[i - 1].ZoneUID)
-				{
-					result[i].EnterDateTime = result[i - 1].EnterDateTime;
-					result.RemoveAt(i - 1);
-				}
+					EnterDateTime = timeScheduleInterval.StartTime,
+					ExitDateTime = timeScheduleInterval.EndTime,
+					TimeTrackPartType = timeTrackPart.TimeTrackPartType,
+					ZoneUID = timeTrackPart.ZoneUID,
+					StartsInPreviousDay = timeTrackPart.StartsInPreviousDay,
+					EndsInNextDay = timeTrackPart.EndsInNextDay,
+					DayName = timeTrackPart.DayName,
+					PassJournalUID = timeTrackPart.PassJournalUID,
+					IsNeedAdjustment = timeTrackPart.IsNeedAdjustment,
+					AdjustmentDate = timeTrackPart.AdjustmentDate,
+					CorrectedByUID = timeTrackPart.CorrectedByUID,
+					EnterTimeOriginal = timeTrackPart.EnterTimeOriginal,
+					ExitTimeOriginal = timeTrackPart.ExitTimeOriginal,
+					NotTakeInCalculations = timeTrackPart.NotTakeInCalculations,
+					IsManuallyAdded = timeTrackPart.IsManuallyAdded
+				});
 			}
 			return result;
+		}
+
+		/// <summary>
+		/// Возвращает интервалы, которые переходят через сутки
+		/// </summary>
+		/// <param name="timeTrackParts">Содержит коллекцию временных интервалов сотрудника</param>
+		/// <param name="date">Дата выбранного дня (для которого производится расчет)</param>
+		/// <returns>Коллекцию интервалов, переходящих через сутки</returns>
+		public List<TimeTrackPart> CalculateCrossNightTimeTrackParts(List<TimeTrackPart> timeTrackParts, DateTime date)
+		{
+			return timeTrackParts.Where(x => (x.EnterDateTime.Date == date.Date && x.ExitDateTime.Date > date.Date)
+											||(x.EnterDateTime.Date < date.Date && x.ExitDateTime.Date > date.Date))
+											.ToList();
 		}
 
 		/// <summary>

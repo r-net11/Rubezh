@@ -75,7 +75,7 @@ namespace SKDModule.Views
 					                        timeTrackPart.MinTimeTrackDocumentType.Name;
 				}
 
-				foreach (var timeTrackPart in dayTimeTrack.RealTimeTrackParts)
+				foreach (var timeTrackPart in dayTimeTrack.RealTimeTrackPartsForCalculates)
 				{
 					var zoneName = "<Нет в конфигурации>";
 					var strazhZone = SKDManager.Zones.FirstOrDefault(x => x.UID == timeTrackPart.ZoneUID);
@@ -108,7 +108,7 @@ namespace SKDModule.Views
 				}
 
 				DrawTimeTrackGrid(dayTimeTrack.DocumentTrackParts, DocumentsGrid);
-				DrawTimeTrackGrid(dayTimeTrack.RealTimeTrackParts.ToList(), RealGrid);
+				DrawTimeTrackGrid(dayTimeTrack.RealTimeTrackPartsForCalculates, RealGrid);
 				DrawTimeTrackGrid(dayTimeTrack.PlannedTimeTrackParts, PlannedGrid);
 				DrawTimeTrackGrid(dayTimeTrack.CombinedTimeTrackParts.Where(x => !x.NotTakeInCalculations).ToList(), CombinedGrid);
 			}

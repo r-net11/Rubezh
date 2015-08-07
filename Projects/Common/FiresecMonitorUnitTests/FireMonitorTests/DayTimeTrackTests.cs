@@ -91,10 +91,10 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 		{
 			//Arrange
 			var dayTimeTrack = new DayTimeTrack();
-			var plannedTimeBeforeLunch = new DayTimeTrack.ScheduleInterval(TIME + TimeSpan.FromHours(6), TIME + TimeSpan.FromHours(12));
-			var plannedTimeAfterLunch = new DayTimeTrack.ScheduleInterval(TIME + TimeSpan.FromHours(13), TIME + TimeSpan.FromHours(18));
+			var plannedTimeBeforeLunch = new DayTimeTrack.ScheduleInterval(TIME.Date + TimeSpan.FromHours(6), TIME.Date + TimeSpan.FromHours(12));
+			var plannedTimeAfterLunch = new DayTimeTrack.ScheduleInterval(TIME.Date + TimeSpan.FromHours(13), TIME.Date + TimeSpan.FromHours(18));
 
-			var realTimeTrackPart = new TimeTrackPart { EnterDateTime = TIME + TimeSpan.FromHours(12), ExitDateTime = TIME + TimeSpan.FromHours(13) };
+			var realTimeTrackPart = new TimeTrackPart { EnterDateTime = TIME.Date + TimeSpan.FromHours(12), ExitDateTime = TIME.Date + TimeSpan.FromHours(13) };
 			var plannedTimeTrackPartBeforeLunch = new TimeTrackPart
 			{
 				EnterDateTime = plannedTimeBeforeLunch.StartTime,

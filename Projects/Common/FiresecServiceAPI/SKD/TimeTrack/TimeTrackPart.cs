@@ -72,9 +72,9 @@ namespace FiresecAPI.SKD
 			get
 			{
 				var result = ExitDateTime.TimeOfDay - EnterDateTime.TimeOfDay;
-				var isCrossNight = ExitDateTime.TimeOfDay >= new TimeSpan(23, 59, 00);
+				var isCrossNight = ExitDateTime.TimeOfDay >= new TimeSpan(23, 59, 59);
 				if (isCrossNight)
-					result += new TimeSpan(0, 1, 0); //TODO:
+					result += new TimeSpan(0, 0, 1); //TODO:
 				return result;
 			}
 		}
