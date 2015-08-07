@@ -50,6 +50,7 @@ namespace StrazhModule.ViewModels
 			HandicapCloseTimeout = doorConfiguration.HandicapTimeout.nCloseTimeout;
 			if (doorConfiguration.WeeklyIntervalID >= 0)
 				WeeklyInterval = CanSetTimeIntervals ? AvailableWeeklyIntervals.FirstOrDefault(x => x.ID == doorConfiguration.WeeklyIntervalID) : null;
+			IsCloseCheckSensorEnable = doorConfiguration.IsCloseCheckSensor;
 		}
 
 		public ObservableCollection<SKDDoorConfiguration_DoorOpenMethod> DoorOpenMethods { get; private set; }
@@ -315,6 +316,23 @@ namespace StrazhModule.ViewModels
 			}
 		}
 
+		bool _isCloseCheckSensorEnable;
+		/// <summary>
+		/// Закрывать замок при закрытии двери
+		/// </summary>
+		public bool IsCloseCheckSensorEnable
+		{
+			get { return _isCloseCheckSensorEnable; }
+			set
+			{
+				if (_isCloseCheckSensorEnable == value)
+					return;
+				_isCloseCheckSensorEnable = value;
+				OnPropertyChanged(() => IsCloseCheckSensorEnable);
+				HasChanged = true;
+			}
+		}
+
 		public RelayCommand GetDoorConfigurationCommand { get; private set; }
 		void OnGetDoorConfiguration()
 		{
@@ -376,7 +394,8 @@ namespace StrazhModule.ViewModels
 				CloseTimeout = this.CloseTimeout,
 				
 				WeeklyIntervalID = this.CanSetTimeIntervals ? this.WeeklyInterval.ID : -1,
-				DoorDayIntervalsCollection = GetDayIntervalsCollectionFromConfig()
+				DoorDayIntervalsCollection = GetDayIntervalsCollectionFromConfig(),
+				IsCloseCheckSensor = this.IsCloseCheckSensorEnable
 			};
 		}
 

@@ -311,6 +311,9 @@ namespace ChinaSKDDriver
 			handicapTimeout.nCloseTimeout = outResult.stuHandicapTimeOut.nCloseTimeout;
 			doorConfiguration.HandicapTimeout = handicapTimeout;
 
+			// Закрывать замок при закрытии двери
+			doorConfiguration.IsCloseCheckSensor = outResult.bCloseCheckSensor;
+
 			return doorConfiguration;
 		}
 
@@ -407,6 +410,9 @@ namespace ChinaSKDDriver
 			// Handicap timeout
 			info.stuHandicapTimeOut.nUnlockHoldInterval = doorConfiguration.HandicapTimeout.nUnlockHoldInterval;
 			info.stuHandicapTimeOut.nCloseTimeout = doorConfiguration.HandicapTimeout.nCloseTimeout;
+
+			// Закрывать замок при закрытии двери
+			info.bCloseCheckSensor = doorConfiguration.IsCloseCheckSensor;
 
 			var result = NativeWrapper.WRAP_SetDoorConfiguration(LoginID, doorNo, ref info);
 			return result;
