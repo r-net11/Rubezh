@@ -228,7 +228,7 @@ namespace GKModule
 			PimsViewModel.Initialize();
 			_pimsNavigationItem.IsVisible = PimsViewModel.Pims.Count > 0;
 			DoorsViewModel.Initialize();
-			_doorsNavigationItem.IsVisible = FiresecManager.CheckPermission(PermissionType.Oper_GKSchedules) && GKManager.Doors.Count > 0;
+			_doorsNavigationItem.IsVisible = GKManager.Doors.Count > 0;
 			DaySchedulesViewModel.Initialize();
 			SchedulesViewModel.Initialize();
 		}
@@ -266,7 +266,7 @@ namespace GKModule
 							{
 								new NavigationItem<ShowGKDaySchedulesEvent, Guid>(DaySchedulesViewModel, "Дневные графики", "ShedulesDaylyW", null, null, Guid.Empty),
 								new NavigationItem<ShowGKScheduleEvent, Guid>(SchedulesViewModel, "Графики", "ShedulesW", null, null, Guid.Empty),
-							}),
+							}){IsVisible = FiresecManager.CheckPermission(PermissionType.Oper_ScheduleSKD)},
 					})
 			};
 		}

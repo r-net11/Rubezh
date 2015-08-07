@@ -163,7 +163,7 @@
     <Compile Include="Events\ShowGKDiagnosticsEvent.cs" />
     <Compile Include="Events\ShowGKDirectionEvent.cs" />
     <Compile Include="Events\ShowGKGuardEvent.cs" />
-    <Compile Include="Events\ShowGKodeEvent.cs" />
+    <Compile Include="Events\ShowGKCodeEvent.cs" />
     <Compile Include="Events\ShowGKGuardZoneEvent.cs" />
     <Compile Include="Events\ShowGKJournalFilterEvent.cs" />
     <Compile Include="Events\ShowGKMPTEvent.cs" />

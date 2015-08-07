@@ -55,6 +55,9 @@ namespace FiresecAPI.Models
 		[DescriptionAttribute("Управление ТД")]
 		Oper_Door_Control,
 
+		[DescriptionAttribute("Расширенное управление ТД")]
+		Oper_Full_Door_Control,
+
 		[DescriptionAttribute("Управление МПТ")]
 		Oper_MPT_Control,
 
@@ -69,7 +72,7 @@ namespace FiresecAPI.Models
 
 		[DescriptionAttribute("Управление ПИМ")]
 		Oper_PIM_Control,
-		
+
 		[DescriptionAttribute("Управление интерфейсом")]
 		Oper_ChangeView,
 
@@ -83,16 +86,7 @@ namespace FiresecAPI.Models
 		Oper_ExtraGuardZone,
 
 		[DescriptionAttribute("Управление графиками СКД")]
-		Oper_GKSchedules,
-
-		[DescriptionAttribute("Просмотр журнала")]
-		Oper_Journal_View,
-
-		[DescriptionAttribute("Просмотр архива")]
-		Oper_Archive_View,
-
-		[DescriptionAttribute("Настройка отображения архива")]
-		Oper_Archive_Settings,
+		Oper_ScheduleSKD,
 
 		[DescriptionAttribute("Список точек доступа")]
 		Oper_Reports_Doors,

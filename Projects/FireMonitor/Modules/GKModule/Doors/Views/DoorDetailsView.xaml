@@ -54,7 +54,7 @@
 							</WrapPanel>
 						</StackPanel>
 						<StackPanel Orientation="Horizontal" Margin="2" >
-							<TextBlock Text="Номер дескриптора ГК:" TextWrapping="Wrap" Width="110" VerticalAlignment="Center" FontWeight="Bold" />
+							<TextBlock Text="Номер в ГК:" TextWrapping="Wrap" Width="110" VerticalAlignment="Center" FontWeight="Bold" />
 							<TextBlock Text="{Binding Door.GKDescriptorNo}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" FontWeight="Bold" />
 						</StackPanel>
 						<WrapPanel Visibility="{Binding HasPlans, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -84,6 +84,13 @@
 
 			</TabItem>
 			<TabItem Header="Управление" IsSelected="{Binding CanControl, Mode=OneWay}" Visibility="{Binding CanControl, Converter={StaticResource BoolToVisibilityConverter}}">
+				<StackPanel Background="White">
+					<Button Content="Установить режим Норма" Command="{Binding SetRegimeNormCommand}" Width="250" Height="50" Margin="2" />
+					<Button Content="Установить режим Всегда Открыто" Command="{Binding SetRegimeOpenCommand}" Width="250" Height="50" Margin="2" />
+					<Button Content="Установить режим Всегда Закрыто" Command="{Binding SetRegimeCloseCommand}" Width="250" Height="50" Margin="2" />
+				</StackPanel>
+			</TabItem>
+			<TabItem Header="Расширенное управление" IsSelected="{Binding FullCanControl, Mode=OneWay}" Visibility="{Binding FullCanControl, Converter={StaticResource BoolToVisibilityConverter}}">
 				<Grid>
 					<Grid.RowDefinitions>
 						<RowDefinition Height="Auto" />
@@ -114,14 +121,6 @@
 						</StackPanel>
 					</Grid>
 				</Grid>
-			</TabItem>
-
-			<TabItem Header="Управление СКД" IsSelected="{Binding CanControl, Mode=OneWay}" Visibility="{Binding CanControl, Converter={StaticResource BoolToVisibilityConverter}}">
-				<StackPanel Background="White">
-					<Button Content="Установить режим Норма" Command="{Binding SetRegimeNormCommand}" Width="250" Height="50" Margin="2" />
-					<Button Content="Установить режим Всегда Открыто" Command="{Binding SetRegimeOpenCommand}" Width="250" Height="50" Margin="2" />
-					<Button Content="Установить режим Всегда Закрыто" Command="{Binding SetRegimeCloseCommand}" Width="250" Height="50" Margin="2" />
-				</StackPanel>
 			</TabItem>
 		</TabControl>
 	</Grid>
