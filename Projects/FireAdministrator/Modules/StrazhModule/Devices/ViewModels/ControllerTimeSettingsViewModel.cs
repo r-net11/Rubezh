@@ -18,7 +18,7 @@ namespace StrazhModule.ViewModels
 
 		public ControllerTimeSettingsViewModel(DeviceViewModel deviceViewModel)
 		{
-			Title = "Синхронизация времени контроллера";
+			Title = "Временные настройки контроллера";
 			DeviceViewModel = deviceViewModel;
 
 			WriteCommand = new RelayCommand(OnWrite);
