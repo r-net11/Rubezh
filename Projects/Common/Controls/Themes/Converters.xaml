@@ -35,6 +35,7 @@
 	<Converters:GridLengthToMinWidthConverter x:Key="GridLengthToMinWidthConverter" />
 	<Converters:BoolToMinimizeTextConverter x:Key="BoolToMinimizeTextConverter" />
 	<Converters:BoolToMinimizeTooltipConverter x:Key="BoolToMinimizeTooltipConverter" />
+	<Converters:BoolToRotationConverter x:Key="BoolToRotatinConverter" />
 	<Converters:VisualizationStateToImageSourceConverter x:Key="VisualizationStateToImageSourceConverter" />
 	<Converters:ConnectionStateToImageSourceConverter x:Key="ConnectionStateToImageSourceConverter" />
 	<Converters:ClauseOperationTypeToIconConverter x:Key="ClauseOperationTypeToIconConverter" />

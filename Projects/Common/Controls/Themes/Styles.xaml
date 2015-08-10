@@ -217,6 +217,7 @@
 		<ResourceDictionary Source="../XamlImages/zones.xaml" />
 		<ResourceDictionary Source="../XamlImages/ZoomIn.xaml" />
 		<ResourceDictionary Source="../XamlImages/ZoomOut.xaml" />
+		<ResourceDictionary Source="../XamlImages/Minify.xaml" />
 
 		<ResourceDictionary Source="../XamlImages/1x7Grid.xaml" />
 		<ResourceDictionary Source="../XamlImages/2x2Grid.xaml" />

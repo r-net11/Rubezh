@@ -122,6 +122,7 @@
     <Compile Include="Attach.cs" />
     <Compile Include="AttachedColumnBehavior.cs" />
     <Compile Include="ButtonSpinner.cs" />
+    <Compile Include="Converters\BoolToRotationConverter.cs" />
     <Compile Include="Converters\ConverterHelper.cs" />
     <Compile Include="Converters\DoorStateClassToStringConverter.cs" />
     <Compile Include="Converters\EnumToItemsSourceConverter.cs" />
@@ -1393,6 +1394,10 @@
     <Page Include="XamlImages\Maximize.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Minify.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="XamlImages\Minimize.xaml">
       <Generator>MSBuild:Compile</Generator>
