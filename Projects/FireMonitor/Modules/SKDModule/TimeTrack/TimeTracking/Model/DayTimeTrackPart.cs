@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Reactive.Linq;
 using FiresecAPI.Models;
 using FiresecAPI.SKD;
 using FiresecClient;
@@ -15,9 +16,28 @@ namespace SKDModule.Model
 	{
 		#region Properties
 
+		private IDisposable _subscriber;
+
+		private Lazy<IObservable<Object>> _uiChanged;
+
+		public IObservable<Object> UIChanged
+		{
+			get { return _uiChanged.Value; }
+		}
+
 		public Guid UID { get; set; }
 
 		private bool _isManuallyAdded;
+
+		public bool IsNew { get; set; }
+
+		private bool _isDirty;
+
+		public bool IsDirty
+		{
+			get { return _isDirty; }
+			set { this.RaiseAndSetIfChanged(ref _isDirty, value); }
+		}
 
 		public bool IsManuallyAdded
 		{
@@ -149,7 +169,7 @@ namespace SKDModule.Model
 
 		#region Constructors
 
-		public DayTimeTrackPart(TimeTrackPartDetailsViewModel timeTrackPartDetailsViewModel)
+		public DayTimeTrackPart(TimeTrackPartDetailsViewModel timeTrackPartDetailsViewModel) : this()
 		{
 			//UID = timeTrackPartDetailsViewModel.UID;
 			//Update(
@@ -162,21 +182,19 @@ namespace SKDModule.Model
 			//	FiresecManager.CurrentUser.Name);
 		}
 
-		public DayTimeTrackPart(TimeTrackPart timeTrackPart, ShortEmployee employee)
+		public DayTimeTrackPart(TimeTrackPart timeTrackPart, ShortEmployee employee) : this()
 		{
 			var zone =
 				TimeTrackingHelper.GetMergedZones(employee).FirstOrDefault(x => x.UID == timeTrackPart.ZoneUID)
 				??
-				new TimeTrackZone { Name = "<Нет в конфигурации>", No = default(int) };
+				new TimeTrackZone {Name = "<Нет в конфигурации>", No = default(int)};
 
 			UID = timeTrackPart.PassJournalUID;
 			var user = timeTrackPart.IsManuallyAdded
-						?
-						(FiresecManager.SecurityConfiguration.Users.FirstOrDefault(x => x.UID == timeTrackPart.CorrectedByUID)
-						??
-						new User {Name = "<Нет в конфигурации>"})
-						:
-						new User{Name = string.Empty};
+				? (FiresecManager.SecurityConfiguration.Users.FirstOrDefault(x => x.UID == timeTrackPart.CorrectedByUID)
+					??
+					new User {Name = "<Нет в конфигурации>"})
+				: new User {Name = string.Empty};
 
 			Update(
 				timeTrackPart.EnterDateTime,
@@ -191,6 +209,7 @@ namespace SKDModule.Model
 
 		public DayTimeTrackPart()
 		{
+			_uiChanged = GetUiObserver();
 		}
 
 		#endregion
@@ -210,6 +229,24 @@ namespace SKDModule.Model
 			CorrectedDate = adjustmentDate;
 			CorrectedBy = correctedBy;
 			IsOpen = isOpen;
+		}
+
+		private Lazy<IObservable<object>> GetUiObserver()
+		{
+			return new Lazy<IObservable<object>>(() =>
+				Observable.Merge<object>(
+					this.ObservableForProperty(x => x.CorrectedBy)
+					, this.ObservableForProperty(x => x.CorrectedDate)
+					, this.ObservableForProperty(x => x.EnterDateTime)
+					, this.ObservableForProperty(x => x.EnterTime)
+					, this.ObservableForProperty(x => x.ExitDateTime)
+					, this.ObservableForProperty(x => x.ExitTime)
+					, this.ObservableForProperty(x => x.IsManuallyAdded)
+					, this.ObservableForProperty(x => x.IsNeedAdjustment)
+					, this.ObservableForProperty(x => x.TimeTrackZone)
+					),
+				true
+				);
 		}
 
 		#endregion

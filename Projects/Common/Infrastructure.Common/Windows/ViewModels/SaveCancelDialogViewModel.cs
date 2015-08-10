@@ -2,6 +2,19 @@
 {
 	public class SaveCancelDialogViewModel : DialogViewModel
 	{
+		private bool _isCancelled;
+
+		public bool IsCancelled
+		{
+			get { return _isCancelled; }
+			set
+			{
+				if (_isCancelled == value) return;
+				_isCancelled = value;
+				OnPropertyChanged(() => IsCancelled);
+			}
+		}
+
 		public RelayCommand SaveCommand { get; protected set; }
 
 		public RelayCommand CancelCommand { get; protected set; }
@@ -76,6 +89,7 @@
 
 		protected virtual bool Cancel()
 		{
+			IsCancelled = true;
 			return false;
 		}
 

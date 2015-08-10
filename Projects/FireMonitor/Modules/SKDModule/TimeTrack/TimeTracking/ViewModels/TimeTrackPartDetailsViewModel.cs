@@ -1,9 +1,11 @@
-﻿using FiresecAPI.SKD;
+﻿using System.Reactive.Linq;
+using FiresecAPI.SKD;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Org.BouncyCastle.Crypto.Engines;
 using ReactiveUI;
 using SKDModule.Model;
 using SKDModule.Helpers;
@@ -15,6 +17,7 @@ namespace SKDModule.ViewModels
 		#region Fields
 		readonly DayTimeTrack _dayTimeTrack;
 		private readonly TimeTrackDetailsViewModel _parent;
+		private IDisposable _subscriber;
 		#endregion
 
 		#region Properties
@@ -44,6 +47,19 @@ namespace SKDModule.ViewModels
 				if (_isEnabledTakeInCalculations == value) return;
 				_isEnabledTakeInCalculations = value;
 				OnPropertyChanged(() => IsEnabledTakeInCalculations);
+			}
+		}
+
+		private bool _isDirty;
+
+		public bool IsDirty
+		{
+			get { return _isDirty; }
+			set
+			{
+				if (_isDirty == value) return;
+				_isDirty = value;
+				OnPropertyChanged(() => IsDirty);
 			}
 		}
 
@@ -77,6 +93,30 @@ namespace SKDModule.ViewModels
 
 			Zones = new List<TimeTrackZone>(TimeTrackingHelper.GetMergedZones(employee));
 			SelectedZone = Zones.FirstOrDefault();
+
+			this.WhenAny(x => x.CurrentTimeTrackPart, x => x.Value)
+				.Subscribe(value =>
+				{
+					if(_subscriber != null) _subscriber.Dispose();
+
+					if (value == null) return;
+
+					_subscriber = Observable.Merge(value.UIChanged).Subscribe(x =>
+					{
+						IsDirty = true;
+						value.IsDirty = true;
+					});
+				});
+
+			this.WhenAny(x => x.IsCancelled, x => x.Value)
+				.Subscribe(value =>
+				{
+					if (!value) return;
+
+					IsDirty = default(bool);
+					CurrentTimeTrackPart.IsDirty = default(bool);
+				});
+
 			this.WhenAny(x => x.SelectedZone, x => x.Value)
 				.Subscribe(value =>
 				{

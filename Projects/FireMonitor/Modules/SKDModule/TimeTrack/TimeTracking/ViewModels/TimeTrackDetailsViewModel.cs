@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-using System.Globalization;
-using System.Windows.Data;
+﻿using System.Reactive.Linq;
 using FiresecAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
@@ -15,7 +13,9 @@ using SKDModule.Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Windows.Data;
 
 namespace SKDModule.ViewModels
 {
@@ -88,8 +88,6 @@ namespace SKDModule.ViewModels
 				OnPropertyChanged(() => CanDoChanges);
 			}
 		}
-
-		public bool IsNew { get; set; }
 
 		public TimeSpan BalanceTimeSpan
 		{
@@ -237,6 +235,8 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		private IDisposable _subscriber;
+
 		#endregion
 
 		#region Constructors
@@ -244,7 +244,6 @@ namespace SKDModule.ViewModels
 		{
 			//if (string.IsNullOrEmpty(dayTimeTrack.Error))
 			//	dayTimeTrack.Calculate();
-
 			Title = "Время сотрудника " + shortEmployee.FIO + " в течение дня " + dayTimeTrack.Date.Date.ToString("yyyy-MM-dd");
 			AddDocumentCommand = new RelayCommand(OnAddDocument, CanAddDocument);
 			EditDocumentCommand = new RelayCommand(OnEditDocument, CanEditDocument);
@@ -326,6 +325,7 @@ namespace SKDModule.ViewModels
 
 			if (DialogService.ShowModalWindow(timeTrackPartDetailsViewModel))
 			{
+				timeTrackPartDetailsViewModel.CurrentTimeTrackPart.IsNew = true;
 				DayTimeTrackParts.Add(timeTrackPartDetailsViewModel.CurrentTimeTrackPart);
 				SelectedTimeTrackPartDetailsViewModel = timeTrackPartDetailsViewModel.CurrentTimeTrackPart;
 
@@ -333,7 +333,6 @@ namespace SKDModule.ViewModels
 					DayTimeTrack.Date.Date.Add(timeTrackPartDetailsViewModel.CurrentTimeTrackPart.ExitDateTime.Value.TimeOfDay);
 
 				IsDirty = true;
-				IsNew = true;
 				ServiceFactoryBase.Events.GetEvent<EditTimeTrackPartEvent>().Publish(ShortEmployee.UID);
 
 				if (RefreshGridHandler != null)
@@ -373,6 +372,7 @@ namespace SKDModule.ViewModels
 			if (DialogService.ShowModalWindow(timeTrackPartDetailsViewModel))
 			{
 				SelectedTimeTrackPartDetailsViewModel = timeTrackPartDetailsViewModel.CurrentTimeTrackPart;
+				timeTrackPartDetailsViewModel.CurrentTimeTrackPart.IsNew = default(bool);
 				//SelectedDayTimeTrackPart
 				//	.Update(
 				//	timeTrackPartDetailsViewModel.CurrentTimeTrackPart.EnterDateTime + timeTrackPartDetailsViewModel.EnterTime,
@@ -384,7 +384,6 @@ namespace SKDModule.ViewModels
 				//	FiresecManager.CurrentUser.Name);
 
 				IsDirty = true;
-				IsNew = default(bool);
 				ServiceFactory.Events.GetEvent<EditTimeTrackPartEvent>().Publish(ShortEmployee.UID);
 			}
 		}
@@ -486,36 +485,39 @@ namespace SKDModule.ViewModels
 
 		protected override bool CanSave()
 		{
-			return SelectedTimeTrackPartDetailsViewModel != null;
+			return true;
 		}
 
 		protected override bool Save() //TODO: Save all TimeTracks without refresh
 		{
-			if (IsNew)
-				PassJournalHelper.AddCustomPassJournal(
-					Guid.NewGuid(),
-					ShortEmployee.UID,
-					SelectedTimeTrackPartDetailsViewModel.TimeTrackZone.UID,
-					(SelectedTimeTrackPartDetailsViewModel.EnterDateTime + SelectedTimeTrackPartDetailsViewModel.EnterTime),
-					(SelectedTimeTrackPartDetailsViewModel.ExitDateTime + SelectedTimeTrackPartDetailsViewModel.ExitTime),
-					DateTime.Now,
-					FiresecManager.CurrentUser.UID,
-					SelectedTimeTrackPartDetailsViewModel.NotTakeInCalculations,
-					SelectedTimeTrackPartDetailsViewModel.IsManuallyAdded,
-					DayTimeTrack.Date.Date.Add(SelectedTimeTrackPartDetailsViewModel.EnterDateTime.Value.TimeOfDay),
-					DayTimeTrack.Date.Date.Add(SelectedTimeTrackPartDetailsViewModel.ExitDateTime.Value.TimeOfDay)
-					);
-			else
-				PassJournalHelper.EditPassJournal(
-					SelectedDayTimeTrackPart.UID,
-					SelectedTimeTrackPartDetailsViewModel.TimeTrackZone.UID,
-					(SelectedTimeTrackPartDetailsViewModel.EnterDateTime + SelectedTimeTrackPartDetailsViewModel.EnterTime),
-					(SelectedTimeTrackPartDetailsViewModel.ExitDateTime + SelectedTimeTrackPartDetailsViewModel.ExitTime),
-					SelectedTimeTrackPartDetailsViewModel.IsNeedAdjustment,
-					DateTime.Now,
-					FiresecManager.CurrentUser.UID,
-					SelectedTimeTrackPartDetailsViewModel.NotTakeInCalculations,
-					SelectedTimeTrackPartDetailsViewModel.IsManuallyAdded);
+			foreach (var dayTimeTrackPart in DayTimeTrackParts.Where(x => x.IsNew || x.IsDirty))
+			{
+				if (dayTimeTrackPart.IsNew)
+					PassJournalHelper.AddCustomPassJournal(
+						Guid.NewGuid(),
+						ShortEmployee.UID,
+						dayTimeTrackPart.TimeTrackZone.UID,
+						(dayTimeTrackPart.EnterDateTime + dayTimeTrackPart.EnterTime),
+						(dayTimeTrackPart.ExitDateTime + dayTimeTrackPart.ExitTime),
+						DateTime.Now,
+						FiresecManager.CurrentUser.UID,
+						dayTimeTrackPart.NotTakeInCalculations,
+						dayTimeTrackPart.IsManuallyAdded,
+						DayTimeTrack.Date.Date.Add(dayTimeTrackPart.EnterDateTime.Value.TimeOfDay),
+						DayTimeTrack.Date.Date.Add(dayTimeTrackPart.ExitDateTime.Value.TimeOfDay)
+						);
+				else
+					PassJournalHelper.EditPassJournal(
+						dayTimeTrackPart.UID,
+						dayTimeTrackPart.TimeTrackZone.UID,
+						(dayTimeTrackPart.EnterDateTime + dayTimeTrackPart.EnterTime),
+						(dayTimeTrackPart.ExitDateTime + dayTimeTrackPart.ExitTime),
+						dayTimeTrackPart.IsNeedAdjustment,
+						DateTime.Now,
+						FiresecManager.CurrentUser.UID,
+						dayTimeTrackPart.NotTakeInCalculations,
+						dayTimeTrackPart.IsManuallyAdded);
+			}
 
 			return base.Save();
 		}
