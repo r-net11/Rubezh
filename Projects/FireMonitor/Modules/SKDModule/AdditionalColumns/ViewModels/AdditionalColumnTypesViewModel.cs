@@ -43,6 +43,7 @@ namespace SKDModule.ViewModels
 		protected override void AfterRemove(AdditionalColumnType source)
 		{
 			ServiceFactory.Events.GetEvent<EditAdditionalColumnEvent>().Publish(null);
+			ServiceFactory.Events.GetEvent<RemoveAdditionalColumnEvent>().Publish(source);
 		}
 
 		protected override void AfterRestore(AdditionalColumnType source)
