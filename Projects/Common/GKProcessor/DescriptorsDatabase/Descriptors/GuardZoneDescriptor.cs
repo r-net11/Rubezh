@@ -228,6 +228,8 @@ namespace GKProcessor
 				}
 				if (commandStateBit == GKStateBit.Fire1)
 				{
+					Formula.AddGetBit(GKStateBit.Fire2, guardDevice.Device, DatabaseType);
+					Formula.Add(FormulaOperationType.OR);
 					Formula.AddGetBit(GKStateBit.Failure, guardDevice.Device, DatabaseType);
 					Formula.Add(FormulaOperationType.OR);
 				}
