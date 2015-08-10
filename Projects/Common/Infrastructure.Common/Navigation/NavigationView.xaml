@@ -51,7 +51,7 @@
 							<DoubleAnimation Storyboard.TargetName="UpArrow"
 											 Storyboard.TargetProperty="RenderTransform.Children[2].(RotateTransform.Angle)"
 											 To="{Binding TextVisibility, Converter={StaticResource BoolToRotatinConverter}}"
-											 Duration="0:0:0.1" />
+											 Duration="0:0:0" />
 						</Storyboard>
 					</BeginStoryboard>
 				</EventTrigger>
