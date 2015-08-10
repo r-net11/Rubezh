@@ -30,9 +30,11 @@ namespace SKDModule.Views
 			public TimeTrackType TimeTrackType { get; set; }
 		}
 
-		string TimePartDateToString(DateTime dateTime)
+		string TimePartDateToString(DateTime? dateTime)
 		{
-			var result = dateTime.TimeOfDay.Hours + ":" + dateTime.TimeOfDay.Minutes + ":" + dateTime.TimeOfDay.Seconds;
+			if (!dateTime.HasValue) return string.Empty;
+
+			var result = dateTime.Value.TimeOfDay.Hours + ":" + dateTime.Value.TimeOfDay.Minutes + ":" + dateTime.Value.TimeOfDay.Seconds;
 			return result;
 		}
 
@@ -122,24 +124,28 @@ namespace SKDModule.Views
 			{
 				double current = 0;
 				var timeParts = new List<TimePart>();
-				for (int i = 0; i < timeTrackParts.Count; i++)
+
+				for (var i = 0; i < timeTrackParts.Count; i++)
 				{
 					var timeTrackPart = timeTrackParts[i];
+
+					if(!timeTrackPart.ExitDateTime.HasValue) continue;
 
 					var startTimePart = new TimePart {Delta = timeTrackPart.EnterDateTime.TimeOfDay.TotalSeconds - current, IsInterval = false};
 					timeParts.Add(startTimePart);
 
 					var endTimePart = new TimePart
 					{
-						Delta = timeTrackPart.ExitDateTime.TimeOfDay.TotalSeconds - timeTrackPart.EnterDateTime.TimeOfDay.TotalSeconds,
+						Delta = timeTrackPart.ExitDateTime.Value.TimeOfDay.TotalSeconds - timeTrackPart.EnterDateTime.TimeOfDay.TotalSeconds,
 						IsInterval = timeTrackPart.TimeTrackPartType != TimeTrackType.None,
 						TimeTrackType = timeTrackPart.TimeTrackPartType,
 						Tooltip = timeTrackPart.Tooltip
 					};
 					timeParts.Add(endTimePart);
 
-					current = timeTrackPart.ExitDateTime.TimeOfDay.TotalSeconds;
+					current = timeTrackPart.ExitDateTime.Value.TimeOfDay.TotalSeconds;
 				}
+
 				var lastTimePart = new TimePart {Delta = 24*60*60 - current, IsInterval = false};
 				timeParts.Add(lastTimePart);
 

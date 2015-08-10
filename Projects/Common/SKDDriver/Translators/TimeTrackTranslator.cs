@@ -326,12 +326,12 @@ namespace SKDDriver.Translators
 			if (result.HolidayReduction > 0)
 			{
 				var lastTimeTrack = result.TimeTrackParts.LastOrDefault();
-				if (lastTimeTrack != null)
+				if (lastTimeTrack != null && lastTimeTrack.ExitDateTime.HasValue)
 				{
 					var reductionTimeSpan = TimeSpan.FromSeconds(result.HolidayReduction);
 					if (lastTimeTrack.Delta.TotalHours > reductionTimeSpan.TotalHours)
 					{
-						lastTimeTrack.ExitDateTime = lastTimeTrack.ExitDateTime.Subtract(reductionTimeSpan);
+						lastTimeTrack.ExitDateTime = lastTimeTrack.ExitDateTime.Value.Subtract(reductionTimeSpan);
 					}
 					else
 					{

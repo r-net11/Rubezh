@@ -20,6 +20,7 @@
 				<ResourceDictionary Source="pack://application:,,,/Controls;component/Themes/StrazhTheme.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 			<Converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+			<Converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
 			<SolidColorBrush x:Key="WatermarkColor" Color="LightGray"/>
 			<CollectionViewSource x:Key="cvsZones" Source="{Binding Zones}">
 				<CollectionViewSource.SortDescriptions>
@@ -141,6 +142,7 @@
 					AttachedBehaviours:DatePickerCustomWatermark.Watermark="{StaticResource WatermarkColor}"
 					AttachedBehaviours:DatePickerCustomWatermark.WatermarkText="дд.мм.ггг"
 					HorizontalAlignment="Right"
+					IsEnabled="{Binding CurrentTimeTrackPart.IsOpen, Converter={StaticResource InverseBooleanConverter}}"
 					Validation.ErrorTemplate="{x:Null}"
 					SelectedDate="{Binding CurrentTimeTrackPart.EnterDateTime, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
 					Margin="5 2"
@@ -151,6 +153,7 @@
 					HorizontalAlignment="Left"
 					Margin="5 2"
 					Validation.ErrorTemplate="{x:Null}"
+					IsEnabled="{Binding CurrentTimeTrackPart.IsOpen, Converter={StaticResource InverseBooleanConverter}}"
 					TimeSpan="{Binding CurrentTimeTrackPart.EnterTime, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" />
 			</StackPanel>
 			<TextBlock

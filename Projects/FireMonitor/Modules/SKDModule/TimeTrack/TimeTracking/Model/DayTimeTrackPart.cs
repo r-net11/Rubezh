@@ -43,6 +43,17 @@ namespace SKDModule.Model
 			}
 		}
 
+		private bool _isOpen;
+
+		public bool IsOpen
+		{
+			get { return _isOpen; }
+			set
+			{
+				this.RaiseAndSetIfChanged(ref _isOpen, value);
+			}
+		}
+
 		private bool _isNeedAdjustment;
 
 		public bool IsNeedAdjustment
@@ -174,7 +185,8 @@ namespace SKDModule.Model
 				timeTrackPart.NotTakeInCalculations,
 				timeTrackPart.IsManuallyAdded,
 				timeTrackPart.AdjustmentDate.ToString(),
-				user.Name);
+				user.Name,
+				timeTrackPart.IsOpen);
 		}
 
 		public DayTimeTrackPart()
@@ -186,7 +198,7 @@ namespace SKDModule.Model
 		#region Methods
 
 		public void Update(DateTime? enterDateTime, DateTime? exitDateTime,
-			TimeTrackZone timeTrackZone, bool notTakeInCalculations, bool isManuallyAdded, string adjustmentDate, string correctedBy)
+			TimeTrackZone timeTrackZone, bool notTakeInCalculations, bool isManuallyAdded, string adjustmentDate, string correctedBy, bool isOpen = false)
 		{
 			TimeTrackZone = timeTrackZone;
 			EnterDateTime = enterDateTime;
@@ -197,6 +209,7 @@ namespace SKDModule.Model
 			IsManuallyAdded = isManuallyAdded;
 			CorrectedDate = adjustmentDate;
 			CorrectedBy = correctedBy;
+			IsOpen = isOpen;
 		}
 
 		#endregion

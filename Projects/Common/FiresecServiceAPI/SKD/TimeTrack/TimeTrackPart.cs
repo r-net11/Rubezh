@@ -26,6 +26,9 @@ namespace FiresecAPI.SKD
 		public Guid? CorrectedByUID { get; set; }
 
 		[DataMember]
+		public bool IsOpen { get; set; }
+
+		[DataMember]
 		public DateTime? EnterTimeOriginal { get; set; }
 
 		[DataMember]
@@ -41,7 +44,7 @@ namespace FiresecAPI.SKD
 		public DateTime EnterDateTime { get; set; }
 
 		[DataMember]
-		public DateTime ExitDateTime { get; set; }
+		public DateTime? ExitDateTime { get; set; }
 
 		[DataMember]
 		public TimeTrackType TimeTrackPartType { get; set; }
@@ -71,8 +74,10 @@ namespace FiresecAPI.SKD
 		{
 			get
 			{
-				var result = ExitDateTime.TimeOfDay - EnterDateTime.TimeOfDay;
-				var isCrossNight = ExitDateTime.TimeOfDay >= new TimeSpan(23, 59, 59);
+				if (!ExitDateTime.HasValue) return TimeSpan.Zero;
+
+				var result = ExitDateTime.Value.TimeOfDay - EnterDateTime.TimeOfDay;
+				var isCrossNight = ExitDateTime.Value.TimeOfDay >= new TimeSpan(23, 59, 59);
 				if (isCrossNight)
 					result += new TimeSpan(0, 0, 1); //TODO:
 				return result;

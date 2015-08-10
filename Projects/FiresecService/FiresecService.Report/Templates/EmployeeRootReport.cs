@@ -418,11 +418,13 @@ namespace FiresecService.Report.Templates
 
 				foreach (var pass in GetTimeTrackParts(GetDayPassJournals(passJournal, employee)))
 				{
+					if(!pass.ExitDateTime.HasValue) continue;
+
 					var row = ds.Data.NewDataRow();
 					row.EmployeeRow = employeeRow;
 					if (zoneMap.ContainsKey(pass.ZoneUID))
 						row.Zone = zoneMap[pass.ZoneUID];
-					if (filter.DateTimeFrom.Ticks <= pass.EnterDateTime.Ticks && pass.ExitDateTime.Ticks <= filter.DateTimeTo.Ticks)
+					if (filter.DateTimeFrom.Ticks <= pass.EnterDateTime.Ticks && pass.ExitDateTime.Value.Ticks <= filter.DateTimeTo.Ticks)
 					{
 						row.DateTime = new DateTime(pass.EnterDateTime.Ticks);
 						ds.Data.AddDataRow(row);

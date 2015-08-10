@@ -269,12 +269,10 @@ namespace SKDDriver.Translators
 
 			foreach (var passJournal in passJournals.Where(x => x.EmployeeUID == employee.UID && x.EnterTime.Date == date.Date).ToList())
 			{
-				if (!passJournal.ExitTime.HasValue) continue;
-
 				var timeTrackPart = new TimeTrackPart
 				{
 					EnterDateTime = passJournal.EnterTime,
-					ExitDateTime = (DateTime) passJournal.ExitTime,
+					ExitDateTime =  passJournal.ExitTime,
 					ZoneUID = passJournal.ZoneUID,
 					PassJournalUID = passJournal.UID,
 					IsManuallyAdded = passJournal.IsAddedManually,
@@ -283,7 +281,8 @@ namespace SKDDriver.Translators
 					AdjustmentDate = passJournal.AdjustmentDate,
 					CorrectedByUID = passJournal.CorrectedByUID,
 					EnterTimeOriginal = passJournal.EnterTimeOriginal,
-					ExitTimeOriginal = passJournal.ExitTimeOriginal
+					ExitTimeOriginal = passJournal.ExitTimeOriginal,
+					IsOpen = !passJournal.ExitTime.HasValue
 				};
 
 				dayTimeTrack.RealTimeTrackParts.Add(timeTrackPart);

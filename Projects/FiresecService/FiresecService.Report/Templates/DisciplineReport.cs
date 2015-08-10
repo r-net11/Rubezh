@@ -58,7 +58,7 @@ namespace FiresecService.Report.Templates
 						if (dayTimeTrack.RealTimeTrackParts.Count > 0)
 						{
 							dataRow.FirstEnter = dayTimeTrack.RealTimeTrackParts.Min(x => x.EnterDateTime.TimeOfDay);
-							dataRow.LastExit = dayTimeTrack.RealTimeTrackParts.Max(x => x.ExitDateTime.TimeOfDay);
+							dataRow.LastExit = dayTimeTrack.RealTimeTrackParts.Where(x => x.ExitDateTime.HasValue).Max(x => x.ExitDateTime.Value.TimeOfDay);
 						}
 
 						var absence = dayTimeTrack.Totals.FirstOrDefault(x => x.TimeTrackType == TimeTrackType.Absence);

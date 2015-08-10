@@ -66,18 +66,20 @@ namespace FiresecService.Report.Templates
 
 						foreach (var plannedTimeTrackPart in dayTimeTrack.PlannedTimeTrackParts)
 						{
-							if (plannedTimeTrackPart.ExitDateTime.TimeOfDay < new TimeSpan(20, 0, 0))
+							if(!plannedTimeTrackPart.ExitDateTime.HasValue) continue;
+
+							if (plannedTimeTrackPart.ExitDateTime.Value.TimeOfDay < new TimeSpan(20, 0, 0))
 							{
-								totalScheduleDay += plannedTimeTrackPart.ExitDateTime.TimeOfDay - plannedTimeTrackPart.EnterDateTime.TimeOfDay;
+								totalScheduleDay += plannedTimeTrackPart.ExitDateTime.Value.TimeOfDay - plannedTimeTrackPart.EnterDateTime.TimeOfDay;
 							}
 							if (plannedTimeTrackPart.EnterDateTime.TimeOfDay > new TimeSpan(20, 0, 0))
 							{
-								totalScheduleNight += plannedTimeTrackPart.ExitDateTime.TimeOfDay - plannedTimeTrackPart.EnterDateTime.TimeOfDay;
+								totalScheduleNight += plannedTimeTrackPart.ExitDateTime.Value.TimeOfDay - plannedTimeTrackPart.EnterDateTime.TimeOfDay;
 							}
-							if (plannedTimeTrackPart.EnterDateTime.TimeOfDay < new TimeSpan(20, 0, 0) && plannedTimeTrackPart.ExitDateTime.TimeOfDay > new TimeSpan(20, 0, 0))
+							if (plannedTimeTrackPart.EnterDateTime.TimeOfDay < new TimeSpan(20, 0, 0) && plannedTimeTrackPart.ExitDateTime.Value.TimeOfDay > new TimeSpan(20, 0, 0))
 							{
 								totalScheduleDay += new TimeSpan(20, 0, 0) - plannedTimeTrackPart.EnterDateTime.TimeOfDay;
-								totalScheduleNight += plannedTimeTrackPart.ExitDateTime.TimeOfDay - new TimeSpan(20, 0, 0);
+								totalScheduleNight += plannedTimeTrackPart.ExitDateTime.Value.TimeOfDay - new TimeSpan(20, 0, 0);
 							}
 						}
 

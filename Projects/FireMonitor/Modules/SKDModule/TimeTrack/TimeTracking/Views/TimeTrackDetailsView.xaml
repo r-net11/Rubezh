@@ -3,6 +3,7 @@
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:Converters="clr-namespace:SKDModule.Converters"
+	xmlns:ConvertersControls="clr-namespace:Controls.Converters;assembly=Controls"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:models="clr-namespace:SKDModule.Model"
@@ -16,6 +17,7 @@
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<Converters:TimeSpanToStringConverter x:Key="TimeSpanToStringConverter" />
+			<ConvertersControls:BoolToFontWeightConverter x:Key="BoolToFontWeightConverter" />
 			<Style x:Key="TriggeredTextBlockStyle" TargetType="{StaticResource {x:Type TextBlock}}">
 				<Setter Property="TextBlock.Margin" Value="5" />
 				<Setter Property="TextBlock.VerticalAlignment" Value="Center" />
@@ -88,6 +90,7 @@
 											<TextBlock
 												HorizontalAlignment="Stretch"
 												VerticalAlignment="Center"
+												FontWeight="{Binding IsOpen, Converter={StaticResource BoolToFontWeightConverter}}"
 												Text="{Binding Path=TimeTrackZone.Name}" />
 										</StackPanel>
 									</DataTemplate>
@@ -96,7 +99,11 @@
 							<DataGridTemplateColumn Width="*" Header="Вход">
 								<DataGridTemplateColumn.CellTemplate>
 									<DataTemplate DataType="{x:Type models:DayTimeTrackPart}">
-										<TextBlock Margin="4 2" Style="{StaticResource ValidatableTextBlock}" Text="{Binding EnterDateTime}" />
+										<TextBlock
+											Margin="4 2"
+											Style="{StaticResource ValidatableTextBlock}"
+											FontWeight="{Binding IsOpen, Converter={StaticResource BoolToFontWeightConverter}}"
+											Text="{Binding EnterDateTime}" />
 											<!--<TextBlock.Text>
 												<MultiBinding StringFormat="{}{0:00}:{1:00}:{2:00}" ValidatesOnDataErrors="True">
 													<Binding Path="EnterTimeSpan.Hours" />
@@ -115,7 +122,11 @@
 							<DataGridTemplateColumn Width="*" Header="Выход">
 								<DataGridTemplateColumn.CellTemplate>
 									<DataTemplate DataType="{x:Type models:DayTimeTrackPart}">
-										<TextBlock Margin="4 2" Style="{StaticResource ValidatableTextBlock}" Text="{Binding ExitDateTime}" />
+										<TextBlock
+											Margin="4 2"
+											Style="{StaticResource ValidatableTextBlock}"
+											FontWeight="{Binding IsOpen, Converter={StaticResource BoolToFontWeightConverter}}"
+											Text="{Binding ExitDateTime}" />
 											<!--<TextBlock.Text>
 												<MultiBinding StringFormat="{}{0:00}:{1:00}:{2:00}">
 													<Binding Path="ExitTimeSpan.Hours" />
