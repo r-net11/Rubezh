@@ -62,8 +62,21 @@ begin
 	alter table PassJournal add [EnterTimeOriginal] datetime NULL
 	insert into Patches (Id) values ('AddingEnterTimeOriginalColumn')
 end
+go
 if not exists (select * from Patches where Id = 'AddingExitTimeOriginalColumn')
 begin
 	alter table PassJournal add [ExitTimeOriginal] datetime NULL
 	insert into Patches (Id) values ('AddingExitTimeOriginalColumn')
+end
+go
+if not exists (select * from Patches where Id = 'AddingIsForceClosedColumn')
+begin
+	alter table PassJournal add [IsForceClosed] bit NOT NULL default 0
+	insert into Patches (Id) values ('AddingIsForceClosedColumn')
+end
+go
+if not exists (select * from Patches where Id = 'AddingIsOpenColumn')
+begin
+	alter table PassJournal add [IsOpen] bit NOT NULL default 0
+	insert into Patches (Id) values ('AddingIsOpenColumn')
 end

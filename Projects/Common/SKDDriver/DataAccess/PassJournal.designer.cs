@@ -115,6 +115,10 @@ namespace SKDDriver.DataAccess
 		
 		private System.Nullable<System.DateTime> _ExitTimeOriginal;
 		
+		private bool _IsForceClosed;
+		
+		private bool _IsOpen;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -143,6 +147,10 @@ namespace SKDDriver.DataAccess
     partial void OnEnterTimeOriginalChanged();
     partial void OnExitTimeOriginalChanging(System.Nullable<System.DateTime> value);
     partial void OnExitTimeOriginalChanged();
+    partial void OnIsForceClosedChanging(bool value);
+    partial void OnIsForceClosedChanged();
+    partial void OnIsOpenChanging(bool value);
+    partial void OnIsOpenChanged();
     #endregion
 		
 		public PassJournal()
@@ -386,6 +394,46 @@ namespace SKDDriver.DataAccess
 					this._ExitTimeOriginal = value;
 					this.SendPropertyChanged("ExitTimeOriginal");
 					this.OnExitTimeOriginalChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsForceClosed")]
+		public bool IsForceClosed
+		{
+			get
+			{
+				return this._IsForceClosed;
+			}
+			set
+			{
+				if ((this._IsForceClosed != value))
+				{
+					this.OnIsForceClosedChanging(value);
+					this.SendPropertyChanging();
+					this._IsForceClosed = value;
+					this.SendPropertyChanged("IsForceClosed");
+					this.OnIsForceClosedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsOpen")]
+		public bool IsOpen
+		{
+			get
+			{
+				return this._IsOpen;
+			}
+			set
+			{
+				if ((this._IsOpen != value))
+				{
+					this.OnIsOpenChanging(value);
+					this.SendPropertyChanging();
+					this._IsOpen = value;
+					this.SendPropertyChanged("IsOpen");
+					this.OnIsOpenChanged();
 				}
 			}
 		}

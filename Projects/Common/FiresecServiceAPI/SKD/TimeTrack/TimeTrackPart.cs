@@ -25,8 +25,18 @@ namespace FiresecAPI.SKD
 		[DataMember]
 		public Guid? CorrectedByUID { get; set; }
 
+		/// <summary>
+		/// Флаг - показывает открытый интервал или нет
+		/// <example>EnterDateTime = 03.03.2015, ExitDateTime = null</example>
+		/// </summary>
 		[DataMember]
 		public bool IsOpen { get; set; }
+
+		/// <summary>
+		/// Флаг - показывает, когда открытый интервал принудительно закрыт
+		/// </summary>
+		[DataMember]
+		public bool IsForceClosed { get; set; }
 
 		[DataMember]
 		public DateTime? EnterTimeOriginal { get; set; }

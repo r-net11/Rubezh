@@ -160,7 +160,8 @@ namespace FiresecAPI.SKD
 						EnterTimeOriginal = timeTrackPart.EnterTimeOriginal,
 						ExitTimeOriginal = timeTrackPart.ExitTimeOriginal,
 						NotTakeInCalculations = timeTrackPart.NotTakeInCalculations,
-						IsManuallyAdded = timeTrackPart.IsManuallyAdded
+						IsManuallyAdded = timeTrackPart.IsManuallyAdded,
+						IsForceClosed = timeTrackPart.IsForceClosed
 					};
 				}
 				else if (timeTrackPart.EnterDateTime.Date < Date && timeTrackPart.ExitDateTime.Value.Date == Date)
@@ -181,7 +182,8 @@ namespace FiresecAPI.SKD
 						EnterTimeOriginal = timeTrackPart.EnterTimeOriginal,
 						ExitTimeOriginal = timeTrackPart.ExitTimeOriginal,
 						NotTakeInCalculations = timeTrackPart.NotTakeInCalculations,
-						IsManuallyAdded = timeTrackPart.IsManuallyAdded
+						IsManuallyAdded = timeTrackPart.IsManuallyAdded,
+						IsForceClosed = timeTrackPart.IsForceClosed
 					};
 				}
 				else if (timeTrackPart.EnterDateTime.Date < Date && timeTrackPart.ExitDateTime.Value.Date > Date)
@@ -202,7 +204,8 @@ namespace FiresecAPI.SKD
 						EnterTimeOriginal = timeTrackPart.EnterTimeOriginal,
 						ExitTimeOriginal = timeTrackPart.ExitTimeOriginal,
 						NotTakeInCalculations = timeTrackPart.NotTakeInCalculations,
-						IsManuallyAdded = timeTrackPart.IsManuallyAdded
+						IsManuallyAdded = timeTrackPart.IsManuallyAdded,
+						IsForceClosed = timeTrackPart.IsForceClosed
 					};
 				}
 
@@ -356,7 +359,8 @@ namespace FiresecAPI.SKD
 				{
 					EnterDateTime = combinedInterval.StartTime,
 					ExitDateTime = combinedInterval.EndTime,
-					NotTakeInCalculations = realTimeTrackPart != null && realTimeTrackPart.NotTakeInCalculations
+					NotTakeInCalculations = realTimeTrackPart != null && realTimeTrackPart.NotTakeInCalculations,
+					IsForceClosed = realTimeTrackPart != null && realTimeTrackPart.IsForceClosed
 				};
 
 				combinedTimeTrackParts.Add(timeTrackPart);
@@ -780,7 +784,9 @@ namespace FiresecAPI.SKD
 					EnterTimeOriginal = timeTrackPart.EnterTimeOriginal,
 					ExitTimeOriginal = timeTrackPart.ExitTimeOriginal,
 					NotTakeInCalculations = timeTrackPart.NotTakeInCalculations,
-					IsManuallyAdded = timeTrackPart.IsManuallyAdded
+					IsManuallyAdded = timeTrackPart.IsManuallyAdded,
+					IsOpen = timeTrackPart.IsOpen,
+					IsForceClosed = timeTrackPart.IsForceClosed
 				});
 			}
 			return result;

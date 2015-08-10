@@ -10,10 +10,12 @@
       <Column Name="IsNeedAdjustment" Type="System.Boolean" CanBeNull="false" />
       <Column Name="AdjustmentDate" Type="System.DateTime" CanBeNull="true" />
       <Column Name="CorrectedByUID" Type="System.Guid" CanBeNull="true" />
-      <Column Name="NotTakeInCalculations" Member="NotTakeInCalculations" Storage="_NotTakeInCalculations" Type="System.Boolean" CanBeNull="false" />
+      <Column Name="NotTakeInCalculations" Type="System.Boolean" CanBeNull="false" />
       <Column Name="IsAddedManually" Type="System.Boolean" CanBeNull="false" />
       <Column Name="EnterTimeOriginal" Type="System.DateTime" CanBeNull="true" />
       <Column Name="ExitTimeOriginal" Type="System.DateTime" CanBeNull="true" />
+      <Column Name="IsForceClosed" Type="System.Boolean" CanBeNull="false" />
+      <Column Member="IsOpen" Type="System.Boolean" CanBeNull="false" />
     </Type>
   </Table>
   <Table Name="dbo.EmployeeDay" Member="EmployeeDays">
