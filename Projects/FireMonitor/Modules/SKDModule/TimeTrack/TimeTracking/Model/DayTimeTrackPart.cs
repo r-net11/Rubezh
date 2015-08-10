@@ -201,23 +201,33 @@ namespace SKDModule.Model
 
 		#endregion
 
+		private string _currentError;
+		public string CurrentError
+		{
+			get { return _currentError; }
+			set
+			{
+				this.RaiseAndSetIfChanged(ref _currentError, value);
+			}
+		}
+
 		public string this[string propertyName]
 		{
 			get
 			{
 				var result = string.Empty;
 				propertyName = propertyName ?? string.Empty;
-				if (propertyName == string.Empty || propertyName == "EnterTime")
+				if (propertyName == string.Empty || propertyName == "EnterTime" || propertyName == "ExitTime")
 				{
-					if (EnterDateTime > ExitDateTime)
+					if (EnterTime > ExitTime)
 						result = "Время входа не может быть больше времени выхода";
 				}
-				if (propertyName == string.Empty || propertyName == "ExitTime")
+				if (propertyName == string.Empty || propertyName == "ExitTime" || propertyName == "EnterTime")
 				{
-					if (EnterDateTime == ExitDateTime)
+					if (EnterTime == ExitTime)
 						result = "Невозможно добавить нулевое пребывание в зоне";
 				}
-				if (propertyName == string.Empty || propertyName == "EnterDateTime")
+				if (propertyName == string.Empty || propertyName == "EnterDateTime" || propertyName == "ExitDateTime")
 				{
 					if (EnterDateTime > ExitDateTime)
 						result = "Дата входа не может быть больше даты выхода";
@@ -227,6 +237,7 @@ namespace SKDModule.Model
 					if (EnterDateTime == null || ExitDateTime == null)
 						result = "Введите дату";
 				}
+				CurrentError = result;
 				return result;
 			}
 		}

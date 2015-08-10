@@ -6,6 +6,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
 	xmlns:viewModel="clr-namespace:SKDModule.ViewModels"
+	xmlns:Converters="clr-namespace:Controls.Converters;assembly=Controls"
 	xmlns:AttachedBehaviours="clr-namespace:Controls.Behaviours;assembly=Controls"
 	Width="500"
 	Height="450"
@@ -18,6 +19,7 @@
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="pack://application:,,,/Controls;component/Themes/StrazhTheme.xaml" />
 			</ResourceDictionary.MergedDictionaries>
+			<Converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 			<SolidColorBrush x:Key="WatermarkColor" Color="LightGray"/>
 			<CollectionViewSource x:Key="cvsZones" Source="{Binding Zones}">
 				<CollectionViewSource.SortDescriptions>
@@ -135,17 +137,21 @@
 				Grid.Column="1"
 				HorizontalAlignment="Left">
 				<DatePicker
+					x:Name="EnterDatePicker"
 					AttachedBehaviours:DatePickerCustomWatermark.Watermark="{StaticResource WatermarkColor}"
 					AttachedBehaviours:DatePickerCustomWatermark.WatermarkText="дд.мм.ггг"
 					HorizontalAlignment="Right"
-					SelectedDate="{Binding CurrentTimeTrackPart.EnterDateTime, UpdateSourceTrigger=PropertyChanged}"
+					Validation.ErrorTemplate="{x:Null}"
+					SelectedDate="{Binding CurrentTimeTrackPart.EnterDateTime, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
 					Margin="5 2"
 					Width="100"
 					VerticalAlignment="Center"/>
 				<TimePicker
+					x:Name="EnterTimePicker"
 					HorizontalAlignment="Left"
 					Margin="5 2"
-					TimeSpan="{Binding CurrentTimeTrackPart.EnterTime, UpdateSourceTrigger=PropertyChanged}" />
+					Validation.ErrorTemplate="{x:Null}"
+					TimeSpan="{Binding CurrentTimeTrackPart.EnterTime, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" />
 			</StackPanel>
 			<TextBlock
 				Grid.Row="2"
@@ -161,21 +167,40 @@
 				HorizontalAlignment="Left"
 				Margin="0 0 0 10">
 				<DatePicker
+					x:Name="ExitDatePicker"
 					AttachedBehaviours:DatePickerCustomWatermark.Watermark="{StaticResource WatermarkColor}"
 					AttachedBehaviours:DatePickerCustomWatermark.WatermarkText="дд.мм.ггг"
 					HorizontalAlignment="Right"
-					SelectedDate="{Binding CurrentTimeTrackPart.ExitDateTime, UpdateSourceTrigger=PropertyChanged}"
+					Validation.ErrorTemplate="{x:Null}"
+					SelectedDate="{Binding CurrentTimeTrackPart.ExitDateTime, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
 					Width="100"
 					VerticalAlignment="Center"
 					Margin="5 2"/>
 				<TimePicker
+					x:Name="ExitTimePicker"
 					Margin="5 2"
 					HorizontalAlignment="Left"
-					TimeSpan="{Binding CurrentTimeTrackPart.ExitTime, UpdateSourceTrigger=PropertyChanged}" />
+					Validation.ErrorTemplate="{x:Null}"
+					TimeSpan="{Binding CurrentTimeTrackPart.ExitTime, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" />
 			</StackPanel>
-			<StackPanel Grid.Row="3" Grid.ColumnSpan="2">
-				<TextBlock Text="{Binding CurrentTimeTrackPart.Error}" />
-			</StackPanel>
+			<Grid Margin="5 2" Grid.Row="3" Grid.ColumnSpan="2">
+				<Border
+					BorderThickness="1"
+					BorderBrush="{StaticResource BaseWindowBackgroundBrush}"
+					Background="LightCoral"
+					Padding="5">
+					<Border.Style>
+						<Style TargetType="{x:Type Border}">
+							<Style.Triggers>
+								<DataTrigger Binding="{Binding CurrentTimeTrackPart.CurrentError}" Value="">
+									<Setter Property="Visibility" Value="Collapsed" />
+								</DataTrigger>
+							</Style.Triggers>
+						</Style>
+					</Border.Style>
+					<TextBlock Text="{Binding CurrentTimeTrackPart.CurrentError}" />
+				</Border>
+			</Grid>
 		</Grid>
 	</Grid>
 </UserControl>
