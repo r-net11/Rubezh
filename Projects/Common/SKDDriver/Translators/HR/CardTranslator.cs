@@ -62,7 +62,7 @@ namespace SKDDriver.DataClasses
 		{
 			try
 			{
-				var tableItems = GetFilteredTableItems(filter, GetTableItems()).ToList();
+				var tableItems = GetTableItems().ToList();// GetFilteredTableItems(filter, GetTableItems()).ToList();
 				var result = tableItems.Select(x => Translate(x)).ToList();
 				return new OperationResult<List<API.SKDCard>>(result);
 			}

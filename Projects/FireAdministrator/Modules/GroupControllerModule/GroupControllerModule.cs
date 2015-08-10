@@ -119,7 +119,7 @@ namespace GKModule
 					new NavigationItem("Охрана", "tree",
 						new List<NavigationItem>()
 						{
-							new NavigationItem<ShowGKGuardEvent, Guid>(CodesViewModel, "Коды", "User", null, null, Guid.Empty),
+							new NavigationItem<ShowGKCodeEvent, Guid>(CodesViewModel, "Коды", "User", null, null, Guid.Empty),
 							new NavigationItemEx<ShowGKGuardZoneEvent, Guid>(GuardZonesViewModel, "Зоны", "Zones", null, null, Guid.Empty),
 						}) { IsVisible = LicenseHelper.SecurityAlarm },
 					new NavigationItem("СКД", "tree",

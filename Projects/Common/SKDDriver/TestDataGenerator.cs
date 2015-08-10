@@ -167,29 +167,28 @@ namespace SKDDriver.DataClasses
 
         void DeleteAll()
         {
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"AccessTemplate\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"AdditionalColumn\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"AdditionalColumnType\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"CardDoor\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"Card\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"CurrentConsumption\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"DayIntervalPart\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"DayInterval\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"Department\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"Employee\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"GKMetadata\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"Holiday\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"NightSetting\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"Organisation\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"PassCardTemplate\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"Photo\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"Position\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"ScheduleDay\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"ScheduleScheme\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"Schedule\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"ScheduleZone\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"TimeTrackDocument\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"TimeTrackDocumentType\"");
+            Context.Database.ExecuteSqlCommand("DELETE FROM \"AccessTemplates\"");
+            Context.Database.ExecuteSqlCommand("DELETE FROM \"AdditionalColumns\"");
+            Context.Database.ExecuteSqlCommand("DELETE FROM \"AdditionalColumnTypes\"");
+            Context.Database.ExecuteSqlCommand("DELETE FROM \"CardDoors\"");
+            Context.Database.ExecuteSqlCommand("DELETE FROM \"Cards\"");
+            Context.Database.ExecuteSqlCommand("DELETE FROM \"CurrentConsumptions\"");
+            Context.Database.ExecuteSqlCommand("DELETE FROM \"DayIntervalParts\"");
+            Context.Database.ExecuteSqlCommand("DELETE FROM \"DayIntervals\"");
+            Context.Database.ExecuteSqlCommand("DELETE FROM \"Departments\"");
+            Context.Database.ExecuteSqlCommand("DELETE FROM \"Employees\"");
+            Context.Database.ExecuteSqlCommand("DELETE FROM \"Holidays\"");
+            Context.Database.ExecuteSqlCommand("DELETE FROM \"NightSettings\"");
+            Context.Database.ExecuteSqlCommand("DELETE FROM \"Organisations\"");
+            Context.Database.ExecuteSqlCommand("DELETE FROM \"PassCardTemplates\"");
+            Context.Database.ExecuteSqlCommand("DELETE FROM \"Photos\"");
+            Context.Database.ExecuteSqlCommand("DELETE FROM \"Positions\"");
+            Context.Database.ExecuteSqlCommand("DELETE FROM \"ScheduleDays\"");
+            Context.Database.ExecuteSqlCommand("DELETE FROM \"ScheduleSchemes\"");
+            Context.Database.ExecuteSqlCommand("DELETE FROM \"Schedules\"");
+            Context.Database.ExecuteSqlCommand("DELETE FROM \"ScheduleZones\"");
+            Context.Database.ExecuteSqlCommand("DELETE FROM \"TimeTrackDocuments\"");
+            Context.Database.ExecuteSqlCommand("DELETE FROM \"TimeTrackDocumentTypes\"");
         }
         Department CreateDepartment(string name, Guid orgUID, Guid? parentUID = null)
         {

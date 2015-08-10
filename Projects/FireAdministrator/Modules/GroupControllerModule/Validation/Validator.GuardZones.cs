@@ -14,7 +14,7 @@ namespace GKModule.Validation
 		{
 			ValidateGuardZoneNoEquality();
 			ValidateGuardZoneSameDevices();
-			ValidationCodeForZones();
+			ValidateCodeForZones();
 
 			foreach (var guardZone in GKManager.GuardZones)
 			{
@@ -104,17 +104,17 @@ namespace GKModule.Validation
 			}
 		}
 
-		void ValidationCodeForZones()
+		void ValidateCodeForZones()
 		{
-			var codeUID = new HashSet<Tuple<Guid, GKCodeReaderEnterType>>();
+			var guardDevice = new HashSet<Tuple<Guid, GKCodeReaderEnterType>>();
 			foreach (var guardZone in GKManager.DeviceConfiguration.GuardZones)
 			{
 				foreach (var guard in guardZone.GuardZoneDevices.Where(x => x.Device.DriverType == GKDriverType.RSR2_CardReader || x.Device.DriverType == GKDriverType.RSR2_CodeReader))
 				{
-					ValidationGuardSettings(guard.CodeReaderSettings.AlarmSettings, codeUID, guardZone, guard.Device.PresentationName);
-					ValidationGuardSettings(guard.CodeReaderSettings.ChangeGuardSettings, codeUID, guardZone, guard.Device.PresentationName);
-					ValidationGuardSettings(guard.CodeReaderSettings.ResetGuardSettings, codeUID, guardZone, guard.Device.PresentationName);
-					ValidationGuardSettings(guard.CodeReaderSettings.SetGuardSettings, codeUID, guardZone, guard.Device.PresentationName);
+					ValidationGuardSettings(guard.CodeReaderSettings.AlarmSettings, guardDevice, guardZone, guard.Device.PresentationName);
+					ValidationGuardSettings(guard.CodeReaderSettings.ChangeGuardSettings, guardDevice, guardZone, guard.Device.PresentationName);
+					ValidationGuardSettings(guard.CodeReaderSettings.ResetGuardSettings, guardDevice, guardZone, guard.Device.PresentationName);
+					ValidationGuardSettings(guard.CodeReaderSettings.SetGuardSettings, guardDevice, guardZone, guard.Device.PresentationName);
 				}
 			}
 		}

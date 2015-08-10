@@ -15,9 +15,9 @@
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="*" MinHeight="200" />
 			</Grid.RowDefinitions>
-			<ContentPresenter Grid.Row="0" Content="{Binding ElementsViewModel}" />
+            <ContentPresenter Grid.Row="0" Content="{Binding PlansTreeViewModel}" />
 			<GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeNS" GridSplitterFix.Attach="True" />
-			<ContentPresenter Grid.Row="2" Content="{Binding PlansTreeViewModel}" />
+            <ContentPresenter Grid.Row="2" Content="{Binding ElementsViewModel}" />
 		</Grid>
 	</Grid>
 </UserControl>

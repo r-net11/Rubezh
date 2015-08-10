@@ -342,7 +342,7 @@ namespace SKDModule.ViewModels
 			var stopListCard = StopListCards.FirstOrDefault(x => x.Number == Card.Number);
 			if (stopListCard != null)
 			{
-				if (MessageBoxService.ShowQuestion("Карта с таким номеромнаходится в стоп-листе. Использовать её?"))
+				if (MessageBoxService.ShowQuestion("Карта с таким номером находится в стоп-листе. Использовать её?"))
 				{
 					UseStopList = true;
 					SelectedStopListCard = stopListCard;

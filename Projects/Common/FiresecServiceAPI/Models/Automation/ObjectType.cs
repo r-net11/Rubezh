@@ -4,13 +4,13 @@ namespace FiresecAPI.Automation
 {
 	public enum ObjectType
 	{
-		[DescriptionAttribute("ГК-устройство")]
+		[DescriptionAttribute("Устройство")]
 		Device,
 
-		[DescriptionAttribute("ГК-зона")]
+		[DescriptionAttribute("Пожарная зона")]
 		Zone,
 
-		[DescriptionAttribute("ГК-направление")]
+		[DescriptionAttribute("Направление")]
 		Direction,
 
 		[DescriptionAttribute("Задержка")]
@@ -18,11 +18,11 @@ namespace FiresecAPI.Automation
 
 		[DescriptionAttribute("Охранная зона")]
 		GuardZone,
-		
+
 		[DescriptionAttribute("Видеоустройство")]
 		VideoDevice,
 
-		[DescriptionAttribute("Точка доступа ГК")]
+		[DescriptionAttribute("Точка доступа")]
 		GKDoor,
 
 		[DescriptionAttribute("Организация")]
