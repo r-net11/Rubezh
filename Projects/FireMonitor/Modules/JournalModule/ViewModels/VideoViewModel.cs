@@ -1,81 +1,66 @@
 ﻿using System;
+using System.ServiceModel;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Common;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecClient;
 using System.IO;
-using Vlc.DotNet.Core;
-using Vlc.DotNet.Core.Medias;
-using Vlc.DotNet.Wpf;
 
 namespace JournalModule.ViewModels
 {
 	public class VideoViewModel : DialogViewModel
 	{
-		readonly string DirectoryPath = AppDataFolderHelper.GetTempFolder();
 		public string VideoPath { get; private set; }
+
+		public event EventHandler Play;
+		public event EventHandler Stop;
+
+		protected virtual void OnPlay()
+		{
+			if (Play == null) return;
+			Play(this, EventArgs.Empty);
+		}
+
+		protected virtual void OnStop()
+		{
+			if (Stop == null) return;
+			Stop(this, EventArgs.Empty);
+		}
 
 		public VideoViewModel(Guid eventUID, Guid cameraUID)
 		{
 			VideoPath = AppDataFolderHelper.GetTempFileName() + ".avi";
 			Title = "Видеофрагмент, связанный с событием";
-			RviClient.RviClientHelper.GetVideoFile(FiresecManager.SystemConfiguration, eventUID, cameraUID, VideoPath);
-			Play();
-		}
-
-		void Play()
-		{
 			try
 			{
-				if (!VlcContext.IsInitialized)
-				{
-					VlcContext.LibVlcDllsPath = FiresecManager.SystemConfiguration.RviSettings.DllsPath;
-					VlcContext.LibVlcPluginsPath = FiresecManager.SystemConfiguration.RviSettings.PluginsPath;
-					VlcContext.StartupOptions.IgnoreConfig = true;
-					VlcContext.StartupOptions.LogOptions.LogInFile = false;
-					VlcContext.StartupOptions.LogOptions.ShowLoggerConsole = false;
-					VlcContext.StartupOptions.LogOptions.Verbosity = VlcLogVerbosities.Debug;
-					VlcContext.Initialize();
-				}
-				_vlcControl = new VlcControl { Media = new PathMedia(VideoPath) };
-				_vlcControl.PositionChanged -= VlcControlOnPositionChanged;
-				_vlcControl.PositionChanged += VlcControlOnPositionChanged;
-				if (_vlcControl.IsPlaying)
-					_vlcControl.Stop();
-				_vlcControl.Play();
+				RviClient.RviClientHelper.GetVideoFile(FiresecManager.SystemConfiguration, eventUID, cameraUID, VideoPath);
+			}
+			catch (CommunicationObjectFaultedException e)
+			{
+				Logger.Error(e, "Исключение при вызове VideoViewModel(Guid eventUID, Guid cameraUID)");
+				MessageBoxService.ShowError("Проверьте запущено ли приложение RVi Оператор и настройки соединения с ним");
 			}
 			catch (Exception e)
 			{
-				MessageBoxService.ShowWarning(e.Message);
+				Logger.Error(e, "Исключение при вызове VideoViewModel(Guid eventUID, Guid cameraUID)");
 			}
-		}
-
-		VlcControl _vlcControl;
-		public ImageSource Image
-		{
-			get
-			{
-				if (_vlcControl == null)
-					return new BitmapImage();
-				return _vlcControl.VideoSource;
-			}
-		}
-
-
-		void VlcControlOnPositionChanged(VlcControl sender, VlcEventArgs<float> vlcEventArgs)
-		{
-			OnPropertyChanged(() => Image);
 		}
 
 		public override bool OnClosing(bool isCanceled)
 		{
-			if (_vlcControl.IsPlaying)
-				_vlcControl.Stop();
+			OnStop();
 			if (File.Exists(VideoPath))
 				File.Delete(VideoPath);
 			return base.OnClosing(isCanceled);
+		}
+
+		public override void Loaded()
+		{
+			base.Loaded();
+			OnPlay();
 		}
 	}
 }
