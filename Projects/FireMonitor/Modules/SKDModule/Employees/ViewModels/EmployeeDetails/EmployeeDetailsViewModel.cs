@@ -728,7 +728,7 @@ namespace SKDModule.ViewModels
 			}
 
 			Employee.Department = SelectedDepartment;
-			
+
 			if (IsEmployee)
 			{
 				Employee.Position = SelectedPosition;
@@ -736,14 +736,17 @@ namespace SKDModule.ViewModels
 				Employee.ScheduleStartDate = ScheduleStartDate;
 				Employee.CredentialsStartDate = CredentialsStartDate;
 				Employee.TabelNo = TabelNo;
+				bool isChiefChanged = false ;
 				if (IsOrganisationChief && _organisation.ChiefUID != Employee.UID)
-					OrganisationHelper.SaveChief(_organisation.UID, Employee.UID, _organisation.Name);
+					isChiefChanged = OrganisationHelper.SaveChief(_organisation.UID, Employee.UID, _organisation.Name);
 				else if (_organisation.ChiefUID == Employee.UID && !IsOrganisationChief)
-					OrganisationHelper.SaveChief(_organisation.UID, null, _organisation.Name);
+					isChiefChanged = OrganisationHelper.SaveChief(_organisation.UID, null, _organisation.Name);
 				if (IsOrganisationHRChief && _organisation.HRChiefUID != Employee.UID)
-					OrganisationHelper.SaveHRChief(_organisation.UID, Employee.UID, _organisation.Name);
+					isChiefChanged = OrganisationHelper.SaveHRChief(_organisation.UID, Employee.UID, _organisation.Name);
 				else if (_organisation.HRChiefUID == Employee.UID && !IsOrganisationHRChief)
-					OrganisationHelper.SaveHRChief(_organisation.UID, null, _organisation.Name);
+					isChiefChanged = OrganisationHelper.SaveHRChief(_organisation.UID, null, _organisation.Name);
+				if (isChiefChanged)
+					ServiceFactory.Events.GetEvent<ChiefChangedEvent>().Publish(null);
 			}
 			else
 			{

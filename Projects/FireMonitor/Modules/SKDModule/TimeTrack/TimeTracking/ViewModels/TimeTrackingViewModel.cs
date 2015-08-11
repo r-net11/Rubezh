@@ -15,6 +15,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using SKDModule.Events;
 using SKDModule.Model;
+using FiresecClient.SKDHelpers;
 
 namespace SKDModule.ViewModels
 {
@@ -37,6 +38,8 @@ namespace SKDModule.ViewModels
 			ServiceFactory.Events.GetEvent<RemoveDocumentEvent>().Subscribe(OnRemoveDocument);
 			ServiceFactory.Events.GetEvent<EditTimeTrackPartEvent>().Unsubscribe(OnEditTimeTrackPart);
 			ServiceFactory.Events.GetEvent<EditTimeTrackPartEvent>().Subscribe(OnEditTimeTrackPart);
+			ServiceFactory.Events.GetEvent<ChiefChangedEvent>().Unsubscribe(OnInitializeLeadUIDs);
+			ServiceFactory.Events.GetEvent<ChiefChangedEvent>().Subscribe(OnInitializeLeadUIDs);
 
 			TimeTrackFilter = new TimeTrackFilter();
 			TimeTrackFilter.EmployeeFilter = new EmployeeFilter()
@@ -53,6 +56,9 @@ namespace SKDModule.ViewModels
 		}
 
 		SortableObservableCollection<TimeTrackViewModel> _timeTracks;
+		Guid chiefUID;
+		Guid departmentChiefUID;
+		Guid hrChiefUID;
 		public SortableObservableCollection<TimeTrackViewModel> TimeTracks
 		{
 			get { return _timeTracks; }
@@ -102,6 +108,7 @@ namespace SKDModule.ViewModels
 			{
 				UpdateGrid();
 			}
+			OnInitializeLeadUIDs(filterViewModel);
 		}
 
 		public RelayCommand RefreshCommand { get; private set; }
@@ -152,7 +159,7 @@ namespace SKDModule.ViewModels
 				MessageBoxService.ShowWarning("В отчете содержаться данные за несколько месяцев. Будут показаны данные только за первый месяц");
 			}
 
-			var reportSettingsViewModel = new ReportSettingsViewModel(TimeTrackFilter, TimeTrackEmployeeResults);
+			var reportSettingsViewModel = new ReportSettingsViewModel(TimeTrackFilter, TimeTrackEmployeeResults, chiefUID, departmentChiefUID, hrChiefUID);
 			DialogService.ShowModalWindow(reportSettingsViewModel);
 		}
 		bool CanPrint()
@@ -234,7 +241,21 @@ namespace SKDModule.ViewModels
 			TimeTrackFilter.EmployeeFilter.UserUID = FiresecClient.FiresecManager.CurrentUser.UID;
 			UpdateGrid();
 		}
-
+		public void OnInitializeLeadUIDs(TimeTrackFilterViewModel filterViewModel)
+		{
+			if (filterViewModel == null)
+				filterViewModel = new TimeTrackFilterViewModel(TimeTrackFilter);
+			if (filterViewModel.DepartmentsFilterViewModel.UIDs.Count == 1)
+			{
+				Guid depUID = filterViewModel.DepartmentsFilterViewModel.UIDs[0];
+				var department = DepartmentHelper.GetSingleShort(depUID);
+				Guid orgUID = department.OrganisationUID;
+				var organisation = OrganisationHelper.GetSingle(orgUID);
+				chiefUID = organisation.ChiefUID;
+				hrChiefUID = organisation.HRChiefUID;
+				departmentChiefUID = department.ChiefUID;
+			}
+		}
 		#region DocumentEvents
 		void OnEditDocument(TimeTrackDocument document)
 		{
