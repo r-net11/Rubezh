@@ -16,6 +16,7 @@ using Infrastructure.Events;
 using SKDModule.Events;
 using SKDModule.Model;
 using FiresecClient.SKDHelpers;
+using FiresecAPI.Models;
 
 namespace SKDModule.ViewModels
 {
@@ -164,7 +165,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanPrint()
 		{
-			return ApplicationService.IsReportEnabled;
+			return ApplicationService.IsReportEnabled && FiresecManager.CheckPermission(PermissionType.Oper_Reports_T13);
 		}
 
 		void UpdateGrid()
