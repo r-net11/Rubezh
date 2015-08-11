@@ -15,178 +15,30 @@ namespace GKProcessor.DescriptorsDatabase
 			throw new NotImplementedException();
 		}
 
-		List<BaseDescriptor> Descriptors;
-
-		public void Create()
-		{
-			Descriptors = new List<BaseDescriptor>();
-			foreach (var device in GKManager.Devices)
-			{
-				var deviceDescriptor = new DeviceDescriptor(device);
-				Descriptors.Add(deviceDescriptor);
-			}
-
-			foreach (var zone in GKManager.Zones)
-			{
-				var zoneDescriptor = new ZoneDescriptor(zone);
-				Descriptors.Add(zoneDescriptor);
-			}
-
-			foreach (var direction in GKManager.Directions)
-			{
-				var directionDescriptor = new DirectionDescriptor(direction);
-				Descriptors.Add(directionDescriptor);
-			}
-
-			foreach (var delay in GKManager.Delays)
-			{
-				var delayDescriptor = new DelayDescriptor(delay);
-				Descriptors.Add(delayDescriptor);
-			}
-
-			foreach (var code in GKManager.DeviceConfiguration.Codes)
-			{
-				var codeDescriptor = new CodeDescriptor(code);
-				Descriptors.Add(codeDescriptor);
-			}
-
-			foreach (var guardZone in GKManager.GuardZones)
-			{
-				var guardZoneDescriptor = new GuardZoneDescriptor(guardZone);
-				Descriptors.Add(guardZoneDescriptor);
-
-				if (guardZoneDescriptor.GuardZonePimDescriptor != null)
-				{
-					Descriptors.Add(guardZoneDescriptor.GuardZonePimDescriptor);
-				}
-			}
-
-			foreach (var pumpStation in GKManager.PumpStations)
-			{
-				var pumpStationDescriptor = new PumpStationDescriptor(this, pumpStation);
-				Descriptors.Add(pumpStationDescriptor);
-
-				var pumpStationCreator = new PumpStationCreator(this, pumpStation);
-				pumpStationCreator.Create();
-			}
-
-			foreach (var mpt in GKManager.MPTs)
-			{
-				var mptDescriptor = new MPTDescriptor(mpt);
-				Descriptors.Add(mptDescriptor);
-
-				var mptCreator = new MPTCreator(mpt);
-				mptCreator.SetCrossReferences();
-			}
-
-			foreach (var door in GKManager.Doors)
-			{
-				var doorDescriptor = new DoorDescriptor(door);
-				Descriptors.Add(doorDescriptor);
-				if (doorDescriptor.DoorPimDescriptorEnter != null)
-				{
-					Descriptors.Add(doorDescriptor.DoorPimDescriptorEnter);
-				}
-				if (doorDescriptor.DoorPimDescriptorExit != null)
-				{
-					Descriptors.Add(doorDescriptor.DoorPimDescriptorExit);
-				}
-			}
-
-			foreach (var descriptor in Descriptors)
-			{
-				descriptor.CreateLogic();
-				//descriptor.GKBase.FormulaInputObjects = new List<GKBase>();
-				foreach (var formulaOperation in descriptor.Formula.FormulaOperations)
-				{
-					if (formulaOperation.GKBaseSecondOperand != null)
-					{
-						//descriptor.GKBase.AddFormulaInputObject(formulaOperation.GKBaseSecondOperand);
-					}
-				}
-			}
-
-			foreach (var descriptor in Descriptors)
-			{
-				descriptor.FormulaBytes = new List<byte>();
-			}
-
-			var gkBases = new List<GKBase>();
-			foreach (var descriptor in Descriptors)
-			{
-				gkBases.Add(descriptor.GKBase);
-			}
-
-			gkBases.ForEach(x => x.IsReady = false);
-			while (!gkBases.All(x => x.IsReady))
-			{
-				foreach (var gkBase in gkBases)
-				{
-					gkBase.CalculateNext();
-				}
-			}
-
-			//foreach (var gkBase in gkBases)
-			//{
-			//	var kauParents = new HashSet<GKDevice>();
-			//	var gkParents = new HashSet<GKDevice>();
-			//	foreach (var dependentObject in gkBase.FormulaInputObjects)
-			//	{
-			//		if (dependentObject is GKDevice)
-			//		{
-			//			var device = dependentObject as GKDevice;
-			//			if (device.KAUParent != null)
-			//			{
-			//				kauParents.Add(device.KAUParent);
-			//			}
-			//			if (device.GKParent != null)
-			//			{
-			//				gkParents.Add(device.GKParent);
-			//			}
-			//		}
-			//	}
-
-			//	gkBase.KauDatabaseParent = null;
-			//	gkBase.GkDatabaseParent = null;
-
-			//	if (kauParents.Count == 1)
-			//	{
-			//		gkBase.KauDatabaseParent = kauParents.FirstOrDefault();
-			//		gkBase.IsLogicOnKau = true;
-			//	}
-			//	else
-			//	{
-			//		gkBase.GkDatabaseParent = gkParents.FirstOrDefault();
-			//		gkBase.IsLogicOnKau = false;
-			//	}
-			//}
-		}
-
-
 		public void SetDependentDescriptors()
 		{
 			var gkBases = new List<GKBase>();
 			foreach (var device in GKManager.Devices)
 			{
-				device.DescriptorDependentObjects.AddRange(device.Logic.GetObjects());
+				device.DescriptorDependentObjects = device.Logic.GetObjects();
 				gkBases.Add(device);
 			}
 
 			foreach (var zone in GKManager.Zones)
 			{
-				zone.DescriptorDependentObjects.AddRange(zone.Devices);
+				zone.DescriptorDependentObjects = new List<GKBase>(zone.Devices);
 				gkBases.Add(zone);
 			}
 
 			foreach (var direction in GKManager.Directions)
 			{
-				direction.DescriptorDependentObjects.AddRange(direction.Logic.GetObjects());
+				direction.DescriptorDependentObjects = direction.Logic.GetObjects();
 				gkBases.Add(direction);
 			}
 
 			foreach (var delay in GKManager.Delays)
 			{
-				delay.DescriptorDependentObjects.AddRange(delay.Logic.GetObjects());
+				delay.DescriptorDependentObjects = delay.Logic.GetObjects();
 				gkBases.Add(delay);
 			}
 
@@ -197,6 +49,7 @@ namespace GKProcessor.DescriptorsDatabase
 
 			foreach (var guardZone in GKManager.GuardZones)
 			{
+				guardZone.DescriptorDependentObjects = new List<GKBase>();
 				foreach(var guardZoneDevice in guardZone.GuardZoneDevices)
 				{
 					guardZone.DescriptorDependentObjects.Add(guardZoneDevice.Device);
@@ -221,6 +74,7 @@ namespace GKProcessor.DescriptorsDatabase
 
 			foreach (var pumpStation in GKManager.PumpStations)
 			{
+				pumpStation.DescriptorDependentObjects = new List<GKBase>();
 				pumpStation.DescriptorDependentObjects.AddRange(pumpStation.StartLogic.GetObjects());
 				pumpStation.DescriptorDependentObjects.AddRange(pumpStation.StopLogic.GetObjects());
 				pumpStation.DescriptorDependentObjects.AddRange(pumpStation.AutomaticOffLogic.GetObjects());
@@ -235,6 +89,7 @@ namespace GKProcessor.DescriptorsDatabase
 
 			foreach (var mpt in GKManager.MPTs)
 			{
+				mpt.DescriptorDependentObjects = new List<GKBase>();
 				mpt.DescriptorDependentObjects.AddRange(mpt.MptLogic.GetObjects());
 				foreach (var mptDevice in mpt.MPTDevices)
 				{
@@ -262,6 +117,7 @@ namespace GKProcessor.DescriptorsDatabase
 
 			foreach (var door in GKManager.Doors)
 			{
+				door.DescriptorDependentObjects = new List<GKBase>();
 				door.DescriptorDependentObjects.AddRange(door.OpenRegimeLogic.GetObjects());
 				door.DescriptorDependentObjects.AddRange(door.NormRegimeLogic.GetObjects());
 				door.DescriptorDependentObjects.AddRange(door.CloseRegimeLogic.GetObjects());

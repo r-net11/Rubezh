@@ -133,8 +133,8 @@ namespace GKProcessor.Test
 			clause.DeviceUIDs.Add(device1.UID);
 			var pumpStation = new GKPumpStation();
 			pumpStation.StartLogic.OnClausesGroup.Clauses.Add(clause);
-			pumpStation.NSDevices.Add(device2);
-			pumpStation.NSDevices.Add(device3);
+			pumpStation.NSDeviceUIDs.Add(device2.UID);
+			pumpStation.NSDeviceUIDs.Add(device3.UID);
 			GKManager.PumpStations.Add(pumpStation);
 
 			DescriptorsManager.Create();
@@ -143,9 +143,23 @@ namespace GKProcessor.Test
 
 			var kau1PumpStationDescriptor = kau1Database.Descriptors.FirstOrDefault(x => x.GKBase == pumpStation);
 			var gkPumpStationDescriptor = gkDatabase.Descriptors.FirstOrDefault(x => x.GKBase == pumpStation);
-
 			Assert.IsTrue(kau1PumpStationDescriptor.Formula.FormulaOperations.Count > 1, "Отсутствует логика на КАУ");
 			Assert.IsTrue(gkPumpStationDescriptor.Formula.FormulaOperations.Count == 1, "Присутствует логика на ГК");
+
+			var kau1DelayDescriptor = kau1Database.Descriptors.FirstOrDefault(x => x.GKBase is GKDelay && (x.GKBase as GKDelay).PumpStationUID == pumpStation.UID);
+			var gkDelayDescriptor = gkDatabase.Descriptors.FirstOrDefault(x => x.GKBase is GKDelay && (x.GKBase as GKDelay).PumpStationUID == pumpStation.UID);
+			Assert.IsTrue(kau1DelayDescriptor.Formula.FormulaOperations.Count > 1, "Отсутствует логика на КАУ");
+			Assert.IsTrue(gkDelayDescriptor.Formula.FormulaOperations.Count == 1, "Присутствует логика на ГК");
+
+			var kau1MainDelayDescriptor = kau1Database.Descriptors.FirstOrDefault(x => x.GKBase is GKDelay && (x.GKBase as GKDelay).PumpStationUID == Guid.Empty);
+			var gkMainDelayDescriptor = gkDatabase.Descriptors.FirstOrDefault(x => x.GKBase is GKDelay && (x.GKBase as GKDelay).PumpStationUID == Guid.Empty);
+			Assert.IsTrue(kau1MainDelayDescriptor.Formula.FormulaOperations.Count > 1, "Отсутствует логика на КАУ");
+			Assert.IsTrue(gkMainDelayDescriptor.Formula.FormulaOperations.Count == 1, "Присутствует логика на ГК");
+
+			var kau1PimDescriptor = kau1Database.Descriptors.FirstOrDefault(x => x.GKBase is GKPim && (x.GKBase as GKPim).PumpStationUID == pumpStation.UID);
+			var gkPimDescriptor = gkDatabase.Descriptors.FirstOrDefault(x => x.GKBase is GKPim && (x.GKBase as GKPim).PumpStationUID == pumpStation.UID);
+			Assert.IsTrue(kau1PimDescriptor.Formula.FormulaOperations.Count > 1, "Отсутствует логика на КАУ");
+			Assert.IsTrue(gkPimDescriptor.Formula.FormulaOperations.Count == 1, "Присутствует логика на ГК");
 		}
 	}
 }

@@ -13,7 +13,7 @@ namespace GKProcessor
 		{
 			DescriptorType = DescriptorType.Delay;
 			Delay = delay;
-			CreateFormula();
+			//CreateFormula();
 		}
 		
 		public override void Build()
