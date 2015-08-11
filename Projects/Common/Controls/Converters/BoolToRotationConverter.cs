@@ -8,7 +8,7 @@ namespace Controls.Converters
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
 			var val = parameter != null && System.Convert.ToBoolean(parameter) ? !(bool)value : (bool)value;
-			return val ? "180" : "0";
+			return val ? "0" : "180";
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

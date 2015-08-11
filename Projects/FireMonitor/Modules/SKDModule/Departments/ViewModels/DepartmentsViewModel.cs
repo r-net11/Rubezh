@@ -253,13 +253,10 @@ namespace SKDModule.ViewModels
 		protected override void UpdateSelected()
 		{
 			base.UpdateSelected();
+			if (EmployeeListViewModel == null)
+				EmployeeListViewModel = new DepartmentEmployeeListViewModel(SelectedItem, IsWithDeleted);
 			if (IsShowEmployeeList)
-			{
-				if (EmployeeListViewModel == null)
-					EmployeeListViewModel = new DepartmentEmployeeListViewModel(SelectedItem, IsWithDeleted);
-				else
-					EmployeeListViewModel.Initialize(SelectedItem, IsWithDeleted);
-			}
+				EmployeeListViewModel.Initialize(SelectedItem, IsWithDeleted);
 			OnPropertyChanged(() => IsShowEmployeeList);
 		}
 
