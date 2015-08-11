@@ -60,6 +60,10 @@
 							Command="{Binding EditPartCommand}"
 							ImageSource="Edit"
 							ToolTip="Редактировать" />
+						<ToolBarButton
+							Command="{Binding ResetAdjustmentsCommand}"
+							ImageSource="Close"
+							ToolTip="Сброс корректировок"/>
 					</StackPanel>
 					<DataGrid
 						Grid.Row="1"

@@ -9,6 +9,8 @@ using Org.BouncyCastle.Crypto.Engines;
 using ReactiveUI;
 using SKDModule.Model;
 using SKDModule.Helpers;
+using DayTimeTrackPart = SKDModule.Model.DayTimeTrackPart;
+using TimeTrackZone = SKDModule.Model.TimeTrackZone;
 
 namespace SKDModule.ViewModels
 {

@@ -131,13 +131,7 @@ namespace SKDModule.Model
 		public string CorrectedDate
 		{
 			get { return _correctedDate; }
-			set
-			{
-				if (string.Equals(_correctedDate, value)) return;
-				_correctedDate = value;
-				this.RaiseAndSetIfChanged(ref _correctedDate, value);
-
-			}
+			set { this.RaiseAndSetIfChanged(ref _correctedDate, value); }
 		}
 
 		private string _correctedBy;
@@ -145,12 +139,7 @@ namespace SKDModule.Model
 		public string CorrectedBy
 		{
 			get { return _correctedBy; }
-			set
-			{
-				if (string.Equals(_correctedBy, value)) return;
-				_correctedBy = value;
-				this.RaiseAndSetIfChanged(ref _correctedBy, value);
-			}
+			set { this.RaiseAndSetIfChanged(ref _correctedBy, value); }
 		}
 
 		private TimeTrackZone _timeTrackZone;
@@ -158,11 +147,31 @@ namespace SKDModule.Model
 		public TimeTrackZone TimeTrackZone
 		{
 			get { return _timeTrackZone; }
-			set
-			{
-				_timeTrackZone = value;
-				this.RaiseAndSetIfChanged(ref _timeTrackZone, value);
-			}
+			set { this.RaiseAndSetIfChanged(ref _timeTrackZone, value); }
+		}
+
+		private bool _isForceClosed;
+
+		public bool IsForceClosed
+		{
+			get { return _isForceClosed; }
+			set { this.RaiseAndSetIfChanged(ref _isForceClosed, value); }
+		}
+
+		private DateTime? _enterTimeOriginal;
+
+		public DateTime? EnterTimeOriginal
+		{
+			get { return _enterTimeOriginal; }
+			set { this.RaiseAndSetIfChanged(ref _enterTimeOriginal, value); }
+		}
+
+		private DateTime? _exitTimeOriginal;
+
+		public DateTime? ExitTimeOriginal
+		{
+			get { return _exitTimeOriginal; }
+			set { this.RaiseAndSetIfChanged(ref _exitTimeOriginal, value); }
 		}
 
 		#endregion
@@ -204,7 +213,10 @@ namespace SKDModule.Model
 				timeTrackPart.IsManuallyAdded,
 				timeTrackPart.AdjustmentDate.ToString(),
 				user.Name,
-				timeTrackPart.IsOpen);
+				timeTrackPart.EnterTimeOriginal,
+				timeTrackPart.ExitTimeOriginal,
+				timeTrackPart.IsOpen,
+				timeTrackPart.IsForceClosed);
 		}
 
 		public DayTimeTrackPart()
@@ -217,7 +229,7 @@ namespace SKDModule.Model
 		#region Methods
 
 		public void Update(DateTime? enterDateTime, DateTime? exitDateTime,
-			TimeTrackZone timeTrackZone, bool notTakeInCalculations, bool isManuallyAdded, string adjustmentDate, string correctedBy, bool isOpen = false)
+			TimeTrackZone timeTrackZone, bool notTakeInCalculations, bool isManuallyAdded, string adjustmentDate, string correctedBy, DateTime? enterTimeOriginal, DateTime? exitTimeOriginal, bool isOpen = false, bool isForceClosed = false)
 		{
 			TimeTrackZone = timeTrackZone;
 			EnterDateTime = enterDateTime;
@@ -229,6 +241,9 @@ namespace SKDModule.Model
 			CorrectedDate = adjustmentDate;
 			CorrectedBy = correctedBy;
 			IsOpen = isOpen;
+			IsForceClosed = isForceClosed;
+			EnterTimeOriginal = enterTimeOriginal;
+			ExitTimeOriginal = exitTimeOriginal;
 		}
 
 		private Lazy<IObservable<object>> GetUiObserver()

@@ -43,25 +43,25 @@
 
 		private string _saveCaption;
 
-		public string SaveCaption
+		public virtual string SaveCaption
 		{
 			get { return _saveCaption; }
 			set
 			{
 				_saveCaption = value;
-				OnPropertyChanged("SaveCaption");
+				OnPropertyChanged(() => SaveCaption);
 			}
 		}
 
 		private string _cancelCaption;
 
-		public string CancelCaption
+		public virtual string CancelCaption
 		{
 			get { return _cancelCaption; }
 			set
 			{
 				_cancelCaption = value;
-				OnPropertyChanged("CancelCaption");
+				OnPropertyChanged(() => CancelCaption);
 			}
 		}
 

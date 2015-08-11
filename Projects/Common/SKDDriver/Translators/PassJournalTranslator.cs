@@ -66,6 +66,29 @@ namespace SKDDriver.Translators
 			}
 		}
 
+		public OperationResult FindConflictIntervals(List<DayTimeTrackPart> dayTimeTrackParts, Guid employeeGuid, DateTime currentDate)
+		{
+			var minIntervalsDate = dayTimeTrackParts.Where(x => x.EnterTimeOriginal.HasValue).Min(x => x.EnterTimeOriginal.Value.Date);
+			var maxIntervalDate = dayTimeTrackParts.Where(x => x.ExitTimeOriginal.HasValue).Max(x => x.ExitTimeOriginal.Value.Date);
+
+			if(minIntervalsDate.Date == currentDate.Date && maxIntervalDate.Date == currentDate.Date)
+				return new OperationResult();
+
+			var conflictsIntervalsCollection = new List<object>();
+
+			var linkedIntervals = Context.PassJournals.Where(x => x.EnterTimeOriginal.HasValue && x.ExitTimeOriginal.HasValue)
+														.Where(
+														x => x.EmployeeUID == employeeGuid &&
+														x.EnterTimeOriginal.Value.Date >= minIntervalsDate.Date &&
+														x.ExitTimeOriginal.Value.Date <= maxIntervalDate);
+			foreach (var el in dayTimeTrackParts)
+			{
+				var tmp = el;
+				conflictsIntervalsCollection.Add(linkedIntervals.Select(x => tmp.ExitTimeOriginal > x.EnterTime || tmp.EnterTimeOriginal < x.ExitTime));
+			}
+			return new OperationResult();
+		}
+
 		public OperationResult AddCustomPassJournal(Guid uid, Guid employeeUID, Guid zoneUID, DateTime? enterTime, DateTime? exitTime,
 			DateTime? adjustmentDate, Guid correctedBy, bool notTakeInCalculations, bool isAddedManually, DateTime? enterTimeOriginal, DateTime? exitTimeOriginal)
 		{

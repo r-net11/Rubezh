@@ -3,6 +3,7 @@ using System.Linq;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
 using SKDModule.Model;
+using TimeTrackZone = SKDModule.Model.TimeTrackZone;
 
 namespace SKDModule.Helpers
 {

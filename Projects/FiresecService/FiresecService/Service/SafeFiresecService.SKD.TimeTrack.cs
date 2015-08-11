@@ -178,6 +178,11 @@ namespace FiresecService.Service
 			return SafeContext.Execute<OperationResult>(() => FiresecService.RemoveTimeTrackDocumentType(timeTrackDocumentTypeUID));
 		}
 
+		public OperationResult FindConflictIntervals(List<DayTimeTrackPart> dayTimeTrackParts, Guid employeeGuid, DateTime currentDate)
+		{
+			return SafeContext.Execute(() => FiresecService.FindConflictIntervals(dayTimeTrackParts, employeeGuid, currentDate));
+		}
+
 		public OperationResult AddCustomPassJournal(Guid uid, Guid employeeUID, Guid zoneUID, DateTime? enterTime, DateTime? exitTime,
 			DateTime? adjustmentDate, Guid correctedBy, bool notTakeInCalculations, bool isAddedManually, DateTime? enterTimeOriginal, DateTime? exitTimeOriginal)
 		{

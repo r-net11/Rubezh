@@ -16,6 +16,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Data;
+using DayTimeTrackPart = SKDModule.Model.DayTimeTrackPart;
 
 namespace SKDModule.ViewModels
 {
@@ -254,6 +255,7 @@ namespace SKDModule.ViewModels
 			AddCustomPartCommand = new RelayCommand(OnAddCustomPart, CanAddPart);
 			RemovePartCommand = new RelayCommand(OnRemovePart, CanEditRemovePart);
 			EditPartCommand = new RelayCommand(OnEditPart, CanEditRemovePart);
+			ResetAdjustmentsCommand = new RelayCommand(OnResetAdjustments);
 			DayTimeTrack = dayTimeTrack;
 			ShortEmployee = shortEmployee;
 
@@ -316,6 +318,8 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddFileCommand { get; private set; }
 		public RelayCommand OpenFileCommand { get; private set; }
 		public RelayCommand RemoveFileCommand { get; private set; }
+		public RelayCommand ResetAdjustmentsCommand { get; private set; }
+
 		/// <summary>
 		/// Функция создания прохода
 		/// </summary>
@@ -520,6 +524,43 @@ namespace SKDModule.ViewModels
 			}
 
 			return base.Save();
+		}
+
+		public void OnResetAdjustments()
+		{
+			List<DayTimeTrackPart> collection = DayTimeTrackParts.Where(x => !string.IsNullOrEmpty(x.CorrectedBy) && !x.IsForceClosed).ToList();
+			List<FiresecAPI.SKD.DayTimeTrackPart> serverCollection = new List<FiresecAPI.SKD.DayTimeTrackPart>();
+			foreach (var dayTimeTrackPart in collection)
+			{
+				serverCollection.Add(new FiresecAPI.SKD.DayTimeTrackPart
+				{
+					UID = dayTimeTrackPart.UID,
+					TimeTrackZone = new FiresecAPI.SKD.TimeTrackZone
+					{
+						SKDZone = dayTimeTrackPart.TimeTrackZone.SKDZone,
+						Description = dayTimeTrackPart.TimeTrackZone.Description,
+						IsURV = dayTimeTrackPart.TimeTrackZone.IsURV,
+						Name = dayTimeTrackPart.TimeTrackZone.Name,
+						No = dayTimeTrackPart.TimeTrackZone.No,
+						UID = dayTimeTrackPart.TimeTrackZone.UID
+					},
+					CorrectedBy = dayTimeTrackPart.CorrectedBy,
+					CorrectedDate = dayTimeTrackPart.CorrectedDate,
+					EnterDateTime = dayTimeTrackPart.EnterDateTime,
+					EnterTime = dayTimeTrackPart.EnterTime,
+					ExitDateTime = dayTimeTrackPart.ExitDateTime,
+					ExitTime = dayTimeTrackPart.ExitTime,
+					IsDirty = dayTimeTrackPart.IsDirty,
+					IsEnabledNotTakeInCalculations = dayTimeTrackPart.IsEnabledNotTakeInCalculations
+				});
+			}
+
+			var conflictIntervals = PassJournalHelper.FindConflictIntervals(serverCollection, ShortEmployee.UID, DayTimeTrack.Date);
+
+			foreach (var el in collection)
+			{
+
+			}
 		}
 
 		#endregion

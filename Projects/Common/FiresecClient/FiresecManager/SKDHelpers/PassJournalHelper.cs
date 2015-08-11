@@ -1,10 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Documents;
+using FiresecAPI.SKD;
+
 
 namespace FiresecClient.SKDHelpers
 {
 	public static class PassJournalHelper
 	{
+		public static bool FindConflictIntervals(List<DayTimeTrackPart> dayTimeTracks, Guid employeeGuid, DateTime currentDate)
+		{
+			var result = FiresecManager.FiresecService.FindConflictIntervals(dayTimeTracks, employeeGuid, currentDate);
+			return Common.ShowErrorIfExists(result);
+		}
+
 		public static bool AddCustomPassJournal(Guid uid, Guid employeeUID, Guid zoneUID, DateTime? enterTime, DateTime? exitTime,
 			DateTime? adjustmentDate, Guid correctedBy, bool notTakeInCalculations, bool isAddedManually, DateTime? enterTimeOriginal, DateTime? exitTimeOriginal)
 		{

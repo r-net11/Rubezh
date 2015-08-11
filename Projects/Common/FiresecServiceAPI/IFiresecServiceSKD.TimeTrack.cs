@@ -110,6 +110,9 @@ namespace FiresecAPI
 		OperationResult RemoveTimeTrackDocumentType(Guid timeTrackDocumentTypeUID);
 
 		[OperationContract]
+		OperationResult FindConflictIntervals(List<DayTimeTrackPart> dayTimeTrackParts, Guid employeeGuid, DateTime currentDate);
+
+		[OperationContract]
 		OperationResult AddCustomPassJournal(Guid uid, Guid employeeUID, Guid zoneUID, DateTime? enterTime, DateTime? exitTime,
 			DateTime? adjustmentDate, Guid correctedBy, bool notTakeInCalculations, bool isAddedManually, DateTime? enterTimeOriginal, DateTime? exitTimeOriginal);
 
