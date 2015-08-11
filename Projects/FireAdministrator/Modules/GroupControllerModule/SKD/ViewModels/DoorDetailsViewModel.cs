@@ -102,6 +102,20 @@ namespace GKModule.ViewModels
 			get { return _selectedDoorType; }
 			set
 			{
+				if (value == GKDoorType.OneWay || value == GKDoorType.TwoWay || value == GKDoorType.AirlockBooth || value == GKDoorType.Barrier)
+				{
+					Delay = 2;
+					if (value == GKDoorType.OneWay || value == GKDoorType.TwoWay)
+						Hold = 20;
+
+					if (value == GKDoorType.AirlockBooth || value == GKDoorType.Barrier)
+						Hold = 30;
+				}
+				if (value == GKDoorType.Turnstile)
+				{
+					Delay = 1;
+					Hold = 5;
+				}
 				_selectedDoorType = value;
 				OnPropertyChanged(() => SelectedDoorType);
 			}
