@@ -427,5 +427,45 @@ namespace FiresecAPI.GK
 				return kauParents[0].GKParent;
 			return kauParents.Count == 1 ? kauParents[0] : null;
 		}
+
+
+		#region Dependences Calculation
+
+		[XmlIgnore]
+		public List<GKBase> DescriptorDependentObjects = new List<GKBase>();
+
+		[XmlIgnore]
+		public bool IsReady { get; set; }
+
+		public void CalculateNext()
+		{
+			if (!IsReady)
+			{
+				IsReady = true;
+
+				var newDescriptorDependentObjectss = new List<GKBase>();
+				foreach (var selfChild in DescriptorDependentObjects)
+				{
+					newDescriptorDependentObjectss.Add(selfChild);
+					foreach (var child in selfChild.DescriptorDependentObjects)
+					{
+						if (!DescriptorDependentObjects.Any(x => x == child))
+						{
+							newDescriptorDependentObjectss.Add(child);
+							IsReady = false;
+						}
+					}
+				}
+				foreach (var newFormulaInputObject in newDescriptorDependentObjectss)
+				{
+					if (!DescriptorDependentObjects.Contains(newFormulaInputObject))
+					{
+						DescriptorDependentObjects.AddRange(newDescriptorDependentObjectss);
+					}
+				}
+			}
+		}
+
+		#endregion Logic Calculation
 	}
 }

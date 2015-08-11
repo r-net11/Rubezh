@@ -14,6 +14,9 @@ namespace GKProcessor
 			GKManager.UpdateConfiguration();
 			GKManager.PrepareDescriptors();
 
+			var testDescriptorsCreator = new TestDescriptorsCreator();
+			testDescriptorsCreator.SetDependentDescriptors();
+
 			GkDatabases = new List<GkDatabase>();
 			KauDatabases = new List<KauDatabase>();
 
