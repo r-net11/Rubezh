@@ -528,7 +528,9 @@ namespace SKDModule.ViewModels
 
 		public void OnResetAdjustments()
 		{
+			var resultCollection = DayTimeTrackParts;//.Where(x => !x.IsManuallyAdded).ToList();
 			List<DayTimeTrackPart> collection = DayTimeTrackParts.Where(x => !string.IsNullOrEmpty(x.CorrectedBy) && !x.IsForceClosed).ToList();
+			//TODO: remove all manuall added intervals
 			List<FiresecAPI.SKD.DayTimeTrackPart> serverCollection = new List<FiresecAPI.SKD.DayTimeTrackPart>();
 			foreach (var dayTimeTrackPart in collection)
 			{
@@ -589,25 +591,25 @@ namespace SKDModule.ViewModels
 				{
 					values.Add(new DayTimeTrackPart
 					{
-						UID = dayTimeTrackPart.Key.UID,
+						UID = timeTrackPart.UID,
 						TimeTrackZone = new SKDModule.Model.TimeTrackZone
 						{
-							SKDZone = dayTimeTrackPart.Key.TimeTrackZone.SKDZone,
-							Description = dayTimeTrackPart.Key.TimeTrackZone.Description,
-							IsURV = dayTimeTrackPart.Key.TimeTrackZone.IsURV,
-							Name = dayTimeTrackPart.Key.TimeTrackZone.Name,
-							No = dayTimeTrackPart.Key.TimeTrackZone.No,
-							UID = dayTimeTrackPart.Key.TimeTrackZone.UID
+							SKDZone = timeTrackPart.TimeTrackZone.SKDZone,
+							Description = timeTrackPart.TimeTrackZone.Description,
+							IsURV = timeTrackPart.TimeTrackZone.IsURV,
+							Name = timeTrackPart.TimeTrackZone.Name,
+							No = timeTrackPart.TimeTrackZone.No,
+							UID = timeTrackPart.TimeTrackZone.UID
 						},
-						CorrectedBy = dayTimeTrackPart.Key.CorrectedBy,
-						CorrectedDate = dayTimeTrackPart.Key.CorrectedDate,
-						EnterTimeOriginal = dayTimeTrackPart.Key.EnterTimeOriginal,
-						EnterDateTime = dayTimeTrackPart.Key.EnterDateTime,
-						EnterTime = dayTimeTrackPart.Key.EnterTime,
-						ExitDateTime = dayTimeTrackPart.Key.ExitDateTime,
-						ExitTime = dayTimeTrackPart.Key.ExitTime,
-						ExitTimeOriginal = dayTimeTrackPart.Key.ExitTimeOriginal,
-						IsDirty = dayTimeTrackPart.Key.IsDirty
+						CorrectedBy = timeTrackPart.CorrectedBy,
+						CorrectedDate = timeTrackPart.CorrectedDate,
+						EnterTimeOriginal = timeTrackPart.EnterTimeOriginal,
+						EnterDateTime = timeTrackPart.EnterDateTime,
+						EnterTime = timeTrackPart.EnterTime,
+						ExitDateTime = timeTrackPart.ExitDateTime,
+						ExitTime = timeTrackPart.ExitTime,
+						ExitTimeOriginal = timeTrackPart.ExitTimeOriginal,
+						IsDirty = timeTrackPart.IsDirty
 					});
 				}
 				clienDictionary.Add(key, values);
@@ -623,7 +625,13 @@ namespace SKDModule.ViewModels
 
 				if (DialogService.ShowModalWindow(conflictViewModel))
 				{
-					continue; //TODO:Set borders without intersection
+					var tmp = el;
+					resultCollection.Where(x => x.UID == tmp.Key.UID).Select(x =>
+					{
+						x.ExitDateTime = tmp.Value.FirstOrDefault().EnterDateTime;
+						return x;
+					});
+					//TODO:Set borders without intersection
 				}
 				else
 				{
