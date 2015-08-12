@@ -125,7 +125,7 @@ namespace GKModule.ViewModels
 			HashSet<Guid> codes = new HashSet<Guid>();
 			foreach (var guardZone in GKManager.DeviceConfiguration.GuardZones)
 			{
-				var guardZoneDevices = guardZone.GuardZoneDevices.Where(x => x.Device.DriverType == GKDriverType.RSR2_CardReader || x.Device.DriverType == GKDriverType.RSR2_CodeReader).ToList();
+				var guardZoneDevices = guardZone.GuardZoneDevices.Where(x => x.Device.DriverType == GKDriverType.RSR2_CardReader || x.Device.DriverType == GKDriverType.RSR2_CodeReader);
 				foreach (var code in GKManager.DeviceConfiguration.Codes)
 				{
 					if (guardZoneDevices.Any(y => y.CodeReaderSettings.AlarmSettings.CodeUIDs.Contains(code.UID) || y.CodeReaderSettings.ChangeGuardSettings.CodeUIDs.Contains(code.UID) ||
@@ -135,6 +135,20 @@ namespace GKModule.ViewModels
 					}
 				}
 			}
+
+			foreach (var MPT in GKManager.DeviceConfiguration.MPTs)
+			{
+				var MPTDevices = MPT.MPTDevices.Where(x => x.Device.DriverType == GKDriverType.RSR2_CardReader);
+				foreach (var code in GKManager.DeviceConfiguration.Codes)
+				{
+					if (MPTDevices.Any(y => y.CodeReaderSettings.AutomaticOnSettings.CodeUIDs.Contains(code.UID) || y.CodeReaderSettings.AutomaticOffSettings.CodeUIDs.Contains(code.UID) ||
+						y.CodeReaderSettings.StartSettings.CodeUIDs.Contains(code.UID) || y.CodeReaderSettings.StopSettings.CodeUIDs.Contains(code.UID)))
+					{
+						codes.Add(code.UID);
+					}
+				}
+			}
+
 			return codes;
 		}
 
