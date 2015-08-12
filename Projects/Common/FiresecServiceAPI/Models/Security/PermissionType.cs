@@ -88,6 +88,9 @@ namespace FiresecAPI.Models
 		[DescriptionAttribute("Управление графиками СКД")]
 		Oper_ScheduleSKD,
 
+		[DescriptionAttribute("Управление зонами СКД")]
+		Oper_ZonesSKD,
+
 		[DescriptionAttribute("Список точек доступа")]
 		Oper_Reports_Doors,
 
