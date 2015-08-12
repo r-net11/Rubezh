@@ -91,6 +91,7 @@ namespace SKDDriver.DataClasses
 			result.BirthDate = tableItem.BirthDate;
 			result.BirthPlace = tableItem.BirthPlace;
 			result.DocumentGivenBy = tableItem.DocumentGivenBy;
+			result.DocumentGivenDate = tableItem.DocumentGivenDate;
 			result.DocumentValidTo = tableItem.DocumentValidTo;
 			result.Gender = (API.Gender)tableItem.Gender;
 			result.DocumentDepartmentCode = result.DocumentDepartmentCode;
