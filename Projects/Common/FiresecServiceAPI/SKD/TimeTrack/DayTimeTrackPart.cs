@@ -21,8 +21,6 @@ namespace FiresecAPI.SKD
 		[DataMember]
 		public bool NotTakeInCalculations { get; set; }
 		[DataMember]
-		public bool IsEnabledNotTakeInCalculations { get; set; }
-		[DataMember]
 		public bool IsOpen { get; set; }
 		[DataMember]
 		public bool IsNeedAdjustment { get; set; }

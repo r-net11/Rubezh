@@ -5,6 +5,8 @@ using LinqKit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using SKDDriver.DataAccess;
+using EmployeeDay = FiresecAPI.SKD.EmployeeDay;
 using OperationResult = FiresecAPI.OperationResult;
 
 namespace SKDDriver.Translators
@@ -66,27 +68,59 @@ namespace SKDDriver.Translators
 			}
 		}
 
-		public OperationResult FindConflictIntervals(List<DayTimeTrackPart> dayTimeTrackParts, Guid employeeGuid, DateTime currentDate)
+		public OperationResult<Dictionary<DayTimeTrackPart, List<DayTimeTrackPart>>> FindConflictIntervals(List<DayTimeTrackPart> dayTimeTrackParts, Guid employeeGuid, DateTime currentDate)
 		{
-			var minIntervalsDate = dayTimeTrackParts.Where(x => x.EnterTimeOriginal.HasValue).Min(x => x.EnterTimeOriginal.Value.Date);
-			var maxIntervalDate = dayTimeTrackParts.Where(x => x.ExitTimeOriginal.HasValue).Max(x => x.ExitTimeOriginal.Value.Date);
+			var minIntervalsDate = dayTimeTrackParts.Where(x => x.EnterTimeOriginal.HasValue).DefaultIfEmpty().Min(x => x.EnterTimeOriginal.Value.Date); //if min return false
+			var maxIntervalDate = dayTimeTrackParts.Where(x => x.ExitTimeOriginal.HasValue).DefaultIfEmpty().Max(x => x.ExitTimeOriginal.Value.Date);
 
 			if(minIntervalsDate.Date == currentDate.Date && maxIntervalDate.Date == currentDate.Date)
-				return new OperationResult();
+				return new OperationResult<Dictionary<DayTimeTrackPart, List<DayTimeTrackPart>>>();
 
-			var conflictsIntervalsCollection = new List<object>();
+			var conflictsIntervalsCollection = new List<DayTimeTrackPart>();
 
-			var linkedIntervals = Context.PassJournals.Where(x => x.EnterTimeOriginal.HasValue && x.ExitTimeOriginal.HasValue)
+			List<PassJournal> linkedIntervals = Context.PassJournals.Where(x => x.EnterTimeOriginal.HasValue && x.ExitTimeOriginal.HasValue)
 														.Where(
 														x => x.EmployeeUID == employeeGuid &&
 														x.EnterTimeOriginal.Value.Date >= minIntervalsDate.Date &&
-														x.ExitTimeOriginal.Value.Date <= maxIntervalDate);
+														x.ExitTimeOriginal.Value.Date <= maxIntervalDate).ToList();
+			var conflictedIntervals = new Dictionary<DayTimeTrackPart, List<DayTimeTrackPart>>();
+			var tempCollection = new List<DayTimeTrackPart>();
 			foreach (var el in dayTimeTrackParts)
 			{
+				//var tmp = el;
+				//conflictsIntervalsCollection.Add(linkedIntervals.Select(x => tmp.ExitTimeOriginal > x.EnterTime || tmp.EnterTimeOriginal < x.ExitTime));
 				var tmp = el;
-				conflictsIntervalsCollection.Add(linkedIntervals.Select(x => tmp.ExitTimeOriginal > x.EnterTime || tmp.EnterTimeOriginal < x.ExitTime));
+				List<PassJournal> tmpCollection = linkedIntervals
+					.Where(x => (x.UID != el.UID) && (tmp.EnterTimeOriginal.HasValue && tmp.ExitTimeOriginal.HasValue))
+					.Where(x => (tmp.ExitTimeOriginal.Value.Date >= x.ExitTime.Value.Date && tmp.EnterTimeOriginal.Value.Date <= x.EnterTime.Date) &&
+								(tmp.ExitTimeOriginal > x.EnterTime || tmp.EnterTimeOriginal < x.ExitTime))
+					.Where(x => x.ExitTime >= tmp.EnterTimeOriginal)
+					.ToList();
+
+				if (tmpCollection.Any())
+				{
+					foreach (var b in tmpCollection)
+					{
+
+						tempCollection.Add(new DayTimeTrackPart
+						{
+							UID = b.UID,
+							EnterDateTime = b.EnterTime,
+							EnterTime = b.EnterTime.TimeOfDay,
+							EnterTimeOriginal = b.EnterTimeOriginal,
+							ExitDateTime = b.ExitTime,
+							ExitTime = b.ExitTime.GetValueOrDefault().TimeOfDay,
+							ExitTimeOriginal = b.ExitTimeOriginal,
+							TimeTrackZone = new TimeTrackZone
+							{
+								UID = b.ZoneUID
+							}
+						});
+					}
+					conflictedIntervals.Add(el, tempCollection);
+				}
 			}
-			return new OperationResult();
+			return new OperationResult<Dictionary<DayTimeTrackPart, List<DayTimeTrackPart>>>(conflictedIntervals);
 		}
 
 		public OperationResult AddCustomPassJournal(Guid uid, Guid employeeUID, Guid zoneUID, DateTime? enterTime, DateTime? exitTime,

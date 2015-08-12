@@ -284,17 +284,17 @@ namespace SKDModule.Model
 				propertyName = propertyName ?? string.Empty;
 				if (propertyName == string.Empty || propertyName == "EnterTime" || propertyName == "ExitTime")
 				{
-					if (EnterTime > ExitTime)
+					if ((EnterDateTime.HasValue && ExitDateTime.HasValue) && (EnterDateTime.Value.Date == ExitDateTime.Value.Date) && (EnterTime > ExitTime))
 						result = "Время входа не может быть больше времени выхода";
 				}
 				if (propertyName == string.Empty || propertyName == "ExitTime" || propertyName == "EnterTime")
 				{
-					if (EnterTime == ExitTime)
+					if ((EnterDateTime.HasValue && ExitDateTime.HasValue) && (EnterDateTime.Value.Date == ExitDateTime.Value.Date) && (EnterTime == ExitTime))
 						result = "Невозможно добавить нулевое пребывание в зоне";
 				}
 				if (propertyName == string.Empty || propertyName == "EnterDateTime" || propertyName == "ExitDateTime")
 				{
-					if (EnterDateTime > ExitDateTime)
+					if ((EnterDateTime.HasValue && ExitDateTime.HasValue) && (EnterDateTime.Value.Date == ExitDateTime.Value.Date) && (EnterDateTime > ExitDateTime))
 						result = "Дата входа не может быть больше даты выхода";
 				}
 				if (propertyName == string.Empty || propertyName == "EnterDateTime" || propertyName == "ExitDateTime")

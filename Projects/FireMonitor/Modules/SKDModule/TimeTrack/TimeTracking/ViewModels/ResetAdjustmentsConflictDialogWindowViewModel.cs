@@ -2,16 +2,71 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Markup;
+using FiresecAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
+using DayTimeTrackPart = SKDModule.Model.DayTimeTrackPart;
 
 namespace SKDModule.ViewModels
 {
 	public class ResetAdjustmentsConflictDialogWindowViewModel : SaveCancelDialogViewModel
 	{
-		public ResetAdjustmentsConflictDialogWindowViewModel()
+		#region Properties
+
+		public bool IsCheckedSave { get; private set; }
+		public bool IsCheckedCancel { get; private set; }
+
+		public DayTimeTrackPart ResetedDayTimeTrackPart { get; set; }
+
+		private string _conflictZone;
+
+		public string ConflictZone
 		{
-			SaveCaption = "Установить границы без пересечений с другими интервалами";
-			CancelCaption = "Удалить корректировки пересекающихся интервалов";
+			get { return _conflictZone; }
+			set
+			{
+				if (string.Equals(_conflictZone, value)) return;
+				_conflictZone = value;
+				OnPropertyChanged(() => ConflictZone);
+			}
+		}
+
+		private DateTime? _conflictEnterDate;
+
+		public DateTime? ConflictEnterDate
+		{
+			get { return _conflictEnterDate; }
+			set
+			{
+				if (_conflictEnterDate == value) return;
+				_conflictEnterDate = value;
+				OnPropertyChanged(() => ConflictEnterDate);
+			}
+		}
+
+		private DateTime? _conflictExitDate;
+
+		public DateTime? ConflictExitDate
+		{
+			get { return _conflictExitDate; }
+			set
+			{
+				if (_conflictExitDate == value) return;
+				_conflictExitDate = value;
+				OnPropertyChanged(() => ConflictExitDate);
+			}
+		}
+
+		private List<DayTimeTrackPart> _conflictingIntervals;
+
+		public List<DayTimeTrackPart> ConflictingIntervals
+		{
+			get { return _conflictingIntervals; }
+			set
+			{
+				_conflictingIntervals = value;
+				OnPropertyChanged(() => ConflictingIntervals);
+			}
 		}
 
 		private string _saveCaption;
@@ -38,13 +93,53 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		private bool _applyToAll;
+
+		public bool ApplyToAll
+		{
+			get { return _applyToAll; }
+			set
+			{
+				if (_applyToAll == value) return;
+				_applyToAll = value;
+				OnPropertyChanged(() => ApplyToAll);
+			}
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public ResetAdjustmentsConflictDialogWindowViewModel()
+		{
+			SaveCaption = "Установить границы без пересечений с другими интервалами";
+			CancelCaption = "Удалить корректировки пересекающихся интервалов";
+		}
+
+		#endregion
+
+		#region Methods
+
+		public void SetValues(KeyValuePair<DayTimeTrackPart, List<DayTimeTrackPart>> conflictTimeTrackParts)
+		{
+			ResetedDayTimeTrackPart = conflictTimeTrackParts.Key;
+			ConflictingIntervals = conflictTimeTrackParts.Value;
+			//	ConflictingIntervals = conflictTimeTrackParts.SelectMany(x => x.Value).ToList();
+		}
+
+		#endregion
+
 		protected override bool Save()
 		{
+			if (ApplyToAll)
+				IsCheckedSave = true;
 			return base.Save();
 		}
 
 		protected override bool Cancel()
 		{
+			if (ApplyToAll)
+				IsCheckedCancel = true;
 			return base.Cancel();
 		}
 	}

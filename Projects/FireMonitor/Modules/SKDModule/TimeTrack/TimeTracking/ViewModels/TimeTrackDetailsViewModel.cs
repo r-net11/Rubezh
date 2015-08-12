@@ -507,15 +507,15 @@ namespace SKDModule.ViewModels
 						FiresecManager.CurrentUser.UID,
 						dayTimeTrackPart.NotTakeInCalculations,
 						dayTimeTrackPart.IsManuallyAdded,
-						DayTimeTrack.Date.Date.Add(dayTimeTrackPart.EnterDateTime.Value.TimeOfDay),
-						DayTimeTrack.Date.Date.Add(dayTimeTrackPart.ExitDateTime.Value.TimeOfDay)
+						(dayTimeTrackPart.EnterDateTime + dayTimeTrackPart.EnterTime),
+						(dayTimeTrackPart.ExitDateTime + dayTimeTrackPart.ExitTime)
 						);
 				else
 					PassJournalHelper.EditPassJournal(
 						dayTimeTrackPart.UID,
 						dayTimeTrackPart.TimeTrackZone.UID,
-						(dayTimeTrackPart.EnterDateTime + dayTimeTrackPart.EnterTime),
-						(dayTimeTrackPart.ExitDateTime + dayTimeTrackPart.ExitTime),
+						(dayTimeTrackPart.EnterDateTime.Value.Date + dayTimeTrackPart.EnterTime),
+						(dayTimeTrackPart.ExitDateTime.Value.Date + dayTimeTrackPart.ExitTime),
 						dayTimeTrackPart.IsNeedAdjustment,
 						DateTime.Now,
 						FiresecManager.CurrentUser.UID,
@@ -546,20 +546,89 @@ namespace SKDModule.ViewModels
 					},
 					CorrectedBy = dayTimeTrackPart.CorrectedBy,
 					CorrectedDate = dayTimeTrackPart.CorrectedDate,
+					EnterTimeOriginal = dayTimeTrackPart.EnterTimeOriginal,
 					EnterDateTime = dayTimeTrackPart.EnterDateTime,
 					EnterTime = dayTimeTrackPart.EnterTime,
 					ExitDateTime = dayTimeTrackPart.ExitDateTime,
 					ExitTime = dayTimeTrackPart.ExitTime,
-					IsDirty = dayTimeTrackPart.IsDirty,
-					IsEnabledNotTakeInCalculations = dayTimeTrackPart.IsEnabledNotTakeInCalculations
+					ExitTimeOriginal = dayTimeTrackPart.ExitTimeOriginal,
+					IsDirty = dayTimeTrackPart.IsDirty
 				});
 			}
 
 			var conflictIntervals = PassJournalHelper.FindConflictIntervals(serverCollection, ShortEmployee.UID, DayTimeTrack.Date);
-
-			foreach (var el in collection)
+			Dictionary<DayTimeTrackPart, List<DayTimeTrackPart>> clienDictionary = new Dictionary<DayTimeTrackPart, List<DayTimeTrackPart>>();
+			foreach (KeyValuePair<FiresecAPI.SKD.DayTimeTrackPart, List<FiresecAPI.SKD.DayTimeTrackPart>> dayTimeTrackPart in conflictIntervals)
 			{
+				var key = new DayTimeTrackPart
+				{
+					UID = dayTimeTrackPart.Key.UID,
+					TimeTrackZone = new SKDModule.Model.TimeTrackZone
+					{
+						SKDZone = dayTimeTrackPart.Key.TimeTrackZone.SKDZone,
+						Description = dayTimeTrackPart.Key.TimeTrackZone.Description,
+						IsURV = dayTimeTrackPart.Key.TimeTrackZone.IsURV,
+						Name = dayTimeTrackPart.Key.TimeTrackZone.Name,
+						No = dayTimeTrackPart.Key.TimeTrackZone.No,
+						UID = dayTimeTrackPart.Key.TimeTrackZone.UID
+					},
+					CorrectedBy = dayTimeTrackPart.Key.CorrectedBy,
+					CorrectedDate = dayTimeTrackPart.Key.CorrectedDate,
+					EnterTimeOriginal = dayTimeTrackPart.Key.EnterTimeOriginal,
+					EnterDateTime = dayTimeTrackPart.Key.EnterDateTime,
+					EnterTime = dayTimeTrackPart.Key.EnterTime,
+					ExitDateTime = dayTimeTrackPart.Key.ExitDateTime,
+					ExitTime = dayTimeTrackPart.Key.ExitTime,
+					ExitTimeOriginal = dayTimeTrackPart.Key.ExitTimeOriginal,
+					IsDirty = dayTimeTrackPart.Key.IsDirty
+				};
 
+				List<DayTimeTrackPart> values = new List<DayTimeTrackPart>();
+
+				foreach (var timeTrackPart in dayTimeTrackPart.Value)
+				{
+					values.Add(new DayTimeTrackPart
+					{
+						UID = dayTimeTrackPart.Key.UID,
+						TimeTrackZone = new SKDModule.Model.TimeTrackZone
+						{
+							SKDZone = dayTimeTrackPart.Key.TimeTrackZone.SKDZone,
+							Description = dayTimeTrackPart.Key.TimeTrackZone.Description,
+							IsURV = dayTimeTrackPart.Key.TimeTrackZone.IsURV,
+							Name = dayTimeTrackPart.Key.TimeTrackZone.Name,
+							No = dayTimeTrackPart.Key.TimeTrackZone.No,
+							UID = dayTimeTrackPart.Key.TimeTrackZone.UID
+						},
+						CorrectedBy = dayTimeTrackPart.Key.CorrectedBy,
+						CorrectedDate = dayTimeTrackPart.Key.CorrectedDate,
+						EnterTimeOriginal = dayTimeTrackPart.Key.EnterTimeOriginal,
+						EnterDateTime = dayTimeTrackPart.Key.EnterDateTime,
+						EnterTime = dayTimeTrackPart.Key.EnterTime,
+						ExitDateTime = dayTimeTrackPart.Key.ExitDateTime,
+						ExitTime = dayTimeTrackPart.Key.ExitTime,
+						ExitTimeOriginal = dayTimeTrackPart.Key.ExitTimeOriginal,
+						IsDirty = dayTimeTrackPart.Key.IsDirty
+					});
+				}
+				clienDictionary.Add(key, values);
+			}
+
+			var conflictViewModel = new ResetAdjustmentsConflictDialogWindowViewModel();
+			foreach (KeyValuePair<DayTimeTrackPart, List<DayTimeTrackPart>> el in clienDictionary)
+			{
+				conflictViewModel.SetValues(el);
+
+				if(conflictViewModel.IsCheckedSave) continue; //TODO:Set borders without intersection
+				if(conflictViewModel.IsCheckedCancel) continue; //TODO:Remove manually added interval
+
+				if (DialogService.ShowModalWindow(conflictViewModel))
+				{
+					continue; //TODO:Set borders without intersection
+				}
+				else
+				{
+					continue; //TODO:Remove manually added interval
+				}
 			}
 		}
 

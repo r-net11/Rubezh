@@ -8,7 +8,7 @@ namespace FiresecClient.SKDHelpers
 {
 	public static class PassJournalHelper
 	{
-		public static bool FindConflictIntervals(List<DayTimeTrackPart> dayTimeTracks, Guid employeeGuid, DateTime currentDate)
+		public static Dictionary<DayTimeTrackPart, List<DayTimeTrackPart>> FindConflictIntervals(List<DayTimeTrackPart> dayTimeTracks, Guid employeeGuid, DateTime currentDate)
 		{
 			var result = FiresecManager.FiresecService.FindConflictIntervals(dayTimeTracks, employeeGuid, currentDate);
 			return Common.ShowErrorIfExists(result);

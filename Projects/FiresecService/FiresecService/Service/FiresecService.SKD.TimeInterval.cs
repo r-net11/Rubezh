@@ -314,7 +314,7 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult FindConflictIntervals(List<DayTimeTrackPart> dayTimeTrackParts, Guid employeeGuid, DateTime currentDate)
+		public OperationResult<Dictionary<DayTimeTrackPart, List<DayTimeTrackPart>>> FindConflictIntervals(List<DayTimeTrackPart> dayTimeTrackParts, Guid employeeGuid, DateTime currentDate)
 		{
 			using(var databaseService = new SKDDatabaseService())
 			{
