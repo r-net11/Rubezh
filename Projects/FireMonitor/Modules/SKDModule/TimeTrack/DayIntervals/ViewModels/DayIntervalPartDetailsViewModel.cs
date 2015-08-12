@@ -38,7 +38,6 @@ namespace SKDModule.ViewModels
 			EndTime = dayIntervalPart.EndTime;
 			SelectedTransition = dayIntervalPart.TransitionType;
 		}
-
 		TimeSpan _beginTime;
 		public TimeSpan BeginTime
 		{
@@ -181,6 +180,7 @@ namespace SKDModule.ViewModels
 					deitingDayIntervalPart.TransitionType = SelectedTransition;
 				}
 			}
+			dayIntervalParts= dayIntervalParts.OrderBy(item => item.BeginTime).ToList();
 			return dayIntervalParts;
 		}
 	}

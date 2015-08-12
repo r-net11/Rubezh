@@ -49,16 +49,16 @@ namespace SKDDriver.DataClasses
 		API.DayIntervalPart TranslatePart(DayIntervalPart tableItem)
 		{
 			var apiItem = new API.DayIntervalPart { UID = tableItem.UID, DayIntervalUID = tableItem.DayIntervalUID.Value };
+			apiItem.BeginTime = TimeSpan.FromSeconds(tableItem.BeginTime);
+			apiItem.Number = tableItem.Number;
 			if (tableItem.EndTime > _daySeconds)
 			{
 				apiItem.TransitionType = API.DayIntervalPartTransitionType.Night;
-				apiItem.BeginTime = TimeSpan.FromSeconds(tableItem.BeginTime);
 				apiItem.EndTime = TimeSpan.FromSeconds(tableItem.EndTime - _daySeconds);
 			}
 			else
 			{
 				apiItem.TransitionType = API.DayIntervalPartTransitionType.Day;
-				apiItem.BeginTime = TimeSpan.FromSeconds(tableItem.BeginTime);
 				apiItem.EndTime = TimeSpan.FromSeconds(tableItem.EndTime);
 			}
 			return apiItem;
@@ -70,6 +70,7 @@ namespace SKDDriver.DataClasses
 			tableItem.UID = apiItem.UID;
 			tableItem.BeginTime = (int)apiItem.BeginTime.TotalSeconds;
 			tableItem.EndTime = (int)apiItem.EndTime.TotalSeconds;
+			tableItem.Number = apiItem.Number;
 			if (apiItem.TransitionType == API.DayIntervalPartTransitionType.Night)
 			{
 				tableItem.EndTime += _daySeconds;
@@ -88,7 +89,7 @@ namespace SKDDriver.DataClasses
 				var beginTime = item.BeginTime;
 				var endTime = item.EndTime;
 				if (item.TransitionType != API.DayIntervalPartTransitionType.Day)
-					endTime.Add(TimeSpan.FromSeconds(_daySeconds));
+					endTime = endTime.Add(TimeSpan.FromSeconds(_daySeconds));
 				if (beginTime == endTime)
 					return OperationResult<bool>.FromError("Интервал не может иметь нулевую длительность");
 				var otherIntervals = intervals.Where(x => x.UID != item.UID);
@@ -97,8 +98,14 @@ namespace SKDDriver.DataClasses
 				if (beginTime > endTime)
 					return OperationResult<bool>.FromError("Время окончания интервала должно быть позже времени начала");
 				foreach (var interval in otherIntervals)
-					if ((interval.BeginTime >= beginTime && interval.BeginTime <= endTime) || (interval.EndTime >= beginTime && interval.EndTime <= endTime))
+				{
+					var otherBeginTime = interval.BeginTime;
+					var otherEndTime = interval.EndTime;
+					if (interval.TransitionType!=API.DayIntervalPartTransitionType.Day)
+						otherEndTime = otherEndTime.Add(TimeSpan.FromSeconds(_daySeconds));
+					if ((otherBeginTime >= beginTime && otherBeginTime <= endTime) || (otherEndTime >= beginTime && otherEndTime <= endTime))
 						return OperationResult<bool>.FromError("Последовательность интервалов не должна быть пересекающейся");
+				}
 			}
 			return new OperationResult<bool>(true);
 		}

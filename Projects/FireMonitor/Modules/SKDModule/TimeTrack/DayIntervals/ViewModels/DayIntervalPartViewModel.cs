@@ -12,7 +12,6 @@ namespace SKDModule.ViewModels
 		{
 			DayIntervalPart = dayIntervalPart;
 		}
-
 		public TimeSpan BeginTime
 		{
 			get { return DayIntervalPart.BeginTime; }
