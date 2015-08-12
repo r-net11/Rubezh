@@ -213,7 +213,7 @@ namespace StrazhModule.ViewModels
 
 		#endregion </Запрет повторного прохода>
 
-		#region <Блокировка прохода>
+		#region <Блокировка одновременного прохода>
 
 		bool _isInterlockEnabled;
 		public bool IsInterlockEnabled
@@ -394,10 +394,10 @@ namespace StrazhModule.ViewModels
 							IsInterlockModeL1L2Enabled = true;
 							IsInterlockModeL1L2L3Enabled = true;
 							IsInterlockModeL1L2L3L4Enabled = true;
-							IsInterlockModeL2L3L4Enabled = false;
-							IsInterlockModeL1L3_L2L4Enabled = false;
-							IsInterlockModeL1L4_L2L3Enabled = false;
-							IsInterlockModeL3L4Enabled = false;
+							IsInterlockModeL2L3L4Enabled = true;
+							IsInterlockModeL1L3_L2L4Enabled = true;
+							IsInterlockModeL1L4_L2L3Enabled = true;
+							IsInterlockModeL3L4Enabled = true;
 							break;
 					}
 					break;
@@ -412,7 +412,7 @@ namespace StrazhModule.ViewModels
 
 		}
 
-		#endregion </Блокировка прохода>
+		#endregion </Блокировка одновременного прохода>
 
 		void GetDoorType()
 		{
