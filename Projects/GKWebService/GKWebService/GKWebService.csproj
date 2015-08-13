@@ -84,6 +84,26 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\favicon\android-chrome-36x36.png" />
+    <Content Include="Content\favicon\android-chrome-48x48.png" />
+    <Content Include="Content\favicon\android-chrome-72x72.png" />
+    <Content Include="Content\favicon\android-chrome-96x96.png" />
+    <Content Include="Content\favicon\apple-touch-icon-114x114.png" />
+    <Content Include="Content\favicon\apple-touch-icon-120x120.png" />
+    <Content Include="Content\favicon\apple-touch-icon-57x57.png" />
+    <Content Include="Content\favicon\apple-touch-icon-60x60.png" />
+    <Content Include="Content\favicon\apple-touch-icon-72x72.png" />
+    <Content Include="Content\favicon\apple-touch-icon-76x76.png" />
+    <Content Include="Content\favicon\apple-touch-icon-precomposed.png" />
+    <Content Include="Content\favicon\apple-touch-icon.png" />
+    <Content Include="Content\favicon\browserconfig.xml" />
+    <Content Include="Content\favicon\favicon-16x16.png" />
+    <Content Include="Content\favicon\favicon-32x32.png" />
+    <Content Include="Content\favicon\favicon-96x96.png" />
+    <Content Include="Content\favicon\favicon.ico" />
+    <Content Include="Content\favicon\mstile-150x150.png" />
+    <Content Include="Content\favicon\mstile-310x150.png" />
+    <Content Include="Content\favicon\mstile-70x70.png" />
     <Content Include="Content\Image\Icon\Archive\filter.png" />
     <Content Include="Content\Image\Icon\Archive\left.png" />
     <Content Include="Content\Image\Icon\Archive\leftLeft.png" />
@@ -156,6 +176,7 @@
     <Content Include="Content\logon.less" />
     <Content Include="Content\report.less" />
     <Content Include="Content\archive.less" />
+    <Content Include="Content\favicon\manifest.json" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\Clock.js" />
     <Content Include="Scripts\i18n\grid.locale-ar.js" />

@@ -398,8 +398,11 @@
 /* Out color-profile framework values
 ----------------------------------------*/
 
-
-
-[data-bind="visible:pages.Report"] {
-	margin:0 10px 0 0;
+[data-bind="visible:pages.Report"], 
+[data-bind="visible:pages.Archive"], 
+[data-bind="visible:pages.HR"], 
+[data-bind="visible:pages.State"], 
+[data-bind="visible:pages.Device"] {
+	margin:10px 10px 0 0;
 }
+
