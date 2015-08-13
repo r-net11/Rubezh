@@ -38,7 +38,6 @@ namespace SKDModule.ViewModels
 			EndTime = dayIntervalPart.EndTime;
 			SelectedTransition = dayIntervalPart.TransitionType;
 		}
-
 		TimeSpan _beginTime;
 		public TimeSpan BeginTime
 		{
@@ -125,7 +124,7 @@ namespace SKDModule.ViewModels
 					MessageBoxService.ShowWarning("Последовательность интервалов не должна быть пересекающейся");
 					return false;
 				}
-				if (beginTime == currentDateTime)
+				if (beginTime == currentDateTime && beginTime != TimeSpan.Zero)
 				{
 					MessageBoxService.ShowWarning("Пауза между интервалами не должна быть нулевой");
 					return false;
@@ -181,6 +180,7 @@ namespace SKDModule.ViewModels
 					deitingDayIntervalPart.TransitionType = SelectedTransition;
 				}
 			}
+			dayIntervalParts= dayIntervalParts.OrderBy(item => item.BeginTime).ToList();
 			return dayIntervalParts;
 		}
 	}

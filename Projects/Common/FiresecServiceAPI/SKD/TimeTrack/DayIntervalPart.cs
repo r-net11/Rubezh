@@ -23,5 +23,8 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public DayIntervalPartTransitionType TransitionType { get; set; }
+
+		[DataMember]
+		public int Number { get; set; }
 	}
 }

@@ -144,7 +144,7 @@ namespace GKProcessor
 					Formula.AddGetBit(GKStateBit.TurningOff, Device.Door, DatabaseType);
 					Formula.AddGetBit(GKStateBit.Off, Device.Door, DatabaseType);
 					Formula.Add(FormulaOperationType.OR);
-					if (Device.Door.LockControlDevice != null)
+					if (Device.Door.LockControlDeviceExit != null)
 					{
 						Formula.AddGetBit(GKStateBit.Fire1, Device.Door.LockControlDeviceExit, DatabaseType);
 						Formula.Add(FormulaOperationType.OR);

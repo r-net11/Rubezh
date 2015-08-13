@@ -66,6 +66,7 @@ namespace FireMonitor.ViewModels
 				}
 				else if (HashHelper.CheckPass(Password, user.PasswordHash) && user.HasPermission(PermissionType.Oper_Login))
 				{
+					FiresecManager.Disconnect();
 					var processStartInfo = new ProcessStartInfo()
 					{
 						FileName = Application.ResourceAssembly.Location,

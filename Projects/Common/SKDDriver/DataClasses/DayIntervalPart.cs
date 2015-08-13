@@ -15,5 +15,7 @@ namespace SKDDriver.DataClasses
 		public int BeginTime { get; set; }
 
 		public int EndTime { get; set; }
+
+		public int Number { get; set; }
 	}
 }
