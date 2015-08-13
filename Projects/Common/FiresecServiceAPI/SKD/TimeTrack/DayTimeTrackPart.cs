@@ -48,6 +48,9 @@ namespace FiresecAPI.SKD
 		[DataMember]
 		public bool IsRemoveAllIntersections { get; set; }
 
+		[DataMember]
+		public Guid CorrectedByUID { get; set; }
+
 		#endregion
 	}
 }

@@ -28,6 +28,7 @@ namespace SKDModule.Helpers
 
 			originalInterval.ExitDateTime = firstConflictedInterval.EnterDateTime;
 			originalInterval.ExitTime = firstConflictedInterval.EnterTime;
+			originalInterval.IsDirty = true;
 			return originalInterval;
 		}
 	}

@@ -3,6 +3,7 @@ using FiresecAPI;
 using FiresecAPI.SKD;
 using System;
 using System.Collections.Generic;
+using Xceed.Wpf.Toolkit;
 
 namespace FiresecService.Service
 {
@@ -195,6 +196,11 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.EditPassJournal(uid, zoneUID, enterTime, exitTime,
 				isNeedAdjustment, adjustmentDate, correctedBy, notTakeInCalculations, isAddedManually, isRemoveAllIntersections, employeeGuid));
+		}
+
+		public OperationResult SaveAllTimeTracks(IEnumerable<DayTimeTrackPart> collectionToSave, ShortEmployee employee)
+		{
+			return SafeContext.Execute(() => FiresecService.SaveAllTimeTracks(collectionToSave, employee));
 		}
 
 		public OperationResult DeletePassJournal(Guid uid)

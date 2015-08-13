@@ -48,5 +48,11 @@ namespace FiresecClient.SKDHelpers
 			var result = FiresecManager.FiresecService.GetMinJournalDateTime();
 			return Common.ShowErrorIfExists(result);
 		}
+
+		public static bool SaveAllTimeTracks(IEnumerable<DayTimeTrackPart> collectionToSave, ShortEmployee employee)
+		{
+			var result = FiresecManager.FiresecService.SaveAllTimeTracks(collectionToSave, employee);
+			return Common.ShowErrorIfExists(result);
+		}
 	}
 }

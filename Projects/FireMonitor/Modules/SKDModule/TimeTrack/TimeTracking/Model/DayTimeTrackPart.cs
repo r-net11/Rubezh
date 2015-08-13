@@ -27,6 +27,8 @@ namespace SKDModule.Model
 
 		public bool IsRemoveAllIntersections { get; set; }
 
+		public Guid CorrectedByUID { get; set; }
+
 		public Guid UID { get; set; }
 
 		private bool _isManuallyAdded;
@@ -215,6 +217,7 @@ namespace SKDModule.Model
 				timeTrackPart.IsManuallyAdded,
 				timeTrackPart.AdjustmentDate.ToString(),
 				user.Name,
+				user.UID,
 				timeTrackPart.EnterTimeOriginal,
 				timeTrackPart.ExitTimeOriginal,
 				timeTrackPart.IsOpen,
@@ -231,7 +234,7 @@ namespace SKDModule.Model
 		#region Methods
 
 		public void Update(DateTime? enterDateTime, DateTime? exitDateTime,
-			TimeTrackZone timeTrackZone, bool notTakeInCalculations, bool isManuallyAdded, string adjustmentDate, string correctedBy, DateTime? enterTimeOriginal, DateTime? exitTimeOriginal, bool isOpen = false, bool isForceClosed = false)
+			TimeTrackZone timeTrackZone, bool notTakeInCalculations, bool isManuallyAdded, string adjustmentDate, string correctedBy, Guid correctedByUID, DateTime? enterTimeOriginal, DateTime? exitTimeOriginal, bool isOpen = false, bool isForceClosed = false)
 		{
 			TimeTrackZone = timeTrackZone;
 			EnterDateTime = enterDateTime;
@@ -242,6 +245,7 @@ namespace SKDModule.Model
 			IsManuallyAdded = isManuallyAdded;
 			CorrectedDate = adjustmentDate;
 			CorrectedBy = correctedBy;
+			CorrectedByUID = correctedByUID;
 			IsOpen = isOpen;
 			IsForceClosed = isForceClosed;
 			EnterTimeOriginal = enterTimeOriginal;
@@ -285,7 +289,7 @@ namespace SKDModule.Model
 			{
 				var result = string.Empty;
 				propertyName = propertyName ?? string.Empty;
-				if (propertyName == string.Empty || propertyName == "EnterTime" || propertyName == "ExitTime")
+				if (propertyName == string.Empty || propertyName == "EnterTime" || propertyName == "ExitTime" || propertyName == "EnterDateTime" || propertyName == "ExitDateTime")
 				{
 					if ((EnterDateTime.HasValue && ExitDateTime.HasValue) && (EnterDateTime.Value.Date == ExitDateTime.Value.Date) && (EnterTime > ExitTime))
 						result = "Время входа не может быть больше времени выхода";
@@ -297,13 +301,22 @@ namespace SKDModule.Model
 				}
 				if (propertyName == string.Empty || propertyName == "EnterDateTime" || propertyName == "ExitDateTime")
 				{
-					if ((EnterDateTime.HasValue && ExitDateTime.HasValue) && (EnterDateTime.Value.Date == ExitDateTime.Value.Date) && (EnterDateTime > ExitDateTime))
+					if ((EnterDateTime.HasValue && ExitDateTime.HasValue) && (EnterDateTime > ExitDateTime))
 						result = "Дата входа не может быть больше даты выхода";
 				}
 				if (propertyName == string.Empty || propertyName == "EnterDateTime" || propertyName == "ExitDateTime")
 				{
 					if (EnterDateTime == null || ExitDateTime == null)
 						result = "Введите дату";
+				}
+				if (propertyName == string.Empty || propertyName == "EnterTime" || propertyName == "ExitTime")
+				{
+					if (EnterDateTime.HasValue && ExitDateTime.HasValue && EnterDateTime.Value.Date == DateTime.Now.Date &&
+					    ExitDateTime.Value.Date == DateTime.Now.Date)
+					{
+						if (ExitTime > DateTime.Now.TimeOfDay || EnterTime > DateTime.Now.TimeOfDay)
+							result = "Дата не может быть установлена в будущее время";
+					}
 				}
 				CurrentError = result;
 				return result;

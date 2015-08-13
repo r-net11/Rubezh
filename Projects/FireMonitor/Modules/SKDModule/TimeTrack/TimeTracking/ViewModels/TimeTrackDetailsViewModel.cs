@@ -495,47 +495,56 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save() //TODO: Save all TimeTracks without refresh
 		{
-			foreach (var dayTimeTrackPart in DayTimeTrackParts.Where(x => x.IsNew || x.IsDirty))
+			var serverCollection = new List<FiresecAPI.SKD.DayTimeTrackPart>();
+			foreach (var el in DayTimeTrackParts.Where(x => x.IsNew || x.IsDirty))
 			{
-				if (dayTimeTrackPart.IsNew)
+				serverCollection.Add(new FiresecAPI.SKD.DayTimeTrackPart
 				{
-					PassJournalHelper.AddCustomPassJournal(
-						Guid.NewGuid(),
-						ShortEmployee.UID,
-						dayTimeTrackPart.TimeTrackZone.UID,
-						(dayTimeTrackPart.EnterDateTime + dayTimeTrackPart.EnterTime),
-						(dayTimeTrackPart.ExitDateTime + dayTimeTrackPart.ExitTime),
-						DateTime.Now,
-						FiresecManager.CurrentUser.UID,
-						dayTimeTrackPart.NotTakeInCalculations,
-						dayTimeTrackPart.IsManuallyAdded,
-						(dayTimeTrackPart.EnterDateTime + dayTimeTrackPart.EnterTime),
-						(dayTimeTrackPart.ExitDateTime + dayTimeTrackPart.ExitTime),
-						dayTimeTrackPart.IsRemoveAllIntersections
-						);
-
-					dayTimeTrackPart.IsNew = default(bool);
-				}
-				else
-					PassJournalHelper.EditPassJournal(
-						dayTimeTrackPart.UID,
-						dayTimeTrackPart.TimeTrackZone.UID,
-						(dayTimeTrackPart.EnterDateTime.Value.Date + dayTimeTrackPart.EnterTime),
-						(dayTimeTrackPart.ExitDateTime.Value.Date + dayTimeTrackPart.ExitTime),
-						dayTimeTrackPart.IsNeedAdjustment,
-						DateTime.Now,
-						FiresecManager.CurrentUser.UID,
-						dayTimeTrackPart.NotTakeInCalculations,
-						dayTimeTrackPart.IsManuallyAdded,
-						dayTimeTrackPart.IsRemoveAllIntersections,
-						ShortEmployee.UID);
+					CorrectedBy = el.CorrectedBy,
+					CorrectedByUID = el.CorrectedByUID,
+					CorrectedDate = el.CorrectedDate,
+					EnterDateTime = el.EnterDateTime,
+					EnterTime = el.EnterTime,
+					EnterTimeOriginal = el.EnterTimeOriginal,
+					ExitDateTime = el.ExitDateTime,
+					ExitTime = el.ExitTime,
+					ExitTimeOriginal = el.ExitTimeOriginal,
+					IsDirty = el.IsDirty,
+					IsForceClosed = el.IsForceClosed,
+					IsManuallyAdded = el.IsManuallyAdded,
+					IsNeedAdjustment = el.IsNeedAdjustment,
+					IsNew = el.IsNew,
+					IsOpen = el.IsOpen,
+					IsRemoveAllIntersections = el.IsRemoveAllIntersections,
+					NotTakeInCalculations = el.NotTakeInCalculations,
+					UID = el.UID,
+					TimeTrackZone = new FiresecAPI.SKD.TimeTrackZone
+					{
+						Description = el.TimeTrackZone.Description,
+						IsURV = el.TimeTrackZone.IsURV,
+						Name = el.TimeTrackZone.Name,
+						No = el.TimeTrackZone.No,
+						SKDZone = el.TimeTrackZone.SKDZone,
+						UID = el.TimeTrackZone.UID
+					}
+				});
 			}
+
+			PassJournalHelper.SaveAllTimeTracks(serverCollection, ShortEmployee);
 
 			return base.Save();
 		}
 
+		private static bool ShowResetAdjustmentsWarning()
+		{
+			return MessageBoxService.ShowQuestion(
+				"При выполнении сброса корректировок все введенные вручную данные будут удалены. Продолжить?");
+		}
+
 		public void OnResetAdjustments()
 		{
+			if (!ShowResetAdjustmentsWarning()) return;
+
 			var resultCollection = DayTimeTrackParts.ToList();//.Where(x => !x.IsManuallyAdded).ToList();
 			List<DayTimeTrackPart> collection = DayTimeTrackParts.Where(x => !string.IsNullOrEmpty(x.CorrectedBy) && !x.IsForceClosed).ToList();
 			//TODO: remove all manuall added intervals
@@ -555,6 +564,7 @@ namespace SKDModule.ViewModels
 						UID = dayTimeTrackPart.TimeTrackZone.UID
 					},
 					CorrectedBy = dayTimeTrackPart.CorrectedBy,
+					CorrectedByUID = dayTimeTrackPart.CorrectedByUID,
 					CorrectedDate = dayTimeTrackPart.CorrectedDate,
 					EnterTimeOriginal = dayTimeTrackPart.EnterTimeOriginal,
 					EnterDateTime = dayTimeTrackPart.EnterDateTime,
@@ -586,6 +596,7 @@ namespace SKDModule.ViewModels
 						UID = dayTimeTrackPart.Key.TimeTrackZone.UID
 					},
 					CorrectedBy = dayTimeTrackPart.Key.CorrectedBy,
+					CorrectedByUID = dayTimeTrackPart.Key.CorrectedByUID,
 					CorrectedDate = dayTimeTrackPart.Key.CorrectedDate,
 					EnterTimeOriginal = dayTimeTrackPart.Key.EnterTimeOriginal,
 					EnterDateTime = dayTimeTrackPart.Key.EnterDateTime,
@@ -613,6 +624,7 @@ namespace SKDModule.ViewModels
 							UID = timeTrackPart.TimeTrackZone.UID
 						},
 						CorrectedBy = timeTrackPart.CorrectedBy,
+						CorrectedByUID = timeTrackPart.CorrectedByUID,
 						CorrectedDate = timeTrackPart.CorrectedDate,
 						EnterTimeOriginal = timeTrackPart.EnterTimeOriginal,
 						EnterDateTime = timeTrackPart.EnterDateTime,
@@ -632,8 +644,32 @@ namespace SKDModule.ViewModels
 			{
 				conflictViewModel.SetValues(el);
 
-				if(conflictViewModel.IsCheckedSave) continue; //TODO:Set borders without intersection
-				if(conflictViewModel.IsCheckedCancel) continue; //TODO:Remove manually added interval
+				if (conflictViewModel.IsCheckedSave)
+				{
+					resolvedConflictCollection.AddRange(resultCollection
+														.Where(dayTimeTrackPart => dayTimeTrackPart.UID == el.Key.UID)
+														.Select(dayTimeTrackPart => TimeTrackingHelper.ResolveConflictWithSettingBorders(dayTimeTrackPart, el.Value)));
+					//TODO:Set borders without intersection
+					continue;
+				}
+
+				if (conflictViewModel.IsCheckedCancel)
+				{
+					resolvedConflictCollection.AddRange(resultCollection
+														.Where(dayTimeTrackPart => dayTimeTrackPart.UID == el.Key.UID)
+														.Select(
+															dayTimeTrackPart =>
+															{
+																dayTimeTrackPart.IsRemoveAllIntersections = true;
+																dayTimeTrackPart.EnterDateTime = dayTimeTrackPart.EnterTimeOriginal;
+																dayTimeTrackPart.ExitDateTime = dayTimeTrackPart.ExitTimeOriginal;
+																dayTimeTrackPart.IsNew = default(bool);
+																return dayTimeTrackPart;
+															})
+														);
+					//TODO:Remove manually added interval
+					continue;
+				}
 
 				if (DialogService.ShowModalWindow(conflictViewModel))
 				{
@@ -644,7 +680,7 @@ namespace SKDModule.ViewModels
 				}
 				else
 				{
-					//continue; //TODO:Remove manually added interval
+					//TODO:Remove manually added interval
 					resolvedConflictCollection.AddRange(resultCollection
 														.Where(dayTimeTrackPart => dayTimeTrackPart.UID == el.Key.UID)
 														.Select(

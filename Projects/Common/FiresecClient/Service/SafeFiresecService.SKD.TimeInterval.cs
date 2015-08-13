@@ -158,6 +158,11 @@ namespace FiresecClient
 			return SafeContext.Execute(() => FiresecService.FindConflictIntervals(dayTimeTrackParts, employeeGuid, currentDate));
 		}
 
+		public OperationResult SaveAllTimeTracks(IEnumerable<DayTimeTrackPart> collectionToSave, ShortEmployee employee)
+		{
+			return SafeContext.Execute(() => FiresecService.SaveAllTimeTracks(collectionToSave, employee));
+		}
+
 		public OperationResult AddCustomPassJournal(Guid uid, Guid employeeUID, Guid zoneUID, DateTime? enterTime, DateTime? exitTime,
 			DateTime? adjustmentDate, Guid correctedBy, bool notTakeInCalculations, bool isAddedManually, DateTime? enterTimeOriginal, DateTime? exitTimeOriginal, bool isRemoveAllIntersections)
 		{

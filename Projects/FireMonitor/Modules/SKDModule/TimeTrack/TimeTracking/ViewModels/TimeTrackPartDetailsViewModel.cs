@@ -146,7 +146,7 @@ namespace SKDModule.ViewModels
 
 		protected override bool CanSave()
 		{
-			return SelectedZone != null;
+			return SelectedZone != null && CurrentTimeTrackPart.IsValid;
 		}
 
 		#endregion

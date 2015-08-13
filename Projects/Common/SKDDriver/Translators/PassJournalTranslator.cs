@@ -206,6 +206,95 @@ namespace SKDDriver.Translators
 			}
 		}
 
+		public OperationResult SaveAllTimeTracks(IEnumerable<DayTimeTrackPart> collectionToSave, ShortEmployee employee)
+		{
+			foreach (var dayTimeTrackPart in collectionToSave)
+			{
+				if (dayTimeTrackPart.IsNew)
+					AddCustomPassJournal(dayTimeTrackPart, employee);
+				else
+					EditPassJournal(dayTimeTrackPart, employee);
+			}
+
+			return new OperationResult();
+		}
+
+		public OperationResult EditPassJournal(DayTimeTrackPart dayTimeTrackPart, ShortEmployee employee)
+		{
+			try
+			{
+				if (dayTimeTrackPart.IsRemoveAllIntersections)
+				{
+					foreach (var intersectionElement in Context.PassJournals.Where(x => x.EmployeeUID == employee.UID)
+																			.Where(x => x.EnterTime >= dayTimeTrackPart.EnterDateTime && x.ExitTime <= dayTimeTrackPart.ExitDateTime)
+																			.Where(x => x.UID != dayTimeTrackPart.UID))
+					{
+						Context.PassJournals.DeleteOnSubmit(intersectionElement);
+					}
+					Context.SubmitChanges();
+				}
+
+				var passJournalItem = Context.PassJournals.FirstOrDefault(x => x.UID == dayTimeTrackPart.UID);
+				if (passJournalItem != null)
+				{
+					passJournalItem.ZoneUID = dayTimeTrackPart.TimeTrackZone.UID;
+					passJournalItem.EnterTime = dayTimeTrackPart.EnterDateTime.GetValueOrDefault();
+					passJournalItem.ExitTime = dayTimeTrackPart.ExitDateTime.GetValueOrDefault();
+					passJournalItem.IsNeedAdjustment = dayTimeTrackPart.IsNeedAdjustment;
+					passJournalItem.AdjustmentDate = Convert.ToDateTime(dayTimeTrackPart.CorrectedDate);
+					passJournalItem.CorrectedByUID = dayTimeTrackPart.CorrectedByUID;
+					passJournalItem.NotTakeInCalculations = dayTimeTrackPart.NotTakeInCalculations;
+					passJournalItem.IsAddedManually = dayTimeTrackPart.IsManuallyAdded;
+
+					if (passJournalItem.IsOpen)
+					{
+						passJournalItem.ExitTimeOriginal = passJournalItem.ExitTime;
+						passJournalItem.IsOpen = default(bool);
+						passJournalItem.IsForceClosed = true;
+					}
+				}
+
+				Context.SubmitChanges();
+
+				return new OperationResult();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
+		}
+
+		public OperationResult AddCustomPassJournal(DayTimeTrackPart dayTimeTrackPart, ShortEmployee employee)
+		{
+			if(dayTimeTrackPart == null) return new OperationResult("ERROR");
+
+			try
+			{
+				var passJournalItem = new PassJournal
+				{
+					UID = dayTimeTrackPart.UID,
+					EmployeeUID = employee.UID,
+					ZoneUID = dayTimeTrackPart.TimeTrackZone.UID,
+					EnterTime = dayTimeTrackPart.EnterDateTime.GetValueOrDefault(),
+					ExitTime = dayTimeTrackPart.ExitDateTime,
+					AdjustmentDate = Convert.ToDateTime(dayTimeTrackPart.CorrectedDate),
+					CorrectedByUID = dayTimeTrackPart.CorrectedByUID,
+					NotTakeInCalculations = dayTimeTrackPart.NotTakeInCalculations,
+					IsAddedManually = dayTimeTrackPart.IsManuallyAdded,
+					EnterTimeOriginal = dayTimeTrackPart.EnterTimeOriginal,
+					ExitTimeOriginal = dayTimeTrackPart.ExitTimeOriginal
+				};
+
+				Context.PassJournals.InsertOnSubmit(passJournalItem);
+				Context.SubmitChanges();
+				return new OperationResult();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
+		}
+
 		//private bool IsIntersection(DataAccess.PassJournal passJournalItem)
 		//{
 		//	return Context.PassJournals.Any(x => x.UID != passJournalItem.UID &&
