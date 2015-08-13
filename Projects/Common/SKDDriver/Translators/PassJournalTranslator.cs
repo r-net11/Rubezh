@@ -87,8 +87,6 @@ namespace SKDDriver.Translators
 			var tempCollection = new List<DayTimeTrackPart>();
 			foreach (var el in dayTimeTrackParts)
 			{
-				//var tmp = el;
-				//conflictsIntervalsCollection.Add(linkedIntervals.Select(x => tmp.ExitTimeOriginal > x.EnterTime || tmp.EnterTimeOriginal < x.ExitTime));
 				var tmp = el;
 				List<PassJournal> tmpCollection = linkedIntervals
 					.Where(x => (x.UID != el.UID) && (tmp.EnterTimeOriginal.HasValue && tmp.ExitTimeOriginal.HasValue))
@@ -96,6 +94,15 @@ namespace SKDDriver.Translators
 								(tmp.ExitTimeOriginal > x.EnterTime || tmp.EnterTimeOriginal < x.ExitTime))
 					.Where(x => x.ExitTime >= tmp.EnterTimeOriginal)
 					.ToList();
+				List<PassJournal> tmpCollection2 = linkedIntervals
+					.Where(x => (x.UID != el.UID) && (tmp.EnterTimeOriginal.HasValue && tmp.ExitTimeOriginal.HasValue))
+					.Where(
+						x => (tmp.EnterTimeOriginal.Value.Date >= x.EnterTime.Date && tmp.ExitTimeOriginal <= x.ExitTime.Value.Date) &&
+						     (tmp.ExitTimeOriginal <= x.EnterTime || tmp.EnterTimeOriginal >= x.ExitTime))
+					.Where(x => x.ExitTime <= tmp.EnterTimeOriginal)
+					.ToList();
+
+				tmpCollection = tmpCollection.Union(tmpCollection2).ToList();
 
 				if (tmpCollection.Any())
 				{
@@ -128,7 +135,7 @@ namespace SKDDriver.Translators
 		{
 			try
 			{
-				var passJournalItem = new DataAccess.PassJournal
+				var passJournalItem = new PassJournal
 				{
 					UID = uid,
 					EmployeeUID = employeeUID,
@@ -143,10 +150,6 @@ namespace SKDDriver.Translators
 					ExitTimeOriginal = exitTimeOriginal
 				};
 
-				//if (IsIntersection(passJournalItem))
-				//{
-				//	return new OperationResult("Невозможно добавить пересекающийся интервал");
-				//}
 				Context.PassJournals.InsertOnSubmit(passJournalItem);
 				Context.SubmitChanges();
 				return new OperationResult();
@@ -192,10 +195,7 @@ namespace SKDDriver.Translators
 						passJournalItem.IsForceClosed = true;
 					}
 				}
-				//if (passJournalItem != null && IsIntersection(passJournalItem))
-				//{
-				//	return new OperationResult("Невозможно добавить пересекающийся интервал");
-				//}
+
 				Context.SubmitChanges();
 
 				return new OperationResult();

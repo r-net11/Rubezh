@@ -178,6 +178,14 @@ namespace SKDModule.Model
 			set { this.RaiseAndSetIfChanged(ref _exitTimeOriginal, value); }
 		}
 
+		private DateTime? _adjustmentDate;
+
+		public DateTime? AdjustmentDate
+		{
+			get { return _adjustmentDate; }
+			set { this.RaiseAndSetIfChanged(ref _adjustmentDate, value); }
+		}
+
 		#endregion
 
 		#region Constructors

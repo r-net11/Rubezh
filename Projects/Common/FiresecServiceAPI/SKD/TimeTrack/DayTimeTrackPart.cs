@@ -24,6 +24,10 @@ namespace FiresecAPI.SKD
 		public bool IsOpen { get; set; }
 		[DataMember]
 		public bool IsNeedAdjustment { get; set; }
+
+		[DataMember]
+		public DateTime? AdjustmentDate { get; set; }
+
 		[DataMember]
 		public DateTime? EnterDateTime { get; set; }
 		[DataMember]

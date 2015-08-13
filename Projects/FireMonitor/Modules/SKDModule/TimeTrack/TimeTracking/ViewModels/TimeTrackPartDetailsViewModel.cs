@@ -1,5 +1,6 @@
 ﻿using System.Reactive.Linq;
 using FiresecAPI.SKD;
+using FiresecClient;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using System;
@@ -141,6 +142,12 @@ namespace SKDModule.ViewModels
 		protected override bool Save()
 		{
 			CurrentTimeTrackPart.TimeTrackZone = SelectedZone;
+			CurrentTimeTrackPart.EnterTimeOriginal = CurrentTimeTrackPart.EnterDateTime + CurrentTimeTrackPart.EnterTime;
+			CurrentTimeTrackPart.ExitTimeOriginal = CurrentTimeTrackPart.ExitDateTime + CurrentTimeTrackPart.ExitTime;
+			CurrentTimeTrackPart.CorrectedBy = FiresecManager.CurrentUser.Name;
+			CurrentTimeTrackPart.CorrectedByUID = FiresecManager.CurrentUser.UID;
+			CurrentTimeTrackPart.AdjustmentDate = DateTime.Now;
+
 			return Validate();
 		}
 
