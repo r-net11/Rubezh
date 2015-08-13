@@ -80,21 +80,40 @@
             border: 2px solid @light-blue;
             margin-right:10px;
             margin-top: 5px;
-            &.extinguisher{
-                background-image : url("Image/Icon/Header/extinguisher.png");
+            &.reset:before{
+                content:"СБРОС";
+				line-height: 40px;
             }
-
+            &.mpt{
+                background-image : url("Image/Icon/Alarms/mpt.png");
+            }
             &.shield{
-                background-image : url("Image/Icon/Header/Alarm_shield.png");
+                background-image : url("Image/Icon/Alarms/shield.png");
             }
-
-            &.fire{
-                background-image : url("Image/Icon/Header/fire.png");
+            &.fire2{
+                background-image : url("Image/Icon/Alarms/fire2.png");
             }
-
-            &.mani-fire{
-                background-image : url("Image/Icon/Header/mani-fire.png");
-            }
+			&.fire{
+				background-image : url("Image/Icon/Alarms/fire.png");
+			}
+			&.attention{
+				background-image : url("Image/Icon/Alarms/attention.png");
+			}
+			&.failure{
+				background-image : url("Image/Icon/Alarms/failure.png");
+			}
+			&.off{
+				background-image : url("Image/Icon/Alarms/off.png");
+			}
+			&.auto{
+				background-image : url("Image/Icon/Alarms/auto.png");
+			}
+			&.service{
+				background-image : url("Image/Icon/Alarms/service.png");
+			}
+			&.onOff{
+				background-image : url("Image/Icon/Alarms/onOff.png");
+			}
         }
     }
 }

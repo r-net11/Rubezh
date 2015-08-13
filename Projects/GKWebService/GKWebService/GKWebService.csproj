@@ -104,20 +104,24 @@
     <Content Include="Content\favicon\mstile-150x150.png" />
     <Content Include="Content\favicon\mstile-310x150.png" />
     <Content Include="Content\favicon\mstile-70x70.png" />
+    <Content Include="Content\Image\Icon\Alarms\attention.png" />
+    <Content Include="Content\Image\Icon\Alarms\auto.png" />
+    <Content Include="Content\Image\Icon\Alarms\failure.png" />
+    <Content Include="Content\Image\Icon\Alarms\fire.png" />
+    <Content Include="Content\Image\Icon\Alarms\fire2.png" />
+    <Content Include="Content\Image\Icon\Alarms\mpt.png" />
+    <Content Include="Content\Image\Icon\Alarms\off.png" />
+    <Content Include="Content\Image\Icon\Alarms\onOff.png" />
+    <Content Include="Content\Image\Icon\Alarms\service.png" />
+    <Content Include="Content\Image\Icon\Alarms\shield.png" />
     <Content Include="Content\Image\Icon\Archive\filter.png" />
     <Content Include="Content\Image\Icon\Archive\left.png" />
     <Content Include="Content\Image\Icon\Archive\leftLeft.png" />
     <Content Include="Content\Image\Icon\Archive\refresh.png" />
     <Content Include="Content\Image\Icon\Archive\right.png" />
     <Content Include="Content\Image\Icon\Archive\rightRight.png" />
-    <Content Include="Content\Image\Icon\Header\Alarm_shield.png" />
-    <Content Include="Content\Image\Icon\Header\attention.png" />
     <Content Include="Content\Image\Icon\Header\close_pop.png" />
     <Content Include="Content\Image\Icon\Header\connection-indicator.png" />
-    <Content Include="Content\Image\Icon\Header\extinguisher.png" />
-    <Content Include="Content\Image\Icon\Header\Failure.png" />
-    <Content Include="Content\Image\Icon\Header\fire.png" />
-    <Content Include="Content\Image\Icon\Header\mani-fire.png" />
     <Content Include="Content\Image\Icon\Header\map-off.png" />
     <Content Include="Content\Image\Icon\Header\map-on.png" />
     <Content Include="Content\Image\Icon\Header\sound-off.png" />
@@ -239,6 +243,7 @@
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\report.js" />
+    <Content Include="Scripts\tooltips.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
