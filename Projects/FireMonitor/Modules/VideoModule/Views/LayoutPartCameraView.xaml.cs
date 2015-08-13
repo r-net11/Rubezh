@@ -11,23 +11,23 @@ namespace VideoModule.Views
 		{
 			InitializeComponent();
 
-			Loaded += OnLoaded;
-			Unloaded += OnUnloaded;
+			DataContextChanged += OnDataContextChanged;
+			Dispatcher.ShutdownStarted += DispatcherOnShutdownStarted;
 		}
 
-		private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
-		{
-			MediaSourcePlayer.Stop();
-			MediaSourcePlayer.Close();
-		}
-
-		private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
+		private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
 		{
 			var viewModel = DataContext as LayoutPartCameraViewModel;
 			if (viewModel == null || String.IsNullOrEmpty(viewModel.RviRTSP))
 				return;
 			MediaSourcePlayer.Open(MediaSourceFactory.CreateFromRtspStream(viewModel.RviRTSP));
 			MediaSourcePlayer.Play();
+		}
+
+		private void DispatcherOnShutdownStarted(object sender, EventArgs eventArgs)
+		{
+			MediaSourcePlayer.Stop();
+			MediaSourcePlayer.Close();
 		}
 	}
 }
