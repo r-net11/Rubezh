@@ -357,6 +357,9 @@ namespace StrazhModule.ViewModels
 		public RelayCommand SetDoorConfigurationCommand { get; private set; }
 		void OnSetDoorConfiguration()
 		{
+			if (DoorOpenMethod == SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_SECTION && !CheckDoorOpenMethodBySection())
+				return;
+
 			var doorConfiguration = GetModel();
 			var result = FiresecManager.FiresecService.SKDSetDoorConfiguration(Device, doorConfiguration);
 			if (result.HasError)
@@ -449,13 +452,27 @@ namespace StrazhModule.ViewModels
 			return result;
 		}
 
+		private bool CheckDoorOpenMethodBySection()
+		{
+			if (DoorOpenMethod == SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_SECTION && WeeklyInterval == null)
+			{
+				MessageBoxService.ShowWarning("График замка не выбран");
+				return false;
+			}
+			return true;
+		}
+
 		protected override bool Save()
 		{
+			if (DoorOpenMethod == SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_SECTION && !CheckDoorOpenMethodBySection())
+				return false;
+
 			if (HasChanged)
 			{
 				if (!MessageBoxService.ShowConfirmation(Resources.SaveConfigurationControllerWarning))
 					return false;
 			}
+			
 			Device.SKDDoorConfiguration = GetModel();
 			return base.Save();
 		}
