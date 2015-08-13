@@ -1,71 +1,127 @@
-﻿.menu{
-    margin-left: 10px;
-    width: 210px;
-    a {
-     font-size: 12px;
-     display: block;
-     color: white;
-     text-decoration: none;
-     line-height: 30px;
-     background-color: @light-blue;
-     background-repeat: no-repeat;
-     background-position: 5% 50%;
-     background-size: 30px;
-     margin-bottom:5px;
-     border-radius: 3px;
-     border: 1px solid black;
-     &:hover{
-        background-color:@orange;
-    }
-     
-    }
-    span{
-        padding-left:33px; 
-    }
-    .group-control{
-        background-image : url("Image/Icon/Menu/tree.png");
-    }
-    .device{
-        background-image : url("Image/Icon/Menu/tree.png");
-    }
-    .params{
-        background-image : url("Image/Icon/Menu/tree.png");
-    }
-    .reports{
-        background-image : url("Image/Icon/Menu/levels.png");
-        background-size: 20px;
-    }
-    .archive{
-        background-image : url("Image/Icon/Menu/archive.png");
-        background-size: 20px;
-    }
-    .diagnostics{
-        background-image : url("Image/Icon/Menu/Bug.png");
-        background-size: 20px;
-    }
-    .queue{
-        background-image : url("Image/Icon/Menu/Bug.png");
-        background-size: 20px;
-    }
-    li {
-        cursor: pointer;
-        list-style: none;
-        ul {
-            display: none;
-            li{
-                margin-left: 20px;
-            }
-        }
-        &.active {
-            > a {
-                background-color: orange;
-            }  
-        }
-        &.clicked {
-            > ul{
-                display: block;
-            }   
-        }
+﻿.menu {
+	margin-left: 10px;
+	margin-top:10px;
+	width: 210px;
 
-    }
+	a {
+		font-size: 12px;
+		display: block;
+		color: white;
+		text-decoration: none;
+		line-height: 100%;
+		.blueGradientBackground;
+		margin-bottom: 5px;
+		border-radius: 3px;
+		border: 1px solid @borderColor;
+		height:30px;
+
+		&:hover {
+			.orangeGradientBackground;
+		}
+	}
+
+	span.icon {
+		vertical-align: middle;
+		width: 20px;
+		height: 20px;
+		display: inline-block;
+		margin: 5px 0 6px 10px;
+	}
+
+	span.text {
+		padding-left: 10px;
+	}
+
+	span.group-control, span.device, span.params, span.reports, 
+	span.archive, span.diagnostics, span.queue, span.state, 
+	span.SKD, span.file, span.event-log, span.work-time, 
+	span.daily-charts, span.charts, span.holidays, span.work-chars {
+		background-size: 20px;
+	}
+
+	span.group-control {
+		background-image: url("Image/Icon/Menu/fine/tree.png");
+	}
+
+	span.state {
+		background-image: url("Image/Icon/Menu/fine/alarm.png");
+	}
+
+	span.device {
+		background-image: url("Image/Icon/Menu/fine/tree.png");
+	}
+
+	span.params {
+		background-image: url("Image/Icon/Menu/fine/tree.png");
+	}
+
+	span.reports {
+		background-image: url("Image/Icon/Menu/fine/levels.png");
+	}
+
+	span.archive {
+		background-image: url("Image/Icon/Menu/fine/archive.png");
+	}
+
+	span.diagnostics {
+		background-image: url("Image/Icon/Menu/fine/Bug.png");
+	}
+
+	span.queue {
+		background-image: url("Image/Icon/Menu/fine/Bug.png");
+	}
+	span.SKD {
+		background-image: url("Image/Icon/Menu/fine/skd.png");
+	}
+	
+	span.file {
+		background-image: url("Image/Icon/Menu/fine/file.png");
+	}
+	span.event-log {
+		background-image: url("Image/Icon/Menu/fine/book.png");
+	}
+
+	span.work-time {
+		background-image: url("Image/Icon/Menu/fine/timeTrack.png");
+	}
+	span.daily-charts {
+		background-image: url("Image/Icon/Menu/fine/dailySchedule.png");
+	}
+
+	span.charts {
+		background-image: url("Image/Icon/Menu/fine/weeklySchedule.png");
+	}
+
+	span.holidays {
+		background-image: url("Image/Icon/Menu/fine/holidays.png");
+	}
+
+	span.work-chars {
+		background-image: url("Image/Icon/Menu/fine/workSchedule.png");
+	}
+
+	li {
+		cursor: pointer;
+		list-style: none;
+
+		ul {
+			display: none;
+
+			li {
+				margin-left: 10px;
+			}
+		}
+
+		&.active {
+			> a {
+				.orangeGradientBackground;
+			}
+		}
+
+		&.clicked {
+			> ul {
+				display: block;
+			}
+		}
+	}
 }
