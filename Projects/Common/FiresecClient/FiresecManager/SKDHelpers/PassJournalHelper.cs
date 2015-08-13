@@ -15,17 +15,17 @@ namespace FiresecClient.SKDHelpers
 		}
 
 		public static bool AddCustomPassJournal(Guid uid, Guid employeeUID, Guid zoneUID, DateTime? enterTime, DateTime? exitTime,
-			DateTime? adjustmentDate, Guid correctedBy, bool notTakeInCalculations, bool isAddedManually, DateTime? enterTimeOriginal, DateTime? exitTimeOriginal)
+			DateTime? adjustmentDate, Guid correctedBy, bool notTakeInCalculations, bool isAddedManually, DateTime? enterTimeOriginal, DateTime? exitTimeOriginal, bool isRemoveAllIntersections)
 		{
 			var result = FiresecManager.FiresecService.AddCustomPassJournal(uid, employeeUID, zoneUID, enterTime, exitTime,
-				adjustmentDate, correctedBy, notTakeInCalculations, isAddedManually, enterTimeOriginal, exitTimeOriginal);
+				adjustmentDate, correctedBy, notTakeInCalculations, isAddedManually, enterTimeOriginal, exitTimeOriginal, isRemoveAllIntersections);
 			return Common.ShowErrorIfExists(result);
 		}
 		public static bool EditPassJournal(Guid uid, Guid zoneUID, DateTime? enterTime, DateTime? exitTime,
-			bool isNeedAdjustment, DateTime? adjustmentDate, Guid correctedBy, bool notTakeInCalculations, bool isAddedManually)
+			bool isNeedAdjustment, DateTime? adjustmentDate, Guid correctedBy, bool notTakeInCalculations, bool isAddedManually, bool isRemoveAllIntersections, Guid employeeGuid)
 		{
 			var result = FiresecManager.FiresecService.EditPassJournal(uid, zoneUID, enterTime, exitTime,
-				isNeedAdjustment, adjustmentDate, correctedBy, notTakeInCalculations, isAddedManually);
+				isNeedAdjustment, adjustmentDate, correctedBy, notTakeInCalculations, isAddedManually, isRemoveAllIntersections, employeeGuid);
 			return Common.ShowErrorIfExists(result);
 		}
 		public static bool DeletePassJournal(Guid uid)

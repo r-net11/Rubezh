@@ -124,7 +124,7 @@ namespace SKDDriver.Translators
 		}
 
 		public OperationResult AddCustomPassJournal(Guid uid, Guid employeeUID, Guid zoneUID, DateTime? enterTime, DateTime? exitTime,
-			DateTime? adjustmentDate, Guid correctedBy, bool notTakeInCalculations, bool isAddedManually, DateTime? enterTimeOriginal, DateTime? exitTimeOriginal)
+			DateTime? adjustmentDate, Guid correctedBy, bool notTakeInCalculations, bool isAddedManually, DateTime? enterTimeOriginal, DateTime? exitTimeOriginal, bool isRemoveAllIntersections)
 		{
 			try
 			{
@@ -158,10 +158,21 @@ namespace SKDDriver.Translators
 		}
 
 		public OperationResult EditPassJournal(Guid uid, Guid zoneUID, DateTime? enterTime, DateTime? exitTime,
-			bool isNeedAdjustment, DateTime? adjustmentDate, Guid correctedBy, bool notTakeInCalculations, bool isAddedManually)
+			bool isNeedAdjustment, DateTime? adjustmentDate, Guid correctedBy, bool notTakeInCalculations, bool isAddedManually, bool isRemoveAllIntersections, Guid employeeGuid)
 		{
 			try
 			{
+				if (isRemoveAllIntersections)
+				{
+					foreach (var intersectionElement in Context.PassJournals.Where(x => x.EmployeeUID == employeeGuid)
+																			.Where(x => x.EnterTime >= enterTime && x.ExitTime <= exitTime)
+																			.Where(x => x.UID != uid))
+					{
+						Context.PassJournals.DeleteOnSubmit(intersectionElement);
+					}
+					Context.SubmitChanges();
+				}
+
 				var passJournalItem = Context.PassJournals.FirstOrDefault(x => x.UID == uid);
 				if (passJournalItem != null)
 				{
@@ -186,6 +197,7 @@ namespace SKDDriver.Translators
 				//	return new OperationResult("Невозможно добавить пересекающийся интервал");
 				//}
 				Context.SubmitChanges();
+
 				return new OperationResult();
 			}
 			catch (Exception e)

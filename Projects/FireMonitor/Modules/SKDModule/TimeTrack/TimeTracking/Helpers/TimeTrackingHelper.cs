@@ -3,6 +3,7 @@ using System.Linq;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
 using SKDModule.Model;
+using DayTimeTrackPart = SKDModule.Model.DayTimeTrackPart;
 using TimeTrackZone = SKDModule.Model.TimeTrackZone;
 
 namespace SKDModule.Helpers
@@ -17,6 +18,17 @@ namespace SKDModule.Helpers
 			return SKDManager.Zones.Select(zone => schedule.Zones.Any(x => x.ZoneUID == zone.UID)
 				? new TimeTrackZone(zone) { IsURV = true }
 				: new TimeTrackZone(zone)).ToList();
+		}
+
+		public static DayTimeTrackPart ResolveConflictWithSettingBorders(DayTimeTrackPart originalInterval, List<DayTimeTrackPart> conflictedIntervals)
+		{
+			var firstConflictedInterval = conflictedIntervals.FirstOrDefault();
+
+			if (firstConflictedInterval == null) return null;
+
+			originalInterval.ExitDateTime = firstConflictedInterval.EnterDateTime;
+			originalInterval.ExitTime = firstConflictedInterval.EnterTime;
+			return originalInterval;
 		}
 	}
 }

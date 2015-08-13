@@ -45,6 +45,9 @@ namespace FiresecAPI.SKD
 		[DataMember]
 		public DateTime? ExitTimeOriginal { get; set; }
 
+		[DataMember]
+		public bool IsRemoveAllIntersections { get; set; }
+
 		#endregion
 	}
 }

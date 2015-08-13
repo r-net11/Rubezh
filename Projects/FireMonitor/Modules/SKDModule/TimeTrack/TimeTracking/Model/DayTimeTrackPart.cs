@@ -25,6 +25,8 @@ namespace SKDModule.Model
 			get { return _uiChanged.Value; }
 		}
 
+		public bool IsRemoveAllIntersections { get; set; }
+
 		public Guid UID { get; set; }
 
 		private bool _isManuallyAdded;
@@ -199,7 +201,7 @@ namespace SKDModule.Model
 				new TimeTrackZone {Name = "<Нет в конфигурации>", No = default(int)};
 
 			UID = timeTrackPart.PassJournalUID;
-			var user = timeTrackPart.IsManuallyAdded
+			var user = timeTrackPart.IsManuallyAdded || timeTrackPart.AdjustmentDate != null
 				? (FiresecManager.SecurityConfiguration.Users.FirstOrDefault(x => x.UID == timeTrackPart.CorrectedByUID)
 					??
 					new User {Name = "<Нет в конфигурации>"})
@@ -259,6 +261,7 @@ namespace SKDModule.Model
 					, this.ObservableForProperty(x => x.IsManuallyAdded)
 					, this.ObservableForProperty(x => x.IsNeedAdjustment)
 					, this.ObservableForProperty(x => x.TimeTrackZone)
+					, this.ObservableForProperty(x => x.IsRemoveAllIntersections)
 					),
 				true
 				);

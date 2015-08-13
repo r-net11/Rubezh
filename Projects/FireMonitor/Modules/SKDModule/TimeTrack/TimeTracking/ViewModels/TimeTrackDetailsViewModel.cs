@@ -9,6 +9,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using ReactiveUI;
 using SKDModule.Events;
+using SKDModule.Helpers;
 using SKDModule.Model;
 using System;
 using System.Collections.Generic;
@@ -497,6 +498,7 @@ namespace SKDModule.ViewModels
 			foreach (var dayTimeTrackPart in DayTimeTrackParts.Where(x => x.IsNew || x.IsDirty))
 			{
 				if (dayTimeTrackPart.IsNew)
+				{
 					PassJournalHelper.AddCustomPassJournal(
 						Guid.NewGuid(),
 						ShortEmployee.UID,
@@ -508,8 +510,12 @@ namespace SKDModule.ViewModels
 						dayTimeTrackPart.NotTakeInCalculations,
 						dayTimeTrackPart.IsManuallyAdded,
 						(dayTimeTrackPart.EnterDateTime + dayTimeTrackPart.EnterTime),
-						(dayTimeTrackPart.ExitDateTime + dayTimeTrackPart.ExitTime)
+						(dayTimeTrackPart.ExitDateTime + dayTimeTrackPart.ExitTime),
+						dayTimeTrackPart.IsRemoveAllIntersections
 						);
+
+					dayTimeTrackPart.IsNew = default(bool);
+				}
 				else
 					PassJournalHelper.EditPassJournal(
 						dayTimeTrackPart.UID,
@@ -520,7 +526,9 @@ namespace SKDModule.ViewModels
 						DateTime.Now,
 						FiresecManager.CurrentUser.UID,
 						dayTimeTrackPart.NotTakeInCalculations,
-						dayTimeTrackPart.IsManuallyAdded);
+						dayTimeTrackPart.IsManuallyAdded,
+						dayTimeTrackPart.IsRemoveAllIntersections,
+						ShortEmployee.UID);
 			}
 
 			return base.Save();
@@ -528,10 +536,10 @@ namespace SKDModule.ViewModels
 
 		public void OnResetAdjustments()
 		{
-			var resultCollection = DayTimeTrackParts;//.Where(x => !x.IsManuallyAdded).ToList();
+			var resultCollection = DayTimeTrackParts.ToList();//.Where(x => !x.IsManuallyAdded).ToList();
 			List<DayTimeTrackPart> collection = DayTimeTrackParts.Where(x => !string.IsNullOrEmpty(x.CorrectedBy) && !x.IsForceClosed).ToList();
 			//TODO: remove all manuall added intervals
-			List<FiresecAPI.SKD.DayTimeTrackPart> serverCollection = new List<FiresecAPI.SKD.DayTimeTrackPart>();
+			var serverCollection = new List<FiresecAPI.SKD.DayTimeTrackPart>();
 			foreach (var dayTimeTrackPart in collection)
 			{
 				serverCollection.Add(new FiresecAPI.SKD.DayTimeTrackPart
@@ -560,6 +568,9 @@ namespace SKDModule.ViewModels
 
 			var conflictIntervals = PassJournalHelper.FindConflictIntervals(serverCollection, ShortEmployee.UID, DayTimeTrack.Date);
 			Dictionary<DayTimeTrackPart, List<DayTimeTrackPart>> clienDictionary = new Dictionary<DayTimeTrackPart, List<DayTimeTrackPart>>();
+
+			if (conflictIntervals == null) return;
+
 			foreach (KeyValuePair<FiresecAPI.SKD.DayTimeTrackPart, List<FiresecAPI.SKD.DayTimeTrackPart>> dayTimeTrackPart in conflictIntervals)
 			{
 				var key = new DayTimeTrackPart
@@ -616,6 +627,7 @@ namespace SKDModule.ViewModels
 			}
 
 			var conflictViewModel = new ResetAdjustmentsConflictDialogWindowViewModel();
+			var resolvedConflictCollection = new List<DayTimeTrackPart>();
 			foreach (KeyValuePair<DayTimeTrackPart, List<DayTimeTrackPart>> el in clienDictionary)
 			{
 				conflictViewModel.SetValues(el);
@@ -625,19 +637,44 @@ namespace SKDModule.ViewModels
 
 				if (DialogService.ShowModalWindow(conflictViewModel))
 				{
-					var tmp = el;
-					resultCollection.Where(x => x.UID == tmp.Key.UID).Select(x =>
-					{
-						x.ExitDateTime = tmp.Value.FirstOrDefault().EnterDateTime;
-						return x;
-					});
 					//TODO:Set borders without intersection
+					resolvedConflictCollection.AddRange(resultCollection
+														.Where(dayTimeTrackPart => dayTimeTrackPart.UID == el.Key.UID)
+														.Select(dayTimeTrackPart => TimeTrackingHelper.ResolveConflictWithSettingBorders(dayTimeTrackPart, el.Value)));
 				}
 				else
 				{
-					continue; //TODO:Remove manually added interval
+					//continue; //TODO:Remove manually added interval
+					resolvedConflictCollection.AddRange(resultCollection
+														.Where(dayTimeTrackPart => dayTimeTrackPart.UID == el.Key.UID)
+														.Select(
+															dayTimeTrackPart =>
+															{
+																dayTimeTrackPart.IsRemoveAllIntersections = true;
+																dayTimeTrackPart.EnterDateTime = dayTimeTrackPart.EnterTimeOriginal;
+																dayTimeTrackPart.ExitDateTime = dayTimeTrackPart.ExitTimeOriginal;
+																dayTimeTrackPart.IsNew = default(bool);
+																return dayTimeTrackPart;
+															})
+														);
 				}
 			}
+
+			var hyperResultCollection = new List<DayTimeTrackPart>();
+			foreach (var dayTimeTrackPart in DayTimeTrackParts)
+			{
+				var tmp = resolvedConflictCollection.FirstOrDefault(x => x.UID == dayTimeTrackPart.UID);
+				if (tmp != null)
+				{
+					dayTimeTrackPart.EnterDateTime = tmp.EnterDateTime;
+					dayTimeTrackPart.ExitDateTime = tmp.ExitDateTime;
+					dayTimeTrackPart.IsDirty = true;
+				}
+
+				hyperResultCollection.Add(dayTimeTrackPart);
+			}
+
+			DayTimeTrackParts = new ObservableCollection<DayTimeTrackPart>(hyperResultCollection);
 		}
 
 		#endregion

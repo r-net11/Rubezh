@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Markup;
-using FiresecAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
 using DayTimeTrackPart = SKDModule.Model.DayTimeTrackPart;
 
