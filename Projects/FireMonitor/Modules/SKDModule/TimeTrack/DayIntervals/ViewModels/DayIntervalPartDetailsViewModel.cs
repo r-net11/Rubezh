@@ -124,7 +124,7 @@ namespace SKDModule.ViewModels
 					MessageBoxService.ShowWarning("Последовательность интервалов не должна быть пересекающейся");
 					return false;
 				}
-				if (beginTime == currentDateTime)
+				if (beginTime == currentDateTime && beginTime != TimeSpan.Zero)
 				{
 					MessageBoxService.ShowWarning("Пауза между интервалами не должна быть нулевой");
 					return false;
