@@ -51,7 +51,7 @@ namespace SKDDriver.DataClasses
 			var apiItem = new API.DayIntervalPart { UID = tableItem.UID, DayIntervalUID = tableItem.DayIntervalUID.Value };
 			apiItem.BeginTime = TimeSpan.FromSeconds(tableItem.BeginTime);
 			apiItem.Number = tableItem.Number;
-			if (tableItem.EndTime > _daySeconds)
+			if (tableItem.EndTime >= _daySeconds)
 			{
 				apiItem.TransitionType = API.DayIntervalPartTransitionType.Night;
 				apiItem.EndTime = TimeSpan.FromSeconds(tableItem.EndTime - _daySeconds);
