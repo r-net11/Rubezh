@@ -49,6 +49,8 @@ namespace StrazhModule.ViewModels
 			get { return _address; }
 			set
 			{
+				if (_address == value)
+					return;
 				_address = value;
 				OnPropertyChanged(() => Address);
 				HasChanged = true;
@@ -61,6 +63,8 @@ namespace StrazhModule.ViewModels
 			get { return _mask; }
 			set
 			{
+				if (_mask == value)
+					return;
 				_mask = value;
 				OnPropertyChanged(() => Mask);
 				HasChanged = true;
@@ -73,6 +77,8 @@ namespace StrazhModule.ViewModels
 			get { return _defaultGateway; }
 			set
 			{
+				if (_defaultGateway == value)
+					return;
 				_defaultGateway = value;
 				OnPropertyChanged(() => DefaultGateway);
 				HasChanged = true;
@@ -82,19 +88,16 @@ namespace StrazhModule.ViewModels
 		public RelayCommand WriteCommand { get; private set; }
 		void OnWrite()
 		{
+			var sb = new StringBuilder();
 			if (!SKDManager.ValidateIPAddress(Address))
-			{
-				MessageBoxService.ShowWarning("Не верно задан адрес");
-				return;
-			}
+				sb.AppendLine("Не верно задан адрес");
 			if (!SKDManager.ValidateIPAddress(Mask))
-			{
-				MessageBoxService.ShowWarning("Не верно задана маска подсети");
-				return;
-			}
+				sb.AppendLine("Не верно задана маска подсети");
 			if (!SKDManager.ValidateIPAddress(DefaultGateway))
+				sb.AppendLine("Не верно задан шлюз по умолчанию");
+			if (sb.Length > 0)
 			{
-				MessageBoxService.ShowWarning("Не верно задан шлюз по умолчанию");
+				MessageBoxService.ShowWarning(sb.ToString());
 				return;
 			}
 
