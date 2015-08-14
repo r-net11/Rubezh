@@ -15,8 +15,6 @@ namespace VideoModule.ViewModels
 			Port = rviSettings.Port;
 			Login = rviSettings.Login;
 			Password = rviSettings.Password;
-			DllsPath = rviSettings.DllsPath;
-			PluginsPath = rviSettings.PluginsPath;
 		}
 
 		string _ip;
@@ -63,36 +61,12 @@ namespace VideoModule.ViewModels
 			}
 		}
 
-		string _dllsPath;
-		public string DllsPath
-		{
-			get { return _dllsPath; }
-			set
-			{
-				_dllsPath = value;
-				OnPropertyChanged(() => DllsPath);
-			}
-		}
-
-		string _pluginsPath;
-		public string PluginsPath
-		{
-			get { return _pluginsPath; }
-			set
-			{
-				_pluginsPath = value;
-				OnPropertyChanged(() => PluginsPath);
-			}
-		}
-
 		protected override bool Save()
 		{
 			RviSettings.Ip = Ip;
 			RviSettings.Port = Port;
 			RviSettings.Login = Login;
 			RviSettings.Password = Password;
-			RviSettings.DllsPath = DllsPath;
-			RviSettings.PluginsPath = PluginsPath;
 			return base.Save();
 		}
 	}
