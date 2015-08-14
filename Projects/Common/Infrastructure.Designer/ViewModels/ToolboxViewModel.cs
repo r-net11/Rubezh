@@ -227,7 +227,7 @@ namespace Infrastructure.Designer.ViewModels
 							ExecuteCommand(DesignerCanvas.PlanDesignerViewModel.CutCommand);
 							break;
 						case Key.V:
-							ExecuteCommand(DesignerCanvas.PlanDesignerViewModel.PasteCommand);
+							this.Paste();
 							break;
 						case Key.Z:
 							ExecuteCommand(DesignerCanvas.PlanDesignerViewModel.UndoCommand);
@@ -253,6 +253,13 @@ namespace Infrastructure.Designer.ViewModels
 			else if (ActiveInstrument != null && ActiveInstrument.Adorner != null && !ActiveInstrument.Adorner.KeyboardInput(e.Key))
 				DefaultKeyHandler(e);
 		}
+
+		private void Paste()
+		{
+			if (this.IsEnabled)
+				ExecuteCommand(DesignerCanvas.PlanDesignerViewModel.PasteCommand);
+		}
+
 		private void DefaultKeyHandler(KeyEventArgs e)
 		{
 			if (e.Key == Key.Escape)

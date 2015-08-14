@@ -115,7 +115,8 @@ namespace SKDModule.ViewModels
 					DayIntervalUID = copy.UID,
 					BeginTime = item.BeginTime,
 					EndTime = item.EndTime,
-					TransitionType = item.TransitionType
+					TransitionType = item.TransitionType,
+					Number = item.Number
 				};
 				copy.DayIntervalParts.Add(dayIntervalPart);
 				copy.SlideTime = source.SlideTime;

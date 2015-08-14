@@ -1,5 +1,10 @@
-﻿using System.Windows;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Input;
 using Infrastructure.Client.Plans.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
@@ -8,9 +13,6 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
-using System.Windows.Input;
-using System.Collections.Generic;
-using System;
 
 namespace Infrastructure.Designer.DesignerItems
 {
@@ -18,6 +20,8 @@ namespace Infrastructure.Designer.DesignerItems
 	{
 		private ContextMenu _contextMenu;
 		private ContextMenu _elementContextMenu;
+		private MenuItem propertiesMenuItem = null;
+
 		public DesignerItemBase(ElementBase element)
 			: base(element)
 		{
@@ -92,11 +96,10 @@ namespace Infrastructure.Designer.DesignerItems
 					"BDelete",
 					DeleteCommand
 				));
-				_contextMenu.Items.Add(DesignerCanvasHelper.BuildMenuItem(
-					"Свойства",
-					"BSettings",
-					ShowPropertiesCommand
-				));
+
+				this.propertiesMenuItem = DesignerCanvasHelper.BuildMenuItem("Свойства", "BSettings", ShowPropertiesCommand);
+				_contextMenu.Items.Add(propertiesMenuItem);
+
 				_contextMenu.Items.Add(new Separator());
 				_contextMenu.Items.Add(DesignerCanvasHelper.BuildMenuItem(
 					"Вверх",
@@ -150,6 +153,7 @@ namespace Infrastructure.Designer.DesignerItems
 					((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.AlignVerticalBottomCommand
 				));
 			};
+			this.propertiesMenuItem.Visibility = this.PropertiesVisibility;
 			return _contextMenu;
 		}
 		public override ContextMenu GetElementContextMenu()
@@ -241,27 +245,40 @@ namespace Infrastructure.Designer.DesignerItems
 		}
 		protected override object GetToolTip()
 		{
-			var format = 
+			var format =
 				Index == default(int)
 				? string.Format("{0}", Title)
 				: string.Format("{0}. {1}", Index, Title);
 
-			var formatClassName = 
-				Index == default(int) 
+			var formatClassName =
+				Index == default(int)
 				? string.Format("{0}{1}{2}", Title, Environment.NewLine, ClassName)
 				: string.Format("{0}. {1}{2}{3}", Index, Title, Environment.NewLine, ClassName);
 
 			var tooltip = Painter == null ? null : Painter.GetToolTip(format);
 
-			return tooltip 
+			return tooltip
 				?? new ImageTextTooltipViewModel
 				{
 					Title = string.IsNullOrEmpty(ClassName)
 						? string.Format(format)
-						: string.Format(formatClassName), 
+						: string.Format(formatClassName),
 
-					ImageSource = IconSource 
+					ImageSource = IconSource
 				};
+		}
+
+		/// <summary>
+		/// Sets/retrieves the Visibility of Properties Menu Item.
+		/// </summary>
+		public Visibility PropertiesVisibility
+		{
+			get
+			{
+				return (this.DesignerCanvas.SelectedElements.Count() < 2)
+					? Visibility.Visible
+					: Visibility.Collapsed;
+			}
 		}
 	}
 }

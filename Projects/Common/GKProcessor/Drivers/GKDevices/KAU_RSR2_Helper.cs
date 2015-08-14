@@ -51,7 +51,7 @@ namespace GKProcessor
 				{
 					No = 0,
 					Name = "Parameter 0",
-					Caption = "Порог питания, 1 В",
+					Caption = "Порог питания, В",
 					ToolTip = "",
 					Min = 100,
 					Max = 240,

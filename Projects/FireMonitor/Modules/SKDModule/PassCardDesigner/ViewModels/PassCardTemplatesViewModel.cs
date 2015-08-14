@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
 using SKDModule.ViewModels;
+using Infrastructure;
+using SKDModule.Events;
 
 namespace SKDModule.PassCardDesigner.ViewModels
 {
@@ -11,7 +13,8 @@ namespace SKDModule.PassCardDesigner.ViewModels
 		public PassCardTemplatesViewModel()
 			: base()
 		{
-
+			ServiceFactory.Events.GetEvent<RemoveAdditionalColumnEvent>().Unsubscribe(RemoveAdditionalColumn);
+			ServiceFactory.Events.GetEvent<RemoveAdditionalColumnEvent>().Subscribe(RemoveAdditionalColumn);
 		}
 
 		protected override IEnumerable<ShortPassCardTemplate> GetModels(PassCardTemplateFilter filter)
@@ -53,6 +56,23 @@ namespace SKDModule.PassCardDesigner.ViewModels
 		protected override List<ShortPassCardTemplate> GetFromCallbackResult(FiresecAPI.DbCallbackResult dbCallbackResult)
 		{
 			return dbCallbackResult.PassCardTemplates;
+		}
+		public void RemoveAdditionalColumn(AdditionalColumnType column)
+		{
+			var filter = new PassCardTemplateFilter();
+			var organisations = GetModels(filter);
+			foreach (var item in organisations)
+			{
+				var PassCardTemplate = PassCardTemplateHelper.GetDetails(item.UID);
+				switch (column.DataType)
+				{
+					case AdditionalColumnDataType.Text:
+						PassCardTemplate.ElementTextProperties = PassCardTemplate.ElementTextProperties.FindAll(x => x.AdditionalColumnUID != column.UID); break;
+					case AdditionalColumnDataType.Graphics:
+						PassCardTemplate.ElementImageProperties = PassCardTemplate.ElementImageProperties.FindAll(x => x.AdditionalColumnUID != column.UID); break;
+				}
+				PassCardTemplateHelper.Save(PassCardTemplate, false);
+			}
 		}
 	}
 }

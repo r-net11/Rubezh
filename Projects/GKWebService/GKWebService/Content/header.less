@@ -4,10 +4,11 @@
 	height: 80px;
 	background: @dark-blue;
     color:white;
-
+	min-width:1100px;
     .left{
-        float: left;
-        width:240px;
+        display:inline-block;
+        width: 222px;
+		margin: 6px 0 0 5px;
         .time {
         font-size: 20px;
         margin-bottom: 10px;
@@ -17,6 +18,7 @@
 
         .icons {
             overflow:hidden;
+			padding:0 0 0 5px;
             .icon{
                 width: 20px;
                 height: 20px;
@@ -41,8 +43,7 @@
                 &.connect {
                     background-image : url("Image/Icon/Header/connection-indicator.png");
                     width: 40px;
-                    height: 13px;
-                    margin-top:4px;
+                    height: 20px;
                     padding: 5px 5px;
                     background-size: 40px 13px;
                 }
@@ -58,13 +59,17 @@
                 &.plan {
                     background-image : url("Image/Icon/Header/map-on.png");
                 }
+				&:last-child{
+					margin-right:0;
+				}
             }
         }
     }
 
     .right {
-        float:left;
-        width:880px;
+        display:inline-block;
+        margin: 12px 0 0 0;
+		min-width:800px;
         .icon{
             width: 40px;
             height: 40px;
@@ -76,22 +81,41 @@
             border-radius: 5px;
             border: 2px solid @light-blue;
             margin-right:10px;
-            margin-top: 5px;
-            &.extinguisher{
-                background-image : url("Image/Icon/Header/extinguisher.png");
+            &.reset:before{
+                content:"СБРОС";
+				line-height: 40px;
+				color:@light-blue;
             }
-
+            &.mpt{
+                background-image : url("Image/Icon/Alarms/mpt.png");
+            }
             &.shield{
-                background-image : url("Image/Icon/Header/Alarm_shield.png");
+                background-image : url("Image/Icon/Alarms/shield.png");
             }
-
-            &.fire{
-                background-image : url("Image/Icon/Header/fire.png");
+            &.fire2{
+                background-image : url("Image/Icon/Alarms/fire2.png");
             }
-
-            &.mani-fire{
-                background-image : url("Image/Icon/Header/mani-fire.png");
-            }
+			&.fire{
+				background-image : url("Image/Icon/Alarms/fire.png");
+			}
+			&.attention{
+				background-image : url("Image/Icon/Alarms/attention.png");
+			}
+			&.failure{
+				background-image : url("Image/Icon/Alarms/failure.png");
+			}
+			&.off{
+				background-image : url("Image/Icon/Alarms/off.png");
+			}
+			&.auto{
+				background-image : url("Image/Icon/Alarms/auto.png");
+			}
+			&.service{
+				background-image : url("Image/Icon/Alarms/service.png");
+			}
+			&.onOff{
+				background-image : url("Image/Icon/Alarms/onOff.png");
+			}
         }
     }
 }

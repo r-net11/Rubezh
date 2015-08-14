@@ -1,130 +1,150 @@
-﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
-    <!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-    <title>Оперативная задача Глобал</title>
-    
-    <meta name="keywords" content="" />
-    <meta name="description" content="" />
-    <link href="Content/themes/base/all.css" rel="stylesheet">
-    <link href="Content/Site.css" rel="stylesheet">
-    
-    <link rel="stylesheet/less" type="text/css" href="Content/main.less" /> 
-    <link href="Content/jquery.jqGrid/ui.jqgrid.css" rel="stylesheet">
+	<meta charset="utf-8" />
+	<!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<title>Оперативная задача Глобал</title>
+
+	<link rel="apple-touch-icon" sizes="57x57" href="~/Content/favicon/apple-touch-icon-57x57.png">
+	<link rel="apple-touch-icon" sizes="60x60" href="~/Content/favicon/apple-touch-icon-60x60.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="~/Content/favicon/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="~/Content/favicon/apple-touch-icon-76x76.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="~/Content/favicon/apple-touch-icon-114x114.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="~/Content/favicon/apple-touch-icon-120x120.png">
+	<link rel="icon" type="image/png" href="~/Content/favicon/favicon-32x32.png" sizes="32x32">
+	<link rel="icon" type="image/png" href="~/Content/favicon/favicon-96x96.png" sizes="96x96">
+	<link rel="icon" type="image/png" href="~/Content/favicon/favicon-16x16.png" sizes="16x16">
+	<link rel="manifest" href="~/Content/favicon/manifest.json">
+	<meta name="msapplication-TileColor" content="#da532c">
+	<meta name="theme-color" content="#ffffff">
+
+	<meta name="keywords" content="" />
+	<meta name="description" content="" />
+	<link href="Content/themes/base/all.css" rel="stylesheet">
+	<link href="Content/Site.css" rel="stylesheet">
+
+	<link rel="stylesheet/less" type="text/css" href="Content/main.less" />
+	<link href="Content/jquery.jqGrid/ui.jqgrid.css" rel="stylesheet">
+	<link href="Content/themes/base/customTheme.css" rel="stylesheet">
 </head>
 
 <body>
 
-    <div class="wrapper">
-        <header class="header">
-            <div class="left" data-bind="with: Header">
-
-                
-                <div id="login-box" class="login-popup">
-                    <a href="#" class="close"><img src="Content/Image/Icon/Header/close_pop.png" class="btn_close" title="Close Window" alt="Close" data-bind="click: LogonClose" /></a>
-                    <div class="signin">
-                        <fieldset class="textbox">
-                               
-                            <label class="username">
-                                <input id="username" data-bind="value: login" name="username" value="" type="text" autocomplete="on" placeholder="Логин">
-                            </label>
-                            <label class="password">
-                                <input id="password" data-bind="value: password" name="password" value="" type="password" placeholder="Пароль">
-                            </label>
-                            
-                            <button class="submit button" type="button" data-bind="click: Enter">Войти</button>
-                            <label data-bind="text: logon_error" />
-                                                   
-                        </fieldset>
-                    </div>
-                </div>
-
-                <div id="clockbox" class="time"></div>
-                <div class="icons">
-                    <div class="icon mute" data-bind="css:{'off': isSound}, click: SoundClick"></div>
-                    <div class="icon connect on"></div>
-                    <div class="icon change-user on" dialog_id="#login-box" data-bind="click: LogonClick"></div>
-                    <div class="icon activation on"></div>
-                    <div class="icon plan on"></div>
-                </div>
-            </div>
-            <div class="right">
-                <div class="icon extinguisher"></div>
-                <div class="icon shield"></div>
-                <div class="icon fire"></div>
-                <div class="icon mani-fire"></div>
-            </div>    
-        </header><!-- .header-->
-
-        <div class="middle" data-bind="with: Menu">
+	<div class="wrapper">
+		<header class="header">
+			<div class="left" data-bind="with: Header">
 
 
-            <div class="container">
-                <main class="content">
-                    @RenderBody()
-                </main><!-- .content -->
-            </div><!-- .container-->
+				<div id="login-box" class="login-popup">
+					<a href="#" class="close"><img src="Content/Image/Icon/Header/close_pop.png" class="btn_close" title="Close Window" alt="Close" data-bind="click: LogonClose" /></a>
+					<div class="signin">
+						<fieldset class="textbox">
 
-            <aside class="left-sidebar">
-                <ul class="menu">
-                    <li>
-                        <a class="group-control" href="#" data-bind="click: MenuClick"><span>Групповой контроллер</span></a>
-                        <ul>
-                            <li class="state" data-bind="css:{'active': StatePageOpened}"><a href="" data-bind="click: function(data,event) { PageClick(data, event, 'State'); } "><span>Состояния</span></a></li>
-                            <li><a class="device" href="" data-bind="click: function(data,event) { PageClick(data, event, 'Device'); } "><span>Устройствар</span></a></li>
-                            <li><a class="params" href=""><span>Параметры</span></a></li>
-                        </ul>
-                    </li>
-                    <li class="event-log"><a href="" data-bind="click: function(data,event) { PageClick(data, event, 'Report'); }"><span>Журнал событий</span></a></li>
-                    <li><a class="archive" href="" data-bind="click: function(data,event) { PageClick(data, event, 'Archive'); }"><span>Архив</span></a></li>
-                    <li><a class="reports" href="" data-bind="click: MenuClick"><span>Отчёты</span></a></li>
-                    <li>
-                        <a class="diagnostics" href=" " data-bind="click: MenuClick"><span>Диагностика</span></a>
-                        <ul>
-                            <li><a class="diagnostics" href=""><span>Диагностика</span></a></li>
-                            <li><a class="queue" href=""><span>Очередь операций</span></a></li>
-                        </ul>
-                    </li>
-                    <li class="SKD has-sub last">
-                        <a data-bind="click: MenuClick"><span>СКД</span></a>
-                        <ul>
-                            <li><a class="file" href="" data-bind="click: function(data,event) { PageClick(data, event, 'HR'); }"><span>Картотека</span></a></li>
-                            <li class="work-time">
-                                <a data-bind="click: MenuClick" href=""><span>Учет рабочего времени</span></a>
-                                <ul>
-                                    <li><a class="daily-charts" href=""><span>Дневные графики</span></a></li>
-                                    <li><a class="charts" href=""><span>Графики</span></a></li>
-                                    <li><a class="holidays" href=""><span>Праздничные дни</span></a></li>
-                                    <li><a class="work-chars" href=""><span>Графики работ</span></a></li>
-                                    <li><a class="timesheet" href=""><span>Учет рабочего времени</span></a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </aside><!-- .left-sidebar -->
+							<label class="username">
+								<input id="username" data-bind="value: login" name="username" value="" type="text" autocomplete="on" placeholder="Логин">
+							</label>
+							<label class="password">
+								<input id="password" data-bind="value: password" name="password" value="" type="password" placeholder="Пароль">
+							</label>
 
-        </div><!-- .middle-->
+							<button class="submit button" type="button" data-bind="click: Enter">Войти</button>
+							<label data-bind="text: logon_error"></label>
 
-    </div><!-- .wrapper -->
+						</fieldset>
+					</div>
+				</div>
 
+				<div id="clockbox" class="time"></div>
+				<div class="icons">
+					<div class="icon mute" data-bind="css:{'off': isSound}, click: SoundClick"></div>
+					<div class="icon connect on"></div>
+					<div class="icon change-user on" dialog_id="#login-box" data-bind="click: LogonClick"></div>
+					<div class="icon activation on"></div>
+					<div class="icon plan on"></div>
+				</div>
+			</div>
+			<div class="right">
+				<div class="icon reset"></div>
+				<div class="icon mpt"></div>
+				<div class="icon shield"></div>
+				<div class="icon fire2"></div>
+				<div class="icon fire"></div>
+				<div class="icon attention"></div>
+				<div class="icon failure"></div>
+				<div class="icon off"></div>
+				<div class="icon auto"></div>
+				<div class="icon service"></div>
+				<div class="icon onOff"></div>
+			</div>
+		</header><!-- .header-->
+
+		<div class="middle" data-bind="with: Menu">
+			<div class="container">
+				<main class="content">
+					@RenderBody()
+				</main><!-- .content -->
+			</div><!-- .container-->
+
+			<aside class="left-sidebar">
+				<ul class="menu">
+					<li>
+						<a class="group-control" href="#" data-bind="click: MenuClick"><span class="icon group-control"></span><span class="text">Групповой контроллер</span></a>
+						<ul>
+							<li class="state" data-bind="css:{'active': StatePageOpened}"><a href="" data-bind="click: function(data,event) { PageClick(data, event, 'State'); } "><span class="icon state"></span><span class="text">Состояния</span></a></li>
+							<li><a class="device" href="" data-bind="click: function(data,event) { PageClick(data, event, 'Device'); } "><span class="icon device"></span><span class="text">Устройствар</span></a></li>
+							<li><a class="params" href=""><span class="icon params"></span><span class="text">Параметры</span></a></li>
+						</ul>
+					</li>
+					<li class="event-log"><a href="" data-bind="click: function(data,event) { PageClick(data, event, 'Report'); }"><span class="icon event-log"></span><span class="text">Журнал событий</span></a></li>
+					<li><a class="archive" href="" data-bind="click: function(data,event) { PageClick(data, event, 'Archive'); }"><span class="icon archive"></span><span class="text">Архив</span></a></li>
+					<li><a class="reports" href="" data-bind="click: MenuClick"><span class="icon reports"></span><span class="text">Отчёты</span></a></li>
+					<li class="SKD has-sub last">
+						<a data-bind="click: MenuClick"><span class="icon SKD"></span><span class="text">СКД</span></a>
+						<ul>
+				            <li><a class="file"
+				                   href=""
+				                   data-bind="click: function(data,event) { PageClick(data, event, 'HR'); }"><span class="icon file"></span><span class="text">Картотека</span></a></li>
+							<li class="work-time">
+				                <a data-bind="click: MenuClick"
+				                   href=""><span class="icon work-time"></span><span class="text">Учет рабочего времени</span></a>
+								<ul>
+				                    <li><a class="daily-charts"
+				                           href=""><span class="icon daily-charts"></span><span class="text">Дневные графики</span></a></li>
+				                    <li><a class="charts"
+				                           href=""><span class="icon charts"></span><span class="text">Графики</span></a></li>
+				                    <li><a class="holidays"
+				                           href=""><span class="icon holidays"></span><span class="text">Праздничные дни</span></a></li>
+				                    <li><a class="work-chars"
+				                           href=""><span class="icon work-chars"></span><span class="text">Графики работ</span></a></li>
+				                    <li><a class="timesheet"
+				                           href=""><span class="icon work-time"></span><span class="text">Учет рабочего времени</span></a></li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+                    <li><a class="plan" href="" data-bind="click: function(data,event) { PageClick(data, event, 'Plan'); }"><span class="icon archive"></span><span class="text">Планы</span></a></li>
+				</ul>
+			</aside><!-- .left-sidebar -->
+
+		</div><!-- .middle-->
+
+	</div><!-- .wrapper -->
+
+
+	<script src="~/Scripts/jquery-2.1.4.min.js"></script>
+	<script src="~/Scripts/less.min.js"></script>
+	<script src="~/Scripts/knockout-3.3.0.js"></script>
+	<script src="~/Scripts/jquery-1.11.0.min.js"></script>
+	<script src="~/Scripts/jquery-ui-1.11.4.min.js"></script>
+	<script src="~/Scripts/moment.min.js"></script>
+	<script src="~/Scripts/jquery.jqGrid.min.js"></script>
+	<script src="~/Scripts/i18n/grid.locale-ru.js"></script>
     
-    
-    <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.5.1/less.min.js"></script>
-    <script src="Scripts/knockout-3.3.0.js"></script>
-    <script src="Scripts/jquery-1.11.0.min.js"></script>
-    <script src="Scripts/jquery-ui-1.11.4.min.js"></script>
-    <script src="Scripts/moment.min.js"></script>
-    <script src="Scripts/jquery.jqGrid.min.js"></script>
-    <script src="Scripts/i18n/grid.locale-ru.js"></script>
-    
-    <script src="Scripts/report.js"></script>
-    <script src="Scripts/archive.js"></script>
-    <script src="Scripts/HR.js"></script>
-    <script src="Scripts/Main.js"></script>
-    <script src="Scripts/Clock.js"></script>
-    
+    <script src="~/Scripts/report.js"></script>
+    <script src="~/Scripts/archive.js"></script>
+    <script src="~/Scripts/HR.js"></script>
+	<script src="~/Scripts/Main.js"></script>
+	<script src="~/Scripts/Clock.js"></script>
+	<script src="~/Scripts/tooltips.js"></script>
 </body>
 </html>

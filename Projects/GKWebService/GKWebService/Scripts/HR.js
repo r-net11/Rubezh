@@ -1,9 +1,4 @@
-﻿
-$(document).ready(function () {
-
-});
-
-function HRViewModel() {
+﻿function HRViewModel() {
     var self = {};
 
     self.hrPages = {

@@ -2,6 +2,7 @@
 using System.Linq;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 
 namespace Infrastructure.Designer.ViewModels
@@ -68,18 +69,46 @@ namespace Infrastructure.Designer.ViewModels
 		public RelayCommand MoveForwardCommand { get; private set; }
 		private void OnMoveForward()
 		{
-			foreach (var designerItem in DesignerCanvas.SelectedItems)
-				designerItem.Element.ZIndex++;
+			foreach (var designerItem in this.DesignerCanvas.SelectedItems.OrderBy(x => x.Element.ZIndex))
+				this.OnMoveForward(designerItem);
 			DesignerCanvas.UpdateZIndex();
 			DesignerCanvas.DesignerChanged();
 		}
+		private void OnMoveForward(DesignerItem item)
+		{
+			IEnumerable<DesignerItem> upperItems = this.DesignerCanvas.Items
+				.Where(x => x.Element.ZIndex >= item.Element.ZIndex && x != item)
+				.OrderBy(x => x.Element.ZIndex);
+			DesignerItem closestItem = upperItems.FirstOrDefault();
+			// Switching current Item and the closest one:
+			if (closestItem != null)
+				closestItem.Element.ZIndex = item.Element.ZIndex;
+			item.Element.ZIndex++;
+			foreach (DesignerItem upperItem in upperItems.Skip(1))
+				upperItem.Element.ZIndex++;
+		}
+
 		public RelayCommand MoveBackwardCommand { get; private set; }
 		private void OnMoveBackward()
 		{
-			foreach (var designerItem in DesignerCanvas.SelectedItems)
-				designerItem.Element.ZIndex--;
+			foreach (var designerItem in this.DesignerCanvas.SelectedItems.OrderByDescending(x => x.Element.ZIndex))
+				this.OnMoveBackward(designerItem);
 			DesignerCanvas.UpdateZIndex();
 			DesignerCanvas.DesignerChanged();
+		}
+		private void OnMoveBackward(DesignerItem item)
+		{
+			IEnumerable<DesignerItem> lowerItems = this.DesignerCanvas.Items
+				.Where(x => x.Element.ZIndex <= item.Element.ZIndex && x != item)
+				.OrderByDescending(x => x.Element.ZIndex);
+			DesignerItem closestItem = lowerItems.FirstOrDefault();
+			// Switching current Item and the closest one:
+			if (closestItem != null)
+				closestItem.Element.ZIndex = item.Element.ZIndex;
+			item.Element.ZIndex--;
+			// Moving all the lower items down to keep Order:
+			foreach (DesignerItem lowerItem in lowerItems.Skip(1)) // Skipping the closest Item
+				lowerItem.Element.ZIndex--;
 		}
 
 		protected void NormalizeZIndex()

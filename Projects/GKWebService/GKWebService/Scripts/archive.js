@@ -11,7 +11,7 @@ $(document).ready(function () {
            { label: 'Уточнение', name: 'Desc', width: 80, sortable: false },
            { label: 'Объект', name: 'Object', width: 80, sortable: false }
         ],
-        width: 900,
+        width: jQuery(window).width() - 242,
         height: 300,
         rowNum: 100,
         viewrecords: true,

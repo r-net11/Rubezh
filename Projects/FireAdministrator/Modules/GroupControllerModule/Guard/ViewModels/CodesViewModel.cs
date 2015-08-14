@@ -12,6 +12,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
 using KeyboardKey = System.Windows.Input.Key;
+using FiresecAPI.GK;
 
 namespace GKModule.ViewModels
 {
@@ -100,13 +101,55 @@ namespace GKModule.ViewModels
 		{
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить все пустые зоны ?"))
 			{
-			
+				var emptyCodes = Codes.Where(x => !GetOnEmpty().Contains(x.Code.UID));
+				if (emptyCodes != null)
+				{
+					for (var i = emptyCodes.Count() - 1; i >= 0; i--)
+					{
+						GKManager.DeviceConfiguration.Codes.Remove(emptyCodes.ElementAt(i).Code);
+						Codes.Remove(emptyCodes.ElementAt(i));
+					}
+					ServiceFactory.SaveService.GKChanged = true;
+					SelectedCode = Codes.FirstOrDefault();
+				}	
 			}
 		}
 
 		bool CanDeleteAllEmpty()
 		{
-			return false;
+			return GKManager.DeviceConfiguration.Codes.Any(x => !GetOnEmpty().Contains(x.UID));
+		}
+
+		private HashSet<Guid> GetOnEmpty()
+		{
+			HashSet<Guid> codes = new HashSet<Guid>();
+			foreach (var guardZone in GKManager.DeviceConfiguration.GuardZones)
+			{
+				var guardZoneDevices = guardZone.GuardZoneDevices.Where(x => x.Device.DriverType == GKDriverType.RSR2_CardReader || x.Device.DriverType == GKDriverType.RSR2_CodeReader);
+				foreach (var code in GKManager.DeviceConfiguration.Codes)
+				{
+					if (guardZoneDevices.Any(y => y.CodeReaderSettings.AlarmSettings.CodeUIDs.Contains(code.UID) || y.CodeReaderSettings.ChangeGuardSettings.CodeUIDs.Contains(code.UID) ||
+						y.CodeReaderSettings.ResetGuardSettings.CodeUIDs.Contains(code.UID) || y.CodeReaderSettings.SetGuardSettings.CodeUIDs.Contains(code.UID)))
+					{
+						codes.Add(code.UID);
+					}
+				}
+			}
+
+			foreach (var MPT in GKManager.DeviceConfiguration.MPTs)
+			{
+				var MPTDevices = MPT.MPTDevices.Where(x => x.Device.DriverType == GKDriverType.RSR2_CardReader);
+				foreach (var code in GKManager.DeviceConfiguration.Codes)
+				{
+					if (MPTDevices.Any(y => y.CodeReaderSettings.AutomaticOnSettings.CodeUIDs.Contains(code.UID) || y.CodeReaderSettings.AutomaticOffSettings.CodeUIDs.Contains(code.UID) ||
+						y.CodeReaderSettings.StartSettings.CodeUIDs.Contains(code.UID) || y.CodeReaderSettings.StopSettings.CodeUIDs.Contains(code.UID)))
+					{
+						codes.Add(code.UID);
+					}
+				}
+			}
+
+			return codes;
 		}
 
 		public RelayCommand EditCommand { get; private set; }

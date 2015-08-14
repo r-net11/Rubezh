@@ -16,16 +16,20 @@ namespace SKDModule.ViewModels
 		TimeTrackFilter TimeTrackFilter;
 		public List<TimeTrackEmployeeResult> TimeTrackEmployeeResults { get; private set; }
 
-		public ReportSettingsViewModel(TimeTrackFilter timeTrackFilter, List<TimeTrackEmployeeResult> timeTrackEmployeeResults)
+		public Guid ChiefUID { get; set; }
+		public Guid DepartmentChiefUID { get; set; }
+		public Guid HRChiefUID { get; set; }
+
+		public ReportSettingsViewModel(TimeTrackFilter timeTrackFilter, List<TimeTrackEmployeeResult> timeTrackEmployeeResults,Guid chiefUID,Guid depUID,Guid hrUID)
 		{
 			Title = "Настройка печати отчета Т-13";
 			TimeTrackFilter = timeTrackFilter;
 			TimeTrackEmployeeResults = timeTrackEmployeeResults;
 			DateTime = DateTime.Now;
-			FillViewModel = new EmployeeSelectationViewModel(Guid.Empty, timeTrackFilter.EmployeeFilter);
-			LeadViewModel = new EmployeeSelectationViewModel(Guid.Empty, timeTrackFilter.EmployeeFilter);
+			FillViewModel = new EmployeeSelectationViewModel(chiefUID, timeTrackFilter.EmployeeFilter);
+			LeadViewModel = new EmployeeSelectationViewModel(depUID, timeTrackFilter.EmployeeFilter);
 			var hrFilter = new EmployeeFilter { OrganisationUIDs = timeTrackFilter.EmployeeFilter.OrganisationUIDs };
-			HRViewModel = new EmployeeSelectationViewModel(Guid.Empty, hrFilter);
+			HRViewModel = new EmployeeSelectationViewModel(hrUID, hrFilter);
 		}
 
 		public EmployeeSelectationViewModel FillViewModel { get; private set; }
