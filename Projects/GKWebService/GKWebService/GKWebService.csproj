@@ -155,8 +155,11 @@
     <Content Include="Content\logon.less" />
     <Content Include="Content\report.less" />
     <Content Include="Content\archive.less" />
+    <Content Include="Content\tab.less" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\Clock.js" />
+    <Content Include="Scripts\HR.js" />
+    <Content Include="Scripts\HrEmployees.js" />
     <Content Include="Scripts\i18n\grid.locale-ar.js" />
     <Content Include="Scripts\i18n\grid.locale-bg.js" />
     <Content Include="Scripts\i18n\grid.locale-bg1251.js" />
@@ -224,6 +227,7 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Controllers\ArchiveController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\HrController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -245,8 +249,9 @@
     <Content Include="Views\Home\State.cshtml" />
     <Content Include="Views\Home\Device.cshtml" />
     <Content Include="Views\Home\Report.cshtml" />
-    <Content Include="Views\Home\HR.cshtml" />
     <Content Include="Views\Home\Archive.cshtml" />
+    <Content Include="Views\Hr\Index.cshtml" />
+    <Content Include="Views\Hr\HrEmployees.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
