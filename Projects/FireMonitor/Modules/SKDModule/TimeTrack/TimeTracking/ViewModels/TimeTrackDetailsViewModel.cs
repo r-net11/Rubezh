@@ -498,37 +498,38 @@ namespace SKDModule.ViewModels
 			var serverCollection = new List<FiresecAPI.SKD.DayTimeTrackPart>();
 			foreach (var el in DayTimeTrackParts.Where(x => x.IsNew || x.IsDirty))
 			{
-				serverCollection.Add(new FiresecAPI.SKD.DayTimeTrackPart
-				{
-					CorrectedBy = el.CorrectedBy,
-					CorrectedByUID = el.CorrectedByUID,
-					CorrectedDate = el.CorrectedDate,
-					EnterDateTime = el.EnterDateTime + el.EnterTime,
-					EnterTime = el.EnterTime,
-					EnterTimeOriginal = el.EnterTimeOriginal,
-					ExitDateTime = el.ExitDateTime + el.ExitTime,
-					AdjustmentDate = el.AdjustmentDate,
-					ExitTime = el.ExitTime,
-					ExitTimeOriginal = el.ExitTimeOriginal,
-					IsDirty = el.IsDirty,
-					IsForceClosed = el.IsForceClosed,
-					IsManuallyAdded = el.IsManuallyAdded,
-					IsNeedAdjustment = el.IsNeedAdjustment,
-					IsNew = el.IsNew,
-					IsOpen = el.IsOpen,
-					IsRemoveAllIntersections = el.IsRemoveAllIntersections,
-					NotTakeInCalculations = el.NotTakeInCalculations,
-					UID = el.UID,
-					TimeTrackZone = new FiresecAPI.SKD.TimeTrackZone
-					{
-						Description = el.TimeTrackZone.Description,
-						IsURV = el.TimeTrackZone.IsURV,
-						Name = el.TimeTrackZone.Name,
-						No = el.TimeTrackZone.No,
-						SKDZone = el.TimeTrackZone.SKDZone,
-						UID = el.TimeTrackZone.UID
-					}
-				});
+				serverCollection.Add(el.ToDTO());
+				//serverCollection.Add(new FiresecAPI.SKD.DayTimeTrackPart
+				//{
+				//	CorrectedBy = el.CorrectedBy,
+				//	CorrectedByUID = el.CorrectedByUID,
+				//	CorrectedDate = el.CorrectedDate,
+				//	EnterDateTime = el.EnterDateTime,
+				//	EnterTime = el.EnterTime,
+				//	EnterTimeOriginal = el.EnterTimeOriginal,
+				//	ExitDateTime = el.ExitDateTime,
+				//	AdjustmentDate = el.AdjustmentDate,
+				//	ExitTime = el.ExitTime,
+				//	ExitTimeOriginal = el.ExitTimeOriginal,
+				//	IsDirty = el.IsDirty,
+				//	IsForceClosed = el.IsForceClosed,
+				//	IsManuallyAdded = el.IsManuallyAdded,
+				//	IsNeedAdjustment = el.IsNeedAdjustment,
+				//	IsNew = el.IsNew,
+				//	IsOpen = el.IsOpen,
+				//	IsRemoveAllIntersections = el.IsRemoveAllIntersections,
+				//	NotTakeInCalculations = el.NotTakeInCalculations,
+				//	UID = el.UID,
+				//	TimeTrackZone = new FiresecAPI.SKD.TimeTrackZone
+				//	{
+				//		Description = el.TimeTrackZone.Description,
+				//		IsURV = el.TimeTrackZone.IsURV,
+				//		Name = el.TimeTrackZone.Name,
+				//		No = el.TimeTrackZone.No,
+				//		SKDZone = el.TimeTrackZone.SKDZone,
+				//		UID = el.TimeTrackZone.UID
+				//	}
+				//});
 			}
 
 			PassJournalHelper.SaveAllTimeTracks(serverCollection, ShortEmployee);
@@ -546,37 +547,13 @@ namespace SKDModule.ViewModels
 		{
 			if (!ShowResetAdjustmentsWarning()) return;
 
-			var resultCollection = DayTimeTrackParts.ToList();//.Where(x => !x.IsManuallyAdded).ToList();
+			var resultCollection = DayTimeTrackParts.Where(x => !x.IsManuallyAdded).ToList();
 			List<DayTimeTrackPart> collection = DayTimeTrackParts.Where(x => !string.IsNullOrEmpty(x.CorrectedBy) && !x.IsForceClosed).ToList();
 			//TODO: remove all manuall added intervals
 			var serverCollection = new List<FiresecAPI.SKD.DayTimeTrackPart>();
 			foreach (var dayTimeTrackPart in collection)
 			{
-				serverCollection.Add(new FiresecAPI.SKD.DayTimeTrackPart
-				{
-					UID = dayTimeTrackPart.UID,
-					TimeTrackZone = new FiresecAPI.SKD.TimeTrackZone
-					{
-						SKDZone = dayTimeTrackPart.TimeTrackZone.SKDZone,
-						Description = dayTimeTrackPart.TimeTrackZone.Description,
-						IsURV = dayTimeTrackPart.TimeTrackZone.IsURV,
-						Name = dayTimeTrackPart.TimeTrackZone.Name,
-						No = dayTimeTrackPart.TimeTrackZone.No,
-						UID = dayTimeTrackPart.TimeTrackZone.UID
-					},
-					CorrectedBy = dayTimeTrackPart.CorrectedBy,
-					CorrectedByUID = dayTimeTrackPart.CorrectedByUID,
-					CorrectedDate = dayTimeTrackPart.CorrectedDate,
-					EnterTimeOriginal = dayTimeTrackPart.EnterTimeOriginal,
-					IsNeedAdjustment = dayTimeTrackPart.IsNeedAdjustment,
-					AdjustmentDate = dayTimeTrackPart.AdjustmentDate,
-					EnterDateTime = dayTimeTrackPart.EnterDateTime,
-					EnterTime = dayTimeTrackPart.EnterTime,
-					ExitDateTime = dayTimeTrackPart.ExitDateTime,
-					ExitTime = dayTimeTrackPart.ExitTime,
-					ExitTimeOriginal = dayTimeTrackPart.ExitTimeOriginal,
-					IsDirty = dayTimeTrackPart.IsDirty
-				});
+				serverCollection.Add(dayTimeTrackPart.ToDTO());
 			}
 
 			var conflictIntervals = PassJournalHelper.FindConflictIntervals(serverCollection, ShortEmployee.UID, DayTimeTrack.Date);
@@ -586,61 +563,13 @@ namespace SKDModule.ViewModels
 
 			foreach (KeyValuePair<FiresecAPI.SKD.DayTimeTrackPart, List<FiresecAPI.SKD.DayTimeTrackPart>> dayTimeTrackPart in conflictIntervals)
 			{
-				var key = new DayTimeTrackPart
-				{
-					UID = dayTimeTrackPart.Key.UID,
-					TimeTrackZone = new SKDModule.Model.TimeTrackZone
-					{
-						SKDZone = dayTimeTrackPart.Key.TimeTrackZone.SKDZone,
-						Description = dayTimeTrackPart.Key.TimeTrackZone.Description,
-						IsURV = dayTimeTrackPart.Key.TimeTrackZone.IsURV,
-						Name = dayTimeTrackPart.Key.TimeTrackZone.Name,
-						No = dayTimeTrackPart.Key.TimeTrackZone.No,
-						UID = dayTimeTrackPart.Key.TimeTrackZone.UID
-					},
-					CorrectedBy = dayTimeTrackPart.Key.CorrectedBy,
-					CorrectedByUID = dayTimeTrackPart.Key.CorrectedByUID,
-					CorrectedDate = dayTimeTrackPart.Key.CorrectedDate,
-					IsNeedAdjustment = dayTimeTrackPart.Key.IsNeedAdjustment,
-					AdjustmentDate = dayTimeTrackPart.Key.AdjustmentDate,
-					EnterTimeOriginal = dayTimeTrackPart.Key.EnterTimeOriginal,
-					EnterDateTime = dayTimeTrackPart.Key.EnterDateTime,
-					EnterTime = dayTimeTrackPart.Key.EnterTime,
-					ExitDateTime = dayTimeTrackPart.Key.ExitDateTime,
-					ExitTime = dayTimeTrackPart.Key.ExitTime,
-					ExitTimeOriginal = dayTimeTrackPart.Key.ExitTimeOriginal,
-					IsDirty = dayTimeTrackPart.Key.IsDirty
-				};
+				var key = new DayTimeTrackPart(dayTimeTrackPart.Key);
 
 				List<DayTimeTrackPart> values = new List<DayTimeTrackPart>();
 
 				foreach (var timeTrackPart in dayTimeTrackPart.Value)
 				{
-					values.Add(new DayTimeTrackPart
-					{
-						UID = timeTrackPart.UID,
-						TimeTrackZone = new SKDModule.Model.TimeTrackZone
-						{
-							SKDZone = timeTrackPart.TimeTrackZone.SKDZone,
-							Description = timeTrackPart.TimeTrackZone.Description,
-							IsURV = timeTrackPart.TimeTrackZone.IsURV,
-							Name = timeTrackPart.TimeTrackZone.Name,
-							No = timeTrackPart.TimeTrackZone.No,
-							UID = timeTrackPart.TimeTrackZone.UID
-						},
-						CorrectedBy = timeTrackPart.CorrectedBy,
-						CorrectedByUID = timeTrackPart.CorrectedByUID,
-						CorrectedDate = timeTrackPart.CorrectedDate,
-						IsNeedAdjustment = timeTrackPart.IsNeedAdjustment,
-						AdjustmentDate = timeTrackPart.AdjustmentDate,
-						EnterTimeOriginal = timeTrackPart.EnterTimeOriginal,
-						EnterDateTime = timeTrackPart.EnterDateTime,
-						EnterTime = timeTrackPart.EnterTime,
-						ExitDateTime = timeTrackPart.ExitDateTime,
-						ExitTime = timeTrackPart.ExitTime,
-						ExitTimeOriginal = timeTrackPart.ExitTimeOriginal,
-						IsDirty = timeTrackPart.IsDirty
-					});
+					values.Add(new DayTimeTrackPart(timeTrackPart));
 				}
 				clienDictionary.Add(key, values);
 			}

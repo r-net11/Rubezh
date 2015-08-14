@@ -24,5 +24,28 @@ namespace SKDModule.Model
 		public TimeTrackZone()
 		{
 		}
+
+		public TimeTrackZone(FiresecAPI.SKD.TimeTrackZone timeTrackZone)
+		{
+			SKDZone = timeTrackZone.SKDZone;
+			UID = timeTrackZone.UID;
+			No = timeTrackZone.No;
+			Name = timeTrackZone.Name;
+			Description = timeTrackZone.Description;
+			IsURV = timeTrackZone.IsURV;
+		}
+
+		public FiresecAPI.SKD.TimeTrackZone ToDTO()
+		{
+			return new FiresecAPI.SKD.TimeTrackZone
+			{
+				Description = Description,
+				IsURV = IsURV,
+				Name = Name,
+				No = No,
+				SKDZone = SKDZone,
+				UID = UID
+			};
+		}
 	}
 }

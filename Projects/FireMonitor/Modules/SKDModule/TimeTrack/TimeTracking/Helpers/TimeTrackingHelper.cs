@@ -22,12 +22,21 @@ namespace SKDModule.Helpers
 
 		public static DayTimeTrackPart ResolveConflictWithSettingBorders(DayTimeTrackPart originalInterval, List<DayTimeTrackPart> conflictedIntervals)
 		{
-			var firstConflictedInterval = conflictedIntervals.FirstOrDefault();
+			var leftConflictedInterval =
+				conflictedIntervals.Where(x => x.ExitDateTime > originalInterval.EnterTimeOriginal).Max(x => x.ExitDateTime);
+			var rightConflictedInterval =
+				conflictedIntervals.Where(x => x.EnterDateTime > originalInterval.ExitTimeOriginal).Min(x => x.EnterDateTime);
 
-			if (firstConflictedInterval == null) return null;
+			if (leftConflictedInterval != null)
+			{
+				originalInterval.EnterDateTime = leftConflictedInterval.Value;
+			}
 
-			originalInterval.ExitDateTime = firstConflictedInterval.EnterDateTime;
-			originalInterval.ExitTime = firstConflictedInterval.EnterTime;
+			if (rightConflictedInterval != null)
+			{
+				originalInterval.ExitDateTime = rightConflictedInterval.Value;
+			}
+
 			originalInterval.IsDirty = true;
 			return originalInterval;
 		}

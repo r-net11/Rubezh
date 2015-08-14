@@ -190,6 +190,33 @@ namespace SKDModule.Model
 
 		#region Constructors
 
+		public DayTimeTrackPart(FiresecAPI.SKD.DayTimeTrackPart dayTimeTrackPart) : this()
+		{
+			if (dayTimeTrackPart == null) return;
+
+			IsRemoveAllIntersections = dayTimeTrackPart.IsRemoveAllIntersections;
+			AdjustmentDate = dayTimeTrackPart.AdjustmentDate;
+			CorrectedBy = dayTimeTrackPart.CorrectedBy;
+			CorrectedByUID = dayTimeTrackPart.CorrectedByUID;
+			CorrectedDate = dayTimeTrackPart.AdjustmentDate.ToString();
+			EnterDateTime = dayTimeTrackPart.EnterDateTime;
+			EnterTime = dayTimeTrackPart.EnterTime;
+			EnterTimeOriginal = dayTimeTrackPart.EnterTimeOriginal;
+			ExitDateTime = dayTimeTrackPart.ExitDateTime;
+			ExitTime = dayTimeTrackPart.ExitTime;
+			ExitTimeOriginal = dayTimeTrackPart.ExitTimeOriginal;
+			IsForceClosed = dayTimeTrackPart.IsForceClosed;
+			IsManuallyAdded = dayTimeTrackPart.IsManuallyAdded;
+			IsNeedAdjustment = dayTimeTrackPart.IsNeedAdjustment;
+			IsOpen = dayTimeTrackPart.IsOpen;
+			NotTakeInCalculations = dayTimeTrackPart.NotTakeInCalculations;
+			if (dayTimeTrackPart.TimeTrackZone != null)
+			{
+				TimeTrackZone = new TimeTrackZone(dayTimeTrackPart.TimeTrackZone);
+			}
+			UID = dayTimeTrackPart.UID;
+		}
+
 		public DayTimeTrackPart(TimeTrackPartDetailsViewModel timeTrackPartDetailsViewModel) : this()
 		{
 			//UID = timeTrackPartDetailsViewModel.UID;
@@ -277,6 +304,36 @@ namespace SKDModule.Model
 					),
 				true
 				);
+		}
+
+		public FiresecAPI.SKD.DayTimeTrackPart ToDTO()
+		{
+			if (!IsDirty) return null;
+
+			var timeTrackPart = new FiresecAPI.SKD.DayTimeTrackPart
+			{
+				UID = UID,
+				AdjustmentDate = AdjustmentDate,
+				CorrectedBy = CorrectedBy,
+				CorrectedByUID = CorrectedByUID,
+				CorrectedDate = CorrectedDate,
+				EnterDateTime = EnterDateTime,
+				EnterTime = EnterTime,
+				EnterTimeOriginal = EnterTimeOriginal,
+				ExitDateTime = ExitDateTime,
+				ExitTime = ExitTime,
+				ExitTimeOriginal = ExitTimeOriginal,
+				IsForceClosed = IsForceClosed,
+				IsManuallyAdded = IsManuallyAdded,
+				IsNeedAdjustment = IsNeedAdjustment,
+				IsOpen = IsOpen,
+				IsNew = IsNew,
+				IsRemoveAllIntersections = IsRemoveAllIntersections,
+				NotTakeInCalculations = NotTakeInCalculations,
+				TimeTrackZone = TimeTrackZone.ToDTO()
+			};
+
+			return timeTrackPart;
 		}
 
 		#endregion

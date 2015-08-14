@@ -277,7 +277,7 @@ namespace SKDDriver.Translators
 					ZoneUID = dayTimeTrackPart.TimeTrackZone.UID,
 					EnterTime = dayTimeTrackPart.EnterDateTime.GetValueOrDefault(),
 					ExitTime = dayTimeTrackPart.ExitDateTime,
-					AdjustmentDate = Convert.ToDateTime(dayTimeTrackPart.CorrectedDate),
+					AdjustmentDate = dayTimeTrackPart.AdjustmentDate,
 					CorrectedByUID = dayTimeTrackPart.CorrectedByUID,
 					NotTakeInCalculations = dayTimeTrackPart.NotTakeInCalculations,
 					IsAddedManually = dayTimeTrackPart.IsManuallyAdded,
