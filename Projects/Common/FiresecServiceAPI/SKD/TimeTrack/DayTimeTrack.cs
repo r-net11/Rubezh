@@ -232,7 +232,7 @@ namespace FiresecAPI.SKD
 				{
 					timeTrackPart.TimeTrackPartType = TimeTrackType.Absence;
 
-					if (RealTimeTrackParts.Any(x => x.StartTime <= startTime && x.EndTime >= endTime) && IsOnlyFirstEnter)
+					if (RealTimeTrackParts.Any(x => x.StartTime >= firstPlanned && x.EndTime <= lastPlanned) && IsOnlyFirstEnter)
 					{
 						timeTrackPart.TimeTrackPartType = TimeTrackType.AbsenceInsidePlan;
 					}

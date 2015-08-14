@@ -62,6 +62,13 @@
 				</StackPanel>
 				<XDataGrid Grid.Row="1" Margin="2" ItemsSource="{Binding DayIntervalParts}" SelectedItem="{Binding SelectedDayIntervalPart}">
 					<DataGrid.Columns>
+						<DataGridTemplateColumn Width="Auto" Header="№">
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding Path=DayIntervalPart.Number}" />
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+						</DataGridTemplateColumn>
 						<DataGridTemplateColumn Width="*" Header="Начало">
 							<DataGridTemplateColumn.CellTemplate>
 								<DataTemplate>

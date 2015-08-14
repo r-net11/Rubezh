@@ -165,12 +165,14 @@
     <Compile Include="Employees\Views\GKReaderSelectationView.xaml.cs">
       <DependentUpon>GKReaderSelectationView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Events\ChiefChangedEvent.cs" />
     <Compile Include="Events\DeleteCardEvent.cs" />
     <Compile Include="Events\EditDayIntervalEvent.cs" />
     <Compile Include="Events\EditDocumentEvent.cs" />
     <Compile Include="Events\EditEmployee2Event.cs" />
     <Compile Include="Events\EditTimeTrackEvent.cs" />
     <Compile Include="Events\NewOrganisationEvent.cs" />
+    <Compile Include="Events\RemoveAdditionalColumnEvent.cs" />
     <Compile Include="Events\RemoveDocumentEvent.cs" />
     <Compile Include="Events\ShowExportEvent.cs" />
     <Compile Include="Events\UpdateFilterEvent.cs" />

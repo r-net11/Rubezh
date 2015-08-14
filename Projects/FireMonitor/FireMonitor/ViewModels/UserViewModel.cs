@@ -24,8 +24,8 @@ namespace FireMonitor.ViewModels
 		public RelayCommand ChangeUserCommand { get; private set; }
 		void OnChangeUser()
 		{
-			ApplicationService.ShutDown();
-			Process.Start(Application.ResourceAssembly.Location);
+			var userChangedViewModel = new UserChangedViewModel();
+			DialogService.ShowModalWindow(userChangedViewModel);	
 		}
 	}
 }

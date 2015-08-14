@@ -44,6 +44,7 @@
 		<ResourceDictionary Source="IconLabel.xaml" />
 		<ResourceDictionary Source="ButtonSpinner.xaml" />
 		<ResourceDictionary Source="IntegerUpDown.xaml" />
+		<ResourceDictionary Source="ImageStyle.xaml" />
 		<ResourceDictionary Source="../Menu/DataTemplates/Dictionary.xaml" />
 		<ResourceDictionary Source="../Ribbon/DataTemplates/Dictionary.xaml" />
 
@@ -217,6 +218,7 @@
 		<ResourceDictionary Source="../XamlImages/zones.xaml" />
 		<ResourceDictionary Source="../XamlImages/ZoomIn.xaml" />
 		<ResourceDictionary Source="../XamlImages/ZoomOut.xaml" />
+		<ResourceDictionary Source="../XamlImages/Minify.xaml" />
 
 		<ResourceDictionary Source="../XamlImages/1x7Grid.xaml" />
 		<ResourceDictionary Source="../XamlImages/2x2Grid.xaml" />
