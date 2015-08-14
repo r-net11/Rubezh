@@ -322,31 +322,11 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult AddCustomPassJournal(Guid uid, Guid employeeUID, Guid zoneUID, DateTime? enterTime, DateTime? exitTime,
-			DateTime? adjustmentDate, Guid correctedBy, bool notTakeInCalculations, bool isAddedManually, DateTime? enterTimeOriginal, DateTime? exitTimeOriginal, bool isRemoveAllIntersections)
-		{
-			using (var databaseService = new SKDDatabaseService())
-			{
-				return databaseService.PassJournalTranslator.AddCustomPassJournal(uid, employeeUID, zoneUID, enterTime, exitTime,
-					adjustmentDate, correctedBy, notTakeInCalculations, isAddedManually, enterTimeOriginal, exitTimeOriginal, isRemoveAllIntersections);
-			}
-		}
-
 		public OperationResult SaveAllTimeTracks(IEnumerable<DayTimeTrackPart> collectionToSave, ShortEmployee employee)
 		{
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.PassJournalTranslator.SaveAllTimeTracks(collectionToSave, employee);
-			}
-		}
-
-		public OperationResult EditPassJournal(Guid uid, Guid zoneUID, DateTime? enterTime, DateTime? exitTime,
-			bool isNeedAdjustment, DateTime? adjustmentDate, Guid correctedBy, bool notTakeInCalculations, bool isAddedManually, bool isRemoveAllIntersections, Guid employeeGuid)
-		{
-			using (var databaseService = new SKDDatabaseService())
-			{
-				return databaseService.PassJournalTranslator.EditPassJournal(uid, zoneUID, enterTime, exitTime,
-					isNeedAdjustment, adjustmentDate, correctedBy, notTakeInCalculations, isAddedManually, isRemoveAllIntersections, employeeGuid);
 			}
 		}
 

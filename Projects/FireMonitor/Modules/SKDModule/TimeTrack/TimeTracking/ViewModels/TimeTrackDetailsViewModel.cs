@@ -495,46 +495,7 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save() //TODO: Save all TimeTracks without refresh
 		{
-			var serverCollection = new List<FiresecAPI.SKD.DayTimeTrackPart>();
-			foreach (var el in DayTimeTrackParts.Where(x => x.IsNew || x.IsDirty))
-			{
-				serverCollection.Add(el.ToDTO());
-				//serverCollection.Add(new FiresecAPI.SKD.DayTimeTrackPart
-				//{
-				//	CorrectedBy = el.CorrectedBy,
-				//	CorrectedByUID = el.CorrectedByUID,
-				//	CorrectedDate = el.CorrectedDate,
-				//	EnterDateTime = el.EnterDateTime,
-				//	EnterTime = el.EnterTime,
-				//	EnterTimeOriginal = el.EnterTimeOriginal,
-				//	ExitDateTime = el.ExitDateTime,
-				//	AdjustmentDate = el.AdjustmentDate,
-				//	ExitTime = el.ExitTime,
-				//	ExitTimeOriginal = el.ExitTimeOriginal,
-				//	IsDirty = el.IsDirty,
-				//	IsForceClosed = el.IsForceClosed,
-				//	IsManuallyAdded = el.IsManuallyAdded,
-				//	IsNeedAdjustment = el.IsNeedAdjustment,
-				//	IsNew = el.IsNew,
-				//	IsOpen = el.IsOpen,
-				//	IsRemoveAllIntersections = el.IsRemoveAllIntersections,
-				//	NotTakeInCalculations = el.NotTakeInCalculations,
-				//	UID = el.UID,
-				//	TimeTrackZone = new FiresecAPI.SKD.TimeTrackZone
-				//	{
-				//		Description = el.TimeTrackZone.Description,
-				//		IsURV = el.TimeTrackZone.IsURV,
-				//		Name = el.TimeTrackZone.Name,
-				//		No = el.TimeTrackZone.No,
-				//		SKDZone = el.TimeTrackZone.SKDZone,
-				//		UID = el.TimeTrackZone.UID
-				//	}
-				//});
-			}
-
-			PassJournalHelper.SaveAllTimeTracks(serverCollection, ShortEmployee);
-
-			return base.Save();
+			return PassJournalHelper.SaveAllTimeTracks(DayTimeTrackParts.Where(x => x.IsNew || x.IsDirty).Select(el => el.ToDTO()), ShortEmployee);
 		}
 
 		private static bool ShowResetAdjustmentsWarning()
@@ -550,29 +511,16 @@ namespace SKDModule.ViewModels
 			var resultCollection = DayTimeTrackParts.Where(x => !x.IsManuallyAdded).ToList();
 			List<DayTimeTrackPart> collection = DayTimeTrackParts.Where(x => !string.IsNullOrEmpty(x.CorrectedBy) && !x.IsForceClosed).ToList();
 			//TODO: remove all manuall added intervals
-			var serverCollection = new List<FiresecAPI.SKD.DayTimeTrackPart>();
-			foreach (var dayTimeTrackPart in collection)
-			{
-				serverCollection.Add(dayTimeTrackPart.ToDTO());
-			}
+			var serverCollection = collection.Select(dayTimeTrackPart => dayTimeTrackPart.ToDTO()).ToList();
 
 			var conflictIntervals = PassJournalHelper.FindConflictIntervals(serverCollection, ShortEmployee.UID, DayTimeTrack.Date);
-			Dictionary<DayTimeTrackPart, List<DayTimeTrackPart>> clienDictionary = new Dictionary<DayTimeTrackPart, List<DayTimeTrackPart>>();
 
 			if (conflictIntervals == null) return;
 
-			foreach (KeyValuePair<FiresecAPI.SKD.DayTimeTrackPart, List<FiresecAPI.SKD.DayTimeTrackPart>> dayTimeTrackPart in conflictIntervals)
-			{
-				var key = new DayTimeTrackPart(dayTimeTrackPart.Key);
-
-				List<DayTimeTrackPart> values = new List<DayTimeTrackPart>();
-
-				foreach (var timeTrackPart in dayTimeTrackPart.Value)
-				{
-					values.Add(new DayTimeTrackPart(timeTrackPart));
-				}
-				clienDictionary.Add(key, values);
-			}
+			Dictionary<DayTimeTrackPart, List<DayTimeTrackPart>> clienDictionary = conflictIntervals
+				.ToDictionary(dayTimeTrackPart => new DayTimeTrackPart(dayTimeTrackPart.Key),
+													dayTimeTrackPart => dayTimeTrackPart.Value.Select(timeTrackPart => new DayTimeTrackPart(timeTrackPart)).ToList()
+							);
 
 			var conflictViewModel = new ResetAdjustmentsConflictDialogWindowViewModel();
 			var resolvedConflictCollection = new List<DayTimeTrackPart>();

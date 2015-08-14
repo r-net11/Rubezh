@@ -76,8 +76,6 @@ namespace SKDDriver.Translators
 			if(minIntervalsDate.Date == currentDate.Date && maxIntervalDate.Date == currentDate.Date)
 				return new OperationResult<Dictionary<DayTimeTrackPart, List<DayTimeTrackPart>>>();
 
-			var conflictsIntervalsCollection = new List<DayTimeTrackPart>();
-
 			List<PassJournal> linkedIntervals = Context.PassJournals.Where(x => x.EnterTimeOriginal.HasValue && x.ExitTimeOriginal.HasValue)
 														.Where(
 														x => x.EmployeeUID == employeeGuid &&
@@ -108,7 +106,6 @@ namespace SKDDriver.Translators
 				{
 					foreach (var b in tmpCollection)
 					{
-
 						tempCollection.Add(new DayTimeTrackPart
 						{
 							UID = b.UID,
@@ -128,82 +125,6 @@ namespace SKDDriver.Translators
 				}
 			}
 			return new OperationResult<Dictionary<DayTimeTrackPart, List<DayTimeTrackPart>>>(conflictedIntervals);
-		}
-
-		public OperationResult AddCustomPassJournal(Guid uid, Guid employeeUID, Guid zoneUID, DateTime? enterTime, DateTime? exitTime,
-			DateTime? adjustmentDate, Guid correctedBy, bool notTakeInCalculations, bool isAddedManually, DateTime? enterTimeOriginal, DateTime? exitTimeOriginal, bool isRemoveAllIntersections)
-		{
-			try
-			{
-				var passJournalItem = new PassJournal
-				{
-					UID = uid,
-					EmployeeUID = employeeUID,
-					ZoneUID = zoneUID,
-					EnterTime = enterTime.GetValueOrDefault(),
-					ExitTime = exitTime.GetValueOrDefault(),
-					AdjustmentDate = adjustmentDate,
-					CorrectedByUID = correctedBy,
-					NotTakeInCalculations = notTakeInCalculations,
-					IsAddedManually = isAddedManually,
-					EnterTimeOriginal = enterTimeOriginal,
-					ExitTimeOriginal = exitTimeOriginal
-				};
-
-				Context.PassJournals.InsertOnSubmit(passJournalItem);
-				Context.SubmitChanges();
-				return new OperationResult();
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
-		}
-
-		public OperationResult EditPassJournal(Guid uid, Guid zoneUID, DateTime? enterTime, DateTime? exitTime,
-			bool isNeedAdjustment, DateTime? adjustmentDate, Guid correctedBy, bool notTakeInCalculations, bool isAddedManually, bool isRemoveAllIntersections, Guid employeeGuid)
-		{
-			try
-			{
-				if (isRemoveAllIntersections)
-				{
-					foreach (var intersectionElement in Context.PassJournals.Where(x => x.EmployeeUID == employeeGuid)
-																			.Where(x => x.EnterTime >= enterTime && x.ExitTime <= exitTime)
-																			.Where(x => x.UID != uid))
-					{
-						Context.PassJournals.DeleteOnSubmit(intersectionElement);
-					}
-					Context.SubmitChanges();
-				}
-
-				var passJournalItem = Context.PassJournals.FirstOrDefault(x => x.UID == uid);
-				if (passJournalItem != null)
-				{
-					passJournalItem.ZoneUID = zoneUID;
-					passJournalItem.EnterTime = enterTime.GetValueOrDefault();
-					passJournalItem.ExitTime = exitTime.GetValueOrDefault();
-					passJournalItem.IsNeedAdjustment = isNeedAdjustment;
-					passJournalItem.AdjustmentDate = adjustmentDate;
-					passJournalItem.CorrectedByUID = correctedBy;
-					passJournalItem.NotTakeInCalculations = notTakeInCalculations;
-					passJournalItem.IsAddedManually = isAddedManually;
-
-					if (passJournalItem.IsOpen)
-					{
-						passJournalItem.ExitTimeOriginal = passJournalItem.ExitTime;
-						passJournalItem.IsOpen = default(bool);
-						passJournalItem.IsForceClosed = true;
-					}
-				}
-
-				Context.SubmitChanges();
-
-				return new OperationResult();
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
 		}
 
 		public OperationResult SaveAllTimeTracks(IEnumerable<DayTimeTrackPart> collectionToSave, ShortEmployee employee)
@@ -241,7 +162,7 @@ namespace SKDDriver.Translators
 					passJournalItem.EnterTime = dayTimeTrackPart.EnterDateTime.GetValueOrDefault();
 					passJournalItem.ExitTime = dayTimeTrackPart.ExitDateTime.GetValueOrDefault();
 					passJournalItem.IsNeedAdjustment = dayTimeTrackPart.IsNeedAdjustment;
-					passJournalItem.AdjustmentDate = Convert.ToDateTime(dayTimeTrackPart.CorrectedDate);
+					passJournalItem.AdjustmentDate = dayTimeTrackPart.AdjustmentDate;
 					passJournalItem.CorrectedByUID = dayTimeTrackPart.CorrectedByUID;
 					passJournalItem.NotTakeInCalculations = dayTimeTrackPart.NotTakeInCalculations;
 					passJournalItem.IsAddedManually = dayTimeTrackPart.IsManuallyAdded;
@@ -294,14 +215,6 @@ namespace SKDDriver.Translators
 				return new OperationResult(e.Message);
 			}
 		}
-
-		//private bool IsIntersection(DataAccess.PassJournal passJournalItem)
-		//{
-		//	return Context.PassJournals.Any(x => x.UID != passJournalItem.UID &&
-		//		x.EmployeeUID == passJournalItem.EmployeeUID &&
-		//		(x.EnterTime < passJournalItem.EnterTime && x.ExitTime > passJournalItem.EnterTime ||
-		//			x.EnterTime < passJournalItem.ExitTime && x.ExitTime > passJournalItem.ExitTime));
-		//}
 
 		public OperationResult DeletePassJournal(Guid uid)
 		{
