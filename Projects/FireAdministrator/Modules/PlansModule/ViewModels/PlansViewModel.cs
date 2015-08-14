@@ -18,12 +18,16 @@ using PlansModule.Designer;
 using PlansModule.Designer.DesignerItems;
 using Infrastructure.Events;
 using Infrastructure.Common.Navigation;
+using System.Windows.Input;
+using Controls.Menu.ViewModels;
 
 namespace PlansModule.ViewModels
 {
 	public partial class PlansViewModel : ViewPartViewModel
 	{
 		public BaseViewModel Menu { get; protected set; }
+		public ObservableCollection<MenuButtonViewModel> PlansMenu { get; private set; }
+
 		public ElementsViewModel ElementsViewModel { get; private set; }
 		public PlansTreeViewModel PlansTreeViewModel { get; private set; }
 
@@ -61,7 +65,7 @@ namespace PlansModule.ViewModels
 			PlansTreeViewModel = new PlansTreeViewModel(this);
 			CreatePages();
 			_planExtensions = new List<Infrustructure.Plans.IPlanExtension<Plan>>();
-			Menu = new PlansMenuViewModel(this);
+			this.InitializeMenus();
 
 			_splitterDistance = RegistrySettingsHelper.GetDouble("Administrator.Plans.SplitterDistance");
 			if (_splitterDistance == 0)
@@ -96,6 +100,22 @@ namespace PlansModule.ViewModels
 			if (SelectedPlan != null)
 				SelectedPlan.ExpandToThis();
 		}
+
+		/// <summary>
+		/// Initializes Menu Bars.
+		/// </summary>
+		private void InitializeMenus()
+		{
+			this.Menu = new PlansMenuViewModel(this);
+			this.PlansMenu = new ObservableCollection<MenuButtonViewModel>()
+			{
+				new MenuButtonViewModel(this.AddFolderCommand, "FolderOpen", "Добавить папку"),
+				new MenuButtonViewModel(this.AddCommand, "Add", "Добавить план"),
+				new MenuButtonViewModel(this.EditCommand, "Edit", "Редактировать план"),
+				new MenuButtonViewModel(this.RemoveCommand, "Delete", "Удалить план"),
+			};
+		}
+
 		private PlanViewModel AddPlan(Plan plan, PlanViewModel parentPlanViewModel)
 		{
 			var planViewModel = new PlanViewModel(plan);
