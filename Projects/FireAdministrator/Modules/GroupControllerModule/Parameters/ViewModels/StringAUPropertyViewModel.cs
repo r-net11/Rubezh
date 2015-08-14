@@ -47,13 +47,18 @@ namespace GKModule.DeviceProperties
 					{
 						value = (doubleValue * DriverProperty.Multiplier).ToString();
 					}
-					else
-					{
-						_text = value;
-					}
-					OnPropertyChanged("Text");
+				}
+				_text = value;
+				OnPropertyChanged("Text");
+				try
+				{
 					Save(Convert.ToUInt16(value));
 				}
+				catch (Exception e)
+				{
+					System.Diagnostics.Debug.WriteLine("Не удалось сохранить значение", e.Message);
+				};
+				
 			}
 		}
 	}
