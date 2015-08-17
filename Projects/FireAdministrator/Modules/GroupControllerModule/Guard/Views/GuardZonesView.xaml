@@ -70,7 +70,19 @@
 							</DataGridTemplateColumn.CellTemplate>
 						</DataGridTemplateColumn>
 						<DataGridTextColumn Width="Auto" Binding="{Binding GuardZoneDevice.Device.DottedPresentationAddress}" Header="Адрес" />
-						<DataGridTextColumn Width="*" Binding="{Binding PresentationZone}" Header="Логика" />
+						<DataGridTemplateColumn Width="*" Header="Логика">
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding PresentationZone}" Visibility="{Binding PresentationZone, Converter={StaticResource NullToVisibilityConverter}}" TextWrapping="NoWrap" MinWidth="100" VerticalAlignment="Top" LineHeight="15" Margin="0 3 0 0" Cursor="Hand">
+										<TextBlock.ToolTip >
+											<WrapPanel>
+												<TextBlock Text="{Binding PresentationZone}" TextWrapping="Wrap" />
+											</WrapPanel>
+										</TextBlock.ToolTip>
+									</TextBlock>
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+						</DataGridTemplateColumn>
 						<DataGridTemplateColumn Width="Auto" MinWidth="100" Header="Функция">
 							<DataGridTemplateColumn.CellTemplate>
 								<DataTemplate>
