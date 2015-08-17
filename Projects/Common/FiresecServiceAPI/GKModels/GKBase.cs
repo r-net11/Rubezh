@@ -451,7 +451,10 @@ namespace FiresecAPI.GK
 					{
 						if (!DescriptorDependentObjects.Any(x => x == child))
 						{
-							newDescriptorDependentObjectss.Add(child);
+							if (!newDescriptorDependentObjectss.Any(x => x == child))
+							{
+								newDescriptorDependentObjectss.Add(child);
+							}
 							IsReady = false;
 						}
 					}

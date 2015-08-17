@@ -24,6 +24,10 @@ namespace GKProcessor
 					formulaOperation.SecondOperand = dataBaseType == DatabaseType.Gk ? formulaOperation.GKBaseSecondOperand.GKDescriptorNo : formulaOperation.GKBaseSecondOperand.KAUDescriptorNo;
 				}
 			}
+			if(FormulaOperations.Count == 0)
+			{
+				Add(FormulaOperationType.END);
+			}
 		}
 
 		public FormulaOperation Add(FormulaOperationType formulaOperationType, byte firstOperand = 0, ushort secondOperand = 0, GKBase gkBase = null, string comment = null)

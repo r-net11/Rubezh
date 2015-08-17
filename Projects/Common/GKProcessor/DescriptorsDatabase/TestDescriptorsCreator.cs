@@ -8,13 +8,8 @@ using System.Text;
 
 namespace GKProcessor.DescriptorsDatabase
 {
-	public class TestDescriptorsCreator : CommonDatabase
+	public class TestDescriptorsCreator
 	{
-		public override void BuildObjects()
-		{
-			throw new NotImplementedException();
-		}
-
 		public void SetDependentDescriptors()
 		{
 			var gkBases = new List<GKBase>();
@@ -199,6 +194,22 @@ namespace GKProcessor.DescriptorsDatabase
 						{
 							gkParents.Add(device.GKParent);
 						}
+					}
+				}
+				foreach (var dependentObject in gkBase.DescriptorDependentObjects)
+				{
+					if (dependentObject is GKDoor)
+					{
+						kauParents.Clear();
+					}
+				}
+
+				foreach (var dependentObject in gkBase.DescriptorDependentObjects)
+				{
+					if (dependentObject is GKGuardZone)
+					{
+						var guardZone = dependentObject as GKGuardZone;
+						//kauParents.Clear();
 					}
 				}
 

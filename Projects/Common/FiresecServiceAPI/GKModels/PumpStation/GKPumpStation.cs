@@ -15,7 +15,7 @@ namespace FiresecAPI.GK
 		public GKPumpStation()
 		{
 			Delay = 30;
-			Hold = 60;
+			Hold = 60000;
 			DelayRegime = DelayRegime.Off;
 			NSPumpsCount = 1;
 			NSDeltaTime = 15;

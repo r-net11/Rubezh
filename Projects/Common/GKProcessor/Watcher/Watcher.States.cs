@@ -63,7 +63,7 @@ namespace GKProcessor
 		{
 			foreach (var device in GKManager.Devices)
 			{
-				if (!device.Driver.IsGroupDevice && device.AllParents.Any(x => x.DriverType == GKDriverType.RSR2_KAU))
+				if (!device.Driver.IsGroupDevice && device.Driver.IsReal && device.AllParents.Any(x => x.DriverType == GKDriverType.RSR2_KAU))
 				{
 					CheckDelay(device);
 				}
@@ -201,7 +201,7 @@ namespace GKProcessor
 				if (device.Driver.IsDeviceOnShleif)
 					physicalAddress = (ushort)((device.ShleifNo - 1) * 256 + device.IntAddress);
 				if (device.DriverType != GKDriverType.GK && device.DriverType != GKDriverType.RSR2_KAU
-					&& device.Driver.HasAddress && physicalAddress != descriptorStateHelper.PhysicalAddress)
+					&& device.Driver.HasAddress && device.Driver.IsReal && physicalAddress != descriptorStateHelper.PhysicalAddress)
 				{
 					isMissmatch = true;
 					DBMissmatchDuringMonitoringReason = JournalEventDescriptionType.Не_совпадает_физический_адрес_устройства;

@@ -160,6 +160,11 @@ namespace GKProcessor.Test
 			var gkPimDescriptor = gkDatabase.Descriptors.FirstOrDefault(x => x.GKBase is GKPim && (x.GKBase as GKPim).PumpStationUID == pumpStation.UID);
 			Assert.IsTrue(kau1PimDescriptor.Formula.FormulaOperations.Count > 1, "Отсутствует логика на КАУ");
 			Assert.IsTrue(gkPimDescriptor.Formula.FormulaOperations.Count == 1, "Присутствует логика на ГК");
+
+			var device1KauDescriptor = kau1Database.Descriptors.FirstOrDefault(x => x.GKBase == device1);
+			var device1GKDescriptor = gkDatabase.Descriptors.FirstOrDefault(x => x.GKBase == device1);
+			Assert.IsTrue(kau1PimDescriptor.Formula.FormulaOperations.Count > 1, "Отсутствует логика на КАУ");
+			Assert.IsTrue(gkPimDescriptor.Formula.FormulaOperations.Count == 1, "Присутствует логика на ГК");
 		}
 	}
 }
