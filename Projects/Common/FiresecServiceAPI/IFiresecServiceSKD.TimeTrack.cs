@@ -1,4 +1,5 @@
-﻿using FiresecAPI.SKD;
+﻿using FiresecAPI.Models;
+using FiresecAPI.SKD;
 using System;
 using System.Collections.Generic;
 using System.ServiceModel;
@@ -113,13 +114,13 @@ namespace FiresecAPI
 		OperationResult<Dictionary<DayTimeTrackPart, List<DayTimeTrackPart>>> FindConflictIntervals(List<DayTimeTrackPart> dayTimeTrackParts, Guid employeeGuid, DateTime currentDate);
 
 		[OperationContract]
-		OperationResult SaveAllTimeTracks(IEnumerable<DayTimeTrackPart> collectionToSave, ShortEmployee employee);
+		OperationResult SaveAllTimeTracks(IEnumerable<DayTimeTrackPart> collectionToSave, ShortEmployee employee, User currentUser);
 
 		[OperationContract]
 		OperationResult DeletePassJournal(Guid uid);
 
 		[OperationContract]
-		OperationResult DeleteAllPassJournalItems(Guid uid, DateTime enterTime, DateTime exitTime);
+		OperationResult DeleteAllPassJournalItems(DayTimeTrackPart dayTimeTrackPart);
 
 		[OperationContract]
 		OperationResult<DateTime> GetPassJournalMinDate();

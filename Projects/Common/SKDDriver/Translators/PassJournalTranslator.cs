@@ -127,21 +127,11 @@ namespace SKDDriver.Translators
 			return new OperationResult<Dictionary<DayTimeTrackPart, List<DayTimeTrackPart>>>(conflictedIntervals);
 		}
 
-		public OperationResult SaveAllTimeTracks(IEnumerable<DayTimeTrackPart> collectionToSave, ShortEmployee employee)
+		public OperationResult EditPassJournal(DayTimeTrackPart dayTimeTrackPart, ShortEmployee employee, out bool? setAdjustmentFlag, out bool setBordersChangedFlag)
 		{
-			foreach (var dayTimeTrackPart in collectionToSave)
-			{
-				if (dayTimeTrackPart.IsNew)
-					AddCustomPassJournal(dayTimeTrackPart, employee);
-				else
-					EditPassJournal(dayTimeTrackPart, employee);
-			}
+			setAdjustmentFlag = null;
+			setBordersChangedFlag = default(bool);
 
-			return new OperationResult();
-		}
-
-		public OperationResult EditPassJournal(DayTimeTrackPart dayTimeTrackPart, ShortEmployee employee)
-		{
 			try
 			{
 				if (dayTimeTrackPart.IsRemoveAllIntersections)
@@ -156,8 +146,17 @@ namespace SKDDriver.Translators
 				}
 
 				var passJournalItem = Context.PassJournals.FirstOrDefault(x => x.UID == dayTimeTrackPart.UID);
+
 				if (passJournalItem != null)
 				{
+					if (passJournalItem.NotTakeInCalculations && !dayTimeTrackPart.NotTakeInCalculations)
+						setAdjustmentFlag = false;
+					else if (!passJournalItem.NotTakeInCalculations && dayTimeTrackPart.NotTakeInCalculations)
+						setAdjustmentFlag = true;
+					if (passJournalItem.EnterTime != dayTimeTrackPart.EnterDateTime ||
+					    passJournalItem.ExitTime != dayTimeTrackPart.ExitDateTime)
+						setBordersChangedFlag = true;
+
 					passJournalItem.ZoneUID = dayTimeTrackPart.TimeTrackZone.UID;
 					passJournalItem.EnterTime = dayTimeTrackPart.EnterDateTime.GetValueOrDefault();
 					passJournalItem.ExitTime = dayTimeTrackPart.ExitDateTime.GetValueOrDefault();
@@ -234,15 +233,15 @@ namespace SKDDriver.Translators
 			}
 		}
 
-		public OperationResult DeleteAllPassJournalItems(Guid uid, DateTime enterTime, DateTime exitTime)
+		public OperationResult DeleteAllPassJournalItems(DayTimeTrackPart dayTimeTrackPart)
 		{
 			try
 			{
-				var passJournalItem = Context.PassJournals.FirstOrDefault(x => x.UID == uid);
+				var passJournalItem = Context.PassJournals.FirstOrDefault(x => x.UID == dayTimeTrackPart.UID);
 				if (passJournalItem != null)
 				{
 					var items = Context.PassJournals.Where(x => x.EmployeeUID == passJournalItem.EmployeeUID && x.ZoneUID == passJournalItem.ZoneUID &&
-						x.EnterTime >= enterTime && x.ExitTime != null && x.ExitTime.Value <= exitTime);
+						x.EnterTime >= dayTimeTrackPart.EnterDateTime && x.ExitTime != null && x.ExitTime.Value <= dayTimeTrackPart.ExitDateTime);
 					Context.PassJournals.DeleteAllOnSubmit(items);
 				}
 				Context.SubmitChanges();

@@ -265,6 +265,21 @@ namespace SKDModule.ViewModels
 			DayTimeTrackPartsCollection.Filter = new Predicate<object>(FilterDayTimeTrackParts);
 			Documents = GetObservableCollection(DayTimeTrack.Documents, x => new TimeTrackAttachedDocument(x));
 
+			this.WhenAny(x => x.SelectedDayTimeTrackPart, x => x.Value)
+				.Subscribe(value =>
+				{
+					if (value == null) return;
+
+					if(_subscriber != null)
+					_subscriber.Dispose();
+
+					_subscriber = Observable.Merge(value.UIChanged).Subscribe(x =>
+					{
+						value.IsDirty = true;
+						IsDirty = true;
+					});
+				});
+
 			this.WhenAny(x => x.SelectedDocument, x => x.Value)
 				.Subscribe(value =>
 				{
@@ -354,8 +369,7 @@ namespace SKDModule.ViewModels
 
 		void OnRemovePart()
 		{
-		//	var result = PassJournalHelper.DeleteAllPassJournalItems(SelectedDayTimeTrackPart.UID, DayTimeTrack.Date + SelectedDayTimeTrackPart.EnterTimeSpan, DayTimeTrack.Date + SelectedDayTimeTrackPart.ExitTimeSpan);
-			var result = PassJournalHelper.DeleteAllPassJournalItems(SelectedDayTimeTrackPart.UID, SelectedDayTimeTrackPart.EnterDateTime.GetValueOrDefault(), SelectedDayTimeTrackPart.ExitDateTime.GetValueOrDefault());
+			var result = PassJournalHelper.DeleteAllPassJournalItems(SelectedDayTimeTrackPart.ToDTO());
 			if (result)
 			{
 				DayTimeTrackParts.Remove(SelectedDayTimeTrackPart);
@@ -495,7 +509,7 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save() //TODO: Save all TimeTracks without refresh
 		{
-			return PassJournalHelper.SaveAllTimeTracks(DayTimeTrackParts.Where(x => x.IsNew || x.IsDirty).Select(el => el.ToDTO()), ShortEmployee);
+			return PassJournalHelper.SaveAllTimeTracks(DayTimeTrackParts.Where(x => x.IsNew || x.IsDirty).Select(el => el.ToDTO()), ShortEmployee, FiresecClient.FiresecManager.CurrentUser);
 		}
 
 		private static bool ShowResetAdjustmentsWarning()

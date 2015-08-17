@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Documents;
+using FiresecAPI.Models;
 using FiresecAPI.SKD;
 
 
@@ -19,9 +20,10 @@ namespace FiresecClient.SKDHelpers
 			var result = FiresecManager.FiresecService.DeletePassJournal(uid);
 			return Common.ShowErrorIfExists(result);
 		}
-		public static bool DeleteAllPassJournalItems(Guid uid, DateTime enterTime, DateTime exitTime)
+
+		public static bool DeleteAllPassJournalItems(DayTimeTrackPart dayTimeTrackPart)
 		{
-			var result = FiresecManager.FiresecService.DeleteAllPassJournalItems(uid, enterTime, exitTime);
+			var result = FiresecManager.FiresecService.DeleteAllPassJournalItems(dayTimeTrackPart);
 			return Common.ShowErrorIfExists(result);
 		}
 		public static DateTime? GetMinPassJournalDate()
@@ -35,9 +37,9 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(result);
 		}
 
-		public static bool SaveAllTimeTracks(IEnumerable<DayTimeTrackPart> collectionToSave, ShortEmployee employee)
+		public static bool SaveAllTimeTracks(IEnumerable<DayTimeTrackPart> collectionToSave, ShortEmployee employee, User currentUser)
 		{
-			var result = FiresecManager.FiresecService.SaveAllTimeTracks(collectionToSave, employee);
+			var result = FiresecManager.FiresecService.SaveAllTimeTracks(collectionToSave, employee, currentUser);
 			return Common.ShowErrorIfExists(result);
 		}
 	}

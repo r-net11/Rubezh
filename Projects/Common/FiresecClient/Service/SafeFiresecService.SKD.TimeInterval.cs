@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Common;
 using FiresecAPI;
+using FiresecAPI.Models;
 using FiresecAPI.SKD;
 
 namespace FiresecClient
@@ -158,18 +159,18 @@ namespace FiresecClient
 			return SafeContext.Execute(() => FiresecService.FindConflictIntervals(dayTimeTrackParts, employeeGuid, currentDate));
 		}
 
-		public OperationResult SaveAllTimeTracks(IEnumerable<DayTimeTrackPart> collectionToSave, ShortEmployee employee)
+		public OperationResult SaveAllTimeTracks(IEnumerable<DayTimeTrackPart> collectionToSave, ShortEmployee employee, User currentUser)
 		{
-			return SafeContext.Execute(() => FiresecService.SaveAllTimeTracks(collectionToSave, employee));
+			return SafeContext.Execute(() => FiresecService.SaveAllTimeTracks(collectionToSave, employee, currentUser));
 		}
 
 		public OperationResult DeletePassJournal(Guid uid)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.DeletePassJournal(uid));
 		}
-		public OperationResult DeleteAllPassJournalItems(Guid uid, DateTime enterTime, DateTime exitTime)
+		public OperationResult DeleteAllPassJournalItems(DayTimeTrackPart dayTimeTrackPart)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.DeleteAllPassJournalItems(uid, enterTime, exitTime));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.DeleteAllPassJournalItems(dayTimeTrackPart));
 		}
 
 		public OperationResult<DateTime> GetPassJournalMinDate()

@@ -7,6 +7,24 @@ namespace FiresecAPI.Journal
 		[EventName(JournalSubsystemType.System, "NULL", XStateClass.No)]
 		NULL,
 
+		[EventName(JournalSubsystemType.SKD, "Добавление интервала", XStateClass.Info)]
+		Добавление_интервала,
+
+		[EventName(JournalSubsystemType.SKD, "Изменение границ интервала", XStateClass.Info)]
+		Изменение_границы_интервала,
+
+		[EventName(JournalSubsystemType.SKD, "Удаление интервала", XStateClass.Info)]
+		Удаление_интервала,
+
+		[EventName(JournalSubsystemType.SKD, "Принудительное закрытие интервала", XStateClass.Info)]
+		Закрытие_интервала,
+
+		[EventName(JournalSubsystemType.SKD, "Установка признака \"Не учитывать в расчетах\"", XStateClass.Info)]
+		Установка_неУчитывать_в_расчетах,
+
+		[EventName(JournalSubsystemType.SKD, "Снятие признака \"Не учитывать в расчетах\"", XStateClass.Info)]
+		Снятие_неУчитывать_в_расчетах,
+
 		[EventName(JournalSubsystemType.System, "Неизвестное событие", XStateClass.No)]
 		Неизвестное_событие,
 

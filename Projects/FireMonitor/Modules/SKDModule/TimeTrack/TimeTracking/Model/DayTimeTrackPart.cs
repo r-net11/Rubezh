@@ -297,6 +297,7 @@ namespace SKDModule.Model
 					, this.ObservableForProperty(x => x.EnterTime)
 					, this.ObservableForProperty(x => x.ExitDateTime)
 					, this.ObservableForProperty(x => x.ExitTime)
+					, this.ObservableForProperty(x => x.NotTakeInCalculations)
 					, this.ObservableForProperty(x => x.IsManuallyAdded)
 					, this.ObservableForProperty(x => x.IsNeedAdjustment)
 					, this.ObservableForProperty(x => x.TimeTrackZone)

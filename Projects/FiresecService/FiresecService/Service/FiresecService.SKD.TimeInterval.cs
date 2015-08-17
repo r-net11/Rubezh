@@ -1,5 +1,6 @@
 ﻿using FiresecAPI;
 using FiresecAPI.Journal;
+using FiresecAPI.Models;
 using FiresecAPI.SKD;
 using SKDDriver;
 using SKDDriver.Translators;
@@ -322,11 +323,57 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult SaveAllTimeTracks(IEnumerable<DayTimeTrackPart> collectionToSave, ShortEmployee employee)
+		public OperationResult SaveAllTimeTracks(IEnumerable<DayTimeTrackPart> collectionToSave, ShortEmployee employee, User currentUser)
 		{
 			using (var databaseService = new SKDDatabaseService())
 			{
-				return databaseService.PassJournalTranslator.SaveAllTimeTracks(collectionToSave, employee);
+				foreach (var dayTimeTrackPart in collectionToSave)
+				{
+					if (dayTimeTrackPart.IsNew)
+					{
+						databaseService.PassJournalTranslator.AddCustomPassJournal(dayTimeTrackPart, employee);
+						AddJournalMessage(JournalEventNameType.Добавление_интервала,
+										"Интервал рабочего времени (" + employee.FIO + ")",
+										JournalEventDescriptionType.NULL,
+										"Интервал добавлен (" + dayTimeTrackPart.EnterDateTime + " - " + dayTimeTrackPart.ExitDateTime + ", зона" + dayTimeTrackPart.TimeTrackZone.Name + ")",
+										currentUser.Name);
+
+					}
+					else
+					{
+						bool? setAdjustmentFlag;
+						bool setBordersChangedFlag;
+
+						databaseService.PassJournalTranslator.EditPassJournal(dayTimeTrackPart, employee, out setAdjustmentFlag, out setBordersChangedFlag);
+
+						if (setAdjustmentFlag == true)
+							AddJournalMessage(JournalEventNameType.Установка_неУчитывать_в_расчетах,
+										"Интервал рабочего времени (" + employee.FIO + ")",
+										JournalEventDescriptionType.NULL,
+										"Интервал исключен из расчетов (" + dayTimeTrackPart.EnterDateTime + " - " + dayTimeTrackPart.ExitDateTime + ", зона" + dayTimeTrackPart.TimeTrackZone.Name + ")",
+										currentUser.Name);
+						else if(setAdjustmentFlag == false)
+							AddJournalMessage(JournalEventNameType.Снятие_неУчитывать_в_расчетах,
+										"Интервал рабочего времени (" + employee.FIO + ")",
+										JournalEventDescriptionType.NULL,
+										"Интервал добавлен в расчеты (" + dayTimeTrackPart.EnterDateTime + " - " + dayTimeTrackPart.ExitDateTime + ", зона" + dayTimeTrackPart.TimeTrackZone.Name + ")",
+										currentUser.Name);
+
+						if (dayTimeTrackPart.IsForceClosed)
+							AddJournalMessage(JournalEventNameType.Закрытие_интервала,
+										"Интервал рабочего времени (" + employee.FIO + ")",
+										JournalEventDescriptionType.NULL,
+										"Интервал принудительно закрыт (" + dayTimeTrackPart.EnterDateTime + " - " + dayTimeTrackPart.ExitDateTime + ", зона" + dayTimeTrackPart.TimeTrackZone.Name + ")",
+										currentUser.Name);
+						else if (setBordersChangedFlag)
+							AddJournalMessage(JournalEventNameType.Изменение_границы_интервала,
+										"Интервал рабочего времени (" + employee.FIO + ")",
+										JournalEventDescriptionType.NULL,
+										"Границы интервала изменены (" + dayTimeTrackPart.EnterDateTime + " - " + dayTimeTrackPart.ExitDateTime + ", зона" + dayTimeTrackPart.TimeTrackZone.Name + ")",
+										currentUser.Name);
+					}
+				}
+				return new OperationResult(); //databaseService.PassJournalTranslator.SaveAllTimeTracks(collectionToSave, employee);
 			}
 		}
 
@@ -338,11 +385,13 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult DeleteAllPassJournalItems(Guid uid, DateTime enterTime, DateTime exitTime)
+		public OperationResult DeleteAllPassJournalItems(DayTimeTrackPart dayTimeTrackPart)
 		{
 			using (var databaseService = new SKDDatabaseService())
 			{
-				return databaseService.PassJournalTranslator.DeleteAllPassJournalItems(uid, enterTime, exitTime);
+				AddJournalMessage(JournalEventNameType.Удаление_интервала, null, JournalEventDescriptionType.Удаление,
+					"Интервал удален (" + dayTimeTrackPart.EnterDateTime + "-" + dayTimeTrackPart.ExitDateTime + ", зона" + dayTimeTrackPart.TimeTrackZone.Name + ")");
+				return databaseService.PassJournalTranslator.DeleteAllPassJournalItems(dayTimeTrackPart);
 			}
 		}
 
