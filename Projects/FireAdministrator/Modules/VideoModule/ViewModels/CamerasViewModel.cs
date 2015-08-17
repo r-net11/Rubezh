@@ -2,6 +2,7 @@
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
 using Infrustructure.Plans.Elements;
@@ -83,6 +84,8 @@ namespace VideoModule.ViewModels
 		void OnDelete()
 		{
 			var camera = SelectedCamera.Camera;
+			if (!MessageBoxService.ShowConfirmation(String.Format("Вы действительно хотите удалить видеокамеру\n\"{0}\"?", camera.Name)))
+				return;
 			Cameras.Remove(SelectedCamera);
 			FiresecManager.SystemConfiguration.Cameras.Remove(camera);
 			camera.OnChanged();

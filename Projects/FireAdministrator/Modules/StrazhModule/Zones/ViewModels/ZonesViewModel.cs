@@ -97,6 +97,8 @@ namespace StrazhModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
+			if (!MessageBoxService.ShowConfirmation(String.Format("Вы действительно хотите удалить зону\n\"{0}\"?", SelectedZone.Zone.Name)))
+				return;
 			var index = Zones.IndexOf(SelectedZone);
 			SKDManager.RemoveZone(SelectedZone.Zone);
 			Zones.Remove(SelectedZone);

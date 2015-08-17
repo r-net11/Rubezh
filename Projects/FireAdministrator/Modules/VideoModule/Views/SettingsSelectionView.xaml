@@ -15,8 +15,6 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 
 				<Label Grid.Row="0" Grid.Column="0" Content="IP Адрес" HorizontalAlignment="Right" />
@@ -27,10 +25,6 @@
 				<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 				<Label Grid.Row="3" Grid.Column="0" Content="Пароль" HorizontalAlignment="Right" />
 				<TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-				<Label Grid.Row="4" Grid.Column="0" Content="Путь к VLC" HorizontalAlignment="Right" />
-				<TextBox Grid.Row="4" Grid.Column="1" Text="{Binding DllsPath, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-				<Label Grid.Row="5" Grid.Column="0" Content="Путь к плагинам" HorizontalAlignment="Right" />
-				<TextBox Grid.Row="5" Grid.Column="1" Text="{Binding PluginsPath, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 			</Grid>
 		</TabItem>
 	</TabControl>

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -76,13 +77,12 @@ namespace SecurityModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			if (MessageBoxService.ShowQuestion(string.Format("Вы уверенны, что хотите удалить пользователя \"{0}\" из списка", SelectedUser.User.Name)))
-			{
-				FiresecManager.SecurityConfiguration.Users.Remove(SelectedUser.User);
-				Users.Remove(SelectedUser);
+			if (!MessageBoxService.ShowQuestion(String.Format("Вы действительно хотите удалить учетную запись\n\"{0}\"?", SelectedUser.User.Name)))
+				return;
+			FiresecManager.SecurityConfiguration.Users.Remove(SelectedUser.User);
+			Users.Remove(SelectedUser);
 
-				ServiceFactory.SaveService.SecurityChanged = true;
-			}
+			ServiceFactory.SaveService.SecurityChanged = true;
 		}
 		bool CanDelete()
 		{

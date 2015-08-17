@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -73,12 +74,11 @@ namespace SecurityModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			if (MessageBoxService.ShowQuestion(string.Format("Вы уверенны, что хотите удалить шаблон прав \"{0}\" из списка?", SelectedRole.Role.Name)))
-			{
-				FiresecManager.SecurityConfiguration.UserRoles.Remove(SelectedRole.Role);
-				Roles.Remove(SelectedRole);
-				ServiceFactory.SaveService.SecurityChanged = true;
-			}
+			if (!MessageBoxService.ShowConfirmation(String.Format("Вы действительно хотите удалить шаблон прав\n\"{0}\"?", SelectedRole.Role.Name)))
+				return;
+			FiresecManager.SecurityConfiguration.UserRoles.Remove(SelectedRole.Role);
+			Roles.Remove(SelectedRole);
+			ServiceFactory.SaveService.SecurityChanged = true;
 		}
 
 		public RelayCommand EditCommand { get; private set; }

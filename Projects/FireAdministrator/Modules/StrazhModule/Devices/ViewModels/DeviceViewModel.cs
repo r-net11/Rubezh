@@ -166,6 +166,9 @@ namespace StrazhModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
+			if (!MessageBoxService.ShowConfirmation(String.Format("Вы действительно хотите удалить контроллер\n\"{0}\"?", Device.Name)))
+				return;
+
 			var allDevices = Device.Children;
 			SKDManager.DeleteDevice(Device);
 			var parent = Parent;
