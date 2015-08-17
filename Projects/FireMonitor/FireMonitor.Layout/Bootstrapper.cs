@@ -30,8 +30,6 @@ namespace FireMonitor.Layout
 			var result = GetLayout();
 			if (!result)
 				return false;
-			ServiceFactory.Events.GetEvent<UserChangedEvent>().Unsubscribe(OnUserChanged);
-			ServiceFactory.Events.GetEvent<UserChangedEvent>().Subscribe(OnUserChanged);
 			return base.Run();
 		}
 		protected override ShellViewModel CreateShell()
@@ -48,22 +46,6 @@ namespace FireMonitor.Layout
 			var isSelected = DialogService.ShowModalWindow(viewModel);
 			Application.Current.ShutdownMode = ShutdownMode.OnLastWindowClose;
 			return isSelected ? viewModel.SelectedLayout : null;
-		}
-		private void UpdateLayout()
-		{
-			try
-			{
-				_layoutID = null;
-				var result = GetLayout();
-				if (result && _monitorLayoutShellViewModel != null)
-					_monitorLayoutShellViewModel.LayoutContainer.UpdateLayout(_layout);
-				else
-					ApplicationService.ShutDown();
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "FireMonitor.Layout.Bootstrapper.OnConfigurationChanged");
-			}
 		}
 
 		protected override string GetRestartCommandLineArguments()
@@ -87,11 +69,6 @@ namespace FireMonitor.Layout
 						if (Guid.TryParse(layout, out layoutID))
 							_layoutID = layoutID;
 					}
-		}
-
-		private void OnUserChanged(UserChangedEventArgs userChangedEventArgs)
-		{
-			UpdateLayout();
 		}
 
 		private bool GetLayout()
