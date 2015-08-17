@@ -534,7 +534,7 @@ namespace FiresecAPI.SKD
 					break;
 
 				case TimeTrackType.Holiday:
-					LetterCode = "В";
+					LetterCode = "П";
 					break;
 
 				case TimeTrackType.DocumentOvertime:

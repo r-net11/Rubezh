@@ -42,7 +42,7 @@ namespace SKDModule.ViewModels
 			ServiceFactory.Events.GetEvent<NewOrganisationEvent>().Subscribe(OnNewOrganisation);
 			//SafeFiresecService.DbCallbackResultEvent -= new Action<DbCallbackResult>(OnDbCallbackResultEvent);
 			//SafeFiresecService.DbCallbackResultEvent += new Action<DbCallbackResult>(OnDbCallbackResultEvent);
-            Organisations = new ObservableCollection<TViewModel>();
+			Organisations = new ObservableCollection<TViewModel>();
 			DbCallbackResultUID = Guid.NewGuid();
 			_filter = new TFilter();
 		}
@@ -89,7 +89,7 @@ namespace SKDModule.ViewModels
 				}
 			}
 		}
-		
+
 		protected TModel ShowDetails(Organisation organisation, TModel model = null)
 		{
 			TModel result = null;
@@ -127,7 +127,7 @@ namespace SKDModule.ViewModels
 		}
 
 		bool _isWithDeleted;
-		public bool IsWithDeleted 
+		public bool IsWithDeleted
 		{
 			get { return _isWithDeleted; }
 			set
@@ -144,7 +144,7 @@ namespace SKDModule.ViewModels
 			if (organisations == null)
 				return false;
 			Organisations = new ObservableCollection<TViewModel>();
-			foreach (var organisation in organisations) 
+			foreach (var organisation in organisations)
 			{
 				var organisationViewModel = new TViewModel();
 				organisationViewModel.InitializeOrganisation(organisation, this);
@@ -153,7 +153,7 @@ namespace SKDModule.ViewModels
 			return true;
 		}
 
-		
+
 
 		protected virtual void OnEditOrganisation(Organisation newOrganisation)
 		{
@@ -207,7 +207,7 @@ namespace SKDModule.ViewModels
 		}
 		protected virtual void SetIsDeletedByOrganisation(TViewModel organisationViewModel)
 		{
-			organisationViewModel.GetAllChildren().ForEach(x => 
+			organisationViewModel.GetAllChildren().ForEach(x =>
 			{
 				x.IsDeleted = true;
 				x.IsOrganisationDeleted = true;
@@ -279,7 +279,7 @@ namespace SKDModule.ViewModels
 		}
 
 		public ObservableCollection<TViewModel> Organisations { get; private set; }
-		
+
 		TViewModel _selectedItem;
 		public TViewModel SelectedItem
 		{
@@ -380,7 +380,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanRemove()
 		{
-			return SelectedItem != null && !SelectedItem.IsDeleted && !SelectedItem.IsOrganisation && IsEditAllowed;
+			return SelectedItem != null && !SelectedItem.IsDeleted && !SelectedItem.IsOrganisation && IsEditAllowed && SelectedItem.Name != "Выходной";
 		}
 		protected virtual void AfterRemove(TModel model) { }
 		protected virtual string ItemRemovingName
@@ -433,7 +433,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanEdit()
 		{
-			return SelectedItem != null && !SelectedItem.IsDeleted && SelectedItem.Parent != null && !SelectedItem.IsOrganisation && IsEditAllowed;
+			return SelectedItem != null && !SelectedItem.IsDeleted && SelectedItem.Parent != null && !SelectedItem.IsOrganisation && IsEditAllowed && SelectedItem.Name != "Выходной";
 		}
 
 		public RelayCommand CopyCommand { get; private set; }
@@ -451,7 +451,7 @@ namespace SKDModule.ViewModels
 		}
 		protected virtual bool CanCopy()
 		{
-			return SelectedItem != null && !SelectedItem.IsDeleted && !SelectedItem.IsOrganisation && IsEditAllowed;
+			return SelectedItem != null && !SelectedItem.IsDeleted && !SelectedItem.IsOrganisation && IsEditAllowed && SelectedItem.Name != "Выходной";
 		}
 
 		public RelayCommand PasteCommand { get; private set; }

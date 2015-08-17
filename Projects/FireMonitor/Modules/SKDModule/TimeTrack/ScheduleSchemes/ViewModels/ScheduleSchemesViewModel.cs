@@ -77,11 +77,6 @@ namespace SKDModule.ViewModels
 				_dayIntervals = new Dictionary<Guid, ObservableCollection<DayInterval>>();
 				Organisations.ForEach(item => _dayIntervals.Add(item.Organisation.UID, new ObservableCollection<DayInterval>()));
 				dayIntervals.ForEach(item => _dayIntervals[item.OrganisationUID].Add(item));
-				_dayIntervals.Values.ForEach(item => item.Insert(0, new DayInterval()
-				{
-					UID = Guid.Empty,
-					Name = "Никогда",
-				}));
 			}
 		}
 		public ObservableCollection<DayInterval> GetDayIntervals(Guid organisationUID)

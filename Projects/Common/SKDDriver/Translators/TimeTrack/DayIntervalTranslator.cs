@@ -80,9 +80,14 @@ namespace SKDDriver.DataClasses
 
 		protected override OperationResult<bool> CanSave(API.DayInterval dayInterval)
 		{
-			var baseResult = base.CanSave(dayInterval);
-			if (baseResult.HasError)
-				return baseResult;
+			if (dayInterval == null)
+				return OperationResult<bool>.FromError("Попытка сохранить пустую запись");
+			if (dayInterval.UID == Guid.Empty)
+				return OperationResult<bool>.FromError("Не указана организация");
+			bool hasSameName = Table.Any(x => x.Name == dayInterval.Name &&
+				x.OrganisationUID == dayInterval.OrganisationUID);
+			if (hasSameName)
+				return OperationResult<bool>.FromError("Запись с таким же названием уже существует");
 			var intervals = dayInterval.DayIntervalParts;
 			foreach (var item in intervals)
 			{
