@@ -2,7 +2,7 @@
     var self = {};
 
     self.hrPages = {
-        Employees: ko.observable(false),
+        Employees: ko.observable(true),
         Departments: ko.observable(false),
         Positions: ko.observable(false),
         AdditionalColumnTypes: ko.observable(false),
