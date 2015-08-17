@@ -39,6 +39,7 @@ namespace Infrastructure.Client.Login.ViewModels
 
 				case PasswordViewType.Validate:
 					UserName = FiresecManager.CurrentUser.Login;
+					Settings.Default.SavePassword = false;
 					CanEditUserName = false;
 					break;
 			}
