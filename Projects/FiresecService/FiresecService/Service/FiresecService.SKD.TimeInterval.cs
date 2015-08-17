@@ -373,7 +373,7 @@ namespace FiresecService.Service
 										currentUser.Name);
 					}
 				}
-				return new OperationResult(); //databaseService.PassJournalTranslator.SaveAllTimeTracks(collectionToSave, employee);
+				return new OperationResult();
 			}
 		}
 
