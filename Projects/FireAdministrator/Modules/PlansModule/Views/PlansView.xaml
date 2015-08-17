@@ -11,13 +11,22 @@
 		<GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeWE" GridSplitterFix.Attach="True" />
 		<Grid Grid.Column="2">
 			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
 				<RowDefinition Height="{Binding LayersHeight, Mode=TwoWay}" MinHeight="200" />
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="*" MinHeight="200" />
 			</Grid.RowDefinitions>
-            <ContentPresenter Grid.Row="0" Content="{Binding PlansTreeViewModel}" />
-			<GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeNS" GridSplitterFix.Attach="True" />
-            <ContentPresenter Grid.Row="2" Content="{Binding ElementsViewModel}" />
+			<ItemsControl Grid.Row="0" ItemsSource="{Binding PlansMenu}">
+				<ItemsControl.ItemsPanel>
+					<ItemsPanelTemplate>
+						<StackPanel Orientation="Horizontal" />
+					</ItemsPanelTemplate>
+				</ItemsControl.ItemsPanel>
+			</ItemsControl>
+
+			<ContentPresenter Grid.Row="1" Content="{Binding PlansTreeViewModel}" />
+			<GridSplitter Grid.Row="2" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeNS" GridSplitterFix.Attach="True" />
+			<ContentPresenter Grid.Row="3" Content="{Binding ElementsViewModel}" />
 		</Grid>
 	</Grid>
 </UserControl>

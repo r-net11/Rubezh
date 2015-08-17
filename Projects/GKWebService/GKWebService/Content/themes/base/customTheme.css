@@ -39,8 +39,6 @@
 	background: #2B5F99 url("zImages/1x400.png") 50% 50% repeat-x;
 	font-weight: normal;
 	color: #FFF;
-	font-weight: normal;
-	color: #FFF;
 }
 .ui-state-default a,
 .ui-state-default a:link,
@@ -402,7 +400,8 @@
 [data-bind="visible:pages.Archive"], 
 [data-bind="visible:pages.HR"], 
 [data-bind="visible:pages.State"], 
-[data-bind="visible:pages.Device"] {
+[data-bind="visible:pages.Device"],
+[data-bind="visible:pages.Plan"] {
 	margin:10px 10px 0 0;
 }
 
