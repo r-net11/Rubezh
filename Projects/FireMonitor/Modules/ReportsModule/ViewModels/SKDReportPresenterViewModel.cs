@@ -23,8 +23,6 @@ namespace ReportsModule.ViewModels
 		private DispatcherTimer _timer;
 		public SKDReportPresenterViewModel()
 		{
-			ServiceFactory.Events.GetEvent<UserChangedEvent>().Unsubscribe(OnUserChanged);
-			ServiceFactory.Events.GetEvent<UserChangedEvent>().Subscribe(OnUserChanged);
 			ChangeFilterCommand = new RelayCommand(OnChangeFilter, CanChangeFilter);
 			RefreshReportCommand = new RelayCommand(OnRefreshReport, CanRefreshReport);
 			FitPageSizeCommand = new RelayCommand<ZoomFitMode>(OnFitPageSize, CanFitPageSize);
@@ -238,13 +236,6 @@ namespace ReportsModule.ViewModels
 			}
 			else
 				_timer.Stop();
-		}
-
-		public void OnUserChanged(UserChangedEventArgs args)
-		{
-			Model.Clear();
-			IsPeriodReport = false;
-			FilterName = null;
 		}
 	}
 }

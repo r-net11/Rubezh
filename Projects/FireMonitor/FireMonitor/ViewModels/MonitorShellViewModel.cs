@@ -28,7 +28,6 @@ namespace FireMonitor.ViewModels
 			MinWidth = 980;
 			MinHeight = 550;
 			UptateOnChangeViewPermission();
-			ServiceFactory.Events.GetEvent<UserChangedEvent>().Subscribe((x) => { UptateOnChangeViewPermission(); });
 		}
 
 		void UptateOnChangeViewPermission()
