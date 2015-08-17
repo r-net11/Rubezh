@@ -192,9 +192,11 @@
 			<Grid Margin="5 2" Grid.Row="3" Grid.ColumnSpan="2">
 				<Border
 					BorderThickness="1"
+					CornerRadius="3"
+					Opacity="0.8"
 					BorderBrush="{StaticResource BaseWindowBackgroundBrush}"
 					Background="LightCoral"
-					Padding="5">
+					Padding="0">
 					<Border.Style>
 						<Style TargetType="{x:Type Border}">
 							<Style.Triggers>
@@ -204,7 +206,13 @@
 							</Style.Triggers>
 						</Style>
 					</Border.Style>
-					<TextBlock Text="{Binding CurrentTimeTrackPart.CurrentError}" />
+					<TextBlock Height="16" VerticalAlignment="Center" Margin="5 4 0 0" FontSize="10">
+						<TextBlock.Text>
+							<MultiBinding StringFormat="* {0}">
+								<Binding Path="CurrentTimeTrackPart.CurrentError" FallbackValue="FallbackValueText" />
+							</MultiBinding>
+						</TextBlock.Text>
+					</TextBlock>
 				</Border>
 			</Grid>
 		</Grid>

@@ -209,6 +209,8 @@
 										<CheckBox
 											VerticalAlignment="Center"
 											HorizontalAlignment="Center"
+											IsHitTestVisible="False"
+											IsEnabled="False"
 											IsChecked="{Binding IsNeedAdjustment, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>
