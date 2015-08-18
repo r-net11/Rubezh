@@ -10,7 +10,7 @@
 			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
-		<TabControl Grid.Row="0" Visibility="{Binding ShowEmployeeFilter, Converter={StaticResource BoolToVisibilityConverter}}">
+		<TabControl Visibility="{Binding ShowEmployeeFilter, Converter={StaticResource BoolToVisibilityConverter}}">
 			<TabItem Header="Организации" >
 				<Views:OrganisationsFilterView />
 			</TabItem>
