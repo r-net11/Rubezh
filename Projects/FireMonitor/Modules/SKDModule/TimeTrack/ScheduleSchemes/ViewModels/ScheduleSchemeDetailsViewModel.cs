@@ -126,10 +126,7 @@ namespace SKDModule.ViewModels
 				switch (SelectedScheduleSchemeType)
 				{
 					case ScheduleSchemeType.Month:
-						{
 							Model.DaysCount = 31;
-						}
-
 						break;
 					case ScheduleSchemeType.SlideDay:
 						Model.DaysCount = 1;
@@ -138,12 +135,13 @@ namespace SKDModule.ViewModels
 						Model.DaysCount = 7;
 						break;
 				}
+                var dayIntervals = _parentViewModel.GetDayIntervals(Organisation.UID);
 				for (int i = 0; i < Model.DaysCount; i++)
 					Model.DayIntervals.Add(new ScheduleDayInterval()
 					{
 						Number = i,
 						ScheduleSchemeUID = Model.UID,
-						DayInterval = CanSelectDayInterval && Model.DaysCount - i > 2 ? SelectedDayInterval : null,
+                        DayInterval = dayIntervals.FirstOrDefault(x=>x.Name=="Выходной")
 					});
 				Model.Type = SelectedScheduleSchemeType;
 			}

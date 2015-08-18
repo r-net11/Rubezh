@@ -27,17 +27,6 @@ namespace SKDModule.ViewModels
 
 		public override void OnShow()
 		{
-            foreach (var organisation in Organisations)
-            {
-                var hasDayOff = organisation.Children.Any(x => x.Name == "Выходной");
-                if (!hasDayOff)
-                {
-                    var interval = new DayInterval() { Name = "Выходной", DayIntervalParts = new List<DayIntervalPart>(), UID = Guid.NewGuid() };
-                    interval.OrganisationUID = organisation.UID;
-                    Add(interval);
-                    Initialize();
-                }
-            }
 			base.OnShow();
 			if (!_isInitialized)
 			{
@@ -161,5 +150,17 @@ namespace SKDModule.ViewModels
 		{
 			return dbCallbackResult.DayIntervals;
 		}
+        protected override bool CanEdit()
+        {
+            return base.CanEdit() && SelectedItem.Name != "Выходной";
+        }
+        protected override bool CanCopy()
+        {
+            return base.CanCopy() && SelectedItem.Name != "Выходной";
+        }
+        protected override bool CanRemove()
+        {
+            return base.CanRemove() && SelectedItem.Name != "Выходной";
+        }
 	}
 }

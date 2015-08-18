@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.SKD;
 using FiresecClient;
@@ -126,6 +128,9 @@ namespace SKDModule.ViewModels
 					currentUserViewModel.SetWithoutSave(true);
 				}
 				ServiceFactory.Events.GetEvent<NewOrganisationEvent>().Publish(SelectedOrganisation.Organisation.UID);
+                var dayInterval = new DayInterval() { Name = "Выходной", DayIntervalParts = new List<DayIntervalPart>(), UID = Guid.NewGuid() };
+                dayInterval.OrganisationUID = organisation.UID;
+                DayIntervalHelper.Save(dayInterval, true);
 			}
 		}
 		bool CanAdd()

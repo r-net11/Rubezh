@@ -84,7 +84,6 @@ namespace SKDModule.ViewModels
 				ScheduleSchemeUID = Model.UID,
 			};
 			dayInterval.DayInterval = DayIntervals.FirstOrDefault(x=>x.Name=="Выходной");
-			var v = DayIntervals;
 			if (AddSave(dayInterval))
 			{
 				var viewModel = new SheduleDayIntervalViewModel(this, dayInterval);
