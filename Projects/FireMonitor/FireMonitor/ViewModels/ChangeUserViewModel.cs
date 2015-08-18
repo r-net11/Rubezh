@@ -13,10 +13,9 @@ using System.Windows;
 
 namespace FireMonitor.ViewModels
 {
-	public class UserChangedViewModel : SaveCancelDialogViewModel
+	public class ChangeUserViewModel : SaveCancelDialogViewModel
 	{
-
-		public UserChangedViewModel()
+		public ChangeUserViewModel()
 		{
 			Title = "Смена пользователя";
 			Login = ServiceFactory.StartupService.Login;
@@ -59,13 +58,13 @@ namespace FireMonitor.ViewModels
 					MessageBoxService.Show("Неверно задан логин/пароль");
 					return false;
 				}
-				else if (!user.HasPermission(PermissionType.Oper_Login))
+
+				if (!user.HasPermission(PermissionType.Oper_Login))
 				{
 					MessageBoxService.Show("У данного пользователя нет права на вход");
 					return false;
 				}
-				else if (HashHelper.CheckPass(Password, user.PasswordHash) && user.HasPermission(PermissionType.Oper_Login))
-				{
+				
 					FiresecManager.Disconnect();
 					var processStartInfo = new ProcessStartInfo()
 					{
@@ -74,7 +73,6 @@ namespace FireMonitor.ViewModels
 					};
 					System.Diagnostics.Process.Start(processStartInfo);
 					return base.Save();
-				}
 			}
 			else 
 				MessageBoxService.Show("Неверно задан логин/пароль");

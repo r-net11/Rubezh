@@ -2,9 +2,9 @@
 
 namespace FireMonitor.Views
 {
-	public partial class UserFotterView : UserControl
+	public partial class ChangeUserView : UserControl
 	{
-		public UserFotterView()
+		public ChangeUserView()
 		{
 			InitializeComponent();
 		}

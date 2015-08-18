@@ -26,7 +26,7 @@
 						<GridViewColumn Width="300" Header="Зона или Логика" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelZoneComparer}">
 							<GridViewColumn.CellTemplate>
 								<DataTemplate>
-									<TextBlock HorizontalAlignment="Stretch" Text="{Binding PresentationZone}" ToolTip="{Binding PresentationZone}">
+									<TextBlock HorizontalAlignment="Stretch" Text="{Binding PresentationZone}" ToolTip="{Binding PresentationZone}" TextWrapping="NoWrap" MinWidth="100" VerticalAlignment="Top" LineHeight="15" Margin="0 3 0 0" Cursor="Hand">
 										<TextBlock.Resources>
 											<Style TargetType="ToolTip">
 												<Style.Triggers>

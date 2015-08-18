@@ -150,5 +150,17 @@ namespace SKDModule.ViewModels
 		{
 			return dbCallbackResult.DayIntervals;
 		}
+        protected override bool CanEdit()
+        {
+            return base.CanEdit() && SelectedItem.Name != "Выходной";
+        }
+        protected override bool CanCopy()
+        {
+            return base.CanCopy() && SelectedItem.Name != "Выходной";
+        }
+        protected override bool CanRemove()
+        {
+            return base.CanRemove() && SelectedItem.Name != "Выходной";
+        }
 	}
 }

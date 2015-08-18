@@ -3,10 +3,6 @@
 					xmlns:Views="clr-namespace:FireMonitor.Views"
 					xmlns:ViewModels="clr-namespace:FireMonitor.ViewModels">
 
-	<DataTemplate DataType="{x:Type ViewModels:UserFotterViewModel}">
-		<Views:UserFotterView />
-	</DataTemplate>
-
 	<DataTemplate DataType="{x:Type ViewModels:ToolbarViewModel}">
 		<Views:ToolbarView />
 	</DataTemplate>
@@ -27,8 +23,8 @@
 		<Views:RestartApplicationView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:UserChangedViewModel}">
-		<Views:UserChangedView />
+	<DataTemplate DataType="{x:Type ViewModels:ChangeUserViewModel}">
+		<Views:ChangeUserView />
 	</DataTemplate>
 
 

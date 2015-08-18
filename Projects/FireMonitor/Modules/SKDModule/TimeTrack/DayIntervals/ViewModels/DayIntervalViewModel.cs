@@ -73,7 +73,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanAdd()
 		{
-			return !IsOrganisation && !IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_DaySchedules_Edit);
+			return !IsOrganisation && !IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_DaySchedules_Edit) && Name != "Выходной";
 		}
 
 		public RelayCommand DeleteCommand { get; private set; }

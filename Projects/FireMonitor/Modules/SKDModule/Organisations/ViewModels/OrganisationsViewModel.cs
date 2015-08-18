@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.SKD;
 using FiresecClient;
@@ -23,8 +25,6 @@ namespace SKDModule.ViewModels
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			RestoreCommand = new RelayCommand(OnRestore, CanRestore);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
-			ServiceFactory.Events.GetEvent<UserChangedEvent>().Unsubscribe(OnUserChanged);
-			ServiceFactory.Events.GetEvent<UserChangedEvent>().Subscribe(OnUserChanged);
 		}
 
 		public void Initialize(LogicalDeletationType logicalDeletationType)
@@ -128,6 +128,9 @@ namespace SKDModule.ViewModels
 					currentUserViewModel.SetWithoutSave(true);
 				}
 				ServiceFactory.Events.GetEvent<NewOrganisationEvent>().Publish(SelectedOrganisation.Organisation.UID);
+                var dayInterval = new DayInterval() { Name = "Выходной", DayIntervalParts = new List<DayIntervalPart>(), UID = Guid.NewGuid() };
+                dayInterval.OrganisationUID = organisation.UID;
+                DayIntervalHelper.Save(dayInterval, true);
 			}
 		}
 		bool CanAdd()
@@ -206,15 +209,6 @@ namespace SKDModule.ViewModels
 		{
 			OrganisationDoorsViewModel.CanSelect = canSelect;
 			OrganisationUsersViewModel.CanSelect = canSelect;
-		}
-
-		void OnUserChanged(UserChangedEventArgs args)
-		{
-			foreach (var organisation in Organisations.Select(x => x.Organisation))
-			{
-				ServiceFactory.Events.GetEvent<OrganisationUsersChangedEvent>().Publish(organisation);	
-			}
-			
 		}
 	}
 }

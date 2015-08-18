@@ -20,7 +20,7 @@ function MenuViewModel() {
         }
 
         self.pages[page](!self.pages[page]());
-        $('li').removeClass("active");
+        $('ul.menu li').removeClass("active");
         $(e.currentTarget).parent().addClass("active");
     }
 

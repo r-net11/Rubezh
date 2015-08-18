@@ -14,9 +14,6 @@ namespace FiresecAPI
 		[OperationContract]
 		OperationResult<bool> Connect(Guid uid, ClientCredentials clientCredentials, bool isNew);
 
-		[OperationContract]
-		OperationResult<bool> Reconnect(Guid uid, string userName, string password);
-
 		[OperationContract(IsOneWay = true)]
 		void Disconnect(Guid uid);
 

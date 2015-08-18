@@ -31,14 +31,9 @@ namespace Infrastructure.Client.Login.ViewModels
 					UserName = Settings.Default.UserName;
 					CanEditUserName = true;
 					break;
-
-				case PasswordViewType.Reconnect:
-					UserName = string.Empty;
-					CanEditUserName = true;
-					break;
-
 				case PasswordViewType.Validate:
 					UserName = FiresecManager.CurrentUser.Login;
+					Settings.Default.SavePassword = false;
 					CanEditUserName = false;
 					break;
 			}
@@ -137,9 +132,6 @@ namespace Infrastructure.Client.Login.ViewModels
 					Message = FiresecManager.Connect(ClientType, ConnectionSettingsManager.ServerAddress, UserName, Password);
 					preLoadWindow.ForceClose();
 					break;
-				case PasswordViewType.Reconnect:
-					Message = FiresecManager.Reconnect(UserName, Password);
-					break;
 				case PasswordViewType.Validate:
 					Message = HashHelper.CheckPass(Password, FiresecManager.CurrentUser.PasswordHash) ? null : "Неверный пароль";
 					break;
@@ -169,7 +161,6 @@ namespace Infrastructure.Client.Login.ViewModels
 		public enum PasswordViewType
 		{
 			Connect,
-			Reconnect,
 			Validate
 		}
 	}

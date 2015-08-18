@@ -107,7 +107,19 @@
 							</GridViewColumn.CellTemplate>
 						</GridViewColumn>
 						<GridViewColumn DisplayMemberBinding="{Binding Device.PresentationAddress}" Header="Адрес" Width="100" />
-						<GridViewColumn DisplayMemberBinding="{Binding PresentationLogic}" Header="Логика" />
+						<GridViewColumn  Header="Логика" >
+							<GridViewColumn.CellTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding PresentationLogic}" Visibility="{Binding PresentationLogic, Converter={StaticResource NullToVisibilityConverter}}" TextWrapping="NoWrap" MinWidth="100" VerticalAlignment="Top" LineHeight="15" Margin="0 3 0 0" Cursor="Hand">
+										<TextBlock.ToolTip >
+											<WrapPanel>
+												<TextBlock Text="{Binding PresentationLogic}" TextWrapping="Wrap" />
+											</WrapPanel>
+										</TextBlock.ToolTip>
+									</TextBlock>
+								</DataTemplate>
+							</GridViewColumn.CellTemplate>
+						</GridViewColumn>
 						<GridViewColumn DisplayMemberBinding="{Binding Device.Description}" Header="Примечание" Width="100" />
 					</GridView>
 				</tree:TreeList.View>
