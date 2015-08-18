@@ -84,8 +84,8 @@ namespace SKDDriver.DataClasses
 				return OperationResult<bool>.FromError("Попытка сохранить пустую запись");
 			if (dayInterval.UID == Guid.Empty)
 				return OperationResult<bool>.FromError("Не указана организация");
-			bool hasSameName = Table.Any(x => x.Name == dayInterval.Name &&
-				x.OrganisationUID == dayInterval.OrganisationUID);
+			bool hasSameName = Table.Any(x => x.OrganisationUID==dayInterval.OrganisationUID&&x.Name == dayInterval.Name &&
+				x.UID != dayInterval.UID);
 			if (hasSameName)
 				return OperationResult<bool>.FromError("Запись с таким же названием уже существует");
 			var intervals = dayInterval.DayIntervalParts;
