@@ -8,6 +8,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using FiresecClient;
 using Infrastructure.Events;
 using System.Collections.ObjectModel;
+using FiresecAPI.Models;
 
 namespace GKModule.ViewModels
 {
@@ -26,8 +27,8 @@ namespace GKModule.ViewModels
 
 		public SKDZoneViewModel(GKSKDZone skdZone)
 		{
-			OpenCommand = new RelayCommand(OnOpen);
-			CloseCommand = new RelayCommand(OnClose);
+			OpenCommand = new RelayCommand(OnOpen, CanControl);
+			CloseCommand = new RelayCommand(OnClose, CanControl);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
@@ -134,6 +135,11 @@ namespace GKModule.ViewModels
 		void OnShowProperties()
 		{
 			DialogService.ShowWindow(new SKDZoneDetailsViewModel(SKDZone));
+		}
+
+		bool CanControl ()
+		{
+			return FiresecManager.CheckPermission(PermissionType.Oper_ZonesSKD);
 		}
 	}
 }
