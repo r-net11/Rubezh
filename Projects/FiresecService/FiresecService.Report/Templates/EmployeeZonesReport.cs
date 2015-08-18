@@ -291,7 +291,7 @@ namespace FiresecService.Report.Templates
 			// 
 			xrTableCell7.Dpi = 254F;
 			xrTableCell7.Name = "xrTableCell7";
-			xrTableCell7.Text = "Отдел";
+			xrTableCell7.Text = "Подразделение";
 			xrTableCell7.Weight = 0.15384615384615386D;
 			// 
 			// xrTableCell8
