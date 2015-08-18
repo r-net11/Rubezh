@@ -119,7 +119,7 @@ $(document).ready(function () {
            { label: 'Уточнение', name: 'Desc', width: 80, sortable: false },
            { label: 'Объект', name: 'Object', width: 80, sortable: false }
         ],
-        width: jQuery(window).width() - 242, // 242 - aside tag width
+        width: jQuery(window).width() - 258, // 242 - aside tag width
         height: jQuery(window).height() - 250, //approx value. Need referrence
         rowNum: 100,
         viewrecords: true,
