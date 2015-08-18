@@ -48,19 +48,24 @@ namespace GKProcessor.DescriptorsDatabase
 				foreach(var guardZoneDevice in guardZone.GuardZoneDevices)
 				{
 					guardZone.DescriptorDependentObjects.Add(guardZoneDevice.Device);
-					var codeUIDs = new List<Guid>();
-					codeUIDs.AddRange(guardZoneDevice.CodeReaderSettings.SetGuardSettings.CodeUIDs);
-					codeUIDs.AddRange(guardZoneDevice.CodeReaderSettings.ResetGuardSettings.CodeUIDs);
-					codeUIDs.AddRange(guardZoneDevice.CodeReaderSettings.ChangeGuardSettings.CodeUIDs);
-					codeUIDs.AddRange(guardZoneDevice.CodeReaderSettings.AlarmSettings.CodeUIDs);
-
-					foreach(var codeUID in codeUIDs)
+					if (guardZoneDevice.Device.DriverType == GKDriverType.RSR2_CodeReader || guardZoneDevice.Device.DriverType == GKDriverType.RSR2_CardReader)
 					{
-						var code = GKManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == codeUID);
-						if(code != null)
+						//guardZoneDevice.Device.DescriptorDependentObjects.Add(guardZone);
+
+						var codeUIDs = new List<Guid>();
+						codeUIDs.AddRange(guardZoneDevice.CodeReaderSettings.SetGuardSettings.CodeUIDs);
+						codeUIDs.AddRange(guardZoneDevice.CodeReaderSettings.ResetGuardSettings.CodeUIDs);
+						codeUIDs.AddRange(guardZoneDevice.CodeReaderSettings.ChangeGuardSettings.CodeUIDs);
+						codeUIDs.AddRange(guardZoneDevice.CodeReaderSettings.AlarmSettings.CodeUIDs);
+
+						foreach (var codeUID in codeUIDs)
 						{
-							guardZone.DescriptorDependentObjects.Add(code);
-							code.DescriptorDependentObjects.Add(guardZone);
+							var code = GKManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == codeUID);
+							if (code != null)
+							{
+								guardZone.DescriptorDependentObjects.Add(code);
+								code.DescriptorDependentObjects.Add(guardZone);
+							}
 						}
 					}
 				}

@@ -86,8 +86,8 @@ namespace GKModule.ViewModels
 			Descriptors = new ObservableCollection<DescriptorViewModel>();
 			foreach (var descriptor in SelectedDatabase.Descriptors)
 			{
-				var binObjectViewModel = new DescriptorViewModel(descriptor, this);
-				Descriptors.Add(binObjectViewModel);
+				var descriptorViewModel = new DescriptorViewModel(descriptor, this);
+				Descriptors.Add(descriptorViewModel);
 			}
 			SelectedDescriptor = Descriptors.FirstOrDefault();
 
@@ -104,7 +104,10 @@ namespace GKModule.ViewModels
 						if (inputDescriptorViewModel != null)
 							descriptorViewModel.InputDescriptors.Add(inputDescriptorViewModel);
 						else
+						{
+							descriptorViewModel.IsFormulaInvalid = true;
 							MessageBoxService.ShowError("Отсутствует ссылка на входную зависимость" + descriptorViewModel.Descriptor.GKBase.GKDescriptorNo + " " + descriptorViewModel.Descriptor.GKBase.PresentationName);
+						}
 					}
 				}
 			}
@@ -125,7 +128,10 @@ namespace GKModule.ViewModels
 						if (outputDescriptorViewModel != null)
 							descriptorViewModel.OutputDescriptors.Add(outputDescriptorViewModel);
 						else
+						{
+							descriptorViewModel.IsFormulaInvalid = true;
 							MessageBoxService.ShowError("Отсутствует ссылка на выходную зависимость" + descriptorViewModel.Descriptor.GKBase.GKDescriptorNo + " " + descriptorViewModel.Descriptor.GKBase.PresentationName);
+						}
 					}
 				}
 			}
@@ -133,6 +139,20 @@ namespace GKModule.ViewModels
 			foreach (var descriptorViewModel in Descriptors)
 			{
 				descriptorViewModel.InitializeLogic();
+			}
+
+			var stringBuilder = new StringBuilder();
+			foreach (var descriptorViewModel in Descriptors)
+			{
+				if (descriptorViewModel.IsFormulaInvalid)
+				{
+					stringBuilder.AppendLine(descriptorViewModel.Descriptor.GKBase.GKDescriptorNo + " " + descriptorViewModel.Descriptor.GKBase.PresentationName);
+				}
+				descriptorViewModel.InitializeLogic();
+			}
+			if(stringBuilder.Length > 0)
+			{
+				MessageBoxService.ShowWarning(stringBuilder.ToString(), "В результате компиляции возникли ошибки");
 			}
 		}
 

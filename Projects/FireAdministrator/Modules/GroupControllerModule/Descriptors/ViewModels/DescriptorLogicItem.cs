@@ -17,6 +17,7 @@ namespace GKModule.ViewModels
 		public string StateIcon { get; private set; }
 		public string DescriptorIcon { get; private set; }
 		public BaseDescriptor Descriptor { get; private set; }
+		public string Error { get; private set; }
 
 		public DescriptorLogicItem(FormulaOperation formulaOperation, DescriptorsViewModel descriptorsViewModel, BaseDescriptor descriptor)
 		{
@@ -67,7 +68,7 @@ namespace GKModule.ViewModels
 					else
 					{
 						SecondOperand = "<Не найдено в конфигурации>";
-						MessageBoxService.ShowError("Отсутствует ссылка на объект логики" + Descriptor.GKBase.GKDescriptorNo + " " + Descriptor.GKBase.PresentationName);
+						Error = "Отсутствует ссылка на объект логики";
 					}
 					break;
 
@@ -89,7 +90,7 @@ namespace GKModule.ViewModels
 					else
 					{
 						SecondOperand = "<Не найдено в конфигурации>";
-						MessageBoxService.ShowError("Отсутствует ссылка на объект логики" + Descriptor.GKBase.GKDescriptorNo + " " + Descriptor.GKBase.PresentationName);
+						Error = "Отсутствует ссылка на объект логики";
 					}
 					break;
 			}

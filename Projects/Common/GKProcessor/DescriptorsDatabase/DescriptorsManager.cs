@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using FiresecAPI.GK;
 using FiresecClient;
 using GKProcessor.DescriptorsDatabase;
@@ -85,16 +86,16 @@ namespace GKProcessor
 		{
 			foreach(var kauDatabase in KauDatabases)
 			{
-				var result = kauDatabase.Check();
-				if(result != null)
+				var result = kauDatabase.Check().ToList();
+				if(result.Count > 0)
 				{
 					;
 				}
 			}
 			foreach (var gkDatabase in GkDatabases)
 			{
-				var result = gkDatabase.Check();
-				if (result != null)
+				var result = gkDatabase.Check().ToList();
+				if (result.Count > 0)
 				{
 					;
 				}

@@ -75,6 +75,10 @@ namespace GKModule.ViewModels
 			{
 				var descriptorLogicItem = new DescriptorLogicItem(formulaOperation, DescriptorsViewModel, Descriptor);
 				DescriptorLogicItems.Add(descriptorLogicItem);
+				if(!string.IsNullOrEmpty(descriptorLogicItem.Error))
+				{
+					IsFormulaInvalid = true;
+				}
 			}
 		}
 
@@ -82,8 +86,17 @@ namespace GKModule.ViewModels
 		public string ImageSource { get; set; }
 		public string PresentationName { get; set; }
 		public string Description { get; set; }
-		public bool IsFormulaInvalid { get; set; }
 
+		bool _isFormulaInvalid;
+		public bool IsFormulaInvalid
+		{
+			get { return _isFormulaInvalid; }
+			set
+			{
+				_isFormulaInvalid = value;
+				OnPropertyChanged(() => IsFormulaInvalid);
+			}
+		}
 
 		public ObservableCollection<DescriptorLogicItem> DescriptorLogicItems { get; private set; }
 

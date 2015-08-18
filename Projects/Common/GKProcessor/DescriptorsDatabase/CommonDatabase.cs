@@ -70,7 +70,7 @@ namespace GKProcessor
 
 		public abstract void BuildObjects();
 
-		public string Check()
+		public IEnumerable<DescriptorError> Check()
 		{
 			foreach (var descriptor in Descriptors)
 			{
@@ -100,9 +100,9 @@ namespace GKProcessor
 					{
 						var no = BytesHelper.SubstructShort(descriptor.AllBytes, offsetPosition + 4 + i * 2);
 						if (no == 0)
-							return "Значение входной зависимости равно 0";
+							yield return new DescriptorError(descriptor, "Значение входной зависимости равно 0");
 						if (no > Descriptors.Count)
-							return "Значение входной зависимости больше количества компонентов";
+							yield return new DescriptorError(descriptor, "Значение входной зависимости больше количества компонентов");
 					}
 					outputDependencesPosition = offsetPosition + 2 + 2 + inputDependencesCount * 2;
 				}
@@ -112,15 +112,15 @@ namespace GKProcessor
 				{
 					var no = BytesHelper.SubstructShort(descriptor.AllBytes, outputDependencesPosition + 2 + i * 2);
 					if (no == 0)
-						return "Значение входной зависимости равно 0";
+						yield return new DescriptorError(descriptor, "Значение входной зависимости равно 0");
 					if (no > Descriptors.Count)
-						return "Значение входной зависимости больше количества компонентов";
+						yield return new DescriptorError(descriptor, "Значение входной зависимости больше количества компонентов");
 				}
 
 				var formulaPosition = outputDependencesPosition + 2 + outputDependencesCount * 2;
 				var formulaLenght = offsetToParameters - formulaPosition;
 				if (formulaLenght == 0)
-					return "Пустой дескриптор";
+					yield return new DescriptorError(descriptor, "Пустой дескриптор");
 
 				for (int i = 0; i < formulaLenght / 4; i++)
 				{
@@ -132,13 +132,24 @@ namespace GKProcessor
 
 				var lastFormulaOperationType = descriptor.AllBytes[formulaPosition + formulaLenght - 4];
 				if (lastFormulaOperationType != (int)FormulaOperationType.END)
-					return "Логика должна заканчиваться операцией End";
+					yield return new DescriptorError(descriptor, "Логика должна заканчиваться операцией End");
 
 				var parametersCount = BytesHelper.SubstructShort(descriptor.AllBytes, offsetToParameters);
 				if (descriptor.AllBytes.Count != offsetToParameters + 2 + parametersCount * 4)
-					return "Ошибка длины дескриптора";
+					yield return new DescriptorError(descriptor, "Ошибка длины дескриптора");
 			}
-			return null;
 		}
+	}
+
+	public class DescriptorError
+	{
+		public DescriptorError(BaseDescriptor baseDescriptor, string error)
+		{
+			BaseDescriptor = baseDescriptor;
+			Error = error;
+		}
+
+		public BaseDescriptor BaseDescriptor { get; set; }
+		public string Error { get; set; }
 	}
 }
