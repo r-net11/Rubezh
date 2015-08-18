@@ -60,7 +60,7 @@
 			</DataGridTemplateColumn>
 			<DataGridTemplateColumn
 				Width="*"
-				Header="Вход"
+				Header="График доступа"
 				CanUserSort="True"
 				SortMemberPath="EnerScheduleName"
 				behaviours:CustomSortBehaviour.CustomSorter="{StaticResource DoorsComparer}">
