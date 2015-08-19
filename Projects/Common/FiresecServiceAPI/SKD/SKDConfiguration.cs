@@ -59,7 +59,7 @@ namespace FiresecAPI.SKD
 				TimeIntervalsConfiguration = new TimeIntervalsConfiguration();
 				result = false;
 			}
-			result &= TimeIntervalsConfiguration.ValidateIntervals();
+			result &= TimeIntervalsConfiguration.Validate();
 
 			if (Doors == null)
 			{

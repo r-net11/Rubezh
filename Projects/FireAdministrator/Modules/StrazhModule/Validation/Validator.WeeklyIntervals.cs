@@ -8,12 +8,13 @@ namespace StrazhModule.Validation
 {
 	public partial class Validator
 	{
-		void ValidateWeklyIntervals()
+		void ValidateWeeklyIntervals()
 		{
 			ValidateWeeklyIntervalEquality();
 			foreach (var weeklyInterval in SKDManager.TimeIntervalsConfiguration.WeeklyIntervals)
 			{
-				if (weeklyInterval.Name == "<Никогда>" || weeklyInterval.Name == "<Всегда>")
+				// Пропускаем предустановленные недельные графики доступа
+				if (weeklyInterval.Name == TimeIntervalsConfiguration.PredefinedIntervalNameNever || weeklyInterval.Name == TimeIntervalsConfiguration.PredefinedIntervalNameAlways)
 				{
 					continue;
 				}

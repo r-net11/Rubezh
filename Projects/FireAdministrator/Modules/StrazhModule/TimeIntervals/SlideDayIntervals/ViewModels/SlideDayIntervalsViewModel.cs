@@ -56,7 +56,7 @@ namespace StrazhModule.ViewModels
 			AvailableTimeIntervals.Insert(0, new SKDDayInterval()
 			{
 				No = 0,
-				Name = "<Никогда>",
+				Name = TimeIntervalsConfiguration.PredefinedIntervalNameNever,
 			});
 			OnPropertyChanged(() => AvailableTimeIntervals);
 			if (SelectedInterval != null)

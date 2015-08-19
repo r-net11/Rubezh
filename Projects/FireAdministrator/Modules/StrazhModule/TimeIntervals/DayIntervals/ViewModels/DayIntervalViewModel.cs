@@ -49,7 +49,7 @@ namespace StrazhModule.ViewModels
 		{
 			get
 			{
-				return Name != "<Никогда>" && Name != "<Всегда>";
+				return Name != TimeIntervalsConfiguration.PredefinedIntervalNameNever && Name != TimeIntervalsConfiguration.PredefinedIntervalNameAlways;
 			}
 		}
 

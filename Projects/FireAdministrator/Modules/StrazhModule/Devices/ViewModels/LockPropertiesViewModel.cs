@@ -75,10 +75,15 @@ namespace StrazhModule.ViewModels
 			get { return _doorOpenMethod; }
 			set
 			{
+				if (_doorOpenMethod == value)
+					return;
 				_doorOpenMethod = value;
 				OnPropertyChanged(() => DoorOpenMethod);
 				HasChanged = true;
 				CanSetTimeIntervals = (value == SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_SECTION);
+				WeeklyInterval = CanSetTimeIntervals
+					? AvailableWeeklyIntervals.FirstOrDefault(x => x.Name == TimeIntervalsConfiguration.PredefinedIntervalNameCard)
+					: null;
 			}
 		}
 

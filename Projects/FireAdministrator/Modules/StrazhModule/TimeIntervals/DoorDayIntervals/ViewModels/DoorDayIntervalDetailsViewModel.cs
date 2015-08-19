@@ -1,4 +1,5 @@
-﻿using FiresecAPI.SKD;
+﻿using System;
+using FiresecAPI.SKD;
 using System.Linq;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows;
@@ -18,6 +19,12 @@ namespace StrazhModule.ViewModels
 				{
 					Name = "Новый дневной график",
 				};
+				DayInterval.DayIntervalParts.Add(new SKDDoorDayIntervalPart()
+				{
+					StartMilliseconds = 0,
+					EndMilliseconds = new TimeSpan(23, 59, 59).TotalMilliseconds,
+					DoorOpenMethod = SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_CARD
+				});
 			}
 			else
 			{
@@ -62,7 +69,9 @@ namespace StrazhModule.ViewModels
 
 		protected override bool Save()
 		{
-			if (Name == "<Никогда>" || Name == "<Всегда>")
+			if (Name == TimeIntervalsConfiguration.PredefinedIntervalNameCard
+				|| Name == TimeIntervalsConfiguration.PredefinedIntervalNamePassword
+				|| Name == TimeIntervalsConfiguration.PredefinedIntervalNameCardAndPassword)
 			{
 				MessageBoxService.ShowWarning("Запрещенное назваине");
 				return false;

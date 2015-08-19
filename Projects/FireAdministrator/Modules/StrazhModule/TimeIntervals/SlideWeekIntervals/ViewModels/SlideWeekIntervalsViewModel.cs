@@ -57,7 +57,7 @@ namespace StrazhModule.ViewModels
 			AvailableWeekIntervals.Insert(0, new SKDWeeklyInterval(true)
 			{
 				ID = 0,
-				Name = "<Никогда>",
+				Name = TimeIntervalsConfiguration.PredefinedIntervalNameNever,
 			});
 			OnPropertyChanged(() => AvailableWeekIntervals);
 			if (SelectedInterval != null)

@@ -60,6 +60,8 @@ namespace StrazhModule.Intervals.Base.ViewModels
 			}
 		}
 
+		#region <Реализация ISelecteble<int>>
+
 		public void Select(int intervalID)
 		{
 			if (intervalID >= 0 && intervalID <= 128)
@@ -68,7 +70,14 @@ namespace StrazhModule.Intervals.Base.ViewModels
 				SelectedInterval = Intervals.FirstOrDefault();
 		}
 
+		#endregion </Реализация ISelecteble<int>>
+
+		#region <Реализация IEditingBaseViewModel>
+
 		public RelayCommand EditCommand { get; private set; }
+
+		#endregion </Реализация IEditingBaseViewModel>
+
 		protected virtual void OnEdit()
 		{
 		}
@@ -89,7 +98,7 @@ namespace StrazhModule.Intervals.Base.ViewModels
 		}
 		private bool CanActivate()
 		{
-			return SelectedInterval != null && SelectedInterval.Name != "<Никогда>" && SelectedInterval.Name != "<Всегда>";
+			return SelectedInterval != null && !SelectedInterval.IsPredefined;
 		}
 
 		public RelayCommand CopyCommand { get; private set; }

@@ -1,4 +1,8 @@
-﻿<UserControl x:Class="StrazhModule.Views.DoorWeeklyIntervalsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended">
+﻿<UserControl x:Class="StrazhModule.Views.DoorWeeklyIntervalsView"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+			 xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended">
 	<UserControl.Resources>
 		<Style x:Key="ActiveStyle" BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
 			<Style.Triggers>

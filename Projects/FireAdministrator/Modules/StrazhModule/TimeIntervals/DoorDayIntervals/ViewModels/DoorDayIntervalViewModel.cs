@@ -49,7 +49,9 @@ namespace StrazhModule.ViewModels
 		{
 			get
 			{
-				return Name != "<Никогда>" && Name != "<Всегда>";
+				return Name != TimeIntervalsConfiguration.PredefinedIntervalNameCard
+					&& Name != TimeIntervalsConfiguration.PredefinedIntervalNamePassword
+					&& Name != TimeIntervalsConfiguration.PredefinedIntervalNameCardAndPassword;
 			}
 		}
 

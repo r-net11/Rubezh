@@ -85,5 +85,15 @@ namespace StrazhModule.ViewModels
 			var hasReference = SKDManager.TimeIntervalsConfiguration.SlideWeeklyIntervals.Any(item => item.WeeklyIntervalIDs.Contains(Index));
 			return !hasReference || MessageBoxService.ShowConfirmation("Данный недельный график используется в одном или нескольких скользящих недельных графиках, Вы уверены что хотите его деактивировать?");
 		}
+
+		public override bool IsPredefined
+		{
+			get
+			{
+				return Name == TimeIntervalsConfiguration.PredefinedIntervalNameCard
+					|| Name == TimeIntervalsConfiguration.PredefinedIntervalNamePassword
+					|| Name == TimeIntervalsConfiguration.PredefinedIntervalNameCardAndPassword;
+			}
+		}
 	}
 }
