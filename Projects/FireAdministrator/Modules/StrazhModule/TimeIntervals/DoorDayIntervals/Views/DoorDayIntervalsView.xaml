@@ -73,7 +73,7 @@
 								</DataTemplate>
 							</DataGridTemplateColumn.CellTemplate>
 						</DataGridTemplateColumn>
-						<DataGridTemplateColumn Width="*" Header="Конец">
+						<DataGridTemplateColumn Width="*" Header="Окончание">
 							<DataGridTemplateColumn.CellTemplate>
 								<DataTemplate>
 									<TextBlock Text="{Binding Path=EndTime}" />
