@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using FiresecAPI.SKD;
 using System.Linq;
 using Infrastructure.Common.Windows.ViewModels;
@@ -8,10 +9,18 @@ namespace StrazhModule.ViewModels
 {
 	public class DoorDayIntervalDetailsViewModel : SaveCancelDialogViewModel
 	{
+		private IEnumerable<DoorDayIntervalViewModel> _dayIntervalViewModels;
 		public SKDDoorDayInterval DayInterval { get; private set; }
 
-		public DoorDayIntervalDetailsViewModel(SKDDoorDayInterval dayInterval = null)
+		/// <summary>
+		/// Конструктор класса
+		/// </summary>
+		/// <param name="otherDayIntervals">Коллекция ViewModel'ей для ранее добавленных дневных интервалов времени</param>
+		/// <param name="dayInterval">Редактируемый дневной интервал времени. Равен null для вновь добавляемого</param>
+		public DoorDayIntervalDetailsViewModel(IEnumerable<DoorDayIntervalViewModel> otherDayIntervals, SKDDoorDayInterval dayInterval = null)
 		{
+			_dayIntervalViewModels = otherDayIntervals;
+
 			if (dayInterval == null)
 			{
 				Title = "Создание нового дневного графика";
@@ -69,11 +78,10 @@ namespace StrazhModule.ViewModels
 
 		protected override bool Save()
 		{
-			if (Name == TimeIntervalsConfiguration.PredefinedIntervalNameCard
-				|| Name == TimeIntervalsConfiguration.PredefinedIntervalNamePassword
-				|| Name == TimeIntervalsConfiguration.PredefinedIntervalNameCardAndPassword)
+			// Проверяем что заданное название дневного графика замка не совпадает с названием других дневных графиков замка
+			if (_dayIntervalViewModels.FirstOrDefault(x => x.Name == Name) != null)
 			{
-				MessageBoxService.ShowWarning("Запрещенное назваине");
+				MessageBoxService.ShowWarning("Дневной график замка с таким названием уже существует");
 				return false;
 			}
 			DayInterval.Name = Name;
