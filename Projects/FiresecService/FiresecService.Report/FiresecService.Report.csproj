@@ -135,6 +135,10 @@
   <ItemGroup>
     <Compile Include="DataSetHelper.cs" />
     <Compile Include="DataSourceService.cs" />
+    <Compile Include="DataSources\EmployeeAccessDataSet.cs">
+      <DependentUpon>EmployeeAccessDataSet.xsd</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="DataSources\EventsDataSet.cs">
       <DependentUpon>EventsDataSet.xsd</DependentUpon>
     </Compile>

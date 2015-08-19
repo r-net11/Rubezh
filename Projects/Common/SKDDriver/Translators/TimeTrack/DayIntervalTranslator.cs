@@ -9,7 +9,7 @@ namespace SKDDriver.DataClasses
 {
 	public class DayIntervalTranslator : OrganisationItemTranslatorBase<DayInterval, API.DayInterval, API.DayIntervalFilter>
 	{
-		TimeSpan _daySeconds = new TimeSpan(1, 0, 0, 0);// 86400;
+		TimeSpan _daySeconds = new TimeSpan(0, 23, 59, 59, 59);// 86400;
 
 		public DayIntervalTranslator(DbService context)
 			: base(context)
