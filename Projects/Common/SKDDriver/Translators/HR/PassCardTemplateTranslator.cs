@@ -1,4 +1,5 @@
 ﻿using FiresecAPI;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.IO;
@@ -8,6 +9,9 @@ using API = FiresecAPI.SKD;
 
 namespace SKDDriver.DataClasses
 {
+	/// <summary>
+	/// Методы Get и GetSingle не реализованы, вместо GetSingle - GetPassCardTemplate
+	/// </summary>
 	public class PassCardTemplateTranslator : OrganisationItemTranslatorBase<PassCardTemplate, API.PassCardTemplate, API.PassCardTemplateFilter>
 	{
 		DataContractSerializer _serializer;
@@ -28,7 +32,25 @@ namespace SKDDriver.DataClasses
 			get { return Context.PassCardTemplates; }
 		}
 
-		public override API.PassCardTemplate Translate(PassCardTemplate tableItem)
+		public OperationResult<API.PassCardTemplate> GetPassCardTemplate(Guid? uid)
+		{
+			try
+			{
+				if (uid == null)
+					return new OperationResult<API.PassCardTemplate>();
+				var tableItem = GetTableItems().FirstOrDefault(x => x.UID == uid.Value);
+				if(tableItem == null)
+					return new OperationResult<API.PassCardTemplate>();
+				var result =Translate(tableItem);
+				return new OperationResult<API.PassCardTemplate>(result);
+			}
+			catch (System.Exception e)
+			{
+				return OperationResult<API.PassCardTemplate>.FromError(e.Message);
+			}
+		}
+
+		API.PassCardTemplate Translate(PassCardTemplate tableItem)
 		{
 			if (tableItem == null)
 				return null;
@@ -48,11 +70,29 @@ namespace SKDDriver.DataClasses
 				tableItem.Data = ms.ToArray();
 			}
 		}
+
+		protected override IEnumerable<API.PassCardTemplate> GetAPIItems(IQueryable<PassCardTemplate> tableItems)
+		{
+			throw new NotImplementedException();
+		}
 	}
 
 	public class PassCardTemplateShortTranslator : OrganisationShortTranslatorBase<PassCardTemplate, API.ShortPassCardTemplate, API.PassCardTemplate, API.PassCardTemplateFilter>
 	{
 		public PassCardTemplateShortTranslator(PassCardTemplateTranslator translator) : base(translator) { }
+
+		protected override IEnumerable<API.ShortPassCardTemplate> GetAPIItems(System.Linq.IQueryable<PassCardTemplate> tableItems)
+		{
+			return tableItems.Select(tableItem => new API.ShortPassCardTemplate
+			{
+				UID = tableItem.UID,
+				Name = tableItem.Name,
+				Description = tableItem.Description,
+				IsDeleted = tableItem.IsDeleted,
+				RemovalDate = tableItem.RemovalDate != null ? tableItem.RemovalDate.Value : new DateTime(),
+				OrganisationUID = tableItem.OrganisationUID != null ? tableItem.OrganisationUID.Value : Guid.Empty
+			});
+		}
 	}
 
 	public class PassCardTemplateAsyncTranslator : AsyncTranslator<PassCardTemplate, API.ShortPassCardTemplate, API.PassCardTemplateFilter>

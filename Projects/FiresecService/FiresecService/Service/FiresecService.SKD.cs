@@ -8,6 +8,7 @@ using FiresecAPI.Journal;
 using FiresecAPI.SKD;
 using GKProcessor;
 using SKDDriver;
+using System.Diagnostics;
 
 namespace FiresecService.Service
 {
@@ -149,7 +150,7 @@ namespace FiresecService.Service
 			AddJournalMessage(JournalEventNameType.Удаление_отдела, department.Name, uid: department.UID);	
 			foreach (var childDepartment in department.ChildDepartments)
 			{
-				AddJournalMessage(JournalEventNameType.Удаление_отдела, childDepartment.Value, uid: childDepartment.Key);	
+				AddJournalMessage(JournalEventNameType.Удаление_отдела, childDepartment.Name, uid: childDepartment.UID);	
 			}
 			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
@@ -170,7 +171,7 @@ namespace FiresecService.Service
 			AddJournalMessage(JournalEventNameType.Восстановление_отдела, department.Name, uid: department.UID);
 			foreach (var parent in department.ParentDepartments)
 			{
-				AddJournalMessage(JournalEventNameType.Восстановление_отдела, parent.Value, uid: parent.Key);
+				AddJournalMessage(JournalEventNameType.Восстановление_отдела, parent.Name, uid: parent.UID);
 			}
 			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
@@ -244,10 +245,16 @@ namespace FiresecService.Service
 		#region Card
 		public OperationResult<List<SKDCard>> GetCards(CardFilter filter)
 		{
+			var result = new OperationResult<List<SKDCard>>();
+			var stopwatch = new Stopwatch();
+			stopwatch.Start();
 			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
-				return databaseService.CardTranslator.Get(filter);
+				result = databaseService.CardTranslator.Get(filter);
 			}
+			stopwatch.Stop();
+			Trace.WriteLine("GetCards " + stopwatch.Elapsed);
+			return result;
 		}
 		public OperationResult<SKDCard> GetSingleCard(Guid uid)
 		{
@@ -685,7 +692,7 @@ namespace FiresecService.Service
 		{
 			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
-				return databaseService.PassCardTemplateTranslator.GetSingle(uid);
+				return databaseService.PassCardTemplateTranslator.GetPassCardTemplate(uid);
 			}
 		}
 		public OperationResult<bool> SavePassCardTemplate(PassCardTemplate item, bool isNew)
@@ -758,7 +765,6 @@ namespace FiresecService.Service
 			}
 		}
 		#endregion
-		
 
 		public OperationResult SaveJournalVideoUID(Guid journalItemUID, Guid videoUID, Guid cameraUID)
 		{
@@ -775,7 +781,6 @@ namespace FiresecService.Service
 				return databaseService.JournalTranslator.SaveCameraUID(journalItemUID, CameraUID);
 			}
 		}
-
 
 		#region GKSchedule
 		/// <summary>

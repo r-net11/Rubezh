@@ -104,8 +104,8 @@ namespace SKDModule.ViewModels
 			Phone = Employee.Phone;
 			if (IsEmployee)
 			{
-				SelectedPosition = Employee.Position;
-				SelectedSchedule = Employee.Schedule;
+				SelectedPosition = new EmployeeItem { Name = Employee.PositionName, UID = Employee.PositionUID, IsDeleted = Employee.IsPositionDeleted };
+				SelectedSchedule = new EmployeeItem { Name = Employee.ScheduleName, UID = Employee.ScheduleUID, IsDeleted = Employee.IsScheduleDeleted };
 				ScheduleStartDate = Employee.ScheduleStartDate;
 				CredentialsStartDate = Employee.CredentialsStartDate;
 				TabelNo = Employee.TabelNo;
@@ -117,7 +117,7 @@ namespace SKDModule.ViewModels
 				SelectedEscort = EmployeeHelper.GetSingleShort(Employee.EscortUID);
 				Description = Employee.Description;
 			}
-			SelectedDepartment = Employee.Department;
+			SelectedDepartment = new EmployeeItem { Name = Employee.DepartmentName, UID = Employee.DepartmentUID, IsDeleted = Employee.IsDepartmentDeleted };
 			TextColumns = new List<TextColumnViewModel>();
 			GraphicsColumns = new List<IGraphicsColumnViewModel>();
 			GraphicsColumns.Add(new PhotoColumnViewModel(Employee.Photo));
@@ -127,7 +127,7 @@ namespace SKDModule.ViewModels
 			{
 				foreach (var columnType in additionalColumnTypes)
 				{
-					var columnValue = Employee.AdditionalColumns.FirstOrDefault(x => x.AdditionalColumnType.UID == columnType.UID);
+					var columnValue = Employee.AdditionalColumns.FirstOrDefault(x => x.AdditionalColumnTypeUID == columnType.UID);
 					if (columnType.DataType == AdditionalColumnDataType.Text)
 						TextColumns.Add(new TextColumnViewModel(columnType, Employee, columnValue));
 					if (columnType.DataType == AdditionalColumnDataType.Graphics)
@@ -160,9 +160,9 @@ namespace SKDModule.ViewModels
 					result.DepartmentName = SelectedDepartment.Name;
 				if (SelectedPosition != null)
 					result.PositionName = SelectedPosition.Name;
-				foreach (var item in Employee.AdditionalColumns.Where(x => x.AdditionalColumnType.DataType == AdditionalColumnDataType.Text))
+				foreach (var item in Employee.AdditionalColumns.Where(x => x.DataType == AdditionalColumnDataType.Text))
 				{
-					result.TextColumns.Add(new TextColumn { ColumnTypeUID = item.AdditionalColumnType.UID, Text = item.TextData });
+					result.TextColumns.Add(new TextColumn { ColumnTypeUID = item.AdditionalColumnTypeUID, Text = item.TextData });
 				}
 				return result;
 			}
@@ -175,9 +175,9 @@ namespace SKDModule.ViewModels
 		{
 			get { return IsEmployee && _canEditPosition ; } 
 		}
-		
-		ShortDepartment selectedDepartment;
-		public ShortDepartment SelectedDepartment
+
+		EmployeeItem selectedDepartment;
+		public EmployeeItem SelectedDepartment
 		{
 			get { return selectedDepartment; }
 			private set
@@ -190,7 +190,7 @@ namespace SKDModule.ViewModels
 
 		public bool HasSelectedDepartment
 		{
-			get { return SelectedDepartment != null && !SelectedDepartment.IsDeleted; }
+			get { return EmployeeItem.IsNotNullOrEmpty(SelectedDepartment); }
 		}
 
 		ShortEmployee selectedEscort;
@@ -210,8 +210,8 @@ namespace SKDModule.ViewModels
 			get { return SelectedEscort != null && !SelectedEscort.IsDeleted; }
 		}
 
-		ShortPosition _selectedPosition;
-		public ShortPosition SelectedPosition
+		EmployeeItem _selectedPosition;
+		public EmployeeItem SelectedPosition
 		{
 			get { return _selectedPosition; }
 			set
@@ -223,11 +223,11 @@ namespace SKDModule.ViewModels
 		}
 		public bool HasSelectedPosition
 		{
-			get { return SelectedPosition != null && !SelectedPosition.IsDeleted; }
+			get { return EmployeeItem.IsNotNullOrEmpty(SelectedPosition); }
 		}
 
-		Schedule _selectedSchedule;
-		public Schedule SelectedSchedule
+		EmployeeItem _selectedSchedule;
+		public EmployeeItem SelectedSchedule
 		{
 			get { return _selectedSchedule; }
 			private set
@@ -240,7 +240,7 @@ namespace SKDModule.ViewModels
 		}
 		public bool HasSelectedSchedule
 		{
-			get { return SelectedSchedule != null && !SelectedSchedule.IsDeleted; }
+			get { return EmployeeItem.IsNotNullOrEmpty(SelectedSchedule); }
 		}
 
 		DateTime _scheduleStartDate;
@@ -610,11 +610,19 @@ namespace SKDModule.ViewModels
 			var scheduleSelectionViewModel = new ScheduleSelectionViewModel(Employee, SelectedSchedule, ScheduleStartDate);
 			if (DialogService.ShowModalWindow(scheduleSelectionViewModel))
 			{
-				SelectedSchedule = scheduleSelectionViewModel.SelectedSchedule;
-				if (SelectedSchedule != null)
+				if (scheduleSelectionViewModel.SelectedSchedule != null)
 				{
+					SelectedSchedule = new EmployeeItem
+					{
+						Name = scheduleSelectionViewModel.SelectedSchedule.Name,
+						UID = scheduleSelectionViewModel.SelectedSchedule.UID,
+						IsDeleted = scheduleSelectionViewModel.SelectedSchedule.IsDeleted
+					};
 					ScheduleStartDate = scheduleSelectionViewModel.StartDate;
 				}
+				else
+					SelectedSchedule = null;
+				
 			}
 		}
 
@@ -655,7 +663,15 @@ namespace SKDModule.ViewModels
 			departmentSelectionViewModel.Initialize();
 			if (DialogService.ShowModalWindow(departmentSelectionViewModel))
 			{
-				SelectedDepartment = departmentSelectionViewModel.SelectedDepartment != null ? departmentSelectionViewModel.SelectedDepartment.Department : null;
+				if(departmentSelectionViewModel.SelectedDepartment != null)
+					SelectedDepartment = new EmployeeItem 
+					{ 
+						Name = departmentSelectionViewModel.SelectedDepartment.Department.Name, 
+						UID = departmentSelectionViewModel.SelectedDepartment.Department.UID, 
+						IsDeleted = departmentSelectionViewModel.SelectedDepartment.Department.IsDeleted 
+					};
+				else
+					SelectedDepartment = null; 
 			}
 		}
 
@@ -665,7 +681,15 @@ namespace SKDModule.ViewModels
 			var positionSelectionViewModel = new PositionSelectionViewModel(Employee, SelectedPosition);
 			if (DialogService.ShowModalWindow(positionSelectionViewModel))
 			{
-				SelectedPosition = positionSelectionViewModel.SelectedPosition;
+				if (positionSelectionViewModel.SelectedPosition != null)
+					SelectedPosition = new EmployeeItem
+					{
+						Name = positionSelectionViewModel.SelectedPosition.Name,
+						UID = positionSelectionViewModel.SelectedPosition.UID,
+						IsDeleted = positionSelectionViewModel.SelectedPosition.IsDeleted
+					};
+				else
+					SelectedPosition = null; 
 			}
 		}
 
@@ -677,7 +701,7 @@ namespace SKDModule.ViewModels
 				MessageBoxService.Show("Выберите подразделение");
 				return;
 			}
-			var escortSelectionViewModel = new EscortSelectionViewModel(SelectedDepartment, SelectedEscort);
+			var escortSelectionViewModel = new EscortSelectionViewModel(SelectedDepartment.UID, SelectedEscort);
 			if (DialogService.ShowModalWindow(escortSelectionViewModel))
 			{
 				SelectedEscort = escortSelectionViewModel.SelectedEmployee;
@@ -727,23 +751,48 @@ namespace SKDModule.ViewModels
 				}
 			}
 
-			Employee.Department = SelectedDepartment;
-			
+			if (SelectedDepartment != null)
+			{
+				Employee.DepartmentUID = SelectedDepartment.UID;
+				Employee.DepartmentName = SelectedDepartment.Name;
+				Employee.IsDepartmentDeleted = SelectedDepartment.IsDeleted;
+			}
+			else
+				Employee.DepartmentUID = Guid.Empty;
+
 			if (IsEmployee)
 			{
-				Employee.Position = SelectedPosition;
-				Employee.Schedule = SelectedSchedule;
-				Employee.ScheduleStartDate = ScheduleStartDate;
+				if (SelectedPosition != null)
+				{
+					Employee.PositionUID = SelectedPosition.UID;
+					Employee.PositionName = SelectedPosition.Name;
+					Employee.IsPositionDeleted = SelectedPosition.IsDeleted;
+				}
+				else
+					Employee.PositionUID = Guid.Empty;
+
+				if (SelectedSchedule != null)
+				{
+					Employee.ScheduleUID = SelectedSchedule.UID;
+					Employee.ScheduleName = SelectedSchedule.Name;
+					Employee.IsScheduleDeleted = SelectedSchedule.IsDeleted;
+					Employee.ScheduleStartDate = ScheduleStartDate;
+				}
+				else
+					Employee.ScheduleUID = Guid.Empty;
 				Employee.CredentialsStartDate = CredentialsStartDate;
 				Employee.TabelNo = TabelNo;
+				bool isChiefChanged = false ;
 				if (IsOrganisationChief && _organisation.ChiefUID != Employee.UID)
-					OrganisationHelper.SaveChief(_organisation.UID, Employee.UID, _organisation.Name);
+					isChiefChanged = OrganisationHelper.SaveChief(_organisation.UID, Employee.UID, _organisation.Name);
 				else if (_organisation.ChiefUID == Employee.UID && !IsOrganisationChief)
-					OrganisationHelper.SaveChief(_organisation.UID, null, _organisation.Name);
+					isChiefChanged = OrganisationHelper.SaveChief(_organisation.UID, null, _organisation.Name);
 				if (IsOrganisationHRChief && _organisation.HRChiefUID != Employee.UID)
-					OrganisationHelper.SaveHRChief(_organisation.UID, Employee.UID, _organisation.Name);
+					isChiefChanged = OrganisationHelper.SaveHRChief(_organisation.UID, Employee.UID, _organisation.Name);
 				else if (_organisation.HRChiefUID == Employee.UID && !IsOrganisationHRChief)
-					OrganisationHelper.SaveHRChief(_organisation.UID, null, _organisation.Name);
+					isChiefChanged = OrganisationHelper.SaveHRChief(_organisation.UID, null, _organisation.Name);
+				if (isChiefChanged)
+					ServiceFactory.Events.GetEvent<ChiefChangedEvent>().Publish(null);
 			}
 			else
 			{
@@ -762,14 +811,14 @@ namespace SKDModule.ViewModels
 
 		bool IsLaunchEvent()
 		{
-			if ((Employee.Department != null && SelectedDepartment == null) ||
-				(Employee.Position != null && SelectedPosition == null))
+			if ((Employee.DepartmentUID != Guid.Empty && SelectedDepartment == null) ||
+				(Employee.PositionUID != Guid.Empty && SelectedPosition == null))
 				return true;
-			if((Employee.Department == null && SelectedDepartment != null) ||
-				(Employee.Position == null && SelectedPosition != null))
+			if ((Employee.DepartmentUID == Guid.Empty && SelectedDepartment != null) ||
+				(Employee.PositionUID == Guid.Empty && SelectedPosition != null))
 				return true;
-			if ((SelectedDepartment != null && Employee.Department.UID != SelectedDepartment.UID) ||
-				(SelectedPosition != null && Employee.Position.UID != SelectedPosition.UID))
+			if ((SelectedDepartment != null && Employee.DepartmentUID != SelectedDepartment.UID) ||
+				(SelectedPosition != null && Employee.PositionUID != SelectedPosition.UID))
 				return true;
 			return false;
 		}
@@ -826,4 +875,17 @@ namespace SKDModule.ViewModels
 			return true;
 		}	
 	}
+
+	public class EmployeeItem
+	{
+		public Guid UID { get; set; }
+		public string Name { get; set; }
+		public bool IsDeleted { get; set; }
+
+		public static bool IsNotNullOrEmpty(EmployeeItem employeeItem)
+		{
+			return employeeItem != null && employeeItem.UID != Guid.Empty && !employeeItem.IsDeleted;
+		}
+	}
+
 }

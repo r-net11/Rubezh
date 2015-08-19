@@ -39,6 +39,17 @@ namespace SKDModule.ViewModels
 		{
 			var filter = new DayIntervalFilter() { UserUID = FiresecManager.CurrentUser.UID, LogicalDeletationType = LogicalDeletationType };
 			Initialize(filter);
+            foreach (var organisation in Organisations)
+            {
+                var hasDayOff = organisation.Children.Any(x => x.Name == "Выходной");
+                if (!hasDayOff)
+                {
+                    var interval = new DayInterval() { Name = "Выходной", DayIntervalParts = new List<DayIntervalPart>(), UID = Guid.NewGuid() };
+                    interval.OrganisationUID = organisation.UID;
+                    Add(interval);
+                    Initialize();
+                }
+            }
 		}
 
 		protected override void OnEditOrganisation(Organisation newOrganisation)
@@ -115,7 +126,8 @@ namespace SKDModule.ViewModels
 					DayIntervalUID = copy.UID,
 					BeginTime = item.BeginTime,
 					EndTime = item.EndTime,
-					TransitionType = item.TransitionType
+					TransitionType = item.TransitionType,
+					Number = item.Number
 				};
 				copy.DayIntervalParts.Add(dayIntervalPart);
 				copy.SlideTime = source.SlideTime;
@@ -149,5 +161,17 @@ namespace SKDModule.ViewModels
 		{
 			return dbCallbackResult.DayIntervals;
 		}
+        protected override bool CanEdit()
+        {
+            return base.CanEdit() && SelectedItem.Name != "Выходной";
+        }
+        protected override bool CanCopy()
+        {
+            return base.CanCopy() && SelectedItem.Name != "Выходной";
+        }
+        protected override bool CanRemove()
+        {
+            return base.CanRemove() && SelectedItem.Name != "Выходной";
+        }
 	}
 }

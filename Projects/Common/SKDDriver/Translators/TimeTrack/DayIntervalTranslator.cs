@@ -9,7 +9,7 @@ namespace SKDDriver.DataClasses
 {
 	public class DayIntervalTranslator : OrganisationItemTranslatorBase<DayInterval, API.DayInterval, API.DayIntervalFilter>
 	{
-		int _daySeconds = 86400;
+		TimeSpan _daySeconds = new TimeSpan(1, 0, 0, 0);// 86400;
 
 		public DayIntervalTranslator(DbService context)
 			: base(context)
@@ -29,47 +29,20 @@ namespace SKDDriver.DataClasses
 			return base.GetTableItems().Include(x => x.DayIntervalParts);
 		}
 
-		public override API.DayInterval Translate(DayInterval tableItem)
-		{
-			var result = base.Translate(tableItem);
-			if (result == null)
-				return null;
-			result.SlideTime = TimeSpan.FromSeconds(tableItem.SlideTime);
-			result.DayIntervalParts = tableItem.DayIntervalParts.Select(x => TranslatePart(x)).ToList();
-			return result;
-		}
-
 		public override void TranslateBack(API.DayInterval apiItem, DayInterval tableItem)
 		{
 			base.TranslateBack(apiItem, tableItem);
-			tableItem.SlideTime = (int)apiItem.SlideTime.TotalSeconds;
+			tableItem.SlideTime = apiItem.SlideTime;
 			tableItem.DayIntervalParts = apiItem.DayIntervalParts.Select(x => TranslatePartBack(x)).ToList();
-		}
-
-		API.DayIntervalPart TranslatePart(DayIntervalPart tableItem)
-		{
-			var apiItem = new API.DayIntervalPart { UID = tableItem.UID, DayIntervalUID = tableItem.DayIntervalUID.Value };
-			if (tableItem.EndTime > _daySeconds)
-			{
-				apiItem.TransitionType = API.DayIntervalPartTransitionType.Night;
-				apiItem.BeginTime = TimeSpan.FromSeconds(tableItem.BeginTime);
-				apiItem.EndTime = TimeSpan.FromSeconds(tableItem.EndTime - _daySeconds);
-			}
-			else
-			{
-				apiItem.TransitionType = API.DayIntervalPartTransitionType.Day;
-				apiItem.BeginTime = TimeSpan.FromSeconds(tableItem.BeginTime);
-				apiItem.EndTime = TimeSpan.FromSeconds(tableItem.EndTime);
-			}
-			return apiItem;
 		}
 
 		DayIntervalPart TranslatePartBack(API.DayIntervalPart apiItem)
 		{
 			var tableItem = new DayIntervalPart();
 			tableItem.UID = apiItem.UID;
-			tableItem.BeginTime = (int)apiItem.BeginTime.TotalSeconds;
-			tableItem.EndTime = (int)apiItem.EndTime.TotalSeconds;
+			tableItem.BeginTime = apiItem.BeginTime;
+			tableItem.EndTime = apiItem.EndTime;
+			tableItem.Number = apiItem.Number;
 			if (apiItem.TransitionType == API.DayIntervalPartTransitionType.Night)
 			{
 				tableItem.EndTime += _daySeconds;
@@ -79,26 +52,38 @@ namespace SKDDriver.DataClasses
 
 		protected override OperationResult<bool> CanSave(API.DayInterval dayInterval)
 		{
-			var baseResult = base.CanSave(dayInterval);
-			if (baseResult.HasError)
-				return baseResult;
+			if (dayInterval == null)
+				return OperationResult<bool>.FromError("Попытка сохранить пустую запись");
+			if (dayInterval.UID == Guid.Empty)
+				return OperationResult<bool>.FromError("Не указана организация");
+			bool hasSameName = Table.Any(x => x.OrganisationUID==dayInterval.OrganisationUID&&x.Name == dayInterval.Name &&
+				x.OrganisationUID == dayInterval.OrganisationUID &&
+				x.UID != dayInterval.UID);
+			if (hasSameName)
+				return OperationResult<bool>.FromError("Запись с таким же названием уже существует");
 			var intervals = dayInterval.DayIntervalParts;
 			foreach (var item in intervals)
 			{
 				var beginTime = item.BeginTime;
 				var endTime = item.EndTime;
 				if (item.TransitionType != API.DayIntervalPartTransitionType.Day)
-					endTime.Add(TimeSpan.FromSeconds(_daySeconds));
+					endTime = endTime.Add(_daySeconds);
 				if (beginTime == endTime)
 					return OperationResult<bool>.FromError("Интервал не может иметь нулевую длительность");
 				var otherIntervals = intervals.Where(x => x.UID != item.UID);
-				if (otherIntervals.Count() == 0 && item.BeginTime.TotalSeconds >= _daySeconds)
+				if (otherIntervals.Count() == 0 && item.BeginTime >= _daySeconds)
 					return OperationResult<bool>.FromError("Последовательность интервалов не может начинаться со следующего дня");
 				if (beginTime > endTime)
 					return OperationResult<bool>.FromError("Время окончания интервала должно быть позже времени начала");
 				foreach (var interval in otherIntervals)
-					if ((interval.BeginTime >= beginTime && interval.BeginTime <= endTime) || (interval.EndTime >= beginTime && interval.EndTime <= endTime))
+				{
+					var otherBeginTime = interval.BeginTime;
+					var otherEndTime = interval.EndTime;
+					if (interval.TransitionType!=API.DayIntervalPartTransitionType.Day)
+						otherEndTime = otherEndTime.Add(_daySeconds);
+					if ((otherBeginTime >= beginTime && otherBeginTime <= endTime) || (otherEndTime >= beginTime && otherEndTime <= endTime))
 						return OperationResult<bool>.FromError("Последовательность интервалов не должна быть пересекающейся");
+				}
 			}
 			return new OperationResult<bool>(true);
 		}
@@ -106,6 +91,29 @@ namespace SKDDriver.DataClasses
 		protected override void ClearDependentData(DayInterval tableItem)
 		{
 			Context.DayIntervalParts.RemoveRange(tableItem.DayIntervalParts);
+		}
+
+		protected override IEnumerable<API.DayInterval> GetAPIItems(IQueryable<DayInterval> tableItems)
+		{
+			return tableItems.Select(tableItem => new API.DayInterval
+			{
+				UID = tableItem.UID,
+				Name = tableItem.Name,
+				Description = tableItem.Description,
+				IsDeleted = tableItem.IsDeleted,
+				RemovalDate = tableItem.RemovalDate != null ? tableItem.RemovalDate.Value : new DateTime(),
+				OrganisationUID = tableItem.OrganisationUID != null ? tableItem.OrganisationUID.Value : Guid.Empty,
+				SlideTime = tableItem.SlideTime,
+				DayIntervalParts = tableItem.DayIntervalParts.Select(x => new API.DayIntervalPart
+				{
+					UID = x.UID,
+					DayIntervalUID = x.DayIntervalUID.Value,
+					BeginTime = x.BeginTime,
+					Number = x.Number,
+					TransitionType = x.EndTime >= _daySeconds ? API.DayIntervalPartTransitionType.Night : API.DayIntervalPartTransitionType.Day,
+					EndTime = x.EndTime >= _daySeconds ? DbFunctions.AddSeconds(x.EndTime, -(int)_daySeconds.TotalSeconds).Value : x.EndTime
+				}).ToList()
+			});
 		}
 	}
 

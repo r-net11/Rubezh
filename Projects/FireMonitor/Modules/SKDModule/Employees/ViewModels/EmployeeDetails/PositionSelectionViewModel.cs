@@ -16,7 +16,7 @@ namespace SKDModule.ViewModels
 	{
 		Guid OrganisationUID;
 		
-		public PositionSelectionViewModel(Employee employee, ShortPosition shortPosition)
+		public PositionSelectionViewModel(Employee employee, EmployeeItem employeePosition)
 		{
 			Title = "Выбор должности";
 			OrganisationUID = employee.OrganisationUID;
@@ -32,9 +32,9 @@ namespace SKDModule.ViewModels
 					Positions.Add(position);
 				}
 			}
-			if (shortPosition != null)
+			if (employeePosition != null)
 			{
-				SelectedPosition = Positions.FirstOrDefault(x => x.UID == shortPosition.UID);
+				SelectedPosition = Positions.FirstOrDefault(x => x.UID == employeePosition.UID);
 			}
 		}
 

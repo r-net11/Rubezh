@@ -56,5 +56,8 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public List<Guid> GKControllerUIDs { get; set; }
+
+		public int NumberInt { set { Number = (uint)value; } }
+
 	}
 }

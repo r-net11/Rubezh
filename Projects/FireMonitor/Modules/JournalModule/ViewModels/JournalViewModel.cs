@@ -41,7 +41,6 @@ namespace JournalModule.ViewModels
 
 		public void SetJournalItems(List<JournalItem> journalItems)
 		{
-			journalItems.Reverse();
 			JournalItems = new ObservableCollection<JournalItemViewModel>();
 			foreach (var journalItem in journalItems)
 			{

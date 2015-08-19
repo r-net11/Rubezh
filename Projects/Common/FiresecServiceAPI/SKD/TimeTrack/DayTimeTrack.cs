@@ -232,7 +232,7 @@ namespace FiresecAPI.SKD
 				{
 					timeTrackPart.TimeTrackPartType = TimeTrackType.Absence;
 
-					if (RealTimeTrackParts.Any(x => x.StartTime <= startTime && x.EndTime >= endTime) && IsOnlyFirstEnter)
+					if (RealTimeTrackParts.Any(x => x.StartTime >= firstPlanned && x.EndTime <= lastPlanned) && IsOnlyFirstEnter)
 					{
 						timeTrackPart.TimeTrackPartType = TimeTrackType.AbsenceInsidePlan;
 					}
@@ -250,6 +250,7 @@ namespace FiresecAPI.SKD
 							{
 								timeTrackPart.TimeTrackPartType = TimeTrackType.Late;
 							}
+                            else timeTrackPart.TimeTrackPartType = TimeTrackType.AbsenceInsidePlan;
 						}
 					}
 
@@ -266,6 +267,7 @@ namespace FiresecAPI.SKD
 							{
 								timeTrackPart.TimeTrackPartType = TimeTrackType.EarlyLeave;
 							}
+                            else timeTrackPart.TimeTrackPartType = TimeTrackType.AbsenceInsidePlan;
 						}
 					}
 				}
@@ -534,7 +536,7 @@ namespace FiresecAPI.SKD
 					break;
 
 				case TimeTrackType.Holiday:
-					LetterCode = "В";
+					LetterCode = "П";
 					break;
 
 				case TimeTrackType.DocumentOvertime:

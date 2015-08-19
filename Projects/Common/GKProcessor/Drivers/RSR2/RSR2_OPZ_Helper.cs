@@ -32,11 +32,9 @@ namespace GKProcessor
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Failure);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Off);
 
-
 			driver.AvailableCommandBits.Add(GKStateBit.TurnOn_InManual);
 			driver.AvailableCommandBits.Add(GKStateBit.TurnOnNow_InManual);
 			driver.AvailableCommandBits.Add(GKStateBit.TurnOff_InManual);
-
 
 			GKDriversHelper.AddIntProprety(driver, 0, "Задержка на включение, с", 0, 0, 65535);
 			GKDriversHelper.AddIntProprety(driver, 1, "Время удержания, с", 0, 0, 65535);

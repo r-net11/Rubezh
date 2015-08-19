@@ -158,6 +158,15 @@ namespace FiresecAPI.GK
 		GKIndicatorsGroup = 77,
 
 		[Description("Группа реле")]
-		GKRelaysGroup = 78
+		GKRelaysGroup = 78,
+
+		[Description("Оповещатель свето-звуковой")]
+		RSR2_OPSZ = 79,
+
+		[Description("Звуковой оповещатель комбинированный")]
+		RSR2_OPKS = 80,
+
+		[Description("Световой оповещатель комбинированный")]
+		RSR2_OPKZ = 81,
 	}
 }

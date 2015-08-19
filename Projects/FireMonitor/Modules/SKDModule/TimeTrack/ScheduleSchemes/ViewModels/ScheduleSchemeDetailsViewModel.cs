@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using FiresecAPI.SKD;
@@ -50,6 +51,8 @@ namespace SKDModule.ViewModels
 				{
 					OrganisationUID = Organisation.UID
 				};
+				var v = _parentViewModel.GetDayIntervals(Organisation.UID).FirstOrDefault(x => x.Name == "Выходной");
+				Model.DayIntervals.Add(new ScheduleDayInterval(){Number =1, ScheduleSchemeUID=Guid.NewGuid(), DayIntervalName = v.Name, DayIntervalUID = v.UID});
 			}
 			else
 			{
@@ -123,7 +126,7 @@ namespace SKDModule.ViewModels
 				switch (SelectedScheduleSchemeType)
 				{
 					case ScheduleSchemeType.Month:
-						Model.DaysCount = 31;
+							Model.DaysCount = 31;
 						break;
 					case ScheduleSchemeType.SlideDay:
 						Model.DaysCount = 1;
@@ -132,13 +135,19 @@ namespace SKDModule.ViewModels
 						Model.DaysCount = 7;
 						break;
 				}
+                var dayIntervals = _parentViewModel.GetDayIntervals(Organisation.UID);
 				for (int i = 0; i < Model.DaysCount; i++)
-					Model.DayIntervals.Add(new ScheduleDayInterval()
+				{
+					var scheduleDayInterval = new ScheduleDayInterval()
 					{
 						Number = i,
 						ScheduleSchemeUID = Model.UID,
-						DayInterval = CanSelectDayInterval && Model.DaysCount - i > 2 ? SelectedDayInterval : null,
-					});
+					};
+					var dayInterval = SelectedDayInterval != null && CanSelectDayInterval && Model.DaysCount - i > 2 ? SelectedDayInterval : DayIntervals.FirstOrDefault(x => x.Name == "Выходной");
+					scheduleDayInterval.DayIntervalUID = SelectedDayInterval.UID;
+					scheduleDayInterval.DayIntervalName = SelectedDayInterval.Name;
+					Model.DayIntervals.Add(scheduleDayInterval);
+				}
 				Model.Type = SelectedScheduleSchemeType;
 			}
 			if (!DetailsValidateHelper.Validate(Model))

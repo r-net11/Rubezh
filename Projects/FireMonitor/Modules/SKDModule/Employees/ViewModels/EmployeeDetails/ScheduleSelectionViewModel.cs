@@ -12,7 +12,7 @@ namespace SKDModule.ViewModels
 	{
 		public Employee Employee { get; private set; }
 
-		public ScheduleSelectionViewModel(Employee employee, Schedule shortSchedule, DateTime startDate)
+		public ScheduleSelectionViewModel(Employee employee, EmployeeItem employeeSchedule, DateTime startDate)
 		{
 			Title = "Выбор графика работы";
 			Employee = employee;
@@ -27,9 +27,9 @@ namespace SKDModule.ViewModels
 					Schedules.Add(schedule);
 				}
 			}
-			if (shortSchedule != null)
+			if (employeeSchedule != null)
 			{
-				SelectedSchedule = Schedules.FirstOrDefault(x => x.UID == shortSchedule.UID);
+				SelectedSchedule = Schedules.FirstOrDefault(x => x.UID == employeeSchedule.UID);
 			}
 		}
 

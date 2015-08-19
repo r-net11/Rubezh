@@ -37,8 +37,6 @@ namespace SKDModule.ViewModels
 		{
 			EditFilterCommand = new RelayCommand(OnEditFilter);
 			ChangeIsDeletedCommand = new RelayCommand(OnChangeIsDeleted);
-			ServiceFactory.Events.GetEvent<UserChangedEvent>().Unsubscribe(OnUserChanged);
-			ServiceFactory.Events.GetEvent<UserChangedEvent>().Subscribe(OnUserChanged);
 
 			EmployeesViewModel = new EmployeesViewModel();
 			DepartmentsViewModel = new DepartmentsViewModel();
@@ -286,14 +284,13 @@ namespace SKDModule.ViewModels
 				LogicalDeletationType = Filter.LogicalDeletationType 
 			};
 			InitializeEmployeeFilter();
-            
-            
-            DepartmentsViewModel.Initialize(DepartmentFilter);
-            PositionsViewModel.Initialize(PositionFilter);
-            AdditionalColumnTypesViewModel.Initialize(AdditionalColumnTypeFilter);
+
+			DepartmentsViewModel.Initialize(DepartmentFilter);
+			PositionsViewModel.Initialize(PositionFilter);
+			AdditionalColumnTypesViewModel.Initialize(AdditionalColumnTypeFilter);
 			CardsViewModel.Initialize(CardFilter);
-            AccessTemplatesViewModel.Initialize(AccessTemplateFilter);
-            PassCardTemplatesViewModel.Initialize(PassCardTemplateFilter);
+			AccessTemplatesViewModel.Initialize(AccessTemplateFilter);
+			PassCardTemplatesViewModel.Initialize(PassCardTemplateFilter);
             OrganisationsViewModel.Initialize(Filter.LogicalDeletationType);
 			EmployeesViewModel.Initialize(EmployeeFilter);
             
@@ -310,25 +307,6 @@ namespace SKDModule.ViewModels
 			EmployeeFilter.ClientUID = EmployeesViewModel.DbCallbackResultUID; 
 			EmployeeFilter.IsLoad = true;
         }
-		
-		void OnUserChanged(UserChangedEventArgs args)
-		{
-			PersonTypes = new ObservableCollection<PersonType>();
-			if (FiresecManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_Employees_View))
-				PersonTypes.Add(PersonType.Employee);
-			if (FiresecManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_Guests_View))
-				PersonTypes.Add(PersonType.Guest);
-			_selectedPersonType = PersonTypes.FirstOrDefault();
-			CanSelectPersonType = PersonTypes.Count == 2;
-			OnPropertyChanged(() => CanSelectEmployees);
-			OnPropertyChanged(() => CanSelectPositions);
-			OnPropertyChanged(() => CanSelectDepartments);
-			OnPropertyChanged(() => CanSelectAdditionalColumns);
-			OnPropertyChanged(() => CanSelectCards);
-			OnPropertyChanged(() => CanSelectAccessTemplates);
-			OnPropertyChanged(() => CanSelectPassCardTemplates);
-			OnPropertyChanged(() => CanSelectOrganisations);
-		}
 
 		void BeginGetAsync()
 		{

@@ -82,7 +82,7 @@ namespace SKDModule.ViewModels
 
 		protected override Guid GetParentUID(Employee employee)
 		{
-			return employee.Department != null ? employee.Department.UID : Guid.Empty;
+			return employee.DepartmentUID;
 		}
 
 		#region Commands
@@ -94,6 +94,7 @@ namespace SKDModule.ViewModels
 			SelectedEmployee.IsChief = true;
 			DepartmentHelper.SaveChief(_parent.UID, SelectedEmployee.Employee.UID, _parent.Name);
 			UpdateCanSet();
+			ServiceFactory.Events.GetEvent<ChiefChangedEvent>().Publish(null);
 		}
 		public bool CanSetChief
 		{
@@ -112,6 +113,7 @@ namespace SKDModule.ViewModels
 			Chief.IsChief = false;
 			DepartmentHelper.SaveChief(_parent.UID, null, _parent.Name);
 			UpdateCanSet();
+			ServiceFactory.Events.GetEvent<ChiefChangedEvent>().Publish(null);
 		}
 		public bool CanUnSetChief
 		{

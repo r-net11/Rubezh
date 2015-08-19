@@ -1,0 +1,20 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = null;
+}
+
+<div id="HR" data-bind="with: HR">
+    <ul class="tab">
+        <li class="active"><a href="" data-bind="click: function(data,event) { HrPageClick(data, event, 'Employees'); }"><span>Сотрудники</span></a></li>
+        <li><a href=""><span>Посетители</span></a></li>
+        <li><a href=""><span>Подразделения</span></a></li>
+        <li><a href=""><span>Должности</span></a></li>
+        <li><a href=""><span>Дополнительные колонки</span></a></li>
+        <li><a href=""><span>Пропуска</span></a></li>
+        <li><a href=""><span>Шаблоны доступа</span></a></li>
+        <li><a href=""><span>Шаблоны пропусков</span></a></li>
+        <li><a href=""><span>Организации</span></a></li>
+    </ul>
+</div>
+
+<div data-bind="visible:HR.hrPages.Employees">@Html.Action("HrEmployees")</div>

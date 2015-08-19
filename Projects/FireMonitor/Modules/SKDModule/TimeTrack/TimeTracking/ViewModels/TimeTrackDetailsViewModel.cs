@@ -247,7 +247,8 @@ namespace SKDModule.ViewModels
 			var exitTime = timeTrackPartDetailsViewModel.ExitTime;
 			var uid = timeTrackPartDetailsViewModel.UID;
 			return DayTimeTrackParts.Any(x => x.UID != uid && 
-				(x.EnterTimeSpan < enterTime && x.ExitTimeSpan > enterTime || x.EnterTimeSpan < exitTime && x.ExitTimeSpan > exitTime));
+				(x.EnterTimeSpan <= enterTime && x.ExitTimeSpan > enterTime 
+                || x.EnterTimeSpan < exitTime && x.ExitTimeSpan > exitTime));
 		}
 
 		protected override bool Save()

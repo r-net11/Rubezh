@@ -33,7 +33,6 @@ namespace GKProcessor
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Off);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.TurningOff);
 
-
 			driver.AvailableCommandBits.Add(GKStateBit.TurnOn_InManual);
 			driver.AvailableCommandBits.Add(GKStateBit.TurnOnNow_InManual);
 			driver.AvailableCommandBits.Add(GKStateBit.TurnOff_InManual);

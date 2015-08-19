@@ -14,15 +14,16 @@ namespace SKDModule.ViewModels
 	public class DayIntervalViewModel : OrganisationElementViewModel<DayIntervalViewModel, DayInterval>, IEditingViewModel
 	{
 		bool _isInitialized;
-		
-		public DayIntervalViewModel(): base()
+
+		public DayIntervalViewModel()
+			: base()
 		{
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
 			_isInitialized = false;
 		}
-		
+
 		public void Initialize()
 		{
 			if (!_isInitialized)
@@ -36,12 +37,13 @@ namespace SKDModule.ViewModels
 						var dayIntervalPartViewModel = new DayIntervalPartViewModel(dayIntervalPart);
 						DayIntervalParts.Add(dayIntervalPartViewModel);
 					}
+					DayIntervalParts.Sort(item => item.BeginTime);
 					SelectedDayIntervalPart = DayIntervalParts.FirstOrDefault();
 				}
 				OnPropertyChanged(() => DayIntervalParts);
 			}
 		}
-		
+
 		public SortableObservableCollection<DayIntervalPartViewModel> DayIntervalParts { get; private set; }
 
 		DayIntervalPartViewModel _selectedDayIntervalPart;
@@ -59,28 +61,29 @@ namespace SKDModule.ViewModels
 		void OnAdd()
 		{
 			var dayIntervalPartDetailsViewModel = new DayIntervalPartDetailsViewModel(Model);
-			if (DialogService.ShowModalWindow(dayIntervalPartDetailsViewModel) && AddSave(dayIntervalPartDetailsViewModel.DayIntervalPart))
+			if (DialogService.ShowModalWindow(dayIntervalPartDetailsViewModel))
 			{
 				var dayIntervalPart = dayIntervalPartDetailsViewModel.DayIntervalPart;
-				var dayIntervalPartViewModel = new DayIntervalPartViewModel(dayIntervalPart);
-				DayIntervalParts.Add(dayIntervalPartViewModel);
-				DayIntervalParts.Sort(item => item.BeginTime);
-				SelectedDayIntervalPart = dayIntervalPartViewModel;
+				var selected = dayIntervalPart.BeginTime;
+				Model.DayIntervalParts.Add(dayIntervalPart);
+				Sort();
+				DayIntervalHelper.Save(Model, false);
+				SelectedDayIntervalPart = DayIntervalParts.FirstOrDefault(item => item.BeginTime == selected);
 			}
 		}
 		bool CanAdd()
 		{
-			return !IsOrganisation && !IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_DaySchedules_Edit);
+			return !IsOrganisation && !IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_DaySchedules_Edit) && Name != "Выходной";
 		}
 
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			if (DeleteSave(SelectedDayIntervalPart.DayIntervalPart))
-			{
-				Model.DayIntervalParts.Remove(SelectedDayIntervalPart.DayIntervalPart);
-				DayIntervalParts.Remove(SelectedDayIntervalPart);
-			}
+			var dayIntervalPart = SelectedDayIntervalPart.DayIntervalPart;
+			Model.DayIntervalParts.RemoveAll(x => x.UID == dayIntervalPart.UID);
+			Sort();
+			DayIntervalHelper.Save(Model, false);
+			SelectedDayIntervalPart = DayIntervalParts.FirstOrDefault();
 		}
 		bool CanDelete()
 		{
@@ -93,42 +96,39 @@ namespace SKDModule.ViewModels
 			var dayIntervalPartDetailsViewModel = new DayIntervalPartDetailsViewModel(Model, SelectedDayIntervalPart.DayIntervalPart);
 			if (DialogService.ShowModalWindow(dayIntervalPartDetailsViewModel))
 			{
-				EditSave(SelectedDayIntervalPart.DayIntervalPart);
-				SelectedDayIntervalPart.Update();
-				var selectedDayIntervalPart = SelectedDayIntervalPart;
-				DayIntervalParts.Sort(item => item.BeginTime);
-				SelectedDayIntervalPart = selectedDayIntervalPart;
+				var dayIntervalPart = SelectedDayIntervalPart.DayIntervalPart;
+				var selected = dayIntervalPart.BeginTime;
+				var interval = Model.DayIntervalParts.FirstOrDefault(x => x.UID == dayIntervalPart.UID);
+				interval = dayIntervalPart;
+				Sort();
+				DayIntervalHelper.Save(Model, false);
+				SelectedDayIntervalPart = DayIntervalParts.FirstOrDefault(item=>item.BeginTime == selected);
 			}
 		}
 		bool CanEdit()
 		{
 			return SelectedDayIntervalPart != null && !IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_DaySchedules_Edit);
 		}
-
-		bool AddSave(DayIntervalPart dayIntervalPart)
-		{
-			Model.DayIntervalParts.Add(dayIntervalPart);
-			return DayIntervalHelper.Save(Model, false);
-		}
-
-		bool EditSave(DayIntervalPart dayIntervalPart)
-		{
-			Model.DayIntervalParts.RemoveAll(x => x.UID == dayIntervalPart.UID);
-			Model.DayIntervalParts.Add(dayIntervalPart);
-			return DayIntervalHelper.Save(Model, false);
-		}
-
-		bool DeleteSave(DayIntervalPart dayIntervalPart)
-		{
-			Model.DayIntervalParts.RemoveAll(x => x.UID == dayIntervalPart.UID);
-			return DayIntervalHelper.Save(Model, false);
-		}
-
 		public override void Update()
 		{
 			base.Update();
-			if(!IsOrganisation)
+			if (!IsOrganisation)
 				ServiceFactory.Events.GetEvent<EditDayIntervalEvent>().Publish(Model.UID);
+		}
+
+		void Sort()
+		{
+			int i = 1;
+			DayIntervalParts = new SortableObservableCollection<DayIntervalPartViewModel>();
+			Model.DayIntervalParts = Model.DayIntervalParts.OrderBy(item => item.BeginTime).ToList();
+			foreach (var item in Model.DayIntervalParts)
+			{
+				item.Number = i;
+				var dayIntervalPartViewModel = new DayIntervalPartViewModel(item);
+				DayIntervalParts.Add(dayIntervalPartViewModel);
+				i++;
+			}
+			OnPropertyChanged(() => DayIntervalParts);
 		}
 	}
 }

@@ -13,7 +13,13 @@ namespace FiresecAPI.SKD
 		public Photo Photo { get; set; }
 
 		[DataMember]
-		public AdditionalColumnType AdditionalColumnType { get; set; }
+		public Guid AdditionalColumnTypeUID { get; set; }
+
+		[DataMember]
+		public AdditionalColumnDataType DataType { get; set; }
+
+		[DataMember]
+		public string ColumnName { get; set; }
 
 		[DataMember]
 		public string TextData { get; set; }

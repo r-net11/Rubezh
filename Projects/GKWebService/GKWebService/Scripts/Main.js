@@ -5,10 +5,11 @@ function MenuViewModel() {
 
     self.pages = {
         State: ko.observable(false),
-        Report: ko.observable(false),
+        Report: ko.observable(false),                
         Device: ko.observable(false),
         HR: ko.observable(false),
-        Archive: ko.observable(false)
+        Archive: ko.observable(false),
+        Plan: ko.observable(false)
     };
 
     self.StatePageOpened = ko.observable(false);
@@ -19,7 +20,7 @@ function MenuViewModel() {
         }
 
         self.pages[page](!self.pages[page]());
-        $('li').removeClass("active");
+        $('ul.menu li').removeClass("active");
         $(e.currentTarget).parent().addClass("active");
     }
 
@@ -95,8 +96,6 @@ function HeaderIconsViewModel() {
     return self;
 }
 
-
-
 function AppViewModel() {
     var self = this;
     self.Menu = MenuViewModel();
@@ -105,6 +104,9 @@ function AppViewModel() {
 
     self.Menu.Report = ReportViewModel();
     self.Menu.Archive = ArchiveViewModel();
+    self.Menu.HR = HRViewModel();
+
+    return self;
 }
 
 ko.applyBindings(new AppViewModel());

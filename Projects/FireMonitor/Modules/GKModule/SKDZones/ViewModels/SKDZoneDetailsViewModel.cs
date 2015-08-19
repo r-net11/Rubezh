@@ -116,7 +116,10 @@ namespace GKModule.ViewModels
 			};
 			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(showArchiveEventArgs);
 		}
-
+		public bool CanControl
+		{
+			get { return FiresecManager.CheckPermission(PermissionType.Oper_ZonesSKD); }
+		}
 		#region IWindowIdentity Members
 		public string Guid
 		{

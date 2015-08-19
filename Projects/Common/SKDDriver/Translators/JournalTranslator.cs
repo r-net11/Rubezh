@@ -251,7 +251,7 @@ namespace SKDDriver.DataClasses
 			{
 				result = result.Where(x => filter.ObjectUIDs.Contains(x.ObjectUID));
 			}
-			result = result.OrderBy(x => x.SystemDate).Take(filter.LastItemsCount);
+			result = result.OrderByDescending(x => x.SystemDate).Take(filter.LastItemsCount);
 			return result;
 		}
 
@@ -289,11 +289,11 @@ namespace SKDDriver.DataClasses
 			}
 			if (filter.UseDeviceDateTime)
 			{
-				result = result.Where(x => x.DeviceDate > filter.StartDate && x.DeviceDate < filter.EndDate).OrderBy(x => x.DeviceDate);
+				result = result.Where(x => x.DeviceDate > filter.StartDate && x.DeviceDate < filter.EndDate).OrderByDescending(x => x.DeviceDate);
 			}
 			else
 			{
-				result = result.Where(x => x.SystemDate > filter.StartDate && x.SystemDate < filter.EndDate).OrderBy(x => x.SystemDate);
+				result = result.Where(x => x.SystemDate > filter.StartDate && x.SystemDate < filter.EndDate).OrderByDescending(x => x.SystemDate);
 			}
 			return result;
 		}

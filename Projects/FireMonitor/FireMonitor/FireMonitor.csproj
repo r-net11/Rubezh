@@ -119,7 +119,7 @@
     <Compile Include="ViewModels\RestartApplicationViewModel.cs" />
     <Compile Include="ViewModels\SoundViewModel.cs" />
     <Compile Include="ViewModels\ToolbarViewModel.cs" />
-    <Compile Include="ViewModels\UserFotterViewModel.cs" />
+    <Compile Include="ViewModels\ChangeUserViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
     <Compile Include="Views\AutoActivationView.xaml.cs">
       <DependentUpon>AutoActivationView.xaml</DependentUpon>
@@ -131,8 +131,8 @@
     <Compile Include="Views\ToolbarView.xaml.cs">
       <DependentUpon>ToolbarView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\UserFotterView.xaml.cs">
-      <DependentUpon>UserFotterView.xaml</DependentUpon>
+    <Compile Include="Views\ChangeUserView.xaml.cs">
+      <DependentUpon>ChangeUserView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserView.xaml.cs">
       <DependentUpon>UserView.xaml</DependentUpon>
@@ -191,7 +191,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\UserFotterView.xaml">
+    <Page Include="Views\ChangeUserView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

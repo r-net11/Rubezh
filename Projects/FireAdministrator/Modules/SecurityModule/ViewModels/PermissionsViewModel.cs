@@ -92,6 +92,7 @@ namespace SecurityModule.ViewModels
 								new PermissionViewModel(PermissionType.Oper_ScheduleSKD),
 							    new PermissionViewModel(PermissionType.Oper_Device_Control),
 								new PermissionViewModel(PermissionType.Oper_Zone_Control),
+								new PermissionViewModel(PermissionType.Oper_ZonesSKD),
 								new PermissionViewModel("Охранные зоны", new List<PermissionViewModel>()
 								{
 									new PermissionViewModel(PermissionType.Oper_GuardZone_Control),

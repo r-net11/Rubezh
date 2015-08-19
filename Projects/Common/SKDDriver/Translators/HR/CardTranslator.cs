@@ -62,8 +62,8 @@ namespace SKDDriver.DataClasses
 		{
 			try
 			{
-				var tableItems = GetTableItems().ToList();// GetFilteredTableItems(filter, GetTableItems()).ToList();
-				var result = tableItems.Select(x => Translate(x)).ToList();
+				var tableItems = GetFilteredTableItems(filter, GetTableItems());
+				var result = GetAPIItems(tableItems).ToList();
 				return new OperationResult<List<API.SKDCard>>(result);
 			}
 			catch (System.Exception e)
@@ -76,8 +76,8 @@ namespace SKDDriver.DataClasses
 		{
 			try
 			{
-				var tableItems = GetTableItems().Where(x => x.EmployeeUID == employeeUID).ToList();
-				var result = tableItems.Select(x => Translate(x)).ToList();
+				var tableItems = GetTableItems().Where(x => x.EmployeeUID == employeeUID);
+				var result = GetAPIItems(tableItems).ToList();
 				return new OperationResult<List<API.SKDCard>>(result);
 			}
 			catch (System.Exception e)
@@ -90,8 +90,8 @@ namespace SKDDriver.DataClasses
 		{
 			try
 			{
-				var tableItems = GetTableItems().Where(x => x.AccessTemplateUID == accessTemplateUID).ToList();
-				var result = tableItems.Select(x => Translate(x)).ToList();
+				var tableItems = GetTableItems().Where(x => x.AccessTemplateUID == accessTemplateUID);
+				var result = GetAPIItems(tableItems).ToList();
 				return new OperationResult<List<API.SKDCard>>(result);
 			}
 			catch (System.Exception e)
@@ -178,8 +178,8 @@ namespace SKDDriver.DataClasses
 			{
 				if (uid == null)
 					return new OperationResult<API.SKDCard>(null);
-				var tableItem = GetTableItems().FirstOrDefault(x => x.UID == uid);
-				var result = Translate(tableItem);
+				var tableItems = GetTableItems().Where(x => x.UID == uid);
+				var result = GetAPIItems(tableItems).FirstOrDefault();
 				return new OperationResult<API.SKDCard>(result);
 			}
 			catch (System.Exception e)
@@ -205,26 +205,35 @@ namespace SKDDriver.DataClasses
 			}
 		}
 
-		public FiresecAPI.SKD.SKDCard Translate(Card tableItem)
+		IEnumerable<FiresecAPI.SKD.SKDCard> GetAPIItems(IQueryable<Card> tableItems)
 		{
-			return new FiresecAPI.SKD.SKDCard
-			{
-				UID = tableItem.UID,
-				Number = (uint)tableItem.Number,
-				EmployeeUID = tableItem.EmployeeUID,
-				EndDate = tableItem.EndDate,
-				CardDoors = tableItem.CardDoors.Select(x => x.Translate()).ToList(),
-				PassCardTemplateUID = tableItem.PassCardTemplateUID,
-				AccessTemplateUID = tableItem.AccessTemplateUID,
-				GKCardType = (FiresecAPI.GK.GKCardType)tableItem.GKCardType,
-				IsInStopList = tableItem.IsInStopList,
-				StopReason = tableItem.StopReason,
-				EmployeeName = tableItem.Employee != null ? tableItem.Employee.Name : null,
-				OrganisationUID = tableItem.Employee != null ? tableItem.Employee.OrganisationUID.GetValueOrDefault() : Guid.Empty,
-				GKLevel = tableItem.GKLevel,
-				GKLevelSchedule = tableItem.GKLevelSchedule,
-				GKControllerUIDs = tableItem.GKControllerUIDs.Select(x => x.GKControllerUID).ToList()
-			};
+			return tableItems.Select(tableItem =>
+				new FiresecAPI.SKD.SKDCard
+				{
+					UID = tableItem.UID,
+					NumberInt = tableItem.Number,
+					EmployeeUID = tableItem.EmployeeUID,
+					EndDate = tableItem.EndDate,
+					CardDoors = tableItem.CardDoors.Select(x => new FiresecAPI.SKD.CardDoor
+						{
+							UID = x.UID,
+							CardUID = x.CardUID,
+							DoorUID = x.DoorUID,
+							AccessTemplateUID = x.AccessTemplateUID,
+							EnterScheduleNo = x.ExitScheduleNo,
+							ExitScheduleNo = x.EnterScheduleNo
+						}).ToList(),
+					PassCardTemplateUID = tableItem.PassCardTemplateUID,
+					AccessTemplateUID = tableItem.AccessTemplateUID,
+					GKCardType = (FiresecAPI.GK.GKCardType)tableItem.GKCardType,
+					IsInStopList = tableItem.IsInStopList,
+					StopReason = tableItem.StopReason,
+					EmployeeName = tableItem.Employee != null ? tableItem.Employee.LastName + " " + tableItem.Employee.FirstName + " " + tableItem.Employee.SecondName : null,
+					OrganisationUID = tableItem.Employee != null ? tableItem.Employee.OrganisationUID != null ? tableItem.Employee.OrganisationUID.Value : Guid.Empty : Guid.Empty,
+					GKLevel = tableItem.GKLevel,
+					GKLevelSchedule = tableItem.GKLevelSchedule,
+					GKControllerUIDs = tableItem.GKControllerUIDs.Select(x => x.GKControllerUID).ToList()
+				});
 		}
 
 		public void TranslateBack(FiresecAPI.SKD.SKDCard apiItem, Card tableItem)
@@ -391,24 +400,24 @@ namespace SKDDriver.DataClasses
 
 		public event Action<DbCallbackResult> PortionReady;
 
-		public void BeginGet(API.CardFilter filter, Guid uid)
-		{
-			DbService.IsAbort = false;
-			var pageSize = 1000;
-			var portion = new List<API.SKDCard>();
-			int itemNo = 0;
-			foreach (var item in GetFilteredTableItems(filter, GetTableItems()))
-			{
-				itemNo++;
-				portion.Add(Translate(item));
-				if (itemNo % pageSize == 0)
-				{
-					PublishNewItemsPortion(portion, uid, false);
-					portion = new List<API.SKDCard>();
-				}
-			}
-			PublishNewItemsPortion(portion, uid, true);
-		}
+		//public void BeginGet(API.CardFilter filter, Guid uid)
+		//{
+		//	DbService.IsAbort = false;
+		//	var pageSize = 1000;
+		//	var portion = new List<API.SKDCard>();
+		//	int itemNo = 0;
+		//	foreach (var item in GetFilteredTableItems(filter, GetTableItems()))
+		//	{
+		//		itemNo++;
+		//		portion.Add(Translate(item));
+		//		if (itemNo % pageSize == 0)
+		//		{
+		//			PublishNewItemsPortion(portion, uid, false);
+		//			portion = new List<API.SKDCard>();
+		//		}
+		//	}
+		//	PublishNewItemsPortion(portion, uid, true);
+		//}
 	}
 
 	public class CardAsyncTranslator : AsyncTranslator<Card, API.SKDCard, API.CardFilter>

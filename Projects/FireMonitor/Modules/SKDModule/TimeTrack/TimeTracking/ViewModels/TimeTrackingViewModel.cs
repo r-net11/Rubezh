@@ -15,6 +15,8 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using SKDModule.Events;
 using SKDModule.Model;
+using FiresecClient.SKDHelpers;
+using FiresecAPI.Models;
 
 namespace SKDModule.ViewModels
 {
@@ -29,14 +31,14 @@ namespace SKDModule.ViewModels
 			RefreshCommand = new RelayCommand(OnRefresh);
 			PrintCommand = new RelayCommand(OnPrint, CanPrint);
 			ShowDocumentTypesCommand = new RelayCommand(OnShowDocumentTypes);
-			ServiceFactory.Events.GetEvent<UserChangedEvent>().Unsubscribe(OnUserChanged);
-			ServiceFactory.Events.GetEvent<UserChangedEvent>().Subscribe(OnUserChanged);
 			ServiceFactory.Events.GetEvent<EditDocumentEvent>().Unsubscribe(OnEditDocument);
 			ServiceFactory.Events.GetEvent<EditDocumentEvent>().Subscribe(OnEditDocument);
 			ServiceFactory.Events.GetEvent<RemoveDocumentEvent>().Unsubscribe(OnRemoveDocument);
 			ServiceFactory.Events.GetEvent<RemoveDocumentEvent>().Subscribe(OnRemoveDocument);
 			ServiceFactory.Events.GetEvent<EditTimeTrackPartEvent>().Unsubscribe(OnEditTimeTrackPart);
 			ServiceFactory.Events.GetEvent<EditTimeTrackPartEvent>().Subscribe(OnEditTimeTrackPart);
+			ServiceFactory.Events.GetEvent<ChiefChangedEvent>().Unsubscribe(OnInitializeLeadUIDs);
+			ServiceFactory.Events.GetEvent<ChiefChangedEvent>().Subscribe(OnInitializeLeadUIDs);
 
 			TimeTrackFilter = new TimeTrackFilter();
 			TimeTrackFilter.EmployeeFilter = new EmployeeFilter()
@@ -53,6 +55,9 @@ namespace SKDModule.ViewModels
 		}
 
 		SortableObservableCollection<TimeTrackViewModel> _timeTracks;
+		Guid chiefUID;
+		Guid departmentChiefUID;
+		Guid hrChiefUID;
 		public SortableObservableCollection<TimeTrackViewModel> TimeTracks
 		{
 			get { return _timeTracks; }
@@ -102,6 +107,7 @@ namespace SKDModule.ViewModels
 			{
 				UpdateGrid();
 			}
+			OnInitializeLeadUIDs(filterViewModel);
 		}
 
 		public RelayCommand RefreshCommand { get; private set; }
@@ -152,12 +158,12 @@ namespace SKDModule.ViewModels
 				MessageBoxService.ShowWarning("В отчете содержаться данные за несколько месяцев. Будут показаны данные только за первый месяц");
 			}
 
-			var reportSettingsViewModel = new ReportSettingsViewModel(TimeTrackFilter, TimeTrackEmployeeResults);
+			var reportSettingsViewModel = new ReportSettingsViewModel(TimeTrackFilter, TimeTrackEmployeeResults, chiefUID, departmentChiefUID, hrChiefUID);
 			DialogService.ShowModalWindow(reportSettingsViewModel);
 		}
 		bool CanPrint()
 		{
-			return ApplicationService.IsReportEnabled;
+			return ApplicationService.IsReportEnabled && FiresecManager.CheckPermission(PermissionType.Oper_Reports_T13);
 		}
 
 		void UpdateGrid()
@@ -229,12 +235,21 @@ namespace SKDModule.ViewModels
 			DialogService.ShowModalWindow(documentTypesViewModel);
 		}
 
-		void OnUserChanged(UserChangedEventArgs args)
+		public void OnInitializeLeadUIDs(TimeTrackFilterViewModel filterViewModel)
 		{
-			TimeTrackFilter.EmployeeFilter.UserUID = FiresecClient.FiresecManager.CurrentUser.UID;
-			UpdateGrid();
+			if (filterViewModel == null)
+				filterViewModel = new TimeTrackFilterViewModel(TimeTrackFilter);
+			if (filterViewModel.DepartmentsFilterViewModel.UIDs.Count == 1)
+			{
+				Guid depUID = filterViewModel.DepartmentsFilterViewModel.UIDs[0];
+				var department = DepartmentHelper.GetSingleShort(depUID);
+				Guid orgUID = department.OrganisationUID;
+				var organisation = OrganisationHelper.GetSingle(orgUID);
+				chiefUID = organisation.ChiefUID;
+				hrChiefUID = organisation.HRChiefUID;
+				departmentChiefUID = department.ChiefUID;
+			}
 		}
-
 		#region DocumentEvents
 		void OnEditDocument(TimeTrackDocument document)
 		{

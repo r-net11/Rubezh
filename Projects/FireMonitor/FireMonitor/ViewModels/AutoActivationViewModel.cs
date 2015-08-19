@@ -17,9 +17,6 @@ namespace FireMonitor.ViewModels
 		{
 			ChangeAutoActivationCommand = new RelayCommand(OnChangeAutoActivation);
 			ChangePlansAutoActivationCommand = new RelayCommand(OnChangePlansAutoActivation);
-
-			ServiceFactory.Events.GetEvent<UserChangedEvent>().Unsubscribe(OnUserChanged);
-			ServiceFactory.Events.GetEvent<UserChangedEvent>().Subscribe(OnUserChanged);
 		}
 
 		public bool HasPermission
@@ -58,9 +55,5 @@ namespace FireMonitor.ViewModels
 			OnPropertyChanged(() => IsPlansAutoActivation);
 		}
 
-		private void OnUserChanged(UserChangedEventArgs userChangedEventArgs)
-		{
-			OnPropertyChanged(() => HasPermission);
-		}
  	}
 }

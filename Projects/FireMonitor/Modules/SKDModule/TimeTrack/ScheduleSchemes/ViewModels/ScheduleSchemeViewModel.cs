@@ -42,12 +42,6 @@ namespace SKDModule.ViewModels
 			OnPropertyChanged(() => DayIntervals);
 		}
 
-		public void UpdateDayIntervals(DayInterval dayInterval)
-		{
-			var dayIntervals = SheduleDayIntervals.Where(x => x.SelectedDayInterval.UID == dayInterval.UID);
-
-		}
-
 		public SortableObservableCollection<SheduleDayIntervalViewModel> SheduleDayIntervals { get; private set; }
 		public ObservableCollection<DayInterval> DayIntervals
 		{
@@ -78,14 +72,17 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var dayInterval = new ScheduleDayInterval()
+			var dayInterval = DayIntervals.FirstOrDefault(x=>x.Name=="Выходной");
+			var scheduleDayInterval = new ScheduleDayInterval()
 			{
 				Number = Model.DayIntervals.Count,
 				ScheduleSchemeUID = Model.UID,
+				DayIntervalName = dayInterval.Name,
+				DayIntervalUID = dayInterval.UID
 			};
-			if (AddSave(dayInterval))
+			if (AddSave(scheduleDayInterval))
 			{
-				var viewModel = new SheduleDayIntervalViewModel(this, dayInterval);
+				var viewModel = new SheduleDayIntervalViewModel(this, scheduleDayInterval);
 				SheduleDayIntervals.Add(viewModel);
 				Sort();
 				SelectedSheduleDayInterval = viewModel;

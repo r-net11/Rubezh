@@ -1,4 +1,5 @@
 ﻿using FiresecAPI;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.IO;
@@ -36,17 +37,6 @@ namespace SKDDriver.DataClasses
 			return filteredTableItems;
 		}
 
-		public override API.AdditionalColumnType Translate(AdditionalColumnType tableItem)
-		{
-			var result = base.Translate(tableItem);
-			if (result == null)
-				return null;
-			result.DataType = (API.AdditionalColumnDataType)tableItem.DataType;
-			result.PersonType = (API.PersonType)tableItem.PersonType;
-			result.IsInGrid = tableItem.IsInGrid;
-			return result;
-		}
-
 		public override void TranslateBack(API.AdditionalColumnType apiItem, AdditionalColumnType tableItem)
 		{
 			base.TranslateBack(apiItem, tableItem);
@@ -57,6 +47,22 @@ namespace SKDDriver.DataClasses
 				tableItem.PersonType = (int)apiItem.PersonType;
 				tableItem.IsInGrid = apiItem.IsInGrid;
 			}
+		}
+
+		protected override IEnumerable<API.AdditionalColumnType> GetAPIItems(System.Linq.IQueryable<AdditionalColumnType> tableItems)
+		{
+			return tableItems.Select(tableItem => new API.AdditionalColumnType
+			{
+				UID = tableItem.UID,
+				Name = tableItem.Name,
+				Description = tableItem.Description,
+				IsDeleted = tableItem.IsDeleted,
+				RemovalDate = tableItem.RemovalDate != null ? tableItem.RemovalDate.Value : new DateTime(),
+				OrganisationUID = tableItem.OrganisationUID != null ? tableItem.OrganisationUID.Value : Guid.Empty,
+				DataType = (API.AdditionalColumnDataType)tableItem.DataType,
+				PersonType = (API.PersonType)tableItem.PersonType,
+				IsInGrid = tableItem.IsInGrid
+			});
 		}
 	}
 
