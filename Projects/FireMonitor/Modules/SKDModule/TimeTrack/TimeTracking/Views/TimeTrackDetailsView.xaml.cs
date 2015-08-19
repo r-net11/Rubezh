@@ -84,7 +84,7 @@ namespace SKDModule.Views
 				{
 					timeTrackPart.Tooltip = TimePartDateToString(timeTrackPart.StartTime) + " - " + TimePartDateToString(timeTrackPart.EndTime) + "\n" + timeTrackPart.DayName;
 					if (timeTrackPart.StartsInPreviousDay)
-						timeTrackPart.Tooltip += "\n" + "Интервал начинается днем рашьше";
+						timeTrackPart.Tooltip += "\n" + "Интервал начинается днем раньше";
 					if (timeTrackPart.EndsInNextDay)
 						timeTrackPart.Tooltip += "\n" + "Интервал заканчивается днем позже";
 					timeTrackPart.TimeTrackPartType = TimeTrackType.Presence;

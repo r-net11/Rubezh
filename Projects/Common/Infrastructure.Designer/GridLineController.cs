@@ -11,8 +11,8 @@ namespace Infrastructure.Designer
 	public class GridLineController : IGridLineController
 	{
 		private const double DELTA = 20;
-		private double _accamulateX = 0;
-		private double _accamulateY = 0;
+		private double _accumulateX = 0;
+		private double _accumulateY = 0;
 		private DesignerCanvas _canvas;
 		private StreamGeometry _geometry;
 		private RectangleGeometry _clipGeometry;
@@ -63,8 +63,8 @@ namespace Infrastructure.Designer
 
 		public void PullReset()
 		{
-			_accamulateX = 0;
-			_accamulateY = 0;
+			_accumulateX = 0;
+			_accumulateY = 0;
 		}
 		public Vector Pull(Point point)
 		{
@@ -78,6 +78,7 @@ namespace Infrastructure.Designer
 		}
 		public Vector Pull(Vector shift, Rect rect)
 		{
+			System.Diagnostics.Debug.WriteLine(this._accumulateX + ", " + this._accumulateY);
 			if (IsVisible)
 			{
 				var factor = DELTA / _canvas.Zoom;
@@ -99,11 +100,8 @@ namespace Infrastructure.Designer
 							CalculateMinimum(rect.Bottom, shift.Y, gridLine.Position, ref deltaY, ref positionY, ref gridLinePositionY);
 							break;
 					}
-				var secondPass = false;
-				shift.X = Pull(shift.X, factor, deltaX, positionX, gridLinePositionX, ref _accamulateX, ref secondPass);
-				shift.Y = Pull(shift.Y, factor, deltaY, positionY, gridLinePositionY, ref _accamulateY, ref secondPass);
-				if (secondPass)
-					shift = Pull(shift, rect);
+				shift.X = Pull(shift.X, factor, deltaX, positionX, gridLinePositionX, ref _accumulateX);
+				shift.Y = Pull(shift.Y, factor, deltaY, positionY, gridLinePositionY, ref _accumulateY);
 			}
 			return shift;
 		}
@@ -117,31 +115,28 @@ namespace Infrastructure.Designer
 				gridLinePosition = gridLine;
 			}
 		}
-		private double Pull(double shift, double factor, double delta, double position, double gridLinePosition, ref double accamulate, ref bool secondPass)
+		private double Pull(double shift, double factor, double delta, double position, double gridLinePosition, ref double accumulate)
 		{
 			var result = shift;
 			if (Math.Abs(delta) < factor)
 			{
-				if (position == gridLinePosition)
+				// Accumulating Shift Value:
+				accumulate += shift;
+				// Checking if accumulated Value is more than Grid Line's Factor:
+				if (Math.Abs(position + accumulate - gridLinePosition) > factor)
 				{
-					accamulate += shift;
-					if (Math.Abs(position + accamulate - gridLinePosition) > factor)
-					{
-						result = accamulate;
-						accamulate = 0;
-						secondPass = true;
-					}
-					else
-						result = 0;
+					// Moving the Element away from Grid Line:
+					result = accumulate;
+					accumulate = 0;
 				}
 				else
 				{
-					accamulate = (position + shift) - gridLinePosition;
+					// Element is snapped to the Grid Line:
 					result = gridLinePosition - position;
 				}
 			}
 			else
-				accamulate = 0;
+				accumulate = 0;
 			return result;
 		}
 	}
