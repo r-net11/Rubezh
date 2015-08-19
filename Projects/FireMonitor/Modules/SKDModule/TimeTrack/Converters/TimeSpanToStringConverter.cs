@@ -8,11 +8,16 @@ namespace SKDModule.Converters
 		object IValueConverter.Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
 			TimeSpan timeSpan = (TimeSpan)value;
+			string minus = "";
 			var hours = (int)timeSpan.TotalHours;
 			var minutes = (int)timeSpan.Minutes;
-			if (minutes < 0)
+			if (hours < 0 || (hours == 0 && minutes < 0))
+			{
+				hours *= -1;
 				minutes *= -1;
-			return hours.ToString("00") + ":" + minutes.ToString("00");
+				minus = "-";
+			}
+			return minus + hours.ToString("00") + ":" + minutes.ToString("00");
 		}
 
 		object IValueConverter.ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

@@ -7,12 +7,7 @@ using FiresecAPI.Models;
 namespace FiresecClient
 {
 	public partial class SafeFiresecService
-	{
-		public OperationResult<bool> Reconnect(Guid uid, string userName, string password)
-		{
-			return SafeOperationCall(() => { return FiresecService.Reconnect(uid, userName, password); }, "Reconnect");
-		}
-		 
+	{	 
 		public void Disconnect(Guid uid)
 		{
 			SafeOperationCall(() => { FiresecService.Disconnect(uid); }, "Disconnect");

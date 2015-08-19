@@ -250,6 +250,7 @@ namespace FiresecAPI.SKD
 							{
 								timeTrackPart.TimeTrackPartType = TimeTrackType.Late;
 							}
+                            else timeTrackPart.TimeTrackPartType = TimeTrackType.AbsenceInsidePlan;
 						}
 					}
 
@@ -266,6 +267,7 @@ namespace FiresecAPI.SKD
 							{
 								timeTrackPart.TimeTrackPartType = TimeTrackType.EarlyLeave;
 							}
+                            else timeTrackPart.TimeTrackPartType = TimeTrackType.AbsenceInsidePlan;
 						}
 					}
 				}
@@ -534,7 +536,7 @@ namespace FiresecAPI.SKD
 					break;
 
 				case TimeTrackType.Holiday:
-					LetterCode = "В";
+					LetterCode = "П";
 					break;
 
 				case TimeTrackType.DocumentOvertime:

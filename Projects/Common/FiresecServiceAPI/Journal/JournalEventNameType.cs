@@ -19,12 +19,6 @@ namespace FiresecAPI.Journal
 		[EventName(JournalSubsystemType.System, "Выход пользователя из системы", XStateClass.Info)]
         Выход_пользователя_из_системы = 4,
 
-		[EventName(JournalSubsystemType.System, "Дежурство сдал", XStateClass.Info)]
-        Дежурство_сдал = 5,
-
-		[EventName(JournalSubsystemType.System, "Дежурство принял", XStateClass.Info)]
-        Дежурство_принял = 6,
-
 		[EventName(JournalSubsystemType.GK, "Зависание процесса опроса", XStateClass.Unknown)]
         Зависание_процесса_отпроса = 7,
 

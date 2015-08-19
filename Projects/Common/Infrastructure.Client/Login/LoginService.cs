@@ -19,15 +19,6 @@ namespace Infrastructure.Client.Login
 			_clientType = clientType;
 			_title = title ?? "Авторизация";
 		}
-
-		public bool ExecuteConnect(string login = null, string password = null)
-		{
-			return Execute(LoginViewModel.PasswordViewType.Connect, login, password);
-		}
-		public bool ExecuteReconnect()
-		{
-			return Execute(LoginViewModel.PasswordViewType.Reconnect);
-		}
 		public bool ExecuteValidate()
 		{
 			return Execute(LoginViewModel.PasswordViewType.Validate);
@@ -36,7 +27,7 @@ namespace Infrastructure.Client.Login
 		bool Execute(LoginViewModel.PasswordViewType passwordViewType, string login = null, string password = null)
 		{
 			Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
-			var loginViewModel = new LoginViewModel(_clientType, passwordViewType) { Title = _title };
+			var loginViewModel = new LoginViewModel(_clientType, passwordViewType) { Title = _title ,};
 			bool isClientAutoconnect;
 			bool isAutoconnect;
 			
@@ -80,7 +71,6 @@ namespace Infrastructure.Client.Login
 			else
 			{
 				loginViewModel.UserName = Settings.Default.UserName;
-				loginViewModel.Password = Settings.Default.Password;
 			}
 
 			while (!loginViewModel.IsConnected && !loginViewModel.IsCanceled)

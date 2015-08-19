@@ -400,7 +400,8 @@
 [data-bind="visible:pages.Archive"], 
 [data-bind="visible:pages.HR"], 
 [data-bind="visible:pages.State"], 
-[data-bind="visible:pages.Device"] {
+[data-bind="visible:pages.Device"],
+[data-bind="visible:pages.Plan"] {
 	margin:10px 10px 0 0;
 }
 

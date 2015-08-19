@@ -55,37 +55,6 @@ namespace FiresecService.Service
 			return operationResult;
 		}
 
-		public OperationResult<bool> Reconnect(Guid uid, string login, string password)
-		{
-			var clientCredentials = ClientsManager.GetClientCredentials(uid);
-			if (clientCredentials == null)
-			{
-				return OperationResult<bool>.FromError("Не найден пользователь");
-			}
-			InitializeClientCredentials(clientCredentials);
-			var oldUserName = clientCredentials.FriendlyUserName;
-
-			var newClientCredentials = new ClientCredentials()
-			{
-				UserName = login,
-				Password = password,
-				ClientIpAddress = clientCredentials.ClientIpAddress
-			};
-			var operationResult = Authenticate(newClientCredentials);
-			if (operationResult.HasError)
-				return operationResult;
-
-			MainViewModel.Current.EditClient(uid, login);
-			AddJournalMessage(JournalEventNameType.Дежурство_сдал, null, JournalEventDescriptionType.NULL, oldUserName);
-			clientCredentials.UserName = login;
-			SetUserFullName(clientCredentials);
-			AddJournalMessage(JournalEventNameType.Дежурство_принял, null, JournalEventDescriptionType.NULL, clientCredentials.FriendlyUserName);
-
-			CurrentClientCredentials = clientCredentials;
-			operationResult.Result = true;
-			return operationResult;
-		}
-
 		public void Disconnect(Guid uid)
 		{
 			var clientInfo = ClientsManager.GetClientInfo(uid);

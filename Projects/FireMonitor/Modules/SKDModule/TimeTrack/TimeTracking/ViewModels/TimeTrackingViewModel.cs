@@ -31,8 +31,6 @@ namespace SKDModule.ViewModels
 			RefreshCommand = new RelayCommand(OnRefresh);
 			PrintCommand = new RelayCommand(OnPrint, CanPrint);
 			ShowDocumentTypesCommand = new RelayCommand(OnShowDocumentTypes);
-			ServiceFactory.Events.GetEvent<UserChangedEvent>().Unsubscribe(OnUserChanged);
-			ServiceFactory.Events.GetEvent<UserChangedEvent>().Subscribe(OnUserChanged);
 			ServiceFactory.Events.GetEvent<EditDocumentEvent>().Unsubscribe(OnEditDocument);
 			ServiceFactory.Events.GetEvent<EditDocumentEvent>().Subscribe(OnEditDocument);
 			ServiceFactory.Events.GetEvent<RemoveDocumentEvent>().Unsubscribe(OnRemoveDocument);
@@ -237,11 +235,6 @@ namespace SKDModule.ViewModels
 			DialogService.ShowModalWindow(documentTypesViewModel);
 		}
 
-		void OnUserChanged(UserChangedEventArgs args)
-		{
-			TimeTrackFilter.EmployeeFilter.UserUID = FiresecClient.FiresecManager.CurrentUser.UID;
-			UpdateGrid();
-		}
 		public void OnInitializeLeadUIDs(TimeTrackFilterViewModel filterViewModel)
 		{
 			if (filterViewModel == null)

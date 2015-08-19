@@ -141,7 +141,6 @@
     <Compile Include="Events\ShowObject\ShowGKZoneEvent.cs" />
     <Compile Include="Events\SKDReportOrganisationChangedEvent.cs" />
     <Compile Include="Events\SKDReportUseArchiveChangedEvent.cs" />
-    <Compile Include="Events\UserChangedEvent.cs" />
     <Compile Include="Events\ShowGKGuardZoneEvent.cs" />
     <Compile Include="Events\SKDObjectsStateChangedEvent.cs" />
     <Compile Include="Models\ArchiveDefaultState.cs" />

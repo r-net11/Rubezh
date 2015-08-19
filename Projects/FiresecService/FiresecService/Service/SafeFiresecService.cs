@@ -82,11 +82,6 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.Connect(uid, clientCredentials, isNew); }, "Connect");
 		}
 
-		public OperationResult<bool> Reconnect(Guid uid, string userName, string password)
-		{
-			return SafeOperationCall(() => { return FiresecService.Reconnect(uid, userName, password); }, "Reconnect");
-		}
-
 		public void Disconnect(Guid uid)
 		{
 			SafeOperationCall(() => { FiresecService.Disconnect(uid); }, "Disconnect");
