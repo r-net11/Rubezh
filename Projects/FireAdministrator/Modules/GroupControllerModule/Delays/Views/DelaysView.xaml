@@ -62,7 +62,7 @@
 					<DataGridTemplateColumn Width="*" Header="Логика включения">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
-								<TextBlock MinWidth="100" Margin="2" VerticalAlignment="Center" Cursor="Hand" Text="{Binding PresentationLogic}" TextWrapping="NoWrap">
+								<TextBlock Text="{Binding PresentationLogic}" TextWrapping="NoWrap" MinWidth="100" VerticalAlignment="Top" LineHeight="15" Margin="0 3 0 0" Cursor="Hand">
 									<TextBlock.Style>
 										<Style TargetType="TextBlock">
 											<Style.Triggers>

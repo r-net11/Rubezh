@@ -126,10 +126,7 @@ namespace SKDModule.ViewModels
 				switch (SelectedScheduleSchemeType)
 				{
 					case ScheduleSchemeType.Month:
-						{
 							Model.DaysCount = 31;
-						}
-
 						break;
 					case ScheduleSchemeType.SlideDay:
 						Model.DaysCount = 1;
@@ -138,6 +135,7 @@ namespace SKDModule.ViewModels
 						Model.DaysCount = 7;
 						break;
 				}
+                var dayIntervals = _parentViewModel.GetDayIntervals(Organisation.UID);
 				for (int i = 0; i < Model.DaysCount; i++)
 				{
 					var scheduleDayInterval = new ScheduleDayInterval()

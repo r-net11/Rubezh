@@ -80,7 +80,6 @@ namespace SKDModule.ViewModels
 				DayIntervalName = dayInterval.Name,
 				DayIntervalUID = dayInterval.UID
 			};
-			var v = DayIntervals;
 			if (AddSave(scheduleDayInterval))
 			{
 				var viewModel = new SheduleDayIntervalViewModel(this, scheduleDayInterval);

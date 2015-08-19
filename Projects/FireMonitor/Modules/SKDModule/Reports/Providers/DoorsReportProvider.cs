@@ -21,11 +21,9 @@ namespace SKDModule.Reports.Providers
 				{ 
 					{ "Number", "№ точки доступа" },
 					{ "Door", "Название" },
-					{ "Controller", "Контроллер" },
-					{ "IP", "IP - адрес" },
 					{ "Organisation", "Организация" },
-					{ "EnterReader", "Считыватель 1" },
-					{ "ExitReader", "Считыватель 2" },
+					{ "EnterReader", "Устройство вход" },
+					{ "ExitReader", "Устройство  выход" },
 					{ "EnterZone", "Зона 1" },
 					{ "ExitZone", "Зона 2" },
 					{ "Comment", "Примечание" },

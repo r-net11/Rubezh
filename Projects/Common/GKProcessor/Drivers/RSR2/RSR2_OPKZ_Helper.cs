@@ -1,33 +1,30 @@
-using System;
+﻿using System;
 using FiresecAPI.GK;
 
 namespace GKProcessor
 {
-	public static class RSR2_OPZ_Helper
+	class RSR2_OPKZ_Helper
 	{
 		public static GKDriver Create()
 		{
 			var driver = new GKDriver()
 			{
-				DriverTypeNo = 0xE6,
-				DriverType = GKDriverType.RSR2_OPZ,
-				UID = new Guid("24A6FC19-0428-43A9-8B1C-35B748BD202B"),
-				Name = "Оповещатель охранно-пожарный звуковой адресный",
-				ShortName = "ОПЗ-R2",
+				DriverTypeNo = 0xEC,
+				DriverType = GKDriverType.RSR2_OPKZ,
+				UID = new Guid("8a277079-341b-4933-beb7-4e34b58199d7"),
+				Name = "Оповещатель звуковой адресный комбинированный", 
+				ShortName = "ОПКЗ-R2",
 				IsControlDevice = true,
 				HasLogic = true,
-				IsPlaceable = true
+				IsPlaceable = true,
 			};
 
 			driver.AvailableStateBits.Add(GKStateBit.Off);
-			driver.AvailableStateBits.Add(GKStateBit.TurningOn);
-			driver.AvailableStateBits.Add(GKStateBit.TurningOff);
 			GKDriversHelper.AddControlAvailableStates(driver);
 			GKDriversHelper.AddAvailableStateBits(driver, GKStateBit.Test);
 			GKDriversHelper.AddAvailableStateBits(driver, GKStateBit.Failure);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.AutoOff);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.On);
-			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.TurningOn);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Test);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Failure);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Off);
@@ -36,12 +33,11 @@ namespace GKProcessor
 			driver.AvailableCommandBits.Add(GKStateBit.TurnOnNow_InManual);
 			driver.AvailableCommandBits.Add(GKStateBit.TurnOff_InManual);
 
-			GKDriversHelper.AddIntProprety(driver, 0, "Задержка на включение, с", 0, 0, 65535);
-			GKDriversHelper.AddIntProprety(driver, 1, "Время удержания, с", 0, 0, 65535);
+			GKDriversHelper.AddIntProprety(driver, 0, "Время удержания, с", 22, 0, 65535);
 
 			var property1 = new GKDriverProperty()
 			{
-				No = 2,
+				No = 1,
 				Name = "Режим после удержания",
 				Caption = "Режим после удержания",
 				Default = 1,
@@ -54,5 +50,6 @@ namespace GKProcessor
 
 			return driver;
 		}
+
 	}
 }

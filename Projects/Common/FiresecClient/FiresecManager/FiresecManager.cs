@@ -49,32 +49,6 @@ namespace FiresecClient
 			}
 		}
 
-		public static string Reconnect(string login, string password)
-		{
-			try
-			{
-				var operationResult = FiresecService.Reconnect(FiresecServiceFactory.UID, login, password);
-				if (operationResult.HasError)
-				{
-					return operationResult.Error;
-				}
-
-				var securityConfiguration = FiresecManager.FiresecService.GetSecurityConfiguration();
-				if (securityConfiguration != null)
-				{
-					SecurityConfiguration = securityConfiguration;
-				}
-
-				_userLogin = login;
-				return null;
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "FiresecManager.Reconnect");
-				return e.Message;
-			}
-		}
-
 		public static string GetIP()
 		{
 			return FiresecService.Ping();

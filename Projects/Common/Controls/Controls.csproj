@@ -2612,6 +2612,15 @@
   <ItemGroup>
     <Resource Include="Images\Cable.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RSR2_OPSZ.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RSR2_OPKS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RSR2_OPKZ.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

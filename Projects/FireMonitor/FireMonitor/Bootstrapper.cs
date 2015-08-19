@@ -35,11 +35,6 @@ namespace FireMonitor
 			ServiceFactory.StartupService.Show();
 			if (ServiceFactory.StartupService.PerformLogin(_login, _password))
 			{
-				var userChangedEventArgs = new UserChangedEventArgs
-				{
-					IsReconnect = false
-				};
-				ServiceFactory.Events.GetEvent<UserChangedEvent>().Publish(userChangedEventArgs);
 				_login = ServiceFactory.StartupService.Login;
 				_password = ServiceFactory.StartupService.Password;
 				try

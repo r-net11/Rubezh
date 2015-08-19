@@ -10,7 +10,7 @@ using FiresecAPI.SKD.ReportFilters;
 
 namespace FiresecService.Report.Templates
 {
-	public abstract partial class BaseReport : DevExpress.XtraReports.UI.XtraReport, IFilteredReport
+	public partial class BaseReport : DevExpress.XtraReports.UI.XtraReport, IFilteredReport
 	{
 		private float _topMargin;
 		private float _bottomMargin;
@@ -105,9 +105,10 @@ namespace FiresecService.Report.Templates
 		/// <summary>
 		/// Фиксированная ориентация листа согласно требованиям http://172.16.6.113:26000/pages/viewpage.action?pageId=6948166
 		/// </summary>
-		protected abstract bool ForcedLandscape
+		protected virtual bool ForcedLandscape
 		{
 			get;
+			set;
 		}
 
 	    protected virtual DataSet CreateDataSet(DataProvider dataProvider)

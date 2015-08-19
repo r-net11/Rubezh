@@ -29,8 +29,6 @@ namespace PlansModule.ViewModels
 			_plansViewModel = plansViewModel;
 			DesignerCanvas = new PresenterCanvas();
 			_flushAdorner = new FlushAdorner(DesignerCanvas);
-			ServiceFactory.Events.GetEvent<UserChangedEvent>().Unsubscribe(OnUserChanged);
-			ServiceFactory.Events.GetEvent<UserChangedEvent>().Subscribe(OnUserChanged);
 		}
 
 		public void SelectPlan(PlanViewModel planViewModel)
@@ -89,11 +87,6 @@ namespace PlansModule.ViewModels
 		public void Navigate(PresenterItem presenterItem)
 		{
 			_flushAdorner.Show(presenterItem);
-		}
-
-		void OnUserChanged(UserChangedEventArgs userChangedEventArgs)
-		{
-			OnPropertyChanged(() => HasPermissionsToScale);
 		}
 
 		#region IPlanDesignerViewModel Members

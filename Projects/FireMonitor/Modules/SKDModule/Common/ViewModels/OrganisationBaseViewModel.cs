@@ -378,9 +378,9 @@ namespace SKDModule.ViewModels
 			else
 				SelectedItem = OrganisationViewModel;
 		}
-		bool CanRemove()
+		protected virtual bool CanRemove()
 		{
-			return SelectedItem != null && !SelectedItem.IsDeleted && !SelectedItem.IsOrganisation && IsEditAllowed && SelectedItem.Name != "Выходной";
+			return SelectedItem != null && !SelectedItem.IsDeleted && !SelectedItem.IsOrganisation && IsEditAllowed;
 		}
 		protected virtual void AfterRemove(TModel model) { }
 		protected virtual string ItemRemovingName
@@ -431,9 +431,9 @@ namespace SKDModule.ViewModels
 				}
 			}
 		}
-		bool CanEdit()
+		protected virtual bool CanEdit()
 		{
-			return SelectedItem != null && !SelectedItem.IsDeleted && SelectedItem.Parent != null && !SelectedItem.IsOrganisation && IsEditAllowed && SelectedItem.Name != "Выходной";
+			return SelectedItem != null && !SelectedItem.IsDeleted && SelectedItem.Parent != null && !SelectedItem.IsOrganisation && IsEditAllowed;
 		}
 
 		public RelayCommand CopyCommand { get; private set; }
@@ -451,7 +451,7 @@ namespace SKDModule.ViewModels
 		}
 		protected virtual bool CanCopy()
 		{
-			return SelectedItem != null && !SelectedItem.IsDeleted && !SelectedItem.IsOrganisation && IsEditAllowed && SelectedItem.Name != "Выходной";
+			return SelectedItem != null && !SelectedItem.IsDeleted && !SelectedItem.IsOrganisation && IsEditAllowed;
 		}
 
 		public RelayCommand PasteCommand { get; private set; }
