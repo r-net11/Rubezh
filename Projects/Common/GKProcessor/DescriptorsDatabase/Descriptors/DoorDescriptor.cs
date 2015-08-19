@@ -27,11 +27,10 @@ namespace GKProcessor
 		{
 			DeviceType = BytesHelper.ShortToBytes(0x104);
 			SetAddress(0);
-			SetFormulaBytes();
 			SetPropertiesBytes();
 		}
 
-		void SetFormulaBytes()
+		public override void BuildFormula()
 		{
 			Formula = new FormulaBuilder();
 
@@ -96,7 +95,6 @@ namespace GKProcessor
 			}
 
 			Formula.Add(FormulaOperationType.END);
-			FormulaBytes = Formula.GetBytes();
 		}
 
 		void SetFormulaBarrier()

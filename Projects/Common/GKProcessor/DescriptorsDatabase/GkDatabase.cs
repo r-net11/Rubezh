@@ -140,6 +140,10 @@ namespace GKProcessor
 			foreach (var descriptor in Descriptors)
 			{
 				descriptor.Build();
+				if (!descriptor.Formula.IsGeneratedOutside)
+				{
+					descriptor.BuildFormula();
+				}
 				descriptor.Formula.Resolve(DatabaseType);
 				descriptor.FormulaBytes = descriptor.Formula.GetBytes();
 				descriptor.InitializeAllBytes();

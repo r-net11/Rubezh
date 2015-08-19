@@ -48,7 +48,6 @@ namespace GKProcessor
 			if ((DatabaseType == DatabaseType.Gk && delayDescriptor.GKBase.IsLogicOnKau) || (DatabaseType == DatabaseType.Kau && !delayDescriptor.GKBase.IsLogicOnKau))
 			{
 				delayDescriptor.Formula.Add(FormulaOperationType.END);
-				delayDescriptor.FormulaBytes = delayDescriptor.Formula.GetBytes();
 				return;
 			}
 
@@ -65,7 +64,6 @@ namespace GKProcessor
 
 			delayDescriptor.Formula.Add(FormulaOperationType.END);
 			delayDescriptor.Formula.IsGeneratedOutside = true;
-			delayDescriptor.FormulaBytes = delayDescriptor.Formula.GetBytes();
 		}
 
 		void CreateDelays()
@@ -110,7 +108,6 @@ namespace GKProcessor
 				if ((DatabaseType == DatabaseType.Gk && PumpStation.IsLogicOnKau) || (DatabaseType == DatabaseType.Kau && !PumpStation.IsLogicOnKau))
 				{
 					delayDescriptor.Formula.Add(FormulaOperationType.END);
-					delayDescriptor.FormulaBytes = delayDescriptor.Formula.GetBytes();
 					return;
 				}
 
@@ -131,7 +128,6 @@ namespace GKProcessor
 
 				delayDescriptor.Formula.Add(FormulaOperationType.END);
 				delayDescriptor.Formula.IsGeneratedOutside = true;
-				delayDescriptor.FormulaBytes = delayDescriptor.Formula.GetBytes();
 			}
 		}
 
@@ -175,7 +171,6 @@ namespace GKProcessor
 
 					pumpDescriptor.Formula.Add(FormulaOperationType.END);
 					pumpDescriptor.Formula.IsGeneratedOutside = true;
-					pumpDescriptor.FormulaBytes = pumpDescriptor.Formula.GetBytes();
 				}
 			}
 		}
@@ -210,7 +205,6 @@ namespace GKProcessor
 			if ((DatabaseType == DatabaseType.Gk && PumpStation.IsLogicOnKau) || (DatabaseType == DatabaseType.Kau && !PumpStation.IsLogicOnKau))
 			{
 				pimDescriptor.Formula.Add(FormulaOperationType.END);
-				pimDescriptor.FormulaBytes = pimDescriptor.Formula.GetBytes();
 				return;
 			}
 			var inputDevices = new List<GKBase>();
@@ -237,7 +231,6 @@ namespace GKProcessor
 
 			pimDescriptor.Formula.Add(FormulaOperationType.END);
 			pimDescriptor.Formula.IsGeneratedOutside = true;
-			pimDescriptor.FormulaBytes = pimDescriptor.Formula.GetBytes();
 		}
 
 		void SetCrossReferences()

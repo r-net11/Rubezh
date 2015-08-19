@@ -17,17 +17,15 @@ namespace GKProcessor
 		{
 			DeviceType = BytesHelper.ShortToBytes(0x107);
 			SetAddress(0);
-			SetFormulaBytes();
 		}
 
-		void SetFormulaBytes()
+		public override void BuildFormula()
 		{
 			if (Formula == null || Formula.FormulaOperations.Count == 0)
 			{
 				Formula = new FormulaBuilder();
 				Formula.Add(FormulaOperationType.END);
 			}
-			FormulaBytes = Formula.GetBytes();
 		}
 	}
 }

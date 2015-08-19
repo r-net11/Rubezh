@@ -13,7 +13,6 @@ namespace GKProcessor
 		{
 			DescriptorType = DescriptorType.Delay;
 			Delay = delay;
-			//CreateFormula();
 		}
 		
 		public override void Build()
@@ -21,23 +20,14 @@ namespace GKProcessor
 			DeviceType = BytesHelper.ShortToBytes(0x101);
 			SetAddress(0);
 			SetPropertiesBytes();
-
-			if ((DatabaseType == DatabaseType.Gk && GKBase.IsLogicOnKau) || (DatabaseType == DatabaseType.Kau && !GKBase.IsLogicOnKau))
-			{
-				Formula = new FormulaBuilder();
-				Formula.Add(FormulaOperationType.END);
-			}
-			Formula.Resolve(DatabaseType);
-			FormulaBytes = Formula.GetBytes();
 		}
 
-		void CreateFormula()
+		public override void BuildFormula()
 		{
 			Formula = new FormulaBuilder();
 			if ((DatabaseType == DatabaseType.Gk && GKBase.IsLogicOnKau) || (DatabaseType == DatabaseType.Kau && !GKBase.IsLogicOnKau))
 			{
 				Formula.Add(FormulaOperationType.END);
-				FormulaBytes = Formula.GetBytes();
 				return;
 			}
 

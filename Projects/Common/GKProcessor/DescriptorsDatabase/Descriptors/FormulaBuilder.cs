@@ -25,7 +25,7 @@ namespace GKProcessor
 					formulaOperation.SecondOperand = dataBaseType == DatabaseType.Gk ? formulaOperation.GKBaseSecondOperand.GKDescriptorNo : formulaOperation.GKBaseSecondOperand.KAUDescriptorNo;
 				}
 			}
-			if(FormulaOperations.Count == 0)
+			if (FormulaOperations.Count == 0 || FormulaOperations.LastOrDefault().FormulaOperationType != FormulaOperationType.END)
 			{
 				Add(FormulaOperationType.END);
 			}

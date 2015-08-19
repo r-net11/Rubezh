@@ -15,9 +15,6 @@ namespace GKProcessor
 		{
 			DescriptorType = DescriptorType.Device;
 			Device = device;
-
-			if (!CreateMPTLogic())
-				CreateFormula();
 		}
 
 		public override void Build()
@@ -29,18 +26,20 @@ namespace GKProcessor
 				address = (Device.ShleifNo - 1) * 256 + Device.IntAddress;
 			SetAddress((ushort)address);
 			SetPropertiesBytes();
-
-			if ((DatabaseType == DatabaseType.Gk && GKBase.IsLogicOnKau) || (DatabaseType == DatabaseType.Kau && !GKBase.IsLogicOnKau))
-			{
-				Formula = new FormulaBuilder();
-				Formula.Add(FormulaOperationType.END);
-			}
-			Formula.Resolve(DatabaseType);
-			FormulaBytes = Formula.GetBytes();
 		}
 
-		protected virtual void CreateFormula()
+		public override void BuildFormula()
 		{
+			Formula = new FormulaBuilder();
+			if ((DatabaseType == DatabaseType.Gk && GKBase.IsLogicOnKau) || (DatabaseType == DatabaseType.Kau && !GKBase.IsLogicOnKau))
+			{
+				Formula.Add(FormulaOperationType.END);
+				return;
+			}
+
+			if (CreateMPTLogic())
+				return;
+
 			if (Device.Driver.HasLogic)
 			{
 				if (Device.Logic.OnClausesGroup.Clauses.Count + Device.Logic.OnClausesGroup.ClauseGroups.Count > 0)
@@ -153,7 +152,6 @@ namespace GKProcessor
 				}
 			}
 			Formula.Add(FormulaOperationType.END);
-			FormulaBytes = Formula.GetBytes();
 		}
 
 		void SetPropertiesBytes()

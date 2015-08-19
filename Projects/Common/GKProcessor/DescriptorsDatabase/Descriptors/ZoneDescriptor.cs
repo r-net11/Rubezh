@@ -17,16 +17,14 @@ namespace GKProcessor
 		{
 			DeviceType = BytesHelper.ShortToBytes((ushort)0x100);
 			SetAddress((ushort)0);
-			SetFormulaBytes();
 		}
 
-		void SetFormulaBytes()
+		public override void BuildFormula()
 		{
 			Formula = new FormulaBuilder();
 			if ((DatabaseType == DatabaseType.Gk && Zone.IsLogicOnKau) || (DatabaseType == DatabaseType.Kau && !Zone.IsLogicOnKau))
 			{
 				Formula.Add(FormulaOperationType.END);
-				FormulaBytes = Formula.GetBytes();
 				return;
 			}
 
@@ -54,7 +52,6 @@ namespace GKProcessor
 			Formula.AddPutBit(GKStateBit.Attention, Zone, DatabaseType);
 
 			Formula.Add(FormulaOperationType.END);
-			FormulaBytes = Formula.GetBytes();
 		}
 
 		int AddDeviceFire1()

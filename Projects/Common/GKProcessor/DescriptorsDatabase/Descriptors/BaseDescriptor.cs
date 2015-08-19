@@ -203,5 +203,7 @@ namespace GKProcessor
 		}
 
 		public abstract void Build();
+
+		public abstract void BuildFormula();
 	}
 }
