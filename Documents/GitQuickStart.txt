@@ -2,6 +2,6 @@
 Мы используем гуй для него Git Extensions http://sourceforge.net/projects/gitextensions/
 Клиент SSH OpenSSH
 В папку которую гит сделает HOME (обычно C:\Documents and Settings\<username>) распаковать архив .ssh
-Url репозитория вот такой git@github.com:xbadcode/Rubezh.git
+Url репозитория git@github.com:xbadcode/Rubezh.git
 Пароль Welcome01
 Создать новый личный репозиторий и url вбить во вкладке внешние репозитории -> управление внешними репозиториями
