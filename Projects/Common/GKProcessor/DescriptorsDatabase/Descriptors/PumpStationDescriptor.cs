@@ -8,8 +8,8 @@ namespace GKProcessor
 	{
 		GKPumpStation PumpStation { get; set; }
 
-		public PumpStationDescriptor(CommonDatabase database, GKPumpStation pumpStation, DatabaseType dataBaseType)
-			: base(pumpStation, dataBaseType)
+		public PumpStationDescriptor(CommonDatabase database, GKPumpStation pumpStation)
+			: base(pumpStation)
 		{
 			DescriptorType = DescriptorType.PumpStation;
 			PumpStation = pumpStation;

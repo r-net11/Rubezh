@@ -6,8 +6,8 @@ namespace GKProcessor
 	{
 		GKZone Zone { get; set; }
 
-		public ZoneDescriptor(GKZone zone, DatabaseType dataBaseType)
-			: base(zone, dataBaseType)
+		public ZoneDescriptor(GKZone zone)
+			: base(zone)
 		{
 			DescriptorType = DescriptorType.Zone;
 			Zone = zone;

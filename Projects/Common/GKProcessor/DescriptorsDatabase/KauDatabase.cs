@@ -35,19 +35,19 @@ namespace GKProcessor
 			Descriptors = new List<BaseDescriptor>();
 			foreach (var device in Devices)
 			{
-				var deviceDescriptor = new DeviceDescriptor(device, DatabaseType.Kau);
+				var deviceDescriptor = new DeviceDescriptor(device);
 				Descriptors.Add(deviceDescriptor);
 			}
 
 			foreach (var zone in GKManager.Zones.Where(x => x.KauDatabaseParent == RootDevice))
 			{
-				var zoneDescriptor = new ZoneDescriptor(zone, DatabaseType.Kau);
+				var zoneDescriptor = new ZoneDescriptor(zone);
 				Descriptors.Add(zoneDescriptor);
 			}
 
 			foreach (var guardZone in GKManager.GuardZones.Where(x => x.KauDatabaseParent == RootDevice && !x.HasAccessLevel))
 			{
-				var guardZoneDescriptor = new GuardZoneDescriptor(guardZone, DatabaseType.Kau);
+				var guardZoneDescriptor = new GuardZoneDescriptor(guardZone);
 				Descriptors.Add(guardZoneDescriptor);
 
 				if (guardZoneDescriptor.GuardZonePimDescriptor != null)
@@ -58,19 +58,19 @@ namespace GKProcessor
 
 			foreach (var direction in GKManager.Directions.Where(x => x.KauDatabaseParent == RootDevice))
 			{
-				var directionDescriptor = new DirectionDescriptor(direction, DatabaseType.Kau);
+				var directionDescriptor = new DirectionDescriptor(direction);
 				Descriptors.Add(directionDescriptor);
 			}
 
 			foreach (var delay in GKManager.Delays.Where(x => x.KauDatabaseParent == RootDevice))
 			{
-				var delayDescriptor = new DelayDescriptor(delay, DatabaseType.Kau);
+				var delayDescriptor = new DelayDescriptor(delay);
 				Descriptors.Add(delayDescriptor);
 			}
 
 			foreach (var pumpStation in GKManager.PumpStations.Where(x => x.KauDatabaseParent == RootDevice))
 			{
-				var pumpStationDescriptor = new PumpStationDescriptor(this, pumpStation, DatabaseType.Kau);
+				var pumpStationDescriptor = new PumpStationDescriptor(this, pumpStation);
 				Descriptors.Add(pumpStationDescriptor);
 
 				var pumpStationCreator = new PumpStationCreator(this, pumpStation, DatabaseType.Kau);
@@ -79,7 +79,7 @@ namespace GKProcessor
 
 			foreach (var mpt in GKManager.DeviceConfiguration.MPTs.Where(x => x.KauDatabaseParent == RootDevice))
 			{
-				var mptDescriptor = new MPTDescriptor(this, mpt, DatabaseType.Kau);
+				var mptDescriptor = new MPTDescriptor(this, mpt);
 				Descriptors.Add(mptDescriptor);
 
 				var mptCreator = new MPTCreator(mpt);
@@ -87,7 +87,7 @@ namespace GKProcessor
 
 			foreach (var code in GKManager.DeviceConfiguration.Codes.Where(x => x.KauDatabaseParent == RootDevice))
 			{
-				var codeDescriptor = new CodeDescriptor(code, DatabaseType.Kau);
+				var codeDescriptor = new CodeDescriptor(code);
 				Descriptors.Add(codeDescriptor);
 			}
 
@@ -100,7 +100,7 @@ namespace GKProcessor
 			foreach (var descriptor in Descriptors)
 			{
 				descriptor.Build();
-				if (!descriptor.Formula.IsGeneratedOutside)
+				if (!descriptor.IsFormulaGeneratedOutside && descriptor.GKBase.IsLogicOnKau)
 				{
 					descriptor.BuildFormula();
 				}

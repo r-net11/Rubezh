@@ -10,8 +10,8 @@ namespace GKProcessor
 	{
 		GKDevice Device { get; set; }
 
-		public DeviceDescriptor(GKDevice device, DatabaseType databaseType)
-			: base(device, databaseType)
+		public DeviceDescriptor(GKDevice device)
+			: base(device)
 		{
 			DescriptorType = DescriptorType.Device;
 			Device = device;

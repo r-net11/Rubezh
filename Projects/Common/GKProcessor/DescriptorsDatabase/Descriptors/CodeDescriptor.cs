@@ -8,8 +8,8 @@ namespace GKProcessor
 	{
 		GKCode Code { get; set; }
 
-		public CodeDescriptor(GKCode code, DatabaseType databaseType)
-			: base(code, databaseType)
+		public CodeDescriptor(GKCode code)
+			: base(code)
 		{
 			DescriptorType = DescriptorType.Code;
 			Code = code;

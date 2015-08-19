@@ -10,8 +10,8 @@ namespace GKProcessor
 		public GKDevice ExitButton { get; private set; }
 		public GKDoor PimDoor { get; private set; }
 
-		public DoorPimDescriptorEnter(GKDoor pimDoor, DatabaseType databaseType)
-			: base(pimDoor.PimEnter, databaseType)
+		public DoorPimDescriptorEnter(GKDoor pimDoor)
+			: base(pimDoor.PimEnter)
 		{
 			PimDoor = pimDoor;
 			EnterDevice = pimDoor.EnterDevice;
@@ -84,8 +84,8 @@ namespace GKProcessor
 		public GKDevice ExitButton { get; private set; }
 		public GKDoor PimDoor { get; private set; }
 
-		public DoorPimDescriptorExit(GKDoor pimDoor, DatabaseType databaseType)
-			: base(pimDoor.PimExit, databaseType)
+		public DoorPimDescriptorExit(GKDoor pimDoor)
+			: base(pimDoor.PimExit)
 		{
 			PimDoor = pimDoor;
 			EnterDevice = pimDoor.EnterDevice;

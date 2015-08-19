@@ -8,8 +8,8 @@ namespace GKProcessor
 	{
 		GKDirection Direction { get; set; }
 
-		public DirectionDescriptor(GKDirection direction, DatabaseType dataBaseType)
-			: base(direction, dataBaseType)
+		public DirectionDescriptor(GKDirection direction)
+			: base(direction)
 		{
 			DescriptorType = DescriptorType.Direction;
 			Direction = direction;

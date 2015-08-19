@@ -215,19 +215,9 @@ namespace GKProcessor.DescriptorsDatabase
 					{
 						var guardZone = dependentObject as GKGuardZone;
 
-						foreach (var guardZoneDevice in guardZone.GuardZoneDevices)
+						if(guardZone.HasAccessLevel)
 						{
-							if (guardZoneDevice.Device.DriverType == GKDriverType.RSR2_CodeReader || guardZoneDevice.Device.DriverType == GKDriverType.RSR2_CardReader)
-							{
-								var hasAccessLevel = guardZoneDevice.CodeReaderSettings.SetGuardSettings.AccessLevel > 0 ||
-								guardZoneDevice.CodeReaderSettings.ResetGuardSettings.AccessLevel > 0 ||
-								guardZoneDevice.CodeReaderSettings.ChangeGuardSettings.AccessLevel > 0 ||
-								guardZoneDevice.CodeReaderSettings.AlarmSettings.AccessLevel > 0;
-								if (hasAccessLevel)
-								{
-									kauParents.Clear();
-								}
-							}
+							kauParents.Clear();
 						}
 					}
 				}

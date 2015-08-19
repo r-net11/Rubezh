@@ -10,8 +10,8 @@ namespace GKProcessor
 	{
 		GKMPT MPT { get; set; }
 
-		public MPTDescriptor(CommonDatabase database, GKMPT mpt, DatabaseType dataBaseType)
-			: base(mpt, dataBaseType)
+		public MPTDescriptor(CommonDatabase database, GKMPT mpt)
+			: base(mpt)
 		{
 			DescriptorType = DescriptorType.MPT;
 			MPT = mpt;
@@ -104,10 +104,8 @@ namespace GKProcessor
 					foreach (var codeUID in settingsPart.CodeUIDs)
 					{
 						var code = GKManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == codeUID);
-						Formula.Add(FormulaOperationType.KOD, 0,
-							DatabaseType == DatabaseType.Gk ? mptDevice.Device.GKDescriptorNo : mptDevice.Device.KAUDescriptorNo);
-						Formula.Add(FormulaOperationType.CMPKOD, 1,
-							DatabaseType == DatabaseType.Gk ? code.GKDescriptorNo : code.KAUDescriptorNo);
+						Formula.Add(FormulaOperationType.KOD, 0, DatabaseType == DatabaseType.Gk ? mptDevice.Device.GKDescriptorNo : mptDevice.Device.KAUDescriptorNo);
+						Formula.Add(FormulaOperationType.CMPKOD, 1, DatabaseType == DatabaseType.Gk ? code.GKDescriptorNo : code.KAUDescriptorNo);
 						if (codeIndex > 0)
 						{
 							Formula.Add(FormulaOperationType.OR);

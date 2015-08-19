@@ -39,7 +39,7 @@ namespace GKProcessor
 
 		void CreateMainDelay()
 		{
-			var delayDescriptor = new DelayDescriptor(PumpStation.MainDelay, DatabaseType);
+			var delayDescriptor = new DelayDescriptor(PumpStation.MainDelay);
 			Database.Descriptors.Add(delayDescriptor);
 			PumpStation.LinkGKBases(PumpStation.MainDelay);
 			PumpStation.MainDelay.LinkGKBases(PumpStation);
@@ -57,7 +57,7 @@ namespace GKProcessor
 			delayDescriptor.Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, PumpStation.MainDelay);
 
 			delayDescriptor.Formula.Add(FormulaOperationType.END);
-			delayDescriptor.Formula.IsGeneratedOutside = true;
+			delayDescriptor.IsFormulaGeneratedOutside = true;
 		}
 
 		void CreateDelays()
@@ -83,7 +83,7 @@ namespace GKProcessor
 				};
 				PumpDelays.Add(pumpDelay);
 
-				var delayDescriptor = new DelayDescriptor(delay, DatabaseType);
+				var delayDescriptor = new DelayDescriptor(delay);
 				Database.Descriptors.Add(delayDescriptor);
 			}
 		}
@@ -98,12 +98,6 @@ namespace GKProcessor
 					return;
 
 				delayDescriptor.Formula = new FormulaBuilder();
-				if ((DatabaseType == DatabaseType.Gk && PumpStation.IsLogicOnKau) || (DatabaseType == DatabaseType.Kau && !PumpStation.IsLogicOnKau))
-				{
-					delayDescriptor.Formula.Add(FormulaOperationType.END);
-					return;
-				}
-
 				AddCountFirePumpDevicesFormula(delayDescriptor.Formula);
 				if (i > 0)
 				{
@@ -120,7 +114,7 @@ namespace GKProcessor
 				delayDescriptor.Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, pumpDelay.Delay);
 
 				delayDescriptor.Formula.Add(FormulaOperationType.END);
-				delayDescriptor.Formula.IsGeneratedOutside = true;
+				delayDescriptor.IsFormulaGeneratedOutside = true;
 			}
 		}
 
@@ -163,7 +157,7 @@ namespace GKProcessor
 					pumpDescriptor.Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, pumpDevice);
 
 					pumpDescriptor.Formula.Add(FormulaOperationType.END);
-					pumpDescriptor.Formula.IsGeneratedOutside = true;
+					pumpDescriptor.IsFormulaGeneratedOutside = true;
 				}
 			}
 		}
@@ -190,15 +184,10 @@ namespace GKProcessor
 		{
 			//PumpStation.Pim.GetDataBaseParent();
 			PumpStation.Pim.IsLogicOnKau = PumpStation.IsLogicOnKau;
-			var pimDescriptor = new PimDescriptor(PumpStation.Pim, DatabaseType);
+			var pimDescriptor = new PimDescriptor(PumpStation.Pim);
 			Database.Descriptors.Add(pimDescriptor);
 
 			pimDescriptor.Formula = new FormulaBuilder();
-			if ((DatabaseType == DatabaseType.Gk && PumpStation.IsLogicOnKau) || (DatabaseType == DatabaseType.Kau && !PumpStation.IsLogicOnKau))
-			{
-				pimDescriptor.Formula.Add(FormulaOperationType.END);
-				return;
-			}
 			var inputDevices = new List<GKBase>();
 			inputDevices.AddRange(PumpStation.ClauseInputDevices);
 			foreach (var nsDevice in PumpStation.NSDevices)
@@ -222,7 +211,7 @@ namespace GKProcessor
 			pimDescriptor.Formula.AddPutBit(GKStateBit.Failure, PumpStation.Pim);
 
 			pimDescriptor.Formula.Add(FormulaOperationType.END);
-			pimDescriptor.Formula.IsGeneratedOutside = true;
+			pimDescriptor.IsFormulaGeneratedOutside = true;
 		}
 
 		void SetCrossReferences()

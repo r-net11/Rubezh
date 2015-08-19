@@ -6,8 +6,8 @@ namespace GKProcessor
 	{
 		protected GKPim Pim { get; set; }
 
-		public PimDescriptor(GKPim pim, DatabaseType dataBaseType)
-			: base(pim, dataBaseType)
+		public PimDescriptor(GKPim pim)
+			: base(pim)
 		{
 			DescriptorType = DescriptorType.Pim;
 			Pim = pim;

@@ -8,8 +8,8 @@ namespace GKProcessor
 	{
 		GKDelay Delay { get; set; }
 
-		public DelayDescriptor(GKDelay delay, DatabaseType dataBaseType)
-			: base(delay, dataBaseType)
+		public DelayDescriptor(GKDelay delay)
+			: base(delay)
 		{
 			DescriptorType = DescriptorType.Delay;
 			Delay = delay;

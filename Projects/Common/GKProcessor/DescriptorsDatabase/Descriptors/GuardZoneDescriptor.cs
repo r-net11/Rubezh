@@ -15,8 +15,8 @@ namespace GKProcessor
 		List<GKGuardZoneDevice> ChangeGuardDevices;
 		List<GKGuardZoneDevice> SetAlarmDevices;
 
-		public GuardZoneDescriptor(GKGuardZone zone, DatabaseType databaseType)
-			: base(zone, databaseType)
+		public GuardZoneDescriptor(GKGuardZone zone)
+			: base(zone)
 		{
 			DescriptorType = DescriptorType.GuardZone;
 			GuardZone = zone;
@@ -92,7 +92,7 @@ namespace GKProcessor
 
 			if (ChangeGuardDevices.Count > 0)
 			{
-				GuardZonePimDescriptor = new GuardZonePimDescriptor(GuardZone, ChangeGuardDevices, DatabaseType);
+				GuardZonePimDescriptor = new GuardZonePimDescriptor(GuardZone, ChangeGuardDevices);
 			}
 		}
 

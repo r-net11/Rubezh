@@ -10,8 +10,8 @@ namespace GKProcessor
 		public List<GKGuardZoneDevice> GuardZoneDevices { get; private set; }
 		public GKGuardZone PimGuardZone { get; private set; }
 
-		public GuardZonePimDescriptor(GKGuardZone pimGuardZone, List<GKGuardZoneDevice> guardZoneDevices, DatabaseType databaseType)
-			: base(pimGuardZone.Pim, databaseType)
+		public GuardZonePimDescriptor(GKGuardZone pimGuardZone, List<GKGuardZoneDevice> guardZoneDevices)
+			: base(pimGuardZone.Pim)
 		{
 			PimGuardZone = pimGuardZone;
 			GuardZoneDevices = guardZoneDevices;

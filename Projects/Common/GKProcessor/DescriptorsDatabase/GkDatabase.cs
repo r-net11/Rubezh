@@ -44,7 +44,7 @@ namespace GKProcessor
 
 			foreach (var device in Devices)
 			{
-				var deviceDescriptor = new DeviceDescriptor(device, DatabaseType);
+				var deviceDescriptor = new DeviceDescriptor(device);
 				Descriptors.Add(deviceDescriptor);
 			}
 
@@ -52,13 +52,13 @@ namespace GKProcessor
 
 			foreach (var zone in GKManager.Zones.Where(x => x.GkDatabaseParent == RootDevice && x.KauDatabaseParent == null))
 			{
-				var zoneDescriptor = new ZoneDescriptor(zone, DatabaseType.Gk);
+				var zoneDescriptor = new ZoneDescriptor(zone);
 				Descriptors.Add(zoneDescriptor);
 			}
 
 			foreach (var guardZone in GKManager.GuardZones.Where(x => x.GkDatabaseParent == RootDevice && x.KauDatabaseParent == null))
 			{
-				var guardZoneDescriptor = new GuardZoneDescriptor(guardZone, DatabaseType.Gk);
+				var guardZoneDescriptor = new GuardZoneDescriptor(guardZone);
 				Descriptors.Add(guardZoneDescriptor);
 
 				if (guardZoneDescriptor.GuardZonePimDescriptor != null)
@@ -69,19 +69,19 @@ namespace GKProcessor
 
 			foreach (var direction in GKManager.Directions.Where(x => x.GkDatabaseParent == RootDevice && x.KauDatabaseParent == null))
 			{
-				var directionDescriptor = new DirectionDescriptor(direction, DatabaseType.Gk);
+				var directionDescriptor = new DirectionDescriptor(direction);
 				Descriptors.Add(directionDescriptor);
 			}
 
 			foreach (var delay in GKManager.Delays.Where(x => x.GkDatabaseParent == RootDevice && x.KauDatabaseParent == null))
 			{
-				var delayDescriptor = new DelayDescriptor(delay, DatabaseType.Gk);
+				var delayDescriptor = new DelayDescriptor(delay);
 				Descriptors.Add(delayDescriptor);
 			}
 
 			foreach (var pumpStation in GKManager.PumpStations.Where(x => x.GkDatabaseParent == RootDevice && x.KauDatabaseParent == null))
 			{
-				var pumpStationDescriptor = new PumpStationDescriptor(this, pumpStation, DatabaseType.Gk);
+				var pumpStationDescriptor = new PumpStationDescriptor(this, pumpStation);
 				Descriptors.Add(pumpStationDescriptor);
 
 				var pumpStationCreator = new PumpStationCreator(this, pumpStation, DatabaseType.Gk);
@@ -90,7 +90,7 @@ namespace GKProcessor
 
 			foreach (var mpt in GKManager.DeviceConfiguration.MPTs.Where(x => x.GkDatabaseParent == RootDevice && x.KauDatabaseParent == null))
 			{
-				var mptDescriptor = new MPTDescriptor(this, mpt, DatabaseType.Gk);
+				var mptDescriptor = new MPTDescriptor(this, mpt);
 				Descriptors.Add(mptDescriptor);
 
 				var mptCreator = new MPTCreator(mpt);
@@ -98,7 +98,7 @@ namespace GKProcessor
 
 			foreach (var code in GKManager.DeviceConfiguration.Codes.Where(x => x.GkDatabaseParent == RootDevice && x.KauDatabaseParent == null))
 			{
-				var codeDescriptor = new CodeDescriptor(code, DatabaseType.Gk);
+				var codeDescriptor = new CodeDescriptor(code);
 				Descriptors.Add(codeDescriptor);
 			}
 
@@ -125,7 +125,7 @@ namespace GKProcessor
 			foreach (var descriptor in Descriptors)
 			{
 				descriptor.Build();
-				if (!descriptor.Formula.IsGeneratedOutside)
+				if (!descriptor.IsFormulaGeneratedOutside && !descriptor.GKBase.IsLogicOnKau)
 				{
 					descriptor.BuildFormula();
 				}
@@ -161,29 +161,29 @@ namespace GKProcessor
 					var gkBase = descriptor.GKBase;
 					gkBase.GkDatabaseParent = RootDevice;
 
-					if(gkBase is GKZone)
-						Descriptors.Add(new ZoneDescriptor(gkBase as GKZone, DatabaseType));
+					if (gkBase is GKZone)
+						Descriptors.Add(new ZoneDescriptor(gkBase as GKZone) { IsFormulaGeneratedOutside = true });
 
 					if (gkBase is GKDirection)
-						Descriptors.Add(new DirectionDescriptor(gkBase as GKDirection, DatabaseType));
+						Descriptors.Add(new DirectionDescriptor(gkBase as GKDirection) { IsFormulaGeneratedOutside = true });
 
 					if (gkBase is GKDelay)
-						Descriptors.Add(new DelayDescriptor(gkBase as GKDelay, DatabaseType));
+						Descriptors.Add(new DelayDescriptor(gkBase as GKDelay) { IsFormulaGeneratedOutside = true });
 
 					if (gkBase is GKPumpStation)
-						Descriptors.Add(new PumpStationDescriptor(this, gkBase as GKPumpStation, DatabaseType));
+						Descriptors.Add(new PumpStationDescriptor(this, gkBase as GKPumpStation) { IsFormulaGeneratedOutside = true });
 
 					if (gkBase is GKMPT)
-						Descriptors.Add(new MPTDescriptor(this, gkBase as GKMPT, DatabaseType));
+						Descriptors.Add(new MPTDescriptor(this, gkBase as GKMPT) { IsFormulaGeneratedOutside = true });
 
 					if (gkBase is GKPim)
-						Descriptors.Add(new PimDescriptor(gkBase as GKPim, DatabaseType));
+						Descriptors.Add(new PimDescriptor(gkBase as GKPim) { IsFormulaGeneratedOutside = true });
 
 					if (gkBase is GKCode)
-						Descriptors.Add(new CodeDescriptor(gkBase as GKCode, DatabaseType));
+						Descriptors.Add(new CodeDescriptor(gkBase as GKCode) { IsFormulaGeneratedOutside = true });
 
 					if (gkBase is GKGuardZone)
-						Descriptors.Add(new GuardZoneDescriptor(gkBase as GKGuardZone, DatabaseType));
+						Descriptors.Add(new GuardZoneDescriptor(gkBase as GKGuardZone) { IsFormulaGeneratedOutside = true });
 				}
 			}
 		}

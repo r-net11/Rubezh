@@ -29,11 +29,11 @@ namespace GKProcessor
 		public List<byte> Parameters { get; protected set; }
 		public List<byte> AllBytes { get; private set; }
 		public FormulaBuilder Formula { get; set; }
+		public bool IsFormulaGeneratedOutside { get; set; }
 
-		public BaseDescriptor(GKBase gkBase, DatabaseType databaseType)
+		public BaseDescriptor(GKBase gkBase)
 		{
 			GKBase = gkBase;
-			DatabaseType = databaseType;
 			Formula = new FormulaBuilder();
 			Parameters = new List<byte>();
 		}
