@@ -143,11 +143,9 @@ namespace SKDModule.ViewModels
 						Number = i,
 						ScheduleSchemeUID = Model.UID,
 					};
-					if (SelectedDayInterval != null && CanSelectDayInterval && Model.DaysCount - i > 2)
-					{
-						scheduleDayInterval.DayIntervalUID = SelectedDayInterval.UID;
-						scheduleDayInterval.DayIntervalName = SelectedDayInterval.Name;
-					}
+					var dayInterval = SelectedDayInterval != null && CanSelectDayInterval && Model.DaysCount - i > 2 ? SelectedDayInterval : DayIntervals.FirstOrDefault(x => x.Name == "Выходной");
+					scheduleDayInterval.DayIntervalUID = SelectedDayInterval.UID;
+					scheduleDayInterval.DayIntervalName = SelectedDayInterval.Name;
 					Model.DayIntervals.Add(scheduleDayInterval);
 				}
 				Model.Type = SelectedScheduleSchemeType;
