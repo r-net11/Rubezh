@@ -294,9 +294,8 @@ namespace SKDDriver.DataClasses
 			{
 				var isManyEmployees = employeeUIDs.Count() >= 2100;
 				IQueryable<PassJournal> items = Context.PassJournals;
-				if (employeeUIDs.Count() == 0 || isManyEmployees)
 					items = items.Where(e => e.EmployeeUID != null && employeeUIDs.Contains(e.EmployeeUID.Value));
-				if (zoneUIDs != null && zoneUIDs.Count() > 0)
+				if (zoneUIDs != null && zoneUIDs.Count() > 0 && employeeUIDs.Count() > 0)
 					items = items.Where(x => zoneUIDs.Contains(x.ZoneUID));
 				if (dateTime.HasValue)
 					items = items.Where(e => e.EnterTime < dateTime && (!e.ExitTime.HasValue || e.ExitTime > dateTime));
