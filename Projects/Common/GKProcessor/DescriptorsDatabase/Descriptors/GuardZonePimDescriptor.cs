@@ -38,19 +38,19 @@ namespace GKProcessor
 				return;
 			}
 
-			SetGuardZoneChangeLogic(PimGuardZone, GuardZoneDevices, Formula, DatabaseType, true);
+			SetGuardZoneChangeLogic(PimGuardZone, GuardZoneDevices, Formula, true);
 
 			Formula.Add(FormulaOperationType.DUP);
-			Formula.AddGetBit(GKStateBit.On, Pim, DatabaseType);
+			Formula.AddGetBit(GKStateBit.On, Pim);
 			Formula.Add(FormulaOperationType.AND);
-			Formula.AddPutBit(GKStateBit.TurnOffNow_InAutomatic, Pim, DatabaseType);
-			Formula.AddGetBit(GKStateBit.Off, Pim, DatabaseType);
+			Formula.AddPutBit(GKStateBit.TurnOffNow_InAutomatic, Pim);
+			Formula.AddGetBit(GKStateBit.Off, Pim);
 			Formula.Add(FormulaOperationType.AND);
-			Formula.AddPutBit(GKStateBit.TurnOnNow_InAutomatic, Pim, DatabaseType);
+			Formula.AddPutBit(GKStateBit.TurnOnNow_InAutomatic, Pim);
 			Formula.Add(FormulaOperationType.END);
 		}
 
-		public static void SetGuardZoneChangeLogic(GKGuardZone pimGuardZone, List<GKGuardZoneDevice> guardZoneDevices, FormulaBuilder formula, DatabaseType databaseType, bool isPim = false)
+		public static void SetGuardZoneChangeLogic(GKGuardZone pimGuardZone, List<GKGuardZoneDevice> guardZoneDevices, FormulaBuilder formula, bool isPim = false)
 		{
 			var count = 0;
 			foreach (var guardDevice in guardZoneDevices)
@@ -60,7 +60,7 @@ namespace GKProcessor
 					var settingsPart = guardDevice.CodeReaderSettings.ChangeGuardSettings;
 
 					var stateBit = CodeReaderEnterTypeToStateBit(settingsPart.CodeReaderEnterType);
-					formula.AddGetBit(stateBit, guardDevice.Device, databaseType);
+					formula.AddGetBit(stateBit, guardDevice.Device);
 					formula.Add(FormulaOperationType.BR, 2, 2);
 					formula.Add(FormulaOperationType.CONST);
 					if (isPim)
@@ -78,10 +78,8 @@ namespace GKProcessor
 								GKManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == settingsPart.CodeUIDs.FirstOrDefault());
 							if (code != null)
 							{
-								formula.Add(FormulaOperationType.KOD, 0,
-									databaseType == DatabaseType.Gk ? guardDevice.Device.GKDescriptorNo : guardDevice.Device.KAUDescriptorNo);
-								formula.Add(FormulaOperationType.CMPKOD, 1,
-									databaseType == DatabaseType.Gk ? code.GKDescriptorNo : code.KAUDescriptorNo);
+								formula.Add(FormulaOperationType.KOD, 0, 0, guardDevice.Device);
+								formula.Add(FormulaOperationType.CMPKOD, 1, 0, code);
 							}
 							if (codesCount > 0)
 							{
@@ -119,7 +117,7 @@ namespace GKProcessor
 				}
 				else
 				{
-					formula.AddGetBit(GKStateBit.Fire1, guardDevice.Device, databaseType);
+					formula.AddGetBit(GKStateBit.Fire1, guardDevice.Device);
 					if (count > 0)
 					{
 						formula.Add(FormulaOperationType.OR);

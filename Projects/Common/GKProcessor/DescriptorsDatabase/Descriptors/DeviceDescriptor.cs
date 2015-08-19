@@ -44,59 +44,59 @@ namespace GKProcessor
 			{
 				if (Device.Logic.OnClausesGroup.Clauses.Count + Device.Logic.OnClausesGroup.ClauseGroups.Count > 0)
 				{
-					Formula.AddClauseFormula(Device.Logic.OnClausesGroup, DatabaseType);
+					Formula.AddClauseFormula(Device.Logic.OnClausesGroup);
 					if (Device.Logic.UseOffCounterLogic)
 					{
-						Formula.AddStandardTurning(Device, DatabaseType);
+						Formula.AddStandardTurning(Device);
 					}
 					else
 					{
-						Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device, DatabaseType);
+						Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device);
 					}
 				}
 				if (!Device.Logic.UseOffCounterLogic && Device.Logic.OffClausesGroup.Clauses.Count + Device.Logic.OffClausesGroup.ClauseGroups.Count > 0)
 				{
-					Formula.AddClauseFormula(Device.Logic.OffClausesGroup, DatabaseType);
-					Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device, DatabaseType);
+					Formula.AddClauseFormula(Device.Logic.OffClausesGroup);
+					Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device);
 				}
 				if (Device.Logic.OnNowClausesGroup.Clauses.Count + Device.Logic.OnNowClausesGroup.ClauseGroups.Count > 0)
 				{
-					Formula.AddClauseFormula(Device.Logic.OnNowClausesGroup, DatabaseType);
-					Formula.AddPutBit(GKStateBit.TurnOnNow_InAutomatic, Device, DatabaseType);
+					Formula.AddClauseFormula(Device.Logic.OnNowClausesGroup);
+					Formula.AddPutBit(GKStateBit.TurnOnNow_InAutomatic, Device);
 				}
 				if (Device.Logic.OffNowClausesGroup.Clauses.Count + Device.Logic.OffNowClausesGroup.ClauseGroups.Count > 0)
 				{
-					Formula.AddClauseFormula(Device.Logic.OffNowClausesGroup, DatabaseType);
-					Formula.AddPutBit(GKStateBit.TurnOffNow_InAutomatic, Device, DatabaseType);
+					Formula.AddClauseFormula(Device.Logic.OffNowClausesGroup);
+					Formula.AddPutBit(GKStateBit.TurnOffNow_InAutomatic, Device);
 				}
 				if (Device.Logic.StopClausesGroup.Clauses.Count + Device.Logic.StopClausesGroup.ClauseGroups.Count > 0)
 				{
-					Formula.AddClauseFormula(Device.Logic.StopClausesGroup, DatabaseType);
-					Formula.AddPutBit(GKStateBit.Stop_InManual, Device, DatabaseType);
+					Formula.AddClauseFormula(Device.Logic.StopClausesGroup);
+					Formula.AddPutBit(GKStateBit.Stop_InManual, Device);
 				}
 			}
 
 			if ((Device.DriverType == GKDriverType.RSR2_CodeReader || Device.DriverType == GKDriverType.RSR2_CardReader || Device.DriverType == GKDriverType.RSR2_GuardDetector || Device.DriverType == GKDriverType.RSR2_GuardDetectorSound) && Device.GuardZones != null && Device.GuardZones.Count > 0)
 			{
-				Formula.AddGetBit(GKStateBit.On, Device.GuardZones.FirstOrDefault(), DatabaseType);
-				Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device, DatabaseType);
-				Formula.AddGetBit(GKStateBit.Off, Device.GuardZones.FirstOrDefault(), DatabaseType);
-				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device, DatabaseType);
+				Formula.AddGetBit(GKStateBit.On, Device.GuardZones.FirstOrDefault());
+				Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device);
+				Formula.AddGetBit(GKStateBit.Off, Device.GuardZones.FirstOrDefault());
+				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device);
 			}
 			if (Device.Door != null && Device.Door.DoorType == GKDoorType.Barrier)
 			{
 				if (Device.Door.LockDeviceUID == Device.UID)
 				{
-					Formula.AddGetBit(GKStateBit.On, Device.Door, DatabaseType);
-					Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device, DatabaseType);
+					Formula.AddGetBit(GKStateBit.On, Device.Door);
+					Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device);
 				}
 
 				if (Device.Door.LockDeviceExitUID == Device.UID)
 				{
-					Formula.AddGetBit(GKStateBit.TurningOff, Device.Door, DatabaseType);
-					Formula.AddGetBit(GKStateBit.Off, Device.Door, DatabaseType);
+					Formula.AddGetBit(GKStateBit.TurningOff, Device.Door);
+					Formula.AddGetBit(GKStateBit.Off, Device.Door);
 					Formula.Add(FormulaOperationType.OR);
-					Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device, DatabaseType);
+					Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device);
 				}
 			}
 			else
@@ -107,23 +107,23 @@ namespace GKProcessor
 					var enterButton = Device.Door.EnterButton;
 					if (exitDevice != null && enterButton != null)
 					{
-						Formula.AddGetBit(GKStateBit.Attention, exitDevice, DatabaseType);
+						Formula.AddGetBit(GKStateBit.Attention, exitDevice);
 						Formula.Add(FormulaOperationType.BR, 2, 8);
-						Formula.AddGetBit(GKStateBit.Fire1, enterButton, DatabaseType);
+						Formula.AddGetBit(GKStateBit.Fire1, enterButton);
 						Formula.Add(FormulaOperationType.BR, 2, 6);
 					}
 
-					Formula.AddGetBit(GKStateBit.On, Device.Door, DatabaseType);
-					Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device, DatabaseType);
-					Formula.AddGetBit(GKStateBit.TurningOff, Device.Door, DatabaseType);
-					Formula.AddGetBit(GKStateBit.Off, Device.Door, DatabaseType);
+					Formula.AddGetBit(GKStateBit.On, Device.Door);
+					Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device);
+					Formula.AddGetBit(GKStateBit.TurningOff, Device.Door);
+					Formula.AddGetBit(GKStateBit.Off, Device.Door);
 					Formula.Add(FormulaOperationType.OR);
 					if (Device.Door.LockControlDevice != null)
 					{
-						Formula.AddGetBit(GKStateBit.Fire1, Device.Door.LockControlDevice, DatabaseType);
+						Formula.AddGetBit(GKStateBit.Fire1, Device.Door.LockControlDevice);
 						Formula.Add(FormulaOperationType.OR);
 					}
-					Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device, DatabaseType);
+					Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device);
 				}
 
 				if (Device.Door != null && Device.Door.LockDeviceExitUID == Device.UID)
@@ -132,23 +132,23 @@ namespace GKProcessor
 					var exitButton = Device.Door.ExitButton;
 					if (enterDevice != null && exitButton != null)
 					{
-						Formula.AddGetBit(GKStateBit.Attention, enterDevice, DatabaseType);
+						Formula.AddGetBit(GKStateBit.Attention, enterDevice);
 						Formula.Add(FormulaOperationType.BR, 2, 8);
-						Formula.AddGetBit(GKStateBit.Fire1, exitButton, DatabaseType);
+						Formula.AddGetBit(GKStateBit.Fire1, exitButton);
 						Formula.Add(FormulaOperationType.BR, 2, 6);
 					}
 
-					Formula.AddGetBit(GKStateBit.On, Device.Door, DatabaseType);
-					Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device, DatabaseType);
-					Formula.AddGetBit(GKStateBit.TurningOff, Device.Door, DatabaseType);
-					Formula.AddGetBit(GKStateBit.Off, Device.Door, DatabaseType);
+					Formula.AddGetBit(GKStateBit.On, Device.Door);
+					Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device);
+					Formula.AddGetBit(GKStateBit.TurningOff, Device.Door);
+					Formula.AddGetBit(GKStateBit.Off, Device.Door);
 					Formula.Add(FormulaOperationType.OR);
 					if (Device.Door.LockControlDeviceExit != null)
 					{
-						Formula.AddGetBit(GKStateBit.Fire1, Device.Door.LockControlDeviceExit, DatabaseType);
+						Formula.AddGetBit(GKStateBit.Fire1, Device.Door.LockControlDeviceExit);
 						Formula.Add(FormulaOperationType.OR);
 					}
-					Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device, DatabaseType);
+					Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device);
 				}
 			}
 			Formula.Add(FormulaOperationType.END);
@@ -257,31 +257,31 @@ namespace GKProcessor
 		void CreateAutomaticOffBoards(GKMPT mpt)
 		{
 			Formula = new FormulaBuilder();
-			Formula.AddGetBit(GKStateBit.Norm, mpt, DatabaseType);
+			Formula.AddGetBit(GKStateBit.Norm, mpt);
 			Formula.Add(FormulaOperationType.DUP);
-			Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device, DatabaseType);
+			Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device);
 			Formula.Add(FormulaOperationType.COM);
-			Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device, DatabaseType);
+			Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device);
 			Formula.Add(FormulaOperationType.END);
 		}
 
 		void CreateOnDevices(GKMPT mpt)
 		{
 			Formula = new FormulaBuilder();
-			Formula.AddGetBit(GKStateBit.TurningOn, mpt, DatabaseType);
-			Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device, DatabaseType);
-			Formula.AddGetBit(GKStateBit.Off, mpt, DatabaseType);
-			Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device, DatabaseType);
+			Formula.AddGetBit(GKStateBit.TurningOn, mpt);
+			Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device);
+			Formula.AddGetBit(GKStateBit.Off, mpt);
+			Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device);
 			Formula.Add(FormulaOperationType.END);
 		}
 
 		void CreateBombDevices(GKMPT mpt)
 		{
 			Formula = new FormulaBuilder();
-			Formula.AddGetBit(GKStateBit.On, mpt, DatabaseType);
-			Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device, DatabaseType);
-			Formula.AddGetBit(GKStateBit.Off, mpt, DatabaseType);
-			Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device, DatabaseType);
+			Formula.AddGetBit(GKStateBit.On, mpt);
+			Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device);
+			Formula.AddGetBit(GKStateBit.Off, mpt);
+			Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device);
 			Formula.Add(FormulaOperationType.END);
 		}
 	}

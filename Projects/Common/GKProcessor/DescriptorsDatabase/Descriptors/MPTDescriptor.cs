@@ -37,32 +37,32 @@ namespace GKProcessor
 
 			if (MPT.MptLogic.StopClausesGroup.GetObjects().Count > 0)
 			{
-				Formula.AddClauseFormula(MPT.MptLogic.StopClausesGroup, DatabaseType);
+				Formula.AddClauseFormula(MPT.MptLogic.StopClausesGroup);
 				if (MPT.MptLogic.OnClausesGroup.GetObjects().Count > 0)
 					Formula.Add(FormulaOperationType.DUP);
-				Formula.AddPutBit(GKStateBit.Stop_InManual, MPT, DatabaseType);
+				Formula.AddPutBit(GKStateBit.Stop_InManual, MPT);
 			}
 
 			if (MPT.MptLogic.OnClausesGroup.GetObjects().Count > 0)
 			{
 				if (MPT.MptLogic.StopClausesGroup.GetObjects().Count > 0)
 					Formula.Add(FormulaOperationType.COM);
-				Formula.AddClauseFormula(MPT.MptLogic.OnClausesGroup, DatabaseType);
+				Formula.AddClauseFormula(MPT.MptLogic.OnClausesGroup);
 				if (MPT.MptLogic.StopClausesGroup.GetObjects().Count > 0)
 					Formula.Add(FormulaOperationType.AND);
-				Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, MPT, DatabaseType);
+				Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, MPT);
 				if (MPT.MptLogic.UseOffCounterLogic)
 				{
-					Formula.AddClauseFormula(MPT.MptLogic.OnClausesGroup, DatabaseType);
+					Formula.AddClauseFormula(MPT.MptLogic.OnClausesGroup);
 					Formula.Add(FormulaOperationType.COM);
-					Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, MPT, DatabaseType);
+					Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, MPT);
 				}
 			}
 
 			if (MPT.MptLogic.OffClausesGroup.GetObjects().Count > 0)
 			{
-				Formula.AddClauseFormula(MPT.MptLogic.OffClausesGroup, DatabaseType);
-				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, MPT, DatabaseType);
+				Formula.AddClauseFormula(MPT.MptLogic.OffClausesGroup);
+				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, MPT);
 			}
 
 			SetRegime(GKMPTDeviceType.HandStart, GKStateBit.TurnOn_InManual);
@@ -121,14 +121,14 @@ namespace GKProcessor
 				}
 				else
 				{
-					Formula.AddGetBit(GKStateBit.Fire1, mptDevice.Device, DatabaseType);
+					Formula.AddGetBit(GKStateBit.Fire1, mptDevice.Device);
 					if (hasOR)
 						Formula.Add(FormulaOperationType.OR);
 					hasOR = true;
 				}
 			}
 			if (hasOR)
-				Formula.AddPutBit(stateBit, MPT, DatabaseType);
+				Formula.AddPutBit(stateBit, MPT);
 		}
 
 		GKStateBit CodeReaderEnterTypeToStateBit(GKCodeReaderEnterType codeReaderEnterType)

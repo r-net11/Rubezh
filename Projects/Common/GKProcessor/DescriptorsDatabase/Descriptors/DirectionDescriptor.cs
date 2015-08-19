@@ -32,31 +32,31 @@ namespace GKProcessor
 			}
 			if (Direction.Logic.StopClausesGroup.GetObjects().Count > 0)
 			{
-				Formula.AddClauseFormula(Direction.Logic.StopClausesGroup, DatabaseType);
+				Formula.AddClauseFormula(Direction.Logic.StopClausesGroup);
 				if (Direction.Logic.OnClausesGroup.GetObjects().Count > 0)
 					Formula.Add(FormulaOperationType.DUP);
-				Formula.AddPutBit(GKStateBit.Stop_InManual, Direction, DatabaseType);
+				Formula.AddPutBit(GKStateBit.Stop_InManual, Direction);
 			}
 			if (Direction.Logic.OnClausesGroup.Clauses.Count + Direction.Logic.OnClausesGroup.ClauseGroups.Count > 0)
 			{
 				if (Direction.Logic.StopClausesGroup.GetObjects().Count > 0)
 					Formula.Add(FormulaOperationType.COM);
-				Formula.AddClauseFormula(Direction.Logic.OnClausesGroup, DatabaseType);
+				Formula.AddClauseFormula(Direction.Logic.OnClausesGroup);
 				if (Direction.Logic.StopClausesGroup.GetObjects().Count > 0)
 					Formula.Add(FormulaOperationType.AND);
-				Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Direction, DatabaseType);
+				Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Direction);
 				if (Direction.Logic.UseOffCounterLogic)
 				{
-					Formula.AddClauseFormula(Direction.Logic.OnClausesGroup, DatabaseType);
+					Formula.AddClauseFormula(Direction.Logic.OnClausesGroup);
 					Formula.Add(FormulaOperationType.COM);
-					Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Direction, DatabaseType);
+					Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Direction);
 				}
 			}
 
 			if (Direction.Logic.OffClausesGroup.GetObjects().Count > 0)
 			{
-				Formula.AddClauseFormula(Direction.Logic.OffClausesGroup, DatabaseType);
-				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Direction, DatabaseType);
+				Formula.AddClauseFormula(Direction.Logic.OffClausesGroup);
+				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Direction);
 			}
 			Formula.Add(FormulaOperationType.END);
 		}

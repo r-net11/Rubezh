@@ -48,29 +48,29 @@ namespace GKProcessor
 				return;
 			}
 			if (ExitButton!=null)
-			Formula.AddGetBit(GKStateBit.Fire1, ExitButton, DatabaseType);
+			Formula.AddGetBit(GKStateBit.Fire1, ExitButton);
 			if (EnterDevice != null)
 			{
-				Formula.AddGetBit(GKStateBit.Attention, EnterDevice, DatabaseType);
+				Formula.AddGetBit(GKStateBit.Attention, EnterDevice);
 				Formula.Add(FormulaOperationType.OR);
 			}
-			Formula.AddGetBit(GKStateBit.On, PimDoor, DatabaseType);
+			Formula.AddGetBit(GKStateBit.On, PimDoor);
 			Formula.Add(FormulaOperationType.AND);
-			Formula.AddPutBit(GKStateBit.TurnOnNow_InAutomatic, Pim, DatabaseType);
+			Formula.AddPutBit(GKStateBit.TurnOnNow_InAutomatic, Pim);
 			if (EnterButton != null)
 			{
-				Formula.AddGetBit(GKStateBit.Fire1, EnterButton, DatabaseType);
+				Formula.AddGetBit(GKStateBit.Fire1, EnterButton);
 			}
 			if (ExitDevice != null)
 			{
-				Formula.AddGetBit(GKStateBit.Attention, ExitDevice, DatabaseType);
+				Formula.AddGetBit(GKStateBit.Attention, ExitDevice);
 				Formula.Add(FormulaOperationType.OR);
 			}
-			Formula.AddGetBit(GKStateBit.On, PimDoor, DatabaseType);
+			Formula.AddGetBit(GKStateBit.On, PimDoor);
 			Formula.Add(FormulaOperationType.AND);
-			Formula.AddGetBit(GKStateBit.Off, PimDoor, DatabaseType);
+			Formula.AddGetBit(GKStateBit.Off, PimDoor);
 			Formula.Add(FormulaOperationType.OR);
-			Formula.AddPutBit(GKStateBit.TurnOffNow_InAutomatic, Pim, DatabaseType);
+			Formula.AddPutBit(GKStateBit.TurnOffNow_InAutomatic, Pim);
 			Formula.Add(FormulaOperationType.END);
 		}
 	}
@@ -122,30 +122,30 @@ namespace GKProcessor
 			}
 			if (ExitButton != null)
 			{
-				Formula.AddGetBit(GKStateBit.Fire1, ExitButton, DatabaseType);
+				Formula.AddGetBit(GKStateBit.Fire1, ExitButton);
 			}
 			if (EnterDevice != null)
 			{
-				Formula.AddGetBit(GKStateBit.Attention, EnterDevice, DatabaseType);
+				Formula.AddGetBit(GKStateBit.Attention, EnterDevice);
 				Formula.Add(FormulaOperationType.OR);
 			}
-			Formula.AddGetBit(GKStateBit.On, PimDoor, DatabaseType);
+			Formula.AddGetBit(GKStateBit.On, PimDoor);
 			Formula.Add(FormulaOperationType.AND);
-			Formula.AddGetBit(GKStateBit.Off, PimDoor, DatabaseType);
+			Formula.AddGetBit(GKStateBit.Off, PimDoor);
 			Formula.Add(FormulaOperationType.OR);
-			Formula.AddPutBit(GKStateBit.TurnOffNow_InAutomatic, Pim, DatabaseType);
+			Formula.AddPutBit(GKStateBit.TurnOffNow_InAutomatic, Pim);
 			if (EnterButton != null)
 			{
-				Formula.AddGetBit(GKStateBit.Fire1, EnterButton, DatabaseType);
+				Formula.AddGetBit(GKStateBit.Fire1, EnterButton);
 			}
 			if (EnterButton != null)
 			{
-				Formula.AddGetBit(GKStateBit.Attention, EnterButton, DatabaseType);
+				Formula.AddGetBit(GKStateBit.Attention, EnterButton);
 				Formula.Add(FormulaOperationType.OR);
 			}
-			Formula.AddGetBit(GKStateBit.On, PimDoor, DatabaseType);
+			Formula.AddGetBit(GKStateBit.On, PimDoor);
 			Formula.Add(FormulaOperationType.AND);
-			Formula.AddPutBit(GKStateBit.TurnOnNow_InAutomatic, Pim, DatabaseType);
+			Formula.AddPutBit(GKStateBit.TurnOnNow_InAutomatic, Pim);
 			Formula.Add(FormulaOperationType.END);
 		}
 	}

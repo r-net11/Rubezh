@@ -153,7 +153,7 @@ namespace GKProcessor
 					}
 
 					var stateBit = CodeReaderEnterTypeToStateBit(settingsPart.CodeReaderEnterType);
-					Formula.AddGetBit(stateBit, guardDevice.Device, DatabaseType);
+					Formula.AddGetBit(stateBit, guardDevice.Device);
 					Formula.Add(FormulaOperationType.BR, 2, 2);
 					Formula.Add(FormulaOperationType.CONST);
 					var gotoFormulaOperation = Formula.Add(FormulaOperationType.BR, 0, 2);
@@ -217,7 +217,7 @@ namespace GKProcessor
 				}
 				else
 				{
-					Formula.AddGetBit(GKStateBit.Fire1, guardDevice.Device, DatabaseType);
+					Formula.AddGetBit(GKStateBit.Fire1, guardDevice.Device);
 					if (count > 0)
 					{
 						Formula.Add(FormulaOperationType.OR);
@@ -225,9 +225,9 @@ namespace GKProcessor
 				}
 				if (commandStateBit == GKStateBit.Fire1)
 				{
-					Formula.AddGetBit(GKStateBit.Fire2, guardDevice.Device, DatabaseType);
+					Formula.AddGetBit(GKStateBit.Fire2, guardDevice.Device);
 					Formula.Add(FormulaOperationType.OR);
-					Formula.AddGetBit(GKStateBit.Failure, guardDevice.Device, DatabaseType);
+					Formula.AddGetBit(GKStateBit.Failure, guardDevice.Device);
 					Formula.Add(FormulaOperationType.OR);
 				}
 				count++;
@@ -238,9 +238,9 @@ namespace GKProcessor
 				case GKStateBit.Fire1:
 					if (count > 0)
 					{
-						Formula.AddGetBit(GKStateBit.Attention, GuardZone, DatabaseType);
+						Formula.AddGetBit(GKStateBit.Attention, GuardZone);
 						Formula.Add(FormulaOperationType.OR);
-						Formula.AddPutBit(GKStateBit.Attention, GuardZone, DatabaseType);
+						Formula.AddPutBit(GKStateBit.Attention, GuardZone);
 					}
 					break;
 				case GKStateBit.TurnOn_InAutomatic:
@@ -249,15 +249,15 @@ namespace GKProcessor
 					{
 						if (ChangeGuardDevices.Count > 0)
 						{
-							GuardZonePimDescriptor.SetGuardZoneChangeLogic(GuardZone, ChangeGuardDevices, Formula, DatabaseType);
+							GuardZonePimDescriptor.SetGuardZoneChangeLogic(GuardZone, ChangeGuardDevices, Formula);
 							if (commandStateBit == GKStateBit.TurnOn_InAutomatic)
 							{
-								Formula.AddGetBit(GKStateBit.On, GuardZone.Pim, DatabaseType);
+								Formula.AddGetBit(GKStateBit.On, GuardZone.Pim);
 								Formula.Add(FormulaOperationType.AND);
 							}
 							if (commandStateBit == GKStateBit.TurnOff_InAutomatic)
 							{
-								Formula.AddGetBit(GKStateBit.Off, GuardZone.Pim, DatabaseType);
+								Formula.AddGetBit(GKStateBit.Off, GuardZone.Pim);
 								Formula.Add(FormulaOperationType.AND);
 							}
 							if (count > 0 && ChangeGuardDevices.Count > 0)
@@ -271,8 +271,8 @@ namespace GKProcessor
 							{
 								if (setAlarmDevice.Device.DriverType != GKDriverType.RSR2_CodeReader && setAlarmDevice.Device.DriverType != GKDriverType.RSR2_CardReader)
 								{
-									Formula.AddGetBit(GKStateBit.Fire1, setAlarmDevice.Device, DatabaseType);
-									Formula.AddGetBit(GKStateBit.Failure, setAlarmDevice.Device, DatabaseType);
+									Formula.AddGetBit(GKStateBit.Fire1, setAlarmDevice.Device);
+									Formula.AddGetBit(GKStateBit.Failure, setAlarmDevice.Device);
 									Formula.Add(FormulaOperationType.OR);
 									Formula.Add(FormulaOperationType.COM);
 									Formula.Add(FormulaOperationType.AND);
@@ -281,7 +281,7 @@ namespace GKProcessor
 						}
 						Formula.Add(FormulaOperationType.BR, 1, 3);
 						Formula.Add(FormulaOperationType.CONST, 0, 1);
-						Formula.AddPutBit(commandStateBit, GuardZone, DatabaseType);
+						Formula.AddPutBit(commandStateBit, GuardZone);
 						Formula.Add(FormulaOperationType.EXIT);
 					}
 					break;
@@ -293,26 +293,26 @@ namespace GKProcessor
 			if (guardZoneDevices.Count == 0)
 				return;
 			var count = 0;
-			Formula.AddGetBit(GKStateBit.TurningOn, GuardZone, DatabaseType);
+			Formula.AddGetBit(GKStateBit.TurningOn, GuardZone);
 			Formula.Add(FormulaOperationType.BR, 2, 1);
 			Formula.Add(FormulaOperationType.EXIT);
 			foreach (var guardDevice in guardZoneDevices)
 			{
 				if (guardDevice.Device.DriverType != GKDriverType.RSR2_CodeReader && guardDevice.Device.DriverType != GKDriverType.RSR2_CardReader)
 				{
-					Formula.AddGetBit(GKStateBit.Fire1, guardDevice.Device, DatabaseType);
+					Formula.AddGetBit(GKStateBit.Fire1, guardDevice.Device);
 					if (count > 0)
 					{
 						Formula.Add(FormulaOperationType.OR);
 					}
-					Formula.AddGetBit(GKStateBit.Failure, guardDevice.Device, DatabaseType);
+					Formula.AddGetBit(GKStateBit.Failure, guardDevice.Device);
 					Formula.Add(FormulaOperationType.OR);
 					count++;
 				}
 			}
 			if (count > 0)
 			{
-				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, GuardZone, DatabaseType);
+				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, GuardZone);
 			}
 		}
 
