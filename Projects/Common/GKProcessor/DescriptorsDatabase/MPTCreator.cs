@@ -12,10 +12,7 @@ namespace GKProcessor
 		public MPTCreator(GKMPT mpt)
 		{
 			MPT = mpt;
-		}
 
-		public void SetCrossReferences()
-		{
 			foreach (var mptDevice in MPT.MPTDevices)
 			{
 				if (mptDevice.MPTDeviceType == GKMPTDeviceType.HandStart ||

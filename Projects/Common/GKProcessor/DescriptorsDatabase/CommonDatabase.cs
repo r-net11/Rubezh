@@ -5,67 +5,15 @@ namespace GKProcessor
 {
 	public abstract class CommonDatabase
 	{
-		protected List<GKCode> Codes { get; set; }
 		protected List<GKDevice> Devices { get; set; }
-		protected List<GKZone> Zones { get; set; }
-		protected List<GKGuardZone> GuardZones { get; set; }
-		protected List<GKDirection> Directions { get; set; }
-		protected List<GKPumpStation> PumpStations { get; set; }
-		protected List<GKMPT> MPTs { get; set; }
-		public List<GKDelay> Delays { get; protected set; }
-		public List<GKPim> Pims { get; protected set; }
-
 		public DatabaseType DatabaseType { get; protected set; }
 		public GKDevice RootDevice { get; protected set; }
 		public List<BaseDescriptor> Descriptors { get; set; }
 
 		public CommonDatabase()
 		{
-			Codes = new List<GKCode>();
 			Devices = new List<GKDevice>();
-			Zones = new List<GKZone>();
-			GuardZones = new List<GKGuardZone>();
-			Directions = new List<GKDirection>();
-			PumpStations = new List<GKPumpStation>();
-			MPTs = new List<GKMPT>();
-			Delays = new List<GKDelay>();
-			Pims = new List<GKPim>();
 			Descriptors = new List<BaseDescriptor>();
-		}
-
-		public void AddDelay(GKDelay delay)
-		{
-			if (!Delays.Contains(delay))
-			{
-				if (DatabaseType == DatabaseType.Gk)
-				{
-					delay.GkDatabaseParent = RootDevice;
-				}
-				else
-				{
-					delay.KauDatabaseParent = RootDevice;
-					delay.IsLogicOnKau = true;
-					delay.GkDatabaseParent = RootDevice.GKParent;
-				}
-				Delays.Add(delay);
-			}
-		}
-
-		public void AddPim(GKPim pim)
-		{
-			if (!Pims.Contains(pim) && pim != null)
-			{
-				if (DatabaseType == DatabaseType.Gk)
-				{
-					pim.GkDatabaseParent = RootDevice;
-				}
-				else
-				{
-					pim.KauDatabaseParent = RootDevice;
-					pim.GkDatabaseParent = RootDevice.GKParent;
-				}
-				Pims.Add(pim);
-			}
 		}
 
 		public abstract void BuildObjects();

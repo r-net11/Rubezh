@@ -8,15 +8,11 @@ namespace GKProcessor
 	{
 		GKPumpStation PumpStation { get; set; }
 
-		public PumpStationDescriptor(CommonDatabase database, GKPumpStation pumpStation, DatabaseType dataBaseType, bool addDelay = true)
+		public PumpStationDescriptor(CommonDatabase database, GKPumpStation pumpStation, DatabaseType dataBaseType)
 			: base(pumpStation, dataBaseType)
 		{
 			DescriptorType = DescriptorType.PumpStation;
 			PumpStation = pumpStation;
-			if (addDelay)
-			{
-				database.AddDelay(pumpStation.MainDelay);
-			}
 		}
 
 		public override void Build()

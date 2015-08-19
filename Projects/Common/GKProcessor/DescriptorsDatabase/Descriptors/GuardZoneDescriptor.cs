@@ -18,7 +18,6 @@ namespace GKProcessor
 		public GuardZoneDescriptor(GKGuardZone zone, DatabaseType databaseType)
 			: base(zone, databaseType)
 		{
-			DatabaseType = databaseType;
 			DescriptorType = DescriptorType.GuardZone;
 			GuardZone = zone;
 

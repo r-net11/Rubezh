@@ -10,7 +10,8 @@ namespace GKProcessor
 		public GKDevice ExitButton { get; private set; }
 		public GKDoor PimDoor { get; private set; }
 
-		public DoorPimDescriptorEnter(GKDoor pimDoor, DatabaseType databaseType) : base(pimDoor.PimEnter, databaseType)
+		public DoorPimDescriptorEnter(GKDoor pimDoor, DatabaseType databaseType)
+			: base(pimDoor.PimEnter, databaseType)
 		{
 			PimDoor = pimDoor;
 			EnterDevice = pimDoor.EnterDevice;
@@ -19,14 +20,14 @@ namespace GKProcessor
 			ExitButton = pimDoor.ExitButton;
 			if (Pim != null)
 			{
-				if (EnterDevice!= null)
-				Pim.LinkGKBases(EnterDevice);
-				if (ExitDevice!=null)
-				Pim.LinkGKBases(ExitDevice);
-				if (EnterButton!=null)
-				Pim.LinkGKBases(EnterButton);
-				if (ExitButton!=null)
-				Pim.LinkGKBases(ExitButton);
+				if (EnterDevice != null)
+					Pim.LinkGKBases(EnterDevice);
+				if (ExitDevice != null)
+					Pim.LinkGKBases(ExitDevice);
+				if (EnterButton != null)
+					Pim.LinkGKBases(EnterButton);
+				if (ExitButton != null)
+					Pim.LinkGKBases(ExitButton);
 				Pim.LinkGKBases(PimDoor);
 				Pim.LinkGKBases(Pim);
 			}
@@ -47,8 +48,8 @@ namespace GKProcessor
 				Formula.Add(FormulaOperationType.END);
 				return;
 			}
-			if (ExitButton!=null)
-			Formula.AddGetBit(GKStateBit.Fire1, ExitButton);
+			if (ExitButton != null)
+				Formula.AddGetBit(GKStateBit.Fire1, ExitButton);
 			if (EnterDevice != null)
 			{
 				Formula.AddGetBit(GKStateBit.Attention, EnterDevice);
@@ -83,7 +84,8 @@ namespace GKProcessor
 		public GKDevice ExitButton { get; private set; }
 		public GKDoor PimDoor { get; private set; }
 
-		public DoorPimDescriptorExit(GKDoor pimDoor, DatabaseType databaseType) : base(pimDoor.PimExit, databaseType)
+		public DoorPimDescriptorExit(GKDoor pimDoor, DatabaseType databaseType)
+			: base(pimDoor.PimExit, databaseType)
 		{
 			PimDoor = pimDoor;
 			EnterDevice = pimDoor.EnterDevice;
@@ -92,14 +94,14 @@ namespace GKProcessor
 			ExitButton = pimDoor.ExitButton;
 			if (Pim != null)
 			{
-				if (EnterDevice!=null)
-				Pim.LinkGKBases(EnterDevice);
-				if (ExitDevice!=null)
-				Pim.LinkGKBases(ExitDevice);
-				if (EnterButton!=null)
-				Pim.LinkGKBases(EnterButton);
-				if (ExitButton!=null)
-				Pim.LinkGKBases(ExitButton);
+				if (EnterDevice != null)
+					Pim.LinkGKBases(EnterDevice);
+				if (ExitDevice != null)
+					Pim.LinkGKBases(ExitDevice);
+				if (EnterButton != null)
+					Pim.LinkGKBases(EnterButton);
+				if (ExitButton != null)
+					Pim.LinkGKBases(ExitButton);
 				Pim.LinkGKBases(PimDoor);
 				Pim.LinkGKBases(Pim);
 			}

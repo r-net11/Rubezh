@@ -45,12 +45,6 @@ namespace GKProcessor
 			PumpStation.MainDelay.LinkGKBases(PumpStation);
 
 			delayDescriptor.Formula = new FormulaBuilder();
-			if ((DatabaseType == DatabaseType.Gk && delayDescriptor.GKBase.IsLogicOnKau) || (DatabaseType == DatabaseType.Kau && !delayDescriptor.GKBase.IsLogicOnKau))
-			{
-				delayDescriptor.Formula.Add(FormulaOperationType.END);
-				return;
-			}
-
 			delayDescriptor.Formula.AddGetBit(GKStateBit.On, PumpStation);
 			delayDescriptor.Formula.Add(FormulaOperationType.DUP);
 			delayDescriptor.Formula.AddGetBit(GKStateBit.TurningOn, PumpStation.MainDelay);
@@ -89,7 +83,6 @@ namespace GKProcessor
 				};
 				PumpDelays.Add(pumpDelay);
 
-				Database.AddDelay(delay);
 				var delayDescriptor = new DelayDescriptor(delay, DatabaseType);
 				Database.Descriptors.Add(delayDescriptor);
 			}
@@ -197,7 +190,6 @@ namespace GKProcessor
 		{
 			//PumpStation.Pim.GetDataBaseParent();
 			PumpStation.Pim.IsLogicOnKau = PumpStation.IsLogicOnKau;
-			Database.AddPim(PumpStation.Pim);
 			var pimDescriptor = new PimDescriptor(PumpStation.Pim, DatabaseType);
 			Database.Descriptors.Add(pimDescriptor);
 
