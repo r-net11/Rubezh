@@ -141,12 +141,12 @@ namespace GKProcessor
 					{
 						case GKStateBit.TurnOn_InAutomatic:
 							settingsPart = guardDevice.CodeReaderSettings.SetGuardSettings;
-							level = GuardZone.SetGuardLevel;
+							level = settingsPart.AccessLevel;
 							break;
 
 						case GKStateBit.TurnOff_InAutomatic:
 							settingsPart = guardDevice.CodeReaderSettings.ResetGuardSettings;
-							level = GuardZone.ResetGuardLevel;
+							level = settingsPart.AccessLevel;
 							break;
 
 						case GKStateBit.Fire1:
@@ -159,7 +159,7 @@ namespace GKProcessor
 					Formula.AddGetBit(stateBit, guardDevice.Device, DatabaseType);
 					Formula.Add(FormulaOperationType.BR, 2, 2);
 					Formula.Add(FormulaOperationType.CONST);
-					Formula.Add(FormulaOperationType.BR, 0, 2);
+					var gotoFormulaOperation = Formula.Add(FormulaOperationType.BR, 0, 2);
 					var formulaNo = Formula.FormulaOperations.Count;
 
 					if (settingsPart.CodeUIDs.Count > 0 && settingsPart.AccessLevel == 0)
@@ -216,7 +216,7 @@ namespace GKProcessor
 					{
 						Formula.Add(FormulaOperationType.OR);
 					}
-					//gotoFormulaOperation.SecondOperand = (ushort)(Formula.FormulaOperations.Count - formulaNo);
+					gotoFormulaOperation.SecondOperand = (ushort)(Formula.FormulaOperations.Count - formulaNo);
 				}
 				else
 				{
@@ -282,7 +282,7 @@ namespace GKProcessor
 								}
 							}
 						}
-						var gotoFormulaOperation = Formula.Add(FormulaOperationType.BR, 1, 3);
+						Formula.Add(FormulaOperationType.BR, 1, 3);
 						Formula.Add(FormulaOperationType.CONST, 0, 1);
 						Formula.AddPutBit(commandStateBit, GuardZone, DatabaseType);
 						Formula.Add(FormulaOperationType.EXIT);

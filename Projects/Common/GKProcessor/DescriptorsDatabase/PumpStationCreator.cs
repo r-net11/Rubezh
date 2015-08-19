@@ -64,6 +64,7 @@ namespace GKProcessor
 			delayDescriptor.Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, PumpStation.MainDelay, delayDescriptor.DatabaseType);
 
 			delayDescriptor.Formula.Add(FormulaOperationType.END);
+			delayDescriptor.Formula.IsGeneratedOutside = true;
 			delayDescriptor.FormulaBytes = delayDescriptor.Formula.GetBytes();
 		}
 
@@ -129,6 +130,7 @@ namespace GKProcessor
 				delayDescriptor.Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, pumpDelay.Delay, delayDescriptor.DatabaseType);
 
 				delayDescriptor.Formula.Add(FormulaOperationType.END);
+				delayDescriptor.Formula.IsGeneratedOutside = true;
 				delayDescriptor.FormulaBytes = delayDescriptor.Formula.GetBytes();
 			}
 		}
@@ -172,6 +174,7 @@ namespace GKProcessor
 					pumpDescriptor.Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, pumpDevice, pumpDescriptor.DatabaseType);
 
 					pumpDescriptor.Formula.Add(FormulaOperationType.END);
+					pumpDescriptor.Formula.IsGeneratedOutside = true;
 					pumpDescriptor.FormulaBytes = pumpDescriptor.Formula.GetBytes();
 				}
 			}
@@ -233,6 +236,7 @@ namespace GKProcessor
 			pimDescriptor.Formula.AddPutBit(GKStateBit.Failure, PumpStation.Pim, pimDescriptor.DatabaseType);
 
 			pimDescriptor.Formula.Add(FormulaOperationType.END);
+			pimDescriptor.Formula.IsGeneratedOutside = true;
 			pimDescriptor.FormulaBytes = pimDescriptor.Formula.GetBytes();
 		}
 

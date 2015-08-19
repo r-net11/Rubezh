@@ -59,18 +59,6 @@ namespace FiresecAPI.GK
 		public List<Guid> PlanElementUIDs { get; set; }
 
 		/// <summary>
-		/// Минимальный уровень на постановку
-		/// </summary>
-		[DataMember]
-		public int SetGuardLevel { get; set; }
-
-		/// <summary>
-		/// Минимальный уровень на снятие
-		/// </summary>
-		[DataMember]
-		public int ResetGuardLevel { get; set; }
-
-		/// <summary>
 		/// Задержка на постановку
 		/// </summary>
 		[DataMember]

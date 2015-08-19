@@ -44,8 +44,6 @@ namespace GKProcessor
 			KauDatabases.ForEach(x => x.BuildObjects());
 			GkDatabases.ForEach(x => x.BuildObjects());
 			CreateDynamicObjectsInGKManager();
-
-			Check();
 		}
 
 		public static void CreateDynamicObjectsInGKManager()
@@ -82,14 +80,14 @@ namespace GKProcessor
 			}
 		}
 
-		static void Check()
+		public static bool Check()
 		{
 			foreach(var kauDatabase in KauDatabases)
 			{
 				var result = kauDatabase.Check().ToList();
 				if(result.Count > 0)
 				{
-					;
+					return false;
 				}
 			}
 			foreach (var gkDatabase in GkDatabases)
@@ -97,9 +95,10 @@ namespace GKProcessor
 				var result = gkDatabase.Check().ToList();
 				if (result.Count > 0)
 				{
-					;
+					return false;
 				}
 			}
+			return true;
 		}
 	}
 }

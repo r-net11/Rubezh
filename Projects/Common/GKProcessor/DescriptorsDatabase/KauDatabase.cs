@@ -43,7 +43,7 @@ namespace GKProcessor
 			Descriptors = new List<BaseDescriptor>();
 			foreach (var device in Devices)
 			{
-				var deviceDescriptor = new DeviceDescriptor(device, DatabaseType);
+				var deviceDescriptor = new DeviceDescriptor(device, DatabaseType.Kau);
 				Descriptors.Add(deviceDescriptor);
 			}
 

@@ -9,6 +9,7 @@ namespace GKProcessor
 	public class FormulaBuilder
 	{
 		public List<FormulaOperation> FormulaOperations { get; protected set; }
+		public bool IsGeneratedOutside { get; set; }
 
 		public FormulaBuilder()
 		{

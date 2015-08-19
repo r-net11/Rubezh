@@ -61,8 +61,6 @@ namespace GKModule.ViewModels
 			No = Zone.No;
 			Name = Zone.Name;
 			Description = Zone.Description;
-			SetGuardLevel = Zone.SetGuardLevel;
-			ResetGuardLevel = Zone.ResetGuardLevel;
 			SetDelay = Zone.SetDelay;
 			ResetDelay = Zone.ResetDelay;
 			AlarmDelay = Zone.AlarmDelay;
@@ -99,28 +97,6 @@ namespace GKModule.ViewModels
 			{
 				_description = value;
 				OnPropertyChanged(() => Description);
-			}
-		}
-
-		int _setGuardLevel;
-		public int SetGuardLevel
-		{
-			get { return _setGuardLevel; }
-			set
-			{
-				_setGuardLevel = value;
-				OnPropertyChanged(() => SetGuardLevel);
-			}
-		}
-
-		int _resetGuardLevel;
-		public int ResetGuardLevel
-		{
-			get { return _resetGuardLevel; }
-			set
-			{
-				_resetGuardLevel = value;
-				OnPropertyChanged(() => ResetGuardLevel);
 			}
 		}
 
@@ -189,8 +165,6 @@ namespace GKModule.ViewModels
 			Zone.No = No;
 			Zone.Name = Name;
 			Zone.Description = Description;
-			Zone.SetGuardLevel = SetGuardLevel;
-			Zone.ResetGuardLevel = ResetGuardLevel;
 			Zone.SetDelay = SetDelay;
 			Zone.ResetDelay = ResetDelay;
 			Zone.AlarmDelay = AlarmDelay;
@@ -231,8 +205,6 @@ namespace GKModule.ViewModels
 			Zone.AlarmDelay = AlarmDelay;
 			Zone.ResetDelay = ResetDelay;
 			Zone.SetDelay = SetDelay;
-			Zone.ResetGuardLevel = ResetGuardLevel;
-			Zone.SetGuardLevel = SetGuardLevel;
 
 			DescriptorsManager.Create();
 			if (!CompareLocalWithRemoteHashes())

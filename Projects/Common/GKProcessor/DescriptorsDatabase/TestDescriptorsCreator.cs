@@ -45,12 +45,12 @@ namespace GKProcessor.DescriptorsDatabase
 			foreach (var guardZone in GKManager.GuardZones)
 			{
 				guardZone.DescriptorDependentObjects = new List<GKBase>();
-				foreach(var guardZoneDevice in guardZone.GuardZoneDevices)
+				foreach (var guardZoneDevice in guardZone.GuardZoneDevices)
 				{
 					guardZone.DescriptorDependentObjects.Add(guardZoneDevice.Device);
 					if (guardZoneDevice.Device.DriverType == GKDriverType.RSR2_CodeReader || guardZoneDevice.Device.DriverType == GKDriverType.RSR2_CardReader)
 					{
-						//guardZoneDevice.Device.DescriptorDependentObjects.Add(guardZone);
+						guardZoneDevice.Device.DescriptorDependentObjects.Add(guardZone);
 
 						var codeUIDs = new List<Guid>();
 						codeUIDs.AddRange(guardZoneDevice.CodeReaderSettings.SetGuardSettings.CodeUIDs);
@@ -78,7 +78,7 @@ namespace GKProcessor.DescriptorsDatabase
 				pumpStation.DescriptorDependentObjects.AddRange(pumpStation.StartLogic.GetObjects());
 				pumpStation.DescriptorDependentObjects.AddRange(pumpStation.StopLogic.GetObjects());
 				pumpStation.DescriptorDependentObjects.AddRange(pumpStation.AutomaticOffLogic.GetObjects());
-				foreach(var nsDevice in pumpStation.NSDevices)
+				foreach (var nsDevice in pumpStation.NSDevices)
 				{
 					pumpStation.DescriptorDependentObjects.Add(nsDevice);
 					nsDevice.DescriptorDependentObjects.Add(pumpStation);
@@ -214,7 +214,21 @@ namespace GKProcessor.DescriptorsDatabase
 					if (dependentObject is GKGuardZone)
 					{
 						var guardZone = dependentObject as GKGuardZone;
-						//kauParents.Clear();
+
+						foreach (var guardZoneDevice in guardZone.GuardZoneDevices)
+						{
+							if (guardZoneDevice.Device.DriverType == GKDriverType.RSR2_CodeReader || guardZoneDevice.Device.DriverType == GKDriverType.RSR2_CardReader)
+							{
+								var hasAccessLevel = guardZoneDevice.CodeReaderSettings.SetGuardSettings.AccessLevel > 0 ||
+								guardZoneDevice.CodeReaderSettings.ResetGuardSettings.AccessLevel > 0 ||
+								guardZoneDevice.CodeReaderSettings.ChangeGuardSettings.AccessLevel > 0 ||
+								guardZoneDevice.CodeReaderSettings.AlarmSettings.AccessLevel > 0;
+								if (hasAccessLevel)
+								{
+									kauParents.Clear();
+								}
+							}
+						}
 					}
 				}
 
