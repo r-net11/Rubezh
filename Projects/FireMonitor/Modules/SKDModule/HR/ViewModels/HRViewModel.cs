@@ -286,14 +286,13 @@ namespace SKDModule.ViewModels
 				LogicalDeletationType = Filter.LogicalDeletationType 
 			};
 			InitializeEmployeeFilter();
-            
-            
-            DepartmentsViewModel.Initialize(DepartmentFilter);
-            PositionsViewModel.Initialize(PositionFilter);
-            AdditionalColumnTypesViewModel.Initialize(AdditionalColumnTypeFilter);
+
+			DepartmentsViewModel.Initialize(DepartmentFilter);
+			PositionsViewModel.Initialize(PositionFilter);
+			AdditionalColumnTypesViewModel.Initialize(AdditionalColumnTypeFilter);
 			CardsViewModel.Initialize(CardFilter);
-            AccessTemplatesViewModel.Initialize(AccessTemplateFilter);
-            PassCardTemplatesViewModel.Initialize(PassCardTemplateFilter);
+			AccessTemplatesViewModel.Initialize(AccessTemplateFilter);
+			PassCardTemplatesViewModel.Initialize(PassCardTemplateFilter);
             OrganisationsViewModel.Initialize(Filter.LogicalDeletationType);
 			EmployeesViewModel.Initialize(EmployeeFilter);
             

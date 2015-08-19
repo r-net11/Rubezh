@@ -52,7 +52,7 @@ namespace SKDModule.ViewModels
 					OrganisationUID = Organisation.UID
 				};
 				var v = _parentViewModel.GetDayIntervals(Organisation.UID).FirstOrDefault(x => x.Name == "Выходной");
-				Model.DayIntervals.Add(new ScheduleDayInterval(){Number =1, ScheduleSchemeUID=Guid.NewGuid(), DayInterval=v});
+				Model.DayIntervals.Add(new ScheduleDayInterval(){Number =1, ScheduleSchemeUID=Guid.NewGuid(), DayIntervalName = v.Name, DayIntervalUID = v.UID});
 			}
 			else
 			{
@@ -139,12 +139,19 @@ namespace SKDModule.ViewModels
 						break;
 				}
 				for (int i = 0; i < Model.DaysCount; i++)
-					Model.DayIntervals.Add(new ScheduleDayInterval()
+				{
+					var scheduleDayInterval = new ScheduleDayInterval()
 					{
 						Number = i,
 						ScheduleSchemeUID = Model.UID,
-						DayInterval = CanSelectDayInterval && Model.DaysCount - i > 2 ? SelectedDayInterval : null,
-					});
+					};
+					if (SelectedDayInterval != null && CanSelectDayInterval && Model.DaysCount - i > 2)
+					{
+						scheduleDayInterval.DayIntervalUID = SelectedDayInterval.UID;
+						scheduleDayInterval.DayIntervalName = SelectedDayInterval.Name;
+					}
+					Model.DayIntervals.Add(scheduleDayInterval);
+				}
 				Model.Type = SelectedScheduleSchemeType;
 			}
 			if (!DetailsValidateHelper.Validate(Model))

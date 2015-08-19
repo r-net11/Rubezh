@@ -226,8 +226,8 @@ namespace SKDDriver.DataClasses
 					var tableEmployeeDay = new EmployeeDay
 					{
 						UID = employeeDay.UID,
-						AllowedEarlyLeave = employeeDay.AllowedEarlyLeave,
-						AllowedLate = employeeDay.AllowedLate,
+						AllowedEarlyLeave = TimeSpan.FromSeconds(employeeDay.AllowedEarlyLeave),
+						AllowedLate = TimeSpan.FromSeconds(employeeDay.AllowedLate),
 						Date = employeeDay.Date,
 						DayIntervalsString = employeeDay.DayIntervalsString,
 						EmployeeUID = employeeDay.EmployeeUID,

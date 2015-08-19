@@ -84,7 +84,8 @@ namespace FiresecService.Service
 		{
 			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
-				return databaseService.ScheduleSchemeTranslator.Get(filter);
+				var result = databaseService.ScheduleSchemeTranslator.Get(filter);
+				return result;
 			}
 		}
 		public OperationResult<bool> SaveScheduleScheme(ScheduleScheme item, bool isNew)

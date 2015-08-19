@@ -82,7 +82,7 @@ namespace SKDModule.ViewModels
 
 		protected override Guid GetParentUID(Employee employee)
 		{
-			return employee.Department != null ? employee.Department.UID : Guid.Empty;
+			return employee.DepartmentUID;
 		}
 
 		#region Commands

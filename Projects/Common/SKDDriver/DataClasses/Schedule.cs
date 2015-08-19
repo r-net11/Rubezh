@@ -35,8 +35,8 @@ namespace SKDDriver.DataClasses
 
 		public bool IsOnlyFirstEnter { get; set; }
 
-		public int AllowedLate { get; set; }
+		public TimeSpan AllowedLate { get; set; }
 
-		public int AllowedEarlyLeave { get; set; }
+		public TimeSpan AllowedEarlyLeave { get; set; }
 	}
 }

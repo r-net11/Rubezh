@@ -2,6 +2,7 @@
 using FiresecAPI;
 using FiresecAPI.SKD.ReportFilters;
 using FiresecService.Report.DataSources;
+using System;
 
 namespace FiresecService.Report.Templates
 {
@@ -34,7 +35,7 @@ namespace FiresecService.Report.Templates
 			{
 				if (filter.ScheduleSchemas != null && filter.ScheduleSchemas.Count > 0)
 				{
-					if (employee.Item.Schedule == null || !filter.ScheduleSchemas.Contains(employee.Item.Schedule.UID))
+					if (employee.Item.ScheduleUID == Guid.Empty || !filter.ScheduleSchemas.Contains(employee.Item.ScheduleUID))
 						continue;
 				}
 
@@ -44,10 +45,10 @@ namespace FiresecService.Report.Templates
 				dataRow.Department = employee.Department;
 				dataRow.Position = employee.Position;
 
-				if (employee.Item.Schedule != null)
+				if (employee.Item.ScheduleUID != Guid.Empty)
 				{
-					dataRow.Schedule = employee.Item.Schedule.Name;
-					var scheduleResult = dataProvider.DbService.ScheduleTranslator.GetSingle(employee.Item.Schedule.UID);
+					dataRow.Schedule = employee.Item.ScheduleName;
+					var scheduleResult = dataProvider.DbService.ScheduleTranslator.GetSingle(employee.Item.ScheduleUID);
 					if (scheduleResult.Result != null)
 					{
 						dataRow.UseHoliday = !scheduleResult.Result.IsIgnoreHoliday;

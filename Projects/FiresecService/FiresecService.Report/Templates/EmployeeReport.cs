@@ -65,7 +65,7 @@ namespace FiresecService.Report.Templates
 				if (employee.Item.Photo != null)
 					dataRow.Photo = employee.Item.Photo.Data;
 				dataRow.Position = employee.Position;
-				dataRow.Schedule = employee.Item.Schedule == null || employee.Item.Schedule.IsDeleted ? null : employee.Item.Schedule.Name;
+				dataRow.Schedule = employee.Item.ScheduleName;
 				dataRow.SecondName = employee.Item.SecondName;
 				dataRow.Sex = employee.Item.Gender.ToDescription();
 				dataRow.UID = employee.UID;
@@ -80,12 +80,12 @@ namespace FiresecService.Report.Templates
 				}
 				foreach (var column in employee.Item.AdditionalColumns)
 				{
-					if (column.AdditionalColumnType != null && column.AdditionalColumnType.DataType == AdditionalColumnDataType.Text)
+					if (column.DataType == AdditionalColumnDataType.Text)
 					{
 						var columnRow = dataSet.AdditionalColumns.NewAdditionalColumnsRow();
 						columnRow.DataRow = dataRow;
 						columnRow.Value = column.TextData;
-						columnRow.Name = column.AdditionalColumnType.Name;
+						columnRow.Name = column.ColumnName;
 						dataSet.AdditionalColumns.AddAdditionalColumnsRow(columnRow);
 					}
 				}

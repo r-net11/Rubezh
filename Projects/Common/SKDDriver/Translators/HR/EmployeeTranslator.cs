@@ -5,6 +5,8 @@ using System.Linq;
 using FiresecAPI;
 using FiresecAPI.SKD;
 using API = FiresecAPI.SKD;
+using System.Runtime.Serialization;
+using System.Diagnostics;
 
 namespace SKDDriver.DataClasses
 {
@@ -61,45 +63,56 @@ namespace SKDDriver.DataClasses
 				);
 		}
 
-		public override API.Employee Translate(Employee tableItem)
+		protected override IEnumerable<API.Employee> GetAPIItems(IQueryable<Employee> tableItems)
 		{
-			var result = base.Translate(tableItem);
-			if (result == null)
-				return null;
-			result.FirstName = tableItem.FirstName;
-			result.SecondName = tableItem.SecondName;
-			result.LastName = tableItem.LastName;
-			result.Position = DbService.PositionTranslator.ShortTranslator.Translate(tableItem.Position);
-			result.Department = DbService.DepartmentTranslator.ShortTranslator.Translate(tableItem.Department);
-			result.Schedule = DbService.ScheduleTranslator.Translate(tableItem.Schedule);
-			result.ScheduleName = tableItem.Schedule != null ? tableItem.Schedule.Name : "";
-			result.ScheduleStartDate = tableItem.ScheduleStartDate;
-			result.Photo = tableItem.Photo != null ? tableItem.Photo.Translate() : null;
-			result.AdditionalColumns = tableItem.AdditionalColumns.Select(x => new API.AdditionalColumn
+			return tableItems.Select(tableItem => new API.Employee
 			{
-				UID = x.UID,
-				EmployeeUID = x.EmployeeUID,
-				AdditionalColumnType = DbService.AdditionalColumnTypeTranslator.Translate(x.AdditionalColumnType),
-				Photo = x.Photo != null ? x.Photo.Translate() : null,
-				TextData = x.TextData
-			}).ToList();
-			result.Type = (API.PersonType)tableItem.Type;
-			result.TabelNo = tableItem.TabelNo;
-			result.CredentialsStartDate = tableItem.CredentialsStartDate;
-			result.EscortUID = tableItem.EscortUID;
-			result.DocumentNumber = tableItem.DocumentNumber;
-			result.BirthDate = tableItem.BirthDate;
-			result.BirthPlace = tableItem.BirthPlace;
-			result.DocumentGivenBy = tableItem.DocumentGivenBy;
-			result.DocumentGivenDate = tableItem.DocumentGivenDate;
-			result.DocumentValidTo = tableItem.DocumentValidTo;
-			result.Gender = (API.Gender)tableItem.Gender;
-			result.DocumentDepartmentCode = result.DocumentDepartmentCode;
-			result.Citizenship = tableItem.Citizenship;
-			result.DocumentType = (API.EmployeeDocumentType)tableItem.DocumentType;
-			result.LastEmployeeDayUpdate = tableItem.LastEmployeeDayUpdate;
-			result.Phone = tableItem.Phone;
-			return result;
+				UID = tableItem.UID,
+				Description = tableItem.Description,
+				IsDeleted = tableItem.IsDeleted,
+				RemovalDate = tableItem.RemovalDate != null ? tableItem.RemovalDate.Value : new DateTime(),
+				FirstName = tableItem.FirstName,
+				SecondName = tableItem.SecondName,
+				LastName = tableItem.LastName,
+				OrganisationUID = tableItem.OrganisationUID != null ? tableItem.OrganisationUID.Value : Guid.Empty,
+				PositionUID = tableItem.Position != null ? tableItem.Position.UID : Guid.Empty,
+				PositionName = tableItem.Position != null ? tableItem.Position.Name : null,
+				IsPositionDeleted = tableItem.Position != null ? tableItem.Position.IsDeleted : false,
+				DepartmentUID = tableItem.Department != null ? tableItem.Department.UID : Guid.Empty,
+				DepartmentName = tableItem.Department != null ? tableItem.Department.Name : null,
+				IsDepartmentDeleted = tableItem.Department != null ? tableItem.Department.IsDeleted : false,
+				ScheduleUID = tableItem.Schedule != null ? tableItem.Schedule.UID : Guid.Empty,
+				ScheduleName = tableItem.Schedule != null ? tableItem.Schedule.Name : null,
+				IsScheduleDeleted = tableItem.Schedule != null ? tableItem.Schedule.IsDeleted : false,
+				ScheduleStartDate = tableItem.ScheduleStartDate,
+				Photo = tableItem.Photo != null ? new API.Photo { UID = tableItem.Photo.UID, Data = tableItem.Photo.Data } : null,
+				AdditionalColumns = tableItem.AdditionalColumns.Select(x => new API.AdditionalColumn
+				{
+					UID = x.UID,
+					EmployeeUID = x.EmployeeUID,
+					AdditionalColumnTypeUID = x.AdditionalColumnType != null ? x.AdditionalColumnType.UID : Guid.Empty,
+					ColumnName = x.AdditionalColumnType != null ? x.AdditionalColumnType.Name : null,
+					DataType = x.AdditionalColumnType != null ? (AdditionalColumnDataType)x.AdditionalColumnType.DataType : AdditionalColumnDataType.Text,
+					Photo = x.Photo != null ? new API.Photo { UID = x.Photo.UID, Data = x.Photo.Data } : null,
+					TextData = x.TextData
+				}).ToList(),
+				Type = (API.PersonType)tableItem.Type,
+				TabelNo = tableItem.TabelNo,
+				CredentialsStartDate = tableItem.CredentialsStartDate,
+				EscortUID = tableItem.EscortUID,
+				DocumentNumber = tableItem.DocumentNumber,
+				BirthDate = tableItem.BirthDate,
+				BirthPlace = tableItem.BirthPlace,
+				DocumentGivenBy = tableItem.DocumentGivenBy,
+				DocumentGivenDate = tableItem.DocumentGivenDate,
+				DocumentValidTo = tableItem.DocumentValidTo,
+				Gender = (API.Gender)tableItem.Gender,
+				DocumentDepartmentCode = tableItem.DocumentDepartmentCode,
+				Citizenship = tableItem.Citizenship,
+				DocumentType = (API.EmployeeDocumentType)tableItem.DocumentType,
+				LastEmployeeDayUpdate = tableItem.LastEmployeeDayUpdate,
+				Phone = tableItem.Phone
+			});
 		}
 
 		public override void TranslateBack(API.Employee apiItem, Employee tableItem)
@@ -108,16 +121,16 @@ namespace SKDDriver.DataClasses
 			tableItem.FirstName = apiItem.FirstName;
 			tableItem.SecondName = apiItem.SecondName;
 			tableItem.LastName = apiItem.LastName;
-			tableItem.PositionUID = apiItem.Position != null ? (Guid?)apiItem.Position.UID : null;
-			tableItem.DepartmentUID = apiItem.Department != null ? (Guid?)apiItem.Department.UID : null;
-			tableItem.ScheduleUID = apiItem.Schedule != null ? (Guid?)apiItem.Schedule.UID : null;
+			tableItem.PositionUID = apiItem.PositionUID.EmptyToNull();
+			tableItem.DepartmentUID = apiItem.DepartmentUID.EmptyToNull();
+			tableItem.ScheduleUID = apiItem.ScheduleUID.EmptyToNull();
 			tableItem.ScheduleStartDate = apiItem.ScheduleStartDate.CheckDate();
 			tableItem.Photo = Photo.Create(apiItem.Photo);
 			tableItem.AdditionalColumns = apiItem.AdditionalColumns.Select(x => new AdditionalColumn
 			{
 				UID = x.UID,
 				EmployeeUID = x.EmployeeUID,
-				AdditionalColumnTypeUID = x.AdditionalColumnType != null ? (Guid?)x.AdditionalColumnType.UID : null,
+				AdditionalColumnTypeUID = x.AdditionalColumnTypeUID.EmptyToNull(),
 				Photo = Photo.Create(x.Photo),
 				TextData = x.TextData
 			}).ToList();
@@ -212,32 +225,38 @@ namespace SKDDriver.DataClasses
 				.Include(x => x.AdditionalColumns.Select(additionalColumn => additionalColumn.AdditionalColumnType));
 		}
 
-		public override API.ShortEmployee Translate(Employee employee)
+		protected override IEnumerable<ShortEmployee> GetAPIItems(IQueryable<Employee> employees)
 		{
-			return new API.ShortEmployee
-			{
-				UID = employee.UID,
-				FirstName = employee.FirstName,
-				SecondName = employee.SecondName,
-				LastName = employee.LastName,
-				Description = employee.Description,
-				DepartmentName = employee.Department != null ? employee.Department.Name : null,
-				IsDepartmentDeleted = employee.Department != null && employee.Department.IsDeleted,
-				PositionName = employee.Position != null ? employee.Position.Name : null,
-				IsPositionDeleted = employee.Position != null && employee.Position.IsDeleted,
-				Type = (API.PersonType)employee.Type,
-				TextColumns = employee.AdditionalColumns.Where(x => x.AdditionalColumnType.DataType == 0).
-					Select(x => new TextColumn { ColumnTypeUID = x.AdditionalColumnType.UID, Text = x.TextData }).ToList(),
-				CredentialsStartDate = employee.CredentialsStartDate.ToString(),
-				TabelNo = employee.TabelNo,
-				OrganisationUID = employee.OrganisationUID.GetValueOrDefault(),
-				OrganisationName = employee.Organisation.Name,
-				Phone = employee.Phone,
-				IsDeleted = employee.IsDeleted,
-				RemovalDate = employee.RemovalDate.GetValueOrDefault(),
-				LastEmployeeDayUpdate = employee.LastEmployeeDayUpdate,
-				ScheduleUID = employee.ScheduleUID.GetValueOrDefault()
-			};
+			return employees.Select(employee =>
+				new API.ShortEmployee
+				{
+					UID = employee.UID,
+					FirstName = employee.FirstName,
+					SecondName = employee.SecondName,
+					LastName = employee.LastName,
+					Description = employee.Description,
+					DepartmentName = employee.Department != null ? employee.Department.Name : null,
+					IsDepartmentDeleted = employee.Department != null && employee.Department.IsDeleted,
+					PositionName = employee.Position != null ? employee.Position.Name : null,
+					IsPositionDeleted = employee.Position != null && employee.Position.IsDeleted,
+					Type = (API.PersonType)employee.Type,
+					TextColumns = employee.AdditionalColumns.Where(x => x.AdditionalColumnType.DataType == 0).
+						Select(x => new TextColumn { ColumnTypeUID = x.AdditionalColumnType.UID, Text = x.TextData }).ToList(),
+					CredentialsStartDate = employee.CredentialsStartDate.ToString(),
+					TabelNo = employee.TabelNo,
+					OrganisationUID = employee.OrganisationUID != null ? employee.OrganisationUID.Value : Guid.Empty,
+					OrganisationName = employee.Organisation.Name,
+					Phone = employee.Phone,
+					IsDeleted = employee.IsDeleted,
+					RemovalDate = employee.RemovalDate != null ? employee.RemovalDate.Value : new DateTime(),
+					LastEmployeeDayUpdate = employee.LastEmployeeDayUpdate,
+					ScheduleUID = employee.ScheduleUID != null ? employee.ScheduleUID.Value : Guid.Empty,
+				});
+		}
+
+		public ShortEmployee Translate(Employee employee)
+		{
+			return GetAPIItems(new List<Employee> { employee }.AsQueryable()).FirstOrDefault();
 		}
 	}
 
