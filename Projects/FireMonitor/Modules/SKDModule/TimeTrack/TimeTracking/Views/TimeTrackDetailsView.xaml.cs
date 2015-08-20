@@ -30,9 +30,11 @@ namespace SKDModule.Views
 			public TimeTrackType TimeTrackType { get; set; }
 		}
 
-		string TimePartDateToString(DateTime dateTime)
+		string TimePartDateToString(DateTime? dateTime)
 		{
-			var result = dateTime.TimeOfDay.Hours.ToString() + ":" + dateTime.TimeOfDay.Minutes.ToString() + ":" + dateTime.TimeOfDay.Seconds.ToString();
+			if (!dateTime.HasValue) return string.Empty;
+
+			var result = dateTime.Value.TimeOfDay.Hours + ":" + dateTime.Value.TimeOfDay.Minutes + ":" + dateTime.Value.TimeOfDay.Seconds;
 			return result;
 		}
 
@@ -43,6 +45,11 @@ namespace SKDModule.Views
 		}
 
 		void TimeTrackDetailsView_Loaded(object sender, RoutedEventArgs e)
+		{
+			Refresh();
+		}
+
+		public void Refresh()
 		{
 			TimeTrackDetailsViewModel timeTrackDetailsViewModel = DataContext as TimeTrackDetailsViewModel;
 			if (timeTrackDetailsViewModel != null)
@@ -65,10 +72,12 @@ namespace SKDModule.Views
 							timeTrackPart.TimeTrackPartType = TimeTrackType.DocumentAbsence;
 							break;
 					}
-					timeTrackPart.Tooltip = TimePartDateToString(timeTrackPart.StartTime) + " - " + TimePartDateToString(timeTrackPart.EndTime) + "\n" + timeTrackPart.MinTimeTrackDocumentType.Name;
+					timeTrackPart.Tooltip = TimePartDateToString(timeTrackPart.EnterDateTime) + " - " +
+					                        TimePartDateToString(timeTrackPart.ExitDateTime) + "\n" +
+					                        timeTrackPart.MinTimeTrackDocumentType.Name;
 				}
 
-				foreach (var timeTrackPart in dayTimeTrack.RealTimeTrackParts)
+				foreach (var timeTrackPart in dayTimeTrack.RealTimeTrackPartsForCalculates)
 				{
 					var zoneName = "<Нет в конфигурации>";
 					var strazhZone = SKDManager.Zones.FirstOrDefault(x => x.UID == timeTrackPart.ZoneUID);
@@ -77,13 +86,15 @@ namespace SKDModule.Views
 						zoneName = strazhZone.Name;
 					}
 
-					timeTrackPart.Tooltip = TimePartDateToString(timeTrackPart.StartTime) + " - " + TimePartDateToString(timeTrackPart.EndTime) + "\n" + zoneName;
+					timeTrackPart.Tooltip = TimePartDateToString(timeTrackPart.EnterDateTime) + " - " +
+					                        TimePartDateToString(timeTrackPart.ExitDateTime) + "\n" + zoneName;
 					timeTrackPart.TimeTrackPartType = TimeTrackType.Presence;
 				}
 
 				foreach (var timeTrackPart in dayTimeTrack.PlannedTimeTrackParts)
 				{
-					timeTrackPart.Tooltip = TimePartDateToString(timeTrackPart.StartTime) + " - " + TimePartDateToString(timeTrackPart.EndTime) + "\n" + timeTrackPart.DayName;
+					timeTrackPart.Tooltip = TimePartDateToString(timeTrackPart.EnterDateTime) + " - " +
+					                        TimePartDateToString(timeTrackPart.ExitDateTime) + "\n" + timeTrackPart.DayName;
 					if (timeTrackPart.StartsInPreviousDay)
 						timeTrackPart.Tooltip += "\n" + "Интервал начинается днем рашьше";
 					if (timeTrackPart.EndsInNextDay)
@@ -93,13 +104,15 @@ namespace SKDModule.Views
 
 				foreach (var timeTrackPart in dayTimeTrack.CombinedTimeTrackParts)
 				{
-					timeTrackPart.Tooltip = TimePartDateToString(timeTrackPart.StartTime) + " - " + TimePartDateToString(timeTrackPart.EndTime) + "\n" + timeTrackPart.TimeTrackPartType.ToDescription();
+					timeTrackPart.Tooltip = TimePartDateToString(timeTrackPart.EnterDateTime) + " - " +
+					                        TimePartDateToString(timeTrackPart.ExitDateTime) + "\n" +
+					                        timeTrackPart.TimeTrackPartType.ToDescription();
 				}
 
 				DrawTimeTrackGrid(dayTimeTrack.DocumentTrackParts, DocumentsGrid);
-				DrawTimeTrackGrid(dayTimeTrack.RealTimeTrackParts, RealGrid);
+				DrawTimeTrackGrid(dayTimeTrack.RealTimeTrackPartsForCalculates, RealGrid);
 				DrawTimeTrackGrid(dayTimeTrack.PlannedTimeTrackParts, PlannedGrid);
-				DrawTimeTrackGrid(dayTimeTrack.CombinedTimeTrackParts, CombinedGrid);
+				DrawTimeTrackGrid(dayTimeTrack.CombinedTimeTrackParts.Where(x => !x.NotTakeInCalculations).ToList(), CombinedGrid);
 			}
 
 			DrawHoursGrid();
@@ -111,27 +124,29 @@ namespace SKDModule.Views
 			{
 				double current = 0;
 				var timeParts = new List<TimePart>();
-				for (int i = 0; i < timeTrackParts.Count; i++)
+
+				for (var i = 0; i < timeTrackParts.Count; i++)
 				{
 					var timeTrackPart = timeTrackParts[i];
 
-					var startTimePart = new TimePart();
-					startTimePart.Delta = timeTrackPart.StartTime.TotalSeconds - current;
-					startTimePart.IsInterval = false;
+					if(!timeTrackPart.ExitDateTime.HasValue) continue;
+
+					var startTimePart = new TimePart {Delta = timeTrackPart.EnterDateTime.TimeOfDay.TotalSeconds - current, IsInterval = false};
 					timeParts.Add(startTimePart);
 
-					var endTimePart = new TimePart();
-					endTimePart.Delta = timeTrackPart.EndTime.TotalSeconds - timeTrackPart.StartTime.TotalSeconds;
-					endTimePart.IsInterval = timeTrackPart.TimeTrackPartType != TimeTrackType.None;
-					endTimePart.TimeTrackType = timeTrackPart.TimeTrackPartType;
-					endTimePart.Tooltip = timeTrackPart.Tooltip;
+					var endTimePart = new TimePart
+					{
+						Delta = timeTrackPart.ExitDateTime.Value.TimeOfDay.TotalSeconds - timeTrackPart.EnterDateTime.TimeOfDay.TotalSeconds,
+						IsInterval = timeTrackPart.TimeTrackPartType != TimeTrackType.None,
+						TimeTrackType = timeTrackPart.TimeTrackPartType,
+						Tooltip = timeTrackPart.Tooltip
+					};
 					timeParts.Add(endTimePart);
 
-					current = timeTrackPart.EndTime.TotalSeconds;
+					current = timeTrackPart.ExitDateTime.Value.TimeOfDay.TotalSeconds;
 				}
-				var lastTimePart = new TimePart();
-				lastTimePart.Delta = 24 * 60 * 60 - current;
-				lastTimePart.IsInterval = false;
+
+				var lastTimePart = new TimePart {Delta = 24*60*60 - current, IsInterval = false};
 				timeParts.Add(lastTimePart);
 
 				DrawGrid(timeParts, grid);
@@ -146,12 +161,11 @@ namespace SKDModule.Views
 				var widht = timePart.Delta;
 				if (widht >= 0)
 				{
-					grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(widht, GridUnitType.Star) });
+					grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(widht, GridUnitType.Star) });
 
 					if (timePart.IsInterval)
 					{
-						Rectangle rectangle = new Rectangle();
-						rectangle.ToolTip = timePart.Tooltip;
+						var rectangle = new Rectangle {ToolTip = timePart.Tooltip};
 						var timeTrackTypeToColorConverter = new TimeTrackTypeToColorConverter();
 						rectangle.Fill = (Brush)timeTrackTypeToColorConverter.Convert(timePart.TimeTrackType, null, null, null);
 						rectangle.Stroke = new SolidColorBrush(Colors.Black);
@@ -165,19 +179,33 @@ namespace SKDModule.Views
 
 		void DrawHoursGrid()
 		{
-			TimeLineGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(0.5, GridUnitType.Star) });
+			TimeLineGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(0.5, GridUnitType.Star) });
 			for (int i = 1; i <= 23; i++)
 			{
-				TimeLineGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
-				TextBlock timeTextBlock = new TextBlock();
-				timeTextBlock.Text = i.ToString();
-				timeTextBlock.Foreground = new SolidColorBrush(Colors.Black);
-				timeTextBlock.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
+				TimeLineGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+				var timeTextBlock = new TextBlock
+				{
+					Text = i.ToString(),
+					Foreground = new SolidColorBrush(Colors.Black),
+					HorizontalAlignment = HorizontalAlignment.Center
+				};
 				Grid.SetRow(timeTextBlock, 0);
 				Grid.SetColumn(timeTextBlock, i);
 				TimeLineGrid.Children.Add(timeTextBlock);
 			}
-			TimeLineGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(0.5, GridUnitType.Star) });
+			TimeLineGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(0.5, GridUnitType.Star) });
+		}
+
+		private void TimeTrackDetailsView_OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+		{
+			var vm = (TimeTrackDetailsViewModel) e.NewValue;
+			vm.RefreshGridHandler += vm_RefreshGridHandler;
+		}
+
+		void vm_RefreshGridHandler(object sender, EventArgs e)
+		{
+			//Refresh();
+
 		}
 	}
 }

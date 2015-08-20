@@ -97,7 +97,7 @@ namespace StrazhModule.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Нет связи с контроллером. Сохранить изменение настроек в конфигурации?.
+        ///   Looks up a localized string similar to Параметры не были записаны на контроллер. Сохранить изменение настроек в конфигурации?.
         /// </summary>
         internal static string SaveConfigurationControllerWarning {
             get {

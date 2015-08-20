@@ -263,5 +263,15 @@ namespace Infrastructure.Common.Windows.Views
 				Logger.Error(ex, "WindowBaseView.SaveWindowSize");
 			}
 		}
+
+		private void Window_Activated(object sender, EventArgs e)
+		{
+			_model.Activated();
+		}
+
+		private void Window_Deactivated(object sender, EventArgs e)
+		{
+			_model.Deactivated();
+		}
 	}
 }

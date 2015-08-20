@@ -4,38 +4,42 @@
 			xmlns:Controls="clr-namespace:Controls;assembly=Controls"
 			xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
 			MinWidth="500" MinHeight="300">
+	<UserControl.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="pack://application:,,,/Controls;component/Themes/StrazhTheme.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+	</UserControl.Resources>
+	<Border Background="{StaticResource BackgroundBrush}">
+		<Grid Margin="10">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition />
+				<ColumnDefinition />
+			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
+			<Label Grid.Row="0" Grid.Column="0" Content="Номер" HorizontalAlignment="Right" Margin="2" />
+			<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding No, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 
-	<TabControl>
-		<TabItem Header="Основные">
-			<Grid>
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition />
-					<ColumnDefinition />
-				</Grid.ColumnDefinitions>
-				<Grid.RowDefinitions>
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-				</Grid.RowDefinitions>
-				<Label Grid.Row="0" Grid.Column="0" Content="Номер" HorizontalAlignment="Right" Margin="2" />
-				<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding No, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+			<Label Grid.Row="1" Grid.Column="0" Content="Наименование" HorizontalAlignment="Right" />
+			<TextBox Name="nameTextBox" Grid.Row="1" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 
-				<Label Grid.Row="1" Grid.Column="0" Content="Наименование" HorizontalAlignment="Right" />
-				<TextBox Name="nameTextBox" Grid.Row="1" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+			<Label Grid.Row="2" Grid.Column="0" Content="Примечание" HorizontalAlignment="Right" />
+			<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 
-				<Label Grid.Row="2" Grid.Column="0" Content="Примечание" HorizontalAlignment="Right" />
-				<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-
-				<Label Grid.Row="3" Grid.Column="0" Content="Тип" HorizontalAlignment="Right" />
-				<ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding AvailableDoorTypes}" SelectedItem="{Binding SelectedDoorType}" Margin="2">
-					<ComboBox.ItemTemplate>
-						<DataTemplate>
-							<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
-						</DataTemplate>
-					</ComboBox.ItemTemplate>
-				</ComboBox>
-			</Grid>
-		</TabItem>
-	</TabControl>
+			<Label Grid.Row="3" Grid.Column="0" Content="Тип" HorizontalAlignment="Right" />
+			<ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding AvailableDoorTypes}" SelectedItem="{Binding SelectedDoorType}" Margin="2">
+				<ComboBox.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+					</DataTemplate>
+				</ComboBox.ItemTemplate>
+			</ComboBox>
+		</Grid>
+	</Border>
 </UserControl>

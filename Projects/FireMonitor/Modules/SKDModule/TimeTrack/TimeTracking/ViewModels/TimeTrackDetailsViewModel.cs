@@ -1,17 +1,23 @@
-﻿using FiresecAPI.SKD;
+﻿using System.Reactive.Linq;
+using FiresecAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using ReactiveUI;
 using SKDModule.Events;
+using SKDModule.Helpers;
 using SKDModule.Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Windows.Data;
+using DayTimeTrackPart = SKDModule.Model.DayTimeTrackPart;
 
 namespace SKDModule.ViewModels
 {
@@ -49,9 +55,9 @@ namespace SKDModule.ViewModels
 
 		public ShortEmployee ShortEmployee { get; private set; }
 
-		private TimeTrackPartDetailsViewModel _selectedTimeTrackPartDetailsViewModel;
+		private DayTimeTrackPart _selectedTimeTrackPartDetailsViewModel;
 
-		public TimeTrackPartDetailsViewModel SelectedTimeTrackPartDetailsViewModel
+		public DayTimeTrackPart SelectedTimeTrackPartDetailsViewModel
 		{
 			get { return _selectedTimeTrackPartDetailsViewModel; }
 			set
@@ -84,8 +90,6 @@ namespace SKDModule.ViewModels
 				OnPropertyChanged(() => CanDoChanges);
 			}
 		}
-
-		public bool IsNew { get; set; }
 
 		public TimeSpan BalanceTimeSpan
 		{
@@ -207,6 +211,34 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		private bool _isShowOnlyScheduledIntervals;
+
+		public bool IsShowOnlyScheduledIntervals
+		{
+			get { return _isShowOnlyScheduledIntervals; }
+			set
+			{
+				_isShowOnlyScheduledIntervals = value;
+				OnPropertyChanged(() => IsShowOnlyScheduledIntervals);
+			}
+		}
+
+		private ICollectionView _dayTimeTrackPartsCollection;
+
+		public ICollectionView DayTimeTrackPartsCollection
+		{
+			get { return _dayTimeTrackPartsCollection; }
+			set
+			{
+				if (_dayTimeTrackPartsCollection == value) return;
+
+				_dayTimeTrackPartsCollection = value;
+				OnPropertyChanged(() => DayTimeTrackPartsCollection);
+			}
+		}
+
+		private IDisposable _subscriber;
+
 		#endregion
 
 		#region Constructors
@@ -214,7 +246,6 @@ namespace SKDModule.ViewModels
 		{
 			//if (string.IsNullOrEmpty(dayTimeTrack.Error))
 			//	dayTimeTrack.Calculate();
-
 			Title = "Время сотрудника " + shortEmployee.FIO + " в течение дня " + dayTimeTrack.Date.Date.ToString("yyyy-MM-dd");
 			AddDocumentCommand = new RelayCommand(OnAddDocument, CanAddDocument);
 			EditDocumentCommand = new RelayCommand(OnEditDocument, CanEditDocument);
@@ -225,22 +256,55 @@ namespace SKDModule.ViewModels
 			AddCustomPartCommand = new RelayCommand(OnAddCustomPart, CanAddPart);
 			RemovePartCommand = new RelayCommand(OnRemovePart, CanEditRemovePart);
 			EditPartCommand = new RelayCommand(OnEditPart, CanEditRemovePart);
+			ResetAdjustmentsCommand = new RelayCommand(OnResetAdjustments);
 			DayTimeTrack = dayTimeTrack;
 			ShortEmployee = shortEmployee;
 
-			DayTimeTrackParts = GetObservableCollection(DayTimeTrack.RealTimeTrackParts, x => new DayTimeTrackPart(x));
+			DayTimeTrackParts = GetObservableCollection(DayTimeTrack.RealTimeTrackParts, x => new DayTimeTrackPart(x, ShortEmployee));
+			DayTimeTrackPartsCollection = CollectionViewSource.GetDefaultView(DayTimeTrackParts);
+			DayTimeTrackPartsCollection.Filter = new Predicate<object>(FilterDayTimeTrackParts);
 			Documents = GetObservableCollection(DayTimeTrack.Documents, x => new TimeTrackAttachedDocument(x));
+
+			this.WhenAny(x => x.SelectedDayTimeTrackPart, x => x.Value)
+				.Subscribe(value =>
+				{
+					if (value == null) return;
+
+					if(_subscriber != null)
+					_subscriber.Dispose();
+
+					_subscriber = Observable.Merge(value.UIChanged).Subscribe(x =>
+					{
+						value.IsDirty = true;
+						IsDirty = true;
+					});
+				});
 
 			this.WhenAny(x => x.SelectedDocument, x => x.Value)
 				.Subscribe(value =>
 				{
 					CanDoChanges = value != null && !value.HasFile;
 				});
+
+			this.WhenAny(x => x.IsShowOnlyScheduledIntervals, x => x.Value)
+				.Subscribe(value => DayTimeTrackPartsCollection.Refresh());
 		}
 
 		#endregion
 
 		#region Methods
+
+		private bool FilterDayTimeTrackParts(object item)
+		{
+			var dayTimeTrackPart = item as DayTimeTrackPart;
+			if (dayTimeTrackPart == null) return false;
+
+			if (IsShowOnlyScheduledIntervals)
+			{
+				return dayTimeTrackPart.TimeTrackZone.IsURV;
+			}
+			return true;
+		}
 
 		private static ObservableCollection<T> GetObservableCollection<T, TU>(IEnumerable<TU> elements, Func<TU, T> del)
 			where T : new()
@@ -259,6 +323,8 @@ namespace SKDModule.ViewModels
 
 		#region Commands
 
+		public event EventHandler RefreshGridHandler;
+
 		public RelayCommand AddCustomPartCommand { get; private set; }
 		public RelayCommand RemovePartCommand { get; private set; }
 		public RelayCommand EditPartCommand { get; private set; }
@@ -268,21 +334,31 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddFileCommand { get; private set; }
 		public RelayCommand OpenFileCommand { get; private set; }
 		public RelayCommand RemoveFileCommand { get; private set; }
+		public RelayCommand ResetAdjustmentsCommand { get; private set; }
+
 		/// <summary>
 		/// Функция создания прохода
 		/// </summary>
 		void OnAddCustomPart()
 		{
 			var timeTrackPartDetailsViewModel = new TimeTrackPartDetailsViewModel(DayTimeTrack, ShortEmployee, this);
+
 			if (DialogService.ShowModalWindow(timeTrackPartDetailsViewModel))
 			{
-				DayTimeTrackParts.Add(new DayTimeTrackPart(timeTrackPartDetailsViewModel));
-				SelectedTimeTrackPartDetailsViewModel = timeTrackPartDetailsViewModel;
-				DayTimeTrack.Date.Date.Add(timeTrackPartDetailsViewModel.ExitTime);
+				timeTrackPartDetailsViewModel.CurrentTimeTrackPart.IsNew = true;
+				DayTimeTrackParts.Add(timeTrackPartDetailsViewModel.CurrentTimeTrackPart);
+				SelectedTimeTrackPartDetailsViewModel = timeTrackPartDetailsViewModel.CurrentTimeTrackPart;
+
+				if (timeTrackPartDetailsViewModel.CurrentTimeTrackPart.ExitDateTime.HasValue)
+					DayTimeTrack.Date.Date.Add(timeTrackPartDetailsViewModel.CurrentTimeTrackPart.ExitDateTime.Value.TimeOfDay);
 
 				IsDirty = true;
-				IsNew = true;
-				ServiceFactory.Events.GetEvent<EditTimeTrackPartEvent>().Publish(ShortEmployee.UID);
+				ServiceFactoryBase.Events.GetEvent<EditTimeTrackPartEvent>().Publish(ShortEmployee.UID);
+
+				if (RefreshGridHandler != null)
+				{
+					RefreshGridHandler(this, EventArgs.Empty);
+				}
 			}
 		}
 
@@ -293,7 +369,7 @@ namespace SKDModule.ViewModels
 
 		void OnRemovePart()
 		{
-			var result = PassJournalHelper.DeleteAllPassJournalItems(SelectedDayTimeTrackPart.UID, DayTimeTrack.Date + SelectedDayTimeTrackPart.EnterTimeSpan, DayTimeTrack.Date + SelectedDayTimeTrackPart.ExitTimeSpan);
+			var result = PassJournalHelper.DeleteAllPassJournalItems(SelectedDayTimeTrackPart.ToDTO());
 			if (result)
 			{
 				DayTimeTrackParts.Remove(SelectedDayTimeTrackPart);
@@ -309,13 +385,24 @@ namespace SKDModule.ViewModels
 
 		void OnEditPart()
 		{
-			var timeTrackPartDetailsViewModel = new TimeTrackPartDetailsViewModel(DayTimeTrack, ShortEmployee, this, SelectedDayTimeTrackPart.UID, SelectedDayTimeTrackPart.EnterTimeSpan, SelectedDayTimeTrackPart.ExitTimeSpan);
+			var timeTrackPartDetailsViewModel = new TimeTrackPartDetailsViewModel(DayTimeTrack, ShortEmployee, this,
+				SelectedDayTimeTrackPart);
+
 			if (DialogService.ShowModalWindow(timeTrackPartDetailsViewModel))
 			{
-				SelectedTimeTrackPartDetailsViewModel = timeTrackPartDetailsViewModel;
-				SelectedDayTimeTrackPart.Update(timeTrackPartDetailsViewModel.EnterTime, timeTrackPartDetailsViewModel.ExitTime, timeTrackPartDetailsViewModel.SelectedZone.Name, timeTrackPartDetailsViewModel.SelectedZone.No);
+				SelectedTimeTrackPartDetailsViewModel = timeTrackPartDetailsViewModel.CurrentTimeTrackPart;
+				timeTrackPartDetailsViewModel.CurrentTimeTrackPart.IsNew = default(bool);
+				//SelectedDayTimeTrackPart
+				//	.Update(
+				//	timeTrackPartDetailsViewModel.CurrentTimeTrackPart.EnterDateTime + timeTrackPartDetailsViewModel.EnterTime,
+				//	timeTrackPartDetailsViewModel.ExitDateTime + timeTrackPartDetailsViewModel.ExitTime,
+				//	timeTrackPartDetailsViewModel.SelectedZone,
+				//	timeTrackPartDetailsViewModel.NotTakeInCalculations,
+				//	timeTrackPartDetailsViewModel.IsManuallyAdded,
+				//	DateTime.Now.ToString(CultureInfo.CurrentUICulture),
+				//	FiresecManager.CurrentUser.Name);
+
 				IsDirty = true;
-				IsNew = default(bool);
 				ServiceFactory.Events.GetEvent<EditTimeTrackPartEvent>().Publish(ShortEmployee.UID);
 			}
 		}
@@ -417,23 +504,111 @@ namespace SKDModule.ViewModels
 
 		protected override bool CanSave()
 		{
-			return (DayTimeTrackParts.Any(x => !x.IsValid) == false) && SelectedTimeTrackPartDetailsViewModel != null;
+			return true;
 		}
 
 		protected override bool Save() //TODO: Save all TimeTracks without refresh
 		{
-			if (IsNew)
-				PassJournalHelper.AddCustomPassJournal(Guid.NewGuid(), ShortEmployee.UID,
-					SelectedTimeTrackPartDetailsViewModel.SelectedZone.UID,
-					DayTimeTrack.Date.Date.Add(SelectedTimeTrackPartDetailsViewModel.EnterTime),
-					DayTimeTrack.Date.Date.Add(SelectedTimeTrackPartDetailsViewModel.ExitTime));
-			else
-				PassJournalHelper.EditPassJournal(SelectedDayTimeTrackPart.UID,
-					SelectedTimeTrackPartDetailsViewModel.SelectedZone.UID,
-					DayTimeTrack.Date.Date.Add(SelectedTimeTrackPartDetailsViewModel.EnterTime),
-					DayTimeTrack.Date.Date.Add(SelectedTimeTrackPartDetailsViewModel.ExitTime));
+			return PassJournalHelper.SaveAllTimeTracks(DayTimeTrackParts.Where(x => x.IsNew || x.IsDirty).Select(el => el.ToDTO()), ShortEmployee, FiresecClient.FiresecManager.CurrentUser);
+		}
 
-			return base.Save();
+		private static bool ShowResetAdjustmentsWarning()
+		{
+			return MessageBoxService.ShowQuestion(
+				"При выполнении сброса корректировок все введенные вручную данные будут удалены. Продолжить?");
+		}
+
+		public void OnResetAdjustments()
+		{
+			if (!ShowResetAdjustmentsWarning()) return;
+
+			var resultCollection = DayTimeTrackParts.Where(x => !x.IsManuallyAdded).ToList();
+			List<DayTimeTrackPart> collection = DayTimeTrackParts.Where(x => !string.IsNullOrEmpty(x.CorrectedBy) && !x.IsForceClosed).ToList();
+			//TODO: remove all manuall added intervals
+			var serverCollection = collection.Select(dayTimeTrackPart => dayTimeTrackPart.ToDTO()).ToList();
+
+			var conflictIntervals = PassJournalHelper.FindConflictIntervals(serverCollection, ShortEmployee.UID, DayTimeTrack.Date);
+
+			if (conflictIntervals == null) return;
+
+			Dictionary<DayTimeTrackPart, List<DayTimeTrackPart>> clienDictionary = conflictIntervals
+				.ToDictionary(dayTimeTrackPart => new DayTimeTrackPart(dayTimeTrackPart.Key),
+													dayTimeTrackPart => dayTimeTrackPart.Value.Select(timeTrackPart => new DayTimeTrackPart(timeTrackPart)).ToList()
+							);
+
+			var conflictViewModel = new ResetAdjustmentsConflictDialogWindowViewModel();
+			var resolvedConflictCollection = new List<DayTimeTrackPart>();
+			foreach (KeyValuePair<DayTimeTrackPart, List<DayTimeTrackPart>> el in clienDictionary)
+			{
+				conflictViewModel.SetValues(el);
+
+				if (conflictViewModel.IsCheckedSave)
+				{
+					resolvedConflictCollection.AddRange(resultCollection
+														.Where(dayTimeTrackPart => dayTimeTrackPart.UID == el.Key.UID)
+														.Select(dayTimeTrackPart => TimeTrackingHelper.ResolveConflictWithSettingBorders(dayTimeTrackPart, el.Value)));
+					//TODO:Set borders without intersection
+					continue;
+				}
+
+				if (conflictViewModel.IsCheckedCancel)
+				{
+					resolvedConflictCollection.AddRange(resultCollection
+														.Where(dayTimeTrackPart => dayTimeTrackPart.UID == el.Key.UID)
+														.Select(
+															dayTimeTrackPart =>
+															{
+																dayTimeTrackPart.IsRemoveAllIntersections = true;
+																dayTimeTrackPart.EnterDateTime = dayTimeTrackPart.EnterTimeOriginal;
+																dayTimeTrackPart.ExitDateTime = dayTimeTrackPart.ExitTimeOriginal;
+																dayTimeTrackPart.IsNew = default(bool);
+																return dayTimeTrackPart;
+															})
+														);
+					//TODO:Remove manually added interval
+					continue;
+				}
+
+				if (DialogService.ShowModalWindow(conflictViewModel))
+				{
+					//TODO:Set borders without intersection
+					resolvedConflictCollection.AddRange(resultCollection
+														.Where(dayTimeTrackPart => dayTimeTrackPart.UID == el.Key.UID)
+														.Select(dayTimeTrackPart => TimeTrackingHelper.ResolveConflictWithSettingBorders(dayTimeTrackPart, el.Value)));
+				}
+				else
+				{
+					//TODO:Remove manually added interval
+					resolvedConflictCollection.AddRange(resultCollection
+														.Where(dayTimeTrackPart => dayTimeTrackPart.UID == el.Key.UID)
+														.Select(
+															dayTimeTrackPart =>
+															{
+																dayTimeTrackPart.IsRemoveAllIntersections = true;
+																dayTimeTrackPart.EnterDateTime = dayTimeTrackPart.EnterTimeOriginal;
+																dayTimeTrackPart.ExitDateTime = dayTimeTrackPart.ExitTimeOriginal;
+																dayTimeTrackPart.IsNew = default(bool);
+																return dayTimeTrackPart;
+															})
+														);
+				}
+			}
+
+			var hyperResultCollection = new List<DayTimeTrackPart>();
+			foreach (var dayTimeTrackPart in DayTimeTrackParts)
+			{
+				var tmp = resolvedConflictCollection.FirstOrDefault(x => x.UID == dayTimeTrackPart.UID);
+				if (tmp != null)
+				{
+					dayTimeTrackPart.EnterDateTime = tmp.EnterDateTime;
+					dayTimeTrackPart.ExitDateTime = tmp.ExitDateTime;
+					dayTimeTrackPart.IsDirty = true;
+				}
+
+				hyperResultCollection.Add(dayTimeTrackPart);
+			}
+
+			DayTimeTrackParts = new ObservableCollection<DayTimeTrackPart>(hyperResultCollection);
 		}
 
 		#endregion

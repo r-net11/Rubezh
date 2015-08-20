@@ -94,7 +94,6 @@ namespace SKDModule.ViewModels
 		{
 			DoorUID = doorUID;
 			ZoneUID = zone.UID;
-		//	Name = zone.PresentationName;
 			Name = zone.Name;
 			No = zone.No;
 			Description = zone.Description;

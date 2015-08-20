@@ -5,6 +5,8 @@ using LinqKit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using SKDDriver.DataAccess;
+using EmployeeDay = FiresecAPI.SKD.EmployeeDay;
 using OperationResult = FiresecAPI.OperationResult;
 
 namespace SKDDriver.Translators
@@ -35,16 +37,26 @@ namespace SKDDriver.Translators
 				var exitPassJournal = Context.PassJournals.FirstOrDefault(x => x.EmployeeUID == employeeUID && x.ExitTime == null);
 				if (exitPassJournal != null)
 				{
-					exitPassJournal.ExitTime = DateTime.Now;
+					var tmpDateTime = DateTime.Now;
+					exitPassJournal.ExitTime = tmpDateTime;
+					exitPassJournal.ExitTimeOriginal = tmpDateTime;
+					exitPassJournal.IsOpen = default(bool);
 				}
 				if (zoneUID != Guid.Empty)
 				{
-					var enterPassJournal = new DataAccess.PassJournal();
-					enterPassJournal.UID = Guid.NewGuid();
-					enterPassJournal.EmployeeUID = employeeUID;
-					enterPassJournal.ZoneUID = zoneUID;
-					enterPassJournal.EnterTime = DateTime.Now;
-					enterPassJournal.ExitTime = null;
+					var tmpDateTime = DateTime.Now;
+
+					var enterPassJournal = new DataAccess.PassJournal //TODO:
+					{
+						UID = Guid.NewGuid(),
+						EmployeeUID = employeeUID,
+						ZoneUID = zoneUID,
+						EnterTime = tmpDateTime,
+						ExitTime = null,
+						IsNeedAdjustment = exitPassJournal != null && exitPassJournal.ZoneUID == zoneUID, //TODO: check for right
+						EnterTimeOriginal = tmpDateTime,
+						IsOpen = true
+					};
 					Context.PassJournals.InsertOnSubmit(enterPassJournal);
 				}
 				Context.SubmitChanges();
@@ -56,20 +68,143 @@ namespace SKDDriver.Translators
 			}
 		}
 
-		public OperationResult AddCustomPassJournal(Guid uid, Guid employeeUID, Guid zoneUID, DateTime enterTime, DateTime exitTime)
+		public OperationResult<Dictionary<DayTimeTrackPart, List<DayTimeTrackPart>>> FindConflictIntervals(List<DayTimeTrackPart> dayTimeTrackParts, Guid employeeGuid, DateTime currentDate)
 		{
+			var minIntervalsDate = dayTimeTrackParts.Where(x => x.EnterTimeOriginal.HasValue).DefaultIfEmpty().Min(x => x.EnterTimeOriginal.Value.Date); //if min return false
+			var maxIntervalDate = dayTimeTrackParts.Where(x => x.ExitTimeOriginal.HasValue).DefaultIfEmpty().Max(x => x.ExitTimeOriginal.Value.Date);
+
+			if(minIntervalsDate.Date == currentDate.Date && maxIntervalDate.Date == currentDate.Date)
+				return new OperationResult<Dictionary<DayTimeTrackPart, List<DayTimeTrackPart>>>();
+
+			List<PassJournal> linkedIntervals = Context.PassJournals.Where(x => x.EnterTimeOriginal.HasValue && x.ExitTimeOriginal.HasValue)
+														.Where(
+														x => x.EmployeeUID == employeeGuid &&
+														x.EnterTimeOriginal.Value.Date >= minIntervalsDate.Date &&
+														x.ExitTimeOriginal.Value.Date <= maxIntervalDate).ToList();
+			var conflictedIntervals = new Dictionary<DayTimeTrackPart, List<DayTimeTrackPart>>();
+			var tempCollection = new List<DayTimeTrackPart>();
+			foreach (var el in dayTimeTrackParts)
+			{
+				var tmp = el;
+				List<PassJournal> tmpCollection = linkedIntervals
+					.Where(x => (x.UID != el.UID) && (tmp.EnterTimeOriginal.HasValue && tmp.ExitTimeOriginal.HasValue))
+					.Where(x => (tmp.ExitTimeOriginal.Value.Date >= x.ExitTime.Value.Date && tmp.EnterTimeOriginal.Value.Date <= x.EnterTime.Date) &&
+								(tmp.ExitTimeOriginal > x.EnterTime || tmp.EnterTimeOriginal < x.ExitTime))
+					.Where(x => x.ExitTime >= tmp.EnterTimeOriginal)
+					.ToList();
+				List<PassJournal> tmpCollection2 = linkedIntervals
+					.Where(x => (x.UID != el.UID) && (tmp.EnterTimeOriginal.HasValue && tmp.ExitTimeOriginal.HasValue))
+					.Where(
+						x => (tmp.EnterTimeOriginal.Value.Date >= x.EnterTime.Date && tmp.ExitTimeOriginal <= x.ExitTime.Value.Date) &&
+						     (tmp.ExitTimeOriginal <= x.EnterTime || tmp.EnterTimeOriginal >= x.ExitTime))
+					.Where(x => x.ExitTime <= tmp.EnterTimeOriginal)
+					.ToList();
+
+				tmpCollection = tmpCollection.Union(tmpCollection2).ToList();
+
+				if (tmpCollection.Any())
+				{
+					foreach (var b in tmpCollection)
+					{
+						tempCollection.Add(new DayTimeTrackPart
+						{
+							UID = b.UID,
+							EnterDateTime = b.EnterTime,
+							EnterTime = b.EnterTime.TimeOfDay,
+							EnterTimeOriginal = b.EnterTimeOriginal,
+							ExitDateTime = b.ExitTime,
+							ExitTime = b.ExitTime.GetValueOrDefault().TimeOfDay,
+							ExitTimeOriginal = b.ExitTimeOriginal,
+							TimeTrackZone = new TimeTrackZone
+							{
+								UID = b.ZoneUID
+							}
+						});
+					}
+					conflictedIntervals.Add(el, tempCollection);
+				}
+			}
+			return new OperationResult<Dictionary<DayTimeTrackPart, List<DayTimeTrackPart>>>(conflictedIntervals);
+		}
+
+		public OperationResult EditPassJournal(DayTimeTrackPart dayTimeTrackPart, ShortEmployee employee, out bool? setAdjustmentFlag, out bool setBordersChangedFlag)
+		{
+			setAdjustmentFlag = null;
+			setBordersChangedFlag = default(bool);
+
 			try
 			{
-				var passJournalItem = new DataAccess.PassJournal();
-				passJournalItem.UID = uid;
-				passJournalItem.EmployeeUID = employeeUID;
-				passJournalItem.ZoneUID = zoneUID;
-				passJournalItem.EnterTime = enterTime;
-				passJournalItem.ExitTime = exitTime;
-				if (IsIntersection(passJournalItem))
+				if (dayTimeTrackPart.IsRemoveAllIntersections)
 				{
-					return new OperationResult("Невозможно добавить пересекающийся интервал");
+					foreach (var intersectionElement in Context.PassJournals.Where(x => x.EmployeeUID == employee.UID)
+																			.Where(x => x.EnterTime >= dayTimeTrackPart.EnterDateTime && x.ExitTime <= dayTimeTrackPart.ExitDateTime)
+																			.Where(x => x.UID != dayTimeTrackPart.UID))
+					{
+						Context.PassJournals.DeleteOnSubmit(intersectionElement);
+					}
+					Context.SubmitChanges();
 				}
+
+				var passJournalItem = Context.PassJournals.FirstOrDefault(x => x.UID == dayTimeTrackPart.UID);
+
+				if (passJournalItem != null)
+				{
+					if (passJournalItem.NotTakeInCalculations && !dayTimeTrackPart.NotTakeInCalculations)
+						setAdjustmentFlag = false;
+					else if (!passJournalItem.NotTakeInCalculations && dayTimeTrackPart.NotTakeInCalculations)
+						setAdjustmentFlag = true;
+					if (passJournalItem.EnterTime != dayTimeTrackPart.EnterDateTime ||
+					    passJournalItem.ExitTime != dayTimeTrackPart.ExitDateTime)
+						setBordersChangedFlag = true;
+
+					passJournalItem.ZoneUID = dayTimeTrackPart.TimeTrackZone.UID;
+					passJournalItem.EnterTime = dayTimeTrackPart.EnterDateTime.GetValueOrDefault();
+					passJournalItem.ExitTime = dayTimeTrackPart.ExitDateTime.GetValueOrDefault();
+					passJournalItem.IsNeedAdjustment = dayTimeTrackPart.IsNeedAdjustment;
+					passJournalItem.AdjustmentDate = dayTimeTrackPart.AdjustmentDate;
+					passJournalItem.CorrectedByUID = dayTimeTrackPart.CorrectedByUID;
+					passJournalItem.NotTakeInCalculations = dayTimeTrackPart.NotTakeInCalculations;
+					passJournalItem.IsAddedManually = dayTimeTrackPart.IsManuallyAdded;
+
+					if (passJournalItem.IsOpen)
+					{
+						passJournalItem.ExitTimeOriginal = passJournalItem.ExitTime;
+						passJournalItem.IsOpen = default(bool);
+						passJournalItem.IsForceClosed = true;
+					}
+				}
+
+				Context.SubmitChanges();
+
+				return new OperationResult();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
+		}
+
+		public OperationResult AddCustomPassJournal(DayTimeTrackPart dayTimeTrackPart, ShortEmployee employee)
+		{
+			if(dayTimeTrackPart == null) return new OperationResult("ERROR");
+
+			try
+			{
+				var passJournalItem = new PassJournal
+				{
+					UID = dayTimeTrackPart.UID,
+					EmployeeUID = employee.UID,
+					ZoneUID = dayTimeTrackPart.TimeTrackZone.UID,
+					EnterTime = dayTimeTrackPart.EnterDateTime.GetValueOrDefault(),
+					ExitTime = dayTimeTrackPart.ExitDateTime,
+					AdjustmentDate = dayTimeTrackPart.AdjustmentDate,
+					CorrectedByUID = dayTimeTrackPart.CorrectedByUID,
+					NotTakeInCalculations = dayTimeTrackPart.NotTakeInCalculations,
+					IsAddedManually = dayTimeTrackPart.IsManuallyAdded,
+					EnterTimeOriginal = dayTimeTrackPart.EnterTimeOriginal,
+					ExitTimeOriginal = dayTimeTrackPart.ExitTimeOriginal
+				};
+
 				Context.PassJournals.InsertOnSubmit(passJournalItem);
 				Context.SubmitChanges();
 				return new OperationResult();
@@ -78,38 +213,6 @@ namespace SKDDriver.Translators
 			{
 				return new OperationResult(e.Message);
 			}
-		}
-
-		public OperationResult EditPassJournal(Guid uid, Guid zoneUID, DateTime enterTime, DateTime exitTime)
-		{
-			try
-			{
-				var passJournalItem = Context.PassJournals.FirstOrDefault(x => x.UID == uid);
-				if (passJournalItem != null)
-				{
-					passJournalItem.ZoneUID = zoneUID;
-					passJournalItem.EnterTime = enterTime;
-					passJournalItem.ExitTime = exitTime;
-				}
-				if (passJournalItem != null && IsIntersection(passJournalItem))
-				{
-					return new OperationResult("Невозможно добавить пересекающийся интервал");
-				}
-				Context.SubmitChanges();
-				return new OperationResult();
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
-		}
-
-		private bool IsIntersection(DataAccess.PassJournal passJournalItem)
-		{
-			return Context.PassJournals.Any(x => x.UID != passJournalItem.UID &&
-				x.EmployeeUID == passJournalItem.EmployeeUID &&
-				(x.EnterTime < passJournalItem.EnterTime && x.ExitTime > passJournalItem.EnterTime ||
-					x.EnterTime < passJournalItem.ExitTime && x.ExitTime > passJournalItem.ExitTime));
 		}
 
 		public OperationResult DeletePassJournal(Guid uid)
@@ -130,15 +233,15 @@ namespace SKDDriver.Translators
 			}
 		}
 
-		public OperationResult DeleteAllPassJournalItems(Guid uid, DateTime enterTime, DateTime exitTime)
+		public OperationResult DeleteAllPassJournalItems(DayTimeTrackPart dayTimeTrackPart)
 		{
 			try
 			{
-				var passJournalItem = Context.PassJournals.FirstOrDefault(x => x.UID == uid);
+				var passJournalItem = Context.PassJournals.FirstOrDefault(x => x.UID == dayTimeTrackPart.UID);
 				if (passJournalItem != null)
 				{
 					var items = Context.PassJournals.Where(x => x.EmployeeUID == passJournalItem.EmployeeUID && x.ZoneUID == passJournalItem.ZoneUID &&
-						x.EnterTime >= enterTime && x.ExitTime != null && x.ExitTime.Value <= exitTime);
+						x.EnterTime >= dayTimeTrackPart.EnterDateTime && x.ExitTime != null && x.ExitTime.Value <= dayTimeTrackPart.ExitDateTime);
 					Context.PassJournals.DeleteAllOnSubmit(items);
 				}
 				Context.SubmitChanges();
@@ -236,31 +339,36 @@ namespace SKDDriver.Translators
 
 		public DayTimeTrack GetRealTimeTrack(DataAccess.Employee employee, DataAccess.Schedule schedule, DataAccess.ScheduleScheme scheduleScheme, IEnumerable<DataAccess.ScheduleZone> scheduleZones, DateTime date)
 		{
-			return GetRealTimeTrack(employee, schedule, scheduleScheme, scheduleZones, date, Context.PassJournals);
+			return GetRealTimeTrack(employee, schedule, scheduleScheme, date, Context.PassJournals);
 		}
 
-		public DayTimeTrack GetRealTimeTrack(DataAccess.Employee employee, DataAccess.Schedule schedule, DataAccess.ScheduleScheme scheduleScheme, IEnumerable<DataAccess.ScheduleZone> scheduleZones, DateTime date, IEnumerable<DataAccess.PassJournal> passJournals)
+		public DayTimeTrack GetRealTimeTrack(DataAccess.Employee employee, DataAccess.Schedule schedule, DataAccess.ScheduleScheme scheduleScheme, DateTime date, IEnumerable<DataAccess.PassJournal> passJournals)
 		{
 			var dayTimeTrack = new DayTimeTrack { Date = date };
 
 			foreach (var passJournal in passJournals.Where(x => x.EmployeeUID == employee.UID && x.EnterTime.Date == date.Date).ToList())
 			{
-				var scheduleZone = scheduleZones.FirstOrDefault(x => x.ZoneUID == passJournal.ZoneUID);
-
-				if (scheduleZone == null || !passJournal.ExitTime.HasValue) continue;
-
 				var timeTrackPart = new TimeTrackPart
 				{
-					StartTime = passJournal.EnterTime.TimeOfDay,
-					EndTime = passJournal.ExitTime.Value.TimeOfDay,
+					EnterDateTime = passJournal.EnterTime,
+					ExitDateTime =  passJournal.ExitTime,
 					ZoneUID = passJournal.ZoneUID,
-					PassJournalUID = passJournal.UID
+					PassJournalUID = passJournal.UID,
+					IsManuallyAdded = passJournal.IsAddedManually,
+					NotTakeInCalculations = passJournal.NotTakeInCalculations,
+					IsNeedAdjustment = passJournal.IsNeedAdjustment,
+					AdjustmentDate = passJournal.AdjustmentDate,
+					CorrectedByUID = passJournal.CorrectedByUID,
+					EnterTimeOriginal = passJournal.EnterTimeOriginal,
+					ExitTimeOriginal = passJournal.ExitTimeOriginal,
+					IsOpen = passJournal.IsOpen,
+					IsForceClosed = passJournal.IsForceClosed
 				};
 
 				dayTimeTrack.RealTimeTrackParts.Add(timeTrackPart);
 			}
 
-			dayTimeTrack.RealTimeTrackParts = dayTimeTrack.RealTimeTrackParts.OrderBy(x => x.StartTime.Ticks).ToList();
+			dayTimeTrack.RealTimeTrackParts = dayTimeTrack.RealTimeTrackParts.OrderBy(x => x.EnterDateTime.Ticks).ToList();
 
 			return dayTimeTrack;
 		}

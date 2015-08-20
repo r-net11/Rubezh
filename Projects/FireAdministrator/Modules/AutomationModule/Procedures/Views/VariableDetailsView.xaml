@@ -5,98 +5,104 @@
 	xmlns:Views="clr-namespace:AutomationModule.Views"
 	MinWidth="650"
 	MinHeight="400">
-	<TabControl>
-		<TabItem Header="Основные">
-			<Grid>
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition />
-					<ColumnDefinition Width="5" />
-					<ColumnDefinition />
-				</Grid.ColumnDefinitions>
-				<Grid.RowDefinitions>
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="*" />
-				</Grid.RowDefinitions>
+	<UserControl.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="pack://application:,,,/Controls;component/Themes/StrazhTheme.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+	</UserControl.Resources>
+	<Border Background="{StaticResource BackgroundBrush}">
+		<Grid Margin="10">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition />
+				<ColumnDefinition Width="5" />
+				<ColumnDefinition />
+			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="*" />
+			</Grid.RowDefinitions>
 
-				<TreeList
+			<TreeList
 					Grid.RowSpan="2"
 					Focusable="True"
 					SelectedTreeNode="{Binding SelectedExplicitType}"
 					SelectionMode="Single"
 					Source="{Binding ExplicitTypes}">
-					<TreeList.View>
-						<GridView>
-							<GridViewColumn Width="250" Header="Тип">
-								<GridViewColumn.CellTemplate>
-									<DataTemplate>
-										<StackPanel Orientation="Horizontal">
-											<Image
+				<TreeList.View>
+					<GridView>
+						<GridViewColumn Width="250" Header="Тип">
+							<GridViewColumn.CellTemplate>
+								<DataTemplate>
+									<StackPanel Orientation="Horizontal">
+										<Image
 												Width="24"
 												Margin="2"
 												VerticalAlignment="Center"
 												Source="/Controls;component/Images/GlobalVariable.png" />
-											<TextBlock
+										<TextBlock
 												HorizontalAlignment="Stretch"
 												VerticalAlignment="Center"
 												Text="{Binding Name}" />
-										</StackPanel>
-									</DataTemplate>
-								</GridViewColumn.CellTemplate>
-							</GridViewColumn>
-						</GridView>
-					</TreeList.View>
-				</TreeList>
+									</StackPanel>
+								</DataTemplate>
+							</GridViewColumn.CellTemplate>
+						</GridViewColumn>
+					</GridView>
+				</TreeList.View>
+			</TreeList>
 
-				<StackPanel
+			<StackPanel
 					Grid.Row="0"
 					Grid.Column="2"
 					HorizontalAlignment="Stretch"
 					Orientation="Vertical"
 					Visibility="{Binding IsRealType,
 				                                 Converter={StaticResource BoolToVisibilityConverter}}">
-					<StackPanel
+				<StackPanel
 						Height="28"
 						Margin="2"
 						HorizontalAlignment="Right"
 						Orientation="Horizontal">
-						<Label Content="Имя" />
-						<TextBox
+					<Label Content="Имя" />
+					<TextBox
 							Width="200"
 							Margin="2"
 							Text="{Binding Name,
 						                        UpdateSourceTrigger=PropertyChanged}" />
-					</StackPanel>
+				</StackPanel>
 
-					<StackPanel
+				<StackPanel
 						Height="28"
 						Margin="2"
 						HorizontalAlignment="Right"
 						Orientation="Horizontal">
-						<Label HorizontalAlignment="Left" Content="Список" />
-						<CheckBox
+					<Label HorizontalAlignment="Left" Content="Список" />
+					<CheckBox
 							Width="202"
 							Margin="2, 7, 0, 0"
 							HorizontalAlignment="Right"
 							IsChecked="{Binding IsList}"
 							IsEnabled="{Binding IsEditMode,
 						                              Converter={StaticResource InverseBooleanConverter}}" />
-					</StackPanel>
+				</StackPanel>
 
-					<StackPanel
+				<StackPanel
 						Height="28"
 						Margin="2"
 						HorizontalAlignment="Right"
 						Orientation="Horizontal">
-						<Label HorizontalAlignment="Left" Content="Ссылка" />
-						<CheckBox
+					<Label HorizontalAlignment="Left" Content="Ссылка" />
+					<CheckBox
 							Width="202"
 							Margin="2, 7, 0, 0"
 							HorizontalAlignment="Right"
 							IsChecked="{Binding IsReference}" />
-					</StackPanel>
 				</StackPanel>
+			</StackPanel>
 
-				<Views:ExplicitValuesView
+			<Views:ExplicitValuesView
 					Grid.Row="1"
 					Grid.Column="2"
 					DataContext="{Binding ExplicitValuesViewModel}"
@@ -104,7 +110,6 @@
 				                                                                              AncestorType={x:Type UserControl}},
 				                                               Path=DataContext.IsRealType,
 				                                               Converter={StaticResource BoolToVisibilityConverter}}" />
-			</Grid>
-		</TabItem>
-	</TabControl>
+		</Grid>
+	</Border>
 </UserControl>

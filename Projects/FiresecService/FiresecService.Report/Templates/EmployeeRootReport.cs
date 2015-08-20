@@ -418,13 +418,15 @@ namespace FiresecService.Report.Templates
 
 				foreach (var pass in GetTimeTrackParts(GetDayPassJournals(passJournal, employee)))
 				{
+					if(!pass.ExitDateTime.HasValue) continue;
+
 					var row = ds.Data.NewDataRow();
 					row.EmployeeRow = employeeRow;
 					if (zoneMap.ContainsKey(pass.ZoneUID))
 						row.Zone = zoneMap[pass.ZoneUID];
-					if (filter.DateTimeFrom.Ticks <= pass.StartTime.Ticks && pass.EndTime.Ticks <= filter.DateTimeTo.Ticks)
+					if (filter.DateTimeFrom.Ticks <= pass.EnterDateTime.Ticks && pass.ExitDateTime.Value.Ticks <= filter.DateTimeTo.Ticks)
 					{
-						row.DateTime = new DateTime(pass.StartTime.Ticks);
+						row.DateTime = new DateTime(pass.EnterDateTime.Ticks);
 						ds.Data.AddDataRow(row);
 					}
 				}
@@ -444,8 +446,8 @@ namespace FiresecService.Report.Templates
 			{
 				timeTrackParts.AddRange(item.Select(pass => new TimeTrackPart
 				{
-					StartTime = new TimeSpan(pass.EnterTime.Ticks),
-					EndTime = new TimeSpan(pass.ExitTime.HasValue ? pass.ExitTime.Value.Ticks : 0),
+					EnterDateTime = pass.EnterTime,//new TimeSpan(pass.EnterTime.Ticks),
+					ExitDateTime = pass.ExitTime.HasValue ? pass.ExitTime.Value : new DateTime(),//new TimeSpan(pass.ExitTime.HasValue ? pass.ExitTime.Value.Ticks : 0),
 					PassJournalUID = pass.UID,
 					ZoneUID = pass.ZoneUID
 				}));

@@ -151,11 +151,6 @@ namespace SKDModule.ViewModels
 
 			RefreshCommand = new ReactiveAsyncCommand();
 			RefreshCommand.RegisterAsyncAction(_ => UpdateGrid());
-			RefreshCommand.Subscribe(x =>
-			{
-				if(_executeSearchCommand != null)
-				_executeSearchCommand.Execute(PageNumber);
-			});
 
 			var executeSearchCommand = new ReactiveAsyncCommand();
 			executeSearchCommand.Subscribe(x =>
@@ -254,7 +249,8 @@ namespace SKDModule.ViewModels
 
 			_timeTrackEmployeeResults = timeTrackResult.TimeTrackEmployeeResults;
 			_cachedTimeTracks = _timeTrackEmployeeResults.Select(x => new TimeTrack(_timeTrackFilter, x)).OrderBy(x => x.ShortEmployee.FirstName).ToList();
-
+			if(_executeSearchCommand != null)
+			_executeSearchCommand.Execute(PageNumber);
 			RowHeight = 60 + 20 * _timeTrackFilter.TotalTimeTrackTypeFilters.Count;
 		}
 

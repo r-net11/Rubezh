@@ -1,5 +1,8 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:s="clr-namespace:System;assembly=mscorlib"
+	xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit">
 	<ResourceDictionary.MergedDictionaries>
 		<ResourceDictionary Source="DatePickerCalendarStyle.xaml" />
 	</ResourceDictionary.MergedDictionaries>
@@ -166,11 +169,20 @@
 								HorizontalAlignment="Left"
 								Template="{StaticResource DropDownButtonTemplate}"
 								VerticalAlignment="Top" />
-							<DatePickerTextBox
+							<!--<DatePickerTextBox
 								x:Name="PART_TextBox"
 								Focusable="{TemplateBinding Focusable}"
-								HorizontalContentAlignment="Left"
-								VerticalContentAlignment="Center" />
+								Style="{StaticResource MaskedDatePickerTextBox}"
+								HorizontalContentAlignment="Stretch"
+								VerticalContentAlignment="Center" />-->
+							<xctk:MaskedTextBox
+								x:Name="PART_TextBox"
+								Focusable="{TemplateBinding Focusable}"
+								HorizontalContentAlignment="Stretch"
+								VerticalAlignment="Center"
+								Value="{Binding Path=SelectedDate, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}"
+								ValueDataType="{x:Type s:DateTime}"
+								Mask="00/00/0000"/>
 							<Grid
 								x:Name="PART_DisabledVisual"
 								Grid.ColumnSpan="2"
@@ -191,6 +203,19 @@
 							<Setter Property="Foreground" TargetName="PART_TextBox" Value="{Binding Foreground, RelativeSource={RelativeSource TemplatedParent}}" />
 						</DataTrigger>
 					</ControlTemplate.Triggers>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<Style x:Key="MaskedDatePickerTextBox" TargetType="{x:Type DatePickerTextBox}">
+		<Setter Property="Control.Template">
+			<Setter.Value>
+				<ControlTemplate>
+					<xctk:MaskedTextBox
+						x:Name="PART_TextBox"
+						Mask="00/00/0000"
+                        Value="{Binding Path=SelectedDate, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>

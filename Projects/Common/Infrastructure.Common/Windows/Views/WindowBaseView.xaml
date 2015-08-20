@@ -1,11 +1,19 @@
 ﻿<Window x:Class="Infrastructure.Common.Windows.Views.WindowBaseView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:loc="clr-namespace:Infrastructure.Common.Windows.Views"
 		Title="{Binding Title}"
-		Width="100" Height="100" AllowsTransparency="False" Closed="Window_Closed" Closing="Window_Closing"
+		Width="100" Height="100" AllowsTransparency="False"
+		Closed="Window_Closed"
+		Closing="Window_Closing"
 		FontFamily="Arial" FontSize="12"
 		Icon="{Binding Icon, Converter={StaticResource NullToImageConverter}}"
 		KeyDown="Window_KeyDown" Loaded="Window_Loaded" ResizeMode="CanMinimize"
 		Topmost="{Binding TopMost}"
-		Unloaded="Window_Unloaded" WindowStartupLocation="CenterScreen" WindowStyle="None" x:ClassModifier="internal" SnapsToDevicePixels="True">
+		Unloaded="Window_Unloaded"
+		WindowStartupLocation="CenterScreen"
+		WindowStyle="None"
+		Activated="Window_Activated"
+		Deactivated="Window_Deactivated"
+		x:ClassModifier="internal"
+		SnapsToDevicePixels="True">
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="5" />

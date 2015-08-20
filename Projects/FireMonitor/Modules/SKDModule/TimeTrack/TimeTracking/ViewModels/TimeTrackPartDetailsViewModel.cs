@@ -1,109 +1,139 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using FiresecAPI.GK;
+﻿using System.Reactive.Linq;
 using FiresecAPI.SKD;
 using FiresecClient;
-using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Microsoft.Practices.Prism;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Org.BouncyCastle.Crypto.Engines;
+using ReactiveUI;
+using SKDModule.Model;
+using SKDModule.Helpers;
+using DayTimeTrackPart = SKDModule.Model.DayTimeTrackPart;
+using TimeTrackZone = SKDModule.Model.TimeTrackZone;
 
 namespace SKDModule.ViewModels
 {
 	public class TimeTrackPartDetailsViewModel: SaveCancelDialogViewModel
 	{
 		#region Fields
-		DayTimeTrack _DayTimeTrack;
-		private TimeTrackDetailsViewModel _Parent;
+		readonly DayTimeTrack _dayTimeTrack;
+		private readonly TimeTrackDetailsViewModel _parent;
+		private IDisposable _subscriber;
 		#endregion
 
 		#region Properties
 
-		TimeSpan _EnterTime;
-		public TimeSpan EnterTime
-		{
-			get { return _EnterTime; }
-			set
-			{
-				_EnterTime = value;
-				OnPropertyChanged(() => EnterTime);
-			}
-		}
+		public DayTimeTrackPart CurrentTimeTrackPart { get; set; }
 
-		TimeSpan _ExitTime;
-		public TimeSpan ExitTime
-		{
-			get { return _ExitTime; }
-			set
-			{
-				_ExitTime = value;
-				OnPropertyChanged(() => ExitTime);
-			}
-		}
+		public List<TimeTrackZone> Zones { get; private set; }
 
-		public DateTime EnterDateTime { get { return _DayTimeTrack.Date.Date.Add(EnterTime); } }
-		public DateTime ExitDateTime { get { return _DayTimeTrack.Date.Date.Add(ExitTime); } }
-
-		public Guid UID { get; private set; }
-
-		public ObservableCollection<TimeTrackZone> Zones { get; private set; }
-
-		TimeTrackZone _SelectedZone;
+		TimeTrackZone _selectedZone;
 		public TimeTrackZone SelectedZone
 		{
-			get { return _SelectedZone; }
+			get { return _selectedZone; }
 			set
 			{
-				_SelectedZone = value;
+				_selectedZone = value;
 				OnPropertyChanged(() => SelectedZone);
+			}
+		}
+
+		private bool _isEnabledTakeInCalculations;
+
+		public bool IsEnabledTakeInCalculations
+		{
+			get { return _isEnabledTakeInCalculations; }
+			set
+			{
+				if (_isEnabledTakeInCalculations == value) return;
+				_isEnabledTakeInCalculations = value;
+				OnPropertyChanged(() => IsEnabledTakeInCalculations);
+			}
+		}
+
+		private bool _isDirty;
+
+		public bool IsDirty
+		{
+			get { return _isDirty; }
+			set
+			{
+				if (_isDirty == value) return;
+				_isDirty = value;
+				OnPropertyChanged(() => IsDirty);
 			}
 		}
 
 		#endregion
 
 		#region Constructors
-		//TODO:Remove this
-		public TimeTrackPartDetailsViewModel(TimeTrackDetailsViewModel parent, TimeSpan? enterTime = null, TimeSpan? exitTime = null)
-		{
-			EnterTime = enterTime.Value;
-			ExitTime = exitTime.Value;
-			_Parent = parent;
-		}
 
-		public TimeTrackPartDetailsViewModel(DayTimeTrack dayTimeTrack, ShortEmployee employee, TimeTrackDetailsViewModel parent, Guid? uid = null, TimeSpan? enterTime = null, TimeSpan? exitTime = null)
+		public TimeTrackPartDetailsViewModel(DayTimeTrack dayTimeTrack, ShortEmployee employee, TimeTrackDetailsViewModel parent, DayTimeTrackPart inputTimeTrackPart = null)
 		{
-			_DayTimeTrack = dayTimeTrack;
-			_Parent = parent;
-			if (uid != null)
+			_dayTimeTrack = dayTimeTrack;
+			_parent = parent;
+			if (inputTimeTrackPart != null)
 			{
-				UID = uid.Value;
-				EnterTime = enterTime.Value;
-				ExitTime = exitTime.Value;
+				CurrentTimeTrackPart = inputTimeTrackPart;
+				CurrentTimeTrackPart.EnterTime = inputTimeTrackPart.EnterTime;
+				CurrentTimeTrackPart.ExitTime = inputTimeTrackPart.ExitTime;
 				Title = "Редактировать проход";
 			}
 			else
 			{
-				UID = Guid.NewGuid();
+				CurrentTimeTrackPart = new DayTimeTrackPart
+				{
+					UID = Guid.NewGuid(),
+					EnterDateTime = dayTimeTrack.Date,
+					ExitDateTime = dayTimeTrack.Date,
+					IsManuallyAdded = true
+				};
+
 				Title = "Добавить проход";
 			}
 
-			var schedule = ScheduleHelper.GetSingle(employee.ScheduleUID);
-
-			if (schedule == null) return;
-
-			Zones = new ObservableCollection<TimeTrackZone>();
-
-			var strazhZones = SKDManager.Zones.Where(x => schedule.Zones.Any(y => y.ZoneUID == x.UID)).ToList();
-
-			Zones.AddRange(
-					strazhZones
-					.Select(strazhZone => new TimeTrackZone(strazhZone))
-					.ToList()
-				);
-
+			Zones = new List<TimeTrackZone>(TimeTrackingHelper.GetMergedZones(employee));
 			SelectedZone = Zones.FirstOrDefault();
+
+			this.WhenAny(x => x.CurrentTimeTrackPart, x => x.Value)
+				.Subscribe(value =>
+				{
+					if(_subscriber != null) _subscriber.Dispose();
+
+					if (value == null) return;
+
+					_subscriber = Observable.Merge(value.UIChanged).Subscribe(x =>
+					{
+						IsDirty = true;
+						value.IsDirty = true;
+					});
+				});
+
+			this.WhenAny(x => x.IsCancelled, x => x.Value)
+				.Subscribe(value =>
+				{
+					if (!value) return;
+
+					IsDirty = default(bool);
+					CurrentTimeTrackPart.IsDirty = default(bool);
+				});
+
+			this.WhenAny(x => x.SelectedZone, x => x.Value)
+				.Subscribe(value =>
+				{
+					if (value != null && !value.IsURV)
+					{
+						IsEnabledTakeInCalculations = false;
+						CurrentTimeTrackPart.NotTakeInCalculations = true;
+					}
+					else
+					{
+						IsEnabledTakeInCalculations = true;
+						CurrentTimeTrackPart.NotTakeInCalculations = false;
+					}
+				});
 		}
 		#endregion
 
@@ -111,12 +141,19 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
+			CurrentTimeTrackPart.TimeTrackZone = SelectedZone;
+			CurrentTimeTrackPart.EnterTimeOriginal = CurrentTimeTrackPart.EnterDateTime + CurrentTimeTrackPart.EnterTime;
+			CurrentTimeTrackPart.ExitTimeOriginal = CurrentTimeTrackPart.ExitDateTime + CurrentTimeTrackPart.ExitTime;
+			CurrentTimeTrackPart.CorrectedBy = FiresecManager.CurrentUser.Name;
+			CurrentTimeTrackPart.CorrectedByUID = FiresecManager.CurrentUser.UID;
+			CurrentTimeTrackPart.AdjustmentDate = DateTime.Now;
+
 			return Validate();
 		}
 
 		protected override bool CanSave()
 		{
-			return SelectedZone != null;
+			return SelectedZone != null && CurrentTimeTrackPart.IsValid;
 		}
 
 		#endregion
@@ -125,35 +162,26 @@ namespace SKDModule.ViewModels
 
 		public bool Validate()
 		{
-			if (_Parent == null || !IsIntersection(_Parent)) return true;
+			if (CurrentTimeTrackPart.EnterDateTime == null || CurrentTimeTrackPart.ExitDateTime == null)
+			{
+				MessageBoxService.Show("Выберите дату начала и дату конца интервала");
+				return false;
+			}
+
+			if (_parent == null || !IsIntersection(_parent)) return true;
 			MessageBoxService.Show("Невозможно добавить пересекающийся интервал");
 			return false;
 		}
 
 		public bool IsIntersection(TimeTrackDetailsViewModel timeTrackDetailsViewModel)
 		{
-			return timeTrackDetailsViewModel.DayTimeTrackParts.Any(x => x.UID != UID &&
-																		(x.EnterTimeSpan < EnterTime && x.ExitTimeSpan > EnterTime || x.EnterTimeSpan < ExitTime && x.ExitTimeSpan > ExitTime));
+			return timeTrackDetailsViewModel.DayTimeTrackParts.Any(x => x.UID != CurrentTimeTrackPart.UID &&
+																		(x.EnterDateTime < (CurrentTimeTrackPart.EnterDateTime + CurrentTimeTrackPart.EnterTime) &&
+																		x.ExitDateTime > (CurrentTimeTrackPart.EnterDateTime + CurrentTimeTrackPart.EnterTime) ||
+																		x.EnterDateTime < (CurrentTimeTrackPart.ExitDateTime + CurrentTimeTrackPart.ExitTime) &&
+																		x.ExitDateTime > (CurrentTimeTrackPart.ExitDateTime + CurrentTimeTrackPart.EnterTime)));
 		}
 
 		#endregion
-	}
-
-	public class TimeTrackZone
-	{
-		public SKDZone SKDZone { get; private set; }
-		public Guid UID { get; private set; }
-		public int No { get; private set; }
-		public string Name { get; private set; }
-		public string Description { get; private set; }
-
-		public TimeTrackZone(SKDZone zone)
-		{
-			SKDZone = zone;
-			UID = zone.UID;
-			No = zone.No;
-			Name = zone.Name;
-			Description = zone.Description;
-		}
 	}
 }
