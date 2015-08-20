@@ -78,7 +78,6 @@
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
-
 					<DataGridTemplateColumn Header="Контроллер" Width="Auto">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
