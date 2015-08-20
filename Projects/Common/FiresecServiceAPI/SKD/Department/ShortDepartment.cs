@@ -9,8 +9,8 @@ namespace FiresecAPI.SKD
 	{
 		public ShortDepartment()
 		{
-			ChildDepartments = new Dictionary<Guid, string>();
-			ParentDepartments = new Dictionary<Guid, string>();
+			ChildDepartments = new List<TinyDepartment>();
+			ParentDepartments = new List<TinyDepartment>();
 		}
 
 		[DataMember]
@@ -26,10 +26,10 @@ namespace FiresecAPI.SKD
 		public Guid ParentDepartmentUID { get; set; }
 
 		[DataMember]
-		public Dictionary<Guid, string> ChildDepartments { get; set; }
+		public List<TinyDepartment> ChildDepartments { get; set; }
 
 		[DataMember]
-		public Dictionary<Guid, string> ParentDepartments { get; set; }
+		public List<TinyDepartment> ParentDepartments { get; set; }
 
 		[DataMember]
 		public Guid OrganisationUID { get; set; }
@@ -45,5 +45,15 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public DateTime RemovalDate { get; set; }
+	}
+
+	[DataContract]
+	public class TinyDepartment
+	{
+		[DataMember]
+		public Guid UID { get; set; }
+
+		[DataMember]
+		public string Name { get; set; }
 	}
 }

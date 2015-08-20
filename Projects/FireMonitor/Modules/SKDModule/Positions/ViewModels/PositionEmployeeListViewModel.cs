@@ -49,7 +49,7 @@ namespace SKDModule.ViewModels
 
 		protected override Guid GetParentUID(Employee employee)
 		{
-			return employee.Position != null ? employee.Position.UID : Guid.Empty;
+			return employee.PositionUID;
 		}
 	}
 }

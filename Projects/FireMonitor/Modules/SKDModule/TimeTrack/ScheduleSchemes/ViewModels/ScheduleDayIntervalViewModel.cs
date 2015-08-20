@@ -43,10 +43,10 @@ namespace SKDModule.ViewModels
 			{
 				Name = (Model.Number + 1).ToString();
 			}
-			_selectedDayInterval = DayIntervals[0];
-			if (Model.DayInterval != null)
+			_selectedDayInterval = DayIntervals.FirstOrDefault(x => x.Name == "Выходной");
+			if (Model.DayIntervalUID != Guid.Empty)
 			{
-				var dayInterval = DayIntervals.SingleOrDefault(item => item.UID == Model.DayInterval.UID);
+				var dayInterval = DayIntervals.SingleOrDefault(item => item.UID == Model.DayIntervalUID);
 				if(dayInterval != null)
 					_selectedDayInterval = dayInterval;
 			}
@@ -77,9 +77,10 @@ namespace SKDModule.ViewModels
 			if (SelectedDayInterval != dayInterval)
 			{
 				_selectedDayInterval = dayInterval ?? DayIntervals[0];
-				if (_initialized || Model.DayInterval.UID != _selectedDayInterval.UID)
+				if (_initialized || Model.DayIntervalUID != _selectedDayInterval.UID)
 				{
-					Model.DayInterval = _selectedDayInterval;
+					Model.DayIntervalUID = _selectedDayInterval.UID;
+					Model.DayIntervalName = _selectedDayInterval.Name;
 					_scheduleScheme.EditSave(Model);
 				}
 			}

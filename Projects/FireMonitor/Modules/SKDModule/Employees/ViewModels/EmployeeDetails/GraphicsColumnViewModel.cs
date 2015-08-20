@@ -35,7 +35,7 @@ namespace SKDModule.ViewModels
 			AdditionalColumnType = additionalColumnType;
 			Employee = employee;
 			AdditionalColumn = additionalColumn != null ? additionalColumn :
-				new AdditionalColumn { AdditionalColumnType = AdditionalColumnType, EmployeeUID = Employee.UID, Photo = new Photo() };
+				new AdditionalColumn { AdditionalColumnTypeUID = AdditionalColumnType.UID, ColumnName = additionalColumnType.Name, EmployeeUID = Employee.UID, Photo = new Photo() };
 		}
 	}
 

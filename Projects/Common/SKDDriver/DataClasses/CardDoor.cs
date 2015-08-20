@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace SKDDriver.DataClasses
 {
@@ -40,6 +42,19 @@ namespace SKDDriver.DataClasses
 				EnterScheduleNo = ExitScheduleNo,
 				ExitScheduleNo = EnterScheduleNo
 			};
+		}
+
+		public static IEnumerable<FiresecAPI.SKD.CardDoor> GetAPIItems(ICollection<CardDoor> tableItems)
+		{
+			return tableItems.Select(x => new FiresecAPI.SKD.CardDoor
+			{
+				UID = x.UID,
+				CardUID = x.CardUID,
+				DoorUID = x.DoorUID,
+				AccessTemplateUID = x.AccessTemplateUID,
+				EnterScheduleNo = x.ExitScheduleNo,
+				ExitScheduleNo = x.EnterScheduleNo
+			});
 		}
 
 		public void TranslateBack(FiresecAPI.SKD.CardDoor apiItem)

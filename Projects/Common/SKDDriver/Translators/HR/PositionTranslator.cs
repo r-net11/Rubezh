@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Runtime.Serialization;
 using API = FiresecAPI.SKD;
+using System.Linq;
+using System;
 
 namespace SKDDriver.DataClasses
 {
@@ -34,13 +36,6 @@ namespace SKDDriver.DataClasses
 			return base.GetTableItems().Include(x => x.Photo);
 		}
 
-		public override API.Position Translate(Position tableItem)
-		{
-			var result = base.Translate(tableItem);
-			result.Photo = result.Photo = tableItem.Photo != null ? tableItem.Photo.Translate() : null;
-			return result;
-		}
-
 		public override void TranslateBack(API.Position apiItem, Position tableItem)
 		{
 			base.TranslateBack(apiItem, tableItem);
@@ -57,11 +52,53 @@ namespace SKDDriver.DataClasses
 			if (tableItem.Photo != null)
 				Context.Photos.Remove(tableItem.Photo);
 		}
+
+		protected override IEnumerable<API.Position> GetAPIItems(IQueryable<Position> tableItems)
+		{
+			return tableItems.Select(tableItem => new API.Position
+			{
+				UID = tableItem.UID,
+				Name = tableItem.Name,
+				Description = tableItem.Description,
+				IsDeleted = tableItem.IsDeleted,
+				RemovalDate = tableItem.RemovalDate != null ? tableItem.RemovalDate.Value : new DateTime(),
+				OrganisationUID = tableItem.OrganisationUID != null ? tableItem.OrganisationUID.Value : Guid.Empty,
+				Photo = tableItem.Photo != null ? new API.Photo { UID = tableItem.Photo.UID, Data = tableItem.Photo.Data } : null,
+			});
+		}
 	}
 
 	public class PositionShortTranslator : OrganisationShortTranslatorBase<Position, API.ShortPosition, API.Position, API.PositionFilter>
 	{
 		public PositionShortTranslator(PositionTranslator translator) : base(translator) { }
+
+		public API.ShortPosition Translate(Position tableItem)
+		{
+			if (tableItem == null)
+				return null;
+			return new API.ShortPosition
+			{
+				UID = tableItem.UID,
+				Name = tableItem.Name,
+				Description = tableItem.Description,
+				IsDeleted = tableItem.IsDeleted,
+				RemovalDate = tableItem.RemovalDate.GetValueOrDefault(),
+				OrganisationUID = tableItem.OrganisationUID.GetValueOrDefault()
+			};
+		}
+
+		protected override IEnumerable<API.ShortPosition> GetAPIItems(System.Linq.IQueryable<Position> tableItems)
+		{
+			return tableItems.Select(tableItem => new API.ShortPosition
+			{
+				UID = tableItem.UID,
+				Name = tableItem.Name,
+				Description = tableItem.Description,
+				IsDeleted = tableItem.IsDeleted,
+				RemovalDate = tableItem.RemovalDate != null ? tableItem.RemovalDate.Value : new DateTime(),
+				OrganisationUID = tableItem.OrganisationUID != null ? tableItem.OrganisationUID.Value : Guid.Empty
+			});
+		}
 	}
 
 	public class PositionAsyncTranslator : AsyncTranslator<Position, API.ShortPosition, API.PositionFilter>

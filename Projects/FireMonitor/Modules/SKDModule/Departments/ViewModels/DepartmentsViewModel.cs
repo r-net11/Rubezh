@@ -104,20 +104,20 @@ namespace SKDModule.ViewModels
 
 		protected override bool MarkDeleted(ShortDepartment model)
 		{
-			model.ChildDepartments = new Dictionary<Guid, string>();
+			model.ChildDepartments = new List<TinyDepartment>();
 			foreach (var child in SelectedItem.GetAllChildren(false))
 			{
-				model.ChildDepartments.Add(child.UID, child.Name);
+				model.ChildDepartments.Add(new TinyDepartment { UID = child.UID, Name = child.Name });
 			}
 			return DepartmentHelper.MarkDeleted(model);
 		}
 
 		protected override bool Restore(ShortDepartment model)
 		{
-			model.ParentDepartments = new Dictionary<Guid, string>();
+			model.ParentDepartments = new List<TinyDepartment>();
 			foreach (var parent in SelectedItem.GetAllParents().Where(x => !x.IsOrganisation))
 			{
-				model.ParentDepartments.Add(parent.UID, parent.Name);
+				model.ParentDepartments.Add(new TinyDepartment { UID = parent.UID, Name = parent.Name });
 			}
 			return DepartmentHelper.Restore(model);
 		}
@@ -130,7 +130,7 @@ namespace SKDModule.ViewModels
 			department.Description = item.Description;
 			department.ParentDepartmentUID = item.ParentDepartmentUID;
 			department.OrganisationUID = item.OrganisationUID;
-			department.ChildDepartmentUIDs = item.ChildDepartments.Select(x => x.Key).ToList();
+			department.ChildDepartmentUIDs = item.ChildDepartments.Select(x => x.UID).ToList();
 			return DepartmentHelper.Save(department, true);
 		}
 		 
@@ -185,13 +185,13 @@ namespace SKDModule.ViewModels
 		List<ShortDepartment> CopyChildren(ShortDepartment parent, IEnumerable<ShortDepartment> children)
 		{
 			var result = new List<ShortDepartment>();
-			parent.ChildDepartments = new Dictionary<Guid,string>();
+			parent.ChildDepartments = new List<TinyDepartment>();
 			foreach (var item in children)
 			{
 				var shortDepartment = base.CopyModel(item);
 				shortDepartment.ParentDepartmentUID = parent.UID;
 				result.Add(shortDepartment);
-				parent.ChildDepartments.Add(shortDepartment.UID, shortDepartment.Name);
+				parent.ChildDepartments.Add(new TinyDepartment{ UID = shortDepartment.UID, Name = shortDepartment.Name});
 			}
 			return result;
 		}

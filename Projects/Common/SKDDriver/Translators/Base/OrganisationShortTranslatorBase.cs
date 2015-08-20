@@ -15,21 +15,6 @@ namespace SKDDriver.DataClasses
 	{
 		public OrganisationShortTranslatorBase(ITranslatorGet<TTableItem, TApiItem, TFilter> tranlsator) : base(tranlsator) { }
 
-		public override TShort Translate(TTableItem tableItem)
-		{
-			if (tableItem == null)
-				return null;
-			return new TShort
-			{
-				UID = tableItem.UID,
-				Name = tableItem.Name,
-				Description = tableItem.Description,
-				IsDeleted = tableItem.IsDeleted,
-				RemovalDate = tableItem.RemovalDate.GetValueOrDefault(),
-				OrganisationUID = tableItem.OrganisationUID.GetValueOrDefault()
-			};
-		}
-
 		public override IQueryable<TTableItem> GetTableItems()
 		{
 			return ParentTranslator.Table.Include(x => x.Organisation.Users);

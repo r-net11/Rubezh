@@ -16,7 +16,7 @@ namespace SKDModule.ViewModels
 		Department Department { get; set; }
 		public EmployeeSelectationViewModel ChiefViewModel { get; private set; }
 		public bool IsNew { get; private set; }
-		Dictionary<Guid, string> _childDepartments;
+		List<TinyDepartment> _childDepartments;
 
 		public DepartmentDetailsViewModel() { }
 		
@@ -34,13 +34,13 @@ namespace SKDModule.ViewModels
 					ParentDepartmentUID = parentModel != null ? parentModel.UID : Guid.Empty,
 					OrganisationUID = OrganisationUID
 				};
-				_childDepartments = new Dictionary<Guid, string>();
+				_childDepartments = new List<TinyDepartment>();
 			}
 			else
 			{
 				Department = DepartmentHelper.GetDetails(shortDepartment.UID);
 				Title = string.Format("Свойства подразделения: {0}", Department.Name);
-				_childDepartments = new Dictionary<Guid, string>();
+				_childDepartments = new List<TinyDepartment>();
 			}
 			CopyProperties();
 			ChiefViewModel = new EmployeeSelectationViewModel(Department.ChiefUID, new EmployeeFilter { DepartmentUIDs = new List<Guid> { Department.UID } });
