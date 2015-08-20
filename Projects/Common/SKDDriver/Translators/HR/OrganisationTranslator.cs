@@ -75,6 +75,14 @@ namespace SKDDriver.DataClasses
 					tableItem = new Organisation { UID = item.UID };
 					TranslateDetailsBack(item, tableItem);
 					Table.Add(tableItem);
+					var dayInterval = new DayInterval() 
+					{
+						UID = Guid.NewGuid(), 
+						Name = "Выходной", 
+						DayIntervalParts = new List<DayIntervalPart>(), 
+						OrganisationUID = item.UID 
+					};
+					Context.DayIntervals.Add(dayInterval);
 				}
 				else
 				{

@@ -43,10 +43,6 @@ namespace SKDDriver.DataClasses
 			tableItem.BeginTimeSpan = apiItem.BeginTime;
 			tableItem.EndTimeSpan = apiItem.EndTime;
 			tableItem.Number = apiItem.Number;
-			if (apiItem.TransitionType == API.DayIntervalPartTransitionType.Night)
-			{
-				tableItem.EndTimeSpan += _daySeconds;
-			}
 			return tableItem;
 		}
 
@@ -110,8 +106,8 @@ namespace SKDDriver.DataClasses
 					DayIntervalUID = x.DayIntervalUID.Value,
 					BeginTime = x.BeginTimeSpan,
 					Number = x.Number,
-					TransitionType = x.EndTimeSpan >= _daySeconds ? API.DayIntervalPartTransitionType.Night : API.DayIntervalPartTransitionType.Day,
-					EndTime = x.EndTimeSpan >= _daySeconds ? DbFunctions.AddSeconds(x.EndTimeSpan, -(int)_daySeconds.TotalSeconds).Value : x.EndTimeSpan
+					TransitionType = x.EndTimeSpan < x.BeginTimeSpan  ? API.DayIntervalPartTransitionType.Night : API.DayIntervalPartTransitionType.Day,
+					EndTime = x.EndTimeSpan
 				}).ToList()
 			});
 		}

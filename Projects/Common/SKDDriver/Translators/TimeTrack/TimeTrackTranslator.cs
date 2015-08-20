@@ -225,12 +225,12 @@ namespace SKDDriver.DataClasses
 					if (previousDayInterval != null && !previousDayInterval.IsDeleted)
 					{
 						var previousIntervals = previousDayInterval.DayIntervalParts;
-						var nightInterval = previousIntervals.FirstOrDefault(x => x.EndTimeSpan.TotalSeconds > 60 * 60 * 24);
+						var nightInterval = previousIntervals.FirstOrDefault(x => x.EndTimeSpan < x.BeginTimeSpan);
 						if (nightInterval != null)
 						{
 							nightTimeTrackPart = new TimeTrackPart();
 							nightTimeTrackPart.StartTime = new TimeSpan();
-							nightTimeTrackPart.EndTime = TimeSpan.FromSeconds(nightInterval.EndTimeSpan.TotalSeconds - 60 * 60 * 24);
+							nightTimeTrackPart.EndTime = nightInterval.EndTimeSpan;
 							nightTimeTrackPart.StartsInPreviousDay = true;
 							nightTimeTrackPart.DayName = previousDayInterval.Name;
 						}
@@ -270,9 +270,10 @@ namespace SKDDriver.DataClasses
 				{
 					var timeTrackPart = new TimeTrackPart();
 					timeTrackPart.StartTime = tableInterval.BeginTimeSpan;
-					timeTrackPart.EndTime = TimeSpan.FromSeconds(Math.Min((int)tableInterval.EndTimeSpan.TotalSeconds, 60 * 60 * 24 - 1));
-					if (tableInterval.EndTimeSpan.TotalSeconds > 60 * 60 * 24)
+					if (tableInterval.EndTimeSpan < tableInterval.BeginTimeSpan)
 						timeTrackPart.EndsInNextDay = true;
+					if (timeTrackPart.EndsInNextDay)
+						timeTrackPart.EndTime = TimeSpan.FromSeconds(60 * 60 * 24 - 1);
 					timeTrackPart.DayName = dayInterval.Name;
 					result.TimeTrackParts.Add(timeTrackPart);
 				}
