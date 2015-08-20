@@ -81,6 +81,7 @@ namespace GKProcessor.DescriptorsDatabase
 				foreach (var nsDevice in pumpStation.NSDevices)
 				{
 					pumpStation.DescriptorDependentObjects.Add(nsDevice);
+					pumpStation.DescriptorDependentObjects.AddRange(nsDevice.NSLogic.GetObjects());
 					nsDevice.DescriptorDependentObjects.Add(pumpStation);
 				}
 

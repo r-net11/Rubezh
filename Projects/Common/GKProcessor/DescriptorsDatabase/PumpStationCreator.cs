@@ -29,35 +29,11 @@ namespace GKProcessor
 
 		public void Create()
 		{
-			CreateMainDelay();
 			CreateDelays();
 			SetCrossReferences();
 			CreateDelaysLogic();
 			SetFirePumpDevicesLogic();
 			CreatePim();
-		}
-
-		void CreateMainDelay()
-		{
-			var delayDescriptor = new DelayDescriptor(PumpStation.MainDelay);
-			Database.Descriptors.Add(delayDescriptor);
-			PumpStation.LinkGKBases(PumpStation.MainDelay);
-			PumpStation.MainDelay.LinkGKBases(PumpStation);
-
-			delayDescriptor.Formula = new FormulaBuilder();
-			delayDescriptor.Formula.AddGetBit(GKStateBit.On, PumpStation);
-			delayDescriptor.Formula.Add(FormulaOperationType.DUP);
-			delayDescriptor.Formula.AddGetBit(GKStateBit.TurningOn, PumpStation.MainDelay);
-			delayDescriptor.Formula.AddGetBit(GKStateBit.On, PumpStation.MainDelay);
-			delayDescriptor.Formula.Add(FormulaOperationType.OR);
-			delayDescriptor.Formula.Add(FormulaOperationType.COM);
-			delayDescriptor.Formula.Add(FormulaOperationType.AND);
-			delayDescriptor.Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, PumpStation.MainDelay);
-			delayDescriptor.Formula.Add(FormulaOperationType.COM);
-			delayDescriptor.Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, PumpStation.MainDelay);
-
-			delayDescriptor.Formula.Add(FormulaOperationType.END);
-			delayDescriptor.IsFormulaGeneratedOutside = true;
 		}
 
 		void CreateDelays()

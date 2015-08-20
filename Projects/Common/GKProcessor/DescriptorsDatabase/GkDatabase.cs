@@ -102,7 +102,7 @@ namespace GKProcessor
 				Descriptors.Add(codeDescriptor);
 			}
 
-			foreach (var door in GKManager.Doors)
+			foreach (var door in GKManager.Doors.Where(x => x.GkDatabaseParent == RootDevice))
 			{
 				var doorDescriptor = new DoorDescriptor(door);
 				Descriptors.Add(doorDescriptor);
