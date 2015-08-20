@@ -92,6 +92,8 @@ namespace SKDModule.ViewModels
 			copy.ScheduleSchemeUID = source.ScheduleSchemeUID;
 			copy.IsIgnoreHoliday = source.IsIgnoreHoliday;
 			copy.IsOnlyFirstEnter = source.IsOnlyFirstEnter;
+            copy.AllowedEarlyLeave = source.AllowedEarlyLeave;
+            copy.AllowedLate = source.AllowedLate;
 			foreach (var scheduleZone in source.Zones)
 				copy.Zones.Add(new ScheduleZone()
 				{
