@@ -355,6 +355,7 @@ namespace GKModule.ViewModels
 			{
 				SelectedDevice.Device.Logic = GKManager.PasteLogic(new GKAdvancedLogic(hasOnClause, hasOnNowClause, hasOffClause, hasOffNowClause, hasStopClause));
 				SelectedDevice.Device.OnChanged();
+				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
 
