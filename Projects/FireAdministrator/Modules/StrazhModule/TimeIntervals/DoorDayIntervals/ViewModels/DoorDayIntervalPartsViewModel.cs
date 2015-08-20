@@ -18,7 +18,7 @@ namespace StrazhModule.ViewModels
 		{
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
-			RemoveCommand = new RelayCommand(OnRemove, CanEdit);
+			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 
 			DayInterval = dayInterval;
 			Parts = new ObservableCollection<DoorDayIntervalPartViewModel>();
@@ -69,6 +69,10 @@ namespace StrazhModule.ViewModels
 			Parts.Remove(SelectedPart);
 			ServiceFactory.SaveService.SKDChanged = true;
 			ServiceFactory.SaveService.TimeIntervalChanged();
+		}
+		bool CanRemove()
+		{
+			return SelectedPart != null && Parts.Count > 1;
 		}
 
 		public RelayCommand EditCommand { get; private set; }
