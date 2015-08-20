@@ -294,6 +294,8 @@ namespace FiresecAPI.SKD
 							timeTrackPart.TimeTrackPartType = TimeTrackType.None;
 					}
 				}
+                if (PlannedTimeTrackParts.Count == 0 && SlideTime.TotalSeconds > 0 && timeTrackPart.TimeTrackPartType == TimeTrackType.Overtime)
+                    timeTrackPart.TimeTrackPartType = TimeTrackType.Presence;
 			}
 		}
 
@@ -317,7 +319,6 @@ namespace FiresecAPI.SKD
 
 			if (SlideTime.TotalSeconds > 0)
 			{
-				if (PlannedTimeTrackParts.Count > 0)
 					totalBalance.TimeSpan = -TimeSpan.FromSeconds(SlideTime.TotalSeconds);
 			}
             else if (SlideTime.TotalSeconds == 0)
@@ -395,8 +396,16 @@ namespace FiresecAPI.SKD
 				if (IsHoliday)
 					return TimeTrackType.Holiday;
 
-				if (PlannedTimeTrackParts.Count == 0)
-					return TimeTrackType.DayOff;
+                if (PlannedTimeTrackParts.Count == 0)
+                {
+                    if (SlideTime.TotalSeconds != 0)
+                    {
+                        if (RealTimeTrackParts.Count != 0)
+                            return TimeTrackType.Presence;
+                        return TimeTrackType.Absence;
+                    }
+                    return TimeTrackType.DayOff;
+                }
 			}
 			return longestTimeTrackType;
 		}
