@@ -25,7 +25,7 @@
 				<DataGridTemplateColumn
 					Width="*"
 					SortMemberPath="Name"
-					Header="Наименование">
+					Header="Название">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
