@@ -10,18 +10,11 @@ namespace SKDDriver.DataClasses
 {
 	public class DatabaseContext : DbContext
 	{
-		//public static DbConnection connection;
-
 		public DatabaseContext(DbConnection connection)
 			: base(connection, true)
 		{
 			Database.SetInitializer<DatabaseContext>(new MigrateDatabaseToLatestVersion<DatabaseContext, Configuration>(true));
 		}
-
-		//public DatabaseContext(DbConnection connection) : base(connection, true)
-		//{
-		//	Database.SetInitializer<DatabaseContext>(new MigrateDatabaseToLatestVersion<DatabaseContext, Configuration>());
-		//}
 
 		public DbSet<GKSchedule> GKSchedules { get; set; }
 		public DbSet<GKScheduleDay> GKScheduleDays { get; set; }
@@ -61,7 +54,6 @@ namespace SKDDriver.DataClasses
 		public DbSet<TimeTrackDocument> TimeTrackDocuments { get; set; }
 		public DbSet<TimeTrackDocumentType> TimeTrackDocumentTypes { get; set; }
 		public DbSet<TimeTrackException> TimeTrackExceptions { get; set; }
-
 		public DbSet<ImitatorUser> ImitatorUsers { get; set; }
 		public DbSet<ImitatorUserDevice> ImitatorUserDevices { get; set; }
 		public DbSet<ImitatorSchedule> ImitatorSchedules { get; set; }

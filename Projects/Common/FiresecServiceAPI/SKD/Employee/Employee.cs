@@ -27,16 +27,31 @@ namespace FiresecAPI.SKD
 		public string Description { get; set; }
 
 		[DataMember]
-		public ShortPosition Position { get; set; }
+		public Guid PositionUID { get; set; }
 
 		[DataMember]
-		public ShortDepartment Department { get; set; }
+		public string PositionName { get; set; }
 
 		[DataMember]
-		public Schedule Schedule { get; set; }
+		public bool IsPositionDeleted { get; set; }
+
+		[DataMember]
+		public Guid DepartmentUID { get; set; }
+
+		[DataMember]
+		public string DepartmentName { get; set; }
+
+		[DataMember]
+		public bool IsDepartmentDeleted { get; set; }
+
+		[DataMember]
+		public Guid ScheduleUID { get; set; }
 
 		[DataMember]
 		public string ScheduleName { get; set; }
+		
+		[DataMember]
+		public bool IsScheduleDeleted { get; set; }
 
 		[DataMember]
 		public DateTime ScheduleStartDate { get; set; }

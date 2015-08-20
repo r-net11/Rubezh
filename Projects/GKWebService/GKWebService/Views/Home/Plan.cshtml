@@ -6,22 +6,16 @@
 
 @using System.Web.Optimization
 @Scripts.Render("~/bundles/libs")
-@*@Scripts.Render("~/bundles/jquery")*@
 @Scripts.Render("~/bundles/shapesApp")
-@Styles.Render("~/Content/css")
 
 <div ng-app="canvasApp" class="plan">
-    <div class="row">
-        <div class="col-md-6 col-md-offset-3">Resize the page or change the numbers to see the d3 re-render!</div>
-        <div>
-            {{message}}
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6 col-md-offset-3"><hr></div>
-    </div>
     <div ng-controller="PlanCtrl">
-        <d3-plan data="d3Data"></d3-plan>
+        <h1 class="">Доступные планы:</h1>
+        <div ng-repeat="plan in PlansList">
+            <div><a href="" ng-click="LoadPlan(plan.id)">
+                <h2>[{{$index + 1}}] {{plan.name}}</h2>
+                <p>{{plan.description}}</p></a></div> 
+        </div>
         <div id="modal">
             <div id="content"></div>
             <button id="modalClose"
@@ -29,6 +23,7 @@
                 X
             </button>
         </div>
+        <d3-plan data="d3Data"></d3-plan>
     </div>
 </div>
 <style>

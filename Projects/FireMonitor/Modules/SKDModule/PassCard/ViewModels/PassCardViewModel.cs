@@ -34,12 +34,10 @@ namespace SKDModule.PassCard.ViewModels
 			_card = card;
 			PrintCommand = new RelayCommand(OnPrint, CanPrint);
 			_employee = EmployeeHelper.GetDetails(employeeUID);
-			var shortDepartment = _employee.Department;
-			if (shortDepartment != null)
-				_department = DepartmentHelper.GetDetails(shortDepartment.UID);
-			var shortPosition = _employee.Position;
-			if (shortPosition != null)
-				_position = PositionHelper.GetDetails(shortPosition.UID);
+			if (_employee.DepartmentUID != Guid.Empty)
+				_department = DepartmentHelper.GetDetails(_employee.DepartmentUID);
+			if (_employee.PositionUID != Guid.Empty)
+				_position = PositionHelper.GetDetails(_employee.PositionUID);
 			_organisation = OrganisationHelper.GetDetails(_employee.OrganisationUID);
 			_passCardCanvas = new PassCardCanvas();
 			PassCardTemplates = new ObservableCollection<ShortPassCardTemplate>(PassCardTemplateHelper.GetByOrganisation(_organisation.UID));
@@ -171,7 +169,7 @@ namespace SKDModule.PassCard.ViewModels
 					elementTextProperty.Text = _card.Number.ToString();
 					break;
 				case PassCardTextPropertyType.Additional:
-					var columnValue = _employee.AdditionalColumns.FirstOrDefault(x => x.AdditionalColumnType.UID == elementTextProperty.AdditionalColumnUID);
+					var columnValue = _employee.AdditionalColumns.FirstOrDefault(x => x.AdditionalColumnTypeUID == elementTextProperty.AdditionalColumnUID);
 					elementTextProperty.Text = columnValue == null || columnValue.TextData == null ? string.Empty : columnValue.TextData;
 					break;
 				default:
@@ -262,7 +260,7 @@ namespace SKDModule.PassCard.ViewModels
 						photo = _position == null ? null : _position.Photo;
 						break;
 					case PassCardImagePropertyType.Additional:
-						var columnValue = _employee.AdditionalColumns.FirstOrDefault(x => x.AdditionalColumnType.UID == elementPassCardImageProperty.AdditionalColumnUID);
+						var columnValue = _employee.AdditionalColumns.FirstOrDefault(x => x.AdditionalColumnTypeUID == elementPassCardImageProperty.AdditionalColumnUID);
 						if (columnValue != null)
 							photo = columnValue.Photo;
 						break;

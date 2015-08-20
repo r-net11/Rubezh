@@ -133,7 +133,7 @@ namespace FiresecService.Report.Templates
 			// xrTableCell12
 			// 
 			xrTableCell12.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Period", "{0:%d} сут {0:%h} ч \t {0:%m} мин {0:%s} сек")});
+            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Period", "{0:%d} сут {0:%h} ч {0:%m} мин {0:%s} сек")});
 			xrTableCell12.Dpi = 254F;
 			xrTableCell12.Name = "xrTableCell12";
 			xrTableCell12.Weight = 0.10056870156204056D;

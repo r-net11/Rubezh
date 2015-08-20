@@ -10,7 +10,10 @@ namespace FiresecAPI.SKD
 		public int Number { get; set; }
 
 		[DataMember]
-		public DayInterval DayInterval { get; set; }
+		public string DayIntervalName { get; set; }
+
+		[DataMember]
+		public Guid DayIntervalUID { get; set; } 
 
 		[DataMember]
 		public Guid ScheduleSchemeUID { get; set; }
