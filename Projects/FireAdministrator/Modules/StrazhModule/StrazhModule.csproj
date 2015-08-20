@@ -302,10 +302,14 @@
     </Compile>
     <Compile Include="StrazhModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Validation\DoorDayIntervalValidationError.cs" />
     <Compile Include="Validation\DayIntervalValidationError.cs" />
     <Compile Include="Validation\Validator.cs" />
+    <Compile Include="Validation\Validator.DoorDayIntervals.cs" />
     <Compile Include="Validation\Validator.DayIntervals.cs" />
     <Compile Include="Validation\Validator.Plans.cs" />
+    <Compile Include="Validation\DoorWeeklyIntervalValidationError.cs" />
+    <Compile Include="Validation\Validator.DoorWeeklyIntervals.cs" />
     <Compile Include="Validation\WeeklyIntervalValidationError.cs" />
     <Compile Include="Validation\Validator.WeeklyIntervals.cs" />
     <Compile Include="Validation\SlideDayIntervalValidationError.cs" />

@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.SKD;
 using Infrastructure;
@@ -9,7 +10,7 @@ namespace StrazhModule.ViewModels
 {
 	public class WeeklyIntervalViewModel : BaseIntervalViewModel<WeeklyIntervalPartViewModel, SKDWeeklyInterval>
 	{
-		WeeklyIntervalsViewModel _weeklyIntervalsViewModel;
+		readonly WeeklyIntervalsViewModel _weeklyIntervalsViewModel;
 
 		public WeeklyIntervalViewModel(int index, SKDWeeklyInterval weeklyInterval, WeeklyIntervalsViewModel weeklyIntervalsViewModel)
 			: base(index, weeklyInterval)
@@ -70,6 +71,7 @@ namespace StrazhModule.ViewModels
 		public override void Paste(SKDWeeklyInterval interval)
 		{
 			IsActive = true;
+			Model.Name = GenerateNewNameBeforePaste(interval.Name);
 			for (int i = 0; i < interval.WeeklyIntervalParts.Count; i++)
 			{
 				Model.WeeklyIntervalParts[i].DayIntervalUID = interval.WeeklyIntervalParts[i].DayIntervalUID;
@@ -80,10 +82,30 @@ namespace StrazhModule.ViewModels
 			Update();
 		}
 
+		private string GenerateNewNameBeforePaste(string name)
+		{
+			string newName;
+			var i = 1;
+
+			do
+				newName = String.Format("{0} ({1})", name, i++);
+			while (_weeklyIntervalsViewModel.Intervals.Any(x => x.Name == newName));
+
+			return newName;
+		}
+
 		bool ConfirmDeactivation()
 		{
 			var hasReference = SKDManager.TimeIntervalsConfiguration.SlideWeeklyIntervals.Any(item => item.WeeklyIntervalIDs.Contains(Index));
 			return !hasReference || MessageBoxService.ShowConfirmation("Данный недельный график используется в одном или нескольких скользящих недельных графиках, Вы уверены что хотите его деактивировать?");
+		}
+
+		public override bool IsPredefined
+		{
+			get
+			{
+				return Name == TimeIntervalsConfiguration.PredefinedIntervalNameNever || Name == TimeIntervalsConfiguration.PredefinedIntervalNameAlways;
+			}
 		}
 	}
 }

@@ -19,7 +19,7 @@ namespace StrazhModule.Intervals.Base.ViewModels
 		{
 			Menu = new BaseIntervalsMenuViewModel(this);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
-			CopyCommand = new RelayCommand(OnCopy, CanEdit);
+			CopyCommand = new RelayCommand(OnCopy, CanCopy);
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
 			ActivateCommand = new RelayCommand(OnActivate, CanActivate);
 			RegisterShortcuts();
@@ -60,6 +60,8 @@ namespace StrazhModule.Intervals.Base.ViewModels
 			}
 		}
 
+		#region <Реализация ISelecteble<int>>
+
 		public void Select(int intervalID)
 		{
 			if (intervalID >= 0 && intervalID <= 128)
@@ -68,7 +70,14 @@ namespace StrazhModule.Intervals.Base.ViewModels
 				SelectedInterval = Intervals.FirstOrDefault();
 		}
 
+		#endregion </Реализация ISelecteble<int>>
+
+		#region <Реализация IEditingBaseViewModel>
+
 		public RelayCommand EditCommand { get; private set; }
+
+		#endregion </Реализация IEditingBaseViewModel>
+
 		protected virtual void OnEdit()
 		{
 		}
@@ -89,13 +98,17 @@ namespace StrazhModule.Intervals.Base.ViewModels
 		}
 		private bool CanActivate()
 		{
-			return SelectedInterval != null && SelectedInterval.Name != "<Никогда>" && SelectedInterval.Name != "<Всегда>";
+			return SelectedInterval != null && !SelectedInterval.IsPredefined;
 		}
 
 		public RelayCommand CopyCommand { get; private set; }
 		private void OnCopy()
 		{
 			_copy = CopyInterval(SelectedInterval.Model);
+		}
+		private bool CanCopy()
+		{
+			return SelectedInterval != null && (SelectedInterval.IsPredefined || SelectedInterval.IsActive);
 		}
 
 		public RelayCommand PasteCommand { get; private set; }
@@ -106,7 +119,7 @@ namespace StrazhModule.Intervals.Base.ViewModels
 		}
 		private bool CanPaste()
 		{
-			return _copy != null && SelectedInterval != null;
+			return _copy != null && SelectedInterval != null && !SelectedInterval.IsPredefined;
 		}
 
 		public override void OnShow()

@@ -1,17 +1,21 @@
 ﻿<UserControl x:Class="StrazhModule.Views.LockPropertiesView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
              xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
-			 MinWidth="500" MinHeight="300">
+			 MinWidth="500" MinHeight="340">
 
 	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*"/>
+		</Grid.ColumnDefinitions>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 		
-		<TabControl Grid.Row="0" Margin="0" Height="206">
+		<TabControl Grid.Row="0">
 			<TabItem Header="Замок">
 				<StackPanel>
 					<GroupBox Header="Основные" Margin="5" Padding="5">
@@ -23,11 +27,9 @@
 						<Grid>
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition Width="Auto" />
-								<ColumnDefinition Width="200" />
+								<ColumnDefinition Width="*" />
 							</Grid.ColumnDefinitions>
 							<Grid.RowDefinitions>
-								<RowDefinition Height="Auto" />
-								<RowDefinition Height="Auto" />
 								<RowDefinition Height="Auto" />
 								<RowDefinition Height="Auto" />
 								<RowDefinition Height="Auto" />
@@ -55,15 +57,24 @@
 									</DataTemplate>
 								</ComboBox.ItemTemplate>
 							</ComboBox>
+							
+							<Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 2 0 10">
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="Auto"/>
+									<ColumnDefinition Width="Auto"/>
+								</Grid.ColumnDefinitions>
+								<Image Grid.Column="0" Source="/Controls;component/Images/Alarm_main_2_Attention.png" VerticalAlignment="Center"  />
+								<TextBlock Grid.Column="1" Text="Имя графика, назначенного для замка, хранится в конфигурации и не считывается с контроллера" Foreground="{DynamicResource ForegroundColorLight}" VerticalAlignment="Center" TextWrapping="Wrap" Width="400" Margin="5 2"/>
+							</Grid>
 
-							<TextBlock Grid.Row="2" Grid.Column="0" Text="Время удержания, мс" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorLight}" Margin="5 2" />
-							<extToolkit:IntegerUpDown Grid.Row="2" Grid.Column="1" Value="{Binding UnlockHoldInterval, UpdateSourceTrigger=PropertyChanged}" Minimum="2000" Maximum="34464" Margin="2" />
+							<TextBlock Grid.Row="3" Grid.Column="0" Text="Время удержания, мс" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorLight}" Margin="5 2" />
+							<extToolkit:IntegerUpDown Grid.Row="3" Grid.Column="1" Value="{Binding UnlockHoldInterval, UpdateSourceTrigger=PropertyChanged}" Minimum="2000" Maximum="34464" Margin="2" />
 
-							<TextBlock Grid.Row="3" Grid.Column="0" Text="Альтернативное время удержания, мс" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorLight}" Margin="5 2" />
-							<extToolkit:IntegerUpDown Grid.Row="3" Grid.Column="1" Value="{Binding HandicapUnlockHoldInterval, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+							<TextBlock Grid.Row="4" Grid.Column="0" Text="Альтернативное время удержания, мс" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorLight}" Margin="5 2" />
+							<extToolkit:IntegerUpDown Grid.Row="4" Grid.Column="1" Value="{Binding HandicapUnlockHoldInterval, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 
-							<TextBlock Grid.Row="4" Grid.Column="0" Text="Тревога по принуждению" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorLight}" Margin="5 2" />
-							<CheckBox Grid.Row="4" Grid.Column="1" IsChecked="{Binding IsDuressAlarmEnable}" Margin="2" />
+							<TextBlock Grid.Row="5" Grid.Column="0" Text="Тревога по принуждению" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorLight}" Margin="5 2" />
+							<CheckBox Grid.Row="5" Grid.Column="1" IsChecked="{Binding IsDuressAlarmEnable}" Margin="2" />
 
 							<!--<TextBlock Grid.Row="5" Grid.Column="0" Text="Тревога по повторному проходу" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorLight}" Margin="5 2" />
 					<CheckBox Grid.Row="5" Grid.Column="1" IsChecked="{Binding IsRepeatEnterAlarmEnable}" Margin="2" />-->

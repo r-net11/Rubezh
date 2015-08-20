@@ -82,7 +82,7 @@ namespace StrazhModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var dayIntervalDetailsViewModel = new DoorDayIntervalDetailsViewModel();
+			var dayIntervalDetailsViewModel = new DoorDayIntervalDetailsViewModel(DayIntervals);
 			if (DialogService.ShowModalWindow(dayIntervalDetailsViewModel))
 			{
 				SKDManager.TimeIntervalsConfiguration.DoorDayIntervals.Add(dayIntervalDetailsViewModel.DayInterval);
@@ -111,7 +111,7 @@ namespace StrazhModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var dayIntervalDetailsViewModel = new DoorDayIntervalDetailsViewModel(SelectedDayInterval.DayInterval);
+			var dayIntervalDetailsViewModel = new DoorDayIntervalDetailsViewModel(DayIntervals, SelectedDayInterval.DayInterval);
 			if (DialogService.ShowModalWindow(dayIntervalDetailsViewModel))
 			{
 				SelectedDayInterval.Update(dayIntervalDetailsViewModel.DayInterval);
