@@ -19,7 +19,7 @@ namespace StrazhModule.Intervals.Base.ViewModels
 		{
 			Menu = new BaseIntervalsMenuViewModel(this);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
-			CopyCommand = new RelayCommand(OnCopy, CanEdit);
+			CopyCommand = new RelayCommand(OnCopy, CanCopy);
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
 			ActivateCommand = new RelayCommand(OnActivate, CanActivate);
 			RegisterShortcuts();
@@ -106,6 +106,10 @@ namespace StrazhModule.Intervals.Base.ViewModels
 		{
 			_copy = CopyInterval(SelectedInterval.Model);
 		}
+		private bool CanCopy()
+		{
+			return SelectedInterval != null && (SelectedInterval.IsPredefined || SelectedInterval.IsActive);
+		}
 
 		public RelayCommand PasteCommand { get; private set; }
 		private void OnPaste()
@@ -115,7 +119,7 @@ namespace StrazhModule.Intervals.Base.ViewModels
 		}
 		private bool CanPaste()
 		{
-			return _copy != null && SelectedInterval != null;
+			return _copy != null && SelectedInterval != null && !SelectedInterval.IsPredefined;
 		}
 
 		public override void OnShow()
