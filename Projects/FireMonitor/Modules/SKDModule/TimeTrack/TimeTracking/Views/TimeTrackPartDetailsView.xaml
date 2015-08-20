@@ -123,7 +123,7 @@
 			<CheckBox
 				Content="Не учитывать в расчетах"
 				IsEnabled="{Binding IsEnabledTakeInCalculations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-				IsChecked="{Binding CurrentTimeTrackPart.NotTakeInCalculations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+				IsChecked="{Binding NotTakeInCalculations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 				Foreground="White"
 				VerticalAlignment="Center"
 				Margin="5"/>

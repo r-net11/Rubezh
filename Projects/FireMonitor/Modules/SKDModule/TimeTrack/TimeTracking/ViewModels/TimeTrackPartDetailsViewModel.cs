@@ -6,7 +6,6 @@ using Infrastructure.Common.Windows.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Org.BouncyCastle.Crypto.Engines;
 using ReactiveUI;
 using SKDModule.Model;
 using SKDModule.Helpers;
@@ -66,6 +65,19 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		private bool _notTakeInCalculations;
+
+		public bool NotTakeInCalculations
+		{
+			get { return _notTakeInCalculations; }
+			set
+			{
+				if (_notTakeInCalculations == value) return;
+				_notTakeInCalculations = value;
+				OnPropertyChanged(() => NotTakeInCalculations);
+			}
+		}
+
 		#endregion
 
 		#region Constructors
@@ -79,6 +91,8 @@ namespace SKDModule.ViewModels
 				CurrentTimeTrackPart = inputTimeTrackPart;
 				CurrentTimeTrackPart.EnterTime = inputTimeTrackPart.EnterTime;
 				CurrentTimeTrackPart.ExitTime = inputTimeTrackPart.ExitTime;
+				NotTakeInCalculations = inputTimeTrackPart.NotTakeInCalculations;
+				SelectedZone = inputTimeTrackPart.TimeTrackZone;
 				Title = "Редактировать проход";
 			}
 			else
@@ -90,12 +104,11 @@ namespace SKDModule.ViewModels
 					ExitDateTime = dayTimeTrack.Date,
 					IsManuallyAdded = true
 				};
-
+				SelectedZone = Zones.FirstOrDefault();
 				Title = "Добавить проход";
 			}
 
 			Zones = new List<TimeTrackZone>(TimeTrackingHelper.GetMergedZones(employee));
-			SelectedZone = Zones.FirstOrDefault();
 
 			this.WhenAny(x => x.CurrentTimeTrackPart, x => x.Value)
 				.Subscribe(value =>
@@ -126,12 +139,11 @@ namespace SKDModule.ViewModels
 					if (value != null && !value.IsURV)
 					{
 						IsEnabledTakeInCalculations = false;
-						CurrentTimeTrackPart.NotTakeInCalculations = true;
+						NotTakeInCalculations = true;
 					}
 					else
 					{
 						IsEnabledTakeInCalculations = true;
-						CurrentTimeTrackPart.NotTakeInCalculations = false;
 					}
 				});
 		}
