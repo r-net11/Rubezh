@@ -26,11 +26,12 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 		<Image
 			Margin="10"
 			Source="{StaticResource HelpImage}" />
-		<StackPanel Grid.Column="1">
+		<StackPanel Margin="5 10" Grid.Column="1">
 			<TextBlock Foreground="White">
 				<Run Text="Восстановление интервала пребывания в зоне" />
 				<LineBreak />
@@ -42,8 +43,8 @@
 				<LineBreak />
 				<Run Text="невозможно по причине пересечения с интервалами:" />
 			</TextBlock>
-			<ItemsControl 
-				Language="ru-RU" 
+			<ItemsControl
+				Language="ru-RU"
 				ItemsSource="{Binding ConflictingIntervals}">
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
@@ -70,10 +71,15 @@
 			</TextBlock>
 		</StackPanel>
 		<CheckBox
+			Margin="5 10"
 			Grid.Column="1"
 			Grid.Row="1"
 			VerticalAlignment="Center"
 			IsChecked="{Binding ApplyToAll, UpdateSourceTrigger=PropertyChanged}"
 			Content="Применить выбранное решение во всех аналогичных ситуациях" Foreground="White" />
+		<!--<UniformGrid Grid.Column="1" Grid.Row="3" Columns="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="30">
+			<Button HorizontalAlignment="Right" Width="120" Content="Установить границы без пересечений с другими интервалами" />
+			<Button Width="120" HorizontalAlignment="Left" Margin="5 0 10 0" />
+		</UniformGrid>-->
 	</Grid>
 </UserControl>
