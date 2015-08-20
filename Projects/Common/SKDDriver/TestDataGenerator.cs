@@ -267,8 +267,8 @@ namespace SKDDriver.DataClasses
                     {
                         employeeDay.IsIgnoreHoliday = schedule.IsIgnoreHoliday;
                         employeeDay.IsOnlyFirstEnter = schedule.IsOnlyFirstEnter;
-                        employeeDay.AllowedLate = schedule.AllowedLate;
-                        employeeDay.AllowedEarlyLeave = schedule.AllowedEarlyLeave;
+						employeeDay.AllowedLateTimeSpan = schedule.AllowedLateTimeSpan;
+						employeeDay.AllowedEarlyLeaveTimeSpan = schedule.AllowedEarlyLeaveTimeSpan;
                         employeeDay.Date = DateTime.Now;
                         var scheduleScheme = schedule.ScheduleScheme;
                         if (scheduleScheme != null)
@@ -294,7 +294,7 @@ namespace SKDDriver.DataClasses
                             var dayIntervalParts = scheduleScheme.ScheduleDays.FirstOrDefault(x => x.Number == dayNo).DayInterval.DayIntervalParts;
                             foreach (var dayIntervalPart in dayIntervalParts)
                             {
-                                employeeDay.DayIntervalsString += dayIntervalPart.BeginTime + "-" + dayIntervalPart.EndTime + ";";
+								employeeDay.DayIntervalsString += dayIntervalPart.BeginTimeSpan + "-" + dayIntervalPart.EndTimeSpan + ";";
                             }
                             employee.LastEmployeeDayUpdate = employeeDay.Date;
                             Context.SaveChanges();
