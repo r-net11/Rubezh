@@ -52,11 +52,21 @@ namespace GKModule.DeviceProperties
 				OnPropertyChanged("Text");
 				try
 				{
-					Save(Convert.ToUInt16(value));
+					IsValueValid = true;
+					if (Convert.ToInt32(value) > DriverProperty.Max)
+					{
+						IsValueValid = false;
+					}
+					if (Convert.ToInt32(value) < DriverProperty.Min)
+					{
+						IsValueValid = false;
+					}
+					Save(Convert.ToUInt16(value), IsValueValid);
 				}
 				catch (Exception e)
 				{
 					System.Diagnostics.Debug.WriteLine("Не удалось сохранить значение", e.Message);
+					IsValueValid = false;
 				};
 				
 			}
