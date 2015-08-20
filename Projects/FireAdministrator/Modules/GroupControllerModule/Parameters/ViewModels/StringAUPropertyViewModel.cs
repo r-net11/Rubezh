@@ -48,27 +48,28 @@ namespace GKModule.DeviceProperties
 						value = (doubleValue * DriverProperty.Multiplier).ToString();
 					}
 				}
-				_text = value;
-				OnPropertyChanged("Text");
-				try
+
+				UInt16 result = DriverProperty.Min;
+				if (UInt16.TryParse(value, out result))
 				{
-					IsValueValid = true;
-					if (Convert.ToInt32(value) > DriverProperty.Max)
+					if (result <= DriverProperty.Max)
 					{
-						IsValueValid = false;
+						if (result >= DriverProperty.Min)
+						{
+							Save(result);
+							_text = result.ToString();
+						}
+						else
+						{
+							_text = DriverProperty.Min.ToString();
+						}
 					}
-					if (Convert.ToInt32(value) < DriverProperty.Min)
+					else
 					{
-						IsValueValid = false;
+						_text = DriverProperty.Max.ToString();
 					}
-					Save(Convert.ToUInt16(value), IsValueValid);
 				}
-				catch (Exception e)
-				{
-					System.Diagnostics.Debug.WriteLine("Не удалось сохранить значение", e.Message);
-					IsValueValid = false;
-				};
-				
+				OnPropertyChanged(() => Text);
 			}
 		}
 	}

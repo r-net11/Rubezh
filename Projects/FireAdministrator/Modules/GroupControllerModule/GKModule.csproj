@@ -266,7 +266,6 @@
     <Compile Include="OPC\Views\OPCMenuView.xaml.cs">
       <DependentUpon>OPCMenuView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Parameters\Converters\BoolToColorConverter.cs" />
     <Compile Include="Parameters\ViewModels\DeviceParameterViewModel.cs" />
     <Compile Include="Plans\Designer\GKDoorPainter.cs" />
     <Compile Include="Plans\Designer\ElementDeviceUpdater.cs" />

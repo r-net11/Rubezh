@@ -70,17 +70,6 @@ namespace GKModule.DeviceProperties
 			}
 		}
 
-		bool _isValueValid = true;
-
-		public bool IsValueValid { 
-			get { return _isValueValid; }
-			set
-			{
-				_isValueValid = value;
-				OnPropertyChanged(() => IsValueValid);
-			}
-		}
-
 		DeviceParameterMissmatchType _deviceParameterMissmatchType;
 		public DeviceParameterMissmatchType DeviceParameterMissmatchType
 		{
