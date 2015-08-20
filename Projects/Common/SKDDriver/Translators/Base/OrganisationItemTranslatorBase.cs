@@ -24,8 +24,8 @@ namespace SKDDriver.DataClasses
 		{
 			try
 			{
-				var tableItems = GetFilteredTableItems(filter, GetTableItems()).ToList();
-				var result = tableItems.Select(x => Translate(x)).ToList();
+				var tableItems = GetFilteredTableItems(filter, GetTableItems());
+				var result = GetAPIItems(tableItems).ToList();
 				return new OperationResult<List<TApiItem>>(result);
 			}
 			catch (System.Exception e)
@@ -40,8 +40,8 @@ namespace SKDDriver.DataClasses
 			{
 				if (uid == null)
 					return new OperationResult<TApiItem>(null);
-				var tableItems = GetTableItems().FirstOrDefault(x => x.UID == uid);
-				var result = Translate(tableItems);
+				var tableItems = GetTableItems().Where(x => x.UID == uid.Value);
+				var result = GetAPIItems(tableItems).FirstOrDefault();
 				return new OperationResult<TApiItem>(result);
 			}
 			catch (System.Exception e)
@@ -146,20 +146,22 @@ namespace SKDDriver.DataClasses
 			return new OperationResult();
 		}
 
-		public virtual TApiItem Translate(TTableItem tableItem)
-		{
-			if (tableItem == null)
-				return null;
-			return new TApiItem
-			{
-				UID = tableItem.UID,
-				Name = tableItem.Name,
-				Description = tableItem.Description,
-				IsDeleted = tableItem.IsDeleted,
-				RemovalDate = tableItem.RemovalDate.GetValueOrDefault(),
-				OrganisationUID = tableItem.OrganisationUID.GetValueOrDefault()
-			};
-		}
+		protected abstract IEnumerable<TApiItem> GetAPIItems(IQueryable<TTableItem> tableItems);
+		
+		//public virtual TApiItem Translate(TTableItem tableItem)
+		//{
+		//	if (tableItem == null)
+		//		return null;
+		//	return new TApiItem
+		//	{
+		//		UID = tableItem.UID,
+		//		Name = tableItem.Name,
+		//		Description = tableItem.Description,
+		//		IsDeleted = tableItem.IsDeleted,
+		//		RemovalDate = tableItem.RemovalDate.GetValueOrDefault(),
+		//		OrganisationUID = tableItem.OrganisationUID.GetValueOrDefault()
+		//	};
+		//}
 
 		public virtual void TranslateBack(TApiItem apiItem, TTableItem tableItem)
 		{

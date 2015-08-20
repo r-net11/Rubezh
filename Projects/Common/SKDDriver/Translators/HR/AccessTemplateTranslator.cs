@@ -34,16 +34,6 @@ namespace SKDDriver.DataClasses
 			return base.CanDelete(uid);
 		}
 
-		public override API.AccessTemplate Translate(AccessTemplate tableItem)
-		{
-			var result = base.Translate(tableItem);
-			if (result == null)
-				return null;
-			result.CardDoors = tableItem.CardDoors.Select(x => x.Translate()).ToList();
-
-			return result;
-		}
-
 		public override void TranslateBack(API.AccessTemplate apiItem, AccessTemplate tableItem)
 		{
 			base.TranslateBack(apiItem, tableItem);
@@ -53,6 +43,28 @@ namespace SKDDriver.DataClasses
 		protected override void ClearDependentData(AccessTemplate tableItem)
 		{
 			Context.CardDoors.RemoveRange(tableItem.CardDoors);
+		}
+
+		protected override IEnumerable<API.AccessTemplate> GetAPIItems(IQueryable<AccessTemplate> tableItems)
+		{
+			return tableItems.Select(tableItem => new API.AccessTemplate
+			{
+				UID = tableItem.UID,
+				Name = tableItem.Name,
+				Description = tableItem.Description,
+				IsDeleted = tableItem.IsDeleted,
+				RemovalDate = tableItem.RemovalDate != null ? tableItem.RemovalDate.Value : new DateTime(),
+				OrganisationUID = tableItem.OrganisationUID != null ? tableItem.OrganisationUID.Value : Guid.Empty,
+				CardDoors = tableItem.CardDoors.Select(x => new FiresecAPI.SKD.CardDoor
+				{
+					UID = x.UID,
+					CardUID = x.CardUID,
+					DoorUID = x.DoorUID,
+					AccessTemplateUID = x.AccessTemplateUID,
+					EnterScheduleNo = x.ExitScheduleNo,
+					ExitScheduleNo = x.EnterScheduleNo
+				}).ToList()
+			});
 		}
 	}
 

@@ -31,7 +31,7 @@ namespace FiresecService.Report.Templates
 
 		public override string ReportTitle
 		{
-			get { return "Отчет по событиям системы контроля доступа"; }
+			get { return "Отчет по событиям"; }
 		}
 		protected override DataSet CreateDataSet(DataProvider dataProvider)
 		{

@@ -16,9 +16,9 @@ namespace SKDDriver.DataClasses
 
 		public bool IsOnlyFirstEnter { get; set; }
 
-		public int AllowedLate { get; set; }
+		public TimeSpan AllowedLateTimeSpan { get; set; }
 
-		public int AllowedEarlyLeave { get; set; }
+		public TimeSpan AllowedEarlyLeaveTimeSpan { get; set; }
 		[MaxLength(4000)]
 		public string DayIntervalsString { get; set; }
 

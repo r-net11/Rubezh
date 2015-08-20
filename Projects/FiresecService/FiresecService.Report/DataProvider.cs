@@ -225,14 +225,14 @@ namespace FiresecService.Report
 				return null;
 			return new EmployeeInfo()
 				 {
-					 Department = employee.Department == null || employee.Department.IsDeleted ? null : employee.Department.Name,
-					 DepartmentUID = employee.Department == null ? (Guid?)null : employee.Department.UID,
+					 Department = employee.DepartmentName,
+					 DepartmentUID = employee.DepartmentUID,
 					 IsDeleted = employee.IsDeleted,
 					 Name = employee.FIO,
 					 Organisation = Organisations[employee.OrganisationUID].Name,
 					 OrganisationUID = employee.OrganisationUID,
-					 Position = employee.Position == null || employee.Position.IsDeleted ? null : employee.Position.Name,
-					 PositionUID = employee.Position == null ? (Guid?)null : employee.Position.UID,
+					 Position = employee.PositionName,
+					 PositionUID = employee.PositionUID,
 					 UID = employee.UID,
 					 Item = employee,
 				 };

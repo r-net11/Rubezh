@@ -294,6 +294,8 @@ namespace FiresecAPI.SKD
 							timeTrackPart.TimeTrackPartType = TimeTrackType.None;
 					}
 				}
+                if (PlannedTimeTrackParts.Count == 0 && SlideTime.TotalSeconds > 0 && timeTrackPart.TimeTrackPartType == TimeTrackType.Overtime)
+                    timeTrackPart.TimeTrackPartType = TimeTrackType.Presence;
 			}
 		}
 
@@ -317,52 +319,30 @@ namespace FiresecAPI.SKD
 
 			if (SlideTime.TotalSeconds > 0)
 			{
-				if (PlannedTimeTrackParts.Count > 0)
 					totalBalance.TimeSpan = -TimeSpan.FromSeconds(SlideTime.TotalSeconds);
-				else
-					totalBalance.TimeSpan = new TimeSpan();
-				foreach (var realTimeTrackPart in RealTimeTrackParts)
-				{
-					totalBalance.TimeSpan += realTimeTrackPart.Delta;
-				}
 			}
+            else if (SlideTime.TotalSeconds == 0)
+            {
+                PlannedTimeTrackParts.ForEach(x => totalBalance.TimeSpan -= x.Delta);
+            }
 
 			foreach (var timeTrack in CombinedTimeTrackParts)
 			{
 				var timeTrackTotal = Totals.FirstOrDefault(x => x.TimeTrackType == timeTrack.TimeTrackPartType);
 				if (timeTrackTotal != null)
 				{
-					if (IsHoliday)
-					{
-						switch (timeTrack.TimeTrackPartType)
-						{
-							case SKD.TimeTrackType.Absence:
-							case SKD.TimeTrackType.Late:
-							case SKD.TimeTrackType.EarlyLeave:
-							case SKD.TimeTrackType.DocumentAbsence:
-								continue;
-						}
-					}
-
 					timeTrackTotal.TimeSpan += timeTrack.Delta;
 				}
-
 				switch(timeTrack.TimeTrackPartType)
 				{
-					case SKD.TimeTrackType.DocumentOvertime:
-					case SKD.TimeTrackType.DocumentPresence:
-						totalBalance.TimeSpan += timeTrack.Delta;
-						break;
-
-					case SKD.TimeTrackType.Absence:
-					case SKD.TimeTrackType.Late:
-					case SKD.TimeTrackType.EarlyLeave:
-						if (SlideTime.TotalSeconds == 0)
-						{
-							totalBalance.TimeSpan -= timeTrack.Delta;
-						}
-						break;
-
+                    case SKD.TimeTrackType.Presence:
+                        
+                            totalBalance.TimeSpan += timeTrack.Delta;
+                            break;
+                    case SKD.TimeTrackType.DocumentOvertime:
+                    case SKD.TimeTrackType.DocumentPresence:
+                            totalBalance.TimeSpan += timeTrack.Delta;
+                            break;
 					case SKD.TimeTrackType.DocumentAbsence:
 						totalBalance.TimeSpan -= timeTrack.Delta;
 						break;
@@ -416,8 +396,16 @@ namespace FiresecAPI.SKD
 				if (IsHoliday)
 					return TimeTrackType.Holiday;
 
-				if (PlannedTimeTrackParts.Count == 0)
-					return TimeTrackType.DayOff;
+                if (PlannedTimeTrackParts.Count == 0)
+                {
+                    if (SlideTime.TotalSeconds != 0)
+                    {
+                        if (RealTimeTrackParts.Count != 0)
+                            return TimeTrackType.Presence;
+                        return TimeTrackType.Absence;
+                    }
+                    return TimeTrackType.DayOff;
+                }
 			}
 			return longestTimeTrackType;
 		}

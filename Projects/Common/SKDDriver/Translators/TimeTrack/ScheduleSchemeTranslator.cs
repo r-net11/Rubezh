@@ -27,21 +27,32 @@ namespace SKDDriver.DataClasses
 			return base.GetTableItems().Include(x => x.ScheduleDays.Select(scheduleDay => scheduleDay.DayInterval));
 		}
 
-		public override API.ScheduleScheme Translate(ScheduleScheme tableItem)
+		protected override void ClearDependentData(ScheduleScheme tableItem)
 		{
-			var result = base.Translate(tableItem);
-			if (result == null)
-				return null;
-			result.DayIntervals = tableItem.ScheduleDays.OrderBy(item => item.Number).Select(x => new API.ScheduleDayInterval
+			Context.ScheduleDays.RemoveRange(tableItem.ScheduleDays);
+		}
+
+		protected override IEnumerable<API.ScheduleScheme> GetAPIItems(IQueryable<ScheduleScheme> tableItems)
+		{
+			return tableItems.Select(tableItem => new API.ScheduleScheme
 			{
-				DayInterval = x.DayInterval != null ? DbService.DayIntervalTranslator.Translate(x.DayInterval) : null,
-				Number = x.Number,
-				ScheduleSchemeUID = x.ScheduleSchemeUID.GetValueOrDefault(),
-				UID = x.UID
-			}).ToList();
-			result.Type = (API.ScheduleSchemeType)tableItem.Type;
-			result.DaysCount = tableItem.DaysCount;
-			return result;
+				UID = tableItem.UID,
+				Name = tableItem.Name,
+				Description = tableItem.Description,
+				IsDeleted = tableItem.IsDeleted,
+				RemovalDate = tableItem.RemovalDate != null ? tableItem.RemovalDate.Value : new DateTime(),
+				OrganisationUID = tableItem.OrganisationUID != null ? tableItem.OrganisationUID.Value : Guid.Empty,
+				DayIntervals = tableItem.ScheduleDays.OrderBy(item => item.Number).Select(x => new API.ScheduleDayInterval
+				{
+					Number = x.Number,
+					ScheduleSchemeUID = x.ScheduleSchemeUID != null ? x.ScheduleSchemeUID.Value : Guid.Empty,
+					UID = x.UID,
+					DayIntervalName = x.DayInterval != null ? x.DayInterval.Name : null,
+					DayIntervalUID = x.DayInterval != null ? x.DayInterval.UID : Guid.Empty
+				}).ToList(),
+				Type = (API.ScheduleSchemeType)tableItem.Type,
+				DaysCount = tableItem.DaysCount
+			});
 		}
 
 		public override void TranslateBack(API.ScheduleScheme apiItem, ScheduleScheme tableItem)
@@ -51,15 +62,10 @@ namespace SKDDriver.DataClasses
 			tableItem.DaysCount = apiItem.DaysCount;
 			tableItem.ScheduleDays = apiItem.DayIntervals.Select(x => new ScheduleDay
 			{
-				DayIntervalUID = x.DayInterval != null && x.DayInterval.UID != Guid.Empty ? (Guid?)x.DayInterval.UID : null,
+				DayIntervalUID = x.DayIntervalUID != Guid.Empty ? (Guid?)x.DayIntervalUID : null,
 				Number = x.Number,
 				UID = x.UID
 			}).ToList();
-		}
-
-		protected override void ClearDependentData(ScheduleScheme tableItem)
-		{
-			Context.ScheduleDays.RemoveRange(tableItem.ScheduleDays);
 		}
 	}
 

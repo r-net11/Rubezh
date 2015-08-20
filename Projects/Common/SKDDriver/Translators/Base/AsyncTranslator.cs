@@ -39,7 +39,7 @@ namespace SKDDriver.DataClasses
 			foreach (var item in ParentTranslator.GetFilteredTableItems(filter, ParentTranslator.GetTableItems()))
 			{
 				itemNo++;
-				portion.Add(ParentTranslator.Translate(item));
+				//portion.Add(ParentTranslator.Translate(item));
 				if (itemNo % pageSize == 0)
 				{
 					PublishNewItemsPortion(portion, filter.ClientUID, false);
