@@ -9,12 +9,13 @@ namespace SKDModule.ViewModels
 {
 	public class EscortSelectionViewModel : SaveCancelDialogViewModel
 	{
-		public EscortSelectionViewModel(Guid departmentUID, ShortEmployee shortEmployee)
+		public EscortSelectionViewModel(EmployeeItem department, ShortEmployee shortEmployee, Guid organisationUID)
 		{
 			Title = "Сопровождающий";
 			var filter = new EmployeeFilter();
-			filter.DepartmentUIDs.Add(departmentUID);
-			filter.OrganisationUIDs.Add(shortEmployee.OrganisationUID);
+			if(EmployeeItem.IsNotNullOrEmpty(department))
+				filter.DepartmentUIDs.Add(department.UID);
+			filter.OrganisationUIDs.Add(organisationUID);
 
 			Employees = new List<ShortEmployee>();
 			var employees = EmployeeHelper.Get(filter);
