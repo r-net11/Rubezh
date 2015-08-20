@@ -12,9 +12,9 @@ namespace SKDDriver.DataClasses
 		public Guid? DayIntervalUID { get; set; }
 		public DayInterval DayInterval { get; set; }
 
-		public TimeSpan BeginTime { get; set; }
+		public TimeSpan BeginTimeSpan { get; set; }
 
-		public TimeSpan EndTime { get; set; }
+		public TimeSpan EndTimeSpan { get; set; }
 
 		public int Number { get; set; }
 	}

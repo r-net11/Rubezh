@@ -26,6 +26,6 @@ namespace SKDDriver.DataClasses
 
 		public DateTime? TransferDate { get; set; }
 
-		public TimeSpan Reduction { get; set; }
+		public TimeSpan ReductionTimeSpan { get; set; }
 	}
 }

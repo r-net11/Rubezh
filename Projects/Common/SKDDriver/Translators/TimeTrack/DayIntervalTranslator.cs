@@ -32,7 +32,7 @@ namespace SKDDriver.DataClasses
 		public override void TranslateBack(API.DayInterval apiItem, DayInterval tableItem)
 		{
 			base.TranslateBack(apiItem, tableItem);
-			tableItem.SlideTime = apiItem.SlideTime;
+			tableItem.SlideTimeSpan = apiItem.SlideTime;
 			tableItem.DayIntervalParts = apiItem.DayIntervalParts.Select(x => TranslatePartBack(x)).ToList();
 		}
 
@@ -40,12 +40,12 @@ namespace SKDDriver.DataClasses
 		{
 			var tableItem = new DayIntervalPart();
 			tableItem.UID = apiItem.UID;
-			tableItem.BeginTime = apiItem.BeginTime;
-			tableItem.EndTime = apiItem.EndTime;
+			tableItem.BeginTimeSpan = apiItem.BeginTime;
+			tableItem.EndTimeSpan = apiItem.EndTime;
 			tableItem.Number = apiItem.Number;
 			if (apiItem.TransitionType == API.DayIntervalPartTransitionType.Night)
 			{
-				tableItem.EndTime += _daySeconds;
+				tableItem.EndTimeSpan += _daySeconds;
 			}
 			return tableItem;
 		}
@@ -103,15 +103,15 @@ namespace SKDDriver.DataClasses
 				IsDeleted = tableItem.IsDeleted,
 				RemovalDate = tableItem.RemovalDate != null ? tableItem.RemovalDate.Value : new DateTime(),
 				OrganisationUID = tableItem.OrganisationUID != null ? tableItem.OrganisationUID.Value : Guid.Empty,
-				SlideTime = tableItem.SlideTime,
+				SlideTime = tableItem.SlideTimeSpan,
 				DayIntervalParts = tableItem.DayIntervalParts.Select(x => new API.DayIntervalPart
 				{
 					UID = x.UID,
 					DayIntervalUID = x.DayIntervalUID.Value,
-					BeginTime = x.BeginTime,
+					BeginTime = x.BeginTimeSpan,
 					Number = x.Number,
-					TransitionType = x.EndTime >= _daySeconds ? API.DayIntervalPartTransitionType.Night : API.DayIntervalPartTransitionType.Day,
-					EndTime = x.EndTime >= _daySeconds ? DbFunctions.AddSeconds(x.EndTime, -(int)_daySeconds.TotalSeconds).Value : x.EndTime
+					TransitionType = x.EndTimeSpan >= _daySeconds ? API.DayIntervalPartTransitionType.Night : API.DayIntervalPartTransitionType.Day,
+					EndTime = x.EndTimeSpan >= _daySeconds ? DbFunctions.AddSeconds(x.EndTimeSpan, -(int)_daySeconds.TotalSeconds).Value : x.EndTimeSpan
 				}).ToList()
 			});
 		}
