@@ -103,6 +103,8 @@
     <Compile Include="Converters\XStateClassToPlanColorConverter.cs" />
     <Compile Include="Designer\FlushAdorner.cs" />
     <Compile Include="Designer\PresenterCanvas.cs" />
+    <Compile Include="Primitives\PrimitivePainter.cs" />
+    <Compile Include="Primitives\PrimitivePainterFactory.cs" />
     <Compile Include="ViewModels\FlushViewModel.cs" />
     <Compile Include="Designer\MonitorSubPlanPainter.cs" />
     <Compile Include="ViewModels\MonitorSubPlanToolTipViewModel.cs" />
