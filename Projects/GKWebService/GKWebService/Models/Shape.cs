@@ -3,24 +3,25 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Web;
+using Color = System.Windows.Media.Color;
 
 namespace GKWebService.Models
 {
     public class Shape
     {
-        public Color Border
+        public System.Windows.Media.Color Border
         { get; set; }
 
-        public Color BorderMouseOver
+        public System.Windows.Media.Color BorderMouseOver
         { get; set; }
 
-        public Color Fill
+        public System.Windows.Media.Color Fill
         { get; set; }
 
         public Color FillMouseOver
         { get; set; }
 
-        public int Id
+        public Guid Id
         { get; set; }
 
         public string Name

@@ -31,8 +31,8 @@ namespace SKDDriver.DataClasses
 			base.TranslateBack(apiItem, tableItem);
 			tableItem.IsIgnoreHoliday = apiItem.IsIgnoreHoliday;
 			tableItem.IsOnlyFirstEnter = apiItem.IsOnlyFirstEnter;
-			tableItem.AllowedLate = apiItem.AllowedLate;
-			tableItem.AllowedEarlyLeave = apiItem.AllowedEarlyLeave;
+			tableItem.AllowedLateTimeSpan = apiItem.AllowedLate;
+			tableItem.AllowedEarlyLeaveTimeSpan = apiItem.AllowedEarlyLeave;
 			tableItem.ScheduleSchemeUID = apiItem.ScheduleSchemeUID != Guid.Empty ? (Guid?)apiItem.ScheduleSchemeUID : null;
 			tableItem.ScheduleZones = apiItem.Zones.Select(x => new ScheduleZone
 			{
@@ -61,8 +61,8 @@ namespace SKDDriver.DataClasses
 				ScheduleSchemeUID = tableItem.ScheduleSchemeUID.HasValue ? tableItem.ScheduleSchemeUID.Value : Guid.Empty,
 				IsIgnoreHoliday = tableItem.IsIgnoreHoliday,
 				IsOnlyFirstEnter = tableItem.IsOnlyFirstEnter,
-				AllowedLate = tableItem.AllowedLate,
-				AllowedEarlyLeave = tableItem.AllowedEarlyLeave,
+				AllowedLate = tableItem.AllowedLateTimeSpan,
+				AllowedEarlyLeave = tableItem.AllowedEarlyLeaveTimeSpan,
 				Zones = tableItem.ScheduleZones.Select(x => new API.ScheduleZone
 				{
 					DoorUID = x.DoorUID,

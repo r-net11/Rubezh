@@ -107,7 +107,7 @@ namespace GKProcessor
 			}
 			else
 			{
-				count = schedule.Calendar.SelectedDays.Count;
+				count = schedule.SelectedDays.Count;
 			}
 
 			int secondsPeriod = 0;
@@ -189,7 +189,7 @@ namespace GKProcessor
 			}
 			else
 			{
-				foreach (var day in schedule.Calendar.SelectedDays.OrderBy(x => x.Date))
+				foreach (var day in schedule.SelectedDays.OrderBy(x => x.Date))
 				{
 					bytes.AddRange(BytesHelper.IntToBytes((int)((day - new DateTime(2000, 1, 1)).TotalSeconds)));
 					bytes.AddRange(BytesHelper.IntToBytes((int)((day - new DateTime(2000, 1, 1) + TimeSpan.FromDays(1)).TotalSeconds)));

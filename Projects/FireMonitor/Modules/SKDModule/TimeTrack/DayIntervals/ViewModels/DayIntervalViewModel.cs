@@ -85,10 +85,10 @@ namespace SKDModule.ViewModels
 			DayIntervalHelper.Save(Model, false);
 			SelectedDayIntervalPart = DayIntervalParts.FirstOrDefault();
 		}
-		bool CanDelete()
-		{
-			return SelectedDayIntervalPart != null && DayIntervalParts.Count > 1 && !IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_DaySchedules_Edit);
-		}
+        bool CanDelete()
+        {
+            return SelectedDayIntervalPart != null && !IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_DaySchedules_Edit);
+        }
 
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()

@@ -155,6 +155,7 @@ namespace SKDModule.ViewModels
 					Phone = Employee.Phone,
 					Description = Employee.Description,
 					OrganisationName = _organisation.Name,
+					OrganisationUID = _organisation.UID
 				};
 				if (SelectedDepartment != null)
 					result.DepartmentName = SelectedDepartment.Name;
@@ -701,7 +702,7 @@ namespace SKDModule.ViewModels
 				MessageBoxService.Show("Выберите подразделение");
 				return;
 			}
-			var escortSelectionViewModel = new EscortSelectionViewModel(SelectedDepartment.UID, SelectedEscort);
+			var escortSelectionViewModel = new EscortSelectionViewModel(SelectedDepartment, SelectedEscort, _organisation.UID);
 			if (DialogService.ShowModalWindow(escortSelectionViewModel))
 			{
 				SelectedEscort = escortSelectionViewModel.SelectedEmployee;
