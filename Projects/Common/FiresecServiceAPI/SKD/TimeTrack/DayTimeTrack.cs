@@ -294,6 +294,8 @@ namespace FiresecAPI.SKD
 							timeTrackPart.TimeTrackPartType = TimeTrackType.None;
 					}
 				}
+                if (PlannedTimeTrackParts.Count == 0 && SlideTime.TotalSeconds > 0 && timeTrackPart.TimeTrackPartType == TimeTrackType.Overtime)
+                    timeTrackPart.TimeTrackPartType = TimeTrackType.Presence;
 			}
 		}
 
@@ -317,7 +319,6 @@ namespace FiresecAPI.SKD
 
 			if (SlideTime.TotalSeconds > 0)
 			{
-				if (PlannedTimeTrackParts.Count > 0)
 					totalBalance.TimeSpan = -TimeSpan.FromSeconds(SlideTime.TotalSeconds);
 			}
             else if (SlideTime.TotalSeconds == 0)
@@ -370,6 +371,7 @@ namespace FiresecAPI.SKD
 
 			var longestTimeTrackType = TimeTrackType.Presence;
 			var longestTimeSpan = new TimeSpan();
+            var overtime = new TimeSpan();
 			foreach (var total in Totals)
 			{
 				switch(total.TimeTrackType)
@@ -377,7 +379,6 @@ namespace FiresecAPI.SKD
 					case TimeTrackType.Absence:
 					case TimeTrackType.Late:
 					case TimeTrackType.EarlyLeave:
-					case TimeTrackType.Overtime:
 					case TimeTrackType.Night:
 					case TimeTrackType.DocumentOvertime:
 					case TimeTrackType.DocumentPresence:
@@ -388,6 +389,9 @@ namespace FiresecAPI.SKD
 							longestTimeSpan = total.TimeSpan;
 						}
 						break;
+                    case TimeTrackType.Overtime:
+                        overtime = total.TimeSpan;
+                        break;
 				}
 			}
 			if (longestTimeTrackType == TimeTrackType.Presence)
@@ -395,8 +399,18 @@ namespace FiresecAPI.SKD
 				if (IsHoliday)
 					return TimeTrackType.Holiday;
 
-				if (PlannedTimeTrackParts.Count == 0)
-					return TimeTrackType.DayOff;
+                if (PlannedTimeTrackParts.Count == 0)
+                {
+                    if (SlideTime.TotalSeconds != 0)
+                    {
+                        if (RealTimeTrackParts.Count != 0)
+                            return TimeTrackType.Presence;
+                        return TimeTrackType.Absence;
+                    }
+                    return TimeTrackType.DayOff;
+                }
+                if (overtime != TimeSpan.Zero)
+                    return TimeTrackType.Overtime;
 			}
 			return longestTimeTrackType;
 		}
