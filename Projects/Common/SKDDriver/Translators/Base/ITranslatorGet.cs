@@ -12,7 +12,6 @@ namespace SKDDriver.DataClasses
 	{
 		IQueryable<TTableItem> GetFilteredTableItems(TFilter filter, IQueryable<TTableItem> tableItems);
 		IQueryable<TTableItem> GetTableItems();
-		TApiItem Translate(TTableItem tableItem);
 		DbService DbService { get; }
 		DbSet<TTableItem> Table { get; }
 	}

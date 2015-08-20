@@ -29,7 +29,7 @@ namespace SKDDriver.DataClasses
 		public Organisation Organisation { get; set; }
 		#endregion
 
-		public int SlideTime { get; set; }
+		public TimeSpan SlideTime { get; set; }
 
 		public ICollection<ScheduleDay> ScheduleDays { get; set; }
 

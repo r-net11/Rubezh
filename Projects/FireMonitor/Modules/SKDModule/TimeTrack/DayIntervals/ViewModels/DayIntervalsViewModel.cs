@@ -39,6 +39,17 @@ namespace SKDModule.ViewModels
 		{
 			var filter = new DayIntervalFilter() { UserUID = FiresecManager.CurrentUser.UID, LogicalDeletationType = LogicalDeletationType };
 			Initialize(filter);
+            foreach (var organisation in Organisations)
+            {
+                var hasDayOff = organisation.Children.Any(x => x.Name == "Выходной");
+                if (!hasDayOff)
+                {
+                    var interval = new DayInterval() { Name = "Выходной", DayIntervalParts = new List<DayIntervalPart>(), UID = Guid.NewGuid() };
+                    interval.OrganisationUID = organisation.UID;
+                    Add(interval);
+                    Initialize();
+                }
+            }
 		}
 
 		protected override void OnEditOrganisation(Organisation newOrganisation)

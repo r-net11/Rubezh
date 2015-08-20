@@ -3,6 +3,7 @@ using System.Linq;
 using FiresecAPI.SKD;
 using FiresecAPI.SKD.ReportFilters;
 using FiresecService.Report.DataSources;
+using System;
 
 namespace FiresecService.Report.Templates
 {
@@ -37,7 +38,7 @@ namespace FiresecService.Report.Templates
 			{
 				if (filter.ScheduleSchemas != null && filter.ScheduleSchemas.Count > 0)
 				{
-					if (employee.Item.Schedule == null || !filter.ScheduleSchemas.Contains(employee.Item.Schedule.UID))
+					if (employee.Item.ScheduleUID == Guid.Empty || !filter.ScheduleSchemas.Contains(employee.Item.ScheduleUID))
 						continue;
 				}
 				var timeTrackEmployeeResult = timeTrackResult.Result.TimeTrackEmployeeResults.FirstOrDefault(x => x.ShortEmployee.UID == employee.UID);

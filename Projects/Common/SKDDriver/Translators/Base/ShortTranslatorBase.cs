@@ -21,24 +21,17 @@ namespace SKDDriver.DataClasses
 			ParentTranslator = tranlsator;
 		}
 
-		public virtual TShort Translate(TTableItem tableItem)
-		{
-			if (tableItem == null)
-				return null;
-			return new TShort();
-		}
-
 		public virtual IQueryable<TTableItem> GetTableItems()
 		{
 			return Table;
 		}
 
-		public OperationResult<List<TShort>> Get(TFilter filter)
+		public virtual OperationResult<List<TShort>> Get(TFilter filter)
 		{
 			try
 			{
-				var tableItems = GetFilteredTableItems(filter).ToList();
-				var result = tableItems.Select(x => Translate(x)).ToList();
+				var tableItems = GetFilteredTableItems(filter);
+				var result = GetAPIItems(tableItems).ToList();
 				return new OperationResult<List<TShort>>(result);
 			}
 			catch (System.Exception e)
@@ -47,6 +40,8 @@ namespace SKDDriver.DataClasses
 			}
 		}
 
+		protected abstract IEnumerable<TShort> GetAPIItems(IQueryable<TTableItem> tableItems);
+		
 		public IQueryable<TTableItem> GetFilteredTableItems(TFilter filter)
 		{
 			return GetFilteredTableItems(filter, GetTableItems());

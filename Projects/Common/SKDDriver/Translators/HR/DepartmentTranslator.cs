@@ -33,17 +33,21 @@ namespace SKDDriver.DataClasses
 			return base.GetTableItems().Include(x => x.Photo).Include(x => x.ChildDepartments);
 		}
 
-		public override API.Department Translate(Department tableItem)
+		protected override IEnumerable<API.Department> GetAPIItems(IQueryable<Department> tableItems)
 		{
-			var result = base.Translate(tableItem);
-			if (result == null)
-				return null;
-			result.Photo = result.Photo = tableItem.Photo != null ? tableItem.Photo.Translate() : null;
-			result.ParentDepartmentUID = tableItem.ParentDepartmentUID.GetValueOrDefault();
-			result.ChildDepartmentUIDs = tableItem.ChildDepartments.Select(x => x.UID).ToList();
-			result.ChiefUID = tableItem.ChiefUID.GetValueOrDefault();
-			result.Phone = tableItem.Phone;
-			return result;
+			return tableItems.Select(tableItem => new API.Department
+			{
+				UID = tableItem.UID,
+				Name = tableItem.Name,
+				Description = tableItem.Description,
+				IsDeleted = tableItem.IsDeleted,
+				RemovalDate = tableItem.RemovalDate != null ? tableItem.RemovalDate.Value : new DateTime(),
+				OrganisationUID = tableItem.OrganisationUID != null ? tableItem.OrganisationUID.Value : Guid.Empty,
+				Photo = tableItem.Photo != null ? new API.Photo { UID = tableItem.Photo.UID, Data = tableItem.Photo.Data } : null,
+				ParentDepartmentUID = tableItem.ParentDepartmentUID != null ? tableItem.ParentDepartmentUID.Value : Guid.Empty,
+				ChildDepartmentUIDs = tableItem.ChildDepartments.Select(x => x.UID).ToList(),
+				Phone = tableItem.Phone
+			});
 		}
 
 		public override void TranslateBack(API.Department apiItem, Department tableItem)
@@ -194,21 +198,42 @@ namespace SKDDriver.DataClasses
 			return base.GetTableItems().Include(x => x.ChildDepartments);
 		}
 
-		public override API.ShortDepartment Translate(Department tableItem)
+		public API.ShortDepartment Translate(Department tableItem)
 		{
-			var result = base.Translate(tableItem);
-			if (result == null)
+			if (tableItem == null)
 				return null;
+			var result = new API.ShortDepartment
+			{
+				UID = tableItem.UID,
+				Name = tableItem.Name,
+				Description = tableItem.Description,
+				IsDeleted = tableItem.IsDeleted,
+				RemovalDate = tableItem.RemovalDate.GetValueOrDefault(),
+				OrganisationUID = tableItem.OrganisationUID.GetValueOrDefault()
+			};
 			result.ChiefUID = tableItem.ChiefUID.GetValueOrDefault();
 			result.Phone = tableItem.Phone;
 			result.ParentDepartmentUID = tableItem.ParentDepartmentUID.GetValueOrDefault();
-			result.ChildDepartments = new System.Collections.Generic.Dictionary<Guid, string>();
-			var childDepartments = tableItem.ChildDepartments.Select(x => new { x.UID, x.Name });
-			foreach (var item in childDepartments)
-			{
-				result.ChildDepartments.Add(item.UID, item.Name);
-			}
+			result.ChildDepartments = tableItem.ChildDepartments.Select(x => new API.TinyDepartment { UID = x.UID, Name = x.Name }).ToList();
 			return result;
+		}
+
+		protected override IEnumerable<API.ShortDepartment> GetAPIItems(IQueryable<Department> tableItems)
+		{
+			return tableItems.Select(tableItem =>
+				new API.ShortDepartment
+				{
+					UID = tableItem.UID,
+					Name = tableItem.Name,
+					Description = tableItem.Description,
+					IsDeleted = tableItem.IsDeleted,
+					RemovalDate = tableItem.RemovalDate != null ? tableItem.RemovalDate.Value : new DateTime(),
+					OrganisationUID = tableItem.OrganisationUID != null ? tableItem.OrganisationUID.Value : Guid.Empty,
+					ChiefUID = tableItem.ChiefUID != null ? tableItem.ChiefUID.Value : Guid.Empty,
+					Phone = tableItem.Phone,
+					ParentDepartmentUID = tableItem.ParentDepartmentUID != null ? tableItem.ParentDepartmentUID.Value : Guid.Empty,
+					ChildDepartments = tableItem.ChildDepartments.Select(x => new API.TinyDepartment { UID = x.UID, Name = x.Name }).ToList()
+				});
 		}
 	}
 

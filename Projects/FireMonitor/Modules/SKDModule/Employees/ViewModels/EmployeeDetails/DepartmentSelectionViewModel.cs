@@ -63,7 +63,7 @@ namespace SKDModule.ViewModels
 
 		void SetChildren(DepartmentSelectionItemViewModel department)
 		{
-			var children = AllDepartments.Where(x => department.Department.ChildDepartments.Any(y => y.Key == x.Department.UID));
+			var children = AllDepartments.Where(x => department.Department.ChildDepartments.Any(y => y.UID == x.Department.UID));
 			foreach (var child in children)
 			{
 				department.AddChild(child);

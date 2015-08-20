@@ -22,25 +22,13 @@ namespace SKDDriver.DataClasses
 			get { return Context.Holidays; }
 		}
 
-		public override API.Holiday Translate(Holiday tableItem)
-		{
-			var result = base.Translate(tableItem);
-			if (result == null)
-				return null;
-			result.Date = tableItem.Date;
-			result.TransferDate = tableItem.TransferDate;
-			result.Type = (API.HolidayType)tableItem.Type;
-			result.Reduction = TimeSpan.FromMilliseconds(tableItem.Reduction);
-			return result;
-		}
-
 		public override void TranslateBack(API.Holiday apiItem, Holiday tableItem)
 		{
 			base.TranslateBack(apiItem, tableItem);
 			tableItem.Date = apiItem.Date;
 			tableItem.TransferDate = apiItem.TransferDate.CheckDate();
 			tableItem.Type = (int)apiItem.Type;
-			tableItem.Reduction = (int)apiItem.Reduction.TotalMilliseconds;
+			tableItem.Reduction = apiItem.Reduction;
 		}
 
 		public override System.Linq.IQueryable<Holiday> GetFilteredTableItems(API.HolidayFilter filter, IQueryable<Holiday> tableItems)
@@ -73,6 +61,23 @@ namespace SKDDriver.DataClasses
 			if (hasSameName)
 				return OperationResult<bool>.FromError("Сокращённый день с таким же названием уже содержится в базе данных");
 			return new OperationResult<bool>();
+		}
+
+		protected override IEnumerable<API.Holiday> GetAPIItems(IQueryable<Holiday> tableItems)
+		{
+			return tableItems.Select(tableItem => new API.Holiday
+			{
+				UID = tableItem.UID,
+				Name = tableItem.Name,
+				Description = tableItem.Description,
+				IsDeleted = tableItem.IsDeleted,
+				RemovalDate = tableItem.RemovalDate != null ? tableItem.RemovalDate.Value : new DateTime(),
+				OrganisationUID = tableItem.OrganisationUID != null ? tableItem.OrganisationUID.Value : Guid.Empty,
+				Date = tableItem.Date,
+				TransferDate = tableItem.TransferDate,
+				Type = (API.HolidayType)tableItem.Type,
+				Reduction = tableItem.Reduction
+			});
 		}
 	}
 

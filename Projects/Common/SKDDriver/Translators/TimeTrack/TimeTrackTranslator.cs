@@ -154,8 +154,8 @@ namespace SKDDriver.DataClasses
 				dayTimeTrack.NightSettings = nightSettings != null ? DbService.NightSettingTranslator.Transalte(nightSettings) : null;
 				dayTimeTrack.IsIgnoreHoliday = schedule.IsIgnoreHoliday;
 				dayTimeTrack.IsOnlyFirstEnter = schedule.IsOnlyFirstEnter;
-				dayTimeTrack.AllowedLate = TimeSpan.FromSeconds(schedule.AllowedLate);
-				dayTimeTrack.AllowedEarlyLeave = TimeSpan.FromSeconds(schedule.AllowedEarlyLeave);
+				dayTimeTrack.AllowedLate = schedule.AllowedLate;
+				dayTimeTrack.AllowedEarlyLeave = schedule.AllowedEarlyLeave;
 
 				var realDate = date;
 				var ignoreHolidays = false;
@@ -225,12 +225,12 @@ namespace SKDDriver.DataClasses
 					if (previousDayInterval != null && !previousDayInterval.IsDeleted)
 					{
 						var previousIntervals = previousDayInterval.DayIntervalParts;
-						var nightInterval = previousIntervals.FirstOrDefault(x => x.EndTime > 60 * 60 * 24);
+						var nightInterval = previousIntervals.FirstOrDefault(x => x.EndTime.TotalSeconds > 60 * 60 * 24);
 						if (nightInterval != null)
 						{
 							nightTimeTrackPart = new TimeTrackPart();
 							nightTimeTrackPart.StartTime = new TimeSpan();
-							nightTimeTrackPart.EndTime = TimeSpan.FromSeconds(nightInterval.EndTime - 60 * 60 * 24);
+							nightTimeTrackPart.EndTime = TimeSpan.FromSeconds(nightInterval.EndTime.TotalSeconds - 60 * 60 * 24);
 							nightTimeTrackPart.StartsInPreviousDay = true;
 							nightTimeTrackPart.DayName = previousDayInterval.Name;
 						}
@@ -240,7 +240,7 @@ namespace SKDDriver.DataClasses
 			
 			var result = new PlannedTimeTrackPart();
 			if (dayInterval != null)
-				result.SlideTime = TimeSpan.FromSeconds(dayInterval.SlideTime);
+				result.SlideTime = dayInterval.SlideTime;
 
 			if (!ignoreHolidays)
 			{
@@ -254,7 +254,7 @@ namespace SKDDriver.DataClasses
 					holiday = holidays.FirstOrDefault(x => x.Date == date && x.Type == (int)HolidayType.BeforeHoliday && !x.IsDeleted);
 					if (holiday != null)
 					{
-						result.HolidayReduction = holiday.Reduction;
+						result.HolidayReduction = (int)holiday.Reduction.TotalMilliseconds;
 					}
 					holiday = holidays.FirstOrDefault(x => x.TransferDate == date && x.Type == (int)HolidayType.WorkingHoliday && !x.IsDeleted);
 					if (holiday != null)
@@ -269,9 +269,9 @@ namespace SKDDriver.DataClasses
 				foreach (var tableInterval in dayInterval.DayIntervalParts)
 				{
 					var timeTrackPart = new TimeTrackPart();
-					timeTrackPart.StartTime = TimeSpan.FromSeconds(tableInterval.BeginTime);
-					timeTrackPart.EndTime = TimeSpan.FromSeconds(Math.Min(tableInterval.EndTime, 60 * 60 * 24 - 1));
-					if (tableInterval.EndTime > 60 * 60 * 24)
+					timeTrackPart.StartTime = tableInterval.BeginTime;
+					timeTrackPart.EndTime = TimeSpan.FromSeconds(Math.Min((int)tableInterval.EndTime.TotalSeconds, 60 * 60 * 24 - 1));
+					if (tableInterval.EndTime.TotalSeconds > 60 * 60 * 24)
 						timeTrackPart.EndsInNextDay = true;
 					timeTrackPart.DayName = dayInterval.Name;
 					result.TimeTrackParts.Add(timeTrackPart);
