@@ -12,20 +12,9 @@ namespace Infrastructure.Common.Windows
 			ShowExtended(message, title);
 		}
 
-		public static bool ShowQuestion(string message, string title = null)
+		public static bool ShowQuestion(string message, string title = null, MessageBoxImage image = MessageBoxImage.Question)
 		{
-			var result = ShowWindow(title, message, MessageBoxButton.YesNo, MessageBoxImage.Warning);
-			switch (result)
-			{
-				case MessageBoxResult.Yes:
-					return true;
-
-				case MessageBoxResult.No:
-					return false;
-
-				default:
-					return false;
-			}
+			return ShowWindow(title, message, MessageBoxButton.YesNo, image) == MessageBoxResult.Yes;
 		}
 
 		public static bool ShowConfirmation(string message, string title = null)
