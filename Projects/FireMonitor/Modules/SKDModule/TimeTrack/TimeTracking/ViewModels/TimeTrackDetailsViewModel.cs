@@ -352,7 +352,7 @@ namespace SKDModule.ViewModels
 				timeTrackPartDetailsViewModel.CurrentTimeTrackPart.ExitTimeOriginal =
 					timeTrackPartDetailsViewModel.CurrentTimeTrackPart.ExitDateTime;
 
-				DayTimeTrackParts.Add(timeTrackPartDetailsViewModel.CurrentTimeTrackPart);
+
 				SelectedTimeTrackPartDetailsViewModel = timeTrackPartDetailsViewModel.CurrentTimeTrackPart;
 
 				if (timeTrackPartDetailsViewModel.CurrentTimeTrackPart.ExitDateTime.HasValue)
@@ -365,6 +365,8 @@ namespace SKDModule.ViewModels
 				{
 					RefreshGridHandler(this, EventArgs.Empty);
 				}
+
+				DayTimeTrackParts.Add(timeTrackPartDetailsViewModel.CurrentTimeTrackPart);
 			}
 		}
 
@@ -586,6 +588,10 @@ namespace SKDModule.ViewModels
 																dayTimeTrackPart.IsRemoveAllIntersections = true;
 																dayTimeTrackPart.EnterDateTime = dayTimeTrackPart.EnterTimeOriginal;
 																dayTimeTrackPart.ExitDateTime = dayTimeTrackPart.ExitTimeOriginal;
+																dayTimeTrackPart.AdjustmentDate = null;
+																dayTimeTrackPart.CorrectedBy = null;
+																dayTimeTrackPart.CorrectedByUID = null;
+																dayTimeTrackPart.CorrectedDate = null;
 																dayTimeTrackPart.IsNew = default(bool);
 																return dayTimeTrackPart;
 															})

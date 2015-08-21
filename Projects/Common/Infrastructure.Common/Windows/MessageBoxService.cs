@@ -14,7 +14,7 @@ namespace Infrastructure.Common.Windows
 
 		public static bool ShowQuestion(string message, string title = null)
 		{
-			var result = ShowWindow(title, message, MessageBoxButton.YesNo, MessageBoxImage.Question);
+			var result = ShowWindow(title, message, MessageBoxButton.YesNo, MessageBoxImage.Warning);
 			switch (result)
 			{
 				case MessageBoxResult.Yes:

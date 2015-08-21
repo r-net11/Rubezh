@@ -27,7 +27,7 @@ namespace SKDModule.Model
 
 		public bool IsRemoveAllIntersections { get; set; }
 
-		public Guid CorrectedByUID { get; set; }
+		public Guid? CorrectedByUID { get; set; }
 
 		public Guid UID { get; set; }
 
@@ -250,7 +250,8 @@ namespace SKDModule.Model
 				zone,
 				timeTrackPart.NotTakeInCalculations,
 				timeTrackPart.IsManuallyAdded,
-				timeTrackPart.AdjustmentDate.ToString(),
+				timeTrackPart.IsNeedAdjustment,
+				timeTrackPart.AdjustmentDate,
 				user.Name,
 				user.UID,
 				timeTrackPart.EnterTimeOriginal,
@@ -269,17 +270,19 @@ namespace SKDModule.Model
 		#region Methods
 
 		public void Update(DateTime? enterDateTime, DateTime? exitDateTime,
-			TimeTrackZone timeTrackZone, bool notTakeInCalculations, bool isManuallyAdded, string adjustmentDate, string correctedBy,
+			TimeTrackZone timeTrackZone, bool notTakeInCalculations, bool isManuallyAdded, bool isNeedAdjustment, DateTime? adjustmentDate, string correctedBy,
 			Guid correctedByUID, DateTime? enterTimeOriginal, DateTime? exitTimeOriginal, bool isOpen = false, bool isForceClosed = false)
 		{
 			TimeTrackZone = timeTrackZone;
+			AdjustmentDate = adjustmentDate;
 			EnterDateTime = enterDateTime;
 			EnterTime = enterDateTime.GetValueOrDefault().TimeOfDay;
 			ExitDateTime = exitDateTime;
 			ExitTime = exitDateTime.GetValueOrDefault().TimeOfDay;
 			NotTakeInCalculations = notTakeInCalculations;
 			IsManuallyAdded = isManuallyAdded;
-			CorrectedDate = adjustmentDate;
+			IsNeedAdjustment = isNeedAdjustment;
+			CorrectedDate = adjustmentDate.HasValue ? adjustmentDate.Value.ToString(CultureInfo.CurrentUICulture) : string.Empty;
 			CorrectedBy = correctedBy;
 			CorrectedByUID = correctedByUID;
 			IsOpen = isOpen;
