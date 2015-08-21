@@ -127,11 +127,8 @@ namespace SKDModule.ViewModels
 				{
 					currentUserViewModel.SetWithoutSave(true);
 				}
-				ServiceFactory.Events.GetEvent<NewOrganisationEvent>().Publish(SelectedOrganisation.Organisation.UID);
-                var dayInterval = new DayInterval() { Name = "Выходной", DayIntervalParts = new List<DayIntervalPart>(), UID = Guid.NewGuid() };
-                dayInterval.OrganisationUID = organisation.UID;
-                DayIntervalHelper.Save(dayInterval, true);
-			}
+				ServiceFactory.Events.GetEvent<OrganisationUsersChangedEvent>().Publish(SelectedOrganisation.Organisation);
+            }
 		}
 		bool CanAdd()
 		{

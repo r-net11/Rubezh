@@ -88,7 +88,7 @@ namespace GKModule.ViewModels
 		public RelayCommand CopyCommand { get; private set; }
 		void OnCopy()
 		{
-			_directionToCopy = Utils.Clone(SelectedDirection.Direction);
+			_directionToCopy = SelectedDirection.Direction.Clone();
 			var logicViewModel = new LogicViewModel(SelectedDirection.Direction, SelectedDirection.Direction.Logic, true);
 			_directionToCopy.Logic = logicViewModel.GetModel();
 		}
@@ -102,7 +102,7 @@ namespace GKModule.ViewModels
 		void OnPaste()
 		{
 			_directionToCopy.UID = Guid.NewGuid();
-			var directionViewModel = new DirectionViewModel(Utils.Clone(_directionToCopy));
+			var directionViewModel = new DirectionViewModel(_directionToCopy.Clone());
 			var logicViewModel = new LogicViewModel(SelectedDirection.Direction, _directionToCopy.Logic, true);
 			directionViewModel.Direction.Logic = logicViewModel.GetModel();
 			directionViewModel.Direction.No = (ushort)(GKManager.Directions.Select(x => x.No).Max() + 1);
@@ -139,6 +139,7 @@ namespace GKModule.ViewModels
 			{
 				SelectedDirection.Direction.Logic = GKManager.PasteLogic(new GKAdvancedLogic(true, false, true, false, true));
 				SelectedDirection.Update();
+				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
 

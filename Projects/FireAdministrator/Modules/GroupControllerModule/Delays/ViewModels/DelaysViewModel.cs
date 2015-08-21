@@ -105,7 +105,7 @@ namespace GKModule.ViewModels
 		public RelayCommand CopyCommand { get; private set; }
 		void OnCopy()
 		{
-			_delayToCopy = Utils.Clone(SelectedDelay.Delay);
+			_delayToCopy = SelectedDelay.Delay.Clone();
 			var logicViewModel = new LogicViewModel(SelectedDelay.Delay, SelectedDelay.Delay.Logic, true);
 			_delayToCopy.Logic = logicViewModel.GetModel();
 		}
@@ -119,7 +119,7 @@ namespace GKModule.ViewModels
 		void OnPaste()
 		{
 			_delayToCopy.UID = Guid.NewGuid();
-			var delayViewModel = new DelayViewModel(Utils.Clone(_delayToCopy));
+			var delayViewModel = new DelayViewModel(_delayToCopy.Clone());
 			var logicViewModel = new LogicViewModel(SelectedDelay.Delay, _delayToCopy.Logic, true);
 			delayViewModel.Delay.Logic = logicViewModel.GetModel();
 			delayViewModel.Delay.No = (ushort)(GKManager.Delays.Select(x => x.No).Max() + 1);
@@ -156,6 +156,7 @@ namespace GKModule.ViewModels
 			{
 				SelectedDelay.Delay.Logic = GKManager.PasteLogic(new GKAdvancedLogic(true, false, true, false, true));
 				SelectedDelay.Update();
+				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
 

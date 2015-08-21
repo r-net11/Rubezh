@@ -28,7 +28,7 @@ namespace SKDDriver.DataClasses
 			tableItem.Date = apiItem.Date;
 			tableItem.TransferDate = apiItem.TransferDate.CheckDate();
 			tableItem.Type = (int)apiItem.Type;
-			tableItem.Reduction = apiItem.Reduction;
+			tableItem.ReductionTimeSpan = apiItem.Reduction;
 		}
 
 		public override System.Linq.IQueryable<Holiday> GetFilteredTableItems(API.HolidayFilter filter, IQueryable<Holiday> tableItems)
@@ -76,7 +76,7 @@ namespace SKDDriver.DataClasses
 				Date = tableItem.Date,
 				TransferDate = tableItem.TransferDate,
 				Type = (API.HolidayType)tableItem.Type,
-				Reduction = tableItem.Reduction
+				Reduction = tableItem.ReductionTimeSpan
 			});
 		}
 	}

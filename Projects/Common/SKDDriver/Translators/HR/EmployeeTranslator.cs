@@ -36,6 +36,7 @@ namespace SKDDriver.DataClasses
 				.Include(x => x.Position)
 				.Include(x => x.Department)
 				.Include(x => x.Schedule)
+				.Include(x => x.Escort)
 				.Include(x => x.AdditionalColumns.Select(additionalColumn => additionalColumn.AdditionalColumnType))
 				.Include(x => x.AdditionalColumns.Select(additionalColumn => additionalColumn.Photo));
 		}
@@ -100,6 +101,7 @@ namespace SKDDriver.DataClasses
 				TabelNo = tableItem.TabelNo,
 				CredentialsStartDate = tableItem.CredentialsStartDate,
 				EscortUID = tableItem.EscortUID,
+				EscortName = tableItem.Escort != null ? tableItem.Escort.LastName + " " + tableItem.Escort.FirstName + " " + tableItem.Escort.SecondName : null,
 				DocumentNumber = tableItem.DocumentNumber,
 				BirthDate = tableItem.BirthDate,
 				BirthPlace = tableItem.BirthPlace,

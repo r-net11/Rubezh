@@ -73,7 +73,7 @@ namespace SKDDriver.DataClasses
 		{
 			if(context.Organisations.Count() == 0)
 			{
-				context.Organisations.Add(new Organisation
+				var organisation = new Organisation
 				{
 					UID = Guid.NewGuid(),
 					Name = "Организация",
@@ -81,7 +81,17 @@ namespace SKDDriver.DataClasses
 					{  
 						new OrganisationUser { UID = Guid.NewGuid(), UserUID = new Guid("10e591fb-e017-442d-b176-f05756d984bb") }
 					}
-				});
+				};
+				context.Organisations.Add(organisation);
+			}
+			if (context.GKDaySchedules.Count() == 0)
+			{
+				var neverDaySchedule = new GKDaySchedule { UID = Guid.NewGuid(), Name = "<Никогда>" };
+				context.GKDaySchedules.Add(neverDaySchedule);
+				
+				var alwaysDaySchedule = new GKDaySchedule{ UID = Guid.NewGuid(), Name = "<Всегда>" };
+				alwaysDaySchedule.GKDayScheduleParts.Add(new GKDaySchedulePart() { StartMilliseconds = 0, EndMilliseconds = (int)new TimeSpan(1, 0, 0, 0, 0).TotalMilliseconds });
+				context.GKDaySchedules.Add(alwaysDaySchedule);
 			}
 			base.Seed(context);
 		}

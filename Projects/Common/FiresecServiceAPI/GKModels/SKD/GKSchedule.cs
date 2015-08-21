@@ -16,11 +16,15 @@ namespace FiresecAPI.GK
 			SchedulePeriodType = GKSchedulePeriodType.Weekly;
 			StartDateTime = DateTime.Now;
 			ScheduleParts = new List<GKSchedulePart>();
-			Calendar = new Calendar();
+			Year = DateTime.Now.Year;
+			SelectedDays = new List<DateTime>();
 		}
 
 		[DataMember]
-		public Calendar Calendar { get; set; }
+		public int Year { get; set; }
+
+		[DataMember]
+		public List<DateTime> SelectedDays { get; set; }
 
 		/// <summary>
 		/// Тип графика

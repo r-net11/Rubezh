@@ -28,19 +28,6 @@ namespace GKModule.ViewModels
 			var daySchedules = GKScheduleHelper.GetDaySchedules();
 			if (daySchedules == null)
 				daySchedules = new List<GKDaySchedule>();
-			if (daySchedules.Count == 0)
-			{
-				var neverDaySchedule = new GKDaySchedule();
-				neverDaySchedule.Name = "<Никогда>";
-				if (GKScheduleHelper.SaveDaySchedule(neverDaySchedule, true))
-					daySchedules.Add(neverDaySchedule);
-
-				var alwaysDaySchedule = new GKDaySchedule();
-				alwaysDaySchedule.Name = "<Всегда>";
-				alwaysDaySchedule.DayScheduleParts.Add(new GKDaySchedulePart() { StartMilliseconds = 0, EndMilliseconds = (int)new TimeSpan(1, 0, 0, 0, 0).TotalMilliseconds });
-				if (GKScheduleHelper.SaveDaySchedule(alwaysDaySchedule, true))
-					daySchedules.Add(alwaysDaySchedule);
-			}
 			foreach (var dayInterval in daySchedules.OrderBy(x => x.IsEnabled))
 			{
 				var dayScheduleViewModel = new DayScheduleViewModel(dayInterval);

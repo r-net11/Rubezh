@@ -62,10 +62,10 @@ namespace GKModule.ViewModels
 
 		public int Year
 		{
-			get { return Schedule.Calendar.Year; }
+			get { return Schedule.Year; }
 			set
 			{
-				Schedule.Calendar.Year = value;
+				Schedule.Year = value;
 				if (GKScheduleHelper.SaveSchedule(Schedule, false))
 				{
 					UpdateMonths();
@@ -80,7 +80,7 @@ namespace GKModule.ViewModels
 			{
 				month.Update(Year);
 			}
-			foreach (var selectedDay in Schedule.Calendar.SelectedDays.FindAll(x => x.Year == Year))
+			foreach (var selectedDay in Schedule.SelectedDays.FindAll(x => x.Year == Year))
 			{
 				var month = Months.FirstOrDefault(x => (int)x.MonthType == selectedDay.Month);
 				if (month != null)
@@ -104,7 +104,7 @@ namespace GKModule.ViewModels
 		{
 			Schedule = calendar;
 			MonthType = monthType;
-			Update(Schedule.Calendar.Year);
+			Update(Schedule.Year);
 		}
 
 		public void Update(int year)
@@ -134,7 +134,7 @@ namespace GKModule.ViewModels
 		public DayViewModel(int no, MonthType monthType, GKSchedule calendar)
 		{
 			Schedule = calendar;
-			var dateTime = new DateTime(Schedule.Calendar.Year, (int)monthType, no);
+			var dateTime = new DateTime(Schedule.Year, (int)monthType, no);
 			DayOfWeek = dateTime.DayOfWeek;
 			MonthType = monthType;
 			No = no;
@@ -145,11 +145,11 @@ namespace GKModule.ViewModels
 		void OnSelect()
 		{
 			IsSelected = !IsSelected;
-			var dateTime = new DateTime(Schedule.Calendar.Year, (int)MonthType, No);
+			var dateTime = new DateTime(Schedule.Year, (int)MonthType, No);
 			if (IsSelected)
-				Schedule.Calendar.SelectedDays.Add(dateTime);
+				Schedule.SelectedDays.Add(dateTime);
 			else
-				Schedule.Calendar.SelectedDays.Remove(dateTime);
+				Schedule.SelectedDays.Remove(dateTime);
 			GKScheduleHelper.SaveSchedule(Schedule, false);
 		}
 
@@ -162,7 +162,7 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				var dateTime = new DateTime(Schedule.Calendar.Year, (int)MonthType, No);
+				var dateTime = new DateTime(Schedule.Year, (int)MonthType, No);
 				return dateTime.GetWeekOfMonth();
 			}
 		}
