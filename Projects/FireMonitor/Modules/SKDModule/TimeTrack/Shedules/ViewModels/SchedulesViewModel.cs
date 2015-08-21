@@ -17,9 +17,8 @@ namespace SKDModule.ViewModels
 		bool _isInitialized;
 		ChangeIsDeletedSubscriber _changeIsDeletedSubscriber;
 		public LogicalDeletationType LogicalDeletationType { get; set; }
-		
+
 		public SchedulesViewModel()
-			:base()
 		{
 			_isInitialized = false;
 			_changeIsDeletedSubscriber = new ChangeIsDeletedSubscriber(this);
@@ -91,13 +90,17 @@ namespace SKDModule.ViewModels
 			copy.ScheduleSchemeUID = source.ScheduleSchemeUID;
 			copy.IsIgnoreHoliday = source.IsIgnoreHoliday;
 			copy.IsOnlyFirstEnter = source.IsOnlyFirstEnter;
+			copy.AllowedEarlyLeave = source.AllowedEarlyLeave;
+			copy.AllowedLate = source.AllowedLate;
+
 			foreach (var scheduleZone in source.Zones)
-				copy.Zones.Add(new ScheduleZone()
+				copy.Zones.Add(new ScheduleZone
 				{
 					UID = Guid.NewGuid(),
 					ScheduleUID = copy.UID,
 					ZoneUID = scheduleZone.ZoneUID,
 				});
+
 			return copy;
 		}
 
