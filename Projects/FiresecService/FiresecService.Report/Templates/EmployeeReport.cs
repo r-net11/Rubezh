@@ -64,8 +64,16 @@ namespace FiresecService.Report.Templates
 				dataRow.Phone = employee.Item.Phone;
 				if (employee.Item.Photo != null)
 					dataRow.Photo = employee.Item.Photo.Data;
-				dataRow.Position = employee.Position;
-				dataRow.Schedule = employee.Item.ScheduleName;
+				if (employee.Item.Type == PersonType.Guest)
+				{
+					dataRow.Type = "Сопровождающий";
+				}
+				if (employee.Item.Type == PersonType.Employee)
+				{
+					dataRow.Type = "Должность";
+					dataRow.PositionOrEscort = employee.Position;
+					dataRow.Schedule = employee.Item.ScheduleName;
+				}
 				dataRow.SecondName = employee.Item.SecondName;
 				dataRow.Sex = employee.Item.Gender.ToDescription();
 				dataRow.UID = employee.UID;
@@ -127,6 +135,8 @@ namespace FiresecService.Report.Templates
 		private void AddRowToLeftTable(string text1, string text2)
 		{
 			var row = new XRTableRow();
+			if(!GetFilter<EmployeeReportFilter>().IsEmployee )
+			row.BackColor = System.Drawing.Color.LightGray;
 			if (xrLeftTable.Rows.Count % 2 == 0)
 				row.StyleName = "OddRowStyle";
 			xrLeftTable.Rows.Add(row);
@@ -134,6 +144,7 @@ namespace FiresecService.Report.Templates
 			row.Cells.Add(new XRTableCell() { Text = text2 });
 			row.Cells[0].WidthF = WidthF = xrLeftTable.Rows[0].Cells[0].WidthF;
 			row.Cells[1].WidthF = WidthF = xrLeftTable.Rows[0].Cells[1].WidthF;
+
 		}
 	}
 }
