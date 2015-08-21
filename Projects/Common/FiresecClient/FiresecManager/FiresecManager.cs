@@ -6,6 +6,7 @@ using FiresecAPI;
 using FiresecAPI.Models;
 using System.Data;
 using System.Threading;
+using Infrastructure.Common;
 
 namespace FiresecClient
 {
@@ -48,6 +49,31 @@ namespace FiresecClient
 				return e.Message;
 			}
 		}
+
+        public static string GetLicense()
+        {
+            try
+            {
+                var operationResult = FiresecService.GetLicenseInfo();
+                if (!operationResult.HasError)
+                {
+                    LicenseHelper.NumberOfUsers = operationResult.Result.NumberOfUsers;
+                    LicenseHelper.ControlScripts = operationResult.Result.ControlScripts;
+                    LicenseHelper.FireAlarm = operationResult.Result.FireAlarm;
+                    LicenseHelper.OrsServer = operationResult.Result.OrsServer;
+                    LicenseHelper.SecurityAlarm = operationResult.Result.SecurityAlarm;
+                    LicenseHelper.Skd = operationResult.Result.Skd;
+                    return null;
+                }
+                else
+                    return operationResult.Error;
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e, "FiresecManager.GetLicenseInfo");
+                return e.Message;
+            }
+        }
 
 		public static string GetIP()
 		{

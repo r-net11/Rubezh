@@ -49,7 +49,7 @@ namespace FiresecClient
 			}
 			output.Close();
 		}
-
+        
 		public static void GetConfiguration(string configurationFolderName)
 		{
 			try
