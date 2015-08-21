@@ -126,11 +126,11 @@ namespace SKDDriver.DataClasses
 				return new TimeTrackEmployeeResult("Не найден сотрудник");
 
 			var schedule = employee.Schedule;
-			if (schedule == null)
+			if (schedule == null || schedule.IsDeleted)
 				return new TimeTrackEmployeeResult("Не найден график");
 
 			var scheduleScheme = employee.Schedule.ScheduleScheme;
-			if (scheduleScheme == null)
+			if (scheduleScheme == null || scheduleScheme.IsDeleted)
 				return new TimeTrackEmployeeResult("Не найдена схема работы");
 
 			var days = scheduleScheme.ScheduleDays;
@@ -208,7 +208,7 @@ namespace SKDDriver.DataClasses
 				return new PlannedTimeTrackPart("Не найден день");
 
 			var dayInterval = day.DayInterval;
-			if (day.DayInterval == null)
+			if (day.DayInterval == null || day.DayInterval.IsDeleted)
 				return new PlannedTimeTrackPart("Не найден дневной интервал");
 			
 			TimeTrackPart nightTimeTrackPart = null;
@@ -274,6 +274,8 @@ namespace SKDDriver.DataClasses
 						timeTrackPart.EndsInNextDay = true;
 					if (timeTrackPart.EndsInNextDay)
 						timeTrackPart.EndTime = TimeSpan.FromSeconds(60 * 60 * 24 - 1);
+					else
+						timeTrackPart.EndTime = tableInterval.EndTimeSpan;
 					timeTrackPart.DayName = dayInterval.Name;
 					result.TimeTrackParts.Add(timeTrackPart);
 				}

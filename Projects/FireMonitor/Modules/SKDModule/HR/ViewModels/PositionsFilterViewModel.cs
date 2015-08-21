@@ -22,14 +22,15 @@ namespace SKDModule.ViewModels
 			base.Initialize(emptyFilter);
 			if (filter.UIDs == null)
 				return;
-			var models = Organisations.SelectMany(x => x.Children).Where(x => filter.UIDs.Any(y => y == x.Model.UID));
+			var allPositions = Organisations.SelectMany(x => x.Children);
+			var models = allPositions.Where(x => filter.UIDs.Any(y => y == x.Model.UID));
 			foreach (var model in models)
 				model.IsChecked = true;
 		}
 
 		public void Initialize(List<Guid> uids, LogicalDeletationType logicalDeletationType = LogicalDeletationType.Active)
 		{
-			var filter = new PositionFilter { LogicalDeletationType = logicalDeletationType };
+			var filter = new PositionFilter { LogicalDeletationType = logicalDeletationType, UIDs = uids };
 			Initialize(filter);
 		}
 
