@@ -137,8 +137,9 @@ namespace SKDDriver.Translators
 				if (dayTimeTrackPart.IsRemoveAllIntersections)
 				{
 					foreach (var intersectionElement in Context.PassJournals.Where(x => x.EmployeeUID == employee.UID)
-																			.Where(x => x.EnterTime >= dayTimeTrackPart.EnterDateTime && x.ExitTime <= dayTimeTrackPart.ExitDateTime)
+																			.Where(x => dayTimeTrackPart.EnterDateTime <= x.ExitTime && dayTimeTrackPart.ExitDateTime >= x.EnterTime)
 																			.Where(x => x.UID != dayTimeTrackPart.UID))
+
 					{
 						Context.PassJournals.DeleteOnSubmit(intersectionElement);
 					}

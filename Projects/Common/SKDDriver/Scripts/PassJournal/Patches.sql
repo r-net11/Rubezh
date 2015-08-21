@@ -80,3 +80,10 @@ begin
 	alter table PassJournal add [IsOpen] bit NOT NULL default 0
 	insert into Patches (Id) values ('AddingIsOpenColumn')
 end
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'CorrectedByUIDToNullable')
+BEGIN
+	ALTER TABLE PassJournal DROP COLUMN CorrectedByUID
+	ALTER TABLE PassJournal ADD [CorrectedByUID] uniqueidentifier NULL
+	INSERT INTO Patches (Id) VALUES ('CorrectedByUIDToNullable')
+END
