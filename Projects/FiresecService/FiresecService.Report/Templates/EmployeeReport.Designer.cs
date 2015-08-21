@@ -377,12 +377,12 @@
             new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Type")});
 			this.xrTableCell11.Dpi = 254F;
 			//this.xrTableCell11.Text = "xrTableCell12";
-			this.xrTableCell11.Weight = 2D;
+			this.xrTableCell11.Weight = 1D;
 			// 
 			// xrTableCell12
 			// 
 			this.xrTableCell12.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.PositionOrEscord")});
+            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.PositionOrEscort")});
 			this.xrTableCell12.Dpi = 254F;
 			this.xrTableCell12.Name = "xrTableCell12";
 			this.xrTableCell12.Text = "xrTableCell12";
