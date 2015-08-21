@@ -1,10 +1,11 @@
 ﻿using Defender;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+using System.IO;
 
 namespace FiresecService.ViewModels
 {
@@ -12,30 +13,69 @@ namespace FiresecService.ViewModels
     {
         License _license;
 
-        public InitialKey InitialKey
+        InitialKey _initialKey;
+        
+        string _initialKeyString;
+        public string InitialKeyString
         {
-            get { return _license.InitialKey; }
-        }
- 
-        ObservableCollection<LicenseParameter> _Parameters;
-        public ObservableCollection<LicenseParameter> Parameters
-        {
-            get { return _Parameters; }
+            get { return _initialKeyString; }
             set
             {
-                _Parameters = value;
+                _initialKeyString = value;
+                OnPropertyChanged(() => InitialKeyString);
+            }
+        }
+
+        ObservableCollection<LicenseParameter> _parameters;
+        public ObservableCollection<LicenseParameter> Parameters
+        {
+            get { return _parameters; }
+            set
+            {
+                _parameters = value;
                 OnPropertyChanged(() => Parameters);
             }
         }
 
-        public LicenseViewModel(License license)
+        string GetLicensePath()
         {
-            _license = license;
+            return AppDataFolderHelper.GetFile("FiresecService.license");
+        }
 
-            if (_license == null)
-                Parameters = new ObservableCollection<LicenseParameter>();
-            else
-                Parameters = new ObservableCollection<LicenseParameter>(_license.Parameters);
+        bool TryLoadLicense()
+        {
+            LicenseHelper.License = _license = LicenseProcessor.ProcessLoad(GetLicensePath(), _initialKey);
+            Parameters = _license == null ? new ObservableCollection<LicenseParameter>() : new ObservableCollection<LicenseParameter>(_license.Parameters);
+            return _license != null;
+        }
+
+        public RelayCommand LoadLicenseCommand { get; private set; }
+        void OnLoadLicenseCommand()
+        {
+            var openFileDialog = new OpenFileDialog()
+            {
+                Filter = "Файл лицензии (*.license)|*.license"
+            };
+            if (openFileDialog.ShowDialog().Value)
+            {
+                try
+                {
+                    File.Copy(openFileDialog.FileName, GetLicensePath(), true);
+                }
+                catch (Exception e)
+                {
+                    MessageBoxService.ShowError("Ошибка копирования файла лицензии.\n" + e.Message);
+                }
+                TryLoadLicense();
+            }
+        }
+        
+        public LicenseViewModel()
+        {
+            _initialKey = InitialKey.Generate();
+            InitialKeyString = _initialKey.ToString();
+            LoadLicenseCommand = new RelayCommand(OnLoadLicenseCommand);
+            TryLoadLicense();
         }
     }
 }

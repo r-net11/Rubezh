@@ -3,12 +3,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Threading;
 using FiresecAPI.Models;
-using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Defender;
-using System.IO;
-using Microsoft.Win32;
 
 namespace FiresecService.ViewModels
 {
@@ -17,6 +13,8 @@ namespace FiresecService.ViewModels
 		public static MainViewModel Current { get; private set; }
 		Dispatcher _dispatcher;
 		public ServerTasksViewModel ServerTasksViewModel { get; private set; }
+
+        public LicenseViewModel LicenseViewModel { get; private set; }
 
 		public MainViewModel()
 		{
@@ -28,11 +26,7 @@ namespace FiresecService.ViewModels
 			MessageBoxService.SetMessageBoxHandler(MessageBoxHandler);
 			Logs = new ObservableCollection<LogViewModel>();
 			GKViewModels = new ObservableCollection<GKViewModel>();
-
-            _initialKey = InitialKey.Generate();
-            InitialKeyString = _initialKey.ToString();
-            LoadLicenseCommand = new RelayCommand(OnLoadLicenseCommand);
-            TryLoadLicense();
+            LicenseViewModel = new LicenseViewModel();
 		}
 
 		void MessageBoxHandler(MessageBoxViewModel viewModel, bool isModal)
@@ -227,65 +221,6 @@ namespace FiresecService.ViewModels
 			}
 		}
 		#endregion GK
-
-        #region Licensing
-
-        InitialKey _initialKey;
-
-        string _initialKeyString;
-        public string InitialKeyString
-        {
-            get { return _initialKeyString; }
-            set
-            {
-                _initialKeyString = value;
-                OnPropertyChanged(()=>InitialKeyString);
-            }
-        }
-
-        LicenseViewModel _license;
-        public LicenseViewModel License
-        {
-            get { return _license; }
-            set
-            {
-                _license = value;
-                OnPropertyChanged(() => License);
-            }
-        }
-
-        string GetLicensePath()
-        {
-            return AppDataFolderHelper.GetFile("FiresecService.license");
-        }
-
-        bool TryLoadLicense()
-        {
-            License = new LicenseViewModel(LicenseProcessor.ProcessLoad(GetLicensePath(), _initialKey));
-            return License != null;
-        }
-
-        public RelayCommand LoadLicenseCommand { get; private set; }
-        void OnLoadLicenseCommand()
-        {
-            var openFileDialog = new OpenFileDialog()
-            {
-                Filter = "Файл лицензии (*.license)|*.license"
-            };
-            if (openFileDialog.ShowDialog().Value)
-            {
-                try
-                {
-                    File.Copy(openFileDialog.FileName, GetLicensePath(), true);
-                }
-                catch(Exception ex)
-                {
-                    MessageBoxService.ShowError("Ошибка копирования файла лицензии.\n" + ex.Message);
-                }
-                TryLoadLicense();
-            }
-        }
-        #endregion
 
 		public override bool OnClosing(bool isCanceled)
 		{

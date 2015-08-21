@@ -4,6 +4,7 @@ using System.Windows.Threading;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
+using Infrastructure.Common;
 
 namespace FiresecClient
 {
@@ -189,6 +190,22 @@ namespace FiresecClient
 				return OperationResult<bool>.FromError("Не удается соединиться с сервером " + _serverAddress, false);
 			}, "Connect");
 		}
+
+        public OperationResult<FiresecLicenseInfo> GetLicenseInfo()
+        {
+            return SafeOperationCall(() =>
+            {
+                try
+                {
+                    return FiresecService.GetLicenseInfo();
+                }
+                catch (Exception e)
+                {
+                    Logger.Error("Исключение при вызове FiresecClient.GetLicenseInfo " + e.GetType().Name.ToString());
+                }
+                return OperationResult<FiresecLicenseInfo>.FromError("Не удается получить лицензию от " + _serverAddress);
+            }, "GetLicenseInfo");
+        }
 
 		public void Dispose()
 		{

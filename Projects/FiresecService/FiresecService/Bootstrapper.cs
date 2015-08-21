@@ -40,6 +40,10 @@ namespace FiresecService
 
 				FiresecService.Service.FiresecService.ServerState = ServerState.Sarting;
 
+                UILogger.Log("Проверка лицензии");
+                if (!LicenseHelper.TryLoad())
+                    UILogger.Log("Ошибка лицензии", true);
+
 				UILogger.Log("Проверка соединения с БД");
 				if(!DbService.CheckConnection())
 					UILogger.Log("Ошибка соединения с БД", true);
