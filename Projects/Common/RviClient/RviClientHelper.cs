@@ -95,7 +95,7 @@ namespace RviClient
 				var perimeterOut = client.GetPerimeter(perimeterIn);
 				if (perimeterOut.Devices != null)
 				{
-					devices = perimeterOut.Devices.ToList();
+					devices = perimeterOut.Devices.Where(x => !x.IsDeleted).ToList();
 				}
 
 				var sessionCloseIn = new SessionCloseIn();
