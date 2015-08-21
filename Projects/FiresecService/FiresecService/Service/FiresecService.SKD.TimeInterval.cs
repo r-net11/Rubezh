@@ -335,7 +335,7 @@ namespace FiresecService.Service
 						AddJournalMessage(JournalEventNameType.Добавление_интервала,
 										"Интервал рабочего времени (" + employee.FIO + ")",
 										JournalEventDescriptionType.NULL,
-										"Интервал добавлен (" + dayTimeTrackPart.EnterDateTime + " - " + dayTimeTrackPart.ExitDateTime + ", зона" + dayTimeTrackPart.TimeTrackZone.Name + ")",
+										"Интервал добавлен (" + dayTimeTrackPart.EnterDateTime + " - " + dayTimeTrackPart.ExitDateTime + ", зона " + dayTimeTrackPart.TimeTrackZone.Name + ")",
 										currentUser.Name);
 
 					}
@@ -350,26 +350,26 @@ namespace FiresecService.Service
 							AddJournalMessage(JournalEventNameType.Установка_неУчитывать_в_расчетах,
 										"Интервал рабочего времени (" + employee.FIO + ")",
 										JournalEventDescriptionType.NULL,
-										"Интервал исключен из расчетов (" + dayTimeTrackPart.EnterDateTime + " - " + dayTimeTrackPart.ExitDateTime + ", зона" + dayTimeTrackPart.TimeTrackZone.Name + ")",
+										"Интервал исключен из расчетов (" + dayTimeTrackPart.EnterDateTime + " - " + dayTimeTrackPart.ExitDateTime + ", зона " + dayTimeTrackPart.TimeTrackZone.Name + ")",
 										currentUser.Name);
 						else if(setAdjustmentFlag == false)
 							AddJournalMessage(JournalEventNameType.Снятие_неУчитывать_в_расчетах,
 										"Интервал рабочего времени (" + employee.FIO + ")",
 										JournalEventDescriptionType.NULL,
-										"Интервал добавлен в расчеты (" + dayTimeTrackPart.EnterDateTime + " - " + dayTimeTrackPart.ExitDateTime + ", зона" + dayTimeTrackPart.TimeTrackZone.Name + ")",
+										"Интервал добавлен в расчеты (" + dayTimeTrackPart.EnterDateTime + " - " + dayTimeTrackPart.ExitDateTime + ", зона " + dayTimeTrackPart.TimeTrackZone.Name + ")",
 										currentUser.Name);
 
 						if (dayTimeTrackPart.IsForceClosed)
 							AddJournalMessage(JournalEventNameType.Закрытие_интервала,
 										"Интервал рабочего времени (" + employee.FIO + ")",
 										JournalEventDescriptionType.NULL,
-										"Интервал принудительно закрыт (" + dayTimeTrackPart.EnterDateTime + " - " + dayTimeTrackPart.ExitDateTime + ", зона" + dayTimeTrackPart.TimeTrackZone.Name + ")",
+										"Интервал принудительно закрыт (" + dayTimeTrackPart.EnterDateTime + " - " + dayTimeTrackPart.ExitDateTime + ", зона " + dayTimeTrackPart.TimeTrackZone.Name + ")",
 										currentUser.Name);
 						else if (setBordersChangedFlag)
 							AddJournalMessage(JournalEventNameType.Изменение_границы_интервала,
 										"Интервал рабочего времени (" + employee.FIO + ")",
 										JournalEventDescriptionType.NULL,
-										"Границы интервала изменены (" + dayTimeTrackPart.EnterDateTime + " - " + dayTimeTrackPart.ExitDateTime + ", зона" + dayTimeTrackPart.TimeTrackZone.Name + ")",
+										"Границы интервала изменены (" + dayTimeTrackPart.EnterDateTime + " - " + dayTimeTrackPart.ExitDateTime + ", зона " + dayTimeTrackPart.TimeTrackZone.Name + ")",
 										currentUser.Name);
 					}
 				}
