@@ -1,4 +1,5 @@
-﻿using System.Reactive.Linq;
+﻿using System.Globalization;
+using System.Reactive.Linq;
 using FiresecAPI.SKD;
 using FiresecClient;
 using Infrastructure.Common.Windows;
@@ -86,6 +87,9 @@ namespace SKDModule.ViewModels
 		{
 			_dayTimeTrack = dayTimeTrack;
 			_parent = parent;
+
+			Zones = new List<TimeTrackZone>(TimeTrackingHelper.GetMergedZones(employee));
+
 			if (inputTimeTrackPart != null)
 			{
 				CurrentTimeTrackPart = inputTimeTrackPart;
@@ -107,8 +111,6 @@ namespace SKDModule.ViewModels
 				SelectedZone = Zones.FirstOrDefault();
 				Title = "Добавить проход";
 			}
-
-			Zones = new List<TimeTrackZone>(TimeTrackingHelper.GetMergedZones(employee));
 
 			this.WhenAny(x => x.CurrentTimeTrackPart, x => x.Value)
 				.Subscribe(value =>
@@ -154,11 +156,13 @@ namespace SKDModule.ViewModels
 		protected override bool Save()
 		{
 			CurrentTimeTrackPart.TimeTrackZone = SelectedZone;
-			CurrentTimeTrackPart.EnterTimeOriginal = CurrentTimeTrackPart.EnterDateTime + CurrentTimeTrackPart.EnterTime;
-			CurrentTimeTrackPart.ExitTimeOriginal = CurrentTimeTrackPart.ExitDateTime + CurrentTimeTrackPart.ExitTime;
+			CurrentTimeTrackPart.EnterDateTime = CurrentTimeTrackPart.EnterDateTime.GetValueOrDefault().Date + CurrentTimeTrackPart.EnterTime;
+			CurrentTimeTrackPart.ExitDateTime = CurrentTimeTrackPart.ExitDateTime.GetValueOrDefault().Date + CurrentTimeTrackPart.ExitTime;
 			CurrentTimeTrackPart.CorrectedBy = FiresecManager.CurrentUser.Name;
-			CurrentTimeTrackPart.CorrectedByUID = FiresecManager.CurrentUser.UID;
 			CurrentTimeTrackPart.AdjustmentDate = DateTime.Now;
+			CurrentTimeTrackPart.CorrectedDate = CurrentTimeTrackPart.AdjustmentDate.Value.ToString(CultureInfo.CurrentUICulture);
+			CurrentTimeTrackPart.CorrectedByUID = FiresecManager.CurrentUser.UID;
+			CurrentTimeTrackPart.NotTakeInCalculations = NotTakeInCalculations;
 
 			return Validate();
 		}

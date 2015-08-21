@@ -40,6 +40,7 @@ namespace SKDModule.Model
 			Totals = new ObservableCollection<TimeTrackTotal>(timeTrackFilter.TotalTimeTrackTypeFilters.Select(x => new TimeTrackTotal(x)));
 			DayTracks = new ObservableCollection<DayTrack>();
 			var crossNightNTimeTrackParts = new List<TimeTrackPart>();
+			
 			foreach (var dayTimeTrack in timeTrackEmployeeResult.DayTimeTracks)
 			{
 				if (string.IsNullOrEmpty(dayTimeTrack.Error))

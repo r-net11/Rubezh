@@ -268,15 +268,6 @@ namespace SKDModule.Model
 
 		#region Methods
 
-		public void Update(DateTime? enterDateTime, DateTime? exitDateTime, TimeTrackZone timeTrackZone, DateTime correctedDate, string correctedBy)
-		{
-			EnterDateTime = enterDateTime;
-			ExitDateTime = exitDateTime;
-			TimeTrackZone = timeTrackZone;
-			CorrectedDate = correctedDate.ToString(CultureInfo.CurrentUICulture);
-			CorrectedBy = correctedBy;
-		}
-
 		public void Update(DateTime? enterDateTime, DateTime? exitDateTime,
 			TimeTrackZone timeTrackZone, bool notTakeInCalculations, bool isManuallyAdded, string adjustmentDate, string correctedBy,
 			Guid correctedByUID, DateTime? enterTimeOriginal, DateTime? exitTimeOriginal, bool isOpen = false, bool isForceClosed = false)
@@ -319,8 +310,6 @@ namespace SKDModule.Model
 
 		public FiresecAPI.SKD.DayTimeTrackPart ToDTO()
 		{
-			if (!IsDirty) return null;
-
 			var timeTrackPart = new FiresecAPI.SKD.DayTimeTrackPart
 			{
 				UID = UID,
