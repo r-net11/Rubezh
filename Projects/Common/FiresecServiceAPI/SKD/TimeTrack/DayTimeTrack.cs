@@ -74,7 +74,6 @@ namespace FiresecAPI.SKD
 		public string Tooltip { get; set; }
 		public List<TimeTrackTotal> Totals { get; set; }
 		bool IsCrossNight { get { return false; } }
-		public TimeSpan NightPlannedTime { get; set; }
 
 		public void Calculate()
 		{
@@ -366,12 +365,10 @@ namespace FiresecAPI.SKD
 				if (NightSettings.NightEndTime > NightSettings.NightStartTime)
 				{
 					totalNight.TimeSpan = CalculateEveningTime(NightSettings.NightStartTime, NightSettings.NightEndTime,RealTimeTrackParts);
-					NightPlannedTime = CalculateEveningTime(NightSettings.NightStartTime, NightSettings.NightEndTime, PlannedTimeTrackParts);
 				}
 				else
 				{
 					totalNight.TimeSpan = CalculateEveningTime(NightSettings.NightStartTime, new TimeSpan(23, 59, 59), RealTimeTrackParts) + CalculateEveningTime(new TimeSpan(0, 0, 0), NightSettings.NightEndTime, RealTimeTrackParts);
-					NightPlannedTime = CalculateEveningTime(NightSettings.NightStartTime, new TimeSpan(23, 59, 59), PlannedTimeTrackParts) + CalculateEveningTime(new TimeSpan(0, 0, 0), NightSettings.NightEndTime, PlannedTimeTrackParts);
 				}
 			}
 
