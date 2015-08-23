@@ -52,8 +52,8 @@ namespace FiresecAPI.SKD
 			{
 				var result = EndTime - StartTime; 
 				var isCrossNight = EndTime >= new TimeSpan(23, 59, 00);
-				if (isCrossNight)
-					result += new TimeSpan(0, 1, 0);
+				if (isCrossNight&& result>= new TimeSpan(0,1,0))
+					result += new TimeSpan(24, 0, 0)- EndTime;
 				return result;
 			}
 		}

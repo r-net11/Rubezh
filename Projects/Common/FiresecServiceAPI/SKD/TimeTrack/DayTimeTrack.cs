@@ -74,6 +74,7 @@ namespace FiresecAPI.SKD
 		public string Tooltip { get; set; }
 		public List<TimeTrackTotal> Totals { get; set; }
 		bool IsCrossNight { get { return false; } }
+		public TimeSpan NightPlannedTime { get; set; }
 
 		public void Calculate()
 		{
@@ -197,8 +198,19 @@ namespace FiresecAPI.SKD
 				combinedTimeSpans.Add(trackPart.StartTime);
 				combinedTimeSpans.Add(trackPart.EndTime);
 			}
-			combinedTimeSpans.Sort();
-
+			if (combinedTimeSpans.Count > 1)
+			{
+				combinedTimeSpans.Sort();
+				var list = new List<TimeSpan>();
+				for (int i = 1; i < combinedTimeSpans.Count; i++)
+				{
+					if (combinedTimeSpans[i] != combinedTimeSpans[i - 1])
+						list.Add(combinedTimeSpans[i - 1]);
+				}
+				if (combinedTimeSpans[combinedTimeSpans.Count - 1] != combinedTimeSpans[combinedTimeSpans.Count - 2])
+					list.Add(combinedTimeSpans[combinedTimeSpans.Count - 1]);
+				combinedTimeSpans = list;
+			}
 			CombinedTimeTrackParts = new List<TimeTrackPart>();
 			for (int i = 0; i < combinedTimeSpans.Count - 1; i++)
 			{
@@ -353,11 +365,13 @@ namespace FiresecAPI.SKD
 			{
 				if (NightSettings.NightEndTime > NightSettings.NightStartTime)
 				{
-					totalNight.TimeSpan = CalculateEveningTime(NightSettings.NightStartTime, NightSettings.NightEndTime);
+					totalNight.TimeSpan = CalculateEveningTime(NightSettings.NightStartTime, NightSettings.NightEndTime,RealTimeTrackParts);
+					NightPlannedTime = CalculateEveningTime(NightSettings.NightStartTime, NightSettings.NightEndTime, PlannedTimeTrackParts);
 				}
 				else
 				{
-					totalNight.TimeSpan = CalculateEveningTime(NightSettings.NightStartTime, new TimeSpan(23, 59, 59)) + CalculateEveningTime(new TimeSpan(0, 0, 0), NightSettings.NightEndTime);
+					totalNight.TimeSpan = CalculateEveningTime(NightSettings.NightStartTime, new TimeSpan(23, 59, 59), RealTimeTrackParts) + CalculateEveningTime(new TimeSpan(0, 0, 0), NightSettings.NightEndTime, RealTimeTrackParts);
+					NightPlannedTime = CalculateEveningTime(NightSettings.NightStartTime, new TimeSpan(23, 59, 59), PlannedTimeTrackParts) + CalculateEveningTime(new TimeSpan(0, 0, 0), NightSettings.NightEndTime, PlannedTimeTrackParts);
 				}
 			}
 
@@ -415,13 +429,15 @@ namespace FiresecAPI.SKD
 			return longestTimeTrackType;
 		}
 
-		TimeSpan CalculateEveningTime(TimeSpan start, TimeSpan end)
+		TimeSpan CalculateEveningTime(TimeSpan start, TimeSpan end, List<TimeTrackPart> timeTrackParts)
 		{
 			var result = new TimeSpan();
 			if (end > TimeSpan.Zero)
 			{
-				foreach (var trackPart in RealTimeTrackParts)
+				foreach (var trackPart in timeTrackParts)
 				{
+					if (trackPart.EndTime == new TimeSpan(23, 59, 0))
+						trackPart.EndTime += new TimeSpan(0, 1, 0);
 					if (trackPart.StartTime <= start && trackPart.EndTime >= end)
 					{
 						result += end - start;
