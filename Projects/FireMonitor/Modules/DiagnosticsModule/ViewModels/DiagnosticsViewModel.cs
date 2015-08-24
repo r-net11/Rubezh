@@ -16,13 +16,11 @@ namespace DiagnosticsModule.ViewModels
 	{
 		public DiagnosticsViewModel()
 		{
-			CheckHaspCommand = new RelayCommand(OnCheckHasp);
 			TestCommand = new RelayCommand(OnTest);
 			SKDDataCommand = new RelayCommand(OnSKDData);
 			SKDDataAscCommand = new RelayCommand(OnSKDDataAsc);
 			GenerateEmployeeDaysCommand = new RelayCommand(OnGenerateEmployeeDays);
 			JournalCommand = new RelayCommand(OnJournal);
-			
 		}
 		
 		public void StopThreads()
@@ -40,24 +38,6 @@ namespace DiagnosticsModule.ViewModels
 				_text = value;
 				OnPropertyChanged(() => Text);
 			}
-		}
-
-		public RelayCommand CheckHaspCommand { get; private set; }
-		void OnCheckHasp()
-		{
-			var thread = new Thread(new ThreadStart(() =>
-			{
-				while (true)
-				{
-					ApplicationService.Invoke(() =>
-					{
-					});
-					Thread.Sleep(TimeSpan.FromMilliseconds(3000));
-				}
-			}));
-			thread.Name = "Diagnostics";
-			thread.IsBackground = true;
-			thread.Start();
 		}
 
 		public RelayCommand TestCommand { get; private set; }

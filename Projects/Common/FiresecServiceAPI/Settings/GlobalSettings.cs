@@ -17,7 +17,6 @@ namespace FiresecAPI
 			Server_EnableRemoteConnections = false;
 
 			IsGKAsAService = false;
-			UseHasp = false;
 			UseSKD = false;
 
 			FS_RemoteAddress = "localhost";
@@ -32,7 +31,6 @@ namespace FiresecAPI
 			Monitor_F3_Enabled = true;
 			Monitor_F4_Enabled = true;
 			Monitor_IsControlMPT = false;
-			Monitor_HaspInfo_Enabled = false;
 			Administrator_IsExpertMode = false;
 			IgnoredErrors = new List<string>();
 		}
@@ -54,9 +52,6 @@ namespace FiresecAPI
 
 		[DataMember]
 		public bool IsGKAsAService { get; set; }
-
-		[DataMember]
-		public bool UseHasp { get; set; }
 
 		[DataMember]
 		public bool UseSKD { get; set; }
@@ -98,8 +93,6 @@ namespace FiresecAPI
 		public bool Monitor_F4_Enabled { get; set; }
 		[DataMember]
 		public bool Monitor_IsControlMPT { get; set; }
-		[DataMember]
-		public bool Monitor_HaspInfo_Enabled { get; set; }
 		[DataMember]
 		public bool Monitor_HidePlansTree { get; set; }
 
