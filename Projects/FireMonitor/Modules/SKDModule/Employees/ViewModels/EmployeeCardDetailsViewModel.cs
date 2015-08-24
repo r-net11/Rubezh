@@ -426,7 +426,7 @@ namespace SKDModule.ViewModels
 
 			if (SelectedCardType == CardType.Temporary || SelectedCardType == CardType.Duress)
 			{
-				if (EndDate < DateTime.Now)
+				if (EndDate.Date < DateTime.Now.Date)
 				{
 					MessageBoxService.ShowWarning("Дата конца действия пропуска не может быть меньше текущей даты");
 					return false;
