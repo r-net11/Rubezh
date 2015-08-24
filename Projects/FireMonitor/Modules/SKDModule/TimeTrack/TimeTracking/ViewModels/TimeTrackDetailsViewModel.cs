@@ -572,13 +572,14 @@ namespace SKDModule.ViewModels
 					continue;
 				}
 
-				if (DialogService.ShowModalWindow(conflictViewModel))
+				var dialogResult = DialogService.ShowModalWindowNullable(conflictViewModel);
+				if (dialogResult == true)
 				{
 					resolvedConflictCollection.AddRange(resultCollection
 														.Where(dayTimeTrackPart => dayTimeTrackPart.UID == el.Key.UID)
 														.Select(dayTimeTrackPart => TimeTrackingHelper.ResolveConflictWithSettingBorders(dayTimeTrackPart, el.Value)));
 				}
-				else
+				else if (dialogResult == null)
 				{
 					resolvedConflictCollection.AddRange(resultCollection
 														.Where(dayTimeTrackPart => dayTimeTrackPart.UID == el.Key.UID)
@@ -596,6 +597,10 @@ namespace SKDModule.ViewModels
 																return dayTimeTrackPart;
 															})
 														);
+				}
+				else
+				{
+					break;
 				}
 			}
 

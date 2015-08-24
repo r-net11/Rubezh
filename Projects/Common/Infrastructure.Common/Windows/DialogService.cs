@@ -35,6 +35,21 @@ namespace Infrastructure.Common.Windows
 			return false;
 		}
 
+		public static bool? ShowModalWindowNullable(WindowBaseViewModel windowBaseViewModel)
+		{
+			try
+			{
+				var win = new WindowBaseView(windowBaseViewModel);
+				windowBaseViewModel.OnLoad();
+				return win.ShowDialog();
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "DialogService.ShowModalWindow");
+			}
+			return false;
+		}
+
 		public static void ShowWindow(WindowBaseViewModel windowBaseViewModel)
 		{
 			if (!FindWindowIdentity(windowBaseViewModel))

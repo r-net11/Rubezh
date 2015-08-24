@@ -135,7 +135,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			Close(true);
 		}
 
-		public void Close(bool result)
+		public void Close(bool? result)
 		{
 			if (Surface != null)
 			{
