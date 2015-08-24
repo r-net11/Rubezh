@@ -197,19 +197,8 @@ namespace FiresecAPI.SKD
 				combinedTimeSpans.Add(trackPart.StartTime);
 				combinedTimeSpans.Add(trackPart.EndTime);
 			}
-			if (combinedTimeSpans.Count > 1)
-			{
-				combinedTimeSpans.Sort();
-				var list = new List<TimeSpan>();
-				for (int i = 1; i < combinedTimeSpans.Count; i++)
-				{
-					if (combinedTimeSpans[i] != combinedTimeSpans[i - 1])
-						list.Add(combinedTimeSpans[i - 1]);
-				}
-				if (combinedTimeSpans[combinedTimeSpans.Count - 1] != combinedTimeSpans[combinedTimeSpans.Count - 2])
-					list.Add(combinedTimeSpans[combinedTimeSpans.Count - 1]);
-				combinedTimeSpans = list;
-			}
+			combinedTimeSpans.Sort();
+
 			CombinedTimeTrackParts = new List<TimeTrackPart>();
 			for (int i = 0; i < combinedTimeSpans.Count - 1; i++)
 			{
