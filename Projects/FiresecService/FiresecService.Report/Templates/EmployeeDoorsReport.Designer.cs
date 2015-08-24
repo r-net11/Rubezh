@@ -133,7 +133,7 @@
 			// xrTableCell15
 			// 
 			this.xrTableCell15.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Enter")});
+            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Exit")});
 			this.xrTableCell15.Dpi = 254F;
 			this.xrTableCell15.Name = "xrTableCell15";
 			this.xrTableCell15.Text = "xrTableCell15";

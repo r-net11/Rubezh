@@ -41,6 +41,9 @@ namespace FireMonitor
 				{
 					CreateModules();
 
+                    ServiceFactory.StartupService.DoStep("Загрузка лицензии");
+                    FiresecManager.GetLicense();
+
 					ServiceFactory.StartupService.ShowLoading("Чтение конфигурации", 15);
 					ServiceFactory.StartupService.AddCount(GetModuleCount());
 

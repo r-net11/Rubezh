@@ -180,6 +180,9 @@
 			// 
 			// xrTableRow18
 			// 
+			this.xrTableRow18.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
+            new DevExpress.XtraReports.UI.XRBinding("Visible",null, "Data.IsEmployee")});
+
 			this.xrTableRow18.Cells.AddRange(new DevExpress.XtraReports.UI.XRTableCell[] {
             this.xrTableCell35,
             this.xrTableCell36});
@@ -370,15 +373,16 @@
 			// 
 			// xrTableCell11
 			// 
+			this.xrTableCell11.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
+            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Type")});
 			this.xrTableCell11.Dpi = 254F;
-			this.xrTableCell11.Name = "xrTableCell11";
-			this.xrTableCell11.Text = "Должность";
+			//this.xrTableCell11.Text = "xrTableCell12";
 			this.xrTableCell11.Weight = 1D;
 			// 
 			// xrTableCell12
 			// 
 			this.xrTableCell12.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Position")});
+            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.PositionOrEscort")});
 			this.xrTableCell12.Dpi = 254F;
 			this.xrTableCell12.Name = "xrTableCell12";
 			this.xrTableCell12.Text = "xrTableCell12";

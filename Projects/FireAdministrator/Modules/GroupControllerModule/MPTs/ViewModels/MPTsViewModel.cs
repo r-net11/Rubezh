@@ -191,6 +191,7 @@ namespace GKModule.ViewModels
 			{
 				SelectedMPT.MPT.MptLogic = GKManager.PasteLogic(new GKAdvancedLogic(true, false, true, false, true));
 				SelectedMPT.Update();
+				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
 

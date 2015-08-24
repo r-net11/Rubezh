@@ -1,15 +1,12 @@
 ﻿<UserControl x:Class="GKModule.Views.ParameterTemplatesView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:Converters="clr-namespace:GKModule.Converters">
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 	<UserControl.Resources>
-		<Converters:BoolToColorConverter x:Key="BoolToColorConverter" />
 		<Style TargetType="TextBlock" x:Key="PropertyCaptionStyle" BasedOn="{StaticResource TextBlockDetailsStyle}">
 			<Setter Property="Text" Value="{Binding Caption}" />
 			<Setter Property="ToolTip" Value="{Binding Caption}" />
 			<Setter Property="ToolTipService.ShowOnDisabled" Value="true" />
 			<Setter Property="HorizontalAlignment" Value="Right" />
-			<Setter Property="Foreground" Value="{Binding IsValueValid, Converter={StaticResource BoolToColorConverter}}" />
 		</Style>
 	</UserControl.Resources>
 	<Grid>

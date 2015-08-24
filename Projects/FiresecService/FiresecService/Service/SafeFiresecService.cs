@@ -9,6 +9,7 @@ using FiresecAPI.AutomationCallback;
 using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using FiresecAPI.Models;
+using Infrastructure.Common;
 
 namespace FiresecService.Service
 {
@@ -146,6 +147,11 @@ namespace FiresecService.Service
 		{
 			return SafeOperationCall(() => { return FiresecService.Test(arg); }, "Test");
 		}
+
+        public OperationResult<FiresecLicenseInfo> GetLicenseInfo()
+        {
+            return SafeOperationCall(() => { return FiresecService.GetLicenseInfo(); }, "GetLicenseInfo");
+        }
 
 		#region Journal
 		public OperationResult<DateTime> GetMinJournalDateTime()
@@ -408,5 +414,5 @@ namespace FiresecService.Service
 		}
 
 		#endregion
-	}
+    }
 }

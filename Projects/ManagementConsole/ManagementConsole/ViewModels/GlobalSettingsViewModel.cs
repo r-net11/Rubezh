@@ -17,7 +17,6 @@ namespace ManagementConsole
 			Password	= GlobalSettingsHelper.GlobalSettings.AdminPassword;
 			AutoConnect = GlobalSettingsHelper.GlobalSettings.AdminAutoConnect;
 			Server_EnableRemoteConnections = GlobalSettingsHelper.GlobalSettings.Server_EnableRemoteConnections;
-			UseHasp = GlobalSettingsHelper.GlobalSettings.UseHasp;
 			DBServerName = GlobalSettingsHelper.GlobalSettings.DBServerName;
 			CreateNewDBOnOversize = GlobalSettingsHelper.GlobalSettings.CreateNewDBOnOversize;
 			DoNotAutoconnectAdm = GlobalSettingsHelper.GlobalSettings.DoNotAutoconnectAdm;
@@ -151,17 +150,6 @@ namespace ManagementConsole
 			}
 		}
 
-		bool _useHasp;
-		public bool UseHasp
-		{
-			get { return _useHasp; }
-			set
-			{
-				_useHasp = value;
-				OnPropertyChanged("UseHasp");
-			}
-		}
-
 		string _dbServerName;
 		public string DBServerName
 		{
@@ -207,7 +195,6 @@ namespace ManagementConsole
 			GlobalSettingsHelper.GlobalSettings.RunRevisor = RunRevisor;
 
 			GlobalSettingsHelper.GlobalSettings.Server_EnableRemoteConnections = Server_EnableRemoteConnections;
-			GlobalSettingsHelper.GlobalSettings.UseHasp = UseHasp;
 			GlobalSettingsHelper.GlobalSettings.DBServerName = DBServerName;
 			GlobalSettingsHelper.GlobalSettings.CreateNewDBOnOversize = CreateNewDBOnOversize;
 

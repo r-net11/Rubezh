@@ -80,5 +80,21 @@ namespace FiresecAPI.GK
 
 		[XmlIgnore]
 		public List<Guid> PlanElementUIDs { get; set; }
+
+		public GKDelay Clone()
+		{
+			var delay = new GKDelay();
+			delay.Name = Name;
+			delay.Description = Description;
+			delay.DelayTime = DelayTime;
+			delay.Hold = Hold;
+			delay.DelayRegime = DelayRegime;
+			delay.Logic.OnClausesGroup = Logic.OnClausesGroup.Clone();
+			delay.Logic.OffClausesGroup = Logic.OffClausesGroup.Clone();
+			delay.Logic.StopClausesGroup = Logic.StopClausesGroup.Clone();
+			delay.Logic.OnNowClausesGroup = Logic.OnNowClausesGroup.Clone();
+			delay.Logic.OffNowClausesGroup = Logic.OffNowClausesGroup.Clone();
+			return delay;
+		}
 	}
 }

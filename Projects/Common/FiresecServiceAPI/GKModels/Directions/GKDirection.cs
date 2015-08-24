@@ -77,5 +77,21 @@ namespace FiresecAPI.GK
 		{
 			get { return "/Controls;component/Images/BDirection.png"; }
 		}
+
+		public GKDirection Clone()
+		{
+			var direction = new GKDirection();
+			direction.Name = Name;
+			direction.Description = Description;
+			direction.Delay = Delay;
+			direction.Hold = Hold;
+			direction.DelayRegime = DelayRegime;
+			direction.Logic.OnClausesGroup = Logic.OnClausesGroup.Clone();
+			direction.Logic.OffClausesGroup = Logic.OffClausesGroup.Clone();
+			direction.Logic.StopClausesGroup = Logic.StopClausesGroup.Clone();
+			direction.Logic.OnNowClausesGroup = Logic.OnNowClausesGroup.Clone();
+			direction.Logic.OffNowClausesGroup = Logic.OffNowClausesGroup.Clone();
+			return direction;
+		}
 	}
 }

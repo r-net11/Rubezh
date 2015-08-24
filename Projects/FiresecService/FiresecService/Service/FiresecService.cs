@@ -10,6 +10,7 @@ using FiresecAPI.SKD;
 using FiresecService.ViewModels;
 using SKDDriver;
 using SKDDriver.DataClasses;
+using Infrastructure.Common;
 
 namespace FiresecService.Service
 {
@@ -122,5 +123,18 @@ namespace FiresecService.Service
 				return dbService.ResetDB();
 			}
 		}
-	}
+        
+        public OperationResult<FiresecLicenseInfo> GetLicenseInfo()
+        {
+            return new OperationResult<FiresecLicenseInfo>(new FiresecLicenseInfo()
+            {
+                NumberOfUsers = LicenseHelper.NumberOfUsers,
+                ControlScripts = LicenseHelper.ControlScripts,
+                FireAlarm = LicenseHelper.FireAlarm,
+                OrsServer = LicenseHelper.OrsServer,
+                SecurityAlarm = LicenseHelper.SecurityAlarm,
+                Skd = LicenseHelper.Skd
+            });
+        }
+    }
 }

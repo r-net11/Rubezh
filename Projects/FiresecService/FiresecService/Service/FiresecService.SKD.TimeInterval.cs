@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using FiresecAPI;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
-using SKDDriver;
 using System.Threading;
 
 namespace FiresecService.Service
@@ -296,7 +295,5 @@ namespace FiresecService.Service
 		{
 			FiresecService.NotifyDbCompleted(dbCallbackResult);
 		}
-
-		
 	}
 }

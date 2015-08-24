@@ -3,23 +3,26 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Web;
-using Color = System.Windows.Media.Color;
+using Color = System.Drawing.Color;
 
 namespace GKWebService.Models
 {
     public class Shape
     {
-        public System.Windows.Media.Color Border
+        public Color Border
         { get; set; }
 
-        public System.Windows.Media.Color BorderMouseOver
+
+        public Color BorderMouseOver
         { get; set; }
 
-        public System.Windows.Media.Color Fill
+        public Color Fill
         { get; set; }
 
         public Color FillMouseOver
         { get; set; }
+
+        public double BorderThickness { get; set; }
 
         public Guid Id
         { get; set; }
@@ -29,5 +32,16 @@ namespace GKWebService.Models
 
         public string Path
         { get; set; }
+
+        public string Hint
+        { get; set; }
+
+        public string Image { get; set; }
+
+        public double X { get; set; }
+        public double Y { get; set; }
+
+        public double Width { get; set; }
+        public double Height { get; set; }
     }
 }
