@@ -197,6 +197,16 @@ namespace FiresecAPI.SKD
 				combinedTimeSpans.Add(trackPart.StartTime);
 				combinedTimeSpans.Add(trackPart.EndTime);
 			}
+			if (NightSettings != null && NightSettings.NightEndTime != NightSettings.NightStartTime)
+			{
+				combinedTimeSpans.Add(NightSettings.NightStartTime);
+				combinedTimeSpans.Add(NightSettings.NightEndTime);
+				if (NightSettings.NightEndTime < NightSettings.NightStartTime)
+				{
+					combinedTimeSpans.Add(new TimeSpan(23, 59, 59));
+					combinedTimeSpans.Add(new TimeSpan(0, 0, 0));
+				}
+			}
 			combinedTimeSpans.Sort();
 
 			CombinedTimeTrackParts = new List<TimeTrackPart>();
@@ -209,6 +219,15 @@ namespace FiresecAPI.SKD
 				timeTrackPart.StartTime = startTime;
 				timeTrackPart.EndTime = endTime;
 				CombinedTimeTrackParts.Add(timeTrackPart);
+				var isNight=false;
+				if (NightSettings != null && NightSettings.NightEndTime != NightSettings.NightStartTime)
+				{
+
+					if (NightSettings.NightEndTime > NightSettings.NightStartTime)
+						isNight = startTime >= NightSettings.NightStartTime && endTime <= NightSettings.NightEndTime;
+					else
+						isNight = startTime >= NightSettings.NightStartTime && endTime <= new TimeSpan(23, 59, 59) || startTime >= new TimeSpan(0, 0, 0) && endTime <= NightSettings.NightEndTime;
+				}
 
 				var hasRealTimeTrack = RealTimeTrackParts.Any(x => x.StartTime <= startTime && x.EndTime >= endTime);
 				var hasPlannedTimeTrack = PlannedTimeTrackParts.Any(x => x.StartTime <= startTime && x.EndTime >= endTime);
@@ -216,7 +235,10 @@ namespace FiresecAPI.SKD
 
 				if (hasRealTimeTrack && hasPlannedTimeTrack)
 				{
-					timeTrackPart.TimeTrackPartType = TimeTrackType.Presence;
+					if (isNight)
+						timeTrackPart.TimeTrackPartType = TimeTrackType.Night;
+					else
+						timeTrackPart.TimeTrackPartType = TimeTrackType.Presence;
 				}
 				if (!hasRealTimeTrack && !hasPlannedTimeTrack)
 				{
@@ -281,7 +303,7 @@ namespace FiresecAPI.SKD
 					}
 					if (documentType == DocumentType.Presence)
 					{
-						if (hasPlannedTimeTrack)
+						if (hasPlannedTimeTrack || PlannedTimeTrackParts.Count == 0)
 							timeTrackPart.TimeTrackPartType = TimeTrackType.DocumentPresence;
 						else
 							timeTrackPart.TimeTrackPartType = TimeTrackType.None;
@@ -294,8 +316,14 @@ namespace FiresecAPI.SKD
 							timeTrackPart.TimeTrackPartType = TimeTrackType.None;
 					}
 				}
-                if (PlannedTimeTrackParts.Count == 0 && SlideTime.TotalSeconds > 0 && timeTrackPart.TimeTrackPartType == TimeTrackType.Overtime)
-                    timeTrackPart.TimeTrackPartType = TimeTrackType.Presence;
+				if (PlannedTimeTrackParts.Count == 0 && SlideTime.TotalSeconds > 0 && timeTrackPart.TimeTrackPartType == TimeTrackType.Overtime)
+				{
+					if (isNight)
+						timeTrackPart.TimeTrackPartType = TimeTrackType.Night;
+					else
+						timeTrackPart.TimeTrackPartType = TimeTrackType.Presence;
+				}
+					
 			}
 		}
 
@@ -336,31 +364,15 @@ namespace FiresecAPI.SKD
 				switch(timeTrack.TimeTrackPartType)
 				{
                     case SKD.TimeTrackType.Presence:
-                        
+					case SKD.TimeTrackType.Night:
                             totalBalance.TimeSpan += timeTrack.Delta;
                             break;
                     case SKD.TimeTrackType.DocumentOvertime:
                     case SKD.TimeTrackType.DocumentPresence:
                             totalBalance.TimeSpan += timeTrack.Delta;
                             break;
-					case SKD.TimeTrackType.DocumentAbsence:
-						totalBalance.TimeSpan -= timeTrack.Delta;
-						break;
 				}
 			}
-
-			if (NightSettings != null && NightSettings.NightEndTime != NightSettings.NightStartTime)
-			{
-				if (NightSettings.NightEndTime > NightSettings.NightStartTime)
-				{
-					totalNight.TimeSpan = CalculateEveningTime(NightSettings.NightStartTime, NightSettings.NightEndTime);
-				}
-				else
-				{
-					totalNight.TimeSpan = CalculateEveningTime(NightSettings.NightStartTime, new TimeSpan(23, 59, 59)) + CalculateEveningTime(new TimeSpan(0, 0, 0), NightSettings.NightEndTime);
-				}
-			}
-
 			TimeTrackType = CalculateTimeTrackType();
 		}
 
@@ -371,7 +383,9 @@ namespace FiresecAPI.SKD
 
 			var longestTimeTrackType = TimeTrackType.Presence;
 			var longestTimeSpan = new TimeSpan();
+			var presence = new TimeSpan();
             var overtime = new TimeSpan();
+			var night = new TimeSpan();
 			foreach (var total in Totals)
 			{
 				switch(total.TimeTrackType)
@@ -379,7 +393,6 @@ namespace FiresecAPI.SKD
 					case TimeTrackType.Absence:
 					case TimeTrackType.Late:
 					case TimeTrackType.EarlyLeave:
-					case TimeTrackType.Night:
 					case TimeTrackType.DocumentOvertime:
 					case TimeTrackType.DocumentPresence:
 					case TimeTrackType.DocumentAbsence:
@@ -389,9 +402,15 @@ namespace FiresecAPI.SKD
 							longestTimeSpan = total.TimeSpan;
 						}
 						break;
+					case TimeTrackType.Presence:
+						presence = total.TimeSpan;
+						break;
                     case TimeTrackType.Overtime:
                         overtime = total.TimeSpan;
                         break;
+					case TimeTrackType.Night:
+						night = total.TimeSpan;
+						break;
 				}
 			}
 			if (longestTimeTrackType == TimeTrackType.Presence)
@@ -403,8 +422,12 @@ namespace FiresecAPI.SKD
                 {
                     if (SlideTime.TotalSeconds != 0)
                     {
-                        if (RealTimeTrackParts.Count != 0)
-                            return TimeTrackType.Presence;
+						if (RealTimeTrackParts.Count != 0)
+						{
+							if (night > presence)
+								return TimeTrackType.Night;
+							return TimeTrackType.Presence;
+						}
                         return TimeTrackType.Absence;
                     }
                     return TimeTrackType.DayOff;
