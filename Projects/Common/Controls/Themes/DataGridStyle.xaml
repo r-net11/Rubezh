@@ -41,7 +41,7 @@
 					<Grid Background="{Binding Path=(local:DataGridProperties.HeaderBrush), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}">
 						<dg:DataGridHeaderBorder x:Name="headerBorder" Height="30" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" IsClickable="{TemplateBinding CanUserSort}" IsHovered="{TemplateBinding IsMouseOver}" IsPressed="{TemplateBinding IsPressed}" Padding="{TemplateBinding Padding}" SeparatorBrush="{TemplateBinding SeparatorBrush}" SeparatorVisibility="{TemplateBinding SeparatorVisibility}" SortDirection="{TemplateBinding SortDirection}">
 							<Grid>
-								<Border Margin="4 0" VerticalAlignment="Center" BorderThickness="0" TextBlock.FontFamily="Arial" TextBlock.FontSize="12" TextBlock.FontWeight="Bold">
+								<Border Margin="5 0" VerticalAlignment="Center" BorderThickness="0" TextBlock.FontFamily="Arial" TextBlock.FontSize="12" TextBlock.FontWeight="Bold">
 									<ContentPresenter />
 								</Border>
 								<Path x:Name="arrow" Margin="0,0,2,0" HorizontalAlignment="Right" Data="M 0,5 L 10,5 L 5,0" VerticalAlignment="Center" Fill="{DynamicResource HighlightedBackgoundBrush}" StrokeThickness="1" Visibility="Collapsed" />
