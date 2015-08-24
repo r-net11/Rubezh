@@ -226,7 +226,7 @@ namespace FiresecAPI.SKD
 					if (NightSettings.NightEndTime > NightSettings.NightStartTime)
 						isNight = startTime >= NightSettings.NightStartTime && endTime <= NightSettings.NightEndTime;
 					else
-						isNight = startTime >= NightSettings.NightStartTime && endTime <= new TimeSpan(23, 59, 59) || startTime >= new TimeSpan(0, 0, 0) && endTime <= NightSettings.NightEndTime;
+						isNight = startTime >= NightSettings.NightStartTime && endTime <= new TimeSpan(24, 00, 00) || startTime >= new TimeSpan(0, 0, 0) && endTime <= NightSettings.NightEndTime;
 				}
 
 				var hasRealTimeTrack = RealTimeTrackParts.Any(x => x.StartTime <= startTime && x.EndTime >= endTime);
@@ -345,14 +345,17 @@ namespace FiresecAPI.SKD
 			Totals.Add(new TimeTrackTotal(TimeTrackType.DocumentPresence));
 			Totals.Add(new TimeTrackTotal(TimeTrackType.DocumentAbsence));
 
-			if (SlideTime.TotalSeconds > 0)
+			if (!IsHoliday)
 			{
+				if (SlideTime.TotalSeconds > 0)
+				{
 					totalBalance.TimeSpan = -TimeSpan.FromSeconds(SlideTime.TotalSeconds);
+				}
+				else if (SlideTime.TotalSeconds == 0)
+				{
+					PlannedTimeTrackParts.ForEach(x => totalBalance.TimeSpan -= x.Delta);
+				}
 			}
-            else if (SlideTime.TotalSeconds == 0)
-            {
-                PlannedTimeTrackParts.ForEach(x => totalBalance.TimeSpan -= x.Delta);
-            }
 
 			foreach (var timeTrack in CombinedTimeTrackParts)
 			{
