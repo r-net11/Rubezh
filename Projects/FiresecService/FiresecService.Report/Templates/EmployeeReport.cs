@@ -67,7 +67,7 @@ namespace FiresecService.Report.Templates
 				if (employee.Item.Type == PersonType.Guest)
 				{
 					dataRow.Type = "Сопровождающий";
-					dataRow.PositionOrEscort = employee.Item.EscortName;
+                    //dataRow.PositionOrEscort = employee.Item.EscortName;
 				}
 				if (employee.Item.Type == PersonType.Employee)
 				{
