@@ -116,6 +116,7 @@ namespace SKDDriver.DataClasses
 				}
 				else
 				{
+					Context.CardDoors.RemoveRange(tableItem.CardDoors);
 					TranslateBack(item, tableItem);
 				}
 				Context.SaveChanges();
@@ -241,7 +242,8 @@ namespace SKDDriver.DataClasses
 			tableItem.Number = (int)apiItem.Number;
 			tableItem.EmployeeUID = apiItem.EmployeeUID;
 			tableItem.EndDate = apiItem.EndDate;
-			tableItem.CardDoors = apiItem.CardDoors.Select(x => new CardDoor(x) { UID = Guid.NewGuid() }).ToList();
+			//tableItem.CardDoors = apiItem.CardDoors.Select(x => new CardDoor(x) { UID = Guid.NewGuid() }).ToList();
+			tableItem.CardDoors = apiItem.CardDoors.Select(x => new CardDoor(x)).ToList();
 			tableItem.PassCardTemplateUID = apiItem.PassCardTemplateUID;
 			tableItem.AccessTemplateUID = apiItem.AccessTemplateUID;
 			tableItem.GKCardType = (int)apiItem.GKCardType;
