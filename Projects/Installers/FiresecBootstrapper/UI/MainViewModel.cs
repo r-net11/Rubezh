@@ -56,17 +56,6 @@ namespace UI
 			}
 		}
 
-		//bool _isInstallHasp;
-		//public bool IsInstallHasp
-		//{
-		//    get { return _isInstallHasp; }
-		//    set
-		//    {
-		//        _isInstallHasp = value;
-		//        OnPropertyChanged(() => IsInstallHasp);
-		//    }
-		//}
-
 		//bool _isInstallOPC;
 		//public bool IsInstallOPC
 		//{
@@ -169,8 +158,6 @@ namespace UI
 				}
 				if (IsInstallSDK)
 					Bootstrapper.Engine.StringVariables["InstallSDK"] = "1";
-				//if (IsInstallHasp)
-				//    Bootstrapper.Engine.StringVariables["InstallHasp"] = "1";
 				//if (IsInstallOPC)
 				//    Bootstrapper.Engine.StringVariables["InstallOPC"] = "1";
 				//if (IsInstallGK)

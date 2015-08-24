@@ -206,6 +206,10 @@ namespace FiresecService.Service
 			{
 				gkBase = GKManager.DeviceConfiguration.GuardZones.FirstOrDefault(x => x.UID == objectUID);
 			}
+			if (gkBase == null)
+			{
+				gkBase = GKManager.DeviceConfiguration.PumpStations.FirstOrDefault(x => x.UID == objectUID);
+			}
 
 			if (gkBase != null)
 			{

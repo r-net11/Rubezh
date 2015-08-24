@@ -13,7 +13,6 @@
       <ExePackage Id="SQLServer_64" InstallCondition='InstallSQL_64' SourceFile="..\..\..\..\3rdParty\SQL2005\SQLEXPR64_RUS.EXE" InstallCommand='/qn ADDLOCAL=ALL INSTANCENAME=FIRESECINSTANCE SQLAUTOSTART=1' />
       <MsiPackage SourceFile="..\..\..\..\BuildScripts\bin\GK\Firesec 2.1.4.msi" Id="FiresecId_1" Cache="yes" Visible="yes">
         <!--<MsiProperty Name="INSTALL_SKD" Value="1" />-->
-        <MsiProperty Name="INSTALL_HASP" Value="0" />
         <MsiProperty Name="INSTALL_OPC" Value="0" />
         <MsiProperty Name="INSTALL_SDK" Value="0" />
         <MsiProperty Name="INSTALL_GK" Value="1" />
@@ -27,8 +26,7 @@
     <Variable Name='InstallSQL_64' />
     
     <!--<Variable Name='InstallSKD' />-->
-    <!--<Variable Name='InstallHasp' />
-    <Variable Name='InstallOPC' />
+    <!--<Variable Name='InstallOPC' />
     <Variable Name='InstallSDK' />
     <Variable Name='InstallGK' />
     <Variable Name='InstallVideo' />

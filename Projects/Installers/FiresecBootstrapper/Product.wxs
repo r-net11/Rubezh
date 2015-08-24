@@ -21,7 +21,6 @@
         <MsiProperty Name="ALLUSERS" Value="1" />
         <MsiProperty Name="INSTALL_SKD" Value="[InstallSKD]" />
         <!--
-        <MsiProperty Name="INSTALL_HASP" Value="[InstallHasp]" />
         <MsiProperty Name="INSTALL_OPC" Value="[InstallOPC]" />
         <MsiProperty Name="INSTALL_SDK" Value="[InstallSDK]" />
         <MsiProperty Name="INSTALL_GK" Value="[InstallGK]" />
@@ -38,7 +37,6 @@
     <Variable Name='InstallSKD' />
     <!--<Variable Name='InstallSQL' />
     <Variable Name='InstallSQL_64' />
-    <Variable Name='InstallHasp' />
     <Variable Name='InstallOPC' />
     <Variable Name='InstallSDK' />
     <Variable Name='InstallGK' />

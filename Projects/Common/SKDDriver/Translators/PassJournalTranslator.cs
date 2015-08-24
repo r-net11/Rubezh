@@ -197,14 +197,15 @@ namespace SKDDriver.DataClasses
 				x.EnterTime.Date == date.Date).ToList())
 			{
 				var scheduleZone = scheduleZoneUIDs.FirstOrDefault(x => x == passJournal.ZoneUID);
+				var enterTime = passJournal.EnterTime;
 				if (scheduleZone != null)
 				{
 					if (passJournal.ExitTime.HasValue)
 					{
 						var timeTrackPart = new TimeTrackPart()
 						{
-							StartTime = passJournal.EnterTime.TimeOfDay,
-							EndTime = passJournal.ExitTime.Value.TimeOfDay,
+							StartTime = enterTime.TimeOfDay,
+							EndTime = (TimeSpan)(passJournal.ExitTime-new DateTime(enterTime.Year,enterTime.Month,enterTime.Day)),
 							ZoneUID = passJournal.ZoneUID,
 							PassJournalUID = passJournal.UID
 						};

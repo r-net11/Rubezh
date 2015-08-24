@@ -6,6 +6,7 @@ using System.ServiceModel.Channels;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
+using Infrastructure.Common;
 
 namespace FiresecService.Service
 {
@@ -21,8 +22,17 @@ namespace FiresecService.Service
 			{
 				return OperationResult<bool>.FromError("У пользователя " + clientCredentials.UserName + " нет прав на подкючение к удаленному серверу c хоста: " + clientCredentials.ClientIpAddressAndPort, true);
 			}
+            if (!CheckClientsCount())
+            {
+                return OperationResult<bool>.FromError("Сервер отказал в доступе в связи с отсутствием лицензии или достижением максимального количества клиентов", true);
+            }
 			return new OperationResult<bool>(true);
 		}
+
+        bool CheckClientsCount()
+        {
+            return ClientsManager.ClientInfos.Count < LicenseHelper.NumberOfUsers;
+        }
 
 		bool CheckRemoteAccessPermissions(ClientCredentials clientCredentials)
 		{
