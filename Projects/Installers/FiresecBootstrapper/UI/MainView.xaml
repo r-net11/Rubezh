@@ -13,7 +13,6 @@
                 <CheckBox Content="SQL" IsChecked="{Binding IsSQLEnabled}" Margin="2" />
                 <CheckBox Content="IsInstallSKD" IsChecked="{Binding IsInstallSKD}" Margin="2" />
                 <!--
-                <CheckBox Content="IsInstallHasp" IsChecked="{Binding IsInstallHasp}" Margin="2" />
                 <CheckBox Content="IsInstallOPC" IsChecked="{Binding IsInstallOPC}" Margin="2" />
                 <CheckBox Content="IsInstallSDK" IsChecked="{Binding IsInstallSDK}" Margin="2" />
                 <CheckBox Content="IsInstallGK" IsChecked="{Binding IsInstallGK}" Margin="2" />

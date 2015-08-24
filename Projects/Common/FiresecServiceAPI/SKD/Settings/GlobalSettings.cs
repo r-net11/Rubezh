@@ -34,7 +34,6 @@ namespace FiresecAPI
 			Monitor_F2_Enabled = true;
 			Monitor_F3_Enabled = true;
 			Monitor_F4_Enabled = true;
-			Monitor_HaspInfo_Enabled = false;
 			IgnoredErrors = 0;
 		}
 
@@ -94,9 +93,6 @@ namespace FiresecAPI
 
 		[DataMember]
 		public bool Monitor_F4_Enabled { get; set; }
-
-		[DataMember]
-		public bool Monitor_HaspInfo_Enabled { get; set; }
 
 		[DataMember]
 		public bool Monitor_HidePlansTree { get; set; }
