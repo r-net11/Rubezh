@@ -273,7 +273,7 @@ namespace SKDDriver.DataClasses
 					if (tableInterval.EndTimeSpan < tableInterval.BeginTimeSpan)
 						timeTrackPart.EndsInNextDay = true;
 					if (timeTrackPart.EndsInNextDay)
-						timeTrackPart.EndTime = TimeSpan.FromSeconds(60 * 60 * 24 - 1);
+						timeTrackPart.EndTime = new TimeSpan(24,0,0);
 					else
 						timeTrackPart.EndTime = tableInterval.EndTimeSpan;
 					timeTrackPart.DayName = dayInterval.Name;

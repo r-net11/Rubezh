@@ -88,9 +88,9 @@ namespace SKDModule.ViewModels
                         _scheduleScheme.EditSave(Model);
                     }
                 }
+				OnPropertyChanged(() => SelectedDayInterval);
+				OnPropertyChanged(() => SelectedDayIntervalName);
             }
-            OnPropertyChanged(() => SelectedDayInterval);
-            OnPropertyChanged(() => SelectedDayIntervalName);
 		}
 		bool IsWorkDay(ScheduleDayInterval dayInterval)
 		{
