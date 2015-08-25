@@ -84,6 +84,8 @@ namespace FireMonitor
 						return false;
 					}
 
+                    SafeFiresecService.UnknownClientEvent += () => { ApplicationService.Invoke(OnUnknownClient); };
+
 					//MutexHelper.KeepAlive();
 					if (Process.GetCurrentProcess().ProcessName != "FireMonitor.vshost")
 					{
@@ -112,6 +114,7 @@ namespace FireMonitor
 			}
 			return result;
 		}
+
 		protected virtual bool Run()
 		{
 			var result = true;
@@ -129,6 +132,10 @@ namespace FireMonitor
 			return new MonitorShellViewModel();
 		}
 
+        protected void OnUnknownClient()
+        {
+            FiresecManager.Disconnect();
+        }
 		protected virtual void OnConfigurationChanged()
 		{
 			var restartView = new RestartApplicationViewModel();

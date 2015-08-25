@@ -39,19 +39,20 @@ namespace FiresecAPI
 		public CallbackOperationResult CallbackOperationResult { get; set; }
 	}
 
-	public enum CallbackResultType
-	{
-		GKProgress,
-		GKObjectStateChanged,
-		GKPropertyChanged,
-		NewEvents,
-		ArchiveCompleted,
-		AutomationCallbackResult,
-		ConfigurationChanged,
-	    QueryDb,
-		Disconnecting,
-		OperationResult
-	}
+    public enum CallbackResultType
+    {
+        GKProgress,
+        GKObjectStateChanged,
+        GKPropertyChanged,
+        NewEvents,
+        ArchiveCompleted,
+        AutomationCallbackResult,
+        ConfigurationChanged,
+        QueryDb,
+        Disconnecting,
+        OperationResult,
+        UnknownClient
+    }
 
     [DataContract]
     public class DbCallbackResult

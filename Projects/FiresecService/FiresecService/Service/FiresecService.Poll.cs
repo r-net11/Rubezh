@@ -30,6 +30,10 @@ namespace FiresecService.Service
 				}
 				return result;
 			}
+            else
+            {
+                CallbackManager.Add(new CallbackResult() { CallbackResultType = CallbackResultType.UnknownClient });
+            }
 			return new List<CallbackResult>();
 		}
 
