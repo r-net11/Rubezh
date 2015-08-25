@@ -132,19 +132,13 @@ namespace FiresecAPI.GK
 				{
 					if (codeDevice.CodeReaderSettings.AlarmSettings.AccessLevel > 0)
 						return true;
-					if (codeDevice.CodeReaderSettings.AutomaticOffSettings.AccessLevel > 0)
-						return true;
-					if (codeDevice.CodeReaderSettings.AutomaticOnSettings.AccessLevel > 0)
-						return true;
 					if (codeDevice.CodeReaderSettings.ChangeGuardSettings.AccessLevel > 0)
 						return true;
 					if (codeDevice.CodeReaderSettings.ResetGuardSettings.AccessLevel > 0)
 						return true;
 					if (codeDevice.CodeReaderSettings.SetGuardSettings.AccessLevel > 0)
 						return true;
-					if (codeDevice.CodeReaderSettings.StartSettings.AccessLevel > 0)
-						return true;
-					if (codeDevice.CodeReaderSettings.StopSettings.AccessLevel > 0)
+					if (codeDevice.CodeReaderSettings.MPTSettings.AccessLevel > 0)
 						return true;
 				}
 				return false;

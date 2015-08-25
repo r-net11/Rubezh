@@ -97,10 +97,7 @@ namespace GKProcessor.DescriptorsDatabase
 					mpt.DescriptorDependentObjects.Add(mptDevice.Device);
 					mptDevice.Device.DescriptorDependentObjects.Add(mpt);
 					var codeUIDs = new List<Guid>();
-					codeUIDs.AddRange(mptDevice.CodeReaderSettings.AutomaticOnSettings.CodeUIDs);
-					codeUIDs.AddRange(mptDevice.CodeReaderSettings.AutomaticOffSettings.CodeUIDs);
-					codeUIDs.AddRange(mptDevice.CodeReaderSettings.StartSettings.CodeUIDs);
-					codeUIDs.AddRange(mptDevice.CodeReaderSettings.StopSettings.CodeUIDs);
+					codeUIDs.AddRange(mptDevice.CodeReaderSettings.MPTSettings.CodeUIDs);
 
 					foreach (var codeUID in codeUIDs)
 					{

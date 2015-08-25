@@ -99,10 +99,7 @@ namespace FiresecAPI.GK
 			var codeUids = new List<Guid>();
 			foreach (var mptDevice in MPTDevices)
 			{
-				codeUids.AddRange(mptDevice.CodeReaderSettings.AutomaticOnSettings.CodeUIDs);
-				codeUids.AddRange(mptDevice.CodeReaderSettings.AutomaticOffSettings.CodeUIDs);
-				codeUids.AddRange(mptDevice.CodeReaderSettings.StartSettings.CodeUIDs);
-				codeUids.AddRange(mptDevice.CodeReaderSettings.StopSettings.CodeUIDs);
+				codeUids.AddRange(mptDevice.CodeReaderSettings.MPTSettings.CodeUIDs);
 			}
 			return codeUids;
 		}

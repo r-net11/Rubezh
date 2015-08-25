@@ -65,7 +65,7 @@ namespace GKProcessor.Test
 				DeviceUIDs = { device1.UID }
 			};
 			mpt.MptLogic.OnClausesGroup.Clauses.Add(clause);
-			mpt.MPTDevices.Add(new GKMPTDevice() { MPTDeviceType = GKMPTDeviceType.HandStart, DeviceUID = device2.UID, CodeReaderSettings = new GKCodeReaderSettings() { StartSettings = new GKCodeReaderSettingsPart() { CodeUIDs = {code.UID}} } });
+			mpt.MPTDevices.Add(new GKMPTDevice() { MPTDeviceType = GKMPTDeviceType.HandStart, DeviceUID = device2.UID, CodeReaderSettings = new GKCodeReaderSettings() { MPTSettings = new GKCodeReaderSettingsPart() { CodeUIDs = {code.UID}} } });
 			GKManager.MPTs.Add(mpt);
 			Compile();
 
@@ -88,7 +88,7 @@ namespace GKProcessor.Test
 				DeviceUIDs = { device1.UID }
 			};
 			mpt.MptLogic.OnClausesGroup.Clauses.Add(clause);
-			mpt.MPTDevices.Add(new GKMPTDevice() { MPTDeviceType = GKMPTDeviceType.HandStart, DeviceUID = device2.UID, CodeReaderSettings = new GKCodeReaderSettings() { StartSettings = new GKCodeReaderSettingsPart() { CodeUIDs = { code.UID } } } });
+			mpt.MPTDevices.Add(new GKMPTDevice() { MPTDeviceType = GKMPTDeviceType.HandStart, DeviceUID = device2.UID, CodeReaderSettings = new GKCodeReaderSettings() { MPTSettings = new GKCodeReaderSettingsPart() { CodeUIDs = { code.UID } } } });
 			GKManager.MPTs.Add(mpt);
 			Compile();
 
@@ -111,7 +111,7 @@ namespace GKProcessor.Test
 				DeviceUIDs = { device1.UID }
 			};
 			mpt.MptLogic.OnClausesGroup.Clauses.Add(clause);
-			mpt.MPTDevices.Add(new GKMPTDevice() { MPTDeviceType = GKMPTDeviceType.HandStart, DeviceUID = device2.UID, CodeReaderSettings = new GKCodeReaderSettings() { StartSettings = new GKCodeReaderSettingsPart() { AccessLevel = 1 } } });
+			mpt.MPTDevices.Add(new GKMPTDevice() { MPTDeviceType = GKMPTDeviceType.HandStart, DeviceUID = device2.UID, CodeReaderSettings = new GKCodeReaderSettings() { MPTSettings = new GKCodeReaderSettingsPart() { AccessLevel = 1 } } });
 			GKManager.MPTs.Add(mpt);
 			Compile();
 

@@ -80,25 +80,7 @@ namespace GKProcessor
 			{
 				if (mptDevice.Device.DriverType == GKDriverType.RSR2_CodeReader || mptDevice.Device.DriverType == GKDriverType.RSR2_CardReader)
 				{
-					GKCodeReaderSettingsPart settingsPart = null;
-					switch (stateBit)
-					{
-						case GKStateBit.TurnOn_InManual:
-							settingsPart = mptDevice.CodeReaderSettings.StartSettings;
-							break;
-
-						case GKStateBit.TurnOff_InManual:
-							settingsPart = mptDevice.CodeReaderSettings.StopSettings;
-							break;
-
-						case GKStateBit.SetRegime_Automatic:
-							settingsPart = mptDevice.CodeReaderSettings.AutomaticOnSettings;
-							break;
-
-						case GKStateBit.SetRegime_Manual:
-							settingsPart = mptDevice.CodeReaderSettings.AutomaticOffSettings;
-							break;
-					}
+					var settingsPart = mptDevice.CodeReaderSettings.MPTSettings;
 
 					if (FormulaHelper.AddCodeReaderLogic(Formula, settingsPart, mptDevice.Device, count))
 						count++;
