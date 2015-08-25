@@ -11,6 +11,7 @@ namespace GKProcessor
 		CommonDatabase Database;
 		GKPumpStation PumpStation;
 		List<GKDevice> FirePumpDevices = new List<GKDevice>();
+		List<GKDevice> JockeyPumpDevices = new List<GKDevice>();
 		List<PumpDelay> PumpDelays = new List<PumpDelay>();
 		DatabaseType DatabaseType;
 
@@ -24,6 +25,8 @@ namespace GKProcessor
 			{
 				if (nsDevice.DriverType == GKDriverType.RSR2_Bush_Fire)
 					FirePumpDevices.Add(nsDevice);
+				if (nsDevice.DriverType == GKDriverType.RSR2_Bush_Jokey)
+					JockeyPumpDevices.Add(nsDevice);
 			}
 		}
 
@@ -33,6 +36,7 @@ namespace GKProcessor
 			SetCrossReferences();
 			CreateDelaysLogic();
 			SetFirePumpDevicesLogic();
+			SetJockeyPumpLogic();
 			CreatePim();
 		}
 
@@ -138,6 +142,28 @@ namespace GKProcessor
 			}
 		}
 
+		void SetJockeyPumpLogic()
+		{
+			if (JockeyPumpDevices.Count > 0)
+			{
+				foreach (var jockeyPumpDevice in JockeyPumpDevices)
+				{
+
+					var jnDescriptor = Database.Descriptors.FirstOrDefault(x => x.DescriptorType == DescriptorType.Device && x.GKBase.UID == jockeyPumpDevice.UID);
+					if (jnDescriptor != null)
+					{
+						jnDescriptor.Formula = new FormulaBuilder();
+						jnDescriptor.Formula.AddGetBit(GKStateBit.On, PumpStation);
+						jnDescriptor.Formula.AddGetBit(GKStateBit.TurningOn, PumpStation);
+						jnDescriptor.Formula.Add(FormulaOperationType.OR);
+						jnDescriptor.Formula.AddPutBit(GKStateBit.SetRegime_Manual, jockeyPumpDevice);
+						jnDescriptor.Formula.Add(FormulaOperationType.END);
+						jnDescriptor.IsFormulaGeneratedOutside = true;
+					}
+				}
+			}
+		}
+
 		void AddCountFirePumpDevicesFormula(FormulaBuilder formula)
 		{
 			var inputPumpsCount = 0;
@@ -238,6 +264,14 @@ namespace GKProcessor
 				foreach (var otherFirePumpDevice in FirePumpDevices)
 				{
 					firePumpDevice.LinkGKBases(otherFirePumpDevice);
+				}
+			}
+
+			foreach (var jockeyPumpDevice in JockeyPumpDevices)
+			{
+				foreach (var otherJockeyPumpDevice in JockeyPumpDevices)
+				{
+					jockeyPumpDevice.LinkGKBases(otherJockeyPumpDevice);
 				}
 			}
 
