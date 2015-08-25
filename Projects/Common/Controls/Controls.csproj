@@ -190,6 +190,14 @@
     <Compile Include="Converters\JournalSubsystemTypeToIconConverter.cs" />
     <Compile Include="EditorPresenter.cs" />
     <Compile Include="ExtendedBinding.cs" />
+    <Compile Include="ListViewLayoutManager\ConverterGridViewColumn.cs" />
+    <Compile Include="ListViewLayoutManager\DynamicProportionalColumn.cs" />
+    <Compile Include="ListViewLayoutManager\FixedColumn.cs" />
+    <Compile Include="ListViewLayoutManager\ImageGridViewColumn.cs" />
+    <Compile Include="ListViewLayoutManager\LayoutColumn.cs" />
+    <Compile Include="ListViewLayoutManager\ListViewLayoutManager.cs" />
+    <Compile Include="ListViewLayoutManager\ProportionalColumn.cs" />
+    <Compile Include="ListViewLayoutManager\RangeColumn.cs" />
     <Compile Include="Menu\ViewModels\MenuButtonViewModel.cs" />
     <Compile Include="Menu\ViewModels\MenuSeparatorViewModel.cs" />
     <Compile Include="Menu\ViewModels\MenuViewModel.cs" />

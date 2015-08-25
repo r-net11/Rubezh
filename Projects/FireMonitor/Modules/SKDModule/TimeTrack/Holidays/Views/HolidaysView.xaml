@@ -9,6 +9,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
 	xmlns:viewModel="clr-namespace:SKDModule.ViewModels"
+	xmlns:ctr="clr-namespace:Controls.ListViewLayoutManager;assembly=Controls"
 	DataContextChanged="UserControl_DataContextChanged"
 	d:DataContext="{d:DesignInstance viewModel:HolidayViewModel}"
 	d:DesignHeight="300"
@@ -71,11 +72,13 @@
 			ItemActivatedCommand="{Binding EditCommand}"
 			SelectedTreeNode="{Binding SelectedItem}"
 			Source="{Binding Organisations}"
+			ctr:ListViewLayoutManager.Enabled="True"
 			tree:SortBehavior.CanUserSortColumns="True">
 			<tree:TreeList.View>
 				<GridView>
 					<GridViewColumn
-						Width="300"
+						ctr:DynamicProportionalColumn.Width="1"
+						Width="200"
 						Header="Название"
 						tree:SortBehavior.SortComparer="{StaticResource HolidayViewModelNameComparer}">
 						<GridViewColumn.CellTemplate>
