@@ -128,91 +128,25 @@ namespace GKProcessor
 			var count = 0;
 			foreach (var guardDevice in guardZoneDevices)
 			{
-				if (guardDevice.Device.DriverType == GKDriverType.RSR2_CodeReader ||
-					guardDevice.Device.DriverType == GKDriverType.RSR2_CardReader)
+				if (guardDevice.Device.DriverType == GKDriverType.RSR2_CodeReader || guardDevice.Device.DriverType == GKDriverType.RSR2_CardReader)
 				{
 					GKCodeReaderSettingsPart settingsPart = null;
-					var level = 0;
 					switch (commandStateBit)
 					{
 						case GKStateBit.TurnOn_InAutomatic:
 							settingsPart = guardDevice.CodeReaderSettings.SetGuardSettings;
-							level = settingsPart.AccessLevel;
 							break;
 
 						case GKStateBit.TurnOff_InAutomatic:
 							settingsPart = guardDevice.CodeReaderSettings.ResetGuardSettings;
-							level = settingsPart.AccessLevel;
 							break;
 
 						case GKStateBit.Fire1:
 							settingsPart = guardDevice.CodeReaderSettings.AlarmSettings;
-							level = -1;
 							break;
 					}
 
-					var stateBit = CodeReaderEnterTypeToStateBit(settingsPart.CodeReaderEnterType);
-					Formula.AddGetBit(stateBit, guardDevice.Device);
-					Formula.Add(FormulaOperationType.BR, 2, 2);
-					Formula.Add(FormulaOperationType.CONST);
-					var gotoFormulaOperation = Formula.Add(FormulaOperationType.BR, 0, 2);
-					var formulaNo = Formula.FormulaOperations.Count;
-
-					if (settingsPart.CodeUIDs.Count > 0 && settingsPart.AccessLevel == 0)
-					{
-						var codeIndex = 0;
-						foreach (var codeUID in settingsPart.CodeUIDs)
-						{
-							var code = GKManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == codeUID);
-							Formula.Add(FormulaOperationType.KOD, 0,
-								DatabaseType == DatabaseType.Gk ? guardDevice.Device.GKDescriptorNo : guardDevice.Device.KAUDescriptorNo);
-							Formula.Add(FormulaOperationType.CMPKOD, 1,
-								DatabaseType == DatabaseType.Gk ? code.GKDescriptorNo : code.KAUDescriptorNo);
-							if (codeIndex > 0)
-							{
-								Formula.Add(FormulaOperationType.OR);
-							}
-							codeIndex++;
-						}
-					}
-
-					if (settingsPart.CodeUIDs.Count == 0 && settingsPart.AccessLevel > 0)
-					{
-						if (level >= 0)
-						{
-							Formula.Add(FormulaOperationType.ACS, (byte)level, DatabaseType == DatabaseType.Gk ? guardDevice.Device.GKDescriptorNo : guardDevice.Device.KAUDescriptorNo);
-						}
-					}
-
-					if (settingsPart.CodeUIDs.Count > 0 && settingsPart.AccessLevel > 0)
-					{
-						var codeIndex = 0;
-						foreach (var codeUID in settingsPart.CodeUIDs)
-						{
-							var code = GKManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == codeUID);
-							Formula.Add(FormulaOperationType.KOD, 0, DatabaseType == DatabaseType.Gk ? guardDevice.Device.GKDescriptorNo : guardDevice.Device.KAUDescriptorNo);
-							Formula.Add(FormulaOperationType.CMPKOD, 1, DatabaseType == DatabaseType.Gk ? code.GKDescriptorNo : code.KAUDescriptorNo);
-							if (codeIndex > 0)
-							{
-								Formula.Add(FormulaOperationType.OR);
-							}
-							codeIndex++;
-						}
-						if (level >= 0)
-						{
-							Formula.Add(FormulaOperationType.ACS, (byte)level, DatabaseType == DatabaseType.Gk ? guardDevice.Device.GKDescriptorNo : guardDevice.Device.KAUDescriptorNo);
-							if (codeIndex > 0)
-							{
-								Formula.Add(FormulaOperationType.OR);
-							}
-						}
-					}
-
-					if (count > 0)
-					{
-						Formula.Add(FormulaOperationType.OR);
-					}
-					gotoFormulaOperation.SecondOperand = (ushort)(Formula.FormulaOperations.Count - formulaNo);
+					FormulaHelper.AddCodeReaderLogic(Formula, settingsPart, guardDevice.Device, count);
 				}
 				else
 				{
@@ -221,13 +155,14 @@ namespace GKProcessor
 					{
 						Formula.Add(FormulaOperationType.OR);
 					}
-				}
-				if (commandStateBit == GKStateBit.Fire1)
-				{
-					Formula.AddGetBit(GKStateBit.Fire2, guardDevice.Device);
-					Formula.Add(FormulaOperationType.OR);
-					Formula.AddGetBit(GKStateBit.Failure, guardDevice.Device);
-					Formula.Add(FormulaOperationType.OR);
+
+					if (commandStateBit == GKStateBit.Fire1)
+					{
+						Formula.AddGetBit(GKStateBit.Fire2, guardDevice.Device);
+						Formula.Add(FormulaOperationType.OR);
+						Formula.AddGetBit(GKStateBit.Failure, guardDevice.Device);
+						Formula.Add(FormulaOperationType.OR);
+					}
 				}
 				count++;
 			}
