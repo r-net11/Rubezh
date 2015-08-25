@@ -22,16 +22,17 @@ namespace FiresecService.Service
 			{
 				return OperationResult<bool>.FromError("У пользователя " + clientCredentials.UserName + " нет прав на подкючение к удаленному серверу c хоста: " + clientCredentials.ClientIpAddressAndPort, true);
 			}
-            if (!CheckClientsCount())
+            if (!CheckClientsCount(clientCredentials))
             {
                 return OperationResult<bool>.FromError("Сервер отказал в доступе в связи с отсутствием лицензии или достижением максимального количества клиентов", true);
             }
 			return new OperationResult<bool>(true);
 		}
 
-        bool CheckClientsCount()
+        bool CheckClientsCount(ClientCredentials clientCredentials)
         {
-            return ClientsManager.ClientInfos.Count < LicenseHelper.NumberOfUsers;
+            return clientCredentials.ClientType == ClientType.Administrator 
+                || ClientsManager.ClientInfos.Where(x => x.ClientCredentials.ClientType != ClientType.Administrator).Count() < LicenseHelper.NumberOfUsers;
         }
 
 		bool CheckRemoteAccessPermissions(ClientCredentials clientCredentials)
