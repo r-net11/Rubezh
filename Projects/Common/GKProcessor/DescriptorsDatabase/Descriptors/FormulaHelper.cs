@@ -9,7 +9,7 @@ namespace GKProcessor
 {
 	public static class FormulaHelper
 	{
-		public static bool AddCodeReaderLogic(FormulaBuilder formula, GKCodeReaderSettingsPart settingsPart, GKDevice device, int count)
+		public static bool AddCodeReaderLogic(FormulaBuilder formula, GKCodeReaderSettingsPart settingsPart, GKDevice device)
 		{
 			if (settingsPart.CodeReaderEnterType == GKCodeReaderEnterType.None || (settingsPart.CodeUIDs.Count == 0 && settingsPart.AccessLevel == 0))
 				return false;
@@ -42,12 +42,7 @@ namespace GKProcessor
 				}
 			}
 
-			if (count > 0)
-			{
-				formula.Add(FormulaOperationType.OR);
-			}
 			gotoFormulaOperation.SecondOperand = (ushort)(formula.FormulaOperations.Count - formulaNo);
-
 			return true;
 		}
 

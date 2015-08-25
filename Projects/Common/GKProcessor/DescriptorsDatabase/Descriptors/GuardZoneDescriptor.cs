@@ -126,43 +126,47 @@ namespace GKProcessor
 		void AddGuardDevicesLogic(List<GKGuardZoneDevice> guardZoneDevices, GKStateBit commandStateBit)
 		{
 			var count = 0;
-			foreach (var guardDevice in guardZoneDevices)
+
+			foreach (var guardDevice in guardZoneDevices.Where(x => x.Device.DriverType != GKDriverType.RSR2_CodeReader && x.Device.DriverType != GKDriverType.RSR2_CardReader))
 			{
-				if (guardDevice.Device.DriverType == GKDriverType.RSR2_CodeReader || guardDevice.Device.DriverType == GKDriverType.RSR2_CardReader)
+				Formula.AddGetBit(GKStateBit.Fire1, guardDevice.Device);
+				if (count > 0)
 				{
-					GKCodeReaderSettingsPart settingsPart = null;
-					switch (commandStateBit)
-					{
-						case GKStateBit.TurnOn_InAutomatic:
-							settingsPart = guardDevice.CodeReaderSettings.SetGuardSettings;
-							break;
-
-						case GKStateBit.TurnOff_InAutomatic:
-							settingsPart = guardDevice.CodeReaderSettings.ResetGuardSettings;
-							break;
-
-						case GKStateBit.Fire1:
-							settingsPart = guardDevice.CodeReaderSettings.AlarmSettings;
-							break;
-					}
-
-					FormulaHelper.AddCodeReaderLogic(Formula, settingsPart, guardDevice.Device, count);
+					Formula.Add(FormulaOperationType.OR);
 				}
-				else
-				{
-					Formula.AddGetBit(GKStateBit.Fire1, guardDevice.Device);
-					if (count > 0)
-					{
-						Formula.Add(FormulaOperationType.OR);
-					}
 
-					if (commandStateBit == GKStateBit.Fire1)
-					{
-						Formula.AddGetBit(GKStateBit.Fire2, guardDevice.Device);
-						Formula.Add(FormulaOperationType.OR);
-						Formula.AddGetBit(GKStateBit.Failure, guardDevice.Device);
-						Formula.Add(FormulaOperationType.OR);
-					}
+				if (commandStateBit == GKStateBit.Fire1)
+				{
+					Formula.AddGetBit(GKStateBit.Fire2, guardDevice.Device);
+					Formula.Add(FormulaOperationType.OR);
+					Formula.AddGetBit(GKStateBit.Failure, guardDevice.Device);
+					Formula.Add(FormulaOperationType.OR);
+				}
+				count++;
+			}
+
+			foreach (var guardDevice in guardZoneDevices.Where(x => x.Device.DriverType == GKDriverType.RSR2_CodeReader || x.Device.DriverType == GKDriverType.RSR2_CardReader))
+			{
+				GKCodeReaderSettingsPart settingsPart = null;
+				switch (commandStateBit)
+				{
+					case GKStateBit.TurnOn_InAutomatic:
+						settingsPart = guardDevice.CodeReaderSettings.SetGuardSettings;
+						break;
+
+					case GKStateBit.TurnOff_InAutomatic:
+						settingsPart = guardDevice.CodeReaderSettings.ResetGuardSettings;
+						break;
+
+					case GKStateBit.Fire1:
+						settingsPart = guardDevice.CodeReaderSettings.AlarmSettings;
+						break;
+				}
+
+				FormulaHelper.AddCodeReaderLogic(Formula, settingsPart, guardDevice.Device);
+				if (count > 0)
+				{
+					Formula.Add(FormulaOperationType.OR);
 				}
 				count++;
 			}
@@ -248,22 +252,6 @@ namespace GKProcessor
 			{
 				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, GuardZone);
 			}
-		}
-
-		GKStateBit CodeReaderEnterTypeToStateBit(GKCodeReaderEnterType codeReaderEnterType)
-		{
-			switch (codeReaderEnterType)
-			{
-				case GKCodeReaderEnterType.CodeOnly:
-					return GKStateBit.Attention;
-
-				case GKCodeReaderEnterType.CodeAndOne:
-					return GKStateBit.Fire1;
-
-				case GKCodeReaderEnterType.CodeAndTwo:
-					return GKStateBit.Fire2;
-			}
-			return GKStateBit.Fire1;
 		}
 
 		void SetPropertiesBytes()

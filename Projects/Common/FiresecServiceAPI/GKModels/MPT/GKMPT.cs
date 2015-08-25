@@ -111,13 +111,7 @@ namespace FiresecAPI.GK
 			{
 				foreach (var codeDevice in MPTDevices.Where(x => x.Device.DriverType == GKDriverType.RSR2_CodeReader || x.Device.DriverType == GKDriverType.RSR2_CardReader))
 				{
-					if (codeDevice.CodeReaderSettings.AutomaticOffSettings.AccessLevel > 0)
-						return true;
-					if (codeDevice.CodeReaderSettings.AutomaticOnSettings.AccessLevel > 0)
-						return true;
-					if (codeDevice.CodeReaderSettings.StartSettings.AccessLevel > 0)
-						return true;
-					if (codeDevice.CodeReaderSettings.StopSettings.AccessLevel > 0)
+					if (codeDevice.CodeReaderSettings.MPTSettings.AccessLevel > 0)
 						return true;
 				}
 				return false;

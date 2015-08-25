@@ -80,9 +80,7 @@ namespace GKProcessor
 			{
 				if (mptDevice.Device.DriverType == GKDriverType.RSR2_CodeReader || mptDevice.Device.DriverType == GKDriverType.RSR2_CardReader)
 				{
-					var settingsPart = mptDevice.CodeReaderSettings.MPTSettings;
-
-					if (FormulaHelper.AddCodeReaderLogic(Formula, settingsPart, mptDevice.Device, count))
+					if (FormulaHelper.AddCodeReaderLogic(Formula, mptDevice.CodeReaderSettings.MPTSettings, mptDevice.Device))
 						count++;
 				}
 				else
@@ -95,22 +93,6 @@ namespace GKProcessor
 			}
 			if (count > 0)
 				Formula.AddPutBit(stateBit, MPT);
-		}
-
-		GKStateBit CodeReaderEnterTypeToStateBit(GKCodeReaderEnterType codeReaderEnterType)
-		{
-			switch (codeReaderEnterType)
-			{
-				case GKCodeReaderEnterType.CodeOnly:
-					return GKStateBit.Attention;
-
-				case GKCodeReaderEnterType.CodeAndOne:
-					return GKStateBit.Fire1;
-
-				case GKCodeReaderEnterType.CodeAndTwo:
-					return GKStateBit.Fire2;
-			}
-			return GKStateBit.Fire1;
 		}
 
 		void SetPropertiesBytes()

@@ -136,7 +136,6 @@ namespace FiresecAPI.GK
 						return true;
 					if (codeDevice.CodeReaderSettings.SetGuardSettings.AccessLevel > 0)
 						return true;
-					if (codeDevice.CodeReaderSettings.MPTSettings.AccessLevel > 0)
 				}
 				return false;
 			}
