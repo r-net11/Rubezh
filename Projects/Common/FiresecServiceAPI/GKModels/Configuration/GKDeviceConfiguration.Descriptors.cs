@@ -15,6 +15,8 @@ namespace FiresecAPI.GK
 			GKBases.ForEach(x => { InitializeDataBaseParent(x); });
 			PrepareCodes();
 			PrepareDoors();
+
+			SetDependentDescriptors();
 		}
 
 		List<GKBase> GKBases

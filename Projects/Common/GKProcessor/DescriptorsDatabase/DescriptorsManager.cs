@@ -2,7 +2,6 @@
 using System.Linq;
 using FiresecAPI.GK;
 using FiresecClient;
-using GKProcessor.DescriptorsDatabase;
 
 namespace GKProcessor
 {
@@ -13,11 +12,8 @@ namespace GKProcessor
 
 		public static void Create()
 		{
-			GKManager.UpdateConfiguration();
-			GKManager.PrepareDescriptors();
-
-			var testDescriptorsCreator = new TestDescriptorsCreator();
-			testDescriptorsCreator.SetDependentDescriptors();
+			GKManager.DeviceConfiguration.UpdateConfiguration();
+			GKManager.DeviceConfiguration.PrepareDescriptors();
 
 			GkDatabases = new List<GkDatabase>();
 			KauDatabases = new List<KauDatabase>();

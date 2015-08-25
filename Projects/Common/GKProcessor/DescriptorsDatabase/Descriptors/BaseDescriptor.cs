@@ -81,10 +81,7 @@ namespace GKProcessor
 					foreach (var inputGKBase in GKBase.InputGKBases)
 					{
 						var no = inputGKBase.GKDescriptorNo;
-						if (no > 0)
-						{
-							InputDependenses.AddRange(BitConverter.GetBytes(no));
-						}
+						InputDependenses.AddRange(BitConverter.GetBytes(no));
 					}
 				}
 				if (GKBase.OutputGKBases != null)
@@ -93,10 +90,7 @@ namespace GKProcessor
 					foreach (var outputGKBase in GKBase.OutputGKBases)
 					{
 						var no = outputGKBase.GKDescriptorNo;
-						if (no > 0)
-						{
-							OutputDependenses.AddRange(BitConverter.GetBytes(no));
-						}
+						OutputDependenses.AddRange(BitConverter.GetBytes(no));
 					}
 				}
 			}
@@ -111,10 +105,7 @@ namespace GKProcessor
 						if (inputGKBase.KauDatabaseParent != GKBase.KauDatabaseParent)
 							continue;
 						var no = inputGKBase.GKDescriptorNo;
-						if (no > 0)
-						{
-							InputDependenses.AddRange(BitConverter.GetBytes(no));
-						}
+						InputDependenses.AddRange(BitConverter.GetBytes(no));
 					}
 				}
 				if (GKBase.OutputGKBases != null)

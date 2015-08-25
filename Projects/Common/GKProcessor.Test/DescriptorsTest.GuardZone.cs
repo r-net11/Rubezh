@@ -9,6 +9,59 @@ namespace GKProcessor.Test
 	public partial class DescriptorsTest
 	{
 		[TestMethod]
+		public void TestGuardZone_WithSetGuardDevice()
+		{
+			var device1 = AddDevice(kauDevice1, GKDriverType.RSR2_AM_1);
+			var guardZone = new GKGuardZone();
+			guardZone.GuardZoneDevices.Add(new GKGuardZoneDevice() { ActionType = GKGuardZoneDeviceActionType.SetGuard, DeviceUID = device1.UID });
+			GKManager.GuardZones.Add(guardZone);
+			Compile();
+
+			CheckObjectLogicOnKau(guardZone);
+		}
+
+		[TestMethod]
+		public void TestGuardZone_WithResetGuardDevice()
+		{
+			var device1 = AddDevice(kauDevice1, GKDriverType.RSR2_AM_1);
+			var guardZone = new GKGuardZone();
+			guardZone.GuardZoneDevices.Add(new GKGuardZoneDevice() { ActionType = GKGuardZoneDeviceActionType.ResetGuard, DeviceUID = device1.UID });
+			GKManager.GuardZones.Add(guardZone);
+			Compile();
+
+			CheckObjectLogicOnKau(guardZone);
+		}
+
+		[TestMethod]
+		public void TestGuardZone_WithAlarmDevice()
+		{
+			var device1 = AddDevice(kauDevice1, GKDriverType.RSR2_AM_1);
+			var guardZone = new GKGuardZone();
+			guardZone.GuardZoneDevices.Add(new GKGuardZoneDevice() { ActionType = GKGuardZoneDeviceActionType.SetAlarm, DeviceUID = device1.UID });
+			GKManager.GuardZones.Add(guardZone);
+			Compile();
+
+			CheckObjectLogicOnKau(guardZone);
+		}
+
+		[TestMethod]
+		public void TestGuardZone_WithChangeDevice()
+		{
+			var device1 = AddDevice(kauDevice1, GKDriverType.RSR2_AM_1);
+			var guardZone = new GKGuardZone();
+			guardZone.GuardZoneDevices.Add(new GKGuardZoneDevice() { ActionType = GKGuardZoneDeviceActionType.ChangeGuard, DeviceUID = device1.UID });
+			GKManager.GuardZones.Add(guardZone);
+			Compile();
+
+			CheckObjectLogicOnKau(guardZone);
+
+			var pimGKDescriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.GKBase is GKPim);
+			var pimKauDescriptor = Kau1Database.Descriptors.FirstOrDefault(x => x.GKBase is GKPim);
+			Assert.IsTrue(pimGKDescriptor.Formula.FormulaOperations.Count == 1, "На ГК должна отсутствовать логика ПИМ");
+			Assert.IsTrue(pimKauDescriptor.Formula.FormulaOperations.Count > 1, "На КАУ должна присутствовать логика ПИМ");
+		}
+
+		[TestMethod]
 		public void TestGuardZoneOnKau()
 		{
 			var device1 = AddDevice(kauDevice1, GKDriverType.RSR2_AM_1);
@@ -77,25 +130,6 @@ namespace GKProcessor.Test
 
 			CheckObjectLogicOnGK(guardZone);
 			CheckDeviceLogicOnGK(device1);
-		}
-
-		public void TestGuardZoneWithChangeAmOnKau()
-		{
-			var device1 = AddDevice(kauDevice1, GKDriverType.RSR2_AM_1);
-			var code = new GKCode();
-			GKManager.DeviceConfiguration.Codes.Add(code);
-			var guardZone = new GKGuardZone();
-			guardZone.GuardZoneDevices.Add(new GKGuardZoneDevice() { DeviceUID = device1.UID, ActionType = GKGuardZoneDeviceActionType.ChangeGuard });
-			GKManager.GuardZones.Add(guardZone);
-			Compile();
-
-			CheckObjectLogicOnKau(guardZone);
-			CheckDeviceLogicOnKau(device1);
-
-			var pimGKDescriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.GKBase is GKPim);
-			var pimKauDescriptor = Kau1Database.Descriptors.FirstOrDefault(x => x.GKBase is GKPim);
-			Assert.IsTrue(pimGKDescriptor.Formula.FormulaOperations.Count == 1, "На ГК должна отсутствовать логика ПИМ");
-			Assert.IsTrue(pimKauDescriptor.Formula.FormulaOperations.Count > 1, "На КАУ должна присутствовать логика ПИМ");
 		}
 	}
 }
