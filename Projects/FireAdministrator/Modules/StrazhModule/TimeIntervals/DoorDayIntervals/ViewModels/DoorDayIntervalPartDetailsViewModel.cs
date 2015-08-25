@@ -14,10 +14,40 @@ namespace StrazhModule.ViewModels
 			Title = "Задание интервала";
 			DayIntervalPart = dayIntervalPart ?? new SKDDoorDayIntervalPart();
 
+			MinStartTime = DateTime.MinValue.TimeOfDay;
+			MaxEndTime = DateTime.MaxValue.TimeOfDay;
 			StartTime = TimeSpan.FromMilliseconds(DayIntervalPart.StartMilliseconds);
 			EndTime = TimeSpan.FromMilliseconds(DayIntervalPart.EndMilliseconds);
 			InitAvailableDoorOpenMethods();
 			SelectedDoorOpenMethod = DayIntervalPart.DoorOpenMethod;
+		}
+
+		TimeSpan _minStartTime;
+		public TimeSpan MinStartTime
+		{
+			get { return _minStartTime; }
+			set
+			{
+				if (_minStartTime == value)
+					return;
+				_minStartTime = value;
+				if (StartTime < _minStartTime)
+					StartTime = _minStartTime;
+			}
+		}
+
+		TimeSpan _maxEndTime;
+		public TimeSpan MaxEndTime
+		{
+			get { return _maxEndTime; }
+			set
+			{
+				if (_maxEndTime == value)
+					return;
+				_maxEndTime = value;
+				if (EndTime > _maxEndTime)
+					EndTime = _maxEndTime;
+			}
 		}
 
 		TimeSpan _startTime;
@@ -26,6 +56,10 @@ namespace StrazhModule.ViewModels
 			get { return _startTime; }
 			set
 			{
+				if (_startTime == value)
+					return;
+				if (value < MinStartTime)
+					return;
 				_startTime = value;
 				OnPropertyChanged(() => StartTime);
 			}
@@ -37,6 +71,10 @@ namespace StrazhModule.ViewModels
 			get { return _endTime; }
 			set
 			{
+				if (_endTime == value)
+					return;
+				if (value > MaxEndTime)
+					return;
 				_endTime = value;
 				OnPropertyChanged(() => EndTime);
 			}

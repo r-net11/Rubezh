@@ -13,30 +13,50 @@
 		</ResourceDictionary>
 	</UserControl.Resources>
 	<Border Background="{StaticResource BackgroundBrush}">
-		<Grid Margin="10">
+		<Grid>
 			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="*" />
-				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="*"/>
 			</Grid.ColumnDefinitions>
 			<Grid.RowDefinitions>
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
 			</Grid.RowDefinitions>
-			<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" Foreground="{DynamicResource ForegroundColorLight}" Text="Начало" />
-			<Controls:TimePicker Grid.Row="0" Grid.Column="1" Margin="2" TimeSpan="{Binding StartTime, UpdateSourceTrigger=PropertyChanged}" />
+			<Grid Grid.Row="0" Margin="10">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
+				<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" Foreground="{DynamicResource ForegroundColorLight}" Text="Начало" />
+				<Controls:TimePicker Grid.Row="0" Grid.Column="1" Margin="2" TimeSpan="{Binding StartTime, UpdateSourceTrigger=PropertyChanged}" MinTimeSpan="{Binding MinStartTime, Mode=OneWay}" MaxTimeSpan="{Binding MaxEndTime, Mode=OneWay}" />
 
-			<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" Foreground="{DynamicResource ForegroundColorLight}" Text="Окончание" />
-			<Controls:TimePicker Grid.Row="1" Grid.Column="1" Margin="2" TimeSpan="{Binding EndTime, UpdateSourceTrigger=PropertyChanged}" />
+				<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" Foreground="{DynamicResource ForegroundColorLight}" Text="Окончание" />
+				<Controls:TimePicker Grid.Row="1" Grid.Column="1" Margin="2" TimeSpan="{Binding EndTime, UpdateSourceTrigger=PropertyChanged}" MinTimeSpan="{Binding MinStartTime, Mode=OneWay}" MaxTimeSpan="{Binding MaxEndTime, Mode=OneWay}" />
 
-			<TextBlock Grid.Row="2" Grid.Column="0" Margin="2" Foreground="{DynamicResource ForegroundColorLight}" Text="Метод открытия" />
-			<ComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{Binding AvailableDoorOpenMethods}" SelectedItem="{Binding SelectedDoorOpenMethod}" Margin="2">
-				<ComboBox.ItemTemplate>
-					<DataTemplate>
-						<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
-					</DataTemplate>
-				</ComboBox.ItemTemplate>
-			</ComboBox>
+				<TextBlock Grid.Row="2" Grid.Column="0" Margin="2" Foreground="{DynamicResource ForegroundColorLight}" Text="Метод открытия" />
+				<ComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{Binding AvailableDoorOpenMethods}" SelectedItem="{Binding SelectedDoorOpenMethod}" Margin="2">
+					<ComboBox.ItemTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+						</DataTemplate>
+					</ComboBox.ItemTemplate>
+				</ComboBox>
+			</Grid>
+			<Grid Grid.Row="1">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto"/>
+					<ColumnDefinition Width="*"/>
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="*"/>
+				</Grid.RowDefinitions>
+				<Image Grid.Column="0" Source="/Controls;component/Images/Alarm_main_2_Attention.png" VerticalAlignment="Center"/>
+				<TextBlock Grid.Column="1" Text="Метод открытия, заданный в интервале, действует до момента начала следующего интервала" Foreground="{DynamicResource ForegroundColorLight}" TextWrapping="Wrap" VerticalAlignment="Center"/>
+			</Grid>
 		</Grid>
 	</Border>
 </UserControl>

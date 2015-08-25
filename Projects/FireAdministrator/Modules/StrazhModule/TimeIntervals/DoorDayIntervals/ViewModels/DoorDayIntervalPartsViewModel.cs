@@ -46,6 +46,11 @@ namespace StrazhModule.ViewModels
 		void OnAdd()
 		{
 			var dayIntervalPartDetailsViewModel = new DoorDayIntervalPartDetailsViewModel();
+
+			var lastPart = Parts.LastOrDefault();
+			if (lastPart != null)
+				dayIntervalPartDetailsViewModel.MinStartTime = lastPart.EndTime;
+
 			if (DialogService.ShowModalWindow(dayIntervalPartDetailsViewModel))
 			{
 				DayInterval.DayIntervalParts.Add(dayIntervalPartDetailsViewModel.DayIntervalPart);
@@ -72,13 +77,22 @@ namespace StrazhModule.ViewModels
 		}
 		bool CanRemove()
 		{
-			return SelectedPart != null && Parts.Count > 1;
+			return SelectedPart != null && Parts.Count > 1 && Parts.IndexOf(SelectedPart) == Parts.Count - 1;
 		}
 
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
 			var dayIntervalPartDetailsViewModel = new DoorDayIntervalPartDetailsViewModel(SelectedPart.DayIntervalPart);
+			
+			var index = Parts.IndexOf(SelectedPart);
+			// Устанавливаем минимально возможное значение для интервала
+			if (index > 0)
+				dayIntervalPartDetailsViewModel.MinStartTime = Parts[index - 1].EndTime;
+			// Устанавливаем максимально возможное значение для интервала
+			if (index < Parts.Count - 1)
+				dayIntervalPartDetailsViewModel.MaxEndTime = Parts[index + 1].StartTime;
+
 			if (DialogService.ShowModalWindow(dayIntervalPartDetailsViewModel))
 			{
 				SelectedPart.Update();
