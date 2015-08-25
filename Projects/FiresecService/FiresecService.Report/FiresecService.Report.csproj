@@ -143,10 +143,6 @@
       <DependentUpon>EmployeeDataSet.xsd</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="DataSources\EmployeeDoorsDataSet.cs">
-      <DependentUpon>EmployeeDoorsDataSet.xsd</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="DataSources\EventsDataSet.cs">
       <DependentUpon>EventsDataSet.xsd</DependentUpon>
     </Compile>
