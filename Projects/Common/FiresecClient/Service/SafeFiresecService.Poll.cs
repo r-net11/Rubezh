@@ -23,7 +23,6 @@ namespace FiresecClient
 		public static event Action<List<JournalItem>> NewJournalItemsEvent;
 		public static event Action<IEnumerable<JournalItem>, Guid> GetFilteredArchiveCompletedEvent;
 		public static event Action<DbCallbackResult> DbCallbackResultEvent;
-        public static event Action UnknownClientEvent;
 
 		bool isConnected = true;
 		public bool SuspendPoll = false;
@@ -176,16 +175,8 @@ namespace FiresecClient
 								ConfigurationChangedEvent();
 						});
 						break;
-
-                    case CallbackResultType.UnknownClient:
-                        SafeOperationCall(() =>
-                        {
-                            if (UnknownClientEvent != null)
-                                UnknownClientEvent();
-                        });
-                        break;
 				}
 			}
 		}
-    }
+	}
 }
