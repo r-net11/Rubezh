@@ -193,6 +193,7 @@
     <Compile Include="Windows\ViewModels\BaseObjectViewModel.cs" />
     <Compile Include="Windows\ViewModels\DateSelectionViewModel.cs" />
     <Compile Include="Windows\ViewModels\IEditingBaseViewModel.cs" />
+    <Compile Include="Windows\ViewModels\OverridedSaveCancelDialogViewModel.cs" />
     <Compile Include="Windows\Views\DateSelectionView.xaml.cs">
       <DependentUpon>DateSelectionView.xaml</DependentUpon>
     </Compile>
@@ -328,6 +329,9 @@
     <Compile Include="Windows\Views\ApplicationView.xaml.cs">
       <DependentUpon>ApplicationView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\Views\OverridedSaveCancelDialogView.xaml.cs">
+      <DependentUpon>OverridedSaveCancelDialogView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\Views\RightContentView.xaml.cs">
       <DependentUpon>RightContentView.xaml</DependentUpon>
     </Compile>
@@ -398,6 +402,10 @@
     <Page Include="Windows\Views\DateSelectionView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\Views\OverridedSaveCancelDialogView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\Views\RightContentView.xaml">
       <Generator>MSBuild:Compile</Generator>

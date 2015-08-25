@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using DayTimeTrackPart = SKDModule.Model.DayTimeTrackPart;
 
 namespace SKDModule.ViewModels
 {
-	public class ResetAdjustmentsConflictDialogWindowViewModel : SaveCancelDialogViewModel
+	public class ResetAdjustmentsConflictDialogWindowViewModel : OverridedSaveCancelDialogViewModel
 	{
 		#region Properties
 
@@ -108,8 +109,10 @@ namespace SKDModule.ViewModels
 
 		public ResetAdjustmentsConflictDialogWindowViewModel()
 		{
-			SaveCaption = "Установить границы без пересечений с другими интервалами";
-			CancelCaption = "Удалить корректировки пересекающихся интервалов";
+			//SaveCaption = "Установить границы без пересечений с другими интервалами";
+		//	CancelCaption = "Удалить корректировки пересекающихся интервалов";
+			RoundIntervalCommand = new RelayCommand(OnRoundingInterval);
+			RemoveIntervalCommand = new RelayCommand(OnRemovingInverval);
 		}
 
 		#endregion
@@ -120,23 +123,42 @@ namespace SKDModule.ViewModels
 		{
 			ResetedDayTimeTrackPart = conflictTimeTrackParts.Key;
 			ConflictingIntervals = conflictTimeTrackParts.Value;
-			//	ConflictingIntervals = conflictTimeTrackParts.SelectMany(x => x.Value).ToList();
 		}
 
 		#endregion
 
-		protected override bool Save()
+		public RelayCommand RoundIntervalCommand { get; set; }
+		public RelayCommand RemoveIntervalCommand { get; set; }
+
+		//protected override bool Save()
+		//{
+		//	if (ApplyToAll)
+		//		IsCheckedSave = true;
+		//	return base.Save();
+		//}
+
+		public void OnRoundingInterval()
 		{
 			if (ApplyToAll)
 				IsCheckedSave = true;
-			return base.Save();
+			bool result = Save();
+			if (result)
+				Close(true);
 		}
 
-		protected override bool Cancel()
+		public void OnRemovingInverval()
 		{
 			if (ApplyToAll)
 				IsCheckedCancel = true;
-			return base.Cancel();
+			Close(null);
+			//return base.Cancel();
 		}
+
+		//protected override bool Cancel()
+		//{
+		//	if (ApplyToAll)
+		//		IsCheckedCancel = true;
+		//	return base.Cancel();
+		//}
 	}
 }

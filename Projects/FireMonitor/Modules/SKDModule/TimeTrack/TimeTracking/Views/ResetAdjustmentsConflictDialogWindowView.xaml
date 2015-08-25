@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d"
              d:DesignHeight="350" d:DesignWidth="600"
-			 Height="350"
+			 Height="300"
 			 Width="600">
 	<UserControl.Resources>
 		<ResourceDictionary>
@@ -77,9 +77,33 @@
 			VerticalAlignment="Center"
 			IsChecked="{Binding ApplyToAll, UpdateSourceTrigger=PropertyChanged}"
 			Content="Применить выбранное решение во всех аналогичных ситуациях" Foreground="White" />
-		<!--<UniformGrid Grid.Column="1" Grid.Row="3" Columns="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="30">
-			<Button HorizontalAlignment="Right" Width="120" Content="Установить границы без пересечений с другими интервалами" />
-			<Button Width="120" HorizontalAlignment="Left" Margin="5 0 10 0" />
-		</UniformGrid>-->
+		<UniformGrid
+			Grid.Column="1"
+			Grid.Row="3"
+			Columns="2"
+			HorizontalAlignment="Right"
+			VerticalAlignment="Bottom">
+			<Button
+				HorizontalAlignment="Right"
+				Command="{Binding RoundIntervalCommand}">
+				<Button.Content>
+					<TextBlock
+						Text="Установить границы без пересечений с другими интервалами"
+						TextWrapping="Wrap"
+						VerticalAlignment="Center" />
+				</Button.Content>
+			</Button>
+			<Button
+				HorizontalAlignment="Left"
+				Command="{Binding RemoveIntervalCommand}"
+				Margin="5 0 10 0" >
+				<Button.Content>
+					<TextBlock
+						Text="Удалить корректировки пересекающихся интервалов"
+						VerticalAlignment="Center"
+						TextWrapping="Wrap"/>
+				</Button.Content>
+			</Button>
+		</UniformGrid>
 	</Grid>
 </UserControl>

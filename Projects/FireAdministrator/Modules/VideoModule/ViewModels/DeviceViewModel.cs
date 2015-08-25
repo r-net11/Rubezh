@@ -11,7 +11,7 @@ namespace VideoModule.ViewModels
 			Channel = channel;
 			StreamNo = streamNo;
 
-			DeviceName = device.Name + " (" + "поток " + StreamNo + ")";
+			DeviceName = device.Name + " (" + "канал " + "\"" + channel.Name + "\"" + ", поток " + StreamNo + ")";
 			DeviceIP = device.Ip;
 			ChannalNumber = channel.Number;
 			ChannalName = channel.Name;
