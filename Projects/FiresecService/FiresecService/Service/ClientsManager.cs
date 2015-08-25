@@ -65,7 +65,7 @@ namespace FiresecService.Service
                 {
                     ClientInfos.ForEach(x => 
                     {
-                        if (x.LastPollDateTime != null && DateTime.Now - x.LastPollDateTime > inactiveTime)
+                        if (x.LastPollDateTime != default(DateTime) && DateTime.Now - x.LastPollDateTime > inactiveTime)
                             Remove(x.UID);
                     });
                     Thread.Sleep(inactiveTime);
