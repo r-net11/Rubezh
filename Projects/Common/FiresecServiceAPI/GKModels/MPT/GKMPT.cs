@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
@@ -102,6 +103,25 @@ namespace FiresecAPI.GK
 				codeUids.AddRange(mptDevice.CodeReaderSettings.MPTSettings.CodeUIDs);
 			}
 			return codeUids;
+		}
+
+		public bool HasAccessLevel
+		{
+			get
+			{
+				foreach (var codeDevice in MPTDevices.Where(x => x.Device.DriverType == GKDriverType.RSR2_CodeReader || x.Device.DriverType == GKDriverType.RSR2_CardReader))
+				{
+					if (codeDevice.CodeReaderSettings.AutomaticOffSettings.AccessLevel > 0)
+						return true;
+					if (codeDevice.CodeReaderSettings.AutomaticOnSettings.AccessLevel > 0)
+						return true;
+					if (codeDevice.CodeReaderSettings.StartSettings.AccessLevel > 0)
+						return true;
+					if (codeDevice.CodeReaderSettings.StopSettings.AccessLevel > 0)
+						return true;
+				}
+				return false;
+			}
 		}
 	}
 }

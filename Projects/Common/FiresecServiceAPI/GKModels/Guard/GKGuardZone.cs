@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
@@ -125,10 +126,7 @@ namespace FiresecAPI.GK
 		{
 			get
 			{
-				var codeDevices =
-					GuardZoneDevices.FindAll(
-						x => x.Device.DriverType == GKDriverType.RSR2_CodeReader || x.Device.DriverType == GKDriverType.RSR2_CardReader);
-				foreach (var codeDevice in codeDevices)
+				foreach (var codeDevice in GuardZoneDevices.Where(x => x.Device.DriverType == GKDriverType.RSR2_CodeReader || x.Device.DriverType == GKDriverType.RSR2_CardReader))
 				{
 					if (codeDevice.CodeReaderSettings.AlarmSettings.AccessLevel > 0)
 						return true;
@@ -139,7 +137,6 @@ namespace FiresecAPI.GK
 					if (codeDevice.CodeReaderSettings.SetGuardSettings.AccessLevel > 0)
 						return true;
 					if (codeDevice.CodeReaderSettings.MPTSettings.AccessLevel > 0)
-						return true;
 				}
 				return false;
 			}

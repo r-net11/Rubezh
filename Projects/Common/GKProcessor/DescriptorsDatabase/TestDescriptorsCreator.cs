@@ -212,8 +212,15 @@ namespace GKProcessor.DescriptorsDatabase
 					if (dependentObject is GKGuardZone)
 					{
 						var guardZone = dependentObject as GKGuardZone;
-
 						if(guardZone.HasAccessLevel)
+						{
+							kauParents.Clear();
+						}
+					}
+					if (dependentObject is GKMPT)
+					{
+						var mpt = dependentObject as GKMPT;
+						if (mpt.HasAccessLevel)
 						{
 							kauParents.Clear();
 						}

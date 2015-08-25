@@ -11,7 +11,7 @@ namespace GKProcessor
 	{
 		public static bool AddCodeReaderLogic(FormulaBuilder formula, GKCodeReaderSettingsPart settingsPart, GKDevice device, int count)
 		{
-			if (settingsPart.CodeReaderEnterType == GKCodeReaderEnterType.None || (settingsPart.CodeUIDs.Count == 0 || settingsPart.AccessLevel == 0))
+			if (settingsPart.CodeReaderEnterType == GKCodeReaderEnterType.None || (settingsPart.CodeUIDs.Count == 0 && settingsPart.AccessLevel == 0))
 				return false;
 
 			var stateBit = CodeReaderEnterTypeToStateBit(settingsPart.CodeReaderEnterType);
