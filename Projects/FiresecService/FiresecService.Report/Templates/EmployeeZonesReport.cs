@@ -382,7 +382,7 @@ namespace FiresecService.Report.Templates
 			dataRow.Orgnisation = employee.Organisation;
 			dataRow.Department = employee.Department;
 			dataRow.Position = employee.Position;
-			dataRow.Zone = zoneMap[record.ZoneUID];
+			dataRow.Zone = zoneMap.ContainsKey(record.ZoneUID) ? zoneMap[record.ZoneUID] : null;
 			dataRow.EnterDateTime = record.EnterTime;
 			if (record.ExitTime.HasValue)
 			{
