@@ -301,12 +301,13 @@ namespace SKDDriver.DataClasses
 						if (lastTimeTrack.Delta.TotalHours > reductionTimeSpan.TotalHours)
 						{
 							lastTimeTrack.EndTime = lastTimeTrack.EndTime.Subtract(reductionTimeSpan);
+							reductionTimeSpan = TimeSpan.Zero;
 						}
 						else
 						{
 							result.TimeTrackParts.Remove(lastTimeTrack);
+							reductionTimeSpan -= lastTimeTrack.Delta;
 						}
-						reductionTimeSpan -= lastTimeTrack.Delta;
 					}
 				}
 			}
