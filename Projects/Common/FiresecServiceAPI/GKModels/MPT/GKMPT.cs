@@ -95,16 +95,6 @@ namespace FiresecAPI.GK
 		[DataMember]
 		public List<Guid> PlanElementUIDs { get; set; }
 
-		public List<Guid> GetCodeUids()
-		{
-			var codeUids = new List<Guid>();
-			foreach (var mptDevice in MPTDevices)
-			{
-				codeUids.AddRange(mptDevice.CodeReaderSettings.MPTSettings.CodeUIDs);
-			}
-			return codeUids;
-		}
-
 		public bool HasAccessLevel
 		{
 			get

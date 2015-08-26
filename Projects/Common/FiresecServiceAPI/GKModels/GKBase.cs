@@ -123,6 +123,36 @@ namespace FiresecAPI.GK
 			return result.TrimEnd(' ');
 		}
 
+		[XmlIgnore]
+		public abstract GKBaseObjectType ObjectType { get; }
+		[XmlIgnore]
+		public string DescriptorPresentationName
+		{
+			get { return ObjectType.ToDescription() + " " + PresentationName; }
+		}
+
+		[XmlIgnore]
+		public abstract string ImageSource { get; }
+
+		[XmlIgnore]
+		public GKBaseInternalState InternalState { get; set; }
+		[XmlIgnore]
+		public GKState State { get; set; }
+
+		#region IStateProvider Members
+
+		IDeviceState IStateProvider.StateClass
+		{
+			get { return State; }
+		}
+
+		Guid IIdentity.UID
+		{
+			get { return UID; }
+		}
+
+		#endregion
+
 		public void PrepareInputOutputDependences()
 		{
 			var device = this as GKDevice;
@@ -307,36 +337,6 @@ namespace FiresecAPI.GK
 			InputGKBases = new List<GKBase>();
 			OutputGKBases = new List<GKBase>();
 		}
-
-		[XmlIgnore]
-		public abstract GKBaseObjectType ObjectType { get; }
-		[XmlIgnore]
-		public string DescriptorPresentationName
-		{
-			get { return ObjectType.ToDescription() + " " + PresentationName; }
-		}
-
-		[XmlIgnore]
-		public abstract string ImageSource { get; }
-
-		[XmlIgnore]
-		public GKBaseInternalState InternalState { get; set; }
-		[XmlIgnore]
-		public GKState State { get; set; }
-
-		#region IStateProvider Members
-
-		IDeviceState IStateProvider.StateClass
-		{
-			get { return State; }
-		}
-
-		Guid IIdentity.UID
-		{
-			get { return UID; }
-		}
-
-		#endregion
 
 
 		#region ChildDescriptors

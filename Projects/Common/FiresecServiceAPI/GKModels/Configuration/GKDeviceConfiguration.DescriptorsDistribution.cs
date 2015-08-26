@@ -8,7 +8,7 @@ namespace FiresecAPI.GK
 {
 	public partial class GKDeviceConfiguration
 	{
-		public void SetDependentDescriptors()
+		public void PrepareDescriptors()
 		{
 			var gkBases = new List<GKBase>();
 			foreach (var device in Devices)
@@ -169,6 +169,8 @@ namespace FiresecAPI.GK
 				gkBases.Add(door);
 			}
 
+			gkBases.ForEach(x => x.ClearDescriptor());
+			gkBases.ForEach(x => x.PrepareInputOutputDependences());
 			gkBases.ForEach(x => x.IsChildDescriptorsReady = false);
 			gkBases.ForEach(x => x.CalculateAllChildDescriptors());
 
@@ -191,16 +193,13 @@ namespace FiresecAPI.GK
 						}
 					}
 				}
+
 				foreach (var dependentObject in gkBase.ChildDescriptors)
 				{
 					if (dependentObject is GKDoor)
 					{
 						kauParents.Clear();
 					}
-				}
-
-				foreach (var dependentObject in gkBase.ChildDescriptors)
-				{
 					if (dependentObject is GKGuardZone)
 					{
 						var guardZone = dependentObject as GKGuardZone;
