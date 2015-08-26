@@ -76,7 +76,7 @@ namespace GKProcessor
 		public void WriteFileToGK(GKDevice gkControllerDevice)
 		{
 			var gkFileInfo = new GKFileInfo();
-			gkFileInfo.Initialize(GKManager.DeviceConfiguration, gkControllerDevice);
+			gkFileInfo.Initialize(gkControllerDevice);
 
 			var bytesList = new List<byte>();
 			bytesList.AddRange(gkFileInfo.InfoBlock);

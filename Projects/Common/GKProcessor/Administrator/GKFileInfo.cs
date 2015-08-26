@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using FiresecAPI.GK;
 using Infrastructure.Common;
+using FiresecClient;
 
 namespace GKProcessor
 {
@@ -22,22 +23,21 @@ namespace GKProcessor
 		public List<byte> FileBytes { get; private set; }
 		public List<byte> InfoBlock { get; private set; }
 
-		public void Initialize(GKDeviceConfiguration deviceConfiguration, GKDevice gkControllerDevice)
+		public void Initialize(GKDevice gkControllerDevice)
 		{
 			Date = DateTime.Now;
 			var gkDatabase = DescriptorsManager.GkDatabases.FirstOrDefault(x => x.RootDevice.UID == gkControllerDevice.UID);
-			MinorVersion = (byte)deviceConfiguration.Version.MinorVersion;
-			MajorVersion = (byte)deviceConfiguration.Version.MajorVersion;
+			MinorVersion = (byte)GKManager.DeviceConfiguration.Version.MinorVersion;
+			MajorVersion = (byte)GKManager.DeviceConfiguration.Version.MajorVersion;
 			if (gkDatabase != null)
 				DescriptorsCount = gkDatabase.Descriptors.Count();
-			Hash1 = CreateHash1(deviceConfiguration, gkControllerDevice);
-			InitializeFileBytes(deviceConfiguration);
+			Hash1 = CreateHash1(gkControllerDevice);
+			InitializeFileBytes();
 			InitializeInfoBlock();
 		}
-		public static List<byte> CreateHash1(GKDeviceConfiguration deviceConfiguration, GKDevice gkControllerDevice)
+		public static List<byte> CreateHash1(GKDevice gkControllerDevice)
 		{
-			//deviceConfiguration.UpdateConfiguration();
-			//deviceConfiguration.PrepareDescriptors();
+			var deviceConfiguration = GKManager.DeviceConfiguration;
 			var stringBuilder = new StringBuilder();
 			stringBuilder.Append("devices:");
 			foreach (var device in deviceConfiguration.Devices)
@@ -119,7 +119,7 @@ namespace GKProcessor
 			}
 			return SHA256.Create().ComputeHash(Encoding.GetEncoding(1251).GetBytes(stringBuilder.ToString())).ToList();
 		}
-		void InitializeFileBytes(GKDeviceConfiguration deviceConfiguration)
+		void InitializeFileBytes()
 		{
 			var fileStream = File.OpenRead(Path.Combine(AppDataFolderHelper.GetServerAppDataPath(), "Config.fscp"));
 			FileSize = fileStream.Length;

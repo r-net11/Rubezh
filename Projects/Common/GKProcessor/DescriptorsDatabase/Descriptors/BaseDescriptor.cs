@@ -106,17 +106,6 @@ namespace GKProcessor
 						}
 					}
 				}
-				if (GKBase.OutputGKBases != null)
-				{
-					GKBase.OutputGKBases = GKBase.OutputGKBases.OrderBy(x => x.No).ToList();
-					foreach (var outputGKBase in GKBase.OutputGKBases)
-					{
-						if (outputGKBase.KauDatabaseParent == GKBase.KauDatabaseParent)
-						{
-							OutputDependenses.AddRange(BitConverter.GetBytes(outputGKBase.KAUDescriptorNo));
-						}
-					}
-				}
 			}
 		}
 
