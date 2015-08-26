@@ -81,6 +81,8 @@ namespace GKProcessor
 				if (mptDevice.Device.DriverType == GKDriverType.RSR2_CodeReader || mptDevice.Device.DriverType == GKDriverType.RSR2_CardReader)
 				{
 					if (FormulaHelper.AddCodeReaderLogic(Formula, mptDevice.CodeReaderSettings.MPTSettings, mptDevice.Device))
+						if (count > 0)
+							Formula.Add(FormulaOperationType.OR);
 						count++;
 				}
 				else
