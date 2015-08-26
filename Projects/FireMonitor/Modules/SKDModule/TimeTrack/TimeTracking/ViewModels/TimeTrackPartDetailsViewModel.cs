@@ -90,13 +90,15 @@ namespace SKDModule.ViewModels
 
 			Zones = new List<TimeTrackZone>(TimeTrackingHelper.GetMergedZones(employee));
 
+			BuidObservables();
+
 			if (inputTimeTrackPart != null)
 			{
 				CurrentTimeTrackPart = inputTimeTrackPart;
+				SelectedZone = inputTimeTrackPart.TimeTrackZone;
 				CurrentTimeTrackPart.EnterTime = inputTimeTrackPart.EnterTime;
 				CurrentTimeTrackPart.ExitTime = inputTimeTrackPart.ExitTime;
 				NotTakeInCalculations = inputTimeTrackPart.NotTakeInCalculations;
-				SelectedZone = inputTimeTrackPart.TimeTrackZone;
 				Title = "Редактировать проход";
 			}
 			else
@@ -111,11 +113,40 @@ namespace SKDModule.ViewModels
 				SelectedZone = Zones.FirstOrDefault();
 				Title = "Добавить проход";
 			}
+		}
+		#endregion
 
+		#region Commands
+
+		protected override bool Save()
+		{
+			CurrentTimeTrackPart.TimeTrackZone = SelectedZone;
+			CurrentTimeTrackPart.EnterDateTime = CurrentTimeTrackPart.EnterDateTime.GetValueOrDefault().Date + CurrentTimeTrackPart.EnterTime;
+			CurrentTimeTrackPart.ExitDateTime = CurrentTimeTrackPart.ExitDateTime.GetValueOrDefault().Date + CurrentTimeTrackPart.ExitTime;
+			CurrentTimeTrackPart.CorrectedBy = FiresecManager.CurrentUser.Name;
+			CurrentTimeTrackPart.AdjustmentDate = DateTime.Now;
+			CurrentTimeTrackPart.CorrectedDate = CurrentTimeTrackPart.AdjustmentDate.Value.ToString(CultureInfo.CurrentUICulture);
+			CurrentTimeTrackPart.CorrectedByUID = FiresecManager.CurrentUser.UID;
+			CurrentTimeTrackPart.NotTakeInCalculations = NotTakeInCalculations;
+
+			return Validate();
+		}
+
+		protected override bool CanSave()
+		{
+			return SelectedZone != null && CurrentTimeTrackPart.IsValid;
+		}
+
+		#endregion
+
+		#region Methods
+
+		private void BuidObservables()
+		{
 			this.WhenAny(x => x.CurrentTimeTrackPart, x => x.Value)
 				.Subscribe(value =>
 				{
-					if(_subscriber != null) _subscriber.Dispose();
+					if (_subscriber != null) _subscriber.Dispose();
 
 					if (value == null) return;
 
@@ -146,35 +177,10 @@ namespace SKDModule.ViewModels
 					else
 					{
 						IsEnabledTakeInCalculations = true;
+						NotTakeInCalculations = default(bool);
 					}
 				});
 		}
-		#endregion
-
-		#region Commands
-
-		protected override bool Save()
-		{
-			CurrentTimeTrackPart.TimeTrackZone = SelectedZone;
-			CurrentTimeTrackPart.EnterDateTime = CurrentTimeTrackPart.EnterDateTime.GetValueOrDefault().Date + CurrentTimeTrackPart.EnterTime;
-			CurrentTimeTrackPart.ExitDateTime = CurrentTimeTrackPart.ExitDateTime.GetValueOrDefault().Date + CurrentTimeTrackPart.ExitTime;
-			CurrentTimeTrackPart.CorrectedBy = FiresecManager.CurrentUser.Name;
-			CurrentTimeTrackPart.AdjustmentDate = DateTime.Now;
-			CurrentTimeTrackPart.CorrectedDate = CurrentTimeTrackPart.AdjustmentDate.Value.ToString(CultureInfo.CurrentUICulture);
-			CurrentTimeTrackPart.CorrectedByUID = FiresecManager.CurrentUser.UID;
-			CurrentTimeTrackPart.NotTakeInCalculations = NotTakeInCalculations;
-
-			return Validate();
-		}
-
-		protected override bool CanSave()
-		{
-			return SelectedZone != null && CurrentTimeTrackPart.IsValid;
-		}
-
-		#endregion
-
-		#region Methods
 
 		public bool Validate()
 		{
