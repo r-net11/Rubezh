@@ -14,7 +14,7 @@ using SKDModule.ViewModels;
 
 namespace SKDModule.Reports.ViewModels
 {
-	public class OrganizationPageViewModel : FilterContainerViewModel
+	public class OrganizationPageViewModel : FilterContainerViewModel, IUnsubscribe
 	{
 		public OrganizationPageViewModel(bool allowMultiple)
 		{
@@ -23,8 +23,6 @@ namespace SKDModule.Reports.ViewModels
 			CreateItemList();
 			SelectAllCommand = new RelayCommand(() => Organisations.Items.ForEach(item => item.IsChecked = true));
 			SelectNoneCommand = new RelayCommand(() => Organisations.Items.ForEach(item => item.IsChecked = false));
-			ServiceFactory.Events.GetEvent<SKDReportUseArchiveChangedEvent>().Unsubscribe(OnUseArchive);
-			ServiceFactory.Events.GetEvent<SKDReportUseArchiveChangedEvent>().Subscribe(OnUseArchive);
 		}
 
 		public bool AllowMultiple { get; set; }
@@ -35,6 +33,8 @@ namespace SKDModule.Reports.ViewModels
 
 		public override void LoadFilter(SKDReportFilter filter)
 		{
+			ServiceFactory.Events.GetEvent<SKDReportUseArchiveChangedEvent>().Unsubscribe(OnUseArchive);
+			ServiceFactory.Events.GetEvent<SKDReportUseArchiveChangedEvent>().Subscribe(OnUseArchive);
 			var organisationFilter = filter as IReportFilterOrganisation;
 			var uids = organisationFilter == null ? null : organisationFilter.Organisations;
 			if (!AllowMultiple && uids == null && Organisations.Items.Count > 0)
@@ -79,6 +79,11 @@ namespace SKDModule.Reports.ViewModels
 			var checkedOrganisations = Organisations.Items.Where(x => uids.Any(y => y == x.Organisation.UID));
 			foreach (var organisation in checkedOrganisations)
 				organisation.IsChecked = true;
+		}
+
+		public void Unsubscribe()
+		{
+			ServiceFactory.Events.GetEvent<SKDReportUseArchiveChangedEvent>().Unsubscribe(OnUseArchive);
 		}
 	}
 

@@ -15,23 +15,22 @@ namespace SKDModule.Reports.ViewModels
 		{
 			Title = "Должности";
 			Filter = new PositionsFilterViewModel();
-			ServiceFactory.Events.GetEvent<SKDReportUseArchiveChangedEvent>().Unsubscribe(OnUseArchive);
-			ServiceFactory.Events.GetEvent<SKDReportUseArchiveChangedEvent>().Subscribe(OnUseArchive);
-			_OrganisationChangedSubscriber = new OrganisationChangedSubscriber(this);
+			
 			OrganisationUIDs = new List<Guid>();
 		}
 
 		IReportFilterPosition _reportFilter;
-		bool _isWithDeleted;
+		public bool IsWithDeleted { get; set; }
 		public List<Guid> OrganisationUIDs { get; set; }
 		public PositionsFilterViewModel Filter { get; private set; }
 		OrganisationChangedSubscriber _OrganisationChangedSubscriber;
 
 		public override void LoadFilter(SKDReportFilter filter)
 		{
+			_OrganisationChangedSubscriber = new OrganisationChangedSubscriber(this);
 			_reportFilter = filter as IReportFilterPosition;
 			var filterArchive = filter as IReportFilterArchive;
-			_isWithDeleted = filterArchive != null && filterArchive.UseArchive;
+			IsWithDeleted = filterArchive != null && filterArchive.UseArchive;
 			var organisations = (filter as IReportFilterOrganisation).Organisations;
 			OrganisationUIDs = organisations != null ? organisations : new List<Guid>();
 			InitializeFilter();
@@ -43,15 +42,14 @@ namespace SKDModule.Reports.ViewModels
 				positionFilter.Positions = Filter.UIDs;
 		}
 		
-		void OnUseArchive(bool isWithDeleted)
-		{
-			_isWithDeleted = isWithDeleted;
-			InitializeFilter();
-		}
-		
 		public void InitializeFilter()
 		{
-			Filter.Initialize(_reportFilter == null ? null : _reportFilter.Positions, OrganisationUIDs, _isWithDeleted ? LogicalDeletationType.All : LogicalDeletationType.Active);
+			Filter.Initialize(_reportFilter == null ? null : _reportFilter.Positions, OrganisationUIDs, IsWithDeleted ? LogicalDeletationType.All : LogicalDeletationType.Active);
+		}
+
+		public void Unsubscribe()
+		{
+			_OrganisationChangedSubscriber.Unsubscribe();
 		}
 	}
 }

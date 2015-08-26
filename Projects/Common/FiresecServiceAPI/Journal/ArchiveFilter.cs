@@ -77,10 +77,10 @@ namespace FiresecAPI.Journal
 		Name = 4,
 		[Description("Примечание")]
 		Description = 5,
-		[Description("Объект")]
-		ObjectType = 6,
 		[Description("Тип объекта")]
-		ObjectUID = 7,
+		ObjectType = 6,
+		[Description("Объект")]
+		ObjectName = 7,
 		[Description("Пользователь")]
 		UserName = 8,
 		[Description("Камера")]

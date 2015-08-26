@@ -45,6 +45,14 @@ namespace SKDModule.ViewModels
 			_filter = new TFilter();
 		}
 
+		public virtual void Unsubscribe()
+		{
+			ServiceFactory.Events.GetEvent<EditOrganisationEvent>().Unsubscribe(OnEditOrganisation);
+			ServiceFactory.Events.GetEvent<OrganisationUsersChangedEvent>().Unsubscribe(OnOrganisationUsersChanged);
+			ServiceFactory.Events.GetEvent<RemoveOrganisationEvent>().Unsubscribe(OnRemoveOrganisation);
+			ServiceFactory.Events.GetEvent<RestoreOrganisationEvent>().Unsubscribe(OnRestoreOrganisation);
+		}
+
 		protected TModel _clipboard;
 		protected TFilter _filter;
 		protected Guid _clipboardUID;

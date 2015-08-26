@@ -320,8 +320,8 @@ namespace SKDDriver.DataClasses
 					case ArchiveSortType.ObjectType:
 						result = result.OrderByDescending(x => x.ObjectType);
 						break;
-					case ArchiveSortType.ObjectUID:
-						result = result.OrderByDescending(x => x.ObjectUID);
+					case ArchiveSortType.ObjectName:
+						result = result.OrderByDescending(x => x.ObjectName);
 						break;
 					case ArchiveSortType.UserName:
 						result = result.OrderByDescending(x => x.UserName);
@@ -361,8 +361,8 @@ namespace SKDDriver.DataClasses
 					case ArchiveSortType.ObjectType:
 						result = result.OrderBy(x => x.ObjectType);
 						break;
-					case ArchiveSortType.ObjectUID:
-						result = result.OrderBy(x => x.ObjectUID);
+					case ArchiveSortType.ObjectName:
+						result = result.OrderBy(x => x.ObjectName);
 						break;
 					case ArchiveSortType.UserName:
 						result = result.OrderBy(x => x.UserName);
