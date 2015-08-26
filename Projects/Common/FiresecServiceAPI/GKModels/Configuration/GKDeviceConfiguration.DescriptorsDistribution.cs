@@ -170,11 +170,11 @@ namespace FiresecAPI.GK
 			}
 
 			gkBases.ForEach(x => x.IsReady = false);
-			while (!gkBases.All(x => x.IsReady))
+			while (gkBases.Any(x => !x.IsReady))
 			{
-				foreach (var gkBase in gkBases)
+				foreach (var gkBase in gkBases.Where(x => !x.IsReady))
 				{
-					gkBase.CalculateNext();
+					gkBase.CalculateDescriptorDependentObjects();
 				}
 			}
 
@@ -227,11 +227,6 @@ namespace FiresecAPI.GK
 
 				gkBase.KauDatabaseParent = null;
 				gkBase.GkDatabaseParent = null;
-
-				if (gkBase is GKGuardZone)
-				{
-					;
-				}
 
 				if (kauParents.Count == 1)
 				{

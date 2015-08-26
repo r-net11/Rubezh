@@ -338,31 +338,10 @@ namespace FiresecAPI.GK
 
 		#endregion
 
-		//public GKDevice GetDataBaseParent()
-		//{
-		//	PrepareInputOutputDependences();
-		//	var allDependentObjects = GetFullTree(this);
-		//	var allDependentDoors = allDependentObjects.Where(x => x is GKDoor).Cast<GKDoor>().ToList();
-		//	if (allDependentDoors.Count > 0)
-		//		return allDependentDoors.FirstOrDefault().GkDatabaseParent;
-		//	var allDependentDevices = allDependentObjects.Where(x => x is GKDevice).Cast<GKDevice>().ToList();
-		//	var allDependentGuardZones = allDependentObjects.Where(x => x is GKGuardZone).Cast<GKGuardZone>().ToList();
-		//	allDependentGuardZones.ForEach(x => allDependentDevices.AddRange(GetGuardZoneDependetnDevicesByCodes(x)));
-		//	var kauParents = allDependentDevices.Select(x => x.KAUParent).ToList();
-		//	kauParents = kauParents.Distinct().ToList();
-		//	if (this is GKDevice && allDependentGuardZones.Any(x => x.HasAccessLevel))
-		//		return (this as GKDevice).GKParent;
-		//	if (kauParents.Count == 1 && kauParents.FirstOrDefault() != null)
-		//		return kauParents.FirstOrDefault();
-		//	if (this is GKDevice)
-		//		return (this as GKDevice).GKParent;
-		//	if (allDependentDevices != null && allDependentDevices.Count > 0)
-		//		return allDependentDevices.FirstOrDefault().GKParent;
-		//	return null;
-		//}
-
 		public void GetDataBaseParent()
 		{
+			return;
+
 			PrepareInputOutputDependences();
 			var dataBaseParent = GetDataBaseParent(this, new List<GKBase>(), new List<GKDevice>());
 			if (dataBaseParent == null)
@@ -437,33 +416,33 @@ namespace FiresecAPI.GK
 		[XmlIgnore]
 		public bool IsReady { get; set; }
 
-		public void CalculateNext()
+		public void CalculateDescriptorDependentObjects()
 		{
-			if (!IsReady)
+			var newDependences = new List<GKBase>();
+			foreach (var descriptorDependentObject in DescriptorDependentObjects)
 			{
-				IsReady = true;
-
-				var newDescriptorDependentObjectss = new List<GKBase>();
-				foreach (var selfChild in DescriptorDependentObjects)
+				descriptorDependentObject.CalculateAllChildren(newDependences);
+			}
+			foreach (var newDescriptorDependentObject in newDependences)
+			{
+				if (!DescriptorDependentObjects.Contains(newDescriptorDependentObject))
 				{
-					newDescriptorDependentObjectss.Add(selfChild);
-					foreach (var child in selfChild.DescriptorDependentObjects)
-					{
-						if (!DescriptorDependentObjects.Any(x => x == child))
-						{
-							if (!newDescriptorDependentObjectss.Any(x => x == child))
-							{
-								newDescriptorDependentObjectss.Add(child);
-							}
-							IsReady = false;
-						}
-					}
+					DescriptorDependentObjects.Add(newDescriptorDependentObject);
 				}
-				foreach (var newFormulaInputObject in newDescriptorDependentObjectss)
+			}
+			IsReady = true;
+		}
+
+		void CalculateAllChildren(List<GKBase> allChildren)
+		{
+			foreach (var descriptorDependentObject in DescriptorDependentObjects)
+			{
+				if (!allChildren.Contains(descriptorDependentObject))
 				{
-					if (!DescriptorDependentObjects.Contains(newFormulaInputObject))
+					allChildren.Add(descriptorDependentObject);
+					if (!IsReady)
 					{
-						DescriptorDependentObjects.AddRange(newDescriptorDependentObjectss);
+						descriptorDependentObject.CalculateAllChildren(allChildren);
 					}
 				}
 			}

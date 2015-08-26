@@ -18,22 +18,16 @@ namespace GKProcessor
 			GkDatabases = new List<GkDatabase>();
 			KauDatabases = new List<KauDatabase>();
 
-			foreach (var device in GKManager.Devices)
+			foreach (var device in GKManager.Devices.Where(x => x.DriverType == GKDriverType.GK))
 			{
-				if (device.DriverType == GKDriverType.GK)
-				{
-					var gkDatabase = new GkDatabase(device);
-					GkDatabases.Add(gkDatabase);
+				var gkDatabase = new GkDatabase(device);
+				GkDatabases.Add(gkDatabase);
 
-					foreach (var kauDevice in device.Children)
-					{
-						if (kauDevice.Driver.IsKau)
-						{
-							var kauDatabase = new KauDatabase(kauDevice);
-							gkDatabase.KauDatabases.Add(kauDatabase);
-							KauDatabases.Add(kauDatabase);
-						}
-					}
+				foreach (var kauDevice in device.Children.Where(x => x.Driver.IsKau))
+				{
+					var kauDatabase = new KauDatabase(kauDevice);
+					gkDatabase.KauDatabases.Add(kauDatabase);
+					KauDatabases.Add(kauDatabase);
 				}
 			}
 
@@ -85,10 +79,10 @@ namespace GKProcessor
 
 		public static bool Check()
 		{
-			foreach(var kauDatabase in KauDatabases)
+			foreach (var kauDatabase in KauDatabases)
 			{
 				var result = kauDatabase.Check().ToList();
-				if(result.Count > 0)
+				if (result.Count > 0)
 				{
 					return false;
 				}
