@@ -95,15 +95,12 @@ namespace GKProcessor
 
 			if (DatabaseType == DatabaseType.Kau)
 			{
-				if (GKBase.InputGKBases != null)
+				if (GKBase.OutputGKBases != null)
 				{
-					GKBase.InputGKBases = GKBase.InputGKBases.OrderBy(x => x.No).ToList();
-					foreach (var inputGKBase in GKBase.InputGKBases)
+					GKBase.OutputGKBases = GKBase.OutputGKBases.OrderBy(x => x.No).ToList();
+					foreach (var outputGKBase in GKBase.OutputGKBases.Where(x => x.KauDatabaseParent == GKBase.KauDatabaseParent))
 					{
-						if (inputGKBase.KauDatabaseParent == GKBase.KauDatabaseParent)
-						{
-							InputDependenses.AddRange(BitConverter.GetBytes(inputGKBase.GKDescriptorNo));
-						}
+						OutputDependenses.AddRange(BitConverter.GetBytes(outputGKBase.KAUDescriptorNo));
 					}
 				}
 			}
