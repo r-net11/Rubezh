@@ -75,6 +75,14 @@ namespace SKDDriver.DataClasses
 					tableItem = new Organisation { UID = item.UID };
 					TranslateDetailsBack(item, tableItem);
 					Table.Add(tableItem);
+					var dayInterval = new DayInterval() 
+					{
+						UID = Guid.NewGuid(), 
+						Name = "Выходной", 
+						DayIntervalParts = new List<DayIntervalPart>(), 
+						OrganisationUID = item.UID 
+					};
+					Context.DayIntervals.Add(dayInterval);
 				}
 				else
 				{
@@ -119,6 +127,13 @@ namespace SKDDriver.DataClasses
 			MarkDeletedByOrganisation(uid, removalDate, Context.DayIntervals);
 			MarkDeletedByOrganisation(uid, removalDate, Context.Schedules);
 			MarkDeletedByOrganisation(uid, removalDate, Context.ScheduleSchemes);
+			MarkDeletedByOrganisation(uid, removalDate, Context.AccessTemplates);
+			MarkDeletedByOrganisation(uid, removalDate, Context.AdditionalColumnTypes);
+			MarkDeletedByOrganisation(uid, removalDate, Context.Employees);
+			MarkDeletedByOrganisation(uid, removalDate, Context.Holidays);
+			MarkDeletedByOrganisation(uid, removalDate, Context.PassCardTemplates);
+			MarkDeletedByOrganisation(uid, removalDate, Context.Positions);
+			MarkDeletedByOrganisation(uid, removalDate, Context.Departments);
 		}
 
 		public OperationResult Restore(Guid uid)
@@ -146,6 +161,13 @@ namespace SKDDriver.DataClasses
 			RestoreByOrganisation(uid, removalDate, Context.DayIntervals);
 			RestoreByOrganisation(uid, removalDate, Context.Schedules);
 			RestoreByOrganisation(uid, removalDate, Context.ScheduleSchemes);
+			RestoreByOrganisation(uid, removalDate, Context.AccessTemplates);
+			RestoreByOrganisation(uid, removalDate, Context.AdditionalColumnTypes);
+			RestoreByOrganisation(uid, removalDate, Context.Employees);
+			RestoreByOrganisation(uid, removalDate, Context.Holidays);
+			RestoreByOrganisation(uid, removalDate, Context.PassCardTemplates);
+			RestoreByOrganisation(uid, removalDate, Context.Positions);
+			RestoreByOrganisation(uid, removalDate, Context.Departments);
 		}
 
 		OperationResult<bool> CanSave(API.OrganisationDetails item)
@@ -218,7 +240,10 @@ namespace SKDDriver.DataClasses
 
 		IQueryable<Organisation> GetTableItems()
 		{
-			return Table.Include(x => x.Users).Include(x => x.Doors).Include(x => x.Photo);
+			return Table
+				.Include(x => x.Users)
+				.Include(x => x.Doors)
+				.Include(x => x.Photo);
 		}
 
 		void ClearDependentData(Organisation tableItem)
@@ -300,12 +325,12 @@ namespace SKDDriver.DataClasses
 			try
 			{
 				var result =
-					//Context.Employees.Any(x => !x.IsDeleted && x.OrganisationUID == organisationUID) ||
-					//Context.Departments.Any(x => !x.IsDeleted && x.OrganisationUID == organisationUID) ||
-					//Context.Positions.Any(x => !x.IsDeleted && x.OrganisationUID == organisationUID) ||
-					//Context.AccessTemplates.Any(x => !x.IsDeleted && x.OrganisationUID == organisationUID) ||
-					//Context.PassCardTemplates.Any(x => !x.IsDeleted && x.OrganisationUID == organisationUID) ||
-					//Context.AdditionalColumnTypes.Any(x => !x.IsDeleted && x.OrganisationUID == organisationUID) ||
+					Context.Employees.Any(x => !x.IsDeleted && x.OrganisationUID == organisationUID) ||
+					Context.Departments.Any(x => !x.IsDeleted && x.OrganisationUID == organisationUID) ||
+					Context.Positions.Any(x => !x.IsDeleted && x.OrganisationUID == organisationUID) ||
+					Context.AccessTemplates.Any(x => !x.IsDeleted && x.OrganisationUID == organisationUID) ||
+					Context.PassCardTemplates.Any(x => !x.IsDeleted && x.OrganisationUID == organisationUID) ||
+					Context.AdditionalColumnTypes.Any(x => !x.IsDeleted && x.OrganisationUID == organisationUID) ||
 					Context.DayIntervals.Any(x => !x.IsDeleted && x.OrganisationUID == organisationUID) ||
 					Context.Holidays.Any(x => !x.IsDeleted && x.OrganisationUID == organisationUID) ||
 					Context.Schedules.Any(x => !x.IsDeleted && x.OrganisationUID == organisationUID) ||

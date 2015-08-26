@@ -4,6 +4,7 @@ using System.Windows.Threading;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
+using Infrastructure.Common;
 
 namespace FiresecClient
 {
@@ -60,9 +61,9 @@ namespace FiresecClient
 			{
 				LogException(e, methodName);
 				OnConnectionLost();
-				if (reconnectOnException)
+				if (reconnectOnException && !Recover())
 				{
-					Recover();
+                    FiresecServiceFactory.Dispose();
 				}
 			}
 			return default(T);
@@ -79,9 +80,9 @@ namespace FiresecClient
 			{
 				LogException(e, methodName);
 				OnConnectionLost();
-				if (reconnectOnException)
+				if (reconnectOnException && !Recover())
 				{
-					Recover();
+                    FiresecServiceFactory.Dispose();
 				}
 			}
 		}
@@ -144,6 +145,7 @@ namespace FiresecClient
 			isConnected = true;
 		}
 
+        public static event Action<string> ReconnectionErrorEvent;
 		bool Recover()
 		{
 			if (IsDisconnecting)
@@ -157,8 +159,12 @@ namespace FiresecClient
 				FiresecServiceFactory.Dispose();
 				FiresecServiceFactory = new FiresecClient.FiresecServiceFactory();
 				FiresecService = FiresecServiceFactory.Create(_serverAddress);
-				FiresecService.Connect(FiresecServiceFactory.UID, _clientCredentials, false);
-				return true;
+                var operationResult = FiresecService.Connect(FiresecServiceFactory.UID, _clientCredentials, false);
+                if (operationResult.HasError && ReconnectionErrorEvent != null)
+                {
+                    ReconnectionErrorEvent(operationResult.Error);
+                }
+				return operationResult.Result;
 			}
 			catch
 			{
@@ -189,6 +195,22 @@ namespace FiresecClient
 				return OperationResult<bool>.FromError("Не удается соединиться с сервером " + _serverAddress, false);
 			}, "Connect");
 		}
+
+        public OperationResult<FiresecLicenseInfo> GetLicenseInfo()
+        {
+            return SafeOperationCall(() =>
+            {
+                try
+                {
+                    return FiresecService.GetLicenseInfo();
+                }
+                catch (Exception e)
+                {
+                    Logger.Error("Исключение при вызове FiresecClient.GetLicenseInfo " + e.GetType().Name.ToString());
+                }
+                return OperationResult<FiresecLicenseInfo>.FromError("Не удается получить лицензию от " + _serverAddress);
+            }, "GetLicenseInfo");
+        }
 
 		public void Dispose()
 		{

@@ -116,6 +116,7 @@ namespace SKDDriver.DataClasses
 				}
 				else
 				{
+					Context.CardDoors.RemoveRange(tableItem.CardDoors);
 					TranslateBack(item, tableItem);
 				}
 				Context.SaveChanges();
@@ -211,9 +212,9 @@ namespace SKDDriver.DataClasses
 				new FiresecAPI.SKD.SKDCard
 				{
 					UID = tableItem.UID,
-					NumberInt = tableItem.Number,
+					//NumberInt = tableItem.Number,
 					EmployeeUID = tableItem.EmployeeUID,
-					EndDate = tableItem.EndDate,
+					//EndDate = tableItem.EndDate,
 					CardDoors = tableItem.CardDoors.Select(x => new FiresecAPI.SKD.CardDoor
 						{
 							UID = x.UID,
@@ -223,15 +224,15 @@ namespace SKDDriver.DataClasses
 							EnterScheduleNo = x.ExitScheduleNo,
 							ExitScheduleNo = x.EnterScheduleNo
 						}).ToList(),
-					PassCardTemplateUID = tableItem.PassCardTemplateUID,
-					AccessTemplateUID = tableItem.AccessTemplateUID,
-					GKCardType = (FiresecAPI.GK.GKCardType)tableItem.GKCardType,
-					IsInStopList = tableItem.IsInStopList,
-					StopReason = tableItem.StopReason,
-					EmployeeName = tableItem.Employee != null ? tableItem.Employee.LastName + " " + tableItem.Employee.FirstName + " " + tableItem.Employee.SecondName : null,
-					OrganisationUID = tableItem.Employee != null ? tableItem.Employee.OrganisationUID != null ? tableItem.Employee.OrganisationUID.Value : Guid.Empty : Guid.Empty,
-					GKLevel = tableItem.GKLevel,
-					GKLevelSchedule = tableItem.GKLevelSchedule,
+					//PassCardTemplateUID = tableItem.PassCardTemplateUID,
+					//AccessTemplateUID = tableItem.AccessTemplateUID,
+					//GKCardType = (FiresecAPI.GK.GKCardType)tableItem.GKCardType,
+					//IsInStopList = tableItem.IsInStopList,
+					//StopReason = tableItem.StopReason,
+					//EmployeeName = tableItem.Employee != null ? tableItem.Employee.LastName + " " + tableItem.Employee.FirstName + " " + tableItem.Employee.SecondName : null,
+					//OrganisationUID = tableItem.Employee != null ? tableItem.Employee.OrganisationUID != null ? tableItem.Employee.OrganisationUID.Value : Guid.Empty : Guid.Empty,
+					//GKLevel = tableItem.GKLevel,
+					//GKLevelSchedule = tableItem.GKLevelSchedule,
 					GKControllerUIDs = tableItem.GKControllerUIDs.Select(x => x.GKControllerUID).ToList()
 				});
 		}
@@ -241,7 +242,7 @@ namespace SKDDriver.DataClasses
 			tableItem.Number = (int)apiItem.Number;
 			tableItem.EmployeeUID = apiItem.EmployeeUID;
 			tableItem.EndDate = apiItem.EndDate;
-			tableItem.CardDoors = apiItem.CardDoors.Select(x => new CardDoor(x) { UID = Guid.NewGuid() }).ToList();
+			tableItem.CardDoors = apiItem.CardDoors.Select(x => new CardDoor(x)).ToList();
 			tableItem.PassCardTemplateUID = apiItem.PassCardTemplateUID;
 			tableItem.AccessTemplateUID = apiItem.AccessTemplateUID;
 			tableItem.GKCardType = (int)apiItem.GKCardType;

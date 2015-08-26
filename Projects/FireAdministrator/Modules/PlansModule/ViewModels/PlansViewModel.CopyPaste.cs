@@ -83,6 +83,8 @@ namespace PlansModule.ViewModels
 				var selectedPlan = SelectedPlan;
 				var parent = selectedPlan.Parent;
 				var plan = SelectedPlan.Plan;
+				var index = Plans.IndexOf(selectedPlan);
+				
 				DesignerCanvas.IsLocked = true;
 				DesignerCanvas.RemoveAll();
 				if (parent == null)
@@ -116,7 +118,10 @@ namespace PlansModule.ViewModels
 				ServiceFactoryBase.Events.GetEvent<PlansConfigurationChangedEvent>().Publish(null);
 				ClearReferences(plan);
 				DesignerCanvas.IsLocked = false;
-				SelectedPlan = parent == null ? Plans.FirstOrDefault() : parent;
+				index = Math.Min(index, Plans.Count - 1);
+				if (index > -1)
+					SelectedPlan = Plans[index];
+				//SelectedPlan = parent == null ? Plans.FirstOrDefault() : parent;
 			}
 		}
 		private void RenewPlan(Plan plan)

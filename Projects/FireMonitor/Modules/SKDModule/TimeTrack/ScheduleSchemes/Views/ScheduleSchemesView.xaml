@@ -106,7 +106,7 @@
 							<DataGridTemplateColumn.CellEditingTemplate>
 								<DataTemplate>
 									<ComboBox HorizontalAlignment="Stretch" 
-											  ItemsSource="{Binding DayIntervals}" SelectedItem="{Binding SelectedDayInterval, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding CanSelect}"  >
+											  ItemsSource="{Binding DayIntervals}" SelectedItem="{Binding SelectedDayInterval, UpdateSourceTrigger=LostFocus}" IsEnabled="{Binding CanSelect}"  >
 										<ComboBox.ItemTemplate>
 											<DataTemplate>
 												<TextBlock Margin="2" VerticalAlignment="Center" Foreground="Black" Text="{Binding Name}" Style="{StaticResource IsDeletedTimeTrackStyle}" />

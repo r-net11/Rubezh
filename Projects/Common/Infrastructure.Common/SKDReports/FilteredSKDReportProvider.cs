@@ -12,9 +12,12 @@ namespace Infrastructure.Common.SKDReports
 			: base(title, index, group, permission)
 		{
 			Filter = Activator.CreateInstance<T>();
+			FilterModel = InitializeFilterModel();
 		}
 
 		protected T Filter { get; private set; }
+		protected FilterModel FilterModel { get; set; }
+		public abstract FilterModel InitializeFilterModel();
 
 		#region IFilteredSKDReportProvider Members
 
@@ -31,7 +34,7 @@ namespace Infrastructure.Common.SKDReports
 			return Filter;
 		}
 
-		public abstract FilterModel GetFilterModel();
+		public FilterModel GetFilterModel() {return  FilterModel;}
 
 		public void UpdateFilter(SKDReportFilter filter)
 		{

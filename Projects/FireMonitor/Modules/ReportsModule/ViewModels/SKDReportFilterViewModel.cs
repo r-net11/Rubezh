@@ -4,6 +4,7 @@ using FiresecAPI.SKD.ReportFilters;
 using Infrastructure.Common;
 using Infrastructure.Common.SKDReports;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Diagnostics;
 
 namespace ReportsModule.ViewModels
 {
@@ -14,6 +15,8 @@ namespace ReportsModule.ViewModels
 
 		public SKDReportFilterViewModel(SKDReportFilter filter, FilterModel model)
 		{
+			var stopwatch = new Stopwatch();
+			stopwatch.Start();
 			Title = "Настройки отчета";
 			_model = model;
 			Filter = filter;
@@ -24,6 +27,8 @@ namespace ReportsModule.ViewModels
 				Pages.Add(new FilterSortPageViewModel(model.Columns));
 			CommandPanel = model.CommandsViewModel;
 			LoadFilter(Filter);
+			stopwatch.Stop();
+			Trace.WriteLine(string.Format("SKDReportFilterViewModel {0}", stopwatch.Elapsed));
 		}
 
 		ObservableCollection<FilterContainerViewModel> _pages;
@@ -41,6 +46,18 @@ namespace ReportsModule.ViewModels
 		{
 			UpdateFilter(Filter);
 			return base.Save();
+		}
+
+		public override void OnClosed()
+		{
+			base.OnClosed();
+			foreach (var page in Pages)
+			{
+				if (page is IUnsubscribe)
+				{
+					(page as IUnsubscribe).Unsubscribe();
+				}
+			}
 		}
 		void LoadFilter(SKDReportFilter filter)
 		{

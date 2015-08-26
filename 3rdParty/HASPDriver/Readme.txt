@@ -1,1 +1,0 @@
->haspdinst.exe -install

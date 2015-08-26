@@ -15,7 +15,12 @@ namespace SKDModule.ViewModels
 		public OrganisationFilterBaseViewModel(T filter)
 			: base(filter)
 		{
-			var organisations = OrganisationHelper.GetByCurrentUser();
+			InitializeOrganisations(filter);
+		}
+
+		public void InitializeOrganisations(T filter)
+		{
+			var organisations = OrganisationHelper.GetByCurrentUser(filter.LogicalDeletationType);
 			Organisations = new CheckBoxItemList<FilterOrganisationViewModel>();
 			if (organisations != null)
 			{
@@ -29,19 +34,16 @@ namespace SKDModule.ViewModels
 			{
 				organisation.IsChecked = Filter.OrganisationUIDs.Any(x => x == organisation.Organisation.UID);
 			}
+
+			OnPropertyChanged(() => Organisations);
 		}
+
+		public List<Guid> OrganisationUIDs { get { return Organisations.Items.Where(x => x.IsChecked).Select(x => x.Organisation.UID).ToList(); } }
 
 		protected override bool Save()
 		{
 			base.Save();
-			Filter.OrganisationUIDs = new List<Guid>();
-			foreach (var organisation in Organisations.Items)
-			{
-				if (organisation.IsChecked)
-				{
-					Filter.OrganisationUIDs.Add(organisation.Organisation.UID);
-				}
-			}
+			Filter.OrganisationUIDs = OrganisationUIDs;
 			return true;
 		}
 	}

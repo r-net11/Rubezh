@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using FiresecAPI.SKD;
 using FiresecClient;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
@@ -20,6 +21,8 @@ namespace SKDModule.ViewModels
 			_initialized = false;
 			_scheduleScheme = scheduleScheme;
 			Update();
+            if (_selectedDayInterval == null)
+                _selectedDayInterval = DayIntervals.FirstOrDefault(x => x.Name == "Выходной");
 			_scheduleScheme.PropertyChanged += OrganisationViewModel_PropertyChanged;
 			_initialized = true;
 		}
@@ -43,7 +46,6 @@ namespace SKDModule.ViewModels
 			{
 				Name = (Model.Number + 1).ToString();
 			}
-			_selectedDayInterval = DayIntervals.FirstOrDefault(x => x.Name == "Выходной");
 			if (Model.DayIntervalUID != Guid.Empty)
 			{
 				var dayInterval = DayIntervals.SingleOrDefault(item => item.UID == Model.DayIntervalUID);
@@ -69,25 +71,27 @@ namespace SKDModule.ViewModels
 
 		public string SelectedDayIntervalName
 		{
-			get { return _selectedDayInterval.Name; }
+			get { return _selectedDayInterval != null ? _selectedDayInterval.Name : ""; }
 		}
 
 		public void SetDayInterval(DayInterval dayInterval)
 		{
-			if (SelectedDayInterval != dayInterval)
-			{
-				_selectedDayInterval = dayInterval ?? DayIntervals[0];
-				if (_initialized || Model.DayIntervalUID != _selectedDayInterval.UID)
-				{
-					Model.DayIntervalUID = _selectedDayInterval.UID;
-					Model.DayIntervalName = _selectedDayInterval.Name;
-					_scheduleScheme.EditSave(Model);
-				}
-			}
-			OnPropertyChanged(() => SelectedDayInterval);
-			OnPropertyChanged(() => SelectedDayIntervalName);
+            if (!IsIntersection(dayInterval))
+            {
+                if (SelectedDayInterval != dayInterval)
+                {
+                    _selectedDayInterval = dayInterval ?? DayIntervals[0];
+                    if (_initialized || Model.DayIntervalUID != _selectedDayInterval.UID)
+                    {
+                        Model.DayIntervalUID = _selectedDayInterval.UID;
+                        Model.DayIntervalName = _selectedDayInterval.Name;
+                        _scheduleScheme.EditSave(Model);
+                    }
+                }
+				OnPropertyChanged(() => SelectedDayInterval);
+				OnPropertyChanged(() => SelectedDayIntervalName);
+            }
 		}
-
 		bool IsWorkDay(ScheduleDayInterval dayInterval)
 		{
 			return dayInterval.Number >= 0 && dayInterval.Number <= 4;
@@ -95,8 +99,43 @@ namespace SKDModule.ViewModels
 
 		void OrganisationViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName == "DayIntervals")
+            if (e.PropertyName == "DayIntervals")
 				Update();
 		}
+
+        bool IsIntersection (DayInterval dayInterval)
+        {
+            if (dayInterval.DayIntervalParts.Count > 0)
+            {
+                var yesterday = _scheduleScheme.Model.DayIntervals.FirstOrDefault(x => x.Number == Model.Number - 1);
+                var tomorrow = _scheduleScheme.Model.DayIntervals.FirstOrDefault(x => x.Number == Model.Number + 1);
+                if (yesterday != null)
+                {
+                    var yesterdayDayPartsNight = _scheduleScheme.DayIntervals.FirstOrDefault(x => x.UID == yesterday.DayIntervalUID).DayIntervalParts.Where(x => x.TransitionType == DayIntervalPartTransitionType.Night);
+                    foreach (var item in yesterdayDayPartsNight)
+                    {
+                        if (item.EndTime > dayInterval.DayIntervalParts.Min(x => x.BeginTime))
+                        {
+                            MessageBoxService.ShowWarning("График имеет пересечение с интервалом предыдущего дня.");
+                            return true;
+                        }
+                    }
+                }
+                if (tomorrow != null)
+                {
+                    var todayDayPartsNight = dayInterval.DayIntervalParts.Where(x => x.TransitionType == DayIntervalPartTransitionType.Night);
+                    var tommorowDayParts = _scheduleScheme.DayIntervals.FirstOrDefault(x => x.UID == tomorrow.DayIntervalUID);
+                    foreach (var item in todayDayPartsNight)
+                    {
+                        if (tommorowDayParts.DayIntervalParts.Count > 0 && item.EndTime > tommorowDayParts.DayIntervalParts.Min(x => x.BeginTime))
+                        {
+                            MessageBoxService.ShowWarning("График имеет пересечение с интервалом следующего дня.");
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
 	}
 }

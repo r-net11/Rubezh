@@ -36,4 +36,9 @@ namespace Infrastructure.Common.SKDReports
 		public abstract void LoadFilter(SKDReportFilter filter);
 		public abstract void UpdateFilter(SKDReportFilter filter);
 	}
+
+	public interface IUnsubscribe
+	{
+		void Unsubscribe();
+	}
 }

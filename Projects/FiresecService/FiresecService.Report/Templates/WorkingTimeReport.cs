@@ -4,6 +4,7 @@ using System.Linq;
 using FiresecAPI.SKD;
 using FiresecAPI.SKD.ReportFilters;
 using FiresecService.Report.DataSources;
+using System.Collections.Generic;
 
 namespace FiresecService.Report.Templates
 {
@@ -52,34 +53,32 @@ namespace FiresecService.Report.Templates
 				var timeTrackEmployeeResult = timeTrackResult.Result.TimeTrackEmployeeResults.FirstOrDefault(x => x.ShortEmployee.UID == employee.UID);
 				if (timeTrackEmployeeResult != null)
 				{
-					var totalScheduleDay = new TimeSpan();
+					var totalSchedule = new TimeSpan();
 					var totalScheduleNight = new TimeSpan();
 					var totalPresence = new TimeSpan();
 					var totalOvertime = new TimeSpan();
 					var totalNight = new TimeSpan();
 					var totalDocumentOvertime = new TimeSpan();
 					var totalDocumentAbsence = new TimeSpan();
+					var totalBalance = new TimeSpan();
 					foreach (var dayTimeTrack in timeTrackEmployeeResult.DayTimeTracks)
 					{
 						dayTimeTrack.Calculate();
+						var nightSettings = dayTimeTrack.NightSettings;
+						var plannedTimeTrackParts = dayTimeTrack.PlannedTimeTrackParts;
 
-						foreach (var plannedTimeTrackPart in dayTimeTrack.PlannedTimeTrackParts)
+						if (nightSettings != null && nightSettings.NightEndTime != nightSettings.NightStartTime)
 						{
-							if (plannedTimeTrackPart.EndTime < new TimeSpan(20, 0, 0))
+							if (nightSettings.NightEndTime > nightSettings.NightStartTime)
 							{
-								totalScheduleDay += plannedTimeTrackPart.EndTime - plannedTimeTrackPart.StartTime;
+								totalScheduleNight += CalculateEveningTime(nightSettings.NightStartTime, nightSettings.NightEndTime, plannedTimeTrackParts);
 							}
-							if (plannedTimeTrackPart.StartTime > new TimeSpan(20, 0, 0))
+							else
 							{
-								totalScheduleNight += plannedTimeTrackPart.EndTime - plannedTimeTrackPart.StartTime;
-							}
-							if (plannedTimeTrackPart.StartTime < new TimeSpan(20, 0, 0) && plannedTimeTrackPart.EndTime > new TimeSpan(20, 0, 0))
-							{
-								totalScheduleDay += new TimeSpan(20, 0, 0) - plannedTimeTrackPart.StartTime;
-								totalScheduleNight += plannedTimeTrackPart.EndTime - new TimeSpan(20, 0, 0);
+								totalScheduleNight += CalculateEveningTime(nightSettings.NightStartTime, new TimeSpan(23, 59, 59), plannedTimeTrackParts) + CalculateEveningTime(new TimeSpan(0, 0, 0), nightSettings.NightEndTime, plannedTimeTrackParts);
 							}
 						}
-
+						plannedTimeTrackParts.ForEach(x => totalSchedule += x.Delta);
 						var presence = dayTimeTrack.Totals.FirstOrDefault(x => x.TimeTrackType == TimeTrackType.Presence);
 						if (presence != null)
 						{
@@ -109,22 +108,54 @@ namespace FiresecService.Report.Templates
 						{
 							totalDocumentAbsence += documentAbsence.TimeSpan;
 						}
+						var balance = dayTimeTrack.Totals.FirstOrDefault(x => x.TimeTrackType == TimeTrackType.Balance);
+						if (balance != null)
+						{
+							totalBalance += balance.TimeSpan;
+						}
 					}
-					dataRow.ScheduleDay = totalScheduleDay.TotalHours;
+					dataRow.ScheduleDay = (totalSchedule-totalScheduleNight).TotalHours;
 					dataRow.ScheduleNight = totalScheduleNight.TotalHours;
 					dataRow.Presence = totalPresence.TotalHours;
 					dataRow.Overtime = totalOvertime.TotalHours;
 					dataRow.Night = totalNight.TotalHours;
-					dataRow.TotalPresence = totalPresence.TotalHours + totalOvertime.TotalHours + totalNight.TotalHours;
+					dataRow.TotalPresence = totalPresence.TotalHours  + totalNight.TotalHours;
 					dataRow.DocumentOvertime = totalDocumentOvertime.TotalHours;
 					dataRow.DocumentAbsence = totalDocumentAbsence.TotalHours;
-					dataRow.Balance = -(dataRow.ScheduleDay + dataRow.ScheduleNight) + dataRow.TotalPresence;
-					dataRow.TotalBalance = dataRow.Balance + dataRow.DocumentOvertime - dataRow.DocumentAbsence;
+					dataRow.Balance = totalBalance.TotalHours - dataRow.DocumentOvertime + dataRow.DocumentAbsence;
+					dataRow.TotalBalance = totalBalance.TotalHours;
 				}
 
 				dataSet.Data.Rows.Add(dataRow);
 			}
 			return dataSet;
+		}
+		TimeSpan CalculateEveningTime(TimeSpan start, TimeSpan end, List<TimeTrackPart> timeTrackParts)
+		{
+			var result = new TimeSpan();
+			if (end > TimeSpan.Zero)
+			{
+				foreach (var trackPart in timeTrackParts)
+				{
+					if (trackPart.EndTime == new TimeSpan(23, 59, 0))
+						trackPart.EndTime += new TimeSpan(0, 1, 0);
+					if (trackPart.StartTime <= start && trackPart.EndTime >= end)
+					{
+						result += end - start;
+					}
+					else
+					{
+						if ((trackPart.StartTime >= start && trackPart.StartTime <= end) ||
+							(trackPart.EndTime >= start && trackPart.EndTime <= end))
+						{
+							var minStartTime = trackPart.StartTime < start ? start : trackPart.StartTime;
+							var minEndTime = trackPart.EndTime > end ? end : trackPart.EndTime;
+							result += minEndTime - minStartTime;
+						}
+					}
+				}
+			}
+			return result;
 		}
 	}
 }

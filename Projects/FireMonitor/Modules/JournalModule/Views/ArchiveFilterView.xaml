@@ -117,6 +117,20 @@
 					</tree:TreeList.View>
 				</tree:TreeList>
 			</TabItem>
+			<TabItem Header="Сортировка" DataContext="{Binding SortTypeViewModel}">
+				<Grid>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="*" />
+						<RowDefinition Height="Auto" />
+					</Grid.RowDefinitions>
+					<DataGrid Grid.Row="0" ItemsSource="{Binding SortTypes}" SelectedItem="{Binding SelectedSortType}" >
+						<DataGrid.Columns>
+							<DataGridTextColumn Header="Тип сортировки" Width="*" Binding="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+						</DataGrid.Columns>
+					</DataGrid>
+					<CheckBox Grid.Row="1" Margin="5" Content="Сортировать по убыванию" IsChecked="{Binding IsSortDesc}" VerticalAlignment="Center" VerticalContentAlignment="Center" Foreground="White" />
+				</Grid>
+			</TabItem>
 		</TabControl>
 	</DockPanel>
 </UserControl>

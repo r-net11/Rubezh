@@ -34,6 +34,9 @@ namespace FiresecAPI
 
 		[OperationContract]
 		OperationResult ResetDB();
+
+        [OperationContract]
+        OperationResult<FiresecLicenseInfo> GetLicenseInfo();
 		#endregion
 
 		#region Journal

@@ -193,9 +193,37 @@ namespace SKDDriver.DataClasses
 			dayTimeTrack.Date = date;
 
 			foreach (var passJournal in passJournals.Where(x => x.EmployeeUID == employeeUID &&
-				x.EnterTime != null &&
-				x.EnterTime.Date == date.Date).ToList())
+				x.EnterTime != null && x.EnterTime.Date <= date.Date &&
+				x.ExitTime != null && x.ExitTime.Value.Date >= date.Date).ToList())
 			{
+				var startTime = new TimeSpan();
+				var endTime = new TimeSpan();
+				var startsInPreviousDay = false;
+				var endsInNextDay = false;
+				var enterTime = passJournal.EnterTime;
+				var exitTime = passJournal.ExitTime.Value;
+				if (enterTime.Date == date && exitTime.Date >= date)
+				{
+					startTime = enterTime.TimeOfDay;					
+					if (exitTime.Date == date)
+						endTime = exitTime.TimeOfDay;
+					else if (exitTime.Date > date)
+						endTime = TimeSpan.FromDays(1);
+					endsInNextDay = exitTime.Date > date;
+				}
+				else if (enterTime.Date < date && exitTime.Date == date)
+				{
+					startTime = TimeSpan.Zero; ;
+					endTime = exitTime.TimeOfDay;
+					startsInPreviousDay = true;
+				}
+				else if (enterTime.Date < date && exitTime.Date > date)
+				{
+					startTime = TimeSpan.Zero; ;
+					endTime = TimeSpan.FromDays(1);
+					startsInPreviousDay = true;
+					endsInNextDay = true;
+				}
 				var scheduleZone = scheduleZoneUIDs.FirstOrDefault(x => x == passJournal.ZoneUID);
 				if (scheduleZone != null)
 				{
@@ -203,17 +231,18 @@ namespace SKDDriver.DataClasses
 					{
 						var timeTrackPart = new TimeTrackPart()
 						{
-							StartTime = passJournal.EnterTime.TimeOfDay,
-							EndTime = passJournal.ExitTime.Value.TimeOfDay,
+							StartTime = startTime,
+							EndTime = endTime,
 							ZoneUID = passJournal.ZoneUID,
-							PassJournalUID = passJournal.UID
+							PassJournalUID = passJournal.UID,
+							StartsInPreviousDay = startsInPreviousDay,
+							EndsInNextDay = endsInNextDay
 						};
 						dayTimeTrack.RealTimeTrackParts.Add(timeTrackPart);
 					}
 				}
 			}
 			dayTimeTrack.RealTimeTrackParts = dayTimeTrack.RealTimeTrackParts.OrderBy(x => x.StartTime.Ticks).ToList();
-
 			return dayTimeTrack;
 		}
 

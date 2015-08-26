@@ -43,10 +43,6 @@ namespace SKDDriver.DataClasses
 			tableItem.BeginTimeSpan = apiItem.BeginTime;
 			tableItem.EndTimeSpan = apiItem.EndTime;
 			tableItem.Number = apiItem.Number;
-			if (apiItem.TransitionType == API.DayIntervalPartTransitionType.Night)
-			{
-				tableItem.EndTimeSpan += _daySeconds;
-			}
 			return tableItem;
 		}
 
@@ -56,7 +52,9 @@ namespace SKDDriver.DataClasses
 				return OperationResult<bool>.FromError("Попытка сохранить пустую запись");
 			if (dayInterval.UID == Guid.Empty)
 				return OperationResult<bool>.FromError("Не указана организация");
-			bool hasSameName = Table.Any(x => x.OrganisationUID==dayInterval.OrganisationUID&&x.Name == dayInterval.Name &&
+			bool hasSameName = Table.Any(x => x.OrganisationUID==dayInterval.OrganisationUID &&
+				!x.IsDeleted &&
+				x.Name == dayInterval.Name &&
 				x.OrganisationUID == dayInterval.OrganisationUID &&
 				x.UID != dayInterval.UID);
 			if (hasSameName)
@@ -110,9 +108,9 @@ namespace SKDDriver.DataClasses
 					DayIntervalUID = x.DayIntervalUID.Value,
 					BeginTime = x.BeginTimeSpan,
 					Number = x.Number,
-					TransitionType = x.EndTimeSpan >= _daySeconds ? API.DayIntervalPartTransitionType.Night : API.DayIntervalPartTransitionType.Day,
-					EndTime = x.EndTimeSpan >= _daySeconds ? DbFunctions.AddSeconds(x.EndTimeSpan, -(int)_daySeconds.TotalSeconds).Value : x.EndTimeSpan
-				}).ToList()
+					TransitionType = x.EndTimeSpan < x.BeginTimeSpan  ? API.DayIntervalPartTransitionType.Night : API.DayIntervalPartTransitionType.Day,
+					EndTime = x.EndTimeSpan
+				}).OrderBy(x => x.Number).ToList()
 			});
 		}
 	}

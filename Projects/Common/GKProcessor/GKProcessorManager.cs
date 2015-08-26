@@ -590,7 +590,7 @@ namespace GKProcessor
 				DescriptionText = description,
 				ObjectUID = uid,
 				UserName = userName,
-				JournalSubsystemType = JournalSubsystemType.System
+				JournalSubsystemType = JournalSubsystemType.GK
 			};
 			if (gkBase != null)
 			{

@@ -12,9 +12,9 @@
     <div ng-controller="PlanCtrl">
         <h1 class="">Доступные планы:</h1>
         <div ng-repeat="plan in PlansList">
-            <div><a href="" ng-click="LoadPlan(plan.id)">
-                <h2>[{{$index + 1}}] {{plan.name}}</h2>
-                <p>{{plan.description}}</p></a></div> 
+            <div><a href="" ng-click="LoadPlan(plan.Uid)">
+                <h2>[{{$index + 1}}] {{plan.Name}}</h2>
+                <p>{{plan.Description}}</p></a></div> 
         </div>
         <div id="modal">
             <div id="content"></div>

@@ -126,11 +126,11 @@ namespace SKDDriver.DataClasses
 				return new TimeTrackEmployeeResult("Не найден сотрудник");
 
 			var schedule = employee.Schedule;
-			if (schedule == null)
+			if (schedule == null || schedule.IsDeleted)
 				return new TimeTrackEmployeeResult("Не найден график");
 
 			var scheduleScheme = employee.Schedule.ScheduleScheme;
-			if (scheduleScheme == null)
+			if (scheduleScheme == null || scheduleScheme.IsDeleted)
 				return new TimeTrackEmployeeResult("Не найдена схема работы");
 
 			var days = scheduleScheme.ScheduleDays;
@@ -208,7 +208,7 @@ namespace SKDDriver.DataClasses
 				return new PlannedTimeTrackPart("Не найден день");
 
 			var dayInterval = day.DayInterval;
-			if (day.DayInterval == null)
+			if (day.DayInterval == null || day.DayInterval.IsDeleted)
 				return new PlannedTimeTrackPart("Не найден дневной интервал");
 			
 			TimeTrackPart nightTimeTrackPart = null;
@@ -225,12 +225,12 @@ namespace SKDDriver.DataClasses
 					if (previousDayInterval != null && !previousDayInterval.IsDeleted)
 					{
 						var previousIntervals = previousDayInterval.DayIntervalParts;
-						var nightInterval = previousIntervals.FirstOrDefault(x => x.EndTimeSpan.TotalSeconds > 60 * 60 * 24);
+						var nightInterval = previousIntervals.FirstOrDefault(x => x.EndTimeSpan < x.BeginTimeSpan);
 						if (nightInterval != null)
 						{
 							nightTimeTrackPart = new TimeTrackPart();
 							nightTimeTrackPart.StartTime = new TimeSpan();
-							nightTimeTrackPart.EndTime = TimeSpan.FromSeconds(nightInterval.EndTimeSpan.TotalSeconds - 60 * 60 * 24);
+							nightTimeTrackPart.EndTime = nightInterval.EndTimeSpan;
 							nightTimeTrackPart.StartsInPreviousDay = true;
 							nightTimeTrackPart.DayName = previousDayInterval.Name;
 						}
@@ -254,7 +254,7 @@ namespace SKDDriver.DataClasses
 					holiday = holidays.FirstOrDefault(x => x.Date == date && x.Type == (int)HolidayType.BeforeHoliday && !x.IsDeleted);
 					if (holiday != null)
 					{
-						result.HolidayReduction = (int)holiday.ReductionTimeSpan.TotalMilliseconds;
+						result.HolidayReduction = (int)holiday.ReductionTimeSpan.TotalSeconds;
 					}
 					holiday = holidays.FirstOrDefault(x => x.TransferDate == date && x.Type == (int)HolidayType.WorkingHoliday && !x.IsDeleted);
 					if (holiday != null)
@@ -270,9 +270,12 @@ namespace SKDDriver.DataClasses
 				{
 					var timeTrackPart = new TimeTrackPart();
 					timeTrackPart.StartTime = tableInterval.BeginTimeSpan;
-					timeTrackPart.EndTime = TimeSpan.FromSeconds(Math.Min((int)tableInterval.EndTimeSpan.TotalSeconds, 60 * 60 * 24 - 1));
-					if (tableInterval.EndTimeSpan.TotalSeconds > 60 * 60 * 24)
+					if (tableInterval.EndTimeSpan < tableInterval.BeginTimeSpan)
 						timeTrackPart.EndsInNextDay = true;
+					if (timeTrackPart.EndsInNextDay)
+						timeTrackPart.EndTime = new TimeSpan(24,0,0);
+					else
+						timeTrackPart.EndTime = tableInterval.EndTimeSpan;
 					timeTrackPart.DayName = dayInterval.Name;
 					result.TimeTrackParts.Add(timeTrackPart);
 				}
@@ -284,21 +287,30 @@ namespace SKDDriver.DataClasses
 			}
 			if (result.HolidayReduction > 0)
 			{
-				var lastTimeTrack = result.TimeTrackParts.LastOrDefault();
-				if (lastTimeTrack != null)
+				var reductionTimeSpan = TimeSpan.FromSeconds(result.HolidayReduction);				
+				switch (result.SlideTime.TotalSeconds > reductionTimeSpan.TotalSeconds)
 				{
-					var reductionTimeSpan = TimeSpan.FromSeconds(result.HolidayReduction);
-					if (lastTimeTrack.Delta.TotalHours > reductionTimeSpan.TotalHours)
+					case true: result.SlideTime -= reductionTimeSpan; break;
+					case false: result.SlideTime = TimeSpan.Zero; break;
+				}
+				while (reductionTimeSpan.TotalSeconds > 0 && result.TimeTrackParts.Count>0)
+				{
+					var lastTimeTrack = result.TimeTrackParts.LastOrDefault();
+					if (lastTimeTrack != null)
 					{
-						lastTimeTrack.EndTime = lastTimeTrack.EndTime.Subtract(reductionTimeSpan);
-					}
-					else
-					{
-						result.TimeTrackParts.Remove(lastTimeTrack);
+						if (lastTimeTrack.Delta.TotalHours > reductionTimeSpan.TotalHours)
+						{
+							lastTimeTrack.EndTime = lastTimeTrack.EndTime.Subtract(reductionTimeSpan);
+							reductionTimeSpan = TimeSpan.Zero;
+						}
+						else
+						{
+							result.TimeTrackParts.Remove(lastTimeTrack);
+							reductionTimeSpan -= lastTimeTrack.Delta;
+						}
 					}
 				}
 			}
-
 			return result;
 		}
 	}

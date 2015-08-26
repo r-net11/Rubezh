@@ -47,10 +47,6 @@
 									</Hyperlink>
 								</TextBlock>
 							</WrapPanel>
-							<StackPanel Orientation="Horizontal" Margin="2" >
-								<TextBlock Text="Номер в ГК:" TextWrapping="Wrap" Width="110" VerticalAlignment="Center" FontWeight="Bold" />
-								<TextBlock Text="{Binding Zone.GKDescriptorNo}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" FontWeight="Bold" />
-							</StackPanel>
 							<StackPanel Orientation="Horizontal">
 								<WrapPanel>
 									<TextBlock>

@@ -7,7 +7,9 @@ namespace SKDModule.Converters
 	{
 		object IValueConverter.Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
-			TimeSpan timeSpan = (TimeSpan)value;
+			TimeSpan timeSpan = (TimeSpan)value;    
+            if (timeSpan.Seconds==59)
+                timeSpan += new TimeSpan(0, 0, 1);
 			string minus = "";
 			var hours = (int)timeSpan.TotalHours;
 			var minutes = (int)timeSpan.Minutes;

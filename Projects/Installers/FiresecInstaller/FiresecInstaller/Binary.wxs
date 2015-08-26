@@ -9,7 +9,6 @@
 		<Binary Id="NewFolder.ico" SourceFile="Data\NewFolder.ico" />
 		<Binary Id="SetupProgress.ico" SourceFile="Data\SetupProgress.ico" />
 		<Binary Id="TitleRect.bmp" SourceFile="Data\TitleRect.bmp" />
-		<Binary Id="haspdinst.exe" SourceFile="..\..\..\..\..\..\3rdParty\HASPDriver\haspdinst.exe" />
 		<Binary Id="FiresecCADll" SourceFile="$(var.CustomAction.TargetDir)$(var.CustomAction.TargetName).CA.dll" />
 	</Fragment>
 </Wix>

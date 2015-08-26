@@ -3,6 +3,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.GK;
 using FiresecClient;
+using GKProcessor;
+using Infrastructure;
+using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 
@@ -14,6 +17,10 @@ namespace GKModule.ViewModels
 
 		public PumpStationDetailsViewModel(GKPumpStation pumpStation = null)
 		{
+			ReadPropertiesCommand = new RelayCommand(OnReadProperties);
+			WritePropertiesCommand = new RelayCommand(OnWriteProperties);
+			ResetPropertiesCommand = new RelayCommand(OnResetProperties);
+
 			if (pumpStation == null)
 			{
 				Title = "Создание новой насосоной станции";
@@ -40,6 +47,94 @@ namespace GKModule.ViewModels
 				availableNames.Add(existingPumpStation.Name);
 			}
 			AvailableNames = new ObservableCollection<string>(availableNames);
+		}
+
+		public RelayCommand ReadPropertiesCommand { get; private set; }
+		void OnReadProperties()
+		{
+			DescriptorsManager.Create();
+			if (!CompareLocalWithRemoteHashes())
+				return;
+
+			var result = FiresecManager.FiresecService.GKGetSingleParameter(PumpStation);
+			if (!result.HasError && result.Result != null)
+			{
+				Delay = result.Result[0].Value;
+				Hold = result.Result[1].Value;
+				NSDeltaTime = result.Result[2].Value;
+				NSPumpsCount = result.Result[3].Value;
+				OnPropertyChanged(() => Delay);
+				OnPropertyChanged(() => Hold);
+				OnPropertyChanged(() => NSDeltaTime);
+				OnPropertyChanged(() => NSPumpsCount);
+			}
+			else
+			{
+				MessageBoxService.ShowError(result.Error);
+			}
+			ServiceFactory.SaveService.GKChanged = true;
+		}
+
+		public RelayCommand WritePropertiesCommand { get; private set; }
+		void OnWriteProperties()
+		{
+			PumpStation.Name = Name;
+			PumpStation.No = No;
+			PumpStation.Description = Description;
+			PumpStation.Delay = Delay;
+			PumpStation.Hold = Hold;
+			PumpStation.NSDeltaTime = NSDeltaTime;
+			PumpStation.NSPumpsCount = NSPumpsCount;
+
+			DescriptorsManager.Create();
+			if (!CompareLocalWithRemoteHashes())
+				return;
+
+			var baseDescriptor = ParametersHelper.GetBaseDescriptor(PumpStation);
+			if (baseDescriptor != null)
+			{
+				var result = FiresecManager.FiresecService.GKSetSingleParameter(PumpStation, baseDescriptor.Parameters);
+				if (result.HasError)
+				{
+					MessageBoxService.ShowError(result.Error);
+				}
+			}
+			else
+			{
+				MessageBoxService.ShowError("Ошибка. Отсутствуют параметры");
+			}
+		}
+
+		public RelayCommand ResetPropertiesCommand { get; private set; }
+		void OnResetProperties()
+		{
+			Delay = 30;
+			Hold = 600;
+			NSDeltaTime = 5;
+			NSPumpsCount = 1;
+		}
+
+		bool CompareLocalWithRemoteHashes()
+		{
+			if (PumpStation.GkDatabaseParent == null)
+			{
+				MessageBoxService.ShowError("НС не относится ни к одному ГК");
+				return false;
+			}
+
+			var result = FiresecManager.FiresecService.GKGKHash(PumpStation.GkDatabaseParent);
+			if (result.HasError)
+			{
+				MessageBoxService.ShowError("Ошибка при сравнении конфигураций. Операция запрещена");
+				return false;
+			}
+
+			var localHash = GKFileInfo.CreateHash1(GKManager.DeviceConfiguration, PumpStation.GkDatabaseParent);
+			var remoteHash = result.Result;
+			if (GKFileInfo.CompareHashes(localHash, remoteHash))
+				return true;
+			MessageBoxService.ShowError("Конфигурации различны. Операция запрещена");
+			return false;
 		}
 
 		void CopyProperties()

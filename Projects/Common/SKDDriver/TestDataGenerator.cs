@@ -5,6 +5,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using EntityFramework.BulkInsert.Extensions;
+using System.Data.SqlClient;
+using EntityFramework.BulkInsert.Providers;
+using Infrastructure.Common;
 
 namespace SKDDriver.DataClasses
 {
@@ -64,94 +68,102 @@ namespace SKDDriver.DataClasses
             return Context.Cards.Select(x => x.UID).ToList(); ;
         }
 
-        //var posUIDs = new List<Guid>();
-        //for (int j = 0; j < 1000; j++)
-        //{
-        //    var pos = new DataAccess.Position { Name = "Должность " + i + j, OrganisationUID = org.UID, UID = Guid.NewGuid(), RemovalDate = new DateTime(1900, 1, 1), ExternalKey = "-1" };
-        //    Context.Positions.InsertOnSubmit(pos);
-        //    posUIDs.Add(pos.UID);
-        //}
-        //var deptUIDs = new List<Guid>();
-        //for (int j = 0; j < 100; j++)
-        //{
-        //    var dept = CreateDept("Подразделение " + i + j, org.UID);
-        //    deptUIDs.Add(dept.UID);
-        //    Context.Departments.InsertOnSubmit(dept);
-        //    for (int k = 0; k < 2; k++)
-        //    {
-        //        var dept2 = CreateDept("Подразделение " + i + j + k, org.UID, dept.UID);
-        //        deptUIDs.Add(dept2.UID);
-        //        Context.Departments.InsertOnSubmit(dept2);
-        //        for (int m = 0; m < 2; m++)
-        //        {
-        //            var dept3 = CreateDept("Подразделение " + i + j + k + m, org.UID, dept2.UID);
-        //            deptUIDs.Add(dept3.UID);
-        //            Context.Departments.InsertOnSubmit(dept3);
-        //            for (int n = 0; n < 2; n++)
-        //            {
-        //                var dept4 = CreateDept("Подразделение " + i + j + k + m + n, org.UID, dept3.UID);
-        //                deptUIDs.Add(dept4.UID);
-        //                Context.Departments.InsertOnSubmit(dept4);
-        //            }
-        //        }
-        //    }
-        //}
-        //for (int j = 0; j < 500; j++)
-        //{
-        //    var empl = CreateEmpl("Сотрудник " + i + j + "0", org.UID, deptUIDs.FirstOrDefault(), posUIDs.FirstOrDefault());
-        //    Context.Employees.InsertOnSubmit(empl);
-        //}
-
         public List<Guid> TestEmployeeCards()
         {
-            DeleteAll();
+            //DeleteAll();
+			Context.Configuration.AutoDetectChangesEnabled = false;
+			Context.Configuration.ValidateOnSaveEnabled = false;
             var stopwatch = new Stopwatch();
             stopwatch.Start();
             var employees = new List<Employee>();
             var cards = new List<Card>();
+			var positions = new List<Position>();
+			var departments = new List<Department>();
+			var random = new Random();
             for (int i = 0; i < 1; i++)
             {
                 var org = new Organisation { Name = "Тестовая Организация " + i, UID = Guid.NewGuid(), ExternalKey = "-1" };
                 Context.Organisations.Add(org);
-                var user = new OrganisationUser { UID = Guid.NewGuid(), UserUID = new Guid("10e591fb-e017-442d-b176-f05756d984bb"), OrganisationUID = org.UID };
-                Context.OrganisationUsers.Add(user);
+
+				var user = new OrganisationUser { UID = Guid.NewGuid(), UserUID = new Guid("10e591fb-e017-442d-b176-f05756d984bb"), OrganisationUID = org.UID };
+				Context.OrganisationUsers.Add(user);
+
+				for (int j = 0; j < 1000; j++)
+				{
+					var pos = new Position { Name = "Должность " + i + j, OrganisationUID = org.UID, UID = Guid.NewGuid(), RemovalDate = new DateTime(1900, 1, 1), ExternalKey = "-1" };
+					positions.Add(pos);
+				}
+				for (int j = 0; j < 100; j++)
+				{
+					var dept = new Department{ UID = Guid.NewGuid(), Name = "Подразделение " + i + j, OrganisationUID = org.UID };
+					departments.Add(dept);
+					for (int k = 0; k < 2; k++)
+					{
+						var dept2 = new Department { UID = Guid.NewGuid(), Name = "Подразделение " + i + j + k, OrganisationUID = org.UID, ParentDepartmentUID = dept.UID };
+						departments.Add(dept2);
+						for (int m = 0; m < 2; m++)
+						{
+							var dept3 = new Department { UID = Guid.NewGuid(), Name = "Подразделение " + i + j + k + m, OrganisationUID = org.UID, ParentDepartmentUID = dept2.UID };
+							departments.Add(dept3);
+							for (int n = 0; n < 2; n++)
+							{
+								var dept4 = new Department { UID = Guid.NewGuid(), Name = "Подразделение " + i + j + k + m + n, OrganisationUID = org.UID, ParentDepartmentUID = dept3.UID };
+								departments.Add(dept4);
+							}
+						}
+					}
+				}
+				//for (int j = 0; j < 500; j++)
+				//{
+				//    var empl = CreateEmpl("Сотрудник " + i + j + "0", org.UID, deptUIDs.FirstOrDefault(), posUIDs.FirstOrDefault());
+				//    Context.Employees.InsertOnSubmit(empl);
+				//}
                 
                 for (int j = 0; j < 65535; j++)
                 {
-                    var empl = CreateEmployee(j.ToString(), org.UID);
+					var empl = CreateEmployee(j.ToString(), org.UID, departments[random.Next(1500)].UID, positions[random.Next(1000)].UID);
                     employees.Add(empl);
                     var card = CreateCard(j, empl.UID);
                     cards.Add(card);
                 }
             }
-            stopwatch.Stop();
-            Trace.WriteLine("GenerateModels " + stopwatch.Elapsed);
 
-            stopwatch = new Stopwatch();
-            stopwatch.Start();
-            bool isBreak = false;
-            int currentPage = 0;
-            int pageSize = 10000;
-            while (!isBreak)
-            {
-                var employeePortion = employees.Skip(currentPage * pageSize).Take(pageSize).ToList();
-                var cardPortion = cards.Skip(currentPage * pageSize).Take(pageSize).ToList();
-                Context.Employees.AddRange(employeePortion);
-                Context.Cards.AddRange(cardPortion);
-                Context.SaveChanges();
-                isBreak = cardPortion.Count < pageSize;
-                currentPage++;
-            }
-            stopwatch.Stop();
-            Trace.WriteLine("Context.SaveChanges " + stopwatch.Elapsed);
-            
-            return cards.Select(x => x.UID).ToList();
+			switch (GlobalSettingsHelper.GlobalSettings.DbType)
+			{
+				case DbType.MsSql:
+					Context.BulkInsert(positions);
+					Context.BulkInsert(departments);
+					Context.BulkInsert(employees);
+					Context.BulkInsert(cards);
+					Context.SaveChanges();
+					break;
+				case DbType.Postgres:
+					bool isBreak = false;
+					int currentPage = 0;
+					int pageSize = 10000;
+					while (!isBreak)
+					{
+						var employeePortion = employees.Skip(currentPage * pageSize).Take(pageSize).ToList();
+						var cardPortion = cards.Skip(currentPage * pageSize).Take(pageSize).ToList();
+						Context.Employees.AddRange(employeePortion);
+						Context.Cards.AddRange(cardPortion);
+						Context.SaveChanges();
+						isBreak = cardPortion.Count < pageSize;
+						currentPage++;
+					}
+					break;
+			}
+			
+			return cards.Select(x => x.UID).ToList();
         }
 
         public void TestCardDoors(List<Guid> cardUIDs, bool isAscending)
         {
-            int k = 0;
+			var stopwatch = new Stopwatch();
+			stopwatch.Start();
+			int k = 0;
             int totalDoorsCount = GKManager.Doors.Count;
+			var cardDoors = new List<CardDoor>();
             foreach (var cardUID in cardUIDs)
             {
                 k++;
@@ -159,10 +171,29 @@ namespace SKDDriver.DataClasses
                 foreach (var door in GKManager.Doors.Take(doorsCount))
                 {
                     var cardDoor = CreateCardDoor(cardUID, door.UID);
-                    Context.CardDoors.Add(cardDoor);
+					cardDoors.Add(cardDoor);
                 }
             }
-            Context.SaveChanges();
+			switch (GlobalSettingsHelper.GlobalSettings.DbType)
+			{
+				case DbType.MsSql:
+					Context.BulkInsert(cardDoors);
+					Context.SaveChanges();
+					break;
+				case DbType.Postgres:
+					bool isBreak = false;
+					int currentPage = 0;
+					int pageSize = 10000;
+					while (!isBreak)
+					{
+						var cardDoorPortion = cardDoors.Skip(currentPage * pageSize).Take(pageSize).ToList();
+						Context.CardDoors.AddRange(cardDoorPortion);
+						Context.SaveChanges();
+						isBreak = cardDoorPortion.Count < pageSize;
+						currentPage++;
+					}
+					break;
+			}
         }
 
         void DeleteAll()
@@ -312,3 +343,4 @@ namespace SKDDriver.DataClasses
         }
     }
 }
+

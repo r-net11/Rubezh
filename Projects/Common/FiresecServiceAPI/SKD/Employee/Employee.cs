@@ -75,6 +75,9 @@ namespace FiresecAPI.SKD
 		public Guid? EscortUID;
 
 		[DataMember]
+		public string EscortName { get; set; }
+
+		[DataMember]
 		public string DocumentNumber { get; set; }
 
 		[DataMember]

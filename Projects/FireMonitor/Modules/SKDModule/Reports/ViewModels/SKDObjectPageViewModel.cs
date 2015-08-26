@@ -34,6 +34,10 @@ namespace SKDModule.Reports.ViewModels
 			gkViewModel.IsExpanded = true;
 			RootFilters.Add(gkViewModel);
 
+			var video =  new SKDObjectViewModel(JournalSubsystemType.Video);
+			video.IsExpanded = true;
+			RootFilters.Add(video);
+
 			var gkDevicesViewModel = new SKDObjectViewModel(JournalObjectType.GKDevice);
 			gkViewModel.AddChild(gkDevicesViewModel);
 			foreach (var childDevice in GKManager.DeviceConfiguration.RootDevice.Children)
@@ -48,6 +52,42 @@ namespace SKDModule.Reports.ViewModels
 			gkViewModel.AddChild(gkDoorsViewModel);
 			foreach (var door in GKManager.Doors)
 				gkDoorsViewModel.AddChild(new SKDObjectViewModel(door));
+
+			var gkDerectionsViewModel = new SKDObjectViewModel(JournalObjectType.GKDirection);
+			gkViewModel.AddChild(gkDerectionsViewModel);
+			foreach (var direction in GKManager.Directions)
+				gkDerectionsViewModel.AddChild(new SKDObjectViewModel(direction));
+
+			var gkDelaysViewModel = new SKDObjectViewModel(JournalObjectType.GKDelay);
+			gkViewModel.AddChild(gkDelaysViewModel);
+			foreach (var delay in GKManager.Delays)
+				gkDelaysViewModel.AddChild(new SKDObjectViewModel(delay));
+
+			var gkGuardZonesViewModel = new SKDObjectViewModel(JournalObjectType.GKGuardZone);
+			gkViewModel.AddChild(gkGuardZonesViewModel);
+			foreach (var guardZone in GKManager.GuardZones)
+				gkGuardZonesViewModel.AddChild(new SKDObjectViewModel(guardZone));
+
+			var gkMPTsViewModel = new SKDObjectViewModel(JournalObjectType.GKMPT);
+			gkViewModel.AddChild(gkMPTsViewModel);
+			foreach (var mpt in GKManager.MPTs)
+				gkMPTsViewModel.AddChild(new SKDObjectViewModel(mpt));
+
+			var gkPumpsViewModel= new SKDObjectViewModel(JournalObjectType.GKPumpStation);
+			gkViewModel.AddChild(gkPumpsViewModel);
+			foreach (var pump in GKManager.PumpStations)
+				gkPumpsViewModel.AddChild(new SKDObjectViewModel(pump));
+
+			var gkSKDZonesViewModel = new SKDObjectViewModel(JournalObjectType.GKSKDZone);
+			gkViewModel.AddChild(gkSKDZonesViewModel);
+			foreach (var SKDZone in GKManager.SKDZones)
+				gkSKDZonesViewModel.AddChild(new SKDObjectViewModel(SKDZone));
+
+			var gkVideoDevicesViewModel = new SKDObjectViewModel(JournalObjectType.VideoDevice);
+			video.AddChild(gkVideoDevicesViewModel);
+			foreach (var camera in FiresecManager.SystemConfiguration.Cameras)
+				gkVideoDevicesViewModel.AddChild(new SKDObjectViewModel(camera));
+
 		}
 		private SKDObjectViewModel AddGKDeviceInternal(GKDevice device, SKDObjectViewModel parentDeviceViewModel)
 		{

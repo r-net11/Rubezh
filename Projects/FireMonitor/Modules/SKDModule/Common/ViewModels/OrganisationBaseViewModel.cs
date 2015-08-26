@@ -38,13 +38,19 @@ namespace SKDModule.ViewModels
 			ServiceFactory.Events.GetEvent<RemoveOrganisationEvent>().Subscribe(OnRemoveOrganisation);
 			ServiceFactory.Events.GetEvent<RestoreOrganisationEvent>().Unsubscribe(OnRestoreOrganisation);
 			ServiceFactory.Events.GetEvent<RestoreOrganisationEvent>().Subscribe(OnRestoreOrganisation);
-			ServiceFactory.Events.GetEvent<NewOrganisationEvent>().Unsubscribe(OnNewOrganisation);
-			ServiceFactory.Events.GetEvent<NewOrganisationEvent>().Subscribe(OnNewOrganisation);
 			//SafeFiresecService.DbCallbackResultEvent -= new Action<DbCallbackResult>(OnDbCallbackResultEvent);
 			//SafeFiresecService.DbCallbackResultEvent += new Action<DbCallbackResult>(OnDbCallbackResultEvent);
 			Organisations = new ObservableCollection<TViewModel>();
 			DbCallbackResultUID = Guid.NewGuid();
 			_filter = new TFilter();
+		}
+
+		public virtual void Unsubscribe()
+		{
+			ServiceFactory.Events.GetEvent<EditOrganisationEvent>().Unsubscribe(OnEditOrganisation);
+			ServiceFactory.Events.GetEvent<OrganisationUsersChangedEvent>().Unsubscribe(OnOrganisationUsersChanged);
+			ServiceFactory.Events.GetEvent<RemoveOrganisationEvent>().Unsubscribe(OnRemoveOrganisation);
+			ServiceFactory.Events.GetEvent<RestoreOrganisationEvent>().Unsubscribe(OnRestoreOrganisation);
 		}
 
 		protected TModel _clipboard;
@@ -258,22 +264,6 @@ namespace SKDModule.ViewModels
 						}
 						OnPropertyChanged(() => Organisations);
 					}
-				}
-			}
-		}
-
-		protected virtual void OnNewOrganisation(Guid organisationUID)
-		{
-			var isInFilter = (_filter.OrganisationUIDs.Count == 0);
-			if (isInFilter)
-			{
-				var organisation = OrganisationHelper.GetSingle(organisationUID);
-				if (organisation != null)
-				{
-					var organisationViewModel = new TViewModel();
-					organisationViewModel.InitializeOrganisation(organisation, this);
-					Organisations.Add(organisationViewModel);
-					OnPropertyChanged(() => Organisations);
 				}
 			}
 		}

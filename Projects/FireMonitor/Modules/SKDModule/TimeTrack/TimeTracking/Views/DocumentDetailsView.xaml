@@ -45,6 +45,6 @@
 
 		<TextBlock Grid.Row="4" Grid.Column="1" HorizontalAlignment="Center" Text="Дата конца" Style="{DynamicResource TextBlockDetailsStyle}" />
 		<Calendar Grid.Row="5" Grid.Column="1" DisplayDate="{Binding EndDateTime, UpdateSourceTrigger=PropertyChanged}" SelectedDate="{Binding EndDateTime, UpdateSourceTrigger=PropertyChanged}" SelectionMode="SingleDate" />
-		<TimePicker Grid.Row="6" Grid.Column="1" HorizontalAlignment="Center" TimeSpan="{Binding EndTime}" />
+		<TimePicker Grid.Row="6" Grid.Column="1" HorizontalAlignment="Center" TimeSpan="{Binding EndTime}" IsFullDay="True"/>
 	</Grid>
 </UserControl>

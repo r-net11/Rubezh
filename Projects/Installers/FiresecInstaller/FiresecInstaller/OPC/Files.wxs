@@ -28,8 +28,6 @@
         <File Id="OPC.gbda_clr.dll" Name="gbda_clr.dll" Source="$(var.OPC.TargetDir)" />
         <File Id="OPC.gbda3w.dll" Name="gbda3w.dll" Source="$(var.OPC.TargetDir)" />
         <File Id="OPC.ControlsMicrosoft.Practices.Prism.dll" Name="Microsoft.Practices.Prism.dll" Source="$(var.Common.TargetDir)" />
-        <File Id="OPC.hasp_net_windows.dll" Name="hasp_net_windows.dll" Source="..\..\..\..\..\..\3rdParty\HASP\" />
-        <File Id="OPC.hasp_windows.dll" Name="hasp_windows.dll" Source="..\..\..\..\..\..\3rdParty\HASP\" />
       </Component>
 
       <Component Id="OPC.DB.Common" Guid="2BD1C3BF-5578-4686-A5ED-6E47C402FAEB">

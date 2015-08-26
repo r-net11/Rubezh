@@ -140,7 +140,7 @@ namespace SKDModule.ViewModels
 		{
 			var timeTrackDocument = new TimeTrackDocument();
 			timeTrackDocument.StartDateTime = DayTimeTrack.Date.Date;
-			timeTrackDocument.EndDateTime = DayTimeTrack.Date.Date + new TimeSpan(23, 59, 59);
+			timeTrackDocument.EndDateTime = DayTimeTrack.Date.Date;
 			var documentDetailsViewModel = new DocumentDetailsViewModel(false, ShortEmployee.OrganisationUID, timeTrackDocument);
 			if (DialogService.ShowModalWindow(documentDetailsViewModel))
 			{
