@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using FiresecAPI.Models;
 using FiresecService.ViewModels;
+using System.Threading.Tasks;
 
 namespace FiresecService.Service
 {
@@ -55,6 +56,22 @@ namespace FiresecService.Service
 			}
 			return null;
 		}
+
+        public static void StartRemoveInactiveClients(TimeSpan inactiveTime)
+        {
+            new Task(() =>
+            {
+                while (true)
+                {
+                    ClientInfos.ForEach(x => 
+                    {
+                        if (x.LastPollDateTime != default(DateTime) && DateTime.Now - x.LastPollDateTime > inactiveTime)
+                            Remove(x.UID);
+                    });
+                    Thread.Sleep(inactiveTime);
+                }
+            }).Start();
+        }
 	}
 
 	public class ClientInfo
@@ -64,5 +81,6 @@ namespace FiresecService.Service
 		public int CallbackIndex { get; set; }
 		public AutoResetEvent WaitEvent = new AutoResetEvent(false);
 		public bool IsDisconnecting { get; set; }
+        public DateTime LastPollDateTime { get; set; }
 	}
 }

@@ -23,10 +23,10 @@ namespace SKDModule.ViewModels
 			_isNew = holiday == null;
 			if (_isNew)
 			{
-				Title = "Новый сокращённый день";
+				Title = "Новый праздничный день";
 				holiday = new Holiday()
 				{
-					Name = "Название сокращённого дня",
+					Name = "Название праздничного дня",
 					OrganisationUID = Organisation.UID,
 					Date = new DateTime(holidaysViewModel.SelectedYear, DateTime.Today.Month, DateTime.Today.Day),
 				};
@@ -34,7 +34,7 @@ namespace SKDModule.ViewModels
 			}
 			else
 			{
-				Title = "Редактирование сокращённого дня";
+				Title = "Редактирование праздничного дня";
 				Model = HolidayHelper.GetSingle(holiday.UID);
 			}
 			
@@ -122,7 +122,10 @@ namespace SKDModule.ViewModels
 			Model.Name = Name;
 			Model.Date = Date;
 			Model.Type = HolidayType;
-			Model.Reduction = IsOneHourReduction ? new TimeSpan(1, 0, 0) : new TimeSpan(2, 0, 0);
+			if (HolidayType == HolidayType.Holiday)
+				Model.Reduction = new TimeSpan(0, 0, 0);
+			else
+				Model.Reduction = IsOneHourReduction ? new TimeSpan(1, 0, 0) : new TimeSpan(2, 0, 0);
 			Model.TransferDate = IsTransferDateEnabled ? (DateTime?)TransferDate : null;
 			if (!DetailsValidateHelper.Validate(Model))
 				return false;

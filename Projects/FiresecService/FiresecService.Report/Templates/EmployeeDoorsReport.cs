@@ -137,11 +137,15 @@ namespace FiresecService.Report.Templates
 							}
 							dataRow.ZoneIn = door.EnterZoneName;
 							dataRow.ZoneOut = door.ExitZoneName;
-							if (intervalMap.ContainsKey(cardDoor.EnterScheduleNo))
+							dataRow.NoEnterZone = door.NoEnterZone;
+							dataRow.NoExitZone = door.NoExitZone;
+
+							if (cardDoor.EnterScheduleNo != cardDoor.ExitScheduleNo && intervalMap.ContainsKey(cardDoor.EnterScheduleNo))
 								dataRow.Enter = intervalMap[cardDoor.EnterScheduleNo];
 							if (intervalMap.ContainsKey(cardDoor.ExitScheduleNo))
 								dataRow.Exit = intervalMap[cardDoor.ExitScheduleNo];
 							dataRow.AccessPoint = door.Name;
+							dataRow.NoDoor = door.NoDoor;
 							dataSet.Data.Rows.Add(dataRow);
 						}
 				}
@@ -155,16 +159,33 @@ namespace FiresecService.Report.Templates
 		public string Name { get; private set; }
 		public string EnterZoneName { get; private set; }
 		public string ExitZoneName { get; private set; }
+		public int NoDoor { get; private set; }
+		public int NoEnterZone { get; private set; }
+		public int NoExitZone { get; private set; }
+
 
 		public CommonDoor(GKDoor door)
 		{
+
 			Name = door.PresentationName;
+			NoDoor = door.No;
 			var enterZone = GKManager.SKDZones.FirstOrDefault(x => x.UID == door.EnterZoneUID);
-			if(enterZone != null)
+			if (enterZone != null)
+			{
 				EnterZoneName = enterZone.PresentationName;
+				NoEnterZone = enterZone.No;
+			}
+			else
+				NoEnterZone = Int32.MaxValue;
+
 			var exitZone = GKManager.SKDZones.FirstOrDefault(x => x.UID == door.ExitZoneUID);
 			if (exitZone != null)
+			{
 				ExitZoneName = exitZone.PresentationName;
+				NoExitZone = exitZone.No;
+			}
+			else
+				NoExitZone = Int32.MaxValue;
 		}
 	}
 }

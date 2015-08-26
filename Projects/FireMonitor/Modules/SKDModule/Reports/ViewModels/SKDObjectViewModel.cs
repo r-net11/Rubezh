@@ -70,55 +70,14 @@ namespace SKDModule.Reports.ViewModels
 					break;
 			}
 		}
-		public SKDObjectViewModel(GKDevice device)
-		{
-			Name = device.PresentationName;
-			UID = device.UID;
-			ImageSource = device.Driver.ImageSource;
-		}
-		public SKDObjectViewModel(GKZone zone)
-		{
-			Name = zone.PresentationName;
-			UID = zone.UID;
-			ImageSource = "/Controls;component/Images/Zone.png";
-		}
-		public SKDObjectViewModel(GKDirection direction)
-		{
-			Name = direction.PresentationName;
-			UID = direction.UID;
-			ImageSource = "/Controls;component/Images/BDirection.png";
-		}
-		public SKDObjectViewModel(GKMPT mpt)
-		{
-			Name = mpt.PresentationName;
-			UID = mpt.UID;
-			ImageSource = "/Controls;component/Images/BMPT.png";
-		}
-		public SKDObjectViewModel(GKPumpStation pumpStation)
-		{
-			Name = pumpStation.PresentationName;
-			UID = pumpStation.UID;
-			ImageSource = "/Controls;component/Images/BPumpStation.png";
-		}
-		public SKDObjectViewModel(GKDelay delay)
-		{
-			Name = delay.PresentationName;
-			UID = delay.UID;
-			ImageSource = "/Controls;component/Images/Delay.png";
-		}
-		public SKDObjectViewModel(GKGuardZone guardZone)
-		{
-			Name = guardZone.PresentationName;
-			UID = guardZone.UID;
-			ImageSource = "/Controls;component/Images/GuardZone.png";
-		}
-		public SKDObjectViewModel(GKDoor door)
-		{
-			Name = door.PresentationName;
-			UID = door.UID;
-			ImageSource = "/Controls;component/Images/Door.png";
-		}
 
+		public SKDObjectViewModel(GKBase gkBase)
+		{
+			Name = gkBase.PresentationName;
+			UID = gkBase.UID;
+			ImageSource = gkBase.ImageSource;
+		}
+		
 		public SKDObjectViewModel(Camera camera)
 		{
 			Name = camera.Name;

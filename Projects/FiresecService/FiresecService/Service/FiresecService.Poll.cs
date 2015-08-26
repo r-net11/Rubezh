@@ -18,6 +18,7 @@ namespace FiresecService.Service
 			var clientInfo = ClientsManager.ClientInfos.FirstOrDefault(x => x.UID == uid);
 			if (clientInfo != null)
 			{
+                clientInfo.LastPollDateTime = DateTime.Now;
 				var result = CallbackManager.Get(clientInfo);
 				if (result.Count == 0)
 				{

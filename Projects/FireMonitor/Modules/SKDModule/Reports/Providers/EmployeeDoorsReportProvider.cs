@@ -20,9 +20,9 @@ namespace SKDModule.Reports.Providers
 			{
 				Columns = new Dictionary<string, string> 
 				{ 
-					{ "AccessPoint", "Название" },
-					{ "ZoneOut", "Из зоны" },
-					{ "ZoneIn", "В зону" },
+					{ "NoDoor", "Название" },
+					{ "NoExitZone", "Из зоны" },
+					{ "NoEnterZone", "В зону" },
 					{ "Enter", "Вход" },
 					{ "Exit", "Выход" },
 					{ "Type", "Тип пропуска" },
