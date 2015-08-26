@@ -212,9 +212,9 @@ namespace SKDDriver.DataClasses
 				new FiresecAPI.SKD.SKDCard
 				{
 					UID = tableItem.UID,
-					NumberInt = tableItem.Number,
+					//NumberInt = tableItem.Number,
 					EmployeeUID = tableItem.EmployeeUID,
-					EndDate = tableItem.EndDate,
+					//EndDate = tableItem.EndDate,
 					CardDoors = tableItem.CardDoors.Select(x => new FiresecAPI.SKD.CardDoor
 						{
 							UID = x.UID,
@@ -224,15 +224,15 @@ namespace SKDDriver.DataClasses
 							EnterScheduleNo = x.ExitScheduleNo,
 							ExitScheduleNo = x.EnterScheduleNo
 						}).ToList(),
-					PassCardTemplateUID = tableItem.PassCardTemplateUID,
-					AccessTemplateUID = tableItem.AccessTemplateUID,
-					GKCardType = (FiresecAPI.GK.GKCardType)tableItem.GKCardType,
-					IsInStopList = tableItem.IsInStopList,
-					StopReason = tableItem.StopReason,
-					EmployeeName = tableItem.Employee != null ? tableItem.Employee.LastName + " " + tableItem.Employee.FirstName + " " + tableItem.Employee.SecondName : null,
-					OrganisationUID = tableItem.Employee != null ? tableItem.Employee.OrganisationUID != null ? tableItem.Employee.OrganisationUID.Value : Guid.Empty : Guid.Empty,
-					GKLevel = tableItem.GKLevel,
-					GKLevelSchedule = tableItem.GKLevelSchedule,
+					//PassCardTemplateUID = tableItem.PassCardTemplateUID,
+					//AccessTemplateUID = tableItem.AccessTemplateUID,
+					//GKCardType = (FiresecAPI.GK.GKCardType)tableItem.GKCardType,
+					//IsInStopList = tableItem.IsInStopList,
+					//StopReason = tableItem.StopReason,
+					//EmployeeName = tableItem.Employee != null ? tableItem.Employee.LastName + " " + tableItem.Employee.FirstName + " " + tableItem.Employee.SecondName : null,
+					//OrganisationUID = tableItem.Employee != null ? tableItem.Employee.OrganisationUID != null ? tableItem.Employee.OrganisationUID.Value : Guid.Empty : Guid.Empty,
+					//GKLevel = tableItem.GKLevel,
+					//GKLevelSchedule = tableItem.GKLevelSchedule,
 					GKControllerUIDs = tableItem.GKControllerUIDs.Select(x => x.GKControllerUID).ToList()
 				});
 		}
