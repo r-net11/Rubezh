@@ -352,6 +352,7 @@
     <Compile Include="Models\PlanSimpl.cs" />
     <Compile Include="Models\ReportModel.cs" />
     <Compile Include="Models\Shape.cs" />
+    <Compile Include="Models\ShapeTypesEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
