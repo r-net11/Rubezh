@@ -43,10 +43,10 @@ namespace GKProcessor
 			Formula.Add(FormulaOperationType.DUP);
 			Formula.AddGetBit(GKStateBit.On, PimGuardZone);
 			Formula.Add(FormulaOperationType.AND);
-			Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Pim);
+			Formula.AddPutBit(GKStateBit.TurnOffNow_InAutomatic, Pim);
 			Formula.AddGetBit(GKStateBit.Off, PimGuardZone);
 			Formula.Add(FormulaOperationType.AND);
-			Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Pim);
+			Formula.AddPutBit(GKStateBit.TurnOnNow_InAutomatic, Pim);
 			Formula.Add(FormulaOperationType.END);
 		}
 
