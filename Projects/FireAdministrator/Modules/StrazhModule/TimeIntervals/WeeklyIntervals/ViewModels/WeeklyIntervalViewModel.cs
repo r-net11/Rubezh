@@ -96,8 +96,7 @@ namespace StrazhModule.ViewModels
 
 		bool ConfirmDeactivation()
 		{
-			var hasReference = SKDManager.TimeIntervalsConfiguration.SlideWeeklyIntervals.Any(item => item.WeeklyIntervalIDs.Contains(Index));
-			return !hasReference || MessageBoxService.ShowConfirmation("Данный недельный график используется в одном или нескольких скользящих недельных графиках, Вы уверены что хотите его деактивировать?");
+			return MessageBoxService.ShowQuestion(String.Format("Недельный график доступа \"{0}\" может использоваться для определения временных критериев прохода через точки доступа для уже выданных пропусков. При его удалении он будет заменен на критерий прохода, соответствующий недельному графику доступа \"Никогда\". Вы действительно хотите его удалить?", Name));
 		}
 
 		public override bool IsPredefined
