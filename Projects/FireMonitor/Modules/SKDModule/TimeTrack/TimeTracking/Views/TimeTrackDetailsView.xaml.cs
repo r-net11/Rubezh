@@ -38,7 +38,11 @@ namespace SKDModule.Views
 
 		string TimePartDateToString(TimeSpan timeSpan)
 		{
-			var result = timeSpan.Hours.ToString("00") + ":" + timeSpan.Minutes.ToString("00") + ":" + timeSpan.Seconds.ToString("00");
+			string result;
+			if (timeSpan.Days > 0)
+				result = "24:00:00";
+			else
+				result = timeSpan.Hours.ToString("00") + ":" + timeSpan.Minutes.ToString("00") + ":" + timeSpan.Seconds.ToString("00");
 			return result;
 		}
 
@@ -77,16 +81,14 @@ namespace SKDModule.Views
 						zoneName = gkZone.Name;
 					}
 					timeTrackPart.Tooltip = TimePartDateToString(timeTrackPart.StartTime) + " - " + TimePartDateToString(timeTrackPart.EndTime) + "\n" + zoneName;
+					timeTrackPart.Tooltip += GetTooltip(timeTrackPart);
 					timeTrackPart.TimeTrackPartType = TimeTrackType.Presence;
 				}
 
 				foreach (var timeTrackPart in dayTimeTrack.PlannedTimeTrackParts)
 				{
 					timeTrackPart.Tooltip = TimePartDateToString(timeTrackPart.StartTime) + " - " + TimePartDateToString(timeTrackPart.EndTime) + "\n" + timeTrackPart.DayName;
-					if (timeTrackPart.StartsInPreviousDay)
-						timeTrackPart.Tooltip += "\n" + "Интервал начинается днем раньше";
-					if (timeTrackPart.EndsInNextDay)
-						timeTrackPart.Tooltip += "\n" + "Интервал заканчивается днем позже";
+					timeTrackPart.Tooltip += GetTooltip(timeTrackPart);
 					timeTrackPart.TimeTrackPartType = TimeTrackType.Presence;
 				}
 
@@ -94,7 +96,6 @@ namespace SKDModule.Views
 				{
 					timeTrackPart.Tooltip = TimePartDateToString(timeTrackPart.StartTime) + " - " + TimePartDateToString(timeTrackPart.EndTime) + "\n" + timeTrackPart.TimeTrackPartType.ToDescription();
 				}
-
 				DrawTimeTrackGrid(dayTimeTrack.DocumentTrackParts, DocumentsGrid);
 				DrawTimeTrackGrid(dayTimeTrack.RealTimeTrackParts, RealGrid);
 				DrawTimeTrackGrid(dayTimeTrack.PlannedTimeTrackParts, PlannedGrid);
@@ -177,6 +178,17 @@ namespace SKDModule.Views
 				TimeLineGrid.Children.Add(timeTextBlock);
 			}
 			TimeLineGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(0.5, GridUnitType.Star) });
+		}
+		string GetTooltip(TimeTrackPart timeTrackPart)
+		{
+			var result = "";
+			if (timeTrackPart.StartsInPreviousDay && timeTrackPart.EndsInNextDay)
+				result = "\n" + "Интервал начинается днем раньше и заканчивается днем позже";
+			else if (timeTrackPart.StartsInPreviousDay)
+				result = "\n" + "Интервал начинается днем раньше";
+		    else if (timeTrackPart.EndsInNextDay)
+				result = "\n" + "Интервал заканчивается днем позже";
+			return result;
 		}
 	}
 }
