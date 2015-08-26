@@ -38,7 +38,6 @@ namespace FiresecAPI.GK
 		{
 			gkBase.KauDatabaseParent = null;
 			gkBase.GkDatabaseParent = null;
-			gkBase.GetDataBaseParent();
 		}
 
 		void PrepareDevices()
@@ -46,7 +45,6 @@ namespace FiresecAPI.GK
 			foreach (var device in Devices)
 			{
 				device.KauDatabaseParent = device.KAUParent;
-				device.GetDataBaseParent();
 				if (device.DataBaseParent != null)
 				{
 					if (device.Door != null && device.Door.LockDeviceUID == device.UID)

@@ -338,116 +338,47 @@ namespace FiresecAPI.GK
 
 		#endregion
 
-		public void GetDataBaseParent()
-		{
-			return;
 
-			PrepareInputOutputDependences();
-			var dataBaseParent = GetDataBaseParent(this, new List<GKBase>(), new List<GKDevice>());
-			if (dataBaseParent == null)
-				return;
-			IsLogicOnKau = dataBaseParent.Driver.IsKau;
-			if (IsLogicOnKau)
-			{
-				KauDatabaseParent = dataBaseParent;
-				GkDatabaseParent = dataBaseParent.GKParent;
-			}
-			else
-			{
-				GkDatabaseParent = dataBaseParent;
-			}
-			if (this is GKGuardZone && (this as GKGuardZone).HasAccessLevel)
-			{
-				IsLogicOnKau = false;
-				KauDatabaseParent = null;
-			}
-		}
-
-		public GKDevice GetDataBaseParent(GKBase gkBase, List<GKBase> result, List<GKDevice> dataBaseParents)
-		{
-			var gkParent = new GKDevice();
-			var kauParents = new List<GKDevice>();
-			if (gkBase.DataBaseParent == null)
-			{
-				gkBase.PrepareInputOutputDependences();
-			}
-			else
-			{
-				dataBaseParents.Add(gkBase.DataBaseParent);
-				gkParent = dataBaseParents.FirstOrDefault(x => x.DriverType == GKDriverType.GK);
-				if (gkParent != null)
-					return null;
-				kauParents = dataBaseParents.FindAll(x => x.DriverType == GKDriverType.RSR2_KAU).Distinct().ToList();
-				if (kauParents.Count > 1)
-					return null;
-			}
-			var inputObjects = new List<GKBase>(gkBase.InputGKBases);
-			inputObjects.RemoveAll(x => x.UID == gkBase.UID);
-			inputObjects.RemoveAll(result.Contains);
-			foreach (var inputObject in new List<GKBase>(inputObjects))
-			{
-				if (result.Any(x => x.UID == inputObject.UID))
-					continue;
-				if (inputObject is GKGuardZone)
-					result.AddRange(GKManager.GuardZones.FindAll(x => x.GetCodeUids().Intersect((inputObject as GKGuardZone).GetCodeUids()).Any() && !result.Contains(x)));
-				if (!result.Contains(inputObject))
-					result.Add(inputObject);
-				if (!result.Contains(null))
-					GetDataBaseParent(inputObject, result, dataBaseParents);
-			}
-			result.RemoveAll(x => x == null);
-			dataBaseParents.AddRange(result.Distinct().ToList().FindAll(x => x is GKDevice).Select(y => (y as GKDevice).DataBaseParent).ToList());
-			dataBaseParents.RemoveAll(x => x == null);
-			gkParent = dataBaseParents.FirstOrDefault(x => x.DriverType == GKDriverType.GK);
-			if (gkParent != null)
-				return gkParent;
-			kauParents = dataBaseParents.FindAll(x => x.DriverType == GKDriverType.RSR2_KAU).Distinct().ToList();
-			if (kauParents.Count > 1)
-				return kauParents[0].GKParent;
-			return kauParents.Count == 1 ? kauParents[0] : null;
-		}
-
-
-		#region Dependences Calculation
+		#region ChildDescriptors
 
 		[XmlIgnore]
-		public List<GKBase> DescriptorDependentObjects = new List<GKBase>();
+		public List<GKBase> ChildDescriptors = new List<GKBase>();
 
 		[XmlIgnore]
-		public bool IsReady { get; set; }
+		public bool IsChildDescriptorsReady { get; set; }
 
-		public void CalculateDescriptorDependentObjects()
+		public void CalculateAllChildDescriptors()
 		{
-			var newDependences = new List<GKBase>();
-			foreach (var descriptorDependentObject in DescriptorDependentObjects)
+			var newChildDescriptors = new List<GKBase>();
+			foreach (var descriptorDependentObject in ChildDescriptors)
 			{
-				descriptorDependentObject.CalculateAllChildren(newDependences);
+				descriptorDependentObject.SetAllDescriptorsChildren(newChildDescriptors);
 			}
-			foreach (var newDescriptorDependentObject in newDependences)
+			foreach (var newChildDescriptor in newChildDescriptors)
 			{
-				if (!DescriptorDependentObjects.Contains(newDescriptorDependentObject))
+				if (!ChildDescriptors.Contains(newChildDescriptor))
 				{
-					DescriptorDependentObjects.Add(newDescriptorDependentObject);
+					ChildDescriptors.Add(newChildDescriptor);
 				}
 			}
-			IsReady = true;
+			IsChildDescriptorsReady = true;
 		}
 
-		void CalculateAllChildren(List<GKBase> allChildren)
+		void SetAllDescriptorsChildren(List<GKBase> allChildren)
 		{
-			foreach (var descriptorDependentObject in DescriptorDependentObjects)
+			foreach (var childDescriptor in ChildDescriptors)
 			{
-				if (!allChildren.Contains(descriptorDependentObject))
+				if (!allChildren.Contains(childDescriptor))
 				{
-					allChildren.Add(descriptorDependentObject);
-					if (!IsReady)
+					allChildren.Add(childDescriptor);
+					if (!IsChildDescriptorsReady)
 					{
-						descriptorDependentObject.CalculateAllChildren(allChildren);
+						childDescriptor.SetAllDescriptorsChildren(allChildren);
 					}
 				}
 			}
 		}
 
-		#endregion Logic Calculation
+		#endregion ChildDescriptors
 	}
 }

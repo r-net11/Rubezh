@@ -274,8 +274,6 @@ namespace GKProcessor
 					jockeyPumpDevice.LinkGKBases(otherJockeyPumpDevice);
 				}
 			}
-
-			PumpDelays.ForEach(x => x.Delay.GetDataBaseParent());
 		}
 	}
 

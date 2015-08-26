@@ -13,25 +13,25 @@ namespace FiresecAPI.GK
 			var gkBases = new List<GKBase>();
 			foreach (var device in Devices)
 			{
-				device.DescriptorDependentObjects = device.Logic.GetObjects();
+				device.ChildDescriptors = device.Logic.GetObjects();
 				gkBases.Add(device);
 			}
 
 			foreach (var zone in Zones)
 			{
-				zone.DescriptorDependentObjects = new List<GKBase>(zone.Devices);
+				zone.ChildDescriptors = new List<GKBase>(zone.Devices);
 				gkBases.Add(zone);
 			}
 
 			foreach (var direction in Directions)
 			{
-				direction.DescriptorDependentObjects = direction.Logic.GetObjects();
+				direction.ChildDescriptors = direction.Logic.GetObjects();
 				gkBases.Add(direction);
 			}
 
 			foreach (var delay in Delays)
 			{
-				delay.DescriptorDependentObjects = delay.Logic.GetObjects();
+				delay.ChildDescriptors = delay.Logic.GetObjects();
 				gkBases.Add(delay);
 			}
 
@@ -42,13 +42,13 @@ namespace FiresecAPI.GK
 
 			foreach (var guardZone in GuardZones)
 			{
-				guardZone.DescriptorDependentObjects = new List<GKBase>();
+				guardZone.ChildDescriptors = new List<GKBase>();
 				foreach (var guardZoneDevice in guardZone.GuardZoneDevices)
 				{
-					guardZone.DescriptorDependentObjects.Add(guardZoneDevice.Device);
+					guardZone.ChildDescriptors.Add(guardZoneDevice.Device);
 					if (guardZoneDevice.Device.DriverType == GKDriverType.RSR2_CodeReader || guardZoneDevice.Device.DriverType == GKDriverType.RSR2_CardReader)
 					{
-						guardZoneDevice.Device.DescriptorDependentObjects.Add(guardZone);
+						guardZoneDevice.Device.ChildDescriptors.Add(guardZone);
 
 						var codeUIDs = new List<Guid>();
 						codeUIDs.AddRange(guardZoneDevice.CodeReaderSettings.SetGuardSettings.CodeUIDs);
@@ -61,8 +61,8 @@ namespace FiresecAPI.GK
 							var code = Codes.FirstOrDefault(x => x.UID == codeUID);
 							if (code != null)
 							{
-								guardZone.DescriptorDependentObjects.Add(code);
-								code.DescriptorDependentObjects.Add(guardZone);
+								guardZone.ChildDescriptors.Add(code);
+								code.ChildDescriptors.Add(guardZone);
 							}
 						}
 					}
@@ -72,15 +72,15 @@ namespace FiresecAPI.GK
 
 			foreach (var pumpStation in PumpStations)
 			{
-				pumpStation.DescriptorDependentObjects = new List<GKBase>();
-				pumpStation.DescriptorDependentObjects.AddRange(pumpStation.StartLogic.GetObjects());
-				pumpStation.DescriptorDependentObjects.AddRange(pumpStation.StopLogic.GetObjects());
-				pumpStation.DescriptorDependentObjects.AddRange(pumpStation.AutomaticOffLogic.GetObjects());
+				pumpStation.ChildDescriptors = new List<GKBase>();
+				pumpStation.ChildDescriptors.AddRange(pumpStation.StartLogic.GetObjects());
+				pumpStation.ChildDescriptors.AddRange(pumpStation.StopLogic.GetObjects());
+				pumpStation.ChildDescriptors.AddRange(pumpStation.AutomaticOffLogic.GetObjects());
 				foreach (var nsDevice in pumpStation.NSDevices)
 				{
-					pumpStation.DescriptorDependentObjects.Add(nsDevice);
-					pumpStation.DescriptorDependentObjects.AddRange(nsDevice.NSLogic.GetObjects());
-					nsDevice.DescriptorDependentObjects.Add(pumpStation);
+					pumpStation.ChildDescriptors.Add(nsDevice);
+					pumpStation.ChildDescriptors.AddRange(nsDevice.NSLogic.GetObjects());
+					nsDevice.ChildDescriptors.Add(pumpStation);
 				}
 
 				gkBases.Add(pumpStation);
@@ -88,12 +88,12 @@ namespace FiresecAPI.GK
 
 			foreach (var mpt in MPTs)
 			{
-				mpt.DescriptorDependentObjects = new List<GKBase>();
-				mpt.DescriptorDependentObjects.AddRange(mpt.MptLogic.GetObjects());
+				mpt.ChildDescriptors = new List<GKBase>();
+				mpt.ChildDescriptors.AddRange(mpt.MptLogic.GetObjects());
 				foreach (var mptDevice in mpt.MPTDevices)
 				{
-					mpt.DescriptorDependentObjects.Add(mptDevice.Device);
-					mptDevice.Device.DescriptorDependentObjects.Add(mpt);
+					mpt.ChildDescriptors.Add(mptDevice.Device);
+					mptDevice.Device.ChildDescriptors.Add(mpt);
 					var codeUIDs = new List<Guid>();
 					codeUIDs.AddRange(mptDevice.CodeReaderSettings.MPTSettings.CodeUIDs);
 
@@ -102,8 +102,8 @@ namespace FiresecAPI.GK
 						var code = Codes.FirstOrDefault(x => x.UID == codeUID);
 						if (code != null)
 						{
-							mpt.DescriptorDependentObjects.Add(code);
-							code.DescriptorDependentObjects.Add(mpt);
+							mpt.ChildDescriptors.Add(code);
+							code.ChildDescriptors.Add(mpt);
 						}
 					}
 				}
@@ -113,76 +113,70 @@ namespace FiresecAPI.GK
 
 			foreach (var door in Doors)
 			{
-				door.DescriptorDependentObjects = new List<GKBase>();
-				door.DescriptorDependentObjects.AddRange(door.OpenRegimeLogic.GetObjects());
-				door.DescriptorDependentObjects.AddRange(door.NormRegimeLogic.GetObjects());
-				door.DescriptorDependentObjects.AddRange(door.CloseRegimeLogic.GetObjects());
+				door.ChildDescriptors = new List<GKBase>();
+				door.ChildDescriptors.AddRange(door.OpenRegimeLogic.GetObjects());
+				door.ChildDescriptors.AddRange(door.NormRegimeLogic.GetObjects());
+				door.ChildDescriptors.AddRange(door.CloseRegimeLogic.GetObjects());
 
 				if (door.EnterDevice != null)
 				{
-					door.DescriptorDependentObjects.Add(door.EnterDevice);
-					door.EnterDevice.DescriptorDependentObjects.Add(door);
+					door.ChildDescriptors.Add(door.EnterDevice);
+					door.EnterDevice.ChildDescriptors.Add(door);
 				}
 
 				if (door.ExitDevice != null)
 				{
-					door.DescriptorDependentObjects.Add(door.ExitDevice);
-					door.ExitDevice.DescriptorDependentObjects.Add(door);
+					door.ChildDescriptors.Add(door.ExitDevice);
+					door.ExitDevice.ChildDescriptors.Add(door);
 				}
 
 				if (door.EnterButton != null)
 				{
-					door.DescriptorDependentObjects.Add(door.EnterButton);
-					door.EnterButton.DescriptorDependentObjects.Add(door);
+					door.ChildDescriptors.Add(door.EnterButton);
+					door.EnterButton.ChildDescriptors.Add(door);
 				}
 
 				if (door.ExitButton != null)
 				{
-					door.DescriptorDependentObjects.Add(door.ExitButton);
-					door.ExitButton.DescriptorDependentObjects.Add(door);
+					door.ChildDescriptors.Add(door.ExitButton);
+					door.ExitButton.ChildDescriptors.Add(door);
 				}
 
 				if (door.LockDevice != null)
 				{
-					door.DescriptorDependentObjects.Add(door.LockDevice);
-					door.LockDevice.DescriptorDependentObjects.Add(door);
+					door.ChildDescriptors.Add(door.LockDevice);
+					door.LockDevice.ChildDescriptors.Add(door);
 				}
 
 				if (door.LockDeviceExit != null)
 				{
-					door.DescriptorDependentObjects.Add(door.LockDeviceExit);
-					door.LockDeviceExit.DescriptorDependentObjects.Add(door);
+					door.ChildDescriptors.Add(door.LockDeviceExit);
+					door.LockDeviceExit.ChildDescriptors.Add(door);
 				}
 
 				if (door.LockControlDevice != null)
 				{
-					door.DescriptorDependentObjects.Add(door.LockControlDevice);
-					door.LockControlDevice.DescriptorDependentObjects.Add(door);
+					door.ChildDescriptors.Add(door.LockControlDevice);
+					door.LockControlDevice.ChildDescriptors.Add(door);
 				}
 
 				if (door.LockControlDeviceExit != null)
 				{
-					door.DescriptorDependentObjects.Add(door.LockControlDeviceExit);
-					door.LockControlDeviceExit.DescriptorDependentObjects.Add(door);
+					door.ChildDescriptors.Add(door.LockControlDeviceExit);
+					door.LockControlDeviceExit.ChildDescriptors.Add(door);
 				}
 
 				gkBases.Add(door);
 			}
 
-			gkBases.ForEach(x => x.IsReady = false);
-			while (gkBases.Any(x => !x.IsReady))
-			{
-				foreach (var gkBase in gkBases.Where(x => !x.IsReady))
-				{
-					gkBase.CalculateDescriptorDependentObjects();
-				}
-			}
+			gkBases.ForEach(x => x.IsChildDescriptorsReady = false);
+			gkBases.ForEach(x => x.CalculateAllChildDescriptors());
 
 			foreach (var gkBase in gkBases)
 			{
 				var kauParents = new HashSet<GKDevice>();
 				var gkParents = new HashSet<GKDevice>();
-				foreach (var dependentObject in gkBase.DescriptorDependentObjects)
+				foreach (var dependentObject in gkBase.ChildDescriptors)
 				{
 					if (dependentObject is GKDevice)
 					{
@@ -197,7 +191,7 @@ namespace FiresecAPI.GK
 						}
 					}
 				}
-				foreach (var dependentObject in gkBase.DescriptorDependentObjects)
+				foreach (var dependentObject in gkBase.ChildDescriptors)
 				{
 					if (dependentObject is GKDoor)
 					{
@@ -205,7 +199,7 @@ namespace FiresecAPI.GK
 					}
 				}
 
-				foreach (var dependentObject in gkBase.DescriptorDependentObjects)
+				foreach (var dependentObject in gkBase.ChildDescriptors)
 				{
 					if (dependentObject is GKGuardZone)
 					{

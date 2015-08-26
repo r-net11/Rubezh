@@ -86,7 +86,6 @@
     <Compile Include="DescriptorsDatabase\Descriptors\ZoneDescriptor.cs" />
     <Compile Include="DescriptorsDatabase\PumpStationCreator.cs" />
     <Compile Include="DescriptorsDatabase\MPTCreator.cs" />
-    <Compile Include="DescriptorsDatabase\TestDescriptorsCreator.cs" />
     <Compile Include="DescriptorStateHelper.cs" />
     <Compile Include="BytesHelper.cs" />
     <Compile Include="Diagnostics\DiagnosticsItem.cs" />
