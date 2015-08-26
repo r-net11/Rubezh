@@ -36,8 +36,8 @@ namespace GKProcessor
 		}
 		public static List<byte> CreateHash1(GKDeviceConfiguration deviceConfiguration, GKDevice gkControllerDevice)
 		{
-			deviceConfiguration.UpdateConfiguration();
-			deviceConfiguration.PrepareDescriptors();
+			//deviceConfiguration.UpdateConfiguration();
+			//deviceConfiguration.PrepareDescriptors();
 			var stringBuilder = new StringBuilder();
 			stringBuilder.Append("devices:");
 			foreach (var device in deviceConfiguration.Devices)
