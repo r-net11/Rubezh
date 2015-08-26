@@ -359,7 +359,7 @@ namespace Controls.ListViewLayoutManager
 					}
 				}
 			}
-		} // ResizeColumns
+		}
 
 		// returns the delta
 		private double SetRangeColumnToBounds(GridViewColumn gridViewColumn)

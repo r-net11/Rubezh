@@ -6,6 +6,7 @@
 	xmlns:Views="clr-namespace:SKDModule.Views"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:ctr="clr-namespace:Controls.ListViewLayoutManager;assembly=Controls"
 	xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
 	xmlns:viewModel="clr-namespace:SKDModule.ViewModels"
 	d:DesignHeight="300"
@@ -25,6 +26,7 @@
 		<tree:TreeList
 			Name="_treeList"
 			Focusable="True"
+			ctr:ListViewLayoutManager.Enabled="True"
 			ItemActivatedCommand="{Binding EditCommand}"
 			SelectedTreeNode="{Binding SelectedItem}"
 			Source="{Binding Organisations}"
@@ -60,6 +62,7 @@
 					<GridViewColumn
 						Header="Примечание"
 						Width="300"
+						ctr:ProportionalColumn.Width="1"
 						tree:SortBehavior.SortComparer="{StaticResource AccessTemplateViewModelDescriptionComparer}">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>

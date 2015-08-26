@@ -12,14 +12,11 @@ namespace Controls.ListViewLayoutManager
 {
 	public abstract class ImageGridViewColumn : GridViewColumn, IValueConverter
 	{
-
-		// ----------------------------------------------------------------------
 		protected ImageGridViewColumn() :
 			this(Stretch.None)
 		{
-		} // ImageGridViewColumn
+		}
 
-		// ----------------------------------------------------------------------
 		protected ImageGridViewColumn(Stretch imageStretch)
 		{
 			FrameworkElementFactory imageElement = new FrameworkElementFactory(typeof(Image));
@@ -38,22 +35,18 @@ namespace Controls.ListViewLayoutManager
 			DataTemplate template = new DataTemplate();
 			template.VisualTree = imageElement;
 			CellTemplate = template;
-		} // ImageGridViewColumn
+		}
 
-		// ----------------------------------------------------------------------
 		protected abstract ImageSource GetImageSource(object value);
 
-		// ----------------------------------------------------------------------
 		object IValueConverter.Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
 			return GetImageSource(value);
-		} // Convert
+		}
 
-		// ----------------------------------------------------------------------
 		object IValueConverter.ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
 		{
 			throw new NotImplementedException();
-		} // ConvertBack
-
-	} // class ImageGridViewColumn
+		}
+	}
 }
