@@ -50,7 +50,7 @@
 				CanUserSortColumns="True"
 				Focusable="True"
 				ItemsSource="{Binding Source={StaticResource cvsZones}}"
-				SelectedItem="{Binding SelectedZone}">
+				SelectedItem="{Binding SelectedZone, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 				<DataGrid.Columns>
 					<DataGridTemplateColumn
 						Width="40"

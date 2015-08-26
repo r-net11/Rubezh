@@ -95,7 +95,6 @@ namespace SKDModule.ViewModels
 			if (inputTimeTrackPart != null)
 			{
 				CurrentTimeTrackPart = inputTimeTrackPart;
-				SelectedZone = inputTimeTrackPart.TimeTrackZone;
 				CurrentTimeTrackPart.EnterTime = inputTimeTrackPart.EnterTime;
 				CurrentTimeTrackPart.ExitTime = inputTimeTrackPart.ExitTime;
 				NotTakeInCalculations = inputTimeTrackPart.NotTakeInCalculations;
@@ -110,9 +109,11 @@ namespace SKDModule.ViewModels
 					ExitDateTime = dayTimeTrack.Date,
 					IsManuallyAdded = true
 				};
-				SelectedZone = Zones.FirstOrDefault();
+
 				Title = "Добавить проход";
 			}
+
+			SelectedZone = Zones.FirstOrDefault();
 		}
 		#endregion
 
