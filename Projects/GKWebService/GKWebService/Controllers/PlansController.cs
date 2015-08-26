@@ -97,6 +97,12 @@ namespace GKWebService.Controllers
                                            .ToList();
 
                 shapes.Add(PolygonToShape(points, planElement));
+				IEnumerable<Point> arrPoints = null;
+				planElement.Points.Dispatcher.Invoke(() =>
+					{
+						arrPoints = planElement.Points.ToArray();
+					});
+				//var temp = planElement.Points.Select(p => new Tuple<double, double>(p.X, p.Y));
                 //planElement.Points.Dispatcher.Invoke(() =>
                 //        {
                 //            List<Tuple<double, double>> points =

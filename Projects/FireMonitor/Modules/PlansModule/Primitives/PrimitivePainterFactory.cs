@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Painters;
+using PlansModule.ViewModels;
 
 namespace PlansModule.Primitives
 {
@@ -30,7 +31,15 @@ namespace PlansModule.Primitives
 			Func<CommonDesignerCanvas, ElementBase, IPainter> factoryMethod = null;
 			if (factoryMethods.TryGetValue(primitive.Primitive, out factoryMethod))
 			{
-				return new PrimitivePainter(factoryMethod(canvas, element));
+				IPainter wrappedPainter = factoryMethod(canvas, element);
+				PrimitiveToolTipViewModel tooltip = new PrimitiveToolTipViewModel()
+				{
+					Name = element.PresentationName,
+				};
+				return new PrimitivePainter(wrappedPainter)
+				{
+					ToolTip = tooltip,
+				};
 			}
 			else
 				throw new InvalidOperationException("Unknown Primitive Type");

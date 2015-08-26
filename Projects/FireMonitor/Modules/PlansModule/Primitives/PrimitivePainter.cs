@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Media;
+using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Painters;
 
@@ -54,10 +55,12 @@ namespace PlansModule.Primitives
 
 		public object GetToolTip(string title)
 		{
-			return this.primitivePainter.GetToolTip(title);
+			return this.ToolTip;
 		}
 
 		#region Properties
+
+		public BaseViewModel ToolTip { get; set; }
 
 		#endregion
 
