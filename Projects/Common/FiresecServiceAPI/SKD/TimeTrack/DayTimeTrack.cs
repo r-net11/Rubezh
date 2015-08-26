@@ -455,7 +455,7 @@ namespace FiresecAPI.SKD
 			{
 				var type = TimeTrackType.Overtime;
 				if (timeTrackPart.EnterDateTime.TimeOfDay > schedulePlannedInterval.StartTime.TimeOfDay &&
-					timeTrackPart.ExitDateTime.Value.TimeOfDay < schedulePlannedInterval.EndTime.Value.TimeOfDay)
+					timeTrackPart.ExitDateTime.GetValueOrDefault().TimeOfDay < schedulePlannedInterval.EndTime.GetValueOrDefault().TimeOfDay)
 					type = TimeTrackType.PresenceInBrerak;
 				return type;
 			}
