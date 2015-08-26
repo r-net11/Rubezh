@@ -255,7 +255,7 @@ namespace SKDModule.ViewModels
 			OpenFileCommand = new RelayCommand(OnOpenFile);
 			RemoveFileCommand = new RelayCommand(OnRemoveFile);
 			AddCustomPartCommand = new RelayCommand(OnAddCustomPart, CanAddPart);
-			RemovePartCommand = new RelayCommand(OnRemovePart, CanEditRemovePart);
+			RemovePartCommand = new RelayCommand(OnRemovePart, CanRemovePart);
 			EditPartCommand = new RelayCommand(OnEditPart, CanEditRemovePart);
 			ResetAdjustmentsCommand = new RelayCommand(OnResetAdjustments);
 			DayTimeTrack = dayTimeTrack;
@@ -383,9 +383,17 @@ namespace SKDModule.ViewModels
 				DayTimeTrackParts.Remove(SelectedDayTimeTrackPart);
 				SelectedDayTimeTrackPart = DayTimeTrackParts.FirstOrDefault();
 				IsDirty = true;
-				ServiceFactory.Events.GetEvent<EditTimeTrackPartEvent>().Publish(ShortEmployee.UID);
+				ServiceFactoryBase.Events.GetEvent<EditTimeTrackPartEvent>().Publish(ShortEmployee.UID);
 			}
 		}
+
+		public bool CanRemovePart()
+		{
+			return SelectedDayTimeTrackPart != null
+				&& SelectedDayTimeTrackPart.IsManuallyAdded
+				&& FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Parts_Edit);
+		}
+
 		bool CanEditRemovePart()
 		{
 			return SelectedDayTimeTrackPart != null && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Parts_Edit);
@@ -403,7 +411,7 @@ namespace SKDModule.ViewModels
 				timeTrackPartDetailsViewModel.CurrentTimeTrackPart.IsNew = default(bool);
 
 				IsDirty = true;
-				ServiceFactory.Events.GetEvent<EditTimeTrackPartEvent>().Publish(ShortEmployee.UID);
+				ServiceFactoryBase.Events.GetEvent<EditTimeTrackPartEvent>().Publish(ShortEmployee.UID);
 			}
 		}
 
@@ -432,7 +440,7 @@ namespace SKDModule.ViewModels
 					Documents.Add(documentViewModel);
 					SelectedDocument = documentViewModel;
 					IsDirty = true;
-					ServiceFactory.Events.GetEvent<EditDocumentEvent>().Publish(documentDetailsViewModel.TimeTrackDocument);
+					ServiceFactoryBase.Events.GetEvent<EditDocumentEvent>().Publish(documentDetailsViewModel.TimeTrackDocument);
 				}
 			}
 		}
@@ -453,7 +461,7 @@ namespace SKDModule.ViewModels
 				{
 					MessageBoxService.ShowWarning(operationResult.Error);
 				}
-				ServiceFactory.Events.GetEvent<EditDocumentEvent>().Publish(document);
+				ServiceFactoryBase.Events.GetEvent<EditDocumentEvent>().Publish(document);
 				SelectedDocument.Update();
 				IsDirty = true;
 			}
@@ -475,7 +483,7 @@ namespace SKDModule.ViewModels
 				}
 				else
 				{
-					ServiceFactory.Events.GetEvent<RemoveDocumentEvent>().Publish(SelectedDocument.Document);
+					ServiceFactoryBase.Events.GetEvent<RemoveDocumentEvent>().Publish(SelectedDocument.Document);
 					Documents.Remove(SelectedDocument);
 					IsDirty = true;
 				}
@@ -522,7 +530,7 @@ namespace SKDModule.ViewModels
 		{
 			if (!ShowResetAdjustmentsWarning()) return;
 
-			RemoveManuallyAddedIntervals(DayTimeTrackParts);
+			ClearIntervalsData(DayTimeTrackParts);
 
 			var resultCollection = DayTimeTrackParts.Where(x => !x.IsManuallyAdded || x.IsForceClosed).ToList();
 			List<DayTimeTrackPart> collection = DayTimeTrackParts.Where(x => !string.IsNullOrEmpty(x.CorrectedBy) && !x.IsForceClosed).ToList();
@@ -621,7 +629,7 @@ namespace SKDModule.ViewModels
 			DayTimeTrackParts = new ObservableCollection<DayTimeTrackPart>(hyperResultCollection);
 		}
 
-		private void RemoveManuallyAddedIntervals(ObservableCollection<DayTimeTrackPart> dayTimeTrackParts)
+		private void ClearIntervalsData(ObservableCollection<DayTimeTrackPart> dayTimeTrackParts)
 		{
 			List<DayTimeTrackPart> searchCollection = new List<DayTimeTrackPart>(dayTimeTrackParts);
 			foreach (var dayTimeTrackPart in searchCollection)
@@ -631,19 +639,18 @@ namespace SKDModule.ViewModels
 					PassJournalHelper.DeleteAllPassJournalItems(dayTimeTrackPart.ToDTO());
 					IsDirty = true;
 					DayTimeTrackParts.Remove(dayTimeTrackPart);
-					ServiceFactory.Events.GetEvent<EditTimeTrackPartEvent>().Publish(ShortEmployee.UID);
+					ServiceFactoryBase.Events.GetEvent<EditTimeTrackPartEvent>().Publish(ShortEmployee.UID);
+				}
+				else
+				{
+					IsDirty = true;
+					dayTimeTrackPart.IsDirty = true;
+					dayTimeTrackPart.AdjustmentDate = null;
+					dayTimeTrackPart.CorrectedDate = null;
+					dayTimeTrackPart.CorrectedBy = null;
+					dayTimeTrackPart.CorrectedByUID = null;
 				}
 			}
-			//for (var i = 0; i <= searchCollection.Count(); i++)
-			//{
-			//	if (dayTimeTrackParts[i].IsManuallyAdded)
-			//	{
-			//		PassJournalHelper.DeleteAllPassJournalItems(dayTimeTrackParts[i].ToDTO());
-			//		DayTimeTrackParts.RemoveAt(i);
-			//		IsDirty = true;
-			//		ServiceFactory.Events.GetEvent<EditTimeTrackPartEvent>().Publish(ShortEmployee.UID);
-			//	}
-			//}
 		}
 
 		#endregion
