@@ -261,7 +261,7 @@ namespace PowerCalculator.Processor
                         InsertSupplier(testLine, index);
                         if (!CalculateLine(testLine).Any(x => testLine.Devices.IndexOf(x.Device) < index && (x.HasIError || x.HasUError)))
                         {
-                            patch.Add(index);
+							AddPatchItem(patch, index);
                             break;
                         }
                     }
@@ -270,7 +270,7 @@ namespace PowerCalculator.Processor
                 {
                     if (!CalculateLine(testLine).Any(x => x.HasIError || x.HasUError))
                     {
-                        patch.Add(index);
+                        AddPatchItem(patch, index);
                         return patch;
                     }
                     testLine.Devices.RemoveAt(index);
@@ -286,6 +286,12 @@ namespace PowerCalculator.Processor
             supplier.Cable.Length = line.Devices[index].Cable.Length;
             supplier.Cable.Resistivity = line.Devices[index].Cable.Resistivity;
             line.Devices.Insert(index, supplier);
+        }
+
+        static void AddPatchItem(List<int> patch, int index)
+        {
+            patch.RemoveAll(x => x >= index);
+            patch.Add(index);
         }
     }
 }
