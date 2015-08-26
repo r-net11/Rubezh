@@ -13,9 +13,9 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(result);
 		}
 
-		public static IEnumerable<Organisation> GetByCurrentUser()
+		public static IEnumerable<Organisation> GetByCurrentUser(LogicalDeletationType logicalDeletationType = LogicalDeletationType.Active)
 		{
-			return Get(new OrganisationFilter() { UserUID = FiresecManager.CurrentUser.UID });
+			return Get(new OrganisationFilter() { UserUID = FiresecManager.CurrentUser.UID, LogicalDeletationType = logicalDeletationType });
 		}
 
 		public static bool Save(OrganisationDetails organisation, bool isNew)

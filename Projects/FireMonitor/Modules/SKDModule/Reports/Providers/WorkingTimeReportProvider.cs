@@ -13,7 +13,7 @@ namespace SKDModule.Reports.Providers
 		{
 		}
 
-		public override FilterModel GetFilterModel()
+		public override FilterModel InitializeFilterModel()
 		{
 			return new FilterModel()
 			{

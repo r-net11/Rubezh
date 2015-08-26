@@ -8,6 +8,7 @@ using Infrastructure.Common;
 namespace SKDModule.ViewModels
 {
 	public class PositionsFilterViewModel : OrganisationBaseViewModel<ShortPosition, PositionFilter, PositionFilterItemViewModel, PositionDetailsViewModel>
+
 	{
 		public PositionsFilterViewModel()
 			: base()
@@ -87,6 +88,17 @@ namespace SKDModule.ViewModels
 		protected override List<ShortPosition> GetFromCallbackResult(FiresecAPI.DbCallbackResult dbCallbackResult)
 		{
 			return dbCallbackResult.Positions;
+		}
+
+		public List<Guid> OrganisationUIDs
+		{
+			get { return _filter.OrganisationUIDs; }
+			set { _filter.OrganisationUIDs = value; }
+		}
+
+		public void InitializeFilter()
+		{
+			Initialize(_filter);
 		}
 	}
 }

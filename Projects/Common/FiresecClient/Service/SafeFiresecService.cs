@@ -61,9 +61,9 @@ namespace FiresecClient
 			{
 				LogException(e, methodName);
 				OnConnectionLost();
-				if (reconnectOnException)
+				if (reconnectOnException && !Recover())
 				{
-					Recover();
+                    FiresecServiceFactory.Dispose();
 				}
 			}
 			return default(T);
@@ -80,9 +80,9 @@ namespace FiresecClient
 			{
 				LogException(e, methodName);
 				OnConnectionLost();
-				if (reconnectOnException)
+				if (reconnectOnException && !Recover())
 				{
-					Recover();
+                    FiresecServiceFactory.Dispose();
 				}
 			}
 		}
@@ -145,6 +145,7 @@ namespace FiresecClient
 			isConnected = true;
 		}
 
+        public static event Action<string> ReconnectionErrorEvent;
 		bool Recover()
 		{
 			if (IsDisconnecting)
@@ -158,12 +159,15 @@ namespace FiresecClient
 				FiresecServiceFactory.Dispose();
 				FiresecServiceFactory = new FiresecClient.FiresecServiceFactory();
 				FiresecService = FiresecServiceFactory.Create(_serverAddress);
-				FiresecService.Connect(FiresecServiceFactory.UID, _clientCredentials, false);
-				return true;
+                var operationResult = FiresecService.Connect(FiresecServiceFactory.UID, _clientCredentials, false);
+                if (operationResult.HasError && ReconnectionErrorEvent != null)
+                {
+                    ReconnectionErrorEvent(operationResult.Error);
+                }
+				return operationResult.Result;
 			}
 			catch
 			{
-                FiresecServiceFactory.Dispose();
 				return false;
 			}
 			finally

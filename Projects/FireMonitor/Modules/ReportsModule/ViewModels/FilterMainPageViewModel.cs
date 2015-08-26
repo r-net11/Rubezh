@@ -306,7 +306,7 @@ namespace ReportsModule.ViewModels
 			}
 			HasArchive = filter is IReportFilterArchive;
 			if (HasArchive)
-				UseArchive = ((IReportFilterArchive)filter).UseArchive;
+				_useArchive = ((IReportFilterArchive)filter).UseArchive;
 		}
 
 		public override void UpdateFilter(SKDReportFilter filter)

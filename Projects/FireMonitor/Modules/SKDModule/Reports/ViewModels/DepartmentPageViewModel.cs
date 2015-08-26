@@ -15,25 +15,23 @@ namespace SKDModule.Reports.ViewModels
 		{
 			Title = "Подразделения";
 			Filter = new DepartmentsFilterViewModel();
-			ServiceFactory.Events.GetEvent<SKDReportUseArchiveChangedEvent>().Unsubscribe(OnUseArchive);
-			ServiceFactory.Events.GetEvent<SKDReportUseArchiveChangedEvent>().Subscribe(OnUseArchive);
-			_OrganisationChangedSubscriber = new OrganisationChangedSubscriber(this);
 			OrganisationUIDs = new List<Guid>();
 		}
 
 		IReportFilterDepartment _reportFilter;
 		public List<Guid> OrganisationUIDs { get; set; }
-		bool _isWithDeleted;
+		public bool IsWithDeleted { get; set; }
 		public DepartmentsFilterViewModel Filter { get; private set; }
 		OrganisationChangedSubscriber _OrganisationChangedSubscriber;
 
 		public override void LoadFilter(SKDReportFilter filter)
 		{
+			_OrganisationChangedSubscriber = new OrganisationChangedSubscriber(this);
 			_reportFilter = filter as IReportFilterDepartment;
 			var organisations = (filter as IReportFilterOrganisation).Organisations;
 			OrganisationUIDs = organisations != null ? organisations : new List<Guid>();
 			var filterArchive = filter as IReportFilterArchive;
-			_isWithDeleted = filterArchive != null && filterArchive.UseArchive;
+			IsWithDeleted = filterArchive != null && filterArchive.UseArchive;
 			InitializeFilter();
 		}
 		public override void UpdateFilter(SKDReportFilter filter)
@@ -42,40 +40,14 @@ namespace SKDModule.Reports.ViewModels
 			if (departmentFilter != null)
 				departmentFilter.Departments = Filter.UIDs;
 		}
-		void OnUseArchive(bool isWithDeleted)
-		{
-			_isWithDeleted = isWithDeleted;
-			InitializeFilter();
-		}
-		
 		public void InitializeFilter()
 		{
-			Filter.Initialize(_reportFilter == null ? null : _reportFilter.Departments, OrganisationUIDs, _isWithDeleted ? LogicalDeletationType.All : LogicalDeletationType.Active);
+			Filter.Initialize(_reportFilter == null ? null : _reportFilter.Departments, OrganisationUIDs, IsWithDeleted ? LogicalDeletationType.All : LogicalDeletationType.Active);
 		}
-	}
 
-	public interface IOrganisationItemsFilterPage
-	{
-		List<Guid> OrganisationUIDs { get; set; }
-		void InitializeFilter();
-	}
-
-	public class OrganisationChangedSubscriber
-	{
-		IOrganisationItemsFilterPage _parent;
-
-		public OrganisationChangedSubscriber(IOrganisationItemsFilterPage parent)
+		public void Unsubscribe()
 		{
-			_parent = parent;
-			ServiceFactory.Events.GetEvent<SKDReportOrganisationChangedEvent>().Unsubscribe(OnOrganisationChanged);
-			ServiceFactory.Events.GetEvent<SKDReportOrganisationChangedEvent>().Subscribe(OnOrganisationChanged);
+			_OrganisationChangedSubscriber.Unsubscribe();
 		}
-
-		void OnOrganisationChanged(List<Guid> organisationUIDs)
-		{
-			_parent.OrganisationUIDs = organisationUIDs;
-			_parent.InitializeFilter();
-		}
-
 	}
 }
