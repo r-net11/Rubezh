@@ -57,6 +57,8 @@ namespace SKDModule.ViewModels
 				EmployeesFilterViewModel.Initialize(Filter.EmployeeFilter, Filter.LogicalDeletationType, Filter.EmployeeFilter.PersonType);
 				PositionsFilterViewModel.Initialize(Filter.EmployeeFilter.PositionUIDs, Filter.LogicalDeletationType);
 				DepartmentsFilterViewModel.Initialize(Filter.EmployeeFilter.DepartmentUIDs, Filter.LogicalDeletationType);
+				Filter.OrganisationUIDs = OrganisationUIDs;
+				InitializeOrganisations(Filter);
 			}
 		}
 
