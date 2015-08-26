@@ -540,7 +540,7 @@ namespace SKDModule.ViewModels
 
 			if (conflictIntervals == null)
 			{
-				IsDirty = true;
+				ResetAdjustmentsNoConflict();
 				return;
 			}
 
@@ -650,6 +650,15 @@ namespace SKDModule.ViewModels
 					dayTimeTrackPart.CorrectedBy = null;
 					dayTimeTrackPart.CorrectedByUID = null;
 				}
+			}
+		}
+
+		private void ResetAdjustmentsNoConflict()
+		{
+			foreach (var dayTimeTrack in DayTimeTrackParts)
+			{
+				dayTimeTrack.EnterDateTime = dayTimeTrack.EnterTimeOriginal;
+				dayTimeTrack.ExitDateTime = dayTimeTrack.ExitTimeOriginal;
 			}
 		}
 
