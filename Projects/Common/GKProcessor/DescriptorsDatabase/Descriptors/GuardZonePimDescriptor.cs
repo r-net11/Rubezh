@@ -41,12 +41,12 @@ namespace GKProcessor
 			SetGuardZoneChangeLogic(PimGuardZone, GuardZoneDevices, Formula, true);
 
 			Formula.Add(FormulaOperationType.DUP);
-			Formula.AddGetBit(GKStateBit.On, Pim);
+			Formula.AddGetBit(GKStateBit.On, PimGuardZone);
 			Formula.Add(FormulaOperationType.AND);
-			Formula.AddPutBit(GKStateBit.TurnOffNow_InAutomatic, Pim);
-			Formula.AddGetBit(GKStateBit.Off, Pim);
+			Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Pim);
+			Formula.AddGetBit(GKStateBit.Off, PimGuardZone);
 			Formula.Add(FormulaOperationType.AND);
-			Formula.AddPutBit(GKStateBit.TurnOnNow_InAutomatic, Pim);
+			Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Pim);
 			Formula.Add(FormulaOperationType.END);
 		}
 
