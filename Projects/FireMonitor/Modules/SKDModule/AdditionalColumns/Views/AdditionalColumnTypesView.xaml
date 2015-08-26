@@ -1,4 +1,11 @@
-﻿<UserControl x:Class="SKDModule.Views.AdditionalColumnTypesView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:Converters="clr-namespace:SKDModule.Converters" xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls" xmlns:viewModel="clr-namespace:SKDModule.ViewModels">
+﻿<UserControl
+	x:Class="SKDModule.Views.AdditionalColumnTypesView"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:ctr="clr-namespace:Controls.ListViewLayoutManager;assembly=Controls"
+	xmlns:Converters="clr-namespace:SKDModule.Converters"
+	xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
+	xmlns:viewModel="clr-namespace:SKDModule.ViewModels">
 	<UserControl.Resources>
 		<viewModel:AdditionalColumnTypeViewModelNameComparer x:Key="AdditionalColumnTypeViewModelNameComparer" />
 		<viewModel:AdditionalColumnTypeViewModelDescriptionComparer x:Key="AdditionalColumnTypeViewModelDescriptionComparer" />
@@ -6,8 +13,14 @@
 		<Converters:DataTypeToStringConverter x:Key="DataTypeToStringConverter" />
 	</UserControl.Resources>
 
-	<tree:TreeList Name="_treeList" Focusable="True" tree:SortBehavior.CanUserSortColumns="True"
-				   Source="{Binding Organisations}" SelectedTreeNode="{Binding SelectedItem}" ItemActivatedCommand="{Binding EditCommand}" >
+	<tree:TreeList
+		Name="_treeList"
+		Focusable="True"
+		ctr:ListViewLayoutManager.Enabled="True"
+		tree:SortBehavior.CanUserSortColumns="True"
+		Source="{Binding Organisations}"
+		SelectedTreeNode="{Binding SelectedItem}"
+		ItemActivatedCommand="{Binding EditCommand}" >
 		<tree:TreeList.View>
 			<GridView>
 				<GridViewColumn Header="Название" Width="300" tree:SortBehavior.SortComparer="{StaticResource AdditionalColumnTypeViewModelNameComparer}">
@@ -28,7 +41,10 @@
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
-				<GridViewColumn Header="Формат данных" Width="150" tree:SortBehavior.SortComparer="{StaticResource AdditionalColumnTypeViewModelDataTypeComparer}">
+				<GridViewColumn
+					Header="Формат данных"
+					ctr:ProportionalColumn.Width="1"
+					tree:SortBehavior.SortComparer="{StaticResource AdditionalColumnTypeViewModelDataTypeComparer}">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding DataType}" Style="{StaticResource IsDeletedStyle}" />
