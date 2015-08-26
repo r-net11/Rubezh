@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Windows;
 using FiresecAPI;
 using FiresecAPI.Models;
 using Infrastructure;
@@ -53,10 +54,25 @@ namespace StrazhModule.ViewModels
 			}
 		}
 
-		public bool ConfirmDeactivation()
+		/// <summary>
+		/// Проверяет связь с недельными графиками доступа и выводит соответствующее предупреждающее окно перед процедурой удаления дневного графика доступа
+		/// </summary>
+		/// <returns>true - нужно удалить дневной график доступа, false - не нужно удалять дневной график доступа</returns>
+		public bool ConfirmRemoval()
 		{
 			var hasReference = SKDManager.TimeIntervalsConfiguration.WeeklyIntervals.Any(item => item.WeeklyIntervalParts.Any(part => part.DayIntervalUID == DayInterval.UID));
-			return !hasReference || MessageBoxService.ShowConfirmation("Данный дневной график используется в одном или нескольких недельных графиках, Вы уверены что хотите его деактивировать?");
+			return hasReference
+				? MessageBoxService.ShowQuestion(String.Format("Дневной график доступа \"{0}\" используется в одном или нескольких недельных графиках доступа. При его удалении он будет заменен в недельных графиках доступа на дневной график \"Никогда\". Вы действительно хотите его удалить?", Name), null, MessageBoxImage.Warning)
+				: MessageBoxService.ShowQuestion(String.Format("Вы действительно хотите удалить дневной график доступа \"{0}\"?", Name));
+		}
+
+		/// <summary>
+		/// Возвращает коллекцию недельных графиков доступа, которые ссылаются на текущий дневной график доступа
+		/// </summary>
+		/// <returns>Коллекция недельных графиков доступа</returns>
+		public IEnumerable<SKDWeeklyInterval> GetLinkedWeeklyIntervals()
+		{
+			return SKDManager.TimeIntervalsConfiguration.WeeklyIntervals.Where(item => item.WeeklyIntervalParts.Any(part => part.DayIntervalUID == DayInterval.UID)).ToList();
 		}
 	}
 }
