@@ -109,8 +109,6 @@ namespace SKDModule.ViewModels
 
 		public ResetAdjustmentsConflictDialogWindowViewModel()
 		{
-			//SaveCaption = "Установить границы без пересечений с другими интервалами";
-		//	CancelCaption = "Удалить корректировки пересекающихся интервалов";
 			RoundIntervalCommand = new RelayCommand(OnRoundingInterval);
 			RemoveIntervalCommand = new RelayCommand(OnRemovingInverval);
 		}

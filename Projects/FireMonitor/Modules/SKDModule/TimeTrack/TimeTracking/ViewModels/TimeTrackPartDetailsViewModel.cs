@@ -185,24 +185,26 @@ namespace SKDModule.ViewModels
 
 		public bool Validate()
 		{
-			if (CurrentTimeTrackPart.EnterDateTime == null || CurrentTimeTrackPart.ExitDateTime == null)
-			{
-				MessageBoxService.Show("Выберите дату начала и дату конца интервала");
-				return false;
-			}
+			var intersectionCollection = GetIntersectionIntervals(_parent, CurrentTimeTrackPart);
 
-			if (_parent == null || !IsIntersection(_parent)) return true;
-			MessageBoxService.Show("Невозможно добавить пересекающийся интервал");
-			return false;
+			return !intersectionCollection.Any() 
+				|| DialogService.ShowModalWindow(new WarningIntersectionIntervalDialogWindowViewModel(CurrentTimeTrackPart, intersectionCollection));
+		}
+
+		private List<DayTimeTrackPart> GetIntersectionIntervals(TimeTrackDetailsViewModel timeTrackDetailsViewModel, DayTimeTrackPart currentTimeTrackPart)
+		{
+			if (timeTrackDetailsViewModel == null) return new List<DayTimeTrackPart>();
+
+			return
+				timeTrackDetailsViewModel.DayTimeTrackParts
+				.Where(x => x.UID != currentTimeTrackPart.UID)
+				.Where(dayTimeTrackPart => dayTimeTrackPart.EnterDateTime < CurrentTimeTrackPart.ExitDateTime && dayTimeTrackPart.ExitDateTime > currentTimeTrackPart.EnterDateTime)
+				.ToList();
 		}
 
 		public bool IsIntersection(TimeTrackDetailsViewModel timeTrackDetailsViewModel)
 		{
-			return timeTrackDetailsViewModel.DayTimeTrackParts.Any(x => x.UID != CurrentTimeTrackPart.UID &&
-																		(x.EnterDateTime < (CurrentTimeTrackPart.EnterDateTime + CurrentTimeTrackPart.EnterTime) &&
-																		x.ExitDateTime > (CurrentTimeTrackPart.EnterDateTime + CurrentTimeTrackPart.EnterTime) ||
-																		x.EnterDateTime < (CurrentTimeTrackPart.ExitDateTime + CurrentTimeTrackPart.ExitTime) &&
-																		x.ExitDateTime > (CurrentTimeTrackPart.ExitDateTime + CurrentTimeTrackPart.EnterTime)));
+			return timeTrackDetailsViewModel.DayTimeTrackParts.Any(x => x.UID != CurrentTimeTrackPart.UID && (x.EnterDateTime < CurrentTimeTrackPart.ExitDateTime && x.ExitDateTime > CurrentTimeTrackPart.EnterDateTime));
 		}
 
 		#endregion
