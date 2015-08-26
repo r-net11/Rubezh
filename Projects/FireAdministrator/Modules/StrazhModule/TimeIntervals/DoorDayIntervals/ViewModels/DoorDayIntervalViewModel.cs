@@ -60,7 +60,7 @@ namespace StrazhModule.ViewModels
 		{
 			var hasReference = SKDManager.TimeIntervalsConfiguration.DoorWeeklyIntervals.Any(item => item.WeeklyIntervalParts.Any(part => part.DayIntervalUID == DayInterval.UID));
 			return hasReference
-				? MessageBoxService.ShowQuestion(String.Format("Данный дневной график замка \"{0}\" используется в одном или нескольких недельных графиках замка, Вы уверены что хотите удалить его?", Name), null, MessageBoxImage.Warning)
+				? MessageBoxService.ShowQuestion(String.Format("Дневной график замка \"{0}\" используется в одном или нескольких недельных графиках замка. При его удалении он будет заменен в недельных графиках замка на дневной график \"Карта\". Вы действительно хотите его удалить?", Name), null, MessageBoxImage.Warning)
 				: MessageBoxService.ShowQuestion(String.Format("Вы действительно хотите удалить дневной график замка \"{0}\"?",Name));
 		}
 
