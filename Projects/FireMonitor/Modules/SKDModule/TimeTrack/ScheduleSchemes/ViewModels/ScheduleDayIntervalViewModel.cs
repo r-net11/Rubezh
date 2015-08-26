@@ -71,7 +71,7 @@ namespace SKDModule.ViewModels
 
 		public string SelectedDayIntervalName
 		{
-			get { return _selectedDayInterval.Name; }
+			get { return _selectedDayInterval != null ? _selectedDayInterval.Name : ""; }
 		}
 
 		public void SetDayInterval(DayInterval dayInterval)
@@ -88,9 +88,9 @@ namespace SKDModule.ViewModels
                         _scheduleScheme.EditSave(Model);
                     }
                 }
+				OnPropertyChanged(() => SelectedDayInterval);
+				OnPropertyChanged(() => SelectedDayIntervalName);
             }
-            OnPropertyChanged(() => SelectedDayInterval);
-            OnPropertyChanged(() => SelectedDayIntervalName);
 		}
 		bool IsWorkDay(ScheduleDayInterval dayInterval)
 		{

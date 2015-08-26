@@ -262,6 +262,8 @@
       <DependentUpon>PassCardTextPropertyView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Positions\ViewModels\PositionEmployeeListViewModel.cs" />
+    <Compile Include="Reports\ViewModels\Base\IOrganisationItemsFilterPage.cs" />
+    <Compile Include="Reports\ViewModels\Base\OrganisationChangedSubscriber.cs" />
     <Compile Include="Reports\DeviceListReport.cs" />
     <Compile Include="Reports\DeviceListReportPdf.cs" />
     <Compile Include="Reports\Providers\EmployeeReportProvider.cs" />

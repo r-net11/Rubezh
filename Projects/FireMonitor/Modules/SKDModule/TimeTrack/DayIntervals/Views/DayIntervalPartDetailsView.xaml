@@ -13,7 +13,7 @@
 		<TimePicker Grid.Row="0" Grid.Column="1" Margin="2" TimeSpan="{Binding BeginTime}" />
 
 		<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" Text="Конец" />
-		<TimePicker Grid.Row="1" Grid.Column="1" Margin="2" TimeSpan="{Binding EndTime}" />
+		<TimePicker Grid.Row="1" Grid.Column="1" Margin="2" TimeSpan="{Binding EndTime}" IsFullDay="True" />
 
 		<TextBlock Grid.Row="2" Grid.Column="0" Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" Text="Переход" />
 		<ComboBox Grid.Row="2" Grid.Column="1" Margin="2" VerticalAlignment="Center" VerticalContentAlignment="Center" ItemsSource="{Binding AvailableTransitions}" SelectedItem="{Binding SelectedTransition, UpdateSourceTrigger=PropertyChanged}">

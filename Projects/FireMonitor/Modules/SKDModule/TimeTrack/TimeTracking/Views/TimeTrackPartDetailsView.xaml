@@ -34,6 +34,6 @@
 		<TimePicker Grid.Row="1" Grid.Column="1" Margin="2" TimeSpan="{Binding EnterTime}" />
 
 		<TextBlock Grid.Row="2" Grid.Column="0" Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" Text="Время выхода" HorizontalAlignment="Right" VerticalAlignment="Center"   />
-		<TimePicker Grid.Row="2" Grid.Column="1" Margin="2" TimeSpan="{Binding ExitTime}" />
+		<TimePicker Grid.Row="2" Grid.Column="1" Margin="2" TimeSpan="{Binding ExitTime}" IsFullDay="True" />
 	</Grid>
 </UserControl>

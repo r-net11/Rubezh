@@ -73,7 +73,10 @@ namespace SKDModule.ViewModels
 
 		string GetTimeString(TimeSpan timeSpan)
 		{
-			return timeSpan.Hours.ToString("00") + ":" + timeSpan.Minutes.ToString("00") + ":" + timeSpan.Seconds.ToString("00");
+			var result = timeSpan.Hours.ToString("00") + ":" + timeSpan.Minutes.ToString("00") + ":" + timeSpan.Seconds.ToString("00");
+			if (timeSpan >= new TimeSpan(24, 0, 0))
+				result = "24:00:00";
+			return result;
 		}
 	}
 }

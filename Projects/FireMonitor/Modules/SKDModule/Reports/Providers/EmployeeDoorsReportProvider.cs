@@ -14,15 +14,15 @@ namespace SKDModule.Reports.Providers
 		{
 		}
 
-		public override FilterModel GetFilterModel()
+		public override FilterModel InitializeFilterModel()
 		{
 			return new FilterModel()
 			{
 				Columns = new Dictionary<string, string> 
 				{ 
-					{ "AccessPoint", "Название" },
-					{ "ZoneOut", "Из зоны" },
-					{ "ZoneIn", "В зону" },
+					{ "NoDoor", "Название" },
+					{ "NoExitZone", "Из зоны" },
+					{ "NoEnterZone", "В зону" },
 					{ "Enter", "Вход" },
 					{ "Exit", "Выход" },
 					{ "Type", "Тип пропуска" },

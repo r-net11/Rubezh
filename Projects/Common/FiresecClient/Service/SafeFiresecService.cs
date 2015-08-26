@@ -163,6 +163,7 @@ namespace FiresecClient
 			}
 			catch
 			{
+                FiresecServiceFactory.Dispose();
 				return false;
 			}
 			finally

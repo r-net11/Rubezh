@@ -74,6 +74,7 @@ namespace FiresecService
 				ScheduleRunner.Start();
 				ServerTaskRunner.Start();
 				ProcedureRunner.RunOnServerRun();
+                ClientsManager.StartRemoveInactiveClients(TimeSpan.FromMinutes(10));
 				UILogger.Log("Готово");
 				FiresecService.Service.FiresecService.ServerState = ServerState.Ready;
 			}

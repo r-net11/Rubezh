@@ -148,7 +148,7 @@ namespace SKDModule.ViewModels
 
 		public void UpdateCardDoors(IEnumerable<Guid> doorUIDs)
 		{
-			Card.CardDoors.RemoveAll(x => doorUIDs.Any(y => y == x.DoorUID));
+			Card.CardDoors.RemoveAll(x => !doorUIDs.Any(y => y == x.DoorUID));
 			CardDoorsViewModel.UpdateDoors(doorUIDs);
 		}
 	}

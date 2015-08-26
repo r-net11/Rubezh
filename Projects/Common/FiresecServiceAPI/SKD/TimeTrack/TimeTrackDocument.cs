@@ -11,7 +11,7 @@ namespace FiresecAPI.SKD
 			UID = Guid.NewGuid();
 			DocumentCode = 0;
 			StartDateTime = DateTime.Now.Date;
-			EndDateTime = DateTime.Now.Date + new TimeSpan(23, 59, 59);
+			EndDateTime = DateTime.Now.Date;
 			DocumentDateTime = DateTime.Now;
 		}
 
