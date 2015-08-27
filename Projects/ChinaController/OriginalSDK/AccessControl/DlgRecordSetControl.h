@@ -38,6 +38,7 @@ const DemoRecordSetCtlType stuDemoRecordSetCtlType[] =
 	{Em_Operate_Type_Clear,		"Clear"},
 	{Em_Operate_Type_InsertEX,	"InsertEX"},
 	{Em_Operate_Type_UpdateEX,	"UpdateEX"},
+	{Em_Operate_Type_ClearRepeatEnter,	"ClearRepeatEnter"},
 };
 
 /////////////////////////////////////////////////////////////////////////////
@@ -85,6 +86,7 @@ private:
 	void		CardUpdate();
 	void		CardRemove();
 	void		CardClear();
+	void		CardClearRepeatEnter();
 	
 	//////////////////////////////////////////////////////////////////////////
 	// Password
@@ -112,11 +114,12 @@ private:
 	void		HolidayUpdate();
 	void		HolidayRemove();
 	void		HolidayClear();
-
 private:
     LLONG		m_lLoginID;
     int         m_nAccessGroup;
 	Em_RecordSet_Operate_Type m_emOpType;
+public:
+	afx_msg void OnCbnSelchangeRecordsetCtlCmbSettype();
 };
 
 //{{AFX_INSERT_LOCATION}}

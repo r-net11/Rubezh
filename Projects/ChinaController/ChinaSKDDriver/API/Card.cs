@@ -79,6 +79,12 @@ namespace ChinaSKDDriverAPI
 		NET_ACCESSCTLCARD_STATE_LOGOFF = 0x02,
 
 		[Description("Заморожена")]
-		NET_ACCESSCTLCARD_STATE_FREEZE = 0x04
+		NET_ACCESSCTLCARD_STATE_FREEZE = 0x04,
+
+		[Description("Задолженность")]
+		NET_ACCESSCTLCARD_STATE_ARREARAGE = 0x08,
+
+		[Description("Просрочка")]
+		NET_ACCESSCTLCARD_STATE_OVERDUE = 0x10,
 	}
 }

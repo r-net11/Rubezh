@@ -126,6 +126,7 @@ typedef enum tagEm_RecordSet_Operate_Type
 	Em_Operate_Type_Clear,			// 无需参数
 	Em_Operate_Type_InsertEX,		// 除了nRecNo字段，其他字段都可写
 	Em_Operate_Type_UpdateEX,			// 只有nRecNo字段只读，其他字段可写
+	Em_Operate_Type_ClearRepeatEnter,			//  只有nRecNo,是否消警字段可写
 }Em_RecordSet_Operate_Type;
 
 //////////////////////////////////////////////////////////////////////////

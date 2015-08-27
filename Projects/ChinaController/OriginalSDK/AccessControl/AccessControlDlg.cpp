@@ -760,12 +760,12 @@ void CAccessControlDlg::CFGofRWDeviceData()
 
 void CAccessControlDlg::CFGofAtiSet()
 {
-	if (m_nAccessGroup != 4)
-	{
+	//if (m_nAccessGroup != 4)
+	//{
 
 		CDlgAtiSet dlg(this, m_lLoginID,  m_nAccessGroup);
 		dlg.DoModal();
-	}
+	//}
 }
 
 

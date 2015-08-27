@@ -151,6 +151,7 @@ void  CDlgSearchDeivce::CheckDevExist(DEVICE_NET_INFO_EX DevNetInfo)
 	CString strMAC(DevNetInfo.szMac);
 	CString strSubMask(DevNetInfo.szSubmask);
 	CString strGateway(DevNetInfo.szGateway);
+	CString strDeviceType(DevNetInfo.szDetailType);
 	
 	if (-1 == m_DeviceMacs.Find(strMAC + "/"))
 	{
@@ -160,8 +161,7 @@ void  CDlgSearchDeivce::CheckDevExist(DEVICE_NET_INFO_EX DevNetInfo)
 		CString strPort;
 		if (DevNetInfo.nPort == 0)
 			DevNetInfo.nPort = 37777;
-		strPort.Format("%d", DevNetInfo.nPort); 
-		CString strDeviceType(DevNetInfo.szDetailType);
+		strPort.Format("%d", DevNetInfo.nPort);   
 		InsertListViewItem(0,strDeviceType, strMAC , strIP,strSubMask,strGateway,strPort);
 	}
 	GetDlgItem(IDC_SEARCH_BTN_OK)->EnableWindow(TRUE);  

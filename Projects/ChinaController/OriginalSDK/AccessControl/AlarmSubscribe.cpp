@@ -215,6 +215,11 @@ LRESULT AlarmSubscribe::OnAlarmInfo(WPARAM wParam, LPARAM lParam)
 			InsertAccessLockStatus((ALARM_ACCESS_LOCK_STATUS_INFO*)pAlarmInfo->pBuf);
 		}
 		break;
+	case DH_ALARM_BATTERYLOWPOWER:
+		{ 
+			InsertAlarmExLowPowerEvent((ALARM_BATTERYLOWPOWER_INFO*)pAlarmInfo->pBuf);
+		}
+		break;
 	default:
 		break;
 	}
@@ -541,12 +546,17 @@ void AlarmSubscribe::InsertAccessCtlRepeatEnter(ALARM_ACCESS_CTL_REPEAT_ENTER_IN
 		m_ctrAlarmRptList.SetItemText(m_nAlarmIndex, 4, szAlarmTime);
 	}
 	
-	// name
-	dwSize += sizeof(pInfo->szDoorName);
+	//  card
+	dwSize += sizeof(pInfo->szCardNo);
 	if (dwSize <= pInfo->dwSize)
 	{
-		m_ctrAlarmRptList.SetItemText(m_nAlarmIndex++, 5, pInfo->szDoorName);
-	}
+
+		CString csInfo;
+		csInfo.Format("%s:%s", 
+			ConvertString("CardNo", DLG_SUBSCRIBE), pInfo->szCardNo);
+		m_ctrAlarmRptList.SetItemText(m_nAlarmIndex++, 5, csInfo);
+		//m_ctrAlarmRptList.SetItemText(m_nAlarmIndex++, 5, pInfo->szDoorName);
+	} 
 }
 
 void AlarmSubscribe::InsertAccessCtlStatus(ALARM_ACCESS_CTL_STATUS_INFO* pInfo)
@@ -820,6 +830,45 @@ void AlarmSubscribe::InsertAlarmEx2Event(ALARM_ALARM_INFO_EX2* pInfo)
 	m_ctrAlarmRptList.SetItemText(m_nAlarmIndex++, 5, ConvertString(csSense, DLG_SUBSCRIBE));
 }
 
+
+void AlarmSubscribe::InsertAlarmExLowPowerEvent(ALARM_BATTERYLOWPOWER_INFO* pInfo)
+{
+	if (NULL == pInfo || 0 == pInfo->dwSize)
+	{
+		return;
+	}
+	UpdateEventList();
+
+	char szIndex[32] = {0};
+	itoa(m_nAlarmIndex + 1, szIndex, 10);
+	m_ctrAlarmRptList.InsertItem(m_nAlarmIndex, NULL);
+
+	m_ctrAlarmRptList.SetItemText(m_nAlarmIndex, 0, szIndex);
+
+	m_ctrAlarmRptList.SetItemText(m_nAlarmIndex, 1, ConvertString("AlarmLowPower", DLG_SUBSCRIBE));
+
+	CString csChannelId;
+	// SDK传给用户的通道号这里从0开始
+	csChannelId.Format("%s %03d", ConvertString("Channel", DLG_SUBSCRIBE), 0 + 1);
+	m_ctrAlarmRptList.SetItemText(m_nAlarmIndex, 2, csChannelId);
+
+	if (pInfo->nAction == 0)
+	{
+		m_ctrAlarmRptList.SetItemText(m_nAlarmIndex, 3, ConvertString("start", DLG_SUBSCRIBE));
+	} 
+	else if(pInfo->nAction == 1)
+	{
+		m_ctrAlarmRptList.SetItemText(m_nAlarmIndex, 3, ConvertString("stop", DLG_SUBSCRIBE));
+	}
+	else
+	{
+		m_ctrAlarmRptList.SetItemText(m_nAlarmIndex, 3, ConvertString("unknown", DLG_SUBSCRIBE));
+	}
+	char szAlarmTime[64] = {0};
+	GetTimeStringByStruct(pInfo->stTime, szAlarmTime);
+	m_ctrAlarmRptList.SetItemText(m_nAlarmIndex, 4, szAlarmTime);
+
+}
 /////////////////////////////////////////////////////////////////////////////
 // AlarmSubscribe message handlers
 
@@ -968,7 +1017,7 @@ void AlarmSubscribe::OnCalarmBtn()
 void AlarmSubscribe::OnDoorControl(int nOperType ,int nChanelID,EM_NET_DOOR_STATUS_TYPE   emStateType) 
 {
 	// TODO: Add your control notification handler code here
-	CDlgDoorControl dlg(this, m_hLogin,  0/*nOperType*/, nChanelID, emStateType);
+	CDlgDoorControl dlg(this, m_hLogin,  nOperType, nChanelID, emStateType);
 	dlg.DoModal();
 
 }
