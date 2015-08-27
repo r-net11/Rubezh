@@ -94,28 +94,11 @@ namespace Infrastructure.Common
 			if (!isNew)
 			{
 				Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
-				bool terminate = false;
-				var messageBoxResult = MessageBoxService.ShowConfirmationExtended(Resources.SecondInstanceMessage);
-				if (!force && messageBoxResult != MessageBoxResult.Yes)
-					terminate = true;
-				if (!terminate)
-				{
-					_waitHandler = new EventWaitHandle(false, EventResetMode.AutoReset, waitId);
-					_signalHandler.Dispose();
-					_signalHandler = new EventWaitHandle(false, EventResetMode.ManualReset, signalId, out isNew);
-					if (!isNew)
-					{
-						_signalHandler.Set();
-						terminate = !_waitHandler.WaitOne(TIMEOUT);
-					}
-				}
-				if (terminate)
-				{
-					TryShutdown();
-					ForceShutdown();
-				}
-				else
-					Application.Current.ShutdownMode = ShutdownMode.OnLastWindowClose;
+
+				MessageBoxService.ShowWarningExtended(Resources.SecondInstanceMessage);
+
+				TryShutdown();
+				ForceShutdown();
 			}
 			ThreadPool.QueueUserWorkItem(WaitingHandler, waitId);
 		}

@@ -61,7 +61,7 @@ namespace Infrastructure.Common.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Другой экземпляр программы уже запущен. Завершить?.
+        ///   Looks up a localized string similar to Другой экземпляр программы уже запущен..
         /// </summary>
         internal static string SecondInstanceMessage {
             get {
