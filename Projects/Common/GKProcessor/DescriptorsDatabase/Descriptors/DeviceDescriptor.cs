@@ -235,19 +235,19 @@ namespace GKProcessor
 				if (mptDevice.MPTDeviceType == GKMPTDeviceType.AutomaticOffBoard)
 				{
 					CreateAutomaticOffBoards(deviceMpt);
-					Device.LinkGKBases(deviceMpt);
+					Device.LinkToDescriptor(deviceMpt);
 					return true;
 				}
 				if (mptDevice.MPTDeviceType == GKMPTDeviceType.DoNotEnterBoard || mptDevice.MPTDeviceType == GKMPTDeviceType.ExitBoard || mptDevice.MPTDeviceType == GKMPTDeviceType.Speaker)
 				{ 
 					CreateOnDevices(deviceMpt);
-					Device.LinkGKBases(deviceMpt);
+					Device.LinkToDescriptor(deviceMpt);
 					return true;
 				}
 				if (mptDevice.MPTDeviceType == GKMPTDeviceType.Bomb)
 				{
 					CreateBombDevices(deviceMpt);
-					Device.LinkGKBases(deviceMpt);
+					Device.LinkToDescriptor(deviceMpt);
 					return true;
 				}
 			}

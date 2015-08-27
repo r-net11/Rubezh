@@ -291,8 +291,107 @@ namespace GKProcessor.Test
 			Assert.IsNull(Kau1Database.Descriptors.FirstOrDefault(x => x.GKBase == direction2));
 			Assert.IsNull(Kau2Database.Descriptors.FirstOrDefault(x => x.GKBase == direction2));
 			Assert.IsNull(GkDatabase.Descriptors.FirstOrDefault(x => x.GKBase == direction2));
+		}
 
+		[TestMethod]
+		public void TestDependencyChainToKau()
+		{
+			var device1 = AddDevice(kauDevice1, GKDriverType.RSR2_HandDetector);
+
+			var direction1 = new GKDirection();
+			direction1.Logic.OnClausesGroup.Clauses.Add(new GKClause() { ClauseOperationType = ClauseOperationType.AllDevices, StateType = GKStateBit.Fire1, DeviceUIDs = { device1.UID } });
+			GKManager.Directions.Add(direction1);
+
+			var direction2 = new GKDirection();
+			direction2.Logic.OnClausesGroup.Clauses.Add(new GKClause() { ClauseOperationType = ClauseOperationType.AllDirections, StateType = GKStateBit.On, DirectionUIDs = { direction1.UID } });
+			GKManager.Directions.Add(direction2);
+
+			var direction3 = new GKDirection();
+			direction3.Logic.OnClausesGroup.Clauses.Add(new GKClause() { ClauseOperationType = ClauseOperationType.AllDirections, StateType = GKStateBit.On, DirectionUIDs = { direction2.UID } });
+			GKManager.Directions.Add(direction3);
+
+			var direction4 = new GKDirection();
+			direction4.Logic.OnClausesGroup.Clauses.Add(new GKClause() { ClauseOperationType = ClauseOperationType.AllDirections, StateType = GKStateBit.On, DirectionUIDs = { direction3.UID } });
+			GKManager.Directions.Add(direction4);
+
+			var direction5 = new GKDirection();
+			direction5.Logic.OnClausesGroup.Clauses.Add(new GKClause() { ClauseOperationType = ClauseOperationType.AllDirections, StateType = GKStateBit.On, DirectionUIDs = { direction4.UID } });
+			GKManager.Directions.Add(direction5);
 			Compile();
+
+			CheckObjectLogicOnKau(direction1);
+			CheckObjectLogicOnKau(direction2);
+			CheckObjectLogicOnKau(direction3);
+			CheckObjectLogicOnKau(direction4);
+			CheckObjectLogicOnKau(direction5);
+		}
+
+		[TestMethod]
+		public void TestDependencyChainToGK()
+		{
+			var device1 = AddDevice(kauDevice1, GKDriverType.RSR2_HandDetector);
+			var device2 = AddDevice(kauDevice2, GKDriverType.RSR2_HandDetector);
+
+			var direction1 = new GKDirection();
+			direction1.Logic.OnClausesGroup.Clauses.Add(new GKClause() { ClauseOperationType = ClauseOperationType.AllDevices, StateType = GKStateBit.Fire1, DeviceUIDs = { device1.UID, device2.UID } });
+			GKManager.Directions.Add(direction1);
+
+			var direction2 = new GKDirection();
+			direction2.Logic.OnClausesGroup.Clauses.Add(new GKClause() { ClauseOperationType = ClauseOperationType.AllDirections, StateType = GKStateBit.On, DirectionUIDs = { direction1.UID } });
+			GKManager.Directions.Add(direction2);
+
+			var direction3 = new GKDirection();
+			direction3.Logic.OnClausesGroup.Clauses.Add(new GKClause() { ClauseOperationType = ClauseOperationType.AllDirections, StateType = GKStateBit.On, DirectionUIDs = { direction2.UID } });
+			GKManager.Directions.Add(direction3);
+
+			var direction4 = new GKDirection();
+			direction4.Logic.OnClausesGroup.Clauses.Add(new GKClause() { ClauseOperationType = ClauseOperationType.AllDirections, StateType = GKStateBit.On, DirectionUIDs = { direction3.UID } });
+			GKManager.Directions.Add(direction4);
+
+			var direction5 = new GKDirection();
+			direction5.Logic.OnClausesGroup.Clauses.Add(new GKClause() { ClauseOperationType = ClauseOperationType.AllDirections, StateType = GKStateBit.On, DirectionUIDs = { direction4.UID } });
+			GKManager.Directions.Add(direction5);
+			Compile();
+
+			CheckObjectLogicOnGK(direction1);
+			CheckObjectLogicOnGK(direction2);
+			CheckObjectLogicOnGK(direction3);
+			CheckObjectLogicOnGK(direction4);
+			CheckObjectLogicOnGK(direction5);
+		}
+
+		[TestMethod]
+		public void TestDependencyToKau()
+		{
+			var delay1 = new GKDelay();
+			delay1.Logic.OnClausesGroup.Clauses.Add(new GKClause() { ClauseOperationType = ClauseOperationType.AllDevices, StateType = GKStateBit.Failure, DeviceUIDs = { kauDevice1.UID } });
+			GKManager.Delays.Add(delay1);
+			Compile();
+
+			CheckObjectLogicOnKau(delay1);
+		}
+
+		[TestMethod]
+		public void TestDependencyToGK()
+		{
+			var delay1 = new GKDelay();
+			delay1.Logic.OnClausesGroup.Clauses.Add(new GKClause() { ClauseOperationType = ClauseOperationType.AllDevices, StateType = GKStateBit.On, DeviceUIDs = { gkDevice.Children.FirstOrDefault(x => x.DriverType == GKDriverType.GKIndicator).UID } });
+			GKManager.Delays.Add(delay1);
+			Compile();
+
+			CheckObjectLogicOnGK(delay1);
+		}
+
+		[TestMethod]
+		public void TestDependencyToGKAndKau()
+		{
+			var delay1 = new GKDelay();
+			delay1.Logic.OnClausesGroup.Clauses.Add(new GKClause() { ClauseOperationType = ClauseOperationType.AllDevices, StateType = GKStateBit.Failure, DeviceUIDs = { kauDevice1.UID } });
+			delay1.Logic.OnClausesGroup.Clauses.Add(new GKClause() { ClauseOperationType = ClauseOperationType.AllDevices, StateType = GKStateBit.On, DeviceUIDs = { gkDevice.Children.FirstOrDefault(x => x.DriverType == GKDriverType.GKIndicator).UID } });
+			GKManager.Delays.Add(delay1);
+			Compile();
+
+			CheckObjectLogicOnGK(delay1);
 		}
 	}
 }

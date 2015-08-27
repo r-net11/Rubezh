@@ -279,12 +279,12 @@ namespace GKProcessor
 			}
 			if (Door.PimEnter != null)
 			{
-				Door.LinkGKBases(Door.PimEnter);
+				Door.LinkToDescriptor(Door.PimEnter);
 			}
 
 			if (Door.PimExit != null)
 			{
-				Door.LinkGKBases(Door.PimExit);
+				Door.LinkToDescriptor(Door.PimExit);
 			}
 		}
 

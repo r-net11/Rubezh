@@ -86,8 +86,8 @@ namespace GKModule.ViewModels
 			foreach (var descriptorViewModel in Descriptors)
 			{
 				descriptorViewModel.InputDescriptors = new ObservableCollection<DescriptorViewModel>();
-				if (descriptorViewModel.Descriptor.GKBase.InputGKBases != null)
-				foreach (var inputBase in descriptorViewModel.Descriptor.GKBase.InputGKBases)
+				if (descriptorViewModel.Descriptor.GKBase.InputDescriptors != null)
+				foreach (var inputBase in descriptorViewModel.Descriptor.GKBase.InputDescriptors)
 				{
 					var inputDescriptor = SelectedDatabase.Descriptors.FirstOrDefault(x => x.GKBase.UID == inputBase.UID);
 					if (inputDescriptor != null)
@@ -107,8 +107,8 @@ namespace GKModule.ViewModels
 			foreach (var descriptorViewModel in Descriptors)
 			{
 				descriptorViewModel.OutputDescriptors = new ObservableCollection<DescriptorViewModel>();
-				if (descriptorViewModel.Descriptor.GKBase.InputGKBases != null)
-				foreach (var outputBase in descriptorViewModel.Descriptor.GKBase.OutputGKBases)
+				if (descriptorViewModel.Descriptor.GKBase.InputDescriptors != null)
+				foreach (var outputBase in descriptorViewModel.Descriptor.GKBase.OutputDescriptors)
 				{
 					var outputDescriptor = SelectedDatabase.Descriptors.FirstOrDefault(x => x.GKBase.UID == outputBase.UID);
 					if (outputDescriptor != null)

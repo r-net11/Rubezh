@@ -21,15 +21,15 @@ namespace GKProcessor
 			if (Pim != null)
 			{
 				if (EnterDevice != null)
-					Pim.LinkGKBases(EnterDevice);
+					Pim.LinkToDescriptor(EnterDevice);
 				if (ExitDevice != null)
-					Pim.LinkGKBases(ExitDevice);
+					Pim.LinkToDescriptor(ExitDevice);
 				if (EnterButton != null)
-					Pim.LinkGKBases(EnterButton);
+					Pim.LinkToDescriptor(EnterButton);
 				if (ExitButton != null)
-					Pim.LinkGKBases(ExitButton);
-				Pim.LinkGKBases(PimDoor);
-				Pim.LinkGKBases(Pim);
+					Pim.LinkToDescriptor(ExitButton);
+				Pim.LinkToDescriptor(PimDoor);
+				Pim.LinkToDescriptor(Pim);
 			}
 		}
 
@@ -95,15 +95,15 @@ namespace GKProcessor
 			if (Pim != null)
 			{
 				if (EnterDevice != null)
-					Pim.LinkGKBases(EnterDevice);
+					Pim.LinkToDescriptor(EnterDevice);
 				if (ExitDevice != null)
-					Pim.LinkGKBases(ExitDevice);
+					Pim.LinkToDescriptor(ExitDevice);
 				if (EnterButton != null)
-					Pim.LinkGKBases(EnterButton);
+					Pim.LinkToDescriptor(EnterButton);
 				if (ExitButton != null)
-					Pim.LinkGKBases(ExitButton);
-				Pim.LinkGKBases(PimDoor);
-				Pim.LinkGKBases(Pim);
+					Pim.LinkToDescriptor(ExitButton);
+				Pim.LinkToDescriptor(PimDoor);
+				Pim.LinkToDescriptor(Pim);
 			}
 		}
 

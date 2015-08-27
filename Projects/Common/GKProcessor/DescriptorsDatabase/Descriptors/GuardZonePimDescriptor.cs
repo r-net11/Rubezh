@@ -18,7 +18,7 @@ namespace GKProcessor
 			foreach (var guardDevice in GuardZoneDevices)
 			{
 				if (Pim != null)
-					Pim.LinkGKBases(guardDevice.Device);
+					Pim.LinkToDescriptor(guardDevice.Device);
 			}
 		}
 

@@ -118,7 +118,7 @@ namespace GKProcessor
 			AddMissedLogic(SetAlarmDevices);
 			if (GuardZone.Pim != null && ChangeGuardDevices.Count > 0)
 			{
-				GuardZone.LinkGKBases(GuardZone.Pim);
+				GuardZone.LinkToDescriptor(GuardZone.Pim);
 			}
 			Formula.Add(FormulaOperationType.END);
 		}

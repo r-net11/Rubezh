@@ -199,7 +199,7 @@ namespace GKProcessor
 			}
 			foreach (var inputDevice in inputDevices)
 			{
-				PumpStation.Pim.LinkGKBases(inputDevice);
+				PumpStation.Pim.LinkToDescriptor(inputDevice);
 			}
 			for (int i = 0; i < inputDevices.Count; i++)
 			{
@@ -220,15 +220,15 @@ namespace GKProcessor
 		{
 			foreach (var nsDevice in PumpStation.NSDevices)
 			{
-				nsDevice.LinkGKBases(PumpStation);
+				nsDevice.LinkToDescriptor(PumpStation);
 			}
 
 			foreach (var pumpDelay in PumpDelays)
 			{
-				pumpDelay.Delay.LinkGKBases(PumpStation);
+				pumpDelay.Delay.LinkToDescriptor(PumpStation);
 				foreach (var pumpDevice in FirePumpDevices)
 				{
-					pumpDelay.Delay.LinkGKBases(pumpDevice);
+					pumpDelay.Delay.LinkToDescriptor(pumpDevice);
 				}
 			}
 
@@ -238,7 +238,7 @@ namespace GKProcessor
 				{
 					if (pumpDelay.Device.UID == nsDevice.UID)
 					{
-						nsDevice.LinkGKBases(pumpDelay.Delay);
+						nsDevice.LinkToDescriptor(pumpDelay.Delay);
 					}
 				}
 			}
@@ -254,16 +254,16 @@ namespace GKProcessor
 					nextDelay = PumpDelays[i + 1].Delay;
 
 				if (prevDelay != null)
-					currentDelay.InputGKBases.Add(prevDelay);
+					currentDelay.InputDescriptors.Add(prevDelay);
 				if (nextDelay != null)
-					currentDelay.OutputGKBases.Add(nextDelay);
+					currentDelay.OutputDescriptors.Add(nextDelay);
 			}
 
 			foreach (var firePumpDevice in FirePumpDevices)
 			{
 				foreach (var otherFirePumpDevice in FirePumpDevices)
 				{
-					firePumpDevice.LinkGKBases(otherFirePumpDevice);
+					firePumpDevice.LinkToDescriptor(otherFirePumpDevice);
 				}
 			}
 
@@ -271,7 +271,7 @@ namespace GKProcessor
 			{
 				foreach (var otherJockeyPumpDevice in JockeyPumpDevices)
 				{
-					jockeyPumpDevice.LinkGKBases(otherJockeyPumpDevice);
+					jockeyPumpDevice.LinkToDescriptor(otherJockeyPumpDevice);
 				}
 			}
 		}

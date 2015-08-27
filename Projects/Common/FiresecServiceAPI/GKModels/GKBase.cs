@@ -19,8 +19,8 @@ namespace FiresecAPI.GK
 			ClearDescriptor();
 			ClearClauseDependencies();
 			State = new GKState();
-			InputGKBases = new List<GKBase>();
-			OutputGKBases = new List<GKBase>();
+			InputDescriptors = new List<GKBase>();
+			OutputDescriptors = new List<GKBase>();
 		}
 
 		[XmlIgnore]
@@ -44,8 +44,8 @@ namespace FiresecAPI.GK
 		{
 			InputObjects = new List<GKBase>();
 			OutputObjects = new List<GKBase>();
-			InputGKBases = new List<GKBase>();
-			OutputGKBases = new List<GKBase>();
+			InputDescriptors = new List<GKBase>();
+			OutputDescriptors = new List<GKBase>();
 			ClauseInputDevices = new List<GKDevice>();
 			ClauseInputZones = new List<GKZone>();
 			ClauseInputGuardZones = new List<GKGuardZone>();
@@ -61,9 +61,9 @@ namespace FiresecAPI.GK
 		[XmlIgnore]
 		protected List<GKBase> OutputObjects { get; set; }
 		[XmlIgnore]
-		public List<GKBase> InputGKBases { get; set; }
+		public List<GKBase> InputDescriptors { get; set; }
 		[XmlIgnore]
-		public List<GKBase> OutputGKBases { get; set; }
+		public List<GKBase> OutputDescriptors { get; set; }
 
 		[XmlIgnore]
 		public GKDevice KauDatabaseParent { get; set; }
@@ -170,7 +170,7 @@ namespace FiresecAPI.GK
 						|| y.MPTDeviceType == GKMPTDeviceType.Speaker).Any(z => z.Device == device)));
 					foreach (var deviceMPT in deviceMPTs)
 					{
-						device.LinkGKBases(deviceMPT);
+						device.LinkToDescriptor(deviceMPT);
 					}
 				}
 
@@ -178,18 +178,18 @@ namespace FiresecAPI.GK
 				{
 					foreach (var deviceGuardZone in device.GuardZones)
 					{
-						device.LinkGKBases(deviceGuardZone);
+						device.LinkToDescriptor(deviceGuardZone);
 					}
 				}
 
 				foreach (var deviceDoor in GKManager.Doors.Where(x => x.LockDevice == device))
 				{
-					device.LinkGKBases(deviceDoor);
+					device.LinkToDescriptor(deviceDoor);
 				}
 
 				foreach (var devicePumpStation in GKManager.PumpStations.Where(x => x.NSDevices.Contains(device)))
 				{
-					device.LinkGKBases(devicePumpStation);
+					device.LinkToDescriptor(devicePumpStation);
 				}
 			}
 
@@ -198,9 +198,9 @@ namespace FiresecAPI.GK
 			{
 				foreach (var zoneDevice in zone.Devices)
 				{
-					zone.LinkGKBases(zoneDevice);
+					zone.LinkToDescriptor(zoneDevice);
 				}
-				zone.LinkGKBases(zone);
+				zone.LinkToDescriptor(zone);
 			}
 
 			var direction = this as GKDirection;
@@ -228,7 +228,7 @@ namespace FiresecAPI.GK
 				foreach (var mptDevice in mpt.MPTDevices.FindAll(x => x.MPTDeviceType == GKMPTDeviceType.HandStart || x.MPTDeviceType == GKMPTDeviceType.HandStop
 					|| x.MPTDeviceType == GKMPTDeviceType.HandAutomaticOn || x.MPTDeviceType == GKMPTDeviceType.HandAutomaticOff || x.MPTDeviceType == GKMPTDeviceType.Bomb))
 				{
-					mpt.LinkGKBases(mptDevice.Device);
+					mpt.LinkToDescriptor(mptDevice.Device);
 				}
 			}
 
@@ -247,39 +247,39 @@ namespace FiresecAPI.GK
 				{
 					if (guardZoneDevice.ActionType != GKGuardZoneDeviceActionType.ChangeGuard)
 					{
-						guardZone.LinkGKBases(guardZoneDevice.Device);
+						guardZone.LinkToDescriptor(guardZoneDevice.Device);
 						if (guardZoneDevice.Device.DriverType == GKDriverType.RSR2_GuardDetector || guardZoneDevice.Device.DriverType == GKDriverType.RSR2_CodeReader || guardZoneDevice.Device.DriverType == GKDriverType.RSR2_CardReader)
 						{
-							guardZoneDevice.Device.LinkGKBases(guardZone);
+							guardZoneDevice.Device.LinkToDescriptor(guardZone);
 						}
 					}
 				}
-				guardZone.LinkGKBases(guardZone);
+				guardZone.LinkToDescriptor(guardZone);
 			}
 
 			var door = this as GKDoor;
 			if (door != null)
 			{
 				if (door.EnterDevice != null)
-					door.LinkGKBases(door.EnterDevice);
+					door.LinkToDescriptor(door.EnterDevice);
 				if (door.ExitDevice != null)
-					door.LinkGKBases(door.ExitDevice);
+					door.LinkToDescriptor(door.ExitDevice);
 				if (door.EnterButton != null)
-					door.LinkGKBases(door.EnterButton);
+					door.LinkToDescriptor(door.EnterButton);
 				if (door.ExitButton != null)
-					door.LinkGKBases(door.ExitButton);
+					door.LinkToDescriptor(door.ExitButton);
 				if (door.LockDevice != null)
-					door.LockDevice.LinkGKBases(door);
+					door.LockDevice.LinkToDescriptor(door);
 				if (door.LockDeviceExit != null)
-					door.LockDeviceExit.LinkGKBases(door);
+					door.LockDeviceExit.LinkToDescriptor(door);
 				if (door.LockControlDevice != null)
-					door.LinkGKBases(door.LockControlDevice);
+					door.LinkToDescriptor(door.LockControlDevice);
 				if (door.LockControlDeviceExit != null)
-					door.LinkGKBases(door.LockControlDeviceExit);
+					door.LinkToDescriptor(door.LockControlDeviceExit);
 				LinkLogic(door, door.OpenRegimeLogic.OnClausesGroup);
 				LinkLogic(door, door.NormRegimeLogic.OnClausesGroup);
 				LinkLogic(door, door.CloseRegimeLogic.OnClausesGroup);
-				door.LinkGKBases(door);
+				door.LinkToDescriptor(door);
 			}
 		}
 
@@ -290,21 +290,21 @@ namespace FiresecAPI.GK
 				foreach (var clause in clauseGroup.Clauses)
 				{
 					foreach (var clauseDevice in clause.Devices)
-						gkBase.LinkGKBases(clauseDevice);
+						gkBase.LinkToDescriptor(clauseDevice);
 					foreach (var zone in clause.Zones)
-						gkBase.LinkGKBases(zone);
+						gkBase.LinkToDescriptor(zone);
 					foreach (var guardZone in clause.GuardZones)
-						gkBase.LinkGKBases(guardZone);
+						gkBase.LinkToDescriptor(guardZone);
 					foreach (var direction in clause.Directions)
-						gkBase.LinkGKBases(direction);
+						gkBase.LinkToDescriptor(direction);
 					foreach (var mpt in clause.MPTs)
-						gkBase.LinkGKBases(mpt);
+						gkBase.LinkToDescriptor(mpt);
 					foreach (var delay in clause.Delays)
-						gkBase.LinkGKBases(delay);
+						gkBase.LinkToDescriptor(delay);
 					foreach (var door in clause.Doors)
-						gkBase.LinkGKBases(door);
+						gkBase.LinkToDescriptor(door);
 					foreach (var pumpStation in clause.PumpStations)
-						gkBase.LinkGKBases(pumpStation);
+						gkBase.LinkToDescriptor(pumpStation);
 				}
 			}
 			if (clauseGroup.ClauseGroups != null)
@@ -316,10 +316,10 @@ namespace FiresecAPI.GK
 			}
 		}
 
-		public void LinkGKBases(GKBase dependsOn)
+		public void LinkToDescriptor(GKBase dependsOn)
 		{
-			AddInputOutputObject(InputGKBases, dependsOn);
-			AddInputOutputObject(dependsOn.OutputGKBases, this);
+			AddInputOutputObject(InputDescriptors, dependsOn);
+			AddInputOutputObject(dependsOn.OutputDescriptors, this);
 		}
 
 		void AddInputOutputObject(List<GKBase> objects, GKBase newObject)
@@ -334,8 +334,8 @@ namespace FiresecAPI.GK
 
 		public void ClearDescriptor()
 		{
-			InputGKBases = new List<GKBase>();
-			OutputGKBases = new List<GKBase>();
+			InputDescriptors = new List<GKBase>();
+			OutputDescriptors = new List<GKBase>();
 		}
 
 
