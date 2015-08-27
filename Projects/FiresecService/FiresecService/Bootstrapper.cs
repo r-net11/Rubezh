@@ -38,7 +38,7 @@ namespace FiresecService
 				WindowThread.Start();
 				MainViewStartedEvent.WaitOne();
 
-				FiresecService.Service.FiresecService.ServerState = ServerState.Sarting;
+				FiresecService.Service.FiresecService.ServerState = ServerState.Starting;
 
                 UILogger.Log("Проверка лицензии");
                 if (!LicenseHelper.TryLoad())
