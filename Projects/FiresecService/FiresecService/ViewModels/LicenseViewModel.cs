@@ -49,6 +49,12 @@ namespace FiresecService.ViewModels
             return _license != null;
         }
 
+        bool CheckLicense(string path)
+        {
+            var license = LicenseProcessor.ProcessLoad(path, _initialKey);
+            return license != null && license.InitialKey == _initialKey;
+        }
+
         public RelayCommand LoadLicenseCommand { get; private set; }
         void OnLoadLicenseCommand()
         {
@@ -58,6 +64,11 @@ namespace FiresecService.ViewModels
             };
             if (openFileDialog.ShowDialog().Value)
             {
+                if (!CheckLicense(openFileDialog.FileName))
+                {
+                    MessageBoxService.ShowError("Некорректный файл лицензии");
+                    return;
+                }
                 try
                 {
                     File.Copy(openFileDialog.FileName, GetLicensePath(), true);
