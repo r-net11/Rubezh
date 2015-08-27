@@ -222,8 +222,8 @@ namespace SKDDriver.DataClasses
 							CardUID = x.CardUID,
 							DoorUID = x.DoorUID,
 							AccessTemplateUID = x.AccessTemplateUID,
-							EnterScheduleNo = x.ExitScheduleNo,
-							ExitScheduleNo = x.EnterScheduleNo
+							EnterScheduleNo = x.EnterScheduleNo,
+							ExitScheduleNo = x.ExitScheduleNo
 						}).ToList(),
 					PassCardTemplateUID = tableItem.PassCardTemplateUID,
 					AccessTemplateUID = tableItem.AccessTemplateUID,

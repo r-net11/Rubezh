@@ -82,11 +82,9 @@
 					<RowDefinition Height="*" />
 				</Grid.RowDefinitions>
 				<StackPanel Orientation="Horizontal">
-					<ToolBarButton Command="{Binding AddCommand}" ImageSource="Add"  ToolTip="Добавить" />
-					<ToolBarButton Command="{Binding EditCommand}" ImageSource="Edit"  ToolTip="Редактировать" />
-					<ToolBarButton Command="{Binding DeleteCommand}" ImageSource="Delete"  ToolTip="Удалить" />
+					<ToolBarButton Command="{Binding EditCommand}" ImageSource="Edit"  ToolTip="Редактировать зоны" />
 				</StackPanel>
-				<XDataGrid
+				<DataGrid
 					Grid.Row="1"
 					Margin="2"
 					IsReadOnly="False"
@@ -127,7 +125,7 @@
 							</DataGridTemplateColumn.CellTemplate>
 						</DataGridTemplateColumn>
 					</DataGrid.Columns>
-				</XDataGrid>
+				</DataGrid>
 			</Grid>
 		</Grid>
 	</Grid>
