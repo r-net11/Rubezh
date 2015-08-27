@@ -735,12 +735,16 @@ namespace FiresecService.Service
 
 		public OperationResult GenerateTestData(bool isAscending)
 		{
+			var stoppWatch = new Stopwatch();
+			stoppWatch.Start();
 			List<Guid> cardUIDs;
 			using (var ds = new SKDDriver.DataClasses.DbService())
 			{
 				cardUIDs = ds.TestDataGenerator.TestEmployeeCards();
 				ds.TestDataGenerator.TestCardDoors(cardUIDs, isAscending);
 			}
+			stoppWatch.Stop();
+			Trace.WriteLine("GenerateTestData " + stoppWatch.Elapsed);
 			
 			//bool isBreak = false;
 			//int currentPage = 0;

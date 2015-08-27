@@ -70,7 +70,14 @@ namespace SKDDriver.DataClasses
 
         public List<Guid> TestEmployeeCards()
         {
-            //DeleteAll();
+            Context.Database.Delete();
+			int totalOrganisations = 10;
+			int positionsPerOrganisation = 1000;
+			int rootDepartmentsPerOrganisation = 100;
+			int employeesPerOrganisation = 6500;
+			int cardsPerEmployee = 1;
+
+			int cardNumber = 0;
 			Context.Configuration.AutoDetectChangesEnabled = false;
 			Context.Configuration.ValidateOnSaveEnabled = false;
             var stopwatch = new Stopwatch();
@@ -80,7 +87,7 @@ namespace SKDDriver.DataClasses
 			var positions = new List<Position>();
 			var departments = new List<Department>();
 			var random = new Random();
-            for (int i = 0; i < 1; i++)
+			for (int i = 0; i < totalOrganisations; i++)
             {
                 var org = new Organisation { Name = "Тестовая Организация " + i, UID = Guid.NewGuid(), ExternalKey = "-1" };
                 Context.Organisations.Add(org);
@@ -88,44 +95,49 @@ namespace SKDDriver.DataClasses
 				var user = new OrganisationUser { UID = Guid.NewGuid(), UserUID = new Guid("10e591fb-e017-442d-b176-f05756d984bb"), OrganisationUID = org.UID };
 				Context.OrganisationUsers.Add(user);
 
-				for (int j = 0; j < 1000; j++)
+				var organisationPositions = new List<Position>();
+				for (int j = 0; j < positionsPerOrganisation; j++)
 				{
 					var pos = new Position { Name = "Должность " + i + j, OrganisationUID = org.UID, UID = Guid.NewGuid(), RemovalDate = new DateTime(1900, 1, 1), ExternalKey = "-1" };
-					positions.Add(pos);
+					organisationPositions.Add(pos);
 				}
-				for (int j = 0; j < 100; j++)
+
+				var opranisationDepartments = new List<Department>();
+				for (int j = 0; j < rootDepartmentsPerOrganisation; j++)
 				{
 					var dept = new Department{ UID = Guid.NewGuid(), Name = "Подразделение " + i + j, OrganisationUID = org.UID };
-					departments.Add(dept);
+					opranisationDepartments.Add(dept);
 					for (int k = 0; k < 2; k++)
 					{
 						var dept2 = new Department { UID = Guid.NewGuid(), Name = "Подразделение " + i + j + k, OrganisationUID = org.UID, ParentDepartmentUID = dept.UID };
-						departments.Add(dept2);
+						opranisationDepartments.Add(dept2);
 						for (int m = 0; m < 2; m++)
 						{
 							var dept3 = new Department { UID = Guid.NewGuid(), Name = "Подразделение " + i + j + k + m, OrganisationUID = org.UID, ParentDepartmentUID = dept2.UID };
-							departments.Add(dept3);
+							opranisationDepartments.Add(dept3);
 							for (int n = 0; n < 2; n++)
 							{
 								var dept4 = new Department { UID = Guid.NewGuid(), Name = "Подразделение " + i + j + k + m + n, OrganisationUID = org.UID, ParentDepartmentUID = dept3.UID };
-								departments.Add(dept4);
+								opranisationDepartments.Add(dept4);
 							}
 						}
 					}
 				}
-				//for (int j = 0; j < 500; j++)
-				//{
-				//    var empl = CreateEmpl("Сотрудник " + i + j + "0", org.UID, deptUIDs.FirstOrDefault(), posUIDs.FirstOrDefault());
-				//    Context.Employees.InsertOnSubmit(empl);
-				//}
-                
-                for (int j = 0; j < 65535; j++)
+				
+				for (int j = 0; j < employeesPerOrganisation; j++)
                 {
-					var empl = CreateEmployee(j.ToString(), org.UID, departments[random.Next(1500)].UID, positions[random.Next(1000)].UID);
+					var empl = CreateEmployee(i.ToString() + j.ToString(), org.UID, opranisationDepartments[random.Next(15 * rootDepartmentsPerOrganisation)].UID, organisationPositions[random.Next(positionsPerOrganisation)].UID);
                     employees.Add(empl);
-                    var card = CreateCard(j, empl.UID);
-                    cards.Add(card);
+
+					for (int k = 0; k < cardsPerEmployee; k++)
+					{
+						cardNumber++;
+						var card = CreateCard(cardNumber, empl.UID);
+						cards.Add(card);
+					}
                 }
+				positions.AddRange(organisationPositions);
+				departments.AddRange(opranisationDepartments);
             }
 
 			switch (GlobalSettingsHelper.GlobalSettings.DbType)
@@ -159,8 +171,6 @@ namespace SKDDriver.DataClasses
 
         public void TestCardDoors(List<Guid> cardUIDs, bool isAscending)
         {
-			var stopwatch = new Stopwatch();
-			stopwatch.Start();
 			int k = 0;
             int totalDoorsCount = GKManager.Doors.Count;
 			var cardDoors = new List<CardDoor>();
@@ -196,31 +206,6 @@ namespace SKDDriver.DataClasses
 			}
         }
 
-        void DeleteAll()
-        {
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"AccessTemplates\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"AdditionalColumns\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"AdditionalColumnTypes\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"CardDoors\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"Cards\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"CurrentConsumptions\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"DayIntervalParts\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"DayIntervals\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"Departments\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"Employees\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"Holidays\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"NightSettings\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"Organisations\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"PassCardTemplates\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"Photos\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"Positions\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"ScheduleDays\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"ScheduleSchemes\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"Schedules\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"ScheduleZones\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"TimeTrackDocuments\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"TimeTrackDocumentTypes\"");
-        }
         Department CreateDepartment(string name, Guid orgUID, Guid? parentUID = null)
         {
             return new Department
