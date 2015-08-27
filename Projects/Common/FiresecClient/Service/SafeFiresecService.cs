@@ -42,7 +42,7 @@ namespace FiresecClient
 			{
 				LogException(e, methodName);
 				OnConnectionLost();
-                if (reconnectOnException && !Recover())
+                if (!Recover())
                 {
                     FiresecServiceFactory.Dispose();
                 }
