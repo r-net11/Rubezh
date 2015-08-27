@@ -345,7 +345,6 @@ namespace FiresecAPI.SKD
 		{
 			var combinedTimeSpans = GetCombinedDateTimes(realTimeTrackParts, plannedTimeTrackParts, documentTimeTrackParts);
 			combinedTimeSpans = combinedTimeSpans.Where(x => x.HasValue).OrderBy(x => x.GetValueOrDefault().TimeOfDay.TotalSeconds).ToList();
-		//	combinedTimeSpans = combinedTimeSpans.Where(x => x.HasValue).OrderBy(x => x.GetValueOrDefault().Ticks).ToList();//.ThenBy(x => x.GetValueOrDefault().Date.Ticks).ToList();
 
 			var combinedTimeTrackParts = new List<TimeTrackPart>();
 

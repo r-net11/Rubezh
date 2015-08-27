@@ -369,7 +369,7 @@ namespace SKDModule.Model
 				}
 				if (propertyName == string.Empty || propertyName == "EnterDateTime" || propertyName == "ExitDateTime")
 				{
-					if ((EnterDateTime.HasValue && ExitDateTime.HasValue) && (EnterDateTime > ExitDateTime))
+					if ((EnterDateTime.HasValue && ExitDateTime.HasValue) && (EnterDateTime.GetValueOrDefault().Date > ExitDateTime.GetValueOrDefault().Date))
 						result = "Дата входа не может быть больше даты выхода";
 				}
 				if (propertyName == string.Empty || propertyName == "EnterDateTime" || propertyName == "ExitDateTime")
