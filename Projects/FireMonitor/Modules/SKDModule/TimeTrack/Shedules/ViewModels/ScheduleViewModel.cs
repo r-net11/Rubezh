@@ -12,7 +12,7 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class ScheduleViewModel : OrganisationElementViewModel<ScheduleViewModel, Schedule>, IEditingViewModel, IDoorsParent
+	public class ScheduleViewModel : OrganisationElementViewModel<ScheduleViewModel, Schedule>, IDoorsParent
 	{
 		private bool _isInitialized;
 		
@@ -26,9 +26,8 @@ namespace SKDModule.ViewModels
 		
 		public override void InitializeModel(Organisation organisation, Schedule model, ViewPartViewModel parentViewModel)
 		{
-			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
-			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
+
 			base.InitializeModel(organisation, model, parentViewModel);
 			_isInitialized = false;
 			Update();
@@ -93,53 +92,24 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public RelayCommand AddCommand { get; private set; }
-		private void OnAdd()
-		{
-			var scheduleZoneDetailsViewModel = new ScheduleZoneDetailsViewModel(Model, Organisation);
-			if (DialogService.ShowModalWindow(scheduleZoneDetailsViewModel) && AddSave(scheduleZoneDetailsViewModel.ScheduleZone))
-			{
-				var scheduleZone = scheduleZoneDetailsViewModel.ScheduleZone;
-				var scheduleZoneViewModel = new ScheduleZoneViewModel(scheduleZone);
-				ScheduleZones.Add(scheduleZoneViewModel);
-				Sort();
-				SelectedScheduleZone = scheduleZoneViewModel;
-			}
-		}
-		bool CanAdd()
-		{
-			return !IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Schedules_Edit);
-		}
-
-		public RelayCommand DeleteCommand { get; private set; }
-		private void OnDelete()
-		{
-			if (DeleteSave(SelectedScheduleZone.Model))
-			{
-				Model.Zones.Remove(SelectedScheduleZone.Model);
-				ScheduleZones.Remove(SelectedScheduleZone);
-			}
-		}
-		bool CanDelete()
-		{
-			return SelectedScheduleZone != null && ScheduleZones.Count > 1 && !IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Schedules_Edit);
-		}
-
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var scheduleZoneDetailsViewModel = new ScheduleZoneDetailsViewModel(Model, Organisation, SelectedScheduleZone.Model);
-			if (DialogService.ShowModalWindow(scheduleZoneDetailsViewModel) && EditSave(SelectedScheduleZone.Model))
+			var scheduleZoneDetailsViewModel = new ScheduleZoneDetailsViewModel(Model, Organisation);
+			if (DialogService.ShowModalWindow(scheduleZoneDetailsViewModel) && EditSave(scheduleZoneDetailsViewModel.ScheduleZone))
 			{
-				var selectedScheduleZone = SelectedScheduleZone;
-				SelectedScheduleZone.Update();
-				Sort();
-				SelectedScheduleZone = selectedScheduleZone;
+				ScheduleZones.Clear();
+				foreach (var scheduleZone in scheduleZoneDetailsViewModel.ScheduleZone)
+				{
+					ScheduleZones.Add(new ScheduleZoneViewModel(scheduleZone));
+				}
+				ScheduleZones.Sort(x => x.No);
+				SelectedScheduleZone = ScheduleZones.FirstOrDefault();
 			}
 		}
 		bool CanEdit()
 		{
-			return SelectedScheduleZone != null && !IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Schedules_Edit);
+			return !IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Schedules_Edit);
 		}
 
 		public void UpdateCardDoors(IEnumerable<Guid> doorUIDs)
@@ -154,25 +124,11 @@ namespace SKDModule.ViewModels
 					ScheduleZones.Remove(item);
 				}
 			}
-			
 		}
 
-		public bool AddSave(ScheduleZone zone)
+		public bool EditSave(List<ScheduleZone> zone)
 		{
-			Model.Zones.Add(zone);
-			return ScheduleHelper.Save(Model, false);
-		}
-
-		public bool EditSave(ScheduleZone zone)
-		{
-			Model.Zones.RemoveAll(x => x.UID == zone.UID);
-			Model.Zones.Add(zone);
-			return ScheduleHelper.Save(Model, false);
-		}
-
-		public bool DeleteSave(ScheduleZone zone)
-		{
-			Model.Zones.RemoveAll(x => x.UID == zone.UID);
+			Model.Zones = new List<ScheduleZone>(zone);
 			return ScheduleHelper.Save(Model, false);
 		}
 
