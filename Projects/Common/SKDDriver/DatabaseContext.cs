@@ -86,10 +86,10 @@ namespace SKDDriver.DataClasses
 			}
 			if (context.GKDaySchedules.Count() == 0)
 			{
-				var neverDaySchedule = new GKDaySchedule { UID = Guid.NewGuid(), Name = "<Никогда>" };
+				var neverDaySchedule = new GKDaySchedule { UID = Guid.NewGuid(), Name = "<Никогда>", No = 1 };
 				context.GKDaySchedules.Add(neverDaySchedule);
 				
-				var alwaysDaySchedule = new GKDaySchedule{ UID = Guid.NewGuid(), Name = "<Всегда>" };
+				var alwaysDaySchedule = new GKDaySchedule{ UID = Guid.NewGuid(), Name = "<Всегда>", No = 2 };
 				alwaysDaySchedule.GKDayScheduleParts.Add(new GKDaySchedulePart() { StartMilliseconds = 0, EndMilliseconds = (int)new TimeSpan(1, 0, 0, 0, 0).TotalMilliseconds });
 				context.GKDaySchedules.Add(alwaysDaySchedule);
 			}

@@ -110,7 +110,7 @@ namespace SKDDriver.DataClasses
 					Number = x.Number,
 					TransitionType = x.EndTimeSpan < x.BeginTimeSpan  ? API.DayIntervalPartTransitionType.Night : API.DayIntervalPartTransitionType.Day,
 					EndTime = x.EndTimeSpan
-				}).ToList()
+				}).OrderBy(x => x.Number).ToList()
 			});
 		}
 	}

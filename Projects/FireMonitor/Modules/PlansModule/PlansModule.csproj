@@ -103,6 +103,9 @@
     <Compile Include="Converters\XStateClassToPlanColorConverter.cs" />
     <Compile Include="Designer\FlushAdorner.cs" />
     <Compile Include="Designer\PresenterCanvas.cs" />
+    <Compile Include="Primitives\PrimitivePainter.cs" />
+    <Compile Include="Primitives\PrimitivePainterFactory.cs" />
+    <Compile Include="ViewModels\PrimitiveToolTipViewModel.cs" />
     <Compile Include="ViewModels\FlushViewModel.cs" />
     <Compile Include="Designer\MonitorSubPlanPainter.cs" />
     <Compile Include="ViewModels\MonitorSubPlanToolTipViewModel.cs" />
@@ -135,6 +138,9 @@
     </Compile>
     <Compile Include="Views\PlanTreeView.xaml.cs">
       <DependentUpon>PlanTreeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PrimitiveToolTipView.xaml.cs">
+      <DependentUpon>PrimitiveToolTipView.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -204,6 +210,10 @@
     <Page Include="Views\PlanTreeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PrimitiveToolTipView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup />

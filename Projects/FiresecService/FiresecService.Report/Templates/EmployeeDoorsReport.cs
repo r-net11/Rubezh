@@ -140,9 +140,9 @@ namespace FiresecService.Report.Templates
 							dataRow.NoEnterZone = door.NoEnterZone;
 							dataRow.NoExitZone = door.NoExitZone;
 
-							if (cardDoor.EnterScheduleNo != cardDoor.ExitScheduleNo && intervalMap.ContainsKey(cardDoor.EnterScheduleNo))
+							if (intervalMap.ContainsKey(cardDoor.EnterScheduleNo))
 								dataRow.Enter = intervalMap[cardDoor.EnterScheduleNo];
-							if (intervalMap.ContainsKey(cardDoor.ExitScheduleNo))
+							if (door.Type != GKDoorType.OneWay && intervalMap.ContainsKey(cardDoor.ExitScheduleNo))
 								dataRow.Exit = intervalMap[cardDoor.ExitScheduleNo];
 							dataRow.AccessPoint = door.Name;
 							dataRow.NoDoor = door.NoDoor;
@@ -162,13 +162,14 @@ namespace FiresecService.Report.Templates
 		public int NoDoor { get; private set; }
 		public int NoEnterZone { get; private set; }
 		public int NoExitZone { get; private set; }
-
+		public GKDoorType Type {get;private set;}
 
 		public CommonDoor(GKDoor door)
 		{
 
 			Name = door.PresentationName;
 			NoDoor = door.No;
+			Type = door.DoorType;
 			var enterZone = GKManager.SKDZones.FirstOrDefault(x => x.UID == door.EnterZoneUID);
 			if (enterZone != null)
 			{
@@ -186,6 +187,7 @@ namespace FiresecService.Report.Templates
 			}
 			else
 				NoExitZone = Int32.MaxValue;
+
 		}
 	}
 }

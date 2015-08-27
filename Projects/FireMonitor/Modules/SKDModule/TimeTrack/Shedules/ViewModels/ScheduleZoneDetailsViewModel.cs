@@ -13,24 +13,13 @@ namespace SKDModule.ViewModels
 {
 	public class ScheduleZoneDetailsViewModel : SaveCancelDialogViewModel
 	{
-		Schedule _schedule;
-		public ScheduleZone ScheduleZone { get; private set; }
+		public List <ScheduleZone> ScheduleZone { get; private set; }
 		List<Guid> _doorUIDs;
 
-		public ScheduleZoneDetailsViewModel(Schedule schedule, Organisation organisation, ScheduleZone sheduleZone = null)
+		public ScheduleZoneDetailsViewModel(Schedule schedule, Organisation organisation)
 		{
-			_schedule = schedule;
-			if (sheduleZone == null)
-			{
-				Title = "Выбор помещения";
-				sheduleZone = new ScheduleZone()
-				{
-					ScheduleUID = schedule.UID,
-				};
-			}
-			else
-				Title = "Редактирование помещения";
-			ScheduleZone = sheduleZone;
+			Title = "Добавить новые зоны";
+			ScheduleZone = new List<ScheduleZone>();
 
 			Zones = new SortableObservableCollection<SelectationScheduleZoneViewModel>();
 			var organisationResult = OrganisationHelper.GetSingle(organisation.UID);
@@ -43,19 +32,19 @@ namespace SKDModule.ViewModels
 				{
 					var enterZone = FiresecClient.GKManager.SKDZones.FirstOrDefault(x => x.UID == door.EnterZoneUID);
 					if (enterZone != null && !Zones.Any(x => x.ZoneUID == enterZone.UID))
-						Zones.Add(new SelectationScheduleZoneViewModel(enterZone, door.UID));
+						Zones.Add(new SelectationScheduleZoneViewModel(enterZone, schedule, door.UID));
 				}
 
 				if (door.ExitZoneUID != Guid.Empty)
 				{
 					var exitZone = FiresecClient.GKManager.SKDZones.FirstOrDefault(x => x.UID == door.ExitZoneUID);
 					if (exitZone != null && !Zones.Any(x => x.ZoneUID == exitZone.UID))
-						Zones.Add(new SelectationScheduleZoneViewModel(exitZone, door.UID));
+						Zones.Add(new SelectationScheduleZoneViewModel(exitZone, schedule, door.UID));
 				}
 			}
 
 			Zones = new ObservableCollection<SelectationScheduleZoneViewModel>(Zones.OrderBy(x => x.No)); //TODO: 
-			SelectedZone = Zones.FirstOrDefault(x => x.ZoneUID == ScheduleZone.ZoneUID);
+			SelectedZone = Zones.FirstOrDefault();
 		}
 
 		public ObservableCollection<SelectationScheduleZoneViewModel> Zones { get; private set; }
@@ -77,16 +66,13 @@ namespace SKDModule.ViewModels
 		}
 		protected override bool Save()
 		{
-			if (SelectedZone != null)
+			foreach (var zone in Zones)
 			{
-				if (_schedule.Zones.Any(x => x.ZoneUID == SelectedZone.ZoneUID && ScheduleZone.UID != x.UID))
+				if (zone.IsChecked)
 				{
-					MessageBoxService.ShowWarning("Выбранная зона уже включена");
-					return false;
+					ScheduleZone.Add(new ScheduleZone() { ZoneUID = zone.ZoneUID, DoorUID = zone.DoorUID , ScheduleUID = zone.ScheduleUID});
 				}
 			}
-			ScheduleZone.ZoneUID = SelectedZone.ZoneUID;
-			ScheduleZone.DoorUID = SelectedZone.DoorUID;
 			return true;
 		}
 	}
@@ -98,14 +84,18 @@ namespace SKDModule.ViewModels
 		public string Name { get; private set; }
 		public int No { get; private set; }
 		public string Description { get; private set; }
+		public bool IsChecked { get; set; }
+		public Guid ScheduleUID { get; set; }
 
-		public SelectationScheduleZoneViewModel(GKSKDZone zone, Guid doorUID)
+		public SelectationScheduleZoneViewModel(GKSKDZone zone, Schedule schedule, Guid doorUID)
 		{
 			DoorUID = doorUID;
 			ZoneUID = zone.UID;
 			Name = zone.Name;
 			No = zone.No;
+			ScheduleUID = schedule.UID;
 			Description = zone.Description;
+			IsChecked = schedule.Zones.Any(x => x.ZoneUID == zone.UID);
 		}
 	}
 }
