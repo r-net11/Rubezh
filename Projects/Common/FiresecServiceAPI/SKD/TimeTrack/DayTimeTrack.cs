@@ -203,8 +203,8 @@ namespace FiresecAPI.SKD
 				combinedTimeSpans.Add(NightSettings.NightEndTime);
 				if (NightSettings.NightEndTime < NightSettings.NightStartTime)
 				{
-					combinedTimeSpans.Add(new TimeSpan(24, 0, 0));
-					combinedTimeSpans.Add(new TimeSpan(0, 0, 0));
+					combinedTimeSpans.Add(TimeSpan.FromDays(1));
+					combinedTimeSpans.Add(TimeSpan.Zero);
 				}
 			}
 			combinedTimeSpans.Sort();

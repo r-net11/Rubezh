@@ -84,6 +84,8 @@ namespace FireMonitor
 						return false;
 					}
 
+                    SafeFiresecService.ReconnectionErrorEvent += x => { ApplicationService.Invoke(OnReconnectionError, x); };
+
 					//MutexHelper.KeepAlive();
 					if (Process.GetCurrentProcess().ProcessName != "FireMonitor.vshost")
 					{
@@ -112,7 +114,8 @@ namespace FireMonitor
 			}
 			return result;
 		}
-		protected virtual bool Run()
+
+        protected virtual bool Run()
 		{
 			var result = true;
 			var shell = CreateShell();
@@ -128,6 +131,15 @@ namespace FireMonitor
 		{
 			return new MonitorShellViewModel();
 		}
+
+        protected virtual void OnReconnectionError(string error)
+        {
+            if (!MessageBoxService.ShowConfirmation(String.Format("Связь с сервером восстановлена после сбоя, однако подключение не удалось по причине:\n\"{0}\"\nПовторить попытку подключения?", error))
+                && Application.Current != null)
+            {
+                Application.Current.Shutdown();
+            }
+        }
 
 		protected virtual void OnConfigurationChanged()
 		{
