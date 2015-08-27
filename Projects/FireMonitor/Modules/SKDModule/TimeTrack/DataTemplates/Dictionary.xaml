@@ -11,6 +11,10 @@
 		<Views:ResetAdjustmentsConflictView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:WarningIntersectionIntervalDialogWindowViewModel}">
+		<Views:WarningIntersectionIntervalDialogWindowView />
+	</DataTemplate>
+
 	<DataTemplate DataType="{x:Type ViewModels:DayIntervalDetailsViewModel}">
 		<Views:DayIntervalDetailsView />
 	</DataTemplate>

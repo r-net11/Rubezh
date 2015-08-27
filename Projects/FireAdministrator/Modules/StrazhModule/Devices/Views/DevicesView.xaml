@@ -360,9 +360,9 @@
 											Source="/Controls;component/Images/Door.png" />
 										<TextBlock
 											Margin="2"
-											Text="{Binding Door.PresentationName}"
+											Text="{Binding Door.Name}"
 											TextWrapping="Wrap"
-											ToolTip="{Binding Door.PresentationName}" />
+											ToolTip="{Binding Door.Name}" />
 									</StackPanel>
 								</Hyperlink>
 							</TextBlock>

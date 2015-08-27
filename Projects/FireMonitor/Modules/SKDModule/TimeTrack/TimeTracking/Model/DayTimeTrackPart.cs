@@ -369,7 +369,7 @@ namespace SKDModule.Model
 				}
 				if (propertyName == string.Empty || propertyName == "EnterDateTime" || propertyName == "ExitDateTime")
 				{
-					if ((EnterDateTime.HasValue && ExitDateTime.HasValue) && (EnterDateTime > ExitDateTime))
+					if ((EnterDateTime.HasValue && ExitDateTime.HasValue) && (EnterDateTime.GetValueOrDefault().Date > ExitDateTime.GetValueOrDefault().Date))
 						result = "Дата входа не может быть больше даты выхода";
 				}
 				if (propertyName == string.Empty || propertyName == "EnterDateTime" || propertyName == "ExitDateTime")
@@ -377,13 +377,18 @@ namespace SKDModule.Model
 					if (EnterDateTime == null || ExitDateTime == null)
 						result = "Введите дату";
 				}
-				if (propertyName == string.Empty || propertyName == "EnterTime" || propertyName == "ExitTime")
+				if (propertyName == string.Empty || propertyName == "EnterTime" || propertyName == "ExitTime" || propertyName == "ExitDateTime")
 				{
 					if (EnterDateTime.HasValue && ExitDateTime.HasValue && EnterDateTime.Value.Date == DateTime.Now.Date &&
 					    ExitDateTime.Value.Date == DateTime.Now.Date)
 					{
 						if (ExitTime > DateTime.Now.TimeOfDay || EnterTime > DateTime.Now.TimeOfDay)
 							result = "Дата не может быть установлена в будущее время";
+					}
+					if (EnterDateTime.HasValue && ExitDateTime.HasValue && EnterDateTime.Value.Date > DateTime.Now.Date ||
+						ExitDateTime.GetValueOrDefault().Date > DateTime.Now.Date)
+					{
+						result = "Дата не может быть установлена в будущее время";
 					}
 				}
 				CurrentError = result;

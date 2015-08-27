@@ -38,7 +38,7 @@ namespace StrazhModule.ViewModels
 			ZoneAccessStateOpenAlwaysCommand = new RelayCommand(OnZoneAccessStateOpenAlways, CanZoneAccessStateOpenAlways);
 
 			Zone = zone;
-			Title = Zone.PresentationName;
+			Title = Zone.Name;
 			State.StateChanged -= new Action(OnStateChanged);
 			State.StateChanged += new Action(OnStateChanged);
 			InitializePlans();

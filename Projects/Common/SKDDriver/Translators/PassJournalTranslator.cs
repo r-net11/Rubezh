@@ -40,6 +40,7 @@ namespace SKDDriver.Translators
 					var tmpDateTime = DateTime.Now;
 					exitPassJournal.ExitTime = tmpDateTime;
 					exitPassJournal.ExitTimeOriginal = tmpDateTime;
+					exitPassJournal.IsNeedAdjustment = exitPassJournal.ZoneUID == zoneUID;
 					exitPassJournal.IsOpen = default(bool);
 				}
 				if (zoneUID != Guid.Empty)
@@ -53,7 +54,6 @@ namespace SKDDriver.Translators
 						ZoneUID = zoneUID,
 						EnterTime = tmpDateTime,
 						ExitTime = null,
-						IsNeedAdjustment = exitPassJournal != null && exitPassJournal.ZoneUID == zoneUID, //TODO: check for right
 						EnterTimeOriginal = tmpDateTime,
 						IsOpen = true
 					};

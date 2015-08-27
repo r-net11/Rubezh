@@ -344,7 +344,7 @@ namespace FiresecAPI.SKD
 		public List<TimeTrackPart> CalculateCombinedTimeTrackParts(List<TimeTrackPart> plannedTimeTrackParts, List<TimeTrackPart> realTimeTrackParts, List<TimeTrackPart> documentTimeTrackParts)
 		{
 			var combinedTimeSpans = GetCombinedDateTimes(realTimeTrackParts, plannedTimeTrackParts, documentTimeTrackParts);
-			combinedTimeSpans = combinedTimeSpans.Where(x => x.HasValue).OrderBy(x => x.Value.TimeOfDay.TotalSeconds).ToList();
+			combinedTimeSpans = combinedTimeSpans.Where(x => x.HasValue).OrderBy(x => x.GetValueOrDefault().TimeOfDay.TotalSeconds).ToList();
 
 			var combinedTimeTrackParts = new List<TimeTrackPart>();
 
@@ -455,7 +455,7 @@ namespace FiresecAPI.SKD
 			{
 				var type = TimeTrackType.Overtime;
 				if (timeTrackPart.EnterDateTime.TimeOfDay > schedulePlannedInterval.StartTime.TimeOfDay &&
-					timeTrackPart.ExitDateTime.Value.TimeOfDay < schedulePlannedInterval.EndTime.Value.TimeOfDay)
+					timeTrackPart.ExitDateTime.GetValueOrDefault().TimeOfDay < schedulePlannedInterval.EndTime.GetValueOrDefault().TimeOfDay)
 					type = TimeTrackType.PresenceInBrerak;
 				return type;
 			}
@@ -503,7 +503,7 @@ namespace FiresecAPI.SKD
 		private List<DateTime?> GetCombinedDateTimes(List<TimeTrackPart> realTimeTrackParts, List<TimeTrackPart> plannedTimeTrackParts, List<TimeTrackPart> documentTimeTrackParts)
 		{
 			var combinedTimeSpans = new List<DateTime?>();
-			foreach (var trackPart in realTimeTrackParts)
+			foreach (var trackPart in realTimeTrackParts.Where(x => !x.NotTakeInCalculations))
 			{
 				combinedTimeSpans.Add(trackPart.EnterDateTime);
 				combinedTimeSpans.Add(trackPart.ExitDateTime);
