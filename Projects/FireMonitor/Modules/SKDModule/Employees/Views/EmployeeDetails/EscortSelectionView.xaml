@@ -4,6 +4,9 @@
 			 MinWidth="400" MinHeight="300">
 	<Grid>
 		<DataGrid ItemsSource="{Binding Employees}" SelectedItem="{Binding SelectedEmployee}" UIBehavior.ShowSelectionMark="True" UIBehavior.IsActiveSelectionMark="True">
+			<DataGrid.InputBindings>
+				<MouseBinding Command="{Binding SaveCommand}" MouseAction="LeftDoubleClick" />
+			</DataGrid.InputBindings>
 			<DataGrid.Columns>
 				<DataGridTemplateColumn Header="Имя" Width="*">
 					<DataGridTemplateColumn.CellTemplate>
