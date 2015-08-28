@@ -187,7 +187,7 @@ namespace SKDModule.ViewModels
 		{
 			var intersectionCollection = GetIntersectionIntervals(_parent, CurrentTimeTrackPart);
 
-			return !intersectionCollection.Any() 
+			return !intersectionCollection.Any()
 				|| DialogService.ShowModalWindow(new WarningIntersectionIntervalDialogWindowViewModel(CurrentTimeTrackPart, intersectionCollection));
 		}
 
@@ -195,11 +195,19 @@ namespace SKDModule.ViewModels
 		{
 			if (timeTrackDetailsViewModel == null) return new List<DayTimeTrackPart>();
 
-			return
-				timeTrackDetailsViewModel.DayTimeTrackParts
-				.Where(x => x.UID != currentTimeTrackPart.UID)
-				.Where(dayTimeTrackPart => dayTimeTrackPart.EnterDateTime < CurrentTimeTrackPart.ExitDateTime && dayTimeTrackPart.ExitDateTime > currentTimeTrackPart.EnterDateTime)
-				.ToList();
+			var list = new List<DayTimeTrackPart>();
+			foreach (var item in timeTrackDetailsViewModel.DayTimeTrackParts.Where(x => x.UID != currentTimeTrackPart.UID))
+			{
+				if (item.IsOpen)
+				{
+					if (CurrentTimeTrackPart.ExitDateTime > item.EnterDateTime)
+						list.Add(item);
+				}
+				else if (item.EnterDateTime < CurrentTimeTrackPart.ExitDateTime && item.ExitDateTime > currentTimeTrackPart.EnterDateTime)
+					list.Add(item);
+			}
+
+			return list;
 		}
 
 		public bool IsIntersection(TimeTrackDetailsViewModel timeTrackDetailsViewModel)
