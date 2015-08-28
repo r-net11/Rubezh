@@ -632,9 +632,9 @@ namespace SKDModule.ViewModels
 		private void ClearIntervalsData(ObservableCollection<DayTimeTrackPart> dayTimeTrackParts)
 		{
 			List<DayTimeTrackPart> searchCollection = new List<DayTimeTrackPart>(dayTimeTrackParts);
-			foreach (var dayTimeTrackPart in searchCollection)
+			foreach (var dayTimeTrackPart in searchCollection.Where(x => !x.IsForceClosed))
 			{
-				if (dayTimeTrackPart.IsManuallyAdded && !dayTimeTrackPart.IsForceClosed)
+				if (dayTimeTrackPart.IsManuallyAdded)
 				{
 					PassJournalHelper.DeleteAllPassJournalItems(dayTimeTrackPart.ToDTO());
 					IsDirty = true;
