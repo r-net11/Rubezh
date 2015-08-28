@@ -117,7 +117,8 @@ namespace GKProcessor
 				}
 				else
 				{
-					GetState(gkBase, true);
+					GetDelays(gkBase);
+					//GetState(gkBase, true);
 				}
 
 				if (onDelay != gkBase.InternalState.OnDelay || holdDelay != gkBase.InternalState.HoldDelay || offDelay != gkBase.InternalState.OffDelay)

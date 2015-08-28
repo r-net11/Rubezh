@@ -121,6 +121,7 @@ namespace GKProcessor
 			{
 				descriptor.GKBase.GKDescriptorNo = no++;
 				descriptor.DatabaseType = DatabaseType.Gk;
+				descriptor.GKBase.GkDatabaseParent = RootDevice; // для автосгенерированных объектов
 			}
 			foreach (var descriptor in Descriptors)
 			{
