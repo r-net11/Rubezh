@@ -418,10 +418,5 @@ namespace FiresecService.Service
 				return databaseService.CardTranslator.GetMinDate();
 			}
 		}
-
-		public void CancelSKDProgress(Guid progressCallbackUID, string userName)
-		{
-			throw new NotImplementedException();
-		}
 	}
 }

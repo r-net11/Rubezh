@@ -140,79 +140,75 @@ namespace StrazhModule.ViewModels
 		public RelayCommand WriteTimeSheduleConfigurationCommand { get; private set; }
 		void OnWriteTimeSheduleConfiguration()
 		{
-			if (CheckNeedSave(true))
+			if (!CheckNeedSave(true))
+				return;
+			if (!ValidateConfiguration())
+				return;
+			var thread = new Thread(() =>
 			{
-				if (ValidateConfiguration())
+				var result = FiresecManager.FiresecService.SKDWriteTimeSheduleConfiguration(SelectedDevice.Device);
+
+				ApplicationService.Invoke(new Action(() =>
 				{
-					var thread = new Thread(() =>
+					if (result.HasError)
 					{
-						var result = FiresecManager.FiresecService.SKDWriteTimeSheduleConfiguration(SelectedDevice.Device);
+						LoadingService.Close();
+						MessageBoxService.ShowWarning(result.Error);
+					}
 
-						ApplicationService.Invoke(new Action(() =>
+					var oldHasMissmath = HasMissmath;
+					if (ClientSettings.SKDMissmatchSettings.HasMissmatch(SelectedDevice.Device.UID))
+					{
+						if (result.HasError)
 						{
-							if (result.HasError)
-							{
-								LoadingService.Close();
-								MessageBoxService.ShowWarning(result.Error);
-							}
-
-							var oldHasMissmath = HasMissmath;
-							if (ClientSettings.SKDMissmatchSettings.HasMissmatch(SelectedDevice.Device.UID))
-							{
-								if (result.HasError)
-								{
-									ClientSettings.SKDMissmatchSettings.Set(SelectedDevice.Device.UID);
-								}
-								else
-								{
-									ClientSettings.SKDMissmatchSettings.Reset(SelectedDevice.Device.UID);
-								}
-							}
-							OnPropertyChanged(() => HasMissmath);
-							if (HasMissmath != oldHasMissmath)
-								ServiceFactory.SaveService.SKDChanged = true;
-						}));
-					});
-					thread.Name = "DeviceCommandsViewModel OnWriteTimeSheduleConfiguration";
-					thread.Start();
-				}
-			}
+							ClientSettings.SKDMissmatchSettings.Set(SelectedDevice.Device.UID);
+						}
+						else
+						{
+							ClientSettings.SKDMissmatchSettings.Reset(SelectedDevice.Device.UID);
+						}
+					}
+					OnPropertyChanged(() => HasMissmath);
+					if (HasMissmath != oldHasMissmath)
+						ServiceFactory.SaveService.SKDChanged = true;
+				}));
+			});
+			thread.Name = "DeviceCommandsViewModel OnWriteTimeSheduleConfiguration";
+			thread.Start();
 		}
 
 		public RelayCommand WriteAllTimeSheduleConfigurationCommand { get; private set; }
 		void OnWriteAllTimeSheduleConfiguration()
 		{
-			if (CheckNeedSave(true))
+			if (!CheckNeedSave(true))
+				return;
+			if (!ValidateConfiguration())
+				return;
+			var thread = new Thread(() =>
 			{
-				if (ValidateConfiguration())
+				var result = FiresecManager.FiresecService.SKDWriteAllTimeSheduleConfiguration();
+
+				ApplicationService.Invoke(new Action(() =>
 				{
-					var thread = new Thread(() =>
+					if (result.HasError)
 					{
-						var result = FiresecManager.FiresecService.SKDWriteAllTimeSheduleConfiguration();
+						LoadingService.Close();
+						MessageBoxService.ShowWarning(result.Error);
+					}
 
-						ApplicationService.Invoke(new Action(() =>
-						{
-							if (result.HasError)
-							{
-								LoadingService.Close();
-								MessageBoxService.ShowWarning(result.Error);
-							}
-
-							var oldHasMissmath = HasMissmath;
-							SKDManager.Devices.ForEach(x => ClientSettings.SKDMissmatchSettings.Reset(x.UID));
-							foreach (var failedDeviceUID in result.Result)
-							{
-								ClientSettings.SKDMissmatchSettings.Set(failedDeviceUID);
-							}
-							OnPropertyChanged(() => HasMissmath);
-							if (HasMissmath != oldHasMissmath)
-								ServiceFactory.SaveService.SKDChanged = true;
-						}));
-					});
-					thread.Name = "DeviceCommandsViewModel OnWriteTimeSheduleConfiguration";
-					thread.Start();
-				}
-			}
+					var oldHasMissmath = HasMissmath;
+					SKDManager.Devices.ForEach(x => ClientSettings.SKDMissmatchSettings.Reset(x.UID));
+					foreach (var failedDeviceUID in result.Result)
+					{
+						ClientSettings.SKDMissmatchSettings.Set(failedDeviceUID);
+					}
+					OnPropertyChanged(() => HasMissmath);
+					if (HasMissmath != oldHasMissmath)
+						ServiceFactory.SaveService.SKDChanged = true;
+				}));
+			});
+			thread.Name = "DeviceCommandsViewModel OnWriteTimeSheduleConfiguration";
+			thread.Start();
 		}
 
 		bool ValidateConfiguration()
