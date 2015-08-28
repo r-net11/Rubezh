@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace FiresecAPI.GK
 {
@@ -82,5 +83,11 @@ namespace FiresecAPI.GK
 		/// </summary>
 		[DataMember]
 		public int AccessLevel { get; set; }
+
+		[XmlIgnore]
+		public bool CanBeUsed
+		{
+			get { return CodeReaderEnterType != GKCodeReaderEnterType.None && (CodeUIDs.Count > 0 || AccessLevel > 0); }
+		}
 	}
 }

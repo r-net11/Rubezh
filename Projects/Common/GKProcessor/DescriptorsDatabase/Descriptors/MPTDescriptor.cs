@@ -80,10 +80,13 @@ namespace GKProcessor
 			{
 				if (mptDevice.Device.DriverType == GKDriverType.RSR2_CodeReader || mptDevice.Device.DriverType == GKDriverType.RSR2_CardReader)
 				{
-					if (FormulaHelper.AddCodeReaderLogic(Formula, mptDevice.CodeReaderSettings.MPTSettings, mptDevice.Device))
+					if (mptDevice.CodeReaderSettings.MPTSettings.CanBeUsed)
+					{
+						FormulaHelper.AddCodeReaderLogic(Formula, mptDevice.CodeReaderSettings.MPTSettings, mptDevice.Device);
 						if (count > 0)
 							Formula.Add(FormulaOperationType.OR);
 						count++;
+					}
 				}
 				else
 				{
@@ -94,7 +97,12 @@ namespace GKProcessor
 				}
 			}
 			if (count > 0)
+			{
+				Formula.Add(FormulaOperationType.BR, 1, 3);
+				Formula.Add(FormulaOperationType.CONST, 0, 1);
 				Formula.AddPutBit(stateBit, MPT);
+				Formula.Add(FormulaOperationType.EXIT);
+			}
 		}
 
 		void SetPropertiesBytes()
