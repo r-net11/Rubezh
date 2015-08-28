@@ -548,7 +548,7 @@ namespace GKProcessor
 
 		void InitializeMAMessage()
 		{
-			if (Device != null && Device.DriverType == GKDriverType.RSR2_AM_1)
+			if (Device != null && ((Device.DriverType == GKDriverType.RSR2_AM_1) || (Device.DriverType == GKDriverType.RSR2_MAP4)))
 			{
 				if (JournalItem.JournalEventNameType == JournalEventNameType.Норма)
 				{

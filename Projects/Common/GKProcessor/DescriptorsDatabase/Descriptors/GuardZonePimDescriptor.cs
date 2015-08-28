@@ -26,10 +26,9 @@ namespace GKProcessor
 		{
 			DeviceType = BytesHelper.ShortToBytes(0x107);
 			SetAddress(0);
-			SetFormulaBytes();
 		}
 
-		void SetFormulaBytes()
+		public override void BuildFormula()
 		{
 			Formula = new FormulaBuilder();
 			if ((DatabaseType == DatabaseType.Gk && GKBase.IsLogicOnKau) || (DatabaseType == DatabaseType.Kau && !GKBase.IsLogicOnKau))
@@ -39,14 +38,13 @@ namespace GKProcessor
 			}
 
 			SetGuardZoneChangeLogic(PimGuardZone, GuardZoneDevices, Formula, true);
-
-			Formula.Add(FormulaOperationType.DUP);
-			Formula.AddGetBit(GKStateBit.On, PimGuardZone);
-			Formula.Add(FormulaOperationType.AND);
-			Formula.AddPutBit(GKStateBit.TurnOffNow_InAutomatic, Pim);
 			Formula.AddGetBit(GKStateBit.Off, PimGuardZone);
 			Formula.Add(FormulaOperationType.AND);
 			Formula.AddPutBit(GKStateBit.TurnOnNow_InAutomatic, Pim);
+			SetGuardZoneChangeLogic(PimGuardZone, GuardZoneDevices, Formula, true);
+			Formula.AddGetBit(GKStateBit.On, PimGuardZone);
+			Formula.Add(FormulaOperationType.AND);
+			Formula.AddPutBit(GKStateBit.TurnOffNow_InAutomatic, Pim);
 			Formula.Add(FormulaOperationType.END);
 		}
 
