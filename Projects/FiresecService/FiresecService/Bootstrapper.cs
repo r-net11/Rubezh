@@ -12,6 +12,7 @@ using Infrastructure.Common.BalloonTrayTip;
 using Infrastructure.Common.Windows;
 using FiresecAPI;
 using SKDDriver.DataClasses;
+using FiresecService.Processor;
 
 namespace FiresecService
 {
@@ -41,7 +42,7 @@ namespace FiresecService
 				FiresecService.Service.FiresecService.ServerState = ServerState.Starting;
 
                 UILogger.Log("Проверка лицензии");
-                if (!LicenseHelper.TryLoad())
+                if (!FiresecLicenseProcessor.TryLoadLicense())
                     UILogger.Log("Ошибка лицензии", true);
 
 				UILogger.Log("Проверка соединения с БД");

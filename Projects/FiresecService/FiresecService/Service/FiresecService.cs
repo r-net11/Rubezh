@@ -128,6 +128,7 @@ namespace FiresecService.Service
         {
             return new OperationResult<FiresecLicenseInfo>(new FiresecLicenseInfo()
             {
+                LicenseMode = LicenseHelper.LicenseMode,
                 NumberOfUsers = LicenseHelper.NumberOfUsers,
                 ControlScripts = LicenseHelper.ControlScripts,
                 FireAlarm = LicenseHelper.FireAlarm,
