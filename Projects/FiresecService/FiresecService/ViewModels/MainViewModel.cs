@@ -5,6 +5,8 @@ using System.Windows.Threading;
 using FiresecAPI.Models;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common;
+using FiresecAPI;
 
 namespace FiresecService.ViewModels
 {
@@ -19,7 +21,6 @@ namespace FiresecService.ViewModels
 		public MainViewModel()
 		{
 			Current = this;
-			Title = "Сервер приложений Глобал";
 			_dispatcher = Dispatcher.CurrentDispatcher;
 			Clients = new ObservableCollection<ClientViewModel>();
 			ServerTasksViewModel = new ViewModels.ServerTasksViewModel();
@@ -27,6 +28,19 @@ namespace FiresecService.ViewModels
 			Logs = new ObservableCollection<LogViewModel>();
 			GKViewModels = new ObservableCollection<GKViewModel>();
             LicenseViewModel = new LicenseViewModel();
+			SetTitle(LicenseHelper.LicenseMode == LicenseMode.Demonstration);
+			LicenseHelper.LicenceChanged += LicenseHelper_LicenceChanged;
+		}
+
+		void SetTitle(bool isDemonstration)
+		{
+			Title = isDemonstration ? "Сервер приложений Глобал [Демонстрационный режим]" : "Сервер приложений Глобал";
+		}
+
+		void LicenseHelper_LicenceChanged(string propertyName, object oldValue, object newValue)
+		{
+			if (propertyName == "LicenseMode")
+				SetTitle((LicenseMode)newValue == LicenseMode.Demonstration);
 		}
 
 		void MessageBoxHandler(MessageBoxViewModel viewModel, bool isModal)

@@ -59,7 +59,7 @@ namespace FiresecService.Service
 
         public static void StartRemoveInactiveClients(TimeSpan inactiveTime)
         {
-            Thread thread = new Thread(() =>
+            var thread = new Thread(() =>
                 {
                     while (true)
                     {

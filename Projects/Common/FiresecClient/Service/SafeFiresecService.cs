@@ -42,7 +42,10 @@ namespace FiresecClient
 			{
 				LogException(e, methodName);
 				OnConnectionLost();
-				Recover();
+                if (!Recover())
+                {
+                    FiresecServiceFactory.Dispose();
+                }
 			}
 			return OperationResult<T>.FromError("Ошибка при при вызове операции");
 		}

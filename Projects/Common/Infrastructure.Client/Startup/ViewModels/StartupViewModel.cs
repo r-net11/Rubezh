@@ -225,7 +225,7 @@ namespace Infrastructure.Client.Startup.ViewModels
 					{
 						switch (serverState.Result)
 						{
-							case ServerState.Sarting:
+							case ServerState.Starting:
 								Message = "Сервер запускается";
 								break;
 

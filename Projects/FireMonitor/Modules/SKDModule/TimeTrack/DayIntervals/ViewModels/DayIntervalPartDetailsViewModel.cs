@@ -18,7 +18,6 @@ namespace SKDModule.ViewModels
 		DayInterval DayInterval;
 		Guid OrganisationUID;
 		public DayIntervalPart DayIntervalPart { get; private set; }
-		
 		public DayIntervalPartDetailsViewModel(DayInterval dayInterval, Guid organisationUID, DayIntervalPart dayIntervalPart = null)
 		{
 			DayInterval = dayInterval;
@@ -96,6 +95,11 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
+			if (_endTime >= TimeSpan.FromDays(1))
+			{
+				_endTime -= TimeSpan.FromDays(1);
+				_selectedTransition = DayIntervalPartTransitionType.Night;
+			}
 			if (!Validate() || IsIntersection())
 			{
 				SelectedTransition = oldTransitionType;
@@ -193,14 +197,14 @@ namespace SKDModule.ViewModels
 					deitingDayIntervalPart.TransitionType = SelectedTransition;
 				}
 			}
-			dayIntervalParts= dayIntervalParts.OrderBy(item => item.BeginTime).ToList();
+			dayIntervalParts = dayIntervalParts.OrderBy(item => item.BeginTime).ToList();
 			return dayIntervalParts;
 
 
 		}
 		bool IsIntersection()
 		{
-			var scheduleSchemesViewModel = new ScheduleSchemesViewModel();
+			var scheduleSchemesViewModel = ScheduleSchemesViewModel.Current;
 			scheduleSchemesViewModel.Initialize(new ScheduleSchemeFilter());
 			scheduleSchemesViewModel.ReloadDayIntervals();
 			var scheduleSchemes = scheduleSchemesViewModel.Organisations.FirstOrDefault(x => x.UID == OrganisationUID).Children;
@@ -213,7 +217,7 @@ namespace SKDModule.ViewModels
 					{
 						if (dayIntervals[i].SelectedDayInterval.UID == DayIntervalPart.DayIntervalUID)
 						{
-							if (SelectedTransition == DayIntervalPartTransitionType.Night && i != dayIntervals.Count)
+							if (SelectedTransition == DayIntervalPartTransitionType.Night && i != dayIntervals.Count - 1)
 							{
 								var tomorrowIntervalPart = dayIntervals[i + 1].SelectedDayInterval.DayIntervalParts.FirstOrDefault(x => x.Number == 1);
 								if (tomorrowIntervalPart != null && EndTime >= tomorrowIntervalPart.BeginTime)

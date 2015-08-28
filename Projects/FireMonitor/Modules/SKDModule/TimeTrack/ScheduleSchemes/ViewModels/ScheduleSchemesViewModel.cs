@@ -16,10 +16,12 @@ namespace SKDModule.ViewModels
 	public class ScheduleSchemesViewModel : OrganisationBaseViewModel<ScheduleScheme, ScheduleSchemeFilter, ScheduleSchemeViewModel, ScheduleSchemeDetailsViewModel>, ISelectable<Guid>
 	{
 		private Dictionary<Guid, ObservableCollection<DayInterval>> _dayIntervals;
+		public static ScheduleSchemesViewModel Current { get; private set; }
 		
 		public ScheduleSchemesViewModel()
 			:base()
 		{
+			Current = this;
 			ServiceFactory.Events.GetEvent<EditDayIntervalEvent>().Unsubscribe(OnEditDayInterval);
 			ServiceFactory.Events.GetEvent<EditDayIntervalEvent>().Subscribe(OnEditDayInterval);
 		}

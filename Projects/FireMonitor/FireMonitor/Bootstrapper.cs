@@ -109,7 +109,7 @@ namespace FireMonitor
 			{
 				if (Application.Current != null)
 					Application.Current.Shutdown();
-				return false;
+				return false;				
 			}
 			return result;
 		}
@@ -121,7 +121,7 @@ namespace FireMonitor
 				Application.Current.Shutdown();
 		}
 
-        protected virtual bool Run()
+        bool Run()
 		{
 			var result = true;
 			var shell = CreateShell();
@@ -133,12 +133,12 @@ namespace FireMonitor
 			((LayoutService)ServiceFactory.Layout).AddToolbarItem(new AutoActivationViewModel());
 			return result;
 		}
-		protected virtual ShellViewModel CreateShell()
+		ShellViewModel CreateShell()
 		{
 			return new MonitorShellViewModel();
 		}
 
-        protected virtual void OnReconnectionError(string error)
+        void OnReconnectionError(string error)
         {
             if (!MessageBoxService.ShowConfirmation(String.Format("Связь с сервером восстановлена после сбоя, однако подключение не удалось по причине:\n\"{0}\"\nПовторить попытку подключения?", error))
                 && Application.Current != null)
@@ -147,7 +147,7 @@ namespace FireMonitor
             }
         }
 
-		protected virtual void OnConfigurationChanged()
+		void OnConfigurationChanged()
 		{
 			var restartView = new RestartApplicationViewModel();
 			var isRestart = DialogService.ShowModalWindow(restartView);
@@ -189,14 +189,14 @@ namespace FireMonitor
 			};
 			System.Diagnostics.Process.Start(processStartInfo);
 		}
-		protected virtual string GetRestartCommandLineArguments()
+		string GetRestartCommandLineArguments()
 		{
 			string commandLineArguments = null;
 			if (_login != null && _password != null)
 				commandLineArguments = "login='" + _login + "' password='" + _password + "'";
 			return commandLineArguments;
 		}
-		public virtual void InitializeCommandLineArguments(string[] args)
+		public void InitializeCommandLineArguments(string[] args)
 		{
 			if (args != null)
 			{
