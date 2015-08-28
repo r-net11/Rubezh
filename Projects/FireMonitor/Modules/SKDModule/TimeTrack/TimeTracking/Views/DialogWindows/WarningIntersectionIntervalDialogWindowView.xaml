@@ -69,26 +69,7 @@
 					</Run>
 				</TextBlock>
 				<TextBlock Foreground="White" Text="пересекаются с границами других интервалов:" />
-				<ItemsControl ItemsSource="{Binding IntersectionPartsCollection}" ItemTemplateSelector="{StaticResource IsOpenedIntervalTemplateSelector}">
-					<!--<ItemsControl.ItemTemplate>
-						<DataTemplate>
-							<TextBlock Visibility="{Binding IsOpen, Converter={StaticResource BoolToVisibilityConverter}}" Foreground="White">
-								<Run Text="с" />
-								<Run Text="{Binding EnterDateTime}" />
-								<Run Text="по" />
-								<Run Text="{Binding ExitDateTime}" />
-								<Run Text=' (зона' />
-								<Run>
-									<Run.Text>
-										<MultiBinding StringFormat='"{0}")'>
-											<Binding Path="TimeTrackZone.Name" />
-										</MultiBinding>
-									</Run.Text>
-								</Run>
-							</TextBlock>
-						</DataTemplate>
-					</ItemsControl.ItemTemplate>-->
-				</ItemsControl>
+				<ItemsControl ItemsSource="{Binding IntersectionPartsCollection}" ItemTemplateSelector="{StaticResource IsOpenedIntervalTemplateSelector}" />
 				<TextBlock Foreground="White" Margin="0 15" Text="Для добавления интервала укажите другие границы." />
 			</StackPanel>
 		</Border>
