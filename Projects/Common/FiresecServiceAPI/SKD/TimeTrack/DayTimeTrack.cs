@@ -219,7 +219,7 @@ namespace FiresecAPI.SKD
 				timeTrackPart.StartTime = startTime;
 				timeTrackPart.EndTime = endTime;
 				CombinedTimeTrackParts.Add(timeTrackPart);
-				var isNight=false;
+				var isNight = false;
 				if (NightSettings != null && NightSettings.NightEndTime != NightSettings.NightStartTime)
 				{
 
@@ -272,7 +272,7 @@ namespace FiresecAPI.SKD
 							{
 								timeTrackPart.TimeTrackPartType = TimeTrackType.Late;
 							}
-                            else timeTrackPart.TimeTrackPartType = TimeTrackType.AbsenceInsidePlan;
+							else timeTrackPart.TimeTrackPartType = TimeTrackType.AbsenceInsidePlan;
 						}
 					}
 
@@ -289,7 +289,7 @@ namespace FiresecAPI.SKD
 							{
 								timeTrackPart.TimeTrackPartType = TimeTrackType.EarlyLeave;
 							}
-                            else timeTrackPart.TimeTrackPartType = TimeTrackType.AbsenceInsidePlan;
+							else timeTrackPart.TimeTrackPartType = TimeTrackType.AbsenceInsidePlan;
 						}
 					}
 				}
@@ -323,7 +323,7 @@ namespace FiresecAPI.SKD
 					else
 						timeTrackPart.TimeTrackPartType = TimeTrackType.Presence;
 				}
-					
+
 			}
 		}
 
@@ -342,6 +342,7 @@ namespace FiresecAPI.SKD
 			var totalNight = new TimeTrackTotal(TimeTrackType.Night);
 			Totals.Add(totalNight);
 			Totals.Add(new TimeTrackTotal(TimeTrackType.DocumentOvertime));
+			var totalDocumentPresence = new TimeTrackTotal(TimeTrackType.DocumentPresence);
 			Totals.Add(new TimeTrackTotal(TimeTrackType.DocumentPresence));
 			Totals.Add(new TimeTrackTotal(TimeTrackType.DocumentAbsence));
 
@@ -356,7 +357,6 @@ namespace FiresecAPI.SKD
 					PlannedTimeTrackParts.ForEach(x => totalBalance.TimeSpan -= x.Delta);
 				}
 			}
-			var slideTime = totalBalance.TimeSpan;
 			var isConside = true;
 			foreach (var timeTrack in CombinedTimeTrackParts)
 			{
@@ -382,6 +382,8 @@ namespace FiresecAPI.SKD
 								isConside = false;
 							}
 						}
+						if (timeTrackTotal.TimeSpan > SlideTime)
+							timeTrackTotal.TimeSpan = SlideTime;
 						break;
 				}
 			}
@@ -396,11 +398,11 @@ namespace FiresecAPI.SKD
 			var longestTimeTrackType = TimeTrackType.Presence;
 			var longestTimeSpan = new TimeSpan();
 			var presence = new TimeSpan();
-            var overtime = new TimeSpan();
+			var overtime = new TimeSpan();
 			var night = new TimeSpan();
 			foreach (var total in Totals)
 			{
-				switch(total.TimeTrackType)
+				switch (total.TimeTrackType)
 				{
 					case TimeTrackType.Absence:
 					case TimeTrackType.Late:
@@ -417,9 +419,9 @@ namespace FiresecAPI.SKD
 					case TimeTrackType.Presence:
 						presence = total.TimeSpan;
 						break;
-                    case TimeTrackType.Overtime:
-                        overtime = total.TimeSpan;
-                        break;
+					case TimeTrackType.Overtime:
+						overtime = total.TimeSpan;
+						break;
 					case TimeTrackType.Night:
 						night = total.TimeSpan;
 						break;
@@ -430,22 +432,22 @@ namespace FiresecAPI.SKD
 				if (IsHoliday)
 					return TimeTrackType.Holiday;
 
-                if (PlannedTimeTrackParts.Count == 0)
-                {
-                    if (SlideTime.TotalSeconds != 0)
-                    {
+				if (PlannedTimeTrackParts.Count == 0)
+				{
+					if (SlideTime.TotalSeconds != 0)
+					{
 						if (RealTimeTrackParts.Count != 0)
 						{
 							if (night > presence)
 								return TimeTrackType.Night;
 							return TimeTrackType.Presence;
 						}
-                        return TimeTrackType.Absence;
-                    }
-                    return TimeTrackType.DayOff;
-                }
-                if (overtime != TimeSpan.Zero)
-                    return TimeTrackType.Overtime;
+						return TimeTrackType.Absence;
+					}
+					return TimeTrackType.DayOff;
+				}
+				if (overtime != TimeSpan.Zero)
+					return TimeTrackType.Overtime;
 			}
 			return longestTimeTrackType;
 		}
@@ -516,7 +518,7 @@ namespace FiresecAPI.SKD
 
 			for (int i = result.Count - 1; i > 0; i--)
 			{
-				if (result[i].StartTime == result[i - 1].EndTime && result[i].ZoneUID == result[i-1].ZoneUID)
+				if (result[i].StartTime == result[i - 1].EndTime && result[i].ZoneUID == result[i - 1].ZoneUID)
 				{
 					result[i].StartTime = result[i - 1].StartTime;
 					result.RemoveAt(i - 1);
@@ -570,11 +572,11 @@ namespace FiresecAPI.SKD
 				case TimeTrackType.DocumentOvertime:
 				case TimeTrackType.DocumentPresence:
 				case TimeTrackType.DocumentAbsence:
-					var tmieTrackPart = CombinedTimeTrackParts.FirstOrDefault(x => x.TimeTrackPartType == TimeTrackType);
-					if (tmieTrackPart != null && tmieTrackPart.MinTimeTrackDocumentType != null)
+					var timeTrackPart = CombinedTimeTrackParts.FirstOrDefault(x => x.TimeTrackPartType == TimeTrackType);
+					if (timeTrackPart != null && timeTrackPart.MinTimeTrackDocumentType != null)
 					{
-						LetterCode = tmieTrackPart.MinTimeTrackDocumentType.ShortName;
-						Tooltip = tmieTrackPart.MinTimeTrackDocumentType.Name;
+						LetterCode = timeTrackPart.MinTimeTrackDocumentType.ShortName;
+						Tooltip = timeTrackPart.MinTimeTrackDocumentType.Name;
 					}
 					break;
 
