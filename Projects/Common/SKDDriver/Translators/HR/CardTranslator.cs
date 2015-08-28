@@ -46,7 +46,6 @@ namespace SKDDriver.DataClasses
 			{
 				var employees = DbService.EmployeeTranslator.ShortTranslator.GetFilteredTableItems(filter.EmployeeFilter);
 				tableItems = tableItems.Where(x => employees.Contains(x.Employee));
-				//tableItems = tableItems.Where(x => x.EmployeeUID == null || employeeUIDs.Contains(x.EmployeeUID.Value));
 			}
 			if (filter.UIDs != null && filter.UIDs.Count > 0)
 				tableItems = tableItems.Where(x => filter.UIDs.Contains(x.UID));

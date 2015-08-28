@@ -16,54 +16,36 @@ using SKDModule.Reports;
 using SKDModule.Reports.Providers;
 using SKDModule.ViewModels;
 using System.Diagnostics;
+using FiresecClient;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule
 {
 	public class SKDModuleLoader : ModuleBase, IReportProviderModule, ILayoutProviderModule, ISKDReportProviderModule
 	{
-		HRViewModel HRViewModel;
-		DayIntervalsViewModel DayIntervalsViewModel;
-		ScheduleSchemesViewModel ScheduleSchemesViewModel;
-		HolidaysViewModel HolidaysViewModel;
-		SchedulesViewModel SchedulesViewModel;
-		TimeTrackingViewModel TimeTrackingViewModel;
-
+		SKDTabItems SKDTabItems; 
+		
 		public override void CreateViewModels()
 		{
-			HRViewModel = new HRViewModel();
-			DayIntervalsViewModel = new DayIntervalsViewModel();
-			ScheduleSchemesViewModel = new ScheduleSchemesViewModel();
-			HolidaysViewModel = new HolidaysViewModel();
-			SchedulesViewModel = new SchedulesViewModel();
-			TimeTrackingViewModel = new TimeTrackingViewModel();
+			SKDTabItems = new SKDTabItems();
 		}
 
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
-			var timetrackNavigationItems = new List<NavigationItem>() {
-							new NavigationItem<ShowTimeIntervalsEvent, Guid>(DayIntervalsViewModel, "Дневные графики", "ShedulesDaylyW", null, PermissionType.Oper_SKD_TimeTrack_DaySchedules_View, Guid.Empty),
-							new NavigationItem<ShowWeeklyIntervalsEvent, Guid>(ScheduleSchemesViewModel, "Графики", "SheduleWeeklyW", null, PermissionType.Oper_SKD_TimeTrack_ScheduleSchemes_View, Guid.Empty),
-							new NavigationItem<ShowHolidaysEvent, Guid>(HolidaysViewModel, "Праздничные дни", "HolidaysW", null, PermissionType.Oper_SKD_TimeTrack_Holidays_View, Guid.Empty),
-							new NavigationItem<ShowShedulesEvent, Guid>(SchedulesViewModel, "Графики работ", "ShedulesW", null, PermissionType.Oper_SKD_TimeTrack_Schedules_View, Guid.Empty),
-							new NavigationItem<ShowTimeTrackingEvent>(TimeTrackingViewModel, "Учет рабочего времени", "TimeTrackingW", null, PermissionType.Oper_SKD_TimeTrack_Report_View),
-						};
 			return new List<NavigationItem>
 				{
 				new NavigationItem("СКД", "SKDW",
 					new List<NavigationItem>()
 					{
-						new NavigationItem<ShowHREvent>(HRViewModel, "Картотека", "Kartoteka2W"),
-						new NavigationItem("Учет рабочего времени", "TimeTrackingW", timetrackNavigationItems){IsVisible=timetrackNavigationItems.Any(x=>x.IsVisible)},
+						new NavigationItem<ShowHREvent>(SKDTabItems.HRViewModel, "Картотека", "Kartoteka2W"),
+						new NavigationItem<ShowTimeTrackingEvent>(SKDTabItems.TimeTrackingTabsViewModel, "Учет рабочего времени", "TimeTrackingW")
 					})
 				};
 		}
 
 		public override void Initialize()
 		{
-			DayIntervalsViewModel.Initialize();
-			ScheduleSchemesViewModel.Initialize();
-			HolidaysViewModel.Initialize();
-			SchedulesViewModel.Initialize();
+			SKDTabItems.Initialize();
 		}
 
 		public override ModuleType ModuleType
@@ -103,13 +85,9 @@ namespace SKDModule
 		#region ILayoutProviderModule Members
 		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
 		{
-			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDHR, "Картотека", "Levels.png", (p) => HRViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDHR, "Картотека", "Levels.png", (p) => SKDTabItems.HRViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDVerification, "Верификация", "Tree.png", (p) => new VerificationViewModel(p as LayoutPartReferenceProperties));
-			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDDayIntervals, "Дневные графики", "Tree.png", (p) => DayIntervalsViewModel);
-			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDScheduleSchemes, "Графики", "Tree.png", (p) => ScheduleSchemesViewModel);
-			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDHolidays, "Праздничные дни", "Tree.png", (p) => HolidaysViewModel);
-			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDSchedules, "Графики работ", "Tree.png", (p) => SchedulesViewModel);
-			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDTimeTracking, "Учет рабочего времени", "Tree.png", (p) => TimeTrackingViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDTimeTracking, "Учет рабочего времени", "Tree.png", (p) => SKDTabItems.TimeTrackingTabsViewModel);
 		}
 		#endregion
 
@@ -132,5 +110,26 @@ namespace SKDModule
 			yield return new WorkingTimeReportProvider();
 		}
 		#endregion
+	}
+}
+
+public class SKDTabItems
+{
+	public HRFilter Filter { get; set; }
+	public HRViewModel HRViewModel { get; set; }
+	public TimeTrackingTabsViewModel TimeTrackingTabsViewModel { get; set; }
+	public SKDTabItems()
+	{
+		var userUID = FiresecManager.CurrentUser.UID;
+		Filter = new HRFilter() { UserUID = FiresecManager.CurrentUser.UID };
+		Filter.EmployeeFilter.UserUID = userUID;
+		HRViewModel = new HRViewModel(this);
+		TimeTrackingTabsViewModel = new TimeTrackingTabsViewModel(this);
+	}
+
+	public void Initialize()
+	{
+		HRViewModel.Initialize();
+		TimeTrackingTabsViewModel.Initialize();
 	}
 }

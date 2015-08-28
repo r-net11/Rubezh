@@ -1,0 +1,100 @@
+﻿<UserControl x:Class="SKDModule.Views.TimeTrackingTabsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+             xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls" 
+             xmlns:Views="clr-namespace:SKDModule.Views"
+             xmlns:Controls="clr-namespace:Controls;assembly=Controls">
+
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+		<StackPanel Grid.Row="0" Orientation="Horizontal">
+			<StackPanel Orientation="Horizontal" Visibility="{Binding IsDayIntervalsSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+				<StackPanel DataContext="{Binding DayIntervalsViewModel}" Orientation="Horizontal">
+					<ToolBarButton Command="{Binding AddCommand}" ImageSource="Add"  ToolTip="Добавить" />
+					<ToolBarButton Command="{Binding EditCommand}" ImageSource="Edit"  ToolTip="Редактировать" />
+					<ToolBarButton Command="{Binding RemoveCommand}" ImageSource="Delete"  ToolTip="Удалить" />
+					<ToolBarButton Command="{Binding CopyCommand}" ImageSource="Copy"  ToolTip="Копировать" />
+					<ToolBarButton Command="{Binding PasteCommand}" ImageSource="Paste"  ToolTip="Вставить" />
+					<ToolBarButton Command="{Binding RestoreCommand}" ImageSource="Redo"  ToolTip="Восстановить" Visibility="{Binding IsWithDeleted, Converter={StaticResource BoolToVisibilityConverter}}" />
+				</StackPanel>
+			</StackPanel>
+			<Grid Visibility="{Binding IsScheduleSchemesSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+				<StackPanel DataContext="{Binding ScheduleSchemesViewModel}" Orientation="Horizontal">
+					<ToolBarButton Command="{Binding AddCommand}" ImageSource="Add"  ToolTip="Добавить" />
+					<ToolBarButton Command="{Binding RemoveCommand}" ImageSource="Delete"  ToolTip="Удалить" />
+					<ToolBarButton Command="{Binding EditCommand}" ImageSource="Edit"  ToolTip="Редактировать" />
+					<ToolBarButton Command="{Binding CopyCommand}" ImageSource="Copy"  ToolTip="Копировать" />
+					<ToolBarButton Command="{Binding PasteCommand}" ImageSource="Paste"  ToolTip="Вставить" />
+					<ToolBarButton Command="{Binding RestoreCommand}" ImageSource="Redo"  ToolTip="Восстановить" Visibility="{Binding IsWithDeleted, Converter={StaticResource BoolToVisibilityConverter}}"/>
+				</StackPanel>
+			</Grid>
+			<Grid Visibility="{Binding IsHolidaysSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+				<StackPanel DataContext="{Binding HolidaysViewModel}" Orientation="Horizontal">
+					<ComboBox ItemsSource="{Binding AvailableYears}" SelectedItem="{Binding SelectedYear}">
+						<ComboBox.ItemTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding .}" />
+							</DataTemplate>
+						</ComboBox.ItemTemplate>
+					</ComboBox>
+					<ToolBarButton Command="{Binding AddCommand}" ImageSource="Add"  ToolTip="Добавить" />
+					<ToolBarButton Command="{Binding RemoveCommand}" ImageSource="Delete"  ToolTip="Удалить" />
+					<ToolBarButton Command="{Binding EditCommand}" ImageSource="Edit"  ToolTip="Редактировать" />
+					<ToolBarButton Command="{Binding CopyCommand}" ImageSource="Copy"  ToolTip="Копировать" />
+					<ToolBarButton Command="{Binding PasteCommand}" ImageSource="Paste"  ToolTip="Вставить" />
+					<ToolBarButton Command="{Binding RestoreCommand}" ImageSource="Redo"  ToolTip="Восстановить"  Visibility="{Binding IsWithDeleted, Converter={StaticResource BoolToVisibilityConverter}}"/>
+				</StackPanel>
+			</Grid>
+			<Grid Visibility="{Binding IsSchedulesSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+				<StackPanel DataContext="{Binding SchedulesViewModel}" Orientation="Horizontal">
+					<ToolBarButton Command="{Binding AddCommand}" ImageSource="Add"  ToolTip="Добавить" />
+					<ToolBarButton Command="{Binding EditCommand}" ImageSource="Edit"  ToolTip="Редактировать" />
+					<ToolBarButton Command="{Binding RemoveCommand}" ImageSource="Delete"  ToolTip="Удалить" />
+					<ToolBarButton Command="{Binding CopyCommand}" ImageSource="Copy"  ToolTip="Копировать" />
+					<ToolBarButton Command="{Binding PasteCommand}" ImageSource="Paste"  ToolTip="Вставить" />
+					<ToolBarButton Command="{Binding RestoreCommand}" ImageSource="Redo"  ToolTip="Восстановить" Visibility="{Binding IsWithDeleted, Converter={StaticResource BoolToVisibilityConverter}}" />
+					<ToolBarButton Command="{Binding ShowSettingsCommand}" ImageSource="Settings2"  ToolTip="Настройки ночных интервалов" />
+				</StackPanel>
+			</Grid>
+			<Grid Visibility="{Binding IsTimeTrackingSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+				<StackPanel DataContext="{Binding TimeTrackingViewModel}" Orientation="Horizontal">
+					<ToolBarButton Command="{Binding ShowFilterCommand}" ImageSource="filter"  ToolTip="Задать фильтр" />
+					<ToolBarButton Command="{Binding RefreshCommand}" ImageSource="Refresh"  ToolTip="Обновить" />
+					<ToolBarButton Command="{Binding PrintCommand}" ImageSource="Print"  ToolTip="Печать" />
+					<StackPanel DataContext="{Binding SelectedTimeTrack.DocumentsViewModel}" Orientation="Horizontal">
+						<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить документ" ImageSource="Add"  />
+						<ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать документ" ImageSource="Edit" />
+						<ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить документ" ImageSource="Delete" />
+						<ToolBarButton Command="{Binding AddFileCommand}" ToolTip="Загрузить файл" ImageSource="Add" />
+						<ToolBarButton Command="{Binding OpenFileCommand}" ToolTip="Открыть файл" ImageSource="Edit" />
+						<ToolBarButton Command="{Binding RemoveFileCommand}" ToolTip="Удалить файл" ImageSource="Delete" />
+					</StackPanel>
+					<ToolBarButton Command="{Binding ShowDocumentTypesCommand}" ToolTip="Типы документов" ImageSource="Settings2" />
+				</StackPanel>
+			</Grid>
+			
+			<ToolBarButton ImageSource="{Binding FilterImageSource}" ToolTip="Фильтр" 
+						   Command="{Binding EditFilterCommand}" Visibility="{Binding IsTimeTrackingSelected, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+		</StackPanel>
+
+		<TabControl Grid.Row="1">
+			<TabItem Header="Дневные графики" IsSelected="{Binding IsDayIntervalsSelected}" Visibility="{Binding CanSelectDayIntervals, Converter={StaticResource BoolToVisibilityConverter}}">
+				<Views:DayIntervalsView DataContext="{Binding DayIntervalsViewModel}" />
+			</TabItem>
+			<TabItem Header="Графики" IsSelected="{Binding IsScheduleSchemesSelected}" Visibility="{Binding CanSelectScheduleSchemes, Converter={StaticResource BoolToVisibilityConverter}}">
+				<Views:ScheduleSchemesView DataContext="{Binding ScheduleSchemesViewModel}" />
+			</TabItem>
+			<TabItem Header="Праздничные дни" IsSelected="{Binding IsHolidaysSelected}" Visibility="{Binding CanSelectHolidays, Converter={StaticResource BoolToVisibilityConverter}}">
+				<Views:HolidaysView DataContext="{Binding HolidaysViewModel}" />
+			</TabItem>
+			<TabItem Header="Графики работ" IsSelected="{Binding IsSchedulesSelected}" Visibility="{Binding CanSelectSchedules, Converter={StaticResource BoolToVisibilityConverter}}">
+				<Views:SchedulesView DataContext="{Binding SchedulesViewModel}" />
+			</TabItem>
+			<TabItem Header="Учёт рабочего времени" IsSelected="{Binding IsTimeTrackingSelected}" Visibility="{Binding CanSelectTimeTracking, Converter={StaticResource BoolToVisibilityConverter}}">
+				<Views:TimeTrackingView DataContext="{Binding TimeTrackingViewModel}" />
+			</TabItem>
+		</TabControl>
+	</Grid>
+</UserControl>

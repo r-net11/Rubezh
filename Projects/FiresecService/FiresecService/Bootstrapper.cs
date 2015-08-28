@@ -48,10 +48,7 @@ namespace FiresecService
 				using (var dbService = new DbService())
 				{
 					if (dbService.CheckConnection().HasError)
-					{
-						UILogger.Log("Ошибка соединения с БД", true);
-						BalloonHelper.ShowFromServer("Ошибка соединения с БД");
-					}
+					UILogger.Log("Ошибка соединения с БД", true);
 				}
 				//PatchManager.Patch();
 
@@ -87,8 +84,7 @@ namespace FiresecService
 			catch (Exception e)
 			{
 				Logger.Error(e, "Исключение при вызове Bootstrapper.Run");
-				UILogger.Log("Ошибка при запуске сервера");
-				BalloonHelper.ShowFromServer("Ошибка во время загрузки");
+				UILogger.Log("Ошибка при запуске сервера", true);
 				Close();
 			}
 		}

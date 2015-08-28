@@ -212,11 +212,6 @@ namespace FiresecClient
             }, "GetLicenseInfo");
         }
 
-		public OperationResult CheckDB()
-		{
-			return SafeOperationCall(() => FiresecService.CheckDB(), "CheckDB");
-		}
-
 		public void Dispose()
 		{
 			IsDisconnecting = true;

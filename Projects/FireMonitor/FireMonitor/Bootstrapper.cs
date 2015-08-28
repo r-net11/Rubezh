@@ -39,15 +39,6 @@ namespace FireMonitor
 				_password = ServiceFactory.StartupService.Password;
 				try
 				{
-
-					var checkDBResult = FiresecManager.CheckDB();
-					if (checkDBResult.HasError)
-					{
-						MessageBoxService.Show(checkDBResult.Error, "Ошибка подключения к БД");
-						ShutDown();
-						return false;
-					}
-					
 					CreateModules();
 
                     ServiceFactory.StartupService.DoStep("Загрузка лицензии");
