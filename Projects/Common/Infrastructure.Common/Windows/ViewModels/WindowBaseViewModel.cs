@@ -11,6 +11,19 @@ namespace Infrastructure.Common.Windows.ViewModels
 
 		public event CancelEventHandler Closing;
 
+		private bool _isActivated;
+
+		public bool IsActivated
+		{
+			get { return _isActivated; }
+			set
+			{
+				if (_isActivated == value) return;
+				_isActivated = value;
+				OnPropertyChanged(() => IsActivated);
+			}
+		}
+
 		public WindowBaseViewModel()
 		{
 			CloseOnEscape = false;
@@ -122,7 +135,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			Close(true);
 		}
 
-		public void Close(bool result)
+		public void Close(bool? result)
 		{
 			if (Surface != null)
 			{
@@ -155,6 +168,16 @@ namespace Infrastructure.Common.Windows.ViewModels
 
 		public virtual void Unloaded()
 		{
+		}
+
+		public virtual void Activated()
+		{
+			IsActivated = true;
+		}
+
+		public virtual void Deactivated()
+		{
+			IsActivated = default(bool);
 		}
 	}
 }

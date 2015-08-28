@@ -2,5 +2,7 @@
 set BuildFilesPath=%cd%
 set NAntPath=%cd%\..\3rdParty\NAnt\bin\NAnt.exe
 del %cd%\bin\GK /Q
-start /I %NAntPath% -logger:NAnt.Core.XmlLogger -logfile:buildlog.xml -buildfile:nant/BuildRelease.build
+%NAntPath% -logger:NAnt.Core.XmlLogger -logfile:buildlog_Copy3dPartyDlls.xml -buildfile:nant/Copy3dPartyDlls.build
+%NAntPath% -logger:NAnt.Core.XmlLogger -logfile:buildlog_CopySDK.xml -buildfile:nant/CopySDK.build
+%NAntPath% -logger:NAnt.Core.XmlLogger -logfile:buildlog_BuildRelease.xml -buildfile:nant/BuildRelease.build
 echo END

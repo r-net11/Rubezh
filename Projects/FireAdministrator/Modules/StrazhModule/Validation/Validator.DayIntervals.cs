@@ -13,7 +13,8 @@ namespace StrazhModule.Validation
 
 			foreach (var dayInterval in SKDManager.TimeIntervalsConfiguration.DayIntervals)
 			{
-				if (dayInterval.Name == "<Никогда>" || dayInterval.Name == "<Всегда>")
+				// Пропускаем предустановленные дневные графики доступа
+				if (dayInterval.Name == TimeIntervalsConfiguration.PredefinedIntervalNameNever || dayInterval.Name == TimeIntervalsConfiguration.PredefinedIntervalNameAlways)
 				{
 					continue;
 				}

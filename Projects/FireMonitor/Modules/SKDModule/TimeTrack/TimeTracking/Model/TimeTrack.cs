@@ -39,11 +39,16 @@ namespace SKDModule.Model
 			//Выбор всех типов интервалов, которые указаны в фильтре типов
 			Totals = new ObservableCollection<TimeTrackTotal>(timeTrackFilter.TotalTimeTrackTypeFilters.Select(x => new TimeTrackTotal(x)));
 			DayTracks = new ObservableCollection<DayTrack>();
-
+			var crossNightNTimeTrackParts = new List<TimeTrackPart>();
+			
 			foreach (var dayTimeTrack in timeTrackEmployeeResult.DayTimeTracks)
 			{
-				if(string.IsNullOrEmpty(dayTimeTrack.Error))
+				if (string.IsNullOrEmpty(dayTimeTrack.Error))
+				{
+					dayTimeTrack.CrossNightTimeTrackParts = crossNightNTimeTrackParts;
 					dayTimeTrack.Calculate();
+					crossNightNTimeTrackParts = dayTimeTrack.CrossNightTimeTrackParts;
+				}
 				else
 				{
 					dayTimeTrack.TimeTrackType = TimeTrackType.None;

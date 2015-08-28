@@ -15,13 +15,13 @@ namespace SKDModule.ViewModels
 	public class PositionSelectionViewModel : SaveCancelDialogViewModel
 	{
 		Guid OrganisationUID;
-		
+
 		public PositionSelectionViewModel(Employee employee, ShortPosition shortPosition)
 		{
 			Title = "Выбор должности";
 			OrganisationUID = employee.OrganisationUID;
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
-			ClearCommand = new RelayCommand(OnClear);
+			ClearCommand = new RelayCommand(OnClear, CanClear);
 
 			Positions = new ObservableCollection<ShortPosition>();
 			var positions = PositionHelper.GetByOrganisation(OrganisationUID);
@@ -70,10 +70,15 @@ namespace SKDModule.ViewModels
 		}
 
 		public RelayCommand ClearCommand { get; private set; }
+
+		private bool CanClear()
+		{
+			return SelectedPosition != null;
+		}
+
 		void OnClear()
 		{
 			SelectedPosition = null;
-			Close();
 		}
 	}
 }

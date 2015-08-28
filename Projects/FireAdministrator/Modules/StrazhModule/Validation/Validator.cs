@@ -16,9 +16,11 @@ namespace StrazhModule.Validation
 			ValidateZones();
 			ValidateDoors();
 			ValidateTimeIntervals();
-			ValidateWeklyIntervals();
+			ValidateWeeklyIntervals();
 			ValidateSlideDayIntervals();
 			ValidateSlideWeklyIntervals();
+			ValidateDoorTimeIntervals();
+			ValidateDoorWeeklyIntervals();
 			ValidateHolidays();
 			ValidatePlans();
 			return Errors;

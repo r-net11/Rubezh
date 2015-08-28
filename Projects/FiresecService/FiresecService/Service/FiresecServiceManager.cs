@@ -21,7 +21,7 @@ namespace FiresecService.Service
 				SafeFiresecService = new SafeFiresecService();
 				ServiceHost = new ServiceHost(SafeFiresecService);
 
-				if (GlobalSettingsHelper.GlobalSettings.Server_EnableRemoteConnections && UACHelper.IsAdministrator)
+				if (AppServerSettingsHelper.AppServerSettings.EnableRemoteConnections && UACHelper.IsAdministrator)
 				{
 					CreateTcpEndpoint();
 				}

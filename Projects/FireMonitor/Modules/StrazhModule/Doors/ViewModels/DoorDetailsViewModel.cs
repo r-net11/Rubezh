@@ -12,11 +12,14 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrustructure.Plans.Elements;
+using StrazhModule.Doors;
 
 namespace StrazhModule.ViewModels
 {
 	public class DoorDetailsViewModel : DialogViewModel, IWindowIdentity
 	{
+		private SKDDevice _lock;
+
 		public SKDDoor Door { get; private set; }
 		public SKDDoorState State
 		{
@@ -25,6 +28,7 @@ namespace StrazhModule.ViewModels
 
 		public DoorDetailsViewModel(SKDDoor door)
 		{
+			ClearPromptWarningCommand = new RelayCommand(OnClearPromptWarning);
 			ShowCommand = new RelayCommand(OnShow);
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			OpenCommand = new RelayCommand(OnOpen, CanOpen);
@@ -40,12 +44,39 @@ namespace StrazhModule.ViewModels
 			State.StateChanged -= new Action(OnStateChanged);
 			State.StateChanged += new Action(OnStateChanged);
 			InitializePlans();
+
+			InitializeLock();
+			if (_lock != null)
+			{
+				_lock.State.StateChanged -= new Action(OnLockStateChanged);
+				_lock.State.StateChanged += new Action(OnLockStateChanged);
+			}
+		}
+
+		void InitializeLock()
+		{
+			if (Door.InDevice != null)
+			{
+				var lockAddress = Door.InDevice.IntAddress;
+				if (Door.DoorType == DoorType.TwoWay)
+				{
+					lockAddress = Door.InDevice.IntAddress / 2;
+				}
+				 _lock = Door.InDevice.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == lockAddress);
+			}
 		}
 
 		void OnStateChanged()
 		{
 			OnPropertyChanged(() => State);
+			OnPropertyChanged(() => IsPromptWarning);
 			CommandManager.InvalidateRequerySuggested();
+		}
+
+		void OnLockStateChanged()
+		{
+			State.AccessState = _lock.State.AccessState;
+			OnStateChanged();
 		}
 
 		public ObservableCollection<PlanLinkViewModel> Plans { get; private set; }
@@ -71,38 +102,35 @@ namespace StrazhModule.ViewModels
 			}
 		}
 
+		public bool IsPromptWarning
+		{
+			get { return State.StateClass == XStateClass.Attention; }
+		}
+
+		public RelayCommand ClearPromptWarningCommand { get; private set; }
+		void OnClearPromptWarning()
+		{
+			DoorCommander.ClearPromptWarning(Door);
+		}
+
 		public RelayCommand OpenCommand { get; private set; }
 		void OnOpen()
 		{
-			if (ServiceFactory.SecurityService.Validate())
-			{
-				var result = FiresecManager.FiresecService.SKDOpenDoor(Door);
-				if (result.HasError)
-				{
-					MessageBoxService.ShowWarning(result.Error);
-				}
-			}
+			DoorCommander.Open(Door);
 		}
 		bool CanOpen()
 		{
-			return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Doors_Control) && Door.State.StateClass != XStateClass.On && Door.State.StateClass != XStateClass.ConnectionLost;
+			return DoorCommander.CanOpen(Door);
 		}
 
 		public RelayCommand CloseCommand { get; private set; }
 		void OnClose()
 		{
-			if (ServiceFactory.SecurityService.Validate())
-			{
-				var result = FiresecManager.FiresecService.SKDCloseDoor(Door);
-				if (result.HasError)
-				{
-					MessageBoxService.ShowWarning(result.Error);
-				}
-			}
+			DoorCommander.Close(Door);
 		}
 		bool CanClose()
 		{
-			return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Doors_Control) && Door.State.StateClass != XStateClass.Off && Door.State.StateClass != XStateClass.ConnectionLost;
+			return DoorCommander.CanClose(Door);
 		}
 
 		public RelayCommand OpenForeverCommand { get; private set; }
@@ -142,55 +170,31 @@ namespace StrazhModule.ViewModels
 		public RelayCommand DoorAccessStateNormalCommand { get; private set; }
 		void OnDoorAccessStateNormal()
 		{
-			if (ServiceFactory.SecurityService.Validate())
-			{
-				var result = FiresecManager.FiresecService.SKDDoorAccessStateNormal(Door);
-				if (result.HasError)
-				{
-					MessageBoxService.ShowWarning(result.Error);
-				}
-			}
+			DoorCommander.SetAccessStateToNormal(Door);
 		}
 		bool CanDoorAccessStateNormal()
 		{
-			//return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Doors_Control) && State.StateClass != XStateClass.Off && State.StateClass != XStateClass.ConnectionLost;
-			return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Doors_Control) && State.StateClass != XStateClass.ConnectionLost;
+			return DoorCommander.CanSetAccessStateToNormal(Door);
 		}
 
 		public RelayCommand DoorAccessStateCloseAlwaysCommand { get; private set; }
 		void OnDoorAccessStateCloseAlways()
 		{
-			if (ServiceFactory.SecurityService.Validate())
-			{
-				var result = FiresecManager.FiresecService.SKDDoorAccessStateCloseAlways(Door);
-				if (result.HasError)
-				{
-					MessageBoxService.ShowWarning(result.Error);
-				}
-			}
+			DoorCommander.SetAccessStateToCloseAlways(Door);
 		}
 		bool CanDoorAccessStateCloseAlways()
 		{
-			return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Doors_Control) && State.StateClass != XStateClass.Off && State.StateClass != XStateClass.ConnectionLost;
+			return DoorCommander.CanSetAccessStateToCloseAlways(Door);
 		}
 
 		public RelayCommand DoorAccessStateOpenAlwaysCommand { get; private set; }
 		void OnDoorAccessStateOpenAlways()
 		{
-			if (ServiceFactory.SecurityService.Validate())
-			{
-				var result = FiresecManager.FiresecService.SKDDoorAccessStateOpenAlways(Door);
-				if (result.HasError)
-				{
-					MessageBoxService.ShowWarning(result.Error);
-				}
-			}
+			DoorCommander.SetAccessStateToOpenAlways(Door);
 		}
 		bool CanDoorAccessStateOpenAlways()
 		{
-			CommandManager.InvalidateRequerySuggested();
-			return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Doors_Control) && State.StateClass != XStateClass.On && State.StateClass != XStateClass.ConnectionLost;
-
+			return DoorCommander.CanSetAccessStateToOpenAlways(Door);
 		}
 
 		public RelayCommand ShowCommand { get; private set; }
@@ -224,6 +228,8 @@ namespace StrazhModule.ViewModels
 		public override void OnClosed()
 		{
 			State.StateChanged -= new Action(OnStateChanged);
+			if (_lock != null)
+				_lock.State.StateChanged -= new Action(OnLockStateChanged);
 		}
 	}
 }

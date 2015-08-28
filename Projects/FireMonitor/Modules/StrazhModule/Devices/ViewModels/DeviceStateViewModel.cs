@@ -1,9 +1,15 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecAPI.SKD;
+using FiresecClient;
+using Infrastructure;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using StrazhModule.Devices;
 
 namespace StrazhModule.ViewModels
 {
@@ -11,8 +17,14 @@ namespace StrazhModule.ViewModels
 	{
 		public SKDDeviceState State { get; private set; }
 
+		public bool IsPromptWarning
+		{
+			get { return StateClasses.Any(x => x.StateClass == XStateClass.Attention); }
+		}
+
 		public DeviceStateViewModel(SKDDeviceState deviceState)
 		{
+			ClearPromptWarningCommand = new RelayCommand(OnClearPromptWarning);
 			State = deviceState;
 			StateClasses = new ObservableCollection<XStateClassViewModel>();
 			State.StateChanged -= new Action(OnStateChanged);
@@ -29,9 +41,16 @@ namespace StrazhModule.ViewModels
 			{
 				StateClasses.Add(new XStateClassViewModel(State.Device, stateClass));
 			}
+			OnPropertyChanged(() => IsPromptWarning);
 		}
 
 		public ObservableCollection<XStateClassViewModel> StateClasses { get; private set; }
+
+		public RelayCommand ClearPromptWarningCommand { get; private set; }
+		void OnClearPromptWarning()
+		{
+			DeviceCommander.ClearPromptWarning(State.Device);
+		}
 	}
 
 	public class XStateClassViewModel : BaseViewModel
@@ -49,13 +68,15 @@ namespace StrazhModule.ViewModels
 		{
 			get
 			{
-				var result = GetStateName(StateClass, Device);
-				return result;
+				return GetStateName(StateClass, Device);
 			}
 		}
 
 		public static string GetStateName(XStateClass stateClass, SKDDevice device)
 		{
+			if (stateClass == XStateClass.Attention)
+				return "Взлом";
+
 			if (device.DriverType == SKDDriverType.Lock)
 			{
 				switch(stateClass)

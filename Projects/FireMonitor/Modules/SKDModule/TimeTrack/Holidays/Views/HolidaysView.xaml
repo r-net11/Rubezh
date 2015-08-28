@@ -9,6 +9,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
 	xmlns:viewModel="clr-namespace:SKDModule.ViewModels"
+	xmlns:ctr="clr-namespace:Controls.ListViewLayoutManager;assembly=Controls"
 	DataContextChanged="UserControl_DataContextChanged"
 	d:DataContext="{d:DesignInstance viewModel:HolidayViewModel}"
 	d:DesignHeight="300"
@@ -71,12 +72,13 @@
 			ItemActivatedCommand="{Binding EditCommand}"
 			SelectedTreeNode="{Binding SelectedItem}"
 			Source="{Binding Organisations}"
+			ctr:ListViewLayoutManager.Enabled="True"
 			tree:SortBehavior.CanUserSortColumns="True">
 			<tree:TreeList.View>
 				<GridView>
 					<GridViewColumn
-						Width="300"
 						Header="Название"
+						Width="350"
 						tree:SortBehavior.SortComparer="{StaticResource HolidayViewModelNameComparer}">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
@@ -100,7 +102,7 @@
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
-					<GridViewColumn Width="100" Header="Дата">
+					<GridViewColumn Width="100" ctr:RangeColumn.MinWidth="70" ctr:RangeColumn.MaxWidth="150" Header="Дата">
 						<!--  tree:SortBehavior.SortComparer="{StaticResource HolidayViewModelNameComparer}">  -->
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
@@ -108,7 +110,7 @@
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
-					<GridViewColumn Width="150" Header="Тип">
+					<GridViewColumn Width="150" ctr:RangeColumn.MinWidth="100" ctr:RangeColumn.MaxWidth="200" Header="Тип">
 						<!--  tree:SortBehavior.SortComparer="{StaticResource HolidayViewModelTypeComparer}">  -->
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
@@ -116,7 +118,7 @@
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
-					<GridViewColumn Width="250" Header="Величина сокращения">
+					<GridViewColumn Width="250" ctr:RangeColumn.MinWidth="200" ctr:RangeColumn.MaxWidth="300" Header="Величина сокращения">
 						<!--  tree:SortBehavior.SortComparer="{StaticResource HolidayViewModelReductionTimeComparer}">  -->
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
@@ -124,7 +126,7 @@
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
-					<GridViewColumn Width="150" Header="Дата переноса">
+					<GridViewColumn Width="150" ctr:ProportionalColumn.Width="1" Header="Дата переноса">
 						<!--  tree:SortBehavior.SortComparer="{StaticResource HolidayViewModelTransitionDateComparer}">  -->
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>

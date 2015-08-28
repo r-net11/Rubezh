@@ -55,12 +55,7 @@ namespace StrazhModule.Intervals.Base.ViewModels
 		private bool _isActive;
 		public bool IsActive
 		{
-			get
-			{
-				if (Name == "<Никогда>" || Name == "<Всегда>")
-					return false;
-				return _isActive;
-			}
+			get { return _isActive && !IsPredefined; }
 			set
 			{
 				_isActive = value;
@@ -112,6 +107,11 @@ namespace StrazhModule.Intervals.Base.ViewModels
 
 		public virtual void Paste(TModel source)
 		{
+		}
+
+		public virtual bool IsPredefined
+		{
+			get { return false; }
 		}
 	}
 }

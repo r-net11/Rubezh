@@ -8,21 +8,22 @@ namespace Controls
 {
 	public partial class TimePicker : UserControl
 	{
-		private static readonly int HoursMax = 23;
-		private static readonly int MinutesMax = 59;
-		private static readonly int HoursMin = 0;
-		private static readonly int MinutesMin = 0;
-
 		public static readonly DependencyProperty TimeSpanProperty = DependencyProperty.Register("TimeSpan", typeof(TimeSpan), typeof(TimePicker),
 			new FrameworkPropertyMetadata(TimeSpan.Zero, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, new PropertyChangedCallback(OnTimeSpanPropertyChanged)));
+
+		public static readonly DependencyProperty MinTimeSpanProperty = DependencyProperty.Register("MinTimeSpan", typeof(TimeSpan), typeof(TimePicker),
+			new FrameworkPropertyMetadata(DateTime.MinValue.TimeOfDay/*, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault*/));
+
+		public static readonly DependencyProperty MaxTimeSpanProperty = DependencyProperty.Register("MaxTimeSpan", typeof(TimeSpan), typeof(TimePicker),
+			new FrameworkPropertyMetadata(DateTime.MaxValue.TimeOfDay/*, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault*/));
 
 		private static void OnTimeSpanPropertyChanged(DependencyObject dp, DependencyPropertyChangedEventArgs e)
 		{
 			TimePicker timePicker = dp as TimePicker;
 			if (timePicker != null)
 			{
-				timePicker.TimeSpan = timePicker.TimeSpan;
-				timePicker.TextBox.Text = timePicker.TimeSpan.Hours.ToString("D2") + ":" + timePicker.TimeSpan.Minutes.ToString("D2");
+				//timePicker.TimeSpan = timePicker.TimeSpan;
+				timePicker.TextBox.Text = String.Format("{0}:{1}", timePicker.TimeSpan.Hours.ToString("D2"), timePicker.TimeSpan.Minutes.ToString("D2"));
 			}
 			dp.CoerceValue(TimeSpanProperty);
 		}
@@ -34,6 +35,38 @@ namespace Controls
 			DataObject.AddCopyingHandler(TextBox, (sender, e) => { if (e.IsDragDrop) e.CancelCommand(); });
 		}
 
+		public TimeSpan MinTimeSpan
+		{
+			get { return (TimeSpan)GetValue(MinTimeSpanProperty); }
+			set { SetValue(MinTimeSpanProperty, value); }
+		}
+
+		private int HoursMin
+		{
+			get { return MinTimeSpan.Hours; }
+		}
+
+		private int MinutesMin
+		{
+			get { return MinTimeSpan.Minutes; }
+		}
+
+		public TimeSpan MaxTimeSpan
+		{
+			get { return (TimeSpan)GetValue(MaxTimeSpanProperty); }
+			set { SetValue(MaxTimeSpanProperty, value); }
+		}
+
+		private int HoursMax
+		{
+			get { return MaxTimeSpan.Hours; }
+		}
+
+		private int MinutesMax
+		{
+			get { return MaxTimeSpan.Minutes; }
+		}
+
 		public TimeSpan TimeSpan
 		{
 			get { return (TimeSpan)GetValue(TimeSpanProperty); }
@@ -42,8 +75,9 @@ namespace Controls
 
 		public void InitializeTime()
 		{
-			if (TextBox.Text.Length != 5)
-				TextBox.Text = "00:00";
+			//if (TextBox.Text.Length != 5)
+			//	TextBox.Text = "00:00";
+			TextBox.Text = String.Format("{0}:{1}", TimeSpan.Hours.ToString("D2"), TimeSpan.Minutes.ToString("D2"));
 			Hours = TimeSpan.Hours;
 			Minutes = TimeSpan.Minutes;
 		}

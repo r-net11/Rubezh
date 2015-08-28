@@ -18,5 +18,10 @@ namespace ChinaSKDDriver
 		{
 			return NativeWrapper.WRAP_GetDoorStatus(LoginID, channelNo);
 		}
+
+		public bool PromptWarning(int channelNo)
+		{
+			return NativeWrapper.WRAP_PromptWarning(LoginID, channelNo);
+		}
 	}
 }

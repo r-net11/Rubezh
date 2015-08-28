@@ -5,5 +5,7 @@
 		<ToolBarButton Command="{Binding AddCommand}"  ToolTip="Добавить (Ctrl+N)" ImageSource="Add"  />
 		<ToolBarButton Command="{Binding EditCommand}"  ToolTip="Редактировать (Ctrl+E)" ImageSource="Edit"  />
 		<ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить (Ctrl+Del)" ImageSource="Delete"  />
+		<ToolBarButton Command="{Binding CopyCommand}" ToolTip="Копировать" ImageSource="Copy"  />
+		<ToolBarButton Command="{Binding PasteCommand}" ToolTip="Вставить" ImageSource="Paste"  />
 	</StackPanel>
 </UserControl>

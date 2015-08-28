@@ -122,6 +122,7 @@
     <Compile Include="Attach.cs" />
     <Compile Include="AttachedColumnBehavior.cs" />
     <Compile Include="Behaviours\CustomSortBehaviour.cs" />
+    <Compile Include="Behaviours\DatePickerCustomWatermark.cs" />
     <Compile Include="ButtonSpinner.cs" />
     <Compile Include="Converters\BoolToSelectionModeConverter.cs" />
     <Compile Include="Converters\ConverterHelper.cs" />
@@ -134,6 +135,7 @@
     <Compile Include="Converters\StringToResourceConverter.cs" />
     <Compile Include="Converters\StringToSingleLineString.cs" />
     <Compile Include="Converters\StringToVisibilityConverter.cs" />
+    <Compile Include="Converters\XStateClassToSKDStringConverter2.cs" />
     <Compile Include="Converters\XStateClassToStringConverter2.cs" />
     <Compile Include="FeaturedComboBox.cs" />
     <Compile Include="FeaturedComboboxItem.cs" />
@@ -190,6 +192,14 @@
     <Compile Include="Converters\JournalSubsystemTypeToIconConverter.cs" />
     <Compile Include="EditorPresenter.cs" />
     <Compile Include="ExtendedBinding.cs" />
+    <Compile Include="ListViewLayoutManager\ConverterGridViewColumn.cs" />
+    <Compile Include="ListViewLayoutManager\DynamicProportionalColumn.cs" />
+    <Compile Include="ListViewLayoutManager\FixedColumn.cs" />
+    <Compile Include="ListViewLayoutManager\ImageGridViewColumn.cs" />
+    <Compile Include="ListViewLayoutManager\LayoutColumn.cs" />
+    <Compile Include="ListViewLayoutManager\ListViewLayoutManager.cs" />
+    <Compile Include="ListViewLayoutManager\ProportionalColumn.cs" />
+    <Compile Include="ListViewLayoutManager\RangeColumn.cs" />
     <Compile Include="Menu\ViewModels\MenuButtonViewModel.cs" />
     <Compile Include="Menu\ViewModels\MenuSeparatorViewModel.cs" />
     <Compile Include="Menu\ViewModels\MenuViewModel.cs" />
@@ -534,6 +544,10 @@
     <Page Include="Themes\ActiveXScrollBarStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\VerticalSeparatorStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TimePicker.xaml">
       <SubType>Designer</SubType>

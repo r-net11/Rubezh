@@ -96,8 +96,20 @@ namespace StrazhModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			if (SelectedDayInterval.ConfirmDeactivation())
+			if (SelectedDayInterval.ConfirmRemoval())
 			{
+				// Вместо удаляемого дневного графика доступа подставляем предустановленный дневной график доступа <Никогда>
+				var predefinedDayIntervalNever =
+					SKDManager.TimeIntervalsConfiguration.DayIntervals.FirstOrDefault(
+						x => x.Name == TimeIntervalsConfiguration.PredefinedIntervalNameNever);
+				foreach (var weeklyInterval in SelectedDayInterval.GetLinkedWeeklyIntervals())
+				{
+					foreach (var weeklyIntervalPart in weeklyInterval.WeeklyIntervalParts.Where(part => part.DayIntervalUID == SelectedDayInterval.DayInterval.UID))
+					{
+						weeklyIntervalPart.DayIntervalUID = predefinedDayIntervalNever == null ? Guid.Empty : predefinedDayIntervalNever.UID;
+					}
+				}
+
 				var index = DayIntervals.IndexOf(SelectedDayInterval);
 				SKDManager.TimeIntervalsConfiguration.DayIntervals.Remove(SelectedDayInterval.DayInterval);
 				DayIntervals.Remove(SelectedDayInterval);

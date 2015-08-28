@@ -34,12 +34,6 @@ private:
 	NET_DEVICE_TYPE	m_emDevType;
 
 	CFG_CLIENT_CUSTOM_INFO	m_stuInfo;
-
-	void ReadNative();
-	void ReadRefactored();
-
-	void WriteNative();
-	void WriteRefactored();
 public:
 	afx_msg void OnBnClickedDlgRwBtnRead();
 	afx_msg void OnBnClickedDlgRwBtnWrite();

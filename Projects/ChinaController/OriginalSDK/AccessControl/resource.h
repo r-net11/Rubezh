@@ -224,6 +224,7 @@
 #define IDC_BUTTON1                     7200
 #define IDC_CALARM_BTN                  7201
 #define IDC_CALARM_EDIT                 7202
+#define IDC_BUTTON4                     7202
 #define IDC_SEARCH_BTN_START            7203
 #define IDC_BUTTON2                     7203
 #define IDC_SEARCH_BTN_OK               7204
@@ -266,7 +267,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        148
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         7246
+#define _APS_NEXT_CONTROL_VALUE         7249
 #define _APS_NEXT_SYMED_VALUE           107
 #endif
 #endif

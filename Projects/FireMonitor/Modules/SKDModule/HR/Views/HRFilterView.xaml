@@ -10,7 +10,7 @@
 			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
-		<TabControl Grid.Row="0" Visibility="{Binding ShowEmployeeFilter, Converter={StaticResource BoolToVisibilityConverter}}">
+		<TabControl Visibility="{Binding ShowEmployeeFilter, Converter={StaticResource BoolToVisibilityConverter}}">
 			<TabItem Header="Организации" >
 				<Views:OrganisationsFilterView />
 			</TabItem>
@@ -24,7 +24,14 @@
 				<Views:EmployeesFilterView DataContext="{Binding EmployeesFilterViewModel}" />
 			</TabItem>
 		</TabControl>
-		<Views:OrganisationsFilterView Grid.Row="0" Visibility="{Binding ShowEmployeeFilter, Converter={StaticResource InversedBoolToVisibilityConverter}}"/>
-		<CheckBox Grid.Row="1" Margin="5" Content="Отображать архивные сведения" IsChecked="{Binding IsWithDeleted}" VerticalAlignment="Center" VerticalContentAlignment="Center" Foreground="White" />
+		<Views:OrganisationsFilterView Visibility="{Binding ShowEmployeeFilter, Converter={StaticResource InversedBoolToVisibilityConverter}}"/>
+		<CheckBox
+			Grid.Row="1"
+			Margin="5"
+			Content="Отображать архивные сведения"
+			IsChecked="{Binding IsWithDeleted}"
+			VerticalAlignment="Center"
+			VerticalContentAlignment="Center"
+			Foreground="White" />
 	</Grid>
 </UserControl>

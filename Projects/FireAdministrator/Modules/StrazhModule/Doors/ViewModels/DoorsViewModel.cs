@@ -102,33 +102,32 @@ namespace StrazhModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите точку доступа " + SelectedDoor.Door.Name))
+			if (!MessageBoxService.ShowConfirmation(String.Format("Вы действительно хотите удалить точку доступа\n\"{0}\"?", SelectedDoor.Door.Name)))
+				return;
+			var index = Doors.IndexOf(SelectedDoor);
+			SKDManager.RemoveDoor(SelectedDoor.Door);
+			SelectedDoor.Door.OnChanged();
+
+			var organisations = OrganisationHelper.Get(new OrganisationFilter());
+			foreach (var organisation in organisations)
 			{
-				var index = Doors.IndexOf(SelectedDoor);
-				SKDManager.RemoveDoor(SelectedDoor.Door);
-				SelectedDoor.Door.OnChanged();
-
-				var organisations = OrganisationHelper.Get(new OrganisationFilter());
-				foreach (var organisation in organisations)
+				if (organisation.DoorUIDs.Contains(SelectedDoor.Door.UID))
 				{
-					if (organisation.DoorUIDs.Contains(SelectedDoor.Door.UID))
-					{
-						organisation.DoorUIDs.Remove(SelectedDoor.Door.UID);
-						OrganisationHelper.SaveDoors(organisation);
-					}
+					organisation.DoorUIDs.Remove(SelectedDoor.Door.UID);
+					OrganisationHelper.SaveDoors(organisation);
 				}
-
-				if (SelectedDoor.InDevice != null)
-					SKDManager.RemoveDeviceDoor(SelectedDoor.InDevice.Parent, SelectedDoor.Door);
-
-				Doors.Remove(SelectedDoor);
-
-				index = Math.Min(index, Doors.Count - 1);
-				if (index > -1)
-					SelectedDoor = Doors[index];
-
-				ServiceFactory.SaveService.SKDChanged = true;
 			}
+
+			if (SelectedDoor.InDevice != null)
+				SKDManager.RemoveDeviceDoor(SelectedDoor.InDevice.Parent, SelectedDoor.Door);
+
+			Doors.Remove(SelectedDoor);
+
+			index = Math.Min(index, Doors.Count - 1);
+			if (index > -1)
+				SelectedDoor = Doors[index];
+
+			ServiceFactory.SaveService.SKDChanged = true;
 		}
 
 		public RelayCommand EditCommand { get; private set; }

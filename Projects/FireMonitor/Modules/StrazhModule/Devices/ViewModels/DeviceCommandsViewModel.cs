@@ -7,6 +7,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using StrazhModule.Devices;
 
 namespace StrazhModule.ViewModels
 {
@@ -41,35 +42,21 @@ namespace StrazhModule.ViewModels
 		public RelayCommand OpenCommand { get; private set; }
 		void OnOpen()
 		{
-			if (ServiceFactory.SecurityService.Validate())
-			{
-				var result = FiresecManager.FiresecService.SKDOpenDevice(Device);
-				if (result.HasError)
-				{
-					MessageBoxService.ShowWarning(result.Error);
-				}
-			}
+			DeviceCommander.Open(Device);
 		}
 		bool CanOpen()
 		{
-			return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Devices_Control) && DeviceState.StateClass != XStateClass.On && DeviceState.StateClass != XStateClass.ConnectionLost;
+			return DeviceCommander.CanOpen(Device);
 		}
 
 		public RelayCommand CloseCommand { get; private set; }
 		void OnClose()
 		{
-			if (ServiceFactory.SecurityService.Validate())
-			{
-				var result = FiresecManager.FiresecService.SKDCloseDevice(Device);
-				if (result.HasError)
-				{
-					MessageBoxService.ShowWarning(result.Error);
-				}
-			}
+			DeviceCommander.Close(Device);
 		}
 		bool CanClose()
 		{
-			return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Devices_Control) && DeviceState.StateClass != XStateClass.Off && DeviceState.StateClass != XStateClass.ConnectionLost && DeviceState.OpenAlwaysTimeIndex != 1;
+			return DeviceCommander.CanClose(Device);
 		}
 
 		public RelayCommand OpenForeverCommand { get; private set; }
@@ -109,53 +96,31 @@ namespace StrazhModule.ViewModels
 		public RelayCommand DeviceAccessStateNormalCommand { get; private set; }
 		void OnDeviceAccessStateNormal()
 		{
-			if (ServiceFactory.SecurityService.Validate())
-			{
-				var result = FiresecManager.FiresecService.SKDDeviceAccessStateNormal(Device);
-				if (result.HasError)
-				{
-					MessageBoxService.ShowWarning(result.Error);
-				}
-			}
+			DeviceCommander.SetAccessStateToNormal(Device);
 		}
 		bool CanDeviceAccessStateNormal()
 		{
-			//return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Devices_Control) && DeviceState.StateClass != XStateClass.Off && DeviceState.StateClass != XStateClass.ConnectionLost;
-			return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Devices_Control) && DeviceState.StateClass != XStateClass.ConnectionLost;
+			return DeviceCommander.CanSetAccessStateToNormal(Device);
 		}
 
 		public RelayCommand DeviceAccessStateCloseAlwaysCommand { get; private set; }
 		void OnDeviceAccessStateCloseAlways()
 		{
-			if (ServiceFactory.SecurityService.Validate())
-			{
-				var result = FiresecManager.FiresecService.SKDDeviceAccessStateCloseAlways(Device);
-				if (result.HasError)
-				{
-					MessageBoxService.ShowWarning(result.Error);
-				}
-			}
+			DeviceCommander.SetAccessStateToCloseAlways(Device);
 		}
 		bool CanDeviceAccessStateCloseAlways()
 		{
-			return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Devices_Control) && DeviceState.StateClass != XStateClass.Off && DeviceState.StateClass != XStateClass.ConnectionLost;
+			return DeviceCommander.CanSetAccessStateToCloseAlways(Device);
 		}
 
 		public RelayCommand DeviceAccessStateOpenAlwaysCommand { get; private set; }
 		void OnDeviceAccessStateOpenAlways()
 		{
-			if (ServiceFactory.SecurityService.Validate())
-			{
-				var result = FiresecManager.FiresecService.SKDDeviceAccessStateOpenAlways(Device);
-				if (result.HasError)
-				{
-					MessageBoxService.ShowWarning(result.Error);
-				}
-			}
+			DeviceCommander.SetAccessStateToOpenAlways(Device);
 		}
 		bool CanDeviceAccessStateOpenAlways()
 		{
-			return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Devices_Control) && DeviceState.StateClass != XStateClass.On && DeviceState.StateClass != XStateClass.ConnectionLost;
+			return DeviceCommander.CanSetAccessStateToOpenAlways(Device);
 		}
 
 		void OnStateChanged()

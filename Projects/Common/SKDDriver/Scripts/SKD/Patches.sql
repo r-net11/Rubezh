@@ -1531,7 +1531,12 @@ ALTER TABLE [dbo].ScheduleGKDaySchedule NOCHECK CONSTRAINT [FK_ScheduleGKSchedul
 INSERT INTO Patches (Id) VALUES ('GKSchedule2')
 END
 GO
-IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'NullableGender')
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'RemoveExitScheduleNoFromCardDoor')
+BEGIN
+ALTER TABLE [CardDoor] DROP COLUMN ExitScheduleNo
+INSERT INTO Patches (Id) VALUES ('RemoveExitScheduleNoFromCardDoor')
+END
+GOIF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'NullableGender')
 BEGIN
 ALTER TABLE Employee ALTER COLUMN Gender int NULL
 INSERT INTO Patches (Id) VALUES ('NullableGender')

@@ -3,11 +3,20 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 	<StackPanel>
 		<StackPanel Orientation="Horizontal">
+			<TextBlock Text="Индекс двери" Width="100" Margin="2" />
+			<TextBox Text="{Binding Index}" Width="100" Margin="2" />
+		</StackPanel>
+		<StackPanel Orientation="Horizontal">
+			<TextBlock Text="Состояние" Width="100" Margin="2" />
+			<ComboBox ItemsSource="{Binding AvailableDoorStatuses}" SelectedItem="{Binding DoorStatus}" Width="100" Margin="2"/>
+		</StackPanel>
+		<StackPanel Orientation="Horizontal">
 			<Button Content="OpenDoor" Command="{Binding OpenDoorCommand}" Width="100" Margin="2" />
 			<Button Content="CloseDoor" Command="{Binding CloseDoorCommand}" Width="100" Margin="2" />
+		</StackPanel>
+		<StackPanel Orientation="Horizontal">
 			<Button Content="GetDoorStatus" Command="{Binding GetDoorStatusCommand}" Width="100" Margin="2" />
-			<TextBlock Text="Index" Margin="2" />
-			<TextBox Text="{Binding Index}" Width="100" Margin="2" />
+			<Button Content="PromptWarning" Command="{Binding PromptWarningCommand}" Width="100" Margin="2" />
 		</StackPanel>
 	</StackPanel>
 </UserControl>

@@ -1,5 +1,10 @@
-﻿using FiresecAPI.SKD;
+﻿using System.Globalization;
+using System.Reactive.Linq;
+using FiresecAPI.Models;
+using FiresecAPI.SKD;
+using FiresecClient;
 using ReactiveUI;
+using SKDModule.Helpers;
 using SKDModule.ViewModels;
 using System;
 using System.ComponentModel;
@@ -11,28 +16,106 @@ namespace SKDModule.Model
 	{
 		#region Properties
 
-		public Guid UID { get; private set; }
-		public int No { get; private set; }
+		private IDisposable _subscriber;
 
-		TimeSpan _enterTimeSpan;
-		public TimeSpan EnterTimeSpan
+		private Lazy<IObservable<Object>> _uiChanged;
+
+		public IObservable<Object> UIChanged
 		{
-			get { return _enterTimeSpan; }
-			set { this.RaiseAndSetIfChanged(ref _enterTimeSpan, value); }
+			get { return _uiChanged.Value; }
 		}
 
-		TimeSpan _exitTimeSpan;
-		public TimeSpan ExitTimeSpan
+		public bool IsRemoveAllIntersections { get; set; }
+
+		public Guid? CorrectedByUID { get; set; }
+
+		public Guid UID { get; set; }
+
+		private bool _isManuallyAdded;
+
+		public bool IsNew { get; set; }
+
+		private bool _isDirty;
+
+		public bool IsDirty
 		{
-			get { return _exitTimeSpan; }
-			set { this.RaiseAndSetIfChanged(ref _exitTimeSpan, value); }
+			get { return _isDirty; }
+			set { this.RaiseAndSetIfChanged(ref _isDirty, value); }
 		}
 
-		string _zoneName;
-		public string ZoneName
+		public bool IsManuallyAdded
 		{
-			get { return _zoneName; }
-			set { this.RaiseAndSetIfChanged(ref _zoneName, value); }
+			get { return _isManuallyAdded; }
+			set { this.RaiseAndSetIfChanged(ref _isManuallyAdded, value); }
+		}
+
+		private bool _notTakeInCalculations;
+
+		public bool NotTakeInCalculations
+		{
+			get { return _notTakeInCalculations; }
+			set { this.RaiseAndSetIfChanged(ref _notTakeInCalculations, value); }
+		}
+
+		public bool IsEnabledNotTakeInCalculations
+		{
+			get
+			{
+				if (TimeTrackZone != null && TimeTrackZone.IsURV) return true;
+				NotTakeInCalculations = true;
+				return false;
+			}
+		}
+
+		private bool _isOpen;
+
+		public bool IsOpen
+		{
+			get { return _isOpen; }
+			set
+			{
+				this.RaiseAndSetIfChanged(ref _isOpen, value);
+			}
+		}
+
+		private bool _isNeedAdjustment;
+
+		public bool IsNeedAdjustment
+		{
+			get { return _isNeedAdjustment; }
+			set { this.RaiseAndSetIfChanged(ref _isNeedAdjustment, value); }
+		}
+
+		private DateTime? _enterDateTime;
+
+		public DateTime? EnterDateTime
+		{
+			get { return _enterDateTime; }
+			set { this.RaiseAndSetIfChanged(ref _enterDateTime, value); }
+		}
+
+		private TimeSpan _enterTime;
+
+		public TimeSpan EnterTime
+		{
+			get { return _enterTime; }
+			set { this.RaiseAndSetIfChanged(ref _enterTime, value); }
+		}
+
+		private DateTime? _exitDateTime;
+
+		public DateTime? ExitDateTime
+		{
+			get { return _exitDateTime; }
+			set { this.RaiseAndSetIfChanged(ref _exitDateTime, value); }
+		}
+
+		private TimeSpan _exitTime;
+
+		public TimeSpan ExitTime
+		{
+			get { return _exitTime; }
+			set { this.RaiseAndSetIfChanged(ref _exitTime, value); }
 		}
 
 		public bool IsValid
@@ -48,49 +131,225 @@ namespace SKDModule.Model
 			}
 		}
 
+		private string _correctedDate;
+		public string CorrectedDate
+		{
+			get { return _correctedDate; }
+			set { this.RaiseAndSetIfChanged(ref _correctedDate, value); }
+		}
+
+		private string _correctedBy;
+
+		public string CorrectedBy
+		{
+			get { return _correctedBy; }
+			set { this.RaiseAndSetIfChanged(ref _correctedBy, value); }
+		}
+
+		private TimeTrackZone _timeTrackZone;
+
+		public TimeTrackZone TimeTrackZone
+		{
+			get { return _timeTrackZone; }
+			set { this.RaiseAndSetIfChanged(ref _timeTrackZone, value); }
+		}
+
+		private bool _isForceClosed;
+
+		public bool IsForceClosed
+		{
+			get { return _isForceClosed; }
+			set { this.RaiseAndSetIfChanged(ref _isForceClosed, value); }
+		}
+
+		private DateTime? _enterTimeOriginal;
+
+		public DateTime? EnterTimeOriginal
+		{
+			get { return _enterTimeOriginal; }
+			set { this.RaiseAndSetIfChanged(ref _enterTimeOriginal, value); }
+		}
+
+		private DateTime? _exitTimeOriginal;
+
+		public DateTime? ExitTimeOriginal
+		{
+			get { return _exitTimeOriginal; }
+			set { this.RaiseAndSetIfChanged(ref _exitTimeOriginal, value); }
+		}
+
+		private DateTime? _adjustmentDate;
+
+		public DateTime? AdjustmentDate
+		{
+			get { return _adjustmentDate; }
+			set { this.RaiseAndSetIfChanged(ref _adjustmentDate, value); }
+		}
+
 		#endregion
 
 		#region Constructors
 
-		public DayTimeTrackPart(TimeTrackPartDetailsViewModel timeTrackPartDetailsViewModel)
+		public DayTimeTrackPart(FiresecAPI.SKD.DayTimeTrackPart dayTimeTrackPart) : this()
 		{
-			UID = timeTrackPartDetailsViewModel.UID;
-			Update(timeTrackPartDetailsViewModel.EnterTime, timeTrackPartDetailsViewModel.ExitTime, timeTrackPartDetailsViewModel.SelectedZone.Name, timeTrackPartDetailsViewModel.SelectedZone.No);
+			if (dayTimeTrackPart == null) return;
+
+			IsRemoveAllIntersections = dayTimeTrackPart.IsRemoveAllIntersections;
+			AdjustmentDate = dayTimeTrackPart.AdjustmentDate;
+			CorrectedBy = dayTimeTrackPart.CorrectedBy;
+			CorrectedByUID = dayTimeTrackPart.CorrectedByUID;
+			CorrectedDate = dayTimeTrackPart.AdjustmentDate.ToString();
+			EnterDateTime = dayTimeTrackPart.EnterDateTime;
+			EnterTime = dayTimeTrackPart.EnterTime;
+			EnterTimeOriginal = dayTimeTrackPart.EnterTimeOriginal;
+			ExitDateTime = dayTimeTrackPart.ExitDateTime;
+			ExitTime = dayTimeTrackPart.ExitTime;
+			ExitTimeOriginal = dayTimeTrackPart.ExitTimeOriginal;
+			IsForceClosed = dayTimeTrackPart.IsForceClosed;
+			IsManuallyAdded = dayTimeTrackPart.IsManuallyAdded;
+			IsNeedAdjustment = dayTimeTrackPart.IsNeedAdjustment;
+			IsOpen = dayTimeTrackPart.IsOpen;
+			NotTakeInCalculations = dayTimeTrackPart.NotTakeInCalculations;
+			if (dayTimeTrackPart.TimeTrackZone != null)
+			{
+				TimeTrackZone = new TimeTrackZone(dayTimeTrackPart.TimeTrackZone);
+			}
+			UID = dayTimeTrackPart.UID;
 		}
 
-		public DayTimeTrackPart(TimeTrackPart timeTrackPart)
+		public DayTimeTrackPart(TimeTrackPartDetailsViewModel timeTrackPartDetailsViewModel) : this()
 		{
-			string zoneName = null;
-			var num = default(int);
+			//UID = timeTrackPartDetailsViewModel.UID;
+			//Update(
+			//	timeTrackPartDetailsViewModel.EnterDateTime + timeTrackPartDetailsViewModel.EnterTime,
+			//	timeTrackPartDetailsViewModel.EnterDateTime + timeTrackPartDetailsViewModel.ExitTime,
+			//	timeTrackPartDetailsViewModel.SelectedZone,
+			//	timeTrackPartDetailsViewModel.NotTakeInCalculations,
+			//	timeTrackPartDetailsViewModel.IsManuallyAdded,
+			//	DateTime.Now.ToString(CultureInfo.CurrentUICulture),
+			//	FiresecManager.CurrentUser.Name);
+		}
 
-			var strazhZone = SKDManager.Zones.FirstOrDefault(x => x.UID == timeTrackPart.ZoneUID);
-			if (strazhZone != null)
-			{
-				zoneName = strazhZone.Name;
-				num = strazhZone.No;
-			}
+		public DayTimeTrackPart(TimeTrackPart timeTrackPart, ShortEmployee employee) : this()
+		{
+			var zone =
+				TimeTrackingHelper.GetMergedZones(employee).FirstOrDefault(x => x.UID == timeTrackPart.ZoneUID)
+				??
+				new TimeTrackZone {Name = "<Нет в конфигурации>", No = default(int)};
 
 			UID = timeTrackPart.PassJournalUID;
-			Update(timeTrackPart.StartTime, timeTrackPart.EndTime, zoneName, num);
+			var user = timeTrackPart.IsManuallyAdded || timeTrackPart.AdjustmentDate != null
+				? (FiresecManager.SecurityConfiguration.Users.FirstOrDefault(x => x.UID == timeTrackPart.CorrectedByUID)
+					??
+					new User {Name = "<Нет в конфигурации>"})
+				: new User {Name = string.Empty};
+
+			Update(
+				timeTrackPart.EnterDateTime,
+				timeTrackPart.ExitDateTime,
+				zone,
+				timeTrackPart.NotTakeInCalculations,
+				timeTrackPart.IsManuallyAdded,
+				timeTrackPart.IsNeedAdjustment,
+				timeTrackPart.AdjustmentDate,
+				user.Name,
+				user.UID,
+				timeTrackPart.EnterTimeOriginal,
+				timeTrackPart.ExitTimeOriginal,
+				timeTrackPart.IsOpen,
+				timeTrackPart.IsForceClosed);
 		}
 
 		public DayTimeTrackPart()
 		{
+			_uiChanged = GetUiObserver();
 		}
 
 		#endregion
 
 		#region Methods
 
-		public void Update(TimeSpan enterTime, TimeSpan exitTime, string zoneName, int no)
+		public void Update(DateTime? enterDateTime, DateTime? exitDateTime,
+			TimeTrackZone timeTrackZone, bool notTakeInCalculations, bool isManuallyAdded, bool isNeedAdjustment, DateTime? adjustmentDate, string correctedBy,
+			Guid correctedByUID, DateTime? enterTimeOriginal, DateTime? exitTimeOriginal, bool isOpen = false, bool isForceClosed = false)
 		{
-			ZoneName = zoneName ?? "<Нет в конфигурации>";
-			No = no;
-			EnterTimeSpan = enterTime;
-			ExitTimeSpan = exitTime;
+			TimeTrackZone = timeTrackZone;
+			AdjustmentDate = adjustmentDate;
+			EnterDateTime = enterDateTime;
+			EnterTime = enterDateTime.GetValueOrDefault().TimeOfDay;
+			ExitDateTime = exitDateTime;
+			ExitTime = exitDateTime.GetValueOrDefault().TimeOfDay;
+			NotTakeInCalculations = notTakeInCalculations;
+			IsManuallyAdded = isManuallyAdded;
+			IsNeedAdjustment = isNeedAdjustment;
+			CorrectedDate = adjustmentDate.HasValue ? adjustmentDate.Value.ToString(CultureInfo.CurrentUICulture) : string.Empty;
+			CorrectedBy = correctedBy;
+			CorrectedByUID = correctedByUID;
+			IsOpen = isOpen;
+			IsForceClosed = isForceClosed;
+			EnterTimeOriginal = enterTimeOriginal;
+			ExitTimeOriginal = exitTimeOriginal;
+		}
+
+		private Lazy<IObservable<object>> GetUiObserver()
+		{
+			return new Lazy<IObservable<object>>(() =>
+				Observable.Merge<object>(
+					this.ObservableForProperty(x => x.CorrectedBy)
+					, this.ObservableForProperty(x => x.CorrectedDate)
+					, this.ObservableForProperty(x => x.EnterDateTime)
+					, this.ObservableForProperty(x => x.EnterTime)
+					, this.ObservableForProperty(x => x.ExitDateTime)
+					, this.ObservableForProperty(x => x.ExitTime)
+					, this.ObservableForProperty(x => x.NotTakeInCalculations)
+					, this.ObservableForProperty(x => x.IsManuallyAdded)
+					, this.ObservableForProperty(x => x.IsNeedAdjustment)
+					, this.ObservableForProperty(x => x.TimeTrackZone)
+					, this.ObservableForProperty(x => x.IsRemoveAllIntersections)
+					),
+				true
+				);
+		}
+
+		public FiresecAPI.SKD.DayTimeTrackPart ToDTO()
+		{
+			var timeTrackPart = new FiresecAPI.SKD.DayTimeTrackPart
+			{
+				UID = UID,
+				AdjustmentDate = AdjustmentDate,
+				CorrectedBy = CorrectedBy,
+				CorrectedByUID = CorrectedByUID,
+				CorrectedDate = CorrectedDate,
+				EnterDateTime = EnterDateTime,
+				EnterTime = EnterTime,
+				EnterTimeOriginal = EnterTimeOriginal,
+				ExitDateTime = ExitDateTime,
+				ExitTime = ExitTime,
+				ExitTimeOriginal = ExitTimeOriginal,
+				IsForceClosed = IsForceClosed,
+				IsManuallyAdded = IsManuallyAdded,
+				IsNeedAdjustment = IsNeedAdjustment,
+				IsOpen = IsOpen,
+				IsNew = IsNew,
+				IsRemoveAllIntersections = IsRemoveAllIntersections,
+				NotTakeInCalculations = NotTakeInCalculations,
+				TimeTrackZone = TimeTrackZone.ToDTO()
+			};
+
+			return timeTrackPart;
 		}
 
 		#endregion
+
+		private string _currentError;
+		public string CurrentError
+		{
+			get { return _currentError; }
+			set
+			{
+				this.RaiseAndSetIfChanged(ref _currentError, value);
+			}
+		}
 
 		public string this[string propertyName]
 		{
@@ -98,16 +357,41 @@ namespace SKDModule.Model
 			{
 				var result = string.Empty;
 				propertyName = propertyName ?? string.Empty;
-				if (propertyName == string.Empty || propertyName == "EnterTime")
+				if (propertyName == string.Empty || propertyName == "EnterTime" || propertyName == "ExitTime" || propertyName == "EnterDateTime" || propertyName == "ExitDateTime")
 				{
-					if (EnterTimeSpan > ExitTimeSpan)
+					if ((EnterDateTime.HasValue && ExitDateTime.HasValue) && (EnterDateTime.Value.Date == ExitDateTime.Value.Date) && (EnterTime > ExitTime))
 						result = "Время входа не может быть больше времени выхода";
 				}
-				if (propertyName == string.Empty || propertyName == "ExitTime")
+				if (propertyName == string.Empty || propertyName == "ExitTime" || propertyName == "EnterTime")
 				{
-					if (EnterTimeSpan == ExitTimeSpan)
+					if ((EnterDateTime.HasValue && ExitDateTime.HasValue) && (EnterDateTime.Value.Date == ExitDateTime.Value.Date) && (EnterTime == ExitTime))
 						result = "Невозможно добавить нулевое пребывание в зоне";
 				}
+				if (propertyName == string.Empty || propertyName == "EnterDateTime" || propertyName == "ExitDateTime")
+				{
+					if ((EnterDateTime.HasValue && ExitDateTime.HasValue) && (EnterDateTime.GetValueOrDefault().Date > ExitDateTime.GetValueOrDefault().Date))
+						result = "Дата входа не может быть больше даты выхода";
+				}
+				if (propertyName == string.Empty || propertyName == "EnterDateTime" || propertyName == "ExitDateTime")
+				{
+					if (EnterDateTime == null || ExitDateTime == null)
+						result = "Введите дату";
+				}
+				if (propertyName == string.Empty || propertyName == "EnterTime" || propertyName == "ExitTime" || propertyName == "ExitDateTime")
+				{
+					if (EnterDateTime.HasValue && ExitDateTime.HasValue && EnterDateTime.Value.Date == DateTime.Now.Date &&
+					    ExitDateTime.Value.Date == DateTime.Now.Date)
+					{
+						if (ExitTime > DateTime.Now.TimeOfDay || EnterTime > DateTime.Now.TimeOfDay)
+							result = "Дата не может быть установлена в будущее время";
+					}
+					if (EnterDateTime.HasValue && ExitDateTime.HasValue && EnterDateTime.Value.Date > DateTime.Now.Date ||
+						ExitDateTime.GetValueOrDefault().Date > DateTime.Now.Date)
+					{
+						result = "Дата не может быть установлена в будущее время";
+					}
+				}
+				CurrentError = result;
 				return result;
 			}
 		}

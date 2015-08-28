@@ -1,0 +1,109 @@
+﻿<UserControl x:Class="SKDModule.Views.ResetAdjustmentsConflictView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             d:DesignHeight="350" d:DesignWidth="600"
+			 Height="300"
+			 Width="600">
+	<UserControl.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="pack://application:,,,/Controls;component/Themes/StrazhTheme.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+			<BitmapImage x:Key="HelpImage" UriSource="pack://application:,,,/Controls;component/Images/Help.png" />
+		</ResourceDictionary>
+	</UserControl.Resources>
+    <Grid
+		Language="ru-RU"
+		Background="{StaticResource BaseWindowBackgroundBrush}">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="0.2*" />
+			<ColumnDefinition />
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+		<Image
+			Margin="10"
+			Source="{StaticResource HelpImage}" />
+		<StackPanel Margin="5 10" Grid.Column="1">
+			<TextBlock Foreground="White">
+				<Run Text="Восстановление интервала пребывания в зоне" />
+				<LineBreak />
+				<Run Text="{Binding ResetedDayTimeTrackPart.TimeTrackZone.Name, FallbackValue=Неизвестная Зона}" />
+				<Run Text="в прежних границах с" />
+				<Run Text="{Binding ResetedDayTimeTrackPart.EnterTimeOriginal, FallbackValue=00.00.00}" />
+				<Run Text="по" />
+				<Run Text="{Binding ResetedDayTimeTrackPart.ExitTimeOriginal, FallbackValue=00.00.00}" />
+				<LineBreak />
+				<Run Text="невозможно по причине пересечения с интервалами:" />
+			</TextBlock>
+			<ItemsControl
+				Language="ru-RU"
+				ItemsSource="{Binding ConflictingIntervals}">
+				<ItemsControl.ItemTemplate>
+					<DataTemplate>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Foreground="White">
+								<Run Text="с" />
+								<Run Text="{Binding EnterDateTime}" />
+								<Run Text="по" />
+								<Run Text="{Binding ExitDateTime}" />
+								<Run Text="(зона" />
+								<Run Text="{Binding TimeTrackZone.Name}" />
+								<Run Text=")" />
+							</TextBlock>
+						</StackPanel>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+			<TextBlock
+				Margin="0 10 0 0"
+				Foreground="White">
+				<Run Text="Применить границы интервала, исключив пересечение с границами других интервалов" />
+				<LineBreak />
+				<Run Text="или удалить корректировки пересекающихся интервалов?" />
+			</TextBlock>
+		</StackPanel>
+		<CheckBox
+			Margin="5 10"
+			Grid.Column="1"
+			Grid.Row="1"
+			VerticalAlignment="Center"
+			IsChecked="{Binding ApplyToAll, UpdateSourceTrigger=PropertyChanged}"
+			Content="Применить выбранное решение во всех аналогичных ситуациях" Foreground="White" />
+		<UniformGrid
+			Grid.Column="1"
+			Grid.Row="3"
+			Columns="2"
+			HorizontalAlignment="Right"
+			VerticalAlignment="Bottom">
+			<Button
+				HorizontalAlignment="Right"
+				Command="{Binding RoundIntervalCommand}">
+				<Button.Content>
+					<TextBlock
+						Text="Установить границы без пересечений с другими интервалами"
+						TextWrapping="Wrap"
+						VerticalAlignment="Center" />
+				</Button.Content>
+			</Button>
+			<Button
+				HorizontalAlignment="Left"
+				Command="{Binding RemoveIntervalCommand}"
+				Margin="5 0 10 0" >
+				<Button.Content>
+					<TextBlock
+						Text="Удалить корректировки пересекающихся интервалов"
+						VerticalAlignment="Center"
+						TextWrapping="Wrap"/>
+				</Button.Content>
+			</Button>
+		</UniformGrid>
+	</Grid>
+</UserControl>

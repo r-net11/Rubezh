@@ -45,7 +45,9 @@ namespace StrazhModule.ViewModels
 
 		protected override bool Save()
 		{
-			if (Name == "<Никогда>" || Name == "<Всегда>")
+			if (Name == TimeIntervalsConfiguration.PredefinedIntervalNameCard
+				|| Name == TimeIntervalsConfiguration.PredefinedIntervalNamePassword
+				|| Name == TimeIntervalsConfiguration.PredefinedIntervalNameCardAndPassword)
 			{
 				MessageBoxService.ShowWarning("Запрещенное назваине");
 				return false;

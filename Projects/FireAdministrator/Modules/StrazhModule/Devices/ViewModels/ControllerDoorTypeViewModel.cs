@@ -213,7 +213,7 @@ namespace StrazhModule.ViewModels
 
 		#endregion </Запрет повторного прохода>
 
-		#region <Блокировка прохода>
+		#region <Блокировка одновременного прохода>
 
 		bool _isInterlockEnabled;
 		public bool IsInterlockEnabled
@@ -394,10 +394,10 @@ namespace StrazhModule.ViewModels
 							IsInterlockModeL1L2Enabled = true;
 							IsInterlockModeL1L2L3Enabled = true;
 							IsInterlockModeL1L2L3L4Enabled = true;
-							IsInterlockModeL2L3L4Enabled = false;
-							IsInterlockModeL1L3_L2L4Enabled = false;
-							IsInterlockModeL1L4_L2L3Enabled = false;
-							IsInterlockModeL3L4Enabled = false;
+							IsInterlockModeL2L3L4Enabled = true;
+							IsInterlockModeL1L3_L2L4Enabled = true;
+							IsInterlockModeL1L4_L2L3Enabled = true;
+							IsInterlockModeL3L4Enabled = true;
 							break;
 					}
 					break;
@@ -412,115 +412,92 @@ namespace StrazhModule.ViewModels
 
 		}
 
-		#endregion </Блокировка прохода>
+		#endregion </Блокировка одновременного прохода>
 
-		void GetDoorType()
+		bool GetDoorType()
 		{
 			var result = FiresecManager.FiresecService.GetControllerDoorType(DeviceViewModel.Device);
 			if (result.HasError)
-			{
-				MessageBoxService.ShowWarning(result.Error);
-				return;
-			}
-			else
-			{
-				if (SelectedDoorType != result.Result)
-				{
-					SelectedDoorType = result.Result;
-					//SelectedDoorTypeHasChanged = true;
-				}
-			}
+				return false;
+			SelectedDoorType = result.Result;
+			return true;
 		}
 		bool SetDoorType()
 		{
 			if (!SelectedDoorTypeHasChanged)
-				return false;
+				return true;
 
 			var result = FiresecManager.FiresecService.SetControllerDoorType(DeviceViewModel.Device, SelectedDoorType);
-			if (result.HasError)
-			{
-				MessageBoxService.ShowWarning(result.Error);
-				return false;
-			}
-
-			return true;
+			return !result.HasError;
 		}
 
-		void GetAntiPassBack()
+		bool GetAntiPassBack()
 		{
 			var result = FiresecManager.FiresecService.SKDGetAntiPassBackConfiguration(DeviceViewModel.Device);
 			if (result.HasError)
-			{
-				MessageBoxService.ShowWarning(result.Error);
-				return;
-			}
-			else
-			{
-				IsAntiPassBackActivated = result.Result.IsActivated;
-				SelectedAntiPassBackMode = result.Result.CurrentAntiPassBackMode;
-			}
+				return false;
+			IsAntiPassBackActivated = result.Result.IsActivated;
+			SelectedAntiPassBackMode = result.Result.CurrentAntiPassBackMode;
+			return true;
 		}
-		void SetAntiPassBack()
+		bool SetAntiPassBack()
 		{
 			if (!AntiPassBackHasChanged)
-				return;
+				return true;
 
 			var result = FiresecManager.FiresecService.SKDSetAntiPassBackConfiguration(
 				DeviceViewModel.Device,
 				new SKDAntiPassBackConfiguration() { IsActivated = IsAntiPassBackActivated , CurrentAntiPassBackMode = SelectedAntiPassBackMode });
-			if (result.HasError)
-			{
-				MessageBoxService.ShowWarning(result.Error);
-				return;
-			}
+			return !result.HasError;
 		}
 
-		void GetInterlock()
+		bool GetInterlock()
 		{
 			var result = FiresecManager.FiresecService.SKDGetInterlockConfiguration(DeviceViewModel.Device);
 			if (result.HasError)
-			{
-				MessageBoxService.ShowWarning(result.Error);
-				return;
-			}
-			else
-			{
-				IsInterlockActivated = result.Result.IsActivated;
-				SelectedInterlockMode = result.Result.CurrentInterlockMode;
-			}
+				return false;
+			IsInterlockActivated = result.Result.IsActivated;
+			SelectedInterlockMode = result.Result.CurrentInterlockMode;
+			return true;
 		}
-		void SetInterlock()
+		bool SetInterlock()
 		{
 			if (!InterlockHasChanged)
-				return;
+				return true;
 
 			var result = FiresecManager.FiresecService.SKDSetInterlockConfiguration(
 				DeviceViewModel.Device,
 				new SKDInterlockConfiguration() { IsActivated = IsInterlockActivated, CurrentInterlockMode = SelectedInterlockMode });
-			if (result.HasError)
-			{
-				MessageBoxService.ShowWarning(result.Error);
-				return;
-			}
+			return !result.HasError;
 		}
 
 		public RelayCommand ReadFromControllerCommand { get; private set; }
 		void OnReadFromController()
 		{
-			GetDoorType();
-			GetAntiPassBack();
-			GetInterlock();
+			var status = GetDoorType();
+			status &= GetAntiPassBack();
+			status &= GetInterlock();
+			if (!status)
+			{
+				MessageBoxService.ShowWarning("Нет связи с устройством");
+				return;
+			}
 			NeedSaveChangesToController = false;
 		}
 		
 		public RelayCommand WriteToControllerCommand { get; private set; }
 		void OnWriteToController()
 		{
-			SetAntiPassBack();
-			SetInterlock();
+			var status = SetAntiPassBack();
+			status &= SetInterlock();
+			status &= SetDoorType(); // Выполняется последней, т.к. при этой операции происходит перезагрузка контроллера
 			
-			// Выполняется последней, т.к. при этой операции происходит перезагрузка контроллера
-			if (SetDoorType())
+			if (!status)
+			{
+				MessageBoxService.ShowWarning("Нет связи с устройством");
+				return;				
+			}
+			if (SelectedDoorTypeHasChanged)
 				MessageBoxService.Show("Выполняется перезагрузка контроллера. Контроллер будет доступен через несколько секунд");
 
 			NeedSaveChangesToController = false;

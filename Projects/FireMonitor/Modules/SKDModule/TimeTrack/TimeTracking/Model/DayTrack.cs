@@ -46,6 +46,8 @@ namespace SKDModule.Model
 
 		private ObservableCollection<TimeTrackTotal> GetTotals(List<TimeTrackType> totalTimeTrackTypeFilters)
 		{
+			if (DayTimeTrack.Totals == null) return new ObservableCollection<TimeTrackTotal>();
+
 			var result = new ObservableCollection<TimeTrackTotal>();
 
 			foreach (var element in totalTimeTrackTypeFilters)

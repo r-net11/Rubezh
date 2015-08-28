@@ -26,15 +26,20 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 
 		public ImagePropertiesViewModel(IElementBackground element)
 		{
+			SelectPictureCommand = new RelayCommand(OnSelectPicture);
+			RemovePictureCommand = new RelayCommand(OnRemovePicture, CanRemovePicture);
+
 			_drawing = null;
 			_wmf = null;
 			_newImage = false;
-			_element = element;
-			_sourceName = _element.BackgroundSourceName;
-			_imageSource = _element.BackgroundImageSource;
-			_imageType = _element.ImageType;
-			SelectPictureCommand = new RelayCommand(OnSelectPicture);
-			RemovePictureCommand = new RelayCommand(OnRemovePicture, CanRemovePicture);
+
+			if (element != null)
+			{
+				_element = element;
+				_sourceName = _element.BackgroundSourceName;
+				_imageSource = _element.BackgroundImageSource;
+				_imageType = _element.ImageType;
+			}
 			UpdateImage();
 		}
 

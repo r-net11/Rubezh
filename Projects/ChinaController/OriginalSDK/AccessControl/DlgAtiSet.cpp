@@ -66,7 +66,7 @@ void CDlgAtiSet::InitDlg()
 		m_checkR1R2R3R4.ShowWindow(0);
 		m_checkR3R4.ShowWindow(0);
 
-	}else if (2 == m_nDoorCount)
+	}else  
 	{ 
 
 		m_checkR1R2.ShowWindow(1);
@@ -225,7 +225,7 @@ void CDlgAtiSet::OnBnClickedDlgAtiBtnOk()
 		m_stuInfo.stuDoorList[1].nDoors = 1; 
 		strncpy(m_stuInfo.stuDoorList[1].stuDoors[0].szReaderID, "4", MAX_READER_ID_LEN - 1);  
 		Door1Enable =false;
-		Door2Enable =false; 
+		Door2Enable =true;
 	} 
  
 

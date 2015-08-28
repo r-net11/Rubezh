@@ -9,7 +9,7 @@
 
 					<Grid Height="{TemplateBinding Height}">
 						<Border x:Name="Border" Margin="2" Background="{DynamicResource BackgroundBrush}" BorderThickness="0" CornerRadius="2">
-							<ContentPresenter x:Name="ContentSite" Margin="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+							<ContentPresenter x:Name="ContentSite" Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center">
 								<ContentPresenter.Style>
 									<Style>
 										<Setter Property="TextElement.FontSize" Value="12" />

@@ -1,5 +1,8 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using FiresecAPI.SKD;
 using Infrastructure;
 using Infrastructure.Common.Windows;
@@ -9,7 +12,7 @@ namespace StrazhModule.ViewModels
 {
 	public class DoorWeeklyIntervalViewModel : BaseIntervalViewModel<DoorWeeklyIntervalPartViewModel, SKDDoorWeeklyInterval>
 	{
-		DoorWeeklyIntervalsViewModel _weeklyIntervalsViewModel;
+		readonly DoorWeeklyIntervalsViewModel _weeklyIntervalsViewModel;
 
 		public DoorWeeklyIntervalViewModel(int index, SKDDoorWeeklyInterval weeklyInterval, DoorWeeklyIntervalsViewModel weeklyIntervalsViewModel)
 			: base(index, weeklyInterval)
@@ -54,6 +57,17 @@ namespace StrazhModule.ViewModels
 			{
 				if (ConfirmDeactivation())
 				{
+					// Для замков, которые ссылались на данный недельный график замка,
+					// задаем предустановленный недельный график замка <Карта>
+					foreach (var device in GetLinkedLocks())
+					{
+						var skdDoorWeeklyInterval = SKDManager.TimeIntervalsConfiguration.DoorWeeklyIntervals.FirstOrDefault(
+							x => x.Name == TimeIntervalsConfiguration.PredefinedIntervalNameCard);
+						if (skdDoorWeeklyInterval != null)
+							device.SKDDoorConfiguration.WeeklyIntervalID =
+								skdDoorWeeklyInterval.ID;
+					}
+
 					SKDManager.TimeIntervalsConfiguration.DoorWeeklyIntervals.Remove(Model);
 					Model = null;
 					Initialize();
@@ -70,6 +84,7 @@ namespace StrazhModule.ViewModels
 		public override void Paste(SKDDoorWeeklyInterval interval)
 		{
 			IsActive = true;
+			Model.Name = GenerateNewNameBeforePaste(interval.Name);
 			for (int i = 0; i < interval.WeeklyIntervalParts.Count; i++)
 			{
 				Model.WeeklyIntervalParts[i].DayIntervalUID = interval.WeeklyIntervalParts[i].DayIntervalUID;
@@ -80,10 +95,57 @@ namespace StrazhModule.ViewModels
 			Update();
 		}
 
+		private string GenerateNewNameBeforePaste(string name)
+		{
+			string newName;
+			var i = 1;
+			
+			do
+				newName = String.Format("{0} ({1})", name, i++);
+			while (_weeklyIntervalsViewModel.Intervals.Any(x => x.Name == newName));
+			
+			return newName;
+		}
+
 		bool ConfirmDeactivation()
 		{
-			var hasReference = SKDManager.TimeIntervalsConfiguration.SlideWeeklyIntervals.Any(item => item.WeeklyIntervalIDs.Contains(Index));
-			return !hasReference || MessageBoxService.ShowConfirmation("Данный недельный график используется в одном или нескольких скользящих недельных графиках, Вы уверены что хотите его деактивировать?");
+			var hasReference = false;
+			foreach (var device in SKDManager.Devices.Where(x => x.DriverType == SKDDriverType.Lock))
+			{
+				if (device.SKDDoorConfiguration == null)
+					continue;
+				if (device.SKDDoorConfiguration.WeeklyIntervalID == Model.ID)
+				{
+					hasReference = true;
+					break;
+				}
+
+			}
+			return hasReference
+				? MessageBoxService.ShowQuestion(
+					String.Format(
+						"Недельный график замка \"{0}\"назначен для одного или нескольких замков. При его удалении для замка будет назначен недельный график замка \"Карта\". Вы действительно хотите его удалить?",
+						Name), null, MessageBoxImage.Warning)
+				: MessageBoxService.ShowQuestion(String.Format("Вы действительно хотите удалить недельный график замка \"{0}\"?", Name));
+		}
+
+		IEnumerable<SKDDevice> GetLinkedLocks()
+		{
+			return
+				SKDManager.Devices.Where(
+					x =>
+						x.DriverType == SKDDriverType.Lock && x.SKDDoorConfiguration != null &&
+						x.SKDDoorConfiguration.WeeklyIntervalID == Model.ID).ToList();
+		}
+
+		public override bool IsPredefined
+		{
+			get
+			{
+				return Name == TimeIntervalsConfiguration.PredefinedIntervalNameCard
+					|| Name == TimeIntervalsConfiguration.PredefinedIntervalNamePassword
+					|| Name == TimeIntervalsConfiguration.PredefinedIntervalNameCardAndPassword;
+			}
 		}
 	}
 }

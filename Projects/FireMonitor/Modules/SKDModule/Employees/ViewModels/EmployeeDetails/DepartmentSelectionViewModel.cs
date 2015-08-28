@@ -17,14 +17,14 @@ namespace SKDModule.ViewModels
 	{
 		protected Guid _organisationUID;
 		protected Guid _firstSelectedDepartmentUID;
-		
+
 		public DepartmentSelectionViewModel(Guid organisationUID, Guid departmentUID)
 		{
 			Title = "Выбор подразделения";
 			_organisationUID = organisationUID;
 			_firstSelectedDepartmentUID = departmentUID;
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
-			ClearCommand = new RelayCommand(OnClear);
+			ClearCommand = new RelayCommand(OnClear, CanClear);
 		}
 
 		public void Initialize()
@@ -119,10 +119,15 @@ namespace SKDModule.ViewModels
 		}
 
 		public RelayCommand ClearCommand { get; private set; }
+
+		private bool CanClear()
+		{
+			return SelectedDepartment != null;
+		}
+
 		void OnClear()
 		{
 			SelectedDepartment = null;
-			Close();
 		}
 
 		protected override bool Save()
@@ -135,12 +140,12 @@ namespace SKDModule.ViewModels
 	{
 		Guid _departmentUID;
 
-		public DepartmentParentSelectionViewModel(Guid organisationUID, Guid parentDepartmentUID, Guid departmentUID) : base(organisationUID, parentDepartmentUID) 
+		public DepartmentParentSelectionViewModel(Guid organisationUID, Guid parentDepartmentUID, Guid departmentUID) : base(organisationUID, parentDepartmentUID)
 		{
 			_departmentUID = departmentUID;
 			Title = "Выбор родительского подразделения";
 		}
- 
+
 		protected override IEnumerable<ShortDepartment> GetDepartments()
 		{
 			var filter = new DepartmentFilter { OrganisationUIDs = new List<Guid> { _organisationUID }, ExceptUIDs = new List<Guid> { _departmentUID } };

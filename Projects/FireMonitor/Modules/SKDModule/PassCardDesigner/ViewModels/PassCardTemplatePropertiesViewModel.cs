@@ -22,6 +22,8 @@ namespace SKDModule.PassCardDesigner.ViewModels
 
 		private void CopyProperties()
 		{
+			if (PassCardTemplate == null) return;
+
 			BackgroundColor = PassCardTemplate.BackgroundColor;
 			BorderColor = PassCardTemplate.BorderColor;
 			BorderThickness = PassCardTemplate.BorderThickness;

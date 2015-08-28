@@ -383,9 +383,12 @@
       <DependentUpon>ScheduleSchemesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TimeTrack\Shedules\ViewModels\Comparers.cs" />
+    <Compile Include="TimeTrack\TimeTracking\Helpers\TimeTrackingHelper.cs" />
     <Compile Include="TimeTrack\TimeTracking\Model\TimeTrackingPeriod.cs" />
     <Compile Include="TimeTrack\TimeTracking\Model\DayTimeTrackPart.cs" />
     <Compile Include="TimeTrack\TimeTracking\Model\DayTrack.cs" />
+    <Compile Include="TimeTrack\TimeTracking\Model\TimeTrackZone.cs" />
+    <Compile Include="TimeTrack\TimeTracking\ViewModels\DialogWindows\WarningIntersectionIntervalDialogWindowViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\DocumentDetailsViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\DocumentsViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\DocumentTypeDetailsViewModel.cs" />
@@ -394,6 +397,7 @@
     <Compile Include="TimeTrack\TimeTracking\Model\TimeTrackAttachedDocument.cs" />
     <Compile Include="TimeTrack\TimeTracking\Model\TimeTrackFilter.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\ReportSettingsViewModel.cs" />
+    <Compile Include="TimeTrack\TimeTracking\ViewModels\DialogWindows\ResetAdjustmentsConflictDialogWindowViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\TimeTrackFilterViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\TimeTrackDetailsViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\TimeTrackingViewModel.cs" />
@@ -411,6 +415,9 @@
     </Compile>
     <Compile Include="TimeTrack\TimeTracking\Views\ReportSettingsView.xaml.cs">
       <DependentUpon>ReportSettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TimeTrack\TimeTracking\Views\DialogWindows\ResetAdjustmentsConflictDialogWindowView.xaml.cs">
+      <DependentUpon>ResetAdjustmentsConflictDialogWindowView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TimeTrack\TimeTracking\Views\TimeTrackFilterView.xaml.cs">
       <DependentUpon>TimeTrackFilterView.xaml</DependentUpon>
@@ -528,6 +535,9 @@
     </Compile>
     <Compile Include="TimeTrack\TimeTracking\Views\TimeTrackPartDetailsView.xaml.cs">
       <DependentUpon>TimeTrackPartDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TimeTrack\TimeTracking\Views\DialogWindows\WarningIntersectionIntervalDialogWindowView.xaml.cs">
+      <DependentUpon>WarningIntersectionIntervalDialogWindowView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Verification\ViewModels\VerificationViewModel.cs" />
     <Compile Include="Verification\Views\VerificationlView.xaml.cs">
@@ -877,6 +887,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="TimeTrack\TimeTracking\Views\DialogWindows\ResetAdjustmentsConflictDialogWindowView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="TimeTrack\TimeTracking\Views\TimeTrackFilterView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -958,6 +972,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="TimeTrack\TimeTracking\Views\TimeTrackPartDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TimeTrack\TimeTracking\Views\DialogWindows\WarningIntersectionIntervalDialogWindowView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

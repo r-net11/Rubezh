@@ -4,22 +4,19 @@
 			 xmlns:Converters="clr-namespace:SecurityModule.Converters"
 			 xmlns:Views="clr-namespace:SecurityModule.Views"
 			 MinWidth="600" MinHeight="600">
-
-	<TabControl>
-		<TabItem Header="Общее">
-			<Border CornerRadius="5" Background="{DynamicResource BackgroundBrush}" Margin="2">
-				<Grid Margin="2">
-					<Grid.RowDefinitions>
-						<RowDefinition Height="Auto" />
-						<RowDefinition Height="*" />
-					</Grid.RowDefinitions>
-					<DockPanel Grid.Row="0">
-						<Label DockPanel.Dock="Left" Content="Название" FontWeight="Bold" VerticalAlignment="Center" />
-						<TextBox DockPanel.Dock="Right" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" MaxLength="100" VerticalAlignment="Center" Margin="2" />
-					</DockPanel>
-					<Views:PermissionsView Grid.Row="1" DataContext="{Binding PermissionsViewModel}" Margin="2" />
-				</Grid>
-			</Border>
-		</TabItem>
-	</TabControl>
+	<Grid>
+		<Border CornerRadius="5" Background="{DynamicResource BackgroundBrush}">
+			<Grid Margin="10">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="*" />
+				</Grid.RowDefinitions>
+				<DockPanel Grid.Row="0">
+					<Label DockPanel.Dock="Left" Content="Название" FontWeight="Bold" VerticalAlignment="Center" />
+					<TextBox DockPanel.Dock="Right" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" MaxLength="100" VerticalAlignment="Center" Margin="2" />
+				</DockPanel>
+				<Views:PermissionsView Grid.Row="1" DataContext="{Binding PermissionsViewModel}" Margin="2" />
+			</Grid>
+		</Border>
+	</Grid>
 </UserControl>

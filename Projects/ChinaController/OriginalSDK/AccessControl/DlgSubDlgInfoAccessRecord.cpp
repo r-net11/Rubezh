@@ -54,6 +54,7 @@ void CDlgSubDlgInfoAccessRecord::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CDlgSubDlgInfoAccessRecord, CDialog)
 	//{{AFX_MSG_MAP(CDlgSubDlgInfoAccessRecord)
 	//}}AFX_MSG_MAP
+	ON_BN_CLICKED(IDOK, &CDlgSubDlgInfoAccessRecord::OnBnClickedOk)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -71,18 +72,24 @@ void CDlgSubDlgInfoAccessRecord::InitDlg()
 	{
 		GetDlgItem(IDC_SUBDLG_INFO_ACCESS_EDIT_RECNO)->EnableWindow(FALSE);
 		StuToDlg();
+		GetDlgItem(IDC_SUBDLG_INFO_ACCESS_EDIT_CARDNO)->EnableWindow(FALSE);
+		GetDlgItem(IDC_SUBDLG_INFO_ACCESS_EDIT_PWD)->EnableWindow(FALSE);
+		m_Date.EnableWindow(FALSE);
+		m_Time.EnableWindow(FALSE); 
+		GetDlgItem(IDC_SUBDLG_INFO_ACCESS_CHECK_STATUS)->EnableWindow(FALSE);
+		GetDlgItem(IDC_SUBDLG_INFO_ACCESS_COMBO_METHOD)->EnableWindow(FALSE);
 	}
 	else if (Em_Operate_Type_Insert == m_emOperateType)
 	{
 		GetDlgItem(IDC_SUBDLG_INFO_ACCESS_EDIT_RECNO)->EnableWindow(FALSE);
 	}
 	else if (Em_Operate_Type_Get == m_emOperateType)
-	{
-		GetDlgItem(IDC_SUBDLG_INFO_ACCESS_EDIT_RECNO)->EnableWindow();
+	{ 
+		GetDlgItem(IDC_SUBDLG_INFO_ACCESS_EDIT_RECNO)->EnableWindow(TRUE);
 		GetDlgItem(IDC_SUBDLG_INFO_ACCESS_EDIT_CARDNO)->EnableWindow(FALSE);
 		GetDlgItem(IDC_SUBDLG_INFO_ACCESS_EDIT_PWD)->EnableWindow(FALSE);
 		m_Date.EnableWindow(FALSE);
-		m_Time.EnableWindow(FALSE);
+		m_Time.EnableWindow(FALSE); 
 		GetDlgItem(IDC_SUBDLG_INFO_ACCESS_CHECK_STATUS)->EnableWindow(FALSE);
 		GetDlgItem(IDC_SUBDLG_INFO_ACCESS_COMBO_METHOD)->EnableWindow(FALSE);
 	}
@@ -228,4 +235,10 @@ void CDlgSubDlgInfoAccessRecord::OnOK()
 		break;
 	}
 	CDialog::OnOK();
+}
+
+void CDlgSubDlgInfoAccessRecord::OnBnClickedOk()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	OnOK();
 }

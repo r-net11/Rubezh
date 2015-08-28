@@ -76,6 +76,8 @@ private:
 private:
 	NET_RECORDSET_ACCESS_CTL_CARDREC	m_stuInfo;
 	Em_RecordSet_Operate_Type			m_emOperateType;
+public:
+	afx_msg void OnBnClickedOk();
 };
 
 //{{AFX_INSERT_LOCATION}}

@@ -16,10 +16,10 @@ namespace FiresecAPI.Models
 		[DescriptionAttribute("Применение конфигурации")]
 		Adm_SetNewConfig,
 
-		[DescriptionAttribute("Запись конфигурации в приборы")]
+		[DescriptionAttribute("Запись конфигурации в устройства")]
 		Adm_WriteDeviceConfig,
 
-		[DescriptionAttribute("Изменение ПО в приборах")]
+		[DescriptionAttribute("Изменение ПО в устройствах")]
 		Adm_ChangeDevicesSoft,
 
 		[DescriptionAttribute("Управление правами пользователей")]

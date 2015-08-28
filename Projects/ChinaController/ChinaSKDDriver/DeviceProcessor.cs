@@ -156,6 +156,21 @@ namespace ChinaSKDDriver
 						}
 						break;
 
+					case JournalEventNameType.Открытие_замка_двери:
+					case JournalEventNameType.Закрытие_замка_двери:
+						journalItem.JournalObjectType = JournalObjectType.SKDDevice;
+						device = Device.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == skdJournalItem.DoorNo);
+						if (device != null)
+						{
+							journalItem.ObjectUID = device.UID;
+							journalItem.ObjectName = device.Name;
+						}
+						else
+						{
+							journalItem.ObjectName = "Не найдено в конфигурации";
+						}
+						break;
+
 					case JournalEventNameType.Открытие_двери:
 					case JournalEventNameType.Закрытие_двери:
 					case JournalEventNameType.Неизвестный_статус_двери:

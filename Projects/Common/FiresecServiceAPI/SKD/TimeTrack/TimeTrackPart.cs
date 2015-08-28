@@ -14,13 +14,47 @@ namespace FiresecAPI.SKD
 		}
 
 		[DataMember]
+		public bool IsManuallyAdded { get; set; }
+
+		[DataMember]
+		public bool IsNeedAdjustment { get; set; }
+
+		[DataMember]
+		public DateTime? AdjustmentDate { get; set; }
+
+		[DataMember]
+		public Guid? CorrectedByUID { get; set; }
+
+		/// <summary>
+		/// Флаг - показывает открытый интервал или нет
+		/// <example>EnterDateTime = 03.03.2015, ExitDateTime = null</example>
+		/// </summary>
+		[DataMember]
+		public bool IsOpen { get; set; }
+
+		/// <summary>
+		/// Флаг - показывает, когда открытый интервал принудительно закрыт
+		/// </summary>
+		[DataMember]
+		public bool IsForceClosed { get; set; }
+
+		[DataMember]
+		public DateTime? EnterTimeOriginal { get; set; }
+
+		[DataMember]
+		public DateTime? ExitTimeOriginal { get; set; }
+
+		[DataMember]
+		public bool NotTakeInCalculations { get; set; }
+
+		[DataMember]
 		public Guid PassJournalUID { get; set; }
 
 		[DataMember]
-		public TimeSpan StartTime { get; set; }
+		public DateTime EnterDateTime { get; set; }
 
 		[DataMember]
-		public TimeSpan EndTime { get; set; }
+		public DateTime? ExitDateTime { get; set; }
 
 		[DataMember]
 		public TimeTrackType TimeTrackPartType { get; set; }
@@ -50,10 +84,12 @@ namespace FiresecAPI.SKD
 		{
 			get
 			{
-				var result = EndTime - StartTime;
-				var isCrossNight = EndTime >= new TimeSpan(23, 59, 00);
+				if (!ExitDateTime.HasValue) return TimeSpan.Zero;
+
+				var result = ExitDateTime.Value.TimeOfDay - EnterDateTime.TimeOfDay;
+				var isCrossNight = ExitDateTime.Value.TimeOfDay >= new TimeSpan(23, 59, 59);
 				if (isCrossNight)
-					result += new TimeSpan(0, 1, 0); //TODO:
+					result += new TimeSpan(0, 0, 1); //TODO:
 				return result;
 			}
 		}

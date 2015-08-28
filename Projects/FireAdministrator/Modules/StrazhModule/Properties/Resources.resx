@@ -130,7 +130,7 @@
     <value>Карточка сотрудника</value>
   </data>
   <data name="SaveConfigurationControllerWarning" xml:space="preserve">
-    <value>Нет связи с контроллером. Сохранить изменение настроек в конфигурации?</value>
+    <value>Параметры не были записаны на контроллер. Сохранить изменение настроек в конфигурации?</value>
   </data>
   <data name="SaveText" xml:space="preserve">
     <value>Сохранить</value>

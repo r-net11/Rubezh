@@ -100,6 +100,11 @@ namespace Infrastructure.Common
 			return Path.Combine(AppDataFolderName, "GlobalSettings.xml");
 		}
 
+		public static string GetAppServerSettingsFileName()
+		{
+			return Path.Combine(AppDataFolderName, "AppServerSettings.xml");
+		}
+
 		public static string GetFileInFolder(string folderName, string fileName)
 		{
 			if (string.IsNullOrEmpty(folderName) || string.IsNullOrEmpty(fileName)) return string.Empty;

@@ -340,6 +340,9 @@ namespace ChinaSKDDriverNativeApi
 		public static extern int WRAP_GetDoorStatus(int loginID, int channelNo);
 
 		[DllImport(@"CPPWrapper.dll")]
+		public static extern bool WRAP_PromptWarning(int loginID, int channelNo);
+
+		[DllImport(@"CPPWrapper.dll")]
 		public static extern bool WRAP_Upgrade(int loginID, string fileName);
 
 		[DllImport(@"CPPWrapper.dll")]
@@ -352,10 +355,12 @@ namespace ChinaSKDDriverNativeApi
 		public enum NET_ACCESSCTLCARD_STATE
 		{
 			NET_ACCESSCTLCARD_STATE_UNKNOWN = -1,
-			NET_ACCESSCTLCARD_STATE_NORMAL = 0,
-			NET_ACCESSCTLCARD_STATE_LOSE = 0x01,
-			NET_ACCESSCTLCARD_STATE_LOGOFF = 0x02,
-			NET_ACCESSCTLCARD_STATE_FREEZE = 0x04,
+			NET_ACCESSCTLCARD_STATE_NORMAL = 0,                 // Normal
+			NET_ACCESSCTLCARD_STATE_LOSE   = 0x01,              // Lose
+			NET_ACCESSCTLCARD_STATE_LOGOFF = 0x02,              // Logoff
+			NET_ACCESSCTLCARD_STATE_FREEZE = 0x04,              // Freeze
+			NET_ACCESSCTLCARD_STATE_ARREARAGE = 0x08,           // Arrears
+			NET_ACCESSCTLCARD_STATE_OVERDUE = 0x10,             // Overdue
 		}
 
 		public enum NET_ACCESSCTLCARD_TYPE
@@ -392,6 +397,19 @@ namespace ChinaSKDDriverNativeApi
 			public int nLength;
 			public int nCount;
 			public string pPacketData; // char*
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct NET_ACCESSCTLCARD_FINGERPRINT_PACKET_EX
+		{
+			public int nLength;
+			public int nCount;
+			public string pPacketData;
+			public int nPacketLen;
+			public int nRealPacketLen;
+			
+			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 1024)]
+			public byte[] byReverseed;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -437,6 +455,8 @@ namespace ChinaSKDDriverNativeApi
 			public string szVTOPosition;
 
 			public bool bHandicap;
+			public bool bEnableExtended;
+			public NET_ACCESSCTLCARD_FINGERPRINT_PACKET_EX stuFingerPrintInfoEx;
 		}
 
 		[DllImport(@"CPPWrapper.dll")]
@@ -614,6 +634,15 @@ namespace ChinaSKDDriverNativeApi
 			public string szUserID;
 
 			public int nReaderID;
+	
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 260)]
+			public string szSnapFtpUrl;
+
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
+			public string szReaderID;
+
+			public NET_ACCESSCTLCARD_TYPE emCardType;
+			public int nErrorCode;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -884,6 +913,9 @@ namespace ChinaSKDDriverNativeApi
 			public string szDoorName;
 
 			public NET_TIME stuTime;
+
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
+			public string szCardNo;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -961,14 +993,29 @@ namespace ChinaSKDDriverNativeApi
 			NET_SENSE_THREEMETHOD,		//Three Method
 			NET_SENSE_TEMP,				//Temperature
 			NET_SENSE_HUMIDITY,			//Humidity
-			NET_SENSE_WIND,			 //Wind
+			NET_SENSE_WIND,             //Wind
 			NET_SENSE_CALLBUTTON,		//Call button
-			NET_SENSE_GASPRESSURE,	  //Gas Pressure
+			NET_SENSE_GASPRESSURE,      //Gas Pressure
 			NET_SENSE_GASCONCENTRATION, //Gas Concentration
-			NET_SENSE_GASFLOW,		  //Gas Flow
+			NET_SENSE_GASFLOW,          //Gas Flow
 			NET_SENSE_OTHER,			//Other
-			NET_SENSE_OIL,			  //oil detectionЈ¬gasoline, diesel vehicles detection
-			NET_SENSE_MILEAGE,		  //mileage detection
+			NET_SENSE_OIL,              //oil detectionЎк?gasoline, diesel vehicles detection
+			NET_SENSE_MILEAGE,          //mileage detection
+			NET_SENSE_URGENCYBUTTON,    //Urgency button
+			NET_SENSE_STEAL,            //Steal
+			NET_SENSE_PERIMETER,        //Permeter
+			NET_SENSE_PREVENTREMOVE,    //Prevent remove
+			NET_SENSE_DOORBELL,         //Door bell
+			NET_SENSE_ALTERVOLT,        //Alter voltage sensor
+			NET_SENSE_DIRECTVOLT,       //Direct voltage sensor
+			NET_SENSE_ALTERCUR,         //Alter current sensor
+			NET_SENSE_DIRECTCUR,        //Direct current sensor
+			NET_SENSE_RSUGENERAL,       //RSU general analog sensor, 4~20mA or 0~5V
+			NET_SENSE_RSUDOOR,          //RSU door sensor
+			NET_SENSE_RSUPOWEROFF,      //RSU power off sensor	
+			NET_SENSE_TEMP1500,        //1500 temperature sensor	
+			NET_SENSE_TEMPDS18B20,     //DS18B20 temperature sensor	
+			NET_SENSE_HUMIDITY1500,     //1500 humidity sensor	
 			NET_SENSE_NUM,				//Number of enumeration type
 		}
 

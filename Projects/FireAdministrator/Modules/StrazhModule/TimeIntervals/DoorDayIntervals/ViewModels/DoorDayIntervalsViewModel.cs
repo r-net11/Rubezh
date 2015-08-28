@@ -27,6 +27,8 @@ namespace StrazhModule.ViewModels
 			AddCommand = new RelayCommand(OnAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanEditRemove);
 			EditCommand = new RelayCommand(OnEdit, CanEditRemove);
+			CopyCommand = new RelayCommand(OnCopy, CanCopy);
+			PasteCommand = new RelayCommand(OnPaste, CanPaste);
 			RegisterShortcuts();
 			SetRibbonItems();
 		}
@@ -40,6 +42,19 @@ namespace StrazhModule.ViewModels
 				DayIntervals.Add(dayIntervalViewModel);
 			}
 			SelectedDayInterval = DayIntervals.FirstOrDefault();
+		}
+
+		SKDDoorDayInterval _copiedDayInterval;
+		public SKDDoorDayInterval CopiedDayInterval
+		{
+			get { return _copiedDayInterval; }
+			set
+			{
+				if (_copiedDayInterval == value)
+					return;
+				_copiedDayInterval = value;
+				OnPropertyChanged(() => CopiedDayInterval);
+			}
 		}
 
 		ObservableCollection<DoorDayIntervalViewModel> _dayIntervals;
@@ -82,7 +97,7 @@ namespace StrazhModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var dayIntervalDetailsViewModel = new DoorDayIntervalDetailsViewModel();
+			var dayIntervalDetailsViewModel = new DoorDayIntervalDetailsViewModel(DayIntervals);
 			if (DialogService.ShowModalWindow(dayIntervalDetailsViewModel))
 			{
 				SKDManager.TimeIntervalsConfiguration.DoorDayIntervals.Add(dayIntervalDetailsViewModel.DayInterval);
@@ -96,8 +111,21 @@ namespace StrazhModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			if (SelectedDayInterval.ConfirmDeactivation())
+			if (SelectedDayInterval.ConfirmRemoval())
 			{
+				// Вместо удаляемого дневного графика замка подставляем предустановленный дневной график замка <Карта>
+				var predefinedDayIntervalCard =
+					SKDManager.TimeIntervalsConfiguration.DoorDayIntervals.FirstOrDefault(
+						x => x.Name == TimeIntervalsConfiguration.PredefinedIntervalNameCard);
+				foreach (var weeklyInterval in SelectedDayInterval.GetLinkedWeeklyIntervals())
+				{
+					foreach (var weeklyIntervalPart in weeklyInterval.WeeklyIntervalParts.Where(part => part.DayIntervalUID == SelectedDayInterval.DayInterval.UID))
+					{
+						weeklyIntervalPart.DayIntervalUID = predefinedDayIntervalCard == null ? Guid.Empty : predefinedDayIntervalCard.UID;
+					}
+					
+				}
+
 				var index = DayIntervals.IndexOf(SelectedDayInterval);
 				SKDManager.TimeIntervalsConfiguration.DoorDayIntervals.Remove(SelectedDayInterval.DayInterval);
 				DayIntervals.Remove(SelectedDayInterval);
@@ -111,12 +139,38 @@ namespace StrazhModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var dayIntervalDetailsViewModel = new DoorDayIntervalDetailsViewModel(SelectedDayInterval.DayInterval);
+			var dayIntervalDetailsViewModel = new DoorDayIntervalDetailsViewModel(DayIntervals, SelectedDayInterval.DayInterval);
 			if (DialogService.ShowModalWindow(dayIntervalDetailsViewModel))
 			{
 				SelectedDayInterval.Update(dayIntervalDetailsViewModel.DayInterval);
 				ServiceFactory.SaveService.SKDChanged = true;
 			}
+		}
+
+		public RelayCommand CopyCommand { get; private set; }
+		void OnCopy()
+		{
+			CopiedDayInterval = CopyDayInterval(SelectedDayInterval.DayInterval);
+		}
+		bool CanCopy()
+		{
+			return SelectedDayInterval != null;
+		}
+
+		public RelayCommand PasteCommand { get; private set; }
+		void OnPaste()
+		{
+			var pasteDayInterval = CopyDayInterval(CopiedDayInterval);
+			pasteDayInterval.Name = GenerateNewNameBeforePaste(pasteDayInterval.Name);
+			SKDManager.TimeIntervalsConfiguration.DoorDayIntervals.Add(pasteDayInterval);
+			var dayIntervalViewModel = new DoorDayIntervalViewModel(pasteDayInterval);
+			DayIntervals.Add(dayIntervalViewModel);
+			SelectedDayInterval = dayIntervalViewModel;
+			ServiceFactory.SaveService.SKDChanged = true;
+		}
+		bool CanPaste()
+		{
+			return CopiedDayInterval != null;
 		}
 
 		void RegisterShortcuts()
@@ -175,6 +229,34 @@ namespace StrazhModule.ViewModels
 					new RibbonMenuItemViewModel("Удалить", "BDelete"),
 				}, "BEdit") { Order = 1 }
 			};
+		}
+
+		private SKDDoorDayInterval CopyDayInterval(SKDDoorDayInterval dayInterval)
+		{
+			var copiedDayInterval = new SKDDoorDayInterval() { Name = dayInterval.Name, Description = dayInterval.Description };
+			foreach (var part in dayInterval.DayIntervalParts)
+			{
+				var copiedDayIntervalPart = new SKDDoorDayIntervalPart()
+				{
+					StartMilliseconds = part.StartMilliseconds,
+					EndMilliseconds = part.EndMilliseconds,
+					DoorOpenMethod = part.DoorOpenMethod
+				};
+				copiedDayInterval.DayIntervalParts.Add(copiedDayIntervalPart);
+			}
+			return copiedDayInterval;
+		}
+
+		private string GenerateNewNameBeforePaste(string name)
+		{
+			string newName;
+			var i = 1;
+
+			do
+				newName = String.Format("{0} ({1})", name, i++);
+			while (DayIntervals.Any(x => x.Name == newName));
+
+			return newName;
 		}
 	}
 }

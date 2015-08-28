@@ -5,46 +5,50 @@
              xmlns:extToolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended"
              xmlns:loya="clr-namespace:Loya.Dameer;assembly=Loya.Dameer"
 			 Width="700" MinHeight="650">
+	<UserControl.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="pack://application:,,,/Controls;component/Themes/StrazhTheme.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+	</UserControl.Resources>
+	<Border Background="{StaticResource BackgroundBrush}">
+		<Grid Margin="10">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="*" />
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
+			<ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto">
+				<DataGrid ItemsSource="{Binding Schedules}" SelectedItem="{Binding SelectedSchedule}" UIBehavior.ShowSelectionMark="True"  UIBehavior.IsActiveSelectionMark="True">
+					<DataGrid.Resources>
+						<InputBindingCollection x:Key="inputCollection" x:Shared="False">
+							<MouseBinding Command="{Binding DataContext.SaveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" />
+						</InputBindingCollection>
+					</DataGrid.Resources>
+					<DataGrid.ItemContainerStyle>
+						<Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="{x:Type DataGridRow}">
+							<Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
+						</Style>
+					</DataGrid.ItemContainerStyle>
+					<DataGrid.Columns>
+						<DataGridTemplateColumn Header="Название" Width="*">
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<StackPanel Orientation="Horizontal">
+										<Image Width="16" Margin="1 0" VerticalAlignment="Center" Source="/Controls;component/Images/Shedule.png" RenderOptions.BitmapScalingMode="NearestNeighbor" RenderOptions.EdgeMode="Aliased" />
+										<TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2" />
+									</StackPanel>
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+						</DataGridTemplateColumn>
+					</DataGrid.Columns>
+				</DataGrid>
+			</ScrollViewer>
 
-	<TabControl>
-		<TabItem Header="Основные">
-			<Grid>
-				<Grid.RowDefinitions>
-					<RowDefinition Height="*" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-				<ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto">
-					<DataGrid ItemsSource="{Binding Schedules}" SelectedItem="{Binding SelectedSchedule}" UIBehavior.ShowSelectionMark="True"  UIBehavior.IsActiveSelectionMark="True">
-                        <DataGrid.Resources>
-                            <InputBindingCollection x:Key="inputCollection" x:Shared="False">
-                                <MouseBinding Command="{Binding DataContext.SaveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" />
-                            </InputBindingCollection>
-                        </DataGrid.Resources>
-                        <DataGrid.ItemContainerStyle>
-                            <Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="{x:Type DataGridRow}">
-                                <Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
-                            </Style>
-                        </DataGrid.ItemContainerStyle>
-                        <DataGrid.Columns>
-							<DataGridTemplateColumn Header="Название" Width="*">
-								<DataGridTemplateColumn.CellTemplate>
-									<DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <Image Width="16" Margin="1 0" VerticalAlignment="Center" Source="/Controls;component/Images/Shedule.png" RenderOptions.BitmapScalingMode="NearestNeighbor" RenderOptions.EdgeMode="Aliased" />
-                                            <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2" />
-                                        </StackPanel>
-                                    </DataTemplate>
-								</DataGridTemplateColumn.CellTemplate>
-							</DataGridTemplateColumn>
-						</DataGrid.Columns>
-					</DataGrid>
-				</ScrollViewer>
-                
-                <StackPanel Grid.Row="1" Orientation="Horizontal">
-                    <TextBlock Text="Начало действия графика" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    <loya:Dameer Width="240" Margin="2,6,2,6" HorizontalAlignment="Center" CustomFormat="dd MMMM yyyy" Format="Custom" ShowCheckBox="False" Value="{Binding StartDate}" />
-                </StackPanel>
-            </Grid>
-		</TabItem>
-	</TabControl>
+			<StackPanel Grid.Row="1" Orientation="Horizontal">
+				<TextBlock Text="Начало действия графика" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+				<loya:Dameer Width="240" Margin="2,6,2,6" HorizontalAlignment="Center" CustomFormat="dd MMMM yyyy" Format="Custom" ShowCheckBox="False" Value="{Binding StartDate}" />
+			</StackPanel>
+		</Grid>
+	</Border>
 </UserControl>

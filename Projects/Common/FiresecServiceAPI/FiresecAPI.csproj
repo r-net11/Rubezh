@@ -293,8 +293,10 @@
     <Compile Include="SKD\ReportFilters\ReportPeriodType.cs" />
     <Compile Include="SKD\ReportFilters\SKDReportFilters.cs" />
     <Compile Include="SKD\ReportFilters\SKDReportFilter.cs" />
+    <Compile Include="SKD\Settings\AppServerSettings.cs" />
     <Compile Include="SKD\Settings\ValidationErrorType.cs" />
     <Compile Include="SKD\SKDManager\CommonChinaControllerHelper.cs" />
+    <Compile Include="SKD\TimeTrack\DayTimeTrackPart.cs" />
     <Compile Include="SKD\TimeTrack\DocumentType.cs" />
     <Compile Include="SKD\TimeTrack\ReportT13.cs" />
     <Compile Include="SKD\TimeTrack\TimeTrackResult.cs" />
@@ -433,6 +435,7 @@
     <Compile Include="SKD\DeviceTimeIntervals\SKDWeeklyInterval.cs" />
     <Compile Include="SKD\DeviceTimeIntervals\SKDWeeklyIntervalPart.cs" />
     <Compile Include="SKD\DeviceTimeIntervals\TimeIntervalsConfiguration.cs" />
+    <Compile Include="SKD\TimeTrack\TimeTrackZone.cs" />
     <Compile Include="SKD\Zone\SKDZone.cs" />
     <Compile Include="VersionedConfiguration.cs" />
     <Compile Include="Models\Plans\ElementPolyline.cs" />

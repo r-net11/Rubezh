@@ -50,6 +50,7 @@ namespace StrazhModule.ViewModels
 			HandicapCloseTimeout = doorConfiguration.HandicapTimeout.nCloseTimeout;
 			if (doorConfiguration.WeeklyIntervalID >= 0)
 				WeeklyInterval = CanSetTimeIntervals ? AvailableWeeklyIntervals.FirstOrDefault(x => x.ID == doorConfiguration.WeeklyIntervalID) : null;
+			IsCloseCheckSensorEnable = doorConfiguration.IsCloseCheckSensor;
 		}
 
 		public ObservableCollection<SKDDoorConfiguration_DoorOpenMethod> DoorOpenMethods { get; private set; }
@@ -74,10 +75,15 @@ namespace StrazhModule.ViewModels
 			get { return _doorOpenMethod; }
 			set
 			{
+				if (_doorOpenMethod == value)
+					return;
 				_doorOpenMethod = value;
 				OnPropertyChanged(() => DoorOpenMethod);
 				HasChanged = true;
 				CanSetTimeIntervals = (value == SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_SECTION);
+				WeeklyInterval = CanSetTimeIntervals
+					? AvailableWeeklyIntervals.FirstOrDefault(x => x.Name == TimeIntervalsConfiguration.PredefinedIntervalNameCard)
+					: null;
 			}
 		}
 
@@ -315,6 +321,23 @@ namespace StrazhModule.ViewModels
 			}
 		}
 
+		bool _isCloseCheckSensorEnable;
+		/// <summary>
+		/// Закрывать замок при закрытии двери
+		/// </summary>
+		public bool IsCloseCheckSensorEnable
+		{
+			get { return _isCloseCheckSensorEnable; }
+			set
+			{
+				if (_isCloseCheckSensorEnable == value)
+					return;
+				_isCloseCheckSensorEnable = value;
+				OnPropertyChanged(() => IsCloseCheckSensorEnable);
+				HasChanged = true;
+			}
+		}
+
 		public RelayCommand GetDoorConfigurationCommand { get; private set; }
 		void OnGetDoorConfiguration()
 		{
@@ -339,6 +362,9 @@ namespace StrazhModule.ViewModels
 		public RelayCommand SetDoorConfigurationCommand { get; private set; }
 		void OnSetDoorConfiguration()
 		{
+			if (DoorOpenMethod == SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_SECTION && !CheckDoorOpenMethodBySection())
+				return;
+
 			var doorConfiguration = GetModel();
 			var result = FiresecManager.FiresecService.SKDSetDoorConfiguration(Device, doorConfiguration);
 			if (result.HasError)
@@ -376,7 +402,8 @@ namespace StrazhModule.ViewModels
 				CloseTimeout = this.CloseTimeout,
 				
 				WeeklyIntervalID = this.CanSetTimeIntervals ? this.WeeklyInterval.ID : -1,
-				DoorDayIntervalsCollection = GetDayIntervalsCollectionFromConfig()
+				DoorDayIntervalsCollection = GetDayIntervalsCollectionFromConfig(),
+				IsCloseCheckSensor = this.IsCloseCheckSensorEnable
 			};
 		}
 
@@ -430,13 +457,27 @@ namespace StrazhModule.ViewModels
 			return result;
 		}
 
+		private bool CheckDoorOpenMethodBySection()
+		{
+			if (DoorOpenMethod == SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_SECTION && WeeklyInterval == null)
+			{
+				MessageBoxService.ShowWarning("График замка не выбран");
+				return false;
+			}
+			return true;
+		}
+
 		protected override bool Save()
 		{
+			if (DoorOpenMethod == SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_SECTION && !CheckDoorOpenMethodBySection())
+				return false;
+
 			if (HasChanged)
 			{
 				if (!MessageBoxService.ShowConfirmation(Resources.SaveConfigurationControllerWarning))
 					return false;
 			}
+			
 			Device.SKDDoorConfiguration = GetModel();
 			return base.Save();
 		}

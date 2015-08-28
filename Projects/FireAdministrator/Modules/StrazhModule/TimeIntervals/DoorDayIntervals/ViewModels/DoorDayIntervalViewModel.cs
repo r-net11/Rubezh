@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Windows;
 using FiresecAPI;
 using FiresecAPI.Models;
 using Infrastructure;
@@ -49,14 +50,23 @@ namespace StrazhModule.ViewModels
 		{
 			get
 			{
-				return Name != "<Никогда>" && Name != "<Всегда>";
+				return Name != TimeIntervalsConfiguration.PredefinedIntervalNameCard
+					&& Name != TimeIntervalsConfiguration.PredefinedIntervalNamePassword
+					&& Name != TimeIntervalsConfiguration.PredefinedIntervalNameCardAndPassword;
 			}
 		}
 
-		public bool ConfirmDeactivation()
+		public bool ConfirmRemoval()
 		{
 			var hasReference = SKDManager.TimeIntervalsConfiguration.DoorWeeklyIntervals.Any(item => item.WeeklyIntervalParts.Any(part => part.DayIntervalUID == DayInterval.UID));
-			return !hasReference || MessageBoxService.ShowConfirmation("Данный дневной график используется в одном или нескольких недельных графиках, Вы уверены что хотите его деактивировать?");
+			return hasReference
+				? MessageBoxService.ShowQuestion(String.Format("Дневной график замка \"{0}\" используется в одном или нескольких недельных графиках замка. При его удалении он будет заменен в недельных графиках замка на дневной график \"Карта\". Вы действительно хотите его удалить?", Name), null, MessageBoxImage.Warning)
+				: MessageBoxService.ShowQuestion(String.Format("Вы действительно хотите удалить дневной график замка \"{0}\"?",Name));
+		}
+
+		public IEnumerable<SKDDoorWeeklyInterval> GetLinkedWeeklyIntervals()
+		{
+			return SKDManager.TimeIntervalsConfiguration.DoorWeeklyIntervals.Where(item => item.WeeklyIntervalParts.Any(part => part.DayIntervalUID == DayInterval.UID)).ToList();
 		}
 	}
 }

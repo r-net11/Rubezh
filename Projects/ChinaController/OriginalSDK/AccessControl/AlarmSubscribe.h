@@ -8,6 +8,7 @@
 //
 #include <afxmt.h>
 
+ 
 typedef struct 
 {
 	NET_ALARM_TYPE	emAlarmType;
@@ -85,6 +86,7 @@ private:
 	void	InsertAlarmEx2Event(ALARM_ALARM_INFO_EX2* pInfo);
 
 	void	InsertAccessLockStatus(ALARM_ACCESS_LOCK_STATUS_INFO* pInfo);
+	void	InsertAlarmExLowPowerEvent(ALARM_BATTERYLOWPOWER_INFO* pInfo);
 
 private:
 	LLONG		m_hLogin;

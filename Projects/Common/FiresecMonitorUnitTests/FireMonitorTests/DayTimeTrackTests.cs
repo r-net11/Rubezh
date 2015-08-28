@@ -9,17 +9,20 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 	public class DayTimeTrackTests
 	{
 		#region GetTimeTrackType Tests
+
+		private DateTime TIME = DateTime.Now;
+
 		[Test]
 		public void GetTimeTrackTypeNonOfficialOvertimeTimeTrackType()
 		{
 			//Arrange
 			var dayTimeTrack = new DayTimeTrack();
-			var plannedTimeInterval = new DayTimeTrack.ScheduleInterval(TimeSpan.FromHours(12), TimeSpan.FromHours(18));
-			var realTimeTrackPart = new TimeTrackPart { StartTime = TimeSpan.FromHours(9), EndTime = TimeSpan.FromHours(10) };
+			var plannedTimeInterval = new DayTimeTrack.ScheduleInterval(TIME.Date + TimeSpan.FromHours(12), TIME.Date + TimeSpan.FromHours(18));
+			var realTimeTrackPart = new TimeTrackPart { EnterDateTime = TIME.Date + TimeSpan.FromHours(9), ExitDateTime = TIME.Date + TimeSpan.FromHours(10) };
 			var plannedTimeTrackPart = new TimeTrackPart
 			{
-				StartTime = plannedTimeInterval.StartTime,
-				EndTime = plannedTimeInterval.EndTime
+				EnterDateTime = plannedTimeInterval.StartTime,
+				ExitDateTime = plannedTimeInterval.EndTime
 			};
 
 			var realTimeTrackPartsCollection = new List<TimeTrackPart> {realTimeTrackPart};
@@ -27,7 +30,7 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 
 			//Act
 			TimeTrackType type = dayTimeTrack.GetTimeTrackType(realTimeTrackPart, plannedTimeTrackPartCollection, realTimeTrackPartsCollection, false, plannedTimeInterval,
-				new DayTimeTrack.ScheduleInterval(realTimeTrackPart.StartTime, realTimeTrackPart.EndTime));
+				new DayTimeTrack.ScheduleInterval(realTimeTrackPart.EnterDateTime, realTimeTrackPart.ExitDateTime));
 
 			//Assert
 			Assert.IsTrue(type == TimeTrackType.Overtime);
@@ -38,13 +41,13 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 		{
 			//Arrange
 			var dayTimeTrack = new DayTimeTrack();
-			var plannedTimeInterval = new DayTimeTrack.ScheduleInterval(TimeSpan.FromHours(12), TimeSpan.FromHours(18));
+			var plannedTimeInterval = new DayTimeTrack.ScheduleInterval(TIME.Date + TimeSpan.FromHours(12), TIME.Date + TimeSpan.FromHours(18));
 
-			var realTimeTrackPart = new TimeTrackPart { StartTime = TimeSpan.FromHours(12), EndTime = TimeSpan.FromHours(13) };
+			var realTimeTrackPart = new TimeTrackPart { EnterDateTime = TIME.Date + TimeSpan.FromHours(12), ExitDateTime = TIME.Date + TimeSpan.FromHours(13) };
 			var plannedTimeTrackPart = new TimeTrackPart
 			{
-				StartTime = plannedTimeInterval.StartTime,
-				EndTime = plannedTimeInterval.EndTime
+				EnterDateTime = plannedTimeInterval.StartTime,
+				ExitDateTime = plannedTimeInterval.EndTime
 			};
 
 			var realTimeTrackPartsCollection = new List<TimeTrackPart> { realTimeTrackPart };
@@ -52,7 +55,7 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 
 			//Act
 			TimeTrackType type = dayTimeTrack.GetTimeTrackType(realTimeTrackPart, plannedTimeTrackPartCollection, realTimeTrackPartsCollection, false, plannedTimeInterval,
-				new DayTimeTrack.ScheduleInterval(realTimeTrackPart.StartTime, realTimeTrackPart.EndTime));
+				new DayTimeTrack.ScheduleInterval(realTimeTrackPart.EnterDateTime, realTimeTrackPart.ExitDateTime));
 
 			//Assert
 			Assert.IsTrue(type == TimeTrackType.Presence);
@@ -63,13 +66,13 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 		{
 			//Arrange
 			var dayTimeTrack = new DayTimeTrack();
-			var plannedTimeInterval = new DayTimeTrack.ScheduleInterval(TimeSpan.FromHours(12), TimeSpan.FromHours(18));
+			var plannedTimeInterval = new DayTimeTrack.ScheduleInterval(TIME.Date + TimeSpan.FromHours(12), TIME.Date + TimeSpan.FromHours(18));
 
-			var realTimeTrackPart = new TimeTrackPart { StartTime = TimeSpan.FromHours(12), EndTime = TimeSpan.FromHours(13) };
+			var realTimeTrackPart = new TimeTrackPart { EnterDateTime = TIME.Date + TimeSpan.FromHours(12), ExitDateTime = TIME.Date + TimeSpan.FromHours(13) };
 			var plannedTimeTrackPart = new TimeTrackPart
 			{
-				StartTime = plannedTimeInterval.StartTime,
-				EndTime = plannedTimeInterval.EndTime
+				EnterDateTime = plannedTimeInterval.StartTime,
+				ExitDateTime = plannedTimeInterval.EndTime
 			};
 
 			var realTimeTrackPartsCollection = new List<TimeTrackPart> {realTimeTrackPart};
@@ -77,7 +80,7 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 
 			//Act
 			TimeTrackType type = dayTimeTrack.GetTimeTrackType(realTimeTrackPart, plannedTimeTrackPartCollection, realTimeTrackPartsCollection, false, plannedTimeInterval,
-				new DayTimeTrack.ScheduleInterval(TimeSpan.FromHours(6), TimeSpan.FromHours(7)));
+				new DayTimeTrack.ScheduleInterval(TIME.Date + TimeSpan.FromHours(6), TIME.Date + TimeSpan.FromHours(7)));
 
 			//Assert
 			Assert.IsTrue(type == TimeTrackType.None);
@@ -88,19 +91,19 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 		{
 			//Arrange
 			var dayTimeTrack = new DayTimeTrack();
-			var plannedTimeBeforeLunch = new DayTimeTrack.ScheduleInterval(TimeSpan.FromHours(6), TimeSpan.FromHours(12));
-			var plannedTimeAfterLunch = new DayTimeTrack.ScheduleInterval(TimeSpan.FromHours(13), TimeSpan.FromHours(18));
+			var plannedTimeBeforeLunch = new DayTimeTrack.ScheduleInterval(TIME.Date.Date + TimeSpan.FromHours(6), TIME.Date.Date + TimeSpan.FromHours(12));
+			var plannedTimeAfterLunch = new DayTimeTrack.ScheduleInterval(TIME.Date.Date + TimeSpan.FromHours(13), TIME.Date.Date + TimeSpan.FromHours(18));
 
-			var realTimeTrackPart = new TimeTrackPart { StartTime = TimeSpan.FromHours(12), EndTime = TimeSpan.FromHours(13) };
+			var realTimeTrackPart = new TimeTrackPart { EnterDateTime = TIME.Date.Date + TimeSpan.FromHours(12), ExitDateTime = TIME.Date.Date + TimeSpan.FromHours(13) };
 			var plannedTimeTrackPartBeforeLunch = new TimeTrackPart
 			{
-				StartTime = plannedTimeBeforeLunch.StartTime,
-				EndTime = plannedTimeBeforeLunch.EndTime
+				EnterDateTime = plannedTimeBeforeLunch.StartTime,
+				ExitDateTime = plannedTimeBeforeLunch.EndTime
 			};
 			var plannedTimeTrackPartAfterLunch = new TimeTrackPart
 			{
-				StartTime = plannedTimeAfterLunch.StartTime,
-				EndTime = plannedTimeAfterLunch.EndTime
+				EnterDateTime = plannedTimeAfterLunch.StartTime,
+				ExitDateTime = plannedTimeAfterLunch.EndTime
 			};
 
 			var realTimeTrackPartsCollection = new List<TimeTrackPart> {realTimeTrackPart};
@@ -110,7 +113,7 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 			TimeTrackType type = dayTimeTrack.GetTimeTrackType(realTimeTrackPart, plannedTimeTrackPartCollection,
 															realTimeTrackPartsCollection, false,
 															dayTimeTrack.GetPlannedScheduleInterval(plannedTimeTrackPartCollection),
-															new DayTimeTrack.ScheduleInterval(realTimeTrackPart.StartTime, realTimeTrackPart.EndTime));
+															new DayTimeTrack.ScheduleInterval(realTimeTrackPart.EnterDateTime, realTimeTrackPart.ExitDateTime));
 
 			//Assert
 			Assert.IsTrue(type == TimeTrackType.PresenceInBrerak);
@@ -121,13 +124,13 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 		{
 			//Arrange
 			var dayTimeTrack = new DayTimeTrack();
-			var plannedTimeInterval = new DayTimeTrack.ScheduleInterval(TimeSpan.FromHours(8), TimeSpan.FromHours(18));
+			var plannedTimeInterval = new DayTimeTrack.ScheduleInterval(TIME.Date + TimeSpan.FromHours(8), TIME.Date + TimeSpan.FromHours(18));
 
-			var realTimeTrackPart = new TimeTrackPart { StartTime = TimeSpan.FromHours(5), EndTime = TimeSpan.FromHours(7) };
+			var realTimeTrackPart = new TimeTrackPart { EnterDateTime = TIME.Date + TimeSpan.FromHours(5), ExitDateTime = TIME.Date + TimeSpan.FromHours(7) };
 			var plannedTimeTrackPart = new TimeTrackPart
 			{
-				StartTime = plannedTimeInterval.StartTime,
-				EndTime = plannedTimeInterval.EndTime
+				EnterDateTime = plannedTimeInterval.StartTime,
+				ExitDateTime = plannedTimeInterval.EndTime
 			};
 
 			var realTimeTrackPartsCollection = new List<TimeTrackPart> {realTimeTrackPart};
@@ -135,7 +138,7 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 
 			//Act
 			TimeTrackType type = dayTimeTrack.GetTimeTrackType(realTimeTrackPart, plannedTimeTrackPartCollection, realTimeTrackPartsCollection, false, plannedTimeInterval,
-				new DayTimeTrack.ScheduleInterval(TimeSpan.FromHours(8), TimeSpan.FromHours(10)));
+				new DayTimeTrack.ScheduleInterval(TIME.Date + TimeSpan.FromHours(8), TIME.Date + TimeSpan.FromHours(10)));
 
 			//Assert
 			Assert.IsTrue(type == TimeTrackType.Absence);
@@ -147,15 +150,15 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 			//Arrange
 			const bool isOnlyFirstEnter = true;
 			var dayTimeTrack = new DayTimeTrack();
-			var plannedTimeInterval = new DayTimeTrack.ScheduleInterval(TimeSpan.FromHours(9), TimeSpan.FromHours(18));
+			var plannedTimeInterval = new DayTimeTrack.ScheduleInterval(TIME.Date + TimeSpan.FromHours(9), TIME.Date + TimeSpan.FromHours(18));
 
-			var realTimeTrackPart = new TimeTrackPart { StartTime = TimeSpan.FromHours(9), EndTime = TimeSpan.FromHours(10) };
-			var realTimeTrackPart2 = new TimeTrackPart { StartTime = TimeSpan.FromHours(13), EndTime = TimeSpan.FromHours(15) };
-			var realTimeTrackPart3 = new TimeTrackPart { StartTime = TimeSpan.FromHours(15), EndTime = TimeSpan.FromHours(19) };
+			var realTimeTrackPart = new TimeTrackPart { EnterDateTime = TIME.Date + TimeSpan.FromHours(9), ExitDateTime = TIME.Date + TimeSpan.FromHours(10) };
+			var realTimeTrackPart2 = new TimeTrackPart { EnterDateTime = TIME.Date + TimeSpan.FromHours(13), ExitDateTime = TIME.Date + TimeSpan.FromHours(15) };
+			var realTimeTrackPart3 = new TimeTrackPart { EnterDateTime = TIME.Date + TimeSpan.FromHours(15), ExitDateTime = TIME.Date + TimeSpan.FromHours(19) };
 			var plannedTimeTrackPart = new TimeTrackPart
 			{
-				StartTime = plannedTimeInterval.StartTime,
-				EndTime = plannedTimeInterval.EndTime
+				EnterDateTime = plannedTimeInterval.StartTime,
+				ExitDateTime = plannedTimeInterval.EndTime
 			};
 
 			var realTimeTrackPartsCollection = new List<TimeTrackPart> { realTimeTrackPart, realTimeTrackPart2, realTimeTrackPart3 };
@@ -163,7 +166,7 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 
 			//Act
 			TimeTrackType type = dayTimeTrack.GetTimeTrackType(realTimeTrackPart, plannedTimeTrackPartCollection, realTimeTrackPartsCollection, isOnlyFirstEnter, plannedTimeInterval,
-				new DayTimeTrack.ScheduleInterval(TimeSpan.FromHours(11), TimeSpan.FromHours(12)));
+				new DayTimeTrack.ScheduleInterval(TIME.Date + TimeSpan.FromHours(11), TIME.Date + TimeSpan.FromHours(12)));
 
 			//Assert
 			Assert.IsTrue(type == TimeTrackType.AbsenceInsidePlan);
@@ -181,8 +184,8 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 			var timeTrackPart = new TimeTrackPart
 			{
 				TimeTrackPartType = TimeTrackType.Absence,
-				StartTime = TimeSpan.FromHours(8),
-				EndTime = TimeSpan.FromHours(18)
+				EnterDateTime = TIME.Date + TimeSpan.FromHours(8),
+				ExitDateTime = TIME.Date + TimeSpan.FromHours(18)
 			};
 			const bool isHoliday = default(bool);
 
@@ -201,8 +204,8 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 			var timeTrackPart = new TimeTrackPart
 			{
 				TimeTrackPartType = TimeTrackType.Absence,
-				StartTime = TimeSpan.FromHours(8),
-				EndTime = TimeSpan.FromHours(18)
+				EnterDateTime = TIME.Date + TimeSpan.FromHours(8),
+				ExitDateTime = TIME.Date + TimeSpan.FromHours(18)
 			};
 			const bool isHoliday = true;
 
@@ -221,8 +224,8 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 			var timeTrackPart = new TimeTrackPart
 			{
 				TimeTrackPartType = TimeTrackType.Presence,
-				StartTime = TimeSpan.FromHours(8),
-				EndTime = TimeSpan.FromHours(18)
+				EnterDateTime = TIME.Date + TimeSpan.FromHours(8),
+				ExitDateTime = TIME.Date + TimeSpan.FromHours(18)
 			};
 			const bool isHoliday = default(bool);
 
@@ -241,8 +244,8 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 			var timeTrackPart = new TimeTrackPart
 			{
 				TimeTrackPartType = TimeTrackType.Presence,
-				StartTime = TimeSpan.FromHours(8),
-				EndTime = TimeSpan.FromHours(18)
+				EnterDateTime = TIME.Date + TimeSpan.FromHours(8),
+				ExitDateTime = TIME.Date + TimeSpan.FromHours(18)
 			};
 			const bool isHoliday = true;
 
@@ -261,8 +264,8 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 			var timeTrackPart = new TimeTrackPart
 			{
 				TimeTrackPartType = TimeTrackType.AbsenceInsidePlan,
-				StartTime = TimeSpan.FromHours(8),
-				EndTime = TimeSpan.FromHours(18)
+				EnterDateTime = TIME.Date + TimeSpan.FromHours(8),
+				ExitDateTime = TIME.Date + TimeSpan.FromHours(18)
 			};
 			const bool isHoliday = default(bool);
 
@@ -281,8 +284,8 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 			var timeTrackPart = new TimeTrackPart
 			{
 				TimeTrackPartType = TimeTrackType.AbsenceInsidePlan,
-				StartTime = TimeSpan.FromHours(8),
-				EndTime = TimeSpan.FromHours(18)
+				EnterDateTime = TIME.Date + TimeSpan.FromHours(8),
+				ExitDateTime = TIME.Date + TimeSpan.FromHours(18)
 			};
 			const bool isHoliday = true;
 
@@ -301,8 +304,8 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 			var timeTrackPart = new TimeTrackPart
 			{
 				TimeTrackPartType = TimeTrackType.PresenceInBrerak,
-				StartTime = TimeSpan.FromHours(8),
-				EndTime = TimeSpan.FromHours(18)
+				EnterDateTime = TIME.Date + TimeSpan.FromHours(8),
+				ExitDateTime = TIME.Date + TimeSpan.FromHours(18)
 			};
 			const bool isHoliday = default(bool);
 
@@ -321,8 +324,8 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 			var timeTrackPart = new TimeTrackPart
 			{
 				TimeTrackPartType = TimeTrackType.PresenceInBrerak,
-				StartTime = TimeSpan.FromHours(8),
-				EndTime = TimeSpan.FromHours(18)
+				EnterDateTime = TIME.Date + TimeSpan.FromHours(8),
+				ExitDateTime = TIME.Date + TimeSpan.FromHours(18)
 			};
 			const bool isHoliday = true;
 
@@ -341,8 +344,8 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 			var timeTrackPart = new TimeTrackPart
 			{
 				TimeTrackPartType = TimeTrackType.Late,
-				StartTime = TimeSpan.FromHours(8),
-				EndTime = TimeSpan.FromHours(18)
+				EnterDateTime = TIME.Date + TimeSpan.FromHours(8),
+				ExitDateTime = TIME.Date + TimeSpan.FromHours(18)
 			};
 			const bool isHoliday = default(bool);
 
@@ -361,8 +364,8 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 			var timeTrackPart = new TimeTrackPart
 			{
 				TimeTrackPartType = TimeTrackType.Late,
-				StartTime = TimeSpan.FromHours(8),
-				EndTime = TimeSpan.FromHours(18)
+				EnterDateTime = TIME.Date + TimeSpan.FromHours(8),
+				ExitDateTime = TIME.Date + TimeSpan.FromHours(18)
 			};
 			const bool isHoliday = true;
 
@@ -381,8 +384,8 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 			var timeTrackPart = new TimeTrackPart
 			{
 				TimeTrackPartType = TimeTrackType.EarlyLeave,
-				StartTime = TimeSpan.FromHours(8),
-				EndTime = TimeSpan.FromHours(18)
+				EnterDateTime = TIME.Date + TimeSpan.FromHours(8),
+				ExitDateTime = TIME.Date + TimeSpan.FromHours(18)
 			};
 			const bool isHoliday = default(bool);
 
@@ -401,8 +404,8 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 			var timeTrackPart = new TimeTrackPart
 			{
 				TimeTrackPartType = TimeTrackType.EarlyLeave,
-				StartTime = TimeSpan.FromHours(8),
-				EndTime = TimeSpan.FromHours(18)
+				EnterDateTime = TIME.Date + TimeSpan.FromHours(8),
+				ExitDateTime = TIME.Date + TimeSpan.FromHours(18)
 			};
 			const bool isHoliday = true;
 
@@ -421,8 +424,8 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 			var timeTrackPart = new TimeTrackPart
 			{
 				TimeTrackPartType = TimeTrackType.Overtime,
-				StartTime = TimeSpan.FromHours(8),
-				EndTime = TimeSpan.FromHours(18)
+				EnterDateTime = TIME.Date + TimeSpan.FromHours(8),
+				ExitDateTime = TIME.Date + TimeSpan.FromHours(18)
 			};
 			const bool isHoliday = default(bool);
 
@@ -441,8 +444,8 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 			var timeTrackPart = new TimeTrackPart
 			{
 				TimeTrackPartType = TimeTrackType.Overtime,
-				StartTime = TimeSpan.FromHours(8),
-				EndTime = TimeSpan.FromHours(18)
+				EnterDateTime = TIME.Date + TimeSpan.FromHours(8),
+				ExitDateTime = TIME.Date + TimeSpan.FromHours(18)
 			};
 			const bool isHoliday = true;
 
@@ -461,8 +464,8 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 			var timeTrackPart = new TimeTrackPart
 			{
 				TimeTrackPartType = TimeTrackType.Night,
-				StartTime = TimeSpan.FromHours(8),
-				EndTime = TimeSpan.FromHours(18)
+				EnterDateTime = TIME.Date + TimeSpan.FromHours(8),
+				ExitDateTime = TIME.Date + TimeSpan.FromHours(18)
 			};
 			const bool isHoliday = default(bool);
 
@@ -481,8 +484,8 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 			var timeTrackPart = new TimeTrackPart
 			{
 				TimeTrackPartType = TimeTrackType.Night,
-				StartTime = TimeSpan.FromHours(8),
-				EndTime = TimeSpan.FromHours(18)
+				EnterDateTime = TIME.Date + TimeSpan.FromHours(8),
+				ExitDateTime = TIME.Date + TimeSpan.FromHours(18)
 			};
 			const bool isHoliday = true;
 
@@ -505,8 +508,8 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 			var timeTrackPart = new TimeTrackPart
 			{
 				TimeTrackPartType = TimeTrackType.Absence,
-				StartTime = TimeSpan.FromHours(8),
-				EndTime = TimeSpan.FromHours(18)
+				EnterDateTime = TIME.Date + TimeSpan.FromHours(8),
+				ExitDateTime = TIME.Date + TimeSpan.FromHours(18)
 			};
 
 			var slideTimeSeconds = TimeSpan.FromHours(10).TotalSeconds;
@@ -527,8 +530,8 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 			var timeTrackPart = new TimeTrackPart
 			{
 				TimeTrackPartType = TimeTrackType.Presence,
-				StartTime = TimeSpan.FromHours(8),
-				EndTime = TimeSpan.FromHours(15)
+				EnterDateTime = TIME.Date + TimeSpan.FromHours(8),
+				ExitDateTime = TIME.Date + TimeSpan.FromHours(15)
 			};
 
 			var slideTimeSeconds = TimeSpan.FromHours(10).TotalSeconds;
@@ -548,8 +551,8 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 			var timeTrackPart = new TimeTrackPart
 			{
 				TimeTrackPartType = TimeTrackType.AbsenceInsidePlan,
-				StartTime = TimeSpan.FromHours(8),
-				EndTime = TimeSpan.FromHours(15)
+				EnterDateTime = TIME.Date + TimeSpan.FromHours(8),
+				ExitDateTime = TIME.Date + TimeSpan.FromHours(15)
 			};
 
 			var slideTimeSeconds = TimeSpan.FromHours(10).TotalSeconds;
@@ -569,8 +572,8 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 			var timeTrackPart = new TimeTrackPart
 			{
 				TimeTrackPartType = TimeTrackType.PresenceInBrerak,
-				StartTime = TimeSpan.FromHours(8),
-				EndTime = TimeSpan.FromHours(15)
+				EnterDateTime = TIME.Date + TimeSpan.FromHours(8),
+				ExitDateTime = TIME.Date + TimeSpan.FromHours(15)
 			};
 
 			var slideTimeSeconds = TimeSpan.FromHours(10).TotalSeconds;
@@ -590,8 +593,8 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 			var timeTrackPart = new TimeTrackPart
 			{
 				TimeTrackPartType = TimeTrackType.Late,
-				StartTime = TimeSpan.FromHours(10),
-				EndTime = TimeSpan.FromHours(15)
+				EnterDateTime = TIME.Date + TimeSpan.FromHours(10),
+				ExitDateTime = TIME.Date + TimeSpan.FromHours(15)
 			};
 
 			var slideTimeSeconds = TimeSpan.FromHours(10).TotalSeconds;
@@ -611,8 +614,8 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 			var timeTrackPart = new TimeTrackPart
 			{
 				TimeTrackPartType = TimeTrackType.EarlyLeave,
-				StartTime = TimeSpan.FromHours(10),
-				EndTime = TimeSpan.FromHours(15)
+				EnterDateTime = TIME.Date + TimeSpan.FromHours(10),
+				ExitDateTime = TIME.Date + TimeSpan.FromHours(15)
 			};
 
 			var slideTimeSeconds = TimeSpan.FromHours(10).TotalSeconds;
@@ -632,8 +635,8 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 			var timeTrackPart = new TimeTrackPart
 			{
 				TimeTrackPartType = TimeTrackType.Overtime,
-				StartTime = TimeSpan.FromHours(10),
-				EndTime = TimeSpan.FromHours(15)
+				EnterDateTime = TIME.Date + TimeSpan.FromHours(10),
+				ExitDateTime = TIME.Date + TimeSpan.FromHours(15)
 			};
 
 			var slideTimeSeconds = TimeSpan.FromHours(10).TotalSeconds;
@@ -653,8 +656,8 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 			var timeTrackPart = new TimeTrackPart
 			{
 				TimeTrackPartType = TimeTrackType.Night,
-				StartTime = TimeSpan.FromHours(10),
-				EndTime = TimeSpan.FromHours(15)
+				EnterDateTime = TIME.Date + TimeSpan.FromHours(10),
+				ExitDateTime = TIME.Date + TimeSpan.FromHours(15)
 			};
 
 			var slideTimeSeconds = TimeSpan.FromHours(10).TotalSeconds;
@@ -674,8 +677,8 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 			var timeTrackPart = new TimeTrackPart
 			{
 				TimeTrackPartType = TimeTrackType.DocumentOvertime,
-				StartTime = TimeSpan.FromHours(10),
-				EndTime = TimeSpan.FromHours(15)
+				EnterDateTime = TIME.Date + TimeSpan.FromHours(10),
+				ExitDateTime = TIME.Date + TimeSpan.FromHours(15)
 			};
 
 			var slideTimeSeconds = TimeSpan.FromHours(10).TotalSeconds;
@@ -695,8 +698,8 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 			var timeTrackPart = new TimeTrackPart
 			{
 				TimeTrackPartType = TimeTrackType.DocumentPresence,
-				StartTime = TimeSpan.FromHours(10),
-				EndTime = TimeSpan.FromHours(15)
+				EnterDateTime = TIME.Date + TimeSpan.FromHours(10),
+				ExitDateTime = TIME.Date + TimeSpan.FromHours(15)
 			};
 
 			var slideTimeSeconds = TimeSpan.FromHours(10).TotalSeconds;
@@ -716,8 +719,8 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 			var timeTrackPart = new TimeTrackPart
 			{
 				TimeTrackPartType = TimeTrackType.DocumentAbsence,
-				StartTime = TimeSpan.FromHours(10),
-				EndTime = TimeSpan.FromHours(15)
+				EnterDateTime = TIME.Date + TimeSpan.FromHours(10),
+				ExitDateTime = TIME.Date + TimeSpan.FromHours(15)
 			};
 
 			var slideTimeSeconds = TimeSpan.FromHours(10).TotalSeconds;

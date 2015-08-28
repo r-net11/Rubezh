@@ -1,4 +1,5 @@
-﻿using FiresecAPI.SKD;
+﻿using FiresecAPI.Models;
+using FiresecAPI.SKD;
 using System;
 using System.Collections.Generic;
 using System.ServiceModel;
@@ -110,16 +111,16 @@ namespace FiresecAPI
 		OperationResult RemoveTimeTrackDocumentType(Guid timeTrackDocumentTypeUID);
 
 		[OperationContract]
-		OperationResult AddCustomPassJournal(Guid uid, Guid employeeUID, Guid zoneUID, DateTime enterTime, DateTime exitTime);
+		OperationResult<Dictionary<DayTimeTrackPart, List<DayTimeTrackPart>>> FindConflictIntervals(List<DayTimeTrackPart> dayTimeTrackParts, Guid employeeGuid, DateTime currentDate);
 
 		[OperationContract]
-		OperationResult EditPassJournal(Guid uid, Guid zoneUID, DateTime enterTime, DateTime exitTime);
+		OperationResult SaveAllTimeTracks(IEnumerable<DayTimeTrackPart> collectionToSave, ShortEmployee employee, User currentUser);
 
 		[OperationContract]
 		OperationResult DeletePassJournal(Guid uid);
 
 		[OperationContract]
-		OperationResult DeleteAllPassJournalItems(Guid uid, DateTime enterTime, DateTime exitTime);
+		OperationResult DeleteAllPassJournalItems(DayTimeTrackPart dayTimeTrackPart);
 
 		[OperationContract]
 		OperationResult<DateTime> GetPassJournalMinDate();

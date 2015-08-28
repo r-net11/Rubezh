@@ -430,6 +430,11 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.SKDDeviceAccessStateOpenAlways(deviceUID); }, "SKDDeviceAccessStateOpenAlways");
 		}
 
+		public OperationResult<bool> SKDClearDevicePromptWarning(Guid deviceUID)
+		{
+			return SafeOperationCall(() => { return FiresecService.SKDClearDevicePromptWarning(deviceUID); }, "SKDClearDevicePromptWarning");
+		}
+
 		public OperationResult<bool> SKDOpenZone(Guid zoneUID)
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDOpenZone(zoneUID); }, "SKDOpenZone");
@@ -465,6 +470,11 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.SKDZoneAccessStateOpenAlways(deviceUID); }, "SKDZoneAccessStateOpenAlways");
 		}
 
+		public OperationResult<bool> SKDClearZonePromptWarning(Guid zoneUID)
+		{
+			return SafeOperationCall(() => { return FiresecService.SKDClearZonePromptWarning(zoneUID); }, "SKDClearZonePromptWarning");
+		}
+
 		public OperationResult<bool> SKDOpenDoor(Guid doorUID)
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDOpenDoor(doorUID); }, "SKDOpenDoor");
@@ -498,6 +508,11 @@ namespace FiresecService.Service
 		public OperationResult<bool> SKDDoorAccessStateOpenAlways(Guid deviceUID)
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDDoorAccessStateOpenAlways(deviceUID); }, "SKDDoorAccessStateOpenAlways");
+		}
+
+		public OperationResult<bool> SKDClearDoorPromptWarning(Guid doorUID)
+		{
+			return SafeOperationCall(() => { return FiresecService.SKDClearDoorPromptWarning(doorUID); }, "SKDClearDoorPromptWarning");
 		}
 
 		public OperationResult<SKDAntiPassBackConfiguration> SKDGetAntiPassBackConfiguration(Guid deviceUID)
