@@ -15,6 +15,7 @@ using SKDModule.Events;
 using SKDModule.Reports;
 using SKDModule.Reports.Providers;
 using SKDModule.ViewModels;
+using System.Diagnostics;
 
 namespace SKDModule
 {

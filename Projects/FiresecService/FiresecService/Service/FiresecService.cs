@@ -136,5 +136,14 @@ namespace FiresecService.Service
                 Skd = LicenseHelper.Skd
             });
         }
+
+		public OperationResult CheckDB()
+		{
+			using (var dbService = new DbService())
+			{
+				return dbService.CheckConnection();
+			}
+		}
+
     }
 }
