@@ -177,6 +177,7 @@
     <Compile Include="Automation\ScheduleRunner.cs" />
     <Compile Include="Automation\ProcedureRunner.cs" />
     <Compile Include="Processor\ConfigurationCashHelper.cs" />
+    <Compile Include="Processor\FiresecLicenseProcessor.cs" />
     <Compile Include="Processor\GKProcessor.cs" />
     <Compile Include="Automation\ProcedureThread.Steps.cs" />
     <Compile Include="Processor\ServerTaskRunner.cs" />
