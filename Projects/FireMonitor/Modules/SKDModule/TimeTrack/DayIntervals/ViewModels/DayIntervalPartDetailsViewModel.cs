@@ -200,8 +200,7 @@ namespace SKDModule.ViewModels
 		}
 		bool IsIntersection()
 		{
-			var scheduleSchemesViewModel = new ScheduleSchemesViewModel();
-			scheduleSchemesViewModel.Initialize();
+			var scheduleSchemesViewModel = ScheduleSchemesViewModel.Current;
 			scheduleSchemesViewModel.ReloadDayIntervals();
 			var scheduleSchemes = scheduleSchemesViewModel.Organisations.FirstOrDefault(x => x.UID == OrganisationUID).Children;
 			{

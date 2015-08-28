@@ -17,10 +17,12 @@ namespace SKDModule.ViewModels
 	{
 		bool _isInitialized;
 		private Dictionary<Guid, ObservableCollection<DayInterval>> _dayIntervals;
+		public static ScheduleSchemesViewModel Current { get; private set; }
 		
 		public ScheduleSchemesViewModel()
 			:base()
 		{
+			Current = this;
 			_isInitialized = false;
 			_changeIsDeletedSubscriber = new ChangeIsDeletedSubscriber(this);
 			ServiceFactory.Events.GetEvent<EditDayIntervalEvent>().Unsubscribe(OnEditDayInterval);
