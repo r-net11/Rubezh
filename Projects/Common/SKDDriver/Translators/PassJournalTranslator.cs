@@ -127,10 +127,11 @@ namespace SKDDriver.Translators
 			return new OperationResult<Dictionary<DayTimeTrackPart, List<DayTimeTrackPart>>>(conflictedIntervals);
 		}
 
-		public OperationResult EditPassJournal(DayTimeTrackPart dayTimeTrackPart, ShortEmployee employee, out bool? setAdjustmentFlag, out bool setBordersChangedFlag)
+		public OperationResult EditPassJournal(DayTimeTrackPart dayTimeTrackPart, ShortEmployee employee, out bool? setAdjustmentFlag, out bool setBordersChangedFlag, out bool setForceClosedFlag)
 		{
 			setAdjustmentFlag = null;
 			setBordersChangedFlag = default(bool);
+			setForceClosedFlag = default(bool);
 
 			try
 			{
@@ -172,6 +173,7 @@ namespace SKDDriver.Translators
 						passJournalItem.ExitTimeOriginal = passJournalItem.ExitTime;
 						passJournalItem.IsOpen = default(bool);
 						passJournalItem.IsForceClosed = true;
+						setForceClosedFlag = true;
 					}
 				}
 
