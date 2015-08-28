@@ -174,11 +174,18 @@ namespace FiresecAPI.SKD
 		{
 			var firstPlanned = new TimeSpan();
 			var lastPlanned = new TimeSpan();
-
 			if (PlannedTimeTrackParts.Count > 0)
 			{
 				firstPlanned = PlannedTimeTrackParts.FirstOrDefault().StartTime;
 				lastPlanned = PlannedTimeTrackParts.LastOrDefault().EndTime;
+			}
+
+			var firstEnter = new TimeSpan();
+			var lastExit = new TimeSpan();
+			if (RealTimeTrackParts.Count > 0)
+			{
+				firstEnter = RealTimeTrackParts.FirstOrDefault().StartTime;
+				lastExit = RealTimeTrackParts.LastOrDefault().EndTime;
 			}
 
 			var combinedTimeSpans = new List<TimeSpan>();
@@ -254,7 +261,7 @@ namespace FiresecAPI.SKD
 				{
 					timeTrackPart.TimeTrackPartType = TimeTrackType.Absence;
 
-					if (RealTimeTrackParts.Any(x => x.StartTime >= firstPlanned && x.EndTime <= lastPlanned) && IsOnlyFirstEnter)
+					if (IsOnlyFirstEnter && timeTrackPart.StartTime >= firstEnter && timeTrackPart.EndTime <= lastExit)
 					{
 						timeTrackPart.TimeTrackPartType = TimeTrackType.AbsenceInsidePlan;
 					}
@@ -263,34 +270,16 @@ namespace FiresecAPI.SKD
 					{
 						var firstPlannedTimeTrack = PlannedTimeTrackParts.FirstOrDefault(x => x.StartTime == timeTrackPart.StartTime);
 						if (firstPlannedTimeTrack.StartsInPreviousDay)
-						{
 							timeTrackPart.TimeTrackPartType = TimeTrackType.Absence;
-						}
-						else
-						{
-							if (timeTrackPart.Delta > AllowedLate)
-							{
-								timeTrackPart.TimeTrackPartType = TimeTrackType.Late;
-							}
-							else timeTrackPart.TimeTrackPartType = TimeTrackType.AbsenceInsidePlan;
-						}
+						else timeTrackPart.TimeTrackPartType = TimeTrackType.Late;
 					}
 
 					if (!PlannedTimeTrackParts.Any(x => x.StartTime == timeTrackPart.StartTime) && PlannedTimeTrackParts.Any(x => x.EndTime == timeTrackPart.EndTime) && RealTimeTrackParts.Any(x => x.EndTime == timeTrackPart.StartTime))
 					{
 						var lastPlannedTimeTrack = PlannedTimeTrackParts.FirstOrDefault(x => x.EndTime == timeTrackPart.EndTime);
 						if (lastPlannedTimeTrack.EndsInNextDay)
-						{
 							timeTrackPart.TimeTrackPartType = TimeTrackType.Absence;
-						}
-						else
-						{
-							if (timeTrackPart.Delta > AllowedEarlyLeave)
-							{
-								timeTrackPart.TimeTrackPartType = TimeTrackType.EarlyLeave;
-							}
-							else timeTrackPart.TimeTrackPartType = TimeTrackType.AbsenceInsidePlan;
-						}
+						else timeTrackPart.TimeTrackPartType = TimeTrackType.EarlyLeave;
 					}
 				}
 				if (documentTimeTrack != null)
@@ -323,7 +312,6 @@ namespace FiresecAPI.SKD
 					else
 						timeTrackPart.TimeTrackPartType = TimeTrackType.Presence;
 				}
-
 			}
 		}
 
@@ -367,12 +355,13 @@ namespace FiresecAPI.SKD
 				}
 				switch (timeTrack.TimeTrackPartType)
 				{
-					case SKD.TimeTrackType.Presence:
-					case SKD.TimeTrackType.Night:
-					case SKD.TimeTrackType.DocumentOvertime:
+					case TimeTrackType.Presence:
+					case TimeTrackType.Night:
+					case TimeTrackType.AbsenceInsidePlan:
+					case TimeTrackType.DocumentOvertime:
 						totalBalance.TimeSpan += timeTrack.Delta;
 						break;
-					case SKD.TimeTrackType.DocumentPresence:
+					case TimeTrackType.DocumentPresence:
 						if (isConside)
 						{
 							totalBalance.TimeSpan += timeTrack.Delta;
@@ -398,6 +387,8 @@ namespace FiresecAPI.SKD
 			var longestTimeTrackType = TimeTrackType.Presence;
 			var longestTimeSpan = new TimeSpan();
 			var presence = new TimeSpan();
+			var late = new TimeSpan();
+			var earlyLeave = new TimeSpan();
 			var overtime = new TimeSpan();
 			var night = new TimeSpan();
 			foreach (var total in Totals)
@@ -405,8 +396,6 @@ namespace FiresecAPI.SKD
 				switch (total.TimeTrackType)
 				{
 					case TimeTrackType.Absence:
-					case TimeTrackType.Late:
-					case TimeTrackType.EarlyLeave:
 					case TimeTrackType.DocumentOvertime:
 					case TimeTrackType.DocumentPresence:
 					case TimeTrackType.DocumentAbsence:
@@ -418,6 +407,12 @@ namespace FiresecAPI.SKD
 						break;
 					case TimeTrackType.Presence:
 						presence = total.TimeSpan;
+						break;
+					case TimeTrackType.Late:
+						late = total.TimeSpan;
+						break;
+					case TimeTrackType.EarlyLeave:
+						earlyLeave = total.TimeSpan;
 						break;
 					case TimeTrackType.Overtime:
 						overtime = total.TimeSpan;
@@ -446,6 +441,10 @@ namespace FiresecAPI.SKD
 					}
 					return TimeTrackType.DayOff;
 				}
+				if (late > AllowedLate)
+					return TimeTrackType.Late;
+				if (earlyLeave > AllowedEarlyLeave)
+					return TimeTrackType.EarlyLeave;
 				if (overtime != TimeSpan.Zero)
 					return TimeTrackType.Overtime;
 			}
