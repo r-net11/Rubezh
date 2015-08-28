@@ -296,7 +296,6 @@
           <Property Name="CardUID" Type="uniqueidentifier" />
           <Property Name="AccessTemplateUID" Type="uniqueidentifier" />
           <Property Name="EnterScheduleNo" Type="int" Nullable="false" />
-          <Property Name="ExitScheduleNo" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="DayInterval">
           <Key>
@@ -1512,7 +1511,6 @@
           <Property Name="CardUID" Type="Guid" />
           <Property Name="AccessTemplateUID" Type="Guid" />
           <Property Name="EnterScheduleNo" Type="Int32" Nullable="false" />
-          <Property Name="ExitScheduleNo" Type="Int32" Nullable="false" />
           <NavigationProperty Name="AccessTemplate" Relationship="SKDModel.FK_CardDoor_AccessTemplate" FromRole="CardDoor" ToRole="AccessTemplate" />
           <NavigationProperty Name="Card" Relationship="SKDModel.FK_CardDoor_Card" FromRole="CardDoor" ToRole="Card" />
         </EntityType>
@@ -2558,7 +2556,6 @@
             <ScalarProperty Name="CardUID" ColumnName="CardUID" />
             <ScalarProperty Name="AccessTemplateUID" ColumnName="AccessTemplateUID" />
             <ScalarProperty Name="EnterScheduleNo" ColumnName="EnterScheduleNo" />
-            <ScalarProperty Name="ExitScheduleNo" ColumnName="ExitScheduleNo" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
           <EntitySetMapping Name="DayIntervals"><EntityTypeMapping TypeName="SKDModel.DayInterval"><MappingFragment StoreEntitySet="DayInterval">
             <ScalarProperty Name="UID" ColumnName="UID" />

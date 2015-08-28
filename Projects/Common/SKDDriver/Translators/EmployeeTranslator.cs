@@ -12,13 +12,13 @@ namespace SKDDriver
 {
 	public class EmployeeTranslator : WithShortTranslator<DataAccess.Employee, Employee, EmployeeFilter, ShortEmployee>
 	{
-		private readonly EFDataAccess.SKDEntities EFContext;
+		private readonly EFDataAccess.SKDEntities1 EFContext;
 
 		public EmployeeTranslator(SKDDatabaseService databaseService)
 			: base(databaseService)
 		{
 			Synchroniser = new EmployeeSynchroniser(Table, databaseService);
-			EFContext = new EFDataAccess.SKDEntities(@"metadata=res://*/EFDataAccess.SKDModel.csdl|res://*/EFDataAccess.SKDModel.ssdl|res://*/EFDataAccess.SKDModel.msl;
+			EFContext = new EFDataAccess.SKDEntities1(@"metadata=res://*/EFDataAccess.SKDModel.csdl|res://*/EFDataAccess.SKDModel.ssdl|res://*/EFDataAccess.SKDModel.msl;
 				provider=System.Data.SqlClient;provider connection string='data source=02-KBP-NIO-0524\SQLEXPRESS;
 				initial catalog=SKD;integrated security=True;
 				multipleactiveresultsets=True'");

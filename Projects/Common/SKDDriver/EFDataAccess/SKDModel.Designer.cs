@@ -75,14 +75,14 @@ namespace SKDDriver.EFDataAccess
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    public partial class SKDEntities : ObjectContext
+    public partial class SKDEntities1 : ObjectContext
     {
         #region Constructors
 
         /// <summary>
         /// Initializes a new SKDEntities1 object using the connection string found in the 'SKDEntities1' section of the application configuration file.
         /// </summary>
-        public SKDEntities() : base("name=SKDEntities1", "SKDEntities1")
+        public SKDEntities1() : base("name=SKDEntities1", "SKDEntities1")
         {
             this.ContextOptions.LazyLoadingEnabled = true;
             OnContextCreated();
@@ -91,7 +91,7 @@ namespace SKDDriver.EFDataAccess
         /// <summary>
         /// Initialize a new SKDEntities1 object.
         /// </summary>
-        public SKDEntities(string connectionString) : base(connectionString, "SKDEntities1")
+        public SKDEntities1(string connectionString) : base(connectionString, "SKDEntities1")
         {
             this.ContextOptions.LazyLoadingEnabled = true;
             OnContextCreated();
@@ -100,7 +100,7 @@ namespace SKDDriver.EFDataAccess
         /// <summary>
         /// Initialize a new SKDEntities1 object.
         /// </summary>
-        public SKDEntities(EntityConnection connection) : base(connection, "SKDEntities1")
+        public SKDEntities1(EntityConnection connection) : base(connection, "SKDEntities1")
         {
             this.ContextOptions.LazyLoadingEnabled = true;
             OnContextCreated();
@@ -2424,14 +2424,12 @@ namespace SKDDriver.EFDataAccess
         /// <param name="uID">Initial value of the UID property.</param>
         /// <param name="doorUID">Initial value of the DoorUID property.</param>
         /// <param name="enterScheduleNo">Initial value of the EnterScheduleNo property.</param>
-        /// <param name="exitScheduleNo">Initial value of the ExitScheduleNo property.</param>
-        public static CardDoor CreateCardDoor(global::System.Guid uID, global::System.Guid doorUID, global::System.Int32 enterScheduleNo, global::System.Int32 exitScheduleNo)
+        public static CardDoor CreateCardDoor(global::System.Guid uID, global::System.Guid doorUID, global::System.Int32 enterScheduleNo)
         {
             CardDoor cardDoor = new CardDoor();
             cardDoor.UID = uID;
             cardDoor.DoorUID = doorUID;
             cardDoor.EnterScheduleNo = enterScheduleNo;
-            cardDoor.ExitScheduleNo = exitScheduleNo;
             return cardDoor;
         }
 
@@ -2561,30 +2559,6 @@ namespace SKDDriver.EFDataAccess
         private global::System.Int32 _EnterScheduleNo;
         partial void OnEnterScheduleNoChanging(global::System.Int32 value);
         partial void OnEnterScheduleNoChanged();
-
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 ExitScheduleNo
-        {
-            get
-            {
-                return _ExitScheduleNo;
-            }
-            set
-            {
-                OnExitScheduleNoChanging(value);
-                ReportPropertyChanging("ExitScheduleNo");
-                _ExitScheduleNo = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("ExitScheduleNo");
-                OnExitScheduleNoChanged();
-            }
-        }
-        private global::System.Int32 _ExitScheduleNo;
-        partial void OnExitScheduleNoChanging(global::System.Int32 value);
-        partial void OnExitScheduleNoChanged();
 
         #endregion
 

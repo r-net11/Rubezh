@@ -1345,8 +1345,6 @@ namespace SKDDriver.DataAccess
 		
 		private int _EnterScheduleNo;
 		
-		private int _ExitScheduleNo;
-		
 		private EntityRef<AccessTemplate> _AccessTemplate;
 		
 		private EntityRef<Card> _Card;
@@ -1365,8 +1363,6 @@ namespace SKDDriver.DataAccess
     partial void OnAccessTemplateUIDChanged();
     partial void OnEnterScheduleNoChanging(int value);
     partial void OnEnterScheduleNoChanged();
-    partial void OnExitScheduleNoChanging(int value);
-    partial void OnExitScheduleNoChanged();
     #endregion
 		
 		public CardDoor()
@@ -1480,26 +1476,6 @@ namespace SKDDriver.DataAccess
 					this._EnterScheduleNo = value;
 					this.SendPropertyChanged("EnterScheduleNo");
 					this.OnEnterScheduleNoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ExitScheduleNo", DbType="Int NOT NULL")]
-		public int ExitScheduleNo
-		{
-			get
-			{
-				return this._ExitScheduleNo;
-			}
-			set
-			{
-				if ((this._ExitScheduleNo != value))
-				{
-					this.OnExitScheduleNoChanging(value);
-					this.SendPropertyChanging();
-					this._ExitScheduleNo = value;
-					this.SendPropertyChanged("ExitScheduleNo");
-					this.OnExitScheduleNoChanged();
 				}
 			}
 		}
@@ -4759,7 +4735,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Data", DbType="VarBinary(MAX)", UpdateCheck=UpdateCheck.Never)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Data", DbType="VarBinary(MAX)", CanBeNull=true, UpdateCheck=UpdateCheck.Never)]
 		public System.Data.Linq.Binary Data
 		{
 			get
@@ -5230,7 +5206,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Data", DbType="VarBinary(MAX)", UpdateCheck=UpdateCheck.Never)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Data", DbType="VarBinary(MAX)", CanBeNull=true, UpdateCheck=UpdateCheck.Never)]
 		public System.Data.Linq.Binary Data
 		{
 			get
