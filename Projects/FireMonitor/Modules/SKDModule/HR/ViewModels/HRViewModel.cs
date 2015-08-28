@@ -15,7 +15,8 @@ namespace SKDModule.ViewModels
 {
 	public class HRViewModel : ViewPartViewModel
 	{
-		HRFilter Filter;
+		SKDTabItems SKDTabItems;
+		HRFilter Filter { get { return SKDTabItems.Filter; } set { SKDTabItems.Filter = value; } }
 		EmployeeFilter EmployeeFilter;
 		DepartmentFilter DepartmentFilter;
 		PositionFilter PositionFilter;
@@ -33,8 +34,9 @@ namespace SKDModule.ViewModels
 		public PassCardTemplatesViewModel PassCardTemplatesViewModel { get; private set; }
 		public OrganisationsViewModel OrganisationsViewModel { get; private set; }
 
-		public HRViewModel()
+		public HRViewModel(SKDTabItems skdTabItems)
 		{
+			SKDTabItems = skdTabItems;
 			EditFilterCommand = new RelayCommand(OnEditFilter);
 			ChangeIsDeletedCommand = new RelayCommand(OnChangeIsDeleted);
 
@@ -70,7 +72,6 @@ namespace SKDModule.ViewModels
 			var userUID = FiresecManager.CurrentUser.UID;
 			Filter = new HRFilter() { UserUID = userUID };
 			Filter.EmployeeFilter.UserUID = userUID;
-			InitializeFilters();
 		}
 
 		bool _isEmployeesSelected;
@@ -223,7 +224,7 @@ namespace SKDModule.ViewModels
 			{
 				Filter.LogicalDeletationType = value ? LogicalDeletationType.All : LogicalDeletationType.Active;
 				OnPropertyChanged(() => IsWithDeleted);
-				InitializeFilters();
+				SKDTabItems.Initialize();
 			}
 		}
 
@@ -238,7 +239,7 @@ namespace SKDModule.ViewModels
 				Filter = filterViewModel.Filter;
 				OnPropertyChanged(() => IsWithDeleted);
 				OnPropertyChanged(() => FilterImageSource);
-				InitializeFilters();
+				SKDTabItems.Initialize();
 			}
 		}
 		public RelayCommand ChangeIsDeletedCommand { get; private set; }
@@ -249,7 +250,7 @@ namespace SKDModule.ViewModels
 
 		public string FilterImageSource { get { return Filter.EmployeeFilter.IsNotEmpty ? "archive" : "filter"; } }
 		
-		void InitializeFilters()
+		public void Initialize()
 		{
 			DepartmentFilter = new DepartmentFilter() 
 			{ 
@@ -293,10 +294,7 @@ namespace SKDModule.ViewModels
 			PassCardTemplatesViewModel.Initialize(PassCardTemplateFilter);
 			OrganisationsViewModel.Initialize(Filter.LogicalDeletationType);
 			EmployeesViewModel.Initialize(EmployeeFilter);
-            
-            ServiceFactory.Events.GetEvent<ChangeIsDeletedEvent>().Publish(Filter.LogicalDeletationType);
-			ServiceFactory.Events.GetEvent<UpdateFilterEvent>().Publish(Filter);
-		}
+        }
 
 		void InitializeEmployeeFilter()
 		{
