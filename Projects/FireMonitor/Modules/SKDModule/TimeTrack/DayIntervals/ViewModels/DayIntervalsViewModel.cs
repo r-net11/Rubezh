@@ -44,10 +44,15 @@ namespace SKDModule.ViewModels
                 var hasDayOff = organisation.Children.Any(x => x.Name == "Выходной");
                 if (!hasDayOff)
                 {
-                    var interval = new DayInterval() { Name = "Выходной", DayIntervalParts = new List<DayIntervalPart>(), UID = Guid.NewGuid() };
-                    interval.OrganisationUID = organisation.UID;
+                    var interval = new DayInterval() 
+					{ 
+						Name = "Выходной", 
+						DayIntervalParts = new List<DayIntervalPart>(), 
+						UID = Guid.NewGuid(), 
+						OrganisationUID = organisation.UID 
+					};
                     Add(interval);
-                    Initialize();
+                   // Initialize();
                 }
             }
 		}

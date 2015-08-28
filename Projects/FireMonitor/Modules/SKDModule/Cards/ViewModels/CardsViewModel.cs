@@ -174,8 +174,6 @@ namespace SKDModule.ViewModels
 
 		public void Initialize(CardFilter filter)
 		{
-			var stopwatch = new Stopwatch();
-			stopwatch.Start();
 			var organisations = OrganisationHelper.GetByCurrentUser();
 			if (organisations == null)
 				return;
@@ -207,8 +205,6 @@ namespace SKDModule.ViewModels
 			}
 			OnPropertyChanged(() => RootItems);
 			OnPropertyChanged(() => RootItemsArray);
-			stopwatch.Stop();
-			Trace.WriteLine("CardsViewModel.Initialize" + stopwatch.Elapsed);
 		}
 		
 		ObservableCollection<CardViewModel> rootItems;

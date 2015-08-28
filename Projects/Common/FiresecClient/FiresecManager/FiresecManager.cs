@@ -75,6 +75,11 @@ namespace FiresecClient
             }
         }
 
+		public static OperationResult CheckDB()
+		{
+			return FiresecService.CheckDB();
+		}
+
 		public static string GetIP()
 		{
 			return FiresecService.Ping();

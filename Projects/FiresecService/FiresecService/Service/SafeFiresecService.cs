@@ -414,5 +414,10 @@ namespace FiresecService.Service
 		}
 
 		#endregion
+
+		public OperationResult CheckDB()
+		{
+			return SafeOperationCall(() => FiresecService.CheckDB(), "CheckDB");
+		}
     }
 }

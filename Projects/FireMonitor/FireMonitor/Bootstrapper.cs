@@ -39,6 +39,15 @@ namespace FireMonitor
 				_password = ServiceFactory.StartupService.Password;
 				try
 				{
+
+					var checkDBResult = FiresecManager.CheckDB();
+					if (checkDBResult.HasError)
+					{
+						MessageBoxService.Show(checkDBResult.Error, "Ошибка подключения к БД");
+						ShutDown();
+						return false;
+					}
+					
 					CreateModules();
 
                     ServiceFactory.StartupService.DoStep("Загрузка лицензии");
@@ -77,12 +86,11 @@ namespace FireMonitor
 					else
 					{
 						MessageBoxService.Show("Нет прав на работу с программой");
-						FiresecManager.Disconnect();
-
-						if (Application.Current != null)
-							Application.Current.Shutdown();
+						ShutDown();
 						return false;
 					}
+
+					
 
                     SafeFiresecService.ReconnectionErrorEvent += x => { ApplicationService.Invoke(OnReconnectionError, x); };
 
@@ -113,6 +121,13 @@ namespace FireMonitor
 				return false;
 			}
 			return result;
+		}
+
+		static void ShutDown()
+		{
+			FiresecManager.Disconnect();
+			if (Application.Current != null)
+				Application.Current.Shutdown();
 		}
 
         protected virtual bool Run()

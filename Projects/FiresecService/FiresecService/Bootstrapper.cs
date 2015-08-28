@@ -45,8 +45,14 @@ namespace FiresecService
                     UILogger.Log("Ошибка лицензии", true);
 
 				UILogger.Log("Проверка соединения с БД");
-				if(!DbService.CheckConnection())
-					UILogger.Log("Ошибка соединения с БД", true);
+				using (var dbService = new DbService())
+				{
+					if (dbService.CheckConnection().HasError)
+					{
+						UILogger.Log("Ошибка соединения с БД", true);
+						BalloonHelper.ShowFromServer("Ошибка соединения с БД");
+					}
+				}
 				//PatchManager.Patch();
 
 				UILogger.Log("Открытие хоста");
