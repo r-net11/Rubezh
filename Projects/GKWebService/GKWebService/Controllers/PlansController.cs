@@ -16,7 +16,7 @@ namespace GKWebService.Controllers
                 ContentType = contentType,
                 ContentEncoding = contentEncoding,
                 JsonRequestBehavior = behavior,
-                MaxJsonLength = Int32.MaxValue
+                MaxJsonLength = int.MaxValue
             };
         }
 
@@ -36,7 +36,7 @@ namespace GKWebService.Controllers
 
             if (plan != null)
             {
-                var result = Json(plan.Elements, JsonRequestBehavior.AllowGet);
+                var result = Json(plan, JsonRequestBehavior.AllowGet);
                 return result;
             }
             else return HttpNotFound($"План с ID {planGuid} не найден");

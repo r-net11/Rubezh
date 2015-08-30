@@ -57,7 +57,9 @@ namespace GKWebService.DataProviders
                                 {
                                     Name = plan.Caption,
                                     Uid = plan.UID,
-                                    Description = plan.Description
+                                    Description = plan.Description,
+                                    Width = plan.Width,
+                                    Height = plan.Height
                                 };
                 planToAdd.Elements = new List<PlanElement>
                                      {
