@@ -12,6 +12,7 @@ using System.Windows.Media;
 using FiresecAPI.Models;
 using FiresecClient;
 using GKWebService.Models;
+using Infrastructure.Common.Services.Content;
 using Infrustructure.Plans.Elements;
 using Color = System.Windows.Media.Color;
 using Point = System.Windows.Point;
@@ -38,6 +39,8 @@ namespace GKWebService.DataProviders
         {
             var plans = FiresecManager.PlansConfiguration.Plans;
             Plans = new List<PlanSimpl>();
+            //FileConfigurationHelper.LoadFromFile(fileName);
+            var contService = new ContentService("WebClient");
             foreach (var plan in plans)
             {
                 //var z = GKManager.Zones;
@@ -78,25 +81,77 @@ namespace GKWebService.DataProviders
                                              Type = ShapeTypes.Plan.ToString()
                                          }
                                      };
-                // Конвертим зоны-полигоны
-                foreach (var planElement in plan.ElementPolygonGKDirections)
+                var rectangles =
+                    (from rect in plan.ElementRectangles
+                     select rect as ElementBaseRectangle)
+                        .Union
+                        (from rect in plan.ElementRectangleGKZones
+                         select rect as ElementBaseRectangle)
+                        .Union
+                        (from rect in plan.ElementRectangleGKDelays
+                         select rect as ElementBaseRectangle)
+                        .Union
+                        (from rect in plan.ElementRectangleGKDirections
+                         select rect as ElementBaseRectangle)
+                        .Union
+                        (from rect in plan.ElementRectangleGKGuardZones
+                         select rect as ElementBaseRectangle)
+                        .Union
+                        (from rect in plan.ElementRectangleGKMPTs
+                         select rect as ElementBaseRectangle)
+                        .Union
+                        (from rect in plan.ElementRectangleGKSKDZones
+                         select rect as ElementBaseRectangle);
+
+
+                // Конвертим зоны-прямоугольники
+                foreach (var rectangle in rectangles.ToList())
                 {
-                    var elemToAdd = PolygonToShape(planElement);
+                    var elemToAdd = RectangleToShape(rectangle);
+                    var asDirection = rectangle as IElementDirection;
+
                     elemToAdd.Hint =
-                        GKManager.Directions.FirstOrDefault(d => d.UID == planElement.DirectionUID)?
+                        GKManager.Directions.FirstOrDefault(
+                            d => asDirection != null && d.UID == asDirection.DirectionUID)?
                                  .PresentationName;
                     planToAdd.Elements.Add(elemToAdd);
                 }
 
-                // Конвертим зоны-прямоугольники
-                foreach (var planElement in plan.ElementRectangleGKDirections)
+                var polygons =
+                    (from rect in plan.ElementPolygons
+                     select rect as ElementBasePolygon)
+                        .Union
+                        (from rect in plan.ElementPolygonGKZones
+                         select rect as ElementBasePolygon)
+                        .Union
+                        (from rect in plan.ElementPolygonGKDelays
+                         select rect as ElementBasePolygon)
+                        .Union
+                        (from rect in plan.ElementPolygonGKDirections
+                         select rect as ElementBasePolygon)
+                        .Union
+                        (from rect in plan.ElementPolygonGKGuardZones
+                         select rect as ElementBasePolygon)
+                        .Union
+                        (from rect in plan.ElementPolygonGKMPTs
+                         select rect as ElementBasePolygon)
+                        .Union
+                        (from rect in plan.ElementPolygonGKSKDZones
+                         select rect as ElementBasePolygon);
+
+                // Конвертим зоны-полигоны
+                foreach (var polygon in polygons)
                 {
-                    var elemToAdd = RectangleToShape(planElement);
+                    var elemToAdd = PolygonToShape(polygon);
+                    var asDirection = polygon as IElementDirection;
+
                     elemToAdd.Hint =
-                        GKManager.Directions.FirstOrDefault(d => d.UID == planElement.DirectionUID)?
+                        GKManager.Directions.FirstOrDefault(
+                            d => asDirection != null && d.UID == asDirection.DirectionUID)?
                                  .PresentationName;
                     planToAdd.Elements.Add(elemToAdd);
                 }
+
 
                 // Конвертим устройства
                 foreach (var planElement in plan.ElementGKDevices)
@@ -160,22 +215,22 @@ namespace GKWebService.DataProviders
                          item.GetRectangle().BottomLeft
                      };
             var shape = new PlanElement
-            {
-                Path = PointsToPath(pt),
-                Border = ConvertColor(item.BorderColor),
-                Fill = ConvertColor(item.BackgroundColor),
-                BorderMouseOver = ConvertColor(item.BorderColor),
-                FillMouseOver = ConvertColor(item.BackgroundColor),
-                Name = item.PresentationName,
-                Id = item.UID,
-                BorderThickness = item.BorderThickness,
-                Type = ShapeTypes.Path.ToString()
-            };
+                        {
+                            Path = PointsToPath(pt),
+                            Border = ConvertColor(item.BorderColor),
+                            Fill = ConvertColor(item.BackgroundColor),
+                            BorderMouseOver = ConvertColor(item.BorderColor),
+                            FillMouseOver = ConvertColor(item.BackgroundColor),
+                            Name = item.PresentationName,
+                            Id = item.UID,
+                            BorderThickness = item.BorderThickness,
+                            Type = ShapeTypes.Path.ToString()
+                        };
             return shape;
         }
 
-
         #region Utils
+
         /// <summary>
         /// Получение иконок для устройств из ресурсов проекта Controls
         /// </summary>
@@ -183,7 +238,7 @@ namespace GKWebService.DataProviders
         /// <returns></returns>
         private Tuple<string, Size> GetImageResource(string resName)
         {
-            var assembly = Assembly.GetAssembly(typeof(Controls.AlarmButton));
+            var assembly = Assembly.GetAssembly(typeof (Controls.AlarmButton));
             var name =
                 assembly.GetManifestResourceNames().FirstOrDefault(n => n.EndsWith(".resources"));
             var resourceStream = assembly.GetManifestResourceStream(name);
@@ -230,7 +285,8 @@ namespace GKWebService.DataProviders
         private System.Drawing.Color ConvertColor(Color source)
         {
             return System.Drawing.Color.FromArgb(source.A, source.R, source.G, source.B);
-        } 
+        }
+
         #endregion
     }
 }
