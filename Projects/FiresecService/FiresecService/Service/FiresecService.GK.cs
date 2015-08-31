@@ -220,6 +220,8 @@ namespace FiresecService.Service
 
 		public OperationResult<bool> GKRewriteAllSchedules(Guid deviceUID)
 		{
+			if (SKDDriver.DataClasses.DbService.ConnectionOperationResult.HasError)
+				return OperationResult<bool>.FromError("Отсутствует подключение к БД");
 			var gkControllerDevice = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (gkControllerDevice != null)
 			{
@@ -504,6 +506,8 @@ namespace FiresecService.Service
 
 		public OperationResult<bool> GKRewriteUsers(Guid deviceUID)
 		{
+			if (SKDDriver.DataClasses.DbService.ConnectionOperationResult.HasError)
+				return OperationResult<bool>.FromError("Отсутствует подключение к БД");
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{

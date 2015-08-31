@@ -43,7 +43,7 @@ namespace FiresecService.Service
 
 		public OperationResult<bool> Connect(Guid uid, ClientCredentials clientCredentials, bool isNew)
 		{
-			if (DbService.ConnectionOperationResult.HasError)
+			if (DbService.ConnectionOperationResult.HasError && clientCredentials.ClientType != ClientType.Administrator)
 				return OperationResult<bool>.FromError("Отсутствует подключение к БД");
 			clientCredentials.ClientUID = uid;
 			InitializeClientCredentials(clientCredentials);

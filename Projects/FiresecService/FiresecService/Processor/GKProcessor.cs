@@ -124,7 +124,9 @@ namespace FiresecService
 						{
 							if (device != null)
 							{
-								var pendingCards = databaseService.CardTranslator.GetAllPendingCards(device.UID).ToList();
+								var pendingCards = databaseService.CardTranslator.GetAllPendingCards(device.UID);
+								if (pendingCards == null)
+									return;
 								foreach (var pendingCard in pendingCards)
 								{
 									var operationResult = databaseService.CardTranslator.GetSingle(pendingCard.CardUID);
@@ -137,7 +139,7 @@ namespace FiresecService
 
 										if ((PendingCardAction)pendingCard.Action == PendingCardAction.Delete)
 										{
-											var result = GKSKDHelper.RemoveCard(device, card);
+											var result = GKSKDHelper.RemoveCard(device, card, databaseService);
 											if (!result.HasError)
 											{
 												databaseService.CardTranslator.DeleteAllPendingCards(pendingCard.CardUID, device.UID);
@@ -150,7 +152,7 @@ namespace FiresecService
 											{
 												case PendingCardAction.Add:
 												case PendingCardAction.Edit:
-													var result = GKSKDHelper.AddOrEditCard(controllerCardSchedule, card, employeeName);
+													var result = GKSKDHelper.AddOrEditCard(controllerCardSchedule, card, employeeName, dbService: databaseService);
 													if (!result.HasError)
 													{
 														databaseService.CardTranslator.DeleteAllPendingCards(pendingCard.CardUID, device.UID);
