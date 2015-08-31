@@ -48,7 +48,7 @@ namespace SKDDriver.DataClasses
 			{
 				var tableItem = Context.NightSettings.FirstOrDefault(x => x.OrganisationUID == organisationUID);
 				if (tableItem == null)
-					return OperationResult<API.NightSettings>.FromError("Настройки ночных и вечерних интервалов для данной организации не найдены");
+					return new OperationResult<API.NightSettings>();
 				return new OperationResult<API.NightSettings>(Transalte(tableItem));
 			}
 			catch (Exception e)

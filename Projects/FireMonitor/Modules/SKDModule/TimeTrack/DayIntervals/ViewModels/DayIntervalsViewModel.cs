@@ -16,10 +16,11 @@ namespace SKDModule.ViewModels
 		public override void Initialize(DayIntervalFilter filter)
 		{
 			base.Initialize(filter);
+			var isAdd = false;
 			foreach (var organisation in Organisations)
 			{
-				var hasDayOff = organisation.Children.Any(x => x.Name == "Выходной");
-				if (!hasDayOff)
+				var dayoff = organisation.Children.FirstOrDefault(x => x.Name == "Выходной");
+				if (dayoff == null)
 				{
 					var interval = new DayInterval()
 					{
@@ -29,8 +30,15 @@ namespace SKDModule.ViewModels
 						OrganisationUID = organisation.UID
 					};
 					Add(interval);
+					isAdd = true;
+				}
+				else
+				{
+					organisation.RemoveChild(dayoff);
+					organisation.AddChildFirst(dayoff);
 				}
 			}
+			if (isAdd) base.Initialize(filter);
 		}
 
 		public void Select(Guid dayIntervalUID)

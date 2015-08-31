@@ -28,19 +28,20 @@ namespace FiresecService.ViewModels
 			Logs = new ObservableCollection<LogViewModel>();
 			GKViewModels = new ObservableCollection<GKViewModel>();
             LicenseViewModel = new LicenseViewModel();
-			SetTitle(LicenseHelper.LicenseMode == LicenseMode.Demonstration);
-			LicenseHelper.LicenceChanged += LicenseHelper_LicenceChanged;
+			LicenseHelper.LicenseChanged += LicenseHelper_LicenseChanged;
+			SetTitle();
 		}
 
-		void SetTitle(bool isDemonstration)
+		void SetTitle()
 		{
-			Title = isDemonstration ? "Сервер приложений Глобал [Демонстрационный режим]" : "Сервер приложений Глобал";
+			Title = LicenseHelper.LicenseMode == LicenseMode.Demonstration ? 
+				"Сервер приложений Глобал [Демонстрационный режим]" : 
+				"Сервер приложений Глобал";
 		}
 
-		void LicenseHelper_LicenceChanged(string propertyName, object oldValue, object newValue)
+		void LicenseHelper_LicenseChanged()
 		{
-			if (propertyName == "LicenseMode")
-				SetTitle((LicenseMode)newValue == LicenseMode.Demonstration);
+			SetTitle();
 		}
 
 		void MessageBoxHandler(MessageBoxViewModel viewModel, bool isModal)

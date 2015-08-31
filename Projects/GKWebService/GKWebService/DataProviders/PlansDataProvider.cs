@@ -33,7 +33,13 @@ namespace GKWebService.DataProviders
         private static PlansDataProvider _instance;
 
         public static PlansDataProvider Instance
-            => _instance ?? (_instance = new PlansDataProvider());
+        {
+            get
+            {
+                if (_instance != null) return _instance;
+                return _instance = new PlansDataProvider();
+            }
+        }
 
         public List<PlanSimpl> Plans { get; set; }
 
@@ -113,10 +119,16 @@ namespace GKWebService.DataProviders
                     var elemToAdd = RectangleToShape(rectangle);
                     var asDirection = rectangle as IElementDirection;
 
-                    elemToAdd.Hint =
-                        GKManager.Directions.FirstOrDefault(
-                            d => asDirection != null && d.UID == asDirection.DirectionUID)?
-                                 .PresentationName;
+                    var firstOrDefault = GKManager.Directions.FirstOrDefault(
+                        d => asDirection != null && d.UID == asDirection.DirectionUID);
+                    if (firstOrDefault != null)
+                    {
+                        if (firstOrDefault.PresentationName != null)
+                        {
+                            elemToAdd.Hint =
+                                firstOrDefault.PresentationName;
+                        }
+                    }
                     planToAdd.Elements.Add(elemToAdd); 
                 }
 
@@ -148,10 +160,16 @@ namespace GKWebService.DataProviders
                     var elemToAdd = PolygonToShape(polygon);
                     var asDirection = polygon as IElementDirection;
 
-                    elemToAdd.Hint =
-                        GKManager.Directions.FirstOrDefault(
-                            d => asDirection != null && d.UID == asDirection.DirectionUID)?
-                                 .PresentationName;
+                    var firstOrDefault = GKManager.Directions.FirstOrDefault(
+                        d => asDirection != null && d.UID == asDirection.DirectionUID);
+                    if (firstOrDefault != null)
+                    {
+                        if (firstOrDefault.PresentationName != null)
+                        {
+                            elemToAdd.Hint =
+                                firstOrDefault.PresentationName;
+                        }
+                    }
                     planToAdd.Elements.Add(elemToAdd);
                 }
 
@@ -195,7 +213,8 @@ namespace GKWebService.DataProviders
         {
             var device =
                 GKManager.Devices.FirstOrDefault(d => d.UID == item.DeviceUID);
-            var imagePath = device?.ImageSource.Replace("/Controls;component/", "");
+            var imagePath = device != null ? device.ImageSource.Replace("/Controls;component/", "") : null;
+            if (imagePath == null) return null;
             var imageData = GetImageResource(imagePath);
 
             var shape = new PlanElement
@@ -203,7 +222,7 @@ namespace GKWebService.DataProviders
                             Name = item.PresentationName,
                             Id = item.UID,
                             Image = imageData.Item1,
-                            Hint = device?.PresentationName,
+                            Hint = device.PresentationName,
                             X = item.Left,
                             Y = item.Top,
                             Height = imageData.Item2.Height,

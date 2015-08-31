@@ -134,7 +134,7 @@ namespace FiresecService.Service
                 NumberOfUsers = LicenseHelper.NumberOfUsers,
                 ControlScripts = LicenseHelper.ControlScripts,
                 FireAlarm = LicenseHelper.FireAlarm,
-                OrsServer = LicenseHelper.OrsServer,
+                OpcServer = LicenseHelper.OpcServer,
                 SecurityAlarm = LicenseHelper.SecurityAlarm,
                 Skd = LicenseHelper.Skd
             });

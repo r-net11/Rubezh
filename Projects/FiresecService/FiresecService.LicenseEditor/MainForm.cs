@@ -54,7 +54,7 @@ namespace FiresecService.LicenseEditor
                     param = license.Parameters.FirstOrDefault(x => x.Id == "ControlScripts");
                     checkBoxControlScripts.Checked = param == null ? false : (bool)param.Value;
                     param = license.Parameters.FirstOrDefault(x => x.Id == "OrsServer");
-                    checkBoxOrsServer.Checked = param == null ? false : (bool)param.Value;
+                    checkBoxOpcServer.Checked = param == null ? false : (bool)param.Value;
                 }
             }
         }
@@ -77,7 +77,7 @@ namespace FiresecService.LicenseEditor
                 license.Parameters.Add(new LicenseParameter("SecurityAlarm", "Охранная сигнализация", checkBoxSecurityAlarm.Checked));
                 license.Parameters.Add(new LicenseParameter("Skd", "СКД", checkBoxSkd.Checked));
                 license.Parameters.Add(new LicenseParameter("ControlScripts", "Сценарии управления", checkBoxControlScripts.Checked));
-                license.Parameters.Add(new LicenseParameter("OrsServer", "ОРС-Сервер", checkBoxOrsServer.Checked));
+                license.Parameters.Add(new LicenseParameter("OrsServer", "ОРС-Сервер", checkBoxOpcServer.Checked));
 
                 if (LicenseProcessor.ProcessSave(saveFileDialog.FileName, license, key))
                 {
