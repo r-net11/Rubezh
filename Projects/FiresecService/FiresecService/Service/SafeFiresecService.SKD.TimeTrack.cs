@@ -190,6 +190,11 @@ namespace FiresecService.Service
 			return SafeContext.Execute(() => FiresecService.SaveAllTimeTracks(collectionToSave, employee, currentUser));
 		}
 
+		public OperationResult<IEnumerable<DayTimeTrackPart>> GetIntersectionIntervals(DayTimeTrackPart currentDayTimeTrackPart, ShortEmployee currentEmployee)
+		{
+			return SafeContext.Execute(() => FiresecService.GetIntersectionIntervals(currentDayTimeTrackPart, currentEmployee));
+		}
+
 		public OperationResult DeletePassJournal(Guid uid)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.DeletePassJournal(uid));

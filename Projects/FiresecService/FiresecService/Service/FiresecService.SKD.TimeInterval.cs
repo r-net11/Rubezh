@@ -387,6 +387,14 @@ namespace FiresecService.Service
 			}
 		}
 
+		public OperationResult<IEnumerable<DayTimeTrackPart>> GetIntersectionIntervals(DayTimeTrackPart currentDayTimeTrackPart, ShortEmployee currentEmployee)
+		{
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.PassJournalTranslator.GetIntersectionIntervals(currentDayTimeTrackPart, currentEmployee);
+			}
+		}
+
 		public OperationResult DeletePassJournal(Guid uid)
 		{
 			using (var databaseService = new SKDDatabaseService())
