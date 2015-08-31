@@ -15,10 +15,10 @@ namespace SKDModule.ViewModels
 		public List<DayTimeTrackPart> IntersectionPartsCollection { get; set; }
 
 		public WarningIntersectionIntervalDialogWindowViewModel(DayTimeTrackPart dayTimeTrackPart,
-			IEnumerable<DayTimeTrackPart> intersectionTimeTrackParts) : this()
+			List<DayTimeTrackPart> intersectionTimeTrackParts) : this()
 		{
 			CurrentDayTimeTrackPart = dayTimeTrackPart;
-			IntersectionPartsCollection = intersectionTimeTrackParts.ToList();
+			IntersectionPartsCollection = intersectionTimeTrackParts;
 		}
 
 		public WarningIntersectionIntervalDialogWindowViewModel()
