@@ -92,6 +92,15 @@ namespace SKDDriver.Translators
 								(tmp.ExitTimeOriginal > x.EnterTime || tmp.EnterTimeOriginal < x.ExitTime))
 					.Where(x => x.ExitTime >= tmp.EnterTimeOriginal)
 					.ToList();
+				List<PassJournal> tmpCollection2 = linkedIntervals
+					.Where(x => (x.UID != el.UID) && (tmp.EnterTimeOriginal.HasValue && tmp.ExitTimeOriginal.HasValue))
+					.Where(
+						x => (tmp.EnterTimeOriginal.Value.Date >= x.EnterTime.Date && tmp.ExitTimeOriginal <= x.ExitTime.Value.Date) &&
+						     (tmp.ExitTimeOriginal <= x.EnterTime || tmp.EnterTimeOriginal >= x.ExitTime))
+					.Where(x => x.ExitTime <= tmp.EnterTimeOriginal)
+					.ToList();
+
+				tmpCollection = tmpCollection.Union(tmpCollection2).ToList();
 
 				if (tmpCollection.Any())
 				{
@@ -116,36 +125,6 @@ namespace SKDDriver.Translators
 				}
 			}
 			return new OperationResult<Dictionary<DayTimeTrackPart, List<DayTimeTrackPart>>>(conflictedIntervals);
-		}
-
-		public OperationResult<IEnumerable<DayTimeTrackPart>> GetIntersectionIntervals(
-			DayTimeTrackPart currentDayTimeTrackPart, ShortEmployee currentEmployee)
-		{
-			var selectedIntervals =
-				Context.PassJournals
-					.Where(x => x.EmployeeUID == currentEmployee.UID)
-					.Where(
-						x =>
-							(currentDayTimeTrackPart.ExitDateTime.Value.Date >= x.ExitTime.Value.Date &&
-							 currentDayTimeTrackPart.EnterDateTime.Value.Date <= x.EnterTime.Date)
-							&&
-							(currentDayTimeTrackPart.ExitDateTime.GetValueOrDefault().TimeOfDay > x.EnterTime.TimeOfDay ||
-							 currentDayTimeTrackPart.EnterDateTime.GetValueOrDefault().TimeOfDay < x.ExitTime.GetValueOrDefault().TimeOfDay)) //Select all intersection intervals
-					.Union(
-						Context.PassJournals.Where(x => x.EmployeeUID == currentEmployee.UID)
-							.Where(x => x.IsOpen && currentDayTimeTrackPart.ExitDateTime > x.EnterTime)); //Select all opened intervals corresponding to current employee
-
-			var resultCollection = selectedIntervals.Select(passJournal =>
-				new DayTimeTrackPart
-				{
-					UID = passJournal.UID,
-					EnterDateTime = passJournal.EnterTime,
-					ExitDateTime = passJournal.ExitTime,
-					TimeTrackZone = new TimeTrackZone {UID = passJournal.ZoneUID}
-				})
-			.ToList();
-
-			return new OperationResult<IEnumerable<DayTimeTrackPart>>(resultCollection);
 		}
 
 		public OperationResult EditPassJournal(DayTimeTrackPart dayTimeTrackPart, ShortEmployee employee, out bool? setAdjustmentFlag, out bool setBordersChangedFlag, out bool setForceClosedFlag)
