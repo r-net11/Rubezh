@@ -47,7 +47,7 @@ namespace GKWebService.Controllers
                 var result = Json(plan, JsonRequestBehavior.AllowGet);
                 return result;
             }
-            else return HttpNotFound($"План с ID {planGuid} не найден");
+            else return HttpNotFound(string.Format("План с ID {0} не найден", planGuid));
         } 
     }
 }
