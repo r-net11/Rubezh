@@ -26,6 +26,10 @@ namespace Infrastructure.Client.ConnectionIndicator.Views
 
 		private void UserControl_Loaded(object sender, RoutedEventArgs e)
 		{
+			// В режиме дизайнера ничего не делаем
+			if (DesignerProperties.GetIsInDesignMode(this))
+				return;
+
 			OnSKDObjectsStateChangedEvent(true);
 			ServiceFactoryBase.Events.GetEvent<SKDObjectsStateChangedEvent>().Unsubscribe(OnSKDObjectsStateChangedEvent);
 			ServiceFactoryBase.Events.GetEvent<SKDObjectsStateChangedEvent>().Subscribe(OnSKDObjectsStateChangedEvent);
