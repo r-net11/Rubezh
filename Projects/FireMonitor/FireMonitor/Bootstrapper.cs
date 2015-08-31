@@ -21,8 +21,6 @@ namespace FireMonitor
 {
 	public class Bootstrapper : BaseBootstrapper
 	{
-		private string _login;
-		private string _password;
 		private AutoActivationWatcher _watcher;
 
 		public bool Initialize()
@@ -80,10 +78,9 @@ namespace FireMonitor
 						ShutDown();
 						return false;
 					}
-
-					
-
+															
                     SafeFiresecService.ReconnectionErrorEvent += x => { ApplicationService.Invoke(OnReconnectionError, x); };
+					SafeFiresecService.LicenseChangedEvent += () => { ApplicationService.Invoke(OnLicenseChanged); };
 
 					//MutexHelper.KeepAlive();
 					if (Process.GetCurrentProcess().ProcessName != "FireMonitor.vshost")
@@ -147,6 +144,12 @@ namespace FireMonitor
             }
         }
 
+		void OnLicenseChanged()
+		{
+			MessageBoxService.ShowWarning("Сервер изменил параметры лицензии. Программа будет перезагружена.");
+			Restart();
+		}
+
 		void OnConfigurationChanged()
 		{
 			var restartView = new RestartApplicationViewModel();
@@ -165,7 +168,7 @@ namespace FireMonitor
 				timer.Start();
 			}
 		}
-		private void Restart()
+		void Restart()
 		{
 			using (new WaitWrapper())
 			{
@@ -179,46 +182,7 @@ namespace FireMonitor
 			}
 			RestartApplication();
 		}
-
-		public void RestartApplication()
-		{
-			var processStartInfo = new ProcessStartInfo()
-			{
-				FileName = Application.ResourceAssembly.Location,
-				Arguments = GetRestartCommandLineArguments()
-			};
-			System.Diagnostics.Process.Start(processStartInfo);
-		}
-		string GetRestartCommandLineArguments()
-		{
-			string commandLineArguments = null;
-			if (_login != null && _password != null)
-				commandLineArguments = "login='" + _login + "' password='" + _password + "'";
-			return commandLineArguments;
-		}
-		public void InitializeCommandLineArguments(string[] args)
-		{
-			if (args != null)
-			{
-				if (args.Count() >= 2)
-				{
-					foreach (var arg in args)
-					{
-						if (arg.StartsWith("login='") && arg.EndsWith("'"))
-						{
-							_login = arg.Replace("login='", "");
-							_login = _login.Replace("'", "");
-						}
-						if (arg.StartsWith("password='") && arg.EndsWith("'"))
-						{
-							_password = arg.Replace("password='", "");
-							_password = _password.Replace("'", "");
-						}
-					}
-				}
-			}
-		}
-
+				
 		private void RunWatcher()
 		{
 			_watcher = new AutoActivationWatcher();

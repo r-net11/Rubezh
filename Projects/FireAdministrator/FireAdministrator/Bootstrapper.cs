@@ -25,8 +25,10 @@ namespace FireAdministrator
 			var assembly = GetType().Assembly;
 			ServiceFactory.ResourceService.AddResource(new ResourceDescription(assembly, "DataTemplates/Dictionary.xaml"));
 			ServiceFactory.StartupService.Show();
-			if (ServiceFactory.StartupService.PerformLogin())
+			if (ServiceFactory.StartupService.PerformLogin(_login, _password))
 			{
+				_login = ServiceFactory.StartupService.Login;
+				_password = ServiceFactory.StartupService.Password;
 				try
 				{
                     ServiceFactory.StartupService.DoStep("Загрузка лицензии");
@@ -70,6 +72,9 @@ namespace FireAdministrator
 
 					ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Subscribe(OnConfigurationChanged);
 					ServiceFactory.Events.GetEvent<ConfigurationClosedEvent>().Subscribe(OnConfigurationClosed);
+
+					SafeFiresecService.LicenseChangedEvent += () => ApplicationService.Invoke(OnLicenseChanged);
+
 					MutexHelper.KeepAlive();
 				}
 				catch (StartupCancellationException)
@@ -91,6 +96,27 @@ namespace FireAdministrator
 					Application.Current.Shutdown();
 				return;
 			}
+		}
+
+		void OnLicenseChanged()
+		{
+			MessageBoxService.ShowWarning("Сервер изменил параметры лицензии. Программа будет перезагружена.");
+			Restart();
+		}
+
+		void Restart()
+		{
+			using (new WaitWrapper())
+			{
+				ApplicationService.ApplicationWindow.IsEnabled = false;
+				ServiceFactory.ContentService.Invalidate();
+				FiresecManager.FiresecService.StopPoll();
+				LoadingErrorManager.Clear();
+				ApplicationService.CloseAllWindows();
+				ServiceFactory.Layout.Close();
+				ApplicationService.ShutDown();
+			}
+			RestartApplication();
 		}
 
 		void OnGKProgressCallbackEvent(GKProgressCallback gkProgressCallback)
