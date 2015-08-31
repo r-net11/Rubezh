@@ -21,6 +21,8 @@ namespace FireMonitor
 {
 	public class Bootstrapper : BaseBootstrapper
 	{
+		private string _login;
+		private string _password;
 		private AutoActivationWatcher _watcher;
 
 		public bool Initialize()
@@ -118,7 +120,7 @@ namespace FireMonitor
 				Application.Current.Shutdown();
 		}
 
-        bool Run()
+        protected virtual bool Run()
 		{
 			var result = true;
 			var shell = CreateShell();
@@ -130,7 +132,7 @@ namespace FireMonitor
 			((LayoutService)ServiceFactory.Layout).AddToolbarItem(new AutoActivationViewModel());
 			return result;
 		}
-		ShellViewModel CreateShell()
+		protected virtual ShellViewModel CreateShell()
 		{
 			return new MonitorShellViewModel();
 		}
@@ -181,6 +183,45 @@ namespace FireMonitor
 				ApplicationService.ShutDown();
 			}
 			RestartApplication();
+		}
+
+		public void RestartApplication()
+		{
+			var processStartInfo = new ProcessStartInfo()
+			{
+				FileName = Application.ResourceAssembly.Location,
+				Arguments = GetRestartCommandLineArguments()
+			};
+			System.Diagnostics.Process.Start(processStartInfo);
+		}
+		protected virtual string GetRestartCommandLineArguments()
+		{
+			string commandLineArguments = null;
+			if (_login != null && _password != null)
+				commandLineArguments = "login='" + _login + "' password='" + _password + "'";
+			return commandLineArguments;
+		}
+		public virtual void InitializeCommandLineArguments(string[] args)
+		{
+			if (args != null)
+			{
+				if (args.Count() >= 2)
+				{
+					foreach (var arg in args)
+					{
+						if (arg.StartsWith("login='") && arg.EndsWith("'"))
+						{
+							_login = arg.Replace("login='", "");
+							_login = _login.Replace("'", "");
+						}
+						if (arg.StartsWith("password='") && arg.EndsWith("'"))
+						{
+							_password = arg.Replace("password='", "");
+							_password = _password.Replace("'", "");
+						}
+					}
+				}
+			}
 		}
 				
 		private void RunWatcher()

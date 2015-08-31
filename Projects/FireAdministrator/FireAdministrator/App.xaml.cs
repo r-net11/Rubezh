@@ -7,7 +7,6 @@ using Infrastructure.Client.Startup;
 using Infrastructure.Common;
 using Infrastructure.Common.Theme;
 using Infrastructure.Common.Windows;
-using System.Linq;
 
 namespace FireAdministrator
 {
@@ -31,13 +30,9 @@ namespace FireAdministrator
 				BindingErrorListener.Listen(m => { if (trace) MessageBox.Show(m); });
 #endif
 				_bootstrapper = new Bootstrapper();
-				_bootstrapper.InitializeCommandLineArguments(e.Args);
-				bool force = Application.Current != null && e.Args != null && e.Args.Any(x => x == "restart");
-				using (new DoubleLaunchLocker(SignalId, WaitId, force, true))
+				using (new DoubleLaunchLocker(SignalId, WaitId))
 					_bootstrapper.Initialize();
-				if (Application.Current != null && e.Args != null && e.Args.Length > 0
-					&& !e.Args[0].ToLower().StartsWith("login=") 
-					&& !e.Args[0].ToLower().StartsWith("password="))
+				if (Application.Current != null && e.Args != null && e.Args.Length > 0)
 				{
 					fileName = e.Args[0];
 					FileConfigurationHelper.LoadFromFile(fileName);
