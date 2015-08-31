@@ -64,7 +64,7 @@ namespace AutomationModule
 							new NavigationItem<ShowGlobalVariablesEvent, Guid>(_globalVariablesViewModel, "Глобальные переменные", "GlobalVariables"),
 							new NavigationItem<ShowAutomationSoundsEvent, Guid>(_soundsViewModel, "Звуки", "Music"),
 							new NavigationItem<ShowOPCServersEvent, Guid>(_opcServersViewModel, "OPC Сервера", "Settings2")
-						}) { IsExpanded = true, IsVisible = LicenseHelper.ControlScripts },
+						}) { IsExpanded = true },
 				};
 		}
 
