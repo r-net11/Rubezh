@@ -7,10 +7,6 @@
 		<Views:DateSelectionView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:ConnectionIndicatorViewModel}">
-		<ViewModels:ConnectionIndicatorView />
-	</DataTemplate>
-
 	<DataTemplate DataType="{x:Type ViewModels:OrganisationsFilterViewModel}">
 		<Views:OrganisationsFilterView />
 	</DataTemplate>

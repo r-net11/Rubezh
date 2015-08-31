@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Common.Windows.ViewModels;
 
-namespace SKDModule.ViewModels
+namespace Infrastructure.Client.ConnectionIndicator.ViewModels
 {
 	public class ConnectionIndicatorViewModel : BaseViewModel
 	{
