@@ -9,6 +9,7 @@ using System.Web.Routing;
 using GKWebService.DataProviders;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Mvc;
+using Owin;
 
 namespace GKWebService
 {

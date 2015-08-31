@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Web.Mvc;
 using GKWebService.DataProviders;
+using Microsoft.AspNet.SignalR;
+using Microsoft.AspNet.SignalR.Infrastructure;
 using Microsoft.Practices.Unity;
 
 namespace GKWebService.Controllers
@@ -24,7 +26,13 @@ namespace GKWebService.Controllers
         {
             
             var result = Json(PlansDataProvider.Instance.Plans, JsonRequestBehavior.AllowGet);
-            
+            //var hubContext = GlobalHost.ConnectionManager.GetHubContext<PlansRTStatusUpdaterHub>();
+            var dependencyResolver = GlobalHost.DependencyResolver;
+            var connectionManager = dependencyResolver.Resolve<IConnectionManager>();
+            var hubContext = connectionManager.GetHubContext<PlansRTStatusUpdaterHub>();
+
+            hubContext.Clients.All.Test("Message from server", "Successfully connected to SignalR");
+           
             return result;
         }
 

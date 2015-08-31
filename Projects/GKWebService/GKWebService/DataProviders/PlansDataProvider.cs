@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -9,6 +10,7 @@ using System.Linq;
 using System.Reflection;
 using System.Resources;
 using System.Windows.Media;
+using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecClient;
 using GKWebService.Models;
@@ -41,6 +43,7 @@ namespace GKWebService.DataProviders
             Plans = new List<PlanSimpl>();
             //FileConfigurationHelper.LoadFromFile(fileName);
             var contService = new ContentService("WebClient");
+            SafeFiresecService.GKPropertyChangedEvent += OnGkPropertyChangedEvent;
             foreach (var plan in plans)
             {
                 //var z = GKManager.Zones;
@@ -114,7 +117,7 @@ namespace GKWebService.DataProviders
                         GKManager.Directions.FirstOrDefault(
                             d => asDirection != null && d.UID == asDirection.DirectionUID)?
                                  .PresentationName;
-                    planToAdd.Elements.Add(elemToAdd);
+                    planToAdd.Elements.Add(elemToAdd); 
                 }
 
                 var polygons =
@@ -164,6 +167,11 @@ namespace GKWebService.DataProviders
 
                 Plans.Add(planToAdd);
             }
+        }
+
+        private void OnGkPropertyChangedEvent(GKPropertyChangedCallback callback)
+        {
+            Debug.WriteLine("GK property changed " + callback.ObjectUID);
         }
 
         private PlanElement PolygonToShape(ElementBasePolygon item)

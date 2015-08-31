@@ -7,9 +7,15 @@
 @using System.Web.Optimization
 @Scripts.Render("~/bundles/libs")
 @Scripts.Render("~/bundles/shapesApp")
+@Scripts.Render("~/Scripts/jquery.signalR-2.2.0.min.js")
+<script src="/signalr/hubs"></script>
+@Scripts.Render("~/Scripts/app/signalr/planRTUpdaterHub.js")
+
+
 
 <div ng-app="canvasApp" class="plan">
     <div ng-controller="PlanCtrl">
+        <div class="message"></div>
         <h1 class="">Доступные планы:</h1>
         <div ng-repeat="plan in PlansList">
             <div><a href="" ng-click="LoadPlan(plan.Uid)">
