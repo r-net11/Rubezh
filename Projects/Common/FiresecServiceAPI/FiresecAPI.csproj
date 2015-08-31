@@ -195,6 +195,7 @@
     <Compile Include="IFiresecService.Automation.cs" />
     <Compile Include="IFiresecServiceSKD.TimeTrack.cs" />
     <Compile Include="SKDCallbackResult.cs" />
+    <Compile Include="SKDObjectsStateChangedEvent.cs" />
     <Compile Include="SKDProgressCallback.cs" />
     <Compile Include="IFiresecServiceSKD.cs" />
     <Compile Include="IFiresecService.cs" />

@@ -5,13 +5,13 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using FiresecAPI.Events;
 using FiresecClient;
 using Infrastructure.Common.BalloonTrayTip;
 using Infrastructure.Common.Services;
-using Infrastructure.Events;
 
 // ReSharper disable once CheckNamespace
-namespace SKDModule.ViewModels
+namespace Infrastructure.Client.ConnectionIndicator.Views
 {
 	/// <summary>
 	/// Interaction logic for ConnectionIndicatorView.xaml

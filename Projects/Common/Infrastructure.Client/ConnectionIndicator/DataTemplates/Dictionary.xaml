@@ -1,0 +1,11 @@
+﻿<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:viewModels="clr-namespace:Infrastructure.Client.ConnectionIndicator.ViewModels"
+	xmlns:views="clr-namespace:Infrastructure.Client.ConnectionIndicator.Views">
+
+	<DataTemplate DataType="{x:Type viewModels:ConnectionIndicatorViewModel}">
+		<views:ConnectionIndicatorView />
+	</DataTemplate>
+
+</ResourceDictionary>

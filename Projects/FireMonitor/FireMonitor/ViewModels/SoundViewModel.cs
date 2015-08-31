@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using FiresecAPI;
+using FiresecAPI.Events;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecClient;

@@ -1,7 +1,8 @@
 <UserControl 
 	x:Class="FireAdministrator.Views.MenuView" 
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
-	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:connectionIndicator="clr-namespace:Infrastructure.Client.ConnectionIndicator.Views;assembly=Infrastructure.Client">
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
@@ -24,6 +25,8 @@
 			</MenuItem>
 		</Menu>
 		<StackPanel Orientation="Horizontal" Visibility="{Binding IsMainMenuVisible, Converter={StaticResource BoolToVisibilityConverter}}">
+			<connectionIndicator:ConnectionIndicatorView />
+			<Separator Style="{StaticResource VerticalSeparatorStyle}" Margin="7 7" Opacity="0.6" BorderBrush="LightBlue" BorderThickness="5" />
 			<ToolBarButton Command="{Binding CreateNewCommand}" ImageSource="New" ToolTip="Создать новую конфигурацию" />
 			<ToolBarButton Command="{Binding LoadFromFileCommand}" ImageSource="Load" ToolTip="Открыть конфигурацию из файла" />
 			<ToolBarButton Command="{Binding SaveAsCommand}" ImageSource="Save" ToolTip="Сохранить конфигурацию в файл" />

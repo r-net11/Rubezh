@@ -4,10 +4,6 @@
 	xmlns:ViewModels="clr-namespace:SKDModule.ViewModels"
 	xmlns:Views="clr-namespace:SKDModule.Views">
 
-	<DataTemplate DataType="{x:Type ViewModels:ConnectionIndicatorViewModel}">
-		<ViewModels:ConnectionIndicatorView />
-	</DataTemplate>
-
 	<DataTemplate DataType="{x:Type ViewModels:OrganisationsFilterViewModel}">
 		<Views:OrganisationsFilterView />
 	</DataTemplate>

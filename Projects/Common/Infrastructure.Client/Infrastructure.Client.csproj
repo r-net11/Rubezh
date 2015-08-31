@@ -86,6 +86,10 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="BaseBootstrapper.cs" />
+    <Compile Include="ConnectionIndicator\ViewModels\ConnectionIndicatorViewModel.cs" />
+    <Compile Include="ConnectionIndicator\Views\ConnectionIndicatorView.xaml.cs">
+      <DependentUpon>ConnectionIndicatorView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Images\ImageExtensions.cs" />
     <Compile Include="Images\ImageHelper.cs" />
     <Compile Include="Images\Converters\SVGConverter.cs" />
@@ -193,6 +197,14 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Page Include="ConnectionIndicator\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ConnectionIndicator\Views\ConnectionIndicatorView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
