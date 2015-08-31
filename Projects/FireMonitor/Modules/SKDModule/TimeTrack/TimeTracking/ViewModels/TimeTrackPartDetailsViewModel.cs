@@ -1,15 +1,15 @@
-﻿using FiresecAPI.SKD;
+﻿using System.Globalization;
+using System.Reactive.Linq;
+using FiresecAPI.SKD;
 using FiresecClient;
-using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using ReactiveUI;
-using SKDModule.Helpers;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Reactive.Linq;
+using ReactiveUI;
+using SKDModule.Model;
+using SKDModule.Helpers;
 using DayTimeTrackPart = SKDModule.Model.DayTimeTrackPart;
 using TimeTrackZone = SKDModule.Model.TimeTrackZone;
 
@@ -185,14 +185,29 @@ namespace SKDModule.ViewModels
 
 		public bool Validate()
 		{
-			var intersectionCollection = PassJournalHelper.GetIntersectionIntervals(CurrentTimeTrackPart.ToDTO(), _parent.ShortEmployee).Select(x => new DayTimeTrackPart(x)).ToList();
-			foreach (var dayTimeTrackPart in intersectionCollection)
-			{
-				dayTimeTrackPart.TimeTrackZone = new TimeTrackZone(SKDManager.Zones.FirstOrDefault(x => x.UID == dayTimeTrackPart.TimeTrackZone.UID));
-			}
+			var intersectionCollection = GetIntersectionIntervals(_parent, CurrentTimeTrackPart);
 
 			return !intersectionCollection.Any()
 				|| DialogService.ShowModalWindow(new WarningIntersectionIntervalDialogWindowViewModel(CurrentTimeTrackPart, intersectionCollection));
+		}
+
+		private List<DayTimeTrackPart> GetIntersectionIntervals(TimeTrackDetailsViewModel timeTrackDetailsViewModel, DayTimeTrackPart currentTimeTrackPart)
+		{
+			if (timeTrackDetailsViewModel == null) return new List<DayTimeTrackPart>();
+
+			var list = new List<DayTimeTrackPart>();
+			foreach (var item in timeTrackDetailsViewModel.DayTimeTrackParts.Where(x => x.UID != currentTimeTrackPart.UID))
+			{
+				if (item.IsOpen)
+				{
+					if (CurrentTimeTrackPart.ExitDateTime > item.EnterDateTime)
+						list.Add(item);
+				}
+				else if (item.EnterDateTime < CurrentTimeTrackPart.ExitDateTime && item.ExitDateTime > currentTimeTrackPart.EnterDateTime)
+					list.Add(item);
+			}
+
+			return list;
 		}
 
 		public bool IsIntersection(TimeTrackDetailsViewModel timeTrackDetailsViewModel)
