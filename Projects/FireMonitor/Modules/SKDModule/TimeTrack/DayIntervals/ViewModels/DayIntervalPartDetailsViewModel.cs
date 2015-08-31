@@ -5,6 +5,10 @@ using System.Linq;
 using FiresecAPI.SKD;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure;
+using SKDModule.Events;
+using FiresecClient;
+using FiresecClient.SKDHelpers;
 
 namespace SKDModule.ViewModels
 {
@@ -12,9 +16,9 @@ namespace SKDModule.ViewModels
 	{
 		bool IsNew;
 		DayInterval DayInterval;
+		Guid OrganisationUID;
 		public DayIntervalPart DayIntervalPart { get; private set; }
-		
-		public DayIntervalPartDetailsViewModel(DayInterval dayInterval, DayIntervalPart dayIntervalPart = null)
+		public DayIntervalPartDetailsViewModel(DayInterval dayInterval, Guid organisationUID, DayIntervalPart dayIntervalPart = null)
 		{
 			DayInterval = dayInterval;
 			if (dayIntervalPart == null)
@@ -33,11 +37,18 @@ namespace SKDModule.ViewModels
 			}
 			DayIntervalPart = dayIntervalPart;
 
+			OrganisationUID = organisationUID;
 			AvailableTransitions = new ObservableCollection<DayIntervalPartTransitionType>(Enum.GetValues(typeof(DayIntervalPartTransitionType)).OfType<DayIntervalPartTransitionType>());
 			BeginTime = dayIntervalPart.BeginTime;
 			EndTime = dayIntervalPart.EndTime;
 			SelectedTransition = dayIntervalPart.TransitionType;
+			oldBeginTime = BeginTime;
+			oldEndTime = EndTime;
+			oldTransitionType = SelectedTransition;
 		}
+		TimeSpan oldBeginTime;
+		TimeSpan oldEndTime;
+		DayIntervalPartTransitionType oldTransitionType;
 		TimeSpan _beginTime;
 		public TimeSpan BeginTime
 		{
@@ -84,8 +95,18 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
-			if (!Validate())
+			if (_endTime >= TimeSpan.FromDays(1))
+			{
+				_endTime -= TimeSpan.FromDays(1);
+				_selectedTransition = DayIntervalPartTransitionType.Night;
+			}
+			if (!Validate() || IsIntersection())
+			{
+				SelectedTransition = oldTransitionType;
+				BeginTime = oldBeginTime;
+				EndTime = oldEndTime;
 				return false;
+			}
 			DayIntervalPart.BeginTime = BeginTime;
 			DayIntervalPart.EndTime = EndTime;
 			DayIntervalPart.TransitionType = SelectedTransition;
@@ -176,8 +197,49 @@ namespace SKDModule.ViewModels
 					deitingDayIntervalPart.TransitionType = SelectedTransition;
 				}
 			}
-			dayIntervalParts= dayIntervalParts.OrderBy(item => item.BeginTime).ToList();
+			dayIntervalParts = dayIntervalParts.OrderBy(item => item.BeginTime).ToList();
 			return dayIntervalParts;
+
+
+		}
+		bool IsIntersection()
+		{
+			var scheduleSchemesViewModel = ScheduleSchemesViewModel.Current;
+			scheduleSchemesViewModel.Initialize(new ScheduleSchemeFilter());
+			scheduleSchemesViewModel.ReloadDayIntervals();
+			var scheduleSchemes = scheduleSchemesViewModel.Organisations.FirstOrDefault(x => x.UID == OrganisationUID).Children;
+			{
+				foreach (var sheduleScheme in scheduleSchemes)
+				{
+					sheduleScheme.Initialize();
+					var dayIntervals = sheduleScheme.SheduleDayIntervals;
+					for (int i = 0; i < dayIntervals.Count; i++)
+					{
+						if (dayIntervals[i].SelectedDayInterval.UID == DayIntervalPart.DayIntervalUID)
+						{
+							if (SelectedTransition == DayIntervalPartTransitionType.Night && i != dayIntervals.Count - 1)
+							{
+								var tomorrowIntervalPart = dayIntervals[i + 1].SelectedDayInterval.DayIntervalParts.FirstOrDefault(x => x.Number == 1);
+								if (tomorrowIntervalPart != null && EndTime >= tomorrowIntervalPart.BeginTime)
+								{
+									MessageBoxService.ShowWarning("Графики. Интервал имеет пересечение с графиком другого дня.");
+									return true;
+								}
+							}
+							if (i != 0)
+							{
+								var yesterdayIntervalPart = dayIntervals[i - 1].SelectedDayInterval.DayIntervalParts.FirstOrDefault(x => x.TransitionType == DayIntervalPartTransitionType.Night);
+								if (yesterdayIntervalPart != null && BeginTime <= yesterdayIntervalPart.EndTime)
+								{
+									MessageBoxService.ShowWarning("Графики. Интервал имеет пересечение с графиком другого дня.");
+									return true;
+								}
+							}
+						}
+					}
+				}
+			}
+			return false;
 		}
 	}
 }

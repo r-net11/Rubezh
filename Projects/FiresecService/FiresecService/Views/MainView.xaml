@@ -61,7 +61,7 @@
 							<DataGridTemplateColumn Header="Дата" Width="Auto">
 								<DataGridTemplateColumn.CellTemplate>
 									<DataTemplate>
-										<TextBlock Text="{Binding DateTime}" Margin="2" />
+                                        <TextBlock Text="{Binding DateTime, StringFormat='dd.MM.yyyy HH:mm:ss'}" Margin="2" />
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
@@ -112,7 +112,6 @@
 			<TabItem Header="Лицензирование" DataContext="{Binding LicenseViewModel}">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
@@ -121,9 +120,7 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-					<TextBlock Text="Ключ:" Style="{DynamicResource TextBlockDetailsStyle}" Margin="5"/>
-                    <TextBox Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding InitialKeyString}" IsReadOnly="True" VerticalContentAlignment="Center"/>
-                    <DataGrid Grid.Row="1" Grid.ColumnSpan="3" ItemsSource="{Binding Parameters}" Margin="0 5">
+                    <DataGrid Grid.ColumnSpan="3" ItemsSource="{Binding Parameters}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding Name}" Header="Параметр" Width="*"/>
                             <DataGridTemplateColumn Header="Значение" Width="*">
@@ -167,6 +164,8 @@
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
+                    <TextBlock Grid.Row="1" Text="Ключ:" Style="{DynamicResource TextBlockDetailsStyle}" Margin="5"/>
+                    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding InitialKeyString}" IsReadOnly="True" VerticalContentAlignment="Center" Margin="5"/>
                     <Button Grid.Column="2" Grid.Row="2" Content="Загрузить лицензию" Width="150" Command="{Binding LoadLicenseCommand}"/>
                 </Grid>
             </TabItem>

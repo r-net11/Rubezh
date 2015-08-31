@@ -5,6 +5,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using EntityFramework.BulkInsert.Extensions;
+using System.Data.SqlClient;
+using EntityFramework.BulkInsert.Providers;
+using Infrastructure.Common;
 
 namespace SKDDriver.DataClasses
 {
@@ -64,94 +68,112 @@ namespace SKDDriver.DataClasses
             return Context.Cards.Select(x => x.UID).ToList(); ;
         }
 
-        //var posUIDs = new List<Guid>();
-        //for (int j = 0; j < 1000; j++)
-        //{
-        //    var pos = new DataAccess.Position { Name = "Должность " + i + j, OrganisationUID = org.UID, UID = Guid.NewGuid(), RemovalDate = new DateTime(1900, 1, 1), ExternalKey = "-1" };
-        //    Context.Positions.InsertOnSubmit(pos);
-        //    posUIDs.Add(pos.UID);
-        //}
-        //var deptUIDs = new List<Guid>();
-        //for (int j = 0; j < 100; j++)
-        //{
-        //    var dept = CreateDept("Подразделение " + i + j, org.UID);
-        //    deptUIDs.Add(dept.UID);
-        //    Context.Departments.InsertOnSubmit(dept);
-        //    for (int k = 0; k < 2; k++)
-        //    {
-        //        var dept2 = CreateDept("Подразделение " + i + j + k, org.UID, dept.UID);
-        //        deptUIDs.Add(dept2.UID);
-        //        Context.Departments.InsertOnSubmit(dept2);
-        //        for (int m = 0; m < 2; m++)
-        //        {
-        //            var dept3 = CreateDept("Подразделение " + i + j + k + m, org.UID, dept2.UID);
-        //            deptUIDs.Add(dept3.UID);
-        //            Context.Departments.InsertOnSubmit(dept3);
-        //            for (int n = 0; n < 2; n++)
-        //            {
-        //                var dept4 = CreateDept("Подразделение " + i + j + k + m + n, org.UID, dept3.UID);
-        //                deptUIDs.Add(dept4.UID);
-        //                Context.Departments.InsertOnSubmit(dept4);
-        //            }
-        //        }
-        //    }
-        //}
-        //for (int j = 0; j < 500; j++)
-        //{
-        //    var empl = CreateEmpl("Сотрудник " + i + j + "0", org.UID, deptUIDs.FirstOrDefault(), posUIDs.FirstOrDefault());
-        //    Context.Employees.InsertOnSubmit(empl);
-        //}
-
         public List<Guid> TestEmployeeCards()
         {
-            DeleteAll();
+            Context.Database.Delete();
+			int totalOrganisations = 10;
+			int positionsPerOrganisation = 1000;
+			int rootDepartmentsPerOrganisation = 100;
+			int employeesPerOrganisation = 6500;
+			int cardsPerEmployee = 1;
+
+			int cardNumber = 0;
+			Context.Configuration.AutoDetectChangesEnabled = false;
+			Context.Configuration.ValidateOnSaveEnabled = false;
             var stopwatch = new Stopwatch();
             stopwatch.Start();
             var employees = new List<Employee>();
             var cards = new List<Card>();
-            for (int i = 0; i < 1; i++)
+			var positions = new List<Position>();
+			var departments = new List<Department>();
+			var random = new Random();
+			for (int i = 0; i < totalOrganisations; i++)
             {
                 var org = new Organisation { Name = "Тестовая Организация " + i, UID = Guid.NewGuid(), ExternalKey = "-1" };
                 Context.Organisations.Add(org);
-                var user = new OrganisationUser { UID = Guid.NewGuid(), UserUID = new Guid("10e591fb-e017-442d-b176-f05756d984bb"), OrganisationUID = org.UID };
-                Context.OrganisationUsers.Add(user);
-                
-                for (int j = 0; j < 65535; j++)
-                {
-                    var empl = CreateEmployee(j.ToString(), org.UID);
-                    employees.Add(empl);
-                    var card = CreateCard(j, empl.UID);
-                    cards.Add(card);
-                }
-            }
-            stopwatch.Stop();
-            Trace.WriteLine("GenerateModels " + stopwatch.Elapsed);
 
-            stopwatch = new Stopwatch();
-            stopwatch.Start();
-            bool isBreak = false;
-            int currentPage = 0;
-            int pageSize = 10000;
-            while (!isBreak)
-            {
-                var employeePortion = employees.Skip(currentPage * pageSize).Take(pageSize).ToList();
-                var cardPortion = cards.Skip(currentPage * pageSize).Take(pageSize).ToList();
-                Context.Employees.AddRange(employeePortion);
-                Context.Cards.AddRange(cardPortion);
-                Context.SaveChanges();
-                isBreak = cardPortion.Count < pageSize;
-                currentPage++;
+				var user = new OrganisationUser { UID = Guid.NewGuid(), UserUID = new Guid("10e591fb-e017-442d-b176-f05756d984bb"), OrganisationUID = org.UID };
+				Context.OrganisationUsers.Add(user);
+
+				var organisationPositions = new List<Position>();
+				for (int j = 0; j < positionsPerOrganisation; j++)
+				{
+					var pos = new Position { Name = "Должность " + i + j, OrganisationUID = org.UID, UID = Guid.NewGuid(), RemovalDate = new DateTime(1900, 1, 1), ExternalKey = "-1" };
+					organisationPositions.Add(pos);
+				}
+
+				var opranisationDepartments = new List<Department>();
+				for (int j = 0; j < rootDepartmentsPerOrganisation; j++)
+				{
+					var dept = new Department{ UID = Guid.NewGuid(), Name = "Подразделение " + i + j, OrganisationUID = org.UID };
+					opranisationDepartments.Add(dept);
+					for (int k = 0; k < 2; k++)
+					{
+						var dept2 = new Department { UID = Guid.NewGuid(), Name = "Подразделение " + i + j + k, OrganisationUID = org.UID, ParentDepartmentUID = dept.UID };
+						opranisationDepartments.Add(dept2);
+						for (int m = 0; m < 2; m++)
+						{
+							var dept3 = new Department { UID = Guid.NewGuid(), Name = "Подразделение " + i + j + k + m, OrganisationUID = org.UID, ParentDepartmentUID = dept2.UID };
+							opranisationDepartments.Add(dept3);
+							for (int n = 0; n < 2; n++)
+							{
+								var dept4 = new Department { UID = Guid.NewGuid(), Name = "Подразделение " + i + j + k + m + n, OrganisationUID = org.UID, ParentDepartmentUID = dept3.UID };
+								opranisationDepartments.Add(dept4);
+							}
+						}
+					}
+				}
+				
+				for (int j = 0; j < employeesPerOrganisation; j++)
+                {
+					var empl = CreateEmployee(i.ToString() + j.ToString(), org.UID, opranisationDepartments[random.Next(15 * rootDepartmentsPerOrganisation)].UID, organisationPositions[random.Next(positionsPerOrganisation)].UID);
+                    employees.Add(empl);
+
+					for (int k = 0; k < cardsPerEmployee; k++)
+					{
+						cardNumber++;
+						var card = CreateCard(cardNumber, empl.UID);
+						cards.Add(card);
+					}
+                }
+				positions.AddRange(organisationPositions);
+				departments.AddRange(opranisationDepartments);
             }
-            stopwatch.Stop();
-            Trace.WriteLine("Context.SaveChanges " + stopwatch.Elapsed);
-            
-            return cards.Select(x => x.UID).ToList();
+
+			switch (GlobalSettingsHelper.GlobalSettings.DbType)
+			{
+				case DbType.MsSql:
+					Context.BulkInsert(positions);
+					Context.BulkInsert(departments);
+					Context.BulkInsert(employees);
+					Context.BulkInsert(cards);
+					Context.SaveChanges();
+					break;
+				case DbType.Postgres:
+					bool isBreak = false;
+					int currentPage = 0;
+					int pageSize = 10000;
+					while (!isBreak)
+					{
+						var employeePortion = employees.Skip(currentPage * pageSize).Take(pageSize).ToList();
+						var cardPortion = cards.Skip(currentPage * pageSize).Take(pageSize).ToList();
+						Context.Employees.AddRange(employeePortion);
+						Context.Cards.AddRange(cardPortion);
+						Context.SaveChanges();
+						isBreak = cardPortion.Count < pageSize;
+						currentPage++;
+					}
+					break;
+			}
+			
+			return cards.Select(x => x.UID).ToList();
         }
 
         public void TestCardDoors(List<Guid> cardUIDs, bool isAscending)
         {
-            int k = 0;
+			int k = 0;
             int totalDoorsCount = GKManager.Doors.Count;
+			var cardDoors = new List<CardDoor>();
             foreach (var cardUID in cardUIDs)
             {
                 k++;
@@ -159,37 +181,31 @@ namespace SKDDriver.DataClasses
                 foreach (var door in GKManager.Doors.Take(doorsCount))
                 {
                     var cardDoor = CreateCardDoor(cardUID, door.UID);
-                    Context.CardDoors.Add(cardDoor);
+					cardDoors.Add(cardDoor);
                 }
             }
-            Context.SaveChanges();
+			switch (GlobalSettingsHelper.GlobalSettings.DbType)
+			{
+				case DbType.MsSql:
+					Context.BulkInsert(cardDoors);
+					Context.SaveChanges();
+					break;
+				case DbType.Postgres:
+					bool isBreak = false;
+					int currentPage = 0;
+					int pageSize = 10000;
+					while (!isBreak)
+					{
+						var cardDoorPortion = cardDoors.Skip(currentPage * pageSize).Take(pageSize).ToList();
+						Context.CardDoors.AddRange(cardDoorPortion);
+						Context.SaveChanges();
+						isBreak = cardDoorPortion.Count < pageSize;
+						currentPage++;
+					}
+					break;
+			}
         }
 
-        void DeleteAll()
-        {
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"AccessTemplates\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"AdditionalColumns\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"AdditionalColumnTypes\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"CardDoors\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"Cards\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"CurrentConsumptions\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"DayIntervalParts\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"DayIntervals\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"Departments\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"Employees\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"Holidays\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"NightSettings\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"Organisations\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"PassCardTemplates\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"Photos\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"Positions\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"ScheduleDays\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"ScheduleSchemes\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"Schedules\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"ScheduleZones\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"TimeTrackDocuments\"");
-            Context.Database.ExecuteSqlCommand("DELETE FROM \"TimeTrackDocumentTypes\"");
-        }
         Department CreateDepartment(string name, Guid orgUID, Guid? parentUID = null)
         {
             return new Department
@@ -312,3 +328,4 @@ namespace SKDDriver.DataClasses
         }
     }
 }
+

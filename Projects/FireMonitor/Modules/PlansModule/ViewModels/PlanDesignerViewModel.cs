@@ -11,6 +11,7 @@ using Infrastructure.Events;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Presenter;
 using PlansModule.Designer;
+using PlansModule.Primitives;
 
 namespace PlansModule.ViewModels
 {
@@ -57,7 +58,11 @@ namespace PlansModule.ViewModels
 		private void CreatePresenters()
 		{
 			foreach (var elementBase in PlanEnumerator.EnumeratePrimitives(Plan))
-				DesignerCanvas.CreatePresenterItem(elementBase).CreatePainter();
+			{
+				var presenterItem = DesignerCanvas.CreatePresenterItem(elementBase);
+				var painter = PrimitivePainterFactory.CreatePainter(this.DesignerCanvas, elementBase);
+				presenterItem.OverridePainter(painter);
+			}
 
 			foreach (var elementBase in Plan.ElementSubPlans)
 			{

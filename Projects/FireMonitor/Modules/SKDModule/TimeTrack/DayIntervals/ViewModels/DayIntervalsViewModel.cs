@@ -11,63 +11,26 @@ using SKDModule.Events;
 
 namespace SKDModule.ViewModels
 {
-	public class DayIntervalsViewModel : OrganisationBaseViewModel<DayInterval, DayIntervalFilter, DayIntervalViewModel, DayIntervalDetailsViewModel>, ISelectable<Guid>, ITimeTrackItemsViewModel
+	public class DayIntervalsViewModel : OrganisationBaseViewModel<DayInterval, DayIntervalFilter, DayIntervalViewModel, DayIntervalDetailsViewModel>, ISelectable<Guid>
 	{
-		bool _isInitialized;
-
-		public DayIntervalsViewModel()
-			:base()
+		public override void Initialize(DayIntervalFilter filter)
 		{
-			_isInitialized = false;
-			_changeIsDeletedSubscriber = new ChangeIsDeletedSubscriber(this);
-		}
-
-		public LogicalDeletationType LogicalDeletationType { get; set; }
-		ChangeIsDeletedSubscriber _changeIsDeletedSubscriber;
-
-		public override void OnShow()
-		{
-			base.OnShow();
-			if (!_isInitialized)
+			base.Initialize(filter);
+			foreach (var organisation in Organisations)
 			{
-				Initialize();
-				_isInitialized = true;
+				var hasDayOff = organisation.Children.Any(x => x.Name == "Выходной");
+				if (!hasDayOff)
+				{
+					var interval = new DayInterval()
+					{
+						Name = "Выходной",
+						DayIntervalParts = new List<DayIntervalPart>(),
+						UID = Guid.NewGuid(),
+						OrganisationUID = organisation.UID
+					};
+					Add(interval);
+				}
 			}
-		}
-
-		public void Initialize()
-		{
-			var filter = new DayIntervalFilter() { UserUID = FiresecManager.CurrentUser.UID, LogicalDeletationType = LogicalDeletationType };
-			Initialize(filter);
-            foreach (var organisation in Organisations)
-            {
-                var hasDayOff = organisation.Children.Any(x => x.Name == "Выходной");
-                if (!hasDayOff)
-                {
-                    var interval = new DayInterval() { Name = "Выходной", DayIntervalParts = new List<DayIntervalPart>(), UID = Guid.NewGuid() };
-                    interval.OrganisationUID = organisation.UID;
-                    Add(interval);
-                    Initialize();
-                }
-            }
-		}
-
-		protected override void OnEditOrganisation(Organisation newOrganisation)
-		{
-			if (_isInitialized)
-				base.OnEditOrganisation(newOrganisation);
-		}
-
-		protected override void OnOrganisationUsersChanged(Organisation newOrganisation)
-		{
-			if (_isInitialized)
-				base.OnOrganisationUsersChanged(newOrganisation);
-		}
-		
-		protected override void OnRemoveOrganisation(Guid organisationUID)
-		{
-			if (_isInitialized)
-				base.OnRemoveOrganisation(organisationUID);
 		}
 
 		public void Select(Guid dayIntervalUID)

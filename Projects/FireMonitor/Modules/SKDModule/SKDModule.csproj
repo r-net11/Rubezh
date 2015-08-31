@@ -365,6 +365,10 @@
       <DependentUpon>ScheduleSchemesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TimeTrack\Shedules\ViewModels\Comparers.cs" />
+    <Compile Include="TimeTrack\Views\TimeTrackingTabsView.xaml.cs">
+      <DependentUpon>TimeTrackingTabsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TimeTrack\ViewModels\TimeTrackingTabsViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\Model\TimeTrackingPeriod.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\DayTimeTrackPartViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\DayTrackViewModel.cs" />
@@ -846,6 +850,10 @@
     <Page Include="TimeTrack\ScheduleSchemes\Views\ScheduleSchemesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TimeTrack\Views\TimeTrackingTabsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="TimeTrack\TimeTracking\Views\DocumentDetailsView.xaml">
       <SubType>Designer</SubType>

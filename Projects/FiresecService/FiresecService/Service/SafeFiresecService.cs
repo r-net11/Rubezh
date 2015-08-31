@@ -414,5 +414,5 @@ namespace FiresecService.Service
 		}
 
 		#endregion
-    }
+	}
 }

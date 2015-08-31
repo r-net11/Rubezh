@@ -19,116 +19,98 @@
 		<viewModel:ScheduleViewModelSchemeComparer x:Key="ScheduleViewModelSchemeComparer" />
 	</UserControl.Resources>
 	<Grid>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="*" />
-		</Grid.RowDefinitions>
-		<StackPanel Orientation="Horizontal">
-			<ToolBarButton Command="{Binding AddCommand}" ImageSource="Add"  ToolTip="Добавить" />
-			<ToolBarButton Command="{Binding EditCommand}" ImageSource="Edit"  ToolTip="Редактировать" />
-			<ToolBarButton Command="{Binding RemoveCommand}" ImageSource="Delete"  ToolTip="Удалить" />
-			<ToolBarButton Command="{Binding CopyCommand}" ImageSource="Copy"  ToolTip="Копировать" />
-			<ToolBarButton Command="{Binding PasteCommand}" ImageSource="Paste"  ToolTip="Вставить" />
-			<ToolBarButton Command="{Binding RestoreCommand}" ImageSource="Redo"  ToolTip="Восстановить" Visibility="{Binding IsWithDeleted, Converter={StaticResource BoolToVisibilityConverter}}" />
-            <ToolBarButton Command="{Binding ShowSettingsCommand}" ImageSource="Settings2"  ToolTip="Настройки ночных интервалов" />
-		</StackPanel>
-
-		<Grid Grid.Row="1">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="*" />
-				<ColumnDefinition Width="*" />
-			</Grid.ColumnDefinitions>
-			<tree:TreeList
-				Name="_treeList"
-				Source="{Binding Organisations}" 
-				SelectedTreeNode="{Binding SelectedItem}" 
-				ItemActivatedCommand="{Binding EditCommand}"
-				Focusable="True" 
-				tree:SortBehavior.CanUserSortColumns="True">
-				<tree:TreeList.View>
-					<GridView>
-						<GridViewColumn 
-							Header="Название"
-							ListViewLayoutManager.StarWidth="1"
-							tree:SortBehavior.SortComparer="{StaticResource ScheduleViewModelNameComparer}">
-							<GridViewColumn.CellTemplate>
-								<DataTemplate>
-									<StackPanel Orientation="Horizontal">
-										<Image Width="16" Margin="1 0" VerticalAlignment="Center" Source="/Controls;component/Images/Organisation.png" Visibility="{Binding IsOrganisation, Converter={StaticResource BoolToVisibilityConverter}}" />
-										<Image Width="16" Margin="1 0" VerticalAlignment="Center" Source="/Controls;component/Images/Shedule.png" Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}" RenderOptions.BitmapScalingMode="NearestNeighbor" RenderOptions.EdgeMode="Aliased" />
-										<TextBlock Text="{Binding Name}" Style="{StaticResource IsDeletedStyle}" />
-									</StackPanel>
-								</DataTemplate>
-							</GridViewColumn.CellTemplate>
-						</GridViewColumn>
-						<GridViewColumn
-							Header="График"
-							ListViewLayoutManager.StarWidth="1"
-							tree:SortBehavior.SortComparer="{StaticResource ScheduleViewModelSchemeComparer}">
-							<GridViewColumn.CellTemplate>
-								<DataTemplate>
-									<StackPanel Orientation="Horizontal">
-										<TextBlock Text="{Binding Scheme}" Style="{StaticResource IsDeletedStyle}" />
-									</StackPanel>
-								</DataTemplate>
-							</GridViewColumn.CellTemplate>
-						</GridViewColumn>
-					</GridView>
-				</tree:TreeList.View>
-			</tree:TreeList>
-			<Grid Grid.Column="1" Margin="4 0 0 0" DataContext="{Binding SelectedItem}">
-				<Grid.RowDefinitions>
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="*" />
-				</Grid.RowDefinitions>
-				<StackPanel Orientation="Horizontal">
-					<ToolBarButton Command="{Binding AddCommand}" ImageSource="Add"  ToolTip="Добавить" />
-					<ToolBarButton Command="{Binding EditCommand}" ImageSource="Edit"  ToolTip="Редактировать" />
-					<ToolBarButton Command="{Binding DeleteCommand}" ImageSource="Delete"  ToolTip="Удалить" />
-				</StackPanel>
-				<XDataGrid
-					Grid.Row="1"
-					Margin="2"
-					IsReadOnly="False"
-					ItemsSource="{Binding ScheduleZones}"
-					SelectedItem="{Binding SelectedScheduleZone}">
-					<DataGrid.Columns>
-						<DataGridTemplateColumn 
-							Header="№">
-							<DataGridTemplateColumn.CellTemplate>
-								<DataTemplate>
-									<StackPanel Orientation="Horizontal">
-										<TextBlock
-											Margin="2" 
-											VerticalAlignment="Center"
-											Text="{Binding No}"
-											Style="{StaticResource IsDeletedTimeTrackStyle}" />
-									</StackPanel>
-								</DataTemplate>
-							</DataGridTemplateColumn.CellTemplate>
-						</DataGridTemplateColumn>
-						<DataGridTemplateColumn 
-							Width="*"
-							Header="Название">
-							<DataGridTemplateColumn.CellTemplate>
-								<DataTemplate>
-									<StackPanel Orientation="Horizontal">
-										<Image 
-											Margin="1 0 0 0" 
-											VerticalAlignment="Center" 
-											Source="/Controls;component/Images/Zone.png" />
-										<TextBlock
-											Margin="2" 
-											VerticalAlignment="Center"
-											Text="{Binding Name}"
-											Style="{StaticResource IsDeletedTimeTrackStyle}" />
-									</StackPanel>
-								</DataTemplate>
-							</DataGridTemplateColumn.CellTemplate>
-						</DataGridTemplateColumn>
-					</DataGrid.Columns>
-				</XDataGrid>
-			</Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="*" />
+		</Grid.ColumnDefinitions>
+		<tree:TreeList
+			Name="_treeList"
+			Source="{Binding Organisations}" 
+			SelectedTreeNode="{Binding SelectedItem}" 
+			ItemActivatedCommand="{Binding EditCommand}"
+			Focusable="True" 
+			tree:SortBehavior.CanUserSortColumns="True">
+			<tree:TreeList.View>
+				<GridView>
+					<GridViewColumn 
+						Header="Название"
+						ListViewLayoutManager.StarWidth="1"
+						tree:SortBehavior.SortComparer="{StaticResource ScheduleViewModelNameComparer}">
+						<GridViewColumn.CellTemplate>
+							<DataTemplate>
+								<StackPanel Orientation="Horizontal">
+									<Image Width="16" Margin="1 0" VerticalAlignment="Center" Source="/Controls;component/Images/Organisation.png" Visibility="{Binding IsOrganisation, Converter={StaticResource BoolToVisibilityConverter}}" />
+									<Image Width="16" Margin="1 0" VerticalAlignment="Center" Source="/Controls;component/Images/Shedule.png" Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}" RenderOptions.BitmapScalingMode="NearestNeighbor" RenderOptions.EdgeMode="Aliased" />
+									<TextBlock Text="{Binding Name}" Style="{StaticResource IsDeletedStyle}" />
+								</StackPanel>
+							</DataTemplate>
+						</GridViewColumn.CellTemplate>
+					</GridViewColumn>
+					<GridViewColumn
+						Header="График"
+						ListViewLayoutManager.StarWidth="1"
+						tree:SortBehavior.SortComparer="{StaticResource ScheduleViewModelSchemeComparer}">
+						<GridViewColumn.CellTemplate>
+							<DataTemplate>
+								<StackPanel Orientation="Horizontal">
+									<TextBlock Text="{Binding Scheme}" Style="{StaticResource IsDeletedStyle}" />
+								</StackPanel>
+							</DataTemplate>
+						</GridViewColumn.CellTemplate>
+					</GridViewColumn>
+				</GridView>
+			</tree:TreeList.View>
+		</tree:TreeList>
+		<Grid Grid.Column="1" Margin="4 0 0 0" DataContext="{Binding SelectedItem}">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="*" />
+			</Grid.RowDefinitions>
+			<StackPanel Orientation="Horizontal">
+				<ToolBarButton Command="{Binding EditCommand}" ImageSource="Edit"  ToolTip="Редактировать зоны" />
+			</StackPanel>
+			<DataGrid
+				Grid.Row="1"
+				Margin="2"
+				IsReadOnly="False"
+				ItemsSource="{Binding ScheduleZones}"
+				SelectedItem="{Binding SelectedScheduleZone}">
+				<DataGrid.Columns>
+					<DataGridTemplateColumn 
+						Header="№">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<StackPanel Orientation="Horizontal">
+									<TextBlock
+										Margin="2" 
+										VerticalAlignment="Center"
+										Text="{Binding No}"
+										Style="{StaticResource IsDeletedTimeTrackStyle}" />
+								</StackPanel>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+					<DataGridTemplateColumn 
+						Width="*"
+						Header="Название">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<StackPanel Orientation="Horizontal">
+									<Image 
+										Margin="1 0 0 0" 
+										VerticalAlignment="Center" 
+										Source="/Controls;component/Images/Zone.png" />
+									<TextBlock
+										Margin="2" 
+										VerticalAlignment="Center"
+										Text="{Binding Name}"
+										Style="{StaticResource IsDeletedTimeTrackStyle}" />
+								</StackPanel>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+				</DataGrid.Columns>
+			</DataGrid>
 		</Grid>
 	</Grid>
 </UserControl>

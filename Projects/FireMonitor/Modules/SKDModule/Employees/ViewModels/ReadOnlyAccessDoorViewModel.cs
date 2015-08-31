@@ -29,7 +29,7 @@ namespace SKDModule.ViewModels
 					EnerScheduleName = enterSchedule.Name;
 				}
 				var exitSchedule = schedules.FirstOrDefault(x => x.No == cardDoor.ExitScheduleNo);
-				if (exitSchedule != null)
+				if (exitSchedule != null && door.DoorType != GKDoorType.OneWay)
 				{
 					ExitScheduleName = exitSchedule.Name;
 				}

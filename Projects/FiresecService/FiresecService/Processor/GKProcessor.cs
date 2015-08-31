@@ -23,7 +23,6 @@ namespace FiresecService
 		public static void Start()
 		{
 			GKProcessorManager.Start();
-			GKLicenseProcessor.Start();
 		}
 
 		public static void Stop()

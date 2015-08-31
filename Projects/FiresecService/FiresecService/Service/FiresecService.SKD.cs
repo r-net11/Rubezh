@@ -735,24 +735,30 @@ namespace FiresecService.Service
 
 		public OperationResult GenerateTestData(bool isAscending)
 		{
+			var stoppWatch = new Stopwatch();
+			stoppWatch.Start();
 			List<Guid> cardUIDs;
 			using (var ds = new SKDDriver.DataClasses.DbService())
 			{
 				cardUIDs = ds.TestDataGenerator.TestEmployeeCards();
+				ds.TestDataGenerator.TestCardDoors(cardUIDs, isAscending);
 			}
-			bool isBreak = false;
-			int currentPage = 0;
-			int pageSize = 10000;
-			while (!isBreak)
-			{
-				var cardUIDsportion = cardUIDs.Skip(currentPage * pageSize).Take(pageSize).ToList();
-				using (var ds = new SKDDriver.DataClasses.DbService())
-				{
-					ds.TestDataGenerator.TestCardDoors(cardUIDsportion, isAscending);
-				}
-				isBreak = cardUIDsportion.Count < pageSize;
-				currentPage++;
-			}
+			stoppWatch.Stop();
+			Trace.WriteLine("GenerateTestData " + stoppWatch.Elapsed);
+			
+			//bool isBreak = false;
+			//int currentPage = 0;
+			//int pageSize = 10000;
+			//while (!isBreak)
+			//{
+			//	var cardUIDsportion = cardUIDs.Skip(currentPage * pageSize).Take(pageSize).ToList();
+			//	using (var ds = new SKDDriver.DataClasses.DbService())
+			//	{
+			//		ds.TestDataGenerator.TestCardDoors(cardUIDsportion, isAscending);
+			//	}
+			//	isBreak = cardUIDsportion.Count < pageSize;
+			//	currentPage++;
+			//}
 
 			return new OperationResult();
 		}

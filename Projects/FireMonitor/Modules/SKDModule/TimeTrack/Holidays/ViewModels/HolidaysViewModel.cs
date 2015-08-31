@@ -8,16 +8,14 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class HolidaysViewModel : OrganisationBaseViewModel<Holiday, HolidayFilter, HolidayViewModel, HolidayDetailsViewModel>, ISelectable<Guid>, ITimeTrackItemsViewModel
+	public class HolidaysViewModel : OrganisationBaseViewModel<Holiday, HolidayFilter, HolidayViewModel, HolidayDetailsViewModel>, ISelectable<Guid>
 	{
 		public HolidaysViewModel():base()
 		{
 			InitializeYears();
-			_changeIsDeletedSubscriber = new ChangeIsDeletedSubscriber(this);
 		}
 
 		public LogicalDeletationType LogicalDeletationType { get; set; }
-		ChangeIsDeletedSubscriber _changeIsDeletedSubscriber;
 		
 		public void Select(Guid holidayUID)
 		{

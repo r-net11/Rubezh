@@ -44,8 +44,8 @@ namespace SKDDriver.DataClasses
 		{
 			if (filter.EmployeeFilter != null)
 			{
-				var employeeUIDs = DbService.EmployeeTranslator.ShortTranslator.GetFilteredTableItems(filter.EmployeeFilter).Select(x => x.UID).ToList();
-				tableItems = tableItems.Where(x => x.EmployeeUID == null || employeeUIDs.Contains(x.EmployeeUID.Value));
+				var employees = DbService.EmployeeTranslator.ShortTranslator.GetFilteredTableItems(filter.EmployeeFilter);
+				tableItems = tableItems.Where(x => employees.Contains(x.Employee));
 			}
 			if (filter.UIDs != null && filter.UIDs.Count > 0)
 				tableItems = tableItems.Where(x => filter.UIDs.Contains(x.UID));
@@ -221,8 +221,8 @@ namespace SKDDriver.DataClasses
 							CardUID = x.CardUID,
 							DoorUID = x.DoorUID,
 							AccessTemplateUID = x.AccessTemplateUID,
-							EnterScheduleNo = x.ExitScheduleNo,
-							ExitScheduleNo = x.EnterScheduleNo
+							EnterScheduleNo = x.EnterScheduleNo,
+							ExitScheduleNo = x.ExitScheduleNo
 						}).ToList(),
 					PassCardTemplateUID = tableItem.PassCardTemplateUID,
 					AccessTemplateUID = tableItem.AccessTemplateUID,

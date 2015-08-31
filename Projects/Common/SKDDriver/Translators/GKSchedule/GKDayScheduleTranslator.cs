@@ -39,8 +39,8 @@ namespace SKDDriver.DataClasses
 			result.DayScheduleParts = tableItem.GKDayScheduleParts.Select(x => new FiresecAPI.GK.GKDaySchedulePart
 			{
 				StartMilliseconds = x.StartMilliseconds,
-				EndMilliseconds = x.EndMilliseconds
-			}).ToList();
+				EndMilliseconds = x.EndMilliseconds,
+			}).OrderBy(x => x.StartMilliseconds).ToList();
 			return result;
 		}
 

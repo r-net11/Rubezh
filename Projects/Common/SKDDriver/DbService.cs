@@ -1,6 +1,7 @@
 ﻿using FiresecAPI;
 using Infrastructure.Common;
 using System;
+using System.Linq;
 
 namespace SKDDriver.DataClasses
 {
@@ -35,6 +36,8 @@ namespace SKDDriver.DataClasses
 		public ImitatorScheduleTranslator ImitatorScheduleTranslator { get; private set; }
 		public ImitatorJournalTranslator ImitatorJournalTranslator { get; private set; }
 
+		public static OperationResult<bool> ConnectionOperationResult { get; set; }
+
         public static bool IsAbort
 		{
 			get { return JournalTranslator.IsAbort; }
@@ -43,7 +46,6 @@ namespace SKDDriver.DataClasses
 
 		public DbService()
 		{
-			var builder = new Npgsql.NpgsqlConnectionStringBuilder();
 			Context = new DatabaseContext(DbServiceHelper.CreateConnection());
 			GKScheduleTranslator = new GKScheduleTranslator(this);
 			GKDayScheduleTranslator = new GKDayScheduleTranslator(this);
@@ -93,12 +95,23 @@ namespace SKDDriver.DataClasses
 			}
 		}
 
-		public static bool CheckConnection()
+		public OperationResult<bool> CheckConnection()
 		{
-			return true;
+			var result = new OperationResult<bool>();
+			try
+			{
+				Context.Database.Connection.Open();
+				Context.Journals.FirstOrDefault();
+			}
+			catch (Exception e)
+			{
+				result = OperationResult<bool>.FromError(e.Message);
+			}
+			ConnectionOperationResult = result;
+			return result;
 		}
 
-        public void Dispose()
+		public void Dispose()
 		{
 			Context.Dispose();
 		}

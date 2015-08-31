@@ -59,18 +59,20 @@ namespace FiresecService.Service
 
         public static void StartRemoveInactiveClients(TimeSpan inactiveTime)
         {
-            new Task(() =>
-            {
-                while (true)
+            var thread = new Thread(() =>
                 {
-                    ClientInfos.ForEach(x => 
+                    while (true)
                     {
-                        if (x.LastPollDateTime != default(DateTime) && DateTime.Now - x.LastPollDateTime > inactiveTime)
-                            Remove(x.UID);
-                    });
-                    Thread.Sleep(inactiveTime);
-                }
-            }).Start();
+                        ClientInfos.ForEach(x =>
+                        {
+                            if (x.LastPollDateTime != default(DateTime) && DateTime.Now - x.LastPollDateTime > inactiveTime)
+                                Remove(x.UID);
+                        });
+                        Thread.Sleep(inactiveTime.Milliseconds / 2);
+                    }
+                }) { Name = "RemoveInactiveClients", IsBackground = true };
+            
+            thread.Start();
         }
 	}
 

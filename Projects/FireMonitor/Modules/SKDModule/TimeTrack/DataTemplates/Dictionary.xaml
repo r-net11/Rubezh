@@ -79,4 +79,8 @@
 		<Views:TimeTrackPartDetailsView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:TimeTrackingTabsViewModel}">
+		<Views:TimeTrackingTabsView />
+	</DataTemplate>
+
 </ResourceDictionary>

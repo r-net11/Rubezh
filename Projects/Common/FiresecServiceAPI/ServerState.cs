@@ -9,7 +9,7 @@ namespace FiresecAPI
 	public enum ServerState
 	{
 		[Description("Запуск")]
-		Sarting,
+		Starting,
 
 		[Description("Перезапуск")]
 		Restarting,

@@ -12,6 +12,7 @@ using Infrastructure.Common.BalloonTrayTip;
 using Infrastructure.Common.Windows;
 using FiresecAPI;
 using SKDDriver.DataClasses;
+using FiresecService.Processor;
 
 namespace FiresecService
 {
@@ -38,15 +39,18 @@ namespace FiresecService
 				WindowThread.Start();
 				MainViewStartedEvent.WaitOne();
 
-				FiresecService.Service.FiresecService.ServerState = ServerState.Sarting;
+				FiresecService.Service.FiresecService.ServerState = ServerState.Starting;
 
                 UILogger.Log("Проверка лицензии");
-                if (!LicenseHelper.TryLoad())
+                if (!FiresecLicenseProcessor.TryLoadLicense())
                     UILogger.Log("Ошибка лицензии", true);
 
 				UILogger.Log("Проверка соединения с БД");
-				if(!DbService.CheckConnection())
+				using (var dbService = new DbService())
+				{
+					if (dbService.CheckConnection().HasError)
 					UILogger.Log("Ошибка соединения с БД", true);
+				}
 				//PatchManager.Patch();
 
 				UILogger.Log("Открытие хоста");
@@ -81,8 +85,7 @@ namespace FiresecService
 			catch (Exception e)
 			{
 				Logger.Error(e, "Исключение при вызове Bootstrapper.Run");
-				UILogger.Log("Ошибка при запуске сервера");
-				BalloonHelper.ShowFromServer("Ошибка во время загрузки");
+				UILogger.Log("Ошибка при запуске сервера", true);
 				Close();
 			}
 		}

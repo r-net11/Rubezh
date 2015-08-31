@@ -1,4 +1,5 @@
 ﻿using Defender;
+using FiresecService.Processor;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
@@ -11,10 +12,6 @@ namespace FiresecService.ViewModels
 {
     public class LicenseViewModel : BaseViewModel
     {
-        License _license;
-
-        InitialKey _initialKey;
-        
         string _initialKeyString;
         public string InitialKeyString
         {
@@ -44,11 +41,13 @@ namespace FiresecService.ViewModels
 
         bool TryLoadLicense()
         {
-            LicenseHelper.License = _license = LicenseProcessor.ProcessLoad(GetLicensePath(), _initialKey);
-            Parameters = _license == null ? new ObservableCollection<LicenseParameter>() : new ObservableCollection<LicenseParameter>(_license.Parameters);
-            return _license != null;
+			bool success = FiresecLicenseProcessor.TryLoadLicense();
+			Parameters = success ? 
+				new ObservableCollection<LicenseParameter>(FiresecLicenseProcessor.License.Parameters) : 
+				new ObservableCollection<LicenseParameter>();
+            return success;
         }
-
+		
         public RelayCommand LoadLicenseCommand { get; private set; }
         void OnLoadLicenseCommand()
         {
@@ -58,6 +57,11 @@ namespace FiresecService.ViewModels
             };
             if (openFileDialog.ShowDialog().Value)
             {
+                if (!FiresecLicenseProcessor.CheckLicense(openFileDialog.FileName))
+                {
+                    MessageBoxService.ShowError("Некорректный файл лицензии");
+                    return;
+                }
                 try
                 {
                     File.Copy(openFileDialog.FileName, GetLicensePath(), true);
@@ -72,8 +76,7 @@ namespace FiresecService.ViewModels
         
         public LicenseViewModel()
         {
-            _initialKey = InitialKey.Generate();
-            InitialKeyString = _initialKey.ToString();
+            InitialKeyString = FiresecLicenseProcessor.InitialKey.ToString();
             LoadLicenseCommand = new RelayCommand(OnLoadLicenseCommand);
             TryLoadLicense();
         }

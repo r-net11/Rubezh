@@ -12,7 +12,7 @@ namespace FiresecClient
 		{
 			SafeOperationCall(() => { FiresecService.Disconnect(uid); }, "Disconnect");
 		}
-
+		
 		public OperationResult<ServerState> GetServerState()
 		{
 			return SafeOperationCall(() => { return FiresecService.GetServerState(); }, "GetServerState");

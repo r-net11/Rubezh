@@ -161,6 +161,7 @@
     <Compile Include="CloseWindowHelper.cs" />
     <Compile Include="EncryptHelper.cs" />
     <Compile Include="HXCFileInfoHelper.cs" />
+    <Compile Include="LicenseHelper.cs" />
     <Compile Include="Navigation\ShowOnPlanArgs.cs" />
     <Compile Include="Ribbon\RibbonViewModel.cs" />
     <Compile Include="Services\DragDrop\DragCorrectionEventArgs.cs" />
@@ -194,7 +195,6 @@
     <Compile Include="Configuration\ModuleElement.cs" />
     <Compile Include="Configuration\ModuleSection.cs" />
     <Compile Include="GlobalSettingsHelper.cs" />
-    <Compile Include="LicenseHelper.cs" />
     <Compile Include="LoadingErrorManager.cs" />
     <Compile Include="Mail\MailHelper.cs" />
     <Compile Include="ManualPdfHelper.cs" />
