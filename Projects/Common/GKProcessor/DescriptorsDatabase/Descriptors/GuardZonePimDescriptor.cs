@@ -1,26 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using FiresecAPI.GK;
-using FiresecClient;
+﻿using FiresecAPI.GK;
 
 namespace GKProcessor
 {
 	public class GuardZonePimDescriptor : PimDescriptor
 	{
-		public List<Tuple<GKDevice, GKCodeReaderSettingsPart>> GuardZoneDevices { get; private set; }
+
 		public GKGuardZone PimGuardZone { get; private set; }
 
-		public GuardZonePimDescriptor(GKGuardZone pimGuardZone, List<Tuple<GKDevice, GKCodeReaderSettingsPart>> guardZoneDevices)
+		public GuardZonePimDescriptor(GKGuardZone pimGuardZone)
 			: base(pimGuardZone.Pim)
 		{
 			PimGuardZone = pimGuardZone;
-			GuardZoneDevices = guardZoneDevices;
-			foreach (var guardDevice in GuardZoneDevices)
-			{
-				if (Pim != null)
-					Pim.LinkToDescriptor(guardDevice.Item1);
-			}
+			Pim.LinkToDescriptor(PimGuardZone);
 		}
 
 		public override void Build()
@@ -37,32 +28,13 @@ namespace GKProcessor
 				Formula.Add(FormulaOperationType.END);
 				return;
 			}
-
-			GuardZoneDescriptor.AddSettings(GuardZoneDevices, Formula, GKStateBit.No);
-			Formula.AddGetBit(GKStateBit.Off, PimGuardZone);
-			Formula.Add(FormulaOperationType.AND);
+			
+			Formula.AddGetBit(GKStateBit.Attention, PimGuardZone);
 			Formula.AddPutBit(GKStateBit.TurnOnNow_InAutomatic, Pim);
-			GuardZoneDescriptor.AddSettings(GuardZoneDevices, Formula, GKStateBit.No);
-			Formula.AddGetBit(GKStateBit.On, PimGuardZone);
-			Formula.Add(FormulaOperationType.AND);
+			Formula.AddGetBit(GKStateBit.Attention, PimGuardZone);
+			Formula.Add(FormulaOperationType.COM);
 			Formula.AddPutBit(GKStateBit.TurnOffNow_InAutomatic, Pim);
 			Formula.Add(FormulaOperationType.END);
-		}
-
-		static GKStateBit CodeReaderEnterTypeToStateBit(GKCodeReaderEnterType codeReaderEnterType)
-		{
-			switch (codeReaderEnterType)
-			{
-				case GKCodeReaderEnterType.CodeOnly:
-					return GKStateBit.Attention;
-
-				case GKCodeReaderEnterType.CodeAndOne:
-					return GKStateBit.Fire1;
-
-				case GKCodeReaderEnterType.CodeAndTwo:
-					return GKStateBit.Fire2;
-			}
-			return GKStateBit.Fire1;
 		}
 	}
 }

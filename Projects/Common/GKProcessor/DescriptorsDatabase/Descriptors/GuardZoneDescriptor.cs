@@ -70,11 +70,7 @@ namespace GKProcessor
 						break;
 				}
 			}
-
-			if (ChangeGuardDevices.Count > 0)
-			{
-				GuardZonePimDescriptor = new GuardZonePimDescriptor(GuardZone, ChangeGuardDevices);
-			}
+			GuardZonePimDescriptor = new GuardZonePimDescriptor(GuardZone);
 		}
 
 		public override void Build()
@@ -97,10 +93,7 @@ namespace GKProcessor
 			AddGuardDevicesLogic(SetGuardDevices, GKStateBit.TurnOn_InAutomatic);
 			AddGuardDevicesLogic(ResetGuardDevices, GKStateBit.TurnOff_InAutomatic);
 			AddMissedLogic(SetAlarmDevices);
-			if (GuardZone.Pim != null && ChangeGuardDevices.Count > 0)
-			{
-				GuardZone.LinkToDescriptor(GuardZone.Pim);
-			}
+			GuardZone.LinkToDescriptor(GuardZone.Pim);
 			Formula.Add(FormulaOperationType.END);
 		}
 
@@ -147,7 +140,7 @@ namespace GKProcessor
 				case GKStateBit.Fire1:
 					if (count > 0)
 					{
-						Formula.AddGetBit(GKStateBit.Attention, GuardZone);
+						Formula.AddGetBit(GKStateBit.On, GuardZone.Pim);
 						Formula.Add(FormulaOperationType.OR);
 						Formula.AddPutBit(GKStateBit.Attention, GuardZone);
 					}
@@ -161,12 +154,12 @@ namespace GKProcessor
 							AddSettings(ChangeGuardDevices, Formula, GKStateBit.No);
 							if (commandStateBit == GKStateBit.TurnOn_InAutomatic)
 							{
-								Formula.AddGetBit(GKStateBit.On, GuardZone.Pim);
+								Formula.AddGetBit(GKStateBit.Off, GuardZone);
 								Formula.Add(FormulaOperationType.AND);
 							}
 							if (commandStateBit == GKStateBit.TurnOff_InAutomatic)
 							{
-								Formula.AddGetBit(GKStateBit.Off, GuardZone.Pim);
+								Formula.AddGetBit(GKStateBit.On, GuardZone);
 								Formula.Add(FormulaOperationType.AND);
 							}
 							if (count > 0 && ChangeGuardDevices.Count > 0)
