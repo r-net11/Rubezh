@@ -48,17 +48,6 @@ namespace GKModule.Validation
 
 		bool IsManyGK { get; set; }
 
-		static bool AreDevicesInSameGK(IEnumerable<GKDevice> devices)
-		{
-			var gkDevices = new HashSet<GKDevice>();
-			foreach (var device in devices)
-			{
-				if (device.GKParent != null)
-					gkDevices.Add(device.GKParent);
-			}
-			return (gkDevices.Count > 1);
-		}
-
 		void ValidateDescriptors()
 		{
 			foreach(var descriptorError in DescriptorsManager.Check())

@@ -65,32 +65,6 @@ namespace FiresecAPI.GK
 		[XmlIgnore]
 		public List<GKBase> OutputDescriptors { get; set; }
 
-		[XmlIgnore]
-		public GKDevice KauDatabaseParent { get; set; }
-		[XmlIgnore]
-		public GKDevice GkDatabaseParent { get; set; }
-
-		[XmlIgnore]
-		public GKDevice DataBaseParent
-		{
-			get { return KauDatabaseParent ?? GkDatabaseParent; }
-			set
-			{
-				if (value != null && value.DriverType == GKDriverType.GK)
-					GkDatabaseParent = value;
-				if (value != null && value.DriverType == GKDriverType.RSR2_KAU)
-					KauDatabaseParent = value;
-			}
-		}
-
-		[XmlIgnore]
-		public virtual bool IsLogicOnKau { get; set; }
-
-		[XmlIgnore]
-		public ushort GKDescriptorNo { get; set; }
-		[XmlIgnore]
-		public ushort KAUDescriptorNo { get; set; }
-
 		public abstract void Update(GKDevice device);
 
 		public abstract void Update(GKDirection direction);
@@ -152,6 +126,39 @@ namespace FiresecAPI.GK
 		}
 
 		#endregion
+
+		#region Descriptors
+
+		[XmlIgnore]
+		public HashSet<GKDevice> KauParents { get; set; }
+		[XmlIgnore]
+		public HashSet<GKDevice> GkParents { get; set; }
+
+		[XmlIgnore]
+		public GKDevice KauDatabaseParent { get; set; }
+		[XmlIgnore]
+		public GKDevice GkDatabaseParent { get; set; }
+
+		[XmlIgnore]
+		public GKDevice DataBaseParent
+		{
+			get { return KauDatabaseParent ?? GkDatabaseParent; }
+			set
+			{
+				if (value != null && value.DriverType == GKDriverType.GK)
+					GkDatabaseParent = value;
+				if (value != null && value.DriverType == GKDriverType.RSR2_KAU)
+					KauDatabaseParent = value;
+			}
+		}
+
+		[XmlIgnore]
+		public virtual bool IsLogicOnKau { get; set; }
+
+		[XmlIgnore]
+		public ushort GKDescriptorNo { get; set; }
+		[XmlIgnore]
+		public ushort KAUDescriptorNo { get; set; }
 
 		public void PrepareInputOutputDependences()
 		{
@@ -336,10 +343,9 @@ namespace FiresecAPI.GK
 		{
 			InputDescriptors = new List<GKBase>();
 			OutputDescriptors = new List<GKBase>();
+			KauParents = new HashSet<GKDevice>();
+			GkParents = new HashSet<GKDevice>();
 		}
-
-
-		#region ChildDescriptors
 
 		[XmlIgnore]
 		public List<GKBase> ChildDescriptors = new List<GKBase>();
@@ -379,6 +385,6 @@ namespace FiresecAPI.GK
 			}
 		}
 
-		#endregion ChildDescriptors
+		#endregion Descriptors
 	}
 }

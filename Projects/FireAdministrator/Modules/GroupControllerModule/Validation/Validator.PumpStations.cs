@@ -63,20 +63,8 @@ namespace GKModule.Validation
 
 		void ValidateDifferentGK(GKPumpStation pumpStation)
 		{
-			var devices = new List<GKDevice>();
-			devices.AddRange(pumpStation.ClauseInputDevices);
-			devices.AddRange(pumpStation.NSDevices);
-			foreach (var zone in pumpStation.ClauseInputZones)
-			{
-				devices.AddRange(zone.Devices);
-			}
-			foreach (var direction in pumpStation.ClauseInputDirections)
-			{
-				//devices.AddRange(direction.InputDevices);
-			}
-
-			if (AreDevicesInSameGK(devices))
-				Errors.Add(new PumpStationValidationError(pumpStation, "НС содержит объекты устройства разных ГК", ValidationErrorLevel.CannotWrite));
+			if (pumpStation.GkParents.Count > 1)
+				Errors.Add(new PumpStationValidationError(pumpStation, "НС содержит объекты разных ГК", ValidationErrorLevel.CannotWrite));
 		}
 
 		bool ValidateEmptyPumpStation(GKPumpStation pumpStation)

@@ -176,8 +176,8 @@ namespace FiresecAPI.GK
 
 			foreach (var gkBase in gkBases)
 			{
-				var kauParents = new HashSet<GKDevice>();
-				var gkParents = new HashSet<GKDevice>();
+				gkBase.KauParents = new HashSet<GKDevice>();
+				gkBase.GkParents = new HashSet<GKDevice>();
 				foreach (var dependentObject in gkBase.ChildDescriptors)
 				{
 					if (dependentObject is GKDevice)
@@ -185,11 +185,11 @@ namespace FiresecAPI.GK
 						var device = dependentObject as GKDevice;
 						if (device.KAUParent != null)
 						{
-							kauParents.Add(device.KAUParent);
+							gkBase.KauParents.Add(device.KAUParent);
 						}
 						if (device.GKParent != null)
 						{
-							gkParents.Add(device.GKParent);
+							gkBase.GkParents.Add(device.GKParent);
 						}
 					}
 				}
@@ -198,14 +198,14 @@ namespace FiresecAPI.GK
 				{
 					if (dependentObject is GKDoor)
 					{
-						kauParents.Clear();
+						gkBase.KauParents.Clear();
 					}
 					if (dependentObject is GKGuardZone)
 					{
 						var guardZone = dependentObject as GKGuardZone;
 						if (guardZone.HasAccessLevel)
 						{
-							kauParents.Clear();
+							gkBase.KauParents.Clear();
 						}
 					}
 					if (dependentObject is GKMPT)
@@ -213,7 +213,7 @@ namespace FiresecAPI.GK
 						var mpt = dependentObject as GKMPT;
 						if (mpt.HasAccessLevel)
 						{
-							kauParents.Clear();
+							gkBase.KauParents.Clear();
 						}
 					}
 				}
@@ -221,15 +221,15 @@ namespace FiresecAPI.GK
 				gkBase.KauDatabaseParent = null;
 				gkBase.GkDatabaseParent = null;
 
-				if (kauParents.Count == 1)
+				if (gkBase.KauParents.Count == 1)
 				{
-					gkBase.KauDatabaseParent = kauParents.FirstOrDefault();
+					gkBase.KauDatabaseParent = gkBase.KauParents.FirstOrDefault();
 					gkBase.GkDatabaseParent = gkBase.KauDatabaseParent.Parent;
 					gkBase.IsLogicOnKau = true;
 				}
 				else
 				{
-					gkBase.GkDatabaseParent = gkParents.FirstOrDefault();
+					gkBase.GkDatabaseParent = gkBase.GkParents.FirstOrDefault();
 					gkBase.IsLogicOnKau = false;
 				}
 			}
