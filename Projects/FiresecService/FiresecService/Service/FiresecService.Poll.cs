@@ -94,6 +94,15 @@ namespace FiresecService.Service
             CallbackManager.Add(callbackResult);
         }
 
+		public static void NotifyLicenseChanged()
+		{
+			var callbackResult = new CallbackResult()
+			{
+				CallbackResultType = CallbackResultType.LicenseChanged
+			};
+			CallbackManager.Add(callbackResult);
+		}
+
 		public void NotifyConfigurationChanged()
 		{
 			var callbackResult = new CallbackResult()

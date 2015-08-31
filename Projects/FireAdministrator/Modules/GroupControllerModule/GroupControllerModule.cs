@@ -112,8 +112,8 @@ namespace GKModule
 					new NavigationItem<ShowGKParameterTemplatesEvent, Guid>(ParameterTemplatesViewModel, "Шаблоны","Briefcase", null, null, Guid.Empty),
 					new NavigationItemEx<ShowGKZoneEvent, Guid>(ZonesViewModel, "Пожарные зоны", "Zones", null, null, Guid.Empty),
                     new NavigationItem<ShowGKDirectionEvent, Guid>(DirectionsViewModel, "Направления", "Direction", null, null, Guid.Empty),
-					new NavigationItem<ShowGKPumpStationEvent, Guid>(PumpStationsViewModel, "НС", "PumpStation", null, null, Guid.Empty) { IsVisible = LicenseHelper.FireAlarm },
-					new NavigationItem<ShowGKMPTEvent, Guid>(MPTsViewModel, "МПТ", "MPT", null, null, Guid.Empty) { IsVisible = LicenseHelper.FireAlarm },
+					new NavigationItem<ShowGKPumpStationEvent, Guid>(PumpStationsViewModel, "НС", "PumpStation", null, null, Guid.Empty),
+					new NavigationItem<ShowGKMPTEvent, Guid>(MPTsViewModel, "МПТ", "MPT", null, null, Guid.Empty),
 					new NavigationItem<ShowXDelayEvent, Guid>(DelaysViewModel, "Задержки", "Watch", null, null, Guid.Empty),
 
 					new NavigationItem("Охрана", "tree",
@@ -121,17 +121,17 @@ namespace GKModule
 						{
 							new NavigationItem<ShowGKCodeEvent, Guid>(CodesViewModel, "Коды", "User", null, null, Guid.Empty),
 							new NavigationItemEx<ShowGKGuardZoneEvent, Guid>(GuardZonesViewModel, "Зоны", "Zones", null, null, Guid.Empty),
-						}) { IsVisible = LicenseHelper.SecurityAlarm },
+						}),
 					new NavigationItem("СКД", "tree",
 						new List<NavigationItem>()
 						{
 							new NavigationItemEx<ShowGKDoorEvent, Guid>(DoorsViewModel, "Точки доступа", "DoorW", null, null, Guid.Empty),
 							new NavigationItemEx<ShowGKSKDZoneEvent, Guid>(SKDZonesViewModel, "Зоны", "Zones", null, null, Guid.Empty),
-						}) { IsVisible = LicenseHelper.Skd },
+						}),
 
 					new NavigationItem<ShowGKDescriptorsEvent, object>(DescriptorsViewModel, "Дескрипторы", "Descriptors"),
 #if DEBUG
-					new NavigationItem<ShowGKOPCDevicesEvent, Guid>(OPCViewModel,"OPC Сервер", "tree", null, null, Guid.Empty) { IsVisible = LicenseHelper.OrsServer },
+					new NavigationItem<ShowGKOPCDevicesEvent, Guid>(OPCViewModel,"OPC Сервер", "tree", null, null, Guid.Empty),
 					new NavigationItem<ShowGKDeviceLidraryEvent, object>(DeviceLidraryViewModel, "Библиотека", "Book"),
 #endif
 					new NavigationItem<ShowGKDiagnosticsEvent, object>(DiagnosticsViewModel, "Диагностика", "Bug"),

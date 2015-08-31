@@ -8,11 +8,21 @@
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 		<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" Text="Ночное время с" />
-		<TimePicker Grid.Row="0" Grid.Column="1" Margin="2" TimeSpan="{Binding NightStartTime, UpdateSourceTrigger=PropertyChanged}" />
+		<TimePicker Grid.Row="0" Grid.Column="1" Margin="2" TimeSpan="{Binding NightStartTime, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding HasSelected}" />
 
 		<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" Text="Ночное время до" />
-		<TimePicker Grid.Row="1" Grid.Column="1" Margin="2" TimeSpan="{Binding NightEndTime, UpdateSourceTrigger=PropertyChanged}" IsFullDay="True" />
+		<TimePicker Grid.Row="1" Grid.Column="1" Margin="2" TimeSpan="{Binding NightEndTime, UpdateSourceTrigger=PropertyChanged}" IsFullDay="True" IsEnabled="{Binding HasSelected}" />
+
+		<TextBlock Grid.Row="2" Grid.Column="0" Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" Text="Организация" />
+		<ComboBox Grid.Row="2" Grid.Column="1" Margin="2" ItemsSource="{Binding Organisations}" SelectedItem="{Binding SelectedOrganisation, UpdateSourceTrigger=PropertyChanged}">
+		<ComboBox.ItemTemplate>
+			<DataTemplate>
+				<TextBlock Margin="2" VerticalAlignment="Center" Foreground="Black" Text="{Binding Name}" Style="{StaticResource IsDeletedTimeTrackStyle}" />
+			</DataTemplate>
+		</ComboBox.ItemTemplate>
+		</ComboBox>
 	</Grid>
 </UserControl>

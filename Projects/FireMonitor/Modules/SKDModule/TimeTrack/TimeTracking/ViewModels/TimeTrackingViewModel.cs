@@ -31,6 +31,7 @@ namespace SKDModule.ViewModels
 			RefreshCommand = new RelayCommand(OnRefresh);
 			PrintCommand = new RelayCommand(OnPrint, CanPrint);
 			ShowDocumentTypesCommand = new RelayCommand(OnShowDocumentTypes);
+			ShowNightSettingsCommand = new RelayCommand(OnShowNightSettingsCommand, CanShowNightSettings);
 			ServiceFactory.Events.GetEvent<EditDocumentEvent>().Unsubscribe(OnEditDocument);
 			ServiceFactory.Events.GetEvent<EditDocumentEvent>().Subscribe(OnEditDocument);
 			ServiceFactory.Events.GetEvent<RemoveDocumentEvent>().Unsubscribe(OnRemoveDocument);
@@ -233,6 +234,16 @@ namespace SKDModule.ViewModels
 		{
 			var documentTypesViewModel = new DocumentTypesViewModel();
 			DialogService.ShowModalWindow(documentTypesViewModel);
+		}
+		public RelayCommand ShowNightSettingsCommand { get; private set; }
+		void OnShowNightSettingsCommand()
+		{
+			var nightSettingsViewModel = new NightSettingsViewModel();
+			DialogService.ShowModalWindow(nightSettingsViewModel);
+		}
+		bool CanShowNightSettings()
+		{
+			return FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_NightSettings_Edit);
 		}
 
 		public void OnInitializeLeadUIDs(TimeTrackFilterViewModel filterViewModel)

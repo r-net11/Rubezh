@@ -55,7 +55,6 @@
 					<ToolBarButton Command="{Binding CopyCommand}" ImageSource="Copy"  ToolTip="Копировать" />
 					<ToolBarButton Command="{Binding PasteCommand}" ImageSource="Paste"  ToolTip="Вставить" />
 					<ToolBarButton Command="{Binding RestoreCommand}" ImageSource="Redo"  ToolTip="Восстановить" Visibility="{Binding IsWithDeleted, Converter={StaticResource BoolToVisibilityConverter}}" />
-					<ToolBarButton Command="{Binding ShowSettingsCommand}" ImageSource="Settings2"  ToolTip="Настройки ночных интервалов" />
 				</StackPanel>
 			</Grid>
 			<Grid Visibility="{Binding IsTimeTrackingSelected, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -71,7 +70,8 @@
 						<ToolBarButton Command="{Binding OpenFileCommand}" ToolTip="Открыть файл" ImageSource="Edit" />
 						<ToolBarButton Command="{Binding RemoveFileCommand}" ToolTip="Удалить файл" ImageSource="Delete" />
 					</StackPanel>
-					<ToolBarButton Command="{Binding ShowDocumentTypesCommand}" ToolTip="Типы документов" ImageSource="Settings2" />
+					<ToolBarButton Command="{Binding ShowDocumentTypesCommand}" ToolTip="Типы документов" ImageSource="Paste" />
+					<ToolBarButton Command="{Binding ShowNightSettingsCommand}" ToolTip="Настройка ночных интервалов" ImageSource="Settings2" />
 				</StackPanel>
 			</Grid>
 			

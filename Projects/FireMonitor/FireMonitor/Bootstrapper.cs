@@ -80,10 +80,9 @@ namespace FireMonitor
 						ShutDown();
 						return false;
 					}
-
-					
-
+															
                     SafeFiresecService.ReconnectionErrorEvent += x => { ApplicationService.Invoke(OnReconnectionError, x); };
+					SafeFiresecService.LicenseChangedEvent += () => { ApplicationService.Invoke(OnLicenseChanged); };
 
 					//MutexHelper.KeepAlive();
 					if (Process.GetCurrentProcess().ProcessName != "FireMonitor.vshost")
@@ -121,7 +120,7 @@ namespace FireMonitor
 				Application.Current.Shutdown();
 		}
 
-        bool Run()
+        protected virtual bool Run()
 		{
 			var result = true;
 			var shell = CreateShell();
@@ -133,7 +132,7 @@ namespace FireMonitor
 			((LayoutService)ServiceFactory.Layout).AddToolbarItem(new AutoActivationViewModel());
 			return result;
 		}
-		ShellViewModel CreateShell()
+		protected virtual ShellViewModel CreateShell()
 		{
 			return new MonitorShellViewModel();
 		}
@@ -146,6 +145,12 @@ namespace FireMonitor
                 Application.Current.Shutdown();
             }
         }
+
+		void OnLicenseChanged()
+		{
+			MessageBoxService.ShowWarning("Сервер изменил параметры лицензии. Программа будет перезагружена.");
+			Restart();
+		}
 
 		void OnConfigurationChanged()
 		{
@@ -165,7 +170,7 @@ namespace FireMonitor
 				timer.Start();
 			}
 		}
-		private void Restart()
+		void Restart()
 		{
 			using (new WaitWrapper())
 			{
@@ -189,14 +194,14 @@ namespace FireMonitor
 			};
 			System.Diagnostics.Process.Start(processStartInfo);
 		}
-		string GetRestartCommandLineArguments()
+		protected virtual string GetRestartCommandLineArguments()
 		{
 			string commandLineArguments = null;
 			if (_login != null && _password != null)
 				commandLineArguments = "login='" + _login + "' password='" + _password + "'";
 			return commandLineArguments;
 		}
-		public void InitializeCommandLineArguments(string[] args)
+		public virtual void InitializeCommandLineArguments(string[] args)
 		{
 			if (args != null)
 			{
@@ -218,7 +223,7 @@ namespace FireMonitor
 				}
 			}
 		}
-
+				
 		private void RunWatcher()
 		{
 			_watcher = new AutoActivationWatcher();

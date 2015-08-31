@@ -18,7 +18,7 @@ namespace FiresecAPI
         [DataMember]
         public bool ControlScripts { get; set; }
         [DataMember]
-        public bool OrsServer { get; set; }
+        public bool OpcServer { get; set; }
     }
 
 	public enum LicenseMode

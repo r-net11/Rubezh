@@ -224,6 +224,7 @@ namespace SecurityModule.ViewModels
 												new PermissionViewModel(PermissionType.Oper_SKD_TimeTrack_Parts_Edit),
 												new PermissionViewModel(PermissionType.Oper_SKD_TimeTrack_Documents_Edit),
 												new PermissionViewModel(PermissionType.Oper_SKD_TimeTrack_DocumentTypes_Edit),
+												new PermissionViewModel(PermissionType.Oper_SKD_TimeTrack_NightSettings_Edit),
 											}),
 										}),
 								}),

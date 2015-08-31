@@ -57,13 +57,14 @@ namespace FiresecClient
                 var operationResult = FiresecService.GetLicenseInfo();
                 if (!operationResult.HasError)
                 {
-                    LicenseHelper.LicenseMode = operationResult.Result.LicenseMode;
-                    LicenseHelper.NumberOfUsers = operationResult.Result.NumberOfUsers;
-                    LicenseHelper.ControlScripts = operationResult.Result.ControlScripts;
-                    LicenseHelper.FireAlarm = operationResult.Result.FireAlarm;
-                    LicenseHelper.OrsServer = operationResult.Result.OrsServer;
-                    LicenseHelper.SecurityAlarm = operationResult.Result.SecurityAlarm;
-                    LicenseHelper.Skd = operationResult.Result.Skd;
+                    LicenseHelper.SetLicense(
+						operationResult.Result.LicenseMode, 
+						operationResult.Result.NumberOfUsers,
+						operationResult.Result.FireAlarm,
+						operationResult.Result.SecurityAlarm,
+						operationResult.Result.Skd,
+						operationResult.Result.ControlScripts,
+						operationResult.Result.OpcServer);
                     return null;
                 }
                 else
