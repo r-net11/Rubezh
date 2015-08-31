@@ -1531,8 +1531,38 @@ ALTER TABLE [dbo].ScheduleGKDaySchedule NOCHECK CONSTRAINT [FK_ScheduleGKSchedul
 INSERT INTO Patches (Id) VALUES ('GKSchedule2')
 END
 GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'NullableGender')
+BEGIN
+ALTER TABLE Employee ALTER COLUMN Gender int NULL
+INSERT INTO Patches (Id) VALUES ('NullableGender')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'NullableDocumentType')
+BEGIN
+ALTER TABLE Employee ALTER COLUMN DocumentType int NULL
+INSERT INTO Patches (Id) VALUES ('NullableDocumentType')
+END
+GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'RemoveExitScheduleNoFromCardDoor')
 BEGIN
 ALTER TABLE [CardDoor] DROP COLUMN ExitScheduleNo
 INSERT INTO Patches (Id) VALUES ('RemoveExitScheduleNoFromCardDoor')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'NullableBirthDate')
+BEGIN 
+ALTER TABLE Employee ALTER COLUMN BirthDate datetime NULL
+INSERT INTO Patches (Id) VALUES ('NullableBirthDate')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'NullableDocumentGivenDate')
+BEGIN
+ALTER TABLE Employee ALTER COLUMN DocumentGivenDate datetime NULL
+INSERT INTO Patches (Id) VALUES ('NullableDocumentGivenDate')
+END
+
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'NullableDocumentValidTo')
+BEGIN
+ALTER TABLE Employee ALTER COLUMN DocumentValidTo datetime NULL
+INSERT INTO Patches (Id) VALUES ('NullableDocumentValidTo')
 END

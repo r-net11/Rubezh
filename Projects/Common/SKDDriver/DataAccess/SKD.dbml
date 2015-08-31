@@ -47,7 +47,6 @@
       <Column Name="CardUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
       <Column Name="AccessTemplateUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
       <Column Name="EnterScheduleNo" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="ExitScheduleNo" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="AccessTemplate_CardDoor" Member="AccessTemplate" ThisKey="AccessTemplateUID" OtherKey="UID" Type="AccessTemplate" IsForeignKey="true" DeleteRule="CASCADE" />
       <Association Name="Card_CardDoor" Member="Card" ThisKey="CardUID" OtherKey="UID" Type="Card" IsForeignKey="true" DeleteRule="CASCADE" />
     </Type>
@@ -350,15 +349,15 @@
       <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="OrganisationUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
       <Column Name="DocumentNumber" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="BirthDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="BirthDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="true" />
       <Column Name="BirthPlace" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Name="DocumentGivenDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="DocumentGivenDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="true" />
       <Column Name="DocumentGivenBy" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Name="DocumentValidTo" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="Gender" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DocumentValidTo" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="true" />
+      <Column Name="Gender" Type="System.Int32" DbType="Int NULL" CanBeNull="true" />
       <Column Name="DocumentDepartmentCode" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="Citizenship" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Name="DocumentType" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DocumentType" Type="System.Int32" DbType="Int NULL" CanBeNull="true" />
       <Column Name="Phone" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="Description" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="LastEmployeeDayUpdate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />

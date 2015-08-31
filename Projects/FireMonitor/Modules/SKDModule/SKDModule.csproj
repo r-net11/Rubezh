@@ -139,7 +139,6 @@
     <Compile Include="Common\ViewModels\EmployeeListViewModel.cs" />
     <Compile Include="Common\ViewModels\OrganisationBaseViewModel.cs" />
     <Compile Include="Common\ViewModels\OrganisationElementBaseViewModel.cs" />
-    <Compile Include="Common\ViewModels\DateSelectionViewModel.cs" />
     <Compile Include="Common\ViewModels\IDetailsViewModel.cs" />
     <Compile Include="Common\ViewModels\OrganisationsFilterViewModel.cs" />
     <Compile Include="Common\Views\DateSelectionView.xaml.cs">

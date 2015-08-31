@@ -43,15 +43,15 @@ namespace FiresecAPI.SKD
 
 		public string DocumentNumber { get; set; }
 
-		public DateTime BirthDate { get; set; }
+		public DateTime? BirthDate { get; set; }
 
 		public string BirthPlace { get; set; }
 
-		public DateTime DocumentGivenDate { get; set; }
+		public DateTime? DocumentGivenDate { get; set; }
 
 		public string DocumentGivenBy { get; set; }
 
-		public DateTime DocumentValidTo { get; set; }
+		public DateTime? DocumentValidTo { get; set; }
 
 		public string DocumentDepartmentCode { get; set; }
 
@@ -59,7 +59,7 @@ namespace FiresecAPI.SKD
 
 		public string Description { get; set; }
 
-		public int Gender { get; set; }
+		public int? Gender { get; set; }
 
 		public int Type { get; set; }
 

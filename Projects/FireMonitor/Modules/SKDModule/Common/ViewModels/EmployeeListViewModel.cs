@@ -22,9 +22,9 @@ namespace SKDModule.ViewModels
 		protected IOrganisationElementViewModel _parent;
 		protected bool _isWithDeleted;
 		protected bool _isOrganisationDeleted;
-		
+
 		public bool IsDeleted { get { return _parent.IsDeleted; } }
-		
+
 		public EmployeeListBaseViewModel(IOrganisationElementViewModel parent, bool isWithDeleted)
 		{
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
@@ -59,7 +59,7 @@ namespace SKDModule.ViewModels
 		}
 
 		ObservableCollection<TItem> _Employees;
-		public ObservableCollection<TItem> Employees 
+		public ObservableCollection<TItem> Employees
 		{
 			get { return _Employees; }
 			private set
@@ -68,7 +68,7 @@ namespace SKDModule.ViewModels
 				OnPropertyChanged(() => Employees);
 			}
 		}
-		
+
 		TItem _selectedEmployee;
 		public TItem SelectedEmployee
 		{
@@ -155,7 +155,7 @@ namespace SKDModule.ViewModels
 					Employees.Add(viewModel);
 				}
 			}
-			else if (employeeListItemViewModel != null && (GetParentUID(employee) != _parent.UID || GetParentUID(employee) == Guid.Empty)) 
+			else if (employeeListItemViewModel != null && (GetParentUID(employee) != _parent.UID || GetParentUID(employee) == Guid.Empty))
 			{
 				Employees.Remove(employeeListItemViewModel);
 			}
@@ -197,7 +197,7 @@ namespace SKDModule.ViewModels
 				OnPropertyChanged(() => IsDeleted);
 			}
 		}
-		
+
 		public EmployeeListItemViewModel() { }
 
 		public void Initialize(ShortEmployee employee)

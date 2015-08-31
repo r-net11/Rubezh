@@ -137,6 +137,8 @@
     <Compile Include="Converters\StringToVisibilityConverter.cs" />
     <Compile Include="Converters\XStateClassToSKDStringConverter2.cs" />
     <Compile Include="Converters\XStateClassToStringConverter2.cs" />
+    <Compile Include="FeaturedComboBox.cs" />
+    <Compile Include="FeaturedComboboxItem.cs" />
     <Compile Include="IsDeletedTextBlock.xaml.cs">
       <DependentUpon>IsDeletedTextBlock.xaml</DependentUpon>
     </Compile>
@@ -364,6 +366,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\DateTimePickerStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\FeaturedComboBoxStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

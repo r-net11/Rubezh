@@ -67,22 +67,22 @@ namespace FiresecAPI.SKD
 		public string DocumentNumber { get; set; }
 
 		[DataMember]
-		public DateTime BirthDate { get; set; }
+		public DateTime? BirthDate { get; set; }
 
 		[DataMember]
 		public string BirthPlace { get; set; }
 
 		[DataMember]
-		public DateTime DocumentGivenDate { get; set; }
+		public DateTime? DocumentGivenDate { get; set; }
 
 		[DataMember]
 		public string DocumentGivenBy { get; set; }
 
 		[DataMember]
-		public DateTime DocumentValidTo { get; set; }
+		public DateTime? DocumentValidTo { get; set; }
 
 		[DataMember]
-		public Gender Gender { get; set; }
+		public Gender? Gender { get; set; }
 
 		[DataMember]
 		public string DocumentDepartmentCode { get; set; }
@@ -91,7 +91,7 @@ namespace FiresecAPI.SKD
 		public string Citizenship { get; set; }
 
 		[DataMember]
-		public EmployeeDocumentType DocumentType { get; set; }
+		public EmployeeDocumentType? DocumentType { get; set; }
 
 		[DataMember]
 		public DateTime LastEmployeeDayUpdate { get; set; }

@@ -66,11 +66,11 @@ namespace SKDDriver
 			tableItem.LastName = exportItem.LastName;
 			tableItem.CredentialsStartDate = TranslatiorHelper.CheckDate(exportItem.CredentialsStartDate);
 			tableItem.DocumentNumber = exportItem.DocumentNumber;
-			tableItem.BirthDate = TranslatiorHelper.CheckDate(tableItem.BirthDate);
+			tableItem.BirthDate = tableItem.BirthDate;
 			tableItem.BirthPlace = tableItem.BirthPlace;
-			tableItem.DocumentGivenDate = TranslatiorHelper.CheckDate(exportItem.DocumentGivenDate);
+			tableItem.DocumentGivenDate = exportItem.DocumentGivenDate;
 			tableItem.DocumentGivenBy = exportItem.DocumentGivenBy;
-			tableItem.DocumentValidTo = TranslatiorHelper.CheckDate(exportItem.DocumentValidTo);
+			tableItem.DocumentValidTo = exportItem.DocumentValidTo;
 			tableItem.DocumentDepartmentCode = exportItem.DocumentDepartmentCode;
 			tableItem.Citizenship = exportItem.Citizenship;
 			tableItem.Description = exportItem.Description;
