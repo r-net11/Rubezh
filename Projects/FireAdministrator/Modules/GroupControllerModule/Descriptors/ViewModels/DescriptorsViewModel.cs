@@ -37,7 +37,7 @@ namespace GKModule.ViewModels
 			{
 				foreach (var descriptor in database.Descriptors)
 				{
-					var isFormulaInvalid = descriptor.Formula.CalculateStackLevels();
+					var isFormulaInvalid = descriptor.Formula.HasStackOverflow();
 					if (isFormulaInvalid)
 					{
 						MessageBoxService.ShowError("Ошибка глубины стека дескриптора " + descriptor.GKBase.GKDescriptorNo + " " + descriptor.GKBase.PresentationName);

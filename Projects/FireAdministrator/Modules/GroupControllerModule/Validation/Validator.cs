@@ -4,6 +4,7 @@ using FiresecAPI.GK;
 using FiresecClient;
 using Infrastructure.Common.Validation;
 using System.Diagnostics;
+using GKProcessor;
 
 namespace GKModule.Validation
 {
@@ -15,6 +16,7 @@ namespace GKModule.Validation
 		{
 			IsManyGK = GKManager.Devices.Count(x => x.DriverType == GKDriverType.GK) > 1;
 			GKManager.UpdateConfiguration();
+			DescriptorsManager.Create();
 			Errors = new List<IValidationError>();
 			ValidateGKObjectsCount();
 			ValidateDevices();
@@ -29,6 +31,7 @@ namespace GKModule.Validation
 			ValidateSKDZones();
 			ValidatePlans();
 			ValidateTypesCorrectness();
+			ValidateDescriptors();
 			return Errors;
 		}
 
@@ -54,6 +57,14 @@ namespace GKModule.Validation
 					gkDevices.Add(device.GKParent);
 			}
 			return (gkDevices.Count > 1);
+		}
+
+		void ValidateDescriptors()
+		{
+			foreach(var descriptorError in DescriptorsManager.Check())
+			{
+				Errors.Add(new DeviceValidationError(descriptorError.BaseDescriptor.GKBase.DataBaseParent, "Ошибка дескриптора: " + descriptorError.Error, ValidationErrorLevel.CannotWrite));
+			}
 		}
 	}
 }

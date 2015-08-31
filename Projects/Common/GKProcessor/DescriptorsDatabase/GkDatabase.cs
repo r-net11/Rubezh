@@ -7,12 +7,10 @@ namespace GKProcessor
 {
 	public class GkDatabase : CommonDatabase
 	{
-		List<GKDoor> Doors { get; set; }
 		public List<KauDatabase> KauDatabases { get; set; }
 
 		public GkDatabase(GKDevice gkControllerDevice)
 		{
-			Doors = new List<GKDoor>();
 			KauDatabases = new List<KauDatabase>();
 			DatabaseType = DatabaseType.Gk;
 			RootDevice = gkControllerDevice;
@@ -132,6 +130,8 @@ namespace GKProcessor
 				}
 				descriptor.Formula.Resolve(DatabaseType);
 				descriptor.FormulaBytes = descriptor.Formula.GetBytes();
+				descriptor.GKBase.InputDescriptors = descriptor.GKBase.InputDescriptors.OrderBy(x => x.No).ToList();
+				descriptor.GKBase.OutputDescriptors = descriptor.GKBase.OutputDescriptors.OrderBy(x => x.No).ToList();
 				descriptor.InitializeAllBytes();
 			}
 		}

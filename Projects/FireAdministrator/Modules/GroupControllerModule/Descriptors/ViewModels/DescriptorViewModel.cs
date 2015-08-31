@@ -65,7 +65,7 @@ namespace GKModule.ViewModels
 					break;
 			}
 
-			IsFormulaInvalid = Descriptor.Formula.CalculateStackLevels();
+			IsFormulaInvalid = Descriptor.Formula.HasStackOverflow();
 		}
 
 		public void InitializeLogic()

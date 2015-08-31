@@ -77,25 +77,18 @@ namespace GKProcessor
 			}
 		}
 
-		public static bool Check()
+		public static IEnumerable<DescriptorError> Check()
 		{
 			foreach (var kauDatabase in KauDatabases)
 			{
-				var result = kauDatabase.Check().ToList();
-				if (result.Count > 0)
-				{
-					return false;
-				}
+				foreach (var descriptorError in kauDatabase.Check())
+					yield return descriptorError;
 			}
 			foreach (var gkDatabase in GkDatabases)
 			{
-				var result = gkDatabase.Check().ToList();
-				if (result.Count > 0)
-				{
-					return false;
-				}
+				foreach (var descriptorError in gkDatabase.Check())
+					yield return descriptorError;
 			}
-			return true;
 		}
 	}
 }

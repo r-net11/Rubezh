@@ -262,7 +262,7 @@ namespace GKProcessor
 			return stackDepth;
 		}
 
-		public bool CalculateStackLevels()
+		public bool HasStackOverflow()
 		{
 			var stackDepths = new List<int>();
 			FormulaOperations.ForEach(x => x.StackLevels = new List<int>());
