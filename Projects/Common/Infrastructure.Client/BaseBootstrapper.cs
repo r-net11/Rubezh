@@ -17,11 +17,14 @@ using Infrastructure.Common.Configuration;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Diagnostics;
 
 namespace Infrastructure.Client
 {
 	public class BaseBootstrapper
 	{
+		protected string _login;
+		protected string _password;
 		private List<IModule> _modules;
 		public BaseBootstrapper()
 		{
@@ -254,6 +257,41 @@ namespace Infrastructure.Client
 			foreach (Type t in assembly.GetExportedTypes())
 				if (typeof(IModule).IsAssignableFrom(t) && t.GetConstructor(new Type[0]) != null)
 					_modules.Add((IModule)Activator.CreateInstance(t, new object[0]));
+		}
+				
+		public void RestartApplication()
+		{
+			var processStartInfo = new ProcessStartInfo()
+			{
+				FileName = Application.ResourceAssembly.Location,
+				Arguments = GetRestartCommandLineArguments(),
+				UseShellExecute = false
+			};
+			System.Diagnostics.Process.Start(processStartInfo);
+		}
+		string GetRestartCommandLineArguments()
+		{
+			string commandLineArguments = null;
+			if (_login != null && _password != null)
+				commandLineArguments = "login='" + _login + "' password='" + _password + "' ";
+			commandLineArguments += "restart";
+			return commandLineArguments;
+		}
+		public void InitializeCommandLineArguments(string[] args)
+		{
+			if (args != null)
+			{
+				if (args.Count() >= 2)
+				{
+					foreach (var arg in args)
+					{
+						if (arg.StartsWith("login='") && arg.EndsWith("'"))
+							_login = arg.Replace("login='", "").Replace("'", "");
+						if (arg.StartsWith("password='") && arg.EndsWith("'"))
+							_password = arg.Replace("password='", "").Replace("'", "");
+					}
+				}
+			}
 		}
 	}
 }

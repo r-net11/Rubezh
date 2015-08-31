@@ -63,12 +63,12 @@ namespace FiresecService.Service
                 {
                     while (true)
                     {
-                        ClientInfos.ForEach(x =>
-                        {
-                            if (x.LastPollDateTime != default(DateTime) && DateTime.Now - x.LastPollDateTime > inactiveTime)
-                                Remove(x.UID);
-                        });
-                        Thread.Sleep(inactiveTime.Milliseconds / 2);
+                        ClientInfos
+							.Where(x => x.LastPollDateTime != default(DateTime) && DateTime.Now - x.LastPollDateTime > inactiveTime)
+							.ToList()
+							.ForEach(x => Remove(x.UID));
+
+                        Thread.Sleep((int)inactiveTime.TotalMilliseconds / 2);
                     }
                 }) { Name = "RemoveInactiveClients", IsBackground = true };
             

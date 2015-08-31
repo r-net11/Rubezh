@@ -50,7 +50,8 @@ namespace FiresecAPI
 		ConfigurationChanged,
 	    QueryDb,
 		Disconnecting,
-		OperationResult
+		OperationResult,
+		LicenseChanged
 	}
 
     [DataContract]
