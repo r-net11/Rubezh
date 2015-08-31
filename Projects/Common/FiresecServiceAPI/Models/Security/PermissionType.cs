@@ -240,5 +240,8 @@ namespace FiresecAPI.Models
 
 		[DescriptionAttribute("Добавление, удаление, редактирование типа документов в списке 'Типы документов'")]
 		Oper_SKD_TimeTrack_DocumentTypes_Edit,
+
+		[DescriptionAttribute("Настройка ночных интервалов")]
+		Oper_SKD_TimeTrack_NightSettings_Edit,
 	}
 }

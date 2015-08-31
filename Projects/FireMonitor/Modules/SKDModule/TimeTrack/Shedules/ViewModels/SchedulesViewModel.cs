@@ -20,7 +20,6 @@ namespace SKDModule.ViewModels
 		{
 			ServiceFactory.Events.GetEvent<UpdateFilterEvent>().Unsubscribe(OnUpdateFilter);
 			ServiceFactory.Events.GetEvent<UpdateFilterEvent>().Subscribe(OnUpdateFilter);
-			ShowSettingsCommand = new RelayCommand(OnShowSettings, CanShowSettings);
 			_updateOrganisationDoorsEventSubscriber = new UpdateOrganisationDoorsEventSubscriber<ScheduleViewModel>(this);
 		}
 
@@ -114,18 +113,6 @@ namespace SKDModule.ViewModels
 			};
 			Initialize(filter);
 		}
-
-		public RelayCommand ShowSettingsCommand { get; private set; }
-		void OnShowSettings()
-		{
-			var nightSettingsViewModel = new NightSettingsViewModel(ParentOrganisation.Organisation.UID);
-			DialogService.ShowModalWindow(nightSettingsViewModel);
-		}
-		bool CanShowSettings()
-		{
-			return ParentOrganisation != null && !ParentOrganisation.IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Holidays_Edit);
-		}
-
 		public List<ScheduleViewModel> DoorsParents
 		{
 			get { return Organisations.SelectMany(x => x.Children).ToList(); }
