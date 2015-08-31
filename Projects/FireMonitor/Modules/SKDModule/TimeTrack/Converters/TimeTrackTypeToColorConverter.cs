@@ -46,7 +46,7 @@ namespace SKDModule.Converters
 					return Brushes.LightGray;
 
 				case TimeTrackType.Holiday:
-					return Brushes.DarkGray;
+					return Brushes.Orange;
 
 				case TimeTrackType.DocumentOvertime:
 					return Brushes.LightYellow;
