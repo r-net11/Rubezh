@@ -63,10 +63,14 @@ namespace FiresecService.Service
                 {
                     while (true)
                     {
-                        ClientInfos
-							.Where(x => x.LastPollDateTime != default(DateTime) && DateTime.Now - x.LastPollDateTime > inactiveTime)
-							.ToList()
-							.ForEach(x => Remove(x.UID));
+						try
+						{
+							ClientInfos
+								.Where(x => x.LastPollDateTime != default(DateTime) && DateTime.Now - x.LastPollDateTime > inactiveTime)
+								.ToList()
+								.ForEach(x => Remove(x.UID));
+						}
+						catch { }
 
                         Thread.Sleep((int)inactiveTime.TotalMilliseconds / 2);
                     }
