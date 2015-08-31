@@ -85,12 +85,12 @@ namespace SKDModule.ViewModels
 			SecondName = Employee.SecondName;
 			LastName = Employee.LastName;
 			DocumentNumber = Employee.DocumentNumber;
-			BirthDate = Employee.BirthDate;
+			BirthDate = Employee.BirthDate.HasValue ? Employee.BirthDate.Value.Date : default(DateTime?);
 			BirthPlace = Employee.BirthPlace;
 			GivenBy = Employee.DocumentGivenBy;
-			GivenDate = Employee.DocumentGivenDate;
+			GivenDate = Employee.DocumentGivenDate.HasValue ? Employee.DocumentGivenDate.Value.Date : default(DateTime?);
 			Gender = Employee.Gender;
-			ValidTo = Employee.DocumentValidTo;
+			ValidTo = Employee.DocumentValidTo.HasValue ? Employee.DocumentValidTo.Value.Date : default(DateTime?);
 			Citizenship = Employee.Citizenship;
 			DocumentType = Employee.DocumentType;
 			Phone = Employee.Phone;
@@ -373,8 +373,8 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		DateTime _birthDate;
-		public DateTime BirthDate
+		DateTime? _birthDate;
+		public DateTime? BirthDate
 		{
 			get { return _birthDate; }
 			set
@@ -395,8 +395,8 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		DateTime _givenDate;
-		public DateTime GivenDate
+		DateTime? _givenDate;
+		public DateTime? GivenDate
 		{
 			get { return _givenDate; }
 			set
@@ -428,8 +428,8 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		DateTime _validTo;
-		public DateTime ValidTo
+		DateTime? _validTo;
+		public DateTime? ValidTo
 		{
 			get { return _validTo; }
 			set
@@ -461,8 +461,8 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		EmployeeDocumentType _documentType;
-		public EmployeeDocumentType DocumentType
+		EmployeeDocumentType? _documentType;
+		public EmployeeDocumentType? DocumentType
 		{
 			get { return _documentType; }
 			set

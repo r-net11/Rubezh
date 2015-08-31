@@ -4735,7 +4735,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Data", DbType="VarBinary(MAX)", CanBeNull=true, UpdateCheck=UpdateCheck.Never)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Data", DbType="VarBinary(MAX)", UpdateCheck=UpdateCheck.Never)]
 		public System.Data.Linq.Binary Data
 		{
 			get
@@ -5206,7 +5206,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Data", DbType="VarBinary(MAX)", CanBeNull=true, UpdateCheck=UpdateCheck.Never)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Data", DbType="VarBinary(MAX)", UpdateCheck=UpdateCheck.Never)]
 		public System.Data.Linq.Binary Data
 		{
 			get
@@ -7507,15 +7507,15 @@ namespace SKDDriver.DataAccess
 		
 		private string _DocumentNumber;
 		
-		private System.DateTime _BirthDate;
+		private System.Nullable<System.DateTime> _BirthDate;
 		
 		private string _BirthPlace;
 		
-		private System.DateTime _DocumentGivenDate;
+		private System.Nullable<System.DateTime> _DocumentGivenDate;
 		
 		private string _DocumentGivenBy;
 		
-		private System.DateTime _DocumentValidTo;
+		private System.Nullable<System.DateTime> _DocumentValidTo;
 		
 		private System.Nullable<int> _Gender;
 		
@@ -7523,7 +7523,7 @@ namespace SKDDriver.DataAccess
 		
 		private string _Citizenship;
 		
-		private int _DocumentType;
+		private System.Nullable<int> _DocumentType;
 		
 		private string _Phone;
 		
@@ -7601,15 +7601,15 @@ namespace SKDDriver.DataAccess
     partial void OnOrganisationUIDChanged();
     partial void OnDocumentNumberChanging(string value);
     partial void OnDocumentNumberChanged();
-    partial void OnBirthDateChanging(System.DateTime value);
+    partial void OnBirthDateChanging(System.Nullable<System.DateTime> value);
     partial void OnBirthDateChanged();
     partial void OnBirthPlaceChanging(string value);
     partial void OnBirthPlaceChanged();
-    partial void OnDocumentGivenDateChanging(System.DateTime value);
+    partial void OnDocumentGivenDateChanging(System.Nullable<System.DateTime> value);
     partial void OnDocumentGivenDateChanged();
     partial void OnDocumentGivenByChanging(string value);
     partial void OnDocumentGivenByChanged();
-    partial void OnDocumentValidToChanging(System.DateTime value);
+    partial void OnDocumentValidToChanging(System.Nullable<System.DateTime> value);
     partial void OnDocumentValidToChanged();
     partial void OnGenderChanging(System.Nullable<int> value);
     partial void OnGenderChanged();
@@ -7617,7 +7617,7 @@ namespace SKDDriver.DataAccess
     partial void OnDocumentDepartmentCodeChanged();
     partial void OnCitizenshipChanging(string value);
     partial void OnCitizenshipChanged();
-    partial void OnDocumentTypeChanging(int value);
+    partial void OnDocumentTypeChanging(System.Nullable<int> value);
     partial void OnDocumentTypeChanged();
     partial void OnPhoneChanging(string value);
     partial void OnPhoneChanged();
@@ -8014,7 +8014,7 @@ namespace SKDDriver.DataAccess
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BirthDate", DbType="DateTime NOT NULL")]
-		public System.DateTime BirthDate
+		public System.Nullable<System.DateTime> BirthDate
 		{
 			get
 			{
@@ -8054,7 +8054,7 @@ namespace SKDDriver.DataAccess
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DocumentGivenDate", DbType="DateTime NOT NULL")]
-		public System.DateTime DocumentGivenDate
+		public System.Nullable<System.DateTime> DocumentGivenDate
 		{
 			get
 			{
@@ -8094,7 +8094,7 @@ namespace SKDDriver.DataAccess
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DocumentValidTo", DbType="DateTime NOT NULL")]
-		public System.DateTime DocumentValidTo
+		public System.Nullable<System.DateTime> DocumentValidTo
 		{
 			get
 			{
@@ -8173,8 +8173,8 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DocumentType", DbType="Int NOT NULL")]
-		public int DocumentType
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DocumentType", DbType="Int NULL")]
+		public System.Nullable<int> DocumentType
 		{
 			get
 			{

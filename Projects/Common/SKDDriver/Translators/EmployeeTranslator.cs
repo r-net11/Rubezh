@@ -220,7 +220,7 @@ namespace SKDDriver
 			result.Schedule = DatabaseService.ScheduleTranslator.GetSingleShort(tableItem.ScheduleUID);
 			result.ScheduleStartDate = tableItem.ScheduleStartDate;
 			result.AdditionalColumns = DatabaseService.AdditionalColumnTranslator.GetAllByEmployee<DataAccess.AdditionalColumn>(tableItem.UID).Where(x => x.AdditionalColumnType != null).ToList();
-			result.Type = (PersonType)tableItem.Type;
+			result.Type = (PersonType)tableItem.Type; //TODO: nullable field o nullable type
 			result.Cards = DatabaseService.CardTranslator.GetAllByEmployee<DataAccess.Card>(tableItem.UID);
 			result.Position = DatabaseService.PositionTranslator.GetSingleShort(tableItem.PositionUID);
 			result.Photo = GetResult(DatabaseService.PhotoTranslator.GetSingle(tableItem.PhotoUID));
@@ -236,7 +236,7 @@ namespace SKDDriver
 			result.Gender = (Gender?)tableItem.Gender;
 			result.DocumentDepartmentCode = tableItem.DocumentDepartmentCode;
 			result.Citizenship = tableItem.Citizenship;
-			result.DocumentType = (EmployeeDocumentType)tableItem.DocumentType;
+			result.DocumentType = (EmployeeDocumentType?)tableItem.DocumentType;
 			result.Phone = tableItem.Phone;
 			result.LastEmployeeDayUpdate = tableItem.LastEmployeeDayUpdate;
 			return result;
@@ -286,20 +286,20 @@ namespace SKDDriver
 			tableItem.ScheduleUID = apiItem.Schedule != null ? apiItem.Schedule.UID : Guid.Empty;
 			tableItem.ScheduleStartDate = TranslatiorHelper.CheckDate(apiItem.ScheduleStartDate);
 			tableItem.PhotoUID = apiItem.Photo != null ? apiItem.Photo.UID : Guid.Empty;
-			tableItem.Type = (int)apiItem.Type;
+			tableItem.Type = (int)apiItem.Type; //TODO: Not null to nullable field
 			tableItem.TabelNo = apiItem.TabelNo;
 			tableItem.CredentialsStartDate = TranslatiorHelper.CheckDate(apiItem.CredentialsStartDate);
 			tableItem.EscortUID = apiItem.EscortUID;
 			tableItem.DocumentNumber = apiItem.DocumentNumber;
-			tableItem.BirthDate = TranslatiorHelper.CheckDate(apiItem.BirthDate);
+			tableItem.BirthDate = apiItem.BirthDate;
 			tableItem.BirthPlace = apiItem.BirthPlace;
 			tableItem.DocumentGivenBy = apiItem.DocumentGivenBy;
-			tableItem.DocumentGivenDate = TranslatiorHelper.CheckDate(apiItem.DocumentGivenDate);
-			tableItem.DocumentValidTo = TranslatiorHelper.CheckDate(apiItem.DocumentValidTo);
+			tableItem.DocumentGivenDate = apiItem.DocumentGivenDate;
+			tableItem.DocumentValidTo = apiItem.DocumentValidTo;
 			tableItem.Gender = (int?)apiItem.Gender;
 			tableItem.DocumentDepartmentCode = apiItem.DocumentDepartmentCode;
 			tableItem.Citizenship = apiItem.Citizenship;
-			tableItem.DocumentType = (int)apiItem.DocumentType;
+			tableItem.DocumentType = (int?)apiItem.DocumentType;
 			tableItem.Phone = apiItem.Phone;
 			tableItem.LastEmployeeDayUpdate = TranslatiorHelper.CheckDate(apiItem.LastEmployeeDayUpdate);
 			if (tableItem.ExternalKey == null)

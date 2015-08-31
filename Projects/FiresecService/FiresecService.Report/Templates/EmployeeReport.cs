@@ -44,14 +44,14 @@ namespace FiresecService.Report.Templates
 			{
 				var dataRow = dataSet.Data.NewDataRow();
 				dataRow.IsEmployee = filter.IsEmployee;
-				dataRow.BirthDay = employee.Item.BirthDate;
+				dataRow.BirthDay = employee.Item.BirthDate.GetValueOrDefault();
 				dataRow.BirthPlace = employee.Item.BirthPlace;
 				dataRow.Department = employee.Department;
 				dataRow.Document = employee.Item.DocumentType.ToDescription();
 				dataRow.DocumentIssuer = employee.Item.DocumentGivenBy;
 				dataRow.DocumentNumber = employee.Item.DocumentNumber;
-				dataRow.DocumentValidFrom = employee.Item.DocumentGivenDate;
-				dataRow.DocumentValidTo = employee.Item.DocumentValidTo;
+				dataRow.DocumentValidFrom = employee.Item.DocumentGivenDate.GetValueOrDefault();
+				dataRow.DocumentValidTo = employee.Item.DocumentValidTo.GetValueOrDefault();
 				dataRow.FirstName = employee.Item.FirstName;
 				dataRow.LastName = employee.Item.LastName;
 				dataRow.Nationality = employee.Item.Citizenship;

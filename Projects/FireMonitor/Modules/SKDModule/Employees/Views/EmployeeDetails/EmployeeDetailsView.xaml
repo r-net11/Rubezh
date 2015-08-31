@@ -333,7 +333,7 @@
 					HorizontalAlignment="Right"
 					Content="Номер" />
 				<TextBox
-					Grid.Row="0"
+					x:Name="FirstTextBox"
 					Grid.Column="1"
 					Margin="2"
 					Text="{Binding DocumentNumber,
@@ -358,6 +358,7 @@
 					Grid.Row="2"
 					Grid.Column="1"
 					VerticalAlignment="Center"
+					Width="{Binding ElementName=FirstTextBox, Path=ActualWidth}"
 					Mask="00/00/0000"
 					NullValue="{x:Null}"
 					ValueDataType="{x:Type s:DateTime}"
@@ -377,7 +378,6 @@
 				                        UpdateSourceTrigger=PropertyChanged}" />
 				<Label
 					Grid.Row="4"
-					Grid.Column="0"
 					HorizontalAlignment="Right"
 					Content="Дата выдачи" />
 				<xctk:MaskedTextBox
@@ -385,6 +385,7 @@
 					Grid.Column="1"
 					VerticalAlignment="Center"
 					Mask="00/00/0000"
+					Width="{Binding ElementName=FirstTextBox, Path=ActualWidth}"
 					ValueDataType="{x:Type s:DateTime}"
 					Value="{Binding GivenDate,
 				                                    Mode=TwoWay,
@@ -399,6 +400,7 @@
 					Grid.Column="1"
 					VerticalAlignment="Center"
 					Mask="00/00/0000"
+					Width="{Binding ElementName=FirstTextBox, Path=ActualWidth}"
 					ValueDataType="{x:Type s:DateTime}"
 					Value="{Binding ValidTo,
 				                                    Mode=TwoWay,
@@ -438,18 +440,20 @@
 					Grid.Column="0"
 					HorizontalAlignment="Right"
 					Content="Тип документа" />
-				<ComboBox
+				<Controls:FeaturedComboBox
 					Grid.Row="8"
+					CanSelectNullItem="True"
+					NullValueText=""
 					Grid.Column="1"
 					Margin="2"
 					ItemsSource="{Binding DocumentTypes}"
 					SelectedItem="{Binding DocumentType}">
-					<ComboBox.ItemTemplate>
+					<Controls:FeaturedComboBox.ItemTemplate>
 						<DataTemplate>
 							<TextBlock Margin="1" Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
 						</DataTemplate>
-					</ComboBox.ItemTemplate>
-				</ComboBox>
+					</Controls:FeaturedComboBox.ItemTemplate>
+				</Controls:FeaturedComboBox>
 			</Grid>
 		</TabItem>
 		<TabItem Header="{Binding GraphicsColumnsTabItemName}">
