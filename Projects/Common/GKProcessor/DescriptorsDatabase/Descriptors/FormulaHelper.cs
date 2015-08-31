@@ -9,11 +9,8 @@ namespace GKProcessor
 {
 	public static class FormulaHelper
 	{
-		public static bool AddCodeReaderLogic(FormulaBuilder formula, GKCodeReaderSettingsPart settingsPart, GKDevice device)
+		public static void AddCodeReaderLogic(FormulaBuilder formula, GKCodeReaderSettingsPart settingsPart, GKDevice device)
 		{
-			if (settingsPart.CodeReaderEnterType == GKCodeReaderEnterType.None || (settingsPart.CodeUIDs.Count == 0 && settingsPart.AccessLevel == 0))
-				return false;
-
 			var stateBit = CodeReaderEnterTypeToStateBit(settingsPart.CodeReaderEnterType);
 			formula.AddGetBit(stateBit, device);
 			formula.Add(FormulaOperationType.BR, 2, 2);
@@ -43,7 +40,6 @@ namespace GKProcessor
 			}
 
 			gotoFormulaOperation.SecondOperand = (ushort)(formula.FormulaOperations.Count - formulaNo);
-			return true;
 		}
 
 		static GKStateBit CodeReaderEnterTypeToStateBit(GKCodeReaderEnterType codeReaderEnterType)
