@@ -3,9 +3,18 @@ using FiresecAPI.Journal;
 using FiresecAPI.Models;
 using FiresecAPI.SKD;
 using SKDDriver;
+using SKDDriver.DataAccess;
 using SKDDriver.Translators;
 using System;
 using System.Collections.Generic;
+using DayInterval = FiresecAPI.SKD.DayInterval;
+using DayIntervalPart = FiresecAPI.SKD.DayIntervalPart;
+using Holiday = FiresecAPI.SKD.Holiday;
+using Schedule = FiresecAPI.SKD.Schedule;
+using ScheduleScheme = FiresecAPI.SKD.ScheduleScheme;
+using ScheduleZone = FiresecAPI.SKD.ScheduleZone;
+using TimeTrackDocument = FiresecAPI.SKD.TimeTrackDocument;
+using TimeTrackDocumentType = FiresecAPI.SKD.TimeTrackDocumentType;
 
 namespace FiresecService.Service
 {
@@ -343,8 +352,9 @@ namespace FiresecService.Service
 					{
 						bool? setAdjustmentFlag;
 						bool setBordersChangedFlag;
+						bool setForceClosedFlag;
 
-						databaseService.PassJournalTranslator.EditPassJournal(dayTimeTrackPart, employee, out setAdjustmentFlag, out setBordersChangedFlag);
+						databaseService.PassJournalTranslator.EditPassJournal(dayTimeTrackPart, employee, out setAdjustmentFlag, out setBordersChangedFlag, out setForceClosedFlag);
 
 						if (setAdjustmentFlag == true)
 							AddJournalMessage(JournalEventNameType.Установка_неУчитывать_в_расчетах,
@@ -359,7 +369,7 @@ namespace FiresecService.Service
 										"Интервал добавлен в расчеты (" + dayTimeTrackPart.EnterDateTime + " - " + dayTimeTrackPart.ExitDateTime + ", зона " + dayTimeTrackPart.TimeTrackZone.Name + ")",
 										currentUser.Name);
 
-						if (dayTimeTrackPart.IsForceClosed)
+						if (setForceClosedFlag)
 							AddJournalMessage(JournalEventNameType.Закрытие_интервала,
 										"Интервал рабочего времени (" + employee.FIO + ")",
 										JournalEventDescriptionType.NULL,
@@ -417,11 +427,6 @@ namespace FiresecService.Service
 			{
 				return databaseService.CardTranslator.GetMinDate();
 			}
-		}
-
-		public void CancelSKDProgress(Guid progressCallbackUID, string userName)
-		{
-			throw new NotImplementedException();
 		}
 	}
 }

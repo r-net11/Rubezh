@@ -1,4 +1,5 @@
-﻿using Common;
+﻿using ChinaSKDDriver;
+using Common;
 using FiresecAPI;
 using FiresecAPI.Journal;
 using FiresecAPI.Models;
@@ -182,6 +183,11 @@ namespace FiresecService.Service
 		public OperationResult ResetDB()
 		{
 			return PatchManager.ResetDB();
+		}
+
+		public void CancelSKDProgress(Guid progressCallbackUID, string userName)
+		{
+			Processor.CancelProgress(progressCallbackUID, userName);
 		}
 	}
 }

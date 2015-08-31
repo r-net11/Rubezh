@@ -107,7 +107,8 @@ namespace FireAdministrator
 					case SKDProgressCallbackType.Progress:
 						if (SKDProgressCallback.SKDProgressClientType == SKDProgressClientType.Administrator)
 						{
-							LoadingService.DoStep(SKDProgressCallback.Text, SKDProgressCallback.Title, SKDProgressCallback.StepCount, SKDProgressCallback.CurrentStep, SKDProgressCallback.CanCancel);
+							//LoadingService.DoStep(SKDProgressCallback.Text, SKDProgressCallback.Title, SKDProgressCallback.StepCount, SKDProgressCallback.CurrentStep, SKDProgressCallback.CanCancel);
+							LoadingService.DoStep(SKDProgressCallback.Text);
 							if (LoadingService.IsCanceled)
 							{
 								FiresecManager.FiresecService.CancelSKDProgress(SKDProgressCallback.UID, FiresecManager.CurrentUser.Name);
