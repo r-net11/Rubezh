@@ -37,13 +37,13 @@
             this.checkBoxSecurityAlarm = new System.Windows.Forms.CheckBox();
             this.checkBoxSkd = new System.Windows.Forms.CheckBox();
             this.checkBoxControlScripts = new System.Windows.Forms.CheckBox();
-            this.checkBoxOrsServer = new System.Windows.Forms.CheckBox();
+            this.checkBoxOpcServer = new System.Windows.Forms.CheckBox();
             this.labelNumberOfUsers = new System.Windows.Forms.Label();
             this.labelFireAlarm = new System.Windows.Forms.Label();
             this.labelSecurityAlarm = new System.Windows.Forms.Label();
             this.labelSkd = new System.Windows.Forms.Label();
             this.labelControlScripts = new System.Windows.Forms.Label();
-            this.labelOrsServer = new System.Windows.Forms.Label();
+            this.labelOpcServer = new System.Windows.Forms.Label();
             this.numericUpDownNumberOfUsers = new System.Windows.Forms.NumericUpDown();
             this.buttonLoad = new System.Windows.Forms.Button();
             this.buttonSave = new System.Windows.Forms.Button();
@@ -71,7 +71,7 @@
             this.tableLayoutPanelCenter.ColumnCount = 2;
             this.tableLayoutPanelCenter.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 73F));
             this.tableLayoutPanelCenter.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 27F));
-            this.tableLayoutPanelCenter.Controls.Add(this.labelOrsServer, 0, 5);
+            this.tableLayoutPanelCenter.Controls.Add(this.labelOpcServer, 0, 5);
             this.tableLayoutPanelCenter.Controls.Add(this.labelControlScripts, 0, 4);
             this.tableLayoutPanelCenter.Controls.Add(this.labelSkd, 0, 3);
             this.tableLayoutPanelCenter.Controls.Add(this.labelFireAlarm, 0, 1);
@@ -79,7 +79,7 @@
             this.tableLayoutPanelCenter.Controls.Add(this.checkBoxSecurityAlarm, 1, 2);
             this.tableLayoutPanelCenter.Controls.Add(this.checkBoxSkd, 1, 3);
             this.tableLayoutPanelCenter.Controls.Add(this.checkBoxControlScripts, 1, 4);
-            this.tableLayoutPanelCenter.Controls.Add(this.checkBoxOrsServer, 1, 5);
+            this.tableLayoutPanelCenter.Controls.Add(this.checkBoxOpcServer, 1, 5);
             this.tableLayoutPanelCenter.Controls.Add(this.labelNumberOfUsers, 0, 0);
             this.tableLayoutPanelCenter.Controls.Add(this.numericUpDownNumberOfUsers, 1, 0);
             this.tableLayoutPanelCenter.Controls.Add(this.labelSecurityAlarm, 0, 2);
@@ -161,14 +161,14 @@
             this.checkBoxControlScripts.TabIndex = 6;
             this.checkBoxControlScripts.UseVisualStyleBackColor = true;
             // 
-            // checkBoxOrsServer
+            // checkBoxOpcServer
             // 
-            this.checkBoxOrsServer.AutoSize = true;
-            this.checkBoxOrsServer.Location = new System.Drawing.Point(366, 121);
-            this.checkBoxOrsServer.Name = "checkBoxOrsServer";
-            this.checkBoxOrsServer.Size = new System.Drawing.Size(15, 14);
-            this.checkBoxOrsServer.TabIndex = 7;
-            this.checkBoxOrsServer.UseVisualStyleBackColor = true;
+            this.checkBoxOpcServer.AutoSize = true;
+            this.checkBoxOpcServer.Location = new System.Drawing.Point(366, 121);
+            this.checkBoxOpcServer.Name = "checkBoxOpcServer";
+            this.checkBoxOpcServer.Size = new System.Drawing.Size(15, 14);
+            this.checkBoxOpcServer.TabIndex = 7;
+            this.checkBoxOpcServer.UseVisualStyleBackColor = true;
             // 
             // labelNumberOfUsers
             // 
@@ -225,16 +225,16 @@
             this.labelControlScripts.Text = "Сценарии управления:";
             this.labelControlScripts.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // labelOrsServer
+            // labelOpcServer
             // 
-            this.labelOrsServer.AutoSize = true;
-            this.labelOrsServer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelOrsServer.Location = new System.Drawing.Point(5, 118);
-            this.labelOrsServer.Name = "labelOrsServer";
-            this.labelOrsServer.Size = new System.Drawing.Size(353, 22);
-            this.labelOrsServer.TabIndex = 13;
-            this.labelOrsServer.Text = "ОРС-Сервер:";
-            this.labelOrsServer.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.labelOpcServer.AutoSize = true;
+            this.labelOpcServer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.labelOpcServer.Location = new System.Drawing.Point(5, 118);
+            this.labelOpcServer.Name = "labelOpcServer";
+            this.labelOpcServer.Size = new System.Drawing.Size(353, 22);
+            this.labelOpcServer.TabIndex = 13;
+            this.labelOpcServer.Text = "ОРС-Сервер:";
+            this.labelOpcServer.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // numericUpDownNumberOfUsers
             // 
@@ -312,8 +312,8 @@
         private System.Windows.Forms.CheckBox checkBoxSecurityAlarm;
         private System.Windows.Forms.CheckBox checkBoxSkd;
         private System.Windows.Forms.CheckBox checkBoxControlScripts;
-        private System.Windows.Forms.CheckBox checkBoxOrsServer;
-        private System.Windows.Forms.Label labelOrsServer;
+        private System.Windows.Forms.CheckBox checkBoxOpcServer;
+        private System.Windows.Forms.Label labelOpcServer;
         private System.Windows.Forms.Label labelControlScripts;
         private System.Windows.Forms.Label labelSkd;
         private System.Windows.Forms.Label labelFireAlarm;
