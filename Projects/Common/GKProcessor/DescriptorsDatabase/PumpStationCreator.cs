@@ -156,7 +156,9 @@ namespace GKProcessor
 						jnDescriptor.Formula.AddGetBit(GKStateBit.On, PumpStation);
 						jnDescriptor.Formula.AddGetBit(GKStateBit.TurningOn, PumpStation);
 						jnDescriptor.Formula.Add(FormulaOperationType.OR);
+						jnDescriptor.Formula.Add(FormulaOperationType.DUP);
 						jnDescriptor.Formula.AddPutBit(GKStateBit.SetRegime_Manual, jockeyPumpDevice);
+						jnDescriptor.Formula.AddPutBit(GKStateBit.TurnOff_InManual, jockeyPumpDevice);
 						jnDescriptor.Formula.Add(FormulaOperationType.END);
 						jnDescriptor.IsFormulaGeneratedOutside = true;
 					}
