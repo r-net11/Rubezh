@@ -13,56 +13,23 @@ using SKDModule.Events;
 
 namespace SKDModule.ViewModels
 {
-	public class ScheduleSchemesViewModel : OrganisationBaseViewModel<ScheduleScheme, ScheduleSchemeFilter, ScheduleSchemeViewModel, ScheduleSchemeDetailsViewModel>, ISelectable<Guid>, ITimeTrackItemsViewModel
+	public class ScheduleSchemesViewModel : OrganisationBaseViewModel<ScheduleScheme, ScheduleSchemeFilter, ScheduleSchemeViewModel, ScheduleSchemeDetailsViewModel>, ISelectable<Guid>
 	{
-		bool _isInitialized;
 		private Dictionary<Guid, ObservableCollection<DayInterval>> _dayIntervals;
+		public static ScheduleSchemesViewModel Current { get; private set; }
 		
 		public ScheduleSchemesViewModel()
 			:base()
 		{
-			_isInitialized = false;
-			_changeIsDeletedSubscriber = new ChangeIsDeletedSubscriber(this);
+			Current = this;
 			ServiceFactory.Events.GetEvent<EditDayIntervalEvent>().Unsubscribe(OnEditDayInterval);
 			ServiceFactory.Events.GetEvent<EditDayIntervalEvent>().Subscribe(OnEditDayInterval);
 		}
 
-		public LogicalDeletationType LogicalDeletationType { get; set; }
-		ChangeIsDeletedSubscriber _changeIsDeletedSubscriber;
-
-		public void Initialize()
+		public override void Initialize(ScheduleSchemeFilter filter)
 		{
-			var filter = new ScheduleSchemeFilter() { UserUID = FiresecManager.CurrentUser.UID, LogicalDeletationType = LogicalDeletationType };
-			Initialize(filter);
-		}
-
-		public override void OnShow()
-		{
-			base.OnShow();
-			if (!_isInitialized)
-			{
-				Initialize();
-				_isInitialized = true;
-			}
+			base.Initialize(filter);
 			ReloadDayIntervals();
-		}
-
-		protected override void OnEditOrganisation(Organisation newOrganisation)
-		{
-			if(_isInitialized)
-				base.OnEditOrganisation(newOrganisation);
-		}
-
-		protected override void OnOrganisationUsersChanged(Organisation newOrganisation)
-		{
-			if(_isInitialized)
-				base.OnOrganisationUsersChanged(newOrganisation);
-		}
-
-		protected override void OnRemoveOrganisation(Guid organisationUID)
-		{
-			if (_isInitialized)
-				base.OnRemoveOrganisation(organisationUID);
 		}
 
 		public void ReloadDayIntervals()

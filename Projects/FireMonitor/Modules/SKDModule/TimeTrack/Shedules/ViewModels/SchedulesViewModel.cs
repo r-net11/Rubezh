@@ -13,17 +13,11 @@ using SKDModule.Events;
 namespace SKDModule.ViewModels
 {
 	public class SchedulesViewModel 
-		: OrganisationBaseViewModel<Schedule, ScheduleFilter, ScheduleViewModel, ScheduleDetailsViewModel>, ISelectable<Guid>, ITimeTrackItemsViewModel, ICardDoorsParentList<ScheduleViewModel>
+		: OrganisationBaseViewModel<Schedule, ScheduleFilter, ScheduleViewModel, ScheduleDetailsViewModel>, ISelectable<Guid>, ICardDoorsParentList<ScheduleViewModel>
 	{
-		bool _isInitialized;
-		ChangeIsDeletedSubscriber _changeIsDeletedSubscriber;
-		public LogicalDeletationType LogicalDeletationType { get; set; }
-		
 		public SchedulesViewModel()
 			:base()
 		{
-			_isInitialized = false;
-			_changeIsDeletedSubscriber = new ChangeIsDeletedSubscriber(this);
 			ServiceFactory.Events.GetEvent<UpdateFilterEvent>().Unsubscribe(OnUpdateFilter);
 			ServiceFactory.Events.GetEvent<UpdateFilterEvent>().Subscribe(OnUpdateFilter);
 			ShowSettingsCommand = new RelayCommand(OnShowSettings, CanShowSettings);
@@ -32,44 +26,6 @@ namespace SKDModule.ViewModels
 
 		UpdateOrganisationDoorsEventSubscriber<ScheduleViewModel> _updateOrganisationDoorsEventSubscriber;
 
-		public void Initialize()
-		{
-			var filter = new ScheduleFilter()
-			{
-				UserUID = FiresecManager.CurrentUser.UID,
-				LogicalDeletationType = LogicalDeletationType
-			};
-			Initialize(filter);
-		}
-
-		protected override void OnEditOrganisation(Organisation newOrganisation)
-		{
-			if (_isInitialized)
-				base.OnEditOrganisation(newOrganisation);
-		}
-
-		protected override void OnOrganisationUsersChanged(Organisation newOrganisation)
-		{
-			if (_isInitialized)
-				base.OnOrganisationUsersChanged(newOrganisation);
-		}
-
-		protected override void OnRemoveOrganisation(Guid organisationUID)
-		{
-			if (_isInitialized)
-				base.OnRemoveOrganisation(organisationUID);
-		}
-
-		public override void OnShow()
-		{
-			base.OnShow();
-			if (!_isInitialized)
-			{
-				Initialize();
-				_isInitialized = true;
-			}
-		}
-
 		public void Select(Guid scheduleUID)
 		{
 			if (scheduleUID != Guid.Empty)
@@ -77,7 +33,7 @@ namespace SKDModule.ViewModels
 				var scheduleViewModel = Organisations.SelectMany(x => x.Children).FirstOrDefault(x => x.Model != null && x.Model.UID == scheduleUID);
 				if (scheduleViewModel != null)
 					scheduleViewModel.ExpandToThis();
-				SelectedItem= scheduleViewModel;
+				SelectedItem = scheduleViewModel;
 			}
 		}
 
@@ -153,7 +109,7 @@ namespace SKDModule.ViewModels
 			var filter = new ScheduleFilter()
 			{
 				UserUID = FiresecManager.CurrentUser.UID,
-				LogicalDeletationType = LogicalDeletationType,
+				LogicalDeletationType = hrFilter.LogicalDeletationType,
 				EmployeeUIDs = hrFilter.EmplooyeeUIDs
 			};
 			Initialize(filter);

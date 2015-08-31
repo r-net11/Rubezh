@@ -146,7 +146,6 @@
     <Compile Include="Drivers\RSR2\RSR2_Valve_DU_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_GuardDetectorSound_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_Buz_KV_Helper.cs" />
-    <Compile Include="GKLicenseProcessor.cs" />
     <Compile Include="GKProcessorManager.cs" />
     <Compile Include="Administrator\GKScheduleHelper.cs" />
     <Compile Include="Journal\JournalParser.cs" />

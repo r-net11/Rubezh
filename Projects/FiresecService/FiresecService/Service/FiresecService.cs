@@ -43,6 +43,8 @@ namespace FiresecService.Service
 
 		public OperationResult<bool> Connect(Guid uid, ClientCredentials clientCredentials, bool isNew)
 		{
+			if (DbService.ConnectionOperationResult.HasError)
+				return OperationResult<bool>.FromError("Отсутствует подключение к БД");
 			clientCredentials.ClientUID = uid;
 			InitializeClientCredentials(clientCredentials);
 
@@ -128,6 +130,7 @@ namespace FiresecService.Service
         {
             return new OperationResult<FiresecLicenseInfo>(new FiresecLicenseInfo()
             {
+                LicenseMode = LicenseHelper.LicenseMode,
                 NumberOfUsers = LicenseHelper.NumberOfUsers,
                 ControlScripts = LicenseHelper.ControlScripts,
                 FireAlarm = LicenseHelper.FireAlarm,
@@ -136,14 +139,5 @@ namespace FiresecService.Service
                 Skd = LicenseHelper.Skd
             });
         }
-
-		public OperationResult CheckDB()
-		{
-			using (var dbService = new DbService())
-			{
-				return dbService.CheckConnection();
-			}
-		}
-
     }
 }

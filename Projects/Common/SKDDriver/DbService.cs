@@ -36,6 +36,8 @@ namespace SKDDriver.DataClasses
 		public ImitatorScheduleTranslator ImitatorScheduleTranslator { get; private set; }
 		public ImitatorJournalTranslator ImitatorJournalTranslator { get; private set; }
 
+		public static OperationResult<bool> ConnectionOperationResult { get; set; }
+
         public static bool IsAbort
 		{
 			get { return JournalTranslator.IsAbort; }
@@ -93,17 +95,20 @@ namespace SKDDriver.DataClasses
 			}
 		}
 
-		public OperationResult CheckConnection()
+		public OperationResult<bool> CheckConnection()
 		{
+			var result = new OperationResult<bool>();
 			try
 			{
+				Context.Database.Connection.Open();
 				Context.Journals.FirstOrDefault();
-				return new OperationResult();
 			}
 			catch (Exception e)
 			{
-				return new OperationResult(e.Message);
+				result = OperationResult<bool>.FromError(e.Message);
 			}
+			ConnectionOperationResult = result;
+			return result;
 		}
 
 		public void Dispose()

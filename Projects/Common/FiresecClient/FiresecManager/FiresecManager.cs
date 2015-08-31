@@ -57,6 +57,7 @@ namespace FiresecClient
                 var operationResult = FiresecService.GetLicenseInfo();
                 if (!operationResult.HasError)
                 {
+                    LicenseHelper.LicenseMode = operationResult.Result.LicenseMode;
                     LicenseHelper.NumberOfUsers = operationResult.Result.NumberOfUsers;
                     LicenseHelper.ControlScripts = operationResult.Result.ControlScripts;
                     LicenseHelper.FireAlarm = operationResult.Result.FireAlarm;
@@ -74,11 +75,6 @@ namespace FiresecClient
                 return e.Message;
             }
         }
-
-		public static OperationResult CheckDB()
-		{
-			return FiresecService.CheckDB();
-		}
 
 		public static string GetIP()
 		{

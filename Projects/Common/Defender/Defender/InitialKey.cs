@@ -70,5 +70,19 @@ namespace Defender
 
             return Enumerable.Range(0, value.Length).Where(x => x % 2 == 0).Select(x => Convert.ToByte(value.Substring(x, 2), 16)).ToArray();
         }
+
+        public static bool operator ==(InitialKey initialKey1, InitialKey initialKey2)
+        {
+            if (Object.ReferenceEquals(initialKey1, initialKey2))
+                return true;
+            if (((object)initialKey1 == null) || ((object)initialKey1 == null))
+                return false;
+            return initialKey1._stringValue == initialKey2._stringValue;
+        }
+
+        public static bool operator !=(InitialKey initialKey1, InitialKey initialKey2)
+        {
+            return !(initialKey1 == initialKey2);
+        }
     }
 }

@@ -42,7 +42,10 @@ namespace FiresecClient
 			{
 				LogException(e, methodName);
 				OnConnectionLost();
-				Recover();
+                if (!Recover())
+                {
+                    FiresecServiceFactory.Dispose();
+                }
 			}
 			return OperationResult<T>.FromError("Ошибка при при вызове операции");
 		}
@@ -211,11 +214,6 @@ namespace FiresecClient
                 return OperationResult<FiresecLicenseInfo>.FromError("Не удается получить лицензию от " + _serverAddress);
             }, "GetLicenseInfo");
         }
-
-		public OperationResult CheckDB()
-		{
-			return SafeOperationCall(() => FiresecService.CheckDB(), "CheckDB");
-		}
 
 		public void Dispose()
 		{

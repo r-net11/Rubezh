@@ -6,6 +6,8 @@ namespace FiresecAPI
     public class FiresecLicenseInfo
     {
         [DataMember]
+		public LicenseMode LicenseMode { get; set; }
+        [DataMember]
         public int NumberOfUsers { get; set; }
         [DataMember]
         public bool FireAlarm { get; set; }
@@ -18,4 +20,11 @@ namespace FiresecAPI
         [DataMember]
         public bool OrsServer { get; set; }
     }
+
+	public enum LicenseMode
+	{
+		NoLicense,
+		HasLicense,
+		Demonstration
+	}
 }

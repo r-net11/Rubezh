@@ -1,25 +1,23 @@
 ﻿#region Usings
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Resources;
-using System.Windows;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
+using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecClient;
 using GKWebService.Models;
+using Infrastructure.Common.Services.Content;
 using Infrustructure.Plans.Elements;
 using Color = System.Windows.Media.Color;
 using Point = System.Windows.Point;
-using Size = System.Drawing.Size;
 
 #endregion
 
@@ -27,14 +25,15 @@ namespace GKWebService.DataProviders
 {
     public class PlansDataProvider
     {
-        private static PlansDataProvider _instance;
-
         private PlansDataProvider()
         {
             Plans = new List<PlanSimpl>();
         }
 
-        public static PlansDataProvider Instance => _instance ?? (_instance = new PlansDataProvider());
+        private static PlansDataProvider _instance;
+
+        public static PlansDataProvider Instance
+            => _instance ?? (_instance = new PlansDataProvider());
 
         public List<PlanSimpl> Plans { get; set; }
 
@@ -42,26 +41,31 @@ namespace GKWebService.DataProviders
         {
             var plans = FiresecManager.PlansConfiguration.Plans;
             Plans = new List<PlanSimpl>();
+            //FileConfigurationHelper.LoadFromFile(fileName);
+            var contService = new ContentService("WebClient");
+            SafeFiresecService.GKPropertyChangedEvent += OnGkPropertyChangedEvent;
             foreach (var plan in plans)
             {
-                var z = GKManager.Zones;
-                var dc = GKManager.DeviceConfiguration;
-                var lc = GKManager.DeviceLibraryConfiguration;
-                var dir = GKManager.Directions;
-                var dev = GKManager.Devices;
-                var drv = GKManager.Drivers;
-                var door = GKManager.Doors;
-                var gz = GKManager.GuardZones;
-                var drvc = GKManager.DriversConfiguration;
-                var mpt = GKManager.MPTs;
-                var ps = GKManager.PumpStations;
-                var skdz = GKManager.SKDZones;
-                var pt = GKManager.ParameterTemplates;
+                //var z = GKManager.Zones;
+                //var dc = GKManager.DeviceConfiguration;
+                //var lc = GKManager.DeviceLibraryConfiguration;
+                //var dir = GKManager.Directions;
+                //var dev = GKManager.Devices;
+                //var drv = GKManager.Drivers;
+                //var door = GKManager.Doors;
+                //var gz = GKManager.GuardZones;
+                //var drvc = GKManager.DriversConfiguration;
+                //var mpt = GKManager.MPTs;
+                //var ps = GKManager.PumpStations;
+                //var skdz = GKManager.SKDZones;
+                //var pt = GKManager.ParameterTemplates;
                 var planToAdd = new PlanSimpl
                                 {
                                     Name = plan.Caption,
                                     Uid = plan.UID,
-                                    Description = plan.Description
+                                    Description = plan.Description,
+                                    Width = plan.Width,
+                                    Height = plan.Height
                                 };
                 planToAdd.Elements = new List<PlanElement>
                                      {
@@ -76,26 +80,81 @@ namespace GKWebService.DataProviders
                                              Path =
                                                  "M 0 0 L " + plan.Width + " 0 L " + plan.Width +
                                                  " " + plan.Height +
-                                                 " L 0 " + plan.Height + " L 0 0 z"
+                                                 " L 0 " + plan.Height + " L 0 0 z",
+                                             Type = ShapeTypes.Plan.ToString()
                                          }
                                      };
-                // Конвертим зоны-полигоны
-                foreach (var planElement in plan.ElementPolygonGKDirections)
+                var rectangles =
+                    (from rect in plan.ElementRectangles
+                     select rect as ElementBaseRectangle)
+                        .Union
+                        (from rect in plan.ElementRectangleGKZones
+                         select rect as ElementBaseRectangle)
+                        .Union
+                        (from rect in plan.ElementRectangleGKDelays
+                         select rect as ElementBaseRectangle)
+                        .Union
+                        (from rect in plan.ElementRectangleGKDirections
+                         select rect as ElementBaseRectangle)
+                        .Union
+                        (from rect in plan.ElementRectangleGKGuardZones
+                         select rect as ElementBaseRectangle)
+                        .Union
+                        (from rect in plan.ElementRectangleGKMPTs
+                         select rect as ElementBaseRectangle)
+                        .Union
+                        (from rect in plan.ElementRectangleGKSKDZones
+                         select rect as ElementBaseRectangle);
+
+
+                // Конвертим зоны-прямоугольники
+                foreach (var rectangle in rectangles.ToList())
                 {
-                    var elemToAdd = PolygonToShape(planElement);
+                    var elemToAdd = RectangleToShape(rectangle);
+                    var asDirection = rectangle as IElementDirection;
+
                     elemToAdd.Hint =
-                        GKManager.Directions.FirstOrDefault(d => d.UID == planElement.DirectionUID)?.PresentationName;
+                        GKManager.Directions.FirstOrDefault(
+                            d => asDirection != null && d.UID == asDirection.DirectionUID)?
+                                 .PresentationName;
+                    planToAdd.Elements.Add(elemToAdd); 
+                }
+
+                var polygons =
+                    (from rect in plan.ElementPolygons
+                     select rect as ElementBasePolygon)
+                        .Union
+                        (from rect in plan.ElementPolygonGKZones
+                         select rect as ElementBasePolygon)
+                        .Union
+                        (from rect in plan.ElementPolygonGKDelays
+                         select rect as ElementBasePolygon)
+                        .Union
+                        (from rect in plan.ElementPolygonGKDirections
+                         select rect as ElementBasePolygon)
+                        .Union
+                        (from rect in plan.ElementPolygonGKGuardZones
+                         select rect as ElementBasePolygon)
+                        .Union
+                        (from rect in plan.ElementPolygonGKMPTs
+                         select rect as ElementBasePolygon)
+                        .Union
+                        (from rect in plan.ElementPolygonGKSKDZones
+                         select rect as ElementBasePolygon);
+
+                // Конвертим зоны-полигоны
+                foreach (var polygon in polygons)
+                {
+                    var elemToAdd = PolygonToShape(polygon);
+                    var asDirection = polygon as IElementDirection;
+
+                    elemToAdd.Hint =
+                        GKManager.Directions.FirstOrDefault(
+                            d => asDirection != null && d.UID == asDirection.DirectionUID)?
+                                 .PresentationName;
                     planToAdd.Elements.Add(elemToAdd);
                 }
 
-                // Конвертим зоны-прямоугольники
-                foreach (var planElement in plan.ElementRectangleGKDirections)
-                {
-                    var elemToAdd = RectangleToShape(planElement);
-                    elemToAdd.Hint =
-                        GKManager.Directions.FirstOrDefault(d => d.UID == planElement.DirectionUID)?.PresentationName;
-                    planToAdd.Elements.Add(elemToAdd);
-                }
 
                 // Конвертим устройства
                 foreach (var planElement in plan.ElementGKDevices)
@@ -110,22 +169,9 @@ namespace GKWebService.DataProviders
             }
         }
 
-        private string PointsToPath(PointCollection points)
+        private void OnGkPropertyChangedEvent(GKPropertyChangedCallback callback)
         {
-            var enumerable = points.ToArray();
-            if (enumerable.Any())
-            {
-                var start = enumerable[0];
-                var segments = new List<LineSegment>();
-                for (var i = 1; i < enumerable.Length; i++)
-                    segments.Add(new LineSegment(new Point(enumerable[i].X, enumerable[i].Y), true));
-                var figure = new PathFigure(new Point(start.X, start.Y), segments, true);
-                    //true if closed
-                var geometry = new PathGeometry();
-                geometry.Figures.Add(figure);
-                return geometry.ToString();
-            }
-            return string.Empty;
+            Debug.WriteLine("GK property changed " + callback.ObjectUID);
         }
 
         private PlanElement PolygonToShape(ElementBasePolygon item)
@@ -139,7 +185,8 @@ namespace GKWebService.DataProviders
                             FillMouseOver = ConvertColor(item.BackgroundColor),
                             Name = item.PresentationName,
                             Id = item.UID,
-                            BorderThickness = item.BorderThickness
+                            BorderThickness = item.BorderThickness,
+                            Type = ShapeTypes.Path.ToString()
                         };
             return shape;
         }
@@ -152,18 +199,45 @@ namespace GKWebService.DataProviders
             var imageData = GetImageResource(imagePath);
 
             var shape = new PlanElement
-            {
-                Name = item.PresentationName,
-                Id = item.UID,
-                Image = imageData.Item1,
-                Hint = device?.PresentationName,
-                X = item.Left,
-                Y = item.Top,
-                Height = imageData.Item2.Height,
-                Width = imageData.Item2.Width
-            };
+                        {
+                            Name = item.PresentationName,
+                            Id = item.UID,
+                            Image = imageData.Item1,
+                            Hint = device?.PresentationName,
+                            X = item.Left,
+                            Y = item.Top,
+                            Height = imageData.Item2.Height,
+                            Width = imageData.Item2.Width,
+                            Type = ShapeTypes.GkDevice.ToString()
+                        };
             return shape;
         }
+
+        private PlanElement RectangleToShape(ElementBaseRectangle item)
+        {
+            var pt = new PointCollection
+                     {
+                         item.GetRectangle().TopLeft,
+                         item.GetRectangle().TopRight,
+                         item.GetRectangle().BottomRight,
+                         item.GetRectangle().BottomLeft
+                     };
+            var shape = new PlanElement
+                        {
+                            Path = PointsToPath(pt),
+                            Border = ConvertColor(item.BorderColor),
+                            Fill = ConvertColor(item.BackgroundColor),
+                            BorderMouseOver = ConvertColor(item.BorderColor),
+                            FillMouseOver = ConvertColor(item.BackgroundColor),
+                            Name = item.PresentationName,
+                            Id = item.UID,
+                            BorderThickness = item.BorderThickness,
+                            Type = ShapeTypes.Path.ToString()
+                        };
+            return shape;
+        }
+
+        #region Utils
 
         /// <summary>
         /// Получение иконок для устройств из ресурсов проекта Controls
@@ -172,60 +246,55 @@ namespace GKWebService.DataProviders
         /// <returns></returns>
         private Tuple<string, Size> GetImageResource(string resName)
         {
-            var assembly = Assembly.GetAssembly(typeof(Controls.AlarmButton));
-            string name =
+            var assembly = Assembly.GetAssembly(typeof (Controls.AlarmButton));
+            var name =
                 assembly.GetManifestResourceNames().FirstOrDefault(n => n.EndsWith(".resources"));
-            Stream resourceStream = assembly.GetManifestResourceStream(name);
+            var resourceStream = assembly.GetManifestResourceStream(name);
             if (resourceStream == null)
-                return new Tuple<string, Size>("", new Size() );
-            ManifestResourceInfo info = assembly.GetManifestResourceInfo(name);
-                    ResourceReader reader = new ResourceReader(resourceStream);
-                    string type = string.Empty;
-                    byte[] values = null;
-                    reader.GetResourceData(resName.ToLowerInvariant(), out type, out values);
-            const int OFFSET = 4;
-            int size = BitConverter.ToInt32(values, 0);
-            Bitmap value1 = new Bitmap(new MemoryStream(values, OFFSET, size));                                                                    
-            //value1.Save(@"C:\Users\serge\Downloads\1.png", ImageFormat.Png);
-            byte[] byteArray = new byte[0];
-            using (MemoryStream stream = new MemoryStream())
+                return new Tuple<string, Size>("", new Size());
+            byte[] values;
+            string type;
+            using (var reader = new ResourceReader(resourceStream))
+                reader.GetResourceData(resName.ToLowerInvariant(), out type, out values);
+
+            const int offset = 4;
+            var size = BitConverter.ToInt32(values, 0);
+            var value1 = new Bitmap(new MemoryStream(values, offset, size));
+            byte[] byteArray;
+            using (var stream = new MemoryStream())
             {
-                value1.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+                value1.Save(stream, ImageFormat.Png);
                 stream.Close();
 
                 byteArray = stream.ToArray();
             }
 
-
             return new Tuple<string, Size>(Convert.ToBase64String(byteArray), value1.Size);
         }
 
-        private PlanElement RectangleToShape(ElementBaseRectangle item)
+        private string PointsToPath(PointCollection points)
         {
-            PointCollection pt = new PointCollection
-                                 {
-                                     item.GetRectangle().TopLeft,
-                                     item.GetRectangle().TopRight,
-                                     item.GetRectangle().BottomRight,
-                                     item.GetRectangle().BottomLeft
-                                 };
-            var shape = new PlanElement
-            {
-                Path = PointsToPath(pt),
-                Border = ConvertColor(item.BorderColor),
-                Fill = ConvertColor(item.BackgroundColor),
-                BorderMouseOver = ConvertColor(item.BorderColor),
-                FillMouseOver = ConvertColor(item.BackgroundColor),
-                Name = item.PresentationName,
-                Id = item.UID,
-                BorderThickness = item.BorderThickness
-            };
-            return shape;
+            var enumerable = points.ToArray();
+            if (!enumerable.Any())
+                return string.Empty;
+
+            var start = enumerable[0];
+            var segments = new List<LineSegment>();
+            for (var i = 1; i < enumerable.Length; i++)
+                segments.Add(new LineSegment(new Point(enumerable[i].X, enumerable[i].Y), true));
+            var figure = new PathFigure(new Point(start.X, start.Y), segments, true);
+            //true if closed
+            var geometry = new PathGeometry();
+            geometry.Figures.Add(figure);
+            return geometry.ToString();
         }
+
 
         private System.Drawing.Color ConvertColor(Color source)
         {
             return System.Drawing.Color.FromArgb(source.A, source.R, source.G, source.B);
         }
+
+        #endregion
     }
 }
