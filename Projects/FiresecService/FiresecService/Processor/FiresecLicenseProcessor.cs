@@ -40,7 +40,7 @@ namespace FiresecService.Processor
 				DiagnosticsManager.Add("LicenseMode=" + LicenseHelper.LicenseMode);
 				oldLicenseMode = LicenseHelper.LicenseMode;
 			}
-			FiresecService.Service.FiresecService.NotifyLicenseChanged();
+			FiresecService.Service.FiresecService.NotifyConfigurationChanged();
 		}
 		public static void SetDemonstration()
 		{
