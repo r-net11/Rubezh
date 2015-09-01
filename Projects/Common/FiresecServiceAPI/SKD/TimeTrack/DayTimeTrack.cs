@@ -119,16 +119,14 @@ namespace FiresecAPI.SKD
 		{
 			CalculateDocuments();
 
-			PlannedTimeTrackParts = PlannedTimeTrackParts; //NormalizeTimeTrackParts(PlannedTimeTrackParts);
+			PlannedTimeTrackParts = PlannedTimeTrackParts;
 			RealTimeTrackParts.AddRange(CrossNightTimeTrackParts);
 			CrossNightTimeTrackParts = CalculateCrossNightTimeTrackParts(RealTimeTrackParts, Date);
-			RealTimeTrackParts = RealTimeTrackParts.OrderBy(x => x.EnterDateTime).ThenBy(x => x.ExitDateTime).ToList();//NormalizeTimeTrackParts(RealTimeTrackParts);
+			RealTimeTrackParts = RealTimeTrackParts.OrderBy(x => x.EnterDateTime).ThenBy(x => x.ExitDateTime).ToList();
 			RealTimeTrackPartsForCalculates = GetRealTimeTracksForCalculate(RealTimeTrackParts);
-			//CalculateCombinedTimeTrackParts();
 			CombinedTimeTrackParts = CalculateCombinedTimeTrackParts(PlannedTimeTrackParts, RealTimeTrackPartsForCalculates,
 																							DocumentTrackParts);
 			RealTimeTrackPartsForCalculates = FillTypesForRealTimeTrackParts(RealTimeTrackPartsForCalculates, PlannedTimeTrackParts);
-			//CalculateTotal();
 			Totals = CalculateTotal(SlideTime, PlannedTimeTrackParts, RealTimeTrackPartsForCalculates, CombinedTimeTrackParts, IsHoliday);
 			TimeTrackType = CalculateTimeTrackType(Totals, PlannedTimeTrackParts, IsHoliday, Error);
 			CalculateLetterCode();
@@ -138,6 +136,7 @@ namespace FiresecAPI.SKD
 		{
 			var resultCollection = new List<TimeTrackPart>();
 			TimeTrackPart timeTrackPartItem;
+
 			foreach (var timeTrackPart in realTimeTrackParts.Where(x => x.ExitDateTime.HasValue))
 			{
 				timeTrackPartItem = timeTrackPart;
