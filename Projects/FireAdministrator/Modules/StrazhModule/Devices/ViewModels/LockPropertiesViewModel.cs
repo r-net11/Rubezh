@@ -237,6 +237,7 @@ namespace StrazhModule.ViewModels
 				{
 					IsBreakInAlarmEnable = false;
 					IsDoorNotClosedAlarmEnable = false;
+					IsCloseCheckSensorEnable = false;
 				}
 			}
 		}
