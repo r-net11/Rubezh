@@ -663,12 +663,10 @@ namespace FiresecAPI.SKD
 			if (plannedTimeTrackParts.Count > 0)
 				balanceTimeSpan = -TimeSpan.FromSeconds(slideTimeTotalSeconds.TotalSeconds);
 
-			foreach (var realTimeTrackPart in realTimeTrackParts)
-			{
-				if (realTimeTrackPart.TimeTrackPartType == TimeTrackType.Overtime) continue;
-
-				balanceTimeSpan += realTimeTrackPart.Delta;
-			}
+			//foreach (var realTimeTrackPart in realTimeTrackParts.Where(x => x.TimeTrackPartType != TimeTrackType.Overtime && !x.NotTakeInCalculations))
+			//{
+			//	balanceTimeSpan += realTimeTrackPart.Delta;
+			//}
 
 			return balanceTimeSpan;
 		}
