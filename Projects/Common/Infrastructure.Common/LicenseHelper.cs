@@ -7,32 +7,32 @@ namespace Infrastructure.Common
 	{
 		public static event Action LicenseChanged;
 		public static LicenseMode LicenseMode { get; private set; }
-		public static int NumberOfUsers { get; private set; }
-		public static bool FireAlarm { get; private set; }
-		public static bool SecurityAlarm { get; private set; }
-		public static bool Skd { get; private set; }
-		public static bool ControlScripts { get; private set; }
+		public static int RemoteWorkplacesCount { get; private set; }
+		public static bool Fire { get; private set; }
+		public static bool Security { get; private set; }
+		public static bool Access { get; private set; }
+		public static bool Video { get; private set; }
 		public static bool OpcServer { get; private set; }
 
-		public static bool SetLicense(LicenseMode licenseMode, int numberOfUsers, bool fireAlarm, bool securityAlarm, bool skd, bool controlScripts, bool opcServer)
+		public static bool SetLicense(LicenseMode licenseMode, int remoteWorkplacesCount, bool fire, bool security, bool access, bool video, bool opcServer)
 		{
 			bool isChanged =
 				licenseMode != LicenseMode ||
-				numberOfUsers != NumberOfUsers ||
-				fireAlarm != FireAlarm ||
-				securityAlarm != SecurityAlarm ||
-				skd != Skd ||
-				controlScripts != ControlScripts ||
+				remoteWorkplacesCount != RemoteWorkplacesCount ||
+				fire != Fire ||
+				security != Security ||
+				access != Access ||
+				video != Video ||
 				opcServer != OpcServer;
 
 			if (isChanged)
 			{
 				LicenseMode = licenseMode;
-				NumberOfUsers = numberOfUsers;
-				FireAlarm = fireAlarm;
-				SecurityAlarm = securityAlarm;
-				Skd = skd;
-				ControlScripts = controlScripts;
+				RemoteWorkplacesCount = remoteWorkplacesCount;
+				Fire = fire;
+				Security = security;
+				Access = access;
+				Video = video;
 				OpcServer = opcServer;
 				if (LicenseChanged != null)
 					LicenseChanged();

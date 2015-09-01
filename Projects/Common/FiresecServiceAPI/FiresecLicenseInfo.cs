@@ -8,15 +8,15 @@ namespace FiresecAPI
         [DataMember]
 		public LicenseMode LicenseMode { get; set; }
         [DataMember]
-        public int NumberOfUsers { get; set; }
+        public int RemoteWorkplacesCount { get; set; }
         [DataMember]
-        public bool FireAlarm { get; set; }
+        public bool Fire { get; set; }
         [DataMember]
-        public bool SecurityAlarm { get; set; }
+        public bool Security { get; set; }
         [DataMember]
-        public bool Skd { get; set; }
+        public bool Access { get; set; }
         [DataMember]
-        public bool ControlScripts { get; set; }
+        public bool Video { get; set; }
         [DataMember]
         public bool OpcServer { get; set; }
     }

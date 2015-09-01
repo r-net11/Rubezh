@@ -7,6 +7,7 @@ using Microsoft.Win32;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 
 namespace FiresecService.ViewModels
 {
@@ -43,7 +44,7 @@ namespace FiresecService.ViewModels
         {
 			bool success = FiresecLicenseProcessor.TryLoadLicense();
 			Parameters = success ? 
-				new ObservableCollection<LicenseParameter>(FiresecLicenseProcessor.License.Parameters) : 
+				new ObservableCollection<LicenseParameter>(FiresecLicenseProcessor.License.Parameters.Where(x => x.Id != "version")) : 
 				new ObservableCollection<LicenseParameter>();
             return success;
         }
