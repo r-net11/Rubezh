@@ -2,6 +2,7 @@
 using FiresecAPI.Journal;
 using FiresecAPI.Models;
 using FiresecAPI.SKD;
+using Microsoft.Practices.EnterpriseLibrary.Data;
 using SKDDriver;
 using SKDDriver.DataAccess;
 using SKDDriver.Translators;
@@ -402,6 +403,16 @@ namespace FiresecService.Service
 				AddJournalMessage(JournalEventNameType.Удаление_интервала, null, JournalEventDescriptionType.Удаление,
 					"Интервал удален (" + dayTimeTrackPart.EnterDateTime + "-" + dayTimeTrackPart.ExitDateTime + ", зона" + dayTimeTrackPart.TimeTrackZone.Name + ")");
 				return databaseService.PassJournalTranslator.DeleteAllPassJournalItems(dayTimeTrackPart);
+			}
+		}
+
+		public OperationResult<IEnumerable<DayTimeTrackPart>> GetIntersectionIntervals(
+			DayTimeTrackPart currentDayTimeTrackPart,
+			ShortEmployee currentEmployee)
+		{
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.PassJournalTranslator.GetIntersectionIntervals(currentDayTimeTrackPart, currentEmployee);
 			}
 		}
 

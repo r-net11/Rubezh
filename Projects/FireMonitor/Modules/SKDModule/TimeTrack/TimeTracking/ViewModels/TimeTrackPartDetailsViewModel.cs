@@ -2,6 +2,7 @@
 using System.Reactive.Linq;
 using FiresecAPI.SKD;
 using FiresecClient;
+using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using System;
@@ -185,29 +186,10 @@ namespace SKDModule.ViewModels
 
 		public bool Validate()
 		{
-			var intersectionCollection = GetIntersectionIntervals(_parent, CurrentTimeTrackPart);
+			var intersectionCollection = PassJournalHelper.GetIntersectionIntervals(CurrentTimeTrackPart.ToDTO(), _parent.ShortEmployee).Select(x => new DayTimeTrackPart(x));
 
 			return !intersectionCollection.Any()
 				|| DialogService.ShowModalWindow(new WarningIntersectionIntervalDialogWindowViewModel(CurrentTimeTrackPart, intersectionCollection));
-		}
-
-		private List<DayTimeTrackPart> GetIntersectionIntervals(TimeTrackDetailsViewModel timeTrackDetailsViewModel, DayTimeTrackPart currentTimeTrackPart)
-		{
-			if (timeTrackDetailsViewModel == null) return new List<DayTimeTrackPart>();
-
-			var list = new List<DayTimeTrackPart>();
-			foreach (var item in timeTrackDetailsViewModel.DayTimeTrackParts.Where(x => x.UID != currentTimeTrackPart.UID))
-			{
-				if (item.IsOpen)
-				{
-					if (CurrentTimeTrackPart.ExitDateTime > item.EnterDateTime)
-						list.Add(item);
-				}
-				else if (item.EnterDateTime < CurrentTimeTrackPart.ExitDateTime && item.ExitDateTime > currentTimeTrackPart.EnterDateTime)
-					list.Add(item);
-			}
-
-			return list;
 		}
 
 		public bool IsIntersection(TimeTrackDetailsViewModel timeTrackDetailsViewModel)

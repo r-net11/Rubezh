@@ -159,6 +159,12 @@ namespace FiresecClient
 			return SafeContext.Execute(() => FiresecService.FindConflictIntervals(dayTimeTrackParts, employeeGuid, currentDate));
 		}
 
+		public OperationResult<IEnumerable<DayTimeTrackPart>> GetIntersectionIntervals(
+			DayTimeTrackPart currentDayTimeTrackPart, ShortEmployee currentEmployee)
+		{
+			return SafeContext.Execute(() => FiresecService.GetIntersectionIntervals(currentDayTimeTrackPart, currentEmployee));
+		}
+
 		public OperationResult SaveAllTimeTracks(IEnumerable<DayTimeTrackPart> collectionToSave, ShortEmployee employee, User currentUser)
 		{
 			return SafeContext.Execute(() => FiresecService.SaveAllTimeTracks(collectionToSave, employee, currentUser));
