@@ -75,7 +75,7 @@ namespace Defender
         {
             if (Object.ReferenceEquals(initialKey1, initialKey2))
                 return true;
-            if (((object)initialKey1 == null) || ((object)initialKey1 == null))
+            if (((object)initialKey1 == null) || ((object)initialKey2 == null))
                 return false;
             return initialKey1._stringValue == initialKey2._stringValue;
         }
