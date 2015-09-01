@@ -18,6 +18,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Data;
+using SKDModule.Properties;
 using DayTimeTrackPart = SKDModule.Model.DayTimeTrackPart;
 
 namespace SKDModule.ViewModels
@@ -513,6 +514,23 @@ namespace SKDModule.ViewModels
 		protected override bool CanSave()
 		{
 			return true;
+		}
+
+		protected override bool Cancel()
+		{
+			if (CanCancel)
+			{
+				AllowClose = true;
+				return base.Cancel();
+			}
+
+			AllowClose = false;
+			return true;
+		}
+
+		public bool CanCancel
+		{
+			get { return !IsDirty || MessageBoxService.ShowQuestion(Resources.CanCancelEditIntervals); }
 		}
 
 		protected override bool Save()

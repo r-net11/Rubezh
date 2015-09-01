@@ -146,6 +146,16 @@ namespace Infrastructure.Common.Windows.ViewModels
 			}
 		}
 
+		public void CloseCanBeCancelled(bool? result, bool allowClose = true)
+		{
+			if (Surface != null && allowClose)
+			{
+				if (ComponentDispatcher.IsThreadModal && Surface.IsModal())
+					Surface.DialogResult = result;
+				Surface.Close();
+			}
+		}
+
 		internal void InternalClosing(CancelEventArgs e)
 		{
 			if (Closing != null)
