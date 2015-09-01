@@ -93,7 +93,7 @@ namespace GKProcessor
 			AddGuardDevicesLogic(SetGuardDevices, GKStateBit.TurnOn_InAutomatic);
 			AddGuardDevicesLogic(ResetGuardDevices, GKStateBit.TurnOff_InAutomatic);
 			AddMissedLogic(SetAlarmDevices);
-			GuardZone.LinkToDescriptor(GuardZone.Pim);
+			//GuardZone.LinkToDescriptor(GuardZone.Pim);
 			Formula.Add(FormulaOperationType.END);
 		}
 
