@@ -1,15 +1,37 @@
-INSERT INTO Rubezh.dbo.PassJournals
-	(UID, 
-	EmployeeUID,
-	ZoneUID,
-	EnterTime,
-	ExitTime
-	) 
-SELECT 
-	UID, 
-	EmployeeUID,
-	ZoneUID,
-	EnterTime,
-	ExitTime
-FROM PassJournal_1.dbo.PassJournal
+INSERT INTO Rubezh.dbo.Journals
 	
+	(UID,
+	SystemDate,
+	DeviceDate,
+	Subsystem,
+	Name,
+	Description,
+	DescriptionText,
+	ObjectType,
+
+	ObjectUID,
+	Detalisation,
+	UserName,
+	VideoUID,
+	CameraUID,
+	ObjectName,
+	CardNo) 
+
+SELECT
+	UID,
+	SystemDate,
+	DeviceDate,
+	Subsystem,
+	Name,
+	Description,
+	DescriptionText,
+	1,
+	ObjectUID,
+	Detalisation,
+	UserName,
+	VideoUID,
+	CameraUID,
+	ObjectName,
+	0
+
+FROM Journal_1.dbo.Journal

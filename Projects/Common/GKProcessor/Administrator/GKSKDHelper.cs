@@ -12,14 +12,19 @@ namespace GKProcessor
 {
 	public static class GKSKDHelper
 	{
-		public static OperationResult<bool> AddOrEditCard(GKControllerCardSchedule controllerCardSchedule, SKDCard card, string employeeName, int gkCardNo = 0, bool isNew = true)
+		public static OperationResult<bool> AddOrEditCard(GKControllerCardSchedule controllerCardSchedule, SKDCard card, string employeeName, int gkCardNo = 0, bool isNew = true, SKDDriver.DataClasses.DbService dbService = null)
 		{
 			if (gkCardNo == 0)
 			{
-				using (var skdDatabaseService = new SKDDriver.DataClasses.DbService())
+				if (dbService == null)
 				{
-					gkCardNo = skdDatabaseService.GKCardTranslator.GetFreeGKNo(controllerCardSchedule.ControllerDevice.GetGKIpAddress(), card.Number, out isNew);
+					using (var skdDatabaseService = new SKDDriver.DataClasses.DbService())
+					{
+						gkCardNo = skdDatabaseService.GKCardTranslator.GetFreeGKNo(controllerCardSchedule.ControllerDevice.GetGKIpAddress(), card.Number, out isNew);
+					}
 				}
+				else
+					gkCardNo = dbService.GKCardTranslator.GetFreeGKNo(controllerCardSchedule.ControllerDevice.GetGKIpAddress(), card.Number, out isNew);
 			}
 
 			var bytes = new List<byte>();
@@ -120,13 +125,18 @@ namespace GKProcessor
 			return new OperationResult<bool>(true);
 		}
 
-		public static OperationResult<bool> RemoveCard(GKDevice device, SKDCard card)
+		public static OperationResult<bool> RemoveCard(GKDevice device, SKDCard card, SKDDriver.DataClasses.DbService dbService = null)
 		{
 			var no = 1;
-			using (var skdDatabaseService = new SKDDriver.DataClasses.DbService())
+			if (dbService == null)
 			{
-				no = skdDatabaseService.GKCardTranslator.GetGKNoByCardNo(device.GetGKIpAddress(), card.Number);
+				using (var skdDatabaseService = new SKDDriver.DataClasses.DbService())
+				{
+					no = skdDatabaseService.GKCardTranslator.GetGKNoByCardNo(device.GetGKIpAddress(), card.Number);
+				}
 			}
+			else
+				no = dbService.GKCardTranslator.GetGKNoByCardNo(device.GetGKIpAddress(), card.Number);
 			if (no == -1)
 			{
 				return OperationResult<bool>.FromError("По номеру карты не найдена порядковая запись");

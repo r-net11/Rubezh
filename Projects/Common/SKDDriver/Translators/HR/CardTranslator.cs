@@ -379,9 +379,17 @@ namespace SKDDriver.DataClasses
 			Context.SaveChanges();
 		}
 
-		public IEnumerable<DataClasses.PendingCard> GetAllPendingCards(Guid controllerUID)
+		public List<DataClasses.PendingCard> GetAllPendingCards(Guid controllerUID)
 		{
-			return Context.PendingCards.Where(x => x.ControllerUID == controllerUID);
+			try
+			{
+				return Context.PendingCards.Where(x => x.ControllerUID == controllerUID).ToList();
+			}
+			catch (Exception)
+			{
+				return null;
+			}
+			
 		}
 		#endregion
 
