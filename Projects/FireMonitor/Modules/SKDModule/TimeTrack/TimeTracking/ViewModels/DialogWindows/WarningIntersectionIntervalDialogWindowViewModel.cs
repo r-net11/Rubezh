@@ -23,6 +23,7 @@ namespace SKDModule.ViewModels
 
 		public WarningIntersectionIntervalDialogWindowViewModel()
 		{
+			Title = "Пересечение границ интервалов";
 			OkCommand = new RelayCommand(OnOkPress);
 		}
 
@@ -30,7 +31,6 @@ namespace SKDModule.ViewModels
 
 		public void OnOkPress()
 		{
-			Title = "Пересечение границ интервалов";
 			Close(false);
 		}
 	}
