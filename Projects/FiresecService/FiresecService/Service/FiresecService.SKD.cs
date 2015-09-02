@@ -296,7 +296,8 @@ namespace FiresecService.Service
 			var employeeOperationResult = databaseService.EmployeeTranslator.GetSingle(card.EmployeeUID);
 			if (!employeeOperationResult.HasError)
 			{
-				var controllerCardSchedules = GKSKDHelper.GetGKControllerCardSchedules(card, accessTemplate.CardDoors);
+				var accessTemplateCardDoors = accessTemplate != null ? accessTemplate.CardDoors : new List<CardDoor>();
+				var controllerCardSchedules = GKSKDHelper.GetGKControllerCardSchedules(card, accessTemplateCardDoors);
 				foreach (var controllerCardSchedule in controllerCardSchedules)
 				{
 					var addResult = GKSKDHelper.AddOrEditCard(controllerCardSchedule, card, employeeOperationResult.Result.FIO);
@@ -420,7 +421,8 @@ namespace FiresecService.Service
 				var operationResult = databaseService.CardTranslator.GetSingle(card.UID);
 				if (!operationResult.HasError && operationResult.Result != null)
 				{
-					errors.AddRange(DeleteGKCard(card, getAccessTemplateOperationResult.Result.CardDoors, databaseService));
+					var cardDoors = getAccessTemplateOperationResult.Result != null ? getAccessTemplateOperationResult.Result.CardDoors : new List<CardDoor>();
+					errors.AddRange(DeleteGKCard(card, cardDoors, databaseService));
 				}
 				else
 				{
