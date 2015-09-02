@@ -1,8 +1,7 @@
 ﻿using Defender;
+using Infrastructure.Common;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace FiresecService.LicenseEditor
@@ -21,20 +20,21 @@ namespace FiresecService.LicenseEditor
                 if (key.BinaryValue == null)
                     return;
 
-                int NumberOfUsers;
-                if (!int.TryParse(args[2], out NumberOfUsers))
+				int remoteWorkplacesCount;
+				if (!int.TryParse(args[2], out remoteWorkplacesCount))
                     return;
 
-                var license = License.Create(key);
-                license.Parameters.Add(new LicenseParameter("ProductId", "Продукт", "Firesec Service"));
-                license.Parameters.Add(new LicenseParameter("NumberOfUsers", "Количество пользователей", NumberOfUsers));
-                license.Parameters.Add(new LicenseParameter("FireAlarm", "Пожарная сигнализация и пожаротушение", args.Any(x => x.Trim().ToLower() == "fa")));
-                license.Parameters.Add(new LicenseParameter("SecurityAlarm", "Охранная сигнализация", args.Any(x => x.Trim().ToLower() == "sa")));
-                license.Parameters.Add(new LicenseParameter("Skd", "СКД", args.Any(x => x.Trim().ToLower() == "skd")));
-                license.Parameters.Add(new LicenseParameter("ControlScripts", "Сценарии управления", args.Any(x => x.Trim().ToLower() == "cs")));
-                license.Parameters.Add(new LicenseParameter("OrsServer", "ОРС-Сервер", args.Any(x => x.Trim().ToLower() == "ors")));
-
-                LicenseProcessor.ProcessSave(args[0], license, key);
+                var licenseWrapper = new FiresecLicenseWrapper(key)
+				{
+					RemoteWorkplacesCount = remoteWorkplacesCount,
+					Fire = args.Any(x => x.Trim().ToLower() == "fire"),
+					Security = args.Any(x => x.Trim().ToLower() == "security"),
+					Access = args.Any(x => x.Trim().ToLower() == "access"),
+					Video = args.Any(x => x.Trim().ToLower() == "video"),
+					OpcServer = args.Any(x => x.Trim().ToLower() == "opcserver")
+				};
+	                
+				LicenseProcessor.ProcessSave(args[0], licenseWrapper.License, key);
 
                 return;
             }

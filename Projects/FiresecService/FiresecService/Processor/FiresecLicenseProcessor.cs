@@ -40,7 +40,7 @@ namespace FiresecService.Processor
 				DiagnosticsManager.Add("LicenseMode=" + LicenseHelper.LicenseMode);
 				oldLicenseMode = LicenseHelper.LicenseMode;
 			}
-			FiresecService.Service.FiresecService.NotifyLicenseChanged();
+			FiresecService.Service.FiresecService.NotifyConfigurationChanged();
 		}
 		public static void SetDemonstration()
 		{
@@ -67,39 +67,17 @@ namespace FiresecService.Processor
 			if (License == null || License.InitialKey != InitialKey)
 				return false;
 
-			int numberOfUsers = 0;
-			bool fireAlarm = false,
-				securityAlarm = false,
-				skd = false,
-				controlScripts = false,
-				opcServer = false;
-			try
-			{
-				var parameter = License.Parameters.FirstOrDefault(x => x.Id == "NumberOfUsers");
-				if (parameter != null)
-					numberOfUsers = (int)parameter.Value;
-				parameter = License.Parameters.FirstOrDefault(x => x.Id == "FireAlarm");
-				if (parameter != null)
-					fireAlarm = (bool)parameter.Value;
-				parameter = License.Parameters.FirstOrDefault(x => x.Id == "SecurityAlarm");
-				if (parameter != null)
-					securityAlarm = (bool)parameter.Value;
-				parameter = License.Parameters.FirstOrDefault(x => x.Id == "Skd");
-				if (parameter != null)
-					skd = (bool)parameter.Value;
-				parameter = License.Parameters.FirstOrDefault(x => x.Id == "ControlScripts");
-				if (parameter != null)
-					controlScripts = (bool)parameter.Value;
-				parameter = License.Parameters.FirstOrDefault(x => x.Id == "OrsServer");
-				if (parameter != null)
-					opcServer = (bool)parameter.Value;
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "LicenseHelper.Ctrs");
+			var licenseWrapper = new FiresecLicenseWrapper(License);
+			if (licenseWrapper.IsNull)
 				return false;
-			}
-			LicenseHelper.SetLicense(LicenseMode.HasLicense, numberOfUsers, fireAlarm, securityAlarm, skd, controlScripts, opcServer);
+
+			LicenseHelper.SetLicense(LicenseMode.HasLicense,
+				licenseWrapper.RemoteWorkplacesCount,
+				licenseWrapper.Fire,
+				licenseWrapper.Security,
+				licenseWrapper.Access,
+				licenseWrapper.Video,
+				licenseWrapper.OpcServer);
 			return true;
 		}
 	}

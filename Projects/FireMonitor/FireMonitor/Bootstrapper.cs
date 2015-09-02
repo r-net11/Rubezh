@@ -82,7 +82,6 @@ namespace FireMonitor
 					}
 															
                     SafeFiresecService.ReconnectionErrorEvent += x => { ApplicationService.Invoke(OnReconnectionError, x); };
-					SafeFiresecService.LicenseChangedEvent += () => { ApplicationService.Invoke(OnLicenseChanged); };
 
 					//MutexHelper.KeepAlive();
 					if (Process.GetCurrentProcess().ProcessName != "FireMonitor.vshost")
@@ -145,12 +144,6 @@ namespace FireMonitor
                 Application.Current.Shutdown();
             }
         }
-
-		void OnLicenseChanged()
-		{
-			MessageBoxService.ShowWarning("Сервер изменил параметры лицензии. Программа будет перезагружена.");
-			Restart();
-		}
 
 		void OnConfigurationChanged()
 		{
