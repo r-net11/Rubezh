@@ -114,10 +114,10 @@ namespace FiresecService.Report.Templates
 			return ds;
 		}
 
-		private void  SetValue(GKBase obj, ReflectioDataSet ds,string mumber)
+		private void  SetValue(GKBase obj, ReflectioDataSet ds,string number)
 		{
 			var row = ds.Data.NewDataRow();
-			row.NO = mumber;
+			row.NO = number;
 			row._object = obj.PresentationName;
 			ds.Data.AddDataRow(row);			
 		}

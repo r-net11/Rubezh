@@ -173,7 +173,6 @@
 			((System.ComponentModel.ISupportInitialize)(this.xrTable1)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.xrTable3)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this)).EndInit();
-
 		}
 
 		#endregion
