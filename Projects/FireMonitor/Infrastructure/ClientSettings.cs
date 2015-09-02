@@ -17,7 +17,7 @@ namespace Infrastructure
 		public static readonly string MultiLayoutCameraSettingsFileName = AppDataFolderHelper.GetMonitorSettingsPath("MultiLayoutCameraSettings.xml");
 		public static readonly string RviMultiLayoutCameraSettingsFileName = AppDataFolderHelper.GetMonitorSettingsPath("RviMultiLayoutCameraSettings.xml");
 		public static readonly string SKDSettingsFileName = AppDataFolderHelper.GetMonitorSettingsPath("SKDSettings.xml");
-		public static readonly string RepoftFiltersFileName = AppDataFolderHelper.GetMonitorSettingsPath("RepoftFilters.xml");
+		public static readonly string RepoftFiltersFileName = AppDataFolderHelper.GetMonitorSettingsPath("ReportFilters.xml");
 
 		static ArchiveDefaultState _archiveDefaultState;
 		public static ArchiveDefaultState ArchiveDefaultState
