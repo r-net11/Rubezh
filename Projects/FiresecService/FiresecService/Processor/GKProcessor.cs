@@ -145,7 +145,7 @@ namespace FiresecService
 												databaseService.CardTranslator.DeleteAllPendingCards(pendingCard.CardUID, device.UID);
 											}
 										}
-										var controllerCardSchedules = GKSKDHelper.GetGKControllerCardSchedules(card, getAccessTemplateOperationResult.Result);
+										var controllerCardSchedules = GKSKDHelper.GetGKControllerCardSchedules(card, getAccessTemplateOperationResult.Result.CardDoors);
 										foreach (var controllerCardSchedule in controllerCardSchedules)
 										{
 											switch ((PendingCardAction)pendingCard.Action)

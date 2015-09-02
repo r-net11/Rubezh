@@ -299,15 +299,12 @@ namespace GKProcessor
 			return result;
 		}
 
-		public static List<GKControllerCardSchedule> GetGKControllerCardSchedules(SKDCard card, AccessTemplate accessTemplate)
+		public static List<GKControllerCardSchedule> GetGKControllerCardSchedules(SKDCard card, List<CardDoor> accessTemplateDoors)
 		{
 			var cardSchedules = new List<GKCardSchedule>();
 
 			var cardDoors = new List<CardDoor>();
-			if (accessTemplate != null)
-			{
-				cardDoors = accessTemplate.CardDoors.ToList();
-			}
+			cardDoors.AddRange(accessTemplateDoors);
 			cardDoors.AddRange(card.CardDoors.ToList());
 
 			foreach (var cardDoor in cardDoors)
