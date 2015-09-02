@@ -484,6 +484,7 @@
       <DependentUpon>SKDZonesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Validation\CodeValidationError.cs" />
+    <Compile Include="Validation\Validator.License.cs" />
     <Compile Include="Validation\Validator.Plans.cs" />
     <Compile Include="Validation\Validator.Codes.cs" />
     <Compile Include="Validation\DeviceValidationError.cs" />

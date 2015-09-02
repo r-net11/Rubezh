@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
-using Common;
 using FireMonitor.Layout.ViewModels;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Events;
 using Shell = FireMonitor;
+using Infrastructure.Client.Layout;
 
 namespace FireMonitor.Layout
 {
@@ -75,7 +74,10 @@ namespace FireMonitor.Layout
 		{
 			_layout = null;
 			var ip = ConnectionSettingsManager.IsRemote ? FiresecManager.GetIP() : null;
-			var layouts = FiresecManager.LayoutsConfiguration.Layouts.Where(layout => layout.Users.Contains(FiresecManager.CurrentUser.UID) && (ip == null || layout.HostNameOrAddressList.Count == 0 || layout.HostNameOrAddressList.Contains(ip))).ToList();
+			var layouts = FiresecManager.LayoutsConfiguration.Layouts.Where(layout => 
+				layout.Users.Contains(FiresecManager.CurrentUser.UID) && 
+				(ip == null || layout.HostNameOrAddressList.Count == 0 || layout.HostNameOrAddressList.Contains(ip)) &&
+				CheckLicense(layout)).ToList();
 			if (layouts.Count > 0)
 			{
 				if (_layoutID.HasValue)
@@ -99,6 +101,37 @@ namespace FireMonitor.Layout
 				return false;
 			}
 			return true;
+		}
+
+		public static bool CheckLicense(FiresecAPI.Models.Layouts.Layout layout)
+		{
+			return !layout.Parts.Any(x=>
+				!LicenseHelper.Fire && (
+				x.DescriptionUID == LayoutPartIdentities.PumpStations ||
+				x.DescriptionUID == LayoutPartIdentities.MPTs
+				)
+				||
+				!LicenseHelper.Security && (
+				x.DescriptionUID == LayoutPartIdentities.GuardZones
+				)
+				||
+				!LicenseHelper.Access && (
+				x.DescriptionUID == LayoutPartIdentities.Doors ||
+				x.DescriptionUID == LayoutPartIdentities.GKSKDZones ||
+				x.DescriptionUID == LayoutPartIdentities.SKDVerification ||
+				x.DescriptionUID == LayoutPartIdentities.SKDDayIntervals ||
+				x.DescriptionUID == LayoutPartIdentities.SKDHolidays ||
+				x.DescriptionUID == LayoutPartIdentities.SKDHR ||
+				x.DescriptionUID == LayoutPartIdentities.SKDSchedules ||
+				x.DescriptionUID == LayoutPartIdentities.SKDScheduleSchemes ||
+				x.DescriptionUID == LayoutPartIdentities.SKDTimeTracking
+				)
+				||
+				!LicenseHelper.Video && (
+				x.DescriptionUID == LayoutPartIdentities.CamerasList ||
+				x.DescriptionUID == LayoutPartIdentities.CameraVideo ||
+				x.DescriptionUID == LayoutPartIdentities.MultiCamera
+				));
 		}
 	}
 }

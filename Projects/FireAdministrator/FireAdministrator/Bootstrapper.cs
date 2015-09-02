@@ -70,6 +70,9 @@ namespace FireAdministrator
 
 					ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Subscribe(OnConfigurationChanged);
 					ServiceFactory.Events.GetEvent<ConfigurationClosedEvent>().Subscribe(OnConfigurationClosed);
+
+					SafeFiresecService.ConfigurationChangedEvent += () => { ApplicationService.Invoke(OnConfigurationChanged); };
+					
 					MutexHelper.KeepAlive();
 				}
 				catch (StartupCancellationException)
@@ -93,6 +96,10 @@ namespace FireAdministrator
 			}
 		}
 
+		void OnConfigurationChanged()
+		{
+			FiresecManager.GetLicense();
+		}
 		void OnGKProgressCallbackEvent(GKProgressCallback gkProgressCallback)
 		{
 			ApplicationService.Invoke(() =>

@@ -117,6 +117,7 @@
     <Compile Include="Validation\Validator.cs" />
     <Compile Include="LayoutParts\ViewModels\LayoutPartPropertyTemplateContainerPageViewModel.cs" />
     <Compile Include="LayoutParts\ViewModels\LayoutPartTemplateContainerViewModel.cs" />
+    <Compile Include="Validation\Validator.License.cs" />
     <Compile Include="ViewModels\MonitorLayoutsMenuViewModel.cs" />
     <Compile Include="ViewModels\LayoutPartDescriptionGroupViewModel.cs" />
     <Compile Include="LayoutParts\ViewModels\LayoutPartEmptyViewModel.cs" />
