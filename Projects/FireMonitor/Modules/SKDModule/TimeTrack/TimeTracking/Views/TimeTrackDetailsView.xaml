@@ -69,6 +69,10 @@
 							ImageSource="Edit"
 							ToolTip="Редактировать" />
 						<ToolBarButton
+							Command="{Binding ForceClosingCommand}"
+							ImageSource="Alarm_main_7_Auto"
+							ToolTip="Принудительное закрытие интервала"/>
+						<ToolBarButton
 							Command="{Binding ResetAdjustmentsCommand}"
 							ImageSource="Close"
 							ToolTip="Сброс корректировок"/>

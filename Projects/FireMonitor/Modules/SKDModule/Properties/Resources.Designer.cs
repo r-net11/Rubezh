@@ -68,5 +68,14 @@ namespace SKDModule.Properties {
                 return ResourceManager.GetString("CanCancelEditIntervals", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to При выполнении сброса корректировок все введенные вручную данные будут удалены. Продолжить?.
+        /// </summary>
+        internal static string ResetAdjustmentsQuestion {
+            get {
+                return ResourceManager.GetString("ResetAdjustmentsQuestion", resourceCulture);
+            }
+        }
     }
 }

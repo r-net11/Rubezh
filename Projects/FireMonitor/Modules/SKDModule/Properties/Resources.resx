@@ -120,4 +120,7 @@
   <data name="CanCancelEditIntervals" xml:space="preserve">
     <value>Введенные в окне редактирования интервала сведения не будут сохранены. Продолжить отмену внесения изменений?</value>
   </data>
+  <data name="ResetAdjustmentsQuestion" xml:space="preserve">
+    <value>При выполнении сброса корректировок все введенные вручную данные будут удалены. Продолжить?</value>
+  </data>
 </root>

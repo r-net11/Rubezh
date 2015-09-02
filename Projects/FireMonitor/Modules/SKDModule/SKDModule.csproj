@@ -390,6 +390,7 @@
     <Compile Include="TimeTrack\TimeTracking\Model\DayTrack.cs" />
     <Compile Include="TimeTrack\TimeTracking\Model\TimeTrackZone.cs" />
     <Compile Include="TimeTrack\TimeTracking\TemplateSelectors\IsOpenedIntervalTemplateSelector.cs" />
+    <Compile Include="TimeTrack\TimeTracking\ViewModels\DialogWindows\ForceClosingQuestionDialogWindowViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\DialogWindows\WarningIntersectionIntervalDialogWindowViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\DocumentDetailsViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\DocumentsViewModel.cs" />
@@ -406,6 +407,9 @@
     <Compile Include="TimeTrack\TimeTracking\ViewModels\TimeTrackPartDetailsViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\Model\TimeTrackTypeFilterItem.cs" />
     <Compile Include="TimeTrack\TimeTracking\Model\TimeTrack.cs" />
+    <Compile Include="TimeTrack\TimeTracking\Views\DialogWindows\ForceClosingQuestionDialogWindowView.xaml.cs">
+      <DependentUpon>ForceClosingQuestionDialogWindowView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TimeTrack\TimeTracking\Views\DocumentDetailsView.xaml.cs">
       <DependentUpon>DocumentDetailsView.xaml</DependentUpon>
     </Compile>
@@ -866,6 +870,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TimeTrack\ScheduleShemes\Views\ScheduleSchemesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TimeTrack\TimeTracking\Views\DialogWindows\ForceClosingQuestionDialogWindowView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
