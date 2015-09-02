@@ -48,8 +48,8 @@ namespace GKOPCServer
 				}
 			}
 
-			InitializeGK();
-			GKOPCManager.Start();
+			if (InitializeGK())
+				GKOPCManager.Start();
 			UILogger.Log("Готово");
 		}
 
@@ -80,9 +80,18 @@ namespace GKOPCServer
 			System.Environment.Exit(1);
 		}
 
-		static void InitializeGK()
+		static bool InitializeGK()
 		{
+			bool result = true;
 			ServiceFactoryBase.Events = new EventAggregator();
+
+			UILogger.Log("Загрузка лицензии");
+			FiresecManager.GetLicense();
+			if (!LicenseHelper.OpcServer)
+			{
+				UILogger.Log("Лицензия модуля \"GLOBAL OPC Сервер\" отсутствует");
+				result = false;
+			}
 
 			UILogger.Log("Загрузка конфигурации с сервера");
 			FiresecManager.GetConfiguration("GKOPC/Configuration");
@@ -101,6 +110,7 @@ namespace GKOPCServer
 			SafeFiresecService.GKCallbackResultEvent += new Action<GKCallbackResult>(OnGKCallbackResult);
 
 			FiresecManager.StartPoll();
+			return result;
 		}
 
 		static void InitializeStates()

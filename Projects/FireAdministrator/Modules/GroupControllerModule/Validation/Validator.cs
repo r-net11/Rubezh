@@ -29,6 +29,7 @@ namespace GKModule.Validation
 			ValidateSKDZones();
 			ValidatePlans();
 			ValidateTypesCorrectness();
+			ValidateLicense();
 			return Errors;
 		}
 

@@ -9,16 +9,20 @@ using Infrastructure.Client.Layout;
 
 namespace LayoutModule.Validation
 {
-	class Validator
+	public partial class Validator
 	{
+		List<IValidationError> Errors { get; set; }
+
 		public IEnumerable<IValidationError> Validate()
 		{
 			FiresecManager.LayoutsConfiguration.Update();
+			Errors = new List<IValidationError>();
 			foreach (var layout in FiresecManager.LayoutsConfiguration.Layouts)
-				foreach (var error in ValidateLayout(layout))
-					yield return error;
+				Errors.AddRange(ValidateLayout(layout));
+			ValidateLicense();
+			return Errors;
 		}
-
+				
 		private IEnumerable<IValidationError> ValidateLayout(Layout layout)
 		{
 			var isContentExist = layout.GetLayoutPartByType(LayoutPartIdentities.Content) != null;

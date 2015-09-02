@@ -83,7 +83,10 @@ namespace FireMonitor.Layout.ViewModels
 			RibbonContent.Items.Add(new RibbonMenuItemViewModel("Сменить пользователя", ChangeUserCommand, "BUser"));
 
 			var ip = ConnectionSettingsManager.IsRemote ? null : FiresecManager.GetIP();
-			var layouts = FiresecManager.LayoutsConfiguration.Layouts.Where(layout => layout.Users.Contains(FiresecManager.CurrentUser.UID) && (ip == null || layout.HostNameOrAddressList.Contains(ip))).OrderBy(item => item.Caption);
+			var layouts = FiresecManager.LayoutsConfiguration.Layouts.Where(layout => 
+				layout.Users.Contains(FiresecManager.CurrentUser.UID) && 
+				(ip == null || layout.HostNameOrAddressList.Contains(ip)) &&
+				Bootstrapper.CheckLicense(layout)).OrderBy(item => item.Caption);
 			RibbonContent.Items.Add(new RibbonMenuItemViewModel("Сменить шаблон", new ObservableCollection<RibbonMenuItemViewModel>(layouts.Select(item => new RibbonMenuItemViewModel(item.Caption, ChangeLayoutCommand, item, "BLayouts", item.Description))), "BLayouts"));
 
 			_autoActivationViewModel = new AutoActivationViewModel();

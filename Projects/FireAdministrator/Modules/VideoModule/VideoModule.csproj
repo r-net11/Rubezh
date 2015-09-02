@@ -99,6 +99,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Validation\Validator.cs" />
+    <Compile Include="Validation\Validator.License.cs" />
     <Compile Include="Validation\Validator.Video.cs" />
     <Compile Include="Validation\VideoValidationError.cs" />
     <Compile Include="VideoModule.cs" />
