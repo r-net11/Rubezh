@@ -109,6 +109,11 @@ namespace ChinaSKDDriver
 			return OperationResult<bool>.FromError("Не найден контроллер в конфигурации");
 		}
 
+		/// <summary>
+		/// Записывает графики доступа на контроллер
+		/// </summary>
+		/// <param name="deviceUID">Идентификатор контроллера, на который производится запись</param>
+		/// <returns>Объект OperationResult, описывающий результат выполнения процедуры записи</returns>
 		public static OperationResult<bool> SKDWriteTimeSheduleConfiguration(Guid deviceUID)
 		{
 			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == deviceUID);
@@ -117,13 +122,12 @@ namespace ChinaSKDDriver
 				if (!deviceProcessor.IsConnected)
 					return OperationResult<bool>.FromError("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
 
-				var progressCallback = Processor.StartProgress("Запись графиков работ в прибор " + deviceProcessor.Device.Name, "", 128, true, SKDProgressClientType.Administrator);
+				var progressCallback = StartProgress(String.Format("Запись графиков доступа на контроллер \"{0}\"", deviceProcessor.Device.Name), null, 128, true, SKDProgressClientType.Administrator);
 
-				for (int i = 0; i <= 127; i++)
+				for (var i = 0; i <= 127; i++)
 				{
-					var weeklyInterval = SKDManager.SKDConfiguration.TimeIntervalsConfiguration.WeeklyIntervals.FirstOrDefault(x => x.ID == i);
-					if (weeklyInterval == null)
-						weeklyInterval = new SKDWeeklyInterval();
+					var weeklyInterval = SKDManager.SKDConfiguration.TimeIntervalsConfiguration.WeeklyIntervals.FirstOrDefault(x => x.ID == i) ??
+					                     new SKDWeeklyInterval();
 
 					var timeShedules = new List<TimeShedule>();
 					foreach (var weeklyIntervalPart in weeklyInterval.WeeklyIntervalParts.OrderBy(x => x.DayOfWeek))
@@ -135,18 +139,22 @@ namespace ChinaSKDDriver
 						{
 							dayInterval = new SKDDayInterval();
 							dayInterval.DayIntervalParts = new List<SKDDayIntervalPart>();
-							var emptySKDTimeIntervalPart = new SKDDayIntervalPart();
-							emptySKDTimeIntervalPart.StartMilliseconds = 0;
-							emptySKDTimeIntervalPart.EndMilliseconds = 0;
+							var emptySKDTimeIntervalPart = new SKDDayIntervalPart
+							{
+								StartMilliseconds = 0,
+								EndMilliseconds = 0
+							};
 							dayInterval.DayIntervalParts.Add(emptySKDTimeIntervalPart);
 						}
 						if (i == 1)
 						{
 							dayInterval = new SKDDayInterval();
 							dayInterval.DayIntervalParts = new List<SKDDayIntervalPart>();
-							var emptySKDTimeIntervalPart = new SKDDayIntervalPart();
-							emptySKDTimeIntervalPart.StartMilliseconds = 0;
-							emptySKDTimeIntervalPart.EndMilliseconds = new TimeSpan(23, 59, 59).TotalMilliseconds;
+							var emptySKDTimeIntervalPart = new SKDDayIntervalPart
+							{
+								StartMilliseconds = 0,
+								EndMilliseconds = new TimeSpan(23, 59, 59).TotalMilliseconds
+							};
 							dayInterval.DayIntervalParts.Add(emptySKDTimeIntervalPart);
 						}
 
@@ -154,17 +162,19 @@ namespace ChinaSKDDriver
 						{
 							foreach (var dayIntervalPart in dayInterval.DayIntervalParts)
 							{
-								var timeSheduleInterval = new TimeSheduleInterval();
-								timeSheduleInterval.BeginHours = TimeSpan.FromMilliseconds(dayIntervalPart.StartMilliseconds).Hours;
-								timeSheduleInterval.BeginMinutes = TimeSpan.FromMilliseconds(dayIntervalPart.StartMilliseconds).Minutes;
-								timeSheduleInterval.BeginSeconds = TimeSpan.FromMilliseconds(dayIntervalPart.StartMilliseconds).Seconds;
-								timeSheduleInterval.EndHours = TimeSpan.FromMilliseconds(dayIntervalPart.EndMilliseconds).Hours;
-								timeSheduleInterval.EndMinutes = TimeSpan.FromMilliseconds(dayIntervalPart.EndMilliseconds).Minutes;
-								timeSheduleInterval.EndSeconds = TimeSpan.FromMilliseconds(dayIntervalPart.EndMilliseconds).Seconds;
+								var timeSheduleInterval = new TimeSheduleInterval
+								{
+									BeginHours = TimeSpan.FromMilliseconds(dayIntervalPart.StartMilliseconds).Hours,
+									BeginMinutes = TimeSpan.FromMilliseconds(dayIntervalPart.StartMilliseconds).Minutes,
+									BeginSeconds = TimeSpan.FromMilliseconds(dayIntervalPart.StartMilliseconds).Seconds,
+									EndHours = TimeSpan.FromMilliseconds(dayIntervalPart.EndMilliseconds).Hours,
+									EndMinutes = TimeSpan.FromMilliseconds(dayIntervalPart.EndMilliseconds).Minutes,
+									EndSeconds = TimeSpan.FromMilliseconds(dayIntervalPart.EndMilliseconds).Seconds
+								};
 
 								timeShedule.TimeSheduleIntervals.Add(timeSheduleInterval);
 							}
-							for (int j = timeShedule.TimeSheduleIntervals.Count; j < 4; j++)
+							for (var j = timeShedule.TimeSheduleIntervals.Count; j < 4; j++)
 							{
 								var timeSheduleInterval = new TimeSheduleInterval();
 								timeShedule.TimeSheduleIntervals.Add(timeSheduleInterval);
@@ -174,18 +184,18 @@ namespace ChinaSKDDriver
 					}
 
 					if (progressCallback.IsCanceled)
-						return OperationResult<bool>.FromError(String.Format("Операция записи графиков прибора {0} отменена", deviceProcessor.Device.Name));
-					Processor.DoProgress(String.Format("Запись графика {0}", i + 1), progressCallback);
+						return OperationResult<bool>.FromError(String.Format("Операция записи графиков доступа на контроллер \"{0}\" отменена", deviceProcessor.Device.Name));
+					DoProgress(null, progressCallback);
 
 					var result = deviceProcessor.Wrapper.SetTimeShedules(i, timeShedules);
 					if (!result)
 					{
-						Processor.StopProgress(progressCallback);
-						return OperationResult<bool>.FromError("Ошибка при выполнении операции в приборе");
+						StopProgress(progressCallback);
+						return OperationResult<bool>.FromError("Ошибка при выполнении операции записи графиков доступа на контроллер");
 					}
 				}
 
-				Processor.StopProgress(progressCallback);
+				StopProgress(progressCallback);
 				return new OperationResult<bool>(true);
 			}
 			return OperationResult<bool>.FromError("Не найден контроллер в конфигурации");
@@ -236,12 +246,18 @@ namespace ChinaSKDDriver
 			return OperationResult<SKDDoorConfiguration>.FromError("Не найден контроллер в конфигурации");
 		}
 
+		/// <summary>
+		/// Записывает конфигурацию замка на контроллере
+		/// </summary>
+		/// <param name="deviceUID">Идентификатор замка на контроллере, на который записывается конфигурация</param>
+		/// <param name="doorConfiguration">Записываемая конфигурация</param>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
 		public static OperationResult<bool> SetDoorConfiguration(Guid deviceUID, SKDDoorConfiguration doorConfiguration)
 		{
-			var readerDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			if (readerDevice == null)
-				return OperationResult<bool>.FromError("Не найден считыватель в конфигурации");
-			var controllerDevice = readerDevice.Parent;
+			var lockDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (lockDevice == null)
+				return OperationResult<bool>.FromError("Не найден замок в конфигурации");
+			var controllerDevice = lockDevice.Parent;
 			if (controllerDevice == null)
 				return OperationResult<bool>.FromError("Не найден контроллер в конфигурации");
 
@@ -249,7 +265,7 @@ namespace ChinaSKDDriver
 			if (deviceProcessor != null)
 			{
 				if (!deviceProcessor.IsConnected)
-					return OperationResult<bool>.FromError("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
+					return OperationResult<bool>.FromError(String.Format("Нет связи с контроллером. {0}", deviceProcessor.LoginFailureReason));
 
 				var nativeDoorConfiguration = new DoorConfiguration();
 				nativeDoorConfiguration.AccessState = (ChinaSKDDriverAPI.AccessState)doorConfiguration.AccessState;
@@ -279,11 +295,10 @@ namespace ChinaSKDDriver
 				nativeDoorConfiguration.DoorDayIntervalsCollection = doorConfiguration.DoorDayIntervalsCollection;
 				nativeDoorConfiguration.IsCloseCheckSensor = doorConfiguration.IsCloseCheckSensor;
 
-				var result = deviceProcessor.Wrapper.SetDoorConfiguration(nativeDoorConfiguration, readerDevice.IntAddress);
-				if (result)
-					return new OperationResult<bool>(true);
-				else
-					return OperationResult<bool>.FromError("Ошибка при выполнении операции в приборе");
+				var result = deviceProcessor.Wrapper.SetDoorConfiguration(nativeDoorConfiguration, lockDevice.IntAddress);
+				return result
+					? new OperationResult<bool>(true)
+					: OperationResult<bool>.FromError("Ошибка при выполнении операции записи конфигурации замка на контроллер");
 			}
 			return OperationResult<bool>.FromError("Не найден контроллер в конфигурации");
 		}

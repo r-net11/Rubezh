@@ -826,6 +826,11 @@ namespace FiresecService.Service
 			return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
 		}
 
+		/// <summary>
+		/// Записывает графики доступа на контроллер
+		/// </summary>
+		/// <param name="deviceUID">Идентификатор контроллера, на который производится запись</param>
+		/// <returns>Объект OperationResult, описывающий результат выполнения процедуры записи</returns>
 		public OperationResult<bool> SKDWriteTimeSheduleConfiguration(Guid deviceUID)
 		{
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
@@ -857,6 +862,11 @@ namespace FiresecService.Service
 			return OperationResult<List<Guid>>.FromError(errors, failedDeviceUIDs);
 		}
 
+		/// <summary>
+		/// Перезаписывает на контроллер все пропуска, связанные с ним через точку доступа и организацию
+		/// </summary>
+		/// <param name="deviceUID">Идентификатор контроллера</param>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
 		public OperationResult<bool> SKDRewriteAllCards(Guid deviceUID)
 		{
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
@@ -869,7 +879,7 @@ namespace FiresecService.Service
 					var accessTemplatesResult = databaseService.AccessTemplateTranslator.Get(new AccessTemplateFilter());
 					if (!cardsResult.HasError && !accessTemplatesResult.HasError)
 					{
-						return ChinaSKDDriver.Processor.SKDRewriteAllCards(device, cardsResult.Result, accessTemplatesResult.Result);
+						return Processor.SKDRewriteAllCards(device, cardsResult.Result, accessTemplatesResult.Result);
 					}
 					else
 					{

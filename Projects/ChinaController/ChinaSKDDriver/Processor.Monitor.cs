@@ -1,4 +1,5 @@
-﻿using FiresecAPI;
+﻿using System;
+using FiresecAPI;
 using FiresecAPI.SKD;
 using System.Collections.Generic;
 using System.Linq;
@@ -59,17 +60,24 @@ namespace ChinaSKDDriver
 			return OperationResult<bool>.FromError("Не найден контроллер в конфигурации");
 		}
 
+		/// <summary>
+		/// Перезаписывает на контроллер все пропуска
+		/// </summary>
+		/// <param name="device">Контроллер, на котором необходимо перезаписать все пропуска</param>
+		/// <param name="cards">Перезаписываемые пропуска</param>
+		/// <param name="accessTemplates">Шаблоны доступа для перезаписываемых пропусков</param>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
 		public static OperationResult<bool> SKDRewriteAllCards(SKDDevice device, IEnumerable<SKDCard> cards, IEnumerable<AccessTemplate> accessTemplates)
 		{
 			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == device.UID);
 			if (deviceProcessor != null)
 			{
 				if (!deviceProcessor.IsConnected)
-					return OperationResult<bool>.FromError("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
+					return OperationResult<bool>.FromError(String.Format("Нет связи с контроллером. {0}", deviceProcessor.LoginFailureReason));
 
 				var result = deviceProcessor.Wrapper.RemoveAllCards();
 				if (!result)
-					return OperationResult<bool>.FromError("Ошибка при удалении всех карт в контроллере");
+					return OperationResult<bool>.FromError("Ошибка при удалении всех пропусков на контроллере");
 
 				var cardWriter = new CardWriter();
 				var error = cardWriter.RewriteAllCards(device, cards, accessTemplates);

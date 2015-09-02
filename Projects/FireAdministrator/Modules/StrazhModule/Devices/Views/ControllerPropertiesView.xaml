@@ -36,22 +36,45 @@
 		</TabItem>
 		<TabItem Header="Настройки">
 			<Border CornerRadius="5" Background="White" Margin="5">
-				<StackPanel HorizontalAlignment="Left" Margin="5">
-					<StackPanel Margin="0 0 0 30">
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="Время прибора" Width="150" Margin="2" />
-							<TextBlock Text="{Binding DeviceInfo.CurrentDateTime}" Width="150" Margin="2" />
-						</StackPanel>
-						<Button Content="Синхронизировать" Command="{Binding SynchroniseTimeCommand}" HorizontalAlignment="Right" Width="150" Margin="2" />
-					</StackPanel>
-					<StackPanel Orientation="Horizontal">
-						<Button Content="Сбросить настройки" Command="{Binding ResetCommand}" Width="150" Margin="2" />
-						<Button Content="Перезагрузить" Command="{Binding RebootCommand}" Width="150" Margin="2" />
-					</StackPanel>
-					<StackPanel Orientation="Horizontal">
-						<Button Content="Перезаписать карты" Command="{Binding RewriteAllCardsCommand}" Width="150" Margin="2" />
-					</StackPanel>
-				</StackPanel>
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="*"/>
+					</Grid.ColumnDefinitions>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto"/>
+						<RowDefinition Height="Auto"/>
+					</Grid.RowDefinitions>
+					<GroupBox Grid.Row="0" Grid.Column="0" Header="Команды записи на контроллер" Margin="5">
+						<Grid>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="*"/>
+							</Grid.ColumnDefinitions>
+							<Grid.RowDefinitions>
+								<RowDefinition Height="Auto"/>
+								<RowDefinition Height="Auto"/>
+								<RowDefinition Height="Auto"/>
+							</Grid.RowDefinitions>
+							<Button Grid.Row="0" Grid.Column="0" Content="Запись пропусков" Command="{Binding RewriteAllCardsCommand}" Width="150" Margin="5"/>
+							<Button Grid.Row="1" Grid.Column="0" Content="Запись конфигурации" Command="{Binding RewriteConfigurationCommand}" Width="150" Margin="5" />
+							<TextBlock  Grid.Row="2" Grid.Column="0" Text="При записи конфигурации на котроллер, на него будут записаны графики доступа, графики замков, пароли замков" TextWrapping="Wrap" TextAlignment="Center" Margin="5"/>
+						</Grid>
+					</GroupBox>
+					<GroupBox Grid.Row="1" Grid.Column="0" Header="Сервисные команды" Margin="5">
+						<Grid>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="*"/>
+							</Grid.ColumnDefinitions>
+							<Grid.RowDefinitions>
+								<RowDefinition Height="Auto"/>
+								<RowDefinition Height="Auto"/>
+								<RowDefinition Height="Auto"/>
+							</Grid.RowDefinitions>
+							<Button Grid.Row="0" Grid.Column="0" Content="Перезагрузить" Command="{Binding RebootCommand}" Width="150" Margin="5"/>
+							<Button Grid.Row="1" Grid.Column="0" Content="Сбросить настройки" Command="{Binding ResetCommand}" Width="150" Margin="5" />
+							<TextBlock  Grid.Row="2" Grid.Column="0" Text="При сбросе настроек все параметры контроллера будут установлены на заводские, а записанные карты доступа и пропуска будут стерты" TextWrapping="Wrap" TextAlignment="Center" Margin="5"/>
+						</Grid>
+					</GroupBox>
+				</Grid>
 			</Border>
 		</TabItem>
 	</TabControl>

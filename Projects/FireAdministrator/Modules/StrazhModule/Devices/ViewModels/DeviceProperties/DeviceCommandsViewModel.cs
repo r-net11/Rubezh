@@ -29,7 +29,6 @@ namespace StrazhModule.ViewModels
 			ShowControllerNetworkCommand = new RelayCommand(OnShowControllerNetwork, CanShowController);
 			ShowControllerTimeSettingsCommand = new RelayCommand(OnShowControllerTimeSettings, CanShowController);
 			ShowLockConfigurationCommand = new RelayCommand(OnShowLockConfiguration, CanShowLockConfiguration);
-			WriteTimeSheduleConfigurationCommand = new RelayCommand(OnWriteTimeSheduleConfiguration, CanShowController);
 			WriteAllTimeSheduleConfigurationCommand = new RelayCommand(OnWriteAllTimeSheduleConfiguration);
 		}
 
@@ -137,46 +136,6 @@ namespace StrazhModule.ViewModels
 			return SelectedDevice != null && SelectedDevice.Device.Driver.DriverType == SKDDriverType.Lock && SelectedDevice.Device.IsEnabled;
 		}
 
-		public RelayCommand WriteTimeSheduleConfigurationCommand { get; private set; }
-		void OnWriteTimeSheduleConfiguration()
-		{
-			if (!CheckNeedSave(true))
-				return;
-			if (!ValidateConfiguration())
-				return;
-			var thread = new Thread(() =>
-			{
-				var result = FiresecManager.FiresecService.SKDWriteTimeSheduleConfiguration(SelectedDevice.Device);
-
-				ApplicationService.Invoke(new Action(() =>
-				{
-					if (result.HasError)
-					{
-						LoadingService.Close();
-						MessageBoxService.ShowWarning(result.Error);
-					}
-
-					var oldHasMissmath = HasMissmath;
-					if (ClientSettings.SKDMissmatchSettings.HasMissmatch(SelectedDevice.Device.UID))
-					{
-						if (result.HasError)
-						{
-							ClientSettings.SKDMissmatchSettings.Set(SelectedDevice.Device.UID);
-						}
-						else
-						{
-							ClientSettings.SKDMissmatchSettings.Reset(SelectedDevice.Device.UID);
-						}
-					}
-					OnPropertyChanged(() => HasMissmath);
-					if (HasMissmath != oldHasMissmath)
-						ServiceFactory.SaveService.SKDChanged = true;
-				}));
-			});
-			thread.Name = "DeviceCommandsViewModel OnWriteTimeSheduleConfiguration";
-			thread.Start();
-		}
-
 		public RelayCommand WriteAllTimeSheduleConfigurationCommand { get; private set; }
 		void OnWriteAllTimeSheduleConfiguration()
 		{
@@ -211,6 +170,11 @@ namespace StrazhModule.ViewModels
 			thread.Start();
 		}
 
+		/// <summary>
+		/// Проверяет текущую конфигурацию на наличие ошибок
+		/// </summary>
+		/// <returns>true - ошибок не обнаружено,
+		/// false - есть ошибки</returns>
 		bool ValidateConfiguration()
 		{
 			var validationResult = ServiceFactory.ValidationService.Validate();
@@ -225,6 +189,12 @@ namespace StrazhModule.ViewModels
 			return true;
 		}
 
+		/// <summary>
+		/// Проверяет необходимость сохранения конфигурации перед выполнением операций, зависящих от состояния текущей конфигурации
+		/// </summary>
+		/// <param name="syncParameters"></param>
+		/// <returns>true - текущая конфигурация уже сохранена (нет изменений),
+		/// false - текущая конфигурация еще не сохранена (есть изменения) </returns>
 		bool CheckNeedSave(bool syncParameters = false)
 		{
 			if (ServiceFactory.SaveService.SKDChanged)
