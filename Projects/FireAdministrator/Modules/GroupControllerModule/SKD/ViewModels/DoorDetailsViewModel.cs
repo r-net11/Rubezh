@@ -118,6 +118,7 @@ namespace GKModule.ViewModels
 				}
 				_selectedDoorType = value;
 				OnPropertyChanged(() => SelectedDoorType);
+				OnPropertyChanged(() => HasNotAntipassback);
 			}
 		}
 
@@ -163,6 +164,11 @@ namespace GKModule.ViewModels
 				_antipassbackOn = value;
 				OnPropertyChanged(() => AntipassbackOn);
 			}
+		}
+
+		public bool HasNotAntipassback
+		{
+			get { return SelectedDoorType == GKDoorType.Barrier || SelectedDoorType == GKDoorType.OneWay; }
 		}
 
 		public ObservableCollection<string> AvailableNames { get; private set; }

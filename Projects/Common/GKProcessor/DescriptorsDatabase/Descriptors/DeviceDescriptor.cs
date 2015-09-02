@@ -108,9 +108,9 @@ namespace GKProcessor
 					if (exitDevice != null && enterButton != null)
 					{
 						Formula.AddGetBit(GKStateBit.Attention, exitDevice);
-						Formula.Add(FormulaOperationType.BR, 2, 8);
+						Formula.Add(FormulaOperationType.BR, 2, Device.Door.LockControlDevice != null ? (ushort)10 : (ushort)8);
 						Formula.AddGetBit(GKStateBit.Fire1, enterButton);
-						Formula.Add(FormulaOperationType.BR, 2, 6);
+						Formula.Add(FormulaOperationType.BR, 2, Device.Door.LockControlDevice != null ? (ushort)8 : (ushort)6);
 					}
 
 					Formula.AddGetBit(GKStateBit.On, Device.Door);
@@ -133,9 +133,9 @@ namespace GKProcessor
 					if (enterDevice != null && exitButton != null)
 					{
 						Formula.AddGetBit(GKStateBit.Attention, enterDevice);
-						Formula.Add(FormulaOperationType.BR, 2, 8);
+						Formula.Add(FormulaOperationType.BR, 2, Device.Door.LockControlDeviceExit != null ? (ushort)10 : (ushort)8);
 						Formula.AddGetBit(GKStateBit.Fire1, exitButton);
-						Formula.Add(FormulaOperationType.BR, 2, 6);
+						Formula.Add(FormulaOperationType.BR, 2, Device.Door.LockControlDeviceExit != null ? (ushort)8 : (ushort)6);
 					}
 
 					Formula.AddGetBit(GKStateBit.On, Device.Door);
