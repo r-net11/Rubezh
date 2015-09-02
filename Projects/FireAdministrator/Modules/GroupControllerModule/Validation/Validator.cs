@@ -52,7 +52,7 @@ namespace GKModule.Validation
 		{
 			foreach(var descriptorError in DescriptorsManager.Check())
 			{
-				Errors.Add(new DeviceValidationError(descriptorError.BaseDescriptor.GKBase.DataBaseParent, "Ошибка дескриптора: " + descriptorError.Error, ValidationErrorLevel.CannotWrite));
+				Errors.Add(new DeviceValidationError(descriptorError.BaseDescriptor.GKBase.DataBaseParent, "Ошибка дескриптора " + descriptorError.BaseDescriptor.GKBase.PresentationName + ": " + descriptorError.Error, ValidationErrorLevel.CannotWrite));
 			}
 		}
 	}

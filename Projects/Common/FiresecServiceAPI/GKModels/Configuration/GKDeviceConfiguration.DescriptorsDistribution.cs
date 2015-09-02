@@ -178,6 +178,8 @@ namespace FiresecAPI.GK
 			{
 				gkBase.KauParents = new HashSet<GKDevice>();
 				gkBase.GkParents = new HashSet<GKDevice>();
+				gkBase.MagnetToGK = false;
+
 				foreach (var dependentObject in gkBase.ChildDescriptors)
 				{
 					if (dependentObject is GKDevice)
@@ -196,9 +198,19 @@ namespace FiresecAPI.GK
 
 				foreach (var dependentObject in gkBase.ChildDescriptors)
 				{
+					if (dependentObject is GKDevice)
+					{
+						var device = dependentObject as GKDevice;
+						if (device.KAUParent == null && device.GKParent != null)
+						{
+							gkBase.KauParents.Clear();
+							gkBase.MagnetToGK = true;
+						}
+					}
 					if (dependentObject is GKDoor)
 					{
 						gkBase.KauParents.Clear();
+						gkBase.MagnetToGK = true;
 					}
 					if (dependentObject is GKGuardZone)
 					{
@@ -206,6 +218,7 @@ namespace FiresecAPI.GK
 						if (guardZone.HasAccessLevel)
 						{
 							gkBase.KauParents.Clear();
+							gkBase.MagnetToGK = true;
 						}
 					}
 					if (dependentObject is GKMPT)
@@ -214,14 +227,32 @@ namespace FiresecAPI.GK
 						if (mpt.HasAccessLevel)
 						{
 							gkBase.KauParents.Clear();
+							gkBase.MagnetToGK = true;
 						}
+					}
+				}
+
+				if (gkBase is GKDevice)
+				{
+					var device = gkBase as GKDevice;
+					if (device.KAUParent != null)
+					{
+						gkBase.KauParents.Add(device.KAUParent);
+					}
+					else
+					{
+						gkBase.MagnetToGK = true;
+					}
+					if (device.GKParent != null)
+					{
+						gkBase.GkParents.Add(device.GKParent);
 					}
 				}
 
 				gkBase.KauDatabaseParent = null;
 				gkBase.GkDatabaseParent = null;
 
-				if (gkBase.KauParents.Count == 1)
+				if (gkBase.KauParents.Count == 1 && !gkBase.MagnetToGK)
 				{
 					gkBase.KauDatabaseParent = gkBase.KauParents.FirstOrDefault();
 					gkBase.GkDatabaseParent = gkBase.KauDatabaseParent.Parent;

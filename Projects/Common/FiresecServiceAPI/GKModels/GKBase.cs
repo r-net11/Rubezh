@@ -153,6 +153,9 @@ namespace FiresecAPI.GK
 		}
 
 		[XmlIgnore]
+		public bool MagnetToGK { get; set; }
+
+		[XmlIgnore]
 		public virtual bool IsLogicOnKau { get; set; }
 
 		[XmlIgnore]

@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using FiresecClient;
 using FiresecAPI.GK;
+using System.Collections.Generic;
 
 namespace GKProcessor.Test
 {
@@ -43,39 +44,47 @@ namespace GKProcessor.Test
 			Assert.IsNotNull(Kau1Database);
 			Kau2Database = DescriptorsManager.KauDatabases.FirstOrDefault(x => x.RootDevice == kauDevice2);
 			Assert.IsNotNull(Kau2Database);
-			//Assert.IsTrue(DescriptorsManager.Check());
+			Assert.IsTrue(DescriptorsManager.Check().Count() == 0);
 		}
 
 		void CheckDeviceLogicOnGK(GKDevice device)
 		{
-			var device1GKDescriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.GKBase == device);
-			var device1Kau1Descriptor = Kau1Database.Descriptors.FirstOrDefault(x => x.GKBase == device);
-			Assert.IsTrue(device1GKDescriptor.Formula.FormulaOperations.Count > 1, "На ГК должна присутствовать логика устройства");
-			Assert.IsTrue(device1Kau1Descriptor.Formula.FormulaOperations.Count == 1, "На КАУ должна отсутствовать логика устройства");
+			var deviceGKDescriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.GKBase == device);
+			var deviceKau1Descriptor = Kau1Database.Descriptors.FirstOrDefault(x => x.GKBase == device);
+			Assert.IsTrue(deviceGKDescriptor.Formula.FormulaOperations.Count > 1, "На ГК должна присутствовать логика устройства");
+			Assert.IsTrue(deviceKau1Descriptor.Formula.FormulaOperations.Count == 1, "На КАУ должна отсутствовать логика устройства");
 		}
 
-		void CheckDeviceLogicOnKau(GKDevice device)
+		void CheckDeviceLogicOnKau(GKDevice device, int kauNo = 1)
 		{
-			var device1GKDescriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.GKBase == device);
-			var device1Kau1Descriptor = Kau1Database.Descriptors.FirstOrDefault(x => x.GKBase == device);
-			Assert.IsTrue(device1GKDescriptor.Formula.FormulaOperations.Count == 1, "На ГК должна отсутствовать логика устройства");
-			Assert.IsTrue(device1Kau1Descriptor.Formula.FormulaOperations.Count > 1, "На КАУ должна присутствовать логика устройства");
+			KauDatabase kauDatabase = Kau1Database;
+			if (kauNo == 2)
+				kauDatabase = Kau2Database;
+
+			var deviceGKDescriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.GKBase == device);
+			var deviceKauDescriptor = kauDatabase.Descriptors.FirstOrDefault(x => x.GKBase == device);
+			Assert.IsTrue(deviceGKDescriptor.Formula.FormulaOperations.Count == 1, "На ГК должна отсутствовать логика устройства");
+			Assert.IsTrue(deviceKauDescriptor.Formula.FormulaOperations.Count > 1, "На КАУ должна присутствовать логика устройства");
 		}
 
 		void CheckObjectLogicOnGK(GKBase gkBase)
 		{
-			var device1GKDescriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.GKBase == gkBase);
-			Assert.IsTrue(device1GKDescriptor.Formula.FormulaOperations.Count > 1, "На ГК должна присутствовать логика объекта");
+			var deviceGKDescriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.GKBase == gkBase);
+			Assert.IsTrue(deviceGKDescriptor.Formula.FormulaOperations.Count > 1, "На ГК должна присутствовать логика объекта");
 			Assert.IsNull(Kau1Database.Descriptors.FirstOrDefault(x => x.GKBase == gkBase), "На КАУ должен отсутствовать объект");
 			Assert.IsNull(Kau2Database.Descriptors.FirstOrDefault(x => x.GKBase == gkBase), "На КАУ должен отсутствовать объект");
 		}
 
-		void CheckObjectLogicOnKau(GKBase gkBase)
+		void CheckObjectLogicOnKau(GKBase gkBase, int kauNo = 1)
 		{
-			var device1GKDescriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.GKBase == gkBase);
-			var device1Kau1Descriptor = Kau1Database.Descriptors.FirstOrDefault(x => x.GKBase == gkBase);
-			Assert.IsTrue(device1GKDescriptor.Formula.FormulaOperations.Count == 1, "На ГК должна отсутствовать логика объекта");
-			Assert.IsTrue(device1Kau1Descriptor.Formula.FormulaOperations.Count > 1, "На КАУ должна присутствовать логика объекта");
+			KauDatabase kauDatabase = Kau1Database;
+			if (kauNo == 2)
+				kauDatabase = Kau2Database;
+
+			var deviceGKDescriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.GKBase == gkBase);
+			var deviceKauDescriptor = kauDatabase.Descriptors.FirstOrDefault(x => x.GKBase == gkBase);
+			Assert.IsTrue(deviceGKDescriptor.Formula.FormulaOperations.Count == 1, "На ГК должна отсутствовать логика объекта");
+			Assert.IsTrue(deviceKauDescriptor.Formula.FormulaOperations.Count > 1, "На КАУ должна присутствовать логика объекта");
 		}
 
 		[TestMethod]
@@ -392,6 +401,98 @@ namespace GKProcessor.Test
 			Compile();
 
 			CheckObjectLogicOnGK(delay1);
+		}
+
+		[TestMethod]
+		public void TestKauCrossReference1()
+		{
+			var device1 = AddDevice(kauDevice1, GKDriverType.RSR2_RM_1);
+			var device2 = AddDevice(kauDevice2, GKDriverType.RSR2_HandDetector);
+			device1.Logic.OnClausesGroup.Clauses.Add(new GKClause() { ClauseOperationType = ClauseOperationType.AllDevices, StateType = GKStateBit.Fire2, DeviceUIDs = { device2.UID } });
+			Compile();
+			CheckDeviceLogicOnGK(device1);
+		}
+
+		[TestMethod]
+		public void TestKauCrossReference2()
+		{
+			var device1 = AddDevice(kauDevice1, GKDriverType.RSR2_RM_1);
+			var device2 = AddDevice(kauDevice2, GKDriverType.RSR2_HandDetector);
+			var zone = new GKZone();
+			GKManager.Zones.Add(zone);
+			device2.ZoneUIDs = new List<Guid>() {zone.UID};
+			device1.Logic.OnClausesGroup.Clauses.Add(new GKClause() { ClauseOperationType = ClauseOperationType.AllZones, StateType = GKStateBit.Fire2, ZoneUIDs = { zone.UID } });
+			Compile();
+			CheckDeviceLogicOnGK(device1);
+			CheckObjectLogicOnKau(zone, 2);
+		}
+
+		[TestMethod]
+		public void TestKauCrossReference3()
+		{
+			var device1 = AddDevice(kauDevice1, GKDriverType.RSR2_HandDetector);
+			var gkReleDeice = gkDevice.Children.FirstOrDefault(x => x.DriverType == GKDriverType.GKRele);
+			gkReleDeice.Logic.OnClausesGroup.Clauses.Add(new GKClause() { ClauseOperationType = ClauseOperationType.AllDevices, StateType = GKStateBit.Fire2, DeviceUIDs = { device1.UID } });
+			Compile();
+			var deviceGKDescriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.GKBase == gkReleDeice);
+			Assert.IsTrue(deviceGKDescriptor.Formula.FormulaOperations.Count > 1, "На ГК должна присутствовать логика устройства");
+		}
+
+		[TestMethod]
+		public void TestKauCrossReference4()
+		{
+			var device1 = AddDevice(kauDevice1, GKDriverType.RSR2_HandDetector);
+			var zone = new GKZone();
+			GKManager.Zones.Add(zone);
+			device1.ZoneUIDs = new List<Guid>() { zone.UID };
+			var gkReleDeice = gkDevice.Children.FirstOrDefault(x => x.DriverType == GKDriverType.GKRele);
+			gkReleDeice.Logic.OnClausesGroup.Clauses.Add(new GKClause() { ClauseOperationType = ClauseOperationType.AllDevices, StateType = GKStateBit.Fire2, DeviceUIDs = { device1.UID } });
+			Compile();
+			var deviceGKDescriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.GKBase == gkReleDeice);
+			Assert.IsTrue(deviceGKDescriptor.Formula.FormulaOperations.Count > 1, "На ГК должна присутствовать логика устройства");
+			CheckObjectLogicOnKau(zone);
+		}
+
+		[TestMethod]
+		public void TestGKLogic1()
+		{
+			var gkIndicatorDeice = gkDevice.Children.FirstOrDefault(x => x.DriverType == GKDriverType.GKIndicator);
+			var gkReleDeice = gkDevice.Children.FirstOrDefault(x => x.DriverType == GKDriverType.GKRele);
+			gkReleDeice.Logic.OnClausesGroup.Clauses.Add(new GKClause() { ClauseOperationType = ClauseOperationType.AllDevices, StateType = GKStateBit.On, DeviceUIDs = { gkIndicatorDeice.UID } });
+			Compile();
+			var deviceGKDescriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.GKBase == gkReleDeice);
+			Assert.IsTrue(deviceGKDescriptor.Formula.FormulaOperations.Count > 1, "На ГК должна присутствовать логика устройства");
+		}
+
+		[TestMethod]
+		public void TestGKLogic2()
+		{
+			var kauIndicatorDeice = kauDevice1.Children.FirstOrDefault(x => x.DriverType == GKDriverType.KAUIndicator);
+			var gkReleDeice = gkDevice.Children.FirstOrDefault(x => x.DriverType == GKDriverType.GKRele);
+			gkReleDeice.Logic.OnClausesGroup.Clauses.Add(new GKClause() { ClauseOperationType = ClauseOperationType.AllDevices, StateType = GKStateBit.On, DeviceUIDs = { kauIndicatorDeice.UID } });
+			Compile();
+			var deviceGKDescriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.GKBase == gkReleDeice);
+			Assert.IsTrue(deviceGKDescriptor.Formula.FormulaOperations.Count > 1, "На ГК должна присутствовать логика устройства");
+		}
+
+		[TestMethod]
+		public void TestGKLogic3()
+		{
+			var gkReleDeice = gkDevice.Children.FirstOrDefault(x => x.DriverType == GKDriverType.GKRele);
+			gkReleDeice.Logic.OnClausesGroup.Clauses.Add(new GKClause() { ClauseOperationType = ClauseOperationType.AllDevices, StateType = GKStateBit.On, DeviceUIDs = { kauDevice1.UID } });
+			Compile();
+			var deviceGKDescriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.GKBase == gkReleDeice);
+			Assert.IsTrue(deviceGKDescriptor.Formula.FormulaOperations.Count > 1, "На ГК должна присутствовать логика устройства");
+		}
+
+		[TestMethod]
+		public void TestGKLogic4()
+		{
+			var gkReleDeice = gkDevice.Children.FirstOrDefault(x => x.DriverType == GKDriverType.GKRele);
+			gkReleDeice.Logic.OnClausesGroup.Clauses.Add(new GKClause() { ClauseOperationType = ClauseOperationType.AllDevices, StateType = GKStateBit.On, DeviceUIDs = { kauDevice1.UID, kauDevice2.UID } });
+			Compile();
+			var deviceGKDescriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.GKBase == gkReleDeice);
+			Assert.IsTrue(deviceGKDescriptor.Formula.FormulaOperations.Count > 1, "На ГК должна присутствовать логика устройства");
 		}
 	}
 }

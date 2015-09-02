@@ -63,9 +63,9 @@ namespace GKProcessor
 				{
 					var no = BytesHelper.SubstructShort(descriptor.AllBytes, outputDependencesPosition + 2 + i * 2);
 					if (no == 0)
-						yield return new DescriptorError(descriptor, "Значение входной зависимости равно 0");
+						yield return new DescriptorError(descriptor, "Значение выходной зависимости равно 0");
 					if (no > Descriptors.Count)
-						yield return new DescriptorError(descriptor, "Значение входной зависимости больше количества компонентов");
+						yield return new DescriptorError(descriptor, "Значение выходной зависимости больше количества компонентов");
 				}
 
 				var formulaPosition = outputDependencesPosition + 2 + outputDependencesCount * 2;
