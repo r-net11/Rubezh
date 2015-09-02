@@ -39,7 +39,7 @@ namespace SKDModule
 					{
 						new NavigationItem<ShowHREvent>(SKDTabItems.HRViewModel, "Картотека", "Kartoteka2W"),
 						new NavigationItem<ShowTimeTrackingEvent>(SKDTabItems.TimeTrackingTabsViewModel, "Учет рабочего времени", "TimeTrackingW")
-					})
+					}) { IsVisible = LicenseHelper.Access }
 				};
 		}
 

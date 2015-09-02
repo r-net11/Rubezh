@@ -59,11 +59,11 @@ namespace FiresecClient
                 {
                     LicenseHelper.SetLicense(
 						operationResult.Result.LicenseMode, 
-						operationResult.Result.NumberOfUsers,
-						operationResult.Result.FireAlarm,
-						operationResult.Result.SecurityAlarm,
-						operationResult.Result.Skd,
-						operationResult.Result.ControlScripts,
+						operationResult.Result.RemoteWorkplacesCount,
+						operationResult.Result.Fire,
+						operationResult.Result.Security,
+						operationResult.Result.Access,
+						operationResult.Result.Video,
 						operationResult.Result.OpcServer);
                     return null;
                 }
@@ -72,7 +72,7 @@ namespace FiresecClient
             }
             catch (Exception e)
             {
-                Logger.Error(e, "FiresecManager.GetLicenseInfo");
+                Logger.Error(e, "FiresecManager.GetLicense");
                 return e.Message;
             }
         }

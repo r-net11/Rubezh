@@ -13,6 +13,7 @@ namespace VideoModule.Validation
 			GKManager.UpdateConfiguration();
 			Errors = new List<IValidationError>();
 			ValidateAddress();
+			ValidateLicense();
 			return Errors;
 		}
 	}

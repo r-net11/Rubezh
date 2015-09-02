@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using FiresecAPI;
 using API = FiresecAPI.SKD;
+using System.Diagnostics;
 
 namespace SKDDriver.DataClasses
 {
@@ -124,16 +125,16 @@ namespace SKDDriver.DataClasses
 
 		void DeleteItems(Guid uid, DateTime removalDate)
 		{
-			MarkDeletedByOrganisation(uid, removalDate, Context.DayIntervals);
-			MarkDeletedByOrganisation(uid, removalDate, Context.Schedules);
-			MarkDeletedByOrganisation(uid, removalDate, Context.ScheduleSchemes);
-			MarkDeletedByOrganisation(uid, removalDate, Context.AccessTemplates);
-			MarkDeletedByOrganisation(uid, removalDate, Context.AdditionalColumnTypes);
-			MarkDeletedByOrganisation(uid, removalDate, Context.Employees);
-			MarkDeletedByOrganisation(uid, removalDate, Context.Holidays);
-			MarkDeletedByOrganisation(uid, removalDate, Context.PassCardTemplates);
-			MarkDeletedByOrganisation(uid, removalDate, Context.Positions);
-			MarkDeletedByOrganisation(uid, removalDate, Context.Departments);
+			MarkDeletedSQLQuery("DayIntervals", removalDate, uid);
+			MarkDeletedSQLQuery("Schedules", removalDate, uid);
+			MarkDeletedSQLQuery("ScheduleSchemes", removalDate, uid);
+			MarkDeletedSQLQuery("AccessTemplates", removalDate, uid);
+			MarkDeletedSQLQuery("AdditionalColumnTypes", removalDate, uid);
+			MarkDeletedSQLQuery("Employees", removalDate, uid);
+			MarkDeletedSQLQuery("Holidays", removalDate, uid);
+			MarkDeletedSQLQuery("PassCardTemplates", removalDate, uid);
+			MarkDeletedSQLQuery("Positions", removalDate, uid);
+			MarkDeletedSQLQuery("Departments", removalDate, uid);
 		}
 
 		public OperationResult Restore(Guid uid)
@@ -158,16 +159,16 @@ namespace SKDDriver.DataClasses
 
 		void RestoreItems(Guid uid, DateTime removalDate)
 		{
-			RestoreByOrganisation(uid, removalDate, Context.DayIntervals);
-			RestoreByOrganisation(uid, removalDate, Context.Schedules);
-			RestoreByOrganisation(uid, removalDate, Context.ScheduleSchemes);
-			RestoreByOrganisation(uid, removalDate, Context.AccessTemplates);
-			RestoreByOrganisation(uid, removalDate, Context.AdditionalColumnTypes);
-			RestoreByOrganisation(uid, removalDate, Context.Employees);
-			RestoreByOrganisation(uid, removalDate, Context.Holidays);
-			RestoreByOrganisation(uid, removalDate, Context.PassCardTemplates);
-			RestoreByOrganisation(uid, removalDate, Context.Positions);
-			RestoreByOrganisation(uid, removalDate, Context.Departments);
+			RestoreSQLQuery("DayIntervals", removalDate, uid);
+			RestoreSQLQuery("Schedules", removalDate, uid);
+			RestoreSQLQuery("ScheduleSchemes", removalDate, uid);
+			RestoreSQLQuery("AccessTemplates", removalDate, uid);
+			RestoreSQLQuery("AdditionalColumnTypes", removalDate, uid);
+			RestoreSQLQuery("Employees", removalDate, uid);
+			RestoreSQLQuery("Holidays", removalDate, uid);
+			RestoreSQLQuery("PassCardTemplates", removalDate, uid);
+			RestoreSQLQuery("Positions", removalDate, uid);
+			RestoreSQLQuery("Departments", removalDate, uid);
 		}
 
 		OperationResult<bool> CanSave(API.OrganisationDetails item)
@@ -376,6 +377,18 @@ namespace SKDDriver.DataClasses
 			{
 				return new OperationResult(e.Message);
 			}
+		}
+
+		void MarkDeletedSQLQuery(string tableName, DateTime removalDate, Guid organisationUID)
+		{
+			var command = string.Format("UPDATE dbo.\"{0}\" SET \"RemovalDate\" = '{1}', \"IsDeleted\" = '1' WHERE \"IsDeleted\" = '0' AND \"OrganisationUID\" = '{2}'", tableName, removalDate, organisationUID);
+			Context.Database.ExecuteSqlCommand(command);
+		}
+
+		void RestoreSQLQuery(string tableName, DateTime removalDate, Guid organisationUID)
+		{
+			var command = string.Format("UPDATE dbo.\"{0}\" SET \"RemovalDate\" = NULL, \"IsDeleted\" = '0' WHERE \"IsDeleted\" = '1' AND \"OrganisationUID\" = '{2}' AND \"RemovalDate\" = '{1}'", tableName, removalDate, organisationUID);
+			Context.Database.ExecuteSqlCommand(command);
 		}
 
 		void MarkDeletedByOrganisation<TTableItem>(Guid organisationUID, DateTime removalDate, DbSet<TTableItem> Table)

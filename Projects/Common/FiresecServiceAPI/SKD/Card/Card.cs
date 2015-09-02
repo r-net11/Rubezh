@@ -60,4 +60,15 @@ namespace FiresecAPI.SKD
 		public int NumberInt { set { Number = (uint)value; } }
 
 	}
+
+	public class CardAccessTemplateDoors
+	{
+		public CardAccessTemplateDoors()
+		{
+			CardDoors = new List<CardDoor>();
+		}
+		public Guid CardUID { get; set; }
+
+		public List<CardDoor> CardDoors { get; set; }
+	}
 }

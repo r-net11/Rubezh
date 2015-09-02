@@ -131,12 +131,12 @@ namespace FiresecService.Service
             return new OperationResult<FiresecLicenseInfo>(new FiresecLicenseInfo()
             {
                 LicenseMode = LicenseHelper.LicenseMode,
-                NumberOfUsers = LicenseHelper.NumberOfUsers,
-                ControlScripts = LicenseHelper.ControlScripts,
-                FireAlarm = LicenseHelper.FireAlarm,
+                RemoteWorkplacesCount = LicenseHelper.RemoteWorkplacesCount,
+                Video = LicenseHelper.Video,
+                Fire = LicenseHelper.Fire,
                 OpcServer = LicenseHelper.OpcServer,
-                SecurityAlarm = LicenseHelper.SecurityAlarm,
-                Skd = LicenseHelper.Skd
+                Security = LicenseHelper.Security,
+                Access = LicenseHelper.Access
             });
         }
     }

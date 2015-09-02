@@ -160,6 +160,7 @@
     <Compile Include="BindingErrorListener.cs" />
     <Compile Include="CloseWindowHelper.cs" />
     <Compile Include="EncryptHelper.cs" />
+    <Compile Include="FiresecLicenseWrapper.cs" />
     <Compile Include="HXCFileInfoHelper.cs" />
     <Compile Include="LicenseHelper.cs" />
     <Compile Include="Navigation\ShowOnPlanArgs.cs" />

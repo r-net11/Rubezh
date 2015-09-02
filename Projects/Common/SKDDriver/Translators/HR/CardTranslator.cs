@@ -128,6 +128,24 @@ namespace SKDDriver.DataClasses
 			}
 		}
 
+		public OperationResult ToStopListByOrganisation(Guid organisationUID, string reason = null)
+		{
+			try
+			{
+				var cards = Context.Cards.Include(x => x.Employee).Where(x => x.Employee.OrganisationUID == organisationUID && !x.IsInStopList);
+				foreach (var card in cards)
+				{
+					CreateStopListCard(card, reason);
+				}
+				Context.SaveChanges();
+				return new OperationResult();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
+		}
+
 		public OperationResult ToStopList(API.SKDCard item, string reason = null)
 		{
 			try
@@ -135,16 +153,7 @@ namespace SKDDriver.DataClasses
 				var card = Context.Cards.FirstOrDefault(x => x.UID == item.UID);
 				if (card != null)
 				{
-					card.EmployeeUID = null;
-					card.EndDate = DateTime.Now;
-					card.CardDoors = new List<CardDoor>();
-					card.PassCardTemplateUID = null;
-					card.IsInStopList = true;
-					card.StopReason = reason;
-					card.EmployeeUID = null;
-					card.GKLevel = 0;
-					card.GKLevelSchedule = 0;
-					card.GKLevelSchedule = 0;
+					CreateStopListCard(card, reason);
 					Context.SaveChanges();
 				}
 				return new OperationResult();
@@ -153,6 +162,20 @@ namespace SKDDriver.DataClasses
 			{
 				return new OperationResult(e.Message);
 			}
+		}
+
+		void CreateStopListCard(Card card, string reason)
+		{
+			card.EmployeeUID = null;
+			card.EndDate = DateTime.Now;
+			card.CardDoors = new List<CardDoor>();
+			card.PassCardTemplateUID = null;
+			card.IsInStopList = true;
+			card.StopReason = reason;
+			card.EmployeeUID = null;
+			card.GKLevel = 0;
+			card.GKLevelSchedule = 0;
+			card.GKLevelSchedule = 0;
 		}
 
 		public OperationResult Delete(API.SKDCard item)
@@ -294,6 +317,35 @@ namespace SKDDriver.DataClasses
 			catch (Exception e)
 			{
 				return OperationResult<DateTime>.FromError(e.Message);
+			}
+		}
+
+		public OperationResult<List<API.CardAccessTemplateDoors>> GetAccessTemplateDoorsByOrganisation(Guid organisationUID)
+		{
+			try
+			{
+				var result = Context.Cards
+					.Include(x => x.Employee)
+					.Include(x => x.AccessTemplate)
+					.Include(x => x.AccessTemplate.CardDoors)
+					.Select(tableItem => new API.CardAccessTemplateDoors
+						{
+							CardUID = tableItem.UID,
+							CardDoors = tableItem.AccessTemplate.CardDoors.Select(x => new FiresecAPI.SKD.CardDoor
+								{
+									UID = x.UID,
+									CardUID = x.CardUID,
+									DoorUID = x.DoorUID,
+									AccessTemplateUID = x.AccessTemplateUID,
+									EnterScheduleNo = x.EnterScheduleNo,
+									ExitScheduleNo = x.ExitScheduleNo
+								}).ToList()
+						}).ToList();
+				return new OperationResult<List<API.CardAccessTemplateDoors>>(result);
+			}
+			catch (Exception e)
+			{
+				return OperationResult<List<API.CardAccessTemplateDoors>>.FromError(e.Message);
 			}
 		}
 

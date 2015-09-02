@@ -43,7 +43,7 @@ namespace JournalModule.ViewModels
 			archiveFilter.JournalObjectTypes = objectsFilter.JournalObjectTypes;
 			archiveFilter.ObjectUIDs = objectsFilter.ObjectUIDs;
 			archiveFilter.SortType = SortTypeViewModel.SelectedSortType;
-			archiveFilter.IsSortDesc = SortTypeViewModel.IsSortDesc;
+			archiveFilter.IsSortAsc = SortTypeViewModel.IsSortAsc;
 			return archiveFilter;
 		}
 
