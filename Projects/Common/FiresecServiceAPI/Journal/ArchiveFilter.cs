@@ -60,7 +60,7 @@ namespace FiresecAPI.Journal
 		public ArchiveSortType SortType { get; set; }
 
 		[DataMember]
-		public bool IsSortDesc { get; set; }
+		public bool IsSortAsc { get; set; }
 	}
 
 	public enum ArchiveSortType

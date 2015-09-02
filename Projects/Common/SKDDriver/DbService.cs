@@ -100,7 +100,6 @@ namespace SKDDriver.DataClasses
 			var result = new OperationResult<bool>();
 			try
 			{
-				Context.Database.Connection.Open();
 				Context.Journals.FirstOrDefault();
 			}
 			catch (Exception e)

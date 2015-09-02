@@ -295,48 +295,7 @@ namespace SKDDriver.DataClasses
 			{
 				result = result.Where(x => x.SystemDate > filter.StartDate && x.SystemDate < filter.EndDate).OrderByDescending(x => x.SystemDate);
 			}
-			if (filter.IsSortDesc)
-			{
-				switch (filter.SortType)
-				{
-					case ArchiveSortType.SystemDate:
-						result = result.OrderByDescending(x => x.SystemDate);
-						break;
-					case ArchiveSortType.DeviceDate:
-						result = result.OrderByDescending(x => x.DeviceDate);
-						break;
-					case ArchiveSortType.EmployeeUID:
-						result = result.OrderByDescending(x => x.EmployeeUID);
-						break;
-					case ArchiveSortType.Subsystem:
-						result = result.OrderByDescending(x => x.Subsystem);
-						break;
-					case ArchiveSortType.Name:
-						result = result.OrderByDescending(x => x.Name);
-						break;
-					case ArchiveSortType.Description:
-						result = result.OrderByDescending(x => x.Description);
-						break;
-					case ArchiveSortType.ObjectType:
-						result = result.OrderByDescending(x => x.ObjectType);
-						break;
-					case ArchiveSortType.ObjectName:
-						result = result.OrderByDescending(x => x.ObjectName);
-						break;
-					case ArchiveSortType.UserName:
-						result = result.OrderByDescending(x => x.UserName);
-						break;
-					case ArchiveSortType.CameraUID:
-						result = result.OrderByDescending(x => x.CameraUID);
-						break;
-					case ArchiveSortType.CardNo:
-						result = result.OrderByDescending(x => x.CardNo);
-						break;
-					default:
-						break;
-				}
-			}
-			else
+			if (filter.IsSortAsc)
 			{
 				switch (filter.SortType)
 				{
@@ -372,6 +331,47 @@ namespace SKDDriver.DataClasses
 						break;
 					case ArchiveSortType.CardNo:
 						result = result.OrderBy(x => x.CardNo);
+						break;
+					default:
+						break;
+				}
+			}
+			else
+			{
+					switch (filter.SortType)
+				{
+					case ArchiveSortType.SystemDate:
+						result = result.OrderByDescending(x => x.SystemDate);
+						break;
+					case ArchiveSortType.DeviceDate:
+						result = result.OrderByDescending(x => x.DeviceDate);
+						break;
+					case ArchiveSortType.EmployeeUID:
+						result = result.OrderByDescending(x => x.EmployeeUID);
+						break;
+					case ArchiveSortType.Subsystem:
+						result = result.OrderByDescending(x => x.Subsystem);
+						break;
+					case ArchiveSortType.Name:
+						result = result.OrderByDescending(x => x.Name);
+						break;
+					case ArchiveSortType.Description:
+						result = result.OrderByDescending(x => x.Description);
+						break;
+					case ArchiveSortType.ObjectType:
+						result = result.OrderByDescending(x => x.ObjectType);
+						break;
+					case ArchiveSortType.ObjectName:
+						result = result.OrderByDescending(x => x.ObjectName);
+						break;
+					case ArchiveSortType.UserName:
+						result = result.OrderByDescending(x => x.UserName);
+						break;
+					case ArchiveSortType.CameraUID:
+						result = result.OrderByDescending(x => x.CameraUID);
+						break;
+					case ArchiveSortType.CardNo:
+						result = result.OrderByDescending(x => x.CardNo);
 						break;
 					default:
 						break;

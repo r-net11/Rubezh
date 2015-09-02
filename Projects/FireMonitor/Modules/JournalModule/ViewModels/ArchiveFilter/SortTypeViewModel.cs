@@ -14,7 +14,7 @@ namespace JournalModule.ViewModels
 		{
 			SortTypes = new ObservableCollection<ArchiveSortType>(Enum.GetValues(typeof(ArchiveSortType)).OfType<ArchiveSortType>()); ;
 			SelectedSortType = filter.SortType;
-			IsSortDesc = filter.IsSortDesc;
+			IsSortAsc = filter.IsSortAsc;
 		}
 
 		public ObservableCollection<ArchiveSortType> SortTypes { get; private set; }
@@ -30,14 +30,14 @@ namespace JournalModule.ViewModels
 			}
 		}
 
-		bool _IsSortDesc;
-		public bool IsSortDesc
+		bool _IsSortAsc;
+		public bool IsSortAsc
 		{
-			get { return _IsSortDesc; }
+			get { return _IsSortAsc; }
 			set
 			{
-				_IsSortDesc = value;
-				OnPropertyChanged(() => IsSortDesc);
+				_IsSortAsc = value;
+				OnPropertyChanged(() => IsSortAsc);
 			}
 		}
 	}

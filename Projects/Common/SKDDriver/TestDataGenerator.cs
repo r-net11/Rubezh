@@ -71,7 +71,7 @@ namespace SKDDriver.DataClasses
         public List<Guid> TestEmployeeCards()
         {
             Context.Database.Delete();
-			int totalOrganisations = 10;
+			int totalOrganisations = 1;
 			int positionsPerOrganisation = 1000;
 			int rootDepartmentsPerOrganisation = 100;
 			int employeesPerOrganisation = 6500;
@@ -151,6 +151,8 @@ namespace SKDDriver.DataClasses
 					break;
 				case DbType.Postgres:
 					bool isBreak = false;
+					Context.Departments.AddRange(departments);
+					Context.Positions.AddRange(positions);
 					int currentPage = 0;
 					int pageSize = 10000;
 					while (!isBreak)

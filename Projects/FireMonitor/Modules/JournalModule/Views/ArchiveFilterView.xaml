@@ -128,7 +128,7 @@
 							<DataGridTextColumn Header="Тип сортировки" Width="*" Binding="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
 						</DataGrid.Columns>
 					</DataGrid>
-					<CheckBox Grid.Row="1" Margin="5" Content="Сортировать по убыванию" IsChecked="{Binding IsSortDesc}" VerticalAlignment="Center" VerticalContentAlignment="Center" Foreground="White" />
+					<CheckBox Grid.Row="1" Margin="5" Content="Сортировать по возрастанию" IsChecked="{Binding IsSortAsc}" VerticalAlignment="Center" VerticalContentAlignment="Center" Foreground="White" />
 				</Grid>
 			</TabItem>
 		</TabControl>
