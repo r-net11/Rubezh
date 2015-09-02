@@ -27,6 +27,7 @@ namespace FiresecService.Report.Templates
 		{
 			get { return ""; }
 		}
+
 		protected SKDReportFilter Filter { get; private set; }
 		protected T GetFilter<T>()
 			where T : SKDReportFilter
@@ -88,14 +89,24 @@ namespace FiresecService.Report.Templates
 		}
 		protected virtual void DataSourceRequered()
 		{
-			using (var dataProvider = new DataProvider())
+			if (!IsNotDateBase)
 			{
-				DataSet = CreateDataSet(dataProvider);
-				UpdateDataSource(dataProvider);
-				DataSource = DataSet;
+				using (var dataProvider = new DataProvider())
+				{
+					DataSet = CreateDataSet(dataProvider);
+					UpdateDataSource(dataProvider);
+					DataSource = DataSet;
 #if DEBUG
-				//PrintFilter();
+					//PrintFilter();
 #endif
+					ApplySort();
+				}
+			}
+			if (IsNotDateBase)
+			{
+				DataSet = CreateDataSet();
+				//UpdateDataSource(dataProvider);
+				DataSource = DataSet;
 				ApplySort();
 			}
 		}
@@ -111,7 +122,18 @@ namespace FiresecService.Report.Templates
 			set;
 		}
 
+		protected virtual bool IsNotDateBase
+		{
+			get;
+			set;
+		}
+
 	    protected virtual DataSet CreateDataSet(DataProvider dataProvider)
+		{
+			return new DataSet();
+		}
+
+		protected virtual DataSet CreateDataSet()
 		{
 			return new DataSet();
 		}
