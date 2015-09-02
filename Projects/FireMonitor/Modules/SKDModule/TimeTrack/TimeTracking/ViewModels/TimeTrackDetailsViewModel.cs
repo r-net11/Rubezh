@@ -18,6 +18,8 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Data;
+using SKDModule.Properties;
+using SKDModule.ViewModels;
 using DayTimeTrackPart = SKDModule.Model.DayTimeTrackPart;
 
 namespace SKDModule.ViewModels
@@ -258,6 +260,7 @@ namespace SKDModule.ViewModels
 			RemovePartCommand = new RelayCommand(OnRemovePart, CanRemovePart);
 			EditPartCommand = new RelayCommand(OnEditPart, CanEditRemovePart);
 			ResetAdjustmentsCommand = new RelayCommand(OnResetAdjustments);
+			ForceClosingCommand = new RelayCommand(OnForceClosing, CanForceClosing);
 			DayTimeTrack = dayTimeTrack;
 			ShortEmployee = shortEmployee;
 
@@ -336,6 +339,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand OpenFileCommand { get; private set; }
 		public RelayCommand RemoveFileCommand { get; private set; }
 		public RelayCommand ResetAdjustmentsCommand { get; private set; }
+		public RelayCommand ForceClosingCommand { get; private set; }
 
 		/// <summary>
 		/// Функция создания прохода
@@ -515,6 +519,23 @@ namespace SKDModule.ViewModels
 			return true;
 		}
 
+		protected override bool Cancel()
+		{
+			if (CanCancel)
+			{
+				AllowClose = true;
+				return base.Cancel();
+			}
+
+			AllowClose = false;
+			return true;
+		}
+
+		public bool CanCancel
+		{
+			get { return !IsDirty || MessageBoxService.ShowQuestion(Resources.CanCancelEditIntervals); }
+		}
+
 		protected override bool Save()
 		{
 			return PassJournalHelper.SaveAllTimeTracks(DayTimeTrackParts.Where(x => x.IsNew || x.IsDirty).Select(el => el.ToDTO()), ShortEmployee, FiresecManager.CurrentUser);
@@ -522,8 +543,7 @@ namespace SKDModule.ViewModels
 
 		private static bool ShowResetAdjustmentsWarning()
 		{
-			return MessageBoxService.ShowQuestion(
-				"При выполнении сброса корректировок все введенные вручную данные будут удалены. Продолжить?");
+			return MessageBoxService.ShowQuestion(Resources.ResetAdjustmentsQuestion);
 		}
 
 		public void OnResetAdjustments()
@@ -631,7 +651,7 @@ namespace SKDModule.ViewModels
 
 		private void ClearIntervalsData(ObservableCollection<DayTimeTrackPart> dayTimeTrackParts)
 		{
-			List<DayTimeTrackPart> searchCollection = new List<DayTimeTrackPart>(dayTimeTrackParts);
+			var searchCollection = new List<DayTimeTrackPart>(dayTimeTrackParts);
 			foreach (var dayTimeTrackPart in searchCollection.Where(x => !x.IsForceClosed))
 			{
 				if (dayTimeTrackPart.IsManuallyAdded)
@@ -660,6 +680,19 @@ namespace SKDModule.ViewModels
 				dayTimeTrack.EnterDateTime = dayTimeTrack.EnterTimeOriginal;
 				dayTimeTrack.ExitDateTime = dayTimeTrack.ExitTimeOriginal;
 			}
+		}
+
+		public void OnForceClosing()
+		{
+			if(DialogService.ShowModalWindow(new ForceClosingQuestionDialogWindowViewModel()))
+			{
+				SelectedDayTimeTrackPart.ExitDateTime = DateTime.Now;
+			}
+		}
+
+		public bool CanForceClosing()
+		{
+			return SelectedDayTimeTrackPart.IsOpen;
 		}
 
 		#endregion

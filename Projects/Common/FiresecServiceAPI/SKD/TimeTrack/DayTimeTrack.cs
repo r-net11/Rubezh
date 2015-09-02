@@ -119,16 +119,14 @@ namespace FiresecAPI.SKD
 		{
 			CalculateDocuments();
 
-			PlannedTimeTrackParts = PlannedTimeTrackParts; //NormalizeTimeTrackParts(PlannedTimeTrackParts);
+			PlannedTimeTrackParts = PlannedTimeTrackParts;
 			RealTimeTrackParts.AddRange(CrossNightTimeTrackParts);
 			CrossNightTimeTrackParts = CalculateCrossNightTimeTrackParts(RealTimeTrackParts, Date);
-			RealTimeTrackParts = RealTimeTrackParts.OrderBy(x => x.EnterDateTime).ThenBy(x => x.ExitDateTime).ToList();//NormalizeTimeTrackParts(RealTimeTrackParts);
+			RealTimeTrackParts = RealTimeTrackParts.OrderBy(x => x.EnterDateTime).ThenBy(x => x.ExitDateTime).ToList();
 			RealTimeTrackPartsForCalculates = GetRealTimeTracksForCalculate(RealTimeTrackParts);
-			//CalculateCombinedTimeTrackParts();
 			CombinedTimeTrackParts = CalculateCombinedTimeTrackParts(PlannedTimeTrackParts, RealTimeTrackPartsForCalculates,
 																							DocumentTrackParts);
 			RealTimeTrackPartsForCalculates = FillTypesForRealTimeTrackParts(RealTimeTrackPartsForCalculates, PlannedTimeTrackParts);
-			//CalculateTotal();
 			Totals = CalculateTotal(SlideTime, PlannedTimeTrackParts, RealTimeTrackPartsForCalculates, CombinedTimeTrackParts, IsHoliday);
 			TimeTrackType = CalculateTimeTrackType(Totals, PlannedTimeTrackParts, IsHoliday, Error);
 			CalculateLetterCode();
@@ -138,6 +136,7 @@ namespace FiresecAPI.SKD
 		{
 			var resultCollection = new List<TimeTrackPart>();
 			TimeTrackPart timeTrackPartItem;
+
 			foreach (var timeTrackPart in realTimeTrackParts.Where(x => x.ExitDateTime.HasValue))
 			{
 				timeTrackPartItem = timeTrackPart;
@@ -664,12 +663,10 @@ namespace FiresecAPI.SKD
 			if (plannedTimeTrackParts.Count > 0)
 				balanceTimeSpan = -TimeSpan.FromSeconds(slideTimeTotalSeconds.TotalSeconds);
 
-			foreach (var realTimeTrackPart in realTimeTrackParts)
-			{
-				if (realTimeTrackPart.TimeTrackPartType == TimeTrackType.Overtime) continue;
-
-				balanceTimeSpan += realTimeTrackPart.Delta;
-			}
+			//foreach (var realTimeTrackPart in realTimeTrackParts.Where(x => x.TimeTrackPartType != TimeTrackType.Overtime && !x.NotTakeInCalculations))
+			//{
+			//	balanceTimeSpan += realTimeTrackPart.Delta;
+			//}
 
 			return balanceTimeSpan;
 		}

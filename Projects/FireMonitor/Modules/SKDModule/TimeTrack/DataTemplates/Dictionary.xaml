@@ -6,6 +6,10 @@
 	<DataTemplate DataType="{x:Type ViewModels:DayIntervalsViewModel}">
 		<Views:DayIntervalsView />
 	</DataTemplate>
+	
+	<DataTemplate DataType="{x:Type ViewModels:ForceClosingQuestionDialogWindowViewModel}">
+		<Views:ForceClosingQuestionDialogWindowView />
+	</DataTemplate>
 
 	<DataTemplate DataType="{x:Type ViewModels:ResetAdjustmentsConflictDialogWindowViewModel}">
 		<Views:ResetAdjustmentsConflictView />

@@ -200,6 +200,13 @@ namespace FiresecService.Service
 			return SafeContext.Execute<OperationResult>(() => FiresecService.DeleteAllPassJournalItems(dayTimeTrackPart));
 		}
 
+		public OperationResult<IEnumerable<DayTimeTrackPart>> GetIntersectionIntervals(
+			DayTimeTrackPart currentDayTimeTrackPart,
+			ShortEmployee currentEmployee)
+		{
+			return SafeContext.Execute(() => FiresecService.GetIntersectionIntervals(currentDayTimeTrackPart, currentEmployee));
+		}
+
 		public OperationResult<DateTime> GetPassJournalMinDate()
 		{
 			return SafeContext.Execute<OperationResult<DateTime>>(() => FiresecService.GetPassJournalMinDate());

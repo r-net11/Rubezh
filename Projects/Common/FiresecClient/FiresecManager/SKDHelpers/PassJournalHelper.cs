@@ -15,6 +15,13 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(result);
 		}
 
+		public static IEnumerable<DayTimeTrackPart> GetIntersectionIntervals(DayTimeTrackPart currentDayTimeTrackPart,
+			ShortEmployee currentEmployee)
+		{
+			var result = FiresecManager.FiresecService.GetIntersectionIntervals(currentDayTimeTrackPart, currentEmployee);
+			return Common.ShowErrorIfExists(result);
+		}
+
 		public static bool DeletePassJournal(Guid uid)
 		{
 			var result = FiresecManager.FiresecService.DeletePassJournal(uid);

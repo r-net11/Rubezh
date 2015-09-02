@@ -127,6 +127,53 @@ namespace SKDDriver.Translators
 			return new OperationResult<Dictionary<DayTimeTrackPart, List<DayTimeTrackPart>>>(conflictedIntervals);
 		}
 
+		public OperationResult<IEnumerable<DayTimeTrackPart>> GetIntersectionIntervals(DayTimeTrackPart currentDayTimeTrackPart,
+			ShortEmployee currentEmployee)
+		{
+			var linkedIntervals = Context.PassJournals.Where(x => x.EmployeeUID == currentEmployee.UID)
+				.Where(
+					x =>
+						x.EnterTime >= currentDayTimeTrackPart.EnterDateTime &&
+						x.ExitTime <= currentDayTimeTrackPart.ExitDateTime)
+				.Union(Context.PassJournals.Where(x => x.EmployeeUID == currentEmployee.UID && x.IsOpen)).ToList();
+
+			var resultCollection = new List<DayTimeTrackPart>();
+			foreach (var linkedInterval in linkedIntervals)
+			{
+				var skdZone = SKDManager.Zones.FirstOrDefault(x => x.UID == linkedInterval.ZoneUID);
+
+				if (linkedInterval.IsOpen)
+				{
+					if (currentDayTimeTrackPart.ExitDateTime > linkedInterval.EnterTime)
+					{
+
+
+						resultCollection.Add(new DayTimeTrackPart
+						{
+							EnterDateTime = linkedInterval.EnterTime,
+							ExitDateTime = linkedInterval.ExitTime,
+							TimeTrackZone = new TimeTrackZone
+							{
+								Name = skdZone != null ? skdZone.Name : string.Empty
+							},
+						});
+					}
+				}
+				else if (linkedInterval.EnterTime < currentDayTimeTrackPart.ExitDateTime &&
+				          linkedInterval.ExitTime > currentDayTimeTrackPart.EnterDateTime)
+				{
+					resultCollection.Add(new DayTimeTrackPart
+					{
+						EnterDateTime = linkedInterval.EnterTime,
+						ExitDateTime = linkedInterval.ExitTime,
+						TimeTrackZone = new TimeTrackZone { Name = skdZone != null ? skdZone.Name : string.Empty }
+					});
+				}
+			}
+
+			return new OperationResult<IEnumerable<DayTimeTrackPart>>(resultCollection);
+		}
+
 		public OperationResult EditPassJournal(DayTimeTrackPart dayTimeTrackPart, ShortEmployee employee, out bool? setAdjustmentFlag, out bool setBordersChangedFlag, out bool setForceClosedFlag)
 		{
 			setAdjustmentFlag = null;

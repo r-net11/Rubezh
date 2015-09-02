@@ -278,6 +278,11 @@
       <DependentUpon>PassCardTextPropertyView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Positions\ViewModels\PositionEmployeeListViewModel.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Reports\DeviceListReport.cs" />
     <Compile Include="Reports\DeviceListReportPdf.cs" />
     <Compile Include="Reports\Providers\EmployeeReportProvider.cs" />
@@ -385,6 +390,7 @@
     <Compile Include="TimeTrack\TimeTracking\Model\DayTrack.cs" />
     <Compile Include="TimeTrack\TimeTracking\Model\TimeTrackZone.cs" />
     <Compile Include="TimeTrack\TimeTracking\TemplateSelectors\IsOpenedIntervalTemplateSelector.cs" />
+    <Compile Include="TimeTrack\TimeTracking\ViewModels\DialogWindows\ForceClosingQuestionDialogWindowViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\DialogWindows\WarningIntersectionIntervalDialogWindowViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\DocumentDetailsViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\DocumentsViewModel.cs" />
@@ -401,6 +407,9 @@
     <Compile Include="TimeTrack\TimeTracking\ViewModels\TimeTrackPartDetailsViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\Model\TimeTrackTypeFilterItem.cs" />
     <Compile Include="TimeTrack\TimeTracking\Model\TimeTrack.cs" />
+    <Compile Include="TimeTrack\TimeTracking\Views\DialogWindows\ForceClosingQuestionDialogWindowView.xaml.cs">
+      <DependentUpon>ForceClosingQuestionDialogWindowView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TimeTrack\TimeTracking\Views\DocumentDetailsView.xaml.cs">
       <DependentUpon>DocumentDetailsView.xaml</DependentUpon>
     </Compile>
@@ -864,6 +873,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="TimeTrack\TimeTracking\Views\DialogWindows\ForceClosingQuestionDialogWindowView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="TimeTrack\TimeTracking\Views\DocumentDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1036,6 +1049,12 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
