@@ -182,13 +182,13 @@ namespace FiresecService.Report.Templates
 							break;
 					}
 
-					//if (dataRow.Object == null)
-					//{
-					//	dataRow.Object = journalItem.ObjectName;
-					//}
+					if (dataRow.IsObjectNull())
+					{
+						dataRow.Object = journalItem.ObjectName;
+					}
 
-					//if (dataRow.Object == null)
-					//	dataRow.Object = "<Нет в конфигурации>";
+					if (dataRow.IsObjectNull())
+						dataRow.Object = "<Нет в конфигурации>";
 
 					dataRow.System = journalItem.JournalSubsystemType.ToDescription();
 					dataRow.User = journalItem.UserName;
