@@ -72,7 +72,7 @@ namespace FiresecClient
             }
             catch (Exception e)
             {
-                Logger.Error(e, "FiresecManager.GetLicenseInfo");
+                Logger.Error(e, "FiresecManager.GetLicense");
                 return e.Message;
             }
         }
