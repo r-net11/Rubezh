@@ -144,6 +144,13 @@ namespace ChinaSKDDriverNativeApi
 			public Int32 dwSoftwareBuildDate_Day;
 		}
 
+		/// <summary>
+		/// Получает информацию о прошивке на контроллере
+		/// </summary>
+		/// <param name="loginID">Идентификатор текущей сессии</param>
+		/// <param name="result">Структура WRAP_DevConfig_TypeAndSoftInfo_Result, в которую помещается запрошенная информация о прошивке на контроллере</param>
+		/// <returns>true - операция завершилась успешно,
+		/// false - операция завершилась с ошибками</returns>
 		[DllImport(@"CPPWrapper.dll")]
 		public static extern bool WRAP_GetSoftwareInfo(Int32 loginID, out WRAP_DevConfig_TypeAndSoftInfo_Result result);
 
@@ -162,6 +169,13 @@ namespace ChinaSKDDriverNativeApi
 			public Int32 nMTU;
 		}
 
+		/// <summary>
+		/// Получает сетевые настройки контроллера
+		/// </summary>
+		/// <param name="loginID">Идентификатор текущей сессии</param>
+		/// <param name="stuNetwork">Структура WRAP_CFG_NETWORK_INFO_Result, в которую помещается запрошенная информация о сетевых настройках на контроллере</param>
+		/// <returns>true - операция завершилась успешно,
+		/// false - операция завершилась с ошибками</returns>
 		[DllImport(@"CPPWrapper.dll")]
 		public static extern bool WRAP_Get_NetInfo(int loginID, out WRAP_CFG_NETWORK_INFO_Result stuNetwork);
 
@@ -187,9 +201,28 @@ namespace ChinaSKDDriverNativeApi
 		[DllImport(@"CPPWrapper.dll")]
 		public static extern bool WRAP_GetMaxPageSize(int loginID, out WRAP_DevConfig_RecordFinderCaps_Result result);
 
+		/// <summary>
+		/// Получает текущее время на контроллере
+		/// </summary>
+		/// <param name="loginID">Идентификатор текущей сессии</param>
+		/// <param name="result">Структура NET_TIME, в которую помещается информация о текущем времени на контроллере</param>
+		/// <returns>true - операция завершилась успешно,
+		///  false - операция завершилась с ошибкой</returns>
 		[DllImport(@"CPPWrapper.dll")]
 		public static extern bool WRAP_GetCurrentTime(int loginID, out NET_TIME result);
 
+		/// <summary>
+		/// Устанавливает время на контроллере
+		/// </summary>
+		/// <param name="loginID">Идентификатор текущей сессии</param>
+		/// <param name="dwYear">Год</param>
+		/// <param name="dwMonth">Месяц</param>
+		/// <param name="dwDay">Число</param>
+		/// <param name="dwHour">Часы</param>
+		/// <param name="dwMinute">Минуты</param>
+		/// <param name="dwSecond">Секунды</param>
+		/// <returns>true - операция завершилась успешно,
+		/// false - операция завершилась с ошибками</returns>
 		[DllImport(@"CPPWrapper.dll")]
 		public static extern bool WRAP_SetCurrentTime(int loginID, int dwYear, int dwMonth, int dwDay, int dwHour, int dwMinute, int dwSecond);
 

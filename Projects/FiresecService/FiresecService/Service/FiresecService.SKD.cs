@@ -782,24 +782,36 @@ namespace FiresecService.Service
 			return new OperationResult<SKDStates>(SKDProcessor.SKDGetStates());
 		}
 
+		/// <summary>
+		/// Получает информацию о контроллере.
+		/// Такую как версия прошивки, сетевые настройки, дата и время.
+		/// </summary>
+		/// <param name="deviceUID">Идентификатор контроллера</param>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
 		public OperationResult<SKDDeviceInfo> SKDGetDeviceInfo(Guid deviceUID)
 		{
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
 				AddSKDJournalMessage(JournalEventNameType.Запрос_конфигурации_контроллера, device);
-				return ChinaSKDDriver.Processor.GetDeviceInfo(deviceUID);
+				return Processor.GetDeviceInfo(deviceUID);
 			}
 			return OperationResult<SKDDeviceInfo>.FromError("Устройство не найдено в конфигурации");
 		}
 
+		/// <summary>
+		/// Устанавливает на контроллере текущее системное время.
+		/// В журнал событий заносится соответствующая запись.
+		/// </summary>
+		/// <param name="deviceUID">Идентификатор контроллера</param>
+		/// <returns>Объект OperationResult с результатов выполнения операции</returns>
 		public OperationResult<bool> SKDSyncronyseTime(Guid deviceUID)
 		{
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
 				AddSKDJournalMessage(JournalEventNameType.Синхронизация_времени_контроллера, device);
-				return ChinaSKDDriver.Processor.SyncronyseTime(deviceUID);
+				return Processor.SyncronyseTime(deviceUID);
 			}
 			return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
 		}
@@ -826,6 +838,11 @@ namespace FiresecService.Service
 			return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
 		}
 
+		/// <summary>
+		/// Записывает графики доступа на контроллер
+		/// </summary>
+		/// <param name="deviceUID">Идентификатор контроллера, на который производится запись</param>
+		/// <returns>Объект OperationResult, описывающий результат выполнения процедуры записи</returns>
 		public OperationResult<bool> SKDWriteTimeSheduleConfiguration(Guid deviceUID)
 		{
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
@@ -857,6 +874,11 @@ namespace FiresecService.Service
 			return OperationResult<List<Guid>>.FromError(errors, failedDeviceUIDs);
 		}
 
+		/// <summary>
+		/// Перезаписывает на контроллер все пропуска, связанные с ним через точку доступа и организацию
+		/// </summary>
+		/// <param name="deviceUID">Идентификатор контроллера</param>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
 		public OperationResult<bool> SKDRewriteAllCards(Guid deviceUID)
 		{
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
@@ -869,7 +891,7 @@ namespace FiresecService.Service
 					var accessTemplatesResult = databaseService.AccessTemplateTranslator.Get(new AccessTemplateFilter());
 					if (!cardsResult.HasError && !accessTemplatesResult.HasError)
 					{
-						return ChinaSKDDriver.Processor.SKDRewriteAllCards(device, cardsResult.Result, accessTemplatesResult.Result);
+						return Processor.SKDRewriteAllCards(device, cardsResult.Result, accessTemplatesResult.Result);
 					}
 					else
 					{

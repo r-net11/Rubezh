@@ -310,6 +310,12 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.SKDGetStates(); }, "SKDGetStates");
 		}
 
+		/// <summary>
+		/// Получает информацию о контроллере.
+		/// Такую как версия прошивки, сетевые настройки, дата и время.
+		/// </summary>
+		/// <param name="deviceUID">Идентификатор контроллера</param>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
 		public OperationResult<SKDDeviceInfo> SKDGetDeviceInfo(Guid deviceUID)
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDGetDeviceInfo(deviceUID); }, "SKDGetDeviceInfo");

@@ -267,11 +267,23 @@ namespace FiresecClient
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDGetStates(); }, "SKDGetStates");
 		}
+		
+		/// <summary>
+		/// Получает информацию о контроллере.
+		/// Такую как версия прошивки, сетевые настройки, дата и время.
+		/// </summary>
+		/// <param name="device">Доменная модель контроллера</param>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
 		public OperationResult<SKDDeviceInfo> SKDGetDeviceInfo(SKDDevice device)
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDGetDeviceInfo(device.UID); }, "SKDGetDeviceInfo");
 		}
 
+		/// <summary>
+		/// Устанавливает на контроллере текущее системное время
+		/// </summary>
+		/// <param name="device">Доменная модель контроллера</param>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
 		public OperationResult<bool> SKDSyncronyseTime(SKDDevice device)
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDSyncronyseTime(device.UID); }, "SKDSyncronyseTime");
