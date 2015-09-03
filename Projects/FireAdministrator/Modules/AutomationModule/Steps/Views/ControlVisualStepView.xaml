@@ -7,53 +7,54 @@
 		</ResourceDictionary>
 	</UserControl.Resources>
 
-	<StackPanel>
-		<StackPanel Orientation="Horizontal">
-			<TextBlock Text="Макет" Style="{DynamicResource TextBlockDetailsStyle}" />
-			<ComboBox ItemsSource="{Binding Layouts}" SelectedItem="{Binding SelectedLayout}">
-				<ComboBox.ItemTemplate>
-					<DataTemplate>
-						<TextBlock Text="{Binding Name}" />
-					</DataTemplate>
-				</ComboBox.ItemTemplate>
-			</ComboBox>
-		</StackPanel>
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto"/>
+			<ColumnDefinition Width="Auto"/>
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+		</Grid.RowDefinitions>
 
-		<StackPanel Orientation="Horizontal">
-			<TextBlock Text="Элемент" Style="{DynamicResource TextBlockDetailsStyle}" />
-			<ComboBox IsEnabled="{Binding SelectedLayout, Converter={StaticResource NullToBoolConverter}}" ItemsSource="{Binding LayoutParts}" SelectedItem="{Binding SelectedLayoutPart}">
-				<ComboBox.ItemTemplate>
-					<DataTemplate>
-						<TextBlock Text="{Binding Name}" />
-					</DataTemplate>
-				</ComboBox.ItemTemplate>
-			</ComboBox>
-		</StackPanel>
+		<TextBlock Grid.Column="0" Grid.Row="0" Text="Макет" Style="{DynamicResource TextBlockDetailsStyle}" />
+		<ComboBox Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" ItemsSource="{Binding Layouts}" SelectedItem="{Binding SelectedLayout}">
+			<ComboBox.ItemTemplate>
+				<DataTemplate>
+					<TextBlock Text="{Binding Name}" />
+				</DataTemplate>
+			</ComboBox.ItemTemplate>
+		</ComboBox>
 
-		<StackPanel Orientation="Horizontal">
-			<TextBlock Text="Свойство" Style="{DynamicResource TextBlockDetailsStyle}" />
-			<ComboBox IsEnabled="{Binding SelectedLayoutPart, Converter={StaticResource NullToBoolConverter}}" ItemsSource="{Binding LayoutPartProperties}" SelectedItem="{Binding SelectedLayoutPartProperty}">
-				<ComboBox.ItemTemplate>
-					<DataTemplate>
-						<TextBlock Text="{Binding Name, Converter={StaticResource EnumToDescriptionConverter}}" />
-					</DataTemplate>
-				</ComboBox.ItemTemplate>
-			</ComboBox>
-		</StackPanel>
+		<TextBlock Grid.Column="0" Grid.Row="1" Text="Элемент" Style="{DynamicResource TextBlockDetailsStyle}" />
+		<ComboBox Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" IsEnabled="{Binding SelectedLayout, Converter={StaticResource NullToBoolConverter}}" ItemsSource="{Binding LayoutParts}" SelectedItem="{Binding SelectedLayoutPart}">
+			<ComboBox.ItemTemplate>
+				<DataTemplate>
+					<TextBlock Text="{Binding Name}" />
+				</DataTemplate>
+			</ComboBox.ItemTemplate>
+		</ComboBox>
 
-		<StackPanel Orientation="Horizontal">
-			<TextBlock Text="Аргумент" Style="{DynamicResource TextBlockDetailsStyle}" />
-			<Views:ArgumentView DataContext="{Binding ValueArgument}" />
-		</StackPanel>
+		<TextBlock Grid.Column="0" Grid.Row="2" Text="Свойство" Style="{DynamicResource TextBlockDetailsStyle}" />
+		<ComboBox Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" IsEnabled="{Binding SelectedLayoutPart, Converter={StaticResource NullToBoolConverter}}" ItemsSource="{Binding LayoutPartProperties}" SelectedItem="{Binding SelectedLayoutPartProperty}">
+			<ComboBox.ItemTemplate>
+				<DataTemplate>
+					<TextBlock Text="{Binding Name, Converter={StaticResource EnumToDescriptionConverter}}" />
+				</DataTemplate>
+			</ComboBox.ItemTemplate>
+		</ComboBox>
 
-		<StackPanel Orientation="Horizontal">
-			<TextBlock Text="Всем клиентам" Style="{DynamicResource TextBlockDetailsStyle}" />
-			<CheckBox IsChecked="{Binding ForAllClients}" />
-		</StackPanel>
+		<TextBlock Grid.Column="0" Grid.Row="3" Text="Аргумент" Style="{DynamicResource TextBlockDetailsStyle}" />
+		<Views:ArgumentView Grid.Column="1" Grid.Row="3" DataContext="{Binding ValueArgument}" />
 
-		<StackPanel Orientation="Horizontal" Visibility="{Binding Path=ControlElementType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ControlElementType.Set}}" >
-			<TextBlock Text="Восстанавливать" Width="108" Margin="2, 2, -6, 2" Style="{DynamicResource TextBlockDetailsStyle}" />
-			<CheckBox IsChecked="{Binding StoreOnServer}" IsEnabled="{Binding CanStoreOnServer}" />
-		</StackPanel>
-	</StackPanel>
+		<TextBlock Grid.Column="0" Grid.Row="4" Text="Всем клиентам" Style="{DynamicResource TextBlockDetailsStyle}" />
+		<CheckBox Grid.Column="1" Grid.Row="4" IsChecked="{Binding ForAllClients}" />
+
+		<TextBlock Grid.Column="0" Grid.Row="5" Text="Восстанавливать" Width="108" Style="{DynamicResource TextBlockDetailsStyle}" Visibility="{Binding Path=ControlElementType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ControlElementType.Set}}" />
+		<CheckBox Grid.Column="1" Grid.Row="5" IsChecked="{Binding StoreOnServer}" IsEnabled="{Binding CanStoreOnServer}" Visibility="{Binding Path=ControlElementType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ControlElementType.Set}}" />
+	</Grid>
 </UserControl>
