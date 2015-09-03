@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using FiresecAPI.GK;
-using FiresecClient;
 
 namespace GKProcessor
 {
@@ -70,7 +68,12 @@ namespace GKProcessor
 						break;
 				}
 			}
-			GuardZonePimDescriptor = new GuardZonePimDescriptor(GuardZone);
+			if (ChangeGuardDevices.Count > 0)
+			{
+				GuardZonePimDescriptor = new GuardZonePimDescriptor(GuardZone);
+			}
+			else
+				GuardZone.LinkObject(GuardZone);
 		}
 
 		public override void Build()
@@ -93,7 +96,6 @@ namespace GKProcessor
 			AddGuardDevicesLogic(SetGuardDevices, GKStateBit.TurnOn_InAutomatic);
 			AddGuardDevicesLogic(ResetGuardDevices, GKStateBit.TurnOff_InAutomatic);
 			AddMissedLogic(SetAlarmDevices);
-			//GuardZone.LinkToDescriptor(GuardZone.Pim);
 			Formula.Add(FormulaOperationType.END);
 		}
 
@@ -140,7 +142,10 @@ namespace GKProcessor
 				case GKStateBit.Fire1:
 					if (count > 0)
 					{
-						Formula.AddGetBit(GKStateBit.On, GuardZone.Pim);
+						if (ChangeGuardDevices.Count > 0)
+							Formula.AddGetBit(GKStateBit.On, GuardZone.Pim);
+						else
+							Formula.AddGetBit(GKStateBit.Attention, GuardZone);
 						Formula.Add(FormulaOperationType.OR);
 						Formula.AddPutBit(GKStateBit.Attention, GuardZone);
 					}
