@@ -1,9 +1,9 @@
 ﻿using System.Globalization;
 using System.Reactive.Linq;
+using Common;
 using FiresecAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
-using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
@@ -19,7 +19,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows.Data;
 using SKDModule.Properties;
-using SKDModule.ViewModels;
 using DayTimeTrackPart = SKDModule.Model.DayTimeTrackPart;
 
 namespace SKDModule.ViewModels
@@ -28,7 +27,9 @@ namespace SKDModule.ViewModels
 	{
 		#region Properties
 
-		TimeTrackAttachedDocument _selectedDocument;
+		public List<DayTimeTrackPart> RemovedDayTimeTrackParts { get; set; }
+
+		private TimeTrackAttachedDocument _selectedDocument;
 		public TimeTrackAttachedDocument SelectedDocument
 		{
 			get { return _selectedDocument; }
@@ -39,7 +40,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		DayTimeTrackPart _selectedDayTimeTrackPart;
+		private DayTimeTrackPart _selectedDayTimeTrackPart;
 		public DayTimeTrackPart SelectedDayTimeTrackPart
 		{
 			get { return _selectedDayTimeTrackPart; }
@@ -261,6 +262,7 @@ namespace SKDModule.ViewModels
 			EditPartCommand = new RelayCommand(OnEditPart, CanEditRemovePart);
 			ResetAdjustmentsCommand = new RelayCommand(OnResetAdjustments);
 			ForceClosingCommand = new RelayCommand(OnForceClosing, CanForceClosing);
+			RemovedDayTimeTrackParts = new List<DayTimeTrackPart>();
 			DayTimeTrack = dayTimeTrack;
 			ShortEmployee = shortEmployee;
 
@@ -379,16 +381,18 @@ namespace SKDModule.ViewModels
 			return FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Parts_Edit);
 		}
 
+		private void RemoveDayTimeTrack(DayTimeTrackPart removedDayTimeTrackPart)
+		{
+			RemovedDayTimeTrackParts.Add(removedDayTimeTrackPart);
+			DayTimeTrackParts.Remove(removedDayTimeTrackPart);
+			SelectedDayTimeTrackPart = DayTimeTrackParts.FirstOrDefault();
+			IsDirty = true;
+			ServiceFactoryBase.Events.GetEvent<EditTimeTrackPartEvent>().Publish(ShortEmployee.UID);
+		}
+
 		void OnRemovePart()
 		{
-			var result = PassJournalHelper.DeleteAllPassJournalItems(SelectedDayTimeTrackPart.ToDTO());
-			if (result)
-			{
-				DayTimeTrackParts.Remove(SelectedDayTimeTrackPart);
-				SelectedDayTimeTrackPart = DayTimeTrackParts.FirstOrDefault();
-				IsDirty = true;
-				ServiceFactoryBase.Events.GetEvent<EditTimeTrackPartEvent>().Publish(ShortEmployee.UID);
-			}
+			RemoveDayTimeTrack(SelectedDayTimeTrackPart);
 		}
 
 		public bool CanRemovePart()
@@ -538,7 +542,7 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
-			return PassJournalHelper.SaveAllTimeTracks(DayTimeTrackParts.Where(x => x.IsNew || x.IsDirty).Select(el => el.ToDTO()), ShortEmployee, FiresecManager.CurrentUser);
+			return PassJournalHelper.SaveAllTimeTracks(DayTimeTrackParts.Where(x => x.IsNew || x.IsDirty).Select(el => el.ToDTO()), ShortEmployee, FiresecManager.CurrentUser, RemovedDayTimeTrackParts.Select(x => x.ToDTO()));
 		}
 
 		private static bool ShowResetAdjustmentsWarning()
@@ -554,9 +558,8 @@ namespace SKDModule.ViewModels
 
 			var resultCollection = DayTimeTrackParts.Where(x => !x.IsManuallyAdded || x.IsForceClosed).ToList();
 			List<DayTimeTrackPart> collection = DayTimeTrackParts.Where(x => !string.IsNullOrEmpty(x.CorrectedBy) && !x.IsForceClosed).ToList();
-			var serverCollection = collection.Select(dayTimeTrackPart => dayTimeTrackPart.ToDTO()).ToList();
 
-			var conflictIntervals = PassJournalHelper.FindConflictIntervals(serverCollection, ShortEmployee.UID, DayTimeTrack.Date);
+			var conflictIntervals = PassJournalHelper.FindConflictIntervals(collection.Select(dayTimeTrackPart => dayTimeTrackPart.ToDTO()).ToList(), ShortEmployee.UID, DayTimeTrack.Date);
 
 			if (conflictIntervals == null)
 			{
@@ -656,10 +659,7 @@ namespace SKDModule.ViewModels
 			{
 				if (dayTimeTrackPart.IsManuallyAdded)
 				{
-					PassJournalHelper.DeleteAllPassJournalItems(dayTimeTrackPart.ToDTO());
-					IsDirty = true;
-					DayTimeTrackParts.Remove(dayTimeTrackPart);
-					ServiceFactoryBase.Events.GetEvent<EditTimeTrackPartEvent>().Publish(ShortEmployee.UID);
+					RemoveDayTimeTrack(dayTimeTrackPart);
 				}
 				else
 				{

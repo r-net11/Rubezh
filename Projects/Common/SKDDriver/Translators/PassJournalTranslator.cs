@@ -303,6 +303,22 @@ namespace SKDDriver.Translators
 			}
 		}
 
+		public OperationResult RemoveSelectedIntervals(IEnumerable<DayTimeTrackPart> removedDayTimeTrackParts)
+		{
+			try
+			{
+				foreach (var removedDayTimeTrackPart in removedDayTimeTrackParts)
+				{
+					DeleteAllPassJournalItems(removedDayTimeTrackPart);
+				}
+				return new OperationResult();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
+		}
+
 		public void InvalidatePassJournal()
 		{
 			//try
