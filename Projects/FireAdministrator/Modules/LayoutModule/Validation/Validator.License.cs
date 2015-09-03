@@ -16,7 +16,7 @@ namespace LayoutModule.Validation
 			{
 				string layoutLicenses = GetLayoutLicenses(layout);
 				if (!string.IsNullOrEmpty(layoutLicenses))
-					Errors.Add(new LayoutValidationError(layout, "Макет содержит элементы, требующие наличия лицензии модуля(ей): " + layoutLicenses, ValidationErrorLevel.CannotWrite));
+					Errors.Add(new LayoutValidationError(layout, "Макет содержит элементы, требующие наличия лицензии модуля(ей): " + layoutLicenses, ValidationErrorLevel.Warning));
 			}
 		}
 
