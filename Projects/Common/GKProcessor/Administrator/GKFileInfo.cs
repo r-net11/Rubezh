@@ -40,6 +40,7 @@ namespace GKProcessor
 			var deviceConfiguration = GKManager.DeviceConfiguration;
 			var stringBuilder = new StringBuilder();
 			stringBuilder.Append("devices:");
+
 			foreach (var device in deviceConfiguration.Devices.Where(x => x.IsRealDevice && x.GkDatabaseParent == gkControllerDevice))
 			{
 				stringBuilder.Append(device.PresentationName).Append("@");
