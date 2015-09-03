@@ -149,7 +149,7 @@
             return;
 
         // Получаем ширину области контента, в которой будем размещать svg и вычитаем ширину суммарных полей (по 30 слева и справа)
-        var renderWidth = getViewPortSize().width;
+        var renderWidth = Math.round(getViewPortSize().width) - 30;
 
         // Сравниваем с шириной плана в масштабе 100% и расчитываем коэффициент scale, который будет у нас на старте
         var calculatedScale = renderWidth / data.Width;
@@ -159,27 +159,41 @@
 
         d3.select("svg").remove();
 
+		// Поведение, которое отслеживает pan и zoom
         var zoom = d3.behavior.zoom().scaleExtent([calculatedScale, Infinity]).translate([0, 0]).scale(calculatedScale);
-        var zooming = function() {
 
+		// В этой функции мы проверяем ограничения на pan и применяем их
+        var zooming = function ()
+        {
+	        var translate = d3.event.translate;
             var translateX = d3.event.translate[0];
             var translateY = d3.event.translate[1];
             
+			// Проверяем значения на ограничения pan'а
+
             var xMin = renderWidth - data.Width * d3.event.scale;
-            var yMin = renderHeight - data.Height * d3.event.scale;
-
             if (xMin > translateX)
-                d3.event.translate[0] = xMin;
+            {
+            	translate[0] = xMin;
+            }
 
-            if (yMin > translateY)
-                d3.event.translate[1] = yMin;
+            var yMin = renderHeight - data.Height * d3.event.scale;
+            if (yMin > translateY) {
+            	translate[1] = yMin;
+	        }
 
-            if (translateX > 1)
-                d3.event.translate[0] = 0;
-            if (translateY > 1)
-                d3.event.translate[1] = 0;
+	        if (translateX > 0)
+	        	translate[0] = 0;
+	        if (translateY > 0)
+	        	translate[1] = 0;
 
-            g.attr("transform", "translate(" + d3.event.translate + ")" + " scale(" + d3.event.scale + ")");
+        	// применяем изменение pan вместе с ограничениями к behaviour, иначе, дойдя до ограничения,
+        	// D3 будет продолжать двигать картинку, но отрисовываться это не будет
+			// вместо этого будет все выглядеть, как будто картинка "застряла", пока мы виртуально не прокрутим до конца
+	        zoom.translate(translate);
+
+			// а теперь применяем pan и zoom к  DOM элементу, чтобы все отрисовалось
+	        g.attr("transform", "translate(" + translate + ")" + " scale(" + d3.event.scale + ")");
         };
 
         var svg = d3.select(element)

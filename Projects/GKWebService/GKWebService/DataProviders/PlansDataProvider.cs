@@ -49,7 +49,7 @@ namespace GKWebService.DataProviders
             Plans = new List<PlanSimpl>();
             //FileConfigurationHelper.LoadFromFile(fileName);
             var contService = new ContentService("WebClient");
-            SafeFiresecService.GKPropertyChangedEvent += OnGkPropertyChangedEvent;
+			SafeFiresecService.GKCallbackResultEvent += SafeFiresecService_GKCallbackResultEvent;
             foreach (var plan in plans)
             {
                 //var z = GKManager.Zones;
@@ -187,9 +187,14 @@ namespace GKWebService.DataProviders
             }
         }
 
-        private void OnGkPropertyChangedEvent(GKPropertyChangedCallback callback)
+		private void SafeFiresecService_GKCallbackResultEvent(GKCallbackResult obj)
+		{
+			Debug.WriteLine("GK property changed " + obj.GKStates);
+		}
+
+		private void OnGkPropertyChangedEvent(GKPropertyChangedCallback callback)
         {
-            Debug.WriteLine("GK property changed " + callback.ObjectUID);
+           
         }
 
         private PlanElement PolygonToShape(ElementBasePolygon item)
