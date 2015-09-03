@@ -196,6 +196,15 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DisciplineDataSet.xsd</DependentUpon>
     </Compile>
+    <Compile Include="DataSources\ReflectioDataSet.cs">
+      <DependentUpon>ReflectioDataSet.xsd</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DataSources\ReflectioDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ReflectioDataSet.xsd</DependentUpon>
+    </Compile>
     <Compile Include="DataSources\SchedulesDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -240,6 +249,12 @@
     </Compile>
     <Compile Include="Templates\DoorsReport.Designer.cs">
       <DependentUpon>DoorsReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\ReflectionReport .cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Templates\ReflectionReport .Designer.cs">
+      <DependentUpon>ReflectionReport .cs</DependentUpon>
     </Compile>
     <Compile Include="Templates\SchedulesReport.cs">
       <SubType>Component</SubType>
@@ -361,6 +376,9 @@
     <EmbeddedResource Include="Templates\DoorsReport.resx">
       <DependentUpon>DoorsReport.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Templates\ReflectionReport .resx">
+      <DependentUpon>ReflectionReport .cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Templates\SchedulesReport.resx">
       <DependentUpon>SchedulesReport.cs</DependentUpon>
@@ -514,6 +532,17 @@
     </None>
     <None Include="DataSources\DisciplineDataSet.xss">
       <DependentUpon>DisciplineDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="DataSources\ReflectioDataSet.xsc">
+      <DependentUpon>ReflectioDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="DataSources\ReflectioDataSet.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ReflectioDataSet.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="DataSources\ReflectioDataSet.xss">
+      <DependentUpon>ReflectioDataSet.xsd</DependentUpon>
     </None>
     <None Include="DataSources\SchedulesDataSet.xsc">
       <DependentUpon>SchedulesDataSet.xsd</DependentUpon>

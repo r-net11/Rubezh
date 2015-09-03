@@ -12,7 +12,7 @@ namespace VideoModule.Validation
 				return;
 
 			foreach (var camera in FiresecManager.SystemConfiguration.Cameras)
-				Errors.Add(new VideoValidationError(camera, "Отсутствует лицензия модуля \"GLOBAL Видео\"", ValidationErrorLevel.CannotWrite));
+				Errors.Add(new VideoValidationError(camera, "Отсутствует лицензия модуля \"GLOBAL Видео\"", ValidationErrorLevel.Warning));
 		}
 	}
 }
