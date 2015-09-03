@@ -21,11 +21,13 @@ namespace StrazhModule.ViewModels
 			Title = "Временные настройки контроллера";
 			DeviceViewModel = deviceViewModel;
 
+			SynchronizeDeviceTimeCommand = new RelayCommand(OnSynchronizeDeviceTime);
 			WriteCommand = new RelayCommand(OnWrite);
 			ReadCommand = new RelayCommand(OnRead);
 
 			AvailableTimeZoneTypes = new ObservableCollection<SKDTimeZoneType>(Enum.GetValues(typeof(SKDTimeZoneType)).Cast<SKDTimeZoneType>());
 			OnRead();
+			GetDeviceTime();
 			HasChanged = false;
 		}
 
@@ -103,6 +105,42 @@ namespace StrazhModule.ViewModels
 			{
 				_selectedTimeZoneType = value;
 				OnPropertyChanged(() => SelectedTimeZoneType);
+			}
+		}
+
+		private DateTime _deviceTime;
+		public DateTime DeviceTime
+		{
+			get { return _deviceTime; }
+			set
+			{
+				if (_deviceTime == value)
+					return;
+				_deviceTime = value;
+				OnPropertyChanged(() => DeviceTime);
+			}
+		}
+
+		private void GetDeviceTime()
+		{
+			var result = FiresecManager.FiresecService.SKDGetDeviceInfo(DeviceViewModel.Device);
+			if (result.HasError)
+				return;
+			DeviceTime = result.Result.CurrentDateTime;
+		}
+
+		public RelayCommand SynchronizeDeviceTimeCommand { get; private set; }
+		private void OnSynchronizeDeviceTime()
+		{
+			var result = FiresecManager.FiresecService.SKDSyncronyseTime(DeviceViewModel.Device);
+			if (result.Result)
+			{
+				GetDeviceTime();
+				MessageBoxService.Show("Операция синхронизации времени завершилась успешно");
+			}
+			else
+			{
+				MessageBoxService.ShowWarning("Ошибка во время операции синхронизации времени", result.Error);
 			}
 		}
 

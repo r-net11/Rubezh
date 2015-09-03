@@ -27,6 +27,10 @@ namespace ChinaSKDDriver
 
 		#region CommonDevice
 
+		/// <summary>
+		/// Получает версию прошивки на контроллере
+		/// </summary>
+		/// <returns>Объект DeviceSoftwareInfo с описанием типа устройства и версии прошивки</returns>
 		public DeviceSoftwareInfo GetDeviceSoftwareInfo()
 		{
 			NativeWrapper.WRAP_DevConfig_TypeAndSoftInfo_Result outResult;
@@ -35,9 +39,11 @@ namespace ChinaSKDDriver
 			DeviceSoftwareInfo deviceSoftwareInfo = null;
 			if (result)
 			{
-				deviceSoftwareInfo = new DeviceSoftwareInfo();
-				deviceSoftwareInfo.DeviceType = outResult.szDevType;
-				deviceSoftwareInfo.SoftwareVersion = outResult.szSoftWareVersion;
+				deviceSoftwareInfo = new DeviceSoftwareInfo
+				{
+					DeviceType = outResult.szDevType,
+					SoftwareVersion = outResult.szSoftWareVersion
+				};
 				try
 				{
 					if (outResult.dwSoftwareBuildDate_Year > 0 && outResult.dwSoftwareBuildDate_Month > 0 && outResult.dwSoftwareBuildDate_Day > 0)
@@ -48,6 +54,10 @@ namespace ChinaSKDDriver
 			return deviceSoftwareInfo;
 		}
 
+		/// <summary>
+		/// Получает сетевые настройки контроллера
+		/// </summary>
+		/// <returns>Объект SKDControllerNetworkSettings, содержащий сетевые настройки контроллера</returns>
 		public SKDControllerNetworkSettings GetDeviceNetInfo()
 		{
 			NativeWrapper.WRAP_CFG_NETWORK_INFO_Result outResult;
@@ -56,10 +66,12 @@ namespace ChinaSKDDriver
 			SKDControllerNetworkSettings controllerNetworkSettings = null;
 			if (result)
 			{
-				controllerNetworkSettings = new SKDControllerNetworkSettings();
-				controllerNetworkSettings.Address = outResult.szIP;
-				controllerNetworkSettings.Mask = outResult.szSubnetMask;
-				controllerNetworkSettings.DefaultGateway = outResult.szDefGateway;
+				controllerNetworkSettings = new SKDControllerNetworkSettings
+				{
+					Address = outResult.szIP,
+					Mask = outResult.szSubnetMask,
+					DefaultGateway = outResult.szDefGateway
+				};
 			}
 			return controllerNetworkSettings;
 		}
@@ -94,6 +106,10 @@ namespace ChinaSKDDriver
 			return -1;
 		}
 
+		/// <summary>
+		/// Получает текущее время на контроллере
+		/// </summary>
+		/// <returns>Время на контроллере</returns>
 		public DateTime GetDateTime()
 		{
 			NativeWrapper.NET_TIME outResult;
@@ -110,6 +126,12 @@ namespace ChinaSKDDriver
 			return DateTime.MinValue;
 		}
 
+		/// <summary>
+		/// Устанавливает время на контроллере
+		/// </summary>
+		/// <param name="dateTime">Время</param>
+		/// <returns>true - операция завершилась успешно,
+		/// false - операция завершилась с ошибками</returns>
 		public bool SetDateTime(DateTime dateTime)
 		{
 			var result = NativeWrapper.WRAP_SetCurrentTime(LoginID, dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute, dateTime.Second);

@@ -9,15 +9,21 @@ namespace ChinaSKDDriver
 {
 	public static partial class Processor
 	{
+		/// <summary>
+		/// Получает информацию о контроллере.
+		/// Такую как версия прошивки, сетевые настройки, дата и время.
+		/// </summary>
+		/// <param name="deviceUID">Идентификатор контроллера</param>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
 		public static OperationResult<SKDDeviceInfo> GetDeviceInfo(Guid deviceUID)
 		{
 			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == deviceUID);
 			if (deviceProcessor != null)
 			{
 				if (!deviceProcessor.IsConnected)
-					return OperationResult<SKDDeviceInfo>.FromError("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
+					return OperationResult<SKDDeviceInfo>.FromError(String.Format("Нет связи с контроллером. {0}", deviceProcessor.LoginFailureReason));
 
-				SKDDeviceInfo deviceInfo = new SKDDeviceInfo();
+				var deviceInfo = new SKDDeviceInfo();
 				var deviceSoftwareInfo = deviceProcessor.Wrapper.GetDeviceSoftwareInfo();
 				if (deviceSoftwareInfo != null)
 				{
@@ -27,7 +33,7 @@ namespace ChinaSKDDriver
 				}
 				else
 				{
-					return OperationResult<SKDDeviceInfo>.FromError("Ошибка при запросе информации о версии из контроллера");
+					return OperationResult<SKDDeviceInfo>.FromError("Ошибка при запросе информации о прошивке на контроллере");
 				}
 
 				var deviceNetInfo = deviceProcessor.Wrapper.GetDeviceNetInfo();
@@ -39,7 +45,7 @@ namespace ChinaSKDDriver
 				}
 				else
 				{
-					return OperationResult<SKDDeviceInfo>.FromError("Ошибка при запросе сетевой информации из контроллера");
+					return OperationResult<SKDDeviceInfo>.FromError("Ошибка при запросе сетевой информации на контроллере");
 				}
 
 				var dateTime = deviceProcessor.Wrapper.GetDateTime();
@@ -49,7 +55,7 @@ namespace ChinaSKDDriver
 				}
 				else
 				{
-					return OperationResult<SKDDeviceInfo>.FromError("Ошибка при запросе текущего времени из контроллера");
+					return OperationResult<SKDDeviceInfo>.FromError("Ошибка при запросе текущего времени на контроллере");
 				}
 
 				return new OperationResult<SKDDeviceInfo>(deviceInfo);
@@ -57,6 +63,11 @@ namespace ChinaSKDDriver
 			return OperationResult<SKDDeviceInfo>.FromError("Не найден контроллер в конфигурации");
 		}
 
+		/// <summary>
+		/// Устанавливает на контроллере текущее системное время
+		/// </summary>
+		/// <param name="deviceUID">Идентификатор контроллера</param>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
 		public static OperationResult<bool> SyncronyseTime(Guid deviceUID)
 		{
 			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == deviceUID);
@@ -69,7 +80,7 @@ namespace ChinaSKDDriver
 				if (result)
 					return new OperationResult<bool>(true);
 				else
-					return OperationResult<bool>.FromError("Ошибка при выполнении операции в прибор");
+					return OperationResult<bool>.FromError("Ошибка при выполнении операции синхронизации времени на контроллере");
 			}
 			return OperationResult<bool>.FromError("Не найден контроллер в конфигурации");
 		}

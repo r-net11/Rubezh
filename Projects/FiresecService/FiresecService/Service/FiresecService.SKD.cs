@@ -782,24 +782,36 @@ namespace FiresecService.Service
 			return new OperationResult<SKDStates>(SKDProcessor.SKDGetStates());
 		}
 
+		/// <summary>
+		/// Получает информацию о контроллере.
+		/// Такую как версия прошивки, сетевые настройки, дата и время.
+		/// </summary>
+		/// <param name="deviceUID">Идентификатор контроллера</param>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
 		public OperationResult<SKDDeviceInfo> SKDGetDeviceInfo(Guid deviceUID)
 		{
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
 				AddSKDJournalMessage(JournalEventNameType.Запрос_конфигурации_контроллера, device);
-				return ChinaSKDDriver.Processor.GetDeviceInfo(deviceUID);
+				return Processor.GetDeviceInfo(deviceUID);
 			}
 			return OperationResult<SKDDeviceInfo>.FromError("Устройство не найдено в конфигурации");
 		}
 
+		/// <summary>
+		/// Устанавливает на контроллере текущее системное время.
+		/// В журнал событий заносится соответствующая запись.
+		/// </summary>
+		/// <param name="deviceUID">Идентификатор контроллера</param>
+		/// <returns>Объект OperationResult с результатов выполнения операции</returns>
 		public OperationResult<bool> SKDSyncronyseTime(Guid deviceUID)
 		{
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
 				AddSKDJournalMessage(JournalEventNameType.Синхронизация_времени_контроллера, device);
-				return ChinaSKDDriver.Processor.SyncronyseTime(deviceUID);
+				return Processor.SyncronyseTime(deviceUID);
 			}
 			return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
 		}
