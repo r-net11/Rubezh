@@ -133,19 +133,12 @@ namespace Infrastructure.Common
 				LicenseParameter parameter = value.Parameters.FirstOrDefault(x => x.Id == "version");
 				Version = parameter == null ? null : parameter.Value.ToString();
 
-				RemoteWorkplacesCount = 100500;
-				Fire = true;
-				Security = true;
-				Access = true;
-				Video = true;
-				OpcServer = true;
-
-				//RemoteWorkplacesCount = (int)value.Parameters.First(x => x.Id == "remoteWorkplacesCount").Value;
-				//Fire = (bool)value.Parameters.First(x => x.Id == "fire").Value;
-				//Security = (bool)value.Parameters.First(x => x.Id == "security").Value;
-				//Access = (bool)value.Parameters.First(x => x.Id == "access").Value;
-				//Video = (bool)value.Parameters.First(x => x.Id == "video").Value;
-				//OpcServer = (bool)value.Parameters.First(x => x.Id == "opcServer").Value;
+				RemoteWorkplacesCount = (int)value.Parameters.First(x => x.Id == "remoteWorkplacesCount").Value;
+				Fire = (bool)value.Parameters.First(x => x.Id == "fire").Value;
+				Security = (bool)value.Parameters.First(x => x.Id == "security").Value;
+				Access = (bool)value.Parameters.First(x => x.Id == "access").Value;
+				Video = (bool)value.Parameters.First(x => x.Id == "video").Value;
+				OpcServer = (bool)value.Parameters.First(x => x.Id == "opcServer").Value;
 			}
 			catch (Exception e)
 			{
