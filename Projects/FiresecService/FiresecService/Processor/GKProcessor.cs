@@ -48,10 +48,10 @@ namespace FiresecService
 
 			if (gkCallbackResult.JournalItems.Count > 0)
 			{
+				FiresecService.Service.FiresecService.AddCommonJournalItems(gkCallbackResult.JournalItems);
 				foreach (var journalItem in gkCallbackResult.JournalItems)
 				{
 					ProcessPassJournal(journalItem);
-					FiresecService.Service.FiresecService.AddCommonJournalItem(journalItem);
 				}
 			}
 

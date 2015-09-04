@@ -30,7 +30,7 @@ namespace FiresecService
 			journalItem.JournalEventNameType = JournalEventNameType.Сообщение_автоматизации;
 			var messageValue = GetValue<object>(procedureStep.JournalArguments.MessageArgument);
 			journalItem.DescriptionText = messageValue.GetType().IsEnum ? ((Enum)messageValue).ToDescription() : messageValue.ToString();
-			Service.FiresecService.AddCommonJournalItem(journalItem);
+			Service.FiresecService.AddCommonJournalItems(new List<JournalItem>() { journalItem });
 		}
 
 		bool Compare(ProcedureStep procedureStep)
