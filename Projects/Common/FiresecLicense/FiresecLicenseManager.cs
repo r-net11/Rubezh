@@ -10,7 +10,17 @@ namespace FiresecLicense
     public static class FiresecLicenseManager
     {
 		public static event Action LicenseChanged;
-		public static InitialKey InitialKey { get; private set; }
+
+		static InitialKey _initialKey;
+		public static InitialKey InitialKey 
+		{ 
+			get
+			{
+				if (_initialKey == null)
+					_initialKey = InitialKey.Generate();
+				return _initialKey;
+			}
+		}
 
 		static FiresecLicenseInfo _currentLicenseInfo = new FiresecLicenseInfo();
 		public static FiresecLicenseInfo CurrentLicenseInfo 
@@ -20,6 +30,7 @@ namespace FiresecLicense
 			{
 				if (!TheSame(_currentLicenseInfo, value))
 				{
+					PreviousLicenseInfo = _currentLicenseInfo;
 					_currentLicenseInfo = value;
 					if (LicenseChanged != null)
 						LicenseChanged();
@@ -27,12 +38,9 @@ namespace FiresecLicense
 			}
 		}
 
-        public static List<Exception> Exceptions = new List<Exception>();
+		public static FiresecLicenseInfo PreviousLicenseInfo { get; private set; }
 
-		static FiresecLicenseManager()
-		{
-			InitialKey = InitialKey.Generate();
-		}
+        public static List<Exception> Exceptions = new List<Exception>();
 
 		public static FiresecLicenseInfo TryLoad(string fileName)
 		{
