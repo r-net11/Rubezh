@@ -1,6 +1,6 @@
 ﻿using FiresecClient;
 using Infrastructure.Common.Validation;
-using Infrastructure.Common;
+using FiresecLicense;
 
 namespace GKModule.Validation
 {
@@ -15,7 +15,7 @@ namespace GKModule.Validation
 
 		void ValidateFire()
 		{
-			if (LicenseHelper.Fire)
+			if (FiresecLicenseManager.CurrentLicenseInfo.Fire)
 				return;
 			
 			foreach (var pumpStation in GKManager.PumpStations)
@@ -27,7 +27,7 @@ namespace GKModule.Validation
 
 		void ValidateSecurity()
 		{
-			if (LicenseHelper.Security)
+			if (FiresecLicenseManager.CurrentLicenseInfo.Security)
 				return;
 
 			foreach(var guardZone in GKManager.GuardZones)
@@ -36,7 +36,7 @@ namespace GKModule.Validation
 
 		void ValidateAccess()
 		{
-			if (LicenseHelper.Access)
+			if (FiresecLicenseManager.CurrentLicenseInfo.Access)
 				return;
 
 			foreach(var skdZone in GKManager.SKDZones)

@@ -1,7 +1,6 @@
-﻿using System;
+﻿using FiresecLicense;
+using System;
 using System.Windows.Forms;
-using Defender;
-using Infrastructure.Common;
 
 namespace FiresecService.LicenseEditor
 {
@@ -10,10 +9,6 @@ namespace FiresecService.LicenseEditor
         public MainForm()
         {
             InitializeComponent();
-			
-			var licenseWrapper = new FiresecLicenseWrapper(InitialKey.Generate());
-			labelVersion.Text = "ver. " + licenseWrapper.Version;
-			labelVersion.Visible = licenseWrapper.Version != null;
         }
 
         private void buttonLoad_Click(object sender, EventArgs e)
@@ -27,25 +22,20 @@ namespace FiresecService.LicenseEditor
 
             if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                var license = LicenseProcessor.ProcessLoad(openFileDialog.FileName, key);
-                if (license == null)
+                var licenseInfo = FiresecLicenseManager.TryLoad(openFileDialog.FileName, key);
+                if (licenseInfo == null)
                 {
                     MessageBox.Show("Лицензия не загружена", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
                 else
                 {
-					var licenseWrapper = new FiresecLicenseWrapper(license);
-
-					labelVersion.Text = "ver. " + licenseWrapper.Version;
-					labelVersion.Visible = licenseWrapper.Version != null;
-
-                    numericUpDownRemoteWorkplacesCount.Value = licenseWrapper.RemoteWorkplacesCount;
-					checkBoxFire.Checked = licenseWrapper.Fire;
-					checkBoxSecurity.Checked = licenseWrapper.Security;
-					checkBoxAccess.Checked = licenseWrapper.Access;
-					checkBoxVideo.Checked = licenseWrapper.Video;
-					checkBoxOpcServer.Checked = licenseWrapper.OpcServer;						
+					numericUpDownRemoteWorkplacesCount.Value = licenseInfo.RemoteWorkplacesCount;
+					checkBoxFire.Checked = licenseInfo.Fire;
+					checkBoxSecurity.Checked = licenseInfo.Security;
+					checkBoxAccess.Checked = licenseInfo.Access;
+					checkBoxVideo.Checked = licenseInfo.Video;
+					checkBoxOpcServer.Checked = licenseInfo.OpcServer;						
                 }
             }
         }
@@ -60,7 +50,7 @@ namespace FiresecService.LicenseEditor
             }
             if (saveFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-				var licenseWrapper = new FiresecLicenseWrapper(key)
+				var licenseInfo = new FiresecLicenseInfo()
 				{
 					RemoteWorkplacesCount = (int)numericUpDownRemoteWorkplacesCount.Value,
 					Fire = checkBoxFire.Checked,
@@ -69,8 +59,8 @@ namespace FiresecService.LicenseEditor
 					Video = checkBoxVideo.Checked,
 					OpcServer = checkBoxOpcServer.Checked
 				};
-				                
-                if (LicenseProcessor.ProcessSave(saveFileDialog.FileName, licenseWrapper.License, key))
+
+				if (FiresecLicenseManager.TrySave(saveFileDialog.FileName, licenseInfo, key))
                     MessageBox.Show("Лицензия успешно сохранена!");
                 else
                     MessageBox.Show("Лицензия не сохранена!", "Ошибка сохранения", MessageBoxButtons.OK, MessageBoxIcon.Error);

@@ -123,6 +123,7 @@
     <Compile Include="AttachedColumnBehavior.cs" />
     <Compile Include="ButtonSpinner.cs" />
     <Compile Include="Converters\BoolToRotationConverter.cs" />
+    <Compile Include="Converters\BoolToYesNoConverter.cs" />
     <Compile Include="Converters\ConverterHelper.cs" />
     <Compile Include="Converters\DoorStateClassToStringConverter.cs" />
     <Compile Include="Converters\EnumToItemsSourceConverter.cs" />

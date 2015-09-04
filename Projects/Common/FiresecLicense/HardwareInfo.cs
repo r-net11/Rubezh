@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using System.Management;
 
-namespace Defender
+namespace FiresecLicense
 {
-    public static class HardwareInfo
+    static class HardwareInfo
     {
         static string _cpuId;
         public static string CpuId

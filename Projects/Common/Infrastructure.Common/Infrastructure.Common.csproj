@@ -160,9 +160,7 @@
     <Compile Include="BindingErrorListener.cs" />
     <Compile Include="CloseWindowHelper.cs" />
     <Compile Include="EncryptHelper.cs" />
-    <Compile Include="FiresecLicenseWrapper.cs" />
     <Compile Include="HXCFileInfoHelper.cs" />
-    <Compile Include="LicenseHelper.cs" />
     <Compile Include="Navigation\ShowOnPlanArgs.cs" />
     <Compile Include="Ribbon\RibbonViewModel.cs" />
     <Compile Include="Services\DragDrop\DragCorrectionEventArgs.cs" />
@@ -456,10 +454,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{FE37B6D4-73E5-40F2-A770-A974561430B8}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\Defender\Defender\Defender.csproj">
-      <Project>{e6d24912-812b-42b4-b6b0-97ca33c0f4af}</Project>
-      <Name>Defender</Name>
       <Name>Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\FiresecServiceAPI\FiresecAPI.csproj">

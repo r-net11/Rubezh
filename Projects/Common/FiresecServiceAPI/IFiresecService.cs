@@ -4,6 +4,7 @@ using System.IO;
 using System.ServiceModel;
 using FiresecAPI.Journal;
 using FiresecAPI.Models;
+using FiresecLicense;
 
 namespace FiresecAPI
 {

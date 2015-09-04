@@ -5,53 +5,84 @@ using System.Text;
 using System.Xml.Serialization;
 using System.Security.Cryptography;
 
-namespace Defender
+namespace FiresecLicense
 {
-    public static class LicenseProcessor
+    public static class FiresecLicenseManager
     {
+		public static event Action LicenseChanged;
+		public static InitialKey InitialKey { get; private set; }
+
+		static FiresecLicenseInfo _currentLicenseInfo = new FiresecLicenseInfo();
+		public static FiresecLicenseInfo CurrentLicenseInfo 
+		{
+			get { return _currentLicenseInfo; } 
+			set
+			{
+				if (!TheSame(_currentLicenseInfo, value))
+				{
+					_currentLicenseInfo = value;
+					if (LicenseChanged != null)
+						LicenseChanged();
+				}
+			}
+		}
+
         public static List<Exception> Exceptions = new List<Exception>();
 
-        public static License ProcessLoad(string fileName, InitialKey key)
+		static FiresecLicenseManager()
+		{
+			InitialKey = InitialKey.Generate();
+		}
+
+		public static FiresecLicenseInfo TryLoad(string fileName)
+		{
+			return TryLoad(fileName, InitialKey);
+		}
+        public static FiresecLicenseInfo TryLoad(string fileName, InitialKey key)
         {
-            return ProcessLoad(fileName, key.BinaryValue);
+			Exceptions.Clear();
+			var result = Deserialize(Decrypt(LoadFromFile(fileName), key.BinaryValue));
+			if (result != null)
+				result.LicenseMode = LicenseMode.HasLicense;
+			return result;
+        }
+		public static bool TrySave(string fileName, FiresecLicenseInfo licenseInfo)
+		{
+			return TrySave(fileName, licenseInfo, InitialKey);
+		}
+		public static bool TrySave(string fileName, FiresecLicenseInfo licenseInfo, InitialKey key)
+        {
+			Exceptions.Clear();
+			return SaveToFile(Encrypt(Serialize(licenseInfo), key.BinaryValue), fileName);
         }
 
-        public static License ProcessLoad(string fileName, byte[] key)
-        {
-            Exceptions.Clear();
-            return Deserialize(Decrypt(LoadFromFile(fileName), key));
-        }
+		public static bool CheckLicense(string path)
+		{
+			return TryLoad(path) != null;
+		}
 
-        public static License ProcessLoad(string fileName, string key)
-        {
-            Exceptions.Clear();
-            return Deserialize(Decrypt(LoadFromFile(fileName), InitialKey.FromHexString(key).BinaryValue));
-        }
+		#region Private members
 
-        public static bool ProcessSave(string fileName, License license, InitialKey key)
-        {
-            return ProcessSave(fileName, license, key.BinaryValue);
-        }
-
-        public static bool ProcessSave(string fileName, License license, byte[] key)
-        {
-            Exceptions.Clear();
-            return SaveToFile(Encrypt(Serialize(license), key), fileName);
-        }
-
-        public static bool ProcessSave(string fileName, License license, string key)
-        {
-            Exceptions.Clear();
-            return SaveToFile(Encrypt(Serialize(license), InitialKey.FromHexString(key).BinaryValue), fileName);
-        }
-
-        static string Serialize(License license)
+		static bool TheSame(FiresecLicenseInfo licenseInfo1, FiresecLicenseInfo licenseInfo2)
+		{
+			if (licenseInfo1 == licenseInfo2)
+				return true;
+			if (licenseInfo1 == null || licenseInfo2 == null)
+				return false;
+			return licenseInfo1.RemoteWorkplacesCount == licenseInfo2.RemoteWorkplacesCount
+					&& licenseInfo1.Fire == licenseInfo2.Fire
+					&& licenseInfo1.Security == licenseInfo2.Security
+					&& licenseInfo1.Access == licenseInfo2.Access
+					&& licenseInfo1.Video == licenseInfo2.Video
+					&& licenseInfo2.OpcServer == licenseInfo2.OpcServer;
+		}
+		static string Serialize(FiresecLicenseInfo licenseInfo)
         {
             try
             {
                 using (MemoryStream memoryStream = new MemoryStream())
                 {
-                    new XmlSerializer(typeof(License)).Serialize(memoryStream, license);
+					new XmlSerializer(typeof(FiresecLicenseInfo)).Serialize(memoryStream, licenseInfo);
                     memoryStream.Position = 0;
                     return new StreamReader(memoryStream).ReadToEnd();
                 }
@@ -63,7 +94,7 @@ namespace Defender
             }
         }
 
-        static License Deserialize(string data)
+		static FiresecLicenseInfo Deserialize(string data)
         {
             if (data == null)
                 return null;
@@ -72,8 +103,8 @@ namespace Defender
             {
                 using (MemoryStream memoryStream = new MemoryStream(Encoding.Unicode.GetBytes(data)))
                 {
-                    var xmlSerializer = new XmlSerializer(typeof(License));
-                    return (License)xmlSerializer.Deserialize(memoryStream);
+					var xmlSerializer = new XmlSerializer(typeof(FiresecLicenseInfo));
+					return (FiresecLicenseInfo)xmlSerializer.Deserialize(memoryStream);
                 }
             }
             catch (Exception ex)
@@ -208,6 +239,7 @@ namespace Defender
                 result[i] = input[i % input.Length];
 
             return result;
-        }
-    }
+		}
+		#endregion
+	}
 }

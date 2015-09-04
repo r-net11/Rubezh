@@ -1,5 +1,4 @@
-﻿using Defender;
-using Infrastructure.Common;
+﻿using FiresecLicense;
 using System;
 using System.Linq;
 using System.Windows.Forms;
@@ -24,7 +23,7 @@ namespace FiresecService.LicenseEditor
 				if (!int.TryParse(args[2], out remoteWorkplacesCount))
                     return;
 
-                var licenseWrapper = new FiresecLicenseWrapper(key)
+			    var licenseInfo = new FiresecLicenseInfo()
 				{
 					RemoteWorkplacesCount = remoteWorkplacesCount,
 					Fire = args.Any(x => x.Trim().ToLower() == "fire"),
@@ -34,7 +33,7 @@ namespace FiresecService.LicenseEditor
 					OpcServer = args.Any(x => x.Trim().ToLower() == "opcserver")
 				};
 	                
-				LicenseProcessor.ProcessSave(args[0], licenseWrapper.License, key);
+				FiresecLicenseManager.TrySave(args[0], licenseInfo, key);
 
                 return;
             }

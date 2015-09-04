@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace FiresecAPI
+namespace FiresecLicense
 {
     [DataContract]
     public class FiresecLicenseInfo
@@ -20,11 +20,4 @@ namespace FiresecAPI
         [DataMember]
         public bool OpcServer { get; set; }
     }
-
-	public enum LicenseMode
-	{
-		NoLicense,
-		HasLicense,
-		Demonstration
-	}
 }

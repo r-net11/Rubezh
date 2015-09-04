@@ -5,6 +5,7 @@
 	<Converters:MultiBooleanToVisibilityConverter x:Key="MultiBooleanToVisibilityConverter" />
 	<Converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
 	<Converters:BoolToYesConverter x:Key="BoolToYesConverter" />
+	<Converters:BoolToYesNoConverter x:Key="BoolToYesNoConverter" />
 	<Converters:LevelToMarginConverter x:Key="LevelToMarginConverter" />
 	<Converters:CollectionViewFactoryConverter x:Key="CollectionViewFactoryConverter" />
 	<Converters:ColorToBrushConverter x:Key="ColorToBrushConverter" />
