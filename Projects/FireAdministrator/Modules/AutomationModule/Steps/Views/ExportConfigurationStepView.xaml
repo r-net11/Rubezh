@@ -5,27 +5,29 @@
 	<UserControl.Resources>
 		<ResourceDictionary Source="ProcedureResources.xaml" />
 	</UserControl.Resources>
-	<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-		<Grid>
-			<StackPanel>
-				<StackPanel Orientation="Horizontal">
-					<TextBlock Text="Точки доступа" Style="{DynamicResource TextBlockDetailsStyle}" />
-					<Views:ArgumentView DataContext="{Binding IsExportDoors}" />
-				</StackPanel>
-				<StackPanel Orientation="Horizontal">
-					<TextBlock Text="Устройства" Style="{DynamicResource TextBlockDetailsStyle}" />
-					<Views:ArgumentView DataContext="{Binding IsExportDevices}" />
-				</StackPanel>
-				<StackPanel Orientation="Horizontal">
-					<TextBlock Text="Зоны" Style="{DynamicResource TextBlockDetailsStyle}" />
-					<Views:ArgumentView DataContext="{Binding IsExportZones}" />
-				</StackPanel>
-				<StackPanel Orientation="Horizontal">
-					<TextBlock Text="Путь к файлам" Style="{DynamicResource TextBlockDetailsStyle}" />
-					<Views:ArgumentView DataContext="{Binding PathArgument}" />
-				</StackPanel>
-			</StackPanel>
-		</Grid>
-	</ScrollViewer>
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto"/>
+			<ColumnDefinition Width="Auto"/>
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+		</Grid.RowDefinitions>
+
+		<TextBlock Grid.Column="0" Grid.Row="0" Text="Точки доступа" Style="{DynamicResource TextBlockDetailsStyle}" />
+		<Views:ArgumentView Grid.Column="1" Grid.Row="0" DataContext="{Binding IsExportDoors}" />
+
+		<TextBlock Grid.Column="0" Grid.Row="1" Text="Устройства" Style="{DynamicResource TextBlockDetailsStyle}" />
+		<Views:ArgumentView Grid.Column="1" Grid.Row="1" DataContext="{Binding IsExportDevices}" />
+
+		<TextBlock Grid.Column="0" Grid.Row="2" Text="Зоны" Style="{DynamicResource TextBlockDetailsStyle}" />
+		<Views:ArgumentView Grid.Column="1" Grid.Row="2" DataContext="{Binding IsExportZones}" />
+
+		<TextBlock Grid.Column="0" Grid.Row="3" Text="Путь к файлам" Style="{DynamicResource TextBlockDetailsStyle}" />
+		<Views:ArgumentView Grid.Column="1" Grid.Row="3" DataContext="{Binding PathArgument}" />
+	</Grid>
 </UserControl>
 	

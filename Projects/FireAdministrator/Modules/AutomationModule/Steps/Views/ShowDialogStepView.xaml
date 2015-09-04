@@ -47,14 +47,14 @@
 			<TextBlock Grid.Row="5" Grid.Column="0" Style="{DynamicResource ShowDialogStepView}" Text="Мин. ширина" />
 			<TextBlock Grid.Row="6" Grid.Column="0" Style="{DynamicResource ShowDialogStepView}" Text="Мин. высота" />
 			
-			<ComboBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" HorizontalAlignment="Left" VerticalAlignment="Center" ItemsSource="{Binding Layouts}" SelectedItem="{Binding SelectedLayout}">
+			<ComboBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" VerticalAlignment="Center" ItemsSource="{Binding Layouts}" SelectedItem="{Binding SelectedLayout}" Width="Auto">
 				<ComboBox.ItemTemplate>
 					<DataTemplate>
 						<TextBlock Text="{Binding Name}" />
 					</DataTemplate>
 				</ComboBox.ItemTemplate>
 			</ComboBox>
-			<TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Margin="2" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" />
+			<TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Margin="2" VerticalAlignment="Center" Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" Width="Auto" />
 			<CheckBox Grid.Row="2" Grid.Column="1" Margin="2" VerticalAlignment="Center" IsChecked="{Binding IsModalWindow}" />
 			<CheckBox Grid.Row="2" Grid.Column="3" Margin="2" VerticalAlignment="Center" IsChecked="{Binding ForAllClients}" />
 			<CheckBox Grid.Row="3" Grid.Column="1" Margin="2" VerticalAlignment="Center" IsChecked="{Binding AllowClose}" />

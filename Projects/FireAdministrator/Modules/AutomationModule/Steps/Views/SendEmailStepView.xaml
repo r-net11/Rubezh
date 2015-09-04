@@ -5,42 +5,42 @@
 	<UserControl.Resources>
 		<ResourceDictionary Source="ProcedureResources.xaml" />
 	</UserControl.Resources>
-	<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-		<Grid>
-			<StackPanel>
-				<StackPanel Orientation="Horizontal">
-					<TextBlock Text="От кого (адрес)" Style="{DynamicResource TextBlockDetailsStyle}" />
-					<Views:ArgumentView DataContext="{Binding EMailAddressFromArgument}" />
-				</StackPanel>
-				<StackPanel Orientation="Horizontal">
-					<TextBlock Text="Кому (адрес)" Style="{DynamicResource TextBlockDetailsStyle}" />
-					<Views:ArgumentView DataContext="{Binding EMailAddressToArgument}" />
-				</StackPanel>
-				<StackPanel Orientation="Horizontal">
-					<TextBlock Text="Заголовок" Style="{DynamicResource TextBlockDetailsStyle}" />
-					<Views:ArgumentView DataContext="{Binding EMailTitleArgument}" />
-				</StackPanel>
-				<StackPanel Orientation="Horizontal">
-					<TextBlock Text="Текст" Style="{DynamicResource TextBlockDetailsStyle}" />
-					<Views:ArgumentView DataContext="{Binding EMailContentArgument}" />
-				</StackPanel>
-				<StackPanel Orientation="Horizontal">
-					<TextBlock Text="SMTP Сервер" Style="{DynamicResource TextBlockDetailsStyle}" />
-					<Views:ArgumentView DataContext="{Binding SmtpArgument}" />
-				</StackPanel>
-				<StackPanel Orientation="Horizontal">
-					<TextBlock Text="Порт" Style="{DynamicResource TextBlockDetailsStyle}" />
-					<Views:ArgumentView DataContext="{Binding PortArgument}" />
-				</StackPanel>
-				<StackPanel Orientation="Horizontal">
-					<TextBlock Text="Логин" Style="{DynamicResource TextBlockDetailsStyle}" />
-					<Views:ArgumentView DataContext="{Binding LoginArgument}" />
-				</StackPanel>
-				<StackPanel Orientation="Horizontal">
-					<TextBlock Text="Пароль" Style="{DynamicResource TextBlockDetailsStyle}" />
-					<Views:ArgumentView DataContext="{Binding PasswordArgument}" />
-				</StackPanel>
-			</StackPanel>
-		</Grid>
-	</ScrollViewer>
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto"/>
+			<ColumnDefinition Width="Auto"/>
+			<ColumnDefinition Width="Auto"/>
+			<ColumnDefinition Width="Auto"/>
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+		</Grid.RowDefinitions>
+
+		<TextBlock Grid.Column="0" Grid.Row="0" Text="От кого (адрес)" Style="{DynamicResource TextBlockDetailsStyle}" />
+		<Views:ArgumentView Grid.Column="1" Grid.Row="0" DataContext="{Binding EMailAddressFromArgument}" />
+
+		<TextBlock Grid.Column="0" Grid.Row="1" Text="Кому (адрес)" Style="{DynamicResource TextBlockDetailsStyle}" />
+		<Views:ArgumentView Grid.Column="1" Grid.Row="1" DataContext="{Binding EMailAddressToArgument}" />
+
+		<TextBlock Grid.Column="0" Grid.Row="2" Text="Заголовок" Style="{DynamicResource TextBlockDetailsStyle}" />
+		<Views:ArgumentView Grid.Column="1" Grid.Row="2" DataContext="{Binding EMailTitleArgument}" />
+
+		<TextBlock Grid.Column="0" Grid.Row="3" Text="Текст" Style="{DynamicResource TextBlockDetailsStyle}" />
+		<Views:ArgumentView Grid.Column="1" Grid.Row="3" DataContext="{Binding EMailContentArgument}" />
+
+		<TextBlock Grid.Column="2" Grid.Row="0" Text="SMTP Сервер" Style="{DynamicResource TextBlockDetailsStyle}" />
+		<Views:ArgumentView Grid.Column="3" Grid.Row="0" DataContext="{Binding SmtpArgument}" />
+
+		<TextBlock Grid.Column="2" Grid.Row="1" Text="Порт" Style="{DynamicResource TextBlockDetailsStyle}" />
+		<Views:ArgumentView Grid.Column="3" Grid.Row="1" DataContext="{Binding PortArgument}" />
+
+		<TextBlock Grid.Column="2" Grid.Row="2" Text="Логин" Style="{DynamicResource TextBlockDetailsStyle}" />
+		<Views:ArgumentView Grid.Column="3" Grid.Row="2" DataContext="{Binding LoginArgument}" />
+
+		<TextBlock Grid.Column="2" Grid.Row="3" Text="Пароль" Style="{DynamicResource TextBlockDetailsStyle}" />
+		<Views:ArgumentView Grid.Column="3" Grid.Row="3" DataContext="{Binding PasswordArgument}" />
+	</Grid>
 </UserControl>

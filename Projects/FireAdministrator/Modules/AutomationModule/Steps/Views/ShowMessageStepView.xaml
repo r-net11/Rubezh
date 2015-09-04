@@ -1,77 +1,75 @@
 <UserControl x:Class="AutomationModule.Views.ShowMessageStepView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:automation="clr-namespace:FiresecAPI.Automation;assembly=FiresecAPI" xmlns:Views="clr-namespace:AutomationModule.Views">
+	<UserControl.Resources>
+		<ResourceDictionary Source="ProcedureResources.xaml" />
+	</UserControl.Resources>
 	<Grid>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="500" />
-			<ColumnDefinition />
+			<ColumnDefinition Width="Auto"/>
+			<ColumnDefinition Width="Auto"/>
+			<ColumnDefinition Width="*"/>
 		</Grid.ColumnDefinitions>
-		<StackPanel Grid.Column="0">
-			<StackPanel.Resources>
-				<ResourceDictionary>
-					<ResourceDictionary.MergedDictionaries>
-						<ResourceDictionary Source="ProcedureResources.xaml" />
-					</ResourceDictionary.MergedDictionaries>
-				</ResourceDictionary>
-			</StackPanel.Resources>
-			<StackPanel Orientation="Horizontal">
-				<TextBlock Text="Тип значений" Style="{DynamicResource TextBlockDetailsStyle}" />
-				<ComboBox Margin="2" ItemsSource="{Binding ExplicitTypes}" SelectedItem="{Binding ExplicitType, UpdateSourceTrigger=PropertyChanged}">
-					<ComboBox.ItemTemplate>
-						<DataTemplate>
-							<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
-						</DataTemplate>
-					</ComboBox.ItemTemplate>
-				</ComboBox>
-				<ComboBox Width="200" ItemsSource="{Binding EnumTypes}" SelectedItem="{Binding EnumType, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.Enum}}">
-					<ComboBox.ItemTemplate>
-						<DataTemplate>
-							<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
-						</DataTemplate>
-					</ComboBox.ItemTemplate>
-				</ComboBox>
-			</StackPanel>
-			<StackPanel Orientation="Horizontal">
-				<TextBlock Text="Сообщение" Style="{DynamicResource TextBlockDetailsStyle}" />
-				<Views:ArgumentView DataContext="{Binding MessageArgument}" />
-			</StackPanel>
-			<StackPanel Orientation="Horizontal">
-				<TextBlock Text="Всем клиентам" Style="{DynamicResource TextBlockDetailsStyle}" />
-				<CheckBox IsChecked="{Binding ForAllClients}" />
-			</StackPanel>
-			<StackPanel Orientation="Horizontal">
-				<TextBlock Text="Подтверждение" Style="{DynamicResource TextBlockDetailsStyle}" />
-				<CheckBox IsChecked="{Binding WithConfirmation}" />
-			</StackPanel>
-			<StackPanel Orientation="Horizontal" Visibility="{Binding WithConfirmation, Converter={StaticResource InversedBoolToVisibilityConverter}}">
-				<TextBlock Text="Модальное окно" Style="{DynamicResource TextBlockDetailsStyle}" />
-				<CheckBox IsChecked="{Binding IsModalWindow}" />
-			</StackPanel>
-			<StackPanel Orientation="Horizontal" Visibility="{Binding WithConfirmation, Converter={StaticResource BoolToVisibilityConverter}}">
-				<TextBlock Text="Значение" Style="{DynamicResource TextBlockDetailsStyle}" />
-				<Views:ArgumentView DataContext="{Binding ConfirmationValueArgument}" />
-			</StackPanel>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="*"/>
+		</Grid.RowDefinitions>
+
+		<TextBlock Grid.Column="0" Grid.Row="0" Text="Тип значений" Style="{DynamicResource TextBlockDetailsStyle}" />
+		<StackPanel Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Orientation="Horizontal">
+			<ComboBox Margin="2" ItemsSource="{Binding ExplicitTypes}" SelectedItem="{Binding ExplicitType, UpdateSourceTrigger=PropertyChanged}">
+				<ComboBox.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+					</DataTemplate>
+				</ComboBox.ItemTemplate>
+			</ComboBox>
+			<ComboBox Width="200" ItemsSource="{Binding EnumTypes}" SelectedItem="{Binding EnumType, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.Enum}}">
+				<ComboBox.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+					</DataTemplate>
+				</ComboBox.ItemTemplate>
+			</ComboBox>
 		</StackPanel>
-		<Grid Grid.Column="1" Margin="2" DataContext="{Binding ProcedureLayoutCollectionViewModel}">
-			<DataGrid ItemsSource="{Binding LayoutItems}">
-				<DataGrid.Columns>
-					<DataGridTemplateColumn Width="*" Header="Наименование макета">
-						<DataGridTemplateColumn.CellTemplate>
-							<DataTemplate>
-								<StackPanel Orientation="Horizontal">
-									<Grid Width="16" Margin="1 0 0 0" VerticalAlignment="Center" Background="{DynamicResource BLayouts}" />
-									<TextBlock Text="{Binding Layout.Caption}" />
-								</StackPanel>
-							</DataTemplate>
-						</DataGridTemplateColumn.CellTemplate>
-					</DataGridTemplateColumn>
-					<DataGridTemplateColumn Width="Auto" Header="Использовать">
-						<DataGridTemplateColumn.CellTemplate>
-							<DataTemplate>
-								<CheckBox Margin="2" IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-							</DataTemplate>
-						</DataGridTemplateColumn.CellTemplate>
-					</DataGridTemplateColumn>
-				</DataGrid.Columns>
-			</DataGrid>
-		</Grid>
+
+		<TextBlock Grid.Column="0" Grid.Row="1" Text="Сообщение" Style="{DynamicResource TextBlockDetailsStyle}" />
+		<Views:ArgumentView Grid.Column="1" Grid.Row="1" DataContext="{Binding MessageArgument}" />
+
+		<TextBlock Grid.Column="0" Grid.Row="2" Text="Всем клиентам" Style="{DynamicResource TextBlockDetailsStyle}" />
+		<CheckBox Grid.Column="1" Grid.Row="2" IsChecked="{Binding ForAllClients}" />
+
+		<TextBlock Grid.Column="0" Grid.Row="3" Text="Подтверждение" Style="{DynamicResource TextBlockDetailsStyle}" />
+		<CheckBox Grid.Column="1" Grid.Row="3" IsChecked="{Binding WithConfirmation}" />
+
+		<TextBlock Grid.Column="0" Grid.Row="4" Text="Модальное окно" Style="{DynamicResource TextBlockDetailsStyle}" />
+		<CheckBox Grid.Column="1" Grid.Row="4" IsChecked="{Binding IsModalWindow}" />
+
+		<TextBlock Grid.Column="0" Grid.Row="5" Text="Значение" VerticalAlignment="Top" Name="textBlockValue" Style="{DynamicResource TextBlockDetailsStyle}" Visibility="{Binding WithConfirmation, Converter={StaticResource BoolToVisibilityConverter}}"/>
+		<Views:ArgumentView Grid.Column="1" Grid.Row="5" VerticalAlignment="Top" DataContext="{Binding ConfirmationValueArgument}" Visibility="{Binding ElementName=textBlockValue, Path=Visibility}"/>
+
+		<DataGrid Grid.Column="2" Grid.RowSpan="6" DataContext="{Binding ProcedureLayoutCollectionViewModel}" ItemsSource="{Binding LayoutItems}">
+			<DataGrid.Columns>
+				<DataGridTemplateColumn Width="*" Header="Наименование макета">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Horizontal">
+								<Grid Width="16" Margin="1 0 0 0" VerticalAlignment="Center" Background="{DynamicResource BLayouts}" />
+								<TextBlock Text="{Binding Layout.Caption}" />
+							</StackPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn Width="Auto" Header="Использовать">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<CheckBox Margin="2" IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+			</DataGrid.Columns>
+		</DataGrid>
 	</Grid>
 </UserControl>
