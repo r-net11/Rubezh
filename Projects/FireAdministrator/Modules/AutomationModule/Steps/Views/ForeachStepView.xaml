@@ -6,14 +6,20 @@
 		<ResourceDictionary Source="ProcedureResources.xaml" />
 	</UserControl.Resources>
 
-	<StackPanel>
-		<StackPanel Orientation="Horizontal">
-			<TextBlock Text="Список" Style="{DynamicResource TextBlockDetailsStyle}" />
-			<Views:ArgumentView DataContext="{Binding ListArgument}" />
-		</StackPanel>
-		<StackPanel Orientation="Horizontal">
-			<TextBlock Text="Элемент" Style="{DynamicResource TextBlockDetailsStyle}" />
-			<Views:ArgumentView DataContext="{Binding ItemArgument}" />
-		</StackPanel>
-	</StackPanel>
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto"/>
+			<ColumnDefinition Width="Auto"/>
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+		</Grid.RowDefinitions>
+
+		<TextBlock Grid.Column="0" Grid.Row="0" Text="Список" Style="{DynamicResource TextBlockDetailsStyle}" />
+		<Views:ArgumentView Grid.Column="1" Grid.Row="0" DataContext="{Binding ListArgument}" />
+
+		<TextBlock Grid.Column="0" Grid.Row="1" Text="Элемент" Style="{DynamicResource TextBlockDetailsStyle}" />
+		<Views:ArgumentView Grid.Column="1" Grid.Row="1" DataContext="{Binding ItemArgument}" />
+	</Grid>
 </UserControl>

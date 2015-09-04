@@ -9,14 +9,20 @@
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
 	</UserControl.Resources>
-	<StackPanel>
-		<DockPanel Margin="2">
-			<TextBlock Text="Путь" Style="{DynamicResource TextBlockDetailsStyle}" />
-			<Views:ArgumentView DataContext="{Binding PathArgument}" />
-		</DockPanel>
-		<DockPanel Margin="2">
-			<TextBlock Text="Параметры" Style="{DynamicResource TextBlockDetailsStyle}" />
-			<Views:ArgumentView DataContext="{Binding ParametersArgument}" />
-		</DockPanel>
-	</StackPanel>
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto"/>
+			<ColumnDefinition Width="Auto"/>
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+		</Grid.RowDefinitions>
+
+		<TextBlock Grid.Column="0" Grid.Row="0" Text="Путь" Style="{DynamicResource TextBlockDetailsStyle}" />
+		<Views:ArgumentView Grid.Column="1" Grid.Row="0" DataContext="{Binding PathArgument}" />
+
+		<TextBlock Grid.Column="0" Grid.Row="1" Text="Параметры" Style="{DynamicResource TextBlockDetailsStyle}" />
+		<Views:ArgumentView Grid.Column="1" Grid.Row="1" DataContext="{Binding ParametersArgument}" />
+	</Grid>
 </UserControl>

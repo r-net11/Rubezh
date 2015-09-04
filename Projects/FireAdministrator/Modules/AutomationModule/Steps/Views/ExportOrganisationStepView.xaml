@@ -5,22 +5,24 @@
 	<UserControl.Resources>
 		<ResourceDictionary Source="ProcedureResources.xaml" />
 	</UserControl.Resources>
-	<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-		<Grid>
-			<StackPanel>
-				<StackPanel Orientation="Horizontal">
-					<TextBlock Text="С удалёнными" Style="{DynamicResource TextBlockDetailsStyle}" />
-					<Views:ArgumentView DataContext="{Binding IsWithDeleted}" />
-				</StackPanel>
-				<StackPanel Orientation="Horizontal">
-					<TextBlock Text="Организация" Style="{DynamicResource TextBlockDetailsStyle}" />
-					<Views:ArgumentView DataContext="{Binding Organisation}" />
-				</StackPanel>
-				<StackPanel Orientation="Horizontal">
-					<TextBlock Text="Путь к файлам" Style="{DynamicResource TextBlockDetailsStyle}" />
-					<Views:ArgumentView DataContext="{Binding PathArgument}" />
-				</StackPanel>
-			</StackPanel>
-		</Grid>
-	</ScrollViewer>
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto"/>
+			<ColumnDefinition Width="Auto"/>
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+		</Grid.RowDefinitions>
+
+		<TextBlock Grid.Column="0" Grid.Row="0" Text="С удалёнными" Style="{DynamicResource TextBlockDetailsStyle}" />
+		<Views:ArgumentView Grid.Column="1" Grid.Row="0" DataContext="{Binding IsWithDeleted}" />
+
+		<TextBlock Grid.Column="0" Grid.Row="1" Text="Организация" Style="{DynamicResource TextBlockDetailsStyle}" />
+		<Views:ArgumentView Grid.Column="1" Grid.Row="1" DataContext="{Binding Organisation}" />
+
+		<TextBlock Grid.Column="0" Grid.Row="2" Text="Путь к файлам" Style="{DynamicResource TextBlockDetailsStyle}" />
+		<Views:ArgumentView Grid.Column="1" Grid.Row="2" DataContext="{Binding PathArgument}" />
+	</Grid>
 </UserControl>

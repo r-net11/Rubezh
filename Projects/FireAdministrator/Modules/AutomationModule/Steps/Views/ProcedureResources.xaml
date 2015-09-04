@@ -30,4 +30,7 @@
 	<Style BasedOn="{StaticResource {x:Type CheckBox}}" TargetType="{x:Type CheckBox}">
 		<Setter Property="Margin" Value="2, 7, 0, 0" />
 	</Style>
+	<Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+		<Setter Property="HorizontalAlignment" Value="Right" />
+	</Style>
 </ResourceDictionary>

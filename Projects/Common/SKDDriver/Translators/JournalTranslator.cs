@@ -154,6 +154,35 @@ namespace SKDDriver.DataClasses
 			}
 		}
 
+		public OperationResult<List<JournalItem>> GetArchivePage(ArchiveFilter filter, int page)
+		{
+			try
+			{
+				var query = BeginGetFilteredArchiveInternal(filter);
+				query = query.Skip((page - 1) * filter.PageSize).Take(filter.PageSize);
+				var journalItems = query.ToList().Select(x => Translate(x)).ToList();
+				return new OperationResult<List<JournalItem>>(journalItems);
+			}
+			catch (Exception e)
+			{
+				return OperationResult<List<JournalItem>>.FromError(e.Message);
+			}
+		}
+
+		public OperationResult<int> GetArchiveCount(ArchiveFilter filter)
+		{
+			try
+			{
+				var query = BeginGetFilteredArchiveInternal(filter);
+				var result = query.Count();
+				return new OperationResult<int>(result);
+			}
+			catch (Exception e)
+			{
+				return OperationResult<int>.FromError(e.Message);
+			}
+		}
+
 		bool IsInFilter(Journal item, ArchiveFilter filter)
 		{
 			bool result = true;
