@@ -9,9 +9,9 @@ namespace FiresecService.Processor
 {
 	public static class FiresecLicenseProcessor
 	{
-		static AutoResetEvent waitHandler = new AutoResetEvent(false); 
+		static AutoResetEvent waitHandler = new AutoResetEvent(false);
 
-		static LicenseMode oldLicenseMode;
+		static LicenseMode? PreviousLicenseMode { get { return FiresecLicenseManager.PreviousLicenseInfo == null ? null : (LicenseMode?)FiresecLicenseManager.PreviousLicenseInfo.LicenseMode; } }
 
 		static FiresecLicenseProcessor()
 		{
@@ -21,9 +21,9 @@ namespace FiresecService.Processor
 		}
 		static void LicenseHelper_LicenseChanged()
 		{
-			if (FiresecLicenseManager.CurrentLicenseInfo.LicenseMode != oldLicenseMode)
+			if (FiresecLicenseManager.CurrentLicenseInfo.LicenseMode != PreviousLicenseMode)
 			{
-				if (oldLicenseMode == LicenseMode.Demonstration)
+				if (PreviousLicenseMode == LicenseMode.Demonstration)
 					waitHandler.Set();
 
 				if (FiresecLicenseManager.CurrentLicenseInfo.LicenseMode == LicenseMode.HasLicense)
@@ -31,7 +31,6 @@ namespace FiresecService.Processor
 				else
 					GKProcessorManager.AddGKMessage(JournalEventNameType.Отсутствует_лицензия, JournalEventDescriptionType.NULL, "", null, null);
 				DiagnosticsManager.Add("LicenseMode=" + FiresecLicenseManager.CurrentLicenseInfo.LicenseMode);
-				oldLicenseMode = FiresecLicenseManager.CurrentLicenseInfo.LicenseMode;
 			}
 			FiresecService.Service.FiresecService.NotifyConfigurationChanged();
 		}
@@ -49,7 +48,7 @@ namespace FiresecService.Processor
 			};
 			var awaiter = new Thread(() =>
 			{
-				if (!waitHandler.WaitOne(TimeSpan.FromSeconds(30)))
+				if (!waitHandler.WaitOne(TimeSpan.FromHours(2)))
 					SetNoLicense();
 			}) { Name = "DemoIntervalAwaiter", IsBackground = true };
 			awaiter.Start();
