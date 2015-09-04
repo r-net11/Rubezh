@@ -76,8 +76,8 @@
     <Reference Include="CodeReason.Reports">
       <HintPath>..\..\..\3rdParty\codereason_reports_v0.5_alpha\Bin\CodeReason.Reports.dll</HintPath>
     </Reference>
-    <Reference Include="hasp_net_windows">
-      <HintPath>..\..\..\3rdParty\HASP\hasp_net_windows.dll</HintPath>
+    <Reference Include="Entities">
+      <HintPath>..\..\..\3rdParty\RVI_VSS\Entities.dll</HintPath>
     </Reference>
     <Reference Include="Ionic.Zip">
       <HintPath>..\..\..\3rdParty\DotNetZipLib-DevKit-v1.9\Ionic.Zip.dll</HintPath>

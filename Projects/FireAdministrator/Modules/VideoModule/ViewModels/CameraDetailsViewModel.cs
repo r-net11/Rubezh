@@ -12,6 +12,8 @@ using Infrastructure.Common.Windows.ViewModels;
 using Vlc.DotNet.Core;
 using Vlc.DotNet.Core.Medias;
 using Vlc.DotNet.Wpf;
+using Infrastructure;
+using Infrastructure.Events;
 
 namespace VideoModule.ViewModels
 {
@@ -109,27 +111,7 @@ namespace VideoModule.ViewModels
 		{
 			try
 			{
-				if (IsPlaying)
-					return;
 
-				if (!VlcContext.IsInitialized)
-				{
-					VlcContext.LibVlcDllsPath = FiresecManager.SystemConfiguration.RviSettings.DllsPath;
-					VlcContext.LibVlcPluginsPath = FiresecManager.SystemConfiguration.RviSettings.PluginsPath;
-					VlcContext.StartupOptions.IgnoreConfig = true;
-					VlcContext.StartupOptions.LogOptions.LogInFile = false;
-					VlcContext.StartupOptions.LogOptions.ShowLoggerConsole = false;
-					VlcContext.StartupOptions.LogOptions.Verbosity = VlcLogVerbosities.Debug;
-					VlcContext.Initialize();
-				}
-				_vlcControl = new VlcControl { Media = new LocationMedia(Camera.RviRTSP) };
-				_vlcControl.PositionChanged -= VlcControlOnPositionChanged;
-				_vlcControl.PositionChanged += VlcControlOnPositionChanged;
-				if (_vlcControl.IsPlaying)
-					_vlcControl.Stop();
-				_vlcControl.Play();
-
-				IsPlaying = true;
 			}
 			catch (Exception e)
 			{
@@ -151,8 +133,7 @@ namespace VideoModule.ViewModels
 
 		public override bool OnClosing(bool isCanceled)
 		{
-			if (_vlcControl != null && _vlcControl.IsPlaying)
-				_vlcControl.Stop();
+			ServiceFactory.Events.GetEvent<CloseEvent>().Publish(null);
 			return base.OnClosing(isCanceled);
 		}
 
