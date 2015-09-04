@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Common;
 using FiresecAPI;
 using FiresecAPI.GK;
@@ -185,6 +186,7 @@ namespace GKProcessor
 					result2 = SendManager.Send(kauDevice, 3, 0x86, 6, bytes, true, false, 2000);
 					if (!result2.HasError)
 						break;
+					Thread.Sleep(1000);
 				}
 				if (!result2.HasError)
 				{
