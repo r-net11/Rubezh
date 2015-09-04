@@ -33,14 +33,14 @@ namespace GKModule.ViewModels
 			return deviceViewModel;
 		}
 
-		public static DeviceViewModel InsertDevice(GKDevice device, DeviceViewModel parentDeviceViewModel)
+		public static DeviceViewModel InsertDevice(GKDevice device, DeviceViewModel parentDeviceViewModel, bool addAutoCreate = true)
 		{
 			var deviceViewModel = new DeviceViewModel(device);
 			parentDeviceViewModel.InsertChild(deviceViewModel);
 
 			foreach (var childDevice in device.Children)
 			{
-				AddDevice(childDevice, deviceViewModel);
+				AddDevice(childDevice, deviceViewModel, addAutoCreate);
 			}
 
 			if (device.Driver.IsGroupDevice && device.Children.Count == 0)
