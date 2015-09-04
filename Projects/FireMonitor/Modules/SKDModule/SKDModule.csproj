@@ -262,7 +262,6 @@
       <DependentUpon>PassCardTextPropertyView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Positions\ViewModels\PositionEmployeeListViewModel.cs" />
-    <Compile Include="Reports\Providers\ReflectionReportProvider.cs" />
     <Compile Include="Reports\ViewModels\Base\IOrganisationItemsFilterPage.cs" />
     <Compile Include="Reports\ViewModels\Base\OrganisationChangedSubscriber.cs" />
     <Compile Include="Reports\DeviceListReport.cs" />
@@ -283,7 +282,6 @@
     <Compile Include="Reports\Providers\CardsReportProvider.cs" />
     <Compile Include="Reports\T13Report.cs" />
     <Compile Include="Reports\ViewModels\CheckedItemViewModel.cs" />
-    <Compile Include="Reports\ViewModels\ReflectionPageViewModel.cs" />
     <Compile Include="Reports\ViewModels\ReportFilterOrganisationViewModel.cs" />
     <Compile Include="Reports\ViewModels\ReportOrganisationsFilterViewModel.cs" />
     <Compile Include="Reports\ViewModels\ScheduleSchemePageViewModel.cs" />
@@ -316,9 +314,6 @@
     </Compile>
     <Compile Include="Reports\Views\EmployeePageView.xaml.cs">
       <DependentUpon>EmployeePageView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Reports\Views\ReflectionPageView.xaml.cs">
-      <DependentUpon>ReflectionPageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Reports\Views\ScheduleSchemePageView.xaml.cs">
       <DependentUpon>ScheduleSchemePageView.xaml</DependentUpon>
@@ -805,10 +800,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Reports\Views\EmployeePageView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Reports\Views\ReflectionPageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

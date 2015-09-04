@@ -19,10 +19,12 @@ using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
+using Infrastructure.Common.SKDReports;
+using GKModule.Reports.Providers;
 
 namespace GKModule
 {
-	public partial class GKModuleLoader : ModuleBase, IReportProviderModule, ILayoutProviderModule
+	public partial class GKModuleLoader : ModuleBase, IReportProviderModule, ILayoutProviderModule, ISKDReportProviderModule
 	{
 		static DevicesViewModel DevicesViewModel;
 		static DeviceParametersViewModel DeviceParametersViewModel;
@@ -315,6 +317,13 @@ namespace GKModule
 			yield return new LayoutPartPresenter(LayoutPartIdentities.MPTs, "МПТ", "BMPT.png", (p) => MPTsViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.Doors, "Точки доступа", "Tree.png", (p) => DoorsViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.ConnectionIndicator, "Индикатор связи", "ConnectionIndicator.png", (p) => new GKConnectionIndicatorViewModel());
+		}
+		#endregion
+
+		#region ISKDReportProviderModule Members
+		public IEnumerable<ISKDReportProvider> GetSKDReportProviders()
+		{
+			yield return new ReflectionReportProvider();
 		}
 		#endregion
 	}

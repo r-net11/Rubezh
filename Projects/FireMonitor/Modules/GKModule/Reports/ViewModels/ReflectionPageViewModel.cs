@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using Infrastructure.Common.SKDReports;
 using FiresecAPI.SKD.ReportFilters;
-using SKDModule.ViewModels;
 using System.Collections.ObjectModel;
 using FiresecAPI.SKD;
 using Infrastructure.Common;
@@ -12,27 +11,27 @@ using Common;
 using FiresecClient;
 using FiresecAPI.GK;
 
-namespace SKDModule.Reports.ViewModels
+namespace GKModule.ViewModels
 {
 	public class ReflectionPageViewModel : FilterContainerViewModel
 	{
 		public ReflectionPageViewModel()
 		{
 			Title = "Отражения";
-			Mirror = new ObservableCollection<GKDevice>(GKManager.Devices.Where(x => x.DriverType == GKDriverType.RSR2_GKMirror));
-			SelectedMirror = Mirror.FirstOrDefault();
+			Devices = new ObservableCollection<GKDevice>(GKManager.Devices.Where(x => x.DriverType == GKDriverType.RSR2_GKMirror));
+			SelectedDevice = Devices.FirstOrDefault();
 		}
 
-		public ObservableCollection<GKDevice> Mirror { get; private set; }
+		public ObservableCollection<GKDevice> Devices { get; private set; }
 
-		GKDevice _selectedMirror;
-		public GKDevice SelectedMirror
+		GKDevice _selectedDevice;
+		public GKDevice SelectedDevice
 		{
-			get { return _selectedMirror; }
+			get { return _selectedDevice; }
 			set
 			{
-				_selectedMirror = value;
-				OnPropertyChanged(() => SelectedMirror);
+				_selectedDevice = value;
+				OnPropertyChanged(() => SelectedDevice);
 			}
 		}
 		public override void LoadFilter(SKDReportFilter filter)
@@ -43,9 +42,8 @@ namespace SKDModule.Reports.ViewModels
 			var mirrorfilter = filter as IReportFilterReflection;
 			if (mirrorfilter == null)
 				return;
-			if (SelectedMirror!=null)
-			mirrorfilter.Mirror = SelectedMirror.UID;
+			if (SelectedDevice != null)
+				mirrorfilter.Mirror = SelectedDevice.UID;
 		}
 	}
 }
-
