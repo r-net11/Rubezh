@@ -12,8 +12,6 @@ namespace VideoModule.Views
 		public CameraDetailsView()
 		{
 			InitializeComponent();
-			ServiceFactory.Events.GetEvent<CloseEvent>().Unsubscribe(OnClose);
-			ServiceFactory.Events.GetEvent<CloseEvent>().Subscribe(OnClose);
 		}
 
 		private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
@@ -21,11 +19,12 @@ namespace VideoModule.Views
 			var viewModel = DataContext as CameraDetailsViewModel;
 			if (viewModel == null)
 				return;
-
+			viewModel.CanPlay = false;
+			viewModel.CloseEvent += OnClose;
 			MediaSourcePlayer.Open(MediaSourceFactory.CreateFromRtspStream(viewModel.Camera.RviRTSP));
 			MediaSourcePlayer.Play();
 		}
-		public void OnClose(object obj)
+		public void OnClose()
 		{
 			MediaSourcePlayer.Stop();
 			MediaSourcePlayer.Close();

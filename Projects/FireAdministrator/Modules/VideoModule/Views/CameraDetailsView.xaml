@@ -32,10 +32,10 @@
 				<TextBlock Grid.Row="3" Grid.Column="0" Text="Название канала" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" Margin="2" />
 				<TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Camera.RviChannelName}" Style="{DynamicResource TextBlockDetailsStyle}" Margin="2" />
 
-				<Button Grid.Row="4" Grid.ColumnSpan="2" Click="ButtonBase_OnClick" Content="Предпросмотр" Width="150" Margin="2" />
+				<Button Grid.Row="4" Grid.ColumnSpan="2" Click="ButtonBase_OnClick" Content="Предпросмотр" Width="150" Margin="2" IsEnabled="{Binding CanPlay}" />
 
 				
-				<Border Grid.Row="5" Grid.ColumnSpan="2" BorderThickness="2" BorderBrush="Black">
+				<Border Grid.Row="5" Grid.ColumnSpan="2">
 					<Border.Background>
 						<VisualBrush Stretch="Uniform">
 							<VisualBrush.Visual>

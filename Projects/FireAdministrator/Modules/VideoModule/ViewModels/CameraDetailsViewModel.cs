@@ -41,7 +41,7 @@ namespace VideoModule.ViewModels
 				ChannelNumber = 1;
 				IsEditMode = false;
 			}
-			ShowCommand = new RelayCommand(OnShow, CanShow);
+			CanPlay = true;
 		}
 
 		void CopyProperties()
@@ -94,46 +94,22 @@ namespace VideoModule.ViewModels
 				OnPropertyChanged(() => ChannelNumber);
 			}
 		}
-
-		VlcControl _vlcControl;
-		public ImageSource Image
+		bool _canPlay;
+		public bool CanPlay
 		{
-			get
+			get { return _canPlay; }
+			set
 			{
-				if (_vlcControl == null)
-					return new BitmapImage();
-				return _vlcControl.VideoSource;
+				if (_canPlay == value)
+					return;
+				_canPlay = value;
+				OnPropertyChanged(() => CanPlay);
 			}
 		}
-
-		public RelayCommand ShowCommand { get; private set; }
-		void OnShow()
-		{
-			try
-			{
-
-			}
-			catch (Exception e)
-			{
-				MessageBoxService.ShowWarning(e.Message);
-			}
-		}
-
-		bool CanShow()
-		{
-			return !IsPlaying;
-		}
-
-		bool IsPlaying = false;
-
-		private void VlcControlOnPositionChanged(VlcControl sender, VlcEventArgs<float> vlcEventArgs)
-		{
-			OnPropertyChanged(() => Image);
-		}
-
 		public override bool OnClosing(bool isCanceled)
 		{
-			ServiceFactory.Events.GetEvent<CloseEvent>().Publish(null);
+			if (CloseEvent != null)
+				CloseEvent();
 			return base.OnClosing(isCanceled);
 		}
 
@@ -143,5 +119,6 @@ namespace VideoModule.ViewModels
 			Camera.Ip = Address;
 			return base.Save();
 		}
+		public event Action CloseEvent;
 	}
 }
