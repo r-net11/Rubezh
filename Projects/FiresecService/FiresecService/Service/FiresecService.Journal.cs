@@ -116,6 +116,22 @@ namespace FiresecService.Service
 		{
 			FiresecService.NotifyArchiveCompleted(journalItems, archivePortionUID);
 		}
+
+		public OperationResult<List<JournalItem>> GetArchivePage(ArchiveFilter filter, int page)
+		{
+			using(var dbService = new SKDDriver.DataClasses.DbService())
+			{
+				return dbService.JournalTranslator.GetArchivePage(filter, page);
+			}
+		}
+
+		public OperationResult<int> GetArchiveCount(ArchiveFilter filter)
+		{
+			using (var dbService = new SKDDriver.DataClasses.DbService())
+			{
+				return dbService.JournalTranslator.GetArchiveCount(filter);
+			}
+		}
 		#endregion
 	}
 }

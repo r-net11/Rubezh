@@ -126,6 +126,14 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.AddJournalItem(journalItem));
 		}
+		public OperationResult<List<JournalItem>> GetArchivePage(ArchiveFilter filter, int page)
+		{
+			return SafeContext.Execute<OperationResult<List<JournalItem>>>(() => FiresecService.GetArchivePage(filter, page));
+		}
+		public OperationResult<int> GetArchiveCount(ArchiveFilter filter)
+		{
+			return SafeContext.Execute<OperationResult<int>>(() => FiresecService.GetArchiveCount(filter));
+		}
 		#endregion
 
 		#region Card

@@ -14,6 +14,7 @@ using Infrastructure.Events;
 using Infrastructure.Models;
 using JournalModule.Events;
 using Infrastructure.Common.Services.Layout;
+using System.Diagnostics;
 
 namespace JournalModule.ViewModels
 {
@@ -21,7 +22,6 @@ namespace JournalModule.ViewModels
 	{
 		public static DateTime ArchiveFirstDate { get; private set; }
 		public ArchiveFilter ArchiveFilter { get; private set; }
-		private Guid ArchivePortionUID;
 		private LayoutPartContainerCollection _container;
 
 		public ArchiveViewModel()
@@ -34,11 +34,9 @@ namespace JournalModule.ViewModels
 			PreviousPageCommand = new RelayCommand(OnPreviousPage, CanPreviousPage);
 			NextPageCommand = new RelayCommand(OnNextPage, CanNextPage);
 			LastPageCommand = new RelayCommand(OnLastPage, CanLastPage);
-			Pages = new ObservableCollection<ArchivePageViewModel>();
-
+			
 			ServiceFactory.Events.GetEvent<JournalSettingsUpdatedEvent>().Unsubscribe(OnSettingsChanged);
 			ServiceFactory.Events.GetEvent<JournalSettingsUpdatedEvent>().Subscribe(OnSettingsChanged);
-			ServiceFactory.Events.GetEvent<GetFilteredArchiveCompletedEvent>().Subscribe(OnGetFilteredArchiveCompleted);
 			ServiceFactory.Events.GetEvent<JournalSettingsUpdatedEvent>().Unsubscribe(OnSettingsChanged);
 			ServiceFactory.Events.GetEvent<JournalSettingsUpdatedEvent>().Subscribe(OnSettingsChanged);
 		}
@@ -53,28 +51,6 @@ namespace JournalModule.ViewModels
 			else
 			{
 				ArchiveFirstDate = DateTime.Now.AddYears(-10);
-			}
-		}
-
-		ObservableCollection<ArchivePageViewModel> _pages;
-		public ObservableCollection<ArchivePageViewModel> Pages
-		{
-			get { return _pages; }
-			set
-			{
-				_pages = value;
-				OnPropertyChanged(() => Pages);
-			}
-		}
-
-		ArchivePageViewModel _selectedPage;
-		public ArchivePageViewModel SelectedPage
-		{
-			get { return _selectedPage; }
-			set
-			{
-				_selectedPage = value;
-				OnPropertyChanged(() => SelectedPage);
 			}
 		}
 
@@ -180,18 +156,6 @@ namespace JournalModule.ViewModels
 			}
 		}
 
-		string _status;
-		public string Status
-		{
-			get { return _status; }
-			set
-			{
-				_status = value;
-				OnPropertyChanged(() => Status);
-				OnPropertyChanged(() => IsLoading);
-			}
-		}
-
 		public bool HasPages
 		{
 			get { return TotalPageNumber > 0; }
@@ -256,41 +220,18 @@ namespace JournalModule.ViewModels
 			set
 			{
 				if (value < 1)
-					value = 1;
-				if (value > Pages.Count)
-					value = Pages.Count;
-
-				_currentPageNumber = value;
+					_currentPageNumber = 1;
+				if (value > TotalPageNumber)
+					_currentPageNumber = TotalPageNumber;
+				else
+					_currentPageNumber = value;
 				OnPropertyChanged(() => CurrentPageNumber);
-
-				if (value > 0 && value <= Pages.Count)
-				{
-					var page = Pages[value - 1];
-					page.Create();
-
-					var journalItems = new ObservableRangeCollection<JournalItemViewModel>();
-					journalItems.AddRange(page.JournalItems);
-					JournalItems = journalItems;
-					SelectedJournal = JournalItems.FirstOrDefault();
-				}
+				GetJournalItems();
 			}
-		}
-
-		public bool IsLoading
-		{
-			get { return Status == "Загрузка данных"; }
 		}
 
 		public void Update()
 		{
-			Status = "Загрузка данных";
-			JournalItems = new ObservableRangeCollection<JournalItemViewModel>();
-
-			Pages = new ObservableCollection<ArchivePageViewModel>();
-			TotalPageNumber = 0;
-			CurrentPageNumber = 0;
-			SelectedPage = null;
-
 			try
 			{
 				if (ArchiveFilter == null)
@@ -321,9 +262,12 @@ namespace JournalModule.ViewModels
 						break;
 				}
 
-				JournalItems = new ObservableCollection<JournalItemViewModel>();
-				ArchivePortionUID = Guid.NewGuid();
-				FiresecManager.FiresecService.BeginGetFilteredArchive(ArchiveFilter, ArchivePortionUID);
+				var countResult = FiresecManager.FiresecService.GetArchiveCount(ArchiveFilter);
+				if(!countResult.HasError)
+				{
+					TotalPageNumber = countResult.Result / ArchiveFilter.PageSize + 1;
+					CurrentPageNumber = 1;
+				}
 			}
 			catch (ThreadAbortException) { }
 			catch (Exception e)
@@ -332,16 +276,16 @@ namespace JournalModule.ViewModels
 			}
 		}
 
-		void OnGetFilteredArchiveCompleted(ArchiveResult archiveResult)
+		void GetJournalItems()
 		{
-			if (archiveResult.ArchivePortionUID == ArchivePortionUID)
+			var journalItemsResult = FiresecManager.FiresecService.GetArchivePage(ArchiveFilter, CurrentPageNumber);
+			if (!journalItemsResult.HasError)
 			{
-				var archivePageViewModel = new ArchivePageViewModel(archiveResult.JournalItems);
-				Pages.Add(archivePageViewModel);
-				TotalPageNumber = Pages.Count;
-				if (CurrentPageNumber == 0)
-					CurrentPageNumber = 1;
-				Status = "Количество записей: " + ((TotalPageNumber - 1) * ClientSettings.ArchiveDefaultState.PageSize + archiveResult.JournalItems.Count()).ToString();
+				JournalItems = new ObservableRangeCollection<JournalItemViewModel>();
+				foreach (var item in journalItemsResult.Result)
+				{
+					JournalItems.Add(new JournalItemViewModel(item));
+				}
 			}
 		}
 

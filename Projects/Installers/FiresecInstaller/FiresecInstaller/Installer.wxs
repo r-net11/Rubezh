@@ -94,6 +94,7 @@
 			<Custom Action="CloseApplications" Sequence="1" />
 			<RemoveExistingProducts After="InstallInitialize" />
 			<InstallExecute After="RemoveExistingProducts" />
+			<!--<Custom Action="InstallPostgres" After="InstallExecute" />-->
 		</InstallExecuteSequence>
 
 		<UI Id="MyWixUI_Wizard">

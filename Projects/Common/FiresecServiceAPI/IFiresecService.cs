@@ -51,6 +51,12 @@ namespace FiresecAPI
 
 		[OperationContract]
 		OperationResult<bool> AddJournalItem(JournalItem journalItem);
+
+		[OperationContract]
+		OperationResult<List<JournalItem>> GetArchivePage(ArchiveFilter filter, int page);
+
+		[OperationContract]
+		OperationResult<int> GetArchiveCount(ArchiveFilter filter);
 		#endregion
 
 		#region Files

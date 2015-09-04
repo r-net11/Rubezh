@@ -48,22 +48,22 @@ namespace JournalModule.Reports
 			table.Columns.Add("Description");
 			table.Columns.Add("ObjectName");
 
-			if (ArchiveViewModel.Pages != null)
-			{
-				foreach (var page in ArchiveViewModel.Pages)
-				{
-					page.Create();
-					foreach (var journalItem in page.JournalItems)
-					{
-						table.Rows.Add(
-							journalItem.JournalItem.DeviceDateTime,
-							journalItem.JournalItem.SystemDateTime,
-							journalItem.Name,
-							journalItem.Description,
-							journalItem.ObjectName);
-					}
-				}
-			}
+			//if (ArchiveViewModel.Pages != null)
+			//{
+			//	foreach (var page in ArchiveViewModel.Pages)
+			//	{
+			//		page.Create();
+			//		foreach (var journalItem in page.JournalItems)
+			//		{
+			//			table.Rows.Add(
+			//				journalItem.JournalItem.DeviceDateTime,
+			//				journalItem.JournalItem.SystemDateTime,
+			//				journalItem.Name,
+			//				journalItem.Description,
+			//				journalItem.ObjectName);
+			//		}
+			//	}
+			//}
 			data.DataTables.Add(table);
 			PdfProvider.ReportData = data;
 			return data;
