@@ -168,6 +168,7 @@
     <Compile Include="Steps\ViewModels\GetListItemStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ImportOrganisationListStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ImportOrganisationStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\NowStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\PtzStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\RandomStepViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\DirectionSelectionViewModel.cs" />
@@ -447,6 +448,9 @@
     </Compile>
     <Compile Include="Steps\Views\RviAlarmStepView.xaml.cs">
       <DependentUpon>RviAlarmStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\NowStepView.xaml.cs">
+      <DependentUpon>NowStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Validation\GlobalVariableValidationError.cs" />
     <Compile Include="Validation\ProcedureStepValidationError.cs" />
@@ -883,6 +887,10 @@
     <Page Include="OPCServers\Views\OPCServersView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Steps\Views\NowStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

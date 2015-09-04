@@ -248,6 +248,10 @@
 		<Views:RviAlarmStepView />
 	</DataTemplate>
 
+	<DataTemplate x:Key="nowTemplate">
+		<Views:NowStepView />
+	</DataTemplate>
+
 	<ViewModels:StepTypeTemplateSelector x:Key="stepTypeTemplateSelector"
 										 ArithmeticTemplate="{StaticResource arithmeticTemplate}"
 										 ChangeListTemplate="{StaticResource changeListTemplate}"
@@ -292,5 +296,6 @@
 										 PtzTemplate="{StaticResource ptzTemplate}"
 										 StartRecordTemplate="{StaticResource startRecordTemplate}"
 										 StopRecordTemplate="{StaticResource stopRecordTemplate}"
-										 RviAlarmTemplate="{StaticResource rviAlarmTemplate}" />
+										 RviAlarmTemplate="{StaticResource rviAlarmTemplate}" 
+										 NowTemplate="{StaticResource nowTemplate}"/>
 </ResourceDictionary>

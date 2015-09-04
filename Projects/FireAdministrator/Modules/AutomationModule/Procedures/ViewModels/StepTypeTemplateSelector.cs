@@ -49,6 +49,7 @@ namespace AutomationModule.ViewModels
 		public DataTemplate StartRecordTemplate { get; set; }
 		public DataTemplate StopRecordTemplate { get; set; }
 		public DataTemplate RviAlarmTemplate { get; set; }
+		public DataTemplate NowTemplate { get; set; }
 
 		public override DataTemplate SelectTemplate(object item, DependencyObject container)
 		{
@@ -140,6 +141,8 @@ namespace AutomationModule.ViewModels
 				return StopRecordTemplate;
 			if (item is RviAlarmStepViewModel)
 				return RviAlarmTemplate;
+			if (item is NowStepViewModel)
+				return NowTemplate;
 			return null;
 		}
 	}
