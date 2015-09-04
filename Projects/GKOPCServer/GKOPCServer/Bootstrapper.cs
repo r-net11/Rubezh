@@ -11,6 +11,8 @@ using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Microsoft.Practices.Prism.Events;
+using Infrastructure.Common.BalloonTrayTip;
+using FiresecLicense;
 
 namespace GKOPCServer
 {
@@ -87,9 +89,9 @@ namespace GKOPCServer
 
 			UILogger.Log("Загрузка лицензии");
 			FiresecManager.GetLicense();
-			if (!LicenseHelper.OpcServer)
+			if (!FiresecLicenseManager.CurrentLicenseInfo.OpcServer)
 			{
-				UILogger.Log("Лицензия модуля \"GLOBAL OPC Сервер\" отсутствует");
+				BalloonHelper.ShowFromServer("Отсутствует лицензия модуля \"GLOBAL OPC Сервер\"");
 				result = false;
 			}
 

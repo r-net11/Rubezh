@@ -1,10 +1,9 @@
 ﻿using FiresecClient;
 using Infrastructure.Common.Validation;
-using Infrastructure.Common;
 using Infrastructure.Client.Layout;
 using FiresecAPI.Models.Layouts;
-using System.Text;
 using System.Linq;
+using FiresecLicense;
 
 namespace LayoutModule.Validation
 {
@@ -16,7 +15,7 @@ namespace LayoutModule.Validation
 			{
 				string layoutLicenses = GetLayoutLicenses(layout);
 				if (!string.IsNullOrEmpty(layoutLicenses))
-					Errors.Add(new LayoutValidationError(layout, "Макет содержит элементы, требующие наличия лицензии модуля(ей): " + layoutLicenses, ValidationErrorLevel.CannotWrite));
+					Errors.Add(new LayoutValidationError(layout, "Макет содержит элементы, требующие наличия лицензии модуля(ей): " + layoutLicenses, ValidationErrorLevel.Warning));
 			}
 		}
 
@@ -24,16 +23,16 @@ namespace LayoutModule.Validation
 		{
 			string layoutLicenses = string.Empty;
 
-			if (!LicenseHelper.Fire && layout.Parts.Any(x => 
+			if (!FiresecLicenseManager.CurrentLicenseInfo.Fire && layout.Parts.Any(x => 
 				x.DescriptionUID == LayoutPartIdentities.PumpStations || 
 				x.DescriptionUID == LayoutPartIdentities.MPTs))
 				layoutLicenses += "\"GLOBAL Пожаротушение\", ";
-			
-			if (!LicenseHelper.Security && layout.Parts.Any(x => 
+
+			if (!FiresecLicenseManager.CurrentLicenseInfo.Security && layout.Parts.Any(x => 
 				x.DescriptionUID == LayoutPartIdentities.GuardZones))
 				layoutLicenses += "\"GLOBAL Охрана\", ";
 
-			if (!LicenseHelper.Access && layout.Parts.Any(x => 
+			if (!FiresecLicenseManager.CurrentLicenseInfo.Access && layout.Parts.Any(x => 
 				x.DescriptionUID == LayoutPartIdentities.Doors ||
 				x.DescriptionUID == LayoutPartIdentities.GKSKDZones ||
 				x.DescriptionUID == LayoutPartIdentities.SKDVerification ||
@@ -45,7 +44,7 @@ namespace LayoutModule.Validation
 				x.DescriptionUID == LayoutPartIdentities.SKDTimeTracking))
 				layoutLicenses += "\"GLOBAL Доступ\", ";
 
-			if (!LicenseHelper.Video && layout.Parts.Any(x =>
+			if (!FiresecLicenseManager.CurrentLicenseInfo.Video && layout.Parts.Any(x =>
 				x.DescriptionUID == LayoutPartIdentities.CamerasList ||
 				x.DescriptionUID == LayoutPartIdentities.CameraVideo ||
 				x.DescriptionUID == LayoutPartIdentities.MultiCamera))

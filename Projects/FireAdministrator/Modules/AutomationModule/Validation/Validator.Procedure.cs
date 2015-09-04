@@ -432,6 +432,12 @@ namespace AutomationModule.Validation
 						ValidateArgument(step, arguments.NameArgument);
 						break;
 					}
+				case ProcedureStepType.Now:
+					{
+						var nowArguments = step.NowArguments;
+						ValidateArgument(step, nowArguments.ResultArgument);
+					}
+					break;
 			}
 			foreach (var childStep in step.Children)
 				ValidateStep(childStep);

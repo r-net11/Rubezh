@@ -2,24 +2,29 @@
 	<UserControl.Resources>
 		<ResourceDictionary Source="ProcedureResources.xaml" />
 	</UserControl.Resources>
-	<StackPanel>
-		<StackPanel Orientation="Horizontal">
-			<TextBlock Text="Список" Style="{DynamicResource TextBlockDetailsStyle}" />
-			<Views:ArgumentView DataContext="{Binding ListArgument}" />
-		</StackPanel>
-		<StackPanel Orientation="Horizontal">
-			<TextBlock Text="Элемнент" Style="{DynamicResource TextBlockDetailsStyle}" />
-			<Views:ArgumentView DataContext="{Binding ItemArgument}" />
-		</StackPanel>
-		<StackPanel Orientation="Horizontal">
-			<TextBlock Text="Команда" Style="{DynamicResource TextBlockDetailsStyle}" />
-			<ComboBox ItemsSource="{Binding ChangeTypes}" SelectedItem="{Binding SelectedChangeType, UpdateSourceTrigger=PropertyChanged}">
-				<ComboBox.ItemTemplate>
-					<DataTemplate>
-						<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
-					</DataTemplate>
-				</ComboBox.ItemTemplate>
-			</ComboBox>
-		</StackPanel>
-	</StackPanel>
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto"/>
+			<ColumnDefinition Width="Auto"/>
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+		</Grid.RowDefinitions>
+		<TextBlock Grid.Column="0" Grid.Row="0" Text="Список" Style="{DynamicResource TextBlockDetailsStyle}" />
+		<Views:ArgumentView Grid.Column="1" Grid.Row="0" DataContext="{Binding ListArgument}" />
+
+		<TextBlock Grid.Column="0" Grid.Row="1" Text="Элемнент" Style="{DynamicResource TextBlockDetailsStyle}" />
+		<Views:ArgumentView Grid.Column="1" Grid.Row="1" DataContext="{Binding ItemArgument}" />
+
+		<TextBlock Grid.Column="0" Grid.Row="2" Text="Команда" Style="{DynamicResource TextBlockDetailsStyle}" />
+		<ComboBox Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" ItemsSource="{Binding ChangeTypes}" SelectedItem="{Binding SelectedChangeType, UpdateSourceTrigger=PropertyChanged}">
+			<ComboBox.ItemTemplate>
+				<DataTemplate>
+					<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+				</DataTemplate>
+			</ComboBox.ItemTemplate>
+		</ComboBox>
+	</Grid>
 </UserControl>

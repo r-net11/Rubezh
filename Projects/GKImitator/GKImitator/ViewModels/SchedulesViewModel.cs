@@ -18,9 +18,10 @@ namespace GKImitator.ViewModels
 		{
 			Title = "Графики работ прибора";
 
-			using(var dbService = new DbService())
+			using (var dbService = new DbService())
 			{
 				var schedules = dbService.ImitatorScheduleTranslator.Get();
+				schedules.ForEach(x => x.ImitatorSheduleIntervals = x.ImitatorSheduleIntervals.OrderBy(y => y.StartSeconds).ToList());
 				Schedules = new ObservableCollection<ImitatorSchedule>(schedules);
 			}
 		}

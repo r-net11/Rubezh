@@ -12,6 +12,8 @@ using Infrastructure.Common.Windows.ViewModels;
 using Vlc.DotNet.Core;
 using Vlc.DotNet.Core.Medias;
 using Vlc.DotNet.Wpf;
+using Infrastructure;
+using Infrastructure.Events;
 
 namespace VideoModule.ViewModels
 {
@@ -39,7 +41,7 @@ namespace VideoModule.ViewModels
 				ChannelNumber = 1;
 				IsEditMode = false;
 			}
-			ShowCommand = new RelayCommand(OnShow, CanShow);
+			CanPlay = true;
 		}
 
 		void CopyProperties()
@@ -92,67 +94,22 @@ namespace VideoModule.ViewModels
 				OnPropertyChanged(() => ChannelNumber);
 			}
 		}
-
-		VlcControl _vlcControl;
-		public ImageSource Image
+		bool _canPlay;
+		public bool CanPlay
 		{
-			get
+			get { return _canPlay; }
+			set
 			{
-				if (_vlcControl == null)
-					return new BitmapImage();
-				return _vlcControl.VideoSource;
-			}
-		}
-
-		public RelayCommand ShowCommand { get; private set; }
-		void OnShow()
-		{
-			try
-			{
-				if (IsPlaying)
+				if (_canPlay == value)
 					return;
-
-				if (!VlcContext.IsInitialized)
-				{
-					VlcContext.LibVlcDllsPath = FiresecManager.SystemConfiguration.RviSettings.DllsPath;
-					VlcContext.LibVlcPluginsPath = FiresecManager.SystemConfiguration.RviSettings.PluginsPath;
-					VlcContext.StartupOptions.IgnoreConfig = true;
-					VlcContext.StartupOptions.LogOptions.LogInFile = false;
-					VlcContext.StartupOptions.LogOptions.ShowLoggerConsole = false;
-					VlcContext.StartupOptions.LogOptions.Verbosity = VlcLogVerbosities.Debug;
-					VlcContext.Initialize();
-				}
-				_vlcControl = new VlcControl { Media = new LocationMedia(Camera.RviRTSP) };
-				_vlcControl.PositionChanged -= VlcControlOnPositionChanged;
-				_vlcControl.PositionChanged += VlcControlOnPositionChanged;
-				if (_vlcControl.IsPlaying)
-					_vlcControl.Stop();
-				_vlcControl.Play();
-
-				IsPlaying = true;
-			}
-			catch (Exception e)
-			{
-				MessageBoxService.ShowWarning(e.Message);
+				_canPlay = value;
+				OnPropertyChanged(() => CanPlay);
 			}
 		}
-
-		bool CanShow()
-		{
-			return !IsPlaying;
-		}
-
-		bool IsPlaying = false;
-
-		private void VlcControlOnPositionChanged(VlcControl sender, VlcEventArgs<float> vlcEventArgs)
-		{
-			OnPropertyChanged(() => Image);
-		}
-
 		public override bool OnClosing(bool isCanceled)
 		{
-			if (_vlcControl != null && _vlcControl.IsPlaying)
-				_vlcControl.Stop();
+			if (CloseEvent != null)
+				CloseEvent();
 			return base.OnClosing(isCanceled);
 		}
 
@@ -162,5 +119,6 @@ namespace VideoModule.ViewModels
 			Camera.Ip = Address;
 			return base.Save();
 		}
+		public event Action CloseEvent;
 	}
 }

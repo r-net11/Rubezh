@@ -72,6 +72,14 @@ namespace GKImitator.ViewModels
 				HoldDelay = delay.Hold;
 				DelayRegime = delay.DelayRegime;
 			}
+
+			var door = GKBase as GKDoor;
+			if (door != null)
+			{
+				OnDelay = (ushort)door.Delay;
+				HoldDelay = (ushort)door.Hold;
+				DelayRegime = FiresecAPI.GK.DelayRegime.Off;
+			}
 		}
 
 		TurningState TurningState = TurningState.None;
@@ -280,7 +288,7 @@ namespace GKImitator.ViewModels
 			SetStateBit(GKStateBit.TurningOn, false);
 			SetStateBit(GKStateBit.Off, false);
 			SetStateBit(GKStateBit.TurningOff, false);
-			var journalItem = new ImitatorJournalItem(2, 9, 3, 3);
+			var journalItem = new ImitatorJournalItem(2, 9, 2, 0);
 			AddJournalItem(journalItem);
 		}
 
@@ -296,7 +304,7 @@ namespace GKImitator.ViewModels
 				SetStateBit(GKStateBit.TurningOn, false);
 				SetStateBit(GKStateBit.Off, false);
 				SetStateBit(GKStateBit.TurningOff, true);
-				var journalItem = new ImitatorJournalItem(2, 9, 5, 3);
+				var journalItem = new ImitatorJournalItem(2, 9, 5, 0);
 				AddJournalItem(journalItem);
 			}
 		}

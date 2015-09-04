@@ -5,32 +5,39 @@
 	<UserControl.Resources>
 		<ResourceDictionary Source="ProcedureResources.xaml" />
 	</UserControl.Resources>
-	<StackPanel>
-		<StackPanel Orientation="Horizontal">
-			<TextBlock Text="Индексатор" Style="{DynamicResource TextBlockDetailsStyle}" />
-			<Views:ArgumentView DataContext="{Binding IndexerArgument}" />
-		</StackPanel>
-		<StackPanel Orientation="Horizontal">
-			<TextBlock Text="Начальное" Style="{DynamicResource TextBlockDetailsStyle}" />
-			<Views:ArgumentView DataContext="{Binding InitialValueArgument}" />
-		</StackPanel>
-		<StackPanel Orientation="Horizontal">
-			<TextBlock Text="Условие" Style="{DynamicResource TextBlockDetailsStyle}" />
-			<ComboBox ItemsSource="{Binding ConditionTypes}" SelectedItem="{Binding SelectedConditionType, UpdateSourceTrigger=PropertyChanged}">
-				<ComboBox.ItemTemplate>
-					<DataTemplate>
-						<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
-					</DataTemplate>
-				</ComboBox.ItemTemplate>
-			</ComboBox>
-		</StackPanel>
-		<StackPanel Orientation="Horizontal">
-			<TextBlock Text="Текущее" Style="{DynamicResource TextBlockDetailsStyle}" />
-			<Views:ArgumentView DataContext="{Binding ValueArgument}" />
-		</StackPanel>
-		<StackPanel Orientation="Horizontal">
-			<TextBlock Text="Итератор" Style="{DynamicResource TextBlockDetailsStyle}" />
-			<Views:ArgumentView DataContext="{Binding IteratorArgument}" />
-		</StackPanel>
-	</StackPanel>
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto"/>
+			<ColumnDefinition Width="Auto"/>
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+		</Grid.RowDefinitions>
+
+		<TextBlock Grid.Column="0" Grid.Row="0" Text="Индексатор" Style="{DynamicResource TextBlockDetailsStyle}" />
+		<Views:ArgumentView Grid.Column="1" Grid.Row="0" DataContext="{Binding IndexerArgument}" />
+
+		<TextBlock Grid.Column="0" Grid.Row="1" Text="Начальное" Style="{DynamicResource TextBlockDetailsStyle}" />
+		<Views:ArgumentView Grid.Column="1" Grid.Row="1" DataContext="{Binding InitialValueArgument}" />
+
+		<TextBlock Grid.Column="0" Grid.Row="2" Text="Условие" Style="{DynamicResource TextBlockDetailsStyle}" />
+		<ComboBox Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" ItemsSource="{Binding ConditionTypes}" SelectedItem="{Binding SelectedConditionType, UpdateSourceTrigger=PropertyChanged}">
+			<ComboBox.ItemTemplate>
+				<DataTemplate>
+					<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+				</DataTemplate>
+			</ComboBox.ItemTemplate>
+		</ComboBox>
+
+		<TextBlock Grid.Column="0" Grid.Row="3" Text="Текущее" Style="{DynamicResource TextBlockDetailsStyle}" />
+		<Views:ArgumentView Grid.Column="1" Grid.Row="3" DataContext="{Binding ValueArgument}" />
+
+		<TextBlock Grid.Column="0" Grid.Row="4" Text="Итератор" Style="{DynamicResource TextBlockDetailsStyle}" />
+		<Views:ArgumentView Grid.Column="1" Grid.Row="4" DataContext="{Binding IteratorArgument}" />
+
+	</Grid>
 </UserControl>

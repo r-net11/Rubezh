@@ -9,7 +9,7 @@ using FiresecAPI.AutomationCallback;
 using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using FiresecAPI.Models;
-using Infrastructure.Common;
+using FiresecLicense;
 
 namespace FiresecService.Service
 {
@@ -169,6 +169,16 @@ namespace FiresecService.Service
 		public OperationResult<bool> AddJournalItem(JournalItem journalItem)
 		{
 			return SafeOperationCall(() => { return FiresecService.AddJournalItem(journalItem); }, "AddJournalItem");
+		}
+
+		public OperationResult<List<JournalItem>> GetArchivePage(ArchiveFilter filter, int page)
+		{
+			return SafeContext.Execute<OperationResult<List<JournalItem>>>(() => FiresecService.GetArchivePage(filter, page));
+		}
+
+		public OperationResult<int> GetArchiveCount(ArchiveFilter filter)
+		{
+			return SafeContext.Execute<OperationResult<int>>(() => FiresecService.GetArchiveCount(filter));
 		}
 		#endregion
 

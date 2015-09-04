@@ -15,7 +15,6 @@
 					<ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
 					<ColumnDefinition Width="*" />
-					<ColumnDefinition Width="*" />
 					<ColumnDefinition Width="Auto" />
 				</Grid.ColumnDefinitions>
 				<Controls:ToolBarButton Grid.Column="0" Command="{Binding ShowFilterCommand}" ToolTip="Задать фильтр" ImageSource="Filter" />
@@ -30,11 +29,7 @@
 					<Controls:ToolBarButton Command="{Binding NextPageCommand}" ImageSource="Right"  ToolTip="Следующая страница" />
 					<Controls:ToolBarButton Command="{Binding LastPageCommand}" ImageSource="RightRight"  ToolTip="Последняя страница" />
 				</StackPanel>
-				<StackPanel Grid.Column="3" HorizontalAlignment="Center"  Orientation="Horizontal">
-					<Controls:SpinnerCogs VerticalAlignment="Center" Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisibilityConverter}}" />
-					<TextBlock Text="{Binding Status}" Style="{DynamicResource TextBlockDetailsStyle}" FontWeight="Bold" VerticalAlignment="Center" Margin="2" />
-				</StackPanel>
-				<Controls:ToolBarButton Grid.Column="4" Command="{Binding ShowSettingsCommand}" ToolTip="Настройки" ImageSource="Settings2" />
+				<Controls:ToolBarButton Grid.Column="3" Command="{Binding ShowSettingsCommand}" ToolTip="Настройки" ImageSource="Settings2" />
 			</Grid>
 		</Border>
 		<Views:JournalView Grid.Row="1" Margin="0 5 0 0" />

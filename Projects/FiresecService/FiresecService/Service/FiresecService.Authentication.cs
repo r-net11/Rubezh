@@ -7,6 +7,7 @@ using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
 using Infrastructure.Common;
+using FiresecLicense;
 
 namespace FiresecService.Service
 {
@@ -32,7 +33,7 @@ namespace FiresecService.Service
         bool CheckClientsCount(ClientCredentials clientCredentials)
         {
 			return clientCredentials.ClientType == ClientType.Administrator || !ConnectionSettingsManager.IsRemote
-                || ClientsManager.ClientInfos.Where(x => x.ClientCredentials.ClientType != ClientType.Administrator).Count() < LicenseHelper.RemoteWorkplacesCount;
+				|| ClientsManager.ClientInfos.Where(x => x.ClientCredentials.ClientType != ClientType.Administrator).Count() < FiresecLicenseManager.CurrentLicenseInfo.RemoteWorkplacesCount;
         }
 
 		bool CheckRemoteAccessPermissions(ClientCredentials clientCredentials)

@@ -1,6 +1,6 @@
 ﻿using FiresecClient;
 using Infrastructure.Common.Validation;
-using Infrastructure.Common;
+using FiresecLicense;
 
 namespace VideoModule.Validation
 {
@@ -8,11 +8,11 @@ namespace VideoModule.Validation
 	{
 		void ValidateLicense()
 		{
-			if (LicenseHelper.Video)
+			if (FiresecLicenseManager.CurrentLicenseInfo.Video)
 				return;
 
 			foreach (var camera in FiresecManager.SystemConfiguration.Cameras)
-				Errors.Add(new VideoValidationError(camera, "Отсутствует лицензия модуля \"GLOBAL Видео\"", ValidationErrorLevel.CannotWrite));
+				Errors.Add(new VideoValidationError(camera, "Отсутствует лицензия модуля \"GLOBAL Видео\"", ValidationErrorLevel.Warning));
 		}
 	}
 }

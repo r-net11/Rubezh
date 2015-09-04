@@ -1,6 +1,7 @@
 ﻿<UserControl x:Class="FiresecService.Views.MainView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:lcns="clr-namespace:FiresecLicense;assembly=FiresecLicense"
 			 MinWidth="600" MinHeight="600"
 			 Loaded="UserControl_Loaded">
 	<UserControl.Resources>
@@ -61,7 +62,7 @@
 							<DataGridTemplateColumn Header="Дата" Width="Auto">
 								<DataGridTemplateColumn.CellTemplate>
 									<DataTemplate>
-                                        <TextBlock Text="{Binding DateTime, StringFormat='dd.MM.yyyy HH:mm:ss'}" Margin="2" />
+										<TextBlock Text="{Binding DateTime, StringFormat='dd.MM.yyyy HH:mm:ss'}" Margin="2" />
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
@@ -110,66 +111,57 @@
 				</DataGrid>
 			</TabItem>
 			<TabItem Header="Лицензирование" DataContext="{Binding LicenseViewModel}">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <DataGrid Grid.ColumnSpan="3" ItemsSource="{Binding Parameters}">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding Name}" Header="Параметр" Width="*"/>
-                            <DataGridTemplateColumn Header="Значение" Width="*">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <ContentControl x:Name="ValueColumnTemplate">
-                                            <CheckBox IsEnabled="False" IsChecked="{Binding Value}"/>
-                                        </ContentControl>
-                                        <DataTemplate.Triggers>
-                                            <DataTrigger Binding="{Binding Type}" Value="Integer">
-                                                <Setter Property="Content" TargetName="ValueColumnTemplate">
-                                                    <Setter.Value>
-                                                        <TextBlock Text="{Binding Value}"/>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding Type}" Value="String">
-                                                <Setter Property="Content" TargetName="ValueColumnTemplate">
-                                                    <Setter.Value>
-                                                        <TextBlock Text="{Binding Value}"/>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding Type}" Value="Float">
-                                                <Setter Property="Content" TargetName="ValueColumnTemplate">
-                                                    <Setter.Value>
-                                                        <TextBlock Text="{Binding Value}"/>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding Type}" Value="DateTime">
-                                                <Setter Property="Content" TargetName="ValueColumnTemplate">
-                                                    <Setter.Value>
-                                                        <TextBlock Text="{Binding Value}"/>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </DataTrigger>
-                                        </DataTemplate.Triggers>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                    <TextBlock Grid.Row="1" Text="Ключ:" Style="{DynamicResource TextBlockDetailsStyle}" Margin="5"/>
-                    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding InitialKeyString}" IsReadOnly="True" VerticalContentAlignment="Center" Margin="5"/>
-                    <Button Grid.Column="2" Grid.Row="2" Content="Загрузить лицензию" Width="150" Command="{Binding LoadLicenseCommand}"/>
-                </Grid>
-            </TabItem>
-        </TabControl>
+				<DockPanel>
+					<StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+						<TextBlock Text="Статус лицензии:" Style="{DynamicResource TextBlockDetailsStyle}" Margin="5"/>
+						<TextBlock Text="{Binding LicenseInfo.LicenseMode, Converter={StaticResource EnumToDescriptionConverter}}" FontWeight="Bold" Style="{DynamicResource TextBlockDetailsStyle}" Margin="5"/>
+					</StackPanel>
+					<DockPanel DockPanel.Dock="Bottom">
+						<TextBlock DockPanel.Dock="Left" Text="Ключ:" Style="{DynamicResource TextBlockDetailsStyle}"/>
+						<Button DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Bottom" Content="Загрузить лицензию" Width="150" Command="{Binding LoadLicenseCommand}"/>
+						<TextBox DockPanel.Dock="Top" Text="{Binding InitialKey}" IsReadOnly="True" VerticalContentAlignment="Center" Width="Auto" Margin="5 0"/>
+					</DockPanel>
+					<StackPanel Background="{DynamicResource ForegroundColorWhite}" Visibility="{Binding LicenseInfo.LicenseMode, Converter={StaticResource InversedEnumToVisibilityConverter}, ConverterParameter={x:Static lcns:LicenseMode.NoLicense}}" Margin="0 5">
+						<!--<TextBlock Text="Параметры лицензии:" Margin="5"/>-->
+
+						<Grid Margin="5">
+							<Grid.RowDefinitions>
+								<RowDefinition Height="Auto"/>
+								<RowDefinition Height="Auto"/>
+								<RowDefinition Height="Auto"/>
+								<RowDefinition Height="Auto"/>
+								<RowDefinition Height="Auto"/>
+								<RowDefinition Height="Auto"/>
+							</Grid.RowDefinitions>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="Auto"/>
+								<ColumnDefinition Width="Auto"/>
+							</Grid.ColumnDefinitions>
+
+							<TextBlock Grid.Row="0" Grid.Column="0" Text="GLOBAL Удаленное рабочее место (количество):" Margin="5"/>
+							<TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding LicenseInfo.RemoteWorkplacesCount}" FontWeight="Bold" Margin="5"/>
+
+							<TextBlock Grid.Row="1" Grid.Column="0" Text="GLOBAL Пожаротушение:" Margin="5"/>
+							<TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding LicenseInfo.Fire, Converter={StaticResource BoolToYesNoConverter}}" FontWeight="Bold" Margin="5"/>
+
+							<TextBlock Grid.Row="2" Grid.Column="0" Text="GLOBAL Охрана:" Margin="5"/>
+							<TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding LicenseInfo.Security, Converter={StaticResource BoolToYesNoConverter}}" FontWeight="Bold" Margin="5"/>
+
+							<TextBlock Grid.Row="3" Grid.Column="0" Text="GLOBAL Доступ:" Margin="5"/>
+							<TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding LicenseInfo.Access, Converter={StaticResource BoolToYesNoConverter}}" FontWeight="Bold" Margin="5"/>
+
+							<TextBlock Grid.Row="4" Grid.Column="0" Text="GLOBAL Видео:" Margin="5"/>
+							<TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding LicenseInfo.Video, Converter={StaticResource BoolToYesNoConverter}}" FontWeight="Bold" Margin="5"/>
+
+							<TextBlock Grid.Row="5" Grid.Column="0" Text="GLOBAL OPC Сервер:" Margin="5"/>
+							<TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding LicenseInfo.OpcServer, Converter={StaticResource BoolToYesNoConverter}}" FontWeight="Bold" Margin="5"/>
+
+						</Grid>
+					</StackPanel>
+				</DockPanel>
+
+			</TabItem>
+		</TabControl>
 		<Grid Grid.Row="1">
 			<TextBlock Margin="2" FontSize="11" FontWeight="Bold" Foreground="Orange" Text="{Binding LastLog}" />
 		</Grid>

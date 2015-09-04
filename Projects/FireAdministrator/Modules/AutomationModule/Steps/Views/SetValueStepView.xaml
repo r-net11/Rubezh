@@ -6,9 +6,19 @@
 	<UserControl.Resources>
 		<ResourceDictionary Source="ProcedureResources.xaml" />
 	</UserControl.Resources>
-	<StackPanel>
-		<StackPanel Orientation="Horizontal">
-			<TextBlock Text="Тип значений" Style="{DynamicResource TextBlockDetailsStyle}" />
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto"/>
+			<ColumnDefinition Width="Auto"/>
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+		</Grid.RowDefinitions>
+
+		<TextBlock Grid.Column="0" Grid.Row="0" Text="Тип значений" Style="{DynamicResource TextBlockDetailsStyle}" />
+		<StackPanel Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Orientation="Horizontal">
 			<ComboBox ItemsSource="{Binding ExplicitTypes}" SelectedItem="{Binding SelectedExplicitType, UpdateSourceTrigger=PropertyChanged}">
 				<ComboBox.ItemTemplate>
 					<DataTemplate>
@@ -33,13 +43,12 @@
 				</ComboBox.ItemTemplate>
 			</ComboBox>
 		</StackPanel>
-		<StackPanel Orientation="Horizontal">
-			<TextBlock Text="Результат" Style="{DynamicResource TextBlockDetailsStyle}" />
-			<Views:ArgumentView DataContext="{Binding TargetArgument}" />
-		</StackPanel>
-		<StackPanel Orientation="Horizontal">
-			<TextBlock Text="Значение" Style="{DynamicResource TextBlockDetailsStyle}" />
-			<Views:ArgumentView DataContext="{Binding SourceArgument}" />
-		</StackPanel>
-	</StackPanel>
+
+		<TextBlock Grid.Column="0" Grid.Row="1" Text="Результат" Style="{DynamicResource TextBlockDetailsStyle}" />
+		<Views:ArgumentView Grid.Column="1" Grid.Row="1" DataContext="{Binding TargetArgument}" />
+
+		<TextBlock Grid.Column="0" Grid.Row="2" Text="Значение" Style="{DynamicResource TextBlockDetailsStyle}" />
+		<Views:ArgumentView Grid.Column="1" Grid.Row="2" DataContext="{Binding SourceArgument}" />
+
+	</Grid>
 </UserControl>

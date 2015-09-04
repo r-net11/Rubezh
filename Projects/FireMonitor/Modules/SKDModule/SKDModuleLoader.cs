@@ -1,7 +1,4 @@
-using System;
-using System.Linq;
 using System.Collections.Generic;
-using FiresecAPI.Models;
 using FiresecAPI.Models.Layouts;
 using Infrastructure.Client;
 using Infrastructure.Client.Layout;
@@ -15,9 +12,8 @@ using SKDModule.Events;
 using SKDModule.Reports;
 using SKDModule.Reports.Providers;
 using SKDModule.ViewModels;
-using System.Diagnostics;
 using FiresecClient;
-using Infrastructure.Common.Windows.ViewModels;
+using FiresecLicense;
 
 namespace SKDModule
 {
@@ -39,7 +35,7 @@ namespace SKDModule
 					{
 						new NavigationItem<ShowHREvent>(SKDTabItems.HRViewModel, "Картотека", "Kartoteka2W"),
 						new NavigationItem<ShowTimeTrackingEvent>(SKDTabItems.TimeTrackingTabsViewModel, "Учет рабочего времени", "TimeTrackingW")
-					}) { IsVisible = LicenseHelper.Access }
+					}) { IsVisible = FiresecLicenseManager.CurrentLicenseInfo.Access }
 				};
 		}
 

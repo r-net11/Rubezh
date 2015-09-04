@@ -17,7 +17,7 @@
 				<File Id="Monitor.Controls.dll" Name="Controls.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Monitor.DeviceControls.dll" Name="DeviceControls.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Monitor.RviClient.dll" Name="RviClient.dll" Source="$(var.Monitor.TargetDir)" />
-        <File Id="Monitor.Defender.dll" Name="Defender.dll" Source="$(var.Monitor.TargetDir)" />
+				<File Id="Monitor.FiresecLicense.dll" Name="FiresecLicense.dll" Source="$(var.Monitor.TargetDir)" />
 
 				<File Id="Monitor.FireMonitor.Layout.exe" Name="FireMonitor.Layout.exe" Source="$(var.Monitor.TargetDir)" />
 				<File Id="Monitor.FireMonitor.Layout.exe.config" Name="FireMonitor.Layout.exe.config" Source="$(var.Monitor.TargetDir)" />
@@ -32,7 +32,7 @@
 				<File Id="Monitor.DiagnosticsModule.dll" Name="DiagnosticsModule.dll" Source="$(var.Monitor.TargetDir)" />
 
 				<File Id="Monitor.SKDModule.dll" Name="SKDModule.dll" Source="$(var.Monitor.TargetDir)" />
-        <File Id="Monitor.WPFMediaKit.dll" Name="WPFMediaKit.dll" Source="..\..\..\..\..\..\3rdParty\" />
+				<File Id="Monitor.WPFMediaKit.dll" Name="WPFMediaKit.dll" Source="..\..\..\..\..\..\3rdParty\" />
 				<File Id="Monitor.Xceed.Wpf.AvalonDock.dll" Name="Xceed.Wpf.AvalonDock.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Monitor.SharpVectors.Converters.dll" Name="SharpVectors.Converters.dll" Source="$(var.Monitor.TargetDir)" />
 				<File Id="Monitor.SharpVectors.Core.dll" Name="SharpVectors.Core.dll" Source="$(var.Monitor.TargetDir)" />

@@ -408,6 +408,9 @@ namespace FiresecAPI.Automation
 						InvalidateArgument(procedure, arguments.NameArgument);
 						break;
 					}
+				case ProcedureStepType.Now:
+					InvalidateArgument(procedure, step.NowArguments.ResultArgument);
+					break;
 			}
 		}
 

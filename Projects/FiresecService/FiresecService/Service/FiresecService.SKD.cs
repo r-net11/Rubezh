@@ -296,7 +296,8 @@ namespace FiresecService.Service
 			var employeeOperationResult = databaseService.EmployeeTranslator.GetSingle(card.EmployeeUID);
 			if (!employeeOperationResult.HasError)
 			{
-				var controllerCardSchedules = GKSKDHelper.GetGKControllerCardSchedules(card, accessTemplate.CardDoors);
+				var accessTemplateCardDoors = accessTemplate != null ? accessTemplate.CardDoors : new List<CardDoor>();
+				var controllerCardSchedules = GKSKDHelper.GetGKControllerCardSchedules(card, accessTemplateCardDoors);
 				foreach (var controllerCardSchedule in controllerCardSchedules)
 				{
 					var addResult = GKSKDHelper.AddOrEditCard(controllerCardSchedule, card, employeeOperationResult.Result.FIO);
@@ -349,8 +350,10 @@ namespace FiresecService.Service
 			var employeeOperationResult = databaseService.EmployeeTranslator.GetSingle(newCard.EmployeeUID);
 			if (!employeeOperationResult.HasError)
 			{
-				var oldControllerCardSchedules = GKSKDHelper.GetGKControllerCardSchedules(oldCard, oldAccessTemplate.CardDoors);
-				var newControllerCardSchedules = GKSKDHelper.GetGKControllerCardSchedules(newCard, newAccessTemplate.CardDoors);
+				var cardDoors = oldAccessTemplate != null ? oldAccessTemplate.CardDoors : new List<CardDoor>();
+				var oldControllerCardSchedules = GKSKDHelper.GetGKControllerCardSchedules(oldCard, cardDoors);
+				cardDoors = newAccessTemplate != null ? newAccessTemplate.CardDoors : new List<CardDoor>();
+				var newControllerCardSchedules = GKSKDHelper.GetGKControllerCardSchedules(newCard, cardDoors);
 
 				foreach (var controllerCardSchedule in oldControllerCardSchedules)
 				{
@@ -420,7 +423,8 @@ namespace FiresecService.Service
 				var operationResult = databaseService.CardTranslator.GetSingle(card.UID);
 				if (!operationResult.HasError && operationResult.Result != null)
 				{
-					errors.AddRange(DeleteGKCard(card, getAccessTemplateOperationResult.Result.CardDoors, databaseService));
+					var cardDoors = getAccessTemplateOperationResult.Result != null ? getAccessTemplateOperationResult.Result.CardDoors : new List<CardDoor>();
+					errors.AddRange(DeleteGKCard(card, cardDoors, databaseService));
 				}
 				else
 				{

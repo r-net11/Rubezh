@@ -20,7 +20,7 @@ namespace SKDDriver.DataClasses
 		{
 			try
 			{
-				return Context.ImitatorSchedules.Include(x => x.ImitatorSheduleIntervals).ToList();
+				return Context.ImitatorSchedules.Include(x => x.ImitatorSheduleIntervals).OrderBy(x => x.No).ToList();
 			}
 			catch
 			{
@@ -44,7 +44,7 @@ namespace SKDDriver.DataClasses
 		{
 			try
 			{
-				var existingImitatorSchedule = Context.ImitatorSchedules.FirstOrDefault(x => x.No == imitatorSchedule.No);
+				var existingImitatorSchedule = Context.ImitatorSchedules.Include(x => x.ImitatorSheduleIntervals).FirstOrDefault(x => x.No == imitatorSchedule.No);
 				if (existingImitatorSchedule != null)
 				{
 					Context.ImitatorSheduleIntervals.RemoveRange(existingImitatorSchedule.ImitatorSheduleIntervals);

@@ -6,7 +6,7 @@ using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using FiresecClient;
 using Infrastructure.Common;
-using FiresecAPI;
+using FiresecLicense;
 
 namespace GKProcessor
 {
@@ -333,7 +333,7 @@ namespace GKProcessor
 
 		void RunMonitoring()
 		{
-			var hasLicense = LicenseHelper.LicenseMode != LicenseMode.NoLicense;
+			var hasLicense = FiresecLicenseManager.CurrentLicenseInfo.LicenseMode != LicenseMode.NoLicense;
 			if (HasLicense != hasLicense)
 			{
 				HasLicense = hasLicense;

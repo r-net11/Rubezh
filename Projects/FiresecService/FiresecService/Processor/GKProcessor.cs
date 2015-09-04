@@ -7,6 +7,7 @@ using FiresecAPI.SKD;
 using FiresecClient;
 using GKProcessor;
 using SKDDriver;
+using System.Collections.Generic;
 
 namespace FiresecService
 {
@@ -145,19 +146,23 @@ namespace FiresecService
 												databaseService.CardTranslator.DeleteAllPendingCards(pendingCard.CardUID, device.UID);
 											}
 										}
-										var controllerCardSchedules = GKSKDHelper.GetGKControllerCardSchedules(card, getAccessTemplateOperationResult.Result.CardDoors);
-										foreach (var controllerCardSchedule in controllerCardSchedules)
+										if (!getAccessTemplateOperationResult.HasError)
 										{
-											switch ((PendingCardAction)pendingCard.Action)
+											var accessTemplateDoors = getAccessTemplateOperationResult.Result != null ? getAccessTemplateOperationResult.Result.CardDoors : new List<CardDoor>();
+											var controllerCardSchedules = GKSKDHelper.GetGKControllerCardSchedules(card, accessTemplateDoors);
+											foreach (var controllerCardSchedule in controllerCardSchedules)
 											{
-												case PendingCardAction.Add:
-												case PendingCardAction.Edit:
-													var result = GKSKDHelper.AddOrEditCard(controllerCardSchedule, card, employeeName, dbService: databaseService);
-													if (!result.HasError)
-													{
-														databaseService.CardTranslator.DeleteAllPendingCards(pendingCard.CardUID, device.UID);
-													}
-													break;
+												switch ((PendingCardAction)pendingCard.Action)
+												{
+													case PendingCardAction.Add:
+													case PendingCardAction.Edit:
+														var result = GKSKDHelper.AddOrEditCard(controllerCardSchedule, card, employeeName, dbService: databaseService);
+														if (!result.HasError)
+														{
+															databaseService.CardTranslator.DeleteAllPendingCards(pendingCard.CardUID, device.UID);
+														}
+														break;
+												}
 											}
 										}
 									}

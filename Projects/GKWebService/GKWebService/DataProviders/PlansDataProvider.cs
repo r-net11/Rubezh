@@ -9,15 +9,24 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Resources;
+using System.Runtime.InteropServices;
+using System.Windows;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecClient;
 using GKWebService.Models;
 using Infrastructure.Common.Services.Content;
 using Infrustructure.Plans.Elements;
+using System.Windows.Controls;
 using Color = System.Windows.Media.Color;
+using Image = System.Windows.Controls.Image;
 using Point = System.Windows.Point;
+using Size = System.Drawing.Size;
+using System.Threading.Tasks;
+using System.Threading.Tasks.Schedulers;
+using Brushes = System.Windows.Media.Brushes;
 
 #endregion
 
@@ -25,10 +34,13 @@ namespace GKWebService.DataProviders
 {
     public class PlansDataProvider
     {
+	    private ContentService _contentService;
         private PlansDataProvider()
         {
             Plans = new List<PlanSimpl>();
-        }
+			_contentService = new ContentService("GKOPC");
+
+		}
 
         private static PlansDataProvider _instance;
 
@@ -48,8 +60,7 @@ namespace GKWebService.DataProviders
             var plans = FiresecManager.PlansConfiguration.Plans;
             Plans = new List<PlanSimpl>();
             //FileConfigurationHelper.LoadFromFile(fileName);
-            var contService = new ContentService("WebClient");
-            SafeFiresecService.GKPropertyChangedEvent += OnGkPropertyChangedEvent;
+			SafeFiresecService.GKCallbackResultEvent += SafeFiresecService_GKCallbackResultEvent;
             foreach (var plan in plans)
             {
                 //var z = GKManager.Zones;
@@ -73,7 +84,16 @@ namespace GKWebService.DataProviders
                                     Width = plan.Width,
                                     Height = plan.Height
                                 };
-                planToAdd.Elements = new List<PlanElement>
+				// Добавляем элемент самого плана
+
+	            var plan1 = plan;
+	   //         Task<string> getContenTask = Task.Factory.StartNewSta(() => GetContent(plan1.BackgroundImageSource,
+	   //                                                                        Convert.ToInt32(plan1.Width),
+	   //                                                                        Convert.ToInt32(plan1.Height)));
+				//Task.WaitAll(getContenTask);
+
+				// Все остальное
+				planToAdd.Elements = new List<PlanElement>
                                      {
                                          new PlanElement
                                          {
@@ -87,8 +107,13 @@ namespace GKWebService.DataProviders
                                                  "M 0 0 L " + plan.Width + " 0 L " + plan.Width +
                                                  " " + plan.Height +
                                                  " L 0 " + plan.Height + " L 0 0 z",
-                                             Type = ShapeTypes.Plan.ToString()
-                                         }
+                                             Type = ShapeTypes.Plan.ToString(),
+											 Image = GetContent(plan1.BackgroundImageSource,
+																			   Convert.ToInt32(plan1.Width),
+																			   Convert.ToInt32(plan1.Height)),
+											 Width = plan.Width,
+											 Height = plan.Height
+										 }
                                      };
                 var rectangles =
                     (from rect in plan.ElementRectangles
@@ -187,10 +212,124 @@ namespace GKWebService.DataProviders
             }
         }
 
-        private void OnGkPropertyChangedEvent(GKPropertyChangedCallback callback)
-        {
-            Debug.WriteLine("GK property changed " + callback.ObjectUID);
-        }
+	    private string GetContent(Guid? source, int width, int height)
+	    {
+			Drawing drawing = null;
+			if (source.HasValue)
+			{
+				drawing = _contentService.GetDrawing(source.Value);
+			}
+			else
+			{
+				return string.Empty;
+			}
+
+			drawing.Freeze();
+
+			var bitmapEncoder = new PngBitmapEncoder();
+
+			// The image parameters...
+			double dpiX = 96;
+			double dpiY = 96;
+
+			// The Visual to use as the source of the RenderTargetBitmap.
+			DrawingVisual drawingVisual = new DrawingVisual();
+			using (var drawingContext = drawingVisual.RenderOpen())
+			{
+				drawingContext.DrawDrawing(drawing);
+			}
+
+		    var bounds = drawingVisual.ContentBounds;
+
+			RenderTargetBitmap targetBitmap = new RenderTargetBitmap(width*10, height*10, dpiX, dpiY, PixelFormats.Pbgra32);
+			drawingVisual.Transform = new ScaleTransform(width*10/bounds.Width, height*10 / bounds.Height);
+
+
+			targetBitmap.Render(drawingVisual);
+
+			// Encoding the RenderBitmapTarget as an image file.
+			bitmapEncoder.Frames.Add(BitmapFrame.Create(targetBitmap));
+
+		    byte[] values;
+			using(var str = new MemoryStream())
+		    {
+			    bitmapEncoder.Save(str);
+				values = str.ToArray();
+				//bmp = new Bitmap(stream);
+				//using (var str = new MemoryStream())
+				//{
+				//	bmp.Save(str, ImageFormat.Png);
+				//	str.Close();
+
+				//	byteArray = str.ToArray();
+				//}
+				//stream.Position = 0;
+				
+				
+				
+				//stream.Position = 0;
+				//byteArray = stream.ToArray();
+			}
+			//const int offset = 4;
+			//var size = BitConverter.ToInt32(values, 0);
+			//bmp = new Bitmap(new MemoryStream(values, offset, size));
+			//byte[] byteArray;
+			//using (var stream = new MemoryStream())
+			//{
+			//	bmp.Save(stream, ImageFormat.Png);
+			//	stream.Close();
+
+			//	byteArray = stream.ToArray();
+			//}
+
+
+			return Convert.ToBase64String(values);
+
+			//   Drawing drawing = null;
+			//if (source.HasValue)
+			//{
+			//	drawing = _contentService.GetDrawing(source.Value);
+			//}
+
+			//DrawingImage drawingImg = new DrawingImage(drawing);
+
+			//var image = new Image
+			//{
+			//	Source = drawingImg
+			//};
+			//image.Arrange(new Rect(0, 0, width, height));  //Required
+
+			////3. Render the Image control's content to a RenderTargetBitmap
+			//RenderTargetBitmap rtb = new RenderTargetBitmap(width, height, 96, 96, PixelFormats.Default);
+			//rtb.Render(image);
+
+			//var bitmap = new WriteableBitmap((BitmapSource)image.Source);
+			//   Bitmap bmp = null;
+			//using (MemoryStream outStream = new MemoryStream())
+			//{
+			//	BitmapEncoder enc = new BmpBitmapEncoder();
+
+			//	enc.Frames.Add(BitmapFrame.Create(bitmap));
+			//	enc.Save(outStream);
+			//	bmp = new Bitmap(outStream);
+			//}
+			//   byte[] byteArray = null;
+
+			//using (var stream = new MemoryStream())
+			//{
+			//	bmp.Save(stream, ImageFormat.Png);
+			//	stream.Close();
+
+			//	byteArray = stream.ToArray();
+			//}
+			//   return Convert.ToBase64String(byteArray);
+		}
+
+		private void SafeFiresecService_GKCallbackResultEvent(GKCallbackResult obj)
+		{
+			Debug.WriteLine("GK property changed " + obj.GKStates);
+		}
+
 
         private PlanElement PolygonToShape(ElementBasePolygon item)
         {
@@ -276,6 +415,10 @@ namespace GKWebService.DataProviders
             using (var reader = new ResourceReader(resourceStream))
                 reader.GetResourceData(resName.ToLowerInvariant(), out type, out values);
 
+			// Получили массив байтов ресурса, теперь преобразуем его в png bitmap, а потом снова в массив битов
+			// уже корректного формата, после чего преобразуем его в base64string для удобства обратного преобразования
+			// на клиенте
+
             const int offset = 4;
             var size = BitConverter.ToInt32(values, 0);
             var value1 = new Bitmap(new MemoryStream(values, offset, size));
@@ -291,7 +434,7 @@ namespace GKWebService.DataProviders
             return new Tuple<string, Size>(Convert.ToBase64String(byteArray), value1.Size);
         }
 
-        private string PointsToPath(PointCollection points)
+		private string PointsToPath(PointCollection points)
         {
             var enumerable = points.ToArray();
             if (!enumerable.Any())
