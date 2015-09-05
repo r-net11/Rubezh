@@ -241,8 +241,8 @@ namespace GKWebService.DataProviders
 
 		    var bounds = drawingVisual.ContentBounds;
 
-			RenderTargetBitmap targetBitmap = new RenderTargetBitmap(width, height, dpiX, dpiY, PixelFormats.Pbgra32);
-			drawingVisual.Transform = new ScaleTransform(width/bounds.Width, height / bounds.Height);
+			RenderTargetBitmap targetBitmap = new RenderTargetBitmap(width*10, height*10, dpiX, dpiY, PixelFormats.Pbgra32);
+			drawingVisual.Transform = new ScaleTransform(width*10/bounds.Width, height*10 / bounds.Height);
 
 
 			targetBitmap.Render(drawingVisual);
