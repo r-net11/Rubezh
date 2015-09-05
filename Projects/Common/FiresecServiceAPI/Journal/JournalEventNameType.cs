@@ -106,7 +106,7 @@ namespace FiresecAPI.Journal
 		[EventName(JournalSubsystemType.SKD, "Перезагрузка Контроллера", XStateClass.TechnologicalRegime)]
 		Перезагрузка_Контроллера,
 
-		[EventName(JournalSubsystemType.SKD, "Запись графиков работы", XStateClass.TechnologicalRegime)]
+		[EventName(JournalSubsystemType.SKD, "Запись графиков доступа", XStateClass.TechnologicalRegime)]
 		Запись_графиков_работы,
 
 		[EventName(JournalSubsystemType.SKD, "Перезапись всех карт", XStateClass.TechnologicalRegime)]

@@ -140,7 +140,7 @@ namespace StrazhModule.ViewModels
 			}
 			else
 			{
-				MessageBoxService.ShowWarning("Ошибка во время операции синхронизации времени", result.Error);
+				MessageBoxService.ShowWarning("Ошибка во время операции синхронизации времени");
 			}
 		}
 

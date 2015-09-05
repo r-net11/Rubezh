@@ -52,4 +52,8 @@
 		<Views:SearchDevicesView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:WriteConfigurationInAllControllersViewModel}">
+		<Views:WriteConfigurationInAllControllersView />
+	</DataTemplate>
+
 </ResourceDictionary>

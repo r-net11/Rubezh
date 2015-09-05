@@ -26,7 +26,10 @@ namespace FireAdministrator.ViewModels
 			SetNewConfigCommand = new RelayCommand(OnSetNewConfig, CanSetNewConfig);
 			MergeConfigurationCommand = new RelayCommand(OnMergeConfiguration);
 			ServiceFactory.SaveService.Changed += new Action(SaveService_Changed);
+
+			// Подписываемся на событие "SetNewConfigurationEvent", которое могут рассылать модули с запросом к Администратору сохранить текущую конфигурацию
 			ServiceFactory.Events.GetEvent<SetNewConfigurationEvent>().Subscribe(OnSetNewConfiguration);
+			
 			IsMainMenuVisible = RegistrySettingsHelper.GetBool("Administrato.Shell.IsMainMenuVisible", true);
 			IsMenuVisible = RegistrySettingsHelper.GetBool("Administrato.Shell.IsMenuVisible", true);
 		}
@@ -42,6 +45,10 @@ namespace FireAdministrator.ViewModels
 			}
 		}
 
+		/// <summary>
+		/// Сохраняет текущую конфигурацию
+		/// </summary>
+		/// <param name="e">Объект CancelEventArgs с результатом выполнения операции</param>
 		void OnSetNewConfiguration(CancelEventArgs e)
 		{
 			if (!FiresecManager.CheckPermission(PermissionType.Adm_SetNewConfig))

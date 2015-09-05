@@ -41,11 +41,12 @@ namespace FireAdministrator
 						return false;
 				}
 				//	FiresecManager.FiresecService.GKAddMessage(JournalEventNameType.Применение_конфигурации, "");
-				LoadingService.Show("Применение конфигурации", "Применение конфигурации", 10);
+				LoadingService.Show("Применение конфигурации", "Применение конфигурации", 1);
 
 				if (ConnectionSettingsManager.IsRemote)
 				{
 					var tempFileName = SaveConfigToFile(false);
+					LoadingService.DoStep(null);
 					using (var fileStream = new FileStream(tempFileName, FileMode.Open))
 					{
 						FiresecManager.FiresecService.SetConfig(fileStream);
@@ -55,13 +56,14 @@ namespace FireAdministrator
 				else
 				{
 					SaveConfigToFile(true);
+					LoadingService.DoStep(null);
 					FiresecManager.FiresecService.SetLocalConfig();
 				}
 
 				if (ServiceFactory.SaveService.HasChanges)
 					FiresecManager.FiresecService.NotifyClientsOnConfigurationChanged();
-				LoadingService.Close();
 				ServiceFactory.SaveService.Reset();
+				LoadingService.Close();
 				return true;
 			}
 			catch (Exception e)
