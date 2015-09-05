@@ -44,8 +44,11 @@ namespace SKDModule.ViewModels
 			Documents = new ObservableCollection<DocumentViewModel>();
 			foreach (var document in dayTimeTrack.Documents)
 			{
-				var documentViewModel = new DocumentViewModel(document);
-				Documents.Add(documentViewModel);
+				if (document.EndDateTime > dayTimeTrack.Date.Date)
+				{
+					var documentViewModel = new DocumentViewModel(document);
+					Documents.Add(documentViewModel);
+				}
 			}
 		}
 

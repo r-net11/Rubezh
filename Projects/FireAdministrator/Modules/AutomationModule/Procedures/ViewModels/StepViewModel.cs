@@ -214,6 +214,10 @@ namespace AutomationModule.ViewModels
 				case ProcedureStepType.RviAlarm:
 					Content = new RviAlarmStepViewModel(this);
 					break;
+
+				case ProcedureStepType.Now:
+					Content = new NowStepViewModel(this);
+					break;
 			}
 			UpdateContent();
 			ServiceFactory.SaveService.AutomationChanged = automationChanged;

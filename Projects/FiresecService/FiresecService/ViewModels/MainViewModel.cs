@@ -5,8 +5,7 @@ using System.Windows.Threading;
 using FiresecAPI.Models;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common;
-using FiresecAPI;
+using FiresecLicense;
 
 namespace FiresecService.ViewModels
 {
@@ -28,13 +27,13 @@ namespace FiresecService.ViewModels
 			Logs = new ObservableCollection<LogViewModel>();
 			GKViewModels = new ObservableCollection<GKViewModel>();
             LicenseViewModel = new LicenseViewModel();
-			LicenseHelper.LicenseChanged += LicenseHelper_LicenseChanged;
+			FiresecLicenseManager.LicenseChanged += LicenseHelper_LicenseChanged;
 			SetTitle();
 		}
 
 		void SetTitle()
 		{
-			Title = LicenseHelper.LicenseMode == LicenseMode.Demonstration ? 
+			 Title = FiresecLicenseManager.CurrentLicenseInfo.LicenseMode == LicenseMode.Demonstration ? 
 				"Сервер приложений Глобал [Демонстрационный режим]" : 
 				"Сервер приложений Глобал";
 		}

@@ -16,6 +16,7 @@ using Infrastructure.Events;
 using System.Windows.Threading;
 using Infrastructure.Client.Startup;
 using System.Threading;
+using FiresecAPI.Journal;
 
 namespace FireMonitor
 {

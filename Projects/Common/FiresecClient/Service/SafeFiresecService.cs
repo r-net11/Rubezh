@@ -5,6 +5,7 @@ using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
 using Infrastructure.Common;
+using FiresecLicense;
 
 namespace FiresecClient
 {

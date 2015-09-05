@@ -161,6 +161,9 @@ namespace FiresecAPI.Automation
 		StopRecord,
 
 		[DescriptionAttribute("Вызвать тревогу в RVI Оператор")]
-		RviAlarm
+		RviAlarm,
+
+		[DescriptionAttribute("Получить текущие дату и время")]
+		Now
 	}
 }
