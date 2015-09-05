@@ -71,10 +71,10 @@
             .attr("y", item.Y)
             .attr("width", item.Width)
             .attr("height", item.Height)
-            .attr("id", function(d) { return item.Name.replace(" ", "-") + i })
+            .attr("id", function (d) { return item.Id.replace(" ", "-") + i })
             // Обработка события наведения мыши
             .on('mouseover', function(d) {
-                var id = document.getElementById(item.Name.replace(" ", "-"));
+            	var id = document.getElementById(item.Id.replace(" ", "-") + i);
                 tip.show(item.Hint, id);
             })
             // Обработка события прекращения наведения мыши
@@ -91,14 +91,14 @@
             .style("stroke-width", item.BorderThickness)
             .style("stroke", 'rgba(' + item.Border.R + ',' + item.Border.G + ',' + item.Border.B + ',' + item.Border.A + ')')
             .style("fill", 'rgba(' + item.Fill.R + ',' + item.Fill.G + ',' + item.Fill.B + ',' + item.Fill.A + ')')
-            .attr("id", function(d) { return item.Name.replace(" ", "-") })
+            .attr("id", function (d) { return item.Id.replace(" ", "-") + i })
             // Обработка события наведения мыши
             .on('mouseover', function(d) {
                 var nodeSelection = d3.select(this).style({
                     stroke: item.BorderMouseOver,
                     fill: item.FillMouseOver
                 });
-                var id = document.getElementById(item.Name.replace(" ", "-"));
+                var id = document.getElementById(item.Id.replace(" ", "-") + i);
                 tip.show(item.Hint, id);
             })
             // Обработка события прекращения наведения мыши
