@@ -384,6 +384,7 @@
     <Compile Include="Models\ShapeTypesEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Utils\StaTaskScheduler.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />

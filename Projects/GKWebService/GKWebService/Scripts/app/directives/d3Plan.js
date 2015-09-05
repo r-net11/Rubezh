@@ -124,16 +124,17 @@
         // ========== ДАЛЕЕ - ОТРИСОВКА В ЗАВИСИМОСТИ ОТ ТИПА ОБЪЕКТА ================
 
         switch (item.Type) {
-            case "GkDevice":
+        	case "GkDevice":
+        	case "Plan":
             {
                 renderImageElement(item, i, svg, tip, menuItems, scope);
                 break;
             }
 
             case "Path":
-            case "Plan":
             {
                 renderPathElement(item, i, svg, tip, menuItems, scope);
+
                 break;
             }
             default:
