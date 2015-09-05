@@ -44,9 +44,9 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(result);
 		}
 
-		public static bool SaveAllTimeTracks(IEnumerable<DayTimeTrackPart> collectionToSave, ShortEmployee employee, User currentUser)
+		public static bool SaveAllTimeTracks(IEnumerable<DayTimeTrackPart> collectionToSave, ShortEmployee employee, User currentUser, IEnumerable<DayTimeTrackPart> removeDayTimeTrackParts)
 		{
-			var result = FiresecManager.FiresecService.SaveAllTimeTracks(collectionToSave, employee, currentUser);
+			var result = FiresecManager.FiresecService.SaveAllTimeTracks(collectionToSave, employee, currentUser, removeDayTimeTrackParts);
 			return Common.ShowErrorIfExists(result);
 		}
 	}

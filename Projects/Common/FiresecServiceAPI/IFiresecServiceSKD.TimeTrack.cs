@@ -118,7 +118,7 @@ namespace FiresecAPI
 			ShortEmployee currentEmployee);
 
 		[OperationContract]
-		OperationResult SaveAllTimeTracks(IEnumerable<DayTimeTrackPart> collectionToSave, ShortEmployee employee, User currentUser);
+		OperationResult SaveAllTimeTracks(IEnumerable<DayTimeTrackPart> collectionToSave, ShortEmployee employee, User currentUser, IEnumerable<DayTimeTrackPart> removeDayTimeTrackParts);
 
 		[OperationContract]
 		OperationResult DeletePassJournal(Guid uid);

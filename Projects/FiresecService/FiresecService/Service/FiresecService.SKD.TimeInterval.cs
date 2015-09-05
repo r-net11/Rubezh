@@ -1,4 +1,5 @@
-﻿using FiresecAPI;
+﻿using System.Linq;
+using FiresecAPI;
 using FiresecAPI.Journal;
 using FiresecAPI.Models;
 using FiresecAPI.SKD;
@@ -333,10 +334,12 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult SaveAllTimeTracks(IEnumerable<DayTimeTrackPart> collectionToSave, ShortEmployee employee, User currentUser)
+		public OperationResult SaveAllTimeTracks(IEnumerable<DayTimeTrackPart> collectionToSave, ShortEmployee employee, User currentUser, IEnumerable<DayTimeTrackPart> removedDayTimeTrackParts)
 		{
 			using (var databaseService = new SKDDatabaseService())
 			{
+				if (removedDayTimeTrackParts.Any()) databaseService.PassJournalTranslator.RemoveSelectedIntervals(removedDayTimeTrackParts);
+
 				foreach (var dayTimeTrackPart in collectionToSave)
 				{
 					if (dayTimeTrackPart.IsNew)
