@@ -48,5 +48,23 @@ namespace SKDDriver.DataClasses
 		public int StartSeconds { get; set; }
 
 		public int EndSeconds { get; set; }
+
+		public string StartDateTime
+		{
+			get
+			{
+				var result = new DateTime(2000, 1, 1).AddSeconds(StartSeconds);
+				return result.ToString();
+			}
+		}
+
+		public string EndDateTime
+		{
+			get
+			{
+				var result = new DateTime(2000, 1, 1).AddSeconds(EndSeconds);
+				return result.ToString();
+			}
+		}
 	}
 }
