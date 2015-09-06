@@ -46,10 +46,9 @@ namespace FiresecAPI.GK
 				foreach (var guardZoneDevice in guardZone.GuardZoneDevices)
 				{
 					guardZone.ChildDescriptors.Add(guardZoneDevice.Device);
+					guardZoneDevice.Device.ChildDescriptors.Add(guardZone);
 					if (guardZoneDevice.Device.DriverType == GKDriverType.RSR2_CodeReader || guardZoneDevice.Device.DriverType == GKDriverType.RSR2_CardReader)
 					{
-						guardZoneDevice.Device.ChildDescriptors.Add(guardZone);
-
 						var codeUIDs = new List<Guid>();
 						codeUIDs.AddRange(guardZoneDevice.CodeReaderSettings.SetGuardSettings.CodeUIDs);
 						codeUIDs.AddRange(guardZoneDevice.CodeReaderSettings.ResetGuardSettings.CodeUIDs);

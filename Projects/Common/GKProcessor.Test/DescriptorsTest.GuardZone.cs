@@ -131,5 +131,27 @@ namespace GKProcessor.Test
 			CheckObjectLogicOnGK(guardZone);
 			CheckDeviceLogicOnGK(device1);
 		}
+
+		[TestMethod]
+		public void TestGuardZoneOnGKAndDeviceLogicOnGK()
+		{
+			var device1 = AddDevice(kauDevice1, GKDriverType.RSR2_CodeReader);
+			var device2 = AddDevice(kauDevice1, GKDriverType.RSR2_CodeReader);
+			var device3 = AddDevice(kauDevice1, GKDriverType.RSR2_GuardDetector);
+			var device4 = AddDevice(kauDevice1, GKDriverType.RSR2_GuardDetectorSound);
+			var guardZone = new GKGuardZone();
+			guardZone.GuardZoneDevices.Add(new GKGuardZoneDevice() { DeviceUID = device1.UID, CodeReaderSettings = new GKCodeReaderSettings() { SetGuardSettings = new GKCodeReaderSettingsPart() { CodeReaderEnterType = GKCodeReaderEnterType.CodeOnly, AccessLevel = 1 } } });
+			guardZone.GuardZoneDevices.Add(new GKGuardZoneDevice() { DeviceUID = device2.UID, CodeReaderSettings = new GKCodeReaderSettings() { SetGuardSettings = new GKCodeReaderSettingsPart() { CodeReaderEnterType = GKCodeReaderEnterType.CodeOnly, AccessLevel = 1 } } });
+			guardZone.GuardZoneDevices.Add(new GKGuardZoneDevice() { DeviceUID = device3.UID, ActionType = GKGuardZoneDeviceActionType.SetAlarm });
+			guardZone.GuardZoneDevices.Add(new GKGuardZoneDevice() { DeviceUID = device4.UID, ActionType = GKGuardZoneDeviceActionType.SetAlarm });
+			GKManager.GuardZones.Add(guardZone);
+			Compile();
+
+			CheckObjectLogicOnGK(guardZone);
+			CheckDeviceLogicOnGK(device1);
+			CheckDeviceLogicOnGK(device2);
+			CheckDeviceLogicOnGK(device3);
+			CheckDeviceLogicOnGK(device4);
+		}
 	}
 }

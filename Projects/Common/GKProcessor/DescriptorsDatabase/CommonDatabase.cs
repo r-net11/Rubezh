@@ -77,8 +77,12 @@ namespace GKProcessor
 				{
 					var f1 = descriptor.AllBytes[formulaPosition + i * 4 + 0];
 					var f2 = descriptor.AllBytes[formulaPosition + i * 4 + 1];
-					var f3 = descriptor.AllBytes[formulaPosition + i * 4 + 2];
-					var f4 = descriptor.AllBytes[formulaPosition + i * 4 + 3];
+					var f3 = BytesHelper.SubstructShort(descriptor.AllBytes, formulaPosition + i * 4 + 2);
+					if(f1 == (ushort)FormulaOperationType.GETBIT || f1 == (ushort)FormulaOperationType.GETBYTE || f1 == (ushort)FormulaOperationType.GETWORD || f1 == (ushort)FormulaOperationType.PUTBIT || f1 == (ushort)FormulaOperationType.PUTBYTE || f1 == (ushort)FormulaOperationType.PUTWORD)
+					{
+						if(f3 == 0)
+							yield return new DescriptorError(descriptor, "Не найден дескриптор в логике");
+					}
 				}
 
 				var lastFormulaOperationType = descriptor.AllBytes[formulaPosition + formulaLenght - 4];
