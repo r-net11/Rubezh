@@ -113,13 +113,17 @@ namespace GKProcessor
 		{
 			if (Door.LockControlDevice != null)
 			{
+				Formula.AddGetBit(GKStateBit.On, Door);
+				Formula.AddGetBit(GKStateBit.Fire1, Door.LockControlDevice);
+				Formula.Add(FormulaOperationType.AND);
+				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Door);
 				Formula.AddGetBit(GKStateBit.Off, Door);
 				Formula.AddGetBit(GKStateBit.Fire1, Door.LockControlDevice);
 				Formula.Add(FormulaOperationType.AND);
 				Formula.AddGetBit(GKStateBit.Fire1, Door);
 				Formula.Add(FormulaOperationType.OR);
 				Formula.AddPutBit(GKStateBit.Fire1, Door);
-				if (Door.LockControlDevice != null)
+				if (Door.AntipassbackOn)
 				{
 					Formula.AddGetBit(GKStateBit.On, Door);
 					Formula.AddGetBit(GKStateBit.Fire1, Door.LockControlDevice);

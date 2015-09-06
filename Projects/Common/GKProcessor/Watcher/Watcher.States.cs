@@ -111,15 +111,7 @@ namespace GKProcessor
 				var holdDelay = gkBase.InternalState.HoldDelay;
 				var offDelay = gkBase.InternalState.OffDelay;
 
-				if (MeasureDeviceInfos.Any(x => x.Device.UID == gkBase.UID))
-				{
-					GetDelays(gkBase);
-				}
-				else
-				{
-					GetDelays(gkBase);
-					//GetState(gkBase, true);
-				}
+				GetDelays(gkBase);
 
 				if (onDelay != gkBase.InternalState.OnDelay || holdDelay != gkBase.InternalState.HoldDelay || offDelay != gkBase.InternalState.OffDelay)
 					OnObjectStateChanged(gkBase);

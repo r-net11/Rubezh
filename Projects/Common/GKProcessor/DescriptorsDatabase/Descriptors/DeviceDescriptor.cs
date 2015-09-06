@@ -108,9 +108,9 @@ namespace GKProcessor
 					if (exitDevice != null && enterButton != null)
 					{
 						Formula.AddGetBit(GKStateBit.Attention, exitDevice);
-						Formula.Add(FormulaOperationType.BR, 2, Device.Door.LockControlDevice != null ? (ushort)10 : (ushort)8);
+						Formula.Add(FormulaOperationType.BR, 2, 8);
 						Formula.AddGetBit(GKStateBit.Fire1, enterButton);
-						Formula.Add(FormulaOperationType.BR, 2, Device.Door.LockControlDevice != null ? (ushort)8 : (ushort)6);
+						Formula.Add(FormulaOperationType.BR, 2, 6);
 					}
 
 					Formula.AddGetBit(GKStateBit.On, Device.Door);
@@ -118,11 +118,6 @@ namespace GKProcessor
 					Formula.AddGetBit(GKStateBit.TurningOff, Device.Door);
 					Formula.AddGetBit(GKStateBit.Off, Device.Door);
 					Formula.Add(FormulaOperationType.OR);
-					if (Device.Door.LockControlDevice != null)
-					{
-						Formula.AddGetBit(GKStateBit.Fire1, Device.Door.LockControlDevice);
-						Formula.Add(FormulaOperationType.OR);
-					}
 					Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device);
 				}
 
@@ -133,9 +128,9 @@ namespace GKProcessor
 					if (enterDevice != null && exitButton != null)
 					{
 						Formula.AddGetBit(GKStateBit.Attention, enterDevice);
-						Formula.Add(FormulaOperationType.BR, 2, Device.Door.LockControlDeviceExit != null ? (ushort)10 : (ushort)8);
+						Formula.Add(FormulaOperationType.BR, 2, 8);
 						Formula.AddGetBit(GKStateBit.Fire1, exitButton);
-						Formula.Add(FormulaOperationType.BR, 2, Device.Door.LockControlDeviceExit != null ? (ushort)8 : (ushort)6);
+						Formula.Add(FormulaOperationType.BR, 2, 6);
 					}
 
 					Formula.AddGetBit(GKStateBit.On, Device.Door);
@@ -143,11 +138,6 @@ namespace GKProcessor
 					Formula.AddGetBit(GKStateBit.TurningOff, Device.Door);
 					Formula.AddGetBit(GKStateBit.Off, Device.Door);
 					Formula.Add(FormulaOperationType.OR);
-					if (Device.Door.LockControlDeviceExit != null)
-					{
-						Formula.AddGetBit(GKStateBit.Fire1, Device.Door.LockControlDeviceExit);
-						Formula.Add(FormulaOperationType.OR);
-					}
 					Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device);
 				}
 			}
