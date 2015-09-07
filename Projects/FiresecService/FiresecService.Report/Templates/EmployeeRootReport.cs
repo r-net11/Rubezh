@@ -432,6 +432,7 @@ namespace FiresecService.Report.Templates
 						timeTrackDayParts = DayTimeTrack.NormalizeTimeTrackParts(timeTrackDayParts);
 						timeTrackParts.AddRange(timeTrackDayParts);
 					}
+	
 					foreach (var pass in timeTrackParts)
 					{
 						var row = ds.Data.NewDataRow();
@@ -442,6 +443,18 @@ namespace FiresecService.Report.Templates
 						{
 							row.DateTime = new DateTime(pass.StartTime.Ticks);
 							ds.Data.AddDataRow(row);
+						}
+					}
+					if (timeTrackParts != null && timeTrackParts.Count > 0)
+					{
+						var rows = ds.Data.NewDataRow();
+						rows.EmployeeRow = employeeRow;
+						if (zoneMap.ContainsKey(timeTrackParts.Last().ZoneUID))
+							rows.Zone = zoneMap[timeTrackParts.Last().ZoneUID];
+						if (filter.DateTimeFrom.Ticks <= timeTrackParts.Last().StartTime.Ticks && timeTrackParts.Last().EndTime.Ticks <= filter.DateTimeTo.Ticks)
+						{
+							rows.DateTime = new DateTime(timeTrackParts.Last().EndTime.Ticks);
+							ds.Data.AddDataRow(rows);
 						}
 					}
 				}
