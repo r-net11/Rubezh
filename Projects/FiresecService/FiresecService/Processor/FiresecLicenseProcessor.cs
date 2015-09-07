@@ -34,17 +34,17 @@ namespace FiresecService.Processor
 			}
 			FiresecService.Service.FiresecService.NotifyConfigurationChanged();
 		}
-		public static void SetDemonstration()
+		static void SetDemonstration()
 		{
 			FiresecLicenseManager.CurrentLicenseInfo = new FiresecLicenseInfo()
 			{
 				LicenseMode = LicenseMode.Demonstration,
 				RemoteWorkplacesCount = 1,
-				Fire = true,
-				Security = true,
-				Access = true,
-				Video = true,
-				OpcServer = true
+				HasFirefighting = true,
+				HasGuard = true,
+				HasSKD = true,
+				HasVideo = true,
+				HasOpcServer = true
 			};
 			var awaiter = new Thread(() =>
 			{
@@ -53,17 +53,17 @@ namespace FiresecService.Processor
 			}) { Name = "DemoIntervalAwaiter", IsBackground = true };
 			awaiter.Start();
 		}
-		public static void SetNoLicense()
+		static void SetNoLicense()
 		{
 			FiresecLicenseManager.CurrentLicenseInfo = new FiresecLicenseInfo()
 			{
 				LicenseMode = LicenseMode.NoLicense,
 				RemoteWorkplacesCount = 0,
-				Fire = false,
-				Security = false,
-				Access = false,
-				Video = false,
-				OpcServer = false
+				HasFirefighting = false,
+				HasGuard = false,
+				HasSKD = false,
+				HasVideo = false,
+				HasOpcServer = false
 			};
 		}
 

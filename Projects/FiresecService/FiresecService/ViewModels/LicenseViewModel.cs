@@ -32,6 +32,14 @@ namespace FiresecService.ViewModels
 				OnPropertyChanged(() => LicenseInfo);
 			}
 		}
+
+		public LicenseViewModel()
+		{
+			InitialKey = FiresecLicenseManager.InitialKey.ToString();
+			LicenseInfo = FiresecLicenseManager.CurrentLicenseInfo;
+			FiresecLicenseManager.LicenseChanged += FiresecLicenseManager_LicenseChanged;
+			LoadLicenseCommand = new RelayCommand(OnLoadLicenseCommand);
+		}
 		
         string GetLicensePath()
         {
@@ -63,15 +71,7 @@ namespace FiresecService.ViewModels
 				FiresecLicenseProcessor.SetLicense(FiresecLicenseManager.TryLoad(GetLicensePath()));
             }
         }
-        
-        public LicenseViewModel()
-        {
-			InitialKey = FiresecLicenseManager.InitialKey.ToString();
-			LicenseInfo = FiresecLicenseManager.CurrentLicenseInfo;
-			FiresecLicenseManager.LicenseChanged += FiresecLicenseManager_LicenseChanged;
-            LoadLicenseCommand = new RelayCommand(OnLoadLicenseCommand);
-        }
-
+       
 		void FiresecLicenseManager_LicenseChanged()
 		{
 			LicenseInfo = FiresecLicenseManager.CurrentLicenseInfo;

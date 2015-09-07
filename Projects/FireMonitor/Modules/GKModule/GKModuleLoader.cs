@@ -212,12 +212,12 @@ namespace GKModule
 		{
 			_planPresenter.Initialize();
 			ServiceFactory.Events.GetEvent<RegisterPlanPresenterEvent<Plan, XStateClass>>().Publish(_planPresenter);
-			_zonesNavigationItem.IsVisible = FiresecLicenseManager.CurrentLicenseInfo.Fire && GKManager.Zones.Count > 0;
-			_guardZonesNavigationItem.IsVisible = FiresecLicenseManager.CurrentLicenseInfo.Security && GKManager.DeviceConfiguration.GuardZones.Count > 0;
-			_skdZonesNavigationItem.IsVisible = FiresecLicenseManager.CurrentLicenseInfo.Access && GKManager.DeviceConfiguration.SKDZones.Count > 0;
+			_zonesNavigationItem.IsVisible = FiresecLicenseManager.CurrentLicenseInfo.HasFirefighting && GKManager.Zones.Count > 0;
+			_guardZonesNavigationItem.IsVisible = FiresecLicenseManager.CurrentLicenseInfo.HasGuard && GKManager.DeviceConfiguration.GuardZones.Count > 0;
+			_skdZonesNavigationItem.IsVisible = FiresecLicenseManager.CurrentLicenseInfo.HasSKD && GKManager.DeviceConfiguration.SKDZones.Count > 0;
 			_directionsNavigationItem.IsVisible = GKManager.Directions.Count > 0;
-			_pumpStationsNavigationItem.IsVisible = FiresecLicenseManager.CurrentLicenseInfo.Fire && GKManager.PumpStations.Count > 0;
-			_mptsNavigationItem.IsVisible = FiresecLicenseManager.CurrentLicenseInfo.Fire && GKManager.MPTs.Count > 0;
+			_pumpStationsNavigationItem.IsVisible = FiresecLicenseManager.CurrentLicenseInfo.HasFirefighting && GKManager.PumpStations.Count > 0;
+			_mptsNavigationItem.IsVisible = FiresecLicenseManager.CurrentLicenseInfo.HasFirefighting && GKManager.MPTs.Count > 0;
 			DevicesViewModel.Initialize();
 			DeviceParametersViewModel.Initialize();
 			ZonesViewModel.Initialize();
@@ -231,7 +231,7 @@ namespace GKModule
 			PimsViewModel.Initialize();
 			_pimsNavigationItem.IsVisible = PimsViewModel.Pims.Count > 0;
 			DoorsViewModel.Initialize();
-			_doorsNavigationItem.IsVisible = FiresecLicenseManager.CurrentLicenseInfo.Access && GKManager.Doors.Count > 0;
+			_doorsNavigationItem.IsVisible = FiresecLicenseManager.CurrentLicenseInfo.HasSKD && GKManager.Doors.Count > 0;
 			DaySchedulesViewModel.Initialize();
 			SchedulesViewModel.Initialize();
 		}
@@ -269,7 +269,7 @@ namespace GKModule
 							{
 								new NavigationItem<ShowGKDaySchedulesEvent, Guid>(DaySchedulesViewModel, "Дневные графики", "ShedulesDaylyW", null, null, Guid.Empty),
 								new NavigationItem<ShowGKScheduleEvent, Guid>(SchedulesViewModel, "Графики", "ShedulesW", null, null, Guid.Empty),
-							}){IsVisible = FiresecManager.CheckPermission(PermissionType.Oper_ScheduleSKD) && FiresecLicenseManager.CurrentLicenseInfo.Access},
+							}){IsVisible = FiresecManager.CheckPermission(PermissionType.Oper_ScheduleSKD) && FiresecLicenseManager.CurrentLicenseInfo.HasSKD},
 					})
 			};
 		}

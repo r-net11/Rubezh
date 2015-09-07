@@ -107,16 +107,16 @@ namespace FireMonitor.Layout
 		public static bool CheckLicense(FiresecAPI.Models.Layouts.Layout layout)
 		{
 			return !layout.Parts.Any(x=>
-				!FiresecLicenseManager.CurrentLicenseInfo.Fire && (
+				!FiresecLicenseManager.CurrentLicenseInfo.HasFirefighting && (
 				x.DescriptionUID == LayoutPartIdentities.PumpStations ||
 				x.DescriptionUID == LayoutPartIdentities.MPTs
 				)
 				||
-				!FiresecLicenseManager.CurrentLicenseInfo.Security && (
+				!FiresecLicenseManager.CurrentLicenseInfo.HasGuard && (
 				x.DescriptionUID == LayoutPartIdentities.GuardZones
 				)
 				||
-				!FiresecLicenseManager.CurrentLicenseInfo.Access && (
+				!FiresecLicenseManager.CurrentLicenseInfo.HasSKD && (
 				x.DescriptionUID == LayoutPartIdentities.Doors ||
 				x.DescriptionUID == LayoutPartIdentities.GKSKDZones ||
 				x.DescriptionUID == LayoutPartIdentities.SKDVerification ||
@@ -128,7 +128,7 @@ namespace FireMonitor.Layout
 				x.DescriptionUID == LayoutPartIdentities.SKDTimeTracking
 				)
 				||
-				!FiresecLicenseManager.CurrentLicenseInfo.Video && (
+				!FiresecLicenseManager.CurrentLicenseInfo.HasVideo && (
 				x.DescriptionUID == LayoutPartIdentities.CamerasList ||
 				x.DescriptionUID == LayoutPartIdentities.CameraVideo ||
 				x.DescriptionUID == LayoutPartIdentities.MultiCamera
