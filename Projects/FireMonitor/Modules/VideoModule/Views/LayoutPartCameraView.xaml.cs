@@ -1,6 +1,6 @@
-﻿using System.Windows;
+﻿using MediaSourcePlayer.MediaSource;
+using System.Windows;
 using VideoModule.ViewModels;
-using Vlc.DotNet.Core.Medias;
 
 namespace VideoModule.Views
 {
@@ -12,13 +12,13 @@ namespace VideoModule.Views
 			Loaded += OnLoaded;
 			Unloaded += OnUnloaded;
 		}
-
+		
 		private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
 		{
-			if (myVlcControl.IsPlaying)
-				myVlcControl.Stop();
+			MediaSourcePlayer.Stop();
+			MediaSourcePlayer.Close();
 		}
-
+		
 		private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
 		{
 			var layoutPartCameraViewModel = DataContext as LayoutPartCameraViewModel;
@@ -26,9 +26,8 @@ namespace VideoModule.Views
 			{
 				if (layoutPartCameraViewModel.RviRTSP != null)
 				{
-					myVlcControl.Media = new LocationMedia(layoutPartCameraViewModel.RviRTSP);
-					if (!myVlcControl.IsPlaying)
-						myVlcControl.Play();
+					MediaSourcePlayer.Open(MediaSourceFactory.CreateFromRtspStream(layoutPartCameraViewModel.RviRTSP));
+					MediaSourcePlayer.Play();
 				}
 			}
 		}

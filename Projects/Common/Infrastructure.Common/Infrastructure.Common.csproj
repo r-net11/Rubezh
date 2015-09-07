@@ -126,15 +126,6 @@
     <Reference Include="System.Xml" />
     <Reference Include="UIAutomationProvider" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="Vlc.DotNet.Core">
-      <HintPath>..\..\..\3rdParty\VLC\Vlc.DotNet\Vlc.DotNet.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Vlc.DotNet.Core.Interops">
-      <HintPath>..\..\..\3rdParty\VLC\Vlc.DotNet\Vlc.DotNet.Core.Interops.dll</HintPath>
-    </Reference>
-    <Reference Include="Vlc.DotNet.Forms">
-      <HintPath>..\..\..\3rdParty\VLC\Vlc.DotNet\Vlc.DotNet.Forms.dll</HintPath>
-    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
