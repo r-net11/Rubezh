@@ -65,6 +65,8 @@
     </Compile>
     <Compile Include="Converters\IntToNullableIntConverter.cs" />
     <Compile Include="Devices\ViewModels\ControllerDoorTypeViewModel.cs" />
+    <Compile Include="Devices\ViewModels\ControllerLocksPasswords\ControllerLockPasswordViewModel.cs" />
+    <Compile Include="Devices\ViewModels\ControllerLocksPasswords\ControllerLocksPasswordsViewModel.cs" />
     <Compile Include="Devices\ViewModels\ControllerNetSettingsViewModel.cs" />
     <Compile Include="Devices\ViewModels\ControllerPaswordViewModel.cs" />
     <Compile Include="Devices\ViewModels\ControllerPropertiesViewModel.cs" />
@@ -72,8 +74,15 @@
     <Compile Include="Devices\ViewModels\LockPropertiesViewModel.cs" />
     <Compile Include="Devices\ViewModels\SearchDevicesViewModel.cs" />
     <Compile Include="Devices\ViewModels\SearchDeviceViewModel.cs" />
+    <Compile Include="Devices\ViewModels\WriteConfigurationInAllControllersViewModel.cs" />
     <Compile Include="Devices\Views\ControllerDoorTypeView.xaml.cs">
       <DependentUpon>ControllerDoorTypeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Devices\Views\ControllerLocksPasswords\ControllerLockPasswordView.xaml.cs">
+      <DependentUpon>ControllerLockPasswordView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Devices\Views\ControllerLocksPasswords\ControllerLocksPasswordsView.xaml.cs">
+      <DependentUpon>ControllerLocksPasswordsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\ControllerNetSettingsView.xaml.cs">
       <DependentUpon>ControllerNetSettingsView.xaml</DependentUpon>
@@ -84,14 +93,17 @@
     <Compile Include="Devices\Views\ControllerPropertiesView.xaml.cs">
       <DependentUpon>ControllerPropertiesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Devices\Views\ControllerTimeSettingsViewModel.xaml.cs">
-      <DependentUpon>ControllerTimeSettingsViewModel.xaml</DependentUpon>
+    <Compile Include="Devices\Views\ControllerTimeSettingsView.xaml.cs">
+      <DependentUpon>ControllerTimeSettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\LockPropertiesView.xaml.cs">
       <DependentUpon>LockPropertiesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\SearchDevicesView.xaml.cs">
       <DependentUpon>SearchDevicesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Devices\Views\WriteConfigurationInAllControllersView.xaml.cs">
+      <DependentUpon>WriteConfigurationInAllControllersView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Doors\ViewModels\DeviceSelectationViewModel.cs" />
     <Compile Include="Doors\Views\DeviceSelectationView.xaml.cs">
@@ -406,6 +418,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Devices\Views\ControllerLocksPasswords\ControllerLockPasswordView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Devices\Views\ControllerLocksPasswords\ControllerLocksPasswordsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Devices\Views\ControllerNetSettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -418,7 +438,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Devices\Views\ControllerTimeSettingsViewModel.xaml">
+    <Page Include="Devices\Views\ControllerTimeSettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -431,6 +451,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Devices\Views\SearchDevicesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Devices\Views\WriteConfigurationInAllControllersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

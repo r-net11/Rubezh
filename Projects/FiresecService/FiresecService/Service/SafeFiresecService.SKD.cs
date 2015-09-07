@@ -341,6 +341,10 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.SKDWriteTimeSheduleConfiguration(deviceUID); }, "SKDWriteTimeSheduleConfiguration");
 		}
 
+		/// <summary>
+		/// Записывает графики доступа на все контроллеры
+		/// </summary>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
 		public OperationResult<List<Guid>> SKDWriteAllTimeSheduleConfiguration()
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDWriteAllTimeSheduleConfiguration(); }, "SKDWriteAllTimeSheduleConfiguration");

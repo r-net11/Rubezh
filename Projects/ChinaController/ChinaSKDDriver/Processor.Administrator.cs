@@ -124,16 +124,19 @@ namespace ChinaSKDDriver
 		/// Записывает графики доступа на контроллер
 		/// </summary>
 		/// <param name="deviceUID">Идентификатор контроллера, на который производится запись</param>
+		/// <param name="doProgress">Использовать ли индикатор выполнения задачи</param>
 		/// <returns>Объект OperationResult, описывающий результат выполнения процедуры записи</returns>
-		public static OperationResult<bool> SKDWriteTimeSheduleConfiguration(Guid deviceUID)
+		public static OperationResult<bool> SKDWriteTimeSheduleConfiguration(Guid deviceUID, bool doProgress = true)
 		{
 			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == deviceUID);
 			if (deviceProcessor != null)
 			{
 				if (!deviceProcessor.IsConnected)
-					return OperationResult<bool>.FromError("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
+					return OperationResult<bool>.FromError(String.Format("Нет связи с контроллером \"{0}\". {1}", deviceProcessor.Device.Name, deviceProcessor.LoginFailureReason));
 
-				var progressCallback = StartProgress(String.Format("Запись графиков доступа на контроллер \"{0}\"", deviceProcessor.Device.Name), null, 128, true, SKDProgressClientType.Administrator);
+				SKDProgressCallback progressCallback = null;
+				if (doProgress)
+					progressCallback = StartProgress(String.Format("Запись графиков доступа на контроллер \"{0}\"", deviceProcessor.Device.Name), null, 128, true, SKDProgressClientType.Administrator);
 
 				for (var i = 0; i <= 127; i++)
 				{
@@ -194,19 +197,22 @@ namespace ChinaSKDDriver
 						timeShedules.Add(timeShedule);
 					}
 
-					if (progressCallback.IsCanceled)
+					if (progressCallback != null && progressCallback.IsCanceled)
 						return OperationResult<bool>.FromError(String.Format("Операция записи графиков доступа на контроллер \"{0}\" отменена", deviceProcessor.Device.Name));
-					DoProgress(null, progressCallback);
+					if (progressCallback != null)
+						DoProgress(null, progressCallback);
 
 					var result = deviceProcessor.Wrapper.SetTimeShedules(i, timeShedules);
 					if (!result)
 					{
-						StopProgress(progressCallback);
-						return OperationResult<bool>.FromError("Ошибка при выполнении операции записи графиков доступа на контроллер");
+						if (progressCallback != null)
+							StopProgress(progressCallback);
+						return OperationResult<bool>.FromError(String.Format("Ошибка при выполнении операции записи графиков доступа на контроллер \"{0}\"", deviceProcessor.Device.Name));
 					}
 				}
 
-				StopProgress(progressCallback);
+				if (progressCallback != null)
+					StopProgress(progressCallback);
 				return new OperationResult<bool>(true);
 			}
 			return OperationResult<bool>.FromError("Не найден контроллер в конфигурации");

@@ -29,7 +29,8 @@ namespace StrazhModule.ViewModels
 			ShowControllerNetworkCommand = new RelayCommand(OnShowControllerNetwork, CanShowController);
 			ShowControllerTimeSettingsCommand = new RelayCommand(OnShowControllerTimeSettings, CanShowController);
 			ShowLockConfigurationCommand = new RelayCommand(OnShowLockConfiguration, CanShowLockConfiguration);
-			WriteAllTimeSheduleConfigurationCommand = new RelayCommand(OnWriteAllTimeSheduleConfiguration);
+			ShowWriteConfigurationInAllControllersCommand = new RelayCommand(OnShowWriteConfigurationInAllControllers);
+			ShowControllerLocksPasswordsCommand = new RelayCommand(OnShowControllerLocksPasswords, CanShowControllerLocksPasswords);
 		}
 
 		public DeviceViewModel SelectedDevice
@@ -136,23 +137,33 @@ namespace StrazhModule.ViewModels
 			return SelectedDevice != null && SelectedDevice.Device.Driver.DriverType == SKDDriverType.Lock && SelectedDevice.Device.IsEnabled;
 		}
 
-		public RelayCommand WriteAllTimeSheduleConfigurationCommand { get; private set; }
-		void OnWriteAllTimeSheduleConfiguration()
+		public RelayCommand ShowWriteConfigurationInAllControllersCommand { get; private set; }
+		void OnShowWriteConfigurationInAllControllers()
 		{
-			if (!CheckNeedSave(true))
+			var writeConfigurationInAllControllersViewModel = new WriteConfigurationInAllControllersViewModel();
+			if (!DialogService.ShowModalWindow(writeConfigurationInAllControllersViewModel))
 				return;
-			if (!ValidateConfiguration())
+			if (writeConfigurationInAllControllersViewModel.IsCards
+				&& !MessageBoxService.ShowQuestion("Процесс записи пропусков на все контроллеры может занять несколько минут. В это время приложение будет недоступно.\nПродолжить?"))
 				return;
+			if (!CheckNeedSave())
+				return;
+				
 			var thread = new Thread(() =>
 			{
+				// 1. Записываем графики доступа
 				var result = FiresecManager.FiresecService.SKDWriteAllTimeSheduleConfiguration();
+
+				// 2. Записываем пароли
+
+				// 3. Записываем пропуска
 
 				ApplicationService.Invoke(new Action(() =>
 				{
 					if (result.HasError)
 					{
 						LoadingService.Close();
-						MessageBoxService.ShowWarning(result.Error);
+						MessageBoxService.ShowWarning(String.Format("Операция не выполнена на следующих контроллерах:\n\n{0}", result.Error));
 					}
 
 					var oldHasMissmath = HasMissmath;
@@ -165,9 +176,23 @@ namespace StrazhModule.ViewModels
 					if (HasMissmath != oldHasMissmath)
 						ServiceFactory.SaveService.SKDChanged = true;
 				}));
+
 			});
-			thread.Name = "DeviceCommandsViewModel OnWriteTimeSheduleConfiguration";
+			thread.Name = "DeviceCommandsViewModel OnWriteConfigurationInAllControllers";
 			thread.Start();
+		}
+
+		public RelayCommand ShowControllerLocksPasswordsCommand { get; private set; }
+		private void OnShowControllerLocksPasswords()
+		{
+			var controllerLocksPasswordsViewModel = new ControllerLocksPasswordsViewModel(SelectedDevice);
+			if (DialogService.ShowModalWindow(controllerLocksPasswordsViewModel))
+			{
+			}
+		}
+		private bool CanShowControllerLocksPasswords()
+		{
+			return SelectedDevice.Driver.IsController;
 		}
 
 		/// <summary>
@@ -175,7 +200,7 @@ namespace StrazhModule.ViewModels
 		/// </summary>
 		/// <returns>true - ошибок не обнаружено,
 		/// false - есть ошибки</returns>
-		bool ValidateConfiguration()
+		private bool ValidateConfiguration()
 		{
 			var validationResult = ServiceFactory.ValidationService.Validate();
 			if (validationResult.HasErrors(ModuleType.SKD))
@@ -195,15 +220,15 @@ namespace StrazhModule.ViewModels
 		/// <param name="syncParameters"></param>
 		/// <returns>true - текущая конфигурация уже сохранена (нет изменений),
 		/// false - текущая конфигурация еще не сохранена (есть изменения) </returns>
-		bool CheckNeedSave(bool syncParameters = false)
+		private bool CheckNeedSave()
 		{
 			if (ServiceFactory.SaveService.SKDChanged)
 			{
 				if (MessageBoxService.ShowQuestion("Для выполнения этой операции необходимо применить конфигурацию. Применить сейчас?"))
 				{
 					var cancelEventArgs = new CancelEventArgs();
-					ServiceFactory.Events.GetEvent<SetNewConfigurationEvent>().Publish(cancelEventArgs);
-					//return !cancelEventArgs.Cancel;
+					ServiceFactory.Events.GetEvent<SetNewConfigurationEvent>().Publish(cancelEventArgs); // Сигнализируем модулю Администратор, чтобы он сохранил текущую конфигурацию
+					return !cancelEventArgs.Cancel;
 				}
 				return false;
 			}

@@ -849,28 +849,34 @@ namespace FiresecService.Service
 			if (device != null)
 			{
 				AddSKDJournalMessage(JournalEventNameType.Запись_графиков_работы, device);
-				return ChinaSKDDriver.Processor.SKDWriteTimeSheduleConfiguration(deviceUID);
+				return Processor.SKDWriteTimeSheduleConfiguration(deviceUID);
 			}
 			return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
 		}
 
+		/// <summary>
+		/// Записывает графики доступа на все контроллеры
+		/// </summary>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
 		public OperationResult<List<Guid>> SKDWriteAllTimeSheduleConfiguration()
 		{
 			var errors = new List<string>();
 			var failedDeviceUIDs = new List<Guid>();
-			foreach (var device in SKDManager.Devices)
+
+			var devicesCount = SKDManager.Devices.Count(device => device.Driver.IsController);
+			var progressCallback = Processor.StartProgress("Запись графиков доступа на все контроллеры", null, devicesCount, true, SKDProgressClientType.Administrator);
+			foreach (var device in SKDManager.Devices.Where(device => device.Driver.IsController))
 			{
-				if (device.Driver.IsController)
+				AddSKDJournalMessage(JournalEventNameType.Запись_графиков_работы, device);
+				var result = Processor.SKDWriteTimeSheduleConfiguration(device.UID, false);
+				if (result.HasError)
 				{
-					AddSKDJournalMessage(JournalEventNameType.Запись_графиков_работы, device);
-					var result = ChinaSKDDriver.Processor.SKDWriteTimeSheduleConfiguration(device.UID);
-					if (result.HasError)
-					{
-						failedDeviceUIDs.Add(device.UID);
-						errors.AddRange(result.Errors);
-					}
+					failedDeviceUIDs.Add(device.UID);
+					errors.AddRange(result.Errors);
 				}
+				Processor.DoProgress(null, progressCallback);
 			}
+			Processor.StopProgress(progressCallback);
 			return OperationResult<List<Guid>>.FromError(errors, failedDeviceUIDs);
 		}
 
