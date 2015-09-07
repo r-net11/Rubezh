@@ -81,7 +81,7 @@
 						Grid.Row="1"
 						Margin="2"
 						Language="ru-RU"
-						ItemsSource="{Binding DayTimeTrackPartsCollection}"
+						ItemsSource="{Binding DayTimeTrackPartsCollection, IsAsync=True}"
 						SelectedItem="{Binding SelectedDayTimeTrackPart,
 					                                 Mode=TwoWay,
 					                                 UpdateSourceTrigger=PropertyChanged}">
