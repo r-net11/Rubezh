@@ -89,7 +89,7 @@ namespace GKOPCServer
 
 			UILogger.Log("Загрузка лицензии");
 			FiresecManager.GetLicense();
-			if (!FiresecLicenseManager.CurrentLicenseInfo.OpcServer)
+			if (!FiresecLicenseManager.CurrentLicenseInfo.HasOpcServer)
 			{
 				BalloonHelper.ShowFromServer("Отсутствует лицензия модуля \"GLOBAL OPC Сервер\"");
 				result = false;

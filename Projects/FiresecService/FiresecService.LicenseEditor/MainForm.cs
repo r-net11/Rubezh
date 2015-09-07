@@ -31,11 +31,11 @@ namespace FiresecService.LicenseEditor
                 else
                 {
 					numericUpDownRemoteWorkplacesCount.Value = licenseInfo.RemoteWorkplacesCount;
-					checkBoxFire.Checked = licenseInfo.Fire;
-					checkBoxSecurity.Checked = licenseInfo.Security;
-					checkBoxAccess.Checked = licenseInfo.Access;
-					checkBoxVideo.Checked = licenseInfo.Video;
-					checkBoxOpcServer.Checked = licenseInfo.OpcServer;						
+					checkBoxFirefighting.Checked = licenseInfo.HasFirefighting;
+					checkBoxGuard.Checked = licenseInfo.HasGuard;
+					checkBoxSKD.Checked = licenseInfo.HasSKD;
+					checkBoxVideo.Checked = licenseInfo.HasVideo;
+					checkBoxOpcServer.Checked = licenseInfo.HasOpcServer;						
                 }
             }
         }
@@ -53,11 +53,11 @@ namespace FiresecService.LicenseEditor
 				var licenseInfo = new FiresecLicenseInfo()
 				{
 					RemoteWorkplacesCount = (int)numericUpDownRemoteWorkplacesCount.Value,
-					Fire = checkBoxFire.Checked,
-					Security = checkBoxSecurity.Checked,
-					Access = checkBoxAccess.Checked,
-					Video = checkBoxVideo.Checked,
-					OpcServer = checkBoxOpcServer.Checked
+					HasFirefighting = checkBoxFirefighting.Checked,
+					HasGuard = checkBoxGuard.Checked,
+					HasSKD = checkBoxSKD.Checked,
+					HasVideo = checkBoxVideo.Checked,
+					HasOpcServer = checkBoxOpcServer.Checked
 				};
 
 				if (FiresecLicenseManager.TrySave(saveFileDialog.FileName, licenseInfo, key))

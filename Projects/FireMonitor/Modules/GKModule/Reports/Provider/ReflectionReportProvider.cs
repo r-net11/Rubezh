@@ -1,12 +1,12 @@
 ﻿using FiresecAPI.SKD.ReportFilters;
+using GKModule.ViewModels;
 using Infrastructure.Common.SKDReports;
-using SKDModule.Reports.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SKDModule.Reports.Providers
+namespace GKModule.Reports.Providers
 {
 	public class ReflectionReportProvider : FilteredSKDReportProvider<ReflectionReportFilter>
 	{

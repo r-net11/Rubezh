@@ -1,6 +1,7 @@
 ﻿using FiresecAPI.GK;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using SKDDriver.DataClasses;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -20,7 +21,7 @@ namespace GKImitator.ViewModels
 			DescriptorViewModel = descriptorViewModel;
 
 			EnterTypes = Enum.GetValues(typeof(GKCodeReaderEnterType)).Cast<GKCodeReaderEnterType>().ToList();
-			SelectedEnterType = EnterTypes.FirstOrDefault();
+			SelectedEnterType = EnterTypes.FirstOrDefault(x => x == GKCodeReaderEnterType.CodeOnly);
 		}
 
 		public List<GKCodeReaderEnterType> EnterTypes { get; private set; }
@@ -51,8 +52,11 @@ namespace GKImitator.ViewModels
 		void OnEnter()
 		{
 			DescriptorViewModel.SetStateBit(GKStateBit.Attention, true);
+			var journalItem = new ImitatorJournalItem(2, 4, 0, 0);
+			DescriptorViewModel.AddJournalItem(journalItem);
 			DescriptorViewModel.CurrentCardNo = CardNo;
 			DescriptorViewModel.RecalculateOutputLogic();
+
 			var backgroundWorker = new BackgroundWorker();
 			backgroundWorker.DoWork += backgroundWorker_DoWork;
 			backgroundWorker.RunWorkerAsync();
@@ -62,7 +66,10 @@ namespace GKImitator.ViewModels
 		{
 			Thread.Sleep(TimeSpan.FromSeconds(3));
 			DescriptorViewModel.SetStateBit(GKStateBit.Attention, false);
+			var journalItem = new ImitatorJournalItem(2, 14, 0, 0);
+			DescriptorViewModel.AddJournalItem(journalItem);
 			DescriptorViewModel.CurrentCardNo = 0;
+			DescriptorViewModel.RecalculateOutputLogic();
 		}
 	}
 }

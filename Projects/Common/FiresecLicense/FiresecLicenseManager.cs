@@ -40,15 +40,12 @@ namespace FiresecLicense
 
 		public static FiresecLicenseInfo PreviousLicenseInfo { get; private set; }
 
-        public static List<Exception> Exceptions = new List<Exception>();
-
 		public static FiresecLicenseInfo TryLoad(string fileName)
 		{
 			return TryLoad(fileName, InitialKey);
 		}
         public static FiresecLicenseInfo TryLoad(string fileName, InitialKey key)
         {
-			Exceptions.Clear();
 			var result = Deserialize(Decrypt(LoadFromFile(fileName), key.BinaryValue));
 			if (result != null)
 				result.LicenseMode = LicenseMode.HasLicense;
@@ -60,7 +57,6 @@ namespace FiresecLicense
 		}
 		public static bool TrySave(string fileName, FiresecLicenseInfo licenseInfo, InitialKey key)
         {
-			Exceptions.Clear();
 			return SaveToFile(Encrypt(Serialize(licenseInfo), key.BinaryValue), fileName);
         }
 
@@ -78,11 +74,11 @@ namespace FiresecLicense
 			if (licenseInfo1 == null || licenseInfo2 == null)
 				return false;
 			return licenseInfo1.RemoteWorkplacesCount == licenseInfo2.RemoteWorkplacesCount
-					&& licenseInfo1.Fire == licenseInfo2.Fire
-					&& licenseInfo1.Security == licenseInfo2.Security
-					&& licenseInfo1.Access == licenseInfo2.Access
-					&& licenseInfo1.Video == licenseInfo2.Video
-					&& licenseInfo2.OpcServer == licenseInfo2.OpcServer;
+					&& licenseInfo1.HasFirefighting == licenseInfo2.HasFirefighting
+					&& licenseInfo1.HasGuard == licenseInfo2.HasGuard
+					&& licenseInfo1.HasSKD == licenseInfo2.HasSKD
+					&& licenseInfo1.HasVideo == licenseInfo2.HasVideo
+					&& licenseInfo2.HasOpcServer == licenseInfo2.HasOpcServer;
 		}
 		static string Serialize(FiresecLicenseInfo licenseInfo)
         {
@@ -95,9 +91,8 @@ namespace FiresecLicense
                     return new StreamReader(memoryStream).ReadToEnd();
                 }
             }
-            catch (Exception ex) 
+            catch
             {
-                Exceptions.Add(ex);
                 return null;
             }
         }
@@ -115,9 +110,8 @@ namespace FiresecLicense
 					return (FiresecLicenseInfo)xmlSerializer.Deserialize(memoryStream);
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                Exceptions.Add(ex);
                 return null;
             }
         }
@@ -149,9 +143,8 @@ namespace FiresecLicense
                     }
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                Exceptions.Add(ex);
                 return null;
             }
         }
@@ -185,9 +178,8 @@ namespace FiresecLicense
                 }
                 return result;
             }
-            catch (Exception ex)
+            catch
             {
-                Exceptions.Add(ex);
                 return null;
             }
         }
@@ -207,9 +199,8 @@ namespace FiresecLicense
 				}
                 return loadedBytes;
             }
-            catch (Exception ex)
+            catch
             {
-                Exceptions.Add(ex);
                 return null;
             }
         }
@@ -230,9 +221,8 @@ namespace FiresecLicense
                 }
                 return true;
             }
-            catch (Exception ex)
+            catch
             {
-                Exceptions.Add(ex);
                 return false;
             }
         }

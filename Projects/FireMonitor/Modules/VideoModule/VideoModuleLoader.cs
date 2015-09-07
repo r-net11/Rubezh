@@ -92,7 +92,7 @@ namespace VideoModule
 
 		public override void Initialize()
 		{
-			_videoNavigationItem.IsVisible = FiresecLicenseManager.CurrentLicenseInfo.Video && FiresecManager.SystemConfiguration.Cameras.Count > 0;
+			_videoNavigationItem.IsVisible = FiresecLicenseManager.CurrentLicenseInfo.HasVideo && FiresecManager.SystemConfiguration.Cameras.Count > 0;
 			CamerasViewModel.Initialize();
 			_planPresenter.Initialize();
 			ServiceFactory.Events.GetEvent<RegisterPlanPresenterEvent<Plan, XStateClass>>().Publish(_planPresenter);

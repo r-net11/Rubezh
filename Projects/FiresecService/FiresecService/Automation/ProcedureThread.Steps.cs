@@ -698,6 +698,12 @@ namespace FiresecService
 			RviClient.RviClientHelper.AlarmRuleExecute(ConfigurationCashHelper.SystemConfiguration, name);
 		}
 
+		public void Now(ProcedureStep procedureStep)
+		{
+			var nowArguments = procedureStep.NowArguments;
+			SetValue(nowArguments.ResultArgument, DateTime.Now);
+		}
+
 		void ControlFireZone(ProcedureStep procedureStep)
 		{
 			var zoneUid = GetValue<Guid>(procedureStep.ControlGKFireZoneArguments.GKFireZoneArgument);

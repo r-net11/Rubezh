@@ -167,4 +167,8 @@
 		<Views:PlotView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:ReflectionPageViewModel}">
+		<Views:ReflectionPageView />
+	</DataTemplate>
+
 </ResourceDictionary>

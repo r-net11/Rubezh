@@ -193,6 +193,7 @@
     <Compile Include="Models\Automation\StepArguments\ControlGKFireZoneArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlGKGuardZoneArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\IncrementValueArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\NowArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ProcedureLayoutCollection.cs" />
     <Compile Include="Models\Automation\StepArguments\PtzArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\RandomArguments.cs" />

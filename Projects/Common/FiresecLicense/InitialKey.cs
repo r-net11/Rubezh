@@ -34,11 +34,6 @@ namespace FiresecLicense
             return new InitialKey() { BinaryValue = GenerateHashCode(HardwareInfo.CpuId + HardwareInfo.HardDiskId) };
         }
 
-        public static InitialKey FromBinary(byte[] value)
-        {
-            return new InitialKey() { BinaryValue = value };
-        }
-
         public static InitialKey FromHexString(string value)
         {
             return new InitialKey() { StringValue = value };

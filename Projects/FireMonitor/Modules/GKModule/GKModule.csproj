@@ -170,6 +170,11 @@
     <Compile Include="Plans\ViewModels\SKDZoneTooltipViewModel.cs" />
     <Compile Include="Plans\ViewModels\MPTTooltipViewModel.cs" />
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="Reports\Provider\ReflectionReportProvider.cs" />
+    <Compile Include="Reports\Views\ReflectionPageView.xaml.cs">
+      <DependentUpon>ReflectionPageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\ViewModels\ReflectionPageViewModel.cs" />
     <Compile Include="Schedules\ViewModels\CalendarViewModel.cs" />
     <Compile Include="Schedules\ViewModels\DayScheduleDetailsViewModel.cs" />
     <Compile Include="Schedules\ViewModels\DaySchedulePartDetailsViewModel.cs" />
@@ -437,6 +442,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="PumpStations\Views\PumpStationsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Reports\Views\ReflectionPageView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

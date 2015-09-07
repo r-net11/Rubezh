@@ -372,6 +372,10 @@ namespace FiresecService
 				case ProcedureStepType.RviAlarm:
 					RviAlarm(procedureStep);
 					break;
+
+				case ProcedureStepType.Now:
+					Now(procedureStep);
+					break;
 			}
 			return Result.Normal;
 		}

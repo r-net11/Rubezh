@@ -4,6 +4,8 @@ using Infrastructure.Client.Layout;
 using FiresecAPI.Models.Layouts;
 using System.Linq;
 using FiresecLicense;
+using System.Collections.Generic;
+using System;
 
 namespace LayoutModule.Validation
 {
@@ -13,26 +15,24 @@ namespace LayoutModule.Validation
 		{
 			foreach (var layout in FiresecManager.LayoutsConfiguration.Layouts)
 			{
-				string layoutLicenses = GetLayoutLicenses(layout);
-				if (!string.IsNullOrEmpty(layoutLicenses))
-					Errors.Add(new LayoutValidationError(layout, "Макет содержит элементы, требующие наличия лицензии модуля(ей): " + layoutLicenses, ValidationErrorLevel.Warning));
+				var layoutLicenses = GetLayoutLicenses(layout);
+				if (layoutLicenses.Any())
+					Errors.Add(new LayoutValidationError(layout, "Макет содержит элементы, требующие наличия лицензии модуля(ей): " + String.Join(", ", layoutLicenses), ValidationErrorLevel.Warning));
 			}
 		}
 
-		string GetLayoutLicenses(Layout layout)
+		IEnumerable<string> GetLayoutLicenses(Layout layout)
 		{
-			string layoutLicenses = string.Empty;
-
-			if (!FiresecLicenseManager.CurrentLicenseInfo.Fire && layout.Parts.Any(x => 
+			if (!FiresecLicenseManager.CurrentLicenseInfo.HasFirefighting && layout.Parts.Any(x => 
 				x.DescriptionUID == LayoutPartIdentities.PumpStations || 
 				x.DescriptionUID == LayoutPartIdentities.MPTs))
-				layoutLicenses += "\"GLOBAL Пожаротушение\", ";
+				yield return "\"GLOBAL Пожаротушение\"";
 
-			if (!FiresecLicenseManager.CurrentLicenseInfo.Security && layout.Parts.Any(x => 
+			if (!FiresecLicenseManager.CurrentLicenseInfo.HasGuard && layout.Parts.Any(x => 
 				x.DescriptionUID == LayoutPartIdentities.GuardZones))
-				layoutLicenses += "\"GLOBAL Охрана\", ";
+				yield return "\"GLOBAL Охрана\"";
 
-			if (!FiresecLicenseManager.CurrentLicenseInfo.Access && layout.Parts.Any(x => 
+			if (!FiresecLicenseManager.CurrentLicenseInfo.HasSKD && layout.Parts.Any(x => 
 				x.DescriptionUID == LayoutPartIdentities.Doors ||
 				x.DescriptionUID == LayoutPartIdentities.GKSKDZones ||
 				x.DescriptionUID == LayoutPartIdentities.SKDVerification ||
@@ -42,15 +42,13 @@ namespace LayoutModule.Validation
 				x.DescriptionUID == LayoutPartIdentities.SKDSchedules ||
 				x.DescriptionUID == LayoutPartIdentities.SKDScheduleSchemes ||
 				x.DescriptionUID == LayoutPartIdentities.SKDTimeTracking))
-				layoutLicenses += "\"GLOBAL Доступ\", ";
+				yield return "\"GLOBAL Доступ\"";
 
-			if (!FiresecLicenseManager.CurrentLicenseInfo.Video && layout.Parts.Any(x =>
+			if (!FiresecLicenseManager.CurrentLicenseInfo.HasVideo && layout.Parts.Any(x =>
 				x.DescriptionUID == LayoutPartIdentities.CamerasList ||
 				x.DescriptionUID == LayoutPartIdentities.CameraVideo ||
 				x.DescriptionUID == LayoutPartIdentities.MultiCamera))
-				layoutLicenses += "\"GLOBAL Видео\", ";
-
-			return layoutLicenses.TrimEnd(',', ' ');
+				yield return "\"GLOBAL Видео\"";
 		}
 	}
 }
