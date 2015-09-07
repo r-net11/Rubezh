@@ -307,7 +307,7 @@ namespace GKModule.ViewModels
 					var addedDevice = GKManager.AddChild(SelectedDevice.Parent.Device, SelectedDevice.Device, device.Driver, maxAddress);
 					GKManager.CopyDevice(device, addedDevice);
 					addedDevice.IntAddress = maxAddress;
-					var addedDeviceViewModel = NewDeviceHelper.InsertDevice(addedDevice, SelectedDevice);
+					var addedDeviceViewModel = NewDeviceHelper.InsertDevice(addedDevice, SelectedDevice,false);
 					AllDevices.Add(addedDeviceViewModel);
 					return addedDevice;
 				}

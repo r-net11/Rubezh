@@ -26,11 +26,11 @@ namespace FiresecService.LicenseEditor
 			    var licenseInfo = new FiresecLicenseInfo()
 				{
 					RemoteWorkplacesCount = remoteWorkplacesCount,
-					Fire = args.Any(x => x.Trim().ToLower() == "fire"),
-					Security = args.Any(x => x.Trim().ToLower() == "security"),
-					Access = args.Any(x => x.Trim().ToLower() == "access"),
-					Video = args.Any(x => x.Trim().ToLower() == "video"),
-					OpcServer = args.Any(x => x.Trim().ToLower() == "opcserver")
+					HasFirefighting = args.Any(x => x.Trim().ToLower() == "firefighting"),
+					HasGuard = args.Any(x => x.Trim().ToLower() == "guard"),
+					HasSKD = args.Any(x => x.Trim().ToLower() == "skd"),
+					HasVideo = args.Any(x => x.Trim().ToLower() == "video"),
+					HasOpcServer = args.Any(x => x.Trim().ToLower() == "opcserver")
 				};
 	                
 				FiresecLicenseManager.TrySave(args[0], licenseInfo, key);

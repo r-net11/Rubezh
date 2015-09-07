@@ -10,14 +10,14 @@ namespace FiresecLicense
         [DataMember]
         public int RemoteWorkplacesCount { get; set; }
         [DataMember]
-        public bool Fire { get; set; }
+        public bool HasFirefighting { get; set; }
         [DataMember]
-        public bool Security { get; set; }
+        public bool HasGuard { get; set; }
         [DataMember]
-        public bool Access { get; set; }
+        public bool HasSKD { get; set; }
         [DataMember]
-        public bool Video { get; set; }
+        public bool HasVideo { get; set; }
         [DataMember]
-        public bool OpcServer { get; set; }
+        public bool HasOpcServer { get; set; }
     }
 }
