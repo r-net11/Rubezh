@@ -10,7 +10,7 @@
 	xmlns:sys="clr-namespace:System;assembly=mscorlib"
 	xmlns:viewModels="clr-namespace:SKDModule.ViewModels"
 	Width="1100"
-	Height="900"
+	Height="600"
 	DataContextChanged="TimeTrackDetailsView_OnDataContextChanged"
 	d:DataContext="{d:DesignInstance viewModels:TimeTrackDetailsViewModel}"
 	mc:Ignorable="d">
@@ -81,7 +81,7 @@
 						Grid.Row="1"
 						Margin="2"
 						Language="ru-RU"
-						ItemsSource="{Binding DayTimeTrackPartsCollection}"
+						ItemsSource="{Binding DayTimeTrackPartsCollection, IsAsync=True}"
 						SelectedItem="{Binding SelectedDayTimeTrackPart,
 					                                 Mode=TwoWay,
 					                                 UpdateSourceTrigger=PropertyChanged}">
