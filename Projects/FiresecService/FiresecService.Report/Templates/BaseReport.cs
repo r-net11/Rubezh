@@ -89,7 +89,7 @@ namespace FiresecService.Report.Templates
 		}
 		protected virtual void DataSourceRequered()
 		{
-			if (!IsNotDateBase)
+			if (!IsNotDataBase)
 			{
 				using (var dataProvider = new DataProvider())
 				{
@@ -102,7 +102,7 @@ namespace FiresecService.Report.Templates
 					ApplySort();
 				}
 			}
-			if (IsNotDateBase)
+			if (IsNotDataBase)
 			{
 				DataSet = CreateDataSet();
 				//UpdateDataSource(dataProvider);
@@ -122,10 +122,9 @@ namespace FiresecService.Report.Templates
 			set;
 		}
 
-		protected virtual bool IsNotDateBase
+		protected virtual bool IsNotDataBase
 		{
-			get;
-			set;
+			get { return false;}
 		}
 
 	    protected virtual DataSet CreateDataSet(DataProvider dataProvider)
