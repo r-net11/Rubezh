@@ -15,7 +15,7 @@ namespace SKDModule.ViewModels
 	public class CardsViewModel : ViewPartViewModel
 	{
 		CardFilter _filter;
-		
+
 		public CardsViewModel()
 		{
 			_filter = new CardFilter();
@@ -95,7 +95,7 @@ namespace SKDModule.ViewModels
 			deactivatedRoot.AddChild(new CardViewModel(newCard));
 			OnPropertyChanged(() => RootItems);
 			OnPropertyChanged(() => RootItemsArray);
-		} 
+		}
 
 		void OnEditOrganisation(Organisation newOrganisation)
 		{
@@ -199,7 +199,7 @@ namespace SKDModule.ViewModels
 			OnPropertyChanged(() => RootItems);
 			OnPropertyChanged(() => RootItemsArray);
 		}
-		
+
 		ObservableCollection<CardViewModel> rootItems;
 		public ObservableCollection<CardViewModel> RootItems
 		{
@@ -236,6 +236,7 @@ namespace SKDModule.ViewModels
 				CardHelper.Delete(SelectedCard.Card);
 				var parent = SelectedCard.Card.IsInStopList ? RootItems.FirstOrDefault(x => x.IsDeactivatedRootItem) : RootItems.FirstOrDefault(x => x.Organisation.UID == SelectedCard.Card.OrganisationUID);
 				parent.RemoveChild(SelectedCard);
+				OnBlockCard(SelectedCard.Card.UID);
 				SelectedCard = parent.HasChildren ? parent : parent.Children.FirstOrDefault();
 			}
 		}

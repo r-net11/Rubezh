@@ -273,7 +273,7 @@ namespace FiresecService
 							cardWriter = ChinaSKDDriver.Processor.DeleteCard(card, getAccessTemplateOperationResult.Result);
 							cardWriter = ChinaSKDDriver.Processor.AddCard(card, getAccessTemplateOperationResult.Result);
 						}
-						if ((PendingCardAction)pendingCard.Action == PendingCardAction.Add)
+						if ((PendingCardAction)pendingCard.Action == PendingCardAction.Delete)
 						{
 							cardWriter = ChinaSKDDriver.Processor.DeleteCard(card, getAccessTemplateOperationResult.Result);
 						}

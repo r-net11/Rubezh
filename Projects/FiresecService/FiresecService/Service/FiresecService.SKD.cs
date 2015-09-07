@@ -350,10 +350,6 @@ namespace FiresecService.Service
 
 			using (var databaseService = new SKDDatabaseService())
 			{
-				var saveResult = databaseService.CardTranslator.Save(card);
-				if (saveResult.HasError)
-					return OperationResult<bool>.FromError(saveResult.Error, false);
-
 				var errors = new List<string>();
 
 				var getAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(card.AccessTemplateUID);
@@ -367,12 +363,15 @@ namespace FiresecService.Service
 					var oldGetAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(oldCard.AccessTemplateUID);
 
 					errors.AddRange(EditStrazhCard(oldCard, oldGetAccessTemplateOperationResult.Result, card, getAccessTemplateOperationResult.Result, databaseService));
-					//		errors.AddRange(EditGKCard(oldCard, oldGetAccessTemplateOperationResult.Result, card, getAccessTemplateOperationResult.Result, databaseService));
 				}
 				else
 				{
 					errors.Add("Не найдена предыдущая карта");
 				}
+
+				var saveResult = databaseService.CardTranslator.Save(card);
+				if (saveResult.HasError)
+					return OperationResult<bool>.FromError(saveResult.Error);
 
 				return OperationResult<bool>.FromError(errors, true);
 			}
@@ -434,7 +433,26 @@ namespace FiresecService.Service
 			{
 				AddJournalMessage(JournalEventNameType.Удаление_карты, employeeName, uid: card.EmployeeUID);
 
-				var cardToDelete = new SKDCard()
+				var errors = new List<string>();
+
+				var getAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(card.AccessTemplateUID);
+				if (getAccessTemplateOperationResult.HasError)
+					errors.AddRange(getAccessTemplateOperationResult.Errors);
+
+				var operationResult = databaseService.CardTranslator.GetSingle(card.UID);
+				if (!operationResult.HasError && operationResult.Result != null)
+				{
+					var oldCard = operationResult.Result;
+					var oldGetAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(oldCard.AccessTemplateUID);
+
+					errors.AddRange(DeleteStrazhCard(card, getAccessTemplateOperationResult.Result, databaseService));
+				}
+				else
+				{
+					errors.Add("Не найдена предыдущая карта");
+				}
+
+				var cardToDelete = new SKDCard
 				{
 					UID = card.UID,
 					Number = card.Number,
@@ -458,26 +476,7 @@ namespace FiresecService.Service
 				var saveResult = databaseService.CardTranslator.Save(cardToDelete);
 				if (saveResult.HasError)
 				{
-					return OperationResult<bool>.FromError(saveResult.Error, false);
-				}
-
-				var errors = new List<string>();
-
-				var getAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(card.AccessTemplateUID);
-				if (getAccessTemplateOperationResult.HasError)
-					errors.AddRange(getAccessTemplateOperationResult.Errors);
-
-				var operationResult = databaseService.CardTranslator.GetSingle(card.UID);
-				if (!operationResult.HasError && operationResult.Result != null)
-				{
-					var oldCard = operationResult.Result;
-					var oldGetAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(oldCard.AccessTemplateUID);
-
-					errors.AddRange(DeleteStrazhCard(card, getAccessTemplateOperationResult.Result, databaseService));
-				}
-				else
-				{
-					errors.Add("Не найдена предидущая карта");
+					return OperationResult<bool>.FromError(saveResult.Error);
 				}
 
 				return OperationResult<bool>.FromError(errors, true);
@@ -1618,7 +1617,7 @@ namespace FiresecService.Service
 
 							//door.State.AccessState = accessState; // TODO: Точка доступа тоже должна хранить состояние
 							//skdStates.DoorStates.Add(door.State);
-							
+
 							ChinaSKDDriver.Processor.OnStatesChanged(skdStates);
 						}
 						return result;
