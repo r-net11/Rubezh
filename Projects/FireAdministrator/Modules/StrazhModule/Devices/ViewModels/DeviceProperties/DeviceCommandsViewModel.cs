@@ -29,7 +29,8 @@ namespace StrazhModule.ViewModels
 			ShowControllerNetworkCommand = new RelayCommand(OnShowControllerNetwork, CanShowController);
 			ShowControllerTimeSettingsCommand = new RelayCommand(OnShowControllerTimeSettings, CanShowController);
 			ShowLockConfigurationCommand = new RelayCommand(OnShowLockConfiguration, CanShowLockConfiguration);
-			WriteConfigurationInAllControllersCommand = new RelayCommand(OnWriteConfigurationInAllControllers);
+			ShowWriteConfigurationInAllControllersCommand = new RelayCommand(OnShowWriteConfigurationInAllControllers);
+			ShowControllerLocksPasswordsCommand = new RelayCommand(OnShowControllerLocksPasswords, CanShowControllerLocksPasswords);
 		}
 
 		public DeviceViewModel SelectedDevice
@@ -136,8 +137,8 @@ namespace StrazhModule.ViewModels
 			return SelectedDevice != null && SelectedDevice.Device.Driver.DriverType == SKDDriverType.Lock && SelectedDevice.Device.IsEnabled;
 		}
 
-		public RelayCommand WriteConfigurationInAllControllersCommand { get; private set; }
-		void OnWriteConfigurationInAllControllers()
+		public RelayCommand ShowWriteConfigurationInAllControllersCommand { get; private set; }
+		void OnShowWriteConfigurationInAllControllers()
 		{
 			var writeConfigurationInAllControllersViewModel = new WriteConfigurationInAllControllersViewModel();
 			if (!DialogService.ShowModalWindow(writeConfigurationInAllControllersViewModel))
@@ -179,6 +180,19 @@ namespace StrazhModule.ViewModels
 			});
 			thread.Name = "DeviceCommandsViewModel OnWriteConfigurationInAllControllers";
 			thread.Start();
+		}
+
+		public RelayCommand ShowControllerLocksPasswordsCommand { get; private set; }
+		private void OnShowControllerLocksPasswords()
+		{
+			var controllerLocksPasswordsViewModel = new ControllerLocksPasswordsViewModel(SelectedDevice);
+			if (DialogService.ShowModalWindow(controllerLocksPasswordsViewModel))
+			{
+			}
+		}
+		private bool CanShowControllerLocksPasswords()
+		{
+			return SelectedDevice.Driver.IsController;
 		}
 
 		/// <summary>

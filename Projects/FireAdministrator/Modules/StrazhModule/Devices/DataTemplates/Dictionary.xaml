@@ -56,4 +56,12 @@
 		<Views:WriteConfigurationInAllControllersView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:ControllerLocksPasswordsViewModel}">
+		<Views:ControllerLocksPasswordsView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:ControllerLockPasswordViewModel}">
+		<Views:ControllerLockPasswordView />
+	</DataTemplate>
+
 </ResourceDictionary>

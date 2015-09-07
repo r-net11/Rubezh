@@ -17,8 +17,9 @@
 				<IconedMenuItem Command="{Binding ShowControllerPasswordCommand}" ImageSource="BPassController" Text="Пароль контроллера" TotalHeight="24" />
 				<IconedMenuItem Command="{Binding ShowControllerNetworkCommand}" ImageSource="BNetController" Text="Сетевые настройки контроллера" TotalHeight="24" />
 				<IconedMenuItem Command="{Binding ShowControllerTimeSettingsCommand}" ImageSource="BTimeController" Text="Временные настройки контроллера" TotalHeight="24" />
-				<IconedMenuItem Command="{Binding WriteConfigurationInAllControllersCommand}" ImageSource="BGraphAllController" Text="Запись конфигурации на все контроллеры" TotalHeight="24" />
+				<IconedMenuItem Command="{Binding ShowWriteConfigurationInAllControllersCommand}" ImageSource="BGraphAllController" Text="Запись конфигурации на все контроллеры" TotalHeight="24" />
 				<IconedMenuItem Command="{Binding ShowLockConfigurationCommand}" ImageSource="BLockParam" Text="Параметры замка" TotalHeight="24" />
+				<IconedMenuItem Command="{Binding ShowControllerLocksPasswordsCommand}" ImageSource="BPassController" Text="Пароли замков" TotalHeight="24" />
 			</MenuItem>
 			<Menu.Style>
 				<Style TargetType="{x:Type Menu}">
