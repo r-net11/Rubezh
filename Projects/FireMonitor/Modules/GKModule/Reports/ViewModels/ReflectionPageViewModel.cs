@@ -36,6 +36,13 @@ namespace GKModule.ViewModels
 		}
 		public override void LoadFilter(SKDReportFilter filter)
 		{
+			var mirrorfilter = filter as IReportFilterReflection;
+			if (mirrorfilter == null)
+				return;
+			if (!filter.IsDefault)
+				SelectedDevice = Devices.FirstOrDefault(x => x.UID == mirrorfilter.Mirror);
+			else
+				SelectedDevice = Devices.FirstOrDefault();
 		}
 		public override void UpdateFilter(SKDReportFilter filter)
 		{
