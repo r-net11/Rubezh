@@ -488,7 +488,7 @@ namespace GKImitator.ViewModels
 				HasTurnOff = true;
 				HasPauseTurnOn = true;
 				AddStateBit(GKStateBit.On);
-				AddStateBit(GKStateBit.Off);
+				AddStateBit(GKStateBit.Off, true);
 				AddStateBit(GKStateBit.TurningOn);
 				AddStateBit(GKStateBit.TurningOff);
 				HasOnDelay = true;
@@ -505,7 +505,7 @@ namespace GKImitator.ViewModels
 				HasTurnOnNow = true;
 				HasTurnOff = true;
 				AddStateBit(GKStateBit.On);
-				AddStateBit(GKStateBit.Off);
+				AddStateBit(GKStateBit.Off, true);
 				AddStateBit(GKStateBit.TurningOn);
 				AddStateBit(GKStateBit.TurningOff);
 				HasOnDelay = true;
@@ -522,7 +522,7 @@ namespace GKImitator.ViewModels
 				HasTurnOnNow = true;
 				HasTurnOff = true;
 				AddStateBit(GKStateBit.On);
-				AddStateBit(GKStateBit.Off);
+				AddStateBit(GKStateBit.Off, true);
 				AddStateBit(GKStateBit.TurningOn);
 				AddStateBit(GKStateBit.TurningOff);
 				HasOnDelay = true;
@@ -535,6 +535,16 @@ namespace GKImitator.ViewModels
 				HasAutomaticRegime = true;
 				HasManualRegime = true;
 				HasIgnoreRegime = true;
+				HasTurnOn = true;
+				HasTurnOnNow = true;
+				HasTurnOff = true;
+				AddStateBit(GKStateBit.On);
+				AddStateBit(GKStateBit.Off, true);
+				AddStateBit(GKStateBit.TurningOn);
+				AddStateBit(GKStateBit.TurningOff);
+				HasOnDelay = true;
+				HasHoldDelay = true;
+				HasOffDelay = true;
 			}
 
 			if (GKBase is GKGuardZone)
@@ -542,6 +552,16 @@ namespace GKImitator.ViewModels
 				HasAutomaticRegime = true;
 				HasManualRegime = true;
 				HasIgnoreRegime = true;
+				HasTurnOn = true;
+				HasTurnOnNow = true;
+				HasTurnOff = true;
+				AddStateBit(GKStateBit.On);
+				AddStateBit(GKStateBit.Off, true);
+				AddStateBit(GKStateBit.TurningOn);
+				AddStateBit(GKStateBit.TurningOff);
+				HasOnDelay = true;
+				HasHoldDelay = true;
+				HasOffDelay = true;
 			}
 		}
 	}

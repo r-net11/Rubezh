@@ -8,6 +8,7 @@ using GKImitator.ViewModels;
 using GKProcessor;
 using FiresecClient;
 using SKDDriver.DataClasses;
+using System.Diagnostics;
 
 namespace GKImitator.Processor
 {
@@ -35,6 +36,7 @@ namespace GKImitator.Processor
 			serverSocket.BeginReceiveFrom(byteData, 0, byteData.Length, SocketFlags.None, ref epSender, new AsyncCallback(OnReceive), epSender);
 		}
 
+		[DebuggerStepThrough]
 		void OnReceive(IAsyncResult ar)
 		{
 			try
@@ -65,6 +67,7 @@ namespace GKImitator.Processor
 			}
 		}
 
+		[DebuggerStepThrough]
 		void OnSend(IAsyncResult ar)
 		{
 			serverSocket.EndSend(ar);
@@ -191,7 +194,7 @@ namespace GKImitator.Processor
 					return new List<byte>();
 
 				case 28: // Редактирование графика работ
-					SchedulesProcessor.EditShedule(byteData.Skip(5).ToList());
+					SchedulesProcessor.EditShedule(byteData.Skip(6).ToList());
 					return new List<byte>();
 			}
 			return new List<byte>();

@@ -265,9 +265,9 @@
       <Project>{0F0ACE8E-E606-4FCA-B6B2-2F1FD86121DE}</Project>
       <Name>Controls</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Common\Defender\Defender\Defender.csproj">
+    <ProjectReference Include="..\..\Common\FiresecLicense\FiresecLicense.csproj">
       <Project>{e6d24912-812b-42b4-b6b0-97ca33c0f4af}</Project>
-      <Name>Defender</Name>
+      <Name>FiresecLicense</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Common\FiresecServiceAPI\FiresecAPI.csproj">
       <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>

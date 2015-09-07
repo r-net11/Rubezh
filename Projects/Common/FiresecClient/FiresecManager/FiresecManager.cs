@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
-using System.Data;
-using System.Threading;
-using Infrastructure.Common;
+using FiresecLicense;
 
 namespace FiresecClient
 {
@@ -57,14 +54,7 @@ namespace FiresecClient
                 var operationResult = FiresecService.GetLicenseInfo();
                 if (!operationResult.HasError)
                 {
-                    LicenseHelper.SetLicense(
-						operationResult.Result.LicenseMode, 
-						operationResult.Result.RemoteWorkplacesCount,
-						operationResult.Result.Fire,
-						operationResult.Result.Security,
-						operationResult.Result.Access,
-						operationResult.Result.Video,
-						operationResult.Result.OpcServer);
+					FiresecLicenseManager.CurrentLicenseInfo = operationResult.Result;
                     return null;
                 }
                 else

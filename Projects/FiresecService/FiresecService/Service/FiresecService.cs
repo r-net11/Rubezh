@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Journal;
 using FiresecAPI.Models;
-using FiresecAPI.SKD;
-using FiresecService.ViewModels;
-using SKDDriver;
 using SKDDriver.DataClasses;
-using Infrastructure.Common;
+using FiresecLicense;
 
 namespace FiresecService.Service
 {
@@ -128,16 +124,7 @@ namespace FiresecService.Service
         
         public OperationResult<FiresecLicenseInfo> GetLicenseInfo()
         {
-            return new OperationResult<FiresecLicenseInfo>(new FiresecLicenseInfo()
-            {
-                LicenseMode = LicenseHelper.LicenseMode,
-                RemoteWorkplacesCount = LicenseHelper.RemoteWorkplacesCount,
-                Video = LicenseHelper.Video,
-                Fire = LicenseHelper.Fire,
-                OpcServer = LicenseHelper.OpcServer,
-                Security = LicenseHelper.Security,
-                Access = LicenseHelper.Access
-            });
+			return new OperationResult<FiresecLicenseInfo>(FiresecLicenseManager.CurrentLicenseInfo);
         }
     }
 }

@@ -10,6 +10,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Shell = FireMonitor;
 using Infrastructure.Client.Layout;
+using FiresecLicense;
 
 namespace FireMonitor.Layout
 {
@@ -106,16 +107,16 @@ namespace FireMonitor.Layout
 		public static bool CheckLicense(FiresecAPI.Models.Layouts.Layout layout)
 		{
 			return !layout.Parts.Any(x=>
-				!LicenseHelper.Fire && (
+				!FiresecLicenseManager.CurrentLicenseInfo.HasFirefighting && (
 				x.DescriptionUID == LayoutPartIdentities.PumpStations ||
 				x.DescriptionUID == LayoutPartIdentities.MPTs
 				)
 				||
-				!LicenseHelper.Security && (
+				!FiresecLicenseManager.CurrentLicenseInfo.HasGuard && (
 				x.DescriptionUID == LayoutPartIdentities.GuardZones
 				)
 				||
-				!LicenseHelper.Access && (
+				!FiresecLicenseManager.CurrentLicenseInfo.HasSKD && (
 				x.DescriptionUID == LayoutPartIdentities.Doors ||
 				x.DescriptionUID == LayoutPartIdentities.GKSKDZones ||
 				x.DescriptionUID == LayoutPartIdentities.SKDVerification ||
@@ -127,7 +128,7 @@ namespace FireMonitor.Layout
 				x.DescriptionUID == LayoutPartIdentities.SKDTimeTracking
 				)
 				||
-				!LicenseHelper.Video && (
+				!FiresecLicenseManager.CurrentLicenseInfo.HasVideo && (
 				x.DescriptionUID == LayoutPartIdentities.CamerasList ||
 				x.DescriptionUID == LayoutPartIdentities.CameraVideo ||
 				x.DescriptionUID == LayoutPartIdentities.MultiCamera

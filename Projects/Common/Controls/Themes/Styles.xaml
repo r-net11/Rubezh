@@ -50,6 +50,7 @@
 
 		<ResourceDictionary Source="../XamlImages/Add.xaml" />
 		<ResourceDictionary Source="../XamlImages/AddChild.xaml" />
+		<ResourceDictionary Source="../XamlImages/EditCheckBoxList.xaml" />
 		<ResourceDictionary Source="../XamlImages/AddCondition.xaml" />
 		<ResourceDictionary Source="../XamlImages/AddCycle.xaml" />
 		<ResourceDictionary Source="../XamlImages/AddTime.xaml" />

@@ -1,6 +1,6 @@
 ﻿using FiresecClient;
 using Infrastructure.Common.Validation;
-using Infrastructure.Common;
+using FiresecLicense;
 
 namespace GKModule.Validation
 {
@@ -8,14 +8,14 @@ namespace GKModule.Validation
 	{
 		void ValidateLicense()
 		{
-			ValidateFire();
-			ValidateSecurity();
-			ValidateAccess();
+			ValidateFirefighting();
+			ValidateGuard();
+			ValidateSKD();
 		}
 
-		void ValidateFire()
+		void ValidateFirefighting()
 		{
-			if (LicenseHelper.Fire)
+			if (FiresecLicenseManager.CurrentLicenseInfo.HasFirefighting)
 				return;
 			
 			foreach (var pumpStation in GKManager.PumpStations)
@@ -25,18 +25,18 @@ namespace GKModule.Validation
 				Errors.Add(new MPTValidationError(mpt, "Отсутствует лицензия модуля \"GLOBAL Пожаротушение\"", ValidationErrorLevel.CannotWrite));
 		}
 
-		void ValidateSecurity()
+		void ValidateGuard()
 		{
-			if (LicenseHelper.Security)
+			if (FiresecLicenseManager.CurrentLicenseInfo.HasGuard)
 				return;
 
 			foreach(var guardZone in GKManager.GuardZones)
 				Errors.Add(new GuardZoneValidationError(guardZone, "Отсутствует лицензия модуля \"GLOBAL Охрана\"", ValidationErrorLevel.CannotWrite));
 		}
 
-		void ValidateAccess()
+		void ValidateSKD()
 		{
-			if (LicenseHelper.Access)
+			if (FiresecLicenseManager.CurrentLicenseInfo.HasSKD)
 				return;
 
 			foreach(var skdZone in GKManager.SKDZones)

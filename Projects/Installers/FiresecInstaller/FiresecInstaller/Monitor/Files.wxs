@@ -17,7 +17,7 @@
 				<File Id="Monitor.Controls.dll" Name="Controls.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Monitor.DeviceControls.dll" Name="DeviceControls.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Monitor.RviClient.dll" Name="RviClient.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.Defender.dll" Name="Defender.dll" Source="$(var.Monitor.TargetDir)" />
+				<File Id="Monitor.FiresecLicense.dll" Name="FiresecLicense.dll" Source="$(var.Monitor.TargetDir)" />
 
 				<File Id="Monitor.FireMonitor.Layout.exe" Name="FireMonitor.Layout.exe" Source="$(var.Monitor.TargetDir)" />
 				<File Id="Monitor.FireMonitor.Layout.exe.config" Name="FireMonitor.Layout.exe.config" Source="$(var.Monitor.TargetDir)" />

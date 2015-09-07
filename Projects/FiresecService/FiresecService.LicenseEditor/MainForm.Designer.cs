@@ -32,16 +32,15 @@
 			this.tableLayoutPanelCenter = new System.Windows.Forms.TableLayoutPanel();
 			this.labelOpcServer = new System.Windows.Forms.Label();
 			this.labelVideo = new System.Windows.Forms.Label();
-			this.labelAccess = new System.Windows.Forms.Label();
-			this.labelFire = new System.Windows.Forms.Label();
-			this.checkBoxFire = new System.Windows.Forms.CheckBox();
-			this.checkBoxSecurity = new System.Windows.Forms.CheckBox();
-			this.checkBoxAccess = new System.Windows.Forms.CheckBox();
+			this.labelSKD = new System.Windows.Forms.Label();
+			this.labelFirefighting = new System.Windows.Forms.Label();
+			this.checkBoxFirefighting = new System.Windows.Forms.CheckBox();
+			this.checkBoxGuard = new System.Windows.Forms.CheckBox();
+			this.checkBoxSKD = new System.Windows.Forms.CheckBox();
 			this.checkBoxVideo = new System.Windows.Forms.CheckBox();
 			this.checkBoxOpcServer = new System.Windows.Forms.CheckBox();
 			this.labelRemoteWorkplacesCount = new System.Windows.Forms.Label();
-			this.labelSecurity = new System.Windows.Forms.Label();
-			this.labelVersion = new System.Windows.Forms.Label();
+			this.labelGuard = new System.Windows.Forms.Label();
 			this.numericUpDownRemoteWorkplacesCount = new System.Windows.Forms.NumericUpDown();
 			this.panelTop = new System.Windows.Forms.Panel();
 			this.textBoxKey = new System.Windows.Forms.TextBox();
@@ -73,40 +72,39 @@
 			this.tableLayoutPanelCenter.ColumnCount = 2;
 			this.tableLayoutPanelCenter.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 73F));
 			this.tableLayoutPanelCenter.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 27F));
-			this.tableLayoutPanelCenter.Controls.Add(this.labelOpcServer, 0, 6);
-			this.tableLayoutPanelCenter.Controls.Add(this.labelVideo, 0, 5);
-			this.tableLayoutPanelCenter.Controls.Add(this.labelAccess, 0, 4);
-			this.tableLayoutPanelCenter.Controls.Add(this.labelFire, 0, 2);
-			this.tableLayoutPanelCenter.Controls.Add(this.checkBoxFire, 1, 2);
-			this.tableLayoutPanelCenter.Controls.Add(this.checkBoxSecurity, 1, 3);
-			this.tableLayoutPanelCenter.Controls.Add(this.checkBoxAccess, 1, 4);
-			this.tableLayoutPanelCenter.Controls.Add(this.checkBoxVideo, 1, 5);
-			this.tableLayoutPanelCenter.Controls.Add(this.checkBoxOpcServer, 1, 6);
-			this.tableLayoutPanelCenter.Controls.Add(this.labelRemoteWorkplacesCount, 0, 1);
-			this.tableLayoutPanelCenter.Controls.Add(this.labelSecurity, 0, 3);
-			this.tableLayoutPanelCenter.Controls.Add(this.labelVersion, 1, 0);
-			this.tableLayoutPanelCenter.Controls.Add(this.numericUpDownRemoteWorkplacesCount, 1, 1);
+			this.tableLayoutPanelCenter.Controls.Add(this.labelOpcServer, 0, 5);
+			this.tableLayoutPanelCenter.Controls.Add(this.labelVideo, 0, 4);
+			this.tableLayoutPanelCenter.Controls.Add(this.labelSKD, 0, 3);
+			this.tableLayoutPanelCenter.Controls.Add(this.labelFirefighting, 0, 1);
+			this.tableLayoutPanelCenter.Controls.Add(this.checkBoxFirefighting, 1, 1);
+			this.tableLayoutPanelCenter.Controls.Add(this.checkBoxGuard, 1, 2);
+			this.tableLayoutPanelCenter.Controls.Add(this.checkBoxSKD, 1, 3);
+			this.tableLayoutPanelCenter.Controls.Add(this.checkBoxVideo, 1, 4);
+			this.tableLayoutPanelCenter.Controls.Add(this.checkBoxOpcServer, 1, 5);
+			this.tableLayoutPanelCenter.Controls.Add(this.labelRemoteWorkplacesCount, 0, 0);
+			this.tableLayoutPanelCenter.Controls.Add(this.labelGuard, 0, 2);
+			this.tableLayoutPanelCenter.Controls.Add(this.numericUpDownRemoteWorkplacesCount, 1, 0);
 			this.tableLayoutPanelCenter.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tableLayoutPanelCenter.Location = new System.Drawing.Point(0, 34);
 			this.tableLayoutPanelCenter.Name = "tableLayoutPanelCenter";
-			this.tableLayoutPanelCenter.RowCount = 7;
+			this.tableLayoutPanelCenter.RowCount = 6;
 			this.tableLayoutPanelCenter.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tableLayoutPanelCenter.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tableLayoutPanelCenter.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tableLayoutPanelCenter.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tableLayoutPanelCenter.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tableLayoutPanelCenter.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanelCenter.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanelCenter.Size = new System.Drawing.Size(498, 162);
+			this.tableLayoutPanelCenter.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.tableLayoutPanelCenter.Size = new System.Drawing.Size(498, 144);
 			this.tableLayoutPanelCenter.TabIndex = 1;
 			// 
 			// labelOpcServer
 			// 
 			this.labelOpcServer.AutoSize = true;
 			this.labelOpcServer.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.labelOpcServer.Location = new System.Drawing.Point(5, 139);
+			this.labelOpcServer.Location = new System.Drawing.Point(5, 118);
 			this.labelOpcServer.Name = "labelOpcServer";
-			this.labelOpcServer.Size = new System.Drawing.Size(353, 21);
+			this.labelOpcServer.Size = new System.Drawing.Size(353, 24);
 			this.labelOpcServer.TabIndex = 13;
 			this.labelOpcServer.Text = "GLOBAL OPC сервер:";
 			this.labelOpcServer.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -115,66 +113,66 @@
 			// 
 			this.labelVideo.AutoSize = true;
 			this.labelVideo.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.labelVideo.Location = new System.Drawing.Point(5, 117);
+			this.labelVideo.Location = new System.Drawing.Point(5, 96);
 			this.labelVideo.Name = "labelVideo";
 			this.labelVideo.Size = new System.Drawing.Size(353, 20);
 			this.labelVideo.TabIndex = 12;
 			this.labelVideo.Text = "GLOBAL Видео:";
 			this.labelVideo.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
-			// labelAccess
+			// labelSKD
 			// 
-			this.labelAccess.AutoSize = true;
-			this.labelAccess.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.labelAccess.Location = new System.Drawing.Point(5, 95);
-			this.labelAccess.Name = "labelAccess";
-			this.labelAccess.Size = new System.Drawing.Size(353, 20);
-			this.labelAccess.TabIndex = 11;
-			this.labelAccess.Text = "GLOBAL Доступ:";
-			this.labelAccess.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.labelSKD.AutoSize = true;
+			this.labelSKD.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.labelSKD.Location = new System.Drawing.Point(5, 74);
+			this.labelSKD.Name = "labelSKD";
+			this.labelSKD.Size = new System.Drawing.Size(353, 20);
+			this.labelSKD.TabIndex = 11;
+			this.labelSKD.Text = "GLOBAL Доступ:";
+			this.labelSKD.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
-			// labelFire
+			// labelFirefighting
 			// 
-			this.labelFire.AutoSize = true;
-			this.labelFire.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.labelFire.Location = new System.Drawing.Point(5, 51);
-			this.labelFire.Name = "labelFire";
-			this.labelFire.Size = new System.Drawing.Size(353, 20);
-			this.labelFire.TabIndex = 9;
-			this.labelFire.Text = "GLOBAL Пожаротушение:";
-			this.labelFire.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.labelFirefighting.AutoSize = true;
+			this.labelFirefighting.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.labelFirefighting.Location = new System.Drawing.Point(5, 30);
+			this.labelFirefighting.Name = "labelFirefighting";
+			this.labelFirefighting.Size = new System.Drawing.Size(353, 20);
+			this.labelFirefighting.TabIndex = 9;
+			this.labelFirefighting.Text = "GLOBAL Пожаротушение:";
+			this.labelFirefighting.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
-			// checkBoxFire
+			// checkBoxFirefighting
 			// 
-			this.checkBoxFire.AutoSize = true;
-			this.checkBoxFire.Location = new System.Drawing.Point(366, 54);
-			this.checkBoxFire.Name = "checkBoxFire";
-			this.checkBoxFire.Size = new System.Drawing.Size(15, 14);
-			this.checkBoxFire.TabIndex = 3;
-			this.checkBoxFire.UseVisualStyleBackColor = true;
+			this.checkBoxFirefighting.AutoSize = true;
+			this.checkBoxFirefighting.Location = new System.Drawing.Point(366, 33);
+			this.checkBoxFirefighting.Name = "checkBoxFirefighting";
+			this.checkBoxFirefighting.Size = new System.Drawing.Size(15, 14);
+			this.checkBoxFirefighting.TabIndex = 3;
+			this.checkBoxFirefighting.UseVisualStyleBackColor = true;
 			// 
-			// checkBoxSecurity
+			// checkBoxGuard
 			// 
-			this.checkBoxSecurity.AutoSize = true;
-			this.checkBoxSecurity.Location = new System.Drawing.Point(366, 76);
-			this.checkBoxSecurity.Name = "checkBoxSecurity";
-			this.checkBoxSecurity.Size = new System.Drawing.Size(15, 14);
-			this.checkBoxSecurity.TabIndex = 4;
-			this.checkBoxSecurity.UseVisualStyleBackColor = true;
+			this.checkBoxGuard.AutoSize = true;
+			this.checkBoxGuard.Location = new System.Drawing.Point(366, 55);
+			this.checkBoxGuard.Name = "checkBoxGuard";
+			this.checkBoxGuard.Size = new System.Drawing.Size(15, 14);
+			this.checkBoxGuard.TabIndex = 4;
+			this.checkBoxGuard.UseVisualStyleBackColor = true;
 			// 
-			// checkBoxAccess
+			// checkBoxSKD
 			// 
-			this.checkBoxAccess.AutoSize = true;
-			this.checkBoxAccess.Location = new System.Drawing.Point(366, 98);
-			this.checkBoxAccess.Name = "checkBoxAccess";
-			this.checkBoxAccess.Size = new System.Drawing.Size(15, 14);
-			this.checkBoxAccess.TabIndex = 5;
-			this.checkBoxAccess.UseVisualStyleBackColor = true;
+			this.checkBoxSKD.AutoSize = true;
+			this.checkBoxSKD.Location = new System.Drawing.Point(366, 77);
+			this.checkBoxSKD.Name = "checkBoxSKD";
+			this.checkBoxSKD.Size = new System.Drawing.Size(15, 14);
+			this.checkBoxSKD.TabIndex = 5;
+			this.checkBoxSKD.UseVisualStyleBackColor = true;
 			// 
 			// checkBoxVideo
 			// 
 			this.checkBoxVideo.AutoSize = true;
-			this.checkBoxVideo.Location = new System.Drawing.Point(366, 120);
+			this.checkBoxVideo.Location = new System.Drawing.Point(366, 99);
 			this.checkBoxVideo.Name = "checkBoxVideo";
 			this.checkBoxVideo.Size = new System.Drawing.Size(15, 14);
 			this.checkBoxVideo.TabIndex = 6;
@@ -183,7 +181,7 @@
 			// checkBoxOpcServer
 			// 
 			this.checkBoxOpcServer.AutoSize = true;
-			this.checkBoxOpcServer.Location = new System.Drawing.Point(366, 142);
+			this.checkBoxOpcServer.Location = new System.Drawing.Point(366, 121);
 			this.checkBoxOpcServer.Name = "checkBoxOpcServer";
 			this.checkBoxOpcServer.Size = new System.Drawing.Size(15, 14);
 			this.checkBoxOpcServer.TabIndex = 7;
@@ -193,37 +191,27 @@
 			// 
 			this.labelRemoteWorkplacesCount.AutoSize = true;
 			this.labelRemoteWorkplacesCount.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.labelRemoteWorkplacesCount.Location = new System.Drawing.Point(5, 23);
+			this.labelRemoteWorkplacesCount.Location = new System.Drawing.Point(5, 2);
 			this.labelRemoteWorkplacesCount.Name = "labelRemoteWorkplacesCount";
 			this.labelRemoteWorkplacesCount.Size = new System.Drawing.Size(353, 26);
 			this.labelRemoteWorkplacesCount.TabIndex = 8;
 			this.labelRemoteWorkplacesCount.Text = "GLOBAL Удаленное рабочее место (количество):";
 			this.labelRemoteWorkplacesCount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
-			// labelSecurity
+			// labelGuard
 			// 
-			this.labelSecurity.AutoSize = true;
-			this.labelSecurity.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.labelSecurity.Location = new System.Drawing.Point(5, 73);
-			this.labelSecurity.Name = "labelSecurity";
-			this.labelSecurity.Size = new System.Drawing.Size(353, 20);
-			this.labelSecurity.TabIndex = 10;
-			this.labelSecurity.Text = "GLOBAL Охрана:";
-			this.labelSecurity.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
-			// labelVersion
-			// 
-			this.labelVersion.AutoSize = true;
-			this.labelVersion.Location = new System.Drawing.Point(366, 5);
-			this.labelVersion.Margin = new System.Windows.Forms.Padding(3);
-			this.labelVersion.Name = "labelVersion";
-			this.labelVersion.Size = new System.Drawing.Size(0, 13);
-			this.labelVersion.TabIndex = 15;
-			this.labelVersion.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.labelGuard.AutoSize = true;
+			this.labelGuard.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.labelGuard.Location = new System.Drawing.Point(5, 52);
+			this.labelGuard.Name = "labelGuard";
+			this.labelGuard.Size = new System.Drawing.Size(353, 20);
+			this.labelGuard.TabIndex = 10;
+			this.labelGuard.Text = "GLOBAL Охрана:";
+			this.labelGuard.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// numericUpDownRemoteWorkplacesCount
 			// 
-			this.numericUpDownRemoteWorkplacesCount.Location = new System.Drawing.Point(366, 26);
+			this.numericUpDownRemoteWorkplacesCount.Location = new System.Drawing.Point(366, 5);
 			this.numericUpDownRemoteWorkplacesCount.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -257,7 +245,7 @@
 			this.panelBottom.Controls.Add(this.buttonSave);
 			this.panelBottom.Controls.Add(this.buttonLoad);
 			this.panelBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.panelBottom.Location = new System.Drawing.Point(0, 196);
+			this.panelBottom.Location = new System.Drawing.Point(0, 178);
 			this.panelBottom.Name = "panelBottom";
 			this.panelBottom.Size = new System.Drawing.Size(498, 30);
 			this.panelBottom.TabIndex = 3;
@@ -298,7 +286,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(498, 226);
+			this.ClientSize = new System.Drawing.Size(498, 208);
 			this.Controls.Add(this.tableLayoutPanelCenter);
 			this.Controls.Add(this.panelBottom);
 			this.Controls.Add(this.panelTop);
@@ -322,23 +310,22 @@
         private System.Windows.Forms.Panel panelTop;
         private System.Windows.Forms.TextBox textBoxKey;
         private System.Windows.Forms.Panel panelBottom;
-        private System.Windows.Forms.CheckBox checkBoxFire;
-        private System.Windows.Forms.CheckBox checkBoxSecurity;
-        private System.Windows.Forms.CheckBox checkBoxAccess;
+        private System.Windows.Forms.CheckBox checkBoxFirefighting;
+        private System.Windows.Forms.CheckBox checkBoxGuard;
+        private System.Windows.Forms.CheckBox checkBoxSKD;
         private System.Windows.Forms.CheckBox checkBoxVideo;
         private System.Windows.Forms.CheckBox checkBoxOpcServer;
         private System.Windows.Forms.Label labelOpcServer;
         private System.Windows.Forms.Label labelVideo;
-        private System.Windows.Forms.Label labelAccess;
-        private System.Windows.Forms.Label labelFire;
+        private System.Windows.Forms.Label labelSKD;
+        private System.Windows.Forms.Label labelFirefighting;
         private System.Windows.Forms.Label labelRemoteWorkplacesCount;
         private System.Windows.Forms.NumericUpDown numericUpDownRemoteWorkplacesCount;
-        private System.Windows.Forms.Label labelSecurity;
+        private System.Windows.Forms.Label labelGuard;
         private System.Windows.Forms.Button buttonSave;
         private System.Windows.Forms.Button buttonLoad;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
-        private System.Windows.Forms.SaveFileDialog saveFileDialog;
-		private System.Windows.Forms.Label labelVersion;
+		private System.Windows.Forms.SaveFileDialog saveFileDialog;
     }
 }
 

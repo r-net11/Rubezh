@@ -95,16 +95,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Common\Defender\Defender\Defender.csproj">
-      <Project>{e6d24912-812b-42b4-b6b0-97ca33c0f4af}</Project>
-      <Name>Defender</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
-      <Project>{d57cb190-a30e-4a3d-a674-f1766ce1cc72}</Project>
-      <Name>Infrastructure.Common</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>
@@ -125,6 +115,12 @@
       <ProductName>Windows Installer 4.5</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\FiresecLicense\FiresecLicense.csproj">
+      <Project>{e6d24912-812b-42b4-b6b0-97ca33c0f4af}</Project>
+      <Name>FiresecLicense</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

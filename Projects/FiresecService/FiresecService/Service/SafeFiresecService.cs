@@ -9,7 +9,7 @@ using FiresecAPI.AutomationCallback;
 using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using FiresecAPI.Models;
-using Infrastructure.Common;
+using FiresecLicense;
 
 namespace FiresecService.Service
 {

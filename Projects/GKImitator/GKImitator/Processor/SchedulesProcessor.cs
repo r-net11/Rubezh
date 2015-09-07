@@ -12,25 +12,18 @@ namespace GKImitator.Processor
 		public static void EditShedule(List<byte> bytes)
 		{
 			var imitatorSchedule = new ImitatorSchedule();
-			imitatorSchedule.No = bytes[1];
-			imitatorSchedule.Name = BytesHelper.BytesToStringDescription(bytes, 2);
-			imitatorSchedule.HolidayScheduleNo = bytes[34];
-			imitatorSchedule.PartsCount = BytesHelper.SubstructShort(bytes, 36);
-			imitatorSchedule.TotalSeconds = BytesHelper.SubstructInt(bytes, 38);
-			imitatorSchedule.WorkHolidayScheduleNo = bytes[42];
-			for (int i = 0; i < 100; i++)
+			imitatorSchedule.No = bytes[0];
+			imitatorSchedule.Name = BytesHelper.BytesToStringDescription(bytes, 1);
+			imitatorSchedule.HolidayScheduleNo = bytes[33];
+			imitatorSchedule.PartsCount = BytesHelper.SubstructShort(bytes, 34);
+			imitatorSchedule.TotalSeconds = BytesHelper.SubstructInt(bytes, 36);
+			imitatorSchedule.WorkHolidayScheduleNo = bytes[40];
+			for (int i = 0; i < imitatorSchedule.PartsCount / 2; i++)
 			{
 				var imitatorSheduleInterval = new ImitatorSheduleInterval();
-				imitatorSheduleInterval.StartSeconds = BytesHelper.SubstructInt(bytes, 49 + i * 4);
-				imitatorSheduleInterval.EndSeconds = BytesHelper.SubstructInt(bytes, 53 + i * 4);
-				if (imitatorSheduleInterval.StartSeconds != 0)
-				{
-					imitatorSchedule.ImitatorSheduleIntervals.Add(imitatorSheduleInterval);
-				}
-				else
-				{
-					break;
-				}
+				imitatorSheduleInterval.StartSeconds = BytesHelper.SubstructInt(bytes, 48 + i * 8);
+				imitatorSheduleInterval.EndSeconds = BytesHelper.SubstructInt(bytes, 52 + i * 8);
+				imitatorSchedule.ImitatorSheduleIntervals.Add(imitatorSheduleInterval);
 			}
 
 			using (var dbService = new DbService())
