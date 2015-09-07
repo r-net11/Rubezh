@@ -9,15 +9,16 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace StrazhModule.ViewModels
 {
-	public class ControllerLockPasswordViewModel : SaveCancelDialogViewModel
+	public class ControllerPasswordViewModel : SaveCancelDialogViewModel
 	{
-		private ControllerLocksPasswordsViewModel _controllerLocksPasswordsViewModel;
+		private readonly ControllerLocksPasswordViewModel _controllerLocksPasswordViewModel;
 
-		public ControllerLockPasswordViewModel(ControllerLocksPasswordsViewModel controllerLocksPasswordsViewModel)
+		public ControllerPasswordViewModel(ControllerLocksPasswordViewModel controllerLocksPasswordViewModel)
 		{
-			_controllerLocksPasswordsViewModel = controllerLocksPasswordsViewModel;
+			_controllerLocksPasswordViewModel = controllerLocksPasswordViewModel;
 
 			Title = "Пароль замка";
+			Password = _controllerLocksPasswordViewModel.Password;
 		}
 
 		private string _password;
@@ -38,12 +39,15 @@ namespace StrazhModule.ViewModels
 			var result = Validate();
 			if (!result)
 				MessageBoxService.ShowWarning("Пароль замка должен соответствовать следующим ограничениям:\n\nНе может быть пустым\nКоличество знаков от 3 до 9\nНе должен начинаться на 0\nНе должен совпадать с уже имеющимся паролем");
+
+			_controllerLocksPasswordViewModel.Password = Password;
+
 			return result;
 		}
 
 		private bool Validate()
 		{
-			return !String.IsNullOrEmpty(Password) && ValidatePasswordContent() && !ValidatePasswordAlreadyExists();
+			return !String.IsNullOrEmpty(Password) && ValidatePasswordContent() && !ValidateIfPasswordAlreadyExists();
 		}
 
 		private bool ValidatePasswordContent()
@@ -55,9 +59,9 @@ namespace StrazhModule.ViewModels
 			return matches.Count == 1 && matches[0].Value == Password && new Regex(pattern2).IsMatch(Password);
 		}
 
-		private bool ValidatePasswordAlreadyExists()
+		private bool ValidateIfPasswordAlreadyExists()
 		{
-			return false;
+			return _controllerLocksPasswordViewModel.ValidateIfPasswordAlreadyExists(Password);
 		}
 	}
 }
