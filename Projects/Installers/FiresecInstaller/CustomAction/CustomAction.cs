@@ -2,6 +2,7 @@
 using Microsoft.Deployment.WindowsInstaller;
 using System;
 using System.Windows;
+using Microsoft.Win32;
 
 namespace CustomAction
 {
@@ -30,6 +31,25 @@ namespace CustomAction
 				{
 					//MessageBox.Show(e.ToString());
 				}
+			}
+			return ActionResult.Success;
+		}
+
+		[CustomAction]
+		public static ActionResult CheckPostgresInstalled(Session session)
+		{
+			session.Log("Check if Postgres installed");
+			try
+			{
+				var regitryView = Environment.Is64BitOperatingSystem ? RegistryView.Registry64 : RegistryView.Registry32;
+				using (var hklm = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, regitryView))
+				{
+					var lKey = hklm.OpenSubKey(@"SOFTWARE\PostgreSQL\Installations");
+					session["NOTPOSTGRESINSTALLED"] = lKey.SubKeyCount > 0 ? "0" : "1";
+				}
+			}
+			catch (Exception)
+			{
 			}
 			return ActionResult.Success;
 		}

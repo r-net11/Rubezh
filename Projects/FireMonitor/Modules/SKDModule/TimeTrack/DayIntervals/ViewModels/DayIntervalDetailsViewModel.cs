@@ -2,6 +2,8 @@
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure;
+using SKDModule.Events;
 
 namespace SKDModule.ViewModels
 {
@@ -79,9 +81,13 @@ namespace SKDModule.ViewModels
 			Model.Name = Name;
 			Model.Description = Description;
 			Model.SlideTime = ConstantSlideTime;
-			if (!DetailsValidateHelper.Validate(Model))
+			if (DetailsValidateHelper.Validate(Model) && DayIntervalHelper.Save(Model, _isNew))
+			{
+				ServiceFactory.Events.GetEvent<EditDayIntervalEvent>().Publish(Model.UID);
+				return true;
+			}
+			else
 				return false;
-			return DayIntervalHelper.Save(Model, _isNew);
 		}
 	}
 }

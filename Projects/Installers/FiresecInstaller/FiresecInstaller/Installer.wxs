@@ -35,6 +35,7 @@
 		<Property Id="SQLINSTANCE" Value="SQLEXPRESS" />
 		<Property Id="INSTALLMODE" />
 		<Property Id="ALLUSERS" Value="1" Secure="yes" />
+		<Property Id="NOTPOSTGRESINSTALLED" Value="0"/>
 
 		<Property Id="INSTALL_FIRESEC2" Secure="yes" />
 		<Property Id="INSTALL_OPC" Value="0" Secure="yes" />
@@ -92,9 +93,10 @@
 
 		<InstallExecuteSequence>
 			<Custom Action="CloseApplications" Sequence="1" />
+			<Custom Action="CheckPostgresInstalled" Sequence="1" />
 			<RemoveExistingProducts After="InstallInitialize" />
 			<InstallExecute After="RemoveExistingProducts" />
-			<!--<Custom Action="InstallPostgres" After="InstallExecute" />-->
+			<Custom Action="InstallPostgres" After="InstallExecute"><![CDATA[&Postgres.Features=3]]></Custom>
 		</InstallExecuteSequence>
 
 		<UI Id="MyWixUI_Wizard">

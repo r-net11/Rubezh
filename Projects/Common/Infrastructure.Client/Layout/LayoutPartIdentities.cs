@@ -33,10 +33,6 @@ namespace Infrastructure.Client.Layout
 
 		public static readonly Guid SKDHR = new Guid("{CADC9059-9868-4B31-A072-992776677C57}");
 		public static readonly Guid SKDVerification = new Guid("{3223085C-F808-49DC-B215-45875DA67833}");
-		public static readonly Guid SKDDayIntervals = new Guid("{3BB6AB5A-4CD8-4D12-B46C-27E8F9DB8A51}");
-		public static readonly Guid SKDScheduleSchemes = new Guid("{8D63585E-A224-4A79-BE90-3A8B45E224A0}");
-		public static readonly Guid SKDHolidays = new Guid("{C0DF2716-3AEA-449C-9371-9DB33625F6D5}");
-		public static readonly Guid SKDSchedules = new Guid("{A793B0E1-CB3D-4318-94AF-EB379387DCFB}");
 		public static readonly Guid SKDTimeTracking = new Guid("{9F5A429C-7E00-4360-824C-24D31952E50F}");
 
 		public static readonly Guid CamerasList = new Guid("{738AECD7-A02F-490D-B352-7306C2257866}");
