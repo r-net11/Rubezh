@@ -67,7 +67,7 @@
 				<RowDefinition Height="*" />
 			</Grid.RowDefinitions>
 			<StackPanel Orientation="Horizontal">
-				<ToolBarButton Command="{Binding EditCommand}" ImageSource="Edit"  ToolTip="Редактировать зоны" />
+				<ToolBarButton Command="{Binding EditCommand}" ImageSource="EditCheckBoxList" ToolTip="Редактировать зоны" />
 			</StackPanel>
 			<DataGrid
 				Grid.Row="1"

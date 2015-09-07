@@ -1223,6 +1223,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="XamlImages\EditCheckBoxList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="XamlImages\Ellipse.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
