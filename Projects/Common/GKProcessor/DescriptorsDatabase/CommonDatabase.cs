@@ -22,7 +22,7 @@ namespace GKProcessor
 		{
 			foreach (var descriptor in Descriptors)
 			{
-				if(descriptor.Formula.HasStackOverflow())
+				if(descriptor.Formula.HasStackOverflow() && descriptor.DescriptorType != DescriptorType.Door)
 					yield return new DescriptorError(descriptor, "Ошибка глубины стека дескриптора");
 
 				var type = BytesHelper.SubstructShort(descriptor.AllBytes, 0);

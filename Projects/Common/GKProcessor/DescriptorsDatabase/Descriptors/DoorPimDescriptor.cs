@@ -140,9 +140,9 @@ namespace GKProcessor
 			{
 				Formula.AddGetBit(GKStateBit.Fire1, EnterButton);
 			}
-			if (EnterButton != null)
+			if (ExitDevice != null)
 			{
-				Formula.AddGetBit(GKStateBit.Attention, EnterButton);
+				Formula.AddGetBit(GKStateBit.Attention, ExitDevice);
 				Formula.Add(FormulaOperationType.OR);
 			}
 			Formula.AddGetBit(GKStateBit.On, PimDoor);
