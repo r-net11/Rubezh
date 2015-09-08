@@ -26,12 +26,12 @@ namespace GKWebService.Controllers
         {
             
             var result = Json(PlansDataProvider.Instance.Plans, JsonRequestBehavior.AllowGet);
-            //var hubContext = GlobalHost.ConnectionManager.GetHubContext<PlansRTStatusUpdaterHub>();
-            var dependencyResolver = GlobalHost.DependencyResolver;
-            var connectionManager = dependencyResolver.Resolve<IConnectionManager>();
-            var hubContext = connectionManager.GetHubContext<PlansRTStatusUpdaterHub>();
+            ////var hubContext = GlobalHost.ConnectionManager.GetHubContext<PlansRTStatusUpdaterHub>();
+            //var dependencyResolver = GlobalHost.DependencyResolver;
+            //var connectionManager = dependencyResolver.Resolve<IConnectionManager>();
+            //var hubContext = connectionManager.GetHubContext<PlansUpdaterHub>();
 
-            hubContext.Clients.All.Test("Message from server", "Successfully connected to SignalR");
+            //hubContext.Clients.All.Test("Message from server", "Successfully connected to SignalR");
            
             return result;
         }
