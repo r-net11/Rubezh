@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using SKDDriver.DataAccess;
 
 namespace SKDDriver
 {
@@ -32,6 +33,36 @@ namespace SKDDriver
 		public SKDCard TranslateCard(DataAccess.Card card, DataAccess.Employee employee, IEnumerable<DataAccess.CardDoor> cardDoors)
 		{
 			return Translate(card, employee, cardDoors);
+		}
+
+		protected override SKDCard Translate(Card tableItem)
+		{
+			var result = base.Translate(tableItem);
+			result.HolderUID = tableItem.EmployeeUID;
+			result.Number = (uint)tableItem.Number;
+			result.CardType = (CardType)tableItem.CardType;
+			result.StartDate = tableItem.StartDate;
+			result.EndDate = tableItem.EndDate;
+			result.AccessTemplateUID = tableItem.AccessTemplateUID;
+			result.CardDoors = DatabaseService.CardDoorTranslator.GetForCards(tableItem.UID);
+			result.IsInStopList = tableItem.IsInStopList;
+			result.StopReason = tableItem.StopReason;
+			result.PassCardTemplateUID = tableItem.PassCardTemplateUID;
+			result.DeactivationControllerUID = tableItem.DeactivationControllerUID != null ? tableItem.DeactivationControllerUID.Value : Guid.Empty;
+			result.Password = tableItem.Password;
+			result.UserTime = tableItem.UserTime;
+			if (tableItem.EmployeeUID.HasValue)
+			{
+				result.EmployeeUID = tableItem.EmployeeUID.Value;
+			}
+
+			var employee = Context.Employees.FirstOrDefault(x => x.UID == tableItem.EmployeeUID);
+			if (employee != null)
+			{
+				result.EmployeeName = employee.LastName + " " + employee.FirstName + " " + employee.SecondName;
+				result.OrganisationUID = employee.OrganisationUID.HasValue ? employee.OrganisationUID.Value : Guid.Empty;
+			}
+			return result;
 		}
 
 		private SKDCard Translate(DataAccess.Card card, DataAccess.Employee employee, IEnumerable<DataAccess.CardDoor> cardDoors)
