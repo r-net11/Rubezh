@@ -61,19 +61,25 @@ namespace FiresecClient
 		public static XStateClass GetMinStateClass()
 		{
 			var minStateClass = XStateClass.No;
-			foreach (var device in Devices)
-				if (device.IsRealDevice)
-				{
-					var stateClass = device.State.StateClass;
-					if (stateClass < minStateClass)
-						minStateClass = device.State.StateClass;
-				}
+			//foreach (var device in Devices)
+			//	if (device.IsRealDevice)
+			//	{
+			//		var stateClass = device.State.StateClass;
+			//		if (stateClass < minStateClass)
+			//			minStateClass = device.State.StateClass;
+			//	}
 			foreach (var zone in Zones)
 				if (zone.State != null && zone.State.StateClass < minStateClass)
 					minStateClass = zone.State.StateClass;
 			foreach (var direction in Directions)
 				if (direction.State != null && direction.State.StateClass < minStateClass)
 					minStateClass = direction.State.StateClass;
+			foreach (var mpt in MPTs)
+				if (mpt.State != null && mpt.State.StateClass < minStateClass)
+					minStateClass = mpt.State.StateClass;
+			foreach (var guardZone in GuardZones)
+				if (guardZone.State != null && guardZone.State.StateClass < minStateClass)
+					minStateClass = guardZone.State.StateClass;
 			return minStateClass;
 		}
 	}

@@ -59,6 +59,11 @@ namespace FireMonitor
 								if (ShowOnPlanHelper.CanShowGuardZone(guardZone))
 									ShowOnPlanHelper.ShowGuardZone(guardZone);
 								break;
+							case JournalObjectType.GKMPT:
+								var mpt = GKManager.MPTs.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
+								if (ShowOnPlanHelper.CanShowMPT(mpt))
+									ShowOnPlanHelper.ShowMPT(mpt);
+								break;
 							case JournalObjectType.VideoDevice:
 								var camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
 								if (ShowOnPlanHelper.CanShowCamera(camera))
