@@ -109,6 +109,7 @@ BOOL CALL_METHOD WRAP_BeginGetAll_Passwords(int loginID, int& finderID)
 int CALL_METHOD WRAP_GetAll_Passwords(int finderID, PasswordsCollection* result)
 {
 	PasswordsCollection passwordsCollection = {sizeof(PasswordsCollection)};
+	memset(&passwordsCollection, 0, sizeof(PasswordsCollection));
 
 	int i = 0, j = 0;
 	int nMaxNum = 10;
@@ -135,10 +136,12 @@ int CALL_METHOD WRAP_GetAll_Passwords(int finderID, PasswordsCollection* result)
 	
 	if (CLIENT_FindNextRecord(&stuIn, &stuOut, SDK_API_WAITTIME) >= 0)
 	{
-		for (i = 0; i < __min(stuOut.nMaxRecordNum, stuOut.nRetRecordNum); i++)
+		int itemsCount = __min(stuOut.nMaxRecordNum, stuOut.nRetRecordNum);
+		for (i = 0; i < itemsCount; i++)
 		{
 			memcpy(&passwordsCollection.Passwords[i], &pstuPwd[i], sizeof(NET_RECORDSET_ACCESS_CTL_PWD));
 		}
+		passwordsCollection.Count = itemsCount;
 	}
 	
 	delete[] pstuPwd;
