@@ -53,6 +53,8 @@ namespace GKProcessor
 					cardScheduleCount = 84;
 				}
 				var cardSchedules = controllerCardSchedule.CardSchedules.Skip(startCardScheduleNo).Take(cardScheduleCount).ToList();
+				if (cardSchedules.Count == 0)
+					break;
 
 				foreach (var cardSchedule in cardSchedules)
 				{
@@ -84,9 +86,6 @@ namespace GKProcessor
 					bytes.Add(0);
 					bytes.Add(0);
 				}
-
-				if (cardSchedules.Count == 0)
-					break;
 			}
 
 			var packs = new List<List<byte>>();
