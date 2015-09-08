@@ -878,7 +878,7 @@ namespace FiresecService
 						break;
 					case ChangeType.RemoveFirst:
 						listVariable.ExplicitValues.Remove(listVariable.ExplicitValues.FirstOrDefault
-							(x => ExplicitCompare(x, explicitValue, changeListArguments.ListArgument.ExplicitType,
+							(x => ExplicitCompare(x, explicitValue, changeListArguments.ItemArgument.ExplicitType,
 								changeListArguments.ListArgument.EnumType)));
 						break;
 					case ChangeType.RemoveAll:
@@ -961,6 +961,8 @@ namespace FiresecService
 				return explicitValue1.BoolValue == explicitValue2.BoolValue;
 			if (explicitType == ExplicitType.DateTime)
 				return explicitValue1.DateTimeValue == explicitValue2.DateTimeValue;
+			if (explicitType == ExplicitType.Object)
+				return explicitValue1.UidValue == explicitValue2.UidValue;
 			if (explicitType == ExplicitType.Enum)
 			{
 				if (enumType == EnumType.DriverType)
