@@ -192,7 +192,7 @@ namespace StrazhModule.ViewModels
 		}
 		private bool CanShowControllerLocksPasswords()
 		{
-			return SelectedDevice.Driver.IsController;
+			return SelectedDevice.Driver.IsController && SelectedDevice.Driver.DriverType != SKDDriverType.ChinaController_1;
 		}
 
 		/// <summary>

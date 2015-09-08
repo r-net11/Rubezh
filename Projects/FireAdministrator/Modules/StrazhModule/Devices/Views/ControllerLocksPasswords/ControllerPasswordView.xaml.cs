@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace StrazhModule.Views
 {
 	/// <summary>
-	/// Interaction logic for ControllerLockPasswordView.xaml
+	/// Interaction logic for ControllerPasswordView.xaml
 	/// </summary>
-	public partial class ControllerLockPasswordView : UserControl
+	public partial class ControllerPasswordView : UserControl
 	{
-		public ControllerLockPasswordView()
+		public ControllerPasswordView()
 		{
 			InitializeComponent();
 		}

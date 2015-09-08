@@ -1,5 +1,6 @@
 ﻿using Common;
 using FiresecAPI.GK;
+using FiresecAPI.SKD.Device;
 using Infrustructure.Plans.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -181,6 +182,9 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public SKDInterlockConfiguration InterlockConfiguration { get; set; }
+
+		[DataMember]
+		public SKDControllerPasswords ControllerPasswords { get; set; }
 
 		#region IStateProvider Members
 
