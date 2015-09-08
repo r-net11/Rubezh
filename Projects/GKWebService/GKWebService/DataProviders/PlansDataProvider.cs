@@ -25,7 +25,6 @@ using Image = System.Windows.Controls.Image;
 using Point = System.Windows.Point;
 using Size = System.Drawing.Size;
 using System.Threading.Tasks;
-using System.Threading.Tasks.Schedulers;
 using Brushes = System.Windows.Media.Brushes;
 
 #endregion
