@@ -47,7 +47,4 @@
 	<DataTemplate DataType="{x:Type ViewModels:UserPageViewModel}">
 		<Views:UserPageView />
 	</DataTemplate>
-	<DataTemplate DataType="{x:Type ViewModels:ReflectionPageViewModel}">
-		<Views:ReflectionPageView />
-	</DataTemplate>
 </ResourceDictionary>

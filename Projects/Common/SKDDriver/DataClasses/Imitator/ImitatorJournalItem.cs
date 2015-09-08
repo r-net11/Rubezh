@@ -16,8 +16,8 @@ namespace SKDDriver.DataClasses
 		}
 
 		public ImitatorJournalItem(byte source, byte nameCode, byte descriptionCode, byte yesNoCode)
+			: this()
 		{
-			UID = Guid.NewGuid();
 			Source = source;
 			NameCode = nameCode;
 			DescriptionCode = descriptionCode;

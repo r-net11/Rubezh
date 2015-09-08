@@ -24,7 +24,7 @@ namespace GKImitator.ViewModels
 		{
 			KauBaseDescriptor = kauBaseDescriptor;
 			InitializeLogic();
-			
+
 		}
 
 		public void InitializeLogic()
@@ -62,8 +62,12 @@ namespace GKImitator.ViewModels
 			var stack = new List<int>();
 			var stateBitVales = new Dictionary<GKStateBit, bool>();
 
-			foreach (var formulaOperation in FormulaOperations)
+			for (int i = 0; i < FormulaOperations.Count; i++)
 			{
+				var formulaOperation = FormulaOperations[i];
+				if (formulaOperation.FormulaOperationType == FormulaOperationType.END || formulaOperation.FormulaOperationType == FormulaOperationType.EXIT)
+					break;
+
 				var stateBit = (GKStateBit)formulaOperation.FirstOperand;
 				var descriptorNo = formulaOperation.SecondOperand;
 				DescriptorViewModel descriptorViewModel = null;
@@ -77,7 +81,7 @@ namespace GKImitator.ViewModels
 					case FormulaOperationType.GETBIT:
 						if (descriptorViewModel != null)
 						{
-							var bitValue = GetStateBit(stateBit) ? 1 : 0;
+							var bitValue = descriptorViewModel.GetStateBit(stateBit) ? 1 : 0;
 							stack.Add(bitValue);
 						}
 						break;
@@ -291,27 +295,23 @@ namespace GKImitator.ViewModels
 												isAccess = true;
 										}
 
-										foreach(var imitatorUserDevice in user.ImitatorUserDevices)
+										foreach (var imitatorUserDevice in user.ImitatorUserDevices)
 										{
-											if(imitatorUserDevice.DescriptorNo == formulaOperation.SecondOperand)
+											if (imitatorUserDevice.DescriptorNo == formulaOperation.SecondOperand)
 											{
-												if(IsInSchedule(dbService, imitatorUserDevice.ScheduleNo))
+												if (IsInSchedule(dbService, imitatorUserDevice.ScheduleNo))
 													isAccess = true;
 											}
 										}
 									}
 								}
+
+								var journalItem = new ImitatorJournalItem(0, isAccess ? (byte)13 : (byte)15, 0, 0);
+								journalItem.ObjectDeviceAddress = (short)device.GKDescriptorNo;
+								AddJournalItem(journalItem);
 							}
 						}
 
-						if (isAccess)
-						{
-
-						}
-						else
-						{
-
-						}
 						stack.Add(isAccess ? 1 : 0);
 
 						break;
@@ -320,6 +320,27 @@ namespace GKImitator.ViewModels
 						break;
 
 					case FormulaOperationType.BR:
+						var mustGoTo = false;
+						switch (formulaOperation.FirstOperand)
+						{
+							case 0:
+								mustGoTo = true;
+								break;
+
+							case 1:
+								var currentStackValue = stack.LastOrDefault();
+								mustGoTo = currentStackValue == 0;
+								stack.RemoveAt(stack.Count - 1);
+								break;
+
+							case 2:
+								currentStackValue = stack.LastOrDefault();
+								mustGoTo = currentStackValue != 0;
+								stack.RemoveAt(stack.Count - 1);
+								break;
+						}
+						if (mustGoTo)
+							i += formulaOperation.SecondOperand;
 						break;
 
 					case FormulaOperationType.DUP:
@@ -423,9 +444,8 @@ namespace GKImitator.ViewModels
 			{
 				foreach (var imitatorSheduleInterval in schedule.ImitatorSheduleIntervals)
 				{
-					Trace.WriteLine(imitatorSheduleInterval.UID);
 					var delta = 0;
-					if(schedule.TotalSeconds > 0)
+					if (schedule.TotalSeconds > 0)
 					{
 						var periodsCount = (nowTotalSeconds - imitatorSheduleInterval.StartSeconds) / schedule.TotalSeconds;
 						delta = (int)periodsCount * schedule.TotalSeconds;

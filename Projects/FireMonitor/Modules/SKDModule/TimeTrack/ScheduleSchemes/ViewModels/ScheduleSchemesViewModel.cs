@@ -123,12 +123,19 @@ namespace SKDModule.ViewModels
 
 		void OnEditDayInterval(Guid dayInternalUID)
 		{
+			ReloadDayIntervals();
 			SelectedItem = Organisations.FirstOrDefault();
 		}
 
 		protected override List<ScheduleScheme> GetFromCallbackResult(FiresecAPI.DbCallbackResult dbCallbackResult)
 		{
 			return dbCallbackResult.ScheduleSchemes;
+		}
+
+		protected override void OnOrganisationUsersChanged(Organisation newOrganisation)
+		{
+			base.OnOrganisationUsersChanged(newOrganisation);
+			ReloadDayIntervals();
 		}
 	}
 }

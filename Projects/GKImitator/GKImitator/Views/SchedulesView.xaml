@@ -40,22 +40,22 @@
 			</DataGrid.Columns>
 		</DataGrid>
 		<Grid Grid.Row="1" DataContext="{Binding SelectedSchedule}" Margin="2">
-			<DataGrid ItemsSource="{Binding Devices}">
+			<DataGrid ItemsSource="{Binding ImitatorSheduleIntervals}">
 				<DataGrid.Columns>
 					<DataGridTemplateColumn Header="Начало" Width="*">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
-								<TextBlock Text="{Binding Start}" Margin="2" />
+								<TextBlock Text="{Binding StartDateTime}" Margin="2" />
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
-					<DataGridTemplateColumn Header="Конец" Width="*">
-						<DataGridTemplateColumn.CellTemplate>
-							<DataTemplate>
-								<TextBlock Text="{Binding End}" Margin="2" />
-							</DataTemplate>
-						</DataGridTemplateColumn.CellTemplate>
-					</DataGridTemplateColumn>
+				<DataGridTemplateColumn Header="Конец" Width="*">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding EndDateTime}" Margin="2" />
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
 				</DataGrid.Columns>
 			</DataGrid>
 		</Grid>

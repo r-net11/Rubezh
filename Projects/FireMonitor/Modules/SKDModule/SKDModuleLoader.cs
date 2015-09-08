@@ -35,7 +35,7 @@ namespace SKDModule
 					{
 						new NavigationItem<ShowHREvent>(SKDTabItems.HRViewModel, "Картотека", "Kartoteka2W"),
 						new NavigationItem<ShowTimeTrackingEvent>(SKDTabItems.TimeTrackingTabsViewModel, "Учет рабочего времени", "TimeTrackingW")
-					}) { IsVisible = FiresecLicenseManager.CurrentLicenseInfo.Access }
+					}) { IsVisible = FiresecLicenseManager.CurrentLicenseInfo.HasSKD }
 				};
 		}
 
@@ -91,7 +91,6 @@ namespace SKDModule
 		public IEnumerable<ISKDReportProvider> GetSKDReportProviders()
 		{
 			yield return new EventsReportProvider();
-			yield return new ReflectionReportProvider();
 			yield return new DoorsReportProvider();
 			yield return new EmployeeRootReportProvider();
 			yield return new CardsReportProvider();
