@@ -1,13 +1,11 @@
 ﻿using System.Windows;
-using FiresecAPI.Models;
 using VideoModule.ViewModels;
-using Vlc.DotNet.Core.Medias;
+using MediaSourcePlayer.MediaSource;
 
 namespace VideoModule.Views
 {
 	public partial class CameraDetailsView
 	{
-		Camera Camera { get; set; }
 		public CameraDetailsView()
 		{
 			InitializeComponent();
@@ -15,21 +13,19 @@ namespace VideoModule.Views
 			Unloaded += OnUnloaded;
 		}
 
-		private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
-		{
-			if (myVlcControl.IsPlaying)
-				myVlcControl.Stop();
-		}
 
 		private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
 		{
-			var cameraDetailsViewModel = DataContext as CameraDetailsViewModel;
-			if (cameraDetailsViewModel != null)
-			{
-				myVlcControl.Media = new LocationMedia(cameraDetailsViewModel.RviRTSP);
-				if (!myVlcControl.IsPlaying)
-					myVlcControl.Play();
-			}
+			var viewModel = DataContext as CameraDetailsViewModel;
+			if (viewModel == null)
+				return;
+			MediaSourcePlayer.Open(MediaSourceFactory.CreateFromRtspStream(viewModel.Camera.RviRTSP));
+			MediaSourcePlayer.Play();
+		}	
+		private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
+		{
+			MediaSourcePlayer.Stop();
+			MediaSourcePlayer.Close();
 		}
 	}
 }

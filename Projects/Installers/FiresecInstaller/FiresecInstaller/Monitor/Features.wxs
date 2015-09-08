@@ -13,6 +13,7 @@
 			<ComponentRef Id="Monitor.ProgramsMenuLayoutShortcut" />
 			<ComponentRef Id="Monitor.DesktopLayoutShortcut" />
 			<ComponentRef Id="Monitor.Revisor" />
+			<ComponentRef Id="Monitor.Files.dll" />
 		</Feature>
 	</Fragment>
 </Wix>
