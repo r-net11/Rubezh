@@ -47,6 +47,7 @@
 
 				<File Id="Server.Npgsql.dll" Name="Npgsql.dll" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.Npgsql.EntityFramework.dll" Name="Npgsql.EntityFramework.dll" Source="$(var.Server.TargetDir)" />
+				<File Id="Server.Mono.Security.dll" Name="Mono.Security.dll" Source="$(var.Server.TargetDir)" />
 				
 			</Component>
 
