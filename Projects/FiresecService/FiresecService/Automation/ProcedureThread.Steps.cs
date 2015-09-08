@@ -469,30 +469,28 @@ namespace FiresecService
 			return propertyValue;
 		}
 
-		void InitializeItems(ref IEnumerable<object> items, ref Variable result)
+		IEnumerable<object> GetObjects(ObjectType objectType)
 		{
-			var explicitValues = new List<ExplicitValue>();
-			if (result.ObjectType == ObjectType.Device)
+			switch (objectType)
 			{
-				items = new List<GKDevice>(GKManager.DeviceConfiguration.Devices);
-				foreach (var objectUid in new List<Guid>(GKManager.DeviceConfiguration.Devices.Select(x => x.UID)))
-					explicitValues.Add(new ExplicitValue { UidValue = objectUid });
+				case ObjectType.Delay:
+					return new List<GKDelay>(GKManager.DeviceConfiguration.Delays);
+				case ObjectType.Device:
+					return new List<GKDevice>(GKManager.DeviceConfiguration.Devices);
+				case ObjectType.Direction:
+					return new List<GKDirection>(GKManager.DeviceConfiguration.Directions);
+				case ObjectType.GKDoor:
+					return new List<GKDoor>(GKManager.DeviceConfiguration.Doors);
+				case ObjectType.GuardZone:
+					return new List<GKGuardZone>(GKManager.DeviceConfiguration.GuardZones);
+				//case ObjectType.Organisation:
+				//case ObjectType.VideoDevice:
+				case ObjectType.Zone:
+					return new List<GKZone>(GKManager.DeviceConfiguration.Zones);
 			}
-			if (result.ObjectType == ObjectType.Zone)
-			{
-				items = new List<GKZone>(GKManager.Zones);
-				foreach (var objectUid in new List<Guid>(GKManager.Zones.Select(x => x.UID)))
-					explicitValues.Add(new ExplicitValue { UidValue = objectUid });
-			}
-			if (result.ObjectType == ObjectType.Direction)
-			{
-				items = new List<GKDirection>(GKManager.Directions);
-				foreach (var objectUid in new List<Guid>(GKManager.Directions.Select(x => x.UID)))
-					explicitValues.Add(new ExplicitValue { UidValue = objectUid });
-			}
-			result.ExplicitValues = explicitValues;
+			return new List<object>();
 		}
-
+		
 		object InitializeItem(Guid itemUid)
 		{
 			var device = GKManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == itemUid);
@@ -518,24 +516,20 @@ namespace FiresecService
 
 		void FindObjectsOr(Variable result, IEnumerable<FindObjectCondition> findObjectConditions)
 		{
-			IEnumerable<object> items = new List<object>();
-			InitializeItems(ref items, ref result);
-			var resultObjects = new List<object>();
+			var items = GetObjects(result.ObjectType);
 			var itemUid = new Guid();
-
-			foreach (var findObjectCondition in findObjectConditions)
+			result.ExplicitValues.Clear();
+			foreach (var item in items)
 			{
-				foreach (var item in items)
+				foreach (var findObjectCondition in findObjectConditions)
 				{
-					if (resultObjects.Contains(item))
-						continue;
 					var propertyValue = GetPropertyValue(ref itemUid, findObjectCondition.Property, item);
 					var conditionValue = GetValue<object>(findObjectCondition.SourceArgument);
 					var comparer = Compare(propertyValue, conditionValue, findObjectCondition.ConditionType);
 					if ((comparer != null) && (comparer.Value))
 					{
-						resultObjects.Add(item);
 						result.ExplicitValues.Add(new ExplicitValue { UidValue = itemUid });
+						break;
 					}
 				}
 			}
@@ -543,26 +537,26 @@ namespace FiresecService
 
 		void FindObjectsAnd(Variable result, IEnumerable<FindObjectCondition> findObjectConditions)
 		{
-			IEnumerable<object> items = new List<object>();
-			InitializeItems(ref items, ref result);
-			var resultObjects = new List<object>(items);
-			var tempObjects = new List<object>(resultObjects);
+			var items = GetObjects(result.ObjectType);
 			var itemUid = new Guid();
-
-			foreach (var findObjectCondition in findObjectConditions)
+			result.ExplicitValues.Clear();
+			bool allTrue;
+			foreach (var item in items)
 			{
-				foreach (var item in resultObjects)
+				allTrue = true;
+				foreach (var findObjectCondition in findObjectConditions)
 				{
 					var propertyValue = GetPropertyValue(ref itemUid, findObjectCondition.Property, item);
 					var conditionValue = GetValue<object>(findObjectCondition.SourceArgument);
 					var comparer = Compare(propertyValue, conditionValue, findObjectCondition.ConditionType);
 					if ((comparer != null) && (!comparer.Value))
 					{
-						tempObjects.Remove(item);
-						result.ExplicitValues.RemoveAll(x => x.UidValue == itemUid);
+						allTrue = false;
+						break;
 					}
 				}
-				resultObjects = new List<object>(tempObjects);
+				if (allTrue)
+					result.ExplicitValues.Add(new ExplicitValue { UidValue = itemUid });
 			}
 		}
 
