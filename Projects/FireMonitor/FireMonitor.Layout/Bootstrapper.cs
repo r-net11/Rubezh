@@ -120,11 +120,7 @@ namespace FireMonitor.Layout
 				x.DescriptionUID == LayoutPartIdentities.Doors ||
 				x.DescriptionUID == LayoutPartIdentities.GKSKDZones ||
 				x.DescriptionUID == LayoutPartIdentities.SKDVerification ||
-				x.DescriptionUID == LayoutPartIdentities.SKDDayIntervals ||
-				x.DescriptionUID == LayoutPartIdentities.SKDHolidays ||
 				x.DescriptionUID == LayoutPartIdentities.SKDHR ||
-				x.DescriptionUID == LayoutPartIdentities.SKDSchedules ||
-				x.DescriptionUID == LayoutPartIdentities.SKDScheduleSchemes ||
 				x.DescriptionUID == LayoutPartIdentities.SKDTimeTracking
 				)
 				||

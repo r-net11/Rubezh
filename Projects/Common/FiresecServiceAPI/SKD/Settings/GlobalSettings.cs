@@ -24,9 +24,9 @@ namespace FiresecAPI
 
 			Server_EnableRemoteConnections = false;
 
-			DbConnectionString = @"Data Source=.\sqlexpress;Initial Catalog=Rubezh;Integrated Security=True;Language='English'";
-			//DbConnectionString = @"Server=localhost;Database=Rubezh;User Id=asd;Password=1;";
-			DbType = FiresecAPI.DbType.MsSql;
+			//DbConnectionString = @"Data Source=.\sqlexpress;Initial Catalog=Rubezh;Integrated Security=True;Language='English'";
+			DbConnectionString = @"Server=localhost;Database=Rubezh;User Id=asd;Password=1;";
+			DbType = FiresecAPI.DbType.Postgres;
 			
 			ModuleItems = new List<string>();
 

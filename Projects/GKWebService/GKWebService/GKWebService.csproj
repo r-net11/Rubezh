@@ -266,7 +266,7 @@
     <Content Include="Scripts\app\app.js" />
     <Content Include="Scripts\app\controllers\planCtrl.js" />
     <Content Include="Scripts\app\directives\d3Plan.js" />
-    <Content Include="Scripts\app\signalr\planRTUpdaterHub.js" />
+    <Content Include="Scripts\app\signalr\plansUpdaterHub.js" />
     <Content Include="Scripts\archive.js" />
     <Content Include="Content\header.less" />
     <Content Include="Content\vars.less" />
@@ -372,7 +372,8 @@
     <Compile Include="Controllers\PlansController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="DataProviders\PlansDataProvider.cs" />
-    <Compile Include="DataProviders\PlansRTStatusUpdaterHub.cs" />
+    <Compile Include="DataProviders\PlansUpdater.cs" />
+    <Compile Include="DataProviders\PlansUpdaterHub.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -384,7 +385,6 @@
     <Compile Include="Models\ShapeTypesEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="Utils\StaTaskScheduler.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
