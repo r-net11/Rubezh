@@ -5,7 +5,7 @@ namespace FiresecAPI.GK
 	public enum GKBaseObjectType
 	{
 		[DescriptionAttribute("Устройство")]
-		Deivce,
+		Device,
 
 		[DescriptionAttribute("Зона")]
 		Zone,
