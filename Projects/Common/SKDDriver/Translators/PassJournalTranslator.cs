@@ -70,8 +70,8 @@ namespace SKDDriver.Translators
 
 		public OperationResult<Dictionary<DayTimeTrackPart, List<DayTimeTrackPart>>> FindConflictIntervals(List<DayTimeTrackPart> dayTimeTrackParts, Guid employeeGuid, DateTime currentDate)
 		{
-			var minIntervalsDate = dayTimeTrackParts.Where(x => x.EnterTimeOriginal.HasValue).DefaultIfEmpty().Min(x => x.EnterTimeOriginal.Value.Date); //if min return false
-			var maxIntervalDate = dayTimeTrackParts.Where(x => x.ExitTimeOriginal.HasValue).DefaultIfEmpty().Max(x => x.ExitTimeOriginal.Value.Date);
+			var minIntervalsDate = dayTimeTrackParts.Where(x => x.EnterTimeOriginal.HasValue).DefaultIfEmpty().Min(x => x.EnterTimeOriginal != null ? x.EnterTimeOriginal.Value.Date : new DateTime()); //if min return false
+			var maxIntervalDate = dayTimeTrackParts.Where(x => x.ExitTimeOriginal.HasValue).DefaultIfEmpty().Max(x => x.ExitTimeOriginal != null ? x.ExitTimeOriginal.Value.Date : new DateTime());
 
 			if(minIntervalsDate.Date == currentDate.Date && maxIntervalDate.Date == currentDate.Date)
 				return new OperationResult<Dictionary<DayTimeTrackPart, List<DayTimeTrackPart>>>();
@@ -92,15 +92,15 @@ namespace SKDDriver.Translators
 								(tmp.ExitTimeOriginal > x.EnterTime || tmp.EnterTimeOriginal < x.ExitTime))
 					.Where(x => x.ExitTime >= tmp.EnterTimeOriginal)
 					.ToList();
-				List<PassJournal> tmpCollection2 = linkedIntervals
-					.Where(x => (x.UID != el.UID) && (tmp.EnterTimeOriginal.HasValue && tmp.ExitTimeOriginal.HasValue))
-					.Where(
-						x => (tmp.EnterTimeOriginal.Value.Date >= x.EnterTime.Date && tmp.ExitTimeOriginal <= x.ExitTime.Value.Date) &&
-						     (tmp.ExitTimeOriginal <= x.EnterTime || tmp.EnterTimeOriginal >= x.ExitTime))
-					.Where(x => x.ExitTime <= tmp.EnterTimeOriginal)
-					.ToList();
+				//List<PassJournal> tmpCollection2 = linkedIntervals
+				//	.Where(x => (x.UID != el.UID) && (tmp.EnterTimeOriginal.HasValue && tmp.ExitTimeOriginal.HasValue))
+				//	.Where(
+				//		x => (tmp.EnterTimeOriginal.Value.Date >= x.EnterTime.Date && tmp.ExitTimeOriginal <= x.ExitTime.Value.Date) &&
+				//			 (tmp.ExitTimeOriginal <= x.EnterTime || tmp.EnterTimeOriginal >= x.ExitTime))
+				//	.Where(x => x.ExitTime <= tmp.EnterTimeOriginal)
+				//	.ToList();
 
-				tmpCollection = tmpCollection.Union(tmpCollection2).ToList();
+			//	tmpCollection = tmpCollection.Union(tmpCollection2).ToList();
 
 				if (tmpCollection.Any())
 				{
