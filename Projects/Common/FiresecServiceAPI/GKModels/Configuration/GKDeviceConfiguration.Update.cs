@@ -703,6 +703,12 @@ namespace FiresecAPI.GK
 						door.LockDeviceExitUID = Guid.Empty;
 					else
 						door.LockDeviceExit.Door = door;
+
+					door.LockControlDevice = Devices.FirstOrDefault(x => x.UID == door.LockControlDeviceUID);
+					if (door.LockControlDevice == null)
+						door.LockControlDeviceUID = Guid.Empty;
+					else
+						door.LockControlDevice.Door = door;
 				}
 
 				if (door.DoorType == GKDoorType.OneWay || door.DoorType == GKDoorType.TwoWay)
