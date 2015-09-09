@@ -24,7 +24,6 @@ namespace FireAdministrator.ViewModels
 			CreateNewCommand = new RelayCommand(OnCreateNew);
 			ValidateCommand = new RelayCommand(OnValidate);
 			SetNewConfigCommand = new RelayCommand(OnSetNewConfig, CanSetNewConfig);
-			MergeConfigurationCommand = new RelayCommand(OnMergeConfiguration);
 			ServiceFactory.SaveService.Changed += new Action(SaveService_Changed);
 
 			// Подписываемся на событие "SetNewConfigurationEvent", которое могут рассылать модули с запросом к Администратору сохранить текущую конфигурацию
@@ -153,13 +152,6 @@ namespace FireAdministrator.ViewModels
 		public bool CanSetNewConfig()
 		{
 			return ServiceFactory.SaveService.HasChanges;
-		}
-
-		public RelayCommand MergeConfigurationCommand { get; private set; }
-		void OnMergeConfiguration()
-		{
-			var mergeConfigurationHelper = new MergeConfigurationHelper();
-			mergeConfigurationHelper.Merge();
 		}
 
 		bool _isMainMenuVisible;
