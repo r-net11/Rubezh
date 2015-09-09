@@ -32,10 +32,6 @@
 				</RegistryKey>
 
 			</RegistryKey>
-			<!--<sql:SqlDatabase Id="SKDDatabase" Database="SKD" Server=".\SQLEXPRESS" CreateOnInstall="yes" DropOnUninstall="yes">
-				<sql:SqlScript Id="SKDCreateScript" ExecuteOnInstall="yes" BinaryKey="SKDCreateScript" />
-        <sql:SqlScript Id="SKDUpdateScript" ExecuteOnInstall="yes" BinaryKey="SKDUpdateScript" />
-			</sql:SqlDatabase>-->
 		</Component>
 	</Fragment>
 </Wix>
