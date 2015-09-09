@@ -25,8 +25,23 @@ namespace AutomationModule.ViewModels
 
 		public override void UpdateContent()
 		{
-			Argument1.Update(Procedure, SelectedExplicitType, isList: false);
-			Argument2.Update(Procedure, (SelectedExplicitType == ExplicitType.DateTime) ? ExplicitType.Integer : SelectedExplicitType, isList: false);
+			switch (SelectedExplicitType)
+			{
+				case ExplicitType.DateTime:
+					Argument1.Update(Procedure, SelectedExplicitType, isList: false);
+					Argument2.Update(Procedure, ExplicitType.Integer, isList: false);
+					break;
+				case ExplicitType.String:
+					Argument1.Update(Procedure, ProcedureHelper.GetEnumList<ExplicitType>(), isList: false);
+					Argument1.ExplicitType = ExplicitType.String;
+					Argument2.Update(Procedure, ProcedureHelper.GetEnumList<ExplicitType>(), isList: false);
+					Argument2.ExplicitType = ExplicitType.String;
+					break;
+				default:
+					Argument1.Update(Procedure, SelectedExplicitType, isList: false);
+					Argument2.Update(Procedure, SelectedExplicitType, isList: false);
+					break;
+			}
 			ResultArgument.Update(Procedure, SelectedExplicitType, isList: false);
 			SelectedArithmeticOperationType = ArithmeticOperationTypes.Contains(ArithmeticArguments.ArithmeticOperationType) ? ArithmeticArguments.ArithmeticOperationType : ArithmeticOperationTypes.FirstOrDefault();
 		}
