@@ -180,6 +180,7 @@
 				<File Id="Monitor.swscale_3.dll" Name="swscale-3.dll" Source="$(var.Monitor.RVIVSS.Dll.TargetDir)" />
 				<File Id="Monitor.SystemTransform.dll" Name="SystemTransform.dll" Source="$(var.Monitor.RVIVSS.Dll.TargetDir)" />
 				<File Id="Monitor.vcomp.dll" Name="vcomp.dll" Source="$(var.Monitor.RVIVSS.Dll.TargetDir)" />
+				<File Id="Monitor.Microsoft.VC80.MFC.manifest" Name="Microsoft.VC80.MFC.manifest" Source="$(var.Monitor.RVIVSS.Dll.TargetDir)" />
 			</Component>
 		</DirectoryRef>
 		
