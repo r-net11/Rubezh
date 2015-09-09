@@ -305,11 +305,11 @@ namespace FiresecService
 					}
 				case ExplicitType.String:
 					{
-						variable1 = GetValue<string>(arithmeticArguments.Argument1);
-						variable2 = GetValue<string>(arithmeticArguments.Argument2);
+						variable1 = GetValue<object>(arithmeticArguments.Argument1);
+						variable2 = GetValue<object>(arithmeticArguments.Argument2);
 						if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Add)
 							if (resultVariable != null)
-								resultVariable.ExplicitValue.StringValue = String.Concat((string)variable1, (string)variable2);
+								resultVariable.ExplicitValue.StringValue = String.Concat(Convert.ToString(variable1), Convert.ToString(variable2));
 						break;
 					}
 			}
