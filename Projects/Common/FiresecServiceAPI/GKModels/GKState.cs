@@ -62,7 +62,7 @@ namespace FiresecAPI.GK
 		{
 			Device = device;
 			UID = device.UID;
-			BaseObjectType = GKBaseObjectType.Deivce;
+			BaseObjectType = GKBaseObjectType.Device;
 		}
 
 		public GKState(GKZone zone)
@@ -179,7 +179,7 @@ namespace FiresecAPI.GK
 			{
 				switch (BaseObjectType)
 				{
-					case GKBaseObjectType.Deivce:
+					case GKBaseObjectType.Device:
 						switch (StateClass)
 						{
 							case XStateClass.Fire1:

@@ -95,8 +95,8 @@
 
 		<InstallExecuteSequence>
 			<Custom Action="CloseApplications" Sequence="1" />
-			<Custom Action="CheckPostgresInstalled" Sequence="1" />
 			<RemoveExistingProducts After="InstallInitialize" />
+			<Custom Action="CheckPostgresInstalled" After="RemoveExistingProducts" />
 			<InstallExecute After="RemoveExistingProducts" />
 			<Custom Action="InstallPostgres" After="InstallExecute"><![CDATA[&Postgres.Features=3]]></Custom>
 		</InstallExecuteSequence>
