@@ -31,27 +31,6 @@ namespace SKDModule.Reports.ViewModels
 		public RelayCommand SelectNoneCommand { get; private set; }
 		public ObservableCollection<CheckedItemViewModel<CommonScheduleViewModel>> Schedules { get; private set; }
 
-		bool _scheduleEnter;
-		public bool ScheduleEnter
-		{
-			get { return _scheduleEnter; }
-			set
-			{
-				_scheduleEnter = value;
-				OnPropertyChanged(() => ScheduleEnter);
-			}
-		}
-		bool _scheduleExit;
-		public bool ScheduleExit
-		{
-			get { return _scheduleExit; }
-			set
-			{
-				_scheduleExit = value;
-				OnPropertyChanged(() => ScheduleExit);
-			}
-		}
-
 		public override void LoadFilter(SKDReportFilter filter)
 		{
 			var scheduleFilter = filter as IReportFilterSchedule;
@@ -60,8 +39,6 @@ namespace SKDModule.Reports.ViewModels
 			if (scheduleFilter.Schedules == null)
 				scheduleFilter.Schedules = new List<int>();
 			Schedules.ForEach(item => item.IsChecked = scheduleFilter.Schedules.Contains(item.Item.No));
-			ScheduleEnter = scheduleFilter.ScheduleEnter;
-			ScheduleExit = scheduleFilter.ScheduleExit;
 		}
 		public override void UpdateFilter(SKDReportFilter filter)
 		{
@@ -69,8 +46,6 @@ namespace SKDModule.Reports.ViewModels
 			if (scheduleFilter == null)
 				return;
 			scheduleFilter.Schedules = Schedules.Where(item => item.IsChecked).Select(item => item.Item.No).ToList();
-			scheduleFilter.ScheduleEnter = ScheduleEnter;
-			scheduleFilter.ScheduleExit = ScheduleExit;
 		}
 	}
 
