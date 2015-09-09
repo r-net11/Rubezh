@@ -333,12 +333,40 @@ namespace FiresecService
 			var item = InitializeItem(objectUid);
 			if (item == null)
 				return;
-			var guid = new Guid();
-			var propertyValue = GetPropertyValue(ref guid, getObjectPropertyArguments.Property, item);
+			var propertyValue = GetPropertyValue(getObjectPropertyArguments.Property, item);
 			SetValue(target, propertyValue);
 		}
 
-		object GetPropertyValue(ref Guid itemUid, Property property, object item)
+		Guid GetObjectUid(object item)
+		{
+			if (item is GKDevice)
+				return (item as GKDevice).UID;
+
+			if (item is GKDelay)
+				return (item as GKDelay).UID;
+			
+			if (item is GKZone)
+				return (item as GKZone).UID;
+
+			if (item is GKDirection)
+				return (item as GKDirection).UID;
+
+			if (item is GKDoor)
+				return (item as GKDoor).UID;
+
+			if (item is GKGuardZone)
+				return (item as GKGuardZone).UID;
+
+			if (item is FiresecAPI.SKD.Organisation)
+				return (item as FiresecAPI.SKD.Organisation).UID;
+
+			//TODO: what is VideoDevice?
+			//if (item is VideoDevice)
+			//	return (item as ).UID;
+
+			return Guid.Empty;
+		}
+		object GetPropertyValue(Property property, object item)
 		{
 			var propertyValue = new object();
 			if (item is GKDevice)
@@ -364,7 +392,6 @@ namespace FiresecService
 						propertyValue = (item as GKDevice).UID.ToString();
 						break;
 				}
-				itemUid = (item as GKDevice).UID;
 			}
 
 			if (item is GKDelay)
@@ -402,7 +429,6 @@ namespace FiresecService
 						propertyValue = (item as GKDelay).UID.ToString();
 						break;
 				}
-				itemUid = (item as GKDelay).UID;
 			}
 
 			if (item is GKZone)
@@ -425,7 +451,6 @@ namespace FiresecService
 						propertyValue = (item as GKZone).UID.ToString();
 						break;
 				}
-				itemUid = (item as GKZone).UID;
 			}
 
 			if (item is GKDirection)
@@ -463,9 +488,30 @@ namespace FiresecService
 						propertyValue = (int)(item as GKDirection).State.StateClass;
 						break;
 				}
-				itemUid = (item as GKDirection).UID;
 			}
 
+			if (item is GKGuardZone)
+			{
+				switch (property)
+				{
+					case Property.No:
+						propertyValue = (item as GKGuardZone).No;
+						break;
+					case Property.Type:
+						propertyValue = (item as GKGuardZone).ObjectType;
+						break;
+					case Property.State:
+						propertyValue = (int)(item as GKGuardZone).State.StateClass;
+						break;
+					case Property.Name:
+						propertyValue = (item as GKGuardZone).Name.Trim();
+						break;
+					case Property.Uid:
+						propertyValue = (item as GKGuardZone).UID.ToString();
+						break;
+				}
+			}
+			
 			return propertyValue;
 		}
 
@@ -517,13 +563,13 @@ namespace FiresecService
 		void FindObjectsOr(Variable result, IEnumerable<FindObjectCondition> findObjectConditions)
 		{
 			var items = GetObjects(result.ObjectType);
-			var itemUid = new Guid();
 			result.ExplicitValues.Clear();
 			foreach (var item in items)
 			{
+				var itemUid = GetObjectUid(item);
 				foreach (var findObjectCondition in findObjectConditions)
 				{
-					var propertyValue = GetPropertyValue(ref itemUid, findObjectCondition.Property, item);
+					var propertyValue = GetPropertyValue(findObjectCondition.Property, item);
 					var conditionValue = GetValue<object>(findObjectCondition.SourceArgument);
 					var comparer = Compare(propertyValue, conditionValue, findObjectCondition.ConditionType);
 					if ((comparer != null) && (comparer.Value))
@@ -538,15 +584,15 @@ namespace FiresecService
 		void FindObjectsAnd(Variable result, IEnumerable<FindObjectCondition> findObjectConditions)
 		{
 			var items = GetObjects(result.ObjectType);
-			var itemUid = new Guid();
 			result.ExplicitValues.Clear();
 			bool allTrue;
 			foreach (var item in items)
 			{
 				allTrue = true;
+				var itemUid = GetObjectUid(item);
 				foreach (var findObjectCondition in findObjectConditions)
 				{
-					var propertyValue = GetPropertyValue(ref itemUid, findObjectCondition.Property, item);
+					var propertyValue = GetPropertyValue(findObjectCondition.Property, item);
 					var conditionValue = GetValue<object>(findObjectCondition.SourceArgument);
 					var comparer = Compare(propertyValue, conditionValue, findObjectCondition.ConditionType);
 					if ((comparer != null) && (!comparer.Value))
