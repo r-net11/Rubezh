@@ -20,10 +20,7 @@
 		<ComponentRef Id="Administrator.VIDEO_MODULE" />
         <ComponentRef Id="Monitor.VIDEO_MODULE" />
 	  </Feature>
-
-		<Feature Id="Postgres.Features" Title="СУБД Postgres" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит СУБД Postgres">
-			<Condition Level="1">NOTPOSTGRESINSTALLED</Condition>
-		</Feature>
+	  <Feature Id="Postgres.Features" Title="СУБД Postgres" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит СУБД Postgres" />
 
       <ComponentRef Id="ProgramMenuDir.Additional" />
       <ComponentRef Id="Administrator.PLANS_MODULE" />
