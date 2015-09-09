@@ -113,17 +113,12 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AppConfigHelper.cs" />
-    <Compile Include="AutoActivationWatcher.cs" />
-    <Compile Include="ViewModels\AutoActivationViewModel.cs" />
     <Compile Include="ViewModels\MonitorShellViewModel.cs" />
     <Compile Include="ViewModels\RestartApplicationViewModel.cs" />
     <Compile Include="ViewModels\SoundViewModel.cs" />
     <Compile Include="ViewModels\ToolbarViewModel.cs" />
     <Compile Include="ViewModels\UserFotterViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
-    <Compile Include="Views\AutoActivationView.xaml.cs">
-      <DependentUpon>AutoActivationView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Converters\BoolToBackgroundImageConverter.cs" />
     <Compile Include="Views\RestartApplicationView.xaml.cs">
       <DependentUpon>RestartApplicationView.xaml</DependentUpon>
@@ -176,10 +171,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="DataTemplates\Dictionary.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\AutoActivationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

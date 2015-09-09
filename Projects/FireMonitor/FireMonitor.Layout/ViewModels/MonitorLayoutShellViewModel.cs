@@ -24,7 +24,6 @@ namespace FireMonitor.Layout.ViewModels
 {
 	public class MonitorLayoutShellViewModel : MonitorShellViewModel
 	{
-		private AutoActivationViewModel _autoActivationViewModel;
 		private SoundViewModel _soundViewModel;
 
 		public MonitorLayoutShellViewModel(FiresecAPI.Models.Layouts.Layout layout)
@@ -68,12 +67,6 @@ namespace FireMonitor.Layout.ViewModels
 		}
 		private void UpdateRibbonItems()
 		{
-			RibbonContent.Items[2][0].ImageSource = _autoActivationViewModel.IsAutoActivation ? "BWindowNormal" : "BWindowCross";
-			RibbonContent.Items[2][0].ToolTip = _autoActivationViewModel.IsAutoActivation ? "Автоматическая активация ВКЛючена" : "Автоматическая активация ВЫКЛючена";
-			RibbonContent.Items[2][0].Text = _autoActivationViewModel.IsAutoActivation ? "Выключить автоактивицию" : "Включить автоактивацию";
-			RibbonContent.Items[2][1].ImageSource = _autoActivationViewModel.IsPlansAutoActivation ? "BMap" : "BMapOff";
-			RibbonContent.Items[2][1].ToolTip = _autoActivationViewModel.IsPlansAutoActivation ? "Автоматическая активация планов ВКЛючена" : "Автоматическая активация планов ВЫКЛючена";
-			RibbonContent.Items[2][1].Text = _autoActivationViewModel.IsPlansAutoActivation ? "Выключить автоактивицию плана" : "Включить автоактивацию плана";
 			RibbonContent.Items[2][2].ImageSource = _soundViewModel.IsSoundOn ? "BSound" : "BMute";
 			RibbonContent.Items[2][2].ToolTip = _soundViewModel.IsSoundOn ? "Звук включен" : "Звук выключен";
 			RibbonContent.Items[2][2].Text = _soundViewModel.IsSoundOn ? "Выключить звук" : "Включить звук";
@@ -86,12 +79,9 @@ namespace FireMonitor.Layout.ViewModels
 			var layouts = FiresecManager.LayoutsConfiguration.Layouts.Where(layout => layout.Users.Contains(FiresecManager.CurrentUser.UID) && (ip == null || layout.HostNameOrAddressList.Contains(ip))).OrderBy(item => item.Caption);
 			RibbonContent.Items.Add(new RibbonMenuItemViewModel("Сменить шаблон", new ObservableCollection<RibbonMenuItemViewModel>(layouts.Select(item => new RibbonMenuItemViewModel(item.Caption, ChangeLayoutCommand, item, "BLayouts", item.Description))), "BLayouts"));
 
-			_autoActivationViewModel = new AutoActivationViewModel();
 			_soundViewModel = new SoundViewModel();
 			RibbonContent.Items.Add(new RibbonMenuItemViewModel("Автоактивиция", new ObservableCollection<RibbonMenuItemViewModel>()
 			{
-				new RibbonMenuItemViewModel(string.Empty, _autoActivationViewModel.ChangeAutoActivationCommand),
-				new RibbonMenuItemViewModel(string.Empty, _autoActivationViewModel.ChangePlansAutoActivationCommand),
 				new RibbonMenuItemViewModel(string.Empty, _soundViewModel.PlaySoundCommand) { IsNewGroup = true },
 			}, "BConfig"));
 			if (AllowClose)
