@@ -77,6 +77,13 @@
 			<Component Id="Server.SKD_MODULE" Guid="47582E19-F112-4827-A8FC-D782C88C7B93">
 				<File Id="Server.SKDDriver.dll" Name="SKDDriver.dll" Source="$(var.Server.TargetDir)" KeyPath="yes" />
 			</Component>
+			
+			<Component Id="Server.VIDEO_MODULE" Guid="7d458de8-d0d7-478f-b0d5-e2c512469922">
+				<File Id="Server.API.dll" Name="API.dll" Source="$(var.Server.RVIVSS)" />
+				<File Id="Server.Entities.dll" Name="Entities.dll" Source="$(var.Server.RVIVSS)" />
+				<File Id="Server.GalaSoft.MvvmLight.WPF4.dll" Name="GalaSoft.MvvmLight.WPF4.dll" Source="$(var.Server.RVIVSS)" />
+				<File Id="Server.SdkWrapper.dll" Name="SdkWrapper.dll" Source="$(var.Server.RVIVSS)" />
+			</Component>
 
 		</DirectoryRef>
 
