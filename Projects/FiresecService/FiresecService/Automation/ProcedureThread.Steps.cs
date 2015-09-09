@@ -1121,6 +1121,8 @@ namespace FiresecService
 				target.ExplicitValue.BoolValue = Convert.ToBoolean(propertyValue);
 			if (target.ExplicitType == ExplicitType.DateTime)
 				target.ExplicitValue.DateTimeValue = Convert.ToDateTime(propertyValue);
+			if (target.ExplicitType == ExplicitType.Object)
+				target.ExplicitValue.UidValue = (Guid) propertyValue;
 			if (target.ExplicitType == ExplicitType.Enum)
 			{
 				if (target.EnumType == EnumType.DriverType)
