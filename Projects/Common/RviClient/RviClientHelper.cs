@@ -6,6 +6,7 @@ using System.ServiceModel;
 using FiresecAPI.Models;
 using RviClient.RVIServiceReference;
 using RviClient.RVIStreamingServiceReference;
+using Common;
 
 namespace RviClient
 {
@@ -272,42 +273,56 @@ namespace RviClient
 			}
 		}
 
-		public static void GetVideoFile(SystemConfiguration systemConfiguration, Guid eventUID, Guid cameraUid, string videoPath)
+		public static bool GetVideoFile(SystemConfiguration systemConfiguration, Guid eventUID, Guid cameraUid, string videoPath, out string errorInformation)
 		{
-			var camera = systemConfiguration.Cameras.FirstOrDefault(x => x.UID == cameraUid);
-			if (camera == null)
-				return;
-			using (IntegrationClient client = CreateIntegrationClient(systemConfiguration))
+			try
 			{
-				var sessionUID = Guid.NewGuid();
-
-				var sessionInitialiazationIn = new SessionInitialiazationIn();
-				sessionInitialiazationIn.Header = new HeaderRequest()
+				var camera = systemConfiguration.Cameras.FirstOrDefault(x => x.UID == cameraUid);
+				if (camera == null)
 				{
-					Request = Guid.NewGuid(),
-					Session = sessionUID
-				};
-				sessionInitialiazationIn.Login = systemConfiguration.RviSettings.Login;
-				sessionInitialiazationIn.Password = systemConfiguration.RviSettings.Password;
-				var sessionInitialiazationOut = client.SessionInitialiazation(sessionInitialiazationIn);
-
-				using (IntegrationVideoStreamingClient streaminClient = CreateIntegrationVideoStreamingClient(systemConfiguration))
+					errorInformation = "Не найдена камера.";
+					return false;
+				}
+				using (IntegrationClient client = CreateIntegrationClient(systemConfiguration))
 				{
-					string errorInformation;
-					System.IO.Stream stream = null;
-					var requestUID = new Guid();
-					var result = streaminClient.GetVideoFile(camera.RviChannelNo, camera.RviDeviceUID, eventUID, ref requestUID, ref sessionUID, out errorInformation, out stream);
-					var videoFileStream = File.Create(videoPath);
-					CopyStream(stream, videoFileStream);
-			}
+					var sessionUID = Guid.NewGuid();
 
-				var sessionCloseIn = new SessionCloseIn();
-				sessionCloseIn.Header = new HeaderRequest()
-				{
-					Request = Guid.NewGuid(),
-					Session = sessionUID
-				};
-				var sessionCloseOut = client.SessionClose(sessionCloseIn);
+					var sessionInitialiazationIn = new SessionInitialiazationIn();
+					sessionInitialiazationIn.Header = new HeaderRequest()
+					{
+						Request = Guid.NewGuid(),
+						Session = sessionUID
+					};
+					sessionInitialiazationIn.Login = systemConfiguration.RviSettings.Login;
+					sessionInitialiazationIn.Password = systemConfiguration.RviSettings.Password;					
+					var sessionInitialiazationOut = client.SessionInitialiazation(sessionInitialiazationIn);
+
+					using (IntegrationVideoStreamingClient streamingClient = CreateIntegrationVideoStreamingClient(systemConfiguration))
+					{
+						System.IO.Stream stream = null;
+						var requestUID = new Guid();
+						var result = streamingClient.GetVideoFile(camera.RviChannelNo, camera.RviDeviceUID, eventUID, ref requestUID, ref sessionUID, out errorInformation, out stream);
+						var videoFileStream = File.Create(videoPath);
+						CopyStream(stream, videoFileStream);
+					}
+
+					var sessionCloseIn = new SessionCloseIn();
+					sessionCloseIn.Header = new HeaderRequest()
+					{
+						Request = Guid.NewGuid(),
+						Session = sessionUID
+					};
+					var sessionCloseOut = client.SessionClose(sessionCloseIn);
+					if (errorInformation != "Запись существует")
+						return false;
+					return true;
+				}
+			}							
+			catch (CommunicationException e)
+			{
+				Logger.Error(e, "RViClientHelper.GetVideoFile");
+				errorInformation = "Видео не получено. Проверьте запущен ли RVi Оператор, правильно ли указаны логин и пароль.";
+				return false;
 			}
 		}
 

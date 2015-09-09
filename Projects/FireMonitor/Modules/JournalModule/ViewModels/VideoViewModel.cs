@@ -10,12 +10,16 @@ namespace JournalModule.ViewModels
 	{
 		readonly string DirectoryPath = AppDataFolderHelper.GetTempFolder();
 		public string VideoPath { get; private set; }
+		public bool HasVideo { get; private set; }
+		public string ErrorInformation { get; private set; }
 
 		public VideoViewModel(Guid eventUID, Guid cameraUID)
 		{
 			VideoPath = AppDataFolderHelper.GetTempFileName() + ".avi";
 			Title = "Видеофрагмент, связанный с событием";
-			RviClient.RviClientHelper.GetVideoFile(FiresecManager.SystemConfiguration, eventUID, cameraUID, VideoPath);
+			string errorInformation;
+			HasVideo = RviClient.RviClientHelper.GetVideoFile(FiresecManager.SystemConfiguration, eventUID, cameraUID, VideoPath, out errorInformation);
+			ErrorInformation = errorInformation;
 		}
 
 		public override bool OnClosing(bool isCanceled)
