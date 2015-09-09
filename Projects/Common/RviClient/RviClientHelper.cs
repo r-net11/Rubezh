@@ -7,6 +7,7 @@ using FiresecAPI.Models;
 using RviClient.RVIServiceReference;
 using RviClient.RVIStreamingServiceReference;
 using Common;
+using Infrastructure.Common.Windows;
 
 namespace RviClient
 {
@@ -200,76 +201,90 @@ namespace RviClient
 
 		public static void VideoRecordStart(SystemConfiguration systemConfiguration, Camera camera, Guid eventUID, int timeout)
 		{
-			using (IntegrationClient client = CreateIntegrationClient(systemConfiguration))
+			try
 			{
-				var sessionUID = Guid.NewGuid();
-
-				var sessionInitialiazationIn = new SessionInitialiazationIn();
-				sessionInitialiazationIn.Header = new HeaderRequest()
+				using (IntegrationClient client = CreateIntegrationClient(systemConfiguration))
 				{
-					Request = Guid.NewGuid(),
-					Session = sessionUID
-				};
-				sessionInitialiazationIn.Login = systemConfiguration.RviSettings.Login;
-				sessionInitialiazationIn.Password = systemConfiguration.RviSettings.Password;
-				var sessionInitialiazationOut = client.SessionInitialiazation(sessionInitialiazationIn);
+					var sessionUID = Guid.NewGuid();
 
-				var videoRecordStartIn = new VideoRecordStartIn();
-				videoRecordStartIn.DeviceGuid = camera.RviDeviceUID;
-				videoRecordStartIn.ChannelNumber = camera.RviChannelNo;
-				videoRecordStartIn.EventGuid = eventUID;
-				videoRecordStartIn.TimeOut = timeout;
-				videoRecordStartIn.Header = new HeaderRequest()
-				{
-					Request = Guid.NewGuid(),
-					Session = sessionUID
-				};
-				var videoRecordStartOut = client.VideoRecordStart(videoRecordStartIn);
+					var sessionInitialiazationIn = new SessionInitialiazationIn();
+					sessionInitialiazationIn.Header = new HeaderRequest()
+					{
+						Request = Guid.NewGuid(),
+						Session = sessionUID
+					};
+					sessionInitialiazationIn.Login = systemConfiguration.RviSettings.Login;
+					sessionInitialiazationIn.Password = systemConfiguration.RviSettings.Password;
+					var sessionInitialiazationOut = client.SessionInitialiazation(sessionInitialiazationIn);
 
-				var sessionCloseIn = new SessionCloseIn();
-				sessionCloseIn.Header = new HeaderRequest()
-				{
-					Request = Guid.NewGuid(),
-					Session = sessionUID
-				};
-				var sessionCloseOut = client.SessionClose(sessionCloseIn);
+					var videoRecordStartIn = new VideoRecordStartIn();
+					videoRecordStartIn.DeviceGuid = camera.RviDeviceUID;
+					videoRecordStartIn.ChannelNumber = camera.RviChannelNo;
+					videoRecordStartIn.EventGuid = eventUID;
+					videoRecordStartIn.TimeOut = timeout;
+					videoRecordStartIn.Header = new HeaderRequest()
+					{
+						Request = Guid.NewGuid(),
+						Session = sessionUID
+					};
+					var videoRecordStartOut = client.VideoRecordStart(videoRecordStartIn);
+
+					var sessionCloseIn = new SessionCloseIn();
+					sessionCloseIn.Header = new HeaderRequest()
+					{
+						Request = Guid.NewGuid(),
+						Session = sessionUID
+					};
+					var sessionCloseOut = client.SessionClose(sessionCloseIn);
+				}
+			}
+			catch (CommunicationException e)
+			{
+				Logger.Error(e, "RViClientHelper.VideoRecordStart");
 			}
 		}
 
 		public static void VideoRecordStop(SystemConfiguration systemConfiguration, Camera camera, Guid eventUID)
 		{
-			using (IntegrationClient client = CreateIntegrationClient(systemConfiguration))
+			try
 			{
-				var sessionUID = Guid.NewGuid();
-
-				var sessionInitialiazationIn = new SessionInitialiazationIn();
-				sessionInitialiazationIn.Header = new HeaderRequest()
+				using (IntegrationClient client = CreateIntegrationClient(systemConfiguration))
 				{
-					Request = Guid.NewGuid(),
-					Session = sessionUID
-				};
-				sessionInitialiazationIn.Login = systemConfiguration.RviSettings.Login;
-				sessionInitialiazationIn.Password = systemConfiguration.RviSettings.Password;
-				var sessionInitialiazationOut = client.SessionInitialiazation(sessionInitialiazationIn);
+					var sessionUID = Guid.NewGuid();
 
-				var videoRecordStopIn = new VideoRecordStopIn();
-				videoRecordStopIn.DeviceGuid = camera.RviDeviceUID;
-				videoRecordStopIn.ChannelNumber = camera.RviChannelNo;
-				videoRecordStopIn.EventGuid = eventUID;
-				videoRecordStopIn.Header = new HeaderRequest()
-				{
-					Request = Guid.NewGuid(),
-					Session = sessionUID
-				};
-				var videoRecordStopOut = client.VideoRecordStop(videoRecordStopIn);
+					var sessionInitialiazationIn = new SessionInitialiazationIn();
+					sessionInitialiazationIn.Header = new HeaderRequest()
+					{
+						Request = Guid.NewGuid(),
+						Session = sessionUID
+					};
+					sessionInitialiazationIn.Login = systemConfiguration.RviSettings.Login;
+					sessionInitialiazationIn.Password = systemConfiguration.RviSettings.Password;
+					var sessionInitialiazationOut = client.SessionInitialiazation(sessionInitialiazationIn);
 
-				var sessionCloseIn = new SessionCloseIn();
-				sessionCloseIn.Header = new HeaderRequest()
-				{
-					Request = Guid.NewGuid(),
-					Session = sessionUID
-				};
-				var sessionCloseOut = client.SessionClose(sessionCloseIn);
+					var videoRecordStopIn = new VideoRecordStopIn();
+					videoRecordStopIn.DeviceGuid = camera.RviDeviceUID;
+					videoRecordStopIn.ChannelNumber = camera.RviChannelNo;
+					videoRecordStopIn.EventGuid = eventUID;
+					videoRecordStopIn.Header = new HeaderRequest()
+					{
+						Request = Guid.NewGuid(),
+						Session = sessionUID
+					};
+					var videoRecordStopOut = client.VideoRecordStop(videoRecordStopIn);
+
+					var sessionCloseIn = new SessionCloseIn();
+					sessionCloseIn.Header = new HeaderRequest()
+					{
+						Request = Guid.NewGuid(),
+						Session = sessionUID
+					};
+					var sessionCloseOut = client.SessionClose(sessionCloseIn);
+				}
+			}
+			catch (CommunicationException e)
+			{
+				Logger.Error(e, "RViClientHelper.VideoRecordStop");
 			}
 		}
 

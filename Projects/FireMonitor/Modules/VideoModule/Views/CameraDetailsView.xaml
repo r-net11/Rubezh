@@ -27,20 +27,16 @@
                         <RowDefinition Height="*" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-					<Grid Grid.Row="0" Background="Black">
+					<Grid Grid.Row="0">
 						<Grid>
                             <Grid.Background>
                                 <VisualBrush Stretch="Uniform">
                                     <VisualBrush.Visual>
 										<mediaSourcePlayer:MediaPlayer
 			                        x:Name="MediaSourcePlayer"
-			                        Grid.Row="1"
-			                        Grid.RowSpan="5"
-			                        Grid.Column="2"
-			                        Width="250"
-			                        Height="250"
-			                        Margin="5"
-								    VerticalAlignment="Top">
+									Width="350"
+									Height="250"
+									OriginalAspectRatio="True">
 										</mediaSourcePlayer:MediaPlayer>
 									</VisualBrush.Visual>
                                 </VisualBrush >
