@@ -313,5 +313,154 @@ namespace GKProcessor
 
 			return stackDepths.Any(x => x != 0);
 		}
+
+		public bool CheckStackOverflow()
+		{
+			var stackValueCollections = new List<StackValueCollection>();
+			stackValueCollections.Add(new StackValueCollection());
+
+			for (int i = 0; i < FormulaOperations.Count; i++)
+			{
+				var formulaOperation = FormulaOperations[i];
+				var newStackValueCollections = new List<StackValueCollection>();
+
+				foreach (var stackValueCollection in stackValueCollections.Where(x => x.CurrentFormulaNo == i && !x.IsCompleted))
+				{
+					stackValueCollection.CurrentFormulaNo++;
+
+					switch (formulaOperation.FormulaOperationType)
+					{
+						case FormulaOperationType.CONST:
+						case FormulaOperationType.DUP:
+						case FormulaOperationType.GETBIT:
+						case FormulaOperationType.GETBYTE:
+						case FormulaOperationType.GETWORD:
+						case FormulaOperationType.ACS:
+						case FormulaOperationType.TSTP:
+							stackValueCollection.StackValues.Add(null);
+							break;
+
+						case FormulaOperationType.KOD:
+						case FormulaOperationType.GETMEMB:
+							stackValueCollection.StackValues.Add(null);
+							stackValueCollection.StackValues.Add(null);
+							break;
+
+						case FormulaOperationType.ADD:
+						case FormulaOperationType.AND:
+						case FormulaOperationType.EQ:
+						case FormulaOperationType.NE:
+						case FormulaOperationType.GE:
+						case FormulaOperationType.GT:
+						case FormulaOperationType.LE:
+						case FormulaOperationType.LT:
+						case FormulaOperationType.MUL:
+						case FormulaOperationType.OR:
+						case FormulaOperationType.PUTBIT:
+						case FormulaOperationType.PUTBYTE:
+						case FormulaOperationType.PUTWORD:
+						case FormulaOperationType.SUB:
+						case FormulaOperationType.XOR:
+						case FormulaOperationType.CMPKOD:
+							stackValueCollection.StackValues.RemoveAt(stackValueCollection.StackValues.Count - 1);
+							break;
+
+						case FormulaOperationType.PUTP:
+						case FormulaOperationType.PUTMEMB:
+							stackValueCollection.StackValues.RemoveAt(stackValueCollection.StackValues.Count - 1);
+							stackValueCollection.StackValues.RemoveAt(stackValueCollection.StackValues.Count - 1);
+							break;
+
+						case FormulaOperationType.COM:
+						case FormulaOperationType.NEG:
+							break;
+
+						case FormulaOperationType.END:
+						case FormulaOperationType.EXIT:
+							stackValueCollection.IsCompleted = true;
+							break;
+
+						case FormulaOperationType.ACSP:
+							var newStackValueCollection = stackValueCollection.Clone();
+							newStackValueCollections.Add(newStackValueCollection);
+
+							stackValueCollection.StackValues.Add(0);
+							newStackValueCollection.StackValues.Add(null);
+							newStackValueCollection.StackValues.Add(0);
+							break;
+
+						case FormulaOperationType.BR:
+							if (formulaOperation.FirstOperand == 0)
+							{
+								stackValueCollection.CurrentFormulaNo += formulaOperation.SecondOperand;
+							}
+							else
+							{
+								var lastStackValue = stackValueCollection.StackValues.LastOrDefault();
+								if (lastStackValue.HasValue)
+								{
+									if ((formulaOperation.FirstOperand == 1 && lastStackValue.Value == 0) || (formulaOperation.FirstOperand == 2 && lastStackValue.Value != 0))
+									{
+										stackValueCollection.StackValues.RemoveAt(stackValueCollection.StackValues.Count - 1);
+										stackValueCollection.CurrentFormulaNo += formulaOperation.SecondOperand;
+									}
+								}
+								else
+								{
+									stackValueCollection.StackValues.RemoveAt(stackValueCollection.StackValues.Count - 1);
+									newStackValueCollection = stackValueCollection.Clone();
+									newStackValueCollections.Add(newStackValueCollection);
+									newStackValueCollection.CurrentFormulaNo += formulaOperation.SecondOperand;
+								}
+							}
+							break;
+					}
+				}
+
+				stackValueCollections.AddRange(newStackValueCollections);
+			}
+			return !stackValueCollections.Any(x => x.StackValues.Count != 0 || x.IsError);
+		}
+
+		public class StackValueCollection
+		{
+			public StackValueCollection()
+			{
+				StackValues = new List<int?>();
+				CurrentFormulaNo = 0;
+				IsCompleted = false;
+			}
+
+			public List<int?> StackValues { get; set; }
+
+			public int CurrentFormulaNo { get; set; }
+
+			public bool IsCompleted { get; set; }
+
+			public bool IsError { get; set; }
+
+			public void RemoveLast()
+			{
+				if (StackValues.Count > 0)
+				{
+					StackValues.RemoveAt(StackValues.Count - 1);
+				}
+				else
+				{
+					IsError = true;
+					IsCompleted = true;
+				}
+			}
+
+			public StackValueCollection Clone()
+			{
+				return new StackValueCollection()
+				{
+					StackValues = StackValues.ToList(),
+					CurrentFormulaNo = CurrentFormulaNo,
+					IsCompleted = IsCompleted
+				};
+			}
+		}
 	}
 }

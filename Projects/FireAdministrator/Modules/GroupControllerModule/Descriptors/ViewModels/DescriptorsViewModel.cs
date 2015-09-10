@@ -43,6 +43,14 @@ namespace GKModule.ViewModels
 						MessageBoxService.ShowError("Ошибка глубины стека дескриптора " + descriptor.GKBase.GKDescriptorNo + " " + descriptor.GKBase.PresentationName);
 						return;
 					}
+
+#if DEBUG
+					var isFormulaInvalid2 = descriptor.Formula.CheckStackOverflow();
+					if (!isFormulaInvalid2)
+					{
+						MessageBoxService.ShowError("Ошибка проверки стека " + descriptor.GKBase.GKDescriptorNo + " " + descriptor.GKBase.PresentationName);
+					}
+#endif
 				}
 			}
 		}
