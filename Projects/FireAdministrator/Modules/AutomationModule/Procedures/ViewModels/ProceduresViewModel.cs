@@ -81,7 +81,7 @@ namespace AutomationModule.ViewModels
 		public RelayCommand CopyCommand { get; private set; }
 		void OnCopy()
 		{
-			_procedureToCopy = Utils.Clone(SelectedProcedure.Procedure);
+			_procedureToCopy = SelectedProcedure.Procedure;
 		}
 
 		bool CanCopy()
@@ -95,16 +95,211 @@ namespace AutomationModule.ViewModels
 			OnCopy();
 			OnDelete();
 		}
+		void ReplaceStepUids(ProcedureStep step, Dictionary<Guid, Guid> dictionary)
+		{
+			step.UID = Guid.NewGuid();
+			switch (step.ProcedureStepType)
+			{
+				case ProcedureStepType.PlaySound:
+					break;
 
+				case ProcedureStepType.ShowMessage:
+					ReplaceVariableUid(step.ShowMessageArguments.MessageArgument, dictionary);
+					ReplaceVariableUid(step.ShowMessageArguments.ConfirmationValueArgument, dictionary);
+					break;
+
+				case ProcedureStepType.Arithmetics:
+					ReplaceVariableUid(step.ArithmeticArguments.Argument1, dictionary);
+					ReplaceVariableUid(step.ArithmeticArguments.Argument2, dictionary);
+					ReplaceVariableUid(step.ArithmeticArguments.ResultArgument, dictionary);
+					break;
+
+				case ProcedureStepType.If:
+				case ProcedureStepType.While:
+					var conditionArguments = step.ConditionArguments;
+					foreach (var condition in conditionArguments.Conditions)
+					{
+						ReplaceVariableUid(condition.Argument1, dictionary);
+						ReplaceVariableUid(condition.Argument2, dictionary);
+					}
+					break;
+
+				case ProcedureStepType.AddJournalItem:
+					ReplaceVariableUid(step.JournalArguments.MessageArgument, dictionary);
+					break;
+
+				case ProcedureStepType.FindObjects:
+					ReplaceVariableUid(step.FindObjectArguments.ResultArgument, dictionary);
+					foreach (var findObjectCondition in step.FindObjectArguments.FindObjectConditions)
+						ReplaceVariableUid(findObjectCondition.SourceArgument, dictionary);
+					break;
+
+				case ProcedureStepType.Foreach:
+					ReplaceVariableUid(step.ForeachArguments.ItemArgument, dictionary);
+					ReplaceVariableUid(step.ForeachArguments.ListArgument, dictionary);
+					break;
+
+				case ProcedureStepType.For:
+					ReplaceVariableUid(step.ForArguments.IndexerArgument, dictionary);
+					ReplaceVariableUid(step.ForArguments.InitialValueArgument, dictionary);
+					ReplaceVariableUid(step.ForArguments.ValueArgument, dictionary);
+					ReplaceVariableUid(step.ForArguments.IteratorArgument, dictionary);
+					break;
+
+				case ProcedureStepType.Pause:
+					ReplaceVariableUid(step.PauseArguments.PauseArgument, dictionary);
+					break;
+
+				case ProcedureStepType.ProcedureSelection:
+					foreach (var argument in step.ProcedureSelectionArguments.ScheduleProcedure.Arguments)
+						ReplaceVariableUid(argument, dictionary);
+					break;
+
+				case ProcedureStepType.Exit:
+					ReplaceVariableUid(step.ExitArguments.ExitCodeArgument, dictionary);
+					break;
+
+				case ProcedureStepType.SetValue:
+					ReplaceVariableUid(step.SetValueArguments.SourceArgument, dictionary);
+					ReplaceVariableUid(step.SetValueArguments.TargetArgument, dictionary);
+					break;
+
+				case ProcedureStepType.IncrementValue:
+					ReplaceVariableUid(step.IncrementValueArguments.ResultArgument, dictionary);
+					break;
+
+				case ProcedureStepType.ControlGKDevice:
+					ReplaceVariableUid(step.ControlGKDeviceArguments.GKDeviceArgument, dictionary);
+					break;
+
+				case ProcedureStepType.ControlGKFireZone:
+					ReplaceVariableUid(step.ControlGKFireZoneArguments.GKFireZoneArgument, dictionary);
+					break;
+
+				case ProcedureStepType.ControlGKGuardZone:
+					ReplaceVariableUid(step.ControlGKGuardZoneArguments.GKGuardZoneArgument, dictionary);
+					break;
+
+				case ProcedureStepType.ControlDirection:
+					ReplaceVariableUid(step.ControlDirectionArguments.DirectionArgument, dictionary);
+					break;
+
+				case ProcedureStepType.ControlGKDoor:
+					ReplaceVariableUid(step.ControlGKDoorArguments.DoorArgument, dictionary);
+					break;
+
+				case ProcedureStepType.ControlDelay:
+					ReplaceVariableUid(step.ControlDelayArguments.DelayArgument, dictionary);
+					break;
+
+				case ProcedureStepType.GetObjectProperty:
+					ReplaceVariableUid(step.GetObjectPropertyArguments.ObjectArgument, dictionary);
+					ReplaceVariableUid(step.GetObjectPropertyArguments.ResultArgument, dictionary);
+					break;
+
+				case ProcedureStepType.SendEmail:
+					ReplaceVariableUid(step.SendEmailArguments.EMailAddressFromArgument, dictionary);
+					ReplaceVariableUid(step.SendEmailArguments.EMailAddressToArgument, dictionary);
+					ReplaceVariableUid(step.SendEmailArguments.EMailContentArgument, dictionary);
+					ReplaceVariableUid(step.SendEmailArguments.EMailTitleArgument, dictionary);
+					ReplaceVariableUid(step.SendEmailArguments.SmtpArgument, dictionary);
+					ReplaceVariableUid(step.SendEmailArguments.LoginArgument, dictionary);
+					ReplaceVariableUid(step.SendEmailArguments.PasswordArgument, dictionary);
+					ReplaceVariableUid(step.SendEmailArguments.PortArgument, dictionary);
+					break;
+
+				case ProcedureStepType.RunProgram:
+					ReplaceVariableUid(step.RunProgramArguments.ParametersArgument, dictionary);
+					ReplaceVariableUid(step.RunProgramArguments.PathArgument, dictionary);
+					break;
+
+				case ProcedureStepType.Random:
+					ReplaceVariableUid(step.RandomArguments.MaxValueArgument, dictionary);
+					break;
+
+				case ProcedureStepType.ChangeList:
+					ReplaceVariableUid(step.ChangeListArguments.ItemArgument, dictionary);
+					ReplaceVariableUid(step.ChangeListArguments.ListArgument, dictionary);
+					break;
+
+				case ProcedureStepType.CheckPermission:
+					ReplaceVariableUid(step.CheckPermissionArguments.PermissionArgument, dictionary);
+					ReplaceVariableUid(step.CheckPermissionArguments.ResultArgument, dictionary);
+					break;
+
+				case ProcedureStepType.GetJournalItem:
+					ReplaceVariableUid(step.GetJournalItemArguments.ResultArgument, dictionary);
+					break;
+
+				case ProcedureStepType.GetListCount:
+					ReplaceVariableUid(step.GetListCountArguments.ListArgument, dictionary);
+					ReplaceVariableUid(step.GetListCountArguments.CountArgument, dictionary);
+					break;
+
+				case ProcedureStepType.GetListItem:
+					ReplaceVariableUid(step.GetListItemArguments.ListArgument, dictionary);
+					ReplaceVariableUid(step.GetListItemArguments.ItemArgument, dictionary);
+					ReplaceVariableUid(step.GetListItemArguments.IndexArgument, dictionary);
+					break;
+				case ProcedureStepType.ControlVisualGet:
+				case ProcedureStepType.ControlVisualSet:
+					ReplaceVariableUid(step.ControlVisualArguments.Argument, dictionary);
+					break;
+				case ProcedureStepType.ControlPlanGet:
+				case ProcedureStepType.ControlPlanSet:
+					ReplaceVariableUid(step.ControlPlanArguments.ValueArgument, dictionary);
+					break;
+				case ProcedureStepType.ShowDialog:
+					break;
+				case ProcedureStepType.GenerateGuid:
+					ReplaceVariableUid(step.GenerateGuidArguments.ResultArgument, dictionary);
+					break;
+				case ProcedureStepType.SetJournalItemGuid:
+					ReplaceVariableUid(step.SetJournalItemGuidArguments.ValueArgument, dictionary);
+					break;
+				case ProcedureStepType.Ptz:
+					ReplaceVariableUid(step.PtzArguments.CameraArgument, dictionary);
+					ReplaceVariableUid(step.PtzArguments.PtzNumberArgument, dictionary);
+					break;
+				case ProcedureStepType.StartRecord:
+					ReplaceVariableUid(step.StartRecordArguments.CameraArgument, dictionary);
+					ReplaceVariableUid(step.StartRecordArguments.EventUIDArgument, dictionary);
+					ReplaceVariableUid(step.StartRecordArguments.TimeoutArgument, dictionary);
+					break;
+				case ProcedureStepType.StopRecord:
+					ReplaceVariableUid(step.StopRecordArguments.CameraArgument, dictionary);
+					ReplaceVariableUid(step.StopRecordArguments.EventUIDArgument, dictionary);
+					break;
+				case ProcedureStepType.RviAlarm:
+					ReplaceVariableUid(step.RviAlarmArguments.NameArgument, dictionary);
+					break;
+				case ProcedureStepType.Now:
+					ReplaceVariableUid(step.NowArguments.ResultArgument, dictionary);
+					break;
+			}
+			foreach (var childStep in step.Children)
+				ReplaceStepUids(childStep, dictionary);
+		}
+		void ReplaceVariableUid(Argument argument, Dictionary<Guid, Guid> dictionary)
+		{
+			argument.VariableUid = dictionary.ContainsKey(argument.VariableUid) ? dictionary[argument.VariableUid] : Guid.Empty;
+		}
 		public RelayCommand PasteCommand { get; private set; }
 		void OnPaste()
 		{
-			_procedureToCopy.Uid = Guid.NewGuid();
-			foreach (var variable in _procedureToCopy.Variables)
-				variable.Uid = Guid.NewGuid();
-			foreach (var argument in _procedureToCopy.Arguments)
-				argument.Uid = Guid.NewGuid();
-			var procedureViewModel = new ProcedureViewModel(Utils.Clone(_procedureToCopy));
+			var clone = Utils.Clone(_procedureToCopy);
+			clone.Uid = Guid.NewGuid();
+
+			var dictionary = new Dictionary<Guid, Guid>();
+			foreach (var variable in clone.Variables)
+				dictionary.Add(variable.Uid, variable.Uid = Guid.NewGuid());
+			foreach (var argument in clone.Arguments)
+				dictionary.Add(argument.Uid, argument.Uid = Guid.NewGuid());
+
+			foreach (var step in clone.Steps)
+				ReplaceStepUids(step, dictionary);
+
+			var procedureViewModel = new ProcedureViewModel(clone);
 			FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures.Add(procedureViewModel.Procedure);
 			Procedures.Add(procedureViewModel);
 			SelectedProcedure = procedureViewModel;
@@ -233,7 +428,7 @@ namespace AutomationModule.ViewModels
 			ServiceFactory.SaveService.AutomationChanged = automationChanged;
 
 			if (Procedures != null)
-				Procedures = new SortableObservableCollection<ProcedureViewModel>(Procedures.OrderBy(x => x.Name)); 
+				Procedures = new SortableObservableCollection<ProcedureViewModel>(Procedures.OrderBy(x => x.Name));
 
 			base.OnShow();
 		}

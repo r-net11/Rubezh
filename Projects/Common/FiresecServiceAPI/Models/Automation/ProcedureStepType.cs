@@ -16,10 +16,10 @@ namespace FiresecAPI.Automation
 		[DescriptionAttribute("Цикл по списку")]
 		Foreach,
 
-		[DescriptionAttribute("Цикл For")]
+		[DescriptionAttribute("Цикл Для")]
 		For,
 
-		[DescriptionAttribute("Цикл While")]
+		[DescriptionAttribute("Цикл Пока")]
 		While,
 
 		[DescriptionAttribute("выйти из цикла")]
