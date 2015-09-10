@@ -30,15 +30,26 @@ namespace GKProcessor
 			}
 		}
 
-		public FormulaOperation Add(FormulaOperationType formulaOperationType, byte firstOperand = 0, ushort secondOperand = 0, GKBase gkBase = null, string comment = null)
+		public FormulaOperation Add(FormulaOperationType formulaOperationType, byte firstOperand = 0, ushort secondOperand = 0, string comment = null)
 		{
 			var formulaOperation = new FormulaOperation()
 			{
 				FormulaOperationType = formulaOperationType,
 				FirstOperand = firstOperand,
 				SecondOperand = secondOperand,
-				GKBaseSecondOperand = gkBase,
 				Comment = comment
+			};
+			FormulaOperations.Add(formulaOperation);
+			return formulaOperation;
+		}
+
+		public FormulaOperation AddWithGKBase(FormulaOperationType formulaOperationType, byte firstOperand, GKBase gkBase)
+		{
+			var formulaOperation = new FormulaOperation()
+			{
+				FormulaOperationType = formulaOperationType,
+				FirstOperand = firstOperand,
+				GKBaseSecondOperand = gkBase,
 			};
 			FormulaOperations.Add(formulaOperation);
 			return formulaOperation;
@@ -46,22 +57,22 @@ namespace GKProcessor
 
 		public void AddGetBitOff(GKStateBit stateBit, GKBase gkBase)
 		{
-			Add(FormulaOperationType.GETBIT, (byte)stateBit, 0, gkBase);
+			AddWithGKBase(FormulaOperationType.GETBIT, (byte)stateBit, gkBase);
 		}
 
 		public void AddGetBit(GKStateBit stateBit, GKBase gkBase)
 		{
-			Add(FormulaOperationType.GETBIT, (byte)stateBit, 0, gkBase);
+			AddWithGKBase(FormulaOperationType.GETBIT, (byte)stateBit, gkBase);
 		}
 
 		public void AddPutBit(GKStateBit stateBit, GKBase gkBase)
 		{
-			Add(FormulaOperationType.PUTBIT, (byte)stateBit, 0, gkBase);
+			AddWithGKBase(FormulaOperationType.PUTBIT, (byte)stateBit, gkBase);
 		}
 
 		public void AddArgumentPutBit(byte bit, GKBase gkBase)
 		{
-			Add(FormulaOperationType.PUTBIT, (byte)bit, 0, gkBase);
+			AddWithGKBase(FormulaOperationType.PUTBIT, (byte)bit, gkBase);
 		}
 
 		public void AddStandardTurning(GKBase gkBase)

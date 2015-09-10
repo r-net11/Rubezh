@@ -22,8 +22,8 @@ namespace GKProcessor
 			foreach (var codeUID in settingsPart.CodeUIDs)
 			{
 				var code = GKManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == codeUID);
-				formula.Add(FormulaOperationType.KOD, 0, 0, device);
-				formula.Add(FormulaOperationType.CMPKOD, 1, 0, code);
+				formula.AddWithGKBase(FormulaOperationType.KOD, 0, device);
+				formula.AddWithGKBase(FormulaOperationType.CMPKOD, 1, code);
 				if (codeIndex > 0)
 				{
 					formula.Add(FormulaOperationType.OR);
@@ -32,7 +32,7 @@ namespace GKProcessor
 			}
 			if (settingsPart.AccessLevel > 0)
 			{
-				formula.Add(FormulaOperationType.ACS, (byte)settingsPart.AccessLevel, 0, device);
+				formula.AddWithGKBase(FormulaOperationType.ACS, (byte)settingsPart.AccessLevel, device);
 				if (codeIndex > 0)
 				{
 					formula.Add(FormulaOperationType.OR);
