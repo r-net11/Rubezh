@@ -180,7 +180,12 @@
 				<File Id="Monitor.swscale_3.dll" Name="swscale-3.dll" Source="$(var.Monitor.RVIVSS.Dll.TargetDir)" />
 				<File Id="Monitor.SystemTransform.dll" Name="SystemTransform.dll" Source="$(var.Monitor.RVIVSS.Dll.TargetDir)" />
 				<File Id="Monitor.vcomp.dll" Name="vcomp.dll" Source="$(var.Monitor.RVIVSS.Dll.TargetDir)" />
+				<File Id="Monitor.log4cplus.properties" Name="log4cplus.properties" Source="$(var.Monitor.RVIVSS.Dll.TargetDir)" />
+				<File Id="Monitor.Microsoft.VC80.ATL.manifest" Name="Microsoft.VC80.ATL.manifest" Source="$(var.Monitor.RVIVSS.Dll.TargetDir)" />
+				<File Id="Monitor.Microsoft.VC80.CRT.manifest" Name="Microsoft.VC80.CRT.manifest" Source="$(var.Monitor.RVIVSS.Dll.TargetDir)" />
 				<File Id="Monitor.Microsoft.VC80.MFC.manifest" Name="Microsoft.VC80.MFC.manifest" Source="$(var.Monitor.RVIVSS.Dll.TargetDir)" />
+				<File Id="Monitor.Microsoft.VC80.MFCLOC.manifest" Name="Microsoft.VC80.MFCLOC.manifest" Source="$(var.Monitor.RVIVSS.Dll.TargetDir)" />
+				<File Id="Monitor.Microsoft.VC80.OpenMP.manifest" Name="Microsoft.VC80.OpenMP.manifest" Source="$(var.Monitor.RVIVSS.Dll.TargetDir)" />
 			</Component>
 		</DirectoryRef>
 		

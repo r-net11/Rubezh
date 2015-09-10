@@ -21,15 +21,11 @@ namespace JournalModule.ViewModels
 			HasVideo = RviClient.RviClientHelper.GetVideoFile(FiresecManager.SystemConfiguration, eventUID, cameraUID, VideoPath, out errorInformation);
 			ErrorInformation = errorInformation;
 		}
-
 		public override bool OnClosing(bool isCanceled)
 		{
-			if (OnClose != null)
-				OnClose();
 			if (File.Exists(VideoPath))
 				File.Delete(VideoPath);
 			return base.OnClosing(isCanceled);
 		}
-		public event Action OnClose;
 	}
 }
