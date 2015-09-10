@@ -501,7 +501,7 @@ namespace FiresecService
 						propertyValue = (item as GKGuardZone).ObjectType;
 						break;
 					case Property.State:
-						propertyValue = (int)(item as GKGuardZone).State.StateClass;
+						propertyValue = (item as GKGuardZone).State.StateClass;
 						break;
 					case Property.Name:
 						propertyValue = (item as GKGuardZone).Name.Trim();
@@ -572,7 +572,7 @@ namespace FiresecService
 					var propertyValue = GetPropertyValue(findObjectCondition.Property, item);
 					var conditionValue = GetValue<object>(findObjectCondition.SourceArgument);
 					var comparer = Compare(propertyValue, conditionValue, findObjectCondition.ConditionType);
-					if ((comparer != null) && (comparer.Value))
+					if (comparer != null && comparer.Value)
 					{
 						result.ExplicitValues.Add(new ExplicitValue { UidValue = itemUid });
 						break;
@@ -595,7 +595,7 @@ namespace FiresecService
 					var propertyValue = GetPropertyValue(findObjectCondition.Property, item);
 					var conditionValue = GetValue<object>(findObjectCondition.SourceArgument);
 					var comparer = Compare(propertyValue, conditionValue, findObjectCondition.ConditionType);
-					if ((comparer != null) && (!comparer.Value))
+					if (comparer != null && !comparer.Value)
 					{
 						allTrue = false;
 						break;
@@ -612,36 +612,36 @@ namespace FiresecService
 				return null;
 			if (param1.GetType().IsEnum || param1 is int)
 			{
-				return (((conditionType == ConditionType.IsEqual) && ((int)param1 == (int)param2))
-					|| ((conditionType == ConditionType.IsNotEqual) && ((int)param1 != (int)param2))
-					|| ((conditionType == ConditionType.IsMore) && ((int)param1 > (int)param2))
-					|| ((conditionType == ConditionType.IsNotMore) && ((int)param1 <= (int)param2))
-					|| ((conditionType == ConditionType.IsLess) && ((int)param1 < (int)param2))
-					|| ((conditionType == ConditionType.IsNotLess) && ((int)param1 >= (int)param2)));
+				return conditionType == ConditionType.IsEqual && (int)param1 == (int)param2
+					|| conditionType == ConditionType.IsNotEqual && (int)param1 != (int)param2
+					|| conditionType == ConditionType.IsMore && (int)param1 > (int)param2
+					|| conditionType == ConditionType.IsNotMore && (int)param1 <= (int)param2
+					|| conditionType == ConditionType.IsLess && (int)param1 < (int)param2
+					|| conditionType == ConditionType.IsNotLess && (int)param1 >= (int)param2;
 			}
 
 			if (param1 is DateTime)
 			{
-				return (((conditionType == ConditionType.IsEqual) && ((DateTime)param1 == (DateTime)param2))
-					|| ((conditionType == ConditionType.IsNotEqual) && ((DateTime)param1 != (DateTime)param2))
-					|| ((conditionType == ConditionType.IsMore) && ((DateTime)param1 > (DateTime)param2))
-					|| ((conditionType == ConditionType.IsNotMore) && ((DateTime)param1 <= (DateTime)param2))
-					|| ((conditionType == ConditionType.IsLess) && ((DateTime)param1 < (DateTime)param2))
-					|| ((conditionType == ConditionType.IsNotLess) && ((DateTime)param1 >= (DateTime)param2)));
+				return conditionType == ConditionType.IsEqual && (DateTime)param1 == (DateTime)param2
+					|| conditionType == ConditionType.IsNotEqual && (DateTime)param1 != (DateTime)param2
+					|| conditionType == ConditionType.IsMore && (DateTime)param1 > (DateTime)param2
+					|| conditionType == ConditionType.IsNotMore && (DateTime)param1 <= (DateTime)param2
+					|| conditionType == ConditionType.IsLess && (DateTime)param1 < (DateTime)param2
+					|| conditionType == ConditionType.IsNotLess && (DateTime)param1 >= (DateTime)param2;
 			}
 
 			if (param1 is string)
 			{
-				return (((conditionType == ConditionType.IsEqual) && ((string)param1 == (string)param2))
-					|| ((conditionType == ConditionType.IsNotEqual) && ((string)param1 != (string)param2))
-					|| ((conditionType == ConditionType.StartsWith) && (((string)param1).StartsWith((string)param2)))
-					|| ((conditionType == ConditionType.EndsWith) && (((string)param1).EndsWith((string)param2)))
-					|| ((conditionType == ConditionType.Contains) && (((string)param1).Contains((string)param2))));
+				return conditionType == ConditionType.IsEqual && (string)param1 == (string)param2
+					|| conditionType == ConditionType.IsNotEqual && (string)param1 != (string)param2
+					|| conditionType == ConditionType.StartsWith && ((string)param1).StartsWith((string)param2)
+					|| conditionType == ConditionType.EndsWith && ((string)param1).EndsWith((string)param2)
+					|| conditionType == ConditionType.Contains && ((string)param1).Contains((string)param2);
 			}
 			if (param1 is bool)
 			{
-				return (((conditionType == ConditionType.IsEqual) && ((bool)param1 == (bool)param2))
-						|| ((conditionType == ConditionType.IsNotEqual) && ((bool)param1 != (bool)param2)));
+				return conditionType == ConditionType.IsEqual && (bool)param1 == (bool)param2
+						|| conditionType == ConditionType.IsNotEqual && (bool)param1 != (bool)param2;
 			}
 			return null;
 		}
