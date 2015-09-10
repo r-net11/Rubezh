@@ -32,7 +32,7 @@
 			<Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Content="Формат данных" />
 			<Label Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" Content="Отображать в списке сотрудников" Visibility="{Binding IsTextType, Converter={StaticResource BoolToVisibilityConverter}}" />
 
-			<TextBox Grid.Row="0" Grid.Column="1" Margin="2" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
+			<TextBox Grid.Row="0" MaxLength="50" Grid.Column="1" Margin="2" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
 			<TextBox Grid.Row="1" Grid.Column="1" Margin="2" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" />
 			<ComboBox Grid.Row="2" Grid.Column="1" Margin="2" IsEnabled="{Binding CanChangeDataType}" ItemsSource="{Binding AvailableDataTypes}" SelectedItem="{Binding DataType}">
 				<ComboBox.ItemTemplate>

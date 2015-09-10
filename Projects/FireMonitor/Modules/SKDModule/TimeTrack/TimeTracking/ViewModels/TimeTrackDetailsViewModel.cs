@@ -557,7 +557,7 @@ namespace SKDModule.ViewModels
 			ClearIntervalsData(DayTimeTrackParts);
 
 			var resultCollection = DayTimeTrackParts.Where(x => !x.IsManuallyAdded || x.IsForceClosed).ToList();
-			List<DayTimeTrackPart> collection = DayTimeTrackParts.Where(x => !string.IsNullOrEmpty(x.CorrectedBy) && !x.IsForceClosed).ToList();
+			List<DayTimeTrackPart> collection = DayTimeTrackParts.Where(x => !x.IsForceClosed).ToList();
 
 			var conflictIntervals = PassJournalHelper.FindConflictIntervals(collection.Select(dayTimeTrackPart => dayTimeTrackPart.ToDTO()).ToList(), ShortEmployee.UID, DayTimeTrack.Date);
 

@@ -87,7 +87,6 @@ namespace FireAdministrator.ViewModels
 				new RibbonMenuItemViewModel("Применить", _menu.SetNewConfigCommand, "BDownload", "Применить конфигурацию"),
 				new RibbonMenuItemViewModel("Сохранить", _menu.SaveCommand, "BSave", "Сохранить конфигурацию в файл"),
 				new RibbonMenuItemViewModel("Сохранить как", _menu.SaveAsCommand, "BSaveAs", "Сохранить как"),
-				new RibbonMenuItemViewModel("Слияние конфигураций", _menu.MergeConfigurationCommand, "BAllParameters", "Слияние конфигураций"),
 				new RibbonMenuItemViewModel("Вид", new ObservableCollection<RibbonMenuItemViewModel>()
 				{
 					_showMenu,

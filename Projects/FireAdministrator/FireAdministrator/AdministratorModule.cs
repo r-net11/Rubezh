@@ -41,7 +41,6 @@ namespace FireAdministrator
 				Factory = (p) => new LayoutPartTimeViewModel(p as LayoutPartTimeProperties),
 			};
 			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.Reports, 201, "Отчеты", "Панель отчетов", "BLevels.png");
-			//yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.Diagnostics, 202, "Диагностика", "Панель диагностики", "BBug.png");
 		}
 		#endregion
 	}

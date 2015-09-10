@@ -38,25 +38,23 @@
 							<ColumnDefinition />
 						</Grid.ColumnDefinitions>
 						<Label
-							Grid.Row="0"
-							Grid.Column="0"
 							HorizontalAlignment="Right"
 							Content="Фамилия" />
 						<TextBox
-							Grid.Row="0"
 							Grid.Column="1"
 							Margin="2"
+							MaxLength="50"
 							Text="{Binding LastName,
 						                        UpdateSourceTrigger=PropertyChanged}" />
 
 						<Label
 							Grid.Row="1"
-							Grid.Column="0"
 							HorizontalAlignment="Right"
 							Content="Имя" />
 						<TextBox
 							Grid.Row="1"
 							Grid.Column="1"
+							MaxLength="50"
 							Margin="2"
 							Text="{Binding FirstName,
 						                        UpdateSourceTrigger=PropertyChanged}" />
@@ -70,6 +68,7 @@
 							Grid.Row="2"
 							Grid.Column="1"
 							Margin="2"
+							MaxLength="50"
 							Text="{Binding SecondName,
 						                        UpdateSourceTrigger=PropertyChanged}" />
 
@@ -336,6 +335,7 @@
 					x:Name="FirstTextBox"
 					Grid.Column="1"
 					Margin="2"
+					MaxLength="50"
 					Text="{Binding DocumentNumber,
 				                        UpdateSourceTrigger=PropertyChanged}" />
 				<Label
@@ -413,6 +413,7 @@
 				<TextBox
 					Grid.Row="6"
 					Grid.Column="1"
+					MaxLength="50"
 					Margin="2"
 					Text="{Binding Citizenship,
 				                        UpdateSourceTrigger=PropertyChanged}" />

@@ -1,11 +1,17 @@
-﻿<UserControl x:Class="SKDModule.Reports.Views.SchedulePageView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<UserControl
+	x:Class="SKDModule.Reports.Views.SchedulePageView"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
-		<ListView Grid.Row="0" Focusable="True" ItemsSource="{Binding Schedules, Mode=OneWay}" SortBehavior.CanUserSortColumns="True">
+		<ListView
+			Focusable="True"
+			ItemsSource="{Binding Schedules, Mode=OneWay}"
+			SortBehavior.CanUserSortColumns="True">
 			<ListView.View>
 				<GridView>
 					<GridViewColumn Header="Название">
@@ -26,10 +32,6 @@
 		<StackPanel Grid.Row="1" Orientation="Horizontal">
 			<ToolBarButton Command="{Binding SelectAllCommand}" ImageSource="SelectAll" ToolTip="Выделить всё" />
 			<ToolBarButton Command="{Binding SelectNoneCommand}" ImageSource="SelectNone" ToolTip="Снять все выделения" />
-		</StackPanel>
-		<StackPanel Grid.Row="2" Orientation="Vertical">
-			<CheckBox Margin="3" VerticalAlignment="Center" Content="Вход" Foreground="White" IsChecked="{Binding ScheduleEnter}" />
-			<CheckBox Margin="3" VerticalAlignment="Center" Content="Выход" Foreground="White" IsChecked="{Binding ScheduleExit}" />
 		</StackPanel>
 	</Grid>
 </UserControl>

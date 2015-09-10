@@ -54,11 +54,6 @@ namespace FiresecService.Report.Templates
 				filter.ZoneIn = true;
 				filter.ZoneOut = true;
 			}
-			if (!filter.ScheduleEnter && !filter.ScheduleExit)
-			{
-				filter.ScheduleEnter = true;
-				filter.ScheduleExit = true;
-			}
 
 			var cardFilter = new CardFilter();
 			cardFilter.EmployeeFilter = dataProvider.GetCardEmployeeFilter(filter);
@@ -119,9 +114,7 @@ namespace FiresecService.Report.Templates
 					}
 					var employee = dataProvider.GetEmployee(card.EmployeeUID);
 					if (!filter.Schedules.IsEmpty())
-						cardDoors = cardDoors.Where(item =>
-							(filter.ScheduleEnter && filter.Schedules.Contains(item.EnterScheduleNo)) ||
-							(filter.ScheduleExit)); //TODO: can delete it
+						cardDoors = cardDoors.Where(item => filter.Schedules.Contains(item.EnterScheduleNo));
 					foreach (var cardDoor in cardDoors)
 						if (doorMap.ContainsKey(cardDoor.DoorUID))
 						{
@@ -140,7 +133,7 @@ namespace FiresecService.Report.Templates
 							dataRow.ZoneIn = door.EnterZoneName;
 							dataRow.ZoneOut = door.ExitZoneName;
 							if (intervalMap.ContainsKey(cardDoor.EnterScheduleNo))
-								dataRow.Enter = intervalMap[cardDoor.EnterScheduleNo];
+								dataRow.AccessSchedule = intervalMap[cardDoor.EnterScheduleNo];
 							dataRow.AccessPoint = door.Name;
 							dataSet.Data.Rows.Add(dataRow);
 						}
@@ -160,11 +153,11 @@ namespace FiresecService.Report.Templates
 
 		public CommonDoor(SKDDoor door)
 		{
-			Name = door.PresentationName;
+			Name = door.Name;
 			if (door.InDevice != null && door.InDevice.Zone != null)
-				EnterZoneName = door.InDevice.Zone.PresentationName;
+				EnterZoneName = door.InDevice.Zone.Name;
 			if (door.OutDevice != null && door.OutDevice.Zone != null)
-				ExitZoneName = door.OutDevice.Zone.PresentationName;
+				ExitZoneName = door.OutDevice.Zone.Name;
 		}
 	}
 }

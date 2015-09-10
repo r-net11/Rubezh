@@ -22,12 +22,10 @@ namespace SKDModule.ViewModels
 		public SKDCard Card { get; private set; }
 		public AccessDoorsSelectationViewModel AccessDoorsSelectationViewModel { get; private set; }
 		public bool IsNewCard { get; private set; }
-		public bool HasStrazh { get; private set; }
 		ShortEmployee _employee;
 
 		public EmployeeCardDetailsViewModel(Organisation organisation, ShortEmployee employee, SKDCard card = null)
 		{
-			HasStrazh = SKDManager.Devices.Count > 1;
 			_employee = employee;
 
 			ChangeDeactivationControllerCommand = new RelayCommand(OnChangeDeactivationController);
@@ -87,7 +85,7 @@ namespace SKDModule.ViewModels
 			{
 				CardTypes = new ObservableCollection<CardType>(Enum.GetValues(typeof(CardType)).OfType<CardType>());
 			}
-			SelectedCardType = Card.CardType;
+			SelectedCardType = CardTypes.FirstOrDefault();
 		}
 
 		uint _number;
@@ -134,7 +132,7 @@ namespace SKDModule.ViewModels
 
 		public bool CanSelectEndDate
 		{
-			get { return SelectedCardType == CardType.Temporary || SelectedCardType == CardType.Duress || !HasStrazh; }
+			get { return SelectedCardType == CardType.Temporary || SelectedCardType == CardType.Duress; }
 		}
 
 		DateTime _startDate;
@@ -260,40 +258,6 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		void StartPollThread()
-		{
-			StopPollThread();
-			_pollReaderThread = new Thread(OnPollReader);
-			_pollReaderThread.Start();
-		}
-
-		void StopPollThread()
-		{
-			if (_pollReaderThread != null)
-			{
-				_pollReaderThread.Join(TimeSpan.FromSeconds(2));
-			}
-		}
-
-		Thread _pollReaderThread;
-
-		void OnPollReader()
-		{
-		//	var readerDevice = GKManager.Devices.FirstOrDefault(x => x.UID == ClientSettings.SKDSettings.CardCreatorReaderUID);
-		//	if (readerDevice != null)
-			//{
-			//	while (IsThreadPolling)
-			//	{
-			//		var operationResult = FiresecManager.FiresecService.GKGetReaderCode(readerDevice);
-			//		if (!operationResult.HasError && operationResult.Result > 0)
-			//		{
-			//			Number = operationResult.Result;
-			//		}
-			//		Thread.Sleep(TimeSpan.FromMilliseconds(500));
-			//	}
-			//}
-		}
-
 		public void OnNewJournal(List<JournalItem> journalItems)
 		{
 			foreach (var journalItem in journalItems)
@@ -391,6 +355,7 @@ namespace SKDModule.ViewModels
 			Card.EndDate = EndDate;
 			Card.UserTime = UserTime;
 			Card.DeactivationControllerUID = DeactivationControllerUID;
+			Card.DeactivationControllerUID = DeactivationControllerUID;
 			Card.CardDoors = AccessDoorsSelectationViewModel.GetCardDoors();
 			Card.CardDoors.ForEach(x => x.CardUID = Card.UID);
 			Card.OrganisationUID = Organisation.UID;
@@ -408,12 +373,6 @@ namespace SKDModule.ViewModels
 				return false;
 			ServiceFactoryBase.Events.GetEvent<NewCardEvent>().Publish(Card);
 			return true;
-		}
-
-		public override void OnClosed()
-		{
-			StopPollThread();
-			base.OnClosed();
 		}
 
 		bool Validate()

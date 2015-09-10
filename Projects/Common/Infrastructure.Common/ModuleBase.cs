@@ -69,9 +69,6 @@ namespace Infrastructure.Common
 		[DescriptionAttribute("Устройства, Зоны")]
 		Devices,
 
-		[DescriptionAttribute("Диагностика")]
-		Diagnostics,
-
 		[DescriptionAttribute("Фильтры журнала событий")]
 		Filters,
 

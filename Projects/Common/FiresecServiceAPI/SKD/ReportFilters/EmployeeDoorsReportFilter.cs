@@ -109,12 +109,6 @@ namespace FiresecAPI.SKD.ReportFilters
 		[DataMember]
 		public List<int> Schedules { get; set; }
 
-		[DataMember]
-		public bool ScheduleEnter { get; set; }
-
-		[DataMember]
-		public bool ScheduleExit { get; set; }
-
 		#endregion IReportFilterSchedule Members
 	}
 }

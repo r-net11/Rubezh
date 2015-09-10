@@ -19,10 +19,6 @@
 		<Views:UserView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:AutoActivationViewModel}">
-		<Views:AutoActivationView />
-	</DataTemplate>
-
 	<DataTemplate DataType="{x:Type ViewModels:RestartApplicationViewModel}">
 		<Views:RestartApplicationView />
 	</DataTemplate>

@@ -20,7 +20,7 @@
 					<ColumnDefinition />
 				</Grid.ColumnDefinitions>
 				<Label Grid.Row="0" Grid.Column="0" Content="Название" Margin="2" HorizontalAlignment="Right" />
-				<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+				<TextBox Grid.Row="0" MaxLength="50" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 
 				<Label Grid.Row="1" Grid.Column="0" Content="Примечание" Margin="2" HorizontalAlignment="Right" />
 				<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
@@ -29,9 +29,9 @@
 				<StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Visibility="{Binding IsNew, Converter={StaticResource InversedBoolToVisibilityConverter}}" >
 					<TextBlock VerticalAlignment="Center">
 						<Hyperlink Command="{Binding ChiefViewModel.SelectCommand}" Style="{StaticResource HyperlinkStyle}">
-							<TextBlock Text="{Binding ChiefViewModel.SelectedEmployee.Name}" TextDecorations="Underline" 
+							<TextBlock Text="{Binding ChiefViewModel.SelectedEmployee.Name}" TextDecorations="Underline"
                                        Visibility="{Binding ChiefViewModel.HasSelected, Converter={StaticResource BoolToVisibilityConverter}}" />
-                            <TextBlock Text="Нажмите для выбора руководителя" TextDecorations="Underline" 
+                            <TextBlock Text="Нажмите для выбора руководителя" TextDecorations="Underline"
                                        Visibility="{Binding ChiefViewModel.HasSelected, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
 						</Hyperlink>
 					</TextBlock>
@@ -41,16 +41,16 @@
 				<StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Visibility="{Binding IsNew, Converter={StaticResource InversedBoolToVisibilityConverter}}" >
 					<TextBlock VerticalAlignment="Center">
                         <Hyperlink Command="{Binding HRChiefViewModel.SelectCommand}" Style="{StaticResource HyperlinkStyle}">
-							<TextBlock Text="{Binding HRChiefViewModel.SelectedEmployee.Name}" TextDecorations="Underline" 
+							<TextBlock Text="{Binding HRChiefViewModel.SelectedEmployee.Name}" TextDecorations="Underline"
                                        Visibility="{Binding HRChiefViewModel.HasSelected, Converter={StaticResource BoolToVisibilityConverter}}" />
-                            <TextBlock Text="Нажмите для выбора руководителя" TextDecorations="Underline" 
+                            <TextBlock Text="Нажмите для выбора руководителя" TextDecorations="Underline"
                                        Visibility="{Binding HRChiefViewModel.HasSelected, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
 						</Hyperlink>
 					</TextBlock>
 				</StackPanel>
 
 				<Label Grid.Row="4" Grid.Column="0" Content="Телефон" Margin="2" HorizontalAlignment="Right" />
-				<TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Phone, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+				<TextBox Grid.Row="4" MaxLength="50" Grid.Column="1" Text="{Binding Phone, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 			</Grid>
 		</TabItem>
 		<TabItem Header="Логотип">

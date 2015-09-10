@@ -13,7 +13,6 @@ namespace Infrastructure
 	public static class ClientSettings
 	{
 		public static readonly string ArchiveDefaultStateFileName = AppDataFolderHelper.GetMonitorSettingsPath("ArchiveDefaultState.xml");
-		public static readonly string AutoActivationSettingsFileName = AppDataFolderHelper.GetMonitorSettingsPath("AutoActivationSettings.xml");
 		public static readonly string MultiLayoutCameraSettingsFileName = AppDataFolderHelper.GetMonitorSettingsPath("MultiLayoutCameraSettings.xml");
 		public static readonly string RviMultiLayoutCameraSettingsFileName = AppDataFolderHelper.GetMonitorSettingsPath("RviMultiLayoutCameraSettings.xml");
 		public static readonly string SKDSettingsFileName = AppDataFolderHelper.GetMonitorSettingsPath("SKDSettings.xml");
@@ -24,13 +23,6 @@ namespace Infrastructure
 		{
 			get { return _archiveDefaultState ?? (_archiveDefaultState = new ArchiveDefaultState()); }
 			set { _archiveDefaultState = value; }
-		}
-
-		static AutoActivationSettings _autoActivationSettings;
-		public static AutoActivationSettings AutoActivationSettings
-		{
-			get { return _autoActivationSettings ?? (_autoActivationSettings = new AutoActivationSettings()); }
-			set { _autoActivationSettings = value; }
 		}
 
 		static RviMultiLayoutCameraSettings _rviMultiLayoutCameraSettings;
@@ -59,7 +51,6 @@ namespace Infrastructure
 			try
 			{
 				LoadArchiveDefaultState();
-				LoadAutoActivationSettings();
 				LoadRviCameraSettings();
 				LoadSKDSettings();
 				LoadSKDReportFilters();
@@ -78,7 +69,6 @@ namespace Infrastructure
 					Directory.CreateDirectory(AppDataFolderHelper.GetMonitorSettingsPath());
 
 				SaveArchiveDefaultState();
-				SaveAutoActivationSettings();
 				SaveRviCameraSettings();
 				SaveSKDSettings();
 				SaveSKDReportFilters();
@@ -114,30 +104,6 @@ namespace Infrastructure
 			{
 				var xmlSerializer = new XmlSerializer(typeof(ArchiveDefaultState));
 				xmlSerializer.Serialize(fileStream, ArchiveDefaultState);
-			}
-		}
-
-		static void LoadAutoActivationSettings()
-		{
-			if (File.Exists(AutoActivationSettingsFileName))
-			{
-				using (var fileStream = new FileStream(AutoActivationSettingsFileName, FileMode.Open))
-				{
-					var xmlSerializer = new XmlSerializer(typeof(AutoActivationSettings));
-					AutoActivationSettings = (AutoActivationSettings)xmlSerializer.Deserialize(fileStream);
-				}
-			}
-			else
-			{
-				AutoActivationSettings = new AutoActivationSettings();
-			}
-		}
-		static void SaveAutoActivationSettings()
-		{
-			using (var fileStream = new FileStream(AutoActivationSettingsFileName, FileMode.Create))
-			{
-				var xmlSerializer = new XmlSerializer(typeof(AutoActivationSettings));
-				xmlSerializer.Serialize(fileStream, AutoActivationSettings);
 			}
 		}
 

@@ -22,7 +22,6 @@ namespace SettingsModule.ViewModels
 			Modules.Add(new ModuleViewModel("FiltersModule.dll", "Фильтры"));
 			Modules.Add(new ModuleViewModel("JournalModule.dll", "Журнал событий"));
 			Modules.Add(new ModuleViewModel("SettingsModule.dll", "Настройки", false));
-			Modules.Add(new ModuleViewModel("DiagnosticsModule.dll", "Диагностика"));
 
 			foreach (var moduleName in GlobalSettingsHelper.GlobalSettings.ModuleItems)
 			{

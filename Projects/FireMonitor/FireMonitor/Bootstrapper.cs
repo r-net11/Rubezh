@@ -21,7 +21,6 @@ namespace FireMonitor
 	{
 		private string _login;
 		private string _password;
-		private AutoActivationWatcher _watcher;
 
 		public bool Initialize()
 		{
@@ -70,7 +69,6 @@ namespace FireMonitor
 						if (result)
 						{
 							AterInitialize();
-							RunWatcher();
 						}
 					}
 					else
@@ -120,7 +118,6 @@ namespace FireMonitor
 			if (!RunShell(shell))
 				result = false;
 			((LayoutService)ServiceFactory.Layout).AddToolbarItem(new UserViewModel());
-			((LayoutService)ServiceFactory.Layout).AddToolbarItem(new AutoActivationViewModel());
 			return result;
 		}
 		protected virtual ShellViewModel CreateShell()
@@ -195,12 +192,6 @@ namespace FireMonitor
 					}
 				}
 			}
-		}
-
-		private void RunWatcher()
-		{
-			_watcher = new AutoActivationWatcher();
-			_watcher.Run();
 		}
 	}
 }
