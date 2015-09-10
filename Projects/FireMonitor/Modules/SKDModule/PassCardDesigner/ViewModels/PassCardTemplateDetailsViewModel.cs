@@ -196,8 +196,7 @@ namespace SKDModule.PassCardDesigner.ViewModels
 		protected override bool Save()
 		{
 			SaveDefaultProperties();
-			PassCardTemplateHelper.Save(PassCardTemplate, _isNew);
-			return base.Save();
+			return PassCardTemplateHelper.Save(PassCardTemplate, _isNew);
 		}
 
 		private void InitializePassCardTemplate(bool isNew)
