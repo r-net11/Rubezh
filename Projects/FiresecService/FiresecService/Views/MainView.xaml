@@ -102,7 +102,7 @@
 					</Grid.RowDefinitions>
 					<DataGrid Grid.Row="0" ItemsSource="{Binding GKLifecycles}" SelectedItem="{Binding SelectedGKLifecycle}">
 						<DataGrid.Columns>
-							<DataGridTextColumn Binding="{Binding Time}" Header="Время" Width="60" />
+							<DataGridTextColumn Binding="{Binding Time}" Header="Время" Width="50" />
 							<DataGridTextColumn Binding="{Binding Address}" Header="Адрес" Width="Auto" />
 							<DataGridTextColumn Binding="{Binding Name}" Header="Название" Width="*" />
 							<DataGridTextColumn Binding="{Binding Progress}" Header="Прогресс" Width="*" />

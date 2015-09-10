@@ -13,19 +13,28 @@ namespace GKProcessor
 
 		void PingJournal()
 		{
-			var newLastId = GetLastId();
-			if (newLastId == -1)
-				return;
-			if (LastId == -1)
-				LastId = newLastId;
-			if (newLastId > LastId)
+			using (var gkLifecycleManager = new GKLifecycleManager(GkDatabase.RootDevice, "Проверка журнала"))
 			{
-				ReadAndPublish(LastId, newLastId);
-				LastId = newLastId;
-                using (var skdDatabaseService = new SKDDriver.DataClasses.DbService())
+				var newLastId = GetLastId();
+				if (newLastId == -1)
+					return;
+				if (LastId == -1)
+					LastId = newLastId;
+				if (newLastId > LastId)
 				{
-					var gkIpAddress = GKManager.GetIpAddress(GkDatabase.RootDevice);
-					skdDatabaseService.GKMetadataTranslator.SetLastJournalNo(gkIpAddress, LastId);
+					for (int index = LastId + 1; index <= newLastId; index++)
+					{
+						gkLifecycleManager.Progress(index - LastId, newLastId - LastId);
+						ReadAndPublish(index);
+					}
+					LastId = newLastId;
+
+					gkLifecycleManager.AddItem("Изменение индекса в БД");
+					using (var skdDatabaseService = new SKDDriver.DataClasses.DbService())
+					{
+						var gkIpAddress = GKManager.GetIpAddress(GkDatabase.RootDevice);
+						skdDatabaseService.GKMetadataTranslator.SetLastJournalNo(gkIpAddress, LastId);
+					}
 				}
 			}
 		}
@@ -67,53 +76,50 @@ namespace GKProcessor
 			return null;
 		}
 
-		void ReadAndPublish(int startIndex, int endIndex)
+		void ReadAndPublish(int index)
 		{
-			for (int index = startIndex + 1; index <= endIndex; index++)
+			var journalParser = ReadJournal(index);
+			if (journalParser != null)
 			{
-				var journalParser = ReadJournal(index);
-				if (journalParser != null)
+				AddJournalItem(journalParser.JournalItem);
+				var descriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.GetDescriptorNo() == journalParser.GKObjectNo);
+				if (descriptor != null)
 				{
-					AddJournalItem(journalParser.JournalItem);
-					var descriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.GetDescriptorNo() == journalParser.GKObjectNo);
-					if (descriptor != null)
+					CheckServiceRequired(descriptor.GKBase, journalParser.JournalItem);
+					if (journalParser.JournalSourceType == JournalSourceType.Object)
 					{
-						CheckServiceRequired(descriptor.GKBase, journalParser.JournalItem);
-						if (journalParser.JournalSourceType == JournalSourceType.Object)
+						descriptor.GKBase.InternalState.StateBits = GKStatesHelper.StatesFromInt(journalParser.ObjectState);
+					}
+					if (descriptor.GKBase.InternalState.StateClass == XStateClass.On)
+					{
+						descriptor.GKBase.InternalState.ZeroHoldDelayCount = 0;
+						CheckDelay(descriptor.GKBase);
+					}
+					ParseAdditionalStates(journalParser);
+					OnObjectStateChanged(descriptor.GKBase);
+					if (descriptor.GKBase is GKDevice)
+					{
+						GKDevice device = descriptor.GKBase as GKDevice;
+						if (device.Parent != null && device.Parent.Driver.IsGroupDevice)
 						{
-							descriptor.GKBase.InternalState.StateBits = GKStatesHelper.StatesFromInt(journalParser.ObjectState);
+							OnObjectStateChanged(device.Parent);
 						}
-						if (descriptor.GKBase.InternalState.StateClass == XStateClass.On)
+						var shleifParent = device.AllParents.FirstOrDefault(x => x.Driver.DriverType == GKDriverType.RSR2_KAU_Shleif);
+						if (shleifParent != null)
 						{
-							descriptor.GKBase.InternalState.ZeroHoldDelayCount = 0;
-							CheckDelay(descriptor.GKBase);
-						}
-						ParseAdditionalStates(journalParser);
-						OnObjectStateChanged(descriptor.GKBase);
-						if (descriptor.GKBase is GKDevice)
-						{
-							GKDevice device = descriptor.GKBase as GKDevice;
-							if (device.Parent != null && device.Parent.Driver.IsGroupDevice)
-							{
-								OnObjectStateChanged(device.Parent);
-							}
-							var shleifParent = device.AllParents.FirstOrDefault(x => x.Driver.DriverType == GKDriverType.RSR2_KAU_Shleif);
-							if (shleifParent != null)
-							{
-								OnObjectStateChanged(shleifParent);
-							}
+							OnObjectStateChanged(shleifParent);
 						}
 					}
+				}
 
-					if (journalParser.JournalItem.JournalEventNameType == JournalEventNameType.Перевод_в_технологический_режим || journalParser.JournalItem.JournalEventNameType == JournalEventNameType.Перевод_в_рабочий_режим)
-					{
-						MustCheckTechnologicalRegime = true;
-						LastTechnologicalRegimeCheckTime = DateTime.Now;
-						TechnologicalRegimeCheckCount = 0;
+				if (journalParser.JournalItem.JournalEventNameType == JournalEventNameType.Перевод_в_технологический_режим || journalParser.JournalItem.JournalEventNameType == JournalEventNameType.Перевод_в_рабочий_режим)
+				{
+					MustCheckTechnologicalRegime = true;
+					LastTechnologicalRegimeCheckTime = DateTime.Now;
+					TechnologicalRegimeCheckCount = 0;
 
-						CheckTechnologicalRegime();
-						NotifyAllObjectsStateChanged();
-					}
+					CheckTechnologicalRegime();
+					NotifyAllObjectsStateChanged();
 				}
 			}
 		}

@@ -48,6 +48,7 @@ namespace GKProcessor
 		public void SetError(string name)
 		{
 			gkLifecycleInfo.IsError = true;
+			gkLifecycleInfo.Progress = name;
 			gkLifecycleInfo.DetalisationItems.Add(name);
 			OnGKLifecycleChanged(gkLifecycleInfo);
 		}

@@ -210,8 +210,6 @@ namespace GKProcessor
 
 		bool InitializeMonitoring()
 		{
-			GKLifecycleManager.Add(GkDatabase.RootDevice, "Инициализация мониторинга начата");
-
 			bool IsPingFailure = false;
 			bool IsInTechnologicalRegime = false;
 			bool IsGetStatesFailure = false;
@@ -284,35 +282,37 @@ namespace GKProcessor
 					continue;
 				}
 
-				GKLifecycleManager.Add(GkDatabase.RootDevice, "Запрос хэша");
-				var hashBytes = GKFileInfo.CreateHash1(GkDatabase.RootDevice);
-				var gkFileReaderWriter = new GKFileReaderWriter();
-				var gkFileInfo = gkFileReaderWriter.ReadInfoBlock(GkDatabase.RootDevice);
-				result = gkFileInfo == null || !GKFileInfo.CompareHashes(hashBytes, gkFileInfo.Hash1);
-				if (IsHashFailure != result)
+				using (var gkLifecycleManager = new GKLifecycleManager(GkDatabase.RootDevice, "Запрос хэша"))
 				{
-					GKCallbackResult = new GKCallbackResult();
-					IsHashFailure = result;
-					if (IsHashFailure)
-						AddFailureJournalItem(JournalEventNameType.Конфигурация_прибора_не_соответствует_конфигурации_ПК, JournalEventDescriptionType.Не_совпадает_хэш);
-					else
-						AddFailureJournalItem(JournalEventNameType.Конфигурация_прибора_соответствует_конфигурации_ПК, JournalEventDescriptionType.Совпадает_хэш);
-
-					foreach (var descriptor in GkDatabase.Descriptors)
+					var hashBytes = GKFileInfo.CreateHash1(GkDatabase.RootDevice);
+					var gkFileReaderWriter = new GKFileReaderWriter();
+					var gkFileInfo = gkFileReaderWriter.ReadInfoBlock(GkDatabase.RootDevice);
+					result = gkFileInfo == null || !GKFileInfo.CompareHashes(hashBytes, gkFileInfo.Hash1);
+					if (IsHashFailure != result)
 					{
-						descriptor.GKBase.InternalState.IsDBMissmatch = IsHashFailure;
-						descriptor.GKBase.InternalState.IsInitialState = false;
-					}
-					NotifyAllObjectsStateChanged();
-					OnGKCallbackResult(GKCallbackResult);
-				}
+						GKCallbackResult = new GKCallbackResult();
+						IsHashFailure = result;
+						if (IsHashFailure)
+							AddFailureJournalItem(JournalEventNameType.Конфигурация_прибора_не_соответствует_конфигурации_ПК, JournalEventDescriptionType.Не_совпадает_хэш);
+						else
+							AddFailureJournalItem(JournalEventNameType.Конфигурация_прибора_соответствует_конфигурации_ПК, JournalEventDescriptionType.Совпадает_хэш);
 
-				if (IsHashFailure)
-				{
-					GKLifecycleManager.Add(GkDatabase.RootDevice, "Ошибка хэша");
-					if (ReturnAfterWait(5000))
-						return false;
-					continue;
+						foreach (var descriptor in GkDatabase.Descriptors)
+						{
+							descriptor.GKBase.InternalState.IsDBMissmatch = IsHashFailure;
+							descriptor.GKBase.InternalState.IsInitialState = false;
+						}
+						NotifyAllObjectsStateChanged();
+						OnGKCallbackResult(GKCallbackResult);
+					}
+
+					if (IsHashFailure)
+					{
+						gkLifecycleManager.SetError(gkFileInfo == null? "Ошибка" : "Не совпадает хэш");
+						if (ReturnAfterWait(5000))
+							return false;
+						continue;
+					}
 				}
 
 				GKCallbackResult = new GKCallbackResult();
@@ -322,7 +322,6 @@ namespace GKProcessor
 
 				GKCallbackResult = new GKCallbackResult();
 				GetAllStates();
-				GKLifecycleManager.Add(GkDatabase.RootDevice, "Опрос состояний объектов окончен");
 				result = IsDBMissmatchDuringMonitoring || !IsConnected;
 				if (IsGetStatesFailure != result)
 				{
@@ -356,7 +355,6 @@ namespace GKProcessor
 					OnGKCallbackResult(GKCallbackResult);
 				}
 
-				GKLifecycleManager.Add(GkDatabase.RootDevice, "Инициализация мониторинга завершена");
 				return true;
 			}
 		}
@@ -441,7 +439,6 @@ namespace GKProcessor
 
 				try
 				{
-					gkLifecycleManager.AddItem("Проверка журнала");
 					PingJournal();
 				}
 				catch (Exception e)

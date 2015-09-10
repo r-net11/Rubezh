@@ -36,7 +36,7 @@ namespace GKProcessor
 				{
 					for (int index = localLastDBNo; index <= remoteLastId; index++)
 					{
-						gkLifecycleManager.Progress(index - remoteLastId + 1, remoteLastId - localLastDBNo);
+						gkLifecycleManager.Progress(index - localLastDBNo + 1, remoteLastId - localLastDBNo);
 
 						LastUpdateTime = DateTime.Now;
 						if (progressCallback.IsCanceled)
