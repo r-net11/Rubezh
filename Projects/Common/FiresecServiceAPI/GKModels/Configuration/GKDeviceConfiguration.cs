@@ -152,7 +152,7 @@ namespace FiresecAPI.GK
 				{
 					GKManager.RebuildRSR2Addresses(device);
 				}
-				device.SynchronizeChildern();
+				device.SynchronizeChildren();
 			}
 		}
 

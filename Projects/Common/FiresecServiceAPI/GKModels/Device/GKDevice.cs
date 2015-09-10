@@ -550,7 +550,7 @@ namespace FiresecAPI.GK
 			}
 		}
 
-		public void SynchronizeChildern()
+		public void SynchronizeChildren()
 		{
 			if (Children.Count > 0)
 			{
