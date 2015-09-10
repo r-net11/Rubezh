@@ -508,5 +508,106 @@ namespace ChinaSKDDriver
 			else
 				return OperationResult<bool>.FromError("Ошибка при выполнении операции");
 		}
+
+		#region <Пароли замков>
+
+		public static OperationResult<IEnumerable<SKDLocksPassword>> GetControllerLocksPasswords(Guid deviceUid)
+		{
+			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == deviceUid);
+			if (deviceProcessor != null)
+			{
+				if (!deviceProcessor.IsConnected)
+					return OperationResult<IEnumerable<SKDLocksPassword>>.FromError(String.Format("Нет связи с контроллером. {0}", deviceProcessor.LoginFailureReason));
+
+				IEnumerable<Password> passwords = deviceProcessor.Wrapper.GetAllPasswords();
+				var locksPasswords = passwords.Select(password => new SKDLocksPassword()
+				{
+					Password = password.DoorOpenPassword,
+					IsAppliedToLock1 = IsPasswordAppliedToLock(0, password.Doors, password.DoorsCount),
+					IsAppliedToLock2 = IsPasswordAppliedToLock(1, password.Doors, password.DoorsCount),
+					IsAppliedToLock3 = IsPasswordAppliedToLock(2, password.Doors, password.DoorsCount),
+					IsAppliedToLock4 = IsPasswordAppliedToLock(3, password.Doors, password.DoorsCount)
+				}).ToList();
+				return new OperationResult<IEnumerable<SKDLocksPassword>>(locksPasswords);
+			}
+			return OperationResult<IEnumerable<SKDLocksPassword>>.FromError("Не найден контроллер в конфигурации");
+		}
+
+		private static bool IsPasswordAppliedToLock(int lockIndex, IList<int> locks, int locksCountToCheck)
+		{
+			for (var i = 0; i < locksCountToCheck; i++)
+				if (locks[i] == lockIndex)
+					return true;
+			return false;
+		}
+
+		public static OperationResult<bool> SetControllerLocksPasswords(Guid deviceUid, IEnumerable<SKDLocksPassword> locksPasswords)
+		{
+			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == deviceUid);
+			if (deviceProcessor != null)
+			{
+				if (!deviceProcessor.IsConnected)
+					return OperationResult<bool>.FromError(String.Format("Нет связи с контроллером. {0}", deviceProcessor.LoginFailureReason));
+
+				// Сначала удаляем с контроллера все пароли замков, записанные ранее
+				if (!deviceProcessor.Wrapper.RemoveAllPasswords())
+					return OperationResult<bool>.FromError(String.Format("Ошибка удаления паролей замков на контроллере \"{0}\"", deviceProcessor.Device.Name));
+
+				// Потом записываем на контроллер новые пароли замков
+				// Определяем количество активных замков/считывателей
+				var activeLocksCount = 0;
+				switch (deviceProcessor.Device.DriverType)
+				{
+					case SKDDriverType.ChinaController_2:
+						activeLocksCount = 2;
+						break;
+					case SKDDriverType.ChinaController_4:
+						activeLocksCount = 4;
+						break;
+				}
+				// Контроллер сам учитывает неактивные замки в случае Двухсторонней точки доступа, поэтому можно закоментировать
+				//switch (deviceProcessor.Device.DoorType)
+				//{
+				//	case DoorType.OneWay:
+				//		break;
+				//	case DoorType.TwoWay:
+				//		activeLocksCount = (int) activeLocksCount / 2;
+				//		break;
+				//}
+
+				foreach (var locksPassword in locksPasswords)
+				{
+					var doors = new List<int>();
+					if (locksPassword.IsAppliedToLock1)
+						doors.Add(0);
+					if (locksPassword.IsAppliedToLock2)
+						doors.Add(1);
+					if (locksPassword.IsAppliedToLock3)
+						doors.Add(2);
+					if (locksPassword.IsAppliedToLock4)
+						doors.Add(3);
+					// Определяем количество замков, на которые нужно (согласно UI) и можно (согласно конфигурации контроллера) применить пароль
+					var effectivlyAppliedLocksCount = Math.Min(locksPassword.AppliedLocksCount, activeLocksCount);
+
+					// Если окажется, что количество элементов в списке (равно locksPassword.AppliedLocksCount) больше чем нужно (effectivlyAppliedLocksCount),
+					// то удаляем лишние элементы
+					while (doors.Count > effectivlyAppliedLocksCount)
+						doors.RemoveAt(doors.Count - 1);
+
+					var password = new Password()
+					{
+						UserID = locksPassword.Password,
+						DoorOpenPassword = locksPassword.Password,
+						DoorsCount = effectivlyAppliedLocksCount,
+						Doors = doors
+					};
+					deviceProcessor.Wrapper.AddPassword(password);
+				}
+				return new OperationResult<bool>(true);
+			}
+			return OperationResult<bool>.FromError("Не найден контроллер в конфигурации");
+		}
+		
+		#endregion </Пароли замков>
 	}
 }

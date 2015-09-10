@@ -584,6 +584,31 @@ namespace FiresecService.Service
 
 		#endregion PassCardTemplate
 
+		#region <Пароли замков>
+
+		/// <summary>
+		/// Получить список паролей замков на контроллере
+		/// </summary>
+		/// <param name="deviceUid">Идентификатор контроллера</param>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
+		public OperationResult<IEnumerable<SKDLocksPassword>> GetControllerLocksPasswords(Guid deviceUid)
+		{
+			return SafeOperationCall(() => { return FiresecService.GetControllerLocksPasswords(deviceUid); }, "GetControllerLocksPasswords");
+		}
+
+		/// <summary>
+		/// Записать пароли замков на контроллер
+		/// </summary>
+		/// <param name="deviceUid">Идентификатор контроллера</param>
+		/// <param name="locksPasswords">Список паролей замков</param>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
+		public OperationResult<bool> SetControllerLocksPasswords(Guid deviceUid, IEnumerable<SKDLocksPassword> locksPasswords)
+		{
+			return SafeOperationCall(() => { return FiresecService.SetControllerLocksPasswords(deviceUid, locksPasswords); }, "SetControllerLocksPasswords");
+		}
+
+		#endregion </Пароли замков>
+
 		public OperationResult ResetSKDDatabase()
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.ResetSKDDatabase());

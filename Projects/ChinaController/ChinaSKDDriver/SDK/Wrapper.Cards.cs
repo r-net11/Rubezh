@@ -88,17 +88,20 @@ namespace ChinaSKDDriver
 			{
 				while (true)
 				{
-					int structSize = Marshal.SizeOf(typeof(NativeWrapper.CardsCollection));
-					IntPtr intPtr = Marshal.AllocCoTaskMem(structSize);
+					var structSize = Marshal.SizeOf(typeof(NativeWrapper.CardsCollection));
+					var intPtr = Marshal.AllocCoTaskMem(structSize);
 
 					var result = NativeWrapper.WRAP_GetAll_Cards(finderID, intPtr);
 
-					NativeWrapper.CardsCollection cardsCollection = (NativeWrapper.CardsCollection)(Marshal.PtrToStructure(intPtr, typeof(NativeWrapper.CardsCollection)));
+					var cardsCollection = (NativeWrapper.CardsCollection)(Marshal.PtrToStructure(intPtr, typeof(NativeWrapper.CardsCollection)));
 					Marshal.FreeCoTaskMem(intPtr);
 					intPtr = IntPtr.Zero;
 
+					if (result == 0)
+						break;
+
 					var cards = new List<Card>();
-					for (int i = 0; i < Math.Min(cardsCollection.Count, 10); i++)
+					for (var i = 0; i < Math.Min(cardsCollection.Count, 10); i++)
 					{
 						var nativeCard = cardsCollection.Cards[i];
 						if (nativeCard.nRecNo > 0)
@@ -107,8 +110,6 @@ namespace ChinaSKDDriver
 							cards.Add(card);
 						}
 					}
-					if (result == 0)
-						break;
 					resultCards.AddRange(cards);
 				}
 
@@ -145,8 +146,8 @@ namespace ChinaSKDDriver
 		/// <returns>структура NET_RECORDSET_ACCESS_CTL_CARD</returns>
 		private NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD CardToNativeCard(Card card)
 		{
-			NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD nativeCard = new NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD();
-			nativeCard.dwSize = System.Runtime.InteropServices.Marshal.SizeOf(typeof(NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD));
+			var nativeCard = new NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD();
+			nativeCard.dwSize = Marshal.SizeOf(typeof(NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD));
 			nativeCard.stuFingerPrintInfo = new NativeWrapper.NET_ACCESSCTLCARD_FINGERPRINT_PACKET();
 			nativeCard.stuFingerPrintInfo.dwSize = (uint)System.Runtime.InteropServices.Marshal.SizeOf(typeof(NativeWrapper.NET_ACCESSCTLCARD_FINGERPRINT_PACKET));
 

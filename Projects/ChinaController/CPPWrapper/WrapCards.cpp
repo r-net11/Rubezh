@@ -113,6 +113,7 @@ BOOL CALL_METHOD WRAP_BeginGetAll_Cards(int loginID, int& finderID)
 int CALL_METHOD WRAP_GetAll_Cards(int finderID, CardsCollection* result)
 {
 	CardsCollection cardsCollection = {sizeof(CardsCollection)};
+	memset(&cardsCollection, 0, sizeof(CardsCollection));
 
 	int i = 0, j = 0;
 	int nMaxNum = 10;
@@ -139,10 +140,12 @@ int CALL_METHOD WRAP_GetAll_Cards(int finderID, CardsCollection* result)
 	
 	if (CLIENT_FindNextRecord(&stuIn, &stuOut, SDK_API_WAITTIME) >= 0)
     {
-		for (i = 0; i < __min(stuOut.nMaxRecordNum, stuOut.nRetRecordNum); i++)
+		int itemsCount = __min(stuOut.nMaxRecordNum, stuOut.nRetRecordNum);
+		for (i = 0; i < itemsCount; i++)
 		{
 			memcpy(&cardsCollection.Cards[i], &pstuCard[i], sizeof(NET_RECORDSET_ACCESS_CTL_CARD));
 		}
+		cardsCollection.Count = itemsCount;
 	}
 
 	delete[] pstuCard;

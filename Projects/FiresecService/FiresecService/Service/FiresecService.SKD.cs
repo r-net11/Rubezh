@@ -2,6 +2,7 @@
 using FiresecAPI;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
+using FiresecAPI.SKD.Device;
 using SKDDriver;
 using SKDDriver.Translators;
 using System;
@@ -1017,6 +1018,43 @@ namespace FiresecService.Service
 			}
 			return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
 		}
+
+		#region <Пароли замков>
+
+		/// <summary>
+		/// Получить список паролей замков на контроллере
+		/// </summary>
+		/// <param name="deviceUid">Идентификатор контроллера</param>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
+		public OperationResult<IEnumerable<SKDLocksPassword>> GetControllerLocksPasswords(Guid deviceUid)
+		{
+			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUid);
+			if (device != null)
+			{
+				AddSKDJournalMessage(JournalEventNameType.GetControllerLocksPasswords, device);
+				return Processor.GetControllerLocksPasswords(deviceUid);
+			}
+			return OperationResult<IEnumerable<SKDLocksPassword>>.FromError("Устройство не найдено в конфигурации");
+		}
+
+		/// <summary>
+		/// Записать пароли замков на контроллер
+		/// </summary>
+		/// <param name="deviceUid">Идентификатор контроллера</param>
+		/// <param name="locksPasswords">Список паролей замков</param>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
+		public OperationResult<bool> SetControllerLocksPasswords(Guid deviceUid, IEnumerable<SKDLocksPassword> locksPasswords)
+		{
+			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUid);
+			if (device != null)
+			{
+				AddSKDJournalMessage(JournalEventNameType.SetControllerLocksPasswords, device);
+				return Processor.SetControllerLocksPasswords(deviceUid, locksPasswords);
+			}
+			return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
+		}
+
+		#endregion </Пароли замков>
 
 		#region <Замок>
 

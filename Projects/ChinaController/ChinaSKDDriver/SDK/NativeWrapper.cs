@@ -552,6 +552,9 @@ namespace ChinaSKDDriverNativeApi
 
 			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
 			public int[] sznDoors;
+
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
+			public string szVTOPosition;
 		}
 
 		[DllImport(@"CPPWrapper.dll")]

@@ -44,6 +44,9 @@ namespace StrazhModule.ViewModels
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
 
+			ReadCommand = new RelayCommand(OnRead);
+			WriteCommand = new RelayCommand(OnWrite);
+
 			Passwords = new ObservableCollection<ControllerLocksPasswordViewModel>();
 			if (_deviceViewModel.Device.ControllerPasswords != null)
 			{
@@ -113,6 +116,65 @@ namespace StrazhModule.ViewModels
 			return SelectedPassword != null;
 		}
 
+		public RelayCommand ReadCommand { get; private set; }
+		private void OnRead()
+		{
+			var result = FiresecManager.FiresecService.GetControllerLocksPasswords(_deviceViewModel.Device);
+			if (result.HasError)
+			{
+				MessageBoxService.ShowWarning(result.Error);
+				return;
+			}
+			else
+			{
+				// Очищаем список паролей замков
+				Passwords.Clear();
+
+				// Заполняем список паролями замков, считанными с контроллера
+				var locksPasswords = result.Result;
+
+				foreach (var locksPassword in locksPasswords)
+				{
+					var locksPasswordViewModel = new ControllerLocksPasswordViewModel(this)
+					{
+						Password = locksPassword.Password,
+						IsAppliedToLock1 = locksPassword.IsAppliedToLock1,
+						IsAppliedToLock2 = locksPassword.IsAppliedToLock2,
+						IsAppliedToLock3 = locksPassword.IsAppliedToLock3,
+						IsAppliedToLock4 = locksPassword.IsAppliedToLock4,
+					};
+					Passwords.Add(locksPasswordViewModel);
+				}
+				HasChanged = true;
+			}
+		}
+
+		public RelayCommand WriteCommand { get; private set; }
+		private void OnWrite()
+		{
+			var locksPasswords = new List<SKDLocksPassword>();
+			foreach (var locksPasswordViewModel in Passwords)
+			{
+				var locksPassword = new SKDLocksPassword()
+				{
+					Password = locksPasswordViewModel.Password,
+					IsAppliedToLock1 = locksPasswordViewModel.IsAppliedToLock1,
+					IsAppliedToLock2 = locksPasswordViewModel.IsAppliedToLock2,
+					IsAppliedToLock3 = locksPasswordViewModel.IsAppliedToLock3,
+					IsAppliedToLock4 = locksPasswordViewModel.IsAppliedToLock4,
+				};
+				locksPasswords.Add(locksPassword);
+			}
+
+			var result = FiresecManager.FiresecService.SetControllerLocksPasswords(_deviceViewModel.Device, locksPasswords);
+			if (result.HasError)
+			{
+				MessageBoxService.ShowWarning(result.Error);
+				return;
+			}
+			//HasChanged = true;
+		}
+
 		protected override bool Save()
 		{
 			if (HasChanged)
@@ -134,6 +196,11 @@ namespace StrazhModule.ViewModels
 				ServiceFactory.SaveService.SKDChanged = true;
 			}
 			return base.Save();
+		}
+
+		public bool IsChinaController4
+		{
+			get { return _deviceViewModel.Device.DriverType == SKDDriverType.ChinaController_4; }
 		}
 	}
 }

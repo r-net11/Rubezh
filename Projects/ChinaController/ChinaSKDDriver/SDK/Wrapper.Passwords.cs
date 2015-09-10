@@ -50,6 +50,10 @@ namespace ChinaSKDDriver
 			return password;
 		}
 
+		/// <summary>
+		/// Получает список всех записанных на контроллере паролей замков
+		/// </summary>
+		/// <returns>Список</returns>
 		public List<Password> GetAllPasswords()
 		{
 			var resultPasswords = new List<Password>();
@@ -60,27 +64,25 @@ namespace ChinaSKDDriver
 			{
 				while (true)
 				{
-					int structSize = Marshal.SizeOf(typeof(NativeWrapper.PasswordsCollection));
-					IntPtr intPtr = Marshal.AllocCoTaskMem(structSize);
+					var structSize = Marshal.SizeOf(typeof(NativeWrapper.PasswordsCollection));
+					var intPtr = Marshal.AllocCoTaskMem(structSize);
 
 					var result = NativeWrapper.WRAP_GetAll_Passwords(finderID, intPtr);
 
-					NativeWrapper.PasswordsCollection passwordsCollection = (NativeWrapper.PasswordsCollection)(Marshal.PtrToStructure(intPtr, typeof(NativeWrapper.PasswordsCollection)));
+					var passwordsCollection = (NativeWrapper.PasswordsCollection)(Marshal.PtrToStructure(intPtr, typeof(NativeWrapper.PasswordsCollection)));
 					Marshal.FreeCoTaskMem(intPtr);
 					intPtr = IntPtr.Zero;
 
-					var passwords = new List<Password>();
-					for (int i = 0; i < Math.Min(passwordsCollection.Count, 10); i++)
-					{
-						var nativePassword = passwordsCollection.Passwords[i];
-						if (nativePassword.nRecNo > 0)
-						{
-							var password = NativePasswordToPassword(nativePassword);
-							passwords.Add(password);
-						}
-					}
 					if (result == 0)
 						break;
+
+					var passwords = new List<Password>();
+					for (var i = 0; i < Math.Min(passwordsCollection.Count, 10); i++)
+					{
+						var nativePassword = passwordsCollection.Passwords[i];
+						var password = NativePasswordToPassword(nativePassword);
+						passwords.Add(password);
+					}
 					resultPasswords.AddRange(passwords);
 				}
 
@@ -90,6 +92,10 @@ namespace ChinaSKDDriver
 			return resultPasswords;
 		}
 
+		/// <summary>
+		/// Получает количество записанных на контроллере паролей замков
+		/// </summary>
+		/// <returns>Количество записей</returns>
 		public int GetPasswordsCount()
 		{
 			int finderID = 0;
@@ -107,7 +113,8 @@ namespace ChinaSKDDriver
 
 		private NativeWrapper.NET_RECORDSET_ACCESS_CTL_PWD PasswordToNativePassword(Password password)
 		{
-			NativeWrapper.NET_RECORDSET_ACCESS_CTL_PWD nativePassword = new NativeWrapper.NET_RECORDSET_ACCESS_CTL_PWD();
+			var nativePassword = new NativeWrapper.NET_RECORDSET_ACCESS_CTL_PWD();
+			nativePassword.dwSize = Marshal.SizeOf(typeof (NativeWrapper.NET_RECORDSET_ACCESS_CTL_PWD));
 			nativePassword.stuCreateTime.dwYear = password.CreationDateTime.Year;
 			nativePassword.stuCreateTime.dwMonth = password.CreationDateTime.Month;
 			nativePassword.stuCreateTime.dwDay = password.CreationDateTime.Day;
@@ -119,10 +126,11 @@ namespace ChinaSKDDriver
 			nativePassword.szAlarmPwd = password.AlarmPassword;
 			nativePassword.nDoorNum = password.DoorsCount;
 			nativePassword.sznDoors = new int[32];
-			for (int i = 0; i < password.Doors.Count; i++)
+			for (var i = 0; i < password.Doors.Count; i++)
 			{
 				nativePassword.sznDoors[i] = password.Doors[i];
 			}
+			//nativePassword.szVTOPosition = String.Empty;
 			return nativePassword;
 		}
 
