@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<DrawingBrush x:Key="DeleteDocument" Stretch="Uniform">
+		<DrawingBrush.Drawing>
+			<DrawingGroup>
+				<DrawingGroup.Children>
+					<GeometryDrawing Brush="{DynamicResource ButtonBackgroundColor}" Geometry="F1 M 108.611,88.4013L 77.1053,88.4013L 77.1053,80.1627L 108.611,80.1627M 2.66667,123.164L 2.66667,2.66666L 67.068,2.66666L 67.62,3.21866L 67.62,26.572L 90.9733,26.572L 91.5253,27.124L 91.5253,56.9053C 76.992,57.6067 65.4147,69.576 65.4147,84.2827C 65.4147,98.9893 76.992,110.96 91.5253,111.659L 91.5253,123.164M 70.2867,7.10132L 87.0907,23.9053L 70.2867,23.9053M 120.303,84.2827C 120.303,69.576 108.725,57.6067 94.192,56.9053L 94.192,26.02L 68.172,0L 0,0L 0,125.831L 94.192,125.831L 94.192,111.659C 108.725,110.96 120.303,98.9893 120.303,84.2827 Z "/>
+				</DrawingGroup.Children>
+			</DrawingGroup>
+		</DrawingBrush.Drawing>
+	</DrawingBrush>
+</ResourceDictionary>
