@@ -196,7 +196,7 @@
     <Compile Include="Service\SafeFiresecService.SKD.cs" />
     <Compile Include="Service\FiresecService.Automation.cs" />
     <Compile Include="PatchManager\PatchManager.cs" />
-    <Compile Include="ViewModels\GKViewModel.cs" />
+    <Compile Include="ViewModels\GKLifecycleViewModel.cs" />
     <Compile Include="ViewModels\LicenseViewModel.cs" />
     <Compile Include="ViewModels\LogViewModel.cs" />
     <Compile Include="ViewModels\NotifyIconService.cs" />

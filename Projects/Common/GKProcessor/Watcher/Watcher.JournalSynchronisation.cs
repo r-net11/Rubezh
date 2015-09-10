@@ -32,23 +32,28 @@ namespace GKProcessor
 			{
 				var progressCallback = GKProcessorManager.StartProgress("Синхронизация журнала ГК " + gkIpAddress, "", remoteLastId - localLastDBNo, true, GKProgressClientType.Monitor);
 
-				for (int index = localLastDBNo; index <= remoteLastId; index++)
+				using (var gkLifecycleManager = new GKLifecycleManager(GkDatabase.RootDevice, "Синхронизация журнала"))
 				{
-					LastUpdateTime = DateTime.Now;
-					if (progressCallback.IsCanceled)
-						break;
-
-					WaitIfSuspending();
-					if (IsStopping)
+					for (int index = localLastDBNo; index <= remoteLastId; index++)
 					{
-						break;
-					}
+						gkLifecycleManager.Progress(index - remoteLastId + 1, remoteLastId - localLastDBNo);
 
-					var journaParser = ReadJournal(index);
-					if (journaParser != null)
-					{
-						GKProcessorManager.DoProgress((index - localLastDBNo).ToString() + " из " + (remoteLastId - localLastDBNo).ToString(), progressCallback);
-						AddJournalItem(journaParser.JournalItem);
+						LastUpdateTime = DateTime.Now;
+						if (progressCallback.IsCanceled)
+							break;
+
+						WaitIfSuspending();
+						if (IsStopping)
+						{
+							break;
+						}
+
+						var journaParser = ReadJournal(index);
+						if (journaParser != null)
+						{
+							GKProcessorManager.DoProgress((index - localLastDBNo).ToString() + " из " + (remoteLastId - localLastDBNo).ToString(), progressCallback);
+							AddJournalItem(journaParser.JournalItem);
+						}
 					}
 				}
 

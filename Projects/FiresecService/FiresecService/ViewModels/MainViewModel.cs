@@ -7,6 +7,8 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common;
 using FiresecAPI;
+using GKProcessor;
+using FiresecAPI.GK;
 
 namespace FiresecService.ViewModels
 {
@@ -16,7 +18,7 @@ namespace FiresecService.ViewModels
 		Dispatcher _dispatcher;
 		public ServerTasksViewModel ServerTasksViewModel { get; private set; }
 
-        public LicenseViewModel LicenseViewModel { get; private set; }
+		public LicenseViewModel LicenseViewModel { get; private set; }
 
 		public MainViewModel()
 		{
@@ -26,16 +28,17 @@ namespace FiresecService.ViewModels
 			ServerTasksViewModel = new ViewModels.ServerTasksViewModel();
 			MessageBoxService.SetMessageBoxHandler(MessageBoxHandler);
 			Logs = new ObservableCollection<LogViewModel>();
-			GKViewModels = new ObservableCollection<GKViewModel>();
-            LicenseViewModel = new LicenseViewModel();
+			GKLifecycles = new ObservableCollection<GKLifecycleViewModel>();
+			LicenseViewModel = new LicenseViewModel();
 			LicenseHelper.LicenseChanged += LicenseHelper_LicenseChanged;
+			GKLifecycleManager.GKLifecycleChangedEvent += On_GKLifecycleChangedEvent;
 			SetTitle();
 		}
 
 		void SetTitle()
 		{
-			Title = LicenseHelper.LicenseMode == LicenseMode.Demonstration ? 
-				"Сервер приложений Глобал [Демонстрационный режим]" : 
+			Title = LicenseHelper.LicenseMode == LicenseMode.Demonstration ?
+				"Сервер приложений Глобал [Демонстрационный режим]" :
 				"Сервер приложений Глобал";
 		}
 
@@ -56,7 +59,7 @@ namespace FiresecService.ViewModels
 				viewModel.Result = startupMessageBoxViewModel.Result;
 			}));
 		}
-		
+
 		string _status;
 		string Status
 		{
@@ -157,7 +160,7 @@ namespace FiresecService.ViewModels
 
 		public static void SetLocalAddress(string address)
 		{
-			if(Current != null)
+			if (Current != null)
 			{
 				Current._dispatcher.BeginInvoke((Action)(() => { Current.LocalAddress = address; }));
 			}
@@ -213,27 +216,53 @@ namespace FiresecService.ViewModels
 		}
 		#endregion Address
 
-		#region GK
-		ObservableCollection<GKViewModel> _gkViewModels;
-		public ObservableCollection<GKViewModel> GKViewModels
+		#region GK Lifecycle
+		ObservableCollection<GKLifecycleViewModel> _gkLifecycles;
+		public ObservableCollection<GKLifecycleViewModel> GKLifecycles
 		{
-			get { return _gkViewModels; }
+			get { return _gkLifecycles; }
 			set
 			{
-				_gkViewModels = value;
-				OnPropertyChanged(() => GKViewModels);
+				_gkLifecycles = value;
+				OnPropertyChanged(() => GKLifecycles);
 			}
 		}
 
-		GKViewModel _selectedGKViewModel;
-		public GKViewModel SelectedGKViewModel
+		GKLifecycleViewModel _selectedGKLifecycle;
+		public GKLifecycleViewModel SelectedGKLifecycle
 		{
-			get { return _selectedGKViewModel; }
+			get { return _selectedGKLifecycle; }
 			set
 			{
-				_selectedGKViewModel = value;
-				OnPropertyChanged(() => SelectedGKViewModel);
+				_selectedGKLifecycle = value;
+				OnPropertyChanged(() => SelectedGKLifecycle);
 			}
+		}
+
+		void On_GKLifecycleChangedEvent(GKLifecycleInfo gkLifecycleInfo)
+		{
+			_dispatcher.Invoke((Action)(() =>
+			{
+				var gkLifecycleViewModel = GKLifecycles.FirstOrDefault(x => x.GKLifecycleInfo.UID == gkLifecycleInfo.UID);
+				if (gkLifecycleViewModel == null)
+				{
+					gkLifecycleViewModel = AddGKViewModel(gkLifecycleInfo);
+				}
+				else
+				{
+					gkLifecycleViewModel.Update(gkLifecycleInfo);
+				}
+				//SelectedGKViewModel = gkViewModel;
+			}));
+		}
+
+		GKLifecycleViewModel AddGKViewModel(GKLifecycleInfo gkLifecycleInfo)
+		{
+			var gkViewModel = new GKLifecycleViewModel(gkLifecycleInfo);
+			GKLifecycles.Insert(0, gkViewModel);
+			if (GKLifecycles.Count > 20)
+				GKLifecycles.RemoveAt(20);
+			return gkViewModel;
 		}
 		#endregion GK
 
@@ -242,5 +271,5 @@ namespace FiresecService.ViewModels
 			ApplicationMinimizeCommand.ForceExecute();
 			return true;
 		}
-    }
+	}
 }

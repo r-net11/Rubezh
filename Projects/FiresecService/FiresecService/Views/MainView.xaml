@@ -61,7 +61,7 @@
 							<DataGridTemplateColumn Header="Дата" Width="Auto">
 								<DataGridTemplateColumn.CellTemplate>
 									<DataTemplate>
-                                        <TextBlock Text="{Binding DateTime, StringFormat='dd.MM.yyyy HH:mm:ss'}" Margin="2" />
+										<TextBlock Text="{Binding DateTime, StringFormat='dd.MM.yyyy HH:mm:ss'}" Margin="2" />
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
@@ -94,13 +94,32 @@
 					<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding ReportAddress}" Margin="2" />
 				</Grid>
 			</TabItem>
-			<TabItem Header="ГК" DataContext="{Binding ServerTasksViewModel}">
-				<DataGrid ItemsSource="{Binding GKViewModels}" SelectedItem="{Binding SelectedGKViewModel}">
-					<DataGrid.Columns>
-						<DataGridTextColumn Binding="{Binding Name}" Header="Название" Width="*" />
-						<DataGridTextColumn Binding="{Binding State}" Header="Состояние" Width="*" />
-					</DataGrid.Columns>
-				</DataGrid>
+			<TabItem Header="ГК">
+				<Grid>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="*" />
+						<RowDefinition Height="Auto" MaxHeight="100" />
+					</Grid.RowDefinitions>
+					<DataGrid Grid.Row="0" ItemsSource="{Binding GKLifecycles}" SelectedItem="{Binding SelectedGKLifecycle}">
+						<DataGrid.Columns>
+							<DataGridTextColumn Binding="{Binding Time}" Header="Время" Width="60" />
+							<DataGridTextColumn Binding="{Binding Address}" Header="Адрес" Width="Auto" />
+							<DataGridTextColumn Binding="{Binding Name}" Header="Название" Width="*" />
+							<DataGridTextColumn Binding="{Binding Progress}" Header="Прогресс" Width="*" />
+						</DataGrid.Columns>
+					</DataGrid>
+					<ScrollViewer Grid.Row="1" DataContext="{Binding SelectedGKLifecycle}" VerticalScrollBarVisibility="Auto">
+						<ItemsControl ItemsSource="{Binding Items}">
+							<ItemsControl.ItemTemplate>
+								<DataTemplate>
+									<StackPanel Orientation="Horizontal">
+										<TextBlock Text="{Binding .}" Foreground="{DynamicResource ForegroundColorWhite}" Margin="2" />
+									</StackPanel>
+								</DataTemplate>
+							</ItemsControl.ItemTemplate>
+						</ItemsControl>
+					</ScrollViewer>
+				</Grid>
 			</TabItem>
 			<TabItem Header="Операции" DataContext="{Binding ServerTasksViewModel}">
 				<DataGrid ItemsSource="{Binding ServerTasks}" SelectedItem="{Binding SelectedServerTask}">
@@ -110,66 +129,66 @@
 				</DataGrid>
 			</TabItem>
 			<TabItem Header="Лицензирование" DataContext="{Binding LicenseViewModel}">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <DataGrid Grid.ColumnSpan="3" ItemsSource="{Binding Parameters}">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding Name}" Header="Параметр" Width="*"/>
-                            <DataGridTemplateColumn Header="Значение" Width="*">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <ContentControl x:Name="ValueColumnTemplate">
-                                            <CheckBox IsEnabled="False" IsChecked="{Binding Value}"/>
-                                        </ContentControl>
-                                        <DataTemplate.Triggers>
-                                            <DataTrigger Binding="{Binding Type}" Value="Integer">
-                                                <Setter Property="Content" TargetName="ValueColumnTemplate">
-                                                    <Setter.Value>
-                                                        <TextBlock Text="{Binding Value}"/>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding Type}" Value="String">
-                                                <Setter Property="Content" TargetName="ValueColumnTemplate">
-                                                    <Setter.Value>
-                                                        <TextBlock Text="{Binding Value}"/>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding Type}" Value="Float">
-                                                <Setter Property="Content" TargetName="ValueColumnTemplate">
-                                                    <Setter.Value>
-                                                        <TextBlock Text="{Binding Value}"/>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding Type}" Value="DateTime">
-                                                <Setter Property="Content" TargetName="ValueColumnTemplate">
-                                                    <Setter.Value>
-                                                        <TextBlock Text="{Binding Value}"/>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </DataTrigger>
-                                        </DataTemplate.Triggers>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                    <TextBlock Grid.Row="1" Text="Ключ:" Style="{DynamicResource TextBlockDetailsStyle}" Margin="5"/>
-                    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding InitialKeyString}" IsReadOnly="True" VerticalContentAlignment="Center" Margin="5"/>
-                    <Button Grid.Column="2" Grid.Row="2" Content="Загрузить лицензию" Width="150" Command="{Binding LoadLicenseCommand}"/>
-                </Grid>
-            </TabItem>
-        </TabControl>
+				<Grid>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="*"/>
+						<RowDefinition Height="Auto"/>
+					</Grid.RowDefinitions>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto"/>
+						<ColumnDefinition Width="*"/>
+						<ColumnDefinition Width="Auto"/>
+					</Grid.ColumnDefinitions>
+					<DataGrid Grid.ColumnSpan="3" ItemsSource="{Binding Parameters}">
+						<DataGrid.Columns>
+							<DataGridTextColumn Binding="{Binding Name}" Header="Параметр" Width="*"/>
+							<DataGridTemplateColumn Header="Значение" Width="*">
+								<DataGridTemplateColumn.CellTemplate>
+									<DataTemplate>
+										<ContentControl x:Name="ValueColumnTemplate">
+											<CheckBox IsEnabled="False" IsChecked="{Binding Value}"/>
+										</ContentControl>
+										<DataTemplate.Triggers>
+											<DataTrigger Binding="{Binding Type}" Value="Integer">
+												<Setter Property="Content" TargetName="ValueColumnTemplate">
+													<Setter.Value>
+														<TextBlock Text="{Binding Value}"/>
+													</Setter.Value>
+												</Setter>
+											</DataTrigger>
+											<DataTrigger Binding="{Binding Type}" Value="String">
+												<Setter Property="Content" TargetName="ValueColumnTemplate">
+													<Setter.Value>
+														<TextBlock Text="{Binding Value}"/>
+													</Setter.Value>
+												</Setter>
+											</DataTrigger>
+											<DataTrigger Binding="{Binding Type}" Value="Float">
+												<Setter Property="Content" TargetName="ValueColumnTemplate">
+													<Setter.Value>
+														<TextBlock Text="{Binding Value}"/>
+													</Setter.Value>
+												</Setter>
+											</DataTrigger>
+											<DataTrigger Binding="{Binding Type}" Value="DateTime">
+												<Setter Property="Content" TargetName="ValueColumnTemplate">
+													<Setter.Value>
+														<TextBlock Text="{Binding Value}"/>
+													</Setter.Value>
+												</Setter>
+											</DataTrigger>
+										</DataTemplate.Triggers>
+									</DataTemplate>
+								</DataGridTemplateColumn.CellTemplate>
+							</DataGridTemplateColumn>
+						</DataGrid.Columns>
+					</DataGrid>
+					<TextBlock Grid.Row="1" Text="Ключ:" Style="{DynamicResource TextBlockDetailsStyle}" Margin="5"/>
+					<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding InitialKeyString}" IsReadOnly="True" VerticalContentAlignment="Center" Margin="5"/>
+					<Button Grid.Column="2" Grid.Row="2" Content="Загрузить лицензию" Width="150" Command="{Binding LoadLicenseCommand}"/>
+				</Grid>
+			</TabItem>
+		</TabControl>
 		<Grid Grid.Row="1">
 			<TextBlock Margin="2" FontSize="11" FontWeight="Bold" Foreground="Orange" Text="{Binding LastLog}" />
 		</Grid>
