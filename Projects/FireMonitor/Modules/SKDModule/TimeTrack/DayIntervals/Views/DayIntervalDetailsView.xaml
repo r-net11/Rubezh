@@ -41,6 +41,7 @@
 		<TextBox
 			Grid.Column="1"
 			Height="25"
+			MaxLength="50"
 			Margin="5"
 			VerticalAlignment="Center"
 			Text="{Binding Name,

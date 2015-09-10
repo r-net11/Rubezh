@@ -22,6 +22,7 @@
 			Text="Название" />
 		<TextBox
 			Grid.Column="1"
+			MaxLength="50"
 			Margin="5"
 			VerticalAlignment="Center"
 			Text="{Binding Name,

@@ -27,6 +27,7 @@
 		<TextBox
 			Grid.Column="1"
 			Margin="5"
+			MaxLength="50"
 			VerticalAlignment="Center"
 			Text="{Binding Name,
 		                        UpdateSourceTrigger=PropertyChanged}" />
