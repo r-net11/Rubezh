@@ -27,10 +27,6 @@
 				<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 				<TextBlock Grid.Row="3" Grid.Column="0" Text="Пароль" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
 				<TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-				<TextBlock Grid.Row="4" Grid.Column="0" Text="Путь к VLC" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
-				<TextBox Grid.Row="4" Grid.Column="1" Text="{Binding DllsPath, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-				<TextBlock Grid.Row="5" Grid.Column="0" Text="Путь к плагинам" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
-				<TextBox Grid.Row="5" Grid.Column="1" Text="{Binding PluginsPath, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 			</Grid>
 		</TabItem>
 	</TabControl>
