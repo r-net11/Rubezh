@@ -372,5 +372,11 @@ namespace FiresecAPI.Journal
 
 		[EventName(JournalSubsystemType.SKD, "Команда на сброс состояния \"Взлом\"", XStateClass.Info)]
 		Сброс_состояния_взлом_зоны,
+
+		[EventName(JournalSubsystemType.SKD, "Запрос паролей замков", XStateClass.TechnologicalRegime)]
+		GetControllerLocksPasswords,
+
+		[EventName(JournalSubsystemType.SKD, "Запись паролей замков", XStateClass.TechnologicalRegime)]
+		SetControllerLocksPasswords,
 	}
 }
