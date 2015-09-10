@@ -74,11 +74,6 @@ namespace ReportsModule.ViewModels
 		public RelayCommand SaveFilterCommand { get; private set; }
 		private void OnSaveFilter()
 		{
-			if (FilterName.Length > 50)
-			{
-				MessageBoxService.Show("Название фильтра не может быть длиннее 50 символов");
-				return;
-			}
 			_isLoaded = false;
 			var filter = (SKDReportFilter)Activator.CreateInstance(_filterType);
 			_updateFilterAction(filter);
@@ -256,7 +251,7 @@ namespace ReportsModule.ViewModels
 
 		//public DateTime MaxDate { get { return DateTime.Now; } }
 		public DateTime MaxDate { get { return DateTime.Today.AddDays(1).AddSeconds(-1); } }
-		
+
 		private bool _hasArchive;
 		public bool HasArchive
 		{

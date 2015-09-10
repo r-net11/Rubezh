@@ -121,8 +121,7 @@ namespace SKDModule.ViewModels
 			Model.AllowedLate = AllowedLate;
 			Model.AllowedEarlyLeave = AllowedEarlyLeave;
 			Model.ScheduleSchemeUID = SelectedScheduleScheme == null ? Guid.Empty : SelectedScheduleScheme.UID;
-			if (!DetailsValidateHelper.Validate(Model))
-				return false;
+
 			return ScheduleHelper.Save(Model, _isNew);
 		}
 
@@ -157,13 +156,12 @@ namespace SKDModule.ViewModels
 				WithDays = false,
 			});
 			var selectedScheme = _schemes.FirstOrDefault(item => item.UID == Model.ScheduleSchemeUID);
-			if (selectedScheme != null)
-			{
-				SelectedScheduleType = selectedScheme.Type;
-				SelectedScheduleScheme = selectedScheme;
-			}
-			if (!DetailsValidateHelper.Validate(Model))
-				return false;
+
+			if (selectedScheme == null) return true;
+
+			SelectedScheduleType = selectedScheme.Type;
+			SelectedScheduleScheme = selectedScheme;
+
 			return true;
 		}
 	}

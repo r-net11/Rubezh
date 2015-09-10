@@ -15,10 +15,10 @@
 		</Grid.RowDefinitions>
 
 		<Label Grid.Row="0" Grid.Column="0" Content="Название" HorizontalAlignment="Right" />
-		<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+		<TextBox Grid.Row="0" Grid.Column="1" MaxLength="4000" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 
 		<Label Grid.Row="1" Grid.Column="0" Content="Буквенный код" HorizontalAlignment="Right" />
-		<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding ShortName, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+		<TextBox Grid.Row="1" Grid.Column="1" MaxLength="50" Text="{Binding ShortName, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 
 		<Label Grid.Row="2" Grid.Column="0" Content="Числовой код" HorizontalAlignment="Right" />
 		<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Code, UpdateSourceTrigger=PropertyChanged}" Margin="2" />

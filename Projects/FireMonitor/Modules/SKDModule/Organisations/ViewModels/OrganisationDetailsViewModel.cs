@@ -138,34 +138,10 @@ namespace SKDModule.ViewModels
 			OrganisationDetails.ChiefUID = ChiefViewModel.SelectedEmployeeUID;
 			OrganisationDetails.HRChiefUID = HRChiefViewModel.SelectedEmployeeUID;
 			OrganisationDetails.Phone = Phone;
-			if (Validate())
-			{
-				if (IsNew)
-					OrganisationDetails.UserUIDs.Add(FiresecManager.CurrentUser.UID);
-				return OrganisationHelper.Save(OrganisationDetails, IsNew);
-			}
-			else
-				return false;
-		}
 
-		bool Validate()
-		{
-			if (OrganisationDetails.Name != null && OrganisationDetails.Name.Length > 50)
-			{
-				MessageBoxService.Show("Значение поля 'Название' не может быть длиннее 50 символов");
-				return false;
-			}
-			if (OrganisationDetails.Description != null && OrganisationDetails.Description.Length > 50)
-			{
-				MessageBoxService.Show("Значение поля 'Примечание' не может быть длиннее 50 символов");
-				return false;
-			}
-			if (OrganisationDetails.Phone != null && OrganisationDetails.Phone.Length > 50)
-			{
-				MessageBoxService.Show("Значение поля 'Телефон' не может быть длиннее 50 символов");
-				return false;
-			}
-			return true;
+			if (IsNew)
+				OrganisationDetails.UserUIDs.Add(FiresecManager.CurrentUser.UID);
+			return OrganisationHelper.Save(OrganisationDetails, IsNew);
 		}
 	}
 }

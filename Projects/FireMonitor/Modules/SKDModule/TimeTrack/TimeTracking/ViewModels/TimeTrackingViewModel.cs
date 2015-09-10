@@ -222,6 +222,7 @@ namespace SKDModule.ViewModels
 					UserUID = FiresecManager.CurrentUser.UID,
 				},
 				Period = TimeTrackingPeriod.CurrentMonth,
+				OrganisationUIDs = new List<Guid> { GetFirstOrganizationUID() },
 				StartDate = GetFirstDayOfMonth(),
 				EndDate = DateTime.Today
 			};

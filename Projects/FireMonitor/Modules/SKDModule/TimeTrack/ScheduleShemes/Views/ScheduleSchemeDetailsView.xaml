@@ -35,6 +35,7 @@
 			Text="Примечание" />
 		<TextBox
 			Grid.Row="1"
+			MaxLength="50"
 			Grid.Column="1"
 			Margin="5"
 			VerticalAlignment="Center"

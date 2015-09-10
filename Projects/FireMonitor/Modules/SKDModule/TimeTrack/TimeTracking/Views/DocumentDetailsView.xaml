@@ -31,10 +31,10 @@
 		</ComboBox>
 
 		<TextBlock Grid.Row="1" Grid.Column="0" Text="Примечание" HorizontalAlignment="Right" Foreground="White" Margin="2" />
-		<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Comment}" Margin="2" />
+		<TextBox Grid.Row="1" Grid.Column="1" MaxLength="50" Text="{Binding Comment}" Margin="2" />
 
 		<TextBlock Grid.Row="2" Grid.Column="0" Text="Номер документа" HorizontalAlignment="Right" Foreground="White" Margin="2" />
-		<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding DocumentNumber}" Margin="2" />
+		<TextBox Grid.Row="2" Grid.Column="1" MaxLength="50" Text="{Binding DocumentNumber}" Margin="2" />
 
 		<TextBlock Grid.Row="3" Grid.Column="0" Text="Дата документа" HorizontalAlignment="Right" Foreground="White" Margin="2" />
 		<Calendar Grid.Row="3" Grid.Column="1" DisplayDate="{Binding DocumentDateTime, UpdateSourceTrigger=PropertyChanged}" SelectedDate="{Binding DocumentDateTime, UpdateSourceTrigger=PropertyChanged}" SelectionMode="SingleDate" />

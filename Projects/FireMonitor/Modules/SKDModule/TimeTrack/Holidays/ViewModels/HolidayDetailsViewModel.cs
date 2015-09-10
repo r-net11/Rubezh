@@ -124,8 +124,7 @@ namespace SKDModule.ViewModels
 			Model.Type = HolidayType;
 			Model.Reduction = IsOneHourReduction ? new TimeSpan(1, 0, 0) : new TimeSpan(2, 0, 0);
 			Model.TransferDate = IsTransferDateEnabled ? (DateTime?)TransferDate : null;
-			if (!DetailsValidateHelper.Validate(Model))
-				return false;
+
 			return HolidayHelper.Save(Model, _isNew);
 		}
 	}

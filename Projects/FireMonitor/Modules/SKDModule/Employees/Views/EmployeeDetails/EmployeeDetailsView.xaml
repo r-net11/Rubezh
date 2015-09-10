@@ -230,6 +230,7 @@
 							Grid.Row="9"
 							Grid.Column="1"
 							Margin="2"
+							MaxLength="40"
 							VerticalAlignment="Center"
 							Text="{Binding TabelNo}"
 							Visibility="{Binding IsEmployee,
@@ -347,6 +348,7 @@
 					Grid.Row="1"
 					Grid.Column="1"
 					Margin="2"
+					MaxLength="4000"
 					Text="{Binding BirthPlace,
 				                        UpdateSourceTrigger=PropertyChanged}" />
 				<Label
@@ -373,6 +375,7 @@
 				<TextBox
 					Grid.Row="3"
 					Grid.Column="1"
+					MaxLength="4000"
 					Margin="2"
 					Text="{Binding GivenBy,
 				                        UpdateSourceTrigger=PropertyChanged}" />
@@ -413,7 +416,7 @@
 				<TextBox
 					Grid.Row="6"
 					Grid.Column="1"
-					MaxLength="50"
+					MaxLength="4000"
 					Margin="2"
 					Text="{Binding Citizenship,
 				                        UpdateSourceTrigger=PropertyChanged}" />
