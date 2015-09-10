@@ -19,7 +19,7 @@ namespace GKProcessor
 			progressCallback = GKProcessorManager.StartProgress("Чтение конфигурационного файла из " + gkControllerDevice.PresentationName, "Проверка связи", 1, true, GKProgressClientType.Administrator);
 			try
 			{
-				using (var gkLifecycleManager = new GKLifecycleManager(gkControllerDevice, "Чтение файла в ГК"))
+				using (var gkLifecycleManager = new GKLifecycleManager(gkControllerDevice, "Чтение файла ГК"))
 				{
 					gkLifecycleManager.AddItem("Чтение информационного блока");
 					var gkFileInfo = ReadInfoBlock(gkControllerDevice);
@@ -37,6 +37,8 @@ namespace GKProcessor
 						if (progressCallback.IsCanceled)
 							return OperationResult<string>.FromError("Операция отменена");
 						GKProcessorManager.DoProgress("Чтение блока данных " + i, progressCallback);
+						gkLifecycleManager.Progress((int)i, (int)(gkFileInfo.FileSize / 256));
+
 						var data = new List<byte>(BitConverter.GetBytes(i++));
 						var sendResultBytesCount = 256;
 						for (int j = 0; j < 10; j++)

@@ -118,23 +118,20 @@ namespace GKProcessor
 
 		void SetDescriptorsSuspending(bool isSuspending)
 		{
-			using (var gkLifecycleManager = new GKLifecycleManager(GkDatabase.RootDevice, isSuspending ? "Приостановка мониторинга" : "Возобновление мониторинга"))
+			Monitor.TryEnter(CallbackResultLocker, TimeSpan.FromSeconds(30));
 			{
-				Monitor.TryEnter(CallbackResultLocker, TimeSpan.FromSeconds(30));
+				GKCallbackResult = new GKCallbackResult();
+				foreach (var descriptor in GkDatabase.Descriptors)
 				{
-					GKCallbackResult = new GKCallbackResult();
-					foreach (var descriptor in GkDatabase.Descriptors)
+					if (descriptor.GKBase.InternalState != null)
 					{
-						if (descriptor.GKBase.InternalState != null)
-						{
-							descriptor.GKBase.InternalState.IsSuspending = isSuspending;
-						}
+						descriptor.GKBase.InternalState.IsSuspending = isSuspending;
 					}
-					NotifyAllObjectsStateChanged();
-					OnGKCallbackResult(GKCallbackResult);
 				}
-				Monitor.Exit(CallbackResultLocker);
+				NotifyAllObjectsStateChanged();
+				OnGKCallbackResult(GKCallbackResult);
 			}
+			Monitor.Exit(CallbackResultLocker);
 		}
 
 		void OnRunThread()
@@ -234,36 +231,38 @@ namespace GKProcessor
 					descriptor.GKBase.InternalState.IsInitialState = true;
 				}
 
-				GKLifecycleManager.Add(GkDatabase.RootDevice, "Запрос информации об устройстве");
-				var deviceInfo = DeviceBytesHelper.GetDeviceInfo(GkDatabase.RootDevice);
-				var result = string.IsNullOrEmpty(deviceInfo);
-				if (IsPingFailure != result)
+				using (var gkLifecycleManager = new GKLifecycleManager(GkDatabase.RootDevice, "Проверка связи"))
 				{
-					GKCallbackResult = new GKCallbackResult();
-					IsPingFailure = result;
-					if (IsPingFailure)
-						AddFailureJournalItem(JournalEventNameType.Нет_связи_с_ГК, JournalEventDescriptionType.Старт_мониторинга);
-					else
-						AddFailureJournalItem(JournalEventNameType.Связь_с_ГК_восстановлена, JournalEventDescriptionType.Старт_мониторинга);
-
-					foreach (var descriptor in GkDatabase.Descriptors)
+					var deviceInfo = DeviceBytesHelper.GetDeviceInfo(GkDatabase.RootDevice);
+					var pingResult = string.IsNullOrEmpty(deviceInfo);
+					if (IsPingFailure != pingResult)
 					{
-						descriptor.GKBase.InternalState.IsConnectionLost = IsPingFailure;
-						descriptor.GKBase.InternalState.IsInitialState = !IsPingFailure;
+						GKCallbackResult = new GKCallbackResult();
+						IsPingFailure = pingResult;
+						if (IsPingFailure)
+							AddFailureJournalItem(JournalEventNameType.Нет_связи_с_ГК, JournalEventDescriptionType.Старт_мониторинга);
+						else
+							AddFailureJournalItem(JournalEventNameType.Связь_с_ГК_восстановлена, JournalEventDescriptionType.Старт_мониторинга);
+
+						foreach (var descriptor in GkDatabase.Descriptors)
+						{
+							descriptor.GKBase.InternalState.IsConnectionLost = IsPingFailure;
+							descriptor.GKBase.InternalState.IsInitialState = !IsPingFailure;
+						}
+						NotifyAllObjectsStateChanged();
+						OnGKCallbackResult(GKCallbackResult);
 					}
-					NotifyAllObjectsStateChanged();
-					OnGKCallbackResult(GKCallbackResult);
+
+					if (IsPingFailure)
+					{
+						gkLifecycleManager.SetError("Ошибка");
+						if (ReturnAfterWait(5000))
+							return false;
+						continue;
+					}
 				}
 
-				if (IsPingFailure)
-				{
-					GKLifecycleManager.Add(GkDatabase.RootDevice, "Ошибка при запросе информации об устройстве");
-					if (ReturnAfterWait(5000))
-						return false;
-					continue;
-				}
-
-				result = CheckTechnologicalRegime();
+				var result = CheckTechnologicalRegime();
 				if (IsInTechnologicalRegime != result)
 				{
 					GKCallbackResult = new GKCallbackResult();

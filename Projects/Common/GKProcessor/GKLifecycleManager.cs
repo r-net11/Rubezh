@@ -23,8 +23,7 @@ namespace GKProcessor
 
 		public void Dispose()
 		{
-			gkLifecycleInfo.Progress = "Готово";
-			gkLifecycleInfo.IsCompleted = true;
+			gkLifecycleInfo.Progress = gkLifecycleInfo.IsError ? "Ошибка" : "Готово";
 			OnGKLifecycleChanged(gkLifecycleInfo);
 		}
 
@@ -42,6 +41,13 @@ namespace GKProcessor
 		public void AddItem(string name)
 		{
 			gkLifecycleInfo.Progress = name;
+			gkLifecycleInfo.DetalisationItems.Add(name);
+			OnGKLifecycleChanged(gkLifecycleInfo);
+		}
+
+		public void SetError(string name)
+		{
+			gkLifecycleInfo.IsError = true;
 			gkLifecycleInfo.DetalisationItems.Add(name);
 			OnGKLifecycleChanged(gkLifecycleInfo);
 		}
@@ -70,7 +76,7 @@ namespace GKProcessor
 		{
 			UID = Guid.NewGuid();
 			DetalisationItems = new List<string>();
-			IsCompleted = false;
+			IsError = false;
 		}
 
 		public Guid UID { get; set; }
@@ -78,6 +84,6 @@ namespace GKProcessor
 		public string Name { get; set; }
 		public string Progress { get; set; }
 		public List<string> DetalisationItems { get; set; }
-		public bool IsCompleted { get; set; }
+		public bool IsError { get; set; }
 	}
 }
