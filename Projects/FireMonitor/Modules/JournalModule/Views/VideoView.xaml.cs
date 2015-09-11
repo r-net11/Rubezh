@@ -19,13 +19,13 @@ namespace JournalModule.Views
 			{
 				if (videoViewModel.VideoPath != null)
 				{
-					videoViewModel.OnClose += Close;
+					videoViewModel.Closing += Close;
 					MediaSourcePlayer.Open(MediaSourceFactory.GetMediaSource(new Uri(videoViewModel.VideoPath)));
 					MediaSourcePlayer.Play();
 				}
 			}
 		}
-		private void Close()
+		private void Close(object sender, EventArgs e)
 		{
 			MediaSourcePlayer.Stop();
 			MediaSourcePlayer.Close();

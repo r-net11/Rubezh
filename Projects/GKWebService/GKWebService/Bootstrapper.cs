@@ -22,7 +22,7 @@ namespace GKWebService
 		{
 			for (int i = 1; i <= 10; i++)
 			{
-				var message = FiresecManager.Connect(ClientType.OPC, ConnectionSettingsManager.ServerAddress, GlobalSettingsHelper.GlobalSettings.AdminLogin, "");
+				var message = FiresecManager.Connect(ClientType.WebService, ConnectionSettingsManager.ServerAddress, GlobalSettingsHelper.GlobalSettings.AdminLogin, "");
 				if (message == null)
 					break;
 				Thread.Sleep(5000);
@@ -34,6 +34,7 @@ namespace GKWebService
 			}
 
 			InitializeGK();
+			FiresecManager.StartPoll();
 		}
 
 		static void InitializeGK()

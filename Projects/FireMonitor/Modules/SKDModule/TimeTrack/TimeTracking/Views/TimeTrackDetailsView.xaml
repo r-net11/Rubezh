@@ -65,12 +65,12 @@
 						<RowDefinition Height="*" />
 					</Grid.RowDefinitions>
 					<StackPanel Grid.Row="0" Orientation="Horizontal">
-						<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить документ" ImageSource="Add"  />
-						<ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать документ" ImageSource="Edit"  />
-						<ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить документ" ImageSource="Delete"  />
-                        <ToolBarButton Command="{Binding AddFileCommand}" ToolTip="Добавить файл" ImageSource="Add"  />
-                        <ToolBarButton Command="{Binding OpenFileCommand}" ToolTip="Открыть файл" ImageSource="Edit"  />
-                        <ToolBarButton Command="{Binding RemoveFileCommand}" ToolTip="Удалить файл" ImageSource="Delete"  />
+						<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить документ" ImageSource="AddDocument" />
+						<ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать документ" ImageSource="EditDocument" />
+						<ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить документ" ImageSource="DeleteDocument" />
+                        <ToolBarButton Command="{Binding AddFileCommand}" ToolTip="Добавить файл" ImageSource="AddFile"  />
+                        <ToolBarButton Command="{Binding OpenFileCommand}" ToolTip="Открыть файл" ImageSource="EditFile"  />
+                        <ToolBarButton Command="{Binding RemoveFileCommand}" ToolTip="Удалить файл" ImageSource="DeleteFile"  />
                     </StackPanel>
 					<DataGrid Grid.Row="1" ItemsSource="{Binding Documents}" SelectedItem="{Binding SelectedDocument}">
 						<DataGrid.Columns>

@@ -173,7 +173,12 @@
 				<File Id="Administrator.swscale_3.dll" Name="swscale-3.dll" Source="$(var.Administrator.RVIVSS.Dll.TargetDir)" />
 				<File Id="Administrator.SystemTransform.dll" Name="SystemTransform.dll" Source="$(var.Administrator.RVIVSS.Dll.TargetDir)" />
 				<File Id="Administrator.vcomp.dll" Name="vcomp.dll" Source="$(var.Administrator.RVIVSS.Dll.TargetDir)" />
+				<File Id="Administrator.log4cplus.properties" Name="log4cplus.properties" Source="$(var.Administrator.RVIVSS.Dll.TargetDir)" />
+				<File Id="Administrator.Microsoft.VC80.ATL.manifest" Name="Microsoft.VC80.ATL.manifest" Source="$(var.Administrator.RVIVSS.Dll.TargetDir)" />
+				<File Id="Administrator.Microsoft.VC80.CRT.manifest" Name="Microsoft.VC80.CRT.manifest" Source="$(var.Administrator.RVIVSS.Dll.TargetDir)" />
 				<File Id="Administrator.Microsoft.VC80.MFC.manifest" Name="Microsoft.VC80.MFC.manifest" Source="$(var.Administrator.RVIVSS.Dll.TargetDir)" />
+				<File Id="Administrator.Microsoft.VC80.MFCLOC.manifest" Name="Microsoft.VC80.MFCLOC.manifest" Source="$(var.Administrator.RVIVSS.Dll.TargetDir)" />
+				<File Id="Administrator.Microsoft.VC80.OpenMP.manifest" Name="Microsoft.VC80.OpenMP.manifest" Source="$(var.Administrator.RVIVSS.Dll.TargetDir)" />
 			</Component>
 		</DirectoryRef>
 

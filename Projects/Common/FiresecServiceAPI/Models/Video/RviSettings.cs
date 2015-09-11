@@ -9,14 +9,8 @@ namespace FiresecAPI.Models
 		{
 			Ip = "172.16.5.7";
 			Port = 8000;
-			Login = "strazh";
-			Password = "strazh12345";
-			DllsPath = @"..\VLC\";
-			PluginsPath = @"..\VLC\plugins\";
-#if DEBUG
-			DllsPath = @"..\..\..\..\3rdParty\VLC\";
-			PluginsPath = @"..\..\..\..\3rdParty\VLC\plugins\";
-#endif
+			Login = "admin";
+			Password = "admin";
 		}
 
 		[DataMember]
@@ -30,11 +24,5 @@ namespace FiresecAPI.Models
 
 		[DataMember]
 		public string Password { get; set; }
-
-		[DataMember]
-		public string DllsPath { get; set; }
-
-		[DataMember]
-		public string PluginsPath { get; set; }
 	}
 }
