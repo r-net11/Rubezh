@@ -16,7 +16,10 @@ namespace Infrastructure.Client.Converters
 	{
 		public static WMFImage ReadWMF(string fileName)
 		{
-			var temp = Path.GetTempFileName();
+			#region createTempFile
+				var temp = Path.Combine(Path.GetTempPath() + Path.GetRandomFileName());
+				temp = temp.Remove(temp.Length - 3) + "xps"; 
+			#endregion
 			using (PrintDocument pdx = new PrintDocument())
 			{
 				pdx.PrintPage += (object printSender, PrintPageEventArgs printE) =>
@@ -33,51 +36,69 @@ namespace Infrastructure.Client.Converters
 				pdx.PrintController = new StandardPrintController();
 				pdx.Print();
 			}
+			#region WaitForPrinter
 
-			WMFImage wmf = new WMFImage();
-			using (Package package = Package.Open(temp, FileMode.Open, FileAccess.Read))
+			for (int i = 0; i < 10; i++)
 			{
-				string inMemoryPackageName = "memorystream://miXps.xps";
-				Uri packageUri = new Uri(inMemoryPackageName);
-				PackageStore.AddPackage(packageUri, package);
-				using (XpsDocument xpsDocument = new XpsDocument(package, CompressionOption.NotCompressed, inMemoryPackageName))
+				if (File.Exists(temp))
 				{
-					FixedDocumentSequence fixedDocumentSequence = xpsDocument.GetFixedDocumentSequence();
-					DocumentReference docReference = xpsDocument.GetFixedDocumentSequence().References.First();
-					FixedDocument doc = docReference.GetDocument(false);
-					PageContent content = doc.Pages[0];
-					var fixedPage = content.GetPageRoot(false);
-					wmf.Canvas = new Canvas()
+					FileInfo fi = new FileInfo(temp);
+					for (int j = 0; i < 10; i++)
 					{
-						Width = fixedPage.Width,
-						Height = fixedPage.Height,
-					};
-					for (int i = fixedPage.Children.Count - 1; i >= 0; i--)
-					{
-						var child = fixedPage.Children[i];
-						fixedPage.Children.Remove(child);
-						if (child is Glyphs)
+						if (fi.Length == 0)
 						{
-							var glyph = (Glyphs)child;
-							var glyphRun = glyph.ToGlyphRun();
-							var path = new System.Windows.Shapes.Path()
-							{
-								Fill = glyph.Fill,
-								Data = glyphRun.BuildGeometry(),
-								RenderTransform = glyph.RenderTransform,
-								RenderTransformOrigin = glyph.RenderTransformOrigin,
-								RenderSize = glyph.RenderSize,
-							};
-							wmf.Canvas.Children.Insert(0, path);
+							System.Threading.Thread.Sleep(1000);
+							fi = new FileInfo(temp);
 						}
-						else
-							wmf.Canvas.Children.Insert(0, child);
+						else break;
+
+						if ((fi.Length == 0) && (j == 9))
+							throw new Exception("Печать в файл занимает слишком много времени. Либо размер файла слишком большой, либо проблема связана с XPS принтером, либо файл повреждён.");
+						break;
 					}
-					ReadResources(xpsDocument.FixedDocumentSequenceReader.FixedDocuments[0].FixedPages[0], wmf);
-					xpsDocument.Close();
+					break;
 				}
-				package.Close();
-				PackageStore.RemovePackage(packageUri);
+				else
+				{
+					System.Threading.Thread.Sleep(1000);
+				}
+			} 
+			#endregion
+			WMFImage wmf = new WMFImage();
+			using (XpsDocument xpsDocument = new XpsDocument(temp, FileAccess.Read))
+			{
+				DocumentReference docReference = xpsDocument.GetFixedDocumentSequence().References.First();
+				FixedDocument doc = docReference.GetDocument(false);
+				PageContent content = doc.Pages[0];
+				var fixedPage = content.GetPageRoot(false);
+				wmf.Canvas = new Canvas()
+				{
+					Width = fixedPage.Width,
+					Height = fixedPage.Height,
+				};
+				for (int i = fixedPage.Children.Count - 1; i >= 0; i--)
+				{
+					var child = fixedPage.Children[i];
+					fixedPage.Children.Remove(child);
+					if (child is Glyphs)
+					{
+						var glyph = (Glyphs)child;
+						var glyphRun = glyph.ToGlyphRun();
+						var path = new System.Windows.Shapes.Path()
+						{
+							Fill = glyph.Fill,
+							Data = glyphRun.BuildGeometry(),
+							RenderTransform = glyph.RenderTransform,
+							RenderTransformOrigin = glyph.RenderTransformOrigin,
+							RenderSize = glyph.RenderSize,
+						};
+						wmf.Canvas.Children.Insert(0, path);
+					}
+					else
+						wmf.Canvas.Children.Insert(0, child);
+				}
+				ReadResources(xpsDocument.FixedDocumentSequenceReader.FixedDocuments[0].FixedPages[0], wmf);
+				xpsDocument.Close();
 			}
 			GC.Collect();
 			try
@@ -114,7 +135,6 @@ namespace Infrastructure.Client.Converters
 					var data = DeobfuscateFont(reader.GetFont(glyph.FontUri));
 					wmf.Resources.Add(guid, data);
 				}
-				//glyph.FontUri = new Uri(guid.ToString(), UriKind.Relative);
 			}
 		}
 		private static byte[] DeobfuscateFont(XpsFont font)
@@ -125,7 +145,6 @@ namespace Infrastructure.Client.Converters
 				stm.Read(dta, 0, dta.Length);
 				if (font.IsObfuscated)
 				{
-					//string guid = new Guid(font.Uri.GetFileName().Split('.')[0]).ToString("N");
 					string guid = new Guid(System.IO.Path.GetFileNameWithoutExtension(font.Uri.ToString())).ToString("N");
 					byte[] guidBytes = new byte[16];
 					for (int i = 0; i < guidBytes.Length; i++)
