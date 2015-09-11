@@ -267,11 +267,11 @@ namespace FiresecService.Service
 			{
 				if (DbThread != null)
 				{
-					SKDDriver.DataClasses.DbService.IsAbort = true;
+					//SKDDriver.DataClasses.DbService.IsAbort = true;
 					DbThread.Join(TimeSpan.FromMinutes(1));
 					DbThread = null;
 				}
-				SKDDriver.DataClasses.DbService.IsAbort = false;
+				//SKDDriver.DataClasses.DbService.IsAbort = false;
 				var thread = new Thread(new ThreadStart((new Action(() =>
 				{
 					using (var dbService = new SKDDriver.DataClasses.DbService())

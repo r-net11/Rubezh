@@ -161,12 +161,12 @@ namespace SettingsModule.ViewModels
 		{
 			var builder = new SqlConnectionStringBuilder();
 			builder.DataSource = DataSource;
+			builder.InitialCatalog = _dbName;
 			if (IsSQLAuthentication)
 			{
 				builder.UserID = Login;
 				builder.Password = Password;
 				builder.IntegratedSecurity = false;
-				builder.InitialCatalog = _dbName;
 			}
 			else
 			{

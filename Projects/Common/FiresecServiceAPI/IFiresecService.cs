@@ -48,9 +48,6 @@ namespace FiresecAPI
 		OperationResult<List<JournalItem>> GetFilteredJournalItems(JournalFilter journalFilter);
 
 		[OperationContract]
-		OperationResult BeginGetFilteredArchive(ArchiveFilter archiveFilter, Guid archivePortionUID);
-
-		[OperationContract]
 		OperationResult<bool> AddJournalItem(JournalItem journalItem);
 
 		[OperationContract]
