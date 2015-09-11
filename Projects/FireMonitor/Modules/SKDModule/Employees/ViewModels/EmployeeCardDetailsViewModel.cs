@@ -21,6 +21,8 @@ namespace SKDModule.ViewModels
 		Organisation Organisation;
 		public SKDCard Card { get; private set; }
 		public AccessDoorsSelectationViewModel AccessDoorsSelectationViewModel { get; private set; }
+		public bool IsFirstRadioButtonChecked { get; set; }
+		public bool IsAlternativeLockParams { get; set; }
 		public bool IsNewCard { get; private set; }
 		ShortEmployee _employee;
 
@@ -37,6 +39,7 @@ namespace SKDModule.ViewModels
 			if (card == null)
 			{
 				IsNewCard = true;
+				IsFirstRadioButtonChecked = true;
 				Title = "Создание пропуска";
 				card = new SKDCard
 				{
@@ -349,6 +352,7 @@ namespace SKDModule.ViewModels
 				Card.StopReason = null;
 			}
 
+			Card.IsHandicappedCard = IsAlternativeLockParams;
 			Card.Password = Password;
 			Card.CardType = SelectedCardType;
 			Card.StartDate = StartDate;

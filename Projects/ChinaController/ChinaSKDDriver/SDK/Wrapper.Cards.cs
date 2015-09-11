@@ -216,7 +216,7 @@ namespace ChinaSKDDriver
 			nativeCard.bFirstEnter = false;
 
 			//nativeCard.bHandicap = card.Handicap; // TODO определить card.Handicap
-			nativeCard.bHandicap = false;
+			nativeCard.bHandicap = card.IsHandicappedCard;
 
 			return nativeCard;
 		}
@@ -242,6 +242,7 @@ namespace ChinaSKDDriver
 			card.UserTime = nativeCard.nUserTime;
 			card.ValidStartDateTime = NET_TIMEToDateTime(nativeCard.stuValidStartTime);
 			card.ValidEndDateTime = NET_TIMEToDateTime(nativeCard.stuValidEndTime);
+			card.IsHandicappedCard = nativeCard.bHandicap;
 			return card;
 		}
 	}

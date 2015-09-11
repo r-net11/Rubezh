@@ -1566,3 +1566,30 @@ BEGIN
 ALTER TABLE [CardDoor] DROP COLUMN [ExitScheduleNo]
 INSERT INTO Patches (Id) VALUES ('RemoveExitScheduleNoFromCardDoor')
 END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'RemoveGKLevelColumn')
+BEGIN
+ALTER TABLE [Card] DROP Card_GKLevel_Default
+ALTER TABLE [Card] DROP COLUMN [GKLevel]
+INSERT INTO Patches (Id) VALUES ('RemoveGKLevelColumn') 
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'RemoveGKLevelScheduleColumn')
+BEGIN
+ALTER TABLE [Card] DROP Card_GKLevelSchedule_Default
+ALTER TABLE [Card] DROP COLUMN [GKLevelSchedule]
+INSERT INTO Patches (Id) VALUES ('RemoveGKLevelScheduleColumn')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'RemoveGKCardTypeColumn')
+BEGIN
+ALTER TABLE [Card] DROP DF__Card__GKCardType__35BCFE0A
+ALTER TABLE [Card] DROP COLUMN [GKCardType]
+INSERT INTO Patches (Id) VALUES ('RemoveGKCardTypeColumn')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'AddIsHandicappedCardColumn')
+BEGIN
+ALTER TABLE [Card] ADD IsHandicapped bit NOT NULL DEFAULT 0
+INSERT INTO Patches (Id) VALUES ('AddIsHandicappedCardColumn')
+END

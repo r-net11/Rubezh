@@ -35,6 +35,8 @@ namespace ChinaSKDDriverAPI
 		public DateTime ValidStartDateTime { get; set; }
 
 		public DateTime ValidEndDateTime { get; set; }
+
+		public bool IsHandicappedCard { get; set; }
 	}
 
 	public enum CardType

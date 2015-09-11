@@ -9009,13 +9009,9 @@ namespace SKDDriver.DataAccess
 		
 		private int _UserTime;
 		
-		private byte _GKLevel;
-		
-		private byte _GKLevelSchedule;
-		
 		private string _ExternalKey;
 		
-		private int _GKCardType;
+		private bool _IsHandicappedCard;
 		
 		private EntitySet<CardDoor> _CardDoors;
 		
@@ -9055,14 +9051,10 @@ namespace SKDDriver.DataAccess
     partial void OnDeactivationControllerUIDChanged();
     partial void OnUserTimeChanging(int value);
     partial void OnUserTimeChanged();
-    partial void OnGKLevelChanging(byte value);
-    partial void OnGKLevelChanged();
-    partial void OnGKLevelScheduleChanging(byte value);
-    partial void OnGKLevelScheduleChanged();
     partial void OnExternalKeyChanging(string value);
     partial void OnExternalKeyChanged();
-    partial void OnGKCardTypeChanging(int value);
-    partial void OnGKCardTypeChanged();
+    partial void OnIsHandicappedCardChanging(bool value);
+    partial void OnIsHandicappedCardChanged();
     #endregion
 		
 		public Card()
@@ -9342,46 +9334,6 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GKLevel", DbType="TinyInt NOT NULL")]
-		public byte GKLevel
-		{
-			get
-			{
-				return this._GKLevel;
-			}
-			set
-			{
-				if ((this._GKLevel != value))
-				{
-					this.OnGKLevelChanging(value);
-					this.SendPropertyChanging();
-					this._GKLevel = value;
-					this.SendPropertyChanged("GKLevel");
-					this.OnGKLevelChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GKLevelSchedule", DbType="TinyInt NOT NULL")]
-		public byte GKLevelSchedule
-		{
-			get
-			{
-				return this._GKLevelSchedule;
-			}
-			set
-			{
-				if ((this._GKLevelSchedule != value))
-				{
-					this.OnGKLevelScheduleChanging(value);
-					this.SendPropertyChanging();
-					this._GKLevelSchedule = value;
-					this.SendPropertyChanged("GKLevelSchedule");
-					this.OnGKLevelScheduleChanged();
-				}
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ExternalKey", DbType="NVarChar(40) NOT NULL", CanBeNull=false)]
 		public string ExternalKey
 		{
@@ -9402,22 +9354,22 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GKCardType", DbType="Int NOT NULL")]
-		public int GKCardType
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsHandicappedCard")]
+		public bool IsHandicappedCard
 		{
 			get
 			{
-				return this._GKCardType;
+				return this._IsHandicappedCard;
 			}
 			set
 			{
-				if ((this._GKCardType != value))
+				if ((this._IsHandicappedCard != value))
 				{
-					this.OnGKCardTypeChanging(value);
+					this.OnIsHandicappedCardChanging(value);
 					this.SendPropertyChanging();
-					this._GKCardType = value;
-					this.SendPropertyChanged("GKCardType");
-					this.OnGKCardTypeChanged();
+					this._IsHandicappedCard = value;
+					this.SendPropertyChanged("IsHandicappedCard");
+					this.OnIsHandicappedCardChanged();
 				}
 			}
 		}
