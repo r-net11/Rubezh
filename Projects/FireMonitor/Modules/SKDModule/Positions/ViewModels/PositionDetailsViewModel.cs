@@ -114,8 +114,7 @@ namespace SKDModule.ViewModels
 				Position.Photo = new Photo();
 			Position.Photo.Data = PhotoData;
 			Position.OrganisationUID = OrganisationUID;
-			if (!DetailsValidateHelper.Validate(Model))
-				return false;
+
 			return PositionHelper.Save(Position, _isNew);
 		}
 	}

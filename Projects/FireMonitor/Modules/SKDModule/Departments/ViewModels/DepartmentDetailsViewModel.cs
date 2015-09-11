@@ -4,6 +4,7 @@ using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Events;
@@ -19,7 +20,7 @@ namespace SKDModule.ViewModels
 		Dictionary<Guid, string> _childDepartments;
 
 		public DepartmentDetailsViewModel() { }
-		
+
 		public bool Initialize(Organisation organisation, ShortDepartment shortDepartment, ViewPartViewModel parentViewModel)
 		{
 			OrganisationUID = organisation.UID;
@@ -67,7 +68,7 @@ namespace SKDModule.ViewModels
 			Name = Department.Name;
 			Description = Department.Description;
 			Phone = Department.Phone;
-			SelectedDepartment = Department.ParentDepartmentUID != null ? DepartmentHelper.GetSingleShort(Department.ParentDepartmentUID.Value) : null; 
+			SelectedDepartment = Department.ParentDepartmentUID != null ? DepartmentHelper.GetSingleShort(Department.ParentDepartmentUID.Value) : null;
 			if (Department.Photo != null)
 				PhotoData = Department.Photo.Data;
 		}
@@ -147,8 +148,8 @@ namespace SKDModule.ViewModels
 			return true;
 		}
 
-		public ShortDepartment Model 
-		{ 
+		public ShortDepartment Model
+		{
 			get
 			{
 				return new ShortDepartment
@@ -158,7 +159,7 @@ namespace SKDModule.ViewModels
 					Name = Department.Name,
 					ParentDepartmentUID = Department.ParentDepartmentUID,
 					ChildDepartments = _childDepartments,
-					Phone = Department.Phone, 
+					Phone = Department.Phone,
 					OrganisationUID = OrganisationUID
 				};
 			}
@@ -185,26 +186,14 @@ namespace SKDModule.ViewModels
 			Department.ChiefUID = ChiefViewModel.SelectedEmployeeUID;
 			Department.ParentDepartmentUID = SelectedDepartment != null ? (Guid?)SelectedDepartment.UID : null;
 			Department.Phone = Phone;
-			if (!DetailsValidateHelper.Validate(Model))
-				return false;
+
 			var saveResult = DepartmentHelper.Save(Department, IsNew);
 			if (saveResult)
 			{
-				ServiceFactory.Events.GetEvent<ChangeDepartmentChiefEvent>().Publish(Department);
+				ServiceFactoryBase.Events.GetEvent<ChangeDepartmentChiefEvent>().Publish(Department);
 				return true;
 			}
-			else
-				return false;
-		}
-
-		bool Validate()
-		{
-			if (Department.Phone.Length > 50)
-			{
-				MessageBoxService.Show("Значение поля 'Телефон' не может быть длиннее 50 символов");
-				return false;
-			}
-			return true;
+			return false;
 		}
 	}
 }

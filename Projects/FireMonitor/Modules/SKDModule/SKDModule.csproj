@@ -133,7 +133,6 @@
     <Compile Include="AccessTemplates\ViewModels\Comparers.cs" />
     <Compile Include="Common\ChangeIsDeletedSubscriber.cs" />
     <Compile Include="Common\ChangeIsDeletedViewSubscriber.cs" />
-    <Compile Include="Common\DetailsValidateHelper.cs" />
     <Compile Include="Common\UpdateOrganisationDoorsEventSubscriber.cs" />
     <Compile Include="Common\ViewModels\ChiefViewModel.cs" />
     <Compile Include="Common\ViewModels\EmployeeListViewModel.cs" />

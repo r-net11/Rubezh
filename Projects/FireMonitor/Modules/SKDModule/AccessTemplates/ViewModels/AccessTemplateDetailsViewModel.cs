@@ -1,6 +1,7 @@
 ﻿using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Events;
@@ -88,15 +89,11 @@ namespace SKDModule.ViewModels
 			Model.CardDoors = AccessDoorsSelectationViewModel.GetCardDoors();
 			Model.CardDoors.ForEach(x => x.AccessTemplateUID = Model.UID);
 			Model.OrganisationUID = Organisation.UID;
-			if (!DetailsValidateHelper.Validate(Model))
-				return false;
-			var saveResult = AccessTemplateHelper.Save(Model, _isNew);
-			if(saveResult)
-			{
-				ServiceFactory.Events.GetEvent<UpdateAccessTemplateEvent>().Publish(Model.UID);
-				return true;
-			}
-			return false;
+
+			if (!AccessTemplateHelper.Save(Model, _isNew)) return false;
+
+			ServiceFactoryBase.Events.GetEvent<UpdateAccessTemplateEvent>().Publish(Model.UID);
+			return true;
 		}
 	}
 }

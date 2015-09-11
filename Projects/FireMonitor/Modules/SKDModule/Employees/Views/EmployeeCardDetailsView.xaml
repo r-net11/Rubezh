@@ -67,6 +67,7 @@
 						Grid.Row="2"
 						Grid.Column="1"
 						Margin="2"
+						MaxLength="50"
 						Text="{Binding Password}"/>
 					<StackPanel
 						Grid.Row="3"

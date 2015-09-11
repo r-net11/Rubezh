@@ -22,7 +22,7 @@ namespace Infrastructure.Common.CheckBoxList
 
 		public bool HasCheckedItems
 		{
-			get { return Items.Any(x => x.IsChecked == true); }
+			get { return Items.Any(x => x.IsChecked); }
 		}
 
 		public bool IsSingleSelection { get; set; }

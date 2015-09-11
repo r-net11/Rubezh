@@ -24,7 +24,7 @@ namespace SKDModule.ViewModels
 					UID = AdditionalColumnType.UID,
 					Name = AdditionalColumnType.Name,
 					Description = AdditionalColumnType.Description,
-					OrganisationUID = AdditionalColumnType.OrganisationUID, 
+					OrganisationUID = AdditionalColumnType.OrganisationUID,
 					IsInGrid = AdditionalColumnType.IsInGrid,
 					DataType = AdditionalColumnType.DataType
 				};
@@ -141,8 +141,7 @@ namespace SKDModule.ViewModels
 			AdditionalColumnType.DataType = DataType;
 			AdditionalColumnType.IsInGrid = IsInGrid;
 			AdditionalColumnType.OrganisationUID = Organisation.UID;
-			if (!DetailsValidateHelper.Validate(Model))
-				return false;
+
 			var saveResult = AdditionalColumnTypeHelper.Save(AdditionalColumnType, _isNew);
 			if (saveResult)
 			{
