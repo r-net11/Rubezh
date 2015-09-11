@@ -11,7 +11,6 @@ namespace VideoModule.Views
 		{
 			InitializeComponent();
 			Loaded += OnLoaded;
-			ShellViewModel.Current.Closing += OnClosing;
 		}
 
 		private void OnClosing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -26,6 +25,7 @@ namespace VideoModule.Views
 			{
 				if (layoutPartCameraViewModel.RviRTSP != null)
 				{
+					ShellViewModel.Current.Closing += OnClosing;
 					MediaSourcePlayer.Open(MediaSourceFactory.CreateFromRtspStream(layoutPartCameraViewModel.RviRTSP));
 					MediaSourcePlayer.Play();
 				}
