@@ -14,14 +14,13 @@
 			<Converters:CardTypeToLongStringConverter x:Key="CardTypeToLongStringConverter" />
 			<converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="pack://application:,,,/Controls;component/Themes/StrazhTheme.xaml" />
 				<ResourceDictionary Source="pack://application:,,,/Controls;component/Themes/HyperlinkStyle.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
 	</UserControl.Resources>
 	<TabControl>
 		<TabItem Header="Основные" >
-			<StackPanel Grid.IsSharedSizeScope="True" Background="{StaticResource BackgroundBrush}">
+			<StackPanel Grid.IsSharedSizeScope="True">
 				<Grid Visibility="{Binding IsNewCard, Converter={StaticResource BoolToVisibilityConverter}}" Margin="10">
 					<Grid.RowDefinitions>
 						<RowDefinition />
