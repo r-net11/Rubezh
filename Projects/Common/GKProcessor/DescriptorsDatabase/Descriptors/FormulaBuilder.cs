@@ -316,17 +316,17 @@ namespace GKProcessor
 
 		public bool CheckStackOverflow()
 		{
-			var stackValueCollections = new List<StackValueCollection>();
-			stackValueCollections.Add(new StackValueCollection());
+			var branches = new List<FormulaBranch>();
+			branches.Add(new FormulaBranch());
 
 			for (int i = 0; i < FormulaOperations.Count; i++)
 			{
 				var formulaOperation = FormulaOperations[i];
-				var newStackValueCollections = new List<StackValueCollection>();
+				var newBranches = new List<FormulaBranch>();
 
-				foreach (var stackValueCollection in stackValueCollections.Where(x => x.CurrentFormulaNo == i && !x.IsCompleted))
+				foreach (var branch in branches.Where(x => x.CurrentFormulaNo == i && !x.IsCompleted))
 				{
-					stackValueCollection.CurrentFormulaNo++;
+					branch.CurrentFormulaNo++;
 
 					switch (formulaOperation.FormulaOperationType)
 					{
@@ -337,13 +337,13 @@ namespace GKProcessor
 						case FormulaOperationType.GETWORD:
 						case FormulaOperationType.ACS:
 						case FormulaOperationType.TSTP:
-							stackValueCollection.StackValues.Add(null);
+							branch.StackValues.Add(null);
 							break;
 
 						case FormulaOperationType.KOD:
 						case FormulaOperationType.GETMEMB:
-							stackValueCollection.StackValues.Add(null);
-							stackValueCollection.StackValues.Add(null);
+							branch.StackValues.Add(null);
+							branch.StackValues.Add(null);
 							break;
 
 						case FormulaOperationType.ADD:
@@ -362,13 +362,13 @@ namespace GKProcessor
 						case FormulaOperationType.SUB:
 						case FormulaOperationType.XOR:
 						case FormulaOperationType.CMPKOD:
-							stackValueCollection.StackValues.RemoveAt(stackValueCollection.StackValues.Count - 1);
+							branch.RemoveLast();
 							break;
 
 						case FormulaOperationType.PUTP:
 						case FormulaOperationType.PUTMEMB:
-							stackValueCollection.StackValues.RemoveAt(stackValueCollection.StackValues.Count - 1);
-							stackValueCollection.StackValues.RemoveAt(stackValueCollection.StackValues.Count - 1);
+							branch.RemoveLast();
+							branch.RemoveLast();
 							break;
 
 						case FormulaOperationType.COM:
@@ -377,54 +377,54 @@ namespace GKProcessor
 
 						case FormulaOperationType.END:
 						case FormulaOperationType.EXIT:
-							stackValueCollection.IsCompleted = true;
+							branch.IsCompleted = true;
 							break;
 
 						case FormulaOperationType.ACSP:
-							var newStackValueCollection = stackValueCollection.Clone();
-							newStackValueCollections.Add(newStackValueCollection);
+							var newBranch = branch.Clone();
+							newBranches.Add(newBranch);
 
-							stackValueCollection.StackValues.Add(0);
-							newStackValueCollection.StackValues.Add(null);
-							newStackValueCollection.StackValues.Add(0);
+							branch.StackValues.Add(0);
+							newBranch.StackValues.Add(null);
+							newBranch.StackValues.Add(0);
 							break;
 
 						case FormulaOperationType.BR:
 							if (formulaOperation.FirstOperand == 0)
 							{
-								stackValueCollection.CurrentFormulaNo += formulaOperation.SecondOperand;
+								branch.CurrentFormulaNo += formulaOperation.SecondOperand;
 							}
 							else
 							{
-								var lastStackValue = stackValueCollection.StackValues.LastOrDefault();
+								var lastStackValue = branch.StackValues.LastOrDefault();
 								if (lastStackValue.HasValue)
 								{
 									if ((formulaOperation.FirstOperand == 1 && lastStackValue.Value == 0) || (formulaOperation.FirstOperand == 2 && lastStackValue.Value != 0))
 									{
-										stackValueCollection.StackValues.RemoveAt(stackValueCollection.StackValues.Count - 1);
-										stackValueCollection.CurrentFormulaNo += formulaOperation.SecondOperand;
+										branch.RemoveLast();
+										branch.CurrentFormulaNo += formulaOperation.SecondOperand;
 									}
 								}
 								else
 								{
-									stackValueCollection.StackValues.RemoveAt(stackValueCollection.StackValues.Count - 1);
-									newStackValueCollection = stackValueCollection.Clone();
-									newStackValueCollections.Add(newStackValueCollection);
-									newStackValueCollection.CurrentFormulaNo += formulaOperation.SecondOperand;
+									branch.RemoveLast();
+									newBranch = branch.Clone();
+									newBranches.Add(newBranch);
+									newBranch.CurrentFormulaNo += formulaOperation.SecondOperand;
 								}
 							}
 							break;
 					}
 				}
 
-				stackValueCollections.AddRange(newStackValueCollections);
+				branches.AddRange(newBranches);
 			}
-			return !stackValueCollections.Any(x => x.StackValues.Count != 0 || x.IsError);
+			return !branches.Any(x => x.StackValues.Count != 0 || x.IsError);
 		}
 
-		public class StackValueCollection
+		public class FormulaBranch
 		{
-			public StackValueCollection()
+			public FormulaBranch()
 			{
 				StackValues = new List<int?>();
 				CurrentFormulaNo = 0;
@@ -452,9 +452,9 @@ namespace GKProcessor
 				}
 			}
 
-			public StackValueCollection Clone()
+			public FormulaBranch Clone()
 			{
-				return new StackValueCollection()
+				return new FormulaBranch()
 				{
 					StackValues = StackValues.ToList(),
 					CurrentFormulaNo = CurrentFormulaNo,
