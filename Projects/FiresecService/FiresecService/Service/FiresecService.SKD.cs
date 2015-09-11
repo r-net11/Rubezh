@@ -848,7 +848,7 @@ namespace FiresecService.Service
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				AddSKDJournalMessage(JournalEventNameType.Запись_графиков_работы, device);
+				AddSKDJournalMessage(JournalEventNameType.Запись_графиков_доступа, device);
 				return Processor.SKDWriteTimeSheduleConfiguration(deviceUID);
 			}
 			return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
@@ -870,7 +870,11 @@ namespace FiresecService.Service
 			
 			foreach (var device in SKDManager.Devices.Where(device => device.Driver.IsController))
 			{
-				AddSKDJournalMessage(JournalEventNameType.Запись_графиков_работы, device);
+				// Пользователь прервал операцию
+				if (progressCallback.IsCanceled)
+					return OperationResult<List<Guid>>.FromCancel("Запись графиков доступа на все контроллеры отменена");
+
+				AddSKDJournalMessage(JournalEventNameType.Запись_графиков_доступа, device);
 				var result = Processor.SKDWriteTimeSheduleConfiguration(device.UID, false);
 				if (result.HasError)
 				{

@@ -155,10 +155,12 @@ namespace StrazhModule.ViewModels
 				var result = FiresecManager.FiresecService.SKDWriteAllTimeSheduleConfiguration();
 
 				// 2. Записываем пароли
+				//if (!result.IsCanceled)
 
 				// 3. Записываем пропуска
+				//if (!result.IsCanceled)
 
-				ApplicationService.Invoke(new Action(() =>
+				ApplicationService.Invoke(() =>
 				{
 					if (result.HasError)
 					{
@@ -175,7 +177,7 @@ namespace StrazhModule.ViewModels
 					OnPropertyChanged(() => HasMissmath);
 					if (HasMissmath != oldHasMissmath)
 						ServiceFactory.SaveService.SKDChanged = true;
-				}));
+				});
 
 			});
 			thread.Name = "DeviceCommandsViewModel OnWriteConfigurationInAllControllers";

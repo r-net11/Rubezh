@@ -58,6 +58,23 @@ namespace FiresecAPI
 			operationResult.Result = result;
 			return operationResult;
 		}
+
+		[DataMember]
+		public bool IsCanceled { get; set; }
+
+		public static OperationResult<T> FromCancel(string error, T result = default(T))
+		{
+			var operationResult = FromError(error, result);
+			operationResult.IsCanceled = true;
+			return operationResult;
+		}
+
+		public static OperationResult<T> FromCancel(List<string> errors, T result = default(T))
+		{
+			var operationResult = FromError(errors, result);
+			operationResult.IsCanceled = true;
+			return operationResult;
+		}
 	}
 
 	[DataContract]
@@ -87,5 +104,8 @@ namespace FiresecAPI
 
 		[DataMember]
 		public string Error { get; set; }
+
+		[DataMember]
+		public bool IsCanceled { get; set; }
 	}
 }
