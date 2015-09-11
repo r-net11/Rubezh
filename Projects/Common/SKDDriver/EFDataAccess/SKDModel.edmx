@@ -282,10 +282,8 @@
           <Property Name="Password" Type="nvarchar" MaxLength="50" />
           <Property Name="DeactivationControllerUID" Type="uniqueidentifier" />
           <Property Name="UserTime" Type="int" Nullable="false" />
-          <Property Name="GKLevel" Type="tinyint" Nullable="false" />
-          <Property Name="GKLevelSchedule" Type="tinyint" Nullable="false" />
+		  <Property Name="IsHandicappedCard" Type="bit" Nullable="false" />
           <Property Name="ExternalKey" Type="nvarchar" Nullable="false" MaxLength="40" />
-          <Property Name="GKCardType" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="CardDoor">
           <Key>
@@ -1493,14 +1491,12 @@
           <Property Name="Password" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
           <Property Name="DeactivationControllerUID" Type="Guid" />
           <Property Name="UserTime" Type="Int32" Nullable="false" />
-          <Property Name="GKLevel" Type="Byte" Nullable="false" />
-          <Property Name="GKLevelSchedule" Type="Byte" Nullable="false" />
           <Property Name="ExternalKey" Type="String" Nullable="false" MaxLength="40" Unicode="true" FixedLength="false" />
-          <Property Name="GKCardType" Type="Int32" Nullable="false" />
           <NavigationProperty Name="AccessTemplate" Relationship="SKDModel.FK_Card_AccessTemplate" FromRole="Card" ToRole="AccessTemplate" />
           <NavigationProperty Name="Employee" Relationship="SKDModel.FK_Card_Employee" FromRole="Card" ToRole="Employee" />
           <NavigationProperty Name="CardDoors" Relationship="SKDModel.FK_CardDoor_Card" FromRole="Card" ToRole="CardDoor" />
           <NavigationProperty Name="PendingCards" Relationship="SKDModel.FK_PendingCard_Card" FromRole="Card" ToRole="PendingCard" />
+          <Property Name="IsHandicappedCard" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="CardDoor">
           <Key>
@@ -2531,25 +2527,6 @@
             <ScalarProperty Name="OrganisationUID" ColumnName="OrganisationUID" />
             <ScalarProperty Name="IsInGrid" ColumnName="IsInGrid" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
-          <EntitySetMapping Name="Cards"><EntityTypeMapping TypeName="SKDModel.Card"><MappingFragment StoreEntitySet="Card">
-            <ScalarProperty Name="UID" ColumnName="UID" />
-            <ScalarProperty Name="Number" ColumnName="Number" />
-            <ScalarProperty Name="EmployeeUID" ColumnName="EmployeeUID" />
-            <ScalarProperty Name="AccessTemplateUID" ColumnName="AccessTemplateUID" />
-            <ScalarProperty Name="CardType" ColumnName="CardType" />
-            <ScalarProperty Name="StartDate" ColumnName="StartDate" />
-            <ScalarProperty Name="EndDate" ColumnName="EndDate" />
-            <ScalarProperty Name="IsInStopList" ColumnName="IsInStopList" />
-            <ScalarProperty Name="StopReason" ColumnName="StopReason" />
-            <ScalarProperty Name="PassCardTemplateUID" ColumnName="PassCardTemplateUID" />
-            <ScalarProperty Name="Password" ColumnName="Password" />
-            <ScalarProperty Name="DeactivationControllerUID" ColumnName="DeactivationControllerUID" />
-            <ScalarProperty Name="UserTime" ColumnName="UserTime" />
-            <ScalarProperty Name="GKLevel" ColumnName="GKLevel" />
-            <ScalarProperty Name="GKLevelSchedule" ColumnName="GKLevelSchedule" />
-            <ScalarProperty Name="ExternalKey" ColumnName="ExternalKey" />
-            <ScalarProperty Name="GKCardType" ColumnName="GKCardType" />
-          </MappingFragment></EntityTypeMapping></EntitySetMapping>
           <EntitySetMapping Name="CardDoors"><EntityTypeMapping TypeName="SKDModel.CardDoor"><MappingFragment StoreEntitySet="CardDoor">
             <ScalarProperty Name="UID" ColumnName="UID" />
             <ScalarProperty Name="DoorUID" ColumnName="DoorUID" />
@@ -2816,6 +2793,27 @@
             <ScalarProperty Name="DocumentType" ColumnName="DocumentType" />
             <ScalarProperty Name="Comment" ColumnName="Comment" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Cards">
+            <EntityTypeMapping TypeName="IsTypeOf(SKDModel.Card)">
+              <MappingFragment StoreEntitySet="Card">
+                <ScalarProperty Name="ExternalKey" ColumnName="ExternalKey" />
+				<ScalarProperty Name="IsHandicappedCard" ColumnName="IsHandicappedCard"/>
+                <ScalarProperty Name="UserTime" ColumnName="UserTime" />
+                <ScalarProperty Name="DeactivationControllerUID" ColumnName="DeactivationControllerUID" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="PassCardTemplateUID" ColumnName="PassCardTemplateUID" />
+                <ScalarProperty Name="StopReason" ColumnName="StopReason" />
+                <ScalarProperty Name="IsInStopList" ColumnName="IsInStopList" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="CardType" ColumnName="CardType" />
+                <ScalarProperty Name="AccessTemplateUID" ColumnName="AccessTemplateUID" />
+                <ScalarProperty Name="EmployeeUID" ColumnName="EmployeeUID" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="UID" ColumnName="UID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

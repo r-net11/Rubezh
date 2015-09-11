@@ -407,10 +407,8 @@
       <Column Name="Password" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="DeactivationControllerUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
       <Column Name="UserTime" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="GKLevel" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
-      <Column Name="GKLevelSchedule" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
       <Column Name="ExternalKey" Type="System.String" DbType="NVarChar(40) NOT NULL" CanBeNull="false" />
-      <Column Name="GKCardType" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Member="IsHandicappedCard" Type="System.Boolean" CanBeNull="false" />
       <Association Name="Card_CardDoor" Member="CardDoors" ThisKey="UID" OtherKey="CardUID" Type="CardDoor" />
       <Association Name="Card_PendingCard" Member="PendingCards" ThisKey="UID" OtherKey="CardUID" Type="PendingCard" />
       <Association Name="AccessTemplate_Card" Member="AccessTemplate" ThisKey="AccessTemplateUID" OtherKey="UID" Type="AccessTemplate" IsForeignKey="true" />

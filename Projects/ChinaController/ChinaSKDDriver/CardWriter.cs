@@ -190,12 +190,16 @@ namespace ChinaSKDDriver
 				var deviceProcessor = Processor.DeviceProcessors.FirstOrDefault(x => x.Device.UID == controllerCardItem.ControllerDevice.UID);
 				if (deviceProcessor != null)
 				{
-					var card = new Card();
-					card.CardNo = controllerCardItem.Card.Number.ToString("X");
-					card.ValidStartDateTime = controllerCardItem.Card.StartDate;
-					card.ValidEndDateTime = controllerCardItem.Card.EndDate;
-					card.UserTime = controllerCardItem.Card.UserTime;
-					card.Password = controllerCardItem.Card.Password;
+					var card = new Card
+					{
+						CardNo = controllerCardItem.Card.Number.ToString("X"),
+						ValidStartDateTime = controllerCardItem.Card.StartDate,
+						ValidEndDateTime = controllerCardItem.Card.EndDate,
+						UserTime = controllerCardItem.Card.UserTime,
+						Password = controllerCardItem.Card.Password,
+						IsHandicappedCard = controllerCardItem.Card.IsHandicappedCard
+					};
+
 					switch (controllerCardItem.Card.CardType)
 					{
 						case FiresecAPI.SKD.CardType.Constant:

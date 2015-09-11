@@ -3,44 +3,165 @@
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:Converters="clr-namespace:SKDModule.Converters"
+	xmlns:converters="clr-namespace:Controls.Converters;assembly=Controls"
 	xmlns:Views="clr-namespace:SKDModule.Views"
-	MinWidth="600"
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"
+	Width="450"
 	MinHeight="500">
-
 	<UserControl.Resources>
-		<Converters:CardTypeToStringConverter x:Key="CardTypeToStringConverter" />
-		<Converters:CardTypeToLongStringConverter x:Key="CardTypeToLongStringConverter" />
+		<ResourceDictionary>
+			<Converters:CardTypeToStringConverter x:Key="CardTypeToStringConverter" />
+			<Converters:CardTypeToLongStringConverter x:Key="CardTypeToLongStringConverter" />
+			<converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="pack://application:,,,/Controls;component/Themes/StrazhTheme.xaml" />
+				<ResourceDictionary Source="pack://application:,,,/Controls;component/Themes/HyperlinkStyle.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
 	</UserControl.Resources>
-
 	<TabControl>
-		<TabItem Header="Основные">
-			<StackPanel>
-				<Grid>
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="200" />
-						<ColumnDefinition Width="*" />
-					</Grid.ColumnDefinitions>
+		<TabItem Header="Основные" >
+			<StackPanel Grid.IsSharedSizeScope="True" Background="{StaticResource BackgroundBrush}">
+				<Grid Visibility="{Binding IsNewCard, Converter={StaticResource BoolToVisibilityConverter}}" Margin="10">
 					<Grid.RowDefinitions>
-						<RowDefinition Height="Auto" />
-						<RowDefinition Height="Auto" />
-						<RowDefinition Height="Auto" />
-						<RowDefinition Height="Auto" />
-						<RowDefinition Height="Auto" />
-						<RowDefinition Height="Auto" />
-						<RowDefinition Height="Auto" />
-						<RowDefinition Height="Auto" />
+						<RowDefinition />
+						<RowDefinition />
+						<RowDefinition />
+						<RowDefinition />
 					</Grid.RowDefinitions>
-
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto" SharedSizeGroup="FirstColumn" />
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition />
+					</Grid.ColumnDefinitions>
 					<TextBlock
-						Margin="2 4"
-						HorizontalAlignment="Right"
-						VerticalAlignment="Top"
+						Text="Ввод с клавиатуры"
 						Foreground="White"
-						Text="Тип пропуска" />
+						VerticalAlignment="Center"
+						Margin="5" />
+					<RadioButton
+						x:Name="EnableKeyboard"
+						Grid.Column="1"
+						Margin="5"
+						IsChecked="{Binding IsFirstRadioButtonChecked}"
+						VerticalAlignment="Center"
+						HorizontalAlignment="Center" />
+					<TextBox
+						Grid.Column="2"
+						Margin="2 4"
+						Width="200"
+						HorizontalAlignment="Left"
+						Validation.ErrorTemplate="{x:Null}"
+						IsEnabled="{Binding IsChecked, ElementName=EnableKeyboard, UpdateSourceTrigger=PropertyChanged}"
+						Text="{Binding Number}"/>
+					<TextBlock
+						Grid.Row="1"
+						Text="Из деактивированных"
+						Foreground="White"
+						Margin="5"
+						VerticalAlignment="Center" />
+					<RadioButton
+						x:Name="EnableDeactivate"
+						Grid.Column="1"
+						Grid.Row="1"
+						Margin="5"
+						VerticalAlignment="Center"
+						HorizontalAlignment="Center" />
+					<ComboBox
+						Grid.Row="1"
+						Grid.Column="2"
+						Margin="2 4"
+						HorizontalAlignment="Left"
+						Width="200"
+						IsEnabled="{Binding IsChecked, ElementName=EnableDeactivate, UpdateSourceTrigger=PropertyChanged}"
+						ItemsSource="{Binding StopListCards}"
+						SelectedItem="{Binding SelectedStopListCard}">
+						<ComboBox.ItemTemplate>
+							<DataTemplate>
+								<TextBlock Margin="1" Text="{Binding Number}" />
+							</DataTemplate>
+						</ComboBox.ItemTemplate>
+					</ComboBox>
+					<!--<TextBlock
+						Grid.Row="2"
+						Text="От контрольного считывателя"
+						Foreground="White"
+						Margin="5"
+						VerticalAlignment="Center" />
+					<RadioButton
+						x:Name="EnableReader"
+						Grid.Column="1"
+						Grid.Row="2"
+						Margin="5"
+						VerticalAlignment="Center"
+						HorizontalAlignment="Center" />
+					<TextBlock
+						Grid.Row="2"
+						Grid.Column="2"
+						Margin="2 4"
+						IsEnabled="{Binding IsChecked, ElementName=EnableReader, UpdateSourceTrigger=PropertyChanged}"
+						VerticalAlignment="Center"
+						TextWrapping="Wrap">
+						<Hyperlink
+							Command="{Binding ChangeReaderCommand}"
+							Style="{StaticResource HyperlinkStyle}">
+							<TextBlock Text="{Binding ReaderName, FallbackValue=Нажмите для выбора считывателя}" />
+						</Hyperlink>
+					</TextBlock>-->
+					<TextBlock
+						Grid.Row="3"
+						Text="От USB-считывателя"
+						Foreground="White"
+						Margin="5"
+						VerticalAlignment="Center" />
+					<RadioButton
+						x:Name="EnableUSB"
+						Grid.Column="1"
+						Grid.Row="3"
+						Margin="5"
+						VerticalAlignment="Center"
+						HorizontalAlignment="Center" />
+					<TextBox
+						Grid.Column="2"
+						Grid.Row="3"
+						Margin="2 4"
+						HorizontalAlignment="Left"
+						Width="200"
+						Validation.ErrorTemplate="{x:Null}"
+						IsEnabled="{Binding IsChecked, ElementName=EnableUSB, UpdateSourceTrigger=PropertyChanged}"
+						Text="{Binding Number}" />
+				</Grid>
+				<Separator
+					Margin="20 10"
+					Style="{x:Null}"
+					Visibility="{Binding IsNewCard, Converter={StaticResource BoolToVisibilityConverter}}"
+					Opacity="0.6"
+					BorderBrush="LightBlue"
+					BorderThickness="5"/>
+				<Grid Margin="10">
+					<Grid.RowDefinitions>
+						<RowDefinition />
+						<RowDefinition />
+						<RowDefinition />
+						<RowDefinition />
+						<RowDefinition />
+					</Grid.RowDefinitions>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto" SharedSizeGroup="FirstColumn" />
+						<ColumnDefinition />
+					</Grid.ColumnDefinitions>
+					<TextBlock
+						Text="Тип пропуска"
+						Foreground="White"
+						VerticalAlignment="Top"
+						Margin="5" />
 					<StackPanel
 						Grid.Column="1"
 						Margin="2">
-						<ComboBox ItemsSource="{Binding CardTypes}" SelectedItem="{Binding SelectedCardType}">
+						<ComboBox
+							ItemsSource="{Binding CardTypes}"
+							SelectedItem="{Binding SelectedCardType}"
+							Margin="0 4">
 							<ComboBox.ItemTemplate>
 								<DataTemplate>
 									<TextBlock Text="{Binding ., Converter={StaticResource CardTypeToStringConverter}}" />
@@ -50,188 +171,60 @@
 						<TextBlock
 							Margin="2"
 							Foreground="White"
-							Text="{Binding SelectedCardType,
-						                          Converter={StaticResource CardTypeToLongStringConverter}}"
+							Text="{Binding SelectedCardType, Converter={StaticResource CardTypeToLongStringConverter}}"
 							TextWrapping="Wrap" />
 					</StackPanel>
-
 					<TextBlock
-						Grid.Row="2"
-						Grid.Column="0"
-						Margin="2"
-						HorizontalAlignment="Right"
-						VerticalAlignment="Center"
+						Grid.Row="1"
 						Foreground="White"
-						Text="Пароль"/>
+						Text="Пароль"
+						VerticalAlignment="Center"
+						Margin="5" />
 					<TextBox
-						Grid.Row="2"
+						Grid.Row="1"
 						Grid.Column="1"
-						Margin="2"
 						MaxLength="50"
-						Text="{Binding Password}"/>
-					<StackPanel
-						Grid.Row="3"
-						Grid.Column="1"
-						Orientation="Horizontal">
-						<StackPanel Margin="0 0 10 0">
-							<TextBlock
-								Margin="2"
-								HorizontalAlignment="Center"
-								Foreground="White"
-								Text="Начало действия" />
-							<Calendar
-								Margin="2"
-								VerticalAlignment="Top"
-								BorderBrush="#66ff9829"
-								BorderThickness="2"
-								DisplayDate="{Binding StartDate}"
-								IsTodayHighlighted="False"
-								SelectedDate="{Binding StartDate}"
-								SelectionMode="SingleDate" />
-						</StackPanel>
-
-						<StackPanel>
-							<TextBlock
-								Margin="2"
-								HorizontalAlignment="Center"
-								Foreground="White"
-								Text="Конец действия" />
-							<Calendar
-								Margin="2"
-								VerticalAlignment="Top"
-								BorderBrush="#66ff9829"
-								BorderThickness="2"
-								DisplayDate="{Binding EndDate}"
-								IsEnabled="{Binding CanSelectEndDate}"
-								IsTodayHighlighted="False"
-								SelectedDate="{Binding EndDate}"
-								SelectionMode="SingleDate" />
-						</StackPanel>
-					</StackPanel>
-
-					<TextBlock
-						Grid.Row="4"
-						Grid.Column="0"
-						Margin="2"
-						HorizontalAlignment="Right"
-						VerticalAlignment="Center"
-						Foreground="White"
-						Text="Контроллер деактивации"
-						Visibility="{Binding CanSetUserTime,
-					                                Converter={StaticResource BoolToVisibilityConverter}}" />
-					<TextBlock
-						Grid.Row="4"
-						Grid.Column="1"
-						Margin="2"
-						TextWrapping="Wrap"
-						Visibility="{Binding CanSetUserTime,
-					                                Converter={StaticResource BoolToVisibilityConverter}}">
-						<Hyperlink Command="{Binding ChangeDeactivationControllerCommand}" Style="{StaticResource HyperlinkStyle}">
-							<TextBlock Text="{Binding DeactivationControllerName}" />
-						</Hyperlink>
-					</TextBlock>
-
-					<TextBlock
-						Grid.Row="5"
-						Grid.Column="0"
-						Margin="2"
-						HorizontalAlignment="Right"
-						VerticalAlignment="Center"
-						Foreground="White"
-						Text="Количество проходов"
-						Visibility="{Binding CanSetUserTime,
-					                                Converter={StaticResource BoolToVisibilityConverter}}" />
-					<TextBox
-						Grid.Row="5"
-						Grid.Column="1"
-						Margin="2"
-						Text="{Binding UserTime}"
-						Visibility="{Binding CanSetUserTime,
-					                              Converter={StaticResource BoolToVisibilityConverter}}" />
-				</Grid>
-
-				<Grid IsEnabled="{Binding IsNewCard}">
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="200" />
-						<ColumnDefinition Width="*" />
-					</Grid.ColumnDefinitions>
-					<Grid.RowDefinitions>
-						<RowDefinition Height="Auto" />
-						<RowDefinition Height="Auto" />
-						<RowDefinition Height="Auto" />
-						<RowDefinition Height="Auto" />
-					</Grid.RowDefinitions>
-					<TextBlock
-						Grid.Row="0"
-						Grid.Column="0"
-						Margin="2"
-						HorizontalAlignment="Right"
-						VerticalAlignment="Center"
-						Foreground="White"
-						Text="Номер" />
-					<TextBox
-						Grid.Row="0"
-						Grid.Column="1"
-						Width="100"
-						Margin="2"
-						HorizontalAlignment="Left"
-						IsEnabled="{Binding UseStopList,
-					                             Converter={StaticResource InverseBooleanConverter}}"
-						Text="{Binding Number}" />
-
-					<CheckBox
-						Grid.Row="1"
-						Grid.Column="0"
-						Margin="2"
-						VerticalAlignment="Center"
-						Content="Из списка деактивированных"
-						Foreground="White"
-						IsChecked="{Binding UseStopList}" />
-					<ComboBox
-						Grid.Row="1"
-						Grid.Column="1"
-						Width="100"
-						Margin="2"
-						HorizontalAlignment="Left"
-						IsEnabled="{Binding UseStopList}"
-						ItemsSource="{Binding StopListCards}"
-						SelectedItem="{Binding SelectedStopListCard}">
-						<ComboBox.ItemTemplate>
-							<DataTemplate>
-								<TextBlock Margin="1" Text="{Binding Number}" />
-							</DataTemplate>
-						</ComboBox.ItemTemplate>
-					</ComboBox>
-
-					<CheckBox
-						Grid.Row="2"
-						Grid.Column="0"
-						Margin="2"
-						VerticalAlignment="Center"
-						Content="От контрольного считывателя"
-						Foreground="White"
-						IsChecked="{Binding UseReader}" />
+						Margin="2 4"
+						Text="{Binding Password}" />
 					<TextBlock
 						Grid.Row="2"
-						Grid.Column="1"
+						Text="Начало действия"
+						Foreground="White"
 						VerticalAlignment="Center"
-						TextWrapping="Wrap">
-						<Hyperlink
-							Command="{Binding ChangeReaderCommand}"
-							IsEnabled="{Binding IsNewCard}"
-							Style="{StaticResource HyperlinkStyle}">
-							<TextBlock Text="{Binding ReaderName}" />
-						</Hyperlink>
-					</TextBlock>
-
-					<Button
+						Margin="5" />
+					<DatePicker
+						Grid.Row="2"
+						Grid.Column="1"
+						IsTodayHighlighted="False"
+						Margin="2 4"
+						SelectedDate="{Binding StartDate}"
+						DisplayDate="{Binding StartDate}"
+						DisplayDateStart="{x:Static sys:DateTime.Now}" />
+					<TextBlock
+						Grid.Row="3"
+						Text="Окончание действия"
+						Foreground="White"
+						VerticalAlignment="Center"
+						Margin="5" />
+					<DatePicker
 						Grid.Row="3"
 						Grid.Column="1"
-						Width="150"
-						Margin="2"
-						HorizontalAlignment="Left"
-						Command="{Binding ShowUSBCardReaderCommand}"
-						Content="От USB-считывателя" />
+						Margin="2 4"
+						DisplayDate="{Binding EndDate}"
+						IsEnabled="{Binding CanSelectEndDate}"
+						IsTodayHighlighted="False"
+						DisplayDateStart="{x:Static sys:DateTime.Now}"
+						SelectedDate="{Binding EndDate}" />
+					<CheckBox
+						Grid.Row="4"
+						Grid.Column="1"
+						Margin="2 4"
+						IsChecked="{Binding IsAlternativeLockParams}">
+						<TextBlock
+							Text="Альтернативные время закрытия и удержания (для карт, лиц с ограниченными возможностями)"
+							TextWrapping="Wrap"
+							Foreground="White" />
+					</CheckBox>
 				</Grid>
 			</StackPanel>
 		</TabItem>

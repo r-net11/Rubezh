@@ -47,6 +47,7 @@ namespace SKDDriver
 			result.CardDoors = DatabaseService.CardDoorTranslator.GetForCards(tableItem.UID);
 			result.IsInStopList = tableItem.IsInStopList;
 			result.StopReason = tableItem.StopReason;
+			result.IsHandicappedCard = tableItem.IsHandicappedCard;
 			result.PassCardTemplateUID = tableItem.PassCardTemplateUID;
 			result.DeactivationControllerUID = tableItem.DeactivationControllerUID != null ? tableItem.DeactivationControllerUID.Value : Guid.Empty;
 			result.Password = tableItem.Password;
@@ -78,6 +79,7 @@ namespace SKDDriver
 			result.CardDoors = cardDoors.Select(x => DatabaseService.CardDoorTranslator.TranslateCardDoor(x)).ToList();
 			result.IsInStopList = card.IsInStopList;
 			result.StopReason = card.StopReason;
+			result.IsHandicappedCard = card.IsHandicappedCard;
 			result.PassCardTemplateUID = card.PassCardTemplateUID;
 			result.DeactivationControllerUID = card.DeactivationControllerUID != null ? card.DeactivationControllerUID.Value : Guid.Empty;
 			result.Password = card.Password;
@@ -103,6 +105,7 @@ namespace SKDDriver
 			tableItem.EndDate = TranslatiorHelper.CheckDate(apiItem.EndDate);
 			tableItem.IsInStopList = apiItem.IsInStopList;
 			tableItem.StopReason = apiItem.StopReason;
+			tableItem.IsHandicappedCard = apiItem.IsHandicappedCard;
 			tableItem.AccessTemplateUID = apiItem.AccessTemplateUID;
 			tableItem.PassCardTemplateUID = apiItem.PassCardTemplateUID;
 			tableItem.Password = apiItem.Password;

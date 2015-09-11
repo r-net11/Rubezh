@@ -71,14 +71,14 @@ using System.Xml.Serialization;
 namespace SKDDriver.EFDataAccess
 {
     #region Contexts
-
+    
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
     public partial class SKDEntities1 : ObjectContext
     {
         #region Constructors
-
+    
         /// <summary>
         /// Initializes a new SKDEntities1 object using the connection string found in the 'SKDEntities1' section of the application configuration file.
         /// </summary>
@@ -87,7 +87,7 @@ namespace SKDDriver.EFDataAccess
             this.ContextOptions.LazyLoadingEnabled = true;
             OnContextCreated();
         }
-
+    
         /// <summary>
         /// Initialize a new SKDEntities1 object.
         /// </summary>
@@ -96,7 +96,7 @@ namespace SKDDriver.EFDataAccess
             this.ContextOptions.LazyLoadingEnabled = true;
             OnContextCreated();
         }
-
+    
         /// <summary>
         /// Initialize a new SKDEntities1 object.
         /// </summary>
@@ -105,17 +105,17 @@ namespace SKDDriver.EFDataAccess
             this.ContextOptions.LazyLoadingEnabled = true;
             OnContextCreated();
         }
-
+    
         #endregion
-
+    
         #region Partial Methods
-
+    
         partial void OnContextCreated();
-
+    
         #endregion
-
+    
         #region ObjectSet Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -131,7 +131,7 @@ namespace SKDDriver.EFDataAccess
             }
         }
         private ObjectSet<AccessTemplate> _AccessTemplates;
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -147,7 +147,7 @@ namespace SKDDriver.EFDataAccess
             }
         }
         private ObjectSet<AdditionalColumn> _AdditionalColumns;
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -163,7 +163,7 @@ namespace SKDDriver.EFDataAccess
             }
         }
         private ObjectSet<AdditionalColumnType> _AdditionalColumnTypes;
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -179,7 +179,7 @@ namespace SKDDriver.EFDataAccess
             }
         }
         private ObjectSet<Card> _Cards;
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -195,7 +195,7 @@ namespace SKDDriver.EFDataAccess
             }
         }
         private ObjectSet<CardDoor> _CardDoors;
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -211,7 +211,7 @@ namespace SKDDriver.EFDataAccess
             }
         }
         private ObjectSet<DayInterval> _DayIntervals;
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -227,7 +227,7 @@ namespace SKDDriver.EFDataAccess
             }
         }
         private ObjectSet<DayIntervalPart> _DayIntervalParts;
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -243,7 +243,7 @@ namespace SKDDriver.EFDataAccess
             }
         }
         private ObjectSet<Department> _Departments;
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -259,7 +259,7 @@ namespace SKDDriver.EFDataAccess
             }
         }
         private ObjectSet<Employee> _Employees;
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -275,7 +275,7 @@ namespace SKDDriver.EFDataAccess
             }
         }
         private ObjectSet<GKCard> _GKCards;
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -291,7 +291,7 @@ namespace SKDDriver.EFDataAccess
             }
         }
         private ObjectSet<GKDaySchedule> _GKDaySchedules;
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -307,7 +307,7 @@ namespace SKDDriver.EFDataAccess
             }
         }
         private ObjectSet<GKDaySchedulePart> _GKDayScheduleParts;
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -323,7 +323,7 @@ namespace SKDDriver.EFDataAccess
             }
         }
         private ObjectSet<GKMetadata> _GKMetadatas;
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -339,7 +339,7 @@ namespace SKDDriver.EFDataAccess
             }
         }
         private ObjectSet<GKSchedule> _GKSchedules;
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -355,7 +355,7 @@ namespace SKDDriver.EFDataAccess
             }
         }
         private ObjectSet<GKScheduleDay> _GKScheduleDays;
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -371,7 +371,7 @@ namespace SKDDriver.EFDataAccess
             }
         }
         private ObjectSet<Holiday> _Holidays;
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -387,7 +387,7 @@ namespace SKDDriver.EFDataAccess
             }
         }
         private ObjectSet<JournalMetadata> _JournalMetadatas;
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -403,7 +403,7 @@ namespace SKDDriver.EFDataAccess
             }
         }
         private ObjectSet<NightSetting> _NightSettings;
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -419,7 +419,7 @@ namespace SKDDriver.EFDataAccess
             }
         }
         private ObjectSet<Organisation> _Organisations;
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -435,7 +435,7 @@ namespace SKDDriver.EFDataAccess
             }
         }
         private ObjectSet<OrganisationDoor> _OrganisationDoors;
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -451,7 +451,7 @@ namespace SKDDriver.EFDataAccess
             }
         }
         private ObjectSet<OrganisationUser> _OrganisationUsers;
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -467,7 +467,7 @@ namespace SKDDriver.EFDataAccess
             }
         }
         private ObjectSet<PassCardTemplate> _PassCardTemplates;
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -483,7 +483,7 @@ namespace SKDDriver.EFDataAccess
             }
         }
         private ObjectSet<PassJournalMetadata> _PassJournalMetadatas;
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -499,7 +499,7 @@ namespace SKDDriver.EFDataAccess
             }
         }
         private ObjectSet<Patch> _Patches;
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -515,7 +515,7 @@ namespace SKDDriver.EFDataAccess
             }
         }
         private ObjectSet<PendingCard> _PendingCards;
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -531,7 +531,7 @@ namespace SKDDriver.EFDataAccess
             }
         }
         private ObjectSet<Photo> _Photos;
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -547,7 +547,7 @@ namespace SKDDriver.EFDataAccess
             }
         }
         private ObjectSet<Position> _Positions;
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -563,7 +563,7 @@ namespace SKDDriver.EFDataAccess
             }
         }
         private ObjectSet<Schedule> _Schedules;
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -579,7 +579,7 @@ namespace SKDDriver.EFDataAccess
             }
         }
         private ObjectSet<ScheduleDay> _ScheduleDays;
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -595,7 +595,7 @@ namespace SKDDriver.EFDataAccess
             }
         }
         private ObjectSet<ScheduleGKDaySchedule> _ScheduleGKDaySchedules;
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -611,7 +611,7 @@ namespace SKDDriver.EFDataAccess
             }
         }
         private ObjectSet<ScheduleScheme> _ScheduleSchemes;
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -627,7 +627,7 @@ namespace SKDDriver.EFDataAccess
             }
         }
         private ObjectSet<ScheduleZone> _ScheduleZones;
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -643,7 +643,7 @@ namespace SKDDriver.EFDataAccess
             }
         }
         private ObjectSet<TimeTrackDocument> _TimeTrackDocuments;
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -659,7 +659,7 @@ namespace SKDDriver.EFDataAccess
             }
         }
         private ObjectSet<TimeTrackDocumentType> _TimeTrackDocumentTypes;
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -679,7 +679,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
         #region AddTo Methods
-
+    
         /// <summary>
         /// Deprecated Method for adding a new object to the AccessTemplates EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
@@ -687,7 +687,7 @@ namespace SKDDriver.EFDataAccess
         {
             base.AddObject("AccessTemplates", accessTemplate);
         }
-
+    
         /// <summary>
         /// Deprecated Method for adding a new object to the AdditionalColumns EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
@@ -695,7 +695,7 @@ namespace SKDDriver.EFDataAccess
         {
             base.AddObject("AdditionalColumns", additionalColumn);
         }
-
+    
         /// <summary>
         /// Deprecated Method for adding a new object to the AdditionalColumnTypes EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
@@ -703,7 +703,7 @@ namespace SKDDriver.EFDataAccess
         {
             base.AddObject("AdditionalColumnTypes", additionalColumnType);
         }
-
+    
         /// <summary>
         /// Deprecated Method for adding a new object to the Cards EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
@@ -711,7 +711,7 @@ namespace SKDDriver.EFDataAccess
         {
             base.AddObject("Cards", card);
         }
-
+    
         /// <summary>
         /// Deprecated Method for adding a new object to the CardDoors EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
@@ -719,7 +719,7 @@ namespace SKDDriver.EFDataAccess
         {
             base.AddObject("CardDoors", cardDoor);
         }
-
+    
         /// <summary>
         /// Deprecated Method for adding a new object to the DayIntervals EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
@@ -727,7 +727,7 @@ namespace SKDDriver.EFDataAccess
         {
             base.AddObject("DayIntervals", dayInterval);
         }
-
+    
         /// <summary>
         /// Deprecated Method for adding a new object to the DayIntervalParts EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
@@ -735,7 +735,7 @@ namespace SKDDriver.EFDataAccess
         {
             base.AddObject("DayIntervalParts", dayIntervalPart);
         }
-
+    
         /// <summary>
         /// Deprecated Method for adding a new object to the Departments EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
@@ -743,7 +743,7 @@ namespace SKDDriver.EFDataAccess
         {
             base.AddObject("Departments", department);
         }
-
+    
         /// <summary>
         /// Deprecated Method for adding a new object to the Employees EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
@@ -751,7 +751,7 @@ namespace SKDDriver.EFDataAccess
         {
             base.AddObject("Employees", employee);
         }
-
+    
         /// <summary>
         /// Deprecated Method for adding a new object to the GKCards EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
@@ -759,7 +759,7 @@ namespace SKDDriver.EFDataAccess
         {
             base.AddObject("GKCards", gKCard);
         }
-
+    
         /// <summary>
         /// Deprecated Method for adding a new object to the GKDaySchedules EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
@@ -767,7 +767,7 @@ namespace SKDDriver.EFDataAccess
         {
             base.AddObject("GKDaySchedules", gKDaySchedule);
         }
-
+    
         /// <summary>
         /// Deprecated Method for adding a new object to the GKDayScheduleParts EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
@@ -775,7 +775,7 @@ namespace SKDDriver.EFDataAccess
         {
             base.AddObject("GKDayScheduleParts", gKDaySchedulePart);
         }
-
+    
         /// <summary>
         /// Deprecated Method for adding a new object to the GKMetadatas EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
@@ -783,7 +783,7 @@ namespace SKDDriver.EFDataAccess
         {
             base.AddObject("GKMetadatas", gKMetadata);
         }
-
+    
         /// <summary>
         /// Deprecated Method for adding a new object to the GKSchedules EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
@@ -791,7 +791,7 @@ namespace SKDDriver.EFDataAccess
         {
             base.AddObject("GKSchedules", gKSchedule);
         }
-
+    
         /// <summary>
         /// Deprecated Method for adding a new object to the GKScheduleDays EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
@@ -799,7 +799,7 @@ namespace SKDDriver.EFDataAccess
         {
             base.AddObject("GKScheduleDays", gKScheduleDay);
         }
-
+    
         /// <summary>
         /// Deprecated Method for adding a new object to the Holidays EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
@@ -807,7 +807,7 @@ namespace SKDDriver.EFDataAccess
         {
             base.AddObject("Holidays", holiday);
         }
-
+    
         /// <summary>
         /// Deprecated Method for adding a new object to the JournalMetadatas EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
@@ -815,7 +815,7 @@ namespace SKDDriver.EFDataAccess
         {
             base.AddObject("JournalMetadatas", journalMetadata);
         }
-
+    
         /// <summary>
         /// Deprecated Method for adding a new object to the NightSettings EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
@@ -823,7 +823,7 @@ namespace SKDDriver.EFDataAccess
         {
             base.AddObject("NightSettings", nightSetting);
         }
-
+    
         /// <summary>
         /// Deprecated Method for adding a new object to the Organisations EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
@@ -831,7 +831,7 @@ namespace SKDDriver.EFDataAccess
         {
             base.AddObject("Organisations", organisation);
         }
-
+    
         /// <summary>
         /// Deprecated Method for adding a new object to the OrganisationDoors EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
@@ -839,7 +839,7 @@ namespace SKDDriver.EFDataAccess
         {
             base.AddObject("OrganisationDoors", organisationDoor);
         }
-
+    
         /// <summary>
         /// Deprecated Method for adding a new object to the OrganisationUsers EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
@@ -847,7 +847,7 @@ namespace SKDDriver.EFDataAccess
         {
             base.AddObject("OrganisationUsers", organisationUser);
         }
-
+    
         /// <summary>
         /// Deprecated Method for adding a new object to the PassCardTemplates EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
@@ -855,7 +855,7 @@ namespace SKDDriver.EFDataAccess
         {
             base.AddObject("PassCardTemplates", passCardTemplate);
         }
-
+    
         /// <summary>
         /// Deprecated Method for adding a new object to the PassJournalMetadatas EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
@@ -863,7 +863,7 @@ namespace SKDDriver.EFDataAccess
         {
             base.AddObject("PassJournalMetadatas", passJournalMetadata);
         }
-
+    
         /// <summary>
         /// Deprecated Method for adding a new object to the Patches EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
@@ -871,7 +871,7 @@ namespace SKDDriver.EFDataAccess
         {
             base.AddObject("Patches", patch);
         }
-
+    
         /// <summary>
         /// Deprecated Method for adding a new object to the PendingCards EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
@@ -879,7 +879,7 @@ namespace SKDDriver.EFDataAccess
         {
             base.AddObject("PendingCards", pendingCard);
         }
-
+    
         /// <summary>
         /// Deprecated Method for adding a new object to the Photos EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
@@ -887,7 +887,7 @@ namespace SKDDriver.EFDataAccess
         {
             base.AddObject("Photos", photo);
         }
-
+    
         /// <summary>
         /// Deprecated Method for adding a new object to the Positions EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
@@ -895,7 +895,7 @@ namespace SKDDriver.EFDataAccess
         {
             base.AddObject("Positions", position);
         }
-
+    
         /// <summary>
         /// Deprecated Method for adding a new object to the Schedules EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
@@ -903,7 +903,7 @@ namespace SKDDriver.EFDataAccess
         {
             base.AddObject("Schedules", schedule);
         }
-
+    
         /// <summary>
         /// Deprecated Method for adding a new object to the ScheduleDays EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
@@ -911,7 +911,7 @@ namespace SKDDriver.EFDataAccess
         {
             base.AddObject("ScheduleDays", scheduleDay);
         }
-
+    
         /// <summary>
         /// Deprecated Method for adding a new object to the ScheduleGKDaySchedules EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
@@ -919,7 +919,7 @@ namespace SKDDriver.EFDataAccess
         {
             base.AddObject("ScheduleGKDaySchedules", scheduleGKDaySchedule);
         }
-
+    
         /// <summary>
         /// Deprecated Method for adding a new object to the ScheduleSchemes EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
@@ -927,7 +927,7 @@ namespace SKDDriver.EFDataAccess
         {
             base.AddObject("ScheduleSchemes", scheduleScheme);
         }
-
+    
         /// <summary>
         /// Deprecated Method for adding a new object to the ScheduleZones EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
@@ -935,7 +935,7 @@ namespace SKDDriver.EFDataAccess
         {
             base.AddObject("ScheduleZones", scheduleZone);
         }
-
+    
         /// <summary>
         /// Deprecated Method for adding a new object to the TimeTrackDocuments EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
@@ -943,7 +943,7 @@ namespace SKDDriver.EFDataAccess
         {
             base.AddObject("TimeTrackDocuments", timeTrackDocument);
         }
-
+    
         /// <summary>
         /// Deprecated Method for adding a new object to the TimeTrackDocumentTypes EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
@@ -951,7 +951,7 @@ namespace SKDDriver.EFDataAccess
         {
             base.AddObject("TimeTrackDocumentTypes", timeTrackDocumentType);
         }
-
+    
         /// <summary>
         /// Deprecated Method for adding a new object to the TimeTrackExceptions EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
@@ -967,7 +967,7 @@ namespace SKDDriver.EFDataAccess
     #endregion
 
     #region Entities
-
+    
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
@@ -977,7 +977,7 @@ namespace SKDDriver.EFDataAccess
     public partial class AccessTemplate : EntityObject
     {
         #region Factory Method
-
+    
         /// <summary>
         /// Create a new AccessTemplate object.
         /// </summary>
@@ -996,7 +996,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
         #region Primitive Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -1023,7 +1023,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Guid _UID;
         partial void OnUIDChanging(global::System.Guid value);
         partial void OnUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -1047,7 +1047,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.String _Name;
         partial void OnNameChanging(global::System.String value);
         partial void OnNameChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -1071,7 +1071,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.String _Description;
         partial void OnDescriptionChanging(global::System.String value);
         partial void OnDescriptionChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -1095,7 +1095,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Boolean _IsDeleted;
         partial void OnIsDeletedChanging(global::System.Boolean value);
         partial void OnIsDeletedChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -1119,7 +1119,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.DateTime _RemovalDate;
         partial void OnRemovalDateChanging(global::System.DateTime value);
         partial void OnRemovalDateChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -1146,9 +1146,9 @@ namespace SKDDriver.EFDataAccess
 
         #endregion
 
-
+    
         #region Navigation Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -1186,7 +1186,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -1208,7 +1208,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -1234,7 +1234,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
     }
-
+    
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
@@ -1244,7 +1244,7 @@ namespace SKDDriver.EFDataAccess
     public partial class AdditionalColumn : EntityObject
     {
         #region Factory Method
-
+    
         /// <summary>
         /// Create a new AdditionalColumn object.
         /// </summary>
@@ -1259,7 +1259,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
         #region Primitive Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -1286,7 +1286,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Guid _UID;
         partial void OnUIDChanging(global::System.Guid value);
         partial void OnUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -1310,7 +1310,7 @@ namespace SKDDriver.EFDataAccess
         private Nullable<global::System.Guid> _EmployeeUID;
         partial void OnEmployeeUIDChanging(Nullable<global::System.Guid> value);
         partial void OnEmployeeUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -1334,7 +1334,7 @@ namespace SKDDriver.EFDataAccess
         private Nullable<global::System.Guid> _AdditionalColumnTypeUID;
         partial void OnAdditionalColumnTypeUIDChanging(Nullable<global::System.Guid> value);
         partial void OnAdditionalColumnTypeUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -1358,7 +1358,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.String _TextData;
         partial void OnTextDataChanging(global::System.String value);
         partial void OnTextDataChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -1385,9 +1385,9 @@ namespace SKDDriver.EFDataAccess
 
         #endregion
 
-
+    
         #region Navigation Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -1425,7 +1425,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -1463,7 +1463,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -1505,7 +1505,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
     }
-
+    
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
@@ -1515,7 +1515,7 @@ namespace SKDDriver.EFDataAccess
     public partial class AdditionalColumnType : EntityObject
     {
         #region Factory Method
-
+    
         /// <summary>
         /// Create a new AdditionalColumnType object.
         /// </summary>
@@ -1536,7 +1536,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
         #region Primitive Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -1563,7 +1563,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Guid _UID;
         partial void OnUIDChanging(global::System.Guid value);
         partial void OnUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -1587,7 +1587,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Boolean _IsDeleted;
         partial void OnIsDeletedChanging(global::System.Boolean value);
         partial void OnIsDeletedChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -1611,7 +1611,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.DateTime _RemovalDate;
         partial void OnRemovalDateChanging(global::System.DateTime value);
         partial void OnRemovalDateChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -1635,7 +1635,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.String _Name;
         partial void OnNameChanging(global::System.String value);
         partial void OnNameChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -1659,7 +1659,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.String _Description;
         partial void OnDescriptionChanging(global::System.String value);
         partial void OnDescriptionChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -1683,7 +1683,7 @@ namespace SKDDriver.EFDataAccess
         private Nullable<global::System.Int32> _DataType;
         partial void OnDataTypeChanging(Nullable<global::System.Int32> value);
         partial void OnDataTypeChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -1707,7 +1707,7 @@ namespace SKDDriver.EFDataAccess
         private Nullable<global::System.Int32> _PersonType;
         partial void OnPersonTypeChanging(Nullable<global::System.Int32> value);
         partial void OnPersonTypeChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -1731,7 +1731,7 @@ namespace SKDDriver.EFDataAccess
         private Nullable<global::System.Guid> _OrganisationUID;
         partial void OnOrganisationUIDChanging(Nullable<global::System.Guid> value);
         partial void OnOrganisationUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -1758,9 +1758,9 @@ namespace SKDDriver.EFDataAccess
 
         #endregion
 
-
+    
         #region Navigation Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -1782,7 +1782,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -1824,7 +1824,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
     }
-
+    
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
@@ -1834,7 +1834,7 @@ namespace SKDDriver.EFDataAccess
     public partial class Card : EntityObject
     {
         #region Factory Method
-
+    
         /// <summary>
         /// Create a new Card object.
         /// </summary>
@@ -1844,11 +1844,9 @@ namespace SKDDriver.EFDataAccess
         /// <param name="endDate">Initial value of the EndDate property.</param>
         /// <param name="isInStopList">Initial value of the IsInStopList property.</param>
         /// <param name="userTime">Initial value of the UserTime property.</param>
-        /// <param name="gKLevel">Initial value of the GKLevel property.</param>
-        /// <param name="gKLevelSchedule">Initial value of the GKLevelSchedule property.</param>
         /// <param name="externalKey">Initial value of the ExternalKey property.</param>
-        /// <param name="gKCardType">Initial value of the GKCardType property.</param>
-        public static Card CreateCard(global::System.Guid uID, global::System.Int32 number, global::System.DateTime startDate, global::System.DateTime endDate, global::System.Boolean isInStopList, global::System.Int32 userTime, global::System.Byte gKLevel, global::System.Byte gKLevelSchedule, global::System.String externalKey, global::System.Int32 gKCardType)
+        /// <param name="isHandicappedCard">Initial value of the IsHandicappedCard property.</param>
+        public static Card CreateCard(global::System.Guid uID, global::System.Int32 number, global::System.DateTime startDate, global::System.DateTime endDate, global::System.Boolean isInStopList, global::System.Int32 userTime, global::System.String externalKey, global::System.Boolean isHandicappedCard)
         {
             Card card = new Card();
             card.UID = uID;
@@ -1857,17 +1855,15 @@ namespace SKDDriver.EFDataAccess
             card.EndDate = endDate;
             card.IsInStopList = isInStopList;
             card.UserTime = userTime;
-            card.GKLevel = gKLevel;
-            card.GKLevelSchedule = gKLevelSchedule;
             card.ExternalKey = externalKey;
-            card.GKCardType = gKCardType;
+            card.IsHandicappedCard = isHandicappedCard;
             return card;
         }
 
         #endregion
 
         #region Primitive Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -1894,7 +1890,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Guid _UID;
         partial void OnUIDChanging(global::System.Guid value);
         partial void OnUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -1918,7 +1914,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Int32 _Number;
         partial void OnNumberChanging(global::System.Int32 value);
         partial void OnNumberChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -1942,7 +1938,7 @@ namespace SKDDriver.EFDataAccess
         private Nullable<global::System.Guid> _EmployeeUID;
         partial void OnEmployeeUIDChanging(Nullable<global::System.Guid> value);
         partial void OnEmployeeUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -1966,7 +1962,7 @@ namespace SKDDriver.EFDataAccess
         private Nullable<global::System.Guid> _AccessTemplateUID;
         partial void OnAccessTemplateUIDChanging(Nullable<global::System.Guid> value);
         partial void OnAccessTemplateUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -1990,7 +1986,7 @@ namespace SKDDriver.EFDataAccess
         private Nullable<global::System.Int32> _CardType;
         partial void OnCardTypeChanging(Nullable<global::System.Int32> value);
         partial void OnCardTypeChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -2014,7 +2010,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.DateTime _StartDate;
         partial void OnStartDateChanging(global::System.DateTime value);
         partial void OnStartDateChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -2038,7 +2034,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.DateTime _EndDate;
         partial void OnEndDateChanging(global::System.DateTime value);
         partial void OnEndDateChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -2062,7 +2058,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Boolean _IsInStopList;
         partial void OnIsInStopListChanging(global::System.Boolean value);
         partial void OnIsInStopListChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -2086,7 +2082,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.String _StopReason;
         partial void OnStopReasonChanging(global::System.String value);
         partial void OnStopReasonChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -2110,7 +2106,7 @@ namespace SKDDriver.EFDataAccess
         private Nullable<global::System.Guid> _PassCardTemplateUID;
         partial void OnPassCardTemplateUIDChanging(Nullable<global::System.Guid> value);
         partial void OnPassCardTemplateUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -2134,7 +2130,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.String _Password;
         partial void OnPasswordChanging(global::System.String value);
         partial void OnPasswordChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -2158,7 +2154,7 @@ namespace SKDDriver.EFDataAccess
         private Nullable<global::System.Guid> _DeactivationControllerUID;
         partial void OnDeactivationControllerUIDChanging(Nullable<global::System.Guid> value);
         partial void OnDeactivationControllerUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -2182,55 +2178,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Int32 _UserTime;
         partial void OnUserTimeChanging(global::System.Int32 value);
         partial void OnUserTimeChanged();
-
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Byte GKLevel
-        {
-            get
-            {
-                return _GKLevel;
-            }
-            set
-            {
-                OnGKLevelChanging(value);
-                ReportPropertyChanging("GKLevel");
-                _GKLevel = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("GKLevel");
-                OnGKLevelChanged();
-            }
-        }
-        private global::System.Byte _GKLevel;
-        partial void OnGKLevelChanging(global::System.Byte value);
-        partial void OnGKLevelChanged();
-
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Byte GKLevelSchedule
-        {
-            get
-            {
-                return _GKLevelSchedule;
-            }
-            set
-            {
-                OnGKLevelScheduleChanging(value);
-                ReportPropertyChanging("GKLevelSchedule");
-                _GKLevelSchedule = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("GKLevelSchedule");
-                OnGKLevelScheduleChanged();
-            }
-        }
-        private global::System.Byte _GKLevelSchedule;
-        partial void OnGKLevelScheduleChanging(global::System.Byte value);
-        partial void OnGKLevelScheduleChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -2254,36 +2202,36 @@ namespace SKDDriver.EFDataAccess
         private global::System.String _ExternalKey;
         partial void OnExternalKeyChanging(global::System.String value);
         partial void OnExternalKeyChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int32 GKCardType
+        public global::System.Boolean IsHandicappedCard
         {
             get
             {
-                return _GKCardType;
+                return _IsHandicappedCard;
             }
             set
             {
-                OnGKCardTypeChanging(value);
-                ReportPropertyChanging("GKCardType");
-                _GKCardType = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("GKCardType");
-                OnGKCardTypeChanged();
+                OnIsHandicappedCardChanging(value);
+                ReportPropertyChanging("IsHandicappedCard");
+                _IsHandicappedCard = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("IsHandicappedCard");
+                OnIsHandicappedCardChanged();
             }
         }
-        private global::System.Int32 _GKCardType;
-        partial void OnGKCardTypeChanging(global::System.Int32 value);
-        partial void OnGKCardTypeChanged();
+        private global::System.Boolean _IsHandicappedCard;
+        partial void OnIsHandicappedCardChanging(global::System.Boolean value);
+        partial void OnIsHandicappedCardChanged();
 
         #endregion
 
-
+    
         #region Navigation Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -2321,7 +2269,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -2359,7 +2307,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -2381,7 +2329,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -2407,7 +2355,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
     }
-
+    
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
@@ -2417,7 +2365,7 @@ namespace SKDDriver.EFDataAccess
     public partial class CardDoor : EntityObject
     {
         #region Factory Method
-
+    
         /// <summary>
         /// Create a new CardDoor object.
         /// </summary>
@@ -2436,7 +2384,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
         #region Primitive Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -2463,7 +2411,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Guid _UID;
         partial void OnUIDChanging(global::System.Guid value);
         partial void OnUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -2487,7 +2435,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Guid _DoorUID;
         partial void OnDoorUIDChanging(global::System.Guid value);
         partial void OnDoorUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -2511,7 +2459,7 @@ namespace SKDDriver.EFDataAccess
         private Nullable<global::System.Guid> _CardUID;
         partial void OnCardUIDChanging(Nullable<global::System.Guid> value);
         partial void OnCardUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -2535,7 +2483,7 @@ namespace SKDDriver.EFDataAccess
         private Nullable<global::System.Guid> _AccessTemplateUID;
         partial void OnAccessTemplateUIDChanging(Nullable<global::System.Guid> value);
         partial void OnAccessTemplateUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -2562,9 +2510,9 @@ namespace SKDDriver.EFDataAccess
 
         #endregion
 
-
+    
         #region Navigation Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -2602,7 +2550,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -2644,7 +2592,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
     }
-
+    
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
@@ -2654,7 +2602,7 @@ namespace SKDDriver.EFDataAccess
     public partial class DayInterval : EntityObject
     {
         #region Factory Method
-
+    
         /// <summary>
         /// Create a new DayInterval object.
         /// </summary>
@@ -2677,7 +2625,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
         #region Primitive Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -2704,7 +2652,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Guid _UID;
         partial void OnUIDChanging(global::System.Guid value);
         partial void OnUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -2728,7 +2676,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.String _Name;
         partial void OnNameChanging(global::System.String value);
         partial void OnNameChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -2752,7 +2700,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.String _Description;
         partial void OnDescriptionChanging(global::System.String value);
         partial void OnDescriptionChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -2776,7 +2724,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Int32 _SlideTime;
         partial void OnSlideTimeChanging(global::System.Int32 value);
         partial void OnSlideTimeChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -2800,7 +2748,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Boolean _IsDeleted;
         partial void OnIsDeletedChanging(global::System.Boolean value);
         partial void OnIsDeletedChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -2824,7 +2772,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.DateTime _RemovalDate;
         partial void OnRemovalDateChanging(global::System.DateTime value);
         partial void OnRemovalDateChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -2851,9 +2799,9 @@ namespace SKDDriver.EFDataAccess
 
         #endregion
 
-
+    
         #region Navigation Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -2891,7 +2839,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -2913,7 +2861,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -2939,7 +2887,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
     }
-
+    
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
@@ -2949,7 +2897,7 @@ namespace SKDDriver.EFDataAccess
     public partial class DayIntervalPart : EntityObject
     {
         #region Factory Method
-
+    
         /// <summary>
         /// Create a new DayIntervalPart object.
         /// </summary>
@@ -2970,7 +2918,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
         #region Primitive Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -2994,7 +2942,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Int32 _BeginTime;
         partial void OnBeginTimeChanging(global::System.Int32 value);
         partial void OnBeginTimeChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -3018,7 +2966,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Int32 _EndTime;
         partial void OnEndTimeChanging(global::System.Int32 value);
         partial void OnEndTimeChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -3045,7 +2993,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Guid _UID;
         partial void OnUIDChanging(global::System.Guid value);
         partial void OnUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -3072,9 +3020,9 @@ namespace SKDDriver.EFDataAccess
 
         #endregion
 
-
+    
         #region Navigation Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -3116,7 +3064,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
     }
-
+    
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
@@ -3126,7 +3074,7 @@ namespace SKDDriver.EFDataAccess
     public partial class Department : EntityObject
     {
         #region Factory Method
-
+    
         /// <summary>
         /// Create a new Department object.
         /// </summary>
@@ -3149,7 +3097,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
         #region Primitive Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -3176,7 +3124,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Guid _UID;
         partial void OnUIDChanging(global::System.Guid value);
         partial void OnUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -3200,7 +3148,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.String _Name;
         partial void OnNameChanging(global::System.String value);
         partial void OnNameChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -3224,7 +3172,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.String _Description;
         partial void OnDescriptionChanging(global::System.String value);
         partial void OnDescriptionChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -3248,7 +3196,7 @@ namespace SKDDriver.EFDataAccess
         private Nullable<global::System.Guid> _PhotoUID;
         partial void OnPhotoUIDChanging(Nullable<global::System.Guid> value);
         partial void OnPhotoUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -3272,7 +3220,7 @@ namespace SKDDriver.EFDataAccess
         private Nullable<global::System.Guid> _ParentDepartmentUID;
         partial void OnParentDepartmentUIDChanging(Nullable<global::System.Guid> value);
         partial void OnParentDepartmentUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -3296,7 +3244,7 @@ namespace SKDDriver.EFDataAccess
         private Nullable<global::System.Guid> _ContactEmployeeUID;
         partial void OnContactEmployeeUIDChanging(Nullable<global::System.Guid> value);
         partial void OnContactEmployeeUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -3320,7 +3268,7 @@ namespace SKDDriver.EFDataAccess
         private Nullable<global::System.Guid> _AttendantUID;
         partial void OnAttendantUIDChanging(Nullable<global::System.Guid> value);
         partial void OnAttendantUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -3344,7 +3292,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Boolean _IsDeleted;
         partial void OnIsDeletedChanging(global::System.Boolean value);
         partial void OnIsDeletedChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -3368,7 +3316,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.DateTime _RemovalDate;
         partial void OnRemovalDateChanging(global::System.DateTime value);
         partial void OnRemovalDateChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -3392,7 +3340,7 @@ namespace SKDDriver.EFDataAccess
         private Nullable<global::System.Guid> _OrganisationUID;
         partial void OnOrganisationUIDChanging(Nullable<global::System.Guid> value);
         partial void OnOrganisationUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -3416,7 +3364,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Guid _ChiefUID;
         partial void OnChiefUIDChanging(global::System.Guid value);
         partial void OnChiefUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -3440,7 +3388,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.String _Phone;
         partial void OnPhoneChanging(global::System.String value);
         partial void OnPhoneChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -3467,9 +3415,9 @@ namespace SKDDriver.EFDataAccess
 
         #endregion
 
-
+    
         #region Navigation Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -3491,7 +3439,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -3529,7 +3477,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -3567,7 +3515,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -3605,7 +3553,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -3643,7 +3591,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -3681,7 +3629,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -3719,7 +3667,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -3745,7 +3693,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
     }
-
+    
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
@@ -3755,7 +3703,7 @@ namespace SKDDriver.EFDataAccess
     public partial class Employee : EntityObject
     {
         #region Factory Method
-
+    
         /// <summary>
         /// Create a new Employee object.
         /// </summary>
@@ -3790,7 +3738,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
         #region Primitive Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -3817,7 +3765,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Guid _UID;
         partial void OnUIDChanging(global::System.Guid value);
         partial void OnUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -3841,7 +3789,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.String _FirstName;
         partial void OnFirstNameChanging(global::System.String value);
         partial void OnFirstNameChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -3865,7 +3813,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.String _SecondName;
         partial void OnSecondNameChanging(global::System.String value);
         partial void OnSecondNameChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -3889,7 +3837,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.String _LastName;
         partial void OnLastNameChanging(global::System.String value);
         partial void OnLastNameChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -3913,7 +3861,7 @@ namespace SKDDriver.EFDataAccess
         private Nullable<global::System.Guid> _PhotoUID;
         partial void OnPhotoUIDChanging(Nullable<global::System.Guid> value);
         partial void OnPhotoUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -3937,7 +3885,7 @@ namespace SKDDriver.EFDataAccess
         private Nullable<global::System.Guid> _PositionUID;
         partial void OnPositionUIDChanging(Nullable<global::System.Guid> value);
         partial void OnPositionUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -3961,7 +3909,7 @@ namespace SKDDriver.EFDataAccess
         private Nullable<global::System.Guid> _DepartmentUID;
         partial void OnDepartmentUIDChanging(Nullable<global::System.Guid> value);
         partial void OnDepartmentUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -3985,7 +3933,7 @@ namespace SKDDriver.EFDataAccess
         private Nullable<global::System.Guid> _ScheduleUID;
         partial void OnScheduleUIDChanging(Nullable<global::System.Guid> value);
         partial void OnScheduleUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -4009,7 +3957,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.DateTime _ScheduleStartDate;
         partial void OnScheduleStartDateChanging(global::System.DateTime value);
         partial void OnScheduleStartDateChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -4033,7 +3981,7 @@ namespace SKDDriver.EFDataAccess
         private Nullable<global::System.Int32> _Type;
         partial void OnTypeChanging(Nullable<global::System.Int32> value);
         partial void OnTypeChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -4057,7 +4005,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.String _TabelNo;
         partial void OnTabelNoChanging(global::System.String value);
         partial void OnTabelNoChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -4081,7 +4029,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.DateTime _CredentialsStartDate;
         partial void OnCredentialsStartDateChanging(global::System.DateTime value);
         partial void OnCredentialsStartDateChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -4105,7 +4053,7 @@ namespace SKDDriver.EFDataAccess
         private Nullable<global::System.Guid> _EscortUID;
         partial void OnEscortUIDChanging(Nullable<global::System.Guid> value);
         partial void OnEscortUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -4129,7 +4077,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Boolean _IsDeleted;
         partial void OnIsDeletedChanging(global::System.Boolean value);
         partial void OnIsDeletedChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -4153,7 +4101,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.DateTime _RemovalDate;
         partial void OnRemovalDateChanging(global::System.DateTime value);
         partial void OnRemovalDateChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -4177,7 +4125,7 @@ namespace SKDDriver.EFDataAccess
         private Nullable<global::System.Guid> _OrganisationUID;
         partial void OnOrganisationUIDChanging(Nullable<global::System.Guid> value);
         partial void OnOrganisationUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -4201,7 +4149,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.String _DocumentNumber;
         partial void OnDocumentNumberChanging(global::System.String value);
         partial void OnDocumentNumberChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -4225,7 +4173,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.DateTime _BirthDate;
         partial void OnBirthDateChanging(global::System.DateTime value);
         partial void OnBirthDateChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -4249,7 +4197,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.String _BirthPlace;
         partial void OnBirthPlaceChanging(global::System.String value);
         partial void OnBirthPlaceChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -4273,7 +4221,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.DateTime _DocumentGivenDate;
         partial void OnDocumentGivenDateChanging(global::System.DateTime value);
         partial void OnDocumentGivenDateChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -4297,7 +4245,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.String _DocumentGivenBy;
         partial void OnDocumentGivenByChanging(global::System.String value);
         partial void OnDocumentGivenByChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -4321,7 +4269,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.DateTime _DocumentValidTo;
         partial void OnDocumentValidToChanging(global::System.DateTime value);
         partial void OnDocumentValidToChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -4345,7 +4293,7 @@ namespace SKDDriver.EFDataAccess
         private Nullable<global::System.Int32> _Gender;
         partial void OnGenderChanging(Nullable<global::System.Int32> value);
         partial void OnGenderChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -4369,7 +4317,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.String _DocumentDepartmentCode;
         partial void OnDocumentDepartmentCodeChanging(global::System.String value);
         partial void OnDocumentDepartmentCodeChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -4393,7 +4341,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.String _Citizenship;
         partial void OnCitizenshipChanging(global::System.String value);
         partial void OnCitizenshipChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -4417,7 +4365,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Int32 _DocumentType;
         partial void OnDocumentTypeChanging(global::System.Int32 value);
         partial void OnDocumentTypeChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -4441,7 +4389,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.String _Phone;
         partial void OnPhoneChanging(global::System.String value);
         partial void OnPhoneChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -4465,7 +4413,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.String _Description;
         partial void OnDescriptionChanging(global::System.String value);
         partial void OnDescriptionChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -4489,7 +4437,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.DateTime _LastEmployeeDayUpdate;
         partial void OnLastEmployeeDayUpdateChanging(global::System.DateTime value);
         partial void OnLastEmployeeDayUpdateChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -4516,9 +4464,9 @@ namespace SKDDriver.EFDataAccess
 
         #endregion
 
-
+    
         #region Navigation Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -4540,7 +4488,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -4562,7 +4510,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -4584,7 +4532,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -4606,7 +4554,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -4628,7 +4576,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -4666,7 +4614,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -4688,7 +4636,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -4726,7 +4674,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -4764,7 +4712,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -4802,7 +4750,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -4840,7 +4788,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -4878,7 +4826,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -4900,7 +4848,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -4922,7 +4870,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -4948,7 +4896,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
     }
-
+    
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
@@ -4958,7 +4906,7 @@ namespace SKDDriver.EFDataAccess
     public partial class GKCard : EntityObject
     {
         #region Factory Method
-
+    
         /// <summary>
         /// Create a new GKCard object.
         /// </summary>
@@ -4985,7 +4933,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
         #region Primitive Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -5012,7 +4960,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Guid _UID;
         partial void OnUIDChanging(global::System.Guid value);
         partial void OnUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -5036,7 +4984,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.String _IPAddress;
         partial void OnIPAddressChanging(global::System.String value);
         partial void OnIPAddressChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -5060,7 +5008,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Int32 _GKNo;
         partial void OnGKNoChanging(global::System.Int32 value);
         partial void OnGKNoChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -5084,7 +5032,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Int32 _CardNo;
         partial void OnCardNoChanging(global::System.Int32 value);
         partial void OnCardNoChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -5108,7 +5056,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.String _FIO;
         partial void OnFIOChanging(global::System.String value);
         partial void OnFIOChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -5132,7 +5080,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Boolean _IsActive;
         partial void OnIsActiveChanging(global::System.Boolean value);
         partial void OnIsActiveChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -5159,9 +5107,9 @@ namespace SKDDriver.EFDataAccess
 
         #endregion
 
-
+    
     }
-
+    
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
@@ -5171,7 +5119,7 @@ namespace SKDDriver.EFDataAccess
     public partial class GKDaySchedule : EntityObject
     {
         #region Factory Method
-
+    
         /// <summary>
         /// Create a new GKDaySchedule object.
         /// </summary>
@@ -5188,7 +5136,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
         #region Primitive Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -5215,7 +5163,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Guid _UID;
         partial void OnUIDChanging(global::System.Guid value);
         partial void OnUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -5239,7 +5187,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Int32 _No;
         partial void OnNoChanging(global::System.Int32 value);
         partial void OnNoChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -5263,7 +5211,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.String _Name;
         partial void OnNameChanging(global::System.String value);
         partial void OnNameChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -5290,9 +5238,9 @@ namespace SKDDriver.EFDataAccess
 
         #endregion
 
-
+    
         #region Navigation Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -5314,7 +5262,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -5340,7 +5288,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
     }
-
+    
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
@@ -5350,7 +5298,7 @@ namespace SKDDriver.EFDataAccess
     public partial class GKDaySchedulePart : EntityObject
     {
         #region Factory Method
-
+    
         /// <summary>
         /// Create a new GKDaySchedulePart object.
         /// </summary>
@@ -5373,7 +5321,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
         #region Primitive Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -5400,7 +5348,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Guid _UID;
         partial void OnUIDChanging(global::System.Guid value);
         partial void OnUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -5424,7 +5372,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Int32 _No;
         partial void OnNoChanging(global::System.Int32 value);
         partial void OnNoChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -5448,7 +5396,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.String _Name;
         partial void OnNameChanging(global::System.String value);
         partial void OnNameChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -5472,7 +5420,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.String _Description;
         partial void OnDescriptionChanging(global::System.String value);
         partial void OnDescriptionChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -5496,7 +5444,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Double _StartMilliseconds;
         partial void OnStartMillisecondsChanging(global::System.Double value);
         partial void OnStartMillisecondsChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -5520,7 +5468,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Double _EndMilliseconds;
         partial void OnEndMillisecondsChanging(global::System.Double value);
         partial void OnEndMillisecondsChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -5547,9 +5495,9 @@ namespace SKDDriver.EFDataAccess
 
         #endregion
 
-
+    
         #region Navigation Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -5591,7 +5539,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
     }
-
+    
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
@@ -5601,7 +5549,7 @@ namespace SKDDriver.EFDataAccess
     public partial class GKMetadata : EntityObject
     {
         #region Factory Method
-
+    
         /// <summary>
         /// Create a new GKMetadata object.
         /// </summary>
@@ -5622,7 +5570,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
         #region Primitive Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -5649,7 +5597,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Guid _UID;
         partial void OnUIDChanging(global::System.Guid value);
         partial void OnUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -5673,7 +5621,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.String _IPAddress;
         partial void OnIPAddressChanging(global::System.String value);
         partial void OnIPAddressChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -5697,7 +5645,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.String _SerialNo;
         partial void OnSerialNoChanging(global::System.String value);
         partial void OnSerialNoChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -5724,9 +5672,9 @@ namespace SKDDriver.EFDataAccess
 
         #endregion
 
-
+    
     }
-
+    
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
@@ -5736,7 +5684,7 @@ namespace SKDDriver.EFDataAccess
     public partial class GKSchedule : EntityObject
     {
         #region Factory Method
-
+    
         /// <summary>
         /// Create a new GKSchedule object.
         /// </summary>
@@ -5767,7 +5715,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
         #region Primitive Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -5794,7 +5742,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Guid _UID;
         partial void OnUIDChanging(global::System.Guid value);
         partial void OnUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -5818,7 +5766,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Int32 _No;
         partial void OnNoChanging(global::System.Int32 value);
         partial void OnNoChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -5842,7 +5790,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.String _Name;
         partial void OnNameChanging(global::System.String value);
         partial void OnNameChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -5866,7 +5814,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.String _Description;
         partial void OnDescriptionChanging(global::System.String value);
         partial void OnDescriptionChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -5890,7 +5838,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Int32 _Type;
         partial void OnTypeChanging(global::System.Int32 value);
         partial void OnTypeChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -5914,7 +5862,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Int32 _PeriodType;
         partial void OnPeriodTypeChanging(global::System.Int32 value);
         partial void OnPeriodTypeChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -5938,7 +5886,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.DateTime _StartDateTime;
         partial void OnStartDateTimeChanging(global::System.DateTime value);
         partial void OnStartDateTimeChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -5962,7 +5910,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Int32 _HoursPeriod;
         partial void OnHoursPeriodChanging(global::System.Int32 value);
         partial void OnHoursPeriodChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -5986,7 +5934,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Int32 _HolidayScheduleNo;
         partial void OnHolidayScheduleNoChanging(global::System.Int32 value);
         partial void OnHolidayScheduleNoChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -6010,7 +5958,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Int32 _WorkingHolidayScheduleNo;
         partial void OnWorkingHolidayScheduleNoChanging(global::System.Int32 value);
         partial void OnWorkingHolidayScheduleNoChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -6037,9 +5985,9 @@ namespace SKDDriver.EFDataAccess
 
         #endregion
 
-
+    
         #region Navigation Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -6061,7 +6009,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -6087,7 +6035,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
     }
-
+    
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
@@ -6097,7 +6045,7 @@ namespace SKDDriver.EFDataAccess
     public partial class GKScheduleDay : EntityObject
     {
         #region Factory Method
-
+    
         /// <summary>
         /// Create a new GKScheduleDay object.
         /// </summary>
@@ -6116,7 +6064,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
         #region Primitive Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -6143,7 +6091,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Guid _UID;
         partial void OnUIDChanging(global::System.Guid value);
         partial void OnUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -6167,7 +6115,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Guid _ScheduleUID;
         partial void OnScheduleUIDChanging(global::System.Guid value);
         partial void OnScheduleUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -6194,9 +6142,9 @@ namespace SKDDriver.EFDataAccess
 
         #endregion
 
-
+    
         #region Navigation Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -6238,7 +6186,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
     }
-
+    
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
@@ -6248,7 +6196,7 @@ namespace SKDDriver.EFDataAccess
     public partial class Holiday : EntityObject
     {
         #region Factory Method
-
+    
         /// <summary>
         /// Create a new Holiday object.
         /// </summary>
@@ -6275,7 +6223,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
         #region Primitive Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -6302,7 +6250,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Guid _UID;
         partial void OnUIDChanging(global::System.Guid value);
         partial void OnUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -6326,7 +6274,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.String _Name;
         partial void OnNameChanging(global::System.String value);
         partial void OnNameChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -6350,7 +6298,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Int32 _Type;
         partial void OnTypeChanging(global::System.Int32 value);
         partial void OnTypeChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -6374,7 +6322,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.DateTime _Date;
         partial void OnDateChanging(global::System.DateTime value);
         partial void OnDateChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -6398,7 +6346,7 @@ namespace SKDDriver.EFDataAccess
         private Nullable<global::System.DateTime> _TransferDate;
         partial void OnTransferDateChanging(Nullable<global::System.DateTime> value);
         partial void OnTransferDateChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -6422,7 +6370,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Int32 _Reduction;
         partial void OnReductionChanging(global::System.Int32 value);
         partial void OnReductionChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -6446,7 +6394,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Boolean _IsDeleted;
         partial void OnIsDeletedChanging(global::System.Boolean value);
         partial void OnIsDeletedChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -6470,7 +6418,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.DateTime _RemovalDate;
         partial void OnRemovalDateChanging(global::System.DateTime value);
         partial void OnRemovalDateChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -6497,9 +6445,9 @@ namespace SKDDriver.EFDataAccess
 
         #endregion
 
-
+    
         #region Navigation Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -6541,7 +6489,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
     }
-
+    
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
@@ -6551,7 +6499,7 @@ namespace SKDDriver.EFDataAccess
     public partial class JournalMetadata : EntityObject
     {
         #region Factory Method
-
+    
         /// <summary>
         /// Create a new JournalMetadata object.
         /// </summary>
@@ -6572,7 +6520,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
         #region Primitive Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -6599,7 +6547,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Guid _UID;
         partial void OnUIDChanging(global::System.Guid value);
         partial void OnUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -6623,7 +6571,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Int32 _No;
         partial void OnNoChanging(global::System.Int32 value);
         partial void OnNoChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -6647,7 +6595,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.DateTime _StartDateTime;
         partial void OnStartDateTimeChanging(global::System.DateTime value);
         partial void OnStartDateTimeChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -6674,9 +6622,9 @@ namespace SKDDriver.EFDataAccess
 
         #endregion
 
-
+    
     }
-
+    
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
@@ -6686,7 +6634,7 @@ namespace SKDDriver.EFDataAccess
     public partial class NightSetting : EntityObject
     {
         #region Factory Method
-
+    
         /// <summary>
         /// Create a new NightSetting object.
         /// </summary>
@@ -6705,7 +6653,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
         #region Primitive Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -6732,7 +6680,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Guid _UID;
         partial void OnUIDChanging(global::System.Guid value);
         partial void OnUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -6756,7 +6704,7 @@ namespace SKDDriver.EFDataAccess
         private Nullable<global::System.Guid> _OrganisationUID;
         partial void OnOrganisationUIDChanging(Nullable<global::System.Guid> value);
         partial void OnOrganisationUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -6780,7 +6728,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Int64 _NightStartTime;
         partial void OnNightStartTimeChanging(global::System.Int64 value);
         partial void OnNightStartTimeChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -6807,9 +6755,9 @@ namespace SKDDriver.EFDataAccess
 
         #endregion
 
-
+    
         #region Navigation Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -6851,7 +6799,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
     }
-
+    
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
@@ -6861,7 +6809,7 @@ namespace SKDDriver.EFDataAccess
     public partial class Organisation : EntityObject
     {
         #region Factory Method
-
+    
         /// <summary>
         /// Create a new Organisation object.
         /// </summary>
@@ -6886,7 +6834,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
         #region Primitive Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -6913,7 +6861,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Guid _UID;
         partial void OnUIDChanging(global::System.Guid value);
         partial void OnUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -6937,7 +6885,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.String _Name;
         partial void OnNameChanging(global::System.String value);
         partial void OnNameChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -6961,7 +6909,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.String _Description;
         partial void OnDescriptionChanging(global::System.String value);
         partial void OnDescriptionChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -6985,7 +6933,7 @@ namespace SKDDriver.EFDataAccess
         private Nullable<global::System.Guid> _PhotoUID;
         partial void OnPhotoUIDChanging(Nullable<global::System.Guid> value);
         partial void OnPhotoUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -7009,7 +6957,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Boolean _IsDeleted;
         partial void OnIsDeletedChanging(global::System.Boolean value);
         partial void OnIsDeletedChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -7033,7 +6981,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.DateTime _RemovalDate;
         partial void OnRemovalDateChanging(global::System.DateTime value);
         partial void OnRemovalDateChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -7057,7 +7005,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Guid _ChiefUID;
         partial void OnChiefUIDChanging(global::System.Guid value);
         partial void OnChiefUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -7081,7 +7029,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Guid _HRChiefUID;
         partial void OnHRChiefUIDChanging(global::System.Guid value);
         partial void OnHRChiefUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -7105,7 +7053,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.String _Phone;
         partial void OnPhoneChanging(global::System.String value);
         partial void OnPhoneChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -7132,9 +7080,9 @@ namespace SKDDriver.EFDataAccess
 
         #endregion
 
-
+    
         #region Navigation Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -7156,7 +7104,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -7178,7 +7126,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -7200,7 +7148,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -7222,7 +7170,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -7244,7 +7192,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -7282,7 +7230,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -7320,7 +7268,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -7342,7 +7290,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -7364,7 +7312,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -7402,7 +7350,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -7424,7 +7372,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -7446,7 +7394,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -7468,7 +7416,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -7490,7 +7438,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -7512,7 +7460,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -7534,7 +7482,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -7560,7 +7508,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
     }
-
+    
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
@@ -7570,7 +7518,7 @@ namespace SKDDriver.EFDataAccess
     public partial class OrganisationDoor : EntityObject
     {
         #region Factory Method
-
+    
         /// <summary>
         /// Create a new OrganisationDoor object.
         /// </summary>
@@ -7589,7 +7537,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
         #region Primitive Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -7616,7 +7564,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Guid _UID;
         partial void OnUIDChanging(global::System.Guid value);
         partial void OnUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -7640,7 +7588,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Guid _DoorUID;
         partial void OnDoorUIDChanging(global::System.Guid value);
         partial void OnDoorUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -7667,9 +7615,9 @@ namespace SKDDriver.EFDataAccess
 
         #endregion
 
-
+    
         #region Navigation Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -7711,7 +7659,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
     }
-
+    
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
@@ -7721,7 +7669,7 @@ namespace SKDDriver.EFDataAccess
     public partial class OrganisationUser : EntityObject
     {
         #region Factory Method
-
+    
         /// <summary>
         /// Create a new OrganisationUser object.
         /// </summary>
@@ -7740,7 +7688,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
         #region Primitive Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -7767,7 +7715,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Guid _UID;
         partial void OnUIDChanging(global::System.Guid value);
         partial void OnUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -7791,7 +7739,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Guid _UserUID;
         partial void OnUserUIDChanging(global::System.Guid value);
         partial void OnUserUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -7818,9 +7766,9 @@ namespace SKDDriver.EFDataAccess
 
         #endregion
 
-
+    
         #region Navigation Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -7862,7 +7810,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
     }
-
+    
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
@@ -7872,7 +7820,7 @@ namespace SKDDriver.EFDataAccess
     public partial class PassCardTemplate : EntityObject
     {
         #region Factory Method
-
+    
         /// <summary>
         /// Create a new PassCardTemplate object.
         /// </summary>
@@ -7891,7 +7839,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
         #region Primitive Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -7918,7 +7866,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Guid _UID;
         partial void OnUIDChanging(global::System.Guid value);
         partial void OnUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -7942,7 +7890,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.String _Name;
         partial void OnNameChanging(global::System.String value);
         partial void OnNameChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -7966,7 +7914,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.String _Description;
         partial void OnDescriptionChanging(global::System.String value);
         partial void OnDescriptionChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -7990,7 +7938,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Boolean _IsDeleted;
         partial void OnIsDeletedChanging(global::System.Boolean value);
         partial void OnIsDeletedChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -8014,7 +7962,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.DateTime _RemovalDate;
         partial void OnRemovalDateChanging(global::System.DateTime value);
         partial void OnRemovalDateChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -8038,7 +7986,7 @@ namespace SKDDriver.EFDataAccess
         private Nullable<global::System.Guid> _OrganisationUID;
         partial void OnOrganisationUIDChanging(Nullable<global::System.Guid> value);
         partial void OnOrganisationUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -8065,9 +8013,9 @@ namespace SKDDriver.EFDataAccess
 
         #endregion
 
-
+    
         #region Navigation Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -8109,7 +8057,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
     }
-
+    
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
@@ -8119,7 +8067,7 @@ namespace SKDDriver.EFDataAccess
     public partial class PassJournalMetadata : EntityObject
     {
         #region Factory Method
-
+    
         /// <summary>
         /// Create a new PassJournalMetadata object.
         /// </summary>
@@ -8140,7 +8088,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
         #region Primitive Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -8167,7 +8115,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Guid _UID;
         partial void OnUIDChanging(global::System.Guid value);
         partial void OnUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -8191,7 +8139,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Int32 _No;
         partial void OnNoChanging(global::System.Int32 value);
         partial void OnNoChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -8215,7 +8163,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.DateTime _StartDateTime;
         partial void OnStartDateTimeChanging(global::System.DateTime value);
         partial void OnStartDateTimeChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -8242,9 +8190,9 @@ namespace SKDDriver.EFDataAccess
 
         #endregion
 
-
+    
     }
-
+    
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
@@ -8254,7 +8202,7 @@ namespace SKDDriver.EFDataAccess
     public partial class Patch : EntityObject
     {
         #region Factory Method
-
+    
         /// <summary>
         /// Create a new Patch object.
         /// </summary>
@@ -8269,7 +8217,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
         #region Primitive Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -8299,9 +8247,9 @@ namespace SKDDriver.EFDataAccess
 
         #endregion
 
-
+    
     }
-
+    
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
@@ -8311,7 +8259,7 @@ namespace SKDDriver.EFDataAccess
     public partial class PendingCard : EntityObject
     {
         #region Factory Method
-
+    
         /// <summary>
         /// Create a new PendingCard object.
         /// </summary>
@@ -8332,7 +8280,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
         #region Primitive Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -8359,7 +8307,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Guid _UID;
         partial void OnUIDChanging(global::System.Guid value);
         partial void OnUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -8383,7 +8331,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Guid _CardUID;
         partial void OnCardUIDChanging(global::System.Guid value);
         partial void OnCardUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -8407,7 +8355,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Guid _ControllerUID;
         partial void OnControllerUIDChanging(global::System.Guid value);
         partial void OnControllerUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -8434,9 +8382,9 @@ namespace SKDDriver.EFDataAccess
 
         #endregion
 
-
+    
         #region Navigation Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -8478,7 +8426,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
     }
-
+    
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
@@ -8488,7 +8436,7 @@ namespace SKDDriver.EFDataAccess
     public partial class Photo : EntityObject
     {
         #region Factory Method
-
+    
         /// <summary>
         /// Create a new Photo object.
         /// </summary>
@@ -8503,7 +8451,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
         #region Primitive Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -8530,7 +8478,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Guid _UID;
         partial void OnUIDChanging(global::System.Guid value);
         partial void OnUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -8557,9 +8505,9 @@ namespace SKDDriver.EFDataAccess
 
         #endregion
 
-
+    
         #region Navigation Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -8581,7 +8529,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -8603,7 +8551,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -8625,7 +8573,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -8647,7 +8595,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -8673,7 +8621,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
     }
-
+    
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
@@ -8683,7 +8631,7 @@ namespace SKDDriver.EFDataAccess
     public partial class Position : EntityObject
     {
         #region Factory Method
-
+    
         /// <summary>
         /// Create a new Position object.
         /// </summary>
@@ -8704,7 +8652,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
         #region Primitive Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -8731,7 +8679,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Guid _UID;
         partial void OnUIDChanging(global::System.Guid value);
         partial void OnUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -8755,7 +8703,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.String _Name;
         partial void OnNameChanging(global::System.String value);
         partial void OnNameChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -8779,7 +8727,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.String _Description;
         partial void OnDescriptionChanging(global::System.String value);
         partial void OnDescriptionChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -8803,7 +8751,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Boolean _IsDeleted;
         partial void OnIsDeletedChanging(global::System.Boolean value);
         partial void OnIsDeletedChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -8827,7 +8775,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.DateTime _RemovalDate;
         partial void OnRemovalDateChanging(global::System.DateTime value);
         partial void OnRemovalDateChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -8851,7 +8799,7 @@ namespace SKDDriver.EFDataAccess
         private Nullable<global::System.Guid> _OrganisationUID;
         partial void OnOrganisationUIDChanging(Nullable<global::System.Guid> value);
         partial void OnOrganisationUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -8875,7 +8823,7 @@ namespace SKDDriver.EFDataAccess
         private Nullable<global::System.Guid> _PhotoUID;
         partial void OnPhotoUIDChanging(Nullable<global::System.Guid> value);
         partial void OnPhotoUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -8902,9 +8850,9 @@ namespace SKDDriver.EFDataAccess
 
         #endregion
 
-
+    
         #region Navigation Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -8926,7 +8874,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -8964,7 +8912,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -9006,7 +8954,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
     }
-
+    
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
@@ -9016,7 +8964,7 @@ namespace SKDDriver.EFDataAccess
     public partial class Schedule : EntityObject
     {
         #region Factory Method
-
+    
         /// <summary>
         /// Create a new Schedule object.
         /// </summary>
@@ -9045,7 +8993,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
         #region Primitive Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -9072,7 +9020,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Guid _UID;
         partial void OnUIDChanging(global::System.Guid value);
         partial void OnUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -9096,7 +9044,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.String _Name;
         partial void OnNameChanging(global::System.String value);
         partial void OnNameChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -9120,7 +9068,7 @@ namespace SKDDriver.EFDataAccess
         private Nullable<global::System.Guid> _ScheduleSchemeUID;
         partial void OnScheduleSchemeUIDChanging(Nullable<global::System.Guid> value);
         partial void OnScheduleSchemeUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -9144,7 +9092,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Boolean _IsIgnoreHoliday;
         partial void OnIsIgnoreHolidayChanging(global::System.Boolean value);
         partial void OnIsIgnoreHolidayChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -9168,7 +9116,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Boolean _IsOnlyFirstEnter;
         partial void OnIsOnlyFirstEnterChanging(global::System.Boolean value);
         partial void OnIsOnlyFirstEnterChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -9192,7 +9140,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Int32 _AllowedLate;
         partial void OnAllowedLateChanging(global::System.Int32 value);
         partial void OnAllowedLateChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -9216,7 +9164,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Int32 _AllowedEarlyLeave;
         partial void OnAllowedEarlyLeaveChanging(global::System.Int32 value);
         partial void OnAllowedEarlyLeaveChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -9240,7 +9188,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Boolean _IsDeleted;
         partial void OnIsDeletedChanging(global::System.Boolean value);
         partial void OnIsDeletedChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -9264,7 +9212,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.DateTime _RemovalDate;
         partial void OnRemovalDateChanging(global::System.DateTime value);
         partial void OnRemovalDateChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -9291,9 +9239,9 @@ namespace SKDDriver.EFDataAccess
 
         #endregion
 
-
+    
         #region Navigation Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -9315,7 +9263,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -9353,7 +9301,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -9391,7 +9339,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -9417,7 +9365,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
     }
-
+    
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
@@ -9427,7 +9375,7 @@ namespace SKDDriver.EFDataAccess
     public partial class ScheduleDay : EntityObject
     {
         #region Factory Method
-
+    
         /// <summary>
         /// Create a new ScheduleDay object.
         /// </summary>
@@ -9446,7 +9394,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
         #region Primitive Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -9473,7 +9421,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Guid _UID;
         partial void OnUIDChanging(global::System.Guid value);
         partial void OnUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -9497,7 +9445,7 @@ namespace SKDDriver.EFDataAccess
         private Nullable<global::System.Guid> _DayIntervalUID;
         partial void OnDayIntervalUIDChanging(Nullable<global::System.Guid> value);
         partial void OnDayIntervalUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -9521,7 +9469,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Guid _ScheduleSchemeUID;
         partial void OnScheduleSchemeUIDChanging(global::System.Guid value);
         partial void OnScheduleSchemeUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -9548,9 +9496,9 @@ namespace SKDDriver.EFDataAccess
 
         #endregion
 
-
+    
         #region Navigation Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -9588,7 +9536,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -9630,7 +9578,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
     }
-
+    
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
@@ -9640,7 +9588,7 @@ namespace SKDDriver.EFDataAccess
     public partial class ScheduleGKDaySchedule : EntityObject
     {
         #region Factory Method
-
+    
         /// <summary>
         /// Create a new ScheduleGKDaySchedule object.
         /// </summary>
@@ -9659,7 +9607,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
         #region Primitive Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -9686,7 +9634,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Guid _UID;
         partial void OnUIDChanging(global::System.Guid value);
         partial void OnUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -9710,7 +9658,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Guid _ScheduleUID;
         partial void OnScheduleUIDChanging(global::System.Guid value);
         partial void OnScheduleUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -9737,9 +9685,9 @@ namespace SKDDriver.EFDataAccess
 
         #endregion
 
-
+    
         #region Navigation Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -9777,7 +9725,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -9819,7 +9767,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
     }
-
+    
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
@@ -9829,7 +9777,7 @@ namespace SKDDriver.EFDataAccess
     public partial class ScheduleScheme : EntityObject
     {
         #region Factory Method
-
+    
         /// <summary>
         /// Create a new ScheduleScheme object.
         /// </summary>
@@ -9854,7 +9802,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
         #region Primitive Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -9881,7 +9829,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Guid _UID;
         partial void OnUIDChanging(global::System.Guid value);
         partial void OnUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -9905,7 +9853,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.String _Name;
         partial void OnNameChanging(global::System.String value);
         partial void OnNameChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -9929,7 +9877,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Int32 _Type;
         partial void OnTypeChanging(global::System.Int32 value);
         partial void OnTypeChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -9953,7 +9901,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.String _Description;
         partial void OnDescriptionChanging(global::System.String value);
         partial void OnDescriptionChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -9977,7 +9925,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Int32 _DaysCount;
         partial void OnDaysCountChanging(global::System.Int32 value);
         partial void OnDaysCountChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -10001,7 +9949,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Boolean _IsDeleted;
         partial void OnIsDeletedChanging(global::System.Boolean value);
         partial void OnIsDeletedChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -10025,7 +9973,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.DateTime _RemovalDate;
         partial void OnRemovalDateChanging(global::System.DateTime value);
         partial void OnRemovalDateChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -10052,9 +10000,9 @@ namespace SKDDriver.EFDataAccess
 
         #endregion
 
-
+    
         #region Navigation Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -10092,7 +10040,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -10114,7 +10062,7 @@ namespace SKDDriver.EFDataAccess
                 }
             }
         }
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -10140,7 +10088,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
     }
-
+    
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
@@ -10150,7 +10098,7 @@ namespace SKDDriver.EFDataAccess
     public partial class ScheduleZone : EntityObject
     {
         #region Factory Method
-
+    
         /// <summary>
         /// Create a new ScheduleZone object.
         /// </summary>
@@ -10171,7 +10119,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
         #region Primitive Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -10198,7 +10146,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Guid _UID;
         partial void OnUIDChanging(global::System.Guid value);
         partial void OnUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -10222,7 +10170,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Guid _ZoneUID;
         partial void OnZoneUIDChanging(global::System.Guid value);
         partial void OnZoneUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -10246,7 +10194,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Guid _DoorUID;
         partial void OnDoorUIDChanging(global::System.Guid value);
         partial void OnDoorUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -10273,9 +10221,9 @@ namespace SKDDriver.EFDataAccess
 
         #endregion
 
-
+    
         #region Navigation Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -10317,7 +10265,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
     }
-
+    
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
@@ -10327,7 +10275,7 @@ namespace SKDDriver.EFDataAccess
     public partial class TimeTrackDocument : EntityObject
     {
         #region Factory Method
-
+    
         /// <summary>
         /// Create a new TimeTrackDocument object.
         /// </summary>
@@ -10354,7 +10302,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
         #region Primitive Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -10381,7 +10329,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Guid _UID;
         partial void OnUIDChanging(global::System.Guid value);
         partial void OnUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -10405,7 +10353,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Guid _EmployeeUID;
         partial void OnEmployeeUIDChanging(global::System.Guid value);
         partial void OnEmployeeUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -10429,7 +10377,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.DateTime _StartDateTime;
         partial void OnStartDateTimeChanging(global::System.DateTime value);
         partial void OnStartDateTimeChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -10453,7 +10401,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.DateTime _EndDateTime;
         partial void OnEndDateTimeChanging(global::System.DateTime value);
         partial void OnEndDateTimeChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -10477,7 +10425,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Int32 _DocumentCode;
         partial void OnDocumentCodeChanging(global::System.Int32 value);
         partial void OnDocumentCodeChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -10501,7 +10449,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.String _Comment;
         partial void OnCommentChanging(global::System.String value);
         partial void OnCommentChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -10525,7 +10473,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.String _FileName;
         partial void OnFileNameChanging(global::System.String value);
         partial void OnFileNameChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -10549,7 +10497,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.DateTime _DocumentDateTime;
         partial void OnDocumentDateTimeChanging(global::System.DateTime value);
         partial void OnDocumentDateTimeChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -10576,9 +10524,9 @@ namespace SKDDriver.EFDataAccess
 
         #endregion
 
-
+    
     }
-
+    
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
@@ -10588,7 +10536,7 @@ namespace SKDDriver.EFDataAccess
     public partial class TimeTrackDocumentType : EntityObject
     {
         #region Factory Method
-
+    
         /// <summary>
         /// Create a new TimeTrackDocumentType object.
         /// </summary>
@@ -10613,7 +10561,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
         #region Primitive Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -10640,7 +10588,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Guid _UID;
         partial void OnUIDChanging(global::System.Guid value);
         partial void OnUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -10664,7 +10612,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.String _Name;
         partial void OnNameChanging(global::System.String value);
         partial void OnNameChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -10688,7 +10636,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.String _ShortName;
         partial void OnShortNameChanging(global::System.String value);
         partial void OnShortNameChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -10712,7 +10660,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Int32 _DocumentCode;
         partial void OnDocumentCodeChanging(global::System.Int32 value);
         partial void OnDocumentCodeChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -10736,7 +10684,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Int32 _DocumentType;
         partial void OnDocumentTypeChanging(global::System.Int32 value);
         partial void OnDocumentTypeChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -10763,9 +10711,9 @@ namespace SKDDriver.EFDataAccess
 
         #endregion
 
-
+    
         #region Navigation Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -10807,7 +10755,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
     }
-
+    
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
@@ -10817,7 +10765,7 @@ namespace SKDDriver.EFDataAccess
     public partial class TimeTrackException : EntityObject
     {
         #region Factory Method
-
+    
         /// <summary>
         /// Create a new TimeTrackException object.
         /// </summary>
@@ -10840,7 +10788,7 @@ namespace SKDDriver.EFDataAccess
         #endregion
 
         #region Primitive Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -10867,7 +10815,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Guid _UID;
         partial void OnUIDChanging(global::System.Guid value);
         partial void OnUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -10891,7 +10839,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Guid _EmployeeUID;
         partial void OnEmployeeUIDChanging(global::System.Guid value);
         partial void OnEmployeeUIDChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -10915,7 +10863,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.DateTime _StartDateTime;
         partial void OnStartDateTimeChanging(global::System.DateTime value);
         partial void OnStartDateTimeChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -10939,7 +10887,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.DateTime _EndDateTime;
         partial void OnEndDateTimeChanging(global::System.DateTime value);
         partial void OnEndDateTimeChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -10963,7 +10911,7 @@ namespace SKDDriver.EFDataAccess
         private global::System.Int32 _DocumentType;
         partial void OnDocumentTypeChanging(global::System.Int32 value);
         partial void OnDocumentTypeChanged();
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -10990,9 +10938,9 @@ namespace SKDDriver.EFDataAccess
 
         #endregion
 
-
+    
         #region Navigation Properties
-
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -11037,5 +10985,5 @@ namespace SKDDriver.EFDataAccess
 
     #endregion
 
-
+    
 }
