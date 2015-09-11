@@ -1,4 +1,6 @@
 ﻿
+using System;
+
 namespace Infrastructure.Common.Windows.ViewModels
 {
 	public class ProgressViewModel : WindowBaseViewModel
@@ -103,6 +105,8 @@ namespace Infrastructure.Common.Windows.ViewModels
 		protected virtual void OnCancel()
 		{
 			IsCanceled = true;
+			if (ApplicationService.IsApplicationThread())
+				ApplicationService.DoEvents();
 			Close();
 		}
 	}
