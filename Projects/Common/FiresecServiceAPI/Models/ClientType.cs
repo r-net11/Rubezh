@@ -15,8 +15,8 @@ namespace FiresecAPI.Models
 		[Description("OPC Сервер")]
 		OPC,
 
-		[Description("Ассад")]
-		Assad,
+		[Description("Веб-сервер")]
+		WebService,
 
 		[Description("Другой")]
 		Other

@@ -34,20 +34,15 @@
 
 				<Button Grid.Row="4" Grid.ColumnSpan="2" Click="ButtonBase_OnClick" Content="Предпросмотр" Width="150" Margin="2" IsEnabled="{Binding CanPlay}" />
 
-				
 				<Border Grid.Row="5" Grid.ColumnSpan="2">
 					<Border.Background>
 						<VisualBrush Stretch="Uniform">
 							<VisualBrush.Visual>
 								<mediaSourcePlayer:MediaPlayer
 			                        x:Name="MediaSourcePlayer"
-			                        Grid.Row="1"
-			                        Grid.RowSpan="5"
-			                        Grid.Column="2"
-			                        Width="250"
+			                        Width="350"
 			                        Height="250"
-			                        Margin="5"
-								    VerticalAlignment="Top">
+									OriginalAspectRatio="True">
 								</mediaSourcePlayer:MediaPlayer>
 							</VisualBrush.Visual>
 						</VisualBrush >

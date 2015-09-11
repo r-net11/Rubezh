@@ -63,15 +63,15 @@
 					<ToolBarButton Command="{Binding RefreshCommand}" ImageSource="Refresh"  ToolTip="Обновить" />
 					<ToolBarButton Command="{Binding PrintCommand}" ImageSource="Print"  ToolTip="Печать" />
 					<StackPanel DataContext="{Binding SelectedTimeTrack.DocumentsViewModel}" Orientation="Horizontal">
-						<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить документ" ImageSource="Add"  />
-						<ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить документ" ImageSource="Delete" />
-						<ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать документ" ImageSource="Edit" />
-						<ToolBarButton Command="{Binding AddFileCommand}" ToolTip="Загрузить файл" ImageSource="Add" />
-						<ToolBarButton Command="{Binding OpenFileCommand}" ToolTip="Открыть файл" ImageSource="Edit" />
-						<ToolBarButton Command="{Binding RemoveFileCommand}" ToolTip="Удалить файл" ImageSource="Delete" />
+						<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить документ" ImageSource="AddDocument"  />
+						<ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить документ" ImageSource="DeleteDocument" />
+						<ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать документ" ImageSource="EditDocument" />
+						<ToolBarButton Command="{Binding AddFileCommand}" ToolTip="Загрузить файл" ImageSource="AddFile" />
+						<ToolBarButton Command="{Binding OpenFileCommand}" ToolTip="Открыть файл" ImageSource="EditFile" />
+						<ToolBarButton Command="{Binding RemoveFileCommand}" ToolTip="Удалить файл" ImageSource="DeleteFile" />
 					</StackPanel>
-					<ToolBarButton Command="{Binding ShowDocumentTypesCommand}" ToolTip="Типы документов" ImageSource="Paste" />
-					<ToolBarButton Command="{Binding ShowNightSettingsCommand}" ToolTip="Настройка ночных интервалов" ImageSource="Settings2" />
+					<ToolBarButton Command="{Binding ShowDocumentTypesCommand}" ToolTip="Типы документов" ImageSource="DocumentSettings" />
+					<ToolBarButton Command="{Binding ShowNightSettingsCommand}" ToolTip="Настройка ночных интервалов" ImageSource="NightSettings" />
 				</StackPanel>
 			</Grid>
 			

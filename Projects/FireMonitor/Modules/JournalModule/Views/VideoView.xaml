@@ -8,14 +8,10 @@
 			<VisualBrush Stretch="Uniform">
 				<VisualBrush.Visual>
 					<mediaSourcePlayer:MediaPlayer
-			                        x:Name="MediaSourcePlayer"
-			                        Grid.Row="1"
-			                        Grid.RowSpan="5"
-			                        Grid.Column="2"
-			                        Width="250"
-			                        Height="250"
-			                        Margin="5"
-								    VerticalAlignment="Top">
+			            x:Name="MediaSourcePlayer"
+			            Width="350"
+			            Height="250"
+						OriginalAspectRatio="True">
 					</mediaSourcePlayer:MediaPlayer>
 				</VisualBrush.Visual>
 			</VisualBrush>
