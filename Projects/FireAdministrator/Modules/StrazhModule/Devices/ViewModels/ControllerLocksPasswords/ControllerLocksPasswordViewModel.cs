@@ -29,15 +29,15 @@ namespace StrazhModule.ViewModels
 					break;
 				case SKDDriverType.ChinaController_2:
 					_isLock1Enabled = true;
-					_isLock2Enabled = true;
+					_isLock2Enabled = _locksPasswordsViewModel.Controller.DoorType == DoorType.OneWay;
 					_isLock3Enabled = false;
 					_isLock4Enabled = false;
 					break;
 				case SKDDriverType.ChinaController_4:
 					_isLock1Enabled = true;
 					_isLock2Enabled = true;
-					_isLock3Enabled = true;
-					_isLock4Enabled = true;
+					_isLock3Enabled = _locksPasswordsViewModel.Controller.DoorType == DoorType.OneWay;
+					_isLock4Enabled = _locksPasswordsViewModel.Controller.DoorType == DoorType.OneWay;
 					break;
 			}
 		}
