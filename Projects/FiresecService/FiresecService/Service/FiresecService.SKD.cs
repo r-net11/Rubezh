@@ -864,7 +864,10 @@ namespace FiresecService.Service
 			var failedDeviceUIDs = new List<Guid>();
 
 			var devicesCount = SKDManager.Devices.Count(device => device.Driver.IsController);
+			
+			// Показываем прогресс хода выполнения операции
 			var progressCallback = Processor.StartProgress("Запись графиков доступа на все контроллеры", null, devicesCount, true, SKDProgressClientType.Administrator);
+			
 			foreach (var device in SKDManager.Devices.Where(device => device.Driver.IsController))
 			{
 				AddSKDJournalMessage(JournalEventNameType.Запись_графиков_работы, device);
@@ -874,9 +877,14 @@ namespace FiresecService.Service
 					failedDeviceUIDs.Add(device.UID);
 					errors.AddRange(result.Errors);
 				}
+				
+				// Обновляем прогресс хода выполнения операции
 				Processor.DoProgress(null, progressCallback);
 			}
+			
+			// Останавливаем прогресс хода выполнения операции
 			Processor.StopProgress(progressCallback);
+			
 			return OperationResult<List<Guid>>.FromError(errors, failedDeviceUIDs);
 		}
 

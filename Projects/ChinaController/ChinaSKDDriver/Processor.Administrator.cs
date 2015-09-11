@@ -135,6 +135,8 @@ namespace ChinaSKDDriver
 					return OperationResult<bool>.FromError(String.Format("Нет связи с контроллером \"{0}\". {1}", deviceProcessor.Device.Name, deviceProcessor.LoginFailureReason));
 
 				SKDProgressCallback progressCallback = null;
+	
+				// Показываем индикатор хода выполнения операции
 				if (doProgress)
 					progressCallback = StartProgress(String.Format("Запись графиков доступа на контроллер \"{0}\"", deviceProcessor.Device.Name), null, 128, true, SKDProgressClientType.Administrator);
 
@@ -199,20 +201,26 @@ namespace ChinaSKDDriver
 
 					if (progressCallback != null && progressCallback.IsCanceled)
 						return OperationResult<bool>.FromError(String.Format("Операция записи графиков доступа на контроллер \"{0}\" отменена", deviceProcessor.Device.Name));
+					
+					// Обновляем индикатор хода выполнения операции
 					if (progressCallback != null)
 						DoProgress(null, progressCallback);
 
 					var result = deviceProcessor.Wrapper.SetTimeShedules(i, timeShedules);
 					if (!result)
 					{
+						// Останавливаем индикатор хода выполнения операции
 						if (progressCallback != null)
 							StopProgress(progressCallback);
+						
 						return OperationResult<bool>.FromError(String.Format("Ошибка при выполнении операции записи графиков доступа на контроллер \"{0}\"", deviceProcessor.Device.Name));
 					}
 				}
 
+				// Останавливаем индикатор хода выполнения операции
 				if (progressCallback != null)
 					StopProgress(progressCallback);
+
 				return new OperationResult<bool>(true);
 			}
 			return OperationResult<bool>.FromError("Не найден контроллер в конфигурации");
