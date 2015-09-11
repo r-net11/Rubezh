@@ -29,10 +29,6 @@ namespace GKProcessor
 						else
 							formulaOperation.SecondOperand = descriptor.GKBase.KAUDescriptorNo;
 					}
-					else
-					{
-						;
-					}
 					//formulaOperation.SecondOperand = commonDatabase.DatabaseType == DatabaseType.Gk ? formulaOperation.GKBaseSecondOperand.GKDescriptorNo : formulaOperation.GKBaseSecondOperand.KAUDescriptorNo;
 				}
 			}
