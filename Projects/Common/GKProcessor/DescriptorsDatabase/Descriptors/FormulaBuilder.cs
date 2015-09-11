@@ -15,13 +15,25 @@ namespace GKProcessor
 			FormulaOperations = new List<FormulaOperation>();
 		}
 
-		public void Resolve(DatabaseType dataBaseType)
+		public void Resolve(CommonDatabase commonDatabase)
 		{
 			foreach (var formulaOperation in FormulaOperations)
 			{
 				if (formulaOperation.GKBaseSecondOperand != null)
 				{
-					formulaOperation.SecondOperand = dataBaseType == DatabaseType.Gk ? formulaOperation.GKBaseSecondOperand.GKDescriptorNo : formulaOperation.GKBaseSecondOperand.KAUDescriptorNo;
+					var descriptor = commonDatabase.Descriptors.FirstOrDefault(x => x.GKBase == formulaOperation.GKBaseSecondOperand);
+					if (descriptor != null)
+					{
+						if (commonDatabase.DatabaseType == DatabaseType.Gk)
+							formulaOperation.SecondOperand = descriptor.GKBase.GKDescriptorNo;
+						else
+							formulaOperation.SecondOperand = descriptor.GKBase.KAUDescriptorNo;
+					}
+					else
+					{
+						;
+					}
+					//formulaOperation.SecondOperand = commonDatabase.DatabaseType == DatabaseType.Gk ? formulaOperation.GKBaseSecondOperand.GKDescriptorNo : formulaOperation.GKBaseSecondOperand.KAUDescriptorNo;
 				}
 			}
 			if (FormulaOperations.Count == 0 || FormulaOperations.LastOrDefault().FormulaOperationType != FormulaOperationType.END)

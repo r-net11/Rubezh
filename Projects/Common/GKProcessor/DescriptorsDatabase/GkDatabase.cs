@@ -128,7 +128,7 @@ namespace GKProcessor
 				{
 					descriptor.BuildFormula();
 				}
-				descriptor.Formula.Resolve(DatabaseType);
+				descriptor.Formula.Resolve(this);
 				descriptor.FormulaBytes = descriptor.Formula.GetBytes();
 				descriptor.GKBase.InputDescriptors = descriptor.GKBase.InputDescriptors.OrderBy(x => x.No).ToList();
 				descriptor.GKBase.OutputDescriptors = descriptor.GKBase.OutputDescriptors.OrderBy(x => x.No).ToList();
