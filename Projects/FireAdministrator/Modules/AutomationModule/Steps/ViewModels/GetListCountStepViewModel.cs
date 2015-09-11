@@ -26,7 +26,7 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				return "Список: " + ListArgument.Description + "Размер: " + CountArgument.Description;
+				return "Список: " + ListArgument.Description + " Размер: " + CountArgument.Description;
 			}
 		}
 	}

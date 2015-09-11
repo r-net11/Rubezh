@@ -65,7 +65,7 @@
         d3.event.preventDefault();
     }
 
-    function renderImageElement(item, i, svg, tip, menuItems, scope) {
+    function renderPngImageElement(item, i, svg, tip, menuItems, scope) {
         svg.append("image").attr("xlink:href", "data:image/png;base64," + item.Image)
             .attr("x", item.X)
             .attr("y", item.Y)
@@ -83,6 +83,28 @@
             .on('click', function(d) {})
             // Обработка события вызова контекстного меню
             .on('contextmenu', function(d, i) { elementOnContextMenu(item, menuItems, scope); });
+    }
+
+    function renderGifImageElement(item, i, svg, tip, menuItems, scope)
+    {
+    	svg.append("image").attr("xlink:href", "data:image/gif;base64," + item.Image)
+            .attr("x", item.X)
+            .attr("y", item.Y)
+            .attr("width", item.Width)
+            .attr("height", item.Height)
+            .attr("id", function (d) { return item.Id.replace(" ", "-") + i })
+            // Обработка события наведения мыши
+            .on('mouseover', function (d)
+            {
+            	var id = document.getElementById(item.Id.replace(" ", "-") + i);
+            	tip.show(item.Hint, id);
+            })
+            // Обработка события прекращения наведения мыши
+            .on('mouseout', function (d) { tip.hide(); })
+            // Обработка события левого клика мыши
+            .on('click', function (d) { })
+            // Обработка события вызова контекстного меню
+            .on('contextmenu', function (d, i) { elementOnContextMenu(item, menuItems, scope); });
     }
 
     function renderPathElement(item, i, svg, tip, menuItems, scope) {
@@ -124,13 +146,16 @@
         // ========== ДАЛЕЕ - ОТРИСОВКА В ЗАВИСИМОСТИ ОТ ТИПА ОБЪЕКТА ================
 
         switch (item.Type) {
-        	case "GkDevice":
         	case "Plan":
             {
-                renderImageElement(item, i, svg, tip, menuItems, scope);
+            	renderPngImageElement(item, i, svg, tip, menuItems, scope);
                 break;
             }
-
+        	case "GkDevice":
+        		{
+        			renderGifImageElement(item, i, svg, tip, menuItems, scope);
+        			break;
+        		}
             case "Path":
             {
                 renderPathElement(item, i, svg, tip, menuItems, scope);

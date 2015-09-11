@@ -412,7 +412,12 @@ namespace JournalModule.ViewModels
 		void OnShowVideo()
 		{
 			var videoViewModel = new VideoViewModel(JournalItem.VideoUID, JournalItem.CameraUID);
-			DialogService.ShowModalWindow(videoViewModel);
+			if (videoViewModel.HasVideo)
+			{
+				DialogService.ShowModalWindow(videoViewModel);
+			}
+			else
+				MessageBoxService.ShowError(videoViewModel.ErrorInformation);
 		}
 		bool CanShowVideo()
 		{

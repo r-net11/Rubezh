@@ -45,6 +45,14 @@
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Magick.NET-AnyCPU, Version=7.0.0.0, Culture=neutral, PublicKeyToken=2004825badfa91ec, processorArchitecture=MSIL">
+      <HintPath>..\packages\Magick.NET-Q16-AnyCPU.7.0.0.0018\lib\net40-client\Magick.NET-AnyCPU.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Magick.NET.Core, Version=7.0.0.0, Culture=neutral, PublicKeyToken=2004825badfa91ec, processorArchitecture=MSIL">
+      <HintPath>..\packages\Magick.NET-Q16-AnyCPU.7.0.0.0018\lib\net40-client\Magick.NET.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.2.0\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
       <Private>True</Private>
@@ -266,7 +274,7 @@
     <Content Include="Scripts\app\app.js" />
     <Content Include="Scripts\app\controllers\planCtrl.js" />
     <Content Include="Scripts\app\directives\d3Plan.js" />
-    <Content Include="Scripts\app\signalr\planRTUpdaterHub.js" />
+    <Content Include="Scripts\app\signalr\plansUpdaterHub.js" />
     <Content Include="Scripts\archive.js" />
     <Content Include="Content\header.less" />
     <Content Include="Content\vars.less" />
@@ -372,7 +380,8 @@
     <Compile Include="Controllers\PlansController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="DataProviders\PlansDataProvider.cs" />
-    <Compile Include="DataProviders\PlansRTStatusUpdaterHub.cs" />
+    <Compile Include="DataProviders\PlansUpdater.cs" />
+    <Compile Include="DataProviders\PlansUpdaterHub.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

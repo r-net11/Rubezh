@@ -305,11 +305,11 @@ namespace FiresecService
 					}
 				case ExplicitType.String:
 					{
-						variable1 = GetValue<string>(arithmeticArguments.Argument1);
-						variable2 = GetValue<string>(arithmeticArguments.Argument2);
+						variable1 = GetValue<object>(arithmeticArguments.Argument1);
+						variable2 = GetValue<object>(arithmeticArguments.Argument2);
 						if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Add)
 							if (resultVariable != null)
-								resultVariable.ExplicitValue.StringValue = String.Concat((string)variable1, (string)variable2);
+								resultVariable.ExplicitValue.StringValue = String.Concat(Convert.ToString(variable1), Convert.ToString(variable2));
 						break;
 					}
 			}
@@ -333,12 +333,40 @@ namespace FiresecService
 			var item = InitializeItem(objectUid);
 			if (item == null)
 				return;
-			var guid = new Guid();
-			var propertyValue = GetPropertyValue(ref guid, getObjectPropertyArguments.Property, item);
+			var propertyValue = GetPropertyValue(getObjectPropertyArguments.Property, item);
 			SetValue(target, propertyValue);
 		}
 
-		object GetPropertyValue(ref Guid itemUid, Property property, object item)
+		Guid GetObjectUid(object item)
+		{
+			if (item is GKDevice)
+				return (item as GKDevice).UID;
+
+			if (item is GKDelay)
+				return (item as GKDelay).UID;
+			
+			if (item is GKZone)
+				return (item as GKZone).UID;
+
+			if (item is GKDirection)
+				return (item as GKDirection).UID;
+
+			if (item is GKDoor)
+				return (item as GKDoor).UID;
+
+			if (item is GKGuardZone)
+				return (item as GKGuardZone).UID;
+
+			if (item is FiresecAPI.SKD.Organisation)
+				return (item as FiresecAPI.SKD.Organisation).UID;
+
+			//TODO: what is VideoDevice?
+			//if (item is VideoDevice)
+			//	return (item as ).UID;
+
+			return Guid.Empty;
+		}
+		object GetPropertyValue(Property property, object item)
 		{
 			var propertyValue = new object();
 			if (item is GKDevice)
@@ -364,7 +392,6 @@ namespace FiresecService
 						propertyValue = (item as GKDevice).UID.ToString();
 						break;
 				}
-				itemUid = (item as GKDevice).UID;
 			}
 
 			if (item is GKDelay)
@@ -402,7 +429,6 @@ namespace FiresecService
 						propertyValue = (item as GKDelay).UID.ToString();
 						break;
 				}
-				itemUid = (item as GKDelay).UID;
 			}
 
 			if (item is GKZone)
@@ -425,7 +451,6 @@ namespace FiresecService
 						propertyValue = (item as GKZone).UID.ToString();
 						break;
 				}
-				itemUid = (item as GKZone).UID;
 			}
 
 			if (item is GKDirection)
@@ -463,36 +488,55 @@ namespace FiresecService
 						propertyValue = (int)(item as GKDirection).State.StateClass;
 						break;
 				}
-				itemUid = (item as GKDirection).UID;
 			}
 
+			if (item is GKGuardZone)
+			{
+				switch (property)
+				{
+					case Property.No:
+						propertyValue = (item as GKGuardZone).No;
+						break;
+					case Property.Type:
+						propertyValue = (item as GKGuardZone).ObjectType;
+						break;
+					case Property.State:
+						propertyValue = (item as GKGuardZone).State.StateClass;
+						break;
+					case Property.Name:
+						propertyValue = (item as GKGuardZone).Name.Trim();
+						break;
+					case Property.Uid:
+						propertyValue = (item as GKGuardZone).UID.ToString();
+						break;
+				}
+			}
+			
 			return propertyValue;
 		}
 
-		void InitializeItems(ref IEnumerable<object> items, ref Variable result)
+		IEnumerable<object> GetObjects(ObjectType objectType)
 		{
-			var explicitValues = new List<ExplicitValue>();
-			if (result.ObjectType == ObjectType.Device)
+			switch (objectType)
 			{
-				items = new List<GKDevice>(GKManager.DeviceConfiguration.Devices);
-				foreach (var objectUid in new List<Guid>(GKManager.DeviceConfiguration.Devices.Select(x => x.UID)))
-					explicitValues.Add(new ExplicitValue { UidValue = objectUid });
+				case ObjectType.Delay:
+					return new List<GKDelay>(GKManager.DeviceConfiguration.Delays);
+				case ObjectType.Device:
+					return new List<GKDevice>(GKManager.DeviceConfiguration.Devices);
+				case ObjectType.Direction:
+					return new List<GKDirection>(GKManager.DeviceConfiguration.Directions);
+				case ObjectType.GKDoor:
+					return new List<GKDoor>(GKManager.DeviceConfiguration.Doors);
+				case ObjectType.GuardZone:
+					return new List<GKGuardZone>(GKManager.DeviceConfiguration.GuardZones);
+				//case ObjectType.Organisation:
+				//case ObjectType.VideoDevice:
+				case ObjectType.Zone:
+					return new List<GKZone>(GKManager.DeviceConfiguration.Zones);
 			}
-			if (result.ObjectType == ObjectType.Zone)
-			{
-				items = new List<GKZone>(GKManager.Zones);
-				foreach (var objectUid in new List<Guid>(GKManager.Zones.Select(x => x.UID)))
-					explicitValues.Add(new ExplicitValue { UidValue = objectUid });
-			}
-			if (result.ObjectType == ObjectType.Direction)
-			{
-				items = new List<GKDirection>(GKManager.Directions);
-				foreach (var objectUid in new List<Guid>(GKManager.Directions.Select(x => x.UID)))
-					explicitValues.Add(new ExplicitValue { UidValue = objectUid });
-			}
-			result.ExplicitValues = explicitValues;
+			return new List<object>();
 		}
-
+		
 		object InitializeItem(Guid itemUid)
 		{
 			var device = GKManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == itemUid);
@@ -518,24 +562,20 @@ namespace FiresecService
 
 		void FindObjectsOr(Variable result, IEnumerable<FindObjectCondition> findObjectConditions)
 		{
-			IEnumerable<object> items = new List<object>();
-			InitializeItems(ref items, ref result);
-			var resultObjects = new List<object>();
-			var itemUid = new Guid();
-
-			foreach (var findObjectCondition in findObjectConditions)
+			var items = GetObjects(result.ObjectType);
+			result.ExplicitValues.Clear();
+			foreach (var item in items)
 			{
-				foreach (var item in items)
+				var itemUid = GetObjectUid(item);
+				foreach (var findObjectCondition in findObjectConditions)
 				{
-					if (resultObjects.Contains(item))
-						continue;
-					var propertyValue = GetPropertyValue(ref itemUid, findObjectCondition.Property, item);
+					var propertyValue = GetPropertyValue(findObjectCondition.Property, item);
 					var conditionValue = GetValue<object>(findObjectCondition.SourceArgument);
 					var comparer = Compare(propertyValue, conditionValue, findObjectCondition.ConditionType);
-					if ((comparer != null) && (comparer.Value))
+					if (comparer != null && comparer.Value)
 					{
-						resultObjects.Add(item);
 						result.ExplicitValues.Add(new ExplicitValue { UidValue = itemUid });
+						break;
 					}
 				}
 			}
@@ -543,26 +583,26 @@ namespace FiresecService
 
 		void FindObjectsAnd(Variable result, IEnumerable<FindObjectCondition> findObjectConditions)
 		{
-			IEnumerable<object> items = new List<object>();
-			InitializeItems(ref items, ref result);
-			var resultObjects = new List<object>(items);
-			var tempObjects = new List<object>(resultObjects);
-			var itemUid = new Guid();
-
-			foreach (var findObjectCondition in findObjectConditions)
+			var items = GetObjects(result.ObjectType);
+			result.ExplicitValues.Clear();
+			bool allTrue;
+			foreach (var item in items)
 			{
-				foreach (var item in resultObjects)
+				allTrue = true;
+				var itemUid = GetObjectUid(item);
+				foreach (var findObjectCondition in findObjectConditions)
 				{
-					var propertyValue = GetPropertyValue(ref itemUid, findObjectCondition.Property, item);
+					var propertyValue = GetPropertyValue(findObjectCondition.Property, item);
 					var conditionValue = GetValue<object>(findObjectCondition.SourceArgument);
 					var comparer = Compare(propertyValue, conditionValue, findObjectCondition.ConditionType);
-					if ((comparer != null) && (!comparer.Value))
+					if (comparer != null && !comparer.Value)
 					{
-						tempObjects.Remove(item);
-						result.ExplicitValues.RemoveAll(x => x.UidValue == itemUid);
+						allTrue = false;
+						break;
 					}
 				}
-				resultObjects = new List<object>(tempObjects);
+				if (allTrue)
+					result.ExplicitValues.Add(new ExplicitValue { UidValue = itemUid });
 			}
 		}
 
@@ -572,36 +612,36 @@ namespace FiresecService
 				return null;
 			if (param1.GetType().IsEnum || param1 is int)
 			{
-				return (((conditionType == ConditionType.IsEqual) && ((int)param1 == (int)param2))
-					|| ((conditionType == ConditionType.IsNotEqual) && ((int)param1 != (int)param2))
-					|| ((conditionType == ConditionType.IsMore) && ((int)param1 > (int)param2))
-					|| ((conditionType == ConditionType.IsNotMore) && ((int)param1 <= (int)param2))
-					|| ((conditionType == ConditionType.IsLess) && ((int)param1 < (int)param2))
-					|| ((conditionType == ConditionType.IsNotLess) && ((int)param1 >= (int)param2)));
+				return conditionType == ConditionType.IsEqual && (int)param1 == (int)param2
+					|| conditionType == ConditionType.IsNotEqual && (int)param1 != (int)param2
+					|| conditionType == ConditionType.IsMore && (int)param1 > (int)param2
+					|| conditionType == ConditionType.IsNotMore && (int)param1 <= (int)param2
+					|| conditionType == ConditionType.IsLess && (int)param1 < (int)param2
+					|| conditionType == ConditionType.IsNotLess && (int)param1 >= (int)param2;
 			}
 
 			if (param1 is DateTime)
 			{
-				return (((conditionType == ConditionType.IsEqual) && ((DateTime)param1 == (DateTime)param2))
-					|| ((conditionType == ConditionType.IsNotEqual) && ((DateTime)param1 != (DateTime)param2))
-					|| ((conditionType == ConditionType.IsMore) && ((DateTime)param1 > (DateTime)param2))
-					|| ((conditionType == ConditionType.IsNotMore) && ((DateTime)param1 <= (DateTime)param2))
-					|| ((conditionType == ConditionType.IsLess) && ((DateTime)param1 < (DateTime)param2))
-					|| ((conditionType == ConditionType.IsNotLess) && ((DateTime)param1 >= (DateTime)param2)));
+				return conditionType == ConditionType.IsEqual && (DateTime)param1 == (DateTime)param2
+					|| conditionType == ConditionType.IsNotEqual && (DateTime)param1 != (DateTime)param2
+					|| conditionType == ConditionType.IsMore && (DateTime)param1 > (DateTime)param2
+					|| conditionType == ConditionType.IsNotMore && (DateTime)param1 <= (DateTime)param2
+					|| conditionType == ConditionType.IsLess && (DateTime)param1 < (DateTime)param2
+					|| conditionType == ConditionType.IsNotLess && (DateTime)param1 >= (DateTime)param2;
 			}
 
 			if (param1 is string)
 			{
-				return (((conditionType == ConditionType.IsEqual) && ((string)param1 == (string)param2))
-					|| ((conditionType == ConditionType.IsNotEqual) && ((string)param1 != (string)param2))
-					|| ((conditionType == ConditionType.StartsWith) && (((string)param1).StartsWith((string)param2)))
-					|| ((conditionType == ConditionType.EndsWith) && (((string)param1).EndsWith((string)param2)))
-					|| ((conditionType == ConditionType.Contains) && (((string)param1).Contains((string)param2))));
+				return conditionType == ConditionType.IsEqual && (string)param1 == (string)param2
+					|| conditionType == ConditionType.IsNotEqual && (string)param1 != (string)param2
+					|| conditionType == ConditionType.StartsWith && ((string)param1).StartsWith((string)param2)
+					|| conditionType == ConditionType.EndsWith && ((string)param1).EndsWith((string)param2)
+					|| conditionType == ConditionType.Contains && ((string)param1).Contains((string)param2);
 			}
 			if (param1 is bool)
 			{
-				return (((conditionType == ConditionType.IsEqual) && ((bool)param1 == (bool)param2))
-						|| ((conditionType == ConditionType.IsNotEqual) && ((bool)param1 != (bool)param2)));
+				return conditionType == ConditionType.IsEqual && (bool)param1 == (bool)param2
+						|| conditionType == ConditionType.IsNotEqual && (bool)param1 != (bool)param2;
 			}
 			return null;
 		}
@@ -884,7 +924,7 @@ namespace FiresecService
 						break;
 					case ChangeType.RemoveFirst:
 						listVariable.ExplicitValues.Remove(listVariable.ExplicitValues.FirstOrDefault
-							(x => ExplicitCompare(x, explicitValue, changeListArguments.ListArgument.ExplicitType,
+							(x => ExplicitCompare(x, explicitValue, changeListArguments.ItemArgument.ExplicitType,
 								changeListArguments.ListArgument.EnumType)));
 						break;
 					case ChangeType.RemoveAll:
@@ -967,6 +1007,8 @@ namespace FiresecService
 				return explicitValue1.BoolValue == explicitValue2.BoolValue;
 			if (explicitType == ExplicitType.DateTime)
 				return explicitValue1.DateTimeValue == explicitValue2.DateTimeValue;
+			if (explicitType == ExplicitType.Object)
+				return explicitValue1.UidValue == explicitValue2.UidValue;
 			if (explicitType == ExplicitType.Enum)
 			{
 				if (enumType == EnumType.DriverType)
@@ -1127,6 +1169,8 @@ namespace FiresecService
 				target.ExplicitValue.BoolValue = Convert.ToBoolean(propertyValue);
 			if (target.ExplicitType == ExplicitType.DateTime)
 				target.ExplicitValue.DateTimeValue = Convert.ToDateTime(propertyValue);
+			if (target.ExplicitType == ExplicitType.Object)
+				target.ExplicitValue.UidValue = (Guid)propertyValue;
 			if (target.ExplicitType == ExplicitType.Enum)
 			{
 				if (target.EnumType == EnumType.DriverType)

@@ -99,6 +99,8 @@ namespace Infrastructure.Common.Windows.ViewModels
 
 		public virtual bool OnClosing(bool isCanceled)
 		{
+			if (Closing != null)
+				Closing(this, new CancelEventArgs());
 			return !AllowClose || isCanceled;
 		}
 		public virtual void OnClosed()
