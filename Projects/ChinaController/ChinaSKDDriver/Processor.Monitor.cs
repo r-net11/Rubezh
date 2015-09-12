@@ -67,7 +67,7 @@ namespace ChinaSKDDriver
 		/// <param name="cards">Перезаписываемые пропуска</param>
 		/// <param name="accessTemplates">Шаблоны доступа для перезаписываемых пропусков</param>
 		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
-		public static OperationResult<bool> SKDRewriteAllCards(SKDDevice device, IEnumerable<SKDCard> cards, IEnumerable<AccessTemplate> accessTemplates)
+		public static OperationResult<bool> SKDRewriteAllCards(SKDDevice device, IEnumerable<SKDCard> cards, IEnumerable<AccessTemplate> accessTemplates, bool doProgress = true)
 		{
 			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == device.UID);
 			if (deviceProcessor != null)
@@ -80,7 +80,7 @@ namespace ChinaSKDDriver
 					return OperationResult<bool>.FromError("Ошибка при удалении всех пропусков на контроллере");
 
 				var cardWriter = new CardWriter();
-				var error = cardWriter.RewriteAllCards(device, cards, accessTemplates);
+				var error = cardWriter.RewriteAllCards(device, cards, accessTemplates, doProgress);
 				if (error.Count > 0)
 				{
 					return OperationResult<bool>.FromError(error);

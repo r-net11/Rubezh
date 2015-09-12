@@ -318,6 +318,15 @@ namespace FiresecClient
 			return SafeOperationCall(() => { return FiresecService.SKDRewriteAllCards(device.UID); }, "SKDRewriteAllCards");
 		}
 
+		/// <summary>
+		/// Перезаписывает пропуска на все контроллеры
+		/// </summary>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
+		public OperationResult<List<Guid>> RewriteCardsOnAllControllers()
+		{
+			return SafeOperationCall(() => { return FiresecService.RewriteCardsOnAllControllers(); }, "RewriteCardsOnAllControllers");
+		}
+
 		public OperationResult<bool> SKDUpdateFirmware(SKDDevice device, string fileName)
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDUpdateFirmware(device.UID, fileName); }, "SKDUpdateFirmware");
@@ -569,6 +578,15 @@ namespace FiresecClient
 		public OperationResult<bool> SetControllerLocksPasswords(SKDDevice device, IEnumerable<SKDLocksPassword> locksPasswords)
 		{
 			return SafeOperationCall(() => { return FiresecService.SetControllerLocksPasswords(device.UID, locksPasswords); }, "SetControllerLocksPasswords");
+		}
+
+		/// <summary>
+		/// Перезаписывает пароли замков на всех контроллерах
+		/// </summary>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
+		public OperationResult<List<Guid>> RewriteControllerLocksPasswordsOnAllControllers()
+		{
+			return SafeOperationCall(() => { return FiresecService.RewriteControllerLocksPasswordsOnAllControllers(); }, "RewriteControllerLocksPasswordsOnAllControllers");
 		}
 
 		#endregion </Пароли замков>

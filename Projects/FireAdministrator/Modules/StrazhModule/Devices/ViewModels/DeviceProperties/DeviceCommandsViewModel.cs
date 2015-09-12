@@ -155,7 +155,8 @@ namespace StrazhModule.ViewModels
 				var result = FiresecManager.FiresecService.SKDWriteAllTimeSheduleConfiguration();
 
 				// 2. Записываем пароли
-				//if (!result.IsCanceled)
+				if (!result.IsCanceled)
+					result = FiresecManager.FiresecService.RewriteControllerLocksPasswordsOnAllControllers();
 
 				// 3. Записываем пропуска
 				//if (!result.IsCanceled)

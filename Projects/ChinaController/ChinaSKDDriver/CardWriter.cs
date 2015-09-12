@@ -142,9 +142,13 @@ namespace ChinaSKDDriver
 		/// <param name="cards">Перезаписываемые пропуска</param>
 		/// <param name="accessTemplates">Шаблоны доступа к перезаписываемым пропускам</param>
 		/// <returns>Список ошибок при выполнении операции</returns>
-		public List<string> RewriteAllCards(SKDDevice device, IEnumerable<SKDCard> cards, IEnumerable<AccessTemplate> accessTemplates)
+		public List<string> RewriteAllCards(SKDDevice device, IEnumerable<SKDCard> cards, IEnumerable<AccessTemplate> accessTemplates, bool doProgress = true)
 		{
-			var progressCallback = Processor.StartProgress(String.Format("Запись пропусков на контроллер \"{0}\"", device.Name), "", cards.Count(), true, SKDProgressClientType.Administrator);
+			SKDProgressCallback progressCallback = null;
+			
+			// Показываем индикатор выполнения операции
+			if (doProgress)
+				progressCallback = Processor.StartProgress(String.Format("Запись пропусков на контроллер \"{0}\"", device.Name), "", cards.Count(), true, SKDProgressClientType.Administrator);
 
 			var errors = new List<string>();
 			foreach (var card in cards)
@@ -165,9 +169,14 @@ namespace ChinaSKDDriver
 					}
 				}
 
-				if (progressCallback.IsCanceled)
+				// Пользователь отменил операцию
+				if (progressCallback != null && progressCallback.IsCanceled)
 					return new List<string> { "Операция отменена" };
-				Processor.DoProgress(null, progressCallback);
+
+				// Обновляем индикатор выполнения операции
+				if (progressCallback != null)
+					Processor.DoProgress(null, progressCallback);
+
 				ProcessControllerCardItems(ControllerCardItems, true);
 
 				foreach (var controllerCardItem in ControllerCardItems)
@@ -179,7 +188,10 @@ namespace ChinaSKDDriver
 				}
 			}
 
-			Processor.StopProgress(progressCallback);
+			// Останавливаем индикатор выполнения операции
+			if (progressCallback != null)
+				Processor.StopProgress(progressCallback);
+
 			return errors;
 		}
 
