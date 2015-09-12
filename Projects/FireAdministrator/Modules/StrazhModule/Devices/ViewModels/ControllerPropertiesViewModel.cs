@@ -37,7 +37,7 @@ namespace StrazhModule.ViewModels
 		void OnReset()
 		{
 			if (!MessageBoxService.ShowQuestion(
-					"При сбросе настроек все параметры контроллера будут установлены на заводские, а записанные карты доступа и пропуска будут стерты. Продолжить?",
+					"При сбросе настроек все параметры контроллера будут установлены на заводские, а записанные пропуска будут стерты. Продолжить?",
 					null, MessageBoxImage.Warning))
 				return;
 			var result = FiresecManager.FiresecService.SKDResetController(Device);
