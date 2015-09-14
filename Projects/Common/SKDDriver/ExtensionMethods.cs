@@ -29,7 +29,7 @@ namespace SKDDriver.DataClasses
 		{
 			if (value == null)
 				return "NULL";
-			return "'" + value.Value.CheckDate() + "'";
+			return "'" + value.Value.CheckDate().ToString("yyyy-MM-dd HH:mm:ss") + "'";
 		}
 	}
 }
