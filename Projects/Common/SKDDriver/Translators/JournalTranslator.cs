@@ -124,36 +124,6 @@ namespace SKDDriver.DataClasses
 			}
 		}
 
-		public OperationResult BeginGetFilteredArchive(ArchiveFilter archiveFilter, Guid archivePortionUID)
-		{
-			try
-			{
-				IsAbort = false;
-				var pageSize = archiveFilter.PageSize;
-				var portion = new List<JournalItem>();
-				int itemNo = 0;
-				foreach (var item in BeginGetFilteredArchiveInternal(archiveFilter))
-				{
-					itemNo++;
-					portion.Add(Translate(item));
-					if (itemNo % pageSize == 0)
-					{
-						PublishNewItemsPortion(portion, archivePortionUID);
-						portion = new List<JournalItem>();
-					}
-				}
-				PublishNewItemsPortion(portion, archivePortionUID);
-
-
-				return new OperationResult();
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "JournalTranslator.GetFilteredJournalItems");
-				return new OperationResult(e.Message);
-			}
-		}
-
 		public OperationResult<List<JournalItem>> GetArchivePage(ArchiveFilter filter, int page)
 		{
 			try

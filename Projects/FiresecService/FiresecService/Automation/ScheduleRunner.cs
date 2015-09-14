@@ -93,6 +93,8 @@ namespace FiresecService
 						((schedule.Hour == dateTime.Hour) || (schedule.Hour == -1)) &&
 						((schedule.Minute == dateTime.Minute) || (schedule.Minute == -1)) &&
 						((schedule.Second == dateTime.Second) || (schedule.Second == -1)));
+			if (schedule.Year == -1 || schedule.Month == -1 || schedule.Day == -1 || schedule.Hour == -1 || schedule.Minute == -1 || schedule.Second == -1)
+				return false;
 			var scheduleDateTime = new DateTime(schedule.Year, schedule.Month, schedule.Day, schedule.Hour, schedule.Minute, schedule.Second);
 			var delta = (int)((dateTime - scheduleDateTime).TotalSeconds);
 			if (delta < 0)

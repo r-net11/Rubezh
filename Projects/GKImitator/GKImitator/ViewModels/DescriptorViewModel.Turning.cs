@@ -143,6 +143,7 @@ namespace GKImitator.ViewModels
 					SetStateBit(GKStateBit.TurningOn, false);
 					SetStateBit(GKStateBit.Off, false);
 					SetStateBit(GKStateBit.TurningOff, false);
+					RecalculateOutputLogic();
 					var journalItem = new ImitatorJournalItem(2, 9, 2, 0);
 					AddJournalItem(journalItem);
 
@@ -276,6 +277,7 @@ namespace GKImitator.ViewModels
 				SetStateBit(GKStateBit.TurningOff, false);
 				var journalItem = new ImitatorJournalItem(2, 9, 4, 0);
 				AddJournalItem(journalItem);
+				RecalculateOutputLogic();
 			}
 		}
 
@@ -290,6 +292,7 @@ namespace GKImitator.ViewModels
 			SetStateBit(GKStateBit.TurningOff, false);
 			var journalItem = new ImitatorJournalItem(2, 9, 2, 0);
 			AddJournalItem(journalItem);
+			RecalculateOutputLogic();
 		}
 
 		void TurnOff()
@@ -306,6 +309,7 @@ namespace GKImitator.ViewModels
 				SetStateBit(GKStateBit.TurningOff, true);
 				var journalItem = new ImitatorJournalItem(2, 9, 5, 0);
 				AddJournalItem(journalItem);
+				RecalculateOutputLogic();
 			}
 		}
 
@@ -320,6 +324,7 @@ namespace GKImitator.ViewModels
 			SetStateBit(GKStateBit.TurningOff, false);
 			var journalItem = new ImitatorJournalItem(2, 9, 3, 3);
 			AddJournalItem(journalItem);
+			RecalculateOutputLogic();
 		}
 	}
 }

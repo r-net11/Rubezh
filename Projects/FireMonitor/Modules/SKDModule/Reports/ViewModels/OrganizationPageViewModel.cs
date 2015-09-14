@@ -55,14 +55,13 @@ namespace SKDModule.Reports.ViewModels
 
 		void CreateItemList(bool isWithDeleted = false)
 		{
-			Organisations = new ReportOrganisationsItemList { IsSingleSelection = !AllowMultiple };
+			Organisations = new ReportOrganisationsItemList{ IsSingleSelection = !AllowMultiple};
 			var filter = new OrganisationFilter() { UserUID = FiresecManager.CurrentUser.UID };
 			if (isWithDeleted)
 				filter.LogicalDeletationType = LogicalDeletationType.All;
 			var organisations = OrganisationHelper.Get(filter);
 			if (organisations != null)
 			{
-				Organisations = new ReportOrganisationsItemList();
 				foreach (var organisation in organisations)
 				{
 					Organisations.Add(new ReportFilterOrganisationViewModel(organisation));
@@ -78,7 +77,11 @@ namespace SKDModule.Reports.ViewModels
 				return;
 			var checkedOrganisations = Organisations.Items.Where(x => uids.Any(y => y == x.Organisation.UID));
 			foreach (var organisation in checkedOrganisations)
+			{
 				organisation.IsChecked = true;
+			}
+			if (!AllowMultiple && Organisations.Items.Count > 0)
+				Organisations.SelectedOrganisation = Organisations.Items.FirstOrDefault();
 		}
 
 		public void Unsubscribe()
@@ -89,6 +92,18 @@ namespace SKDModule.Reports.ViewModels
 
 	public class ReportOrganisationsItemList : CheckBoxItemList<ReportFilterOrganisationViewModel>
 	{
+		ReportFilterOrganisationViewModel _SelectedOrganisation;
+		public ReportFilterOrganisationViewModel SelectedOrganisation
+		{
+			get { return _SelectedOrganisation; }
+			set
+			{
+				_SelectedOrganisation = value;
+				if(IsSingleSelection)
+					_SelectedOrganisation.IsChecked = true;
+			}
+		}
+		
 		public override void Update()
 		{
 			base.Update();
