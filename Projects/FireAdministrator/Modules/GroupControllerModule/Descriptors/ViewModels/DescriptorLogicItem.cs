@@ -74,6 +74,9 @@ namespace GKModule.ViewModels
 					}
 					break;
 
+				case FormulaOperationType.BR:
+					break;
+
 				default:
 					IsBold = true;
 
