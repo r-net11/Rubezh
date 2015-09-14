@@ -71,14 +71,33 @@ namespace GKModule.ViewModels
 		public void InitializeLogic()
 		{
 			DescriptorLogicItems = new ObservableCollection<DescriptorLogicItem>();
-			foreach (var formulaOperation in Descriptor.Formula.FormulaOperations)
+			var branches = Descriptor.Formula.GetBranches();
+			//foreach (var formulaOperation in Descriptor.Formula.FormulaOperations)
+			for(int i = 0; i < Descriptor.Formula.FormulaOperations.Count; i++)
 			{
+				var formulaOperation = Descriptor.Formula.FormulaOperations[i];
+
 				var descriptorLogicItem = new DescriptorLogicItem(formulaOperation, DescriptorsViewModel, Descriptor);
 				DescriptorLogicItems.Add(descriptorLogicItem);
 				if(!string.IsNullOrEmpty(descriptorLogicItem.Error))
 				{
 					IsFormulaInvalid = true;
 				}
+
+				var stackString = "";
+				foreach(var branch in branches)
+				{
+					var stackDepth = branch.StackDepthHistory.FirstOrDefault(x=>x.Item1 == i);
+					if(stackDepth != null)
+					{
+						stackString += stackDepth.Item2.ToString("d00") + " ";
+					}
+					else
+					{
+						stackString += "   ";
+					}
+				}
+				descriptorLogicItem.StackDepth = stackString;
 			}
 		}
 

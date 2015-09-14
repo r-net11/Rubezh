@@ -19,6 +19,8 @@ namespace GKModule.ViewModels
 		public BaseDescriptor Descriptor { get; private set; }
 		public string Error { get; private set; }
 
+		public string StackDepth { get; set; }
+
 		public DescriptorLogicItem(FormulaOperation formulaOperation, DescriptorsViewModel descriptorsViewModel, BaseDescriptor descriptor)
 		{
 			FormulaOperation = formulaOperation;

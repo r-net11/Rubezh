@@ -324,6 +324,11 @@ namespace GKProcessor
 
 		public bool CheckStackOverflow()
 		{
+			return !GetBranches().Any(x => x.StackValues.Count != 0 || x.IsError);
+		}
+
+		public List<FormulaBranch> GetBranches()
+		{
 			var branches = new List<FormulaBranch>();
 			branches.Add(new FormulaBranch());
 
@@ -334,8 +339,6 @@ namespace GKProcessor
 
 				foreach (var branch in branches.Where(x => x.CurrentFormulaNo == i && !x.IsCompleted))
 				{
-					branch.CurrentFormulaNo++;
-
 					switch (formulaOperation.FormulaOperationType)
 					{
 						case FormulaOperationType.CONST:
@@ -344,14 +347,17 @@ namespace GKProcessor
 						case FormulaOperationType.GETBYTE:
 						case FormulaOperationType.GETWORD:
 						case FormulaOperationType.ACS:
-						case FormulaOperationType.TSTP:
 							branch.StackValues.Add(null);
+							branch.CalculateStackDepth();
+							branch.CurrentFormulaNo +=1;
 							break;
 
 						case FormulaOperationType.KOD:
 						case FormulaOperationType.GETMEMB:
 							branch.StackValues.Add(null);
 							branch.StackValues.Add(null);
+							branch.CalculateStackDepth();
+							branch.CurrentFormulaNo += 1;
 							break;
 
 						case FormulaOperationType.ADD:
@@ -371,35 +377,50 @@ namespace GKProcessor
 						case FormulaOperationType.XOR:
 						case FormulaOperationType.CMPKOD:
 							branch.RemoveLast();
+							branch.CalculateStackDepth();
+							branch.CurrentFormulaNo += 1;
 							break;
 
 						case FormulaOperationType.PUTP:
 						case FormulaOperationType.PUTMEMB:
 							branch.RemoveLast();
 							branch.RemoveLast();
+							branch.CalculateStackDepth();
+							branch.CurrentFormulaNo += 1;
 							break;
 
 						case FormulaOperationType.COM:
 						case FormulaOperationType.NEG:
+							branch.CalculateStackDepth();
+							branch.CurrentFormulaNo += 1;
 							break;
 
 						case FormulaOperationType.END:
 						case FormulaOperationType.EXIT:
 							branch.IsCompleted = true;
+							branch.CalculateStackDepth();
 							break;
 
 						case FormulaOperationType.ACSP:
+						case FormulaOperationType.TSTP:
 							var newBranch = branch.Clone();
 							newBranches.Add(newBranch);
 
 							branch.StackValues.Add(0);
 							newBranch.StackValues.Add(null);
-							newBranch.StackValues.Add(0);
+							newBranch.StackValues.Add(1);
+
+							branch.CalculateStackDepth();
+							branch.CurrentFormulaNo += 1;
+							newBranch.CalculateStackDepth();
+							newBranch.CurrentFormulaNo += 1;
 							break;
 
 						case FormulaOperationType.BR:
 							if (formulaOperation.FirstOperand == 0)
 							{
+								branch.CalculateStackDepth();
+								branch.CurrentFormulaNo += 1;
 								branch.CurrentFormulaNo += formulaOperation.SecondOperand;
 							}
 							else
@@ -410,24 +431,39 @@ namespace GKProcessor
 									if ((formulaOperation.FirstOperand == 1 && lastStackValue.Value == 0) || (formulaOperation.FirstOperand == 2 && lastStackValue.Value != 0))
 									{
 										branch.RemoveLast();
+										branch.CalculateStackDepth();
+										branch.CurrentFormulaNo += 1;
 										branch.CurrentFormulaNo += formulaOperation.SecondOperand;
+									}
+									else
+									{
+										branch.RemoveLast();
+										branch.CalculateStackDepth();
+										branch.CurrentFormulaNo += 1;
 									}
 								}
 								else
 								{
 									branch.RemoveLast();
 									newBranch = branch.Clone();
+									
+									branch.CalculateStackDepth();
+									branch.CurrentFormulaNo += 1;
+
 									newBranches.Add(newBranch);
+									newBranch.CalculateStackDepth();
+									newBranch.CurrentFormulaNo += 1;
 									newBranch.CurrentFormulaNo += formulaOperation.SecondOperand;
 								}
 							}
+
 							break;
 					}
 				}
 
 				branches.AddRange(newBranches);
 			}
-			return !branches.Any(x => x.StackValues.Count != 0 || x.IsError);
+			return branches;
 		}
 
 		public class FormulaBranch
@@ -437,6 +473,7 @@ namespace GKProcessor
 				StackValues = new List<int?>();
 				CurrentFormulaNo = 0;
 				IsCompleted = false;
+				StackDepthHistory = new List<Tuple<int, int>>();
 			}
 
 			public List<int?> StackValues { get; set; }
@@ -446,6 +483,13 @@ namespace GKProcessor
 			public bool IsCompleted { get; set; }
 
 			public bool IsError { get; set; }
+
+			public List<Tuple<int, int>> StackDepthHistory { get; set; }
+
+			public void CalculateStackDepth()
+			{
+				StackDepthHistory.Add(new Tuple<int, int>(CurrentFormulaNo, StackValues.Count));
+			}
 
 			public void RemoveLast()
 			{
