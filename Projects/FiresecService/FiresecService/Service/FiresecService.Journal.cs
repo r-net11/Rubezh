@@ -41,14 +41,10 @@ namespace FiresecService.Service
 
 		public static void AddCommonJournalItems(List<JournalItem> journalItems)
 		{
-			var stopwatch = new Stopwatch();
-			stopwatch.Start();
 			using (var dbService = new SKDDriver.DataClasses.DbService())
 			{
 				dbService.JournalTranslator.AddRange(journalItems);
 			}
-			stopwatch.Stop();
-			Trace.WriteLine("AddRange " + stopwatch.Elapsed);
 			FiresecService.NotifyNewJournalItems(journalItems);
 			foreach (var journalItem in journalItems)
 			{
