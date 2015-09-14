@@ -1,0 +1,55 @@
+﻿<UserControl
+	x:Class="SKDModule.Views.ResetRepeatEnterView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    mc:Ignorable="d"
+	Width="400"
+	Height="270">
+	<UserControl.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="pack://application:,,,/Controls;component/Themes/StrazhTheme.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+	</UserControl.Resources>
+	<Grid Background="{StaticResource BaseWindowBackgroundBrush}">
+		<StackPanel
+			Background="{StaticResource BackgroundBrush}"
+			Orientation="Vertical"
+			Margin="10">
+			<TextBlock
+				TextWrapping="Wrap"
+				Foreground="White"
+				Margin="10"
+				Text="После сброса ограничения на повторный проход по пропуску, по нему будт возможен проход в любом направлении. После первого прохода через точку доступа, ограничение будет установлено в соответствии с настройками режима повторного прохода" />
+			<Grid>
+				<Grid.RowDefinitions>
+					<RowDefinition />
+					<RowDefinition />
+				</Grid.RowDefinitions>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="0.25*" />
+					<ColumnDefinition />
+				</Grid.ColumnDefinitions>
+				<RadioButton
+					Grid.Column="1"
+					Foreground="White"
+					VerticalAlignment="Center"
+					IsChecked="{Binding IsForAllAccessPoints}"
+					HorizontalAlignment="Left"
+					Margin="5"
+					Content="Для всех точек доступа" />
+				<RadioButton
+					Grid.Row="1"
+					Grid.Column="1"
+					Foreground="White"
+					VerticalAlignment="Center"
+					HorizontalAlignment="Left"
+					Margin="5"
+					Content="Для выбранной точки доступа" />
+			</Grid>
+		</StackPanel>
+    </Grid>
+</UserControl>

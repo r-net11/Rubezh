@@ -96,6 +96,9 @@ namespace FiresecAPI
 		OperationResult<IEnumerable<SKDCard>> GetEmployeeCards(Guid employeeUID);
 
 		[OperationContract]
+		OperationResult<bool> ResetRepeatEnter(SKDCard card, List<Guid> doorsdGuids);
+
+		[OperationContract]
 		OperationResult<bool> AddCard(SKDCard item, string employeeName);
 
 		[OperationContract]

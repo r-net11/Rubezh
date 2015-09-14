@@ -19,6 +19,7 @@
 				<TextBlock Text="Index" Margin="2" />
 				<TextBox Text="{Binding Index}" Width="100" Margin="2" />
 				<Button Content="AddMany" Command="{Binding AddManyCommand}" Width="100" Margin="2" />
+				<Button Content="ClearRepeatEnter" Command="{Binding ClearRepeatEnterCommand}" Width="100" Margin="2" />
 			</StackPanel>
 			<StackPanel Orientation="Horizontal">
 				<TextBlock Text="CardNo" Width="200" Margin="2" />

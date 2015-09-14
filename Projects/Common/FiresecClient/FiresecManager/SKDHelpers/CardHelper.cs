@@ -19,6 +19,12 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(result);
 		}
 
+		public static bool ResetRepeatEnter(SKDCard card, List<Guid> doorsdGuids)
+		{
+			var result = FiresecManager.FiresecService.ResetRepeatEnter(card, doorsdGuids);
+			return Common.ShowErrorIfExists(result);
+		}
+
 		public static SKDCard GetSingle(Guid uid)
 		{
 			var result = FiresecManager.FiresecService.GetCards(new CardFilter { UIDs = new List<Guid> { uid }, LogicalDeletationType = LogicalDeletationType.All });

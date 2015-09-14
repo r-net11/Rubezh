@@ -16,6 +16,10 @@
 		<Views:CardNumberView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:ResetRepeatEnterViewModel}">
+		<Views:ResetRepeatEnterView />
+	</DataTemplate>
+
 	<DataTemplate DataType="{x:Type ViewModels:CardRemovalReasonViewModel}">
 		<Views:CardRemovalReasonView />
 	</DataTemplate>

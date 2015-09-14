@@ -289,6 +289,26 @@ namespace FiresecService.Service
 			}
 		}
 
+		public OperationResult<bool> ResetRepeatEnter(SKDCard card, List<Guid> doorGuids)
+		{
+			using (var databaseService = new SKDDatabaseService())
+			{
+				var errors = new List<string>();
+
+				var cardWriter = Processor.ResetRepeatEnter(card, doorGuids);
+				var cardWriterError = cardWriter.GetError();
+				if (!String.IsNullOrEmpty(cardWriterError))
+					errors.Add(cardWriterError);
+
+				var failedControllerUIDs = GetFailedControllerUIDs(cardWriter);
+				var pendingResult = databaseService.CardTranslator.ResetRepeatEnterPendingList(card.UID, failedControllerUIDs);
+				if (pendingResult.HasError)
+					errors.Add(pendingResult.Error);
+
+				return OperationResult<bool>.FromError(errors, true);
+			}
+		}
+
 		public OperationResult<bool> AddCard(SKDCard card, string employeeName)
 		{
 			AddJournalMessage(JournalEventNameType.Добавление_карты, employeeName, uid: card.EmployeeUID);
@@ -324,26 +344,6 @@ namespace FiresecService.Service
 			if (pendingResult.HasError)
 				yield return pendingResult.Error;
 		}
-
-		/*	IEnumerable<string> AddGKCard(SKDCard card, AccessTemplate accessTemplate, SKDDatabaseService databaseService)
-			{
-				var employeeOperationResult = databaseService.EmployeeTranslator.GetSingle(card.HolderUID);
-				if (!employeeOperationResult.HasError)
-				{
-					var controllerCardSchedules = GKSKDHelper.GetGKControllerCardSchedules(card, accessTemplate);
-					foreach (var controllerCardSchedule in controllerCardSchedules)
-					{
-						var addResult = GKSKDHelper.AddOrEditCard(controllerCardSchedule, card, employeeOperationResult.Result.FIO);
-						if (addResult.HasError)
-						{
-							yield return "Не удалось добавить карту в устройство " + controllerCardSchedule.ControllerDevice.PresentationName;
-							var pendingResult = databaseService.CardTranslator.AddPendingList(card.UID, new List<Guid>() { controllerCardSchedule.ControllerDevice.UID });
-							if (pendingResult.HasError)
-								yield return pendingResult.Error;
-						}
-					}
-				}
-			}*/
 
 		public OperationResult<bool> EditCard(SKDCard card, string employeeName)
 		{
@@ -389,44 +389,6 @@ namespace FiresecService.Service
 			if (pendingResult.HasError)
 				yield return pendingResult.Error;
 		}
-
-		/*	IEnumerable<string> EditGKCard(SKDCard oldCard, AccessTemplate oldAccessTemplate, SKDCard card, AccessTemplate accessTemplate, SKDDatabaseService databaseService)
-			{
-				var employeeOperationResult = databaseService.EmployeeTranslator.GetSingle(card.HolderUID);
-				if (!employeeOperationResult.HasError)
-				{
-					var controllerCardSchedules_ToDelete = GKSKDHelper.GetGKControllerCardSchedules(oldCard, oldAccessTemplate);
-					var controllerCardSchedules_ToEdit = GKSKDHelper.GetGKControllerCardSchedules(card, accessTemplate);
-					foreach (var controllerCardSchedule_ToEdit in controllerCardSchedules_ToEdit)
-					{
-						controllerCardSchedules_ToDelete.RemoveAll(x => x.ControllerDevice.UID == controllerCardSchedule_ToEdit.ControllerDevice.UID);
-					}
-
-					foreach (var controllerCardSchedule in controllerCardSchedules_ToDelete)
-					{
-						var removeResult = GKSKDHelper.RemoveCard(controllerCardSchedule.ControllerDevice, card);
-						if (removeResult.HasError)
-						{
-							yield return "Не удалось удалить карту из устройства " + controllerCardSchedule.ControllerDevice.PresentationName;
-							var pendingResult = databaseService.CardTranslator.DeletePendingList(card.UID, new List<Guid>() { controllerCardSchedule.ControllerDevice.UID });
-							if (pendingResult.HasError)
-								yield return pendingResult.Error;
-						}
-					}
-
-					foreach (var controllerCardSchedule in controllerCardSchedules_ToEdit)
-					{
-						var addResult = GKSKDHelper.AddOrEditCard(controllerCardSchedule, card, employeeOperationResult.Result.FIO);
-						if (addResult.HasError)
-						{
-							yield return "Не удалось редактировать карту в устройстве " + controllerCardSchedule.ControllerDevice.PresentationName;
-							var pendingResult = databaseService.CardTranslator.AddPendingList(card.UID, new List<Guid>() { controllerCardSchedule.ControllerDevice.UID });
-							if (pendingResult.HasError)
-								yield return pendingResult.Error;
-						}
-					}
-				}
-			}*/
 
 		public OperationResult<bool> DeleteCardFromEmployee(SKDCard card, string employeeName, string reason = null)
 		{

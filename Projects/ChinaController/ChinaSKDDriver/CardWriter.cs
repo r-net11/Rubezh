@@ -23,6 +23,38 @@ namespace ChinaSKDDriver
 			ProcessControllerCardItems(ControllerCardItems, false);
 		}
 
+		public void ResetRepeatEnter(SKDCard card, List<Guid> doorGuids)
+		{
+			ControllerCardItems = Create_ControllerCardItems_ToResetRepeatEnter(card, doorGuids);
+			ProcessControllerCardItems(ControllerCardItems, false);
+		}
+
+		private List<ControllerCardItem> Create_ControllerCardItems_ToResetRepeatEnter(SKDCard card, List<Guid> doorGuids)
+		{
+			var controllerCardItems = new List<ControllerCardItem>();
+
+			var controllerDevices = new HashSet<SKDDevice>();
+			foreach (var doorGuid in doorGuids)
+			{
+				var door = SKDManager.SKDConfiguration.Doors.FirstOrDefault(x => x.UID == doorGuid);
+				if (door == null) continue;
+
+				var readerDevice = SKDManager.SKDConfiguration.Devices.FirstOrDefault(x => x.UID == door.InDeviceUID);
+
+				if (readerDevice == null || readerDevice.Parent == null) continue;
+				if (!controllerDevices.Add(readerDevice.Parent)) continue;
+
+				var controllerCardItem = new ControllerCardItem
+				{
+					Card = card,
+					ControllerDevice = readerDevice.Parent,
+					ActionType = ControllerCardItem.ActionTypeEnum.ResetRepeatEnter
+				};
+				controllerCardItems.Add(controllerCardItem);
+			}
+			return controllerCardItems;
+		}
+
 		private List<CardWriter.ControllerCardItem> Create_ControllerCardItems_ToAdd(SKDCard skdCard, AccessTemplate accessTemplate)
 		{
 			var controllerCardItems = new List<ControllerCardItem>();
@@ -284,6 +316,16 @@ namespace ChinaSKDDriver
 						case ControllerCardItem.ActionTypeEnum.Delete:
 							result = deviceProcessor.Wrapper.RemoveCard((int)controllerCardItem.Card.Number);
 							break;
+						case ControllerCardItem.ActionTypeEnum.ResetRepeatEnter:
+							var cardInfo = deviceProcessor.Wrapper.GetCardInfo((int) controllerCardItem.Card.Number);
+							if (cardInfo == null)
+							{
+								controllerCardItem.Error = string.Format("Пропуск {0} отсутствует на контроллере {1}",
+									(int) controllerCardItem.Card.Number, deviceProcessor.Device.Name);
+								break;
+							}
+							result = deviceProcessor.Wrapper.ResetRepeatEnter(controllerCardItem.Card.Number.ToString("X"));
+							break;
 					}
 
 					if (!result)
@@ -295,6 +337,8 @@ namespace ChinaSKDDriver
 							operationName = "редактирования";
 						if (controllerCardItem.ActionType == ControllerCardItem.ActionTypeEnum.Delete)
 							operationName = "удаления";
+						if (controllerCardItem.ActionType == ControllerCardItem.ActionTypeEnum.ResetRepeatEnter)
+							operationName = "сброса ограничения на повторный проход";
 
 						controllerCardItem.Error = "При операции " + operationName + " пропуска " + controllerCardItem.Card.Number + " на контроллере " + deviceProcessor.Device.Name + " возникла ошибка";
 					}
@@ -346,7 +390,8 @@ namespace ChinaSKDDriver
 			{
 				Add,
 				Edit,
-				Delete
+				Delete,
+				ResetRepeatEnter
 			}
 		}
 

@@ -266,8 +266,7 @@
 							Margin="20"
 							VerticalAlignment="Top"
 							CanEdit="False"
-							Data="{Binding Photo.Data,
-						                                          UpdateSourceTrigger=PropertyChanged}" />
+							Data="{Binding Photo.Data, UpdateSourceTrigger=PropertyChanged}" />
 					</Grid>
 				</Border>
 				<Grid Grid.Column="2" Visibility="{Binding IsCardSelected, Converter={StaticResource BoolToVisibilityConverter}}">

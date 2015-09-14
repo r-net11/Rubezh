@@ -137,6 +137,12 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute<OperationResult<IEnumerable<SKDCard>>>(() => FiresecService.GetEmployeeCards(employeeUID));
 		}
+
+		public OperationResult<bool> ResetRepeatEnter(SKDCard card, List<Guid> doorsdGuids)
+		{
+			return SafeContext.Execute(() => FiresecService.ResetRepeatEnter(card, doorsdGuids));
+		}
+
 		public OperationResult<bool> AddCard(SKDCard item, string employeeName)
 		{
 			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.AddCard(item, employeeName));
@@ -267,7 +273,7 @@ namespace FiresecClient
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDGetStates(); }, "SKDGetStates");
 		}
-		
+
 		/// <summary>
 		/// Получает информацию о контроллере.
 		/// Такую как версия прошивки, сетевые настройки, дата и время.

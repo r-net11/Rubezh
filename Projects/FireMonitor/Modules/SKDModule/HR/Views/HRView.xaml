@@ -56,6 +56,10 @@
 								Command="{Binding SelectedCard.PrintCommand}"
 								ImageSource="Print"
 								ToolTip="Печать удостоверения" />
+							<ToolBarButton
+								Command="{Binding SelectedCard.ResetRepeatEnterCommand}"
+								ImageSource="AddCondition"
+								ToolTip="Сброс ограничения на повторный проход" />
 						</StackPanel>
 					</StackPanel>
 				</StackPanel>
