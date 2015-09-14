@@ -259,7 +259,7 @@ namespace SKDModule.ViewModels
 			RemoveFileCommand = new RelayCommand(OnRemoveFile);
 			AddCustomPartCommand = new RelayCommand(OnAddCustomPart, CanAddPart);
 			RemovePartCommand = new RelayCommand(OnRemovePart, CanRemovePart);
-			EditPartCommand = new RelayCommand(OnEditPart, CanEditRemovePart);
+			EditPartCommand = new RelayCommand(OnEditPart, CanEditPart);
 			ResetAdjustmentsCommand = new RelayCommand(OnResetAdjustments);
 			ForceClosingCommand = new RelayCommand(OnForceClosing, CanForceClosing);
 			RemovedDayTimeTrackParts = new List<DayTimeTrackPart>();
@@ -402,9 +402,11 @@ namespace SKDModule.ViewModels
 				&& FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Parts_Edit);
 		}
 
-		bool CanEditRemovePart()
+		bool CanEditPart()
 		{
-			return SelectedDayTimeTrackPart != null && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Parts_Edit);
+			return SelectedDayTimeTrackPart != null
+				&& FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Parts_Edit)
+				&& !SelectedDayTimeTrackPart.IsOpen;
 		}
 
 		void OnEditPart()
