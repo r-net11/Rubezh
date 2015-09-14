@@ -93,6 +93,7 @@ namespace GKImitator.ViewModels
 			SetStateBit(GKStateBit.Ignore, false);
 			var journalItem = new ImitatorJournalItem(2, 10, 0, 0);
 			AddJournalItem(journalItem);
+			RecalculateOutputLogic();
 		}
 
 		public bool CanSetAutomaticRegime
@@ -108,6 +109,7 @@ namespace GKImitator.ViewModels
 			SetStateBit(GKStateBit.Ignore, false);
 			var journalItem = new ImitatorJournalItem(2, 10, 1, 0);
 			AddJournalItem(journalItem);
+			RecalculateOutputLogic();
 		}
 
 		public bool CanSetManualRegime
@@ -123,6 +125,7 @@ namespace GKImitator.ViewModels
 			SetStateBit(GKStateBit.Ignore, true);
 			var journalItem = new ImitatorJournalItem(2, 10, 2, 0);
 			AddJournalItem(journalItem);
+			RecalculateOutputLogic();
 		}
 
 		public bool CanSetIgnoreRegime
