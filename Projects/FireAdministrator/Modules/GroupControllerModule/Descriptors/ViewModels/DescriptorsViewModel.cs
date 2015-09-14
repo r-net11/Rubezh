@@ -37,20 +37,11 @@ namespace GKModule.ViewModels
 			{
 				foreach (var descriptor in database.Descriptors)
 				{
-					var isFormulaInvalid = descriptor.Formula.HasStackOverflow();
-					if (isFormulaInvalid)
-					{
-						MessageBoxService.ShowError("Ошибка глубины стека дескриптора " + descriptor.GKBase.GKDescriptorNo + " " + descriptor.GKBase.PresentationName);
-						return;
-					}
-
-#if DEBUG
-					var isFormulaInvalid2 = descriptor.Formula.CheckStackOverflow();
-					if (!isFormulaInvalid2)
+					var isFormulaInvalid = descriptor.Formula.CheckStackOverflow();
+					if (!isFormulaInvalid)
 					{
 						MessageBoxService.ShowError("Ошибка проверки стека " + descriptor.GKBase.GKDescriptorNo + " " + descriptor.GKBase.PresentationName);
 					}
-#endif
 				}
 			}
 		}

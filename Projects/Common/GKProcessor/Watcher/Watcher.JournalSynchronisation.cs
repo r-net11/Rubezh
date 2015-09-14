@@ -30,6 +30,9 @@ namespace GKProcessor
 			}
 			if (remoteLastId > localLastDBNo)
 			{
+				if (remoteLastId - localLastDBNo > 1000)
+					localLastDBNo = remoteLastId - 1000;
+
 				var progressCallback = GKProcessorManager.StartProgress("Синхронизация журнала ГК " + gkIpAddress, "", remoteLastId - localLastDBNo, true, GKProgressClientType.Monitor);
 
 				using (var gkLifecycleManager = new GKLifecycleManager(GkDatabase.RootDevice, "Синхронизация журнала"))

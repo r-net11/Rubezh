@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using FiresecAPI.GK;
+using System.Text;
 
 namespace GKProcessor
 {
@@ -24,10 +25,7 @@ namespace GKProcessor
 					var descriptor = commonDatabase.Descriptors.FirstOrDefault(x => x.GKBase == formulaOperation.GKBaseSecondOperand);
 					if (descriptor != null)
 					{
-						if (commonDatabase.DatabaseType == DatabaseType.Gk)
-							formulaOperation.SecondOperand = descriptor.GKBase.GKDescriptorNo;
-						else
-							formulaOperation.SecondOperand = descriptor.GKBase.KAUDescriptorNo;
+						formulaOperation.SecondOperand = (ushort)descriptor.No;
 					}
 					//formulaOperation.SecondOperand = commonDatabase.DatabaseType == DatabaseType.Gk ? formulaOperation.GKBaseSecondOperand.GKDescriptorNo : formulaOperation.GKBaseSecondOperand.KAUDescriptorNo;
 				}
@@ -215,113 +213,6 @@ namespace GKProcessor
 			return bytes;
 		}
 
-		public int CalculateStackLevels(List<FormulaOperation> formulaOperations)
-		{
-			var stackDepth = 0;
-			foreach (var formulaOperation in formulaOperations)
-			{
-				switch (formulaOperation.FormulaOperationType)
-				{
-					case FormulaOperationType.CONST:
-					case FormulaOperationType.DUP:
-					case FormulaOperationType.GETBIT:
-					case FormulaOperationType.GETBYTE:
-					case FormulaOperationType.GETWORD:
-					case FormulaOperationType.ACS:
-					case FormulaOperationType.TSTP:
-						stackDepth += 1;
-						break;
-
-					case FormulaOperationType.KOD:
-					case FormulaOperationType.ACSP:
-					case FormulaOperationType.GETMEMB:
-						stackDepth += 2;
-						break;
-
-					case FormulaOperationType.ADD:
-					case FormulaOperationType.AND:
-					case FormulaOperationType.EQ:
-					case FormulaOperationType.NE:
-					case FormulaOperationType.GE:
-					case FormulaOperationType.GT:
-					case FormulaOperationType.LE:
-					case FormulaOperationType.LT:
-					case FormulaOperationType.MUL:
-					case FormulaOperationType.OR:
-					case FormulaOperationType.PUTBIT:
-					case FormulaOperationType.PUTBYTE:
-					case FormulaOperationType.PUTWORD:
-					case FormulaOperationType.SUB:
-					case FormulaOperationType.XOR:
-					case FormulaOperationType.CMPKOD:
-						stackDepth -= 1;
-						break;
-
-					case FormulaOperationType.BR:
-						if (formulaOperation.FirstOperand == 0)
-							stackDepth += 0;
-						else
-							stackDepth -= 1;
-						break;
-
-					case FormulaOperationType.PUTP:
-					case FormulaOperationType.PUTMEMB:
-						stackDepth -= 2;
-						break;
-
-					case FormulaOperationType.COM:
-					case FormulaOperationType.END:
-					case FormulaOperationType.NEG:
-					case FormulaOperationType.EXIT:
-						stackDepth += 0;
-						break;
-				}
-				formulaOperation.StackLevels.Add(stackDepth);
-			}
-			return stackDepth;
-		}
-
-		public bool HasStackOverflow()
-		{
-			var stackDepths = new List<int>();
-			FormulaOperations.ForEach(x => x.StackLevels = new List<int>());
-			var formulaOperations = new List<FormulaOperation>(FormulaOperations);
-			var unconditionalBrOperations = formulaOperations.FindAll(x => x.FormulaOperationType == FormulaOperationType.BR && x.FirstOperand == 0);
-			foreach (var unconditionalBrOperation in unconditionalBrOperations)
-			{
-				var missFormulaOperations = formulaOperations.FindAll(x => (formulaOperations.IndexOf(x) - formulaOperations.IndexOf(unconditionalBrOperation) <= unconditionalBrOperation.SecondOperand) &&
-					(formulaOperations.IndexOf(x) - formulaOperations.IndexOf(unconditionalBrOperation) > 0));
-				missFormulaOperations.ForEach(x => x.StackLevels.Add(9999));
-				formulaOperations.RemoveAll(x => (formulaOperations.IndexOf(x) - formulaOperations.IndexOf(unconditionalBrOperation) <= unconditionalBrOperation.SecondOperand) &&
-					(formulaOperations.IndexOf(x) - formulaOperations.IndexOf(unconditionalBrOperation) > 0));
-			}
-			stackDepths.Add(CalculateStackLevels(formulaOperations));
-			foreach (var formulaOperation in FormulaOperations)
-			{
-				if (formulaOperation.FormulaOperationType == FormulaOperationType.BR && formulaOperation.FirstOperand != 0)
-				{
-					formulaOperations = new List<FormulaOperation>(FormulaOperations);
-					var missFormulaOperations = formulaOperations.FindAll(x => (formulaOperations.IndexOf(x) - formulaOperations.IndexOf(formulaOperation) <= formulaOperation.SecondOperand) &&
-						(formulaOperations.IndexOf(x) - formulaOperations.IndexOf(formulaOperation) > 0));
-					missFormulaOperations.ForEach(x => x.StackLevels.Add(9999));
-					formulaOperations.RemoveAll(x => (formulaOperations.IndexOf(x) - formulaOperations.IndexOf(formulaOperation) <= formulaOperation.SecondOperand) &&
-						(formulaOperations.IndexOf(x) - formulaOperations.IndexOf(formulaOperation) > 0));
-					unconditionalBrOperations = formulaOperations.FindAll(x => x.FormulaOperationType == FormulaOperationType.BR && x.FirstOperand == 0);
-					foreach (var unconditionalBrOperation in unconditionalBrOperations)
-					{
-						missFormulaOperations = formulaOperations.FindAll(x => (formulaOperations.IndexOf(x) - formulaOperations.IndexOf(unconditionalBrOperation) <= unconditionalBrOperation.SecondOperand) &&
-							(formulaOperations.IndexOf(x) - formulaOperations.IndexOf(unconditionalBrOperation) > 0));
-						missFormulaOperations.ForEach(x => x.StackLevels.Add(9999));
-						formulaOperations.RemoveAll(x => (formulaOperations.IndexOf(x) - formulaOperations.IndexOf(unconditionalBrOperation) <= unconditionalBrOperation.SecondOperand) &&
-							(formulaOperations.IndexOf(x) - formulaOperations.IndexOf(unconditionalBrOperation) > 0));
-					}
-					stackDepths.Add(CalculateStackLevels(formulaOperations));
-				}
-			}
-
-			return stackDepths.Any(x => x != 0);
-		}
-
 		public bool CheckStackOverflow()
 		{
 			return !GetBranches().Any(x => x.StackValues.Count != 0 || x.IsError);
@@ -337,6 +228,13 @@ namespace GKProcessor
 				var formulaOperation = FormulaOperations[i];
 				var newBranches = new List<FormulaBranch>();
 
+				//var stackValuesHashes = new HashSet<string>();
+				//foreach (var branch in branches.Where(x => x.CurrentFormulaNo == i && !x.IsCompleted))
+				//{
+				//	if (!stackValuesHashes.Add(branch.StackValuesHash))
+				//		branch.IsCompleted = true;
+				//}
+
 				foreach (var branch in branches.Where(x => x.CurrentFormulaNo == i && !x.IsCompleted))
 				{
 					switch (formulaOperation.FormulaOperationType)
@@ -345,13 +243,13 @@ namespace GKProcessor
 						case FormulaOperationType.DUP:
 						case FormulaOperationType.GETBIT:
 						case FormulaOperationType.GETBYTE:
-						case FormulaOperationType.GETWORD:
 						case FormulaOperationType.ACS:
 							branch.StackValues.Add(null);
 							branch.CalculateStackDepth();
-							branch.CurrentFormulaNo +=1;
+							branch.CurrentFormulaNo += 1;
 							break;
 
+						case FormulaOperationType.GETWORD:
 						case FormulaOperationType.KOD:
 						case FormulaOperationType.GETMEMB:
 							branch.StackValues.Add(null);
@@ -371,8 +269,6 @@ namespace GKProcessor
 						case FormulaOperationType.MUL:
 						case FormulaOperationType.OR:
 						case FormulaOperationType.PUTBIT:
-						case FormulaOperationType.PUTBYTE:
-						case FormulaOperationType.PUTWORD:
 						case FormulaOperationType.SUB:
 						case FormulaOperationType.XOR:
 						case FormulaOperationType.CMPKOD:
@@ -381,6 +277,7 @@ namespace GKProcessor
 							branch.CurrentFormulaNo += 1;
 							break;
 
+						case FormulaOperationType.PUTWORD:
 						case FormulaOperationType.PUTP:
 						case FormulaOperationType.PUTMEMB:
 							branch.RemoveLast();
@@ -402,11 +299,26 @@ namespace GKProcessor
 							break;
 
 						case FormulaOperationType.ACSP:
-						case FormulaOperationType.TSTP:
 							var newBranch = branch.Clone();
 							newBranches.Add(newBranch);
 
 							branch.StackValues.Add(0);
+							newBranch.StackValues.Add(null);
+							newBranch.StackValues.Add(1);
+
+							branch.CalculateStackDepth();
+							branch.CurrentFormulaNo += 1;
+							newBranch.CalculateStackDepth();
+							newBranch.CurrentFormulaNo += 1;
+							break;
+
+						case FormulaOperationType.TSTP:
+							newBranch = branch.Clone();
+							newBranches.Add(newBranch);
+
+							branch.RemoveLast();
+							branch.StackValues.Add(0);
+							newBranch.RemoveLast();
 							newBranch.StackValues.Add(null);
 							newBranch.StackValues.Add(1);
 
@@ -446,7 +358,7 @@ namespace GKProcessor
 								{
 									branch.RemoveLast();
 									newBranch = branch.Clone();
-									
+
 									branch.CalculateStackDepth();
 									branch.CurrentFormulaNo += 1;
 
@@ -485,6 +397,22 @@ namespace GKProcessor
 			public bool IsError { get; set; }
 
 			public List<Tuple<int, int>> StackDepthHistory { get; set; }
+
+			public string StackValuesHash
+			{
+				get
+				{
+					var stringBuilder = new StringBuilder();
+					foreach (var stackValue in StackValues)
+					{
+						if (stackValue.HasValue)
+							stringBuilder.Append(stackValue.Value + " ");
+						else
+							stringBuilder.Append("null ");
+					}
+					return stringBuilder.ToString();
+				}
+			}
 
 			public void CalculateStackDepth()
 			{

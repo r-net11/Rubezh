@@ -46,5 +46,88 @@ namespace GKProcessor.Test
 			//Assert.IsTrue(device4GKDescriptor.Formula.FormulaOperations.Count > 1, "На ГК должна присутствовать логика ТД");
 			Assert.IsTrue(device4Kau1Descriptor.Formula.FormulaOperations.Count == 1, "На КАУ должна отсутствовать логика ТД");
 		}
+
+		[TestMethod]
+		public void TestAntipassback1()
+		{
+			var device1 = AddDevice(kauDevice1, GKDriverType.RSR2_CardReader);
+			var device2 = AddDevice(kauDevice1, GKDriverType.RSR2_CardReader);
+			var device3 = AddDevice(kauDevice1, GKDriverType.RSR2_AM_1);
+			var device4 = AddDevice(kauDevice1, GKDriverType.RSR2_RM_1);
+			var zone1 = new GKSKDZone();
+			GKManager.SKDZones.Add(zone1);
+			var zone2 = new GKSKDZone();
+			GKManager.SKDZones.Add(zone2);
+			var door = new GKDoor()
+			{
+				DoorType = GKDoorType.TwoWay,
+				AntipassbackOn = true,
+				EnterDeviceUID = device1.UID,
+				ExitDeviceUID = device2.UID,
+				LockDeviceUID = device3.UID,
+				LockControlDeviceUID = device4.UID,
+				EnterZoneUID = zone1.UID,
+				ExitZoneUID = zone2.UID
+			};
+			GKManager.Doors.Add(door);
+			Compile();
+		}
+
+		[TestMethod]
+		public void TestAntipassback2()
+		{
+			var device1 = AddDevice(kauDevice1, GKDriverType.RSR2_CardReader);
+			var device2 = AddDevice(kauDevice1, GKDriverType.RSR2_CardReader);
+			var device3 = AddDevice(kauDevice1, GKDriverType.RSR2_AM_1);
+			var device4 = AddDevice(kauDevice1, GKDriverType.RSR2_RM_1);
+			var device5 = AddDevice(kauDevice1, GKDriverType.RSR2_RM_1);
+			var zone1 = new GKSKDZone();
+			GKManager.SKDZones.Add(zone1);
+			var zone2 = new GKSKDZone();
+			GKManager.SKDZones.Add(zone2);
+			var door = new GKDoor()
+			{
+				DoorType = GKDoorType.Turnstile,
+				AntipassbackOn = true,
+				EnterDeviceUID = device1.UID,
+				ExitDeviceUID = device2.UID,
+				LockDeviceUID = device3.UID,
+				LockDeviceExitUID = device4.UID,
+				LockControlDeviceUID = device5.UID,
+				EnterZoneUID = zone1.UID,
+				ExitZoneUID = zone2.UID
+			};
+			GKManager.Doors.Add(door);
+			Compile();
+		}
+
+		[TestMethod]
+		public void TestAntipassback3()
+		{
+			var device1 = AddDevice(kauDevice1, GKDriverType.RSR2_CardReader);
+			var device2 = AddDevice(kauDevice1, GKDriverType.RSR2_CardReader);
+			var device3 = AddDevice(kauDevice1, GKDriverType.RSR2_AM_1);
+			var device4 = AddDevice(kauDevice1, GKDriverType.RSR2_RM_1);
+			var device5 = AddDevice(kauDevice1, GKDriverType.RSR2_RM_1);
+			var zone1 = new GKSKDZone();
+			GKManager.SKDZones.Add(zone1);
+			var zone2 = new GKSKDZone();
+			GKManager.SKDZones.Add(zone2);
+			var door = new GKDoor()
+			{
+				DoorType = GKDoorType.Barrier,
+				AntipassbackOn = true,
+				EnterDeviceUID = device1.UID,
+				ExitDeviceUID = device2.UID,
+				LockDeviceUID = device3.UID,
+				//LockControlDevice
+				LockDeviceExitUID = device4.UID,
+				LockControlDeviceUID = device5.UID,
+				EnterZoneUID = zone1.UID,
+				ExitZoneUID = zone2.UID
+			};
+			GKManager.Doors.Add(door);
+			Compile();
+		}
 	}
 }

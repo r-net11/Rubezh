@@ -9,6 +9,7 @@ namespace GKProcessor
 	public abstract class BaseDescriptor
 	{
 		public DatabaseType DatabaseType { get; set; }
+		public int No { get; set; }
 		public DescriptorType DescriptorType { get; protected set; }
 		public GKBase GKBase { get; private set; }
 

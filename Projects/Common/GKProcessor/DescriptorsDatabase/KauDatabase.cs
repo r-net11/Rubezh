@@ -94,7 +94,7 @@ namespace GKProcessor
 			ushort no = 1;
 			foreach (var descriptor in Descriptors)
 			{
-				descriptor.GKBase.KAUDescriptorNo = no++;
+				descriptor.No = descriptor.GKBase.KAUDescriptorNo = no++;
 				descriptor.DatabaseType = DatabaseType.Kau;
 				descriptor.GKBase.KauDatabaseParent = RootDevice; // для автосгенерированных объектов
 			}
