@@ -127,17 +127,14 @@ namespace GKProcessor
 						return OperationResult<List<GKProperty>>.FromError("Неизвестный номер параметра");
 				}
 			}
-			if (binProperties.Count >= 3)
+			if ((descriptor.DescriptorType == DescriptorType.Direction || descriptor.DescriptorType == DescriptorType.Delay
+				|| descriptor.DescriptorType == DescriptorType.GuardZone || descriptor.DescriptorType == DescriptorType.PumpStation) && binProperties.Count >= 3)
 			{
-				if (descriptor.DescriptorType == DescriptorType.Direction || descriptor.DescriptorType == DescriptorType.Delay
-				    || descriptor.DescriptorType == DescriptorType.GuardZone)
-				{
-					properties.Add(new GKProperty() {Value = binProperties[0].Value});
-					properties.Add(new GKProperty() {Value = binProperties[1].Value});
-					properties.Add(new GKProperty() {Value = binProperties[2].Value});
-				}
+				properties.Add(new GKProperty() { Value = binProperties[0].Value });
+				properties.Add(new GKProperty() { Value = binProperties[1].Value });
+				properties.Add(new GKProperty() { Value = binProperties[2].Value });
 			}
-			if (descriptor.DescriptorType == DescriptorType.Code && binProperties.Count >= 2)
+			if ((descriptor.DescriptorType == DescriptorType.Code || descriptor.DescriptorType == DescriptorType.Door) && binProperties.Count >= 2)
 			{
 				properties.Add(new GKProperty() { Value = binProperties[0].Value });
 				properties.Add(new GKProperty() { Value = binProperties[1].Value });

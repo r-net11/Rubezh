@@ -4,6 +4,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.GK;
 using FiresecClient;
+using GKProcessor;
+using Infrastructure;
+using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 
@@ -15,6 +18,10 @@ namespace GKModule.ViewModels
 
 		public DoorDetailsViewModel(GKDoor door = null)
 		{
+			ReadPropertiesCommand = new RelayCommand(OnReadProperties);
+			WritePropertiesCommand = new RelayCommand(OnWriteProperties);
+			ResetPropertiesCommand = new RelayCommand(OnResetProperties);
+
 			if (door == null)
 			{
 				Title = "Создание новой точки доступа";
@@ -49,6 +56,91 @@ namespace GKModule.ViewModels
 			}
 			AvailableNames = new ObservableCollection<string>(availableNames);
 			AvailableDescription = new ObservableCollection<string>(availableDescription);
+		}
+
+		public RelayCommand ReadPropertiesCommand { get; private set; }
+		void OnReadProperties()
+		{
+			DescriptorsManager.Create();
+			if (!CompareLocalWithRemoteHashes())
+				return;
+
+			var result = FiresecManager.FiresecService.GKGetSingleParameter(Door);
+			if (!result.HasError && result.Result != null)
+			{
+				Delay = result.Result[0].Value;
+				Hold = result.Result[1].Value;
+
+				OnPropertyChanged(() => Delay);
+				OnPropertyChanged(() => Hold);
+			}
+			else
+			{
+				MessageBoxService.ShowError(result.Error);
+			}
+			ServiceFactory.SaveService.GKChanged = true;
+		}
+
+		public RelayCommand WritePropertiesCommand { get; private set; }
+		void OnWriteProperties()
+		{
+			Door.No = No;
+			Door.Name = Name;
+			Door.Description = Description;
+			Door.Delay = Delay;
+			Door.Hold = Hold;
+			Door.EnterLevel = EnterLevel;
+			Door.DoorType = SelectedDoorType;
+			Door.AntipassbackOn = AntipassbackOn;
+
+			DescriptorsManager.Create();
+			if (!CompareLocalWithRemoteHashes())
+				return;
+
+			var baseDescriptor = ParametersHelper.GetBaseDescriptor(Door);
+			if (baseDescriptor != null)
+			{
+				var result = FiresecManager.FiresecService.GKSetSingleParameter(Door, baseDescriptor.Parameters);
+				if (result.HasError)
+				{
+					MessageBoxService.ShowError(result.Error);
+				}
+			}
+			else
+			{
+				MessageBoxService.ShowError("Ошибка. Отсутствуют параметры");
+			}
+		}
+
+		public RelayCommand ResetPropertiesCommand { get; private set; }
+		void OnResetProperties()
+		{
+			Delay = 2;
+			Hold = 20;
+		}
+
+		bool CompareLocalWithRemoteHashes()
+		{
+			if (Door.GkDatabaseParent == null)
+			{
+				MessageBoxService.ShowError("ТД не относится ни к одному ГК");
+				return false;
+			}
+
+			var result = FiresecManager.FiresecService.GKGKHash(Door.GkDatabaseParent);
+			if (result.HasError)
+			{
+				MessageBoxService.ShowError("Ошибка при сравнении конфигураций. Операция запрещена");
+				return false;
+			}
+
+			GKManager.DeviceConfiguration.PrepareDescriptors();
+			var localHash = GKFileInfo.CreateHash1(Door.GkDatabaseParent);
+			var remoteHash = result.Result;
+			if (GKFileInfo.CompareHashes(localHash, remoteHash))
+				return true;
+			MessageBoxService.ShowError("Конфигурации различны. Операция запрещена");
+			return false;
 		}
 
 		void CopyProperties()
