@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Threading;
 using FiresecAPI;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
 using SKDDriver.DataClasses;
+using System.Diagnostics;
 
 namespace FiresecService.Service
 {
@@ -41,10 +43,7 @@ namespace FiresecService.Service
 		{
 			using (var dbService = new SKDDriver.DataClasses.DbService())
 			{
-				foreach (var journalItem in journalItems)
-				{
-					dbService.JournalTranslator.Add(journalItem);
-				}
+				dbService.JournalTranslator.AddRange(journalItems);
 			}
 			FiresecService.NotifyNewJournalItems(journalItems);
 			foreach (var journalItem in journalItems)
@@ -84,43 +83,6 @@ namespace FiresecService.Service
 			{
 				return dbService.JournalTranslator.GetFilteredJournalItems(filter);
 			}
-		}
-
-		public OperationResult BeginGetFilteredArchive(ArchiveFilter archiveFilter, Guid archivePortionUID)
-		{
-			try
-			{
-				if (CurrentThread != null)
-				{
-					DbService.IsAbort = true;
-					CurrentThread.Join(TimeSpan.FromMinutes(1));
-					CurrentThread = null;
-				}
-				DbService.IsAbort = false;
-				var thread = new Thread(new ThreadStart((new Action(() =>
-				{
-					using (var dbService = new SKDDriver.DataClasses.DbService())
-					{
-						dbService.JournalTranslator.ArchivePortionReady -= DatabaseHelper_ArchivePortionReady;
-						dbService.JournalTranslator.ArchivePortionReady += DatabaseHelper_ArchivePortionReady;
-						dbService.JournalTranslator.BeginGetFilteredArchive(archiveFilter, archivePortionUID);
-					}
-				}))));
-				thread.Name = "FiresecService.GetFilteredArchive";
-				thread.IsBackground = true;
-				CurrentThread = thread;
-				thread.Start();
-				return new OperationResult();
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
-		}
-
-		void DatabaseHelper_ArchivePortionReady(List<JournalItem> journalItems, Guid archivePortionUID)
-		{
-			FiresecService.NotifyArchiveCompleted(journalItems, archivePortionUID);
 		}
 
 		public OperationResult<List<JournalItem>> GetArchivePage(ArchiveFilter filter, int page)

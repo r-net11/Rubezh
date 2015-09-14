@@ -118,10 +118,6 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute<OperationResult<List<JournalItem>>>(() => FiresecService.GetFilteredJournalItems(filter));
 		}
-		public void BeginGetFilteredArchive(ArchiveFilter archiveFilter, Guid archivePortionUID)
-		{
-            SafeOperationCall(() => FiresecService.BeginGetFilteredArchive(archiveFilter, archivePortionUID), "BeginGetFilteredArchive");
-		}
 		public OperationResult<bool> AddJournalItem(JournalItem journalItem)
 		{
 			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.AddJournalItem(journalItem));
@@ -386,10 +382,5 @@ namespace FiresecClient
 			return SafeContext.Execute(() => FiresecService.GetCurrentConsumption(item));
 		}
 		#endregion
-
-        public OperationResult BeginGetAsync(HRFilter filter)
-        {
-            return SafeContext.Execute(() => FiresecService.BeginGetAsync(filter));
-        }
-    }
+	}
 }

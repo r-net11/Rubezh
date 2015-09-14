@@ -162,10 +162,6 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult<List<JournalItem>>>(() => FiresecService.GetFilteredJournalItems(filter));
 		}
-		public OperationResult BeginGetFilteredArchive(ArchiveFilter archiveFilter, Guid archivePortionUID)
-		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.BeginGetFilteredArchive(archiveFilter, archivePortionUID));
-		}
 		public OperationResult<bool> AddJournalItem(JournalItem journalItem)
 		{
 			return SafeOperationCall(() => { return FiresecService.AddJournalItem(journalItem); }, "AddJournalItem");

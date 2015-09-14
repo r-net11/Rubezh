@@ -259,41 +259,5 @@ namespace FiresecService.Service
 				return databaseService.CardTranslator.GetMinDate();
 			}
 		}
-
-		public static Thread DbThread;
-		public OperationResult BeginGetAsync(HRFilter filter)
-		{
-			try
-			{
-				if (DbThread != null)
-				{
-					SKDDriver.DataClasses.DbService.IsAbort = true;
-					DbThread.Join(TimeSpan.FromMinutes(1));
-					DbThread = null;
-				}
-				SKDDriver.DataClasses.DbService.IsAbort = false;
-				var thread = new Thread(new ThreadStart((new Action(() =>
-				{
-					using (var dbService = new SKDDriver.DataClasses.DbService())
-					{
-						dbService.BeginGet(filter, DatabaseHelper_DbPortionReady);
-					}
-				}))));
-				thread.Name = "FiresecService.GetEmployees";
-				thread.IsBackground = true;
-				DbThread = thread;
-				thread.Start();
-				return new OperationResult();
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
-		}
-
-		void DatabaseHelper_DbPortionReady(DbCallbackResult dbCallbackResult)
-		{
-			FiresecService.NotifyDbCompleted(dbCallbackResult);
-		}
 	}
 }

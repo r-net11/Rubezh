@@ -38,15 +38,10 @@ namespace SKDDriver.DataClasses
 
 		public static OperationResult<bool> ConnectionOperationResult { get; set; }
 
-        public static bool IsAbort
-		{
-			get { return JournalTranslator.IsAbort; }
-			set { JournalTranslator.IsAbort = value; }
-		}
-
-		public DbService()
+        public DbService()
 		{
 			Context = new DatabaseContext(DbServiceHelper.CreateConnection());
+			Context.Database.CommandTimeout = 180;
 			GKScheduleTranslator = new GKScheduleTranslator(this);
 			GKDayScheduleTranslator = new GKDayScheduleTranslator(this);
 			PassJournalTranslator = new PassJournalTranslator(this);
