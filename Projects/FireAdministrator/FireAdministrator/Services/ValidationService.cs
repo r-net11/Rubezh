@@ -1,4 +1,6 @@
 ﻿using FireAdministrator.ViewModels;
+using FiresecClient;
+using GKProcessor;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Validation;
@@ -12,6 +14,8 @@ namespace FireAdministrator
 		{
 			using (new WaitWrapper())
 			{
+				DescriptorsManager.Create();
+
 				ServiceFactory.Layout.ShowFooter(null);
 				var validationErrorsViewModel = new ValidationErrorsViewModel();
 				foreach (var module in ApplicationService.Modules)
