@@ -174,6 +174,7 @@ namespace FiresecAPI.SKD
 		{
 			var firstPlanned = new TimeSpan();
 			var lastPlanned = new TimeSpan();
+			var slideTime = new TimeSpan(SlideTime.Ticks);
 			if (PlannedTimeTrackParts.Count > 0)
 			{
 				firstPlanned = PlannedTimeTrackParts.FirstOrDefault().StartTime;
@@ -193,7 +194,10 @@ namespace FiresecAPI.SKD
 			{
 				combinedTimeSpans.Add(trackPart.StartTime);
 				combinedTimeSpans.Add(trackPart.EndTime);
+				if (PlannedTimeTrackParts.Count == 0 && SlideTime > TimeSpan.Zero)
+					slideTime -= trackPart.Delta;
 			}
+			var slideTimeWithNoReal = new TimeSpan(slideTime.Ticks);
 			foreach (var trackPart in PlannedTimeTrackParts)
 			{
 				combinedTimeSpans.Add(trackPart.StartTime);
@@ -201,8 +205,22 @@ namespace FiresecAPI.SKD
 			}
 			foreach (var trackPart in DocumentTrackParts)
 			{
-				combinedTimeSpans.Add(trackPart.StartTime);
-				combinedTimeSpans.Add(trackPart.EndTime);
+				if (PlannedTimeTrackParts.Count == 0 && slideTime > TimeSpan.Zero)
+				{
+					combinedTimeSpans.Add(trackPart.StartTime);
+					if (trackPart.Delta > slideTime)
+					{
+						combinedTimeSpans.Add(trackPart.StartTime + slideTime);
+						slideTime -= trackPart.Delta;
+					}
+					else
+						combinedTimeSpans.Add(trackPart.EndTime);
+				}
+				else
+				{
+					combinedTimeSpans.Add(trackPart.StartTime);
+					combinedTimeSpans.Add(trackPart.EndTime);
+				}
 			}
 			if (NightSettings != null && NightSettings.NightEndTime != NightSettings.NightStartTime)
 			{
@@ -271,7 +289,8 @@ namespace FiresecAPI.SKD
 						var firstPlannedTimeTrack = PlannedTimeTrackParts.FirstOrDefault(x => x.StartTime == timeTrackPart.StartTime);
 						if (firstPlannedTimeTrack.StartsInPreviousDay)
 							timeTrackPart.TimeTrackPartType = TimeTrackType.Absence;
-						else timeTrackPart.TimeTrackPartType = TimeTrackType.Late;
+						else if (timeTrackPart.TimeTrackPartType != TimeTrackType.AbsenceInsidePlan)
+							timeTrackPart.TimeTrackPartType = TimeTrackType.Late;
 					}
 
 					if (!PlannedTimeTrackParts.Any(x => x.StartTime == timeTrackPart.StartTime) && PlannedTimeTrackParts.Any(x => x.EndTime == timeTrackPart.EndTime) && RealTimeTrackParts.Any(x => x.EndTime == timeTrackPart.StartTime))
@@ -279,7 +298,8 @@ namespace FiresecAPI.SKD
 						var lastPlannedTimeTrack = PlannedTimeTrackParts.FirstOrDefault(x => x.EndTime == timeTrackPart.EndTime);
 						if (lastPlannedTimeTrack.EndsInNextDay)
 							timeTrackPart.TimeTrackPartType = TimeTrackType.Absence;
-						else timeTrackPart.TimeTrackPartType = TimeTrackType.EarlyLeave;
+						else if (timeTrackPart.TimeTrackPartType != TimeTrackType.AbsenceInsidePlan)
+							timeTrackPart.TimeTrackPartType = TimeTrackType.EarlyLeave;
 					}
 				}
 				if (documentTimeTrack != null)
@@ -292,8 +312,18 @@ namespace FiresecAPI.SKD
 					}
 					if (documentType == DocumentType.Presence)
 					{
-						if (hasPlannedTimeTrack || PlannedTimeTrackParts.Count == 0)
+						if (hasPlannedTimeTrack)
 							timeTrackPart.TimeTrackPartType = TimeTrackType.DocumentPresence;
+						else if (PlannedTimeTrackParts.Count == 0)
+						{
+							if (hasRealTimeTrack)
+								timeTrackPart.TimeTrackPartType = TimeTrackType.DocumentPresence;
+							else if (slideTimeWithNoReal > TimeSpan.Zero)
+							{
+								timeTrackPart.TimeTrackPartType = TimeTrackType.DocumentPresence;
+								slideTimeWithNoReal -= timeTrackPart.Delta;
+							}
+						}
 						else
 							timeTrackPart.TimeTrackPartType = TimeTrackType.None;
 					}
@@ -371,8 +401,6 @@ namespace FiresecAPI.SKD
 								isConside = false;
 							}
 						}
-						if (timeTrackTotal.TimeSpan > SlideTime)
-							timeTrackTotal.TimeSpan = SlideTime;
 						break;
 				}
 			}
@@ -445,6 +473,8 @@ namespace FiresecAPI.SKD
 					return TimeTrackType.Late;
 				if (earlyLeave > AllowedEarlyLeave)
 					return TimeTrackType.EarlyLeave;
+				if (night > presence)
+					return TimeTrackType.Night;
 				if (overtime != TimeSpan.Zero)
 					return TimeTrackType.Overtime;
 			}
