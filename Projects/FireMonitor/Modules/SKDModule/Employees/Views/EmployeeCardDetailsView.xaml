@@ -81,7 +81,7 @@
 							</DataTemplate>
 						</ComboBox.ItemTemplate>
 					</ComboBox>
-					<!--<TextBlock
+					<TextBlock
 						Grid.Row="2"
 						Text="От контрольного считывателя"
 						Foreground="White"
@@ -104,9 +104,9 @@
 						<Hyperlink
 							Command="{Binding ChangeReaderCommand}"
 							Style="{StaticResource HyperlinkStyle}">
-							<TextBlock Text="{Binding ReaderName, FallbackValue=Нажмите для выбора считывателя}" />
+							<TextBlock Text="{Binding ReaderName}" />
 						</Hyperlink>
-					</TextBlock>-->
+					</TextBlock>
 					<TextBlock
 						Grid.Row="3"
 						Text="От USB-считывателя"
