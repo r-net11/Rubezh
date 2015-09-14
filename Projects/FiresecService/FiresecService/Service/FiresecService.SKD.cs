@@ -810,7 +810,7 @@ namespace FiresecService.Service
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				AddSKDJournalMessage(JournalEventNameType.Запись_графиков_работы, device);
+				AddSKDJournalMessage(JournalEventNameType.Запись_графиков_доступа, device);
 				return Processor.SKDWriteTimeSheduleConfiguration(deviceUID);
 			}
 			return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
@@ -826,19 +826,31 @@ namespace FiresecService.Service
 			var failedDeviceUIDs = new List<Guid>();
 
 			var devicesCount = SKDManager.Devices.Count(device => device.Driver.IsController);
+			
+			// Показываем прогресс хода выполнения операции
 			var progressCallback = Processor.StartProgress("Запись графиков доступа на все контроллеры", null, devicesCount, true, SKDProgressClientType.Administrator);
+			
 			foreach (var device in SKDManager.Devices.Where(device => device.Driver.IsController))
 			{
-				AddSKDJournalMessage(JournalEventNameType.Запись_графиков_работы, device);
+				// Пользователь прервал операцию
+				if (progressCallback.IsCanceled)
+					return OperationResult<List<Guid>>.FromCancel("Запись графиков доступа на все контроллеры отменена");
+
+				AddSKDJournalMessage(JournalEventNameType.Запись_графиков_доступа, device);
 				var result = Processor.SKDWriteTimeSheduleConfiguration(device.UID, false);
 				if (result.HasError)
 				{
 					failedDeviceUIDs.Add(device.UID);
 					errors.AddRange(result.Errors);
 				}
+				
+				// Обновляем прогресс хода выполнения операции
 				Processor.DoProgress(null, progressCallback);
 			}
+			
+			// Останавливаем прогресс хода выполнения операции
 			Processor.StopProgress(progressCallback);
+			
 			return OperationResult<List<Guid>>.FromError(errors, failedDeviceUIDs);
 		}
 
@@ -868,6 +880,57 @@ namespace FiresecService.Service
 				}
 			}
 			return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
+		}
+
+		/// <summary>
+		/// Перезаписывает пропуска на все контроллеры
+		/// </summary>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
+		public OperationResult<List<Guid>> RewriteCardsOnAllControllers()
+		{
+			var errors = new List<string>();
+			var failedDeviceUIDs = new List<Guid>();
+
+			var devicesCount = SKDManager.Devices.Count(device => device.Driver.IsController);
+
+			// Показываем прогресс хода выполнения операции
+			var progressCallback = Processor.StartProgress("Запись пропусков на все контроллеры", null, devicesCount, true, SKDProgressClientType.Administrator);
+
+			foreach (var device in SKDManager.Devices.Where(device => device.Driver.IsController))
+			{
+				// Пользователь прервал операцию
+				if (progressCallback.IsCanceled)
+					return OperationResult<List<Guid>>.FromCancel("Запись пропусков на все контроллеры отменена");
+
+				OperationResult<bool> result = null;
+				using (var databaseService = new SKDDatabaseService())
+				{
+					AddSKDJournalMessage(JournalEventNameType.Перезапись_всех_карт, device);
+					var cardsResult = databaseService.CardTranslator.Get(new CardFilter());
+					var accessTemplatesResult = databaseService.AccessTemplateTranslator.Get(new AccessTemplateFilter());
+					if (!cardsResult.HasError && !accessTemplatesResult.HasError)
+					{
+						result = Processor.SKDRewriteAllCards(device, cardsResult.Result, accessTemplatesResult.Result, false);
+					}
+					else
+					{
+						result = OperationResult<bool>.FromError("Ошибка при получении карт или шаблонов карт");
+					}
+				}
+				if (result.HasError)
+				{
+					failedDeviceUIDs.Add(device.UID);
+					errors.AddRange(result.Errors);
+				}
+
+				// Обновляем прогресс хода выполнения операции
+				Processor.DoProgress(null, progressCallback);
+			}
+
+			// Останавливаем прогресс хода выполнения операции
+			Processor.StopProgress(progressCallback);
+
+			return OperationResult<List<Guid>>.FromError(errors, failedDeviceUIDs);
 		}
 
 		public OperationResult<bool> SKDUpdateFirmware(Guid deviceUID, string fileName)
@@ -1014,6 +1077,44 @@ namespace FiresecService.Service
 				return Processor.SetControllerLocksPasswords(deviceUid, locksPasswords);
 			}
 			return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
+		}
+
+		/// <summary>
+		/// Перезаписывает пароли замков на все контроллеры
+		/// </summary>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
+		public OperationResult<List<Guid>> RewriteControllerLocksPasswordsOnAllControllers()
+		{
+			var errors = new List<string>();
+			var failedDeviceUIDs = new List<Guid>();
+
+			var devicesCount = SKDManager.Devices.Count(device => device.Driver.IsController);
+
+			// Показываем прогресс хода выполнения операции
+			var progressCallback = Processor.StartProgress("Запись паролей замков на все контроллеры", null, devicesCount, true, SKDProgressClientType.Administrator);
+
+			foreach (var device in SKDManager.Devices.Where(device => device.Driver.IsController))
+			{
+				// Пользователь прервал операцию
+				if (progressCallback.IsCanceled)
+					return OperationResult<List<Guid>>.FromCancel("Запись паролей замков на все контроллеры отменена");
+
+				AddSKDJournalMessage(JournalEventNameType.SetControllerLocksPasswords, device);
+				var result = Processor.SetControllerLocksPasswords(device.UID, device.ControllerPasswords != null ? device.ControllerPasswords.LocksPasswords : new List<SKDLocksPassword>(), false);
+				if (result.HasError)
+				{
+					failedDeviceUIDs.Add(device.UID);
+					errors.AddRange(result.Errors);
+				}
+
+				// Обновляем прогресс хода выполнения операции
+				Processor.DoProgress(null, progressCallback);
+			}
+
+			// Останавливаем прогресс хода выполнения операции
+			Processor.StopProgress(progressCallback);
+
+			return OperationResult<List<Guid>>.FromError(errors, failedDeviceUIDs);
 		}
 
 		#endregion </Пароли замков>

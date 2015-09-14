@@ -1,4 +1,7 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
+using System.Text;
+using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecAPI.SKD;
@@ -151,34 +154,56 @@ namespace StrazhModule.ViewModels
 				
 			var thread = new Thread(() =>
 			{
+				var failedDevicesUids = new HashSet<Guid>();
+				OperationResult<List<Guid>> result = null;
+				
 				// 1. Записываем графики доступа
-				var result = FiresecManager.FiresecService.SKDWriteAllTimeSheduleConfiguration();
+				if (writeConfigurationInAllControllersViewModel.IsTimeSchedules)
+				{
+					result = FiresecManager.FiresecService.SKDWriteAllTimeSheduleConfiguration();
+					if (result.HasError && result.Result != null)
+						result.Result.ForEach(x => failedDevicesUids.Add(x));
+				}
 
 				// 2. Записываем пароли
+				if (writeConfigurationInAllControllersViewModel.IsLockPasswords && (result == null || (result != null && !result.IsCanceled)))
+				{
+					result = FiresecManager.FiresecService.RewriteControllerLocksPasswordsOnAllControllers();
+					if (result.HasError && result.Result != null)
+						result.Result.ForEach(x => failedDevicesUids.Add(x));
+				}
 
 				// 3. Записываем пропуска
-
-				ApplicationService.Invoke(new Action(() =>
+				if (writeConfigurationInAllControllersViewModel.IsCards && (result == null || (result != null && !result.IsCanceled)))
 				{
-					if (result.HasError)
+					result = FiresecManager.FiresecService.RewriteCardsOnAllControllers();
+					if (result.HasError && result.Result != null)
+						result.Result.ForEach(x => failedDevicesUids.Add(x));
+				}
+
+				ApplicationService.Invoke(() =>
+				{
+					if (failedDevicesUids.Count > 0)
 					{
 						LoadingService.Close();
-						MessageBoxService.ShowWarning(String.Format("Операция не выполнена на следующих контроллерах:\n\n{0}", result.Error));
+						var sb = new StringBuilder();
+						failedDevicesUids.ForEach(x => sb.AppendLine(SKDManager.Devices.FirstOrDefault(device => device.UID == x).Name));
+						MessageBoxService.ShowWarning(String.Format("Операция не выполнена на следующих контроллерах:\n\n{0}", sb));
 					}
 
 					var oldHasMissmath = HasMissmath;
 					SKDManager.Devices.ForEach(x => ClientSettings.SKDMissmatchSettings.Reset(x.UID));
-					foreach (var failedDeviceUID in result.Result)
+					foreach (var failedDeviceUID in failedDevicesUids)
 					{
 						ClientSettings.SKDMissmatchSettings.Set(failedDeviceUID);
 					}
 					OnPropertyChanged(() => HasMissmath);
 					if (HasMissmath != oldHasMissmath)
 						ServiceFactory.SaveService.SKDChanged = true;
-				}));
+				});
 
 			});
-			thread.Name = "DeviceCommandsViewModel OnWriteConfigurationInAllControllers";
+			thread.Name = "DeviceCommandsViewModel OnShowWriteConfigurationInAllControllers";
 			thread.Start();
 		}
 

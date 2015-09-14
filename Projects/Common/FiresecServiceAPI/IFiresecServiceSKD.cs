@@ -213,6 +213,13 @@ namespace FiresecAPI
 		[OperationContract]
 		OperationResult<bool> SKDRewriteAllCards(Guid deviceUID);
 
+		/// <summary>
+		/// Перезаписывает пропуска на все контроллеры
+		/// </summary>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
+		[OperationContract]
+		OperationResult<List<Guid>> RewriteCardsOnAllControllers();
+
 		[OperationContract]
 		OperationResult<bool> SKDUpdateFirmware(Guid deviceUID, string fileName);
 
@@ -261,6 +268,13 @@ namespace FiresecAPI
 		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
 		[OperationContract]
 		OperationResult<bool> SetControllerLocksPasswords(Guid deviceUid, IEnumerable<SKDLocksPassword> locksPasswords);
+
+		/// <summary>
+		/// Перезаписывает пароли замков на все контроллеры
+		/// </summary>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
+		[OperationContract]
+		OperationResult<List<Guid>> RewriteControllerLocksPasswordsOnAllControllers();
 
 		#endregion </Пароли замков>
 

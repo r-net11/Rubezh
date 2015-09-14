@@ -1581,15 +1581,38 @@ ALTER TABLE [Card] DROP COLUMN [GKLevelSchedule]
 INSERT INTO Patches (Id) VALUES ('RemoveGKLevelScheduleColumn')
 END
 GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'DropColumnDefaultConstraint')
+BEGIN
+	exec [dbo].[sp_executesql] @statement = N'
+	CREATE PROCEDURE [dbo].[DropColumnDefaultConstraint]
+(
+	@tableName VARCHAR(MAX),
+	@columnName VARCHAR(MAX)
+)
+AS
+BEGIN
+DECLARE @ConstraintName nvarchar(200)
+SELECT @ConstraintName = Name 
+FROM SYS.DEFAULT_CONSTRAINTS
+WHERE PARENT_OBJECT_ID = OBJECT_ID(@tableName) 
+AND PARENT_COLUMN_ID = (
+    SELECT column_id FROM sys.columns
+    WHERE NAME = @columnName AND object_id = OBJECT_ID(@tableName))
+IF @ConstraintName IS NOT NULL
+    EXEC(''ALTER TABLE ''+@tableName+'' DROP CONSTRAINT '' + @ConstraintName)
+END'	
+	INSERT INTO Patches (Id) VALUES ('DropColumnDefaultConstraint')
+END
+GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'RemoveGKCardTypeColumn')
 BEGIN
-ALTER TABLE [Card] DROP DF__Card__GKCardType__35BCFE0A
+EXEC [dbo].[DropColumnDefaultConstraint] @tableName = N'dbo.Card', @columnName = 'GKCardType'
 ALTER TABLE [Card] DROP COLUMN [GKCardType]
 INSERT INTO Patches (Id) VALUES ('RemoveGKCardTypeColumn')
 END
 GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'AddIsHandicappedCardColumn')
 BEGIN
-ALTER TABLE [Card] ADD IsHandicapped bit NOT NULL DEFAULT 0
+ALTER TABLE [Card] ADD [IsHandicappedCard] bit NOT NULL DEFAULT 0
 INSERT INTO Patches (Id) VALUES ('AddIsHandicappedCardColumn')
 END

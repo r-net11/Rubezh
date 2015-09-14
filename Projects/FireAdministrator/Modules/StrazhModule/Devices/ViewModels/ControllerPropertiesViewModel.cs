@@ -37,7 +37,7 @@ namespace StrazhModule.ViewModels
 		void OnReset()
 		{
 			if (!MessageBoxService.ShowQuestion(
-					"При сбросе настроек все параметры контроллера будут установлены на заводские, а записанные карты доступа и пропуска будут стерты. Продолжить?",
+					"При сбросе настроек все параметры контроллера будут установлены на заводские, а записанные пропуска будут стерты. Продолжить?",
 					null, MessageBoxImage.Warning))
 				return;
 			var result = FiresecManager.FiresecService.SKDResetController(Device);
@@ -94,14 +94,7 @@ namespace StrazhModule.ViewModels
 			if (!ValidateConfiguration())
 				return;
 
-			// Записываем графики доступа
-			WriteTimeSheduleConfiguration();
-
-			// Записываем графики замков
-			// TODO: Запись графиков замков
-
-			// Записываем пароли замков
-			// TODO: Запись паралей замков
+			WriteConfiguration();
 		}
 
 		/// <summary>
@@ -142,13 +135,18 @@ namespace StrazhModule.ViewModels
 			return true;
 		}
 
-		void WriteTimeSheduleConfiguration()
+		private void WriteConfiguration()
 		{
 			var thread = new Thread(() =>
 			{
+				// 1. Записываем графики доступа на контроллер
 				var result = FiresecManager.FiresecService.SKDWriteTimeSheduleConfiguration(Device);
 
-				ApplicationService.Invoke(new Action(() =>
+				// 2. Записываем пароли замков на контроллер
+				if (!result.IsCanceled)
+					result = FiresecManager.FiresecService.SetControllerLocksPasswords(Device, GetCantrollerLocksPasswords(Device));
+
+				ApplicationService.Invoke(() =>
 				{
 					if (result.HasError)
 					{
@@ -171,10 +169,15 @@ namespace StrazhModule.ViewModels
 					OnPropertyChanged(() => HasMismatch);
 					if (HasMismatch != oldHasMismatch)
 						ServiceFactory.SaveService.SKDChanged = true;
-				}));
+				});
 			});
-			thread.Name = "ControllerPropertiesViewModel OnWriteTimeSheduleConfiguration";
+			thread.Name = "ControllerPropertiesViewModel WriteConfiguration";
 			thread.Start();
+		}
+
+		private IEnumerable<SKDLocksPassword> GetCantrollerLocksPasswords(SKDDevice device)
+		{
+			return Device != null && Device.ControllerPasswords != null ? Device.ControllerPasswords.LocksPasswords : new List<SKDLocksPassword>();
 		}
 
 		private bool HasMismatch

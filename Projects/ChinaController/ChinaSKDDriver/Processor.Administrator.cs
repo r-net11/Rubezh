@@ -135,6 +135,8 @@ namespace ChinaSKDDriver
 					return OperationResult<bool>.FromError(String.Format("Нет связи с контроллером \"{0}\". {1}", deviceProcessor.Device.Name, deviceProcessor.LoginFailureReason));
 
 				SKDProgressCallback progressCallback = null;
+	
+				// Показываем индикатор хода выполнения операции
 				if (doProgress)
 					progressCallback = StartProgress(String.Format("Запись графиков доступа на контроллер \"{0}\"", deviceProcessor.Device.Name), null, 128, true, SKDProgressClientType.Administrator);
 
@@ -197,22 +199,30 @@ namespace ChinaSKDDriver
 						timeShedules.Add(timeShedule);
 					}
 
+					// Выполнение операции прервано пользователем
 					if (progressCallback != null && progressCallback.IsCanceled)
-						return OperationResult<bool>.FromError(String.Format("Операция записи графиков доступа на контроллер \"{0}\" отменена", deviceProcessor.Device.Name));
+						return OperationResult<bool>.FromCancel(String.Format("Операция записи графиков доступа на контроллер \"{0}\" отменена", deviceProcessor.Device.Name));
+					
+					
+					// Обновляем индикатор хода выполнения операции
 					if (progressCallback != null)
 						DoProgress(null, progressCallback);
 
 					var result = deviceProcessor.Wrapper.SetTimeShedules(i, timeShedules);
 					if (!result)
 					{
+						// Останавливаем индикатор хода выполнения операции
 						if (progressCallback != null)
 							StopProgress(progressCallback);
+						
 						return OperationResult<bool>.FromError(String.Format("Ошибка при выполнении операции записи графиков доступа на контроллер \"{0}\"", deviceProcessor.Device.Name));
 					}
 				}
 
+				// Останавливаем индикатор хода выполнения операции
 				if (progressCallback != null)
 					StopProgress(progressCallback);
+
 				return new OperationResult<bool>(true);
 			}
 			return OperationResult<bool>.FromError("Не найден контроллер в конфигурации");
@@ -541,17 +551,27 @@ namespace ChinaSKDDriver
 			return false;
 		}
 
-		public static OperationResult<bool> SetControllerLocksPasswords(Guid deviceUid, IEnumerable<SKDLocksPassword> locksPasswords)
+		public static OperationResult<bool> SetControllerLocksPasswords(Guid deviceUid, IEnumerable<SKDLocksPassword> locksPasswords, bool doProgress = true)
 		{
 			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == deviceUid);
 			if (deviceProcessor != null)
 			{
 				if (!deviceProcessor.IsConnected)
-					return OperationResult<bool>.FromError(String.Format("Нет связи с контроллером. {0}", deviceProcessor.LoginFailureReason));
+					return OperationResult<bool>.FromError(String.Format("Нет связи с контроллером \"{0}\". {1}", deviceProcessor.Device.Name, deviceProcessor.LoginFailureReason));
+
+				SKDProgressCallback progressCallback = null;
+
+				// Показываем индикатор хода выполнения операции
+				if (doProgress)
+					progressCallback = StartProgress(String.Format("Запись паролей замков на контроллер \"{0}\"", deviceProcessor.Device.Name), null, 2, true, SKDProgressClientType.Administrator);
 
 				// Сначала удаляем с контроллера все пароли замков, записанные ранее
 				if (!deviceProcessor.Wrapper.RemoveAllPasswords())
 					return OperationResult<bool>.FromError(String.Format("Ошибка удаления паролей замков на контроллере \"{0}\"", deviceProcessor.Device.Name));
+
+				// Обновляем индикатор хода выполнения операции
+				if (progressCallback != null)
+					DoProgress(null, progressCallback);
 
 				// Потом записываем на контроллер новые пароли замков
 				// Определяем количество активных замков/считывателей
@@ -603,6 +623,19 @@ namespace ChinaSKDDriver
 					};
 					deviceProcessor.Wrapper.AddPassword(password);
 				}
+
+				// Обновляем индикатор хода выполнения операции
+				if (progressCallback != null)
+					DoProgress(null, progressCallback);
+
+				// Выполнение операции прервано пользователем
+				if (progressCallback != null && progressCallback.IsCanceled)
+					return OperationResult<bool>.FromCancel(String.Format("Операция записи паролей замков на контроллер \"{0}\" отменена", deviceProcessor.Device.Name));
+
+				// Останавливаем индикатор хода выполнения операции
+				if (progressCallback != null)
+					StopProgress(progressCallback);
+
 				return new OperationResult<bool>(true);
 			}
 			return OperationResult<bool>.FromError("Не найден контроллер в конфигурации");
