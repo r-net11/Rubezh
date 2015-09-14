@@ -9,17 +9,7 @@ namespace SKDModule.ViewModels
 {
 	public class NightSettingsViewModel : SaveCancelDialogViewModel
 	{
-		NightSettings NightSettings
-		{
-			get 
-			{
-				if (!HasSelected) return new NightSettings();
-				var settings = NightSettingsHelper.GetByOrganisation(SelectedOrganisation.Organisation.UID);
-				if (settings == null)
-					settings = new NightSettings { OrganisationUID = SelectedOrganisation.Organisation.UID };
-				return settings; 
-			}
-		}
+		public NightSettings NightSettings { get; set; }
 		public List<FilterOrganisationViewModel> Organisations { get; private set; }
 		
 		public NightSettingsViewModel()
@@ -36,6 +26,7 @@ namespace SKDModule.ViewModels
 					Organisations.Add(new FilterOrganisationViewModel(organisation));
 				}
 			}
+			NightSettings = new NightSettings();
 		}
 
 		FilterOrganisationViewModel _selectedOrganisation;
@@ -46,6 +37,9 @@ namespace SKDModule.ViewModels
 			{
 				_selectedOrganisation = value;
 				OnPropertyChanged(() => SelectedOrganisation);
+				NightSettings = NightSettingsHelper.GetByOrganisation(SelectedOrganisation.Organisation.UID);
+				if (NightSettings == null)
+					NightSettings = new NightSettings { OrganisationUID = SelectedOrganisation.Organisation.UID };
 				OnPropertyChanged(() => NightStartTime);
 				OnPropertyChanged(() => NightEndTime);
 				OnPropertyChanged(() => HasSelected);
