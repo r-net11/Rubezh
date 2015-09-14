@@ -109,7 +109,7 @@ namespace FiresecAPI.Journal
 		[EventName(JournalSubsystemType.SKD, "Запись графиков доступа", XStateClass.TechnologicalRegime)]
 		Запись_графиков_доступа,
 
-		[EventName(JournalSubsystemType.SKD, "Перезапись всех карт", XStateClass.TechnologicalRegime)]
+		[EventName(JournalSubsystemType.SKD, "Запись пропусков", XStateClass.TechnologicalRegime)]
 		Перезапись_всех_карт,
 
 		[EventName(JournalSubsystemType.SKD, "Обновление ПО Контроллера", XStateClass.TechnologicalRegime)]
