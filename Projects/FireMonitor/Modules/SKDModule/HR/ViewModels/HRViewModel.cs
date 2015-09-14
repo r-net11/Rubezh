@@ -305,20 +305,5 @@ namespace SKDModule.ViewModels
 			EmployeeFilter.ClientUID = EmployeesViewModel.DbCallbackResultUID; 
 			EmployeeFilter.IsLoad = true;
         }
-
-		void BeginGetAsync()
-		{
-			var hrViewModel = new FiresecAPI.SKD.HRFilter
-			{
-				AccessTemplateFilter = AccessTemplateFilter,
-				AdditionalColumnTypeFilter = AdditionalColumnTypeFilter,
-				CardFilter = CardFilter,
-				DepartmentFilter = DepartmentFilter,
-				EmployeeFilter = EmployeeFilter,
-				PassCardTemplateFilter = PassCardTemplateFilter,
-				PositionFilter = PositionFilter
-			};
-			FiresecManager.FiresecService.BeginGetAsync(hrViewModel);
-		}
 	}
 }
