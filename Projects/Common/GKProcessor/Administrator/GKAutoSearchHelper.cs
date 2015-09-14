@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
+using System.Windows.Controls;
 using Common;
 using FiresecAPI;
 using FiresecAPI.GK;
@@ -32,6 +34,14 @@ namespace GKProcessor
 					if (progressCallback != null)
 						GKProcessorManager.StopProgress(progressCallback);
 					Error = "ГК с таким IP адресом не найден";
+					return null;
+				}
+				var pingResult2 = DeviceBytesHelper.Ping(newKauDevice);
+				if (!pingResult2)
+				{
+					if (progressCallback != null)
+						GKProcessorManager.StopProgress(progressCallback);
+					Error = "Устройство недоступно";
 					return null;
 				}
 				GKProcessorManager.DoProgress("Автопоиск устройств на " + newKauDevice.PresentationName, progressCallback);
@@ -166,7 +176,9 @@ namespace GKProcessor
 		bool FindDevicesOnShleif(GKDevice kauDevice, int shleifNo, GKProgressCallback progressCallback)
 		{
 			var shleifDevice = kauDevice.Children.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_KAU_Shleif && x.IntAddress == shleifNo + 1);
-			progressCallback = GKProcessorManager.StartProgress("Автопоиск на АЛС " + (shleifNo + 1) + " устройста " + kauDevice.PresentationName, "", (int)(256), true, GKProgressClientType.Administrator);
+			progressCallback.Title = "Автопоиск на АЛС " + (shleifNo + 1) + " устройста " + kauDevice.PresentationName;
+			progressCallback.CurrentStep = 0;
+			progressCallback.StepCount = 256;
 			using (var gkLifecycleManager = new GKLifecycleManager(kauDevice, "Автопоиск на АЛС " + (shleifNo + 1)))
 			{
 				var deviceGroups = new List<DeviceGroup>();
@@ -180,7 +192,6 @@ namespace GKProcessor
 						Error = "Операция отменена";
 						return false;
 					}
-
 					var bytes = new List<byte>();
 					bytes.Add(0);
 					bytes.Add((byte)address);
@@ -188,10 +199,15 @@ namespace GKProcessor
 					SendResult result2 = new SendResult("");
 					for (int i = 0; i < 3; i++)
 					{
-						result2 = SendManager.Send(kauDevice, 3, 0x86, 6, bytes, true, false, 2000);
+						if (progressCallback.IsCanceled)
+						{
+							Error = "Операция отменена";
+							return false;
+						}
+						result2 = SendManager.Send(kauDevice, 3, 0x86, 6, bytes, true, false, 500);
 						if (!result2.HasError)
 							break;
-						Thread.Sleep(1000);
+						Thread.Sleep(200);
 					}
 					if (!result2.HasError)
 					{
