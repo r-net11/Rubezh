@@ -1138,7 +1138,7 @@ namespace FiresecService.Service
 					return OperationResult<List<Guid>>.FromCancel("Запись паролей замков на все контроллеры отменена");
 
 				AddSKDJournalMessage(JournalEventNameType.SetControllerLocksPasswords, device);
-				var result = Processor.SetControllerLocksPasswords(device.UID, device.ControllerPasswords.LocksPasswords, false);
+				var result = Processor.SetControllerLocksPasswords(device.UID, device.ControllerPasswords != null ? device.ControllerPasswords.LocksPasswords : new List<SKDLocksPassword>(), false);
 				if (result.HasError)
 				{
 					failedDeviceUIDs.Add(device.UID);
