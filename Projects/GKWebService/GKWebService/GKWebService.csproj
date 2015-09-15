@@ -197,6 +197,12 @@
     <Content Include="Content\favicon\mstile-150x150.png" />
     <Content Include="Content\favicon\mstile-310x150.png" />
     <Content Include="Content\favicon\mstile-70x70.png" />
+    <Content Include="Content\Hr.css">
+      <DependentUpon>Hr.less</DependentUpon>
+    </Content>
+    <Content Include="Content\Hr.min.css">
+      <DependentUpon>Hr.css</DependentUpon>
+    </Content>
     <Content Include="Content\Image\Icon\Alarms\attention.png" />
     <Content Include="Content\Image\Icon\Alarms\auto.png" />
     <Content Include="Content\Image\Icon\Alarms\failure.png" />
@@ -247,6 +253,12 @@
     <Content Include="Content\Image\Icon\Menu\levels.png" />
     <Content Include="Content\Image\Icon\Menu\tree.png" />
     <Content Include="Content\jquery.jqGrid\ui.jqgrid.css" />
+    <Content Include="Content\main.css">
+      <DependentUpon>main.less</DependentUpon>
+    </Content>
+    <Content Include="Content\main.min.css">
+      <DependentUpon>main.css</DependentUpon>
+    </Content>
     <Content Include="Content\Site.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
@@ -366,6 +378,13 @@
     <Content Include="Scripts\d3\LICENSE" />
     <Content Include="Content\plan.less" />
     <Content Include="Scripts\angular.min.js.map" />
+    <Content Include="Content\Hr.less" />
+    <Content Include="Content\Hr.css.map">
+      <DependentUpon>Hr.css</DependentUpon>
+    </Content>
+    <Content Include="Content\main.css.map">
+      <DependentUpon>main.css</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
@@ -432,6 +451,13 @@
     <Content Include="Views\Hr\HrEmployees.cshtml" />
     <Content Include="Scripts\jquery.min.map" />
     <Content Include="Views\Home\Plan.cshtml" />
+    <Content Include="Views\Hr\HrDepartments.cshtml" />
+    <Content Include="Views\Hr\Positions.cshtml" />
+    <Content Include="Views\Hr\AdditionalColumnTypes.cshtml" />
+    <Content Include="Views\Hr\Cards.cshtml" />
+    <Content Include="Views\Hr\AccessTemplates.cshtml" />
+    <Content Include="Views\Hr\PassCardTemplates.cshtml" />
+    <Content Include="Views\Hr\Organisations.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
