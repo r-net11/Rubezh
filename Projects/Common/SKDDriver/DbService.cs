@@ -38,12 +38,6 @@ namespace SKDDriver.DataClasses
 
 		public static OperationResult<bool> ConnectionOperationResult { get; set; }
 
-        public static bool IsAbort
-		{
-			get { return JournalTranslator.IsAbort; }
-			set { JournalTranslator.IsAbort = value; }
-		}
-
 		public DbService()
 		{
 			Context = new DatabaseContext(DbServiceHelper.CreateConnection());

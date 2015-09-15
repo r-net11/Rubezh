@@ -95,11 +95,6 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
-			if (_endTime >= TimeSpan.FromDays(1))
-			{
-				_endTime -= TimeSpan.FromDays(1);
-				_selectedTransition = DayIntervalPartTransitionType.Night;
-			}
 			if (!Validate() || IsIntersection())
 			{
 				SelectedTransition = oldTransitionType;
@@ -124,7 +119,7 @@ namespace SKDModule.ViewModels
 				var endTime = dayIntervalPart.EndTime;
 				if (dayIntervalPart.TransitionType != DayIntervalPartTransitionType.Day)
 				{
-					if (endTime > firstBeginTime)
+					if (endTime >= firstBeginTime)
 					{
 						MessageBoxService.ShowWarning("Последовательность интервалов не должна быть пересекающейся");
 						return false;

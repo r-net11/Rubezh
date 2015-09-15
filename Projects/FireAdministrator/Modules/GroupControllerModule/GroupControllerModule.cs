@@ -239,14 +239,6 @@ namespace GKModule
             CodesViewModel.CreateCode(createGKCodeEventArg);
         }
 
-        public override bool BeforeInitialize(bool firstTime)
-        {
-            LoadingService.DoStep("Загрузка конфигурации ГК");
-            GKDriversCreator.Create();
-            GKManager.UpdateConfiguration();
-            return true;
-        }
-
         public override void AfterInitialize()
         {
             SafeFiresecService.CallbackOperationResultEvent -= new Action<CallbackOperationResult>(OnCallbackOperationResult);

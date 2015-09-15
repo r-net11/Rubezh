@@ -108,7 +108,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ResetPropertiesCommand { get; private set; }
 		void OnResetProperties()
 		{
-			Delay = 30;
+			Delay = 0;
 			Hold = 600;
 			NSDeltaTime = 5;
 			NSPumpsCount = 1;

@@ -63,7 +63,7 @@
 					<ToolBarButton Command="{Binding RefreshCommand}" ImageSource="Refresh"  ToolTip="Обновить" />
 					<ToolBarButton Command="{Binding PrintCommand}" ImageSource="Print"  ToolTip="Печать" />
 					<StackPanel DataContext="{Binding SelectedTimeTrack.DocumentsViewModel}" Orientation="Horizontal">
-						<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить документ" ImageSource="AddDocument"  />
+						<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить документ" ImageSource="AddDocument" />
 						<ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить документ" ImageSource="DeleteDocument" />
 						<ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать документ" ImageSource="EditDocument" />
 						<ToolBarButton Command="{Binding AddFileCommand}" ToolTip="Загрузить файл" ImageSource="AddFile" />

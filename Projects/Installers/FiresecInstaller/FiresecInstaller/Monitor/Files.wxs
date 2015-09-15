@@ -112,7 +112,7 @@
 			</Component>
 
 		</DirectoryRef>
-		<DirectoryRef Id="Monitor.dll">
+		<DirectoryRef Id="Monitor.Dll">
 			<Component Id="Monitor.Files.dll" Guid="8d349a80-1664-4282-905b-f934b8e2ef72">
 				<File Id="Monitor.aacdec.dll" Name="aacdec.dll" Source="$(var.Monitor.RVIVSS.Dll.TargetDir)" KeyPath="yes"/>
 				<File Id="Monitor.AACDecoder.dll" Name="AACDecoder.dll" Source="$(var.Monitor.RVIVSS.Dll.TargetDir)" />

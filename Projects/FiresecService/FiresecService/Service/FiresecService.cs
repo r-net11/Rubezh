@@ -63,7 +63,7 @@ namespace FiresecService.Service
 				{
 					if (FiresecService.CurrentThread != null)
 					{
-						DbService.IsAbort = true;
+						//DbService.IsAbort = true;
 						CurrentThread.Join(TimeSpan.FromSeconds(2));
 						CurrentThread = null;
 					}

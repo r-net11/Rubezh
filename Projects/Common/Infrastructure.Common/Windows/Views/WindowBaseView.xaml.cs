@@ -188,8 +188,16 @@ namespace Infrastructure.Common.Windows.Views
 					if (!double.IsNaN(control.Width))
 						control.Width = double.NaN;
 
-					Left += (oldWidth - ActualWidth) / 2;
-					Top += (oldHeight - ActualHeight) / 2;
+					if (_model.CustomPosition)
+					{
+						var rect = MonitorHelper.WorkingArea(_monitorID);
+						Left += rect.Left;
+					}
+					else
+					{
+						Left += (oldWidth - ActualWidth) / 2;
+						Top += (oldHeight - ActualHeight) / 2;
+					}
 				}
 			}
 		}

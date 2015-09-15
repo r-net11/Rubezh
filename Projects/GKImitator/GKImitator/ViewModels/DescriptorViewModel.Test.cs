@@ -31,6 +31,7 @@ namespace GKImitator.ViewModels
 			SetStateBit(GKStateBit.Test, true);
 			var journalItem = new ImitatorJournalItem(2, 6, 1, 1);
 			AddJournalItem(journalItem);
+			RecalculateOutputLogic();
 		}
 
 		public RelayCommand TestLaserCommand { get; private set; }
@@ -39,6 +40,7 @@ namespace GKImitator.ViewModels
 			SetStateBit(GKStateBit.Test, true);
 			var journalItem = new ImitatorJournalItem(2, 6, 2, 1);
 			AddJournalItem(journalItem);
+			RecalculateOutputLogic();
 		}
 
 		public RelayCommand ResetTestCommand { get; private set; }
@@ -47,6 +49,7 @@ namespace GKImitator.ViewModels
 			SetStateBit(GKStateBit.Test, false);
 			var journalItem = new ImitatorJournalItem(2, 6, 0, 0);
 			AddJournalItem(journalItem);
+			RecalculateOutputLogic();
 		}
 	}
 }
