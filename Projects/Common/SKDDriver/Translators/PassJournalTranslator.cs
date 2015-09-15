@@ -130,7 +130,7 @@ namespace SKDDriver.Translators
 		public OperationResult<IEnumerable<DayTimeTrackPart>> GetIntersectionIntervals(DayTimeTrackPart currentDayTimeTrackPart,
 			ShortEmployee currentEmployee)
 		{
-			var linkedIntervals = Context.PassJournals.Where(x => x.EmployeeUID == currentEmployee.UID)
+			var linkedIntervals = Context.PassJournals.Where(x => x.EmployeeUID == currentEmployee.UID && x.UID != currentDayTimeTrackPart.UID)
 				.Where(
 					x =>
 						currentDayTimeTrackPart.ExitDateTime >= x.EnterTime
