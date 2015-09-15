@@ -21,6 +21,7 @@ namespace ControllerSDK.ViewModels
 			GetCountCommand = new RelayCommand(OnGetCount);
 			GetAllCommand = new RelayCommand(OnGetAll);
 			AddManyCommand = new RelayCommand(OnAddMany);
+			ClearRepeatEnterCommand = new RelayCommand(OnClearRepeatEnter);
 			Cards = new ObservableCollection<CardViewModel>();
 
 			CardNo = "1";
@@ -93,6 +94,15 @@ namespace ControllerSDK.ViewModels
 			var result = MainViewModel.Wrapper.RemoveAllCards();
 			MessageBox.Show("result = " + result);
 		}
+
+		public RelayCommand ClearRepeatEnterCommand { get; private set; }
+
+		private void OnClearRepeatEnter()
+		{
+			var result = MainViewModel.Wrapper.ClearRepeatEnter(Index);
+			MessageBox.Show("result = " + result);
+		}
+
 
 		public RelayCommand GetInfoCommand { get; private set; }
 		void OnGetInfo()

@@ -97,6 +97,13 @@ namespace ChinaSKDDriver
 			return cardWriter;
 		}
 
+		public static CardWriter ResetRepeatEnter(SKDCard card, List<Guid> doorGuids)
+		{
+			var cardWriter = new CardWriter();
+			cardWriter.ResetRepeatEnter(card, doorGuids);
+			return cardWriter;
+		}
+
 		public static CardWriter EditCard(SKDCard oldCard, AccessTemplate oldAccessTemplate, SKDCard newCard, AccessTemplate newAccessTemplate)
 		{
 			var cardWriter = new CardWriter();

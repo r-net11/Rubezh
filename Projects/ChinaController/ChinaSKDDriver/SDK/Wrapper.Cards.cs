@@ -45,6 +45,27 @@ namespace ChinaSKDDriver
 		}
 
 		/// <summary>
+		/// Сбрасывает антипессбэк для указанной карты
+		/// </summary>
+		/// <param name="index">номер карты</param>
+		/// <returns>true - в случае удачи, false - в противном случае</returns>
+		public bool ResetRepeatEnter(string index)
+		{
+			var result = NativeWrapper.WRAP_Card_ClearRepeatEnter(LoginID, index);
+			return result;
+		}
+
+		/// <summary>
+		/// Выполняет сброс антипассбэка для указанной карты
+		/// </summary>
+		/// <param name="index">номер карты</param>
+		/// <returns>true - в случае удачи, false - в противном случае</returns>
+		public bool ClearRepeatEnter(int index)
+		{
+			return NativeWrapper.WRAP_Card_ClearRepeatEnter(LoginID, index.ToString("X"));
+		}
+
+		/// <summary>
 		/// Удаляет с контроллера данные по всем картам
 		/// </summary>
 		/// <returns>true - в случае удачи, false - в противном случае</returns>

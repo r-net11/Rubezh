@@ -26,6 +26,7 @@ namespace SKDModule.ViewModels
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
 			PrintCommand = new RelayCommand(OnPrint);
 			SelectCardCommand = new RelayCommand(OnSelectCard);
+			ResetRepeatEnterCommand = new RelayCommand(OnResetRepeatEnter);
 
 			Organisation = organisation;
 			EmployeeCardsViewModel = employeeCardsViewModel;
@@ -102,6 +103,31 @@ namespace SKDModule.ViewModels
 				OnPropertyChanged(() => Card);
 				OnPropertyChanged(() => Name);
 				SetCardDoors();
+			}
+		}
+
+		public RelayCommand ResetRepeatEnterCommand { get; set; }
+
+		private void OnResetRepeatEnter()
+		{
+			var dialog = new ResetRepeatEnterViewModel();
+			var list = new List<Guid>();
+
+			if (!DialogService.ShowModalWindow(dialog)) return;
+
+			if(dialog.IsForAllAccessPoints)
+				list.AddRange(CardDoorsViewModel.Doors.Select(x => x.CardDoor.DoorUID));
+			else
+				list.Add(CardDoorsViewModel.SelectedDoor.CardDoor.DoorUID);
+
+			var result = CardHelper.ResetRepeatEnter(Card, list);
+			if (result && !dialog.IsForAllAccessPoints)
+			{
+				MessageBoxService.Show("Ограничение на повторный проход по пропуску сброшено для точки доступа");
+			}
+			if (result && dialog.IsForAllAccessPoints)
+			{
+				MessageBoxService.Show("Ограничение на повторный проход по пропуску сброшено для всех точек доступа");
 			}
 		}
 

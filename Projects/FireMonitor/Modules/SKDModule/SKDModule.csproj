@@ -169,6 +169,10 @@
     <Compile Include="Employees\ViewModels\CardNumberViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\DepartmentSelectionItemViewModel.cs" />
     <Compile Include="Employees\ViewModels\ControllerSelectationViewModel.cs" />
+    <Compile Include="Employees\ViewModels\EmployeeDetails\ResetRepeatEnterViewModel.cs" />
+    <Compile Include="Employees\Views\EmployeeDetails\ResetRepeatEnterView.xaml.cs">
+      <DependentUpon>ResetRepeatEnterView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Employees\Views\IsPositionDeletedTextBlock.xaml.cs">
       <DependentUpon>IsPositionDeletedTextBlock.xaml</DependentUpon>
     </Compile>
@@ -708,6 +712,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="AccessTemplates\Views\AccessTemplateFilterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Employees\Views\EmployeeDetails\ResetRepeatEnterView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

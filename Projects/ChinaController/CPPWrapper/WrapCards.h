@@ -19,5 +19,6 @@ typedef struct tagNET_CardsCollection
 
 extern "C" SDK_CLIENT_API BOOL SDK_CALL_METHOD WRAP_BeginGetAll_Cards(int loginID, int& finderID);
 extern "C" SDK_CLIENT_API int SDK_CALL_METHOD WRAP_GetAll_Cards(int finderID, CardsCollection* result);
+extern "C" SDK_CLIENT_API BOOL SDK_CALL_METHOD WRAP_Card_ClearRepeatEnter(int finderID, char* recordNo);
 
 #endif // !defined(__WRAP_CARDS_H__)

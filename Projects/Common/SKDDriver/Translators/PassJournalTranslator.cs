@@ -133,8 +133,8 @@ namespace SKDDriver.Translators
 			var linkedIntervals = Context.PassJournals.Where(x => x.EmployeeUID == currentEmployee.UID)
 				.Where(
 					x =>
-						x.EnterTime >= currentDayTimeTrackPart.EnterDateTime &&
-						x.ExitTime <= currentDayTimeTrackPart.ExitDateTime)
+						currentDayTimeTrackPart.ExitDateTime >= x.EnterTime
+						&& currentDayTimeTrackPart.EnterDateTime <= x.ExitTime)
 				.Union(Context.PassJournals.Where(x => x.EmployeeUID == currentEmployee.UID && x.IsOpen)).ToList();
 
 			var resultCollection = new List<DayTimeTrackPart>();

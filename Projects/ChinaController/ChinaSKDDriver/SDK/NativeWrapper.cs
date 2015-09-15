@@ -440,7 +440,7 @@ namespace ChinaSKDDriverNativeApi
 			public string pPacketData;
 			public int nPacketLen;
 			public int nRealPacketLen;
-			
+
 			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 1024)]
 			public byte[] byReverseed;
 		}
@@ -500,6 +500,9 @@ namespace ChinaSKDDriverNativeApi
 
 		[DllImport(@"CPPWrapper.dll")]
 		public static extern bool WRAP_Remove_Card(int loginID, int recordNo);
+
+		[DllImport(@"CPPWrapper.dll")]
+		public static extern bool WRAP_Card_ClearRepeatEnter(int loginID, string recordNo);
 
 		[DllImport(@"CPPWrapper.dll")]
 		public static extern bool WRAP_RemoveAll_Cards(int loginID);
@@ -670,7 +673,7 @@ namespace ChinaSKDDriverNativeApi
 			public string szUserID;
 
 			public int nReaderID;
-	
+
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 260)]
 			public string szSnapFtpUrl;
 
@@ -1048,10 +1051,10 @@ namespace ChinaSKDDriverNativeApi
 			NET_SENSE_DIRECTCUR,        //Direct current sensor
 			NET_SENSE_RSUGENERAL,       //RSU general analog sensor, 4~20mA or 0~5V
 			NET_SENSE_RSUDOOR,          //RSU door sensor
-			NET_SENSE_RSUPOWEROFF,      //RSU power off sensor	
-			NET_SENSE_TEMP1500,        //1500 temperature sensor	
-			NET_SENSE_TEMPDS18B20,     //DS18B20 temperature sensor	
-			NET_SENSE_HUMIDITY1500,     //1500 humidity sensor	
+			NET_SENSE_RSUPOWEROFF,      //RSU power off sensor
+			NET_SENSE_TEMP1500,        //1500 temperature sensor
+			NET_SENSE_TEMPDS18B20,     //DS18B20 temperature sensor
+			NET_SENSE_HUMIDITY1500,     //1500 humidity sensor
 			NET_SENSE_NUM,				//Number of enumeration type
 		}
 

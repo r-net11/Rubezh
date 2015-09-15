@@ -277,6 +277,12 @@ namespace FiresecService
 						{
 							cardWriter = ChinaSKDDriver.Processor.DeleteCard(card, getAccessTemplateOperationResult.Result);
 						}
+						if ((PendingCardAction) pendingCard.Action == PendingCardAction.ResetRepeatEnter)
+						{
+							List<Guid> doorsGuids = deviceProcessor.Device.Children.Where(x => x.DriverType == SKDDriverType.Reader && x.Door != null).Select(x => x.Door.UID).ToList();
+							cardWriter = Processor.ResetRepeatEnter(card, doorsGuids);
+						}
+
 						foreach (var controllerCardItem in cardWriter.ControllerCardItems)
 						{
 							if (!controllerCardItem.HasError)

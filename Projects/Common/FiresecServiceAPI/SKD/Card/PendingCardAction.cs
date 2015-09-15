@@ -11,6 +11,9 @@ namespace FiresecAPI.SKD
 		Edit,
 
 		[Description("Удаление")]
-		Delete
+		Delete,
+
+		[Description("Сброс антипессбэка")]
+		ResetRepeatEnter,
 	}
 }

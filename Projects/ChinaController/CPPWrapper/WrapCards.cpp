@@ -19,9 +19,9 @@ int CALL_METHOD WRAP_Insert_Card(int loginID, NET_RECORDSET_ACCESS_CTL_CARD* par
     stuInert.stuCtrlRecordSetInfo.emType = NET_RECORD_ACCESSCTLCARD;
 	stuInert.stuCtrlRecordSetInfo.pBuf = (void*)param;
 	stuInert.stuCtrlRecordSetInfo.nBufLen = sizeof(NET_RECORDSET_ACCESS_CTL_CARD);
-	
+
 	stuInert.stuCtrlRecordSetResult.dwSize = sizeof(NET_CTRL_RECORDSET_INSERT_OUT);
-	
+
     BOOL bResult = CLIENT_ControlDevice(loginID, DH_CTRL_RECORDSET_INSERT, &stuInert, SDK_API_WAITTIME);
 	int nRecrdNo = stuInert.stuCtrlRecordSetResult.nRecNo;
 	if (bResult)
@@ -100,9 +100,9 @@ BOOL CALL_METHOD WRAP_BeginGetAll_Cards(int loginID, int& finderID)
 {
 	NET_IN_FIND_RECORD_PARAM stuIn = {sizeof(stuIn)};
 	NET_OUT_FIND_RECORD_PARAM stuOut = {sizeof(stuOut)};
-	
+
 	stuIn.emType = NET_RECORD_ACCESSCTLCARD;
-		
+
 	if (CLIENT_FindRecord(loginID, &stuIn, &stuOut, SDK_API_WAITTIME))
 	{
 		finderID = stuOut.lFindeHandle;
@@ -121,10 +121,10 @@ int CALL_METHOD WRAP_GetAll_Cards(int finderID, CardsCollection* result)
 	NET_IN_FIND_NEXT_RECORD_PARAM stuIn = {sizeof(stuIn)};
 	stuIn.lFindeHandle = finderID;
 	stuIn.nFileCount = nMaxNum;
-	
+
 	NET_OUT_FIND_NEXT_RECORD_PARAM stuOut = {sizeof(stuOut)};
 	stuOut.nMaxRecordNum = nMaxNum;
-	
+
 	NET_RECORDSET_ACCESS_CTL_CARD* pstuCard = new NET_RECORDSET_ACCESS_CTL_CARD[nMaxNum];
 	if (NULL == pstuCard)
 	{
@@ -137,7 +137,7 @@ int CALL_METHOD WRAP_GetAll_Cards(int finderID, CardsCollection* result)
 		pstuCard[i].dwSize = sizeof(NET_RECORDSET_ACCESS_CTL_CARD);
 	}
 	stuOut.pRecordList = (void*)pstuCard;
-	
+
 	if (CLIENT_FindNextRecord(&stuIn, &stuOut, SDK_API_WAITTIME) >= 0)
     {
 		int itemsCount = __min(stuOut.nMaxRecordNum, stuOut.nRetRecordNum);
@@ -153,4 +153,20 @@ int CALL_METHOD WRAP_GetAll_Cards(int finderID, CardsCollection* result)
 
 	memcpy(result, &cardsCollection, sizeof(CardsCollection));
 	return stuOut.nRetRecordNum;
+}
+
+BOOL CALL_METHOD WRAP_Card_ClearRepeatEnter(int loginID, char* recordNo)
+{
+	if (NULL == loginID)
+	{
+		return FALSE;
+	}
+	BOOL bRet = FALSE;
+
+	////消除反潜报警 ClearRepeatEnter RPC调用
+	NET_IN_CLEAR_REPEAT_ENTER stuInClearRepeatEnter;
+	strcpy(stuInClearRepeatEnter.szCardNO, recordNo);
+	NET_OUT_CLEAR_REPEAT_ENTER stuOutClearRepeatEnter;
+	bRet = CLIENT_ClearRepeatEnter(loginID, &stuInClearRepeatEnter, &stuOutClearRepeatEnter, 3000);
+	return bRet;
 }

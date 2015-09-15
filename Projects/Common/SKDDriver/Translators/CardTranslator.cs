@@ -322,6 +322,17 @@ namespace SKDDriver
 			return new OperationResult();
 		}
 
+		public OperationResult ResetRepeatEnterPendingList(Guid cardUID, IEnumerable<Guid> controllerUIDs)
+		{
+			foreach (var controllerUID in controllerUIDs)
+			{
+				var result = ResetRepeatEnterPending(cardUID, controllerUID);
+				if (result.HasError)
+					return result;
+			}
+			return new OperationResult();
+		}
+
 		private OperationResult AddPending(Guid cardUID, Guid controllerUID)
 		{
 			try
@@ -340,8 +351,9 @@ namespace SKDDriver
 		{
 			try
 			{
-				if (Context.PendingCards.Any(x => x.CardUID == cardUID && x.ControllerUID == controllerUID &&
-					(x.Action == (int)PendingCardAction.Add || x.Action == (int)PendingCardAction.Edit)))
+				if (Context.PendingCards
+					.Any(x => x.CardUID == cardUID && x.ControllerUID == controllerUID  
+						&& (x.Action == (int)PendingCardAction.Add || x.Action == (int)PendingCardAction.Edit)))
 					return new OperationResult();
 				DeleteAllPendingCards(cardUID, controllerUID);
 				InsertPendingCard(cardUID, controllerUID, PendingCardAction.Edit);
@@ -374,6 +386,34 @@ namespace SKDDriver
 						DeleteAllPendingCards(cardUID, controllerUID);
 						InsertPendingCard(cardUID, controllerUID, PendingCardAction.Delete);
 						break;
+				}
+				return new OperationResult();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
+		}
+
+		private OperationResult ResetRepeatEnterPending(Guid cardUID, Guid controllerUID)
+		{
+			try
+			{
+				PendingCard pendingCard = Context.PendingCards.FirstOrDefault(x => x.CardUID == cardUID && x.ControllerUID == controllerUID);
+				if (pendingCard == null)
+				{
+					InsertPendingCard(cardUID, controllerUID, PendingCardAction.ResetRepeatEnter);
+					return new OperationResult();
+				}
+
+				pendingCard.Action = (int)PendingCardAction.ResetRepeatEnter;
+				try
+				{
+					Context.SubmitChanges();
+				}
+				catch (Exception e)
+				{
+					return new OperationResult(e.Message);
 				}
 				return new OperationResult();
 			}
