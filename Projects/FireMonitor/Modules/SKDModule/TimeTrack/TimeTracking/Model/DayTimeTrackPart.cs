@@ -61,7 +61,7 @@ namespace SKDModule.Model
 		{
 			get
 			{
-				if (TimeTrackZone != null && TimeTrackZone.IsURV) return true;
+				if (TimeTrackZone != null && TimeTrackZone.IsURV && !IsOpen) return true;
 				NotTakeInCalculations = true;
 				return false;
 			}

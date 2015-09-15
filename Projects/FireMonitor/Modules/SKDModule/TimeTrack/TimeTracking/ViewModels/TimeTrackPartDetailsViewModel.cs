@@ -130,6 +130,7 @@ namespace SKDModule.ViewModels
 			CurrentTimeTrackPart.CorrectedDate = CurrentTimeTrackPart.AdjustmentDate.Value.ToString(CultureInfo.CurrentUICulture);
 			CurrentTimeTrackPart.CorrectedByUID = FiresecManager.CurrentUser.UID;
 			CurrentTimeTrackPart.NotTakeInCalculations = NotTakeInCalculations;
+			CurrentTimeTrackPart.IsNeedAdjustment = default(bool);
 
 			return Validate();
 		}
