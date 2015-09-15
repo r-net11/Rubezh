@@ -54,7 +54,7 @@ namespace JournalModule.ViewModels
 			}
 		}
 
-		public void Sort(ShowArchiveEventArgs showArchiveEventArgs)
+		public void Sort(List<Guid> objectUIDs)
 		{
 			ArchiveFilter = new ArchiveFilter();
 			ArchiveFilter.PageSize = ClientSettings.ArchiveDefaultState.PageSize;
@@ -62,30 +62,7 @@ namespace JournalModule.ViewModels
 			ClientSettings.ArchiveDefaultState.ArchiveDefaultStateType = ArchiveDefaultStateType.LastDays;
 			ClientSettings.ArchiveDefaultState.Count = 7;
 
-			if (showArchiveEventArgs.GKDevice != null)
-				ArchiveFilter.ObjectUIDs.Add(showArchiveEventArgs.GKDevice.UID);
-			if (showArchiveEventArgs.GKZone != null)
-				ArchiveFilter.ObjectUIDs.Add(showArchiveEventArgs.GKZone.UID);
-			if (showArchiveEventArgs.GKDirection != null)
-				ArchiveFilter.ObjectUIDs.Add(showArchiveEventArgs.GKDirection.UID);
-			if (showArchiveEventArgs.GKDelay != null)
-				ArchiveFilter.ObjectUIDs.Add(showArchiveEventArgs.GKDelay.UID);
-			if (showArchiveEventArgs.GKPim != null)
-				ArchiveFilter.ObjectUIDs.Add(showArchiveEventArgs.GKPim.UID);
-			if (showArchiveEventArgs.GKPumpStation != null)
-				ArchiveFilter.ObjectUIDs.Add(showArchiveEventArgs.GKPumpStation.UID);
-			if (showArchiveEventArgs.GKMPT != null)
-				ArchiveFilter.ObjectUIDs.Add(showArchiveEventArgs.GKMPT.UID);
-			if (showArchiveEventArgs.GKDelay != null)
-				ArchiveFilter.ObjectUIDs.Add(showArchiveEventArgs.GKDelay.UID);
-			if (showArchiveEventArgs.GKGuardZone != null)
-				ArchiveFilter.ObjectUIDs.Add(showArchiveEventArgs.GKGuardZone.UID);
-			if (showArchiveEventArgs.GKSKDZone != null)
-				ArchiveFilter.ObjectUIDs.Add(showArchiveEventArgs.GKSKDZone.UID);
-			if (showArchiveEventArgs.GKDoor != null)
-				ArchiveFilter.ObjectUIDs.Add(showArchiveEventArgs.GKDoor.UID);
-			if (showArchiveEventArgs.Camera != null)
-				ArchiveFilter.ObjectUIDs.Add(showArchiveEventArgs.Camera.UID);
+			ArchiveFilter.ObjectUIDs.AddRange(objectUIDs);
 			Update();
 		}
 

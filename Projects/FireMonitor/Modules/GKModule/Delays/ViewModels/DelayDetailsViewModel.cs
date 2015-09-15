@@ -187,11 +187,8 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowJournalCommand { get; private set; }
 		void OnShowJournal()
 		{
-			var showArchiveEventArgs = new ShowArchiveEventArgs()
-			{
-				GKDelay = Delay
-			};
-			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(showArchiveEventArgs);
+			if(Delay != null)
+				ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(new List<Guid> { Delay.UID });
 		}
 
 		public ObservableCollection<PlanLinkViewModel> Plans { get; private set; }

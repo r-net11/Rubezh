@@ -150,11 +150,8 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowJournalCommand { get; private set; }
 		void OnShowJournal()
 		{
-			var showArchiveEventArgs = new ShowArchiveEventArgs()
-			{
-				GKPim = Pim
-			};
-			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(showArchiveEventArgs);
+			if (Pim != null)
+				ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(new List<Guid> { Pim.UID });
 		}
 
 		public ObservableCollection<PlanLinkViewModel> Plans { get; private set; }

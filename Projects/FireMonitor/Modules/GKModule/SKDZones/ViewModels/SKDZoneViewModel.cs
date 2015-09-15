@@ -9,6 +9,7 @@ using FiresecClient;
 using Infrastructure.Events;
 using System.Collections.ObjectModel;
 using FiresecAPI.Models;
+using System;
 
 namespace GKModule.ViewModels
 {
@@ -124,11 +125,8 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowJournalCommand { get; private set; }
 		void OnShowJournal()
 		{
-			var showArchiveEventArgs = new ShowArchiveEventArgs()
-			{
-				GKSKDZone = SKDZone
-			};
-			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(showArchiveEventArgs);
+			if (SKDZone != null)
+				ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(new List<Guid> { SKDZone.UID });
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }

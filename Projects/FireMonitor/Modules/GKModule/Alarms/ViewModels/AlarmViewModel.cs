@@ -10,6 +10,8 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrustructure.Plans.Elements;
+using System;
+using System.Collections.Generic;
 
 namespace GKModule.ViewModels
 {
@@ -534,16 +536,20 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowJournalCommand { get; private set; }
 		void OnShowJournal()
 		{
-			var showArchiveEventArgs = new ShowArchiveEventArgs()
-			{
-				GKDevice = Alarm.Device,
-				GKZone = Alarm.Zone,
-				GKGuardZone = Alarm.GuardZone,
-				GKDirection = Alarm.Direction,
-				GKMPT = Alarm.Mpt,
-				GKDoor = Alarm.Door,
-			};
-			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(showArchiveEventArgs);
+			var uids = new List<Guid>();
+			if (Alarm.Device != null)
+				uids.Add(Alarm.Device.UID);
+			if (Alarm.Zone != null)
+				uids.Add(Alarm.Zone.UID);
+			if (Alarm.GuardZone != null)
+				uids.Add(Alarm.GuardZone.UID);
+			if (Alarm.Direction != null)
+				uids.Add(Alarm.Direction.UID);
+			if (Alarm.Mpt != null)
+				uids.Add(Alarm.Mpt.UID);
+			if (Alarm.Door != null)
+				uids.Add(Alarm.Door.UID);
+			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(uids);
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }

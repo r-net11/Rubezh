@@ -16,6 +16,8 @@ using Infrastructure.Events;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
+using System;
+using System.Collections.Generic;
 
 namespace GKModule.Plans.Designer
 {
@@ -66,11 +68,8 @@ namespace GKModule.Plans.Designer
 		public RelayCommand ShowJournalCommand { get; private set; }
 		private void OnShowJournal()
 		{
-			var showArchiveEventArgs = new ShowArchiveEventArgs()
-			{
-				GKMPT = Item
-			};
-			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(showArchiveEventArgs);
+			if (Item != null)
+				ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(new List<Guid> { Item.UID });
 		}
 
 		#region IPainter Members
