@@ -140,9 +140,9 @@ namespace FiresecService.Service
 			return SafeContext.Execute<OperationResult<IEnumerable<SKDCard>>>(() => FiresecService.GetCards(filter));
 		}
 
-		public OperationResult<bool> ResetRepeatEnter(SKDCard card, List<Guid> doorGuids)
+		public OperationResult<bool> ResetRepeatEnter(Dictionary<SKDCard, List<Guid>> cardsToReset, int? cardNo, string doorName, string organisationName)
 		{
-			return SafeContext.Execute(() => FiresecService.ResetRepeatEnter(card, doorGuids));
+			return SafeContext.Execute(() => FiresecService.ResetRepeatEnter(cardsToReset, cardNo, doorName, organisationName));
 		}
 
 		public OperationResult<IEnumerable<SKDCard>> GetEmployeeCards(Guid employeeUID)

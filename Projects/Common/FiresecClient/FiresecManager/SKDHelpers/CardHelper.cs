@@ -19,9 +19,18 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(result);
 		}
 
-		public static bool ResetRepeatEnter(SKDCard card, List<Guid> doorsdGuids)
+		//public static bool ResetRepeatEnter(List<SKDCard> cards, List<Guid> doorsdGuids)
+		/// <summary>
+		/// Метод сброса антипессбэка для карт
+		/// </summary>
+		/// <param name="cardsToReset">Словарь карт, подлежащих сбросу. Ключ - карта, Значение - список точек доступа, которые нужно сбросить для конкретной карты</param>
+		/// <param name="cardNo">Номер карты</param>
+		/// <param name="doorName">Имя точки доступа</param>
+		/// <param name="organisationName">Название организации</param>
+		/// <returns>true - в случае успешного завершения, false - в случае неудачи</returns>
+		public static bool ResetRepeatEnter(Dictionary<SKDCard, List<Guid>> cardsToReset, int? cardNo = null, string doorName = null, string organisationName = null)
 		{
-			var result = FiresecManager.FiresecService.ResetRepeatEnter(card, doorsdGuids);
+			var result = FiresecManager.FiresecService.ResetRepeatEnter(cardsToReset, cardNo, doorName, organisationName);
 			return Common.ShowErrorIfExists(result);
 		}
 

@@ -138,9 +138,9 @@ namespace FiresecClient
 			return SafeContext.Execute<OperationResult<IEnumerable<SKDCard>>>(() => FiresecService.GetEmployeeCards(employeeUID));
 		}
 
-		public OperationResult<bool> ResetRepeatEnter(SKDCard card, List<Guid> doorsdGuids)
+		public OperationResult<bool> ResetRepeatEnter(Dictionary<SKDCard, List<Guid>> cardsToReset, int? cardNo, string doorName, string organisationName)
 		{
-			return SafeContext.Execute(() => FiresecService.ResetRepeatEnter(card, doorsdGuids));
+			return SafeContext.Execute(() => FiresecService.ResetRepeatEnter(cardsToReset, cardNo, doorName, organisationName));
 		}
 
 		public OperationResult<bool> AddCard(SKDCard item, string employeeName)

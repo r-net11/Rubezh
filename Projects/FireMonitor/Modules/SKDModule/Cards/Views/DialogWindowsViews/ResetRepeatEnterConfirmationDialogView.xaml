@@ -1,0 +1,41 @@
+﻿<UserControl
+	x:Class="SKDModule.Views.ResetRepeatEnterConfirmationDialogView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    mc:Ignorable="d"
+    Width="400"
+	Height="250">
+	<UserControl.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="pack://application:,,,/Controls;component/Themes/StrazhTheme.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+			<BitmapImage x:Key="HelpImage" UriSource="pack://application:,,,/Controls;component/Images/Help.png" />
+		</ResourceDictionary>
+	</UserControl.Resources>
+    <Grid Background="{StaticResource BackgroundBrush}">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="0.2*" />
+			<ColumnDefinition />
+		</Grid.ColumnDefinitions>
+		<Image
+			Margin="10"
+			Source="{StaticResource HelpImage}"
+			VerticalAlignment="Top"/>
+		<StackPanel
+			Grid.Column="1"
+			Margin="10">
+			<TextBlock
+				Foreground="White"
+				TextWrapping="Wrap"
+				Text="Посла сброса ограничения на повторный проход для ВСЕХ пропусков, по ним будет возможет проход в любом направлении через ВСЕХ точки доступа. После первого прохода через точку доступа по пропуску ограничение будет установлено в соответствии с настройками режима повторного прохода." />
+			<TextBlock
+				TextWrapping="Wrap"
+				Foreground="White"
+				Margin="0 15"
+				Text="Вы действительно хотите сбросить ограничения на повторный проход для ВСЕХ пропусков?" />
+		</StackPanel>
+	</Grid>
+</UserControl>

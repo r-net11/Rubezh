@@ -220,7 +220,7 @@
 						Margin="2 4"
 						IsChecked="{Binding IsAlternativeLockParams}">
 						<TextBlock
-							Text="Альтернативные время закрытия и удержания (для карт, лиц с ограниченными возможностями)"
+							Text="Альтернативные время закрытия и удержания (для карт лиц с ограниченными возможностями)"
 							TextWrapping="Wrap"
 							Foreground="White" />
 					</CheckBox>

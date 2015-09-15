@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Documents;
 using FiresecAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
@@ -20,6 +22,7 @@ namespace SKDModule.ViewModels
 		{
 			_filter = new CardFilter();
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
+			ResetRepeatEnterForOrg = new RelayCommand(OnResetRepeatEnterForOrg, () => SelectedCard != null && SelectedCard.IsOrganisation);
 			ServiceFactory.Events.GetEvent<NewCardEvent>().Unsubscribe(OnNewCard);
 			ServiceFactory.Events.GetEvent<NewCardEvent>().Subscribe(OnNewCard);
 			ServiceFactory.Events.GetEvent<BlockCardEvent>().Unsubscribe(OnBlockCard);
@@ -226,6 +229,21 @@ namespace SKDModule.ViewModels
 				_selectedCard = value;
 				OnPropertyChanged(() => SelectedCard);
 			}
+		}
+
+		public RelayCommand ResetRepeatEnterForOrg { get; private set; }
+
+		public void OnResetRepeatEnterForOrg()
+		{
+			if (!DialogService.ShowModalWindow(new ResetRepeatEnterConfirmationDialogViewModel())) return;
+
+			Dictionary<SKDCard, List<Guid>> cardsToReset = SelectedCard.Children
+				.Select(x => x.Card)
+				.ToDictionary(card => card, card => card.CardDoors.Select(x => x.DoorUID).ToList());
+
+			if (!CardHelper.ResetRepeatEnter(cardsToReset, organisationName: SelectedCard.Organisation.Name)) return;
+
+			MessageBoxService.Show("Ограничение на повторный проход сброшено для всех пропусков на всех точках доступа");
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }

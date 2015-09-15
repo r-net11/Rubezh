@@ -289,23 +289,57 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult<bool> ResetRepeatEnter(SKDCard card, List<Guid> doorGuids)
+		/// <summary>
+		/// Метод сброса флага повторного прохода для коллекции карт
+		/// </summary>
+		/// <param name="cardsToReset">Словарь карт для сброса. Ключ - карта, Значение - список UID точек доступа, подлежащих сбросу</param>
+		/// <param name="cardNo">Номер карты</param>
+		/// <param name="doorName">Название ТД</param>
+		/// <param name="organisationName">Название организации</param>
+		/// <returns>Если во время операции не возникло ошибок, то true</returns>
+		public OperationResult<bool> ResetRepeatEnter(Dictionary<SKDCard, List<Guid>> cardsToReset, int? cardNo, string doorName, string organisationName)
 		{
 			using (var databaseService = new SKDDatabaseService())
 			{
+				SetJournalMessageForResetRepeatEnter(cardsToReset, cardNo, doorName, organisationName);
 				var errors = new List<string>();
 
-				var cardWriter = Processor.ResetRepeatEnter(card, doorGuids);
-				var cardWriterError = cardWriter.GetError();
-				if (!String.IsNullOrEmpty(cardWriterError))
-					errors.Add(cardWriterError);
+				foreach (KeyValuePair<SKDCard, List<Guid>> cardToReset in cardsToReset)
+				{
+					var cardWriter = Processor.ResetRepeatEnter(cardToReset.Key, cardToReset.Value);
+					var cardWriterError = cardWriter.GetError();
+					if (!String.IsNullOrEmpty(cardWriterError))
+						errors.Add(cardWriterError);
 
-				var failedControllerUIDs = GetFailedControllerUIDs(cardWriter);
-				var pendingResult = databaseService.CardTranslator.ResetRepeatEnterPendingList(card.UID, failedControllerUIDs);
-				if (pendingResult.HasError)
-					errors.Add(pendingResult.Error);
+					var failedControllerUIDs = GetFailedControllerUIDs(cardWriter);
+					var pendingResult = databaseService.CardTranslator.ResetRepeatEnterPendingList(cardToReset.Key.UID, failedControllerUIDs);
+					if (pendingResult.HasError)
+						errors.Add(pendingResult.Error);
+				}
 
 				return OperationResult<bool>.FromError(errors, true);
+			}
+		}
+
+		private void SetJournalMessageForResetRepeatEnter(Dictionary<SKDCard, List<Guid>> cardsToReset, int? cardNo, string doorName, string organisationName)
+		{
+			var employeeName =
+					cardsToReset.Keys.FirstOrDefault() != null
+					? cardsToReset.Keys.FirstOrDefault().EmployeeName
+					: string.Empty;
+
+			if (cardNo != null && !string.IsNullOrEmpty(doorName))
+			{
+				AddJournalMessage(JournalEventNameType.Сброс_антипессбэка_для_выбранной_ТД, employeeName,
+					descriptionText: string.Format("{0}, {1}", cardNo, doorName));
+			}
+			else if (cardNo != null)
+			{
+				AddJournalMessage(JournalEventNameType.Сброс_антипессбэка_для_выбранной_ТД, employeeName, descriptionText: cardNo.ToString());
+			}
+			else
+			{
+				AddJournalMessage(JournalEventNameType.Сброс_антипессбэка_для_всех_пропусков, organisationName);
 			}
 		}
 
@@ -317,7 +351,7 @@ namespace FiresecService.Service
 			{
 				var saveResult = databaseService.CardTranslator.Save(card);
 				if (saveResult.HasError)
-					return OperationResult<bool>.FromError(saveResult.Error, false);
+					return OperationResult<bool>.FromError(saveResult.Error);
 
 				var errors = new List<string>();
 
@@ -826,10 +860,10 @@ namespace FiresecService.Service
 			var failedDeviceUIDs = new List<Guid>();
 
 			var devicesCount = SKDManager.Devices.Count(device => device.Driver.IsController);
-			
+
 			// Показываем прогресс хода выполнения операции
 			var progressCallback = Processor.StartProgress("Запись графиков доступа на все контроллеры", null, devicesCount, true, SKDProgressClientType.Administrator);
-			
+
 			foreach (var device in SKDManager.Devices.Where(device => device.Driver.IsController))
 			{
 				// Пользователь прервал операцию
@@ -843,14 +877,14 @@ namespace FiresecService.Service
 					failedDeviceUIDs.Add(device.UID);
 					errors.AddRange(result.Errors);
 				}
-				
+
 				// Обновляем прогресс хода выполнения операции
 				Processor.DoProgress(null, progressCallback);
 			}
-			
+
 			// Останавливаем прогресс хода выполнения операции
 			Processor.StopProgress(progressCallback);
-			
+
 			return OperationResult<List<Guid>>.FromError(errors, failedDeviceUIDs);
 		}
 
