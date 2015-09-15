@@ -392,6 +392,7 @@ namespace GKImitator.ViewModels
 				}
 			}
 
+			var intState = StatesToInt();
 			foreach (var stateBitVale in stateBitVales)
 			{
 				if (stateBitVale.Value)
@@ -429,7 +430,6 @@ namespace GKImitator.ViewModels
 
 			if (GKBase is GKZone && hasZoneBitsChanged)
 			{
-				var intState = StatesToInt();
 				foreach (var stateBitVale in stateBitVales)
 				{
 					SetStateBit(stateBitVale.Key, stateBitVale.Value);
@@ -455,11 +455,12 @@ namespace GKImitator.ViewModels
 					var journalItem = new ImitatorJournalItem(2, 14, 0, 0);
 					AddJournalItem(journalItem);
 				}
-				var newIntState = StatesToInt();
-				if(newIntState != intState)
-				{
-					RecalculateOutputLogic();
-				}
+			}
+
+			var newIntState = StatesToInt();
+			if (newIntState != intState)
+			{
+				RecalculateOutputLogic();
 			}
 		}
 
