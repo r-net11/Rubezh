@@ -424,8 +424,8 @@ namespace StrazhModule.ViewModels
 		}
 		bool SetDoorType()
 		{
-			if (!SelectedDoorTypeHasChanged)
-				return true;
+			//if (!SelectedDoorTypeHasChanged)
+			//	return true;
 
 			var result = FiresecManager.FiresecService.SetControllerDoorType(DeviceViewModel.Device, SelectedDoorType);
 			return !result.HasError;
@@ -442,8 +442,8 @@ namespace StrazhModule.ViewModels
 		}
 		bool SetAntiPassBack()
 		{
-			if (!AntiPassBackHasChanged)
-				return true;
+			//if (!AntiPassBackHasChanged)
+			//	return true;
 
 			var result = FiresecManager.FiresecService.SKDSetAntiPassBackConfiguration(
 				DeviceViewModel.Device,
@@ -462,8 +462,8 @@ namespace StrazhModule.ViewModels
 		}
 		bool SetInterlock()
 		{
-			if (!InterlockHasChanged)
-				return true;
+			//if (!InterlockHasChanged)
+			//	return true;
 
 			var result = FiresecManager.FiresecService.SKDSetInterlockConfiguration(
 				DeviceViewModel.Device,
@@ -497,8 +497,8 @@ namespace StrazhModule.ViewModels
 				MessageBoxService.ShowWarning("Нет связи с устройством");
 				return;				
 			}
-			if (SelectedDoorTypeHasChanged)
-				MessageBoxService.Show("Выполняется перезагрузка контроллера. Контроллер будет доступен через несколько секунд");
+			//if (SelectedDoorTypeHasChanged)
+			//	MessageBoxService.Show("Выполняется перезагрузка контроллера. Контроллер будет доступен через несколько секунд");
 
 			NeedSaveChangesToController = false;
 		}
