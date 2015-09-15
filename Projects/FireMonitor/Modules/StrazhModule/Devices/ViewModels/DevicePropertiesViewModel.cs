@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.GK;
 using FiresecAPI.SKD;
@@ -12,7 +13,7 @@ namespace StrazhModule.ViewModels
 		{
 			Properties = new ObservableCollection<DeviceProperty>();
 
-			foreach (var driverProperty in device.Driver.Properties)
+			foreach (var driverProperty in device.Driver.Properties.Where(x => !String.Equals(x.Name, "login", StringComparison.InvariantCultureIgnoreCase) && !String.Equals(x.Name, "password", StringComparison.InvariantCultureIgnoreCase)))
 			{
 				var deviceProperty = new DeviceProperty()
 				{
