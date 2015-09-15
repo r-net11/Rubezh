@@ -111,21 +111,26 @@ namespace SKDModule.ViewModels
 		private void OnResetRepeatEnter()
 		{
 			var dialog = new ResetRepeatEnterViewModel();
-			var list = new List<Guid>();
+			var doorGuids = new List<Guid>();
+			var cardNo = Card.Number;
+			string doorName = null;
 
 			if (!DialogService.ShowModalWindow(dialog)) return;
 
-			if(dialog.IsForAllAccessPoints)
-				list.AddRange(CardDoorsViewModel.Doors.Select(x => x.CardDoor.DoorUID));
+			if (dialog.IsForAllAccessPoints)
+				doorGuids.AddRange(CardDoorsViewModel.Doors.Select(x => x.CardDoor.DoorUID));
 			else
-				list.Add(CardDoorsViewModel.SelectedDoor.CardDoor.DoorUID);
+			{
+				doorGuids.Add(CardDoorsViewModel.SelectedDoor.CardDoor.DoorUID);
+				doorName = CardDoorsViewModel.SelectedDoor.Name;
+			}
 
-			var result = CardHelper.ResetRepeatEnter(Card, list);
+			var result = CardHelper.ResetRepeatEnter(new Dictionary<SKDCard, List<Guid>>{{Card, doorGuids}}, (int)cardNo, doorName);
 			if (result && !dialog.IsForAllAccessPoints)
 			{
 				MessageBoxService.Show("Ограничение на повторный проход по пропуску сброшено для точки доступа");
 			}
-			if (result && dialog.IsForAllAccessPoints)
+			else if (result && dialog.IsForAllAccessPoints)
 			{
 				MessageBoxService.Show("Ограничение на повторный проход по пропуску сброшено для всех точек доступа");
 			}

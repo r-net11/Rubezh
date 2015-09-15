@@ -29,7 +29,7 @@ namespace ChinaSKDDriver
 			ProcessControllerCardItems(ControllerCardItems, false);
 		}
 
-		private List<ControllerCardItem> Create_ControllerCardItems_ToResetRepeatEnter(SKDCard card, List<Guid> doorGuids)
+		private List<CardWriter.ControllerCardItem> Create_ControllerCardItems_ToResetRepeatEnter(SKDCard card, List<Guid> doorGuids)
 		{
 			var controllerCardItems = new List<ControllerCardItem>();
 
@@ -177,7 +177,7 @@ namespace ChinaSKDDriver
 		public List<string> RewriteAllCards(SKDDevice device, IEnumerable<SKDCard> cards, IEnumerable<AccessTemplate> accessTemplates, bool doProgress = true)
 		{
 			SKDProgressCallback progressCallback = null;
-			
+
 			// Показываем индикатор выполнения операции
 			if (doProgress)
 				progressCallback = Processor.StartProgress(String.Format("Запись пропусков на контроллер \"{0}\"", device.Name), "", cards.Count(), true, SKDProgressClientType.Administrator);

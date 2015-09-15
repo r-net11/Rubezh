@@ -7,6 +7,12 @@ namespace FiresecAPI.Journal
 		[EventName(JournalSubsystemType.System, "NULL", XStateClass.No)]
 		NULL,
 
+		[EventName(JournalSubsystemType.System, "Сброс ограничения на повторный проход", XStateClass.Info)]
+		Сброс_антипессбэка_для_выбранной_ТД,
+
+		[EventName(JournalSubsystemType.System, "Сброс ограничения на повторный проход для ВСЕХ пропусков", XStateClass.Info)]
+		Сброс_антипессбэка_для_всех_пропусков,
+
 		[EventName(JournalSubsystemType.SKD, "Добавление интервала", XStateClass.Info)]
 		Добавление_интервала,
 

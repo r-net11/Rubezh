@@ -35,8 +35,7 @@
 							Command="{Binding RestoreCommand}"
 							ImageSource="Redo"
 							ToolTip="Восстановить"
-							Visibility="{Binding IsWithDeleted,
-						                                    Converter={StaticResource BoolToVisibilityConverter}}" />
+							Visibility="{Binding IsWithDeleted, Converter={StaticResource BoolToVisibilityConverter}}" />
 					</StackPanel>
 					<ToolBarButton
 						Command="{Binding SelectedItem.EmployeeCardsViewModel.AddCardCommand}"
@@ -160,6 +159,10 @@
 						Command="{Binding RemoveCommand}"
 						ImageSource="Delete"
 						ToolTip="Удалить" />
+					<ToolBarButton
+						Command="{Binding ResetRepeatEnterForOrg}"
+						ImageSource="DeleteTime"
+						ToolTip="Сброс ограничения на повторный прохов для ВСЕХ пропусков организации" />
 				</StackPanel>
 			</Grid>
 			<Grid Visibility="{Binding IsAccessTemplatesSelected, Converter={StaticResource BoolToVisibilityConverter}}">
