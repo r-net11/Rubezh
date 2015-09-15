@@ -38,7 +38,7 @@ namespace FiltersModule.ViewModels
 				if (eventNameAttributes.Length > 0)
 				{
 					EventNameAttribute eventNameAttribute = eventNameAttributes[0];
-					Name = eventNameAttribute.Name;
+					Name = eventNameAttribute.NameInFilter;
 					JournalSubsystemType = eventNameAttribute.JournalSubsystemType;
 					StateClass = eventNameAttribute.StateClass;
 					if (StateClass == XStateClass.Norm)
