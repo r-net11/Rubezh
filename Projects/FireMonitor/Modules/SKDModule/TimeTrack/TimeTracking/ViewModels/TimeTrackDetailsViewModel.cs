@@ -557,6 +557,7 @@ namespace SKDModule.ViewModels
 			if (!ShowResetAdjustmentsWarning()) return;
 
 			ClearIntervalsData(DayTimeTrackParts);
+			if (!DayTimeTrackParts.Any()) return;
 
 			var resultCollection = DayTimeTrackParts.Where(x => !x.IsManuallyAdded || x.IsForceClosed).ToList();
 			List<DayTimeTrackPart> collection = DayTimeTrackParts.Where(x => !x.IsForceClosed).ToList();
@@ -694,7 +695,7 @@ namespace SKDModule.ViewModels
 
 		public bool CanForceClosing()
 		{
-			return SelectedDayTimeTrackPart.IsOpen;
+			return SelectedDayTimeTrackPart != null && SelectedDayTimeTrackPart.IsOpen;
 		}
 
 		#endregion
