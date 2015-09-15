@@ -30,7 +30,7 @@ namespace JournalModule.ViewModels
 				if (descriptionAttributes.Length > 0)
 				{
 					EventNameAttribute eventNameAttribute = descriptionAttributes[0];
-					Name = eventNameAttribute.Name;
+					Name = eventNameAttribute.NameInFilter;
 					JournalSubsystemType = eventNameAttribute.JournalSubsystemType;
 					StateClass = eventNameAttribute.StateClass;
 					if (StateClass == XStateClass.Norm)

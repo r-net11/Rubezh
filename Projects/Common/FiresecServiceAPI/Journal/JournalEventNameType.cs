@@ -154,40 +154,40 @@ namespace FiresecAPI.Journal
 		[EventName(JournalSubsystemType.SKD, "Запись сетевых настроек контроллера", XStateClass.TechnologicalRegime)]
 		Запись_сетевых_настроек_контроллера,
 
-		[EventName(JournalSubsystemType.SKD, "Команда \"Открыть\" замок удаленно", XStateClass.On)]
+		[EventName(JournalSubsystemType.SKD, "Команда \"Открыть\" удаленно", XStateClass.On, "Команда \"Открыть\" замок удаленно")]
 		Команда_на_открытие_двери,
 
-		[EventName(JournalSubsystemType.SKD, "Команда \"Закрыть\" замок удаленно", XStateClass.Off)]
+		[EventName(JournalSubsystemType.SKD, "Команда \"Закрыть\" удаленно", XStateClass.Off, "Команда \"Закрыть\" замок удаленно")]
 		Команда_на_закрытие_двери,
 
-		[EventName(JournalSubsystemType.SKD, "Команда на перевод замка в режим \"Открыто\"", XStateClass.On)]
+		[EventName(JournalSubsystemType.SKD, "Команда на перевод в режим \"Открыто\"", XStateClass.On, "Команда на перевод замка в режим \"Открыто\"")]
 		Команда_на_перевод_двери_в_режим_Открыто,
 
-		[EventName(JournalSubsystemType.SKD, "Команда на перевод замка в режим \"Закрыто\"", XStateClass.Off)]
+		[EventName(JournalSubsystemType.SKD, "Команда на перевод в режим \"Закрыто\"", XStateClass.Off, "Команда на перевод замка в режим \"Закрыто\"")]
 		Команда_на_перевод_двери_в_режим_Закрыто,
 
-		[EventName(JournalSubsystemType.SKD, "Команда \"Открыть\" зону удаленно", XStateClass.On)]
+		[EventName(JournalSubsystemType.SKD, "Команда \"Открыть\" удаленно", XStateClass.On, "Команда \"Открыть\" зону удаленно")]
 		Команда_на_открытие_зоны,
 
-		[EventName(JournalSubsystemType.SKD, "Команда \"Закрыть\" зону удаленно", XStateClass.Off)]
+		[EventName(JournalSubsystemType.SKD, "Команда \"Закрыть\" удаленно", XStateClass.Off, "Команда \"Закрыть\" зону удаленно")]
 		Команда_на_закрытие_зоны,
 
-		[EventName(JournalSubsystemType.SKD, "Команда на перевод зоны в режим \"Открыто\"", XStateClass.On)]
+		[EventName(JournalSubsystemType.SKD, "Команда на перевод в режим \"Открыто\"", XStateClass.On, "Команда на перевод зоны в режим \"Открыто\"")]
 		Команда_на_перевод_зоны_в_режим_Открыто,
 
-		[EventName(JournalSubsystemType.SKD, "Команда на перевод зоны в режим \"Закрыто\"", XStateClass.Off)]
+		[EventName(JournalSubsystemType.SKD, "Команда на перевод в режим \"Закрыто\"", XStateClass.Off, "Команда на перевод зоны в режим \"Закрыто\"")]
 		Команда_на_перевод_зоны_в_режим_Закрыто,
 
-		[EventName(JournalSubsystemType.SKD, "Команда \"Открыть\" точку доступа удаленно", XStateClass.On)]
+		[EventName(JournalSubsystemType.SKD, "Команда \"Открыть\" удаленно", XStateClass.On, "Команда \"Открыть\" точку доступа удаленно")]
 		Команда_на_открытие_точки_доступа,
 
-		[EventName(JournalSubsystemType.SKD, "Команда \"Закрыть\" точку доступа удаленно", XStateClass.Off)]
+		[EventName(JournalSubsystemType.SKD, "Команда \"Закрыть\" удаленно", XStateClass.Off, "Команда \"Закрыть\" точку доступа удаленно")]
 		Команда_на_закрытие_точки_доступа,
 
-		[EventName(JournalSubsystemType.SKD, "Команда на перевод точки доступа в режим \"Открыто\"", XStateClass.On)]
+		[EventName(JournalSubsystemType.SKD, "Команда на перевод в режим \"Открыто\"", XStateClass.On, "Команда на перевод точки доступа в режим \"Открыто\"")]
 		Команда_на_перевод_точки_доступа_в_режим_Открыто,
 
-		[EventName(JournalSubsystemType.SKD, "Команда на перевод точки доступа в режим \"Закрыто\"", XStateClass.Off)]
+		[EventName(JournalSubsystemType.SKD, "Команда на перевод в режим \"Закрыто\"", XStateClass.Off, "Команда на перевод точки доступа в режим \"Закрыто\"")]
 		Команда_на_перевод_точки_доступа_в_режим_Закрыто,
 
 		[EventName(JournalSubsystemType.SKD, "Добавление карты", XStateClass.Info)]
@@ -346,13 +346,13 @@ namespace FiresecAPI.Journal
 		[EventName(JournalSubsystemType.SKD, "Неизвестный статус замка двери", XStateClass.Unknown)]
 		Неизвестный_статус_замка_двери,
 
-		[EventName(JournalSubsystemType.SKD, "Команда на перевод точки доступа в режим \"Норма\"", XStateClass.Norm)]
+		[EventName(JournalSubsystemType.SKD, "Команда на перевод в режим \"Норма\"", XStateClass.Norm, "Команда на перевод точки доступа в режим \"Норма\"")]
 		Команда_на_перевод_точки_доступа_в_режим_Норма,
 
-		[EventName(JournalSubsystemType.SKD, "Команда на перевод зоны в режим \"Норма\"", XStateClass.Norm)]
+		[EventName(JournalSubsystemType.SKD, "Команда на перевод в режим \"Норма\"", XStateClass.Norm, "Команда на перевод зоны в режим \"Норма\"")]
 		Команда_на_перевод_зоны_в_режим_Норма,
 
-		[EventName(JournalSubsystemType.SKD, "Команда на перевод замка в режим \"Норма\"", XStateClass.Norm)]
+		[EventName(JournalSubsystemType.SKD, "Команда на перевод в режим \"Норма\"", XStateClass.Norm, "Команда на перевод замка в режим \"Норма\"")]
 		Команда_на_перевод_двери_в_режим_Норма,
 
 		[EventName(JournalSubsystemType.SKD, "Запрос настроек запрета повторного прохода", XStateClass.TechnologicalRegime)]
@@ -370,13 +370,13 @@ namespace FiresecAPI.Journal
 		[EventName(JournalSubsystemType.SKD, "Подтверждение тревоги", XStateClass.Fire1)]
 		Подтверждение_тревоги,
 
-		[EventName(JournalSubsystemType.SKD, "Команда на сброс состояния замка \"Взлом\"", XStateClass.Info)]
+		[EventName(JournalSubsystemType.SKD, "Команда на сброс состояния \"Взлом\"", XStateClass.Info, "Команда на сброс состояния замка \"Взлом\"")]
 		Сброс_состояния_взлом_замка,
 
-		[EventName(JournalSubsystemType.SKD, "Команда на сброс состояния точки доступа \"Взлом\"", XStateClass.Info)]
+		[EventName(JournalSubsystemType.SKD, "Команда на сброс состояния \"Взлом\"", XStateClass.Info, "Команда на сброс состояния точки доступа \"Взлом\"")]
 		Сброс_состояния_взлом_точки_доступа,
 
-		[EventName(JournalSubsystemType.SKD, "Команда на сброс состояния зоны \"Взлом\"", XStateClass.Info)]
+		[EventName(JournalSubsystemType.SKD, "Команда на сброс состояния \"Взлом\"", XStateClass.Info, "Команда на сброс состояния зоны \"Взлом\"")]
 		Сброс_состояния_взлом_зоны,
 
 		[EventName(JournalSubsystemType.SKD, "Запрос паролей замков", XStateClass.TechnologicalRegime)]
