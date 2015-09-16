@@ -689,7 +689,12 @@ namespace SKDModule.ViewModels
 		{
 			if(DialogService.ShowModalWindow(new ForceClosingQuestionDialogWindowViewModel()))
 			{
-				SelectedDayTimeTrackPart.ExitDateTime = DateTime.Now;
+				var nowDateTime = DateTime.Now;
+				SelectedDayTimeTrackPart.ExitDateTime = nowDateTime;
+				SelectedDayTimeTrackPart.AdjustmentDate = nowDateTime;
+				SelectedDayTimeTrackPart.CorrectedDate = nowDateTime.ToString(CultureInfo.CurrentUICulture);
+				SelectedDayTimeTrackPart.CorrectedBy = FiresecManager.CurrentUser.Name;
+				SelectedDayTimeTrackPart.CorrectedByUID = FiresecManager.CurrentUser.UID;
 			}
 		}
 
