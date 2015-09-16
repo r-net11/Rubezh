@@ -305,63 +305,21 @@ namespace GKWebService.DataProviders
 			return shape;
 		}
 		private PlanElement DeviceToShape(ElementGKDevice item)
-		{
-
+		{ 
 			// Находим девайс и набор его состояний
 			var device =
 				GKManager.Devices.FirstOrDefault(d => d.UID == item.DeviceUID);
 			if (device == null)
 				return null;
 
-			var deviceConfig =
-				GKManager.DeviceLibraryConfiguration.GKDevices.FirstOrDefault(d => d.DriverUID == device.DriverUID);
-			if (deviceConfig == null)
-				return null;
-		   var stateWithPic =
-				deviceConfig.States.FirstOrDefault(s => s.StateClass == device.State.StateClass) ??
-				deviceConfig.States.FirstOrDefault(s => s.StateClass == XStateClass.No);
-			if (stateWithPic == null)
-			{
-				return null;
-			}
-
-			// Перебираем кадры в состоянии и генерируем gif картинку
-			byte[] bytes;
-			using (MagickImageCollection collection = new MagickImageCollection())
-			{ 
-				foreach (var frame in stateWithPic.Frames)
-				{
-					
-					var frame1 = frame;
-					Task<Bitmap> getBitmapTask = Task.Factory.StartNewSta(() =>
-					                                                      {
-																			  Canvas surface = (Canvas)XamlFromString(frame1.Image);
-																			  return XamlCanvasToPngBitmap(surface);
-					                                                      });
-					Task.WaitAll(getBitmapTask);
-					var pngBitmap = getBitmapTask.Result;
-					MagickImage img = new MagickImage(pngBitmap)
-					                  {
-						                  AnimationDelay = frame.Duration,
-					                  };
-					collection.Add(img);
-
-				}
-				collection.Optimize();
-
-				using (var stream = new MemoryStream())
-				{
-					collection.Write(stream);
-					bytes = stream.ToArray();
-				}
-			}
+			var bytes = GetDeviceStatePic(device);
 
 			// Создаем элемент плана
 			// Ширину и высоту задаем 500, т.к. знаем об этом
 			var shape = new PlanElement
 			{
 				Name = item.PresentationName,
-				Id = item.UID,
+				Id = item.DeviceUID,
 				Image = Convert.ToBase64String(bytes),
 				Hint = device.PresentationName,
 				X = item.Left-7,
@@ -373,7 +331,61 @@ namespace GKWebService.DataProviders
 			return shape;
 		}
 
-		private PlanElement GetDeviceHintIcon(ElementGKDevice item)
+	    private byte[] GetDeviceStatePic(GKDevice device)
+	    {
+		    var deviceConfig =
+			    GKManager.DeviceLibraryConfiguration.GKDevices.FirstOrDefault(d => d.DriverUID == device.DriverUID);
+		    if (deviceConfig == null)
+			    return null;
+		    var stateWithPic =
+			    deviceConfig.States.FirstOrDefault(s => s.StateClass == device.State.StateClass) ??
+			    deviceConfig.States.FirstOrDefault(s => s.StateClass == XStateClass.No);
+		    if (stateWithPic == null)
+			    return null;
+
+		    // Перебираем кадры в состоянии и генерируем gif картинку
+		    byte[] bytes;
+		    using (MagickImageCollection collection = new MagickImageCollection())
+		    {
+			    foreach (var frame in stateWithPic.Frames)
+			    {
+				    var frame1 = frame;
+				    Task<Bitmap> getBitmapTask = Task.Factory.StartNewSta(() =>
+				                                                          {
+					                                                          Canvas surface =
+						                                                          (Canvas) XamlFromString(frame1.Image);
+					                                                          return XamlCanvasToPngBitmap(surface);
+				                                                          });
+				    Task.WaitAll(getBitmapTask);
+				    var pngBitmap = getBitmapTask.Result;
+				    MagickImage img = new MagickImage(pngBitmap)
+				                      {
+					                      AnimationDelay = frame.Duration/10,
+				                      };
+				    collection.Add(img);
+			    }
+			    //collection.Optimize();
+
+				var path = string.Format(@"C:\tmpImage{0}.gif", Guid.NewGuid());
+				collection.Write(path);
+				//using (var fstream = new FileStream(path, FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite))
+				//{
+
+				//}
+				using (var fstream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
+				{
+					using (var stream = new MemoryStream())
+					{
+						fstream.CopyTo(stream);
+						bytes = stream.ToArray();
+					}
+                }
+				//File.Delete(path);
+			}
+		    return bytes;
+	    }
+
+	    private PlanElement GetDeviceHintIcon(ElementGKDevice item)
 		{
 			var device =
 				GKManager.Devices.FirstOrDefault(d => d.UID == item.DeviceUID);
@@ -390,9 +402,7 @@ namespace GKWebService.DataProviders
 				deviceConfig.States.FirstOrDefault(s => s.StateClass == XStateClass.No);
 
 
-			var imagePath = device != null ? device.ImageSource.Replace("/Controls;component/", "") : null;
-			if (imagePath == null)
-				return null;
+			var imagePath = device.ImageSource.Replace("/Controls;component/", "");
 			var imageData = GetImageResource(imagePath);
 
 			var shape = new PlanElement
@@ -453,8 +463,71 @@ namespace GKWebService.DataProviders
 
 		private void SafeFiresecService_GKCallbackResultEvent(GKCallbackResult obj)
 		{
-			Debug.WriteLine("GK property changed " + obj.GKStates);
-		} 
+			var states = obj.GKStates;
+			foreach (var state in states.DelayStates)
+			{
+				
+			}
+			foreach (var state in states.DeviceStates)
+			{
+				var updated = UpdateDeviceState(state);
+			}
+			foreach (var state in states.DirectionStates)
+			{
+
+			}
+			foreach (var state in states.DoorStates)
+			{
+
+			}
+			foreach (var state in states.GuardZoneStates)
+			{
+
+			}
+			foreach (var state in states.MPTStates)
+			{
+
+			}
+			foreach (var state in states.PumpStationStates)
+			{
+
+			}
+			foreach (var state in states.SKDZoneStates)
+			{
+
+			}
+			foreach (var state in states.ZoneStates)
+			{
+
+			}
+		}
+
+	    private bool UpdateDeviceState(GKState state)
+	    {
+			if (state.BaseObjectType != GKBaseObjectType.Device)
+			{
+				return false;
+			}
+			var device = GKManager.Devices.FirstOrDefault(x => x.UID == state.UID);
+			// Получаем обновленную картинку устройства
+			var pictureTask = Task.Factory.StartNewSta<byte[]>(() => GetDeviceStatePic(device));
+			Task.WaitAll();
+			var pic = pictureTask.Result;
+		    if (pic == null)
+		    {
+			    return false;
+		    }
+			var statusUpdate = new
+			{
+				Id = state.UID,
+				Picture = Convert.ToBase64String(pic),
+				StateClass = state.StateClass.ToString(),
+				StateClasses = state.StateClasses,
+				AdditionalStates = state.AdditionalStates
+			};
+			PlansUpdater.Instance.UpdateDeviceState(statusUpdate);
+			return true;
+	    }
 		
 		#endregion
 

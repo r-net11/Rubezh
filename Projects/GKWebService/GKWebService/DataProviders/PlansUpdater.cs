@@ -32,7 +32,6 @@ namespace GKWebService.DataProviders
 		private PlansUpdater(IHubConnectionContext<dynamic> clients)
 		{
 			Clients = clients;
-			//LoadDefaultStocks();
 		}
 
 		private IHubConnectionContext<dynamic> Clients
@@ -66,5 +65,10 @@ namespace GKWebService.DataProviders
 				}
 			}
 		}
-	}
+
+		public void UpdateDeviceState(object stateData)
+		{
+			Clients.All.updateDeviceState(stateData);
+        }
+    }
 }
