@@ -78,7 +78,7 @@ namespace GKProcessor
 				DriverPropertyType = GKDriverPropertyTypeEnum.IntType,
 				Default = (ushort)defaultValue,
 				Min = (ushort)min,
-				Max = (ushort)max
+				Max = (ushort)max,
 			};
 			driver.Properties.Add(property);
 			return property;
