@@ -599,6 +599,7 @@ namespace SKDModule.ViewModels
 																dayTimeTrackPart.IsRemoveAllIntersections = true;
 																dayTimeTrackPart.EnterDateTime = dayTimeTrackPart.EnterTimeOriginal;
 																dayTimeTrackPart.ExitDateTime = dayTimeTrackPart.ExitTimeOriginal;
+																dayTimeTrackPart.IsNeedAdjustment = dayTimeTrackPart.IsNeedAdjustmentOriginal;
 																dayTimeTrackPart.IsNew = default(bool);
 																return dayTimeTrackPart;
 															})
@@ -624,6 +625,7 @@ namespace SKDModule.ViewModels
 																dayTimeTrackPart.IsRemoveAllIntersections = true;
 																dayTimeTrackPart.EnterDateTime = dayTimeTrackPart.EnterTimeOriginal;
 																dayTimeTrackPart.ExitDateTime = dayTimeTrackPart.ExitTimeOriginal;
+																dayTimeTrackPart.IsNeedAdjustment = dayTimeTrackPart.IsNeedAdjustmentOriginal;
 																dayTimeTrackPart.AdjustmentDate = null;
 																dayTimeTrackPart.CorrectedBy = null;
 																dayTimeTrackPart.CorrectedByUID = null;
@@ -683,6 +685,7 @@ namespace SKDModule.ViewModels
 			{
 				dayTimeTrack.EnterDateTime = dayTimeTrack.EnterTimeOriginal;
 				dayTimeTrack.ExitDateTime = dayTimeTrack.ExitTimeOriginal;
+				dayTimeTrack.IsNeedAdjustment = dayTimeTrack.IsNeedAdjustmentOriginal;
 			}
 		}
 

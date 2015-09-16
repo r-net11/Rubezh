@@ -55,6 +55,9 @@ namespace FiresecAPI.SKD
 		[DataMember]
 		public Guid? CorrectedByUID { get; set; }
 
+		[DataMember]
+		public bool IsNeedAdjustmentOriginal { get; set; }
+
 		#endregion
 	}
 }

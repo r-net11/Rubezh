@@ -15,7 +15,8 @@
       <Column Name="EnterTimeOriginal" Type="System.DateTime" CanBeNull="true" />
       <Column Name="ExitTimeOriginal" Type="System.DateTime" CanBeNull="true" />
       <Column Name="IsForceClosed" Type="System.Boolean" CanBeNull="false" />
-      <Column Member="IsOpen" Type="System.Boolean" CanBeNull="false" />
+      <Column Name="IsOpen" Type="System.Boolean" CanBeNull="false" />
+      <Column Member="IsNeedAdjustmentOriginal" Type="System.Boolean" CanBeNull="false" />
     </Type>
   </Table>
   <Table Name="dbo.EmployeeDay" Member="EmployeeDays">

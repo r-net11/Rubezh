@@ -41,13 +41,14 @@ namespace SKDDriver.Translators
 					exitPassJournal.ExitTime = tmpDateTime;
 					exitPassJournal.ExitTimeOriginal = tmpDateTime;
 					exitPassJournal.IsNeedAdjustment = exitPassJournal.ZoneUID == zoneUID;
+					exitPassJournal.IsNeedAdjustmentOriginal = exitPassJournal.IsNeedAdjustment;
 					exitPassJournal.IsOpen = default(bool);
 				}
 				if (zoneUID != Guid.Empty)
 				{
 					var tmpDateTime = DateTime.Now;
 
-					var enterPassJournal = new DataAccess.PassJournal //TODO:
+					var enterPassJournal = new PassJournal //TODO:
 					{
 						UID = Guid.NewGuid(),
 						EmployeeUID = employeeUID,
@@ -92,15 +93,6 @@ namespace SKDDriver.Translators
 								(tmp.ExitTimeOriginal > x.EnterTime || tmp.EnterTimeOriginal < x.ExitTime))
 					.Where(x => x.ExitTime >= tmp.EnterTimeOriginal)
 					.ToList();
-				//List<PassJournal> tmpCollection2 = linkedIntervals
-				//	.Where(x => (x.UID != el.UID) && (tmp.EnterTimeOriginal.HasValue && tmp.ExitTimeOriginal.HasValue))
-				//	.Where(
-				//		x => (tmp.EnterTimeOriginal.Value.Date >= x.EnterTime.Date && tmp.ExitTimeOriginal <= x.ExitTime.Value.Date) &&
-				//			 (tmp.ExitTimeOriginal <= x.EnterTime || tmp.EnterTimeOriginal >= x.ExitTime))
-				//	.Where(x => x.ExitTime <= tmp.EnterTimeOriginal)
-				//	.ToList();
-
-			//	tmpCollection = tmpCollection.Union(tmpCollection2).ToList();
 
 				if (tmpCollection.Any())
 				{
@@ -115,6 +107,7 @@ namespace SKDDriver.Translators
 							ExitDateTime = b.ExitTime,
 							ExitTime = b.ExitTime.GetValueOrDefault().TimeOfDay,
 							ExitTimeOriginal = b.ExitTimeOriginal,
+							IsNeedAdjustmentOriginal = b.IsNeedAdjustmentOriginal,
 							TimeTrackZone = new TimeTrackZone
 							{
 								UID = b.ZoneUID
@@ -428,7 +421,8 @@ namespace SKDDriver.Translators
 					EnterTimeOriginal = passJournal.EnterTimeOriginal,
 					ExitTimeOriginal = passJournal.ExitTimeOriginal,
 					IsOpen = passJournal.IsOpen,
-					IsForceClosed = passJournal.IsForceClosed
+					IsForceClosed = passJournal.IsForceClosed,
+					IsNeedAdjustmentOriginal = passJournal.IsNeedAdjustmentOriginal
 				};
 
 				dayTimeTrack.RealTimeTrackParts.Add(timeTrackPart);

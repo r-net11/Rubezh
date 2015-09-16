@@ -37,6 +37,7 @@ namespace SKDModule.Helpers
 				originalInterval.ExitDateTime = rightConflictedInterval.Value;
 			}
 
+			originalInterval.IsNeedAdjustment = originalInterval.IsNeedAdjustmentOriginal;
 			originalInterval.IsDirty = true;
 			return originalInterval;
 		}

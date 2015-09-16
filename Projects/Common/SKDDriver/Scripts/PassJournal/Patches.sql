@@ -87,3 +87,9 @@ BEGIN
 	ALTER TABLE PassJournal ADD [CorrectedByUID] uniqueidentifier NULL
 	INSERT INTO Patches (Id) VALUES ('CorrectedByUIDToNullable')
 END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'AddingIsNeedAdjustmentOriginalColumn')
+BEGIN
+	ALTER TABLE PassJournal ADD [IsNeedAdjustmentOriginal] bit NOT NULL DEFAULT 0
+	INSERT INTO Patches (Id) VALUES ('AddingIsNeedAdjustmentOriginalColumn')
+END
