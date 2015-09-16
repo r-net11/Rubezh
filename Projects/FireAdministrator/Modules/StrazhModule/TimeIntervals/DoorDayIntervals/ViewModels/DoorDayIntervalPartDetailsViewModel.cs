@@ -12,7 +12,7 @@ namespace StrazhModule.ViewModels
 		public DoorDayIntervalPartDetailsViewModel(SKDDoorDayIntervalPart dayIntervalPart = null)
 		{
 			Title = "Задание интервала";
-			DayIntervalPart = dayIntervalPart ?? new SKDDoorDayIntervalPart();
+			DayIntervalPart = dayIntervalPart ?? new SKDDoorDayIntervalPart() { DoorOpenMethod = SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_CARD };
 
 			MinStartTime = DateTime.MinValue.TimeOfDay;
 			MaxEndTime = DateTime.MaxValue.TimeOfDay;
