@@ -1188,7 +1188,7 @@ namespace FiresecService.Service
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				AddSKDJournalMessage(JournalEventNameType.Команда_на_перевод_двери_в_режим_Открыто, device);
+				AddSKDJournalMessage(JournalEventNameType.Команда_на_перевод_замка_в_режим_Открыто, device);
 				device.SKDDoorConfiguration.OpenAlwaysTimeIndex = 1;
 				var result = ChinaSKDDriver.Processor.SetDoorConfiguration(deviceUID, device.SKDDoorConfiguration);
 				if (!result.HasError && device.State != null)
@@ -1211,7 +1211,7 @@ namespace FiresecService.Service
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				AddSKDJournalMessage(JournalEventNameType.Команда_на_перевод_двери_в_режим_Закрыто, device);
+				AddSKDJournalMessage(JournalEventNameType.Команда_на_перевод_замка_в_режим_Закрыто, device);
 				device.SKDDoorConfiguration.OpenAlwaysTimeIndex = 0;
 				var result = ChinaSKDDriver.Processor.SetDoorConfiguration(deviceUID, device.SKDDoorConfiguration);
 				if (!result.HasError && device.State != null)
@@ -1229,46 +1229,91 @@ namespace FiresecService.Service
 			}
 		}
 
+		/// <summary>
+		/// Переводит замок в режим "Открыто/Закрыто/Норма"
+		/// </summary>
+		/// <param name="deviceUID">Идентификатор замка</param>
+		/// <param name="eventNameType">Тип события для вставки в журнал событий</param>
+		/// <param name="accessState">Режим, в который переводится замок</param>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
 		private OperationResult<bool> SKDSetDeviceAccessState(Guid deviceUID, JournalEventNameType eventNameType, AccessState accessState)
 		{
+			// Ищем замок в конфигурации
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			if (device != null)
-			{
-				AddSKDJournalMessage(eventNameType, device);
-				device.SKDDoorConfiguration.AccessState = accessState;
-				var result = ChinaSKDDriver.Processor.SetDoorConfiguration(deviceUID, device.SKDDoorConfiguration);
-				if (!result.HasError && device.State != null)
-				{
-					device.State.AccessState = accessState;
-					var skdStates = new SKDStates();
-					skdStates.DeviceStates.Add(device.State);
-
-					//device.Door.State.AccessState = accessState; // TODO: Точка доступа тоже должна хранить состояние
-					//skdStates.DoorStates.Add(device.Door.State);
-
-					ChinaSKDDriver.Processor.OnStatesChanged(skdStates);
-				}
-				return result;
-			}
-			else
-			{
+			
+			// Если замок не найден в конфигурации, возвращаем ошибку
+			if (device == null)
 				return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
+			
+			// Фиксируем в журнале событий намерение на преревод замка в требуемый режим
+			AddSKDJournalMessage(eventNameType, device);
+			
+			// Переводим замок в требуемый режим
+			device.SKDDoorConfiguration.AccessState = accessState;
+			var result = Processor.SetDoorConfiguration(deviceUID, device.SKDDoorConfiguration);
+			if (!result.HasError && device.State != null)
+			{
+				device.State.AccessState = accessState;
+				var skdStates = new SKDStates();
+				skdStates.DeviceStates.Add(device.State);
+
+				//device.Door.State.AccessState = accessState; // TODO: Точка доступа тоже должна хранить состояние
+				//skdStates.DoorStates.Add(device.Door.State);
+
+				Processor.OnStatesChanged(skdStates);
 			}
+			return result;
 		}
 
+		/// <summary>
+		/// Посылает команду на перевод замка в режим "Норма"
+		/// </summary>
+		/// <param name="deviceUID">Идентификатор замка</param>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
 		public OperationResult<bool> SKDDeviceAccessStateNormal(Guid deviceUID)
 		{
-			return SKDSetDeviceAccessState(deviceUID, JournalEventNameType.Команда_на_перевод_двери_в_режим_Норма, AccessState.Normal);
+			// Пытаемся перевести замок в режим "Номра"
+			var result = SKDSetDeviceAccessState(deviceUID, JournalEventNameType.Команда_на_перевод_замка_в_режим_Норма, AccessState.Normal);
+
+			// Фиксируем в журнале событий факт преревода замка в режим "Норма"
+			if (!result.HasError)
+				AddSKDJournalMessage(JournalEventNameType.Перевод_замка_в_режим_Норма, SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID));
+
+			return result;
 		}
 
+		/// <summary>
+		/// Посылает команду на перевод замка в режим "Закрыто"
+		/// </summary>
+		/// <param name="deviceUID">Идентификатор замка</param>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
 		public OperationResult<bool> SKDDeviceAccessStateCloseAlways(Guid deviceUID)
 		{
-			return SKDSetDeviceAccessState(deviceUID, JournalEventNameType.Команда_на_перевод_двери_в_режим_Закрыто, AccessState.CloseAlways);
+			// Пытаемся перевести замок в режим "Открыто"
+			var result = SKDSetDeviceAccessState(deviceUID, JournalEventNameType.Команда_на_перевод_замка_в_режим_Закрыто, AccessState.CloseAlways);
+
+			// Фиксируем в журнале событий факт преревода замка в режим "Закрыто"
+			if (!result.HasError)
+				AddSKDJournalMessage(JournalEventNameType.Перевод_замка_в_режим_Закрыто, SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID));
+
+			return result;
 		}
 
+		/// <summary>
+		/// Посылает команду на перевод замка в режим "Открыто"
+		/// </summary>
+		/// <param name="deviceUID">Идентификатор замка</param>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
 		public OperationResult<bool> SKDDeviceAccessStateOpenAlways(Guid deviceUID)
 		{
-			return SKDSetDeviceAccessState(deviceUID, JournalEventNameType.Команда_на_перевод_двери_в_режим_Открыто, AccessState.OpenAlways);
+			// Пытаемся перевести замок в режим "Открыто"
+			var result = SKDSetDeviceAccessState(deviceUID, JournalEventNameType.Команда_на_перевод_замка_в_режим_Открыто, AccessState.OpenAlways);
+
+			// Фиксируем в журнале событий факт преревода замка в режим "Открыто"
+			if (!result.HasError)
+				AddSKDJournalMessage(JournalEventNameType.Перевод_замка_в_режим_Открыто, SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID));
+			
+			return result;
 		}
 
 		public OperationResult<bool> SKDClearDevicePromptWarning(Guid deviceUID)
@@ -1465,6 +1510,13 @@ namespace FiresecService.Service
 			}
 		}
 
+		/// <summary>
+		/// Переводит зону в режим "Открыто/Закрыто/Норма"
+		/// </summary>
+		/// <param name="zoneUID">Идентификатор зоны</param>
+		/// <param name="eventNameType">Тип события для вставки в журнал событий</param>
+		/// <param name="accessState">Режим, в который переводится зона</param>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
 		private OperationResult<bool> SKDSetZoneAccessState(Guid zoneUID, JournalEventNameType eventNameType, AccessState accessState)
 		{
 			var zone = SKDManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
@@ -1483,7 +1535,7 @@ namespace FiresecService.Service
 					if (lockDevice != null)
 					{
 						lockDevice.SKDDoorConfiguration.AccessState = accessState;
-						var result = ChinaSKDDriver.Processor.SetDoorConfiguration(lockDevice.UID, lockDevice.SKDDoorConfiguration);
+						var result = Processor.SetDoorConfiguration(lockDevice.UID, lockDevice.SKDDoorConfiguration);
 						if (result.HasError)
 						{
 							errors.AddRange(result.Errors);
@@ -1493,7 +1545,7 @@ namespace FiresecService.Service
 							lockDevice.State.AccessState = accessState;
 							var skdStates = new SKDStates();
 							skdStates.DeviceStates.Add(lockDevice.State);
-							ChinaSKDDriver.Processor.OnStatesChanged(skdStates);
+							Processor.OnStatesChanged(skdStates);
 						}
 					}
 					else
@@ -1507,25 +1559,58 @@ namespace FiresecService.Service
 				}
 				return new OperationResult<bool>(true);
 			}
-			else
-			{
-				return OperationResult<bool>.FromError("Зона не найдена в конфигурации");
-			}
+			return OperationResult<bool>.FromError("Зона не найдена в конфигурации");
 		}
 
+		/// <summary>
+		/// Посылает команду на перевод зоны в режим "Норма"
+		/// </summary>
+		/// <param name="zoneUID">Идентификатор зоны</param>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
 		public OperationResult<bool> SKDZoneAccessStateNormal(Guid zoneUID)
 		{
-			return SKDSetZoneAccessState(zoneUID, JournalEventNameType.Команда_на_перевод_зоны_в_режим_Норма, AccessState.Normal);
+			// Пытаемся перевести зону в режим "Норма"
+			var result = SKDSetZoneAccessState(zoneUID, JournalEventNameType.Команда_на_перевод_зоны_в_режим_Норма, AccessState.Normal);
+
+			// Фиксируем в журнале событий факт преревода зоны в режим "Норма"
+			if (!result.HasError)
+				AddSKDJournalMessage(JournalEventNameType.Перевод_точки_доступа_в_режим_Норма, SKDManager.Zones.FirstOrDefault(x => x.UID == zoneUID));
+
+			return result;
 		}
 
+		/// <summary>
+		/// Посылает команду на перевод зоны в режим "Закрыто"
+		/// </summary>
+		/// <param name="zoneUID">Идентификатор зоны</param>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
 		public OperationResult<bool> SKDZoneAccessStateCloseAlways(Guid zoneUID)
 		{
-			return SKDSetZoneAccessState(zoneUID, JournalEventNameType.Команда_на_перевод_зоны_в_режим_Закрыто, AccessState.CloseAlways);
+			// Пытаемся перевести зону в режим "Закрыто"
+			var result = SKDSetZoneAccessState(zoneUID, JournalEventNameType.Команда_на_перевод_зоны_в_режим_Закрыто, AccessState.CloseAlways);
+
+			// Фиксируем в журнале событий факт преревода зоны в режим "Закрыто"
+			if (!result.HasError)
+				AddSKDJournalMessage(JournalEventNameType.Перевод_точки_доступа_в_режим_Закрыто, SKDManager.Zones.FirstOrDefault(x => x.UID == zoneUID));
+
+			return result;
 		}
 
+		/// <summary>
+		/// Посылает команду на перевод зоны в режим "Открыто"
+		/// </summary>
+		/// <param name="zoneUID">Идентификатор зоны</param>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
 		public OperationResult<bool> SKDZoneAccessStateOpenAlways(Guid zoneUID)
 		{
-			return SKDSetZoneAccessState(zoneUID, JournalEventNameType.Команда_на_перевод_зоны_в_режим_Открыто, AccessState.OpenAlways);
+			// Пытаемся перевести зону в режим "Открыто"
+			var result = SKDSetZoneAccessState(zoneUID, JournalEventNameType.Команда_на_перевод_зоны_в_режим_Открыто, AccessState.OpenAlways);
+
+			// Фиксируем в журнале событий факт преревода зоны в режим "Открыто"
+			if (!result.HasError)
+				AddSKDJournalMessage(JournalEventNameType.Перевод_точки_доступа_в_режим_Открыто, SKDManager.Zones.FirstOrDefault(x => x.UID == zoneUID));
+
+			return result;
 		}
 
 		public OperationResult<bool> SKDClearZonePromptWarning(Guid zoneUID)
@@ -1726,6 +1811,13 @@ namespace FiresecService.Service
 			}
 		}
 
+		/// <summary>
+		/// Переводит точку доступа в режим "Открыто/Закрыто/Норма"
+		/// </summary>
+		/// <param name="doorUID">Идентификатор точки доступа</param>
+		/// <param name="eventNameType">Тип события для вставки в журнал событий</param>
+		/// <param name="accessState">Режим, в который переводится точка доступа</param>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
 		private OperationResult<bool> SKDSetDoorAccessState(Guid doorUID, JournalEventNameType eventNameType, AccessState accessState)
 		{
 			var door = SKDManager.Doors.FirstOrDefault(x => x.UID == doorUID);
@@ -1743,7 +1835,7 @@ namespace FiresecService.Service
 					if (lockDevice != null)
 					{
 						lockDevice.SKDDoorConfiguration.AccessState = accessState;
-						var result = ChinaSKDDriver.Processor.SetDoorConfiguration(lockDevice.UID, lockDevice.SKDDoorConfiguration);
+						var result = Processor.SetDoorConfiguration(lockDevice.UID, lockDevice.SKDDoorConfiguration);
 						if (!result.HasError && lockDevice.State != null)
 						{
 							lockDevice.State.AccessState = accessState;
@@ -1753,39 +1845,66 @@ namespace FiresecService.Service
 							//door.State.AccessState = accessState; // TODO: Точка доступа тоже должна хранить состояние
 							//skdStates.DoorStates.Add(door.State);
 
-							ChinaSKDDriver.Processor.OnStatesChanged(skdStates);
+							Processor.OnStatesChanged(skdStates);
 						}
 						return result;
 					}
-					else
-					{
-						return OperationResult<bool>.FromError("Для точки доступа не найден замок");
-					}
+					return OperationResult<bool>.FromError("Для точки доступа не найден замок");
 				}
-				else
-				{
-					return OperationResult<bool>.FromError("У точки доступа не указано устройство входа");
-				}
+				return OperationResult<bool>.FromError("У точки доступа не указано устройство входа");
 			}
-			else
-			{
-				return OperationResult<bool>.FromError("Точка доступа не найдена в конфигурации");
-			}
+			return OperationResult<bool>.FromError("Точка доступа не найдена в конфигурации");
 		}
 
+		/// <summary>
+		/// Посылает команду на перевод точки доступа в режим "Норма"
+		/// </summary>
+		/// <param name="doorUID">Идентификатор точки доступа</param>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
 		public OperationResult<bool> SKDDoorAccessStateNormal(Guid doorUID)
 		{
-			return SKDSetDoorAccessState(doorUID, JournalEventNameType.Команда_на_перевод_точки_доступа_в_режим_Норма, AccessState.Normal);
+			// Пытаемся перевести точку доступа в режим "Норма"
+			var result = SKDSetDoorAccessState(doorUID, JournalEventNameType.Команда_на_перевод_точки_доступа_в_режим_Норма, AccessState.Normal);
+
+			// Фиксируем в журнале событий факт преревода точки доступа в режим "Норма"
+			if (!result.HasError)
+				AddSKDJournalMessage(JournalEventNameType.Перевод_точки_доступа_в_режим_Норма, SKDManager.Doors.FirstOrDefault(x => x.UID == doorUID));
+
+			return result;
 		}
 
+		/// <summary>
+		///Посылает команду на перевод точки доступа в режим "Закрыто"
+		/// </summary>
+		/// <param name="doorUID">Идентификатор точки доступа</param>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
 		public OperationResult<bool> SKDDoorAccessStateCloseAlways(Guid doorUID)
 		{
-			return SKDSetDoorAccessState(doorUID, JournalEventNameType.Команда_на_перевод_точки_доступа_в_режим_Закрыто, AccessState.CloseAlways);
+			// Пытаемся перевести точку доступа в режим "Закрыто"
+			var result = SKDSetDoorAccessState(doorUID, JournalEventNameType.Команда_на_перевод_точки_доступа_в_режим_Закрыто, AccessState.CloseAlways);
+
+			// Фиксируем в журнале событий факт преревода точки доступа в режим "Закрыто"
+			if (!result.HasError)
+				AddSKDJournalMessage(JournalEventNameType.Перевод_точки_доступа_в_режим_Закрыто, SKDManager.Doors.FirstOrDefault(x => x.UID == doorUID));
+			
+			return result;
 		}
 
+		/// <summary>
+		///Посылает команду на перевод точки доступа в режим "Открыто"
+		/// </summary>
+		/// <param name="doorUID">Идентификатор точки доступа</param>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
 		public OperationResult<bool> SKDDoorAccessStateOpenAlways(Guid doorUID)
 		{
-			return SKDSetDoorAccessState(doorUID, JournalEventNameType.Команда_на_перевод_точки_доступа_в_режим_Открыто, AccessState.OpenAlways);
+			// Пытаемся перевести точку доступа в режим "Открыто"
+			var result = SKDSetDoorAccessState(doorUID, JournalEventNameType.Команда_на_перевод_точки_доступа_в_режим_Открыто, AccessState.OpenAlways);
+
+			// Фиксируем в журнале событий факт преревода точки доступа в режим "Открыто"
+			if (!result.HasError)
+				AddSKDJournalMessage(JournalEventNameType.Перевод_точки_доступа_в_режим_Открыто, SKDManager.Doors.FirstOrDefault(x => x.UID == doorUID));
+
+			return result;
 		}
 
 		public OperationResult<bool> SKDClearDoorPromptWarning(Guid doorUID)

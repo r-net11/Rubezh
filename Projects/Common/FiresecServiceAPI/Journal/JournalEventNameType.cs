@@ -161,10 +161,10 @@ namespace FiresecAPI.Journal
 		Команда_на_закрытие_двери,
 
 		[EventName(JournalSubsystemType.SKD, "Команда на перевод в режим \"Открыто\"", XStateClass.On, "Команда на перевод замка в режим \"Открыто\"")]
-		Команда_на_перевод_двери_в_режим_Открыто,
+		Команда_на_перевод_замка_в_режим_Открыто,
 
 		[EventName(JournalSubsystemType.SKD, "Команда на перевод в режим \"Закрыто\"", XStateClass.Off, "Команда на перевод замка в режим \"Закрыто\"")]
-		Команда_на_перевод_двери_в_режим_Закрыто,
+		Команда_на_перевод_замка_в_режим_Закрыто,
 
 		[EventName(JournalSubsystemType.SKD, "Команда \"Открыть\" удаленно", XStateClass.On, "Команда \"Открыть\" зону удаленно")]
 		Команда_на_открытие_зоны,
@@ -353,7 +353,7 @@ namespace FiresecAPI.Journal
 		Команда_на_перевод_зоны_в_режим_Норма,
 
 		[EventName(JournalSubsystemType.SKD, "Команда на перевод в режим \"Норма\"", XStateClass.Norm, "Команда на перевод замка в режим \"Норма\"")]
-		Команда_на_перевод_двери_в_режим_Норма,
+		Команда_на_перевод_замка_в_режим_Норма,
 
 		[EventName(JournalSubsystemType.SKD, "Запрос настроек запрета повторного прохода", XStateClass.TechnologicalRegime)]
 		Запрос_antipassback_настройки_контроллера,
@@ -384,5 +384,32 @@ namespace FiresecAPI.Journal
 
 		[EventName(JournalSubsystemType.SKD, "Запись паролей замков", XStateClass.TechnologicalRegime)]
 		SetControllerLocksPasswords,
+
+		[EventName(JournalSubsystemType.SKD, "Перевод в режим \"Открыто\"", XStateClass.On, "Перевод замка в режим \"Открыто\"")]
+		Перевод_замка_в_режим_Открыто,
+
+		[EventName(JournalSubsystemType.SKD, "Перевод в режим \"Закрыто\"", XStateClass.Off, "Перевод замка в режим \"Закрыто\"")]
+		Перевод_замка_в_режим_Закрыто,
+
+		[EventName(JournalSubsystemType.SKD, "Перевод в режим \"Норма\"", XStateClass.Norm, "Перевод замка в режим \"Норма\"")]
+		Перевод_замка_в_режим_Норма,
+
+		[EventName(JournalSubsystemType.SKD, "Перевод в режим \"Открыто\"", XStateClass.On, "Перевод точки доступа в режим \"Открыто\"")]
+		Перевод_точки_доступа_в_режим_Открыто,
+
+		[EventName(JournalSubsystemType.SKD, "Перевод в режим \"Закрыто\"", XStateClass.Off, "Перевод точки доступа в режим \"Закрыто\"")]
+		Перевод_точки_доступа_в_режим_Закрыто,
+
+		[EventName(JournalSubsystemType.SKD, "Перевод в режим \"Норма\"", XStateClass.Norm, "Перевод точки доступа в режим \"Норма\"")]
+		Перевод_точки_доступа_в_режим_Норма,
+
+		[EventName(JournalSubsystemType.SKD, "Перевод в режим \"Открыто\"", XStateClass.On, "Перевод зоны в режим \"Открыто\"")]
+		Перевод_зоны_в_режим_Открыто,
+
+		[EventName(JournalSubsystemType.SKD, "Перевод в режим \"Закрыто\"", XStateClass.Off, "Перевод зоны в режим \"Закрыто\"")]
+		Перевод_зоны_в_режим_Закрыто,
+
+		[EventName(JournalSubsystemType.SKD, "Перевод в режим \"Норма\"", XStateClass.Norm, "Перевод зоны в режим \"Норма\"")]
+		Перевод_зоны_в_режим_Норма,
 	}
 }
