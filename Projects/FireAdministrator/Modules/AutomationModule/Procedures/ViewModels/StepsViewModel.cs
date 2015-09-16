@@ -34,7 +34,7 @@ namespace AutomationModule.ViewModels
 			{
 				step.ExpandToThis();
 			}
-			SelectedStep = AllSteps.FirstOrDefault();
+			SelectedStep = RootSteps.FirstOrDefault();
 			OnPropertyChanged(() => RootSteps);
 			OnPropertyChanged(() => SelectedStep);
 		}
@@ -98,11 +98,11 @@ namespace AutomationModule.ViewModels
 			get { return _selectedStep; }
 			set
 			{
-				var automationChanged = ServiceFactory.SaveService.AutomationChanged;
+				//var automationChanged = ServiceFactory.SaveService.AutomationChanged;
 				_selectedStep = value;
-				if (_selectedStep != null)
-					_selectedStep.UpdateContent();
-				ServiceFactory.SaveService.AutomationChanged = automationChanged;
+				//if (_selectedStep != null)
+				//	_selectedStep.UpdateContent();
+				//ServiceFactory.SaveService.AutomationChanged = automationChanged;
 				OnPropertyChanged(() => SelectedStep);
 			}
 		}
