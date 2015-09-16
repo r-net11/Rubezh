@@ -41,7 +41,8 @@ namespace Infrastructure.Common.Windows
 			{
 				var win = new WindowBaseView(windowBaseViewModel);
 				windowBaseViewModel.OnLoad();
-				return win.ShowDialog();
+				bool? result = win.ShowDialog();
+				return result;
 			}
 			catch (Exception e)
 			{
