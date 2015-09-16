@@ -98,7 +98,7 @@ namespace SKDDriver.DataClasses
 						query += string.Format("('{0}', {1}, '{2}', {3}, '{4}', '{5}', '{6}', '{7}', '{8}', '{9}', '{10}', '{11}', '{12}', '{13}', '{14}', '{15}'),",
 							item.UID,
 							item.EmployeeUID.EmptyToNullSqlStr(),
-							item.SystemDateTime.CheckDate().ToString("yyyy-MM-dd HH:mm:ss"),
+							item.SystemDateTime.CheckDate().ToString("yyyyMMdd HH:mm:ss"),
 							item.DeviceDateTime.CheckDateSqlStr(),
 							(int)EventDescriptionAttributeHelper.ToSubsystem(item.JournalEventNameType),
 							(int)item.JournalEventNameType,
