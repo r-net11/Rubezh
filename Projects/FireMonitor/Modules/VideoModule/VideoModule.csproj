@@ -59,6 +59,9 @@
     </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Entities">
+      <HintPath>..\..\..\..\3rdParty\RVIVSS\Entities.dll</HintPath>
+    </Reference>
     <Reference Include="MediaSourcePlayer, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\3rdParty\RVIVSS\MediaSourcePlayer.dll</HintPath>

@@ -226,7 +226,6 @@ namespace GKImitator.ViewModels
 			journalItem.UNUSED_KauNo = 0;
 			journalItem.UNUSED_KauAddress = 0;
 			journalItem.GkObjectNo = GKBaseDescriptor.GetDescriptorNo();
-			journalItem.ObjectFactoryNo = 0;
 			journalItem.ObjectState = StatesToInt();
 			if (GKBaseDescriptor.GKBase is GKDevice)
 			{

@@ -17,5 +17,40 @@ namespace GKWebService.Controllers
         {
             return View();
         }
+
+        public ActionResult HrDepartments()
+        {
+            return View();
+        }
+
+        public ActionResult Positions()
+        {
+            return View();
+        }
+
+        public ActionResult AdditionalColumnTypes()
+        {
+            return View();
+        }
+
+        public ActionResult Cards()
+        {
+            return View();
+        }
+
+        public ActionResult AccessTemplates()
+        {
+            return View();
+        }
+
+        public ActionResult PassCardTemplates()
+        {
+            return View();
+        }
+
+        public ActionResult Organisations()
+        {
+            return View();
+        }
     }
 }

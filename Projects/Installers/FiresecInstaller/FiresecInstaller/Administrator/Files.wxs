@@ -105,7 +105,7 @@
 
     </DirectoryRef>
 
-		<DirectoryRef Id="Administrator.dll">
+		<DirectoryRef Id="Administrator.Dll">
 			<Component Id="Administrator.Files.dll" Guid="30f75385-55ab-404c-870b-3ceb9baef84c">
 				<File Id="Administrator.aacdec.dll" Name="aacdec.dll" Source="$(var.Administrator.RVIVSS.Dll.TargetDir)" KeyPath="yes"/>
 				<File Id="Administrator.AACDecoder.dll" Name="AACDecoder.dll" Source="$(var.Administrator.RVIVSS.Dll.TargetDir)" />
