@@ -4,10 +4,10 @@
 	</UserControl.Resources>
 	<Grid>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="500" />
-			<ColumnDefinition />
+			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
-		<Grid Grid.Column="0">
+		<Grid>
 			<Grid.Resources>
 				<Style BasedOn="{StaticResource {x:Type extToolkit:IntegerUpDown}}" TargetType="{x:Type extToolkit:IntegerUpDown}">
 					<Setter Property="Width" Value="NaN" />
@@ -28,43 +28,52 @@
 			</Grid.RowDefinitions>
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="Auto" />
-				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="Auto" MinWidth="40" />
 				<ColumnDefinition Width="Auto" />
-				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="Auto" MinWidth="40" />
+				<ColumnDefinition Width="Auto" MaxWidth="50" />
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="Auto" MinWidth="70" />
 			</Grid.ColumnDefinitions>
 			<!--Zemskov_question-->
-			
+
 			<TextBlock Grid.Row="0" Grid.Column="0" Style="{DynamicResource ShowDialogStepView}" Text="Макет окна" />
 			<TextBlock Grid.Row="1" Grid.Column="0" Style="{DynamicResource ShowDialogStepView}" Text="Заголовок" />
 			<TextBlock Grid.Row="2" Grid.Column="0" Style="{DynamicResource ShowDialogStepView}" Text="Модальное окно" />
-			<TextBlock Grid.Row="2" Grid.Column="2" Style="{DynamicResource ShowDialogStepView}" Text="Всем клиентам" />
-			<TextBlock Grid.Row="3" Grid.Column="0" Style="{DynamicResource ShowDialogStepView}" Text="Можно закрывать" />
+			<TextBlock Grid.Row="2" Grid.Column="4" Style="{DynamicResource ShowDialogStepView}" Text="Всем клиентам" Grid.ColumnSpan="2" />
+			<TextBlock Grid.Row="2" Grid.Column="2" Style="{DynamicResource ShowDialogStepView}" Text="Можно закрывать" />
 			<TextBlock Grid.Row="3" Grid.Column="2" Style="{DynamicResource ShowDialogStepView}" Text="Можно разворачивать" />
-			<TextBlock Grid.Row="4" Grid.Column="0" Style="{DynamicResource ShowDialogStepView}" Text="Поверх всех" />
-			<TextBlock Grid.Row="4" Grid.Column="2" Style="{DynamicResource ShowDialogStepView}" Text="Фиксированный размер" />
-			<TextBlock Grid.Row="5" Grid.Column="2" Style="{DynamicResource ShowDialogStepView}" Text="Ширина" />
-			<TextBlock Grid.Row="6" Grid.Column="2" Style="{DynamicResource ShowDialogStepView}" Text="Высота" />
-			<TextBlock Grid.Row="5" Grid.Column="0" Style="{DynamicResource ShowDialogStepView}" Text="Мин. ширина" />
-			<TextBlock Grid.Row="6" Grid.Column="0" Style="{DynamicResource ShowDialogStepView}" Text="Мин. высота" />
-			
-			<ComboBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" VerticalAlignment="Center" ItemsSource="{Binding Layouts}" SelectedItem="{Binding SelectedLayout}" Width="Auto">
+			<TextBlock Grid.Row="3" Grid.Column="0" Style="{DynamicResource ShowDialogStepView}" Text="Поверх всех" />
+			<TextBlock Grid.Row="3" Grid.Column="4" Style="{DynamicResource ShowDialogStepView}" Text="Фиксированный размер" Grid.ColumnSpan="2" />
+			<TextBlock Grid.Row="6" Grid.Column="4" Style="{DynamicResource ShowDialogStepView}" Text="Ширина" />
+			<TextBlock Grid.Row="7" Grid.Column="4" Style="{DynamicResource ShowDialogStepView}" Text="Высота" />
+			<TextBlock Grid.Row="6" Grid.Column="0" Style="{DynamicResource ShowDialogStepView}" Text="Мин. ширина" />
+			<TextBlock Grid.Row="7" Grid.Column="0" Style="{DynamicResource ShowDialogStepView}" Text="Мин. высота" />
+			<TextBlock Grid.Row="4" Grid.Column="0" Style="{DynamicResource ShowDialogStepView}" Text="Задать позицию" />
+			<TextBlock Grid.Row="5" Grid.Column="0" Style="{DynamicResource ShowDialogStepView}" Text="X" />
+			<TextBlock Grid.Row="5" Grid.Column="4" Style="{DynamicResource ShowDialogStepView}" Text="Y" />
+
+			<ComboBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="6" VerticalAlignment="Center" ItemsSource="{Binding Layouts}" SelectedItem="{Binding SelectedLayout}" Width="Auto" Height="22" >
 				<ComboBox.ItemTemplate>
 					<DataTemplate>
 						<TextBlock Text="{Binding Name}" />
 					</DataTemplate>
 				</ComboBox.ItemTemplate>
 			</ComboBox>
-			<TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Margin="2" VerticalAlignment="Center" Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" Width="Auto" />
-			<CheckBox Grid.Row="2" Grid.Column="1" Margin="2" VerticalAlignment="Center" IsChecked="{Binding IsModalWindow}" />
-			<CheckBox Grid.Row="2" Grid.Column="3" Margin="2" VerticalAlignment="Center" IsChecked="{Binding ForAllClients}" />
-			<CheckBox Grid.Row="3" Grid.Column="1" Margin="2" VerticalAlignment="Center" IsChecked="{Binding AllowClose}" />
-			<CheckBox Grid.Row="3" Grid.Column="3" Margin="2" VerticalAlignment="Center" IsChecked="{Binding AllowMaximize}" />
-			<CheckBox Grid.Row="4" Grid.Column="1" Margin="2" VerticalAlignment="Center" IsChecked="{Binding TopMost}" />
-			<CheckBox Grid.Row="4" Grid.Column="3" Margin="2" VerticalAlignment="Center" IsChecked="{Binding Sizable}" />
-			<extToolkit:IntegerUpDown Grid.Row="5" Grid.Column="3" Minimum="100" Value="{Binding Width, UpdateSourceTrigger=PropertyChanged}" />
-			<extToolkit:IntegerUpDown Grid.Row="6" Grid.Column="3" Minimum="100" Value="{Binding Height, UpdateSourceTrigger=PropertyChanged}" />
-			<extToolkit:IntegerUpDown Grid.Row="5" Grid.Column="1" Minimum="100" Value="{Binding MinWidth, UpdateSourceTrigger=PropertyChanged}" />
-			<extToolkit:IntegerUpDown Grid.Row="6" Grid.Column="1" Minimum="100" Value="{Binding MinHeight, UpdateSourceTrigger=PropertyChanged}" />
+			<TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="6" Margin="2" VerticalAlignment="Center" Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" Width="Auto" />
+			<CheckBox Grid.Row="2" Grid.Column="1" Margin="2,2,0,2" VerticalAlignment="Center" IsChecked="{Binding IsModalWindow}" Height="13" />
+			<CheckBox Grid.Row="2" Grid.Column="6" Margin="2,2,0,2" VerticalAlignment="Center" IsChecked="{Binding ForAllClients}" Height="13" />
+			<CheckBox Grid.Row="2" Grid.Column="3" Margin="2,2,0,2" VerticalAlignment="Center" IsChecked="{Binding AllowClose}" Height="13" />
+			<CheckBox Grid.Row="3" Grid.Column="3" Margin="2,2,0,2" VerticalAlignment="Center" IsChecked="{Binding AllowMaximize}" Height="13" />
+			<CheckBox Grid.Row="3" Grid.Column="1" Margin="2,2,0,2" VerticalAlignment="Center" IsChecked="{Binding TopMost}" Height="13" />
+			<CheckBox Grid.Row="3" Grid.Column="6" Margin="2,2,0,2" VerticalAlignment="Center" IsChecked="{Binding Sizable}" Height="13" />
+			<CheckBox Grid.Row="4" Grid.Column="1" Margin="2,2,0,2" VerticalAlignment="Center" IsChecked="{Binding CustomPosition}" Name="CustomPositionCheckBox" Height="13" />
+			<extToolkit:IntegerUpDown Grid.Row="6" Grid.Column="5" Minimum="100" Value="{Binding Width, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2" />
+			<extToolkit:IntegerUpDown Grid.Row="7" Grid.Column="5" Minimum="100" Value="{Binding Height, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2" />
+			<extToolkit:IntegerUpDown Grid.Row="6" Grid.Column="1" Minimum="100" Value="{Binding MinWidth, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2" />
+			<extToolkit:IntegerUpDown Grid.Row="7" Grid.Column="1" Minimum="100" Value="{Binding MinHeight, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2" />
+			<extToolkit:IntegerUpDown Grid.Row="5" Grid.Column="1" Value="{Binding X, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding ElementName=CustomPositionCheckBox, Path=IsChecked}" Grid.ColumnSpan="2" />
+			<extToolkit:IntegerUpDown Grid.Row="5" Grid.Column="5" Value="{Binding Y, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding ElementName=CustomPositionCheckBox, Path=IsChecked}" Grid.ColumnSpan="2" />
 		</Grid>
 		<Grid Grid.Column="1" Margin="2" DataContext="{Binding ProcedureLayoutCollectionViewModel}">
 			<DataGrid ItemsSource="{Binding LayoutItems}">

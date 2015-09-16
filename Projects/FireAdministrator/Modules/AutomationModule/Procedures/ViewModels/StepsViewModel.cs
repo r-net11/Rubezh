@@ -34,7 +34,7 @@ namespace AutomationModule.ViewModels
 			{
 				step.ExpandToThis();
 			}
-			SelectedStep = AllSteps.FirstOrDefault();
+			SelectedStep = RootSteps.FirstOrDefault();
 			OnPropertyChanged(() => RootSteps);
 			OnPropertyChanged(() => SelectedStep);
 		}
@@ -98,11 +98,11 @@ namespace AutomationModule.ViewModels
 			get { return _selectedStep; }
 			set
 			{
-				var automationChanged = ServiceFactory.SaveService.AutomationChanged;
+				//var automationChanged = ServiceFactory.SaveService.AutomationChanged;
 				_selectedStep = value;
-				if (_selectedStep != null)
-					_selectedStep.UpdateContent();
-				ServiceFactory.SaveService.AutomationChanged = automationChanged;
+				//if (_selectedStep != null)
+				//	_selectedStep.UpdateContent();
+				//ServiceFactory.SaveService.AutomationChanged = automationChanged;
 				OnPropertyChanged(() => SelectedStep);
 			}
 		}
@@ -172,7 +172,7 @@ namespace AutomationModule.ViewModels
 		public RelayCommand CopyCommand { get; private set; }
 		void OnCopy()
 		{
-			_stepToCopy = Utils.Clone(SelectedStep.Step);
+			_stepToCopy = SelectedStep.Step;
 		}
 
 		public RelayCommand CutCommand { get; private set; }
@@ -190,7 +190,6 @@ namespace AutomationModule.ViewModels
 		public RelayCommand PasteCommand { get; private set; }
 		void OnPaste()
 		{
-			_stepToCopy.UID = new Guid();
 			var stepViewModel = new StepViewModel(this, Utils.Clone(_stepToCopy), Procedure);
 			Add(stepViewModel);
 			foreach (var childStep in stepViewModel.Step.Children)

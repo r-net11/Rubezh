@@ -286,7 +286,8 @@ namespace FiresecService.Service
 				if (getAccessTemplateOperationResult.HasError)
 					errors.AddRange(getAccessTemplateOperationResult.Errors);
 
-				errors.AddRange(AddGKCard(card, getAccessTemplateOperationResult.Result, databaseService));
+				var addGKCardResult = AddGKCard(card, getAccessTemplateOperationResult.Result, databaseService);
+				errors.AddRange(addGKCardResult);
 
 				return OperationResult<bool>.FromError(errors, true);
 			}
@@ -452,10 +453,25 @@ namespace FiresecService.Service
 
 		public OperationResult DeletedCard(SKDCard card)
 		{
-			AddJournalMessage(JournalEventNameType.Редактирование_карты, card.Number.ToString(), uid: card.UID);
+			AddJournalMessage(JournalEventNameType.Удаление_карты, card.EmployeeName, uid: card.EmployeeUID);
 			using (var databaseService = new SKDDriver.DataClasses.DbService())
 			{
-				return databaseService.CardTranslator.Delete(card);
+				var errors = new List<string>();
+				var deleteFromDbResult = databaseService.CardTranslator.Delete(card);
+				if (deleteFromDbResult.HasError)
+					errors.Add(deleteFromDbResult.Error);
+				
+				var getAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(card.AccessTemplateUID);
+				if (getAccessTemplateOperationResult.HasError)
+					errors.AddRange(getAccessTemplateOperationResult.Errors);
+
+				var cardDoors = getAccessTemplateOperationResult.Result != null ? getAccessTemplateOperationResult.Result.CardDoors : new List<CardDoor>();
+				errors.AddRange(DeleteGKCard(card, cardDoors, databaseService));
+				
+				if(errors.Count > 0)
+					return new OperationResult(errors);
+				else
+					return new OperationResult();
 			}
 		}
 		public OperationResult SaveCardTemplate(SKDCard card)

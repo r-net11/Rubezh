@@ -24,6 +24,9 @@ namespace FireMonitor.Layout.ViewModels
 				Height = data.Height,
 				MinWidth = data.MinWidth,
 				MinHeight = data.MinHeight,
+				CustomPosition = data.CustomPosition,
+				X = data.X,
+				Y = data.Y
 			};
 			ApplicationService.BeginInvoke(() =>
 			{

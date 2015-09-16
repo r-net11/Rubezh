@@ -139,12 +139,17 @@ namespace GKImitator.ViewModels
 				if (CurrentOnDelay == 0)
 				{
 					TurningState = TurningState.None;
-					SetStateBit(GKStateBit.On, true);
-					SetStateBit(GKStateBit.TurningOn, false);
-					SetStateBit(GKStateBit.Off, false);
-					SetStateBit(GKStateBit.TurningOff, false);
-					var journalItem = new ImitatorJournalItem(2, 9, 2, 0);
-					AddJournalItem(journalItem);
+					var changed = false;
+					changed = changed || SetStateBit(GKStateBit.On, true);
+					changed = changed || SetStateBit(GKStateBit.TurningOn, false);
+					changed = changed || SetStateBit(GKStateBit.Off, false);
+					changed = changed || SetStateBit(GKStateBit.TurningOff, false);
+					if (changed)
+					{
+						RecalculateOutputLogic();
+						var journalItem = new ImitatorJournalItem(2, 9, 2, 0);
+						AddJournalItem(journalItem);
+					}
 
 					if (HoldDelay > 0)
 					{
@@ -255,7 +260,7 @@ namespace GKImitator.ViewModels
 		{
 			if (HasPauseTurnOn)
 			{
-				if(TurningState == TurningState.TurningOn)
+				if (TurningState == TurningState.TurningOn)
 				{
 					TurningState = TurningState.Paused;
 				}
@@ -270,12 +275,17 @@ namespace GKImitator.ViewModels
 			}
 			else
 			{
-				SetStateBit(GKStateBit.On, false);
-				SetStateBit(GKStateBit.TurningOn, true);
-				SetStateBit(GKStateBit.Off, false);
-				SetStateBit(GKStateBit.TurningOff, false);
-				var journalItem = new ImitatorJournalItem(2, 9, 4, 0);
-				AddJournalItem(journalItem);
+				var changed = false;
+				changed = changed || SetStateBit(GKStateBit.On, false);
+				changed = changed || SetStateBit(GKStateBit.TurningOn, true);
+				changed = changed || SetStateBit(GKStateBit.Off, false);
+				changed = changed || SetStateBit(GKStateBit.TurningOff, false);
+				if (changed)
+				{
+					var journalItem = new ImitatorJournalItem(2, 9, 4, 0);
+					AddJournalItem(journalItem);
+					RecalculateOutputLogic();
+				}
 			}
 		}
 
@@ -284,12 +294,17 @@ namespace GKImitator.ViewModels
 			CurrentOnDelay = 0;
 			CurrentHoldDelay = 0;
 			CurrentOffDelay = 0;
-			SetStateBit(GKStateBit.On, true);
-			SetStateBit(GKStateBit.TurningOn, false);
-			SetStateBit(GKStateBit.Off, false);
-			SetStateBit(GKStateBit.TurningOff, false);
+			var changed = false;
+			changed = changed || SetStateBit(GKStateBit.On, true);
+			changed = changed || SetStateBit(GKStateBit.TurningOn, false);
+			changed = changed || SetStateBit(GKStateBit.Off, false);
+			changed = changed || SetStateBit(GKStateBit.TurningOff, false);
 			var journalItem = new ImitatorJournalItem(2, 9, 2, 0);
-			AddJournalItem(journalItem);
+			if (changed)
+			{
+				AddJournalItem(journalItem);
+				RecalculateOutputLogic();
+			}
 		}
 
 		void TurnOff()
@@ -300,12 +315,17 @@ namespace GKImitator.ViewModels
 			}
 			else
 			{
-				SetStateBit(GKStateBit.On, false);
-				SetStateBit(GKStateBit.TurningOn, false);
-				SetStateBit(GKStateBit.Off, false);
-				SetStateBit(GKStateBit.TurningOff, true);
-				var journalItem = new ImitatorJournalItem(2, 9, 5, 0);
-				AddJournalItem(journalItem);
+				var changed = false;
+				changed = changed || SetStateBit(GKStateBit.On, false);
+				changed = changed || SetStateBit(GKStateBit.TurningOn, false);
+				changed = changed || SetStateBit(GKStateBit.Off, false);
+				changed = changed || SetStateBit(GKStateBit.TurningOff, true);
+				if (changed)
+				{
+					var journalItem = new ImitatorJournalItem(2, 9, 5, 0);
+					AddJournalItem(journalItem);
+					RecalculateOutputLogic();
+				}
 			}
 		}
 
@@ -314,12 +334,17 @@ namespace GKImitator.ViewModels
 			CurrentOnDelay = 0;
 			CurrentHoldDelay = 0;
 			CurrentOffDelay = 0;
-			SetStateBit(GKStateBit.On, false);
-			SetStateBit(GKStateBit.TurningOn, false);
-			SetStateBit(GKStateBit.Off, true);
-			SetStateBit(GKStateBit.TurningOff, false);
-			var journalItem = new ImitatorJournalItem(2, 9, 3, 3);
-			AddJournalItem(journalItem);
+			var changed = false;
+			changed = changed || SetStateBit(GKStateBit.On, false);
+			changed = changed || SetStateBit(GKStateBit.TurningOn, false);
+			changed = changed || SetStateBit(GKStateBit.Off, true);
+			changed = changed || SetStateBit(GKStateBit.TurningOff, false);
+			if (changed)
+			{
+				var journalItem = new ImitatorJournalItem(2, 9, 3, 3);
+				AddJournalItem(journalItem);
+				RecalculateOutputLogic();
+			}
 		}
 	}
 }

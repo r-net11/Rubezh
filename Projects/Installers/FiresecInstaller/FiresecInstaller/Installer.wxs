@@ -56,13 +56,13 @@
 								<Directory Id="Administrator.Xaml2svgFolder" Name="$(var.xaml2svgFolder)" />
 							</Directory>
 						</Directory>
-						<Directory Id="Administrator.dll" Name="dll" />
+						<Directory Id="Administrator.Dll" Name="Dll" />
 					</Directory>
 					<Directory Id="MONITORLOCATION" Name="$(var.MonitorName)">
 						<Directory Id="Monitor.ShellFolder" Name="Shell" />
 						<Directory Id="Monitor.ClientSettingsFolder" Name="ClientSettings" />
 						<Directory Id="Monitor.ru" Name="ru" />
-						<Directory Id="Monitor.dll" Name="dll" />
+						<Directory Id="Monitor.Dll" Name="Dll" />
 					</Directory>
 					<Directory Id="GKOPCLOCATION" Name="GKOPC" />
 					<Directory Id="FirmwhareUpdateLOCATION" Name="Актуальные прошивки ГК" />

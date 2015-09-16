@@ -117,6 +117,34 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
+		public bool CustomPosition
+		{
+			get { return ShowDialogArguments.CustomPosition; }
+			set
+			{
+				ShowDialogArguments.CustomPosition = value;
+				OnPropertyChanged(() => CustomPosition);
+			}
+		}
+		public double X
+		{
+			get { return ShowDialogArguments.X; }
+			set
+			{
+				ShowDialogArguments.X = value;
+				OnPropertyChanged(() => X);
+			}
+		}
+		public double Y
+		{
+			get { return ShowDialogArguments.Y; }
+			set
+			{
+				ShowDialogArguments.Y = value;
+				OnPropertyChanged(() => Y);
+			}
+		}
+
 		private ProcedureLayoutCollectionViewModel _procedureLayoutCollectionViewModel;
 		public ProcedureLayoutCollectionViewModel ProcedureLayoutCollectionViewModel
 		{

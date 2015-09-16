@@ -37,5 +37,11 @@ namespace FiresecAPI.Automation
 		public double MinWidth { get; set; }
 		[DataMember]
 		public double MinHeight { get; set; }
+		[DataMember]
+		public bool CustomPosition { get; set; }
+		[DataMember]
+		public double X { get; set; }
+		[DataMember]
+		public double Y { get; set; }
 	}
 }

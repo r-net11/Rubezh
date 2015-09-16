@@ -284,9 +284,10 @@ namespace GKImitator.ViewModels
 							var device = descriptorViewModel.GKBase as GKDevice;
 							if (device != null && (device.DriverType == GKDriverType.RSR2_CodeReader || device.DriverType == GKDriverType.RSR2_CardReader))
 							{
+								ImitatorUser user = null;
 								using (var dbService = new DbService())
 								{
-									var user = dbService.ImitatorUserTraslator.GetByNo(descriptorViewModel.CurrentCardNo);
+									user = dbService.ImitatorUserTraslator.GetByNo(descriptorViewModel.CurrentCardNo);
 									if (user != null)
 									{
 										if (user.Level >= level)
@@ -308,6 +309,10 @@ namespace GKImitator.ViewModels
 
 								var journalItem = new ImitatorJournalItem(0, isAccess ? (byte)13 : (byte)15, 0, 0);
 								journalItem.ObjectDeviceAddress = (short)device.GKDescriptorNo;
+								if(user != null)
+								{
+									journalItem.ObjectFactoryNo = user.GKNo;
+								}
 								AddJournalItem(journalItem);
 							}
 						}
@@ -368,14 +373,28 @@ namespace GKImitator.ViewModels
 			}
 
 			var hasZoneBitsChanged = false;
+			if (GKBase is GKZone)
+			{
+				if (stateBitVales.ContainsKey(GKStateBit.Fire2) && stateBitVales[GKStateBit.Fire2])
+				{
+					stateBitVales[GKStateBit.Fire1] = false;
+					stateBitVales[GKStateBit.Attention] = false;
+					hasZoneBitsChanged = true;
+				}
+				else if (stateBitVales.ContainsKey(GKStateBit.Fire1) && stateBitVales[GKStateBit.Fire1])
+				{
+					stateBitVales[GKStateBit.Attention] = false;
+					hasZoneBitsChanged = true;
+				}
+				else if (stateBitVales.ContainsKey(GKStateBit.Attention) && stateBitVales[GKStateBit.Attention])
+				{
+					hasZoneBitsChanged = true;
+				}
+			}
 
+			var intState = StatesToInt();
 			foreach (var stateBitVale in stateBitVales)
 			{
-				if (stateBitVale.Key == GKStateBit.Attention || stateBitVale.Key == GKStateBit.Fire1 || stateBitVale.Key == GKStateBit.Fire2)
-				{
-					hasZoneBitsChanged = SetStateBit(stateBitVale.Key, stateBitVale.Value);
-				}
-
 				if (stateBitVale.Value)
 				{
 					if (stateBitVale.Key == GKStateBit.TurnOn_InAutomatic)
@@ -411,6 +430,11 @@ namespace GKImitator.ViewModels
 
 			if (GKBase is GKZone && hasZoneBitsChanged)
 			{
+				foreach (var stateBitVale in stateBitVales)
+				{
+					SetStateBit(stateBitVale.Key, stateBitVale.Value);
+				}
+
 				if (stateBitVales.ContainsKey(GKStateBit.Attention) && stateBitVales[GKStateBit.Attention])
 				{
 					var journalItem = new ImitatorJournalItem(2, 4, 0, 0);
@@ -431,6 +455,12 @@ namespace GKImitator.ViewModels
 					var journalItem = new ImitatorJournalItem(2, 14, 0, 0);
 					AddJournalItem(journalItem);
 				}
+			}
+
+			var newIntState = StatesToInt();
+			if (newIntState != intState)
+			{
+				RecalculateOutputLogic();
 			}
 		}
 

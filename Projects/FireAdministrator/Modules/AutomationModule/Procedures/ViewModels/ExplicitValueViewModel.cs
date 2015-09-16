@@ -56,14 +56,25 @@ namespace AutomationModule.ViewModels
 
 		public void Initialize(Guid uidValue)
 		{
-			Device = GKManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == uidValue);
-			Zone = GKManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == uidValue);
-			GuardZone = GKManager.DeviceConfiguration.GuardZones.FirstOrDefault(x => x.UID == uidValue);
-			Camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == uidValue);
-			GKDoor = GKManager.Doors.FirstOrDefault(x => x.UID == uidValue);
-			Direction = GKManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == uidValue);
-			Delay = GKManager.DeviceConfiguration.Delays.FirstOrDefault(x => x.UID == uidValue);
-			Organisation = OrganisationHelper.GetSingle(uidValue);
+			Device = null;
+			Zone = null;
+			GuardZone = null;
+			Camera = null;
+			GKDoor = null;
+			Direction = null;
+			Delay = null;
+			Organisation = null;
+
+			var flag = 
+				(Device = GKManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == uidValue)) == null ||
+				(Zone = GKManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == uidValue)) == null ||
+				(GuardZone = GKManager.DeviceConfiguration.GuardZones.FirstOrDefault(x => x.UID == uidValue)) == null ||
+				(Camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == uidValue)) == null ||
+				(GKDoor = GKManager.Doors.FirstOrDefault(x => x.UID == uidValue)) == null ||
+				(Direction = GKManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == uidValue)) == null ||
+				(Delay = GKManager.DeviceConfiguration.Delays.FirstOrDefault(x => x.UID == uidValue)) == null ||
+				(Organisation = OrganisationHelper.GetSingle(uidValue)) == null;
+						
 			base.OnPropertyChanged(() => PresentationName);
 		}
 
