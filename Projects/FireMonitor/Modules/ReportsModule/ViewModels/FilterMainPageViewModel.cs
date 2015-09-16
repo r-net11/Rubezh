@@ -196,8 +196,8 @@ namespace ReportsModule.ViewModels
 					{
 						case ReportPeriodType.Day:
 							_isLoaded = false;
-							DateTimeFrom = DateTime.Today.AddDays(-1);
-							DateTimeTo = DateTime.Today.AddSeconds(-1);
+							DateTimeFrom = DateTime.Today;
+							DateTimeTo = DateTime.Now;
 							_isLoaded = true;
 							break;
 						case ReportPeriodType.Week:
