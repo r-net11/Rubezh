@@ -14,6 +14,7 @@ namespace SKDModule.ViewModels
 		public bool IsCheckedCancel { get; private set; }
 
 		public DayTimeTrackPart ResetedDayTimeTrackPart { get; set; }
+		public bool? DialogResult { get; set; }
 
 		private string _conflictZone;
 
@@ -128,18 +129,12 @@ namespace SKDModule.ViewModels
 		public RelayCommand RoundIntervalCommand { get; set; }
 		public RelayCommand RemoveIntervalCommand { get; set; }
 
-		//protected override bool Save()
-		//{
-		//	if (ApplyToAll)
-		//		IsCheckedSave = true;
-		//	return base.Save();
-		//}
-
 		public void OnRoundingInterval()
 		{
 			if (ApplyToAll)
 				IsCheckedSave = true;
 			bool result = Save();
+			DialogResult = true;
 			if (result)
 				Close(true);
 		}
@@ -148,15 +143,8 @@ namespace SKDModule.ViewModels
 		{
 			if (ApplyToAll)
 				IsCheckedCancel = true;
-			Close(null);
-			//return base.Cancel();
+			DialogResult = false;
+			Close(false);
 		}
-
-		//protected override bool Cancel()
-		//{
-		//	if (ApplyToAll)
-		//		IsCheckedCancel = true;
-		//	return base.Cancel();
-		//}
 	}
 }

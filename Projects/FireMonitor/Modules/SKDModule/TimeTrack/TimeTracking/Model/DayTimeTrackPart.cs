@@ -186,6 +186,14 @@ namespace SKDModule.Model
 			set { this.RaiseAndSetIfChanged(ref _adjustmentDate, value); }
 		}
 
+		private bool _isNeedAdjustmentOriginal;
+
+		public bool IsNeedAdjustmentOriginal
+		{
+			get { return _isNeedAdjustmentOriginal; }
+			set { this.RaiseAndSetIfChanged(ref _isNeedAdjustmentOriginal, value); }
+		}
+
 		#endregion
 
 		#region Constructors
@@ -208,6 +216,7 @@ namespace SKDModule.Model
 			IsForceClosed = dayTimeTrackPart.IsForceClosed;
 			IsManuallyAdded = dayTimeTrackPart.IsManuallyAdded;
 			IsNeedAdjustment = dayTimeTrackPart.IsNeedAdjustment;
+			IsNeedAdjustmentOriginal = dayTimeTrackPart.IsNeedAdjustmentOriginal;
 			IsOpen = dayTimeTrackPart.IsOpen;
 			NotTakeInCalculations = dayTimeTrackPart.NotTakeInCalculations;
 			if (dayTimeTrackPart.TimeTrackZone != null)
@@ -251,6 +260,7 @@ namespace SKDModule.Model
 				timeTrackPart.NotTakeInCalculations,
 				timeTrackPart.IsManuallyAdded,
 				timeTrackPart.IsNeedAdjustment,
+				timeTrackPart.IsNeedAdjustmentOriginal,
 				timeTrackPart.AdjustmentDate,
 				user.Name,
 				user.UID,
@@ -270,7 +280,7 @@ namespace SKDModule.Model
 		#region Methods
 
 		public void Update(DateTime? enterDateTime, DateTime? exitDateTime,
-			TimeTrackZone timeTrackZone, bool notTakeInCalculations, bool isManuallyAdded, bool isNeedAdjustment, DateTime? adjustmentDate, string correctedBy,
+			TimeTrackZone timeTrackZone, bool notTakeInCalculations, bool isManuallyAdded, bool isNeedAdjustment, bool isNeedAdjustmentOriginal, DateTime? adjustmentDate, string correctedBy,
 			Guid correctedByUID, DateTime? enterTimeOriginal, DateTime? exitTimeOriginal, bool isOpen = false, bool isForceClosed = false)
 		{
 			TimeTrackZone = timeTrackZone;
@@ -281,6 +291,7 @@ namespace SKDModule.Model
 			ExitTime = exitDateTime.GetValueOrDefault().TimeOfDay;
 			NotTakeInCalculations = notTakeInCalculations;
 			IsManuallyAdded = isManuallyAdded;
+			IsNeedAdjustmentOriginal = isNeedAdjustmentOriginal;
 			IsNeedAdjustment = isNeedAdjustment;
 			CorrectedDate = adjustmentDate.HasValue ? adjustmentDate.Value.ToString(CultureInfo.CurrentUICulture) : string.Empty;
 			CorrectedBy = correctedBy;
@@ -329,6 +340,7 @@ namespace SKDModule.Model
 				IsForceClosed = IsForceClosed,
 				IsManuallyAdded = IsManuallyAdded,
 				IsNeedAdjustment = IsNeedAdjustment,
+				IsNeedAdjustmentOriginal = IsNeedAdjustmentOriginal,
 				IsOpen = IsOpen,
 				IsNew = IsNew,
 				IsRemoveAllIntersections = IsRemoveAllIntersections,

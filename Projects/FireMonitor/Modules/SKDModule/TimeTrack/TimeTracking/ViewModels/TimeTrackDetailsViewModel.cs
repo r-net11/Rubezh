@@ -599,6 +599,7 @@ namespace SKDModule.ViewModels
 																dayTimeTrackPart.IsRemoveAllIntersections = true;
 																dayTimeTrackPart.EnterDateTime = dayTimeTrackPart.EnterTimeOriginal;
 																dayTimeTrackPart.ExitDateTime = dayTimeTrackPart.ExitTimeOriginal;
+																dayTimeTrackPart.IsNeedAdjustment = dayTimeTrackPart.IsNeedAdjustmentOriginal;
 																dayTimeTrackPart.IsNew = default(bool);
 																return dayTimeTrackPart;
 															})
@@ -606,14 +607,15 @@ namespace SKDModule.ViewModels
 					continue;
 				}
 
-				var dialogResult = DialogService.ShowModalWindowNullable(conflictViewModel);
-				if (dialogResult == true)
+				var dialogResult = DialogService.ShowModalWindow(conflictViewModel);
+
+				if (conflictViewModel.DialogResult == true)
 				{
 					resolvedConflictCollection.AddRange(resultCollection
 														.Where(dayTimeTrackPart => dayTimeTrackPart.UID == el.Key.UID)
 														.Select(dayTimeTrackPart => TimeTrackingHelper.ResolveConflictWithSettingBorders(dayTimeTrackPart, el.Value)));
 				}
-				else if (dialogResult == null)
+				else if (conflictViewModel.DialogResult == false)
 				{
 					resolvedConflictCollection.AddRange(resultCollection
 														.Where(dayTimeTrackPart => dayTimeTrackPart.UID == el.Key.UID)
@@ -623,6 +625,7 @@ namespace SKDModule.ViewModels
 																dayTimeTrackPart.IsRemoveAllIntersections = true;
 																dayTimeTrackPart.EnterDateTime = dayTimeTrackPart.EnterTimeOriginal;
 																dayTimeTrackPart.ExitDateTime = dayTimeTrackPart.ExitTimeOriginal;
+																dayTimeTrackPart.IsNeedAdjustment = dayTimeTrackPart.IsNeedAdjustmentOriginal;
 																dayTimeTrackPart.AdjustmentDate = null;
 																dayTimeTrackPart.CorrectedBy = null;
 																dayTimeTrackPart.CorrectedByUID = null;
@@ -682,6 +685,7 @@ namespace SKDModule.ViewModels
 			{
 				dayTimeTrack.EnterDateTime = dayTimeTrack.EnterTimeOriginal;
 				dayTimeTrack.ExitDateTime = dayTimeTrack.ExitTimeOriginal;
+				dayTimeTrack.IsNeedAdjustment = dayTimeTrack.IsNeedAdjustmentOriginal;
 			}
 		}
 
@@ -689,7 +693,12 @@ namespace SKDModule.ViewModels
 		{
 			if(DialogService.ShowModalWindow(new ForceClosingQuestionDialogWindowViewModel()))
 			{
-				SelectedDayTimeTrackPart.ExitDateTime = DateTime.Now;
+				var nowDateTime = DateTime.Now;
+				SelectedDayTimeTrackPart.ExitDateTime = nowDateTime;
+				SelectedDayTimeTrackPart.AdjustmentDate = nowDateTime;
+				SelectedDayTimeTrackPart.CorrectedDate = nowDateTime.ToString(CultureInfo.CurrentUICulture);
+				SelectedDayTimeTrackPart.CorrectedBy = FiresecManager.CurrentUser.Name;
+				SelectedDayTimeTrackPart.CorrectedByUID = FiresecManager.CurrentUser.UID;
 			}
 		}
 
