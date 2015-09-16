@@ -371,13 +371,13 @@ namespace FiresecAPI.Journal
 		Подтверждение_тревоги,
 
 		[EventName(JournalSubsystemType.SKD, "Команда на сброс состояния \"Взлом\"", XStateClass.Info, "Команда на сброс состояния замка \"Взлом\"")]
-		Сброс_состояния_взлом_замка,
+		Команда_на_сброс_состояния_взлом_замка,
 
 		[EventName(JournalSubsystemType.SKD, "Команда на сброс состояния \"Взлом\"", XStateClass.Info, "Команда на сброс состояния точки доступа \"Взлом\"")]
-		Сброс_состояния_взлом_точки_доступа,
+		Команда_на_сброс_состояния_взлом_точки_доступа,
 
 		[EventName(JournalSubsystemType.SKD, "Команда на сброс состояния \"Взлом\"", XStateClass.Info, "Команда на сброс состояния зоны \"Взлом\"")]
-		Сброс_состояния_взлом_зоны,
+		Команда_на_сброс_состояния_взлом_зоны,
 
 		[EventName(JournalSubsystemType.SKD, "Запрос паролей замков", XStateClass.TechnologicalRegime)]
 		GetControllerLocksPasswords,
@@ -411,5 +411,14 @@ namespace FiresecAPI.Journal
 
 		[EventName(JournalSubsystemType.SKD, "Перевод в режим \"Норма\"", XStateClass.Norm, "Перевод зоны в режим \"Норма\"")]
 		Перевод_зоны_в_режим_Норма,
+
+		[EventName(JournalSubsystemType.SKD, "Сброс состояния \"Взлом\"", XStateClass.Info, "Сброс состояния замка \"Взлом\"")]
+		Сброс_состояния_взлом_замка,
+
+		[EventName(JournalSubsystemType.SKD, "Сброс состояния \"Взлом\"", XStateClass.Info, "Сброс состояния точки доступа \"Взлом\"")]
+		Сброс_состояния_взлом_точки_доступа,
+
+		[EventName(JournalSubsystemType.SKD, "Сброс состояния \"Взлом\"", XStateClass.Info, "Сброс состояния зоны \"Взлом\"")]
+		Сброс_состояния_взлом_зоны,
 	}
 }
