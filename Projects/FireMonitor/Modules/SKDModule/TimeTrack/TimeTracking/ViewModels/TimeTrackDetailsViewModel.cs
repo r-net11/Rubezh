@@ -606,14 +606,15 @@ namespace SKDModule.ViewModels
 					continue;
 				}
 
-				var dialogResult = DialogService.ShowModalWindowNullable(conflictViewModel);
-				if (dialogResult == true)
+				var dialogResult = DialogService.ShowModalWindow(conflictViewModel);
+
+				if (conflictViewModel.DialogResult == true)
 				{
 					resolvedConflictCollection.AddRange(resultCollection
 														.Where(dayTimeTrackPart => dayTimeTrackPart.UID == el.Key.UID)
 														.Select(dayTimeTrackPart => TimeTrackingHelper.ResolveConflictWithSettingBorders(dayTimeTrackPart, el.Value)));
 				}
-				else if (dialogResult == null)
+				else if (conflictViewModel.DialogResult == false)
 				{
 					resolvedConflictCollection.AddRange(resultCollection
 														.Where(dayTimeTrackPart => dayTimeTrackPart.UID == el.Key.UID)
