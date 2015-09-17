@@ -1316,18 +1316,23 @@ namespace FiresecService.Service
 			return result;
 		}
 
+		/// <summary>
+		/// Сбрасывает состояние "Взлом" замка
+		/// </summary>
+		/// <param name="deviceUID">Идентификатор замка</param>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
 		public OperationResult<bool> SKDClearDevicePromptWarning(Guid deviceUID)
 		{
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			if (device != null)
-			{
-				AddSKDJournalMessage(JournalEventNameType.Сброс_состояния_взлом_замка, device);
-				return ChinaSKDDriver.Processor.ClearPromptWarning(device);
-			}
-			else
-			{
+			
+			if (device == null)
 				return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
-			}
+
+			AddSKDJournalMessage(JournalEventNameType.Команда_на_сброс_состояния_взлом_замка, device);
+			var result = Processor.ClearPromptWarning(device);
+			if (!result.HasError)
+				AddSKDJournalMessage(JournalEventNameType.Сброс_состояния_взлом_замка, device);
+			return result;
 		}
 
 		#endregion </Замок>
@@ -1613,12 +1618,17 @@ namespace FiresecService.Service
 			return result;
 		}
 
+		/// <summary>
+		/// Сбрасывает состояние "Взлом" зоны
+		/// </summary>
+		/// <param name="zoneUID">Идентификатор зоны</param>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
 		public OperationResult<bool> SKDClearZonePromptWarning(Guid zoneUID)
 		{
 			var zone = SKDManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
 			if (zone != null)
 			{
-				AddSKDJournalMessage(JournalEventNameType.Сброс_состояния_взлом_зоны, zone);
+				AddSKDJournalMessage(JournalEventNameType.Команда_на_сброс_состояния_взлом_зоны, zone);
 				var errors = new List<string>();
 				foreach (var device in zone.Devices)
 				{
@@ -1630,7 +1640,7 @@ namespace FiresecService.Service
 					var lockDevice = device.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == lockAddress);
 					if (lockDevice != null)
 					{
-						var result = ChinaSKDDriver.Processor.ClearPromptWarning(lockDevice);
+						var result = Processor.ClearPromptWarning(lockDevice);
 						if (result.HasError)
 						{
 							errors.AddRange(result.Errors);
@@ -1645,12 +1655,10 @@ namespace FiresecService.Service
 				{
 					return OperationResult<bool>.FromError(errors);
 				}
+				AddSKDJournalMessage(JournalEventNameType.Сброс_состояния_взлом_зоны, zone);
 				return new OperationResult<bool>(true);
 			}
-			else
-			{
-				return OperationResult<bool>.FromError("Зона не найдена в конфигурации");
-			}
+			return OperationResult<bool>.FromError("Зона не найдена в конфигурации");
 		}
 
 		#endregion </Зона>
@@ -1907,12 +1915,17 @@ namespace FiresecService.Service
 			return result;
 		}
 
+		/// <summary>
+		/// Сбрасывает состояние "Взлом" для точки доступа
+		/// </summary>
+		/// <param name="doorUID">Идентификатор точки доступа</param>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
 		public OperationResult<bool> SKDClearDoorPromptWarning(Guid doorUID)
 		{
 			var door = SKDManager.Doors.FirstOrDefault(x => x.UID == doorUID);
 			if (door != null)
 			{
-				AddSKDJournalMessage(JournalEventNameType.Сброс_состояния_взлом_точки_доступа, door);
+				AddSKDJournalMessage(JournalEventNameType.Команда_на_сброс_состояния_взлом_точки_доступа, door);
 				if (door.InDevice != null)
 				{
 					var lockAddress = door.InDevice.IntAddress;
@@ -1923,22 +1936,16 @@ namespace FiresecService.Service
 					var lockDevice = door.InDevice.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == lockAddress);
 					if (lockDevice != null)
 					{
-						return ChinaSKDDriver.Processor.ClearPromptWarning(lockDevice);
+						var result = Processor.ClearPromptWarning(lockDevice);
+						if (!result.HasError)
+							AddSKDJournalMessage(JournalEventNameType.Сброс_состояния_взлом_точки_доступа, door);
+						return result;
 					}
-					else
-					{
-						return OperationResult<bool>.FromError("Для точки доступа не найден замок");
-					}
+					return OperationResult<bool>.FromError("Для точки доступа не найден замок");
 				}
-				else
-				{
-					return OperationResult<bool>.FromError("У точки доступа не указано устройство входа");
-				}
+				return OperationResult<bool>.FromError("У точки доступа не указано устройство входа");
 			}
-			else
-			{
-				return OperationResult<bool>.FromError("Точка доступа не найдена в конфигурации");
-			}
+			return OperationResult<bool>.FromError("Точка доступа не найдена в конфигурации");
 		}
 
 		#endregion </Точка доступа>
