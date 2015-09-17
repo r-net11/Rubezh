@@ -44,6 +44,7 @@ namespace AutomationModule
 			allElements.AddRange(plan.ElementPolylines);
 			allElements.AddRange(plan.ElementTextBlocks);
 			allElements.AddRange(plan.ElementPolygons);
+			allElements.AddRange(plan.ElementExtensions);
 			foreach (var elementRectangle in allElements)
 			{
 				elements.Add(new ElementViewModel(elementRectangle));
@@ -289,6 +290,12 @@ namespace AutomationModule
 				}
 			}
 			return ExplicitTypes;
+		}
+
+		public static string GetProcedureName(Guid procedureUid)
+		{
+			var procedure = FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures.FirstOrDefault(x => x.Uid == procedureUid);
+			return procedure == null ? "" : procedure.Name;
 		}
 	}
 }

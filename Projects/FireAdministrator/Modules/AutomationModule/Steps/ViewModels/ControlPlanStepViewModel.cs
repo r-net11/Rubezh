@@ -118,7 +118,7 @@ namespace AutomationModule.ViewModels
 
 		ObservableCollection<ElementPropertyType> GetElemetProperties(ElementViewModel element)
 		{
-			if (element.ElementType == typeof(ElementRectangle) || element.ElementType == typeof(ElementEllipse))
+			if (element.ElementType == typeof(ElementRectangle) || element.ElementType == typeof(ElementEllipse) || element.ElementType == typeof(ElementProcedure))
 				return new ObservableCollection<ElementPropertyType> 
 				{ 
 					ElementPropertyType.IsVisible, 
