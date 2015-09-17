@@ -18,7 +18,7 @@ namespace GKModule.ViewModels
 			DeviceViewModel = new DeviceViewModel(device);
 
 			AUParameterValues = new ObservableCollection<MeasureParameterViewModel>();
-			foreach (var measureParameter in device.Driver.MeasureParameters)
+			foreach (var measureParameter in device.Driver.MeasureParameters.Where(x => !x.IsNotVisible))
 			{
 				var measureParameterViewModel = new MeasureParameterViewModel();
 				measureParameterViewModel.Device = device;

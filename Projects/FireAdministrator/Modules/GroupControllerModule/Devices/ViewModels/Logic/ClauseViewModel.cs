@@ -78,31 +78,37 @@ namespace GKModule.ViewModels
 				{
 					case ClauseOperationType.AllDevices:
 					case ClauseOperationType.AnyDevice:
-						StateTypes = new ObservableCollection<StateTypeViewModel>();
-						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.Norm));
-						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.Fire2));
-						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.Fire1));
-						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.On));
-						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.Off));
-						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.TurningOn));
-						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.TurningOff));
-						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.Failure));
+						StateTypes = new ObservableCollection<StateTypeViewModel>()
+						{
+							new StateTypeViewModel(value, GKStateBit.Norm),
+							new StateTypeViewModel(value, GKStateBit.Fire2),
+							new StateTypeViewModel(value, GKStateBit.Fire1),
+							new StateTypeViewModel(value, GKStateBit.On),
+							new StateTypeViewModel(value, GKStateBit.Off),
+							new StateTypeViewModel(value, GKStateBit.TurningOn),
+							new StateTypeViewModel(value, GKStateBit.TurningOff),
+							new StateTypeViewModel(value, GKStateBit.Failure)
+						};
 						break;
 
 					case ClauseOperationType.AllZones:
 					case ClauseOperationType.AnyZone:
-						StateTypes = new ObservableCollection<StateTypeViewModel>();
-						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.Fire2));
-						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.Fire1));
-						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.Attention));
+						StateTypes = new ObservableCollection<StateTypeViewModel>()
+						{
+							new StateTypeViewModel(value, GKStateBit.Fire2),
+							new StateTypeViewModel(value, GKStateBit.Fire1),
+							new StateTypeViewModel(value, GKStateBit.Attention)
+						};
 						break;
 
 					case ClauseOperationType.AllGuardZones:
 					case ClauseOperationType.AnyGuardZone:
-						StateTypes = new ObservableCollection<StateTypeViewModel>();
-						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.On));
-						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.Off));
-						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.Fire1));
+						StateTypes = new ObservableCollection<StateTypeViewModel>()
+						{
+							new StateTypeViewModel(value, GKStateBit.On),
+							new StateTypeViewModel(value, GKStateBit.Off),
+							new StateTypeViewModel(value, GKStateBit.Fire1)
+						};
 						break;
 
 					case ClauseOperationType.AllDirections:
@@ -153,8 +159,7 @@ namespace GKModule.ViewModels
 						{
 							new StateTypeViewModel(value, GKStateBit.On),
 							new StateTypeViewModel(value, GKStateBit.TurningOn),
-							new StateTypeViewModel(value, GKStateBit.Norm),
-							new StateTypeViewModel(value, GKStateBit.Failure)
+							new StateTypeViewModel(value, GKStateBit.Norm)
 						};
 						break;
 				}

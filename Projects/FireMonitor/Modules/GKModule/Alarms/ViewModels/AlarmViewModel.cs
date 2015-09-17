@@ -47,6 +47,8 @@ namespace GKModule.ViewModels
 					return Alarm.Direction.PresentationName;
 				if (Alarm.Door != null)
 					return Alarm.Door.PresentationName;
+				if (Alarm.Delay != null)
+					return Alarm.Delay.PresentationName;
 				if (Alarm.Mpt != null)
 					return Alarm.Mpt.PresentationName;
 				return null;
@@ -67,6 +69,8 @@ namespace GKModule.ViewModels
 					return "/Controls;component/Images/Blue_Direction.png";
 				if (Alarm.Door != null)
 					return "/Controls;component/Images/Door.png";
+				if (Alarm.Delay != null)
+					return "/Controls;component/Images/Delay.png";
 				if (Alarm.Mpt != null)
 					return "/Controls;component/Images/Mpt.png";
 				return null;
@@ -87,6 +91,8 @@ namespace GKModule.ViewModels
 					return Alarm.Direction.State.StateClass;
 				if (Alarm.Door != null)
 					return Alarm.Door.State.StateClass;
+				if (Alarm.Delay != null)
+					return Alarm.Delay.State.StateClass;
 				if (Alarm.Mpt != null)
 					return Alarm.Mpt.State.StateClass;
 				return XStateClass.Norm;
@@ -207,6 +213,25 @@ namespace GKModule.ViewModels
 						Plans.Add(alarmPlanViewModel);
 					}
 				}
+				if (Alarm.Delay != null)
+				{
+					elementBase = plan.ElementRectangleGKDelays.FirstOrDefault(x => x.DelayUID == Alarm.Delay.UID);
+					if (elementBase != null)
+					{
+						var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
+						alarmPlanViewModel.Delay = Alarm.Delay;
+						Plans.Add(alarmPlanViewModel);
+						continue;
+					}
+
+					elementBase = plan.ElementPolygonGKDelays.FirstOrDefault(x => x.DelayUID == Alarm.Delay.UID);
+					if (elementBase != null)
+					{
+						var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
+						alarmPlanViewModel.Delay = Alarm.Delay;
+						Plans.Add(alarmPlanViewModel);
+					}
+				}
 				if (Alarm.Door != null)
 				{
 					elementBase = plan.ElementGKDoors.FirstOrDefault(x => x.DoorUID == Alarm.Door.UID);
@@ -252,6 +277,10 @@ namespace GKModule.ViewModels
 			{
 				ServiceFactory.Events.GetEvent<ShowGKMPTEvent>().Publish(Alarm.Mpt.UID);
 			}
+			if (Alarm.Delay != null)
+			{
+				ServiceFactory.Events.GetEvent<ShowGKDelayEvent>().Publish(Alarm.Delay.UID);
+			}
 			if (Alarm.Door != null)
 			{
 				ServiceFactory.Events.GetEvent<ShowGKDoorEvent>().Publish(Alarm.Door.UID);
@@ -281,6 +310,10 @@ namespace GKModule.ViewModels
 			{
 				ShowOnPlanHelper.ShowMPT(Alarm.Mpt);
 			}
+			if (Alarm.Delay != null)
+			{
+				ShowOnPlanHelper.ShowDelay(Alarm.Delay);
+			}
 			if (Alarm.Door != null)
 			{
 				ShowOnPlanHelper.ShowDoor(Alarm.Door);
@@ -307,6 +340,10 @@ namespace GKModule.ViewModels
 			if (Alarm.Mpt != null)
 			{
 				return ShowOnPlanHelper.CanShowMPT(Alarm.Mpt);
+			}
+			if (Alarm.Delay != null)
+			{
+				return ShowOnPlanHelper.CanShowDelay(Alarm.Delay);
 			}
 			if (Alarm.Door != null)
 			{
@@ -430,6 +467,14 @@ namespace GKModule.ViewModels
 					}
 				}
 
+				if (Alarm.Delay != null)
+				{
+					if (Alarm.Delay.State.StateClasses.Contains(XStateClass.Ignore))
+					{
+						FiresecManager.FiresecService.GKSetAutomaticRegime(Alarm.Delay);
+					}
+				}
+
 				if (Alarm.Door != null)
 				{
 					if (Alarm.Door.State.StateClasses.Contains(XStateClass.Ignore))
@@ -468,6 +513,12 @@ namespace GKModule.ViewModels
 					return true;
 			}
 
+			if (Alarm.Delay != null)
+			{
+				if (Alarm.Delay.State.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_Delay_Control))
+					return true;
+			}
+
 			if (Alarm.Direction != null)
 			{
 				if (Alarm.Direction.State.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_Directions_Control))
@@ -500,6 +551,13 @@ namespace GKModule.ViewModels
 						FiresecManager.FiresecService.GKSetAutomaticRegime(Alarm.Direction);
 					}
 				}
+				if (Alarm.Delay != null)
+				{
+					if (Alarm.Delay.State.StateClasses.Contains(XStateClass.AutoOff) && FiresecManager.CheckPermission(PermissionType.Oper_Delay_Control))
+					{
+						FiresecManager.FiresecService.GKSetAutomaticRegime(Alarm.Delay);
+					}
+				}
 				if (Alarm.Mpt != null)
 				{
 					if (Alarm.Mpt.State.StateClasses.Contains(XStateClass.AutoOff) && FiresecManager.CheckPermission(PermissionType.Oper_MPT_Control))
@@ -520,6 +578,10 @@ namespace GKModule.ViewModels
 				if (Alarm.Direction != null)
 				{
 					return Alarm.Direction.State.StateClasses.Contains(XStateClass.AutoOff);
+				}
+				if (Alarm.Delay != null)
+				{
+					return Alarm.Delay.State.StateClasses.Contains(XStateClass.AutoOff);
 				}
 				if (Alarm.Mpt != null)
 				{
@@ -547,6 +609,8 @@ namespace GKModule.ViewModels
 				uids.Add(Alarm.Direction.UID);
 			if (Alarm.Mpt != null)
 				uids.Add(Alarm.Mpt.UID);
+			if (Alarm.Delay != null)
+				uids.Add(Alarm.Delay.UID);
 			if (Alarm.Door != null)
 				uids.Add(Alarm.Door.UID);
 			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(uids);
@@ -575,6 +639,10 @@ namespace GKModule.ViewModels
 			{
 				DialogService.ShowWindow(new MPTDetailsViewModel(Alarm.Mpt));
 			}
+			if (Alarm.Delay != null)
+			{
+				DialogService.ShowWindow(new DelayDetailsViewModel(Alarm.Delay));
+			}
 			if (Alarm.Door != null)
 			{
 				DialogService.ShowWindow(new DoorDetailsViewModel(Alarm.Door));
@@ -582,7 +650,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanShowProperties()
 		{
-			return Alarm.Device != null || Alarm.Zone != null || Alarm.GuardZone != null || Alarm.Direction != null || Alarm.Mpt != null || Alarm.Door != null;
+			return Alarm.Device != null || Alarm.Zone != null || Alarm.GuardZone != null || Alarm.Direction != null || Alarm.Mpt != null || Alarm.Delay != null || Alarm.Door != null;
 		}
 		public bool CanShowPropertiesCommand
 		{

@@ -269,6 +269,7 @@ namespace FiresecClient
 				device.IntAddress = driver.MinAddress;
 
 			device.Children.Clear();
+			AddAutoCreateChildren(device);
 			if (driver.IsGroupDevice)
 			{
 				var groupDriver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == device.Driver.GroupDeviceChildType);

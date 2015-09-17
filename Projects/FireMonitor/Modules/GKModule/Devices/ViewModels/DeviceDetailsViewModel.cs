@@ -53,8 +53,8 @@ namespace GKModule.ViewModels
 			ServiceFactory.Events.GetEvent<GKObjectsPropertyChangedEvent>().Subscribe(OnGKObjectsPropertyChanged);
 		}
 		public string DescriptorName
-		{ 
-			get { return Device.GetGKDescriptorName(GKNameGenerationType.Description); } 
+		{
+			get { return Device.GetGKDescriptorName(GKManager.DeviceConfiguration.GKNameGenerationType); }
 		}
 		void OnStateChanged()
 		{
@@ -123,7 +123,7 @@ namespace GKModule.ViewModels
 		void StartMeasureParametersMonitoring()
 		{
 			MeasureParameters = new ObservableCollection<MeasureParameterViewModel>();
-			foreach (var measureParameter in Device.Driver.MeasureParameters.FindAll(x => !x.IsNotVisible))
+			foreach (var measureParameter in Device.Driver.MeasureParameters.Where(x => !x.IsNotVisible))
 			{
 				var measureParameterViewModel = new MeasureParameterViewModel()
 				{
