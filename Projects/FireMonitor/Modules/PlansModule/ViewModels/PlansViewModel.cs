@@ -196,6 +196,12 @@ namespace PlansModule.ViewModels
 				return;
 			switch (data.ElementPropertyType)
 			{
+				case ElementPropertyType.IsVisible:
+					element.IsHidden = !Utils.Cast<bool>(data.Value);
+					break;
+				case ElementPropertyType.IsEnabled:
+					element.IsLocked = !Utils.Cast<bool>(data.Value);
+					break;
 				case ElementPropertyType.Color:
 					element.BorderColor = Utils.Cast<Color>(data.Value);
 					break;
@@ -304,6 +310,12 @@ namespace PlansModule.ViewModels
 					}
 				switch (data.ElementPropertyType)
 				{
+					case ElementPropertyType.IsVisible:
+						value = !element.IsHidden;
+						break;
+					case ElementPropertyType.IsEnabled:
+						value = !element.IsLocked;
+						break;
 					case ElementPropertyType.Color:
 						value = element.BorderColor;
 						break;

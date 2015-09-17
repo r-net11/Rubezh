@@ -118,17 +118,43 @@ namespace AutomationModule.ViewModels
 
 		ObservableCollection<ElementPropertyType> GetElemetProperties(ElementViewModel element)
 		{
-			var elementPropertyTypes = new ObservableCollection<ElementPropertyType>();
 			if (element.ElementType == typeof(ElementRectangle) || element.ElementType == typeof(ElementEllipse))
-				elementPropertyTypes = new ObservableCollection<ElementPropertyType> { ElementPropertyType.Height, ElementPropertyType.Width,
-					ElementPropertyType.Color, ElementPropertyType.BackColor, ElementPropertyType.BorderThickness, ElementPropertyType.Left, ElementPropertyType.Top };
+				return new ObservableCollection<ElementPropertyType> 
+				{ 
+					ElementPropertyType.IsVisible, 
+					ElementPropertyType.IsEnabled,
+					ElementPropertyType.Height, 
+					ElementPropertyType.Width,
+					ElementPropertyType.Color, 
+					ElementPropertyType.BackColor, 
+					ElementPropertyType.BorderThickness, 
+					ElementPropertyType.Left, 
+					ElementPropertyType.Top 
+				};
 			if (element.ElementType == typeof(ElementPolygon))
-				elementPropertyTypes = new ObservableCollection<ElementPropertyType> { ElementPropertyType.Color, ElementPropertyType.BackColor, ElementPropertyType.BorderThickness, ElementPropertyType.Left, ElementPropertyType.Top };
+				return new ObservableCollection<ElementPropertyType> 
+				{ 
+					ElementPropertyType.IsVisible, 
+					ElementPropertyType.IsEnabled, 
+					ElementPropertyType.Color, 
+					ElementPropertyType.BackColor, 
+					ElementPropertyType.BorderThickness, 
+					ElementPropertyType.Left, 
+					ElementPropertyType.Top 
+				};
 			if (element.ElementType == typeof(ElementPolyline))
-				elementPropertyTypes = new ObservableCollection<ElementPropertyType> { ElementPropertyType.Color, ElementPropertyType.BorderThickness, ElementPropertyType.Left, ElementPropertyType.Top };
+				return new ObservableCollection<ElementPropertyType> 
+				{ 
+					ElementPropertyType.IsVisible, 
+					ElementPropertyType.IsEnabled, 
+					ElementPropertyType.Color, 
+					ElementPropertyType.BorderThickness, 
+					ElementPropertyType.Left, 
+					ElementPropertyType.Top 
+				};
 			if (element.ElementType == typeof(ElementTextBlock))
-				elementPropertyTypes = ProcedureHelper.GetEnumObs<ElementPropertyType>();
-			return elementPropertyTypes;
+				return ProcedureHelper.GetEnumObs<ElementPropertyType>();
+			return new ObservableCollection<ElementPropertyType>();
 		}
 
 		ExplicitTypeViewModel PropertyTypeToExplicitType(ElementPropertyType elementPropertyType)
@@ -137,7 +163,7 @@ namespace AutomationModule.ViewModels
 				elementPropertyType == ElementPropertyType.FontSize || elementPropertyType == ElementPropertyType.Left || elementPropertyType == ElementPropertyType.Top)
 				return new ExplicitTypeViewModel(ExplicitType.Integer);
 			if (elementPropertyType == ElementPropertyType.FontBold || elementPropertyType == ElementPropertyType.FontItalic || elementPropertyType == ElementPropertyType.Stretch ||
-				elementPropertyType == ElementPropertyType.WordWrap)
+				elementPropertyType == ElementPropertyType.WordWrap || elementPropertyType == ElementPropertyType.IsVisible || elementPropertyType == ElementPropertyType.IsEnabled)
 				return new ExplicitTypeViewModel(ExplicitType.Boolean);
 			if (elementPropertyType == ElementPropertyType.Color || elementPropertyType == ElementPropertyType.BackColor || elementPropertyType == ElementPropertyType.ForegroundColor)
 				return new ExplicitTypeViewModel(EnumType.ColorType);
