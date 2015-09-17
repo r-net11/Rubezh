@@ -83,7 +83,7 @@ namespace Infrastructure.Client.Login
 				}
 				else
 				{
-					if (isAutoconnect && (loginViewModel.UserName != "adm" || !GlobalSettingsHelper.GlobalSettings.DoNotAutoconnectAdm))
+					if (isAutoconnect)
 						loginViewModel.SaveCommand.Execute();
 					else
 						DialogService.ShowModalWindow(loginViewModel);

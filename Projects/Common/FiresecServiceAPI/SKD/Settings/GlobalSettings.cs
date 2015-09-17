@@ -65,9 +65,6 @@ namespace FiresecAPI
 		public int ReportRemotePort { get; set; }
 
 		[DataMember]
-		public bool DoNotAutoconnectAdm { get; set; }
-
-		[DataMember]
 		public bool RunRevisor { get; set; }
 
 		[DataMember]

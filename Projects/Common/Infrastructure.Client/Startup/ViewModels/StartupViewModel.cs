@@ -200,7 +200,7 @@ namespace Infrastructure.Client.Startup.ViewModels
 					_startupLoginViewModel.UserName = Settings.Default.UserName;
 					_startupLoginViewModel.Password = Settings.Default.Password;
 				}
-				if (isAutoconnect && (_startupLoginViewModel.UserName != "adm" || !GlobalSettingsHelper.GlobalSettings.DoNotAutoconnectAdm))
+				if (isAutoconnect)
 					ConnectCommand.Execute();
 			}
 		}

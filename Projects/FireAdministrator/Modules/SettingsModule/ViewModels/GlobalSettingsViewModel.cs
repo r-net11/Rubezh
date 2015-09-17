@@ -48,7 +48,6 @@ namespace SettingsModule.ViewModels
 			Login = GlobalSettingsHelper.GlobalSettings.AdminLogin;
 			Password = GlobalSettingsHelper.GlobalSettings.AdminPassword;
 			AutoConnect = GlobalSettingsHelper.GlobalSettings.AdminAutoConnect;
-			DoNotAutoconnectAdm = GlobalSettingsHelper.GlobalSettings.DoNotAutoconnectAdm;
 			RunRevisor = GlobalSettingsHelper.GlobalSettings.RunRevisor;
 			Server_EnableRemoteConnections = GlobalSettingsHelper.GlobalSettings.Server_EnableRemoteConnections;
 		}
@@ -384,14 +383,9 @@ namespace SettingsModule.ViewModels
 			}
 		}
 
-		bool _doNotAutoconnectAdm;
-		public bool DoNotAutoconnectAdm
 		{
-			get { return _doNotAutoconnectAdm; }
 			set
 			{
-				_doNotAutoconnectAdm = value;
-				OnPropertyChanged(() => DoNotAutoconnectAdm);
 			}
 		}
 
@@ -428,7 +422,6 @@ namespace SettingsModule.ViewModels
 			GlobalSettingsHelper.GlobalSettings.AdminPassword = Password;
 			GlobalSettingsHelper.GlobalSettings.AdminAutoConnect = AutoConnect;
 			GlobalSettingsHelper.GlobalSettings.Server_EnableRemoteConnections = Server_EnableRemoteConnections;
-			GlobalSettingsHelper.GlobalSettings.DoNotAutoconnectAdm = DoNotAutoconnectAdm;
 			GlobalSettingsHelper.GlobalSettings.RunRevisor = RunRevisor;
 			ModulesViewModel.Save();
 			DbSettingsViewModel.Save();
