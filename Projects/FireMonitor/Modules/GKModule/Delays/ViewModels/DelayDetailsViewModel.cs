@@ -203,7 +203,6 @@ namespace GKModule.ViewModels
 
 		}
 
-
 		#region IWindowIdentity Members
 		public string Guid
 		{

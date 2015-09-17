@@ -100,14 +100,10 @@ namespace GKProcessor
 					if (descriptor.GKBase is GKDevice)
 					{
 						GKDevice device = descriptor.GKBase as GKDevice;
-						if (device.Parent != null && device.Parent.Driver.IsGroupDevice)
+						foreach(var parent in device.AllParents)
 						{
-							OnObjectStateChanged(device.Parent);
-						}
-						var shleifParent = device.AllParents.FirstOrDefault(x => x.Driver.DriverType == GKDriverType.RSR2_KAU_Shleif);
-						if (shleifParent != null)
-						{
-							OnObjectStateChanged(shleifParent);
+							if(parent.Driver.IsGroupDevice || parent.DriverType == GKDriverType.RSR2_KAU_Shleif || parent.DriverType == GKDriverType.RSR2_MVP_Part)
+								OnObjectStateChanged(parent);
 						}
 					}
 				}
