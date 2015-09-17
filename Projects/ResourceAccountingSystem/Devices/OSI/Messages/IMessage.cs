@@ -11,18 +11,32 @@ namespace RubezhResurs.OSI.Messages
     /// </summary>
     public interface IMessage
     {
+        #region Fields And Properties
         /// <summary>
         /// Уникальный идентификатор сообщения
         /// </summary>
         Guid MessageId { get; }
         /// <summary>
-        /// Время отравки сообщения. Если сообщение не отпрвлено содержит null
+        /// Время отравки или приёма сообщения.
         /// </summary>
-        DateTime? SendingTime { get; set; }
+        DateTime ExecutionTime { get; set; }
+        /// <summary>
+        /// Если true - сообщение было обработано и 
+        /// свойство ExecutionTime действительно
+        /// </summary>
+        Boolean IsDone { get; }
+        /// <summary>
+        /// Тип сообщение
+        /// </summary>
+        MessageType MessageType { get; }
+        #endregion
+
+        #region Methods
         /// <summary>
         /// Возвращает сообщение в виде массива байт
         /// </summary>
         /// <returns></returns>
         Byte[] ToArray();
+        #endregion
     }
 }

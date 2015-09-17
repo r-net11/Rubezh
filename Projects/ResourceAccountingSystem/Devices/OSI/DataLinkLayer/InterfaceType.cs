@@ -12,8 +12,7 @@ namespace RubezhResurs.OSI.DataLinkLayer
     public enum InterfaceType : int
     {
         Unknown = 0,
-        RS485 = 1,
-        RS232 = 2,
+        ComPort = 1,
         CAN = 3
     }
 }

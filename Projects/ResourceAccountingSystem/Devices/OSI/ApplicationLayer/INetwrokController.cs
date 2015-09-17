@@ -15,7 +15,7 @@ namespace RubezhResurs.OSI.ApplicationLayer
         /// <summary>
         /// Уникальный идентификатор контроллера
         /// </summary>
-        UInt32 ControllerId { get; }
+        UInt32 ControllerId { get; set; }
         /// <summary>
         /// Список поддерживаемых данным контроллером типов устройств 
         /// </summary>

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using RubezhResurs.OSI.Messages;
+using RubezhResurs.Modbus;
 
 namespace RubezhResurs.Incotex.NetworkControllers
 {
@@ -17,7 +18,7 @@ namespace RubezhResurs.Incotex.NetworkControllers
         /// </summary>
         public Guid MessageId
         {
-            get { throw new NotImplementedException(); }
+            get { return _MessageId; }
         }
         private UInt32 _Address;
         /// <summary>
@@ -48,18 +49,42 @@ namespace RubezhResurs.Incotex.NetworkControllers
         /// <summary>
         /// Контрольная сумма CRC16
         /// </summary>
-        public UInt16 CRC16
+        public CRC16 CRC16
         {
-            get { throw new NotImplementedException(); }
+            get 
+            {
+                List<Byte> list = new List<byte>();
+                // Адрес устройства
+                list.Add((Byte)(Address >> 24));
+                list.Add((Byte)(Address >> 16));
+                list.Add((Byte)(Address >> 8));
+                list.Add((Byte)(Address));
+                // Код команды
+                list.Add((byte)(CmdCode));
+                // Данные
+                list.AddRange(Data);
+                return CRC16.GetCRC16(list.ToArray());
+            }
         }
-        private DateTime? _SendingTime;
+        
+        private DateTime? _ExecutionTime;
         /// <summary>
         /// Время отправки сообщения
         /// </summary>
-        public DateTime? SendingTime
+        public DateTime ExecutionTime
         {
-            get { return _SendingTime; }
-            set { _SendingTime = value; }
+            get { return _ExecutionTime.HasValue ? _ExecutionTime.Value : new DateTime(); }
+            set { _ExecutionTime = value; }
+        }
+        public bool IsDone
+        {
+            get { return _ExecutionTime.HasValue ? true : false; }
+        }
+        private MessageType _MessageType;
+        public MessageType MessageType
+        {
+            get { return _MessageType; }
+            set { MessageType = value; }
         }
         #endregion
 
@@ -69,15 +94,41 @@ namespace RubezhResurs.Incotex.NetworkControllers
         /// </summary>
         public Message()
         {
+            _MessageType = MessageType.Undefined;
             _MessageId = Guid.NewGuid();
+            _ExecutionTime = null;
             _Data = new List<byte>();
+        }
+        /// <summary>
+        /// Конструктор
+        /// </summary>
+        /// <param name="data"></param>
+        public Message(Byte[] data)
+        {
+            _MessageType = MessageType.Undefined;
+            _MessageId = Guid.NewGuid();
+            _ExecutionTime = null;
+            _Data = new List<byte>(data);
         }
         #endregion
 
         #region Methods
         public byte[] ToArray()
         {
-            throw new NotImplementedException();
+            List<Byte> list = new List<byte>();
+            // Адрес устройства
+            list.Add((Byte)(Address >> 24));
+            list.Add((Byte)(Address >> 16));
+            list.Add((Byte)(Address >> 8));
+            list.Add((Byte)(Address));
+            // Код команды
+            list.Add((byte)(CmdCode));
+            // Данные
+            list.AddRange(Data);
+            // Контрольная сумма
+            list.AddRange(CRC16.ToArray());
+
+            return list.ToArray();
         }
         #endregion
     }
