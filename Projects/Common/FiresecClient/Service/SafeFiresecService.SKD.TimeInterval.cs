@@ -159,6 +159,11 @@ namespace FiresecClient
 			return SafeContext.Execute(() => FiresecService.FindConflictIntervals(dayTimeTrackParts, employeeGuid, currentDate));
 		}
 
+		public OperationResult<bool> CheckForCanForseCloseInterval(Guid openedIntervalGuid)
+		{
+			return SafeContext.Execute(() => FiresecService.CheckForCanForseCloseInterval(openedIntervalGuid));
+		}
+
 		public OperationResult<IEnumerable<DayTimeTrackPart>> GetIntersectionIntervals(
 			DayTimeTrackPart currentDayTimeTrackPart, ShortEmployee currentEmployee)
 		{

@@ -69,6 +69,15 @@ namespace SKDDriver.Translators
 			}
 		}
 
+		public OperationResult<bool> CheckForCanForseCloseInterval(Guid openedIntervalGuid)
+		{
+			var currentInterval = Context.PassJournals.FirstOrDefault(x => x.UID == openedIntervalGuid);
+
+			if (currentInterval != null && currentInterval.IsOpen) return new OperationResult<bool>(true);
+
+			return new OperationResult<bool>(false);
+		}
+
 		public OperationResult<Dictionary<DayTimeTrackPart, List<DayTimeTrackPart>>> FindConflictIntervals(List<DayTimeTrackPart> dayTimeTrackParts, Guid employeeGuid, DateTime currentDate)
 		{
 			var minIntervalsDate = dayTimeTrackParts.Where(x => x.EnterTimeOriginal.HasValue).DefaultIfEmpty().Min(x => x.EnterTimeOriginal != null ? x.EnterTimeOriginal.Value.Date : new DateTime()); //if min return false

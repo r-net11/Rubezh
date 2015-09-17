@@ -334,6 +334,14 @@ namespace FiresecService.Service
 			}
 		}
 
+		public OperationResult<bool> CheckForCanForseCloseInterval(Guid openedIntervalGuid)
+		{
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.PassJournalTranslator.CheckForCanForseCloseInterval(openedIntervalGuid);
+			}
+		}
+
 		public OperationResult SaveAllTimeTracks(IEnumerable<DayTimeTrackPart> collectionToSave, ShortEmployee employee, User currentUser, IEnumerable<DayTimeTrackPart> removedDayTimeTrackParts)
 		{
 			using (var databaseService = new SKDDatabaseService())
