@@ -6,7 +6,7 @@ namespace FiresecAPI.AutomationCallback
 	public class MessageCallbackData : AutomationCallbackData
 	{
 		[DataMember]
-		public string Message { get; set; }
+		public object Message { get; set; }
 
 		[DataMember]
 		public bool IsModalWindow { get; set; }

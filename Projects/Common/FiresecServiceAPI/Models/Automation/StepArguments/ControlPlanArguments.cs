@@ -30,6 +30,12 @@ namespace FiresecAPI.Automation
 
 	public enum ElementPropertyType
 	{
+		[Description("Видимость")]
+		IsVisible,
+
+		[Description("Доступность")]
+		IsEnabled,
+
 		[Description("Высота")]
 		Height,
 

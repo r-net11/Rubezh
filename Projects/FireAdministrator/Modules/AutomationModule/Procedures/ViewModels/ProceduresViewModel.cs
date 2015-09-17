@@ -71,8 +71,8 @@ namespace AutomationModule.ViewModels
 				OnPropertyChanged(() => SelectedProcedure);
 				if (value != null)
 				{
-					value.StepsViewModel.SelectedStep = value.StepsViewModel.AllSteps.FirstOrDefault();
-					value.StepsViewModel.UpdateContent();
+					value.StepsViewModel.SelectedStep = value.StepsViewModel.RootSteps.FirstOrDefault();
+					//value.StepsViewModel.UpdateContent();
 				}
 			}
 		}
@@ -420,12 +420,12 @@ namespace AutomationModule.ViewModels
 
 		public override void OnShow()
 		{
-			var automationChanged = ServiceFactory.SaveService.AutomationChanged;
+			//var automationChanged = ServiceFactory.SaveService.AutomationChanged;
 
-			if (SelectedProcedure != null)
-				SelectedProcedure.StepsViewModel.UpdateContent();
+			//if (SelectedProcedure != null)
+			//	SelectedProcedure.StepsViewModel.UpdateContent();
 
-			ServiceFactory.SaveService.AutomationChanged = automationChanged;
+			//ServiceFactory.SaveService.AutomationChanged = automationChanged;
 
 			if (Procedures != null)
 				Procedures = new SortableObservableCollection<ProcedureViewModel>(Procedures.OrderBy(x => x.Name));

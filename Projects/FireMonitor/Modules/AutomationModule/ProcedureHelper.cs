@@ -11,6 +11,7 @@ using AutomationModule.ViewModels;
 using FiresecAPI;
 using Infrastructure.Common;
 using System.Threading;
+using FiresecClient.SKDHelpers;
 
 namespace AutomationModule
 {
@@ -125,38 +126,92 @@ namespace AutomationModule
 			return false;
 		}
 
+		public static string GetStringValue(object obj)
+		{
+			if (obj == null)
+				return "";
+
+			var objType = obj.GetType(); 
+			if (objType == typeof(bool))
+				return (bool)obj ? "Да" : "Нет";
+			
+			if (objType.IsEnum)
+				return ((Enum)obj).ToDescription();
+
+			if (objType == typeof(Guid))
+				return UidToObjectName((Guid)obj);
+
+			return obj.ToString();
+		}
 		public static string GetStringValue(ExplicitValue explicitValue, ExplicitType explicitType, EnumType enumType)
 		{
-			var result = "";
 			switch (explicitType)
 			{
 				case ExplicitType.Boolean:
-					result = explicitValue.BoolValue.ToString();
-					break;
+					return explicitValue.BoolValue.ToString();
 				case ExplicitType.DateTime:
-					result = explicitValue.DateTimeValue.ToString();
-					break;
+					return explicitValue.DateTimeValue.ToString();
 				case ExplicitType.Integer:
-					result = explicitValue.IntValue.ToString();
-					break;
+					return explicitValue.IntValue.ToString();
 				case ExplicitType.String:
-					result = explicitValue.StringValue.ToString();
-					break;
+					return explicitValue.StringValue;
 				case ExplicitType.Enum:
 					{
-						if (enumType == EnumType.StateType)
-							result = explicitValue.StateTypeValue.ToDescription();
-						if (enumType == EnumType.DriverType)
-							result = explicitValue.DriverTypeValue.ToDescription();
+						switch (enumType)
+						{
+							case EnumType.StateType:
+								return explicitValue.StateTypeValue.ToDescription();
+							case EnumType.DriverType:
+								return explicitValue.DriverTypeValue.ToDescription();
+							case EnumType.PermissionType:
+								return explicitValue.PermissionTypeValue.ToDescription();
+							case EnumType.JournalEventDescriptionType:
+								return explicitValue.JournalEventDescriptionTypeValue.ToDescription();
+							case EnumType.JournalEventNameType:
+								return explicitValue.JournalEventNameTypeValue.ToDescription();
+							case EnumType.JournalObjectType:
+								return explicitValue.JournalObjectTypeValue.ToDescription();
+							case EnumType.ColorType:
+								return explicitValue.ColorValue.ToString();
+						}
 					}
 					break;
 				case ExplicitType.Object:
-					{
-						result = new ExplicitValueViewModel(explicitValue).PresentationName;
-					}
-					break;
+				default:
+						return UidToObjectName(explicitValue.UidValue);
 			}
-			return result;
+			return "";
+		}
+
+		static string UidToObjectName(Guid uid)
+		{
+			if (uid == Guid.Empty)
+				return "";
+			var device = GKManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == uid);
+			if (device != null)
+				return device.PresentationName;
+			var zone = GKManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == uid);
+			if (zone != null)
+				return zone.PresentationName;
+			var guardZone = GKManager.DeviceConfiguration.GuardZones.FirstOrDefault(x => x.UID == uid);
+			if (guardZone != null)
+				return guardZone.PresentationName;
+			var camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == uid);
+			if (camera != null)
+				return camera.PresentationName;
+			var gKDoor = GKManager.Doors.FirstOrDefault(x => x.UID == uid);
+			if (gKDoor != null)
+				return gKDoor.PresentationName;
+			var direction = GKManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == uid);
+			if (direction != null)
+				return direction.PresentationName;
+			var delay = GKManager.DeviceConfiguration.Delays.FirstOrDefault(x => x.UID == uid);
+			if (delay != null)
+				return delay.PresentationName;
+			var organisation = OrganisationHelper.GetSingle(uid);
+			if (organisation != null)
+				return organisation.Name;
+			return "";
 		}
 
 		public static void Run(Procedure procedure, List<Argument> args = null)
