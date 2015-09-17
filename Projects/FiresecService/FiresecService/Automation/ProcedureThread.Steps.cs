@@ -51,8 +51,7 @@ namespace FiresecService
 		void ShowMessage(ProcedureStep procedureStep)
 		{
 			var showMessageArguments = procedureStep.ShowMessageArguments;
-			var messageValue = GetValue<object>(showMessageArguments.MessageArgument);
-			var message = messageValue.GetType().IsEnum ? ((Enum)messageValue).ToDescription() : messageValue.ToString();
+			var message = GetValue<object>(showMessageArguments.MessageArgument);
 			var automationCallbackResult = new AutomationCallbackResult()
 			{
 				AutomationCallbackType = AutomationCallbackType.Message,

@@ -47,6 +47,7 @@ namespace FiresecService.Report.Templates
 				var dataRow = dataSet.Data.NewDataRow();
 
 				dataRow.Employee = employee.Name;
+				dataRow.Organisation = employee.Organisation;
 				dataRow.Department = employee.Department;
 				dataRow.Position = employee.Position;
 

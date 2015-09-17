@@ -16,7 +16,7 @@ namespace AutomationModule.ViewModels
 			ShowMessageArguments = stepViewModel.Step.ShowMessageArguments;
 			MessageArgument = new ArgumentViewModel(ShowMessageArguments.MessageArgument, stepViewModel.Update, null);
 			ConfirmationValueArgument = new ArgumentViewModel(ShowMessageArguments.ConfirmationValueArgument, stepViewModel.Update, null, false);
-			ExplicitTypes = new ObservableCollection<ExplicitType>(ProcedureHelper.GetEnumList<ExplicitType>().FindAll(x => x != ExplicitType.Object));
+			ExplicitTypes = new ObservableCollection<ExplicitType>(ProcedureHelper.GetEnumList<ExplicitType>());
 			EnumTypes = ProcedureHelper.GetEnumObs<EnumType>();
 		}
 
