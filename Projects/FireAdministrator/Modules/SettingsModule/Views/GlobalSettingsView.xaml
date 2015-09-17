@@ -23,8 +23,10 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
+				
 				<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Скрывать дерево планов в ОЗ" />
 				<CheckBox Grid.Row="0" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding Monitor_HidePlansTree}" />
 
@@ -38,8 +40,12 @@
 				<CheckBox Grid.Row="3" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding Monitor_F3_Enabled}" />
 
 				<TextBlock Grid.Row="4" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="F4 - сбросить все" />
-                <CheckBox Grid.Row="4" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding Monitor_F4_Enabled}" />
-            </Grid>
+				<CheckBox Grid.Row="4" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding Monitor_F4_Enabled}" />
+			
+				<TextBlock Grid.Row="5" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Перезапускать ОЗ в случае аварийного завершения" />
+				<CheckBox Grid.Row="5" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding RunRevisor}" />
+
+			</Grid>
 		</TabItem>
 		<TabItem Header="Сервер">
             <Grid>
@@ -98,7 +104,6 @@
 				<TextBlock Grid.Row="4" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Пароль" />
 				<TextBlock Grid.Row="5" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Автоконнект" />
 				<TextBlock Grid.Row="6" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Запретить администратору автоконнект" />
-				<TextBlock Grid.Row="7" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Перезапускать ОЗ в случае аварийного завершения" />
 
 				<TextBox Grid.Row="0" Grid.Column="1" Margin="2" Text="{Binding RemoteAddress, UpdateSourceTrigger=PropertyChanged}" />
 				<TextBox Grid.Row="1" Grid.Column="1" Margin="2" Text="{Binding RemotePort, UpdateSourceTrigger=PropertyChanged}" />
@@ -107,7 +112,6 @@
 				<TextBox Grid.Row="4" Grid.Column="1" Margin="2" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" />
 				<CheckBox Grid.Row="5" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding AutoConnect}" />
 				<CheckBox Grid.Row="6" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding DoNotAutoconnectAdm}" />
-				<CheckBox Grid.Row="7" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding RunRevisor}" />
 			</Grid>
 		</TabItem>
 		<TabItem DataContext="{Binding ModulesViewModel}" Header="Модули">
