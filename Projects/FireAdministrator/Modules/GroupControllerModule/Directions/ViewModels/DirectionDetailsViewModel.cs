@@ -29,6 +29,7 @@ namespace GKModule.ViewModels
 			{
 				Title = "Создание новоого направления";
 				IsEdit = false;
+
 				Direction = new GKDirection()
 				{
 					Name = "Новое направление",

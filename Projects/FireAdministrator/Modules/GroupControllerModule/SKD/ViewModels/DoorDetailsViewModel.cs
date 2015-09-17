@@ -16,6 +16,8 @@ namespace GKModule.ViewModels
 	{
 		public GKDoor Door { get; private set; }
 
+		public bool IsEdit { get; private set; }
+
 		public DoorDetailsViewModel(GKDoor door = null)
 		{
 			ReadPropertiesCommand = new RelayCommand(OnReadProperties);
@@ -25,6 +27,7 @@ namespace GKModule.ViewModels
 			if (door == null)
 			{
 				Title = "Создание новой точки доступа";
+				IsEdit = false;
 
 				Door = new GKDoor()
 				{
@@ -39,6 +42,7 @@ namespace GKModule.ViewModels
 			{
 				Title = string.Format("Свойства точки доступа: {0}", door.PresentationName);
 				Door = door;
+				IsEdit = true;
 			}
 
 			AvailableDoorTypes = new ObservableCollection<GKDoorType>(Enum.GetValues(typeof(GKDoorType)).Cast<GKDoorType>());

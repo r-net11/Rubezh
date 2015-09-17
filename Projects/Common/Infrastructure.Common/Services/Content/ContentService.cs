@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Media;
@@ -222,13 +223,13 @@ namespace Infrastructure.Common.Services.Content
 				Directory.CreateDirectory(ContentFolder);
 		}
 
-        public void Clear()
-        {
-            Invalidate();
-            if (Directory.Exists(ContentFolder))
-                Directory.Delete(ContentFolder, true);
-            Directory.CreateDirectory(ContentFolder);
-        }
+		public void Clear()
+		{
+			Invalidate();
+			if (Directory.Exists(ContentFolder))
+				Directory.Delete(ContentFolder, true);
+			Directory.CreateDirectory(ContentFolder);
+		}
 
 		public void Close()
 		{
@@ -243,6 +244,19 @@ namespace Infrastructure.Common.Services.Content
 			if (_objects != null)
 				_objects = null;
 			PainterCache.Dispose();
+		}
+
+		public void RemoveAllBut(IEnumerable<string> uids)
+		{
+			foreach (var filePath in Directory.GetFiles(ContentFolder))
+			{
+				var fileName = Path.GetFileName(filePath);
+				if (!uids.Contains(fileName))
+				{
+					RemoveContent(fileName);
+					File.Delete(filePath);
+				}
+			}
 		}
 
 		#endregion

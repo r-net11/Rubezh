@@ -52,6 +52,8 @@ namespace FireAdministrator
 
 		public static void SaveToZipFile(string fileName)
 		{
+			FiresecManager.InvalidateContent();
+
 			var folderName = AppDataFolderHelper.GetTempFolder();
 			if (!Directory.Exists(folderName))
 				Directory.CreateDirectory(folderName);

@@ -158,7 +158,6 @@
       <DependentUpon>BalloonToolTipView.xaml</DependentUpon>
     </Compile>
     <Compile Include="BindingErrorListener.cs" />
-    <Compile Include="CloseWindowHelper.cs" />
     <Compile Include="EncryptHelper.cs" />
     <Compile Include="FiresecLicenseWrapper.cs" />
     <Compile Include="HXCFileInfoHelper.cs" />
