@@ -691,15 +691,15 @@ namespace SKDModule.ViewModels
 
 		public void OnForceClosing()
 		{
-			if(DialogService.ShowModalWindow(new ForceClosingQuestionDialogWindowViewModel()))
-			{
-				var nowDateTime = DateTime.Now;
-				SelectedDayTimeTrackPart.ExitDateTime = nowDateTime;
-				SelectedDayTimeTrackPart.AdjustmentDate = nowDateTime;
-				SelectedDayTimeTrackPart.CorrectedDate = nowDateTime.ToString(CultureInfo.CurrentUICulture);
-				SelectedDayTimeTrackPart.CorrectedBy = FiresecManager.CurrentUser.Name;
-				SelectedDayTimeTrackPart.CorrectedByUID = FiresecManager.CurrentUser.UID;
-			}
+			if (!DialogService.ShowModalWindow(new ForceClosingQuestionDialogWindowViewModel())
+			    || !PassJournalHelper.CheckForCanForseCloseInterval(SelectedDayTimeTrackPart.UID)) return;
+
+			var nowDateTime = DateTime.Now;
+			SelectedDayTimeTrackPart.ExitDateTime = nowDateTime;
+			SelectedDayTimeTrackPart.AdjustmentDate = nowDateTime;
+			SelectedDayTimeTrackPart.CorrectedDate = nowDateTime.ToString(CultureInfo.CurrentUICulture);
+			SelectedDayTimeTrackPart.CorrectedBy = FiresecManager.CurrentUser.Name;
+			SelectedDayTimeTrackPart.CorrectedByUID = FiresecManager.CurrentUser.UID;
 		}
 
 		public bool CanForceClosing()

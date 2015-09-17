@@ -334,6 +334,14 @@ namespace FiresecService.Service
 			}
 		}
 
+		public OperationResult<bool> CheckForCanForseCloseInterval(Guid openedIntervalGuid)
+		{
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.PassJournalTranslator.CheckForCanForseCloseInterval(openedIntervalGuid);
+			}
+		}
+
 		public OperationResult SaveAllTimeTracks(IEnumerable<DayTimeTrackPart> collectionToSave, ShortEmployee employee, User currentUser, IEnumerable<DayTimeTrackPart> removedDayTimeTrackParts)
 		{
 			using (var databaseService = new SKDDatabaseService())
@@ -360,7 +368,7 @@ namespace FiresecService.Service
 
 						databaseService.PassJournalTranslator.EditPassJournal(dayTimeTrackPart, employee, out setAdjustmentFlag, out setBordersChangedFlag, out setForceClosedFlag);
 
-						if (setAdjustmentFlag == true)
+						if (setAdjustmentFlag == true && !setForceClosedFlag)
 							AddJournalMessage(JournalEventNameType.Установка_неУчитывать_в_расчетах,
 										"Интервал рабочего времени (" + employee.FIO + ")",
 										JournalEventDescriptionType.NULL,

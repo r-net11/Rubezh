@@ -9,6 +9,11 @@ namespace FiresecClient.SKDHelpers
 {
 	public static class PassJournalHelper
 	{
+		public static bool CheckForCanForseCloseInterval(Guid openedIntervalGuid)
+		{
+			return FiresecManager.FiresecService.CheckForCanForseCloseInterval(openedIntervalGuid).Result;
+		}
+
 		public static Dictionary<DayTimeTrackPart, List<DayTimeTrackPart>> FindConflictIntervals(List<DayTimeTrackPart> dayTimeTracks, Guid employeeGuid, DateTime currentDate)
 		{
 			var result = FiresecManager.FiresecService.FindConflictIntervals(dayTimeTracks, employeeGuid, currentDate);
