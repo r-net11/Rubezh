@@ -48,21 +48,21 @@
 			</Grid>
 		</TabItem>
 		<TabItem Header="Сервер">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Разрешить удаленные соединения на сервере" VerticalAlignment="Center" />
-                <CheckBox Grid.Row="0" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding Server_EnableRemoteConnections}" />
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
+				<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Разрешить удаленные соединения на сервере" VerticalAlignment="Center" />
+				<CheckBox Grid.Row="0" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding Server_EnableRemoteConnections}" />
 
-                <Views:DbSettingsView Grid.Row="1" Grid.ColumnSpan="2" DataContext="{Binding DbSettingsViewModel}" />
-            </Grid>
-        </TabItem>
+				<Views:DbSettingsView Grid.Row="1" Grid.ColumnSpan="2" DataContext="{Binding DbSettingsViewModel}" />
+			</Grid>
+		</TabItem>
 		<TabItem Header="Автозапуск">
 			<StackPanel Margin="2">
 				<TextBlock Text="Следующие приложения будут автоматически запускаться при старте системы:" FontSize="12" Foreground="{DynamicResource ForegroundColorLight}" TextWrapping="Wrap" Margin="2" />
@@ -96,20 +96,38 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					
 				</Grid.RowDefinitions>
 				<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Адрес сервера" />
 				<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Порт сервера" />
 				<TextBlock Grid.Row="2" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Порт сервиса отчетов" />
-				<TextBlock Grid.Row="3" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Логин" />
-				<TextBlock Grid.Row="4" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Пароль" />
-				<TextBlock Grid.Row="5" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Автоконнект" />
+
+				<TextBlock Grid.Row="3" Grid.Column="1" Margin="2" HorizontalAlignment="Left" Text="Настройки подключения для Администратора" TextAlignment="Left" />
+				
+				<TextBlock Grid.Row="4" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Логин" />
+				<TextBlock Grid.Row="5" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Пароль" />
+				<TextBlock Grid.Row="6" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Автоконнект " />
+
+				<TextBlock Grid.Row="7" Grid.Column="1" Margin="2" HorizontalAlignment="Left" Text="Настройки подключения для Оперативной задачи" TextAlignment="Left" />
+
+				<TextBlock Grid.Row="8" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Логин" />
+				<TextBlock Grid.Row="9" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Пароль" />
+				<TextBlock Grid.Row="10" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Автоконнект" />
 
 				<TextBox Grid.Row="0" Grid.Column="1" Margin="2" Text="{Binding RemoteAddress, UpdateSourceTrigger=PropertyChanged}" />
 				<TextBox Grid.Row="1" Grid.Column="1" Margin="2" Text="{Binding RemotePort, UpdateSourceTrigger=PropertyChanged}" />
 				<TextBox Grid.Row="2" Grid.Column="1" Margin="2" Text="{Binding ReportRemotePort, UpdateSourceTrigger=PropertyChanged}" />
-				<TextBox Grid.Row="3" Grid.Column="1" Margin="2" Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}" />
-				<TextBox Grid.Row="4" Grid.Column="1" Margin="2" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" />
-				<CheckBox Grid.Row="5" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding AutoConnect}" />
+				
+				<TextBox Grid.Row="4" Grid.Column="1" Margin="2" Text="{Binding AdministratorLogin, UpdateSourceTrigger=PropertyChanged}" />
+				<TextBox Grid.Row="5" Grid.Column="1" Margin="2" Text="{Binding AdministratorPassword, UpdateSourceTrigger=PropertyChanged}" />
+				<CheckBox Grid.Row="6" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding AdministratorAutoConnect}" />
+				
+				<TextBox Grid.Row="8" Grid.Column="1" Margin="2" Text="{Binding MonitorLogin, UpdateSourceTrigger=PropertyChanged}" />
+				<TextBox Grid.Row="9" Grid.Column="1" Margin="2" Text="{Binding MonitorPassword, UpdateSourceTrigger=PropertyChanged}" />
+				<CheckBox Grid.Row="10" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding MonitorAutoConnect}" />
 			</Grid>
 		</TabItem>
 		<TabItem DataContext="{Binding ModulesViewModel}" Header="Модули">
