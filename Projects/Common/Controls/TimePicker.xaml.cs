@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -19,7 +20,7 @@ namespace Controls
 
 		private static void OnTimeSpanPropertyChanged(DependencyObject dp, DependencyPropertyChangedEventArgs e)
 		{
-			TimePicker timePicker = dp as TimePicker;
+			var timePicker = dp as TimePicker;
 			if (timePicker != null)
 			{
 				//timePicker.TimeSpan = timePicker.TimeSpan;
@@ -67,6 +68,21 @@ namespace Controls
 			get { return MaxTimeSpan.Minutes; }
 		}
 
+		private TimeSpan _newTimeSpan;
+		private TimeSpan NewTimeSpan {
+			get { return _newTimeSpan; }
+			set
+			{
+				if (_newTimeSpan == value)
+					return;
+				_newTimeSpan = value;
+				if (_newTimeSpan < MinTimeSpan)
+					_newTimeSpan = MinTimeSpan;
+				if (_newTimeSpan > MaxTimeSpan)
+					_newTimeSpan = MaxTimeSpan;
+			}
+		}
+
 		public TimeSpan TimeSpan
 		{
 			get { return (TimeSpan)GetValue(TimeSpanProperty); }
@@ -92,10 +108,8 @@ namespace Controls
 			}
 			set
 			{
-				if (value > HoursMax)
-					value = HoursMax;
-				if (value < HoursMin)
-					value = HoursMin;
+				NewTimeSpan = new TimeSpan(value, TimeSpan.Minutes, 0);
+				value = NewTimeSpan.Hours;
 				var stringValue = value.ToString("D2");
 				var text = TextBox.Text.ToCharArray();
 				var caretIndex = TextBox.CaretIndex;
@@ -120,10 +134,8 @@ namespace Controls
 			}
 			set
 			{
-				if (value > MinutesMax)
-					value = MinutesMax;
-				if (value < MinutesMin)
-					value = MinutesMin;
+				NewTimeSpan = new TimeSpan(TimeSpan.Hours, value, 0);
+				value = NewTimeSpan.Minutes;
 				var stringValue = value.ToString("D2");
 				var text = TextBox.Text.ToCharArray();
 				var caretIndex = TextBox.CaretIndex;
@@ -203,15 +215,14 @@ namespace Controls
 
 		private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
 		{
-			if (Hours > HoursMax)
-				Hours = HoursMax;
-			if (Hours < HoursMin)
-				Hours = HoursMin;
-			if (Minutes > MinutesMax)
-				Minutes = MinutesMax;
-			if (Minutes < MinutesMin)
-				Minutes = MinutesMin;
-			TimeSpan = new TimeSpan(Hours, Minutes, 0);
+			var newTimeSpan = new TimeSpan(Hours, Minutes, 0);
+			if (newTimeSpan < MinTimeSpan)
+				newTimeSpan = MinTimeSpan;
+			if (newTimeSpan > MaxTimeSpan)
+				newTimeSpan = MaxTimeSpan;
+			TimeSpan = newTimeSpan;
+			Hours = TimeSpan.Hours;
+			Minutes = TimeSpan.Minutes;
 		}
 
 		private void TextBox_LostFocus(object sender, RoutedEventArgs e)
@@ -274,7 +285,6 @@ namespace Controls
 		{
 			if (e.Text.Any(x => !Char.IsDigit(x)))
 				e.Handled = true;
-			return;
 		}
 
 		private void Inc_Click(object sender, RoutedEventArgs e)
