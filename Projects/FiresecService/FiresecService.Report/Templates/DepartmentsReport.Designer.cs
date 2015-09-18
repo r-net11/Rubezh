@@ -28,7 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			float[] columnsWidth = { 200F };
+			float[] columnsWidth = new float[] { 200F };
 
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DepartmentsReport));
 			this.xrTableRow1 = new DevExpress.XtraReports.UI.XRTableRow();
