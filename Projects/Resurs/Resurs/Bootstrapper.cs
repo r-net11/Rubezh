@@ -28,36 +28,25 @@ namespace Resurs
 				var resourceService = new ResourceService();
 				resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml"));
 				resourceService.AddResource(new ResourceDescription(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml"));
-				WindowThread = new Thread(new ThreadStart(OnWorkThread));
-				WindowThread.Name = "Main window";
-				WindowThread.Priority = ThreadPriority.Highest;
-				WindowThread.SetApartmentState(ApartmentState.STA);
-				WindowThread.IsBackground = true;
-				WindowThread.Start();
-				MainViewStartedEvent.WaitOne();
+
+				try
+				{
+					MainViewModel = new MainViewModel();
+					ApplicationService.Run(MainViewModel, false, false);
+				}
+				catch (Exception e)
+				{
+					Logger.Error(e, "Исключение при вызове Bootstrapper.OnWorkThread");
+
+					BalloonHelper.ShowFromServer("Ошибка во время загрузки");
+				}
+				System.Windows.Threading.Dispatcher.Run();
 			}
 			catch (Exception e)
 			{
 				Logger.Error(e, "Исключение при вызове Bootstrapper.Run");
 				Close();
 			}
-		}
-
-		private static void OnWorkThread()
-		{
-			try
-			{
-				MainViewModel = new MainViewModel();
-				ApplicationService.Run(MainViewModel, false, false);
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "Исключение при вызове Bootstrapper.OnWorkThread");
-
-				BalloonHelper.ShowFromServer("Ошибка во время загрузки");
-			}
-			MainViewStartedEvent.Set();
-			System.Windows.Threading.Dispatcher.Run();
 		}
 
 		public static void Close()

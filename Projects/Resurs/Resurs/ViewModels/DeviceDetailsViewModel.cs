@@ -23,6 +23,7 @@ namespace Resurs.ViewModels
 				Title = "Редактирование устройства";
 			}
 
+			Device = device;
 			Name = device.Name;
 			Description = device.Description;
 		}

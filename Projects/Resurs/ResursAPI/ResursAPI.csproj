@@ -42,6 +42,17 @@
   <ItemGroup>
     <Compile Include="Apartment.cs" />
     <Compile Include="Device.cs" />
+    <Compile Include="Drivers\Network2Device1Creator.cs" />
+    <Compile Include="Drivers\Network2Device3Creator.cs" />
+    <Compile Include="Drivers\Network2Device2Creator.cs" />
+    <Compile Include="Drivers\Network1Device2Creator.cs" />
+    <Compile Include="Drivers\Network1Device1Creator.cs" />
+    <Compile Include="Drivers\Network2Creator.cs" />
+    <Compile Include="Drivers\SystemCreator.cs" />
+    <Compile Include="DriverType.cs" />
+    <Compile Include="Driver.cs" />
+    <Compile Include="Drivers\DriversConfiguration.cs" />
+    <Compile Include="Drivers\Network1Creator.cs" />
     <Compile Include="ModelBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
