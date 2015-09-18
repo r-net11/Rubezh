@@ -239,20 +239,20 @@ namespace FiresecService
 		void Calculate(ProcedureStep procedureStep)
 		{
 			var arithmeticArguments = procedureStep.ArithmeticArguments;
-			object variable1;
-			object variable2;
+			object value1;
+			object value2;
 			var resultVariable = AllVariables.FirstOrDefault(x => x.Uid == arithmeticArguments.ResultArgument.VariableUid);
 			switch (arithmeticArguments.ExplicitType)
 			{
 				case ExplicitType.Boolean:
 					{
-						variable1 = GetValue<bool>(arithmeticArguments.Argument1);
-						variable2 = GetValue<bool>(arithmeticArguments.Argument2);
+						value1 = GetValue<bool>(arithmeticArguments.Argument1);
+						value2 = GetValue<bool>(arithmeticArguments.Argument2);
 						bool result = false;
 						if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.And)
-							result = (bool)variable1 & (bool)variable2;
+							result = (bool)value1 & (bool)value2;
 						if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Or)
-							result = (bool)variable1 || (bool)variable2;
+							result = (bool)value1 || (bool)value2;
 						if (resultVariable != null)
 							resultVariable.ExplicitValue.BoolValue = result;
 						break;
@@ -260,17 +260,17 @@ namespace FiresecService
 
 				case ExplicitType.Integer:
 					{
-						variable1 = GetValue<int>(arithmeticArguments.Argument1);
-						variable2 = GetValue<int>(arithmeticArguments.Argument2);
+						value1 = GetValue<int>(arithmeticArguments.Argument1);
+						value2 = GetValue<int>(arithmeticArguments.Argument2);
 						int result = 0;
 						if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Add)
-							result = (int)variable1 + (int)variable2;
+							result = (int)value1 + (int)value2;
 						if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Sub)
-							result = (int)variable1 - (int)variable2;
+							result = (int)value1 - (int)value2;
 						if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Multi)
-							result = (int)variable1 * (int)variable2;
-						if ((arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Div) && ((int)variable2 != 0))
-							result = (int)variable1 / (int)variable2;
+							result = (int)value1 * (int)value2;
+						if ((arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Div) && ((int)value2 != 0))
+							result = (int)value1 / (int)value2;
 						if (resultVariable != null)
 							resultVariable.ExplicitValue.IntValue = result;
 						break;
@@ -278,28 +278,28 @@ namespace FiresecService
 
 				case ExplicitType.DateTime:
 					{
-						variable1 = GetValue<DateTime>(arithmeticArguments.Argument1);
-						variable2 = new TimeSpan();
+						value1 = GetValue<DateTime>(arithmeticArguments.Argument1);
+						value2 = new TimeSpan();
 						switch (arithmeticArguments.TimeType)
 						{
 							case TimeType.Sec:
-								variable2 = TimeSpan.FromSeconds(GetValue<int>(arithmeticArguments.Argument2));
+								value2 = TimeSpan.FromSeconds(GetValue<int>(arithmeticArguments.Argument2));
 								break;
 							case TimeType.Min:
-								variable2 = TimeSpan.FromMinutes(GetValue<int>(arithmeticArguments.Argument2));
+								value2 = TimeSpan.FromMinutes(GetValue<int>(arithmeticArguments.Argument2));
 								break;
 							case TimeType.Hour:
-								variable2 = TimeSpan.FromHours(GetValue<int>(arithmeticArguments.Argument2));
+								value2 = TimeSpan.FromHours(GetValue<int>(arithmeticArguments.Argument2));
 								break;
 							case TimeType.Day:
-								variable2 = TimeSpan.FromDays(GetValue<int>(arithmeticArguments.Argument2));
+								value2 = TimeSpan.FromDays(GetValue<int>(arithmeticArguments.Argument2));
 								break;
 						}
 						var result = new DateTime();
 						if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Add)
-							result = (DateTime)variable1 + (TimeSpan)variable2;
+							result = (DateTime)value1 + (TimeSpan)value2;
 						if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Sub)
-							result = (DateTime)variable1 - (TimeSpan)variable2;
+							result = (DateTime)value1 - (TimeSpan)value2;
 
 						if (resultVariable != null)
 							resultVariable.ExplicitValue.DateTimeValue = result;
@@ -307,14 +307,29 @@ namespace FiresecService
 					}
 				case ExplicitType.String:
 					{
-						variable1 = GetValue<object>(arithmeticArguments.Argument1);
-						variable2 = GetValue<object>(arithmeticArguments.Argument2);
+						value1 = GetValue<object>(arithmeticArguments.Argument1);
+						value2 = GetValue<object>(arithmeticArguments.Argument2);
 						if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Add)
 							if (resultVariable != null)
-								resultVariable.ExplicitValue.StringValue = String.Concat(Convert.ToString(variable1), Convert.ToString(variable2));
+								resultVariable.ExplicitValue.StringValue = String.Concat(GetStringValue(value1), GetStringValue(value2));
 						break;
 					}
 			}
+		}
+
+		public static string GetStringValue(object obj)
+		{
+			if (obj == null)
+				return "";
+
+			var objType = obj.GetType();
+			if (objType == typeof(bool))
+				return (bool)obj ? "Да" : "Нет";
+
+			if (objType.IsEnum)
+				return ((Enum)obj).ToDescription();
+
+			return obj.ToString();
 		}
 
 		void FindObjects(ProcedureStep procedureStep)

@@ -71,7 +71,7 @@ namespace AutomationModule.ViewModels
 			TargetArgument.Update(Procedure, SelectedExplicitType, SelectedEnumType, SelectedObjectType, false);
 			if (SelectedExplicitType == ExplicitType.String)
 			{
-				SourceArgument.Update(Procedure, ProcedureHelper.GetEnumList<ExplicitType>().FindAll(x => x != ExplicitType.Object), isList: false);
+				SourceArgument.Update(Procedure, ProcedureHelper.GetEnumList<ExplicitType>(), isList: false);
 				SourceArgument.ExplicitType = ExplicitType.String;
 			}
 			else

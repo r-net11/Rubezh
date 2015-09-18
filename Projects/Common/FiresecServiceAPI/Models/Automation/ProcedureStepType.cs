@@ -22,16 +22,16 @@ namespace FiresecAPI.Automation
 		[DescriptionAttribute("Цикл Пока")]
 		While,
 
-		[DescriptionAttribute("выйти из цикла")]
+		[DescriptionAttribute("Выйти из цикла")]
 		Break,
 
-		[DescriptionAttribute("продолжить цикл")]
+		[DescriptionAttribute("Продолжить цикл")]
 		Continue,
 
 		[DescriptionAttribute("Тело цикла")]
 		ForeachBody,
 
-		[DescriptionAttribute("Функция выбора процедуры")]
+		[DescriptionAttribute("Вызов процедуры")]
 		ProcedureSelection,
 
 		[DescriptionAttribute("Получить значение свойства объекта")]
@@ -121,7 +121,7 @@ namespace FiresecAPI.Automation
 		[DescriptionAttribute("Показать диалоговую форму")]
 		ShowDialog,
 
-		[DescriptionAttribute("Показать свойство объекта")]
+		[DescriptionAttribute("Показать свойства объекта")]
 		ShowProperty,
 
 		[DescriptionAttribute("Генерировать идентификатор")]
