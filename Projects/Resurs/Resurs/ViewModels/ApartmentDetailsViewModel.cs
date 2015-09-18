@@ -23,6 +23,7 @@ namespace Resurs.ViewModels
 				Title = "Редактирование абонента";
 			}
 
+			Apartment = apartment;
 			Name = apartment.Name;
 			Description = apartment.Description;
 		}

@@ -17,7 +17,6 @@ namespace Resurs
 	{
 		static Thread WindowThread = null;
 		static MainViewModel MainViewModel;
-		static AutoResetEvent MainViewStartedEvent = new AutoResetEvent(false);
 
 		public static void Run()
 		{

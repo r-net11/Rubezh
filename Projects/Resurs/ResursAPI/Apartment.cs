@@ -8,5 +8,11 @@ namespace ResursAPI
 {
 	public class Apartment : ModelBase
 	{
+		public Apartment()
+		{
+			Children = new List<Apartment>();
+		}
+
+		public List<Apartment> Children { get; set; }
 	}
 }
