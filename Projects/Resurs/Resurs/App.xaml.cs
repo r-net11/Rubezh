@@ -19,7 +19,6 @@ namespace ResursRunner
 			base.OnStartup(e);
 			ThemeHelper.LoadThemeFromRegister();
 			ServerLoadHelper.SetLocation(System.Reflection.Assembly.GetExecutingAssembly().Location);
-			ServerLoadHelper.SetStatus(FSServerState.Opening);
 
 			using (new DoubleLaunchLocker(SignalId, WaitId, true))
 			{
@@ -36,7 +35,6 @@ namespace ResursRunner
 				}
 			}
 		}
-
 
 		protected override void OnExit(ExitEventArgs e)
 		{

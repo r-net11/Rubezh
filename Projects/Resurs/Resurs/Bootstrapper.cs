@@ -15,7 +15,6 @@ namespace Resurs
 {
 	public static class Bootstrapper
 	{
-		static Thread WindowThread = null;
 		static MainViewModel MainViewModel;
 
 		public static void Run()
@@ -30,8 +29,10 @@ namespace Resurs
 
 				try
 				{
-					MainViewModel = new MainViewModel();
-					ApplicationService.Run(MainViewModel, false, false);
+					var mainView = new Resurs.Views.MainView();
+					var mainViewModel = new MainViewModel();
+					mainView.DataContext = mainViewModel;
+					mainView.Show();
 				}
 				catch (Exception e)
 				{
@@ -39,7 +40,6 @@ namespace Resurs
 
 					BalloonHelper.ShowFromServer("Ошибка во время загрузки");
 				}
-				System.Windows.Threading.Dispatcher.Run();
 			}
 			catch (Exception e)
 			{
@@ -50,14 +50,7 @@ namespace Resurs
 
 		public static void Close()
 		{
-			ServerLoadHelper.SetStatus(FSServerState.Closed);
-			if (WindowThread != null)
-			{
-				WindowThread.Interrupt();
-				WindowThread = null;
-			}
 			System.Environment.Exit(1);
-
 			Process.GetCurrentProcess().Kill();
 		}
 	}
