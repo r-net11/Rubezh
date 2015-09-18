@@ -28,7 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			float[] columnsWidth = { 180F, 150F, 150F, 0F, 0F, 240F, 0F, 200F, 200F, 200F, 200F, 170F, 0F, 180F };
+			float[] columnsWidth = new float[] { 180F, 150F, 150F, 0F, 0F, 240F, 0F, 200F, 200F, 200F, 200F, 170F, 0F, 180F };
 
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DisciplineReport));
 			this.Detail = new DevExpress.XtraReports.UI.DetailBand();
