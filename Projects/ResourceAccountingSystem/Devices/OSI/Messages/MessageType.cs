@@ -21,8 +21,12 @@ namespace RubezhResurs.OSI.Messages
         /// </summary>
         OutcomingMessage,
         /// <summary>
-        /// Служебное сообщение
+        /// Служебное информационное сообщение
         /// </summary>
-        ServiceMessage
+        ServiceInfoMessage,
+        /// <summary>
+        /// Служебное сообщение от ошибке 
+        /// </summary>
+        ServiceErrorMessage
     }
 }
