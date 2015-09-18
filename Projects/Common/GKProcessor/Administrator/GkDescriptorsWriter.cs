@@ -27,6 +27,7 @@ namespace GKProcessor
 				if (gkDatabase != null)
 				{
 					var kauDatabases = new List<KauDatabase>();
+					var lostKauDatabases = new List<KauDatabase>();
 					using (var gkLifecycleManager = new GKLifecycleManager(gkDatabase.RootDevice, "Проверка связи"))
 					{
 						gkLifecycleManager.AddItem("ГК");
@@ -47,8 +48,7 @@ namespace GKProcessor
 							}
 							else
 							{
-								Errors.Add("Устройство " + kauDatabase.RootDevice.PresentationName + " недоступно");
-								continue;
+								lostKauDatabases.Add(kauDatabase);
 							}
 						}
 					}
@@ -122,6 +122,11 @@ namespace GKProcessor
 							Errors.Add("Не удалось перевести ГК в рабочий режим");
 						}
 						break;
+					}
+
+					foreach (var kauDatabase in lostKauDatabases)
+					{
+						Errors.Add("Устройство " + kauDatabase.RootDevice.PresentationName + " недоступно");
 					}
 				}
 			}

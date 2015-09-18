@@ -228,8 +228,8 @@ namespace GKModule.ViewModels
 		public RelayCommand ResetPropertiesCommand { get; private set; }
 		void OnResetProperties()
 		{
-			SetDelay = 1;
-			ResetDelay = 1;
+			SetDelay = 0;
+			ResetDelay = 0;
 			AlarmDelay = 1;
 		}
 
