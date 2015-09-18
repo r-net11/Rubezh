@@ -28,7 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			float[] columnsWidth = { 0F, 0F, 0F, 0F, 0F, 200F, 0F, 0F, 200F, 0F, 0F };
+			float[] columnsWidth = new float[] { 0F, 0F, 0F, 0F, 0F, 200F, 0F, 0F, 200F, 0F, 0F };
 
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SchedulesReport));
 			this.Detail = new DevExpress.XtraReports.UI.DetailBand();
