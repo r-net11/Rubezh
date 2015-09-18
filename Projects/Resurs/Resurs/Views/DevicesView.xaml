@@ -1,0 +1,10 @@
+﻿<UserControl x:Class="Resurs.Views.DevicesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<DataGrid ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}">
+		<DataGrid.Columns>
+			<DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="*" />
+			<DataGridTextColumn Header="Примечание" Binding="{Binding Description}" Width="*" />
+		</DataGrid.Columns>
+	</DataGrid>
+</UserControl>
