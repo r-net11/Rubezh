@@ -76,7 +76,8 @@ namespace FiresecService
 
 				UILogger.Log("Запуск сервиса отчетов");
 				ReportServiceManager.Run();
-				UILogger.Log("Сервис отчетов запущен: " + ConnectionSettingsManager.ReportServerAddress);
+				UILogger.Log("Сервис отчетов запущен" + ReportServiceManager.Address);
+				ReportServiceManager.Addresses.ForEach(UILogger.Log);
 
 				UILogger.Log("Запуск автоматизации");
 				ScheduleRunner.Start();

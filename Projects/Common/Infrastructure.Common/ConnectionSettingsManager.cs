@@ -6,7 +6,7 @@ using System.Net;
 namespace Infrastructure.Common
 {
 	/// <summary>
-	/// Класс описывает сетевые настройки Сервера приложений и Сервера отчетов
+	/// Класс описывает клиентские сетевые настройки для соединения с Сервером приложений и Сервером отчетов
 	/// </summary>
 	public static class ConnectionSettingsManager
 	{
@@ -21,8 +21,8 @@ namespace Infrastructure.Common
 			set
 			{
 				_remoteAddress = value;
-				if (_remoteAddress == "localhost")
-					_remoteAddress = "127.0.0.1";
+				if (_remoteAddress == NetworkHelper.Localhost)
+					_remoteAddress = NetworkHelper.LocalhostIp;
 			}
 		}
 
@@ -38,15 +38,20 @@ namespace Infrastructure.Common
 
 		static ConnectionSettingsManager()
 		{
+			Update();
+		}
+
+		public static void Update()
+		{
 			try
 			{
-				RemoteAddress = AppServerSettingsHelper.AppServerSettings.ServiceAddress;
-				RemotePort = AppServerSettingsHelper.AppServerSettings.ServicePort;
-				ReportRemotePort = AppServerSettingsHelper.AppServerSettings.ReportServicePort;
+				RemoteAddress = GlobalSettingsHelper.GlobalSettings.RemoteAddress;
+				RemotePort = GlobalSettingsHelper.GlobalSettings.RemotePort;
+				ReportRemotePort = GlobalSettingsHelper.GlobalSettings.ReportRemotePort;
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "AppSettingsManager.AppSettingsManager");
+				Logger.Error(e, "ConnectionSettingsManager.Update");
 			}
 		}
 
@@ -57,10 +62,10 @@ namespace Infrastructure.Common
 		{
 			get
 			{
-				var serviceAddress = "net.pipe://127.0.0.1/FiresecService/";
+				var serviceAddress = String.Format("net.pipe://{0}/{1}/", NetworkHelper.LocalhostIp, AppServerServices.ServiceName);
 				if (IsRemote)
 				{
-					serviceAddress = "net.tcp://" + RemoteAddress + ":" + RemotePort.ToString() + "/FiresecService/";
+					serviceAddress = String.Format("net.tcp://{0}:{1}/{2}/", RemoteAddress, RemotePort, AppServerServices.ServiceName);
 				}
 				return serviceAddress;
 			}
@@ -73,13 +78,15 @@ namespace Infrastructure.Common
 		{
 			get
 			{
-				var serviceAddress = "net.tcp://" + GetIPAddress() + ":" + ReportRemotePort.ToString() + "/ReportFiresecService/";
-				return serviceAddress;
+				return IsRemote
+					? String.Format("net.tcp://{0}:{1}/{2}/", RemoteAddress, ReportRemotePort, AppServerServices.ReportServiceName)
+					: String.Format("net.pipe://{0}/{1}/", NetworkHelper.LocalhostIp, AppServerServices.ReportServiceName);
+				//return String.Format("net.tcp://{0}:{1}/{2}/", RemoteAddress, ReportRemotePort, AppServerServices.ReportServiceName);
 			}
 		}
 
 		/// <summary>
-		/// Определяет доступность Сервера приложений извне
+		/// Определяет расположение Сервера приложений (локально/удаленно)
 		/// </summary>
 		public static bool IsRemote
 		{
@@ -87,28 +94,8 @@ namespace Infrastructure.Common
 			{
 				if (string.IsNullOrEmpty(RemoteAddress))
 					return false;
-				return (RemoteAddress != "localhost" && RemoteAddress != "127.0.0.1");
+				return !NetworkHelper.IsLocalAddress(RemoteAddress);
 			}
-		}
-
-		/// <summary>
-		/// Выбирает IP-адрес для запуска WCF-Сервиса
-		/// </summary>
-		/// <returns>IP-адрес</returns>
-		public static string GetIPAddress()
-		{
-			// Получаем список IP-адресов хоста
-			var hostIpAdresses = NetworkHelper.GetHostIpAddresses();
-
-			// Получаем IP-адрес из конфигурации
-			var ipAddressFromConfig = AppServerSettingsHelper.AppServerSettings.ServiceAddress;
-
-			// Если IP-адрес из конфигурации входит в список IP-адресов хоста, то используем его
-			if (hostIpAdresses.Any(x => x == ipAddressFromConfig))
-				return ipAddressFromConfig;
-
-			// В противном случае, используем "localhost"
-			return "localhost";
 		}
 	}
 }

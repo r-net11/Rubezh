@@ -1,4 +1,6 @@
-﻿using Common;
+﻿using System.Collections.Generic;
+using Common;
+using DevExpress.Office.Utils;
 using DevExpress.Xpf.Printing;
 using DevExpress.XtraReports.Service;
 using FiresecAPI;
@@ -45,15 +47,35 @@ namespace FiresecService.Report
 
 		private ServiceHost _serviceHost;
 
+		public static string Address { get; private set; }
+
+		public static List<string> Addresses { get; private set; }
+
+		static ReportServiceManager()
+		{
+			Addresses = new List<string>();
+		}
+
 		private bool Open()
 		{
+			Addresses.Clear();
+			
 			try
 			{
 				Close();
-				var binding = BindingHelper.CreateBindingFromAddress(ConnectionSettingsManager.ReportServerAddress);
+				//Address = AppServerConnectionManager.ReportServerUri;
+				//var binding = BindingHelper.CreateBindingFromAddress(Address);
+				//_serviceHost = new ServiceHost(typeof(FiresecReportService));
+				//_serviceHost.AddServiceEndpoint(typeof(IReportService), binding, Address);
+				//_serviceHost.Open();
 				_serviceHost = new ServiceHost(typeof(FiresecReportService));
-				_serviceHost.AddServiceEndpoint(typeof(IReportService), binding, ConnectionSettingsManager.ReportServerAddress);
+				if (AppServerSettingsHelper.AppServerSettings.EnableRemoteConnections && UACHelper.IsAdministrator)
+				{
+					CreateTcpEndpoint();
+				}
+				CreateNetPipesEndpoint();
 				_serviceHost.Open();
+
 				return true;
 			}
 			catch (Exception e)
@@ -63,10 +85,39 @@ namespace FiresecService.Report
 			}
 		}
 
+		private void CreateNetPipesEndpoint()
+		{
+			try
+			{
+				var netpipeAddress = AppServerConnectionManager.ReportServerNamedPipesUri;
+				_serviceHost.AddServiceEndpoint(typeof(IReportService), BindingHelper.CreateNetNamedPipeBinding(), new Uri(netpipeAddress));
+				Addresses.Add(String.Format("Локальный адрес: {0}", netpipeAddress));
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "ReportServiceManager.CreateNetPipesEndpoint");
+			}
+		}
+
+		private void CreateTcpEndpoint()
+		{
+			try
+			{
+				var remoteAddress = AppServerConnectionManager.ReportServerTcpUri;
+				_serviceHost.AddServiceEndpoint(typeof(IReportService), BindingHelper.CreateNetTcpBinding(), new Uri(remoteAddress));
+				Addresses.Add(String.Format("Удаленный адрес: {0}", remoteAddress));
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "ReportServiceManager.CreateTcpEndpoint");
+			}
+		}
+
 		private void Close()
 		{
 			if (_serviceHost != null && _serviceHost.State != CommunicationState.Closed && _serviceHost.State != CommunicationState.Closing)
 				_serviceHost.Close();
+			Addresses.Clear();
 		}
 
 		private void RegisterFilters()
