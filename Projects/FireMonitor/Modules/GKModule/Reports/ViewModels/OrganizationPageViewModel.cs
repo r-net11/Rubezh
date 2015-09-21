@@ -10,9 +10,8 @@ using Infrastructure.Common;
 using Infrastructure.Common.CheckBoxList;
 using Infrastructure.Common.SKDReports;
 using Infrastructure.Events;
-using SKDModule.ViewModels;
 
-namespace SKDModule.Reports.ViewModels
+namespace GKModule.ViewModels
 {
 	public class OrganizationPageViewModel : FilterContainerViewModel, IUnsubscribe
 	{

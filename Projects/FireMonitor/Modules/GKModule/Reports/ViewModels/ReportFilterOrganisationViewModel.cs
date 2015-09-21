@@ -1,7 +1,7 @@
 ﻿using FiresecAPI.SKD;
 using Infrastructure.Common.CheckBoxList;
 
-namespace SKDModule.ViewModels
+namespace GKModule.ViewModels
 {
 	public class ReportFilterOrganisationViewModel : CheckBoxItemViewModel
 	{

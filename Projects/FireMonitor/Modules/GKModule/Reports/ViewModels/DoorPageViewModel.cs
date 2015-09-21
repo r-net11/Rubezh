@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using Infrastructure.Common.SKDReports;
 using FiresecAPI.SKD.ReportFilters;
-using SKDModule.ViewModels;
 using System.Collections.ObjectModel;
 using FiresecAPI.SKD;
 using Infrastructure.Common;
@@ -12,7 +11,7 @@ using Common;
 using FiresecClient;
 using FiresecAPI.GK;
 
-namespace SKDModule.Reports.ViewModels
+namespace GKModule.ViewModels
 {
 	public class DoorPageViewModel : FilterContainerViewModel
 	{

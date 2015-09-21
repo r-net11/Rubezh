@@ -103,7 +103,7 @@ namespace SKDModule.Reports.ViewModels
 				_showWithoutTolerance = value;
 				OnPropertyChanged(() => ShowWithoutTolerance);
 			}
-		}	
+		}
 
 		public override void LoadFilter(SKDReportFilter filter)
 		{
