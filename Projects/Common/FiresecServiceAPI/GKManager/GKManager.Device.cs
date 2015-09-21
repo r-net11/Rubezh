@@ -36,7 +36,8 @@ namespace FiresecClient
 				{
 					Name = property.Name,
 					Value = property.Value,
-					DriverProperty = property.DriverProperty
+					DriverProperty = property.DriverProperty,
+					StringValue = property.StringValue,
 				});
 			}
 

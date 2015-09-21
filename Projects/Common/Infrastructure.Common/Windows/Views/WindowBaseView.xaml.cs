@@ -180,8 +180,11 @@ namespace Infrastructure.Common.Windows.Views
 					if (!double.IsNaN(control.Width))
 						control.Width = double.NaN;
 
-					Left += (oldWidth - ActualWidth) / 2;
-					Top += (oldHeight - ActualHeight) / 2;
+					if (WindowStartupLocation != WindowStartupLocation.Manual)
+					{
+						Left += (oldWidth - ActualWidth) / 2;
+						Top += (oldHeight - ActualHeight) / 2;
+					}
 				}
 			}
 		}
