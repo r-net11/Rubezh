@@ -187,15 +187,27 @@ namespace SKDModule.ViewModels
 
 		public bool Validate()
 		{
-			var intersectionCollection = PassJournalHelper.GetIntersectionIntervals(CurrentTimeTrackPart.ToDTO(), _parent.ShortEmployee).Select(x => new DayTimeTrackPart(x));
+			var intersectionCollectionFromServer = PassJournalHelper.GetIntersectionIntervals(CurrentTimeTrackPart.ToDTO(), _parent.ShortEmployee).Select(x => new DayTimeTrackPart(x));
+			var intersectionCollectionFromUI = GetIntersectionIntervals(_parent);
 
-			return !intersectionCollection.Any()
-				|| DialogService.ShowModalWindow(new WarningIntersectionIntervalDialogWindowViewModel(CurrentTimeTrackPart, intersectionCollection));
+			if (!intersectionCollectionFromServer.Any() && !intersectionCollectionFromUI.Any()) return true;
+
+			DialogService.ShowModalWindow(new WarningIntersectionIntervalDialogWindowViewModel(CurrentTimeTrackPart,
+				intersectionCollectionFromServer.Union(intersectionCollectionFromUI)));
+			return false;
 		}
 
-		public bool IsIntersection(TimeTrackDetailsViewModel timeTrackDetailsViewModel)
+		public List<DayTimeTrackPart> GetIntersectionIntervals(TimeTrackDetailsViewModel timeTrackDetailsViewModel)
 		{
-			return timeTrackDetailsViewModel.DayTimeTrackParts.Any(x => x.UID != CurrentTimeTrackPart.UID && (x.EnterDateTime < CurrentTimeTrackPart.ExitDateTime && x.ExitDateTime > CurrentTimeTrackPart.EnterDateTime));
+			if (timeTrackDetailsViewModel == null) return null;
+
+			var linkedIntervals = timeTrackDetailsViewModel.DayTimeTrackParts
+				.Where(x => x.UID != CurrentTimeTrackPart.UID)
+				.Where(x =>
+						CurrentTimeTrackPart.ExitDateTime >= x.EnterDateTime
+						&& CurrentTimeTrackPart.EnterDateTime <= x.ExitDateTime);
+
+			return linkedIntervals.ToList();
 		}
 
 		#endregion
