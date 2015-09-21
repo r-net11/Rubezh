@@ -300,7 +300,7 @@
 			this.PageWidth = 2970;
 			this.StyleSheet.AddRange(new DevExpress.XtraReports.UI.XRControlStyle[] {
             this.xrControlStyle1});
-			this.Version = "14.1";
+			this.Version = "15.1";
 			this.Controls.SetChildIndex(this.GroupFooter1, 0);
 			this.Controls.SetChildIndex(this.GroupHeader1, 0);
 			this.Controls.SetChildIndex(this.Detail, 0);
