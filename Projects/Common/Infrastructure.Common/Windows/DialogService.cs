@@ -19,12 +19,18 @@ namespace Infrastructure.Common.Windows
 			return window ?? ApplicationService.ApplicationWindow;
 		}
 
-		public static bool ShowModalWindow(WindowBaseViewModel windowBaseViewModel)
+		public static bool ShowModalWindow(WindowBaseViewModel windowBaseViewModel, bool customPosition = false, double left = 0, double top = 0)
 		{
 			try
 			{
 				WindowBaseView win = new WindowBaseView(windowBaseViewModel);
 				windowBaseViewModel.OnLoad();
+				if (customPosition)
+				{
+					windowBaseViewModel.Surface.WindowStartupLocation = WindowStartupLocation.Manual;
+					windowBaseViewModel.Surface.Left = left;
+					windowBaseViewModel.Surface.Top = top;
+				}
 				bool? result = win.ShowDialog();
 				return result.HasValue ? result.Value : false;
 			}
@@ -34,12 +40,19 @@ namespace Infrastructure.Common.Windows
 			}
 			return false;
 		}
-		public static void ShowWindow(WindowBaseViewModel windowBaseViewModel)
+
+		public static void ShowWindow(WindowBaseViewModel windowBaseViewModel, bool customPosition = false, double left = 0, double top = 0)
 		{
 			if (!FindWindowIdentity(windowBaseViewModel))
 			{
 				var windowBaseView = new WindowBaseView(windowBaseViewModel);
 				windowBaseViewModel.OnLoad();
+				if (customPosition)
+				{
+					windowBaseViewModel.Surface.WindowStartupLocation = WindowStartupLocation.Manual;
+					windowBaseViewModel.Surface.Left = left;
+					windowBaseViewModel.Surface.Top = top;
+				}
 				windowBaseView.Show();
 			}
 		}

@@ -91,8 +91,8 @@ namespace FiresecService
 					TopMost = procedureStep.ShowDialogArguments.TopMost,
 					Width = procedureStep.ShowDialogArguments.Width,
 					CustomPosition = procedureStep.ShowDialogArguments.CustomPosition,
-					X = procedureStep.ShowDialogArguments.X,
-					Y = procedureStep.ShowDialogArguments.Y
+					Left = procedureStep.ShowDialogArguments.Left,
+					Top = procedureStep.ShowDialogArguments.Top
 				},
 			};
 			SendCallback(procedureStep.ShowDialogArguments, automationCallbackResult);

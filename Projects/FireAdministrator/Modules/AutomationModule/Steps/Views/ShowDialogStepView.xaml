@@ -31,9 +31,9 @@
 				<ColumnDefinition Width="Auto" MinWidth="40" />
 				<ColumnDefinition Width="Auto" />
 				<ColumnDefinition Width="Auto" MinWidth="40" />
-				<ColumnDefinition Width="Auto" MaxWidth="50" />
+				<ColumnDefinition Width="Auto" MaxWidth="80" />
 				<ColumnDefinition Width="Auto" />
-				<ColumnDefinition Width="Auto" MinWidth="70" />
+				<ColumnDefinition Width="Auto" MinWidth="90" />
 			</Grid.ColumnDefinitions>
 			<!--Zemskov_question-->
 
@@ -50,8 +50,8 @@
 			<TextBlock Grid.Row="6" Grid.Column="0" Style="{DynamicResource ShowDialogStepView}" Text="Мин. ширина" />
 			<TextBlock Grid.Row="7" Grid.Column="0" Style="{DynamicResource ShowDialogStepView}" Text="Мин. высота" />
 			<TextBlock Grid.Row="4" Grid.Column="0" Style="{DynamicResource ShowDialogStepView}" Text="Задать позицию" />
-			<TextBlock Grid.Row="5" Grid.Column="0" Style="{DynamicResource ShowDialogStepView}" Text="X" />
-			<TextBlock Grid.Row="5" Grid.Column="4" Style="{DynamicResource ShowDialogStepView}" Text="Y" />
+			<TextBlock Grid.Row="5" Grid.Column="0" Style="{DynamicResource ShowDialogStepView}" Text="Отступ слева" />
+			<TextBlock Grid.Row="5" Grid.Column="4" Style="{DynamicResource ShowDialogStepView}" Text="Отступ сверху" />
 
 			<ComboBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="6" VerticalAlignment="Center" ItemsSource="{Binding Layouts}" SelectedItem="{Binding SelectedLayout}" Width="Auto" Height="22" >
 				<ComboBox.ItemTemplate>
@@ -72,8 +72,8 @@
 			<extToolkit:IntegerUpDown Grid.Row="7" Grid.Column="5" Minimum="100" Value="{Binding Height, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2" />
 			<extToolkit:IntegerUpDown Grid.Row="6" Grid.Column="1" Minimum="100" Value="{Binding MinWidth, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2" />
 			<extToolkit:IntegerUpDown Grid.Row="7" Grid.Column="1" Minimum="100" Value="{Binding MinHeight, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2" />
-			<extToolkit:IntegerUpDown Grid.Row="5" Grid.Column="1" Value="{Binding X, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding ElementName=CustomPositionCheckBox, Path=IsChecked}" Grid.ColumnSpan="2" />
-			<extToolkit:IntegerUpDown Grid.Row="5" Grid.Column="5" Value="{Binding Y, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding ElementName=CustomPositionCheckBox, Path=IsChecked}" Grid.ColumnSpan="2" />
+			<extToolkit:IntegerUpDown Grid.Row="5" Grid.Column="1" Value="{Binding Left, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding ElementName=CustomPositionCheckBox, Path=IsChecked}" Grid.ColumnSpan="2" />
+			<extToolkit:IntegerUpDown Grid.Row="5" Grid.Column="5" Value="{Binding Top, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding ElementName=CustomPositionCheckBox, Path=IsChecked}" Grid.ColumnSpan="2" />
 		</Grid>
 		<Grid Grid.Column="1" Margin="2" DataContext="{Binding ProcedureLayoutCollectionViewModel}">
 			<DataGrid ItemsSource="{Binding LayoutItems}">
