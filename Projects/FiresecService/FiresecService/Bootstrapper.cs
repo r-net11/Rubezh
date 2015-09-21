@@ -51,8 +51,7 @@ namespace FiresecService
 					if (dbService.CheckConnection().HasError)
 					UILogger.Log("Ошибка соединения с БД", true);
 				}
-				//PatchManager.Patch();
-
+				
 				UILogger.Log("Открытие хоста");
 				FiresecServiceManager.Open();
 				ServerLoadHelper.SetStatus(FSServerState.Opened);

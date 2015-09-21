@@ -126,22 +126,22 @@ namespace AutomationModule.ViewModels
 				OnPropertyChanged(() => CustomPosition);
 			}
 		}
-		public double X
+		public double Left
 		{
-			get { return ShowDialogArguments.X; }
+			get { return ShowDialogArguments.Left; }
 			set
 			{
-				ShowDialogArguments.X = value;
-				OnPropertyChanged(() => X);
+				ShowDialogArguments.Left = value;
+				OnPropertyChanged(() => Left);
 			}
 		}
-		public double Y
+		public double Top
 		{
-			get { return ShowDialogArguments.Y; }
+			get { return ShowDialogArguments.Top; }
 			set
 			{
-				ShowDialogArguments.Y = value;
-				OnPropertyChanged(() => Y);
+				ShowDialogArguments.Top = value;
+				OnPropertyChanged(() => Top);
 			}
 		}
 

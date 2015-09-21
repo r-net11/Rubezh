@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FireMonitor.Layout.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -31,6 +32,17 @@ namespace FireMonitor.Layout.Views
 
 		private void LayoutDialogView_Loaded(object sender, RoutedEventArgs e)
 		{
+			var layoutDialogViewModel = DataContext as LayoutDialogViewModel;
+			if(layoutDialogViewModel != null)
+			{
+				if (layoutDialogViewModel.Data.CustomPosition)
+				{
+					layoutDialogViewModel.Surface.WindowStartupLocation = WindowStartupLocation.Manual;
+					layoutDialogViewModel.Surface.Left = layoutDialogViewModel.Data.Left;
+					layoutDialogViewModel.Surface.Top = layoutDialogViewModel.Data.Top;
+				}
+			}
+
 			if (Manager == null)
 			{
 				var binding = new Binding("LayoutContainer.Manager") { Mode = BindingMode.OneWayToSource };

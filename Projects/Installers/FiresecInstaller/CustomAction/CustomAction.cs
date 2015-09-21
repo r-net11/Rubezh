@@ -47,7 +47,7 @@ namespace CustomAction
 				using (var hklm = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, regitryView))
 				{
 					var lKey = hklm.OpenSubKey(@"SOFTWARE\PostgreSQL\Installations");
-					isInstall = lKey.SubKeyCount == 0;
+					isInstall = lKey == null || lKey.SubKeyCount == 0;
 				}
 				if (isInstall && is64)
 					session["IS_INSTALL_POSTGRE64"] = "1";
