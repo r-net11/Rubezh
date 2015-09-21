@@ -100,7 +100,7 @@ namespace Infrastructure.Client.Startup.ViewModels
 			GlobalSettingsHelper.GlobalSettings.Login = Login;
 			GlobalSettingsHelper.GlobalSettings.Password = Password;
 			GlobalSettingsHelper.Save();
-			ConnectionSettingsManager.RemoteAddress = RemoteAddress;
+			ConnectionSettingsManager.Update();
 			return base.Save();
 		}
 		protected override bool CanSave()

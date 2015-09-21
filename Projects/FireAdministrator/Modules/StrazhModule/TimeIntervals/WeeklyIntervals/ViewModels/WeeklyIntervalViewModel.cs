@@ -46,6 +46,12 @@ namespace StrazhModule.ViewModels
 					ID = Index,
 					Name = Name,
 				};
+
+				// Для вновь активированного недельного графика для всех дней используем дневной график <Никогда>
+				var dayIntervalCard = SKDManager.TimeIntervalsConfiguration.DayIntervals.FirstOrDefault(x => x.Name == TimeIntervalsConfiguration.PredefinedIntervalNameNever);
+				if (dayIntervalCard != null)
+					Model.WeeklyIntervalParts.ForEach(day => day.DayIntervalUID = dayIntervalCard.UID);
+
 				Initialize();
 				SKDManager.TimeIntervalsConfiguration.WeeklyIntervals.Add(Model);
 				ServiceFactory.SaveService.SKDChanged = true;

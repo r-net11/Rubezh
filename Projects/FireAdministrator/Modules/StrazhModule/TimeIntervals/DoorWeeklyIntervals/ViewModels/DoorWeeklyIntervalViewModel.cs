@@ -48,6 +48,11 @@ namespace StrazhModule.ViewModels
 					ID = Index,
 					Name = Name,
 				};
+
+				var dayIntervalCard = SKDManager.TimeIntervalsConfiguration.DoorDayIntervals.FirstOrDefault(x => x.Name == TimeIntervalsConfiguration.PredefinedIntervalNameCard);
+				if (dayIntervalCard != null)
+					Model.WeeklyIntervalParts.ForEach(day => day.DayIntervalUID = dayIntervalCard.UID);
+
 				Initialize();
 				SKDManager.TimeIntervalsConfiguration.DoorWeeklyIntervals.Add(Model);
 				ServiceFactory.SaveService.SKDChanged = true;

@@ -9,6 +9,15 @@ namespace Infrastructure.Common
 {
 	public static class NetworkHelper
 	{
+		public const string Localhost = "localhost";
+		public const string LocalhostIp = "127.0.0.1";
+
+		public static bool IsLocalAddress(string address)
+		{
+			return String.Equals(address, Localhost, StringComparison.InvariantCultureIgnoreCase) ||
+			       String.Equals(address, LocalhostIp, StringComparison.InvariantCultureIgnoreCase);
+		}
+
 		/// <summary>
 		/// Возвращает список IP-адресов (IPv4) хоста
 		/// </summary>
