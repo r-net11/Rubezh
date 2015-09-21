@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Xml.Serialization;
 using Infrustructure.Plans.Interfaces;
+using FiresecClient;
 
 namespace FiresecAPI.GK
 {
@@ -45,6 +46,82 @@ namespace FiresecAPI.GK
 			Logic.GetAllClauses().FindAll(x => x.Directions.Contains(direction)).ForEach(y => { y.Directions.Remove(direction); y.DirectionUIDs.Remove(direction.UID); });
 			UnLinkObject(direction);
 			OnChanged();
+		}
+
+		public override void Invalidate()
+		{
+			if (Driver.HasLogic)
+			{
+				UpdateLogic();
+				Logic.GetObjects().ForEach(x =>
+				{
+					if (!InputDependentElements.Contains(x) && x != this)
+						InputDependentElements.Add(x);
+					if (!x.OutDependentElements.Contains(this) && x != this)
+						x.OutDependentElements.Add(this);
+				});
+				NSLogic.GetObjects().ForEach(x =>
+				{
+					if (!InputDependentElements.Contains(x) && x != this)
+						InputDependentElements.Add(x);
+					if (!x.OutDependentElements.Contains(this) && x != this)
+						x.OutDependentElements.Add(this);
+				});
+			}
+			if (Driver.HasZone)
+			{
+				var zoneUIDs = new List<Guid>();
+				var zones = new List<GKZone>();
+
+				foreach (var zoneUID in ZoneUIDs)
+				{
+					var zone = GKManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
+					if (zone != null)
+					{
+						zones.Add(zone);
+						zoneUIDs.Add(zoneUID);
+						if (!zone.OutDependentElements.Contains(this))
+							zone.OutDependentElements.Add(this);
+						if (!InputDependentElements.Contains(zone))
+						{
+							InputDependentElements.Add(zone);
+						}
+					}
+				}
+				Zones = zones;
+				ZoneUIDs = zoneUIDs;
+			}
+			if (Driver.HasGuardZone)
+			{
+				var guardZoneUIDs = new List<Guid>();
+				var guardZones = new List<GKGuardZone>();
+
+				foreach (var guardZoneUID in GuardZoneUIDs)
+				{
+					var guardZone = GKManager.GuardZones.FirstOrDefault(x => x.UID == guardZoneUID);
+					if (guardZone != null)
+					{
+						guardZones.Add(guardZone);
+						guardZoneUIDs.Add(guardZoneUID);
+						if (!guardZone.OutDependentElements.Contains(this))
+							guardZone.OutDependentElements.Add(this);
+						if (!InputDependentElements.Contains(guardZone))
+						{
+							InputDependentElements.Add(guardZone);
+						}
+					}
+				}
+				GuardZones = guardZones;
+				GuardZoneUIDs = guardZoneUIDs;
+			}
+
+			OnChanged();
+		}
+
+		public override void UpdateLogic()
+		{
+			GKManager.DeviceConfiguration.InvalidateOneLogic(this, Logic);
+			GKManager.DeviceConfiguration.InvalidateOneLogic(this, NSLogic);
 		}
 
         [XmlIgnore]
@@ -572,13 +649,6 @@ namespace FiresecAPI.GK
 				outputObject.Update(this);
 			}
 		}
-
-		public void OnChanged()
-		{
-			if (Changed != null)
-				Changed();
-		}
-		public event Action Changed;
 
 		public void OnAUParametersChanged()
 		{

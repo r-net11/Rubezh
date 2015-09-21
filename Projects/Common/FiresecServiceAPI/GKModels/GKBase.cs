@@ -21,6 +21,8 @@ namespace FiresecAPI.GK
 			State = new GKState();
 			InputGKBases = new List<GKBase>();
 			OutputGKBases = new List<GKBase>();
+			InputDependentElements = new List<GKBase>();
+			OutDependentElements = new List<GKBase>();
 		}
 
 		[XmlIgnore]
@@ -39,6 +41,11 @@ namespace FiresecAPI.GK
 		public List<GKDoor> ClauseInputDoors { get; set; }
 		[XmlIgnore]
 		public List<GKPumpStation> ClauseInputPumpStations { get; set; }
+		[XmlIgnore]
+		public List<GKBase> InputDependentElements { get; set; }
+		[XmlIgnore]
+		public List<GKBase> OutDependentElements { get; set; }
+
 
 		public void ClearClauseDependencies()
 		{
@@ -55,6 +62,8 @@ namespace FiresecAPI.GK
 			ClauseInputDoors = new List<GKDoor>();
 			ClauseInputPumpStations = new List<GKPumpStation>();
 		}
+
+		public bool IsInputDependent { get; set; }
 
 		[XmlIgnore]
 		protected List<GKBase> InputObjects { get; set; }
@@ -113,6 +122,26 @@ namespace FiresecAPI.GK
 				InputObjects.Remove(gkBase);
 			if (gkBase.OutputObjects.Contains(this))
 				gkBase.OutputObjects.Remove(this);
+		}
+
+		public virtual void Invalidate()
+		{ 
+		}
+
+		public virtual void UpdateLogic()
+		{ 
+		}
+
+		public void ChangedLogic()
+		{
+			InputDependentElements.ForEach(x =>
+				{
+					x.OutDependentElements.Remove(this);
+					x.OnChanged();
+				});
+			InputDependentElements = new List<GKBase>();
+			this.Invalidate();
+			InputDependentElements.ForEach(x => x.OnChanged());
 		}
 
 		public virtual string GetGKDescriptorName(GKNameGenerationType gkNameGenerationType)

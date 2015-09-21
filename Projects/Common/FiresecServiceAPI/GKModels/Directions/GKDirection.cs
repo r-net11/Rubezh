@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 using Infrustructure.Plans.Interfaces;
+using FiresecClient;
+using System.Linq;
 
 namespace FiresecAPI.GK
 {
@@ -40,6 +42,24 @@ namespace FiresecAPI.GK
 			Logic.GetAllClauses().FindAll(x => x.Directions.Contains(direction)).ForEach(y => { y.Directions.Remove(direction); y.DirectionUIDs.Remove(direction.UID); });
 			UnLinkObject(direction);
 			OnChanged();
+		}
+
+		public override void Invalidate()
+		{
+			UpdateLogic();
+
+			Logic.GetObjects().ForEach(x =>
+			{
+				if (!InputDependentElements.Contains(x) && x != this)
+					InputDependentElements.Add(x);
+				if (!x.OutDependentElements.Contains(this) && x != this)
+					x.OutDependentElements.Add(this);
+			});
+		}
+
+		public override void UpdateLogic()
+		{
+			GKManager.DeviceConfiguration.InvalidateInputObjectsBaseLogic(this, Logic);
 		}
 
 		[XmlIgnore]

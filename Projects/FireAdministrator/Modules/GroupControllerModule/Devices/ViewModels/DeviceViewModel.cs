@@ -667,6 +667,7 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(logicViewModel))
 			{
 				GKManager.ChangeLogic(Device, logicViewModel.GetModel());
+				Device.ChangedLogic();
 				OnPropertyChanged(() => PresentationZone);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
@@ -692,6 +693,9 @@ namespace GKModule.ViewModels
 					if (DialogService.ShowModalWindow(zonesSelectationViewModel))
 					{
 						GKManager.ChangeDeviceZones(Device, zonesSelectationViewModel.Zones);
+						Device.InputDependentElements = new List<GKBase>();
+						Device.OutDependentElements = new List<GKBase>();
+						Device.Invalidate();
 					}
 				}
 				if (Driver.HasGuardZone)
@@ -700,6 +704,9 @@ namespace GKModule.ViewModels
 					if (DialogService.ShowModalWindow(guardZonesSelectationViewModel))
 					{
 						GKManager.ChangeDeviceGuardZones(Device, guardZonesSelectationViewModel.DeviceGuardZones.Select(x => x.DeviceGuardZone).ToList());
+						Device.InputDependentElements = new List<GKBase>();
+						Device.OutDependentElements = new List<GKBase>();
+						Device.Invalidate();
 					}
 				}
 			}
@@ -792,6 +799,7 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(logicViewModel))
 			{
 				Device.NSLogic = logicViewModel.GetModel();
+				Device.ChangedLogic();
 				OnPropertyChanged("NSPresentationZone");
 				ServiceFactory.SaveService.GKChanged = true;
 			}
@@ -847,6 +855,7 @@ namespace GKModule.ViewModels
 					OnPropertyChanged(() => IsFireAndGuard);
 					PropertiesViewModel = new PropertiesViewModel(Device);
 					OnPropertyChanged(() => PropertiesViewModel);
+
 					GKManager.RebuildRSR2Addresses(Device);
 					GKManager.DeviceConfiguration.Update();
 					Update();

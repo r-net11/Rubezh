@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 using Common;
+using FiresecClient;
+using System.Linq;
 
 namespace FiresecAPI.GK
 {
@@ -55,6 +57,58 @@ namespace FiresecAPI.GK
 			AutomaticOffLogic.GetAllClauses().FindAll(x => x.Directions.Contains(direction)).ForEach(y => { y.Directions.Remove(direction); y.DirectionUIDs.Remove(direction.UID); });
 			UnLinkObject(direction);
 			OnChanged();
+		}
+
+		public override void Invalidate()
+		{
+			var nsDevicesUIDs = new List<Guid>();
+			foreach (var NSDevicesUID in NSDeviceUIDs)
+			{
+				var device = GKManager.Devices.FirstOrDefault(x => x.UID == NSDevicesUID);
+				if (device != null)
+				{
+					nsDevicesUIDs.Add(NSDevicesUID);
+					if (!device.OutDependentElements.Contains(this))
+						device.OutDependentElements.Add(this);
+					if (!InputDependentElements.Contains(device))
+						InputDependentElements.Add(device);
+
+				}
+			}
+
+			NSDeviceUIDs = nsDevicesUIDs;
+
+			UpdateLogic();
+			StartLogic.GetObjects().ForEach(x =>
+			{
+				if (!InputDependentElements.Contains(x) && x != this)
+					InputDependentElements.Add(x);
+				if (!x.OutDependentElements.Contains(this) && x != this)
+					x.OutDependentElements.Add(this);
+			});
+
+			StopLogic.GetObjects().ForEach(x =>
+			{
+				if (!InputDependentElements.Contains(x) && x != this)
+					InputDependentElements.Add(x);
+				if (!x.OutDependentElements.Contains(this) && x != this)
+					x.OutDependentElements.Add(this);
+			});
+
+			AutomaticOffLogic.GetObjects().ForEach(x =>
+			{
+				if (!InputDependentElements.Contains(x) && x != this)
+					InputDependentElements.Add(x);
+				if (!x.OutDependentElements.Contains(this) && x != this)
+					x.OutDependentElements.Add(this);
+			});
+		}
+
+		public override void UpdateLogic()
+		{
+			GKManager.DeviceConfiguration.InvalidateInputObjectsBaseLogic(this, StartLogic);
+			GKManager.DeviceConfiguration.InvalidateInputObjectsBaseLogic(this, StopLogic);
+			GKManager.DeviceConfiguration.InvalidateInputObjectsBaseLogic(this, AutomaticOffLogic);
 		}
 
 		[XmlIgnore]

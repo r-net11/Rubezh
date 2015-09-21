@@ -26,7 +26,7 @@ namespace GKModule.ViewModels
 		public void Initialize(GKZone zone)
 		{
 			Zone = zone;
-
+			//Zone.Invalidate();
 			var devices = new HashSet<GKDevice>();
 			var availableDevices = new HashSet<GKDevice>();
 
@@ -35,14 +35,30 @@ namespace GKModule.ViewModels
 
 				if (device.Driver.HasLogic)
 				{
-					foreach (var clause in device.Logic.OnClausesGroup.Clauses)
+					//foreach (var clause in device.Logic.OnClausesGroup.Clauses)
+					//{
+					//	foreach (var clauseZone in clause.Zones)
+					//	{
+					//		if (clauseZone.UID == zone.UID)
+					//		{
+					//			devices.Add(device);
+					//		}
+					//	}
+					//}
+
+					foreach (var clause in device.Logic.GetObjects())
 					{
-						foreach (var clauseZone in clause.Zones)
+						if (clause.UID == zone.UID)
 						{
-							if (clauseZone.UID == zone.UID)
-							{
-								devices.Add(device);
-							}
+							devices.Add(device);
+						}
+					}
+
+					foreach (var clause in device.NSLogic.GetObjects())
+					{
+						if (clause.UID == zone.UID)
+						{
+							devices.Add(device);
 						}
 					}
 				}

@@ -95,11 +95,23 @@ namespace GKModule.ViewModels
 				var pumpDevices = new List<GKDevice>(SelectedPumpStation.PumpDevices.Select(x => x.Device));
 				var index = PumpStations.IndexOf(SelectedPumpStation);
 				GKManager.PumpStations.Remove(SelectedPumpStation.PumpStation);
+				SelectedPumpStation.PumpStation.InputDependentElements.ForEach(x =>
+				{
+					x.OutDependentElements.Remove(SelectedPumpStation.PumpStation);
+					x.OnChanged();
+				});
+
+				SelectedPumpStation.PumpStation.OutDependentElements.ForEach(x =>
+				{
+					x.InputDependentElements.Remove(SelectedPumpStation.PumpStation);
+					x.UpdateLogic();
+					x.OnChanged();
+				});
 				PumpStations.Remove(SelectedPumpStation);
 				index = Math.Min(index, PumpStations.Count - 1);
 				if (index > -1)
 					SelectedPumpStation = PumpStations[index];
-				pumpDevices.ForEach(x => x.OnChanged());
+			
 				OnPropertyChanged(() => HasSelectedPumpStation);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
@@ -140,6 +152,8 @@ namespace GKModule.ViewModels
 			{
 				SelectedPumpStation.PumpStation = pumpStationDetailsViewModel.PumpStation;
 				SelectedPumpStation.Update();
+				SelectedPumpStation.PumpStation.InputDependentElements.ForEach(x => x.OnChanged());
+				SelectedPumpStation.PumpStation.OutDependentElements.ForEach(x => x.OnChanged());
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}

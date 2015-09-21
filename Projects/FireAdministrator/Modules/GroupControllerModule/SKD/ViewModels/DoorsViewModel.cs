@@ -116,6 +116,18 @@ namespace GKModule.ViewModels
 			{
 				var index = Doors.IndexOf(SelectedDoor);
 				GKManager.DeviceConfiguration.Doors.Remove(SelectedDoor.Door);
+				SelectedDoor.Door.InputDependentElements.ForEach(x =>
+				{
+					x.OutDependentElements.Remove(SelectedDoor.Door);
+					x.OnChanged();
+				});
+
+				SelectedDoor.Door.OutDependentElements.ForEach(x =>
+				{
+					x.InputDependentElements.Remove(SelectedDoor.Door);
+					x.UpdateLogic();
+					x.OnChanged();
+				});
 				SelectedDoor.Door.OnChanged();
 				Doors.Remove(SelectedDoor);
 				index = Math.Min(index, Doors.Count - 1);
@@ -164,6 +176,8 @@ namespace GKModule.ViewModels
 			{
 				SelectedDoor.Update(doorDetailsViewModel.Door);
 				doorDetailsViewModel.Door.OnChanged();
+				doorDetailsViewModel.Door.OutDependentElements.ForEach(x => x.OnChanged());
+				doorDetailsViewModel.Door.InputDependentElements.ForEach(x => x.OnChanged());
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}

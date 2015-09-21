@@ -352,6 +352,7 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(logicViewModel))
 			{
 				Door.OpenRegimeLogic = logicViewModel.GetModel();
+				Door.ChangedLogic();
 				OnPropertyChanged(() => OpenRegimeLogicPresentationName);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
@@ -369,6 +370,7 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(logicViewModel))
 			{
 				Door.NormRegimeLogic = logicViewModel.GetModel();
+				Door.ChangedLogic();
 				OnPropertyChanged(() => NormRegimeLogicPresentationName);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
@@ -386,6 +388,7 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(logicViewModel))
 			{
 				Door.CloseRegimeLogic = logicViewModel.GetModel();
+				Door.ChangedLogic();
 				OnPropertyChanged(() => CloseRegimeLogicPresentationName);
 				ServiceFactory.SaveService.GKChanged = true;
 			}

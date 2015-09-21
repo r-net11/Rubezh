@@ -78,6 +78,7 @@
     <Compile Include="Converters\LibraryXStateClassToIconConverter.cs" />
     <Compile Include="Converters\XStateClassToJournalColorConverter.cs" />
     <Compile Include="Delays\ViewModels\DelayViewModel.cs" />
+    <Compile Include="Delays\ViewModels\ObservableCollection.cs" />
     <Compile Include="Descriptors\Converters\BytesToStringConverter.cs" />
     <Compile Include="Descriptors\Converters\DescriptorNoToStringConverter.cs" />
     <Compile Include="Descriptors\Converters\NullImageConverter.cs" />
@@ -298,6 +299,7 @@
       <DependentUpon>MPTPropertiesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Selectation\ViewModels\AnyZonesSelectionViewModel.cs" />
+    <Compile Include="Selectation\ViewModels\DependencyItem.cs" />
     <Compile Include="Selectation\ViewModels\DeviceGuardZoneViewModel.cs" />
     <Compile Include="Selectation\ViewModels\DirectionsSelectationViewModel.cs" />
     <Compile Include="Devices\Views\ConfigurationCompareView.xaml.cs">

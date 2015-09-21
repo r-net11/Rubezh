@@ -119,6 +119,19 @@ namespace GKModule.ViewModels
 				}
 				var index = MPTs.IndexOf(SelectedMPT);
 				GKManager.DeviceConfiguration.MPTs.Remove(SelectedMPT.MPT);
+				SelectedMPT.MPT.InputDependentElements.ForEach(x =>
+				{
+					x.OutDependentElements.Remove(SelectedMPT.MPT);
+					x.OnChanged();
+				});
+
+				SelectedMPT.MPT.OutDependentElements.ForEach(x =>
+				{
+					x.InputDependentElements.Remove(SelectedMPT.MPT);
+					x.UpdateLogic();
+					x.OnChanged();
+				});
+
 				MPTs.Remove(SelectedMPT);
 				index = Math.Min(index, MPTs.Count - 1);
 				if (index > -1)
@@ -165,6 +178,8 @@ namespace GKModule.ViewModels
 			{
 				SelectedMPT.MPT = mptDetailsViewModel.MPT;
 				SelectedMPT.Update();
+				SelectedMPT.MPT.InputDependentElements.ForEach(x => x.OnChanged());
+				SelectedMPT.MPT.OutDependentElements.ForEach(x => x.OnChanged());
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -191,6 +206,7 @@ namespace GKModule.ViewModels
 			{
 				SelectedMPT.MPT.MptLogic = GKManager.PasteLogic(new GKAdvancedLogic(true, false, true, false, true));
 				SelectedMPT.Update();
+				SelectedMPT.MPT.Invalidate();
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}

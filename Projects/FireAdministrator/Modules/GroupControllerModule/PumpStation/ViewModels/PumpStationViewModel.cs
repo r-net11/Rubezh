@@ -91,6 +91,7 @@ namespace GKModule.ViewModels
 				{
 					PumpStation.NSDeviceUIDs.Add(device.UID);
 					PumpStation.LinkObject(device);
+					PumpStation.Invalidate();
 					device.Logic = new GKLogic();
 				}
 				Update();
@@ -126,6 +127,7 @@ namespace GKModule.ViewModels
 			{
 				PumpStation.StartLogic = logicViewModel.GetModel();
 				OnPropertyChanged(() => StartPresentationName);
+				PumpStation.ChangedLogic();
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -143,6 +145,7 @@ namespace GKModule.ViewModels
 			{
 				PumpStation.StopLogic = logicViewModel.GetModel();
 				OnPropertyChanged(() => StopPresentationName);
+				PumpStation.ChangedLogic();
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -160,6 +163,7 @@ namespace GKModule.ViewModels
 			{
 				PumpStation.AutomaticOffLogic = logicViewModel.GetModel();
 				OnPropertyChanged(() => AutomaticOffPresentationName);
+				PumpStation.ChangedLogic();
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}

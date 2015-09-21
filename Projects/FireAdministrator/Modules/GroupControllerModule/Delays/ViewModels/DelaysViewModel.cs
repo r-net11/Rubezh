@@ -15,6 +15,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
 using KeyboardKey = System.Windows.Input.Key;
+using Infrastructure.Common.Services;
 
 namespace GKModule.ViewModels
 {
@@ -34,6 +35,7 @@ namespace GKModule.ViewModels
 			CopyLogicCommand = new RelayCommand(OnCopyLogic, CanCopyLogic);
 			PasteLogicCommand = new RelayCommand(OnPasteLogic, CanPasteLogic);
 			DeleteAllEmptyCommand = new RelayCommand(OnDeleteAllEmpty, CanDeleteAllEmpty);
+			
 
 			RegisterShortcuts();
 			SetRibbonItems();
@@ -123,6 +125,7 @@ namespace GKModule.ViewModels
 			var logicViewModel = new LogicViewModel(SelectedDelay.Delay, _delayToCopy.Logic, true);
 			delayViewModel.Delay.Logic = logicViewModel.GetModel();
 			delayViewModel.Delay.No = (ushort)(GKManager.Delays.Select(x => x.No).Max() + 1);
+			delayViewModel.Delay.Invalidate();
 			GKManager.Delays.Add(delayViewModel.Delay);
 			Delays.Add(delayViewModel);
 			SelectedDelay = delayViewModel;
@@ -156,6 +159,7 @@ namespace GKModule.ViewModels
 			{
 				SelectedDelay.Delay.Logic = GKManager.PasteLogic(new GKAdvancedLogic(true, false, true, false, true));
 				SelectedDelay.Update();
+				SelectedDelay.Delay.Invalidate();
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -199,6 +203,19 @@ namespace GKModule.ViewModels
 			{
 				var index = Delays.IndexOf(SelectedDelay);
 				GKManager.Delays.Remove(SelectedDelay.Delay);
+				SelectedDelay.Delay.InputDependentElements.ForEach(x => 
+				{
+					x.OutDependentElements.Remove(SelectedDelay.Delay);
+					x.OnChanged();
+				});
+
+				SelectedDelay.Delay.OutDependentElements.ForEach(x =>
+				{
+					x.InputDependentElements.Remove(SelectedDelay.Delay);
+					x.UpdateLogic();
+					x.OnChanged();
+				});
+
 				Delays.Remove(SelectedDelay);
 				index = Math.Min(index, Delays.Count - 1);
 				if (index > -1)
@@ -251,6 +268,8 @@ namespace GKModule.ViewModels
 			{
 				SelectedDelay.Delay = delayDetailsViewModel.Delay;
 				SelectedDelay.Update();
+				SelectedDelay.Delay.InputDependentElements.ForEach(x => x.OnChanged());
+				SelectedDelay.Delay.OutDependentElements.ForEach(x => x.OnChanged());
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}

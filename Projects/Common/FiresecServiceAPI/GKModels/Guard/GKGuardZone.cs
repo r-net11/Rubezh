@@ -5,6 +5,7 @@ using System.Xml.Serialization;
 using Common;
 using FiresecClient;
 using Infrustructure.Plans.Interfaces;
+using System.Linq;
 
 namespace FiresecAPI.GK
 {
@@ -34,6 +35,37 @@ namespace FiresecAPI.GK
 		public override void Update(GKDirection direction)
 		{
 
+		}
+
+		public override void Invalidate()
+		{
+			var guardZoneDevices = new List<GKGuardZoneDevice>();
+			foreach (var guardZoneDevice in GuardZoneDevices)
+			{
+				var device = GKManager.Devices.FirstOrDefault(x => x.UID == guardZoneDevice.DeviceUID);
+				if (device != null)
+				{
+					if (!device.OutDependentElements.Contains(this))
+						device.OutDependentElements.Add(this);
+					if (!InputDependentElements.Contains(device))
+						InputDependentElements.Add(device);
+
+					if (device.DriverType == GKDriverType.RSR2_GuardDetector || device.DriverType == GKDriverType.RSR2_GuardDetectorSound || device.DriverType == GKDriverType.RSR2_AM_1 || device.DriverType == GKDriverType.RSR2_MAP4 || device.DriverType == GKDriverType.RSR2_CodeReader || device.DriverType == GKDriverType.RSR2_CardReader)
+					{
+						guardZoneDevice.Device = device;
+						guardZoneDevices.Add(guardZoneDevice);
+						//device.GuardZones.Add(this);
+					}
+					if (device.DriverType == GKDriverType.RSR2_CodeReader || device.DriverType == GKDriverType.RSR2_CardReader)
+					{
+						GKManager.DeviceConfiguration.InvalidateGKCodeReaderSettingsPart(guardZoneDevice.CodeReaderSettings.SetGuardSettings);
+						GKManager.DeviceConfiguration.InvalidateGKCodeReaderSettingsPart(guardZoneDevice.CodeReaderSettings.ResetGuardSettings);
+						GKManager.DeviceConfiguration.InvalidateGKCodeReaderSettingsPart(guardZoneDevice.CodeReaderSettings.ChangeGuardSettings);
+						GKManager.DeviceConfiguration.InvalidateGKCodeReaderSettingsPart(guardZoneDevice.CodeReaderSettings.AlarmSettings);
+					}
+				}
+			}
+			GuardZoneDevices = guardZoneDevices;
 		}
 
 		bool _isLogicOnKau;

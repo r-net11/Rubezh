@@ -4,6 +4,7 @@ using System.Runtime.Serialization;
 using System.Xml.Serialization;
 using FiresecClient;
 using Infrustructure.Plans.Interfaces;
+using System.Linq;
 
 namespace FiresecAPI.GK
 {
@@ -31,7 +32,7 @@ namespace FiresecAPI.GK
 
 		public override void Update(GKDirection direction)
 		{
-
+			
 		}
 
 		[XmlIgnore]
