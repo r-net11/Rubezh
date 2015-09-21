@@ -118,6 +118,7 @@ namespace JournalModule.ViewModels
 			var videoViewModel = new FilterNameViewModel(JournalSubsystemType.Video);
 			videoViewModel.IsExpanded = true;
 			RootFilters.Add(videoViewModel);
+			AllFilters.Add(videoViewModel);
 
 			foreach (JournalEventNameType enumValue in Enum.GetValues(typeof(JournalEventNameType)))
 			{
