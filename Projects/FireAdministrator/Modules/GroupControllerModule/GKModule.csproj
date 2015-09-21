@@ -78,7 +78,6 @@
     <Compile Include="Converters\LibraryXStateClassToIconConverter.cs" />
     <Compile Include="Converters\XStateClassToJournalColorConverter.cs" />
     <Compile Include="Delays\ViewModels\DelayViewModel.cs" />
-    <Compile Include="Delays\ViewModels\ObservableCollection.cs" />
     <Compile Include="Descriptors\Converters\BytesToStringConverter.cs" />
     <Compile Include="Descriptors\Converters\DescriptorNoToStringConverter.cs" />
     <Compile Include="Descriptors\Converters\NullImageConverter.cs" />

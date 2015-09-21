@@ -4,18 +4,23 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using GKModule.Selectation.ViewModels;
 
 namespace GKModule.ViewModels
 {
 	public class DelayViewModel : BaseViewModel
 	{
 		public GKDelay Delay { get; set; }
-
+		public ObservableCollection<DependencyItemViewModel> DependesItems { get; set; }
 		public DelayViewModel(GKDelay delay)
 		{
 			ShowLogicCommand = new RelayCommand(OnShowLogic);
 			Delay = delay;
 			Delay.Changed += Update;
+			DependesItems = new ObservableCollection<DependencyItemViewModel>();
+
 			Update();
 		}
 
@@ -23,6 +28,13 @@ namespace GKModule.ViewModels
 		{
 			OnPropertyChanged(() => Delay);
 			OnPropertyChanged(() => PresentationLogic);
+			DependesItems.Clear();
+			UpdeteDependesItems();
+		}
+
+		public void UpdeteDependesItems()
+		{
+			Delay.OutDependentElements.ForEach(x => DependesItems.Add(new DependencyItemViewModel(x)));
 		}
 
 		public void Update(GKDelay delay)
@@ -64,6 +76,7 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(logicViewModel))
 			{
 				Delay.Logic = logicViewModel.GetModel();
+				Delay.ChangedLogic();
 				OnPropertyChanged(() => PresentationLogic);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
