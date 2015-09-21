@@ -23,6 +23,7 @@ namespace ResourceAccountingSystem
         public MainWindow()
         {
             InitializeComponent();
-        }
+			DAL.Class1.Test();
+		}
     }
 }
