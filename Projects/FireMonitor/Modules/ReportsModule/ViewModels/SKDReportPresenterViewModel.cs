@@ -7,19 +7,20 @@ using DevExpress.DocumentServices.ServiceModel.Client;
 using DevExpress.Xpf.Printing;
 using FiresecAPI.SKD.ReportFilters;
 using FiresecClient;
-using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.SKDReports;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Events;
 using DialogService = Infrastructure.Common.Windows.DialogService;
 
 namespace ReportsModule.ViewModels
 {
 	public class SKDReportPresenterViewModel : BaseViewModel
 	{
-		private ISKDReportProvider _reportProvider;
+		ISKDReportProvider ReportProvider
+		{
+			get { return SelectedReport is SKDReportViewModel ? ((SKDReportViewModel)SelectedReport).ReportProvider : null; }
+		}
 		private DispatcherTimer _timer;
 		public SKDReportPresenterViewModel()
 		{
@@ -77,6 +78,11 @@ namespace ReportsModule.ViewModels
 						SelectedReport.Reset();
 						OnFitPageSize(ZoomFitMode.WholePage); // SKDDEV-409 пункт 1 - приведение масштаба каждого вновь открытого отчета к исходному размеру (100%)
 					}
+					var provider = ((IFilteredSKDReportProvider)ReportProvider);
+					var model = provider.GetFilterModel();
+					var filterViewModel = new SKDReportFilterViewModel(provider.GetFilter(), model);
+					filterViewModel.UpdateFilter(filterViewModel.Filter);
+					provider.UpdateFilter(filterViewModel.Filter);
 					BuildReport();
 				}
 				CommandManager.InvalidateRequerySuggested();
@@ -127,14 +133,13 @@ namespace ReportsModule.ViewModels
 
 		private void BuildReport()
 		{
-			_reportProvider = SelectedReport is SKDReportViewModel ? ((SKDReportViewModel)SelectedReport).ReportProvider : null;
-			if (_reportProvider != null)
+			if (ReportProvider != null)
 				try
 				{
 					using (new WaitWrapper())
 					{
-						Model.ReportName = _reportProvider.GetType().Name;
-						var filter = _reportProvider is IFilteredSKDReportProvider ? ((IFilteredSKDReportProvider)_reportProvider).GetFilter() : null;
+						Model.ReportName = ReportProvider.GetType().Name;
+						var filter = ReportProvider is IFilteredSKDReportProvider ? ((IFilteredSKDReportProvider)ReportProvider).GetFilter() : null;
 						FilterName = filter == null ? null : filter.Name;
 						if (filter != null)
 							filter.UserUID = FiresecManager.CurrentUser.UID;
@@ -175,7 +180,7 @@ namespace ReportsModule.ViewModels
 		public RelayCommand ChangeFilterCommand { get; private set; }
 		private void OnChangeFilter()
 		{
-			var provider = ((IFilteredSKDReportProvider)_reportProvider);
+			var provider = ((IFilteredSKDReportProvider)ReportProvider);
 			var model = provider.GetFilterModel();
 			var filterViewModel = new SKDReportFilterViewModel(provider.GetFilter(), model);
 			if (DialogService.ShowModalWindow(filterViewModel))
@@ -186,7 +191,7 @@ namespace ReportsModule.ViewModels
 		}
 		private bool CanChangeFilter()
 		{
-			return _reportProvider is IFilteredSKDReportProvider;
+			return ReportProvider is IFilteredSKDReportProvider;
 		}
 
 		public RelayCommand RefreshReportCommand { get; private set; }

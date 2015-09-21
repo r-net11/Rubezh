@@ -80,7 +80,7 @@ namespace SKDModule.Reports.ViewModels
 			{
 				organisation.IsChecked = true;
 			}
-			if (!AllowMultiple && Organisations.Items.Count > 0)
+			if (!AllowMultiple && Organisations.Items.Count > 0 && uids.Count != 1)
 				Organisations.SelectedOrganisation = Organisations.Items.FirstOrDefault();
 		}
 

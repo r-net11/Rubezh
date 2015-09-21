@@ -70,7 +70,7 @@ namespace ReportsModule.ViewModels
 				Pages.ForEach(page => page.LoadFilter(filter));
 			}
 		}
-		void UpdateFilter(SKDReportFilter filter)
+		public void UpdateFilter(SKDReportFilter filter)
 		{
 			if (_model.MainViewModel != null)
 				_model.MainViewModel.UpdateFilter(filter);
