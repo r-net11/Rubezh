@@ -282,6 +282,8 @@ namespace FiresecService.Report.DataSources {
             private global::System.Data.DataColumn columnNumber;
             
             private global::System.Data.DataColumn columnDoor;
+
+			private global::System.Data.DataColumn columnType;
             
             private global::System.Data.DataColumn columnController;
             
@@ -347,6 +349,16 @@ namespace FiresecService.Report.DataSources {
                     return this.columnDoor;
                 }
             }
+
+			[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+			[global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+			public global::System.Data.DataColumn TypeColumn
+			{
+				get
+				{
+					return this.columnType;
+				}
+			}
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
@@ -486,6 +498,7 @@ namespace FiresecService.Report.DataSources {
             internal void InitVars() {
                 this.columnNumber = base.Columns["Number"];
                 this.columnDoor = base.Columns["Door"];
+				this.columnType = base.Columns["Type"];
                 this.columnController = base.Columns["Controller"];
                 this.columnIP = base.Columns["IP"];
                 this.columnEnterReader = base.Columns["EnterReader"];
@@ -503,6 +516,8 @@ namespace FiresecService.Report.DataSources {
                 base.Columns.Add(this.columnNumber);
                 this.columnDoor = new global::System.Data.DataColumn("Door", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnDoor);
+				this.columnType = new global::System.Data.DataColumn("Type", typeof(string), null, global::System.Data.MappingType.Element);
+				base.Columns.Add(this.columnType);
                 this.columnController = new global::System.Data.DataColumn("Controller", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnController);
                 this.columnIP = new global::System.Data.DataColumn("IP", typeof(string), null, global::System.Data.MappingType.Element);
@@ -690,6 +705,27 @@ namespace FiresecService.Report.DataSources {
                     this[this.tableData.DoorColumn] = value;
                 }
             }
+
+			[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+			[global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+			public string Type
+			{
+				get
+				{
+					try
+					{
+						return ((string)(this[this.tableData.TypeColumn]));
+					}
+					catch (global::System.InvalidCastException e)
+					{
+						throw new global::System.Data.StrongTypingException("The value for column \'Type\' in table \'Data\' is DBNull.", e);
+					}
+				}
+				set
+				{
+					this[this.tableData.TypeColumn] = value;
+				}
+			}
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
