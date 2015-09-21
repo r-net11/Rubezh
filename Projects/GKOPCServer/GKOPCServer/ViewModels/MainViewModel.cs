@@ -16,11 +16,6 @@ namespace GKOPCServer.ViewModels
 			RegisterCommand = new RelayCommand(OnRegister);
 		}
 
-		public override int GetPreferedMonitor()
-		{
-			return MonitorHelper.PrimaryMonitor;
-		}
-
 		public void AddLog(string message)
 		{
 			ApplicationService.BeginInvoke(new Action(

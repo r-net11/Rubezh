@@ -38,12 +38,6 @@ namespace Resurs.ViewModels
 				viewModel.Result = startupMessageBoxViewModel.Result;
 			}));
 		}
-		
-
-		public override int GetPreferedMonitor()
-		{
-			return MonitorHelper.PrimaryMonitor;
-		}
 
 		public DevicesViewModel DevicesViewModel { get; private set; }
 		public ApartmentsViewModel ApartmentsViewModel { get; private set; }

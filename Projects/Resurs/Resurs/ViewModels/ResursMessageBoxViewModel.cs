@@ -17,9 +17,5 @@ namespace Resurs.ViewModels
 			Surface.ShowInTaskbar = false;
 			Surface.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 		}
-		public override int GetPreferedMonitor()
-		{
-			return MonitorHelper.FindMonitor(ApplicationService.ApplicationWindow.RestoreBounds);
-		}
 	}
 }
