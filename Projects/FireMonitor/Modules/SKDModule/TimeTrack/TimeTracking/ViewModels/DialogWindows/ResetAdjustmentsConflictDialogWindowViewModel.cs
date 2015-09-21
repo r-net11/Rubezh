@@ -110,6 +110,7 @@ namespace SKDModule.ViewModels
 
 		public ResetAdjustmentsConflictDialogWindowViewModel()
 		{
+			Title = "Конфликт интервалов";
 			RoundIntervalCommand = new RelayCommand(OnRoundingInterval);
 			RemoveIntervalCommand = new RelayCommand(OnRemovingInverval);
 		}

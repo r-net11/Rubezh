@@ -123,6 +123,7 @@
     <Compile Include="AttachedColumnBehavior.cs" />
     <Compile Include="Behaviours\CustomSortBehaviour.cs" />
     <Compile Include="Behaviours\DatePickerCustomWatermark.cs" />
+    <Compile Include="Behaviours\TextBlockAutoToolTipBehaviour.cs" />
     <Compile Include="ButtonSpinner.cs" />
     <Compile Include="Converters\BoolToSelectionModeConverter.cs" />
     <Compile Include="Converters\ConverterHelper.cs" />
@@ -1218,6 +1219,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="XamlImages\download.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\DropAllApb.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
