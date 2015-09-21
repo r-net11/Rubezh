@@ -2,9 +2,9 @@
 using FiresecAPI.Models;
 using FiresecAPI.SKD.ReportFilters;
 using Infrastructure.Common.SKDReports;
-using SKDModule.Reports.ViewModels;
+using GKModule.ViewModels;
 
-namespace SKDModule.Reports.Providers
+namespace GKModule.Reports.Providers
 {
 	public class DoorsReportProvider : FilteredSKDReportProvider<DoorsReportFilter>
 	{

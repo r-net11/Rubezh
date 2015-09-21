@@ -9,22 +9,21 @@ namespace Resurs.ViewModels
 {
 	public class MainViewModel : ApplicationViewModel
 	{
-		public static MainViewModel Current { get; private set; }
 		Dispatcher _dispatcher;
 
 		public MainViewModel()
 		{
-			Current = this;
+			AllowHelp = true;
+			AllowMaximize = true;
+			AllowMinimize = true;
+			ContentFotter = null;
+			Title = "АРМ Ресурс";
+
 			_dispatcher = Dispatcher.CurrentDispatcher;
 			MessageBoxService.SetMessageBoxHandler(MessageBoxHandler);
-			SetTitle();
+
 			DevicesViewModel = new DevicesViewModel();
 			ApartmentsViewModel = new ApartmentsViewModel();
-		}
-
-		void SetTitle()
-		{
-			Title = "АРМ Ресурс";
 		}
 
 		void MessageBoxHandler(MessageBoxViewModel viewModel, bool isModal)
@@ -38,12 +37,6 @@ namespace Resurs.ViewModels
 					DialogService.ShowWindow(startupMessageBoxViewModel);
 				viewModel.Result = startupMessageBoxViewModel.Result;
 			}));
-		}
-		
-
-		public override int GetPreferedMonitor()
-		{
-			return MonitorHelper.PrimaryMonitor;
 		}
 
 		public DevicesViewModel DevicesViewModel { get; private set; }

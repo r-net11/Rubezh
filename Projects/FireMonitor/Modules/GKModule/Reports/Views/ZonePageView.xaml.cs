@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace SKDModule.Reports.Views
+namespace GKModule.Views
 {
 	public partial class ZonePageView : UserControl
 	{

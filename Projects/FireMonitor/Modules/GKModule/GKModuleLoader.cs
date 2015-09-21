@@ -324,6 +324,7 @@ namespace GKModule
 		#region ISKDReportProviderModule Members
 		public IEnumerable<ISKDReportProvider> GetSKDReportProviders()
 		{
+			yield return new DoorsReportProvider();
 			yield return new ReflectionReportProvider();
 		}
 		#endregion

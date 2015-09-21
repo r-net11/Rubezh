@@ -181,13 +181,6 @@ namespace Infrastructure.Common.Windows
 			foreach (Window window in windows)
 				Invoke(() => window.Close());
 		}
-		public static int GetActiveMonitor(bool shellWindow = false)
-		{
-			if (!Application.Current.Dispatcher.CheckAccess())
-				return (int)Application.Current.Dispatcher.Invoke((Func<bool, int>)GetActiveMonitor, shellWindow);
-			var window = shellWindow ? ApplicationWindow : DialogService.GetActiveWindow();
-			return MonitorHelper.FindMonitor(window.RestoreBounds);
-		}
 
 		public static void RegisterModules(List<IModule> modules)
 		{

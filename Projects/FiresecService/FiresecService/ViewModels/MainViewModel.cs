@@ -15,7 +15,7 @@ namespace FiresecService.ViewModels
 		Dispatcher _dispatcher;
 		public ServerTasksViewModel ServerTasksViewModel { get; private set; }
 
-        public LicenseViewModel LicenseViewModel { get; private set; }
+		public LicenseViewModel LicenseViewModel { get; private set; }
 
 		public MainViewModel()
 		{
@@ -26,16 +26,16 @@ namespace FiresecService.ViewModels
 			MessageBoxService.SetMessageBoxHandler(MessageBoxHandler);
 			Logs = new ObservableCollection<LogViewModel>();
 			GKViewModels = new ObservableCollection<GKViewModel>();
-            LicenseViewModel = new LicenseViewModel();
+			LicenseViewModel = new LicenseViewModel();
 			FiresecLicenseManager.LicenseChanged += LicenseHelper_LicenseChanged;
 			SetTitle();
 		}
 
 		void SetTitle()
 		{
-			 Title = FiresecLicenseManager.CurrentLicenseInfo.LicenseMode == LicenseMode.Demonstration ? 
-				"Сервер приложений Глобал [Демонстрационный режим]" : 
-				"Сервер приложений Глобал";
+			Title = FiresecLicenseManager.CurrentLicenseInfo.LicenseMode == LicenseMode.Demonstration ?
+			   "Сервер приложений Глобал [Демонстрационный режим]" :
+			   "Сервер приложений Глобал";
 		}
 
 		void LicenseHelper_LicenseChanged()
@@ -55,7 +55,7 @@ namespace FiresecService.ViewModels
 				viewModel.Result = startupMessageBoxViewModel.Result;
 			}));
 		}
-		
+
 		string _status;
 		string Status
 		{
@@ -65,11 +65,6 @@ namespace FiresecService.ViewModels
 				_status = value;
 				OnPropertyChanged(() => Status);
 			}
-		}
-
-		public override int GetPreferedMonitor()
-		{
-			return MonitorHelper.PrimaryMonitor;
 		}
 
 		#region Clients
@@ -156,7 +151,7 @@ namespace FiresecService.ViewModels
 
 		public static void SetLocalAddress(string address)
 		{
-			if(Current != null)
+			if (Current != null)
 			{
 				Current._dispatcher.BeginInvoke((Action)(() => { Current.LocalAddress = address; }));
 			}
@@ -241,5 +236,5 @@ namespace FiresecService.ViewModels
 			ApplicationMinimizeCommand.ForceExecute();
 			return true;
 		}
-    }
+	}
 }

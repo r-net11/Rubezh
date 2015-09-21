@@ -15,7 +15,7 @@ namespace SKDModule.Reports.ViewModels
 		{
 			Title = "Должности";
 			Filter = new PositionsFilterViewModel();
-			
+
 			OrganisationUIDs = new List<Guid>();
 		}
 
@@ -41,7 +41,7 @@ namespace SKDModule.Reports.ViewModels
 			if (positionFilter != null)
 				positionFilter.Positions = Filter.UIDs;
 		}
-		
+
 		public void InitializeFilter()
 		{
 			Filter.Initialize(_reportFilter == null ? null : _reportFilter.Positions, OrganisationUIDs, IsWithDeleted ? LogicalDeletationType.All : LogicalDeletationType.Active);

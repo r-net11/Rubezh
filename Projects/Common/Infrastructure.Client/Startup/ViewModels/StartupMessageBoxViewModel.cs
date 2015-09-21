@@ -22,12 +22,5 @@ namespace Infrastructure.Client.Startup.ViewModels
 			else
 				base.OnLoad();
 		}
-		public override int GetPreferedMonitor()
-		{
-			if (StartupService.Instance.IsActive)
-				return MonitorHelper.FindMonitor(StartupService.Instance.OwnerWindow.RestoreBounds);
-			else
-				return base.GetPreferedMonitor();
-		}
 	}
 }

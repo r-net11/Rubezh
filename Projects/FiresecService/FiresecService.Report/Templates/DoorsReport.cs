@@ -8,6 +8,7 @@ using FiresecAPI.SKD.ReportFilters;
 using FiresecService.Report.DataSources;
 using FiresecAPI.GK;
 using FiresecClient;
+using FiresecAPI;
 
 namespace FiresecService.Report.Templates
 {
@@ -57,6 +58,7 @@ namespace FiresecService.Report.Templates
 						var dataRow = dataSet.Data.NewDataRow();
 						dataRow.Number = door.No;
 						dataRow.Door = door.Name;
+						dataRow.Type = ((Enum)door.DoorType).ToDescription();
 						dataRow.Comment = door.Description;
 						if (door.EnterDevice != null)
 						{

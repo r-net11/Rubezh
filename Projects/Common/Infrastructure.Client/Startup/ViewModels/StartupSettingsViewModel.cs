@@ -39,10 +39,6 @@ namespace Infrastructure.Client.Startup.ViewModels
 			Surface.ShowInTaskbar = false;
 			Surface.WindowStartupLocation = WindowStartupLocation.CenterOwner;
 		}
-		public override int GetPreferedMonitor()
-		{
-			return MonitorHelper.FindMonitor(StartupService.Instance.OwnerWindow.RestoreBounds);
-		}
 
 		bool _autoConnect;
 		public bool AutoConnect

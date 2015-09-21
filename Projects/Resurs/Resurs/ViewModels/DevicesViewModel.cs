@@ -158,18 +158,21 @@ namespace Resurs.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
-			var selectedDevice = SelectedDevice;
-			var parent = selectedDevice.Parent;
-			if (parent != null)
+			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить устройство?"))
 			{
-				var index = selectedDevice.VisualIndex;
-				parent.Nodes.Remove(selectedDevice);
-				index = Math.Min(index, parent.ChildrenCount - 1);
-				foreach (var childDeviceViewModel in selectedDevice.GetAllChildren(true))
+				var selectedDevice = SelectedDevice;
+				var parent = selectedDevice.Parent;
+				if (parent != null)
 				{
-					AllDevices.Remove(childDeviceViewModel);
+					var index = selectedDevice.VisualIndex;
+					parent.Nodes.Remove(selectedDevice);
+					index = Math.Min(index, parent.ChildrenCount - 1);
+					foreach (var childDeviceViewModel in selectedDevice.GetAllChildren(true))
+					{
+						AllDevices.Remove(childDeviceViewModel);
+					}
+					SelectedDevice = index >= 0 ? parent.GetChildByVisualIndex(index) : parent;
 				}
-				SelectedDevice = index >= 0 ? parent.GetChildByVisualIndex(index) : parent;
 			}
 		}
 		bool CanRemove()
