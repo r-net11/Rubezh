@@ -89,10 +89,6 @@ namespace Infrastructure.Common.Windows.ViewModels
 		public double X { get; set; }
 		public double Y { get; set; }
 
-		public virtual int GetPreferedMonitor()
-		{
-			return ApplicationService.GetActiveMonitor();
-		}
 		public virtual void OnLoad()
 		{
 			Surface.Owner = DialogService.GetActiveWindow();

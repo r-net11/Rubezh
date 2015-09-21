@@ -49,8 +49,11 @@
     <Compile Include="Devices\Parameter.cs" />
     <Compile Include="Devices\ValueConverters\IValueConverter.cs" />
     <Compile Include="Incotex\NetworkControllers\DataLinkLayer\ComPort.cs" />
-    <Compile Include="Incotex\NetworkControllers\Message.cs" />
+    <Compile Include="Incotex\NetworkControllers\Messages\ErrorCode.cs" />
+    <Compile Include="Incotex\NetworkControllers\Messages\Message.cs" />
     <Compile Include="Incotex\NetworkControllers\IncotexNetworkController.cs" />
+    <Compile Include="Incotex\NetworkControllers\Messages\ServiceErrorMessage.cs" />
+    <Compile Include="OSI\Messages\ServiceErrorMessageBase.cs" />
     <Compile Include="Management\IManageable.cs" />
     <Compile Include="Management\Status.cs" />
     <Compile Include="Modbus\CRC16.cs" />
@@ -61,6 +64,8 @@
     <Compile Include="OSI\DataLinkLayer\IDataLinkPort.cs" />
     <Compile Include="OSI\DataLinkLayer\InterfaceType.cs" />
     <Compile Include="OSI\Messages\IMessage.cs" />
+    <Compile Include="OSI\Messages\IServiceErrorMessage.cs" />
+    <Compile Include="OSI\Messages\MessageBase.cs" />
     <Compile Include="OSI\Messages\MessageType.cs" />
     <Compile Include="OSI\Messages\Transactions\EnumTransactionStatus.cs" />
     <Compile Include="OSI\Messages\Transactions\EnumTransactionType.cs" />

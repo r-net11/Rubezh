@@ -9,6 +9,7 @@ using RubezhResurs.OSI.DataLinkLayer;
 using RubezhResurs.OSI.ApplicationLayer;
 using RubezhResurs.OSI.Messages;
 using RubezhResurs.Incotex.NetworkControllers;
+using RubezhResurs.Incotex.NetworkControllers.Messages;
 
 namespace RubezhResurs.Incotex.NetworkControllers.DataLinkLayer
 {
@@ -133,6 +134,8 @@ namespace RubezhResurs.Incotex.NetworkControllers.DataLinkLayer
         private void EventHandler_TimerInterFrameDelay_Elapsed(
             object sender, ElapsedEventArgs e)
         {
+            Message message;
+            ServiceErrorMessage errMessage;
             // Если сработал межкадровый таймер, значит сообщение полностью
             // принято.
             List<Byte> list = new List<byte>();
@@ -147,6 +150,15 @@ namespace RubezhResurs.Incotex.NetworkControllers.DataLinkLayer
             if (list.Count < 7)
             {
                 //TODO: Ошибка. Создать служебное сообщение об ошибке
+                errMessage = new ServiceErrorMessage()
+                {
+                    SpecificErrorCode = ErrorCode.IncorrectMessageLength,
+                    Description = "Неправильная длина сообщения",
+                    ExecutionTime = DateTime.Now
+                };
+                
+                _InputBuffer.Enqueue(errMessage);
+                OnMessageReceived();
             }
             // Проверяем CRC16
             var array = new Byte[list.Count - 2];
@@ -159,7 +171,7 @@ namespace RubezhResurs.Incotex.NetworkControllers.DataLinkLayer
             adr |= ((UInt32)list[1] << 8);
             adr |= list[0];
 
-            var message = new Message(array) 
+            message = new Message(array) 
             { 
                 MessageType = MessageType.IncomingMessage,
                 Address = adr,
@@ -171,7 +183,14 @@ namespace RubezhResurs.Incotex.NetworkControllers.DataLinkLayer
                 (message.CRC16.High != list[list.Count - 1]))
             {
                 // CRC16 не совпал.
-                //TODO: Ошибка. Создать служебное сообщение об ошибке
+                errMessage = new ServiceErrorMessage()
+                {
+                    SpecificErrorCode = ErrorCode.IncorrectCRC,
+                    Description = "Принято сообщение с неверной контрольной суммой",
+                    ExecutionTime = DateTime.Now
+                };
+                _InputBuffer.Enqueue(errMessage);
+                OnMessageReceived();
             }
             else
             {
@@ -188,8 +207,34 @@ namespace RubezhResurs.Incotex.NetworkControllers.DataLinkLayer
         private void EventHandler_SerialPort_ErrorReceived(
             object sender, SerialErrorReceivedEventArgs e)
         {
-            //TODO: Ошибка. Создать служебное сообщение об ошибке
-            throw new NotImplementedException();
+            //Ошибка. Создать служебное сообщение об ошибке
+            ErrorCode code;
+
+            switch (e.EventType)
+            {
+                case SerialError.Frame:
+                    { code = ErrorCode.ErrorSerialPortFrame; break; }
+                case SerialError.Overrun:
+                    { code = ErrorCode.ErrorSerialPortOverrun; break; }
+                case SerialError.RXOver:
+                    { code = ErrorCode.ErrorSerialPortRXOver; break; }
+                case SerialError.RXParity:
+                    { code = ErrorCode.ErrorSerialPortRXParity; break; }
+                case SerialError.TXFull:
+                    { code = ErrorCode.ErrorSerialPortTXFull; break; }
+                default:
+                    { code = ErrorCode.UnknownError; break; }
+            }
+
+            var errMessage = new ServiceErrorMessage()
+            {
+                SpecificErrorCode = ErrorCode.ErrorSerialPortFrame,
+                Description = "Ошибка COM-порта",
+                ExecutionTime = DateTime.Now
+            };
+
+            _InputBuffer.Enqueue(errMessage);
+            OnMessageReceived();
         }
         /// <summary>
         /// Обработчик события получения данных из сети

@@ -72,7 +72,17 @@
     <div class="icon delete"></div>
 </div>
 
-`<div id="HR" data-bind="with: HR">
+<select id="SelectPersonType" data-bind="visible:HR.hrPages.Employees">
+    
+	<option value="Employee">Сотрудник</option>
+    
+	<option value="Guest">Посетитель</option>
+
+</select>
+
+
+
+<div id="HR" data-bind="with: HR">
     <ul class="tab">
         <li class="active"><a href="" data-bind="click: function(data,event) { HrPageClick(data, event, 'Employees'); }"><span>Сотрудники</span></a></li>
         <li><a href="" data-bind="click: function(data,event) { HrPageClick(data, event, 'Departments'); }"><span>Подразделения</span></a></li>

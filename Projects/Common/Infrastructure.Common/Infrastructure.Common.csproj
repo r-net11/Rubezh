@@ -182,7 +182,6 @@
     <Compile Include="SKDReports\SKDReportGroup.cs" />
     <Compile Include="SKDReports\SKDReportProvider.cs" />
     <Compile Include="Validation\PlanObjectValidationError.cs" />
-    <Compile Include="Windows\MonitorHelper.cs" />
     <Compile Include="Windows\ViewModels\BaseObjectViewModel.cs" />
     <Compile Include="Windows\ViewModels\DateSelectionViewModel.cs" />
     <Compile Include="Windows\ViewModels\IEditingBaseViewModel.cs" />

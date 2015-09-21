@@ -12,7 +12,7 @@ namespace SKDModule.Reports.ViewModels
 		public TreeNodeItemViewModel(SKDIsDeletedModel item, bool canCheck)
 		{
 			Item = item;
-			CanCheck = canCheck; 
+			CanCheck = canCheck;
 		}
 
 		public SKDIsDeletedModel Item { get; private set; }
