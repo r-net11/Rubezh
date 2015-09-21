@@ -31,11 +31,9 @@ namespace FireMonitor.Layout.ViewModels
 			ApplicationService.BeginInvoke(() =>
 			{
 				if (data.IsModalWindow)
-					//DialogService.ShowModalWindow(windowViewModel, data.CustomPosition, data.Left, data.Top);
 					DialogService.ShowModalWindow(windowViewModel);
 				else
-					//DialogService.ShowWindow(windowViewModel, data.CustomPosition, data.Left, data.Top);
-					DialogService.ShowWindow(windowViewModel, data.CustomPosition);
+					DialogService.ShowWindow(windowViewModel);
 
 			});
 		}

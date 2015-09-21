@@ -180,7 +180,7 @@ namespace Infrastructure.Common.Windows.Views
 					if (!double.IsNaN(control.Width))
 						control.Width = double.NaN;
 
-					if (_model.Surface.WindowStartupLocation != WindowStartupLocation.Manual)
+					if (WindowStartupLocation != WindowStartupLocation.Manual)
 					{
 						Left += (oldWidth - ActualWidth) / 2;
 						Top += (oldHeight - ActualHeight) / 2;

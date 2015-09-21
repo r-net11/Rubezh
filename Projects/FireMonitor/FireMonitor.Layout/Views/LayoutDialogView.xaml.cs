@@ -37,6 +37,7 @@ namespace FireMonitor.Layout.Views
 			{
 				if (layoutDialogViewModel.Data.CustomPosition)
 				{
+					layoutDialogViewModel.Surface.WindowStartupLocation = WindowStartupLocation.Manual;
 					layoutDialogViewModel.Surface.Left = layoutDialogViewModel.Data.Left;
 					layoutDialogViewModel.Surface.Top = layoutDialogViewModel.Data.Top;
 				}
