@@ -23,17 +23,14 @@ namespace FireMonitor.Layout.ViewModels
 				Width = data.Width,
 				Height = data.Height,
 				MinWidth = data.MinWidth,
-				MinHeight = data.MinHeight,
-				CustomPosition = data.CustomPosition,
-				X = data.X,
-				Y = data.Y
+				MinHeight = data.MinHeight
 			};
 			ApplicationService.BeginInvoke(() =>
 			{
 				if (data.IsModalWindow)
-					DialogService.ShowModalWindow(windowViewModel);
+					DialogService.ShowModalWindow(windowViewModel, data.CustomPosition, data.Left, data.Top);
 				else
-					DialogService.ShowWindow(windowViewModel);
+					DialogService.ShowWindow(windowViewModel, data.CustomPosition, data.Left, data.Top);
 			});
 		}
 

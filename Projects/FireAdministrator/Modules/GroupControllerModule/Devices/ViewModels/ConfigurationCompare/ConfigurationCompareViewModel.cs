@@ -22,16 +22,18 @@ namespace GKModule.ViewModels
 		public ObjectsListViewModel RemoteObjectsViewModel { get; set; }
 		internal static bool ConfigFromFile { get; private set; }
 		public string Error { get; private set; }
+		public bool CanChangeOrReplace { get; private set; }
 
-		public ConfigurationCompareViewModel(GKDeviceConfiguration localConfiguration, GKDeviceConfiguration remoteConfiguration, GKDevice device, bool configFromFile, string configFileName = "")
+		public ConfigurationCompareViewModel(GKDeviceConfiguration localConfiguration, GKDeviceConfiguration remoteConfiguration, GKDevice device, string configFileName = "")
 		{
 			Title = "Сравнение конфигураций " + device.PresentationName;
-			ConfigFromFile = configFromFile;
-			ChangeCommand = new RelayCommand(OnChange, CanChange);
-			ReplaceCommand = new RelayCommand(OnReplaice, CanReplace);
-			ConfigFileName = configFileName;
+			ChangeCommand = new RelayCommand(OnChange);
+			ReplaceCommand = new RelayCommand(OnReplace);
 			NextDifferenceCommand = new RelayCommand(OnNextDifference, CanNextDifference);
 			PreviousDifferenceCommand = new RelayCommand(OnPreviousDifference, CanPreviousDifference);
+
+			ConfigFileName = configFileName;
+			ConfigFromFile = CanChangeOrReplace = !string.IsNullOrEmpty(configFileName);
 
 			LocalConfiguration = localConfiguration;
 			RemoteConfiguration = remoteConfiguration;
@@ -121,21 +123,11 @@ namespace GKModule.ViewModels
 			Close(true);
 		}
 
-		bool CanChange()
-		{
-			return ConfigFromFile;
-		}
-
 		public RelayCommand ReplaceCommand { get; private set; }
-		void OnReplaice()
+		void OnReplace()
 		{
 			ServiceFactory.Events.GetEvent<LoadFromFileEvent>().Publish(ConfigFileName);
 			Close(true);
-		}
-
-		bool CanReplace()
-		{
-			return !String.IsNullOrEmpty(ConfigFileName);
 		}
 
 		public void CompareObjectLists()
