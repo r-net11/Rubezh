@@ -102,7 +102,8 @@ namespace ControllerSDK.ViewModels
 				DoorStatus.Error,
 				DoorStatus.Unknown,
 				DoorStatus.Opened,
-				DoorStatus.Closed
+				DoorStatus.Closed,
+				DoorStatus.Break
 			};
 		}
 
@@ -113,6 +114,7 @@ namespace ControllerSDK.ViewModels
 		Error = -1,
 		Unknown = 0,
 		Opened = 1,
-		Closed = 2
+		Closed = 2,
+		Break = 3
 	}
 }
