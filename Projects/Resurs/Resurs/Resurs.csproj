@@ -173,11 +173,13 @@
     <Compile Include="Processor\DeviceProcessor.cs" />
     <Compile Include="ViewModels\ApartmentDetailsViewModel.cs" />
     <Compile Include="ViewModels\ApartmentsViewModel.cs" />
+    <Compile Include="ViewModels\Comparers.cs" />
     <Compile Include="ViewModels\DeviceDetailsViewModel.cs" />
     <Compile Include="ViewModels\DevicesViewModel.cs" />
     <Compile Include="ViewModels\ApartmentViewModel.cs" />
     <Compile Include="ViewModels\DeviceViewModel.cs" />
     <Compile Include="ViewModels\DriverTypesViewModel.cs" />
+    <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\NotifyIconService.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="Views\ApartmentDetailsView.xaml.cs">
@@ -331,7 +333,9 @@
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Converters\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
