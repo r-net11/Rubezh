@@ -10,6 +10,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.BalloonTrayTip;
 using Infrastructure.Common.Windows;
 using FiresecAPI;
+using Infrastructure.Common.Theme;
 
 namespace Resurs
 {
@@ -21,8 +22,8 @@ namespace Resurs
 		{
 			try
 			{
+				ThemeHelper.LoadThemeFromRegister();
 				Environment.CurrentDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-				Logger.Trace(SystemInfo.GetString());
 				var resourceService = new ResourceService();
 				resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml"));
 				resourceService.AddResource(new ResourceDescription(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml"));

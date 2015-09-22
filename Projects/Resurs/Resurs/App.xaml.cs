@@ -6,6 +6,9 @@ using Resurs;
 using Infrastructure.Common;
 using Infrastructure.Common.BalloonTrayTip;
 using Infrastructure.Common.Theme;
+using System.Threading;
+using Infrastructure.Common.Windows;
+using Resurs.Processor;
 
 namespace ResursRunner
 {
@@ -13,19 +16,22 @@ namespace ResursRunner
 	{
 		private const string SignalId = "8DC89238-5FD3-4631-8D50-96B4FF7AA7DC";
 		private const string WaitId = "0769AC75-8AF6-40DE-ABDA-83C1E3C7ABFF";
+		DeviceProcessor DeviceProcessor;
 
 		protected override void OnStartup(StartupEventArgs e)
 		{
 			base.OnStartup(e);
-			ThemeHelper.LoadThemeFromRegister();
 			ServerLoadHelper.SetLocation(System.Reflection.Assembly.GetExecutingAssembly().Location);
 
-			using (new DoubleLaunchLocker(SignalId, WaitId, true))
+			DeviceProcessor = new DeviceProcessor();
+
+			using (new DoubleLaunchLocker(SignalId, WaitId, true, OnShuttingDown))
 			{
 				AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 				try
 				{
 					Bootstrapper.Run();
+					DeviceProcessor.Start();
 				}
 				catch (Exception ex)
 				{
@@ -34,6 +40,11 @@ namespace ResursRunner
 					return;
 				}
 			}
+		}
+
+		void OnShuttingDown()
+		{
+			DeviceProcessor.Stop();
 		}
 
 		protected override void OnExit(ExitEventArgs e)

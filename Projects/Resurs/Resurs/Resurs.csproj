@@ -170,6 +170,7 @@
     </Compile>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Processor\DBCash.cs" />
+    <Compile Include="Processor\DeviceProcessor.cs" />
     <Compile Include="ViewModels\ApartmentDetailsViewModel.cs" />
     <Compile Include="ViewModels\ApartmentsViewModel.cs" />
     <Compile Include="ViewModels\DeviceDetailsViewModel.cs" />

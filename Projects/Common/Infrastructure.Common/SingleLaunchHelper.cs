@@ -71,50 +71,51 @@ namespace Infrastructure.Common
 
 	public class DoubleLaunchLocker : IDisposable
 	{
-		private const int TIMEOUT = 3000;
 		public string SignalId { get; private set; }
 		public string WaitId { get; private set; }
+		const int TIMEOUT = 3000;
 
-		private EventWaitHandle _signalHandler;
-		private EventWaitHandle _waitHandler;
-		private bool _force = false;
+		EventWaitHandle _signalHandler;
+		EventWaitHandle _waitHandler;
+		bool _force = false;
+		Action ShuttingDown;
 
-		public DoubleLaunchLocker(string signalId, string waitId, bool force = false, bool isEnable = true)
+
+		public DoubleLaunchLocker(string signalId, string waitId, bool force = false, Action shuttingDown = null)
 		{
-			if (isEnable)
+			SignalId = signalId;
+			WaitId = waitId;
+			_force = force;
+			ShuttingDown = shuttingDown;
+
+			bool isNew;
+			_signalHandler = new EventWaitHandle(false, EventResetMode.AutoReset, signalId, out isNew);
+			if (!isNew)
 			{
-				_force = force;
-				SignalId = signalId;
-				WaitId = waitId;
-				bool isNew;
-				_signalHandler = new EventWaitHandle(false, EventResetMode.AutoReset, signalId, out isNew);
-				if (!isNew)
+				Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+				bool terminate = false;
+				if (!force && !RequestConfirmation())
+					terminate = true;
+				if (!terminate)
 				{
-					Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
-					bool terminate = false;
-					if (!force && !RequestConfirmation())
-						terminate = true;
-					if (!terminate)
+					_waitHandler = new EventWaitHandle(false, EventResetMode.AutoReset, waitId);
+					_signalHandler.Dispose();
+					_signalHandler = new EventWaitHandle(false, EventResetMode.ManualReset, signalId, out isNew);
+					if (!isNew)
 					{
-						_waitHandler = new EventWaitHandle(false, EventResetMode.AutoReset, waitId);
-						_signalHandler.Dispose();
-						_signalHandler = new EventWaitHandle(false, EventResetMode.ManualReset, signalId, out isNew);
-						if (!isNew)
-						{
-							_signalHandler.Set();
-							terminate = !_waitHandler.WaitOne(TIMEOUT);
-						}
+						_signalHandler.Set();
+						terminate = !_waitHandler.WaitOne(TIMEOUT);
 					}
-					if (terminate)
-					{
-						TryShutdown();
-						ForceShutdown();
-					}
-					else
-						Application.Current.ShutdownMode = ShutdownMode.OnLastWindowClose;
 				}
-				ThreadPool.QueueUserWorkItem(WaitingHandler, waitId);
+				if (terminate)
+				{
+					TryShutdown();
+					ForceShutdown();
+				}
+				else
+					Application.Current.ShutdownMode = ShutdownMode.OnLastWindowClose;
 			}
+			ThreadPool.QueueUserWorkItem(WaitingHandler, waitId);
 		}
 		private bool RequestConfirmation()
 		{
@@ -141,10 +142,13 @@ namespace Infrastructure.Common
 		}
 		private void TryShutdown()
 		{
+			if (ShuttingDown != null)
+				ShuttingDown();
+
 			if (!_force && Application.Current != null)
 			{
 				Application.Current.Dispatcher.InvokeShutdown();
-				//ApplicationService.DoEvents();
+				ApplicationService.DoEvents();
 			}
 		}
 		private void ForceShutdown()
