@@ -244,8 +244,8 @@ namespace SKDDriver.Translators
 			var linkedIntervals = Context.PassJournals.Where(x => x.EmployeeUID == employee.UID && x.UID != dayTimeTrackPart.UID)
 				.Where(
 					x =>
-						dayTimeTrackPart.ExitDateTime >= x.EnterTime
-						&& dayTimeTrackPart.EnterDateTime <= x.ExitTime).ToList();
+						dayTimeTrackPart.ExitDateTime > x.EnterTime
+						&& dayTimeTrackPart.EnterDateTime < x.ExitTime).ToList();
 
 			if(linkedIntervals.Any()) return new OperationResult("Данный интервал является пересекающимся");
 

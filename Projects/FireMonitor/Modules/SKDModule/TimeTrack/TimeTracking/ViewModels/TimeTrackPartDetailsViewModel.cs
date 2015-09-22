@@ -204,8 +204,8 @@ namespace SKDModule.ViewModels
 			var linkedIntervals = timeTrackDetailsViewModel.DayTimeTrackParts
 				.Where(x => x.UID != CurrentTimeTrackPart.UID)
 				.Where(x =>
-						CurrentTimeTrackPart.ExitDateTime >= x.EnterDateTime
-						&& CurrentTimeTrackPart.EnterDateTime <= x.ExitDateTime);
+						CurrentTimeTrackPart.ExitDateTime > x.EnterDateTime
+						&& CurrentTimeTrackPart.EnterDateTime < x.ExitDateTime);
 
 			return linkedIntervals.ToList();
 		}
