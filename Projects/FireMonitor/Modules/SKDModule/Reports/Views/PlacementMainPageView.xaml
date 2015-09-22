@@ -13,15 +13,13 @@
 		<CheckBox Grid.Row="0" Grid.Column="1" Margin="2" VerticalAlignment="Center" IsChecked="{Binding UseCurrentDate}" HorizontalAlignment="Left"/>
 		<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{DynamicResource TextBlockDetailsStyle}" IsEnabled="{Binding UseCurrentDate, Converter={StaticResource InverseBooleanConverter}}" Text="Дата и время" />
 		<!--<loya:Dameer Grid.Row="1" Grid.Column="1" Width="240" Margin="2,6,2,6" HorizontalAlignment="Left" CustomFormat="dd MMMM yyyy HH:mm:ss" Format="Custom" IsEnabled="{Binding UseCurrentDate, Converter={StaticResource InverseBooleanConverter}}" ShowCheckBox="False" Value="{Binding ReportDateTime}" />-->
-		<DatePicker
-			Grid.Row="1"
-			Grid.Column="1" 
-			HorizontalAlignment="Left"
-			VerticalAlignment="Top" 
-			Width="150" 
-			Focusable="False"
-			IsEnabled="{Binding UseCurrentDate, Converter={StaticResource InverseBooleanConverter}}"
-			SelectedDate="{Binding ReportDateTime}" 
-			Margin="2" />
+		<StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" IsEnabled="{Binding UseCurrentDate, Converter={StaticResource InverseBooleanConverter}}" >
+			<DatePicker
+				Width="150" 
+				Focusable="False"
+				SelectedDate="{Binding Date}" 
+				Margin="2" />
+			<TimePicker TimeSpan="{Binding Time, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+		</StackPanel>
 	</Grid>
 </UserControl>
