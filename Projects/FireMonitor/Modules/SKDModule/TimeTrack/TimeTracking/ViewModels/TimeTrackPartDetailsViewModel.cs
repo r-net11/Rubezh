@@ -80,6 +80,19 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		private bool _isNew;
+
+		public bool IsNew
+		{
+			get { return _isNew; }
+			set
+			{
+				if (_isNew == value) return;
+				_isNew = value;
+				OnPropertyChanged(() => IsNew);
+			}
+		}
+
 		#endregion
 
 		#region Constructors
@@ -99,6 +112,7 @@ namespace SKDModule.ViewModels
 				CurrentTimeTrackPart.EnterTime = inputTimeTrackPart.EnterTime;
 				CurrentTimeTrackPart.ExitTime = inputTimeTrackPart.ExitTime;
 				NotTakeInCalculations = inputTimeTrackPart.NotTakeInCalculations;
+				CurrentTimeTrackPart.TimeTrackZone = inputTimeTrackPart.TimeTrackZone;
 				Title = "Редактировать проход";
 			}
 			else
@@ -112,9 +126,8 @@ namespace SKDModule.ViewModels
 				};
 
 				Title = "Добавить проход";
+				IsNew = true;
 			}
-
-			SelectedZone = Zones.FirstOrDefault();
 		}
 		#endregion
 

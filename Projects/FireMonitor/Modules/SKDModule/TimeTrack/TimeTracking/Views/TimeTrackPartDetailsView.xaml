@@ -49,6 +49,7 @@
 				CanUserResizeColumns="True"
 				CanUserSortColumns="True"
 				Focusable="True"
+				IsEnabled="{Binding IsNew}"
 				ItemsSource="{Binding Source={StaticResource cvsZones}}"
 				SelectedItem="{Binding SelectedZone, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 				<DataGrid.Columns>

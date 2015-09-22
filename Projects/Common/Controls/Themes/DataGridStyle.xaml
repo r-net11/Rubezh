@@ -1,4 +1,8 @@
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:dg="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero" xmlns:local="clr-namespace:Controls">
+﻿<ResourceDictionary 
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:dg="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero"
+	xmlns:local="clr-namespace:Controls">
 
 	<ResourceDictionary.MergedDictionaries>
 		<ResourceDictionary Source="ScrollBarStyle.xaml" />
@@ -105,12 +109,34 @@
 			<Setter.Value>
 				<ControlTemplate TargetType="{x:Type DataGrid}">
 					<Grid>
-						<Border Name="mask" Margin="1" Background="DarkGray" BorderThickness="0" CornerRadius="5" />
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="CommonStates">
+								<VisualState x:Name="Normal"/>
+								<VisualState x:Name="Disabled">
+									<Storyboard>
+										<DoubleAnimation Storyboard.TargetName="DisabledVisualElement" Storyboard.TargetProperty="Opacity" Duration="0" To="1"/>
+									</Storyboard>
+								</VisualState>
+							</VisualStateGroup>
+					</VisualStateManager.VisualStateGroups>
+						<Border 
+							x:Name="mask" 
+							Margin="1" 
+							Background="DarkGray"
+							BorderThickness="0"
+							CornerRadius="5" />
 						<Grid x:Name="borderGrid">
 							<Grid.OpacityMask>
 								<VisualBrush Visual="{Binding Source={x:Reference mask}}" />
 							</Grid.OpacityMask>
-							<Border Width="{Binding ElementName=borderGrid, Path=ActualWidth}" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="True">
+							<Border 
+								x:Name="OuterBorder"
+								Width="{Binding ElementName=borderGrid, Path=ActualWidth}" 
+								Background="{TemplateBinding Background}" 
+								BorderBrush="{TemplateBinding BorderBrush}" 
+								BorderThickness="{TemplateBinding BorderThickness}" 
+								Padding="{TemplateBinding Padding}" 
+								SnapsToDevicePixels="True">
 								<ScrollViewer Name="DG_ScrollViewer" Focusable="false" Style="{StaticResource FavsScrollViewer}">
 									<ScrollViewer.Template>
 										<ControlTemplate TargetType="{x:Type ScrollViewer}">
@@ -125,16 +151,41 @@
 													<ColumnDefinition Width="*" />
 													<ColumnDefinition Width="Auto" />
 												</Grid.ColumnDefinitions>
-												<DataGridColumnHeadersPresenter Name="PART_ColumnHeadersPresenter" Grid.Column="1" Grid.ColumnSpan="2" Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=HeadersVisibility, Converter={x:Static DataGrid.HeadersVisibilityConverter}, ConverterParameter={x:Static DataGridHeadersVisibility.Column}}" />
-												<Rectangle Grid.Column="2" Fill="{Binding Path=(local:DataGridProperties.HeaderBrush), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}" />
-												<ScrollContentPresenter x:Name="PART_ScrollContentPresenter" Grid.Row="1" Grid.ColumnSpan="2" CanContentScroll="{TemplateBinding CanContentScroll}" />
-												<ScrollBar Name="PART_VerticalScrollBar" Grid.Row="1" Grid.Column="2" Maximum="{TemplateBinding ScrollableHeight}" Orientation="Vertical" ViewportSize="{TemplateBinding ViewportHeight}" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" Value="{Binding Path=VerticalOffset, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
+												<DataGridColumnHeadersPresenter 
+													x:Name="PART_ColumnHeadersPresenter" 
+													Grid.Column="1" 
+													Grid.ColumnSpan="2" 
+													Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=HeadersVisibility, Converter={x:Static DataGrid.HeadersVisibilityConverter}, ConverterParameter={x:Static DataGridHeadersVisibility.Column}}" />
+												<Rectangle 
+													Grid.Column="2" 
+													Fill="{Binding Path=(local:DataGridProperties.HeaderBrush), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}" />
+												<ScrollContentPresenter 
+													x:Name="PART_ScrollContentPresenter"
+													Grid.Row="1" 
+													Grid.ColumnSpan="2" 
+													CanContentScroll="{TemplateBinding CanContentScroll}" />
+												<ScrollBar 
+													x:Name="PART_VerticalScrollBar" 
+													Grid.Row="1" 
+													Grid.Column="2" 
+													Maximum="{TemplateBinding ScrollableHeight}" 
+													Orientation="Vertical" 
+													ViewportSize="{TemplateBinding ViewportHeight}"
+													Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" 
+													Value="{Binding Path=VerticalOffset, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
 												<Grid Grid.Row="2" Grid.Column="1">
 													<Grid.ColumnDefinitions>
 														<ColumnDefinition Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=NonFrozenColumnsViewportHorizontalOffset}" />
 														<ColumnDefinition Width="*" />
 													</Grid.ColumnDefinitions>
-													<ScrollBar Name="PART_HorizontalScrollBar" Grid.Column="1" Maximum="{TemplateBinding ScrollableWidth}" Orientation="Horizontal" ViewportSize="{TemplateBinding ViewportWidth}" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" Value="{Binding Path=HorizontalOffset, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
+													<ScrollBar 
+														x:Name="PART_HorizontalScrollBar"
+														Grid.Column="1" 
+														Maximum="{TemplateBinding ScrollableWidth}" 
+														Orientation="Horizontal" 
+														ViewportSize="{TemplateBinding ViewportWidth}" 
+														Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" 
+														Value="{Binding Path=HorizontalOffset, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
 												</Grid>
 											</Grid>
 										</ControlTemplate>
@@ -143,6 +194,7 @@
 								</ScrollViewer>
 							</Border>
 						</Grid>
+						<Border x:Name="DisabledVisualElement" IsHitTestVisible="False" Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" CornerRadius="2" Background="#8CFFFFFF" Opacity="0"/>
 					</Grid>
 				</ControlTemplate>
 			</Setter.Value>
@@ -229,9 +281,9 @@
 		<Setter Property="ContextMenu">
 			<Setter.Value>
 				<ContextMenu OverridesDefaultStyle="True">
-					<local:IconedMenuItem Command="{Binding AddCommand}" ImageSource="BAdd"  Text="Добавить (Ctrl+N)" />
-					<local:IconedMenuItem Command="{Binding DeleteCommand}" ImageSource="BDelete"  Text="Удалить (Ctrl+Del)" />
-					<local:IconedMenuItem Command="{Binding EditCommand}" ImageSource="BEdit"  Text="Редактировать (Ctrl+E)" />
+					<local:IconedMenuItem Command="{Binding AddCommand}" ImageSource="BAdd"  Text="Р”РѕР±Р°РІРёС‚СЊ (Ctrl+N)" />
+					<local:IconedMenuItem Command="{Binding DeleteCommand}" ImageSource="BDelete"  Text="РЈРґР°Р»РёС‚СЊ (Ctrl+Del)" />
+					<local:IconedMenuItem Command="{Binding EditCommand}" ImageSource="BEdit"  Text="Р РµРґР°РєС‚РёСЂРѕРІР°С‚СЊ (Ctrl+E)" />
 				</ContextMenu>
 			</Setter.Value>
 		</Setter>
