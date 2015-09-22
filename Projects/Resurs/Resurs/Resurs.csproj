@@ -171,6 +171,9 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Processor\DBCash.cs" />
     <Compile Include="Processor\DeviceProcessor.cs" />
+    <Compile Include="Processor\LoginService.cs" />
+    <Compile Include="Processor\ResursSettings.cs" />
+    <Compile Include="Processor\SettingsManager.cs" />
     <Compile Include="ViewModels\ApartmentDetailsViewModel.cs" />
     <Compile Include="ViewModels\ApartmentsViewModel.cs" />
     <Compile Include="ViewModels\Comparers.cs" />
@@ -182,6 +185,9 @@
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\NotifyIconService.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\StartupHeaderViewModel.cs" />
+    <Compile Include="ViewModels\StartupSettingsViewModel.cs" />
+    <Compile Include="ViewModels\StartupViewModel.cs" />
     <Compile Include="Views\ApartmentDetailsView.xaml.cs">
       <DependentUpon>ApartmentDetailsView.xaml</DependentUpon>
     </Compile>
@@ -199,6 +205,15 @@
     </Compile>
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\StartupHeaderView.xaml.cs">
+      <DependentUpon>StartupHeaderView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\StartupSettingsView.xaml.cs">
+      <DependentUpon>StartupSettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\StartupView.xaml.cs">
+      <DependentUpon>StartupView.xaml</DependentUpon>
     </Compile>
     <Page Include="DataTemplates\Dictionary.xaml">
       <SubType>Designer</SubType>
@@ -229,6 +244,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MainView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\StartupHeaderView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\StartupSettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\StartupView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -11,6 +11,7 @@ using Infrastructure.Common.BalloonTrayTip;
 using Infrastructure.Common.Windows;
 using FiresecAPI;
 using Infrastructure.Common.Theme;
+using System.Windows.Forms;
 
 namespace Resurs
 {
@@ -30,6 +31,10 @@ namespace Resurs
 
 				try
 				{
+					//var startupViewModel = new StartupViewModel();
+					//if (!DialogService.ShowModalWindow(startupViewModel))
+					//	return;
+
 					var mainView = new Resurs.Views.MainView();
 					var mainViewModel = new MainViewModel();
 					mainView.DataContext = mainViewModel;
@@ -41,7 +46,6 @@ namespace Resurs
 				catch (Exception e)
 				{
 					Logger.Error(e, "Исключение при вызове Bootstrapper.OnWorkThread");
-
 					BalloonHelper.Show("АРМ Ресурс", "Ошибка во время загрузки");
 				}
 			}

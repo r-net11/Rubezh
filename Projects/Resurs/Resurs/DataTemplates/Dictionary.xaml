@@ -19,4 +19,16 @@
 		<Views:ApartmentDetailsView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:StartupViewModel}">
+		<Views:StartupView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:StartupHeaderViewModel}">
+		<Views:StartupHeaderView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:StartupSettingsViewModel}">
+		<Views:StartupSettingsView />
+	</DataTemplate>
+
 </ResourceDictionary>
