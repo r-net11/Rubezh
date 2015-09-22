@@ -26,6 +26,7 @@ using Infrastructure.Events;
 using Infrastructure.Models;
 using Infrustructure.Plans.Events;
 using Microsoft.Practices.Prism.Events;
+using Infrastructure.Automation;
 
 namespace AutomationModule
 {
@@ -100,7 +101,7 @@ namespace AutomationModule
 					break;
 				case AutomationCallbackType.Message:
 					var messageArguments = (MessageCallbackData)automationCallbackResult.Data;
-					var message = ProcedureHelper.GetStringValue(messageArguments.Message);
+					var message = AutomationHelper.GetStringValue(messageArguments.Message);
 					ApplicationService.Invoke(() =>
 					{
 						if (messageArguments.WithConfirmation)

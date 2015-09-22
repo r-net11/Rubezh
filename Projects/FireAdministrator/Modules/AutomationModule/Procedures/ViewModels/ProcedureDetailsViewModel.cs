@@ -2,6 +2,7 @@
 using FiresecAPI.Automation;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Automation;
 
 namespace AutomationModule.ViewModels
 {
@@ -28,7 +29,7 @@ namespace AutomationModule.ViewModels
 			IsSync = Procedure.IsSync;
 			TimeOut = Procedure.TimeOut;
 			SelectedTimeType = Procedure.TimeType;
-			TimeTypes = ProcedureHelper.GetEnumObs<TimeType>();
+			TimeTypes = AutomationHelper.GetEnumObs<TimeType>();
 		}
 
 		string _name;

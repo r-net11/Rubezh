@@ -1,6 +1,7 @@
 ﻿using FiresecAPI.Automation;
 using System.Collections.ObjectModel;
 using FiresecAPI;
+using Infrastructure.Automation;
 
 namespace AutomationModule.ViewModels
 {
@@ -12,7 +13,7 @@ namespace AutomationModule.ViewModels
 		public PauseStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			PauseArguments = stepViewModel.Step.PauseArguments;
-			TimeTypes = ProcedureHelper.GetEnumObs<TimeType>();
+			TimeTypes = AutomationHelper.GetEnumObs<TimeType>();
 			PauseArgument = new ArgumentViewModel(PauseArguments.PauseArgument, stepViewModel.Update, null);
 			PauseArgument.ExplicitValue.MinIntValue = 0;
 		}

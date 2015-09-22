@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using FiresecAPI.Automation;
 using FiresecAPI;
+using Infrastructure.Automation;
 
 namespace AutomationModule.ViewModels
 {
@@ -14,7 +15,7 @@ namespace AutomationModule.ViewModels
 		{
 			GetObjectPropertyArguments = stepViewModel.Step.GetObjectPropertyArguments;
 			ObjectArgument = new ArgumentViewModel(GetObjectPropertyArguments.ObjectArgument, stepViewModel.Update, UpdateContent);
-			ObjectTypes = ProcedureHelper.GetEnumObs<ObjectType>();
+			ObjectTypes = AutomationHelper.GetEnumObs<ObjectType>();
 			ResultArgument = new ArgumentViewModel(GetObjectPropertyArguments.ResultArgument, stepViewModel.Update, UpdateContent, false);
 		}		
 
@@ -46,7 +47,7 @@ namespace AutomationModule.ViewModels
 		{
 			ObjectArgument.Update(Procedure, ExplicitType.Object, objectType: SelectedObjectType, isList: false);
 			ResultArgument.Update(Procedure, ExplicitType, SelectedEnumType, isList: false);
-			Properties = new ObservableCollection<Property>(ProcedureHelper.ObjectTypeToProperiesList(SelectedObjectType));
+			Properties = new ObservableCollection<Property>(AutomationHelper.ObjectTypeToProperiesList(SelectedObjectType));
 			OnPropertyChanged(() => Properties);
 		}
 
@@ -68,7 +69,7 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				GetObjectPropertyArguments.ObjectType = value;
-				Properties = new ObservableCollection<Property>(ProcedureHelper.ObjectTypeToProperiesList(SelectedObjectType));
+				Properties = new ObservableCollection<Property>(AutomationHelper.ObjectTypeToProperiesList(SelectedObjectType));
 				UpdateContent();
 				OnPropertyChanged(() => Properties);
 				OnPropertyChanged(() => SelectedObjectType);

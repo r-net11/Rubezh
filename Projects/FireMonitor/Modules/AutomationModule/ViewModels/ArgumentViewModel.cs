@@ -10,6 +10,7 @@ using FiresecAPI;
 using FiresecAPI.GK;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
+using Infrastructure.Automation;
 
 namespace AutomationModule.ViewModels
 {
@@ -134,14 +135,14 @@ namespace AutomationModule.ViewModels
 			{
 				var description = "";
 				if (!IsList)
-					description = ProcedureHelper.GetStringValue(Argument.ExplicitValue, Argument.ExplicitType, Argument.EnumType);
+					description = AutomationHelper.GetStringValue(Argument.ExplicitValue, Argument.ExplicitType, Argument.EnumType);
 				else
 				{
 					if (Argument.ExplicitValues.Count == 0)
 						return "Пустой список";
 					foreach (var explicitValue in Argument.ExplicitValues)
 					{
-						description += ProcedureHelper.GetStringValue(explicitValue, Argument.ExplicitType, Argument.EnumType) + ", ";
+						description += AutomationHelper.GetStringValue(explicitValue, Argument.ExplicitType, Argument.EnumType) + ", ";
 					}
 				}
 				description = description.TrimEnd(',', ' ');

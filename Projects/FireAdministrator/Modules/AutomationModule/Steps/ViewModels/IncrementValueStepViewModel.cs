@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using FiresecAPI.Automation;
 using FiresecAPI;
+using Infrastructure.Automation;
 
 namespace AutomationModule.ViewModels
 {
@@ -12,7 +13,7 @@ namespace AutomationModule.ViewModels
 		public IncrementValueStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			IncrementValueArguments = stepViewModel.Step.IncrementValueArguments;
-			IncrementTypes = ProcedureHelper.GetEnumObs<IncrementType>();
+			IncrementTypes = AutomationHelper.GetEnumObs<IncrementType>();
 			ResultArgument = new ArgumentViewModel(IncrementValueArguments.ResultArgument, stepViewModel.Update, null, false);
 		}
 		

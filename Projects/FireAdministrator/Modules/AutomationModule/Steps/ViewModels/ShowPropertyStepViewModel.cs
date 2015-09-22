@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using FiresecAPI.Automation;
+using Infrastructure.Automation;
 
 namespace AutomationModule.ViewModels
 {
@@ -13,7 +14,7 @@ namespace AutomationModule.ViewModels
 		{
 			ShowPropertyArguments = stepViewModel.Step.ShowPropertyArguments;
 			ObjectArgument = new ArgumentViewModel(ShowPropertyArguments.ObjectArgument, stepViewModel.Update, null);
-			ObjectTypes = ProcedureHelper.GetEnumObs<ObjectType>();
+			ObjectTypes = AutomationHelper.GetEnumObs<ObjectType>();
 		}
 
 		public override void UpdateContent()

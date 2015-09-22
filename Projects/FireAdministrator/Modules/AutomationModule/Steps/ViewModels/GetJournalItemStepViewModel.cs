@@ -1,5 +1,6 @@
 ﻿using FiresecAPI;
 using FiresecAPI.Automation;
+using Infrastructure.Automation;
 using System.Collections.ObjectModel;
 
 namespace AutomationModule.ViewModels
@@ -13,7 +14,7 @@ namespace AutomationModule.ViewModels
 		{
 			GetJournalItemArguments = stepViewModel.Step.GetJournalItemArguments;
 			ResultArgument = new ArgumentViewModel(GetJournalItemArguments.ResultArgument, stepViewModel.Update, UpdateContent, false);
-			JournalColumnTypes = ProcedureHelper.GetEnumObs<JournalColumnType>();
+			JournalColumnTypes = AutomationHelper.GetEnumObs<JournalColumnType>();
 		}
 
 		public override void UpdateContent()

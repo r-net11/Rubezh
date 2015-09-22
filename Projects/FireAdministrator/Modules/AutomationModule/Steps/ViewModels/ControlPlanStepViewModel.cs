@@ -8,6 +8,7 @@ using Infrustructure.Plans.Elements;
 using Infrastructure.Common.Services;
 using Infrustructure.Plans.Events;
 using FiresecAPI;
+using Infrastructure.Automation;
 
 namespace AutomationModule.ViewModels
 {
@@ -153,7 +154,7 @@ namespace AutomationModule.ViewModels
 					ElementPropertyType.Top 
 				};
 			if (element.ElementType == typeof(ElementTextBlock))
-				return ProcedureHelper.GetEnumObs<ElementPropertyType>();
+				return AutomationHelper.GetEnumObs<ElementPropertyType>();
 			return new ObservableCollection<ElementPropertyType>();
 		}
 

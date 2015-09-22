@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.Automation;
+using Infrastructure.Automation;
 
 namespace AutomationModule.ViewModels
 {
@@ -18,8 +19,8 @@ namespace AutomationModule.ViewModels
 			ResultArgument = new ArgumentViewModel(ArithmeticArguments.ResultArgument, stepViewModel.Update, UpdateContent, false);
 			Argument1 = new ArgumentViewModel(ArithmeticArguments.Argument1, stepViewModel.Update, UpdateContent);
 			Argument2 = new ArgumentViewModel(ArithmeticArguments.Argument2, stepViewModel.Update, UpdateContent);
-			ExplicitTypes = new ObservableCollection<ExplicitType>(ProcedureHelper.GetEnumList<ExplicitType>().FindAll(x => x != ExplicitType.Object && x != ExplicitType.Enum));
-			TimeTypes = ProcedureHelper.GetEnumObs<TimeType>();
+			ExplicitTypes = new ObservableCollection<ExplicitType>(AutomationHelper.GetEnumList<ExplicitType>().FindAll(x => x != ExplicitType.Object && x != ExplicitType.Enum));
+			TimeTypes = AutomationHelper.GetEnumObs<TimeType>();
 			SelectedExplicitType = ArithmeticArguments.ExplicitType;
 		}
 
@@ -32,9 +33,9 @@ namespace AutomationModule.ViewModels
 					Argument2.Update(Procedure, ExplicitType.Integer, isList: false);
 					break;
 				case ExplicitType.String:
-					Argument1.Update(Procedure, ProcedureHelper.GetEnumList<ExplicitType>(), isList: false);
+					Argument1.Update(Procedure, AutomationHelper.GetEnumList<ExplicitType>(), isList: false);
 					Argument1.ExplicitType = ExplicitType.String;
-					Argument2.Update(Procedure, ProcedureHelper.GetEnumList<ExplicitType>(), isList: false);
+					Argument2.Update(Procedure, AutomationHelper.GetEnumList<ExplicitType>(), isList: false);
 					Argument2.ExplicitType = ExplicitType.String;
 					break;
 				default:
