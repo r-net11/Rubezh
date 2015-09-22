@@ -119,7 +119,11 @@ namespace Infrustructure.Plans.Painters
 					break;
 				case ResourceType.Visual:
 					var visual = _visualFactory(guid);
-					brush = new VisualBrush(visual);
+					if (visual != null)
+					{
+						brush = new VisualBrush(visual);
+					}
+					else brush = new SolidColorBrush(Color.FromRgb(255, 255, 255));
 					break;
 				case ResourceType.Image:
 					var bitmap = _imageFactory(guid);
