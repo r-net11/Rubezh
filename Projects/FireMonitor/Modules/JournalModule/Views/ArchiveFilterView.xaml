@@ -51,21 +51,21 @@
 
 					<TextBlock Text="Дата начала" Width="100" VerticalAlignment="Top" Style="{DynamicResource TextBlockDetailsStyle}" Grid.Column="0" Grid.Row="1" Visibility="{Binding IsStartDateVisible, Converter={StaticResource BoolToVisibilityConverter}}" Margin="0 4 0 4" />
 					<StackPanel Orientation="Horizontal" Visibility="{Binding IsStartDateVisible, Converter={StaticResource BoolToVisibilityConverter}}" Grid.Column="1" Grid.Row="1">
-						<Calendar
-								DisplayDateStart="{Binding ArchiveFirstDate, Mode=OneWay}"
-								SelectedDate="{Binding StartDateTime.Date, UpdateSourceTrigger=PropertyChanged}"
-								DisplayDate="{Binding StartDateTime.Date, UpdateSourceTrigger=PropertyChanged}" 
-								SelectionMode="SingleDate" />
+						<DatePicker
+							Width="150" 
+							Focusable="False"
+							SelectedDate="{Binding StartDateTime.Date}" 
+							Margin="2" />
 						<Controls:TimePicker TimeSpan="{Binding StartDateTime.Time, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 					</StackPanel>
 
 					<TextBlock Text="Дата окончания" Width="100" VerticalAlignment="Top" Style="{DynamicResource TextBlockDetailsStyle}" Grid.Column="0" Grid.Row="2" Visibility="{Binding IsEndDateVisible, Converter={StaticResource BoolToVisibilityConverter}}" Margin="0 4 0 4" />
 					<StackPanel Orientation="Horizontal" Visibility="{Binding IsEndDateVisible, Converter={StaticResource BoolToVisibilityConverter}}" Grid.Column="1" Grid.Row="2">
-						<Calendar
-								DisplayDateStart="{Binding ArchiveFirstDate, Mode=OneWay}"
-								SelectedDate="{Binding EndDateTime.Date, UpdateSourceTrigger=PropertyChanged}"
-								DisplayDate="{Binding EndDateTime.Date, UpdateSourceTrigger=PropertyChanged}" 
-								SelectionMode="SingleDate" />
+						<DatePicker
+							Width="150" 
+							Focusable="False"
+							SelectedDate="{Binding EndDateTime.Date}" 
+							Margin="2" />
 						<Controls:TimePicker TimeSpan="{Binding EndDateTime.Time, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 					</StackPanel>
 
@@ -79,12 +79,12 @@
 							<GridViewColumn Header="Наименование">
 								<GridViewColumn.CellTemplate>
 									<DataTemplate>
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto" />
-                                                <ColumnDefinition Width="*" />
-                                            </Grid.ColumnDefinitions>
-                                            <Image Grid.Column="0"  Width="16" Height="16" Source="{Binding ImageSource}" HorizontalAlignment="Left" Margin="5 0" />
+										<Grid>
+											<Grid.ColumnDefinitions>
+												<ColumnDefinition Width="Auto" />
+												<ColumnDefinition Width="*" />
+											</Grid.ColumnDefinitions>
+											<Image Grid.Column="0"  Width="16" Height="16" Source="{Binding ImageSource}" HorizontalAlignment="Left" Margin="5 0" />
 											<CheckBox Grid.Column="1" IsChecked="{Binding IsChecked}" Content="{Binding Name}"  Margin="2" />
 										</Grid>
 									</DataTemplate>
