@@ -369,6 +369,7 @@ namespace SKDModule.Model
 			{
 				var result = string.Empty;
 				propertyName = propertyName ?? string.Empty;
+
 				if (propertyName == string.Empty || propertyName == "EnterTime" || propertyName == "ExitTime" || propertyName == "EnterDateTime" || propertyName == "ExitDateTime")
 				{
 					if ((EnterDateTime.HasValue && ExitDateTime.HasValue) && (EnterDateTime.Value.Date == ExitDateTime.Value.Date) && (EnterTime > ExitTime))
@@ -403,6 +404,7 @@ namespace SKDModule.Model
 						result = "Дата не может быть установлена в будущее время";
 					}
 				}
+
 				CurrentError = result;
 				return result;
 			}
