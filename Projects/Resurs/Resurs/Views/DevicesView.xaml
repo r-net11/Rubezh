@@ -5,6 +5,10 @@
 			 xmlns:Controls="clr-namespace:Controls;assembly=Controls">
 
 	<Grid>
+		<Grid.InputBindings>
+			<KeyBinding Modifiers="Control" Key="N" Command="{Binding AddCommand}" />
+		</Grid.InputBindings>
+
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />

@@ -22,21 +22,26 @@ namespace ResursRunner
 		{
 			base.OnStartup(e);
 			ServerLoadHelper.SetLocation(System.Reflection.Assembly.GetExecutingAssembly().Location);
-
 			DeviceProcessor = new DeviceProcessor();
+
+			var showWindow = true;
+			if(e.Args.Length > 0)
+			{
+				showWindow = e.Args[0] != "-hide";
+			}
 
 			using (new DoubleLaunchLocker(SignalId, WaitId, true, OnShuttingDown))
 			{
 				AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 				try
 				{
-					Bootstrapper.Run();
+					Bootstrapper.Run(showWindow);
 					DeviceProcessor.Start();
 				}
 				catch (Exception ex)
 				{
 					Logger.Error(ex, "App.OnStartup");
-					BalloonHelper.ShowFromServer("Ошибка во время загрузки");
+					BalloonHelper.Show("АРМ Ресурс", "Ошибка во время загрузки");
 					return;
 				}
 			}
@@ -55,7 +60,7 @@ namespace ResursRunner
 		private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
 		{
 			Logger.Error((Exception)e.ExceptionObject, "App.CurrentDomain_UnhandledException");
-			BalloonHelper.ShowFromServer("Перезагрузка");
+			BalloonHelper.Show("АРМ Ресурс", "Перезагрузка");
 			var processStartInfo = new ProcessStartInfo()
 			{
 				FileName = Application.ResourceAssembly.Location

@@ -14,29 +14,28 @@ namespace Resurs.Views
 			NotifyIconService.Start(OnShow, OnClose);
 		}
 
-		private void UserControl_Loaded(object sender, RoutedEventArgs e)
+		void OnLoaded(object sender, RoutedEventArgs e)
 		{
 			ShowInTaskbar = true;
-			Closing += MainView_Closing;
 		}
 
-		void MainView_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+		void OnClosing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
 			e.Cancel = true;
 			Hide();
 			ShowInTaskbar = false;
 		}
 
-		private void OnShow(object sender, EventArgs e)
+		void OnShow(object sender, EventArgs e)
 		{
 			WindowState = WindowState.Normal;
 			Show();
 			Activate();
 			ShowInTaskbar = true;
 		}
-		private void OnClose(object sender, EventArgs e)
+		void OnClose(object sender, EventArgs e)
 		{
-			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите остановить сервер Ресурс?"))
+			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите остановить АРМ Ресурс?"))
 			{
 				Close();
 				NotifyIconService.Stop();

@@ -180,7 +180,6 @@
     <Compile Include="ViewModels\DriverTypesViewModel.cs" />
     <Compile Include="ViewModels\NotifyIconService.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
-    <Compile Include="ViewModels\ResursMessageBoxViewModel.cs" />
     <Compile Include="Views\ApartmentDetailsView.xaml.cs">
       <DependentUpon>ApartmentDetailsView.xaml</DependentUpon>
     </Compile>

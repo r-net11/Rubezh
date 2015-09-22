@@ -18,7 +18,7 @@ namespace Resurs
 	{
 		static MainViewModel MainViewModel;
 
-		public static void Run()
+		public static void Run(bool showWindow)
 		{
 			try
 			{
@@ -33,13 +33,16 @@ namespace Resurs
 					var mainView = new Resurs.Views.MainView();
 					var mainViewModel = new MainViewModel();
 					mainView.DataContext = mainViewModel;
-					mainView.Show();
+					if (showWindow)
+					{
+						mainView.Show();
+					}
 				}
 				catch (Exception e)
 				{
 					Logger.Error(e, "Исключение при вызове Bootstrapper.OnWorkThread");
 
-					BalloonHelper.ShowFromServer("Ошибка во время загрузки");
+					BalloonHelper.Show("АРМ Ресурс", "Ошибка во время загрузки");
 				}
 			}
 			catch (Exception e)

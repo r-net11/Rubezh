@@ -31,7 +31,7 @@ namespace Infrastructure.Common.BalloonTrayTip
 			Show("Сервер приложений", text);
 		}
 
-		static void Show(string title, string text)
+		public static void Show(string title, string text)
 		{
 			Show(title, text, Brushes.Black, Brushes.Cornsilk);
 		}

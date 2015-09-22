@@ -5,7 +5,8 @@
 		WindowStartupLocation="CenterScreen"
 		Title="АРМ Ресурс"
 		MinWidth="900" MinHeight="900"
-		Loaded="UserControl_Loaded">
+		Loaded="OnLoaded"
+		Closing="OnClosing">
 	<Window.Resources>
 		<Style x:Key="DataGridLogCellStyle" TargetType="{x:Type DataGridCell}">
 			<Style.Setters>
