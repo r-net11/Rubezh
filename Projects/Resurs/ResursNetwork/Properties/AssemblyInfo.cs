@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("OSIModel")]
-[assembly: AssemblyDescription("It contains the interfaces that implements the model OSI")]
+[assembly: AssemblyTitle("Devices")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Rubezh")]
-[assembly: AssemblyProduct("osimodellib")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("Devices")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("a8123e46-60a9-4b0b-bf4e-820fc48d88da")]
+[assembly: Guid("8c643fd8-c96f-44a9-ae0a-fead23e3a98f")]
 
 // Version information for an assembly consists of the following four values:
 //

@@ -6,6 +6,7 @@ using System.Windows.Media.Imaging;
 using System.Xaml;
 using Common;
 using Infrustructure.Plans.Painters;
+using System.Drawing;
 
 namespace Infrastructure.Common.Services.Content
 {
@@ -103,7 +104,8 @@ namespace Infrastructure.Common.Services.Content
 			}
 			catch (Exception ex)
 			{
-				throw ex;
+				Logger.Error(ex, "ContentService.GetObject<T>, Не удалось считать файл с изображением заднего плана.");
+				return default(T); 
 			}
 		}
 		public Visual GetVisual(Guid guid)
