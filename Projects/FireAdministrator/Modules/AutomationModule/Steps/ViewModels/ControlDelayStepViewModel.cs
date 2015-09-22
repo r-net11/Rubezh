@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using FiresecAPI.Automation;
 using FiresecAPI;
+using Infrastructure.Automation;
 
 namespace AutomationModule.ViewModels
 {
@@ -12,7 +13,7 @@ namespace AutomationModule.ViewModels
 		public ControlDelayStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			ControlDelayArguments = stepViewModel.Step.ControlDelayArguments;
-			Commands = ProcedureHelper.GetEnumObs<DelayCommandType>();
+			Commands = AutomationHelper.GetEnumObs<DelayCommandType>();
 			DelayArgument = new ArgumentViewModel(ControlDelayArguments.DelayArgument, stepViewModel.Update, null);
 			SelectedCommand = ControlDelayArguments.DelayCommandType;
 		}

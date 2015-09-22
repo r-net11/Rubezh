@@ -1,6 +1,7 @@
 ﻿using FiresecAPI.Automation;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
+using Infrastructure.Automation;
 
 namespace AutomationModule.ViewModels
 {
@@ -13,8 +14,8 @@ namespace AutomationModule.ViewModels
 		{
 			JournalArguments = stepViewModel.Step.JournalArguments;
 			MessageArgument = new ArgumentViewModel(JournalArguments.MessageArgument, stepViewModel.Update, null);
-			ExplicitTypes = new ObservableCollection<ExplicitType>(ProcedureHelper.GetEnumList<ExplicitType>().FindAll(x => x != ExplicitType.Object));
-			EnumTypes = ProcedureHelper.GetEnumObs<EnumType>(); 
+			ExplicitTypes = new ObservableCollection<ExplicitType>(AutomationHelper.GetEnumList<ExplicitType>().FindAll(x => x != ExplicitType.Object));
+			EnumTypes = AutomationHelper.GetEnumObs<EnumType>(); 
 		}
 
 		public ObservableCollection<ExplicitType> ExplicitTypes { get; private set; }

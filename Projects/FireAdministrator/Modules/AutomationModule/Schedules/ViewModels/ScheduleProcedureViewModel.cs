@@ -3,6 +3,7 @@ using System.Linq;
 using FiresecAPI.Automation;
 using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Automation;
 
 namespace AutomationModule.ViewModels
 {
@@ -92,7 +93,7 @@ namespace AutomationModule.ViewModels
 		{
 			List<Variable> allVariables;
 			if (CallingProcedure != null)
-				allVariables = ProcedureHelper.GetAllVariables(CallingProcedure);
+				allVariables = AutomationHelper.GetAllVariables(CallingProcedure);
 			else
 				allVariables = new List<Variable>(FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables);
 			allVariables = allVariables.FindAll(x => x.ExplicitType == argument.ExplicitType && x.IsList == argument.IsList);

@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using FiresecAPI.Automation;
+using Infrastructure.Automation;
 
 namespace AutomationModule.ViewModels
 {
@@ -16,8 +17,8 @@ namespace AutomationModule.ViewModels
 			ShowMessageArguments = stepViewModel.Step.ShowMessageArguments;
 			MessageArgument = new ArgumentViewModel(ShowMessageArguments.MessageArgument, stepViewModel.Update, null);
 			ConfirmationValueArgument = new ArgumentViewModel(ShowMessageArguments.ConfirmationValueArgument, stepViewModel.Update, null, false);
-			ExplicitTypes = new ObservableCollection<ExplicitType>(ProcedureHelper.GetEnumList<ExplicitType>());
-			EnumTypes = ProcedureHelper.GetEnumObs<EnumType>();
+			ExplicitTypes = new ObservableCollection<ExplicitType>(AutomationHelper.GetEnumList<ExplicitType>());
+			EnumTypes = AutomationHelper.GetEnumObs<EnumType>();
 		}
 
 		public override void UpdateContent()

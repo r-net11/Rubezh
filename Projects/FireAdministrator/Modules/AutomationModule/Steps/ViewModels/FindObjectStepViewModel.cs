@@ -8,6 +8,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI;
 using System.Linq.Expressions;
+using Infrastructure.Automation;
 
 namespace AutomationModule.ViewModels
 {
@@ -24,7 +25,7 @@ namespace AutomationModule.ViewModels
 			ResultArgument.UpdateVariableHandler = UpdateConditions;
 			JoinOperator = FindObjectArguments.JoinOperator;
 			FindObjectConditions = new ObservableCollection<FindObjectConditionViewModel>();
-			FindObjectConditionViewModel.Properties = new ObservableCollection<Property>(ProcedureHelper.ObjectTypeToProperiesList(ResultArgument.ObjectType));
+			FindObjectConditionViewModel.Properties = new ObservableCollection<Property>(AutomationHelper.ObjectTypeToProperiesList(ResultArgument.ObjectType));
 			foreach (var findObjectCondition in FindObjectArguments.FindObjectConditions)
 			{
 				var findObjectConditionViewModel = new FindObjectConditionViewModel(findObjectCondition, Procedure, UpdateDescriptionHandler, UpdateContent);
@@ -134,7 +135,7 @@ namespace AutomationModule.ViewModels
 				variableUidValidator = ResultArgument.Argument.VariableUid;
 				FindObjectConditions = new ObservableCollection<FindObjectConditionViewModel>();
 				FindObjectArguments.FindObjectConditions = new List<FindObjectCondition>();
-				FindObjectConditionViewModel.Properties = new ObservableCollection<Property>(ProcedureHelper.ObjectTypeToProperiesList(ResultArgument.ObjectType));
+				FindObjectConditionViewModel.Properties = new ObservableCollection<Property>(AutomationHelper.ObjectTypeToProperiesList(ResultArgument.ObjectType));
 				OnPropertyChanged(() => FindObjectConditions);
 			}
 		}
@@ -168,7 +169,7 @@ namespace AutomationModule.ViewModels
 				{ MinValue = 1; MaxValue = 255; }
 				if (value == Property.ShleifNo)
 				{ MinValue = 1; MaxValue = 8; }
-				ConditionTypes = new ObservableCollection<ConditionType>(ProcedureHelper.ObjectTypeToConditionTypesList(ExplicitType));
+				ConditionTypes = new ObservableCollection<ConditionType>(AutomationHelper.ObjectTypeToConditionTypesList(ExplicitType));
 				SourceArgument.Update(Procedure, ExplicitType, EnumType, isList:false);
 				OnPropertyChanged(() => SelectedProperty);
 				OnPropertyChanged(() => ConditionTypes);

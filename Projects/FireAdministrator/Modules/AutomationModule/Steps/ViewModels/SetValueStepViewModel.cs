@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.Automation;
+using Infrastructure.Automation;
 
 namespace AutomationModule.ViewModels
 {
@@ -15,9 +16,9 @@ namespace AutomationModule.ViewModels
 			SetValueArguments = stepViewModel.Step.SetValueArguments;
 			SourceArgument = new ArgumentViewModel(SetValueArguments.SourceArgument, stepViewModel.Update, UpdateContent);
 			TargetArgument = new ArgumentViewModel(SetValueArguments.TargetArgument, stepViewModel.Update, UpdateContent, false);
-			ExplicitTypes = ProcedureHelper.GetEnumObs<ExplicitType>();
-			EnumTypes = ProcedureHelper.GetEnumObs<EnumType>();
-			ObjectTypes = ProcedureHelper.GetEnumObs<ObjectType>();
+			ExplicitTypes = AutomationHelper.GetEnumObs<ExplicitType>();
+			EnumTypes = AutomationHelper.GetEnumObs<EnumType>();
+			ObjectTypes = AutomationHelper.GetEnumObs<ObjectType>();
 			SelectedExplicitType = SetValueArguments.ExplicitType;
 		}
 
@@ -71,7 +72,7 @@ namespace AutomationModule.ViewModels
 			TargetArgument.Update(Procedure, SelectedExplicitType, SelectedEnumType, SelectedObjectType, false);
 			if (SelectedExplicitType == ExplicitType.String)
 			{
-				SourceArgument.Update(Procedure, ProcedureHelper.GetEnumList<ExplicitType>(), isList: false);
+				SourceArgument.Update(Procedure, AutomationHelper.GetEnumList<ExplicitType>(), isList: false);
 				SourceArgument.ExplicitType = ExplicitType.String;
 			}
 			else

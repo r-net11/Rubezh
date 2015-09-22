@@ -5,6 +5,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI.Automation;
 using System.Collections.ObjectModel;
 using Infrastructure;
+using Infrastructure.Automation;
 
 namespace AutomationModule.ViewModels
 {
@@ -21,8 +22,8 @@ namespace AutomationModule.ViewModels
 			Title = title;
 			Name = defaultName;
 			ExplicitValuesViewModel = new ExplicitValuesViewModel();
-			ExplicitTypes = new ObservableCollection<ExplicitTypeViewModel>(ProcedureHelper.BuildExplicitTypes(ProcedureHelper.GetEnumList<ExplicitType>(),
-				ProcedureHelper.GetEnumList<EnumType>(), ProcedureHelper.GetEnumList<ObjectType>()));
+			ExplicitTypes = new ObservableCollection<ExplicitTypeViewModel>(ProcedureHelper.BuildExplicitTypes(AutomationHelper.GetEnumList<ExplicitType>(),
+				AutomationHelper.GetEnumList<EnumType>(), AutomationHelper.GetEnumList<ObjectType>()));
 			SelectedExplicitType = ExplicitTypes.FirstOrDefault();
 			if (variable != null)
 				Copy(variable);

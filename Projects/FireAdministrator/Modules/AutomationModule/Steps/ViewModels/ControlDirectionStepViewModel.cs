@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using FiresecAPI.Automation;
 using FiresecAPI;
+using Infrastructure.Automation;
 
 namespace AutomationModule.ViewModels
 {
@@ -12,7 +13,7 @@ namespace AutomationModule.ViewModels
 		public ControlDirectionStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			ControlDirectionArguments = stepViewModel.Step.ControlDirectionArguments;
-			Commands = ProcedureHelper.GetEnumObs<DirectionCommandType>();
+			Commands = AutomationHelper.GetEnumObs<DirectionCommandType>();
 			DirectionArgument = new ArgumentViewModel(ControlDirectionArguments.DirectionArgument, stepViewModel.Update, null);
 			SelectedCommand = ControlDirectionArguments.DirectionCommandType;
 		}

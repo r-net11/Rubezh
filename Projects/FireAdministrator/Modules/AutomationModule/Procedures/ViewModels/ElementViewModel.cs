@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Elements;
 using FiresecAPI.Models;
+using Infrastructure.Automation;
 
 namespace AutomationModule.ViewModels
 {
@@ -23,7 +24,7 @@ namespace AutomationModule.ViewModels
 			get 
 			{
 				if (ElementType == typeof(ElementProcedure))
-					return ProcedureHelper.GetProcedureName(((ElementProcedure)ElementBase).ProcedureUID);
+					return AutomationHelper.GetProcedureName(((ElementProcedure)ElementBase).ProcedureUID);
 				return ElementBase.PresentationName; 
 			}
 		}
