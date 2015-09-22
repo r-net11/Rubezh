@@ -1328,10 +1328,29 @@ namespace FiresecService.Service
 			if (device == null)
 				return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
 
+			// Фиксируем в журнале событий факт отправки команды на сброс состояния "Взлом" замка
 			AddSKDJournalMessage(JournalEventNameType.Команда_на_сброс_состояния_взлом_замка, device);
+			
+			// Сбрасываем состояние замка "Взлом"
 			var result = Processor.ClearPromptWarning(device);
+
 			if (!result.HasError)
+			{
+				// Смотрим в каком режиме работает замок после сброса состояние "Взлом"
+				var getDoorConfigurationResult = Processor.GetDoorConfiguration(deviceUID);
+
+				// Синхронизируем состояние виртуальной модели замка с ее физической реализацией на контроллере
+				if (!getDoorConfigurationResult.HasError)
+				{
+					device.State.AccessState = getDoorConfigurationResult.Result.AccessState;
+					var skdStates = new SKDStates();
+					skdStates.DeviceStates.Add(device.State);
+					Processor.OnStatesChanged(skdStates);
+				}
+				
+				// Фиксируем в журнале событий подтверждение на выполнение команды на сброс состояния "Взлом" замка
 				AddSKDJournalMessage(JournalEventNameType.Сброс_состояния_взлом_замка, device);
+			}
 			return result;
 		}
 
@@ -1628,6 +1647,7 @@ namespace FiresecService.Service
 			var zone = SKDManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
 			if (zone != null)
 			{
+				// Фиксируем в журнале событий факт отправки команды на сброс состояния "Взлом" зоны
 				AddSKDJournalMessage(JournalEventNameType.Команда_на_сброс_состояния_взлом_зоны, zone);
 				var errors = new List<string>();
 				foreach (var device in zone.Devices)
@@ -1641,10 +1661,22 @@ namespace FiresecService.Service
 					if (lockDevice != null)
 					{
 						var result = Processor.ClearPromptWarning(lockDevice);
-						if (result.HasError)
+						if (!result.HasError)
 						{
-							errors.AddRange(result.Errors);
+							// Смотрим в каком режиме работает замок после сброса состояние "Взлом"
+							var getDoorConfigurationResult = Processor.GetDoorConfiguration(lockDevice.UID);
+
+							// Синхронизируем состояние виртуальной модели замка с ее физической реализацией на контроллере
+							if (!getDoorConfigurationResult.HasError)
+							{
+								lockDevice.State.AccessState = getDoorConfigurationResult.Result.AccessState;
+								var skdStates = new SKDStates();
+								skdStates.DeviceStates.Add(device.State);
+								Processor.OnStatesChanged(skdStates);
+							}
 						}
+						else
+							errors.AddRange(result.Errors);
 					}
 					else
 					{
@@ -1655,7 +1687,10 @@ namespace FiresecService.Service
 				{
 					return OperationResult<bool>.FromError(errors);
 				}
+	
+				// Фиксируем в журнале событий подтверждение на выполнение команды на сброс состояния "Взлом" зоны
 				AddSKDJournalMessage(JournalEventNameType.Сброс_состояния_взлом_зоны, zone);
+
 				return new OperationResult<bool>(true);
 			}
 			return OperationResult<bool>.FromError("Зона не найдена в конфигурации");
@@ -1925,6 +1960,7 @@ namespace FiresecService.Service
 			var door = SKDManager.Doors.FirstOrDefault(x => x.UID == doorUID);
 			if (door != null)
 			{
+				// Фиксируем в журнале событий факт отправки команды на сброс состояния "Взлом" точки доступа
 				AddSKDJournalMessage(JournalEventNameType.Команда_на_сброс_состояния_взлом_точки_доступа, door);
 				if (door.InDevice != null)
 				{
@@ -1936,9 +1972,26 @@ namespace FiresecService.Service
 					var lockDevice = door.InDevice.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == lockAddress);
 					if (lockDevice != null)
 					{
+						// Сбрасываем состояние замка "Взлом"
 						var result = Processor.ClearPromptWarning(lockDevice);
+
 						if (!result.HasError)
+						{
+							// Смотрим в каком режиме работает замок после сброса состояние "Взлом"
+							var getDoorConfigurationResult = Processor.GetDoorConfiguration(lockDevice.UID);
+
+							// Синхронизируем состояние виртуальной модели замка с ее физической реализацией на контроллере
+							if (!getDoorConfigurationResult.HasError)
+							{
+								lockDevice.State.AccessState = getDoorConfigurationResult.Result.AccessState;
+								var skdStates = new SKDStates();
+								skdStates.DeviceStates.Add(lockDevice.State);
+								Processor.OnStatesChanged(skdStates);
+							}
+
+							// Фиксируем в журнале событий подтверждение на выполнение команды на сброс состояния "Взлом" точки доступа
 							AddSKDJournalMessage(JournalEventNameType.Сброс_состояния_взлом_точки_доступа, door);
+						}
 						return result;
 					}
 					return OperationResult<bool>.FromError("Для точки доступа не найден замок");
