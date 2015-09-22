@@ -159,9 +159,9 @@ namespace StrazhModule.ViewModels
 			if (!HasChanged)
 				return base.Save();
 
-			// Есть изменения, но они не записаны на контроллер и пользователь отказался от сохранения изменений в конфигурации, поэтому выходим
+			// Есть изменения, но они не записаны на контроллер и пользователь отказался от сохранения изменений в конфигурации, поэтому не закрываем окно
 			if (NeedSaveChangesToController && !MessageBoxService.ShowQuestion("Сетевые настройки не были записаны на контроллер. Изменить сетевые настройки в конфигурации?"))
-				return base.Save();
+				return false;
 
 			// Сохраняем изменения в конфигурации
 			var addressProperty = DeviceViewModel.Device.Properties.FirstOrDefault(x => x.Name == "Address");
