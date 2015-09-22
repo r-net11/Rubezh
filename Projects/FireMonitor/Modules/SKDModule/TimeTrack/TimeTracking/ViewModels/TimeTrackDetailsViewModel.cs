@@ -700,6 +700,7 @@ namespace SKDModule.ViewModels
 			SelectedDayTimeTrackPart.CorrectedDate = nowDateTime.ToString(CultureInfo.CurrentUICulture);
 			SelectedDayTimeTrackPart.CorrectedBy = FiresecManager.CurrentUser.Name;
 			SelectedDayTimeTrackPart.CorrectedByUID = FiresecManager.CurrentUser.UID;
+			SelectedDayTimeTrackPart.NotTakeInCalculations = !SelectedDayTimeTrackPart.TimeTrackZone.IsURV;
 		}
 
 		public bool CanForceClosing()
