@@ -196,7 +196,7 @@ namespace GKProcessor
 					bytes.Add(0);
 					bytes.Add((byte)address);
 					bytes.Add((byte)shleifNo);
-					SendResult result2 = new SendResult("");
+					var result2 = new SendResult("");
 					for (int i = 0; i < 3; i++)
 					{
 						if (progressCallback.IsCanceled)
@@ -204,10 +204,11 @@ namespace GKProcessor
 							Error = "Операция отменена";
 							return false;
 						}
-						result2 = SendManager.Send(kauDevice, 3, 0x86, 6, bytes, true, false, 500);
+						var waitTime = 1000/(i + 1);
+						result2 = SendManager.Send(kauDevice, 3, 0x86, 6, bytes, true, false, waitTime);
 						if (!result2.HasError)
 							break;
-						Thread.Sleep(200);
+						Thread.Sleep(waitTime);
 					}
 					if (!result2.HasError)
 					{
