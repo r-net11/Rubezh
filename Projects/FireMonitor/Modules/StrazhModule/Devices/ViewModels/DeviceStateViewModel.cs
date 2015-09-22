@@ -19,7 +19,11 @@ namespace StrazhModule.ViewModels
 
 		public bool IsPromptWarning
 		{
-			get { return StateClasses.Any(x => x.StateClass == XStateClass.Attention); }
+			get
+			{
+				//return StateClasses.Any(x => x.StateClass == XStateClass.Attention);
+				return State.Device.DriverType == SKDDriverType.Lock;
+			}
 		}
 
 		public DeviceStateViewModel(SKDDeviceState deviceState)

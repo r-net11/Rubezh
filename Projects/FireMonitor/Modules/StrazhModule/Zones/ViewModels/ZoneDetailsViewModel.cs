@@ -84,7 +84,11 @@ namespace StrazhModule.ViewModels
 
 		public bool IsPromptWarning
 		{
-			get { return State.StateClass == XStateClass.Attention; }
+			get
+			{
+				//return State.StateClass == XStateClass.Attention;
+				return true;
+			}
 		}
 
 		public RelayCommand ClearPromptWarningCommand { get; private set; }
