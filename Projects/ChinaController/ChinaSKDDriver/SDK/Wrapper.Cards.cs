@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
+using Common;
 
 namespace ChinaSKDDriver
 {
@@ -83,13 +84,29 @@ namespace ChinaSKDDriver
 		public Card GetCardInfo(int recordNo)
 		{
 			int structSize = Marshal.SizeOf(typeof(NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD));
-			IntPtr intPtr = Marshal.AllocCoTaskMem(structSize);
+			IntPtr intPtr = IntPtr.Zero;
+			var nativeCard = new NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD();
+			try
+			{
+				intPtr = Marshal.AllocCoTaskMem(structSize);
 
-			var result = NativeWrapper.WRAP_Get_Card_Info(LoginID, recordNo, intPtr);
+				var result = NativeWrapper.WRAP_Get_Card_Info(LoginID, recordNo, intPtr);
 
-			NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD nativeCard = (NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD)(Marshal.PtrToStructure(intPtr, typeof(NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD)));
-			Marshal.FreeCoTaskMem(intPtr);
-			intPtr = IntPtr.Zero;
+				if (!result) return null;
+
+				nativeCard =
+					(NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD)
+						(Marshal.PtrToStructure(intPtr, typeof (NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD)));
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e);
+			}
+			finally
+			{
+				if (intPtr != IntPtr.Zero)
+					Marshal.FreeCoTaskMem(intPtr);
+			}
 
 			var card = NativeCardToCard(nativeCard);
 			return card;
