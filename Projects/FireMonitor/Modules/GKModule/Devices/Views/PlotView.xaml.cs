@@ -7,6 +7,7 @@ using System.Windows.Threading;
 using FiresecAPI.GK;
 using FiresecClient;
 using GKModule.ViewModels;
+using Infrastructure.Common.Windows;
 using Microsoft.Research.DynamicDataDisplay;
 using Microsoft.Research.DynamicDataDisplay.DataSources;
 using Microsoft.Research.DynamicDataDisplay.PointMarkers;
@@ -62,19 +63,11 @@ namespace GKModule.Views
 				return;
 
 			var measuresResult = FiresecManager.FiresecService.GetAlsMeasure(plotViewModel.DeviceUid);
-			if (measuresResult == null)
-				return;
-			if (measuresResult.HasError)
+			if (measuresResult != null && !measuresResult.HasError)
 			{
-				if (updateCollectionTimer != null)
-				{
-					updateCollectionTimer.Tick -= Update;
-					updateCollectionTimer.Stop();
-				}
-			    return;
+				RingCurrentConsumptions.Add(measuresResult.Result);
+				plotter.Viewport.FitToView();
 			}
-			RingCurrentConsumptions.Add(measuresResult.Result);
-			plotter.Viewport.FitToView();
 		}
 
 		void UpdateFromDB()

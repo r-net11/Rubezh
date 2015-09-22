@@ -200,6 +200,7 @@ namespace FiresecAPI.GK
 				foreach (var devicePumpStation in GKManager.PumpStations.Where(x => x.NSDevices.Contains(device)))
 				{
 					device.LinkToDescriptor(devicePumpStation);
+					LinkLogic(device, device.NSLogic.OnClausesGroup);
 				}
 			}
 

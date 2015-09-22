@@ -114,7 +114,8 @@ namespace GKProcessor
 					for (int j = 0; j < 10; j++)
 					{
 						sendResult = SendManager.Send(gkControllerDevice, (ushort)bytesBlock.Count(), 22, 0, bytesBlock);
-						if (!sendResult.HasError)
+						var result = sendResult.Bytes.Count > 0 && sendResult.Bytes[0] == 1;
+						if (!sendResult.HasError && result)
 							break;
 						if (j == 9)
 						{
@@ -127,7 +128,8 @@ namespace GKProcessor
 				gkLifecycleManager.AddItem("Запись последнего блока данных");
 				var endBlock = BitConverter.GetBytes((uint)(bytesList.Count() / 256 + 1)).ToList();
 				sendResult = SendManager.Send(gkControllerDevice, 0, 22, 0, endBlock);
-				if (sendResult.HasError)
+				var endResult = sendResult.Bytes.Count > 0 && sendResult.Bytes[0] == 0;
+				if (sendResult.HasError || !endResult)
 				{
 					Error = "Невозможно завершить запись файла ";
 					gkLifecycleManager.AddItem("Ошибка");
