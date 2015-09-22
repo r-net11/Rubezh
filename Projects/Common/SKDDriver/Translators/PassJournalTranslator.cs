@@ -99,7 +99,7 @@ namespace SKDDriver.Translators
 				List<PassJournal> tmpCollection = linkedIntervals
 					.Where(x => (x.UID != el.UID) && (tmp.EnterTimeOriginal.HasValue && tmp.ExitTimeOriginal.HasValue))
 					.Where(x => (tmp.ExitTimeOriginal.Value.Date >= x.ExitTime.Value.Date && tmp.EnterTimeOriginal.Value.Date <= x.EnterTime.Date) &&
-								(tmp.ExitTimeOriginal > x.EnterTime || tmp.EnterTimeOriginal < x.ExitTime))
+								(tmp.ExitTimeOriginal > x.EnterTime && tmp.EnterTimeOriginal < x.ExitTime))
 					.Where(x => x.ExitTime >= tmp.EnterTimeOriginal)
 					.ToList();
 
@@ -119,7 +119,8 @@ namespace SKDDriver.Translators
 							IsNeedAdjustmentOriginal = b.IsNeedAdjustmentOriginal,
 							TimeTrackZone = new TimeTrackZone
 							{
-								UID = b.ZoneUID
+								UID = b.ZoneUID,
+								Name = SKDManager.Zones.FirstOrDefault(x => x.UID == b.ZoneUID) != null ? SKDManager.Zones.FirstOrDefault(x => x.UID == b.ZoneUID).Name : string.Empty
 							}
 						});
 					}
@@ -239,6 +240,14 @@ namespace SKDDriver.Translators
 		public OperationResult AddCustomPassJournal(DayTimeTrackPart dayTimeTrackPart, ShortEmployee employee)
 		{
 			if(dayTimeTrackPart == null) return new OperationResult("ERROR");
+
+			var linkedIntervals = Context.PassJournals.Where(x => x.EmployeeUID == employee.UID && x.UID != dayTimeTrackPart.UID)
+				.Where(
+					x =>
+						dayTimeTrackPart.ExitDateTime > x.EnterTime
+						&& dayTimeTrackPart.EnterDateTime < x.ExitTime).ToList();
+
+			if(linkedIntervals.Any()) return new OperationResult("Данный интервал является пересекающимся");
 
 			try
 			{

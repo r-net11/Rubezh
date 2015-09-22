@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using FiresecAPI;
 using FiresecAPI.SKD;
 using ReactiveUI;
+using SKDModule.Helpers;
 using SKDModule.ViewModels;
 
 namespace SKDModule.Model
@@ -40,13 +41,18 @@ namespace SKDModule.Model
 			Totals = new ObservableCollection<TimeTrackTotal>(timeTrackFilter.TotalTimeTrackTypeFilters.Select(x => new TimeTrackTotal(x)));
 			DayTracks = new ObservableCollection<DayTrack>();
 			var crossNightNTimeTrackParts = new List<TimeTrackPart>();
-			
+
 			foreach (var dayTimeTrack in timeTrackEmployeeResult.DayTimeTracks)
 			{
 				if (string.IsNullOrEmpty(dayTimeTrack.Error))
 				{
 					dayTimeTrack.CrossNightTimeTrackParts = crossNightNTimeTrackParts;
 					dayTimeTrack.Calculate();
+
+					//Учитыватель в расчётах только проходы по УРВ зонам
+					var urvZones = TimeTrackingHelper.GetMergedZones(ShortEmployee).Where(x => x.IsURV);
+					dayTimeTrack.RealTimeTrackPartsForCalculates = dayTimeTrack.RealTimeTrackPartsForCalculates.Where(x => urvZones.Any(y => y.UID == x.ZoneUID)).ToList();
+
 					crossNightNTimeTrackParts = dayTimeTrack.CrossNightTimeTrackParts;
 				}
 				else

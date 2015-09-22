@@ -105,6 +105,7 @@
 		<ResourceDictionary Source="../XamlImages/Ellipse.xaml" />
 		<ResourceDictionary Source="../XamlImages/Faster.xaml" />
 		<ResourceDictionary Source="../XamlImages/FidthToPage.xaml" />
+		<ResourceDictionary Source="../XamlImages/DropAllApb.xaml" />
 		<ResourceDictionary Source="../XamlImages/filter.xaml" />
 		<ResourceDictionary Source="../XamlImages/FolderOpen.xaml" />
 		<ResourceDictionary Source="../XamlImages/Font.xaml" />
