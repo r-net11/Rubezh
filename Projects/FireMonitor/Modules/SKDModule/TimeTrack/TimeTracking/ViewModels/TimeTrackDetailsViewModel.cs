@@ -692,7 +692,11 @@ namespace SKDModule.ViewModels
 		public void OnForceClosing()
 		{
 			if (!DialogService.ShowModalWindow(new ForceClosingQuestionDialogWindowViewModel())
-			    || !PassJournalHelper.CheckForCanForseCloseInterval(SelectedDayTimeTrackPart.UID)) return;
+			    || !PassJournalHelper.CheckForCanForseCloseInterval(SelectedDayTimeTrackPart.UID))
+			{
+				MessageBoxService.ShowConfirmation(Resources.ForceClosingFailedMessage);
+				return;
+			}
 
 			var nowDateTime = DateTime.Now;
 			SelectedDayTimeTrackPart.ExitDateTime = nowDateTime;
