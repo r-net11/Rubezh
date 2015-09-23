@@ -91,8 +91,8 @@ namespace SKDModule.ViewModels
 			SelectedCardType = CardTypes.FirstOrDefault();
 		}
 
-		uint _number;
-		public uint Number
+		uint? _number;
+		public uint? Number
 		{
 			get { return _number; }
 			set
@@ -330,7 +330,13 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
-			Card.Number = Number;
+			if (Number == null)
+			{
+				MessageBoxService.ShowError("Введите номер карты", "Неверный номер карты");
+				return false;
+			}
+
+			Card.Number = Number.GetValueOrDefault();
 			var stopListCard = StopListCards.FirstOrDefault(x => x.Number == Card.Number);
 			if (stopListCard != null)
 			{

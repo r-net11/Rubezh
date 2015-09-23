@@ -236,7 +236,7 @@ namespace ChinaSKDDriver
 				{
 					var card = new Card
 					{
-						CardNo = controllerCardItem.Card.Number.ToString("X"),
+						CardNo = controllerCardItem.Card.Number.GetValueOrDefault().ToString("X"),
 						ValidStartDateTime = controllerCardItem.Card.StartDate,
 						ValidEndDateTime = controllerCardItem.Card.EndDate,
 						UserTime = controllerCardItem.Card.UserTime,
@@ -336,7 +336,7 @@ namespace ChinaSKDDriver
 									(int) controllerCardItem.Card.Number, deviceProcessor.Device.Name);
 								break;
 							}
-							result = deviceProcessor.Wrapper.ResetRepeatEnter(controllerCardItem.Card.Number.ToString("X"));
+							result = deviceProcessor.Wrapper.ResetRepeatEnter(controllerCardItem.Card.Number.GetValueOrDefault().ToString("X"));
 							break;
 					}
 
