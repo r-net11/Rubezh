@@ -107,16 +107,16 @@
 					<ColumnDefinition Width="*" />
 				</Grid.ColumnDefinitions>
 				<Grid.RowDefinitions>
-					<RowDefinition />
+					<RowDefinition Height="Auto" />
 					<RowDefinition />
 				</Grid.RowDefinitions>
 				<StackPanel Orientation="Horizontal">
 					<ToolBarButton
-						Command="{Binding SelectedItem.EmployeeCardsViewModel.AddCardCommand}"
+						Command="{Binding EmployeeCardsViewModel.AddCardCommand}"
 						ImageSource="Add"
 						ToolTip="Добавить пропуск" />
-					<StackPanel Orientation="Horizontal" Visibility="{Binding SelectedItem.IsCardSelected, Converter={StaticResource BoolToVisibilityConverter}}">
-						<StackPanel DataContext="{Binding SelectedItem.EmployeeCardsViewModel}" Orientation="Horizontal">
+					<StackPanel Orientation="Horizontal" IsEnabled="{Binding IsCardSelected}">
+						<StackPanel DataContext="{Binding EmployeeCardsViewModel}" Orientation="Horizontal">
 							<ToolBarButton
 								Command="{Binding SelectedCard.RemoveCommand}"
 								ImageSource="Delete"
@@ -208,14 +208,6 @@
 						</ItemsControl.ItemTemplate>
 					</ItemsControl>
 				</StackPanel>
-				<GridSplitter
-					Grid.Row="1"
-					Grid.Column="1"
-					Width="5"
-					HorizontalAlignment="Stretch"
-					VerticalAlignment="Stretch"
-					Background="Transparent"
-					Cursor="SizeWE" />
 				<Border
 					Grid.Row="1"
 					Grid.Column="2"
