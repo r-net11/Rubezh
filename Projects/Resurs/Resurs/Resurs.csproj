@@ -174,48 +174,52 @@
     <Compile Include="Processor\LoginService.cs" />
     <Compile Include="Processor\ResursSettings.cs" />
     <Compile Include="Processor\SettingsManager.cs" />
-    <Compile Include="ViewModels\ApartmentDetailsViewModel.cs" />
-    <Compile Include="ViewModels\ApartmentsViewModel.cs" />
-    <Compile Include="ViewModels\Comparers.cs" />
-    <Compile Include="ViewModels\DeviceDetailsViewModel.cs" />
-    <Compile Include="ViewModels\DevicesViewModel.cs" />
-    <Compile Include="ViewModels\ApartmentViewModel.cs" />
-    <Compile Include="ViewModels\DeviceViewModel.cs" />
-    <Compile Include="ViewModels\DriverTypesViewModel.cs" />
-    <Compile Include="ViewModels\LoginViewModel.cs" />
-    <Compile Include="ViewModels\NotifyIconService.cs" />
-    <Compile Include="ViewModels\MainViewModel.cs" />
-    <Compile Include="ViewModels\StartupHeaderViewModel.cs" />
-    <Compile Include="ViewModels\StartupSettingsViewModel.cs" />
-    <Compile Include="ViewModels\StartupViewModel.cs" />
-    <Compile Include="Views\ApartmentDetailsView.xaml.cs">
+    <Compile Include="Apartments\ViewModels\ApartmentDetailsViewModel.cs" />
+    <Compile Include="Apartments\ViewModels\ApartmentsViewModel.cs" />
+    <Compile Include="Main\ViewModels\Comparers.cs" />
+    <Compile Include="Devices\ViewModels\DeviceDetailsViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DevicesViewModel.cs" />
+    <Compile Include="Apartments\ViewModels\ApartmentViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DeviceViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DriverTypesViewModel.cs" />
+    <Compile Include="Main\ViewModels\LoginViewModel.cs" />
+    <Compile Include="Main\ViewModels\NotifyIconService.cs" />
+    <Compile Include="Main\ViewModels\MainViewModel.cs" />
+    <Compile Include="Main\ViewModels\StartupHeaderViewModel.cs" />
+    <Compile Include="Main\ViewModels\StartupSettingsViewModel.cs" />
+    <Compile Include="Main\ViewModels\StartupViewModel.cs" />
+    <Compile Include="Apartments\Views\ApartmentDetailsView.xaml.cs">
       <DependentUpon>ApartmentDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ApartmentsView.xaml.cs">
+    <Compile Include="Apartments\Views\ApartmentsView.xaml.cs">
       <DependentUpon>ApartmentsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\DeviceDetailsView.xaml.cs">
+    <Compile Include="Devices\Views\DeviceDetailsView.xaml.cs">
       <DependentUpon>DeviceDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\DevicesView.xaml.cs">
+    <Compile Include="Devices\Views\DevicesView.xaml.cs">
       <DependentUpon>DevicesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\DriverTypesView.xaml.cs">
+    <Compile Include="Devices\Views\DriverTypesView.xaml.cs">
       <DependentUpon>DriverTypesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MainView.xaml.cs">
+    <Compile Include="Main\Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\StartupHeaderView.xaml.cs">
+    <Compile Include="Main\Views\StartupHeaderView.xaml.cs">
       <DependentUpon>StartupHeaderView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\StartupSettingsView.xaml.cs">
+    <Compile Include="Main\Views\StartupSettingsView.xaml.cs">
       <DependentUpon>StartupSettingsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\StartupView.xaml.cs">
+    <Compile Include="Main\Views\StartupView.xaml.cs">
       <DependentUpon>StartupView.xaml</DependentUpon>
     </Compile>
-    <Page Include="DataTemplates\Dictionary.xaml">
+    <Page Include="Apartments\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Main\DataTemplates\Dictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -223,39 +227,43 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Views\ApartmentDetailsView.xaml">
+    <Page Include="Apartments\Views\ApartmentDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ApartmentsView.xaml">
+    <Page Include="Apartments\Views\ApartmentsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\DeviceDetailsView.xaml">
+    <Page Include="Devices\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Devices\Views\DeviceDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\DevicesView.xaml">
+    <Page Include="Devices\Views\DevicesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\DriverTypesView.xaml">
+    <Page Include="Devices\Views\DriverTypesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MainView.xaml">
+    <Page Include="Main\Views\MainView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\StartupHeaderView.xaml">
+    <Page Include="Main\Views\StartupHeaderView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\StartupSettingsView.xaml">
+    <Page Include="Main\Views\StartupSettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\StartupView.xaml">
+    <Page Include="Main\Views\StartupView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -309,13 +317,13 @@
       <Project>{DA2A8431-7328-4AE8-926F-E191700577A1}</Project>
       <Name>Infrustructure.Plans</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DAL\ResursDAL.csproj">
+      <Project>{c6c6465e-30fe-4d6c-bdf4-1f0b9e4c325a}</Project>
+      <Name>ResursDAL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ResursAPI\ResursAPI.csproj">
       <Project>{94c0399f-3eab-4e23-98f9-61eb8daa4974}</Project>
       <Name>ResursAPI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ResursDAL\ResursDAL.csproj">
-      <Project>{db79c06f-f07a-436c-ba0a-b94b3942a14e}</Project>
-      <Name>ResursDAL</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -362,6 +370,15 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Converters\" />
+    <Folder Include="Rates\DataTemplates\" />
+    <Folder Include="Rates\ViewModels\" />
+    <Folder Include="Rates\Views\" />
+    <Folder Include="Reports\DataTemplates\" />
+    <Folder Include="Reports\ViewModels\" />
+    <Folder Include="Reports\Views\" />
+    <Folder Include="Users\DataTemplates\" />
+    <Folder Include="Users\ViewModels\" />
+    <Folder Include="Users\Views\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

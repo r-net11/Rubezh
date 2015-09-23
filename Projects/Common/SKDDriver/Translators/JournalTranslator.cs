@@ -302,34 +302,34 @@ namespace SKDDriver.DataClasses
 						result = result.OrderBy(x => x.SystemDate);
 						break;
 					case ArchiveSortType.DeviceDate:
-						result = result.OrderBy(x => x.DeviceDate).ThenBy(x => x.SystemDate);
+						result = result.OrderBy(x => x.DeviceDate);
 						break;
 					case ArchiveSortType.EmployeeUID:
-						result = result.OrderBy(x => x.EmployeeUID).ThenBy(x => x.SystemDate);
+						result = result.OrderBy(x => x.EmployeeUID);
 						break;
 					case ArchiveSortType.Subsystem:
-						result = result.OrderBy(x => x.Subsystem).ThenBy(x => x.SystemDate);
+						result = result.OrderBy(x => x.Subsystem);
 						break;
 					case ArchiveSortType.Name:
-						result = result.OrderBy(x => x.Name).ThenBy(x => x.SystemDate);
+						result = result.OrderBy(x => x.Name);
 						break;
 					case ArchiveSortType.Description:
-						result = result.OrderBy(x => x.Description).ThenBy(x => x.SystemDate);
+						result = result.OrderBy(x => x.Description);
 						break;
 					case ArchiveSortType.ObjectType:
-						result = result.OrderBy(x => x.ObjectType).ThenBy(x => x.SystemDate);
+						result = result.OrderBy(x => x.ObjectType);
 						break;
 					case ArchiveSortType.ObjectName:
-						result = result.OrderBy(x => x.ObjectName).ThenBy(x => x.SystemDate);
+						result = result.OrderBy(x => x.ObjectName);
 						break;
 					case ArchiveSortType.UserName:
-						result = result.OrderBy(x => x.UserName).ThenBy(x => x.SystemDate);
+						result = result.OrderBy(x => x.UserName);
 						break;
 					case ArchiveSortType.CameraUID:
-						result = result.OrderBy(x => x.CameraUID).ThenBy(x => x.SystemDate);
+						result = result.OrderBy(x => x.CameraUID);
 						break;
 					case ArchiveSortType.CardNo:
-						result = result.OrderBy(x => x.CardNo).ThenBy(x => x.SystemDate);
+						result = result.OrderBy(x => x.CardNo);
 						break;
 				}
 			}
@@ -338,37 +338,37 @@ namespace SKDDriver.DataClasses
 					switch (filter.SortType)
 				{
 					case ArchiveSortType.SystemDate:
-						result = result.OrderByDescending(x => x.SystemDate).ThenByDescending(x => x.SystemDate);
+						result = result.OrderByDescending(x => x.SystemDate);
 						break;
 					case ArchiveSortType.DeviceDate:
-						result = result.OrderByDescending(x => x.DeviceDate).ThenByDescending(x => x.SystemDate);;
+						result = result.OrderByDescending(x => x.DeviceDate);
 						break;
 					case ArchiveSortType.EmployeeUID:
-						result = result.OrderByDescending(x => x.EmployeeUID).ThenByDescending(x => x.SystemDate);;
+						result = result.OrderByDescending(x => x.EmployeeUID);
 						break;
 					case ArchiveSortType.Subsystem:
-						result = result.OrderByDescending(x => x.Subsystem).ThenByDescending(x => x.SystemDate);;
+						result = result.OrderByDescending(x => x.Subsystem);
 						break;
 					case ArchiveSortType.Name:
-						result = result.OrderByDescending(x => x.Name).ThenByDescending(x => x.SystemDate);;
+						result = result.OrderByDescending(x => x.Name);
 						break;
 					case ArchiveSortType.Description:
-						result = result.OrderByDescending(x => x.Description).ThenByDescending(x => x.SystemDate);;
+						result = result.OrderByDescending(x => x.Description);
 						break;
 					case ArchiveSortType.ObjectType:
-						result = result.OrderByDescending(x => x.ObjectType).ThenByDescending(x => x.SystemDate);;
+						result = result.OrderByDescending(x => x.ObjectType);
 						break;
 					case ArchiveSortType.ObjectName:
-						result = result.OrderByDescending(x => x.ObjectName).ThenByDescending(x => x.SystemDate);;
+						result = result.OrderByDescending(x => x.ObjectName);
 						break;
 					case ArchiveSortType.UserName:
-						result = result.OrderByDescending(x => x.UserName).ThenByDescending(x => x.SystemDate);;
+						result = result.OrderByDescending(x => x.UserName);
 						break;
 					case ArchiveSortType.CameraUID:
-						result = result.OrderByDescending(x => x.CameraUID).ThenByDescending(x => x.SystemDate);;
+						result = result.OrderByDescending(x => x.CameraUID);
 						break;
 					case ArchiveSortType.CardNo:
-						result = result.OrderByDescending(x => x.CardNo).ThenByDescending(x => x.SystemDate);;
+						result = result.OrderByDescending(x => x.CardNo);
 						break;
 					default:
 						break;

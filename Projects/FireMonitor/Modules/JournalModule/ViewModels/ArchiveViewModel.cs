@@ -125,8 +125,12 @@ namespace JournalModule.ViewModels
 			{
 				if (DialogService.ShowModalWindow(archiveFilterViewModel))
 				{
+					var stopwatch = new Stopwatch();
+					stopwatch.Start();
 					ArchiveFilter = archiveFilterViewModel.GetModel();
 					Update();
+					stopwatch.Stop();
+					Trace.WriteLine("archiveFilterViewModel " + stopwatch.ElapsedMilliseconds);
 				}
 			}
 		}

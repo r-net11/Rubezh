@@ -7,18 +7,6 @@
 		<Views:MainView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:DriverTypesViewModel}">
-		<Views:DriverTypesView />
-	</DataTemplate>
-
-	<DataTemplate DataType="{x:Type ViewModels:DeviceDetailsViewModel}">
-		<Views:DeviceDetailsView />
-	</DataTemplate>
-
-	<DataTemplate DataType="{x:Type ViewModels:ApartmentDetailsViewModel}">
-		<Views:ApartmentDetailsView />
-	</DataTemplate>
-
 	<DataTemplate DataType="{x:Type ViewModels:StartupViewModel}">
 		<Views:StartupView />
 	</DataTemplate>
