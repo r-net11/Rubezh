@@ -8,14 +8,14 @@ namespace ChinaSKDDriver
 		public InterlockConfiguration GetInterlockConfiguration()
 		{
 			NativeWrapper.WRAP_InterlockCfg nativeCfg;
-			var result = NativeWrapper.WRAP_GetInterlockCfg(LoginID, out nativeCfg);
+			NativeWrapper.WRAP_GetInterlockCfg(LoginID, out nativeCfg);
 
 			return NativeInterlockCfgToInterlockConfiguration(nativeCfg);
 		}
 
 		public bool SetInterlockConfiguration(InterlockConfiguration cfg)
 		{
-			NativeWrapper.WRAP_InterlockCfg nativeCfg = InterlockConfigurationToNativeAntiPathBackCfg(cfg);
+			NativeWrapper.WRAP_InterlockCfg nativeCfg = InterlockConfigurationToNativeInterlockCfg(cfg);
 			return NativeWrapper.WRAP_SetInterlockCfg(LoginID, ref nativeCfg);
 		}
 
@@ -38,7 +38,7 @@ namespace ChinaSKDDriver
 			return cfg;
 		}
 
-		private NativeWrapper.WRAP_InterlockCfg InterlockConfigurationToNativeAntiPathBackCfg(InterlockConfiguration cfg)
+		private NativeWrapper.WRAP_InterlockCfg InterlockConfigurationToNativeInterlockCfg(InterlockConfiguration cfg)
 		{
 			var nativeCfg = new NativeWrapper.WRAP_InterlockCfg();
 

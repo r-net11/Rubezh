@@ -497,8 +497,7 @@ namespace ChinaSKDDriver
 				var result = deviceProcessor.Wrapper.SetInterlockConfiguration(new InterlockConfiguration() { IsActivated = interlockConfiguration.IsActivated, CurrentInterlockMode = (InterlockMode)interlockConfiguration.CurrentInterlockMode });
 				if (result)
 					return new OperationResult<bool>(true);
-				else
-					return OperationResult<bool>.FromError("Ошибка при выполнении операции в приборе");
+				return OperationResult<bool>.FromError("Ошибка при выполнении операции в приборе");
 			}
 			return OperationResult<bool>.FromError("Не найден контроллер в конфигурации");
 		}

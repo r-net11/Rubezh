@@ -15,6 +15,7 @@ BOOL GetNewDevConfig(int loginID, CFG_ACCESS_GENERAL_INFO* result)
 	if (bRet)
 	{
 		CFG_ACCESS_GENERAL_INFO stuInfo = {0};
+		memset(&stuInfo, 0, sizeof(CFG_ACCESS_GENERAL_INFO));
 		DWORD dwRetLen = 0;
 		bRet = CLIENT_ParseData(CFG_CMD_ACCESS_GENERAL, szJsonBuf, (void*)&stuInfo, sizeof(CFG_ACCESS_GENERAL_INFO), &dwRetLen);
 		if (bRet)
@@ -48,6 +49,7 @@ BOOL SDK_CALL_METHOD WRAP_GetInterlockCfg(int loginID, WRAP_InterlockCfg* result
 	}
 
 	WRAP_InterlockCfg cfg = {0};
+	memset(&cfg, 0, sizeof(WRAP_InterlockCfg));
 
 	cfg.AvailableInterlockModes[INTERLOCK_MODE_L1L2].InterlockMode = L1L2;
 	cfg.AvailableInterlockModes[INTERLOCK_MODE_L1L2L3].InterlockMode = L1L2L3;
@@ -145,9 +147,9 @@ BOOL SDK_CALL_METHOD WRAP_GetInterlockCfg(int loginID, WRAP_InterlockCfg* result
 }
 
 /// <summary>
-/// Записывает настройки Anti-pass Back на контроллер
+/// Записывает настройки Interlock на контроллер
 /// <param name="loginID">залогированный в SDK клиент</param>
-/// <param name="cfg">сохраняемая настройка Anti-pass Back</param>
+/// <param name="cfg">сохраняемая настройка Interlock</param>
 /// </summary>
 /// <returns>TRUE при успешном завершении, FALSE в случае неудачи</returns>
 BOOL SDK_CALL_METHOD WRAP_SetInterlockCfg(int loginID, WRAP_InterlockCfg* cfg)
@@ -249,5 +251,5 @@ BOOL SDK_CALL_METHOD WRAP_SetInterlockCfg(int loginID, WRAP_InterlockCfg* cfg)
 		int nrestart = 0;
 		bRet = CLIENT_SetNewDevConfig(loginID, CFG_CMD_ACCESS_GENERAL, -1, szJsonBufSet, sizeof(szJsonBufSet), &nerror, &nrestart, SDK_API_WAITTIME);
 	} 
-	return TRUE;
+	return bRet;
 }
