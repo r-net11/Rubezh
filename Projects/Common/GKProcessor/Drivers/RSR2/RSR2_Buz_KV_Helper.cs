@@ -82,10 +82,10 @@ namespace GKProcessor
 				Caption = "ОГВ",
 				Default = 0,
 				IsLowByte = true,
-				Mask = 4
+				Mask = 16
 			};
 			GKDriversHelper.AddPropertyParameter(property94, "Контакт НР", 0);
-			GKDriversHelper.AddPropertyParameter(property94, "Контакт НЗ", 4);
+			GKDriversHelper.AddPropertyParameter(property94, "Контакт НЗ", 16);
 			driver.Properties.Add(property94);
 
 			var property95 = new GKDriverProperty()
@@ -95,10 +95,10 @@ namespace GKProcessor
 				Caption = "ДУ Откр",
 				Default = 0,
 				IsLowByte = true,
-				Mask = 8
+				Mask = 32
 			};
 			GKDriversHelper.AddPropertyParameter(property95, "Контакт НР", 0);
-			GKDriversHelper.AddPropertyParameter(property95, "Контакт НЗ", 8);
+			GKDriversHelper.AddPropertyParameter(property95, "Контакт НЗ", 32);
 			driver.Properties.Add(property95);
 
 			var property96 = new GKDriverProperty()
@@ -108,10 +108,10 @@ namespace GKProcessor
 				Caption = "ДУ Закр",
 				Default = 0,
 				IsLowByte = true,
-				Mask = 16
+				Mask = 64
 			};
 			GKDriversHelper.AddPropertyParameter(property96, "Контакт НР", 0);
-			GKDriversHelper.AddPropertyParameter(property96, "Контакт НЗ", 16);
+			GKDriversHelper.AddPropertyParameter(property96, "Контакт НЗ", 64);
 			driver.Properties.Add(property96);
 
 			var property97 = new GKDriverProperty()
@@ -121,10 +121,10 @@ namespace GKProcessor
 				Caption = "ДУ Стоп",
 				Default = 0,
 				IsLowByte = true,
-				Mask = 32
+				Mask = 128
 			};
 			GKDriversHelper.AddPropertyParameter(property97, "Контакт НР", 0);
-			GKDriversHelper.AddPropertyParameter(property97, "Контакт НЗ", 32);
+			GKDriversHelper.AddPropertyParameter(property97, "Контакт НЗ", 128);
 			driver.Properties.Add(property97);
 
 			var property98 = new GKDriverProperty()
