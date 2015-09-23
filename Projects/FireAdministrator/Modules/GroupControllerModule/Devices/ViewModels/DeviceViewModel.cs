@@ -46,6 +46,7 @@ namespace GKModule.ViewModels
 			ShowParentCommand = new RelayCommand(OnShowParent, CanShowParent);
 			ShowMPTCommand = new RelayCommand(OnShowMPT, CanShowMPT);
 			ShowDoorCommand = new RelayCommand(OnShowDoor);
+			ShowDependencyItemsCommand = new RelayCommand(ShowDependencyItems);
 			GenerateZonesCommand = new RelayCommand(GenerateZones);
 			GenerateGuardZonesCommand = new RelayCommand(GenerateGuardZones);
 			GenerateDirectionsCommand = new RelayCommand(GenerateDirections);
@@ -683,7 +684,8 @@ namespace GKModule.ViewModels
 			if (Driver.IsAm)
 			{
 				var anyZonesSelectionViewModel = new AnyZonesSelectionViewModel(Device);
-				DialogService.ShowModalWindow(anyZonesSelectionViewModel);
+				if(DialogService.ShowModalWindow(anyZonesSelectionViewModel))
+					Device.ChangedLogic();
 			}
 			else
 			{
@@ -693,9 +695,7 @@ namespace GKModule.ViewModels
 					if (DialogService.ShowModalWindow(zonesSelectationViewModel))
 					{
 						GKManager.ChangeDeviceZones(Device, zonesSelectationViewModel.Zones);
-						Device.InputDependentElements = new List<GKBase>();
-						Device.OutDependentElements = new List<GKBase>();
-						Device.Invalidate();
+						Device.ChangedLogic();
 					}
 				}
 				if (Driver.HasGuardZone)
@@ -704,9 +704,7 @@ namespace GKModule.ViewModels
 					if (DialogService.ShowModalWindow(guardZonesSelectationViewModel))
 					{
 						GKManager.ChangeDeviceGuardZones(Device, guardZonesSelectationViewModel.DeviceGuardZones.Select(x => x.DeviceGuardZone).ToList());
-						Device.InputDependentElements = new List<GKBase>();
-						Device.OutDependentElements = new List<GKBase>();
-						Device.Invalidate();
+						Device.ChangedLogic();
 					}
 				}
 			}
@@ -959,6 +957,17 @@ namespace GKModule.ViewModels
 					|| x.LockControlDeviceUID == Device.UID || x.LockControlDeviceExitUID == Device.UID);
 			if (door != null)
 				ServiceFactoryBase.Events.GetEvent<ShowGKDoorEvent>().Publish(door.UID);
+		}
+
+		public RelayCommand ShowDependencyItemsCommand { get; set; }
+
+		void ShowDependencyItems()
+		{
+			if (Device != null)
+			{
+				var dependencyItemsViewModel = new DependencyItemsViewModel(Device.OutDependentElements);
+				DialogService.ShowModalWindow(dependencyItemsViewModel);
+			}
 		}
 
 		public RelayCommand CopyCommand { get { return DevicesViewModel.Current.CopyCommand; } }

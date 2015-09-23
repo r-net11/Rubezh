@@ -298,7 +298,8 @@
       <DependentUpon>MPTPropertiesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Selectation\ViewModels\AnyZonesSelectionViewModel.cs" />
-    <Compile Include="Selectation\ViewModels\DependencyItem.cs" />
+    <Compile Include="Selectation\ViewModels\DependencyItemsViewModel..cs" />
+    <Compile Include="Selectation\ViewModels\DependencyItemViewModel.cs" />
     <Compile Include="Selectation\ViewModels\DeviceGuardZoneViewModel.cs" />
     <Compile Include="Selectation\ViewModels\DirectionsSelectationViewModel.cs" />
     <Compile Include="Devices\Views\ConfigurationCompareView.xaml.cs">
@@ -314,6 +315,9 @@
     <Compile Include="Selectation\ViewModels\GuardZonesSelectationViewModel.cs" />
     <Compile Include="Selectation\Views\AnyZonesSelectionView.xaml.cs">
       <DependentUpon>AnyZonesSelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Selectation\Views\DependencyItemsView.xaml.cs">
+      <DependentUpon>DependencyItemsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Selectation\Views\GuardZonesSelectationView.xaml.cs">
       <DependentUpon>GuardZonesSelectationView.xaml</DependentUpon>
@@ -790,6 +794,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Selectation\Views\AnyZonesSelectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Selectation\Views\DependencyItemsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -35,17 +35,6 @@ namespace GKModule.ViewModels
 
 				if (device.Driver.HasLogic)
 				{
-					//foreach (var clause in device.Logic.OnClausesGroup.Clauses)
-					//{
-					//	foreach (var clauseZone in clause.Zones)
-					//	{
-					//		if (clauseZone.UID == zone.UID)
-					//		{
-					//			devices.Add(device);
-					//		}
-					//	}
-					//}
-
 					foreach (var clause in device.Logic.GetObjects())
 					{
 						if (clause.UID == zone.UID)

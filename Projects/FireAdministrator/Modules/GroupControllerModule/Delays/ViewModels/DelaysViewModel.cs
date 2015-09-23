@@ -16,6 +16,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
 using KeyboardKey = System.Windows.Input.Key;
 using Infrastructure.Common.Services;
+using GKModule.ViewModels;
 
 namespace GKModule.ViewModels
 {
@@ -35,8 +36,8 @@ namespace GKModule.ViewModels
 			CopyLogicCommand = new RelayCommand(OnCopyLogic, CanCopyLogic);
 			PasteLogicCommand = new RelayCommand(OnPasteLogic, CanPasteLogic);
 			DeleteAllEmptyCommand = new RelayCommand(OnDeleteAllEmpty, CanDeleteAllEmpty);
+			ShowDependencyItemsCommand = new RelayCommand(ShowDependencyItems);
 			
-
 			RegisterShortcuts();
 			SetRibbonItems();
 		}
@@ -206,7 +207,6 @@ namespace GKModule.ViewModels
 				SelectedDelay.Delay.InputDependentElements.ForEach(x => 
 				{
 					x.OutDependentElements.Remove(SelectedDelay.Delay);
-					x.OnChanged();
 				});
 
 				SelectedDelay.Delay.OutDependentElements.ForEach(x =>
@@ -251,6 +251,17 @@ namespace GKModule.ViewModels
 			return Delays.Any(x => !x.Delay.Logic.GetObjects().Any()); 
 		}
 
+		public RelayCommand ShowDependencyItemsCommand { get; set; }
+
+		void ShowDependencyItems()
+		{
+			if (SelectedDelay != null)
+			{
+				var dependencyItemsViewModel = new DependencyItemsViewModel(SelectedDelay.Delay.OutDependentElements);
+				DialogService.ShowModalWindow(dependencyItemsViewModel);
+			}
+		}
+
 		public RelayCommand EditCommand { get; private set; }
 		private void OnEdit()
 		{
@@ -268,7 +279,6 @@ namespace GKModule.ViewModels
 			{
 				SelectedDelay.Delay = delayDetailsViewModel.Delay;
 				SelectedDelay.Update();
-				SelectedDelay.Delay.InputDependentElements.ForEach(x => x.OnChanged());
 				SelectedDelay.Delay.OutDependentElements.ForEach(x => x.OnChanged());
 				ServiceFactory.SaveService.GKChanged = true;
 			}

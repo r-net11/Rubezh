@@ -98,7 +98,6 @@ namespace GKModule.ViewModels
 				SelectedPumpStation.PumpStation.InputDependentElements.ForEach(x =>
 				{
 					x.OutDependentElements.Remove(SelectedPumpStation.PumpStation);
-					x.OnChanged();
 				});
 
 				SelectedPumpStation.PumpStation.OutDependentElements.ForEach(x =>
@@ -152,7 +151,6 @@ namespace GKModule.ViewModels
 			{
 				SelectedPumpStation.PumpStation = pumpStationDetailsViewModel.PumpStation;
 				SelectedPumpStation.Update();
-				SelectedPumpStation.PumpStation.InputDependentElements.ForEach(x => x.OnChanged());
 				SelectedPumpStation.PumpStation.OutDependentElements.ForEach(x => x.OnChanged());
 				ServiceFactory.SaveService.GKChanged = true;
 			}

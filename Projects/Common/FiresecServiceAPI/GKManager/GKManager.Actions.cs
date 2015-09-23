@@ -61,6 +61,10 @@ namespace FiresecClient
 			}
 			if (!device.ZoneUIDs.Contains(zone.UID))
 				device.ZoneUIDs.Add(zone.UID);
+			if (!device.InputDependentElements.Contains(zone))
+				device.InputDependentElements.Add(zone);
+			if (!zone.OutDependentElements.Contains(device))
+				zone.OutDependentElements.Add(device);
 			zone.Devices.Add(device);
 			zone.OnChanged();
 			device.OnChanged();
@@ -75,6 +79,10 @@ namespace FiresecClient
 			}
 			if (!device.GuardZoneUIDs.Contains(guardZone.UID))
 				device.GuardZoneUIDs.Add(guardZone.UID);
+			if (!device.InputDependentElements.Contains(guardZone))
+				device.InputDependentElements.Add(guardZone);
+			if (!guardZone.OutDependentElements.Contains(device))
+				guardZone.OutDependentElements.Add(device);
 			guardZone.OnChanged();
 			device.OnChanged();
 		}
@@ -133,7 +141,8 @@ namespace FiresecClient
 			device.InputDependentElements.ForEach(x =>
 			{
 				x.OutDependentElements.Remove(device);
-				x.OnChanged();
+				if (x is GKGuardZone)
+					x.Invalidate();
 			});
 
 			device.OutDependentElements.ForEach(x =>
@@ -209,9 +218,9 @@ namespace FiresecClient
 		public static void RemoveZone(GKZone zone)
 		{
 			Zones.Remove(zone);
-			zone.OutDependentElements.ForEach(x => x.InputDependentElements.Remove(zone));
 			zone.OutDependentElements.ForEach(x =>
 			{
+				x.InputDependentElements.Remove(zone);
 				if (x is GKDevice)
 				{
 					x.Invalidate();
@@ -233,18 +242,6 @@ namespace FiresecClient
 
 		public static void EditZone(GKZone zone)
 		{
-			//foreach (var device in zone.Devices)
-			//{
-			//	device.OnChanged();
-			//}
-			//foreach (var device in zone.DevicesInLogic)
-			//{
-			//	device.OnChanged();
-			//}
-			//foreach (var direction in zone.Directions)
-			//{
-			//	direction.OnChanged();
-			//}
 			zone.OnChanged();
 			zone.OutDependentElements.ForEach(x => x.OnChanged());
 		}
@@ -302,6 +299,37 @@ namespace FiresecClient
 		{
 			device.OutDependentElements.ForEach(x =>x.InputDependentElements.Remove(device));
 			device.InputDependentElements.ForEach(x => x.OutDependentElements.Remove(device));
+			if (device.Children != null)
+			{
+				device.Children.ForEach(x =>
+					{
+						x.OutDependentElements.ForEach(y =>
+							{
+								y.InputDependentElements.Remove(x);
+								y.OnChanged();
+							});
+						x.InputDependentElements.ForEach(y =>
+							{
+								y.OutDependentElements.Remove(x);
+								if (y is GKGuardZone)
+								{
+									GKManager.GuardZones.ForEach(guardZone =>
+										{
+											if (guardZone == y)
+												guardZone.GuardZoneDevices.RemoveAll(item => item.DeviceUID == x.UID);
+										});
+								}
+								if (y is GKZone)
+								{
+									GKManager.Zones.ForEach(zone =>
+										{
+											if (zone == y)
+												zone.Devices.Remove(x);
+										});
+								}
+							});
+					});
+			}	
 
 			var changeZone = !(device.Driver.HasZone && driver.HasLogic);
 			device.Driver = driver;
@@ -330,11 +358,6 @@ namespace FiresecClient
 			device.UID = Guid.NewGuid();
 			device.OutDependentElements.ForEach(x =>
 				{
-					if (x is GKGuardZone)
-					{
-						x.Invalidate();
-						x.OnChanged();
-					}
 					x.UpdateLogic();
 					x.OnChanged();
 				});

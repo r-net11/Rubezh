@@ -63,8 +63,6 @@ namespace FiresecAPI.GK
 			ClauseInputPumpStations = new List<GKPumpStation>();
 		}
 
-		public bool IsInputDependent { get; set; }
-
 		[XmlIgnore]
 		protected List<GKBase> InputObjects { get; set; }
 		[XmlIgnore]
@@ -137,11 +135,10 @@ namespace FiresecAPI.GK
 			InputDependentElements.ForEach(x =>
 				{
 					x.OutDependentElements.Remove(this);
-					x.OnChanged();
 				});
 			InputDependentElements = new List<GKBase>();
 			this.Invalidate();
-			InputDependentElements.ForEach(x => x.OnChanged());
+			//InputDependentElements.ForEach(x => x.OnChanged());
 		}
 
 		public virtual string GetGKDescriptorName(GKNameGenerationType gkNameGenerationType)

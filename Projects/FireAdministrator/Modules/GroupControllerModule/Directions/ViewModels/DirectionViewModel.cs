@@ -1,6 +1,6 @@
 ﻿using FiresecAPI.GK;
 using FiresecClient;
-using GKModule.Selectation.ViewModels;
+using GKModule.ViewModels;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
