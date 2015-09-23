@@ -2042,7 +2042,7 @@ namespace FiresecService.Service
 			if (device != null)
 			{
 				AddSKDJournalMessage(JournalEventNameType.Запись_interlock_настройки_контроллера, device);
-				return ChinaSKDDriver.Processor.SetInterlockConfiguration(deviceUID, interlockConfiguration);
+				return Processor.SetInterlockConfiguration(deviceUID, interlockConfiguration);
 			}
 			return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
 		}
