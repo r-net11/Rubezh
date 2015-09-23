@@ -12,6 +12,7 @@ using Infrastructure.Common.Windows;
 using FiresecAPI;
 using Infrastructure.Common.Theme;
 using System.Windows.Forms;
+using ResursRunner;
 
 namespace Resurs
 {
@@ -33,9 +34,11 @@ namespace Resurs
 
 				try
 				{
-					//var startupViewModel = new StartupViewModel();
-					//if (!DialogService.ShowModalWindow(startupViewModel))
-					//	return;
+					App.Current.ShutdownMode = System.Windows.ShutdownMode.OnExplicitShutdown;
+
+					var startupViewModel = new StartupViewModel();
+					if (!DialogService.ShowModalWindow(startupViewModel))
+						return;
 
 					var mainView = new Resurs.Views.MainView();
 					var mainViewModel = new MainViewModel();
