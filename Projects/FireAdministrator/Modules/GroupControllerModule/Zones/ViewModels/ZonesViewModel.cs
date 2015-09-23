@@ -20,7 +20,7 @@ using KeyboardKey = System.Windows.Input.Key;
 
 namespace GKModule.ViewModels
 {
-	public class ZonesViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
+	public class ZonesViewModel : MenuViewPartViewModel, ISelectable<Guid>
 	{
 		private bool _lockSelection;
 		public static ZonesViewModel Current { get; private set; }
@@ -33,6 +33,7 @@ namespace GKModule.ViewModels
 			DeleteAllEmptyCommand = new RelayCommand(OnDeleteAllEmpty, CanDeleteAllEmpty);
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
 			ShowSettingsCommand = new RelayCommand(OnShowSettings);
+			ShowDependencyItemsCommand = new RelayCommand(ShowDependencyItems);
 
 			Current = this;
 			Menu = new ZonesMenuViewModel(this);
@@ -175,6 +176,17 @@ namespace GKModule.ViewModels
 				GKManager.EditZone(SelectedZone.Zone);
 				SelectedZone.Update(zoneDetailsViewModel.Zone);
 				ServiceFactory.SaveService.GKChanged = true;
+			}
+		}
+
+		public RelayCommand ShowDependencyItemsCommand { get; set; }
+
+		void ShowDependencyItems()
+		{
+			if (SelectedZone.Zone != null)
+			{
+				var dependencyItemsViewModel = new DependencyItemsViewModel(SelectedZone.Zone.OutDependentElements);
+				DialogService.ShowModalWindow(dependencyItemsViewModel);
 			}
 		}
 

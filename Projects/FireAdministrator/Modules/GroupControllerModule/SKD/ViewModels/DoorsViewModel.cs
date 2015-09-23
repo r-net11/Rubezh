@@ -21,7 +21,7 @@ using KeyboardKey = System.Windows.Input.Key;
 
 namespace GKModule.ViewModels
 {
-	public class DoorsViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
+	public class DoorsViewModel : MenuViewPartViewModel,ISelectable<Guid>
 	{
 		private bool _lockSelection;
 		public static DoorsViewModel Current { get; private set; }
@@ -34,6 +34,7 @@ namespace GKModule.ViewModels
 			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
 			DeleteAllEmptyCommand = new RelayCommand(OnDeleteAllEmpty, CanDeleteAllEmpty);
+			ShowDependencyItemsCommand = new RelayCommand(ShowDependencyItems);
 			RegisterShortcuts();
 			IsRightPanelEnabled = true;
 			SubscribeEvents();
@@ -119,7 +120,6 @@ namespace GKModule.ViewModels
 				SelectedDoor.Door.InputDependentElements.ForEach(x =>
 				{
 					x.OutDependentElements.Remove(SelectedDoor.Door);
-					x.OnChanged();
 				});
 
 				SelectedDoor.Door.OutDependentElements.ForEach(x =>
@@ -182,6 +182,16 @@ namespace GKModule.ViewModels
 			}
 		}
 
+		public RelayCommand ShowDependencyItemsCommand { get; set; }
+
+		void ShowDependencyItems()
+		{
+			if (SelectedDoor.Door != null)
+			{
+				var dependencyItemsViewModel = new DependencyItemsViewModel(SelectedDoor.Door.OutDependentElements);
+				DialogService.ShowModalWindow(dependencyItemsViewModel);
+			}
+		}
 		public void CreateDoor(CreateGKDoorEventArg createGKDoorEventArg)
 		{
 			DoorDetailsViewModel result = OnAddResult();

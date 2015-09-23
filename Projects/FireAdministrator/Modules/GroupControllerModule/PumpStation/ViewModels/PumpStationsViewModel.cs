@@ -16,7 +16,7 @@ using KeyboardKey = System.Windows.Input.Key;
 
 namespace GKModule.ViewModels
 {
-	public class PumpStationsViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
+	public class PumpStationsViewModel : MenuViewPartViewModel, ISelectable<Guid>
 	{
 		public PumpStationsViewModel()
 		{
@@ -27,6 +27,7 @@ namespace GKModule.ViewModels
 			ChangePumpDevicesCommand = new RelayCommand(OnChangePumpDevices, CanChangePumpDevices);
 			DeletePumpDeviceCommand = new RelayCommand(OnDeletePumpDevice, CanDeletePumpDevice);
 			DeleteAllEmptyCommand = new RelayCommand(OnDeleteAllEmpty, CanDeleteAllEmpty);
+			ShowDependencyItemsCommand = new RelayCommand(ShowDependencyItems);
 			RegisterShortcuts();
 			SetRibbonItems();
 		}
@@ -174,6 +175,17 @@ namespace GKModule.ViewModels
 		bool CanDeletePumpDevice()
 		{
 			return SelectedPumpStation != null && SelectedPumpStation.SelectedPumpDevice != null;
+		}
+
+		public RelayCommand ShowDependencyItemsCommand { get; set; }
+
+		void ShowDependencyItems()
+		{
+			if (SelectedPumpStation.PumpStation != null)
+			{
+				var dependencyItemsViewModel = new DependencyItemsViewModel(SelectedPumpStation.PumpStation.OutDependentElements);
+				DialogService.ShowModalWindow(dependencyItemsViewModel);
+			}
 		}
 
 		public void Select(Guid pumpStationUID)
