@@ -303,9 +303,11 @@ namespace FiresecClient
 			{
 				device.Children.ForEach(x =>
 					{
+						GKManager.Devices.Remove(x);
 						x.OutDependentElements.ForEach(y =>
 							{
 								y.InputDependentElements.Remove(x);
+								y.ChangedLogic();
 								y.OnChanged();
 							});
 						x.InputDependentElements.ForEach(y =>
@@ -313,11 +315,7 @@ namespace FiresecClient
 								y.OutDependentElements.Remove(x);
 								if (y is GKGuardZone)
 								{
-									GKManager.GuardZones.ForEach(guardZone =>
-										{
-											if (guardZone == y)
-												guardZone.GuardZoneDevices.RemoveAll(item => item.DeviceUID == x.UID);
-										});
+									y.Invalidate();
 								}
 								if (y is GKZone)
 								{
