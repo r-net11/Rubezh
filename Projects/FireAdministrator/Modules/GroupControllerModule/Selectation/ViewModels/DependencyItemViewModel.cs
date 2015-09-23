@@ -2,12 +2,9 @@
 using GKModule.Events;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Infrastructure.Events;
 
-namespace GKModule.Selectation.ViewModels
+namespace GKModule.ViewModels
 {
 	public class DependencyItemViewModel
 	{
@@ -32,7 +29,14 @@ namespace GKModule.Selectation.ViewModels
 				ServiceFactoryBase.Events.GetEvent<ShowGKDoorEvent>().Publish(gkBase.UID);
 			if (gkBase is GKDirection)
 				ServiceFactoryBase.Events.GetEvent<ShowGKDirectionEvent>().Publish(gkBase.UID);
+			if (gkBase is GKDelay)
+				ServiceFactoryBase.Events.GetEvent<ShowXDelayEvent>().Publish(gkBase.UID);
+			if (gkBase is GKMPT)
+				ServiceFactoryBase.Events.GetEvent<ShowGKMPTEvent>().Publish(gkBase.UID);
+			if (gkBase is GKPumpStation)
+				ServiceFactoryBase.Events.GetEvent<ShowGKPumpStationEvent>().Publish(gkBase.UID);
+			if (gkBase is GKDevice)
+				ServiceFactoryBase.Events.GetEvent<ShowGKDeviceEvent>().Publish(gkBase.UID);
 		}
-
 	}
 }
