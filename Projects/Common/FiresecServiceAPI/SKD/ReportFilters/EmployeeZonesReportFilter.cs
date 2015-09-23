@@ -9,7 +9,6 @@ namespace FiresecAPI.SKD.ReportFilters
 	{
 		public EmployeeZonesReportFilter()
 		{
-			ReportDateTime = DateTime.Now;
 			UseCurrentDate = true;
 			IsEmployee = true;
 		}
@@ -72,6 +71,6 @@ namespace FiresecAPI.SKD.ReportFilters
 		public bool UseCurrentDate { get; set; }
 
 		[DataMember]
-		public DateTime ReportDateTime { get; set; }
+		public DateTime? ReportDateTime { get; set; }
 	}
 }

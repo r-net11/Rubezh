@@ -538,12 +538,6 @@ namespace SKDDriver.Translators
 							e =>
 								e.EnterTime.Day == dateTime.Value.Day && e.EnterTime.Hour >= dateTime.Value.Hour &&
 								e.EnterTime.Minute >= dateTime.Value.Minute);
-					//		filter =
-					//			filter.And(
-					//				e =>
-					//					e.EnterTime.Day == dateTime.Value.Day && e.EnterTime.Hour >= dateTime.Value.Hour &&
-					//					e.EnterTime.Minute >= dateTime.Value.Minute && !e.ExitTime.HasValue);
-					// !e.ExitTime.HasValue || e.ExitTime > dateTime);
 				}
 				else
 					filter = filter.And(e => !e.ExitTime.HasValue);
