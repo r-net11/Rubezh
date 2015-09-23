@@ -65,9 +65,9 @@ namespace FiresecAPI.Journal
 
 	public enum ArchiveSortType
 	{
-		[Description("Дата системы")]
+		[Description("Дата в системе")]
 		SystemDate = 0,
-		[Description("Дата прибора")]
+		[Description("Дата в приборе")]
 		DeviceDate = 1,
 		[Description("Сотрудник")]
 		EmployeeUID = 2,
@@ -75,7 +75,7 @@ namespace FiresecAPI.Journal
 		Subsystem = 3,
 		[Description("Событие")]
 		Name = 4,
-		[Description("Примечание")]
+		[Description("Уточнение")]
 		Description = 5,
 		[Description("Тип объекта")]
 		ObjectType = 6,

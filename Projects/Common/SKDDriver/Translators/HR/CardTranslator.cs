@@ -54,7 +54,10 @@ namespace SKDDriver.DataClasses
 			if (filter.DeactivationType == API.LogicalDeletationType.Active)
 				tableItems = tableItems.Where(x => !x.IsInStopList);
 			if (filter.IsWithEndDate)
-				tableItems = tableItems.Where(x => x.EndDate < filter.EndDate);
+			{
+				var endDate = filter.EndDate.Date.AddDays(1);
+				tableItems = tableItems.Where(x => x.EndDate < endDate);
+			}
 			return tableItems.OrderBy(x => x.UID);
 		}
 

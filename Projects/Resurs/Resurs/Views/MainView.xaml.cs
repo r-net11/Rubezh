@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using Infrastructure.Common.Windows;
 using Resurs.Service;
+using ResursDAL;
 
 namespace Resurs.Views
 {
@@ -12,6 +13,7 @@ namespace Resurs.Views
 		{
 			InitializeComponent();
 			NotifyIconService.Start(OnShow, OnClose);
+			DatabaseContext.CheckConnection();
 		}
 
 		void OnLoaded(object sender, RoutedEventArgs e)

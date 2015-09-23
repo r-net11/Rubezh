@@ -309,13 +309,13 @@
       <Project>{DA2A8431-7328-4AE8-926F-E191700577A1}</Project>
       <Name>Infrustructure.Plans</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DAL\ResursDAL.csproj">
+      <Project>{c6c6465e-30fe-4d6c-bdf4-1f0b9e4c325a}</Project>
+      <Name>ResursDAL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ResursAPI\ResursAPI.csproj">
       <Project>{94c0399f-3eab-4e23-98f9-61eb8daa4974}</Project>
       <Name>ResursAPI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ResursDAL\ResursDAL.csproj">
-      <Project>{db79c06f-f07a-436c-ba0a-b94b3942a14e}</Project>
-      <Name>ResursDAL</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
