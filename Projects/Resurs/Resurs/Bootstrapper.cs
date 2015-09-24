@@ -10,36 +10,49 @@ using Infrastructure.Common;
 using Infrastructure.Common.BalloonTrayTip;
 using Infrastructure.Common.Windows;
 using FiresecAPI;
+using Infrastructure.Common.Theme;
+using System.Windows.Forms;
+using ResursRunner;
 
 namespace Resurs
 {
 	public static class Bootstrapper
 	{
-		static Thread WindowThread = null;
 		static MainViewModel MainViewModel;
 
-		public static void Run()
+		public static void Run(bool showWindow)
 		{
 			try
 			{
+				ThemeHelper.LoadThemeFromRegister();
 				Environment.CurrentDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-				Logger.Trace(SystemInfo.GetString());
 				var resourceService = new ResourceService();
-				resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml"));
 				resourceService.AddResource(new ResourceDescription(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml"));
+				resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "Main/DataTemplates/Dictionary.xaml"));
+				resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "Devices/DataTemplates/Dictionary.xaml"));
+				resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "Apartments/DataTemplates/Dictionary.xaml"));
 
 				try
 				{
-					MainViewModel = new MainViewModel();
-					ApplicationService.Run(MainViewModel, false, false);
+					App.Current.ShutdownMode = System.Windows.ShutdownMode.OnExplicitShutdown;
+
+					var startupViewModel = new StartupViewModel();
+					if (!DialogService.ShowModalWindow(startupViewModel))
+						return;
+
+					var mainView = new Resurs.Views.MainView();
+					var mainViewModel = new MainViewModel();
+					mainView.DataContext = mainViewModel;
+					if (showWindow)
+					{
+						mainView.Show();
+					}
 				}
 				catch (Exception e)
 				{
 					Logger.Error(e, "Исключение при вызове Bootstrapper.OnWorkThread");
-
-					BalloonHelper.ShowFromServer("Ошибка во время загрузки");
+					BalloonHelper.Show("АРМ Ресурс", "Ошибка во время загрузки");
 				}
-				System.Windows.Threading.Dispatcher.Run();
 			}
 			catch (Exception e)
 			{
@@ -50,14 +63,7 @@ namespace Resurs
 
 		public static void Close()
 		{
-			ServerLoadHelper.SetStatus(FSServerState.Closed);
-			if (WindowThread != null)
-			{
-				WindowThread.Interrupt();
-				WindowThread = null;
-			}
 			System.Environment.Exit(1);
-
 			Process.GetCurrentProcess().Kill();
 		}
 	}

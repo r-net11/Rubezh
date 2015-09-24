@@ -34,6 +34,7 @@ namespace Infrastructure.Common.Windows
 			}
 			return false;
 		}
+
 		public static void ShowWindow(WindowBaseViewModel windowBaseViewModel)
 		{
 			if (!FindWindowIdentity(windowBaseViewModel))

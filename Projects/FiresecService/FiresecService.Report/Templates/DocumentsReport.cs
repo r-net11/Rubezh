@@ -51,6 +51,7 @@ namespace FiresecService.Report.Templates
 									filter.Overtime && documentType.DocumentType == DocumentType.Overtime)
 								{
 									var row = ds.Data.NewDataRow();
+									row.Organisation = employee.Organisation;
 									row.Employee = employee.Name;
 									row.Department = employee.Department;
 									row.StartDateTime = document.StartDateTime;

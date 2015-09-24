@@ -31,17 +31,6 @@ namespace FireMonitor.Layout.ViewModels
 			}
 		}
 
-		public override int GetPreferedMonitor()
-		{
-			if (StartupService.Instance.IsActive)
-			{
-				var monitorID = MonitorHelper.PrimaryMonitor;
-				StartupService.Instance.Invoke(() => MonitorHelper.FindMonitor(StartupService.Instance.OwnerWindow.RestoreBounds));
-				return monitorID;
-			}
-			else
-				return base.GetPreferedMonitor();
-		}
 		public override void OnLoad()
 		{
 			base.OnLoad();

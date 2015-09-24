@@ -55,7 +55,7 @@ namespace SKDModule.Reports.ViewModels
 
 		void CreateItemList(bool isWithDeleted = false)
 		{
-			Organisations = new ReportOrganisationsItemList{ IsSingleSelection = !AllowMultiple};
+			Organisations = new ReportOrganisationsItemList { IsSingleSelection = !AllowMultiple };
 			var filter = new OrganisationFilter() { UserUID = FiresecManager.CurrentUser.UID };
 			if (isWithDeleted)
 				filter.LogicalDeletationType = LogicalDeletationType.All;
@@ -80,7 +80,7 @@ namespace SKDModule.Reports.ViewModels
 			{
 				organisation.IsChecked = true;
 			}
-			if (!AllowMultiple && Organisations.Items.Count > 0)
+			if (!AllowMultiple && Organisations.Items.Count > 0 && uids.Count != 1)
 				Organisations.SelectedOrganisation = Organisations.Items.FirstOrDefault();
 		}
 
@@ -99,11 +99,11 @@ namespace SKDModule.Reports.ViewModels
 			set
 			{
 				_SelectedOrganisation = value;
-				if(IsSingleSelection)
+				if (IsSingleSelection)
 					_SelectedOrganisation.IsChecked = true;
 			}
 		}
-		
+
 		public override void Update()
 		{
 			base.Update();

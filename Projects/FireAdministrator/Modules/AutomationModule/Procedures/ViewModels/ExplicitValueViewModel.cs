@@ -12,6 +12,7 @@ using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Automation;
 
 namespace AutomationModule.ViewModels
 {
@@ -44,12 +45,12 @@ namespace AutomationModule.ViewModels
 
 		void InitializeEnums()
 		{
-			StateTypeValues = ProcedureHelper.GetEnumObs<XStateClass>();
-			DriverTypeValues = ProcedureHelper.GetEnumObs<GKDriverType>();
-			PermissionTypeValues = ProcedureHelper.GetEnumObs<PermissionType>();
-			JournalEventNameTypeValues = ProcedureHelper.GetEnumObs<JournalEventNameType>();
-			JournalEventDescriptionTypeValues = ProcedureHelper.GetEnumObs<JournalEventDescriptionType>();
-			JournalObjectTypeValues = ProcedureHelper.GetEnumObs<JournalObjectType>();
+			StateTypeValues = AutomationHelper.GetEnumObs<XStateClass>();
+			DriverTypeValues = AutomationHelper.GetEnumObs<GKDriverType>();
+			PermissionTypeValues = AutomationHelper.GetEnumObs<PermissionType>();
+			JournalEventNameTypeValues = AutomationHelper.GetEnumObs<JournalEventNameType>();
+			JournalEventDescriptionTypeValues = AutomationHelper.GetEnumObs<JournalEventDescriptionType>();
+			JournalObjectTypeValues = AutomationHelper.GetEnumObs<JournalObjectType>();
 			MinIntValue = Int32.MinValue;
 			MaxIntValue = Int32.MaxValue;
 		}

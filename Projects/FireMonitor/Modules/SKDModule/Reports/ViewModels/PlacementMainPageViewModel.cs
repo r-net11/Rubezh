@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Infrastructure.Common.SKDReports;
 using FiresecAPI.SKD.ReportFilters;
 
@@ -19,14 +16,28 @@ namespace SKDModule.Reports.ViewModels
 				OnPropertyChanged(() => UseCurrentDate);
 			}
 		}
-		private DateTime _reportDateTime;
 		public DateTime ReportDateTime
 		{
-			get { return _reportDateTime; }
+			get { return Date.AddTicks(Time.Ticks); }
+		}
+		private DateTime _date;
+		public DateTime Date
+		{
+			get { return _date; }
 			set
 			{
-				_reportDateTime = value;
-				OnPropertyChanged(() => ReportDateTime);
+				_date = value;
+				OnPropertyChanged(() => Date);
+			}
+		}
+		private TimeSpan _time;
+		public TimeSpan Time
+		{
+			get { return _time; }
+			set
+			{
+				_time = value;
+				OnPropertyChanged(() => Time);
 			}
 		}
 
@@ -36,7 +47,8 @@ namespace SKDModule.Reports.ViewModels
 			if (placementFilter == null)
 				return;
 			UseCurrentDate = placementFilter.UseCurrentDate;
-			ReportDateTime = placementFilter.ReportDateTime;
+			Date = placementFilter.ReportDateTime.Date;
+			Time = placementFilter.ReportDateTime.TimeOfDay;
 		}
 		public override void UpdateFilter(SKDReportFilter filter)
 		{

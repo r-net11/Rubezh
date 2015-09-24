@@ -125,8 +125,12 @@ namespace JournalModule.ViewModels
 			{
 				if (DialogService.ShowModalWindow(archiveFilterViewModel))
 				{
+					var stopwatch = new Stopwatch();
+					stopwatch.Start();
 					ArchiveFilter = archiveFilterViewModel.GetModel();
 					Update();
+					stopwatch.Stop();
+					Trace.WriteLine("archiveFilterViewModel " + stopwatch.ElapsedMilliseconds);
 				}
 			}
 		}
@@ -239,6 +243,7 @@ namespace JournalModule.ViewModels
 
 				ArchiveFilter.PageSize = ClientSettings.ArchiveDefaultState.PageSize;
 				ArchiveFilter.UseDeviceDateTime = ClientSettings.ArchiveDefaultState.UseDeviceDateTime;
+				ArchiveFilter.IsSortAsc = ClientSettings.ArchiveDefaultState.IsSortAsc;
 				ArchiveFilter.StartDate = ArchiveFirstDate;
 				ArchiveFilter.EndDate = DateTime.Now;
 

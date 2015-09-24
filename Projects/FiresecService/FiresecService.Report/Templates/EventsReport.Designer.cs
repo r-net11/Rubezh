@@ -28,7 +28,6 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			DevExpress.XtraReports.UI.XRSummary xrSummary1 = new DevExpress.XtraReports.UI.XRSummary();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EventsReport));
 			this.Detail = new DevExpress.XtraReports.UI.DetailBand();
 			this.xrTable1 = new DevExpress.XtraReports.UI.XRTable();
@@ -53,6 +52,7 @@
 			this.xrControlStyle1 = new DevExpress.XtraReports.UI.XRControlStyle();
 			this.GroupFooter1 = new DevExpress.XtraReports.UI.GroupFooterBand();
 			this.xrLabel1 = new DevExpress.XtraReports.UI.XRLabel();
+			this.xrSummary1 = new DevExpress.XtraReports.UI.XRSummary();
 			((System.ComponentModel.ISupportInitialize)(this.xrTable1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.xrTable2)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
@@ -72,6 +72,7 @@
 			this.xrTable1.Dpi = 254F;
 			this.xrTable1.LocationFloat = new DevExpress.Utils.PointFloat(0F, 0F);
 			this.xrTable1.Name = "xrTable1";
+			this.xrTable1.OddStyleName = "xrControlStyle1";
 			this.xrTable1.Padding = new DevExpress.XtraPrinting.PaddingInfo(3, 3, 3, 3, 254F);
 			this.xrTable1.Rows.AddRange(new DevExpress.XtraReports.UI.XRTableRow[] {
             this.xrTableRow1});
@@ -276,16 +277,18 @@
 			this.xrLabel1.StylePriority.UseFont = false;
 			this.xrLabel1.StylePriority.UsePadding = false;
 			this.xrLabel1.StylePriority.UseTextAlignment = false;
-			xrSummary1.FormatString = "Всего событий: {0}";
-			xrSummary1.Func = DevExpress.XtraReports.UI.SummaryFunc.Count;
-			xrSummary1.Running = DevExpress.XtraReports.UI.SummaryRunning.Group;
-			this.xrLabel1.Summary = xrSummary1;
+			this.xrSummary1.FormatString = "Всего событий: {0}";
+			this.xrSummary1.Func = DevExpress.XtraReports.UI.SummaryFunc.Count;
+			this.xrSummary1.Running = DevExpress.XtraReports.UI.SummaryRunning.Group;
+			this.xrLabel1.Summary = this.xrSummary1;
+
 			this.xrLabel1.Text = "Total";
 			this.xrLabel1.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
 			// 
 			// EventsReport
 			// 
 			this.Bands.AddRange(new DevExpress.XtraReports.UI.Band[] {
+			this.Detail,
             this.GroupHeader1,
             this.GroupFooter1});
 			this.DataMember = "Data";
@@ -300,6 +303,7 @@
 			this.Version = "15.1";
 			this.Controls.SetChildIndex(this.GroupFooter1, 0);
 			this.Controls.SetChildIndex(this.GroupHeader1, 0);
+			this.Controls.SetChildIndex(this.Detail, 0);
 			((System.ComponentModel.ISupportInitialize)(this.xrTable1)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.xrTable2)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this)).EndInit();

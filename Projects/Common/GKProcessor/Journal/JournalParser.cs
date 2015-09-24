@@ -475,7 +475,7 @@ namespace GKProcessor
 				{
 					JournalItem.JournalObjectType = JournalObjectType.GKDevice;
 					JournalItem.ObjectUID = Device.UID;
-					JournalItem.ObjectName = Device.DottedPresentationAddress + Device.ShortName;
+					JournalItem.ObjectName = Device.ShortName + " " + Device.DottedPresentationAddress;
 				}
 				Zone = GKManager.Zones.FirstOrDefault(x => x.GKDescriptorNo == GKObjectNo);
 				if (Zone != null)

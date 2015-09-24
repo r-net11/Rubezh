@@ -10,8 +10,7 @@
 		</Grid.RowDefinitions>
 		<ContentControl Content="{StaticResource ProxyElement}" Visibility="Collapsed" Grid.Row="0" />
 		<DataGrid x:Name="Grid" ItemsSource="{Binding Organisations.Items}" Grid.Row="0" SelectedItem="{Binding Organisations.SelectedOrganisation}"
-				  UIBehavior.ShowSelectionMark="True" 
-				  UIBehavior.IsActiveSelectionMark="True" >
+				  UIBehavior.ShowSelectionMark="True">
 			<DataGrid.Columns>
 				<DataGridTemplateColumn Width="*" Header="Название" Visibility="{Binding Source={StaticResource ProxyElement}, Path=DataContext.AllowMultiple, Converter={StaticResource InversedBoolToVisibilityConverter}}" >
 					<DataGridTemplateColumn.CellTemplate>

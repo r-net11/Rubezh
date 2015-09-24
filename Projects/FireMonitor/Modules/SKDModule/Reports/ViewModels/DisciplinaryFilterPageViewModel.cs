@@ -14,16 +14,6 @@ namespace SKDModule.Reports.ViewModels
 			Title = "Фильтры";
 		}
 
-		private bool _showAllViolation;
-		public bool ShowAllViolation
-		{
-			get { return _showAllViolation; }
-			set
-			{
-				_showAllViolation = value;
-				OnPropertyChanged(() => ShowAllViolation);
-			}
-		}
 		private bool _showDelay;
 		public bool ShowDelay
 		{
@@ -42,16 +32,6 @@ namespace SKDModule.Reports.ViewModels
 			{
 				_showEarlуRetirement = value;
 				OnPropertyChanged(() => ShowEarlуRetirement);
-			}
-		}
-		private bool _showTolerance;
-		public bool ShowTolerance
-		{
-			get { return _showTolerance; }
-			set
-			{
-				_showTolerance = value;
-				OnPropertyChanged(() => ShowTolerance);
 			}
 		}
 		private bool _showAbsence;
@@ -74,16 +54,6 @@ namespace SKDModule.Reports.ViewModels
 				OnPropertyChanged(() => ShowOvertime);
 			}
 		}
-		private bool _showMissingtime;
-		public bool ShowMissingtime
-		{
-			get { return _showMissingtime; }
-			set
-			{
-				_showMissingtime = value;
-				OnPropertyChanged(() => ShowMissingtime);
-			}
-		}
 		private bool _showConfirmed;
 		public bool ShowConfirmed
 		{
@@ -103,20 +73,17 @@ namespace SKDModule.Reports.ViewModels
 				_showWithoutTolerance = value;
 				OnPropertyChanged(() => ShowWithoutTolerance);
 			}
-		}	
+		}
 
 		public override void LoadFilter(SKDReportFilter filter)
 		{
 			var disciplinaryFilter = filter as DisciplineReportFilter;
 			if (disciplinaryFilter == null)
 				return;
-			ShowAllViolation = disciplinaryFilter.ShowAllViolation;
 			ShowDelay = disciplinaryFilter.ShowDelay;
 			ShowEarlуRetirement = disciplinaryFilter.ShowEarlуRetirement;
-			ShowTolerance = disciplinaryFilter.ShowTolerance;
 			ShowAbsence = disciplinaryFilter.ShowAbsence;
 			ShowOvertime = disciplinaryFilter.ShowOvertime;
-			ShowMissingtime = disciplinaryFilter.ShowMissingtime;
 			ShowConfirmed = disciplinaryFilter.ShowConfirmed;
 			ShowWithoutTolerance = disciplinaryFilter.ShowWithoutTolerance;
 		}
@@ -125,13 +92,10 @@ namespace SKDModule.Reports.ViewModels
 			var disciplinaryFilter = filter as DisciplineReportFilter;
 			if (disciplinaryFilter == null)
 				return;
-			disciplinaryFilter.ShowAllViolation = ShowAllViolation;
 			disciplinaryFilter.ShowDelay = ShowDelay;
 			disciplinaryFilter.ShowEarlуRetirement = ShowEarlуRetirement;
-			disciplinaryFilter.ShowTolerance = ShowTolerance;
 			disciplinaryFilter.ShowAbsence = ShowAbsence;
 			disciplinaryFilter.ShowOvertime = ShowOvertime;
-			disciplinaryFilter.ShowMissingtime = ShowMissingtime;
 			disciplinaryFilter.ShowConfirmed = ShowConfirmed;
 			disciplinaryFilter.ShowWithoutTolerance = ShowWithoutTolerance;
 		}

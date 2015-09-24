@@ -27,6 +27,7 @@ namespace FiresecClient
 			deviceTo.Driver = deviceFrom.Driver;
 			deviceTo.IntAddress = deviceFrom.IntAddress;
 			deviceTo.Description = deviceFrom.Description;
+			deviceTo.ProjectAddress = deviceFrom.ProjectAddress;
 			deviceTo.PredefinedName = deviceFrom.PredefinedName;
 
 			deviceTo.Properties = new List<GKProperty>();
@@ -36,7 +37,8 @@ namespace FiresecClient
 				{
 					Name = property.Name,
 					Value = property.Value,
-					DriverProperty = property.DriverProperty
+					DriverProperty = property.DriverProperty,
+					StringValue = property.StringValue,
 				});
 			}
 

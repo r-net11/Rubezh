@@ -270,7 +270,6 @@
     <Compile Include="Reports\Providers\EmployeeRootReportProvider.cs" />
     <Compile Include="Reports\Providers\EventsReportProvider.cs" />
     <Compile Include="Reports\Providers\WorkingTimeReportProvider.cs" />
-    <Compile Include="Reports\Providers\DoorsReportProvider.cs" />
     <Compile Include="Reports\Providers\DocumentsReportProvider.cs" />
     <Compile Include="Reports\Providers\SchedulesReportProvider.cs" />
     <Compile Include="Reports\Providers\DisciplineReportProvider.cs" />
@@ -285,7 +284,6 @@
     <Compile Include="Reports\ViewModels\ReportFilterOrganisationViewModel.cs" />
     <Compile Include="Reports\ViewModels\ReportOrganisationsFilterViewModel.cs" />
     <Compile Include="Reports\ViewModels\ScheduleSchemePageViewModel.cs" />
-    <Compile Include="Reports\ViewModels\DoorPageViewModel.cs" />
     <Compile Include="Reports\ViewModels\DisciplinaryFilterPageViewModel.cs" />
     <Compile Include="Reports\ViewModels\DocumentFilterPageViewModel.cs" />
     <Compile Include="Reports\ViewModels\EventTypePageViewModel.cs" />
@@ -308,9 +306,6 @@
     </Compile>
     <Compile Include="Reports\Views\DocumentFilterPageView.xaml.cs">
       <DependentUpon>DocumentFilterPageView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Reports\Views\DoorPageView.xaml.cs">
-      <DependentUpon>DoorPageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Reports\Views\EmployeePageView.xaml.cs">
       <DependentUpon>EmployeePageView.xaml</DependentUpon>
@@ -796,10 +791,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Reports\Views\DocumentFilterPageView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Reports\Views\DoorPageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

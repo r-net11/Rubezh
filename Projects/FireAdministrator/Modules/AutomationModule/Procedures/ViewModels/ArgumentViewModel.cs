@@ -9,6 +9,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Automation;
 
 namespace AutomationModule.ViewModels
 {
@@ -42,7 +43,7 @@ namespace AutomationModule.ViewModels
 				ExplicitValues.Add(new ExplicitValueViewModel(explicitValue));
 			ExplicitValue.UpdateDescriptionHandler = updateDescriptionHandler;
 			Variables = new List<VariableViewModel>();
-			VariableScopes = new ObservableCollection<VariableScope>(ProcedureHelper.GetEnumList<VariableScope>().FindAll(x => (allowExplicitValue || x != VariableScope.ExplicitValue) && (allowLocalValue || x != VariableScope.LocalVariable) && (allowGlobalValue || x != VariableScope.GlobalVariable)));
+			VariableScopes = new ObservableCollection<VariableScope>(AutomationHelper.GetEnumList<VariableScope>().FindAll(x => (allowExplicitValue || x != VariableScope.ExplicitValue) && (allowLocalValue || x != VariableScope.LocalVariable) && (allowGlobalValue || x != VariableScope.GlobalVariable)));
 			OnPropertyChanged(() => VariableScopes);
 			ExplicitTypes = new List<ExplicitTypeViewModel>();
 		}
@@ -223,13 +224,13 @@ namespace AutomationModule.ViewModels
 		public void Update(List<Variable> allVariables, List<ExplicitType> explicitTypes = null, List<EnumType> enumTypes = null, List<ObjectType> objectTypes = null, bool? isList = null)
 		{
 			if (explicitTypes == null)
-				explicitTypes = ProcedureHelper.GetEnumList<ExplicitType>();
+				explicitTypes = AutomationHelper.GetEnumList<ExplicitType>();
 			if (objectTypes == null)
-				objectTypes = ProcedureHelper.GetEnumList<ObjectType>();
+				objectTypes = AutomationHelper.GetEnumList<ObjectType>();
 			if (enumTypes == null)
-				enumTypes = ProcedureHelper.GetEnumList<EnumType>();
+				enumTypes = AutomationHelper.GetEnumList<EnumType>();
 			ExplicitTypes = ProcedureHelper.BuildExplicitTypes(explicitTypes, enumTypes, objectTypes);
-			var variables = ProcedureHelper.GetAllVariables(allVariables, explicitTypes, enumTypes, objectTypes, isList);
+			var variables = AutomationHelper.GetAllVariables(allVariables, explicitTypes, enumTypes, objectTypes, isList);
 			if (isList != null)
 				IsList = isList.Value;
 			Variables = new List<VariableViewModel>();
@@ -265,13 +266,13 @@ namespace AutomationModule.ViewModels
 
 		public void Update(Procedure procedure, ExplicitType explicitType, EnumType? enumType = null, ObjectType? objectType = null, bool? isList = null)
 		{
-			var variables = ProcedureHelper.GetAllVariables(procedure);
+			var variables = AutomationHelper.GetAllVariables(procedure);
 			Update(variables, new List<ExplicitType> { explicitType }, enumType != null ? new List<EnumType> { enumType.Value } : null, objectType != null ? new List<ObjectType> { objectType.Value } : null, isList);
 		}
 
 		public void Update(Procedure procedure, List<ExplicitType> explicitTypes = null, List<EnumType> enumTypes = null, List<ObjectType> objectTypes = null, bool? isList = null)
 		{
-			var variables = ProcedureHelper.GetAllVariables(procedure);
+			var variables = AutomationHelper.GetAllVariables(procedure);
 			Update(variables, explicitTypes, enumTypes, objectTypes, isList);
 		}
 
@@ -341,14 +342,14 @@ namespace AutomationModule.ViewModels
 			{
 				var description = "";
 				if (!IsList)
-					description = ProcedureHelper.GetStringValue(Argument.ExplicitValue, Argument.ExplicitType, Argument.EnumType);
+					description = AutomationHelper.GetStringValue(Argument.ExplicitValue, Argument.ExplicitType, Argument.EnumType);
 				else
 				{
 					if (Argument.ExplicitValues.Count == 0)
 						return "Пустой список";
 					foreach (var explicitValue in Argument.ExplicitValues)
 					{
-						description += ProcedureHelper.GetStringValue(explicitValue, Argument.ExplicitType, Argument.EnumType) + ", ";
+						description += AutomationHelper.GetStringValue(explicitValue, Argument.ExplicitType, Argument.EnumType) + ", ";
 					}
 				}
 				description = description.TrimEnd(',', ' ');
@@ -368,7 +369,7 @@ namespace AutomationModule.ViewModels
 					return "<" + SelectedVariable.Variable.Name + ">";
 				}
 
-				return !IsList ? ProcedureHelper.GetStringValue(ExplicitValue.ExplicitValue, ExplicitType, EnumType) : "Список";
+				return !IsList ? AutomationHelper.GetStringValue(ExplicitValue.ExplicitValue, ExplicitType, EnumType) : "Список";
 			}
 		}
 

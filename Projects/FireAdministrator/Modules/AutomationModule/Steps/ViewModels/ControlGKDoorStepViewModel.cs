@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using FiresecAPI.Automation;
 using FiresecAPI;
+using Infrastructure.Automation;
 
 namespace AutomationModule.ViewModels
 {
@@ -13,7 +14,7 @@ namespace AutomationModule.ViewModels
 			: base(stepViewModel)
 		{
 			ControlGKDoorArguments = stepViewModel.Step.ControlGKDoorArguments;
-			Commands = ProcedureHelper.GetEnumObs<GKDoorCommandType>();
+			Commands = AutomationHelper.GetEnumObs<GKDoorCommandType>();
 			DoorArgument = new ArgumentViewModel(ControlGKDoorArguments.DoorArgument, stepViewModel.Update, null);
 			SelectedCommand = ControlGKDoorArguments.DoorCommandType;
 		}

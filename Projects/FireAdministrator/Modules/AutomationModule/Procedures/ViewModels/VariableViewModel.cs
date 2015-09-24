@@ -1,6 +1,7 @@
 ﻿using FiresecAPI.Automation;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI;
+using Infrastructure.Automation;
 
 namespace AutomationModule.ViewModels
 {
@@ -19,12 +20,12 @@ namespace AutomationModule.ViewModels
 			{
 				var description = "";
 				if (!Variable.IsList)
-					description = ProcedureHelper.GetStringValue(Variable.ExplicitValue, Variable.ExplicitType, Variable.EnumType);
+					description = AutomationHelper.GetStringValue(Variable.ExplicitValue, Variable.ExplicitType, Variable.EnumType);
 				else
 				{
 					foreach (var explicitValue in Variable.ExplicitValues)
 					{
-						description += ProcedureHelper.GetStringValue(explicitValue, Variable.ExplicitType, Variable.EnumType) + ", ";
+						description += AutomationHelper.GetStringValue(explicitValue, Variable.ExplicitType, Variable.EnumType) + ", ";
 					}
 				}
 				description = description.TrimEnd(',', ' ');

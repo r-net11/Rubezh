@@ -211,9 +211,9 @@ namespace GKModule.ViewModels
 		public RelayCommand ResetPropertiesCommand { get; private set; }
 		void OnResetProperties()
 		{
-			DelayTime = 10;
-			Hold = 10;
-			DelayRegime = DelayRegime.Off;
+			DelayTime = 0;
+			Hold = 0;
+			DelayRegime = DelayRegime.On;
 		}
 
 		bool CompareLocalWithRemoteHashes()

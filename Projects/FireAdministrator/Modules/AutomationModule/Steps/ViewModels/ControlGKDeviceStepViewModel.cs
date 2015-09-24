@@ -4,6 +4,7 @@ using FiresecAPI;
 using FiresecAPI.Automation;
 using FiresecAPI.GK;
 using System.ComponentModel;
+using Infrastructure.Automation;
 
 namespace AutomationModule.ViewModels
 {
@@ -26,7 +27,7 @@ namespace AutomationModule.ViewModels
 		{
 			if (GKDeviceArgument.SelectedVariableScope != VariableScope.ExplicitValue)
 			{
-				Commands = ProcedureHelper.GetEnumObs<CommandType>();
+				Commands = AutomationHelper.GetEnumObs<CommandType>();
 				Commands.Remove(CommandType.Unknown);
 			}
 			else if (GKDeviceArgument.ExplicitValue.Device != null)

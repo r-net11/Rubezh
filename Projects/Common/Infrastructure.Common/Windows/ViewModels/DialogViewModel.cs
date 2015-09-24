@@ -9,7 +9,7 @@
 			AllowMaximize = false;
 		}
 
-		private BaseViewModel _headerCommandViewModel;
+		BaseViewModel _headerCommandViewModel;
 		public BaseViewModel HeaderCommandViewModel
 		{
 			get { return _headerCommandViewModel; }
@@ -18,7 +18,6 @@
 				_headerCommandViewModel = value;
 				OnPropertyChanged(() => HeaderCommandViewModel);
 			}
-		}
-		
+		}		
 	}
 }

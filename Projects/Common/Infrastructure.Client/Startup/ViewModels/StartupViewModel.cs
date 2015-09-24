@@ -51,13 +51,6 @@ namespace Infrastructure.Client.Startup.ViewModels
 			Surface.SizeToContent = SizeToContent.WidthAndHeight;
 			Surface.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 		}
-		public override int GetPreferedMonitor()
-		{
-			var monitorID = RegistrySettingsHelper.GetInt(_clientType + ".Shell.PreferedMonitor", -1);
-			if (monitorID == -1)
-				monitorID = MonitorHelper.PrimaryMonitor;
-			return monitorID;
-		}
 		public override bool OnClosing(bool isCanceled)
 		{
 			var result = base.OnClosing(isCanceled);

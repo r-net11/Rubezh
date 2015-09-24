@@ -85,29 +85,12 @@ namespace Infrastructure.Common.Windows.ViewModels
 
 		public bool CloseOnEscape { get; set; }
 		public bool HideInTaskbar { get; set; }
-		public bool CustomPosition { get; set; }
-		public double X { get; set; }
-		public double Y { get; set; }
-
-		public virtual int GetPreferedMonitor()
-		{
-			return ApplicationService.GetActiveMonitor();
-		}
+		
 		public virtual void OnLoad()
 		{
 			Surface.Owner = DialogService.GetActiveWindow();
 			Surface.ShowInTaskbar = Surface.Owner == null;
-			if (CustomPosition)
-			{
-				Surface.WindowStartupLocation = WindowStartupLocation.Manual;
-				Surface.Left = X;
-				Surface.Top = Y;
-			}
-			else
-			{
-				Surface.WindowStartupLocation = Surface.Owner == null ? WindowStartupLocation.CenterScreen : WindowStartupLocation.CenterOwner;
-			}
-			
+			Surface.WindowStartupLocation = Surface.Owner == null ? WindowStartupLocation.CenterScreen : WindowStartupLocation.CenterOwner;
 		}
 
 		public virtual bool OnClosing(bool isCanceled)

@@ -12,6 +12,7 @@ using FiresecAPI.Automation;
 using FiresecClient;
 using System.Collections.ObjectModel;
 using Infrastructure.Common;
+using Infrastructure.Automation;
 
 namespace AutomationModule.ViewModels
 {
@@ -28,15 +29,15 @@ namespace AutomationModule.ViewModels
 		public ExplicitValueViewModel()
 		{
 			ExplicitValue = new ExplicitValue();
-			StateTypeValues = ProcedureHelper.GetEnumObs<XStateClass>();
-			DriverTypeValues = ProcedureHelper.GetEnumObs<GKDriverType>();
+			StateTypeValues = AutomationHelper.GetEnumObs<XStateClass>();
+			DriverTypeValues = AutomationHelper.GetEnumObs<GKDriverType>();
 		}
 
 		public ExplicitValueViewModel(ExplicitValue explicitValue)
 		{
 			ExplicitValue = explicitValue;
-			StateTypeValues = ProcedureHelper.GetEnumObs<XStateClass>();
-			DriverTypeValues = ProcedureHelper.GetEnumObs<GKDriverType>();
+			StateTypeValues = AutomationHelper.GetEnumObs<XStateClass>();
+			DriverTypeValues = AutomationHelper.GetEnumObs<GKDriverType>();
 			Initialize(ExplicitValue.UidValue);
 		}
 

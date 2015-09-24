@@ -32,6 +32,9 @@ namespace Infrastructure.Models
 		public bool UseDeviceDateTime { get; set; }
 
 		[DataMember]
+		public bool IsSortAsc { get; set; }
+
+		[DataMember]
 		public List<XJournalColumnType> XAdditionalColumns { get; set; }
 
 		[DataMember]

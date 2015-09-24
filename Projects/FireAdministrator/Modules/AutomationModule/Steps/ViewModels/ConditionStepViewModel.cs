@@ -6,6 +6,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using System.Linq.Expressions;
+using Infrastructure.Automation;
 
 namespace AutomationModule.ViewModels
 {
@@ -141,7 +142,7 @@ namespace AutomationModule.ViewModels
 			Condition = condition;
 			Procedure = procedure;
 			UpdateDescriptionHandler = updateDescriptionHandler;
-			ExplicitTypes = ProcedureHelper.GetEnumObs<ExplicitType>();
+			ExplicitTypes = AutomationHelper.GetEnumObs<ExplicitType>();
 			Argument1 = new ArgumentViewModel(Condition.Argument1, updateDescriptionHandler, updateContentHandler, false);
 			Argument1.UpdateVariableHandler += UpdateArgument2;
 			Argument2 = new ArgumentViewModel(Condition.Argument2, updateDescriptionHandler, updateContentHandler);
@@ -155,7 +156,7 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				Condition.ExplicitType = value;
-				ConditionTypes = new ObservableCollection<ConditionType>(ProcedureHelper.ObjectTypeToConditionTypesList(SelectedExplicitType));
+				ConditionTypes = new ObservableCollection<ConditionType>(AutomationHelper.ObjectTypeToConditionTypesList(SelectedExplicitType));
 				OnPropertyChanged(() => ConditionTypes);
 				UpdateContent();
 				OnPropertyChanged(() => SelectedExplicitType);

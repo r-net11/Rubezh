@@ -45,6 +45,7 @@ namespace FiresecService.Report.Templates
 			departments.ForEach(department =>
 			{
 				var row = ds.Data.NewDataRow();
+				row.Organisation = department.Organisation;
 				row.Department = department.Name;
 				row.Phone = department.Item.Phone;
 				row.Chief = employees.Where(item => item.UID == department.Item.ChiefUID).Select(item => item.Name).FirstOrDefault();

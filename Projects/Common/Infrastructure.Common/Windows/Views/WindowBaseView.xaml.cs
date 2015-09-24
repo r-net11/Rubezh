@@ -27,7 +27,6 @@ namespace Infrastructure.Common.Windows.Views
 			BottomLeft = Bottom | Left,
 		}
 		private WindowBaseViewModel _model;
-		private int _monitorID;
 
 		public WindowBaseView()
 			: this(null)
@@ -44,7 +43,6 @@ namespace Infrastructure.Common.Windows.Views
 			}
 			InitializeComponent();
 			Loaded += (s, e) => MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
-			_monitorID = _model == null ? ApplicationService.GetActiveMonitor() : _model.GetPreferedMonitor();
 		}
 
 		private void WindowBaseView_ContentRendered(object sender, EventArgs e)
@@ -143,24 +141,18 @@ namespace Infrastructure.Common.Windows.Views
 			if (MinWidth < AbsolutMinSize)
 				MinWidth = AbsolutMinSize;
 
-			//if (MaxHeight > SystemParameters.MaximizedPrimaryScreenHeight)
-			//	MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight - 2 * SystemParameters.BorderWidth - 2 * SystemParameters.Border;
-			//if (MaxWidth > SystemParameters.MaximizedPrimaryScreenWidth)
-			//	MaxWidth = SystemParameters.MaximizedPrimaryScreenWidth;
-
-			var rect = MonitorHelper.WorkingArea(_monitorID);
-			if (Left < rect.Left)
-				Left = rect.Left;
-			if (Top < rect.Top)
-				Top = rect.Top;
-			if (Left + Width > rect.Right)
-				Left = rect.Right - Width;
-			if (Top + Height > rect.Bottom)
-				Top = rect.Bottom - Height;
-			if (MaxHeight > rect.Height)
-				MaxHeight = rect.Height;
-			if (MaxWidth > rect.Width)
-				MaxWidth = rect.Width;
+			if (MaxHeight > SystemParameters.MaximizedPrimaryScreenHeight)
+				MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight - 2 * SystemParameters.BorderWidth - 2 * SystemParameters.Border;
+			if (MaxWidth > SystemParameters.MaximizedPrimaryScreenWidth)
+				MaxWidth = SystemParameters.MaximizedPrimaryScreenWidth;
+			if (Left < 0)
+				Left = 0;
+			if (Top < 0)
+				Top = 0;
+			if (Left + Width > SystemParameters.MaximizedPrimaryScreenWidth)
+				Left = SystemParameters.MaximizedPrimaryScreenWidth - Width;
+			if (Top + Height > SystemParameters.MaximizedPrimaryScreenHeight)
+				Top = SystemParameters.MaximizedPrimaryScreenHeight - Height;
 		}
 		private void CalculateSize()
 		{
@@ -188,12 +180,7 @@ namespace Infrastructure.Common.Windows.Views
 					if (!double.IsNaN(control.Width))
 						control.Width = double.NaN;
 
-					if (_model.CustomPosition)
-					{
-						var rect = MonitorHelper.WorkingArea(_monitorID);
-						Left += rect.Left;
-					}
-					else
+					if (WindowStartupLocation != WindowStartupLocation.Manual)
 					{
 						Left += (oldWidth - ActualWidth) / 2;
 						Top += (oldHeight - ActualHeight) / 2;
