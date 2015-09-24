@@ -243,6 +243,7 @@ namespace JournalModule.ViewModels
 
 				ArchiveFilter.PageSize = ClientSettings.ArchiveDefaultState.PageSize;
 				ArchiveFilter.UseDeviceDateTime = ClientSettings.ArchiveDefaultState.UseDeviceDateTime;
+				ArchiveFilter.IsSortAsc = ClientSettings.ArchiveDefaultState.IsSortAsc;
 				ArchiveFilter.StartDate = ArchiveFirstDate;
 				ArchiveFilter.EndDate = DateTime.Now;
 
