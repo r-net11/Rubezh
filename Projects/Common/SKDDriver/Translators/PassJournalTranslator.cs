@@ -82,6 +82,7 @@ namespace SKDDriver.Translators
 		{
 			var result = Context.PassJournals
 				.Where(x => x.EmployeeUID == currentEmployee.UID)
+				.ToList()
 				.Where(x => x.EnterTime.Date != currentDate.Date && x.ExitTime.GetValueOrDefault().Date != currentDate.Date)
 				.Where(
 					x =>
