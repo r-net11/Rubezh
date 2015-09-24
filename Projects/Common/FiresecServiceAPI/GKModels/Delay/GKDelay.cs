@@ -21,20 +21,6 @@ namespace FiresecAPI.GK
 			PlanElementUIDs = new List<Guid>();
 		}
 
-		public override void Update(GKDevice device)
-		{
-			Logic.GetAllClauses().FindAll(x => x.Devices.Contains(device)).ForEach(y => { y.Devices.Remove(device); y.DeviceUIDs.Remove(device.UID); });
-			UnLinkObject(device);
-			OnChanged();
-		}
-
-		public override void Update(GKDirection direction)
-		{
-			Logic.GetAllClauses().FindAll(x => x.Directions.Contains(direction)).ForEach(y => { y.Directions.Remove(direction); y.DirectionUIDs.Remove(direction.UID); });
-			UnLinkObject(direction);
-			OnChanged();
-		}
-
 		public override void Invalidate()
 		{
 			UpdateLogic();

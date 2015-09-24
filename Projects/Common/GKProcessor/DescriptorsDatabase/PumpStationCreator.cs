@@ -234,8 +234,7 @@ namespace GKProcessor
 				pimDescriptor.FormulaBytes = formula.GetBytes();
 				return;
 			}
-			var inputDevices = new List<GKBase>();
-			inputDevices.AddRange(PumpStation.ClauseInputDevices);
+			var inputDevices = new List<GKBase>(PumpStation.InputDependentElements.Where(x => x is GKDevice));
 			foreach (var nsDevice in PumpStation.NSDevices)
 			{
 				if (!inputDevices.Contains(nsDevice))

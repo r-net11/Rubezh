@@ -23,8 +23,6 @@ namespace GKModule.Validation
 					ValidateEmpty(pumpStation);
 					ValidatePumpStationInput(pumpStation);
 					ValidatePumpStationOutput(pumpStation);
-
-					ValidateEmptyObjectsInPumpStation(pumpStation);
 					ValidatePumpInNSInputLogic(pumpStation);
 				}
 			}
@@ -63,26 +61,14 @@ namespace GKModule.Validation
 
 		void ValidateDifferentGK(GKPumpStation pumpStation)
 		{
-			var devices = new List<GKDevice>();
-			devices.AddRange(pumpStation.ClauseInputDevices);
-			devices.AddRange(pumpStation.NSDevices);
-			foreach (var zone in pumpStation.ClauseInputZones)
-			{
-				devices.AddRange(zone.Devices);
-			}
-			foreach (var direction in pumpStation.ClauseInputDirections)
-			{
-				//devices.AddRange(direction.InputDevices);
-			}
-
+			var devices = new List<GKDevice>(pumpStation.InputDependentElements.Where(x => x is GKDevice).Select(x => x as GKDevice));
 			if (AreDevicesInSameGK(devices))
 				Errors.Add(new PumpStationValidationError(pumpStation, "НС содержит объекты устройства разных ГК", ValidationErrorLevel.CannotWrite));
 		}
 
 		bool ValidateEmptyPumpStation(GKPumpStation pumpStation)
 		{
-			var count = pumpStation.ClauseInputZones.Count + pumpStation.ClauseInputDevices.Count + pumpStation.ClauseInputDirections.Count + pumpStation.NSDevices.Count;
-			if (count == 0)
+			if (!pumpStation.InputDependentElements.Any() || !pumpStation.NSDevices.Any())
 			{
 				Errors.Add(new PumpStationValidationError(pumpStation, "В НС отсутствуют входные или выходные объекты", ValidationErrorLevel.CannotWrite));
 				return false;
@@ -107,25 +93,6 @@ namespace GKModule.Validation
 			{
 				if (pumpStation.NSPumpsCount > pumpsCount)
 					Errors.Add(new PumpStationValidationError(pumpStation, "В НС основных насосов меньше реально располагаемых", ValidationErrorLevel.CannotWrite));
-			}
-		}
-
-		void ValidateEmptyObjectsInPumpStation(GKPumpStation pumpStation)
-		{
-			foreach (var zone in pumpStation.ClauseInputZones)
-			{
-				if (zone.DataBaseParent == null)
-				{
-					Errors.Add(new PumpStationValidationError(pumpStation, "В НС входит пустая зона " + zone.PresentationName, ValidationErrorLevel.CannotWrite));
-				}
-			}
-
-			foreach (var direction in pumpStation.ClauseInputDirections)
-			{
-				if (direction.DataBaseParent == null)
-				{
-					Errors.Add(new PumpStationValidationError(pumpStation, "В НС входит пустое направление " + direction.PresentationName, ValidationErrorLevel.CannotWrite));
-				}
 			}
 		}
 

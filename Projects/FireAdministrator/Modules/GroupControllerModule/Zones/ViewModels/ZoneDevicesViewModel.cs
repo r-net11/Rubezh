@@ -35,17 +35,17 @@ namespace GKModule.ViewModels
 
 				if (device.Driver.HasLogic)
 				{
-					foreach (var clause in device.Logic.GetObjects())
+					foreach (var objectLogic in device.Logic.GetObjects())
 					{
-						if (clause.UID == zone.UID)
+						if (objectLogic.UID == zone.UID)
 						{
 							devices.Add(device);
 						}
 					}
 
-					foreach (var clause in device.NSLogic.GetObjects())
+					foreach (var objectNSLogic in device.NSLogic.GetObjects())
 					{
-						if (clause.UID == zone.UID)
+						if (objectNSLogic.UID == zone.UID)
 						{
 							devices.Add(device);
 						}

@@ -34,20 +34,6 @@ namespace FiresecAPI.GK
 			Directions = new List<GKDirection>();
         }
 
-		public override void Update(GKDevice device)
-		{
-			Logic.GetAllClauses().FindAll(x => x.Devices.Contains(device)).ForEach(y => { y.Devices.Remove(device); y.DeviceUIDs.Remove(device.UID); });
-			UnLinkObject(device);
-			OnChanged();
-		}
-
-		public override void Update(GKDirection direction)
-		{
-			Logic.GetAllClauses().FindAll(x => x.Directions.Contains(direction)).ForEach(y => { y.Directions.Remove(direction); y.DirectionUIDs.Remove(direction.UID); });
-			UnLinkObject(direction);
-			OnChanged();
-		}
-
 		public override void Invalidate()
 		{
 			if (Driver.HasLogic)
@@ -625,15 +611,6 @@ namespace FiresecAPI.GK
 		public bool CanBeNotUsed
 		{
 			get { return (Parent != null && Parent.Driver.IsGroupDevice); }
-		}
-
-		public void OnRemoved()
-		{
-			var newOutputObjects = new List<GKBase>(OutputObjects);
-			foreach (var outputObject in newOutputObjects)
-			{
-				outputObject.Update(this);
-			}
 		}
 
 		public void OnAUParametersChanged()

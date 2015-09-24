@@ -107,6 +107,7 @@ namespace GKModule.ViewModels
 					x.UpdateLogic();
 					x.OnChanged();
 				});
+
 				PumpStations.Remove(SelectedPumpStation);
 				index = Math.Min(index, PumpStations.Count - 1);
 				if (index > -1)

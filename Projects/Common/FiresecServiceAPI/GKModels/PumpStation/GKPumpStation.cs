@@ -38,27 +38,6 @@ namespace FiresecAPI.GK
 			Pim.UID = GuidHelper.CreateOn(UID, 0);
 		}
 
-		public override void Update(GKDevice device)
-		{
-			StartLogic.GetAllClauses().FindAll(x => x.Devices.Contains(device)).ForEach(y => { y.Devices.Remove(device); y.DeviceUIDs.Remove(device.UID); });
-			StopLogic.GetAllClauses().FindAll(x => x.Devices.Contains(device)).ForEach(y => { y.Devices.Remove(device); y.DeviceUIDs.Remove(device.UID); });
-			AutomaticOffLogic.GetAllClauses().FindAll(x => x.Devices.Contains(device)).ForEach(y => { y.Devices.Remove(device); y.DeviceUIDs.Remove(device.UID); });
-			NSDevices.Remove(device);
-			NSDevices.ForEach(d => d.NSLogic.GetAllClauses().FindAll(x => { d.UnLinkObject(device); return x.Devices.Contains(device); }).ForEach(y =>{ y.Devices.Remove(device); y.DeviceUIDs.Remove(device.UID); }));
-			NSDeviceUIDs.Remove(device.UID);
-			UnLinkObject(device);
-			OnChanged();
-		}
-
-		public override void Update(GKDirection direction)
-		{
-			StartLogic.GetAllClauses().FindAll(x => x.Directions.Contains(direction)).ForEach(y => { y.Directions.Remove(direction); y.DirectionUIDs.Remove(direction.UID); });
-			StopLogic.GetAllClauses().FindAll(x => x.Directions.Contains(direction)).ForEach(y => { y.Directions.Remove(direction); y.DirectionUIDs.Remove(direction.UID); });
-			AutomaticOffLogic.GetAllClauses().FindAll(x => x.Directions.Contains(direction)).ForEach(y => { y.Directions.Remove(direction); y.DirectionUIDs.Remove(direction.UID); });
-			UnLinkObject(direction);
-			OnChanged();
-		}
-
 		public override void Invalidate()
 		{
 			var nsDevicesUIDs = new List<Guid>();

@@ -24,17 +24,6 @@ namespace FiresecAPI.GK
 			DevicesInLogic = new List<GKDevice>();
 		}
 
-		public override void Update(GKDevice device)
-		{
-			GKManager.RemoveDeviceFromZone(device, this);
-			UnLinkObject(device);
-		}
-
-		public override void Update(GKDirection direction)
-		{
-			
-		}
-
 		[XmlIgnore]
 		public override GKBaseObjectType ObjectType { get { return GKBaseObjectType.Zone; } }
 

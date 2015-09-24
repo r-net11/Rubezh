@@ -25,23 +25,6 @@ namespace FiresecAPI.GK
 			OutDependentElements = new List<GKBase>();
 		}
 
-		[XmlIgnore]
-		public List<GKDevice> ClauseInputDevices { get; set; }
-		[XmlIgnore]
-		public List<GKZone> ClauseInputZones { get; set; }
-		[XmlIgnore]
-		public List<GKGuardZone> ClauseInputGuardZones { get; set; }
-		[XmlIgnore]
-		public List<GKDirection> ClauseInputDirections { get; set; }
-		[XmlIgnore]
-		public List<GKMPT> ClauseInputMPTs { get; set; }
-		[XmlIgnore]
-		public List<GKDelay> ClauseInputDelays { get; set; }
-		[XmlIgnore]
-		public List<GKDoor> ClauseInputDoors { get; set; }
-		[XmlIgnore]
-		public List<GKPumpStation> ClauseInputPumpStations { get; set; }
-		[XmlIgnore]
 		public List<GKBase> InputDependentElements { get; set; }
 		[XmlIgnore]
 		public List<GKBase> OutDependentElements { get; set; }
@@ -49,24 +32,10 @@ namespace FiresecAPI.GK
 
 		public void ClearClauseDependencies()
 		{
-			InputObjects = new List<GKBase>();
-			OutputObjects = new List<GKBase>();
 			InputGKBases = new List<GKBase>();
 			OutputGKBases = new List<GKBase>();
-			ClauseInputDevices = new List<GKDevice>();
-			ClauseInputZones = new List<GKZone>();
-			ClauseInputGuardZones = new List<GKGuardZone>();
-			ClauseInputDirections = new List<GKDirection>();
-			ClauseInputMPTs = new List<GKMPT>();
-			ClauseInputDelays = new List<GKDelay>();
-			ClauseInputDoors = new List<GKDoor>();
-			ClauseInputPumpStations = new List<GKPumpStation>();
 		}
 
-		[XmlIgnore]
-		protected List<GKBase> InputObjects { get; set; }
-		[XmlIgnore]
-		protected List<GKBase> OutputObjects { get; set; }
 		[XmlIgnore]
 		public List<GKBase> InputGKBases { get; set; }
 		[XmlIgnore]
@@ -98,29 +67,9 @@ namespace FiresecAPI.GK
 		[XmlIgnore]
 		public ushort KAUDescriptorNo { get; set; }
 
-		public abstract void Update(GKDevice device);
+		//public abstract void Update(GKDevice device);
 
-		public abstract void Update(GKDirection direction);
-
-		public void LinkObject(GKBase gkBase)
-		{
-			if (gkBase == null)
-				return;
-			if (!InputObjects.Contains(gkBase))
-				InputObjects.Add(gkBase);
-			if (!gkBase.OutputObjects.Contains(this))
-				gkBase.OutputObjects.Add(this);
-		}
-
-		public void UnLinkObject(GKBase gkBase)
-		{
-			if (gkBase == null)
-				return;
-			if (InputObjects.Contains(gkBase))
-				InputObjects.Remove(gkBase);
-			if (gkBase.OutputObjects.Contains(this))
-				gkBase.OutputObjects.Remove(this);
-		}
+		//public abstract void Update(GKDirection direction);
 
 		public virtual void Invalidate()
 		{ 

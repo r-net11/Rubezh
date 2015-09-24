@@ -26,17 +26,6 @@ namespace FiresecAPI.GK
 			AlarmDelay = 1;
 		}
 
-		public override void Update(GKDevice device)
-		{
-			GKManager.RemoveDeviceFromGuardZone(device, this);
-			UnLinkObject(device);
-		}
-
-		public override void Update(GKDirection direction)
-		{
-
-		}
-
 		public override void Invalidate()
 		{
 			var guardZoneDevices = new List<GKGuardZoneDevice>();

@@ -90,7 +90,6 @@ namespace GKModule.ViewModels
 				foreach (var device in PumpStation.NSDevices)
 				{
 					PumpStation.NSDeviceUIDs.Add(device.UID);
-					PumpStation.LinkObject(device);
 					PumpStation.Invalidate();
 					device.Logic = new GKLogic();
 				}

@@ -89,16 +89,6 @@ namespace GKModule.ViewModels
 			EnterZone = GKManager.SKDZones.FirstOrDefault(x => x.UID == Door.EnterZoneUID);
 			ExitZone = GKManager.SKDZones.FirstOrDefault(x => x.UID == Door.ExitZoneUID);
 
-			Door.LinkObject(EnterDevice);
-			Door.LinkObject(ExitDevice);
-			Door.LinkObject(EnterButton);
-			Door.LinkObject(ExitButton);
-			Door.LinkObject(LockDevice);
-			Door.LinkObject(LockDeviceExit);
-			Door.LinkObject(LockControlDevice);
-			Door.LinkObject(LockControlDeviceExit);
-			Door.LinkObject(EnterZone);
-			Door.LinkObject(ExitZone);
 			UpdateDoorDevices();
 			if (ExitDevice != null)
 			{

@@ -241,8 +241,6 @@ namespace FiresecAPI.GK
 					{
 						deviceUIDs.Add(deviceUID);
 						clause.Devices.Add(clauseDevice);
-						if (!gkBase.ClauseInputDevices.Contains(clauseDevice))
-							gkBase.ClauseInputDevices.Add(clauseDevice);
 					}
 				}
 				clause.DeviceUIDs = deviceUIDs;
@@ -255,8 +253,6 @@ namespace FiresecAPI.GK
 					{
 						zoneUIDs.Add(zoneUID);
 						clause.Zones.Add(zone);
-						if (!gkBase.ClauseInputZones.Contains(zone))
-							gkBase.ClauseInputZones.Add(zone);
 					}
 				}
 				clause.ZoneUIDs = zoneUIDs;
@@ -269,8 +265,6 @@ namespace FiresecAPI.GK
 					{
 						guardZoneUIDs.Add(guardZoneUID);
 						clause.GuardZones.Add(guardZone);
-						if (!gkBase.ClauseInputGuardZones.Contains(guardZone))
-							gkBase.ClauseInputGuardZones.Add(guardZone);
 					}
 				}
 				clause.GuardZoneUIDs = guardZoneUIDs;
@@ -283,8 +277,6 @@ namespace FiresecAPI.GK
 					{
 						directionUIDs.Add(directionUID);
 						clause.Directions.Add(direction);
-						if (!gkBase.ClauseInputDirections.Contains(direction))
-							gkBase.ClauseInputDirections.Add(direction);
 					}
 				}
 				clause.DirectionUIDs = directionUIDs;
@@ -297,8 +289,6 @@ namespace FiresecAPI.GK
 					{
 						mptUIDs.Add(mptUID);
 						clause.MPTs.Add(mpt);
-						if (!gkBase.ClauseInputMPTs.Contains(mpt))
-							gkBase.ClauseInputMPTs.Add(mpt);
 					}
 				}
 				clause.MPTUIDs = mptUIDs;
@@ -311,8 +301,6 @@ namespace FiresecAPI.GK
 					{
 						delayUIDs.Add(delayUID);
 						clause.Delays.Add(delay);
-						if (!gkBase.ClauseInputDelays.Contains(delay))
-							gkBase.ClauseInputDelays.Add(delay);
 					}
 				}
 				clause.DelayUIDs = delayUIDs;
@@ -325,8 +313,6 @@ namespace FiresecAPI.GK
 					{
 						doorUIDs.Add(doorUID);
 						clause.Doors.Add(door);
-						if (!gkBase.ClauseInputDoors.Contains(door))
-							gkBase.ClauseInputDoors.Add(door);
 					}
 				}
 				clause.DoorUIDs = doorUIDs;
@@ -339,8 +325,6 @@ namespace FiresecAPI.GK
 					{
 						pumpStationsUIDs.Add(pumpStationUID);
 						clause.PumpStations.Add(pumpStation);
-						if (!gkBase.ClauseInputPumpStations.Contains(pumpStation))
-							gkBase.ClauseInputPumpStations.Add(pumpStation);
 					}
 				}
 				clause.PumpStationsUIDs = pumpStationsUIDs;
