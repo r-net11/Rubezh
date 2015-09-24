@@ -14,6 +14,12 @@ namespace FiresecClient.SKDHelpers
 			return FiresecManager.FiresecService.CheckForCanForseCloseInterval(openedIntervalGuid).Result;
 		}
 
+		public static List<DayTimeTrackPart> GetMissedIntervals(DateTime currentDate, ShortEmployee currentEmployee)
+		{
+			var result = FiresecManager.FiresecService.GetMissedIntervals(currentDate, currentEmployee);
+			return Common.ShowErrorIfExists(result);
+		}
+
 		public static Dictionary<DayTimeTrackPart, List<DayTimeTrackPart>> FindConflictIntervals(List<DayTimeTrackPart> dayTimeTracks, Guid employeeGuid, DateTime currentDate)
 		{
 			var result = FiresecManager.FiresecService.FindConflictIntervals(dayTimeTracks, employeeGuid, currentDate);
